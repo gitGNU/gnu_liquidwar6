@@ -1,3 +1,86 @@
+@deftypefun {int} {lw6nod_info_community_add} (lw6nod_info_t * @var{info}, u_int64_t @var{id}, char * @var{url})
+@var{info}:  node info object to modify
+
+@var{id}:  ID of the new member
+
+@var{url}:  URL of the new member
+
+Adds a new member to the community.
+
+@strong{Return value:}  1 if new member could be added, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6nod_info_community_is_member} (lw6nod_info_t * @var{info}, u_int64_t @var{id}, char * @var{url})
+@var{info}:  node info object to test
+
+@var{id}:  ID of the member we want to check
+
+@var{url}:  URL of the member we want to check
+
+Tells wether a member is already in the community. Note that if there's
+a member with the same URL but with a different ID, or a member with the
+same ID but a different URL, the function will fail, we need URLs and IDs
+to both be different for the peer to be added. Not respecting this would
+lead to confusion, while sharing an ID is conceivable over the whole
+network, it can't be tolerated within a community. Same for the URL.
+
+@strong{Return value:}  1 if new member could be added, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6nod_info_community_has_id} (lw6nod_info_t * @var{info}, u_int64_t @var{id})
+@var{info}:  node info object to test
+
+@var{id}:  ID of the member we want to check
+
+Tells wether a member exists with this ID. Will test both
+ourselves and remote peers.
+
+@strong{Return value:}  1 if ID is already taken, 0 if available.
+@end deftypefun
+
+@deftypefun {int} {lw6nod_info_community_has_url} (lw6nod_info_t * @var{info}, char * @var{url})
+@var{info}:  node info object to test
+
+@var{url}:  URL of the member we want to check
+
+Tells wether a member exists with this URL. Will test both
+ourselves and remote peers.
+
+@strong{Return value:}  1 if URL is already taken, 0 if available.
+@end deftypefun
+
+@deftypefun {int} {lw6nod_info_community_remove_by_id} (lw6nod_info_t * @var{info}, u_int64_t @var{id})
+@var{info}:  node info object to modify
+
+@var{id}:  ID of the member we want to remove
+
+Removes a community member by ID.
+
+@strong{Return value:}  1 if successfully removed, 0 if was not present.
+@end deftypefun
+
+@deftypefun {int} {lw6nod_info_community_remove_by_url} (lw6nod_info_t * @var{info}, char * @var{url})
+@var{info}:  node info object to modify
+
+@var{url}:  URL of the member we want to remove
+
+Removes a community member by URL.
+
+@strong{Return value:}  1 if successfully removed, 0 if was not present.
+@end deftypefun
+
+@deftypefun {int} {lw6nod_info_community_count} (lw6nod_info_t * @var{info})
+@var{info}:  node info object to modify
+
+Tells how many members there are in a community. This include ourselves
+so this can never be 0, should at least be 1. Note that this is pretty
+much the same as the nb_nodes member of dyn_info, but this one is
+calculated dynamically from peer list, while the other one is updated
+from time to time from game_state information.
+
+@strong{Return value:}  number of community members, including this node (us).
+@end deftypefun
+
 @deftypefun {void} {lw6nod_dyn_info_free} (lw6nod_dyn_info_t * @var{dyn_info})
 @var{dyn_info}:  the dyn info struct to free
 

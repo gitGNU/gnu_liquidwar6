@@ -1,4 +1,3 @@
-
 /*
   Liquid War 6 is a unique multiplayer wargame.
   Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
@@ -171,6 +170,7 @@ lw6nod_info_community_remove_by_id (lw6nod_info_t * info, u_int64_t id)
       if (ref_info != &(info->const_info.ref_info))
 	{
 	  _lw6nod_ref_info_reset (ref_info);
+	  ret = 1;
 	}
       else
 	{
@@ -206,6 +206,7 @@ lw6nod_info_community_remove_by_url (lw6nod_info_t * info, char *url)
       if (ref_info != &(info->const_info.ref_info))
 	{
 	  _lw6nod_ref_info_reset (ref_info);
+	  ret = 1;
 	}
       else
 	{

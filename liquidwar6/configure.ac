@@ -55,7 +55,9 @@ AM_MISSING_PROG(SED, sed, ${missing_dir})
 
 dnl For gdoc
 lw6_gdoc=no
-if which ${PERL}; then
+# Testing for real perl and not relying on AM_MISSING_PROG is not
+# such a problem as gdoc isn't really mandatory for basic build
+if which perl; then
    lw6_gdoc=yes
 fi
 AM_CONDITIONAL(LW6_GDOC, test x${lw6_gdoc} = xyes)
@@ -1039,17 +1041,17 @@ if test x${enable_htmldoc} = xyes; then
 else
 	AC_MSG_NOTICE([enable htmldoc... no])
 fi
-if test -z "${LW6_GDOC}"; then
+if test -z "${LW6_GDOC_TRUE}"; then
 	AC_MSG_NOTICE([gdoc support... yes])
 else
 	AC_MSG_NOTICE([gdoc support... no])
 fi
-if test -z "${LW6_SELFDOC}"; then
+if test -z "${LW6_SELFDOC_TRUE}"; then
 	AC_MSG_NOTICE([selfdoc support... yes])
 else
 	AC_MSG_NOTICE([selfdoc support... no])
 fi
-if test -z "${LW6_DOXYGEN}"; then
+if test -z "${LW6_DOXYGEN_TRUE}"; then
 	AC_MSG_NOTICE([doxygen support... yes])
 else
 	AC_MSG_NOTICE([doxygen support... no])

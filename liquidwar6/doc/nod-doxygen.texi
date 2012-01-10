@@ -176,14 +176,14 @@ The ID of the community this node belongs to, as a 64-bit unsigned integer.
 The ID of the community this node belongs to, as a string (64-bit integer converted to hexa).         
 @end defcv
 
-@defcv {Member} {lw6nod_dyn_info_s} {community_members}
+@defcv {Member} {lw6nod_dyn_info_s} {community_peers}
 @strong{Type:} @code{lw6nod_ref_info_t}
 
-@strong{Definition:} @code{lw6nod_ref_info_t lw6nod_dyn_info_s::community_members[LW6NOD_MAX_NB_NODES]}
+@strong{Definition:} @code{lw6nod_ref_info_t lw6nod_dyn_info_s::community_peers[LW6NOD_MAX_NB_PEERS]}
 
 
         
-The list of community members, you need to refer to the nb_nodes member to know quickly how many members they are but actually, in practice, there can be holes in this array, you need to check each slot, for instance 0 can be filled, 2 can be filled too, but 1 be empty.         
+The list of community members, you need to refer to the nb_nodes member to know quickly how many members they are but actually, in practice, there can be holes in this array, you need to check each slot, for instance 0 can be filled, 2 can be filled too, but 1 be empty. Note that we don't count ourselves in this list.         
 @end defcv
 
 @defcv {Member} {lw6nod_dyn_info_s} {round}

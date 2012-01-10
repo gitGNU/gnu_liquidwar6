@@ -22,9 +22,9 @@ END-INFO-DIR-ENTRY
 Indirect:
 liquidwar6.info-1: 799
 liquidwar6.info-2: 232095
-liquidwar6.info-3: 522412
-liquidwar6.info-4: 819757
-liquidwar6.info-5: 1112892
+liquidwar6.info-3: 529383
+liquidwar6.info-4: 818532
+liquidwar6.info-5: 1111657
 
 Tag Table:
 (Indirect)
@@ -97,40 +97,40 @@ Node: mod-udp503430
 Node: libcns504466
 Node: libcnx505742
 Node: libdat522412
-Node: libdef534661
-Node: libdsp534896
-Node: libdyn547346
-Node: libgfx552250
-Node: mod-gl562408
-Node: libglb562932
-Node: libgui567316
-Node: libhlp636322
-Node: libimg645370
-Node: libker647582
-Node: libldr692537
-Node: libmap722514
-Node: libmsg772190
-Node: libnet791482
-Node: libnod803884
-Node: libp2p819757
-Node: libpil835970
-Node: libscm857720
-Node: libsim859111
-Node: libsnd862267
-Node: mod-csound870825
-Node: mod-ogg871169
-Node: libsrv871504
-Node: mod-httpd888673
-Node: mod-tcpd889014
-Node: mod-udpd889354
-Node: libsys889691
-Node: libtsk1049623
-Node: libvox1053243
-Node: 2005 .plan1054328
-Node: Fanfic1066599
-Node: Links1072936
-Node: Copying1075310
-Node: GNU Free Documentation License1112892
-Node: Indexes1138059
+Node: libdef529148
+Node: libdsp529383
+Node: libdyn541833
+Node: libgfx546737
+Node: mod-gl556895
+Node: libglb557419
+Node: libgui561803
+Node: libhlp630809
+Node: libimg639857
+Node: libker642069
+Node: libldr687024
+Node: libmap717001
+Node: libmsg766677
+Node: libnet787303
+Node: libnod799705
+Node: libp2p818532
+Node: libpil834735
+Node: libscm856485
+Node: libsim857876
+Node: libsnd861032
+Node: mod-csound869590
+Node: mod-ogg869934
+Node: libsrv870269
+Node: mod-httpd887438
+Node: mod-tcpd887779
+Node: mod-udpd888119
+Node: libsys888456
+Node: libtsk1048388
+Node: libvox1052008
+Node: 2005 .plan1053093
+Node: Fanfic1065364
+Node: Links1071701
+Node: Copying1074075
+Node: GNU Free Documentation License1111657
+Node: Indexes1136824
 
 End Tag Table

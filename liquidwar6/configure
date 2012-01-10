@@ -14233,7 +14233,9 @@ SED=${SED-"${am_missing_run}sed"}
 
 
 lw6_gdoc=no
-if which ${PERL}; then
+# Testing for real perl and not relying on AM_MISSING_PROG is not
+# such a problem as gdoc isn't really mandatory for basic build
+if which perl; then
    lw6_gdoc=yes
 fi
  if test x${lw6_gdoc} = xyes; then
@@ -19801,21 +19803,21 @@ else
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: enable htmldoc... no" >&5
 $as_echo "$as_me: enable htmldoc... no" >&6;}
 fi
-if test -z "${LW6_GDOC}"; then
+if test -z "${LW6_GDOC_TRUE}"; then
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: gdoc support... yes" >&5
 $as_echo "$as_me: gdoc support... yes" >&6;}
 else
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: gdoc support... no" >&5
 $as_echo "$as_me: gdoc support... no" >&6;}
 fi
-if test -z "${LW6_SELFDOC}"; then
+if test -z "${LW6_SELFDOC_TRUE}"; then
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: selfdoc support... yes" >&5
 $as_echo "$as_me: selfdoc support... yes" >&6;}
 else
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: selfdoc support... no" >&5
 $as_echo "$as_me: selfdoc support... no" >&6;}
 fi
-if test -z "${LW6_DOXYGEN}"; then
+if test -z "${LW6_DOXYGEN_TRUE}"; then
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: doxygen support... yes" >&5
 $as_echo "$as_me: doxygen support... yes" >&6;}
 else

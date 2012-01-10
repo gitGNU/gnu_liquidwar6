@@ -300,9 +300,9 @@ results on
      *Return value:*  1 on success, 0 on failure.
 
  -- Function: int lw6p2p_node_update_info (lw6p2p_node_t * NODE, int
-          ROUND, char * LEVEL, int REQUIRED_BENCH, int NB_COLORS, int
-          MAX_NB_COLORS, int NB_CURSORS, int MAX_NB_CURSORS, int
-          NB_NODES, int MAX_NB_NODES, int GAME_SCREENSHOT_SIZE, void *
+          ROUND, char * LEVEL, int NB_COLORS, int MAX_NB_COLORS, int
+          NB_CURSORS, int MAX_NB_CURSORS, int NB_NODES, int
+          MAX_NB_NODES, int GAME_SCREENSHOT_SIZE, void *
           GAME_SCREENSHOT_DATA)
      NODE:  node to update
 
@@ -310,8 +310,6 @@ results on
      number)
 
      LEVEL:  the name of the current level (map)
-
-     REQUIRED_BENCH:  the bench required to connect
 
      NB_COLORS:  number of colors playing
 
@@ -338,6 +336,8 @@ results on
           u_int64_t SEQ_ID, char * SERIALIZED_LEVEL, char *
           SERIALIZED_GAME_STRUCT, char * SERIALIZED_GAME_STATE)
      NODE:  node to update
+
+     SEQ_ID:  sequence id this serialized data corresponds to
 
      SERIALIZED_LEVEL:  level object serialized serialized as an hexa
      string

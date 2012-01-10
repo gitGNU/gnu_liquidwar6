@@ -19,386 +19,6 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: liquidwar6.info,  Node: libdat,  Next: libdef,  Prev: libcnx,  Up: C API
-
-5.14 libdat
-===========
-
-5.14.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/dat/index.html'.
-
-5.14.2 API
-----------
-
- -- Function: int lw6dat_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `dat' module test suite.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
- -- Function: lw6dat_warehouse_t * lw6dat_warehouse_new (u_int64_t
-          LOCAL_NODE_ID)
-     Creates a new warehouse object.
-
-     *Return value:*  new object, allocated dynamically
-
- -- Function: void lw6dat_warehouse_free (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the object to free
-
-     Frees a warehouse object.
-
-     *Return value:*  new object, allocated dynamically
-
- -- Function: void lw6dat_warehouse_clear (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the object to clear
-
-     Clears a warehouse object. Clears means emptying everything and
-     resetting the current seq_id to the minimal/start value.
-
-     *Return value:*  none.
-
- -- Function: void lw6dat_warehouse_purge (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the object to purge
-
-     Purges a warehouse object. Purges means emptying everything but
-     keeping the current seq_id unchanged.
-
-     *Return value:*  none.
-
- -- Function: int lw6dat_warehouse_get_nb_nodes (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the warehouse object to query.
-
-     Tells how many nodes are registered in the object.
-
-     *Return value:*  integer, number of nodes
-
- -- Function: u_int64_t lw6dat_warehouse_get_local_id
-          (lw6dat_warehouse_t * WAREHOUSE)
-     WAREHOUSE:  the warehouse object to query.
-
-     Returns the local id.
-
-     *Return value:*  64-bit id.
-
- -- Function: int lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t
-          * WAREHOUSE)
-     WAREHOUSE:  the warehouse object to query.
-
-     Returns the latest (highest) serial number given for local node.
-
-     *Return value:*  integer, latest serial number
-
- -- Function: int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t *
-          WAREHOUSE, u_int64_t LOGICAL_FROM, char * FULL_STR)
-     WAREHOUSE:  warehouse object to use
-
-     LOGICAL_FROM:  from who the message came from originally
-
-     FULL_STR:  message of the form serial i n seq from cmd
-
-     Puts an atomic string in the object, this kind of string is
-     typically received on the network.
-
-     *Return value:*  1 on success, 0 on error
-
- -- Function: int lw6dat_warehouse_calc_serial_draft_and_reference
-          (lw6dat_warehouse_t * WAREHOUSE)
-     WAREHOUSE:  object to work on
-
-     The various `get_seq' functions can perform slowly if we don't
-     pre-calculate the serial number of draft and reference atoms. So
-     this calculation is not within the functions themselves but can be
-     cached by using this function. Just call it and after you might
-     query the object for reference and draft info.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t *
-          WAREHOUSE, char * MSG)
-     WAREHOUSE:  warehouse object to use
-
-     MSG:  message
-
-     Puts a message in the object. The message will be splitted into
-     several atoms if needed, it can be arbitrary long.
-
-     *Return value:*  1 on success, 0 on error
-
- -- Function: int lw6dat_warehouse_get_seq_min (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the lowest seq referenced in the warehouse. Does not mean
-     this is the lowest ever received, only we really have no chances
-     of going below that point, nothing is stored, either complete or
-     partial, below that.
-
-     *Return value:*  integer.
-
- -- Function: int lw6dat_warehouse_get_seq_max (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the highest seq referenced in the warehouse. Does not mean
-     an actual message can be built from it, only we've got some traces
-     of such a high seq.
-
-     *Return value:*  integer.
-
- -- Function: int lw6dat_warehouse_get_seq_draft (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the highest seq that can be considered as a valid draft.
-     This is not exactly the maximimum seq encountered, for here we
-     want at least one complete message and not just one chunk of data
-     (an atom) referring to a high seq, we want the complete stuff.
-     However there can be missing messages in between.
-
-     *Return value:*  integer.
-
- -- Function: int lw6dat_warehouse_get_seq_reference
-          (lw6dat_warehouse_t * WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the highest seq that can be considered as a reference.
-     Being considered as a reference means we received all messages for
-     this seq *and* at least one message from the following seq, and
-     this for every node involved. This being said, we're sure to have
-     the right information, nothing is missing.
-
-     *Return value:*  integer.
-
- -- Function: lw6sys_list_t * lw6dat_warehouse_get_msg_list_by_seq
-          (lw6dat_warehouse_t * WAREHOUSE, int SEQ_MIN, int SEQ_MAX)
-     WAREHOUSE:  object to query
-
-     SEQ_MIN:  lowest sequence number (round or chat index)
-
-     SEQ_MAX:  highest sequence number (round or chat index)
-
-     Gets the list of messages for a given sequence (round or chat
-     index), polling all the nodes. The from and to boundaries are
-     included.
-
-     *Return value:*  a list of strings.
-
- -- Function: lw6sys_list_t *
-lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
-          WAREHOUSE, u_int64_t LOGICAL_TO)
-     WAREHOUSE:  object to query
-
-     LOGICAL_TO:  the id of the node that we want to send data to
-
-     Returns all the messages that were not sent for the given
-     warehouse.
-
-     *Return value:*  a list of strings, containing atoms.
-
- -- Function: lw6dat_warehouse_t * lw6dat_warehouse_new (u_int64_t
-          LOCAL_NODE_ID)
-     Creates a new warehouse object.
-
-     *Return value:*  new object, allocated dynamically
-
- -- Function: void lw6dat_warehouse_free (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the object to free
-
-     Frees a warehouse object.
-
-     *Return value:*  new object, allocated dynamically
-
- -- Function: void lw6dat_warehouse_clear (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the object to clear
-
-     Clears a warehouse object. Clears means emptying everything and
-     resetting the current seq_id to the minimal/start value.
-
-     *Return value:*  none.
-
- -- Function: void lw6dat_warehouse_purge (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the object to purge
-
-     Purges a warehouse object. Purges means emptying everything but
-     keeping the current seq_id unchanged.
-
-     *Return value:*  none.
-
- -- Function: int lw6dat_warehouse_get_nb_nodes (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the warehouse object to query.
-
-     Tells how many nodes are registered in the object.
-
-     *Return value:*  integer, number of nodes
-
- -- Function: u_int64_t lw6dat_warehouse_get_local_id
-          (lw6dat_warehouse_t * WAREHOUSE)
-     WAREHOUSE:  the warehouse object to query.
-
-     Returns the local id.
-
-     *Return value:*  64-bit id.
-
- -- Function: int lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t
-          * WAREHOUSE)
-     WAREHOUSE:  the warehouse object to query.
-
-     Returns the latest (highest) serial number given for local node.
-
-     *Return value:*  integer, latest serial number
-
- -- Function: int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t *
-          WAREHOUSE, u_int64_t LOGICAL_FROM, char * FULL_STR)
-     WAREHOUSE:  warehouse object to use
-
-     LOGICAL_FROM:  from who the message came from originally
-
-     FULL_STR:  message of the form serial i n seq from cmd
-
-     Puts an atomic string in the object, this kind of string is
-     typically received on the network.
-
-     *Return value:*  1 on success, 0 on error
-
- -- Function: int lw6dat_warehouse_calc_serial_draft_and_reference
-          (lw6dat_warehouse_t * WAREHOUSE)
-     WAREHOUSE:  object to work on
-
-     The various `get_seq' functions can perform slowly if we don't
-     pre-calculate the serial number of draft and reference atoms. So
-     this calculation is not within the functions themselves but can be
-     cached by using this function. Just call it and after you might
-     query the object for reference and draft info.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t *
-          WAREHOUSE, char * MSG)
-     WAREHOUSE:  warehouse object to use
-
-     MSG:  message
-
-     Puts a message in the object. The message will be splitted into
-     several atoms if needed, it can be arbitrary long.
-
-     *Return value:*  1 on success, 0 on error
-
- -- Function: int lw6dat_warehouse_get_seq_min (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the lowest seq referenced in the warehouse. Does not mean
-     this is the lowest ever received, only we really have no chances
-     of going below that point, nothing is stored, either complete or
-     partial, below that.
-
-     *Return value:*  integer.
-
- -- Function: int lw6dat_warehouse_get_seq_max (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the highest seq referenced in the warehouse. Does not mean
-     an actual message can be built from it, only we've got some traces
-     of such a high seq.
-
-     *Return value:*  integer.
-
- -- Function: int lw6dat_warehouse_get_seq_draft (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the highest seq that can be considered as a valid draft.
-     This is not exactly the maximimum seq encountered, for here we
-     want at least one complete message and not just one chunk of data
-     (an atom) referring to a high seq, we want the complete stuff.
-     However there can be missing messages in between.
-
-     *Return value:*  integer.
-
- -- Function: int lw6dat_warehouse_get_seq_reference
-          (lw6dat_warehouse_t * WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the highest seq that can be considered as a reference.
-     Being considered as a reference means we received all messages for
-     this seq *and* at least one message from the following seq, and
-     this for every node involved. This being said, we're sure to have
-     the right information, nothing is missing.
-
-     *Return value:*  integer.
-
- -- Function: lw6sys_list_t * lw6dat_warehouse_get_msg_list_by_seq
-          (lw6dat_warehouse_t * WAREHOUSE, int SEQ_MIN, int SEQ_MAX)
-     WAREHOUSE:  object to query
-
-     SEQ_MIN:  lowest sequence number (round or chat index)
-
-     SEQ_MAX:  highest sequence number (round or chat index)
-
-     Gets the list of messages for a given sequence (round or chat
-     index), polling all the nodes. The from and to boundaries are
-     included.
-
-     *Return value:*  a list of strings.
-
- -- Function: lw6sys_list_t *
-lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
-          WAREHOUSE, u_int64_t LOGICAL_TO)
-     WAREHOUSE:  object to query
-
-     LOGICAL_TO:  the id of the node that we want to send data to
-
-     Returns all the messages that were not sent for the given
-     warehouse.
-
-     *Return value:*  a list of strings, containing atoms.
-
- -- Struct: lw6dat_warehouse_s
-     Contains all recent messages sent to peers, and received from
-     them, int fact this is a local database, think of it as a giant
-     array, containing all messages. This is usefull both resend
-     messages if one peer wants one and also to check wether
-     informations are consistent and nobody is cheating. This structure
-     is hiddent, casted to the real stuff internally if needed, so that
-     other parts of the code don't rely on specific implementation.
-
- -- Member of lw6dat_warehouse_s: dummy
-     *Type:* `int'
-
-     *Definition:* `int lw6dat_warehouse_s::dummy'
-
-     Dummy field, unused.
-
-
-
-File: liquidwar6.info,  Node: libdef,  Next: libdsp,  Prev: libdat,  Up: C API
-
-5.15 libdef
-===========
-
-5.15.1 Overview
----------------
-
-5.15.2 API
-----------
-
-There are no functions in `libdef', only a header file with constants.
-
-
 File: liquidwar6.info,  Node: libdsp,  Next: libdyn,  Prev: libdef,  Up: C API
 
 5.16 libdsp
@@ -8842,8 +8462,8 @@ results on
 
      *Return value:*  1 on success, 0 on failure.
 
- -- Function: int lw6msg_word_first_int (int * PARSED_VALUE, char **
-          NEXT, char * MSG)
+ -- Function: int lw6msg_word_first_int_32 (int32_t * PARSED_VALUE,
+          char ** NEXT, char * MSG)
      PARSED_VALUE:  will contain the parsed value
 
      NEXT:  if NOT NULL, will contain a (non freeable) pointer on
@@ -8855,8 +8475,8 @@ results on
 
      *Return value:*  1 on success, 0 on failure.
 
- -- Function: int lw6msg_word_first_int_ge0 (int * PARSED_VALUE, char
-          ** NEXT, char * MSG)
+ -- Function: int lw6msg_word_first_int_32_ge0 (int32_t * PARSED_VALUE,
+          char ** NEXT, char * MSG)
      PARSED_VALUE:  will contain the parsed value
 
      NEXT:  if NOT NULL, will contain a (non freeable) pointer on
@@ -8869,8 +8489,49 @@ results on
 
      *Return value:*  1 on success, 0 on failure.
 
- -- Function: int lw6msg_word_first_int_gt0 (int * PARSED_VALUE, char
-          ** NEXT, char * MSG)
+ -- Function: int lw6msg_word_first_int_32_gt0 (int32_t * PARSED_VALUE,
+          char ** NEXT, char * MSG)
+     PARSED_VALUE:  will contain the parsed value
+
+     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
+     remaining message
+
+     MSG:  the message to parse
+
+     Analyses a message, gets the first word and interpret it as an int.
+     The value must be strictly greater than 0.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6msg_word_first_int_64 (int64_t * PARSED_VALUE,
+          char ** NEXT, char * MSG)
+     PARSED_VALUE:  will contain the parsed value
+
+     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
+     remaining message
+
+     MSG:  the message to parse
+
+     Analyses a message, gets the first word and interpret it as an int.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6msg_word_first_int_64_ge0 (int64_t * PARSED_VALUE,
+          char ** NEXT, char * MSG)
+     PARSED_VALUE:  will contain the parsed value
+
+     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
+     remaining message
+
+     MSG:  the message to parse
+
+     Analyses a message, gets the first word and interpret it as an int.
+     The value must be strictly greater than 0.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6msg_word_first_int_64_gt0 (int64_t * PARSED_VALUE,
+          char ** NEXT, char * MSG)
      PARSED_VALUE:  will contain the parsed value
 
      NEXT:  if NOT NULL, will contain a (non freeable) pointer on
@@ -9361,6 +9022,90 @@ results on
 5.29.2 API
 ----------
 
+ -- Function: int lw6nod_info_community_add (lw6nod_info_t * INFO,
+          u_int64_t ID, char * URL)
+     INFO:  node info object to modify
+
+     ID:  ID of the new member
+
+     URL:  URL of the new member
+
+     Adds a new member to the community.
+
+     *Return value:*  1 if new member could be added, 0 if not.
+
+ -- Function: int lw6nod_info_community_is_member (lw6nod_info_t *
+          INFO, u_int64_t ID, char * URL)
+     INFO:  node info object to test
+
+     ID:  ID of the member we want to check
+
+     URL:  URL of the member we want to check
+
+     Tells wether a member is already in the community. Note that if
+     there's a member with the same URL but with a different ID, or a
+     member with the same ID but a different URL, the function will
+     fail, we need URLs and IDs to both be different for the peer to be
+     added. Not respecting this would lead to confusion, while sharing
+     an ID is conceivable over the whole network, it can't be tolerated
+     within a community. Same for the URL.
+
+     *Return value:*  1 if new member could be added, 0 if not.
+
+ -- Function: int lw6nod_info_community_has_id (lw6nod_info_t * INFO,
+          u_int64_t ID)
+     INFO:  node info object to test
+
+     ID:  ID of the member we want to check
+
+     Tells wether a member exists with this ID. Will test both
+     ourselves and remote peers.
+
+     *Return value:*  1 if ID is already taken, 0 if available.
+
+ -- Function: int lw6nod_info_community_has_url (lw6nod_info_t * INFO,
+          char * URL)
+     INFO:  node info object to test
+
+     URL:  URL of the member we want to check
+
+     Tells wether a member exists with this URL. Will test both
+     ourselves and remote peers.
+
+     *Return value:*  1 if URL is already taken, 0 if available.
+
+ -- Function: int lw6nod_info_community_remove_by_id (lw6nod_info_t *
+          INFO, u_int64_t ID)
+     INFO:  node info object to modify
+
+     ID:  ID of the member we want to remove
+
+     Removes a community member by ID.
+
+     *Return value:*  1 if successfully removed, 0 if was not present.
+
+ -- Function: int lw6nod_info_community_remove_by_url (lw6nod_info_t *
+          INFO, char * URL)
+     INFO:  node info object to modify
+
+     URL:  URL of the member we want to remove
+
+     Removes a community member by URL.
+
+     *Return value:*  1 if successfully removed, 0 if was not present.
+
+ -- Function: int lw6nod_info_community_count (lw6nod_info_t * INFO)
+     INFO:  node info object to modify
+
+     Tells how many members there are in a community. This include
+     ourselves so this can never be 0, should at least be 1. Note that
+     this is pretty much the same as the nb_nodes member of dyn_info,
+     but this one is calculated dynamically from peer list, while the
+     other one is updated from time to time from game_state information.
+
+     *Return value:*  number of community members, including this node
+     (us).
+
  -- Function: void lw6nod_dyn_info_free (lw6nod_dyn_info_t * DYN_INFO)
      DYN_INFO:  the dyn info struct to free
 
@@ -9708,17 +9453,17 @@ results on
      The ID of the community this node belongs to, as a string (64-bit
      integer converted to hexa).
 
- -- Member of lw6nod_dyn_info_s: community_members
+ -- Member of lw6nod_dyn_info_s: community_peers
      *Type:* `lw6nod_ref_info_t'
 
      *Definition:* `lw6nod_ref_info_t
-     lw6nod_dyn_info_s::community_members[LW6NOD_MAX_NB_NODES]'
+     lw6nod_dyn_info_s::community_peers[LW6NOD_MAX_NB_PEERS]'
 
      The list of community members, you need to refer to the nb_nodes
      member to know quickly how many members they are but actually, in
      practice, there can be holes in this array, you need to check each
      slot, for instance 0 can be filled, 2 can be filled too, but 1 be
-     empty.
+     empty. Note that we don't count ourselves in this list.
 
  -- Member of lw6nod_dyn_info_s: round
      *Type:* `int'
