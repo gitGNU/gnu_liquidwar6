@@ -102,16 +102,24 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
 			 int max_nb_cursors, int nb_nodes, int max_nb_nodes,
 			 int game_screenshot_size, void *game_screenshot_data)
 {
-  int ret = 0;
+  int ret = 1;
 
   _set_community_id (dyn_info, community_id);
   dyn_info->round = round;
-  if (dyn_info->level)
+  /*
+   * This test about pointers being different is both an optimization
+   * (will run faster if pointer are equal as it does nothing) and a
+   * protection, else we could free the pointer before duplicating it.
+   */
+  if (level != dyn_info->level)
     {
-      LW6SYS_FREE (dyn_info->level);
-      dyn_info->level = NULL;
+      if (dyn_info->level)
+	{
+	  LW6SYS_FREE (dyn_info->level);
+	  dyn_info->level = NULL;
+	}
+      dyn_info->level = lw6sys_str_copy (lw6sys_str_empty_if_null (level));
     }
-  dyn_info->level = lw6sys_str_copy (lw6sys_str_empty_if_null (level));
   dyn_info->required_bench = required_bench;
   dyn_info->nb_colors = nb_colors;
   dyn_info->max_nb_colors = max_nb_colors;
@@ -120,28 +128,37 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
   dyn_info->nb_nodes = nb_nodes;
   dyn_info->max_nb_nodes = max_nb_nodes;
   dyn_info->game_screenshot_size = game_screenshot_size;
-  if (dyn_info->game_screenshot_data)
+  /*
+   * This test about pointers being different is both an optimization
+   * (will run faster if pointer are equal as it does nothing) and a
+   * protection, else we could free the pointer before duplicating it.
+   */
+  if (game_screenshot_data != dyn_info->game_screenshot_data)
     {
-      LW6SYS_FREE (dyn_info->game_screenshot_data);
-      dyn_info->game_screenshot_data = NULL;
-    }
-  if (game_screenshot_size > 0)
-    {
-      dyn_info->game_screenshot_data = LW6SYS_MALLOC (game_screenshot_size);
       if (dyn_info->game_screenshot_data)
 	{
-	  memcpy (dyn_info->game_screenshot_data, game_screenshot_data,
-		  game_screenshot_size);
+	  LW6SYS_FREE (dyn_info->game_screenshot_data);
+	  dyn_info->game_screenshot_data = NULL;
+	}
+      if (game_screenshot_size > 0)
+	{
+	  dyn_info->game_screenshot_data =
+	    LW6SYS_MALLOC (game_screenshot_size);
+	  if (dyn_info->game_screenshot_data)
+	    {
+	      memcpy (dyn_info->game_screenshot_data, game_screenshot_data,
+		      game_screenshot_size);
+	    }
 	}
     }
 
-  if (level && game_screenshot_data)
+  if (level)
     {
-      ret = (dyn_info->level && dyn_info->game_screenshot_data);
+      ret = (dyn_info->level) && ret;
     }
-  else
+  if (game_screenshot_data)
     {
-      ret = 1;
+      ret = (dyn_info->game_screenshot_data) && ret;
     }
 
   return ret;
