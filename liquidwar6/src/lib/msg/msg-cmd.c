@@ -50,10 +50,11 @@ _generate_info (char *cmd, lw6nod_info_t * info)
 	    ("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d%c%d%c%d%c%s%c%d%c\"%s\"%c%d%c%d%c%d%c%d%c%d%c%d%c%d",
 	     cmd, sep, info->const_info.program, sep,
 	     info->const_info.version, sep, info->const_info.codename, sep,
-	     info->const_info.stamp, sep, info->const_info.id_str, sep,
-	     info->const_info.url, sep, base64_title, sep, base64_description,
-	     sep, info->const_info.has_password, sep, info->const_info.bench,
-	     sep, info->const_info.open_relay, sep, uptime, sep,
+	     info->const_info.stamp, sep, info->const_info.ref_info.id_str,
+	     sep, info->const_info.ref_info.url, sep, base64_title, sep,
+	     base64_description, sep, info->const_info.has_password, sep,
+	     info->const_info.bench, sep, info->const_info.open_relay, sep,
+	     uptime, sep,
 	     lw6sys_str_empty_if_null (info->dyn_info.community_id_str), sep,
 	     info->dyn_info.round, sep,
 	     lw6sys_str_empty_if_null (info->dyn_info.level), sep,
@@ -932,7 +933,7 @@ lw6msg_cmd_guess_from_url (char *msg)
 	  pos = msg + strlen (*command);
 	  if (_analyse_info (&node_info, &seek, pos))
 	    {
-	      ret = lw6sys_str_copy (node_info->const_info.url);
+	      ret = lw6sys_str_copy (node_info->const_info.ref_info.url);
 	      lw6nod_info_free (node_info);
 	      node_info = NULL;
 	    }

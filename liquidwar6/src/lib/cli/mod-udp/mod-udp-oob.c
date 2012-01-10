@@ -45,7 +45,8 @@ _do_broadcast (_udp_context_t * udp_context, lw6nod_info_t * node_info,
     {
       request =
 	lw6msg_oob_generate_request (LW6MSG_OOB_PING, NULL,
-				     NULL, node_info->const_info.url);
+				     NULL,
+				     node_info->const_info.ref_info.url);
       if (request)
 	{
 	  if (lw6net_send_line_udp
@@ -112,7 +113,7 @@ _do_ping (_udp_context_t * udp_context, lw6nod_info_t * node_info,
       request =
 	lw6msg_oob_generate_request (LW6MSG_OOB_PING, url,
 				     node_info->const_info.password,
-				     node_info->const_info.url);
+				     node_info->const_info.ref_info.url);
       if (request)
 	{
 	  if (lw6net_send_line_udp (sock, request, ip, parsed_url->port))
@@ -221,7 +222,7 @@ _do_info (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	  request =
 	    lw6msg_oob_generate_request (LW6MSG_OOB_INFO, url,
 					 node_info->const_info.password,
-					 node_info->const_info.url);
+					 node_info->const_info.ref_info.url);
 	  if (request)
 	    {
 	      if (lw6net_send_line_udp (sock, request, ip, parsed_url->port))
@@ -321,7 +322,7 @@ _do_list (_udp_context_t * udp_context, lw6nod_info_t * node_info,
       request =
 	lw6msg_oob_generate_request (LW6MSG_OOB_LIST, url,
 				     node_info->const_info.password,
-				     node_info->const_info.url);
+				     node_info->const_info.ref_info.url);
       if (request)
 	{
 	  if (lw6net_send_line_udp (sock, request, ip, parsed_url->port))

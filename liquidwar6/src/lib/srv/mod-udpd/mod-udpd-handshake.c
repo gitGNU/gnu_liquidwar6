@@ -89,9 +89,10 @@ _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("recognized udpd protocol"));
       ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
       if (lw6msg_envelope_analyse
-	  (line, LW6MSG_ENVELOPE_MODE_TELNET, node_info->const_info.url,
-	   node_info->const_info.password, 0, node_info->const_info.id_int,
-	   &msg, NULL, NULL, remote_id, NULL, NULL, NULL, remote_url))
+	  (line, LW6MSG_ENVELOPE_MODE_TELNET,
+	   node_info->const_info.ref_info.url, node_info->const_info.password,
+	   0, node_info->const_info.ref_info.id_int, &msg, NULL, NULL,
+	   remote_id, NULL, NULL, NULL, remote_url))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("udpd message \"%s\" OK"), line);
 	  if (msg)

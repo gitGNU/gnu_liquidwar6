@@ -279,12 +279,12 @@ _node_map_verified_callback_callback (void *func_data, void *data)
   int *first_time = (int *) func_data;
   lw6nod_info_t *verified_node = (lw6nod_info_t *) data;
 
-  if (verified_node && verified_node->const_info.url)
+  if (verified_node && verified_node->const_info.ref_info.url)
     {
       if (*first_time)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("verified node \"%s\""),
-		      verified_node->const_info.url);
+		      verified_node->const_info.ref_info.url);
 	  (*first_time) = 0;
 	}
     }

@@ -325,6 +325,7 @@ src/lib/net/net-udp.c
 src/lib/nod/nod-constinfo.c
 src/lib/nod/nod-dyninfo.c
 src/lib/nod/nod-info.c
+src/lib/nod/nod-refinfo.c
 src/lib/nod/nod-test.c
 src/lib/nod/nod-testmain.c
 src/lib/p2p/p2p-backends.c

@@ -1251,1613 +1251,6 @@ complete information).
 5.19.2 API
 ----------
 
- -- Struct: mod_gl_background_backend_s
-
- -- Member of mod_gl_background_backend_s: background_context
-     *Type:* `void *'
-
-     *Definition:* `void*
-     mod_gl_background_backend_s::background_context'
-
-
- -- Member of mod_gl_background_backend_s: backend_name
-     *Type:* `char *'
-
-     *Definition:* `char* mod_gl_background_backend_s::backend_name'
-
-
- -- Member of mod_gl_background_backend_s: init
-     *Type:* `void *(*'
-
-     *Definition:* `void*(*
-     mod_gl_background_backend_s::init)(mod_gl_utils_context_t
-     *utils_context)'
-
-
- -- Member of mod_gl_background_backend_s: quit
-     *Type:* `void(*'
-
-     *Definition:* `void(*
-     mod_gl_background_backend_s::quit)(mod_gl_utils_context_t
-     *utils_context, void *background_context)'
-
-
- -- Member of mod_gl_background_backend_s: display_background
-     *Type:* `void(*'
-
-     *Definition:* `void(*
-     mod_gl_background_backend_s::display_background)(mod_gl_utils_context_t
-     *utils_context, void *background_context, lw6gui_look_t *look)'
-
-
- -- Struct: mod_gl_hud_backend_s
-
- -- Member of mod_gl_hud_backend_s: hud_context
-     *Type:* `void *'
-
-     *Definition:* `void* mod_gl_hud_backend_s::hud_context'
-
-
- -- Member of mod_gl_hud_backend_s: backend_name
-     *Type:* `char *'
-
-     *Definition:* `char* mod_gl_hud_backend_s::backend_name'
-
-
- -- Member of mod_gl_hud_backend_s: init
-     *Type:* `void *(*'
-
-     *Definition:* `void*(*
-     mod_gl_hud_backend_s::init)(mod_gl_utils_context_t *utils_context)'
-
-
- -- Member of mod_gl_hud_backend_s: quit
-     *Type:* `void(*'
-
-     *Definition:* `void(*
-     mod_gl_hud_backend_s::quit)(mod_gl_utils_context_t *utils_context,
-     void *hud_context)'
-
-
- -- Member of mod_gl_hud_backend_s: display_hud
-     *Type:* `void(*'
-
-     *Definition:* `void(*
-     mod_gl_hud_backend_s::display_hud)(mod_gl_utils_context_t
-     *utils_context, void *hud_context, lw6gui_look_t *look,
-     lw6ker_game_state_t *game_state, lw6pil_local_cursors_t
-     *local_cursors)'
-
-
- -- Member of mod_gl_hud_backend_s: display_score
-     *Type:* `void(*'
-
-     *Definition:* `void(*
-     mod_gl_hud_backend_s::display_score)(mod_gl_utils_context_t
-     *utils_context, void *hud_context, lw6gui_look_t *look,
-     lw6ker_game_state_t *game_state, lw6pil_local_cursors_t
-     *local_cursors)'
-
-
- -- Struct: mod_gl_menu_backend_s
-
- -- Member of mod_gl_menu_backend_s: menu_context
-     *Type:* `void *'
-
-     *Definition:* `void* mod_gl_menu_backend_s::menu_context'
-
-
- -- Member of mod_gl_menu_backend_s: backend_name
-     *Type:* `char *'
-
-     *Definition:* `char* mod_gl_menu_backend_s::backend_name'
-
-
- -- Member of mod_gl_menu_backend_s: init
-     *Type:* `void *(*'
-
-     *Definition:* `void*(*
-     mod_gl_menu_backend_s::init)(mod_gl_utils_context_t
-     *utils_context)'
-
-
- -- Member of mod_gl_menu_backend_s: quit
-     *Type:* `void(*'
-
-     *Definition:* `void(*
-     mod_gl_menu_backend_s::quit)(mod_gl_utils_context_t
-     *utils_context, void *menu_context)'
-
-
- -- Member of mod_gl_menu_backend_s: display_menu
-     *Type:* `void(*'
-
-     *Definition:* `void(*
-     mod_gl_menu_backend_s::display_menu)(mod_gl_utils_context_t
-     *utils_context, void *menu_context, lw6gui_look_t *look,
-     lw6gui_menu_t *menu)'
-
-
- -- Member of mod_gl_menu_backend_s: display_progress
-     *Type:* `void(*'
-
-     *Definition:* `void(*
-     mod_gl_menu_backend_s::display_progress)(mod_gl_utils_context_t
-     *utils_context, void *menu_context, lw6gui_look_t *look, float
-     progress)'
-
-
- -- Member of mod_gl_menu_backend_s: display_meta
-     *Type:* `void(*'
-
-     *Definition:* `void(*
-     mod_gl_menu_backend_s::display_meta)(mod_gl_utils_context_t
-     *utils_context, void *menu_context, lw6gui_look_t *look,
-     lw6gui_menu_t *menu)'
-
-
- -- Struct: mod_gl_utils_bitmap_array_s
-
- -- Member of mod_gl_utils_bitmap_array_s: layout
-     *Type:* `lw6gui_rect_array_t'
-
-     *Definition:* `lw6gui_rect_array_t
-     mod_gl_utils_bitmap_array_s::layout'
-
-
- -- Member of mod_gl_utils_bitmap_array_s: bitmaps
-     *Type:* `mod_gl_utils_bitmap_t **'
-
-     *Definition:* `mod_gl_utils_bitmap_t**
-     mod_gl_utils_bitmap_array_s::bitmaps'
-
-
- -- Struct: mod_gl_utils_bitmap_s
-
- -- Member of mod_gl_utils_bitmap_s: id
-     *Type:* `u_int32_t'
-
-     *Definition:* `u_int32_t mod_gl_utils_bitmap_s::id'
-
-
- -- Member of mod_gl_utils_bitmap_s: desc
-     *Type:* `char *'
-
-     *Definition:* `char* mod_gl_utils_bitmap_s::desc'
-
-
- -- Member of mod_gl_utils_bitmap_s: surface
-     *Type:* `SDL_Surface *'
-
-     *Definition:* `SDL_Surface* mod_gl_utils_bitmap_s::surface'
-
-
- -- Member of mod_gl_utils_bitmap_s: has_alpha
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_bitmap_s::has_alpha'
-
-
- -- Member of mod_gl_utils_bitmap_s: colorized_surface
-     *Type:* `SDL_Surface *'
-
-     *Definition:* `SDL_Surface*
-     mod_gl_utils_bitmap_s::colorized_surface'
-
-
- -- Member of mod_gl_utils_bitmap_s: colorize
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_bitmap_s::colorize'
-
-
- -- Member of mod_gl_utils_bitmap_s: colorize_color
-     *Type:* `lw6map_color_couple_t'
-
-     *Definition:* `lw6map_color_couple_t
-     mod_gl_utils_bitmap_s::colorize_color'
-
-
- -- Member of mod_gl_utils_bitmap_s: mipmap
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_bitmap_s::mipmap'
-
-
- -- Member of mod_gl_utils_bitmap_s: wrap
-     *Type:* `GLint'
-
-     *Definition:* `GLint mod_gl_utils_bitmap_s::wrap'
-
-
- -- Member of mod_gl_utils_bitmap_s: filter
-     *Type:* `GLint'
-
-     *Definition:* `GLint mod_gl_utils_bitmap_s::filter'
-
-
- -- Member of mod_gl_utils_bitmap_s: texture
-     *Type:* `GLuint'
-
-     *Definition:* `GLuint mod_gl_utils_bitmap_s::texture'
-
-
- -- Member of mod_gl_utils_bitmap_s: texture_w
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_bitmap_s::texture_w'
-
-
- -- Member of mod_gl_utils_bitmap_s: texture_h
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_bitmap_s::texture_h'
-
-
- -- Member of mod_gl_utils_bitmap_s: s1
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_bitmap_s::s1'
-
-
- -- Member of mod_gl_utils_bitmap_s: t1
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_bitmap_s::t1'
-
-
- -- Member of mod_gl_utils_bitmap_s: s2
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_bitmap_s::s2'
-
-
- -- Member of mod_gl_utils_bitmap_s: t2
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_bitmap_s::t2'
-
-
- -- Member of mod_gl_utils_bitmap_s: last_refresh
-     *Type:* `int64_t'
-
-     *Definition:* `int64_t mod_gl_utils_bitmap_s::last_refresh'
-
-
- -- Member of mod_gl_utils_bitmap_s: need_another_refresh
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_bitmap_s::need_another_refresh'
-
-
- -- Struct: mod_gl_utils_cache_s
-
- -- Member of mod_gl_utils_cache_s: color_set
-     *Type:* `lw6map_color_set_t'
-
-     *Definition:* `lw6map_color_set_t mod_gl_utils_cache_s::color_set'
-
-
- -- Struct: mod_gl_utils_caps_s
-
- -- Member of mod_gl_utils_caps_s: max_texture_size
-     *Type:* `GLint'
-
-     *Definition:* `GLint mod_gl_utils_caps_s::max_texture_size'
-
-
- -- Member of mod_gl_utils_caps_s: bpp
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_caps_s::bpp'
-
-
- -- Struct: mod_gl_utils_const_data_s
-
- -- Member of mod_gl_utils_const_data_s: warp_x
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::warp_x'
-
-
- -- Member of mod_gl_utils_const_data_s: warp_y
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::warp_y'
-
-
- -- Member of mod_gl_utils_const_data_s: mode_sleep
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::mode_sleep'
-
-
- -- Member of mod_gl_utils_const_data_s: quit_sleep
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::quit_sleep'
-
-
- -- Member of mod_gl_utils_const_data_s: persp_fovy
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::persp_fovy'
-
-
- -- Member of mod_gl_utils_const_data_s: persp_znear
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::persp_znear'
-
-
- -- Member of mod_gl_utils_const_data_s: persp_zfar
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::persp_zfar'
-
-
- -- Member of mod_gl_utils_const_data_s: menu_font_size
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::menu_font_size'
-
-
- -- Member of mod_gl_utils_const_data_s: hud_font_size
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::hud_font_size'
-
-
- -- Member of mod_gl_utils_const_data_s: cursor_font_size
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::cursor_font_size'
-
-
- -- Member of mod_gl_utils_const_data_s: system_font_size
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::system_font_size'
-
-
- -- Member of mod_gl_utils_const_data_s: system_font_dh
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::system_font_dh'
-
-
- -- Member of mod_gl_utils_const_data_s: system_font_dw
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::system_font_dw'
-
-
- -- Member of mod_gl_utils_const_data_s: system_font_hcoef
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::system_font_hcoef'
-
-
- -- Member of mod_gl_utils_const_data_s: gradient_opacity
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::gradient_opacity'
-
-
- -- Member of mod_gl_utils_const_data_s: zones_opacity
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::zones_opacity'
-
-
- -- Member of mod_gl_utils_const_data_s: mainlight_r
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::mainlight_r'
-
-
- -- Member of mod_gl_utils_const_data_s: mainlight_g
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::mainlight_g'
-
-
- -- Member of mod_gl_utils_const_data_s: mainlight_b
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::mainlight_b'
-
-
- -- Member of mod_gl_utils_const_data_s: mainlight_a
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::mainlight_a'
-
-
- -- Member of mod_gl_utils_const_data_s: mainlight_x
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::mainlight_x'
-
-
- -- Member of mod_gl_utils_const_data_s: mainlight_y
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::mainlight_y'
-
-
- -- Member of mod_gl_utils_const_data_s: mainlight_z
-     *Type:* `float'
-
-     *Definition:* `float mod_gl_utils_const_data_s::mainlight_z'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym1_up
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym1_up'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym2_up
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym2_up'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym3_up
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym3_up'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym4_up
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym4_up'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym1_down
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym1_down'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym2_down
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym2_down'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym3_down
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym3_down'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym4_down
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym4_down'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym1_left
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym1_left'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym2_left
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym2_left'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym3_left
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym3_left'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym4_left
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym4_left'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym1_right
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym1_right'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym2_right
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym2_right'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym3_right
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym3_right'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym4_right
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym4_right'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym1_enter
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym1_enter'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym2_enter
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym2_enter'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym1_esc
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym1_esc'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym2_esc
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym2_esc'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym1_ctrl
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym1_ctrl'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym2_ctrl
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym2_ctrl'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym1_alt
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym1_alt'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym2_alt
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym2_alt'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym1_pgup
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym1_pgup'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym2_pgup
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym2_pgup'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym1_pgdown
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym1_pgdown'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym2_pgdown
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym2_pgdown'
-
-
- -- Member of mod_gl_utils_const_data_s: keysym_quit
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::keysym_quit'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick_limit
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::joystick_limit'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick1_index
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::joystick1_index'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick1_button_a_index
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::joystick1_button_a_index'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick1_button_b_index
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::joystick1_button_b_index'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick1_button_c_index
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::joystick1_button_c_index'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick1_button_d_index
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::joystick1_button_d_index'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick1_button_e_index
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::joystick1_button_e_index'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick1_button_f_index
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::joystick1_button_f_index'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick2_index
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::joystick2_index'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick2_button_a_index
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::joystick2_button_a_index'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick2_button_b_index
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::joystick2_button_b_index'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick2_button_c_index
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::joystick2_button_c_index'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick2_button_d_index
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::joystick2_button_d_index'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick2_button_e_index
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::joystick2_button_e_index'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick2_button_f_index
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::joystick2_button_f_index'
-
-
- -- Member of mod_gl_utils_const_data_s: joystick_all_buttons
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_const_data_s::joystick_all_buttons'
-
-
- -- Member of mod_gl_utils_const_data_s: smoother_global_zoom_duration
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::smoother_global_zoom_duration'
-
-
- -- Member of mod_gl_utils_const_data_s: smoother_center_duration
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::smoother_center_duration'
-
-
- -- Member of mod_gl_utils_const_data_s: smoother_drawable_duration
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_const_data_s::smoother_drawable_duration'
-
-
- -- Struct: mod_gl_utils_context_s
-
- -- Member of mod_gl_utils_context_s: resize_callback
-     *Type:* `lw6gui_resize_callback_func_t'
-
-     *Definition:* `lw6gui_resize_callback_func_t
-     mod_gl_utils_context_s::resize_callback'
-
-
- -- Member of mod_gl_utils_context_s: path
-     *Type:* `mod_gl_utils_path_t'
-
-     *Definition:* `mod_gl_utils_path_t mod_gl_utils_context_s::path'
-
-
- -- Member of mod_gl_utils_context_s: surface_counter
-     *Type:* `mod_gl_utils_mem_counter_t'
-
-     *Definition:* `mod_gl_utils_mem_counter_t
-     mod_gl_utils_context_s::surface_counter'
-
-
- -- Member of mod_gl_utils_context_s: texture_counter
-     *Type:* `mod_gl_utils_mem_counter_t'
-
-     *Definition:* `mod_gl_utils_mem_counter_t
-     mod_gl_utils_context_s::texture_counter'
-
-
- -- Member of mod_gl_utils_context_s: caps
-     *Type:* `mod_gl_utils_caps_t'
-
-     *Definition:* `mod_gl_utils_caps_t mod_gl_utils_context_s::caps'
-
-
- -- Member of mod_gl_utils_context_s: video_mode
-     *Type:* `lw6gui_video_mode_t'
-
-     *Definition:* `lw6gui_video_mode_t
-     mod_gl_utils_context_s::video_mode'
-
-
- -- Member of mod_gl_utils_context_s: viewport
-     *Type:* `lw6gui_zone_t'
-
-     *Definition:* `lw6gui_zone_t mod_gl_utils_context_s::viewport'
-
-
- -- Member of mod_gl_utils_context_s: render_param
-     *Type:* `mod_gl_utils_render_param_t'
-
-     *Definition:* `mod_gl_utils_render_param_t
-     mod_gl_utils_context_s::render_param'
-
-
- -- Member of mod_gl_utils_context_s: texture_data
-     *Type:* `mod_gl_utils_texture_data_t'
-
-     *Definition:* `mod_gl_utils_texture_data_t
-     mod_gl_utils_context_s::texture_data'
-
-
- -- Member of mod_gl_utils_context_s: font_data
-     *Type:* `mod_gl_utils_font_data_t'
-
-     *Definition:* `mod_gl_utils_font_data_t
-     mod_gl_utils_context_s::font_data'
-
-
- -- Member of mod_gl_utils_context_s: const_data
-     *Type:* `mod_gl_utils_const_data_t'
-
-     *Definition:* `mod_gl_utils_const_data_t
-     mod_gl_utils_context_s::const_data'
-
-
- -- Member of mod_gl_utils_context_s: textures_1x1
-     *Type:* `mod_gl_utils_texture_1x1_t'
-
-     *Definition:* `mod_gl_utils_texture_1x1_t
-     mod_gl_utils_context_s::textures_1x1'
-
-
- -- Member of mod_gl_utils_context_s: menucache_array
-     *Type:* `mod_gl_utils_menucache_array_t'
-
-     *Definition:* `mod_gl_utils_menucache_array_t
-     mod_gl_utils_context_s::menucache_array'
-
-
- -- Member of mod_gl_utils_context_s: team_color_map
-     *Type:* `mod_gl_utils_team_color_map_t'
-
-     *Definition:* `mod_gl_utils_team_color_map_t
-     mod_gl_utils_context_s::team_color_map'
-
-
- -- Member of mod_gl_utils_context_s: last_action
-     *Type:* `mod_gl_utils_last_action_t'
-
-     *Definition:* `mod_gl_utils_last_action_t
-     mod_gl_utils_context_s::last_action'
-
-
- -- Member of mod_gl_utils_context_s: joysticks_info
-     *Type:* `mod_gl_utils_joysticks_info_t'
-
-     *Definition:* `mod_gl_utils_joysticks_info_t
-     mod_gl_utils_context_s::joysticks_info'
-
-
- -- Member of mod_gl_utils_context_s: mouse_state
-     *Type:* `mod_gl_utils_mouse_state_t'
-
-     *Definition:* `mod_gl_utils_mouse_state_t
-     mod_gl_utils_context_s::mouse_state'
-
-
- -- Member of mod_gl_utils_context_s: timer
-     *Type:* `mod_gl_utils_timer_t'
-
-     *Definition:* `mod_gl_utils_timer_t mod_gl_utils_context_s::timer'
-
-
- -- Member of mod_gl_utils_context_s: input
-     *Type:* `lw6gui_input_t'
-
-     *Definition:* `lw6gui_input_t mod_gl_utils_context_s::input'
-
-
- -- Member of mod_gl_utils_context_s: smoothers
-     *Type:* `_mod_gl_utils_smoothers_t'
-
-     *Definition:* `_mod_gl_utils_smoothers_t
-     mod_gl_utils_context_s::smoothers'
-
-
- -- Member of mod_gl_utils_context_s: smoothed
-     *Type:* `_mod_gl_utils_smoothed_t'
-
-     *Definition:* `_mod_gl_utils_smoothed_t
-     mod_gl_utils_context_s::smoothed'
-
-
- -- Member of mod_gl_utils_context_s: icon
-     *Type:* `mod_gl_utils_icon_t'
-
-     *Definition:* `mod_gl_utils_icon_t mod_gl_utils_context_s::icon'
-
-
- -- Member of mod_gl_utils_context_s: counter
-     *Type:* `mod_gl_utils_counter_t'
-
-     *Definition:* `mod_gl_utils_counter_t
-     mod_gl_utils_context_s::counter'
-
-
- -- Member of mod_gl_utils_context_s: bitmap_hash
-     *Type:* `lw6sys_hash_t *'
-
-     *Definition:* `lw6sys_hash_t* mod_gl_utils_context_s::bitmap_hash'
-
-
- -- Member of mod_gl_utils_context_s: cache
-     *Type:* `mod_gl_utils_cache_t'
-
-     *Definition:* `mod_gl_utils_cache_t mod_gl_utils_context_s::cache'
-
-
- -- Struct: mod_gl_utils_counter_s
-
- -- Member of mod_gl_utils_counter_s: nb_frames
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_counter_s::nb_frames'
-
-
- -- Struct: mod_gl_utils_font_data_s
-
- -- Member of mod_gl_utils_font_data_s: menu
-     *Type:* `TTF_Font *'
-
-     *Definition:* `TTF_Font* mod_gl_utils_font_data_s::menu'
-
-
- -- Member of mod_gl_utils_font_data_s: hud
-     *Type:* `TTF_Font *'
-
-     *Definition:* `TTF_Font* mod_gl_utils_font_data_s::hud'
-
-
- -- Member of mod_gl_utils_font_data_s: cursor
-     *Type:* `TTF_Font *'
-
-     *Definition:* `TTF_Font* mod_gl_utils_font_data_s::cursor'
-
-
- -- Member of mod_gl_utils_font_data_s: system
-     *Type:* `TTF_Font *'
-
-     *Definition:* `TTF_Font* mod_gl_utils_font_data_s::system'
-
-
- -- Struct: mod_gl_utils_icon_s
-
- -- Member of mod_gl_utils_icon_s: bitmap
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t* mod_gl_utils_icon_s::bitmap'
-
-
- -- Struct: mod_gl_utils_joysticks_info_s
-
- -- Member of mod_gl_utils_joysticks_info_s: supported
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_joysticks_info_s::supported'
-
-
- -- Member of mod_gl_utils_joysticks_info_s: driver_nb_joysticks
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_joysticks_info_s::driver_nb_joysticks'
-
-
- -- Member of mod_gl_utils_joysticks_info_s: sdl_joysticks
-     *Type:* `SDL_Joystick *'
-
-     *Definition:* `SDL_Joystick*
-     mod_gl_utils_joysticks_info_s::sdl_joysticks[LW6GUI_NB_JOYSTICKS]'
-
-
- -- Struct: mod_gl_utils_last_action_s
-
- -- Member of mod_gl_utils_last_action_s: game_bitmap_array_update_id
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_last_action_s::game_bitmap_array_update_id'
-
-
- -- Member of mod_gl_utils_last_action_s:
-game_bitmap_array_update_rounds
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_last_action_s::game_bitmap_array_update_rounds'
-
-
- -- Struct: mod_gl_utils_mem_counter_s
-
- -- Member of mod_gl_utils_mem_counter_s: new_counter
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_mem_counter_s::new_counter'
-
-
- -- Member of mod_gl_utils_mem_counter_s: delete_counter
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_mem_counter_s::delete_counter'
-
-
- -- Struct: mod_gl_utils_menucache_array_s
-
- -- Member of mod_gl_utils_menucache_array_s: color_set
-     *Type:* `lw6map_color_set_t'
-
-     *Definition:* `lw6map_color_set_t
-     mod_gl_utils_menucache_array_s::color_set'
-
-
- -- Member of mod_gl_utils_menucache_array_s: last_stored_item
-     *Type:* `int'
-
-     *Definition:* `int
-     mod_gl_utils_menucache_array_s::last_stored_item'
-
-
- -- Member of mod_gl_utils_menucache_array_s: item_array
-     *Type:* `mod_gl_utils_menucache_item_t'
-
-     *Definition:* `mod_gl_utils_menucache_item_t
-     mod_gl_utils_menucache_array_s::item_array[MOD_GL_UTILS_MENUCACHE_ARRAY_SIZE]'
-
-
- -- Member of mod_gl_utils_menucache_array_s: tooltip_str
-     *Type:* `char *'
-
-     *Definition:* `char* mod_gl_utils_menucache_array_s::tooltip_str'
-
-
- -- Member of mod_gl_utils_menucache_array_s: tooltip_bitmap
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_menucache_array_s::tooltip_bitmap'
-
-
- -- Member of mod_gl_utils_menucache_array_s: help_str
-     *Type:* `char *'
-
-     *Definition:* `char* mod_gl_utils_menucache_array_s::help_str'
-
-
- -- Member of mod_gl_utils_menucache_array_s: help_bitmap
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_menucache_array_s::help_bitmap'
-
-
- -- Member of mod_gl_utils_menucache_array_s: breadcrumbs_str
-     *Type:* `char *'
-
-     *Definition:* `char*
-     mod_gl_utils_menucache_array_s::breadcrumbs_str'
-
-
- -- Member of mod_gl_utils_menucache_array_s: breadcrumbs_bitmap
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_menucache_array_s::breadcrumbs_bitmap'
-
-
- -- Member of mod_gl_utils_menucache_array_s: popup_str
-     *Type:* `char *'
-
-     *Definition:* `char* mod_gl_utils_menucache_array_s::popup_str'
-
-
- -- Member of mod_gl_utils_menucache_array_s: popup_bitmap
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_menucache_array_s::popup_bitmap'
-
-
- -- Struct: mod_gl_utils_menucache_item_s
-
- -- Member of mod_gl_utils_menucache_item_s: key
-     *Type:* `char *'
-
-     *Definition:* `char* mod_gl_utils_menucache_item_s::key'
-
-
- -- Member of mod_gl_utils_menucache_item_s: bitmap
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_menucache_item_s::bitmap'
-
-
- -- Struct: mod_gl_utils_mouse_state_s
-
- -- Member of mod_gl_utils_mouse_state_s: shown
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_mouse_state_s::shown'
-
-
- -- Struct: mod_gl_utils_multiline_text_callback_data_s
-
- -- Member of mod_gl_utils_multiline_text_callback_data_s: utils_context
-     *Type:* `mod_gl_utils_context_t *'
-
-     *Definition:* `mod_gl_utils_context_t*
-     mod_gl_utils_multiline_text_callback_data_s::utils_context'
-
-
- -- Member of mod_gl_utils_multiline_text_callback_data_s: font
-     *Type:* `TTF_Font *'
-
-     *Definition:* `TTF_Font*
-     mod_gl_utils_multiline_text_callback_data_s::font'
-
-
- -- Member of mod_gl_utils_multiline_text_callback_data_s: sdl_color_bg
-     *Type:* `SDL_Color'
-
-     *Definition:* `SDL_Color
-     mod_gl_utils_multiline_text_callback_data_s::sdl_color_bg'
-
-
- -- Member of mod_gl_utils_multiline_text_callback_data_s: sdl_color_fg
-     *Type:* `SDL_Color'
-
-     *Definition:* `SDL_Color
-     mod_gl_utils_multiline_text_callback_data_s::sdl_color_fg'
-
-
- -- Member of mod_gl_utils_multiline_text_callback_data_s: shape
-     *Type:* `lw6sys_whd_t'
-
-     *Definition:* `lw6sys_whd_t
-     mod_gl_utils_multiline_text_callback_data_s::shape'
-
-
- -- Member of mod_gl_utils_multiline_text_callback_data_s: pos
-     *Type:* `lw6sys_xyz_t'
-
-     *Definition:* `lw6sys_xyz_t
-     mod_gl_utils_multiline_text_callback_data_s::pos'
-
-
- -- Member of mod_gl_utils_multiline_text_callback_data_s: target
-     *Type:* `SDL_Surface *'
-
-     *Definition:* `SDL_Surface*
-     mod_gl_utils_multiline_text_callback_data_s::target'
-
-
- -- Struct: mod_gl_utils_path_s
-
- -- Member of mod_gl_utils_path_s: data_dir
-     *Type:* `char *'
-
-     *Definition:* `char* mod_gl_utils_path_s::data_dir'
-
-
- -- Member of mod_gl_utils_path_s: capture_dir
-     *Type:* `char *'
-
-     *Definition:* `char* mod_gl_utils_path_s::capture_dir'
-
-
- -- Member of mod_gl_utils_path_s: bitmap_dir
-     *Type:* `char *'
-
-     *Definition:* `char* mod_gl_utils_path_s::bitmap_dir'
-
-
- -- Member of mod_gl_utils_path_s: bitmap_frame_dir
-     *Type:* `char *'
-
-     *Definition:* `char* mod_gl_utils_path_s::bitmap_frame_dir'
-
-
- -- Struct: mod_gl_utils_rect_array_s
-
- -- Member of mod_gl_utils_rect_array_s: tile_size
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_rect_array_s::tile_size'
-
-
- -- Member of mod_gl_utils_rect_array_s: border_size
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_rect_array_s::border_size'
-
-
- -- Member of mod_gl_utils_rect_array_s: tile_spacing
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_rect_array_s::tile_spacing'
-
-
- -- Member of mod_gl_utils_rect_array_s: nb_tiles_w
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_rect_array_s::nb_tiles_w'
-
-
- -- Member of mod_gl_utils_rect_array_s: nb_tiles_h
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_rect_array_s::nb_tiles_h'
-
-
- -- Member of mod_gl_utils_rect_array_s: nb_tiles
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_rect_array_s::nb_tiles'
-
-
- -- Member of mod_gl_utils_rect_array_s: source_w
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_rect_array_s::source_w'
-
-
- -- Member of mod_gl_utils_rect_array_s: source_h
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_rect_array_s::source_h'
-
-
- -- Struct: mod_gl_utils_render_param_s
-
- -- Member of mod_gl_utils_render_param_s: mode
-     *Type:* `mod_gl_utils_render_mode_t'
-
-     *Definition:* `mod_gl_utils_render_mode_t
-     mod_gl_utils_render_param_s::mode'
-
-
- -- Member of mod_gl_utils_render_param_s: gfx_quality
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_render_param_s::gfx_quality'
-
-
- -- Struct: mod_gl_utils_shaded_text_s
-
- -- Member of mod_gl_utils_shaded_text_s: font
-     *Type:* `TTF_Font *'
-
-     *Definition:* `TTF_Font* mod_gl_utils_shaded_text_s::font'
-
-
- -- Member of mod_gl_utils_shaded_text_s: text
-     *Type:* `char *'
-
-     *Definition:* `char* mod_gl_utils_shaded_text_s::text'
-
-
- -- Member of mod_gl_utils_shaded_text_s: color
-     *Type:* `lw6map_color_couple_t'
-
-     *Definition:* `lw6map_color_couple_t
-     mod_gl_utils_shaded_text_s::color'
-
-
- -- Member of mod_gl_utils_shaded_text_s: bg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_shaded_text_s::bg'
-
-
- -- Member of mod_gl_utils_shaded_text_s: fg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_shaded_text_s::fg'
-
-
- -- Member of mod_gl_utils_shaded_text_s: texture_w
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_shaded_text_s::texture_w'
-
-
- -- Member of mod_gl_utils_shaded_text_s: texture_h
-     *Type:* `int'
-
-     *Definition:* `int mod_gl_utils_shaded_text_s::texture_h'
-
-
- -- Struct: mod_gl_utils_team_color_map_s
-
- -- Member of mod_gl_utils_team_color_map_s: team_colors_f
-     *Type:* `lw6sys_color_f_t'
-
-     *Definition:* `lw6sys_color_f_t
-     mod_gl_utils_team_color_map_s::team_colors_f[LW6MAP_MAX_NB_TEAMS]'
-
-
- -- Member of mod_gl_utils_team_color_map_s: team_colors
-     *Type:* `Uint32'
-
-     *Definition:* `Uint32
-     mod_gl_utils_team_color_map_s::team_colors[LW6MAP_MAX_NB_TEAMS][MOD_GL_SHADES_FOR_FIGHTERS_SCALE+1]'
-
-
- -- Struct: mod_gl_utils_texture_1x1_s
-
- -- Member of mod_gl_utils_texture_1x1_s: color_base_fg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::color_base_fg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: color_base_bg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::color_base_bg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: color_alternate_fg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::color_alternate_fg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: color_alternate_bg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::color_alternate_bg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: background_color_root_fg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::background_color_root_fg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: background_color_root_bg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::background_color_root_bg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: background_color_stuff_fg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::background_color_stuff_fg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: background_color_stuff_bg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::background_color_stuff_bg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: hud_color_frame_fg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::hud_color_frame_fg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: hud_color_frame_bg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::hud_color_frame_bg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: hud_color_text_fg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::hud_color_text_fg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: hud_color_text_bg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::hud_color_text_bg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: menu_color_default_fg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::menu_color_default_fg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: menu_color_default_bg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::menu_color_default_bg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: menu_color_selected_fg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::menu_color_selected_fg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: menu_color_selected_bg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::menu_color_selected_bg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: menu_color_disabled_fg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::menu_color_disabled_fg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: menu_color_disabled_bg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::menu_color_disabled_bg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: view_color_cursor_fg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::view_color_cursor_fg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: view_color_cursor_bg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::view_color_cursor_bg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: view_color_map_fg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::view_color_map_fg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: view_color_map_bg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::view_color_map_bg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: system_color_fg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::system_color_fg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: system_color_bg
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::system_color_bg'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: team_color_dead
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::team_color_dead'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: team_colors
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::team_colors[LW6MAP_NB_TEAM_COLORS]'
-
-
- -- Member of mod_gl_utils_texture_1x1_s: team_colors_transparency
-     *Type:* `mod_gl_utils_bitmap_t *'
-
-     *Definition:* `mod_gl_utils_bitmap_t*
-     mod_gl_utils_texture_1x1_s::team_colors_transparency[LW6MAP_NB_TEAM_COLORS][MOD_GL_UTILS_TRANSPARENCY_SCALE+1]'
-
-
- -- Struct: mod_gl_utils_texture_data_s
-
- -- Member of mod_gl_utils_texture_data_s: to_delete
-     *Type:* `lw6sys_list_t *'
-
-     *Definition:* `lw6sys_list_t*
-     mod_gl_utils_texture_data_s::to_delete'
-
-
- -- Struct: mod_gl_utils_timer_s
-
- -- Member of mod_gl_utils_timer_s: timestamp
-     *Type:* `int64_t'
-
-     *Definition:* `int64_t mod_gl_utils_timer_s::timestamp'
-
-
- -- Member of mod_gl_utils_timer_s: uptime
-     *Type:* `int64_t'
-
-     *Definition:* `int64_t mod_gl_utils_timer_s::uptime'
-
-
- -- Member of mod_gl_utils_timer_s: cycle
-     *Type:* `int32_t'
-
-     *Definition:* `int32_t mod_gl_utils_timer_s::cycle'
-
-
- -- Member of mod_gl_utils_timer_s: bitmap_refresh
-     *Type:* `int64_t'
-
-     *Definition:* `int64_t mod_gl_utils_timer_s::bitmap_refresh'
-
-
- -- Struct: mod_gl_view_backend_s
-
- -- Member of mod_gl_view_backend_s: view_context
-     *Type:* `void *'
-
-     *Definition:* `void* mod_gl_view_backend_s::view_context'
-
-
- -- Member of mod_gl_view_backend_s: backend_name
-     *Type:* `char *'
-
-     *Definition:* `char* mod_gl_view_backend_s::backend_name'
-
-
- -- Member of mod_gl_view_backend_s: init
-     *Type:* `void *(*'
-
-     *Definition:* `void*(*
-     mod_gl_view_backend_s::init)(mod_gl_utils_context_t
-     *utils_context)'
-
-
- -- Member of mod_gl_view_backend_s: quit
-     *Type:* `void(*'
-
-     *Definition:* `void(*
-     mod_gl_view_backend_s::quit)(mod_gl_utils_context_t
-     *utils_context, void *view_context)'
-
-
- -- Member of mod_gl_view_backend_s: display_preview
-     *Type:* `void(*'
-
-     *Definition:* `void(*
-     mod_gl_view_backend_s::display_preview)(mod_gl_utils_context_t
-     *utils_context, void *view_context, lw6gui_look_t *look,
-     lw6map_level_t *level)'
-
-
- -- Member of mod_gl_view_backend_s: display_map
-     *Type:* `void(*'
-
-     *Definition:* `void(*
-     mod_gl_view_backend_s::display_map)(mod_gl_utils_context_t
-     *utils_context, void *view_context, lw6gui_look_t *look,
-     lw6ker_game_state_t *game_state, lw6pil_local_cursors_t
-     *local_cursors)'
-
-
- -- Member of mod_gl_view_backend_s: display_fighters
-     *Type:* `void(*'
-
-     *Definition:* `void(*
-     mod_gl_view_backend_s::display_fighters)(mod_gl_utils_context_t
-     *utils_context, void *view_context, lw6gui_look_t *look,
-     lw6ker_game_state_t *game_state, lw6pil_local_cursors_t
-     *local_cursors)'
-
-
- -- Member of mod_gl_view_backend_s: display_cursors
-     *Type:* `void(*'
-
-     *Definition:* `void(*
-     mod_gl_view_backend_s::display_cursors)(mod_gl_utils_context_t
-     *utils_context, void *view_context, lw6gui_look_t *look,
-     lw6ker_game_state_t *game_state, lw6pil_local_cursors_t
-     *local_cursors)'
-
-
 
 File: liquidwar6.info,  Node: libglb,  Next: libgui,  Prev: mod-gl,  Up: C API
 
@@ -9979,5 +8372,1519 @@ results on
 
      *Definition:* `lw6map_color_couple_t
      lw6map_texture_s::guessed_color_alternate'
+
+
+
+File: liquidwar6.info,  Node: libmsg,  Next: libnet,  Prev: libmap,  Up: C API
+
+5.27 libmsg
+===========
+
+5.27.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/msg/index.html'.
+
+5.27.2 API
+----------
+
+ -- Function: char * lw6msg_cmd_generate_hello (lw6nod_info_t * INFO)
+     INFO:  the node info to use
+
+     Generate a HELLO command.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_cmd_generate_ticket (lw6nod_info_t * INFO,
+          u_int64_t TICKET)
+     INFO:  the node info to use
+
+     TICKET:  the ticket to send
+
+     Generate a TICKET command.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_cmd_generate_foo (lw6nod_info_t * INFO,
+          u_int32_t KEY)
+     INFO:  the node info to use
+
+     KEY:  the key to identify the message
+
+     Generate a FOO command.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_cmd_generate_bar (lw6nod_info_t * INFO,
+          u_int32_t KEY)
+     INFO:  the node info to use
+
+     KEY:  the key to identify the message
+
+     Generate a BAR command.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_cmd_generate_goodbye (lw6nod_info_t * INFO)
+     INFO:  the node info to use
+
+     Generate a GOODBYE command.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_cmd_generate_data (int SERIAL, int I, int
+          N, int ROUND, char * KER_MSG)
+     SERIAL:  the message serial number
+
+     I:  the message index in the group
+
+     N:  the number of messages in the group
+
+     ROUND:  the message round (can have an offset with real round)
+
+     KER_MSG:  the actual content of the message (passed to core algo)
+
+     Generate a DATA command. Serial is an ever increasing number, i
+     and n are most of the time 1 and 1, they are usefull only in long
+     multipart messages.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: int lw6msg_cmd_analyse_hello (lw6nod_info_t ** INFO, char
+          * MSG)
+     INFO:  will contain (remote) node info on success
+
+     MSG:  the message to analyse
+
+     Analyzes a HELLO message.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6msg_cmd_analyse_ticket (lw6nod_info_t ** INFO,
+          u_int64_t * TICKET, char * MSG)
+     INFO:  will contain (remote) node info on success
+
+     TICKET:  if not NULL, will contain the ticket value on success
+
+     MSG:  the message to analyse
+
+     Analyzes a TICKET message.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6msg_cmd_analyse_foo (lw6nod_info_t ** INFO,
+          u_int32_t * KEY, char * MSG)
+     INFO:  will contain (remote) node info on success
+
+     KEY:  if not NULL, will contain the foo/bar key on success
+
+     MSG:  the message to analyse
+
+     Analyzes a FOO message.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6msg_cmd_analyse_bar (lw6nod_info_t ** INFO,
+          u_int32_t * KEY, char * MSG)
+     INFO:  will contain (remote) node info on success
+
+     KEY:  if not NULL, will contain the foo/bar key on success
+
+     MSG:  the message to analyse
+
+     Analyzes a BAR message.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** INFO,
+          char * MSG)
+     INFO:  will contain (remote) node info on success
+
+     MSG:  the message to analyse
+
+     Analyzes a GOODBYE message.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6msg_cmd_analyse_data (int * SERIAL, int * I, int *
+          N, int * ROUND, char ** KER_MSG, char * MSG)
+     SERIAL:  will contain serial number on success
+
+     I:  will contain group index on success
+
+     N:  will contain group size on success
+
+     ROUND:  will contain round on success (can have an offset with
+     real round)
+
+     KER_MSG:  will contain actual message on success
+
+     Analyzes a DATA message.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: char * lw6msg_cmd_guess_from_url (char * MSG)
+     MSG:  the message to analyse
+
+     Analyzes a GOODBYE message.
+
+     *Return value:*  the from url, if found (dynamically allocated)
+
+ -- Function: char * lw6msg_envelope_generate (lw6msg_envelope_mode_t
+          MODE, char * VERSION, char * PASSWORD_CHECKSUM, u_int32_t
+          PHYSICAL_TICKET_SIG, u_int32_t LOGICAL_TICKET_SIG, u_int64_t
+          PHYSICAL_FROM_ID, u_int64_t PHYSICAL_TO_ID, u_int64_t
+          LOGICAL_FROM_ID, u_int64_t LOGICAL_TO_ID, char * MSG)
+     MODE:  mode to use (a la TELNET or URL compatible)
+
+     VERSION:  the program version to use (note: can be changed when
+     testing)
+
+     PASSWORD_CHECKSUM:  the password string to send
+
+     PHYSICAL_TICKET_SIG:  the signature of the message, calculated
+     with ticket + physical from/to
+
+     LOGICAL_TICKET_SIG:  the signature of the message, calculated with
+     ticket + logical from/to
+
+     PHYSICAL_FROM_ID:  the sender id
+
+     PHYSICAL_TO_ID:  the receiver id
+
+     LOGICAL_FROM_ID:  the message creator id
+
+     LOGICAL_TO_ID:  the message final destination id
+
+     MSG:  the body of the message
+
+     Generate an envelope, that is, the complete message sendable on the
+     network.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: int lw6msg_envelope_analyse (char * ENVELOPE,
+          lw6msg_envelope_mode_t MODE, char * LOCAL_URL, char *
+          PASSWORD, u_int64_t EXPECTED_PHYSICAL_FROM_ID, u_int64_t
+          EXPECTED_PHYSICAL_TO_ID, char ** MSG, u_int32_t *
+          PHYSICAL_TICKET_SIG, u_int32_t * LOGICAL_TICKET_SIG,
+          u_int64_t * PHYSICAL_FROM_ID, u_int64_t * PHYSICAL_TO_ID,
+          u_int64_t * LOGICAL_FROM_ID, u_int64_t * LOGICAL_TO_ID, char
+          ** PHYSICAL_FROM_URL)
+     ENVELOPE:  the envelope to analyse
+
+     MODE:  mode to use (a la TELNET or URL compatible)
+
+     LOCAL_URL:  the url of local server (usefull for password)
+
+     PASSWORD:  the password to check against
+
+     EXPECTED_PHYSICAL_FROM_ID:  the sender id, if NULL, no check
+     performed
+
+     EXPECTED_PHYSICAL_TO_ID:  the receiver id, if NULL, no check
+     performed
+
+     MSG:  if not NULL, will contain body of the message
+
+     PHYSICAL_TICKET_SIG:  if not NULL, will contain signature of
+     message, calculated with ticket
+
+     LOGICAL_TICKET_SIG:  if not NULL, will contain signature of
+     message, calculated with ticket
+
+     PHYSICAL_FROM_ID:  if not NULL, will contain sender id
+
+     PHYSICAL_TO_ID:  if not NULL, will contain receiver id
+
+     LOGICAL_FROM_ID:  if not NULL, will contain message creator id
+
+     LOGICAL_TO_ID:  if not NULL, will contain message final
+     destination id
+
+     PHYSICAL_FROM_URL:  if not NULL and if message allows, will
+     contain sender public URL
+
+     Generate an envelope, that is, the complete message sendable on the
+     network.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_oob_generate_info (lw6nod_info_t * INFO)
+     INFO:  the node to generate info about
+
+     Generates a standard response to the INFO question for OOB (out of
+     band) messages. The same message is sent, be it on http or tcp or
+     udp, so it's factorized here. Function will lock the info object
+     when needed.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_oob_generate_list (lw6nod_info_t * INFO)
+     INFO:  the node to generate info about
+
+     Generates a standard response to the LIST question for OOB (out of
+     band) messages. The same message is sent, be it on http or tcp or
+     udp, so it's factorized here. Function will lock the info object
+     when needed. There's a max length because we don't want the udp
+     buffer to be saturated + too long lists do not really mean
+     anything anyway.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_oob_generate_pong (lw6nod_info_t * INFO)
+     INFO:  the node to generate info about
+
+     Generates a standard response to the PING question for OOB (out of
+     band) messages. The same message is sent, be it on http or tcp or
+     udp, so it's factorized here. Function will lock the info object
+     when needed.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_oob_generate_request (char * COMMAND, char
+          * REMOTE_URL, char * PASSWORD, char * LOCAL_URL)
+     COMMAND:  the command to send (PING, INFO, LIST)
+
+     REMOTE_URL:  the remote URL (used to seed password)
+
+     PASSWORD:  the password, can be NULL or ""
+
+     LOCAL_URL:  the public URL to send along with the message, can be
+     NULL or ""
+
+     Generates a simple clear text OOB request, with a password if
+     needed.
+
+     *Return value:*  a newly allocated string
+
+ -- Function: int lw6msg_oob_analyse_request (int * SYNTAX_OK, char **
+          COMMAND, int * PASSWORD_OK, char ** REMOTE_URL, char *
+          REQUEST, char * LOCAL_URL, char * PASSWORD)
+     SYNTAX_OK:  will contain 1 if syntax is OK, 0 if not
+
+     COMMAND:  the command (out param, needs *not* to be freed)
+
+     PASSWORD_OK:  will contain 1 if password is OK, 0 if not
+
+     REMOTE_URL:  the URL detected, if provided (out param, does needs
+     to be freed)
+
+     REQUEST:  the request to analyse
+
+     LOCAL_URL:  the local url (used to seed password)
+
+     PASSWORD:  the password to check against
+
+     Analyses a simple OOB message of the form COMMAND <passwd> <url>.
+
+     *Return value:*  1 if OK, 0 if not. If 0, check the value of
+     password_ok.
+
+ -- Function: char * lw6msg_oob_analyse_pong (char * TEXT)
+     TEXT:  the text of the message to parse
+
+     Analyses a PONG message and gets the public_url from it, if it
+     exists.
+
+     *Return value:*  newly allocated string containing public_url if
+     OK, NULL on error.
+
+ -- Function: int lw6msg_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `nod' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+ -- Function: u_int32_t lw6msg_ticket_calc_sig (u_int64_t TICKET,
+          u_int64_t FROM_ID, u_int64_t TO_ID, char * MSG)
+     TICKET:  the (private) ticket to use
+
+     FROM_ID:  the sender/creator
+
+     TO_ID:  the receiver/target
+
+     MSG:  the message to sign
+
+     Produces a little signature, which is clearly vulnerable to
+     brute-force attacks but makes it possible to be 100% sure if it's
+     wrong, someone is trying to do something nasty (or there's a
+     serious bug!).
+
+     *Return value:*  the sig, always non-zero
+
+ -- Function: int lw6msg_ticket_check_sig (u_int64_t TICKET, u_int64_t
+          FROM_ID, u_int64_t TO_ID, char * MSG, u_int32_t TICKET_SIG)
+     TICKET:  the (private) ticket to use
+
+     FROM_ID:  the sender/creator
+
+     TO_ID:  the receiver/target
+
+     MSG:  the message to sign
+
+     TICKET_SIG:  the signature to check against
+
+     Checks a sig is OK.
+
+     *Return value:*  1 if they are the same, 0 if not.
+
+ -- Function: int lw6msg_utils_parse_key_value_to_ptr (char ** KEY,
+          char ** VALUE, char * LINE)
+     KEY:  will contain the key detected
+
+     VALUE:  will contain the value detected
+
+     LINE:  the line to analyse
+
+     Analyses a trivial "KEY value" line and returns the key and the
+     value in the passed pointers.
+
+     *Return value:*  1 if line OK (and in this case `key' and `value'
+     are set), 0 if not.
+
+ -- Function: int lw6msg_utils_parse_key_value_to_assoc (lw6sys_assoc_t
+          ** ASSOC, char * LINE)
+     ASSOC:  an assoc object which will contain the result
+
+     LINE:  the line to analyse
+
+     Analyses a trivial "KEY value" line and sets the `assoc' parameter
+     according to detected values. Note that `assoc' must be set to
+     contain string, and free them automatically with
+     `lw6sys_free_callback' for instance.
+
+     *Return value:*  1 if line OK (and in this case `assoc' is
+     updated), 0 if not.
+
+ -- Function: char * lw6msg_utils_get_assoc_str_with_default
+          (lw6sys_assoc_t * ASSOC, char * KEY, char * DEFAULT_VALUE)
+     ASSOC:  the string assoc to query
+
+     KEY:  the key to find in the assoc
+
+     DEFAULT_VALUE:  the default value to return
+
+     Queries a string assoc for a given value, and if not available,
+     returns default value. Not that default value (nor the assoc
+     value) is copied, so you must take care all remain valid until
+     usage of returned value is over.
+
+     *Return value:*  a string, must not be freed.
+
+ -- Function: int lw6msg_utils_get_assoc_int_with_default
+          (lw6sys_assoc_t * ASSOC, char * KEY, int DEFAULT_VALUE)
+     ASSOC:  the string assoc to query
+
+     KEY:  the key to find in the assoc
+
+     DEFAULT_VALUE:  the default value to return
+
+     Queries a string assoc for a given value, and if not available,
+     returns default value. Not that default value (nor the assoc
+     value) is copied, so you must take care all remain valid until
+     usage of returned value is over. This one will returned an int
+     converted with `lw6sys_atoi'.
+
+     *Return value:*  a string, must not be freed.
+
+ -- Function: int lw6msg_word_first (lw6msg_word_t * WORD, char **
+          NEXT, char * MSG)
+     WORD:  will contain the parsed word
+
+     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
+     remaining message
+
+     MSG:  the message to parse
+
+     Analyses a message and gets the first word. This word is put in
+     `buf' member with its length. `next' is usefull if you want to
+     parse the rest of the message, it points at the beginning of it.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6msg_word_first_x (lw6msg_word_t * WORD, char **
+          NEXT, char * MSG)
+     WORD:  will contain the parsed word
+
+     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
+     remaining message
+
+     MSG:  the message to parse
+
+     Analyses a message and gets the first word. This word is put in
+     `buf' member with its length. `next' is usefull if you want to
+     parse the rest of the message, it points at the beginning of it.
+     This special `x' function will consider slash ("/") as valid
+     separator. It can't be used all the time but for almost every
+     field but URLs, it's fine. Internally, this one is used to parse
+     integers, IDs, etc.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6msg_word_first_base64 (lw6msg_word_t * WORD, char
+          ** NEXT, char * MSG)
+     WORD:  will contain the parsed word
+
+     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
+     remaining message
+
+     MSG:  the message to parse
+
+     Analyses a message and gets the first word. This word is put in
+     `buf' member with its length. `next' is usefull if you want to
+     parse the rest of the message, it points at the beginning of it.
+     The word is expected to be base64 encoded and is decoded
+     on-the-fly.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6msg_word_first_int (int * PARSED_VALUE, char **
+          NEXT, char * MSG)
+     PARSED_VALUE:  will contain the parsed value
+
+     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
+     remaining message
+
+     MSG:  the message to parse
+
+     Analyses a message, gets the first word and interpret it as an int.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6msg_word_first_int_ge0 (int * PARSED_VALUE, char
+          ** NEXT, char * MSG)
+     PARSED_VALUE:  will contain the parsed value
+
+     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
+     remaining message
+
+     MSG:  the message to parse
+
+     Analyses a message, gets the first word and interpret it as an int.
+     The value must be strictly greater than 0.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6msg_word_first_int_gt0 (int * PARSED_VALUE, char
+          ** NEXT, char * MSG)
+     PARSED_VALUE:  will contain the parsed value
+
+     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
+     remaining message
+
+     MSG:  the message to parse
+
+     Analyses a message, gets the first word and interpret it as an int.
+     The value must be strictly greater than 0.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6msg_word_first_id_16 (u_int16_t * PARSED_VALUE,
+          char ** NEXT, char * MSG)
+     PARSED_VALUE:  will contain the parsed value
+
+     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
+     remaining message
+
+     MSG:  the message to parse
+
+     Analyses a message, gets the first word and interpret it as an
+     16-bit id.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6msg_word_first_id_32 (u_int32_t * PARSED_VALUE,
+          char ** NEXT, char * MSG)
+     PARSED_VALUE:  will contain the parsed value
+
+     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
+     remaining message
+
+     MSG:  the message to parse
+
+     Analyses a message, gets the first word and interpret it as an
+     32-bit id.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6msg_word_first_id_64 (u_int64_t * PARSED_VALUE,
+          char ** NEXT, char * MSG)
+     PARSED_VALUE:  will contain the parsed value
+
+     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
+     remaining message
+
+     MSG:  the message to parse
+
+     Analyses a message, gets the first word and interpret it as an
+     64-bit id.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: char * lw6msg_z_encode (char * MSG, int LIMIT)
+     MSG:  message to encode
+
+     LIMIT:  if under this limit (length in bytes), do not encode,
+     return as is
+
+     Z-encode a message, by "Z-encoding" we mean pass the string through
+     1) zlib then 2) base64 encoding, this way we get a string without
+     any blank and/or special character, and of reasonnable length.
+     There's an optional limit *not* to encode anything, just when we
+     know there are no special characters to escape and string is
+     small, it's useless to fire this big artillery.
+
+     *Return value:*  newly allocated string, 0 terminated, NULL on
+     error.
+
+ -- Function: char * lw6msg_z_decode (char * MSG)
+     MSG:  message to decode
+
+     Z-decode a message, by "Z-encoding" we mean pass the string through
+     1) zlib then 2) base64 encoding, this way we get a string without
+     any blank and/or special character, and of reasonnable length.
+     This decode string does it the reverse way, un64-encode the string
+     then uncompress it back to a readable string.
+
+     *Return value:*  newly allocated string, 0 terminated, NULL on
+     error.
+
+ -- Struct: lw6msg_word_s
+     This structure is used to retrieve words from messages. We use a
+     structure here with a fixed sized buffer and a len member, this is
+     to avoid mallocating too often when parsing.
+
+ -- Member of lw6msg_word_s: len
+     *Type:* `int'
+
+     *Definition:* `int lw6msg_word_s::len'
+
+     Length of word, in bytes.
+
+
+ -- Member of lw6msg_word_s: buf
+     *Type:* `char'
+
+     *Definition:* `char lw6msg_word_s::buf[LW6MSG_MAX_WORD_SIZE+1]'
+
+     Word data, containing a 0 char at the end, so it is safe to call
+     standard C string functions on it.
+
+
+File: liquidwar6.info,  Node: libnet,  Next: libnod,  Prev: libmsg,  Up: C API
+
+5.28 libnet
+===========
+
+5.28.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/net/index.html'.
+
+5.28.2 API
+----------
+
+ -- Function: int lw6net_dns_is_ip (char * IP)
+     IP:  the string to check
+
+     Tests if a given string is a valid IP (IPV4). Test is only
+     syntaxic, it's just to know if we're likely to need to query the
+     DNS, it does not mean the IP is *really* valid.
+
+     *Return value:*  1 if it's an IP, O if not.
+
+ -- Function: char * lw6net_dns_gethostbyname (char * NAME)
+     NAME:  name of the host
+
+     A wrapper over the standard gethostbyname function, will even
+     accept an IP as an input (in this case, will copy it...) and
+     allocate a new string for the result.
+
+     *Return value:*  an IP if success, NULL on error.
+
+ -- Function: int lw6net_dns_lock ()
+     Locks access to dns function `lw6net_dns_gethostbyname'.  This is
+     because `gethostbyname' isn't reentrant plus, even if we didn't
+     use it but its multithreadable equivalent (which is however not
+     standard and always available) other libs (such as `libcurl' not
+     to name it) might use this function too so in a general manner
+     it's a good idea to use a mutex to protect multiple accesses to
+     this.
+
+     *Return value:*  an IP if success, 0 on error.
+
+ -- Function: int lw6net_dns_unlock ()
+     Unlocks access to dns function `lw6net_dns_gethostbyname'.
+
+     *Return value:*  an IP if success, 0 on error.
+
+ -- Function: int lw6net_last_error ()
+     Reports the last network error. This is basically a debug function,
+     designed mostly for Microsoft Winsock API, but can be safely called
+     on any platform.
+
+     *Return value:*  the last error code, has no universal meaning,
+     depends on the platform you're working on.
+
+ -- Function: char * lw6net_if_guess_local ()
+     Guess the local IP address. This is not fool-proof, and it
+     probably cannot be as we can't handle all user-specific configs
+     involving multiple IP addresses, virtual private networks, and so
+     on. But this is just to provide a default public IP address when
+     starting a network game, saavy users can always specify the right
+     interface/address if needed. Will return NULL if interface can't
+     be guessed.
+
+     *Return value:*  the IP as a string, dynamically allocated
+
+ -- Function: char * lw6net_if_guess_public_url (char * BIND_IP, int
+          BIND_PORT)
+     BIND_IP:  the IP address used to bind on
+
+     BIND_PORT:  the IP port used to bind on
+
+     Guess the server public url, based on `lw6net_if_guess_local'
+     which tries to find a valid local IP address which is not
+     loopback. This is only in case `bind_ip' is 0.0.0.0 (listen on all
+     addresses) else it will just use `bind_ip' as you would expect.
+     Function isn't foolproof, that's why one can override its default
+     with a user settings.
+
+     *Return value:*  the IP as a string, dynamically allocated
+
+ -- Function: char * lw6net_recv_line_tcp (int SOCK)
+     SOCK:  the socket descriptor
+
+     Receives a line terminated by LF ("\n", chr(10)) or CR/LF ("\r\n",
+     chr(10)chr(13)) on a TCP socket, that is, stream oriented. If
+     there's no complete line available, function returns immediately
+     with NULL. Same if socket is closed, broken, whatever. Only if
+     there's something consistent will the function return non-NULL.
+
+     *Return value:*  a dynamically allocated string with the content
+     received. The tailing (CR)/LF is stripped.
+
+ -- Function: int lw6net_send_line_tcp (int SOCK, char * LINE)
+     SOCK:  the socket descriptor
+
+     LINE:  the line to be sent, without the "\n" at the end
+
+     Sends a line terminated by LF ("\n", chr(10)) on a TCP socket,
+     that is, stream oriented. The "\n" is automatically added, do not
+     bother sending it.
+
+     *Return value:*  non-zero if success
+
+ -- Function: char * lw6net_recv_line_udp (int SOCK, char **
+          INCOMING_IP, int * INCOMING_PORT)
+     SOCK:  the socket descriptor
+
+     INCOMING_IP:  the IP address of the sender (returned)
+
+     INCOMING_PORT:  the IP port of the sender (returned)
+
+     Receives a line terminated by LF ("\n", chr(10)) or CR/LF ("\r\n",
+     chr(10)chr(13)) on a UDP socket, that is, datagram oriented. If
+     there's no complete line available, function returns immediately
+     with NULL. Same if socket is closed, broken, whatever. Only if
+     there's something consistent will the function return non-NULL.
+     By-value parameters allow the caller to know where the data come
+     from.
+
+     *Return value:*  a dynamically allocated string with the content
+     received. The tailing (CR)/LF is stripped.
+
+ -- Function: lw6sys_list_t * lw6net_recv_lines_udp (int SOCK, char **
+          INCOMING_IP, int * INCOMING_PORT)
+     SOCK:  the socket descriptor
+
+     INCOMING_IP:  the IP address of the sender (returned)
+
+     INCOMING_PORT:  the IP port of the sender (returned)
+
+     Receives several lines terminated by LF ("\n", chr(10)) or CR/LF
+     ("\r\n", chr(10)chr(13)) on a UDP socket, that is, datagram
+     oriented. If there's no complete line available, function returns
+     immediately with NULL. Same if socket is closed, broken, whatever.
+     Only if there's something consistent will the function return
+     non-NULL.  By-value parameters allow the caller to know where the
+     data come from. This variant of `lw6net_recv_line_tcp' will return
+     a list of lines, this is mandatory since in UDP we can't call recv
+     several times.
+
+     *Return value:*  a list of dynamically allocated strings.  The
+     tailing (CR)/LF is stripped from strings.
+
+ -- Function: int lw6net_send_line_udp (int SOCK, char * LINE, char *
+          IP, int PORT)
+     SOCK:  the socket descriptor
+
+     LINE:  the line to be sent, without the "\n" at the end
+
+     IP:  the IP address of the target
+
+     PORT:  the IP port of the target
+
+     Sends a line terminated by LF ("\n", chr(10)) on a UDP socket,
+     that is, datagram oriented. The "\n" is automatically added, do
+     not bother sending it.
+
+     *Return value:*  the number of bytes sent, 0 if failure
+
+ -- Function: int lw6net_init (int ARGC, const char * [] ARGV, int
+          NET_LOG)
+     ARGC:  argc as passed to `main'
+
+     ARGV:  argv as passed to `main'
+
+     NET_LOG:  1 if you want to enable net log, 0 if not
+
+     Initializes the low-level network API, you must call this before
+     calling any other network related function, for it allocates a
+     dynamic context which is in turn used by every function.
+
+     *Return value:*  non-zero if success
+
+ -- Function: void lw6net_quit ()
+     Frees memory, joins active threads, and releases everything set up
+     by network code.
+
+     *Return value:*  void
+
+ -- Function: int lw6net_socket_set_blocking_mode (int SOCK, int MODE)
+     SOCK:  the socket to modify
+
+     MODE:  the mode to use (1 -> blocking mode, 0 -> non-blocking)
+
+     Sets the blocking mode of a socket, the reason we use this is that
+     `ioctl' isn't portable (`ioctlsocket' on MS-Windows).
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6net_socket_is_valid (int SOCK)
+     SOCK:  the socket to test
+
+     Tells if a socket is valid or not. This does not mean the socket
+     is opened/connected and/or the peer is reachable, it just checks
+     the socket is a valid descriptor. In practice it's just to avoid
+     copy/pasting if (sock>=0)" everywhere.
+
+     *Return value:*  1 if valid, 0 if not
+
+ -- Function: void lw6net_socket_close (int SOCK)
+     SOCK:  the socket to close
+
+     Closes a socket, that is, stop activity and free its descriptor.
+
+     *Return value:*  none.
+
+ -- Function: int lw6net_tcp_listen (char * IP, int PORT)
+     IP:  IP address to bind to
+
+     PORT:  IP port to listen on
+
+     Listens in TCP on a given port.
+
+     *Return value:*  >=0 on success, -1 on failure.
+
+ -- Function: int lw6net_tcp_accept (char ** INCOMING_IP, int *
+          INCOMING_PORT, int LISTENING_SOCK, int DELAY_MSEC)
+     INCOMING_IP:  address of remote peer (out param, dynamically
+     allocated)
+
+     INCOMING_PORT:  port of remote peer (out param)
+
+     LISTENING_SOCK:  socket to listen on
+
+     DELAY_MSEC:  delay, in msec, after which we stop accepting
+
+     Accepts for a connexion on the given socket.
+
+     *Return value:*  the new socket (>=0) if accepted, else -1
+
+ -- Function: int lw6net_tcp_connect (char * IP, int PORT, int
+          DELAY_MSEC)
+     IP:  address to connect to
+
+     PORT:  port to connect to
+
+     DELAY_MSEC:  delay before we consider it's too late
+
+     Tries to connect on a given socket.
+
+     *Return value:*  socket (>=0) on success, else -1
+
+ -- Function: int lw6net_tcp_send (int SOCK, char * BUF, int LEN, int
+          DELAY_MSEC, int LOOP)
+     SOCK:  socket to use
+
+     BUF:  data buffer
+
+     LEN:  data buffer length
+
+     DELAY_MSEC:  delay after which we give up
+
+     LOOP:  accept to do several calls if needed
+
+     Will send data, possibly looping until all is send, and waiting for
+     a maximum time of delay_msec.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6net_tcp_peek (int SOCK, char * BUF, int LEN, int
+          DELAY_MSEC)
+     SOCK:  socket to use
+
+     BUF:  data buffer
+
+     LEN:  data buffer length
+
+     DELAY_MSEC:  maximum time to wait
+
+     Tells wether data is available. Will actually fill the buffer with
+     the data, but not remove it from the fifo list.
+
+     *Return value:*  number of bytes available, 0 when nothing
+
+ -- Function: int lw6net_tcp_recv (int SOCK, char * BUF, int LEN, int
+          DELAY_MSEC, int LOOP)
+     SOCK:  socket to use
+
+     BUF:  data buffer
+
+     LEN:  data buffer length
+
+     DELAY_MSEC:  maximum time to wait
+
+     LOOP:  wether to loop or not
+
+     If data is available, put it in buffer. If needed, will loop until
+     `delay_msec' is elapsed. Data is removed from queue.
+
+     *Return value:*  number of bytes received, 0 when nothing
+
+ -- Function: int lw6net_tcp_is_alive (int SOCK)
+     SOCK:  socket to test
+
+     Tells wether a socket is alive and able to send data. This function
+     will attempt a write to test if it's really usable.
+
+     *Return value:*  1 if alive, 0 if not.
+
+ -- Function: int lw6net_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `net' module test suite. This one could fail if some
+     sockets are already bound, for instance. It's still run even in
+     check-only (mode=0) mode.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+ -- Function: int lw6net_udp_client ()
+     Creates an UDP client socket, that is, creates it and does not
+     bind it to any address.
+
+     *Return value:*  socket (>=0) on success, else -1
+
+ -- Function: int lw6net_udp_server (char * IP, int PORT)
+     IP:  IP address to bind to
+
+     PORT:  IP port to listen on
+
+     Creates an UDP listening socket, that is, creates it and binds it
+     on a given address.
+
+     *Return value:*  socket (>=0) on success, else -1
+
+ -- Function: int lw6net_udp_send (int SOCK, char * BUF, int LEN, char
+          * IP, int PORT)
+     SOCK:  socket to use
+
+     BUF:  data buffer
+
+     LEN:  data buffer length
+
+     IP:  IP address to send data to
+
+     PORT:  IP port to send data to
+
+     Sends an UDP datagram. Size can't be longer than about 1400 bytes,
+     see problems about MTU, in practice all values arround 1000 are
+     quite safe, 500 is pretty much garanteed to work everywhere, and
+     for various reasons 1452 is a good maximum bet.
+
+     *Return value:*  number of bytes sent
+
+ -- Function: int lw6net_udp_peek (int SOCK, char * BUF, int LEN, char
+          ** INCOMING_IP, int * INCOMING_PORT)
+     SOCK:  socket to use
+
+     BUF:  data buffer
+
+     LEN:  data buffer length
+
+     Peeks for a UDP datagram. Will not remove the data from queue.
+
+     *Return value:*  number of bytes received
+
+ -- Function: int lw6net_udp_recv (int SOCK, char * BUF, int LEN, char
+          ** INCOMING_IP, int * INCOMING_PORT)
+     SOCK:  socket to use
+
+     BUF:  data buffer
+
+     LEN:  data buffer length
+
+     Receives a UDP datagram. Will remove the data from queue.
+
+     *Return value:*  number of bytes received
+
+
+File: liquidwar6.info,  Node: libnod,  Next: libp2p,  Prev: libnet,  Up: C API
+
+5.29 libnod
+===========
+
+5.29.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/nod/index.html'.
+
+5.29.2 API
+----------
+
+ -- Function: void lw6nod_dyn_info_free (lw6nod_dyn_info_t * DYN_INFO)
+     DYN_INFO:  the dyn info struct to free
+
+     Frees a dyn info object, to be used after a call to
+     `lw6nod_info_dup_dyn' for instance.
+
+     *Return value:*  none
+
+ -- Function: lw6nod_info_t * lw6nod_info_new (char * PROGRAM, char *
+          VERSION, char * CODENAME, int STAMP, u_int64_t ID, char *
+          URL, char * TITLE, char * DESCRIPTION, char * PASSWORD, int
+          BENCH, int OPEN_RELAY, int UPTIME, int IDLE_SCREENSHOT_SIZE,
+          void * IDLE_SCREENSHOT_DATA)
+     PROGRAM:  the program (normally it's liquidwar6)
+
+     VERSION:  the version
+
+     CODENAME:  the codename
+
+     STAMP:  the stamp
+
+     ID:  the node id
+
+     URL:  the node public url
+
+     TITLE:  the node title
+
+     DESCRIPTION:  the node description
+
+     PASSWORD:  the node password
+
+     BENCH:  the node bench
+
+     OPEN_RELAY:  open relay or not
+
+     UPTIME:  uptime in seconds
+
+     IDLE_SCREENSHOT_SIZE:  the size (bytes) of the image to display
+     when game is idle
+
+     IDLE_SCREENSHOT_DATA:  the data (jpeg) of the image to display
+     when game is idle
+
+     Creates a node info object. The arguments correspond to the
+     immutable node attributes, other properties such as how many
+     players are connected or set in other functions like
+     `lw6nod_info_update' which can be called later.
+
+     *Return value:*  newly allocated object, NULL on error.
+
+ -- Function: void lw6nod_info_free (lw6nod_info_t * INFO)
+     INFO:  the node info to free
+
+     Frees a node info object.
+
+     *Return value:*  none
+
+ -- Function: int lw6nod_info_lock (lw6nod_info_t * INFO)
+     INFO:  the node info to lock
+
+     Locks a node info object, this is usefull for some members,
+     typically list of servers, can be accessed by separated threads,
+     one reading, many writing, and these objects (chained lists)
+     certainly do not want to be modified while being read.
+
+     *Return value:*  1 if ok, 0 if not.
+
+ -- Function: int lw6nod_info_unlock (lw6nod_info_t * INFO)
+     INFO:  the node info to unlock
+
+     Unlocks a node info object, this is the compation of the
+     `lw6nod_info_lock' function.
+
+     *Return value:*  1 if ok, 0 if not.
+
+ -- Function: void lw6nod_info_idle (lw6nod_info_t * INFO)
+     INFO:  the node info to modify
+
+     Clears a node info object and sets all its variable attributes to
+     NULL/default values. This is what we want when the node is idle,
+     not playing.
+
+     *Return value:*  none.
+
+ -- Function: int lw6nod_info_update (lw6nod_info_t * INFO, u_int64_t
+          COMMUNITY_ID, int ROUND, char * LEVEL, int REQUIRED_BENCH,
+          int NB_COLORS, int MAX_NB_COLORS, int NB_CURSORS, int
+          MAX_NB_CURSORS, int NB_NODES, int MAX_NB_NODES, int
+          GAME_SCREENSHOT_SIZE, void * GAME_SCREENSHOT_DATA)
+     INFO:  the node info to update
+
+     COMMUNITY_ID:  the id of the community the node belongs to
+
+     ROUND:  the current round (can have an offset with real round
+     number)
+
+     LEVEL:  the name of the current level (map)
+
+     REQUIRED_BENCH:  the bench required to connect
+
+     NB_COLORS:  number of colors playing
+
+     MAX_NB_COLORS:  max number of colors allowed
+
+     NB_CURSORS:  number of cursors playing
+
+     MAX_NB_CURSORS:  max number of cursors allowed
+
+     NB_NODES:  number of nodes playing
+
+     MAX_NB_NODES:  max number of nodes allowed
+
+     GAME_SCREENSHOT_SIZE:  size of screenshot (bytes)
+
+     GAME_SCREENSHOT_DATA:  screenshot data (byte buffer, contains JPEG)
+
+     Set a node info object variable attributes. Call this whenever the
+     node has changed some parameter. Not too often for it's not needed
+     and some operations such as modying the screenshot, can be time
+     consuming.
+
+     *Return value:*  1 if OK, 0 if error.
+
+ -- Function: lw6nod_dyn_info_t * lw6nod_info_dup_dyn (lw6nod_info_t *
+          INFO)
+     INFO:  the node info containing the dyn info to duplicate
+
+     Extracts the dynamic part of an info struct and duplicates it,
+     this is to avoid protection fault error when concurrent threads
+     access this info.
+
+     *Return value:*  newly allocated object, must be freed.
+
+ -- Function: lw6sys_hash_t * lw6nod_info_new_discovered_nodes ()
+     Creates a new hash, to be used as a discovered nodes list.  Using
+     this function has the advantage of setting the hash options to
+     their defaults.  We use a hash to avoid having uselessly long
+     lists containing always the same node due to multiple detections.
+
+     *Return value:*  an empty hash
+
+ -- Function: int lw6nod_info_add_discovered_node (lw6nod_info_t *
+          INFO, char * PUBLIC_URL)
+     INFO:  the node info to update
+
+     PUBLIC_URL:  the address of the discovered node
+
+     Registers a new server, and queues it as something that should be
+     checked later because it's interesting. We can't insert in the
+     database all the servers we suspect to exist so network threads
+     should use this, then main thread will process discovered servers
+     afterwards. This is also a good way to avoid trivial DOS attacks.
+
+     *Return value:*  1 if OK, O if error.
+
+ -- Function: lw6sys_list_t * lw6nod_info_pop_discovered_nodes
+          (lw6nod_info_t * INFO)
+     INFO:  the node info to query
+
+     Returns a list of all discovered nodes (their public URL) and
+     empties the current queue as well.
+
+     *Return value:*  a list of dynamically allocated strings.
+
+ -- Function: lw6sys_list_t * lw6nod_info_new_verified_nodes ()
+     Creates a new list, to be filled with nodes and typically passed
+     to `lw6nod_info_set_verified_nodes'. Using this function has the
+     advantage of setting the listh options to their defaults.
+
+     *Return value:*  an empty list
+
+ -- Function: int lw6nod_info_set_verified_nodes (lw6nod_info_t * INFO,
+          lw6sys_list_t * LIST)
+     INFO:  the node info to modify
+
+     LIST:  the list of verified nodes, will be freed by this function
+
+     Sets the list of verified nodes, that is, the list of nodes we are
+     sure to exist, this is typically the list we will display later on
+     a web page. We can't directly display any discovered node, one
+     needs to filter them through main thread.  Something very
+     important about this function is that `list' will be freed by
+     function, that is, if you call this, then you can (you should)
+     forget your object, it will disappear any time soon.
+
+     *Return value:*  1 if OK, 0 on error.
+
+ -- Function: void lw6nod_info_map_verified_nodes (lw6nod_info_t *
+          INFO, lw6sys_list_callback_func_t FUNC, void * FUNC_DATA)
+     INFO:  the node info concerned
+
+     FUNC:  the function to apply
+
+     FUNC_DATA:  arbitrary pointer holding data to pass to function
+
+     Calls `lw6sys_hash_map' with `func' on every member of the list of
+     verified nodes. The reason there's a function for this is that it
+     is very important that list object is locked when doing this.
+     This function does perform a lock/unlock so it is safe.
+
+     *Return value:*  none.
+
+ -- Function: int lw6nod_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `nod' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+ -- Struct: lw6nod_const_info_s
+     Constant informations about a node, these are informations that do
+     not vary through the node's life, so they are set object creation
+     then left unchanged.
+
+ -- Member of lw6nod_const_info_s: program
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::program'
+
+     Program, this should be set to liquidwar6.
+
+
+ -- Member of lw6nod_const_info_s: version
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::version'
+
+     The version of the program.
+
+
+ -- Member of lw6nod_const_info_s: codename
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::codename'
+
+     The codename of the program.
+
+
+ -- Member of lw6nod_const_info_s: stamp
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::stamp'
+
+     The stamp of the program.
+
+
+ -- Member of lw6nod_const_info_s: ref_info
+     *Type:* `lw6nod_ref_info_t'
+
+     *Definition:* `lw6nod_ref_info_t lw6nod_const_info_s::ref_info'
+
+     Reference information, how to uniquely identify node.
+
+
+ -- Member of lw6nod_const_info_s: title
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::title'
+
+     The title of the node, its readable short name.
+
+
+ -- Member of lw6nod_const_info_s: description
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::description'
+
+     More details about the node.
+
+
+ -- Member of lw6nod_const_info_s: has_password
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::has_password'
+
+     Wether the node is password protected or not.
+
+
+ -- Member of lw6nod_const_info_s: password
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::password'
+
+     The password used, cleartext.
+
+
+ -- Member of lw6nod_const_info_s: bench
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::bench'
+
+     The node bench.
+
+
+ -- Member of lw6nod_const_info_s: open_relay
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::open_relay'
+
+     Wether the node acts as an open relay or not.
+
+
+ -- Member of lw6nod_const_info_s: creation_timestamp
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6nod_const_info_s::creation_timestamp'
+
+     The node creation timestamp.
+
+
+ -- Member of lw6nod_const_info_s: idle_screenshot_size
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::idle_screenshot_size'
+
+     Size of the screenshot (in bytes) when in idle mode.
+
+
+ -- Member of lw6nod_const_info_s: idle_screenshot_data
+     *Type:* `void *'
+
+     *Definition:* `void* lw6nod_const_info_s::idle_screenshot_data'
+
+     Idle mode screenshot data. This is just a plain JPEG buffer, which
+     will be used as a fallback if there's no real screenshot available.
+
+ -- Struct: lw6nod_dyn_info_s
+     Dynamic informations about a node, these are informations that
+     vary through the node's life, so they are unset at object creation
+     and can then be updated from game context.
+
+ -- Member of lw6nod_dyn_info_s: community_id_int
+     *Type:* `u_int64_t'
+
+     *Definition:* `u_int64_t lw6nod_dyn_info_s::community_id_int'
+
+     The ID of the community this node belongs to, as a 64-bit unsigned
+     integer.
+
+ -- Member of lw6nod_dyn_info_s: community_id_str
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_dyn_info_s::community_id_str'
+
+     The ID of the community this node belongs to, as a string (64-bit
+     integer converted to hexa).
+
+ -- Member of lw6nod_dyn_info_s: community_members
+     *Type:* `lw6nod_ref_info_t'
+
+     *Definition:* `lw6nod_ref_info_t
+     lw6nod_dyn_info_s::community_members[LW6NOD_MAX_NB_NODES]'
+
+     The list of community members, you need to refer to the nb_nodes
+     member to know quickly how many members they are but actually, in
+     practice, there can be holes in this array, you need to check each
+     slot, for instance 0 can be filled, 2 can be filled too, but 1 be
+     empty.
+
+ -- Member of lw6nod_dyn_info_s: round
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::round'
+
+     The current round.
+
+
+ -- Member of lw6nod_dyn_info_s: level
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_dyn_info_s::level'
+
+     The current level.
+
+
+ -- Member of lw6nod_dyn_info_s: required_bench
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::required_bench'
+
+     The required bench to connect to this node.
+
+
+ -- Member of lw6nod_dyn_info_s: nb_colors
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::nb_colors'
+
+     Number of colors playing.
+
+
+ -- Member of lw6nod_dyn_info_s: max_nb_colors
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::max_nb_colors'
+
+     Maximum number of colors allowed to play.
+
+
+ -- Member of lw6nod_dyn_info_s: nb_cursors
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::nb_cursors'
+
+     Number of cursors playing.
+
+
+ -- Member of lw6nod_dyn_info_s: max_nb_cursors
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::max_nb_cursors'
+
+     Maximum number of cursors allowed to play.
+
+
+ -- Member of lw6nod_dyn_info_s: nb_nodes
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::nb_nodes'
+
+     Number of nodes playing.
+
+
+ -- Member of lw6nod_dyn_info_s: max_nb_nodes
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::max_nb_nodes'
+
+     Maximum number of nodes allowed to play.
+
+
+ -- Member of lw6nod_dyn_info_s: game_screenshot_size
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::game_screenshot_size'
+
+     Size of the screenshot, in bytes.
+
+
+ -- Member of lw6nod_dyn_info_s: game_screenshot_data
+     *Type:* `void *'
+
+     *Definition:* `void* lw6nod_dyn_info_s::game_screenshot_data'
+
+     Game screenshot data. This is just a plain JPEG buffer, which will
+     be served when peers and/or web clients want to gather
+     informations about the game. This can be NULL, in that the
+     fallback constant data will be used.
+
+ -- Struct: lw6nod_info_s
+     Informations about a node. Note that in practice this structure is
+     just used to describe our current node, there might be several
+     instances of this if a program instanciates several nodes, but
+     another data structure is used to store information about
+     peers.typedef struct lw6nod_info_s
+
+ -- Member of lw6nod_info_s: mutex
+     *Type:* `void *'
+
+     *Definition:* `void* lw6nod_info_s::mutex'
+
+     Mutex used to access dynamic informations.
+
+
+ -- Member of lw6nod_info_s: const_info
+     *Type:* `lw6nod_const_info_t'
+
+     *Definition:* `lw6nod_const_info_t lw6nod_info_s::const_info'
+
+     Constant informations, never changes.
+
+
+ -- Member of lw6nod_info_s: dyn_info
+     *Type:* `lw6nod_dyn_info_t'
+
+     *Definition:* `lw6nod_dyn_info_t lw6nod_info_s::dyn_info'
+
+     Dynamic informations, can be updated. Do not modify this directly,
+     instead use appropriate functions which will use mutexes properly.
+
+ -- Member of lw6nod_info_s: discovered_nodes
+     *Type:* `lw6sys_hash_t *'
+
+     *Definition:* `lw6sys_hash_t* lw6nod_info_s::discovered_nodes'
+
+     List of discovered nodes, do not access this directly, instead use
+     proper query functions which, in turn, will use mutexes properly.
+
+ -- Member of lw6nod_info_s: verified_nodes
+     *Type:* `lw6sys_list_t *'
+
+     *Definition:* `lw6sys_list_t* lw6nod_info_s::verified_nodes'
+
+     List of verified nodes, do not access this directly, instead use
+     proper query functions which, in turn, will use mutexes properly.
+
+ -- Struct: lw6nod_ref_info_s
+     Reference information about a node, this is all you need to
+     uniquely identify a node. In theory, only the ID are only the URL
+     are enough, in practice it's not that bad to have some redundancy,
+     plus it makes it easier and faster to connect to them and transmit
+     informations.
+
+ -- Member of lw6nod_ref_info_s: id_int
+     *Type:* `u_int64_t'
+
+     *Definition:* `u_int64_t lw6nod_ref_info_s::id_int'
+
+     The id of the node, as an integer (64-bit unsigned).
+
+
+ -- Member of lw6nod_ref_info_s: id_str
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_ref_info_s::id_str'
+
+     The id of the node, as a string (64-bit converted to hexa).
+
+
+ -- Member of lw6nod_ref_info_s: url
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_ref_info_s::url'
+
+     The public URL of the node.
 
 

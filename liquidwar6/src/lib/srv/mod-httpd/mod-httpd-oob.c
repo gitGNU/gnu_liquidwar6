@@ -42,20 +42,21 @@ _add_node_html (void *func_data, void *data)
   char *escaped_title = NULL;
   char *escaped_description = NULL;
 
-  if (list && (*list) && verified_node && verified_node->const_info.url)
+  if (list && (*list) && verified_node
+      && verified_node->const_info.ref_info.url)
     {
       title = verified_node->const_info.title;
       if ((!title) || (title && strlen (title) == 0))
 	{
-	  title = verified_node->const_info.url;
+	  title = verified_node->const_info.ref_info.url;
 	}
       description = verified_node->const_info.description;
       if ((!description) || (description && strlen (description) == 0))
 	{
-	  description = verified_node->const_info.url;
+	  description = verified_node->const_info.ref_info.url;
 	}
       escaped_url =
-	lw6sys_escape_html_attribute (verified_node->const_info.url);
+	lw6sys_escape_html_attribute (verified_node->const_info.ref_info.url);
       if (escaped_url)
 	{
 	  escaped_title = lw6sys_escape_html_attribute (title);
@@ -125,7 +126,7 @@ _response_index_html (_mod_httpd_context_t * httpd_context,
 	  if (escaped_level)
 	    {
 	      screenshot_url =
-		lw6sys_str_concat (node_info->const_info.url,
+		lw6sys_str_concat (node_info->const_info.ref_info.url,
 				   _SCREENSHOT_JPEG_REFRESH);
 	      if (screenshot_url)
 		{
@@ -149,7 +150,8 @@ _response_index_html (_mod_httpd_context_t * httpd_context,
 						 */
 						httpd_context->data.
 						consts.refresh_index_header,
-						node_info->const_info.url,
+						node_info->
+						const_info.ref_info.url,
 						escaped_title,
 						lw6sys_build_get_package_name
 						(),
@@ -163,7 +165,8 @@ _response_index_html (_mod_httpd_context_t * httpd_context,
 						/*
 						 * Variables for JavaScript use
 						 */
-						node_info->const_info.url,
+						node_info->
+						const_info.ref_info.url,
 						httpd_context->data.
 						consts.refresh_screenshot_js *
 						1000, _DUMMY_RANGE,
@@ -212,7 +215,8 @@ _response_index_html (_mod_httpd_context_t * httpd_context,
 							      data.consts.
 							      refresh_index_header,
 							      node_info->
-							      const_info.url,
+							      const_info.ref_info.
+							      url,
 							      httpd_context->
 							      data.consts.
 							      content_type_html,
@@ -258,7 +262,8 @@ _response_screenshot_jpeg (_mod_httpd_context_t * httpd_context,
       screenshot_data = node_info->const_info.idle_screenshot_data;
     }
   refresh_url =
-    lw6sys_str_concat (node_info->const_info.url, _SCREENSHOT_JPEG_REFRESH);
+    lw6sys_str_concat (node_info->const_info.ref_info.url,
+		       _SCREENSHOT_JPEG_REFRESH);
   if (refresh_url)
     {
       if (screenshot_size > 0 && screenshot_data != NULL)

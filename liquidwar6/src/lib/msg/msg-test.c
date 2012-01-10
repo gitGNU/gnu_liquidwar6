@@ -154,7 +154,7 @@ test_cmd ()
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("hello command analysed (node url=\"%s\")"),
-			    analysed_info->const_info.url);
+			    analysed_info->const_info.ref_info.url);
 		lw6nod_info_free (analysed_info);
 	      }
 	    else
@@ -330,7 +330,7 @@ test_cmd ()
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
 			    ("goodbye command analysed (node url=\"%s\")"),
-			    analysed_info->const_info.url);
+			    analysed_info->const_info.ref_info.url);
 		lw6nod_info_free (analysed_info);
 	      }
 	    else

@@ -68,9 +68,9 @@ lw6msg_oob_generate_info (lw6nod_info_t * info)
 	 LW6MSG_OOB_STAMP,
 	 lw6sys_build_get_stamp (),
 	 LW6MSG_OOB_ID,
-	 info->const_info.id_str,
+	 info->const_info.ref_info.id_str,
 	 LW6MSG_OOB_URL,
-	 info->const_info.url,
+	 info->const_info.ref_info.url,
 	 LW6MSG_OOB_TITLE,
 	 info->const_info.title,
 	 LW6MSG_OOB_DESCRIPTION,
@@ -119,14 +119,15 @@ _add_node_txt (void *func_data, void *data)
    * on the list object? This is because we can only
    * access it through the map function because of locking issues
    */
-  if (list && (*list) && verified_node && verified_node->const_info.url)
+  if (list && (*list) && verified_node
+      && verified_node->const_info.ref_info.url)
     {
-      if (strlen (*list) + strlen (verified_node->const_info.url) <=
+      if (strlen (*list) + strlen (verified_node->const_info.ref_info.url) <=
 	  LW6NET_PPPOE_MTU - 1)
 	{
 	  tmp =
 	    lw6sys_new_sprintf ("%s%s\n", *list,
-				verified_node->const_info.url);
+				verified_node->const_info.ref_info.url);
 	  if (tmp)
 	    {
 	      LW6SYS_FREE (*list);
@@ -203,7 +204,7 @@ lw6msg_oob_generate_pong (lw6nod_info_t * info)
 {
   char *ret = NULL;
 
-  ret = lw6sys_new_sprintf ("PONG %s\n\n", info->const_info.url);
+  ret = lw6sys_new_sprintf ("PONG %s\n\n", info->const_info.ref_info.url);
 
   return ret;
 }

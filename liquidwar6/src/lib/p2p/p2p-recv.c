@@ -200,9 +200,10 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 						    remote_node_info->
 						    const_info.stamp,
 						    remote_node_info->
-						    const_info.id_str,
+						    const_info.ref_info.
+						    id_str,
 						    remote_node_info->
-						    const_info.url,
+						    const_info.ref_info.url,
 						    remote_node_info->
 						    const_info.title,
 						    remote_node_info->

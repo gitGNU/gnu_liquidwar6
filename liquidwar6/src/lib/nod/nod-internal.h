@@ -48,4 +48,9 @@ extern int _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info,
 				    int game_screenshot_size,
 				    void *game_screenshot_data);
 
+/* nod-refinfo.c */
+extern void _lw6nod_ref_info_reset (lw6nod_ref_info_t * ref_info);
+extern int _lw6nod_ref_info_update (lw6nod_ref_info_t * ref_info,
+				    u_int64_t id, char *url);
+
 #endif

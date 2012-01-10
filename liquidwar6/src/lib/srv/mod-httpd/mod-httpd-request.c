@@ -196,7 +196,8 @@ _mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context,
 			  else
 			    {
 			      _parse_header (request, line,
-					     node_info->const_info.url,
+					     node_info->const_info.
+					     ref_info.url,
 					     node_info->const_info.password);
 			    }
 			  LW6SYS_FREE (line);

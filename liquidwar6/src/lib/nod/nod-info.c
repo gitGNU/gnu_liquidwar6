@@ -432,9 +432,9 @@ _verified_sort_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
     {
       ret = strcasecmp (a->const_info.title, b->const_info.title);
     }
-  else if (a->const_info.url && b->const_info.url)
+  else if (a->const_info.ref_info.url && b->const_info.ref_info.url)
     {
-      ret = strcmp (a->const_info.url, b->const_info.url);
+      ret = strcmp (a->const_info.ref_info.url, b->const_info.ref_info.url);
     }
 
   return ret;

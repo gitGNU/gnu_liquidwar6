@@ -47,33 +47,13 @@ The stamp of the program.
         
 @end defcv
 
-@defcv {Member} {lw6nod_const_info_s} {id_int}
-@strong{Type:} @code{u_int64_t}
+@defcv {Member} {lw6nod_const_info_s} {ref_info}
+@strong{Type:} @code{lw6nod_ref_info_t}
 
-@strong{Definition:} @code{u_int64_t lw6nod_const_info_s::id_int}
-
-
-The id of the node, as an integer (64-bit unsigned).         
-        
-@end defcv
-
-@defcv {Member} {lw6nod_const_info_s} {id_str}
-@strong{Type:} @code{char *}
-
-@strong{Definition:} @code{char* lw6nod_const_info_s::id_str}
+@strong{Definition:} @code{lw6nod_ref_info_t lw6nod_const_info_s::ref_info}
 
 
-The id of the node, as a string (64-bit converted to hexa).         
-        
-@end defcv
-
-@defcv {Member} {lw6nod_const_info_s} {url}
-@strong{Type:} @code{char *}
-
-@strong{Definition:} @code{char* lw6nod_const_info_s::url}
-
-
-The public URL of the node.         
+Reference information, how to uniquely identify node.         
         
 @end defcv
 
@@ -194,6 +174,16 @@ The ID of the community this node belongs to, as a 64-bit unsigned integer.
 
         
 The ID of the community this node belongs to, as a string (64-bit integer converted to hexa).         
+@end defcv
+
+@defcv {Member} {lw6nod_dyn_info_s} {community_members}
+@strong{Type:} @code{lw6nod_ref_info_t}
+
+@strong{Definition:} @code{lw6nod_ref_info_t lw6nod_dyn_info_s::community_members[LW6NOD_MAX_NB_NODES]}
+
+
+        
+The list of community members, you need to refer to the nb_nodes member to know quickly how many members they are but actually, in practice, there can be holes in this array, you need to check each slot, for instance 0 can be filled, 2 can be filled too, but 1 be empty.         
 @end defcv
 
 @defcv {Member} {lw6nod_dyn_info_s} {round}
@@ -363,6 +353,45 @@ List of discovered nodes, do not access this directly, instead use proper query 
 
         
 List of verified nodes, do not access this directly, instead use proper query functions which, in turn, will use mutexes properly.         
+@end defcv
+
+
+
+  
+@deftp {Struct} {lw6nod_ref_info_s}
+
+    
+Reference information about a node, this is all you need to uniquely identify a node. In theory, only the ID are only the URL are enough, in practice it's not that bad to have some redundancy, plus it makes it easier and faster to connect to them and transmit informations.     
+@end deftp
+
+@defcv {Member} {lw6nod_ref_info_s} {id_int}
+@strong{Type:} @code{u_int64_t}
+
+@strong{Definition:} @code{u_int64_t lw6nod_ref_info_s::id_int}
+
+
+The id of the node, as an integer (64-bit unsigned).         
+        
+@end defcv
+
+@defcv {Member} {lw6nod_ref_info_s} {id_str}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6nod_ref_info_s::id_str}
+
+
+The id of the node, as a string (64-bit converted to hexa).         
+        
+@end defcv
+
+@defcv {Member} {lw6nod_ref_info_s} {url}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6nod_ref_info_s::url}
+
+
+The public URL of the node.         
+        
 @end defcv
 
 

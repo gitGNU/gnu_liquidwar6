@@ -26,6 +26,25 @@
 #include "../sys/sys.h"
 
 #define LW6NOD_COMMUNITY_ID_NONE 0LL
+// Should match LW6MAP_MAX_NB_NODES
+#define LW6NOD_MAX_NB_NODES 26
+
+/**
+ * Reference information about a node, this is all you need
+ * to uniquely identify a node. In theory, only the ID are
+ * only the URL are enough, in practice it's not that bad
+ * to have some redundancy, plus it makes it easier and faster
+ * to connect to them and transmit informations.
+ */
+typedef struct lw6nod_ref_info_s
+{
+  /// The id of the node, as an integer (64-bit unsigned).
+  u_int64_t id_int;
+  /// The id of the node, as a string (64-bit converted to hexa).
+  char *id_str;
+  /// The public URL of the node.
+  char *url;
+} lw6nod_ref_info_t;
 
 /**
  * Constant informations about a node, these are informations
@@ -42,12 +61,8 @@ typedef struct lw6nod_const_info_s
   char *codename;
   /// The stamp of the program.
   int stamp;
-  /// The id of the node, as an integer (64-bit unsigned).
-  u_int64_t id_int;
-  /// The id of the node, as a string (64-bit converted to hexa).
-  char *id_str;
-  /// The public URL of the node.
-  char *url;
+  /// Reference information, how to uniquely identify node.
+  lw6nod_ref_info_t ref_info;
   /// The title of the node, its readable short name.
   char *title;
   /// More details about the node.
@@ -90,6 +105,14 @@ typedef struct lw6nod_dyn_info_s
    * as a string (64-bit integer converted to hexa).
    */
   char *community_id_str;
+  /**
+   * The list of community members, you need to refer
+   * to the nb_nodes member to know quickly how many members
+   * they are but actually, in practice, there can be holes
+   * in this array, you need to check each slot, for instance
+   * 0 can be filled, 2 can be filled too, but 1 be empty.
+   */
+  lw6nod_ref_info_t community_members[LW6NOD_MAX_NB_NODES];
   /// The current round.
   int round;
   /// The current level.

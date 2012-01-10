@@ -69,10 +69,11 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("recognized tcpd protocol"));
 	  if (lw6msg_envelope_analyse
-	      (line, LW6MSG_ENVELOPE_MODE_TELNET, node_info->const_info.url,
+	      (line, LW6MSG_ENVELOPE_MODE_TELNET,
+	       node_info->const_info.ref_info.url,
 	       node_info->const_info.password, 0,
-	       node_info->const_info.id_int, &msg, NULL, NULL, remote_id,
-	       NULL, NULL, NULL, remote_url))
+	       node_info->const_info.ref_info.id_int, &msg, NULL, NULL,
+	       remote_id, NULL, NULL, NULL, remote_url))
 	    {
 	      ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("tcpd message \"%s\" OK"),

@@ -48,7 +48,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 	{
 	  if (lw6msg_oob_analyse_request (&syntax_ok, &command, &password_ok,
 					  &given_public_url, request_line,
-					  node_info->const_info.url,
+					  node_info->const_info.ref_info.url,
 					  node_info->const_info.password))
 	    {
 	      if (lw6sys_str_is_same_no_case (command, LW6MSG_OOB_PING))

@@ -48,7 +48,7 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
       request =
 	lw6msg_oob_generate_request (LW6MSG_OOB_PING, url,
 				     node_info->const_info.password,
-				     node_info->const_info.url);
+				     node_info->const_info.ref_info.url);
       if (request)
 	{
 	  if (lw6net_send_line_tcp (sock, request))
@@ -133,7 +133,7 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	  request =
 	    lw6msg_oob_generate_request (LW6MSG_OOB_INFO, url,
 					 node_info->const_info.password,
-					 node_info->const_info.url);
+					 node_info->const_info.ref_info.url);
 	  if (request)
 	    {
 	      /*
@@ -254,7 +254,7 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
       request =
 	lw6msg_oob_generate_request (LW6MSG_OOB_LIST, url,
 				     node_info->const_info.password,
-				     node_info->const_info.url);
+				     node_info->const_info.ref_info.url);
       if (request)
 	{
 	  if (lw6net_send_line_tcp (sock, request))

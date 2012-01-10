@@ -83,10 +83,11 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("httpd LW6 message \"%s\""),
 			  pos);
 	      if (lw6msg_envelope_analyse
-		  (pos, LW6MSG_ENVELOPE_MODE_URL, node_info->const_info.url,
+		  (pos, LW6MSG_ENVELOPE_MODE_URL,
+		   node_info->const_info.ref_info.url,
 		   node_info->const_info.password, 0,
-		   node_info->const_info.id_int, &msg, NULL, NULL, remote_id,
-		   NULL, NULL, NULL, remote_url))
+		   node_info->const_info.ref_info.id_int, &msg, NULL, NULL,
+		   remote_id, NULL, NULL, NULL, remote_url))
 		{
 		  ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
