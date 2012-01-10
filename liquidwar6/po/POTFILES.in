@@ -322,6 +322,7 @@ src/lib/net/net-tcp.c
 src/lib/net/net-test.c
 src/lib/net/net-testmain.c
 src/lib/net/net-udp.c
+src/lib/nod/nod-community.c
 src/lib/nod/nod-constinfo.c
 src/lib/nod/nod-dyninfo.c
 src/lib/nod/nod-info.c

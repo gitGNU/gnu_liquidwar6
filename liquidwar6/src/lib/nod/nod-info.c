@@ -264,6 +264,8 @@ lw6nod_dyn_info_t *
 lw6nod_info_dup_dyn (lw6nod_info_t * info)
 {
   lw6nod_dyn_info_t *dyn_info = NULL;
+  int ok = 1;
+  int i = 0;
 
   dyn_info = (lw6nod_dyn_info_t *) LW6SYS_CALLOC (sizeof (lw6nod_dyn_info_t));
 
@@ -271,19 +273,25 @@ lw6nod_info_dup_dyn (lw6nod_info_t * info)
     {
       if (lw6nod_info_lock (info))
 	{
-	  if (_lw6nod_dyn_info_update
-	      (dyn_info, info->dyn_info.community_id_int,
-	       info->dyn_info.round, info->dyn_info.level,
-	       info->dyn_info.required_bench, info->dyn_info.nb_colors,
-	       info->dyn_info.max_nb_colors, info->dyn_info.nb_cursors,
-	       info->dyn_info.max_nb_cursors, info->dyn_info.nb_nodes,
-	       info->dyn_info.max_nb_nodes,
-	       info->dyn_info.game_screenshot_size,
-	       info->dyn_info.game_screenshot_data))
+	  ok = _lw6nod_dyn_info_update
+	    (dyn_info, info->dyn_info.community_id_int,
+	     info->dyn_info.round, info->dyn_info.level,
+	     info->dyn_info.required_bench, info->dyn_info.nb_colors,
+	     info->dyn_info.max_nb_colors, info->dyn_info.nb_cursors,
+	     info->dyn_info.max_nb_cursors, info->dyn_info.nb_nodes,
+	     info->dyn_info.max_nb_nodes,
+	     info->dyn_info.game_screenshot_size,
+	     info->dyn_info.game_screenshot_data) && ok;
+	  for (i = 0; i < LW6NOD_MAX_NB_PEERS; ++i)
 	    {
-	      //OK
+	      ok =
+		_lw6nod_ref_info_update (&(dyn_info->community_peers[i]),
+					 info->dyn_info.
+					 community_peers[i].id_int,
+					 info->dyn_info.
+					 community_peers[i].url) && ok;
 	    }
-	  else
+	  if (!ok)
 	    {
 	      lw6nod_dyn_info_free (dyn_info);
 	      dyn_info = NULL;

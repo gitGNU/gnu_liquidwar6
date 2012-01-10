@@ -27,6 +27,15 @@
 
 #define _LW6NOD_HASH_SIZE 31
 
+/* nod-community.c */
+extern lw6nod_ref_info_t *_lw6nod_node_info_community_get_by_id (lw6nod_info_t
+								 * node_info,
+								 u_int64_t
+								 id);
+extern lw6nod_ref_info_t
+  * _lw6nod_node_info_community_get_by_url (lw6nod_info_t * node_info,
+					    char *url);
+
 /* nod-constinfo.c */
 extern int _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
 				    char *program, char *version,

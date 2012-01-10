@@ -69,11 +69,16 @@ _set_community_id (lw6nod_dyn_info_t * dyninfo, u_int64_t community_id)
 void
 _lw6nod_dyn_info_reset (lw6nod_dyn_info_t * dyn_info)
 {
+  int i;
   _set_community_id (dyn_info, LW6NOD_COMMUNITY_ID_NONE);
   if (dyn_info->community_id_str)
     {
       LW6SYS_FREE (dyn_info->community_id_str);
       dyn_info->community_id_str = NULL;
+    }
+  for (i = 0; i < LW6NOD_MAX_NB_PEERS; ++i)
+    {
+      _lw6nod_ref_info_reset (&(dyn_info->community_peers[i]));
     }
   dyn_info->round = 0;
   if (dyn_info->level)

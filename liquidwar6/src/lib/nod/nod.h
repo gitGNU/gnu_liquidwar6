@@ -26,8 +26,11 @@
 #include "../sys/sys.h"
 
 #define LW6NOD_COMMUNITY_ID_NONE 0LL
-// Should match LW6MAP_MAX_NB_NODES
-#define LW6NOD_MAX_NB_NODES 26
+/*
+ * Should match (LW6MAP_MAX_NB_NODES - 1), there's (logically)
+ * one peer less, we don't store ourselves it the list of peers.
+ */
+#define LW6NOD_MAX_NB_PEERS 25
 
 /**
  * Reference information about a node, this is all you need
@@ -111,8 +114,9 @@ typedef struct lw6nod_dyn_info_s
    * they are but actually, in practice, there can be holes
    * in this array, you need to check each slot, for instance
    * 0 can be filled, 2 can be filled too, but 1 be empty.
+   * Note that we don't count ourselves in this list.
    */
-  lw6nod_ref_info_t community_members[LW6NOD_MAX_NB_NODES];
+  lw6nod_ref_info_t community_peers[LW6NOD_MAX_NB_PEERS];
   /// The current round.
   int round;
   /// The current level.
@@ -174,6 +178,19 @@ typedef struct lw6nod_info_s
    */
   lw6sys_list_t *verified_nodes;
 } lw6nod_info_t;
+
+/* nod-community.c */
+extern int lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id,
+				      char *url);
+extern int lw6nod_info_community_is_member (lw6nod_info_t * info,
+					    u_int64_t id, char *url);
+extern int lw6nod_info_community_has_id (lw6nod_info_t * info, u_int64_t id);
+extern int lw6nod_info_community_has_url (lw6nod_info_t * info, char *url);
+extern int lw6nod_info_community_remove_by_id (lw6nod_info_t * info,
+					       u_int64_t id);
+extern int lw6nod_info_community_remove_by_url (lw6nod_info_t * info,
+						char *url);
+extern int lw6nod_info_community_count (lw6nod_info_t * info);
 
 /* nod-dyninfo.c */
 extern void lw6nod_dyn_info_free (lw6nod_dyn_info_t * info);

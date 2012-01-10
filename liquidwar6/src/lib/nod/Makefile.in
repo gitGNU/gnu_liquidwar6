@@ -79,8 +79,8 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libnod_la_LIBADD =
-am_libnod_la_OBJECTS = nod-constinfo.lo nod-dyninfo.lo nod-info.lo \
-	nod-refinfo.lo nod-test.lo
+am_libnod_la_OBJECTS = nod-community.lo nod-constinfo.lo \
+	nod-dyninfo.lo nod-info.lo nod-refinfo.lo nod-test.lo
 libnod_la_OBJECTS = $(am_libnod_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libnoddir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -337,7 +337,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libnod.la
-libnod_la_SOURCES = nod-constinfo.c nod-dyninfo.c nod-info.c nod-refinfo.c nod-test.c
+libnod_la_SOURCES = nod-community.c nod-constinfo.c nod-dyninfo.c nod-info.c nod-refinfo.c nod-test.c
 libnoddir = $(includedir)/@PACKAGE_TARNAME@/nod
 libnod_HEADERS = nod.h
 @FULLSTATIC_FALSE@liquidwar6nod_test_SOURCES = nod-testmain.c
@@ -441,6 +441,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nod-community.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nod-constinfo.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nod-dyninfo.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nod-info.Plo@am__quote@

@@ -74,7 +74,14 @@ _lw6nod_ref_info_update (lw6nod_ref_info_t * ref_info, u_int64_t id,
       ref_info->url = lw6sys_url_canonize (url);
     }
 
-  ret = (ref_info->id_str && ref_info->url) && ret;
+  if (id != 0LL)
+    {
+      ret = (ref_info->id_str != NULL) && ret;
+    }
+  if (url != NULL)
+    {
+      ret = (ref_info->url != NULL) && ret;
+    }
 
   return ret;
 }

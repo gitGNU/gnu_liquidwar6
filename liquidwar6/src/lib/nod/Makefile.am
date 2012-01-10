@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
 noinst_LTLIBRARIES = libnod.la
-libnod_la_SOURCES = nod-constinfo.c nod-dyninfo.c nod-info.c nod-refinfo.c nod-test.c
+libnod_la_SOURCES = nod-community.c nod-constinfo.c nod-dyninfo.c nod-info.c nod-refinfo.c nod-test.c
 libnoddir= $(includedir)/@PACKAGE_TARNAME@/nod
 libnod_HEADERS = nod.h
 
