@@ -145,103 +145,162 @@ typedef char *char_ptr_t;
 #define LW6SYS_BUILD_ENABLE_YES "yes"
 #define LW6SYS_BUILD_ENABLE_NO "no"
 
+/**
+ * All-in 32 bit 3D position, to save memory.
+ *
+ * It's a deliberate choice in Liquid War to handle "limited size"
+ * levels. In fact 14 bits still allows 8000x8000 maps, which are
+ * at least 100 times too slow to play now (2008). Should we follow
+ * Moore's law we'd have at least 6 years until those are playable,
+ * and well, until then, let's wait. The point is that storing this
+ * information (x*y) on 4 bytes might be very important in some cases,
+ * since it can reduce memory footprint on structs which are stored
+ * in numerous quantities, and therefore maximize chances that we
+ * use level 1 & 2 caches and other nice things which happen when
+ * memory consumption is not too high.
+ *
+ * Point is: why use INT32 and then limit it to 14 bits instead of
+ * using an INT16 or short in the first place? Answer: it's easier
+ * to handle INT32 all the time in the rest of the code. Compiler
+ * and CPU might even handle that better than short. Then, and only
+ * when data will be read/written in the struct will it be truncated.
+ * Typical example is: we want to multiplicate y by w (which is a
+ * width). Result is beyond INT16/short scope but we want to handle
+ * it! Casting everything to INT32/int is a pain. With this int y:14
+ * trick, we use y as a "full-featured" INT32/int and well, when it
+ * will be read/written we'll loose values over 8191, but we simply
+ * do not care.
+ */
 typedef struct lw6sys_xyz_s
 {
-  /*
-   * All-in 32 bit 3D position, to save memory.
-   *
-   * It's a deliberate choice in Liquid War to handle "limited size"
-   * levels. In fact 14 bits still allows 8000x8000 maps, which are
-   * at least 100 times too slow to play now (2008). Should we follow
-   * Moore's law we'd have at least 6 years until those are playable,
-   * and well, until then, let's wait. The point is that storing this
-   * information (x*y) on 4 bytes might be very important in some cases,
-   * since it can reduce memory footprint on structs which are stored
-   * in numerous quantities, and therefore maximize chances that we
-   * use level 1 & 2 caches and other nice things which happen when
-   * memory consumption is not too high.
-   *
-   * Point is: why use INT32 and then limit it to 14 bits instead of
-   * using an INT16 or short in the first place? Answer: it's easier
-   * to handle INT32 all the time in the rest of the code. Compiler
-   * and CPU might even handle that better than short. Then, and only
-   * when data will be read/written in the struct will it be truncated.
-   * Typical example is: we want to multiplicate y by w (which is a
-   * width). Result is beyond INT16/short scope but we want to handle
-   * it! Casting everything to INT32/int is a pain. With this int y:14
-   * trick, we use y as a "full-featured" INT32/int and well, when it
-   * will be read/written we'll loose values over 8191, but we simply
-   * do not care.
-   */
+  /// X position, from -8192 to +8191.
   int32_t x:14;
+  /// Y position, from -8192 to +8191.
   int32_t y:14;
+  /// Z position, from -8 to +7.
   int32_t z:4;
 }
 lw6sys_xyz_t;
 
+/**
+ * Contains the shape of a 3D box. There are 3 differences with its 
+ * "XYZ" equivalent. First, sometimes w*h*d reads better than x,y,z.
+ * Then, xyz is signed, whd is unsigned. Finally, these are real
+ * int32 values, they are not 14-bit limited. 
+ * It does not really cost any memory for it's usually used as 
+ * a single "shape" attribute for a whole map. At the same time, 
+ * it's very often used as a test value in loops, so it's interesting 
+ * to have it in a value that's easy to optimize for the compiler
+ * (exactly one register...)
+ */
 typedef struct lw6sys_whd_s
 {
-  /*
-   * 3 differences with its "XYZ" equivalent:
-   * - sometimes w*h*d reads better than x*y*z.
-   * - xyz is signed, whd is unsigned
-   * - these are real int32 values, it does not really cost any
-   *   memory for it's usually used as a single "shape" attribute
-   *   for a whole map. At the same time, it's very often used
-   *   as a test value in loops, so it's interesting to have
-   *   it in a value that's easy to optimize for the compiler
-   *   (exactly one register...)
-   */
+  /// Width.
   u_int32_t w;
+  /// Height.
   u_int32_t h;
+  /// Depth.
   u_int32_t d;
 }
 lw6sys_whd_t;
 
+/**
+ * Used to store colors when representing them in RGBA mode
+ * with floats ranging from 0.0f to 1.0f.
+ */
 typedef struct lw6sys_color_f_s
 {
-  float r;			// red   [0 ... 1.0f]
-  float g;			// green [0 ... 1.0f]
-  float b;			// blue  [0 ... 1.0f]
-  float a;			// alpha [0 ... 1.0f]
+  /// Red [0 ... 1.0f].
+  float r;
+  /// Green [0 ... 1.0f].
+  float g;
+  /// Blue [0 ... 1.0f].
+  float b;
+  /// Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
+  float a;
 }
 lw6sys_color_f_t;
 
+/**
+ * Used to store colors when representing them in RGBA mode
+ * with integers ranging from 0 to 255.
+ */
 typedef struct lw6sys_color_8_s
 {
-  u_int8_t r;			// red   [0 ... 255]
-  u_int8_t g;			// green [0 ... 255]
-  u_int8_t b;			// blue  [0 ... 255]
-  u_int8_t a;			// alpha [0 ... 255]
+  /// Red [0 ... 255].
+  u_int8_t r;
+  /// Green [0 ... 255].
+  u_int8_t g;
+  /// Blue [0 ... 255].
+  u_int8_t b;
+  /// Alpha [0 ... 255]. 255 is opaque, 0 is transparent.
+  u_int8_t a;
 }
 lw6sys_color_8_t;
 
+/**
+ * Used to store colors when representing them in HSV mode
+ * with floats ranging from 0.0f to 1.0f. An alpha channel
+ * has been added so this is more HSVA than HSV.
+ */
 typedef struct lw6sys_color_hsv_s
 {
-  float h;			// hue        [0 ... 360.0f]
-  float s;			// saturation [0 ... 1.0f]
-  float v;			// value      [0 ... 1.0f]
-  float a;			// alpha      [0 ... 1.0f]
+/// Hue [0 ... 360.0f]. 0.0f is red, 120.0f is green, 240.0f is blue.
+  float h;
+/// Saturation [0 ... 1.0f].
+  float s;
+  /// Value      [0 ... 1.0f].
+  float v;
+/// Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
+  float a;
 }
 lw6sys_color_hsv_t;
 
+/**
+ * Structure used to store progress information. The idea
+ * is that is that must be usable in polling mode or in
+ * multithreaded mode, and we must be able to truncate a
+ * progress indicator into several stages. So this structure
+ * contains a range start, a range end, and its value between
+ * those two, which is meant to be written by the code executing
+ * the operation and read by the caller/rendering thread.
+ */
 typedef struct lw6sys_progress_s
 {
+  /// Where the progress operation starts.
   float min;
+  /// Where the progress operation ends.
   float max;
+  /// Somewhere between min and max.
   volatile float *value;
 } lw6sys_progress_t;
 
+/**
+ * Structure used to store informations about a module.
+ * This describes the module, its author license, this is
+ * both a legal check and a technical check, to maximize
+ * the chances the code we're running is the right one,
+ * and to trace it.
+ */
 typedef struct lw6sys_module_pedigree_s
 {
+  /// Module id, for instance, could be "gl".
   char *id;
+  /// Module category, for instance, could be "gfx".
   char *category;
+  /// Module name, readable (displayable) name.
   char *name;
+  /// Module readme text.
   char *readme;
+  /// Module version.
   char *version;
+  /// Module (short) copyright information.
   char *copyright;
+  /// Module (short) license.
   char *license;
+  /// Date of module compilation.
   char *date;
+  /// Time of module compilation.
   char *time;
 } lw6sys_module_pedigree_t;
 

@@ -1541,13 +1541,78 @@ lw6p2p_node_server_start (lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_client_join (_lw6p2p_node_t * node, char *node_url)
+_lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
+			  char *remote_url)
 {
-  int ret = 0;
+  int ret = 1;
+  int i;
+  _lw6p2p_tentacle_t *tentacle = NULL;
 
   _lw6p2p_node_disconnect (node);
 
-  // todo...
+  if (!lw6nod_info_community_is_member
+      (node->node_info, remote_id, remote_url))
+    {
+      i = _lw6p2p_node_find_tentacle (node, remote_id);
+      if (i >= 0 && i < LW6P2P_MAX_NB_TENTACLES)
+	{
+	  tentacle = &(node->tentacles[i]);
+	  if (lw6sys_str_is_same (remote_url, tentacle->remote_url))
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("keep connected to  %" LW6SYS_PRINTF_LL
+			       "x at \"%s\""), remote_id, remote_url);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("won't join %" LW6SYS_PRINTF_LL
+			       "x at \"%s\", it conflicts with %"
+			       LW6SYS_PRINTF_LL "x at \"%s\""), remote_id,
+			  remote_url, tentacle->remote_id_int,
+			  tentacle->remote_url);
+	      tentacle = NULL;
+	      ret = 0;
+	    }
+	}
+      if (ret && !tentacle)
+	{
+	  i = _lw6p2p_node_find_free_tentacle (node);
+	  if (i >= 0 && i < LW6P2P_MAX_NB_TENTACLES)
+	    {
+	      tentacle = &(node->tentacles[i]);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("no more free tentacles"));
+	      ret = 0;
+	    }
+	  if (ret && tentacle)
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("trying to join  %" LW6SYS_PRINTF_LL
+			       "x at \"%s\""), remote_id, remote_url);
+	      ret =
+		_lw6p2p_tentacle_init (tentacle, &(node->backends),
+				       node->listener,
+				       node->node_info->const_info.
+				       ref_info.url, remote_url, NULL,
+				       node->password,
+				       node->node_info->const_info.
+				       ref_info.id_int, remote_id,
+				       node->network_reliability,
+				       _lw6p2p_recv_callback, (void *) node);
+	    }
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("won't join %" LW6SYS_PRINTF_LL
+		       "x at \"%s\", it conflicts with an existing community member"),
+		  remote_id, remote_url);
+      ret = 0;
+    }
 
   return ret;
 }
@@ -1556,6 +1621,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, char *node_url)
  * lw6p2p_node_client_join
  *
  * @node: node to use
+ * @remote_id: id of remote node to join
  * @remote_url: url of remote node to join
  * 
  * Starts a node in client mode, joins the given node, 
@@ -1565,9 +1631,11 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, char *node_url)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6p2p_node_client_join (lw6p2p_node_t * node, char *remote_url)
+lw6p2p_node_client_join (lw6p2p_node_t * node, u_int64_t remote_id,
+			 char *remote_url)
 {
-  return _lw6p2p_node_client_join ((_lw6p2p_node_t *) node, remote_url);
+  return _lw6p2p_node_client_join ((_lw6p2p_node_t *) node, remote_id,
+				   remote_url);
 }
 
 void

@@ -279,9 +279,11 @@ results on
 
      *Return value:*  1 on success, 0 on failure.
 
- -- Function: int lw6p2p_node_client_join (lw6p2p_node_t * NODE, char *
-          REMOTE_URL)
+ -- Function: int lw6p2p_node_client_join (lw6p2p_node_t * NODE,
+          u_int64_t REMOTE_ID, char * REMOTE_URL)
      NODE:  node to use
+
+     REMOTE_ID:  id of remote node to join
 
      REMOTE_URL:  url of remote node to join
 
@@ -6563,11 +6565,15 @@ results on
 
 
  -- Struct: lw6sys_color_8_s
+     Used to store colors when representing them in RGBA mode with
+     integers ranging from 0 to 255.
 
  -- Member of lw6sys_color_8_s: r
      *Type:* `u_int8_t'
 
      *Definition:* `u_int8_t lw6sys_color_8_s::r'
+
+     Red [0 ... 255].
 
 
  -- Member of lw6sys_color_8_s: g
@@ -6575,11 +6581,15 @@ results on
 
      *Definition:* `u_int8_t lw6sys_color_8_s::g'
 
+     Green [0 ... 255].
+
 
  -- Member of lw6sys_color_8_s: b
      *Type:* `u_int8_t'
 
      *Definition:* `u_int8_t lw6sys_color_8_s::b'
+
+     Blue [0 ... 255].
 
 
  -- Member of lw6sys_color_8_s: a
@@ -6587,13 +6597,19 @@ results on
 
      *Definition:* `u_int8_t lw6sys_color_8_s::a'
 
+     Alpha [0 ... 255]. 255 is opaque, 0 is transparent.
+
 
  -- Struct: lw6sys_color_f_s
+     Used to store colors when representing them in RGBA mode with
+     floats ranging from 0.0f to 1.0f.
 
  -- Member of lw6sys_color_f_s: r
      *Type:* `float'
 
      *Definition:* `float lw6sys_color_f_s::r'
+
+     Red [0 ... 1.0f].
 
 
  -- Member of lw6sys_color_f_s: g
@@ -6601,11 +6617,15 @@ results on
 
      *Definition:* `float lw6sys_color_f_s::g'
 
+     Green [0 ... 1.0f].
+
 
  -- Member of lw6sys_color_f_s: b
      *Type:* `float'
 
      *Definition:* `float lw6sys_color_f_s::b'
+
+     Blue [0 ... 1.0f].
 
 
  -- Member of lw6sys_color_f_s: a
@@ -6613,13 +6633,20 @@ results on
 
      *Definition:* `float lw6sys_color_f_s::a'
 
+     Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
+
 
  -- Struct: lw6sys_color_hsv_s
+     Used to store colors when representing them in HSV mode with
+     floats ranging from 0.0f to 1.0f. An alpha channel has been added
+     so this is more HSVA than HSV.
 
  -- Member of lw6sys_color_hsv_s: h
      *Type:* `float'
 
      *Definition:* `float lw6sys_color_hsv_s::h'
+
+     Hue [0 ... 360.0f]. 0.0f is red, 120.0f is green, 240.0f is blue.
 
 
  -- Member of lw6sys_color_hsv_s: s
@@ -6627,17 +6654,23 @@ results on
 
      *Definition:* `float lw6sys_color_hsv_s::s'
 
+     Saturation [0 ... 1.0f].
+
 
  -- Member of lw6sys_color_hsv_s: v
      *Type:* `float'
 
      *Definition:* `float lw6sys_color_hsv_s::v'
 
+     Value [0 ... 1.0f].
+
 
  -- Member of lw6sys_color_hsv_s: a
      *Type:* `float'
 
      *Definition:* `float lw6sys_color_hsv_s::a'
+
+     Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
 
 
  -- Struct: lw6sys_hash_s
@@ -6701,11 +6734,17 @@ results on
 
 
  -- Struct: lw6sys_module_pedigree_s
+     Structure used to store informations about a module. This
+     describes the module, its author license, this is both a legal
+     check and a technical check, to maximize the chances the code
+     we're running is the right one, and to trace it.
 
  -- Member of lw6sys_module_pedigree_s: id
      *Type:* `char *'
 
      *Definition:* `char* lw6sys_module_pedigree_s::id'
+
+     Module id, for instance, could be "gl".
 
 
  -- Member of lw6sys_module_pedigree_s: category
@@ -6713,11 +6752,15 @@ results on
 
      *Definition:* `char* lw6sys_module_pedigree_s::category'
 
+     Module category, for instance, could be "gfx".
+
 
  -- Member of lw6sys_module_pedigree_s: name
      *Type:* `char *'
 
      *Definition:* `char* lw6sys_module_pedigree_s::name'
+
+     Module name, readable (displayable) name.
 
 
  -- Member of lw6sys_module_pedigree_s: readme
@@ -6725,11 +6768,15 @@ results on
 
      *Definition:* `char* lw6sys_module_pedigree_s::readme'
 
+     Module readme text.
+
 
  -- Member of lw6sys_module_pedigree_s: version
      *Type:* `char *'
 
      *Definition:* `char* lw6sys_module_pedigree_s::version'
+
+     Module version.
 
 
  -- Member of lw6sys_module_pedigree_s: copyright
@@ -6737,11 +6784,15 @@ results on
 
      *Definition:* `char* lw6sys_module_pedigree_s::copyright'
 
+     Module (short) copyright information.
+
 
  -- Member of lw6sys_module_pedigree_s: license
      *Type:* `char *'
 
      *Definition:* `char* lw6sys_module_pedigree_s::license'
+
+     Module (short) license.
 
 
  -- Member of lw6sys_module_pedigree_s: date
@@ -6749,19 +6800,32 @@ results on
 
      *Definition:* `char* lw6sys_module_pedigree_s::date'
 
+     Date of module compilation.
+
 
  -- Member of lw6sys_module_pedigree_s: time
      *Type:* `char *'
 
      *Definition:* `char* lw6sys_module_pedigree_s::time'
 
+     Time of module compilation.
+
 
  -- Struct: lw6sys_progress_s
+     Structure used to store progress information. The idea is that is
+     that must be usable in polling mode or in multithreaded mode, and
+     we must be able to truncate a progress indicator into several
+     stages. So this structure contains a range start, a range end, and
+     its value between those two, which is meant to be written by the
+     code executing the operation and read by the caller/rendering
+     thread.
 
  -- Member of lw6sys_progress_s: min
      *Type:* `float'
 
      *Definition:* `float lw6sys_progress_s::min'
+
+     Where the progress operation starts.
 
 
  -- Member of lw6sys_progress_s: max
@@ -6769,11 +6833,15 @@ results on
 
      *Definition:* `float lw6sys_progress_s::max'
 
+     Where the progress operation ends.
+
 
  -- Member of lw6sys_progress_s: value
      *Type:* `float *'
 
      *Definition:* `volatile float* lw6sys_progress_s::value'
+
+     Somewhere between min and max.
 
 
  -- Struct: lw6sys_url_s
@@ -6803,11 +6871,21 @@ results on
 
 
  -- Struct: lw6sys_whd_s
+     Contains the shape of a 3D box. There are 3 differences with its
+     "XYZ" equivalent. First, sometimes w*h*d reads better than x,y,z.
+     Then, xyz is signed, whd is unsigned. Finally, these are real
+     int32 values, they are not 14-bit limited. It does not really cost
+     any memory for it's usually used as a single "shape" attribute for
+     a whole map. At the same time, it's very often used as a test
+     value in loops, so it's interesting to have it in a value that's
+     easy to optimize for the compiler (exactly one register...)
 
  -- Member of lw6sys_whd_s: w
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6sys_whd_s::w'
+
+     Width.
 
 
  -- Member of lw6sys_whd_s: h
@@ -6815,19 +6893,46 @@ results on
 
      *Definition:* `u_int32_t lw6sys_whd_s::h'
 
+     Height.
+
 
  -- Member of lw6sys_whd_s: d
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6sys_whd_s::d'
 
+     Depth.
+
 
  -- Struct: lw6sys_xyz_s
+     All-in 32 bit 3D position, to save memory.It's a deliberate choice
+     in Liquid War to handle "limited size" levels. In fact 14 bits
+     still allows 8000x8000 maps, which are at least 100 times too slow
+     to play now (2008). Should we follow Moore's law we'd have at
+     least 6 years until those are playable, and well, until then,
+     let's wait. The point is that storing this information (x*y) on 4
+     bytes might be very important in some cases, since it can reduce
+     memory footprint on structs which are stored in numerous
+     quantities, and therefore maximize chances that we use level 1
+     &amp; 2 caches and other nice things which happen when memory
+     consumption is not too high.Point is: why use INT32 and then limit
+     it to 14 bits instead of using an INT16 or short in the first
+     place? Answer: it's easier to handle INT32 all the time in the
+     rest of the code. Compiler and CPU might even handle that better
+     than short. Then, and only when data will be read/written in the
+     struct will it be truncated. Typical example is: we want to
+     multiplicate y by w (which is a width). Result is beyond
+     INT16/short scope but we want to handle it! Casting everything to
+     INT32/int is a pain. With this int y:14 trick, we use y as a
+     "full-featured" INT32/int and well, when it will be read/written
+     we'll loose values over 8191, but we simply do not care.
 
  -- Member of lw6sys_xyz_s: x
      *Type:* `int32_t'
 
      *Definition:* `int32_t lw6sys_xyz_s::x'
+
+     X position, from -8192 to +8191.
 
 
  -- Member of lw6sys_xyz_s: y
@@ -6835,11 +6940,15 @@ results on
 
      *Definition:* `int32_t lw6sys_xyz_s::y'
 
+     Y position, from -8192 to +8191.
+
 
  -- Member of lw6sys_xyz_s: z
      *Type:* `int32_t'
 
      *Definition:* `int32_t lw6sys_xyz_s::z'
+
+     Z position, from -8 to +7.
 
 
 

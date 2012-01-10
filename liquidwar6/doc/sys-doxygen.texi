@@ -53,7 +53,7 @@
 @deftp {Struct} {lw6sys_color_8_s}
 
     
-    
+Used to store colors when representing them in RGBA mode with integers ranging from 0 to 255.     
 @end deftp
 
 @defcv {Member} {lw6sys_color_8_s} {r}
@@ -62,7 +62,7 @@
 @strong{Definition:} @code{u_int8_t lw6sys_color_8_s::r}
 
 
-        
+Red [0 ... 255].         
         
 @end defcv
 
@@ -72,7 +72,7 @@
 @strong{Definition:} @code{u_int8_t lw6sys_color_8_s::g}
 
 
-        
+Green [0 ... 255].         
         
 @end defcv
 
@@ -82,7 +82,7 @@
 @strong{Definition:} @code{u_int8_t lw6sys_color_8_s::b}
 
 
-        
+Blue [0 ... 255].         
         
 @end defcv
 
@@ -92,7 +92,7 @@
 @strong{Definition:} @code{u_int8_t lw6sys_color_8_s::a}
 
 
-        
+Alpha [0 ... 255]. 255 is opaque, 0 is transparent.         
         
 @end defcv
 
@@ -102,7 +102,7 @@
 @deftp {Struct} {lw6sys_color_f_s}
 
     
-    
+Used to store colors when representing them in RGBA mode with floats ranging from 0.0f to 1.0f.     
 @end deftp
 
 @defcv {Member} {lw6sys_color_f_s} {r}
@@ -111,7 +111,7 @@
 @strong{Definition:} @code{float lw6sys_color_f_s::r}
 
 
-        
+Red [0 ... 1.0f].         
         
 @end defcv
 
@@ -121,7 +121,7 @@
 @strong{Definition:} @code{float lw6sys_color_f_s::g}
 
 
-        
+Green [0 ... 1.0f].         
         
 @end defcv
 
@@ -131,7 +131,7 @@
 @strong{Definition:} @code{float lw6sys_color_f_s::b}
 
 
-        
+Blue [0 ... 1.0f].         
         
 @end defcv
 
@@ -141,7 +141,7 @@
 @strong{Definition:} @code{float lw6sys_color_f_s::a}
 
 
-        
+Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.         
         
 @end defcv
 
@@ -151,7 +151,7 @@
 @deftp {Struct} {lw6sys_color_hsv_s}
 
     
-    
+Used to store colors when representing them in HSV mode with floats ranging from 0.0f to 1.0f. An alpha channel has been added so this is more HSVA than HSV.     
 @end deftp
 
 @defcv {Member} {lw6sys_color_hsv_s} {h}
@@ -160,7 +160,7 @@
 @strong{Definition:} @code{float lw6sys_color_hsv_s::h}
 
 
-        
+Hue [0 ... 360.0f]. 0.0f is red, 120.0f is green, 240.0f is blue.         
         
 @end defcv
 
@@ -170,7 +170,7 @@
 @strong{Definition:} @code{float lw6sys_color_hsv_s::s}
 
 
-        
+Saturation [0 ... 1.0f].         
         
 @end defcv
 
@@ -180,7 +180,7 @@
 @strong{Definition:} @code{float lw6sys_color_hsv_s::v}
 
 
-        
+Value [0 ... 1.0f].         
         
 @end defcv
 
@@ -190,7 +190,7 @@
 @strong{Definition:} @code{float lw6sys_color_hsv_s::a}
 
 
-        
+Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.         
         
 @end defcv
 
@@ -317,7 +317,7 @@
 @deftp {Struct} {lw6sys_module_pedigree_s}
 
     
-    
+Structure used to store informations about a module. This describes the module, its author license, this is both a legal check and a technical check, to maximize the chances the code we're running is the right one, and to trace it.     
 @end deftp
 
 @defcv {Member} {lw6sys_module_pedigree_s} {id}
@@ -326,7 +326,7 @@
 @strong{Definition:} @code{char* lw6sys_module_pedigree_s::id}
 
 
-        
+Module id, for instance, could be "gl".         
         
 @end defcv
 
@@ -336,7 +336,7 @@
 @strong{Definition:} @code{char* lw6sys_module_pedigree_s::category}
 
 
-        
+Module category, for instance, could be "gfx".         
         
 @end defcv
 
@@ -346,7 +346,7 @@
 @strong{Definition:} @code{char* lw6sys_module_pedigree_s::name}
 
 
-        
+Module name, readable (displayable) name.         
         
 @end defcv
 
@@ -356,7 +356,7 @@
 @strong{Definition:} @code{char* lw6sys_module_pedigree_s::readme}
 
 
-        
+Module readme text.         
         
 @end defcv
 
@@ -366,7 +366,7 @@
 @strong{Definition:} @code{char* lw6sys_module_pedigree_s::version}
 
 
-        
+Module version.         
         
 @end defcv
 
@@ -376,7 +376,7 @@
 @strong{Definition:} @code{char* lw6sys_module_pedigree_s::copyright}
 
 
-        
+Module (short) copyright information.         
         
 @end defcv
 
@@ -386,7 +386,7 @@
 @strong{Definition:} @code{char* lw6sys_module_pedigree_s::license}
 
 
-        
+Module (short) license.         
         
 @end defcv
 
@@ -396,7 +396,7 @@
 @strong{Definition:} @code{char* lw6sys_module_pedigree_s::date}
 
 
-        
+Date of module compilation.         
         
 @end defcv
 
@@ -406,7 +406,7 @@
 @strong{Definition:} @code{char* lw6sys_module_pedigree_s::time}
 
 
-        
+Time of module compilation.         
         
 @end defcv
 
@@ -416,7 +416,7 @@
 @deftp {Struct} {lw6sys_progress_s}
 
     
-    
+Structure used to store progress information. The idea is that is that must be usable in polling mode or in multithreaded mode, and we must be able to truncate a progress indicator into several stages. So this structure contains a range start, a range end, and its value between those two, which is meant to be written by the code executing the operation and read by the caller/rendering thread.     
 @end deftp
 
 @defcv {Member} {lw6sys_progress_s} {min}
@@ -425,7 +425,7 @@
 @strong{Definition:} @code{float lw6sys_progress_s::min}
 
 
-        
+Where the progress operation starts.         
         
 @end defcv
 
@@ -435,7 +435,7 @@
 @strong{Definition:} @code{float lw6sys_progress_s::max}
 
 
-        
+Where the progress operation ends.         
         
 @end defcv
 
@@ -445,7 +445,7 @@
 @strong{Definition:} @code{volatile float* lw6sys_progress_s::value}
 
 
-        
+Somewhere between min and max.         
         
 @end defcv
 
@@ -504,7 +504,7 @@
 @deftp {Struct} {lw6sys_whd_s}
 
     
-    
+Contains the shape of a 3D box. There are 3 differences with its "XYZ" equivalent. First, sometimes w*h*d reads better than x,y,z. Then, xyz is signed, whd is unsigned. Finally, these are real int32 values, they are not 14-bit limited. It does not really cost any memory for it's usually used as a single "shape" attribute for a whole map. At the same time, it's very often used as a test value in loops, so it's interesting to have it in a value that's easy to optimize for the compiler (exactly one register...)     
 @end deftp
 
 @defcv {Member} {lw6sys_whd_s} {w}
@@ -513,7 +513,7 @@
 @strong{Definition:} @code{u_int32_t lw6sys_whd_s::w}
 
 
-        
+Width.         
         
 @end defcv
 
@@ -523,7 +523,7 @@
 @strong{Definition:} @code{u_int32_t lw6sys_whd_s::h}
 
 
-        
+Height.         
         
 @end defcv
 
@@ -533,7 +533,7 @@
 @strong{Definition:} @code{u_int32_t lw6sys_whd_s::d}
 
 
-        
+Depth.         
         
 @end defcv
 
@@ -543,7 +543,7 @@
 @deftp {Struct} {lw6sys_xyz_s}
 
     
-    
+All-in 32 bit 3D position, to save memory.It's a deliberate choice in Liquid War to handle "limited size" levels. In fact 14 bits still allows 8000x8000 maps, which are at least 100 times too slow to play now (2008). Should we follow Moore's law we'd have at least 6 years until those are playable, and well, until then, let's wait. The point is that storing this information (x*y) on 4 bytes might be very important in some cases, since it can reduce memory footprint on structs which are stored in numerous quantities, and therefore maximize chances that we use level 1 &amp; 2 caches and other nice things which happen when memory consumption is not too high.Point is: why use INT32 and then limit it to 14 bits instead of using an INT16 or short in the first place? Answer: it's easier to handle INT32 all the time in the rest of the code. Compiler and CPU might even handle that better than short. Then, and only when data will be read/written in the struct will it be truncated. Typical example is: we want to multiplicate y by w (which is a width). Result is beyond INT16/short scope but we want to handle it! Casting everything to INT32/int is a pain. With this int y:14 trick, we use y as a "full-featured" INT32/int and well, when it will be read/written we'll loose values over 8191, but we simply do not care.     
 @end deftp
 
 @defcv {Member} {lw6sys_xyz_s} {x}
@@ -552,7 +552,7 @@
 @strong{Definition:} @code{int32_t lw6sys_xyz_s::x}
 
 
-        
+X position, from -8192 to +8191.         
         
 @end defcv
 
@@ -562,7 +562,7 @@
 @strong{Definition:} @code{int32_t lw6sys_xyz_s::y}
 
 
-        
+Y position, from -8192 to +8191.         
         
 @end defcv
 
@@ -572,7 +572,7 @@
 @strong{Definition:} @code{int32_t lw6sys_xyz_s::z}
 
 
-        
+Z position, from -8 to +7.         
         
 @end defcv
 

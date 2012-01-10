@@ -39,7 +39,6 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 {
   int ret = 1;
   int i = 0;
-  //_lw6p2p_tentacle_clear(tentacle,backends);
   char *repr = NULL;
   lw6sys_url_t *parsed_url = NULL;
 
