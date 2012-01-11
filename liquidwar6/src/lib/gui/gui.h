@@ -82,10 +82,17 @@
 #define LW6GUI_MIN_BORDER_SIZE 1
 #define LW6GUI_MAX_BORDER_SIZE 256
 
+/**
+ * Contains the parameters for a video mode, regardless
+ * of driver used.
+ */
 typedef struct lw6gui_video_mode_s
 {
+  /// Width, in pixels.
   int width;
+  /// Height, in pixels.
   int height;
+  /// 1 for fullscreen mode, 0 for windowed mode.
   int fullscreen;
 } lw6gui_video_mode_t;
 
@@ -97,70 +104,236 @@ typedef struct lw6gui_fullscreen_modes_s
 }
 lw6gui_fullscreen_modes_t;
 
+/**
+ * Parameters used to handle repeat. This is used both
+ * by keys and buttons (joystick buttons and mouse buttons).
+ */
 typedef struct lw6gui_repeat_settings_s
 {
+  /**
+   * Delay, in milliseconds, after which a given key/button
+   * enters repeat mode.
+   */
   int delay;
+  /**
+   * Interval, in milliseconds, between two key/button press events
+   * in repeat mode.
+   */
   int interval;
+  /**
+   * If pressed twice within this delay (in milliseconds) then a
+   * double-click event is generated.
+   */
   int double_click_delay;
 } lw6gui_repeat_settings_t;
 
 typedef void (*lw6gui_resize_callback_func_t) (lw6gui_video_mode_t *
 					       video_mode);
 
+/**
+ * The look structure contains everything the renderer needs
+ * to skin the display. This is where one specifies the color set,
+ * dynamic zoom effect, and possibly other things.
+ */
 typedef struct lw6gui_look_s
 {
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
   u_int32_t id;
+  /**
+   * Dynamic zoom, this is multiplicated by the map zoom, and gives
+   * the global zoom, the one finally used.
+   */
   float dynamic_zoom;
+  /**
+   * Overall graphics quality, the higher the better, will trigger
+   * various parameters, depending on the renderer.
+   */
   int gfx_quality;
+  /**
+   * A style structure which will override the one from the map,
+   * depending on the local options (config file, environnement,
+   * command-line options).
+   */
   lw6map_style_t style;
 }
 lw6gui_look_t;
 
+/**
+ * Keypress information, contains more than just a keycode but
+ * also meta/readable informations about it.
+ */
 typedef struct lw6gui_keypress_s
 {
+  /**
+   * The keysym, note that this is implementation specific.
+   * In practice, SDL uniformizes this, but there's no garantee
+   * all graphics engine are SDL based, so don't rely on this
+   * too much outside the graphics backend.
+   */
   int keysym;
+  /// Unicode code for this letter/key.
   int unicode;
+  /**
+   * Readable label for the key, typically usable in a
+   * "choose keyboard settings" interface.
+   */
   char *label;
 }
 lw6gui_keypress_t;
 
+/**
+ * Standard interface for joypad-like interfaces, can
+ * also be used to map keyboard arrows.
+ */
 typedef struct lw6gui_move_pad_s
 {
+  /// Up button (boolean).
   int up;
+  /// Down button (boolean).
   int down;
+  /// Left button (boolean).
   int left;
+  /// Right button (boolean).
   int right;
 }
 lw6gui_move_pad_t;
 
+/**
+ * Used to store a complete button state, along
+ * with repeat informations, queues. It might be
+ * overkill for basic cases, having different types
+ * of buttons (union?) for different cases might
+ * be a good idea.
+ */
 typedef struct lw6gui_button_s
 {
+  /// Wether button is pressed, 1 means pressed, 0 unpressed.
   int is_pressed;
+  /**
+   * Each time the button is pressed, this increases, each
+   * times one "pops" a press from it, it's decreased. This
+   * allows for button buffering, as events might take some
+   * time to go through the pipeline given the heavily
+   * multithreaded nature of the dsp/gfx couple.
+   */
   int press_queue;
+  /**
+   * Simple-click counter, as opposed to double-click.
+   * A "simple-click" is validated when one has pressed
+   * the button, and then waiting long enough to discard
+   * the possibility to double-click. This is not really buffered,
+   * queue will ignore simple-clicks if one is already
+   * buffered.
+   */
   int simple_click_queue;
+  /**
+   * Double-click counter. This is not really buffered,
+   * queue will ignore double-clicks if one is already
+   * buffered.
+   */
   int double_click_queue;
+  /**
+   * Triple-click counter. This is not really buffered,
+   * queue will ignore triple-clicks if one is already
+   * buffered.
+   */
   int triple_click_queue;
+  /// Timestamp of last key press.
   int64_t last_press;
+  /// Timestamp of last key repeat.
   int64_t last_repeat;
+  /**
+   * Used to handle multiple-clicks, this is the timestamp
+   * of the click "2 clicks ago".
+   */
   int64_t double_click_t1;
+  /**
+   * Used to handle multiple-clicks, this is the timestamp
+   * of the click just before the last click.
+   */
   int64_t double_click_t2;
+  /**
+   * Used to handle multiple-clicks, this is the timestamp
+   * of the last click.
+   */
   int64_t double_click_t3;
 }
 lw6gui_button_t;
 
+/**
+ * Stores a complete keyboard state.
+ */
 typedef struct lw6gui_keyboard_s
 {
+  /**
+   * State of keyboard up arrow.
+   * This can be the combination of several keys,
+   * for instance the numeric pad up arrow, 
+   * and the corresponding arrow pad key.
+   */
   lw6gui_button_t arrow_up;
+  /**
+   * State of keyboard down arrow.
+   * This can be the combination of several keys,
+   * for instance the numeric pad down arrow, 
+   * and the corresponding arrow pad key.
+   */
   lw6gui_button_t arrow_down;
+  /**
+   * State of keyboard left arrow.
+   * This can be the combination of several keys,
+   * for instance the numeric pad left arrow, 
+   * and the corresponding arrow pad key.
+   */
   lw6gui_button_t arrow_left;
+  /**
+   * State of keyboard right arrow.
+   * This can be the combination of several keys,
+   * for instance the numeric pad right arrow, 
+   * and the corresponding arrow pad key.
+   */
   lw6gui_button_t arrow_right;
+  /**
+   * State of keyboard ENTER key.
+   * This can be the combination of several keys,
+   * for instance both the numeric pad ENTER and the
+   * standard, default one.
+   */
   lw6gui_button_t key_enter;
+  /**
+   * State of keyboard ESC key.
+   * This can be the combination of several keys,
+   * for instance both the standard ESC key and another key.
+   */
   lw6gui_button_t key_esc;
+  /**
+   * State of keyboard ESC key.
+   * This can be the combination of several keys,
+   * for instance both left and right CTRL keys.
+   */
   lw6gui_button_t key_ctrl;
+  /**
+   * State of keyboard ESC key.
+   * This can be the combination of several keys,
+   * for instance both left and right ALT keys.
+   */
   lw6gui_button_t key_alt;
+  /**
+   * State of keyboard PAGE UP key.
+   * This can be the combination of several keys.
+   */
   lw6gui_button_t key_pgup;
+  /**
+   * State of keyboard PAGE UP key.
+   * This can be the combination of several keys.
+   */
   lw6gui_button_t key_pgdown;
+  /// List of events, contains keypress objects.
   lw6sys_list_t *queue;
+  /// Array of button states, indexed by keycodes.
   lw6gui_button_t keys_state[LW6GUI_NB_KEYS];
 }
 lw6gui_keyboard_t;

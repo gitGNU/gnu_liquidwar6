@@ -2514,11 +2514,17 @@ results on
      *Return value:*  none.
 
  -- Struct: lw6gui_button_s
+     Used to store a complete button state, along with repeat
+     informations, queues. It might be overkill for basic cases, having
+     different types of buttons (union?) for different cases might be a
+     good idea.
 
  -- Member of lw6gui_button_s: is_pressed
      *Type:* `int'
 
      *Definition:* `int lw6gui_button_s::is_pressed'
+
+     Wether button is pressed, 1 means pressed, 0 unpressed.
 
 
  -- Member of lw6gui_button_s: press_queue
@@ -2526,29 +2532,45 @@ results on
 
      *Definition:* `int lw6gui_button_s::press_queue'
 
+     Each time the button is pressed, this increases, each times one
+     "pops" a press from it, it's decreased. This allows for button
+     buffering, as events might take some time to go through the
+     pipeline given the heavily multithreaded nature of the dsp/gfx
+     couple.
 
  -- Member of lw6gui_button_s: simple_click_queue
      *Type:* `int'
 
      *Definition:* `int lw6gui_button_s::simple_click_queue'
 
+     Simple-click counter, as opposed to double-click. A "simple-click"
+     is validated when one has pressed the button, and then waiting
+     long enough to discard the possibility to double-click. This is
+     not really buffered, queue will ignore simple-clicks if one is
+     already buffered.
 
  -- Member of lw6gui_button_s: double_click_queue
      *Type:* `int'
 
      *Definition:* `int lw6gui_button_s::double_click_queue'
 
+     Double-click counter. This is not really buffered, queue will
+     ignore double-clicks if one is already buffered.
 
  -- Member of lw6gui_button_s: triple_click_queue
      *Type:* `int'
 
      *Definition:* `int lw6gui_button_s::triple_click_queue'
 
+     Triple-click counter. This is not really buffered, queue will
+     ignore triple-clicks if one is already buffered.
 
  -- Member of lw6gui_button_s: last_press
      *Type:* `int64_t'
 
      *Definition:* `int64_t lw6gui_button_s::last_press'
+
+     Timestamp of last key press.
 
 
  -- Member of lw6gui_button_s: last_repeat
@@ -2556,24 +2578,32 @@ results on
 
      *Definition:* `int64_t lw6gui_button_s::last_repeat'
 
+     Timestamp of last key repeat.
+
 
  -- Member of lw6gui_button_s: double_click_t1
      *Type:* `int64_t'
 
      *Definition:* `int64_t lw6gui_button_s::double_click_t1'
 
+     Used to handle multiple-clicks, this is the timestamp of the click
+     "2 clicks ago".
 
  -- Member of lw6gui_button_s: double_click_t2
      *Type:* `int64_t'
 
      *Definition:* `int64_t lw6gui_button_s::double_click_t2'
 
+     Used to handle multiple-clicks, this is the timestamp of the click
+     just before the last click.
 
  -- Member of lw6gui_button_s: double_click_t3
      *Type:* `int64_t'
 
      *Definition:* `int64_t lw6gui_button_s::double_click_t3'
 
+     Used to handle multiple-clicks, this is the timestamp of the last
+     click.
 
  -- Struct: lw6gui_fullscreen_modes_s
 
@@ -2686,71 +2716,99 @@ results on
 
 
  -- Struct: lw6gui_keyboard_s
+     Stores a complete keyboard state.
 
  -- Member of lw6gui_keyboard_s: arrow_up
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_keyboard_s::arrow_up'
 
+     State of keyboard up arrow. This can be the combination of several
+     keys, for instance the numeric pad up arrow, and the corresponding
+     arrow pad key.
 
  -- Member of lw6gui_keyboard_s: arrow_down
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_keyboard_s::arrow_down'
 
+     State of keyboard down arrow. This can be the combination of
+     several keys, for instance the numeric pad down arrow, and the
+     corresponding arrow pad key.
 
  -- Member of lw6gui_keyboard_s: arrow_left
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_keyboard_s::arrow_left'
 
+     State of keyboard left arrow. This can be the combination of
+     several keys, for instance the numeric pad left arrow, and the
+     corresponding arrow pad key.
 
  -- Member of lw6gui_keyboard_s: arrow_right
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_keyboard_s::arrow_right'
 
+     State of keyboard right arrow. This can be the combination of
+     several keys, for instance the numeric pad right arrow, and the
+     corresponding arrow pad key.
 
  -- Member of lw6gui_keyboard_s: key_enter
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_keyboard_s::key_enter'
 
+     State of keyboard ENTER key. This can be the combination of
+     several keys, for instance both the numeric pad ENTER and the
+     standard, default one.
 
  -- Member of lw6gui_keyboard_s: key_esc
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_keyboard_s::key_esc'
 
+     State of keyboard ESC key. This can be the combination of several
+     keys, for instance both the standard ESC key and another key.
 
  -- Member of lw6gui_keyboard_s: key_ctrl
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_keyboard_s::key_ctrl'
 
+     State of keyboard ESC key. This can be the combination of several
+     keys, for instance both left and right CTRL keys.
 
  -- Member of lw6gui_keyboard_s: key_alt
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_keyboard_s::key_alt'
 
+     State of keyboard ESC key. This can be the combination of several
+     keys, for instance both left and right ALT keys.
 
  -- Member of lw6gui_keyboard_s: key_pgup
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_keyboard_s::key_pgup'
 
+     State of keyboard PAGE UP key. This can be the combination of
+     several keys.
 
  -- Member of lw6gui_keyboard_s: key_pgdown
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_keyboard_s::key_pgdown'
 
+     State of keyboard PAGE UP key. This can be the combination of
+     several keys.
 
  -- Member of lw6gui_keyboard_s: queue
      *Type:* `lw6sys_list_t *'
 
      *Definition:* `lw6sys_list_t* lw6gui_keyboard_s::queue'
+
+     List of events, contains keypress objects.
 
 
  -- Member of lw6gui_keyboard_s: keys_state
@@ -2759,19 +2817,29 @@ results on
      *Definition:* `lw6gui_button_t
      lw6gui_keyboard_s::keys_state[LW6GUI_NB_KEYS]'
 
+     Array of button states, indexed by keycodes.
+
 
  -- Struct: lw6gui_keypress_s
+     Keypress information, contains more than just a keycode but also
+     meta/readable informations about it.
 
  -- Member of lw6gui_keypress_s: keysym
      *Type:* `int'
 
      *Definition:* `int lw6gui_keypress_s::keysym'
 
+     The keysym, note that this is implementation specific. In
+     practice, SDL uniformizes this, but there's no garantee all
+     graphics engine are SDL based, so don't rely on this too much
+     outside the graphics backend.
 
  -- Member of lw6gui_keypress_s: unicode
      *Type:* `int'
 
      *Definition:* `int lw6gui_keypress_s::unicode'
+
+     Unicode code for this letter/key.
 
 
  -- Member of lw6gui_keypress_s: label
@@ -2779,32 +2847,46 @@ results on
 
      *Definition:* `char* lw6gui_keypress_s::label'
 
+     Readable label for the key, typically usable in a "choose keyboard
+     settings" interface.
 
  -- Struct: lw6gui_look_s
+     The look structure contains everything the renderer needs to skin
+     the display. This is where one specifies the color set, dynamic
+     zoom effect, and possibly other things.
 
  -- Member of lw6gui_look_s: id
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6gui_look_s::id'
 
+     The id of the object, this is non-zero and unique within one run
+     session, incremented at each object creation.
 
  -- Member of lw6gui_look_s: dynamic_zoom
      *Type:* `float'
 
      *Definition:* `float lw6gui_look_s::dynamic_zoom'
 
+     Dynamic zoom, this is multiplicated by the map zoom, and gives the
+     global zoom, the one finally used.
 
  -- Member of lw6gui_look_s: gfx_quality
      *Type:* `int'
 
      *Definition:* `int lw6gui_look_s::gfx_quality'
 
+     Overall graphics quality, the higher the better, will trigger
+     various parameters, depending on the renderer.
 
  -- Member of lw6gui_look_s: style
      *Type:* `lw6map_style_t'
 
      *Definition:* `lw6map_style_t lw6gui_look_s::style'
 
+     A style structure which will override the one from the map,
+     depending on the local options (config file, environnement,
+     command-line options).
 
  -- Struct: lw6gui_menuitem_s
 
@@ -3063,11 +3145,15 @@ results on
 
 
  -- Struct: lw6gui_move_pad_s
+     Standard interface for joypad-like interfaces, can also be used to
+     map keyboard arrows.
 
  -- Member of lw6gui_move_pad_s: up
      *Type:* `int'
 
      *Definition:* `int lw6gui_move_pad_s::up'
+
+     Up button (boolean).
 
 
  -- Member of lw6gui_move_pad_s: down
@@ -3075,17 +3161,23 @@ results on
 
      *Definition:* `int lw6gui_move_pad_s::down'
 
+     Down button (boolean).
+
 
  -- Member of lw6gui_move_pad_s: left
      *Type:* `int'
 
      *Definition:* `int lw6gui_move_pad_s::left'
 
+     Left button (boolean).
+
 
  -- Member of lw6gui_move_pad_s: right
      *Type:* `int'
 
      *Definition:* `int lw6gui_move_pad_s::right'
+
+     Right button (boolean).
 
 
  -- Struct: lw6gui_point_s
@@ -3223,24 +3315,32 @@ results on
 
 
  -- Struct: lw6gui_repeat_settings_s
+     Parameters used to handle repeat. This is used both by keys and
+     buttons (joystick buttons and mouse buttons).
 
  -- Member of lw6gui_repeat_settings_s: delay
      *Type:* `int'
 
      *Definition:* `int lw6gui_repeat_settings_s::delay'
 
+     Delay, in milliseconds, after which a given key/button enters
+     repeat mode.
 
  -- Member of lw6gui_repeat_settings_s: interval
      *Type:* `int'
 
      *Definition:* `int lw6gui_repeat_settings_s::interval'
 
+     Interval, in milliseconds, between two key/button press events in
+     repeat mode.
 
  -- Member of lw6gui_repeat_settings_s: double_click_delay
      *Type:* `int'
 
      *Definition:* `int lw6gui_repeat_settings_s::double_click_delay'
 
+     If pressed twice within this delay (in milliseconds) then a
+     double-click event is generated.
 
  -- Struct: lw6gui_segment_s
 
@@ -3309,11 +3409,15 @@ results on
 
 
  -- Struct: lw6gui_video_mode_s
+     Contains the parameters for a video mode, regardless of driver
+     used.
 
  -- Member of lw6gui_video_mode_s: width
      *Type:* `int'
 
      *Definition:* `int lw6gui_video_mode_s::width'
+
+     Width, in pixels.
 
 
  -- Member of lw6gui_video_mode_s: height
@@ -3321,11 +3425,15 @@ results on
 
      *Definition:* `int lw6gui_video_mode_s::height'
 
+     Height, in pixels.
+
 
  -- Member of lw6gui_video_mode_s: fullscreen
      *Type:* `int'
 
      *Definition:* `int lw6gui_video_mode_s::fullscreen'
+
+     1 for fullscreen mode, 0 for windowed mode.
 
 
  -- Struct: lw6gui_viewport_s

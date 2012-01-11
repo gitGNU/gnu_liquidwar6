@@ -4,7 +4,7 @@
 @deftp {Struct} {lw6gui_button_s}
 
     
-    
+Used to store a complete button state, along with repeat informations, queues. It might be overkill for basic cases, having different types of buttons (union?) for different cases might be a good idea.     
 @end deftp
 
 @defcv {Member} {lw6gui_button_s} {is_pressed}
@@ -13,7 +13,7 @@
 @strong{Definition:} @code{int lw6gui_button_s::is_pressed}
 
 
-        
+Wether button is pressed, 1 means pressed, 0 unpressed.         
         
 @end defcv
 
@@ -24,7 +24,7 @@
 
 
         
-        
+Each time the button is pressed, this increases, each times one "pops" a press from it, it's decreased. This allows for button buffering, as events might take some time to go through the pipeline given the heavily multithreaded nature of the dsp/gfx couple.         
 @end defcv
 
 @defcv {Member} {lw6gui_button_s} {simple_click_queue}
@@ -34,7 +34,7 @@
 
 
         
-        
+Simple-click counter, as opposed to double-click. A "simple-click" is validated when one has pressed the button, and then waiting long enough to discard the possibility to double-click. This is not really buffered, queue will ignore simple-clicks if one is already buffered.         
 @end defcv
 
 @defcv {Member} {lw6gui_button_s} {double_click_queue}
@@ -44,7 +44,7 @@
 
 
         
-        
+Double-click counter. This is not really buffered, queue will ignore double-clicks if one is already buffered.         
 @end defcv
 
 @defcv {Member} {lw6gui_button_s} {triple_click_queue}
@@ -54,7 +54,7 @@
 
 
         
-        
+Triple-click counter. This is not really buffered, queue will ignore triple-clicks if one is already buffered.         
 @end defcv
 
 @defcv {Member} {lw6gui_button_s} {last_press}
@@ -63,7 +63,7 @@
 @strong{Definition:} @code{int64_t lw6gui_button_s::last_press}
 
 
-        
+Timestamp of last key press.         
         
 @end defcv
 
@@ -73,7 +73,7 @@
 @strong{Definition:} @code{int64_t lw6gui_button_s::last_repeat}
 
 
-        
+Timestamp of last key repeat.         
         
 @end defcv
 
@@ -84,7 +84,7 @@
 
 
         
-        
+Used to handle multiple-clicks, this is the timestamp of the click "2 clicks ago".         
 @end defcv
 
 @defcv {Member} {lw6gui_button_s} {double_click_t2}
@@ -94,7 +94,7 @@
 
 
         
-        
+Used to handle multiple-clicks, this is the timestamp of the click just before the last click.         
 @end defcv
 
 @defcv {Member} {lw6gui_button_s} {double_click_t3}
@@ -104,7 +104,7 @@
 
 
         
-        
+Used to handle multiple-clicks, this is the timestamp of the last click.         
 @end defcv
 
 
@@ -310,7 +310,7 @@
 @deftp {Struct} {lw6gui_keyboard_s}
 
     
-    
+Stores a complete keyboard state.     
 @end deftp
 
 @defcv {Member} {lw6gui_keyboard_s} {arrow_up}
@@ -320,7 +320,7 @@
 
 
         
-        
+State of keyboard up arrow. This can be the combination of several keys, for instance the numeric pad up arrow, and the corresponding arrow pad key.         
 @end defcv
 
 @defcv {Member} {lw6gui_keyboard_s} {arrow_down}
@@ -330,7 +330,7 @@
 
 
         
-        
+State of keyboard down arrow. This can be the combination of several keys, for instance the numeric pad down arrow, and the corresponding arrow pad key.         
 @end defcv
 
 @defcv {Member} {lw6gui_keyboard_s} {arrow_left}
@@ -340,7 +340,7 @@
 
 
         
-        
+State of keyboard left arrow. This can be the combination of several keys, for instance the numeric pad left arrow, and the corresponding arrow pad key.         
 @end defcv
 
 @defcv {Member} {lw6gui_keyboard_s} {arrow_right}
@@ -350,7 +350,7 @@
 
 
         
-        
+State of keyboard right arrow. This can be the combination of several keys, for instance the numeric pad right arrow, and the corresponding arrow pad key.         
 @end defcv
 
 @defcv {Member} {lw6gui_keyboard_s} {key_enter}
@@ -360,7 +360,7 @@
 
 
         
-        
+State of keyboard ENTER key. This can be the combination of several keys, for instance both the numeric pad ENTER and the standard, default one.         
 @end defcv
 
 @defcv {Member} {lw6gui_keyboard_s} {key_esc}
@@ -370,7 +370,7 @@
 
 
         
-        
+State of keyboard ESC key. This can be the combination of several keys, for instance both the standard ESC key and another key.         
 @end defcv
 
 @defcv {Member} {lw6gui_keyboard_s} {key_ctrl}
@@ -380,7 +380,7 @@
 
 
         
-        
+State of keyboard ESC key. This can be the combination of several keys, for instance both left and right CTRL keys.         
 @end defcv
 
 @defcv {Member} {lw6gui_keyboard_s} {key_alt}
@@ -390,7 +390,7 @@
 
 
         
-        
+State of keyboard ESC key. This can be the combination of several keys, for instance both left and right ALT keys.         
 @end defcv
 
 @defcv {Member} {lw6gui_keyboard_s} {key_pgup}
@@ -400,7 +400,7 @@
 
 
         
-        
+State of keyboard PAGE UP key. This can be the combination of several keys.         
 @end defcv
 
 @defcv {Member} {lw6gui_keyboard_s} {key_pgdown}
@@ -410,7 +410,7 @@
 
 
         
-        
+State of keyboard PAGE UP key. This can be the combination of several keys.         
 @end defcv
 
 @defcv {Member} {lw6gui_keyboard_s} {queue}
@@ -419,7 +419,7 @@
 @strong{Definition:} @code{lw6sys_list_t* lw6gui_keyboard_s::queue}
 
 
-        
+List of events, contains keypress objects.         
         
 @end defcv
 
@@ -429,7 +429,7 @@
 @strong{Definition:} @code{lw6gui_button_t lw6gui_keyboard_s::keys_state[LW6GUI_NB_KEYS]}
 
 
-        
+Array of button states, indexed by keycodes.         
         
 @end defcv
 
@@ -439,7 +439,7 @@
 @deftp {Struct} {lw6gui_keypress_s}
 
     
-    
+Keypress information, contains more than just a keycode but also meta/readable informations about it.     
 @end deftp
 
 @defcv {Member} {lw6gui_keypress_s} {keysym}
@@ -449,7 +449,7 @@
 
 
         
-        
+The keysym, note that this is implementation specific. In practice, SDL uniformizes this, but there's no garantee all graphics engine are SDL based, so don't rely on this too much outside the graphics backend.         
 @end defcv
 
 @defcv {Member} {lw6gui_keypress_s} {unicode}
@@ -458,7 +458,7 @@
 @strong{Definition:} @code{int lw6gui_keypress_s::unicode}
 
 
-        
+Unicode code for this letter/key.         
         
 @end defcv
 
@@ -469,7 +469,7 @@
 
 
         
-        
+Readable label for the key, typically usable in a "choose keyboard settings" interface.         
 @end defcv
 
 
@@ -478,7 +478,7 @@
 @deftp {Struct} {lw6gui_look_s}
 
     
-    
+The look structure contains everything the renderer needs to skin the display. This is where one specifies the color set, dynamic zoom effect, and possibly other things.     
 @end deftp
 
 @defcv {Member} {lw6gui_look_s} {id}
@@ -488,7 +488,7 @@
 
 
         
-        
+The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
 @end defcv
 
 @defcv {Member} {lw6gui_look_s} {dynamic_zoom}
@@ -498,7 +498,7 @@
 
 
         
-        
+Dynamic zoom, this is multiplicated by the map zoom, and gives the global zoom, the one finally used.         
 @end defcv
 
 @defcv {Member} {lw6gui_look_s} {gfx_quality}
@@ -508,7 +508,7 @@
 
 
         
-        
+Overall graphics quality, the higher the better, will trigger various parameters, depending on the renderer.         
 @end defcv
 
 @defcv {Member} {lw6gui_look_s} {style}
@@ -518,7 +518,7 @@
 
 
         
-        
+A style structure which will override the one from the map, depending on the local options (config file, environnement, command-line options).         
 @end defcv
 
 
@@ -973,7 +973,7 @@
 @deftp {Struct} {lw6gui_move_pad_s}
 
     
-    
+Standard interface for joypad-like interfaces, can also be used to map keyboard arrows.     
 @end deftp
 
 @defcv {Member} {lw6gui_move_pad_s} {up}
@@ -982,7 +982,7 @@
 @strong{Definition:} @code{int lw6gui_move_pad_s::up}
 
 
-        
+Up button (boolean).         
         
 @end defcv
 
@@ -992,7 +992,7 @@
 @strong{Definition:} @code{int lw6gui_move_pad_s::down}
 
 
-        
+Down button (boolean).         
         
 @end defcv
 
@@ -1002,7 +1002,7 @@
 @strong{Definition:} @code{int lw6gui_move_pad_s::left}
 
 
-        
+Left button (boolean).         
         
 @end defcv
 
@@ -1012,7 +1012,7 @@
 @strong{Definition:} @code{int lw6gui_move_pad_s::right}
 
 
-        
+Right button (boolean).         
         
 @end defcv
 
@@ -1268,7 +1268,7 @@
 @deftp {Struct} {lw6gui_repeat_settings_s}
 
     
-    
+Parameters used to handle repeat. This is used both by keys and buttons (joystick buttons and mouse buttons).     
 @end deftp
 
 @defcv {Member} {lw6gui_repeat_settings_s} {delay}
@@ -1278,7 +1278,7 @@
 
 
         
-        
+Delay, in milliseconds, after which a given key/button enters repeat mode.         
 @end defcv
 
 @defcv {Member} {lw6gui_repeat_settings_s} {interval}
@@ -1288,7 +1288,7 @@
 
 
         
-        
+Interval, in milliseconds, between two key/button press events in repeat mode.         
 @end defcv
 
 @defcv {Member} {lw6gui_repeat_settings_s} {double_click_delay}
@@ -1298,7 +1298,7 @@
 
 
         
-        
+If pressed twice within this delay (in milliseconds) then a double-click event is generated.         
 @end defcv
 
 
@@ -1434,7 +1434,7 @@
 @deftp {Struct} {lw6gui_video_mode_s}
 
     
-    
+Contains the parameters for a video mode, regardless of driver used.     
 @end deftp
 
 @defcv {Member} {lw6gui_video_mode_s} {width}
@@ -1443,7 +1443,7 @@
 @strong{Definition:} @code{int lw6gui_video_mode_s::width}
 
 
-        
+Width, in pixels.         
         
 @end defcv
 
@@ -1453,7 +1453,7 @@
 @strong{Definition:} @code{int lw6gui_video_mode_s::height}
 
 
-        
+Height, in pixels.         
         
 @end defcv
 
@@ -1463,7 +1463,7 @@
 @strong{Definition:} @code{int lw6gui_video_mode_s::fullscreen}
 
 
-        
+1 for fullscreen mode, 0 for windowed mode.         
         
 @end defcv
 
