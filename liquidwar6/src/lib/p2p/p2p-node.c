@@ -918,7 +918,7 @@ _poll_step10_poll_tentacles (_lw6p2p_node_t * node)
 int
 _lw6p2p_node_poll (_lw6p2p_node_t * node)
 {
-  int ret = 0;
+  int ret = 1;
 
   ret = _poll_step1_accept_tcp (node) && ret;
   ret = _poll_step2_recv_udp (node) && ret;
@@ -1547,71 +1547,132 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
   int ret = 1;
   int i;
   _lw6p2p_tentacle_t *tentacle = NULL;
-
+  u_int32_t ticket_sig = 0;
+  char *msg = NULL;
+  char *remote_id_str = NULL;
+  int64_t limit_timestamp = 0LL;
   _lw6p2p_node_disconnect (node);
 
-  if (!lw6nod_info_community_is_member
-      (node->node_info, remote_id, remote_url))
+  remote_id_str = lw6sys_id_ltoa (remote_id);
+  if (remote_id_str)
     {
-      i = _lw6p2p_node_find_tentacle (node, remote_id);
-      if (i >= 0 && i < LW6P2P_MAX_NB_TENTACLES)
+      if (!lw6nod_info_community_is_member
+	  (node->node_info, remote_id, remote_url))
 	{
-	  tentacle = &(node->tentacles[i]);
-	  if (lw6sys_str_is_same (remote_url, tentacle->remote_url))
-	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _x_ ("keep connected to  %" LW6SYS_PRINTF_LL
-			       "x at \"%s\""), remote_id, remote_url);
-	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_ ("won't join %" LW6SYS_PRINTF_LL
-			       "x at \"%s\", it conflicts with %"
-			       LW6SYS_PRINTF_LL "x at \"%s\""), remote_id,
-			  remote_url, tentacle->remote_id_int,
-			  tentacle->remote_url);
-	      tentacle = NULL;
-	      ret = 0;
-	    }
-	}
-      if (ret && !tentacle)
-	{
-	  i = _lw6p2p_node_find_free_tentacle (node);
+	  i = _lw6p2p_node_find_tentacle (node, remote_id);
 	  if (i >= 0 && i < LW6P2P_MAX_NB_TENTACLES)
 	    {
 	      tentacle = &(node->tentacles[i]);
+	      if (lw6sys_str_is_same (remote_url, tentacle->remote_url))
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_ ("keep connected to  %" LW6SYS_PRINTF_LL
+				   "x at \"%s\""), remote_id, remote_url);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("won't join %" LW6SYS_PRINTF_LL
+				   "x at \"%s\", it conflicts with %"
+				   LW6SYS_PRINTF_LL "x at \"%s\""), remote_id,
+			      remote_url, tentacle->remote_id_int,
+			      tentacle->remote_url);
+		  tentacle = NULL;
+		  ret = 0;
+		}
 	    }
-	  else
+	  if (ret && !tentacle)
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("no more free tentacles"));
-	      ret = 0;
-	    }
-	  if (ret && tentacle)
-	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _x_ ("trying to join  %" LW6SYS_PRINTF_LL
-			       "x at \"%s\""), remote_id, remote_url);
-	      ret =
-		_lw6p2p_tentacle_init (tentacle, &(node->backends),
-				       node->listener,
-				       node->node_info->const_info.
-				       ref_info.url, remote_url, NULL,
-				       node->password,
-				       node->node_info->const_info.
-				       ref_info.id_int, remote_id,
-				       node->network_reliability,
-				       _lw6p2p_recv_callback, (void *) node);
+	      i = _lw6p2p_node_find_free_tentacle (node);
+	      if (i >= 0 && i < LW6P2P_MAX_NB_TENTACLES)
+		{
+		  tentacle = &(node->tentacles[i]);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("no more free tentacles"));
+		  ret = 0;
+		}
+	      if (ret && tentacle)
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_ ("trying to join  %" LW6SYS_PRINTF_LL
+				   "x at \"%s\""), remote_id, remote_url);
+		  ret =
+		    _lw6p2p_tentacle_init (tentacle, &(node->backends),
+					   node->listener,
+					   node->node_info->const_info.
+					   ref_info.url, remote_url, NULL,
+					   node->password,
+					   node->node_info->const_info.
+					   ref_info.id_int, remote_id,
+					   node->network_reliability,
+					   _lw6p2p_recv_callback,
+					   (void *) node);
+		  if (ret)
+		    {
+		      limit_timestamp =
+			lw6sys_get_timestamp () +
+			node->db->data.consts.join_delay;
+		      while (!tentacle->data_exchanged
+			     && lw6sys_get_timestamp () < limit_timestamp)
+			{
+			  _lw6p2p_node_poll (node);
+			  lw6sys_idle ();
+			}
+		      /*
+		       * Generating a JOIN message with 0 seq
+		       * means "I want to connect to you"
+		       */
+		      msg = lw6msg_cmd_generate_join (node->node_info, 0);
+		      if (msg)
+			{
+			  ticket_sig =
+			    lw6msg_ticket_calc_sig
+			    (lw6cnx_ticket_table_get_send
+			     (&(node->ticket_table), node->node_id_str),
+			     node->node_id_int, remote_id, msg);
+			  ret =
+			    _lw6p2p_tentacle_send_redundant (tentacle,
+							     &
+							     (node->ticket_table),
+							     ticket_sig,
+							     node->node_id_int,
+							     remote_id, msg);
+			  if (ret)
+			    {
+			      //TMP1 ("OK (%s)", msg);
+			      limit_timestamp =
+				lw6sys_get_timestamp () +
+				node->db->data.consts.join_delay;
+			      while (!tentacle->joined
+				     && lw6sys_get_timestamp () <
+				     limit_timestamp)
+				{
+				  _lw6p2p_node_poll (node);
+				  lw6sys_idle ();
+				}
+			    }
+			  else
+			    {
+			      //TMP ("KO");
+			    }
+			  LW6SYS_FREE (msg);
+			}
+		    }
+		}
 	    }
 	}
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("won't join %" LW6SYS_PRINTF_LL
-		       "x at \"%s\", it conflicts with an existing community member"),
-		  remote_id, remote_url);
-      ret = 0;
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("won't join %" LW6SYS_PRINTF_LL
+			   "x at \"%s\", it conflicts with an existing community member"),
+		      remote_id, remote_url);
+	  ret = 0;
+	}
+      LW6SYS_FREE (remote_id_str);
     }
 
   return ret;

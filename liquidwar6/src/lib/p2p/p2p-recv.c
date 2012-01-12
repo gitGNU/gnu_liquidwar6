@@ -36,6 +36,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   u_int64_t ticket = 0;
   u_int32_t foo_bar_key = 0;
   u_int32_t logical_ticket_sig = 0;
+  int64_t seq = 0LL;
   int serial = 0;
   int i = 0;
   int n = 0;
@@ -57,6 +58,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
    */
   cnx->last_recv_timestamp = lw6sys_get_timestamp ();
 
+  //TMP1 ("received (%s)", message);
   if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_HELLO))
     {
       if (lw6msg_cmd_analyse_hello (&remote_node_info, message))
@@ -273,6 +275,63 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_ ("bad bar from \"%s\" (\"%s\")"), cnx->remote_url,
+		      message);
+	}
+    }
+  else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_JOIN))
+    {
+      if (lw6msg_cmd_analyse_join (&remote_node_info, &seq, message))
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("received join from \"%s\""),
+		      cnx->remote_url);
+	  if (seq == 0LL)
+	    {
+	      TMP ("join request");
+	      reply_msg =
+		lw6msg_cmd_generate_join (node->node_info,
+					  lw6dat_warehouse_get_seq_max
+					  (node->warehouse));
+	      if (reply_msg)
+		{
+		  logical_ticket_sig =
+		    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+					    (&(node->ticket_table),
+					     cnx->remote_id_str),
+					    cnx->local_id_int,
+					    cnx->remote_id_int, reply_msg);
+
+		  tentacle_i =
+		    _lw6p2p_node_find_tentacle (node, cnx->remote_id_int);
+		  if (tentacle_i >= 0)
+		    {
+		      _lw6p2p_tentacle_send_redundant (&
+						       (node->tentacles
+							[tentacle_i]),
+						       &(node->ticket_table),
+						       logical_ticket_sig,
+						       cnx->local_id_int,
+						       cnx->remote_id_int,
+						       reply_msg);
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _x_
+				  ("unable to find the tentacle for a node which has an active connection"));
+		    }
+		  LW6SYS_FREE (reply_msg);
+		}
+	    }
+	  else
+	    {
+	      TMP ("joined");
+	      node->tentacles[tentacle_i].joined = 1;
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("bad join from \"%s\" (\"%s\")"), cnx->remote_url,
 		      message);
 	}
     }

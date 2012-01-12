@@ -927,21 +927,21 @@ _test_node_api ()
 	 &node3, &node4, &node5, &node6))
       {
 	_poll_nodes (node1, node2, node3, node4, node5, node6);
-	if (lw6p2p_node_server_start (node1))
+	if (lw6p2p_node_server_start (node2))
 	  {
 	    _poll_nodes (node1, node2, node3, node4, node5, node6);
-	    _node = (_lw6p2p_node_t *) node1;
+	    _node = (_lw6p2p_node_t *) node2;
 	    if (lw6p2p_node_client_join
-		(node2, _node->node_info->const_info.ref_info.id_int,
+		(node4, _node->node_info->const_info.ref_info.id_int,
 		 _node->node_info->const_info.ref_info.url))
 	      {
 		while (lw6sys_get_timestamp () < end_timestamp)
 		  {
 		    _poll_nodes (node1, node2, node3, node4, node5, node6);
 		  }
-		lw6p2p_node_disconnect (node2);
+		lw6p2p_node_disconnect (node4);
 	      }
-	    lw6p2p_node_disconnect (node1);
+	    lw6p2p_node_disconnect (node2);
 	  }
 
 	_quit_nodes (db12, db34, db56, node1, node2, node3, node4, node5,

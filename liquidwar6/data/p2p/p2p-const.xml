@@ -9,5 +9,6 @@
   <int key="node-expire-hard-delay" value="300000" />
   <int key="node-verify-max-at-once" value="100" />
   <int key="foo-delay" value="9000" />
+  <int key="join-delay" value="12000" />
   <int key="ticket-table-hash-size" value="257" />
 </liquidwar6>

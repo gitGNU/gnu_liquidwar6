@@ -91,6 +91,7 @@ typedef struct _lw6p2p_consts_s
   int node_expire_hard_delay;
   int node_verify_max_at_once;
   int foo_delay;
+  int join_delay;
   int ticket_table_hash_size;
 }
 _lw6p2p_consts_t;
@@ -163,6 +164,7 @@ typedef struct _lw6p2p_tentacle_s
   char *remote_id_str;
   int hello_sent;
   int data_exchanged;
+  int joined;
   int dns_ok;
   int nb_cli_connections;
   lw6cnx_connection_t **cli_connections;

@@ -60,6 +60,7 @@ _read_callback (void *callback_data, const char *element, const char *key,
       lw6cfg_read_xml_int (key, value, "node-verify-max-at-once",
 			   &consts->node_verify_max_at_once);
       lw6cfg_read_xml_int (key, value, "foo-delay", &consts->foo_delay);
+      lw6cfg_read_xml_int (key, value, "join-delay", &consts->join_delay);
       lw6cfg_read_xml_int (key, value, "ticket-table-hash-size",
 			   &consts->ticket_table_hash_size);
     }
