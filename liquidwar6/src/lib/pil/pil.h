@@ -53,72 +53,165 @@ typedef enum lw6pil_command_code_e
   LW6PIL_COMMAND_CODE_UNREGISTER = 6
 } lw6pil_command_code_t;
 
+/**
+ * Arguments passed to the ADD command.
+ */
 typedef struct lw6pil_add_args_s
 {
+  /// Cursor ID (16-bit non-zero unsigned int).
   u_int16_t cursor_id;
+  /// Team color (0 to 9).
   int team_color;
 } lw6pil_add_args_t;
 
+/**
+ * Arguments passed to the REMOVE command.
+ */
 typedef struct lw6pil_remove_args_s
 {
+  /// Cursor ID (16-bit non-zero unsigned int).
   u_int16_t cursor_id;
 } lw6pil_remove_args_t;
 
+/**
+ * Arguments passed to the SET command.
+ */
 typedef struct lw6pil_set_args_s
 {
+  /// Cursor ID (16-bit non-zero unsigned int).
   u_int64_t cursor_id;
+  /// X position (map coords).
   int x;
+  /// Y position (map coords).
   int y;
+  /// Wether to activate primary weapon.
   int fire;
+  /// Wether to activate secondary weapon.
   int fire2;
 } lw6pil_set_args_t;
 
+/**
+ * Arguments passed to various commands.
+ */
 typedef union lw6pil_command_args_u
 {
+  /// Arguments when command is ADD.
   lw6pil_add_args_t add;
+  /// Arguments when command is REMOVE.
   lw6pil_remove_args_t remove;
+  /// Arguments when command is SET.
   lw6pil_set_args_t set;
 } lw6pil_command_args_t;
 
+/**
+ * Command structure, contains both full-text
+ * version and parsed information.
+ */
 typedef struct lw6pil_command_s
 {
+  /**
+   * The sequence number, a very large 64-bit integer.
+   * The sequence is here because the round wouldn't be
+   * able to stand multiple games for long as it is
+   * only 32-bit. OTOH making round a 64-bit would cause
+   * multithread problems because of non-atomicity of
+   * 64-bit affectation on truely 32-bit platforms.
+   */
   int64_t seq;
+  /// The game round
   int round;
+  /// The node ID issuing that command.
   u_int64_t node_id;
+  /// The command code.
   lw6pil_command_code_t code;
+  /// The command arguments, parsed.
   lw6pil_command_args_t args;
+  /// The original full text of the command.
   char *text;
 } lw6pil_command_t;
 
+/**
+ * Worker thread data, used to calculate stuff
+ * in a separate thread. The principle is simple,
+ * it tries to keep up with a given target round,
+ * whenever this round isn't reached, it computes
+ * more and more rounds.
+ */
 typedef struct lw6pil_worker_s
 {
+  /// Wether this thread should run, 0 will stop it.
   int run;
+  /// Current game round.
   int current_round;
+  /// Round up to which we should compute stuff.
   int target_round;
+  /// How many rounds where computed since object creation.
   int computed_rounds;
+  /// Wether the game is over or not.
   int over;
+  /// The thread that does the job.
   void *compute_thread;
+  /// Global data mutex.
   void *global_mutex;
+  /// Mutex used for the computing thread.
   void *compute_mutex;
+  /**
+   * Mutex used for the commands object, uses a spinlock
+   * instead of a standard lock as updating commands
+   * is (should) be pretty fast.
+   */
   void *commands_spinlock;
+  /// Game state the computing thread is working on.
   lw6ker_game_state_t *game_state;
+  /// List of commands to be processed.
   lw6sys_list_t *commands;
 } lw6pil_worker_t;
 
+/**
+ * Stores informations about local cursors. This is usefull
+ * for user feedback. Indeed there can be some delay between,
+ * for instance, a mouse move or a keyboard press, and the
+ * time this information makes it through the whole pipeline.
+ * Players wouldn't understand such a lag so for local cursors
+ * we override the information from the game state with that
+ * information we get right from the GUI.
+ */
 typedef struct lw6pil_local_cursor_s
 {
+  /// Cursor ID (16-bit non-zero unsigned int).
   u_int16_t cursor_id;
+  /// X position (map coords).
   int x;
+  /// Y position (map coords).
   int y;
+  /**
+   * Wether this cursor is mouse controlled. If yes, then
+   * information will be taken directly from the mouse driver.
+   */
   int mouse_controlled;
+  /// Wether this cursor is the main cursor.
   int is_main;
 } lw6pil_local_cursor_t;
 
+/**
+ * Contains information about all local cursors,
+ * which will override information from game state.
+ */
 typedef struct lw6pil_local_cursors_s
 {
+  /**
+   * Main cursor ID (16-bit non-zero unsigned int).
+   * By main, we usually mean the mouse-driven one but
+   * necessarily. But still, this is a cursor which will
+   * have a special role, it will be used to center the
+   * map if needed, among other things.
+   */
   u_int16_t main_cursor_id;
+  /// Main cursor index.
   int main_i;
+  /// Number of cursors.
   int nb_cursors;
+  /// The cursors array.
   lw6pil_local_cursor_t cursors[LW6MAP_MAX_NB_CURSORS];
 }
 lw6pil_local_cursors_t;

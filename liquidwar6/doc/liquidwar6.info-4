@@ -19,6 +19,640 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: liquidwar6.info,  Node: libnod,  Next: libp2p,  Prev: libnet,  Up: C API
+
+5.29 libnod
+===========
+
+5.29.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/nod/index.html'.
+
+5.29.2 API
+----------
+
+ -- Function: int lw6nod_info_community_add (lw6nod_info_t * INFO,
+          u_int64_t ID, char * URL)
+     INFO:  node info object to modify
+
+     ID:  ID of the new member
+
+     URL:  URL of the new member
+
+     Adds a new member to the community.
+
+     *Return value:*  1 if new member could be added, 0 if not.
+
+ -- Function: int lw6nod_info_community_is_member (lw6nod_info_t *
+          INFO, u_int64_t ID, char * URL)
+     INFO:  node info object to test
+
+     ID:  ID of the member we want to check
+
+     URL:  URL of the member we want to check
+
+     Tells wether a member is already in the community. Note that if
+     there's a member with the same URL but with a different ID, or a
+     member with the same ID but a different URL, the function will
+     fail, we need URLs and IDs to both be different for the peer to be
+     added. Not respecting this would lead to confusion, while sharing
+     an ID is conceivable over the whole network, it can't be tolerated
+     within a community. Same for the URL.
+
+     *Return value:*  1 if new member could be added, 0 if not.
+
+ -- Function: int lw6nod_info_community_has_id (lw6nod_info_t * INFO,
+          u_int64_t ID)
+     INFO:  node info object to test
+
+     ID:  ID of the member we want to check
+
+     Tells wether a member exists with this ID. Will test both
+     ourselves and remote peers.
+
+     *Return value:*  1 if ID is already taken, 0 if available.
+
+ -- Function: int lw6nod_info_community_has_url (lw6nod_info_t * INFO,
+          char * URL)
+     INFO:  node info object to test
+
+     URL:  URL of the member we want to check
+
+     Tells wether a member exists with this URL. Will test both
+     ourselves and remote peers.
+
+     *Return value:*  1 if URL is already taken, 0 if available.
+
+ -- Function: int lw6nod_info_community_remove_by_id (lw6nod_info_t *
+          INFO, u_int64_t ID)
+     INFO:  node info object to modify
+
+     ID:  ID of the member we want to remove
+
+     Removes a community member by ID.
+
+     *Return value:*  1 if successfully removed, 0 if was not present.
+
+ -- Function: int lw6nod_info_community_remove_by_url (lw6nod_info_t *
+          INFO, char * URL)
+     INFO:  node info object to modify
+
+     URL:  URL of the member we want to remove
+
+     Removes a community member by URL.
+
+     *Return value:*  1 if successfully removed, 0 if was not present.
+
+ -- Function: int lw6nod_info_community_count (lw6nod_info_t * INFO)
+     INFO:  node info object to modify
+
+     Tells how many members there are in a community. This include
+     ourselves so this can never be 0, should at least be 1. Note that
+     this is pretty much the same as the nb_nodes member of dyn_info,
+     but this one is calculated dynamically from peer list, while the
+     other one is updated from time to time from game_state information.
+
+     *Return value:*  number of community members, including this node
+     (us).
+
+ -- Function: void lw6nod_info_community_reset (lw6nod_info_t * INFO)
+     INFO:  node info object to modify
+
+     Resets all peers, set community to only one member, ourselves.
+
+     *Return value:*  none.
+
+ -- Function: void lw6nod_dyn_info_free (lw6nod_dyn_info_t * DYN_INFO)
+     DYN_INFO:  the dyn info struct to free
+
+     Frees a dyn info object, to be used after a call to
+     `lw6nod_info_dup_dyn' for instance.
+
+     *Return value:*  none
+
+ -- Function: lw6nod_info_t * lw6nod_info_new (char * PROGRAM, char *
+          VERSION, char * CODENAME, int STAMP, u_int64_t ID, char *
+          URL, char * TITLE, char * DESCRIPTION, char * PASSWORD, int
+          BENCH, int OPEN_RELAY, int UPTIME, int IDLE_SCREENSHOT_SIZE,
+          void * IDLE_SCREENSHOT_DATA)
+     PROGRAM:  the program (normally it's liquidwar6)
+
+     VERSION:  the version
+
+     CODENAME:  the codename
+
+     STAMP:  the stamp
+
+     ID:  the node id
+
+     URL:  the node public url
+
+     TITLE:  the node title
+
+     DESCRIPTION:  the node description
+
+     PASSWORD:  the node password
+
+     BENCH:  the node bench
+
+     OPEN_RELAY:  open relay or not
+
+     UPTIME:  uptime in seconds
+
+     IDLE_SCREENSHOT_SIZE:  the size (bytes) of the image to display
+     when game is idle
+
+     IDLE_SCREENSHOT_DATA:  the data (jpeg) of the image to display
+     when game is idle
+
+     Creates a node info object. The arguments correspond to the
+     immutable node attributes, other properties such as how many
+     players are connected or set in other functions like
+     `lw6nod_info_update' which can be called later.
+
+     *Return value:*  newly allocated object, NULL on error.
+
+ -- Function: void lw6nod_info_free (lw6nod_info_t * INFO)
+     INFO:  the node info to free
+
+     Frees a node info object.
+
+     *Return value:*  none
+
+ -- Function: int lw6nod_info_lock (lw6nod_info_t * INFO)
+     INFO:  the node info to lock
+
+     Locks a node info object, this is usefull for some members,
+     typically list of servers, can be accessed by separated threads,
+     one reading, many writing, and these objects (chained lists)
+     certainly do not want to be modified while being read.
+
+     *Return value:*  1 if ok, 0 if not.
+
+ -- Function: int lw6nod_info_unlock (lw6nod_info_t * INFO)
+     INFO:  the node info to unlock
+
+     Unlocks a node info object, this is the compation of the
+     `lw6nod_info_lock' function.
+
+     *Return value:*  1 if ok, 0 if not.
+
+ -- Function: void lw6nod_info_idle (lw6nod_info_t * INFO)
+     INFO:  the node info to modify
+
+     Clears a node info object and sets all its variable attributes to
+     NULL/default values. This is what we want when the node is idle,
+     not playing.
+
+     *Return value:*  none.
+
+ -- Function: int lw6nod_info_update (lw6nod_info_t * INFO, u_int64_t
+          COMMUNITY_ID, int ROUND, char * LEVEL, int REQUIRED_BENCH,
+          int NB_COLORS, int MAX_NB_COLORS, int NB_CURSORS, int
+          MAX_NB_CURSORS, int NB_NODES, int MAX_NB_NODES, int
+          GAME_SCREENSHOT_SIZE, void * GAME_SCREENSHOT_DATA)
+     INFO:  the node info to update
+
+     COMMUNITY_ID:  the id of the community the node belongs to
+
+     ROUND:  the current round (can have an offset with real round
+     number)
+
+     LEVEL:  the name of the current level (map)
+
+     REQUIRED_BENCH:  the bench required to connect
+
+     NB_COLORS:  number of colors playing
+
+     MAX_NB_COLORS:  max number of colors allowed
+
+     NB_CURSORS:  number of cursors playing
+
+     MAX_NB_CURSORS:  max number of cursors allowed
+
+     NB_NODES:  number of nodes playing
+
+     MAX_NB_NODES:  max number of nodes allowed
+
+     GAME_SCREENSHOT_SIZE:  size of screenshot (bytes)
+
+     GAME_SCREENSHOT_DATA:  screenshot data (byte buffer, contains JPEG)
+
+     Set a node info object variable attributes. Call this whenever the
+     node has changed some parameter. Not too often for it's not needed
+     and some operations such as modying the screenshot, can be time
+     consuming.
+
+     *Return value:*  1 if OK, 0 if error.
+
+ -- Function: lw6nod_dyn_info_t * lw6nod_info_dup_dyn (lw6nod_info_t *
+          INFO)
+     INFO:  the node info containing the dyn info to duplicate
+
+     Extracts the dynamic part of an info struct and duplicates it,
+     this is to avoid protection fault error when concurrent threads
+     access this info.
+
+     *Return value:*  newly allocated object, must be freed.
+
+ -- Function: lw6sys_hash_t * lw6nod_info_new_discovered_nodes ()
+     Creates a new hash, to be used as a discovered nodes list.  Using
+     this function has the advantage of setting the hash options to
+     their defaults.  We use a hash to avoid having uselessly long
+     lists containing always the same node due to multiple detections.
+
+     *Return value:*  an empty hash
+
+ -- Function: int lw6nod_info_add_discovered_node (lw6nod_info_t *
+          INFO, char * PUBLIC_URL)
+     INFO:  the node info to update
+
+     PUBLIC_URL:  the address of the discovered node
+
+     Registers a new server, and queues it as something that should be
+     checked later because it's interesting. We can't insert in the
+     database all the servers we suspect to exist so network threads
+     should use this, then main thread will process discovered servers
+     afterwards. This is also a good way to avoid trivial DOS attacks.
+
+     *Return value:*  1 if OK, O if error.
+
+ -- Function: lw6sys_list_t * lw6nod_info_pop_discovered_nodes
+          (lw6nod_info_t * INFO)
+     INFO:  the node info to query
+
+     Returns a list of all discovered nodes (their public URL) and
+     empties the current queue as well.
+
+     *Return value:*  a list of dynamically allocated strings.
+
+ -- Function: lw6sys_list_t * lw6nod_info_new_verified_nodes ()
+     Creates a new list, to be filled with nodes and typically passed
+     to `lw6nod_info_set_verified_nodes'. Using this function has the
+     advantage of setting the listh options to their defaults.
+
+     *Return value:*  an empty list
+
+ -- Function: int lw6nod_info_set_verified_nodes (lw6nod_info_t * INFO,
+          lw6sys_list_t * LIST)
+     INFO:  the node info to modify
+
+     LIST:  the list of verified nodes, will be freed by this function
+
+     Sets the list of verified nodes, that is, the list of nodes we are
+     sure to exist, this is typically the list we will display later on
+     a web page. We can't directly display any discovered node, one
+     needs to filter them through main thread.  Something very
+     important about this function is that `list' will be freed by
+     function, that is, if you call this, then you can (you should)
+     forget your object, it will disappear any time soon.
+
+     *Return value:*  1 if OK, 0 on error.
+
+ -- Function: void lw6nod_info_map_verified_nodes (lw6nod_info_t *
+          INFO, lw6sys_list_callback_func_t FUNC, void * FUNC_DATA)
+     INFO:  the node info concerned
+
+     FUNC:  the function to apply
+
+     FUNC_DATA:  arbitrary pointer holding data to pass to function
+
+     Calls `lw6sys_hash_map' with `func' on every member of the list of
+     verified nodes. The reason there's a function for this is that it
+     is very important that list object is locked when doing this.
+     This function does perform a lock/unlock so it is safe.
+
+     *Return value:*  none.
+
+ -- Function: int lw6nod_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `nod' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+ -- Struct: lw6nod_const_info_s
+     Constant informations about a node, these are informations that do
+     not vary through the node's life, so they are set object creation
+     then left unchanged.
+
+ -- Member of lw6nod_const_info_s: program
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::program'
+
+     Program, this should be set to liquidwar6.
+
+
+ -- Member of lw6nod_const_info_s: version
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::version'
+
+     The version of the program.
+
+
+ -- Member of lw6nod_const_info_s: codename
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::codename'
+
+     The codename of the program.
+
+
+ -- Member of lw6nod_const_info_s: stamp
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::stamp'
+
+     The stamp of the program.
+
+
+ -- Member of lw6nod_const_info_s: ref_info
+     *Type:* `lw6nod_ref_info_t'
+
+     *Definition:* `lw6nod_ref_info_t lw6nod_const_info_s::ref_info'
+
+     Reference information, how to uniquely identify node.
+
+
+ -- Member of lw6nod_const_info_s: title
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::title'
+
+     The title of the node, its readable short name.
+
+
+ -- Member of lw6nod_const_info_s: description
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::description'
+
+     More details about the node.
+
+
+ -- Member of lw6nod_const_info_s: has_password
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::has_password'
+
+     Wether the node is password protected or not.
+
+
+ -- Member of lw6nod_const_info_s: password
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::password'
+
+     The password used, cleartext.
+
+
+ -- Member of lw6nod_const_info_s: bench
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::bench'
+
+     The node bench.
+
+
+ -- Member of lw6nod_const_info_s: open_relay
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::open_relay'
+
+     Wether the node acts as an open relay or not.
+
+
+ -- Member of lw6nod_const_info_s: creation_timestamp
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6nod_const_info_s::creation_timestamp'
+
+     The node creation timestamp.
+
+
+ -- Member of lw6nod_const_info_s: idle_screenshot_size
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::idle_screenshot_size'
+
+     Size of the screenshot (in bytes) when in idle mode.
+
+
+ -- Member of lw6nod_const_info_s: idle_screenshot_data
+     *Type:* `void *'
+
+     *Definition:* `void* lw6nod_const_info_s::idle_screenshot_data'
+
+     Idle mode screenshot data. This is just a plain JPEG buffer, which
+     will be used as a fallback if there's no real screenshot available.
+
+ -- Struct: lw6nod_dyn_info_s
+     Dynamic informations about a node, these are informations that
+     vary through the node's life, so they are unset at object creation
+     and can then be updated from game context.
+
+ -- Member of lw6nod_dyn_info_s: community_id_int
+     *Type:* `u_int64_t'
+
+     *Definition:* `u_int64_t lw6nod_dyn_info_s::community_id_int'
+
+     The ID of the community this node belongs to, as a 64-bit unsigned
+     integer.
+
+ -- Member of lw6nod_dyn_info_s: community_id_str
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_dyn_info_s::community_id_str'
+
+     The ID of the community this node belongs to, as a string (64-bit
+     integer converted to hexa).
+
+ -- Member of lw6nod_dyn_info_s: community_peers
+     *Type:* `lw6nod_ref_info_t'
+
+     *Definition:* `lw6nod_ref_info_t
+     lw6nod_dyn_info_s::community_peers[LW6NOD_MAX_NB_PEERS]'
+
+     The list of community members, you need to refer to the nb_nodes
+     member to know quickly how many members they are but actually, in
+     practice, there can be holes in this array, you need to check each
+     slot, for instance 0 can be filled, 2 can be filled too, but 1 be
+     empty. Note that we don't count ourselves in this list.
+
+ -- Member of lw6nod_dyn_info_s: round
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::round'
+
+     The current round.
+
+
+ -- Member of lw6nod_dyn_info_s: level
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_dyn_info_s::level'
+
+     The current level.
+
+
+ -- Member of lw6nod_dyn_info_s: required_bench
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::required_bench'
+
+     The required bench to connect to this node.
+
+
+ -- Member of lw6nod_dyn_info_s: nb_colors
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::nb_colors'
+
+     Number of colors playing.
+
+
+ -- Member of lw6nod_dyn_info_s: max_nb_colors
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::max_nb_colors'
+
+     Maximum number of colors allowed to play.
+
+
+ -- Member of lw6nod_dyn_info_s: nb_cursors
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::nb_cursors'
+
+     Number of cursors playing.
+
+
+ -- Member of lw6nod_dyn_info_s: max_nb_cursors
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::max_nb_cursors'
+
+     Maximum number of cursors allowed to play.
+
+
+ -- Member of lw6nod_dyn_info_s: nb_nodes
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::nb_nodes'
+
+     Number of nodes playing.
+
+
+ -- Member of lw6nod_dyn_info_s: max_nb_nodes
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::max_nb_nodes'
+
+     Maximum number of nodes allowed to play.
+
+
+ -- Member of lw6nod_dyn_info_s: game_screenshot_size
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::game_screenshot_size'
+
+     Size of the screenshot, in bytes.
+
+
+ -- Member of lw6nod_dyn_info_s: game_screenshot_data
+     *Type:* `void *'
+
+     *Definition:* `void* lw6nod_dyn_info_s::game_screenshot_data'
+
+     Game screenshot data. This is just a plain JPEG buffer, which will
+     be served when peers and/or web clients want to gather
+     informations about the game. This can be NULL, in that the
+     fallback constant data will be used.
+
+ -- Struct: lw6nod_info_s
+     Informations about a node. Note that in practice this structure is
+     just used to describe our current node, there might be several
+     instances of this if a program instanciates several nodes, but
+     another data structure is used to store information about
+     peers.typedef struct lw6nod_info_s
+
+ -- Member of lw6nod_info_s: mutex
+     *Type:* `void *'
+
+     *Definition:* `void* lw6nod_info_s::mutex'
+
+     Mutex used to access dynamic informations.
+
+
+ -- Member of lw6nod_info_s: const_info
+     *Type:* `lw6nod_const_info_t'
+
+     *Definition:* `lw6nod_const_info_t lw6nod_info_s::const_info'
+
+     Constant informations, never changes.
+
+
+ -- Member of lw6nod_info_s: dyn_info
+     *Type:* `lw6nod_dyn_info_t'
+
+     *Definition:* `lw6nod_dyn_info_t lw6nod_info_s::dyn_info'
+
+     Dynamic informations, can be updated. Do not modify this directly,
+     instead use appropriate functions which will use mutexes properly.
+
+ -- Member of lw6nod_info_s: discovered_nodes
+     *Type:* `lw6sys_hash_t *'
+
+     *Definition:* `lw6sys_hash_t* lw6nod_info_s::discovered_nodes'
+
+     List of discovered nodes, do not access this directly, instead use
+     proper query functions which, in turn, will use mutexes properly.
+
+ -- Member of lw6nod_info_s: verified_nodes
+     *Type:* `lw6sys_list_t *'
+
+     *Definition:* `lw6sys_list_t* lw6nod_info_s::verified_nodes'
+
+     List of verified nodes, do not access this directly, instead use
+     proper query functions which, in turn, will use mutexes properly.
+
+ -- Struct: lw6nod_ref_info_s
+     Reference information about a node, this is all you need to
+     uniquely identify a node. In theory, only the ID are only the URL
+     are enough, in practice it's not that bad to have some redundancy,
+     plus it makes it easier and faster to connect to them and transmit
+     informations.
+
+ -- Member of lw6nod_ref_info_s: id_int
+     *Type:* `u_int64_t'
+
+     *Definition:* `u_int64_t lw6nod_ref_info_s::id_int'
+
+     The id of the node, as an integer (64-bit unsigned).
+
+
+ -- Member of lw6nod_ref_info_s: id_str
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_ref_info_s::id_str'
+
+     The id of the node, as a string (64-bit converted to hexa).
+
+
+ -- Member of lw6nod_ref_info_s: url
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_ref_info_s::url'
+
+     The public URL of the node.
+
+
+
 File: liquidwar6.info,  Node: libp2p,  Next: libpil,  Prev: libnod,  Up: C API
 
 5.30 libp2p
@@ -1095,11 +1729,14 @@ results on
      *Return value:*  1 if test is successfull, 0 on error.
 
  -- Struct: lw6pil_add_args_s
+     Arguments passed to the ADD command.
 
  -- Member of lw6pil_add_args_s: cursor_id
      *Type:* `u_int16_t'
 
      *Definition:* `u_int16_t lw6pil_add_args_s::cursor_id'
+
+     Cursor ID (16-bit non-zero unsigned int).
 
 
  -- Member of lw6pil_add_args_s: team_color
@@ -1107,19 +1744,30 @@ results on
 
      *Definition:* `int lw6pil_add_args_s::team_color'
 
+     Team color (0 to 9).
+
 
  -- Struct: lw6pil_command_s
+     Command structure, contains both full-text version and parsed
+     information.
 
  -- Member of lw6pil_command_s: seq
      *Type:* `int64_t'
 
      *Definition:* `int64_t lw6pil_command_s::seq'
 
+     The sequence number, a very large 64-bit integer. The sequence is
+     here because the round wouldn't be able to stand multiple games
+     for long as it is only 32-bit. OTOH making round a 64-bit would
+     cause multithread problems because of non-atomicity of 64-bit
+     affectation on truely 32-bit platforms.
 
  -- Member of lw6pil_command_s: round
      *Type:* `int'
 
      *Definition:* `int lw6pil_command_s::round'
+
+     The game round.
 
 
  -- Member of lw6pil_command_s: node_id
@@ -1127,11 +1775,15 @@ results on
 
      *Definition:* `u_int64_t lw6pil_command_s::node_id'
 
+     The node ID issuing that command.
+
 
  -- Member of lw6pil_command_s: code
      *Type:* `lw6pil_command_code_t'
 
      *Definition:* `lw6pil_command_code_t lw6pil_command_s::code'
+
+     The command code.
 
 
  -- Member of lw6pil_command_s: args
@@ -1139,31 +1791,45 @@ results on
 
      *Definition:* `lw6pil_command_args_t lw6pil_command_s::args'
 
+     The command arguments, parsed.
+
 
  -- Member of lw6pil_command_s: text
      *Type:* `char *'
 
      *Definition:* `char* lw6pil_command_s::text'
 
+     The original full text of the command.
+
 
  -- Struct: lw6pil_local_cursors_s
+     Contains information about all local cursors, which will override
+     information from game state.
 
  -- Member of lw6pil_local_cursors_s: main_cursor_id
      *Type:* `u_int16_t'
 
      *Definition:* `u_int16_t lw6pil_local_cursors_s::main_cursor_id'
 
+     Main cursor ID (16-bit non-zero unsigned int). By main, we usually
+     mean the mouse-driven one but necessarily. But still, this is a
+     cursor which will have a special role, it will be used to center
+     the map if needed, among other things.
 
  -- Member of lw6pil_local_cursors_s: main_i
      *Type:* `int'
 
      *Definition:* `int lw6pil_local_cursors_s::main_i'
 
+     Main cursor index.
+
 
  -- Member of lw6pil_local_cursors_s: nb_cursors
      *Type:* `int'
 
      *Definition:* `int lw6pil_local_cursors_s::nb_cursors'
+
+     Number of cursors.
 
 
  -- Member of lw6pil_local_cursors_s: cursors
@@ -1172,13 +1838,23 @@ results on
      *Definition:* `lw6pil_local_cursor_t
      lw6pil_local_cursors_s::cursors[LW6MAP_MAX_NB_CURSORS]'
 
+     The cursors array.
+
 
  -- Struct: lw6pil_local_cursor_s
+     Stores informations about local cursors. This is usefull for user
+     feedback. Indeed there can be some delay between, for instance, a
+     mouse move or a keyboard press, and the time this information
+     makes it through the whole pipeline. Players wouldn't understand
+     such a lag so for local cursors we override the information from
+     the game state with that information we get right from the GUI.
 
  -- Member of lw6pil_local_cursor_s: cursor_id
      *Type:* `u_int16_t'
 
      *Definition:* `u_int16_t lw6pil_local_cursor_s::cursor_id'
+
+     Cursor ID (16-bit non-zero unsigned int).
 
 
  -- Member of lw6pil_local_cursor_s: x
@@ -1186,11 +1862,15 @@ results on
 
      *Definition:* `int lw6pil_local_cursor_s::x'
 
+     X position (map coords).
+
 
  -- Member of lw6pil_local_cursor_s: y
      *Type:* `int'
 
      *Definition:* `int lw6pil_local_cursor_s::y'
+
+     Y position (map coords).
 
 
  -- Member of lw6pil_local_cursor_s: mouse_controlled
@@ -1198,11 +1878,15 @@ results on
 
      *Definition:* `int lw6pil_local_cursor_s::mouse_controlled'
 
+     Wether this cursor is mouse controlled. If yes, then information
+     will be taken directly from the mouse driver.
 
  -- Member of lw6pil_local_cursor_s: is_main
      *Type:* `int'
 
      *Definition:* `int lw6pil_local_cursor_s::is_main'
+
+     Wether this cursor is the main cursor.
 
 
  -- Struct: lw6pil_pilot_s
@@ -1214,19 +1898,25 @@ results on
 
 
  -- Struct: lw6pil_remove_args_s
+     Arguments passed to the REMOVE command.
 
  -- Member of lw6pil_remove_args_s: cursor_id
      *Type:* `u_int16_t'
 
      *Definition:* `u_int16_t lw6pil_remove_args_s::cursor_id'
 
+     Cursor ID (16-bit non-zero unsigned int).
+
 
  -- Struct: lw6pil_set_args_s
+     Arguments passed to the SET command.
 
  -- Member of lw6pil_set_args_s: cursor_id
      *Type:* `u_int64_t'
 
      *Definition:* `u_int64_t lw6pil_set_args_s::cursor_id'
+
+     Cursor ID (16-bit non-zero unsigned int).
 
 
  -- Member of lw6pil_set_args_s: x
@@ -1234,11 +1924,15 @@ results on
 
      *Definition:* `int lw6pil_set_args_s::x'
 
+     X position (map coords).
+
 
  -- Member of lw6pil_set_args_s: y
      *Type:* `int'
 
      *Definition:* `int lw6pil_set_args_s::y'
+
+     Y position (map coords).
 
 
  -- Member of lw6pil_set_args_s: fire
@@ -1246,19 +1940,29 @@ results on
 
      *Definition:* `int lw6pil_set_args_s::fire'
 
+     Wether to activate primary weapon.
+
 
  -- Member of lw6pil_set_args_s: fire2
      *Type:* `int'
 
      *Definition:* `int lw6pil_set_args_s::fire2'
 
+     Wether to activate secondary weapon.
+
 
  -- Struct: lw6pil_worker_s
+     Worker thread data, used to calculate stuff in a separate thread.
+     The principle is simple, it tries to keep up with a given target
+     round, whenever this round isn't reached, it computes more and
+     more rounds.
 
  -- Member of lw6pil_worker_s: run
      *Type:* `int'
 
      *Definition:* `int lw6pil_worker_s::run'
+
+     Wether this thread should run, 0 will stop it.
 
 
  -- Member of lw6pil_worker_s: current_round
@@ -1266,11 +1970,15 @@ results on
 
      *Definition:* `int lw6pil_worker_s::current_round'
 
+     Current game round.
+
 
  -- Member of lw6pil_worker_s: target_round
      *Type:* `int'
 
      *Definition:* `int lw6pil_worker_s::target_round'
+
+     Round up to which we should compute stuff.
 
 
  -- Member of lw6pil_worker_s: computed_rounds
@@ -1278,11 +1986,15 @@ results on
 
      *Definition:* `int lw6pil_worker_s::computed_rounds'
 
+     How many rounds where computed since object creation.
+
 
  -- Member of lw6pil_worker_s: over
      *Type:* `int'
 
      *Definition:* `int lw6pil_worker_s::over'
+
+     Wether the game is over or not.
 
 
  -- Member of lw6pil_worker_s: compute_thread
@@ -1290,11 +2002,15 @@ results on
 
      *Definition:* `void* lw6pil_worker_s::compute_thread'
 
+     The thread that does the job.
+
 
  -- Member of lw6pil_worker_s: global_mutex
      *Type:* `void *'
 
      *Definition:* `void* lw6pil_worker_s::global_mutex'
+
+     Global data mutex.
 
 
  -- Member of lw6pil_worker_s: compute_mutex
@@ -1302,23 +2018,31 @@ results on
 
      *Definition:* `void* lw6pil_worker_s::compute_mutex'
 
+     Mutex used for the computing thread.
+
 
  -- Member of lw6pil_worker_s: commands_spinlock
      *Type:* `void *'
 
      *Definition:* `void* lw6pil_worker_s::commands_spinlock'
 
+     Mutex used for the commands object, uses a spinlock instead of a
+     standard lock as updating commands is (should) be pretty fast.
 
  -- Member of lw6pil_worker_s: game_state
      *Type:* `lw6ker_game_state_t *'
 
      *Definition:* `lw6ker_game_state_t* lw6pil_worker_s::game_state'
 
+     Game state the computing thread is working on.
+
 
  -- Member of lw6pil_worker_s: commands
      *Type:* `lw6sys_list_t *'
 
      *Definition:* `lw6sys_list_t* lw6pil_worker_s::commands'
+
+     List of commands to be processed.
 
 
 

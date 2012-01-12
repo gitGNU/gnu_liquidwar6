@@ -346,49 +346,141 @@ typedef enum lw6gui_drag_mode_e
 }
 lw6gui_drag_mode_t;
 
+/**
+ * Use to store mouse pointer information.
+ */
 typedef struct lw6gui_mouse_pointer_s
 {
+  /// Mouse X position (pixels).
   int pos_x;
+  /// Mouse Y position (pixels).
   int pos_y;
+  /**
+   * Mouse X speed. The unit is pixels per second. This is
+   * based on the last move, for instance if between two
+   * moves 100 msec have elapsed, and mouse moved 13 pixels,
+   * then speed is 130.
+   */
   int speed_x;
+  /**
+   * Mouse Y speed. The unit is pixels per second. This is
+   * based on the last move, for instance if between two
+   * moves 100 msec have elapsed, and mouse moved 13 pixels,
+   * then speed is 130.
+   */
   int speed_y;
 }
 lw6gui_mouse_pointer_t;
 
+/**
+ * Mouse information, contains detailed mouse state,
+ * including mouse position and button states but
+ * also keeps track of mouse speed as well as its
+ * corresponding map coordinates. That is, given
+ * the current screen position, what does it mean
+ * on the logical map/battlefield.
+ */
 typedef struct lw6gui_mouse_s
 {
+  /// Wether mouse was moved lately. 1 means yes, 0 no.
   int moved;
+  /// Timestamp of last move.
   int64_t last_moved;
+  /** 
+   * Information about the mouse pointer, using screen
+   * coordinates, the unit being pixels.
+   */
   lw6gui_mouse_pointer_t screen_pointer;
+  /** 
+   * Information about the mouse pointer, using map
+   * coordinates, the unit being the map slot.
+   * This is possibly very different from screen coordinates,
+   * they can be inverted, have a different scale, and globally
+   * it's just something else, even if it refers to the
+   * same physical move.
+   */
   lw6gui_mouse_pointer_t map_pointer;
+  /**
+   * Information about the mouse pointer when drag
+   * mode was entered. The unit is screen pixels.
+   */
   lw6gui_mouse_pointer_t screen_drag_start;
+  /// The current drag state.
   lw6gui_drag_mode_t drag_mode;
+  /**
+   * The index of the menu item the mouse is on. 
+   * This is the only was to know when to select an item,
+   * one should not use mouse coords outside the gfx renderer
+   * code for this purpose, it's the renderer which has
+   * knowledge about where menu items are.
+   */
   int menu_position;
+  /**
+   * Set to -1 if one needs to scroll up (decrease menu index)
+   * to +1 if one needs to scroll down (increase menu index)
+   * and 0 if one needs to do nothing as far as scrolling is
+   * concerned.
+   */
   int menu_scroll;
+  /// Wether mouse pointer is over the ESC button.
   int menu_esc;
+  /// Mouse left button state.
   lw6gui_button_t button_left;
+  /// Mouse right button state.
   lw6gui_button_t button_right;
+  /// Mouse middle button state.
   lw6gui_button_t button_middle;
+  /// Mouse wheel up state. 
   lw6gui_button_t wheel_up;
+  /// Mouse wheel down state.
   lw6gui_button_t wheel_down;
 }
 lw6gui_mouse_t;
 
+/**
+ * Joystick information, contains detailed joystick state.
+ * This structure uses a pad-like interface, there's no
+ * knowledge of analog interfaces, it transforms everything
+ * to a binary "up or down" and "left or right". This 
+ * interface only knows about 6 buttons, this is done on
+ * purpose, the logic behind it is that more than 6 buttons
+ * makes the control way too complicated. Actually, most
+ * common functions are and should be available through
+ * the 4 first (a,b,c,d) buttons. The e and f are here for
+ * additionnal not-so-important features.
+ */
 typedef struct lw6gui_joystick_s
 {
+  /// Joystick up button state.
   lw6gui_button_t pad_up;
+  /// Joystick down button state.
   lw6gui_button_t pad_down;
+  /// Joystick left button state.
   lw6gui_button_t pad_left;
+  /// Joystick right button state.
   lw6gui_button_t pad_right;
+  /// Joystick a button state.
   lw6gui_button_t button_a;
+  /// Joystick b button state.
   lw6gui_button_t button_b;
+  /// Joystick c button state.
   lw6gui_button_t button_c;
+  /// Joystick d button state.
   lw6gui_button_t button_d;
+  /// Joystick e button state.
   lw6gui_button_t button_e;
+  /// Joystick f button state.
   lw6gui_button_t button_f;
 }
 lw6gui_joystick_t;
 
+/**
+ * Global input state, contains informations about the
+ * keyboard, mouse and joystick. This is the macro object
+ * used to exchange data and transmit input information
+ * from the rendering thread which gathers it to the
+ * logical thread which computes the game state.
+ */
 typedef struct lw6gui_input_s
 {
   int need_sync;
@@ -398,130 +490,359 @@ typedef struct lw6gui_input_s
 }
 lw6gui_input_t;
 
+/**
+ * Menu item object. Basically, a menu is an array of
+ * these items, it's up to the gfx backend to render
+ * this as accurately as possible. The most important
+ * field is probably the label.
+ */
 typedef struct lw6gui_menuitem_s
 {
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
   u_int32_t id;
+  /// What is displayed in the menu item.
   char *label;
+  /// An additionnal tooltip explaining what the item is about.
   char *tooltip;
+  /**
+   * The value for this item, can typically be used for booleans
+   * and integer values, in addition to the information conveyed
+   * by the label. One special case is colored items, in that
+   * case the value will be used as a color index.
+   */
   int value;
+  /// Wether the item is valid and can be used.
   int enabled;
+  /// Wether the item is the current selection.
   int selected;
+  /**
+   * Wether to colorize the item, and in that case,
+   * use the value field to know which color to use.
+   */
   int colored;
+  /// Timestamp of last time the menu item was updated and changed.
   int last_change;
+  /// Timestamp of last time the menu was selected.
   int last_select;
+  /// Timestamp of last time the menu was unselected.
   int last_unselect;
 }
 lw6gui_menuitem_t;
 
+/**
+ * Menu item object. Basically, a menu is an array of
+ * menu items, it's up to the gfx backend to render
+ * this as accurately as possible. The most important
+ * field is probably the items labels. The menu object
+ * also stores state information such as what was the
+ * first item displayed lately.
+ */
 typedef struct lw6gui_menu_s
 {
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
   u_int32_t id;
+  /// Title of the menu, used for breadcrumbs.
   char *title;
+  /// Additionnal help text, explaining what the menu is about.
   char *help;
+  /** 
+   * Popup text, will be displayed when the menu is first
+   * displayed, and then disappear.
+   */
   char *popup;
+  /// Number of items.
   int nb_items;
+  /// Special item describing the ESC button.
   lw6gui_menuitem_t *esc_item;
+  /// Array of items, containing all the menu items.
   lw6gui_menuitem_t **items;
+  /// The current selection.
   int selected_item;
+  /**
+   * The first item displayed, this is mandatory if we want
+   * the menus to be displayable in different states, for
+   * instance with first item being 2 and items displayed from
+   * 2 to 10 or with first item being 5 and items displayed from
+   * 2 to 10. In the first case the 1st item is selected, in
+   * the second case it's the 4th.
+   */
   int first_item_displayed;
+  /// Number of items displayed.
   int nb_items_displayed;
+  /**
+   * Index, display-based (that is, 0 here means first displayed
+   * and not necessarly first in the items array), of the selected
+   * item.
+   */
   int order_of_selected_on_display;
+  /// Wether scrolling is allowed.
   int allow_scroll;
+  /**
+   * List of strings containing the breadcrumbs, that is to
+   * say all the menu titles that one must use to get here.
+   */
   lw6sys_list_t *breadcrumbs;
 }
 lw6gui_menu_t;
 
+/**
+ * Statefull object used to make transitions between 2 floats.
+ * Basically, one needs to choose a target, which is y2, and give
+ * a start, which is defined by s1 and y1 (speed and y value).
+ * Then with t1 (start timestamp) and duration the object has
+ * functions which enables interpolation between those two values,
+ * knowing at the end the value will be y2 and the speed 0. To
+ * some extent, this is a primitive bezier-like tool.
+ */
 typedef struct lw6gui_smoother_s
 {
+  /// Speed at startup.
   float s1;
+  /// Y value at startup.
   float y1;
+  /// Y target value.
   float y2;
+  /// Timestamp at startup.
   int64_t t1;
+  /// Duration (in milliseconds) of the transition.
   int duration;
 } lw6gui_smoother_t;
 
+/**
+ * A basic rectangle data. The idea is to store both
+ * corner positions and width and height to cache the
+ * values and avoid always recalculating them.
+ * Values are integer based, for a floating point
+ * equivalent, see the zone struct.
+ */
 typedef struct lw6gui_rect_s
 {
+  /// Top-left corner X position.
   int x1;
+  /// Top-left corner Y position.
   int y1;
+  /// Bottom-right corner X position.
   int x2;
+  /// Bottom-right corner Y position.
   int y2;
+  /// Width.
   int w;
+  /// Height.
   int h;
 }
 lw6gui_rect_t;
 
+/**
+ * Array of rectangles. This is typically used to make
+ * tiles that overlap. It's mostly used to display fighters/maps
+ * using multiple textures when the whole stuff does not fit
+ * in one single OpenGL texture and needs to be splitted.
+ * Technically, when one needs to split textures, performance
+ * is poor, but still better than relying on software renderer
+ * only.
+ */
 typedef struct lw6gui_rect_array_s
 {
+  /// Size of original source data.
   lw6sys_whd_t source;
+  /**
+   * Boundary limits of the rect array, this is typically
+   * bigger that source size, it starts at negative values
+   * and finishes outside the source. It's interesting to
+   * cover that big an area to enable both the water effect
+   * and proper wrapping/clamping.
+   */
   lw6gui_rect_t limits;
+  /**
+   * Width and height of the tiles, this is typically a
+   * power of two, as it's designed to match an OpenGL
+   * low-level texture object.
+   */
   int tile_size;
+  /**
+   * The border size one needs to cut from the tile_size
+   * (on both sides, up and down or left and right) to
+   * get the real usable size of the tile.
+   */
   int border_size;
+  /**
+   * The tile spacing, difference of X or Y between two
+   * tiles, this is typically smaller that tile_size.
+   */
   int tile_spacing;
+  /// Number of tiles on the X axis (width).
   int nb_tiles_w;
+  /// Number of tiles on the Y axis (height).
   int nb_tiles_h;
+  /// Overall number of tiles.
   int nb_tiles;
 }
 lw6gui_rect_array_t;
 
+/**
+ * Basic point type, 3 floating point coords.
+ */
 typedef struct lw6gui_point_s
 {
+  /// X position.
   float x;
+  /// Y position.
   float y;
+  /// Z position.
   float z;
 } lw6gui_point_t;
 
+/**
+ * Basic segment type, composed of 2 points
+ * (floating point values).
+ */
 typedef struct lw6gui_segment_s
 {
+  /// 1st point.
   lw6gui_point_t p1;
+  /// 2nd point.
   lw6gui_point_t p2;
 }
 lw6gui_segment_t;
 
+/**
+ * Basic triangle type, composed of 3 points
+ * (floating point values).
+ */
 typedef struct lw6gui_triangle_s
 {
+  /// 1st point.
   lw6gui_point_t p1;
+  /// 2nd point.
   lw6gui_point_t p2;
+  /// 3rd point.
   lw6gui_point_t p3;
 } lw6gui_triangle_t;
 
+/**
+ * Basic quad type, composed of 4 points
+ * (floating point values).
+ */
 typedef struct lw6gui_quad_s
 {
+  /// 1st point.
   lw6gui_point_t p1;
+  /// 2nd point.
   lw6gui_point_t p2;
+  /// 3rd point.
   lw6gui_point_t p3;
+  /// 4th point.
   lw6gui_point_t p4;
 } lw6gui_quad_t;
 
+/**
+ * A basic rectangle data. The idea is to store both
+ * corner positions and width and height to cache the
+ * values and avoid always recalculating them.
+ * Values are float based, for an integer point
+ * equivalent, see the rect struct.
+ */
 typedef struct lw6gui_zone_s
 {
+  /// Top-left corner X position.
   float x1;
+  /// Top-left corner Y position.
   float y1;
+  /// Bottom-right corner X position.
   float x2;
+  /// Bottom-right corner Y position.
   float y2;
+  /// Width.
   float w;
+  /// Height.
   float h;
 } lw6gui_zone_t;
 
+/**
+ * Macro object used to store viewport information.
+ * Viewport here means "what part of the map should
+ * we display, on which part of the screen, and with
+ * which parameters". 
+ */
 typedef struct lw6gui_viewport_s
 {
+  /// Shape of the map to display, unit is map slot.
   lw6sys_whd_t map_shape;
+  /// Shape of the screen, unit is pixels.
   lw6sys_whd_t screen_shape;
+  /**
+   * X coord of the point we want to display at the
+   * center of the screen. This is typically our
+   * main cursor if we're using the keyboard to
+   * move it. Unit is map slot.
+   */
   float center_x;
+  /**
+   * Y coord of the point we want to display at the
+   * center of the screen. This is typically our
+   * main cursor if we're using the keyboard to
+   * move it. Unit is map slot.
+   */
   float center_y;
+  /**
+   * Previous X coord of the point we wanted to display at the
+   * center of the screen. This is typically our
+   * main cursor if we're using the keyboard to
+   * move it. Unit is map slot.
+   */
   float old_center_x;
+  /**
+   * Previous Y coord of the point we wanted to display at the
+   * center of the screen. This is typically our
+   * main cursor if we're using the keyboard to
+   * move it. Unit is map slot.
+   */
   float old_center_y;
+  /**
+   * Speed at which the viewport is moving on the X axis, unit
+   * is map slot per second.
+   */
   float speed_x;
+  /**
+   * Speed at which the viewport is moving on the Y axis, unit
+   * is map slot per second.
+   */
   float speed_y;
+  /// X-polarity parameter (1=on, 0=off, -1=invert).
   int x_polarity;
+  /// Y-polarity parameter (1=on, 0=off, -1=invert).
   int y_polarity;
+  /// Wether to wrap map on the X axis.
   int x_wrap;
+  /// Wether to wrap map on the Y axis.
   int y_wrap;
+  /**
+   * Drawable zone, this is the physical on-screen viewport.
+   * Unit is pixels.
+   */
   lw6gui_zone_t drawable;
+  /**
+   * Zone corresponding to the map, if it was to be drawn
+   * as a whole, regardless of drawable size, wrapping and
+   * polarity.
+   */
   lw6gui_zone_t map_main;
+  /**
+   * Zone corresponding to the map, only the main map, ignoring
+   * wrapping and polarity, but clipped with drawable zone.
+   */
   lw6gui_zone_t map_main_clipped;
+  /**
+   * Actual visible zone of the map, including wrapping, polarity,
+   * and drawable clip aware.
+   */
   lw6gui_zone_t map_visible;
-
 } lw6gui_viewport_t;
 
 /* gui-button.c */

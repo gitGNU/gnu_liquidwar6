@@ -2627,6 +2627,10 @@ results on
 
 
  -- Struct: lw6gui_input_s
+     Global input state, contains informations about the keyboard,
+     mouse and joystick. This is the macro object used to exchange data
+     and transmit input information from the rendering thread which
+     gathers it to the logical thread which computes the game state.
 
  -- Member of lw6gui_input_s: need_sync
      *Type:* `int'
@@ -2654,11 +2658,22 @@ results on
 
 
  -- Struct: lw6gui_joystick_s
+     Joystick information, contains detailed joystick state. This
+     structure uses a pad-like interface, there's no knowledge of
+     analog interfaces, it transforms everything to a binary "up or
+     down" and "left or right". This interface only knows about 6
+     buttons, this is done on purpose, the logic behind it is that more
+     than 6 buttons makes the control way too complicated. Actually,
+     most common functions are and should be available through the 4
+     first (a,b,c,d) buttons. The e and f are here for additionnal
+     not-so-important features.
 
  -- Member of lw6gui_joystick_s: pad_up
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_joystick_s::pad_up'
+
+     Joystick up button state.
 
 
  -- Member of lw6gui_joystick_s: pad_down
@@ -2666,11 +2681,15 @@ results on
 
      *Definition:* `lw6gui_button_t lw6gui_joystick_s::pad_down'
 
+     Joystick down button state.
+
 
  -- Member of lw6gui_joystick_s: pad_left
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_joystick_s::pad_left'
+
+     Joystick left button state.
 
 
  -- Member of lw6gui_joystick_s: pad_right
@@ -2678,11 +2697,15 @@ results on
 
      *Definition:* `lw6gui_button_t lw6gui_joystick_s::pad_right'
 
+     Joystick right button state.
+
 
  -- Member of lw6gui_joystick_s: button_a
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_joystick_s::button_a'
+
+     Joystick a button state.
 
 
  -- Member of lw6gui_joystick_s: button_b
@@ -2690,11 +2713,15 @@ results on
 
      *Definition:* `lw6gui_button_t lw6gui_joystick_s::button_b'
 
+     Joystick b button state.
+
 
  -- Member of lw6gui_joystick_s: button_c
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_joystick_s::button_c'
+
+     Joystick c button state.
 
 
  -- Member of lw6gui_joystick_s: button_d
@@ -2702,17 +2729,23 @@ results on
 
      *Definition:* `lw6gui_button_t lw6gui_joystick_s::button_d'
 
+     Joystick d button state.
+
 
  -- Member of lw6gui_joystick_s: button_e
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_joystick_s::button_e'
 
+     Joystick e button state.
+
 
  -- Member of lw6gui_joystick_s: button_f
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_joystick_s::button_f'
+
+     Joystick f button state.
 
 
  -- Struct: lw6gui_keyboard_s
@@ -2889,17 +2922,24 @@ results on
      command-line options).
 
  -- Struct: lw6gui_menuitem_s
+     Menu item object. Basically, a menu is an array of these items,
+     it's up to the gfx backend to render this as accurately as
+     possible. The most important field is probably the label.
 
  -- Member of lw6gui_menuitem_s: id
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6gui_menuitem_s::id'
 
+     The id of the object, this is non-zero and unique within one run
+     session, incremented at each object creation.
 
  -- Member of lw6gui_menuitem_s: label
      *Type:* `char *'
 
      *Definition:* `char* lw6gui_menuitem_s::label'
+
+     What is displayed in the menu item.
 
 
  -- Member of lw6gui_menuitem_s: tooltip
@@ -2907,17 +2947,25 @@ results on
 
      *Definition:* `char* lw6gui_menuitem_s::tooltip'
 
+     An additionnal tooltip explaining what the item is about.
+
 
  -- Member of lw6gui_menuitem_s: value
      *Type:* `int'
 
      *Definition:* `int lw6gui_menuitem_s::value'
 
+     The value for this item, can typically be used for booleans and
+     integer values, in addition to the information conveyed by the
+     label. One special case is colored items, in that case the value
+     will be used as a color index.
 
  -- Member of lw6gui_menuitem_s: enabled
      *Type:* `int'
 
      *Definition:* `int lw6gui_menuitem_s::enabled'
+
+     Wether the item is valid and can be used.
 
 
  -- Member of lw6gui_menuitem_s: selected
@@ -2925,17 +2973,23 @@ results on
 
      *Definition:* `int lw6gui_menuitem_s::selected'
 
+     Wether the item is the current selection.
+
 
  -- Member of lw6gui_menuitem_s: colored
      *Type:* `int'
 
      *Definition:* `int lw6gui_menuitem_s::colored'
 
+     Wether to colorize the item, and in that case, use the value field
+     to know which color to use.
 
  -- Member of lw6gui_menuitem_s: last_change
      *Type:* `int'
 
      *Definition:* `int lw6gui_menuitem_s::last_change'
+
+     Timestamp of last time the menu item was updated and changed.
 
 
  -- Member of lw6gui_menuitem_s: last_select
@@ -2943,25 +2997,38 @@ results on
 
      *Definition:* `int lw6gui_menuitem_s::last_select'
 
+     Timestamp of last time the menu was selected.
+
 
  -- Member of lw6gui_menuitem_s: last_unselect
      *Type:* `int'
 
      *Definition:* `int lw6gui_menuitem_s::last_unselect'
 
+     Timestamp of last time the menu was unselected.
+
 
  -- Struct: lw6gui_menu_s
+     Menu item object. Basically, a menu is an array of menu items,
+     it's up to the gfx backend to render this as accurately as
+     possible. The most important field is probably the items labels.
+     The menu object also stores state information such as what was the
+     first item displayed lately.
 
  -- Member of lw6gui_menu_s: id
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6gui_menu_s::id'
 
+     The id of the object, this is non-zero and unique within one run
+     session, incremented at each object creation.
 
  -- Member of lw6gui_menu_s: title
      *Type:* `char *'
 
      *Definition:* `char* lw6gui_menu_s::title'
+
+     Title of the menu, used for breadcrumbs.
 
 
  -- Member of lw6gui_menu_s: help
@@ -2969,17 +3036,23 @@ results on
 
      *Definition:* `char* lw6gui_menu_s::help'
 
+     Additionnal help text, explaining what the menu is about.
+
 
  -- Member of lw6gui_menu_s: popup
      *Type:* `char *'
 
      *Definition:* `char* lw6gui_menu_s::popup'
 
+     Popup text, will be displayed when the menu is first displayed,
+     and then disappear.
 
  -- Member of lw6gui_menu_s: nb_items
      *Type:* `int'
 
      *Definition:* `int lw6gui_menu_s::nb_items'
+
+     Number of items.
 
 
  -- Member of lw6gui_menu_s: esc_item
@@ -2987,11 +3060,15 @@ results on
 
      *Definition:* `lw6gui_menuitem_t* lw6gui_menu_s::esc_item'
 
+     Special item describing the ESC button.
+
 
  -- Member of lw6gui_menu_s: items
      *Type:* `lw6gui_menuitem_t **'
 
      *Definition:* `lw6gui_menuitem_t** lw6gui_menu_s::items'
+
+     Array of items, containing all the menu items.
 
 
  -- Member of lw6gui_menu_s: selected_item
@@ -2999,17 +3076,26 @@ results on
 
      *Definition:* `int lw6gui_menu_s::selected_item'
 
+     The current selection.
+
 
  -- Member of lw6gui_menu_s: first_item_displayed
      *Type:* `int'
 
      *Definition:* `int lw6gui_menu_s::first_item_displayed'
 
+     The first item displayed, this is mandatory if we want the menus
+     to be displayable in different states, for instance with first
+     item being 2 and items displayed from 2 to 10 or with first item
+     being 5 and items displayed from 2 to 10. In the first case the
+     1st item is selected, in the second case it's the 4th.
 
  -- Member of lw6gui_menu_s: nb_items_displayed
      *Type:* `int'
 
      *Definition:* `int lw6gui_menu_s::nb_items_displayed'
+
+     Number of items displayed.
 
 
  -- Member of lw6gui_menu_s: order_of_selected_on_display
@@ -3017,11 +3103,15 @@ results on
 
      *Definition:* `int lw6gui_menu_s::order_of_selected_on_display'
 
+     Index, display-based (that is, 0 here means first displayed and
+     not necessarly first in the items array), of the selected item.
 
  -- Member of lw6gui_menu_s: allow_scroll
      *Type:* `int'
 
      *Definition:* `int lw6gui_menu_s::allow_scroll'
+
+     Wether scrolling is allowed.
 
 
  -- Member of lw6gui_menu_s: breadcrumbs
@@ -3029,13 +3119,18 @@ results on
 
      *Definition:* `lw6sys_list_t* lw6gui_menu_s::breadcrumbs'
 
+     List of strings containing the breadcrumbs, that is to say all the
+     menu titles that one must use to get here.
 
  -- Struct: lw6gui_mouse_pointer_s
+     Use to store mouse pointer information.
 
  -- Member of lw6gui_mouse_pointer_s: pos_x
      *Type:* `int'
 
      *Definition:* `int lw6gui_mouse_pointer_s::pos_x'
+
+     Mouse X position (pixels).
 
 
  -- Member of lw6gui_mouse_pointer_s: pos_y
@@ -3043,31 +3138,48 @@ results on
 
      *Definition:* `int lw6gui_mouse_pointer_s::pos_y'
 
+     Mouse Y position (pixels).
+
 
  -- Member of lw6gui_mouse_pointer_s: speed_x
      *Type:* `int'
 
      *Definition:* `int lw6gui_mouse_pointer_s::speed_x'
 
+     Mouse X speed. The unit is pixels per second. This is based on the
+     last move, for instance if between two moves 100 msec have
+     elapsed, and mouse moved 13 pixels, then speed is 130.
 
  -- Member of lw6gui_mouse_pointer_s: speed_y
      *Type:* `int'
 
      *Definition:* `int lw6gui_mouse_pointer_s::speed_y'
 
+     Mouse Y speed. The unit is pixels per second. This is based on the
+     last move, for instance if between two moves 100 msec have
+     elapsed, and mouse moved 13 pixels, then speed is 130.
 
  -- Struct: lw6gui_mouse_s
+     Mouse information, contains detailed mouse state, including mouse
+     position and button states but also keeps track of mouse speed as
+     well as its corresponding map coordinates. That is, given the
+     current screen position, what does it mean on the logical
+     map/battlefield.
 
  -- Member of lw6gui_mouse_s: moved
      *Type:* `int'
 
      *Definition:* `int lw6gui_mouse_s::moved'
 
+     Wether mouse was moved lately. 1 means yes, 0 no.
+
 
  -- Member of lw6gui_mouse_s: last_moved
      *Type:* `int64_t'
 
      *Definition:* `int64_t lw6gui_mouse_s::last_moved'
+
+     Timestamp of last move.
 
 
  -- Member of lw6gui_mouse_s: screen_pointer
@@ -3076,12 +3188,19 @@ results on
      *Definition:* `lw6gui_mouse_pointer_t
      lw6gui_mouse_s::screen_pointer'
 
+     Information about the mouse pointer, using screen coordinates, the
+     unit being pixels.
 
  -- Member of lw6gui_mouse_s: map_pointer
      *Type:* `lw6gui_mouse_pointer_t'
 
      *Definition:* `lw6gui_mouse_pointer_t lw6gui_mouse_s::map_pointer'
 
+     Information about the mouse pointer, using map coordinates, the
+     unit being the map slot. This is possibly very different from
+     screen coordinates, they can be inverted, have a different scale,
+     and globally it's just something else, even if it refers to the
+     same physical move.
 
  -- Member of lw6gui_mouse_s: screen_drag_start
      *Type:* `lw6gui_mouse_pointer_t'
@@ -3089,11 +3208,15 @@ results on
      *Definition:* `lw6gui_mouse_pointer_t
      lw6gui_mouse_s::screen_drag_start'
 
+     Information about the mouse pointer when drag mode was entered.
+     The unit is screen pixels.
 
  -- Member of lw6gui_mouse_s: drag_mode
      *Type:* `lw6gui_drag_mode_t'
 
      *Definition:* `lw6gui_drag_mode_t lw6gui_mouse_s::drag_mode'
+
+     The current drag state.
 
 
  -- Member of lw6gui_mouse_s: menu_position
@@ -3101,17 +3224,26 @@ results on
 
      *Definition:* `int lw6gui_mouse_s::menu_position'
 
+     The index of the menu item the mouse is on. This is the only was
+     to know when to select an item, one should not use mouse coords
+     outside the gfx renderer code for this purpose, it's the renderer
+     which has knowledge about where menu items are.
 
  -- Member of lw6gui_mouse_s: menu_scroll
      *Type:* `int'
 
      *Definition:* `int lw6gui_mouse_s::menu_scroll'
 
+     Set to -1 if one needs to scroll up (decrease menu index) to +1 if
+     one needs to scroll down (increase menu index) and 0 if one needs
+     to do nothing as far as scrolling is concerned.
 
  -- Member of lw6gui_mouse_s: menu_esc
      *Type:* `int'
 
      *Definition:* `int lw6gui_mouse_s::menu_esc'
+
+     Wether mouse pointer is over the ESC button.
 
 
  -- Member of lw6gui_mouse_s: button_left
@@ -3119,11 +3251,15 @@ results on
 
      *Definition:* `lw6gui_button_t lw6gui_mouse_s::button_left'
 
+     Mouse left button state.
+
 
  -- Member of lw6gui_mouse_s: button_right
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_mouse_s::button_right'
+
+     Mouse right button state.
 
 
  -- Member of lw6gui_mouse_s: button_middle
@@ -3131,17 +3267,23 @@ results on
 
      *Definition:* `lw6gui_button_t lw6gui_mouse_s::button_middle'
 
+     Mouse middle button state.
+
 
  -- Member of lw6gui_mouse_s: wheel_up
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_mouse_s::wheel_up'
 
+     Mouse wheel up state.
+
 
  -- Member of lw6gui_mouse_s: wheel_down
      *Type:* `lw6gui_button_t'
 
      *Definition:* `lw6gui_button_t lw6gui_mouse_s::wheel_down'
+
+     Mouse wheel down state.
 
 
  -- Struct: lw6gui_move_pad_s
@@ -3181,11 +3323,14 @@ results on
 
 
  -- Struct: lw6gui_point_s
+     Basic point type, 3 floating point coords.
 
  -- Member of lw6gui_point_s: x
      *Type:* `float'
 
      *Definition:* `float lw6gui_point_s::x'
+
+     X position.
 
 
  -- Member of lw6gui_point_s: y
@@ -3193,19 +3338,26 @@ results on
 
      *Definition:* `float lw6gui_point_s::y'
 
+     Y position.
+
 
  -- Member of lw6gui_point_s: z
      *Type:* `float'
 
      *Definition:* `float lw6gui_point_s::z'
 
+     Z position.
+
 
  -- Struct: lw6gui_quad_s
+     Basic quad type, composed of 4 points (floating point values).
 
  -- Member of lw6gui_quad_s: p1
      *Type:* `lw6gui_point_t'
 
      *Definition:* `lw6gui_point_t lw6gui_quad_s::p1'
+
+     1st point.
 
 
  -- Member of lw6gui_quad_s: p2
@@ -3213,11 +3365,15 @@ results on
 
      *Definition:* `lw6gui_point_t lw6gui_quad_s::p2'
 
+     2nd point.
+
 
  -- Member of lw6gui_quad_s: p3
      *Type:* `lw6gui_point_t'
 
      *Definition:* `lw6gui_point_t lw6gui_quad_s::p3'
+
+     3rd point.
 
 
  -- Member of lw6gui_quad_s: p4
@@ -3225,13 +3381,23 @@ results on
 
      *Definition:* `lw6gui_point_t lw6gui_quad_s::p4'
 
+     4th point.
+
 
  -- Struct: lw6gui_rect_array_s
+     Array of rectangles. This is typically used to make tiles that
+     overlap. It's mostly used to display fighters/maps using multiple
+     textures when the whole stuff does not fit in one single OpenGL
+     texture and needs to be splitted. Technically, when one needs to
+     split textures, performance is poor, but still better than relying
+     on software renderer only.
 
  -- Member of lw6gui_rect_array_s: source
      *Type:* `lw6sys_whd_t'
 
      *Definition:* `lw6sys_whd_t lw6gui_rect_array_s::source'
+
+     Size of original source data.
 
 
  -- Member of lw6gui_rect_array_s: limits
@@ -3239,29 +3405,42 @@ results on
 
      *Definition:* `lw6gui_rect_t lw6gui_rect_array_s::limits'
 
+     Boundary limits of the rect array, this is typically bigger that
+     source size, it starts at negative values and finishes outside the
+     source. It's interesting to cover that big an area to enable both
+     the water effect and proper wrapping/clamping.
 
  -- Member of lw6gui_rect_array_s: tile_size
      *Type:* `int'
 
      *Definition:* `int lw6gui_rect_array_s::tile_size'
 
+     Width and height of the tiles, this is typically a power of two,
+     as it's designed to match an OpenGL low-level texture object.
 
  -- Member of lw6gui_rect_array_s: border_size
      *Type:* `int'
 
      *Definition:* `int lw6gui_rect_array_s::border_size'
 
+     The border size one needs to cut from the tile_size (on both
+     sides, up and down or left and right) to get the real usable size
+     of the tile.
 
  -- Member of lw6gui_rect_array_s: tile_spacing
      *Type:* `int'
 
      *Definition:* `int lw6gui_rect_array_s::tile_spacing'
 
+     The tile spacing, difference of X or Y between two tiles, this is
+     typically smaller that tile_size.
 
  -- Member of lw6gui_rect_array_s: nb_tiles_w
      *Type:* `int'
 
      *Definition:* `int lw6gui_rect_array_s::nb_tiles_w'
+
+     Number of tiles on the X axis (width).
 
 
  -- Member of lw6gui_rect_array_s: nb_tiles_h
@@ -3269,19 +3448,29 @@ results on
 
      *Definition:* `int lw6gui_rect_array_s::nb_tiles_h'
 
+     Number of tiles on the Y axis (height).
+
 
  -- Member of lw6gui_rect_array_s: nb_tiles
      *Type:* `int'
 
      *Definition:* `int lw6gui_rect_array_s::nb_tiles'
 
+     Overall number of tiles.
+
 
  -- Struct: lw6gui_rect_s
+     A basic rectangle data. The idea is to store both corner positions
+     and width and height to cache the values and avoid always
+     recalculating them. Values are integer based, for a floating point
+     equivalent, see the zone struct.
 
  -- Member of lw6gui_rect_s: x1
      *Type:* `int'
 
      *Definition:* `int lw6gui_rect_s::x1'
+
+     Top-left corner X position.
 
 
  -- Member of lw6gui_rect_s: y1
@@ -3289,11 +3478,15 @@ results on
 
      *Definition:* `int lw6gui_rect_s::y1'
 
+     Top-left corner Y position.
+
 
  -- Member of lw6gui_rect_s: x2
      *Type:* `int'
 
      *Definition:* `int lw6gui_rect_s::x2'
+
+     Bottom-right corner X position.
 
 
  -- Member of lw6gui_rect_s: y2
@@ -3301,17 +3494,23 @@ results on
 
      *Definition:* `int lw6gui_rect_s::y2'
 
+     Bottom-right corner Y position.
+
 
  -- Member of lw6gui_rect_s: w
      *Type:* `int'
 
      *Definition:* `int lw6gui_rect_s::w'
 
+     Width.
+
 
  -- Member of lw6gui_rect_s: h
      *Type:* `int'
 
      *Definition:* `int lw6gui_rect_s::h'
+
+     Height.
 
 
  -- Struct: lw6gui_repeat_settings_s
@@ -3343,11 +3542,14 @@ results on
      double-click event is generated.
 
  -- Struct: lw6gui_segment_s
+     Basic segment type, composed of 2 points (floating point values).
 
  -- Member of lw6gui_segment_s: p1
      *Type:* `lw6gui_point_t'
 
      *Definition:* `lw6gui_point_t lw6gui_segment_s::p1'
+
+     1st point.
 
 
  -- Member of lw6gui_segment_s: p2
@@ -3355,13 +3557,24 @@ results on
 
      *Definition:* `lw6gui_point_t lw6gui_segment_s::p2'
 
+     2nd point.
+
 
  -- Struct: lw6gui_smoother_s
+     Statefull object used to make transitions between 2 floats.
+     Basically, one needs to choose a target, which is y2, and give a
+     start, which is defined by s1 and y1 (speed and y value). Then
+     with t1 (start timestamp) and duration the object has functions
+     which enables interpolation between those two values, knowing at
+     the end the value will be y2 and the speed 0. To some extent, this
+     is a primitive bezier-like tool.
 
  -- Member of lw6gui_smoother_s: s1
      *Type:* `float'
 
      *Definition:* `float lw6gui_smoother_s::s1'
+
+     Speed at startup.
 
 
  -- Member of lw6gui_smoother_s: y1
@@ -3369,11 +3582,15 @@ results on
 
      *Definition:* `float lw6gui_smoother_s::y1'
 
+     Y value at startup.
+
 
  -- Member of lw6gui_smoother_s: y2
      *Type:* `float'
 
      *Definition:* `float lw6gui_smoother_s::y2'
+
+     Y target value.
 
 
  -- Member of lw6gui_smoother_s: t1
@@ -3381,19 +3598,26 @@ results on
 
      *Definition:* `int64_t lw6gui_smoother_s::t1'
 
+     Timestamp at startup.
+
 
  -- Member of lw6gui_smoother_s: duration
      *Type:* `int'
 
      *Definition:* `int lw6gui_smoother_s::duration'
 
+     Duration (in milliseconds) of the transition.
+
 
  -- Struct: lw6gui_triangle_s
+     Basic triangle type, composed of 3 points (floating point values).
 
  -- Member of lw6gui_triangle_s: p1
      *Type:* `lw6gui_point_t'
 
      *Definition:* `lw6gui_point_t lw6gui_triangle_s::p1'
+
+     1st point.
 
 
  -- Member of lw6gui_triangle_s: p2
@@ -3401,11 +3625,15 @@ results on
 
      *Definition:* `lw6gui_point_t lw6gui_triangle_s::p2'
 
+     2nd point.
+
 
  -- Member of lw6gui_triangle_s: p3
      *Type:* `lw6gui_point_t'
 
      *Definition:* `lw6gui_point_t lw6gui_triangle_s::p3'
+
+     3rd point.
 
 
  -- Struct: lw6gui_video_mode_s
@@ -3437,11 +3665,16 @@ results on
 
 
  -- Struct: lw6gui_viewport_s
+     Macro object used to store viewport information. Viewport here
+     means "what part of the map should we display, on which part of
+     the screen, and with which parameters".
 
  -- Member of lw6gui_viewport_s: map_shape
      *Type:* `lw6sys_whd_t'
 
      *Definition:* `lw6sys_whd_t lw6gui_viewport_s::map_shape'
+
+     Shape of the map to display, unit is map slot.
 
 
  -- Member of lw6gui_viewport_s: screen_shape
@@ -3449,47 +3682,67 @@ results on
 
      *Definition:* `lw6sys_whd_t lw6gui_viewport_s::screen_shape'
 
+     Shape of the screen, unit is pixels.
+
 
  -- Member of lw6gui_viewport_s: center_x
      *Type:* `float'
 
      *Definition:* `float lw6gui_viewport_s::center_x'
 
+     X coord of the point we want to display at the center of the
+     screen. This is typically our main cursor if we're using the
+     keyboard to move it. Unit is map slot.
 
  -- Member of lw6gui_viewport_s: center_y
      *Type:* `float'
 
      *Definition:* `float lw6gui_viewport_s::center_y'
 
+     Y coord of the point we want to display at the center of the
+     screen. This is typically our main cursor if we're using the
+     keyboard to move it. Unit is map slot.
 
  -- Member of lw6gui_viewport_s: old_center_x
      *Type:* `float'
 
      *Definition:* `float lw6gui_viewport_s::old_center_x'
 
+     Previous X coord of the point we wanted to display at the center
+     of the screen. This is typically our main cursor if we're using
+     the keyboard to move it. Unit is map slot.
 
  -- Member of lw6gui_viewport_s: old_center_y
      *Type:* `float'
 
      *Definition:* `float lw6gui_viewport_s::old_center_y'
 
+     Previous Y coord of the point we wanted to display at the center
+     of the screen. This is typically our main cursor if we're using
+     the keyboard to move it. Unit is map slot.
 
  -- Member of lw6gui_viewport_s: speed_x
      *Type:* `float'
 
      *Definition:* `float lw6gui_viewport_s::speed_x'
 
+     Speed at which the viewport is moving on the X axis, unit is map
+     slot per second.
 
  -- Member of lw6gui_viewport_s: speed_y
      *Type:* `float'
 
      *Definition:* `float lw6gui_viewport_s::speed_y'
 
+     Speed at which the viewport is moving on the Y axis, unit is map
+     slot per second.
 
  -- Member of lw6gui_viewport_s: x_polarity
      *Type:* `int'
 
      *Definition:* `int lw6gui_viewport_s::x_polarity'
+
+     X-polarity parameter (1=on, 0=off, -1=invert).
 
 
  -- Member of lw6gui_viewport_s: y_polarity
@@ -3497,11 +3750,15 @@ results on
 
      *Definition:* `int lw6gui_viewport_s::y_polarity'
 
+     Y-polarity parameter (1=on, 0=off, -1=invert).
+
 
  -- Member of lw6gui_viewport_s: x_wrap
      *Type:* `int'
 
      *Definition:* `int lw6gui_viewport_s::x_wrap'
+
+     Wether to wrap map on the X axis.
 
 
  -- Member of lw6gui_viewport_s: y_wrap
@@ -3509,37 +3766,53 @@ results on
 
      *Definition:* `int lw6gui_viewport_s::y_wrap'
 
+     Wether to wrap map on the Y axis.
+
 
  -- Member of lw6gui_viewport_s: drawable
      *Type:* `lw6gui_zone_t'
 
      *Definition:* `lw6gui_zone_t lw6gui_viewport_s::drawable'
 
+     Drawable zone, this is the physical on-screen viewport. Unit is
+     pixels.
 
  -- Member of lw6gui_viewport_s: map_main
      *Type:* `lw6gui_zone_t'
 
      *Definition:* `lw6gui_zone_t lw6gui_viewport_s::map_main'
 
+     Zone corresponding to the map, if it was to be drawn as a whole,
+     regardless of drawable size, wrapping and polarity.
 
  -- Member of lw6gui_viewport_s: map_main_clipped
      *Type:* `lw6gui_zone_t'
 
      *Definition:* `lw6gui_zone_t lw6gui_viewport_s::map_main_clipped'
 
+     Zone corresponding to the map, only the main map, ignoring
+     wrapping and polarity, but clipped with drawable zone.
 
  -- Member of lw6gui_viewport_s: map_visible
      *Type:* `lw6gui_zone_t'
 
      *Definition:* `lw6gui_zone_t lw6gui_viewport_s::map_visible'
 
+     Actual visible zone of the map, including wrapping, polarity, and
+     drawable clip aware.
 
  -- Struct: lw6gui_zone_s
+     A basic rectangle data. The idea is to store both corner positions
+     and width and height to cache the values and avoid always
+     recalculating them. Values are float based, for an integer point
+     equivalent, see the rect struct.
 
  -- Member of lw6gui_zone_s: x1
      *Type:* `float'
 
      *Definition:* `float lw6gui_zone_s::x1'
+
+     Top-left corner X position.
 
 
  -- Member of lw6gui_zone_s: y1
@@ -3547,11 +3820,15 @@ results on
 
      *Definition:* `float lw6gui_zone_s::y1'
 
+     Top-left corner Y position.
+
 
  -- Member of lw6gui_zone_s: x2
      *Type:* `float'
 
      *Definition:* `float lw6gui_zone_s::x2'
+
+     Bottom-right corner X position.
 
 
  -- Member of lw6gui_zone_s: y2
@@ -3559,17 +3836,23 @@ results on
 
      *Definition:* `float lw6gui_zone_s::y2'
 
+     Bottom-right corner Y position.
+
 
  -- Member of lw6gui_zone_s: w
      *Type:* `float'
 
      *Definition:* `float lw6gui_zone_s::w'
 
+     Width.
+
 
  -- Member of lw6gui_zone_s: h
      *Type:* `float'
 
      *Definition:* `float lw6gui_zone_s::h'
+
+     Height.
 
 
 
@@ -9113,638 +9396,4 @@ results on
      Receives a UDP datagram. Will remove the data from queue.
 
      *Return value:*  number of bytes received
-
-
-File: liquidwar6.info,  Node: libnod,  Next: libp2p,  Prev: libnet,  Up: C API
-
-5.29 libnod
-===========
-
-5.29.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/nod/index.html'.
-
-5.29.2 API
-----------
-
- -- Function: int lw6nod_info_community_add (lw6nod_info_t * INFO,
-          u_int64_t ID, char * URL)
-     INFO:  node info object to modify
-
-     ID:  ID of the new member
-
-     URL:  URL of the new member
-
-     Adds a new member to the community.
-
-     *Return value:*  1 if new member could be added, 0 if not.
-
- -- Function: int lw6nod_info_community_is_member (lw6nod_info_t *
-          INFO, u_int64_t ID, char * URL)
-     INFO:  node info object to test
-
-     ID:  ID of the member we want to check
-
-     URL:  URL of the member we want to check
-
-     Tells wether a member is already in the community. Note that if
-     there's a member with the same URL but with a different ID, or a
-     member with the same ID but a different URL, the function will
-     fail, we need URLs and IDs to both be different for the peer to be
-     added. Not respecting this would lead to confusion, while sharing
-     an ID is conceivable over the whole network, it can't be tolerated
-     within a community. Same for the URL.
-
-     *Return value:*  1 if new member could be added, 0 if not.
-
- -- Function: int lw6nod_info_community_has_id (lw6nod_info_t * INFO,
-          u_int64_t ID)
-     INFO:  node info object to test
-
-     ID:  ID of the member we want to check
-
-     Tells wether a member exists with this ID. Will test both
-     ourselves and remote peers.
-
-     *Return value:*  1 if ID is already taken, 0 if available.
-
- -- Function: int lw6nod_info_community_has_url (lw6nod_info_t * INFO,
-          char * URL)
-     INFO:  node info object to test
-
-     URL:  URL of the member we want to check
-
-     Tells wether a member exists with this URL. Will test both
-     ourselves and remote peers.
-
-     *Return value:*  1 if URL is already taken, 0 if available.
-
- -- Function: int lw6nod_info_community_remove_by_id (lw6nod_info_t *
-          INFO, u_int64_t ID)
-     INFO:  node info object to modify
-
-     ID:  ID of the member we want to remove
-
-     Removes a community member by ID.
-
-     *Return value:*  1 if successfully removed, 0 if was not present.
-
- -- Function: int lw6nod_info_community_remove_by_url (lw6nod_info_t *
-          INFO, char * URL)
-     INFO:  node info object to modify
-
-     URL:  URL of the member we want to remove
-
-     Removes a community member by URL.
-
-     *Return value:*  1 if successfully removed, 0 if was not present.
-
- -- Function: int lw6nod_info_community_count (lw6nod_info_t * INFO)
-     INFO:  node info object to modify
-
-     Tells how many members there are in a community. This include
-     ourselves so this can never be 0, should at least be 1. Note that
-     this is pretty much the same as the nb_nodes member of dyn_info,
-     but this one is calculated dynamically from peer list, while the
-     other one is updated from time to time from game_state information.
-
-     *Return value:*  number of community members, including this node
-     (us).
-
- -- Function: void lw6nod_info_community_reset (lw6nod_info_t * INFO)
-     INFO:  node info object to modify
-
-     Resets all peers, set community to only one member, ourselves.
-
-     *Return value:*  none.
-
- -- Function: void lw6nod_dyn_info_free (lw6nod_dyn_info_t * DYN_INFO)
-     DYN_INFO:  the dyn info struct to free
-
-     Frees a dyn info object, to be used after a call to
-     `lw6nod_info_dup_dyn' for instance.
-
-     *Return value:*  none
-
- -- Function: lw6nod_info_t * lw6nod_info_new (char * PROGRAM, char *
-          VERSION, char * CODENAME, int STAMP, u_int64_t ID, char *
-          URL, char * TITLE, char * DESCRIPTION, char * PASSWORD, int
-          BENCH, int OPEN_RELAY, int UPTIME, int IDLE_SCREENSHOT_SIZE,
-          void * IDLE_SCREENSHOT_DATA)
-     PROGRAM:  the program (normally it's liquidwar6)
-
-     VERSION:  the version
-
-     CODENAME:  the codename
-
-     STAMP:  the stamp
-
-     ID:  the node id
-
-     URL:  the node public url
-
-     TITLE:  the node title
-
-     DESCRIPTION:  the node description
-
-     PASSWORD:  the node password
-
-     BENCH:  the node bench
-
-     OPEN_RELAY:  open relay or not
-
-     UPTIME:  uptime in seconds
-
-     IDLE_SCREENSHOT_SIZE:  the size (bytes) of the image to display
-     when game is idle
-
-     IDLE_SCREENSHOT_DATA:  the data (jpeg) of the image to display
-     when game is idle
-
-     Creates a node info object. The arguments correspond to the
-     immutable node attributes, other properties such as how many
-     players are connected or set in other functions like
-     `lw6nod_info_update' which can be called later.
-
-     *Return value:*  newly allocated object, NULL on error.
-
- -- Function: void lw6nod_info_free (lw6nod_info_t * INFO)
-     INFO:  the node info to free
-
-     Frees a node info object.
-
-     *Return value:*  none
-
- -- Function: int lw6nod_info_lock (lw6nod_info_t * INFO)
-     INFO:  the node info to lock
-
-     Locks a node info object, this is usefull for some members,
-     typically list of servers, can be accessed by separated threads,
-     one reading, many writing, and these objects (chained lists)
-     certainly do not want to be modified while being read.
-
-     *Return value:*  1 if ok, 0 if not.
-
- -- Function: int lw6nod_info_unlock (lw6nod_info_t * INFO)
-     INFO:  the node info to unlock
-
-     Unlocks a node info object, this is the compation of the
-     `lw6nod_info_lock' function.
-
-     *Return value:*  1 if ok, 0 if not.
-
- -- Function: void lw6nod_info_idle (lw6nod_info_t * INFO)
-     INFO:  the node info to modify
-
-     Clears a node info object and sets all its variable attributes to
-     NULL/default values. This is what we want when the node is idle,
-     not playing.
-
-     *Return value:*  none.
-
- -- Function: int lw6nod_info_update (lw6nod_info_t * INFO, u_int64_t
-          COMMUNITY_ID, int ROUND, char * LEVEL, int REQUIRED_BENCH,
-          int NB_COLORS, int MAX_NB_COLORS, int NB_CURSORS, int
-          MAX_NB_CURSORS, int NB_NODES, int MAX_NB_NODES, int
-          GAME_SCREENSHOT_SIZE, void * GAME_SCREENSHOT_DATA)
-     INFO:  the node info to update
-
-     COMMUNITY_ID:  the id of the community the node belongs to
-
-     ROUND:  the current round (can have an offset with real round
-     number)
-
-     LEVEL:  the name of the current level (map)
-
-     REQUIRED_BENCH:  the bench required to connect
-
-     NB_COLORS:  number of colors playing
-
-     MAX_NB_COLORS:  max number of colors allowed
-
-     NB_CURSORS:  number of cursors playing
-
-     MAX_NB_CURSORS:  max number of cursors allowed
-
-     NB_NODES:  number of nodes playing
-
-     MAX_NB_NODES:  max number of nodes allowed
-
-     GAME_SCREENSHOT_SIZE:  size of screenshot (bytes)
-
-     GAME_SCREENSHOT_DATA:  screenshot data (byte buffer, contains JPEG)
-
-     Set a node info object variable attributes. Call this whenever the
-     node has changed some parameter. Not too often for it's not needed
-     and some operations such as modying the screenshot, can be time
-     consuming.
-
-     *Return value:*  1 if OK, 0 if error.
-
- -- Function: lw6nod_dyn_info_t * lw6nod_info_dup_dyn (lw6nod_info_t *
-          INFO)
-     INFO:  the node info containing the dyn info to duplicate
-
-     Extracts the dynamic part of an info struct and duplicates it,
-     this is to avoid protection fault error when concurrent threads
-     access this info.
-
-     *Return value:*  newly allocated object, must be freed.
-
- -- Function: lw6sys_hash_t * lw6nod_info_new_discovered_nodes ()
-     Creates a new hash, to be used as a discovered nodes list.  Using
-     this function has the advantage of setting the hash options to
-     their defaults.  We use a hash to avoid having uselessly long
-     lists containing always the same node due to multiple detections.
-
-     *Return value:*  an empty hash
-
- -- Function: int lw6nod_info_add_discovered_node (lw6nod_info_t *
-          INFO, char * PUBLIC_URL)
-     INFO:  the node info to update
-
-     PUBLIC_URL:  the address of the discovered node
-
-     Registers a new server, and queues it as something that should be
-     checked later because it's interesting. We can't insert in the
-     database all the servers we suspect to exist so network threads
-     should use this, then main thread will process discovered servers
-     afterwards. This is also a good way to avoid trivial DOS attacks.
-
-     *Return value:*  1 if OK, O if error.
-
- -- Function: lw6sys_list_t * lw6nod_info_pop_discovered_nodes
-          (lw6nod_info_t * INFO)
-     INFO:  the node info to query
-
-     Returns a list of all discovered nodes (their public URL) and
-     empties the current queue as well.
-
-     *Return value:*  a list of dynamically allocated strings.
-
- -- Function: lw6sys_list_t * lw6nod_info_new_verified_nodes ()
-     Creates a new list, to be filled with nodes and typically passed
-     to `lw6nod_info_set_verified_nodes'. Using this function has the
-     advantage of setting the listh options to their defaults.
-
-     *Return value:*  an empty list
-
- -- Function: int lw6nod_info_set_verified_nodes (lw6nod_info_t * INFO,
-          lw6sys_list_t * LIST)
-     INFO:  the node info to modify
-
-     LIST:  the list of verified nodes, will be freed by this function
-
-     Sets the list of verified nodes, that is, the list of nodes we are
-     sure to exist, this is typically the list we will display later on
-     a web page. We can't directly display any discovered node, one
-     needs to filter them through main thread.  Something very
-     important about this function is that `list' will be freed by
-     function, that is, if you call this, then you can (you should)
-     forget your object, it will disappear any time soon.
-
-     *Return value:*  1 if OK, 0 on error.
-
- -- Function: void lw6nod_info_map_verified_nodes (lw6nod_info_t *
-          INFO, lw6sys_list_callback_func_t FUNC, void * FUNC_DATA)
-     INFO:  the node info concerned
-
-     FUNC:  the function to apply
-
-     FUNC_DATA:  arbitrary pointer holding data to pass to function
-
-     Calls `lw6sys_hash_map' with `func' on every member of the list of
-     verified nodes. The reason there's a function for this is that it
-     is very important that list object is locked when doing this.
-     This function does perform a lock/unlock so it is safe.
-
-     *Return value:*  none.
-
- -- Function: int lw6nod_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `nod' module test suite.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
- -- Struct: lw6nod_const_info_s
-     Constant informations about a node, these are informations that do
-     not vary through the node's life, so they are set object creation
-     then left unchanged.
-
- -- Member of lw6nod_const_info_s: program
-     *Type:* `char *'
-
-     *Definition:* `char* lw6nod_const_info_s::program'
-
-     Program, this should be set to liquidwar6.
-
-
- -- Member of lw6nod_const_info_s: version
-     *Type:* `char *'
-
-     *Definition:* `char* lw6nod_const_info_s::version'
-
-     The version of the program.
-
-
- -- Member of lw6nod_const_info_s: codename
-     *Type:* `char *'
-
-     *Definition:* `char* lw6nod_const_info_s::codename'
-
-     The codename of the program.
-
-
- -- Member of lw6nod_const_info_s: stamp
-     *Type:* `int'
-
-     *Definition:* `int lw6nod_const_info_s::stamp'
-
-     The stamp of the program.
-
-
- -- Member of lw6nod_const_info_s: ref_info
-     *Type:* `lw6nod_ref_info_t'
-
-     *Definition:* `lw6nod_ref_info_t lw6nod_const_info_s::ref_info'
-
-     Reference information, how to uniquely identify node.
-
-
- -- Member of lw6nod_const_info_s: title
-     *Type:* `char *'
-
-     *Definition:* `char* lw6nod_const_info_s::title'
-
-     The title of the node, its readable short name.
-
-
- -- Member of lw6nod_const_info_s: description
-     *Type:* `char *'
-
-     *Definition:* `char* lw6nod_const_info_s::description'
-
-     More details about the node.
-
-
- -- Member of lw6nod_const_info_s: has_password
-     *Type:* `int'
-
-     *Definition:* `int lw6nod_const_info_s::has_password'
-
-     Wether the node is password protected or not.
-
-
- -- Member of lw6nod_const_info_s: password
-     *Type:* `char *'
-
-     *Definition:* `char* lw6nod_const_info_s::password'
-
-     The password used, cleartext.
-
-
- -- Member of lw6nod_const_info_s: bench
-     *Type:* `int'
-
-     *Definition:* `int lw6nod_const_info_s::bench'
-
-     The node bench.
-
-
- -- Member of lw6nod_const_info_s: open_relay
-     *Type:* `int'
-
-     *Definition:* `int lw6nod_const_info_s::open_relay'
-
-     Wether the node acts as an open relay or not.
-
-
- -- Member of lw6nod_const_info_s: creation_timestamp
-     *Type:* `int64_t'
-
-     *Definition:* `int64_t lw6nod_const_info_s::creation_timestamp'
-
-     The node creation timestamp.
-
-
- -- Member of lw6nod_const_info_s: idle_screenshot_size
-     *Type:* `int'
-
-     *Definition:* `int lw6nod_const_info_s::idle_screenshot_size'
-
-     Size of the screenshot (in bytes) when in idle mode.
-
-
- -- Member of lw6nod_const_info_s: idle_screenshot_data
-     *Type:* `void *'
-
-     *Definition:* `void* lw6nod_const_info_s::idle_screenshot_data'
-
-     Idle mode screenshot data. This is just a plain JPEG buffer, which
-     will be used as a fallback if there's no real screenshot available.
-
- -- Struct: lw6nod_dyn_info_s
-     Dynamic informations about a node, these are informations that
-     vary through the node's life, so they are unset at object creation
-     and can then be updated from game context.
-
- -- Member of lw6nod_dyn_info_s: community_id_int
-     *Type:* `u_int64_t'
-
-     *Definition:* `u_int64_t lw6nod_dyn_info_s::community_id_int'
-
-     The ID of the community this node belongs to, as a 64-bit unsigned
-     integer.
-
- -- Member of lw6nod_dyn_info_s: community_id_str
-     *Type:* `char *'
-
-     *Definition:* `char* lw6nod_dyn_info_s::community_id_str'
-
-     The ID of the community this node belongs to, as a string (64-bit
-     integer converted to hexa).
-
- -- Member of lw6nod_dyn_info_s: community_peers
-     *Type:* `lw6nod_ref_info_t'
-
-     *Definition:* `lw6nod_ref_info_t
-     lw6nod_dyn_info_s::community_peers[LW6NOD_MAX_NB_PEERS]'
-
-     The list of community members, you need to refer to the nb_nodes
-     member to know quickly how many members they are but actually, in
-     practice, there can be holes in this array, you need to check each
-     slot, for instance 0 can be filled, 2 can be filled too, but 1 be
-     empty. Note that we don't count ourselves in this list.
-
- -- Member of lw6nod_dyn_info_s: round
-     *Type:* `int'
-
-     *Definition:* `int lw6nod_dyn_info_s::round'
-
-     The current round.
-
-
- -- Member of lw6nod_dyn_info_s: level
-     *Type:* `char *'
-
-     *Definition:* `char* lw6nod_dyn_info_s::level'
-
-     The current level.
-
-
- -- Member of lw6nod_dyn_info_s: required_bench
-     *Type:* `int'
-
-     *Definition:* `int lw6nod_dyn_info_s::required_bench'
-
-     The required bench to connect to this node.
-
-
- -- Member of lw6nod_dyn_info_s: nb_colors
-     *Type:* `int'
-
-     *Definition:* `int lw6nod_dyn_info_s::nb_colors'
-
-     Number of colors playing.
-
-
- -- Member of lw6nod_dyn_info_s: max_nb_colors
-     *Type:* `int'
-
-     *Definition:* `int lw6nod_dyn_info_s::max_nb_colors'
-
-     Maximum number of colors allowed to play.
-
-
- -- Member of lw6nod_dyn_info_s: nb_cursors
-     *Type:* `int'
-
-     *Definition:* `int lw6nod_dyn_info_s::nb_cursors'
-
-     Number of cursors playing.
-
-
- -- Member of lw6nod_dyn_info_s: max_nb_cursors
-     *Type:* `int'
-
-     *Definition:* `int lw6nod_dyn_info_s::max_nb_cursors'
-
-     Maximum number of cursors allowed to play.
-
-
- -- Member of lw6nod_dyn_info_s: nb_nodes
-     *Type:* `int'
-
-     *Definition:* `int lw6nod_dyn_info_s::nb_nodes'
-
-     Number of nodes playing.
-
-
- -- Member of lw6nod_dyn_info_s: max_nb_nodes
-     *Type:* `int'
-
-     *Definition:* `int lw6nod_dyn_info_s::max_nb_nodes'
-
-     Maximum number of nodes allowed to play.
-
-
- -- Member of lw6nod_dyn_info_s: game_screenshot_size
-     *Type:* `int'
-
-     *Definition:* `int lw6nod_dyn_info_s::game_screenshot_size'
-
-     Size of the screenshot, in bytes.
-
-
- -- Member of lw6nod_dyn_info_s: game_screenshot_data
-     *Type:* `void *'
-
-     *Definition:* `void* lw6nod_dyn_info_s::game_screenshot_data'
-
-     Game screenshot data. This is just a plain JPEG buffer, which will
-     be served when peers and/or web clients want to gather
-     informations about the game. This can be NULL, in that the
-     fallback constant data will be used.
-
- -- Struct: lw6nod_info_s
-     Informations about a node. Note that in practice this structure is
-     just used to describe our current node, there might be several
-     instances of this if a program instanciates several nodes, but
-     another data structure is used to store information about
-     peers.typedef struct lw6nod_info_s
-
- -- Member of lw6nod_info_s: mutex
-     *Type:* `void *'
-
-     *Definition:* `void* lw6nod_info_s::mutex'
-
-     Mutex used to access dynamic informations.
-
-
- -- Member of lw6nod_info_s: const_info
-     *Type:* `lw6nod_const_info_t'
-
-     *Definition:* `lw6nod_const_info_t lw6nod_info_s::const_info'
-
-     Constant informations, never changes.
-
-
- -- Member of lw6nod_info_s: dyn_info
-     *Type:* `lw6nod_dyn_info_t'
-
-     *Definition:* `lw6nod_dyn_info_t lw6nod_info_s::dyn_info'
-
-     Dynamic informations, can be updated. Do not modify this directly,
-     instead use appropriate functions which will use mutexes properly.
-
- -- Member of lw6nod_info_s: discovered_nodes
-     *Type:* `lw6sys_hash_t *'
-
-     *Definition:* `lw6sys_hash_t* lw6nod_info_s::discovered_nodes'
-
-     List of discovered nodes, do not access this directly, instead use
-     proper query functions which, in turn, will use mutexes properly.
-
- -- Member of lw6nod_info_s: verified_nodes
-     *Type:* `lw6sys_list_t *'
-
-     *Definition:* `lw6sys_list_t* lw6nod_info_s::verified_nodes'
-
-     List of verified nodes, do not access this directly, instead use
-     proper query functions which, in turn, will use mutexes properly.
-
- -- Struct: lw6nod_ref_info_s
-     Reference information about a node, this is all you need to
-     uniquely identify a node. In theory, only the ID are only the URL
-     are enough, in practice it's not that bad to have some redundancy,
-     plus it makes it easier and faster to connect to them and transmit
-     informations.
-
- -- Member of lw6nod_ref_info_s: id_int
-     *Type:* `u_int64_t'
-
-     *Definition:* `u_int64_t lw6nod_ref_info_s::id_int'
-
-     The id of the node, as an integer (64-bit unsigned).
-
-
- -- Member of lw6nod_ref_info_s: id_str
-     *Type:* `char *'
-
-     *Definition:* `char* lw6nod_ref_info_s::id_str'
-
-     The id of the node, as a string (64-bit converted to hexa).
-
-
- -- Member of lw6nod_ref_info_s: url
-     *Type:* `char *'
-
-     *Definition:* `char* lw6nod_ref_info_s::url'
-
-     The public URL of the node.
-
 
