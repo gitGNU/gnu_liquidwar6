@@ -4,7 +4,7 @@
 @deftp {Struct} {lw6srv_backend_s}
 
     
-    
+The srv backend is the first argument passed to any srv function, it contains reference to all the functions which can be used as well as a pointer on associated data. In OO, this would just be an object, with members and methods, using polymorphism through opaque pointers.     
 @end deftp
 
 @defcv {Member} {lw6srv_backend_s} {dl_handle}
@@ -13,7 +13,7 @@
 @strong{Definition:} @code{lw6dyn_dl_handle_t* lw6srv_backend_s::dl_handle}
 
 
-        
+Handle on dynamic library (if it makes sense).         
         
 @end defcv
 
@@ -24,7 +24,7 @@
 
 
         
-        
+Srv specific data, what is behind this pointer really depends on the srv engine.         
 @end defcv
 
 @defcv {Member} {lw6srv_backend_s} {argc}
@@ -33,7 +33,7 @@
 @strong{Definition:} @code{int lw6srv_backend_s::argc}
 
 
-        
+The argc value passed to main.         
         
 @end defcv
 
@@ -43,7 +43,7 @@
 @strong{Definition:} @code{const char** lw6srv_backend_s::argv}
 
 
-        
+The argv value passed to main.         
         
 @end defcv
 
@@ -54,7 +54,7 @@
 
 
         
-        
+The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
 @end defcv
 
 @defcv {Member} {lw6srv_backend_s} {name}
@@ -63,7 +63,7 @@
 @strong{Definition:} @code{char* lw6srv_backend_s::name}
 
 
-        
+Module name.         
         
 @end defcv
 
@@ -73,7 +73,7 @@
 @strong{Definition:} @code{lw6nod_info_t* lw6srv_backend_s::info}
 
 
-        
+Information about local node.         
         
 @end defcv
 
@@ -83,7 +83,7 @@
 @strong{Definition:} @code{void*(* lw6srv_backend_s::init)(int argc, const char *argv[], lw6srv_listener_t *listener)}
 
 
-        
+Pointer on lw6srv_init callback code.         
         
 @end defcv
 
@@ -93,7 +93,7 @@
 @strong{Definition:} @code{void(* lw6srv_backend_s::quit)(void *srv_context)}
 
 
-        
+Pointer on lw6srv_quit callback code.         
         
 @end defcv
 
@@ -103,7 +103,7 @@
 @strong{Definition:} @code{int(* lw6srv_backend_s::analyse_tcp)(void *srv_context, lw6srv_tcp_accepter_t *tcp_accepter, lw6nod_info_t *node_info, u_int64_t *remote_id, char **remote_url)}
 
 
-        
+Pointer on lw6srv_analyse_tcp callback code.         
         
 @end defcv
 
@@ -113,7 +113,7 @@
 @strong{Definition:} @code{int(* lw6srv_backend_s::analyse_udp)(void *srv_context, lw6srv_udp_buffer_t *udp_buffer, lw6nod_info_t *node_info, u_int64_t *remote_id, char **remote_url)}
 
 
-        
+Pointer on lw6srv_analyse_udp callback code.         
         
 @end defcv
 
@@ -123,7 +123,7 @@
 @strong{Definition:} @code{int(* lw6srv_backend_s::process_oob)(void *srv_context, lw6nod_info_t *node_info, lw6srv_oob_data_t *oob_data)}
 
 
-        
+Pointer on lw6srv_process_oob callback code.         
         
 @end defcv
 
@@ -133,7 +133,7 @@
 @strong{Definition:} @code{lw6cnx_connection_t*(* lw6srv_backend_s::open)(void *srv_context, lw6srv_listener_t *listener, char *local_url, char *remote_url, char *remote_ip, int remote_port, char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)}
 
 
-        
+Pointer on lw6srv_open callback code.         
         
 @end defcv
 
@@ -143,7 +143,7 @@
 @strong{Definition:} @code{int(* lw6srv_backend_s::feed_with_tcp)(void *srv_context, lw6cnx_connection_t *connection, lw6srv_tcp_accepter_t *tcp_accepter)}
 
 
-        
+Pointer on lw6srv_feed_with_tcp callback code.         
         
 @end defcv
 
@@ -153,7 +153,7 @@
 @strong{Definition:} @code{int(* lw6srv_backend_s::feed_with_udp)(void *srv_context, lw6cnx_connection_t *connection, lw6srv_udp_buffer_t *udp_buffer)}
 
 
-        
+Pointer on lw6srv_feed_with_udp callback code.         
         
 @end defcv
 
@@ -163,7 +163,7 @@
 @strong{Definition:} @code{void(* lw6srv_backend_s::close)(void *srv_context, lw6cnx_connection_t *connection)}
 
 
-        
+Pointer on lw6srv_close callback code.         
         
 @end defcv
 
@@ -173,7 +173,7 @@
 @strong{Definition:} @code{int(* lw6srv_backend_s::send)(void *srv_context, lw6cnx_connection_t *connection, u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, char *message)}
 
 
-        
+Pointer on lw6srv_send callback code.         
         
 @end defcv
 
@@ -183,7 +183,7 @@
 @strong{Definition:} @code{void(* lw6srv_backend_s::poll)(void *srv_context, lw6cnx_connection_t *connection)}
 
 
-        
+Pointer on lw6srv_poll callback code.         
         
 @end defcv
 
@@ -193,7 +193,7 @@
 @strong{Definition:} @code{char*(* lw6srv_backend_s::repr)(void *srv_context, lw6cnx_connection_t *connection)}
 
 
-        
+Pointer on lw6srv_repr callback code.         
         
 @end defcv
 
@@ -203,7 +203,7 @@
 @deftp {Struct} {lw6srv_client_id_s}
 
     
-    
+Parsed client ID, this is not the numerical 64-bit ID but an IP:port pair which uniquely and physically identifies the peer.     
 @end deftp
 
 @defcv {Member} {lw6srv_client_id_s} {client_ip}
@@ -212,7 +212,7 @@
 @strong{Definition:} @code{char* lw6srv_client_id_s::client_ip}
 
 
-        
+Client IP address, as a string.         
         
 @end defcv
 
@@ -222,7 +222,7 @@
 @strong{Definition:} @code{int lw6srv_client_id_s::client_port}
 
 
-        
+Client IP port.         
         
 @end defcv
 
@@ -232,7 +232,7 @@
 @deftp {Struct} {lw6srv_listener_s}
 
     
-    
+The listener is the object which listens on the network and can create tcp accepters or udp buffers depending on what is received.     
 @end deftp
 
 @defcv {Member} {lw6srv_listener_s} {ip}
@@ -241,7 +241,7 @@
 @strong{Definition:} @code{char* lw6srv_listener_s::ip}
 
 
-        
+IP address we are binded to.         
         
 @end defcv
 
@@ -251,7 +251,7 @@
 @strong{Definition:} @code{int lw6srv_listener_s::port}
 
 
-        
+IP port we are binded to.         
         
 @end defcv
 
@@ -261,7 +261,7 @@
 @strong{Definition:} @code{int lw6srv_listener_s::tcp_sock}
 
 
-        
+TCP socket, binded in listening mode.         
         
 @end defcv
 
@@ -272,7 +272,7 @@
 
 
         
-        
+List of lw6srv_tcp_accepter_t objects, created when data is received.         
 @end defcv
 
 @defcv {Member} {lw6srv_listener_s} {udp_sock}
@@ -281,7 +281,7 @@
 @strong{Definition:} @code{int lw6srv_listener_s::udp_sock}
 
 
-        
+UDP socket, binded.         
         
 @end defcv
 
@@ -292,7 +292,7 @@
 
 
         
-        
+List of lw6srv_udp_buffer_t objects, created when data is received.         
 @end defcv
 
 
@@ -301,7 +301,7 @@
 @deftp {Struct} {lw6srv_oob_data_s}
 
     
-    
+Used to store out of band data. Typically, when data is recognized as out of band, it's treated in a separate thread, and not mainstream. This is both because out-of-band data is the default (anything not recognized and/or not trusted is OOB) and because this can easily be treated separately as all we need is to server nearly static informations.     
 @end deftp
 
 @defcv {Member} {lw6srv_oob_data_s} {creation_timestamp}
@@ -310,7 +310,7 @@
 @strong{Definition:} @code{int64_t lw6srv_oob_data_s::creation_timestamp}
 
 
-        
+Date of the request.         
         
 @end defcv
 
@@ -320,7 +320,7 @@
 @strong{Definition:} @code{int lw6srv_oob_data_s::do_not_finish}
 
 
-        
+Used to interrupt the OOB process before it's over.         
         
 @end defcv
 
@@ -330,7 +330,7 @@
 @strong{Definition:} @code{char* lw6srv_oob_data_s::remote_ip}
 
 
-        
+IP address of peer.         
         
 @end defcv
 
@@ -340,7 +340,7 @@
 @strong{Definition:} @code{int lw6srv_oob_data_s::remote_port}
 
 
-        
+IP port of peer.         
         
 @end defcv
 
@@ -350,7 +350,7 @@
 @strong{Definition:} @code{int lw6srv_oob_data_s::sock}
 
 
-        
+Socket used, can either be TCP or UDP, depends on backend.         
         
 @end defcv
 
@@ -360,7 +360,7 @@
 @strong{Definition:} @code{char* lw6srv_oob_data_s::first_line}
 
 
-        
+First line of data.         
         
 @end defcv
 
@@ -370,7 +370,7 @@
 @deftp {Struct} {lw6srv_oob_s}
 
     
-    
+Used to handle OOB requests. This is a container over the OOB data and its treatment thread.     
 @end deftp
 
 @defcv {Member} {lw6srv_oob_s} {thread}
@@ -379,7 +379,7 @@
 @strong{Definition:} @code{void* lw6srv_oob_s::thread}
 
 
-        
+Thread use to handle the data.         
         
 @end defcv
 
@@ -389,7 +389,7 @@
 @strong{Definition:} @code{lw6srv_oob_data_t lw6srv_oob_s::data}
 
 
-        
+The OOB data, what we received from the network.         
         
 @end defcv
 
@@ -399,7 +399,7 @@
 @deftp {Struct} {lw6srv_tcp_accepter_s}
 
     
-    
+A TCP accepter is an object which is created after a listening socket received some random information (in TCP mode, hence its name). Itprovides basic support to accept/reject requests and choose the right protocol/backend for the answer.     
 @end deftp
 
 @defcv {Member} {lw6srv_tcp_accepter_s} {client_id}
@@ -408,7 +408,7 @@
 @strong{Definition:} @code{lw6srv_client_id_t lw6srv_tcp_accepter_s::client_id}
 
 
-        
+Where the data does come from.         
         
 @end defcv
 
@@ -419,7 +419,7 @@
 
 
         
-        
+Socket returned by the accept POSIX function, this is the one we can use to reply and send data back.         
 @end defcv
 
 @defcv {Member} {lw6srv_tcp_accepter_s} {first_line}
@@ -429,7 +429,7 @@
 
 
         
-        
+First line received over the network. This is "peeked" so it's still available for the actual backend, in fact that's the very thing we need an object for, with the information "these bytes came from ip:port" one can take a decision on what to do with the request.         
 @end defcv
 
 @defcv {Member} {lw6srv_tcp_accepter_s} {creation_timestamp}
@@ -439,7 +439,7 @@
 
 
         
-        
+Timestamp of accepter creation. This is more or less the same that the instant we received data on the network. There's a small lag, but not that bad. This is mostly used for timeout.         
 @end defcv
 
 
@@ -448,7 +448,7 @@
 @deftp {Struct} {lw6srv_udp_buffer_s}
 
     
-    
+A UDP datagram, this structure contains both the data and information about who sent it.     
 @end deftp
 
 @defcv {Member} {lw6srv_udp_buffer_s} {client_id}
@@ -457,7 +457,7 @@
 @strong{Definition:} @code{lw6srv_client_id_t lw6srv_udp_buffer_s::client_id}
 
 
-        
+Where the data does come from.         
         
 @end defcv
 
@@ -468,7 +468,7 @@
 
 
         
-        
+The data itself. This is typically a C-string with a 0 char at the end, anything else will be rejected anyway.         
 @end defcv
 
 

@@ -93,19 +93,42 @@ typedef struct lw6cli_oob_s
 }
 lw6cli_oob_t;
 
+/**
+ * The cli backend is the first argument passed to any cli function,
+ * it contains reference to all the functions which can be used
+ * as well as a pointer on associated data. In OO, this would just 
+ * be an object, with members and methods, using polymorphism through
+ * opaque pointers.
+ */
 typedef struct lw6cli_backend_s
 {
+  /// Handle on dynamic library (if it makes sense).
   lw6dyn_dl_handle_t *dl_handle;
+  /**
+   * Cli specific data, what is behind this pointer really
+   * depends on the cli engine.
+   */
   void *cli_context;
+  /// The argc value passed to main.
   int argc;
+  /// The argv value passed to main.
   const char **argv;
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
   u_int32_t id;
+  /// Module name.
   char *name;
 
+  /// Pointer on lw6cli_init callback code.
   void *(*init) (int argc, const char *argv[]);
+  /// Pointer on lw6cli_quit callback code.
   void (*quit) (void *cli_context);
+  /// Pointer on lw6cli_process_oob callback code.
   int (*process_oob) (void *cli_context, lw6nod_info_t * node_info,
 		      lw6cli_oob_data_t * oob_data);
+  /// Pointer on lw6cli_open callback code.
   lw6cnx_connection_t *(*open) (void *cli_context, char *local_url,
 				char *remote_url, char *remote_ip,
 				int remote_port, char *password,
@@ -114,13 +137,17 @@ typedef struct lw6cli_backend_s
 				int network_reliability,
 				lw6cnx_recv_callback_t recv_callback_func,
 				void *recv_callback_data);
+  /// Pointer on lw6cli_close callback code.
   void (*close) (void *cli_context, lw6cnx_connection_t * connection);
+  /// Pointer on lw6cli_send callback code.
   int (*send) (void *cli_context, lw6cnx_connection_t * connection,
 	       u_int32_t physical_ticket_sig,
 	       u_int32_t logical_ticket_sig,
 	       u_int64_t logical_from_id,
 	       u_int64_t logical_to_id, char *message);
+  /// Pointer on lw6cli_poll callback code.
   void (*poll) (void *cli_context, lw6cnx_connection_t * connection);
+  /// Pointer on lw6cli_repr callback code.
   char *(*repr) (void *cli_context, lw6cnx_connection_t * connection);
 }
 lw6cli_backend_t;

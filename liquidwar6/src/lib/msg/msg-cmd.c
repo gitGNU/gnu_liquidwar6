@@ -173,6 +173,40 @@ lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key)
 }
 
 /**
+ * lw6msg_cmd_generate_join
+ *
+ * @info: the node info to use
+ * @seq: the current seq
+ *
+ * Generate a JOIN command. The seq parameter, if 0, means we
+ * want to request to join to a server. Wether this is a real
+ * server or a physical client acting as a server is out of
+ * consideration, 0 means request to join, period. If greater
+ * than 0, means we are accepting a client, and then the value
+ * is our current seq, which the client mmust use to calibrate
+ * its own data.
+ *
+ * Return value: newly allocated string.
+ */
+char *
+lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq)
+{
+  char *ret = NULL;
+  char sep = LW6MSG_TELNET_SEP;
+  char *info_str = NULL;
+
+  info_str = _generate_info (LW6MSG_CMD_JOIN, info);
+  if (info_str)
+    {
+      ret =
+	lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "d", info_str, sep, seq);
+      LW6SYS_FREE (info_str);
+    }
+
+  return ret;
+}
+
+/**
  * lw6msg_cmd_generate_goodbye
  *
  * @info: the node info to use
@@ -786,6 +820,49 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, char *msg)
 }
 
 /**
+ * lw6msg_cmd_analyse_join
+ *
+ * @info: will contain (remote) node info on success
+ * @key: if not NULL, will contain the foo/join key on success
+ * @msg: the message to analyse
+ *
+ * Analyzes a JOIN message.
+ *
+ * Return value: 1 on success, 0 on failure
+ */
+int
+lw6msg_cmd_analyse_join (lw6nod_info_t ** info, int64_t * seq, char *msg)
+{
+  int ret = 0;
+  char *pos = NULL;
+  char *seek = NULL;
+
+  if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_JOIN))
+    {
+      pos = msg + strlen (LW6MSG_CMD_JOIN);
+      if (_analyse_info (info, &seek, pos))
+	{
+	  pos = seek;
+	  if (lw6msg_word_first_int_64 (seq, &seek, pos))
+	    {
+	      ret = 1;
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad seq \"%s\""), pos);
+	    }
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("parsing JOIN but couldn't find it in \"%s\""), msg);
+    }
+
+  return ret;
+}
+
+/**
  * lw6msg_cmd_analyse_goodbye
  *
  * @info: will contain (remote) node info on success
@@ -920,6 +997,7 @@ lw6msg_cmd_guess_from_url (char *msg)
   lw6nod_info_t *node_info = NULL;
   char *msg_table[] =
     { LW6MSG_CMD_HELLO, LW6MSG_CMD_TICKET, LW6MSG_CMD_FOO, LW6MSG_CMD_BAR,
+    LW6MSG_CMD_JOIN,
     LW6MSG_CMD_GOODBYE, NULL
   };
   char *seek = NULL;

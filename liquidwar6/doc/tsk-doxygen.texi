@@ -4,7 +4,7 @@
 @deftp {Struct} {lw6tsk_loader_s}
 
     
-    
+Loader object, allows asynchronous map loading.     
 @end deftp
 
 @defcv {Member} {lw6tsk_loader_s} {id}
@@ -14,7 +14,7 @@
 
 
         
-        
+The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
 @end defcv
 
 @defcv {Member} {lw6tsk_loader_s} {thread}
@@ -23,7 +23,7 @@
 @strong{Definition:} @code{void* lw6tsk_loader_s::thread}
 
 
-        
+Thread used to run the loader.         
         
 @end defcv
 
@@ -33,7 +33,7 @@
 @strong{Definition:} @code{void* lw6tsk_loader_s::data}
 
 
-        
+Data used by the loader.         
         
 @end defcv
 

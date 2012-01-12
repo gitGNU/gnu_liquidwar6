@@ -38,76 +38,181 @@
 #define LW6SRV_ANALYSE_UNDERSTANDABLE 0x02
 #define LW6SRV_ANALYSE_OOB 0x04
 
+/**
+ * Parsed client ID, this is not the numerical 64-bit ID
+ * but an IP:port pair which uniquely and physically
+ * identifies the peer.
+ */
 typedef struct lw6srv_client_id_s
 {
+  /// Client IP address, as a string.
   char *client_ip;
+  /// Client IP port.
   int client_port;
 }
 lw6srv_client_id_t;
 
+/**
+ * A TCP accepter is an object which is created after a listening 
+ * socket received some random information
+ * (in TCP mode, hence its name). Itprovides
+ * basic support to accept/reject requests and choose the
+ * right protocol/backend for the answer.
+ */
 typedef struct lw6srv_tcp_accepter_s
 {
+  /// Where the data does come from.
   lw6srv_client_id_t client_id;
+  /**
+   * Socket returned by the accept POSIX function, this is the
+   * one we can use to reply and send data back.
+   */
   int sock;
+  /**
+   * First line received over the network. This is "peeked"
+   * so it's still available for the actual backend, in fact
+   * that's the very thing we need an object for, with the
+   * information "these bytes came from ip:port" one can
+   * take a decision on what to do with the request.
+   */
   char first_line[LW6SRV_PROTOCOL_BUFFER_SIZE + 1];
+  /**
+   * Timestamp of accepter creation. This is more or less
+   * the same that the instant we received data on the network.
+   * There's a small lag, but not that bad. This is mostly
+   * used for timeout.
+   */
   int64_t creation_timestamp;
 } lw6srv_tcp_accepter_t;
 
+/**
+ * A UDP datagram, this structure contains both the data
+ * and information about who sent it.
+ */
 typedef struct lw6srv_udp_buffer_s
 {
+  /// Where the data does come from.
   lw6srv_client_id_t client_id;
+  /**
+   * The data itself. This is typically a C-string with a 0 char at
+   * the end, anything else will be rejected anyway.
+   */
   char *line;
 } lw6srv_udp_buffer_t;
 
+/**
+ * The listener is the object which listens on the network
+ * and can create tcp accepters or udp buffers depending on
+ * what is received.
+ */
 typedef struct lw6srv_listener_s
 {
+  /// IP address we are binded to.
   char *ip;
+  /// IP port we are binded to.
   int port;
+  /// TCP socket, binded in listening mode.
   int tcp_sock;
-  lw6sys_list_t *tcp_accepters;	// lw6srv_tcp_accepter_t
+  /** 
+   * List of lw6srv_tcp_accepter_t objects, created
+   * when data is received.
+   */
+  lw6sys_list_t *tcp_accepters;
+  /// UDP socket, binded.       
   int udp_sock;
-  lw6sys_list_t *udp_buffers;	// lw6srv_udp_buffer_t
+  /** 
+   * List of lw6srv_udp_buffer_t objects, created
+   * when data is received.
+   */
+  lw6sys_list_t *udp_buffers;
 } lw6srv_listener_t;
 
+/**
+ * Used to store out of band data. Typically,
+ * when data is recognized as out of band, it's treated
+ * in a separate thread, and not mainstream. This is both
+ * because out-of-band data is the default (anything not
+ * recognized and/or not trusted is OOB) and because
+ * this can easily be treated separately as all we need is
+ * to server nearly static informations.
+ */
 typedef struct lw6srv_oob_data_s
 {
+  /// Date of the request.
   int64_t creation_timestamp;
+  /// Used to interrupt the OOB process before it's over.
   int do_not_finish;
+  /// IP address of peer.
   char *remote_ip;
+  /// IP port of peer.
   int remote_port;
-  int sock;			// either TCP or UDP
+  /// Socket used, can either be TCP or UDP, depends on backend.
+  int sock;
+  /// First line of data.
   char *first_line;
 }
 lw6srv_oob_data_t;
 
+/**
+ * Used to handle OOB requests. This is a container
+ * over the OOB data and its treatment thread.
+ */
 typedef struct lw6srv_oob_s
 {
+  /// Thread use to handle the data.
   void *thread;
+  /// The OOB data, what we received from the network.
   lw6srv_oob_data_t data;
 }
 lw6srv_oob_t;
 
+/**
+ * The srv backend is the first argument passed to any srv function,
+ * it contains reference to all the functions which can be used
+ * as well as a pointer on associated data. In OO, this would just 
+ * be an object, with members and methods, using polymorphism through
+ * opaque pointers.
+ */
 typedef struct lw6srv_backend_s
 {
+  /// Handle on dynamic library (if it makes sense).
   lw6dyn_dl_handle_t *dl_handle;
+  /**
+   * Srv specific data, what is behind this pointer really
+   * depends on the srv engine.
+   */
   void *srv_context;
+  /// The argc value passed to main.
   int argc;
+  /// The argv value passed to main.
   const char **argv;
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
   u_int32_t id;
+  /// Module name.
   char *name;
+  /// Information about local node.
   lw6nod_info_t *info;
 
+  /// Pointer on lw6srv_init callback code.
   void *(*init) (int argc, const char *argv[], lw6srv_listener_t * listener);
+  /// Pointer on lw6srv_quit callback code.
   void (*quit) (void *srv_context);
+  /// Pointer on lw6srv_analyse_tcp callback code.
   int (*analyse_tcp) (void *srv_context,
 		      lw6srv_tcp_accepter_t * tcp_accepter,
 		      lw6nod_info_t * node_info,
 		      u_int64_t * remote_id, char **remote_url);
+  /// Pointer on lw6srv_analyse_udp callback code.
   int (*analyse_udp) (void *srv_context, lw6srv_udp_buffer_t * udp_buffer,
 		      lw6nod_info_t * node_info,
 		      u_int64_t * remote_id, char **remote_url);
+  /// Pointer on lw6srv_process_oob callback code.
   int (*process_oob) (void *srv_context, lw6nod_info_t * node_info,
 		      lw6srv_oob_data_t * oob_data);
+  /// Pointer on lw6srv_open callback code.
   lw6cnx_connection_t *(*open) (void *srv_context,
 				lw6srv_listener_t * listener, char *local_url,
 				char *remote_url, char *remote_ip,
@@ -116,16 +221,22 @@ typedef struct lw6srv_backend_s
 				int dns_ok, int network_reliability,
 				lw6cnx_recv_callback_t recv_callback_func,
 				void *recv_callback_data);
+  /// Pointer on lw6srv_feed_with_tcp callback code.
   int (*feed_with_tcp) (void *srv_context, lw6cnx_connection_t * connection,
 			lw6srv_tcp_accepter_t * tcp_accepter);
+  /// Pointer on lw6srv_feed_with_udp callback code.
   int (*feed_with_udp) (void *srv_context, lw6cnx_connection_t * connection,
 			lw6srv_udp_buffer_t * udp_buffer);
+  /// Pointer on lw6srv_close callback code.
   void (*close) (void *srv_context, lw6cnx_connection_t * connection);
+  /// Pointer on lw6srv_send callback code.
   int (*send) (void *srv_context, lw6cnx_connection_t * connection,
 	       u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
 	       u_int64_t logical_from_id,
 	       u_int64_t logical_to_id, char *message);
+  /// Pointer on lw6srv_poll callback code.
   void (*poll) (void *srv_context, lw6cnx_connection_t * connection);
+  /// Pointer on lw6srv_repr callback code.
   char *(*repr) (void *srv_context, lw6cnx_connection_t * connection);
 }
 lw6srv_backend_t;

@@ -111,6 +111,8 @@
 #define _TEST_DATA_N 1000
 #define _TEST_DATA_ROUND 1000000
 #define _TEST_DATA_KER_MSG "HELLO WORLD"
+#define _TEST_SEQ_BASE 1000000000000000LL
+#define _TEST_SEQ_RANGE 1000000000
 
 /*
  * Testing functions in cmd.c
@@ -127,8 +129,10 @@ test_cmd ()
     char *msg = NULL;
     u_int64_t ticket = 0;
     u_int32_t key = 0;
+    int64_t seq = 0LL;
     u_int64_t analysed_ticket = 0;
     u_int32_t analysed_key = 0;
+    int64_t analysed_seq = 0LL;
     char *remote_url = NULL;
     int data_serial = 0;
     int data_i = 0;
@@ -293,6 +297,54 @@ test_cmd ()
 				_x_
 				("bar command analysed but key is wrong (%x and should be %x)"),
 				analysed_key, key);
+		    ret = 0;
+		  }
+		lw6nod_info_free (analysed_info);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("unable to analyze \"%s\""), msg);
+		ret = 0;
+	      }
+	    remote_url = lw6msg_cmd_guess_from_url (msg);
+	    if (remote_url)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("could guess url \"%s\" from \"%s\""),
+			    remote_url, msg);
+		LW6SYS_FREE (remote_url);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("unable to guess url from \"%s\""), msg);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (msg);
+	  }
+
+	seq = _TEST_SEQ_BASE + lw6sys_random (_TEST_SEQ_RANGE);
+	msg = lw6msg_cmd_generate_join (info, seq);
+	if (msg)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("join command is \"%s\""),
+			msg);
+	    if (lw6msg_cmd_analyse_join (&analysed_info, &analysed_seq, msg))
+	      {
+		if (seq == analysed_seq)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("join command analysed (seq=%"
+				     LW6SYS_PRINTF_LL "d)"), seq);
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("join command analysed but seq is wrong (%"
+				 LW6SYS_PRINTF_LL "d and should be %"
+				 LW6SYS_PRINTF_LL "d)"), analysed_seq, seq);
 		    ret = 0;
 		  }
 		lw6nod_info_free (analysed_info);

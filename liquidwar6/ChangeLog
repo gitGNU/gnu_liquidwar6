@@ -1,3 +1,9 @@
+2012-01-12 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added JOIN message.
+
+	* Documented pil/pil.h and gui/gui.h.
+
 2012-01-10 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added community management to lw6nod.

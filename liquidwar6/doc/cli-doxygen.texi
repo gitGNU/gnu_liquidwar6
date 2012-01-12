@@ -4,7 +4,7 @@
 @deftp {Struct} {lw6cli_backend_s}
 
     
-    
+The cli backend is the first argument passed to any cli function, it contains reference to all the functions which can be used as well as a pointer on associated data. In OO, this would just be an object, with members and methods, using polymorphism through opaque pointers.     
 @end deftp
 
 @defcv {Member} {lw6cli_backend_s} {dl_handle}
@@ -13,7 +13,7 @@
 @strong{Definition:} @code{lw6dyn_dl_handle_t* lw6cli_backend_s::dl_handle}
 
 
-        
+Handle on dynamic library (if it makes sense).         
         
 @end defcv
 
@@ -24,7 +24,7 @@
 
 
         
-        
+Cli specific data, what is behind this pointer really depends on the cli engine.         
 @end defcv
 
 @defcv {Member} {lw6cli_backend_s} {argc}
@@ -33,7 +33,7 @@
 @strong{Definition:} @code{int lw6cli_backend_s::argc}
 
 
-        
+The argc value passed to main.         
         
 @end defcv
 
@@ -43,7 +43,7 @@
 @strong{Definition:} @code{const char** lw6cli_backend_s::argv}
 
 
-        
+The argv value passed to main.         
         
 @end defcv
 
@@ -54,7 +54,7 @@
 
 
         
-        
+The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
 @end defcv
 
 @defcv {Member} {lw6cli_backend_s} {name}
@@ -63,7 +63,7 @@
 @strong{Definition:} @code{char* lw6cli_backend_s::name}
 
 
-        
+Module name.         
         
 @end defcv
 
@@ -73,7 +73,7 @@
 @strong{Definition:} @code{void*(* lw6cli_backend_s::init)(int argc, const char *argv[])}
 
 
-        
+Pointer on lw6cli_init callback code.         
         
 @end defcv
 
@@ -83,7 +83,7 @@
 @strong{Definition:} @code{void(* lw6cli_backend_s::quit)(void *cli_context)}
 
 
-        
+Pointer on lw6cli_quit callback code.         
         
 @end defcv
 
@@ -93,7 +93,7 @@
 @strong{Definition:} @code{int(* lw6cli_backend_s::process_oob)(void *cli_context, lw6nod_info_t *node_info, lw6cli_oob_data_t *oob_data)}
 
 
-        
+Pointer on lw6cli_process_oob callback code.         
         
 @end defcv
 
@@ -103,7 +103,7 @@
 @strong{Definition:} @code{lw6cnx_connection_t*(* lw6cli_backend_s::open)(void *cli_context, char *local_url, char *remote_url, char *remote_ip, int remote_port, char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)}
 
 
-        
+Pointer on lw6cli_open callback code.         
         
 @end defcv
 
@@ -113,7 +113,7 @@
 @strong{Definition:} @code{void(* lw6cli_backend_s::close)(void *cli_context, lw6cnx_connection_t *connection)}
 
 
-        
+Pointer on lw6cli_close callback code.         
         
 @end defcv
 
@@ -123,7 +123,7 @@
 @strong{Definition:} @code{int(* lw6cli_backend_s::send)(void *cli_context, lw6cnx_connection_t *connection, u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, char *message)}
 
 
-        
+Pointer on lw6cli_send callback code.         
         
 @end defcv
 
@@ -133,7 +133,7 @@
 @strong{Definition:} @code{void(* lw6cli_backend_s::poll)(void *cli_context, lw6cnx_connection_t *connection)}
 
 
-        
+Pointer on lw6cli_poll callback code.         
         
 @end defcv
 
@@ -143,7 +143,7 @@
 @strong{Definition:} @code{char*(* lw6cli_backend_s::repr)(void *cli_context, lw6cnx_connection_t *connection)}
 
 
-        
+Pointer on lw6cli_repr callback code.         
         
 @end defcv
 

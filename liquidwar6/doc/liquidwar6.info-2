@@ -8340,11 +8340,18 @@ results on
      *Return value:*  1 if test is successfull, 0 on error.
 
  -- Struct: lw6cli_backend_s
+     The cli backend is the first argument passed to any cli function,
+     it contains reference to all the functions which can be used as
+     well as a pointer on associated data. In OO, this would just be an
+     object, with members and methods, using polymorphism through
+     opaque pointers.
 
  -- Member of lw6cli_backend_s: dl_handle
      *Type:* `lw6dyn_dl_handle_t *'
 
      *Definition:* `lw6dyn_dl_handle_t* lw6cli_backend_s::dl_handle'
+
+     Handle on dynamic library (if it makes sense).
 
 
  -- Member of lw6cli_backend_s: cli_context
@@ -8352,11 +8359,15 @@ results on
 
      *Definition:* `void* lw6cli_backend_s::cli_context'
 
+     Cli specific data, what is behind this pointer really depends on
+     the cli engine.
 
  -- Member of lw6cli_backend_s: argc
      *Type:* `int'
 
      *Definition:* `int lw6cli_backend_s::argc'
+
+     The argc value passed to main.
 
 
  -- Member of lw6cli_backend_s: argv
@@ -8364,17 +8375,23 @@ results on
 
      *Definition:* `const char** lw6cli_backend_s::argv'
 
+     The argv value passed to main.
+
 
  -- Member of lw6cli_backend_s: id
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6cli_backend_s::id'
 
+     The id of the object, this is non-zero and unique within one run
+     session, incremented at each object creation.
 
  -- Member of lw6cli_backend_s: name
      *Type:* `char *'
 
      *Definition:* `char* lw6cli_backend_s::name'
+
+     Module name.
 
 
  -- Member of lw6cli_backend_s: init
@@ -8383,11 +8400,15 @@ results on
      *Definition:* `void*(* lw6cli_backend_s::init)(int argc, const
      char *argv[])'
 
+     Pointer on lw6cli_init callback code.
+
 
  -- Member of lw6cli_backend_s: quit
      *Type:* `void(*'
 
      *Definition:* `void(* lw6cli_backend_s::quit)(void *cli_context)'
+
+     Pointer on lw6cli_quit callback code.
 
 
  -- Member of lw6cli_backend_s: process_oob
@@ -8396,6 +8417,8 @@ results on
      *Definition:* `int(* lw6cli_backend_s::process_oob)(void
      *cli_context, lw6nod_info_t *node_info, lw6cli_oob_data_t
      *oob_data)'
+
+     Pointer on lw6cli_process_oob callback code.
 
 
  -- Member of lw6cli_backend_s: open
@@ -8408,12 +8431,16 @@ results on
      lw6cnx_recv_callback_t recv_callback_func, void
      *recv_callback_data)'
 
+     Pointer on lw6cli_open callback code.
+
 
  -- Member of lw6cli_backend_s: close
      *Type:* `void(*'
 
      *Definition:* `void(* lw6cli_backend_s::close)(void *cli_context,
      lw6cnx_connection_t *connection)'
+
+     Pointer on lw6cli_close callback code.
 
 
  -- Member of lw6cli_backend_s: send
@@ -8424,6 +8451,8 @@ results on
      u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t
      logical_to_id, char *message)'
 
+     Pointer on lw6cli_send callback code.
+
 
  -- Member of lw6cli_backend_s: poll
      *Type:* `void(*'
@@ -8431,12 +8460,16 @@ results on
      *Definition:* `void(* lw6cli_backend_s::poll)(void *cli_context,
      lw6cnx_connection_t *connection)'
 
+     Pointer on lw6cli_poll callback code.
+
 
  -- Member of lw6cli_backend_s: repr
      *Type:* `char *(*'
 
      *Definition:* `char*(* lw6cli_backend_s::repr)(void *cli_context,
      lw6cnx_connection_t *connection)'
+
+     Pointer on lw6cli_repr callback code.
 
 
  -- Struct: lw6cli_oob_data_s

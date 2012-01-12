@@ -8438,6 +8438,21 @@ results on
 
      *Return value:*  newly allocated string.
 
+ -- Function: char * lw6msg_cmd_generate_join (lw6nod_info_t * INFO,
+          int64_t SEQ)
+     INFO:  the node info to use
+
+     SEQ:  the current seq
+
+     Generate a JOIN command. The seq parameter, if 0, means we want to
+     request to join to a server. Wether this is a real server or a
+     physical client acting as a server is out of consideration, 0
+     means request to join, period. If greater than 0, means we are
+     accepting a client, and then the value is our current seq, which
+     the client mmust use to calibrate its own data.
+
+     *Return value:*  newly allocated string.
+
  -- Function: char * lw6msg_cmd_generate_goodbye (lw6nod_info_t * INFO)
      INFO:  the node info to use
 
@@ -8506,6 +8521,16 @@ results on
      MSG:  the message to analyse
 
      Analyzes a BAR message.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6msg_cmd_analyse_join (lw6nod_info_t ** INFO,
+          int64_t * SEQ, char * MSG)
+     INFO:  will contain (remote) node info on success
+
+     MSG:  the message to analyse
+
+     Analyzes a JOIN message.
 
      *Return value:*  1 on success, 0 on failure
 

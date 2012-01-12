@@ -30,8 +30,12 @@
 #include "../ker/ker.h"
 #include "../gui/gui.h"
 
+/**
+ * Voxel renderer object, not implemented yet.
+ */
 typedef struct lw6vox_renderer_s
 {
+  /// Todo...
   int dummy;
 } lw6vox_renderer_t;
 

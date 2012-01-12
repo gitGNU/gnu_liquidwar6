@@ -30,10 +30,19 @@
 #include "../hlp/hlp.h"
 #include "../ldr/ldr.h"
 
+/**
+ * Loader object, allows asynchronous map loading.
+ */
 typedef struct lw6tsk_loader_s
 {
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
   u_int32_t id;
+  /// Thread used to run the loader.
   void *thread;
+  /// Data used by the loader.
   void *data;
 }
 lw6tsk_loader_t;
