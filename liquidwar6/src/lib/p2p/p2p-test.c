@@ -920,21 +920,27 @@ _test_node_api ()
     int64_t end_timestamp = 0LL;
     _lw6p2p_node_t *_node = NULL;
 
-    end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION;
     if (_init_nodes
 	(lw6cli_default_backends (),
 	 lw6srv_default_backends (), &db12, &db34, &db56, &node1, &node2,
 	 &node3, &node4, &node5, &node6))
       {
-	_poll_nodes (node1, node2, node3, node4, node5, node6);
+	end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION;
+	while (lw6sys_get_timestamp () < end_timestamp)
+	  {
+	    _poll_nodes (node1, node2, node3, node4, node5, node6);
+	  }
 	if (lw6p2p_node_server_start (node2))
 	  {
+	    TMP("node started");
 	    _poll_nodes (node1, node2, node3, node4, node5, node6);
 	    _node = (_lw6p2p_node_t *) node2;
 	    if (lw6p2p_node_client_join
 		(node4, _node->node_info->const_info.ref_info.id_int,
 		 _node->node_info->const_info.ref_info.url))
 	      {
+		TMP("node joined");
+		end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION;
 		while (lw6sys_get_timestamp () < end_timestamp)
 		  {
 		    _poll_nodes (node1, node2, node3, node4, node5, node6);

@@ -1612,6 +1612,8 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 					   (void *) node);
 		  if (ret)
 		    {
+		      ret=0;
+
 		      limit_timestamp =
 			lw6sys_get_timestamp () +
 			node->db->data.consts.join_delay;
@@ -1642,6 +1644,8 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 							     remote_id, msg);
 			  if (ret)
 			    {
+			      ret=0;
+
 			      //TMP1 ("OK (%s)", msg);
 			      limit_timestamp =
 				lw6sys_get_timestamp () +
@@ -1653,6 +1657,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 				  _lw6p2p_node_poll (node);
 				  lw6sys_idle ();
 				}
+			      ret=tentacle->joined;
 			    }
 			  else
 			    {
