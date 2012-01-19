@@ -42,7 +42,6 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
   char *repr = NULL;
   lw6sys_url_t *parsed_url = NULL;
 
-  TMP2("init local=%s <-> remote=%s",local_url,remote_url);
   tentacle->backends = backends;
   tentacle->local_url = lw6sys_str_copy (local_url);
   tentacle->remote_url = lw6sys_str_copy (remote_url);
@@ -59,7 +58,6 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
       tentacle->remote_port = parsed_url->port;
       if (real_remote_ip)
 	{
-	  TMP1("OK remote_ip=%s",real_remote_ip);
 	  if (tentacle->remote_ip)
 	    {
 	      if (lw6sys_str_is_same (tentacle->remote_ip, real_remote_ip))
@@ -95,7 +93,6 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 	}
       else
 	{
-	  TMP("no remote_ip");
 	  if (tentacle->remote_ip)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -157,7 +154,6 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				     tentacle->cli_connections[i]);
 		      if (repr)
 			{
-			  TMP1("cli %s",repr);
 			  lw6sys_log (LW6SYS_LOG_DEBUG,
 				      _x_ ("connection \"%s\" opened"), repr);
 			  LW6SYS_FREE (repr);
@@ -206,7 +202,6 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				     tentacle->srv_connections[i]);
 		      if (repr)
 			{
-			  TMP1("srv %s",repr);
 			  lw6sys_log (LW6SYS_LOG_DEBUG,
 				      _x_ ("connection \"%s\" opened"), repr);
 			  LW6SYS_FREE (repr);
@@ -232,8 +227,6 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
     {
       ret = 0;
     }
-
-  TMP1("tentacle init ret=%d",ret);
 
   return ret;
 }

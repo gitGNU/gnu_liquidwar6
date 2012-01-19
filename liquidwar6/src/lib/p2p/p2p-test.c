@@ -166,7 +166,9 @@
 
 #define TEST_NODE_OOB_DURATION 9000
 #define TEST_NODE_CMD_DURATION 6000
-#define TEST_NODE_API_DURATION 3000
+#define TEST_NODE_API_DURATION_JOIN 500
+#define TEST_NODE_API_DURATION_THREAD 9000
+#define TEST_NODE_API_DURATION_END 3000
 #define TEST_NODE_POLL_DURATION 100
 
 /* 
@@ -898,6 +900,149 @@ _test_node_oob ()
   return ret;
 }
 
+typedef struct _test_node_api_data_s
+{
+  lw6p2p_node_t *node;
+  u_int64_t peer_id;
+  int ret;
+} _test_node_api_data_t;
+
+static void
+_test_node_api_node1_callback (void *api_data)
+{
+  _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
+  int64_t end_timestamp = 0LL;
+
+  end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_THREAD;
+
+  data->ret = 1;
+
+  while (lw6sys_get_timestamp () < end_timestamp)
+    {
+      lw6p2p_node_poll (data->node);
+    }
+}
+
+static void
+_test_node_api_node2_callback (void *api_data)
+{
+  _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
+  int64_t end_timestamp = 0LL;
+
+  end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_THREAD;
+
+  /*
+   * This node acts as a server.
+   */
+  data->ret = lw6p2p_node_server_start (data->node);
+
+  if (data->ret)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("\"%s\" is ready"),
+		  ((_lw6p2p_node_t *) data->node)->public_url);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("\"%s\" is ready"),
+		  ((_lw6p2p_node_t *) data->node)->public_url);
+    }
+
+  while (lw6sys_get_timestamp () < end_timestamp)
+    {
+      lw6p2p_node_poll (data->node);
+    }
+
+  if (data->ret)
+    {
+      lw6p2p_node_disconnect (data->node);
+    }
+}
+
+static void
+_test_node_api_node3_callback (void *api_data)
+{
+  _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
+  int64_t end_timestamp = 0LL;
+
+  data->ret = 1;
+
+  end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_THREAD;
+  while (lw6sys_get_timestamp () < end_timestamp)
+    {
+      lw6p2p_node_poll (data->node);
+    }
+}
+
+static void
+_test_node_api_node4_callback (void *api_data)
+{
+  _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
+  int64_t end_timestamp = 0LL;
+
+  end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_THREAD;
+
+  /*
+   * This node acts as a client.
+   */
+  lw6sys_delay (TEST_NODE_API_DURATION_JOIN);
+  data->ret = lw6p2p_node_client_join
+    (data->node, data->peer_id, _TEST_NODE_PUBLIC_URL2);
+
+  if (data->ret)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("\"%s\" joined \"%s\""),
+		  ((_lw6p2p_node_t *) data->node)->public_url,
+		  _TEST_NODE_PUBLIC_URL2);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("\"%s\" couldn't join \"%s\""),
+		  ((_lw6p2p_node_t *) data->node)->public_url,
+		  _TEST_NODE_PUBLIC_URL2);
+    }
+  while (lw6sys_get_timestamp () < end_timestamp)
+    {
+      lw6p2p_node_poll (data->node);
+    }
+
+  if (data->ret)
+    {
+      lw6p2p_node_disconnect (data->node);
+    }
+}
+
+static void
+_test_node_api_node5_callback (void *api_data)
+{
+  _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
+  int64_t end_timestamp = 0LL;
+
+  end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_THREAD;
+
+  data->ret = 1;
+
+  while (lw6sys_get_timestamp () < end_timestamp)
+    {
+      lw6p2p_node_poll (data->node);
+    }
+}
+
+static void
+_test_node_api_node6_callback (void *api_data)
+{
+  _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
+  int64_t end_timestamp = 0LL;
+
+  end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_THREAD;
+
+  data->ret = 1;
+
+  while (lw6sys_get_timestamp () < end_timestamp)
+    {
+      lw6p2p_node_poll (data->node);
+    }
+}
+
 /* 
  * Testing node api
  */
@@ -918,36 +1063,94 @@ _test_node_api ()
     lw6p2p_node_t *node5 = NULL;
     lw6p2p_node_t *node6 = NULL;
     int64_t end_timestamp = 0LL;
-    _lw6p2p_node_t *_node = NULL;
+    void *thread1 = NULL;
+    void *thread2 = NULL;
+    void *thread3 = NULL;
+    void *thread4 = NULL;
+    void *thread5 = NULL;
+    void *thread6 = NULL;
+    _test_node_api_data_t api_data1 = { NULL, 0LL, 0 };
+    _test_node_api_data_t api_data2 = { NULL, 0LL, 0 };
+    _test_node_api_data_t api_data3 = { NULL, 0LL, 0 };
+    _test_node_api_data_t api_data4 = { NULL, 0LL, 0 };
+    _test_node_api_data_t api_data5 = { NULL, 0LL, 0 };
+    _test_node_api_data_t api_data6 = { NULL, 0LL, 0 };
 
     if (_init_nodes
 	(lw6cli_default_backends (),
 	 lw6srv_default_backends (), &db12, &db34, &db56, &node1, &node2,
 	 &node3, &node4, &node5, &node6))
       {
-	end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION;
+	api_data1.node = node1;
+	api_data2.node = node2;
+	api_data3.node = node3;
+	api_data4.node = node4;
+	api_data5.node = node5;
+	api_data6.node = node6;
+
+	api_data4.peer_id = lw6p2p_node_get_id (node2);
+
+	thread1 =
+	  lw6sys_thread_create (_test_node_api_node1_callback, NULL,
+				(void *) &api_data1);
+	thread2 =
+	  lw6sys_thread_create (_test_node_api_node2_callback, NULL,
+				(void *) &api_data2);
+	thread3 =
+	  lw6sys_thread_create (_test_node_api_node3_callback, NULL,
+				(void *) &api_data3);
+	thread4 =
+	  lw6sys_thread_create (_test_node_api_node4_callback, NULL,
+				(void *) &api_data4);
+	thread5 =
+	  lw6sys_thread_create (_test_node_api_node5_callback, NULL,
+				(void *) &api_data5);
+	thread6 =
+	  lw6sys_thread_create (_test_node_api_node6_callback, NULL,
+				(void *) &api_data6);
+
+	if (thread1 && thread2 && thread3 && thread4 && thread5 && thread6)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("each node running in its own thread"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("unable to start all threads"));
+	    ret = 0;
+	  }
+	if (thread1)
+	  {
+	    lw6sys_thread_join (thread1);
+	  }
+	if (thread2)
+	  {
+	    lw6sys_thread_join (thread2);
+	  }
+	if (thread3)
+	  {
+	    lw6sys_thread_join (thread3);
+	  }
+	if (thread4)
+	  {
+	    lw6sys_thread_join (thread4);
+	  }
+	if (thread5)
+	  {
+	    lw6sys_thread_join (thread5);
+	  }
+	if (thread6)
+	  {
+	    lw6sys_thread_join (thread6);
+	  }
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("waiting for some time to let nodes handle disconnection"));
+	end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_END;
 	while (lw6sys_get_timestamp () < end_timestamp)
 	  {
 	    _poll_nodes (node1, node2, node3, node4, node5, node6);
-	  }
-	if (lw6p2p_node_server_start (node2))
-	  {
-	    TMP("node started");
-	    _poll_nodes (node1, node2, node3, node4, node5, node6);
-	    _node = (_lw6p2p_node_t *) node2;
-	    if (lw6p2p_node_client_join
-		(node4, _node->node_info->const_info.ref_info.id_int,
-		 _node->node_info->const_info.ref_info.url))
-	      {
-		TMP("node joined");
-		end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION;
-		while (lw6sys_get_timestamp () < end_timestamp)
-		  {
-		    _poll_nodes (node1, node2, node3, node4, node5, node6);
-		  }
-		lw6p2p_node_disconnect (node4);
-	      }
-	    lw6p2p_node_disconnect (node2);
 	  }
 
 	_quit_nodes (db12, db34, db56, node1, node2, node3, node4, node5,
@@ -997,9 +1200,9 @@ lw6p2p_test (int mode)
 
   if (lw6net_init (argc, argv, _TEST_NET_LOG))
     {
-      //ret = _test_db () && _test_entry () && _test_node_init ()
-      //        && _test_node_oob () && _test_node_cmd () && _test_node_api ();
-      ret = _test_node_api ();
+      ret = _test_db () && _test_entry () && _test_node_init ()
+	&& _test_node_oob () && _test_node_cmd () && _test_node_api ();
+      //ret = _test_node_api ();
 
       lw6net_quit (argc, argv);
     }

@@ -1602,17 +1602,15 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 		  ret =
 		    _lw6p2p_tentacle_init (tentacle, &(node->backends),
 					   node->listener,
-					   node->node_info->const_info.
-					   ref_info.url, remote_url, NULL,
+					   node->public_url, remote_url, NULL,
 					   node->password,
-					   node->node_info->const_info.
-					   ref_info.id_int, remote_id,
+					   node->node_id_int, remote_id,
 					   node->network_reliability,
 					   _lw6p2p_recv_callback,
 					   (void *) node);
 		  if (ret)
 		    {
-		      ret=0;
+		      ret = 0;
 
 		      limit_timestamp =
 			lw6sys_get_timestamp () +
@@ -1644,9 +1642,8 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 							     remote_id, msg);
 			  if (ret)
 			    {
-			      ret=0;
+			      ret = 0;
 
-			      //TMP1 ("OK (%s)", msg);
 			      limit_timestamp =
 				lw6sys_get_timestamp () +
 				node->db->data.consts.join_delay;
@@ -1657,11 +1654,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 				  _lw6p2p_node_poll (node);
 				  lw6sys_idle ();
 				}
-			      ret=tentacle->joined;
-			    }
-			  else
-			    {
-			      //TMP ("KO");
+			      ret = tentacle->joined;
 			    }
 			  LW6SYS_FREE (msg);
 			}

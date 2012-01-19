@@ -286,7 +286,6 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		      cnx->remote_url);
 	  if (seq == 0LL)
 	    {
-	      TMP ("join request");
 	      reply_msg =
 		lw6msg_cmd_generate_join (node->node_info,
 					  lw6dat_warehouse_get_seq_max
@@ -324,7 +323,6 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	    }
 	  else
 	    {
-	      TMP ("joined");
 	      node->tentacles[tentacle_i].joined = 1;
 	    }
 	}
