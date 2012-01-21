@@ -286,10 +286,15 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		      cnx->remote_url);
 	  if (seq == 0LL)
 	    {
+	      /*
+	       * Seq is 0, this means the peer is a client trying to
+	       * join, we send our local info back and register it.
+	       */
 	      reply_msg =
 		lw6msg_cmd_generate_join (node->node_info,
-					  lw6dat_warehouse_get_seq_max
-					  (node->warehouse));
+					  lw6sys_llmax
+					  (lw6dat_warehouse_get_seq_max
+					   (node->warehouse), node->seq_0));
 	      if (reply_msg)
 		{
 		  logical_ticket_sig =
@@ -298,11 +303,14 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 					     cnx->remote_id_str),
 					    cnx->local_id_int,
 					    cnx->remote_id_int, reply_msg);
-
 		  tentacle_i =
 		    _lw6p2p_node_find_tentacle (node, cnx->remote_id_int);
 		  if (tentacle_i >= 0)
 		    {
+		      /*
+		       * First, send reply message, to acknowledge
+		       * JOIN request.
+		       */
 		      _lw6p2p_tentacle_send_redundant (&
 						       (node->tentacles
 							[tentacle_i]),
@@ -311,6 +319,12 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 						       cnx->local_id_int,
 						       cnx->remote_id_int,
 						       reply_msg);
+		      /*
+		       * Then, add peer node to local tables.
+		       */
+		      lw6nod_info_community_add (node->node_info,
+						 cnx->remote_id_int,
+						 cnx->remote_url);
 		    }
 		  else
 		    {
@@ -323,7 +337,26 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	    }
 	  else
 	    {
-	      node->tentacles[tentacle_i].joined = 1;
+	      /*
+	       * Seq is not 0, this is an answer from a server
+	       */
+	      if (lw6nod_info_community_is_member
+		  (node->node_info, cnx->remote_id_int, cnx->remote_url))
+		{
+		  /*
+		   * OK, accepted by server.
+		   */
+		  node->tentacles[tentacle_i].joined = 1;
+		  node->seq_0 = seq;
+		  _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (), seq);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("recevied unsollicited JOIN from IP \"%s\""),
+			      cnx->remote_ip);
+		}
 	    }
 	}
       else

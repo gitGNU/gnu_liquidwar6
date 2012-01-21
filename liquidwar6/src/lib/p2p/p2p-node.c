@@ -324,6 +324,7 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
 	{
 	  lw6dat_warehouse_free (node->warehouse);
 	}
+      _lw6p2p_node_update_serialized (node, 0LL, NULL, NULL, NULL);
       LW6SYS_FREE (node);
     }
   else
@@ -1499,7 +1500,7 @@ lw6p2p_node_get_entries (lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_server_start (_lw6p2p_node_t * node)
+_lw6p2p_node_server_start (_lw6p2p_node_t * node, int64_t seq_0)
 {
   int ret = 0;
 
@@ -1518,6 +1519,8 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node)
 		      NULL,
 		      node->node_info->const_info.bench /
 		      LW6P2P_BENCH_NETWORK_DIVIDE, 0, 0, 0, 0, 0, 0, 0, NULL);
+  node->seq_0 = seq_0;
+  _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (), seq_0);
 
   ret = 1;
 
@@ -1528,6 +1531,7 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node)
  * lw6p2p_node_server_start
  *
  * @node: node to start
+ * @seq_0: seq when starting the server
  * 
  * Starts a node in server mode, if node was previously connected to other
  * nodes, disconnect it from any peer.
@@ -1535,9 +1539,9 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6p2p_node_server_start (lw6p2p_node_t * node)
+lw6p2p_node_server_start (lw6p2p_node_t * node, int64_t seq_0)
 {
-  return _lw6p2p_node_server_start ((_lw6p2p_node_t *) node);
+  return _lw6p2p_node_server_start ((_lw6p2p_node_t *) node, seq_0);
 }
 
 int
@@ -1596,14 +1600,15 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 		}
 	      if (ret && tentacle)
 		{
+		  lw6nod_info_community_add (node->node_info, remote_id,
+					     remote_url);
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
 			      _x_ ("trying to join  %" LW6SYS_PRINTF_LL
 				   "x at \"%s\""), remote_id, remote_url);
 		  ret =
 		    _lw6p2p_tentacle_init (tentacle, &(node->backends),
-					   node->listener,
-					   node->public_url, remote_url, NULL,
-					   node->password,
+					   node->listener, node->public_url,
+					   remote_url, NULL, node->password,
 					   node->node_id_int, remote_id,
 					   node->network_reliability,
 					   _lw6p2p_recv_callback,
@@ -1711,6 +1716,7 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
   lw6nod_info_community_reset (node->node_info);
   lw6nod_info_update (node->node_info, LW6NOD_COMMUNITY_ID_NONE,
 		      0, NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
+  _lw6p2p_node_update_serialized (node, 0LL, NULL, NULL, NULL);
 }
 
 /**
@@ -1790,14 +1796,44 @@ lw6p2p_node_update_info (lw6p2p_node_t * node,
 }
 
 int
-_lw6p2p_node_update_serialized (_lw6p2p_node_t * node, u_int64_t seq_id,
+_lw6p2p_node_update_serialized (_lw6p2p_node_t * node, int64_t serialized_seq,
 				char *serialized_level,
 				char *serialized_game_struct,
 				char *serialized_game_state)
 {
   int ret = 0;
 
-  // todo...
+  node->serialized_seq = serialized_seq;
+  if (node->serialized_level)
+    {
+      LW6SYS_FREE (node->serialized_level);
+      node->serialized_level = NULL;
+    }
+  if (node->serialized_game_struct)
+    {
+      LW6SYS_FREE (node->serialized_game_struct);
+      node->serialized_game_struct = NULL;
+    }
+  if (node->serialized_game_state)
+    {
+      LW6SYS_FREE (node->serialized_game_state);
+      node->serialized_game_state = NULL;
+    }
+  if (serialized_level)
+    {
+      node->serialized_level = lw6sys_str_copy (serialized_level);
+    }
+  if (serialized_game_struct)
+    {
+      node->serialized_game_struct = lw6sys_str_copy (serialized_game_struct);
+    }
+  if (serialized_game_state)
+    {
+      node->serialized_game_state = lw6sys_str_copy (serialized_game_state);
+    }
+  ret = (node->serialized_level != NULL)
+    && (node->serialized_game_struct != NULL)
+    && (node->serialized_game_state != NULL);
 
   return ret;
 }
@@ -1806,7 +1842,7 @@ _lw6p2p_node_update_serialized (_lw6p2p_node_t * node, u_int64_t seq_id,
  * lw6p2p_node_update_serialized
  *
  * @node: node to update
- * @seq_id: sequence id this serialized data corresponds to
+ * @serialized_seq: sequence this serialized data corresponds to
  * @serialized_level: level object serialized serialized as an hexa string
  * @serialized_game_struct: game struct object serialized as an hexa string
  * @serialized_game_state: game state object serialized as an hexa string
@@ -1817,13 +1853,38 @@ _lw6p2p_node_update_serialized (_lw6p2p_node_t * node, u_int64_t seq_id,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6p2p_node_update_serialized (lw6p2p_node_t * node, u_int64_t seq_id,
+lw6p2p_node_update_serialized (lw6p2p_node_t * node, int64_t serialized_seq,
 			       char *serialized_level,
 			       char *serialized_game_struct,
 			       char *serialized_game_state)
 {
-  return _lw6p2p_node_update_serialized ((_lw6p2p_node_t *) node, seq_id,
-					 serialized_level,
+  return _lw6p2p_node_update_serialized ((_lw6p2p_node_t *) node,
+					 serialized_seq, serialized_level,
 					 serialized_game_struct,
 					 serialized_game_state);
+}
+
+void
+_lw6p2p_node_calibrate (_lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
+{
+  node->calibrate_timestamp = timestamp;
+  node->calibrate_seq = seq;
+}
+
+/**
+ * lw6p2p_node_calibrate
+ *
+ * @node: the object to calibrate
+ * @timestamp: the current ticks setting (1000 ticks per second)
+ * @seq: the round expected to be returned with this ticks value
+ *
+ * Calibrates the node, that is, initializes it so that subsequent calls
+ * to @lw6p2p_node_get_round return consistent values.
+ *
+ * Return value: none.
+ */
+void
+lw6p2p_node_calibrate (lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
+{
+  return _lw6p2p_node_calibrate ((_lw6p2p_node_t *) node, timestamp, seq);
 }

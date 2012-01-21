@@ -171,6 +171,9 @@
 #define TEST_NODE_API_DURATION_END 3000
 #define TEST_NODE_POLL_DURATION 100
 
+// 10 times bigger than _LW6PIL_MIN_SEQ_0
+#define TEST_SEQ_0 100000000000LL
+
 /* 
  * Testing db
  */
@@ -934,7 +937,7 @@ _test_node_api_node2_callback (void *api_data)
   /*
    * This node acts as a server.
    */
-  data->ret = lw6p2p_node_server_start (data->node);
+  data->ret = lw6p2p_node_server_start (data->node, TEST_SEQ_0);
 
   if (data->ret)
     {
@@ -1200,9 +1203,9 @@ lw6p2p_test (int mode)
 
   if (lw6net_init (argc, argv, _TEST_NET_LOG))
     {
-      ret = _test_db () && _test_entry () && _test_node_init ()
-	&& _test_node_oob () && _test_node_cmd () && _test_node_api ();
-      //ret = _test_node_api ();
+      //ret = _test_db () && _test_entry () && _test_node_init ()
+      // && _test_node_oob () && _test_node_cmd () && _test_node_api ();
+      ret = _test_node_api ();
 
       lw6net_quit (argc, argv);
     }
