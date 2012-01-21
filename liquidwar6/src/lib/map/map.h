@@ -677,8 +677,13 @@ lw6map_weapon_t;
 #define LW6MAP_RULES_MIN_WEAPON_TUNE_TURBO_POWER 1
 #define LW6MAP_RULES_MAX_WEAPON_TUNE_TURBO_POWER 10
 
-/*
- * Note: it's important that floats are never ever used in map rules.
+/**
+ * Content of rules.xml stored into a C struct.
+ * This structure is used a lot, it needs
+ * to be like this for we don't want to parse (even a hash) each
+ * time we want a param so we need it in a real C struct.
+ * In this structure, it's important, fundamental,
+ * that floats are never ever used in map rules.
  * In fact, we need maps to be 100,00 (lots of zeroes) predictable,
  * given some identical user actions. Using floats could lead us
  * to very slight differences (floats are never accurate, especially
@@ -688,65 +693,125 @@ lw6map_weapon_t;
  */
 typedef struct lw6map_rules_s
 {
+  // total_time parameter, stored as an integer.
   int32_t total_time;
+  // respawn_team parameter, stored as an integer.
   int32_t respawn_team;
+  // respawn_position_mode parameter, stored as an integer.
   int32_t respawn_position_mode;
+  // respawn_delay parameter, stored as an integer.
   int32_t respawn_delay;
+  // moves_per_round parameter, stored as an integer.
   int32_t moves_per_round;
+  // spreads_per_round parameter, stored as an integer.
   int32_t spreads_per_round;
+  // rounds_per_sec parameter, stored as an integer.
   int32_t rounds_per_sec;
+  // fighter_attack parameter, stored as an integer.
   int32_t fighter_attack;
+  // fighter_defense parameter, stored as an integer.
   int32_t fighter_defense;
+  // fighter_new_health parameter, stored as an integer.
   int32_t fighter_new_health;
+  // fighter_regenerate parameter, stored as an integer.
   int32_t fighter_regenerate;
+  // side_attack_factor parameter, stored as an integer.
   int32_t side_attack_factor;
+  // side_defense_factor parameter, stored as an integer.
   int32_t side_defense_factor;
+  // nb_move_tries parameter, stored as an integer.
   int32_t nb_move_tries;
+  // nb_attack_tries parameter, stored as an integer.
   int32_t nb_attack_tries;
+  // nb_defense_tries parameter, stored as an integer.
   int32_t nb_defense_tries;
+  // vertical_move parameter, stored as an integer.
   int32_t vertical_move;
+  // spread_mode parameter, stored as an integer.
   int32_t spread_mode;
+  // single_army_size parameter, stored as an integer.
   int32_t single_army_size;
+  // total_armies_size parameter, stored as an integer.
   int32_t total_armies_size;
+  // max_nb_teams parameter, stored as an integer.
   int32_t max_nb_teams;
+  // max_nb_cursors parameter, stored as an integer.
   int32_t max_nb_cursors;
+  // max_nb_nodes parameter, stored as an integer.
   int32_t max_nb_nodes;
+  // exp parameter, stored as an integer.
   int32_t exp;
+  // highest_team_color_allowed parameter, stored as an integer.
   int32_t highest_team_color_allowed;
+  // highest_weapon_allowed parameter, stored as an integer.
   int32_t highest_weapon_allowed;
+  // x_polarity parameter, stored as an integer.
   int32_t x_polarity;
+  // y_polarity parameter, stored as an integer.
   int32_t y_polarity;
+  // z_polarity parameter, stored as an integer.
   int32_t z_polarity;
+  // max_zone_size parameter, stored as an integer.
   int32_t max_zone_size;
+  // round_delta parameter, stored as an integer.
   int32_t round_delta;
+  // max_round_delta parameter, stored as an integer.
   int32_t max_round_delta;
+  // max_cursor_pot parameter, stored as an integer.
   int32_t max_cursor_pot;
+  // cursor_pot_init parameter, stored as an integer.
   int32_t cursor_pot_init;
+  // max_cursor_pot_offset parameter, stored as an integer.
   int32_t max_cursor_pot_offset;
+  // start_x parameters, stored as a per team integer.
   int32_t start_x[LW6MAP_MAX_NB_TEAMS];
+  // start_y parameters, stored as a per team integer.
   int32_t start_y[LW6MAP_MAX_NB_TEAMS];
+  // start_position_mode parameter, stored as an integer.
   int32_t start_position_mode;
+  // color_conflict_mode parameter, stored as an integer.
   int32_t color_conflict_mode;
+  // spread_thread parameter, stored as an integer.
   int32_t spread_thread;
+  // glue_power parameter, stored as an integer.
   int32_t glue_power;
+  // boost_power parameter, stored as an integer.
   int32_t boost_power;
+  // danger_power parameter, stored as an integer.
   int32_t danger_power;
+  // medicine_power parameter, stored as an integer.
   int32_t medicine_power;
+  // frags_mode parameter, stored as an integer.
   int32_t frags_mode;
+  // frags_to_distribute parameter, stored as an integer.
   int32_t frags_to_distribute;
+  // frags_fade_out parameter, stored as an integer.
   int32_t frags_fade_out;
+  // use_team_profiles parameter, stored as an integer.
   int32_t use_team_profiles;
+  // team_profile_aggressive parameters, stored as a per team integer.
   int32_t team_profile_aggressive[LW6MAP_MAX_NB_TEAMS];
+  // team_profile_vulnerable parameters, stored as a per team integer.
   int32_t team_profile_vulnerable[LW6MAP_MAX_NB_TEAMS];
+  // team_profile_mobile parameters, stored as a per team integer.
   int32_t team_profile_mobile[LW6MAP_MAX_NB_TEAMS];
+  // team_profile_fast parameters, stored as a per team integer.
   int32_t team_profile_fast[LW6MAP_MAX_NB_TEAMS];
+  // team_profile_weapon_id parameters, stored as a per team integer.
   int32_t team_profile_weapon_id[LW6MAP_MAX_NB_TEAMS];
+  // team_profile_weapon_alternate_id parameters, stored as a per team integer.
   int32_t team_profile_weapon_alternate_id[LW6MAP_MAX_NB_TEAMS];
+  // team_profile_weapon_mode parameters, stored as a per team integer.
   int32_t team_profile_weapon_mode[LW6MAP_MAX_NB_TEAMS];
+  // weapon_duration parameter, stored as an integer.
   int32_t weapon_duration;
+  // weapon_charge_delay parameter, stored as an integer.
   int32_t weapon_charge_delay;
+  // weapon_charge_max parameter, stored as an integer.
   int32_t weapon_charge_max;
+  // weapon_tune_berzerk_power parameter, stored as an integer.
   int32_t weapon_tune_berzerk_power;
+  // weapon_tune_turbo_power parameter, stored as an integer.
   int32_t weapon_tune_turbo_power;
 } lw6map_rules_t;
 
@@ -921,33 +986,58 @@ typedef enum lw6map_team_color_e
 #define LW6MAP_TEAMS_BOT8_INDEX 7
 #define LW6MAP_TEAMS_BOT9_INDEX 8
 
+/**
+ * Bot information, contains the relevant generic
+ * parameters for a bot.
+ */
 typedef struct lw6map_bot_info_s
 {
+  /// Team/color the bot is associated to.
   int color;
+  /// AI engine used by bot, the name of the backend to load.
   char *ai;
 }
 lw6map_bot_info_t;
 
+/**
+ * Content of teams.xml stored into a C struct.
+ */
 typedef struct lw6map_teams_s
 {
+  /// Players colors.
   int player_color[LW6MAP_TEAMS_NB_PLAYERS];
+  /// Number of bots.
   int nb_bots;
+  /// Bots speed.
   float bot_speed;
+  /// Bots IQ (how strong they are)
   int bot_iq;
+  /**
+   * Per-bot parameters, including their color and
+   * the ai engine they use.
+   */
   lw6map_bot_info_t bot[LW6MAP_TEAMS_MAX_NB_BOTS];
 }
 lw6map_teams_t;
 
+/**
+ * Content of metadata.xml stored into a C struct.
+ */
 typedef struct lw6map_metadata_s
 {
+  /// Title of the map.
   char *title;
+  /// Author of the map.
   char *author;
+  /// Description of the map.
   char *description;
+  /// License of the map (short, like GPLv2+ or GPLv3+).
   char *license;
+  /// Exp as stored in the XML file of the map.
   int vanilla_exp;
 } lw6map_metadata_t;
 
-/*
+/**
  * Local info is for fields which can be exploited locally,
  * but make no sense if transfered to another computer, over
  * the network for instance. This is typically something
@@ -957,18 +1047,31 @@ typedef struct lw6map_metadata_s
  */
 typedef struct lw6map_local_info_s
 {
+  /// Directory where music files can be loaded.
   char *music_dir;
 } lw6map_local_info_t;
 
+/**
+ * A layer contains the actual data for a layer.
+ */
 typedef struct lw6map_layer_s
 {
+  /// Shape of the layer. Z should be 1, logically.
   lw6sys_whd_t shape;
+  /// Raw (byte) data.
   u_int8_t *data;
 } lw6map_layer_t;
 
+/**
+ * A meta layer is a special layer which contains,
+ * for instance, informations such as where there's a 
+ * special trick like glue.
+ */
 typedef struct lw6map_meta_layer_s
 {
+  /// Shape of the metalayer.
   lw6sys_whd_t shape;
+  /// Raw (byte) data.
   u_int8_t *data;
 } lw6map_meta_layer_t;
 

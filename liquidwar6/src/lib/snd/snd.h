@@ -44,27 +44,57 @@ typedef enum lw6snd_fx_enum_e
 }
 lw6snd_fx_enum_t;
 
+/**
+ * The snd backend is the first argument passed to any snd function,
+ * it contains reference to all the functions which can be used
+ * as well as a pointer on associated data. In OO, this would just 
+ * be an object, with members and methods, using polymorphism through
+ * opaque pointers.
+ */
 typedef struct lw6snd_backend_s
 {
+  /// Handle on dynamic library (if it makes sense).
   lw6dyn_dl_handle_t *dl_handle;
+  /**
+   * Snd specific data, what is behind this pointer really
+   * depends on the snd engine.
+   */
   void *snd_context;
+  /// The argc value passed to main.
   int argc;
+  /// The argv value passed to main.
   const char **argv;
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
   u_int32_t id;
 
+  /// Pointer on lw6snd_play_fx callback code.
   int (*play_fx) (void *snd_context, int fx_id);
+  /// Pointer on lw6snd_is_music_file callback code.
   int (*is_music_file) (void *snd_context, char *music_file);
+  /// Pointer on lw6snd_play_music_file callback code.
   int (*play_music_file) (void *snd_context, char *music_file);
+  /// Pointer on lw6snd_play_music_randomcallback code.
   int (*play_music_random) (void *snd_context, char *music_path,
 			    char *music_filter, char *music_exclude);
+  /// Pointer on lw6snd_stop_music callback code.
   void (*stop_music) (void *snd_context);
+  /// Pointer on lw6snd_init callback code.
   void *(*init) (int argc, const char *argv[], float fx_volume,
 		 float water_volume, float music_volume);
+  /// Pointer on lw6snd_set_fx_volume callback code.
   void (*set_fx_volume) (void *snd_context, float volume);
+  /// Pointer on lw6snd_set_water_volume callback code.
   void (*set_water_volume) (void *snd_context, float volume);
+  /// Pointer on lw6snd_set_music_volume callback code.
   void (*set_music_volume) (void *snd_context, float volume);
+  /// Pointer on lw6snd_poll callback code.
   void (*poll) (void *snd_context);
+  /// Pointer on lw6snd_quit callback code.
   void (*quit) (void *snd_context);
+  /// Pointer on lw6snd_repr callback code.
   char *(*repr) (void *snd_context, u_int32_t id);
 }
 lw6snd_backend_t;

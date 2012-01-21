@@ -35,10 +35,25 @@
 #define LW6SIM_SIMULATE_FULL_NB_TEAMS 10
 #define LW6SIM_SIMULATE_FULL_BOT_BACKEND "idiot"
 
+/**
+ * Results for the game simulation, contains basic
+ * statistics about who won the games.
+ */
 typedef struct lw6sim_results_s
 {
+  /// Number of teams that were tested.
   int nb_teams;
+  /**
+   * Absolute score. The unit is arbitrary and depends
+   * on the game type, the number of games. Well, it means
+   * nothing in itself, each team needs to be compared to
+   * the other ones.
+   */
   int absolute[LW6MAP_MAX_NB_TEAMS];
+  /**
+   * Score as a percentage. This is based on several games
+   * played, the higher it is the stronger the team is.
+   */
   float percent[LW6MAP_MAX_NB_TEAMS];
 } lw6sim_results_t;
 

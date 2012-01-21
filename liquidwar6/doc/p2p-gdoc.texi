@@ -234,8 +234,10 @@ to construct a Guile object, we reverse the order.
 @strong{Return value:}  list object containing @code{lw6p2p_entry_t} objects
 @end deftypefun
 
-@deftypefun {int} {lw6p2p_node_server_start} (lw6p2p_node_t * @var{node})
+@deftypefun {int} {lw6p2p_node_server_start} (lw6p2p_node_t * @var{node}, int64_t @var{seq_0})
 @var{node}:  node to start
+
+@var{seq_0}:  seq when starting the server
 
 Starts a node in server mode, if node was previously connected to other
 nodes, disconnect it from any peer.
@@ -296,10 +298,10 @@ to other peers and are, by nature, dynamic.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6p2p_node_update_serialized} (lw6p2p_node_t * @var{node}, u_int64_t @var{seq_id}, char * @var{serialized_level}, char * @var{serialized_game_struct}, char * @var{serialized_game_state})
+@deftypefun {int} {lw6p2p_node_update_serialized} (lw6p2p_node_t * @var{node}, int64_t @var{serialized_seq}, char * @var{serialized_level}, char * @var{serialized_game_struct}, char * @var{serialized_game_state})
 @var{node}:  node to update
 
-@var{seq_id}:  sequence id this serialized data corresponds to
+@var{serialized_seq}:  sequence this serialized data corresponds to
 
 @var{serialized_level}:  level object serialized serialized as an hexa string
 
@@ -311,6 +313,19 @@ Updates the (rather heavy) serialized objects for the game, which are
 required to transmit game context to peers over the network.
 
 @strong{Return value:}  1 on success, 0 on failure
+@end deftypefun
+
+@deftypefun {void} {lw6p2p_node_calibrate} (lw6p2p_node_t * @var{node}, int64_t @var{timestamp}, int64_t @var{seq})
+@var{node}:  the object to calibrate
+
+@var{timestamp}:  the current ticks setting (1000 ticks per second)
+
+@var{seq}:  the round expected to be returned with this ticks value
+
+Calibrates the node, that is, initializes it so that subsequent calls
+to @code{lw6p2p_node_get_round} return consistent values.
+
+@strong{Return value:}  none.
 @end deftypefun
 
 @deftypefun {int} {lw6p2p_test} (int @var{mode})

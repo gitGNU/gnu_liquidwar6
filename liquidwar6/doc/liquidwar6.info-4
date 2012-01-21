@@ -905,8 +905,11 @@ results on
 
      *Return value:*  list object containing `lw6p2p_entry_t' objects
 
- -- Function: int lw6p2p_node_server_start (lw6p2p_node_t * NODE)
+ -- Function: int lw6p2p_node_server_start (lw6p2p_node_t * NODE,
+          int64_t SEQ_0)
      NODE:  node to start
+
+     SEQ_0:  seq when starting the server
 
      Starts a node in server mode, if node was previously connected to
      other nodes, disconnect it from any peer.
@@ -969,11 +972,11 @@ results on
      *Return value:*  1 on success, 0 on failure.
 
  -- Function: int lw6p2p_node_update_serialized (lw6p2p_node_t * NODE,
-          u_int64_t SEQ_ID, char * SERIALIZED_LEVEL, char *
+          int64_t SERIALIZED_SEQ, char * SERIALIZED_LEVEL, char *
           SERIALIZED_GAME_STRUCT, char * SERIALIZED_GAME_STATE)
      NODE:  node to update
 
-     SEQ_ID:  sequence id this serialized data corresponds to
+     SERIALIZED_SEQ:  sequence this serialized data corresponds to
 
      SERIALIZED_LEVEL:  level object serialized serialized as an hexa
      string
@@ -988,6 +991,19 @@ results on
      are required to transmit game context to peers over the network.
 
      *Return value:*  1 on success, 0 on failure
+
+ -- Function: void lw6p2p_node_calibrate (lw6p2p_node_t * NODE, int64_t
+          TIMESTAMP, int64_t SEQ)
+     NODE:  the object to calibrate
+
+     TIMESTAMP:  the current ticks setting (1000 ticks per second)
+
+     SEQ:  the round expected to be returned with this ticks value
+
+     Calibrates the node, that is, initializes it so that subsequent
+     calls to `lw6p2p_node_get_round' return consistent values.
+
+     *Return value:*  none.
 
  -- Function: int lw6p2p_test (int MODE)
      MODE:  0 for check only, 1 for full test
@@ -1890,12 +1906,20 @@ results on
 
 
  -- Struct: lw6pil_pilot_s
+     Pilot is a container for several game states, a reference state
+     which we can rely upon and a draft state which is anticipated to
+     provide interactive feedback but reflects non-validated
+     informations. The first member, id, is the same as the internal
+     _lw6pil_pilot_t structure. The rest of it is hidden. The program
+     will cast from lw6pil_pilot_t to _lw6pil_pilot_t internally.
 
  -- Member of lw6pil_pilot_s: id
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6pil_pilot_s::id'
 
+     The id of the object, this is non-zero and unique within one run
+     session, incremented at each object creation.
 
  -- Struct: lw6pil_remove_args_s
      Arguments passed to the REMOVE command.
@@ -2189,11 +2213,15 @@ results on
      *Return value:*  1 if test is successfull, 0 on error.
 
  -- Struct: lw6sim_results_s
+     Results for the game simulation, contains basic statistics about
+     who won the games.
 
  -- Member of lw6sim_results_s: nb_teams
      *Type:* `int'
 
      *Definition:* `int lw6sim_results_s::nb_teams'
+
+     Number of teams that were tested.
 
 
  -- Member of lw6sim_results_s: absolute
@@ -2201,6 +2229,9 @@ results on
 
      *Definition:* `int lw6sim_results_s::absolute[LW6MAP_MAX_NB_TEAMS]'
 
+     Absolute score. The unit is arbitrary and depends on the game
+     type, the number of games. Well, it means nothing in itself, each
+     team needs to be compared to the other ones.
 
  -- Member of lw6sim_results_s: percent
      *Type:* `float'
@@ -2208,6 +2239,8 @@ results on
      *Definition:* `float
      lw6sim_results_s::percent[LW6MAP_MAX_NB_TEAMS]'
 
+     Score as a percentage. This is based on several games played, the
+     higher it is the stronger the team is.
 
 
 File: liquidwar6.info,  Node: libsnd,  Next: mod-csound,  Prev: libsim,  Up: C API
@@ -2405,11 +2438,18 @@ results on
      *Return value:*  1 if test is successfull, 0 on error.
 
  -- Struct: lw6snd_backend_s
+     The snd backend is the first argument passed to any snd function,
+     it contains reference to all the functions which can be used as
+     well as a pointer on associated data. In OO, this would just be an
+     object, with members and methods, using polymorphism through
+     opaque pointers.
 
  -- Member of lw6snd_backend_s: dl_handle
      *Type:* `lw6dyn_dl_handle_t *'
 
      *Definition:* `lw6dyn_dl_handle_t* lw6snd_backend_s::dl_handle'
+
+     Handle on dynamic library (if it makes sense).
 
 
  -- Member of lw6snd_backend_s: snd_context
@@ -2417,11 +2457,15 @@ results on
 
      *Definition:* `void* lw6snd_backend_s::snd_context'
 
+     Snd specific data, what is behind this pointer really depends on
+     the snd engine.
 
  -- Member of lw6snd_backend_s: argc
      *Type:* `int'
 
      *Definition:* `int lw6snd_backend_s::argc'
+
+     The argc value passed to main.
 
 
  -- Member of lw6snd_backend_s: argv
@@ -2429,18 +2473,24 @@ results on
 
      *Definition:* `const char** lw6snd_backend_s::argv'
 
+     The argv value passed to main.
+
 
  -- Member of lw6snd_backend_s: id
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6snd_backend_s::id'
 
+     The id of the object, this is non-zero and unique within one run
+     session, incremented at each object creation.
 
  -- Member of lw6snd_backend_s: play_fx
      *Type:* `int(*'
 
      *Definition:* `int(* lw6snd_backend_s::play_fx)(void *snd_context,
      int fx_id)'
+
+     Pointer on lw6snd_play_fx callback code.
 
 
  -- Member of lw6snd_backend_s: is_music_file
@@ -2449,12 +2499,16 @@ results on
      *Definition:* `int(* lw6snd_backend_s::is_music_file)(void
      *snd_context, char *music_file)'
 
+     Pointer on lw6snd_is_music_file callback code.
+
 
  -- Member of lw6snd_backend_s: play_music_file
      *Type:* `int(*'
 
      *Definition:* `int(* lw6snd_backend_s::play_music_file)(void
      *snd_context, char *music_file)'
+
+     Pointer on lw6snd_play_music_file callback code.
 
 
  -- Member of lw6snd_backend_s: play_music_random
@@ -2464,12 +2518,16 @@ results on
      *snd_context, char *music_path, char *music_filter, char
      *music_exclude)'
 
+     Pointer on lw6snd_play_music_randomcallback code.
+
 
  -- Member of lw6snd_backend_s: stop_music
      *Type:* `void(*'
 
      *Definition:* `void(* lw6snd_backend_s::stop_music)(void
      *snd_context)'
+
+     Pointer on lw6snd_stop_music callback code.
 
 
  -- Member of lw6snd_backend_s: init
@@ -2479,12 +2537,16 @@ results on
      char *argv[], float fx_volume, float water_volume, float
      music_volume)'
 
+     Pointer on lw6snd_init callback code.
+
 
  -- Member of lw6snd_backend_s: set_fx_volume
      *Type:* `void(*'
 
      *Definition:* `void(* lw6snd_backend_s::set_fx_volume)(void
      *snd_context, float volume)'
+
+     Pointer on lw6snd_set_fx_volume callback code.
 
 
  -- Member of lw6snd_backend_s: set_water_volume
@@ -2493,6 +2555,8 @@ results on
      *Definition:* `void(* lw6snd_backend_s::set_water_volume)(void
      *snd_context, float volume)'
 
+     Pointer on lw6snd_set_water_volume callback code.
+
 
  -- Member of lw6snd_backend_s: set_music_volume
      *Type:* `void(*'
@@ -2500,11 +2564,15 @@ results on
      *Definition:* `void(* lw6snd_backend_s::set_music_volume)(void
      *snd_context, float volume)'
 
+     Pointer on lw6snd_set_music_volume callback code.
+
 
  -- Member of lw6snd_backend_s: poll
      *Type:* `void(*'
 
      *Definition:* `void(* lw6snd_backend_s::poll)(void *snd_context)'
+
+     Pointer on lw6snd_poll callback code.
 
 
  -- Member of lw6snd_backend_s: quit
@@ -2512,12 +2580,16 @@ results on
 
      *Definition:* `void(* lw6snd_backend_s::quit)(void *snd_context)'
 
+     Pointer on lw6snd_quit callback code.
+
 
  -- Member of lw6snd_backend_s: repr
      *Type:* `char *(*'
 
      *Definition:* `char*(* lw6snd_backend_s::repr)(void *snd_context,
      u_int32_t id)'
+
+     Pointer on lw6snd_repr callback code.
 
 
 

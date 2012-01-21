@@ -7515,17 +7515,23 @@ results on
 
 
  -- Struct: lw6map_bot_info_s
+     Bot information, contains the relevant generic parameters for a
+     bot.
 
  -- Member of lw6map_bot_info_s: color
      *Type:* `int'
 
      *Definition:* `int lw6map_bot_info_s::color'
 
+     Team/color the bot is associated to.
+
 
  -- Member of lw6map_bot_info_s: ai
      *Type:* `char *'
 
      *Definition:* `char* lw6map_bot_info_s::ai'
+
+     AI engine used by bot, the name of the backend to load.
 
 
  -- Struct: lw6map_color_couple_s
@@ -7668,17 +7674,22 @@ results on
 
 
  -- Struct: lw6map_layer_s
+     A layer contains the actual data for a layer.
 
  -- Member of lw6map_layer_s: shape
      *Type:* `lw6sys_whd_t'
 
      *Definition:* `lw6sys_whd_t lw6map_layer_s::shape'
 
+     Shape of the layer. Z should be 1, logically.
+
 
  -- Member of lw6map_layer_s: data
      *Type:* `u_int8_t *'
 
      *Definition:* `u_int8_t* lw6map_layer_s::data'
+
+     Raw (byte) data.
 
 
  -- Struct: lw6map_level_s
@@ -7727,19 +7738,29 @@ results on
 
 
  -- Struct: lw6map_local_info_s
+     Local info is for fields which can be exploited locally, but make
+     no sense if transfered to another computer, over the network for
+     instance. This is typically something which will be updated by the
+     ldr module or some other external code, but it's not directly
+     linked to the content of the map itself.
 
  -- Member of lw6map_local_info_s: music_dir
      *Type:* `char *'
 
      *Definition:* `char* lw6map_local_info_s::music_dir'
 
+     Directory where music files can be loaded.
+
 
  -- Struct: lw6map_metadata_s
+     Content of metadata.xml stored into a C struct.
 
  -- Member of lw6map_metadata_s: title
      *Type:* `char *'
 
      *Definition:* `char* lw6map_metadata_s::title'
+
+     Title of the map.
 
 
  -- Member of lw6map_metadata_s: author
@@ -7747,11 +7768,15 @@ results on
 
      *Definition:* `char* lw6map_metadata_s::author'
 
+     Author of the map.
+
 
  -- Member of lw6map_metadata_s: description
      *Type:* `char *'
 
      *Definition:* `char* lw6map_metadata_s::description'
+
+     Description of the map.
 
 
  -- Member of lw6map_metadata_s: license
@@ -7759,25 +7784,35 @@ results on
 
      *Definition:* `char* lw6map_metadata_s::license'
 
+     License of the map (short, like GPLv2+ or GPLv3+).
+
 
  -- Member of lw6map_metadata_s: vanilla_exp
      *Type:* `int'
 
      *Definition:* `int lw6map_metadata_s::vanilla_exp'
 
+     Exp as stored in the XML file of the map.
+
 
  -- Struct: lw6map_meta_layer_s
+     A meta layer is a special layer which contains, for instance,
+     informations such as where there's a special trick like glue.
 
  -- Member of lw6map_meta_layer_s: shape
      *Type:* `lw6sys_whd_t'
 
      *Definition:* `lw6sys_whd_t lw6map_meta_layer_s::shape'
 
+     Shape of the metalayer.
+
 
  -- Member of lw6map_meta_layer_s: data
      *Type:* `u_int8_t *'
 
      *Definition:* `u_int8_t* lw6map_meta_layer_s::data'
+
+     Raw (byte) data.
 
 
  -- Struct: lw6map_param_s
@@ -7801,6 +7836,17 @@ results on
 
 
  -- Struct: lw6map_rules_s
+     Content of rules.xml stored into a C struct. This structure is
+     used a lot, it needs to be like this for we don't want to parse
+     (even a hash) each time we want a param so we need it in a real C
+     struct. In this structure, it's important, fundamental, that
+     floats are never ever used in map rules. In fact, we need maps to
+     be 100,00 (lots of zeroes) predictable, given some identical user
+     actions. Using floats could lead us to very slight differences
+     (floats are never accurate, especially when you run calculus on
+     different hardwares) which could, with time, become very
+     important. Sort of a "butterfly effect". So well, we use int.
+     Int32 to be exact.
 
  -- Member of lw6map_rules_s: total_time
      *Type:* `int32_t'
@@ -8312,6 +8358,7 @@ results on
 
 
  -- Struct: lw6map_teams_s
+     Content of teams.xml stored into a C struct.
 
  -- Member of lw6map_teams_s: player_color
      *Type:* `int'
@@ -8319,11 +8366,15 @@ results on
      *Definition:* `int
      lw6map_teams_s::player_color[LW6MAP_TEAMS_NB_PLAYERS]'
 
+     Players colors.
+
 
  -- Member of lw6map_teams_s: nb_bots
      *Type:* `int'
 
      *Definition:* `int lw6map_teams_s::nb_bots'
+
+     Number of bots.
 
 
  -- Member of lw6map_teams_s: bot_speed
@@ -8331,11 +8382,15 @@ results on
 
      *Definition:* `float lw6map_teams_s::bot_speed'
 
+     Bots speed.
+
 
  -- Member of lw6map_teams_s: bot_iq
      *Type:* `int'
 
      *Definition:* `int lw6map_teams_s::bot_iq'
+
+     Bots IQ (how strong they are)
 
 
  -- Member of lw6map_teams_s: bot
@@ -8344,6 +8399,8 @@ results on
      *Definition:* `lw6map_bot_info_t
      lw6map_teams_s::bot[LW6MAP_TEAMS_MAX_NB_BOTS]'
 
+     Per-bot parameters, including their color and the ai engine they
+     use.
 
  -- Struct: lw6map_texture_s
 

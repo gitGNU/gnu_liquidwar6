@@ -216,13 +216,21 @@ typedef struct lw6pil_local_cursors_s
 }
 lw6pil_local_cursors_t;
 
+/**
+ * Pilot is a container for several game states, a reference
+ * state which we can rely upon and a draft state which is
+ * anticipated to provide interactive feedback but reflects
+ * non-validated informations.
+ * The first member, id, is the same as the internal
+ * _lw6pil_pilot_t structure. The rest of it is hidden.
+ * The program will cast from lw6pil_pilot_t to _lw6pil_pilot_t
+ * internally.
+ */
 typedef struct lw6pil_pilot_s
 {
-  /*
-   * The  first members, id, is the same as the internal
-   * _lw6pil_piot_t structure. The rest of it is hidden.
-   * The program will cast from lw6pil_pilot_t to _lw6pil_pilot_t
-   * internally.
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
    */
   u_int32_t id;
 } lw6pil_pilot_t;

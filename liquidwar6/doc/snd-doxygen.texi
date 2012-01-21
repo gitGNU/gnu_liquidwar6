@@ -4,7 +4,7 @@
 @deftp {Struct} {lw6snd_backend_s}
 
     
-    
+The snd backend is the first argument passed to any snd function, it contains reference to all the functions which can be used as well as a pointer on associated data. In OO, this would just be an object, with members and methods, using polymorphism through opaque pointers.     
 @end deftp
 
 @defcv {Member} {lw6snd_backend_s} {dl_handle}
@@ -13,7 +13,7 @@
 @strong{Definition:} @code{lw6dyn_dl_handle_t* lw6snd_backend_s::dl_handle}
 
 
-        
+Handle on dynamic library (if it makes sense).         
         
 @end defcv
 
@@ -24,7 +24,7 @@
 
 
         
-        
+Snd specific data, what is behind this pointer really depends on the snd engine.         
 @end defcv
 
 @defcv {Member} {lw6snd_backend_s} {argc}
@@ -33,7 +33,7 @@
 @strong{Definition:} @code{int lw6snd_backend_s::argc}
 
 
-        
+The argc value passed to main.         
         
 @end defcv
 
@@ -43,7 +43,7 @@
 @strong{Definition:} @code{const char** lw6snd_backend_s::argv}
 
 
-        
+The argv value passed to main.         
         
 @end defcv
 
@@ -54,7 +54,7 @@
 
 
         
-        
+The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
 @end defcv
 
 @defcv {Member} {lw6snd_backend_s} {play_fx}
@@ -63,7 +63,7 @@
 @strong{Definition:} @code{int(* lw6snd_backend_s::play_fx)(void *snd_context, int fx_id)}
 
 
-        
+Pointer on lw6snd_play_fx callback code.         
         
 @end defcv
 
@@ -73,7 +73,7 @@
 @strong{Definition:} @code{int(* lw6snd_backend_s::is_music_file)(void *snd_context, char *music_file)}
 
 
-        
+Pointer on lw6snd_is_music_file callback code.         
         
 @end defcv
 
@@ -83,7 +83,7 @@
 @strong{Definition:} @code{int(* lw6snd_backend_s::play_music_file)(void *snd_context, char *music_file)}
 
 
-        
+Pointer on lw6snd_play_music_file callback code.         
         
 @end defcv
 
@@ -93,7 +93,7 @@
 @strong{Definition:} @code{int(* lw6snd_backend_s::play_music_random)(void *snd_context, char *music_path, char *music_filter, char *music_exclude)}
 
 
-        
+Pointer on lw6snd_play_music_randomcallback code.         
         
 @end defcv
 
@@ -103,7 +103,7 @@
 @strong{Definition:} @code{void(* lw6snd_backend_s::stop_music)(void *snd_context)}
 
 
-        
+Pointer on lw6snd_stop_music callback code.         
         
 @end defcv
 
@@ -113,7 +113,7 @@
 @strong{Definition:} @code{void*(* lw6snd_backend_s::init)(int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)}
 
 
-        
+Pointer on lw6snd_init callback code.         
         
 @end defcv
 
@@ -123,7 +123,7 @@
 @strong{Definition:} @code{void(* lw6snd_backend_s::set_fx_volume)(void *snd_context, float volume)}
 
 
-        
+Pointer on lw6snd_set_fx_volume callback code.         
         
 @end defcv
 
@@ -133,7 +133,7 @@
 @strong{Definition:} @code{void(* lw6snd_backend_s::set_water_volume)(void *snd_context, float volume)}
 
 
-        
+Pointer on lw6snd_set_water_volume callback code.         
         
 @end defcv
 
@@ -143,7 +143,7 @@
 @strong{Definition:} @code{void(* lw6snd_backend_s::set_music_volume)(void *snd_context, float volume)}
 
 
-        
+Pointer on lw6snd_set_music_volume callback code.         
         
 @end defcv
 
@@ -153,7 +153,7 @@
 @strong{Definition:} @code{void(* lw6snd_backend_s::poll)(void *snd_context)}
 
 
-        
+Pointer on lw6snd_poll callback code.         
         
 @end defcv
 
@@ -163,7 +163,7 @@
 @strong{Definition:} @code{void(* lw6snd_backend_s::quit)(void *snd_context)}
 
 
-        
+Pointer on lw6snd_quit callback code.         
         
 @end defcv
 
@@ -173,7 +173,7 @@
 @strong{Definition:} @code{char*(* lw6snd_backend_s::repr)(void *snd_context, u_int32_t id)}
 
 
-        
+Pointer on lw6snd_repr callback code.         
         
 @end defcv
 

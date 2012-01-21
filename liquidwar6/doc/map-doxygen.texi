@@ -123,7 +123,7 @@
 @deftp {Struct} {lw6map_bot_info_s}
 
     
-    
+Bot information, contains the relevant generic parameters for a bot.     
 @end deftp
 
 @defcv {Member} {lw6map_bot_info_s} {color}
@@ -132,7 +132,7 @@
 @strong{Definition:} @code{int lw6map_bot_info_s::color}
 
 
-        
+Team/color the bot is associated to.         
         
 @end defcv
 
@@ -142,7 +142,7 @@
 @strong{Definition:} @code{char* lw6map_bot_info_s::ai}
 
 
-        
+AI engine used by bot, the name of the backend to load.         
         
 @end defcv
 
@@ -378,7 +378,7 @@
 @deftp {Struct} {lw6map_layer_s}
 
     
-    
+A layer contains the actual data for a layer.     
 @end deftp
 
 @defcv {Member} {lw6map_layer_s} {shape}
@@ -387,7 +387,7 @@
 @strong{Definition:} @code{lw6sys_whd_t lw6map_layer_s::shape}
 
 
-        
+Shape of the layer. Z should be 1, logically.         
         
 @end defcv
 
@@ -397,7 +397,7 @@
 @strong{Definition:} @code{u_int8_t* lw6map_layer_s::data}
 
 
-        
+Raw (byte) data.         
         
 @end defcv
 
@@ -486,7 +486,7 @@
 @deftp {Struct} {lw6map_local_info_s}
 
     
-    
+Local info is for fields which can be exploited locally, but make no sense if transfered to another computer, over the network for instance. This is typically something which will be updated by the ldr module or some other external code, but it's not directly linked to the content of the map itself.     
 @end deftp
 
 @defcv {Member} {lw6map_local_info_s} {music_dir}
@@ -495,7 +495,7 @@
 @strong{Definition:} @code{char* lw6map_local_info_s::music_dir}
 
 
-        
+Directory where music files can be loaded.         
         
 @end defcv
 
@@ -505,7 +505,7 @@
 @deftp {Struct} {lw6map_metadata_s}
 
     
-    
+Content of metadata.xml stored into a C struct.     
 @end deftp
 
 @defcv {Member} {lw6map_metadata_s} {title}
@@ -514,7 +514,7 @@
 @strong{Definition:} @code{char* lw6map_metadata_s::title}
 
 
-        
+Title of the map.         
         
 @end defcv
 
@@ -524,7 +524,7 @@
 @strong{Definition:} @code{char* lw6map_metadata_s::author}
 
 
-        
+Author of the map.         
         
 @end defcv
 
@@ -534,7 +534,7 @@
 @strong{Definition:} @code{char* lw6map_metadata_s::description}
 
 
-        
+Description of the map.         
         
 @end defcv
 
@@ -544,7 +544,7 @@
 @strong{Definition:} @code{char* lw6map_metadata_s::license}
 
 
-        
+License of the map (short, like GPLv2+ or GPLv3+).         
         
 @end defcv
 
@@ -554,7 +554,7 @@
 @strong{Definition:} @code{int lw6map_metadata_s::vanilla_exp}
 
 
-        
+Exp as stored in the XML file of the map.         
         
 @end defcv
 
@@ -564,7 +564,7 @@
 @deftp {Struct} {lw6map_meta_layer_s}
 
     
-    
+A meta layer is a special layer which contains, for instance, informations such as where there's a special trick like glue.     
 @end deftp
 
 @defcv {Member} {lw6map_meta_layer_s} {shape}
@@ -573,7 +573,7 @@
 @strong{Definition:} @code{lw6sys_whd_t lw6map_meta_layer_s::shape}
 
 
-        
+Shape of the metalayer.         
         
 @end defcv
 
@@ -583,7 +583,7 @@
 @strong{Definition:} @code{u_int8_t* lw6map_meta_layer_s::data}
 
 
-        
+Raw (byte) data.         
         
 @end defcv
 
@@ -632,7 +632,7 @@
 @deftp {Struct} {lw6map_rules_s}
 
     
-    
+Content of rules.xml stored into a C struct. This structure is used a lot, it needs to be like this for we don't want to parse (even a hash) each time we want a param so we need it in a real C struct. In this structure, it's important, fundamental, that floats are never ever used in map rules. In fact, we need maps to be 100,00 (lots of zeroes) predictable, given some identical user actions. Using floats could lead us to very slight differences (floats are never accurate, especially when you run calculus on different hardwares) which could, with time, become very important. Sort of a "butterfly effect". So well, we use int. Int32 to be exact.     
 @end deftp
 
 @defcv {Member} {lw6map_rules_s} {total_time}
@@ -1480,7 +1480,7 @@
 @deftp {Struct} {lw6map_teams_s}
 
     
-    
+Content of teams.xml stored into a C struct.     
 @end deftp
 
 @defcv {Member} {lw6map_teams_s} {player_color}
@@ -1489,7 +1489,7 @@
 @strong{Definition:} @code{int lw6map_teams_s::player_color[LW6MAP_TEAMS_NB_PLAYERS]}
 
 
-        
+Players colors.         
         
 @end defcv
 
@@ -1499,7 +1499,7 @@
 @strong{Definition:} @code{int lw6map_teams_s::nb_bots}
 
 
-        
+Number of bots.         
         
 @end defcv
 
@@ -1509,7 +1509,7 @@
 @strong{Definition:} @code{float lw6map_teams_s::bot_speed}
 
 
-        
+Bots speed.         
         
 @end defcv
 
@@ -1519,7 +1519,7 @@
 @strong{Definition:} @code{int lw6map_teams_s::bot_iq}
 
 
-        
+Bots IQ (how strong they are)         
         
 @end defcv
 
@@ -1530,7 +1530,7 @@
 
 
         
-        
+Per-bot parameters, including their color and the ai engine they use.         
 @end defcv
 
 

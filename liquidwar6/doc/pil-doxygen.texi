@@ -210,7 +210,7 @@ Wether this cursor is the main cursor.
 @deftp {Struct} {lw6pil_pilot_s}
 
     
-    
+Pilot is a container for several game states, a reference state which we can rely upon and a draft state which is anticipated to provide interactive feedback but reflects non-validated informations. The first member, id, is the same as the internal _lw6pil_pilot_t structure. The rest of it is hidden. The program will cast from lw6pil_pilot_t to _lw6pil_pilot_t internally.     
 @end deftp
 
 @defcv {Member} {lw6pil_pilot_s} {id}
@@ -220,7 +220,7 @@ Wether this cursor is the main cursor.
 
 
         
-        
+The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
 @end defcv
 
 
