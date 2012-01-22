@@ -29,6 +29,14 @@
 #include "sys.h"
 #include "sys-internal.h"
 
+#if ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
+static u_int32_t seq_id = 0;
+#else
+#if LW6_X86
+static u_int32_t seq_id = 0;
+#endif
+#endif
+
 /**
  * lw6sys_spinlock_create
  *
@@ -36,7 +44,7 @@
  *
  * Return value: newly allocated pointer.
  */
-void *
+lw6sys_spinlock_t *
 lw6sys_spinlock_create ()
 {
   _lw6sys_spinlock_t *spinlock;
@@ -45,6 +53,12 @@ lw6sys_spinlock_create ()
     (_lw6sys_spinlock_t *) LW6SYS_CALLOC (sizeof (_lw6sys_spinlock_t));
   if (spinlock)
     {
+      spinlock->id = 0;
+      while (spinlock->id)
+	{
+	  spinlock->id = ++seq_id;
+	}
+
       if (!pthread_spin_init (&(spinlock->spinlock), 0))
 	{
 	  // OK
@@ -65,15 +79,24 @@ lw6sys_spinlock_create ()
 #if LW6_X86
   spinlock =
     (_lw6sys_spinlock_t *) LW6SYS_CALLOC (sizeof (_lw6sys_spinlock_t));
+  if (spinlock)
+    {
+      spinlock->id = 0;
+      while (spinlock->id)
+	{
+	  spinlock->id = ++seq_id;
+	}
+    }
+
   if (!spinlock)
     {
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create X86 spinlock"));
     }
 #else
-  spinlock = lw6sys_mutex_create ();
+  spinlock = (_lw6sys_spinlock_t *) lw6sys_mutex_create ();
 #endif
 #endif
-  return (void *) spinlock;
+  return (lw6sys_spinlock_t *) spinlock;
 }
 
 /**
@@ -86,16 +109,16 @@ lw6sys_spinlock_create ()
  * Return value: none.
  */
 void
-lw6sys_spinlock_destroy (void *spinlock)
+lw6sys_spinlock_destroy (lw6sys_spinlock_t * spinlock)
 {
 #if ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
   pthread_spin_destroy (&(((_lw6sys_spinlock_t *) spinlock)->spinlock));
-  LW6SYS_FREE (spinlock);
+  LW6SYS_FREE ((void *) spinlock);
 #else
 #if LW6_X86
-  LW6SYS_FREE (spinlock);
+  LW6SYS_FREE ((void *) spinlock);
 #else
-  lw6sys_mutex_destroy (spinlock);
+  lw6sys_mutex_destroy ((lw6sys_mutex_t *) spinlock);
 #endif
 #endif
 }
@@ -112,7 +135,7 @@ lw6sys_spinlock_destroy (void *spinlock)
  * Return value: 1 if success, 0 if failure.
  */
 int
-lw6sys_spinlock_lock (void *spinlock)
+lw6sys_spinlock_lock (lw6sys_spinlock_t * spinlock)
 {
   int ret = 0;
 #if ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
@@ -139,7 +162,7 @@ lw6sys_spinlock_lock (void *spinlock)
     }
   ret = 1;
 #else
-  ret = lw6sys_mutex_lock (spinlock);
+  ret = lw6sys_mutex_lock ((lw6sys_mutex_t *) spinlock);
 #endif
 #endif
   return ret;
@@ -159,7 +182,7 @@ lw6sys_spinlock_lock (void *spinlock)
  * Return value: 1 if spinlock unlocked, 0 if locked or error.
  */
 int
-lw6sys_spinlock_trylock (void *spinlock)
+lw6sys_spinlock_trylock (lw6sys_spinlock_t * spinlock)
 {
   int ret = 0;
 #if ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
@@ -188,7 +211,7 @@ lw6sys_spinlock_trylock (void *spinlock)
 #if LW6_X86
   ret = !(((_lw6sys_spinlock_t *) spinlock)->spinlock);
 #else
-  ret = lw6sys_mutex_trylock (spinlock);
+  ret = lw6sys_mutex_trylock ((lw6sys_mutex_t *) spinlock);
 #endif
 #endif
   return ret;
@@ -204,7 +227,7 @@ lw6sys_spinlock_trylock (void *spinlock)
  * Return value: 1 if sucess, 0 if error.
  */
 int
-lw6sys_spinlock_unlock (void *spinlock)
+lw6sys_spinlock_unlock (lw6sys_spinlock_t * spinlock)
 {
   int ret = 0;
 #if ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
@@ -227,7 +250,7 @@ lw6sys_spinlock_unlock (void *spinlock)
   (((_lw6sys_spinlock_t *) spinlock)->spinlock) = 0;
   ret = 1;
 #else
-  ret = lw6sys_mutex_unlock (spinlock);
+  ret = lw6sys_mutex_unlock ((lw6sys_mutex_t *) spinlock);
 #endif
 #endif
   return ret;

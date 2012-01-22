@@ -35,7 +35,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
   u_int32_t team_mask_even = 0;
   u_int32_t team_mask_odd = 0;
   _lw6pil_spread_data_t spread_data;
-  void *spread_thread;
+  lw6sys_thread_handler_t *spread_thread;
 
   memset (&spread_data, 0, sizeof (_lw6pil_spread_data_t));
   while (worker->run)

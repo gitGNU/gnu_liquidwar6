@@ -27,7 +27,7 @@
 #include "sys.h"
 #include "sys-internal.h"
 
-static void *_run_handler = NULL;
+static lw6sys_thread_handler_t *_run_handler = NULL;
 static _lw6sys_thread_handler_t *_main_handler = NULL;
 
 static void

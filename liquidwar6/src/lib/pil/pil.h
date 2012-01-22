@@ -150,17 +150,17 @@ typedef struct lw6pil_worker_s
   /// Wether the game is over or not.
   int over;
   /// The thread that does the job.
-  void *compute_thread;
+  lw6sys_thread_handler_t *compute_thread;
   /// Global data mutex.
-  void *global_mutex;
+  lw6sys_mutex_t *global_mutex;
   /// Mutex used for the computing thread.
-  void *compute_mutex;
+  lw6sys_mutex_t *compute_mutex;
   /**
    * Mutex used for the commands object, uses a spinlock
    * instead of a standard lock as updating commands
    * is (should) be pretty fast.
    */
-  void *commands_spinlock;
+  lw6sys_spinlock_t *commands_spinlock;
   /// Game state the computing thread is working on.
   lw6ker_game_state_t *game_state;
   /// List of commands to be processed.

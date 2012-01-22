@@ -31,6 +31,7 @@
 
 #define THREAD_JOIN_SLEEP 0.1f
 
+static u_int32_t seq_id = 0;
 static int mutex_lock_counter = 0;
 static int mutex_unlock_counter = 0;
 
@@ -41,7 +42,7 @@ static int mutex_unlock_counter = 0;
  *
  * Return value: newly allocated pointer.
  */
-void *
+lw6sys_mutex_t *
 lw6sys_mutex_create ()
 {
   _lw6sys_mutex_t *mutex;
@@ -49,6 +50,12 @@ lw6sys_mutex_create ()
   mutex = (_lw6sys_mutex_t *) LW6SYS_CALLOC (sizeof (_lw6sys_mutex_t));
   if (mutex)
     {
+      mutex->id = 0;
+      while (mutex->id)
+	{
+	  mutex->id = ++seq_id;
+	}
+
       if (!pthread_mutex_init (&(mutex->mutex), NULL))
 	{
 	  // OK
@@ -66,7 +73,7 @@ lw6sys_mutex_create ()
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create mutex"));
     }
 
-  return (void *) mutex;
+  return (lw6sys_mutex_t *) mutex;
 }
 
 /**
@@ -79,7 +86,7 @@ lw6sys_mutex_create ()
  * Return value: none.
  */
 void
-lw6sys_mutex_destroy (void *mutex)
+lw6sys_mutex_destroy (lw6sys_mutex_t * mutex)
 {
   pthread_mutex_destroy (&(((_lw6sys_mutex_t *) mutex)->mutex));
   LW6SYS_FREE (mutex);
@@ -97,7 +104,7 @@ lw6sys_mutex_destroy (void *mutex)
  * Return value: 1 if success, 0 if failure.
  */
 int
-lw6sys_mutex_lock (void *mutex)
+lw6sys_mutex_lock (lw6sys_mutex_t * mutex)
 {
   int ret = 0;
   int pthread_ret;
@@ -132,7 +139,7 @@ lw6sys_mutex_lock (void *mutex)
  * Return value: 1 if mutex unlocked, 0 if locked or error.
  */
 int
-lw6sys_mutex_trylock (void *mutex)
+lw6sys_mutex_trylock (lw6sys_mutex_t * mutex)
 {
   int ret = 0;
   int pthread_ret;
@@ -170,7 +177,7 @@ lw6sys_mutex_trylock (void *mutex)
  * Return value: 1 if sucess, 0 if error.
  */
 int
-lw6sys_mutex_unlock (void *mutex)
+lw6sys_mutex_unlock (lw6sys_mutex_t * mutex)
 {
   int ret = 0;
   int pthread_ret;

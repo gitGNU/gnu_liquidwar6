@@ -122,7 +122,7 @@ typedef struct _lw6p2p_db_s
   char *db_filename;
   char *log_filename;
   _lw6p2p_data_t data;
-  void *mutex;
+  lw6sys_mutex_t *mutex;
   sqlite3 *handler;
   int64_t t0;
 } _lw6p2p_db_t;

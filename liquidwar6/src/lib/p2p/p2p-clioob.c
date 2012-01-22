@@ -70,7 +70,7 @@ int
 _lw6p2p_cli_oob_filter (_lw6p2p_cli_oob_callback_data_t * cli_oob)
 {
   int ret = 1;
-  void *thread;
+  lw6sys_thread_handler_t *thread;
 
   if (cli_oob && cli_oob->cli_oob)
     {

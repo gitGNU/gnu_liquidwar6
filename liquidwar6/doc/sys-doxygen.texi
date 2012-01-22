@@ -413,6 +413,25 @@ Time of module compilation.
 
 
   
+@deftp {Struct} {lw6sys_mutex_s}
+
+    
+Mutex is our own wrapper on the pthread mutex object. Why not use the pthread mutex directly? For debugging, this allows us to place and instrument hooks if needed.     
+@end deftp
+
+@defcv {Member} {lw6sys_mutex_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6sys_mutex_s::id}
+
+
+        
+The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
+@end defcv
+
+
+
+  
 @deftp {Struct} {lw6sys_progress_s}
 
     
@@ -447,6 +466,44 @@ Where the progress operation ends.
 
 Somewhere between min and max.         
         
+@end defcv
+
+
+
+  
+@deftp {Struct} {lw6sys_spinlock_s}
+
+    
+Spinlock is our own wrapper on a spinlock based mutex. Why not use the pthread spinlock directly? For debugging, this allows us to place and instrument hooks if needed. Additionnally, some implementations of pthread do not provide spinlock and in that case we provide our own alternative.     
+@end deftp
+
+@defcv {Member} {lw6sys_spinlock_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6sys_spinlock_s::id}
+
+
+        
+The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
+@end defcv
+
+
+
+  
+@deftp {Struct} {lw6sys_thread_handler_s}
+
+    
+Thread handler is our own wrapper on the pthread object. Why not use the pthread handler directly? Basically to store basic flags and context data (void * pointer on our thread data for instance) along with the handler. This is merely for debugging and convenience. Internally this will be casted to _lw6sys_thread_handler_t.     
+@end deftp
+
+@defcv {Member} {lw6sys_thread_handler_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6sys_thread_handler_s::id}
+
+
+        
+The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
 @end defcv
 
 

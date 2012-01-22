@@ -1,3 +1,7 @@
+2012-01-22 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed p2p and thread/mutex API. 
+
 2012-01-21 : Christian Mauduit <ufoot@ufoot.org>
 
 	* JOIN message now properly exchanges seq while connecting.

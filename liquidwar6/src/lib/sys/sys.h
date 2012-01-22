@@ -519,6 +519,53 @@ extern lw6sys_color_hsv_t LW6SYS_COLOR_HSV_BLUE;
 #define LW6SYS_REFORMAT_XML_PREFIX "    "
 #define LW6SYS_REFORMAT_XML_NB_COLUMNS 74
 
+/**
+ * Mutex is our own wrapper on the pthread mutex object.
+ * Why not use the pthread mutex directly? For debugging,
+ * this allows us to place and instrument hooks if needed.
+ */
+typedef struct lw6sys_mutex_s
+{
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
+  u_int32_t id;
+} lw6sys_mutex_t;
+
+/**
+ * Spinlock is our own wrapper on a spinlock based mutex.
+ * Why not use the pthread spinlock directly? For debugging,
+ * this allows us to place and instrument hooks if needed.
+ * Additionnally, some implementations of pthread do not provide
+ * spinlock and in that case we provide our own alternative.
+ */
+typedef struct lw6sys_spinlock_s
+{
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
+  u_int32_t id;
+} lw6sys_spinlock_t;
+
+/**
+ * Thread handler is our own wrapper on the pthread object.
+ * Why not use the pthread handler directly? Basically to
+ * store basic flags and context data (void * pointer on
+ * our thread data for instance) along with the handler.
+ * This is merely for debugging and convenience. Internally
+ * this will be casted to _lw6sys_thread_handler_t.
+ */
+typedef struct lw6sys_thread_handler_s
+{
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
+  u_int32_t id;
+} lw6sys_thread_handler_t;
+
 /* sys-arg.c */
 extern int lw6sys_arg_match (const char *keyword, const char *argv_string);
 extern int lw6sys_arg_exists (int argc, const char *argv[],
@@ -937,11 +984,11 @@ extern int lw6sys_is_little_endian ();
 extern int lw6sys_check_types_size ();
 
 /* sys-mutex.c */
-extern void *lw6sys_mutex_create ();
-extern void lw6sys_mutex_destroy (void *mutex);
-extern int lw6sys_mutex_lock (void *mutex);
-extern int lw6sys_mutex_trylock (void *mutex);
-extern int lw6sys_mutex_unlock (void *mutex);
+extern lw6sys_mutex_t *lw6sys_mutex_create ();
+extern void lw6sys_mutex_destroy (lw6sys_mutex_t * mutex);
+extern int lw6sys_mutex_lock (lw6sys_mutex_t * mutex);
+extern int lw6sys_mutex_trylock (lw6sys_mutex_t * mutex);
+extern int lw6sys_mutex_unlock (lw6sys_mutex_t * mutex);
 extern int lw6sys_get_mutex_lock_count ();
 extern int lw6sys_get_mutex_unlock_count ();
 extern int lw6sys_check_mutex_count ();
@@ -1094,11 +1141,11 @@ extern void lw6sys_sort (lw6sys_list_t ** list,
 			 lw6sys_sort_callback_func_t sort_func);
 
 /* sys-spinlock.c */
-extern void *lw6sys_spinlock_create ();
-extern void lw6sys_spinlock_destroy (void *spinlock);
-extern int lw6sys_spinlock_lock (void *spinlock);
-extern int lw6sys_spinlock_trylock (void *spinlock);
-extern int lw6sys_spinlock_unlock (void *spinlock);
+extern lw6sys_spinlock_t *lw6sys_spinlock_create ();
+extern void lw6sys_spinlock_destroy (lw6sys_spinlock_t * spinlock);
+extern int lw6sys_spinlock_lock (lw6sys_spinlock_t * spinlock);
+extern int lw6sys_spinlock_trylock (lw6sys_spinlock_t * spinlock);
+extern int lw6sys_spinlock_unlock (lw6sys_spinlock_t * spinlock);
 
 /* sys-str.c */
 extern char *lw6sys_str_copy (const char *src);
@@ -1143,14 +1190,16 @@ extern int lw6sys_test (int mode);
 extern int lw6sys_test_and_set (int *spinlock);
 
 /* sys-thread.c */
-extern void
-  *lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
-			 lw6sys_thread_callback_func_t callback_join,
-			 void *callback_data);
-extern int lw6sys_thread_is_callback_done (void *thread_handler);
-extern int lw6sys_thread_get_id (void *thread_handler);
-extern void *lw6sys_thread_get_data (void *thread_handler);
-extern void lw6sys_thread_join (void *thread_handler);
+extern lw6sys_thread_handler_t
+  * lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
+			  lw6sys_thread_callback_func_t callback_join,
+			  void *callback_data);
+extern int lw6sys_thread_is_callback_done (lw6sys_thread_handler_t *
+					   thread_handler);
+extern int lw6sys_thread_get_id (lw6sys_thread_handler_t * thread_handler);
+extern void *lw6sys_thread_get_data (lw6sys_thread_handler_t *
+				     thread_handler);
+extern void lw6sys_thread_join (lw6sys_thread_handler_t * thread_handler);
 extern int lw6sys_get_thread_create_count ();
 extern int lw6sys_get_thread_join_count ();
 extern int lw6sys_check_thread_count ();

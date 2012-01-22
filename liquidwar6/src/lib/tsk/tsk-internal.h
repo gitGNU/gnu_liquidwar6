@@ -68,7 +68,7 @@ typedef struct _lw6tsk_loader_data_s
   int stop;
   float sleep;
   char *user_dir;
-  void *mutex;
+  lw6sys_mutex_t *mutex;
   int stage;
   int request_number;
   volatile float *progress;

@@ -178,7 +178,7 @@ _mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context,
   _mod_httpd_specific_data_t *specific_data =
     (_mod_httpd_specific_data_t *) connection->backend_specific_data;
   _mod_httpd_reply_thread_data_t *reply_thread_data = NULL;
-  void *thread_handler = NULL;
+  lw6sys_thread_handler_t *thread_handler = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_httpd feed with tcp \"%s\""),
 	      tcp_accepter->first_line);

@@ -148,9 +148,9 @@ Data passed to recv_callback_func.
 @end defcv
 
 @defcv {Member} {lw6cnx_connection_s} {send_mutex}
-@strong{Type:} @code{void *}
+@strong{Type:} @code{lw6sys_mutex_t *}
 
-@strong{Definition:} @code{void* lw6cnx_connection_s::send_mutex}
+@strong{Definition:} @code{lw6sys_mutex_t* lw6cnx_connection_s::send_mutex}
 
 
         
@@ -227,9 +227,9 @@ A common, shared table, to store all the tickets associated with various connect
 @end deftp
 
 @defcv {Member} {lw6cnx_ticket_table_s} {recv_spinlock}
-@strong{Type:} @code{void *}
+@strong{Type:} @code{lw6sys_spinlock_t *}
 
-@strong{Definition:} @code{void* lw6cnx_ticket_table_s::recv_spinlock}
+@strong{Definition:} @code{lw6sys_spinlock_t* lw6cnx_ticket_table_s::recv_spinlock}
 
 
 Lock for the recv_table hash.         
@@ -237,9 +237,9 @@ Lock for the recv_table hash.
 @end defcv
 
 @defcv {Member} {lw6cnx_ticket_table_s} {recv_ack_spinlock}
-@strong{Type:} @code{void *}
+@strong{Type:} @code{lw6sys_spinlock_t *}
 
-@strong{Definition:} @code{void* lw6cnx_ticket_table_s::recv_ack_spinlock}
+@strong{Definition:} @code{lw6sys_spinlock_t* lw6cnx_ticket_table_s::recv_ack_spinlock}
 
 
 Lock for the recv_ack_table hash.         
@@ -247,9 +247,9 @@ Lock for the recv_ack_table hash.
 @end defcv
 
 @defcv {Member} {lw6cnx_ticket_table_s} {send_spinlock}
-@strong{Type:} @code{void *}
+@strong{Type:} @code{lw6sys_spinlock_t *}
 
-@strong{Definition:} @code{void* lw6cnx_ticket_table_s::send_spinlock}
+@strong{Definition:} @code{lw6sys_spinlock_t* lw6cnx_ticket_table_s::send_spinlock}
 
 
 Lock for the send_table hash.         

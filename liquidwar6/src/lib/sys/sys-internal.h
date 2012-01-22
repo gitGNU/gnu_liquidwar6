@@ -64,18 +64,21 @@ typedef struct _lw6sys_bazooka_s
 
 typedef struct _lw6sys_mutex_s
 {
+  u_int32_t id;
   pthread_mutex_t mutex;
 } _lw6sys_mutex_t;
 
 #if ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 typedef struct _lw6sys_spinlock_s
 {
+  u_int32_t id;
   pthread_spinlock_t spinlock;
 } _lw6sys_spinlock_t;
 #else
 #if LW6_X86
 typedef struct _lw6sys_spinlock_s
 {
+  u_int32_t id;
   int spinlock;
 } _lw6sys_spinlock_t;
 #else
@@ -86,8 +89,8 @@ typedef struct _lw6sys_spinlock_s
 
 typedef struct _lw6sys_thread_handler_s
 {
-  pthread_t thread;
   u_int32_t id;
+  pthread_t thread;
   int callback_done;
   int can_join;
   void (*callback_func) (void *callback_data);

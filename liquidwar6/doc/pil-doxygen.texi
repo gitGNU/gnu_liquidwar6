@@ -361,9 +361,9 @@ Wether the game is over or not.
 @end defcv
 
 @defcv {Member} {lw6pil_worker_s} {compute_thread}
-@strong{Type:} @code{void *}
+@strong{Type:} @code{lw6sys_thread_handler_t *}
 
-@strong{Definition:} @code{void* lw6pil_worker_s::compute_thread}
+@strong{Definition:} @code{lw6sys_thread_handler_t* lw6pil_worker_s::compute_thread}
 
 
 The thread that does the job.         
@@ -371,9 +371,9 @@ The thread that does the job.
 @end defcv
 
 @defcv {Member} {lw6pil_worker_s} {global_mutex}
-@strong{Type:} @code{void *}
+@strong{Type:} @code{lw6sys_mutex_t *}
 
-@strong{Definition:} @code{void* lw6pil_worker_s::global_mutex}
+@strong{Definition:} @code{lw6sys_mutex_t* lw6pil_worker_s::global_mutex}
 
 
 Global data mutex.         
@@ -381,9 +381,9 @@ Global data mutex.
 @end defcv
 
 @defcv {Member} {lw6pil_worker_s} {compute_mutex}
-@strong{Type:} @code{void *}
+@strong{Type:} @code{lw6sys_mutex_t *}
 
-@strong{Definition:} @code{void* lw6pil_worker_s::compute_mutex}
+@strong{Definition:} @code{lw6sys_mutex_t* lw6pil_worker_s::compute_mutex}
 
 
 Mutex used for the computing thread.         
@@ -391,9 +391,9 @@ Mutex used for the computing thread.
 @end defcv
 
 @defcv {Member} {lw6pil_worker_s} {commands_spinlock}
-@strong{Type:} @code{void *}
+@strong{Type:} @code{lw6sys_spinlock_t *}
 
-@strong{Definition:} @code{void* lw6pil_worker_s::commands_spinlock}
+@strong{Definition:} @code{lw6sys_spinlock_t* lw6pil_worker_s::commands_spinlock}
 
 
         

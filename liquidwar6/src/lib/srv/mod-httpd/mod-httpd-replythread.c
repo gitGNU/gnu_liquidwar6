@@ -150,9 +150,10 @@ _mod_httpd_reply_thread_join (void *callback_data)
 }
 
 void
-_mod_httpd_reply_thread_free_list_item (void *handler)
+_mod_httpd_reply_thread_free_list_item (void *data)
 {
   _mod_httpd_reply_thread_data_t *reply_thread_data = NULL;
+  lw6sys_thread_handler_t *handler = (lw6sys_thread_handler_t *) data;
 
   reply_thread_data =
     (_mod_httpd_reply_thread_data_t *) lw6sys_thread_get_data (handler);

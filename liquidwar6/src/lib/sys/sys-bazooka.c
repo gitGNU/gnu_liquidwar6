@@ -42,7 +42,7 @@
 
 static int bazooka_size = 0;
 static _lw6sys_bazooka_t *bazooka_data = NULL;
-static void *bazooka_spinlock = NULL;
+static lw6sys_spinlock_t *bazooka_spinlock = NULL;
 static int bazooka_malloc_count = 0;
 static int bazooka_free_count = 0;
 static int bazooka_malloc_current_count = 0;
@@ -102,7 +102,7 @@ bazooka_unlock ()
 static void
 bazooka_destroy_spinlock ()
 {
-  void *tmp_spinlock;
+  lw6sys_spinlock_t *tmp_spinlock;
 
   tmp_spinlock = bazooka_spinlock;
   bazooka_spinlock = NULL;

@@ -18,9 +18,9 @@ The id of the object, this is non-zero and unique within one run session, increm
 @end defcv
 
 @defcv {Member} {lw6tsk_loader_s} {thread}
-@strong{Type:} @code{void *}
+@strong{Type:} @code{lw6sys_thread_handler_t *}
 
-@strong{Definition:} @code{void* lw6tsk_loader_s::thread}
+@strong{Definition:} @code{lw6sys_thread_handler_t* lw6tsk_loader_s::thread}
 
 
 Thread used to run the loader.         

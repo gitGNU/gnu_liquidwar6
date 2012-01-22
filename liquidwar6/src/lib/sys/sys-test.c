@@ -2181,7 +2181,7 @@ static int
 test_mutex ()
 {
   int ret = 0;
-  void *mutex = NULL;
+  lw6sys_mutex_t *mutex = NULL;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -2847,7 +2847,7 @@ static int
 test_spinlock ()
 {
   int ret = 0;
-  void *spinlock = NULL;
+  lw6sys_spinlock_t *spinlock = NULL;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -3411,7 +3411,7 @@ test_thread ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    void *thread_handler = NULL;
+    lw6sys_thread_handler_t *thread_handler = NULL;
     char *text = lw6sys_str_copy (THREAD_TEXT);
     int i = 0;
     thread_stress_data_t thread_stress_data;

@@ -54,7 +54,7 @@ _lw6net_const_data_t;
 
 typedef struct _lw6net_counters_s
 {
-  void *spinlock;
+  lw6sys_spinlock_t *spinlock;
   int open_counter;
   int close_counter;
   int64_t sent_bytes;
@@ -73,8 +73,8 @@ _lw6net_log_t;
 
 typedef struct _lw6net_dns_s
 {
-  void *dns_gethostbyname_mutex;
-  void *dns_cache_mutex;
+  lw6sys_mutex_t *dns_gethostbyname_mutex;
+  lw6sys_mutex_t *dns_cache_mutex;
   lw6sys_hash_t *dns_cache;
 }
 _lw6net_dns_t;

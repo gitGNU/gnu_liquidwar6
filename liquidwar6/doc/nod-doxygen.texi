@@ -306,9 +306,9 @@ Informations about a node. Note that in practice this structure is just used to 
 @end deftp
 
 @defcv {Member} {lw6nod_info_s} {mutex}
-@strong{Type:} @code{void *}
+@strong{Type:} @code{lw6sys_mutex_t *}
 
-@strong{Definition:} @code{void* lw6nod_info_s::mutex}
+@strong{Definition:} @code{lw6sys_mutex_t* lw6nod_info_s::mutex}
 
 
 Mutex used to access dynamic informations.         

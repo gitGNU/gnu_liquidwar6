@@ -160,7 +160,7 @@ lw6srv_oob_data_t;
 typedef struct lw6srv_oob_s
 {
   /// Thread use to handle the data.
-  void *thread;
+  lw6sys_thread_handler_t *thread;
   /// The OOB data, what we received from the network.
   lw6srv_oob_data_t data;
 }

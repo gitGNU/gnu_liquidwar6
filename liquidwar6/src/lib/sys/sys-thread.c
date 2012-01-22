@@ -130,7 +130,7 @@ thread_callback (void *thread_handler)
  *
  * Return value: an opaque pointer on the thread. Can be NULL if failed.
  */
-void *
+lw6sys_thread_handler_t *
 lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
 		      lw6sys_thread_callback_func_t callback_join,
 		      void *callback_data)
@@ -201,7 +201,7 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
 	}
     }
 
-  return (void *) thread_handler;
+  return (lw6sys_thread_handler_t *) thread_handler;
 }
 
 /**
@@ -215,7 +215,7 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
  * Return value: 1 if done, else 0.
  */
 int
-lw6sys_thread_is_callback_done (void *thread_handler)
+lw6sys_thread_is_callback_done (lw6sys_thread_handler_t * thread_handler)
 {
   int ret = 0;
 
@@ -246,7 +246,7 @@ lw6sys_thread_is_callback_done (void *thread_handler)
  * Return value: the id, should be >0.
  */
 int
-lw6sys_thread_get_id (void *thread_handler)
+lw6sys_thread_get_id (lw6sys_thread_handler_t * thread_handler)
 {
   int ret = 0;
 
@@ -277,7 +277,7 @@ lw6sys_thread_get_id (void *thread_handler)
  * Return value: a pointer.
  */
 void *
-lw6sys_thread_get_data (void *thread_handler)
+lw6sys_thread_get_data (lw6sys_thread_handler_t * thread_handler)
 {
   void *ret = NULL;
 
@@ -310,7 +310,7 @@ lw6sys_thread_get_data (void *thread_handler)
  * Return value: none.
  */
 void
-lw6sys_thread_join (void *thread_handler)
+lw6sys_thread_join (lw6sys_thread_handler_t * thread_handler)
 {
   if (thread_handler)
     {

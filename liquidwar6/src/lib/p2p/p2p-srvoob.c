@@ -71,7 +71,7 @@ int
 _lw6p2p_srv_oob_filter (_lw6p2p_srv_oob_callback_data_t * srv_oob)
 {
   int ret = 1;
-  void *thread;
+  lw6sys_thread_handler_t *thread;
 
   if (srv_oob && srv_oob->srv_oob)
     {

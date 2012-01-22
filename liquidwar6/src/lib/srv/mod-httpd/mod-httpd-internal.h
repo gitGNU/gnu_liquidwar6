@@ -103,7 +103,7 @@ typedef struct _mod_httpd_context_s
 {
   _mod_httpd_data_t data;
   char *access_log_file;
-  void *access_log_mutex;
+  lw6sys_mutex_t *access_log_mutex;
 }
 _mod_httpd_context_t;
 

@@ -2689,14 +2689,14 @@ programmer's bad intuitions.
 @strong{Return value:}  1 if everything is OK, 0 if error.
 @end deftypefun
 
-@deftypefun {void *} {lw6sys_mutex_create} ()
+@deftypefun {lw6sys_mutex_t *} {lw6sys_mutex_create} ()
 
 Creates a mutex object.
 
 @strong{Return value:}  newly allocated pointer.
 @end deftypefun
 
-@deftypefun {void} {lw6sys_mutex_destroy} (void * @var{mutex})
+@deftypefun {void} {lw6sys_mutex_destroy} (lw6sys_mutex_t * @var{mutex})
 @var{mutex}:  the mutex to destroy.
 
 Destroys a mutex object.
@@ -2704,7 +2704,7 @@ Destroys a mutex object.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_mutex_lock} (void * @var{mutex})
+@deftypefun {int} {lw6sys_mutex_lock} (lw6sys_mutex_t * @var{mutex})
 @var{mutex}:  the mutex to use
 
 Locks the mutex. Note that this should never fail unless
@@ -2714,7 +2714,7 @@ will wait forever until mutex is released.
 @strong{Return value:}  1 if success, 0 if failure.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_mutex_trylock} (void * @var{mutex})
+@deftypefun {int} {lw6sys_mutex_trylock} (lw6sys_mutex_t * @var{mutex})
 @var{mutex}:  the mutex to use
 
 Tries to locks the mutex. That is, tells wether mutex
@@ -2726,7 +2726,7 @@ by another thread.
 @strong{Return value:}  1 if mutex unlocked, 0 if locked or error.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_mutex_unlock} (void * @var{mutex})
+@deftypefun {int} {lw6sys_mutex_unlock} (lw6sys_mutex_t * @var{mutex})
 @var{mutex}:  the mutex to use
 
 Unlocks a mutex.
@@ -3671,14 +3671,14 @@ default sort callbacks are defined, but one is free to use
 any callback, provided it has the right prototype.
 @end deftypefun
 
-@deftypefun {void *} {lw6sys_spinlock_create} ()
+@deftypefun {lw6sys_spinlock_t *} {lw6sys_spinlock_create} ()
 
 Creates a spinlock object.
 
 @strong{Return value:}  newly allocated pointer.
 @end deftypefun
 
-@deftypefun {void} {lw6sys_spinlock_destroy} (void * @var{spinlock})
+@deftypefun {void} {lw6sys_spinlock_destroy} (lw6sys_spinlock_t * @var{spinlock})
 @var{spinlock}:  the spinlock to destroy.
 
 Destroys a spinlock object.
@@ -3686,7 +3686,7 @@ Destroys a spinlock object.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_spinlock_lock} (void * @var{spinlock})
+@deftypefun {int} {lw6sys_spinlock_lock} (lw6sys_spinlock_t * @var{spinlock})
 @var{spinlock}:  the spinlock to use
 
 Locks the spinlock. Note that this should never fail unless
@@ -3696,7 +3696,7 @@ will wait forever until spinlock is released.
 @strong{Return value:}  1 if success, 0 if failure.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_spinlock_trylock} (void * @var{spinlock})
+@deftypefun {int} {lw6sys_spinlock_trylock} (lw6sys_spinlock_t * @var{spinlock})
 @var{spinlock}:  the spinlock to use
 
 Tries to locks the spinlock. That is, tells wether spinlock
@@ -3708,7 +3708,7 @@ by another thread.
 @strong{Return value:}  1 if spinlock unlocked, 0 if locked or error.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_spinlock_unlock} (void * @var{spinlock})
+@deftypefun {int} {lw6sys_spinlock_unlock} (lw6sys_spinlock_t * @var{spinlock})
 @var{spinlock}:  the spinlock to use
 
 Unlocks a spinlock.
@@ -4074,7 +4074,7 @@ user permissions are not sufficient.
 @strong{Return value:}  1 if test is successfull, 0 on error.
 @end deftypefun
 
-@deftypefun {void *} {lw6sys_thread_create} (lw6sys_thread_callback_func_t @var{callback_func}, lw6sys_thread_callback_func_t @var{callback_join}, void * @var{callback_data})
+@deftypefun {lw6sys_thread_handler_t *} {lw6sys_thread_create} (lw6sys_thread_callback_func_t @var{callback_func}, lw6sys_thread_callback_func_t @var{callback_join}, void * @var{callback_data})
 @var{callback_func}:  the main callback, the function that will run the thread
 
 @var{callback_join}:  function which will be called when joining, at the end
@@ -4092,7 +4092,7 @@ of the callback_func.
 @strong{Return value:}  an opaque pointer on the thread. Can be NULL if failed.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_thread_is_callback_done} (void * @var{thread_handler})
+@deftypefun {int} {lw6sys_thread_is_callback_done} (lw6sys_thread_handler_t * @var{thread_handler})
 @var{thread_handler}:  thread to work on
 
 Tells wether the callback is done, that is to say, wether the
@@ -4101,7 +4101,7 @@ results are available, and we can join.
 @strong{Return value:}  1 if done, else 0.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_thread_get_id} (void * @var{thread_handler})
+@deftypefun {int} {lw6sys_thread_get_id} (lw6sys_thread_handler_t * @var{thread_handler})
 @var{thread_handler}:  thread to query
 
 Returns the id of the thread, this is an internal value,
@@ -4110,7 +4110,7 @@ unique for each process, which can help identifying the thread.
 @strong{Return value:}  the id, should be >0.
 @end deftypefun
 
-@deftypefun {void *} {lw6sys_thread_get_data} (void * @var{thread_handler})
+@deftypefun {void *} {lw6sys_thread_get_data} (lw6sys_thread_handler_t * @var{thread_handler})
 @var{thread_handler}:  thread to query
 
 Returns the data associated to the thread, that is, the pointer
@@ -4119,7 +4119,7 @@ which was passed to the callback function.
 @strong{Return value:}  a pointer.
 @end deftypefun
 
-@deftypefun {void} {lw6sys_thread_join} (void * @var{thread_handler})
+@deftypefun {void} {lw6sys_thread_join} (lw6sys_thread_handler_t * @var{thread_handler})
 @var{thread_handler}:  thread to end
 
 Joins the thread, that's to say wait until the thread is over,

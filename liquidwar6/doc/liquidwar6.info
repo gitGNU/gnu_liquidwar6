@@ -22,9 +22,9 @@ END-INFO-DIR-ENTRY
 Indirect:
 liquidwar6.info-1: 799
 liquidwar6.info-2: 232095
-liquidwar6.info-3: 530401
-liquidwar6.info-4: 819242
-liquidwar6.info-5: 1111603
+liquidwar6.info-3: 530552
+liquidwar6.info-4: 819431
+liquidwar6.info-5: 1113928
 
 Tag Table:
 (Indirect)
@@ -91,46 +91,46 @@ Node: mod-idiot470438
 Node: mod-random471500
 Node: libcfg472567
 Node: libcli489707
-Node: mod-http502370
-Node: mod-tcp503410
-Node: mod-udp504448
-Node: libcns505484
-Node: libcnx506760
-Node: libdat523430
-Node: libdef530166
-Node: libdsp530401
-Node: libdyn542851
-Node: libgfx547755
-Node: mod-gl557913
-Node: libglb558437
-Node: libgui562821
-Node: libhlp647428
-Node: libimg656476
-Node: libker658688
-Node: libldr703643
-Node: libmap733620
-Node: libmsg785339
-Node: libnet806840
-Node: libnod819242
-Node: libp2p838277
-Node: libpil855840
-Node: libscm881053
-Node: libsim882444
-Node: libsnd886037
-Node: mod-csound895836
-Node: mod-ogg896180
-Node: libsrv896515
-Node: mod-httpd917525
-Node: mod-tcpd917866
-Node: mod-udpd918206
-Node: libsys918543
-Node: libtsk1085611
-Node: libvox1089473
-Node: 2005 .plan1090621
-Node: Fanfic1102892
-Node: Links1109229
-Node: Copying1111603
-Node: GNU Free Documentation License1149185
-Node: Indexes1174352
+Node: mod-http502408
+Node: mod-tcp503448
+Node: mod-udp504486
+Node: libcns505522
+Node: libcnx506798
+Node: libdat523581
+Node: libdef530317
+Node: libdsp530552
+Node: libdyn543040
+Node: libgfx547944
+Node: mod-gl558102
+Node: libglb558626
+Node: libgui563010
+Node: libhlp647617
+Node: libimg656665
+Node: libker658877
+Node: libldr703832
+Node: libmap733809
+Node: libmsg785528
+Node: libnet807029
+Node: libnod819431
+Node: libp2p838486
+Node: libpil856049
+Node: libscm881376
+Node: libsim882767
+Node: libsnd886360
+Node: mod-csound896159
+Node: mod-ogg896503
+Node: libsrv896838
+Node: mod-httpd917886
+Node: mod-tcpd918227
+Node: mod-udpd918567
+Node: libsys918904
+Node: libtsk1087898
+Node: libvox1091798
+Node: 2005 .plan1092946
+Node: Fanfic1105217
+Node: Links1111554
+Node: Copying1113928
+Node: GNU Free Documentation License1151510
+Node: Indexes1176677
 
 End Tag Table

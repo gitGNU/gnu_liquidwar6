@@ -374,9 +374,9 @@ Used to handle OOB requests. This is a container over the OOB data and its treat
 @end deftp
 
 @defcv {Member} {lw6srv_oob_s} {thread}
-@strong{Type:} @code{void *}
+@strong{Type:} @code{lw6sys_thread_handler_t *}
 
-@strong{Definition:} @code{void* lw6srv_oob_s::thread}
+@strong{Definition:} @code{lw6sys_thread_handler_t* lw6srv_oob_s::thread}
 
 
 Thread use to handle the data.         

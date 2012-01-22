@@ -8531,9 +8531,9 @@ results on
      running it, which is, to some extent, safer.
 
  -- Member of lw6cli_oob_s: thread
-     *Type:* `void *'
+     *Type:* `lw6sys_thread_handler_t *'
 
-     *Definition:* `void* lw6cli_oob_s::thread'
+     *Definition:* `lw6sys_thread_handler_t* lw6cli_oob_s::thread'
 
      Pointer on thread running the OOB request.
 
@@ -9087,9 +9087,9 @@ results on
 
 
  -- Member of lw6cnx_connection_s: send_mutex
-     *Type:* `void *'
+     *Type:* `lw6sys_mutex_t *'
 
-     *Definition:* `void* lw6cnx_connection_s::send_mutex'
+     *Definition:* `lw6sys_mutex_t* lw6cnx_connection_s::send_mutex'
 
      Send mutex, this will be used so that sending operations are
      properly serialized. Indeed, threads that respond on the fly could
@@ -9157,25 +9157,28 @@ results on
      sanity checks and avoid fakes/cheaters.
 
  -- Member of lw6cnx_ticket_table_s: recv_spinlock
-     *Type:* `void *'
+     *Type:* `lw6sys_spinlock_t *'
 
-     *Definition:* `void* lw6cnx_ticket_table_s::recv_spinlock'
+     *Definition:* `lw6sys_spinlock_t*
+     lw6cnx_ticket_table_s::recv_spinlock'
 
      Lock for the recv_table hash.
 
 
  -- Member of lw6cnx_ticket_table_s: recv_ack_spinlock
-     *Type:* `void *'
+     *Type:* `lw6sys_spinlock_t *'
 
-     *Definition:* `void* lw6cnx_ticket_table_s::recv_ack_spinlock'
+     *Definition:* `lw6sys_spinlock_t*
+     lw6cnx_ticket_table_s::recv_ack_spinlock'
 
      Lock for the recv_ack_table hash.
 
 
  -- Member of lw6cnx_ticket_table_s: send_spinlock
-     *Type:* `void *'
+     *Type:* `lw6sys_spinlock_t *'
 
-     *Definition:* `void* lw6cnx_ticket_table_s::send_spinlock'
+     *Definition:* `lw6sys_spinlock_t*
+     lw6cnx_ticket_table_s::send_spinlock'
 
      Lock for the send_table hash.
 

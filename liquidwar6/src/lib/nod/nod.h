@@ -156,7 +156,7 @@ typedef struct lw6nod_dyn_info_s
 typedef struct lw6nod_info_s
 {
   /// Mutex used to access dynamic informations.
-  void *mutex;
+  lw6sys_mutex_t *mutex;
   /// Constant informations, never changes.
   lw6nod_const_info_t const_info;
   /**

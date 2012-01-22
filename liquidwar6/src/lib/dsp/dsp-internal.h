@@ -45,7 +45,7 @@ typedef struct _lw6dsp_data_s
   lw6gui_video_mode_t video_mode_requested;
   lw6gui_video_mode_t video_mode_obtained;
   lw6gui_fullscreen_modes_t fullscreen_modes;
-  void *render_mutex;
+  lw6sys_mutex_t *render_mutex;
   int run;
   int started;
   int failed;

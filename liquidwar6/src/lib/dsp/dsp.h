@@ -1,4 +1,3 @@
-
 /*
   Liquid War 6 is a unique multiplayer wargame.
   Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
@@ -139,7 +138,7 @@ typedef struct lw6dsp_backend_s
    * Thread running the display code. In fact running in a
    * separate thread is the whole point of this display object.
    */
-  void *thread;
+  lw6sys_thread_handler_t *thread;
   /**
    * Data used by the display code. This is an opaque pointer, the
    * internal structure will store details such as mutexes, parameters,

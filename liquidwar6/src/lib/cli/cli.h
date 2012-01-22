@@ -87,7 +87,7 @@ lw6cli_oob_data_t;
 typedef struct lw6cli_oob_s
 {
   /// Pointer on thread running the OOB request.
-  void *thread;
+  lw6sys_thread_handler_t *thread;
   /// Data used by the OOB request.
   lw6cli_oob_data_t data;
 }

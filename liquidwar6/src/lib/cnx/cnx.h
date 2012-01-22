@@ -109,7 +109,7 @@ typedef struct lw6cnx_connection_s
    * are properly serialized. Indeed, threads that respond on the
    * fly could be likely to call this concurrently.
    */
-  void *send_mutex;
+  lw6sys_mutex_t *send_mutex;
   /**
    * This is used to handle keepalive. Actually, the protocol
    * is that from time to time FOO key is sent and then each
@@ -145,11 +145,11 @@ lw6cnx_connection_t;
 typedef struct lw6cnx_ticket_table_s
 {
   /// Lock for the recv_table hash.
-  void *recv_spinlock;
+  lw6sys_spinlock_t *recv_spinlock;
   /// Lock for the recv_ack_table hash.
-  void *recv_ack_spinlock;
+  lw6sys_spinlock_t *recv_ack_spinlock;
   /// Lock for the send_table hash.
-  void *send_spinlock;
+  lw6sys_spinlock_t *send_spinlock;
   /**
    * Hash table containing the tickets for recv operations.
    * This table is auto-generated, if one asks for a ticket

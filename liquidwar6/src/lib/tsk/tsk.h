@@ -41,7 +41,7 @@ typedef struct lw6tsk_loader_s
    */
   u_int32_t id;
   /// Thread used to run the loader.
-  void *thread;
+  lw6sys_thread_handler_t *thread;
   /// Data used by the loader.
   void *data;
 }
