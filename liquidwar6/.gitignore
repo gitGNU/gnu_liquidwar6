@@ -2,3 +2,4 @@
 Makefile.in
 configure
 liquidwar6.info*
+aclocal.m4
