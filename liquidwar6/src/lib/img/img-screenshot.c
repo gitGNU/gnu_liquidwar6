@@ -83,7 +83,16 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
   lw6sys_color_8_t pixel_color;
   int surface = 0;
   JSAMPLE *tmp_buffer = NULL;
-  int i = 9;
+  /*
+   * Immortalized because this is probably my (ufoot@ufoot.org) worst
+   * bug ever https://savannah.gnu.org/bugs/?35349 
+   * Look, I mispelled int i=0 into int i=9, just because the 0 and the 9
+   * keys are so close. Then compiler does not raise warning about value
+   * not being initialized. But it's nonetheless wrong. And at end
+   * of array, kaboum!
+   */
+  // int i = 9;
+  int i = 0;
   struct jpeg_compress_struct cinfo;
   struct jpeg_error_mgr jerr;
   FILE *outfile;
