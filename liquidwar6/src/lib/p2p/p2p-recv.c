@@ -294,7 +294,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		lw6msg_cmd_generate_join (node->node_info,
 					  lw6sys_llmax
 					  (lw6dat_warehouse_get_seq_max
-					   (node->warehouse), node->seq_0));
+					   (node->warehouse),
+					   node->calibrate_seq));
 	      if (reply_msg)
 		{
 		  logical_ticket_sig =
@@ -325,6 +326,10 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		      lw6nod_info_community_add (node->node_info,
 						 cnx->remote_id_int,
 						 cnx->remote_url);
+		      /*
+		       * Finally, prepare to send game information.
+		       */
+		      node->dump_needed = 1;
 		    }
 		  else
 		    {
@@ -347,7 +352,6 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		   * OK, accepted by server.
 		   */
 		  node->tentacles[tentacle_i].joined = 1;
-		  node->seq_0 = seq;
 		  _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (), seq);
 		}
 	      else

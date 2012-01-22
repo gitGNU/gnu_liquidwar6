@@ -971,27 +971,6 @@ results on
 
      *Return value:*  1 on success, 0 on failure.
 
- -- Function: int lw6p2p_node_update_serialized (lw6p2p_node_t * NODE,
-          int64_t SERIALIZED_SEQ, char * SERIALIZED_LEVEL, char *
-          SERIALIZED_GAME_STRUCT, char * SERIALIZED_GAME_STATE)
-     NODE:  node to update
-
-     SERIALIZED_SEQ:  sequence this serialized data corresponds to
-
-     SERIALIZED_LEVEL:  level object serialized serialized as an hexa
-     string
-
-     SERIALIZED_GAME_STRUCT:  game struct object serialized as an hexa
-     string
-
-     SERIALIZED_GAME_STATE:  game state object serialized as an hexa
-     string
-
-     Updates the (rather heavy) serialized objects for the game, which
-     are required to transmit game context to peers over the network.
-
-     *Return value:*  1 on success, 0 on failure
-
  -- Function: void lw6p2p_node_calibrate (lw6p2p_node_t * NODE, int64_t
           TIMESTAMP, int64_t SEQ)
      NODE:  the object to calibrate
@@ -1000,10 +979,52 @@ results on
 
      SEQ:  the round expected to be returned with this ticks value
 
-     Calibrates the node, that is, initializes it so that subsequent
-     calls to `lw6p2p_node_get_round' return consistent values.
+     Calibrates the node, so that sequence numbering is consistent
+     accross nodes.
 
      *Return value:*  none.
+
+ -- Function: int lw6p2p_node_is_dump_needed (lw6p2p_node_t * NODE)
+     NODE:  node to query
+
+     Returns true (1) if the local node needs to send a DUMP message.
+     A DUMP message will basically reset level, game struct, game state,
+     it's typically sent when a new player is connected. This function
+     will return true once then always 0 so one should really act and
+     do something whenever it's called and returns 1.
+
+     *Return value:*  1 if DUMP must be sent.
+
+ -- Function: int lw6p2p_node_put_local_msg (lw6p2p_node_t * NODE, char
+          * MSG)
+     NODE:  node object to use
+
+     MSG:  message
+
+     Puts a message in the object. The message will be splitted into
+     several atoms if needed, it can be arbitrary long.
+
+     *Return value:*  1 on success, 0 on error
+
+ -- Function: char * lw6p2p_node_get_next_reference_msg (lw6p2p_node_t
+          * NODE)
+     NODE:  node to query
+
+     Get the next waiting reference msg. This is used to maintain the
+     stable reference game state we can rely upon. One is supposed to
+     call this until it returns NULL, then switch draft messages.
+
+     *Return value:*  newly allocated string, must be freed.
+
+ -- Function: char * lw6p2p_node_get_next_draft_msg (lw6p2p_node_t *
+          NODE)
+     NODE:  node to query
+
+     Get the next waiting draft msg. This is used to maintain the
+     anticipated draft game state we use for drawing. One is supposed
+     to call this after all reference messages have been treated.
+
+     *Return value:*  newly allocated string, must be freed.
 
  -- Function: int lw6p2p_test (int MODE)
      MODE:  0 for check only, 1 for full test

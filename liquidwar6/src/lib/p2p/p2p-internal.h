@@ -197,13 +197,14 @@ typedef struct _lw6p2p_node_s
   lw6cnx_ticket_table_t ticket_table;
   _lw6p2p_tentacle_t tentacles[LW6P2P_MAX_NB_TENTACLES];
   lw6dat_warehouse_t *warehouse;
-  int64_t seq_0;
+  //  int64_t seq_0;
   int64_t calibrate_timestamp;
   int64_t calibrate_seq;
-  int64_t serialized_seq;
-  char *serialized_level;
-  char *serialized_game_struct;
-  char *serialized_game_state;
+  //  int64_t serialized_seq;
+  //  char *serialized_level;
+  //  char *serialized_game_struct;
+  //  char *serialized_game_state;
+  int dump_needed;
 } _lw6p2p_node_t;
 
 typedef struct _lw6p2p_srv_oob_callback_data_s
@@ -334,13 +335,12 @@ extern int _lw6p2p_node_update_info (_lw6p2p_node_t * node,
 				     int max_nb_nodes,
 				     int game_screenshot_size,
 				     void *game_screenshot_data);
-extern int _lw6p2p_node_update_serialized (_lw6p2p_node_t * node,
-					   int64_t serialized_seq,
-					   char *serialized_level,
-					   char *serialized_game_struct,
-					   char *serialized_game_state);
 extern void _lw6p2p_node_calibrate (_lw6p2p_node_t * node, int64_t timestamp,
 				    int64_t seq);
+extern int _lw6p2p_node_is_dump_needed (_lw6p2p_node_t * node);
+extern int _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, char *msg);
+extern char *_lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node);
+extern char *_lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node);
 
 /* p2p-recv.c */
 extern void _lw6p2p_recv_process (_lw6p2p_node_t * node,

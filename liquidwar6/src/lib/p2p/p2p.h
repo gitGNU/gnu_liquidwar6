@@ -211,13 +211,12 @@ extern int lw6p2p_node_update_info (lw6p2p_node_t * node,
 				    int max_nb_nodes,
 				    int game_screenshot_size,
 				    void *game_screenshot_data);
-extern int lw6p2p_node_update_serialized (lw6p2p_node_t * node,
-					  int64_t serialized_seq,
-					  char *serialized_level,
-					  char *serialized_game_struct,
-					  char *serialized_game_state);
 extern void lw6p2p_node_calibrate (lw6p2p_node_t * node, int64_t timestamp,
 				   int64_t seq);
+extern int lw6p2p_node_is_dump_needed (lw6p2p_node_t * node);
+extern int lw6p2p_node_put_local_msg (lw6p2p_node_t * node, char *msg);
+extern char *lw6p2p_node_get_next_reference_msg (lw6p2p_node_t * node);
+extern char *lw6p2p_node_get_next_draft_msg (lw6p2p_node_t * node);
 
 /* p2p-test.c */
 extern int lw6p2p_test (int mode);

@@ -404,18 +404,6 @@ lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse,
 }
 
 int
-_lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse, char *msg)
-{
-  int ret = 0;
-
-  ret =
-    _lw6dat_stack_put_msg (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]),
-			   msg, _LW6DAT_FLAG_REMOTE);
-
-  return ret;
-}
-
-int
 _lw6dat_warehouse_calc_serial_draft_and_reference (_lw6dat_warehouse_t *
 						   warehouse)
 {
@@ -462,11 +450,22 @@ lw6dat_warehouse_calc_serial_draft_and_reference (lw6dat_warehouse_t *
   return ret;
 }
 
+int
+_lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse, char *msg)
+{
+  int ret = 0;
+
+  ret =
+    _lw6dat_stack_put_msg (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]),
+			   msg, _LW6DAT_FLAG_REMOTE);
+
+  return ret;
+}
+
 /**
  * lw6dat_warehouse_put_local_msg
  *
  * @warehouse: warehouse object to use
- * @logical_from: from who the message came from originally
  * @msg: message
  *
  * Puts a message in the object. The message will be splitted into

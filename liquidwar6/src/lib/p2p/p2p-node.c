@@ -324,7 +324,6 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
 	{
 	  lw6dat_warehouse_free (node->warehouse);
 	}
-      _lw6p2p_node_update_serialized (node, 0LL, NULL, NULL, NULL);
       LW6SYS_FREE (node);
     }
   else
@@ -1519,7 +1518,6 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node, int64_t seq_0)
 		      NULL,
 		      node->node_info->const_info.bench /
 		      LW6P2P_BENCH_NETWORK_DIVIDE, 0, 0, 0, 0, 0, 0, 0, NULL);
-  node->seq_0 = seq_0;
   _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (), seq_0);
 
   ret = 1;
@@ -1716,7 +1714,7 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
   lw6nod_info_community_reset (node->node_info);
   lw6nod_info_update (node->node_info, LW6NOD_COMMUNITY_ID_NONE,
 		      0, NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
-  _lw6p2p_node_update_serialized (node, 0LL, NULL, NULL, NULL);
+  node->dump_needed = 0;
 }
 
 /**
@@ -1795,75 +1793,6 @@ lw6p2p_node_update_info (lw6p2p_node_t * node,
 				   game_screenshot_data);
 }
 
-int
-_lw6p2p_node_update_serialized (_lw6p2p_node_t * node, int64_t serialized_seq,
-				char *serialized_level,
-				char *serialized_game_struct,
-				char *serialized_game_state)
-{
-  int ret = 0;
-
-  node->serialized_seq = serialized_seq;
-  if (node->serialized_level)
-    {
-      LW6SYS_FREE (node->serialized_level);
-      node->serialized_level = NULL;
-    }
-  if (node->serialized_game_struct)
-    {
-      LW6SYS_FREE (node->serialized_game_struct);
-      node->serialized_game_struct = NULL;
-    }
-  if (node->serialized_game_state)
-    {
-      LW6SYS_FREE (node->serialized_game_state);
-      node->serialized_game_state = NULL;
-    }
-  if (serialized_level)
-    {
-      node->serialized_level = lw6sys_str_copy (serialized_level);
-    }
-  if (serialized_game_struct)
-    {
-      node->serialized_game_struct = lw6sys_str_copy (serialized_game_struct);
-    }
-  if (serialized_game_state)
-    {
-      node->serialized_game_state = lw6sys_str_copy (serialized_game_state);
-    }
-  ret = (node->serialized_level != NULL)
-    && (node->serialized_game_struct != NULL)
-    && (node->serialized_game_state != NULL);
-
-  return ret;
-}
-
-/**
- * lw6p2p_node_update_serialized
- *
- * @node: node to update
- * @serialized_seq: sequence this serialized data corresponds to
- * @serialized_level: level object serialized serialized as an hexa string
- * @serialized_game_struct: game struct object serialized as an hexa string
- * @serialized_game_state: game state object serialized as an hexa string
- *
- * Updates the (rather heavy) serialized objects for the game, which are
- * required to transmit game context to peers over the network.
- *
- * Return value: 1 on success, 0 on failure
- */
-int
-lw6p2p_node_update_serialized (lw6p2p_node_t * node, int64_t serialized_seq,
-			       char *serialized_level,
-			       char *serialized_game_struct,
-			       char *serialized_game_state)
-{
-  return _lw6p2p_node_update_serialized ((_lw6p2p_node_t *) node,
-					 serialized_seq, serialized_level,
-					 serialized_game_struct,
-					 serialized_game_state);
-}
-
 void
 _lw6p2p_node_calibrate (_lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
 {
@@ -1878,8 +1807,8 @@ _lw6p2p_node_calibrate (_lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
  * @timestamp: the current ticks setting (1000 ticks per second)
  * @seq: the round expected to be returned with this ticks value
  *
- * Calibrates the node, that is, initializes it so that subsequent calls
- * to @lw6p2p_node_get_round return consistent values.
+ * Calibrates the node, so that sequence numbering is consistent
+ * accross nodes.
  *
  * Return value: none.
  */
@@ -1887,4 +1816,124 @@ void
 lw6p2p_node_calibrate (lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
 {
   return _lw6p2p_node_calibrate ((_lw6p2p_node_t *) node, timestamp, seq);
+}
+
+int
+_lw6p2p_node_is_dump_needed (_lw6p2p_node_t * node)
+{
+  int ret = 0;
+
+  if (node->dump_needed)
+    {
+      ret = 1;
+
+      node->dump_needed = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_is_dump_needed
+ *
+ * @node: node to query
+ *
+ * Returns true (1) if the local node needs to send a DUMP message.
+ * A DUMP message will basically reset level, game struct, game state,
+ * it's typically sent when a new player is connected. This function
+ * will return true once then always 0 so one should really act and
+ * do something whenever it's called and returns 1.
+ *
+ * Return value: 1 if DUMP must be sent.
+ */
+int
+lw6p2p_node_is_dump_needed (lw6p2p_node_t * node)
+{
+  return _lw6p2p_node_is_dump_needed ((_lw6p2p_node_t *) node);
+}
+
+int
+_lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, char *msg)
+{
+  int ret = 0;
+
+  if (node->warehouse)
+    {
+      ret = lw6dat_warehouse_put_local_msg (node->warehouse, msg);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_put_local_msg
+ *
+ * @node: node object to use
+ * @msg: message
+ *
+ * Puts a message in the object. The message will be splitted into
+ * several atoms if needed, it can be arbitrary long.
+ *
+ * Return value: 1 on success, 0 on error
+ */
+int
+lw6p2p_node_put_local_msg (lw6p2p_node_t * node, char *msg)
+{
+  return _lw6p2p_node_put_local_msg ((_lw6p2p_node_t *) node, msg);
+}
+
+char *
+_lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node)
+{
+  char *ret = NULL;
+
+  // todo
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_get_next_reference_msg
+ *
+ * @node: node to query
+ *
+ * Get the next waiting reference msg. This is used to maintain
+ * the stable reference game state we can rely upon. One is
+ * supposed to call this until it returns NULL, then switch
+ * draft messages.
+ *
+ * Return value: newly allocated string, must be freed.
+ */
+char *
+lw6p2p_node_get_next_reference_msg (lw6p2p_node_t * node)
+{
+  return _lw6p2p_node_get_next_reference_msg ((_lw6p2p_node_t *) node);
+}
+
+char *
+_lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node)
+{
+  char *ret = NULL;
+
+  // todo
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_get_next_draft_msg
+ *
+ * @node: node to query
+ *
+ * Get the next waiting draft msg. This is used to maintain
+ * the anticipated draft game state we use for drawing. One is
+ * supposed to call this after all reference messages have been
+ * treated.
+ *
+ * Return value: newly allocated string, must be freed.
+ */
+char *
+lw6p2p_node_get_next_draft_msg (lw6p2p_node_t * node)
+{
+  return _lw6p2p_node_get_next_draft_msg ((_lw6p2p_node_t *) node);
 }

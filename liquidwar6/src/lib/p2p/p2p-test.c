@@ -170,12 +170,8 @@
 #define TEST_NODE_API_DURATION_THREAD 9000
 #define TEST_NODE_API_DURATION_END 3000
 #define TEST_NODE_POLL_DURATION 100
-
 // 10 times bigger than _LW6PIL_MIN_SEQ_0
 #define TEST_NODE_API_SEQ_0 100000000000LL
-#define TEST_NODE_API_LEVEL "abc"
-#define TEST_NODE_API_GAME_STRUCT "def"
-#define TEST_NODE_API_GAME_STATE "ghi"
 
 /* 
  * Testing db
@@ -941,10 +937,6 @@ _test_node_api_node2_callback (void *api_data)
    * This node acts as a server.
    */
   data->ret = lw6p2p_node_server_start (data->node, TEST_NODE_API_SEQ_0);
-  lw6p2p_node_update_serialized (data->node, TEST_NODE_API_SEQ_0,
-				 TEST_NODE_API_LEVEL,
-				 TEST_NODE_API_GAME_STRUCT,
-				 TEST_NODE_API_GAME_STATE);
   if (data->ret)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("\"%s\" is ready"),
