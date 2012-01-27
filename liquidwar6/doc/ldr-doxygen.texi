@@ -4,7 +4,7 @@
 @deftp {Struct} {lw6ldr_entry_s}
 
     
-    
+Contains informations about a map, but just the minimum to, for instance, display it in a menu entry.     
 @end deftp
 
 @defcv {Member} {lw6ldr_entry_s} {metadata}
@@ -13,7 +13,7 @@
 @strong{Definition:} @code{lw6map_metadata_t lw6ldr_entry_s::metadata}
 
 
-        
+The map metadata.         
         
 @end defcv
 
@@ -23,7 +23,7 @@
 @strong{Definition:} @code{char* lw6ldr_entry_s::absolute_path}
 
 
-        
+The map absolute path, use this to load it.         
         
 @end defcv
 
@@ -33,7 +33,7 @@
 @strong{Definition:} @code{char* lw6ldr_entry_s::relative_path}
 
 
-        
+The map relative path, store this in config file.         
         
 @end defcv
 
@@ -43,7 +43,7 @@
 @strong{Definition:} @code{int lw6ldr_entry_s::has_subdirs}
 
 
-        
+Wether the entry has subdirs (and consequently, isn't a map)         
         
 @end defcv
 
@@ -53,7 +53,7 @@
 @strong{Definition:} @code{int lw6ldr_entry_s::nb_submaps}
 
 
-        
+Number of sub mpas within this map.         
         
 @end defcv
 
@@ -63,7 +63,7 @@
 @strong{Definition:} @code{int lw6ldr_entry_s::forbidden}
 
 
-        
+Wether it is forbidden (eg, not enough exp).         
         
 @end defcv
 
@@ -73,7 +73,7 @@
 @deftp {Struct} {lw6ldr_hints_s}
 
     
-    
+Content of hints.xml stored into a C struct.     
 @end deftp
 
 @defcv {Member} {lw6ldr_hints_s} {resample}
@@ -82,7 +82,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::resample}
 
 
-        
+Wether to resample the map on the fly when loaded.         
         
 @end defcv
 
@@ -92,7 +92,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::min_map_width}
 
 
-        
+Minimum map width.         
         
 @end defcv
 
@@ -102,7 +102,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::max_map_width}
 
 
-        
+Maximum map width.         
         
 @end defcv
 
@@ -112,7 +112,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::min_map_height}
 
 
-        
+Minimum map height.         
         
 @end defcv
 
@@ -122,7 +122,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::max_map_height}
 
 
-        
+Maximum map height.         
         
 @end defcv
 
@@ -132,7 +132,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::min_map_surface}
 
 
-        
+Minimum map surface.         
         
 @end defcv
 
@@ -142,7 +142,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::max_map_surface}
 
 
-        
+Maximum map surface.         
         
 @end defcv
 
@@ -152,7 +152,7 @@
 @strong{Definition:} @code{float lw6ldr_hints_s::fighter_scale}
 
 
-        
+Use greater or smaller fighters.         
         
 @end defcv
 
@@ -162,7 +162,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::downsize_using_fighter_scale}
 
 
-        
+Wether to downsize the map, if needed, using fighter scale.         
         
 @end defcv
 
@@ -172,7 +172,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::upsize_using_fighter_scale}
 
 
-        
+Wether to upsize the map, if needed, using fighter scale.         
         
 @end defcv
 
@@ -182,7 +182,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::downsize_using_bench_value}
 
 
-        
+Wether to downsize the map, if needed, using bench value.         
         
 @end defcv
 
@@ -192,7 +192,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::upsize_using_bench_value}
 
 
-        
+Wether to upsize the map, if needed, using bench value.         
         
 @end defcv
 
@@ -202,7 +202,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::guess_colors}
 
 
-        
+Wether to guess colors from the map.         
         
 @end defcv
 
@@ -212,7 +212,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::background_color_auto}
 
 
-        
+Wether to set up background colors automatically.         
         
 @end defcv
 
@@ -222,7 +222,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::hud_color_auto}
 
 
-        
+Wether to set up hud colors automatically.         
         
 @end defcv
 
@@ -232,7 +232,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::menu_color_auto}
 
 
-        
+Wether to set up menu colors automatically.         
         
 @end defcv
 
@@ -242,7 +242,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::view_color_auto}
 
 
-        
+Wether to set up view colors automatically.         
         
 @end defcv
 
@@ -252,7 +252,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::system_color_auto}
 
 
-        
+Wether to set up system colors automatically.         
         
 @end defcv
 
@@ -262,7 +262,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::wall_grease}
 
 
-        
+Wall grease used when rescaling.         
         
 @end defcv
 
@@ -272,7 +272,7 @@
 @strong{Definition:} @code{int lw6ldr_hints_s::guess_moves_per_sec}
 
 
-        
+Guess the moves per sec value automatically.         
         
 @end defcv
 
@@ -282,7 +282,7 @@
 @strong{Definition:} @code{float lw6ldr_hints_s::speed}
 
 
-        
+Global speed.         
         
 @end defcv
 
@@ -292,7 +292,7 @@
 @deftp {Struct} {lw6ldr_resampler_s}
 
     
-    
+Almost internal struct use to handler the resampling process. It has informations about the source, the target, and the ratio between them. It basically contains informations about how to scale.     
 @end deftp
 
 @defcv {Member} {lw6ldr_resampler_s} {target_w}
@@ -301,7 +301,7 @@
 @strong{Definition:} @code{int lw6ldr_resampler_s::target_w}
 
 
-        
+Target width.         
         
 @end defcv
 
@@ -311,7 +311,7 @@
 @strong{Definition:} @code{int lw6ldr_resampler_s::target_h}
 
 
-        
+Target height.         
         
 @end defcv
 
@@ -321,7 +321,7 @@
 @strong{Definition:} @code{int lw6ldr_resampler_s::source_w}
 
 
-        
+Source width.         
         
 @end defcv
 
@@ -331,7 +331,7 @@
 @strong{Definition:} @code{int lw6ldr_resampler_s::source_h}
 
 
-        
+Source height.         
         
 @end defcv
 
@@ -341,7 +341,7 @@
 @strong{Definition:} @code{float lw6ldr_resampler_s::scale_x}
 
 
-        
+Ratio for the X axis (target_w/source_w).         
         
 @end defcv
 
@@ -351,7 +351,7 @@
 @strong{Definition:} @code{float lw6ldr_resampler_s::scale_y}
 
 
-        
+Ratio for the Y axis (target_h/source_h).         
         
 @end defcv
 
@@ -361,7 +361,7 @@
 @deftp {Struct} {lw6ldr_use_s}
 
     
-    
+What files to use when loading a map.     
 @end deftp
 
 @defcv {Member} {lw6ldr_use_s} {use_texture}
@@ -370,7 +370,7 @@
 @strong{Definition:} @code{int lw6ldr_use_s::use_texture}
 
 
-        
+Wether to use texture.jpeg.         
         
 @end defcv
 
@@ -380,7 +380,7 @@
 @strong{Definition:} @code{int lw6ldr_use_s::use_cursor_texture}
 
 
-        
+Wether to use cursor-texture.jpeg.         
         
 @end defcv
 
@@ -390,7 +390,7 @@
 @strong{Definition:} @code{int lw6ldr_use_s::use_rules_xml}
 
 
-        
+Wether to use rules.xml.         
         
 @end defcv
 
@@ -400,7 +400,7 @@
 @strong{Definition:} @code{int lw6ldr_use_s::use_hints_xml}
 
 
-        
+Wether to use hints.xml.         
         
 @end defcv
 
@@ -410,7 +410,7 @@
 @strong{Definition:} @code{int lw6ldr_use_s::use_style_xml}
 
 
-        
+Wether to use style.xml.         
         
 @end defcv
 
@@ -420,7 +420,7 @@
 @strong{Definition:} @code{int lw6ldr_use_s::use_teams_xml}
 
 
-        
+Wether to use teams.xml.         
         
 @end defcv
 
@@ -430,7 +430,7 @@
 @strong{Definition:} @code{int lw6ldr_use_s::use_music_file}
 
 
-        
+Wether to use the map specific music file.         
         
 @end defcv
 

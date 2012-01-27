@@ -43,7 +43,7 @@ Fire2, 1 if secondary weapon must be used.
 @deftp {Struct} {lw6ker_cursor_s}
 
     
-    
+Data about a given cursor.     
 @end deftp
 
 @defcv {Member} {lw6ker_cursor_s} {node_id}
@@ -211,7 +211,7 @@ Free for later use.
 @strong{Definition:} @code{lw6sys_xyz_t lw6ker_fighter_s::pos}
 
 
-        
+Fighter position.         
         
 @end defcv
 

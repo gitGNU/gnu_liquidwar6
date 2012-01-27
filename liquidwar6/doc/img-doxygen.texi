@@ -4,7 +4,7 @@
 @deftp {Struct} {lw6img_jpeg_s}
 
     
-    
+Contains informations about a (loaded) JPEG file.     
 @end deftp
 
 @defcv {Member} {lw6img_jpeg_s} {id}
@@ -14,7 +14,7 @@
 
 
         
-        
+The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
 @end defcv
 
 @defcv {Member} {lw6img_jpeg_s} {shape}
@@ -23,7 +23,7 @@
 @strong{Definition:} @code{lw6sys_whd_t lw6img_jpeg_s::shape}
 
 
-        
+JPEG file shape, only w and h are relevant.         
         
 @end defcv
 
@@ -33,7 +33,7 @@
 @strong{Definition:} @code{int lw6img_jpeg_s::jpeg_size}
 
 
-        
+JPEG size (file size, same as data buffer size).         
         
 @end defcv
 
@@ -43,7 +43,7 @@
 @strong{Definition:} @code{void* lw6img_jpeg_s::jpeg_data}
 
 
-        
+JPEG raw data.         
         
 @end defcv
 

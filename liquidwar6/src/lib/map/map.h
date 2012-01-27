@@ -693,125 +693,125 @@ lw6map_weapon_t;
  */
 typedef struct lw6map_rules_s
 {
-  // total_time parameter, stored as an integer.
+  /// total_time parameter, stored as an integer.
   int32_t total_time;
-  // respawn_team parameter, stored as an integer.
+  /// respawn_team parameter, stored as an integer.
   int32_t respawn_team;
-  // respawn_position_mode parameter, stored as an integer.
+  /// respawn_position_mode parameter, stored as an integer.
   int32_t respawn_position_mode;
-  // respawn_delay parameter, stored as an integer.
+  /// respawn_delay parameter, stored as an integer.
   int32_t respawn_delay;
-  // moves_per_round parameter, stored as an integer.
+  /// moves_per_round parameter, stored as an integer.
   int32_t moves_per_round;
-  // spreads_per_round parameter, stored as an integer.
+  /// spreads_per_round parameter, stored as an integer.
   int32_t spreads_per_round;
-  // rounds_per_sec parameter, stored as an integer.
+  /// rounds_per_sec parameter, stored as an integer.
   int32_t rounds_per_sec;
-  // fighter_attack parameter, stored as an integer.
+  /// fighter_attack parameter, stored as an integer.
   int32_t fighter_attack;
-  // fighter_defense parameter, stored as an integer.
+  /// fighter_defense parameter, stored as an integer.
   int32_t fighter_defense;
-  // fighter_new_health parameter, stored as an integer.
+  /// fighter_new_health parameter, stored as an integer.
   int32_t fighter_new_health;
-  // fighter_regenerate parameter, stored as an integer.
+  /// fighter_regenerate parameter, stored as an integer.
   int32_t fighter_regenerate;
-  // side_attack_factor parameter, stored as an integer.
+  /// side_attack_factor parameter, stored as an integer.
   int32_t side_attack_factor;
-  // side_defense_factor parameter, stored as an integer.
+  /// side_defense_factor parameter, stored as an integer.
   int32_t side_defense_factor;
-  // nb_move_tries parameter, stored as an integer.
+  /// nb_move_tries parameter, stored as an integer.
   int32_t nb_move_tries;
-  // nb_attack_tries parameter, stored as an integer.
+  /// nb_attack_tries parameter, stored as an integer.
   int32_t nb_attack_tries;
-  // nb_defense_tries parameter, stored as an integer.
+  /// nb_defense_tries parameter, stored as an integer.
   int32_t nb_defense_tries;
-  // vertical_move parameter, stored as an integer.
+  /// vertical_move parameter, stored as an integer.
   int32_t vertical_move;
-  // spread_mode parameter, stored as an integer.
+  /// spread_mode parameter, stored as an integer.
   int32_t spread_mode;
-  // single_army_size parameter, stored as an integer.
+  /// single_army_size parameter, stored as an integer.
   int32_t single_army_size;
-  // total_armies_size parameter, stored as an integer.
+  /// total_armies_size parameter, stored as an integer.
   int32_t total_armies_size;
-  // max_nb_teams parameter, stored as an integer.
+  /// max_nb_teams parameter, stored as an integer.
   int32_t max_nb_teams;
-  // max_nb_cursors parameter, stored as an integer.
+  /// max_nb_cursors parameter, stored as an integer.
   int32_t max_nb_cursors;
-  // max_nb_nodes parameter, stored as an integer.
+  /// max_nb_nodes parameter, stored as an integer.
   int32_t max_nb_nodes;
-  // exp parameter, stored as an integer.
+  /// exp parameter, stored as an integer.
   int32_t exp;
-  // highest_team_color_allowed parameter, stored as an integer.
+  /// highest_team_color_allowed parameter, stored as an integer.
   int32_t highest_team_color_allowed;
-  // highest_weapon_allowed parameter, stored as an integer.
+  /// highest_weapon_allowed parameter, stored as an integer.
   int32_t highest_weapon_allowed;
-  // x_polarity parameter, stored as an integer.
+  /// x_polarity parameter, stored as an integer.
   int32_t x_polarity;
-  // y_polarity parameter, stored as an integer.
+  /// y_polarity parameter, stored as an integer.
   int32_t y_polarity;
-  // z_polarity parameter, stored as an integer.
+  /// z_polarity parameter, stored as an integer.
   int32_t z_polarity;
-  // max_zone_size parameter, stored as an integer.
+  /// max_zone_size parameter, stored as an integer.
   int32_t max_zone_size;
-  // round_delta parameter, stored as an integer.
+  /// round_delta parameter, stored as an integer.
   int32_t round_delta;
-  // max_round_delta parameter, stored as an integer.
+  /// max_round_delta parameter, stored as an integer.
   int32_t max_round_delta;
-  // max_cursor_pot parameter, stored as an integer.
+  /// max_cursor_pot parameter, stored as an integer.
   int32_t max_cursor_pot;
-  // cursor_pot_init parameter, stored as an integer.
+  /// cursor_pot_init parameter, stored as an integer.
   int32_t cursor_pot_init;
-  // max_cursor_pot_offset parameter, stored as an integer.
+  /// max_cursor_pot_offset parameter, stored as an integer.
   int32_t max_cursor_pot_offset;
-  // start_x parameters, stored as a per team integer.
+  /// start_x parameters, stored as a per team integer.
   int32_t start_x[LW6MAP_MAX_NB_TEAMS];
-  // start_y parameters, stored as a per team integer.
+  /// start_y parameters, stored as a per team integer.
   int32_t start_y[LW6MAP_MAX_NB_TEAMS];
-  // start_position_mode parameter, stored as an integer.
+  /// start_position_mode parameter, stored as an integer.
   int32_t start_position_mode;
-  // color_conflict_mode parameter, stored as an integer.
+  /// color_conflict_mode parameter, stored as an integer.
   int32_t color_conflict_mode;
-  // spread_thread parameter, stored as an integer.
+  /// spread_thread parameter, stored as an integer.
   int32_t spread_thread;
-  // glue_power parameter, stored as an integer.
+  /// glue_power parameter, stored as an integer.
   int32_t glue_power;
-  // boost_power parameter, stored as an integer.
+  /// boost_power parameter, stored as an integer.
   int32_t boost_power;
-  // danger_power parameter, stored as an integer.
+  /// danger_power parameter, stored as an integer.
   int32_t danger_power;
-  // medicine_power parameter, stored as an integer.
+  /// medicine_power parameter, stored as an integer.
   int32_t medicine_power;
-  // frags_mode parameter, stored as an integer.
+  /// frags_mode parameter, stored as an integer.
   int32_t frags_mode;
-  // frags_to_distribute parameter, stored as an integer.
+  /// frags_to_distribute parameter, stored as an integer.
   int32_t frags_to_distribute;
-  // frags_fade_out parameter, stored as an integer.
+  /// frags_fade_out parameter, stored as an integer.
   int32_t frags_fade_out;
-  // use_team_profiles parameter, stored as an integer.
+  /// use_team_profiles parameter, stored as an integer.
   int32_t use_team_profiles;
-  // team_profile_aggressive parameters, stored as a per team integer.
+  /// team_profile_aggressive parameters, stored as a per team integer.
   int32_t team_profile_aggressive[LW6MAP_MAX_NB_TEAMS];
-  // team_profile_vulnerable parameters, stored as a per team integer.
+  /// team_profile_vulnerable parameters, stored as a per team integer.
   int32_t team_profile_vulnerable[LW6MAP_MAX_NB_TEAMS];
-  // team_profile_mobile parameters, stored as a per team integer.
+  /// team_profile_mobile parameters, stored as a per team integer.
   int32_t team_profile_mobile[LW6MAP_MAX_NB_TEAMS];
-  // team_profile_fast parameters, stored as a per team integer.
+  /// team_profile_fast parameters, stored as a per team integer.
   int32_t team_profile_fast[LW6MAP_MAX_NB_TEAMS];
-  // team_profile_weapon_id parameters, stored as a per team integer.
+  /// team_profile_weapon_id parameters, stored as a per team integer.
   int32_t team_profile_weapon_id[LW6MAP_MAX_NB_TEAMS];
-  // team_profile_weapon_alternate_id parameters, stored as a per team integer.
+  /// team_profile_weapon_alternate_id parameters, stored as a per team integer.
   int32_t team_profile_weapon_alternate_id[LW6MAP_MAX_NB_TEAMS];
-  // team_profile_weapon_mode parameters, stored as a per team integer.
+  /// team_profile_weapon_mode parameters, stored as a per team integer.
   int32_t team_profile_weapon_mode[LW6MAP_MAX_NB_TEAMS];
-  // weapon_duration parameter, stored as an integer.
+  /// weapon_duration parameter, stored as an integer.
   int32_t weapon_duration;
-  // weapon_charge_delay parameter, stored as an integer.
+  /// weapon_charge_delay parameter, stored as an integer.
   int32_t weapon_charge_delay;
-  // weapon_charge_max parameter, stored as an integer.
+  /// weapon_charge_max parameter, stored as an integer.
   int32_t weapon_charge_max;
-  // weapon_tune_berzerk_power parameter, stored as an integer.
+  /// weapon_tune_berzerk_power parameter, stored as an integer.
   int32_t weapon_tune_berzerk_power;
-  // weapon_tune_turbo_power parameter, stored as an integer.
+  /// weapon_tune_turbo_power parameter, stored as an integer.
   int32_t weapon_tune_turbo_power;
 } lw6map_rules_t;
 
@@ -1075,109 +1075,248 @@ typedef struct lw6map_meta_layer_s
   u_int8_t *data;
 } lw6map_meta_layer_t;
 
+/**
+ * Logical layers for the map. This is the big collection
+ * of bytes arrays containing most of the information,
+ * anything loaded from images (JPEG, PNG) from disk and having
+ * some logical (and not pure eye candy) meaning.
+ */
 typedef struct lw6map_body_s
 {
+  /**
+   * Checksum for this map body, we could recalculate it
+   * dynamically but it's cached here for convenience and speed.
+   */
   int checksum;
+  /// Shape of the map, all layers need to be compatible with this.
   lw6sys_whd_t shape;
+  /**
+   * Layers, layer 0 is the top layer, the one stored
+   * in map.png, other layers are layerN.png. Not all
+   * layers are defined, just depends on body shape.
+   */
   lw6map_layer_t layers[LW6MAP_MAX_BODY_DEPTH];
+  /// Informations stored in glue.png.
   lw6map_meta_layer_t glue;
+  /// Informations stored in boost.png.
   lw6map_meta_layer_t boost;
+  /// Informations stored in danger.png.
   lw6map_meta_layer_t danger;
+  /// Informations stored in medicine.png.
   lw6map_meta_layer_t medicine;
+  /// Informations stored in one-way-north.png.
   lw6map_meta_layer_t one_way_north;
+  /// Informations stored in one-way-east.png.
   lw6map_meta_layer_t one_way_east;
+  /// Informations stored in one-way-south.png.
   lw6map_meta_layer_t one_way_south;
+  /// Informations stored in one-way-west.png.
   lw6map_meta_layer_t one_way_west;
 } lw6map_body_t;
 
+/**
+ * This structure simply binds 2 colors together,
+ * one being foreground and the other background.
+ * There's a good reason to bind those together, indeed
+ * foreground and background need to be different
+ * enough so that text written in fg over bg is readable,
+ * and they need to go together well.
+ */
 typedef struct lw6map_color_couple_s
 {
+  /// Foreground color.
   lw6sys_color_8_t fg;
+  /// Background color.
   lw6sys_color_8_t bg;
 } lw6map_color_couple_t;
 
+/**
+ * Texture information, this is a bit different from
+ * a layer, since this is RGBA data, plus some meta-informations
+ * such as guessed colors.
+ */
 typedef struct lw6map_texture_s
 {
+  /// Texture width.
   int w;
+  /// Texture height.
   int h;
+  /**
+   * True if texture has an alpha channel. If it has an alpha
+   * channel on disk (for instance, it's a PNG) and if in practice
+   * it has nothing else than full opaque 255 alpha values, then
+   * this will be set to 0 anyway, the idea is to detect textures
+   * that really need the engine to handle transparency.
+   */
   int has_alpha;
+  /// Color for each pixel.
   lw6sys_color_8_t *data;
+  /**
+   * Base guessed color couple. This is typically the best
+   * or more representative color couple (fg and bg) the
+   * program was able to automatically extract from the map.
+   */
   lw6map_color_couple_t guessed_color_base;
+  /**
+   * An alternate color couple which still comes from the
+   * map but is a bit different from the base one.
+   */
   lw6map_color_couple_t guessed_color_alternate;
 } lw6map_texture_t;
 
+/**
+ * Contains a cursor texture layer, this is basically a
+ * fixed (64x64) sized array of colors.
+ */
 typedef struct lw6map_cursor_texture_layer_s
 {
+  /// Color for each pixel.
   lw6sys_color_8_t
     data[LW6MAP_CURSOR_TEXTURE_SIZE][LW6MAP_CURSOR_TEXTURE_SIZE];
 } lw6map_cursor_texture_layer_t;
 
+/**
+ * A cursor texture. It's divided between a texture
+ * that will be colorized depending on the map and another
+ * texture which will be colorized depending on the
+ * team playing the cursor.
+ */
 typedef struct lw6map_cursor_texture_s
 {
+  /// Layer to be colorized using foreground and background colors.
   lw6map_cursor_texture_layer_t fg_bg_layer;
+  /// Layer to be colorized using team colors.
   lw6map_cursor_texture_layer_t color_layer;
 } lw6map_cursor_texture_t;
 
+/**
+ * Holds the complete color set for the game,
+ * including all color couples used for background,
+ * hud, menu, view, as well as team colors.
+ */
 typedef struct lw6map_color_set_s
 {
+  /// Base color couple.
   lw6map_color_couple_t color_base;
+  /// Alternate color couple.
   lw6map_color_couple_t color_alternate;
+  /// Background color couple for root image.
   lw6map_color_couple_t background_color_root;
+  /// Background color couple for drawn stuff.
   lw6map_color_couple_t background_color_stuff;
+  /// Hud color couple for frames.
   lw6map_color_couple_t hud_color_frame;
+  /// Hud color couple for text.
   lw6map_color_couple_t hud_color_text;
+  /// Menu default color couple.
   lw6map_color_couple_t menu_color_default;
+  /// Menu color couple for selected items.
   lw6map_color_couple_t menu_color_selected;
+  /// Menu color couple for disabled items.
   lw6map_color_couple_t menu_color_disabled;
+  /// Map view color couple for cursor.
   lw6map_color_couple_t view_color_cursor;
+  /// Map view color couple for map.
   lw6map_color_couple_t view_color_map;
+  /// System color couple (log messages).
   lw6map_color_couple_t system_color;
+  /// Color to use for dead fighters.
   lw6sys_color_8_t team_color_dead;
+  /// Team colors.
   lw6sys_color_8_t team_colors[LW6MAP_NB_TEAM_COLORS];
 } lw6map_color_set_t;
 
+/**
+ * Content of style.xml stored into a C struct.
+ */
 typedef struct lw6map_style_s
 {
-  int keep_ratio;		// boolean
+  /// Boolean, wether to keep the map ratio or not.
+  int keep_ratio;
+  /// Default zoom.
   float zoom;
+  /// Min zoom.
   float zoom_min;
+  /// Max zoom.
   float zoom_max;
+  /// Wether to wrap on X axis.
   int x_wrap;
+  /// Wether to wrap on Y axis.
   int y_wrap;
+  /// Background style to use (for instance, bubbles).
   char *background_style;
+  /// Hud style to use (for instance, floating).
   char *hud_style;
+  /// Menu style to use (for instance, cylinder).
   char *menu_style;
+  /// View style to use (for instance, flat).
   char *view_style;
+  /// How dense animations should be (many or few sprites).
   float animation_density;
+  /// How fast animations should be (sprites speed).
   float animation_speed;
+  /// Cursor size.
   float cursor_size;
+  /// Wether to colorize cursors or not.
   int colorize_cursor;
+  /// Wether to make cursors blink or not.
   int blink_cursor;
+  /// Alpha value used to represent fighters hidden behind a layer.
   float hidden_layer_alpha;
+  /// Wether to use colorization or not.
   int colorize;
+  /// Wether to pixelize the map and fighters or not.
   int pixelize;
+  /// All colors used by the game.
   lw6map_color_set_t color_set;
+  /// Music file to play.
   char *music_file;
+  /// Music files to keep.
   char *music_filter;
+  /// Music files to exclude.
   char *music_exclude;
+  /// Wether to turn on the wave effect or not.
   int waves;
 } lw6map_style_t;
 
+/**
+ * All parameters in a map, indludes rules, style and teams.
+ */
 typedef struct lw6map_param_s
 {
+  /// Content of rules.xml.
   lw6map_rules_t rules;
+  /// Content of style.xml.
   lw6map_style_t style;
+  /// Content of teams.xml.
   lw6map_teams_t teams;
 } lw6map_param_t;
 
+/**
+ * This structure contains everything about a level, once
+ * it's loaded from disk. It's immutable, it cannot be changed
+ * once it's loaded, and does not have any algorithm aware
+ * struct, this is just plain raw data, file data transformed
+ * into C struct.
+ */
 typedef struct lw6map_level_s
 {
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
   u_int32_t id;
+  /// Metadata (title, copyright, description, ...)
   lw6map_metadata_t metadata;
+  /// Informations that depend on the host loading the map.
   lw6map_local_info_t local_info;
+  /// All layers (bytes array) forming the map.
   lw6map_body_t body;
+  /// Texture used by the map.
   lw6map_texture_t texture;
+  /// Cursor texture.
   lw6map_cursor_texture_t cursor_texture;
+  /// All map parameters.
   lw6map_param_t param;
 } lw6map_level_t;
 

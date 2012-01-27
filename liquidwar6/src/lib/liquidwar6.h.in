@@ -60,135 +60,243 @@
 #include "p2p/p2p.h"
 #include "scm/scm.h"
 
+/**
+ * List of all available smob types.
+ */
 typedef struct lw6_smob_types_s
 {
+  /// Id/key for dsp smob type.
   scm_t_bits dsp;
+  /// Id/key for snd smob type.
   scm_t_bits snd;
+  /// Id/key for map smob type.
   scm_t_bits map;
+  /// Id/key for menu smob type.
   scm_t_bits menu;
+  /// Id/key for game_struct smob type.
   scm_t_bits game_struct;
+  /// Id/key for game_state smob type.
   scm_t_bits game_state;
+  /// Id/key for pilot smob type.
   scm_t_bits pilot;
+  /// Id/key for bot smob type.
   scm_t_bits bot;
+  /// Id/key for look smob type.
   scm_t_bits look;
+  /// Id/key for loader smob type.
   scm_t_bits loader;
+  /// Id/key for db smob type.
   scm_t_bits db;
+  /// Id/key for node smob type.
   scm_t_bits node;
+  /// Id/key for jpeg smob type.
   scm_t_bits jpeg;
 }
 lw6_smob_types_t;
 
+/**
+ * Data for dsp smob.
+ */
 typedef struct lw6_dsp_smob_s
 {
+  /// C object this smob refers to.
   lw6dsp_backend_t *c_dsp;
+  /// Guile level object this smob depends on.
   SCM level;
+  /// Guile game_struct object this smob depends on.
   SCM game_struct;
+  /// Guile game_state object this smob depends on.
   SCM game_state;
+  /// Guile pilot object this smob depends on.
   SCM pilot;
 }
 lw6_dsp_smob_t;
 
+/**
+ * Data for snd smob.
+ */
 typedef struct lw6_snd_smob_s
 {
+  /// C object this smob refers to.
   lw6snd_backend_t *c_snd;
 }
 lw6_snd_smob_t;
 
+/**
+ * Data for map smob.
+ */
 typedef struct lw6_map_smob_s
 {
+  /// C object this smob refers to.
   lw6map_level_t *c_map;
 }
 lw6_map_smob_t;
 
+/**
+ * Data for menu smob.
+ */
 typedef struct lw6_menu_smob_s
 {
+  /// C object this smob refers to.
   lw6gui_menu_t *c_menu;
 }
 lw6_menu_smob_t;
 
+/**
+ * Data for game_struct smob.
+ */
 typedef struct lw6_game_struct_smob_s
 {
+  /// C object this smob refers to.
   lw6ker_game_struct_t *c_game_struct;
+  /// Guile map object this smob depends on.
   SCM map;
 }
 lw6_game_struct_smob_t;
 
+/**
+ * Data for game_state smob.
+ */
 typedef struct lw6_game_state_smob_s
 {
+  /// C object this smob refers to.
   lw6ker_game_state_t *c_game_state;
+  /// Guile game_struct object this smob depends on.
   SCM game_struct;
 }
 lw6_game_state_smob_t;
 
+/**
+ * Data for pilot smob.
+ */
 typedef struct lw6_pilot_smob_s
 {
+  /// C object this smob refers to.
   lw6pil_pilot_t *c_pilot;
 }
 lw6_pilot_smob_t;
 
+/**
+ * Data for bot smob.
+ */
 typedef struct lw6_bot_smob_s
 {
+  /// C object this smob refers to.
   lw6bot_backend_t *c_bot;
+  /// Guile game_state object this smob depends on.
   SCM game_state;
+  /// Guile pilot object this smob depends on.
   SCM pilot;
 }
 lw6_bot_smob_t;
 
+/**
+ * Data for look smob.
+ */
 typedef struct lw6_look_smob_s
 {
+  /// C object this smob refers to.
   lw6gui_look_t *c_look;
 }
 lw6_look_smob_t;
 
+/**
+ * Data for loader smob.
+ */
 typedef struct lw6_loader_smob_s
 {
+  /// C object this smob refers to.
   lw6tsk_loader_t *c_loader;
 }
 lw6_loader_smob_t;
 
+/**
+ * Data for db smob.
+ */
 typedef struct lw6_db_smob_s
 {
+  /// C object this smob refers to.
   lw6p2p_db_t *c_db;
 }
 lw6_db_smob_t;
 
+/**
+ * Data for node smob.
+ */
 typedef struct lw6_node_smob_s
 {
+  /// C object this smob refers to.
   lw6p2p_node_t *c_node;
+  /// Guile db object this smob depends on.
   SCM db;
 }
 lw6_node_smob_t;
 
+/**
+ * Data for jpeg smob.
+ */
 typedef struct lw6_jpeg_smob_s
 {
+  /// C object this smob refers to.
   lw6img_jpeg_t *c_jpeg;
 }
 lw6_jpeg_smob_t;
 
+/**
+ * Global game data. This structure is used to store
+ * persistent game state.
+ */
 typedef struct lw6_global_s
 {
+  /**
+   * Mutex used to protect some objects when
+   * concurrent accesses are done. This is very likely
+   * to happen as the game is multithreaded.
+   */
   pthread_mutex_t mutex;
+  /// Configuration information (config file access).
   void *cfg_context;
+  /// Wether libcfg has been initialized.
   int cfg_initialized;
+  /// Wether libcns has been initialized.
   int cns_initialized;
+  /// Wether libnet has been initialized.
   int net_initialized;
+  /// Game state time (in seconds).
   int start_time;
+  /// Argc as passed to main.
   int argc;
+  /// Argv as passed to main.
   const char **argv;
+  /// Progress indicator used by GUI.
   float progress;
+  /// Collection of smob types definitions.
   lw6_smob_types_t smob_types;
+  /// Assoc with all dsp smobs.
   lw6sys_assoc_t *dsp_smobs;
+  /// Assoc with all snd smobs.
   lw6sys_assoc_t *snd_smobs;
+  /// Assoc with all map smobs.
   lw6sys_assoc_t *map_smobs;
+  /// Assoc with all menu smobs.
   lw6sys_assoc_t *menu_smobs;
+  /// Assoc with all game_struct smobs.
   lw6sys_assoc_t *game_struct_smobs;
+  /// Assoc with all game_state smobs.
   lw6sys_assoc_t *game_state_smobs;
+  /// Assoc with all pilot smobs.
   lw6sys_assoc_t *pilot_smobs;
+  /// Assoc with all bot smobs.
   lw6sys_assoc_t *bot_smobs;
+  /// Assoc with all look smobs.
   lw6sys_assoc_t *look_smobs;
+  /// Assoc with all loader smobs.
   lw6sys_assoc_t *loader_smobs;
+  /// Assoc with all db smobs.
   lw6sys_assoc_t *db_smobs;
+  /// Assoc with all node smobs.
   lw6sys_assoc_t *node_smobs;
+  /// Assoc with all jpeg smobs.
   lw6sys_assoc_t *jpeg_smobs;
 }
 lw6_global_t;

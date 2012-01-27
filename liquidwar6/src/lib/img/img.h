@@ -32,11 +32,21 @@
 #define LW6IMG_JPEG_QUALITY_MAX 100
 #define LW6IMG_JPEG_QUALITY_DEFAULT 85
 
+/**
+ * Contains informations about a (loaded) JPEG file.
+ */
 typedef struct lw6img_jpeg_s
 {
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
   u_int32_t id;
+  /// JPEG file shape, only w and h are relevant.
   lw6sys_whd_t shape;
+  /// JPEG size (file size, same as data buffer size).
   int jpeg_size;
+  /// JPEG raw data.
   void *jpeg_data;
 }
 lw6img_jpeg_t;

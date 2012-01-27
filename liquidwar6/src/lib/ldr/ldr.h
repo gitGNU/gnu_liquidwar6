@@ -70,28 +70,52 @@
 #define LW6LDR_HINTS_MIN_WALL_GREASE -5
 #define LW6LDR_HINTS_MAX_WALL_GREASE 5
 
+/**
+ * Content of hints.xml stored into a C struct.
+ */
 typedef struct lw6ldr_hints_s
 {
+  /// Wether to resample the map on the fly when loaded.
   int resample;
+  /// Minimum map width.
   int min_map_width;
+  /// Maximum map width.
   int max_map_width;
+  /// Minimum map height.
   int min_map_height;
+  /// Maximum map height.
   int max_map_height;
+  /// Minimum map surface.
   int min_map_surface;
+  /// Maximum map surface.
   int max_map_surface;
+  /// Use greater or smaller fighters.
   float fighter_scale;
+  /// Wether to downsize the map, if needed, using fighter scale.
   int downsize_using_fighter_scale;
+  /// Wether to upsize the map, if needed, using fighter scale.
   int upsize_using_fighter_scale;
+  /// Wether to downsize the map, if needed, using bench value.
   int downsize_using_bench_value;
+  /// Wether to upsize the map, if needed, using bench value.
   int upsize_using_bench_value;
+  /// Wether to guess colors from the map.
   int guess_colors;
+  /// Wether to set up background colors automatically.
   int background_color_auto;
+  /// Wether to set up hud colors automatically.
   int hud_color_auto;
+  /// Wether to set up menu colors automatically.
   int menu_color_auto;
+  /// Wether to set up view colors automatically.
   int view_color_auto;
+  /// Wether to set up system colors automatically.
   int system_color_auto;
+  /// Wall grease used when rescaling.
   int wall_grease;
+  /// Guess the moves per sec value automatically.
   int guess_moves_per_sec;
+  /// Global speed.
   float speed;
 } lw6ldr_hints_t;
 
@@ -103,35 +127,67 @@ typedef struct lw6ldr_hints_s
 #define LW6LDR_USE_DEFAULT_USE_TEAMS_XML 1
 #define LW6LDR_USE_DEFAULT_USE_MUSIC_FILE 1
 
+/**
+ * What files to use when loading a map.
+ */
 typedef struct lw6ldr_use_s
 {
+  /// Wether to use texture.jpeg.
   int use_texture;
+  /// Wether to use cursor-texture.jpeg.
   int use_cursor_texture;
+  /// Wether to use rules.xml.
   int use_rules_xml;
+  /// Wether to use hints.xml.
   int use_hints_xml;
+  /// Wether to use style.xml.
   int use_style_xml;
+  /// Wether to use teams.xml.
   int use_teams_xml;
+  /// Wether to use the map specific music file.
   int use_music_file;
 } lw6ldr_use_t;
 
+/**
+ * Almost internal struct use to handler the resampling
+ * process. It has informations about the source, the
+ * target, and the ratio between them. It basically
+ * contains informations about how to scale.
+ */
 typedef struct lw6ldr_resampler_s
 {
+  /// Target width.
   int target_w;
+  /// Target height.
   int target_h;
+  /// Source width.
   int source_w;
+  /// Source height.
   int source_h;
+  /// Ratio for the X axis (target_w/source_w).
   float scale_x;
+  /// Ratio for the Y axis (target_h/source_h).
   float scale_y;
 }
 lw6ldr_resampler_t;
 
+/**
+ * Contains informations about a map, but just the minimum
+ * to, for instance, display it in a menu entry.
+ */
 typedef struct lw6ldr_entry_s
 {
+  /// The map metadata.
   lw6map_metadata_t metadata;
+  /// The map absolute path, use this to load it.
   char *absolute_path;
+  /// The map relative path, store this in config file.
   char *relative_path;
+  /// Wether the entry has subdirs (and consequently, isn't a map)
   int has_subdirs;
+  /// Number of sub mpas within this map.
   int nb_submaps;
+  /// Wether it is forbidden (eg, not enough exp).
   int forbidden;
 }
 lw6ldr_entry_t;

@@ -4,7 +4,7 @@
 @deftp {Struct} {lw6_bot_smob_s}
 
     
-    
+Data for bot smob.     
 @end deftp
 
 @defcv {Member} {lw6_bot_smob_s} {c_bot}
@@ -13,7 +13,7 @@
 @strong{Definition:} @code{lw6bot_backend_t* lw6_bot_smob_s::c_bot}
 
 
-        
+C object this smob refers to.         
         
 @end defcv
 
@@ -23,7 +23,7 @@
 @strong{Definition:} @code{SCM lw6_bot_smob_s::game_state}
 
 
-        
+Guile game_state object this smob depends on.         
         
 @end defcv
 
@@ -33,7 +33,7 @@
 @strong{Definition:} @code{SCM lw6_bot_smob_s::pilot}
 
 
-        
+Guile pilot object this smob depends on.         
         
 @end defcv
 
@@ -43,7 +43,7 @@
 @deftp {Struct} {lw6_db_smob_s}
 
     
-    
+Data for db smob.     
 @end deftp
 
 @defcv {Member} {lw6_db_smob_s} {c_db}
@@ -52,7 +52,7 @@
 @strong{Definition:} @code{lw6p2p_db_t* lw6_db_smob_s::c_db}
 
 
-        
+C object this smob refers to.         
         
 @end defcv
 
@@ -62,7 +62,7 @@
 @deftp {Struct} {lw6_dsp_smob_s}
 
     
-    
+Data for dsp smob.     
 @end deftp
 
 @defcv {Member} {lw6_dsp_smob_s} {c_dsp}
@@ -71,7 +71,7 @@
 @strong{Definition:} @code{lw6dsp_backend_t* lw6_dsp_smob_s::c_dsp}
 
 
-        
+C object this smob refers to.         
         
 @end defcv
 
@@ -81,7 +81,7 @@
 @strong{Definition:} @code{SCM lw6_dsp_smob_s::level}
 
 
-        
+Guile level object this smob depends on.         
         
 @end defcv
 
@@ -91,7 +91,7 @@
 @strong{Definition:} @code{SCM lw6_dsp_smob_s::game_struct}
 
 
-        
+Guile game_struct object this smob depends on.         
         
 @end defcv
 
@@ -101,7 +101,7 @@
 @strong{Definition:} @code{SCM lw6_dsp_smob_s::game_state}
 
 
-        
+Guile game_state object this smob depends on.         
         
 @end defcv
 
@@ -111,7 +111,7 @@
 @strong{Definition:} @code{SCM lw6_dsp_smob_s::pilot}
 
 
-        
+Guile pilot object this smob depends on.         
         
 @end defcv
 
@@ -121,7 +121,7 @@
 @deftp {Struct} {lw6_game_state_smob_s}
 
     
-    
+Data for game_state smob.     
 @end deftp
 
 @defcv {Member} {lw6_game_state_smob_s} {c_game_state}
@@ -130,7 +130,7 @@
 @strong{Definition:} @code{lw6ker_game_state_t* lw6_game_state_smob_s::c_game_state}
 
 
-        
+C object this smob refers to.         
         
 @end defcv
 
@@ -140,7 +140,7 @@
 @strong{Definition:} @code{SCM lw6_game_state_smob_s::game_struct}
 
 
-        
+Guile game_struct object this smob depends on.         
         
 @end defcv
 
@@ -150,7 +150,7 @@
 @deftp {Struct} {lw6_game_struct_smob_s}
 
     
-    
+Data for game_struct smob.     
 @end deftp
 
 @defcv {Member} {lw6_game_struct_smob_s} {c_game_struct}
@@ -159,7 +159,7 @@
 @strong{Definition:} @code{lw6ker_game_struct_t* lw6_game_struct_smob_s::c_game_struct}
 
 
-        
+C object this smob refers to.         
         
 @end defcv
 
@@ -169,7 +169,7 @@
 @strong{Definition:} @code{SCM lw6_game_struct_smob_s::map}
 
 
-        
+Guile map object this smob depends on.         
         
 @end defcv
 
@@ -179,7 +179,7 @@
 @deftp {Struct} {lw6_global_s}
 
     
-    
+Global game data. This structure is used to store persistent game state.     
 @end deftp
 
 @defcv {Member} {lw6_global_s} {mutex}
@@ -189,7 +189,7 @@
 
 
         
-        
+Mutex used to protect some objects when concurrent accesses are done. This is very likely to happen as the game is multithreaded.         
 @end defcv
 
 @defcv {Member} {lw6_global_s} {cfg_context}
@@ -198,7 +198,7 @@
 @strong{Definition:} @code{void* lw6_global_s::cfg_context}
 
 
-        
+Configuration information (config file access).         
         
 @end defcv
 
@@ -208,7 +208,7 @@
 @strong{Definition:} @code{int lw6_global_s::cfg_initialized}
 
 
-        
+Wether libcfg has been initialized.         
         
 @end defcv
 
@@ -218,7 +218,7 @@
 @strong{Definition:} @code{int lw6_global_s::cns_initialized}
 
 
-        
+Wether libcns has been initialized.         
         
 @end defcv
 
@@ -228,7 +228,7 @@
 @strong{Definition:} @code{int lw6_global_s::net_initialized}
 
 
-        
+Wether libnet has been initialized.         
         
 @end defcv
 
@@ -238,7 +238,7 @@
 @strong{Definition:} @code{int lw6_global_s::start_time}
 
 
-        
+Game state time (in seconds).         
         
 @end defcv
 
@@ -248,7 +248,7 @@
 @strong{Definition:} @code{int lw6_global_s::argc}
 
 
-        
+Argc as passed to main.         
         
 @end defcv
 
@@ -258,7 +258,7 @@
 @strong{Definition:} @code{const char** lw6_global_s::argv}
 
 
-        
+Argv as passed to main.         
         
 @end defcv
 
@@ -268,7 +268,7 @@
 @strong{Definition:} @code{float lw6_global_s::progress}
 
 
-        
+Progress indicator used by GUI.         
         
 @end defcv
 
@@ -278,7 +278,7 @@
 @strong{Definition:} @code{lw6_smob_types_t lw6_global_s::smob_types}
 
 
-        
+Collection of smob types definitions.         
         
 @end defcv
 
@@ -288,7 +288,7 @@
 @strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::dsp_smobs}
 
 
-        
+Assoc with all dsp smobs.         
         
 @end defcv
 
@@ -298,7 +298,7 @@
 @strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::snd_smobs}
 
 
-        
+Assoc with all snd smobs.         
         
 @end defcv
 
@@ -308,7 +308,7 @@
 @strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::map_smobs}
 
 
-        
+Assoc with all map smobs.         
         
 @end defcv
 
@@ -318,7 +318,7 @@
 @strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::menu_smobs}
 
 
-        
+Assoc with all menu smobs.         
         
 @end defcv
 
@@ -328,7 +328,7 @@
 @strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::game_struct_smobs}
 
 
-        
+Assoc with all game_struct smobs.         
         
 @end defcv
 
@@ -338,7 +338,7 @@
 @strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::game_state_smobs}
 
 
-        
+Assoc with all game_state smobs.         
         
 @end defcv
 
@@ -348,7 +348,7 @@
 @strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::pilot_smobs}
 
 
-        
+Assoc with all pilot smobs.         
         
 @end defcv
 
@@ -358,7 +358,7 @@
 @strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::bot_smobs}
 
 
-        
+Assoc with all bot smobs.         
         
 @end defcv
 
@@ -368,7 +368,7 @@
 @strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::look_smobs}
 
 
-        
+Assoc with all look smobs.         
         
 @end defcv
 
@@ -378,7 +378,7 @@
 @strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::loader_smobs}
 
 
-        
+Assoc with all loader smobs.         
         
 @end defcv
 
@@ -388,7 +388,7 @@
 @strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::db_smobs}
 
 
-        
+Assoc with all db smobs.         
         
 @end defcv
 
@@ -398,7 +398,7 @@
 @strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::node_smobs}
 
 
-        
+Assoc with all node smobs.         
         
 @end defcv
 
@@ -408,7 +408,7 @@
 @strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::jpeg_smobs}
 
 
-        
+Assoc with all jpeg smobs.         
         
 @end defcv
 
@@ -418,7 +418,7 @@
 @deftp {Struct} {lw6_jpeg_smob_s}
 
     
-    
+Data for jpeg smob.     
 @end deftp
 
 @defcv {Member} {lw6_jpeg_smob_s} {c_jpeg}
@@ -427,7 +427,7 @@
 @strong{Definition:} @code{lw6img_jpeg_t* lw6_jpeg_smob_s::c_jpeg}
 
 
-        
+C object this smob refers to.         
         
 @end defcv
 
@@ -437,7 +437,7 @@
 @deftp {Struct} {lw6_loader_smob_s}
 
     
-    
+Data for loader smob.     
 @end deftp
 
 @defcv {Member} {lw6_loader_smob_s} {c_loader}
@@ -446,7 +446,7 @@
 @strong{Definition:} @code{lw6tsk_loader_t* lw6_loader_smob_s::c_loader}
 
 
-        
+C object this smob refers to.         
         
 @end defcv
 
@@ -456,7 +456,7 @@
 @deftp {Struct} {lw6_look_smob_s}
 
     
-    
+Data for look smob.     
 @end deftp
 
 @defcv {Member} {lw6_look_smob_s} {c_look}
@@ -465,7 +465,7 @@
 @strong{Definition:} @code{lw6gui_look_t* lw6_look_smob_s::c_look}
 
 
-        
+C object this smob refers to.         
         
 @end defcv
 
@@ -475,7 +475,7 @@
 @deftp {Struct} {lw6_map_smob_s}
 
     
-    
+Data for map smob.     
 @end deftp
 
 @defcv {Member} {lw6_map_smob_s} {c_map}
@@ -484,7 +484,7 @@
 @strong{Definition:} @code{lw6map_level_t* lw6_map_smob_s::c_map}
 
 
-        
+C object this smob refers to.         
         
 @end defcv
 
@@ -494,7 +494,7 @@
 @deftp {Struct} {lw6_menu_smob_s}
 
     
-    
+Data for menu smob.     
 @end deftp
 
 @defcv {Member} {lw6_menu_smob_s} {c_menu}
@@ -503,7 +503,7 @@
 @strong{Definition:} @code{lw6gui_menu_t* lw6_menu_smob_s::c_menu}
 
 
-        
+C object this smob refers to.         
         
 @end defcv
 
@@ -513,7 +513,7 @@
 @deftp {Struct} {lw6_node_smob_s}
 
     
-    
+Data for node smob.     
 @end deftp
 
 @defcv {Member} {lw6_node_smob_s} {c_node}
@@ -522,7 +522,7 @@
 @strong{Definition:} @code{lw6p2p_node_t* lw6_node_smob_s::c_node}
 
 
-        
+C object this smob refers to.         
         
 @end defcv
 
@@ -532,7 +532,7 @@
 @strong{Definition:} @code{SCM lw6_node_smob_s::db}
 
 
-        
+Guile db object this smob depends on.         
         
 @end defcv
 
@@ -542,7 +542,7 @@
 @deftp {Struct} {lw6_pilot_smob_s}
 
     
-    
+Data for pilot smob.     
 @end deftp
 
 @defcv {Member} {lw6_pilot_smob_s} {c_pilot}
@@ -551,7 +551,7 @@
 @strong{Definition:} @code{lw6pil_pilot_t* lw6_pilot_smob_s::c_pilot}
 
 
-        
+C object this smob refers to.         
         
 @end defcv
 
@@ -561,7 +561,7 @@
 @deftp {Struct} {lw6_smob_types_s}
 
     
-    
+List of all available smob types.     
 @end deftp
 
 @defcv {Member} {lw6_smob_types_s} {dsp}
@@ -570,7 +570,7 @@
 @strong{Definition:} @code{scm_t_bits lw6_smob_types_s::dsp}
 
 
-        
+Id/key for dsp smob type.         
         
 @end defcv
 
@@ -580,7 +580,7 @@
 @strong{Definition:} @code{scm_t_bits lw6_smob_types_s::snd}
 
 
-        
+Id/key for snd smob type.         
         
 @end defcv
 
@@ -590,7 +590,7 @@
 @strong{Definition:} @code{scm_t_bits lw6_smob_types_s::map}
 
 
-        
+Id/key for map smob type.         
         
 @end defcv
 
@@ -600,7 +600,7 @@
 @strong{Definition:} @code{scm_t_bits lw6_smob_types_s::menu}
 
 
-        
+Id/key for menu smob type.         
         
 @end defcv
 
@@ -610,7 +610,7 @@
 @strong{Definition:} @code{scm_t_bits lw6_smob_types_s::game_struct}
 
 
-        
+Id/key for game_struct smob type.         
         
 @end defcv
 
@@ -620,7 +620,7 @@
 @strong{Definition:} @code{scm_t_bits lw6_smob_types_s::game_state}
 
 
-        
+Id/key for game_state smob type.         
         
 @end defcv
 
@@ -630,7 +630,7 @@
 @strong{Definition:} @code{scm_t_bits lw6_smob_types_s::pilot}
 
 
-        
+Id/key for pilot smob type.         
         
 @end defcv
 
@@ -640,7 +640,7 @@
 @strong{Definition:} @code{scm_t_bits lw6_smob_types_s::bot}
 
 
-        
+Id/key for bot smob type.         
         
 @end defcv
 
@@ -650,7 +650,7 @@
 @strong{Definition:} @code{scm_t_bits lw6_smob_types_s::look}
 
 
-        
+Id/key for look smob type.         
         
 @end defcv
 
@@ -660,7 +660,7 @@
 @strong{Definition:} @code{scm_t_bits lw6_smob_types_s::loader}
 
 
-        
+Id/key for loader smob type.         
         
 @end defcv
 
@@ -670,7 +670,7 @@
 @strong{Definition:} @code{scm_t_bits lw6_smob_types_s::db}
 
 
-        
+Id/key for db smob type.         
         
 @end defcv
 
@@ -680,7 +680,7 @@
 @strong{Definition:} @code{scm_t_bits lw6_smob_types_s::node}
 
 
-        
+Id/key for node smob type.         
         
 @end defcv
 
@@ -690,7 +690,7 @@
 @strong{Definition:} @code{scm_t_bits lw6_smob_types_s::jpeg}
 
 
-        
+Id/key for jpeg smob type.         
         
 @end defcv
 
@@ -700,7 +700,7 @@
 @deftp {Struct} {lw6_snd_smob_s}
 
     
-    
+Data for snd smob.     
 @end deftp
 
 @defcv {Member} {lw6_snd_smob_s} {c_snd}
@@ -709,7 +709,7 @@
 @strong{Definition:} @code{lw6snd_backend_t* lw6_snd_smob_s::c_snd}
 
 
-        
+C object this smob refers to.         
         
 @end defcv
 

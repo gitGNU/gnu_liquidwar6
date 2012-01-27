@@ -97,6 +97,7 @@ typedef struct lw6ker_fighter_s
   int32_t act_counter:16;
   /// Free for later use.
   int32_t pad:16;
+  /// Fighter position.
   lw6sys_xyz_t pos;
 }
 lw6ker_fighter_t;
@@ -115,6 +116,9 @@ typedef struct lw6ker_cursor_control_s
   int fire2;
 } lw6ker_cursor_control_t;
 
+/**
+ * Data about a given cursor.
+ */
 typedef struct lw6ker_cursor_s
 {
   /// The id of the node this cursor belongs to.

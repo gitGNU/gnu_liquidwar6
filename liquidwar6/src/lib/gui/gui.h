@@ -96,10 +96,16 @@ typedef struct lw6gui_video_mode_s
   int fullscreen;
 } lw6gui_video_mode_t;
 
+/**
+ * Contains information about available fullscreen modes.
+ */
 typedef struct lw6gui_fullscreen_modes_s
 {
+  /// Low resolution mode.
   lw6gui_video_mode_t low;
+  /// Standard resolution mode.
   lw6gui_video_mode_t standard;
+  /// High resolution mode.
   lw6gui_video_mode_t high;
 }
 lw6gui_fullscreen_modes_t;
@@ -483,9 +489,13 @@ lw6gui_joystick_t;
  */
 typedef struct lw6gui_input_s
 {
+  /// Wether this input struct has changed and needs to be synchronized.
   int need_sync;
+  /// Keyboard information.
   lw6gui_keyboard_t keyboard;
+  /// Mouse information.
   lw6gui_mouse_t mouse;
+  /// Joysticks information.
   lw6gui_joystick_t joysticks[LW6GUI_NB_JOYSTICKS];
 }
 lw6gui_input_t;

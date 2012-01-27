@@ -4,7 +4,7 @@
 @deftp {Struct} {lw6map_body_s}
 
     
-    
+Logical layers for the map. This is the big collection of bytes arrays containing most of the information, anything loaded from images (JPEG, PNG) from disk and having some logical (and not pure eye candy) meaning.     
 @end deftp
 
 @defcv {Member} {lw6map_body_s} {checksum}
@@ -14,7 +14,7 @@
 
 
         
-        
+Checksum for this map body, we could recalculate it dynamically but it's cached here for convenience and speed.         
 @end defcv
 
 @defcv {Member} {lw6map_body_s} {shape}
@@ -23,7 +23,7 @@
 @strong{Definition:} @code{lw6sys_whd_t lw6map_body_s::shape}
 
 
-        
+Shape of the map, all layers need to be compatible with this.         
         
 @end defcv
 
@@ -34,7 +34,7 @@
 
 
         
-        
+Layers, layer 0 is the top layer, the one stored in map.png, other layers are layerN.png. Not all layers are defined, just depends on body shape.         
 @end defcv
 
 @defcv {Member} {lw6map_body_s} {glue}
@@ -43,7 +43,7 @@
 @strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::glue}
 
 
-        
+Informations stored in glue.png.         
         
 @end defcv
 
@@ -53,7 +53,7 @@
 @strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::boost}
 
 
-        
+Informations stored in boost.png.         
         
 @end defcv
 
@@ -63,7 +63,7 @@
 @strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::danger}
 
 
-        
+Informations stored in danger.png.         
         
 @end defcv
 
@@ -73,7 +73,7 @@
 @strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::medicine}
 
 
-        
+Informations stored in medicine.png.         
         
 @end defcv
 
@@ -83,7 +83,7 @@
 @strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::one_way_north}
 
 
-        
+Informations stored in one-way-north.png.         
         
 @end defcv
 
@@ -93,7 +93,7 @@
 @strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::one_way_east}
 
 
-        
+Informations stored in one-way-east.png.         
         
 @end defcv
 
@@ -103,7 +103,7 @@
 @strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::one_way_south}
 
 
-        
+Informations stored in one-way-south.png.         
         
 @end defcv
 
@@ -113,7 +113,7 @@
 @strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::one_way_west}
 
 
-        
+Informations stored in one-way-west.png.         
         
 @end defcv
 
@@ -152,7 +152,7 @@ AI engine used by bot, the name of the backend to load.
 @deftp {Struct} {lw6map_color_couple_s}
 
     
-    
+This structure simply binds 2 colors together, one being foreground and the other background. There's a good reason to bind those together, indeed foreground and background need to be different enough so that text written in fg over bg is readable, and they need to go together well.     
 @end deftp
 
 @defcv {Member} {lw6map_color_couple_s} {fg}
@@ -161,7 +161,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6sys_color_8_t lw6map_color_couple_s::fg}
 
 
-        
+Foreground color.         
         
 @end defcv
 
@@ -171,7 +171,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6sys_color_8_t lw6map_color_couple_s::bg}
 
 
-        
+Background color.         
         
 @end defcv
 
@@ -181,7 +181,7 @@ AI engine used by bot, the name of the backend to load.
 @deftp {Struct} {lw6map_color_set_s}
 
     
-    
+Holds the complete color set for the game, including all color couples used for background, hud, menu, view, as well as team colors.     
 @end deftp
 
 @defcv {Member} {lw6map_color_set_s} {color_base}
@@ -190,7 +190,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::color_base}
 
 
-        
+Base color couple.         
         
 @end defcv
 
@@ -200,7 +200,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::color_alternate}
 
 
-        
+Alternate color couple.         
         
 @end defcv
 
@@ -210,7 +210,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::background_color_root}
 
 
-        
+Background color couple for root image.         
         
 @end defcv
 
@@ -220,7 +220,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::background_color_stuff}
 
 
-        
+Background color couple for drawn stuff.         
         
 @end defcv
 
@@ -230,7 +230,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::hud_color_frame}
 
 
-        
+Hud color couple for frames.         
         
 @end defcv
 
@@ -240,7 +240,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::hud_color_text}
 
 
-        
+Hud color couple for text.         
         
 @end defcv
 
@@ -250,7 +250,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::menu_color_default}
 
 
-        
+Menu default color couple.         
         
 @end defcv
 
@@ -260,7 +260,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::menu_color_selected}
 
 
-        
+Menu color couple for selected items.         
         
 @end defcv
 
@@ -270,7 +270,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::menu_color_disabled}
 
 
-        
+Menu color couple for disabled items.         
         
 @end defcv
 
@@ -280,7 +280,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::view_color_cursor}
 
 
-        
+Map view color couple for cursor.         
         
 @end defcv
 
@@ -290,7 +290,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::view_color_map}
 
 
-        
+Map view color couple for map.         
         
 @end defcv
 
@@ -300,7 +300,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::system_color}
 
 
-        
+System color couple (log messages).         
         
 @end defcv
 
@@ -310,7 +310,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6sys_color_8_t lw6map_color_set_s::team_color_dead}
 
 
-        
+Color to use for dead fighters.         
         
 @end defcv
 
@@ -320,7 +320,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6sys_color_8_t lw6map_color_set_s::team_colors[LW6MAP_NB_TEAM_COLORS]}
 
 
-        
+Team colors.         
         
 @end defcv
 
@@ -330,7 +330,7 @@ AI engine used by bot, the name of the backend to load.
 @deftp {Struct} {lw6map_cursor_texture_layer_s}
 
     
-    
+Contains a cursor texture layer, this is basically a fixed (64x64) sized array of colors.     
 @end deftp
 
 @defcv {Member} {lw6map_cursor_texture_layer_s} {data}
@@ -339,7 +339,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6sys_color_8_t lw6map_cursor_texture_layer_s::data[LW6MAP_CURSOR_TEXTURE_SIZE][LW6MAP_CURSOR_TEXTURE_SIZE]}
 
 
-        
+Color for each pixel.         
         
 @end defcv
 
@@ -349,7 +349,7 @@ AI engine used by bot, the name of the backend to load.
 @deftp {Struct} {lw6map_cursor_texture_s}
 
     
-    
+A cursor texture. It's divided between a texture that will be colorized depending on the map and another texture which will be colorized depending on the team playing the cursor.     
 @end deftp
 
 @defcv {Member} {lw6map_cursor_texture_s} {fg_bg_layer}
@@ -358,7 +358,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6map_cursor_texture_layer_t lw6map_cursor_texture_s::fg_bg_layer}
 
 
-        
+Layer to be colorized using foreground and background colors.         
         
 @end defcv
 
@@ -368,7 +368,7 @@ AI engine used by bot, the name of the backend to load.
 @strong{Definition:} @code{lw6map_cursor_texture_layer_t lw6map_cursor_texture_s::color_layer}
 
 
-        
+Layer to be colorized using team colors.         
         
 @end defcv
 
@@ -407,7 +407,7 @@ Raw (byte) data.
 @deftp {Struct} {lw6map_level_s}
 
     
-    
+This structure contains everything about a level, once it's loaded from disk. It's immutable, it cannot be changed once it's loaded, and does not have any algorithm aware struct, this is just plain raw data, file data transformed into C struct.     
 @end deftp
 
 @defcv {Member} {lw6map_level_s} {id}
@@ -417,7 +417,7 @@ Raw (byte) data.
 
 
         
-        
+The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
 @end defcv
 
 @defcv {Member} {lw6map_level_s} {metadata}
@@ -426,7 +426,7 @@ Raw (byte) data.
 @strong{Definition:} @code{lw6map_metadata_t lw6map_level_s::metadata}
 
 
-        
+Metadata (title, copyright, description, ...)         
         
 @end defcv
 
@@ -436,7 +436,7 @@ Raw (byte) data.
 @strong{Definition:} @code{lw6map_local_info_t lw6map_level_s::local_info}
 
 
-        
+Informations that depend on the host loading the map.         
         
 @end defcv
 
@@ -446,7 +446,7 @@ Raw (byte) data.
 @strong{Definition:} @code{lw6map_body_t lw6map_level_s::body}
 
 
-        
+All layers (bytes array) forming the map.         
         
 @end defcv
 
@@ -456,7 +456,7 @@ Raw (byte) data.
 @strong{Definition:} @code{lw6map_texture_t lw6map_level_s::texture}
 
 
-        
+Texture used by the map.         
         
 @end defcv
 
@@ -466,7 +466,7 @@ Raw (byte) data.
 @strong{Definition:} @code{lw6map_cursor_texture_t lw6map_level_s::cursor_texture}
 
 
-        
+Cursor texture.         
         
 @end defcv
 
@@ -476,7 +476,7 @@ Raw (byte) data.
 @strong{Definition:} @code{lw6map_param_t lw6map_level_s::param}
 
 
-        
+All map parameters.         
         
 @end defcv
 
@@ -593,7 +593,7 @@ Raw (byte) data.
 @deftp {Struct} {lw6map_param_s}
 
     
-    
+All parameters in a map, indludes rules, style and teams.     
 @end deftp
 
 @defcv {Member} {lw6map_param_s} {rules}
@@ -602,7 +602,7 @@ Raw (byte) data.
 @strong{Definition:} @code{lw6map_rules_t lw6map_param_s::rules}
 
 
-        
+Content of rules.xml.         
         
 @end defcv
 
@@ -612,7 +612,7 @@ Raw (byte) data.
 @strong{Definition:} @code{lw6map_style_t lw6map_param_s::style}
 
 
-        
+Content of style.xml.         
         
 @end defcv
 
@@ -622,7 +622,7 @@ Raw (byte) data.
 @strong{Definition:} @code{lw6map_teams_t lw6map_param_s::teams}
 
 
-        
+Content of teams.xml.         
         
 @end defcv
 
@@ -641,7 +641,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::total_time}
 
 
-        
+total_time parameter, stored as an integer.         
         
 @end defcv
 
@@ -651,7 +651,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::respawn_team}
 
 
-        
+respawn_team parameter, stored as an integer.         
         
 @end defcv
 
@@ -661,7 +661,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::respawn_position_mode}
 
 
-        
+respawn_position_mode parameter, stored as an integer.         
         
 @end defcv
 
@@ -671,7 +671,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::respawn_delay}
 
 
-        
+respawn_delay parameter, stored as an integer.         
         
 @end defcv
 
@@ -681,7 +681,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::moves_per_round}
 
 
-        
+moves_per_round parameter, stored as an integer.         
         
 @end defcv
 
@@ -691,7 +691,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::spreads_per_round}
 
 
-        
+spreads_per_round parameter, stored as an integer.         
         
 @end defcv
 
@@ -701,7 +701,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::rounds_per_sec}
 
 
-        
+rounds_per_sec parameter, stored as an integer.         
         
 @end defcv
 
@@ -711,7 +711,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::fighter_attack}
 
 
-        
+fighter_attack parameter, stored as an integer.         
         
 @end defcv
 
@@ -721,7 +721,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::fighter_defense}
 
 
-        
+fighter_defense parameter, stored as an integer.         
         
 @end defcv
 
@@ -731,7 +731,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::fighter_new_health}
 
 
-        
+fighter_new_health parameter, stored as an integer.         
         
 @end defcv
 
@@ -741,7 +741,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::fighter_regenerate}
 
 
-        
+fighter_regenerate parameter, stored as an integer.         
         
 @end defcv
 
@@ -751,7 +751,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::side_attack_factor}
 
 
-        
+side_attack_factor parameter, stored as an integer.         
         
 @end defcv
 
@@ -761,7 +761,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::side_defense_factor}
 
 
-        
+side_defense_factor parameter, stored as an integer.         
         
 @end defcv
 
@@ -771,7 +771,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::nb_move_tries}
 
 
-        
+nb_move_tries parameter, stored as an integer.         
         
 @end defcv
 
@@ -781,7 +781,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::nb_attack_tries}
 
 
-        
+nb_attack_tries parameter, stored as an integer.         
         
 @end defcv
 
@@ -791,7 +791,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::nb_defense_tries}
 
 
-        
+nb_defense_tries parameter, stored as an integer.         
         
 @end defcv
 
@@ -801,7 +801,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::vertical_move}
 
 
-        
+vertical_move parameter, stored as an integer.         
         
 @end defcv
 
@@ -811,7 +811,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::spread_mode}
 
 
-        
+spread_mode parameter, stored as an integer.         
         
 @end defcv
 
@@ -821,7 +821,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::single_army_size}
 
 
-        
+single_army_size parameter, stored as an integer.         
         
 @end defcv
 
@@ -831,7 +831,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::total_armies_size}
 
 
-        
+total_armies_size parameter, stored as an integer.         
         
 @end defcv
 
@@ -841,7 +841,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::max_nb_teams}
 
 
-        
+max_nb_teams parameter, stored as an integer.         
         
 @end defcv
 
@@ -851,7 +851,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::max_nb_cursors}
 
 
-        
+max_nb_cursors parameter, stored as an integer.         
         
 @end defcv
 
@@ -861,7 +861,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::max_nb_nodes}
 
 
-        
+max_nb_nodes parameter, stored as an integer.         
         
 @end defcv
 
@@ -871,7 +871,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::exp}
 
 
-        
+exp parameter, stored as an integer.         
         
 @end defcv
 
@@ -881,7 +881,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::highest_team_color_allowed}
 
 
-        
+highest_team_color_allowed parameter, stored as an integer.         
         
 @end defcv
 
@@ -891,7 +891,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::highest_weapon_allowed}
 
 
-        
+highest_weapon_allowed parameter, stored as an integer.         
         
 @end defcv
 
@@ -901,7 +901,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::x_polarity}
 
 
-        
+x_polarity parameter, stored as an integer.         
         
 @end defcv
 
@@ -911,7 +911,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::y_polarity}
 
 
-        
+y_polarity parameter, stored as an integer.         
         
 @end defcv
 
@@ -921,7 +921,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::z_polarity}
 
 
-        
+z_polarity parameter, stored as an integer.         
         
 @end defcv
 
@@ -931,7 +931,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::max_zone_size}
 
 
-        
+max_zone_size parameter, stored as an integer.         
         
 @end defcv
 
@@ -941,7 +941,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::round_delta}
 
 
-        
+round_delta parameter, stored as an integer.         
         
 @end defcv
 
@@ -951,7 +951,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::max_round_delta}
 
 
-        
+max_round_delta parameter, stored as an integer.         
         
 @end defcv
 
@@ -961,7 +961,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::max_cursor_pot}
 
 
-        
+max_cursor_pot parameter, stored as an integer.         
         
 @end defcv
 
@@ -971,7 +971,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::cursor_pot_init}
 
 
-        
+cursor_pot_init parameter, stored as an integer.         
         
 @end defcv
 
@@ -981,7 +981,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::max_cursor_pot_offset}
 
 
-        
+max_cursor_pot_offset parameter, stored as an integer.         
         
 @end defcv
 
@@ -991,7 +991,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::start_x[LW6MAP_MAX_NB_TEAMS]}
 
 
-        
+start_x parameters, stored as a per team integer.         
         
 @end defcv
 
@@ -1001,7 +1001,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::start_y[LW6MAP_MAX_NB_TEAMS]}
 
 
-        
+start_y parameters, stored as a per team integer.         
         
 @end defcv
 
@@ -1011,7 +1011,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::start_position_mode}
 
 
-        
+start_position_mode parameter, stored as an integer.         
         
 @end defcv
 
@@ -1021,7 +1021,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::color_conflict_mode}
 
 
-        
+color_conflict_mode parameter, stored as an integer.         
         
 @end defcv
 
@@ -1031,7 +1031,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::spread_thread}
 
 
-        
+spread_thread parameter, stored as an integer.         
         
 @end defcv
 
@@ -1041,7 +1041,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::glue_power}
 
 
-        
+glue_power parameter, stored as an integer.         
         
 @end defcv
 
@@ -1051,7 +1051,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::boost_power}
 
 
-        
+boost_power parameter, stored as an integer.         
         
 @end defcv
 
@@ -1061,7 +1061,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::danger_power}
 
 
-        
+danger_power parameter, stored as an integer.         
         
 @end defcv
 
@@ -1071,7 +1071,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::medicine_power}
 
 
-        
+medicine_power parameter, stored as an integer.         
         
 @end defcv
 
@@ -1081,7 +1081,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::frags_mode}
 
 
-        
+frags_mode parameter, stored as an integer.         
         
 @end defcv
 
@@ -1091,7 +1091,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::frags_to_distribute}
 
 
-        
+frags_to_distribute parameter, stored as an integer.         
         
 @end defcv
 
@@ -1101,7 +1101,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::frags_fade_out}
 
 
-        
+frags_fade_out parameter, stored as an integer.         
         
 @end defcv
 
@@ -1111,7 +1111,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::use_team_profiles}
 
 
-        
+use_team_profiles parameter, stored as an integer.         
         
 @end defcv
 
@@ -1121,7 +1121,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_aggressive[LW6MAP_MAX_NB_TEAMS]}
 
 
-        
+team_profile_aggressive parameters, stored as a per team integer.         
         
 @end defcv
 
@@ -1131,7 +1131,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_vulnerable[LW6MAP_MAX_NB_TEAMS]}
 
 
-        
+team_profile_vulnerable parameters, stored as a per team integer.         
         
 @end defcv
 
@@ -1141,7 +1141,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_mobile[LW6MAP_MAX_NB_TEAMS]}
 
 
-        
+team_profile_mobile parameters, stored as a per team integer.         
         
 @end defcv
 
@@ -1151,7 +1151,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_fast[LW6MAP_MAX_NB_TEAMS]}
 
 
-        
+team_profile_fast parameters, stored as a per team integer.         
         
 @end defcv
 
@@ -1161,7 +1161,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_weapon_id[LW6MAP_MAX_NB_TEAMS]}
 
 
-        
+team_profile_weapon_id parameters, stored as a per team integer.         
         
 @end defcv
 
@@ -1171,7 +1171,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_weapon_alternate_id[LW6MAP_MAX_NB_TEAMS]}
 
 
-        
+team_profile_weapon_alternate_id parameters, stored as a per team integer.         
         
 @end defcv
 
@@ -1181,7 +1181,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_weapon_mode[LW6MAP_MAX_NB_TEAMS]}
 
 
-        
+team_profile_weapon_mode parameters, stored as a per team integer.         
         
 @end defcv
 
@@ -1191,7 +1191,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::weapon_duration}
 
 
-        
+weapon_duration parameter, stored as an integer.         
         
 @end defcv
 
@@ -1201,7 +1201,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::weapon_charge_delay}
 
 
-        
+weapon_charge_delay parameter, stored as an integer.         
         
 @end defcv
 
@@ -1211,7 +1211,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::weapon_charge_max}
 
 
-        
+weapon_charge_max parameter, stored as an integer.         
         
 @end defcv
 
@@ -1221,7 +1221,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::weapon_tune_berzerk_power}
 
 
-        
+weapon_tune_berzerk_power parameter, stored as an integer.         
         
 @end defcv
 
@@ -1231,7 +1231,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int32_t lw6map_rules_s::weapon_tune_turbo_power}
 
 
-        
+weapon_tune_turbo_power parameter, stored as an integer.         
         
 @end defcv
 
@@ -1241,7 +1241,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @deftp {Struct} {lw6map_style_s}
 
     
-    
+Content of style.xml stored into a C struct.     
 @end deftp
 
 @defcv {Member} {lw6map_style_s} {keep_ratio}
@@ -1250,7 +1250,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int lw6map_style_s::keep_ratio}
 
 
-        
+Boolean, wether to keep the map ratio or not.         
         
 @end defcv
 
@@ -1260,7 +1260,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{float lw6map_style_s::zoom}
 
 
-        
+Default zoom.         
         
 @end defcv
 
@@ -1270,7 +1270,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{float lw6map_style_s::zoom_min}
 
 
-        
+Min zoom.         
         
 @end defcv
 
@@ -1280,7 +1280,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{float lw6map_style_s::zoom_max}
 
 
-        
+Max zoom.         
         
 @end defcv
 
@@ -1290,7 +1290,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int lw6map_style_s::x_wrap}
 
 
-        
+Wether to wrap on X axis.         
         
 @end defcv
 
@@ -1300,7 +1300,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int lw6map_style_s::y_wrap}
 
 
-        
+Wether to wrap on Y axis.         
         
 @end defcv
 
@@ -1310,7 +1310,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{char* lw6map_style_s::background_style}
 
 
-        
+Background style to use (for instance, bubbles).         
         
 @end defcv
 
@@ -1320,7 +1320,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{char* lw6map_style_s::hud_style}
 
 
-        
+Hud style to use (for instance, floating).         
         
 @end defcv
 
@@ -1330,7 +1330,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{char* lw6map_style_s::menu_style}
 
 
-        
+Menu style to use (for instance, cylinder).         
         
 @end defcv
 
@@ -1340,7 +1340,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{char* lw6map_style_s::view_style}
 
 
-        
+View style to use (for instance, flat).         
         
 @end defcv
 
@@ -1350,7 +1350,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{float lw6map_style_s::animation_density}
 
 
-        
+How dense animations should be (many or few sprites).         
         
 @end defcv
 
@@ -1360,7 +1360,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{float lw6map_style_s::animation_speed}
 
 
-        
+How fast animations should be (sprites speed).         
         
 @end defcv
 
@@ -1370,7 +1370,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{float lw6map_style_s::cursor_size}
 
 
-        
+Cursor size.         
         
 @end defcv
 
@@ -1380,7 +1380,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int lw6map_style_s::colorize_cursor}
 
 
-        
+Wether to colorize cursors or not.         
         
 @end defcv
 
@@ -1390,7 +1390,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int lw6map_style_s::blink_cursor}
 
 
-        
+Wether to make cursors blink or not.         
         
 @end defcv
 
@@ -1400,7 +1400,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{float lw6map_style_s::hidden_layer_alpha}
 
 
-        
+Alpha value used to represent fighters hidden behind a layer.         
         
 @end defcv
 
@@ -1410,7 +1410,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int lw6map_style_s::colorize}
 
 
-        
+Wether to use colorization or not.         
         
 @end defcv
 
@@ -1420,7 +1420,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int lw6map_style_s::pixelize}
 
 
-        
+Wether to pixelize the map and fighters or not.         
         
 @end defcv
 
@@ -1430,7 +1430,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{lw6map_color_set_t lw6map_style_s::color_set}
 
 
-        
+All colors used by the game.         
         
 @end defcv
 
@@ -1440,7 +1440,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{char* lw6map_style_s::music_file}
 
 
-        
+Music file to play.         
         
 @end defcv
 
@@ -1450,7 +1450,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{char* lw6map_style_s::music_filter}
 
 
-        
+Music files to keep.         
         
 @end defcv
 
@@ -1460,7 +1460,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{char* lw6map_style_s::music_exclude}
 
 
-        
+Music files to exclude.         
         
 @end defcv
 
@@ -1470,7 +1470,7 @@ Content of rules.xml stored into a C struct. This structure is used a lot, it ne
 @strong{Definition:} @code{int lw6map_style_s::waves}
 
 
-        
+Wether to turn on the wave effect or not.         
         
 @end defcv
 
@@ -1539,7 +1539,7 @@ Per-bot parameters, including their color and the ai engine they use.
 @deftp {Struct} {lw6map_texture_s}
 
     
-    
+Texture information, this is a bit different from a layer, since this is RGBA data, plus some meta-informations such as guessed colors.     
 @end deftp
 
 @defcv {Member} {lw6map_texture_s} {w}
@@ -1548,7 +1548,7 @@ Per-bot parameters, including their color and the ai engine they use.
 @strong{Definition:} @code{int lw6map_texture_s::w}
 
 
-        
+Texture width.         
         
 @end defcv
 
@@ -1558,7 +1558,7 @@ Per-bot parameters, including their color and the ai engine they use.
 @strong{Definition:} @code{int lw6map_texture_s::h}
 
 
-        
+Texture height.         
         
 @end defcv
 
@@ -1569,7 +1569,7 @@ Per-bot parameters, including their color and the ai engine they use.
 
 
         
-        
+True if texture has an alpha channel. If it has an alpha channel on disk (for instance, it's a PNG) and if in practice it has nothing else than full opaque 255 alpha values, then this will be set to 0 anyway, the idea is to detect textures that really need the engine to handle transparency.         
 @end defcv
 
 @defcv {Member} {lw6map_texture_s} {data}
@@ -1578,7 +1578,7 @@ Per-bot parameters, including their color and the ai engine they use.
 @strong{Definition:} @code{lw6sys_color_8_t* lw6map_texture_s::data}
 
 
-        
+Color for each pixel.         
         
 @end defcv
 
@@ -1589,7 +1589,7 @@ Per-bot parameters, including their color and the ai engine they use.
 
 
         
-        
+Base guessed color couple. This is typically the best or more representative color couple (fg and bg) the program was able to automatically extract from the map.         
 @end defcv
 
 @defcv {Member} {lw6map_texture_s} {guessed_color_alternate}
@@ -1599,7 +1599,7 @@ Per-bot parameters, including their color and the ai engine they use.
 
 
         
-        
+An alternate color couple which still comes from the map but is a bit different from the base one.         
 @end defcv
 
 

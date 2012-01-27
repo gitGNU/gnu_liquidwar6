@@ -113,7 +113,7 @@ Used to handle multiple-clicks, this is the timestamp of the last click.
 @deftp {Struct} {lw6gui_fullscreen_modes_s}
 
     
-    
+Contains information about available fullscreen modes.     
 @end deftp
 
 @defcv {Member} {lw6gui_fullscreen_modes_s} {low}
@@ -122,7 +122,7 @@ Used to handle multiple-clicks, this is the timestamp of the last click.
 @strong{Definition:} @code{lw6gui_video_mode_t lw6gui_fullscreen_modes_s::low}
 
 
-        
+Low resolution mode.         
         
 @end defcv
 
@@ -132,7 +132,7 @@ Used to handle multiple-clicks, this is the timestamp of the last click.
 @strong{Definition:} @code{lw6gui_video_mode_t lw6gui_fullscreen_modes_s::standard}
 
 
-        
+Standard resolution mode.         
         
 @end defcv
 
@@ -142,7 +142,7 @@ Used to handle multiple-clicks, this is the timestamp of the last click.
 @strong{Definition:} @code{lw6gui_video_mode_t lw6gui_fullscreen_modes_s::high}
 
 
-        
+High resolution mode.         
         
 @end defcv
 
@@ -161,7 +161,7 @@ Global input state, contains informations about the keyboard, mouse and joystick
 @strong{Definition:} @code{int lw6gui_input_s::need_sync}
 
 
-        
+Wether this input struct has changed and needs to be synchronized.         
         
 @end defcv
 
@@ -171,7 +171,7 @@ Global input state, contains informations about the keyboard, mouse and joystick
 @strong{Definition:} @code{lw6gui_keyboard_t lw6gui_input_s::keyboard}
 
 
-        
+Keyboard information.         
         
 @end defcv
 
@@ -181,7 +181,7 @@ Global input state, contains informations about the keyboard, mouse and joystick
 @strong{Definition:} @code{lw6gui_mouse_t lw6gui_input_s::mouse}
 
 
-        
+Mouse information.         
         
 @end defcv
 
@@ -191,7 +191,7 @@ Global input state, contains informations about the keyboard, mouse and joystick
 @strong{Definition:} @code{lw6gui_joystick_t lw6gui_input_s::joysticks[LW6GUI_NB_JOYSTICKS]}
 
 
-        
+Joysticks information.         
         
 @end defcv
 
