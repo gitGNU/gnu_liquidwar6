@@ -55,7 +55,7 @@
  * Return value: a newly allocated string, NULL on error.
  */
 extern char *
-lw6sys_url_http_from_ip_port (char *ip, int port)
+lw6sys_url_http_from_ip_port (const char *ip, int port)
 {
   char *ret = NULL;
 
@@ -106,7 +106,7 @@ _is_port (char c)
  * Return value: a newly allocated struct, NULL on error
  */
 lw6sys_url_t *
-lw6sys_url_parse (char *url)
+lw6sys_url_parse (const char *url)
 {
   lw6sys_url_t *ret = NULL;
   char *tmp = NULL;
@@ -249,7 +249,7 @@ lw6sys_url_free (lw6sys_url_t * url)
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_url_canonize (char *url)
+lw6sys_url_canonize (const char *url)
 {
   char *ret = NULL;
   lw6sys_url_t *tmp = NULL;
@@ -316,7 +316,7 @@ lw6sys_url_canonize (char *url)
  * Return value: 1 if OK (canonized form), 0 if not
  */
 int
-lw6sys_url_is_canonized (char *url)
+lw6sys_url_is_canonized (const char *url)
 {
   int ret = 0;
   char *canonized_url = NULL;

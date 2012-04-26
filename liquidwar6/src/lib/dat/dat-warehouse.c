@@ -303,7 +303,7 @@ int
 _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 			    u_int64_t logical_from,
 			    int serial, int order_i, int order_n, int64_t seq,
-			    char *full_str, int seq_from_cmd_str_offset,
+			    const char *full_str, int seq_from_cmd_str_offset,
 			    int cmd_str_offset)
 {
   int stack_index = -1;
@@ -336,7 +336,7 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 
 int
 _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
-				u_int64_t logical_from, char *full_str)
+				u_int64_t logical_from, const char *full_str)
 {
   int ret = 0;
   int serial = 0;
@@ -392,7 +392,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
  */
 int
 lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse,
-			       u_int64_t logical_from, char *full_str)
+			       u_int64_t logical_from, const char *full_str)
 {
   int ret = 0;
 
@@ -451,7 +451,8 @@ lw6dat_warehouse_calc_serial_draft_and_reference (lw6dat_warehouse_t *
 }
 
 int
-_lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse, char *msg)
+_lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse,
+				 const char *msg)
 {
   int ret = 0;
 
@@ -474,7 +475,8 @@ _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse, char *msg)
  * Return value: 1 on success, 0 on error
  */
 int
-lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse, char *msg)
+lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse,
+				const char *msg)
 {
   int ret = 0;
 

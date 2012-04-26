@@ -80,8 +80,8 @@
 #define LW6MSG_DATA_TIMEOUT "TIMEOUT"
 #define LW6MSG_DATA_KICK "KICK"
 #define LW6MSG_DATA_CHECKSUM "CHECKSUM"
-#define LW6MSG_DATA_SYNC "SYNC"
-#define LW6MSG_DATA_META "META"
+//#define LW6MSG_DATA_SYNC "SYNC"
+//#define LW6MSG_DATA_META "META"
 #define LW6MSG_DATA_DUMP "DUMP"
 #define LW6MSG_DATA_SNAPSHOT "SNAPSHOT"
 #define LW6MSG_DATA_CHAT "CHAT"
@@ -126,33 +126,37 @@ extern char *lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key);
 extern char *lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq);
 extern char *lw6msg_cmd_generate_goodbye (lw6nod_info_t * info);
 extern char *lw6msg_cmd_generate_data (int serial, int i, int n, int round,
-				       char *ker_msg);
-extern int lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, char *msg);
+				       const char *ker_msg);
+extern int lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, const char *msg);
 extern int lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info,
-				      u_int64_t * ticket, char *msg);
+				      u_int64_t * ticket, const char *msg);
 extern int lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key,
-				   char *msg);
+				   const char *msg);
 extern int lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key,
-				   char *msg);
+				   const char *msg);
 extern int lw6msg_cmd_analyse_join (lw6nod_info_t ** info, int64_t * seq,
-				    char *msg);
-extern int lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, char *msg);
+				    const char *msg);
+extern int lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info,
+				       const char *msg);
 extern int lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
-				    char **ker_msg, char *msg);
-extern char *lw6msg_cmd_guess_from_url (char *msg);
+				    char **ker_msg, const char *msg);
+extern char *lw6msg_cmd_guess_from_url (const char *msg);
 
 /* msg-enveloppe.c */
 extern char *lw6msg_envelope_generate (lw6msg_envelope_mode_t mode,
-				       char *version, char *password_checksum,
+				       const char *version,
+				       const char *password_checksum,
 				       u_int32_t physical_ticket_sig,
 				       u_int32_t logical_ticket_sig,
 				       u_int64_t physical_from_id,
 				       u_int64_t physical_to_id,
 				       u_int64_t logical_from_id,
-				       u_int64_t logical_to_id, char *msg);
-extern int lw6msg_envelope_analyse (char *envelope,
+				       u_int64_t logical_to_id,
+				       const char *msg);
+extern int lw6msg_envelope_analyse (const char *envelope,
 				    lw6msg_envelope_mode_t mode,
-				    char *local_url, char *password,
+				    const char *local_url,
+				    const char *password,
 				    u_int64_t expected_physical_from_id,
 				    u_int64_t expected_physical_to_id,
 				    char **msg,
@@ -168,62 +172,68 @@ extern int lw6msg_envelope_analyse (char *envelope,
 extern char *lw6msg_oob_generate_info (lw6nod_info_t * info);
 extern char *lw6msg_oob_generate_list (lw6nod_info_t * info);
 extern char *lw6msg_oob_generate_pong (lw6nod_info_t * info);
-extern char *lw6msg_oob_generate_request (char *command, char *remote_url,
-					  char *password, char *local_url);
+extern char *lw6msg_oob_generate_request (const char *command,
+					  const char *remote_url,
+					  const char *password,
+					  const char *local_url);
 extern int lw6msg_oob_analyse_request (int *syntax_ok, char **command,
 				       int *password_ok, char **remote_url,
-				       char *request, char *local_url,
-				       char *password);
-extern char *lw6msg_oob_analyse_pong (char *text);
+				       const char *request,
+				       const char *local_url,
+				       const char *password);
+extern char *lw6msg_oob_analyse_pong (const char *text);
 
 /* msg-test.c */
 extern int lw6msg_test (int mode);
 
 /* msg-ticket.c */
 extern u_int32_t lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id,
-					 u_int64_t to_id, char *msg);
+					 u_int64_t to_id, const char *msg);
 extern int lw6msg_ticket_check_sig (u_int64_t ticket, u_int64_t from_id,
-				    u_int64_t to_id, char *msg,
+				    u_int64_t to_id, const char *msg,
 				    u_int32_t ticket_sig);
 
 /* msg-utils.c */
 extern int lw6msg_utils_parse_key_value_to_ptr (char **key, char **value,
-						char *line);
+						const char *line);
 extern int lw6msg_utils_parse_key_value_to_assoc (lw6sys_assoc_t ** assoc,
-						  char *line);
+						  const char *line);
 extern char *lw6msg_utils_get_assoc_str_with_default (lw6sys_assoc_t * assoc,
-						      char *key,
-						      char *default_value);
+						      const char *key,
+						      const char
+						      *default_value);
 extern int lw6msg_utils_get_assoc_int_with_default (lw6sys_assoc_t * assoc,
-						    char *key,
+						    const char *key,
 						    int default_value);
 
 /* msg-word.c */
-extern int lw6msg_word_first (lw6msg_word_t * word, char **next, char *msg);
-extern int lw6msg_word_first_x (lw6msg_word_t * word, char **next, char *msg);
+extern int lw6msg_word_first (lw6msg_word_t * word, char **next,
+			      const char *msg);
+extern int lw6msg_word_first_x (lw6msg_word_t * word, char **next,
+				const char *msg);
 extern int lw6msg_word_first_base64 (lw6msg_word_t * word, char **next,
-				     char *msg);
+				     const char *msg);
 extern int lw6msg_word_first_int_32 (int32_t * parsed_value, char **next,
-				     char *msg);
+				     const char *msg);
 extern int lw6msg_word_first_int_32_ge0 (int32_t * parsed_value, char **next,
-					 char *msg);
+					 const char *msg);
 extern int lw6msg_word_first_int_32_gt0 (int32_t * parsed_value, char **next,
-					 char *msg);
+					 const char *msg);
 extern int lw6msg_word_first_int_64 (int64_t * parsed_value, char **next,
-				     char *msg);
+				     const char *msg);
 extern int lw6msg_word_first_int_64_ge0 (int64_t * parsed_value, char **next,
-					 char *msg);
+					 const char *msg);
 extern int lw6msg_word_first_int_64_gt0 (int64_t * parsed_value, char **next,
-					 char *msg);
+					 const char *msg);
 extern int lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next,
-				    char *msg);
+				    const char *msg);
 extern int lw6msg_word_first_id_32 (u_int32_t * parsed_value, char **next,
-				    char *msg);
+				    const char *msg);
 extern int lw6msg_word_first_id_64 (u_int64_t * parsed_value, char **next,
-				    char *msg);
+				    const char *msg);
 
 /* msg-z.c */
-extern char *lw6msg_z_encode (char *msg, int limit);
-extern char *lw6msg_z_decode (char *msg);
+extern char *lw6msg_z_encode (const char *msg, int limit);
+extern char *lw6msg_z_decode (const char *msg);
 
 #endif

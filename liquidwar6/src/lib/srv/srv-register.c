@@ -117,7 +117,7 @@ lw6srv_get_backends (int argc, const char *argv[])
  * Return value: srv backend.
  */
 lw6srv_backend_t *
-lw6srv_create_backend (int argc, const char *argv[], char *name)
+lw6srv_create_backend (int argc, const char *argv[], const char *name)
 {
   lw6srv_backend_t *backend = NULL;
 #ifdef LW6_ALLINONE

@@ -98,7 +98,7 @@ lw6snd_get_backends (int argc, const char *argv[])
  * Return value: snd backend.
  */
 lw6snd_backend_t *
-lw6snd_create_backend (int argc, const char *argv[], char *name)
+lw6snd_create_backend (int argc, const char *argv[], const char *name)
 {
   lw6snd_backend_t *backend = NULL;
 #ifdef LW6_ALLINONE

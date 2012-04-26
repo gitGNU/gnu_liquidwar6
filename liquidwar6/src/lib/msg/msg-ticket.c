@@ -44,7 +44,7 @@
  */
 u_int32_t
 lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
-			char *msg)
+			const char *msg)
 {
   u_int32_t calc_sig = 0;
   unsigned char key_buf[3 * sizeof (u_int64_t)];
@@ -82,7 +82,7 @@ lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
  */
 int
 lw6msg_ticket_check_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
-			 char *msg, u_int32_t ticket_sig)
+			 const char *msg, u_int32_t ticket_sig)
 {
   int ret = 0;
   u_int32_t calc_sig = 0;

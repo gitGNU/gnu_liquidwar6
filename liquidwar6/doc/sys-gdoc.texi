@@ -1526,7 +1526,7 @@ provide default values for player names and such things.
 @strong{Return value:}  a newly allocated pointer, must be freed.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_escape_http_uri} (char * @var{src})
+@deftypefun {char *} {lw6sys_escape_http_uri} (const char * @var{src})
 @var{src}:  the string to escape
 
 Transforms a string so that it does not contain any non-valid
@@ -1541,7 +1541,7 @@ and the program will never generate such url when guessing urls.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_escape_html_attribute} (char * @var{src})
+@deftypefun {char *} {lw6sys_escape_html_attribute} (const char * @var{src})
 @var{src}:  the string to escape
 
 Transforms a string so that it can fit in a html field, 
@@ -1551,7 +1551,7 @@ will convert " into @code{quot};.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_escape_sql_value} (char * @var{src})
+@deftypefun {char *} {lw6sys_escape_sql_value} (const char * @var{src})
 @var{src}:  the string to escape
 
 Transforms a string so that it can fit as an SQL parameter,
@@ -2571,7 +2571,7 @@ to handle blinking for instance.
 @strong{Return value:}  0 or 1
 @end deftypefun
 
-@deftypefun {void *} {lw6sys_malloc} (int @var{size}, char * @var{file}, int @var{line})
+@deftypefun {void *} {lw6sys_malloc} (int @var{size}, const char * @var{file}, int @var{line})
 @var{size}:  number of bytes to allocate.
 
 @var{file}:  name of the file calling the function, use @code{__FILE__x_}
@@ -2588,7 +2588,7 @@ by macro expansion.
 @strong{Return value:}  the newly allocated pointer. Data is not initialized.
 @end deftypefun
 
-@deftypefun {void *} {lw6sys_calloc} (int @var{size}, char * @var{file}, int @var{line})
+@deftypefun {void *} {lw6sys_calloc} (int @var{size}, const char * @var{file}, int @var{line})
 @var{size}:  number of bytes to allocate.
 
 @var{file}:  name of the file calling the function, use @code{__FILE__x_}
@@ -2605,7 +2605,7 @@ by macro expansion.
 @strong{Return value:}  the newly allocated pointer. Data is filled with zeros.
 @end deftypefun
 
-@deftypefun {void *} {lw6sys_realloc} (void * @var{ptr}, int @var{size}, char * @var{file}, int @var{line})
+@deftypefun {void *} {lw6sys_realloc} (void * @var{ptr}, int @var{size}, const char * @var{file}, int @var{line})
 @var{ptr}:  the pointer to reallocate.
 
 @var{size}:  number of bytes to allocate.
@@ -2623,7 +2623,7 @@ by macro expansion.
 @strong{Return value:}  the newly allocated pointer.
 @end deftypefun
 
-@deftypefun {void} {lw6sys_free} (void * @var{ptr}, char * @var{file}, int @var{line})
+@deftypefun {void} {lw6sys_free} (void * @var{ptr}, const char * @var{file}, int @var{line})
 @var{ptr}:  the pointer to free.
 
 @var{file}:  name of the file calling the function, use @code{__FILE__x_}
@@ -3787,7 +3787,7 @@ Tests wether a string is NULL or empty (string with 0 chars "").
 @strong{Return value:}  1 if NULL or empty, 0 if contains something.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_str_empty_if_null} (char * @var{str})
+@deftypefun {const char *} {lw6sys_str_empty_if_null} (const char * @var{str})
 @var{str}:  the string to test
 
 Returns always a non-NULL string, if string is NULL, returns ""
@@ -4008,6 +4008,16 @@ Generates a random string, this is usefull for testing.
 Generates a random string, this is usefull for testing.
 This version only generates words with alpha-numerical
 content (letters and digits plus spaces).
+
+@strong{Return value:}  newly allocated string
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_str_random_word} (int @var{len})
+@var{len}:  the length of the random string to generate.
+
+Generates a random string, this is usefull for testing.
+This version generates on single word with alpha-numerical
+content (letters and digits but no spaces).
 
 @strong{Return value:}  newly allocated string
 @end deftypefun
@@ -4268,7 +4278,7 @@ for one day, 12 hours, 34 min, 6 sec or 7:03:45 for 7 hours,
 @strong{Return value:}  newly allocated string
 @end deftypefun
 
-@deftypefun {extern char *} {lw6sys_url_http_from_ip_port} (char * @var{ip}, int @var{port})
+@deftypefun {extern char *} {lw6sys_url_http_from_ip_port} (const char * @var{ip}, int @var{port})
 @var{ip}:  IP address
 
 @var{port}:  IP port
@@ -4281,7 +4291,7 @@ is used to create public_url in net modules.
 @strong{Return value:}  a newly allocated string, NULL on error.
 @end deftypefun
 
-@deftypefun {lw6sys_url_t *} {lw6sys_url_parse} (char * @var{url})
+@deftypefun {lw6sys_url_t *} {lw6sys_url_parse} (const char * @var{url})
 @var{url}:  the URL to parse
 
 Parses a URL, this is not a complete RFC compliant
@@ -4300,7 +4310,7 @@ Frees a URL struct and all its members.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_url_canonize} (char * @var{url})
+@deftypefun {char *} {lw6sys_url_canonize} (const char * @var{url})
 @var{url}:  the url to check & transform
 
 Checks if a given URL is correct and, if it is,
@@ -4313,7 +4323,7 @@ this function should come out exactly the same.
 @strong{Return value:}  a newly allocated string.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_url_is_canonized} (char * @var{url})
+@deftypefun {int} {lw6sys_url_is_canonized} (const char * @var{url})
 @var{url}:  the URL to check
 
 Checks wether an URL is in its canonized form.

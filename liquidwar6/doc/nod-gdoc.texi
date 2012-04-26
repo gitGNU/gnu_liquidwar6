@@ -1,4 +1,4 @@
-@deftypefun {int} {lw6nod_info_community_add} (lw6nod_info_t * @var{info}, u_int64_t @var{id}, char * @var{url})
+@deftypefun {int} {lw6nod_info_community_add} (lw6nod_info_t * @var{info}, u_int64_t @var{id}, const char * @var{url})
 @var{info}:  node info object to modify
 
 @var{id}:  ID of the new member
@@ -10,7 +10,7 @@ Adds a new member to the community.
 @strong{Return value:}  1 if new member could be added, 0 if not.
 @end deftypefun
 
-@deftypefun {int} {lw6nod_info_community_is_member} (lw6nod_info_t * @var{info}, u_int64_t @var{id}, char * @var{url})
+@deftypefun {int} {lw6nod_info_community_is_member} (lw6nod_info_t * @var{info}, u_int64_t @var{id}, const char * @var{url})
 @var{info}:  node info object to test
 
 @var{id}:  ID of the member we want to check
@@ -38,7 +38,7 @@ ourselves and remote peers.
 @strong{Return value:}  1 if ID is already taken, 0 if available.
 @end deftypefun
 
-@deftypefun {int} {lw6nod_info_community_has_url} (lw6nod_info_t * @var{info}, char * @var{url})
+@deftypefun {int} {lw6nod_info_community_has_url} (lw6nod_info_t * @var{info}, const char * @var{url})
 @var{info}:  node info object to test
 
 @var{url}:  URL of the member we want to check
@@ -59,7 +59,7 @@ Removes a community member by ID.
 @strong{Return value:}  1 if successfully removed, 0 if was not present.
 @end deftypefun
 
-@deftypefun {int} {lw6nod_info_community_remove_by_url} (lw6nod_info_t * @var{info}, char * @var{url})
+@deftypefun {int} {lw6nod_info_community_remove_by_url} (lw6nod_info_t * @var{info}, const char * @var{url})
 @var{info}:  node info object to modify
 
 @var{url}:  URL of the member we want to remove
@@ -98,7 +98,7 @@ call to @code{lw6nod_info_dup_dyn} for instance.
 @strong{Return value:}  none
 @end deftypefun
 
-@deftypefun {lw6nod_info_t *} {lw6nod_info_new} (char * @var{program}, char * @var{version}, char * @var{codename}, int @var{stamp}, u_int64_t @var{id}, char * @var{url}, char * @var{title}, char * @var{description}, char * @var{password}, int @var{bench}, int @var{open_relay}, int @var{uptime}, int @var{idle_screenshot_size}, void * @var{idle_screenshot_data})
+@deftypefun {lw6nod_info_t *} {lw6nod_info_new} (const char * @var{program}, const char * @var{version}, const char * @var{codename}, int @var{stamp}, u_int64_t @var{id}, const char * @var{url}, const char * @var{title}, const char * @var{description}, const char * @var{password}, int @var{bench}, int @var{open_relay}, int @var{uptime}, int @var{idle_screenshot_size}, void * @var{idle_screenshot_data})
 @var{program}:  the program (normally it's liquidwar6)
 
 @var{version}:  the version
@@ -172,7 +172,7 @@ not playing.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6nod_info_update} (lw6nod_info_t * @var{info}, u_int64_t @var{community_id}, int @var{round}, char * @var{level}, int @var{required_bench}, int @var{nb_colors}, int @var{max_nb_colors}, int @var{nb_cursors}, int @var{max_nb_cursors}, int @var{nb_nodes}, int @var{max_nb_nodes}, int @var{game_screenshot_size}, void * @var{game_screenshot_data})
+@deftypefun {int} {lw6nod_info_update} (lw6nod_info_t * @var{info}, u_int64_t @var{community_id}, int @var{round}, const char * @var{level}, int @var{required_bench}, int @var{nb_colors}, int @var{max_nb_colors}, int @var{nb_cursors}, int @var{max_nb_cursors}, int @var{nb_nodes}, int @var{max_nb_nodes}, int @var{game_screenshot_size}, void * @var{game_screenshot_data})
 @var{info}:  the node info to update
 
 @var{community_id}:  the id of the community the node belongs to
@@ -228,7 +228,7 @@ always the same node due to multiple detections.
 @strong{Return value:}  an empty hash
 @end deftypefun
 
-@deftypefun {int} {lw6nod_info_add_discovered_node} (lw6nod_info_t * @var{info}, char * @var{public_url})
+@deftypefun {int} {lw6nod_info_add_discovered_node} (lw6nod_info_t * @var{info}, const char * @var{public_url})
 @var{info}:  the node info to update
 
 @var{public_url}:  the address of the discovered node

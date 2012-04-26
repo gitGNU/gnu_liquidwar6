@@ -118,7 +118,7 @@ lw6net_recv_line_tcp (int sock)
  * Return value: non-zero if success
  */
 int
-lw6net_send_line_tcp (int sock, char *line)
+lw6net_send_line_tcp (int sock, const char *line)
 {
   int ret = 0;
   int line_size = 0;
@@ -349,7 +349,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
  * Return value: the number of bytes sent, 0 if failure
  */
 int
-lw6net_send_line_udp (int sock, char *line, char *ip, int port)
+lw6net_send_line_udp (int sock, const char *line, const char *ip, int port)
 {
   int ret = 0;
   int line_size = 0;

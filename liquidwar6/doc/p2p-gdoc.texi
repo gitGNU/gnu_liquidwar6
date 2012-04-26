@@ -245,7 +245,7 @@ nodes, disconnect it from any peer.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6p2p_node_client_join} (lw6p2p_node_t * @var{node}, u_int64_t @var{remote_id}, char * @var{remote_url})
+@deftypefun {int} {lw6p2p_node_client_join} (lw6p2p_node_t * @var{node}, u_int64_t @var{remote_id}, const char * @var{remote_url})
 @var{node}:  node to use
 
 @var{remote_id}:  id of remote node to join
@@ -269,7 +269,7 @@ affect out-of-band connections, only real game-related links.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6p2p_node_update_info} (lw6p2p_node_t * @var{node}, int @var{round}, char * @var{level}, int @var{nb_colors}, int @var{max_nb_colors}, int @var{nb_cursors}, int @var{max_nb_cursors}, int @var{nb_nodes}, int @var{max_nb_nodes}, int @var{game_screenshot_size}, void * @var{game_screenshot_data})
+@deftypefun {int} {lw6p2p_node_update_info} (lw6p2p_node_t * @var{node}, int @var{round}, const char * @var{level}, int @var{nb_colors}, int @var{max_nb_colors}, int @var{nb_cursors}, int @var{max_nb_cursors}, int @var{nb_nodes}, int @var{max_nb_nodes}, int @var{game_screenshot_size}, void * @var{game_screenshot_data})
 @var{node}:  node to update
 
 @var{round}:  the current round (can have an offset with real round number)
@@ -323,7 +323,7 @@ do something whenever it's called and returns 1.
 @strong{Return value:}  1 if DUMP must be sent.
 @end deftypefun
 
-@deftypefun {int} {lw6p2p_node_put_local_msg} (lw6p2p_node_t * @var{node}, char * @var{msg})
+@deftypefun {int} {lw6p2p_node_put_local_msg} (lw6p2p_node_t * @var{node}, const char * @var{msg})
 @var{node}:  node object to use
 
 @var{msg}:  message

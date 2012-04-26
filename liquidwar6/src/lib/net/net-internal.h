@@ -103,7 +103,7 @@ extern _lw6net_context_t *_lw6net_global_context;
  * In address.c
  */
 extern char *_lw6net_inet_ntoa (struct in_addr in);
-extern int _lw6net_inet_aton (struct in_addr *in, char *ip);
+extern int _lw6net_inet_aton (struct in_addr *in, const char *ip);
 
 /*
  * In const.c
@@ -137,13 +137,17 @@ extern char *_lw6net_wsa_str (int wsa_int);
 extern int _lw6net_log_init (int argc, const char *argv[],
 			     _lw6net_log_t * log, int net_log);
 extern void _lw6net_log_quit (_lw6net_log_t * log);
-extern int _lw6net_log_tcp_recv (_lw6net_log_t * log, char *buf, int len);
-extern int _lw6net_log_tcp_send (_lw6net_log_t * log, char *buf, int len);
-extern int _lw6net_log_udp_recv (_lw6net_log_t * log, char *buf, int len);
-extern int _lw6net_log_udp_send (_lw6net_log_t * log, char *buf, int len);
+extern int _lw6net_log_tcp_recv (_lw6net_log_t * log, const char *buf,
+				 int len);
+extern int _lw6net_log_tcp_send (_lw6net_log_t * log, const char *buf,
+				 int len);
+extern int _lw6net_log_udp_recv (_lw6net_log_t * log, const char *buf,
+				 int len);
+extern int _lw6net_log_udp_send (_lw6net_log_t * log, const char *buf,
+				 int len);
 
 /* net-socket.c */
-extern int _lw6net_socket_bind (char *ip, int port, int protocol);
+extern int _lw6net_socket_bind (const char *ip, int port, int protocol);
 
 /* net-tcp.c */
 extern void _lw6net_delay_msec_to_timeval (struct timeval *tv,

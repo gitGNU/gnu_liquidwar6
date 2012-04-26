@@ -29,7 +29,8 @@
 
 _lw6p2p_cli_oob_callback_data_t *
 _lw6p2p_cli_oob_callback_data_new (lw6cli_backend_t * backend,
-				   _lw6p2p_node_t * node, char *public_url)
+				   _lw6p2p_node_t * node,
+				   const char *public_url)
 {
   _lw6p2p_cli_oob_callback_data_t *ret = NULL;
 
@@ -110,8 +111,9 @@ _lw6p2p_cli_oob_callback (void *callback_data)
 }
 
 int
-_lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
-				      int port, int ping_delay_msec,
+_lw6p2p_cli_oob_verify_callback_func (void *func_data, const char *url,
+				      const char *ip, int port,
+				      int ping_delay_msec,
 				      lw6sys_assoc_t * assoc)
 {
   int ret = 0;

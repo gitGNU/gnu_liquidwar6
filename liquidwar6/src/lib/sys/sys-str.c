@@ -37,6 +37,7 @@
 
 #define _STR_BIN_TEXT_OTHER ".,:;!?()'\"-+*/=_ \t\r\n"
 #define _STR_BIN_TEXT_MIN_PERCENT 75
+#define _STR_RANDOM_WORD "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 #define _STR_RANDOM_WORDS "     0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
 typedef struct _join_callback_data_s
@@ -323,8 +324,8 @@ lw6sys_str_is_null_or_empty (const char *str)
  *
  * Return value: source string or "" if it was NULL
  */
-char *
-lw6sys_str_empty_if_null (char *str)
+const char *
+lw6sys_str_empty_if_null (const char *str)
 {
   return str ? str : LW6SYS_STR_EMPTY;
 }
@@ -1000,6 +1001,34 @@ lw6sys_str_random_words (int len)
   for (i = 0; i < len; ++i)
     {
       ret[i] = _STR_RANDOM_WORDS[lw6sys_random (cat_len)];
+    }
+  ret[len] = 0;
+
+  return (char *) ret;
+}
+
+/**
+ * lw6sys_str_random_word
+ *
+ * @len: the length of the random string to generate.
+ *
+ * Generates a random string, this is usefull for testing.
+ * This version generates on single word with alpha-numerical
+ * content (letters and digits but no spaces).
+ *
+ * Return value: newly allocated string
+ */
+char *
+lw6sys_str_random_word (int len)
+{
+  unsigned char *ret = NULL;
+  int i = 0;
+  int cat_len = strlen (_STR_RANDOM_WORD);
+
+  ret = (unsigned char *) LW6SYS_MALLOC (len + 1);
+  for (i = 0; i < len; ++i)
+    {
+      ret[i] = _STR_RANDOM_WORD[lw6sys_random (cat_len)];
     }
   ret[len] = 0;
 

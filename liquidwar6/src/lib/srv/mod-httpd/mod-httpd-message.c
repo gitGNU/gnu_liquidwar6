@@ -32,7 +32,7 @@ _mod_httpd_send (_mod_httpd_context_t * httpd_context,
 		 lw6cnx_connection_t * connection,
 		 u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
 		 u_int64_t logical_from_id, u_int64_t logical_to_id,
-		 char *message)
+		 const char *message)
 {
   int ret = 0;
   _mod_httpd_specific_data_t *specific_data =

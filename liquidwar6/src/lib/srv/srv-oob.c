@@ -43,7 +43,8 @@
  * Return value: new object
  */
 lw6srv_oob_t *
-lw6srv_oob_new (char *remote_ip, int remote_port, int sock, char *first_line)
+lw6srv_oob_new (const char *remote_ip, int remote_port, int sock,
+		const char *first_line)
 {
   lw6srv_oob_t *oob = NULL;
 

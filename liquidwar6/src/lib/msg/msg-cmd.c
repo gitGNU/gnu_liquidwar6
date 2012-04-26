@@ -27,7 +27,7 @@
 #include "msg.h"
 
 char *
-_generate_info (char *cmd, lw6nod_info_t * info)
+_generate_info (const char *cmd, lw6nod_info_t * info)
 {
   char *ret = NULL;
   char sep = LW6MSG_TELNET_SEP;
@@ -241,7 +241,8 @@ lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_data (int serial, int i, int n, int round, char *ker_msg)
+lw6msg_cmd_generate_data (int serial, int i, int n, int round,
+			  const char *ker_msg)
 {
   char *ret = NULL;
 
@@ -251,11 +252,11 @@ lw6msg_cmd_generate_data (int serial, int i, int n, int round, char *ker_msg)
 }
 
 static int
-_analyse_info (lw6nod_info_t ** info, char **next, char *msg)
+_analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
 {
   int ret = 0;
   int still_ok = 1;
-  char *pos = NULL;
+  const char *pos = NULL;
   char *seek = NULL;
   int tmp_int = 0;
   lw6msg_word_t program;
@@ -643,7 +644,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
 	      (*info)->const_info.has_password = has_password;
 	      if (next)
 		{
-		  (*next) = pos;
+		  (*next) = (char *) pos;
 		}
 	      ret = 1;
 	    }
@@ -668,7 +669,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, char *msg)
+lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, const char *msg)
 {
   int ret = 0;
 
@@ -701,10 +702,10 @@ lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, char *msg)
  */
 int
 lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket,
-			   char *msg)
+			   const char *msg)
 {
   int ret = 0;
-  char *pos = NULL;
+  const char *pos = NULL;
   char *seek = NULL;
 
   if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_TICKET))
@@ -745,10 +746,11 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, char *msg)
+lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key,
+			const char *msg)
 {
   int ret = 0;
-  char *pos = NULL;
+  const char *pos = NULL;
   char *seek = NULL;
 
   if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_FOO))
@@ -788,10 +790,11 @@ lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, char *msg)
+lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key,
+			const char *msg)
 {
   int ret = 0;
-  char *pos = NULL;
+  const char *pos = NULL;
   char *seek = NULL;
 
   if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_BAR))
@@ -831,10 +834,11 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_join (lw6nod_info_t ** info, int64_t * seq, char *msg)
+lw6msg_cmd_analyse_join (lw6nod_info_t ** info, int64_t * seq,
+			 const char *msg)
 {
   int ret = 0;
-  char *pos = NULL;
+  const char *pos = NULL;
   char *seek = NULL;
 
   if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_JOIN))
@@ -873,7 +877,7 @@ lw6msg_cmd_analyse_join (lw6nod_info_t ** info, int64_t * seq, char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, char *msg)
+lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
 {
   int ret = 0;
 
@@ -909,11 +913,11 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, char *msg)
  */
 int
 lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
-			 char **ker_msg, char *msg)
+			 char **ker_msg, const char *msg)
 {
   int ret = 0;
   char *seek = NULL;
-  char *pos = NULL;
+  const char *pos = NULL;
   int read_serial = 0;
   int read_i = 0;
   int read_n = 0;
@@ -926,7 +930,8 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
   (*n) = 0;
   (*ker_msg) = NULL;
 
-  seek = pos = msg;
+  pos = msg;
+  seek = (char *) pos;
 
   if (lw6msg_word_first_int_32_gt0 (&read_serial, &seek, pos))
     {
@@ -991,7 +996,7 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
  * Return value: the from url, if found (dynamically allocated)
  */
 char *
-lw6msg_cmd_guess_from_url (char *msg)
+lw6msg_cmd_guess_from_url (const char *msg)
 {
   char *ret = NULL;
   lw6nod_info_t *node_info = NULL;
@@ -1001,7 +1006,7 @@ lw6msg_cmd_guess_from_url (char *msg)
     LW6MSG_CMD_GOODBYE, NULL
   };
   char *seek = NULL;
-  char *pos = NULL;
+  const char *pos = NULL;
   char **command = NULL;
 
   for (command = msg_table; (*command) != NULL && !ret; ++command)

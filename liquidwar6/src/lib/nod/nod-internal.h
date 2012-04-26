@@ -34,15 +34,18 @@ extern lw6nod_ref_info_t *_lw6nod_node_info_community_get_by_id (lw6nod_info_t
 								 id);
 extern lw6nod_ref_info_t
   * _lw6nod_node_info_community_get_by_url (lw6nod_info_t * node_info,
-					    char *url);
+					    const char *url);
 
 /* nod-constinfo.c */
 extern int _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
-				    char *program, char *version,
-				    char *codename, int stamp, u_int64_t id,
-				    char *url, char *title, char *description,
-				    char *password, int bench, int open_relay,
-				    int uptime, int idle_screenshot_size,
+				    const char *program, const char *version,
+				    const char *codename, int stamp,
+				    u_int64_t id, const char *url,
+				    const char *title,
+				    const char *description,
+				    const char *password, int bench,
+				    int open_relay, int uptime,
+				    int idle_screenshot_size,
 				    void *idle_screenshot_data);
 extern void _lw6nod_const_info_reset (lw6nod_const_info_t * const_info);
 
@@ -50,7 +53,7 @@ extern void _lw6nod_const_info_reset (lw6nod_const_info_t * const_info);
 extern void _lw6nod_dyn_info_reset (lw6nod_dyn_info_t * dyn_info);
 extern int _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info,
 				    u_int64_t community_id, int round,
-				    char *level, int required_bench,
+				    const char *level, int required_bench,
 				    int nb_colors, int max_nb_colors,
 				    int nb_cursors, int max_nb_cursors,
 				    int nb_nodes, int max_nb_nodes,
@@ -60,6 +63,6 @@ extern int _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info,
 /* nod-refinfo.c */
 extern void _lw6nod_ref_info_reset (lw6nod_ref_info_t * ref_info);
 extern int _lw6nod_ref_info_update (lw6nod_ref_info_t * ref_info,
-				    u_int64_t id, char *url);
+				    u_int64_t id, const char *url);
 
 #endif

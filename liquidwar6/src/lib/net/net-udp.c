@@ -90,7 +90,7 @@ lw6net_udp_client ()
  * Return value: socket (>=0) on success, else -1
  */
 int
-lw6net_udp_server (char *ip, int port)
+lw6net_udp_server (const char *ip, int port)
 {
   int sock = -1;
   int enable = 1;
@@ -137,7 +137,7 @@ lw6net_udp_server (char *ip, int port)
  * Return value: number of bytes sent
  */
 int
-lw6net_udp_send (int sock, char *buf, int len, char *ip, int port)
+lw6net_udp_send (int sock, const char *buf, int len, const char *ip, int port)
 {
   int send_size = 0;
   struct sockaddr_in name;

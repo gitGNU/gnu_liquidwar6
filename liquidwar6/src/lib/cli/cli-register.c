@@ -121,7 +121,7 @@ lw6cli_get_backends (int argc, const char *argv[])
  * Return value: cli backend.
  */
 lw6cli_backend_t *
-lw6cli_create_backend (int argc, const char *argv[], char *name)
+lw6cli_create_backend (int argc, const char *argv[], const char *name)
 {
   lw6cli_backend_t *backend = NULL;
 

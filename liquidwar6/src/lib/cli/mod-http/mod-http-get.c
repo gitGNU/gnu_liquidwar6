@@ -73,7 +73,8 @@ _print_error (char *function, CURLcode res)
 }
 
 char *
-_mod_http_get (_mod_http_context_t * http_context, char *url, char *password)
+_mod_http_get (_mod_http_context_t * http_context, const char *url,
+	       const char *password)
 {
   char *ret = NULL;
   CURL *curl_handle;

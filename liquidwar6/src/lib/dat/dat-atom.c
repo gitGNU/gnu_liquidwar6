@@ -43,7 +43,7 @@ _lw6dat_atom_clear (_lw6dat_atom_t * atom)
 }
 
 int
-_lw6dat_atom_set_full_str (_lw6dat_atom_t * atom, char *full_str)
+_lw6dat_atom_set_full_str (_lw6dat_atom_t * atom, const char *full_str)
 {
   int ret = 0;
   int len = 0;
@@ -117,10 +117,10 @@ _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial, int *order_i,
 					    u_int64_t * logical_from,
 					    int *seq_from_cmd_str_offset,
 					    int *cmd_str_offset,
-					    char *full_str)
+					    const char *full_str)
 {
   int ret = 0;
-  char *next = full_str;
+  char *next = (char *) full_str;
 
   if (lw6msg_word_first_int_32_gt0 (serial, &next, next))
     {

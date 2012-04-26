@@ -102,7 +102,7 @@ _lw6nod_dyn_info_reset (lw6nod_dyn_info_t * dyn_info)
 
 int
 _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
-			 int round, char *level, int required_bench,
+			 int round, const char *level, int required_bench,
 			 int nb_colors, int max_nb_colors, int nb_cursors,
 			 int max_nb_cursors, int nb_nodes, int max_nb_nodes,
 			 int game_screenshot_size, void *game_screenshot_data)

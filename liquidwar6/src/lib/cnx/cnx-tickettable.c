@@ -132,7 +132,7 @@ lw6cnx_ticket_table_clear (lw6cnx_ticket_table_t * ticket_table)
  */
 u_int64_t
 lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table,
-			      char *peer_id)
+			      const char *peer_id)
 {
   u_int64_t recv_ticket = 0;
   u_int64_t *recv_ticket_ptr = NULL;
@@ -181,7 +181,7 @@ lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table,
  */
 void
 lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table,
-			      char *peer_id)
+			      const char *peer_id)
 {
   if (lw6sys_spinlock_lock (ticket_table->recv_ack_spinlock))
     {
@@ -205,7 +205,7 @@ lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table,
  */
 int
 lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table,
-					char *peer_id)
+					const char *peer_id)
 {
   int ret = 0;
 
@@ -232,7 +232,7 @@ lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table,
  */
 u_int64_t
 lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t * ticket_table,
-			      char *peer_id)
+			      const char *peer_id)
 {
   u_int64_t send_ticket = 0;
   u_int64_t *send_ticket_ptr = NULL;
@@ -271,7 +271,7 @@ lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t * ticket_table,
  */
 void
 lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t * ticket_table,
-			      char *peer_id, u_int64_t send_ticket)
+			      const char *peer_id, u_int64_t send_ticket)
 {
   u_int64_t *send_ticket_ptr = NULL;
 

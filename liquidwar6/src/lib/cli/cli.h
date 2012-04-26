@@ -34,9 +34,9 @@
 
 #define LW6CLI_CONTENT_BUFFER_SIZE LW6NET_PPPOE_MTU
 
-typedef int (*lw6cli_verify_callback_func_t) (void *func_data, char *url,
-					      char *ip, int port,
-					      int ping_delay_msec,
+typedef int (*lw6cli_verify_callback_func_t) (void *func_data,
+					      const char *url, const char *ip,
+					      int port, int ping_delay_msec,
 					      lw6sys_assoc_t * assoc);
 
 /**
@@ -129,9 +129,9 @@ typedef struct lw6cli_backend_s
   int (*process_oob) (void *cli_context, lw6nod_info_t * node_info,
 		      lw6cli_oob_data_t * oob_data);
   /// Pointer on lw6cli_open callback code.
-  lw6cnx_connection_t *(*open) (void *cli_context, char *local_url,
-				char *remote_url, char *remote_ip,
-				int remote_port, char *password,
+  lw6cnx_connection_t *(*open) (void *cli_context, const char *local_url,
+				const char *remote_url, const char *remote_ip,
+				int remote_port, const char *password,
 				u_int64_t local_id, u_int64_t remote_id,
 				int dns_ok,
 				int network_reliability,
@@ -144,7 +144,7 @@ typedef struct lw6cli_backend_s
 	       u_int32_t physical_ticket_sig,
 	       u_int32_t logical_ticket_sig,
 	       u_int64_t logical_from_id,
-	       u_int64_t logical_to_id, char *message);
+	       u_int64_t logical_to_id, const char *message);
   /// Pointer on lw6cli_poll callback code.
   void (*poll) (void *cli_context, lw6cnx_connection_t * connection);
   /// Pointer on lw6cli_repr callback code.
@@ -159,11 +159,11 @@ extern int lw6cli_process_oob (lw6cli_backend_t * backend,
 			       lw6nod_info_t * node_info,
 			       lw6cli_oob_data_t * oob_data);
 extern lw6cnx_connection_t *lw6cli_open (lw6cli_backend_t * backend,
-					 char *local_url,
-					 char *remote_url,
-					 char *remote_ip,
+					 const char *local_url,
+					 const char *remote_url,
+					 const char *remote_ip,
 					 int remote_port,
-					 char *password,
+					 const char *password,
 					 u_int64_t local_id,
 					 u_int64_t remote_id,
 					 int dns_ok,
@@ -178,14 +178,14 @@ extern int lw6cli_send (lw6cli_backend_t * backend,
 			u_int32_t physical_ticket_sig,
 			u_int32_t logical_ticket_sig,
 			u_int64_t logical_from_id, u_int64_t logical_to_id,
-			char *message);
+			const char *message);
 extern void lw6cli_poll (lw6cli_backend_t * backend,
 			 lw6cnx_connection_t * connection);
 extern char *lw6cli_repr (lw6cli_backend_t * backend,
 			  lw6cnx_connection_t * connection);
 
 /* cli-oob.c */
-extern lw6cli_oob_t *lw6cli_oob_new (char *public_url,
+extern lw6cli_oob_t *lw6cli_oob_new (const char *public_url,
 				     lw6cli_verify_callback_func_t
 				     verify_callback_func,
 				     void *verify_callback_data);
@@ -195,7 +195,7 @@ extern void lw6cli_oob_free (lw6cli_oob_t * oob);
 extern char *lw6cli_default_backends ();
 extern lw6sys_assoc_t *lw6cli_get_backends (int argc, const char *argv[]);
 extern lw6cli_backend_t *lw6cli_create_backend (int argc, const char *argv[],
-						char *name);
+						const char *name);
 extern void lw6cli_destroy_backend (lw6cli_backend_t * backend);
 
 /* cli-test.c */

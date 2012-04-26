@@ -1,4 +1,4 @@
-@deftypefun {char *} {lw6glb_base64_encode_bin} (char * @var{buf}, int @var{size})
+@deftypefun {char *} {lw6glb_base64_encode_bin} (const char * @var{buf}, int @var{size})
 @var{buf}:  the data to encode
 
 @var{size}:  the size of data to encode
@@ -9,7 +9,7 @@ automatically.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6glb_base64_decode_bin} (int * @var{size}, char * @var{base64_str})
+@deftypefun {char *} {lw6glb_base64_decode_bin} (int * @var{size}, const char * @var{base64_str})
 @var{size}:  the size of the decoded data
 
 @var{base64_str}:  the string to decode
@@ -21,7 +21,7 @@ strings, other data might not be handled correctly.
 @strong{Return value:}  newly allocated pointer, NULL on error.
 @end deftypefun
 
-@deftypefun {char *} {lw6glb_base64_encode_str} (char * @var{str})
+@deftypefun {char *} {lw6glb_base64_encode_str} (const char * @var{str})
 @var{str}:  the string to encode
 
 Encodes a string into base64.
@@ -29,7 +29,7 @@ Encodes a string into base64.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6glb_base64_decode_str} (char * @var{str})
+@deftypefun {char *} {lw6glb_base64_decode_str} (const char * @var{str})
 @var{str}:  the string to decode
 
 Decodes a string from base64.
@@ -37,7 +37,7 @@ Decodes a string from base64.
 @strong{Return value:}  newly allocated string, NULL on error.
 @end deftypefun
 
-@deftypefun {char *} {lw6glb_base64_encode_bin_prefix} (char * @var{buf}, int @var{size}, char * @var{prefix})
+@deftypefun {char *} {lw6glb_base64_encode_bin_prefix} (const char * @var{buf}, int @var{size}, const char * @var{prefix})
 @var{buf}:  the data to encode
 
 @var{size}:  the size of data to encode
@@ -51,7 +51,7 @@ be prefixed with @code{prefix}.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6glb_base64_decode_bin_prefix} (int * @var{size}, char * @var{base64_str}, char * @var{prefix})
+@deftypefun {char *} {lw6glb_base64_decode_bin_prefix} (int * @var{size}, const char * @var{base64_str}, const char * @var{prefix})
 @var{size}:  the size of the decoded data
 
 @var{base64_str}:  the string to decode
@@ -67,7 +67,7 @@ to start with prefix @code{prefix} and then contain base64 data.
 @strong{Return value:}  newly allocated pointer, NULL on error.
 @end deftypefun
 
-@deftypefun {char *} {lw6glb_base64_encode_str_prefix} (char * @var{str}, char * @var{prefix})
+@deftypefun {char *} {lw6glb_base64_encode_str_prefix} (const char * @var{str}, const char * @var{prefix})
 @var{str}:  the string to encode
 
 @var{prefix}:  a prefix string
@@ -78,7 +78,7 @@ be prefixed with @code{prefix}.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6glb_base64_decode_str_prefix} (char * @var{str}, char * @var{prefix})
+@deftypefun {char *} {lw6glb_base64_decode_str_prefix} (const char * @var{str}, const char * @var{prefix})
 @var{str}:  the string to decode
 
 @var{prefix}:  a prefix string
@@ -89,7 +89,7 @@ to start with prefix @code{prefix} and then contain base64 data.
 @strong{Return value:}  newly allocated string, NULL on error.
 @end deftypefun
 
-@deftypefun {char *} {lw6glb_sha1_hmac_80_bin} (char * @var{key}, int @var{key_size}, char * @var{buf}, int @var{buf_size})
+@deftypefun {char *} {lw6glb_sha1_hmac_80_bin} (const char * @var{key}, int @var{key_size}, const char * @var{buf}, int @var{buf_size})
 @var{key}:  the key buffer
 @code{key_size}
 
@@ -102,7 +102,7 @@ Calculates an SHA-1 sum of buffer, using key to seed calc.
 @strong{Return value:}  newly allocated string, containing 20 chars checksum.
 @end deftypefun
 
-@deftypefun {char *} {lw6glb_sha1_hmac_80_str} (char * @var{key}, char * @var{str})
+@deftypefun {char *} {lw6glb_sha1_hmac_80_str} (const char * @var{key}, const char * @var{str})
 @var{key}:  a key (string)
 
 @var{str}:  the string to calculate the checksum for 
@@ -112,7 +112,7 @@ Calculates an SHA-1 sum of a string, using key to seed calc.
 @strong{Return value:}  newly allocated string, containing 20 chars checksum.
 @end deftypefun
 
-@deftypefun {u_int32_t} {lw6glb_sha1_hmac_32_bin} (char * @var{key}, int @var{key_size}, char * @var{buf}, int @var{buf_size})
+@deftypefun {u_int32_t} {lw6glb_sha1_hmac_32_bin} (const char * @var{key}, int @var{key_size}, const char * @var{buf}, int @var{buf_size})
 @var{key}:  the key buffer
 @code{key_size}
 
@@ -125,7 +125,7 @@ Calculates an SHA-1 sum of buffer, using key to seed calc.
 @strong{Return value:}  a 32-bit unsigned integer
 @end deftypefun
 
-@deftypefun {u_int32_t} {lw6glb_sha1_hmac_32_str} (char * @var{key}, char * @var{str})
+@deftypefun {u_int32_t} {lw6glb_sha1_hmac_32_str} (const char * @var{key}, const char * @var{str})
 @var{key}:  a key (string)
 
 @var{str}:  the string to calculate the checksum for 

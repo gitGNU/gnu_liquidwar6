@@ -46,19 +46,19 @@
  * Return value: newly allocated string.
  */
 char *
-lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
-			  char *password_checksum,
+lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
+			  const char *password_checksum,
 			  u_int32_t physical_ticket_sig,
 			  u_int32_t logical_ticket_sig,
 			  u_int64_t physical_from_id,
 			  u_int64_t physical_to_id, u_int64_t logical_from_id,
-			  u_int64_t logical_to_id, char *msg)
+			  u_int64_t logical_to_id, const char *msg)
 {
   char *ret = NULL;
   char sep = '\0';
   char *lw6 = NULL;
   int need_base64 = 0;
-  char *body = NULL;
+  const char *body = NULL;
   char *base64_str = NULL;
   char *physical_ticket_sig_str = NULL;
   char *logical_ticket_sig_str = NULL;
@@ -202,8 +202,8 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
  * Return value: newly allocated string.
  */
 int
-lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
-			 char *local_url, char *password,
+lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
+			 const char *local_url, const char *password,
 			 u_int64_t expected_physical_from_id,
 			 u_int64_t expected_physical_to_id, char **msg,
 			 u_int32_t * physical_ticket_sig,
@@ -216,7 +216,7 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
   int ret = 0;
   char *lw6 = NULL;
   int need_base64 = 0;
-  char *pos = NULL;
+  const char *pos = NULL;
   char *seek = NULL;
   char *version = NULL;
   lw6msg_word_t received_lw6;
@@ -281,7 +281,8 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
       (*physical_from_url) = NULL;
     }
 
-  pos = seek = envelope;
+  pos = envelope;
+  seek = (char *) pos;
   if (lw6msg_word_first_x (&received_lw6, &seek, pos))
     {
       if (lw6sys_str_is_same (received_lw6.buf, lw6))

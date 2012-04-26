@@ -1172,15 +1172,16 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
 }
 
 int
-_lw6p2p_node_update_peer (_lw6p2p_node_t * node, char *version,
-			  char *codename, int stamp, char *id, char *url,
-			  char *title, char *description, int has_password,
+_lw6p2p_node_update_peer (_lw6p2p_node_t * node, const char *version,
+			  const char *codename, int stamp, const char *id,
+			  const char *url, const char *title,
+			  const char *description, int has_password,
 			  int bench, int open_relay, int creation_timestamp,
-			  char *community_id, int round, char *level,
-			  int required_bench, int nb_colors,
-			  int max_nb_colors, int nb_cursors,
+			  const char *community_id, int round,
+			  const char *level, int required_bench,
+			  int nb_colors, int max_nb_colors, int nb_cursors,
 			  int max_nb_cursors, int nb_nodes, int max_nb_nodes,
-			  char *ip, int port, int last_ping_timestamp,
+			  const char *ip, int port, int last_ping_timestamp,
 			  int ping_delay_msec)
 {
   int ret = 1;
@@ -1312,8 +1313,9 @@ _lw6p2p_node_find_tentacle (_lw6p2p_node_t * node, u_int64_t remote_id)
 }
 
 int
-_lw6p2p_node_register_tentacle (_lw6p2p_node_t * node, char *remote_url,
-				char *real_remote_ip, u_int64_t remote_id)
+_lw6p2p_node_register_tentacle (_lw6p2p_node_t * node, const char *remote_url,
+				const char *real_remote_ip,
+				u_int64_t remote_id)
 {
   int ret = 0;
   int i = 0;
@@ -1544,7 +1546,7 @@ lw6p2p_node_server_start (lw6p2p_node_t * node, int64_t seq_0)
 
 int
 _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
-			  char *remote_url)
+			  const char *remote_url)
 {
   int ret = 1;
   int i;
@@ -1694,7 +1696,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
  */
 int
 lw6p2p_node_client_join (lw6p2p_node_t * node, u_int64_t remote_id,
-			 char *remote_url)
+			 const char *remote_url)
 {
   return _lw6p2p_node_client_join ((_lw6p2p_node_t *) node, remote_id,
 				   remote_url);
@@ -1736,7 +1738,7 @@ lw6p2p_node_disconnect (lw6p2p_node_t * node)
 
 int
 _lw6p2p_node_update_info (_lw6p2p_node_t * node,
-			  int round, char *level,
+			  int round, const char *level,
 			  int nb_colors, int max_nb_colors,
 			  int nb_cursors, int max_nb_cursors,
 			  int nb_nodes, int max_nb_nodes,
@@ -1778,7 +1780,7 @@ _lw6p2p_node_update_info (_lw6p2p_node_t * node,
  */
 int
 lw6p2p_node_update_info (lw6p2p_node_t * node,
-			 int round, char *level,
+			 int round, const char *level,
 			 int nb_colors, int max_nb_colors,
 			 int nb_cursors, int max_nb_cursors,
 			 int nb_nodes, int max_nb_nodes,
@@ -1853,7 +1855,7 @@ lw6p2p_node_is_dump_needed (lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, char *msg)
+_lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg)
 {
   int ret = 0;
 
@@ -1877,7 +1879,7 @@ _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, char *msg)
  * Return value: 1 on success, 0 on error
  */
 int
-lw6p2p_node_put_local_msg (lw6p2p_node_t * node, char *msg)
+lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg)
 {
   return _lw6p2p_node_put_local_msg ((_lw6p2p_node_t *) node, msg);
 }

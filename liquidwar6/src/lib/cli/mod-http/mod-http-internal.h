@@ -85,8 +85,8 @@ extern _mod_http_context_t *_mod_http_init (int argc, const char *argv[]);
 extern void _mod_http_quit (_mod_http_context_t * http_context);
 
 /* http-get.c */
-extern char *_mod_http_get (_mod_http_context_t * http_context, char *url,
-			    char *password);
+extern char *_mod_http_get (_mod_http_context_t * http_context,
+			    const char *url, const char *password);
 
 /* http-querythread.c */
 extern void _mod_http_query_thread_func (void *callback_data);
@@ -96,15 +96,18 @@ extern int _mod_http_query_thread_filter (void *func_data, void *data);
 extern int
 _mod_http_query_thread_process_response_line (_mod_http_query_thread_data_t *
 					      query_thread_data,
-					      char *response_line);
+					      const char *response_line);
 
 /*
  * In state.c
  */
 extern lw6cnx_connection_t *_mod_http_open (_mod_http_context_t *
-					    http_context, char *local_url,
-					    char *remote_url, char *remote_ip,
-					    int remote_port, char *password,
+					    http_context,
+					    const char *local_url,
+					    const char *remote_url,
+					    const char *remote_ip,
+					    int remote_port,
+					    const char *password,
 					    u_int64_t local_id,
 					    u_int64_t remote_id, int dns_ok,
 					    int network_reliability,
@@ -124,7 +127,7 @@ extern int _mod_http_send (_mod_http_context_t * http_context,
 			   u_int32_t physical_ticket_sig,
 			   u_int32_t logical_ticket_sig,
 			   u_int64_t logical_from_id, u_int64_t logical_to_id,
-			   char *message);
+			   const char *message);
 extern void _mod_http_poll (_mod_http_context_t * http_context,
 			    lw6cnx_connection_t * connection);
 

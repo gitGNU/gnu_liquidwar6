@@ -38,7 +38,7 @@
  * Return value: new listener object.
  */
 lw6srv_listener_t *
-lw6srv_start (char *ip, int port)
+lw6srv_start (const char *ip, int port)
 {
   lw6srv_listener_t *listener = NULL;
 

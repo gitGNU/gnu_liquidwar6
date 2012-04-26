@@ -30,7 +30,7 @@
 void
 _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		      lw6cnx_connection_t * cnx,
-		      u_int64_t logical_from_id, char *message)
+		      u_int64_t logical_from_id, const char *message)
 {
   lw6nod_info_t *remote_node_info = NULL;
   u_int64_t ticket = 0;
@@ -418,7 +418,7 @@ _lw6p2p_recv_forward (_lw6p2p_node_t * node,
 		      lw6cnx_connection_t * cnx,
 		      u_int32_t logical_ticket_sig,
 		      u_int64_t logical_from_id, u_int64_t logical_to_id,
-		      char *message)
+		      const char *message)
 {
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("forward \"%s\""), message);
   // todo, forwarding
@@ -426,8 +426,8 @@ _lw6p2p_recv_forward (_lw6p2p_node_t * node,
 
 static int
 _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
-	    u_int64_t local_id_int, char *remote_id_str, char *message,
-	    u_int32_t ticket_sig)
+	    u_int64_t local_id_int, const char *remote_id_str,
+	    const char *message, u_int32_t ticket_sig)
 {
   int ret = 0;
   u_int64_t recv_ticket = 0;
@@ -487,7 +487,7 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 		       u_int32_t physical_ticket_sig,
 		       u_int32_t logical_ticket_sig,
 		       u_int64_t logical_from_id, u_int64_t logical_to_id,
-		       char *message)
+		       const char *message)
 {
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) recv_callback_data;
   lw6cnx_connection_t *cnx = (lw6cnx_connection_t *) connection;

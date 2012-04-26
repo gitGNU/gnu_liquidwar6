@@ -149,7 +149,7 @@ load and initialize them afterwards.
 @strong{Return value:}  hash containing id/name pairs.
 @end deftypefun
 
-@deftypefun {lw6snd_backend_t *} {lw6snd_create_backend} (int @var{argc}, const char * [] @var{argv}, char * @var{name})
+@deftypefun {lw6snd_backend_t *} {lw6snd_create_backend} (int @var{argc}, const char * [] @var{argv}, const char * @var{name})
 @var{argc}:  argc, as passed to @code{main}
 
 @var{argv}:  argv, as passed to @code{main}

@@ -48,7 +48,7 @@ _lw6net_inet_ntoa (struct in_addr in)
  * inet_aton on UNIX and inet_addr on MS-Windows
  */
 int
-_lw6net_inet_aton (struct in_addr *in, char *ip)
+_lw6net_inet_aton (struct in_addr *in, const char *ip)
 {
   int ret = 0;
 

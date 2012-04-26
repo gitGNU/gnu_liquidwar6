@@ -60,7 +60,7 @@ Generate a GOODBYE command.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6msg_cmd_generate_data} (int @var{serial}, int @var{i}, int @var{n}, int @var{round}, char * @var{ker_msg})
+@deftypefun {char *} {lw6msg_cmd_generate_data} (int @var{serial}, int @var{i}, int @var{n}, int @var{round}, const char * @var{ker_msg})
 @var{serial}:  the message serial number
 
 @var{i}:  the message index in the group
@@ -78,7 +78,7 @@ only in long multipart messages.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_cmd_analyse_hello} (lw6nod_info_t ** @var{info}, char * @var{msg})
+@deftypefun {int} {lw6msg_cmd_analyse_hello} (lw6nod_info_t ** @var{info}, const char * @var{msg})
 @var{info}:  will contain (remote) node info on success
 
 @var{msg}:  the message to analyse
@@ -88,7 +88,7 @@ Analyzes a HELLO message.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {int} {lw6msg_cmd_analyse_ticket} (lw6nod_info_t ** @var{info}, u_int64_t * @var{ticket}, char * @var{msg})
+@deftypefun {int} {lw6msg_cmd_analyse_ticket} (lw6nod_info_t ** @var{info}, u_int64_t * @var{ticket}, const char * @var{msg})
 @var{info}:  will contain (remote) node info on success
 
 @var{ticket}:  if not NULL, will contain the ticket value on success
@@ -100,7 +100,7 @@ Analyzes a TICKET message.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {int} {lw6msg_cmd_analyse_foo} (lw6nod_info_t ** @var{info}, u_int32_t * @var{key}, char * @var{msg})
+@deftypefun {int} {lw6msg_cmd_analyse_foo} (lw6nod_info_t ** @var{info}, u_int32_t * @var{key}, const char * @var{msg})
 @var{info}:  will contain (remote) node info on success
 
 @var{key}:  if not NULL, will contain the foo/bar key on success
@@ -112,7 +112,7 @@ Analyzes a FOO message.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {int} {lw6msg_cmd_analyse_bar} (lw6nod_info_t ** @var{info}, u_int32_t * @var{key}, char * @var{msg})
+@deftypefun {int} {lw6msg_cmd_analyse_bar} (lw6nod_info_t ** @var{info}, u_int32_t * @var{key}, const char * @var{msg})
 @var{info}:  will contain (remote) node info on success
 
 @var{key}:  if not NULL, will contain the foo/bar key on success
@@ -124,7 +124,7 @@ Analyzes a BAR message.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {int} {lw6msg_cmd_analyse_join} (lw6nod_info_t ** @var{info}, int64_t * @var{seq}, char * @var{msg})
+@deftypefun {int} {lw6msg_cmd_analyse_join} (lw6nod_info_t ** @var{info}, int64_t * @var{seq}, const char * @var{msg})
 @var{info}:  will contain (remote) node info on success
 
 @var{msg}:  the message to analyse
@@ -134,7 +134,7 @@ Analyzes a JOIN message.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {int} {lw6msg_cmd_analyse_goodbye} (lw6nod_info_t ** @var{info}, char * @var{msg})
+@deftypefun {int} {lw6msg_cmd_analyse_goodbye} (lw6nod_info_t ** @var{info}, const char * @var{msg})
 @var{info}:  will contain (remote) node info on success
 
 @var{msg}:  the message to analyse
@@ -144,7 +144,7 @@ Analyzes a GOODBYE message.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {int} {lw6msg_cmd_analyse_data} (int * @var{serial}, int * @var{i}, int * @var{n}, int * @var{round}, char ** @var{ker_msg}, char * @var{msg})
+@deftypefun {int} {lw6msg_cmd_analyse_data} (int * @var{serial}, int * @var{i}, int * @var{n}, int * @var{round}, char ** @var{ker_msg}, const char * @var{msg})
 @var{serial}:  will contain serial number on success
 
 @var{i}:  will contain group index on success
@@ -160,7 +160,7 @@ Analyzes a DATA message.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {char *} {lw6msg_cmd_guess_from_url} (char * @var{msg})
+@deftypefun {char *} {lw6msg_cmd_guess_from_url} (const char * @var{msg})
 @var{msg}:  the message to analyse
 
 Analyzes a GOODBYE message.
@@ -168,7 +168,7 @@ Analyzes a GOODBYE message.
 @strong{Return value:}  the from url, if found (dynamically allocated)
 @end deftypefun
 
-@deftypefun {char *} {lw6msg_envelope_generate} (lw6msg_envelope_mode_t @var{mode}, char * @var{version}, char * @var{password_checksum}, u_int32_t @var{physical_ticket_sig}, u_int32_t @var{logical_ticket_sig}, u_int64_t @var{physical_from_id}, u_int64_t @var{physical_to_id}, u_int64_t @var{logical_from_id}, u_int64_t @var{logical_to_id}, char * @var{msg})
+@deftypefun {char *} {lw6msg_envelope_generate} (lw6msg_envelope_mode_t @var{mode}, const char * @var{version}, const char * @var{password_checksum}, u_int32_t @var{physical_ticket_sig}, u_int32_t @var{logical_ticket_sig}, u_int64_t @var{physical_from_id}, u_int64_t @var{physical_to_id}, u_int64_t @var{logical_from_id}, u_int64_t @var{logical_to_id}, const char * @var{msg})
 @var{mode}:  mode to use (a la TELNET or URL compatible)
 
 @var{version}:  the program version to use (note: can be changed when testing)
@@ -195,7 +195,7 @@ network.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_envelope_analyse} (char * @var{envelope}, lw6msg_envelope_mode_t @var{mode}, char * @var{local_url}, char * @var{password}, u_int64_t @var{expected_physical_from_id}, u_int64_t @var{expected_physical_to_id}, char ** @var{msg}, u_int32_t * @var{physical_ticket_sig}, u_int32_t * @var{logical_ticket_sig}, u_int64_t * @var{physical_from_id}, u_int64_t * @var{physical_to_id}, u_int64_t * @var{logical_from_id}, u_int64_t * @var{logical_to_id}, char ** @var{physical_from_url})
+@deftypefun {int} {lw6msg_envelope_analyse} (const char * @var{envelope}, lw6msg_envelope_mode_t @var{mode}, const char * @var{local_url}, const char * @var{password}, u_int64_t @var{expected_physical_from_id}, u_int64_t @var{expected_physical_to_id}, char ** @var{msg}, u_int32_t * @var{physical_ticket_sig}, u_int32_t * @var{logical_ticket_sig}, u_int64_t * @var{physical_from_id}, u_int64_t * @var{physical_to_id}, u_int64_t * @var{logical_from_id}, u_int64_t * @var{logical_to_id}, char ** @var{physical_from_url})
 @var{envelope}:  the envelope to analyse
 
 @var{mode}:  mode to use (a la TELNET or URL compatible)
@@ -265,7 +265,7 @@ will lock the info object when needed.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6msg_oob_generate_request} (char * @var{command}, char * @var{remote_url}, char * @var{password}, char * @var{local_url})
+@deftypefun {char *} {lw6msg_oob_generate_request} (const char * @var{command}, const char * @var{remote_url}, const char * @var{password}, const char * @var{local_url})
 @var{command}:  the command to send (PING, INFO, LIST)
 
 @var{remote_url}:  the remote URL (used to seed password)
@@ -279,7 +279,7 @@ Generates a simple clear text OOB request, with a password if needed.
 @strong{Return value:}  a newly allocated string
 @end deftypefun
 
-@deftypefun {int} {lw6msg_oob_analyse_request} (int * @var{syntax_ok}, char ** @var{command}, int * @var{password_ok}, char ** @var{remote_url}, char * @var{request}, char * @var{local_url}, char * @var{password})
+@deftypefun {int} {lw6msg_oob_analyse_request} (int * @var{syntax_ok}, char ** @var{command}, int * @var{password_ok}, char ** @var{remote_url}, const char * @var{request}, const char * @var{local_url}, const char * @var{password})
 @var{syntax_ok}:  will contain 1 if syntax is OK, 0 if not
 
 @var{command}:  the command (out param, needs *not* to be freed) 
@@ -299,7 +299,7 @@ Analyses a simple OOB message of the form COMMAND <passwd> <url>.
 @strong{Return value:}  1 if OK, 0 if not. If 0, check the value of password_ok. 
 @end deftypefun
 
-@deftypefun {char *} {lw6msg_oob_analyse_pong} (char * @var{text})
+@deftypefun {char *} {lw6msg_oob_analyse_pong} (const char * @var{text})
 @var{text}:  the text of the message to parse
 
 Analyses a PONG message and gets the public_url from it, if
@@ -316,7 +316,7 @@ Runs the @code{nod} module test suite.
 @strong{Return value:}  1 if test is successfull, 0 on error.
 @end deftypefun
 
-@deftypefun {u_int32_t} {lw6msg_ticket_calc_sig} (u_int64_t @var{ticket}, u_int64_t @var{from_id}, u_int64_t @var{to_id}, char * @var{msg})
+@deftypefun {u_int32_t} {lw6msg_ticket_calc_sig} (u_int64_t @var{ticket}, u_int64_t @var{from_id}, u_int64_t @var{to_id}, const char * @var{msg})
 @var{ticket}:  the (private) ticket to use
 
 @var{from_id}:  the sender/creator
@@ -334,7 +334,7 @@ serious bug!).
 @strong{Return value:}  the sig, always non-zero
 @end deftypefun
 
-@deftypefun {int} {lw6msg_ticket_check_sig} (u_int64_t @var{ticket}, u_int64_t @var{from_id}, u_int64_t @var{to_id}, char * @var{msg}, u_int32_t @var{ticket_sig})
+@deftypefun {int} {lw6msg_ticket_check_sig} (u_int64_t @var{ticket}, u_int64_t @var{from_id}, u_int64_t @var{to_id}, const char * @var{msg}, u_int32_t @var{ticket_sig})
 @var{ticket}:  the (private) ticket to use
 
 @var{from_id}:  the sender/creator
@@ -350,7 +350,7 @@ Checks a sig is OK.
 @strong{Return value:}  1 if they are the same, 0 if not.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_utils_parse_key_value_to_ptr} (char ** @var{key}, char ** @var{value}, char * @var{line})
+@deftypefun {int} {lw6msg_utils_parse_key_value_to_ptr} (char ** @var{key}, char ** @var{value}, const char * @var{line})
 @var{key}:  will contain the key detected
 
 @var{value}:  will contain the value detected
@@ -363,7 +363,7 @@ the passed pointers.
 @strong{Return value:}  1 if line OK (and in this case @code{key} and @code{value} are set), 0 if not.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_utils_parse_key_value_to_assoc} (lw6sys_assoc_t ** @var{assoc}, char * @var{line})
+@deftypefun {int} {lw6msg_utils_parse_key_value_to_assoc} (lw6sys_assoc_t ** @var{assoc}, const char * @var{line})
 @var{assoc}:  an assoc object which will contain the result
 
 @var{line}:  the line to analyse
@@ -375,7 +375,7 @@ free them automatically with @code{lw6sys_free_callback} for instance.
 @strong{Return value:}  1 if line OK (and in this case @code{assoc} is updated), 0 if not.
 @end deftypefun
 
-@deftypefun {char *} {lw6msg_utils_get_assoc_str_with_default} (lw6sys_assoc_t * @var{assoc}, char * @var{key}, char * @var{default_value})
+@deftypefun {char *} {lw6msg_utils_get_assoc_str_with_default} (lw6sys_assoc_t * @var{assoc}, const char * @var{key}, const char * @var{default_value})
 @var{assoc}:  the string assoc to query
 
 @var{key}:  the key to find in the assoc
@@ -390,7 +390,7 @@ is over.
 @strong{Return value:}  a string, must not be freed.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_utils_get_assoc_int_with_default} (lw6sys_assoc_t * @var{assoc}, char * @var{key}, int @var{default_value})
+@deftypefun {int} {lw6msg_utils_get_assoc_int_with_default} (lw6sys_assoc_t * @var{assoc}, const char * @var{key}, int @var{default_value})
 @var{assoc}:  the string assoc to query
 
 @var{key}:  the key to find in the assoc
@@ -405,7 +405,7 @@ is over. This one will returned an int converted with @code{lw6sys_atoi}.
 @strong{Return value:}  a string, must not be freed.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_word_first} (lw6msg_word_t * @var{word}, char ** @var{next}, char * @var{msg})
+@deftypefun {int} {lw6msg_word_first} (lw6msg_word_t * @var{word}, char ** @var{next}, const char * @var{msg})
 @var{word}:  will contain the parsed word
 
 @var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
@@ -419,7 +419,7 @@ it points at the beginning of it.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_word_first_x} (lw6msg_word_t * @var{word}, char ** @var{next}, char * @var{msg})
+@deftypefun {int} {lw6msg_word_first_x} (lw6msg_word_t * @var{word}, char ** @var{next}, const char * @var{msg})
 @var{word}:  will contain the parsed word
 
 @var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
@@ -436,7 +436,7 @@ IDs, etc.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_word_first_base64} (lw6msg_word_t * @var{word}, char ** @var{next}, char * @var{msg})
+@deftypefun {int} {lw6msg_word_first_base64} (lw6msg_word_t * @var{word}, char ** @var{next}, const char * @var{msg})
 @var{word}:  will contain the parsed word
 
 @var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
@@ -451,7 +451,7 @@ be base64 encoded and is decoded on-the-fly.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_word_first_int_32} (int32_t * @var{parsed_value}, char ** @var{next}, char * @var{msg})
+@deftypefun {int} {lw6msg_word_first_int_32} (int32_t * @var{parsed_value}, char ** @var{next}, const char * @var{msg})
 @var{parsed_value}:  will contain the parsed value
 
 @var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
@@ -463,20 +463,7 @@ Analyses a message, gets the first word and interpret it as an int.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_word_first_int_32_ge0} (int32_t * @var{parsed_value}, char ** @var{next}, char * @var{msg})
-@var{parsed_value}:  will contain the parsed value
-
-@var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
-
-@var{msg}:  the message to parse
-
-Analyses a message, gets the first word and interpret it as an int.
-The value must be strictly greater than 0.
-
-@strong{Return value:}  1 on success, 0 on failure.
-@end deftypefun
-
-@deftypefun {int} {lw6msg_word_first_int_32_gt0} (int32_t * @var{parsed_value}, char ** @var{next}, char * @var{msg})
+@deftypefun {int} {lw6msg_word_first_int_32_ge0} (int32_t * @var{parsed_value}, char ** @var{next}, const char * @var{msg})
 @var{parsed_value}:  will contain the parsed value
 
 @var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
@@ -489,19 +476,7 @@ The value must be strictly greater than 0.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_word_first_int_64} (int64_t * @var{parsed_value}, char ** @var{next}, char * @var{msg})
-@var{parsed_value}:  will contain the parsed value
-
-@var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
-
-@var{msg}:  the message to parse
-
-Analyses a message, gets the first word and interpret it as an int.
-
-@strong{Return value:}  1 on success, 0 on failure.
-@end deftypefun
-
-@deftypefun {int} {lw6msg_word_first_int_64_ge0} (int64_t * @var{parsed_value}, char ** @var{next}, char * @var{msg})
+@deftypefun {int} {lw6msg_word_first_int_32_gt0} (int32_t * @var{parsed_value}, char ** @var{next}, const char * @var{msg})
 @var{parsed_value}:  will contain the parsed value
 
 @var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
@@ -514,7 +489,19 @@ The value must be strictly greater than 0.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_word_first_int_64_gt0} (int64_t * @var{parsed_value}, char ** @var{next}, char * @var{msg})
+@deftypefun {int} {lw6msg_word_first_int_64} (int64_t * @var{parsed_value}, char ** @var{next}, const char * @var{msg})
+@var{parsed_value}:  will contain the parsed value
+
+@var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
+
+@var{msg}:  the message to parse
+
+Analyses a message, gets the first word and interpret it as an int.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6msg_word_first_int_64_ge0} (int64_t * @var{parsed_value}, char ** @var{next}, const char * @var{msg})
 @var{parsed_value}:  will contain the parsed value
 
 @var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
@@ -527,7 +514,20 @@ The value must be strictly greater than 0.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_word_first_id_16} (u_int16_t * @var{parsed_value}, char ** @var{next}, char * @var{msg})
+@deftypefun {int} {lw6msg_word_first_int_64_gt0} (int64_t * @var{parsed_value}, char ** @var{next}, const char * @var{msg})
+@var{parsed_value}:  will contain the parsed value
+
+@var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
+
+@var{msg}:  the message to parse
+
+Analyses a message, gets the first word and interpret it as an int.
+The value must be strictly greater than 0.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6msg_word_first_id_16} (u_int16_t * @var{parsed_value}, char ** @var{next}, const char * @var{msg})
 @var{parsed_value}:  will contain the parsed value
 
 @var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
@@ -539,7 +539,7 @@ Analyses a message, gets the first word and interpret it as an 16-bit id.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_word_first_id_32} (u_int32_t * @var{parsed_value}, char ** @var{next}, char * @var{msg})
+@deftypefun {int} {lw6msg_word_first_id_32} (u_int32_t * @var{parsed_value}, char ** @var{next}, const char * @var{msg})
 @var{parsed_value}:  will contain the parsed value
 
 @var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
@@ -551,7 +551,7 @@ Analyses a message, gets the first word and interpret it as an 32-bit id.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_word_first_id_64} (u_int64_t * @var{parsed_value}, char ** @var{next}, char * @var{msg})
+@deftypefun {int} {lw6msg_word_first_id_64} (u_int64_t * @var{parsed_value}, char ** @var{next}, const char * @var{msg})
 @var{parsed_value}:  will contain the parsed value
 
 @var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
@@ -563,7 +563,7 @@ Analyses a message, gets the first word and interpret it as an 64-bit id.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {char *} {lw6msg_z_encode} (char * @var{msg}, int @var{limit})
+@deftypefun {char *} {lw6msg_z_encode} (const char * @var{msg}, int @var{limit})
 @var{msg}:  message to encode
 
 @var{limit}:  if under this limit (length in bytes), do not encode, return as is
@@ -578,7 +578,7 @@ to fire this big artillery.
 @strong{Return value:}  newly allocated string, 0 terminated, NULL on error.
 @end deftypefun
 
-@deftypefun {char *} {lw6msg_z_decode} (char * @var{msg})
+@deftypefun {char *} {lw6msg_z_decode} (const char * @var{msg})
 @var{msg}:  message to decode
 
 Z-decode a message, by "Z-encoding" we mean pass the string through

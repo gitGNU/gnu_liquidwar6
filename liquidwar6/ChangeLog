@@ -1,3 +1,7 @@
+2012-04-27 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Yet another massive char * to const char * conversion.
+
 2012-04-24 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Updated autotools files.
@@ -14,7 +18,7 @@
 
 	* Fixed #35349, segfault in screenshot generation.
 
-	* Fixed p2p and thread/mutex API. 
+	* Fixed p2p and thread/mutex API.
 
 2012-01-21 : Christian Mauduit <ufoot@ufoot.org>
 

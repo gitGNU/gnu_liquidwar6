@@ -201,10 +201,10 @@ extern u_int64_t lw6p2p_node_get_id (lw6p2p_node_t * node);
 extern lw6sys_list_t *lw6p2p_node_get_entries (lw6p2p_node_t * node);
 extern int lw6p2p_node_server_start (lw6p2p_node_t * node, int64_t seq_0);
 extern int lw6p2p_node_client_join (lw6p2p_node_t * node, u_int64_t remote_id,
-				    char *remote_url);
+				    const char *remote_url);
 extern void lw6p2p_node_disconnect (lw6p2p_node_t * node);
 extern int lw6p2p_node_update_info (lw6p2p_node_t * node,
-				    int round, char *level,
+				    int round, const char *level,
 				    int nb_colors,
 				    int max_nb_colors, int nb_cursors,
 				    int max_nb_cursors, int nb_nodes,
@@ -214,7 +214,7 @@ extern int lw6p2p_node_update_info (lw6p2p_node_t * node,
 extern void lw6p2p_node_calibrate (lw6p2p_node_t * node, int64_t timestamp,
 				   int64_t seq);
 extern int lw6p2p_node_is_dump_needed (lw6p2p_node_t * node);
-extern int lw6p2p_node_put_local_msg (lw6p2p_node_t * node, char *msg);
+extern int lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg);
 extern char *lw6p2p_node_get_next_reference_msg (lw6p2p_node_t * node);
 extern char *lw6p2p_node_get_next_draft_msg (lw6p2p_node_t * node);
 

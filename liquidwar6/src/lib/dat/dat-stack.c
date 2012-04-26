@@ -170,7 +170,7 @@ _lw6dat_stack_get_serial (_lw6dat_stack_t * stack)
 int
 _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 			int serial, int order_i, int order_n, int64_t seq,
-			char *full_str, int seq_from_cmd_str_offset,
+			const char *full_str, int seq_from_cmd_str_offset,
 			int cmd_str_offset, int send_flag)
 {
   int ret = 0;
@@ -360,7 +360,7 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 
 int
 _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
-			    char *full_str, int send_flag)
+			    const char *full_str, int send_flag)
 {
   int ret = 0;
   int serial = 0;
@@ -419,7 +419,8 @@ _lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
 }
 
 int
-_lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg, int send_flag)
+_lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg,
+		       int send_flag)
 {
   int ret = 0;
   int len = 0;
@@ -435,7 +436,7 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg, int send_flag)
   int cmd_str_offset = 0;
   char *next = NULL;
 
-  next = msg;
+  next = (char *) msg;
   if (lw6msg_word_first_int_64_ge0 (&seq, &next, next))
     {
       if (lw6msg_word_first_id_64 (&logical_from, &next, next))

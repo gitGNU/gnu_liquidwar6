@@ -39,7 +39,8 @@
  * Return value: 1 if new member could be added, 0 if not.
  */
 int
-lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id, char *url)
+lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id,
+			   const char *url)
 {
   int ret = 0;
   int i = 0;
@@ -96,7 +97,7 @@ lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id, char *url)
  */
 int
 lw6nod_info_community_is_member (lw6nod_info_t * info, u_int64_t id,
-				 char *url)
+				 const char *url)
 {
   int ret = 0;
 
@@ -139,7 +140,7 @@ lw6nod_info_community_has_id (lw6nod_info_t * info, u_int64_t id)
  * Return value: 1 if URL is already taken, 0 if available.
  */
 int
-lw6nod_info_community_has_url (lw6nod_info_t * info, char *url)
+lw6nod_info_community_has_url (lw6nod_info_t * info, const char *url)
 {
   int ret = 0;
 
@@ -195,7 +196,7 @@ lw6nod_info_community_remove_by_id (lw6nod_info_t * info, u_int64_t id)
  * Return value: 1 if successfully removed, 0 if was not present.
  */
 int
-lw6nod_info_community_remove_by_url (lw6nod_info_t * info, char *url)
+lw6nod_info_community_remove_by_url (lw6nod_info_t * info, const char *url)
 {
   int ret = 0;
   lw6nod_ref_info_t *ref_info = NULL;
@@ -307,7 +308,8 @@ _lw6nod_node_info_community_get_by_id (lw6nod_info_t * node_info,
 }
 
 lw6nod_ref_info_t *
-_lw6nod_node_info_community_get_by_url (lw6nod_info_t * node_info, char *url)
+_lw6nod_node_info_community_get_by_url (lw6nod_info_t * node_info,
+					const char *url)
 {
   lw6nod_ref_info_t *ret = NULL;
   int i = 0;

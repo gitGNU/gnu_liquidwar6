@@ -29,9 +29,9 @@
 
 _lw6p2p_srv_oob_callback_data_t *
 _lw6p2p_srv_oob_callback_data_new (lw6srv_backend_t * backend,
-				   lw6nod_info_t * node_info, char *remote_ip,
-				   int remote_port, int sock,
-				   char *first_line)
+				   lw6nod_info_t * node_info,
+				   const char *remote_ip, int remote_port,
+				   int sock, const char *first_line)
 {
   _lw6p2p_srv_oob_callback_data_t *ret = NULL;
 

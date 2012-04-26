@@ -172,7 +172,7 @@ lw6net_if_guess_local ()
  * Return value: the IP as a string, dynamically allocated
  */
 char *
-lw6net_if_guess_public_url (char *bind_ip, int bind_port)
+lw6net_if_guess_public_url (const char *bind_ip, int bind_port)
 {
   char *ret = NULL;
   char *ip = NULL;

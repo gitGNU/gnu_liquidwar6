@@ -52,7 +52,7 @@ _lw6net_delay_msec_to_timeval (struct timeval *tv, int delay_msec)
  * Return value: >=0 on success, -1 on failure.
  */
 int
-lw6net_tcp_listen (char *ip, int port)
+lw6net_tcp_listen (const char *ip, int port)
 {
   int backlog;
   int sock = -1;
@@ -228,7 +228,7 @@ lw6net_tcp_accept (char **incoming_ip,
  * Return value: socket (>=0) on success, else -1
  */
 int
-lw6net_tcp_connect (char *ip, int port, int delay_msec)
+lw6net_tcp_connect (const char *ip, int port, int delay_msec)
 {
   int sock = -1;
   int connect_ret = 0;
@@ -449,7 +449,7 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6net_tcp_send (int sock, char *buf, int len, int delay_msec, int loop)
+lw6net_tcp_send (int sock, const char *buf, int len, int delay_msec, int loop)
 {
   int ret = 0;
   fd_set write;

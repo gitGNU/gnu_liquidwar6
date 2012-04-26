@@ -78,27 +78,27 @@ _is_digit (char c)
  * Return value: 1 if it's an IP, O if not.
  */
 int
-lw6net_dns_is_ip (char *ip)
+lw6net_dns_is_ip (const char *ip)
 {
   int ret = 1;
-  char *seek = ip;
+  const char *pos = ip;
   int i;
 
   for (i = 0; (i < 4) && ret; ++i)
     {
-      if (_is_digit (*seek))
+      if (_is_digit (*pos))
 	{
-	  while ((*seek) >= '0' && (*seek) <= '9')
+	  while ((*pos) >= '0' && (*pos) <= '9')
 	    {
-	      seek++;
+	      pos++;
 	    }
-	  if ((*seek) != '.' && (*seek))
+	  if ((*pos) != '.' && (*pos))
 	    {
 	      ret = 0;
 	    }
-	  if (*seek)
+	  if (*pos)
 	    {
-	      seek++;
+	      pos++;
 	    }
 	}
       else
@@ -122,7 +122,7 @@ lw6net_dns_is_ip (char *ip)
  * Return value: an IP if success, NULL on error.
  */
 char *
-lw6net_dns_gethostbyname (char *name)
+lw6net_dns_gethostbyname (const char *name)
 {
   char *ret = NULL;
   struct hostent *h;

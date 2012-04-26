@@ -55,9 +55,9 @@
  * Return value: newly allocated object.
  */
 lw6cnx_connection_t *
-lw6cnx_connection_new (char *local_url, char *remote_url,
-		       char *remote_ip, int remote_port,
-		       char *password, u_int64_t local_id,
+lw6cnx_connection_new (const char *local_url, const char *remote_url,
+		       const char *remote_ip, int remote_port,
+		       const char *password, u_int64_t local_id,
 		       u_int64_t remote_id,
 		       int dns_ok, int network_reliability,
 		       lw6cnx_recv_callback_t recv_callback_func,

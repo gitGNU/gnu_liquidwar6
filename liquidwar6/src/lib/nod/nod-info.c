@@ -52,12 +52,12 @@
  * Return value: newly allocated object, NULL on error.
  */
 lw6nod_info_t *
-lw6nod_info_new (char *program,
-		 char *version,
-		 char *codename,
-		 int stamp, u_int64_t id, char *url, char *title,
-		 char *description, char *password, int bench, int open_relay,
-		 int uptime, int idle_screenshot_size,
+lw6nod_info_new (const char *program,
+		 const char *version,
+		 const char *codename,
+		 int stamp, u_int64_t id, const char *url, const char *title,
+		 const char *description, const char *password, int bench,
+		 int open_relay, int uptime, int idle_screenshot_size,
 		 void *idle_screenshot_data)
 {
   lw6nod_info_t *info = NULL;
@@ -228,7 +228,7 @@ lw6nod_info_idle (lw6nod_info_t * info)
  */
 int
 lw6nod_info_update (lw6nod_info_t * info, u_int64_t community_id, int round,
-		    char *level, int required_bench, int nb_colors,
+		    const char *level, int required_bench, int nb_colors,
 		    int max_nb_colors, int nb_cursors, int max_nb_cursors,
 		    int nb_nodes, int max_nb_nodes, int game_screenshot_size,
 		    void *game_screenshot_data)
@@ -339,7 +339,7 @@ lw6nod_info_new_discovered_nodes ()
  * Return value: 1 if OK, O if error.
  */
 int
-lw6nod_info_add_discovered_node (lw6nod_info_t * info, char *public_url)
+lw6nod_info_add_discovered_node (lw6nod_info_t * info, const char *public_url)
 {
   int ret = 0;
   char *canonized_url;

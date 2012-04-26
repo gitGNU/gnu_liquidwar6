@@ -56,7 +56,7 @@ _lw6dat_block_free (_lw6dat_block_t * block)
 int
 _lw6dat_block_put_atom (_lw6dat_block_t * block,
 			int serial, int order_i, int order_n, int64_t seq,
-			char *full_str, int seq_from_cmd_str_offset,
+			const char *full_str, int seq_from_cmd_str_offset,
 			int cmd_str_offset, int send_flag)
 {
   int ret = 0;

@@ -65,7 +65,7 @@
  * Return value: the newly allocated pointer. Data is not initialized.
  */
 void *
-lw6sys_malloc (int size, char *file, int line)
+lw6sys_malloc (int size, const char *file, int line)
 {
   void *ptr;
 
@@ -108,7 +108,7 @@ lw6sys_malloc (int size, char *file, int line)
  * Return value: the newly allocated pointer. Data is filled with zeros.
  */
 void *
-lw6sys_calloc (int size, char *file, int line)
+lw6sys_calloc (int size, const char *file, int line)
 {
   void *ptr;
 
@@ -151,7 +151,7 @@ lw6sys_calloc (int size, char *file, int line)
  * Return value: the newly allocated pointer.
  */
 void *
-lw6sys_realloc (void *ptr, int size, char *file, int line)
+lw6sys_realloc (void *ptr, int size, const char *file, int line)
 {
   void *ptr2;
 
@@ -208,7 +208,7 @@ lw6sys_realloc (void *ptr, int size, char *file, int line)
  * Return value: none.
  */
 void
-lw6sys_free (void *ptr, char *file, int line)
+lw6sys_free (void *ptr, const char *file, int line)
 {
   if (ptr != NULL)
     {

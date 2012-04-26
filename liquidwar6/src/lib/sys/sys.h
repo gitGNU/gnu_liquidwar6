@@ -793,9 +793,9 @@ extern char *lw6sys_get_username ();
 extern char *lw6sys_get_hostname ();
 
 /* sys-escape.c */
-extern char *lw6sys_escape_http_uri (char *src);
-extern char *lw6sys_escape_html_attribute (char *src);
-extern char *lw6sys_escape_sql_value (char *src);
+extern char *lw6sys_escape_http_uri (const char *src);
+extern char *lw6sys_escape_html_attribute (const char *src);
+extern char *lw6sys_escape_sql_value (const char *src);
 
 /* sys-exec.c */
 extern char *lw6sys_exec_find_myself (int argc, const char *argv[]);
@@ -969,14 +969,14 @@ extern int lw6sys_math_blink (int64_t x, int period);
 #else
 #define LW6SYS_MALLOC(SIZE) lw6sys_malloc((SIZE),__FILE__,__LINE__)
 #define LW6SYS_CALLOC(SIZE) lw6sys_calloc((SIZE),__FILE__,__LINE__)
-#define LW6SYS_REALLOC(PTR,SIZE) lw6sys_realloc((PTR),(SIZE),__FILE__,__LINE__)
-#define LW6SYS_FREE(PTR) lw6sys_free((PTR),__FILE__,__LINE__)
+#define LW6SYS_REALLOC(PTR,SIZE) lw6sys_realloc((void *) (PTR),(SIZE),__FILE__,__LINE__)
+#define LW6SYS_FREE(PTR) lw6sys_free((void *) (PTR),__FILE__,__LINE__)
 #endif
 
-extern void *lw6sys_malloc (int size, char *file, int line);
-extern void *lw6sys_calloc (int size, char *file, int line);
-extern void *lw6sys_realloc (void *ptr, int size, char *file, int line);
-extern void lw6sys_free (void *ptr, char *file, int line);
+extern void *lw6sys_malloc (int size, const char *file, int line);
+extern void *lw6sys_calloc (int size, const char *file, int line);
+extern void *lw6sys_realloc (void *ptr, int size, const char *file, int line);
+extern void lw6sys_free (void *ptr, const char *file, int line);
 extern void lw6sys_free_callback (void *ptr);
 extern int lw6sys_megabytes_available ();
 extern int lw6sys_is_big_endian ();
@@ -1154,7 +1154,7 @@ extern char *lw6sys_new_sprintf (const char *fmt, ...);
 extern int lw6sys_buf_sprintf (char *buf, int len, const char *fmt, ...);
 extern int lw6sys_str_is_blank (const char *str);
 extern int lw6sys_str_is_null_or_empty (const char *str);
-extern char *lw6sys_str_empty_if_null (char *str);
+extern const char *lw6sys_str_empty_if_null (const char *str);
 extern int lw6sys_str_is_same (const char *str_a, const char *str_b);
 extern int lw6sys_str_is_same_no_case (const char *str_a, const char *str_b);
 extern int lw6sys_str_starts_with (const char *str, const char *beginning);
@@ -1176,6 +1176,7 @@ extern void lw6sys_str_tolower (char *str);
 extern void lw6sys_str_truncate (char *str, int len);
 extern char *lw6sys_str_random (int len);
 extern char *lw6sys_str_random_words (int len);
+extern char *lw6sys_str_random_word (int len);
 extern int lw6sys_str_is_bin (const char *buf, int len);
 
 /* sys-stream.c */
@@ -1220,11 +1221,11 @@ extern char *lw6sys_date_clf ();
 extern char *lw6sys_readable_uptime (int64_t timestamp_delta);
 
 /* sys-url.c */
-extern char *lw6sys_url_http_from_ip_port (char *ip, int port);
-extern lw6sys_url_t *lw6sys_url_parse (char *url);
+extern char *lw6sys_url_http_from_ip_port (const char *ip, int port);
+extern lw6sys_url_t *lw6sys_url_parse (const char *url);
 extern void lw6sys_url_free (lw6sys_url_t * url);
-extern char *lw6sys_url_canonize (char *url);
-extern int lw6sys_url_is_canonized (char *url);
+extern char *lw6sys_url_canonize (const char *url);
+extern int lw6sys_url_is_canonized (const char *url);
 
 /* sys-vthread.c */
 extern int lw6sys_vthread_run (lw6sys_thread_callback_func_t callback_func,

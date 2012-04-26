@@ -1,4 +1,4 @@
-@deftypefun {int} {lw6net_dns_is_ip} (char * @var{ip})
+@deftypefun {int} {lw6net_dns_is_ip} (const char * @var{ip})
 @var{ip}:  the string to check
 
 Tests if a given string is a valid IP (IPV4). Test is only syntaxic,
@@ -8,7 +8,7 @@ mean the IP is *really* valid.
 @strong{Return value:}  1 if it's an IP, O if not.
 @end deftypefun
 
-@deftypefun {char *} {lw6net_dns_gethostbyname} (char * @var{name})
+@deftypefun {char *} {lw6net_dns_gethostbyname} (const char * @var{name})
 @var{name}:  name of the host
 
 A wrapper over the standard gethostbyname function, will even accept
@@ -62,7 +62,7 @@ can't be guessed.
 @strong{Return value:}  the IP as a string, dynamically allocated
 @end deftypefun
 
-@deftypefun {char *} {lw6net_if_guess_public_url} (char * @var{bind_ip}, int @var{bind_port})
+@deftypefun {char *} {lw6net_if_guess_public_url} (const char * @var{bind_ip}, int @var{bind_port})
 @var{bind_ip}:  the IP address used to bind on
 
 @var{bind_port}:  the IP port used to bind on
@@ -92,7 +92,7 @@ something consistent will the function return non-NULL.
 content received. The tailing (CR)/LF is stripped.
 @end deftypefun
 
-@deftypefun {int} {lw6net_send_line_tcp} (int @var{sock}, char * @var{line})
+@deftypefun {int} {lw6net_send_line_tcp} (int @var{sock}, const char * @var{line})
 @var{sock}:  the socket descriptor
 
 @var{line}:  the line to be sent, without the "\n" at the end
@@ -146,7 +146,7 @@ we can't call recv several times.
 The tailing (CR)/LF is stripped from strings.
 @end deftypefun
 
-@deftypefun {int} {lw6net_send_line_udp} (int @var{sock}, char * @var{line}, char * @var{ip}, int @var{port})
+@deftypefun {int} {lw6net_send_line_udp} (int @var{sock}, const char * @var{line}, const char * @var{ip}, int @var{port})
 @var{sock}:  the socket descriptor
 
 @var{line}:  the line to be sent, without the "\n" at the end
@@ -214,7 +214,7 @@ Closes a socket, that is, stop activity and free its descriptor.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6net_tcp_listen} (char * @var{ip}, int @var{port})
+@deftypefun {int} {lw6net_tcp_listen} (const char * @var{ip}, int @var{port})
 @var{ip}:  IP address to bind to
 
 @var{port}:  IP port to listen on
@@ -238,7 +238,7 @@ Accepts for a connexion on the given socket.
 @strong{Return value:}  the new socket (>=0) if accepted, else -1
 @end deftypefun
 
-@deftypefun {int} {lw6net_tcp_connect} (char * @var{ip}, int @var{port}, int @var{delay_msec})
+@deftypefun {int} {lw6net_tcp_connect} (const char * @var{ip}, int @var{port}, int @var{delay_msec})
 @var{ip}:  address to connect to
 
 @var{port}:  port to connect to
@@ -250,7 +250,7 @@ Tries to connect on a given socket.
 @strong{Return value:}  socket (>=0) on success, else -1
 @end deftypefun
 
-@deftypefun {int} {lw6net_tcp_send} (int @var{sock}, char * @var{buf}, int @var{len}, int @var{delay_msec}, int @var{loop})
+@deftypefun {int} {lw6net_tcp_send} (int @var{sock}, const char * @var{buf}, int @var{len}, int @var{delay_msec}, int @var{loop})
 @var{sock}:  socket to use
 
 @var{buf}:  data buffer
@@ -326,7 +326,7 @@ not bind it to any address.
 @strong{Return value:}  socket (>=0) on success, else -1
 @end deftypefun
 
-@deftypefun {int} {lw6net_udp_server} (char * @var{ip}, int @var{port})
+@deftypefun {int} {lw6net_udp_server} (const char * @var{ip}, int @var{port})
 @var{ip}:  IP address to bind to
 
 @var{port}:  IP port to listen on
@@ -337,7 +337,7 @@ and binds it on a given address.
 @strong{Return value:}  socket (>=0) on success, else -1
 @end deftypefun
 
-@deftypefun {int} {lw6net_udp_send} (int @var{sock}, char * @var{buf}, int @var{len}, char * @var{ip}, int @var{port})
+@deftypefun {int} {lw6net_udp_send} (int @var{sock}, const char * @var{buf}, int @var{len}, const char * @var{ip}, int @var{port})
 @var{sock}:  socket to use
 
 @var{buf}:  data buffer

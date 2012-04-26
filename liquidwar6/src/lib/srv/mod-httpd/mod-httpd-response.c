@@ -46,8 +46,8 @@ _mod_httpd_response_from_bin (_mod_httpd_context_t *
 			      int status,
 			      int no_cache,
 			      int refresh_sec,
-			      char *refresh_url,
-			      char *content_type,
+			      const char *refresh_url,
+			      const char *content_type,
 			      int content_size, void *content_data)
 {
   _mod_httpd_response_t *response = NULL;
@@ -92,15 +92,15 @@ _mod_httpd_response_from_str (_mod_httpd_context_t *
 			      httpd_context,
 			      int status,
 			      int no_cache, int refresh_sec,
-			      char *refresh_url, char *content_type,
-			      char *content)
+			      const char *refresh_url,
+			      const char *content_type, const char *content)
 {
   _mod_httpd_response_t *response = NULL;
 
   response =
     _mod_httpd_response_from_bin (httpd_context, status, no_cache,
 				  refresh_sec, refresh_url, content_type,
-				  strlen (content), content);
+				  strlen (content), (void *) content);
 
   return response;
 }

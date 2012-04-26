@@ -30,10 +30,10 @@
 int
 _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 		       _lw6p2p_backends_t * backends,
-		       lw6srv_listener_t * listener, char *local_url,
-		       char *remote_url, char *real_remote_ip, char *password,
-		       u_int64_t local_id, u_int64_t remote_id,
-		       int network_reliability,
+		       lw6srv_listener_t * listener, const char *local_url,
+		       const char *remote_url, const char *real_remote_ip,
+		       const char *password, u_int64_t local_id,
+		       u_int64_t remote_id, int network_reliability,
 		       lw6cnx_recv_callback_t recv_callback_func,
 		       void *recv_callback_data)
 {
@@ -434,7 +434,7 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 			    lw6cnx_ticket_table_t * ticket_table,
 			    u_int32_t logical_ticket_sig,
 			    u_int64_t logical_from_id,
-			    u_int64_t logical_to_id, char *msg)
+			    u_int64_t logical_to_id, const char *msg)
 {
   int ret = 0;
   lw6cnx_connection_t *cnx = NULL;
@@ -465,7 +465,7 @@ _lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
 				 lw6cnx_ticket_table_t * ticket_table,
 				 u_int32_t logical_ticket_sig,
 				 u_int64_t logical_from_id,
-				 u_int64_t logical_to_id, char *msg)
+				 u_int64_t logical_to_id, const char *msg)
 {
   int ret = 0;
   lw6cnx_connection_t *cnx = NULL;

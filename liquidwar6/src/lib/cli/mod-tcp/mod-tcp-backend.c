@@ -80,10 +80,11 @@ _process_oob (void *cli_context, lw6nod_info_t * node_info,
 }
 
 static lw6cnx_connection_t *
-_open (void *cli_context, char *local_url, char *remote_url, char *remote_ip,
-       int remote_port, char *password, u_int64_t local_id,
-       u_int64_t remote_id, int dns_ok, int network_reliability,
-       lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
+_open (void *cli_context, const char *local_url, const char *remote_url,
+       const char *remote_ip, int remote_port, const char *password,
+       u_int64_t local_id, u_int64_t remote_id, int dns_ok,
+       int network_reliability, lw6cnx_recv_callback_t recv_callback_func,
+       void *recv_callback_data)
 {
   _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
   lw6cnx_connection_t *ret = NULL;
@@ -114,7 +115,8 @@ _close (void *cli_context, lw6cnx_connection_t * connection)
 static int
 _send (void *cli_context, lw6cnx_connection_t * connection,
        u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
-       u_int64_t logical_from_id, u_int64_t logical_to_id, char *message)
+       u_int64_t logical_from_id, u_int64_t logical_to_id,
+       const char *message)
 {
   _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
   int ret = 0;

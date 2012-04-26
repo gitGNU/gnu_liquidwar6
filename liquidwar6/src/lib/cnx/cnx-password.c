@@ -47,7 +47,7 @@
  * Return value: a dynamically allocated string
  */
 char *
-lw6cnx_password_checksum (char *seed, char *password)
+lw6cnx_password_checksum (const char *seed, const char *password)
 {
   char *ret = NULL;
 
@@ -87,8 +87,8 @@ lw6cnx_password_checksum (char *seed, char *password)
  * Return value: 1 if OK, passwords are the same, 0 if not.
  */
 int
-lw6cnx_password_verify (char *seed, char *password_here,
-			char *password_received)
+lw6cnx_password_verify (const char *seed, const char *password_here,
+			const char *password_received)
 {
   int ret = 0;
   char *checksum = NULL;

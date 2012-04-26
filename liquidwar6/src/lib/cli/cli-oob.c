@@ -42,7 +42,7 @@
  * Return value: new object
  */
 lw6cli_oob_t *
-lw6cli_oob_new (char *public_url,
+lw6cli_oob_new (const char *public_url,
 		lw6cli_verify_callback_func_t verify_callback_func,
 		void *verify_callback_data)
 {

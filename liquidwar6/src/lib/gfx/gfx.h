@@ -117,7 +117,7 @@ extern int lw6gfx_display (lw6gfx_backend_t * backend, int mask,
 /* gfx-register.c */
 extern lw6sys_assoc_t *lw6gfx_get_backends (int argc, const char *argv[]);
 extern lw6gfx_backend_t *lw6gfx_create_backend (int argc, const char *argv[],
-						char *name);
+						const char *name);
 extern void lw6gfx_destroy_backend (lw6gfx_backend_t * backend);
 
 /* gfx-test.c */

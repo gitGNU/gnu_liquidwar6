@@ -41,7 +41,7 @@
  * Return value: newly allocated string.
  */
 char *
-lw6glb_base64_encode_bin (char *buf, int size)
+lw6glb_base64_encode_bin (const char *buf, int size)
 {
   char *ret = NULL;
 
@@ -63,7 +63,7 @@ lw6glb_base64_encode_bin (char *buf, int size)
  * Return value: newly allocated pointer, NULL on error.
  */
 char *
-lw6glb_base64_decode_bin (int *size, char *base64_str)
+lw6glb_base64_decode_bin (int *size, const char *base64_str)
 {
   char *ret = NULL;
 
@@ -82,7 +82,7 @@ lw6glb_base64_decode_bin (int *size, char *base64_str)
  * Return value: newly allocated string.
  */
 char *
-lw6glb_base64_encode_str (char *str)
+lw6glb_base64_encode_str (const char *str)
 {
   char *ret = NULL;
 
@@ -101,7 +101,7 @@ lw6glb_base64_encode_str (char *str)
  * Return value: newly allocated string, NULL on error.
  */
 char *
-lw6glb_base64_decode_str (char *str)
+lw6glb_base64_decode_str (const char *str)
 {
   char *ret = NULL;
 
@@ -124,7 +124,8 @@ lw6glb_base64_decode_str (char *str)
  * Return value: newly allocated string.
  */
 char *
-lw6glb_base64_encode_bin_prefix (char *buf, int size, char *prefix)
+lw6glb_base64_encode_bin_prefix (const char *buf, int size,
+				 const char *prefix)
 {
   char *ret = NULL;
   int out_len = 0;
@@ -166,7 +167,8 @@ lw6glb_base64_encode_bin_prefix (char *buf, int size, char *prefix)
  * Return value: newly allocated pointer, NULL on error.
  */
 char *
-lw6glb_base64_decode_bin_prefix (int *size, char *base64_str, char *prefix)
+lw6glb_base64_decode_bin_prefix (int *size, const char *base64_str,
+				 const char *prefix)
 {
   char *ret = NULL;
   int in_len = 0;
@@ -253,7 +255,7 @@ lw6glb_base64_decode_bin_prefix (int *size, char *base64_str, char *prefix)
  * Return value: newly allocated string.
  */
 char *
-lw6glb_base64_encode_str_prefix (char *str, char *prefix)
+lw6glb_base64_encode_str_prefix (const char *str, const char *prefix)
 {
   char *ret = NULL;
 
@@ -274,7 +276,7 @@ lw6glb_base64_encode_str_prefix (char *str, char *prefix)
  * Return value: newly allocated string, NULL on error.
  */
 char *
-lw6glb_base64_decode_str_prefix (char *str, char *prefix)
+lw6glb_base64_decode_str_prefix (const char *str, const char *prefix)
 {
   char *ret = NULL;
   int size = 0;

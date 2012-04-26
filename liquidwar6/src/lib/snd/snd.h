@@ -126,7 +126,7 @@ extern char *lw6snd_repr (lw6snd_backend_t * backend);
 /* snd-register.c */
 extern lw6sys_assoc_t *lw6snd_get_backends (int argc, const char *argv[]);
 extern lw6snd_backend_t *lw6snd_create_backend (int argc, const char *argv[],
-						char *name);
+						const char *name);
 extern void lw6snd_destroy_backend (lw6snd_backend_t * backend);
 
 /* snd-test.c */

@@ -172,6 +172,10 @@
 #define TEST_NODE_POLL_DURATION 100
 // 10 times bigger than _LW6PIL_MIN_SEQ_0
 #define TEST_NODE_API_SEQ_0 100000000000LL
+#define TEST_NODE_API_DUMP_SIZE 100000
+#define TEST_NODE_API_MSG1_STR "message number one"
+#define TEST_NODE_API_MSG2_STR "2"
+#define TEST_NODE_API_MSG3_STR "3 fire!"
 
 /* 
  * Testing db
@@ -951,6 +955,20 @@ _test_node_api_node2_callback (void *api_data)
   while (lw6sys_get_timestamp () < end_timestamp)
     {
       lw6p2p_node_poll (data->node);
+      if (lw6p2p_node_is_dump_needed (data->node))
+	{
+	  char *dump = NULL;
+
+	  dump = lw6sys_str_random_word (TEST_NODE_API_DUMP_SIZE);
+	  if (dump)
+	    {
+	      lw6p2p_node_put_local_msg (data->node, dump);
+	      lw6p2p_node_put_local_msg (data->node, TEST_NODE_API_MSG1_STR);
+	      lw6p2p_node_put_local_msg (data->node, TEST_NODE_API_MSG2_STR);
+	      lw6p2p_node_put_local_msg (data->node, TEST_NODE_API_MSG3_STR);
+	      LW6SYS_FREE (dump);
+	    }
+	}
     }
 
   if (data->ret)
@@ -1201,9 +1219,15 @@ lw6p2p_test (int mode)
 
   if (lw6net_init (argc, argv, _TEST_NET_LOG))
     {
-      //ret = _test_db () && _test_entry () && _test_node_init ()
-      // && _test_node_oob () && _test_node_cmd () && _test_node_api ();
-      ret = _test_node_api ();
+      if (0)
+	{			// speed-up test while debugging _test_node_api
+	  ret = _test_db () && _test_entry () && _test_node_init ()
+	    && _test_node_oob () && _test_node_cmd () && _test_node_api ();
+	}
+      else
+	{
+	  ret = _test_node_api ();
+	}
 
       lw6net_quit (argc, argv);
     }

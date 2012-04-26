@@ -47,7 +47,7 @@ _encode_buffer_len (int in_len)
 }
 
 static int
-_z_encode (char *out_buf, int *out_buf_len, char *msg, int msg_len)
+_z_encode (char *out_buf, int *out_buf_len, const char *msg, int msg_len)
 {
   int ret = 0;
   uLongf _out_buf_len = (*out_buf_len);
@@ -59,7 +59,7 @@ _z_encode (char *out_buf, int *out_buf_len, char *msg, int msg_len)
 }
 
 static int
-_z_decode (char *out_buf, int *out_buf_len, char *msg, int msg_len)
+_z_decode (char *out_buf, int *out_buf_len, const char *msg, int msg_len)
 {
   int ret = 0;
   uLongf _out_buf_len = (*out_buf_len);
@@ -86,7 +86,7 @@ _z_decode (char *out_buf, int *out_buf_len, char *msg, int msg_len)
  * Return value: newly allocated string, 0 terminated, NULL on error.
  */
 char *
-lw6msg_z_encode (char *msg, int limit)
+lw6msg_z_encode (const char *msg, int limit)
 {
   char *ret = NULL;
   int in_len = 0;
@@ -161,7 +161,7 @@ lw6msg_z_encode (char *msg, int limit)
  * Return value: newly allocated string, 0 terminated, NULL on error.
  */
 char *
-lw6msg_z_decode (char *msg)
+lw6msg_z_decode (const char *msg)
 {
   char *ret = NULL;
   int in_len = 0;

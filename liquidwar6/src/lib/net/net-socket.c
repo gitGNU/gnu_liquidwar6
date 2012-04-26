@@ -33,7 +33,7 @@
 #include "net-internal.h"
 
 int
-_lw6net_socket_bind (char *ip, int port, int protocol)
+_lw6net_socket_bind (const char *ip, int port, int protocol)
 {
   int sock = -1;
   int binded = 0;

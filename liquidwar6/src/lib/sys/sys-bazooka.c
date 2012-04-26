@@ -134,7 +134,8 @@ _big_cleanup ()
 }
 
 static int
-bazooka_register_malloc (char *ptr, int size, char *file, int line, int erase)
+bazooka_register_malloc (char *ptr, int size, const char *file, int line,
+			 int erase)
 {
   int ret = 1;
 
@@ -151,7 +152,7 @@ bazooka_register_malloc (char *ptr, int size, char *file, int line, int erase)
   if (bazooka_data)
     {
       int i;
-      char *file_only;
+      const char *file_only;
 
       if (erase)
 	{
@@ -438,7 +439,8 @@ lw6sys_get_memory_bazooka_eraser ()
 }
 
 int
-_lw6sys_bazooka_register_malloc (char *ptr, int size, char *file, int line)
+_lw6sys_bazooka_register_malloc (char *ptr, int size, const char *file,
+				 int line)
 {
   int ret = 1;
 
@@ -450,7 +452,8 @@ _lw6sys_bazooka_register_malloc (char *ptr, int size, char *file, int line)
 }
 
 int
-_lw6sys_bazooka_register_calloc (char *ptr, int size, char *file, int line)
+_lw6sys_bazooka_register_calloc (char *ptr, int size, const char *file,
+				 int line)
 {
   int ret = 1;
 
@@ -462,7 +465,8 @@ _lw6sys_bazooka_register_calloc (char *ptr, int size, char *file, int line)
 }
 
 int
-_lw6sys_bazooka_register_realloc_1 (char *ptr, int size, char *file, int line)
+_lw6sys_bazooka_register_realloc_1 (char *ptr, int size, const char *file,
+				    int line)
 {
   int ret = 1;
 
@@ -503,7 +507,7 @@ _lw6sys_bazooka_register_realloc_1 (char *ptr, int size, char *file, int line)
 
 int
 _lw6sys_bazooka_register_realloc_2 (char *ptr, char *ptr2, int size,
-				    char *file, int line)
+				    const char *file, int line)
 {
   int ret = 1;
 
@@ -512,7 +516,7 @@ _lw6sys_bazooka_register_realloc_2 (char *ptr, char *ptr2, int size,
   if (bazooka_data)
     {
       int i;
-      char *file_only;
+      const char *file_only;
 
       for (i = _hash_index (ptr); i < bazooka_size; ++i)
 	{

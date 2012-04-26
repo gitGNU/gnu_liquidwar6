@@ -119,7 +119,7 @@ _mod_http_query_thread_filter (void *func_data, void *data)
 int
 _mod_http_query_thread_process_response_line (_mod_http_query_thread_data_t *
 					      query_thread_data,
-					      char *response_line)
+					      const char *response_line)
 {
   int ret = 0;
   lw6cnx_connection_t *cnx = query_thread_data->cnx;

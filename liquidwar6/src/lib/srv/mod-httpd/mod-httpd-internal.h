@@ -203,10 +203,11 @@ extern _mod_httpd_response_t
 extern lw6cnx_connection_t *_mod_httpd_open (_mod_httpd_context_t *
 					     httpd_context,
 					     lw6srv_listener_t * listener,
-					     char *local_url,
-					     char *remote_url,
-					     char *remote_ip, int remote_port,
-					     char *password,
+					     const char *local_url,
+					     const char *remote_url,
+					     const char *remote_ip,
+					     int remote_port,
+					     const char *password,
 					     u_int64_t local_id,
 					     u_int64_t remote_id, int dns_ok,
 					     int network_reliability,
@@ -226,7 +227,7 @@ extern int _mod_httpd_send (_mod_httpd_context_t * httpd_context,
 			    u_int32_t physical_ticket_sig,
 			    u_int32_t logical_ticket_sig,
 			    u_int64_t logical_from_id,
-			    u_int64_t logical_to_id, char *message);
+			    u_int64_t logical_to_id, const char *message);
 extern void _mod_httpd_poll (_mod_httpd_context_t * httpd_context,
 			     lw6cnx_connection_t * connection);
 
@@ -258,13 +259,15 @@ extern void _mod_httpd_request_free (_mod_httpd_request_t * request);
 extern _mod_httpd_response_t
   * _mod_httpd_response_from_bin (_mod_httpd_context_t * httpd_context,
 				  int status, int no_cache, int refresh_sec,
-				  char *refresh_url, char *content_type,
-				  int content_size, void *content_data);
+				  const char *refresh_url,
+				  const char *content_type, int content_size,
+				  void *content_data);
 extern _mod_httpd_response_t
-  * _mod_httpd_response_from_str (_mod_httpd_context_t * httpd_context,
-				  int status, int no_cache, int refresh_sec,
-				  char *refresh_url, char *content_type,
-				  char *content);
+  *_mod_httpd_response_from_str (_mod_httpd_context_t * httpd_context,
+				 int status, int no_cache, int refresh_sec,
+				 const char *refresh_url,
+				 const char *content_type,
+				 const char *content);
 extern void _mod_httpd_response_free (_mod_httpd_response_t * response);
 extern int _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
 				     _mod_httpd_response_t * response,

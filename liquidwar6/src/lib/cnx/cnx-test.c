@@ -49,7 +49,7 @@ _recv_callback_func (void *recv_callback_data, void *connection,
 		     u_int32_t physical_ticket_sig,
 		     u_int32_t logical_ticket_sig,
 		     u_int64_t logical_from_id, u_int64_t logical_to_id,
-		     char *message)
+		     const char *message)
 {
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("received \"%s\""), message);
 }

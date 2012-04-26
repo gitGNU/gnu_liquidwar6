@@ -61,7 +61,7 @@
  * Return value: newly allocated string.
  */
 char *
-lw6sys_escape_http_uri (char *src)
+lw6sys_escape_http_uri (const char *src)
 {
   char *ret = NULL;
   int len = 0;
@@ -140,7 +140,7 @@ lw6sys_escape_http_uri (char *src)
  * Return value: newly allocated string.
  */
 char *
-lw6sys_escape_html_attribute (char *src)
+lw6sys_escape_html_attribute (const char *src)
 {
   char *ret = NULL;
   int len = 0;
@@ -221,7 +221,7 @@ lw6sys_escape_html_attribute (char *src)
  * Return value: newly allocated string.
  */
 char *
-lw6sys_escape_sql_value (char *src)
+lw6sys_escape_sql_value (const char *src)
 {
   char *ret = NULL;
   int len = 0;

@@ -110,14 +110,14 @@ typedef struct _lw6sys_global_s
 
 extern _lw6sys_global_t _lw6sys_global;
 
-extern int _lw6sys_bazooka_register_malloc (char *ptr, int size, char *file,
-					    int line);
-extern int _lw6sys_bazooka_register_calloc (char *ptr, int size, char *file,
-					    int line);
+extern int _lw6sys_bazooka_register_malloc (char *ptr, int size,
+					    const char *file, int line);
+extern int _lw6sys_bazooka_register_calloc (char *ptr, int size,
+					    const char *file, int line);
 extern int _lw6sys_bazooka_register_realloc_1 (char *ptr, int size,
-					       char *file, int line);
+					       const char *file, int line);
 extern int _lw6sys_bazooka_register_realloc_2 (char *ptr, char *ptr2,
-					       int size, char *file,
+					       int size, const char *file,
 					       int line);
 extern int _lw6sys_bazooka_register_free (char *ptr);
 extern char *_lw6sys_new_vsnprintf (int n, const char *fmt, va_list ap);

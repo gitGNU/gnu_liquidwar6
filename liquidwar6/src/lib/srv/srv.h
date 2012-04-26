@@ -214,11 +214,12 @@ typedef struct lw6srv_backend_s
 		      lw6srv_oob_data_t * oob_data);
   /// Pointer on lw6srv_open callback code.
   lw6cnx_connection_t *(*open) (void *srv_context,
-				lw6srv_listener_t * listener, char *local_url,
-				char *remote_url, char *remote_ip,
-				int remote_port, char *password,
-				u_int64_t local_id, u_int64_t remote_id,
-				int dns_ok, int network_reliability,
+				lw6srv_listener_t * listener,
+				const char *local_url, const char *remote_url,
+				const char *remote_ip, int remote_port,
+				const char *password, u_int64_t local_id,
+				u_int64_t remote_id, int dns_ok,
+				int network_reliability,
 				lw6cnx_recv_callback_t recv_callback_func,
 				void *recv_callback_data);
   /// Pointer on lw6srv_feed_with_tcp callback code.
@@ -233,7 +234,7 @@ typedef struct lw6srv_backend_s
   int (*send) (void *srv_context, lw6cnx_connection_t * connection,
 	       u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
 	       u_int64_t logical_from_id,
-	       u_int64_t logical_to_id, char *message);
+	       u_int64_t logical_to_id, const char *message);
   /// Pointer on lw6srv_poll callback code.
   void (*poll) (void *srv_context, lw6cnx_connection_t * connection);
   /// Pointer on lw6srv_repr callback code.
@@ -258,11 +259,14 @@ extern int lw6srv_process_oob (lw6srv_backend_t * backend,
 			       lw6srv_oob_data_t * oob_data);
 extern lw6cnx_connection_t *lw6srv_open (lw6srv_backend_t * backend,
 					 lw6srv_listener_t * listener,
-					 char *local_url, char *remote_url,
-					 char *remote_ip, int remote_port,
-					 char *password, u_int64_t local_id,
-					 u_int64_t remote_id,
-					 int dns_ok, int network_reliability,
+					 const char *local_url,
+					 const char *remote_url,
+					 const char *remote_ip,
+					 int remote_port,
+					 const char *password,
+					 u_int64_t local_id,
+					 u_int64_t remote_id, int dns_ok,
+					 int network_reliability,
 					 lw6cnx_recv_callback_t
 					 recv_callback_func,
 					 void *recv_callback_data);
@@ -279,26 +283,26 @@ extern int lw6srv_send (lw6srv_backend_t * backend,
 			u_int32_t physical_ticket_sig,
 			u_int32_t logical_ticket_sig,
 			u_int64_t logical_from_id, u_int64_t logical_to_id,
-			char *message);
+			const char *message);
 extern void lw6srv_poll (lw6srv_backend_t * backend,
 			 lw6cnx_connection_t * connection);
 extern char *lw6srv_repr (lw6srv_backend_t * backend,
 			  lw6cnx_connection_t * connection);
 
 /* srv-control.c */
-extern lw6srv_listener_t *lw6srv_start (char *ip, int port);
+extern lw6srv_listener_t *lw6srv_start (const char *ip, int port);
 extern void lw6srv_stop (lw6srv_listener_t * listener);
 
 /* srv-oob.c */
-extern lw6srv_oob_t *lw6srv_oob_new (char *remote_ip, int remote_port,
-				     int sock, char *first_line);
+extern lw6srv_oob_t *lw6srv_oob_new (const char *remote_ip, int remote_port,
+				     int sock, const char *first_line);
 extern void lw6srv_oob_free (lw6srv_oob_t * oob);
 
 /* srv-register.c */
 extern char *lw6srv_default_backends ();
 extern lw6sys_assoc_t *lw6srv_get_backends (int argc, const char *argv[]);
 extern lw6srv_backend_t *lw6srv_create_backend (int argc, const char *argv[],
-						char *name);
+						const char *name);
 extern void lw6srv_destroy_backend (lw6srv_backend_t * backend);
 
 /* srv-tcpaccepter.c */

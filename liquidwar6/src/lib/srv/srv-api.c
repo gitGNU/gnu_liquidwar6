@@ -241,9 +241,10 @@ lw6srv_process_oob (lw6srv_backend_t * backend, lw6nod_info_t * node_info,
  */
 lw6cnx_connection_t *
 lw6srv_open (lw6srv_backend_t * backend, lw6srv_listener_t * listener,
-	     char *local_url, char *remote_url, char *remote_ip,
-	     int remote_port, char *password, u_int64_t local_id,
-	     u_int64_t remote_id, int dns_ok, int network_reliability,
+	     const char *local_url, const char *remote_url,
+	     const char *remote_ip, int remote_port, const char *password,
+	     u_int64_t local_id, u_int64_t remote_id, int dns_ok,
+	     int network_reliability,
 	     lw6cnx_recv_callback_t recv_callback_func,
 	     void *recv_callback_data)
 {
@@ -391,7 +392,7 @@ int
 lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
 	     u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
 	     u_int64_t logical_from_id,
-	     u_int64_t logical_to_id, char *message)
+	     u_int64_t logical_to_id, const char *message)
 {
   int ret = 0;
 

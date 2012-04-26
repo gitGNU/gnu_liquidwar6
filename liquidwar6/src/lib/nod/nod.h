@@ -181,15 +181,16 @@ typedef struct lw6nod_info_s
 
 /* nod-community.c */
 extern int lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id,
-				      char *url);
+				      const char *url);
 extern int lw6nod_info_community_is_member (lw6nod_info_t * info,
-					    u_int64_t id, char *url);
+					    u_int64_t id, const char *url);
 extern int lw6nod_info_community_has_id (lw6nod_info_t * info, u_int64_t id);
-extern int lw6nod_info_community_has_url (lw6nod_info_t * info, char *url);
+extern int lw6nod_info_community_has_url (lw6nod_info_t * info,
+					  const char *url);
 extern int lw6nod_info_community_remove_by_id (lw6nod_info_t * info,
 					       u_int64_t id);
 extern int lw6nod_info_community_remove_by_url (lw6nod_info_t * info,
-						char *url);
+						const char *url);
 extern int lw6nod_info_community_count (lw6nod_info_t * info);
 extern void lw6nod_info_community_reset (lw6nod_info_t * info);
 
@@ -197,13 +198,15 @@ extern void lw6nod_info_community_reset (lw6nod_info_t * info);
 extern void lw6nod_dyn_info_free (lw6nod_dyn_info_t * info);
 
 /* nod-info.c */
-extern lw6nod_info_t *lw6nod_info_new (char *program,
-				       char *version,
-				       char *codename,
+extern lw6nod_info_t *lw6nod_info_new (const char *program,
+				       const char *version,
+				       const char *codename,
 				       int stamp,
-				       u_int64_t id, char *url, char *title,
-				       char *description, char *password,
-				       int bench, int open_relay, int uptime,
+				       u_int64_t id, const char *url,
+				       const char *title,
+				       const char *description,
+				       const char *password, int bench,
+				       int open_relay, int uptime,
 				       int idle_screenshot_size,
 				       void *idle_screenshot_data);
 extern void lw6nod_info_free (lw6nod_info_t * info);
@@ -211,16 +214,16 @@ extern int lw6nod_info_lock (lw6nod_info_t * info);
 extern int lw6nod_info_unlock (lw6nod_info_t * info);
 extern void lw6nod_info_idle (lw6nod_info_t * info);
 extern int lw6nod_info_update (lw6nod_info_t * info, u_int64_t community_id,
-			       int round, char *level, int required_bench,
-			       int nb_colors, int max_nb_colors,
-			       int nb_cursors, int max_nb_cursors,
-			       int nb_nodes, int max_nb_nodes,
-			       int game_screenshot_size,
+			       int round, const char *level,
+			       int required_bench, int nb_colors,
+			       int max_nb_colors, int nb_cursors,
+			       int max_nb_cursors, int nb_nodes,
+			       int max_nb_nodes, int game_screenshot_size,
 			       void *game_screenshot_data);
 extern lw6nod_dyn_info_t *lw6nod_info_dup_dyn (lw6nod_info_t * info);
 extern lw6sys_hash_t *lw6nod_info_new_discovered_nodes ();
 extern int lw6nod_info_add_discovered_node (lw6nod_info_t * info,
-					    char *public_url);
+					    const char *public_url);
 extern lw6sys_list_t *lw6nod_info_pop_discovered_nodes (lw6nod_info_t * info);
 extern lw6sys_list_t *lw6nod_info_new_verified_nodes ();
 extern int lw6nod_info_set_verified_nodes (lw6nod_info_t * info,

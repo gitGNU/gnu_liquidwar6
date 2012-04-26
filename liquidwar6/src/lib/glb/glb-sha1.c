@@ -46,7 +46,8 @@
  * Return value: newly allocated string, containing 20 chars checksum.
  */
 char *
-lw6glb_sha1_hmac_80_bin (char *key, int key_size, char *buf, int buf_size)
+lw6glb_sha1_hmac_80_bin (const char *key, int key_size, const char *buf,
+			 int buf_size)
 {
   char *ret = NULL;
   char sha1_bin[_SHA1_SIZE];
@@ -80,7 +81,7 @@ lw6glb_sha1_hmac_80_bin (char *key, int key_size, char *buf, int buf_size)
  * Return value: newly allocated string, containing 20 chars checksum.
  */
 char *
-lw6glb_sha1_hmac_80_str (char *key, char *str)
+lw6glb_sha1_hmac_80_str (const char *key, const char *str)
 {
   char *ret = NULL;
 
@@ -110,7 +111,8 @@ lw6glb_sha1_hmac_80_str (char *key, char *str)
  * Return value: a 32-bit unsigned integer
  */
 u_int32_t
-lw6glb_sha1_hmac_32_bin (char *key, int key_size, char *buf, int buf_size)
+lw6glb_sha1_hmac_32_bin (const char *key, int key_size, const char *buf,
+			 int buf_size)
 {
   u_int32_t ret = 0;
   char sha1_bin[_SHA1_SIZE];
@@ -144,7 +146,7 @@ lw6glb_sha1_hmac_32_bin (char *key, int key_size, char *buf, int buf_size)
  * Return value: a 32-bit unsigned integer
  */
 u_int32_t
-lw6glb_sha1_hmac_32_str (char *key, char *str)
+lw6glb_sha1_hmac_32_str (const char *key, const char *str)
 {
   u_int32_t ret = 0;
 

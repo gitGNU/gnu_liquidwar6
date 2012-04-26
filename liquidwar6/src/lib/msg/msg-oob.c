@@ -222,8 +222,8 @@ lw6msg_oob_generate_pong (lw6nod_info_t * info)
  * Return value: a newly allocated string
  */
 char *
-lw6msg_oob_generate_request (char *command, char *remote_url, char *password,
-			     char *local_url)
+lw6msg_oob_generate_request (const char *command, const char *remote_url,
+			     const char *password, const char *local_url)
 {
   char *ret = NULL;
   char *password_checksum = NULL;
@@ -279,8 +279,8 @@ lw6msg_oob_generate_request (char *command, char *remote_url, char *password,
  */
 int
 lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
-			    char **remote_url, char *request, char *local_url,
-			    char *password)
+			    char **remote_url, const char *request,
+			    const char *local_url, const char *password)
 {
   int ret = 0;
   char *copy = NULL;
@@ -450,7 +450,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
  * Return value: newly allocated string containing public_url if OK, NULL on error.
  */
 char *
-lw6msg_oob_analyse_pong (char *text)
+lw6msg_oob_analyse_pong (const char *text)
 {
   char *ret = NULL;
   char *copy = NULL;

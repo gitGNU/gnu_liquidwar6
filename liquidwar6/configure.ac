@@ -736,7 +736,7 @@ LW6_MAC_OS_X_CFLAGS=""
 LW6_GP2X_CFLAGS=""
 
 if test "x${lw6_gnu}" = "xyes" ; then
-   LW6_GNU_CFLAGS="-DLW6_GNU"
+   LW6_GNU_CFLAGS="-DLW6_GNU -Werror"
 fi
 if test "x${lw6_unix}" = "xyes" ; then
    LW6_UNIX_CFLAGS="-DLW6_UNIX"

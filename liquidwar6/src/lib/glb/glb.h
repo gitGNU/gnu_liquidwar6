@@ -26,27 +26,30 @@
 #include "../sys/sys.h"
 
 /* glb-base64.c */
-extern char *lw6glb_base64_encode_bin (char *buf, int size);
-extern char *lw6glb_base64_decode_bin (int *size, char *base64_str);
-extern char *lw6glb_base64_encode_str (char *str);
-extern char *lw6glb_base64_decode_str (char *str);
-extern char *lw6glb_base64_encode_bin_prefix (char *buf, int size,
-					      char *prefix);
-extern char *lw6glb_base64_decode_bin_prefix (int *size, char *base64_str,
-					      char *prefix);
-extern char *lw6glb_base64_encode_str_prefix (char *str, char *prefix);
-extern char *lw6glb_base64_decode_str_prefix (char *str, char *prefix);
+extern char *lw6glb_base64_encode_bin (const char *buf, int size);
+extern char *lw6glb_base64_decode_bin (int *size, const char *base64_str);
+extern char *lw6glb_base64_encode_str (const char *str);
+extern char *lw6glb_base64_decode_str (const char *str);
+extern char *lw6glb_base64_encode_bin_prefix (const char *buf, int size,
+					      const char *prefix);
+extern char *lw6glb_base64_decode_bin_prefix (int *size,
+					      const char *base64_str,
+					      const char *prefix);
+extern char *lw6glb_base64_encode_str_prefix (const char *str,
+					      const char *prefix);
+extern char *lw6glb_base64_decode_str_prefix (const char *str,
+					      const char *prefix);
 
-extern char *lw6glb_base64_encode (char *str);
-extern char *lw6glb_base64_decode (char *str);
+extern char *lw6glb_base64_encode (const char *str);
+extern char *lw6glb_base64_decode (const char *str);
 
 /* glb-sha1.c */
-char *lw6glb_sha1_hmac_80_bin (char *key, int key_size, char *buf,
+char *lw6glb_sha1_hmac_80_bin (const char *key, int key_size, const char *buf,
 			       int buf_size);
-char *lw6glb_sha1_hmac_80_str (char *key, char *str);
-u_int32_t lw6glb_sha1_hmac_32_bin (char *key, int key_size, char *buf,
-				   int buf_size);
-u_int32_t lw6glb_sha1_hmac_32_str (char *key, char *str);
+char *lw6glb_sha1_hmac_80_str (const char *key, const char *str);
+u_int32_t lw6glb_sha1_hmac_32_bin (const char *key, int key_size,
+				   const char *buf, int buf_size);
+u_int32_t lw6glb_sha1_hmac_32_str (const char *key, const char *str);
 
 /* glb-test.c */
 extern int lw6glb_test (int mode);
