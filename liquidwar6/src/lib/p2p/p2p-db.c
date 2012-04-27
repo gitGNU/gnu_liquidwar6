@@ -164,7 +164,8 @@ _lw6p2p_db_open (int argc, const char *argv[], char *name)
 					{
 					  lw6sys_log (LW6SYS_LOG_WARNING,
 						      _x_
-						      ("can't open db \"%s\""));
+						      ("can't open db \"%s\""),
+						      db->db_filename);
 					}
 				    }
 				}

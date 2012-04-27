@@ -404,7 +404,8 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 		      _x_
 		      ("cant't put atom string, logical_from inconsistency logical_from=%"
 		       LW6SYS_PRINTF_LL "x logical_from2=%" LW6SYS_PRINTF_LL
-		       "x"), logical_from, logical_from2);
+		       "x"), (long long) logical_from,
+		      (long long) logical_from2);
 	}
     }
 
@@ -712,7 +713,8 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
 
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("before range check seq_min=%" LW6SYS_PRINTF_LL
-		       "d seq_max=%" LW6SYS_PRINTF_LL "d"), seq_min, seq_max);
+		       "d seq_max=%" LW6SYS_PRINTF_LL "d"),
+		  (long long) seq_min, (long long) seq_max);
 
       warehouse_seq_min = _lw6dat_warehouse_get_seq_min (warehouse);
       warehouse_seq_max = _lw6dat_warehouse_get_seq_max (warehouse);
@@ -721,7 +723,8 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
 
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("after range check seq_min=%" LW6SYS_PRINTF_LL
-		       "d seq_max=%" LW6SYS_PRINTF_LL "d"), seq_min, seq_max);
+		       "d seq_max=%" LW6SYS_PRINTF_LL "d"),
+		  (long long) seq_min, (long long) seq_max);
     }
   ret = _lw6dat_stack_init_list ();
   if (ret)

@@ -92,7 +92,7 @@ _lw6ker_cursor_array_is_color_owned_by (_lw6ker_cursor_array_t * cursor_array,
 	  // this team_color is owned at least one by another node
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_ ("color %d owned by %" LW6SYS_PRINTF_LL "x"),
-		      team_color, node_id);
+		      team_color, (long long) node_id);
 	  ret = 0;
 	}
     }
@@ -201,7 +201,7 @@ _lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
 
   lw6sys_log (LW6SYS_LOG_DEBUG,
 	      _x_ ("cursor array update %" LW6SYS_PRINTF_LL "x %x %d %d %d"),
-	      node_id, cursor_id, x, y, pot_offset);
+	      (long long) node_id, cursor_id, x, y, pot_offset);
   cursor = _lw6ker_cursor_array_get (cursor_array, cursor_id);
   if (cursor)
     {

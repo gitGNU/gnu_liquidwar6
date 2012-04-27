@@ -115,8 +115,8 @@ _mod_httpd_reply_thread_func (void *callback_data)
 						reply_thread_data->sock, 0))
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _x_ ("mod_httpd sent \"%s\""),
-				  response->content_data);
+				  _x_ ("mod_httpd sent %d bytes"),
+				  response->content_size);
 		      _mod_httpd_log (httpd_context, request, response);
 		    }
 		  else

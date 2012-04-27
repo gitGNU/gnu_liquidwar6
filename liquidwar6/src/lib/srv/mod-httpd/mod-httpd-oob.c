@@ -136,7 +136,7 @@ _response_index_html (_mod_httpd_context_t * httpd_context,
 					    const_info.creation_timestamp);
 		  if (uptime)
 		    {
-		      list = lw6sys_new_sprintf ("");
+		      list = lw6sys_str_copy (LW6SYS_STR_EMPTY);
 		      if (list)
 			{
 			  lw6nod_info_map_verified_nodes (node_info,

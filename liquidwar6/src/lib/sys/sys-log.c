@@ -502,7 +502,7 @@ errno_str (int errno_int)
  * Return value: void
  */
 void
-lw6sys_log_set_file (char *filename)
+lw6sys_log_set_file (const char *filename)
 {
   memset (static_log_filename, 0, sizeof (static_log_filename));
   memcpy (static_log_filename, filename,
@@ -521,7 +521,7 @@ lw6sys_log_set_file (char *filename)
  * Return value: void
  */
 void
-lw6sys_log_clear (char *filename)
+lw6sys_log_clear (const char *filename)
 {
   char *default_log_file = NULL;
 
@@ -563,8 +563,8 @@ open_log_file ()
 }
 
 static void
-log_to_file (FILE * f, int level_id, char *level_str, char *file, int line,
-	     char *fmt, va_list ap)
+log_to_file (FILE * f, int level_id, const char *level_str, const char *file,
+	     int line, const char *fmt, va_list ap)
 {
   time_t t_now;
   struct tm tm_now;
@@ -593,7 +593,7 @@ log_to_file (FILE * f, int level_id, char *level_str, char *file, int line,
 }
 
 static void
-log_to_console (FILE * f, char *level_str, char *fmt, va_list ap)
+log_to_console (FILE * f, const char *level_str, const char *fmt, va_list ap)
 {
   fprintf (f, "%s: %s", lw6sys_build_get_package_tarname (), level_str);
   vfprintf (f, fmt, ap);
@@ -602,7 +602,7 @@ log_to_console (FILE * f, char *level_str, char *fmt, va_list ap)
 }
 
 static void
-log_to_history (char *level_str, char *fmt, va_list ap)
+log_to_history (const char *level_str, const char *fmt, va_list ap)
 {
   char msg[HISTORY_LENGTH + 1];
   char full_msg[HISTORY_LENGTH + 1];
@@ -619,8 +619,8 @@ log_to_history (char *level_str, char *fmt, va_list ap)
  * does have the _lw6sys_ prefix to avoid name conflicts.
  */
 void
-_lw6sys_msgbox_alert (char *level_str, char *file, int line, char *fmt,
-		      va_list ap)
+_lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
+		      const char *fmt, va_list ap)
 {
   char message_raw[MSGBOX_LENGTH + 1];
   char message_full[MSGBOX_LENGTH + 1];
@@ -757,7 +757,7 @@ _lw6sys_msgbox_alert (char *level_str, char *file, int line, char *fmt,
  * @Return value: void
  */
 void
-lw6sys_log (int level_id, char *file, int line, char *fmt, ...)
+lw6sys_log (int level_id, const char *file, int line, const char *fmt, ...)
 {
 #ifdef LW6_OPTIMIZE
   if ((level_id <= LW6SYS_LOG_NOTICE_ID
@@ -776,7 +776,7 @@ lw6sys_log (int level_id, char *file, int line, char *fmt, ...)
       int errno_int;
       va_list ap;
       va_list ap2;
-      char *file_only = NULL;
+      const char *file_only = NULL;
 
       errno_int = errno;
       level_str[0] = '\0';
@@ -917,7 +917,7 @@ lw6sys_log (int level_id, char *file, int line, char *fmt, ...)
  * @Return value: void
  */
 void
-lw6sys_log_critical (char *fmt, ...)
+lw6sys_log_critical (const char *fmt, ...)
 {
   va_list ap;
   va_list ap2;

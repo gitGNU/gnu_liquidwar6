@@ -40,7 +40,7 @@ log_event (SDL_Event * event)
     case SDL_KEYDOWN:
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_
-		  ("SDL event type=SDL_KEYDOWN state=%d scancode=%d sym=%d unicode=%d"),
+		  ("SDL event type=SDL_KEYDOWN state=%d scancode=%d sym=%d mod=%d unicode=%d"),
 		  (int) event->key.state,
 		  (int) event->key.keysym.scancode,
 		  (int) event->key.keysym.sym,
@@ -50,7 +50,7 @@ log_event (SDL_Event * event)
     case SDL_KEYUP:
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_
-		  ("SDL event type=SDL_KEYUP state=%d scancode=%d sym=%d unicode=%d"),
+		  ("SDL event type=SDL_KEYUP state=%d scancode=%d sym=%d mod=%d unicode=%d"),
 		  (int) event->key.state,
 		  (int) event->key.keysym.scancode,
 		  (int) event->key.keysym.sym,

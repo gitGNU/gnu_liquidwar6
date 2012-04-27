@@ -1571,15 +1571,17 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 		{
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
 			      _x_ ("keep connected to  %" LW6SYS_PRINTF_LL
-				   "x at \"%s\""), remote_id, remote_url);
+				   "x at \"%s\""), (long long) remote_id,
+			      remote_url);
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
 			      _x_ ("won't join %" LW6SYS_PRINTF_LL
 				   "x at \"%s\", it conflicts with %"
-				   LW6SYS_PRINTF_LL "x at \"%s\""), remote_id,
-			      remote_url, tentacle->remote_id_int,
+				   LW6SYS_PRINTF_LL "x at \"%s\""),
+			      (long long) remote_id, remote_url,
+			      (long long) tentacle->remote_id_int,
 			      tentacle->remote_url);
 		  tentacle = NULL;
 		  ret = 0;
@@ -1604,7 +1606,8 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 					     remote_url);
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
 			      _x_ ("trying to join  %" LW6SYS_PRINTF_LL
-				   "x at \"%s\""), remote_id, remote_url);
+				   "x at \"%s\""), (long long) remote_id,
+			      remote_url);
 		  ret =
 		    _lw6p2p_tentacle_init (tentacle, &(node->backends),
 					   node->listener, node->public_url,
@@ -1672,7 +1675,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_ ("won't join %" LW6SYS_PRINTF_LL
 			   "x at \"%s\", it conflicts with an existing community member"),
-		      remote_id, remote_url);
+		      (long long) remote_id, remote_url);
 	  ret = 0;
 	}
       LW6SYS_FREE (remote_id_str);

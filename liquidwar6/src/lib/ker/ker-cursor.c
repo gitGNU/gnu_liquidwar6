@@ -62,8 +62,8 @@ _lw6ker_cursor_check_node_id (lw6ker_cursor_t * cursor, u_int64_t node_id)
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("node id mismatch node_id=%" LW6SYS_PRINTF_LL
-		   "x cursor->node_id=%" LW6SYS_PRINTF_LL "x"), node_id,
-		  cursor->node_id);
+		   "x cursor->node_id=%" LW6SYS_PRINTF_LL "x"),
+		  (long long) node_id, (long long) cursor->node_id);
     }
 
   return ret;
@@ -269,8 +269,8 @@ _lw6ker_cursor_sanity_check (lw6ker_cursor_t * cursor,
 		  _x_
 		  ("inconsistent enabled cursor values enabled=%d node_id=%"
 		   LW6SYS_PRINTF_LL "x cursor_id=%x team_color=%d"),
-		  cursor->enabled, cursor->node_id, (int) cursor->cursor_id,
-		  cursor->team_color);
+		  cursor->enabled, (long long) cursor->node_id,
+		  (int) cursor->cursor_id, cursor->team_color);
       ret = 0;
     }
   if (shape)

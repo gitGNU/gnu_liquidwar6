@@ -2444,7 +2444,7 @@ data is not dynamically allocated.
 @strong{Returned value:}  a newly allocated list.
 @end deftypefun
 
-@deftypefun {void} {lw6sys_log_set_file} (char * @var{filename})
+@deftypefun {void} {lw6sys_log_set_file} (const char * @var{filename})
 @var{filename}:  the name of the log file.
 
 Sets up the log file. Until you call this function, messages
@@ -2454,7 +2454,7 @@ the @code{lw6sys_get_default_log_file} function.
 @strong{Return value:}  void
 @end deftypefun
 
-@deftypefun {void} {lw6sys_log_clear} (char * @var{filename})
+@deftypefun {void} {lw6sys_log_clear} (const char * @var{filename})
 @var{filename}:  the name of the log file.
 
 Clears the log file, this function would typically be called
@@ -2464,7 +2464,7 @@ default log file is cleared.
 @strong{Return value:}  void
 @end deftypefun
 
-@deftypefun {void} {lw6sys_log} (int @var{level_id}, char * @var{file}, int @var{line}, char * @var{fmt},  @var{...})
+@deftypefun {void} {lw6sys_log} (int @var{level_id}, const char * @var{file}, int @var{line}, const char * @var{fmt},  @var{...})
 @var{level_id}:  the log level to use. Possible values are, by order, 
 LW6SYS_LOG_ERROR_ID (0), 
 LW6SYS_LOG_WARNING_ID (1), 
@@ -2492,7 +2492,7 @@ idea is to call it whenever there's something to do with errno
 errno is cleared so that it won't interfere with next log messages.
 @end deftypefun
 
-@deftypefun {void} {lw6sys_log_critical} (char * @var{fmt},  @var{...})
+@deftypefun {void} {lw6sys_log_critical} (const char * @var{fmt},  @var{...})
 @var{fmt}:  a printf-like format string
 @...: printf-like arguments, corresponding to @code{fmt}.
 

@@ -137,7 +137,7 @@ lw6gui_look_repr (lw6gui_look_t * look)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, "look",
+      lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("can't generate string id for NULL look"));
     }
 

@@ -138,7 +138,7 @@ lw6snd_play_music_file (lw6snd_backend_t * backend, char *map_dir,
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_
-		      ("trying song \"%s\" with map_dir=\"%s\" and music_path=\"%d\""),
+		      ("trying song \"%s\" with map_dir=\"%s\" and music_path=\"%s\""),
 		      music_file, map_dir, music_path);
 	  found_path =
 	    lw6sys_find_in_dir_and_path (map_dir, music_path, music_file);

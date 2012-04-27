@@ -161,7 +161,7 @@ lw6sys_itoa (int value)
 char *
 lw6sys_lltoa (int64_t value)
 {
-  return lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d", value);
+  return lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d", (long long) value);
 }
 
 /**

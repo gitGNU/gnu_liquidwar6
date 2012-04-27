@@ -65,7 +65,7 @@ lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id,
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_ ("can't add node with id=%" LW6SYS_PRINTF_LL
 			       "x url=\"%s\", already here, no free slot"),
-			  id, url);
+			  (long long) id, url);
 	    }
 	}
     }
@@ -73,7 +73,8 @@ lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id,
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("can't add node with id=%" LW6SYS_PRINTF_LL
-		       "x url=\"%s\", already here, already here"), id, url);
+		       "x url=\"%s\", already here, already here"),
+		  (long long) id, url);
     }
 
   return ret;
@@ -178,7 +179,7 @@ lw6nod_info_community_remove_by_id (lw6nod_info_t * info, u_int64_t id)
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_ ("can't remove peer with id=%" LW6SYS_PRINTF_LL
 			   "x url=\"%s\", this is ourselves"),
-		      ref_info->id_int, ref_info->url);
+		      (long long) ref_info->id_int, ref_info->url);
 	}
     }
 
@@ -214,7 +215,7 @@ lw6nod_info_community_remove_by_url (lw6nod_info_t * info, const char *url)
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_ ("can't remove peer with id=%" LW6SYS_PRINTF_LL
 			   "x url=\"%s\", this is ourselves"),
-		      ref_info->id_int, ref_info->url);
+		      (long long) ref_info->id_int, ref_info->url);
 	}
     }
 

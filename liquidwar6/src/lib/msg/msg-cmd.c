@@ -111,7 +111,7 @@ lw6msg_cmd_generate_ticket (lw6nod_info_t * info, u_int64_t ticket)
     {
       ret =
 	lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "x", info_str, sep,
-			    ticket);
+			    (long long) ticket);
       LW6SYS_FREE (info_str);
     }
 
@@ -199,7 +199,8 @@ lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq)
   if (info_str)
     {
       ret =
-	lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "d", info_str, sep, seq);
+	lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "d", info_str, sep,
+			    (long long) seq);
       LW6SYS_FREE (info_str);
     }
 

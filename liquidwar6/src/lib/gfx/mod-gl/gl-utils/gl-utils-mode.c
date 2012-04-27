@@ -190,7 +190,7 @@ mod_gl_utils_set_video_mode (mod_gl_utils_context_t * utils_context,
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
 			      _x_
-			      ("video surface is %dx%d and not the requested &dx&d"),
+			      ("video surface is %dx%d and not the requested %dx%d"),
 			      video_surface->w, video_surface->h, width,
 			      height);
 		}

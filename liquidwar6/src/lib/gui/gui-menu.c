@@ -616,8 +616,7 @@ lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem,
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_
 		  ("trying to insert menuitem \"%s\" at position %d but menu \"%s\" has only %d items"),
-		  menu->title, position, menu->nb_items, menu->title,
-		  menu->nb_items);
+		  menu->title, position, menu->title, menu->nb_items);
     }
 
   return ret;
@@ -711,8 +710,7 @@ lw6gui_menu_remove (lw6gui_menu_t * menu, int position, int64_t now)
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_
 		  ("trying to remove menuitem \"%s\" at position %d but menu \"%s\" has only %d items"),
-		  menu->title, position, menu->nb_items, menu->title,
-		  menu->nb_items);
+		  menu->title, position, menu->title, menu->nb_items);
     }
 
   return ret;

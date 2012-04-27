@@ -110,7 +110,7 @@ lw6sys_daemon_start (char *pid_file)
       fork_ret = fork ();
       if (fork_ret < 0)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("fork error code=%d"));
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("fork error code=%d"), fork_ret);
 	}
       else
 	{

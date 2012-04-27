@@ -383,8 +383,8 @@ _commit_reference (_lw6pil_pilot_t * pilot)
 			  ("possible game inconsistency, min_round=%d last_commit_round=%d, seq_0=%"
 			   LW6SYS_PRINTF_LL "d last_commmit_seq=%"
 			   LW6SYS_PRINTF_LL "d"), min_round,
-			  last_commit_round, pilot->seq_0,
-			  pilot->last_commit_seq);
+			  last_commit_round, (long long) pilot->seq_0,
+			  (long long) pilot->last_commit_seq);
 	    }
 	}
       if (max_round > 0)
@@ -803,8 +803,8 @@ _lw6pil_pilot_repr (_lw6pil_pilot_t * pilot)
 	 lw6ker_game_state_get_w (pilot->backup),
 	 lw6ker_game_state_get_h (pilot->backup),
 	 lw6ker_game_state_get_d (pilot->backup),
-	 _lw6pil_pilot_get_last_commit_seq (pilot),
-	 _lw6pil_pilot_get_reference_current_seq (pilot));
+	 (long long) _lw6pil_pilot_get_last_commit_seq (pilot),
+	 (long long) _lw6pil_pilot_get_reference_current_seq (pilot));
     }
   else
     {

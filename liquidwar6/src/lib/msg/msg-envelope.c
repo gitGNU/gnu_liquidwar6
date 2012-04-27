@@ -145,9 +145,11 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
 			    LW6SYS_PRINTF_LL "x%c%s%c%s%c%s", lw6, sep,
 			    version, sep, password_checksum, sep,
 			    physical_ticket_sig_str, sep,
-			    logical_ticket_sig_str, sep, physical_from_id,
-			    sep, physical_to_id, sep, logical_from_id_str,
-			    sep, logical_to_id_str, sep, body);
+			    logical_ticket_sig_str, sep,
+			    (long long) physical_from_id, sep,
+			    (long long) physical_to_id, sep,
+			    logical_from_id_str, sep, logical_to_id_str, sep,
+			    body);
     }
 
   if (base64_str)

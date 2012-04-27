@@ -101,7 +101,8 @@ _lw6ker_node_sanity_check (_lw6ker_node_t * node, lw6map_rules_t * rules)
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_
 		  ("inconsistent enabled node values enabled=%d node_id=%"
-		   LW6SYS_PRINTF_LL "x"), node->enabled, node->node_id);
+		   LW6SYS_PRINTF_LL "x"), node->enabled,
+		  (long long) node->node_id);
       ret = 0;
     }
 

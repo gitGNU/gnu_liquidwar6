@@ -970,8 +970,8 @@ _test_node_api_node2_callback (void *api_data)
 	    {
 	      msg =
 		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
-				    LW6SYS_PRINTF_LL "x %s", seq, node_id,
-				    dump);
+				    LW6SYS_PRINTF_LL "x %s", (long long) seq,
+				    (long long) node_id, dump);
 	      if (msg)
 		{
 		  lw6p2p_node_put_local_msg (data->node, msg);
@@ -979,7 +979,8 @@ _test_node_api_node2_callback (void *api_data)
 		}
 	      msg =
 		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
-				    LW6SYS_PRINTF_LL "x %s", seq, node_id,
+				    LW6SYS_PRINTF_LL "x %s", (long long) seq,
+				    (long long) node_id,
 				    TEST_NODE_API_MSG1_STR);
 	      if (msg)
 		{
@@ -989,7 +990,8 @@ _test_node_api_node2_callback (void *api_data)
 	      seq++;		// fake we're going next round...
 	      msg =
 		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
-				    LW6SYS_PRINTF_LL "x %s", seq, node_id,
+				    LW6SYS_PRINTF_LL "x %s", (long long) seq,
+				    (long long) node_id,
 				    TEST_NODE_API_MSG2_STR);
 	      if (msg)
 		{
@@ -998,7 +1000,8 @@ _test_node_api_node2_callback (void *api_data)
 		}
 	      msg =
 		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
-				    LW6SYS_PRINTF_LL "x %s", seq, node_id,
+				    LW6SYS_PRINTF_LL "x %s", (long long) seq,
+				    (long long) node_id,
 				    TEST_NODE_API_MSG3_STR);
 	      if (msg)
 		{

@@ -52,7 +52,7 @@ _set_community_id (lw6nod_dyn_info_t * dyninfo, u_int64_t community_id)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_ ("invalid community id \"%" LW6SYS_PRINTF_LL "x\""),
-		      community_id);
+		      (long long) community_id);
 	  dyninfo->community_id_int = LW6NOD_COMMUNITY_ID_NONE;
 	}
     }

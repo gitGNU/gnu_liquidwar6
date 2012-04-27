@@ -220,7 +220,7 @@ lw6sys_id_ltoa (u_int64_t id)
 
   if (lw6sys_check_id (id))
     {
-      ret = lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "x", id);
+      ret = lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "x", (long long) id);
     }
 
   return ret;

@@ -228,7 +228,7 @@ test_coords ()
 		lw6pil_coords_fix_x10 (&rules, &shape, &x, &y, &z);
 		lw6pil_coords_fix (&rules, &shape, &x, &y, &z);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_ ("coords after fix %0.2f,%0.2f,0.2f"), x, y,
+			    _x_ ("coords after fix %0.2f,%0.2f,%0.2f"), x, y,
 			    z);
 	      }
 	  }
@@ -473,39 +473,42 @@ test_pilot ()
 				    _x_ ("next_seq for ticks %"
 					 LW6SYS_PRINTF_LL "d is %"
 					 LW6SYS_PRINTF_LL "d"),
-				    (int64_t) TEST_CALIBRATE_TICKS1,
-				    (int64_t)
+				    (long long) TEST_CALIBRATE_TICKS1,
+				    (long long)
 				    lw6pil_pilot_get_next_seq (pilot,
 							       TEST_CALIBRATE_TICKS1));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("next_seq for ticks %"
 					 LW6SYS_PRINTF_LL "d is %"
 					 LW6SYS_PRINTF_LL "d"),
-				    (int64_t) TEST_CALIBRATE_TICKS2,
-				    (int64_t)
+				    (long long) TEST_CALIBRATE_TICKS2,
+				    (long long)
 				    lw6pil_pilot_get_next_seq (pilot,
 							       TEST_CALIBRATE_TICKS2));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("last_commit_seq=%" LW6SYS_PRINTF_LL
 					 "d"),
+				    (long long)
 				    lw6pil_pilot_get_last_commit_seq (pilot));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("reference_current_seq=%"
 					 LW6SYS_PRINTF_LL "d"),
+				    (long long)
 				    lw6pil_pilot_get_reference_current_seq
 				    (pilot));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("reference_target_seq=%"
 					 LW6SYS_PRINTF_LL "d"),
+				    (long long)
 				    lw6pil_pilot_get_reference_target_seq
 				    (pilot));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("max_seq=%" LW6SYS_PRINTF_LL "d"),
+				    (long long)
 				    lw6pil_pilot_get_max_seq (pilot));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("pilot \"%s\" stop"), repr);
-			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("is_over=%d"),
+			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("is_over=%d"),
 				    lw6pil_pilot_is_over (pilot));
 			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("winner=%d"),
 				    lw6pil_pilot_get_winner (pilot));
@@ -562,7 +565,7 @@ test_seq ()
 
     random_0 = lw6pil_seq_random_0 ();
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("random_0=%" LW6SYS_PRINTF_LL "d"),
-		random_0);
+		(long long) random_0);
 
     ret = 1;
   }

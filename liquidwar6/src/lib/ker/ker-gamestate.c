@@ -208,7 +208,7 @@ _lw6ker_game_state_repr (_lw6ker_game_state_t * game_state)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, "game_state",
+      lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("can't generate string id for NULL game_state"));
     }
 
@@ -528,7 +528,7 @@ _lw6ker_game_state_register_node (_lw6ker_game_state_t * game_state,
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("node %" LW6SYS_PRINTF_LL "x already exists"),
-		  node_id);
+		  (long long) node_id);
     }
 
   return ret;
@@ -684,7 +684,7 @@ check_node_id (_lw6ker_game_state_t * game_state, u_int64_t node_id)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("node %" LW6SYS_PRINTF_LL "x does not exist"),
-		  node_id);
+		  (long long) node_id);
     }
 
   return ret;

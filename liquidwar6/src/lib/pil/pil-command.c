@@ -435,19 +435,22 @@ lw6pil_command_repr (lw6pil_command_t * command)
     case LW6PIL_COMMAND_CODE_NOP:
       ret =
 	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
-			    "x %s", command->seq, command->node_id,
+			    "x %s", (long long) command->seq,
+			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_NOP);
       break;
     case LW6PIL_COMMAND_CODE_REGISTER:
       ret =
 	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
-			    "x %s", command->seq, command->node_id,
+			    "x %s", (long long) command->seq,
+			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_REGISTER);
       break;
     case LW6PIL_COMMAND_CODE_ADD:
       ret =
 	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
-			    "x %s %x %s", command->seq, command->node_id,
+			    "x %s %x %s", (long long) command->seq,
+			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_ADD,
 			    (int) command->args.add.cursor_id,
 			    lw6map_team_color_index_to_key (command->args.
@@ -456,8 +459,9 @@ lw6pil_command_repr (lw6pil_command_t * command)
     case LW6PIL_COMMAND_CODE_SET:
       ret =
 	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
-			    "x %s %x %d %d %d %d", command->seq,
-			    command->node_id, LW6PIL_COMMAND_TEXT_SET,
+			    "x %s %x %d %d %d %d", (long long) command->seq,
+			    (long long) command->node_id,
+			    LW6PIL_COMMAND_TEXT_SET,
 			    (int) command->args.set.cursor_id,
 			    command->args.set.x, command->args.set.y,
 			    command->args.set.fire, command->args.set.fire2);
@@ -465,14 +469,16 @@ lw6pil_command_repr (lw6pil_command_t * command)
     case LW6PIL_COMMAND_CODE_REMOVE:
       ret =
 	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
-			    "x %s %x", command->seq, command->node_id,
+			    "x %s %x", (long long) command->seq,
+			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_REMOVE,
 			    (int) command->args.remove.cursor_id);
       break;
     case LW6PIL_COMMAND_CODE_UNREGISTER:
       ret =
 	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
-			    "x %s", command->seq, command->node_id,
+			    "x %s", (long long) command->seq,
+			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_UNREGISTER);
       break;
     default:

@@ -342,7 +342,7 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_ ("bad serial %d in atom \"%d\""), serial);
+		      _x_ ("bad serial %d in atom \"%s\""), serial, full_str);
 	}
     }
 
@@ -458,17 +458,13 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg,
 		      seq_from_cmd_str_offset = strlen (full_str);
 		      if (seq_from_cmd_str_offset < _LW6DAT_HEADER_MAX_SIZE)
 			{
-			  /*
-			   * stupid cast as long long unsigned int as GCC can't figure
-			   * it's the same as u_int64_t
-			   */
 			  snprintf (full_str + seq_from_cmd_str_offset,
 				    _LW6DAT_HEADER_MAX_SIZE -
 				    seq_from_cmd_str_offset,
 				    "%" LW6SYS_PRINTF_LL "d %"
 				    LW6SYS_PRINTF_LL "x ",
-				    (long long unsigned int) seq,
-				    (long long unsigned int) logical_from);
+				    (long long) seq,
+				    (long long) logical_from);
 			  cmd_str_offset = strlen (full_str);
 			  if (cmd_str_offset < _LW6DAT_HEADER_MAX_SIZE)
 			    {
@@ -564,7 +560,8 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 				      _x_
 				      ("bad seq %" LW6SYS_PRINTF_LL
 				       "d should be %" LW6SYS_PRINTF_LL
-				       "d for atom \"%s\""), atom->seq, seq,
+				       "d for atom \"%s\""),
+				      (long long) atom->seq, (long long) seq,
 				      _lw6dat_atom_get_full_str (atom));
 			}
 		      if (atom->order_i != order_i)
@@ -733,8 +730,10 @@ _lw6dat_stack_seq2serial (_lw6dat_stack_t * stack, int64_t seq)
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("seq_min=%" LW6SYS_PRINTF_LL "d seq=%"
 			   LW6SYS_PRINTF_LL "d seq_max=%" LW6SYS_PRINTF_LL
-			   "d serial_min=%d serial_max=%d"), seq_min, seq,
-		      seq_max, stack->serial_min, stack->serial_max);
+			   "d serial_min=%d serial_max=%d"),
+		      (long long) seq_min, (long long) seq,
+		      (long long) seq_max, stack->serial_min,
+		      stack->serial_max);
 	  if (seq_min < seq_max && seq_min <= seq && seq <= seq_max
 	      && seq - seq_min < seq_max - seq)
 	    {

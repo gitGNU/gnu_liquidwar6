@@ -374,36 +374,36 @@ lw6sys_check_types_size ()
   if (sizeof (int8_t) != LW6SYS_SIZEOF_INT8)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("int8_t is %d bytes, should be %d"), sizeof (int8_t),
-		  LW6SYS_SIZEOF_INT8);
+		  _x_ ("int8_t is %d bytes, should be %d"),
+		  (int) sizeof (int8_t), LW6SYS_SIZEOF_INT8);
       ret = 0;
     }
   if (sizeof (int16_t) != LW6SYS_SIZEOF_INT16)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("int16_t is %d bytes, should be %d"), sizeof (int16_t),
-		  LW6SYS_SIZEOF_INT16);
+		  _x_ ("int16_t is %d bytes, should be %d"),
+		  (int) sizeof (int16_t), LW6SYS_SIZEOF_INT16);
       ret = 0;
     }
   if (sizeof (int32_t) != LW6SYS_SIZEOF_INT32)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("int32_t is %d bytes, should be %d"), sizeof (int32_t),
-		  LW6SYS_SIZEOF_INT32);
+		  _x_ ("int32_t is %d bytes, should be %d"),
+		  (int) sizeof (int32_t), LW6SYS_SIZEOF_INT32);
       ret = 0;
     }
   if (sizeof (int64_t) != LW6SYS_SIZEOF_INT64)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("int64_t is %d bytes, should be %d"), sizeof (int64_t),
-		  LW6SYS_SIZEOF_INT64);
+		  _x_ ("int64_t is %d bytes, should be %d"),
+		  (int) sizeof (int64_t), LW6SYS_SIZEOF_INT64);
       ret = 0;
     }
   if (sizeof (lw6sys_xyz_t) != LW6SYS_SIZEOF_XYZ)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("lw6sys_xyz_t is %d bytes, should be %d"),
-		  sizeof (lw6sys_xyz_t), LW6SYS_SIZEOF_XYZ);
+		  (int) sizeof (lw6sys_xyz_t), LW6SYS_SIZEOF_XYZ);
       ret = 0;
     }
 

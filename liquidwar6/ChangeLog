@@ -1,5 +1,7 @@
 2012-04-27 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added __attribute__ format constraints on printf-like functions.
+
 	* Fixed memory leak because of abusive warehouse/stack/block clear.
 
 	* Yet another massive char * to const char * conversion.

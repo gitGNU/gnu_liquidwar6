@@ -176,7 +176,7 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE,
-			  _x_ ("no fighter in x,y,z (%d)"), x, y, z,
+			  _x_ ("no fighter in %d,%d,%d (%d)"), x, y, z,
 			  fighter_id);
 	    }
 	  winner =

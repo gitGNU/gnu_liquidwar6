@@ -126,8 +126,9 @@ _lw6ker_node_array_enable (_lw6ker_node_array_t * node_array,
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _x_ ("node %x already exists, can't enable it twice"),
-		  node_id);
+		  _x_ ("node %" LW6SYS_PRINTF_LL
+		       "x already exists, can't enable it twice"),
+		  (long long) node_id);
     }
 
   return ret;
@@ -150,8 +151,9 @@ _lw6ker_node_array_disable (_lw6ker_node_array_t * node_array,
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _x_ ("node %x already does not exist, can't disable it"),
-		  node_id);
+		  _x_ ("node %" LW6SYS_PRINTF_LL
+		       "x already does not exist, can't disable it"),
+		  (long long) node_id);
     }
 
   return ret;

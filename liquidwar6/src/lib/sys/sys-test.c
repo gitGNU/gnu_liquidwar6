@@ -627,7 +627,7 @@ test_convert ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("long long=%" LW6SYS_PRINTF_LL
 			 "d -> str=\"%s\" -> long long=%" LW6SYS_PRINTF_LL
-			 "d"), TEST_CONVERT_LONG_LONG, str, l);
+			 "d"), TEST_CONVERT_LONG_LONG, str, (long long) l);
 	if (l != TEST_CONVERT_LONG_LONG)
 	  {
 	    ret = 0;
@@ -668,7 +668,7 @@ test_convert ()
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_
-			("%f!=%f: while this is not 100% blocking, floating point conversion on this computer is suspicious"),
+			("%f!=%f: while this is not 100%% blocking, floating point conversion on this computer is suspicious"),
 			TEST_CONVERT_FLOAT, f);
 	  }
 	LW6SYS_FREE (str);
@@ -1488,7 +1488,7 @@ test_id ()
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("erreur converting id, src=%" LW6SYS_PRINTF_LL
 			     "x, dst=%" LW6SYS_PRINTF_LL "x"),
-			(u_int64_t) id_16, id_long);
+			(unsigned long long) id_16, (long long) id_long);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (id_str);
@@ -1509,7 +1509,7 @@ test_id ()
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("erreur converting id, src=%" LW6SYS_PRINTF_LL
 			     "x, dst=%" LW6SYS_PRINTF_LL "x"),
-			(u_int64_t) id_32, id_long);
+			(unsigned long long) id_32, (long long) id_long);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (id_str);
@@ -1530,7 +1530,7 @@ test_id ()
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("erreur converting id, src=%" LW6SYS_PRINTF_LL
 			     "x, dst=%" LW6SYS_PRINTF_LL "x"),
-			(u_int64_t) id_64, id_long);
+			(unsigned long long) id_64, (long long) id_long);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (id_str);
@@ -2337,7 +2337,7 @@ _dir_list_filter (void *func_data, char *file)
   if (lw6sys_checksum_str (file) % 2)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("keep \"%s\" (func_data=\"%s\")"),
-		  file, func_data);
+		  file, (char *) func_data);
       ret = 1;
     }
   else
@@ -3060,7 +3060,7 @@ test_str ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
 		    ("random string of %d chars (after ascii7 cleanup) \"%s\""),
-		    strlen (str), str);
+		    (int) strlen (str), str);
 	LW6SYS_FREE (str);
       }
     str = lw6sys_str_random_words (_TEST_STR_RANDOM_LEN);
@@ -3082,7 +3082,7 @@ test_str ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
 		    ("random string (with alnum words) of %d chars \"%s\""),
-		    strlen (str), str);
+		    (int) strlen (str), str);
 	LW6SYS_FREE (str);
       }
     str = lw6sys_str_random_word (_TEST_STR_RANDOM_LEN);
@@ -3104,7 +3104,7 @@ test_str ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
 		    ("random string (with one single word) of %d chars \"%s\""),
-		    strlen (str), str);
+		    (int) strlen (str), str);
 	LW6SYS_FREE (str);
       }
     str = lw6sys_id_ltoa (lw6sys_generate_id_64 ());
@@ -3382,7 +3382,7 @@ test_stream ()
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("read \"%s\", %d bytes"), filename,
-				strlen (str));
+				(int) strlen (str));
 		    if (lw6sys_str_is_same (str, TEST_CONTENT))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -3520,29 +3520,29 @@ test_time ()
     char *uptime_str = NULL;
 
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("timestamp %" LW6SYS_PRINTF_LL "d"),
-		lw6sys_get_timestamp ());
+		(long long) lw6sys_get_timestamp ());
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("uptime %" LW6SYS_PRINTF_LL "d"),
-		lw6sys_get_uptime ());
+		(long long) lw6sys_get_uptime ());
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("cycle %d"), lw6sys_get_cycle ());
     lw6sys_idle ();
     lw6sys_timer_update (&timestamp, &uptime, &cycle);
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_ ("after idle timestamp=%" LW6SYS_PRINTF_LL "d uptime=%"
-		     LW6SYS_PRINTF_LL "d cycle=%d"), timestamp, uptime,
-		cycle);
+		     LW6SYS_PRINTF_LL "d cycle=%d"), (long long) timestamp,
+		(long long) uptime, cycle);
     lw6sys_snooze ();
     lw6sys_timer_update (&timestamp, &uptime, &cycle);
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_ ("after snooze timestamp=%" LW6SYS_PRINTF_LL "d uptime=%"
-		     LW6SYS_PRINTF_LL "d cycle=%d"), timestamp, uptime,
-		cycle);
+		     LW6SYS_PRINTF_LL "d cycle=%d"), (long long) timestamp,
+		(long long) uptime, cycle);
     last_uptime = lw6sys_get_uptime ();
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("sleep %d seconds"), TEST_SLEEP_TIME);
     lw6sys_sleep (TEST_SLEEP_TIME);
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("delay %d msec"), TEST_DELAY_TIME);
     lw6sys_delay (TEST_DELAY_TIME);
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lasted %" LW6SYS_PRINTF_LL "d ms"),
-		lw6sys_get_uptime () - last_uptime);
+		(long long) (lw6sys_get_uptime () - last_uptime));
     last_uptime = lw6sys_get_uptime ();
     nb_steps = TEST_SLEEP_TIME / TEST_SLEEP_TIME_SHORT_STEP;
     lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -3553,7 +3553,7 @@ test_time ()
 	lw6sys_sleep (TEST_SLEEP_TIME_SHORT_STEP);
       }
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lasted %" LW6SYS_PRINTF_LL "d ms"),
-		lw6sys_get_uptime () - last_uptime);
+		(long long) (lw6sys_get_uptime () - last_uptime));
 
     rfc1123 = lw6sys_date_rfc1123 (0);
     if (rfc1123)

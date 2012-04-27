@@ -426,7 +426,8 @@ mod_gl_utils_bitmap_refresh (mod_gl_utils_context_t *
 		       LW6SYS_PRINTF_LL
 		       "d timer_get_bitmap_refresh returned %"
 		       LW6SYS_PRINTF_LL "d, refreshing"), bitmap->id,
-		  bitmap->last_refresh, bitmap_refresh);
+		  (long long) bitmap->last_refresh,
+		  (long long) bitmap_refresh);
       mod_gl_utils_bitmap_clear_texture_now (utils_context, bitmap);
       bitmap->last_refresh = timestamp;
       bitmap->need_another_refresh = 1;

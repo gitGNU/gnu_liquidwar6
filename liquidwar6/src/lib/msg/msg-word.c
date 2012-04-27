@@ -418,8 +418,9 @@ lw6msg_word_first_int_64_ge0 (int64_t * parsed_value, char **next,
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_ ("bad int64 value %d, not greater or equal to 0"),
-		      tmp_value);
+		      _x_ ("bad int64 value %" LW6SYS_PRINTF_LL
+			   "d, not greater or equal to 0"),
+		      (long long) tmp_value);
 	}
     }
 
@@ -456,8 +457,9 @@ lw6msg_word_first_int_64_gt0 (int64_t * parsed_value, char **next,
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_ ("bad int64 value %d, not strictly greater than 0"),
-		      tmp_value);
+		      _x_ ("bad int64 value %" LW6SYS_PRINTF_LL
+			   "d, not strictly greater than 0"),
+		      (long long) tmp_value);
 	}
     }
 

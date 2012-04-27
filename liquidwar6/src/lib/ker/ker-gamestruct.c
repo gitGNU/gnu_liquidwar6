@@ -180,7 +180,7 @@ _lw6ker_game_struct_repr (_lw6ker_game_struct_t * game_struct)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, "game_struct",
+      lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("can't generate string id for NULL game_struct"));
     }
 

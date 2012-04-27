@@ -289,19 +289,19 @@ _test_stack_msg_callback (void *func_data, void *data)
   if (lw6sys_str_is_same (msg, _TEST_STACK_MSG_3))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("message 3 found (length=%d)"),
-		  strlen (msg));
+		  (int) strlen (msg));
       msg_data->msg3_found = 1;
     }
   if (lw6sys_str_is_same (msg, msg_data->msg4))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("message 4 found (length=%d)"),
-		  strlen (msg));
+		  (int) strlen (msg));
       msg_data->msg4_found = 1;
     }
   if (lw6sys_str_is_same (msg, _TEST_STACK_MSG_5))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("message 5 found (length=%d)"),
-		  strlen (msg));
+		  (int) strlen (msg));
       msg_data->msg5_found = 1;
     }
 }
@@ -352,7 +352,7 @@ test_stack ()
       }
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_ ("last put serial=%d seq=%" LW6SYS_PRINTF_LL "d"), serial,
-		seq);
+		(long long) seq);
     if (ret)
       {
 	/*
@@ -392,29 +392,29 @@ test_stack ()
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("serial2seq OK %d->%" LW6SYS_PRINTF_LL "d"),
-			serial, seq);
+			serial, (long long) seq);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("serial2seq problem %d->%" LW6SYS_PRINTF_LL
 			     "d instead of %" LW6SYS_PRINTF_LL "d"), serial,
-			tmp, seq);
+			(long long) tmp, (long long) seq);
 	    ret = 0;
 	  }
 	tmp = _lw6dat_stack_seq2serial (&stack, seq);
 	if (tmp == serial)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_x_ ("seq2serial OK %d->%" LW6SYS_PRINTF_LL "d"), seq,
-			serial);
+			_x_ ("seq2serial OK %" LW6SYS_PRINTF_LL "d->%d"),
+			(long long) seq, serial);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_x_ ("seq2serial problem %d->%" LW6SYS_PRINTF_LL
-			     "d instead of %" LW6SYS_PRINTF_LL "d"), seq, tmp,
-			serial);
+			_x_ ("seq2serial problem %" LW6SYS_PRINTF_LL "d->%"
+			     LW6SYS_PRINTF_LL "d instead of %d"),
+			(long long) seq, (long long) tmp, serial);
 	    ret = 0;
 	  }
 	for (serial = stack.serial_0; serial <= stack.serial_n_1; ++serial)
@@ -789,9 +789,9 @@ test_warehouse ()
 		  {
 		    msg =
 		      lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %s %s",
-					  (int64_t) (_TEST_WAREHOUSE_SEQ +
-						     (int) sqrt (i)), id_str,
-					  cmd);
+					  (long long) (_TEST_WAREHOUSE_SEQ +
+						       (int) sqrt (i)),
+					  id_str, cmd);
 		    if (msg)
 		      {
 			if (lw6dat_warehouse_put_local_msg (warehouse, msg))
@@ -825,8 +825,9 @@ test_warehouse ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("seq info min=%" LW6SYS_PRINTF_LL "d max=%"
 			 LW6SYS_PRINTF_LL "d draft=%" LW6SYS_PRINTF_LL
-			 "d reference=%" LW6SYS_PRINTF_LL "d"), seq_min,
-		    seq_max, seq_draft, seq_reference);
+			 "d reference=%" LW6SYS_PRINTF_LL "d"),
+		    (long long) seq_min, (long long) seq_max,
+		    (long long) seq_draft, (long long) seq_reference);
 
 	warehouse2 = lw6dat_warehouse_new (_TEST_WAREHOUSE_OTHER_NODE_ID);
 	if (warehouse2)
@@ -836,7 +837,7 @@ test_warehouse ()
 	      {
 		msg =
 		  lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %s %s",
-				      (int64_t) (_TEST_WAREHOUSE_SEQ),
+				      (long long) (_TEST_WAREHOUSE_SEQ),
 				      id_str, _TEST_WAREHOUSE_OTHER_NODE_MSG);
 		if (msg)
 		  {
@@ -871,8 +872,10 @@ test_warehouse ()
 					 "d max=%" LW6SYS_PRINTF_LL
 					 "d draft=%" LW6SYS_PRINTF_LL
 					 "d reference=%" LW6SYS_PRINTF_LL
-					 "d"), seq_min, seq_max, seq_draft,
-					seq_reference);
+					 "d"), (long long) seq_min,
+					(long long) seq_max,
+					(long long) seq_draft,
+					(long long) seq_reference);
 			    list_by_seq =
 			      lw6dat_warehouse_get_msg_list_by_seq (warehouse,
 								    seq_reference

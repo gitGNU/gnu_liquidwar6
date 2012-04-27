@@ -945,10 +945,13 @@ extern lw6sys_list_t *lw6sys_list_dup (lw6sys_list_t * list,
 				       lw6sys_dup_func_t dup_func);
 
 /* sys-log.c */
-extern void lw6sys_log_set_file (char *filename);
-extern void lw6sys_log_clear (char *filename);
-extern void lw6sys_log (int level_id, char *file, int line, char *fmt, ...);
-extern void lw6sys_log_critical (char *fmt, ...);
+extern void lw6sys_log_set_file (const char *filename);
+extern void lw6sys_log_clear (const char *filename);
+extern void lw6sys_log (int level_id, const char *file, int line,
+			const char *fmt, ...)
+  __attribute__ ((format (printf, 4, 5)));
+extern void lw6sys_log_critical (const char *fmt, ...)
+  __attribute__ ((format (printf, 1, 2)));
 extern int lw6sys_log_get_level ();
 extern void lw6sys_log_set_level (int level);
 
@@ -1150,8 +1153,10 @@ extern int lw6sys_spinlock_unlock (lw6sys_spinlock_t * spinlock);
 /* sys-str.c */
 extern char *lw6sys_str_copy (const char *src);
 extern char *lw6sys_str_concat (const char *str1, const char *str2);
-extern char *lw6sys_new_sprintf (const char *fmt, ...);
-extern int lw6sys_buf_sprintf (char *buf, int len, const char *fmt, ...);
+extern char *lw6sys_new_sprintf (const char *fmt, ...)
+  __attribute__ ((format (printf, 1, 2)));
+extern int lw6sys_buf_sprintf (char *buf, int len, const char *fmt, ...)
+  __attribute__ ((format (printf, 3, 4)));
 extern int lw6sys_str_is_blank (const char *str);
 extern int lw6sys_str_is_null_or_empty (const char *str);
 extern const char *lw6sys_str_empty_if_null (const char *str);

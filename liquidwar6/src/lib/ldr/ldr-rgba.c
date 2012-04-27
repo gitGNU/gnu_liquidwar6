@@ -123,8 +123,8 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, const char *png_file,
 		      lw6sys_log (LW6SYS_LOG_WARNING,
 				  _x_
 				  ("can't load RGBA PNG file \"%s\", it is too big (size=%dx%d max=%dx%d)"),
-				  png_file, width, height, max_width,
-				  max_height);
+				  png_file, (int) width, (int) height,
+				  max_width, max_height);
 		      format_ok = 0;
 		    }
 
@@ -134,7 +134,7 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, const char *png_file,
 				  _x_
 				  ("can't load RGBA PNG file \"%s\", memory footprint is inconsistent, color_type=%d, rowbytes=%d, width=%d, step=%d, bit_depth=%d"),
 				  png_file, color_type,
-				  rowbytes, width, 4, bit_depth);
+				  (int) rowbytes, (int) width, 4, bit_depth);
 		      format_ok = 0;
 		    }
 

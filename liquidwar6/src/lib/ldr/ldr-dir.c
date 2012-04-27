@@ -341,7 +341,7 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, "",
+      lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("couldn't read map dir \"%s\""), absolute_path);
     }
 #endif

@@ -91,7 +91,7 @@ init (_lw6dsp_data_t * data)
 
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_
-		      ("couldn't set up mode, trying fallback %dx%d fullscreen=%d, trying fallback %dx%d fullscreen=%d"),
+		      ("couldn't set up mode, trying fallback %dx%d fullscreen=%d"),
 		      data->video_mode_requested.width,
 		      data->video_mode_requested.height,
 		      data->video_mode_requested.fullscreen);
@@ -462,7 +462,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_ ("frame %d at ticks %" LW6SYS_PRINTF_LL "d"),
-			  data->nb_frames, ticks);
+			  data->nb_frames, (long long) ticks);
 	      loop (data);
 	      do_skip = 0;
 	    }

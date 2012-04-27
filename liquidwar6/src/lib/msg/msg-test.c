@@ -197,14 +197,18 @@ test_cmd ()
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("ticket command analysed (ticket=%"
-				     LW6SYS_PRINTF_LL "x)"), ticket);
+				     LW6SYS_PRINTF_LL "x)"),
+				(long long) ticket);
 		  }
 		else
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
 				_x_
-				("ticket command analysed but ticket is wrong (%x and should be %x)"),
-				analysed_ticket, ticket);
+				("ticket command analysed but ticket is wrong (%"
+				 LW6SYS_PRINTF_LL "x and should be %"
+				 LW6SYS_PRINTF_LL "x)"),
+				(long long) analysed_ticket,
+				(long long) ticket);
 		    ret = 0;
 		  }
 		lw6nod_info_free (analysed_info);
@@ -336,7 +340,7 @@ test_cmd ()
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("join command analysed (seq=%"
-				     LW6SYS_PRINTF_LL "d)"), seq);
+				     LW6SYS_PRINTF_LL "d)"), (long long) seq);
 		  }
 		else
 		  {
@@ -344,7 +348,8 @@ test_cmd ()
 				_x_
 				("join command analysed but seq is wrong (%"
 				 LW6SYS_PRINTF_LL "d and should be %"
-				 LW6SYS_PRINTF_LL "d)"), analysed_seq, seq);
+				 LW6SYS_PRINTF_LL "d)"),
+				(long long) analysed_seq, (long long) seq);
 		    ret = 0;
 		  }
 		lw6nod_info_free (analysed_info);
@@ -1100,14 +1105,15 @@ test_ticket ()
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL "x is %08x"),
-		    _TEST_TICKET1, ticket1_sig);
+		    (long long) _TEST_TICKET1, ticket1_sig);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL
-			 "x is %08x and should be %08x"), _TEST_TICKET1,
-		    ticket1_sig, _TEST_TICKET1_SIG);
+			 "x is %08x and should be %08x"),
+		    (long long) _TEST_TICKET1, ticket1_sig,
+		    _TEST_TICKET1_SIG);
 	ret = 0;
       }
 
@@ -1118,14 +1124,15 @@ test_ticket ()
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL "x is %08x"),
-		    _TEST_TICKET2, ticket2_sig);
+		    (long long) _TEST_TICKET2, ticket2_sig);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL
-			 "x is %08x and should be %08x"), _TEST_TICKET2,
-		    ticket2_sig, _TEST_TICKET2_SIG);
+			 "x is %08x and should be %08x"),
+		    (long long) _TEST_TICKET2, ticket2_sig,
+		    _TEST_TICKET2_SIG);
 	ret = 0;
       }
 
@@ -1463,7 +1470,7 @@ test_word ()
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL "d, next=\"%s\""),
-		    ll, next);
+		    (long long) ll, next);
       }
     else
       {
@@ -1476,7 +1483,7 @@ test_word ()
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
-			 "d from \"%s\", this is wrong"), ll,
+			 "d from \"%s\", this is wrong"), (long long) ll,
 		    _TEST_WORD_INT_64_KO);
 	ret = 0;
       }
@@ -1491,7 +1498,7 @@ test_word ()
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
-			 "d (>0), next=\"%s\""), ll, next);
+			 "d (>0), next=\"%s\""), (long long) ll, next);
       }
     else
       {
@@ -1504,7 +1511,7 @@ test_word ()
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
-			 "d from \"%s\", this is wrong"), ll,
+			 "d from \"%s\", this is wrong"), (long long) ll,
 		    _TEST_WORD_INT_64_GE0_KO);
 	ret = 0;
       }
@@ -1519,7 +1526,7 @@ test_word ()
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
-			 "d (>0), next=\"%s\""), ll, next);
+			 "d (>0), next=\"%s\""), (long long) ll, next);
       }
     else
       {
@@ -1532,7 +1539,7 @@ test_word ()
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
-			 "d from \"%s\", this is wrong"), ll,
+			 "d from \"%s\", this is wrong"), (long long) ll,
 		    _TEST_WORD_INT_64_GT0_KO);
 	ret = 0;
       }

@@ -167,7 +167,7 @@ lw6msg_oob_generate_list (lw6nod_info_t * info)
   dyn_info = lw6nod_info_dup_dyn (info);
   if (dyn_info)
     {
-      ret = lw6sys_new_sprintf ("");
+      ret = lw6sys_str_copy (LW6SYS_STR_EMPTY);
       if (ret)
 	{
 	  lw6nod_info_map_verified_nodes (info, _add_node_txt, &ret);

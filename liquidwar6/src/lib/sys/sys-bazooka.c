@@ -362,7 +362,7 @@ lw6sys_set_memory_bazooka_size (int size)
 	    {
 	      lw6sys_log_critical (_x_
 				   ("can't allocate bazooka memory (%d bytes)"),
-				   size * sizeof (_lw6sys_bazooka_t));
+				   (int) (size * sizeof (_lw6sys_bazooka_t)));
 	    }
 	}
       else
@@ -645,9 +645,11 @@ _lw6sys_bazooka_register_free (char *ptr)
 	      if (bazooka_free_bytes > bazooka_malloc_bytes)
 		{
 		  lw6sys_log_critical (_x_
-				       ("problem, more bytes freed (%d) than malloced (%d)"),
-				       bazooka_free_bytes,
-				       bazooka_malloc_bytes);
+				       ("problem, more bytes freed (%"
+					LW6SYS_PRINTF_LL "d) than malloced (%"
+					LW6SYS_PRINTF_LL "d)"),
+				       (long long) bazooka_free_bytes,
+				       (long long) bazooka_malloc_bytes);
 		}
 	      if (bazooka_eraser)
 		{

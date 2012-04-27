@@ -879,7 +879,7 @@ lw6sys_hexa_str_to_buf (void *buf, int size, const char *str)
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_
 		  ("incorrect string (bad size) \"%s\" expected %d but got %d"),
-		  str, 2 * size, strlen (str));
+		  str, 2 * size, (int) strlen (str));
     }
 
   return ret;
