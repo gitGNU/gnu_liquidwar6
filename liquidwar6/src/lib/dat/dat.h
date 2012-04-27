@@ -51,6 +51,8 @@ typedef struct lw6dat_warehouse_s
 } lw6dat_warehouse_t;
 
 /* dat-warehouse.c */
+extern int lw6dat_warehouse_init (lw6dat_warehouse_t * warehouse,
+				  u_int64_t local_node_id);
 extern lw6dat_warehouse_t *lw6dat_warehouse_new (u_int64_t local_node_id);
 extern void lw6dat_warehouse_free (lw6dat_warehouse_t * warehouse);
 extern void lw6dat_warehouse_clear (lw6dat_warehouse_t * warehouse);

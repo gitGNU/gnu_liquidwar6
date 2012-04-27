@@ -172,7 +172,7 @@
 #define TEST_NODE_POLL_DURATION 100
 // 10 times bigger than _LW6PIL_MIN_SEQ_0
 #define TEST_NODE_API_SEQ_0 100000000000LL
-#define TEST_NODE_API_DUMP_SIZE 100000
+#define TEST_NODE_API_DUMP_SIZE 1000
 #define TEST_NODE_API_MSG1_STR "message number one"
 #define TEST_NODE_API_MSG2_STR "2"
 #define TEST_NODE_API_MSG3_STR "3 fire!"
@@ -934,6 +934,8 @@ _test_node_api_node2_callback (void *api_data)
 {
   _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
   int64_t end_timestamp = 0LL;
+  u_int64_t node_id = 0LL;
+  int64_t seq = 0LL;
 
   end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_THREAD;
 
@@ -952,20 +954,57 @@ _test_node_api_node2_callback (void *api_data)
 		  ((_lw6p2p_node_t *) data->node)->public_url);
     }
 
+  node_id = lw6p2p_node_get_id (data->node);
+  seq = lw6p2p_node_get_seq_max (data->node);
+  seq++;			// fake we're going next round...
   while (lw6sys_get_timestamp () < end_timestamp)
     {
       lw6p2p_node_poll (data->node);
       if (lw6p2p_node_is_dump_needed (data->node))
 	{
 	  char *dump = NULL;
+	  char *msg = NULL;
 
 	  dump = lw6sys_str_random_word (TEST_NODE_API_DUMP_SIZE);
 	  if (dump)
 	    {
-	      lw6p2p_node_put_local_msg (data->node, dump);
-	      lw6p2p_node_put_local_msg (data->node, TEST_NODE_API_MSG1_STR);
-	      lw6p2p_node_put_local_msg (data->node, TEST_NODE_API_MSG2_STR);
-	      lw6p2p_node_put_local_msg (data->node, TEST_NODE_API_MSG3_STR);
+	      msg =
+		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+				    LW6SYS_PRINTF_LL "x %s", seq, node_id,
+				    dump);
+	      if (msg)
+		{
+		  lw6p2p_node_put_local_msg (data->node, msg);
+		  LW6SYS_FREE (msg);
+		}
+	      msg =
+		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+				    LW6SYS_PRINTF_LL "x %s", seq, node_id,
+				    TEST_NODE_API_MSG1_STR);
+	      if (msg)
+		{
+		  lw6p2p_node_put_local_msg (data->node, msg);
+		  LW6SYS_FREE (msg);
+		}
+	      seq++;		// fake we're going next round...
+	      msg =
+		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+				    LW6SYS_PRINTF_LL "x %s", seq, node_id,
+				    TEST_NODE_API_MSG2_STR);
+	      if (msg)
+		{
+		  lw6p2p_node_put_local_msg (data->node, msg);
+		  LW6SYS_FREE (msg);
+		}
+	      msg =
+		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+				    LW6SYS_PRINTF_LL "x %s", seq, node_id,
+				    TEST_NODE_API_MSG3_STR);
+	      if (msg)
+		{
+		  lw6p2p_node_put_local_msg (data->node, msg);
+		  LW6SYS_FREE (msg);
+		}
 	      LW6SYS_FREE (dump);
 	    }
 	}

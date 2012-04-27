@@ -28,33 +28,64 @@
 
 #define _SEQ_RANGE_CHECK_LIMIT 1000
 
+int
+_lw6dat_warehouse_init (_lw6dat_warehouse_t * warehouse,
+			u_int64_t local_node_id)
+{
+  int ok = 0;
+  int stack_index = 0;
+
+  memset (warehouse, 0, sizeof (_lw6dat_warehouse_t));
+  for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
+    {
+      if (stack_index == _LW6DAT_LOCAL_NODE_INDEX)
+	{
+	  if (_lw6dat_stack_init
+	      (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]),
+	       local_node_id, _LW6DAT_SERIAL_START))
+	    {
+	      ok = 1;
+	    }
+	}
+      else
+	{
+	  _lw6dat_stack_clear (&(warehouse->stacks[stack_index]));
+	}
+    }
+
+  return ok;
+}
+
+/**
+ * lw6dat_warehouse_init
+ *
+ * Initializes a warehouse object. Won't free anything, will just
+ * erase values if they're here
+ *
+ * @warehouse: object to initialize 
+ * @local_node_id: id of local node, used to handle local messages
+ *
+ * Return value: new object, allocated dynamically
+ */
+int
+lw6dat_warehouse_init (lw6dat_warehouse_t * warehouse,
+		       u_int64_t local_node_id)
+{
+  return _lw6dat_warehouse_init ((_lw6dat_warehouse_t *) warehouse,
+				 local_node_id);
+}
+
 _lw6dat_warehouse_t *
 _lw6dat_warehouse_new (u_int64_t local_node_id)
 {
   _lw6dat_warehouse_t *warehouse;
   int ok = 0;
-  int stack_index = 0;
 
   warehouse =
-    (_lw6dat_warehouse_t *) LW6SYS_CALLOC (sizeof (_lw6dat_warehouse_t));
+    (_lw6dat_warehouse_t *) LW6SYS_MALLOC (sizeof (_lw6dat_warehouse_t));
   if (warehouse)
     {
-      for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
-	{
-	  if (stack_index == _LW6DAT_LOCAL_NODE_INDEX)
-	    {
-	      if (_lw6dat_stack_init
-		  (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]),
-		   local_node_id, _LW6DAT_SERIAL_START))
-		{
-		  ok = 1;
-		}
-	    }
-	  else
-	    {
-	      _lw6dat_stack_clear (&(warehouse->stacks[stack_index]));
-	    }
-	}
+      ok = _lw6dat_warehouse_init (warehouse, local_node_id);
     }
   if (warehouse && !ok)
     {
@@ -69,6 +100,8 @@ _lw6dat_warehouse_new (u_int64_t local_node_id)
  * lw6dat_warehouse_new
  *
  * Creates a new warehouse object.
+ *
+ * @local_node_id: id of local node, used to handle local messages
  *
  * Return value: new object, allocated dynamically
  */
@@ -155,7 +188,7 @@ _lw6dat_warehouse_purge (_lw6dat_warehouse_t * warehouse)
  * @warehouse: the object to purge
  *
  * Purges a warehouse object. Purges means emptying everything
- * but keeping the current seq_id unchanged.
+ * but keeping the current seq_id and the nodes list unchanged.
  *
  * Return value: none.
  */

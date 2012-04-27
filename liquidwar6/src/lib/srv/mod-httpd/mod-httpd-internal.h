@@ -263,11 +263,11 @@ extern _mod_httpd_response_t
 				  const char *content_type, int content_size,
 				  void *content_data);
 extern _mod_httpd_response_t
-  *_mod_httpd_response_from_str (_mod_httpd_context_t * httpd_context,
-				 int status, int no_cache, int refresh_sec,
-				 const char *refresh_url,
-				 const char *content_type,
-				 const char *content);
+  * _mod_httpd_response_from_str (_mod_httpd_context_t * httpd_context,
+				  int status, int no_cache, int refresh_sec,
+				  const char *refresh_url,
+				  const char *content_type,
+				  const char *content);
 extern void _mod_httpd_response_free (_mod_httpd_response_t * response);
 extern int _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
 				     _mod_httpd_response_t * response,

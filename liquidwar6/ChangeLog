@@ -1,5 +1,7 @@
 2012-04-27 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed memory leak because of abusive warehouse/stack/block clear.
+
 	* Yet another massive char * to const char * conversion.
 
 2012-04-24 : Christian Mauduit <ufoot@ufoot.org>

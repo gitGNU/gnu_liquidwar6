@@ -1707,7 +1707,12 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
 {
   int i;
 
+  /*
+   * Here, a purge is not enough for it doesn't clear the nodes list,
+   * and a clear only is too much for it looses the local_id
+   */
   lw6dat_warehouse_clear (node->warehouse);
+  lw6dat_warehouse_init (node->warehouse, node->node_id_int);
 
   for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
     {
@@ -1817,7 +1822,35 @@ _lw6p2p_node_calibrate (_lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
 void
 lw6p2p_node_calibrate (lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
 {
-  return _lw6p2p_node_calibrate ((_lw6p2p_node_t *) node, timestamp, seq);
+  _lw6p2p_node_calibrate ((_lw6p2p_node_t *) node, timestamp, seq);
+}
+
+int64_t
+_lw6p2p_node_get_seq_max (_lw6p2p_node_t * node)
+{
+  int64_t ret = 0LL;
+
+  ret = lw6sys_llmax
+    (lw6dat_warehouse_get_seq_max (node->warehouse), node->calibrate_seq);
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_get_seq_max
+ *
+ * @node: the object to query
+ *
+ * Gets the maximum seq registered, this is typically used for guessing
+ * which seq might make sense for this node, but in a real example one
+ * should rely on algorithm/ker-side kept values.
+ *
+ * Return value: the seq.
+ */
+int64_t
+lw6p2p_node_get_seq_max (lw6p2p_node_t * node)
+{
+  return _lw6p2p_node_get_seq_max ((_lw6p2p_node_t *) node);
 }
 
 int

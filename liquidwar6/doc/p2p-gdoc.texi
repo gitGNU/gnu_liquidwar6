@@ -311,6 +311,16 @@ accross nodes.
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {int64_t} {lw6p2p_node_get_seq_max} (lw6p2p_node_t * @var{node})
+@var{node}:  the object to query
+
+Gets the maximum seq registered, this is typically used for guessing
+which seq might make sense for this node, but in a real example one
+should rely on algorithm/ker-side kept values.
+
+@strong{Return value:}  the seq.
+@end deftypefun
+
 @deftypefun {int} {lw6p2p_node_is_dump_needed} (lw6p2p_node_t * @var{node})
 @var{node}:  node to query
 

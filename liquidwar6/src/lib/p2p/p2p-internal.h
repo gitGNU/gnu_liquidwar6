@@ -342,6 +342,7 @@ extern int _lw6p2p_node_update_info (_lw6p2p_node_t * node,
 				     void *game_screenshot_data);
 extern void _lw6p2p_node_calibrate (_lw6p2p_node_t * node, int64_t timestamp,
 				    int64_t seq);
+extern int64_t _lw6p2p_node_get_seq_max (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_is_dump_needed (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node,
 				       const char *msg);
@@ -410,11 +411,11 @@ extern int _lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
 					    u_int64_t logical_to_id,
 					    const char *msg);
 extern lw6cnx_connection_t
-  *_lw6p2p_tentacle_find_connection_with_foo_bar_key (_lw6p2p_tentacle_t *
-						      tentacle,
-						      u_int32_t foo_bar_key);
+  * _lw6p2p_tentacle_find_connection_with_foo_bar_key (_lw6p2p_tentacle_t *
+						       tentacle,
+						       u_int32_t foo_bar_key);
 extern lw6cnx_connection_t
-  *_lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t *
-						      tentacle);
+  * _lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t *
+						       tentacle);
 
 #endif

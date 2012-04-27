@@ -186,15 +186,14 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
    * this is (at least) related to get_block_index having limitations
    * when delta is high (or very negative, to be more precise)
    */
-
   delta = block_index;
+
   if (delta > -_LW6DAT_BLOCK_DELTA_MAX && delta < 0)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("shifting blocks up delta=%d"),
 		  delta);
       if (delta < -_LW6DAT_MAX_NB_BLOCKS)
 	{
-
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_
 		      ("very big serial leap, history will be cleared, delta=%d"),

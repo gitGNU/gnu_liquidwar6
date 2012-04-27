@@ -292,10 +292,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	       */
 	      reply_msg =
 		lw6msg_cmd_generate_join (node->node_info,
-					  lw6sys_llmax
-					  (lw6dat_warehouse_get_seq_max
-					   (node->warehouse),
-					   node->calibrate_seq));
+					  _lw6p2p_node_get_seq_max (node));
+
 	      if (reply_msg)
 		{
 		  logical_ticket_sig =
