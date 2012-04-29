@@ -58,7 +58,6 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
    */
   cnx->last_recv_timestamp = lw6sys_get_timestamp ();
 
-  //TMP1 ("received (%s)", message);
   if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_HELLO))
     {
       if (lw6msg_cmd_analyse_hello (&remote_node_info, message))
@@ -280,7 +279,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_JOIN))
     {
-      if (lw6msg_cmd_analyse_join (&remote_node_info, &seq, message))
+      if (lw6msg_cmd_analyse_join (&remote_node_info, &seq, &serial, message))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("received join from \"%s\""),
 		      cnx->remote_url);
@@ -292,8 +291,9 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	       */
 	      reply_msg =
 		lw6msg_cmd_generate_join (node->node_info,
-					  _lw6p2p_node_get_seq_max (node));
-
+					  _lw6p2p_node_get_seq_max (node),
+					  lw6dat_warehouse_get_local_serial
+					  (node->warehouse));
 	      if (reply_msg)
 		{
 		  logical_ticket_sig =
@@ -307,7 +307,20 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		  if (tentacle_i >= 0)
 		    {
 		      /*
-		       * First, send reply message, to acknowledge
+		       * Add peer node to local tables.
+		       */
+		      lw6nod_info_community_add (node->node_info,
+						 cnx->remote_id_int,
+						 cnx->remote_url);
+		      /*
+		       * Need this else warehouse won't bootstrap and start forwarding
+		       * messages to this peer.
+		       */
+		      lw6dat_warehouse_register_node (node->warehouse,
+						      cnx->remote_id_int,
+						      serial);
+		      /*
+		       * Send reply message, to acknowledge
 		       * JOIN request.
 		       */
 		      _lw6p2p_tentacle_send_redundant (&
@@ -318,12 +331,6 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 						       cnx->local_id_int,
 						       cnx->remote_id_int,
 						       reply_msg);
-		      /*
-		       * Then, add peer node to local tables.
-		       */
-		      lw6nod_info_community_add (node->node_info,
-						 cnx->remote_id_int,
-						 cnx->remote_url);
 		      /*
 		       * Finally, prepare to send game information.
 		       */
@@ -356,7 +363,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
 			      _x_
-			      ("recevied unsollicited JOIN from IP \"%s\""),
+			      ("received unsollicited JOIN from IP \"%s\""),
 			      cnx->remote_ip);
 		}
 	    }

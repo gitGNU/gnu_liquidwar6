@@ -177,19 +177,21 @@ lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key)
  *
  * @info: the node info to use
  * @seq: the current seq
+ * @serial: the serial message number to start with
  *
  * Generate a JOIN command. The seq parameter, if 0, means we
  * want to request to join to a server. Wether this is a real
  * server or a physical client acting as a server is out of
  * consideration, 0 means request to join, period. If greater
  * than 0, means we are accepting a client, and then the value
- * is our current seq, which the client mmust use to calibrate
- * its own data.
+ * is our current seq, which the client must use to calibrate
+ * its own data. The serial number is here to avoid querying
+ * messages before the join and keep the serie complete.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq)
+lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq, int serial)
 {
   char *ret = NULL;
   char sep = LW6MSG_TELNET_SEP;
@@ -199,8 +201,8 @@ lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq)
   if (info_str)
     {
       ret =
-	lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "d", info_str, sep,
-			    (long long) seq);
+	lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "d%c%d", info_str, sep,
+			    (long long) seq, sep, serial);
       LW6SYS_FREE (info_str);
     }
 
@@ -827,7 +829,8 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key,
  * lw6msg_cmd_analyse_join
  *
  * @info: will contain (remote) node info on success
- * @key: if not NULL, will contain the foo/join key on success
+ * @seq: sequence used to initialize communication
+ * @serial: serial used to initialize communication
  * @msg: the message to analyse
  *
  * Analyzes a JOIN message.
@@ -835,7 +838,7 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_join (lw6nod_info_t ** info, int64_t * seq,
+lw6msg_cmd_analyse_join (lw6nod_info_t ** info, int64_t * seq, int *serial,
 			 const char *msg)
 {
   int ret = 0;
@@ -850,7 +853,16 @@ lw6msg_cmd_analyse_join (lw6nod_info_t ** info, int64_t * seq,
 	  pos = seek;
 	  if (lw6msg_word_first_int_64 (seq, &seek, pos))
 	    {
-	      ret = 1;
+	      pos = seek;
+	      if (lw6msg_word_first_int_32 (serial, &seek, pos))
+		{
+		  ret = 1;
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad serial \"%s\""),
+			      pos);
+		}
 	    }
 	  else
 	    {

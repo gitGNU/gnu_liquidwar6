@@ -113,6 +113,8 @@
 #define _TEST_DATA_KER_MSG "HELLO WORLD"
 #define _TEST_SEQ_BASE 1000000000000000LL
 #define _TEST_SEQ_RANGE 1000000000
+#define _TEST_SERIAL_BASE 10000000
+#define _TEST_SERIAL_RANGE 1000
 
 /*
  * Testing functions in cmd.c
@@ -130,9 +132,11 @@ test_cmd ()
     u_int64_t ticket = 0;
     u_int32_t key = 0;
     int64_t seq = 0LL;
+    int serial = 0;
     u_int64_t analysed_ticket = 0;
     u_int32_t analysed_key = 0;
     int64_t analysed_seq = 0LL;
+    int analysed_serial = 0LL;
     char *remote_url = NULL;
     int data_serial = 0;
     int data_i = 0;
@@ -329,27 +333,32 @@ test_cmd ()
 	  }
 
 	seq = _TEST_SEQ_BASE + lw6sys_random (_TEST_SEQ_RANGE);
-	msg = lw6msg_cmd_generate_join (info, seq);
+	serial = _TEST_SERIAL_BASE + lw6sys_random (_TEST_SERIAL_RANGE);
+	msg = lw6msg_cmd_generate_join (info, seq, serial);
 	if (msg)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("join command is \"%s\""),
 			msg);
-	    if (lw6msg_cmd_analyse_join (&analysed_info, &analysed_seq, msg))
+	    if (lw6msg_cmd_analyse_join
+		(&analysed_info, &analysed_seq, &analysed_serial, msg))
 	      {
-		if (seq == analysed_seq)
+		if (seq == analysed_seq && serial == analysed_serial)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("join command analysed (seq=%"
-				     LW6SYS_PRINTF_LL "d)"), (long long) seq);
+				     LW6SYS_PRINTF_LL "d serial=%d)"),
+				(long long) seq, serial);
 		  }
 		else
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
 				_x_
-				("join command analysed but seq is wrong (%"
+				("join command analysed but seq and/or serial is wrong (seq=%"
 				 LW6SYS_PRINTF_LL "d and should be %"
-				 LW6SYS_PRINTF_LL "d)"),
-				(long long) analysed_seq, (long long) seq);
+				 LW6SYS_PRINTF_LL
+				 "d serial=%d and should be %d)"),
+				(long long) analysed_seq, (long long) seq,
+				analysed_serial, serial);
 		    ret = 0;
 		  }
 		lw6nod_info_free (analysed_info);

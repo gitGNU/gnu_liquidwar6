@@ -153,6 +153,12 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
 	  _lw6dat_stack_clear (stack);
 	}
     }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("bad stack_init params node_id=%" LW6SYS_PRINTF_LL
+		       "x, serial_0=%d"), (long long) node_id, serial_0);
+    }
 
   return ret;
 }

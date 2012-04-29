@@ -61,6 +61,10 @@ extern int lw6dat_warehouse_get_nb_nodes (lw6dat_warehouse_t * warehouse);
 extern u_int64_t lw6dat_warehouse_get_local_id (lw6dat_warehouse_t *
 						warehouse);
 extern int lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t * warehouse);
+extern int lw6dat_warehouse_register_node (lw6dat_warehouse_t * warehouse,
+					   u_int64_t node_id, int serial_0);
+extern int lw6dat_warehouse_is_node_registered (lw6dat_warehouse_t *
+						warehouse, u_int64_t node_id);
 extern int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse,
 					  u_int64_t logical_from,
 					  const char *full_str);

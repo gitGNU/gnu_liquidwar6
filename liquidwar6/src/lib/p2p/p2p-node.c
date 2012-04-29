@@ -897,7 +897,45 @@ _poll_step9_flush_verified_nodes (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step10_poll_tentacles (_lw6p2p_node_t * node)
+_poll_step10_send_atoms (_lw6p2p_node_t * node)
+{
+  int ret = 1;
+  int i = 0;
+  u_int64_t remote_id;
+  lw6sys_list_t *atom_str_list;
+  char *atom_str = NULL;
+
+  for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
+    {
+      if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
+	{
+	  remote_id = node->tentacles[i].remote_id_int;
+	  atom_str_list =
+	    lw6dat_warehouse_get_atom_str_list_not_sent (node->warehouse,
+							 remote_id);
+	  if (atom_str_list)
+	    {
+	      while ((atom_str =
+		      lw6sys_list_pop_front (&atom_str_list)) != NULL)
+		{
+		  // todo, send them!
+		  TMP3 ("from=%" LW6SYS_PRINTF_LL "x to=%" LW6SYS_PRINTF_LL
+			"x \"%s\"", (long long) node->node_id_int,
+			(long long) remote_id, atom_str);
+		  LW6SYS_FREE (atom_str);
+		}
+	    }
+	  _lw6p2p_tentacle_poll (&(node->tentacles[i]), node->node_info,
+				 &(node->ticket_table),
+				 node->db->data.consts.foo_delay);
+	}
+    }
+
+  return ret;
+}
+
+static int
+_poll_step11_poll_tentacles (_lw6p2p_node_t * node)
 {
   int ret = 1;
   int i = 0;
@@ -929,7 +967,8 @@ _lw6p2p_node_poll (_lw6p2p_node_t * node)
   ret = _poll_step7_flush_discovered_nodes (node) && ret;
   ret = _poll_step8_explore_verify_nodes (node) && ret;
   ret = _poll_step9_flush_verified_nodes (node) && ret;
-  ret = _poll_step10_poll_tentacles (node) && ret;
+  ret = _poll_step10_send_atoms (node) && ret;
+  ret = _poll_step11_poll_tentacles (node) && ret;
 
   return ret;
 }
@@ -1633,7 +1672,10 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 		       * Generating a JOIN message with 0 seq
 		       * means "I want to connect to you"
 		       */
-		      msg = lw6msg_cmd_generate_join (node->node_info, 0);
+		      msg =
+			lw6msg_cmd_generate_join (node->node_info, 0,
+						  lw6dat_warehouse_get_local_serial
+						  (node->warehouse));
 		      if (msg)
 			{
 			  ticket_sig =

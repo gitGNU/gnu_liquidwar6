@@ -307,6 +307,7 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
   int ret = -1;
   int stack_index;
 
+  serial_0 = lw6sys_imax (serial_0, _LW6DAT_SERIAL_START);
   ret = _lw6dat_warehouse_get_stack_index (warehouse, node_id);
   if (ret < 0)
     {
@@ -330,6 +331,55 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
     }
 
   return ret;
+}
+
+/**
+ * lw6dat_warehouse_register_node
+ *
+ * @warehouse: object to update
+ * @node_id: id of node to register
+ * @serial_0: serial number of first message 
+ *
+ * Registers a node, in practice this is automatically done when receiving
+ * a data message but it might be interesting to do it elsewhere and force it.
+ *
+ * Return value: the stack index of the registered node, <0 is invalid.
+ */
+int
+lw6dat_warehouse_register_node (lw6dat_warehouse_t * warehouse,
+				u_int64_t node_id, int serial_0)
+{
+  return _lw6dat_warehouse_register_node ((_lw6dat_warehouse_t *) warehouse,
+					  node_id, serial_0);
+}
+
+int
+_lw6dat_warehouse_is_node_registered (_lw6dat_warehouse_t * warehouse,
+				      u_int64_t node_id)
+{
+  int ret = 0;
+
+  ret = (_lw6dat_warehouse_get_stack_index (warehouse, node_id) >= 0);
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_is_node_registered
+ *
+ * @warehouse: object to update
+ * @node_id: id of node to register
+ *
+ * Tells wether a node is registered or not in our list.
+ *
+ * Return value: 1 if registered, 0 if not.
+ */
+int
+lw6dat_warehouse_is_node_registered (lw6dat_warehouse_t * warehouse,
+				     u_int64_t node_id)
+{
+  return _lw6dat_warehouse_is_node_registered ((_lw6dat_warehouse_t *)
+					       warehouse, node_id);
 }
 
 int
@@ -786,20 +836,15 @@ _lw6dat_warehouse_get_atom_str_list_not_sent (_lw6dat_warehouse_t *
     {
       target_index =
 	_lw6dat_warehouse_get_stack_index (warehouse, logical_to);
-      if (target_index >= 0 && target_index < LW6DAT_MAX_NB_STACKS)
+      for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
 	{
-	  for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS;
-	       ++stack_index)
+	  if (warehouse->stacks[stack_index].node_id != 0)
 	    {
-	      if (warehouse->stacks[stack_index].node_id != 0)
-		{
-		  _lw6dat_stack_update_atom_str_list_not_sent (&
-							       (warehouse->
-								stacks
-								[stack_index]),
-							       &ret,
-							       target_index);
-		}
+	      _lw6dat_stack_update_atom_str_list_not_sent (&
+							   (warehouse->stacks
+							    [stack_index]),
+							   &ret,
+							   target_index);
 	    }
 	}
     }

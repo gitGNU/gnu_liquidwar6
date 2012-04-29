@@ -1,3 +1,7 @@
+2012-04-29 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Message list to send correctly built in p2p test suite.
+
 2012-04-27 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added __attribute__ format constraints on printf-like functions.
