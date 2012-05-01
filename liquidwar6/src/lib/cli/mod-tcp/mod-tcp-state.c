@@ -89,14 +89,10 @@ _mod_tcp_close (_mod_tcp_context_t * tcp_context,
 	  lw6net_socket_close (specific_data->sock);
 	  specific_data->sock = LW6NET_SOCKET_INVALID;
 	}
-      if (lw6cnx_connection_lock_send (connection))
+      if (specific_data->send_backlog)
 	{
-	  if (specific_data->send_backlog)
-	    {
-	      lw6sys_list_free (specific_data->send_backlog);
-	      specific_data->send_backlog = NULL;
-	    }
-	  lw6cnx_connection_unlock_send (connection);
+	  lw6sys_list_free (specific_data->send_backlog);
+	  specific_data->send_backlog = NULL;
 	}
       LW6SYS_FREE (specific_data);
     }

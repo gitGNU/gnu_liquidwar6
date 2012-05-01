@@ -1,5 +1,7 @@
 2012-05-01 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Various bug-fixes concerning p2p message exchange (need more).
+
 	* TCP client is now able to bufferize send messages.
 
 2012-04-30 : Christian Mauduit <ufoot@ufoot.org>

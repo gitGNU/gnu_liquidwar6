@@ -210,6 +210,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 			    }
 			  LW6SYS_FREE (line);
 			}
+		      specific_data->send_backlog = NULL;
 		    }
 		  lw6cnx_connection_unlock_send (connection);
 		}

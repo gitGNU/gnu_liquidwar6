@@ -1262,11 +1262,11 @@ lw6p2p_test (int mode)
       if (0)
 	{			// speed-up test while debugging _test_node_api
 	  ret = _test_db () && _test_entry () && _test_node_init ()
-	    && _test_node_oob () && _test_node_api ();
+	    && _test_node_oob () && _test_node_cmd ();
 	}
       else
 	{
-	  ret = _test_node_cmd ();
+	  ret = _test_node_api ();
 	}
 
       lw6net_quit (argc, argv);
