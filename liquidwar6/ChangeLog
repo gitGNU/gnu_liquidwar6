@@ -1,3 +1,7 @@
+2012-04-30 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed msg signature handling, needed some time padding at startup.
+
 2012-04-29 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Message list to send correctly built in p2p test suite.

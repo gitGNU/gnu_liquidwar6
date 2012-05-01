@@ -39,6 +39,7 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
     (_mod_tcp_specific_data_t *) connection->backend_specific_data;
   char *line = NULL;
 
+  // todo, check that this works, looks like it's disconnected somehow
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcp send \"%s\""), message);
   if (specific_data->state == _MOD_TCP_STATE_CONNECTED
       && lw6net_socket_is_valid (specific_data->sock))

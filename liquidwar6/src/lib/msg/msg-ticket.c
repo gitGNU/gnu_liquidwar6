@@ -49,18 +49,34 @@ lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
   u_int32_t calc_sig = 0;
   unsigned char key_buf[3 * sizeof (u_int64_t)];
 
-  memset (key_buf, 0, 3 * sizeof (u_int64_t));
-  lw6sys_serialize_int64 (key_buf, ticket);
-  lw6sys_serialize_int64 (key_buf + sizeof (u_int64_t), from_id);
-  lw6sys_serialize_int64 (key_buf + 2 * sizeof (u_int64_t), to_id);
-  calc_sig =
-    lw6glb_sha1_hmac_32_bin ((char *) key_buf,
-			     3 * sizeof (u_int64_t), msg, strlen (msg));
-  if (!calc_sig)
+  if (ticket)
     {
-      /*
-       * Never return a 0 sig, as 0 means "no sig"
-       */
+      memset (key_buf, 0, 3 * sizeof (u_int64_t));
+      lw6sys_serialize_int64 (key_buf, ticket);
+      lw6sys_serialize_int64 (key_buf + sizeof (u_int64_t), from_id);
+      lw6sys_serialize_int64 (key_buf + 2 * sizeof (u_int64_t), to_id);
+      calc_sig =
+	lw6glb_sha1_hmac_32_bin ((char *) key_buf,
+				 3 * sizeof (u_int64_t), msg, strlen (msg));
+      if (!calc_sig)
+	{
+	  /*
+	   * Never return a 0 sig, as 0 means "no sig"
+	   */
+	  calc_sig--;
+	}
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("calculating sig with ticket %" LW6SYS_PRINTF_LL
+		       "x from=%" LW6SYS_PRINTF_LL "x to=%" LW6SYS_PRINTF_LL
+		       "x message=\"%s\" calc_sig=%x"), (long long) ticket,
+		  (long long) from_id, (long long) to_id, msg, calc_sig);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("using ticket=0 from=%" LW6SYS_PRINTF_LL "x to=%"
+		       LW6SYS_PRINTF_LL "x to calc sig for message \"%s\""),
+		  (long long) from_id, (long long) to_id, msg);
       calc_sig--;
     }
 
@@ -88,7 +104,16 @@ lw6msg_ticket_check_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
   u_int32_t calc_sig = 0;
 
   calc_sig = lw6msg_ticket_calc_sig (ticket, from_id, to_id, msg);
-  ret = (calc_sig == ticket_sig);
+  if (calc_sig == ticket_sig)
+    {
+      ret = 1;
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("sigs do not match calc_sig=%x ticket_sig=%x"),
+		  calc_sig, ticket_sig);
+    }
 
   return ret;
 }

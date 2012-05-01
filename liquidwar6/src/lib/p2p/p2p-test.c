@@ -102,8 +102,6 @@
 #define _TEST_NODE_TROJAN 0
 #define _TEST_BOGUS_BACKEND "bogus"
 
-#define TEST_NODE_OOB_DURATION 9000
-#define TEST_NODE_CMD_DURATION 6000
 #define _TEST_ENTRY_HAS_PASSWORD 0
 #define _TEST_ENTRY_BENCH 10
 #define _TEST_ENTRY_OPEN_RELAY 0
@@ -165,14 +163,14 @@
 #define _TEST_BOGUS_BACKEND "bogus"
 
 #define TEST_NODE_OOB_DURATION 9000
-#define TEST_NODE_CMD_DURATION 6000
+#define TEST_NODE_CMD_DURATION (9000+LW6CNX_TICKET_TABLE_ACK_MSEC)
 #define TEST_NODE_API_DURATION_JOIN 500
-#define TEST_NODE_API_DURATION_THREAD 9000
+#define TEST_NODE_API_DURATION_THREAD (9000+LW6CNX_TICKET_TABLE_ACK_MSEC)
 #define TEST_NODE_API_DURATION_END 3000
 #define TEST_NODE_POLL_DURATION 100
 // 10 times bigger than _LW6PIL_MIN_SEQ_0
 #define TEST_NODE_API_SEQ_0 100000000000LL
-#define TEST_NODE_API_DUMP_SIZE 1000
+#define TEST_NODE_API_DUMP_SIZE 10000
 #define TEST_NODE_API_MSG1_STR "message number one"
 #define TEST_NODE_API_MSG2_STR "2"
 #define TEST_NODE_API_MSG3_STR "3 fire!"
@@ -830,11 +828,11 @@ _test_node_cmd ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
+    ret = ret && _cmd_with_backends ("tcp", "tcpd");
+    ret = ret && _cmd_with_backends ("udp", "udpd");
     ret = ret
       && _cmd_with_backends (lw6cli_default_backends (),
 			     lw6srv_default_backends ());
-    ret = ret && _cmd_with_backends ("udp", "udpd");
-    ret = ret && _cmd_with_backends ("tcp", "tcpd");
     _cmd_with_backends ("http", "httpd");	// even if fails, keep going since http is optional
     _cmd_with_backends ("", _TEST_BOGUS_BACKEND);
     _cmd_with_backends (_TEST_BOGUS_BACKEND, "");
@@ -965,7 +963,7 @@ _test_node_api_node2_callback (void *api_data)
 	  char *dump = NULL;
 	  char *msg = NULL;
 
-	  dump = lw6sys_str_random_word (TEST_NODE_API_DUMP_SIZE);
+	  dump = lw6sys_str_random_words (TEST_NODE_API_DUMP_SIZE);
 	  if (dump)
 	    {
 	      msg =
@@ -1264,11 +1262,11 @@ lw6p2p_test (int mode)
       if (0)
 	{			// speed-up test while debugging _test_node_api
 	  ret = _test_db () && _test_entry () && _test_node_init ()
-	    && _test_node_oob () && _test_node_cmd () && _test_node_api ();
+	    && _test_node_oob () && _test_node_api ();
 	}
       else
 	{
-	  ret = _test_node_api ();
+	  ret = _test_node_cmd ();
 	}
 
       lw6net_quit (argc, argv);

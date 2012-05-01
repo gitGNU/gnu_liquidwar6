@@ -274,11 +274,11 @@ extern int64_t _lw6dat_warehouse_get_seq_draft (_lw6dat_warehouse_t *
 extern int64_t _lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t *
 						    warehouse);
 extern lw6sys_list_t
-  *_lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
-					  int64_t seq_min, int64_t seq_max);
+  * _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
+					   int64_t seq_min, int64_t seq_max);
 extern lw6sys_list_t
-  *_lw6dat_warehouse_get_atom_str_list_not_sent (_lw6dat_warehouse_t *
-						 warehouse,
-						 u_int64_t logical_to);
+  * _lw6dat_warehouse_get_atom_str_list_not_sent (_lw6dat_warehouse_t *
+						  warehouse,
+						  u_int64_t logical_to);
 
 #endif

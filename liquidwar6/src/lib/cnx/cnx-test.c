@@ -313,6 +313,24 @@ test_ticket_table ()
 			("recv ticket reported as *not* exchanged, this is right"));
 	    lw6cnx_ticket_table_ack_recv (&ticket_table,
 					  _TEST_TICKET_TABLE_ID1);
+
+	    if (!lw6cnx_ticket_table_was_recv_exchanged
+		(&ticket_table, _TEST_TICKET_TABLE_ID1))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("recv ticket still *not* reported as exchanged, this is right"));
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("recv ticket already reported as exchanged, this is wrong"));
+		ret = 0;
+	      }
+
+	    lw6sys_delay (LW6CNX_TICKET_TABLE_ACK_MSEC + 1);
+
 	    if (lw6cnx_ticket_table_was_recv_exchanged
 		(&ticket_table, _TEST_TICKET_TABLE_ID1))
 	      {

@@ -312,29 +312,34 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		      lw6nod_info_community_add (node->node_info,
 						 cnx->remote_id_int,
 						 cnx->remote_url);
-		      /*
-		       * Need this else warehouse won't bootstrap and start forwarding
-		       * messages to this peer.
-		       */
-		      lw6dat_warehouse_register_node (node->warehouse,
-						      cnx->remote_id_int,
-						      serial);
-		      /*
-		       * Send reply message, to acknowledge
-		       * JOIN request.
-		       */
-		      _lw6p2p_tentacle_send_redundant (&
-						       (node->tentacles
-							[tentacle_i]),
-						       &(node->ticket_table),
-						       logical_ticket_sig,
-						       cnx->local_id_int,
-						       cnx->remote_id_int,
-						       reply_msg);
-		      /*
-		       * Finally, prepare to send game information.
-		       */
-		      node->dump_needed = 1;
+		      if (!lw6dat_warehouse_is_node_registered
+			  (node->warehouse, cnx->remote_id_int))
+			{
+			  /*
+			   * Need this else warehouse won't bootstrap and start forwarding
+			   * messages to this peer.
+			   */
+			  lw6dat_warehouse_register_node (node->warehouse,
+							  cnx->remote_id_int,
+							  serial);
+			  /*
+			   * Send reply message, to acknowledge
+			   * JOIN request.
+			   */
+			  _lw6p2p_tentacle_send_redundant (&
+							   (node->tentacles
+							    [tentacle_i]),
+							   &
+							   (node->ticket_table),
+							   logical_ticket_sig,
+							   cnx->local_id_int,
+							   cnx->remote_id_int,
+							   reply_msg);
+			  /*
+			   * Finally, prepare to send game information.
+			   */
+			  node->dump_needed = 1;
+			}
 		    }
 		  else
 		    {
@@ -397,6 +402,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("received data from \"%s\""),
 		      cnx->remote_url);
+	  TMP1 ("recv \"%s\"", message);
 	  // todo : process data!
 	}
       else
@@ -446,14 +452,22 @@ _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
     {
       if (was_recv_exchanged)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("good sig from \"%s\""),
-		      remote_id_str);
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("good sig from \"%s\" to \"%" LW6SYS_PRINTF_LL
+			   "x\" on message \"%s\" using ticket \"%"
+			   LW6SYS_PRINTF_LL "x\""), remote_id_str,
+		      (long long) local_id_int, message,
+		      (long long) recv_ticket);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _x_ ("first good signature from \"%s\""),
-		      remote_id_str);
+		      _x_ ("first good signature from \"%s\" to \"%"
+			   LW6SYS_PRINTF_LL
+			   "x\" on message \"%s\" using ticket \"%"
+			   LW6SYS_PRINTF_LL "x\""), remote_id_str,
+		      (long long) local_id_int, message,
+		      (long long) recv_ticket);
 	  lw6cnx_ticket_table_ack_recv (ticket_table, remote_id_str);
 	}
       ret = 1;
@@ -466,8 +480,12 @@ _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
 	   * OK, messages have been once correctly signed, but
 	   * this one is *badly* signed.
 	   */
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad sig from \"%s\""),
-		      remote_id_str);
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("bad sig from \"%s\" to \"%" LW6SYS_PRINTF_LL
+			   "x\" on message \"%s\" using ticket \"%"
+			   LW6SYS_PRINTF_LL "x\""), remote_id_str,
+		      (long long) local_id_int, message,
+		      (long long) recv_ticket);
 	}
       else
 	{
@@ -477,8 +495,11 @@ _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
 	   */
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_
-		      ("not checking sig for \"%s\" because ticket was never received"),
-		      remote_id_str);
+		      ("not checking sig from \"%s\" to \"%" LW6SYS_PRINTF_LL
+		       "x\" on message \"%s\" because ticket was never received using ticket \"%"
+		       LW6SYS_PRINTF_LL "x\""), remote_id_str,
+		      (long long) local_id_int, message,
+		      (long long) recv_ticket);
 	  ret = 1;
 	}
     }
@@ -545,7 +566,7 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (LW6SYS_LOG_WARNING,
 				  _x_ ("bad logical ticket_sig from \"%s\""),
 				  cnx->remote_url);
 		    }
@@ -564,12 +585,17 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 				  _x_ ("open relay not allowed (yet)"));
 		    }
 		}
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_
+			  ("good physical ticket_sig from \"%s\" on message \"%s\""),
+			  cnx->remote_url, message);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _x_ ("bad physical ticket_sig from \"%s\""),
-			  cnx->remote_url);
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_
+			  ("bad physical ticket_sig from \"%s\" on message \"%s\""),
+			  cnx->remote_url, message);
 	    }
 	}
     }

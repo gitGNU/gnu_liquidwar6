@@ -901,27 +901,41 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node)
 {
   int ret = 1;
   int i = 0;
-  u_int64_t remote_id;
+  u_int64_t remote_id_int = 0LL;
+  char *remote_id_str = NULL;
   lw6sys_list_t *atom_str_list;
   char *atom_str = NULL;
+  u_int32_t logical_ticket_sig = 0;
 
   for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
     {
       if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
 	{
-	  remote_id = node->tentacles[i].remote_id_int;
+	  remote_id_int = node->tentacles[i].remote_id_int;
+	  remote_id_str = node->tentacles[i].remote_id_str;
 	  atom_str_list =
 	    lw6dat_warehouse_get_atom_str_list_not_sent (node->warehouse,
-							 remote_id);
+							 remote_id_int);
 	  if (atom_str_list)
 	    {
 	      while ((atom_str =
 		      lw6sys_list_pop_front (&atom_str_list)) != NULL)
 		{
-		  // todo, send them!
-		  TMP3 ("from=%" LW6SYS_PRINTF_LL "x to=%" LW6SYS_PRINTF_LL
-			"x \"%s\"", (long long) node->node_id_int,
-			(long long) remote_id, atom_str);
+		  logical_ticket_sig =
+		    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+					    (&(node->ticket_table),
+					     remote_id_str),
+					    node->node_id_int,
+					    remote_id_int, atom_str);
+
+		  _lw6p2p_tentacle_send_best (&
+					      (node->tentacles
+					       [i]),
+					      &(node->ticket_table),
+					      logical_ticket_sig,
+					      node->node_id_int,
+					      remote_id_int, atom_str);
+
 		  LW6SYS_FREE (atom_str);
 		}
 	    }
@@ -1678,10 +1692,17 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 						  (node->warehouse));
 		      if (msg)
 			{
+			  /*
+			     ticket_sig =
+			     lw6msg_ticket_calc_sig
+			     (lw6cnx_ticket_table_get_send
+			     (&(node->ticket_table), node->node_id_str),
+			     node->node_id_int, remote_id, msg);
+			   */
 			  ticket_sig =
 			    lw6msg_ticket_calc_sig
 			    (lw6cnx_ticket_table_get_send
-			     (&(node->ticket_table), node->node_id_str),
+			     (&(node->ticket_table), remote_id_str),
 			     node->node_id_int, remote_id, msg);
 			  ret =
 			    _lw6p2p_tentacle_send_redundant (tentacle,

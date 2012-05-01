@@ -34,8 +34,8 @@ _mod_tcp_repr (_mod_tcp_context_t * tcp_context,
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf (_x_ ("tcp connexion on \"%s\""),
-			connection->remote_url);
+    lw6sys_new_sprintf (_x_ ("tcp connexion of \"%s\" on \"%s\""),
+			connection->local_url, connection->remote_url);
 
   return ret;
 }

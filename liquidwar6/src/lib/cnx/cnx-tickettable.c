@@ -64,7 +64,8 @@ lw6cnx_ticket_table_init (lw6cnx_ticket_table_t * ticket_table, int hash_size)
   ticket_table->send_spinlock = lw6sys_spinlock_create ();
   ticket_table->recv_table =
     lw6sys_hash_new (lw6sys_free_callback, hash_size);
-  ticket_table->recv_ack_table = lw6sys_hash_new (NULL, hash_size);
+  ticket_table->recv_ack_table =
+    lw6sys_hash_new (lw6sys_free_callback, hash_size);
   ticket_table->send_table =
     lw6sys_hash_new (lw6sys_free_callback, hash_size);
 
@@ -183,10 +184,22 @@ void
 lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table,
 			      const char *peer_id)
 {
-  if (lw6sys_spinlock_lock (ticket_table->recv_ack_spinlock))
+  int64_t *limit;
+
+  limit = (int64_t *) LW6SYS_MALLOC (sizeof (int64_t));
+  if (limit)
     {
-      lw6sys_hash_set (ticket_table->recv_ack_table, peer_id, NULL);
-      lw6sys_spinlock_unlock (ticket_table->recv_ack_spinlock);
+      (*limit) = lw6sys_get_timestamp () + LW6CNX_TICKET_TABLE_ACK_MSEC;
+      if (lw6sys_spinlock_lock (ticket_table->recv_ack_spinlock))
+	{
+	  lw6sys_hash_set (ticket_table->recv_ack_table, peer_id,
+			   (void *) limit);
+	  lw6sys_spinlock_unlock (ticket_table->recv_ack_spinlock);
+	}
+      else
+	{
+	  LW6SYS_FREE (limit);
+	}
     }
 }
 
@@ -208,10 +221,27 @@ lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table,
 					const char *peer_id)
 {
   int ret = 0;
+  int64_t now;
+  int64_t *limit;
 
+  now = lw6sys_get_timestamp ();
   if (lw6sys_spinlock_lock (ticket_table->recv_ack_spinlock))
     {
-      ret = lw6sys_hash_has_key (ticket_table->recv_ack_table, peer_id);
+      limit =
+	(int64_t *) lw6sys_hash_get (ticket_table->recv_ack_table, peer_id);
+      if (limit)
+	{
+	  if ((*limit) <= now)
+	    {
+	      ret = 1;
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("ticket for \"%s\" exists but is too old"),
+			  peer_id);
+	    }
+	}
       lw6sys_spinlock_unlock (ticket_table->recv_ack_spinlock);
     }
 
