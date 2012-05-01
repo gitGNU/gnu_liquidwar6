@@ -1,3 +1,7 @@
+2012-05-01 : Christian Mauduit <ufoot@ufoot.org>
+
+	* TCP client is now able to bufferize send messages.
+
 2012-04-30 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed msg signature handling, needed some time padding at startup.

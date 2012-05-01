@@ -58,6 +58,9 @@ typedef struct _mod_tcp_specific_data_s
 {
   int sock;
   _mod_tcp_state_t state;
+  int send_failed_once;
+  int send_succeeded_once;
+  lw6sys_list_t *send_backlog;
   void *connect_thread;
 }
 _mod_tcp_specific_data_t;
@@ -74,15 +77,11 @@ extern int _mod_tcp_load_data (_mod_tcp_data_t * tcp_data,
 			       const char *data_dir);
 extern void _mod_tcp_unload_data (_mod_tcp_data_t * tcp_data);
 
-/*
- * In setup.c
- */
+/* mod-tcp-setup.c */
 extern _mod_tcp_context_t *_mod_tcp_init (int argc, const char *argv[]);
 extern void _mod_tcp_quit (_mod_tcp_context_t * tcp_context);
 
-/*
- * In state.c
- */
+/* mod-tcp-state.c */
 extern lw6cnx_connection_t *_mod_tcp_open (_mod_tcp_context_t * tcp_context,
 					   const char *local_url,
 					   const char *remote_url,
@@ -101,9 +100,7 @@ extern int _mod_tcp_timeout_ok (_mod_tcp_context_t * tcp_context,
 				int64_t origin_timestamp);
 extern void _mod_tcp_connect_func (void *func_data);
 
-/*
- * In message.c
- */
+/* mod-tcp-message.c */
 extern int _mod_tcp_send (_mod_tcp_context_t * tcp_context,
 			  lw6cnx_connection_t * connection,
 			  u_int32_t physical_ticket_sig,
@@ -113,15 +110,11 @@ extern int _mod_tcp_send (_mod_tcp_context_t * tcp_context,
 extern void _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 			   lw6cnx_connection_t * connection);
 
-/*
- * In info.c
- */
+/* mod-tcp-info.c */
 extern char *_mod_tcp_repr (_mod_tcp_context_t * tcp_context,
 			    lw6cnx_connection_t * connection);
 
-/*
- * In oob.c
- */
+/* mod-tcp-oob.c */
 extern int _mod_tcp_process_oob (_mod_tcp_context_t * tcp_context,
 				 lw6nod_info_t * node_info,
 				 lw6cli_oob_data_t * oob_data);
