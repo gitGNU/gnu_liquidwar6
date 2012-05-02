@@ -460,7 +460,8 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg,
 		    {
 		      serial = _lw6dat_stack_get_serial (stack) + 1;
 		      snprintf (full_str, _LW6DAT_HEADER_MAX_SIZE,
-				"%d %d %d ", serial, order_i, order_n);
+				"%s %d %d %d ", LW6MSG_CMD_DATA, serial,
+				order_i, order_n);
 		      seq_from_cmd_str_offset = strlen (full_str);
 		      if (seq_from_cmd_str_offset < _LW6DAT_HEADER_MAX_SIZE)
 			{
@@ -525,6 +526,7 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg,
     {
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad seq in message \"%s\""), msg);
     }
+
   return ret;
 }
 

@@ -121,60 +121,71 @@ _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial, int *order_i,
 {
   int ret = 0;
   char *next = (char *) full_str;
+  lw6msg_word_t word;
 
-  if (lw6msg_word_first_int_32_gt0 (serial, &next, next))
+  if (lw6msg_word_first (&word, &next, next)
+      && lw6sys_str_is_same_no_case (word.buf, LW6MSG_CMD_DATA))
     {
-      if (lw6msg_word_first_int_32_ge0 (order_i, &next, next))
+      if (lw6msg_word_first_int_32_gt0 (serial, &next, next))
 	{
-	  if (lw6msg_word_first_int_32_gt0 (order_n, &next, next))
+	  if (lw6msg_word_first_int_32_ge0 (order_i, &next, next))
 	    {
-	      /*
-	       * Now this is a "trick", we set cmd to the part that is just
-	       * after order_n and before the seq, this is so that the stored
-	       * string contains seq and logical_from. OK, it's redundant, but
-	       * the advantage is that it allows us to cache the whole stuff
-	       * and avoid rewritting it each time we need to read it.
-	       */
-	      (*seq_from_cmd_str_offset) = next - full_str;
-	      if (lw6msg_word_first_int_64_ge0 (seq, &next, next))
+	      if (lw6msg_word_first_int_32_gt0 (order_n, &next, next))
 		{
-		  if (lw6msg_word_first_id_64 (logical_from, &next, next))
+		  /*
+		   * Now this is a "trick", we set cmd to the part that is just
+		   * after order_n and before the seq, this is so that the stored
+		   * string contains seq and logical_from. OK, it's redundant, but
+		   * the advantage is that it allows us to cache the whole stuff
+		   * and avoid rewritting it each time we need to read it.
+		   */
+		  (*seq_from_cmd_str_offset) = next - full_str;
+		  if (lw6msg_word_first_int_64_ge0 (seq, &next, next))
 		    {
-		      (*cmd_str_offset) = next - full_str;
-		      ret = 1;
+		      if (lw6msg_word_first_id_64 (logical_from, &next, next))
+			{
+			  (*cmd_str_offset) = next - full_str;
+			  ret = 1;
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("bad value for logical_from in atom \"%s\""),
+				      full_str);
+			}
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _x_
-				  ("bad value for logical_from in atom \"%s\""),
+				  _x_ ("bad value for seq in atom \"%s\""),
 				  full_str);
 		    }
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _x_ ("bad value for seq in atom \"%s\""),
+			      _x_ ("bad value for order_n in atom \"%s\""),
 			      full_str);
 		}
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_ ("bad value for order_n in atom \"%s\""),
+			  _x_ ("bad value for order_i in atom \"%s\""),
 			  full_str);
 	    }
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_ ("bad value for order_i in atom \"%s\""), full_str);
+		      _x_ ("bad value for serial in atom \"%s\""), full_str);
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("bad value for serial in atom \"%s\""), full_str);
+		  _x_ ("bad value for DATA in atom \"%s\""), full_str);
     }
 
   return ret;

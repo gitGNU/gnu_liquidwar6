@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <liquidwar6>
   <int key="listen-backlog" value="10" />
-  <int key="chunk-size" value="1300" />
-  <int key="line-size" value="1200" />
+  <int key="chunk-size" value="1440" />
+  <int key="line-size" value="1333" />
   <int key="line-delay-msec" value="1000" />
   <int key="dns-cache-hash-size" value="101" />
 </liquidwar6>

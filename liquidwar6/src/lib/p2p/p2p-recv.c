@@ -404,6 +404,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		      cnx->remote_url);
 	  TMP1 ("recv \"%s\"", message);
 	  // todo : process data!
+	  LW6SYS_FREE (ker_message);
 	}
       else
 	{

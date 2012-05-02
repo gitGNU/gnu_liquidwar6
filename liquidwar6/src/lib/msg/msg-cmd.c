@@ -249,7 +249,9 @@ lw6msg_cmd_generate_data (int serial, int i, int n, int round,
 {
   char *ret = NULL;
 
-  ret = lw6sys_new_sprintf ("%d %d %d %d %s", serial, i, n, round, ker_msg);
+  ret =
+    lw6sys_new_sprintf ("%s %d %d %d %d %s", LW6MSG_CMD_DATA, serial, i, n,
+			round, ker_msg);
 
   return ret;
 }
@@ -936,6 +938,7 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
   int read_n = 0;
   int read_round = 0;
   char *read_ker_msg = NULL;
+  lw6msg_word_t data_word;
   lw6msg_word_t ker_msg_word;
 
   (*serial) = 0;
@@ -946,54 +949,68 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
   pos = msg;
   seek = (char *) pos;
 
-  if (lw6msg_word_first_int_32_gt0 (&read_serial, &seek, pos))
+  if (lw6msg_word_first (&data_word, &seek, pos)
+      && lw6sys_str_is_same_no_case (data_word.buf, LW6MSG_CMD_DATA))
     {
-      if (lw6msg_word_first_int_32_gt0 (&read_i, &seek, pos))
+      pos = seek;
+      if (lw6msg_word_first_int_32_gt0 (&read_serial, &seek, pos))
 	{
-	  if (lw6msg_word_first_int_32_gt0 (&read_n, &seek, pos))
+	  pos = seek;
+	  if (lw6msg_word_first_int_32_ge0 (&read_i, &seek, pos))
 	    {
-	      if (lw6msg_word_first_int_32_gt0 (&read_round, &seek, pos))
+	      pos = seek;
+	      if (lw6msg_word_first_int_32_gt0 (&read_n, &seek, pos))
 		{
-		  if (lw6msg_word_first (&ker_msg_word, &seek, pos))
+		  pos = seek;
+		  if (lw6msg_word_first_int_32_gt0 (&read_round, &seek, pos))
 		    {
-		      read_ker_msg = lw6sys_str_copy (ker_msg_word.buf);
-		      if (read_ker_msg)
+		      pos = seek;
+		      if (lw6msg_word_first (&ker_msg_word, &seek, pos))
 			{
-			  ret = 1;
-			  (*serial) = read_serial;
-			  (*i) = read_i;
-			  (*n) = read_n;
-			  (*round) = read_round;
-			  (*ker_msg) = read_ker_msg;
+			  pos = seek;
+			  read_ker_msg = lw6sys_str_copy (ker_msg_word.buf);
+			  if (read_ker_msg)
+			    {
+			      ret = 1;
+			      (*serial) = read_serial;
+			      (*i) = read_i;
+			      (*n) = read_n;
+			      (*round) = read_round;
+			      (*ker_msg) = read_ker_msg;
+			    }
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_DEBUG,
+				      _x_ ("unable to parse ker message"));
 			}
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _x_ ("unable to parse ker message"));
+				  _x_ ("unable to parse round"));
 		    }
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _x_ ("unable to parse round"));
+			      _x_ ("unable to parse group size n"));
 		}
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _x_ ("unable to parse group size n"));
+			  _x_ ("unable to parse group index i"));
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_ ("unable to parse group index i"));
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to parse serial"));
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to parse serial"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to parse DATA"));
     }
 
   return ret;
