@@ -170,7 +170,7 @@
 #define TEST_NODE_POLL_DURATION 100
 // 10 times bigger than _LW6PIL_MIN_SEQ_0
 #define TEST_NODE_API_SEQ_0 100000000000LL
-#define TEST_NODE_API_DUMP_SIZE 10000
+#define TEST_NODE_API_DUMP_SIZE 100000
 #define TEST_NODE_API_MSG1_STR "message number one"
 #define TEST_NODE_API_MSG2_STR "2"
 #define TEST_NODE_API_MSG3_STR "3 fire!"
@@ -830,10 +830,10 @@ _test_node_cmd ()
   {
     ret = ret && _cmd_with_backends ("tcp", "tcpd");
     ret = ret && _cmd_with_backends ("udp", "udpd");
+    _cmd_with_backends ("http", "httpd");	// even if fails, keep going since http is optional
     ret = ret
       && _cmd_with_backends (lw6cli_default_backends (),
 			     lw6srv_default_backends ());
-    _cmd_with_backends ("http", "httpd");	// even if fails, keep going since http is optional
     _cmd_with_backends ("", _TEST_BOGUS_BACKEND);
     _cmd_with_backends (_TEST_BOGUS_BACKEND, "");
   }
@@ -908,6 +908,7 @@ typedef struct _test_node_api_data_s
 {
   lw6p2p_node_t *node;
   u_int64_t peer_id;
+  char *dump;
   int ret;
 } _test_node_api_data_t;
 
@@ -1037,6 +1038,8 @@ _test_node_api_node4_callback (void *api_data)
 {
   _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
   int64_t end_timestamp = 0LL;
+  char *msg = NULL;
+  int len = 0;
 
   end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_THREAD;
 
@@ -1061,6 +1064,18 @@ _test_node_api_node4_callback (void *api_data)
     }
   while (lw6sys_get_timestamp () < end_timestamp)
     {
+      while ((msg = lw6p2p_node_get_next_reference_msg (data->node)) != NULL)
+	{
+	  len = strlen (msg);
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _x_ ("received reference message len=%d"), len);
+	}
+      while ((msg = lw6p2p_node_get_next_draft_msg (data->node)) != NULL)
+	{
+	  len = strlen (msg);
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _x_ ("received draft message len=%d"), len);
+	}
       lw6p2p_node_poll (data->node);
     }
 
@@ -1128,12 +1143,12 @@ _test_node_api ()
     lw6sys_thread_handler_t *thread4 = NULL;
     lw6sys_thread_handler_t *thread5 = NULL;
     lw6sys_thread_handler_t *thread6 = NULL;
-    _test_node_api_data_t api_data1 = { NULL, 0LL, 0 };
-    _test_node_api_data_t api_data2 = { NULL, 0LL, 0 };
-    _test_node_api_data_t api_data3 = { NULL, 0LL, 0 };
-    _test_node_api_data_t api_data4 = { NULL, 0LL, 0 };
-    _test_node_api_data_t api_data5 = { NULL, 0LL, 0 };
-    _test_node_api_data_t api_data6 = { NULL, 0LL, 0 };
+    _test_node_api_data_t api_data1 = { NULL, 0LL, NULL, 0 };
+    _test_node_api_data_t api_data2 = { NULL, 0LL, NULL, 0 };
+    _test_node_api_data_t api_data3 = { NULL, 0LL, NULL, 0 };
+    _test_node_api_data_t api_data4 = { NULL, 0LL, NULL, 0 };
+    _test_node_api_data_t api_data5 = { NULL, 0LL, NULL, 0 };
+    _test_node_api_data_t api_data6 = { NULL, 0LL, NULL, 0 };
 
     if (_init_nodes
 	(lw6cli_default_backends (),

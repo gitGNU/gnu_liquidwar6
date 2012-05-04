@@ -205,6 +205,8 @@ typedef struct _lw6p2p_node_s
   //  char *serialized_game_struct;
   //  char *serialized_game_state;
   int dump_needed;
+  int64_t last_seq_reference;
+  int64_t last_seq_draft;
 } _lw6p2p_node_t;
 
 typedef struct _lw6p2p_srv_oob_callback_data_s

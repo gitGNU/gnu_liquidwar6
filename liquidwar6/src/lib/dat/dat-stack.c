@@ -916,7 +916,7 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 								   serial - 1,
 								   0, 1);
 			    }
-			  lw6sys_list_push_front (msg_list, msg);
+			  lw6sys_list_push_back (msg_list, msg);
 			  if (search_inc)
 			    {
 			      _update_msg_list_by_seq_with_search (stack,
@@ -972,9 +972,9 @@ _lw6dat_stack_update_atom_str_list_by_serial (_lw6dat_stack_t * stack,
 	  atom_str = _lw6dat_atom_get_full_str (atom);
 	  if (atom_str)
 	    {
-	      lw6sys_list_push_front (msg_list,
-				      lw6sys_str_copy (atom_str +
-						       atom->seq_from_cmd_str_offset));
+	      lw6sys_list_push_back (msg_list,
+				     lw6sys_str_copy (atom_str +
+						      atom->seq_from_cmd_str_offset));
 	      ret = 1;
 	    }
 	}
@@ -1022,8 +1022,8 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 		      stack->serial_min_to_send[target_index] = serial;
 		    }
 		  atom->sent_status |= send_mask;
-		  lw6sys_list_push_front (msg_list,
-					  lw6sys_str_copy (atom_str));
+		  lw6sys_list_push_back (msg_list,
+					 lw6sys_str_copy (atom_str));
 		  ret = 1;
 		}
 	    }

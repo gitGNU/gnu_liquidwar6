@@ -1788,6 +1788,9 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
   lw6nod_info_update (node->node_info, LW6NOD_COMMUNITY_ID_NONE,
 		      0, NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
   node->dump_needed = 0;
+  node->last_seq_reference =
+    lw6dat_warehouse_get_seq_min (node->warehouse) - 1;
+  node->last_seq_draft = node->last_seq_reference;
 }
 
 /**
@@ -1987,8 +1990,16 @@ char *
 _lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node)
 {
   char *ret = NULL;
+  /*
+     int64_t seq_reference;
+     lw6sys_list_t *list=NULL;
+     char
+     seq_reference=lw6dat_warehouse_get_seq_reference(node->warehouse);
+     list=lw6dat_warehouse_get_msg_list_by_seq(node->warehouse,node->last_seq_reference,seq_reference);
+     node->last_seq_reference=seq_reference;
 
-  // todo
+     TODO: if the list does not exist, create a list, store the list in cache in node object, pop the objects in the list, when the list is empty, return NULL (then caller should stop).
+   */
 
   return ret;
 }

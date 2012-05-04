@@ -1,3 +1,7 @@
+2012-05-04 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Received messages are stored in warehouse.
+
 2012-05-02 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added DATA keyword to all atoms, which are now sent/received OK.

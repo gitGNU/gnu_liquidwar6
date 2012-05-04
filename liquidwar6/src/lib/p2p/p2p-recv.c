@@ -400,10 +400,20 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
       if (lw6msg_cmd_analyse_data
 	  (&serial, &i, &n, &round, &ker_message, message))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("received data from \"%s\""),
-		      cnx->remote_url);
-	  TMP1 ("recv \"%s\"", message);
-	  // todo : process data!
+	  if (lw6dat_warehouse_put_atom_str
+	      (node->warehouse, logical_from_id, message))
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("put in warehouse message \"%s\" from \"%s\""),
+			  message, cnx->remote_url);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("unable to put in dataware message \"%s\" from \"%s\""),
+			  message, cnx->remote_url);
+	    }
 	  LW6SYS_FREE (ker_message);
 	}
       else
