@@ -99,6 +99,9 @@
 #define _TEST_Z_MSG_3 "this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed..."
 #define _TEST_Z_MSG_4_LEN 200
 #define _TEST_Z_LIMIT 30
+#define _TEST_SORT_NB 20
+#define _TEST_SORT_RANGE 100000000
+#define _TEST_SORT_LEN 50
 #define _TEST_TICKET1 0x1234567812345678LL
 #define _TEST_TICKET2 0x2345678912345678LL
 #define _TEST_TICKET1_SIG 0xd46d60b7
@@ -1095,6 +1098,91 @@ test_oob ()
 }
 
 /*
+ * Testing functions in sort.c
+ */
+static int
+test_sort ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6sys_list_t *list = NULL;
+    int i = 0;
+    int64_t seq = 0LL, last_seq = 0LL;
+    char *str = NULL;
+    char *tmp = NULL;
+
+    list = lw6sys_list_new (lw6sys_free_callback);
+    if (list)
+      {
+	for (i = 0; i < _TEST_SORT_NB; ++i)
+	  {
+	    seq =
+	      ((int64_t) lw6sys_random (_TEST_SORT_RANGE) +
+	       1) * ((int64_t) lw6sys_random (_TEST_SORT_RANGE) + 1);
+	    tmp = lw6sys_str_random_words (_TEST_SORT_LEN);
+	    if (tmp)
+	      {
+		str =
+		  lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %s",
+				      (long long) seq, tmp);
+		if (str)
+		  {
+		    lw6sys_list_push_front (&list, str);
+		  }
+		else
+		  {
+		    ret = 0;
+		  }
+		LW6SYS_FREE (tmp);
+	      }
+	    else
+	      {
+		ret = 0;
+	      }
+	  }
+	lw6sys_sort (&list, lw6msg_sort_str_by_seq_callback);
+	while ((str = lw6sys_list_pop_front (&list)) != NULL)
+	  {
+	    if (lw6msg_word_first_int_64 (&seq, NULL, str))
+	      {
+		if (seq > 0LL && seq >= last_seq)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("sorted str by seq \"%s\""), str);
+		    last_seq = seq;
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_ ("sort problem last_seq=%"
+				     LW6SYS_PRINTF_LL "d > seq=%"
+				     LW6SYS_PRINTF_LL "d \"%s\""),
+				(long long) last_seq, (long long) seq, str);
+		    ret = 0;
+		  }
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("unable to parse string \"%s\""), str);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (str);
+	  }
+      }
+    else
+      {
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
  * Testing functions in ticket.c
  */
 static int
@@ -1840,7 +1928,7 @@ lw6msg_test (int mode)
       lw6cnx_test (mode);
     }
 
-  ret = test_cmd () && test_envelope () && test_oob ()
+  ret = test_cmd () && test_envelope () && test_oob () && test_sort ()
     && test_ticket () && test_utils () && test_word () && test_z ();
 
   return ret;

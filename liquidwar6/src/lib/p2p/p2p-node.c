@@ -324,6 +324,14 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
 	{
 	  lw6dat_warehouse_free (node->warehouse);
 	}
+      if (node->reference_msg)
+	{
+	  lw6sys_list_free (node->reference_msg);
+	}
+      if (node->draft_msg)
+	{
+	  lw6sys_list_free (node->draft_msg);
+	}
       LW6SYS_FREE (node);
     }
   else
@@ -1791,6 +1799,16 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
   node->last_seq_reference =
     lw6dat_warehouse_get_seq_min (node->warehouse) - 1;
   node->last_seq_draft = node->last_seq_reference;
+  if (node->reference_msg)
+    {
+      lw6sys_list_free (node->reference_msg);
+      node->reference_msg = NULL;
+    }
+  if (node->draft_msg)
+    {
+      lw6sys_list_free (node->draft_msg);
+      node->draft_msg = NULL;
+    }
 }
 
 /**
@@ -1990,16 +2008,22 @@ char *
 _lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node)
 {
   char *ret = NULL;
-  /*
-     int64_t seq_reference;
-     lw6sys_list_t *list=NULL;
-     char
-     seq_reference=lw6dat_warehouse_get_seq_reference(node->warehouse);
-     list=lw6dat_warehouse_get_msg_list_by_seq(node->warehouse,node->last_seq_reference,seq_reference);
-     node->last_seq_reference=seq_reference;
+  int64_t seq_reference = 0LL;
 
-     TODO: if the list does not exist, create a list, store the list in cache in node object, pop the objects in the list, when the list is empty, return NULL (then caller should stop).
-   */
+  if (!node->reference_msg)
+    {
+      seq_reference = lw6dat_warehouse_get_seq_reference (node->warehouse);
+      node->reference_msg =
+	lw6dat_warehouse_get_msg_list_by_seq (node->warehouse,
+					      node->last_seq_reference,
+					      seq_reference);
+      node->last_seq_reference = seq_reference;
+    }
+
+  if (node->reference_msg)
+    {
+      ret = lw6sys_list_pop_front (&(node->reference_msg));
+    }
 
   return ret;
 }
@@ -2026,8 +2050,21 @@ char *
 _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node)
 {
   char *ret = NULL;
+  int64_t seq_draft = 0LL;
 
-  // todo
+  if (!node->draft_msg)
+    {
+      seq_draft = lw6dat_warehouse_get_seq_draft (node->warehouse);
+      node->draft_msg =
+	lw6dat_warehouse_get_msg_list_by_seq (node->warehouse,
+					      node->last_seq_reference,
+					      seq_draft);
+    }
+
+  if (node->draft_msg)
+    {
+      ret = lw6sys_list_pop_front (&(node->draft_msg));
+    }
 
   return ret;
 }

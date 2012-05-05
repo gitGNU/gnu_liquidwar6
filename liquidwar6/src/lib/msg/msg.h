@@ -115,6 +115,7 @@ typedef struct lw6msg_word_s
    * it is safe to call standard C string functions on it.
    */
   char buf[LW6MSG_MAX_WORD_SIZE + 1];
+
 } lw6msg_word_t;
 
 /* msg-cmd.c */
@@ -183,6 +184,10 @@ extern int lw6msg_oob_analyse_request (int *syntax_ok, char **command,
 				       const char *local_url,
 				       const char *password);
 extern char *lw6msg_oob_analyse_pong (const char *text);
+
+/* msg-sort.c */
+int lw6msg_sort_str_by_seq_callback (lw6sys_list_t ** list_a,
+				     lw6sys_list_t ** list_b);
 
 /* msg-test.c */
 extern int lw6msg_test (int mode);

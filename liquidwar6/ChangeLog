@@ -1,3 +1,7 @@
+2012-05-05 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented functions to pump messages from warehouse.
+
 2012-05-04 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Received messages are stored in warehouse.

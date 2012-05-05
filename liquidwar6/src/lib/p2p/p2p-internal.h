@@ -207,6 +207,8 @@ typedef struct _lw6p2p_node_s
   int dump_needed;
   int64_t last_seq_reference;
   int64_t last_seq_draft;
+  lw6sys_list_t *reference_msg;
+  lw6sys_list_t *draft_msg;
 } _lw6p2p_node_t;
 
 typedef struct _lw6p2p_srv_oob_callback_data_s

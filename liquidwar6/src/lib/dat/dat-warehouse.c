@@ -469,7 +469,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
  * @logical_from: from who the message came from originally
  * @full_str: message of the form serial i n seq from cmd
  *
- * Puts an atomic string in the object, this kind of string is
+- * Puts an atomic string in the object, this kind of string is
  * typically received on the network.
  *
  * Return value: 1 on success, 0 on error
@@ -793,6 +793,15 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
 		}
 	    }
 	}
+    }
+  if (ret)
+    {
+      /*
+       * Normally, pilot will sort those afterwards anyway, but just in case,
+       * we sort them upstream. Besides, this eases up the tests, they would
+       * show up the same order.
+       */
+      lw6sys_sort (&ret, lw6msg_sort_str_by_seq_callback);
     }
 
   return ret;

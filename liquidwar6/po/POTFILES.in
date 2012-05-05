@@ -302,6 +302,7 @@ src/lib/map/map-weapon.c
 src/lib/msg/msg-cmd.c
 src/lib/msg/msg-envelope.c
 src/lib/msg/msg-oob.c
+src/lib/msg/msg-sort.c
 src/lib/msg/msg-test.c
 src/lib/msg/msg-testmain.c
 src/lib/msg/msg-ticket.c
