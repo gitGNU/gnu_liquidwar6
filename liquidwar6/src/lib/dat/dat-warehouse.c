@@ -519,7 +519,9 @@ _lw6dat_warehouse_calc_serial_draft_and_reference (_lw6dat_warehouse_t *
  * but can be cached by using this function. Just call it and
  * after you might query the object for reference and draft info.
  *
- * Return value: 1 on success, 0 on failure.
+ * Return value: 1 if some valid informations were found, else 0,
+ * which means no interesting (complete) atoms where found, and
+ * there's probably nothing to do yet.
  */
 int
 lw6dat_warehouse_calc_serial_draft_and_reference (lw6dat_warehouse_t *

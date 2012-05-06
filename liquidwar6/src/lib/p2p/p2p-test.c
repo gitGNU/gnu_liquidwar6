@@ -174,6 +174,11 @@
 #define TEST_NODE_API_MSG1_STR "message number one"
 #define TEST_NODE_API_MSG2_STR "2"
 #define TEST_NODE_API_MSG3_STR "3 fire!"
+#define TEST_NODE_MSG_SEQ_0 100000000000LL
+#define TEST_NODE_MSG_NB_SEQS 97
+// TEST_NODE_MSG_NB_PER_SEQ must *not* be 10 or 100 or 1000
+#define TEST_NODE_MSG_NB_PER_SEQ 7
+#define TEST_NODE_MSG_RANDOM_STR_SIZE 10000
 
 /* 
  * Testing db
@@ -904,6 +909,154 @@ _test_node_oob ()
   return ret;
 }
 
+/* 
+ * Testing node msg
+ */
+static int
+_test_node_msg ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    const int argc = _TEST_ARGC;
+    const char *argv[] = { _TEST_ARGV0 };
+    lw6p2p_db_t *db = NULL;
+    lw6p2p_node_t *node = NULL;
+    u_int64_t node_id;
+    int i, j, k;
+    int64_t seq;
+    char *random_str;
+    u_int32_t checksum;
+    u_int32_t checksums[TEST_NODE_MSG_NB_SEQS * TEST_NODE_MSG_NB_PER_SEQ];
+    char *msg;
+    char *msgs[TEST_NODE_MSG_NB_SEQS * TEST_NODE_MSG_NB_PER_SEQ];
+    int found;
+
+    memset (checksums, 0, sizeof (checksums));
+    memset (msgs, 0, sizeof (msgs));
+    db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
+    if (db)
+      {
+	node =
+	  lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
+			   lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+			   _TEST_NODE_BIND_PORT1, _TEST_NODE_BROADCAST,
+			   _TEST_NODE_PUBLIC_URL1,
+			   _TEST_NODE_TITLE1, _TEST_NODE_DESCRIPTION, NULL,
+			   _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY,
+			   _TEST_NODE_KNOWN_NODES1,
+			   _TEST_NODE_NETWORK_RELIABILITY, _TEST_NODE_TROJAN);
+	if (node)
+	  {
+	    node_id = lw6p2p_node_get_id (node);
+	    seq = TEST_NODE_MSG_SEQ_0;
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("step 1, seq_max=%" LW6SYS_PRINTF_LL "d"),
+			(long long) seq);
+	    for (i = 0, k = 0; i < TEST_NODE_MSG_NB_SEQS; ++i)
+	      {
+		seq++;		// fake we're going next round...
+		for (j = 0; j < TEST_NODE_MSG_NB_PER_SEQ; ++j, ++k)
+		  {
+		    random_str =
+		      lw6sys_str_random_words (lw6sys_random
+					       (TEST_NODE_MSG_RANDOM_STR_SIZE)
+					       + 1);
+		    if (random_str)
+		      {
+			msg =
+			  lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+					      LW6SYS_PRINTF_LL "x k=%d %s",
+					      (long long) seq,
+					      (long long) node_id,
+					      k, random_str);
+			if (msg)
+			  {
+			    checksums[k] = lw6sys_checksum_str (msg);
+			    msgs[k] = msg;
+			    lw6p2p_node_put_local_msg (node, msg);
+			  }
+			LW6SYS_FREE (random_str);
+		      }
+		  }
+	      }
+	    seq = lw6p2p_node_get_seq_max (node);
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("step 2, seq_max=%" LW6SYS_PRINTF_LL "d"),
+			(long long) seq);
+	    k = 0;
+	    while ((msg = lw6p2p_node_get_next_draft_msg (node)) != NULL)
+	      {
+		checksum = lw6sys_checksum_str (msg);
+		/*
+		 * We need to loop over all received messages for the order might
+		 * have change, there's an alphabetical sort on the messages for
+		 * a same seq & source.
+		 */
+		found = 0;
+		for (i = 0;
+		     i < TEST_NODE_MSG_NB_SEQS * TEST_NODE_MSG_NB_PER_SEQ;
+		     ++i)
+		  {
+		    if (checksum == checksums[i]
+			&& lw6sys_str_is_same (msg, msgs[i]) && !found)
+		      {
+			found = 1;
+		      }
+		  }
+		if (!found)
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("unable to find message for k=%d, len=%d msg=\"%s\""),
+				(int) k, (int) strlen (msg), msg);
+		    ret = 0;
+		  }
+		LW6SYS_FREE (msg);
+		++k;
+	      }
+	    if (k == TEST_NODE_MSG_NB_SEQS * TEST_NODE_MSG_NB_PER_SEQ)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got %d draft messages"),
+			    k);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("only got %d draft messages, needed %d"), k,
+			    TEST_NODE_MSG_NB_SEQS * TEST_NODE_MSG_NB_PER_SEQ);
+		ret = 0;
+	      }
+	    for (k = 0; k < TEST_NODE_MSG_NB_SEQS * TEST_NODE_MSG_NB_PER_SEQ;
+		 ++k)
+	      {
+		if (msgs[k])
+		  {
+		    LW6SYS_FREE (msgs[k]);
+		  }
+	      }
+
+	    lw6p2p_node_free (node);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't create node"));
+	    ret = 0;
+	  }
+	lw6p2p_db_close (db);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't create db"));
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 typedef struct _test_node_api_data_s
 {
   lw6p2p_node_t *node;
@@ -1040,6 +1193,7 @@ _test_node_api_node4_callback (void *api_data)
   int64_t end_timestamp = 0LL;
   char *msg = NULL;
   int len = 0;
+  int64_t seq;
 
   end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_THREAD;
 
@@ -1062,6 +1216,10 @@ _test_node_api_node4_callback (void *api_data)
 		  ((_lw6p2p_node_t *) data->node)->public_url,
 		  _TEST_NODE_PUBLIC_URL2);
     }
+  seq = lw6p2p_node_get_seq_max (data->node);
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _x_ ("node2 before loop seq_max=%" LW6SYS_PRINTF_LL "d"),
+	      (long long) seq);
   while (lw6sys_get_timestamp () < end_timestamp)
     {
       while ((msg = lw6p2p_node_get_next_reference_msg (data->node)) != NULL)
@@ -1078,6 +1236,10 @@ _test_node_api_node4_callback (void *api_data)
 	}
       lw6p2p_node_poll (data->node);
     }
+  seq = lw6p2p_node_get_seq_max (data->node);
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _x_ ("node2 after loop seq_max=%" LW6SYS_PRINTF_LL "d"),
+	      (long long) seq);
 
   if (data->ret)
     {
@@ -1281,7 +1443,7 @@ lw6p2p_test (int mode)
 	}
       else
 	{
-	  ret = _test_node_api ();
+	  ret = _test_node_msg () && _test_node_api ();
 	}
 
       lw6net_quit (argc, argv);

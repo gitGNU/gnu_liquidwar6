@@ -589,6 +589,11 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 		}
 	      if (order_i == order_n && atom_complete)
 		{
+		  /*
+		   * We set ret to 1 here, else we leave it at 0, since
+		   * we did not find any complete serie of atoms
+		   */
+		  ret = 1;
 		  stack->serial_draft = serial;
 		  if (atoms_no_hole)
 		    {
@@ -949,6 +954,8 @@ _lw6dat_stack_update_msg_list_by_seq (_lw6dat_stack_t * stack,
   int serial;
 
   serial = _lw6dat_stack_seq2serial (stack, seq);
+  TMP3 ("%s seq=%" LW6SYS_PRINTF_LL "d serial=%d", __FUNCTION__,
+	(long long) seq, serial);
   ret =
     _update_msg_list_by_seq_with_search (stack, msg_list, seq, serial, 1, 1);
 

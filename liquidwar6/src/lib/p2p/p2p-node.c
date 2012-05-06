@@ -2010,7 +2010,8 @@ _lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node)
   char *ret = NULL;
   int64_t seq_reference = 0LL;
 
-  if (!node->reference_msg)
+  if ((!node->reference_msg)
+      && lw6dat_warehouse_calc_serial_draft_and_reference (node->warehouse))
     {
       seq_reference = lw6dat_warehouse_get_seq_reference (node->warehouse);
       node->reference_msg =
@@ -2052,7 +2053,8 @@ _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node)
   char *ret = NULL;
   int64_t seq_draft = 0LL;
 
-  if (!node->draft_msg)
+  if ((!node->draft_msg)
+      && lw6dat_warehouse_calc_serial_draft_and_reference (node->warehouse))
     {
       seq_draft = lw6dat_warehouse_get_seq_draft (node->warehouse);
       node->draft_msg =

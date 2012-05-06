@@ -1,3 +1,7 @@
+2012-05-06 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixing warehouse message pump.
+
 2012-05-05 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Implemented functions to pump messages from warehouse.
