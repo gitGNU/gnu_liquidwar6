@@ -491,17 +491,23 @@ int
 _lw6dat_warehouse_calc_serial_draft_and_reference (_lw6dat_warehouse_t *
 						   warehouse)
 {
-  int ret = 1;
+  int ret = 0;
   int i;
 
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
     {
       if (warehouse->stacks[i].node_id)
 	{
-	  ret =
-	    _lw6dat_stack_calc_serial_draft_and_reference (&
-							   (warehouse->stacks
-							    [i])) && ret;
+	  if (_lw6dat_stack_calc_serial_draft_and_reference (&
+							     (warehouse->stacks
+							      [i])))
+	    {
+	      /*
+	       * At least one stack has something interesting, so we consider
+	       * that popping messages is likely to be of some interest.
+	       */
+	      ret = 1;
+	    }
 	}
     }
 

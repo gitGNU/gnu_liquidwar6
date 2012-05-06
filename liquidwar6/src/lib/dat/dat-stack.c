@@ -584,6 +584,10 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 		    }
 		  else
 		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _x_
+				  ("incomplete msg, missing atom order=%d/%d"),
+				  order_i, order_n);
 		      atom_complete = 0;
 		    }
 		}
@@ -608,6 +612,9 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 	    }
 	  else
 	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("not starting with order=0 but %d"),
+			  atom->order_i);
 	      atoms_no_hole = 0;
 	      serial++;
 	    }
@@ -954,8 +961,6 @@ _lw6dat_stack_update_msg_list_by_seq (_lw6dat_stack_t * stack,
   int serial;
 
   serial = _lw6dat_stack_seq2serial (stack, seq);
-  TMP3 ("%s seq=%" LW6SYS_PRINTF_LL "d serial=%d", __FUNCTION__,
-	(long long) seq, serial);
   ret =
     _update_msg_list_by_seq_with_search (stack, msg_list, seq, serial, 1, 1);
 

@@ -98,7 +98,8 @@
 #define _TEST_NODE_KNOWN_NODES4 "http://localhost:8068/"
 #define _TEST_NODE_KNOWN_NODES5 "http://localhost:8067/,http://localhost:8068/"
 #define _TEST_NODE_KNOWN_NODES6 "http://localhost:8067/,http://localhost:8068/"
-#define _TEST_NODE_NETWORK_RELIABILITY 100
+//#define _TEST_NODE_NETWORK_RELIABILITY 100
+#define _TEST_NODE_NETWORK_RELIABILITY 100000000
 #define _TEST_NODE_TROJAN 0
 #define _TEST_BOGUS_BACKEND "bogus"
 
@@ -158,7 +159,6 @@
 #define _TEST_NODE_KNOWN_NODES4 "http://localhost:8068/"
 #define _TEST_NODE_KNOWN_NODES5 "http://localhost:8067/,http://localhost:8068/"
 #define _TEST_NODE_KNOWN_NODES6 "http://localhost:8067/,http://localhost:8068/"
-#define _TEST_NODE_NETWORK_RELIABILITY 100
 #define _TEST_NODE_TROJAN 0
 #define _TEST_BOGUS_BACKEND "bogus"
 
@@ -1222,12 +1222,14 @@ _test_node_api_node4_callback (void *api_data)
 	      (long long) seq);
   while (lw6sys_get_timestamp () < end_timestamp)
     {
-      while ((msg = lw6p2p_node_get_next_reference_msg (data->node)) != NULL)
-	{
-	  len = strlen (msg);
-	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _x_ ("received reference message len=%d"), len);
-	}
+      /*
+         while ((msg = lw6p2p_node_get_next_reference_msg (data->node)) != NULL)
+         {
+         len = strlen (msg);
+         lw6sys_log (LW6SYS_LOG_NOTICE,
+         _x_ ("received reference message len=%d"), len);
+         }
+       */
       while ((msg = lw6p2p_node_get_next_draft_msg (data->node)) != NULL)
 	{
 	  len = strlen (msg);

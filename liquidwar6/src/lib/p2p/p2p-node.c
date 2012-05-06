@@ -2014,11 +2014,14 @@ _lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node)
       && lw6dat_warehouse_calc_serial_draft_and_reference (node->warehouse))
     {
       seq_reference = lw6dat_warehouse_get_seq_reference (node->warehouse);
-      node->reference_msg =
-	lw6dat_warehouse_get_msg_list_by_seq (node->warehouse,
-					      node->last_seq_reference,
-					      seq_reference);
-      node->last_seq_reference = seq_reference;
+      if (seq_reference > node->last_seq_reference)
+	{
+	  node->reference_msg =
+	    lw6dat_warehouse_get_msg_list_by_seq (node->warehouse,
+						  node->last_seq_reference +
+						  1, seq_reference);
+	  node->last_seq_reference = seq_reference;
+	}
     }
 
   if (node->reference_msg)
@@ -2057,12 +2060,14 @@ _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node)
       && lw6dat_warehouse_calc_serial_draft_and_reference (node->warehouse))
     {
       seq_draft = lw6dat_warehouse_get_seq_draft (node->warehouse);
-      node->draft_msg =
-	lw6dat_warehouse_get_msg_list_by_seq (node->warehouse,
-					      node->last_seq_reference,
-					      seq_draft);
+      if (seq_draft > node->last_seq_reference)
+	{
+	  node->draft_msg =
+	    lw6dat_warehouse_get_msg_list_by_seq (node->warehouse,
+						  node->last_seq_reference,
+						  seq_draft);
+	}
     }
-
   if (node->draft_msg)
     {
       ret = lw6sys_list_pop_front (&(node->draft_msg));
