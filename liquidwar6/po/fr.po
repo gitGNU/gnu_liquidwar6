@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-01-09 14:59+0100\n"
+"POT-Creation-Date: 2012-05-08 14:40+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -33,7 +33,7 @@ msgstr "Débile"
 msgid "Random"
 msgstr "Aléatoire"
 
-#: src/lib/cli/mod-http/mod-http-backend.c:178
+#: src/lib/cli/mod-http/mod-http-backend.c:180
 msgid "HTTP (Curl)"
 msgstr "HTTP (Curl)"
 
@@ -41,7 +41,7 @@ msgstr "HTTP (Curl)"
 msgid "can't initialize mod_http"
 msgstr "impossible d'initialiser mod_http"
 
-#: src/lib/cli/mod-tcp/mod-tcp-backend.c:178
+#: src/lib/cli/mod-tcp/mod-tcp-backend.c:180
 msgid "TCP"
 msgstr "TCP"
 
@@ -49,7 +49,7 @@ msgstr "TCP"
 msgid "can't initialize mod_tcp"
 msgstr "impossible d'initialiser mod_tcp"
 
-#: src/lib/cli/mod-udp/mod-udp-backend.c:178
+#: src/lib/cli/mod-udp/mod-udp-backend.c:180
 msgid "UDP"
 msgstr "UDP"
 
@@ -559,7 +559,7 @@ msgstr "Pest"
 msgid "No weapon"
 msgstr "Pas de coup spécial"
 
-#: src/lib/p2p/p2p-data.c:102
+#: src/lib/p2p/p2p-data.c:103
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
 msgstr "impossible de lire la requête \"%s\" dans \"%s\""
@@ -576,7 +576,7 @@ msgstr ""
 msgid "started node \"%s\""
 msgstr "démarrage du noeud \"%s\""
 
-#: src/lib/p2p/p2p-recv.c:186
+#: src/lib/p2p/p2p-recv.c:187
 #, c-format
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr "communication établie \"%s\" <-> \"%s\" sur %s:%d"
@@ -593,7 +593,7 @@ msgstr "Csound"
 msgid "Ogg Vorbis"
 msgstr "Ogg Vorbis"
 
-#: src/lib/srv/mod-httpd/mod-httpd-backend.c:231
+#: src/lib/srv/mod-httpd/mod-httpd-backend.c:232
 msgid "HTTPD"
 msgstr "HTTPD"
 
@@ -601,7 +601,7 @@ msgstr "HTTPD"
 msgid "can't initialize mod_httpd"
 msgstr "impossible d'initialiser mod_httpd"
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:228
+#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:229
 msgid "TCPD"
 msgstr "TCPD"
 
@@ -609,7 +609,7 @@ msgstr "TCPD"
 msgid "can't initialize mod_tcpd"
 msgstr "impossible d'initialiser mod_tcpd"
 
-#: src/lib/srv/mod-udpd/mod-udpd-backend.c:229
+#: src/lib/srv/mod-udpd/mod-udpd-backend.c:230
 msgid "UDPD"
 msgstr "UDPD"
 

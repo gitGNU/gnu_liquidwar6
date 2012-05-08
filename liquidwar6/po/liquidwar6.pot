@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.14beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-01-09 14:59+0100\n"
+"POT-Creation-Date: 2012-05-08 14:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgstr ""
 msgid "Random"
 msgstr ""
 
-#: src/lib/cli/mod-http/mod-http-backend.c:178
+#: src/lib/cli/mod-http/mod-http-backend.c:180
 msgid "HTTP (Curl)"
 msgstr ""
 
@@ -41,7 +41,7 @@ msgstr ""
 msgid "can't initialize mod_http"
 msgstr ""
 
-#: src/lib/cli/mod-tcp/mod-tcp-backend.c:178
+#: src/lib/cli/mod-tcp/mod-tcp-backend.c:180
 msgid "TCP"
 msgstr ""
 
@@ -49,7 +49,7 @@ msgstr ""
 msgid "can't initialize mod_tcp"
 msgstr ""
 
-#: src/lib/cli/mod-udp/mod-udp-backend.c:178
+#: src/lib/cli/mod-udp/mod-udp-backend.c:180
 msgid "UDP"
 msgstr ""
 
@@ -535,7 +535,7 @@ msgstr ""
 msgid "No weapon"
 msgstr ""
 
-#: src/lib/p2p/p2p-data.c:102
+#: src/lib/p2p/p2p-data.c:103
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
 msgstr ""
@@ -550,7 +550,7 @@ msgstr ""
 msgid "started node \"%s\""
 msgstr ""
 
-#: src/lib/p2p/p2p-recv.c:186
+#: src/lib/p2p/p2p-recv.c:187
 #, c-format
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr ""
@@ -567,7 +567,7 @@ msgstr ""
 msgid "Ogg Vorbis"
 msgstr ""
 
-#: src/lib/srv/mod-httpd/mod-httpd-backend.c:231
+#: src/lib/srv/mod-httpd/mod-httpd-backend.c:232
 msgid "HTTPD"
 msgstr ""
 
@@ -575,7 +575,7 @@ msgstr ""
 msgid "can't initialize mod_httpd"
 msgstr ""
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:228
+#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:229
 msgid "TCPD"
 msgstr ""
 
@@ -583,7 +583,7 @@ msgstr ""
 msgid "can't initialize mod_tcpd"
 msgstr ""
 
-#: src/lib/srv/mod-udpd/mod-udpd-backend.c:229
+#: src/lib/srv/mod-udpd/mod-udpd-backend.c:230
 msgid "UDPD"
 msgstr ""
 

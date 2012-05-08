@@ -50,6 +50,28 @@ typedef struct lw6dat_warehouse_s
   int dummy;
 } lw6dat_warehouse_t;
 
+/**
+ * Used to get informations about "what messages are missing",
+ * The struct typically contains informations to send a MISS message
+ * on the network, that is, who needs to resend the information, and
+ * the message serial range. The informations "who needs it" need not
+ * be stored as this is logically our local node.
+ */
+typedef struct lw6dat_miss_s
+{
+  /// Id of node which needs to resend the information.
+  u_int64_t from_id;
+  /// Minimum serial, included in the range
+  int serial_min;
+  /// Maximum serial, included in the range
+  int serial_max;
+} lw6dat_miss_t;
+
+/* dat-miss.c */
+extern lw6dat_miss_t *lw6dat_miss_new (u_int64_t from_id, int serial_min,
+				       int serial_max);
+extern void lw6dat_miss_free (lw6dat_miss_t * miss);
+
 /* dat-warehouse.c */
 extern int lw6dat_warehouse_init (lw6dat_warehouse_t * warehouse,
 				  u_int64_t local_node_id);

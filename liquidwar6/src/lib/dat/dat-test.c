@@ -42,6 +42,10 @@
 #define _TEST_BLOCK_CMD_STR_OFFSET 0
 #define _TEST_BLOCK_SEND_FLAG 6
 
+#define _TEST_MISS_FROM_ID 0x1234123412341234LL
+#define _TEST_MISS_SERIAL_MIN 123
+#define _TEST_MISS_SERIAL_MAX 456
+
 #define _TEST_STACK_NODE_ID 0x2345234523452345LL
 #define _TEST_STACK_SERIAL_0 123
 #define _TEST_STACK_ORDER_I 0
@@ -272,6 +276,40 @@ test_block ()
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create block"));
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
+ * Testing functions in miss.c
+ */
+static int
+test_miss ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6dat_miss_t *miss = NULL;
+
+    miss =
+      lw6dat_miss_new (_TEST_MISS_FROM_ID, _TEST_MISS_SERIAL_MIN,
+		       _TEST_MISS_SERIAL_MAX);
+    if (miss)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("miss struct created from_id=%" LW6SYS_PRINTF_LL
+			 "x serial_min=%d serial_%d"),
+		    (long long) miss->from_id, miss->serial_min,
+		    miss->serial_max);
+	lw6dat_miss_free (miss);
+      }
+    else
+      {
 	ret = 0;
       }
   }
@@ -975,7 +1013,8 @@ lw6dat_test (int mode)
       lw6msg_test (mode);
     }
 
-  ret = test_atom () && test_block () && test_stack () && test_warehouse ();
+  ret = test_atom () && test_block () && test_miss () && test_stack ()
+    && test_warehouse ();
 
   return ret;
 }

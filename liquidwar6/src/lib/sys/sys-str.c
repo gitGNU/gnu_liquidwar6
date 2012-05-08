@@ -37,8 +37,14 @@
 
 #define _STR_BIN_TEXT_OTHER ".,:;!?()'\"-+*/=_ \t\r\n"
 #define _STR_BIN_TEXT_MIN_PERCENT 75
-#define _STR_RANDOM_WORD "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-#define _STR_RANDOM_WORDS "     0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+/*
+ * OK, we don't use Z in our random words, for a common usage is to generate strings
+ * which will later be used as network test messages, and our "if it starts with Z then
+ * it's Z-compressed" hack can be fooled by this. In practice not using z or Z still
+ * makes random enough messages.
+ */
+#define _STR_RANDOM_WORD "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxy"
+#define _STR_RANDOM_WORDS "     0123456789ABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxy"
 
 typedef struct _join_callback_data_s
 {

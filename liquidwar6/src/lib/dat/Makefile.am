@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
 noinst_LTLIBRARIES = libdat.la
-libdat_la_SOURCES = dat-atom.c dat-block.c dat-stack.c dat-test.c dat-warehouse.c
+libdat_la_SOURCES = dat-atom.c dat-block.c dat-miss.c dat-stack.c dat-test.c dat-warehouse.c
 libdatdir= $(includedir)/@PACKAGE_TARNAME@/dat
 libdat_HEADERS = dat.h
 

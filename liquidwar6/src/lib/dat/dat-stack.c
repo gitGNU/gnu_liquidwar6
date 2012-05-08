@@ -536,9 +536,6 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 	{
 	  if (atom->order_i == 0)
 	    {
-	      //TMP1("OK order=0 full_str=\"%s\"",
-	      //   _lw6dat_atom_get_full_str (atom));
-
 	      atom_complete = 1;
 	      seq = atom->seq;
 	      order_n = atom->order_n;
@@ -579,7 +576,6 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 		      atom_complete = 0;
 		    }
 		}
-	      //TMP3("order_i=%d order_n=%d atom_complete=%d",order_i,order_n,atom_complete);
 	      if (order_i == order_n && atom_complete)
 		{
 		  /*
@@ -915,12 +911,33 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 				    }
 				  else
 				    {
+				      /*
+				       * Not sure this is really a possible case but well,
+				       * better handle it than to nothing
+				       */
+				      stack->serial_miss_min =
+					lw6sys_imin (stack->serial_miss_min,
+						     serial + i);
+				      stack->serial_miss_max =
+					lw6sys_imax (stack->serial_miss_max,
+						     serial + i);
 				      no_hole = 0;
 				    }
 				}
 			    }
 			  else
 			    {
+			      /*
+			       * Update miss range, we might decide afterwards not to send
+			       * all missing stuff to avoid sending too much, but we report
+			       * it here as accurately as possible
+			       */
+			      stack->serial_miss_min =
+				lw6sys_imin (stack->serial_miss_min,
+					     serial + i);
+			      stack->serial_miss_max =
+				lw6sys_imax (stack->serial_miss_max,
+					     serial + i);
 			      no_hole = 0;
 			    }
 			}
@@ -1015,11 +1032,6 @@ _lw6dat_stack_update_msg_list_by_seq (_lw6dat_stack_t * stack,
     {
       serial = _lw6dat_stack_seq2serial (stack, seq);
 
-      if (get_all || clear_recent)
-	{
-	  TMP3 ("%" LW6SYS_PRINTF_LL "d %d %d", (long long) seq, get_all,
-		clear_recent);
-	}
       if (serial != _LW6DAT_SERIAL_INVALID)
 	{
 	  /*

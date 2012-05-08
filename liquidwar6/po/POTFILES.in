@@ -71,6 +71,7 @@ src/lib/cnx/cnx-testmain.c
 src/lib/cnx/cnx-tickettable.c
 src/lib/dat/dat-atom.c
 src/lib/dat/dat-block.c
+src/lib/dat/dat-miss.c
 src/lib/dat/dat-stack.c
 src/lib/dat/dat-test.c
 src/lib/dat/dat-testmain.c
