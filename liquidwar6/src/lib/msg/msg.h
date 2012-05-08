@@ -72,6 +72,7 @@
 #define LW6MSG_CMD_JOIN "JOIN"
 #define LW6MSG_CMD_GOODBYE "GOODBYE"
 #define LW6MSG_CMD_DATA "DATA"
+#define LW6MSG_CMD_MISS "MISS"
 
 //#define LW6MSG_DATA_KER "KER"
 //#define LW6MSG_DATA_JOIN "JOIN"
@@ -129,6 +130,8 @@ extern char *lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq,
 extern char *lw6msg_cmd_generate_goodbye (lw6nod_info_t * info);
 extern char *lw6msg_cmd_generate_data (int serial, int i, int n, int round,
 				       const char *ker_msg);
+extern char *lw6msg_cmd_generate_miss (u_int64_t id_from, u_int64_t id_to,
+				       int serial_min, int serial_max);
 extern int lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, const char *msg);
 extern int lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info,
 				      u_int64_t * ticket, const char *msg);
@@ -142,6 +145,9 @@ extern int lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info,
 				       const char *msg);
 extern int lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
 				    char **ker_msg, const char *msg);
+extern int lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to,
+				    int *serial_min, int *serial_max,
+				    const char *msg);
 extern char *lw6msg_cmd_guess_from_url (const char *msg);
 
 /* msg-enveloppe.c */

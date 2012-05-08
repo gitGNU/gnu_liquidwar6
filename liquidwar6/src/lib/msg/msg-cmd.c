@@ -256,6 +256,34 @@ lw6msg_cmd_generate_data (int serial, int i, int n, int round,
   return ret;
 }
 
+/**
+ * lw6msg_cmd_generate_miss
+ *
+ * @id_from: id of the node which didn't send data correctly
+ * @id_to: id of the node which didn't receive data correctly
+ * @serial_min: minimum serial number of unsent/unreceived messages
+ * @serial_max: maximum serial number of unsent/unreceived messages
+ *
+ * Generate a MISS command. This will request anyone who has the
+ * messages mentionned in stock to resent them to the one who's
+ * asking for them.
+ *
+ * Return value: newly allocated string.
+ */
+char *
+lw6msg_cmd_generate_miss (u_int64_t id_from, u_int64_t id_to, int serial_min,
+			  int serial_max)
+{
+  char *ret = NULL;
+
+  ret =
+    lw6sys_new_sprintf ("%s %" LW6SYS_PRINTF_LL "x %" LW6SYS_PRINTF_LL
+			"x %d %d", LW6MSG_CMD_MISS, (long long) id_from,
+			(long long) id_to, serial_min, serial_max);
+
+  return ret;
+}
+
 static int
 _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
 {
@@ -921,6 +949,7 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
  * @n: will contain group size on success
  * @round: will contain round on success (can have an offset with real round)
  * @ker_msg: will contain actual message on success
+ * @msg: the message to analyze
  *
  * Analyzes a DATA message.
  *
@@ -1011,6 +1040,92 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to parse DATA"));
+    }
+
+  return ret;
+}
+
+/**
+ * lw6msg_cmd_analyse_miss
+ *
+ * @id_from: will contain the id of the node which didn't send data correctly
+ * @id_to: will contain the id of the node which didn't receive data correctly
+ * @serial_min: will contain the minimum serial number of unsent/unreceived messages
+ * @serial_max: will contain the maximum serial number of unsent/unreceived messages
+ * @msg: the message to analyze
+ *
+ * Analyzes a MISS message.
+ *
+ * Return value: 1 on success, 0 on failure
+ */
+int
+lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to,
+			 int *serial_min, int *serial_max, const char *msg)
+{
+  int ret = 0;
+  char *seek = NULL;
+  const char *pos = NULL;
+  u_int64_t read_id_from = 0LL;
+  u_int64_t read_id_to = 0LL;
+  int read_serial_min = 0;
+  int read_serial_max = 0;
+  lw6msg_word_t miss_word;
+
+  (*id_from) = 0LL;
+  (*id_to) = 0LL;
+  (*serial_min) = 0;
+  (*serial_max) = 0;
+
+  pos = msg;
+  seek = (char *) pos;
+
+  if (lw6msg_word_first (&miss_word, &seek, pos)
+      && lw6sys_str_is_same_no_case (miss_word.buf, LW6MSG_CMD_MISS))
+    {
+      pos = seek;
+      if (lw6msg_word_first_id_64 (&read_id_from, &seek, pos))
+	{
+	  pos = seek;
+	  if (lw6msg_word_first_id_64 (&read_id_to, &seek, pos))
+	    {
+	      pos = seek;
+	      if (lw6msg_word_first_int_32_gt0 (&read_serial_min, &seek, pos))
+		{
+		  pos = seek;
+		  if (lw6msg_word_first_int_32_gt0
+		      (&read_serial_max, &seek, pos))
+		    {
+		      ret = 1;
+		      (*id_from) = read_id_from;
+		      (*id_to) = read_id_to;
+		      (*serial_min) = read_serial_min;
+		      (*serial_max) = read_serial_max;
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_ ("unable to parse serial_max"));
+		    }
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_ ("unable to parse serial_min"));
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to parse id_to"));
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to parse id_from"));
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to parse MISS"));
     }
 
   return ret;

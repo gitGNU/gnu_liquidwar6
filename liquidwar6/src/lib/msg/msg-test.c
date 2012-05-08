@@ -118,6 +118,10 @@
 #define _TEST_SEQ_RANGE 1000000000
 #define _TEST_SERIAL_BASE 10000000
 #define _TEST_SERIAL_RANGE 1000
+#define _TEST_MISS_ID_FROM 0x1234123412341234LL
+#define _TEST_MISS_ID_TO 0x2345234523452345LL
+#define _TEST_MISS_SERIAL_MIN 10
+#define _TEST_MISS_SERIAL_MAX 100
 
 /*
  * Testing functions in cmd.c
@@ -146,6 +150,10 @@ test_cmd ()
     int data_n = 0;
     int data_round = 0;
     char *data_ker_msg = NULL;
+    u_int64_t miss_id_from = 0LL;
+    u_int64_t miss_id_to = 0LL;
+    int miss_serial_min = 0;
+    int miss_serial_max = 0;
 
     info =
       lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
@@ -442,6 +450,52 @@ test_cmd ()
 			    ("data command analysed (node ker_msg=\"%s\")"),
 			    data_ker_msg);
 		LW6SYS_FREE (data_ker_msg);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("unable to analyze \"%s\""), msg);
+		ret = 0;
+	      }
+	    remote_url = lw6msg_cmd_guess_from_url (msg);
+	    if (remote_url)
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("could guess url \"%s\" from \"%s\", this is wrong"),
+			    remote_url, msg);
+		LW6SYS_FREE (remote_url);
+		ret = 0;
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("unable to guess url from \"%s\", this is right"),
+			    msg);
+	      }
+	    LW6SYS_FREE (msg);
+	  }
+
+	msg =
+	  lw6msg_cmd_generate_miss (_TEST_MISS_ID_FROM, _TEST_MISS_ID_TO,
+				    _TEST_MISS_SERIAL_MIN,
+				    _TEST_MISS_SERIAL_MAX);
+	if (msg)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("miss command is \"%s\""),
+			msg);
+	    if (lw6msg_cmd_analyse_miss
+		(&miss_id_from, &miss_id_to, &miss_serial_min,
+		 &miss_serial_max, msg))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("miss command analysed id_from=%"
+			     LW6SYS_PRINTF_LL "x id_to=%" LW6SYS_PRINTF_LL
+			     "x serial_min=%d serial_max=%d"),
+			    (long long) miss_id_from, (long long) miss_id_to,
+			    miss_serial_min, miss_serial_max);
 	      }
 	    else
 	      {
