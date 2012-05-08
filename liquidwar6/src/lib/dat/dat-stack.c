@@ -32,11 +32,37 @@ _lw6dat_stack_zero (_lw6dat_stack_t * stack)
   memset (stack, 0, sizeof (_lw6dat_stack_t));
 }
 
-void
-_lw6dat_stack_clear (_lw6dat_stack_t * stack)
+static void
+_prepare (_lw6dat_stack_t * stack)
 {
   int i = 0;
 
+  stack->serial_n_1 =
+    stack->serial_0 + (_LW6DAT_MAX_NB_BLOCKS * _LW6DAT_NB_ATOMS_PER_BLOCK) -
+    1;
+  stack->serial_min = INT_MAX;
+  stack->serial_max = _LW6DAT_SERIAL_INVALID;
+  stack->serial_draft = stack->serial_max;
+  stack->serial_reference = stack->serial_max;
+  stack->serial_miss_min = stack->serial_n_1;
+  stack->serial_miss_max = stack->serial_0;
+  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+    {
+      stack->serial_min_to_send[i] = stack->serial_0;
+    }
+  for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
+    {
+      if (stack->blocks[i])
+	{
+	  _lw6dat_block_free (stack->blocks[i]);
+	  stack->blocks[i] = NULL;
+	}
+    }
+}
+
+void
+_lw6dat_stack_clear (_lw6dat_stack_t * stack)
+{
   stack->node_id = 0;
   if (stack->node_id_str)
     {
@@ -44,59 +70,22 @@ _lw6dat_stack_clear (_lw6dat_stack_t * stack)
       stack->node_id_str = NULL;
     }
   stack->serial_0 = _LW6DAT_SERIAL_START;
-  stack->serial_n_1 =
-    stack->serial_0 + (_LW6DAT_MAX_NB_BLOCKS * _LW6DAT_NB_ATOMS_PER_BLOCK) -
-    1;
-  stack->serial_min = INT_MAX;
-  stack->serial_max = _LW6DAT_SERIAL_INVALID;
-  stack->serial_draft = stack->serial_max;
-  stack->serial_reference = stack->serial_max;
-  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
-    {
-      stack->serial_min_to_send[i] = stack->serial_0;
-    }
-  for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
-    {
-      if (stack->blocks[i])
-	{
-	  _lw6dat_block_free (stack->blocks[i]);
-	  stack->blocks[i] = NULL;
-	}
-    }
+
+  _prepare (stack);
 }
 
 void
 _lw6dat_stack_purge (_lw6dat_stack_t * stack)
 {
-  int i = 0;
-
   stack->serial_0 = stack->serial_n_1 + 1;
-  stack->serial_n_1 =
-    stack->serial_0 + (_LW6DAT_MAX_NB_BLOCKS * _LW6DAT_NB_ATOMS_PER_BLOCK) -
-    1;
-  stack->serial_min = INT_MAX;
-  stack->serial_max = _LW6DAT_SERIAL_INVALID;
-  stack->serial_draft = stack->serial_max;
-  stack->serial_reference = stack->serial_max;
-  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
-    {
-      stack->serial_min_to_send[i] = stack->serial_0;
-    }
-  for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
-    {
-      if (stack->blocks[i])
-	{
-	  _lw6dat_block_free (stack->blocks[i]);
-	  stack->blocks[i] = NULL;
-	}
-    }
+
+  _prepare (stack);
 }
 
 int
 _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
 {
   int ret = 0;
-  int i;
 
   if (lw6sys_check_id (node_id) && serial_0 >= _LW6DAT_SERIAL_START)
     {
@@ -117,23 +106,9 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
 
       _lw6dat_stack_clear (stack);
       stack->node_id = node_id;
-      if (stack->node_id_str)
-	{
-	  LW6SYS_FREE (stack->node_id_str);
-	  stack->node_id_str = NULL;
-	}
-
       stack->node_id_str = lw6sys_id_ltoa (node_id);
       stack->serial_0 = serial_0;
-      stack->serial_n_1 =
-	stack->serial_0 +
-	(_LW6DAT_MAX_NB_BLOCKS * _LW6DAT_NB_ATOMS_PER_BLOCK) - 1;
-      //stack->serial_min=INT_MAX;
-      //stack->serial_max = _LW6DAT_SERIAL_INVALID;
-      for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
-	{
-	  stack->serial_min_to_send[i] = stack->serial_0;
-	}
+      _prepare (stack);
       if (stack->node_id_str != NULL)
 	{
 	  if (stack->serial_0 > _LW6DAT_SERIAL_INVALID
