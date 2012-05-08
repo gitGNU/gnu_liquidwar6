@@ -440,6 +440,7 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg,
   int seq_from_cmd_str_offset = 0;
   int cmd_str_offset = 0;
   char *next = NULL;
+  char *z = NULL;
 
   next = (char *) msg;
   if (lw6msg_word_first_int_64_ge0 (&seq, &next, next))
@@ -447,73 +448,81 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg,
       if (lw6msg_word_first_id_64 (&logical_from, &next, next))
 	{
 	  full_str[_LW6DAT_HEADER_MAX_SIZE + _LW6DAT_ATOM_MAX_SIZE] = '\0';
-	  len = strlen (next);
-	  order_n = (lw6sys_imax ((len - 1), 0) / _LW6DAT_ATOM_MAX_SIZE) + 1;
-	  for (order_i = 0; order_i < order_n; ++order_i)
+	  z = lw6msg_z_encode (next, _LW6DAT_ATOM_MAX_SIZE);
+	  if (z)
 	    {
-	      ret = 1;
-	      p = order_i * _LW6DAT_ATOM_MAX_SIZE;
-	      if (p < len)
+	      len = strlen (z);
+	      order_n =
+		(lw6sys_imax ((len - 1), 0) / _LW6DAT_ATOM_MAX_SIZE) + 1;
+	      for (order_i = 0; order_i < order_n; ++order_i)
 		{
-		  s = lw6sys_imin (len - p, _LW6DAT_ATOM_MAX_SIZE);
-		  if (s >= 0)
+		  ret = 1;
+		  p = order_i * _LW6DAT_ATOM_MAX_SIZE;
+		  if (p < len)
 		    {
-		      serial = _lw6dat_stack_get_serial (stack) + 1;
-		      snprintf (full_str, _LW6DAT_HEADER_MAX_SIZE,
-				"%s %d %d %d ", LW6MSG_CMD_DATA, serial,
-				order_i, order_n);
-		      seq_from_cmd_str_offset = strlen (full_str);
-		      if (seq_from_cmd_str_offset < _LW6DAT_HEADER_MAX_SIZE)
+		      s = lw6sys_imin (len - p, _LW6DAT_ATOM_MAX_SIZE);
+		      if (s >= 0)
 			{
-			  snprintf (full_str + seq_from_cmd_str_offset,
-				    _LW6DAT_HEADER_MAX_SIZE -
-				    seq_from_cmd_str_offset,
-				    "%" LW6SYS_PRINTF_LL "d %"
-				    LW6SYS_PRINTF_LL "x ",
-				    (long long) seq,
-				    (long long) logical_from);
-			  cmd_str_offset = strlen (full_str);
-			  if (cmd_str_offset < _LW6DAT_HEADER_MAX_SIZE)
+			  serial = _lw6dat_stack_get_serial (stack) + 1;
+			  snprintf (full_str, _LW6DAT_HEADER_MAX_SIZE,
+				    "%s %d %d %d ", LW6MSG_CMD_DATA, serial,
+				    order_i, order_n);
+			  seq_from_cmd_str_offset = strlen (full_str);
+			  if (seq_from_cmd_str_offset <
+			      _LW6DAT_HEADER_MAX_SIZE)
 			    {
-			      if (s > 0)
+			      snprintf (full_str + seq_from_cmd_str_offset,
+					_LW6DAT_HEADER_MAX_SIZE -
+					seq_from_cmd_str_offset,
+					"%" LW6SYS_PRINTF_LL "d %"
+					LW6SYS_PRINTF_LL "x ",
+					(long long) seq,
+					(long long) logical_from);
+			      cmd_str_offset = strlen (full_str);
+			      if (cmd_str_offset < _LW6DAT_HEADER_MAX_SIZE)
 				{
-				  memcpy (full_str + cmd_str_offset, next + p,
-					  s);
+				  if (s > 0)
+				    {
+				      memcpy (full_str + cmd_str_offset,
+					      z + p, s);
+				    }
+				  else
+				    {
+				      lw6sys_log (LW6SYS_LOG_WARNING,
+						  _x_ ("0 sized atom"));
+				    }
+				  full_str[cmd_str_offset + s] = '\0';
+				  ret = ret
+				    && _lw6dat_stack_put_atom (stack,
+							       serial,
+							       order_i,
+							       order_n, seq,
+							       full_str,
+							       seq_from_cmd_str_offset,
+							       cmd_str_offset,
+							       send_flag);
 				}
 			      else
 				{
 				  lw6sys_log (LW6SYS_LOG_WARNING,
-					      _x_ ("0 sized atom"));
+					      _x_
+					      ("header is too long (cmd_str_offest=%d)"),
+					      cmd_str_offset);
+				  ret = 0;
 				}
-			      full_str[cmd_str_offset + s] = '\0';
-			      ret = ret
-				&& _lw6dat_stack_put_atom (stack,
-							   serial, order_i,
-							   order_n, seq,
-							   full_str,
-							   seq_from_cmd_str_offset,
-							   cmd_str_offset,
-							   send_flag);
 			    }
 			  else
 			    {
 			      lw6sys_log (LW6SYS_LOG_WARNING,
 					  _x_
-					  ("header is too long (cmd_str_offest=%d)"),
-					  cmd_str_offset);
+					  ("header is too long (seq_from_cmd_str_offset=%d)"),
+					  seq_from_cmd_str_offset);
 			      ret = 0;
 			    }
 			}
-		      else
-			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _x_
-				      ("header is too long (seq_from_cmd_str_offset=%d)"),
-				      seq_from_cmd_str_offset);
-			  ret = 0;
-			}
 		    }
 		}
+	      LW6SYS_FREE (z);
 	    }
 	}
       else
@@ -542,7 +551,8 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
   int order_i = 0;
   int order_n = 0;
 
-  serial = lw6sys_imax (stack->serial_min, stack->serial_reference + 1);
+  //serial = lw6sys_imax (stack->serial_min, stack->serial_reference +1);
+  serial = lw6sys_imax (stack->serial_min, stack->serial_reference);
   seq = _lw6dat_stack_get_seq_reference (stack);
   while (serial <= stack->serial_max)
     {
@@ -551,6 +561,9 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 	{
 	  if (atom->order_i == 0)
 	    {
+	      //TMP1("OK order=0 full_str=\"%s\"",
+	      //   _lw6dat_atom_get_full_str (atom));
+
 	      atom_complete = 1;
 	      seq = atom->seq;
 	      order_n = atom->order_n;
@@ -591,6 +604,7 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 		      atom_complete = 0;
 		    }
 		}
+	      //TMP3("order_i=%d order_n=%d atom_complete=%d",order_i,order_n,atom_complete);
 	      if (order_i == order_n && atom_complete)
 		{
 		  /*
@@ -612,9 +626,10 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_ ("not starting with order=0 but %d"),
-			  atom->order_i);
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_
+			  ("not starting with order=0 but %d full_str=\"%s\""),
+			  atom->order_i, _lw6dat_atom_get_full_str (atom));
 	      atoms_no_hole = 0;
 	      serial++;
 	    }
@@ -759,7 +774,7 @@ _lw6dat_stack_seq2serial (_lw6dat_stack_t * stack, int64_t seq)
 	    {
 	      /*
 	       * Loop with i increasing since we suspect we'd
-	       * better start from the bottom of the lif
+	       * better start from the bottom of the list
 	       */
 	      for (i = stack->serial_min;
 		   i <= stack->serial_max
@@ -796,10 +811,12 @@ _lw6dat_stack_seq2serial (_lw6dat_stack_t * stack, int64_t seq)
 		    }
 		}
 	    }
-	  if (seq_min == seq_max && seq_min == seq)
-	    {
-	      ret = stack->serial_min;
-	    }
+	  /*
+	     if (seq_min == seq_max && seq_min == seq)
+	     {
+	     ret = stack->serial_min;
+	     }
+	   */
 	  if (ret != _LW6DAT_SERIAL_INVALID)
 	    {
 	      /*
@@ -863,16 +880,20 @@ static int
 _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 				     lw6sys_list_t ** msg_list, int64_t seq,
 				     int serial, int search_inc,
-				     int search_dec)
+				     int search_dec, int get_all)
 {
   int ret = 0;
   _lw6dat_atom_t *atom = NULL;
   char *full_str = NULL;
   char *msg = NULL;
+  int cmd_len = 0;
   char *cmd = NULL;
-  int seq_from_len = 0;
   int i, n;
   int no_hole = 1;
+  int keep = 1;
+  int seq_from_len = 0;
+  char seq_from[_LW6DAT_HEADER_MAX_SIZE + 1];
+  char *unz = NULL;
 
   if (serial >= stack->serial_min && serial <= stack->serial_max)
     {
@@ -883,12 +904,9 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 	  if (serial >= stack->serial_min && serial <= stack->serial_max)
 	    {
 	      n = atom->order_n;
-	      msg =
-		(char *)
-		LW6SYS_CALLOC (((_LW6DAT_HEADER_MAX_SIZE +
-				 (_LW6DAT_ATOM_MAX_SIZE * n)) +
-				1) * sizeof (char));
-	      if (msg)
+	      cmd_len = _LW6DAT_ATOM_MAX_SIZE * n + 1;
+	      cmd = (char *) LW6SYS_CALLOC (cmd_len * sizeof (char));
+	      if (cmd)
 		{
 		  full_str = _lw6dat_atom_get_full_str (atom);
 		  seq_from_len =
@@ -896,21 +914,34 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 		  if (seq_from_len > 0
 		      && seq_from_len < _LW6DAT_HEADER_MAX_SIZE)
 		    {
-		      memcpy (msg, full_str + atom->seq_from_cmd_str_offset,
+		      memset (seq_from, 0, _LW6DAT_HEADER_MAX_SIZE + 1);
+		      memcpy (seq_from,
+			      full_str + atom->seq_from_cmd_str_offset,
 			      seq_from_len);
-		      cmd = msg + seq_from_len;
-		      for (i = 0; i < n && no_hole; ++i)
+		      for (i = 0; i < n && no_hole && keep; ++i)
 			{
 			  atom = _lw6dat_stack_get_atom (stack, serial + i);
 			  if (atom)
 			    {
-			      full_str = _lw6dat_atom_get_full_str (atom);
-			      if (full_str)
+			      if ((!get_all) && atom->update_msg_called)
 				{
-				  memcpy (cmd + (i * _LW6DAT_ATOM_MAX_SIZE),
-					  full_str + atom->cmd_str_offset,
-					  strlen (full_str +
-						  atom->cmd_str_offset));
+				  keep = 0;
+				}
+			      else
+				{
+				  full_str = _lw6dat_atom_get_full_str (atom);
+				  if (full_str)
+				    {
+				      memcpy (cmd +
+					      (i * _LW6DAT_ATOM_MAX_SIZE),
+					      full_str + atom->cmd_str_offset,
+					      strlen (full_str +
+						      atom->cmd_str_offset));
+				    }
+				  else
+				    {
+				      no_hole = 0;
+				    }
 				}
 			    }
 			  else
@@ -918,26 +949,52 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 			      no_hole = 0;
 			    }
 			}
-		      if (no_hole)
+		      // search messages before
+		      if (search_dec)
 			{
-			  if (search_dec)
+			  _update_msg_list_by_seq_with_search (stack,
+							       msg_list,
+							       seq,
+							       serial - 1,
+							       0, 1, get_all);
+			}
+		      if (no_hole && keep)
+			{
+			  /*
+			   * Set a flag to explicitly state that this has
+			   * already been updated/got/popped and need not
+			   * be retrieved again.
+			   */
+			  for (i = 0; i < n; ++i)
 			    {
-			      _update_msg_list_by_seq_with_search (stack,
-								   msg_list,
-								   seq,
-								   serial - 1,
-								   0, 1);
+			      atom =
+				_lw6dat_stack_get_atom (stack, serial + i);
+			      if (atom)
+				{
+				  atom->update_msg_called = 1;
+				}
 			    }
-			  lw6sys_list_push_back (msg_list, msg);
-			  if (search_inc)
+			  // put this message in the queue
+			  unz = lw6msg_z_decode (cmd);
+			  if (unz)
 			    {
-			      _update_msg_list_by_seq_with_search (stack,
-								   msg_list,
-								   seq,
-								   serial + n,
-								   1, 0);
+			      msg = lw6sys_str_concat (seq_from, unz);
+			      if (msg)
+				{
+				  lw6sys_list_push_back (msg_list, msg);
+				  ret = 1;
+				}
+			      LW6SYS_FREE (unz);
 			    }
-			  ret = 1;
+			}
+		      // search messages after
+		      if (search_inc)
+			{
+			  _update_msg_list_by_seq_with_search (stack,
+							       msg_list,
+							       seq,
+							       serial + n,
+							       1, 0, get_all);
 			}
 		    }
 		  else
@@ -945,6 +1002,7 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 		      lw6sys_log (LW6SYS_LOG_WARNING,
 				  _x_ ("bad seq_from_len=%d"), seq_from_len);
 		    }
+		  LW6SYS_FREE (cmd);
 		}
 	    }
 	}
@@ -953,16 +1011,59 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
   return ret;
 }
 
+static void
+_clear_recent (_lw6dat_stack_t * stack, int serial)
+{
+  int i;
+  _lw6dat_atom_t *atom;
+
+  for (i = serial; i <= stack->serial_max; ++i)
+    {
+      atom = _lw6dat_stack_get_atom (stack, serial);
+      if (atom)
+	{
+	  atom->update_msg_called = 0;
+	}
+    }
+}
+
+
 int
 _lw6dat_stack_update_msg_list_by_seq (_lw6dat_stack_t * stack,
-				      lw6sys_list_t ** msg_list, int64_t seq)
+				      lw6sys_list_t ** msg_list, int64_t seq,
+				      int get_all, int clear_recent)
 {
   int ret = 0;
   int serial;
 
-  serial = _lw6dat_stack_seq2serial (stack, seq);
-  ret =
-    _update_msg_list_by_seq_with_search (stack, msg_list, seq, serial, 1, 1);
+  if (seq != _LW6DAT_SEQ_INVALID)
+    {
+      serial = _lw6dat_stack_seq2serial (stack, seq);
+
+      if (get_all || clear_recent)
+	{
+	  TMP3 ("%" LW6SYS_PRINTF_LL "d %d %d", (long long) seq, get_all,
+		clear_recent);
+	}
+      if (serial != _LW6DAT_SERIAL_INVALID)
+	{
+	  /*
+	   * If clear_recent is set, then all subsequent messages are marked as popped
+	   * We need to do this before the update is launched for the update does things
+	   * nicely and really stops exactly when seq chances, when the clear function
+	   * is raw and blindy clears stuff from given serial, which might be in the
+	   * middle of a wide range of messages with the same seq.
+	   */
+	  if (clear_recent)
+	    {
+	      _clear_recent (stack, serial);
+	    }
+
+	  ret =
+	    _update_msg_list_by_seq_with_search (stack, msg_list, seq, serial,
+						 1, 1, get_all);
+	}
+    }
 
   return ret;
 }

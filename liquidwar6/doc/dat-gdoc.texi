@@ -183,12 +183,14 @@ to have the right information, nothing is missing.
 @strong{Return value:}  integer.
 @end deftypefun
 
-@deftypefun {lw6sys_list_t *} {lw6dat_warehouse_get_msg_list_by_seq} (lw6dat_warehouse_t * @var{warehouse}, int64_t @var{seq_min}, int64_t @var{seq_max})
+@deftypefun {lw6sys_list_t *} {lw6dat_warehouse_get_msg_list_by_seq} (lw6dat_warehouse_t * @var{warehouse}, int64_t @var{seq_min}, int64_t @var{seq_max}, int @var{for_reference})
 @var{warehouse}:  object to query
 
 @var{seq_min}:  lowest sequence number (round or chat index)
 
 @var{seq_max}:  highest sequence number (round or chat index)
+
+@var{for_reference}:  set to 1 if this is for reference building else 0 for draft
 
 Gets the list of messages for a given sequence (round or chat index),
 polling all the nodes. The from and to boundaries are included.

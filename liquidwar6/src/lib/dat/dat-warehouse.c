@@ -596,6 +596,10 @@ _lw6dat_warehouse_get_seq_min (_lw6dat_warehouse_t * warehouse)
 	    }
 	}
     }
+  if (ret == LLONG_MAX)
+    {
+      ret = _LW6DAT_SEQ_INVALID;
+    }
 
   return ret;
 }
@@ -758,7 +762,8 @@ lw6dat_warehouse_get_seq_reference (lw6dat_warehouse_t * warehouse)
 
 lw6sys_list_t *
 _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
-				       int64_t seq_min, int64_t seq_max)
+				       int64_t seq_min, int64_t seq_max,
+				       int for_reference)
 {
   lw6sys_list_t *ret = NULL;
   int stack_index = 0;
@@ -797,7 +802,9 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
 		  _lw6dat_stack_update_msg_list_by_seq (&
 							(warehouse->stacks
 							 [stack_index]), &ret,
-							seq);
+							seq, for_reference,
+							for_reference
+							&& (seq == seq_max));
 		}
 	    }
 	}
@@ -821,6 +828,7 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
  * @warehouse: object to query
  * @seq_min: lowest sequence number (round or chat index)
  * @seq_max: highest sequence number (round or chat index)
+ * @for_reference: set to 1 if this is for reference building else 0 for draft
  * 
  * Gets the list of messages for a given sequence (round or chat index),
  * polling all the nodes. The from and to boundaries are included.
@@ -829,13 +837,14 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
  */
 lw6sys_list_t *
 lw6dat_warehouse_get_msg_list_by_seq (lw6dat_warehouse_t * warehouse,
-				      int64_t seq_min, int64_t seq_max)
+				      int64_t seq_min, int64_t seq_max,
+				      int for_reference)
 {
   lw6sys_list_t *ret = NULL;
 
   ret =
     _lw6dat_warehouse_get_msg_list_by_seq ((_lw6dat_warehouse_t *) warehouse,
-					   seq_min, seq_max);
+					   seq_min, seq_max, for_reference);
 
   return ret;
 }

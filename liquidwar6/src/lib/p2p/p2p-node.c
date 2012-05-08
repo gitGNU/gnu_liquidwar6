@@ -1798,7 +1798,6 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
   node->dump_needed = 0;
   node->last_seq_reference =
     lw6dat_warehouse_get_seq_min (node->warehouse) - 1;
-  node->last_seq_draft = node->last_seq_reference;
   if (node->reference_msg)
     {
       lw6sys_list_free (node->reference_msg);
@@ -2019,7 +2018,7 @@ _lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node)
 	  node->reference_msg =
 	    lw6dat_warehouse_get_msg_list_by_seq (node->warehouse,
 						  node->last_seq_reference +
-						  1, seq_reference);
+						  1, seq_reference, 1);
 	  node->last_seq_reference = seq_reference;
 	}
     }
@@ -2064,8 +2063,8 @@ _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node)
 	{
 	  node->draft_msg =
 	    lw6dat_warehouse_get_msg_list_by_seq (node->warehouse,
-						  node->last_seq_reference,
-						  seq_draft);
+						  node->last_seq_reference +
+						  1, seq_draft, 0);
 	}
     }
   if (node->draft_msg)

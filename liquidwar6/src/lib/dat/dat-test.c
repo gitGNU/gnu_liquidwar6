@@ -543,7 +543,8 @@ test_stack ()
 		if (msg_list)
 		  {
 		    _lw6dat_stack_update_msg_list_by_seq (&stack, &msg_list,
-							  _TEST_STACK_MSG_GET_SEQ);
+							  _TEST_STACK_MSG_GET_SEQ,
+							  1, 1);
 		    length = lw6sys_list_length (msg_list);
 		    if (length == _TEST_STACK_MSG_GET_NB)
 		      {
@@ -880,13 +881,15 @@ test_warehouse ()
 			      lw6dat_warehouse_get_msg_list_by_seq (warehouse,
 								    seq_reference
 								    + 1,
-								    seq_draft);
+								    seq_draft,
+								    1);
 			    if (list_by_seq)
 			      {
 				length = lw6sys_list_length (list_by_seq);
 				list_by_seq2 =
 				  lw6dat_warehouse_get_msg_list_by_seq
-				  (warehouse2, seq_reference + 1, seq_draft);
+				  (warehouse2, seq_reference + 1, seq_draft,
+				   0);
 				if (list_by_seq2)
 				  {
 				    length2 =
