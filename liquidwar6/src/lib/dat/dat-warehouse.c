@@ -892,11 +892,60 @@ lw6sys_list_t *
 lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
 					     warehouse, u_int64_t logical_to)
 {
-  lw6sys_list_t *ret = 0;
+  lw6sys_list_t *ret = NULL;
 
   ret =
     _lw6dat_warehouse_get_atom_str_list_not_sent ((_lw6dat_warehouse_t *)
 						  warehouse, logical_to);
+
+  return ret;
+}
+
+lw6sys_list_t *
+_lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse)
+{
+  lw6sys_list_t *ret = NULL;
+  lw6dat_miss_t *miss = NULL;
+  int i = 0;
+
+  ret = lw6sys_list_new ((lw6sys_free_func_t) lw6dat_miss_free);
+  if (ret)
+    {
+      for (i = 0; i < LW6DAT_MAX_NB_STACKS && ret; ++i)
+	{
+	  if (i != _LW6DAT_LOCAL_NODE_INDEX && warehouse->stacks[i].node_id)
+	    {
+	      miss = _lw6dat_stack_get_miss (&(warehouse->stacks[i]));
+	      if (miss)
+		{
+		  lw6sys_list_push_front (&ret, miss);
+		}
+	    }
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_get_miss_list
+ *
+ * @warehouse: object to query
+ *
+ * Returns a list of @lw6dat_miss_t objects which contains informations about
+ * the messages which need to be re-sent by peers. Once the function has been
+ * called, the list is cleared, so another call will return an empty list.
+ * Note that @lw6dat_warehouse_get_msg_list_by_seq must be called before ofor this
+ * function to work, else the list of messages is not correctly updated.
+ *
+ * Return value: a list of pointers to @lw6dat_miss_t structs, NULL on failure.
+ */
+lw6sys_list_t *
+lw6dat_warehouse_get_miss_list (lw6dat_warehouse_t * warehouse)
+{
+  lw6sys_list_t *ret = NULL;
+
+  ret = _lw6dat_warehouse_get_miss_list ((_lw6dat_warehouse_t *) warehouse);
 
   return ret;
 }

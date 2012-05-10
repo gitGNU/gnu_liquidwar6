@@ -111,6 +111,8 @@ extern lw6sys_list_t
   * lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
 						 warehouse,
 						 u_int64_t logical_to);
+extern lw6sys_list_t *lw6dat_warehouse_get_miss_list (lw6dat_warehouse_t *
+						      warehouse);
 
 /* dat-test.c */
 extern int lw6dat_test (int mode);

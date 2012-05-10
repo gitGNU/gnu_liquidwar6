@@ -367,6 +367,7 @@ test_stack ()
     char *msg4 = NULL;
     char *msg4_random_part = NULL;
     _test_stack_msg_data_t msg_data = { NULL, 0, 0, 0 };
+    lw6dat_miss_t *miss = NULL;
 
     _lw6dat_stack_zero (&stack);
     _lw6dat_stack_init (&stack, _TEST_STACK_NODE_ID, _TEST_STACK_SERIAL_0);
@@ -613,6 +614,18 @@ test_stack ()
 			ret = 0;
 		      }
 		    lw6sys_list_free (msg_list);
+
+		    miss = _lw6dat_stack_get_miss (&stack);
+		    if (miss)
+		      {
+			lw6sys_log (LW6SYS_LOG_WARNING,
+				    _x_ ("miss from_id=%" LW6SYS_PRINTF_LL
+					 "x serial_min=%d serial_max=%d, normally all messages should be complete"),
+				    (long long) miss->from_id,
+				    miss->serial_min, miss->serial_max);
+			lw6dat_miss_free (miss);
+			ret = 0;
+		      }
 		  }
 	      }
 	    else
@@ -679,6 +692,8 @@ test_warehouse ()
     int64_t seq_max = 0;
     int64_t seq_draft = 0;
     int64_t seq_reference = 0;
+    lw6sys_list_t *miss_list = NULL;
+    int miss_list_length = 0;
 
     _warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
     if (_warehouse)
@@ -945,6 +960,35 @@ test_warehouse ()
 						    _x_
 						    ("length of lists mismatch length=%d length2=%d"),
 						    length, length2);
+					ret = 0;
+				      }
+				    miss_list =
+				      lw6dat_warehouse_get_miss_list
+				      (warehouse);
+				    if (miss_list)
+				      {
+					miss_list_length =
+					  lw6sys_list_length (miss_list);
+					if (miss_list_length == 0)
+					  {
+					    lw6sys_log (LW6SYS_LOG_NOTICE,
+							_x_
+							("OK, miss_list contains nothing"));
+					  }
+					else
+					  {
+					    lw6sys_log (LW6SYS_LOG_NOTICE,
+							_x_
+							("miss_list contains %d members, should be empty"),
+							miss_list_length);
+					  }
+					lw6sys_list_free (miss_list);
+				      }
+				    else
+				      {
+					lw6sys_log (LW6SYS_LOG_WARNING,
+						    _x_
+						    ("miss list is NULL, it could technically be empty, but here it's NULL, and this is not what we expect"));
 					ret = 0;
 				      }
 				    lw6sys_list_free (list_by_seq2);

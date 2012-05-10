@@ -1136,3 +1136,24 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 
   return ret;
 }
+
+lw6dat_miss_t *
+_lw6dat_stack_get_miss (_lw6dat_stack_t * stack)
+{
+  lw6dat_miss_t *ret = NULL;
+
+  if (stack->serial_miss_min <= stack->serial_miss_max)
+    {
+      ret =
+	lw6dat_miss_new (stack->node_id, stack->serial_miss_min,
+			 stack->serial_miss_max);
+    }
+
+  /*
+   * Next this will be called, it will return nothing (that is, NULL)
+   */
+  stack->serial_miss_min = stack->serial_n_1;
+  stack->serial_miss_max = stack->serial_0;
+
+  return ret;
+}
