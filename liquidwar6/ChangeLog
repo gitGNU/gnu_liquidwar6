@@ -1,3 +1,7 @@
+2012-05-18 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Miss message sent by p2p (but not treated yet).
+
 2012-05-10 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Miss lists now generated (but not used).

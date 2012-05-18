@@ -957,7 +957,65 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step11_poll_tentacles (_lw6p2p_node_t * node)
+_poll_step11_miss_list (_lw6p2p_node_t * node)
+{
+  int ret = 1;
+  lw6sys_list_t *list = NULL;
+  lw6dat_miss_t *miss = NULL;
+  u_int32_t logical_ticket_sig = 0;
+  u_int64_t remote_id_int = 0LL;
+  char *remote_id_str = NULL;
+  int i = 0;
+  const char *msg = NULL;
+
+  list = lw6dat_warehouse_get_miss_list (node->warehouse);
+  if (list)
+    {
+      while ((miss = lw6sys_list_pop_front (&list)) != NULL)
+	{
+	  msg =
+	    lw6msg_cmd_generate_miss (miss->from_id, node->node_id_int,
+				      miss->serial_min, miss->serial_max);
+	  if (msg)
+	    {
+	      for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
+		{
+		  if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
+		    {
+		      remote_id_int = node->tentacles[i].remote_id_int;
+		      remote_id_str = node->tentacles[i].remote_id_str;
+
+		      logical_ticket_sig =
+			lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+						(&(node->ticket_table),
+						 remote_id_str),
+						node->node_id_int,
+						remote_id_int, msg);
+
+		      _lw6p2p_tentacle_send_best (&
+						  (node->tentacles
+						   [i]),
+						  &(node->ticket_table),
+						  logical_ticket_sig,
+						  node->node_id_int,
+						  remote_id_int, msg);
+
+		      LW6SYS_FREE (msg);
+		    }
+		}
+	    }
+	}
+    }
+  else
+    {
+      ret = 0;
+    }
+
+  return ret;
+}
+
+static int
+_poll_step12_tentacles (_lw6p2p_node_t * node)
 {
   int ret = 1;
   int i = 0;
@@ -990,7 +1048,8 @@ _lw6p2p_node_poll (_lw6p2p_node_t * node)
   ret = _poll_step8_explore_verify_nodes (node) && ret;
   ret = _poll_step9_flush_verified_nodes (node) && ret;
   ret = _poll_step10_send_atoms (node) && ret;
-  ret = _poll_step11_poll_tentacles (node) && ret;
+  ret = _poll_step11_miss_list (node) && ret;
+  ret = _poll_step12_tentacles (node) && ret;
 
   return ret;
 }
