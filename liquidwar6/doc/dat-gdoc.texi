@@ -212,11 +212,27 @@ Returns all the messages that were not sent for the given warehouse.
 @var{warehouse}:  object to query
 
 Returns a list of @code{lw6dat_miss_t} objects which contains informations about
-the messages which need to be re-sent by peers. Once the function has been
-called, the list is cleared, so another call will return an empty list.
-Note that @code{lw6dat_warehouse_get_msg_list_by_seq} must be called before ofor this
-function to work, else the list of messages is not correctly updated.
+the messages which need to be re-sent by peers. The function will always
+return something, the list is not cleared if it's called several times,
+so one should not poll this too often.
 
 @strong{Return value:}  a list of pointers to @code{lw6dat_miss_t} structs, NULL on failure.
+@end deftypefun
+
+@deftypefun {void} {lw6dat_warehouse_miss_invalidate} (lw6dat_warehouse_t * @var{warehouse}, u_int64_t @var{node_id}, int @var{serial_min}, int @var{serial_max})
+@var{warehouse}:  object to modify
+
+@var{node_id}:  node which needs to resend data
+
+@var{serial_min}:  minimum serial number to send
+
+@var{serial_max}:  maximum serial number to send
+
+Re-sends messages in a given serial range. Actually, does not really resend
+messages, but marks them as needing to be sent again. We might, or not, have
+those messages in stock, if we have them we send them, if not we just do nothing,
+someone else might have them.
+
+@strong{Return value:}  none
 @end deftypefun
 

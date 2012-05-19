@@ -569,10 +569,12 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (LW6SYS_LOG_INFO,
 				  _x_
-				  ("incomplete msg, missing atom order=%d/%d"),
-				  order_i, order_n);
+				  ("incomplete msg from %" LW6SYS_PRINTF_LL
+				   "x, missing atom serial=%d order=%d/%d"),
+				  (long long) stack->node_id,
+				  serial + order_i, order_i, order_n);
 		      atom_complete = 0;
 		    }
 		}
@@ -911,33 +913,12 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 				    }
 				  else
 				    {
-				      /*
-				       * Not sure this is really a possible case but well,
-				       * better handle it than to nothing
-				       */
-				      stack->serial_miss_min =
-					lw6sys_imin (stack->serial_miss_min,
-						     serial + i);
-				      stack->serial_miss_max =
-					lw6sys_imax (stack->serial_miss_max,
-						     serial + i);
 				      no_hole = 0;
 				    }
 				}
 			    }
 			  else
 			    {
-			      /*
-			       * Update miss range, we might decide afterwards not to send
-			       * all missing stuff to avoid sending too much, but we report
-			       * it here as accurately as possible
-			       */
-			      stack->serial_miss_min =
-				lw6sys_imin (stack->serial_miss_min,
-					     serial + i);
-			      stack->serial_miss_max =
-				lw6sys_imax (stack->serial_miss_max,
-					     serial + i);
 			      no_hole = 0;
 			    }
 			}
@@ -1137,23 +1118,71 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
   return ret;
 }
 
+
 lw6dat_miss_t *
 _lw6dat_stack_get_miss (_lw6dat_stack_t * stack)
 {
   lw6dat_miss_t *ret = NULL;
+  int serial = 0;
+  int serial_min = 0;
+  int serial_max = 0;
+  _lw6dat_atom_t *atom = NULL;
 
-  if (stack->serial_miss_min <= stack->serial_miss_max)
+  if (stack->serial_min >= stack->serial_0
+      && stack->serial_min <= stack->serial_n_1
+      && stack->serial_max >= stack->serial_0
+      && stack->serial_max <= stack->serial_n_1)
     {
-      ret =
-	lw6dat_miss_new (stack->node_id, stack->serial_miss_min,
-			 stack->serial_miss_max);
+      /*
+       * Depending on wether some records were found last time, we perform
+       * a full search or a smaller search. This avoids re-asking for the
+       * same zone over and over, and also introduces some latency, old
+       * messages are fectched first, and once they are complete, we ask
+       * for the rest. Additionnally, it speeds up the search process by
+       * doing it on smaller zones.
+       */
+      if (stack->serial_miss_min <= stack->serial_miss_max)
+	{
+	  serial_min = stack->serial_miss_min;
+	  serial_max = stack->serial_miss_max;
+	}
+      else
+	{
+	  serial_min = stack->serial_min;
+	  serial_max = stack->serial_max;
+	}
+      stack->serial_miss_min = stack->serial_n_1;
+      stack->serial_miss_max = stack->serial_0;
+      if (serial_min <= serial_max)
+	{
+	  for (serial = serial_min;
+	       serial <= serial_max
+	       && stack->serial_miss_min >= stack->serial_n_1; ++serial)
+	    {
+	      if (((atom = _lw6dat_stack_get_atom (stack, serial)) == NULL)
+		  || (!atom->not_null))
+		{
+		  stack->serial_miss_min = serial;
+		}
+	    }
+	  for (serial = serial_max;
+	       serial >= serial_min
+	       && stack->serial_miss_max <= stack->serial_0; --serial)
+	    {
+	      if (((atom = _lw6dat_stack_get_atom (stack, serial)) == NULL)
+		  || (!atom->not_null))
+		{
+		  stack->serial_miss_max = serial;
+		}
+	    }
+	}
+      if (stack->serial_miss_min <= stack->serial_miss_max)
+	{
+	  ret =
+	    lw6dat_miss_new (stack->node_id, stack->serial_miss_min,
+			     stack->serial_miss_max);
+	}
     }
-
-  /*
-   * Next this will be called, it will return nothing (that is, NULL)
-   */
-  stack->serial_miss_min = stack->serial_n_1;
-  stack->serial_miss_max = stack->serial_0;
 
   return ret;
 }

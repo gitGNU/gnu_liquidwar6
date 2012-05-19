@@ -48,6 +48,10 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   lw6cnx_connection_t *fastest_cnx = NULL;
   int now = 0;
   int uptime = 0;
+  u_int64_t id_from = 0LL;
+  u_int64_t id_to = 0LL;
+  int serial_min = 0;
+  int serial_max = 0;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process \"%s\""), message);
 
@@ -420,6 +424,23 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_ ("bad data from \"%s\" (\"%s\")"), cnx->remote_url,
+		      message);
+	}
+    }
+  else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_MISS))
+    {
+      if (lw6msg_cmd_analyse_miss
+	  (&id_from, &id_to, &serial_min, &serial_max, message))
+	{
+	  TMP4 ("received MISS id_from=%" LW6SYS_PRINTF_LL "x id_to=%"
+		LW6SYS_PRINTF_LL "x serial_min=%d serial_max=%d",
+		(long long) id_from, (long long) id_to, serial_min,
+		serial_max);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("bad miss from \"%s\" (\"%s\")"), cnx->remote_url,
 		      message);
 	}
     }

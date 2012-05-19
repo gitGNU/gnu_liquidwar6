@@ -933,10 +933,9 @@ _lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse)
  * @warehouse: object to query
  *
  * Returns a list of @lw6dat_miss_t objects which contains informations about
- * the messages which need to be re-sent by peers. Once the function has been
- * called, the list is cleared, so another call will return an empty list.
- * Note that @lw6dat_warehouse_get_msg_list_by_seq must be called before ofor this
- * function to work, else the list of messages is not correctly updated.
+ * the messages which need to be re-sent by peers. The function will always
+ * return something, the list is not cleared if it's called several times,
+ * so one should not poll this too often.
  *
  * Return value: a list of pointers to @lw6dat_miss_t structs, NULL on failure.
  */
@@ -948,4 +947,36 @@ lw6dat_warehouse_get_miss_list (lw6dat_warehouse_t * warehouse)
   ret = _lw6dat_warehouse_get_miss_list ((_lw6dat_warehouse_t *) warehouse);
 
   return ret;
+}
+
+void
+_lw6dat_warehouse_miss_invalidate (_lw6dat_warehouse_t * warehouse,
+				   u_int64_t node_id, int serial_min,
+				   int serial_max)
+{
+  // todo
+}
+
+/**
+ * lw6dat_warehouse_miss_invalidate
+ *
+ * @warehouse: object to modify
+ * @node_id: node which needs to resend data
+ * @serial_min: minimum serial number to send
+ * @serial_max: maximum serial number to send
+ *
+ * Re-sends messages in a given serial range. Actually, does not really resend
+ * messages, but marks them as needing to be sent again. We might, or not, have
+ * those messages in stock, if we have them we send them, if not we just do nothing,
+ * someone else might have them.
+ *
+ * Return value: none
+ */
+void
+lw6dat_warehouse_miss_invalidate (lw6dat_warehouse_t * warehouse,
+				  u_int64_t node_id, int serial_min,
+				  int serial_max)
+{
+  _lw6dat_warehouse_miss_invalidate ((_lw6dat_warehouse_t *) warehouse,
+				     node_id, serial_min, serial_max);
 }

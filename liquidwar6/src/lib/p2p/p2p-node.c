@@ -1004,6 +1004,7 @@ _poll_step11_miss_list (_lw6p2p_node_t * node)
 		    }
 		}
 	    }
+	  lw6dat_miss_free (miss);
 	}
     }
   else
