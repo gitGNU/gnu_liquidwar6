@@ -864,7 +864,8 @@ _lw6dat_warehouse_get_atom_str_list_not_sent (_lw6dat_warehouse_t *
 	_lw6dat_warehouse_get_stack_index (warehouse, logical_to);
       for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
 	{
-	  if (warehouse->stacks[stack_index].node_id != 0)
+	  if ((stack_index != target_index)
+	      && (warehouse->stacks[stack_index].node_id != 0))
 	    {
 	      _lw6dat_stack_update_atom_str_list_not_sent (&
 							   (warehouse->stacks
@@ -951,17 +952,31 @@ lw6dat_warehouse_get_miss_list (lw6dat_warehouse_t * warehouse)
 
 void
 _lw6dat_warehouse_miss_invalidate (_lw6dat_warehouse_t * warehouse,
-				   u_int64_t node_id, int serial_min,
-				   int serial_max)
+				   u_int64_t from_id, u_int64_t to_id,
+				   int serial_min, int serial_max)
 {
-  // todo
+  int stack_index = 0;
+  int target_index = 0;
+
+  target_index = _lw6dat_warehouse_get_stack_index (warehouse, to_id);
+  for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
+    {
+      if ((stack_index != target_index)
+	  && (warehouse->stacks[stack_index].node_id != 0))
+	{
+	  _lw6dat_stack_miss_invalidate (&(warehouse->stacks[stack_index]),
+					 target_index, serial_min,
+					 serial_min);
+	}
+    }
 }
 
 /**
  * lw6dat_warehouse_miss_invalidate
  *
  * @warehouse: object to modify
- * @node_id: node which needs to resend data
+ * @from_id: node which needs to resend data
+ * @to_id: node which needs to get the data
  * @serial_min: minimum serial number to send
  * @serial_max: maximum serial number to send
  *
@@ -974,9 +989,9 @@ _lw6dat_warehouse_miss_invalidate (_lw6dat_warehouse_t * warehouse,
  */
 void
 lw6dat_warehouse_miss_invalidate (lw6dat_warehouse_t * warehouse,
-				  u_int64_t node_id, int serial_min,
-				  int serial_max)
+				  u_int64_t from_id, u_int64_t to_id,
+				  int serial_min, int serial_max)
 {
   _lw6dat_warehouse_miss_invalidate ((_lw6dat_warehouse_t *) warehouse,
-				     node_id, serial_min, serial_max);
+				     from_id, to_id, serial_min, serial_max);
 }

@@ -98,8 +98,8 @@
 #define _TEST_NODE_KNOWN_NODES4 "http://localhost:8068/"
 #define _TEST_NODE_KNOWN_NODES5 "http://localhost:8067/,http://localhost:8068/"
 #define _TEST_NODE_KNOWN_NODES6 "http://localhost:8067/,http://localhost:8068/"
-//#define _TEST_NODE_NETWORK_RELIABILITY 10
-#define _TEST_NODE_NETWORK_RELIABILITY 100000000
+#define _TEST_NODE_NETWORK_RELIABILITY 10
+//#define _TEST_NODE_NETWORK_RELIABILITY 100000000
 #define _TEST_NODE_TROJAN 0
 #define _TEST_BOGUS_BACKEND "bogus"
 

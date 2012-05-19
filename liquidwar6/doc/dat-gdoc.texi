@@ -219,10 +219,12 @@ so one should not poll this too often.
 @strong{Return value:}  a list of pointers to @code{lw6dat_miss_t} structs, NULL on failure.
 @end deftypefun
 
-@deftypefun {void} {lw6dat_warehouse_miss_invalidate} (lw6dat_warehouse_t * @var{warehouse}, u_int64_t @var{node_id}, int @var{serial_min}, int @var{serial_max})
+@deftypefun {void} {lw6dat_warehouse_miss_invalidate} (lw6dat_warehouse_t * @var{warehouse}, u_int64_t @var{from_id}, u_int64_t @var{to_id}, int @var{serial_min}, int @var{serial_max})
 @var{warehouse}:  object to modify
 
-@var{node_id}:  node which needs to resend data
+@var{from_id}:  node which needs to resend data
+
+@var{to_id}:  node which needs to get the data
 
 @var{serial_min}:  minimum serial number to send
 

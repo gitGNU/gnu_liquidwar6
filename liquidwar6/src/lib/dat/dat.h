@@ -114,7 +114,8 @@ extern lw6sys_list_t
 extern lw6sys_list_t *lw6dat_warehouse_get_miss_list (lw6dat_warehouse_t *
 						      warehouse);
 extern void lw6dat_warehouse_miss_invalidate (lw6dat_warehouse_t * warehouse,
-					      u_int64_t node_id,
+					      u_int64_t from_id,
+					      u_int64_t to_id,
 					      int serial_min, int serial_max);
 
 /* dat-test.c */

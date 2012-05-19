@@ -223,7 +223,10 @@ extern int _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t *
 							msg_list,
 							int target_index);
 extern lw6dat_miss_t *_lw6dat_stack_get_miss (_lw6dat_stack_t * stack);
-
+extern void _lw6dat_stack_miss_invalidate (_lw6dat_stack_t *
+					   stack,
+					   int target_index,
+					   int serial_min, int serial_max);
 static inline int
 _lw6dat_stack_get_block_index (_lw6dat_stack_t * stack, int serial)
 {
@@ -289,7 +292,8 @@ extern lw6sys_list_t
 extern lw6sys_list_t *_lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t *
 						       warehouse);
 extern void _lw6dat_warehouse_miss_invalidate (_lw6dat_warehouse_t *
-					       warehouse, u_int64_t node_id,
+					       warehouse, u_int64_t from_id,
+					       u_int64_t to_id,
 					       int serial_min,
 					       int serial_max);
 

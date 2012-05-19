@@ -506,6 +506,7 @@ test_stack ()
 			    stack.serial_max);
 		ret = 0;
 	      }
+
 	    _lw6dat_stack_update_atom_str_list_not_sent (&stack, &msg_list,
 							 _TEST_STACK_TARGET_INDEX);
 	    length = lw6sys_list_length (msg_list);
@@ -530,6 +531,35 @@ test_stack ()
 		    LW6SYS_FREE (msg);
 		  }
 	      }
+
+	    _lw6dat_stack_miss_invalidate (&stack, _TEST_STACK_TARGET_INDEX,
+					   stack.serial_min,
+					   stack.serial_max);
+	    _lw6dat_stack_update_atom_str_list_not_sent (&stack, &msg_list,
+							 _TEST_STACK_TARGET_INDEX);
+	    length = lw6sys_list_length (msg_list);
+	    if (length == found_not_null)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got %d unsent atoms"),
+			    length);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("error getting list of atoms length=%d found_not_null=%d"),
+			    length, found_not_null);
+		ret = 0;
+	      }
+	    while (!lw6sys_list_is_empty (msg_list))
+	      {
+		msg = (char *) lw6sys_list_pop_front (&msg_list);
+		if (msg)
+		  {
+		    LW6SYS_FREE (msg);
+		  }
+	      }
+
 	    _lw6dat_stack_update_atom_str_list_not_sent (&stack, &msg_list,
 							 _TEST_STACK_TARGET_INDEX);
 	    length = lw6sys_list_length (msg_list);

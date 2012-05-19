@@ -1186,3 +1186,28 @@ _lw6dat_stack_get_miss (_lw6dat_stack_t * stack)
 
   return ret;
 }
+
+void
+_lw6dat_stack_miss_invalidate (_lw6dat_stack_t *
+			       stack,
+			       int target_index,
+			       int serial_min, int serial_max)
+{
+  int loop_min;
+  int loop_max;
+  int i;
+  _lw6dat_atom_t *atom;
+  int send_not_mask = _lw6dat_not_flag (target_index);
+
+  loop_min = lw6sys_imax (stack->serial_min, serial_min);
+  loop_max = lw6sys_imin (stack->serial_max, serial_max);
+
+  for (i = loop_min; i <= loop_max; ++i)
+    {
+      atom = _lw6dat_stack_get_atom (stack, i);
+      if (atom)
+	{
+	  atom->sent_status &= send_not_mask;
+	}
+    }
+}
