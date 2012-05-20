@@ -208,13 +208,17 @@ Returns all the messages that were not sent for the given warehouse.
 @strong{Return value:}  a list of strings, containing atoms.
 @end deftypefun
 
-@deftypefun {lw6sys_list_t *} {lw6dat_warehouse_get_miss_list} (lw6dat_warehouse_t * @var{warehouse})
+@deftypefun {lw6sys_list_t *} {lw6dat_warehouse_get_miss_list} (lw6dat_warehouse_t * @var{warehouse}, int @var{max_range})
 @var{warehouse}:  object to query
+
+@var{max_range}:  max range of the returned list (-1 if none)
 
 Returns a list of @code{lw6dat_miss_t} objects which contains informations about
 the messages which need to be re-sent by peers. The function will always
 return something, the list is not cleared if it's called several times,
-so one should not poll this too often.
+so one should not poll this too often. Additionnally, the max_range parameter
+can be used to limit the size of the returned ranges, to avoid querying for
+too many messages at once.
 
 @strong{Return value:}  a list of pointers to @code{lw6dat_miss_t} structs, NULL on failure.
 @end deftypefun

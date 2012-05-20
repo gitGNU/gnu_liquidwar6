@@ -903,7 +903,8 @@ lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
 }
 
 lw6sys_list_t *
-_lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse,
+				 int max_range)
 {
   lw6sys_list_t *ret = NULL;
   lw6dat_miss_t *miss = NULL;
@@ -916,7 +917,8 @@ _lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse)
 	{
 	  if (i != _LW6DAT_LOCAL_NODE_INDEX && warehouse->stacks[i].node_id)
 	    {
-	      miss = _lw6dat_stack_get_miss (&(warehouse->stacks[i]));
+	      miss =
+		_lw6dat_stack_get_miss (&(warehouse->stacks[i]), max_range);
 	      if (miss)
 		{
 		  lw6sys_list_push_front (&ret, miss);
@@ -932,20 +934,25 @@ _lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse)
  * lw6dat_warehouse_get_miss_list
  *
  * @warehouse: object to query
+ * @max_range: max range of the returned list (-1 if none)
  *
  * Returns a list of @lw6dat_miss_t objects which contains informations about
  * the messages which need to be re-sent by peers. The function will always
  * return something, the list is not cleared if it's called several times,
- * so one should not poll this too often.
+ * so one should not poll this too often. Additionnally, the max_range parameter
+ * can be used to limit the size of the returned ranges, to avoid querying for
+ * too many messages at once.
  *
  * Return value: a list of pointers to @lw6dat_miss_t structs, NULL on failure.
  */
 lw6sys_list_t *
-lw6dat_warehouse_get_miss_list (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_get_miss_list (lw6dat_warehouse_t * warehouse, int max_range)
 {
   lw6sys_list_t *ret = NULL;
 
-  ret = _lw6dat_warehouse_get_miss_list ((_lw6dat_warehouse_t *) warehouse);
+  ret =
+    _lw6dat_warehouse_get_miss_list ((_lw6dat_warehouse_t *) warehouse,
+				     max_range);
 
   return ret;
 }
@@ -966,7 +973,7 @@ _lw6dat_warehouse_miss_invalidate (_lw6dat_warehouse_t * warehouse,
 	{
 	  _lw6dat_stack_miss_invalidate (&(warehouse->stacks[stack_index]),
 					 target_index, serial_min,
-					 serial_min);
+					 serial_max);
 	}
     }
 }

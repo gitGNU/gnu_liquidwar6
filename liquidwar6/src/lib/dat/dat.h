@@ -35,6 +35,12 @@
  */
 #define LW6DAT_MAX_NB_STACKS 30
 
+/*
+ * Value to use to explicit say no limit must be used when
+ * querying for miss lists.
+ */
+#define LW6DAT_MISS_MAX_RANGE_UNLIMITED -1
+
 /**
  * Contains all recent messages sent to peers, and received
  * from them, int fact this is a local database, think of it as
@@ -112,11 +118,12 @@ extern lw6sys_list_t
 						 warehouse,
 						 u_int64_t logical_to);
 extern lw6sys_list_t *lw6dat_warehouse_get_miss_list (lw6dat_warehouse_t *
-						      warehouse);
+						      warehouse,
+						      int max_range);
 extern void lw6dat_warehouse_miss_invalidate (lw6dat_warehouse_t * warehouse,
 					      u_int64_t from_id,
-					      u_int64_t to_id,
-					      int serial_min, int serial_max);
+					      u_int64_t to_id, int serial_min,
+					      int serial_max);
 
 /* dat-test.c */
 extern int lw6dat_test (int mode);

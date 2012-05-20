@@ -1,3 +1,4 @@
+
 /*
   Liquid War 6 is a unique multiplayer wargame.
   Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
@@ -526,7 +527,6 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
   int order_i = 0;
   int order_n = 0;
 
-  //serial = lw6sys_imax (stack->serial_min, stack->serial_reference +1);
   serial = lw6sys_imax (stack->serial_min, stack->serial_reference);
   seq = _lw6dat_stack_get_seq_reference (stack);
   while (serial <= stack->serial_max)
@@ -891,7 +891,7 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 		      memcpy (seq_from,
 			      full_str + atom->seq_from_cmd_str_offset,
 			      seq_from_len);
-		      for (i = 0; i < n && no_hole && keep; ++i)
+		      for (i = 0; i < n; ++i)
 			{
 			  atom = _lw6dat_stack_get_atom (stack, serial + i);
 			  if (atom)
@@ -905,20 +905,66 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 				  full_str = _lw6dat_atom_get_full_str (atom);
 				  if (full_str)
 				    {
-				      memcpy (cmd +
-					      (i * _LW6DAT_ATOM_MAX_SIZE),
-					      full_str + atom->cmd_str_offset,
-					      strlen (full_str +
-						      atom->cmd_str_offset));
+				      /*
+				       * Test no_hole and keep only here but still
+				       * allow the loop to keep going, else we
+				       * would fail to report missing atoms
+				       */
+				      if (no_hole && keep)
+					{
+					  memcpy (cmd +
+						  (i * _LW6DAT_ATOM_MAX_SIZE),
+						  full_str +
+						  atom->cmd_str_offset,
+						  strlen (full_str +
+							  atom->cmd_str_offset));
+					}
 				    }
 				  else
 				    {
+				      /*
+				       * Normally this is an almost theorical case,
+				       * but well, we update range here as well as below
+				       */
+				      if (serial + i <= stack->serial_max + 1)
+					{
+					  stack->serial_miss_min =
+					    lw6sys_imin
+					    (stack->serial_miss_min,
+					     serial + i);
+					  stack->serial_miss_max =
+					    lw6sys_imax
+					    (stack->serial_miss_max,
+					     serial + i);
+					}
+
 				      no_hole = 0;
 				    }
 				}
 			    }
 			  else
 			    {
+			      /*
+			       * Update miss range, we might decide afterwards not to send
+			       * all missing stuff to avoid sending too much, but we report
+			       * it here as accurately as possible. Another good effect of doing
+			       * it here is that we trap messages that were partially sent with
+			       * remaining atoms in the queue. Note that we don't update the
+			       * range if serial is really too big to avoid (again) sending
+			       * data that is simply in the pipe. This is just a signal of the
+			       * form "hey, there's more left", there's no point in saying
+			       * there are many messages missing, just trigger the necessary calls.
+			       */
+			      if (serial <= stack->serial_max + 1)
+				{
+				  stack->serial_miss_min =
+				    lw6sys_imin (stack->serial_miss_min,
+						 serial + i);
+				  stack->serial_miss_max =
+				    lw6sys_imax (stack->serial_miss_max,
+						 serial + i);
+				}
+
 			      no_hole = 0;
 			    }
 			}
@@ -1120,7 +1166,7 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 
 
 lw6dat_miss_t *
-_lw6dat_stack_get_miss (_lw6dat_stack_t * stack)
+_lw6dat_stack_get_miss (_lw6dat_stack_t * stack, int max_range)
 {
   lw6dat_miss_t *ret = NULL;
   int serial = 0;
@@ -1128,9 +1174,12 @@ _lw6dat_stack_get_miss (_lw6dat_stack_t * stack)
   int serial_max = 0;
   _lw6dat_atom_t *atom = NULL;
 
-  if (stack->serial_min >= stack->serial_0
-      && stack->serial_min <= stack->serial_n_1
-      && stack->serial_max >= stack->serial_0
+  /*
+   * We need the serial_max limit to be set to something meaningfull,
+   * else we would make useless requests for tons of messages that simply
+   * were not sent yet.
+   */
+  if (stack->serial_max >= stack->serial_0
       && stack->serial_max <= stack->serial_n_1)
     {
       /*
@@ -1148,11 +1197,18 @@ _lw6dat_stack_get_miss (_lw6dat_stack_t * stack)
 	}
       else
 	{
-	  serial_min = stack->serial_min;
-	  serial_max = stack->serial_max;
+	  /*
+	   * Here we use serial_0 and not serial_min for the missing
+	   * might, indeed, be the very first one, and no previous
+	   * message has ever been received.
+	   */
+	  serial_min = stack->serial_0;
+	  serial_max =
+	    lw6sys_imax (stack->serial_max, stack->serial_miss_max);
 	}
+
       stack->serial_miss_min = stack->serial_n_1;
-      stack->serial_miss_max = stack->serial_0;
+      //stack->serial_miss_max = stack->serial_0;
       if (serial_min <= serial_max)
 	{
 	  for (serial = serial_min;
@@ -1163,16 +1219,22 @@ _lw6dat_stack_get_miss (_lw6dat_stack_t * stack)
 		  || (!atom->not_null))
 		{
 		  stack->serial_miss_min = serial;
+		  //stack->serial_miss_max = serial;
 		}
 	    }
-	  for (serial = serial_max;
-	       serial >= serial_min
-	       && stack->serial_miss_max <= stack->serial_0; --serial)
+	  if (stack->serial_miss_min < stack->serial_n_1)
 	    {
-	      if (((atom = _lw6dat_stack_get_atom (stack, serial)) == NULL)
-		  || (!atom->not_null))
+	      serial_min = stack->serial_miss_min;
+	      serial_max =
+		lw6sys_imin (stack->serial_miss_min + max_range, serial_max);
+	      for (serial = serial_min; serial <= serial_max; ++serial)
 		{
-		  stack->serial_miss_max = serial;
+		  if (((atom =
+			_lw6dat_stack_get_atom (stack, serial)) == NULL)
+		      || (!atom->not_null))
+		    {
+		      stack->serial_miss_max = serial;
+		    }
 		}
 	    }
 	}

@@ -968,12 +968,26 @@ _poll_step11_miss_list (_lw6p2p_node_t * node)
   int i = 0;
   const char *msg = NULL;
   int64_t now;
+  // int force_next = 0;
 
   now = lw6sys_get_timestamp ();
-  if (now - node->db->data.consts.miss_delay >= node->last_miss_timestamp)
+  if (now - node->db->data.consts.miss_delay >=
+      node->last_poll_miss_timestamp)
     {
-      node->last_miss_timestamp = now;
-      list = lw6dat_warehouse_get_miss_list (node->warehouse);
+      if (now - node->db->data.consts.miss_wake_up_interval >=
+	  node->last_miss_wake_up_timestamp)
+	{
+	  //      force_next = 1;
+	}
+
+      node->last_poll_miss_timestamp = now;
+      /*
+       * TODO use force_next to force get_miss_list to return the next serial
+       * even if it's not really missing
+       */
+      list =
+	lw6dat_warehouse_get_miss_list (node->warehouse,
+					node->db->data.consts.miss_max_range);
       if (list)
 	{
 	  while ((miss = lw6sys_list_pop_front (&list)) != NULL)
@@ -1008,6 +1022,7 @@ _poll_step11_miss_list (_lw6p2p_node_t * node)
 			}
 		    }
 		}
+	      node->last_miss_wake_up_timestamp = now;
 	      lw6dat_miss_free (miss);
 	    }
 	}
@@ -2119,17 +2134,49 @@ _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node)
 {
   char *ret = NULL;
   int64_t seq_draft = 0LL;
+  int64_t seq_min = 0LL;
+  int64_t seq_max = 0LL;
 
-  if ((!node->draft_msg)
-      && lw6dat_warehouse_calc_serial_draft_and_reference (node->warehouse))
+  if ((!node->draft_msg))
     {
-      seq_draft = lw6dat_warehouse_get_seq_draft (node->warehouse);
-      if (seq_draft > node->last_seq_reference)
+      if (lw6dat_warehouse_calc_serial_draft_and_reference (node->warehouse))
 	{
-	  node->draft_msg =
-	    lw6dat_warehouse_get_msg_list_by_seq (node->warehouse,
-						  node->last_seq_reference +
-						  1, seq_draft, 0);
+	  seq_draft = lw6dat_warehouse_get_seq_draft (node->warehouse);
+	  if (seq_draft > node->last_seq_reference)
+	    {
+	      node->draft_msg =
+		lw6dat_warehouse_get_msg_list_by_seq (node->warehouse,
+						      node->last_seq_reference
+						      + 1, seq_draft, 0);
+	    }
+	}
+      else
+	{
+	  /*
+	   * Special case, we do not even have *one* full message in stock
+	   * so we just get any seq available (the last one for that matter) and
+	   * call blindly the get_msg function, not to really get the message 
+	   * (there is none) but to trigger the code that will update MISS ranges
+	   */
+	  seq_min = lw6dat_warehouse_get_seq_min (node->warehouse);
+	  seq_max = lw6dat_warehouse_get_seq_max (node->warehouse);
+	  if (seq_min <= seq_max)
+	    {
+	      node->draft_msg =
+		lw6dat_warehouse_get_msg_list_by_seq (node->warehouse,
+						      seq_min, seq_max, 0);
+	    }
+	  if (node->draft_msg)
+	    {
+	      if (lw6sys_list_length (node->draft_msg) > 0)
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("strange, got messages when one could not figure out what seq_draft was"));
+		}
+	      lw6sys_list_free (node->draft_msg);
+	      node->draft_msg = NULL;
+	    }
 	}
     }
   if (node->draft_msg)

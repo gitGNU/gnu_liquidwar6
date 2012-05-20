@@ -67,6 +67,7 @@
 #define _TEST_STACK_MSG_6 "10000000000013 2345234523452345 last message"
 #define _TEST_STACK_MSG_GET_SEQ 10000000000011LL
 #define _TEST_STACK_MSG_GET_NB 3
+#define _TEST_STACK_MISS_MAX_RANGE 100
 
 #define _TEST_WAREHOUSE_LOCAL_NODE_ID 0x1234123412341234LL
 #define _TEST_WAREHOUSE_OTHER_NODE_ID 0x2345234523452345LL
@@ -83,6 +84,7 @@
 #define _TEST_WAREHOUSE_PUT_MIN_SIZE 1
 #define _TEST_WAREHOUSE_PUT_MAX_SIZE 3000
 #define _TEST_WAREHOUSE_OTHER_NODE_MSG "toto"
+#define _TEST_WAREHOUSE_MISS_MAX_RANGE LW6DAT_MISS_MAX_RANGE_UNLIMITED
 
 typedef struct _test_stack_msg_data_s
 {
@@ -645,7 +647,9 @@ test_stack ()
 		      }
 		    lw6sys_list_free (msg_list);
 
-		    miss = _lw6dat_stack_get_miss (&stack);
+		    miss =
+		      _lw6dat_stack_get_miss (&stack,
+					      _TEST_STACK_MISS_MAX_RANGE);
 		    if (miss)
 		      {
 			lw6sys_log (LW6SYS_LOG_WARNING,
@@ -994,7 +998,8 @@ test_warehouse ()
 				      }
 				    miss_list =
 				      lw6dat_warehouse_get_miss_list
-				      (warehouse);
+				      (warehouse,
+				       _TEST_WAREHOUSE_MISS_MAX_RANGE);
 				    if (miss_list)
 				      {
 					miss_list_length =
