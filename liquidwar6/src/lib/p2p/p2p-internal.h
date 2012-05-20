@@ -92,6 +92,7 @@ typedef struct _lw6p2p_consts_s
   int node_verify_max_at_once;
   int foo_delay;
   int join_delay;
+  int miss_delay;
   int ticket_table_hash_size;
 }
 _lw6p2p_consts_t;
@@ -209,6 +210,7 @@ typedef struct _lw6p2p_node_s
   //int64_t last_seq_draft;
   lw6sys_list_t *reference_msg;
   lw6sys_list_t *draft_msg;
+  int64_t last_miss_timestamp;
 } _lw6p2p_node_t;
 
 typedef struct _lw6p2p_srv_oob_callback_data_s

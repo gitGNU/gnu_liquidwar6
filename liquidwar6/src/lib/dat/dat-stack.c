@@ -569,7 +569,7 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
 				  _x_
 				  ("incomplete msg from %" LW6SYS_PRINTF_LL
 				   "x, missing atom serial=%d order=%d/%d"),
@@ -1209,5 +1209,11 @@ _lw6dat_stack_miss_invalidate (_lw6dat_stack_t *
 	{
 	  atom->sent_status &= send_not_mask;
 	}
+    }
+
+  if (loop_min <= loop_max)
+    {
+      stack->serial_min_to_send[target_index] =
+	lw6sys_imin (stack->serial_min_to_send[target_index], loop_min);
     }
 }

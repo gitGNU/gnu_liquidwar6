@@ -967,49 +967,54 @@ _poll_step11_miss_list (_lw6p2p_node_t * node)
   char *remote_id_str = NULL;
   int i = 0;
   const char *msg = NULL;
+  int64_t now;
 
-  list = lw6dat_warehouse_get_miss_list (node->warehouse);
-  if (list)
+  now = lw6sys_get_timestamp ();
+  if (now - node->db->data.consts.miss_delay >= node->last_miss_timestamp)
     {
-      while ((miss = lw6sys_list_pop_front (&list)) != NULL)
+      node->last_miss_timestamp = now;
+      list = lw6dat_warehouse_get_miss_list (node->warehouse);
+      if (list)
 	{
-	  msg =
-	    lw6msg_cmd_generate_miss (miss->from_id, node->node_id_int,
-				      miss->serial_min, miss->serial_max);
-	  if (msg)
+	  while ((miss = lw6sys_list_pop_front (&list)) != NULL)
 	    {
-	      for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
+	      msg =
+		lw6msg_cmd_generate_miss (miss->from_id, node->node_id_int,
+					  miss->serial_min, miss->serial_max);
+	      if (msg)
 		{
-		  if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
+		  for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
 		    {
-		      remote_id_int = node->tentacles[i].remote_id_int;
-		      remote_id_str = node->tentacles[i].remote_id_str;
+		      if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
+			{
+			  remote_id_int = node->tentacles[i].remote_id_int;
+			  remote_id_str = node->tentacles[i].remote_id_str;
 
-		      logical_ticket_sig =
-			lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
-						(&(node->ticket_table),
-						 remote_id_str),
-						node->node_id_int,
-						remote_id_int, msg);
+			  logical_ticket_sig =
+			    lw6msg_ticket_calc_sig
+			    (lw6cnx_ticket_table_get_send
+			     (&(node->ticket_table), remote_id_str),
+			     node->node_id_int, remote_id_int, msg);
 
-		      _lw6p2p_tentacle_send_best (&
-						  (node->tentacles
-						   [i]),
-						  &(node->ticket_table),
-						  logical_ticket_sig,
-						  node->node_id_int,
-						  remote_id_int, msg);
+			  _lw6p2p_tentacle_send_best (&
+						      (node->tentacles
+						       [i]),
+						      &(node->ticket_table),
+						      logical_ticket_sig,
+						      node->node_id_int,
+						      remote_id_int, msg);
 
-		      LW6SYS_FREE (msg);
+			  LW6SYS_FREE (msg);
+			}
 		    }
 		}
+	      lw6dat_miss_free (miss);
 	    }
-	  lw6dat_miss_free (miss);
 	}
-    }
-  else
-    {
-      ret = 0;
+      else
+	{
+	  ret = 0;
+	}
     }
 
   return ret;

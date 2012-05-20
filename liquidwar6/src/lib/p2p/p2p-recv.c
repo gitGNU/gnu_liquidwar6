@@ -433,9 +433,9 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	  (&id_from, &id_to, &serial_min, &serial_max, message))
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_ ("received MISS id_from=%" LW6SYS_PRINTF_LL
+		      _x_ ("received MISS from %s id_from=%" LW6SYS_PRINTF_LL
 			   "x id_to=%" LW6SYS_PRINTF_LL
-			   "x serial_min=%d serial_max=%d"),
+			   "x serial_min=%d serial_max=%d"), cnx->remote_url,
 		      (long long) id_from, (long long) id_to, serial_min,
 		      serial_max);
 	  lw6dat_warehouse_miss_invalidate (node->warehouse, id_from, id_to,
