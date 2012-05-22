@@ -947,9 +947,11 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node)
 		  LW6SYS_FREE (atom_str);
 		}
 	    }
-	  _lw6p2p_tentacle_poll (&(node->tentacles[i]), node->node_info,
-				 &(node->ticket_table),
-				 node->db->data.consts.foo_delay);
+	  /*
+	     _lw6p2p_tentacle_poll (&(node->tentacles[i]), node->node_info,
+	     &(node->ticket_table),
+	     node->db->data.consts.foo_delay,lw6dat_warehouse_get_local_serial(node->warehouse));
+	   */
 	}
     }
 
@@ -1047,7 +1049,9 @@ _poll_step12_tentacles (_lw6p2p_node_t * node)
 	{
 	  _lw6p2p_tentacle_poll (&(node->tentacles[i]), node->node_info,
 				 &(node->ticket_table),
-				 node->db->data.consts.foo_delay);
+				 node->db->data.consts.foo_delay,
+				 lw6dat_warehouse_get_local_serial
+				 (node->warehouse));
 	}
     }
 

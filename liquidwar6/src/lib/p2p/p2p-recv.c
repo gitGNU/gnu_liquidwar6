@@ -98,11 +98,18 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_FOO))
     {
-      if (lw6msg_cmd_analyse_foo (&remote_node_info, &foo_bar_key, message))
+      if (lw6msg_cmd_analyse_foo
+	  (&remote_node_info, &foo_bar_key, &serial, message))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("received foo from \"%s\""),
 		      cnx->remote_url);
-	  reply_msg = lw6msg_cmd_generate_bar (node->node_info, foo_bar_key);
+	  lw6dat_warehouse_update_serial_miss_max (node->warehouse,
+						   cnx->remote_id_int,
+						   serial);
+	  reply_msg =
+	    lw6msg_cmd_generate_bar (node->node_info, foo_bar_key,
+				     lw6dat_warehouse_get_local_serial
+				     (node->warehouse));
 	  if (reply_msg)
 	    {
 	      logical_ticket_sig =
@@ -143,11 +150,15 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_BAR))
     {
-      if (lw6msg_cmd_analyse_bar (&remote_node_info, &foo_bar_key, message))
+      if (lw6msg_cmd_analyse_bar
+	  (&remote_node_info, &foo_bar_key, &serial, message))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("received bar from \"%s\" foo_bar_key=%08x"),
 		      cnx->remote_url, foo_bar_key);
+	  lw6dat_warehouse_update_serial_miss_max (node->warehouse,
+						   cnx->remote_id_int,
+						   serial);
 	  tentacle_i = _lw6p2p_node_find_tentacle (node, cnx->remote_id_int);
 	  if (tentacle_i >= 0)
 	    {
@@ -432,7 +443,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
       if (lw6msg_cmd_analyse_miss
 	  (&id_from, &id_to, &serial_min, &serial_max, message))
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (LW6SYS_LOG_INFO,
 		      _x_ ("received MISS from %s id_from=%" LW6SYS_PRINTF_LL
 			   "x id_to=%" LW6SYS_PRINTF_LL
 			   "x serial_min=%d serial_max=%d"), cnx->remote_url,

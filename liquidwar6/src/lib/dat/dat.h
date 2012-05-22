@@ -124,6 +124,10 @@ extern void lw6dat_warehouse_miss_invalidate (lw6dat_warehouse_t * warehouse,
 					      u_int64_t from_id,
 					      u_int64_t to_id, int serial_min,
 					      int serial_max);
+extern void lw6dat_warehouse_update_serial_miss_max (lw6dat_warehouse_t *
+						     warehouse,
+						     u_int64_t remote_id,
+						     int serial);
 
 /* dat-test.c */
 extern int lw6dat_test (int mode);

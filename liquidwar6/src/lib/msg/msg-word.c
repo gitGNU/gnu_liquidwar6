@@ -274,10 +274,16 @@ lw6msg_word_first_int_32 (int32_t * parsed_value, char **next,
   int ret = 0;
   lw6msg_word_t word;
 
-  (*parsed_value) = 0;
+  if (parsed_value)
+    {
+      (*parsed_value) = 0;
+    }
   if (lw6msg_word_first_x (&word, next, msg))
     {
-      (*parsed_value) = lw6sys_atoi (word.buf);
+      if (parsed_value)
+	{
+	  (*parsed_value) = lw6sys_atoi (word.buf);
+	}
       ret = 1;
     }
 
@@ -303,12 +309,18 @@ lw6msg_word_first_int_32_ge0 (int32_t * parsed_value, char **next,
   int ret = 0;
   int32_t tmp_value = 0;
 
-  (*parsed_value) = 0;
+  if (parsed_value)
+    {
+      (*parsed_value) = 0;
+    }
   if (lw6msg_word_first_int_32 (&tmp_value, next, msg))
     {
       if (tmp_value >= 0)
 	{
-	  (*parsed_value) = tmp_value;
+	  if (parsed_value)
+	    {
+	      (*parsed_value) = tmp_value;
+	    }
 	  ret = 1;
 	}
       else
@@ -341,12 +353,18 @@ lw6msg_word_first_int_32_gt0 (int32_t * parsed_value, char **next,
   int ret = 0;
   int32_t tmp_value = 0;
 
-  (*parsed_value) = 0;
+  if (parsed_value)
+    {
+      (*parsed_value) = 0;
+    }
   if (lw6msg_word_first_int_32 (&tmp_value, next, msg))
     {
       if (tmp_value > 0)
 	{
-	  (*parsed_value) = tmp_value;
+	  if (parsed_value)
+	    {
+	      (*parsed_value) = tmp_value;
+	    }
 	  ret = 1;
 	}
       else
@@ -378,10 +396,16 @@ lw6msg_word_first_int_64 (int64_t * parsed_value, char **next,
   int ret = 0;
   lw6msg_word_t word;
 
-  (*parsed_value) = 0LL;
+  if (parsed_value)
+    {
+      (*parsed_value) = 0LL;
+    }
   if (lw6msg_word_first_x (&word, next, msg))
     {
-      (*parsed_value) = lw6sys_atoll (word.buf);
+      if (parsed_value)
+	{
+	  (*parsed_value) = lw6sys_atoll (word.buf);
+	}
       ret = 1;
     }
 
@@ -407,12 +431,18 @@ lw6msg_word_first_int_64_ge0 (int64_t * parsed_value, char **next,
   int64_t ret = 0;
   int64_t tmp_value = 0;
 
-  (*parsed_value) = 0LL;
+  if (parsed_value)
+    {
+      (*parsed_value) = 0LL;
+    }
   if (lw6msg_word_first_int_64 (&tmp_value, next, msg))
     {
       if (tmp_value >= 0)
 	{
-	  (*parsed_value) = tmp_value;
+	  if (parsed_value)
+	    {
+	      (*parsed_value) = tmp_value;
+	    }
 	  ret = 1;
 	}
       else
@@ -446,12 +476,18 @@ lw6msg_word_first_int_64_gt0 (int64_t * parsed_value, char **next,
   int ret = 0;
   int64_t tmp_value = 0;
 
-  (*parsed_value) = 0LL;
+  if (parsed_value)
+    {
+      (*parsed_value) = 0LL;
+    }
   if (lw6msg_word_first_int_64 (&tmp_value, next, msg))
     {
       if (tmp_value > 0)
 	{
-	  (*parsed_value) = tmp_value;
+	  if (parsed_value)
+	    {
+	      (*parsed_value) = tmp_value;
+	    }
 	  ret = 1;
 	}
       else
@@ -485,13 +521,19 @@ lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next,
   lw6msg_word_t word;
   u_int16_t tmp_value;
 
-  (*parsed_value) = 0;
+  if (parsed_value)
+    {
+      (*parsed_value) = 0;
+    }
   if (lw6msg_word_first_x (&word, next, msg))
     {
       tmp_value = lw6sys_id_atol (word.buf);
       if (tmp_value && lw6sys_check_id_16 (tmp_value))
 	{
-	  (*parsed_value) = tmp_value;
+	  if (parsed_value)
+	    {
+	      (*parsed_value) = tmp_value;
+	    }
 	  ret = 1;
 	}
       else
@@ -522,13 +564,19 @@ lw6msg_word_first_id_32 (u_int32_t * parsed_value, char **next,
   lw6msg_word_t word;
   u_int32_t tmp_value;
 
-  (*parsed_value) = 0;
+  if (parsed_value)
+    {
+      (*parsed_value) = 0;
+    }
   if (lw6msg_word_first_x (&word, next, msg))
     {
       tmp_value = lw6sys_id_atol (word.buf);
       if (tmp_value && lw6sys_check_id_32 (tmp_value))
 	{
-	  (*parsed_value) = tmp_value;
+	  if (parsed_value)
+	    {
+	      (*parsed_value) = tmp_value;
+	    }
 	  ret = 1;
 	}
       else
@@ -559,13 +607,19 @@ lw6msg_word_first_id_64 (u_int64_t * parsed_value, char **next,
   lw6msg_word_t word;
   u_int64_t tmp_value;
 
-  (*parsed_value) = 0;
+  if (parsed_value)
+    {
+      (*parsed_value) = 0;
+    }
   if (lw6msg_word_first_x (&word, next, msg))
     {
       tmp_value = lw6sys_id_atol (word.buf);
       if (tmp_value && lw6sys_check_id_64 (tmp_value))
 	{
-	  (*parsed_value) = tmp_value;
+	  if (parsed_value)
+	    {
+	      (*parsed_value) = tmp_value;
+	    }
 	  ret = 1;
 	}
       else

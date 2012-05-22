@@ -123,13 +123,14 @@ lw6msg_cmd_generate_ticket (lw6nod_info_t * info, u_int64_t ticket)
  *
  * @info: the node info to use
  * @key: the key to identify the message
+ * @serial: serial number of latest data message
  *
  * Generate a FOO command.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_foo (lw6nod_info_t * info, u_int32_t key)
+lw6msg_cmd_generate_foo (lw6nod_info_t * info, u_int32_t key, int serial)
 {
   char *ret = NULL;
   char sep = LW6MSG_TELNET_SEP;
@@ -138,7 +139,8 @@ lw6msg_cmd_generate_foo (lw6nod_info_t * info, u_int32_t key)
   info_str = _generate_info (LW6MSG_CMD_FOO, info);
   if (info_str)
     {
-      ret = lw6sys_new_sprintf ("%s%c%08x", info_str, sep, key);
+      ret =
+	lw6sys_new_sprintf ("%s%c%08x%c%d", info_str, sep, key, sep, serial);
       LW6SYS_FREE (info_str);
     }
 
@@ -150,13 +152,14 @@ lw6msg_cmd_generate_foo (lw6nod_info_t * info, u_int32_t key)
  *
  * @info: the node info to use
  * @key: the key to identify the message
+ * @serial: serial number of latest data message
  *
  * Generate a BAR command.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key)
+lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key, int serial)
 {
   char *ret = NULL;
   char sep = LW6MSG_TELNET_SEP;
@@ -165,7 +168,8 @@ lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key)
   info_str = _generate_info (LW6MSG_CMD_BAR, info);
   if (info_str)
     {
-      ret = lw6sys_new_sprintf ("%s%c%08x", info_str, sep, key);
+      ret =
+	lw6sys_new_sprintf ("%s%c%08x%c%d", info_str, sep, key, sep, serial);
       LW6SYS_FREE (info_str);
     }
 
@@ -772,6 +776,7 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket,
  *
  * @info: will contain (remote) node info on success
  * @key: if not NULL, will contain the foo/bar key on success
+ * @serial: if not NULL, will contain the latest serial number of peer
  * @msg: the message to analyse
  *
  * Analyzes a FOO message.
@@ -779,7 +784,7 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key,
+lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, int *serial,
 			const char *msg)
 {
   int ret = 0;
@@ -794,7 +799,16 @@ lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key,
 	  pos = seek;
 	  if (lw6msg_word_first_id_32 (key, &seek, pos))
 	    {
-	      ret = 1;
+	      pos = seek;
+	      if (lw6msg_word_first_int_32_ge0 (serial, &seek, pos))
+		{
+		  ret = 1;
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad serial \"%s\""),
+			      pos);
+		}
 	    }
 	  else
 	    {
@@ -816,6 +830,7 @@ lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key,
  *
  * @info: will contain (remote) node info on success
  * @key: if not NULL, will contain the foo/bar key on success
+ * @serial: if not NULL, will contain the latest serial number of peer
  * @msg: the message to analyse
  *
  * Analyzes a BAR message.
@@ -823,7 +838,7 @@ lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key,
+lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, int *serial,
 			const char *msg)
 {
   int ret = 0;
@@ -838,7 +853,16 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key,
 	  pos = seek;
 	  if (lw6msg_word_first_id_32 (key, &seek, pos))
 	    {
-	      ret = 1;
+	      pos = seek;
+	      if (lw6msg_word_first_int_32_ge0 (serial, &seek, pos))
+		{
+		  ret = 1;
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad serial \"%s\""),
+			      pos);
+		}
 	    }
 	  else
 	    {

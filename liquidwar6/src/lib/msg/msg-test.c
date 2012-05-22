@@ -122,6 +122,7 @@
 #define _TEST_MISS_ID_TO 0x2345234523452345LL
 #define _TEST_MISS_SERIAL_MIN 10
 #define _TEST_MISS_SERIAL_MAX 100
+#define _TEST_MSG_SERIAL_RANGE 1000000000
 
 /*
  * Testing functions in cmd.c
@@ -252,24 +253,28 @@ test_cmd ()
 	  }
 
 	key = lw6sys_generate_id_32 ();
-	msg = lw6msg_cmd_generate_foo (info, key);
+	serial = lw6sys_random (_TEST_MSG_SERIAL_RANGE);
+	msg = lw6msg_cmd_generate_foo (info, key, serial);
 	if (msg)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("foo command is \"%s\""),
 			msg);
-	    if (lw6msg_cmd_analyse_foo (&analysed_info, &analysed_key, msg))
+	    if (lw6msg_cmd_analyse_foo
+		(&analysed_info, &analysed_key, &analysed_serial, msg))
 	      {
-		if (key == analysed_key)
+		if (key == analysed_key && serial == analysed_serial)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_x_ ("foo command analysed (key=%x)"), key);
+				_x_
+				("foo command analysed (key=%x serial=%d)"),
+				key, serial);
 		  }
 		else
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
 				_x_
-				("foo command analysed but key is wrong (%x and should be %x)"),
-				analysed_key, key);
+				("foo command analysed but something is wrong (key=%x and should be %x, serial=%d and should be %d)"),
+				analysed_key, key, analysed_serial, serial);
 		    ret = 0;
 		  }
 		lw6nod_info_free (analysed_info);
@@ -298,24 +303,28 @@ test_cmd ()
 	  }
 
 	key = lw6sys_generate_id_32 ();
-	msg = lw6msg_cmd_generate_bar (info, key);
+	serial = lw6sys_random (_TEST_MSG_SERIAL_RANGE);
+	msg = lw6msg_cmd_generate_bar (info, key, serial);
 	if (msg)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("bar command is \"%s\""),
 			msg);
-	    if (lw6msg_cmd_analyse_bar (&analysed_info, &analysed_key, msg))
+	    if (lw6msg_cmd_analyse_bar
+		(&analysed_info, &analysed_key, &analysed_serial, msg))
 	      {
 		if (key == analysed_key)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_x_ ("bar command analysed (key=%x)"), key);
+				_x_
+				("bar command analysed (key=%x serial=%d)"),
+				key, serial);
 		  }
 		else
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
 				_x_
-				("bar command analysed but key is wrong (%x and should be %x)"),
-				analysed_key, key);
+				("bar command analysed but something is wrong (key=%x and should be %x, serial=%d and should be %d)"),
+				analysed_key, key, analysed_serial, serial);
 		    ret = 0;
 		  }
 		lw6nod_info_free (analysed_info);

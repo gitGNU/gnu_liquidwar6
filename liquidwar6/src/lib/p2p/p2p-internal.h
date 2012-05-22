@@ -405,7 +405,7 @@ extern int _lw6p2p_tentacle_enabled (_lw6p2p_tentacle_t * tentacle);
 extern void _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 				   lw6nod_info_t * node_info,
 				   lw6cnx_ticket_table_t * ticket_table,
-				   int foo_delay);
+				   int next_foo_delay, int serial);
 extern int _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 				       lw6cnx_ticket_table_t * ticket_table,
 				       u_int32_t logical_ticket_sig,

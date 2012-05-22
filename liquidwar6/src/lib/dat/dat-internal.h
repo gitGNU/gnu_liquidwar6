@@ -297,5 +297,9 @@ extern void _lw6dat_warehouse_miss_invalidate (_lw6dat_warehouse_t *
 					       u_int64_t to_id,
 					       int serial_min,
 					       int serial_max);
+extern void _lw6dat_warehouse_update_serial_miss_max (_lw6dat_warehouse_t *
+						      warehouse,
+						      u_int64_t remote_id,
+						      int serial);
 
 #endif

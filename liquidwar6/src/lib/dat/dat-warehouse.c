@@ -1002,3 +1002,35 @@ lw6dat_warehouse_miss_invalidate (lw6dat_warehouse_t * warehouse,
   _lw6dat_warehouse_miss_invalidate ((_lw6dat_warehouse_t *) warehouse,
 				     from_id, to_id, serial_min, serial_max);
 }
+
+void
+_lw6dat_warehouse_update_serial_miss_max (_lw6dat_warehouse_t * warehouse,
+					  u_int64_t remote_id, int serial)
+{
+  int index = 0;
+
+  index = _lw6dat_warehouse_get_stack_index (warehouse, remote_id);
+  if (index >= 0 && index < LW6DAT_MAX_NB_STACKS
+      && index != _LW6DAT_LOCAL_NODE_INDEX)
+    {
+      warehouse->stacks[index].serial_miss_max =
+	lw6sys_imax (warehouse->stacks[index].serial_miss_max, serial);
+    }
+}
+
+/**
+ * lw6dat_warehouse_update_serial_miss_max
+ *
+ * @warehouse: object to update
+ * @remote_id: id of remote host to update (which stack)
+ * @serial: new max serial value
+ *
+ * Return value: none
+ */
+void
+lw6dat_warehouse_update_serial_miss_max (lw6dat_warehouse_t * warehouse,
+					 u_int64_t remote_id, int serial)
+{
+  _lw6dat_warehouse_update_serial_miss_max ((_lw6dat_warehouse_t *) warehouse,
+					    remote_id, serial);
+}

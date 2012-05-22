@@ -301,7 +301,7 @@ void
 _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 		       lw6nod_info_t * node_info,
 		       lw6cnx_ticket_table_t * ticket_table,
-		       int next_foo_delay)
+		       int next_foo_delay, int serial)
 {
   int i;
   char *msg;
@@ -342,7 +342,7 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("preparing foo with foo_bar_key=%08x"),
 		      cnx->foo_bar_key);
-	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key);
+	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key, serial);
 	  if (msg)
 	    {
 	      ticket_sig =
@@ -389,7 +389,7 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("preparing foo with foo_bar_key=%08x"),
 		      cnx->foo_bar_key);
-	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key);
+	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key, serial);
 	  if (msg)
 	    {
 	      ticket_sig =
