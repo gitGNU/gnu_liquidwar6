@@ -336,6 +336,19 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 	}
     }
 
+  if (ret)
+    {
+      if (!_lw6ker_map_struct_sanity_check (map_struct))
+	{
+	  ret = 0;
+	}
+    }
+
+  if (!ret)
+    {
+      _lw6ker_map_struct_clear (map_struct);
+    }
+
   return ret;
 }
 
