@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-05-08 14:40+0200\n"
+"POT-Creation-Date: 2012-05-26 22:05+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -544,7 +544,7 @@ msgstr ""
 msgid "No weapon"
 msgstr ""
 
-#: src/lib/p2p/p2p-data.c:103
+#: src/lib/p2p/p2p-data.c:108
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
 msgstr ""
@@ -559,7 +559,7 @@ msgstr ""
 msgid "started node \"%s\""
 msgstr "начат узел \"%s\""
 
-#: src/lib/p2p/p2p-recv.c:187
+#: src/lib/p2p/p2p-recv.c:202
 #, c-format
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr "соединение установлено \"%s\" <-> \"%s\" в %s:%d"

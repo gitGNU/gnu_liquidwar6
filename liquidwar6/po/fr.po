@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-05-08 14:40+0200\n"
+"POT-Creation-Date: 2012-05-26 22:05+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -559,7 +559,7 @@ msgstr "Pest"
 msgid "No weapon"
 msgstr "Pas de coup spécial"
 
-#: src/lib/p2p/p2p-data.c:103
+#: src/lib/p2p/p2p-data.c:108
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
 msgstr "impossible de lire la requête \"%s\" dans \"%s\""
@@ -576,7 +576,7 @@ msgstr ""
 msgid "started node \"%s\""
 msgstr "démarrage du noeud \"%s\""
 
-#: src/lib/p2p/p2p-recv.c:187
+#: src/lib/p2p/p2p-recv.c:202
 #, c-format
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr "communication établie \"%s\" <-> \"%s\" sur %s:%d"

@@ -1115,6 +1115,8 @@ extern int lw6sys_shape_is_same (const lw6sys_whd_t * shape_a,
 				 const lw6sys_whd_t * shape_b);
 extern int lw6sys_shape_is_same_xy (const lw6sys_whd_t * shape_a,
 				    const lw6sys_whd_t * shape_b);
+extern int lw6sys_shape_volume_whd (const lw6sys_whd_t * shape);
+extern int lw6sys_shape_surface_wh (const lw6sys_whd_t * shape);
 
 /* sys-signal.c */
 extern void lw6sys_signal_custom (int trap_errors);

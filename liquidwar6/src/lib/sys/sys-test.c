@@ -3220,6 +3220,8 @@ test_shape ()
     lw6sys_whd_t shape_max =
       { TEST_SHAPE_MAX_W, TEST_SHAPE_MAX_H, TEST_SHAPE_MAX_D };
     lw6sys_xyz_t pos = { TEST_SHAPE_X, TEST_SHAPE_Y, TEST_SHAPE_Z };
+    int volume = 0;
+    int surface = 0;
 
     if (lw6sys_shape_check_min_max_whd (&shape, &shape_min, &shape_max))
       {
@@ -3267,6 +3269,35 @@ test_shape ()
       }
     else
       {
+	ret = 0;
+      }
+    volume = lw6sys_shape_volume_whd (&shape);
+    if (volume == shape.w * shape.h * shape.d)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("shape volume for %dx%dx%d is %d"), shape.w, shape.h,
+		    shape.d, volume);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("shape volume for %dx%dx%d is %d but should be %d"),
+		    shape.w, shape.h, shape.d, volume,
+		    shape.w * shape.h * shape.d);
+	ret = 0;
+      }
+    surface = lw6sys_shape_surface_wh (&shape);
+    if (surface == shape.w * shape.h)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("shape surface for %dx%d is %d"), shape.w, shape.h,
+		    surface);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("shape surface for %dx%d is %d but should be %d"),
+		    shape.w, shape.h, surface, shape.w * shape.h);
 	ret = 0;
       }
   }

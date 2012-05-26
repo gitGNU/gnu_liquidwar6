@@ -70,7 +70,6 @@ _lw6ker_map_struct_update_checksum (_lw6ker_map_struct_t *
   lw6sys_checksum_update_int32 (checksum, map_struct->nb_places);
   lw6sys_checksum_update_int32 (checksum, map_struct->nb_zones);
   lw6sys_checksum_update_int32 (checksum, map_struct->nb_slots);
-  lw6sys_checksum_update_int32 (checksum, map_struct->nb_usable_slots);
   lw6sys_checksum_update_int32 (checksum, map_struct->room_for_armies);
   lw6sys_checksum_update_int32 (checksum, map_struct->max_zone_size);
   for (i = 0; i < map_struct->nb_places; ++i)
@@ -109,9 +108,8 @@ _lw6ker_map_struct_lazy_compare (_lw6ker_map_struct_t *
 	    (map_struct_a->nb_places == map_struct_b->nb_places) &&
 	    (map_struct_a->nb_zones == map_struct_b->nb_zones) &&
 	    (map_struct_a->nb_slots == map_struct_b->nb_slots) &&
-	    (map_struct_a->nb_usable_slots == map_struct_b->nb_usable_slots)
-	    && (map_struct_a->room_for_armies ==
-		map_struct_b->room_for_armies)
+	    (map_struct_a->room_for_armies ==
+	     map_struct_b->room_for_armies)
 	    && (map_struct_a->max_zone_size == map_struct_b->max_zone_size);
 	}
     }
@@ -1044,7 +1042,6 @@ init_slots (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 		  _lw6ker_map_struct_set_zone_id (map_struct, zone->pos.x + x,
 						  zone->pos.y + y,
 						  zone->pos.z, i);
-		  map_struct->nb_usable_slots++;
 		  map_struct->room_for_armies++;
 		}
 	    }

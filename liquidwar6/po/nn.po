@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-05-08 14:40+0200\n"
+"POT-Creation-Date: 2012-05-26 22:05+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -550,7 +550,7 @@ msgstr ""
 msgid "No weapon"
 msgstr ""
 
-#: src/lib/p2p/p2p-data.c:103
+#: src/lib/p2p/p2p-data.c:108
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
 msgstr "klarte ikkje lesa spørjinga «%s» i «%s»"
@@ -565,7 +565,7 @@ msgstr ""
 msgid "started node \"%s\""
 msgstr ""
 
-#: src/lib/p2p/p2p-recv.c:187
+#: src/lib/p2p/p2p-recv.c:202
 #, c-format
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr ""

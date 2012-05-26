@@ -103,9 +103,6 @@ push_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 					  map_struct->nb_slots);
   ret = ret
     && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
-					  map_struct->nb_usable_slots);
-  ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
 					  map_struct->room_for_armies);
   ret = ret
     && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
@@ -231,51 +228,112 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 {
   int ret = 1;
   int i = 0;
+  lw6sys_whd_t shape_min =
+    { LW6MAP_MIN_BODY_WIDTH, LW6MAP_MIN_BODY_HEIGHT, LW6MAP_MIN_BODY_DEPTH };
+  lw6sys_whd_t shape_max =
+    { LW6MAP_MAX_BODY_WIDTH, LW6MAP_MAX_BODY_HEIGHT, LW6MAP_MAX_BODY_DEPTH };
+  int surface = 0;
+  int volume = 0;
 
   ret = ret
     && lw6sys_hexa_serializer_pop_whd (hexa_serializer, &(map_struct->shape));
+  if (!lw6sys_shape_check_min_max_whd
+      (&(map_struct->shape), &shape_min, &shape_max))
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("map_struct shape out of range (%dx%dx%d)"),
+		  map_struct->shape.w, map_struct->shape.h,
+		  map_struct->shape.d);
+      ret = 0;
+    }
+
+  surface = lw6sys_shape_surface_wh (&(map_struct->shape));
+  volume = lw6sys_shape_volume_whd (&(map_struct->shape));
+
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(map_struct->nb_places));
+  if (ret && map_struct->nb_places != surface)
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad nb_places=%d for surface=%d"),
+		  map_struct->nb_places, surface);
+      ret = 0;
+    }
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(map_struct->nb_zones));
+  if (ret && map_struct->nb_zones > volume)
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("nb_zones=%d too big for volume=%d"),
+		  map_struct->nb_zones, volume);
+      ret = 0;
+    }
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(map_struct->nb_slots));
-  ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
-					 &(map_struct->nb_usable_slots));
+  if (ret && map_struct->nb_slots != volume)
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad nb_slots=%d for volume=%d"),
+		  map_struct->nb_slots, volume);
+      ret = 0;
+    }
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(map_struct->room_for_armies));
+  if (ret && map_struct->room_for_armies > map_struct->nb_slots)
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("room_for_armies=%d too big for nb_slots=%d"),
+		  map_struct->room_for_armies, map_struct->nb_slots);
+      ret = 0;
+    }
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(map_struct->max_zone_size));
+  if (ret
+      && (map_struct->max_zone_size < LW6MAP_RULES_MIN_MAX_ZONE_SIZE
+	  || map_struct->max_zone_size > LW6MAP_RULES_MAX_MAX_ZONE_SIZE))
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad max_zone_size=%d"),
+		  map_struct->max_zone_size);
+      ret = 0;
+    }
 
   // TODO: add checks so that impossible map structs can't be poped
 
-  map_struct->places =
-    (_lw6ker_place_struct_t *) LW6SYS_CALLOC (map_struct->nb_places *
-					      sizeof
-					      (_lw6ker_place_struct_t));
-  for (i = 0; i < map_struct->nb_places; ++i)
+  if (ret)
     {
-      ret = ret && pop_place (hexa_serializer, &(map_struct->places[i]));
+      map_struct->places =
+	(_lw6ker_place_struct_t *) LW6SYS_CALLOC (map_struct->nb_places *
+						  sizeof
+						  (_lw6ker_place_struct_t));
+      for (i = 0; i < map_struct->nb_places; ++i)
+	{
+	  ret = ret && pop_place (hexa_serializer, &(map_struct->places[i]));
+	}
     }
-  map_struct->zones =
-    (_lw6ker_zone_struct_t *) LW6SYS_CALLOC (map_struct->nb_zones *
-					     sizeof (_lw6ker_zone_struct_t));
-  for (i = 0; i < map_struct->nb_zones; ++i)
+  if (ret)
     {
-      ret = ret && pop_zone (hexa_serializer, &(map_struct->zones[i]));
+      map_struct->zones =
+	(_lw6ker_zone_struct_t *) LW6SYS_CALLOC (map_struct->nb_zones *
+						 sizeof
+						 (_lw6ker_zone_struct_t));
+      for (i = 0; i < map_struct->nb_zones; ++i)
+	{
+	  ret = ret && pop_zone (hexa_serializer, &(map_struct->zones[i]));
+	}
     }
-  map_struct->slots =
-    (_lw6ker_slot_struct_t *) LW6SYS_CALLOC (map_struct->nb_slots *
-					     sizeof (_lw6ker_slot_struct_t));
-  for (i = 0; i < map_struct->nb_slots; ++i)
+  if (ret)
     {
-      ret = ret && pop_slot (hexa_serializer, &(map_struct->slots[i]));
+      map_struct->slots =
+	(_lw6ker_slot_struct_t *) LW6SYS_CALLOC (map_struct->nb_slots *
+						 sizeof
+						 (_lw6ker_slot_struct_t));
+      for (i = 0; i < map_struct->nb_slots; ++i)
+	{
+	  ret = ret && pop_slot (hexa_serializer, &(map_struct->slots[i]));
+	}
     }
 
   return ret;

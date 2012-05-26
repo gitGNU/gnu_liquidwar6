@@ -93,7 +93,6 @@ typedef struct _lw6ker_map_struct_s
   int32_t nb_places;
   int32_t nb_zones;
   int32_t nb_slots;
-  int32_t nb_usable_slots;
   int32_t room_for_armies;
   int32_t max_zone_size;
   _lw6ker_place_struct_t *places;
