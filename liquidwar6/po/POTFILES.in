@@ -223,6 +223,7 @@ src/lib/ker/ker-cursor.c
 src/lib/ker/ker-fighter.c
 src/lib/ker/ker-gamestate.c
 src/lib/ker/ker-gamestruct.c
+src/lib/ker/ker-hexa.c
 src/lib/ker/ker-history.c
 src/lib/ker/ker-mapstate.c
 src/lib/ker/ker-mapstruct.c

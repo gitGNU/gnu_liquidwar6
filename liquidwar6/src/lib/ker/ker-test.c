@@ -31,10 +31,10 @@
 #define TEST_MAP_NB_LAYERS 5
 #define TEST_MAP_NOISE_PERCENT 20
 #define TEST_NB_ROUNDS 100
-#define TEST_GAME_STRUCT_CHECKSUM 0xe5a780ad
-#define TEST_GAME_STATE_CHECKSUM 0x73e0e998
-#define TEST_GAME_STATE_POPULATE_CHECKSUM 0x7481e0a2
-#define TEST_GAME_STATE_ALGORITHM_CHECKSUM 0xaec3b2a1
+#define TEST_GAME_STRUCT_CHECKSUM 0xf9f42689
+#define TEST_GAME_STATE_CHECKSUM 0xe481ef83
+#define TEST_GAME_STATE_POPULATE_CHECKSUM 0xe3e0e6b9
+#define TEST_GAME_STATE_ALGORITHM_CHECKSUM 0x39a2b4ba
 #define TEST_NODE_ID 0x1234123412341234LL
 #define TEST_CURSOR1_ID 0x1234
 #define TEST_CURSOR2_ID 0x2345
@@ -549,6 +549,98 @@ test_team_mask ()
   return ret;
 }
 
+static int
+test_hexa ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6map_level_t *level;
+    lw6ker_game_struct_t *game_struct;
+    //lw6ker_game_state_t *game_state;
+    lw6ker_game_struct_t *game_struct2;
+    //lw6ker_game_state_t *game_state2;
+    u_int32_t checksum_struct = 0;
+    //u_int32_t checksum_state=0;
+    u_int32_t checksum_struct2 = 0;
+    //u_int32_t checksum_state2=0;
+    char *hexa_struct = NULL;
+    //char *hexa_state=NULL;
+    char *hexa_struct2 = NULL;
+    //char *hexa_state2=NULL;
+
+    ret = 0;
+    level =
+      lw6map_builtin_custom (TEST_MAP_WIDTH, TEST_MAP_HEIGHT,
+			     TEST_MAP_NB_LAYERS, TEST_MAP_NOISE_PERCENT);
+    if (level)
+      {
+	game_struct = lw6ker_game_struct_new (level, NULL);
+	if (game_struct)
+	  {
+	    print_game_struct_repr (game_struct);
+	    checksum_struct = lw6ker_game_struct_checksum (game_struct);
+	    hexa_struct = lw6ker_game_struct_to_hexa (game_struct);
+	    lw6ker_game_struct_free (game_struct);
+
+	    if (hexa_struct)
+	      {
+		game_struct2 =
+		  lw6ker_game_struct_from_hexa (hexa_struct, level);
+		if (game_struct2)
+		  {
+		    checksum_struct2 =
+		      lw6ker_game_struct_checksum (game_struct2);
+		    hexa_struct2 = lw6ker_game_struct_to_hexa (game_struct2);
+		    if (hexa_struct2)
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_
+				    ("hexa_struct length=%d hexa_struct2 length=%d checksum_struct=%08x checksum_struct2=%08x"),
+				    (int) strlen (hexa_struct),
+				    (int) strlen (hexa_struct2),
+				    checksum_struct, checksum_struct2);
+			if (checksum_struct == checksum_struct2
+			    && lw6sys_str_is_same (hexa_struct, hexa_struct2))
+			  {
+			    // todo: same with state
+			    ret = 1;
+			  }
+			else
+			  {
+			    if (checksum_struct != checksum_struct2)
+			      {
+				lw6sys_log (LW6SYS_LOG_WARNING,
+					    _x_
+					    ("game_struct checksums differ"));
+			      }
+			    if (!lw6sys_str_is_same
+				(hexa_struct, hexa_struct2))
+			      {
+				lw6sys_log (LW6SYS_LOG_WARNING,
+					    _x_
+					    ("game_struct hexa dumps differ"));
+			      }
+			    ret = 0;
+			  }
+			LW6SYS_FREE (hexa_struct2);
+		      }
+		    lw6ker_game_struct_free (game_struct2);
+		    game_struct2 = NULL;
+		  }
+		LW6SYS_FREE (hexa_struct);
+	      }
+	  }
+	lw6map_free (level);
+	level = NULL;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6ker_test
  *
@@ -576,7 +668,7 @@ lw6ker_test (int mode)
     }
 
   ret = test_team_mask () && test_struct () && test_state ()
-    && test_population () && test_algorithm () && test_dup ();
+    && test_population () && test_algorithm () && test_dup () && test_hexa ();
 
   return ret;
 }

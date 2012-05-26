@@ -422,7 +422,6 @@ lw6map_to_hexa (lw6map_level_t * level)
   return ret;
 }
 
-
 static int
 pop_metadata (lw6sys_hexa_serializer_t * hexa_serializer,
 	      lw6map_metadata_t * metadata)

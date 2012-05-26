@@ -37,6 +37,22 @@
  */
 static u_int32_t seq_id = 0;
 
+/*
+ * The sequence generation is done by a function since seq_id is
+ * static and cannot be accessed from elsewhere, but we decided
+ * to put some constructors outside this file (in ker-hexa.c for
+ * instance).
+ */
+void
+_lw6ker_game_struct_set_id (_lw6ker_game_struct_t * game_struct)
+{
+  game_struct->id = 0;
+  while (!game_struct->id)
+    {
+      game_struct->id = ++seq_id;
+    }
+}
+
 _lw6ker_game_struct_t *
 _lw6ker_game_struct_new (lw6map_level_t * level, lw6sys_progress_t * progress)
 {
@@ -44,14 +60,9 @@ _lw6ker_game_struct_new (lw6map_level_t * level, lw6sys_progress_t * progress)
 
   ret =
     (_lw6ker_game_struct_t *) LW6SYS_CALLOC (sizeof (_lw6ker_game_struct_t));
-
   if (ret)
     {
-      ret->id = 0;
-      while (!ret->id)
-	{
-	  ret->id = ++seq_id;
-	}
+      _lw6ker_game_struct_set_id (ret);
       ret->level = level;
       lw6map_rules_copy (&(ret->rules), &(level->param.rules));
       _lw6ker_map_struct_init (&(ret->map_struct), level, progress);
@@ -211,8 +222,7 @@ _lw6ker_game_struct_dup (_lw6ker_game_struct_t * game_struct,
   lw6sys_progress_begin (progress);
 
   ret =
-    (_lw6ker_game_struct_t *) LW6SYS_CALLOC (sizeof (_lw6ker_game_struct_t));
-
+    (_lw6ker_game_struct_t *) LW6SYS_MALLOC (sizeof (_lw6ker_game_struct_t));
   if (ret)
     {
       memcpy (ret, game_struct, sizeof (_lw6ker_game_struct_t));
@@ -220,11 +230,7 @@ _lw6ker_game_struct_dup (_lw6ker_game_struct_t * game_struct,
       /*
        * Set id after the memcpy, else will be overwritten
        */
-      ret->id = 0;
-      while (!ret->id)
-	{
-	  ret->id = ++seq_id;
-	}
+      _lw6ker_game_struct_set_id (ret);
       ret->map_struct.places =
 	(_lw6ker_place_struct_t *)
 	LW6SYS_MALLOC (sizeof (_lw6ker_place_struct_t) *
@@ -320,8 +326,8 @@ void
 _lw6ker_game_struct_update_checksum (_lw6ker_game_struct_t *
 				     game_struct, u_int32_t * checksum)
 {
-  _lw6ker_map_struct_update_checksum (&(game_struct->map_struct), checksum);
   lw6map_rules_update_checksum (&(game_struct->rules), checksum);
+  _lw6ker_map_struct_update_checksum (&(game_struct->map_struct), checksum);
 }
 
 u_int32_t
