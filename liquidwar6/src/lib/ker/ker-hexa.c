@@ -303,8 +303,6 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
       ret = 0;
     }
 
-  // TODO: add checks so that impossible map structs can't be poped
-
   if (ret)
     {
       map_struct->places =
@@ -444,10 +442,75 @@ lw6ker_game_struct_from_hexa (const char *hexa, lw6map_level_t * level)
 }
 
 static int
+push_fighter (lw6sys_hexa_serializer_t * hexa_serializer,
+	      lw6ker_fighter_t * fighter)
+{
+  int ret = 1;
+
+  ret = ret
+    && lw6sys_hexa_serializer_push_int8 (hexa_serializer,
+					 fighter->team_color);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int8 (hexa_serializer,
+					 fighter->last_direction);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int16 (hexa_serializer, fighter->health);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int16 (hexa_serializer,
+					  fighter->act_counter);
+  ret = ret
+    && lw6sys_hexa_serializer_push_xyz (hexa_serializer, fighter->pos);
+
+  return ret;
+}
+
+static int
 push_armies (lw6sys_hexa_serializer_t * hexa_serializer,
 	     _lw6ker_armies_t * armies)
 {
   int ret = 1;
+  int i = 0;
+
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  armies->max_fighters);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  armies->active_fighters);
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      ret = ret
+	&& lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					      armies->fighters_per_team[i]);
+    }
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      ret = ret
+	&& lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					      armies->frags[i]);
+    }
+  for (i = 0; i < armies->max_fighters; ++i)
+    {
+      ret = ret && push_fighter (hexa_serializer, &(armies->fighters[i]));
+    }
+
+  return ret;
+}
+
+static int
+push_zone_state (lw6sys_hexa_serializer_t * hexa_serializer,
+		 _lw6ker_zone_state_t * zone)
+{
+  int ret = 1;
+
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, zone->potential);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int8 (hexa_serializer,
+					 zone->direction_to_cursor);
+  ret = ret
+    && lw6sys_hexa_serializer_push_xyz (hexa_serializer,
+					zone->closest_cursor_pos);
 
   return ret;
 }
@@ -456,6 +519,70 @@ static int
 push_team (lw6sys_hexa_serializer_t * hexa_serializer, _lw6ker_team_t * team)
 {
   int ret = 1;
+  int i = 0;
+
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, team->active);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  team->has_been_active);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  team->respawn_round);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, team->offline);
+  for (i = 0; i < team->map_struct->nb_zones; ++i)
+    {
+      ret = ret && push_zone_state (hexa_serializer, &(team->gradient[i]));
+    }
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  team->cursor_ref_pot);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  team->last_spread_dir);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, team->charge);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, team->weapon_id);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  team->weapon_first_round);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  team->weapon_last_round);
+
+  return ret;
+}
+
+static int
+push_cursor (lw6sys_hexa_serializer_t * hexa_serializer,
+	     lw6ker_cursor_t * cursor)
+{
+  int ret = 1;
+
+
+  ret = ret
+    && lw6sys_hexa_serializer_push_int64 (hexa_serializer, cursor->node_id);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int16 (hexa_serializer, cursor->cursor_id);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int8 (hexa_serializer, cursor->letter);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, cursor->enabled);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  cursor->team_color);
+  ret = ret && lw6sys_hexa_serializer_push_xyz (hexa_serializer, cursor->pos);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, cursor->fire);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, cursor->fire2);
+  ret = ret
+    && lw6sys_hexa_serializer_push_xyz (hexa_serializer, cursor->apply_pos);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  cursor->pot_offset);
 
   return ret;
 }
@@ -465,6 +592,15 @@ push_cursor_array (lw6sys_hexa_serializer_t * hexa_serializer,
 		   _lw6ker_cursor_array_t * cursor_array)
 {
   int ret = 1;
+  int i = 0;
+
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  cursor_array->nb_cursors);
+  for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
+    {
+      ret = ret && push_cursor (hexa_serializer, &(cursor_array->cursors[i]));
+    }
 
   return ret;
 }
@@ -474,6 +610,9 @@ push_slot_state (lw6sys_hexa_serializer_t * hexa_serializer,
 		 _lw6ker_slot_state_t * slot)
 {
   int ret = 1;
+
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, slot->fighter_id);
 
   return ret;
 }
@@ -509,10 +648,36 @@ push_map_state (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
+push_node (lw6sys_hexa_serializer_t * hexa_serializer, _lw6ker_node_t * node)
+{
+  int ret = 1;
+
+
+  ret = ret
+    && lw6sys_hexa_serializer_push_int64 (hexa_serializer, node->node_id);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, node->enabled);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  node->last_command_round);
+
+  return ret;
+}
+
+static int
 push_node_array (lw6sys_hexa_serializer_t * hexa_serializer,
 		 _lw6ker_node_array_t * node_array)
 {
   int ret = 1;
+  int i = 0;
+
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  node_array->nb_nodes);
+  for (i = 0; i < LW6MAP_MAX_NB_NODES; ++i)
+    {
+      ret = ret && push_node (hexa_serializer, &(node_array->nodes[i]));
+    }
 
   return ret;
 }
@@ -522,6 +687,20 @@ push_history (lw6sys_hexa_serializer_t * hexa_serializer,
 	      _lw6ker_history_t * history)
 {
   int ret = 1;
+  int i = 0, j = 0;
+
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  history->nb_entries);
+  for (i = 0; i < LW6KER_HISTORY_SIZE; ++i)
+    {
+      for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
+	{
+	  ret = ret
+	    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+						  history->nb_fighters[i][j]);
+	}
+    }
 
   return ret;
 }
