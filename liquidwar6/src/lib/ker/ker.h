@@ -465,6 +465,10 @@ extern char *lw6ker_game_struct_to_hexa (lw6ker_game_struct_t * game_struct);
 extern lw6ker_game_struct_t *lw6ker_game_struct_from_hexa (const char *hexa,
 							   lw6map_level_t *
 							   level);
+extern char *lw6ker_game_state_to_hexa (lw6ker_game_state_t * game_state);
+extern lw6ker_game_state_t *lw6ker_game_state_from_hexa (const char *hexa,
+							 lw6ker_game_struct_t
+							 * game_struct);
 
 /* ker-move.c */
 extern int lw6ker_move_get_best_next_pos (lw6ker_game_state_t * game_state,

@@ -706,6 +706,7 @@ pop_param (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_param_t * param)
 	  lw6map_rules_set_int (&(param->rules), key, value);
 	}
     }
+  ret = ret && lw6map_rules_sanity_check (&(param->rules));
 
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,

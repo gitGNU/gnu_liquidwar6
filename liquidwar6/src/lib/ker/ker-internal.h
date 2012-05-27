@@ -544,6 +544,10 @@ extern char *_lw6ker_game_struct_to_hexa (_lw6ker_game_struct_t *
 extern _lw6ker_game_struct_t *_lw6ker_game_struct_from_hexa (const char *hexa,
 							     lw6map_level_t *
 							     level);
+extern char *_lw6ker_game_state_to_hexa (_lw6ker_game_state_t * game_state);
+extern _lw6ker_game_state_t *_lw6ker_game_state_from_hexa (const char *hexa,
+							   _lw6ker_game_struct_t
+							   * game_struct);
 
 /* ker-history.c */
 extern void _lw6ker_history_set (_lw6ker_history_t * history,

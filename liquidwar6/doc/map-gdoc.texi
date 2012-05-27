@@ -672,6 +672,14 @@ Compares two rules items. Will tell if they contain the same data.
 @strong{Return value:}  1 if same, 0 if different.
 @end deftypefun
 
+@deftypefun {int} {lw6map_rules_sanity_check} (const lw6map_rules_t * @var{rules})
+@var{rules}:  rules to check.
+
+Check wether the rules are within the acceptable range.
+
+@strong{Return value:}  1 if same, 0 if different.
+@end deftypefun
+
 @deftypefun {void} {lw6map_style_zero} (lw6map_style_t * @var{style})
 @var{style}:  struct to initialize
 

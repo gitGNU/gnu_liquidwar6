@@ -373,6 +373,7 @@ _lw6ker_game_struct_from_hexa (const char *hexa, lw6map_level_t * level)
 	  _lw6ker_game_struct_set_id (game_struct);
 	  game_struct->level = level;
 	  lw6map_rules_copy (&(game_struct->rules), &(level->param.rules));
+	  ok = ok && lw6map_rules_sanity_check (&(game_struct->rules));
 	  ok = ok
 	    && pop_map_struct (hexa_serializer, &(game_struct->map_struct));
 
@@ -434,4 +435,66 @@ lw6ker_game_struct_from_hexa (const char *hexa, lw6map_level_t * level)
     (lw6ker_game_struct_t *) _lw6ker_game_struct_from_hexa (hexa, level);
 
   return game_struct;
+}
+
+char *
+_lw6ker_game_state_to_hexa (_lw6ker_game_state_t * game_state)
+{
+  char *ret = NULL;
+
+  return ret;
+}
+
+/**
+ * lw6ker_game_state_to_hexa
+ *
+ * @map: the map to convert
+ *
+ * Converts a map to something that is later readable by @lw6ker_game_state_from_hexa
+ * to reproduce the exact same map. Just a serializer.
+ *
+ * Return value: a newly allocated pointer, NULL if conversion failed.
+ */
+char *
+lw6ker_game_state_to_hexa (lw6ker_game_state_t * game_state)
+{
+  char *ret = NULL;
+
+  ret = _lw6ker_game_state_to_hexa ((_lw6ker_game_state_t *) game_state);
+
+  return ret;
+}
+
+_lw6ker_game_state_t *
+_lw6ker_game_state_from_hexa (const char *hexa,
+			      _lw6ker_game_struct_t * game_struct)
+{
+  _lw6ker_game_state_t *game_state = NULL;
+
+  return game_state;
+}
+
+/**
+ * lw6ker_game_state_from_hexa
+ *
+ * @hexa: an hexadecimal ASCII string, created by @lw6ker_game_state_to_hexa
+ * @game_struct: the game_struct this game_state is bounded to
+ *
+ * Constructs a game state from an hexadecimal string generated
+ * by @lw6ker_game_state_to_hexa. Just an un-serializer.
+ *
+ * Return value: a new map, might be NULL if string isn't correct.
+ */
+lw6ker_game_state_t *
+lw6ker_game_state_from_hexa (const char *hexa,
+			     lw6ker_game_struct_t * game_struct)
+{
+  lw6ker_game_state_t *game_state = NULL;
+
+  game_state =
+    (lw6ker_game_state_t *) _lw6ker_game_state_from_hexa (hexa,
+							  (_lw6ker_game_struct_t
+							   *) game_struct);
+
+  return game_state;
 }

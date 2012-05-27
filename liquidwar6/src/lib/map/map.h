@@ -1484,6 +1484,7 @@ extern int lw6map_rules_set_bool (lw6map_rules_t * rules, const char *key,
 extern void lw6map_rules_clear (lw6map_rules_t * rules);
 extern int lw6map_rules_is_same (const lw6map_rules_t * rules_a,
 				 const lw6map_rules_t * rules_b);
+extern int lw6map_rules_sanity_check (const lw6map_rules_t * rules);
 
 /* map-param.c */
 extern void lw6map_param_defaults (lw6map_param_t * param);

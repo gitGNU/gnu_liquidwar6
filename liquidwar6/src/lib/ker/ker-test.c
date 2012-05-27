@@ -556,19 +556,20 @@ test_hexa ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6map_level_t *level;
-    lw6ker_game_struct_t *game_struct;
-    //lw6ker_game_state_t *game_state;
-    lw6ker_game_struct_t *game_struct2;
-    //lw6ker_game_state_t *game_state2;
+    lw6map_level_t *level = NULL;
+    lw6ker_game_struct_t *game_struct = NULL;
+    lw6ker_game_state_t *game_state = NULL;
+    lw6ker_game_struct_t *game_struct2 = NULL;
+    lw6ker_game_state_t *game_state2 = NULL;
     u_int32_t checksum_struct = 0;
-    //u_int32_t checksum_state=0;
+    u_int32_t checksum_state = 0;
     u_int32_t checksum_struct2 = 0;
-    //u_int32_t checksum_state2=0;
+    u_int32_t checksum_state2 = 0;
     char *hexa_struct = NULL;
-    //char *hexa_state=NULL;
+    char *hexa_state = NULL;
     char *hexa_struct2 = NULL;
-    //char *hexa_state2=NULL;
+    char *hexa_state2 = NULL;
+    int i = 0;
 
     ret = 0;
     level =
@@ -583,7 +584,6 @@ test_hexa ()
 	    checksum_struct = lw6ker_game_struct_checksum (game_struct);
 	    hexa_struct = lw6ker_game_struct_to_hexa (game_struct);
 	    lw6ker_game_struct_free (game_struct);
-
 	    if (hexa_struct)
 	      {
 		game_struct2 =
@@ -604,8 +604,93 @@ test_hexa ()
 			if (checksum_struct == checksum_struct2
 			    && lw6sys_str_is_same (hexa_struct, hexa_struct2))
 			  {
-			    // todo: same with state
-			    ret = 1;
+			    game_state =
+			      lw6ker_game_state_new (game_struct2, NULL);
+			    if (game_state)
+			      {
+				lw6ker_game_state_register_node (game_state,
+								 TEST_NODE_ID);
+				lw6ker_game_state_add_cursor (game_state,
+							      TEST_NODE_ID,
+							      TEST_CURSOR1_ID,
+							      TEST_COLOR1);
+				lw6ker_game_state_add_cursor (game_state,
+							      TEST_NODE_ID,
+							      TEST_CURSOR2_ID,
+							      TEST_COLOR2);
+				for (i = 0; i < TEST_NB_ROUNDS; ++i)
+				  {
+				    lw6ker_game_state_do_round (game_state);
+				  }
+				print_game_state_repr (game_state);
+				checksum_state =
+				  lw6ker_game_state_checksum (game_state);
+				hexa_state =
+				  lw6ker_game_state_to_hexa (game_state);
+				lw6ker_game_state_free (game_state);
+
+				if (hexa_state)
+				  {
+				    game_state2 =
+				      lw6ker_game_state_from_hexa (hexa_state,
+								   game_struct2);
+				    if (game_state2)
+				      {
+					checksum_state2 =
+					  lw6ker_game_state_checksum
+					  (game_state2);
+					hexa_state2 =
+					  lw6ker_game_state_to_hexa
+					  (game_state2);
+					if (hexa_state2)
+					  {
+					    lw6sys_log (LW6SYS_LOG_NOTICE,
+							_x_
+							("hexa_state length=%d hexa_state2 length=%d checksum_state=%08x checksum_state2=%08x"),
+							(int)
+							strlen (hexa_state),
+							(int)
+							strlen (hexa_state2),
+							checksum_state,
+							checksum_state2);
+					    if (checksum_state ==
+						checksum_state2
+						&&
+						lw6sys_str_is_same
+						(hexa_state, hexa_state2))
+					      {
+						// todo: same with state
+						ret = 1;
+					      }
+					    else
+					      {
+						if (checksum_state !=
+						    checksum_state2)
+						  {
+						    lw6sys_log
+						      (LW6SYS_LOG_WARNING,
+						       _x_
+						       ("game_state checksums differ"));
+						  }
+						if (!lw6sys_str_is_same
+						    (hexa_state, hexa_state2))
+						  {
+						    lw6sys_log
+						      (LW6SYS_LOG_WARNING,
+						       _x_
+						       ("game_state hexa dumps differ"));
+						  }
+						ret = 0;
+					      }
+					    LW6SYS_FREE (hexa_state2);
+					  }
+					lw6ker_game_state_free (game_state2);
+					game_state2 = NULL;
+				      }
+				    LW6SYS_FREE (hexa_state);
+				  }
+			      }
+			    ret = 1;	// todo, remove when state is OK
 			  }
 			else
 			  {

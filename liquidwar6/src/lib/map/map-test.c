@@ -581,6 +581,30 @@ test_rules ()
 		    ("rules checksum is %08x and should be %08x"),
 		    checksum, TEST_RULES_CHECKSUM);
 	ret = ret && (checksum == TEST_RULES_CHECKSUM);
+	if (lw6map_rules_sanity_check (rules))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("rules are valid, as sanity_check says"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("sanity_check failed"));
+	    ret = 0;
+	  }
+	rules->total_time = LW6MAP_RULES_MAX_TOTAL_TIME + 1;
+	rules->moves_per_round = LW6MAP_RULES_MIN_MOVES_PER_ROUND - 1;
+	if (!lw6map_rules_sanity_check (rules))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("rules are not valid, as sanity_check says, this is fine"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("sanity_check return true, this is wrong"));
+	    ret = 0;
+	  }
 	LW6SYS_FREE (rules);
       }
     else

@@ -1799,3 +1799,57 @@ lw6map_rules_is_same (const lw6map_rules_t * rules_a,
 
   return ret;
 }
+
+/**
+ * lw6map_rules_sanity_check
+ *
+ * @rules: rules to check.
+ *
+ * Check wether the rules are within the acceptable range.
+ *
+ * Return value: 1 if same, 0 if different.
+ */
+int
+lw6map_rules_sanity_check (const lw6map_rules_t * rules)
+{
+  int i = 0;
+  int value = 0;
+  int min_value = 0;
+  int max_value = 0;
+  const char *key = NULL;
+  int ret = 1;
+  const int32_t *ptr = NULL;
+
+  while ((key = LW6MAP_RULES_LIST[i]) != NULL)
+    {
+      ptr = get_rules_int_ptr (rules, key);
+      if (ptr)
+	{
+	  /*
+	   * We don't use lw6map_rules_get_int here, for it would
+	   * automatically fix out of bound values, and the idea, here
+	   * is to trap errors.
+	   */
+	  value = *ptr;
+	  min_value = lw6map_rules_get_min (key);
+	  max_value = lw6map_rules_get_max (key);
+	  if (value < min_value || value > max_value)
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("value for rules key \"%s\" is out of range (value=%d min=%d max=%d)"),
+			  key, value, min_value, max_value);
+	      ret = 0;
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("get get pointer for rules key \"%s\""), key);
+	  ret = 0;
+	}
+      ++i;
+    }
+
+  return ret;
+}
