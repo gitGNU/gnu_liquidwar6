@@ -604,6 +604,7 @@ test_hexa ()
 			if (checksum_struct == checksum_struct2
 			    && lw6sys_str_is_same (hexa_struct, hexa_struct2))
 			  {
+			    ret = 1;	// todo: remove this when state works
 			    game_state =
 			      lw6ker_game_state_new (game_struct2, NULL);
 			    if (game_state)
@@ -690,7 +691,6 @@ test_hexa ()
 				    LW6SYS_FREE (hexa_state);
 				  }
 			      }
-			    ret = 1;	// todo, remove when state is OK
 			  }
 			else
 			  {
