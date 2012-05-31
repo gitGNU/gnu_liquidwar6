@@ -240,7 +240,7 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 
   ret = ret
     && lw6sys_hexa_serializer_pop_whd (hexa_serializer, &(map_struct->shape));
-  if (!lw6sys_shape_check_min_max_whd
+  if (ret && !lw6sys_shape_check_min_max_whd
       (&(map_struct->shape), &shape_min, &shape_max))
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
@@ -309,10 +309,18 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 	(_lw6ker_place_struct_t *) LW6SYS_CALLOC (map_struct->nb_places *
 						  sizeof
 						  (_lw6ker_place_struct_t));
-      for (i = 0; i < map_struct->nb_places; ++i)
+      if (ret && map_struct->places)
 	{
-	  ret = ret
-	    && pop_place_struct (hexa_serializer, &(map_struct->places[i]));
+	  for (i = 0; i < map_struct->nb_places; ++i)
+	    {
+	      ret = ret
+		&& pop_place_struct (hexa_serializer,
+				     &(map_struct->places[i]));
+	    }
+	}
+      else
+	{
+	  ret = 0;
 	}
     }
   if (ret)
@@ -321,10 +329,17 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 	(_lw6ker_zone_struct_t *) LW6SYS_CALLOC (map_struct->nb_zones *
 						 sizeof
 						 (_lw6ker_zone_struct_t));
-      for (i = 0; i < map_struct->nb_zones; ++i)
+      if (ret && map_struct->nb_zones)
 	{
-	  ret = ret
-	    && pop_zone_struct (hexa_serializer, &(map_struct->zones[i]));
+	  for (i = 0; i < map_struct->nb_zones; ++i)
+	    {
+	      ret = ret
+		&& pop_zone_struct (hexa_serializer, &(map_struct->zones[i]));
+	    }
+	}
+      else
+	{
+	  ret = 0;
 	}
     }
   if (ret)
@@ -333,10 +348,17 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 	(_lw6ker_slot_struct_t *) LW6SYS_CALLOC (map_struct->nb_slots *
 						 sizeof
 						 (_lw6ker_slot_struct_t));
-      for (i = 0; i < map_struct->nb_slots; ++i)
+      if (ret && map_struct->slots)
 	{
-	  ret = ret
-	    && pop_slot_struct (hexa_serializer, &(map_struct->slots[i]));
+	  for (i = 0; i < map_struct->nb_slots; ++i)
+	    {
+	      ret = ret
+		&& pop_slot_struct (hexa_serializer, &(map_struct->slots[i]));
+	    }
+	}
+      else
+	{
+	  ret = 0;
 	}
     }
 
@@ -768,12 +790,85 @@ lw6ker_game_state_to_hexa (lw6ker_game_state_t * game_state)
 }
 
 static int
+pop_fighter (lw6sys_hexa_serializer_t * hexa_serializer,
+	     lw6ker_fighter_t * fighter)
+{
+  int ret = 1;
+  int8_t tmp8 = 0;
+  int16_t tmp16 = 0;
+
+  ret = ret && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &tmp8);
+  fighter->team_color = tmp8;
+  ret = ret && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &tmp8);
+  fighter->last_direction = tmp8;
+  ret = ret && lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &tmp16);
+  fighter->health = tmp16;
+  ret = ret && lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &tmp16);
+  fighter->act_counter = tmp16;
+  ret = ret
+    && lw6sys_hexa_serializer_pop_xyz (hexa_serializer, &(fighter->pos));
+
+  return ret;
+}
+
+static int
 pop_armies (lw6sys_hexa_serializer_t * hexa_serializer,
 	    _lw6ker_armies_t * armies)
 {
   int ret = 1;
+  int i = 0;
 
-  ret = 0;			// todo
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(armies->max_fighters));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(armies->active_fighters));
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      ret = ret
+	&& lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					     &(armies->fighters_per_team[i]));
+    }
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      ret = ret
+	&& lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					     &(armies->frags[i]));
+    }
+  if (ret)
+    {
+      armies->fighters =
+	(lw6ker_fighter_t *) LW6SYS_CALLOC (armies->max_fighters *
+					    sizeof (lw6ker_fighter_t));
+      if (ret && armies->fighters)
+	{
+	  for (i = 0; i < armies->max_fighters; ++i)
+	    {
+	      ret = ret
+		&& pop_fighter (hexa_serializer, &(armies->fighters[i]));
+	    }
+	}
+    }
+
+  return ret;
+}
+
+static int
+pop_zone_state (lw6sys_hexa_serializer_t * hexa_serializer,
+		_lw6ker_zone_state_t * zone)
+{
+  int ret = 1;
+  int8_t tmp8 = 0;
+  int32_t tmp32 = 0;
+
+  ret = ret && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &tmp32);
+  zone->potential = tmp32;
+  ret = ret && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &tmp8);
+  zone->direction_to_cursor = tmp8;
+  ret = ret
+    && lw6sys_hexa_serializer_pop_xyz (hexa_serializer,
+				       &(zone->closest_cursor_pos));
 
   return ret;
 }
@@ -782,8 +877,88 @@ static int
 pop_team (lw6sys_hexa_serializer_t * hexa_serializer, _lw6ker_team_t * team)
 {
   int ret = 1;
+  int i = 0;
 
-  ret = 0;			// todo
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(team->active));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(team->has_been_active));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(team->respawn_round));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(team->offline));
+  if (ret)
+    {
+      team->gradient =
+	(_lw6ker_zone_state_t *) LW6SYS_CALLOC (team->map_struct->nb_zones *
+						sizeof
+						(_lw6ker_zone_state_t));
+      if (ret && team->gradient)
+	{
+	  for (i = 0; i < team->map_struct->nb_zones; ++i)
+	    {
+	      ret = ret
+		&& pop_zone_state (hexa_serializer, &(team->gradient[i]));
+	    }
+	}
+      else
+	{
+	  ret = 0;
+	}
+    }
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(team->cursor_ref_pot));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(team->last_spread_dir));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(team->charge));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(team->weapon_id));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(team->weapon_first_round));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(team->weapon_last_round));
+
+  return ret;
+}
+
+static int
+pop_cursor (lw6sys_hexa_serializer_t * hexa_serializer,
+	    lw6ker_cursor_t * cursor)
+{
+  int ret = 1;
+  int64_t tmp64 = 0LL;
+  int16_t tmp16 = 0;
+  int8_t tmp8 = 0;
+
+  ret = ret && lw6sys_hexa_serializer_pop_int64 (hexa_serializer, &tmp64);
+  cursor->node_id = tmp64;
+  ret = ret && lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &tmp16);
+  cursor->cursor_id = tmp16;
+  ret = ret && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &tmp8);
+  cursor->letter = tmp8;
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(cursor->enabled));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(cursor->team_color));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_xyz (hexa_serializer, &(cursor->pos));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(cursor->fire));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(cursor->fire2));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_xyz (hexa_serializer, &(cursor->apply_pos));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(cursor->pot_offset));
 
   return ret;
 }
@@ -793,8 +968,15 @@ pop_cursor_array (lw6sys_hexa_serializer_t * hexa_serializer,
 		  _lw6ker_cursor_array_t * cursor_array)
 {
   int ret = 1;
+  int i = 0;
 
-  ret = 0;			// todo
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(cursor_array->nb_cursors));
+  for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
+    {
+      ret = ret && pop_cursor (hexa_serializer, &(cursor_array->cursors[i]));
+    }
 
   return ret;
 }
@@ -805,7 +987,9 @@ pop_slot_state (lw6sys_hexa_serializer_t * hexa_serializer,
 {
   int ret = 1;
 
-  ret = 0;			// todo
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(slot->fighter_id));
 
   return ret;
 }
@@ -836,32 +1020,101 @@ pop_map_state (lw6sys_hexa_serializer_t * hexa_serializer,
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(map_state->nb_slots));
-  for (i = 0; i < map_state->nb_slots; ++i)
+  if (ret && map_state->nb_slots != map_state->map_struct->nb_slots)
     {
-      ret = ret && pop_slot_state (hexa_serializer, &(map_state->slots[i]));
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
+		  ("map_state->nb_slots=%d but map_state->map_struct->nb_slots=%d"),
+		  map_state->nb_slots, map_state->map_struct->nb_slots);
+      ret = 0;
+    }
+  if (ret)
+    {
+      map_state->slots =
+	(_lw6ker_slot_state_t *) LW6SYS_CALLOC (map_state->nb_slots *
+						sizeof
+						(_lw6ker_slot_state_t));
+      if (ret && map_state->slots)
+	{
+	  for (i = 0; i < map_state->map_struct->nb_slots; ++i)
+	    {
+	      ret = ret
+		&& pop_slot_state (hexa_serializer, &(map_state->slots[i]));
+	    }
+	}
+    }
+
+  if (ret)
+    {
+      if (!_lw6ker_map_state_sanity_check (map_state))
+	{
+	  ret = 0;
+	}
+    }
+
+  if (!ret)
+    {
+      _lw6ker_map_state_clear (map_state);
     }
 
   return ret;
 }
 
 static int
-pop_node_array (lw6sys_hexa_serializer_t * hexa_serializer,
-		_lw6ker_node_array_t * slot)
+pop_node (lw6sys_hexa_serializer_t * hexa_serializer, _lw6ker_node_t * node)
 {
   int ret = 1;
+  int64_t tmp64 = 0LL;
 
-  ret = 0;			// todo
+  ret = ret && lw6sys_hexa_serializer_pop_int64 (hexa_serializer, &tmp64);
+  node->node_id = tmp64;
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(node->enabled));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(node->last_command_round));
+
+  return ret;
+}
+
+static int
+pop_node_array (lw6sys_hexa_serializer_t * hexa_serializer,
+		_lw6ker_node_array_t * node_array)
+{
+  int ret = 1;
+  int i = 0;
+
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(node_array->nb_nodes));
+  for (i = 0; i < LW6MAP_MAX_NB_NODES; ++i)
+    {
+      ret = ret && pop_node (hexa_serializer, &(node_array->nodes[i]));
+    }
 
   return ret;
 }
 
 static int
 pop_history (lw6sys_hexa_serializer_t * hexa_serializer,
-	     _lw6ker_history_t * slot)
+	     _lw6ker_history_t * history)
 {
   int ret = 1;
+  int i = 0, j = 0;
 
-  ret = 0;			// todo
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(history->nb_entries));
+  for (i = 0; i < LW6KER_HISTORY_SIZE; ++i)
+    {
+      for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
+	{
+	  ret = ret
+	    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+						 &(history->nb_fighters[i]
+						   [j]));
+	}
+    }
 
   return ret;
 }

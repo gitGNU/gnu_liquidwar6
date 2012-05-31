@@ -143,7 +143,7 @@ typedef struct _lw6ker_node_s
 {
   u_int64_t node_id;
   int enabled;
-  u_int32_t last_command_round;
+  int last_command_round;
 }
 _lw6ker_node_t;
 

@@ -1,3 +1,7 @@
+2012-05-31 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Game state serialization works.
+
 2012-05-27 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Preparing game_state serialization, added checks for map and game_struct.
