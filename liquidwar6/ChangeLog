@@ -1,5 +1,7 @@
 2012-06-02 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added coverage support for scripts (C to Guile).
+
 	* Added spinlock protection on cfg object.
 
 2012-05-31 : Christian Mauduit <ufoot@ufoot.org>

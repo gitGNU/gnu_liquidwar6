@@ -55,6 +55,7 @@ int
 lw6_init_global (int argc, const char *argv[])
 {
   int ret = 0;
+  lw6sys_list_t *funcs = NULL;
 
   memset (&lw6_global, 0, sizeof (lw6_global_t));
 
@@ -100,6 +101,21 @@ lw6_init_global (int argc, const char *argv[])
       lw6sys_assoc_new ((void (*)(void *)) lw6_free_node_smob)) != NULL) &&
     ((lw6_global.jpeg_smobs =
       lw6sys_assoc_new ((void (*)(void *)) lw6_free_jpeg_smob)) != NULL);
+
+  if (ret)
+    {
+      funcs = lw6hlp_list_funcs ();
+      if (funcs)
+	{
+	  ret = ret
+	    && ((lw6_global.coverage = lw6scm_coverage_new (funcs)) != NULL);
+	  lw6sys_list_free (funcs);
+	}
+      else
+	{
+	  ret = 0;
+	}
+    }
 
   LW6_MUTEX_UNLOCK;
 
@@ -152,6 +168,10 @@ quit_net ()
 void
 lw6_quit_global ()
 {
+  lw6scm_coverage_log (lw6_global.coverage);
+  lw6sys_hash_free (lw6_global.coverage);
+  lw6_global.coverage = NULL;
+
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("final garbage collection"));
 
   LW6_MUTEX_LOCK;

@@ -298,6 +298,12 @@ typedef struct lw6_global_s
   lw6sys_assoc_t *node_smobs;
   /// Assoc with all jpeg smobs.
   lw6sys_assoc_t *jpeg_smobs;
+  /**
+   * Coverage hash, keeps a track of all calls to script functions,
+   * this way one can figure out wether a C function exported to
+   * script has been called, and how many times.
+   */
+  lw6sys_hash_t *coverage;
 }
 lw6_global_t;
 

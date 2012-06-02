@@ -356,6 +356,8 @@ src/lib/pil/pil-spread.c
 src/lib/pil/pil-test.c
 src/lib/pil/pil-testmain.c
 src/lib/pil/pil-worker.c
+src/lib/scm/scm-coverage.c
+src/lib/scm/scm-funcname.c
 src/lib/scm/scm-test.c
 src/lib/scm/scm-testmain.c
 src/lib/scm/scm-wrapper.c

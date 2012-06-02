@@ -597,6 +597,9 @@ _scm_gettext (SCM string)
   char *c_string;
   SCM ret = SCM_BOOL_F;
 
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
   SCM_ASSERT (scm_is_string (string), string, SCM_ARG1, __FUNCTION__);
 
   c_string = to_0str (string);
@@ -605,6 +608,8 @@ _scm_gettext (SCM string)
       ret = scm_from_locale_string (gettext (c_string));
       LW6SYS_FREE (c_string);
     }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
 
   return ret;
 }
@@ -623,6 +628,7 @@ _scm_lw6sys_set_memory_bazooka_size (SCM size)
   int c_size;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_integer (size), size, SCM_ARG1, __FUNCTION__);
 
@@ -642,6 +648,7 @@ _scm_lw6sys_set_memory_bazooka_eraser (SCM state)
   int c_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_bool (state), state, SCM_ARG1, __FUNCTION__);
 
@@ -663,6 +670,7 @@ _scm_lw6sys_build_get_package_tarname ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_package_tarname ());
 
@@ -677,6 +685,7 @@ _scm_lw6sys_build_get_package_name ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_package_name ());
 
@@ -691,6 +700,7 @@ _scm_lw6sys_build_get_package_string ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_package_string ());
 
@@ -705,6 +715,7 @@ _scm_lw6sys_build_get_version ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_version ());
 
@@ -719,6 +730,7 @@ _scm_lw6sys_build_get_codename ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_codename ());
 
@@ -733,6 +745,7 @@ _scm_lw6sys_build_get_stamp ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_stamp ());
 
@@ -747,6 +760,7 @@ _scm_lw6sys_build_get_md5sum ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_md5sum ());
 
@@ -761,6 +775,7 @@ _scm_lw6sys_build_get_copyright ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_copyright ());
 
@@ -775,6 +790,7 @@ _scm_lw6sys_build_get_license ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_license ());
 
@@ -789,6 +805,7 @@ _scm_lw6sys_build_get_home_url ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_home_url ());
 
@@ -803,6 +820,7 @@ _scm_lw6sys_build_get_bugs_url ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_bugs_url ());
 
@@ -817,6 +835,7 @@ _scm_lw6sys_build_get_configure_args ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_configure_args ());
 
@@ -831,6 +850,7 @@ _scm_lw6sys_build_get_gcc_version ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_gcc_version ());
 
@@ -845,6 +865,7 @@ _scm_lw6sys_build_get_cflags ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_cflags ());
 
@@ -859,6 +880,7 @@ _scm_lw6sys_build_get_ldflags ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_ldflags ());
 
@@ -873,6 +895,7 @@ _scm_lw6sys_build_get_hostname ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_hostname ());
 
@@ -887,6 +910,7 @@ _scm_lw6sys_build_get_date ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_date ());
 
@@ -901,6 +925,7 @@ _scm_lw6sys_build_get_time ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_time ());
 
@@ -915,6 +940,7 @@ _scm_lw6sys_build_get_host_cpu ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_host_cpu ());
 
@@ -929,6 +955,7 @@ _scm_lw6sys_build_get_endianness ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_endianness ());
 
@@ -943,6 +970,7 @@ _scm_lw6sys_build_get_pointer_size ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_int (lw6sys_build_get_pointer_size ());
 
@@ -957,6 +985,7 @@ _scm_lw6sys_build_is_x86 ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_int (lw6sys_build_is_x86 ());
 
@@ -971,6 +1000,7 @@ _scm_lw6sys_build_get_host_os ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_host_os ());
 
@@ -985,6 +1015,7 @@ _scm_lw6sys_build_is_gnu ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = lw6sys_build_is_gnu ()? SCM_BOOL_T : SCM_BOOL_F;
 
@@ -999,6 +1030,7 @@ _scm_lw6sys_build_is_unix ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = lw6sys_build_is_unix ()? SCM_BOOL_T : SCM_BOOL_F;
 
@@ -1013,6 +1045,7 @@ _scm_lw6sys_build_is_ms_windows ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = lw6sys_build_is_ms_windows ()? SCM_BOOL_T : SCM_BOOL_F;
 
@@ -1027,6 +1060,7 @@ _scm_lw6sys_build_is_mac_os_x ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = lw6sys_build_is_mac_os_x ()? SCM_BOOL_T : SCM_BOOL_F;
 
@@ -1041,6 +1075,7 @@ _scm_lw6sys_build_is_gp2x ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = lw6sys_build_is_gp2x ()? SCM_BOOL_T : SCM_BOOL_F;
 
@@ -1055,6 +1090,7 @@ _scm_lw6sys_build_get_top_srcdir ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_top_srcdir ());
 
@@ -1069,6 +1105,7 @@ _scm_lw6sys_build_get_prefix ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_prefix ());
 
@@ -1083,6 +1120,7 @@ _scm_lw6sys_build_get_datadir ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_datadir ());
 
@@ -1097,6 +1135,7 @@ _scm_lw6sys_build_get_libdir ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_libdir ());
 
@@ -1111,6 +1150,7 @@ _scm_lw6sys_build_get_includedir ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_includedir ());
 
@@ -1125,6 +1165,7 @@ _scm_lw6sys_build_get_localedir ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_localedir ());
 
@@ -1139,6 +1180,7 @@ _scm_lw6sys_build_get_enable_console ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_console ());
 
@@ -1153,6 +1195,7 @@ _scm_lw6sys_build_get_enable_gtk ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_gtk ());
 
@@ -1167,6 +1210,7 @@ _scm_lw6sys_build_get_enable_mod_gl ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_mod_gl ());
 
@@ -1181,6 +1225,7 @@ _scm_lw6sys_build_get_enable_mod_csound ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_mod_csound ());
 
@@ -1195,6 +1240,7 @@ _scm_lw6sys_build_get_enable_mod_ogg ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_mod_ogg ());
 
@@ -1209,6 +1255,7 @@ _scm_lw6sys_build_get_enable_mod_http ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_mod_http ());
 
@@ -1223,6 +1270,7 @@ _scm_lw6sys_build_get_enable_openmp ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_openmp ());
 
@@ -1237,6 +1285,7 @@ _scm_lw6sys_build_get_enable_optimize ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_optimize ());
 
@@ -1251,6 +1300,7 @@ _scm_lw6sys_build_get_enable_allinone ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_allinone ());
 
@@ -1265,6 +1315,7 @@ _scm_lw6sys_build_get_enable_fullstatic ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_fullstatic ());
 
@@ -1279,6 +1330,7 @@ _scm_lw6sys_build_get_enable_paranoid ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_paranoid ());
 
@@ -1293,6 +1345,7 @@ _scm_lw6sys_build_get_enable_gprof ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_gprof ());
 
@@ -1307,6 +1360,7 @@ _scm_lw6sys_build_get_enable_instrument ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_instrument ());
 
@@ -1321,6 +1375,7 @@ _scm_lw6sys_build_get_enable_profiler ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_profiler ());
 
@@ -1335,6 +1390,7 @@ _scm_lw6sys_build_get_enable_gcov ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_gcov ());
 
@@ -1349,6 +1405,7 @@ _scm_lw6sys_build_get_enable_valgrind ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_enable_valgrind ());
 
@@ -1363,6 +1420,7 @@ _scm_lw6sys_build_get_bin_id ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_int (lw6sys_build_get_bin_id ());
 
@@ -1381,6 +1439,7 @@ _scm_lw6sys_debug_get ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = lw6sys_debug_get ()? SCM_BOOL_T : SCM_BOOL_F;
 
@@ -1395,6 +1454,7 @@ _scm_lw6sys_debug_set (SCM mode)
   int c_mode;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_bool (mode), mode, SCM_ARG1, __FUNCTION__);
 
@@ -1418,6 +1478,7 @@ _scm_lw6sys_dump (SCM content)
   char *user_dir = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (content), content, SCM_ARG1, __FUNCTION__);
 
@@ -1445,6 +1506,7 @@ _scm_lw6sys_dump_clear ()
   char *user_dir = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
   if (user_dir)
@@ -1468,6 +1530,7 @@ _scm_lw6sys_get_username ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_username ();
   if (buf)
@@ -1488,6 +1551,7 @@ _scm_lw6sys_get_hostname ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_hostname ();
   if (buf)
@@ -1509,6 +1573,7 @@ _scm_lw6sys_getenv (SCM key)
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
@@ -1537,6 +1602,7 @@ _scm_lw6sys_getenv_prefixed (SCM keyword)
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (keyword), keyword, SCM_ARG1, __FUNCTION__);
 
@@ -1618,6 +1684,7 @@ _scm_lw6sys_log (SCM level, SCM message)
   char *c_message;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_integer (level), level, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (message), message, SCM_ARG2, __FUNCTION__);
@@ -1641,6 +1708,7 @@ _scm_lw6sys_log_get_level ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_int (lw6sys_log_get_level ());
 
@@ -1655,6 +1723,7 @@ _scm_lw6sys_log_set_level (SCM level)
   int c_level;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_integer (level), level, SCM_ARG1, __FUNCTION__);
 
@@ -1675,6 +1744,7 @@ _scm_lw6sys_megabytes_available ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_int (lw6sys_megabytes_available ());
 
@@ -1692,6 +1762,7 @@ _scm_lw6sys_openmp_get_num_procs ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_int (lw6sys_openmp_get_num_procs ());
 
@@ -1710,6 +1781,7 @@ _scm_lw6sys_get_default_user_dir ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_default_user_dir ();
   if (buf)
@@ -1730,6 +1802,7 @@ _scm_lw6sys_get_default_config_file ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_default_config_file ();
   if (buf)
@@ -1750,6 +1823,7 @@ _scm_lw6sys_get_default_log_file ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_default_log_file ();
   if (buf)
@@ -1770,6 +1844,7 @@ _scm_lw6sys_get_default_prefix ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_default_prefix ();
   if (buf)
@@ -1790,6 +1865,7 @@ _scm_lw6sys_get_default_mod_dir ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_default_mod_dir ();
   if (buf)
@@ -1810,6 +1886,7 @@ _scm_lw6sys_get_default_data_dir ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_default_data_dir ();
   if (buf)
@@ -1830,6 +1907,7 @@ _scm_lw6sys_get_default_music_dir ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_default_music_dir ();
   if (buf)
@@ -1850,6 +1928,7 @@ _scm_lw6sys_get_default_music_path ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_default_music_path ();
   if (buf)
@@ -1870,6 +1949,7 @@ _scm_lw6sys_get_default_map_dir ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_default_map_dir ();
   if (buf)
@@ -1890,6 +1970,7 @@ _scm_lw6sys_get_default_map_path ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_default_map_path ();
   if (buf)
@@ -1910,6 +1991,7 @@ _scm_lw6sys_get_default_script_file ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_default_script_file ();
   if (buf)
@@ -1930,6 +2012,7 @@ _scm_lw6sys_get_cwd ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_cwd ();
   if (buf)
@@ -1950,6 +2033,7 @@ _scm_lw6sys_get_run_dir ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_run_dir (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -1970,6 +2054,7 @@ _scm_lw6sys_get_user_dir ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_user_dir (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -1990,6 +2075,7 @@ _scm_lw6sys_get_config_file ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_config_file (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -2010,6 +2096,7 @@ _scm_lw6sys_get_log_file ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_log_file (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -2030,6 +2117,7 @@ _scm_lw6sys_get_prefix ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_prefix (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -2050,6 +2138,7 @@ _scm_lw6sys_get_mod_dir ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_mod_dir (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -2070,6 +2159,7 @@ _scm_lw6sys_get_data_dir ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_data_dir (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -2090,6 +2180,7 @@ _scm_lw6sys_get_music_dir ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_music_dir (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -2110,6 +2201,7 @@ _scm_lw6sys_get_music_path ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_music_path (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -2130,6 +2222,7 @@ _scm_lw6sys_get_map_dir ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_map_dir (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -2150,6 +2243,7 @@ _scm_lw6sys_get_map_path ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_map_path (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -2170,6 +2264,7 @@ _scm_lw6sys_get_script_file ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6sys_get_script_file (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -2195,6 +2290,7 @@ _scm_lw6sys_path_concat (SCM path1, SCM path2)
   char *c_ret = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (path1), path1, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (path2), path2, SCM_ARG2, __FUNCTION__);
@@ -2229,6 +2325,7 @@ _scm_lw6sys_path_file_only (SCM path)
   char *c_ret = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (path), path, SCM_ARG1, __FUNCTION__);
 
@@ -2257,6 +2354,7 @@ _scm_lw6sys_path_parent (SCM path)
   char *c_ret = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (path), path, SCM_ARG1, __FUNCTION__);
 
@@ -2286,6 +2384,7 @@ _scm_lw6sys_path_split (SCM path)
   lw6sys_list_t *tmp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (path), path, SCM_ARG1, __FUNCTION__);
 
@@ -2326,6 +2425,7 @@ _scm_lw6sys_signal_custom (SCM trap_errors)
   int c_trap_errors;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_BOOLP (trap_errors), trap_errors, SCM_ARG1, __FUNCTION__);
 
@@ -2341,6 +2441,7 @@ static SCM
 _scm_lw6sys_signal_default ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   lw6sys_signal_default ();
 
@@ -2353,6 +2454,7 @@ static SCM
 _scm_lw6sys_signal_send_quit ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   lw6sys_signal_send_quit ();
 
@@ -2367,6 +2469,7 @@ _scm_lw6sys_signal_poll_quit ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = lw6sys_signal_poll_quit ()? SCM_BOOL_T : SCM_BOOL_F;
 
@@ -2384,6 +2487,7 @@ _scm_lw6sys_get_timestamp ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_long_long (lw6sys_get_timestamp ());
 
@@ -2398,6 +2502,7 @@ _scm_lw6sys_get_uptime ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_long_long (lw6sys_get_uptime ());
 
@@ -2412,6 +2517,7 @@ _scm_lw6sys_get_cycle ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_int (lw6sys_get_cycle ());
 
@@ -2426,6 +2532,7 @@ _scm_lw6sys_sleep (SCM seconds)
   float c_seconds;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_number (seconds), seconds, SCM_ARG1, __FUNCTION__);
 
@@ -2444,6 +2551,7 @@ _scm_lw6sys_delay (SCM msec)
   int c_msec;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_number (msec), msec, SCM_ARG1, __FUNCTION__);
 
@@ -2460,6 +2568,7 @@ static SCM
 _scm_lw6sys_idle ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   lw6sys_idle ();
 
@@ -2472,6 +2581,7 @@ static SCM
 _scm_lw6sys_snooze ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   lw6sys_snooze ();
 
@@ -2491,6 +2601,7 @@ _scm_lw6sys_url_canonize (SCM url)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (url), url, SCM_ARG1, __FUNCTION__);
 
@@ -2570,6 +2681,7 @@ _scm_lw6hlp_list_quick ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_quick ();
   if (c_list)
@@ -2590,6 +2702,7 @@ _scm_lw6hlp_list_doc ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_doc ();
   if (c_list)
@@ -2610,6 +2723,7 @@ _scm_lw6hlp_list_show ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_show ();
   if (c_list)
@@ -2630,6 +2744,7 @@ _scm_lw6hlp_list_path ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_path ();
   if (c_list)
@@ -2650,6 +2765,7 @@ _scm_lw6hlp_list_players ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_players ();
   if (c_list)
@@ -2670,6 +2786,7 @@ _scm_lw6hlp_list_input ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_input ();
   if (c_list)
@@ -2690,6 +2807,7 @@ _scm_lw6hlp_list_graphics ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_graphics ();
   if (c_list)
@@ -2710,6 +2828,7 @@ _scm_lw6hlp_list_sound ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_sound ();
   if (c_list)
@@ -2730,6 +2849,7 @@ _scm_lw6hlp_list_network ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_network ();
   if (c_list)
@@ -2750,6 +2870,7 @@ _scm_lw6hlp_list_map ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_map ();
   if (c_list)
@@ -2770,6 +2891,7 @@ _scm_lw6hlp_list_map_rules ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_map_rules ();
   if (c_list)
@@ -2790,6 +2912,7 @@ _scm_lw6hlp_list_map_hints ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_map_hints ();
   if (c_list)
@@ -2810,6 +2933,7 @@ _scm_lw6hlp_list_map_style ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_map_style ();
   if (c_list)
@@ -2830,6 +2954,7 @@ _scm_lw6hlp_list_map_teams ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_map_teams ();
   if (c_list)
@@ -2850,6 +2975,7 @@ _scm_lw6hlp_list_funcs ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_funcs ();
   if (c_list)
@@ -2870,6 +2996,7 @@ _scm_lw6hlp_list_hooks ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_hooks ();
   if (c_list)
@@ -2890,6 +3017,7 @@ _scm_lw6hlp_list_advanced ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_advanced ();
   if (c_list)
@@ -2910,6 +3038,7 @@ _scm_lw6hlp_list_aliases ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_aliases ();
   if (c_list)
@@ -2930,6 +3059,7 @@ _scm_lw6hlp_list_team_colors ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_team_colors ();
   if (c_list)
@@ -2950,6 +3080,7 @@ _scm_lw6hlp_list_weapons ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_weapons ();
   if (c_list)
@@ -2970,6 +3101,7 @@ _scm_lw6hlp_list ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list ();
   if (c_list)
@@ -2992,6 +3124,7 @@ _scm_lw6cfg_defaults ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cfg_context != NULL)
     {
@@ -3012,6 +3145,7 @@ _scm_lw6cfg_load (SCM filename)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cfg_context != NULL)
     {
@@ -3048,6 +3182,7 @@ _scm_lw6cfg_option_exists (SCM key)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cfg_context != NULL)
     {
@@ -3081,6 +3216,7 @@ _scm_lw6cfg_get_option (SCM key)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cfg_context != NULL)
     {
@@ -3096,9 +3232,7 @@ _scm_lw6cfg_get_option (SCM key)
 	  value = lw6cfg_get_option (lw6_global.cfg_context, c_key);
 	  if (value)
 	    {
-	      ret =
-		scm_from_locale_string (lw6cfg_get_option
-					(lw6_global.cfg_context, c_key));
+	      ret = scm_from_locale_string (value);
 	      LW6SYS_FREE (value);
 	    }
 
@@ -3115,6 +3249,7 @@ static SCM
 _scm_lw6cfg_set_option (SCM key, SCM value)
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cfg_context != NULL)
     {
@@ -3152,6 +3287,7 @@ _scm_lw6cfg_save (SCM filename)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cfg_context != NULL)
     {
@@ -3188,6 +3324,7 @@ _scm_lw6cfg_init ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   lw6_global.cfg_context = lw6cfg_init (lw6_global.argc, lw6_global.argv);
   lw6_global.cfg_initialized = lw6_global.cfg_context ? 1 : 0;
@@ -3202,6 +3339,7 @@ static SCM
 _scm_lw6cfg_quit ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cfg_context != NULL)
     {
@@ -3227,6 +3365,7 @@ _scm_lw6cfg_unified_get_user_dir ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -3247,6 +3386,7 @@ _scm_lw6cfg_unified_get_log_file ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6cfg_unified_get_log_file (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -3267,6 +3407,7 @@ _scm_lw6cfg_unified_get_music_path ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6cfg_unified_get_music_path (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -3287,6 +3428,7 @@ _scm_lw6cfg_unified_get_map_path ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   buf = lw6cfg_unified_get_map_path (lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -3322,6 +3464,7 @@ _scm_lw6gui_menu_new (SCM title, SCM help, SCM popup, SCM esc, SCM enable_esc)
   lw6gui_menu_t *c_menu = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   if (SCM_NFALSEP (title))
     {
@@ -3406,6 +3549,7 @@ _scm_lw6gui_menu_append (SCM menu, SCM menuitem)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.menu,
@@ -3467,6 +3611,7 @@ _scm_lw6gui_menu_sync (SCM menu, SCM menuitem)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.menu,
@@ -3526,6 +3671,7 @@ _scm_lw6gui_menu_select (SCM menu, SCM position, SCM allow_scroll)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.menu,
@@ -3553,6 +3699,7 @@ _scm_lw6gui_menu_select_esc (SCM menu, SCM state)
   int c_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.menu,
@@ -3576,6 +3723,7 @@ _scm_lw6gui_menu_enable_esc (SCM menu, SCM state)
   int c_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.menu,
@@ -3599,6 +3747,7 @@ _scm_lw6gui_menu_scroll_up (SCM menu)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.menu,
@@ -3620,6 +3769,7 @@ _scm_lw6gui_menu_scroll_down (SCM menu)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.menu,
@@ -3642,6 +3792,7 @@ _scm_lw6gui_menu_set_breadcrumbs (SCM menu, SCM breadcrumbs)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.menu,
@@ -3668,6 +3819,7 @@ _scm_lw6gui_menu_close_popup (SCM menu)
   lw6gui_menu_t *c_menu;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.menu,
@@ -3687,6 +3839,7 @@ _scm_lw6gui_menu_has_popup (SCM menu)
   lw6gui_menu_t *c_menu;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.menu,
@@ -3706,6 +3859,7 @@ _scm_lw6gui_default_look ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   c_look = lw6gui_look_new (NULL);
   if (c_look)
@@ -3727,6 +3881,7 @@ _scm_lw6gui_look_set (SCM look, SCM key, SCM value)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.look,
@@ -3766,6 +3921,7 @@ _scm_lw6gui_look_get (SCM look, SCM key)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.look,
@@ -3801,6 +3957,7 @@ _scm_lw6gui_look_zoom_in (SCM look, SCM zoom_step)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.look,
@@ -3830,6 +3987,7 @@ _scm_lw6gui_look_zoom_out (SCM look, SCM zoom_step)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.look,
@@ -3857,6 +4015,7 @@ _scm_lw6gui_input_reset (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -3879,6 +4038,7 @@ _scm_lw6gui_mouse_poll_move (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -3904,6 +4064,7 @@ _scm_lw6gui_mouse_get_state (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -3927,6 +4088,7 @@ _scm_lw6gui_keyboard_is_pressed (SCM dsp, SCM keysym)
   int c_keysym;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -3955,6 +4117,7 @@ _scm_lw6gui_keyboard_get_move_pad (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -3990,6 +4153,7 @@ _scm_lw6gui_joystick1_get_move_pad (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4026,6 +4190,7 @@ _scm_lw6gui_joystick2_get_move_pad (SCM dsp)
   lw6gui_move_pad_t move_pad;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4061,6 +4226,7 @@ _scm_lw6gui_mouse_pop_button_left (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4086,6 +4252,7 @@ _scm_lw6gui_mouse_pop_button_right (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4111,6 +4278,7 @@ _scm_lw6gui_mouse_pop_button_middle (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4136,6 +4304,7 @@ _scm_lw6gui_mouse_pop_simple_click (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4167,6 +4336,7 @@ _scm_lw6gui_mouse_pop_double_click (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4198,6 +4368,7 @@ _scm_lw6gui_mouse_pop_triple_click (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4229,6 +4400,7 @@ _scm_lw6gui_mouse_pop_wheel_up (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4254,6 +4426,7 @@ _scm_lw6gui_mouse_pop_wheel_down (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4279,6 +4452,7 @@ _scm_lw6gui_keyboard_pop_arrow_up (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4304,6 +4478,7 @@ _scm_lw6gui_keyboard_pop_arrow_down (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4329,6 +4504,7 @@ _scm_lw6gui_keyboard_pop_arrow_left (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4354,6 +4530,7 @@ _scm_lw6gui_keyboard_pop_arrow_right (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4379,6 +4556,7 @@ _scm_lw6gui_keyboard_pop_key_enter (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4404,6 +4582,7 @@ _scm_lw6gui_keyboard_pop_key_esc (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4429,6 +4608,7 @@ _scm_lw6gui_keyboard_pop_key_ctrl (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4454,6 +4634,7 @@ _scm_lw6gui_keyboard_pop_key_alt (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4479,6 +4660,7 @@ _scm_lw6gui_keyboard_pop_key_pgup (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4504,6 +4686,7 @@ _scm_lw6gui_keyboard_pop_key_pgdown (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4529,6 +4712,7 @@ _scm_lw6gui_joystick1_pop_pad_up (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4555,6 +4739,7 @@ _scm_lw6gui_joystick1_pop_pad_down (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4581,6 +4766,7 @@ _scm_lw6gui_joystick1_pop_pad_left (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4607,6 +4793,7 @@ _scm_lw6gui_joystick1_pop_pad_right (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4633,6 +4820,7 @@ _scm_lw6gui_joystick1_pop_button_a (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4659,6 +4847,7 @@ _scm_lw6gui_joystick1_pop_button_b (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4685,6 +4874,7 @@ _scm_lw6gui_joystick1_pop_button_c (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4711,6 +4901,7 @@ _scm_lw6gui_joystick1_pop_button_d (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4737,6 +4928,7 @@ _scm_lw6gui_joystick1_pop_button_e (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4763,6 +4955,7 @@ _scm_lw6gui_joystick1_pop_button_f (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4789,6 +4982,7 @@ _scm_lw6gui_joystick2_pop_pad_up (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4815,6 +5009,7 @@ _scm_lw6gui_joystick2_pop_pad_down (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4841,6 +5036,7 @@ _scm_lw6gui_joystick2_pop_pad_left (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4867,6 +5063,7 @@ _scm_lw6gui_joystick2_pop_pad_right (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4893,6 +5090,7 @@ _scm_lw6gui_joystick2_pop_button_a (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4919,6 +5117,7 @@ _scm_lw6gui_joystick2_pop_button_b (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4945,6 +5144,7 @@ _scm_lw6gui_joystick2_pop_button_c (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4971,6 +5171,7 @@ _scm_lw6gui_joystick2_pop_button_d (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -4997,6 +5198,7 @@ _scm_lw6gui_joystick2_pop_button_e (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -5023,6 +5225,7 @@ _scm_lw6gui_joystick2_pop_button_f (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -5060,6 +5263,7 @@ _scm_lw6gfx_get_backends ()
   char *module_name;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   backends = lw6gfx_get_backends (lw6_global.argc, lw6_global.argv);
   if (backends)
@@ -5103,6 +5307,7 @@ _scm_lw6dsp_new (SCM backend_name, SCM param)
   lw6dsp_backend_t *c_ret = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (backend_name),
 	      backend_name, SCM_ARG1, __FUNCTION__);
@@ -5142,6 +5347,7 @@ _scm_lw6dsp_release (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -5165,6 +5371,7 @@ _scm_lw6dsp_update (SCM dsp, SCM param)
   lw6dsp_param_t c_param;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -5191,6 +5398,7 @@ _scm_lw6dsp_get_nb_frames (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -5213,6 +5421,7 @@ _scm_lw6dsp_get_last_frame_rendering_time (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -5235,6 +5444,7 @@ _scm_lw6dsp_get_instant_fps (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -5257,6 +5467,7 @@ _scm_lw6dsp_get_average_fps (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -5279,6 +5490,7 @@ _scm_lw6dsp_get_video_mode (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -5314,6 +5526,7 @@ _scm_lw6dsp_get_fullscreen_modes (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
@@ -5406,6 +5619,7 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
   SCM item = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (map_path), relative_path, SCM_ARG1,
 	      __FUNCTION__);
@@ -5523,6 +5737,7 @@ _scm_lw6ldr_read (SCM dirname, SCM default_param, SCM forced_param,
   lw6sys_progress_t progress;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (dirname), dirname, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_CONSP (default_param)
@@ -5606,6 +5821,7 @@ _scm_lw6ldr_read_relative (SCM map_path, SCM relative_path, SCM default_param,
   lw6sys_progress_t progress;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (map_path), map_path, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (relative_path), relative_path, SCM_ARG2,
@@ -5684,6 +5900,7 @@ _scm_lw6ldr_print_examples ()
   char *user_dir = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
   if (user_dir)
@@ -5705,6 +5922,7 @@ _scm_lw6ldr_hints_get_default (SCM key)
   char *c_value = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
@@ -5733,6 +5951,7 @@ _scm_lw6ldr_exp_validate (SCM level)
   char *user_dir = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.map, level), level,
@@ -5766,6 +5985,7 @@ _scm_lw6ldr_chain_entry (SCM map_path, SCM relative_path)
   lw6ldr_entry_t *c_entry = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (map_path), map_path, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (relative_path), relative_path, SCM_ARG2,
@@ -5865,6 +6085,7 @@ _scm_lw6map_get_look (SCM level)
   lw6gui_look_t *c_look;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.map, level), level,
@@ -5894,6 +6115,7 @@ _scm_lw6map_param_get (SCM level, SCM key)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.map,
@@ -5928,6 +6150,7 @@ _scm_lw6map_get_music_dir (SCM level)
   lw6map_level_t *c_level;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.map, level), level,
@@ -6006,6 +6229,7 @@ _scm_lw6map_team_color_list ()
   char *user_dir = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
   if (user_dir)
@@ -6087,6 +6311,7 @@ _scm_lw6map_weapon_list ()
   char *user_dir = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
   if (user_dir)
@@ -6121,6 +6346,7 @@ _scm_lw6map_rules_get_default (SCM key)
   char *c_key = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
@@ -6144,6 +6370,7 @@ _scm_lw6map_rules_get_min (SCM key)
   char *c_key = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
@@ -6167,6 +6394,7 @@ _scm_lw6map_rules_get_max (SCM key)
   char *c_key = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
@@ -6189,6 +6417,7 @@ _scm_lw6map_rules_get_int (SCM game_struct, SCM key)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   lw6ker_game_struct_t *c_game_struct;
   char *c_key;
@@ -6224,6 +6453,7 @@ _scm_lw6map_style_get_default (SCM key)
   char *c_value = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
@@ -6252,6 +6482,7 @@ _scm_lw6map_teams_get_default (SCM key)
   char *c_value = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
@@ -6280,6 +6511,7 @@ _scm_lw6map_exp_is_team_color_allowed (SCM level, SCM team_color)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.map, level), level,
@@ -6310,6 +6542,7 @@ _scm_lw6map_exp_is_weapon_allowed (SCM level, SCM weapon)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.map, level), level,
@@ -6339,6 +6572,7 @@ _scm_lw6map_exp_get_unlocked_team_color ()
   char *user_dir;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
   if (user_dir)
@@ -6363,6 +6597,7 @@ _scm_lw6map_exp_get_unlocked_weapon (SCM weapon)
   char *user_dir;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
   if (user_dir)
@@ -6389,6 +6624,7 @@ _scm_lw6ker_build_game_struct (SCM level)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.map, level), level,
@@ -6417,6 +6653,7 @@ _scm_lw6ker_build_game_state (SCM game_struct)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_struct,
@@ -6445,6 +6682,7 @@ _scm_lw6ker_sync_game_state (SCM dst, SCM src)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -6473,6 +6711,7 @@ _scm_lw6ker_dup_game_state (SCM game_struct, SCM game_state)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_struct,
@@ -6508,6 +6747,7 @@ _scm_lw6ker_game_struct_checksum (SCM game_struct)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_struct,
@@ -6530,6 +6770,7 @@ _scm_lw6ker_game_state_checksum (SCM game_state)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -6554,6 +6795,7 @@ _scm_lw6ker_register_node (SCM game_state, SCM node_id)
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -6593,6 +6835,7 @@ _scm_lw6ker_unregister_node (SCM game_state, SCM node_id)
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -6632,6 +6875,7 @@ _scm_lw6ker_node_exists (SCM game_state, SCM node_id)
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -6676,6 +6920,7 @@ _scm_lw6ker_add_cursor (SCM game_state, SCM node_id, SCM cursor_id,
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -6735,6 +6980,7 @@ _scm_lw6ker_remove_cursor (SCM game_state, SCM node_id, SCM cursor_id)
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -6782,6 +7028,7 @@ _scm_lw6ker_cursor_exists (SCM game_state, SCM cursor_id)
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -6821,6 +7068,7 @@ _scm_lw6ker_get_cursor (SCM game_state, SCM cursor_id)
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -6899,6 +7147,7 @@ _scm_lw6ker_set_cursor (SCM game_state, SCM node_id, SCM cursor_id, SCM x,
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -6946,6 +7195,7 @@ static SCM
 _scm_lw6ker_do_round (SCM game_state)
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   lw6ker_game_state_t *c_game_state;
   SCM_ASSERT (SCM_SMOB_PREDICATE
@@ -6969,6 +7219,7 @@ _scm_lw6ker_get_moves (SCM game_state)
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -6991,6 +7242,7 @@ _scm_lw6ker_get_spreads (SCM game_state)
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -7013,6 +7265,7 @@ _scm_lw6ker_get_rounds (SCM game_state)
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -7035,6 +7288,7 @@ _scm_lw6ker_is_over (SCM game_state)
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -7062,6 +7316,7 @@ _scm_lw6ker_did_cursor_win (SCM game_state, SCM cursor_id)
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -7103,6 +7358,7 @@ _scm_lw6pil_bench ()
   float c_ret = 0.0f;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   lw6sys_progress_default (&progress, &(lw6_global.progress));
   lw6sys_progress_begin (&progress);
@@ -7130,6 +7386,7 @@ _scm_lw6pil_build_pilot (SCM game_state, SCM seq_0, SCM timestamp)
   lw6sys_progress_t progress;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -7169,6 +7426,7 @@ _scm_lw6pil_send_command (SCM pilot, SCM command_text, SCM verified)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7204,6 +7462,7 @@ _scm_lw6pil_local_command (SCM pilot, SCM command_text)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7237,6 +7496,7 @@ _scm_lw6pil_commit (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7264,6 +7524,7 @@ _scm_lw6pil_fix_coords (SCM game_state, SCM x, SCM y, SCM z)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -7307,6 +7568,7 @@ _scm_lw6pil_fix_coords_x10 (SCM game_state, SCM x, SCM y, SCM z)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -7349,6 +7611,7 @@ _scm_lw6pil_execute_command (SCM game_state, SCM command_text, SCM seq_0)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -7386,6 +7649,7 @@ _scm_lw6pil_local_cursors_set_main (SCM pilot, SCM cursor_id)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7424,6 +7688,7 @@ _scm_lw6pil_local_cursors_set_mouse_controlled (SCM pilot, SCM cursor_id,
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7460,6 +7725,7 @@ _scm_lw6pil_make_backup (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7484,6 +7750,7 @@ _scm_lw6pil_sync_from_backup (SCM target, SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -7517,6 +7784,7 @@ _scm_lw6pil_sync_from_reference (SCM target, SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -7552,6 +7820,7 @@ _scm_lw6pil_sync_from_draft (SCM target, SCM pilot, SCM dirty_read)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
@@ -7589,6 +7858,7 @@ _scm_lw6pil_calibrate (SCM pilot, SCM timestamp, SCM round)
   int c_round;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7617,6 +7887,7 @@ _scm_lw6pil_speed_up (SCM pilot, SCM round_inc)
   int c_round_inc;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7643,6 +7914,7 @@ _scm_lw6pil_slow_down (SCM pilot, SCM round_dec)
   int c_round_dec;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7670,6 +7942,7 @@ _scm_lw6pil_get_next_seq (SCM pilot, SCM timestamp)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7697,6 +7970,7 @@ _scm_lw6pil_get_last_commit_seq (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7720,6 +7994,7 @@ _scm_lw6pil_get_reference_current_seq (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7744,6 +8019,7 @@ _scm_lw6pil_get_reference_target_seq (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7768,6 +8044,7 @@ _scm_lw6pil_get_max_seq (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7791,6 +8068,7 @@ _scm_lw6pil_is_over (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7819,6 +8097,7 @@ _scm_lw6pil_did_cursor_win (SCM pilot, SCM cursor_id)
   lw6pil_pilot_t *c_pilot;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7857,6 +8136,7 @@ _scm_lw6pil_get_winner (SCM pilot)
   int c_ret;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7885,6 +8165,7 @@ _scm_lw6pil_get_looser (SCM pilot)
   int c_ret;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.pilot,
@@ -7911,6 +8192,7 @@ _scm_lw6pil_seq_random_0 ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_long_long (lw6pil_seq_random_0 ());
 
@@ -7937,6 +8219,7 @@ _scm_lw6snd_get_backends ()
   char *module_name;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   backends = lw6snd_get_backends (lw6_global.argc, lw6_global.argv);
   if (backends)
@@ -7983,6 +8266,7 @@ _scm_lw6snd_new (SCM backend_name, SCM fx_volume, SCM water_volume,
   lw6snd_backend_t *c_ret;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (backend_name),
 	      backend_name, SCM_ARG1, __FUNCTION__);
@@ -8026,6 +8310,7 @@ _scm_lw6snd_poll (SCM snd)
   lw6snd_backend_t *c_snd;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
@@ -8048,6 +8333,7 @@ _scm_lw6snd_release (SCM snd)
   lw6snd_backend_t *c_snd;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
@@ -8071,6 +8357,7 @@ _scm_lw6snd_play_fx (SCM snd, SCM fx_id)
   int c_fx_id;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
@@ -8096,6 +8383,7 @@ _scm_lw6snd_set_fx_volume (SCM snd, SCM fx_volume)
   float c_fx_volume;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
@@ -8120,6 +8408,7 @@ _scm_lw6snd_set_water_volume (SCM snd, SCM water_volume)
   float c_water_volume;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
@@ -8148,6 +8437,7 @@ _scm_lw6snd_is_music_file (SCM snd, SCM map_dir, SCM music_path,
   char *c_music_file = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
@@ -8196,6 +8486,7 @@ _scm_lw6snd_play_music_file (SCM snd, SCM map_dir, SCM music_path,
   char *c_music_file = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
@@ -8243,6 +8534,7 @@ _scm_lw6snd_play_music_random (SCM snd, SCM music_path, SCM music_filter,
   char *c_music_exclude = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
@@ -8287,6 +8579,7 @@ _scm_lw6snd_stop_music (SCM snd)
   lw6snd_backend_t *c_snd;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
@@ -8309,6 +8602,7 @@ _scm_lw6snd_set_music_volume (SCM snd, SCM music_volume)
   float c_music_volume;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
@@ -8338,6 +8632,7 @@ _scm_lw6cns_support ()
 {
   SCM ret = SCM_BOOL_F;
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = lw6cns_support ()? SCM_BOOL_T : SCM_BOOL_F;
 
@@ -8353,6 +8648,7 @@ static SCM
 _scm_lw6cns_init ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   if (!lw6_global.cns_initialized)
     {
@@ -8369,6 +8665,7 @@ static SCM
 _scm_lw6cns_quit ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cns_initialized)
     {
@@ -8385,6 +8682,7 @@ static SCM
 _scm_lw6cns_poll ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cns_initialized)
     {
@@ -8408,6 +8706,7 @@ _scm_lw6tsk_loader_new (SCM sleep)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_number (sleep), sleep, SCM_ARG1, __FUNCTION__);
 
@@ -8447,6 +8746,7 @@ _scm_lw6tsk_loader_push (SCM loader, SCM map_path, SCM relative_path,
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.loader,
@@ -8520,6 +8820,7 @@ _scm_lw6tsk_loader_pop (SCM loader)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.loader,
@@ -8568,6 +8869,7 @@ _scm_lw6tsk_loader_get_stage (SCM loader)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.loader,
@@ -8599,6 +8901,7 @@ _scm_lw6net_init (SCM net_log)
   int c_net_log = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_BOOLP (net_log), net_log, SCM_ARG1, __FUNCTION__);
 
@@ -8618,6 +8921,7 @@ static SCM
 _scm_lw6net_quit ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.net_initialized)
     {
@@ -8648,6 +8952,7 @@ _scm_lw6cli_get_backends ()
   char *module_name;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   backends = lw6cli_get_backends (lw6_global.argc, lw6_global.argv);
   if (backends)
@@ -8700,6 +9005,7 @@ _scm_lw6srv_get_backends ()
   char *module_name;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   backends = lw6srv_get_backends (lw6_global.argc, lw6_global.argv);
   if (backends)
@@ -8745,6 +9051,7 @@ _scm_lw6p2p_db_new (SCM name)
   lw6p2p_db_t *c_db;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (name), name, SCM_ARG1, __FUNCTION__);
 
@@ -8774,6 +9081,7 @@ _scm_lw6p2p_db_reset (SCM name)
   char *c_name = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (name), name, SCM_ARG1, __FUNCTION__);
 
@@ -8798,6 +9106,7 @@ _scm_lw6p2p_db_default_name ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6p2p_db_default_name ());
 
@@ -8842,6 +9151,7 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
   int c_trojan;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.net_initialized)
     {
@@ -8975,6 +9285,7 @@ _scm_lw6p2p_node_poll (SCM node)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.node,
@@ -8999,6 +9310,7 @@ _scm_lw6p2p_node_close (SCM node)
   lw6p2p_node_t *c_node;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.node,
@@ -9024,6 +9336,7 @@ _scm_lw6p2p_node_get_id (SCM node)
   char *c_ret_str = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.node,
@@ -9176,6 +9489,7 @@ _scm_lw6p2p_node_get_entries (SCM node)
   lw6sys_list_t *c_ret = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.node,
@@ -9217,6 +9531,7 @@ _scm_lw6bot_get_backends ()
   char *module_name;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   backends = lw6bot_get_backends (lw6_global.argc, lw6_global.argv);
   if (backends)
@@ -9268,6 +9583,7 @@ _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read,
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (backend_name), backend_name, SCM_ARG1,
 	      __FUNCTION__);
@@ -9339,6 +9655,7 @@ _scm_lw6bot_next_move (SCM bot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.bot, bot), bot, SCM_ARG1, __FUNCTION__);
@@ -9368,6 +9685,7 @@ static SCM
 _scm_lw6_release ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   lw6_release ();
 
@@ -9380,6 +9698,7 @@ static SCM
 _scm_lw6_exit ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   lw6_exit ();
 

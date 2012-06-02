@@ -47,10 +47,6 @@ get_option (int argc, const char *argv[], char *key)
 	      if (_lw6cfg_option_exists (cfg_context, key))
 		{
 		  ret = _lw6cfg_get_option (cfg_context, key);
-		  if (ret)
-		    {
-		      ret = lw6sys_str_copy (ret);
-		    }
 		}
 	    }
 	  LW6SYS_FREE (config_file);

@@ -43,7 +43,7 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6scm_c_define_gsubr (char *name, int req, int opt, int rst,
+lw6scm_c_define_gsubr (const char *name, int req, int opt, int rst,
 		       lw6scm_func_t fcn)
 {
   int ret = 0;
@@ -76,7 +76,7 @@ lw6scm_c_define_gsubr (char *name, int req, int opt, int rst,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6scm_c_primitive_load (char *filename)
+lw6scm_c_primitive_load (const char *filename)
 {
   int ret = 0;
 

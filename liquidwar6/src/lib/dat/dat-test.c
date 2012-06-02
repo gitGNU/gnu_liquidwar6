@@ -595,6 +595,9 @@ test_stack ()
 	msg4 = lw6sys_new_sprintf (_TEST_STACK_MSG_4, msg4_random_part);
 	if (msg4)
 	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("put a few messages in stack to test recollection of atoms into a full message"));
 	    if (_lw6dat_stack_put_msg
 		(&stack, _TEST_STACK_MSG_1, _TEST_STACK_SEND_FLAG)
 		&& _lw6dat_stack_put_msg (&stack, _TEST_STACK_MSG_2,
@@ -607,9 +610,6 @@ test_stack ()
 		&& _lw6dat_stack_put_msg (&stack, _TEST_STACK_MSG_6,
 					  _TEST_STACK_SEND_FLAG))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("put a few messages in stack to test recollection of atoms into a full message"));
 		msg_list = _lw6dat_stack_init_list ();
 		if (msg_list)
 		  {
@@ -652,13 +652,26 @@ test_stack ()
 					      _TEST_STACK_MISS_MAX_RANGE);
 		    if (miss)
 		      {
-			lw6sys_log (LW6SYS_LOG_WARNING,
-				    _x_ ("miss from_id=%" LW6SYS_PRINTF_LL
-					 "x serial_min=%d serial_max=%d, normally all messages should be complete"),
-				    (long long) miss->from_id,
-				    miss->serial_min, miss->serial_max);
+			if (miss->serial_min <= stack.serial_max)
+			  {
+			    lw6sys_log (LW6SYS_LOG_WARNING,
+					_x_ ("miss from_id=%" LW6SYS_PRINTF_LL
+					     "x miss->serial_min=%d miss->serial_max=%d stack.serial_min=%d stack.serial_max=%d, normally all messages should be complete"),
+					(long long) miss->from_id,
+					miss->serial_min, miss->serial_max,
+					stack.serial_min, stack.serial_max);
+			    ret = 0;
+			  }
+			else
+			  {
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_ ("miss from_id=%" LW6SYS_PRINTF_LL
+					     "x miss->serial_min=%d miss->serial_max=%d stack.serial_min=%d stack.serial_max=%d, since the range is outside (later than) our current data, it will simply cause a new fetch, this does not harm (and can help if remote host is stall)"),
+					(long long) miss->from_id,
+					miss->serial_min, miss->serial_max,
+					stack.serial_min, stack.serial_max);
+			  }
 			lw6dat_miss_free (miss);
-			ret = 0;
 		      }
 		  }
 	      }

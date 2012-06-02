@@ -412,6 +412,16 @@ Assoc with all jpeg smobs.
         
 @end defcv
 
+@defcv {Member} {lw6_global_s} {coverage}
+@strong{Type:} @code{lw6sys_hash_t *}
+
+@strong{Definition:} @code{lw6sys_hash_t* lw6_global_s::coverage}
+
+
+        
+Coverage hash, keeps a track of all calls to script functions, this way one can figure out wether a C function exported to script has been called, and how many times.         
+@end defcv
+
 
 
   

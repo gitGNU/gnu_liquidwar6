@@ -27,7 +27,7 @@ AM_LDFLAGS = @LW6_LDFLAGS@ @GUILE_LDFLAGS@
 endif
 
 noinst_LTLIBRARIES = libscm.la
-libscm_la_SOURCES = scm-test.c scm-wrapper.c
+libscm_la_SOURCES = scm-coverage.c scm-funcname.c scm-test.c scm-wrapper.c
 libscmdir= $(includedir)/@PACKAGE_TARNAME@/scm
 libscm_HEADERS = scm.h
 
