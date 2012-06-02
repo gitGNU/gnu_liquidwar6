@@ -39,6 +39,7 @@ typedef struct _lw6cfg_context_s
   const char **argv;
   char *config_file;
   lw6sys_hash_t *options;
+  lw6sys_spinlock_t *spinlock;
 }
 _lw6cfg_context_t;
 

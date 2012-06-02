@@ -1,3 +1,7 @@
+2012-06-02 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added spinlock protection on cfg object.
+
 2012-05-31 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Game state serialization works.

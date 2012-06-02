@@ -32,7 +32,11 @@ _lw6cfg_option_exists (_lw6cfg_context_t * context, const char *key)
 {
   int ret = 0;
 
-  ret = lw6sys_hash_has_key (context->options, key);
+  if (lw6sys_spinlock_lock (context->spinlock))
+    {
+      ret = lw6sys_hash_has_key (context->options, key);
+      lw6sys_spinlock_unlock (context->spinlock);
+    }
 
   return ret;
 }
@@ -58,7 +62,15 @@ _lw6cfg_get_option (_lw6cfg_context_t * context, const char *key)
 {
   char *ret = "";
 
-  ret = (char *) lw6sys_hash_get (context->options, key);
+  if (lw6sys_spinlock_lock (context->spinlock))
+    {
+      ret = (char *) lw6sys_hash_get (context->options, key);
+      if (ret)
+	{
+	  ret = lw6sys_str_copy (ret);
+	}
+      lw6sys_spinlock_unlock (context->spinlock);
+    }
 
   if (!ret)
     {
@@ -78,7 +90,7 @@ _lw6cfg_get_option (_lw6cfg_context_t * context, const char *key)
  * a string, typically the string one would pass on the command line or
  * set in a config file
  *
- * Return value: pointer to string, must not be freed.
+ * Return value: pointer to string, must be freed.
  */
 char *
 lw6cfg_get_option (void *context, const char *key)
@@ -95,7 +107,11 @@ _lw6cfg_set_option (_lw6cfg_context_t * context, const char *key,
   value_converted = lw6cfg_format_guess_type (key, value);
   if (value_converted)
     {
-      lw6sys_hash_set (context->options, key, (void *) value_converted);
+      if (lw6sys_spinlock_lock (context->spinlock))
+	{
+	  lw6sys_hash_set (context->options, key, (void *) value_converted);
+	  lw6sys_spinlock_unlock (context->spinlock);
+	}
     }
 }
 
@@ -127,6 +143,7 @@ _lw6cfg_get_option_int (_lw6cfg_context_t * context, const char *key)
   if (str)
     {
       ret = lw6sys_atoi (str);
+      LW6SYS_FREE (str);
     }
 
   return ret;
@@ -193,6 +210,7 @@ _lw6cfg_get_option_bool (_lw6cfg_context_t * context, const char *key)
   if (str)
     {
       ret = lw6sys_atoi (str) ? 1 : 0;
+      LW6SYS_FREE (str);
     }
 
   return ret;

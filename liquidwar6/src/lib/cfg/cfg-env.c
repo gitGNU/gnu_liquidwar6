@@ -75,9 +75,13 @@ merge_func (void *func_data, void *data)
 			      keyword, value_converted, env);
 		  LW6SYS_FREE (env);
 		}
-	      lw6sys_hash_set (cfg_context->options, keyword,
-			       value_converted);
-	      // no need to free value_converted now
+	      if (lw6sys_spinlock_lock (cfg_context->spinlock))
+		{
+		  lw6sys_hash_set (cfg_context->options, keyword,
+				   value_converted);
+		  // no need to free value_converted now
+		  lw6sys_spinlock_unlock (cfg_context->spinlock);
+		}
 	    }
 	  LW6SYS_FREE (value);
 	}

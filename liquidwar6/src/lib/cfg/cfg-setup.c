@@ -33,7 +33,7 @@ _lw6cfg_init (int argc, const char *argv[])
   _lw6cfg_context_t *cfg_context = NULL;
 
   cfg_context =
-    (_lw6cfg_context_t *) LW6SYS_MALLOC (sizeof (_lw6cfg_context_t));
+    (_lw6cfg_context_t *) LW6SYS_CALLOC (sizeof (_lw6cfg_context_t));
   if (cfg_context)
     {
       cfg_context->config_file = lw6sys_get_config_file (argc, argv);
@@ -43,9 +43,20 @@ _lw6cfg_init (int argc, const char *argv[])
 	    lw6sys_hash_new (lw6sys_free_callback, LW6HLP_APPROX_NB_ENTRIES);
 	  if (cfg_context->options)
 	    {
-	      cfg_context->argc = argc;
-	      cfg_context->argv = argv;
-	      _lw6cfg_parse_command_line (cfg_context);
+	      cfg_context->spinlock = lw6sys_spinlock_create ();
+	      if (cfg_context->spinlock)
+		{
+		  cfg_context->argc = argc;
+		  cfg_context->argv = argv;
+		  _lw6cfg_parse_command_line (cfg_context);
+		}
+	      else
+		{
+		  lw6sys_hash_free (cfg_context->options);
+		  LW6SYS_FREE (cfg_context->config_file);
+		  LW6SYS_FREE (cfg_context);
+		  cfg_context = NULL;
+		}
 	    }
 	  else
 	    {
@@ -92,8 +103,9 @@ _lw6cfg_quit (_lw6cfg_context_t * cfg_context)
 {
   if (cfg_context)
     {
-      LW6SYS_FREE (cfg_context->config_file);
+      lw6sys_spinlock_destroy (cfg_context->spinlock);
       lw6sys_hash_free (cfg_context->options);
+      LW6SYS_FREE (cfg_context->config_file);
       LW6SYS_FREE (cfg_context);
     }
 }

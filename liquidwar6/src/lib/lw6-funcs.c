@@ -3099,6 +3099,7 @@ _scm_lw6cfg_get_option (SCM key)
 	      ret =
 		scm_from_locale_string (lw6cfg_get_option
 					(lw6_global.cfg_context, c_key));
+	      LW6SYS_FREE (value);
 	    }
 
 	  LW6SYS_FREE (c_key);

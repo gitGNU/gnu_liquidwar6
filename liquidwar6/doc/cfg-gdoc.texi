@@ -105,7 +105,7 @@ Returns the current value for a given query, the returned value is always
 a string, typically the string one would pass on the command line or
 set in a config file
 
-@strong{Return value:}  pointer to string, must not be freed.
+@strong{Return value:}  pointer to string, must be freed.
 @end deftypefun
 
 @deftypefun {void} {lw6cfg_set_option} (void * @var{context}, const char * @var{key}, const char * @var{value})
