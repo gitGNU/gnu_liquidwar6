@@ -116,6 +116,143 @@ lw6sys_dir_exists (const char *dirname)
   return ret;
 }
 
+/**
+ * lw6sys_dir_exists_with_readme
+ *
+ * @dirname: the directory to test
+ *
+ * Tests the existence of a directory on the filesystem, will also
+ * validate that it contains a README or readme.txt file.
+ *
+ * Return value: 1 if OK, 0 if directory doesn't exist.
+ */
+int
+lw6sys_dir_exists_with_readme (const char *dirname)
+{
+  int ret = 0;
+  char *readme_filename = NULL;
+
+  if (lw6sys_dir_exists (dirname))
+    {
+      if (!ret)
+	{
+	  readme_filename = lw6sys_path_concat (dirname, LW6SYS_FILE_README);
+	  if (readme_filename)
+	    {
+	      if (lw6sys_file_exists (readme_filename))
+		{
+		  ret = 1;
+		}
+	      LW6SYS_FREE (readme_filename);
+	    }
+	}
+      if (!ret)
+	{
+	  readme_filename =
+	    lw6sys_path_concat (dirname, LW6SYS_FILE_README_TXT);
+	  if (readme_filename)
+	    {
+	      if (lw6sys_file_exists (readme_filename))
+		{
+		  ret = 1;
+		}
+	      LW6SYS_FREE (readme_filename);
+	    }
+	}
+      if (!ret)
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_
+		      ("directory \"%s\" exists but has no %s or %s file, ignoring"),
+		      dirname, LW6SYS_FILE_README, LW6SYS_FILE_README_TXT);
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6sys_dir_exists_with_readme_containing_text
+ *
+ * @dirname: the directory to test
+ * @needle: string to search, can be NULL
+ *
+ * Tests the existence of a directory on the filesystem, with a README
+ * or readme.txt file, which contains the string needle.
+ *
+ * Return value: 1 if OK, 0 if directory doesn't exist.
+ */
+int
+lw6sys_dir_exists_with_readme_containing_text (const char *dirname,
+					       const char *needle)
+{
+  int ret = 0;
+  char *readme_filename = NULL;
+  char *readme_content = NULL;
+
+  if (lw6sys_dir_exists_with_readme (dirname))
+    {
+      if (needle)
+	{
+	  if (!ret)
+	    {
+	      readme_filename =
+		lw6sys_path_concat (dirname, LW6SYS_FILE_README);
+	      if (readme_filename)
+		{
+		  if (lw6sys_file_exists (readme_filename))
+		    {
+		      readme_content =
+			lw6sys_read_file_content (readme_filename);
+		      if (readme_content)
+			{
+			  if (strstr (readme_content, needle))
+			    {
+			      ret = 1;
+			    }
+			  LW6SYS_FREE (readme_content);
+			}
+		    }
+		  LW6SYS_FREE (readme_filename);
+		}
+	    }
+	  if (!ret)
+	    {
+	      readme_filename =
+		lw6sys_path_concat (dirname, LW6SYS_FILE_README_TXT);
+	      if (readme_filename)
+		{
+		  if (lw6sys_file_exists (readme_filename))
+		    {
+		      readme_content =
+			lw6sys_read_file_content (readme_filename);
+		      if (readme_content)
+			{
+			  if (strstr (readme_content, needle))
+			    {
+			      ret = 1;
+			    }
+			  LW6SYS_FREE (readme_content);
+			}
+		    }
+		  LW6SYS_FREE (readme_filename);
+		}
+	    }
+
+	  if (!ret)
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_
+			  ("directory \"%s\" exists, has a %s or %s file, but this file does not contain the magic words \%s\", ignoring"),
+			  dirname, LW6SYS_FILE_README, LW6SYS_FILE_README_TXT,
+			  needle);
+	    }
+	}
+    }
+
+  return ret;
+}
+
 static int
 create_dir (const char *dirname, int verbose)
 {
@@ -447,10 +584,18 @@ lw6sys_path_parent (const char *path)
 	{
 	  if (strcmp (pos + 1, "..") == 0)
 	    {
+	      /*
+	       * Path ends with "..", so we just append ".." 
+	       * again on it.
+	       */
 	      parent = lw6sys_path_concat (stripped_path, "..");
 	    }
 	  else
 	    {
+	      /*
+	       * Path has a slash (or whatever dir sep is 
+	       * so we just get rid of that item
+	       */
 	      (*pos) = '\0';
 	      parent = lw6sys_str_copy (stripped_path);
 	    }
@@ -460,11 +605,31 @@ lw6sys_path_parent (const char *path)
 	  if (strcmp (stripped_path, "") == 0
 	      || strcmp (stripped_path, ".") == 0)
 	    {
+	      /*
+	       * Path is cwd, or empty, so we just return
+	       * the standard shell for parent : ..
+	       */
 	      parent = lw6sys_str_copy ("..");
 	    }
 	  else
 	    {
-	      parent = lw6sys_str_copy (".");
+	      if (strcmp (stripped_path, "..") == 0)
+		{
+		  /*
+		   * Special case, if path was "..", then
+		   * return "../.."
+		   */
+		  parent = lw6sys_path_concat (stripped_path, "..");
+		}
+	      else
+		{
+		  /* 
+		   * Path is just a file name, with no / no nothing,
+		   * we consider parent is "." since an unqualified
+		   * filename is by default taken from cwd
+		   */
+		  parent = lw6sys_str_copy (".");
+		}
 	    }
 	}
       LW6SYS_FREE (stripped_path);

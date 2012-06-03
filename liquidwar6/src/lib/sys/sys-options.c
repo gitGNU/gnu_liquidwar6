@@ -185,11 +185,12 @@ lw6sys_get_default_prefix ()
 
 static char *
 get_dir_common (char *mask1, char *prefix1, char *mask2, char *prefix2,
-		char *sub)
+		char *sub, int check_readme)
 {
   char *system_dir = NULL;
   char *top_srcdir = NULL;
   char *dir = NULL;
+  int dir_exists = 0;
 
   if (dir == NULL)
     {
@@ -202,7 +203,13 @@ get_dir_common (char *mask1, char *prefix1, char *mask2, char *prefix2,
 	  dir = lw6sys_path_concat (system_dir, sub);
 	  if (dir)
 	    {
-	      if (!lw6sys_dir_exists (dir))
+	      dir_exists =
+		check_readme ?
+		lw6sys_dir_exists_with_readme_containing_text (dir,
+							       lw6sys_build_get_home_url
+							       ()) :
+		lw6sys_dir_exists (dir);
+	      if (!dir_exists)
 		{
 		  // directory doesn't exist, we ignore it
 		  LW6SYS_FREE (dir);
@@ -224,7 +231,13 @@ get_dir_common (char *mask1, char *prefix1, char *mask2, char *prefix2,
 	  dir = lw6sys_path_concat (system_dir, sub);
 	  if (dir)
 	    {
-	      if (!lw6sys_dir_exists (dir))
+	      dir_exists =
+		check_readme ?
+		lw6sys_dir_exists_with_readme_containing_text (dir,
+							       lw6sys_build_get_home_url
+							       ()) :
+		lw6sys_dir_exists (dir);
+	      if (!dir_exists)
 		{
 		  // directory doesn't exist, we ignore it
 		  LW6SYS_FREE (dir);
@@ -241,7 +254,12 @@ get_dir_common (char *mask1, char *prefix1, char *mask2, char *prefix2,
       dir = lw6sys_path_concat (top_srcdir, sub);
       if (dir)
 	{
-	  if (!lw6sys_dir_exists (dir))
+	  dir_exists =
+	    check_readme ? lw6sys_dir_exists_with_readme_containing_text (dir,
+									  lw6sys_build_get_home_url
+									  ())
+	    : lw6sys_dir_exists (dir);
+	  if (!dir_exists)
 	    {
 	      // directory doesn't exist, we ignore it
 	      LW6SYS_FREE (dir);
@@ -253,12 +271,180 @@ get_dir_common (char *mask1, char *prefix1, char *mask2, char *prefix2,
   return dir;
 }
 
+static void
+dir_if_not_found (char **dir, const char *sub, int check_readme)
+{
+  char *tmp = NULL;
+  char *parent1 = NULL;
+  char *parent2 = NULL;
+  char *parent3 = NULL;
+  int dir_exists = 0;
+
+  if (dir && *dir)
+    {
+      dir_exists =
+	check_readme ? lw6sys_dir_exists_with_readme_containing_text (*dir,
+								      lw6sys_build_get_home_url
+								      ()) :
+	lw6sys_dir_exists (*dir);
+      if (!dir_exists)
+	{
+	  parent1 = lw6sys_path_parent (".");
+	  if (parent1)
+	    {
+	      tmp = lw6sys_path_concat (parent1, sub);
+	      dir_exists =
+		check_readme ?
+		lw6sys_dir_exists_with_readme_containing_text (tmp,
+							       lw6sys_build_get_home_url
+							       ()) :
+		lw6sys_dir_exists (tmp);
+	      if (dir_exists)
+		{
+		  LW6SYS_FREE (*dir);
+		  (*dir) = tmp;
+		}
+	      else
+		{
+		  LW6SYS_FREE (tmp);
+		  parent2 = lw6sys_path_parent (parent1);
+		  if (parent2)
+		    {
+		      tmp = lw6sys_path_concat (parent2, sub);
+		      dir_exists =
+			check_readme ?
+			lw6sys_dir_exists_with_readme_containing_text (tmp,
+								       lw6sys_build_get_home_url
+								       ()) :
+			lw6sys_dir_exists (tmp);
+		      if (dir_exists)
+			{
+			  LW6SYS_FREE (*dir);
+			  (*dir) = tmp;
+			}
+		      else
+			{
+			  LW6SYS_FREE (tmp);
+			  parent3 = lw6sys_path_parent (parent2);
+			  if (parent3)
+			    {
+			      tmp = lw6sys_path_concat (parent3, sub);
+			      dir_exists =
+				check_readme ?
+				lw6sys_dir_exists_with_readme_containing_text
+				(tmp,
+				 lw6sys_build_get_home_url ()) :
+				lw6sys_dir_exists (tmp);
+			      if (dir_exists)
+				{
+				  LW6SYS_FREE (*dir);
+				  (*dir) = tmp;
+				}
+			      else
+				{
+				  LW6SYS_FREE (tmp);
+				}
+			      LW6SYS_FREE (parent3);
+			    }
+			}
+		      LW6SYS_FREE (parent2);
+		    }
+		}
+	      LW6SYS_FREE (parent1);
+	    }
+	  if (!lw6sys_dir_exists (*dir))
+	    {
+	      tmp = lw6sys_path_concat (lw6sys_build_get_package_id (), sub);
+	      if (tmp)
+		{
+		  dir_exists =
+		    check_readme ?
+		    lw6sys_dir_exists_with_readme_containing_text (tmp,
+								   lw6sys_build_get_home_url
+								   ()) :
+		    lw6sys_dir_exists (tmp);
+		  if (dir_exists)
+		    {
+		      LW6SYS_FREE (*dir);
+		      (*dir) = tmp;
+		    }
+		  else
+		    {
+		      LW6SYS_FREE (tmp);
+		    }
+		}
+	      tmp =
+		lw6sys_path_concat (lw6sys_build_get_package_string (), sub);
+	      if (tmp)
+		{
+		  dir_exists =
+		    check_readme ?
+		    lw6sys_dir_exists_with_readme_containing_text (tmp,
+								   lw6sys_build_get_home_url
+								   ()) :
+		    lw6sys_dir_exists (tmp);
+		  if (dir_exists)
+		    {
+		      LW6SYS_FREE (*dir);
+		      (*dir) = tmp;
+		    }
+		  else
+		    {
+		      LW6SYS_FREE (tmp);
+		    }
+		}
+	      tmp =
+		lw6sys_path_concat (lw6sys_build_get_package_tarname (), sub);
+	      if (tmp)
+		{
+		  dir_exists =
+		    check_readme ?
+		    lw6sys_dir_exists_with_readme_containing_text (tmp,
+								   lw6sys_build_get_home_url
+								   ()) :
+		    lw6sys_dir_exists (tmp);
+		  if (dir_exists)
+		    {
+		      LW6SYS_FREE (*dir);
+		      (*dir) = tmp;
+		    }
+		  else
+		    {
+		      LW6SYS_FREE (tmp);
+		    }
+		}
+	      tmp =
+		lw6sys_path_concat (lw6sys_build_get_package_name (), sub);
+	      if (tmp)
+		{
+		  dir_exists =
+		    check_readme ?
+		    lw6sys_dir_exists_with_readme_containing_text (tmp,
+								   lw6sys_build_get_home_url
+								   ()) :
+		    lw6sys_dir_exists (tmp);
+		  if (dir_exists)
+		    {
+		      LW6SYS_FREE (*dir);
+		      (*dir) = tmp;
+		    }
+		  else
+		    {
+		      LW6SYS_FREE (tmp);
+		    }
+		}
+	    }
+	}
+    }
+}
+
 static char *
-get_dir (char *mask1, char *prefix1, char *mask2, char *prefix2, char *sub)
+get_dir (char *mask1, char *prefix1, char *mask2, char *prefix2, char *sub,
+	 int check_readme)
 {
   char *dir = NULL;
 
-  dir = get_dir_common (mask1, prefix1, mask2, prefix2, sub);
+  dir = get_dir_common (mask1, prefix1, mask2, prefix2, sub, check_readme);
 
   if (dir == NULL)
     {
@@ -266,18 +452,21 @@ get_dir (char *mask1, char *prefix1, char *mask2, char *prefix2, char *sub)
       dir = lw6sys_path_concat (".", sub);
     }
 
+  dir_if_not_found (&dir, sub, check_readme);
+
   return dir;
 }
 
 static char *
 get_dir_argc_argv (int argc, const char *argv[], char *mask1, char *prefix1,
-		   char *mask2, char *prefix2, char *sub)
+		   char *mask2, char *prefix2, char *sub, int check_readme)
 {
   char *dir = NULL;
   char *run_dir = NULL;
-  char *run_dir_rel;
+  char *run_dir_rel = NULL;
+  int dir_exists = 0;
 
-  dir = get_dir_common (mask1, prefix1, mask2, prefix2, sub);
+  dir = get_dir_common (mask1, prefix1, mask2, prefix2, sub, check_readme);
 
   if (dir == NULL && strlen (sub) > 0)
     {
@@ -287,7 +476,13 @@ get_dir_argc_argv (int argc, const char *argv[], char *mask1, char *prefix1,
 	  dir = lw6sys_path_concat (run_dir, sub);
 	  if (dir)
 	    {
-	      if (!lw6sys_dir_exists (dir))
+	      dir_exists =
+		check_readme ?
+		lw6sys_dir_exists_with_readme_containing_text (dir,
+							       lw6sys_build_get_home_url
+							       ()) :
+		lw6sys_dir_exists (dir);
+	      if (!dir_exists)
 		{
 		  // directory doesn't exist, we ignore it
 		  LW6SYS_FREE (dir);
@@ -303,7 +498,13 @@ get_dir_argc_argv (int argc, const char *argv[], char *mask1, char *prefix1,
 			      dir = lw6sys_path_concat (run_dir_rel, sub);
 			      if (dir)
 				{
-				  if (!lw6sys_dir_exists (dir))
+				  dir_exists =
+				    check_readme ?
+				    lw6sys_dir_exists_with_readme_containing_text
+				    (dir,
+				     lw6sys_build_get_home_url ()) :
+				    lw6sys_dir_exists (dir);
+				  if (!dir_exists)
 				    {
 				      LW6SYS_FREE (dir);
 				      dir = NULL;
@@ -325,6 +526,8 @@ get_dir_argc_argv (int argc, const char *argv[], char *mask1, char *prefix1,
       // if not installed, if no source, then search in local directory
       dir = lw6sys_path_concat (".", sub);
     }
+
+  dir_if_not_found (&dir, sub, check_readme);
 
   return dir;
 }
@@ -399,6 +602,119 @@ get_file_common (char *mask1, char *prefix1, char *mask2, char *prefix2,
   return file;
 }
 
+static void
+file_if_not_found (char **file, const char *sub)
+{
+  char *tmp = NULL;
+  char *parent1 = NULL;
+  char *parent2 = NULL;
+  char *parent3 = NULL;
+
+  if (file && *file && !lw6sys_file_exists (*file))
+    {
+      parent1 = lw6sys_path_parent (".");
+      if (parent1)
+	{
+	  tmp = lw6sys_path_concat (parent1, sub);
+	  if (lw6sys_file_exists (tmp))
+	    {
+	      LW6SYS_FREE (*file);
+	      (*file) = tmp;
+	    }
+	  else
+	    {
+	      LW6SYS_FREE (tmp);
+	      parent2 = lw6sys_path_parent (parent1);
+	      if (parent2)
+		{
+		  tmp = lw6sys_path_concat (parent2, sub);
+		  if (lw6sys_file_exists (tmp))
+		    {
+		      LW6SYS_FREE (*file);
+		      (*file) = tmp;
+		    }
+		  else
+		    {
+		      LW6SYS_FREE (tmp);
+		      parent3 = lw6sys_path_parent (parent2);
+		      if (parent3)
+			{
+			  tmp = lw6sys_path_concat (parent3, sub);
+			  if (lw6sys_file_exists (tmp))
+			    {
+			      LW6SYS_FREE (*file);
+			      (*file) = tmp;
+			    }
+			  else
+			    {
+			      LW6SYS_FREE (tmp);
+			    }
+			  LW6SYS_FREE (parent3);
+			}
+		    }
+		  LW6SYS_FREE (parent2);
+		}
+	    }
+	  LW6SYS_FREE (parent1);
+	}
+      if (!lw6sys_file_exists (*file))
+	{
+	  tmp = lw6sys_path_concat (lw6sys_build_get_package_id (), sub);
+	  if (tmp)
+	    {
+	      if (lw6sys_file_exists (tmp))
+		{
+		  LW6SYS_FREE (*file);
+		  (*file) = tmp;
+		}
+	      else
+		{
+		  LW6SYS_FREE (tmp);
+		}
+	    }
+	  tmp = lw6sys_path_concat (lw6sys_build_get_package_string (), sub);
+	  if (tmp)
+	    {
+	      if (lw6sys_file_exists (tmp))
+		{
+		  LW6SYS_FREE (*file);
+		  (*file) = tmp;
+		}
+	      else
+		{
+		  LW6SYS_FREE (tmp);
+		}
+	    }
+	  tmp = lw6sys_path_concat (lw6sys_build_get_package_tarname (), sub);
+	  if (tmp)
+	    {
+	      if (lw6sys_file_exists (tmp))
+		{
+		  LW6SYS_FREE (*file);
+		  (*file) = tmp;
+		}
+	      else
+		{
+		  LW6SYS_FREE (tmp);
+		}
+	    }
+	  tmp = lw6sys_path_concat (lw6sys_build_get_package_name (), sub);
+	  if (tmp)
+	    {
+	      if (lw6sys_file_exists (tmp))
+		{
+		  LW6SYS_FREE (*file);
+		  (*file) = tmp;
+		}
+	      else
+		{
+		  LW6SYS_FREE (tmp);
+		}
+	    }
+	}
+    }
+}
+
 static char *
 get_file (char *mask1, char *prefix1, char *mask2, char *prefix2, char *sub)
 {
@@ -411,6 +727,8 @@ get_file (char *mask1, char *prefix1, char *mask2, char *prefix2, char *sub)
       // if not installed, if no source, then search in local directory
       file = lw6sys_path_concat (".", sub);
     }
+
+  file_if_not_found (&file, sub);
 
   return file;
 }
@@ -472,6 +790,8 @@ get_file_argc_argv (int argc, const char *argv[], char *mask1, char *prefix1,
       file = lw6sys_path_concat (".", sub);
     }
 
+  file_if_not_found (&file, sub);
+
   return file;
 }
 
@@ -482,7 +802,7 @@ get_mod_dir_with_prefix (char *prefix)
   char *libdir = NULL;
 
   libdir = lw6sys_build_get_libdir ();
-  mod_dir = get_dir (MOD_PREFIX_MASK, prefix, MOD_LIBDIR_MASK, libdir, "");
+  mod_dir = get_dir (MOD_PREFIX_MASK, prefix, MOD_LIBDIR_MASK, libdir, "", 0);
 
   return mod_dir;
 }
@@ -496,7 +816,7 @@ get_mod_dir_with_prefix_argc_argc (int argc, const char *argv[], char *prefix)
   libdir = lw6sys_build_get_libdir ();
   mod_dir =
     get_dir_argc_argv (argc, argv, MOD_PREFIX_MASK, prefix, MOD_LIBDIR_MASK,
-		       libdir, "");
+		       libdir, "", 0);
 
   return mod_dir;
 }
@@ -525,21 +845,23 @@ lw6sys_get_default_mod_dir ()
 }
 
 static char *
-get_share_dir_with_prefix (char *prefix, char *sub)
+get_share_dir_with_prefix (char *prefix, char *sub, int check_readme)
 {
   char *share_dir = NULL;
   char *datadir = NULL;
 
   datadir = lw6sys_build_get_datadir ();
   share_dir =
-    get_dir (SHARE_PREFIX_MASK, prefix, SHARE_DATADIR_MASK, datadir, sub);
+    get_dir (SHARE_PREFIX_MASK, prefix, SHARE_DATADIR_MASK, datadir, sub,
+	     check_readme);
 
   return share_dir;
 }
 
 static char *
 get_share_dir_with_prefix_argc_argv (int argc, const char *argv[],
-				     char *prefix, char *sub)
+				     char *prefix, char *sub,
+				     int check_readme)
 {
   char *share_dir = NULL;
   char *datadir = NULL;
@@ -547,7 +869,7 @@ get_share_dir_with_prefix_argc_argv (int argc, const char *argv[],
   datadir = lw6sys_build_get_datadir ();
   share_dir =
     get_dir_argc_argv (argc, argv, SHARE_PREFIX_MASK, prefix,
-		       SHARE_DATADIR_MASK, datadir, sub);
+		       SHARE_DATADIR_MASK, datadir, sub, check_readme);
 
   return share_dir;
 }
@@ -568,7 +890,7 @@ lw6sys_get_default_data_dir ()
   prefix = lw6sys_get_default_prefix ();
   if (prefix)
     {
-      data_dir = get_share_dir_with_prefix (prefix, DATA_DIR);
+      data_dir = get_share_dir_with_prefix (prefix, DATA_DIR, 1);
       LW6SYS_FREE (prefix);
     }
 
@@ -636,7 +958,7 @@ lw6sys_get_default_music_dir ()
   prefix = lw6sys_get_default_prefix ();
   if (prefix)
     {
-      music_dir = get_share_dir_with_prefix (prefix, MUSIC_DIR);
+      music_dir = get_share_dir_with_prefix (prefix, MUSIC_DIR, 1);
       LW6SYS_FREE (prefix);
     }
 
@@ -690,7 +1012,7 @@ lw6sys_get_default_map_dir ()
   prefix = lw6sys_get_default_prefix ();
   if (prefix)
     {
-      map_dir = get_share_dir_with_prefix (prefix, MAP_DIR);
+      map_dir = get_share_dir_with_prefix (prefix, MAP_DIR, 1);
       LW6SYS_FREE (prefix);
     }
 
@@ -1135,7 +1457,7 @@ lw6sys_get_data_dir (int argc, const char *argv[])
 	{
 	  data_dir =
 	    get_share_dir_with_prefix_argc_argv (argc, argv, prefix,
-						 DATA_DIR);
+						 DATA_DIR, 1);
 	  LW6SYS_FREE (prefix);
 	}
     }
@@ -1169,7 +1491,7 @@ lw6sys_get_music_dir (int argc, const char *argv[])
 	{
 	  music_dir =
 	    get_share_dir_with_prefix_argc_argv (argc, argv, prefix,
-						 MUSIC_DIR);
+						 MUSIC_DIR, 1);
 	  LW6SYS_FREE (prefix);
 	}
     }
@@ -1262,7 +1584,8 @@ lw6sys_get_map_dir (int argc, const char *argv[])
       if (prefix)
 	{
 	  map_dir =
-	    get_share_dir_with_prefix_argc_argv (argc, argv, prefix, MAP_DIR);
+	    get_share_dir_with_prefix_argc_argv (argc, argv, prefix, MAP_DIR,
+						 1);
 	  LW6SYS_FREE (prefix);
 	}
     }

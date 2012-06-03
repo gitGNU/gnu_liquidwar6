@@ -404,6 +404,11 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  printf ("%s\n", lw6sys_build_get_package_string ());
 	  (*run_game) = 0;
 	}
+      else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_PACKAGE_ID, argv[i]))
+	{
+	  printf ("%s\n", lw6sys_build_get_package_id ());
+	  (*run_game) = 0;
+	}
       else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_VERSION, argv[i]))
 	{
 	  printf ("%s\n", lw6sys_build_get_version ());

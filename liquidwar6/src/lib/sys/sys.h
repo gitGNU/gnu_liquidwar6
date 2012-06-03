@@ -470,6 +470,9 @@ extern lw6sys_color_hsv_t LW6SYS_COLOR_HSV_RED;
 extern lw6sys_color_hsv_t LW6SYS_COLOR_HSV_GREEN;
 extern lw6sys_color_hsv_t LW6SYS_COLOR_HSV_BLUE;
 
+#define LW6SYS_FILE_README "README"
+#define LW6SYS_FILE_README_TXT "readme.txt"
+
 /*
  * Usefull macros for lw6sys_log, please do not use
  * lw6sys_log directly, but use constructs like
@@ -621,6 +624,7 @@ extern int lw6sys_memory_bazooka_report ();
 extern char *lw6sys_build_get_package_tarname ();
 extern char *lw6sys_build_get_package_name ();
 extern char *lw6sys_build_get_package_string ();
+extern char *lw6sys_build_get_package_id ();
 extern char *lw6sys_build_get_version ();
 extern char *lw6sys_build_get_codename ();
 extern char *lw6sys_build_get_stamp ();
@@ -1034,6 +1038,9 @@ extern void lw6sys_options_log (int argc, const char *argv[]);
 /* sys-path.c */
 extern int lw6sys_file_exists (const char *filename);
 extern int lw6sys_dir_exists (const char *dirname);
+extern int lw6sys_dir_exists_with_readme (const char *dirname);
+extern int lw6sys_dir_exists_with_readme_containing_text (const char *dirname,
+							  const char *needle);
 extern int lw6sys_create_dir (const char *dirname);
 extern int lw6sys_create_dir_silent (const char *dirname);
 extern char *lw6sys_path_add_slash (const char *path);

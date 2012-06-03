@@ -199,6 +199,9 @@ populate_references ()
   POPULATE_VOID (LW6DEF_SHOW_BUILD_PACKAGE_STRING,
 		 _x_
 		 ("Shows the package string, that is, 'Liquid War 6 <version>"));
+  POPULATE_VOID (LW6DEF_SHOW_BUILD_PACKAGE_ID,
+		 _x_
+		 ("Shows the package tarname with its version, that is, 'liquidwar6-<version>"));
   POPULATE_VOID (LW6DEF_SHOW_BUILD_VERSION,
 		 _x_
 		 ("Shows the version. Note that this is different from the standard GNU 'version' command line option which shows a complete message with a short copyright notice. This one will just return the version, without the package tarname or anything else."));
@@ -2225,6 +2228,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6sys_build_get_package_name."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_STRING,
 		 _x_ ("Wrapper on lw6sys_build_get_package_string."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_ID,
+		 _x_ ("Wrapper on lw6sys_build_get_package_id."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_VERSION,
 		 _x_ ("Wrapper on lw6sys_build_get_version."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_CODENAME,
@@ -2287,6 +2292,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6sys_build_get_includedir."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_LOCALEDIR,
 		 _x_ ("Wrapper on lw6sys_build_get_localedir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_DOCDIR,
+		 _x_ ("Wrapper on lw6sys_build_get_docdir."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_CONSOLE,
 		 _x_ ("Wrapper on lw6sys_build_get_enable_console."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GTK,

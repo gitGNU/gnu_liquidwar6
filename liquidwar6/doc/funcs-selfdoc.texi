@@ -1255,6 +1255,11 @@ Wrapper on lw6sys_build_get_localedir.
 Wrapper on lw6sys_build_get_md5sum.
 @end deffn
 
+@subsection c-lw6sys-build-get-package-id
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-package-id}
+Wrapper on lw6sys_build_get_package_id.
+@end deffn
+
 @subsection c-lw6sys-build-get-package-name
 @deffn {C function exported to Guile} @code{c-lw6sys-build-get-package-name}
 Wrapper on lw6sys_build_get_package_name.

@@ -23,8 +23,6 @@
 #ifndef LIQUIDWAR6LDR_INTERNAL_H
 #define LIQUIDWAR6LDR_INTERNAL_H
 
-#define _LW6LDR_FILE_README "README"
-#define _LW6LDR_FILE_README_TXT "readme.txt"
 #define _LW6LDR_FILE_METADATA_XML "metadata.xml"
 
 #define _LW6LDR_FILE_MAP_PNG "map.png"

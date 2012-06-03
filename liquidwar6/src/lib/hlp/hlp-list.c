@@ -126,6 +126,7 @@ update_show (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_PACKAGE_TARNAME);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_PACKAGE_NAME);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_PACKAGE_STRING);
+  lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_PACKAGE_ID);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_VERSION);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_CODENAME);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_STAMP);
@@ -868,6 +869,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_TARNAME);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_NAME);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_STRING);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_ID);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_VERSION);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_CODENAME);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_STAMP);

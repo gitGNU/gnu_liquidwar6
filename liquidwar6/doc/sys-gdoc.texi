@@ -417,6 +417,15 @@ when compiling another program relying on Liquid War as a library.
 @strong{Return value:}  a non-NULL string "Liquid War 6 <version>", must not be freed.
 @end deftypefun
 
+@deftypefun {char *} {lw6sys_build_get_package_id} ()
+
+Returns the id of the package. This is not an autotools standard
+ID, in fact it's just @code{PACKAGE_TARNAME} concatenated
+with @code{VERSION}, that is liquidwar6-<version>.
+
+@strong{Return value:}  a non-NULL string "liquidwar6-<version>", must not be freed.
+@end deftypefun
+
 @deftypefun {char *} {lw6sys_build_get_version} ()
 
 Returns the version of the program. This is the @code{VERSION} constant
@@ -3048,6 +3057,26 @@ to exists if it's at least readable.
 @var{dirname}:  the directory to test
 
 Tests the existence of a directory on the filesystem.
+
+@strong{Return value:}  1 if OK, 0 if directory doesn't exist.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_dir_exists_with_readme} (const char * @var{dirname})
+@var{dirname}:  the directory to test
+
+Tests the existence of a directory on the filesystem, will also
+validate that it contains a README or readme.txt file.
+
+@strong{Return value:}  1 if OK, 0 if directory doesn't exist.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_dir_exists_with_readme_containing_text} (const char * @var{dirname}, const char * @var{needle})
+@var{dirname}:  the directory to test
+
+@var{needle}:  string to search, can be NULL
+
+Tests the existence of a directory on the filesystem, with a README
+or readme.txt file, which contains the string needle.
 
 @strong{Return value:}  1 if OK, 0 if directory doesn't exist.
 @end deftypefun

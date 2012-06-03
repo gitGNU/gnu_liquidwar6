@@ -2372,6 +2372,8 @@ test_path ()
     int relative = 0;
     int cwd = 0;
     lw6sys_list_t *list = NULL;
+    char *data_dir = NULL;
+    char *needle = NULL;
 
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("add/strip slash"));
     path = lw6sys_path_add_slash (PATH_WITHOUT_SLASH);
@@ -2499,6 +2501,56 @@ test_path ()
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("file only for \"%s\" is \"%s\""),
 		    _TEST_PATH_FILE_ONLY, path);
 	LW6SYS_FREE (path);
+      }
+
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dir_exists"));
+    data_dir = lw6sys_get_default_data_dir ();
+    if (data_dir)
+      {
+	needle = lw6sys_build_get_home_url ();
+	if (lw6sys_dir_exists_with_readme (data_dir))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("OK, \"%s\" exists"),
+			data_dir);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("directory \"%s\" does not exist, while this is strange, test is not considered as broken, but other tests in other modules are likely to fail"),
+			data_dir);
+	  }
+	if (lw6sys_dir_exists_with_readme (data_dir))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("OK, \"%s\" exists and has a README"), data_dir);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("directory \"%s\" does not exist or does not have a README, while this is strange, test is not considered as broken, but other tests in other modules are likely to fail"),
+			data_dir);
+	  }
+	if (lw6sys_dir_exists_with_readme_containing_text (data_dir, needle))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("OK, \"%s\" exists and has a README, and this file contains \"%s\""),
+			data_dir, needle);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("directory \"%s\" does not exist or does not have a README, while this is strange, test is not considered as broken, but other tests in other modules are likely to fail (needle=\"%s\")"),
+			data_dir, needle);
+	  }
+	LW6SYS_FREE (data_dir);
+      }
+    else
+      {
+	ret = 0;
       }
   }
 

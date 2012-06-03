@@ -25,8 +25,6 @@
 
 #include "liquidwar6.h"
 
-#if LW6_MS_WINDOWS || LW6_MAC_OS_X
-
 #define GUILE_LOAD_PATH_KEY "GUILE_LOAD_PATH"
 
 #if LW6_MS_WINDOWS
@@ -41,9 +39,12 @@
 #define DEFAULT_MACPORTS_LIBDIR "/opt/local/lib"
 #endif
 
-static void
-_fix_guile_load_path (int argc, const char *argv[])
+static char *
+_get_system_guile_load_path (int argc, const char *argv[])
 {
+  char *ret = NULL;
+
+#if LW6_MS_WINDOWS || LW6_MAC_OS_X
   char *run_dir = NULL;
   char *guile_dir = NULL;
 
@@ -55,7 +56,7 @@ _fix_guile_load_path (int argc, const char *argv[])
 	{
 	  if (lw6sys_dir_exists (guile_dir))
 	    {
-	      lw6sys_setenv (GUILE_LOAD_PATH_KEY, guile_dir);
+	      ret = guile_dir;	// will be freed by caller
 	    }
 	  else
 	    {
@@ -63,13 +64,95 @@ _fix_guile_load_path (int argc, const char *argv[])
 			  _x_
 			  ("Guile library directory \"%s\" does not exist"),
 			  guile_dir);
+	      LW6SYS_FREE (guile_dir);
 	    }
-	  LW6SYS_FREE (guile_dir);
 	}
       LW6SYS_FREE (run_dir);
     }
-}
 #endif
+
+  return ret;
+}
+
+static void
+_fix_guile_load_path (int argc, const char *argv[])
+{
+  char *script_file = NULL;
+  char *script_dir = NULL;
+  char *system_dir = NULL;
+  char *env = NULL;
+
+  system_dir = _get_system_guile_load_path (argc, argv);
+  script_file = lw6sys_get_script_file (argc, argv);
+  if (script_file)
+    {
+      script_dir = lw6sys_path_parent (script_file);
+      if (script_dir)
+	{
+	  if (!lw6sys_dir_exists (script_dir))
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_
+			  ("Guile script directory \"%s\" does not exist"),
+			  script_dir);
+	      LW6SYS_FREE (script_dir);
+	      script_dir = NULL;
+	    }
+	}
+      LW6SYS_FREE (script_file);
+    }
+
+  if (system_dir && script_dir)
+    {
+      env =
+	lw6sys_new_sprintf ("%s%c%s%c.", system_dir,
+			    lw6sys_env_separator_char (), script_dir,
+			    lw6sys_env_separator_char ());
+    }
+  else
+    {
+      if (system_dir)
+	{
+	  env =
+	    lw6sys_new_sprintf ("%s%c.", system_dir,
+				lw6sys_env_separator_char ());
+	}
+      else
+	{
+	  if (script_dir)
+	    {
+	      env =
+		lw6sys_new_sprintf ("%s%c.", script_dir,
+				    lw6sys_env_separator_char ());
+	    }
+	  else
+	    {
+	      env = lw6sys_str_copy (".");
+	    }
+	}
+    }
+
+  lw6sys_log (LW6SYS_LOG_INFO,
+	      _x_ ("setting Guile path using setenv %s=\"%s\""),
+	      GUILE_LOAD_PATH_KEY, env);
+  if (env)
+    {
+      lw6sys_setenv (GUILE_LOAD_PATH_KEY, env);
+    }
+
+  if (env)
+    {
+      LW6SYS_FREE (env);
+    }
+  if (script_dir)
+    {
+      LW6SYS_FREE (script_dir);
+    }
+  if (system_dir)
+    {
+      LW6SYS_FREE (system_dir);
+    }
+}
 
 #if LW6_MAC_OS_X
 static void
@@ -237,9 +320,7 @@ lw6_fix_env (int argc, const char *argv[])
 {
   int ret = 1;
 
-#if LW6_MS_WINDOWS || LW6_MAC_OS_X
   _fix_guile_load_path (argc, argv);
-#endif
 #ifdef LW6_MAC_OS_X
   if (!lw6sys_is_executed_again (argc, argv))
     {

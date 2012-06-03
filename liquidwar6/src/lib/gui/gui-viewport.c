@@ -317,7 +317,6 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 					     viewport->old_center_y, 0);
 	      //dx = old_center_screen_x - viewport->map_visible.w / 2;
 	      //dy = old_center_screen_y - viewport->map_visible.h / 2;
-	      //TMP2("dx=%f dy=%f",dx,dy);
 	    }
 
 	  viewport->old_center_x = viewport->center_x;

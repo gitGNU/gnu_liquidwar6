@@ -90,6 +90,21 @@ lw6sys_build_get_package_string ()
 }
 
 /**
+ * lw6sys_build_get_package_id:
+ *
+ * Returns the id of the package. This is not an autotools standard
+ * ID, in fact it's just @PACKAGE_TARNAME concatenated
+ * with @VERSION, that is liquidwar6-<version>.
+ *
+ * Return value: a non-NULL string "liquidwar6-<version>", must not be freed.
+ */
+char *
+lw6sys_build_get_package_id ()
+{
+  return PACKAGE_TARNAME "-" VERSION;
+}
+
+/**
  * lw6sys_build_get_version:
  *
  * Returns the version of the program. This is the @VERSION constant
@@ -955,6 +970,8 @@ lw6sys_build_get_bin_id ()
 			      lw6sys_build_get_package_name ());
   lw6sys_checksum_update_str (&checksum_global,
 			      lw6sys_build_get_package_string ());
+  lw6sys_checksum_update_str (&checksum_global,
+			      lw6sys_build_get_package_id ());
   lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_version ());
   lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_codename ());
   lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_stamp ());
@@ -1065,6 +1082,8 @@ lw6sys_build_log_all ()
 	      lw6sys_build_get_package_name ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build package string is \"%s\""),
 	      lw6sys_build_get_package_string ());
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build package id is \"%s\""),
+	      lw6sys_build_get_package_id ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build version is \"%s\""),
 	      lw6sys_build_get_version ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build codename is \"%s\""),

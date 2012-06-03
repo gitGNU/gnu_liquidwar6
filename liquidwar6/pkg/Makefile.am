@@ -64,6 +64,10 @@ ms-windows-zip: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
 	mv ${PACKAGE_TMP}/ChangeLog ${PACKAGE_TMP}/changes.txt
 	mv ${PACKAGE_TMP}/COPYING ${PACKAGE_TMP}/license.txt
 	mv ${PACKAGE_TMP}/README ${PACKAGE_TMP}/readme.txt
+	mv ${PACKAGE_TMP}/data/README ${PACKAGE_TMP}/data/readme.txt
+	mv ${PACKAGE_TMP}/map/README ${PACKAGE_TMP}/map/readme.txt
+	mv ${PACKAGE_TMP}/music/README ${PACKAGE_TMP}/music/readme.txt
+	mv ${PACKAGE_TMP}/script/README ${PACKAGE_TMP}/script/readme.txt
 	rm -rf ${PACKAGE_TMP}2
 	mv ${PACKAGE_TMP} ${PACKAGE_TMP}2
 	install -d ${PACKAGE_TMP}

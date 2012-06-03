@@ -710,6 +710,21 @@ _scm_lw6sys_build_get_package_string ()
 }
 
 static SCM
+_scm_lw6sys_build_get_package_id ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  ret = scm_from_locale_string (lw6sys_build_get_package_id ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6sys_build_get_version ()
 {
   SCM ret = SCM_BOOL_F;
@@ -1168,6 +1183,21 @@ _scm_lw6sys_build_get_localedir ()
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_locale_string (lw6sys_build_get_localedir ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6sys_build_get_docdir ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  ret = scm_from_locale_string (lw6sys_build_get_docdir ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -9748,6 +9778,8 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6sys_build_get_package_name);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_STRING, 0, 0, 0,
 			 (SCM (*)())_scm_lw6sys_build_get_package_string);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_ID, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_package_id);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION, 0, 0, 0,
 			 (SCM (*)())_scm_lw6sys_build_get_version);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CODENAME, 0, 0, 0,
@@ -9810,6 +9842,8 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6sys_build_get_includedir);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LOCALEDIR, 0, 0, 0,
 			 (SCM (*)())_scm_lw6sys_build_get_localedir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_DOCDIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_docdir);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_CONSOLE, 0, 0, 0,
 			 (SCM (*)())_scm_lw6sys_build_get_enable_console);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GTK, 0, 0, 0,

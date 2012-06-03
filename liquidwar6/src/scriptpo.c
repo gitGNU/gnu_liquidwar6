@@ -236,13 +236,3 @@ _("Sound backend");		// extracted by scriptpo-update.sh
 _("Graphics backend");		// extracted by scriptpo-update.sh
 _("Sound backend");		// extracted by scriptpo-update.sh
 _("Dummy test node");		// extracted by scriptpo-update.sh
-_("testing map");		// extracted by scriptpo-update.sh
-_("testing game struct");	// extracted by scriptpo-update.sh
-_("testing game state");	// extracted by scriptpo-update.sh
-_("testing pilot");		// extracted by scriptpo-update.sh
-_("testing bot");		// extracted by scriptpo-update.sh
-_("testing smobs GC, step 1");	// extracted by scriptpo-update.sh
-_("testing smobs GC, step 2");	// extracted by scriptpo-update.sh
-_("testing async load");	// extracted by scriptpo-update.sh
-_("testing db");		// extracted by scriptpo-update.sh
-_("testing node");		// extracted by scriptpo-update.sh

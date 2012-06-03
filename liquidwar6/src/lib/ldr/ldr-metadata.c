@@ -72,7 +72,7 @@ read_readme (const char *dirname)
   char *buf = NULL;
   char *readme = NULL;
 
-  buf = lw6sys_path_concat (dirname, _LW6LDR_FILE_README);
+  buf = lw6sys_path_concat (dirname, LW6SYS_FILE_README);
   if (buf)
     {
       if (lw6sys_file_exists (buf))
@@ -85,7 +85,7 @@ read_readme (const char *dirname)
 
   if (!readme)
     {
-      buf = lw6sys_path_concat (dirname, _LW6LDR_FILE_README_TXT);
+      buf = lw6sys_path_concat (dirname, LW6SYS_FILE_README_TXT);
       if (buf)
 	{
 	  if (lw6sys_file_exists (buf))

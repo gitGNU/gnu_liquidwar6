@@ -248,6 +248,11 @@ Complementary with 'show-build-stamp'.
 Returns 1 (true) if host OS is Microsoft Windows, 0 (false) if not.
 @end deffn
 
+@subsection show-build-package-id
+@deffn {Command-line option} @code{--show-build-package-id}
+Shows the package tarname with its version, that is, 'liquidwar6-<version>
+@end deffn
+
 @subsection show-build-package-name
 @deffn {Command-line option} @code{--show-build-package-name}
 Shows the package name, that is, 'Liquid War 6'.

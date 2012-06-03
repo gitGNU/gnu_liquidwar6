@@ -1,3 +1,7 @@
+2012-06-03 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed script test which was long broken on make distcheck.
+
 2012-06-02 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added coverage support for scripts (C to Guile).

@@ -231,7 +231,6 @@ _display_bitmap_array (mod_gl_utils_context_t * utils_context,
 		    (quad.p3.y -
 		     ((float) rect.y1)) /
 		    ((float) bitmap_array->layout.tile_size);
-		  // TMP2("%f,%f",x,y);
 		  if (last_bitmap == bitmap)
 		    {
 		      mod_gl_utils_bitmap_bind_no_gen (utils_context, bitmap);

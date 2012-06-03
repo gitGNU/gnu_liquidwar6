@@ -19,3 +19,8 @@
 # Contact author        : ufoot@ufoot.org
 
 SUBDIRS = acadia fish fishy five-points ink-and-oil january liquid-dream nine-points pizza-face playfield strange-new-world subflower
+
+pkgdata_DATA = README
+
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map
+EXTRA_DIST = $(pkgdata_DATA)

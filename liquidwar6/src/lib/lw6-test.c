@@ -30,17 +30,20 @@
 #define TEST_ARGC 1
 #define TEST_ARGV0 "prog"
 
+#define _TEST_COVERAGE_PERCENT_MIN 25
+
 typedef struct _lw6_test_param_s
 {
   int ret;
+  int argc;
+  const char **argv;
+  int mode;
 }
 _lw6_test_param_t;
 
 static char *
-get_test_file ()
+get_test_file (int argc, const char **argv, int mode)
 {
-  const int argc = TEST_ARGC;
-  const char *argv[] = { TEST_ARGV0 };
   char *script_file = NULL;
   char *script_dir = NULL;
   char *ret = NULL;
@@ -59,6 +62,7 @@ get_test_file ()
 
   if (ret && !lw6sys_file_exists (ret))
     {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't open \"%s\""), ret);
       LW6SYS_FREE (ret);
       ret = NULL;
     }
@@ -75,6 +79,8 @@ test_callback (_lw6_test_param_t * param)
 
   {
     char *test_file = NULL;
+    lw6sys_list_t *funcs = NULL;
+    int coverage_percent = 0;
 
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("registering Guile smobs"));
     if (lw6_register_smobs ())
@@ -83,7 +89,7 @@ test_callback (_lw6_test_param_t * param)
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("registering Guile functions"));
 	if (lw6_register_funcs ())
 	  {
-	    test_file = get_test_file ();
+	    test_file = get_test_file (param->argc, param->argv, param->mode);
 	    if (test_file)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("loading \"%s\""),
@@ -105,6 +111,32 @@ test_callback (_lw6_test_param_t * param)
       }
 
     scm_gc ();
+
+    funcs = lw6hlp_list_funcs ();
+    if (funcs)
+      {
+	if (lw6scm_coverage_check
+	    (&coverage_percent, lw6_global.coverage, funcs)
+	    || coverage_percent >= _TEST_COVERAGE_PERCENT_MIN)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("script coverage OK %d%% (%d%% required)"),
+			coverage_percent, _TEST_COVERAGE_PERCENT_MIN);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("script coverage is only %d%% (%d%% required)"),
+			coverage_percent, _TEST_COVERAGE_PERCENT_MIN);
+	    ret = 0;
+	  }
+	lw6sys_list_free (funcs);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to get funcs list"));
+	ret = 0;
+      }
 
     lw6_quit_global ();
   }
@@ -179,8 +211,13 @@ lw6_test (int mode)
       lw6scm_test (mode);
     }
 
+  lw6_fix_env (argc, argv);
   if (lw6_init_global (argc, argv))
     {
+      param.mode = mode;
+      param.argc = argc;
+      param.argv = argv;
+
       scm_with_guile (guile_test, &param);
     }
 

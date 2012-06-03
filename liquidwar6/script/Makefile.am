@@ -73,7 +73,8 @@ splash.scm \
 style.scm \
 test.scm \
 wait.scm \
-zoom.scm
+zoom.scm \
+README
 
 pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/script
 EXTRA_DIST = $(pkgdata_DATA)

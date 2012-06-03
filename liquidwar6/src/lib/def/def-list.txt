@@ -231,13 +231,13 @@ c-lw6pil-execute-command
 c-lw6pil-fix-coords
 c-lw6pil-fix-coords-x10
 c-lw6pil-get-last-commit-seq
+c-lw6pil-get-looser
 c-lw6pil-get-max-seq
 c-lw6pil-get-next-seq
 c-lw6pil-get-reference-current-seq
 c-lw6pil-get-reference-target-seq
-c-lw6pil-is-over
-c-lw6pil-get-looser
 c-lw6pil-get-winner
+c-lw6pil-is-over
 c-lw6pil-local-command
 c-lw6pil-local-cursors-set-main
 c-lw6pil-local-cursors-set-mouse-controlled
@@ -270,6 +270,7 @@ c-lw6sys-build-get-configure-args
 c-lw6sys-build-get-copyright
 c-lw6sys-build-get-datadir
 c-lw6sys-build-get-date
+c-lw6sys-build-get-docdir
 c-lw6sys-build-get-enable-allinone
 c-lw6sys-build-get-enable-console
 c-lw6sys-build-get-enable-fullstatic
@@ -298,6 +299,7 @@ c-lw6sys-build-get-libdir
 c-lw6sys-build-get-license
 c-lw6sys-build-get-localedir
 c-lw6sys-build-get-md5sum
+c-lw6sys-build-get-package-id
 c-lw6sys-build-get-package-name
 c-lw6sys-build-get-package-string
 c-lw6sys-build-get-package-tarname
@@ -650,6 +652,7 @@ show-build-localedir
 show-build-mac-os-x
 show-build-md5sum
 show-build-ms-windows
+show-build-package-id
 show-build-package-name
 show-build-package-string
 show-build-package-tarname
