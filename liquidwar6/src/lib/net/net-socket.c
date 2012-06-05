@@ -51,7 +51,7 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
 	  if (_lw6net_inet_aton (&name.sin_addr, ip))
 	    {
 	      name.sin_port = htons (port);
-	      if (bind (sock, (struct sockaddr *) &name, sizeof name) >= 0)
+	      if (bind (sock, (struct sockaddr *) &name, sizeof (name)) >= 0)
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
 			      _x_ ("bind socket %d on %s:%d"), sock, ip,
@@ -63,9 +63,30 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _x_ ("bind() on %s:%d failed"), ip, port);
-		  lw6net_last_error ();
+		  name.sin_addr.s_addr = INADDR_ANY;
+		  if (bind (sock, (struct sockaddr *) &name, sizeof (name)) >=
+		      0)
+		    {
+		      /*
+		       * OK, we could not bind on specific IP, this does happen
+		       * on Mac OS X with 127.0.0.1, it could possibly happen
+		       * on other platforms if there's a network interface problem.
+		       * In that case, we just bind on any/all interfaces, period.
+		       */
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_ ("bind socket %d on port *:%d"), sock,
+				  port);
+		      _lw6net_counters_register_socket (&
+							(_lw6net_global_context->
+							 counters));
+		      binded = 1;
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _x_ ("bind() on %s:%d failed"), ip, port);
+		      lw6net_last_error ();
+		    }
 		}
 	    }
 	}
