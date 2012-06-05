@@ -844,6 +844,10 @@ extern const char *LW6MAP_RULES_LIST[];
 // can't be too high for perf issues
 #define LW6MAP_MAX_BODY_DEPTH 7
 
+// below this, not complex enough
+#define LW6MAP_MIN_BODY_VOLUME (LW6MAP_MIN_BODY_SURFACE * LW6MAP_MIN_BODY_DEPTH)
+#define LW6MAP_MAX_BODY_VOLUME (LW6MAP_MAX_BODY_SURFACE * LW6MAP_MAX_BODY_DEPTH)
+
 // Theorical limit
 #define LW6MAP_MIN_TEXTURE_WIDTH 1
 #define LW6MAP_MIN_TEXTURE_HEIGHT 1

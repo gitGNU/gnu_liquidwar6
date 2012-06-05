@@ -277,7 +277,8 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 					 &(map_struct->nb_slots));
   if (ret && map_struct->nb_slots != volume)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad nb_slots=%d for volume=%d"),
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("bad nb_slots=%d for map_struct with volume=%d"),
 		  map_struct->nb_slots, volume);
       ret = 0;
     }
@@ -821,14 +822,35 @@ pop_armies (lw6sys_hexa_serializer_t * hexa_serializer,
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(armies->max_fighters));
+  if (ret && armies->max_fighters > LW6MAP_MAX_BODY_VOLUME)
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("max_fighters is too great (%d>%d)"),
+		  armies->max_fighters, LW6MAP_MAX_BODY_VOLUME);
+      ret = 0;
+    }
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(armies->active_fighters));
+  if (ret && armies->active_fighters > armies->max_fighters)
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("active_fighters is too great (%d>%d)"),
+		  armies->active_fighters, armies->max_fighters);
+      ret = 0;
+    }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
       ret = ret
 	&& lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					     &(armies->fighters_per_team[i]));
+      if (ret && armies->fighters_per_team[i] > armies->active_fighters)
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("fighters_per_team[%d] is too great (%d>%d)"), i,
+		      armies->fighters_per_team[i], armies->active_fighters);
+	  ret = 0;
+	}
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
@@ -1000,14 +1022,32 @@ pop_map_state (lw6sys_hexa_serializer_t * hexa_serializer,
 {
   int ret = 1;
   int i = 0;
+  lw6sys_whd_t shape_min =
+    { LW6MAP_MIN_BODY_WIDTH, LW6MAP_MIN_BODY_HEIGHT, LW6MAP_MIN_BODY_DEPTH };
+  lw6sys_whd_t shape_max =
+    { LW6MAP_MAX_BODY_WIDTH, LW6MAP_MAX_BODY_HEIGHT, LW6MAP_MAX_BODY_DEPTH };
+  int surface = 0;
+  int volume = 0;
 
   ret = ret
     && lw6sys_hexa_serializer_pop_whd (hexa_serializer, &(map_state->shape));
+  if (ret && !lw6sys_shape_check_min_max_whd
+      (&(map_state->shape), &shape_min, &shape_max))
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("map_state shape out of range (%dx%dx%d)"),
+		  map_state->shape.w, map_state->shape.h, map_state->shape.d);
+      ret = 0;
+    }
+
+  surface = lw6sys_shape_surface_wh (&(map_state->shape));
+  volume = lw6sys_shape_volume_whd (&(map_state->shape));
+
   if (ret)
     {
-      map_state->shape_surface =
-	lw6sys_shape_surface_wh (&(map_state->shape));
+      map_state->shape_surface = surface;
     }
+
   ret = ret && pop_armies (hexa_serializer, &(map_state->armies));
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
@@ -1020,6 +1060,13 @@ pop_map_state (lw6sys_hexa_serializer_t * hexa_serializer,
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(map_state->nb_slots));
+  if (ret && map_state->nb_slots != volume)
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("bad nb_slots=%d for map_state with volume=%d"),
+		  map_state->nb_slots, volume);
+      ret = 0;
+    }
   if (ret && map_state->nb_slots != map_state->map_struct->nb_slots)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,

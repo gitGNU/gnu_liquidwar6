@@ -569,6 +569,19 @@ _lw6ker_map_state_sanity_check (_lw6ker_map_state_t * map_state)
 	  ret = 0;
 	}
     }
+  for (i = 0; i < map_state->nb_slots; ++i)
+    {
+      if (map_state->slots[i].fighter_id < -1
+	  || map_state->slots[i].fighter_id >= map_state->armies.max_fighters)
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("fighter_id=%d at slot %d is invalid (max_fighters=%d)"),
+		      map_state->slots[i].fighter_id, i,
+		      map_state->armies.max_fighters);
+	  ret = 0;
+	}
+    }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
       if (map_state->armies.fighters_per_team[i] > 0
