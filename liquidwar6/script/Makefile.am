@@ -35,6 +35,7 @@ game.scm \
 help.scm \
 io.scm \
 liquidwar6.scm \
+load.scm \
 loader.scm \
 local-game.scm \
 log.scm \
@@ -71,7 +72,8 @@ sound.scm \
 speed.scm \
 splash.scm \
 style.scm \
-test.scm \
+test-0.scm \
+test-1.scm \
 wait.scm \
 zoom.scm \
 README

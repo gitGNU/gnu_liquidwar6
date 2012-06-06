@@ -26,7 +26,8 @@
 
 #include "liquidwar6.h"
 
-#define TEST_FILE "test.scm"
+#define TEST_FILE_0 "test-0.scm"
+#define TEST_FILE_1 "test-1.scm"
 #define TEST_ARGC 1
 #define TEST_ARGV0 "prog"
 
@@ -54,7 +55,14 @@ get_test_file (int argc, const char **argv, int mode)
       script_dir = lw6sys_path_parent (script_file);
       if (script_dir)
 	{
-	  ret = lw6sys_path_concat (script_dir, TEST_FILE);
+	  if (!mode)
+	    {
+	      ret = lw6sys_path_concat (script_dir, TEST_FILE_0);
+	    }
+	  else
+	    {
+	      ret = lw6sys_path_concat (script_dir, TEST_FILE_1);
+	    }
 	  LW6SYS_FREE (script_dir);
 	}
       LW6SYS_FREE (script_file);

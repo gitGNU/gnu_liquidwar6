@@ -1,3 +1,7 @@
+2012-06-06 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed script tests.
+
 2012-06-05 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed p2p-test on Mac OS X (socket binding problem).

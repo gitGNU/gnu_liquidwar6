@@ -18,8 +18,8 @@
 ;Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;Contact author        : ufoot@ufoot.org
 
-(load "main.scm") ; load this to catch error in make dist
-(load "def.scm")
+(load "load.scm") ; load this to catch error in make dist
+(lw6-load) ; will load all includes but main, trap syntax errors at least
 
 (define lw6-test-sys-build
   (lambda ()
@@ -27,7 +27,7 @@
 	   (let (
 		 (retval (eval-string (string-concatenate (list "(" procname ")"))))
 		 )
-	     (c-lw6sys-log 2 (format #f "~a -> \"~a\"" procname retval))))
+	     (lw6-log-notice (format #f "~a -> \"~a\"" procname retval))))
 	 (list lw6def-c-lw6sys-build-get-package-tarname
 	       lw6def-c-lw6sys-build-get-package-name
 	       lw6def-c-lw6sys-build-get-package-string
@@ -90,7 +90,7 @@
 	   (let (
 		 (retval (eval-string (string-concatenate (list "(" procname ")"))))
 		 )
-	     (c-lw6sys-log 2 (format #f "~a -> \"~a\"" procname retval))))
+	     (lw6-log-notice (format #f "~a -> \"~a\"" procname retval))))
 	 (list lw6def-c-lw6sys-get-cwd
 	       lw6def-c-lw6sys-get-default-user-dir
 	       lw6def-c-lw6sys-get-default-config-file
@@ -124,7 +124,7 @@
 	   (let (
 		 (retval (eval-string (string-concatenate (list "(" procname ")"))))
 		 )
-	     (c-lw6sys-log 2 (format #f "~a -> ~a items" procname (length retval)))))
+	     (lw6-log-notice (format #f "~a -> ~a items" procname (length retval)))))
 	 (list lw6def-c-lw6hlp-list-quick
 	       lw6def-c-lw6hlp-list-doc
 	       lw6def-c-lw6hlp-list-show
@@ -314,29 +314,29 @@
       (gc)
       )))
 
-(c-lw6sys-log 2 "testing sys build")
+(lw6-log-notice "testing sys build")
 (lw6-test-sys-build)
-(c-lw6sys-log 2 "testing sys options")
+(lw6-log-notice "testing sys options")
 (lw6-test-sys-options)
-(c-lw6sys-log 2 "testing hlp lists")
+(lw6-log-notice "testing hlp lists")
 (lw6-test-hlp-lists)
-(c-lw6sys-log 2 "testing map")
+(lw6-log-notice "testing map")
 (lw6-test-map)
-(c-lw6sys-log 2 "testing game struct")
+(lw6-log-notice "testing game struct")
 (lw6-test-game-struct)
-(c-lw6sys-log 2 "testing game state")
+(lw6-log-notice "testing game state")
 (lw6-test-game-state)
-(c-lw6sys-log 2 "testing pilot")
+(lw6-log-notice "testing pilot")
 (lw6-test-pilot)
-(c-lw6sys-log 2 "testing bot")
+(lw6-log-notice "testing bot")
 (lw6-test-bot)
-(c-lw6sys-log 2 "testing smobs GC, step 1")
+(lw6-log-notice "testing smobs GC, step 1")
 (lw6-test-smobs-gc)
-(c-lw6sys-log 2 "testing smobs GC, step 2")
+(lw6-log-notice "testing smobs GC, step 2")
 (lw6-test-smobs-gc)
-(c-lw6sys-log 2 "testing async load")
+(lw6-log-notice "testing async load")
 (lw6-test-async-load)
-(c-lw6sys-log 2 "testing db")
+(lw6-log-notice "testing db")
 (lw6-test-db)
-(c-lw6sys-log 2 "testing node")
+(lw6-log-notice "testing node")
 (lw6-test-node)
