@@ -362,6 +362,8 @@
 (define lw6def-c-lw6sys-get-log-file "c-lw6sys-get-log-file")
 (define lw6def-c-lw6sys-get-map-dir "c-lw6sys-get-map-dir")
 (define lw6def-c-lw6sys-get-map-path "c-lw6sys-get-map-path")
+(define lw6def-c-lw6sys-get-memory-bazooka-eraser "c-lw6sys-get-memory-bazooka-eraser")
+(define lw6def-c-lw6sys-get-memory-bazooka-size "c-lw6sys-get-memory-bazooka-size")
 (define lw6def-c-lw6sys-get-mod-dir "c-lw6sys-get-mod-dir")
 (define lw6def-c-lw6sys-get-music-dir "c-lw6sys-get-music-dir")
 (define lw6def-c-lw6sys-get-music-path "c-lw6sys-get-music-path")

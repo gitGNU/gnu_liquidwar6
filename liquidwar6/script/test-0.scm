@@ -118,6 +118,36 @@
 	       )
 	 )))
 
+(define lw6-test-sys-id
+  (lambda ()
+    (map (lambda (procname)
+	   (let (
+		 (retval (eval-string (string-concatenate (list "(" procname ")"))))
+		 )
+	     (lw6-log-notice (format #f "~a -> \"~a\"" procname retval))))
+	 (list lw6def-c-lw6sys-generate-id-16
+	       lw6def-c-lw6sys-generate-id-32
+	       lw6def-c-lw6sys-generate-id-64
+	       )
+	 )))
+
+(define lw6-test-sys-bazooka
+  (lambda ()
+    (begin
+      ;; double bazooka size
+      (c-lw6sys-set-memory-bazooka-size 
+       (* 2 (c-lw6sys-get-memory-bazooka-size)))
+      (c-lw6sys-set-memory-bazooka-eraser 
+       (not (c-lw6sys-get-memory-bazooka-eraser)))
+      (lw6-log-notice (format #f "bazooka-eraser=~a"
+			      (c-lw6sys-get-memory-bazooka-eraser)))
+      ;; run it again to get back to previous mode
+      (c-lw6sys-set-memory-bazooka-eraser 
+       (not (c-lw6sys-get-memory-bazooka-eraser)))
+      (lw6-log-notice (format #f "bazooka-size=~a"
+			      (c-lw6sys-get-memory-bazooka-size)))
+      )))
+
 (define lw6-test-hlp-lists
   (lambda ()
     (map (lambda (procname)
@@ -318,6 +348,10 @@
 (lw6-test-sys-build)
 (lw6-log-notice "testing sys options")
 (lw6-test-sys-options)
+(lw6-log-notice "testing sys id")
+(lw6-test-sys-id)
+(lw6-log-notice "testing sys bazooka")
+(lw6-test-sys-bazooka)
 (lw6-log-notice "testing hlp lists")
 (lw6-test-hlp-lists)
 (lw6-log-notice "testing map")

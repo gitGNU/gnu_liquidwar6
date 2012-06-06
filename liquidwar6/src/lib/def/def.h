@@ -369,6 +369,8 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6SYS_GET_LOG_FILE "c-lw6sys-get-log-file"
 #define LW6DEF_C_LW6SYS_GET_MAP_DIR "c-lw6sys-get-map-dir"
 #define LW6DEF_C_LW6SYS_GET_MAP_PATH "c-lw6sys-get-map-path"
+#define LW6DEF_C_LW6SYS_GET_MEMORY_BAZOOKA_ERASER "c-lw6sys-get-memory-bazooka-eraser"
+#define LW6DEF_C_LW6SYS_GET_MEMORY_BAZOOKA_SIZE "c-lw6sys-get-memory-bazooka-size"
 #define LW6DEF_C_LW6SYS_GET_MOD_DIR "c-lw6sys-get-mod-dir"
 #define LW6DEF_C_LW6SYS_GET_MUSIC_DIR "c-lw6sys-get-music-dir"
 #define LW6DEF_C_LW6SYS_GET_MUSIC_PATH "c-lw6sys-get-music-path"

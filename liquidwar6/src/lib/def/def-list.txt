@@ -342,6 +342,8 @@ c-lw6sys-get-hostname
 c-lw6sys-get-log-file
 c-lw6sys-get-map-dir
 c-lw6sys-get-map-path
+c-lw6sys-get-memory-bazooka-eraser
+c-lw6sys-get-memory-bazooka-size
 c-lw6sys-get-mod-dir
 c-lw6sys-get-music-dir
 c-lw6sys-get-music-path

@@ -1115,6 +1115,11 @@ Wrapper on lw6sys_build_get_datadir.
 Wrapper on lw6sys_build_get_date.
 @end deffn
 
+@subsection c-lw6sys-build-get-docdir
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-docdir}
+Wrapper on lw6sys_build_get_docdir.
+@end deffn
+
 @subsection c-lw6sys-build-get-enable-allinone
 @deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-allinone}
 Wrapper on lw6sys_build_get_enable_allinone.
@@ -1468,6 +1473,16 @@ Wrapper on lw6sys_get_map_dir.
 @subsection c-lw6sys-get-map-path
 @deffn {C function exported to Guile} @code{c-lw6sys-get-map-path}
 Wrapper on lw6sys_get_map_path.
+@end deffn
+
+@subsection c-lw6sys-get-memory-bazooka-eraser
+@deffn {C function exported to Guile} @code{c-lw6sys-get-memory-bazooka-eraser}
+Wrapper on lw6sys_get_memory_bazooka_eraser.
+@end deffn
+
+@subsection c-lw6sys-get-memory-bazooka-size
+@deffn {C function exported to Guile} @code{c-lw6sys-get-memory-bazooka-size}
+Wrapper on lw6sys_get_memory_bazooka_size.
 @end deffn
 
 @subsection c-lw6sys-get-mod-dir

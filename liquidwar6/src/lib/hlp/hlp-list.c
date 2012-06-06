@@ -865,7 +865,9 @@ update_funcs (lw6sys_list_t ** list)
 {
   lw6sys_list_push_back (list, LW6DEF_C_GETTEXT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_SIZE);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_GET_MEMORY_BAZOOKA_SIZE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_ERASER);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_GET_MEMORY_BAZOOKA_ERASER);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_TARNAME);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_NAME);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_STRING);
@@ -901,6 +903,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_LIBDIR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_INCLUDEDIR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_LOCALEDIR);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_DOCDIR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_CONSOLE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GTK);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GL);

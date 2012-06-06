@@ -2220,8 +2220,12 @@ populate_references ()
 		 ("Calls GNU gettext to convert string in current locale. Note that '_' (plain underscode) is exported as well, so that code can be written using '_' as a function."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_SIZE,
 		 _x_ ("Wrapper on lw6sys_set_memory_bazooka_size."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_MEMORY_BAZOOKA_SIZE,
+		 _x_ ("Wrapper on lw6sys_get_memory_bazooka_size."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_ERASER,
 		 _x_ ("Wrapper on lw6sys_set_memory_bazooka_eraser."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_MEMORY_BAZOOKA_ERASER,
+		 _x_ ("Wrapper on lw6sys_get_memory_bazooka_eraser."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_TARNAME,
 		 _x_ ("Wrapper on lw6sys_build_get_package_tarname."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_NAME,

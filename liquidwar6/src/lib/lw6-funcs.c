@@ -642,6 +642,21 @@ _scm_lw6sys_set_memory_bazooka_size (SCM size)
 }
 
 static SCM
+_scm_lw6sys_get_memory_bazooka_size ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  ret = scm_from_int (lw6sys_get_memory_bazooka_size ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6sys_set_memory_bazooka_eraser (SCM state)
 {
   SCM ret = SCM_BOOL_F;
@@ -655,6 +670,21 @@ _scm_lw6sys_set_memory_bazooka_eraser (SCM state)
   c_state = scm_to_bool (state);
 
   ret = lw6sys_set_memory_bazooka_eraser (c_state) ? SCM_BOOL_T : SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6sys_get_memory_bazooka_eraser ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  ret = lw6sys_get_memory_bazooka_eraser ()? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1662,12 +1692,17 @@ _scm_lw6sys_generate_id_16 ()
   SCM ret = SCM_BOOL_F;
   char *c_ret = NULL;
 
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
   c_ret = lw6sys_id_ltoa (lw6sys_generate_id_16 ());
   if (c_ret)
     {
       ret = scm_from_locale_string (c_ret);
       LW6SYS_FREE (c_ret);
     }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
 
   return ret;
 }
@@ -1678,12 +1713,17 @@ _scm_lw6sys_generate_id_32 ()
   SCM ret = SCM_BOOL_F;
   char *c_ret = NULL;
 
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
   c_ret = lw6sys_id_ltoa (lw6sys_generate_id_32 ());
   if (c_ret)
     {
       ret = scm_from_locale_string (c_ret);
       LW6SYS_FREE (c_ret);
     }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
 
   return ret;
 }
@@ -1694,12 +1734,17 @@ _scm_lw6sys_generate_id_64 ()
   SCM ret = SCM_BOOL_F;
   char *c_ret = NULL;
 
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
   c_ret = lw6sys_id_ltoa (lw6sys_generate_id_64 ());
   if (c_ret)
     {
       ret = scm_from_locale_string (c_ret);
       LW6SYS_FREE (c_ret);
     }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
 
   return ret;
 }
@@ -9767,8 +9812,12 @@ lw6_register_funcs ()
    */
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_SIZE, 1, 0, 0,
 			 (SCM (*)())_scm_lw6sys_set_memory_bazooka_size);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MEMORY_BAZOOKA_SIZE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_memory_bazooka_size);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_ERASER, 1, 0, 0,
 			 (SCM (*)())_scm_lw6sys_set_memory_bazooka_eraser);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MEMORY_BAZOOKA_ERASER, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_memory_bazooka_eraser);
   /*
    * In build.c
    */
