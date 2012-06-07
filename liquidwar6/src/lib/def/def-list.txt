@@ -49,7 +49,9 @@ broadcast
 c
 c-gettext
 c-lw6-exit
+c-lw6-get-ret
 c-lw6-release
+c-lw6-set-ret
 c-lw6bot-get-backends
 c-lw6bot-new
 c-lw6bot-next-move

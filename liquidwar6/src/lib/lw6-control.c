@@ -127,3 +127,32 @@ lw6_exit ()
   printf ("\n");
   lw6sys_signal_send_quit ();
 }
+
+/**
+ * lw6_set_ret
+ *
+ * @ret: return value to set, 1 for success, 0 for failure
+ * 
+ * Sets the ret value for the script.
+ *
+ * Return value: none
+ */
+void
+lw6_set_ret (int ret)
+{
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("set script ret=%d"), ret);
+  lw6_global.ret = ret ? 1 : 0;
+}
+
+/**
+ * lw6_get_ret
+ *
+ * Get the ret value for the script.
+ *
+ * Return value: 1 if success, 0 if not.
+ */
+int
+lw6_get_ret ()
+{
+  return (lw6_global.ret ? 1 : 0);
+}

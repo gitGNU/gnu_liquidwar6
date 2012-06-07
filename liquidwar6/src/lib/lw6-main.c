@@ -153,8 +153,6 @@ lw6_main (int argc, const char *argv[])
 	  lw6sys_log_critical (_x_ ("can't determine log file"));
 	}
 
-
-
       lw6_print_hello (argc, argv);
       lw6_fix_env (argc, argv);
 
@@ -169,6 +167,21 @@ lw6_main (int argc, const char *argv[])
 	  _run (NULL);
 	  _end (NULL);
 #endif
+
+	  if (ret)
+	    {
+	      if (lw6_global.ret)
+		{
+		  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("script returned true"));
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("script returned false, something is wrong"));
+		  ret = 0;
+		}
+	    }
 
 	  /*
 	   * It's important to call lw6_quit_global only now, when Guile

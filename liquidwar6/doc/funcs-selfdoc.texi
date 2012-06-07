@@ -10,9 +10,19 @@ function.
 Wrapper on lw6_exit.
 @end deffn
 
+@subsection c-lw6-get-ret
+@deffn {C function exported to Guile} @code{c-lw6-get-ret}
+Wrapper on lw6_get_ret.
+@end deffn
+
 @subsection c-lw6-release
 @deffn {C function exported to Guile} @code{c-lw6-release}
 Wrapper on lw6_release.
+@end deffn
+
+@subsection c-lw6-set-ret
+@deffn {C function exported to Guile} @code{c-lw6-set-ret}
+Wrapper on lw6_set_ret.
 @end deffn
 
 @subsection c-lw6bot-get-backends

@@ -1196,6 +1196,8 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6BOT_NEXT_MOVE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6_RELEASE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6_EXIT);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6_SET_RET);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6_GET_RET);
 
   return ((*list) != NULL);
 }

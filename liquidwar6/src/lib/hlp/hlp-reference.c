@@ -2845,6 +2845,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6bot_next_move."));
   POPULATE_VOID (LW6DEF_C_LW6_RELEASE, _x_ ("Wrapper on lw6_release."));
   POPULATE_VOID (LW6DEF_C_LW6_EXIT, _x_ ("Wrapper on lw6_exit."));
+  POPULATE_VOID (LW6DEF_C_LW6_SET_RET, _x_ ("Wrapper on lw6_set_ret."));
+  POPULATE_VOID (LW6DEF_C_LW6_GET_RET, _x_ ("Wrapper on lw6_get_ret."));
   /*
    * Aliases
    */

@@ -9130,18 +9130,15 @@ _scm_lw6p2p_db_new (SCM name)
 
   SCM_ASSERT (scm_is_string (name), name, SCM_ARG1, __FUNCTION__);
 
-  if (lw6_global.net_initialized)
+  c_name = to_0str (name);
+  if (c_name)
     {
-      c_name = to_0str (name);
-      if (c_name)
+      c_db = lw6p2p_db_open (lw6_global.argc, lw6_global.argv, c_name);
+      if (c_db)
 	{
-	  c_db = lw6p2p_db_open (lw6_global.argc, lw6_global.argv, c_name);
-	  if (c_db)
-	    {
-	      ret = lw6_make_scm_db (c_db);
-	    }
-	  LW6SYS_FREE (c_name);
+	  ret = lw6_make_scm_db (c_db);
 	}
+      LW6SYS_FREE (c_name);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -9780,6 +9777,36 @@ _scm_lw6_exit ()
   LW6SYS_SCRIPT_FUNCTION_END;
 
   return SCM_UNDEFINED;
+}
+
+static SCM
+_scm_lw6_set_ret (SCM ret)
+{
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_BOOLP (ret), ret, SCM_ARG1, __FUNCTION__);
+
+  lw6_set_ret (SCM_NFALSEP (ret));
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return SCM_UNDEFINED;
+}
+
+static SCM
+_scm_lw6_get_ret ()
+{
+  SCM ret = SCM_UNDEFINED;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  ret = lw6_get_ret ()? SCM_BOOL_T : SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
 }
 
 /**
@@ -10651,6 +10678,10 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6_release);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6_EXIT, 0, 0, 0,
 			 (SCM (*)())_scm_lw6_exit);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6_SET_RET, 1, 0, 0,
+			 (SCM (*)())_scm_lw6_set_ret);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6_GET_RET, 0, 0, 0,
+			 (SCM (*)())_scm_lw6_get_ret);
 
   return ret;
 }

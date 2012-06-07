@@ -33,6 +33,21 @@ Sends a quit message and displays a newline.
 @strong{Return value:}  none
 @end deftypefun
 
+@deftypefun {void} {lw6_set_ret} (int @var{ret})
+@var{ret}:  return value to set, 1 for success, 0 for failure
+
+Sets the ret value for the script.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int} {lw6_get_ret} ()
+
+Get the ret value for the script.
+
+@strong{Return value:}  1 if success, 0 if not.
+@end deftypefun
+
 @deftypefun {int} {lw6_fix_env} (int @var{argc}, const char * [] @var{argv})
 
 argc: number of args as passed to main

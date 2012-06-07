@@ -146,6 +146,23 @@ test_callback (_lw6_test_param_t * param)
 	ret = 0;
       }
 
+    if (ret)
+      {
+	if (lw6_global.ret)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("script returned true, looks like tests were OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("script returned false, at least one test failed"));
+	    ret = 0;
+	  }
+      }
+
     lw6_quit_global ();
   }
 

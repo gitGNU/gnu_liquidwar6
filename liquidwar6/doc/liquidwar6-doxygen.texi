@@ -422,6 +422,16 @@ Assoc with all jpeg smobs.
 Coverage hash, keeps a track of all calls to script functions, this way one can figure out wether a C function exported to script has been called, and how many times.         
 @end defcv
 
+@defcv {Member} {lw6_global_s} {ret}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6_global_s::ret}
+
+
+Return value of the called script.         
+        
+@end defcv
+
 
 
   

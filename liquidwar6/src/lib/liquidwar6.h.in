@@ -304,6 +304,8 @@ typedef struct lw6_global_s
    * script has been called, and how many times.
    */
   lw6sys_hash_t *coverage;
+  /// Return value of the called script.
+  int ret;
 }
 lw6_global_t;
 
@@ -313,6 +315,8 @@ extern void lw6_resize_callback (lw6gui_video_mode_t * video_mode);
 /* lw6-control.c */
 extern void lw6_release ();
 extern void lw6_exit ();
+extern void lw6_set_ret (int ret);
+extern int lw6_get_ret ();
 
 /* lw6-fix.c */
 extern int lw6_fix_env (int argc, const char *argv[]);
