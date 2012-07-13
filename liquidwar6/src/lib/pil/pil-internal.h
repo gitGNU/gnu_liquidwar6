@@ -63,6 +63,16 @@ extern int _lw6pil_command_sort_callback (lw6sys_list_t ** list_a,
 extern void _lw6pil_compute_thread_func (lw6pil_worker_t * worker);
 extern void _lw6pil_compute_thread_join (lw6pil_worker_t * worker);
 
+/* pil-dump.c */
+extern char *_lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot);
+extern int _lw6pil_dump_command_to_pilot (_lw6pil_pilot_t * pilot,
+					  _lw6pil_pilot_t ** new_pilot,
+					  lw6ker_game_state_t **
+					  new_game_state,
+					  lw6ker_game_struct_t **
+					  new_game_struct,
+					  lw6map_level_t ** new_level);
+
 /* pil-pilot.c */
 extern _lw6pil_pilot_t *_lw6pil_pilot_new (lw6ker_game_state_t * game_state,
 					   int64_t seq_0,

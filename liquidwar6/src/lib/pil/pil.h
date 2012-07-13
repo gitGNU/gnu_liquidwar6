@@ -34,6 +34,7 @@
 #define LW6PIL_COMMAND_TEXT_SET "SET"
 #define LW6PIL_COMMAND_TEXT_REMOVE "REMOVE"
 #define LW6PIL_COMMAND_TEXT_UNREGISTER "UNREGISTER"
+#define LW6PIL_COMMAND_TEXT_DUMP "DUMP"
 
 #define LW6PIL_DIRTY_READ_NEVER 0
 #define LW6PIL_DIRTY_READ_SYNC_ONLY 1
@@ -50,7 +51,8 @@ typedef enum lw6pil_command_code_e
   LW6PIL_COMMAND_CODE_ADD = 3,
   LW6PIL_COMMAND_CODE_SET = 4,
   LW6PIL_COMMAND_CODE_REMOVE = 5,
-  LW6PIL_COMMAND_CODE_UNREGISTER = 6
+  LW6PIL_COMMAND_CODE_UNREGISTER = 6,
+  LW6PIL_COMMAND_CODE_DUMP = 7,
 } lw6pil_command_code_t;
 
 /**
@@ -261,6 +263,16 @@ extern void lw6pil_coords_fix (lw6map_rules_t * rules, lw6sys_whd_t * shape,
 extern void lw6pil_coords_fix_x10 (lw6map_rules_t * rules,
 				   lw6sys_whd_t * shape, float *x, float *y,
 				   float *z);
+
+/* pil-dump.c */
+extern char *lw6pil_dump_pilot_to_command (lw6pil_pilot_t * pilot);
+extern int lw6pil_dump_command_to_pilot (lw6pil_pilot_t * pilot,
+					 lw6pil_pilot_t ** new_pilot,
+					 lw6ker_game_state_t **
+					 new_game_state,
+					 lw6ker_game_struct_t **
+					 new_game_struct,
+					 lw6map_level_t ** new_level);
 
 /* pil-localcursors.c */
 extern void lw6pil_local_cursors_reset (lw6pil_local_cursors_t *
