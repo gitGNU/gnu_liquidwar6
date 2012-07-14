@@ -28,11 +28,58 @@
 #include "pil-internal.h"
 
 char *
-_lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot)
+_lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot, int64_t timestamp,
+			       u_int64_t server_id)
 {
   char *ret = NULL;
+  char *level_hexa = NULL;
+  char *game_struct_hexa = NULL;
+  char *game_state_hexa = NULL;
+  int64_t seq = 0LL;
 
-  // todo
+  level_hexa =
+    lw6map_to_hexa (pilot->reference.game_state->game_struct->level);
+  if (level_hexa)
+    {
+      game_struct_hexa =
+	lw6ker_game_struct_to_hexa (pilot->reference.game_state->game_struct);
+      if (game_struct_hexa)
+	{
+	  lw6sys_mutex_lock (pilot->reference.global_mutex);
+
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("dump pilot to command round=%d"),
+		      lw6ker_game_state_get_rounds (pilot->
+						    reference.game_state));
+	  game_state_hexa = ret =
+	    lw6ker_game_state_to_hexa (pilot->reference.game_state);
+
+	  lw6sys_mutex_unlock (pilot->reference.global_mutex);
+	}
+    }
+
+  if (level_hexa && game_struct_hexa && game_state_hexa)
+    {
+      seq = _lw6pil_pilot_get_next_seq (pilot, timestamp);
+      ret =
+	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+			    "x %s %s %s %s", (long long) seq,
+			    (long long) server_id, LW6PIL_COMMAND_TEXT_DUMP,
+			    level_hexa, game_struct_hexa, game_state_hexa);
+    }
+
+  if (level_hexa)
+    {
+      LW6SYS_FREE (level_hexa);
+    }
+  if (game_struct_hexa)
+    {
+      LW6SYS_FREE (game_struct_hexa);
+    }
+  if (game_state_hexa)
+    {
+      LW6SYS_FREE (game_state_hexa);
+    }
 
   return ret;
 }
@@ -48,9 +95,11 @@ _lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot)
  * Return value: newly allocated string
  */
 char *
-lw6pil_dump_pilot_to_command (lw6pil_pilot_t * pilot)
+lw6pil_dump_pilot_to_command (lw6pil_pilot_t * pilot, int64_t timestamp,
+			      u_int64_t server_id)
 {
-  return _lw6pil_dump_pilot_to_command ((_lw6pil_pilot_t *) pilot);
+  return _lw6pil_dump_pilot_to_command ((_lw6pil_pilot_t *) pilot, timestamp,
+					server_id);
 }
 
 int

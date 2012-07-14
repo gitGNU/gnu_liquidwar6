@@ -27,32 +27,34 @@
 #include "pil.h"
 #include "pil-internal.h"
 
-#define TEST_MAP_WIDTH 45
-#define TEST_MAP_HEIGHT 15
-#define TEST_MAP_NB_LAYERS 7
-#define TEST_MAP_NOISE_PERCENT 5
-#define TEST_CYCLE 0.5f
-#define TEST_NB_PILOTS 3
-#define TEST_SYNC_COMMAND_I 10
-#define TEST_BACKUP_ROUND 70
-#define TEST_BACKUP_CHECKSUM 0xe771d39e
-#define TEST_CALIBRATE_TICKS1 12345
-#define TEST_CALIBRATE_TICKS2 23456
-#define TEST_COORDS_NB 5
-#define TEST_COORDS_W 100
-#define TEST_COORDS_H 50
-#define TEST_COORDS_D 1
-#define TEST_COORDS_X1 66.0f
-#define TEST_COORDS_Y1 33.0f
-#define TEST_COORDS_X2 130.0f
-#define TEST_COORDS_Y2 20.0f
-#define TEST_COORDS_X3 -30.3f
-#define TEST_COORDS_Y3 20.2f
-#define TEST_COORDS_X4 -10.1f
-#define TEST_COORDS_Y4 -5.5f
-#define TEST_COORDS_X5 1000.1f
-#define TEST_COORDS_Y5 51.1f
-#define TEST_COORDS_Z 0.0f
+#define _TEST_BACKUP_CHECKSUM 0xe771d39e
+#define _TEST_DUMP_CHECKSUM 0x7455de3
+
+#define _TEST_MAP_WIDTH 45
+#define _TEST_MAP_HEIGHT 15
+#define _TEST_MAP_NB_LAYERS 7
+#define _TEST_MAP_NOISE_PERCENT 5
+#define _TEST_CYCLE 0.5f
+#define _TEST_NB_PILOTS 3
+#define _TEST_SYNC_COMMAND_I 10
+#define _TEST_BACKUP_ROUND 70
+#define _TEST_CALIBRATE_TICKS1 12345
+#define _TEST_CALIBRATE_TICKS2 23456
+#define _TEST_COORDS_NB 5
+#define _TEST_COORDS_W 100
+#define _TEST_COORDS_H 50
+#define _TEST_COORDS_D 1
+#define _TEST_COORDS_X1 66.0f
+#define _TEST_COORDS_Y1 33.0f
+#define _TEST_COORDS_X2 130.0f
+#define _TEST_COORDS_Y2 20.0f
+#define _TEST_COORDS_X3 -30.3f
+#define _TEST_COORDS_Y3 20.2f
+#define _TEST_COORDS_X4 -10.1f
+#define _TEST_COORDS_Y4 -5.5f
+#define _TEST_COORDS_X5 1000.1f
+#define _TEST_COORDS_Y5 51.1f
+#define _TEST_COORDS_Z 0.0f
 #define _TEST_LOCAL_CURSORS_ID1 0x1234
 #define _TEST_LOCAL_CURSORS_X1 15
 #define _TEST_LOCAL_CURSORS_Y1 30
@@ -61,6 +63,7 @@
 #define _TEST_LOCAL_CURSORS_X2 45
 #define _TEST_LOCAL_CURSORS_Y2 90
 #define _TEST_LOCAL_CURSORS_MOUSE_CONTROLLED2 0
+#define _TEST_DUMP_ID 0x1234123412341234LL
 
 static char *test_commands[] = {
   "10000000002 1234abcd1234abcd REGISTER",
@@ -193,21 +196,21 @@ test_coords ()
   {
     lw6map_rules_t rules;
     lw6sys_whd_t shape;
-    float test_x[TEST_COORDS_NB] =
-      { TEST_COORDS_X1, TEST_COORDS_X2, TEST_COORDS_X3, TEST_COORDS_X4,
-      TEST_COORDS_X5
+    float test_x[_TEST_COORDS_NB] =
+      { _TEST_COORDS_X1, _TEST_COORDS_X2, _TEST_COORDS_X3, _TEST_COORDS_X4,
+      _TEST_COORDS_X5
     };
-    float test_y[TEST_COORDS_NB] =
-      { TEST_COORDS_Y1, TEST_COORDS_Y2, TEST_COORDS_Y3, TEST_COORDS_Y4,
-      TEST_COORDS_Y5
+    float test_y[_TEST_COORDS_NB] =
+      { _TEST_COORDS_Y1, _TEST_COORDS_Y2, _TEST_COORDS_Y3, _TEST_COORDS_Y4,
+      _TEST_COORDS_Y5
     };
     int i, px, py;
     float x, y, z;
 
     lw6map_rules_defaults (&rules);
-    shape.w = TEST_COORDS_W;
-    shape.h = TEST_COORDS_H;
-    shape.d = TEST_COORDS_D;
+    shape.w = _TEST_COORDS_W;
+    shape.h = _TEST_COORDS_H;
+    shape.d = _TEST_COORDS_D;
 
     for (py = 1; py >= -1; --py)
       {
@@ -217,11 +220,11 @@ test_coords ()
 	    rules.y_polarity = py;
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("polarity set to %d,%d"), px,
 			py);
-	    for (i = 0; i < TEST_COORDS_NB; ++i)
+	    for (i = 0; i < _TEST_COORDS_NB; ++i)
 	      {
 		x = test_x[i];
 		y = test_y[i];
-		z = TEST_COORDS_Z;
+		z = _TEST_COORDS_Z;
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("coords before fix %0.2f,%0.2f,%0.2f"), x, y,
 			    z);
@@ -329,6 +332,112 @@ test_local_cursors ()
 }
 
 /*
+ * Testing functions in dump.c
+ */
+static int
+test_dump ()
+{
+  int ret = 0;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6map_level_t *level = NULL;
+    lw6ker_game_struct_t *game_struct = NULL;
+    lw6ker_game_state_t *game_state = NULL;
+    lw6pil_pilot_t *pilot = NULL;
+    char *repr = NULL;
+    char *dump_command = NULL;
+    u_int32_t checksum = 0;
+    char *without_seq = NULL;
+
+    level =
+      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
+    if (level)
+      {
+	game_struct = lw6ker_game_struct_new (level, NULL);
+	if (game_struct)
+	  {
+	    game_state = lw6ker_game_state_new (game_struct, NULL);
+	    if (game_state)
+	      {
+		pilot =
+		  lw6pil_pilot_new (game_state, _LW6PIL_MIN_SEQ_0, 0, NULL);
+		if (pilot)
+		  {
+		    repr = lw6pil_pilot_repr (pilot);
+		    if (repr)
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_ ("pilot \"%s\" created"), repr);
+			LW6SYS_FREE (repr);
+		      }
+		    dump_command =
+		      lw6pil_dump_pilot_to_command (pilot,
+						    lw6sys_get_timestamp (),
+						    _TEST_DUMP_ID);
+		    if (dump_command)
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_ ("dump command with length=%d"),
+				    (int) strlen (dump_command));
+
+			without_seq = strchr (dump_command, ' ');
+			if (without_seq)
+			  {
+			    checksum = lw6sys_checksum_str (without_seq);
+			    if (checksum == _TEST_DUMP_CHECKSUM)
+			      {
+				lw6sys_log (LW6SYS_LOG_NOTICE,
+					    _x_ ("dump checksum=%x, OK"),
+					    checksum);
+				ret = 1;
+			      }
+			    else
+			      {
+				lw6sys_log (LW6SYS_LOG_WARNING,
+					    _x_
+					    ("dump checksum=%x, and should be %x"),
+					    checksum, _TEST_DUMP_CHECKSUM);
+			      }
+			  }
+			else
+			  {
+			    lw6sys_log (LW6SYS_LOG_WARNING,
+					_x_
+					("can't find space in dump, this is weird"));
+			  }
+
+			LW6SYS_FREE (dump_command);
+		      }
+
+		    lw6pil_pilot_free (pilot);
+		  }
+		if (game_state)
+		  {
+		    lw6ker_game_state_free (game_state);
+		    game_state = NULL;
+		  }
+	      }
+	    if (game_struct)
+	      {
+		lw6ker_game_struct_free (game_struct);
+		game_struct = NULL;
+	      }
+	  }
+	if (level)
+	  {
+	    lw6map_free (level);
+	    level = NULL;
+	  }
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
  * Testing functions in pilot.c
  */
 static int
@@ -347,8 +456,8 @@ test_pilot ()
     u_int32_t checksum = 0;
 
     level =
-      lw6map_builtin_custom (TEST_MAP_WIDTH, TEST_MAP_HEIGHT,
-			     TEST_MAP_NB_LAYERS, TEST_MAP_NOISE_PERCENT);
+      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (level)
       {
 	/*
@@ -402,9 +511,9 @@ test_pilot ()
 				  }
 			      }
 			    lw6pil_pilot_commit (pilot);
-			    lw6sys_sleep (TEST_CYCLE);
+			    lw6sys_sleep (_TEST_CYCLE);
 
-			    if (i == TEST_SYNC_COMMAND_I)
+			    if (i == _TEST_SYNC_COMMAND_I)
 			      {
 				lw6sys_log (LW6SYS_LOG_NOTICE,
 					    _x_ ("can_sync: %d"),
@@ -425,20 +534,20 @@ test_pilot ()
 				lw6pil_pilot_sync_from_backup (game_state,
 							       pilot);
 				while (lw6ker_game_state_get_rounds
-				       (game_state) < TEST_BACKUP_ROUND)
+				       (game_state) < _TEST_BACKUP_ROUND)
 				  {
 				    lw6sys_log (LW6SYS_LOG_WARNING,
 						_x_
 						("waiting for backup at round %d, is your computer slow or what?"),
-						TEST_BACKUP_ROUND);
-				    lw6sys_sleep (TEST_CYCLE);
+						_TEST_BACKUP_ROUND);
+				    lw6sys_sleep (_TEST_CYCLE);
 				    lw6pil_pilot_sync_from_backup (game_state,
 								   pilot);
 				  }
 				print_game_state (game_state,
 						  _x_ ("backup 2"));
 				if (lw6ker_game_state_get_rounds (game_state)
-				    == TEST_BACKUP_ROUND)
+				    == _TEST_BACKUP_ROUND)
 				  {
 				    checksum =
 				      lw6ker_game_state_checksum (game_state);
@@ -467,24 +576,24 @@ test_pilot ()
 			level = NULL;
 			lw6ker_game_state_free (game_state);
 			game_state = NULL;
-			lw6sys_sleep (TEST_CYCLE);
+			lw6sys_sleep (_TEST_CYCLE);
 
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("next_seq for ticks %"
 					 LW6SYS_PRINTF_LL "d is %"
 					 LW6SYS_PRINTF_LL "d"),
-				    (long long) TEST_CALIBRATE_TICKS1,
+				    (long long) _TEST_CALIBRATE_TICKS1,
 				    (long long)
 				    lw6pil_pilot_get_next_seq (pilot,
-							       TEST_CALIBRATE_TICKS1));
+							       _TEST_CALIBRATE_TICKS1));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("next_seq for ticks %"
 					 LW6SYS_PRINTF_LL "d is %"
 					 LW6SYS_PRINTF_LL "d"),
-				    (long long) TEST_CALIBRATE_TICKS2,
+				    (long long) _TEST_CALIBRATE_TICKS2,
 				    (long long)
 				    lw6pil_pilot_get_next_seq (pilot,
-							       TEST_CALIBRATE_TICKS2));
+							       _TEST_CALIBRATE_TICKS2));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("last_commit_seq=%" LW6SYS_PRINTF_LL
 					 "d"),
@@ -517,9 +626,9 @@ test_pilot ()
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_
 				    ("checksum at round %d is %x and should be %x"),
-				    TEST_BACKUP_ROUND, checksum,
-				    TEST_BACKUP_CHECKSUM);
-			if (checksum == TEST_BACKUP_CHECKSUM)
+				    _TEST_BACKUP_ROUND, checksum,
+				    _TEST_BACKUP_CHECKSUM);
+			if (checksum == _TEST_BACKUP_CHECKSUM)
 			  {
 			    ret = 1;
 			  }
@@ -599,7 +708,7 @@ lw6pil_test (int mode)
     }
 
   ret = test_command () && test_coords () && test_local_cursors ()
-    && test_pilot () && test_bench () && test_seq ();
+    && test_pilot () && test_dump () && test_bench () && test_seq ();
 
   return ret;
 }

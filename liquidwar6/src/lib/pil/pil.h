@@ -93,6 +93,19 @@ typedef struct lw6pil_set_args_s
 } lw6pil_set_args_t;
 
 /**
+ * Arguments passed to the DUMP command.
+ */
+typedef struct lw6pil_dump_args_s
+{
+  /// Hexa dump of level
+  char *level_hexa;
+  /// Hexa dump of game struct.
+  char *game_struct_hexa;
+  /// Hexa dump of game state.
+  char *game_state_hexa;
+} lw6pil_dump_args_t;
+
+/**
  * Arguments passed to various commands.
  */
 typedef union lw6pil_command_args_u
@@ -103,6 +116,8 @@ typedef union lw6pil_command_args_u
   lw6pil_remove_args_t remove;
   /// Arguments when command is SET.
   lw6pil_set_args_t set;
+  /// Arguments when command is DUMP.
+  lw6pil_dump_args_t dump;
 } lw6pil_command_args_t;
 
 /**
@@ -265,7 +280,9 @@ extern void lw6pil_coords_fix_x10 (lw6map_rules_t * rules,
 				   float *z);
 
 /* pil-dump.c */
-extern char *lw6pil_dump_pilot_to_command (lw6pil_pilot_t * pilot);
+extern char *lw6pil_dump_pilot_to_command (lw6pil_pilot_t * pilot,
+					   int64_t timestamp,
+					   u_int64_t server_id);
 extern int lw6pil_dump_command_to_pilot (lw6pil_pilot_t * pilot,
 					 lw6pil_pilot_t ** new_pilot,
 					 lw6ker_game_state_t **

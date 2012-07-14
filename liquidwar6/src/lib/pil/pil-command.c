@@ -206,6 +206,64 @@ command_set_parse (lw6pil_command_t * command, char *command_args)
 }
 
 static int
+command_dump_parse (lw6pil_command_t * command, char *command_args)
+{
+  int ret = 0;
+  char *pos;
+  char *seek;
+
+  seek = command_args;
+  pos = seek;
+  while (!is_spc (*seek))
+    {
+      seek++;
+    }
+  if (*seek)
+    {
+      (*seek) = '\0';
+      seek++;
+      command->args.dump.level_hexa = lw6sys_str_copy (pos);
+      pos = seek;
+
+      if (command->args.dump.level_hexa)
+	{
+	  while (!is_spc (*seek))
+	    {
+	      seek++;
+	    }
+
+	  if (*seek)
+	    {
+	      (*seek) = '\0';
+	      seek++;
+	      command->args.dump.game_struct_hexa = lw6sys_str_copy (pos);
+	      pos = seek;
+
+	      if (command->args.dump.game_struct_hexa)
+		{
+		  while (!is_spc (*seek))
+		    {
+		      seek++;
+		    }
+		  pos = seek;
+		  command->args.dump.game_state_hexa = lw6sys_str_copy (pos);
+		  if (command->args.dump.game_state_hexa)
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_
+				  ("%s command parsed"),
+				  LW6PIL_COMMAND_TEXT_DUMP);
+		      ret = 1;
+		    }
+		}
+	    }
+	}
+    }
+
+  return ret;
+}
+
+static int
 command_parse (lw6pil_command_t * command, char *command_text, int64_t seq_0)
 {
   int ret = 0;
@@ -270,6 +328,12 @@ command_parse (lw6pil_command_t * command, char *command_text, int64_t seq_0)
 				{
 				  command->code = LW6PIL_COMMAND_CODE_SET;
 				  ret = command_set_parse (command, seek);
+				}
+			      else
+				if (!strcmp (pos, LW6PIL_COMMAND_TEXT_DUMP))
+				{
+				  command->code = LW6PIL_COMMAND_CODE_DUMP;
+				  ret = command_dump_parse (command, seek);
 				}
 			    }
 			  else
@@ -480,6 +544,17 @@ lw6pil_command_repr (lw6pil_command_t * command)
 			    "x %s", (long long) command->seq,
 			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_UNREGISTER);
+      break;
+    case LW6PIL_COMMAND_CODE_DUMP:
+      ret =
+	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+			    "x %s %d %d %d", (long long) command->seq,
+			    (long long) command->node_id,
+			    LW6PIL_COMMAND_TEXT_DUMP,
+			    (int) strlen (command->args.dump.game_state_hexa),
+			    (int) strlen (command->args.
+					  dump.game_struct_hexa),
+			    (int) strlen (command->args.dump.level_hexa));
       break;
     default:
       ret =

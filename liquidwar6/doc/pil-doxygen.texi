@@ -99,6 +99,45 @@ The original full text of the command.
 
 
   
+@deftp {Struct} {lw6pil_dump_args_s}
+
+    
+Arguments passed to the DUMP command.     
+@end deftp
+
+@defcv {Member} {lw6pil_dump_args_s} {level_hexa}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6pil_dump_args_s::level_hexa}
+
+
+Hexa dump of level.         
+        
+@end defcv
+
+@defcv {Member} {lw6pil_dump_args_s} {game_struct_hexa}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6pil_dump_args_s::game_struct_hexa}
+
+
+Hexa dump of game struct.         
+        
+@end defcv
+
+@defcv {Member} {lw6pil_dump_args_s} {game_state_hexa}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6pil_dump_args_s::game_state_hexa}
+
+
+Hexa dump of game state.         
+        
+@end defcv
+
+
+
+  
 @deftp {Struct} {lw6pil_local_cursors_s}
 
     
