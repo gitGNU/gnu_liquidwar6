@@ -65,7 +65,6 @@ extern void _lw6pil_compute_thread_join (lw6pil_worker_t * worker);
 
 /* pil-dump.c */
 extern char *_lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot,
-					    int64_t timestamp,
 					    u_int64_t server_id);
 
 /* pil-pilot.c */

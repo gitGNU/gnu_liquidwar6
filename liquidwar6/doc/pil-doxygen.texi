@@ -138,6 +138,55 @@ Hexa dump of game state.
 
 
   
+@deftp {Struct} {lw6pil_dump_s}
+
+    
+Stores the information contained in a dump, this is just an utility struct used to hold all the data (level, game struct, game state and pilot) together     
+@end deftp
+
+@defcv {Member} {lw6pil_dump_s} {level}
+@strong{Type:} @code{lw6map_level_t *}
+
+@strong{Definition:} @code{lw6map_level_t* lw6pil_dump_s::level}
+
+
+Will hold the new level if a dump is received.         
+        
+@end defcv
+
+@defcv {Member} {lw6pil_dump_s} {game_struct}
+@strong{Type:} @code{lw6ker_game_struct_t *}
+
+@strong{Definition:} @code{lw6ker_game_struct_t* lw6pil_dump_s::game_struct}
+
+
+Will hold the new game struct if a dump is received.         
+        
+@end defcv
+
+@defcv {Member} {lw6pil_dump_s} {game_state}
+@strong{Type:} @code{lw6ker_game_state_t *}
+
+@strong{Definition:} @code{lw6ker_game_state_t* lw6pil_dump_s::game_state}
+
+
+Will hold the new game state if a dump is received.         
+        
+@end defcv
+
+@defcv {Member} {lw6pil_dump_s} {pilot}
+@strong{Type:} @code{lw6pil_pilot_t *}
+
+@strong{Definition:} @code{lw6pil_pilot_t* lw6pil_dump_s::pilot}
+
+
+Will hold the new pilot if a dump is received.         
+        
+@end defcv
+
+
+
+  
 @deftp {Struct} {lw6pil_local_cursors_s}
 
     
@@ -459,43 +508,13 @@ List of commands to be processed.
         
 @end defcv
 
-@defcv {Member} {lw6pil_worker_s} {dump_level}
-@strong{Type:} @code{lw6map_level_t *}
+@defcv {Member} {lw6pil_worker_s} {dump}
+@strong{Type:} @code{lw6pil_dump_t}
 
-@strong{Definition:} @code{lw6map_level_t* lw6pil_worker_s::dump_level}
-
-
-Will hold the new level if a dump is received.         
-        
-@end defcv
-
-@defcv {Member} {lw6pil_worker_s} {dump_game_struct}
-@strong{Type:} @code{lw6ker_game_struct_t *}
-
-@strong{Definition:} @code{lw6ker_game_struct_t* lw6pil_worker_s::dump_game_struct}
+@strong{Definition:} @code{lw6pil_dump_t lw6pil_worker_s::dump}
 
 
-Will hold the new game struct if a dump is received.         
-        
-@end defcv
-
-@defcv {Member} {lw6pil_worker_s} {dump_game_state}
-@strong{Type:} @code{lw6ker_game_state_t *}
-
-@strong{Definition:} @code{lw6ker_game_state_t* lw6pil_worker_s::dump_game_state}
-
-
-Will hold the new game state if a dump is received.         
-        
-@end defcv
-
-@defcv {Member} {lw6pil_worker_s} {dump_pilot}
-@strong{Type:} @code{lw6pil_pilot_t *}
-
-@strong{Definition:} @code{lw6pil_pilot_t* lw6pil_worker_s::dump_pilot}
-
-
-Will hold the new pilot if a dump is received.         
+Dump information.         
         
 @end defcv
 

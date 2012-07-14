@@ -306,7 +306,6 @@ extern void lw6pil_coords_fix_x10 (lw6map_rules_t * rules,
 /* pil-dump.c */
 extern void lw6pil_dump_clear (lw6pil_dump_t * dump);
 extern char *lw6pil_dump_pilot_to_command (lw6pil_pilot_t * pilot,
-					   int64_t timestamp,
 					   u_int64_t server_id);
 extern int lw6pil_dump_command_to_pilot (lw6pil_dump_t * dump,
 					 int64_t timestamp,

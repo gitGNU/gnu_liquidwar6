@@ -1014,7 +1014,7 @@ _lw6pil_pilot_get_last_commit_seq (_lw6pil_pilot_t * pilot)
 {
   int64_t ret = 0;
 
-  ret = pilot->last_commit_seq;
+  ret = lw6sys_llmax (pilot->last_commit_seq, _LW6PIL_MIN_SEQ_0);
 
   return ret;
 }

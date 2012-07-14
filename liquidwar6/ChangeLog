@@ -1,3 +1,7 @@
+2012-07-14 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Dump messages processed by pilot, still needs to be get at the end.
+
 2012-07-13 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Introducing pilot dump (to be implemented).

@@ -9,6 +9,98 @@ be interpreted as an estimated speed/power of your computer.
 @strong{Return value:}  1 on success, 0 if failure
 @end deftypefun
 
+@deftypefun {lw6pil_command_t *} {lw6pil_command_new} (char * @var{command_text}, int64_t @var{seq_0})
+@var{command_text}:  readable text of the command
+
+@var{seq_0}:  sequence offset (difference between sequence and rounds)
+
+Creates a new command from its text representation.
+
+@strong{Return value:}  newly allocated object
+@end deftypefun
+
+@deftypefun {lw6pil_command_t *} {lw6pil_command_dup} (lw6pil_command_t * @var{command})
+@var{command}:  object to duplicate
+
+Creates a copy of a command struct.
+
+@strong{Return value:}  newly allocated object.
+@end deftypefun
+
+@deftypefun {void} {lw6pil_command_free} (lw6pil_command_t * @var{command})
+@var{command}:  command to free
+
+Frees a command struct, with all its members.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {char *} {lw6pil_command_repr} (lw6pil_command_t * @var{command})
+@var{command}:  command to represent
+
+Gives a readable representation of a command.
+
+@strong{Return value:}  dynamically allocated string.
+@end deftypefun
+
+@deftypefun {int} {lw6pil_command_execute} (lw6pil_dump_t * @var{dump}, int64_t @var{timestamp}, lw6ker_game_state_t * @var{game_state}, lw6pil_command_t * @var{command})
+@var{dump}:  pointer on dump structure (out param, can be NULL)
+
+@var{timestamp}:  current timestamp (can be 0 if dump is NULL)
+
+@var{game_state}:  game state to work on
+
+@var{command}:  command to process
+
+Interprets a command and runs it against game_state. If
+dump and timestamp are set, then any DUMP command will fill
+the dump structure with the right values. If not running
+from a pilot context, this is useless, use NULL and 0LL.
+
+@strong{Return value:}  1 if ok, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6pil_command_execute_text} (lw6pil_dump_t * @var{dump}, int64_t @var{timestamp}, lw6ker_game_state_t * @var{game_state}, char * @var{command_text}, int64_t @var{seq_0})
+@var{dump}:  pointer on dump structure (out param, can be NULL)
+
+@var{timestamp}:  current timestamp (can be 0 if dump is NULL)
+
+@var{game_state}:  game state to work on
+
+@var{command_text}:  command text to process
+
+@var{seq_0}:  sequence offset (diffrerence between sequence and round)
+
+Interprets a command text and runs it against game_state. If
+dump and timestamp are set, then any DUMP command will fill
+the dump structure with the right values. If not running
+from a pilot context, this is useless, use NULL and 0LL.
+
+@strong{Return value:}  1 if ok, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6pil_command_execute_local} (lw6pil_local_cursors_t * @var{local_cursors}, lw6pil_command_t * @var{command})
+@var{local_cursors}:  local cursors information
+
+@var{command}:  command to execute
+
+Executes a local command, typically a cursor move, on the
+local_cursor struct, without changing any game state.
+
+@strong{Return value:}  1 if success, 0 if failure.
+@end deftypefun
+
+@deftypefun {int} {lw6pil_command_execute_local_text} (lw6pil_local_cursors_t * @var{local_cursors}, char * @var{command_text})
+@var{local_cursors}:  local cursors information
+
+@var{command_text}:  command text to execute
+
+Executes a local command text, typically a cursor move, on the
+local_cursor struct, without changing any game state.
+
+@strong{Return value:}  1 if success, 0 if failure.
+@end deftypefun
+
 @deftypefun {void} {lw6pil_coords_fix} (lw6map_rules_t * @var{rules}, lw6sys_whd_t * @var{shape}, float * @var{x}, float * @var{y}, float * @var{z})
 @var{rules}:  the set of rules to use (defines polarity)
 
@@ -45,10 +137,17 @@ the map but just to avoid overflow errors.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {char *} {lw6pil_dump_pilot_to_command} (lw6pil_pilot_t * @var{pilot}, int64_t @var{timestamp}, u_int64_t @var{server_id})
-@var{pilot}:  the pilot to transform as a DUMP.
+@deftypefun {void} {lw6pil_dump_clear} (lw6pil_dump_t * @var{dump})
+@var{dump}:  object to clear
 
-@var{timestamp}:  timestamp used to generate a command that makes sense
+Clears a dump object, that is, frees all existing object if they are here,
+and sets pointers to NULL.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {char *} {lw6pil_dump_pilot_to_command} (lw6pil_pilot_t * @var{pilot}, u_int64_t @var{server_id})
+@var{pilot}:  the pilot to transform as a DUMP.
 
 @var{server_id}:  ID of server issuing the command
 
@@ -58,14 +157,8 @@ describes the whole data and state.
 @strong{Return value:}  newly allocated string
 @end deftypefun
 
-@deftypefun {int} {lw6pil_dump_command_to_pilot} (lw6map_level_t ** @var{new_level}, lw6ker_game_struct_t ** @var{new_game_struct}, lw6ker_game_state_t ** @var{new_game_state}, lw6pil_pilot_t ** @var{new_pilot}, int64_t @var{timestamp}, lw6pil_command_t * @var{command}, lw6sys_progress_t * @var{progress})
-@var{new_level}:  if there's a need to create a new pilot, will contain the new object (out param)
-
-@var{new_game_struct}:  if there's a need to create a new pilot, will contain the new object (out param)
-
-@var{new_game_state}:  if there's a need to create a new pilot, will contain the new object (out param)
-
-@var{new_pilot}:  if there's a need to create a new pilot, will contain the new object (out param)
+@deftypefun {int} {lw6pil_dump_command_to_pilot} (lw6pil_dump_t * @var{dump}, int64_t @var{timestamp}, lw6pil_command_t * @var{command}, lw6sys_progress_t * @var{progress})
+@var{dump}:  will contain the dump data, pilot and game state, struct, and level
 
 @var{timestamp}:  current timestamp
 

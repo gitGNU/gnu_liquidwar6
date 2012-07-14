@@ -241,11 +241,6 @@ command_dump_parse (lw6pil_command_t * command, char *command_args)
 
 	      if (command->args.dump.game_struct_hexa)
 		{
-		  while (!is_spc (*seek))
-		    {
-		      seek++;
-		    }
-		  pos = seek;
 		  command->args.dump.game_state_hexa = lw6sys_str_copy (pos);
 		  if (command->args.dump.game_state_hexa)
 		    {
@@ -394,6 +389,16 @@ command_parse (lw6pil_command_t * command, char *command_text, int64_t seq_0)
   return ret;
 }
 
+/**
+ * lw6pil_command_new
+ *
+ * @command_text: readable text of the command
+ * @seq_0: sequence offset (difference between sequence and rounds)
+ *
+ * Creates a new command from its text representation.
+ *
+ * Return value: newly allocated object
+ */
 lw6pil_command_t *
 lw6pil_command_new (char *command_text, int64_t seq_0)
 {
@@ -412,6 +417,15 @@ lw6pil_command_new (char *command_text, int64_t seq_0)
   return ret;
 }
 
+/**
+ * lw6pil_command_dup
+ *
+ * @command: object to duplicate
+ *
+ * Creates a copy of a command struct.
+ *
+ * Return value: newly allocated object.
+ */
 lw6pil_command_t *
 lw6pil_command_dup (lw6pil_command_t * command)
 {
@@ -427,11 +441,36 @@ lw6pil_command_dup (lw6pil_command_t * command)
 	  LW6SYS_FREE (ret);
 	  ret = NULL;
 	}
+      if (ret && ret->code == LW6PIL_COMMAND_CODE_DUMP)
+	{
+	  ret->args.dump.level_hexa =
+	    lw6sys_str_copy (command->args.dump.level_hexa);
+	  ret->args.dump.game_struct_hexa =
+	    lw6sys_str_copy (command->args.dump.game_struct_hexa);
+	  ret->args.dump.game_state_hexa =
+	    lw6sys_str_copy (command->args.dump.game_state_hexa);
+	  if ((!ret->args.dump.level_hexa)
+	      || (!ret->args.dump.game_struct_hexa)
+	      || (!ret->args.dump.game_state_hexa))
+	    {
+	      lw6pil_command_free (ret);
+	      ret = NULL;
+	    }
+	}
     }
 
   return ret;
 }
 
+/**
+ * lw6pil_command_free
+ *
+ * @command: command to free
+ *
+ * Frees a command struct, with all its members.
+ *
+ * Return value: none.
+ */
 void
 lw6pil_command_free (lw6pil_command_t * command)
 {
@@ -440,6 +479,21 @@ lw6pil_command_free (lw6pil_command_t * command)
       if (command->text)
 	{
 	  LW6SYS_FREE (command->text);
+	}
+      if (command->code == LW6PIL_COMMAND_CODE_DUMP)
+	{
+	  if (command->args.dump.level_hexa)
+	    {
+	      LW6SYS_FREE (command->args.dump.level_hexa);
+	    }
+	  if (command->args.dump.game_struct_hexa)
+	    {
+	      LW6SYS_FREE (command->args.dump.game_struct_hexa);
+	    }
+	  if (command->args.dump.game_state_hexa)
+	    {
+	      LW6SYS_FREE (command->args.dump.game_state_hexa);
+	    }
 	}
       LW6SYS_FREE (command);
     }
@@ -489,6 +543,15 @@ _lw6pil_command_sort_callback (lw6sys_list_t ** list_a,
   return ret;
 }
 
+/**
+ * lw6pil_command_repr
+ *
+ * @command: command to represent
+ *
+ * Gives a readable representation of a command.
+ *
+ * Return value: dynamically allocated string.
+ */
 char *
 lw6pil_command_repr (lw6pil_command_t * command)
 {
@@ -566,6 +629,21 @@ lw6pil_command_repr (lw6pil_command_t * command)
   return ret;
 }
 
+/**
+ * lw6pil_command_execute
+ *
+ * @dump: pointer on dump structure (out param, can be NULL)
+ * @timestamp: current timestamp (can be 0 if dump is NULL)
+ * @game_state: game state to work on
+ * @command: command to process
+ *
+ * Interprets a command and runs it against game_state. If
+ * dump and timestamp are set, then any DUMP command will fill
+ * the dump structure with the right values. If not running
+ * from a pilot context, this is useless, use NULL and 0LL.
+ *
+ * Return value: 1 if ok, 0 if failed.
+ */
 int
 lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
 			lw6ker_game_state_t * game_state,
@@ -621,6 +699,22 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
   return ret;
 }
 
+/**
+ * lw6pil_command_execute_text
+ *
+ * @dump: pointer on dump structure (out param, can be NULL)
+ * @timestamp: current timestamp (can be 0 if dump is NULL)
+ * @game_state: game state to work on
+ * @command_text: command text to process
+ * @seq_0: sequence offset (diffrerence between sequence and round)
+ *
+ * Interprets a command text and runs it against game_state. If
+ * dump and timestamp are set, then any DUMP command will fill
+ * the dump structure with the right values. If not running
+ * from a pilot context, this is useless, use NULL and 0LL.
+ *
+ * Return value: 1 if ok, 0 if failed.
+ */
 int
 lw6pil_command_execute_text (lw6pil_dump_t * dump,
 			     int64_t timestamp,
@@ -640,6 +734,17 @@ lw6pil_command_execute_text (lw6pil_dump_t * dump,
   return ret;
 }
 
+/**
+ * lw6pil_command_execute_local
+ *
+ * @local_cursors: local cursors information
+ * @command: command to execute
+ * 
+ * Executes a local command, typically a cursor move, on the
+ * local_cursor struct, without changing any game state.
+ *
+ * Return value: 1 if success, 0 if failure.
+ */
 int
 lw6pil_command_execute_local (lw6pil_local_cursors_t * local_cursors,
 			      lw6pil_command_t * command)
@@ -675,6 +780,17 @@ lw6pil_command_execute_local (lw6pil_local_cursors_t * local_cursors,
   return ret;
 }
 
+/**
+ * lw6pil_command_execute_local_text
+ *
+ * @local_cursors: local cursors information
+ * @command_text: command text to execute
+ * 
+ * Executes a local command text, typically a cursor move, on the
+ * local_cursor struct, without changing any game state.
+ *
+ * Return value: 1 if success, 0 if failure.
+ */
 int
 lw6pil_command_execute_local_text (lw6pil_local_cursors_t * local_cursors,
 				   char *command_text)

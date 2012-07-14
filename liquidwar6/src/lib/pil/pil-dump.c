@@ -66,8 +66,7 @@ lw6pil_dump_clear (lw6pil_dump_t * dump)
 }
 
 char *
-_lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot, int64_t timestamp,
-			       u_int64_t server_id)
+_lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot, u_int64_t server_id)
 {
   char *ret = NULL;
   char *level_hexa = NULL;
@@ -89,7 +88,7 @@ _lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot, int64_t timestamp,
 		      _x_ ("dump pilot to command round=%d"),
 		      lw6ker_game_state_get_rounds (pilot->
 						    reference.game_state));
-	  game_state_hexa = ret =
+	  game_state_hexa =
 	    lw6ker_game_state_to_hexa (pilot->reference.game_state);
 
 	  lw6sys_mutex_unlock (pilot->reference.global_mutex);
@@ -98,7 +97,7 @@ _lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot, int64_t timestamp,
 
   if (level_hexa && game_struct_hexa && game_state_hexa)
     {
-      seq = _lw6pil_pilot_get_next_seq (pilot, timestamp);
+      seq = _lw6pil_pilot_get_last_commit_seq (pilot);
       ret =
 	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
 			    "x %s %s %s %s", (long long) seq,
@@ -126,7 +125,6 @@ _lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot, int64_t timestamp,
  * lw6pil_dump_pilot_to_command
  *
  * @pilot: the pilot to transform as a DUMP.
- * @timestamp: timestamp used to generate a command that makes sense
  * @server_id: ID of server issuing the command
  *
  * Creates the DUMP command for a given pilot, that is, a command that
@@ -135,11 +133,9 @@ _lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot, int64_t timestamp,
  * Return value: newly allocated string
  */
 char *
-lw6pil_dump_pilot_to_command (lw6pil_pilot_t * pilot, int64_t timestamp,
-			      u_int64_t server_id)
+lw6pil_dump_pilot_to_command (lw6pil_pilot_t * pilot, u_int64_t server_id)
 {
-  return _lw6pil_dump_pilot_to_command ((_lw6pil_pilot_t *) pilot, timestamp,
-					server_id);
+  return _lw6pil_dump_pilot_to_command ((_lw6pil_pilot_t *) pilot, server_id);
 }
 
 /**
@@ -163,6 +159,8 @@ lw6pil_dump_command_to_pilot (lw6pil_dump_t * dump,
 {
   int ret = 0;
 
+  lw6sys_log (LW6SYS_LOG_INFO,
+	      _x_ ("dump command to pilot, this can take some time..."));
   if (dump)
     {
       lw6pil_dump_clear (dump);
@@ -186,6 +184,8 @@ lw6pil_dump_command_to_pilot (lw6pil_dump_t * dump,
 				      timestamp, progress);
 		  if (dump->pilot)
 		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_ ("dump command to pilot OK"));
 		      ret = 1;
 		    }
 		}
@@ -194,6 +194,7 @@ lw6pil_dump_command_to_pilot (lw6pil_dump_t * dump,
 
       if (!ret)
 	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("couldn't read dump command"));
 	  lw6pil_dump_clear (dump);
 	}
     }

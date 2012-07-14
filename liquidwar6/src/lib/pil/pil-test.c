@@ -64,6 +64,7 @@
 #define _TEST_LOCAL_CURSORS_Y2 90
 #define _TEST_LOCAL_CURSORS_MOUSE_CONTROLLED2 0
 #define _TEST_DUMP_ID 0x1234123412341234LL
+#define _TEST_DUMP_SLEEP 3.0f
 
 static char *test_commands[] = {
   "10000000002 1234abcd1234abcd REGISTER",
@@ -373,9 +374,7 @@ test_dump ()
 			LW6SYS_FREE (repr);
 		      }
 		    dump_command =
-		      lw6pil_dump_pilot_to_command (pilot,
-						    lw6sys_get_timestamp (),
-						    _TEST_DUMP_ID);
+		      lw6pil_dump_pilot_to_command (pilot, _TEST_DUMP_ID);
 		    if (dump_command)
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -392,10 +391,14 @@ test_dump ()
 					    _x_ ("dump checksum=%x, OK"),
 					    checksum);
 
+				if (lw6pil_pilot_send_command
+				    (pilot, dump_command, 1)
+				    && lw6pil_pilot_commit (pilot))
+				  {
+				    lw6sys_sleep (_TEST_DUMP_SLEEP);
 
-
-
-				ret = 1;
+				    ret = 1;
+				  }
 			      }
 			    else
 			      {
