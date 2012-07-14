@@ -7703,8 +7703,8 @@ _scm_lw6pil_execute_command (SCM game_state, SCM command_text, SCM seq_0)
       if (c_command_text)
 	{
 	  ret =
-	    lw6pil_command_execute_text (c_game_state,
-					 c_command_text,
+	    lw6pil_command_execute_text (NULL, NULL, NULL, NULL, c_game_state,
+					 0LL, c_command_text,
 					 c_seq_0) ? SCM_BOOL_T : SCM_BOOL_F;
 	  LW6SYS_FREE (c_command_text);
 	}

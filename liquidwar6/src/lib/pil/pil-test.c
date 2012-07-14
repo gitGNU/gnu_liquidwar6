@@ -391,6 +391,10 @@ test_dump ()
 				lw6sys_log (LW6SYS_LOG_NOTICE,
 					    _x_ ("dump checksum=%x, OK"),
 					    checksum);
+
+
+
+
 				ret = 1;
 			      }
 			    else

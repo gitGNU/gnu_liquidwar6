@@ -459,4 +459,44 @@ List of commands to be processed.
         
 @end defcv
 
+@defcv {Member} {lw6pil_worker_s} {dump_level}
+@strong{Type:} @code{lw6map_level_t *}
+
+@strong{Definition:} @code{lw6map_level_t* lw6pil_worker_s::dump_level}
+
+
+Will hold the new level if a dump is received.         
+        
+@end defcv
+
+@defcv {Member} {lw6pil_worker_s} {dump_game_struct}
+@strong{Type:} @code{lw6ker_game_struct_t *}
+
+@strong{Definition:} @code{lw6ker_game_struct_t* lw6pil_worker_s::dump_game_struct}
+
+
+Will hold the new game struct if a dump is received.         
+        
+@end defcv
+
+@defcv {Member} {lw6pil_worker_s} {dump_game_state}
+@strong{Type:} @code{lw6ker_game_state_t *}
+
+@strong{Definition:} @code{lw6ker_game_state_t* lw6pil_worker_s::dump_game_state}
+
+
+Will hold the new game state if a dump is received.         
+        
+@end defcv
+
+@defcv {Member} {lw6pil_worker_s} {dump_pilot}
+@strong{Type:} @code{lw6pil_pilot_t *}
+
+@strong{Definition:} @code{lw6pil_pilot_t* lw6pil_worker_s::dump_pilot}
+
+
+Will hold the new pilot if a dump is received.         
+        
+@end defcv
+
 

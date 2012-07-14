@@ -48,18 +48,34 @@ the map but just to avoid overflow errors.
 @deftypefun {char *} {lw6pil_dump_pilot_to_command} (lw6pil_pilot_t * @var{pilot}, int64_t @var{timestamp}, u_int64_t @var{server_id})
 @var{pilot}:  the pilot to transform as a DUMP.
 
+@var{timestamp}:  timestamp used to generate a command that makes sense
+
+@var{server_id}:  ID of server issuing the command
+
 Creates the DUMP command for a given pilot, that is, a command that
 describes the whole data and state.
 
 @strong{Return value:}  newly allocated string
 @end deftypefun
 
-@deftypefun {int} {lw6pil_dump_command_to_pilot} (lw6pil_pilot_t * @var{pilot}, lw6pil_pilot_t ** @var{new_pilot}, lw6ker_game_state_t ** @var{new_game_state}, lw6ker_game_struct_t ** @var{new_game_struct}, lw6map_level_t ** @var{new_level})
+@deftypefun {int} {lw6pil_dump_command_to_pilot} (lw6map_level_t ** @var{new_level}, lw6ker_game_struct_t ** @var{new_game_struct}, lw6ker_game_state_t ** @var{new_game_state}, lw6pil_pilot_t ** @var{new_pilot}, int64_t @var{timestamp}, lw6pil_command_t * @var{command}, lw6sys_progress_t * @var{progress})
+@var{new_level}:  if there's a need to create a new pilot, will contain the new object (out param)
+
+@var{new_game_struct}:  if there's a need to create a new pilot, will contain the new object (out param)
+
+@var{new_game_state}:  if there's a need to create a new pilot, will contain the new object (out param)
+
+@var{new_pilot}:  if there's a need to create a new pilot, will contain the new object (out param)
+
+@var{timestamp}:  current timestamp
+
+@var{command}:  the command to execute
+
+@var{progress}:  progress object to show the advancement of process
+
 
 Interprets a DUMP command. A new pilot will be returned, along with game state, game struct and
 level. Old objects won't be deleted, but you could (should) get rid of them at they are useless now.
-
-describes the whole data and state.
 
 @strong{Return value:}  newly allocated string
 @end deftypefun

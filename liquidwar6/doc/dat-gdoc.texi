@@ -1,3 +1,24 @@
+@deftypefun {lw6dat_miss_t *} {lw6dat_miss_new} (u_int64_t @var{from_id}, int @var{serial_min}, int @var{serial_max})
+@var{from_id}:  who needs to resend the message
+
+@var{serial_min}:  serial range begin (included)
+
+@var{serial_max}:  serial range end (included)
+
+Creates a miss structure, simply allocates memory and
+pumps values into the right fields.
+
+@strong{Return value:}  new dynamically allocated object
+@end deftypefun
+
+@deftypefun {void} {lw6dat_miss_free} (lw6dat_miss_t * @var{miss})
+@var{miss}:  structure to free
+
+Frees a miss structure, simply unallocates memory.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {int} {lw6dat_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 

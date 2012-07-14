@@ -854,6 +854,42 @@ when it's flying over walls.
 @strong{Return value:}  none
 @end deftypefun
 
+@deftypefun {char *} {lw6ker_game_struct_to_hexa} (lw6ker_game_struct_t * @var{game_struct})
+Converts a map to something that is later readable by @code{lw6ker_game_struct_from_hexa}
+to reproduce the exact same map. Just a serializer.
+
+@strong{Return value:}  a newly allocated pointer, NULL if conversion failed.
+@end deftypefun
+
+@deftypefun {lw6ker_game_struct_t *} {lw6ker_game_struct_from_hexa} (const char * @var{hexa}, lw6map_level_t * @var{level})
+@var{hexa}:  an hexadecimal ASCII string, created by @code{lw6ker_game_struct_to_hexa}
+
+@var{level}:  the level this game_struct is bounded to
+
+Constructs a game struct from an hexadecimal string generated
+by @code{lw6ker_game_struct_to_hexa}. Just an un-serializer.
+
+@strong{Return value:}  a new map, might be NULL if string isn't correct.
+@end deftypefun
+
+@deftypefun {char *} {lw6ker_game_state_to_hexa} (lw6ker_game_state_t * @var{game_state})
+Converts a map to something that is later readable by @code{lw6ker_game_state_from_hexa}
+to reproduce the exact same map. Just a serializer.
+
+@strong{Return value:}  a newly allocated pointer, NULL if conversion failed.
+@end deftypefun
+
+@deftypefun {lw6ker_game_state_t *} {lw6ker_game_state_from_hexa} (const char * @var{hexa}, lw6ker_game_struct_t * @var{game_struct})
+@var{hexa}:  an hexadecimal ASCII string, created by @code{lw6ker_game_state_to_hexa}
+
+@var{game_struct}:  the game_struct this game_state is bounded to
+
+Constructs a game state from an hexadecimal string generated
+by @code{lw6ker_game_state_to_hexa}. Just an un-serializer.
+
+@strong{Return value:}  a new map, might be NULL if string isn't correct.
+@end deftypefun
+
 @deftypefun {int} {lw6ker_move_get_best_next_pos} (lw6ker_game_state_t * @var{game_state}, lw6sys_xyz_t * @var{next_pos}, lw6sys_xyz_t * @var{current_pos}, int @var{team_color})
 @var{game_state}:  the game_state to work on
 

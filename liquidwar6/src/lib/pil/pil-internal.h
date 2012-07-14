@@ -67,13 +67,15 @@ extern void _lw6pil_compute_thread_join (lw6pil_worker_t * worker);
 extern char *_lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot,
 					    int64_t timestamp,
 					    u_int64_t server_id);
-extern int _lw6pil_dump_command_to_pilot (_lw6pil_pilot_t * pilot,
-					  _lw6pil_pilot_t ** new_pilot,
-					  lw6ker_game_state_t **
-					  new_game_state,
+extern int _lw6pil_dump_command_to_pilot (lw6map_level_t ** new_level,
 					  lw6ker_game_struct_t **
 					  new_game_struct,
-					  lw6map_level_t ** new_level);
+					  lw6ker_game_state_t **
+					  new_game_state,
+					  _lw6pil_pilot_t ** new_pilot,
+					  int64_t timestamp,
+					  lw6pil_command_t * command,
+					  lw6sys_progress_t * progress);
 
 /* pil-pilot.c */
 extern _lw6pil_pilot_t *_lw6pil_pilot_new (lw6ker_game_state_t * game_state,

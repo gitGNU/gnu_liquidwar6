@@ -88,6 +88,8 @@ _lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot, int64_t timestamp,
  * lw6pil_dump_pilot_to_command
  *
  * @pilot: the pilot to transform as a DUMP.
+ * @timestamp: timestamp used to generate a command that makes sense
+ * @server_id: ID of server issuing the command
  *
  * Creates the DUMP command for a given pilot, that is, a command that
  * describes the whole data and state.
@@ -103,15 +105,91 @@ lw6pil_dump_pilot_to_command (lw6pil_pilot_t * pilot, int64_t timestamp,
 }
 
 int
-_lw6pil_dump_command_to_pilot (_lw6pil_pilot_t * pilot,
-			       _lw6pil_pilot_t ** new_pilot,
-			       lw6ker_game_state_t ** new_game_state,
+_lw6pil_dump_command_to_pilot (lw6map_level_t ** new_level,
 			       lw6ker_game_struct_t ** new_game_struct,
-			       lw6map_level_t ** new_level)
+			       lw6ker_game_state_t ** new_game_state,
+			       _lw6pil_pilot_t ** new_pilot,
+			       int64_t timestamp,
+			       lw6pil_command_t * command,
+			       lw6sys_progress_t * progress)
 {
   int ret = 0;
 
-  // todo
+  if (new_level && new_game_struct && new_game_state && new_pilot)
+    {
+      if (*new_level)
+	{
+	  lw6map_free (*new_level);
+	  (*new_level) = NULL;
+	}
+
+      if (*new_game_struct)
+	{
+	  lw6ker_game_struct_free (*new_game_struct);
+	  (*new_game_struct) = NULL;
+	}
+
+      if (*new_game_state)
+	{
+	  lw6ker_game_state_free (*new_game_state);
+	  (*new_game_state) = NULL;
+	}
+
+      if (*new_pilot)
+	{
+	  _lw6pil_pilot_free (*new_pilot);
+	  (*new_pilot) = NULL;
+	}
+
+      (*new_level) = lw6map_from_hexa (command->args.dump.level_hexa);
+      if (*new_level)
+	{
+	  (*new_game_struct) =
+	    lw6ker_game_struct_from_hexa (command->args.dump.game_struct_hexa,
+					  *new_level);
+	  if (*new_game_struct)
+	    {
+	      (*new_game_state) =
+		lw6ker_game_state_from_hexa (command->args.
+					     dump.game_state_hexa,
+					     *new_game_struct);
+	      if (*new_game_state)
+		{
+		  (*new_pilot) =
+		    _lw6pil_pilot_new (*new_game_state, command->seq,
+				       timestamp, progress);
+		  if (*new_pilot)
+		    {
+		      ret = 1;
+		    }
+		}
+	    }
+	}
+
+      if (!ret)
+	{
+	  if (*new_pilot)
+	    {
+	      _lw6pil_pilot_free (*new_pilot);
+	      (*new_pilot) = NULL;
+	    }
+	  if (*new_game_state)
+	    {
+	      lw6ker_game_state_free (*new_game_state);
+	      (*new_game_state) = NULL;
+	    }
+	  if (*new_game_struct)
+	    {
+	      lw6ker_game_struct_free (*new_game_struct);
+	      (*new_game_struct) = NULL;
+	    }
+	  if (*new_level)
+	    {
+	      lw6map_free (*new_level);
+	      (*new_level) = NULL;
+	    }
+	}
+    }
 
   return ret;
 }
@@ -122,19 +200,27 @@ _lw6pil_dump_command_to_pilot (_lw6pil_pilot_t * pilot,
  * Interprets a DUMP command. A new pilot will be returned, along with game state, game struct and
  * level. Old objects won't be deleted, but you could (should) get rid of them at they are useless now.
  * 
- * describes the whole data and state.
+ * @new_level: if there's a need to create a new pilot, will contain the new object (out param)
+ * @new_game_struct: if there's a need to create a new pilot, will contain the new object (out param)
+ * @new_game_state: if there's a need to create a new pilot, will contain the new object (out param)
+ * @new_pilot: if there's a need to create a new pilot, will contain the new object (out param)
+ * @timestamp: current timestamp
+ * @command: the command to execute
+ * @progress: progress object to show the advancement of process
  *
  * Return value: newly allocated string
  */
 int
-lw6pil_dump_command_to_pilot (lw6pil_pilot_t * pilot,
-			      lw6pil_pilot_t ** new_pilot,
-			      lw6ker_game_state_t ** new_game_state,
+lw6pil_dump_command_to_pilot (lw6map_level_t ** new_level,
 			      lw6ker_game_struct_t ** new_game_struct,
-			      lw6map_level_t ** new_level)
+			      lw6ker_game_state_t ** new_game_state,
+			      lw6pil_pilot_t ** new_pilot,
+			      int64_t timestamp,
+			      lw6pil_command_t * command,
+			      lw6sys_progress_t * progress)
 {
-  return _lw6pil_dump_command_to_pilot ((_lw6pil_pilot_t *) pilot,
+  return _lw6pil_dump_command_to_pilot (new_level, new_game_struct,
+					new_game_state,
 					(_lw6pil_pilot_t **) new_pilot,
-					new_game_state, new_game_struct,
-					new_level);
+					timestamp, command, progress);
 }

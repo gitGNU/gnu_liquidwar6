@@ -36,12 +36,14 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
   u_int32_t team_mask_odd = 0;
   _lw6pil_spread_data_t spread_data;
   lw6sys_thread_handler_t *spread_thread;
+  int64_t timestamp = 0LL;
 
   memset (&spread_data, 0, sizeof (_lw6pil_spread_data_t));
   while (worker->run)
     {
       commands = NULL;
       command = NULL;
+      timestamp = lw6sys_get_timestamp ();
 
       lw6sys_spinlock_lock (worker->commands_spinlock);
       if (worker->commands && !lw6sys_list_is_empty (worker->commands))
@@ -154,7 +156,11 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 	      lw6sys_mutex_lock (worker->compute_mutex);
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("worker execute command %s"),
 			  command->text);
-	      lw6pil_command_execute (worker->game_state, command);
+	      lw6pil_command_execute (&(worker->dump_level),
+				      &(worker->dump_game_struct),
+				      &(worker->dump_game_state),
+				      &(worker->dump_pilot),
+				      worker->game_state, timestamp, command);
 	      lw6sys_mutex_unlock (worker->compute_mutex);
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("worker execute end %d"),
 			  worker->current_round);

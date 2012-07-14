@@ -567,7 +567,11 @@ lw6pil_command_repr (lw6pil_command_t * command)
 }
 
 int
-lw6pil_command_execute (lw6ker_game_state_t * game_state,
+lw6pil_command_execute (lw6map_level_t ** new_level,
+			lw6ker_game_struct_t ** new_game_struct,
+			lw6ker_game_state_t ** new_game_state,
+			lw6pil_pilot_t ** new_pilot,
+			lw6ker_game_state_t * game_state, int64_t timestamp,
 			lw6pil_command_t * command)
 {
   int ret = 0;
@@ -608,6 +612,12 @@ lw6pil_command_execute (lw6ker_game_state_t * game_state,
     case LW6PIL_COMMAND_CODE_UNREGISTER:
       ret = lw6ker_game_state_unregister_node (game_state, command->node_id);
       break;
+    case LW6PIL_COMMAND_CODE_DUMP:
+      ret =
+	lw6pil_dump_command_to_pilot (new_level, new_game_struct,
+				      new_game_state, new_pilot, timestamp,
+				      command, NULL);
+      break;
     default:
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("incorrect command \"%s\""),
 		  command->text);
@@ -618,8 +628,13 @@ lw6pil_command_execute (lw6ker_game_state_t * game_state,
 }
 
 int
-lw6pil_command_execute_text (lw6ker_game_state_t * game_state,
-			     char *command_text, int64_t seq_0)
+lw6pil_command_execute_text (lw6map_level_t ** new_level,
+			     lw6ker_game_struct_t ** new_game_struct,
+			     lw6ker_game_state_t ** new_game_state,
+			     lw6pil_pilot_t ** new_pilot,
+			     lw6ker_game_state_t * game_state,
+			     int64_t timestamp, char *command_text,
+			     int64_t seq_0)
 {
   int ret = 0;
   lw6pil_command_t *command = NULL;
@@ -627,7 +642,9 @@ lw6pil_command_execute_text (lw6ker_game_state_t * game_state,
   command = lw6pil_command_new (command_text, seq_0);
   if (command)
     {
-      ret = lw6pil_command_execute (game_state, command);
+      ret =
+	lw6pil_command_execute (new_level, new_game_struct, new_game_state,
+				new_pilot, game_state, timestamp, command);
       lw6pil_command_free (command);
     }
 
@@ -649,6 +666,7 @@ lw6pil_command_execute_local (lw6pil_local_cursors_t * local_cursors,
     case LW6PIL_COMMAND_CODE_ADD:
     case LW6PIL_COMMAND_CODE_REMOVE:
     case LW6PIL_COMMAND_CODE_UNREGISTER:
+    case LW6PIL_COMMAND_CODE_DUMP:
       // do nothing!
       ret = 1;
       break;
