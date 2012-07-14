@@ -150,6 +150,23 @@ typedef struct lw6pil_command_s
 typedef struct lw6pil_pilot_s lw6pil_pilot_t;
 
 /**
+ * Stores the information contained in a dump, this is just
+ * an utility struct used to hold all the data (level, game struct,
+ * game state and pilot) together
+ */
+typedef struct lw6pil_dump_s
+{
+  /// Will hold the new level if a dump is received
+  lw6map_level_t *level;
+  /// Will hold the new game struct if a dump is received
+  lw6ker_game_struct_t *game_struct;
+  /// Will hold the new game state if a dump is received
+  lw6ker_game_state_t *game_state;
+  /// Will hold the new pilot if a dump is received
+  lw6pil_pilot_t *pilot;
+} lw6pil_dump_t;
+
+/**
  * Worker thread data, used to calculate stuff
  * in a separate thread. The principle is simple,
  * it tries to keep up with a given target round,
@@ -184,14 +201,8 @@ typedef struct lw6pil_worker_s
   lw6ker_game_state_t *game_state;
   /// List of commands to be processed.
   lw6sys_list_t *commands;
-  /// Will hold the new level if a dump is received
-  lw6map_level_t *dump_level;
-  /// Will hold the new game struct if a dump is received
-  lw6ker_game_struct_t *dump_game_struct;
-  /// Will hold the new game state if a dump is received
-  lw6ker_game_state_t *dump_game_state;
-  /// Will hold the new pilot if a dump is received
-  lw6pil_pilot_t *dump_pilot;
+  /// Dump information
+  lw6pil_dump_t dump;
 } lw6pil_worker_t;
 
 /**
@@ -271,21 +282,13 @@ extern lw6pil_command_t *lw6pil_command_new (char *command_text,
 extern lw6pil_command_t *lw6pil_command_dup (lw6pil_command_t * command);
 extern void lw6pil_command_free (lw6pil_command_t * command);
 extern char *lw6pil_command_repr (lw6pil_command_t * command);
-extern int lw6pil_command_execute (lw6map_level_t ** new_level,
-				   lw6ker_game_struct_t ** new_game_struct,
-				   lw6ker_game_state_t ** new_game_state,
-				   lw6pil_pilot_t ** new_pilot,
+extern int lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
 				   lw6ker_game_state_t * game_state,
-				   int64_t timestamp,
 				   lw6pil_command_t * command);
-extern int lw6pil_command_execute_text (lw6map_level_t ** new_level,
-					lw6ker_game_struct_t **
-					new_game_struct,
-					lw6ker_game_state_t ** new_game_state,
-					lw6pil_pilot_t ** new_pilot,
+extern int lw6pil_command_execute_text (lw6pil_dump_t * dump,
+					int64_t timestamp,
 					lw6ker_game_state_t * game_state,
-					int64_t timestamp, char *command_text,
-					int64_t seq_0);
+					char *command_text, int64_t seq_0);
 extern int lw6pil_command_execute_local (lw6pil_local_cursors_t *
 					 local_cursors,
 					 lw6pil_command_t * command);
@@ -301,15 +304,11 @@ extern void lw6pil_coords_fix_x10 (lw6map_rules_t * rules,
 				   float *z);
 
 /* pil-dump.c */
+extern void lw6pil_dump_clear (lw6pil_dump_t * dump);
 extern char *lw6pil_dump_pilot_to_command (lw6pil_pilot_t * pilot,
 					   int64_t timestamp,
 					   u_int64_t server_id);
-extern int lw6pil_dump_command_to_pilot (lw6map_level_t ** new_level,
-					 lw6ker_game_struct_t **
-					 new_game_struct,
-					 lw6ker_game_state_t **
-					 new_game_state,
-					 lw6pil_pilot_t ** new_pilot,
+extern int lw6pil_dump_command_to_pilot (lw6pil_dump_t * dump,
 					 int64_t timestamp,
 					 lw6pil_command_t * command,
 					 lw6sys_progress_t * progress);

@@ -109,22 +109,7 @@ _lw6pil_worker_quit (lw6pil_worker_t * worker)
     {
       lw6ker_game_state_free (worker->game_state);
     }
-  if (worker->dump_pilot)
-    {
-      lw6pil_pilot_free (worker->dump_pilot);
-    }
-  if (worker->dump_game_state)
-    {
-      lw6ker_game_state_free (worker->dump_game_state);
-    }
-  if (worker->dump_game_struct)
-    {
-      lw6ker_game_struct_free (worker->dump_game_struct);
-    }
-  if (worker->dump_level)
-    {
-      lw6map_free (worker->dump_level);
-    }
+  lw6pil_dump_clear (&(worker->dump));
   memset (worker, 0, sizeof (lw6pil_worker_t));
 
   ret = 1;
