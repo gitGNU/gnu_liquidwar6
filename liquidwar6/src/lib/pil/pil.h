@@ -52,6 +52,15 @@ typedef enum lw6pil_command_code_e
   LW6PIL_COMMAND_CODE_SET = 4,
   LW6PIL_COMMAND_CODE_REMOVE = 5,
   LW6PIL_COMMAND_CODE_UNREGISTER = 6,
+  /*
+   * It's important that DUMP is the last one, so that it's sorted
+   * at the end as far as messages with the same ID are concerned.
+   * This might be superfluous as anyway, all messages should be
+   * here and sorted before they get into the pipe, but well, 
+   * DUMP is generated out of the flow, and will generally come
+   * after the rest of the battle, so it's safer to put it at
+   * the end.
+   */
   LW6PIL_COMMAND_CODE_DUMP = 7,
 } lw6pil_command_code_t;
 
@@ -309,12 +318,12 @@ extern void lw6pil_coords_fix_x10 (lw6map_rules_t * rules,
 extern void lw6pil_dump_zero (lw6pil_dump_t * dump);
 extern void lw6pil_dump_clear (lw6pil_dump_t * dump);
 extern int lw6pil_dump_exists (const lw6pil_dump_t * dump);
-extern char *lw6pil_dump_pilot_to_command (lw6pil_pilot_t * pilot,
+extern char *lw6pil_dump_command_generate (lw6pil_pilot_t * pilot,
 					   u_int64_t server_id);
-extern int lw6pil_dump_command_to_pilot (lw6pil_dump_t * dump,
-					 int64_t timestamp,
-					 lw6pil_command_t * command,
-					 lw6sys_progress_t * progress);
+extern int lw6pil_dump_command_execute (lw6pil_dump_t * dump,
+					int64_t timestamp,
+					lw6pil_command_t * command,
+					lw6sys_progress_t * progress);
 
 /* pil-localcursors.c */
 extern void lw6pil_local_cursors_reset (lw6pil_local_cursors_t *

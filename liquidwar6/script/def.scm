@@ -249,6 +249,7 @@
 (define lw6def-c-lw6pil-calibrate "c-lw6pil-calibrate")
 (define lw6def-c-lw6pil-commit "c-lw6pil-commit")
 (define lw6def-c-lw6pil-did-cursor-win "c-lw6pil-did-cursor-win")
+(define lw6def-c-lw6pil-dump-command-generate "c-lw6pil-dump-command-generate")
 (define lw6def-c-lw6pil-execute-command "c-lw6pil-execute-command")
 (define lw6def-c-lw6pil-fix-coords "c-lw6pil-fix-coords")
 (define lw6def-c-lw6pil-fix-coords-x10 "c-lw6pil-fix-coords-x10")

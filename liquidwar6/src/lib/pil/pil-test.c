@@ -395,7 +395,7 @@ test_dump ()
 			LW6SYS_FREE (repr);
 		      }
 		    dump_command =
-		      lw6pil_dump_pilot_to_command (pilot, _TEST_DUMP_ID);
+		      lw6pil_dump_command_generate (pilot, _TEST_DUMP_ID);
 		    if (dump_command)
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,

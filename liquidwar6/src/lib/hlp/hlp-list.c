@@ -1132,6 +1132,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_IS_OVER);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_DID_CURSOR_WIN);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_BENCH);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_DUMP_COMMAND_GENERATE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_BUILD_PILOT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SEND_COMMAND);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_LOCAL_COMMAND);

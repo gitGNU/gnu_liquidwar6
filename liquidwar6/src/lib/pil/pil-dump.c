@@ -100,7 +100,7 @@ lw6pil_dump_exists (const lw6pil_dump_t * dump)
 }
 
 char *
-_lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot, u_int64_t server_id)
+_lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id)
 {
   char *ret = NULL;
   char *level_hexa = NULL;
@@ -156,7 +156,7 @@ _lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot, u_int64_t server_id)
 }
 
 /**
- * lw6pil_dump_pilot_to_command
+ * lw6pil_dump_command_generate
  *
  * @pilot: the pilot to transform as a DUMP.
  * @server_id: ID of server issuing the command
@@ -167,13 +167,13 @@ _lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot, u_int64_t server_id)
  * Return value: newly allocated string
  */
 char *
-lw6pil_dump_pilot_to_command (lw6pil_pilot_t * pilot, u_int64_t server_id)
+lw6pil_dump_command_generate (lw6pil_pilot_t * pilot, u_int64_t server_id)
 {
-  return _lw6pil_dump_pilot_to_command ((_lw6pil_pilot_t *) pilot, server_id);
+  return _lw6pil_dump_command_generate ((_lw6pil_pilot_t *) pilot, server_id);
 }
 
 /**
- * lw6pil_dump_command_to_pilot
+ * lw6pil_dump_command_execute
  *
  * Interprets a DUMP command. A new pilot will be returned, along with game state, game struct and
  * level. Old objects won't be deleted, but you could (should) get rid of them at they are useless now.
@@ -186,10 +186,10 @@ lw6pil_dump_pilot_to_command (lw6pil_pilot_t * pilot, u_int64_t server_id)
  * Return value: newly allocated string
  */
 int
-lw6pil_dump_command_to_pilot (lw6pil_dump_t * dump,
-			      int64_t timestamp,
-			      lw6pil_command_t * command,
-			      lw6sys_progress_t * progress)
+lw6pil_dump_command_execute (lw6pil_dump_t * dump,
+			     int64_t timestamp,
+			     lw6pil_command_t * command,
+			     lw6sys_progress_t * progress)
 {
   int ret = 0;
 

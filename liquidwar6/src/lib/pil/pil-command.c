@@ -519,19 +519,19 @@ _lw6pil_command_sort_callback (lw6sys_list_t ** list_a,
     {
       ret = 1;
     }
-  else if (command_a->node_id < command_b->node_id)
-    {
-      ret = -1;
-    }
-  else if (command_a->node_id > command_b->node_id)
-    {
-      ret = 1;
-    }
   else if (command_a->code < command_b->code)
     {
       ret = -1;
     }
   else if (command_a->code > command_b->code)
+    {
+      ret = 1;
+    }
+  else if (command_a->node_id < command_b->node_id)
+    {
+      ret = -1;
+    }
+  else if (command_a->node_id > command_b->node_id)
     {
       ret = 1;
     }
@@ -688,7 +688,7 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
       ret = lw6ker_game_state_unregister_node (game_state, command->node_id);
       break;
     case LW6PIL_COMMAND_CODE_DUMP:
-      ret = lw6pil_dump_command_to_pilot (dump, timestamp, command, NULL);
+      ret = lw6pil_dump_command_execute (dump, timestamp, command, NULL);
       break;
     default:
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("incorrect command \"%s\""),

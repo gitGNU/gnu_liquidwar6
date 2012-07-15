@@ -910,6 +910,11 @@ Wrapper on lw6pil_commit.
 Wrapper on lw6pil_did_cursor_win.
 @end deffn
 
+@subsection c-lw6pil-dump-command-generate
+@deffn {C function exported to Guile} @code{c-lw6pil-dump-command-generate}
+Wrapper on lw6pil_dump_command_generate.
+@end deffn
+
 @subsection c-lw6pil-execute-command
 @deffn {C function exported to Guile} @code{c-lw6pil-execute-command}
 Wrapper on lw6pil_execute_command.

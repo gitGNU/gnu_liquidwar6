@@ -229,6 +229,7 @@ c-lw6pil-build-pilot
 c-lw6pil-calibrate
 c-lw6pil-commit
 c-lw6pil-did-cursor-win
+c-lw6pil-dump-command-generate
 c-lw6pil-execute-command
 c-lw6pil-fix-coords
 c-lw6pil-fix-coords-x10

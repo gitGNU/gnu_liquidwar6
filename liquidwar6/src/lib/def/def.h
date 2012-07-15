@@ -256,6 +256,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6PIL_CALIBRATE "c-lw6pil-calibrate"
 #define LW6DEF_C_LW6PIL_COMMIT "c-lw6pil-commit"
 #define LW6DEF_C_LW6PIL_DID_CURSOR_WIN "c-lw6pil-did-cursor-win"
+#define LW6DEF_C_LW6PIL_DUMP_COMMAND_GENERATE "c-lw6pil-dump-command-generate"
 #define LW6DEF_C_LW6PIL_EXECUTE_COMMAND "c-lw6pil-execute-command"
 #define LW6DEF_C_LW6PIL_FIX_COORDS "c-lw6pil-fix-coords"
 #define LW6DEF_C_LW6PIL_FIX_COORDS_X10 "c-lw6pil-fix-coords-x10"

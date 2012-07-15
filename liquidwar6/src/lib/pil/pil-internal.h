@@ -66,7 +66,7 @@ extern void _lw6pil_compute_pump_command_callback (void *func_data,
 						   void *data);
 
 /* pil-dump.c */
-extern char *_lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot,
+extern char *_lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot,
 					    u_int64_t server_id);
 
 /* pil-pilot.c */
