@@ -26,24 +26,29 @@
 
 #include "ker.h"
 
-#define TEST_MAP_WIDTH 72
-#define TEST_MAP_HEIGHT 24
-#define TEST_MAP_NB_LAYERS 5
-#define TEST_MAP_NOISE_PERCENT 20
-#define TEST_NB_ROUNDS 100
-#define TEST_GAME_STRUCT_CHECKSUM 0xf9c216d4
-#define TEST_GAME_STATE_CHECKSUM 0x92f323b1
-#define TEST_GAME_STATE_POPULATE_CHECKSUM 0x95922a8b
-#define TEST_GAME_STATE_ALGORITHM_CHECKSUM 0x4fd07888
-#define TEST_NODE_ID 0x1234123412341234LL
-#define TEST_CURSOR1_ID 0x1234
-#define TEST_CURSOR2_ID 0x2345
-#define TEST_CURSOR3_ID 0x3456
-#define TEST_COLOR1 LW6MAP_TEAM_COLOR_RED
-#define TEST_COLOR2 LW6MAP_TEAM_COLOR_GREEN
-#define TEST_COLOR3 LW6MAP_TEAM_COLOR_BLUE
-#define TEST_TEAM_MASK_SEED 123
-#define TEST_HISTORY_TEAM 0
+/*
+ * The checksums below will change any time the core algorithm
+ * is changed. They are *very* important, the need to be respected.
+ */
+#define _TEST_GAME_STRUCT_CHECKSUM 0xf9c216d4
+#define _TEST_GAME_STATE_CHECKSUM 0x92f323b1
+#define _TEST_GAME_STATE_POPULATE_CHECKSUM 0x95922a8b
+#define _TEST_GAME_STATE_ALGORITHM_CHECKSUM 0x4fd07888
+
+#define _TEST_MAP_WIDTH 72
+#define _TEST_MAP_HEIGHT 24
+#define _TEST_MAP_NB_LAYERS 5
+#define _TEST_MAP_NOISE_PERCENT 20
+#define _TEST_NB_ROUNDS 100
+#define _TEST_NODE_ID 0x1234123412341234LL
+#define _TEST_CURSOR1_ID 0x1234
+#define _TEST_CURSOR2_ID 0x2345
+#define _TEST_CURSOR3_ID 0x3456
+#define _TEST_COLOR1 LW6MAP_TEAM_COLOR_RED
+#define _TEST_COLOR2 LW6MAP_TEAM_COLOR_GREEN
+#define _TEST_COLOR3 LW6MAP_TEAM_COLOR_BLUE
+#define _TEST_TEAM_MASK_SEED 123
+#define _TEST_HISTORY_TEAM 0
 
 static void
 print_game_struct_repr (lw6ker_game_struct_t * game_struct)
@@ -221,8 +226,8 @@ test_struct ()
 
     ret = 0;
     level =
-      lw6map_builtin_custom (TEST_MAP_WIDTH, TEST_MAP_HEIGHT,
-			     TEST_MAP_NB_LAYERS, TEST_MAP_NOISE_PERCENT);
+      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (level)
       {
 	game_struct = lw6ker_game_struct_new (level, NULL);
@@ -233,9 +238,9 @@ test_struct ()
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_
 			("game struct checksum is %08x and should be %08x"),
-			checksum, TEST_GAME_STRUCT_CHECKSUM);
+			checksum, _TEST_GAME_STRUCT_CHECKSUM);
 	    lw6ker_game_struct_free (game_struct);
-	    ret = (checksum == TEST_GAME_STRUCT_CHECKSUM);
+	    ret = (checksum == _TEST_GAME_STRUCT_CHECKSUM);
 	  }
 	lw6map_free (level);
       }
@@ -259,8 +264,8 @@ test_state ()
 
     ret = 0;
     level =
-      lw6map_builtin_custom (TEST_MAP_WIDTH, TEST_MAP_HEIGHT,
-			     TEST_MAP_NB_LAYERS, TEST_MAP_NOISE_PERCENT);
+      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (level)
       {
 	game_struct = lw6ker_game_struct_new (level, NULL);
@@ -277,8 +282,8 @@ test_state ()
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
 			    ("game state checksum is %08x and should be %08x"),
-			    checksum, TEST_GAME_STATE_CHECKSUM);
-		ret = (checksum == TEST_GAME_STATE_CHECKSUM);
+			    checksum, _TEST_GAME_STATE_CHECKSUM);
+		ret = (checksum == _TEST_GAME_STATE_CHECKSUM);
 		lw6ker_game_state_free (game_state);
 	      }
 	    lw6ker_game_struct_free (game_struct);
@@ -306,8 +311,8 @@ test_population ()
     ret = 0;
 
     level =
-      lw6map_builtin_custom (TEST_MAP_WIDTH, TEST_MAP_HEIGHT,
-			     TEST_MAP_NB_LAYERS, TEST_MAP_NOISE_PERCENT);
+      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (level)
       {
 	game_struct = lw6ker_game_struct_new (level, NULL);
@@ -318,25 +323,25 @@ test_population ()
 	    if (game_state)
 	      {
 		print_game_state_repr (game_state);
-		lw6ker_game_state_register_node (game_state, TEST_NODE_ID);
-		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
-					      TEST_CURSOR1_ID, TEST_COLOR1);
+		lw6ker_game_state_register_node (game_state, _TEST_NODE_ID);
+		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
+					      _TEST_CURSOR1_ID, _TEST_COLOR1);
 		print_game_state_repr (game_state);
-		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
-					      TEST_CURSOR2_ID, TEST_COLOR2);
+		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
+					      _TEST_CURSOR2_ID, _TEST_COLOR2);
 		print_game_state_repr (game_state);
-		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
-					      TEST_CURSOR3_ID, TEST_COLOR3);
+		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
+					      _TEST_CURSOR3_ID, _TEST_COLOR3);
 		print_game_state_repr (game_state);
-		lw6ker_game_state_remove_cursor (game_state, TEST_NODE_ID,
-						 TEST_CURSOR2_ID);
+		lw6ker_game_state_remove_cursor (game_state, _TEST_NODE_ID,
+						 _TEST_CURSOR2_ID);
 		print_game_state_repr (game_state);
 		checksum = lw6ker_game_state_checksum (game_state);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
 			    ("game state checksum is %08x and should be %08x"),
-			    checksum, TEST_GAME_STATE_POPULATE_CHECKSUM);
-		ret = (checksum == TEST_GAME_STATE_POPULATE_CHECKSUM);
+			    checksum, _TEST_GAME_STATE_POPULATE_CHECKSUM);
+		ret = (checksum == _TEST_GAME_STATE_POPULATE_CHECKSUM);
 		lw6ker_game_state_free (game_state);
 	      }
 	    lw6ker_game_struct_free (game_struct);
@@ -366,8 +371,8 @@ test_algorithm ()
 
     ret = 0;
     level =
-      lw6map_builtin_custom (TEST_MAP_WIDTH, TEST_MAP_HEIGHT,
-			     TEST_MAP_NB_LAYERS, TEST_MAP_NOISE_PERCENT);
+      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (level)
       {
 	game_struct = lw6ker_game_struct_new (level, NULL);
@@ -378,31 +383,31 @@ test_algorithm ()
 	    if (game_state)
 	      {
 		print_game_state_repr (game_state);
-		lw6ker_game_state_register_node (game_state, TEST_NODE_ID);
-		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
-					      TEST_CURSOR1_ID, TEST_COLOR1);
-		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
-					      TEST_CURSOR2_ID, TEST_COLOR2);
-		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
-					      TEST_CURSOR3_ID, TEST_COLOR3);
+		lw6ker_game_state_register_node (game_state, _TEST_NODE_ID);
+		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
+					      _TEST_CURSOR1_ID, _TEST_COLOR1);
+		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
+					      _TEST_CURSOR2_ID, _TEST_COLOR2);
+		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
+					      _TEST_CURSOR3_ID, _TEST_COLOR3);
 		print_game_state_repr (game_state);
 		lw6ker_cursor_reset (&cursor);
 		cursor.pos.x = lw6ker_game_state_get_w (game_state) / 2;
 		cursor.pos.y = lw6ker_game_state_get_h (game_state) / 2;
-		cursor.node_id = TEST_NODE_ID;
-		cursor.cursor_id = TEST_CURSOR1_ID;
+		cursor.node_id = _TEST_NODE_ID;
+		cursor.cursor_id = _TEST_CURSOR1_ID;
 		lw6ker_game_state_set_cursor (game_state, &cursor);
-		cursor.cursor_id = TEST_CURSOR2_ID;
+		cursor.cursor_id = _TEST_CURSOR2_ID;
 		lw6ker_game_state_set_cursor (game_state, &cursor);
-		cursor.cursor_id = TEST_CURSOR3_ID;
+		cursor.cursor_id = _TEST_CURSOR3_ID;
 		lw6ker_game_state_set_cursor (game_state, &cursor);
 		lw6ker_game_state_get_cursor (game_state,
-					      &cursor, TEST_CURSOR1_ID);
+					      &cursor, _TEST_CURSOR1_ID);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("cursor %x letter='%c' color=%d x=%d y=%d"),
-			    TEST_CURSOR1_ID, cursor.letter, cursor.team_color,
-			    cursor.pos.x, cursor.pos.y);
-		for (i = 0; i < TEST_NB_ROUNDS; ++i)
+			    _TEST_CURSOR1_ID, cursor.letter,
+			    cursor.team_color, cursor.pos.x, cursor.pos.y);
+		for (i = 0; i < _TEST_NB_ROUNDS; ++i)
 		  {
 		    lw6ker_game_state_do_round (game_state);
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -430,11 +435,11 @@ test_algorithm ()
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
 				("history entry %d for team %d is global=%d latest=%d"),
-				i, TEST_HISTORY_TEAM,
+				i, _TEST_HISTORY_TEAM,
 				lw6ker_game_state_get_global_history
-				(game_state, i, TEST_HISTORY_TEAM),
+				(game_state, i, _TEST_HISTORY_TEAM),
 				lw6ker_game_state_get_latest_history
-				(game_state, i, TEST_HISTORY_TEAM));
+				(game_state, i, _TEST_HISTORY_TEAM));
 		  }
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("max history entry global=%d latest=%d"),
@@ -447,8 +452,8 @@ test_algorithm ()
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
 			    ("game state checksum is %08x and should be %08x"),
-			    checksum, TEST_GAME_STATE_ALGORITHM_CHECKSUM);
-		ret = (checksum == TEST_GAME_STATE_ALGORITHM_CHECKSUM);
+			    checksum, _TEST_GAME_STATE_ALGORITHM_CHECKSUM);
+		ret = (checksum == _TEST_GAME_STATE_ALGORITHM_CHECKSUM);
 		lw6ker_game_state_free (game_state);
 	      }
 	    lw6ker_game_struct_free (game_struct);
@@ -476,8 +481,8 @@ test_dup ()
 
     ret = 0;
     level =
-      lw6map_builtin_custom (TEST_MAP_WIDTH, TEST_MAP_HEIGHT,
-			     TEST_MAP_NB_LAYERS, TEST_MAP_NOISE_PERCENT);
+      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (level)
       {
 	game_struct = lw6ker_game_struct_new (level, NULL);
@@ -523,7 +528,7 @@ test_team_mask ()
     u_int32_t odd = 0;
     int i;
 
-    lw6ker_team_mask_get (&even, &odd, TEST_TEAM_MASK_SEED);
+    lw6ker_team_mask_get (&even, &odd, _TEST_TEAM_MASK_SEED);
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("even team mask %x"), even);
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("odd team mask %x"), odd);
     for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
@@ -573,8 +578,8 @@ test_hexa ()
 
     ret = 0;
     level =
-      lw6map_builtin_custom (TEST_MAP_WIDTH, TEST_MAP_HEIGHT,
-			     TEST_MAP_NB_LAYERS, TEST_MAP_NOISE_PERCENT);
+      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (level)
       {
 	game_struct = lw6ker_game_struct_new (level, NULL);
@@ -609,16 +614,16 @@ test_hexa ()
 			    if (game_state)
 			      {
 				lw6ker_game_state_register_node (game_state,
-								 TEST_NODE_ID);
+								 _TEST_NODE_ID);
 				lw6ker_game_state_add_cursor (game_state,
-							      TEST_NODE_ID,
-							      TEST_CURSOR1_ID,
-							      TEST_COLOR1);
+							      _TEST_NODE_ID,
+							      _TEST_CURSOR1_ID,
+							      _TEST_COLOR1);
 				lw6ker_game_state_add_cursor (game_state,
-							      TEST_NODE_ID,
-							      TEST_CURSOR2_ID,
-							      TEST_COLOR2);
-				for (i = 0; i < TEST_NB_ROUNDS; ++i)
+							      _TEST_NODE_ID,
+							      _TEST_CURSOR2_ID,
+							      _TEST_COLOR2);
+				for (i = 0; i < _TEST_NB_ROUNDS; ++i)
 				  {
 				    lw6ker_game_state_do_round (game_state);
 				  }

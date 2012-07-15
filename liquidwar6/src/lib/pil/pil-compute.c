@@ -237,6 +237,14 @@ _lw6pil_compute_pump_command_callback (void *func_data, void *data)
 
   if (pilot && command && command->text)
     {
+      /*
+       * Log this because this is probably very error prone,
+       * recopy of pending messages is a tricky stuff, and does not
+       * happen often, so we log it.
+       */
+      lw6sys_log (LW6SYS_LOG_INFO,
+		  _x_ ("copying command \"%s\" into other pilot (dump)"),
+		  command->text);
       _lw6pil_pilot_send_command (pilot, command->text, 1);
     }
   else

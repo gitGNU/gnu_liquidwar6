@@ -28,31 +28,36 @@
 
 #include "map.h"
 
-#define TEST_MAP_NB_LAYERS 2
-#define TEST_MAP_WIDTH 20
-#define TEST_MAP_HEIGHT 15
-#define TEST_MAP_NOISE_PERCENT 30
-#define TEST_RULES_KEY LW6DEF_TOTAL_TIME
-#define TEST_RULES_VALUE 3600
-#define TEST_RULES_CHECKSUM 0x765d8d06
-#define TEST_STYLE_KEY LW6DEF_ZOOM
-#define TEST_STYLE_VALUE "1.0"
-#define TEST_TEAMS_KEY LW6DEF_BOT_IQ
-#define TEST_TEAMS_VALUE "99"
-#define TEST_COORDS_NB 5
-#define TEST_COORDS_W 100
-#define TEST_COORDS_H 50
-#define TEST_COORDS_D 1
-#define TEST_COORDS_X1 66
-#define TEST_COORDS_Y1 33
-#define TEST_COORDS_X2 130
-#define TEST_COORDS_Y2 20
-#define TEST_COORDS_X3 -30
-#define TEST_COORDS_Y3 20
-#define TEST_COORDS_X4 -10
-#define TEST_COORDS_Y4 -5
-#define TEST_COORDS_X5 1000
-#define TEST_COORDS_Y5 51
+/*
+ * The checksum below will change any time a field is added
+ * or its default is changed in the map structure.
+ */
+#define _TEST_RULES_CHECKSUM 0x765d8d06
+
+#define _TEST_MAP_NB_LAYERS 2
+#define _TEST_MAP_WIDTH 20
+#define _TEST_MAP_HEIGHT 15
+#define _TEST_MAP_NOISE_PERCENT 30
+#define _TEST_RULES_KEY LW6DEF_TOTAL_TIME
+#define _TEST_RULES_VALUE 3600
+#define _TEST_STYLE_KEY LW6DEF_ZOOM
+#define _TEST_STYLE_VALUE "1.0"
+#define _TEST_TEAMS_KEY LW6DEF_BOT_IQ
+#define _TEST_TEAMS_VALUE "99"
+#define _TEST_COORDS_NB 5
+#define _TEST_COORDS_W 100
+#define _TEST_COORDS_H 50
+#define _TEST_COORDS_D 1
+#define _TEST_COORDS_X1 66
+#define _TEST_COORDS_Y1 33
+#define _TEST_COORDS_X2 130
+#define _TEST_COORDS_Y2 20
+#define _TEST_COORDS_X3 -30
+#define _TEST_COORDS_Y3 20
+#define _TEST_COORDS_X4 -10
+#define _TEST_COORDS_Y4 -5
+#define _TEST_COORDS_X5 1000
+#define _TEST_COORDS_Y5 51
 #define _TEST_MUSIC_DIR1 "../"
 #define _TEST_MUSIC_DIR2 "/foo/bar"
 
@@ -165,20 +170,20 @@ test_coords ()
   {
     lw6map_rules_t rules;
     lw6sys_whd_t shape;
-    int test_x[TEST_COORDS_NB] =
-      { TEST_COORDS_X1, TEST_COORDS_X2, TEST_COORDS_X3, TEST_COORDS_X4,
-      TEST_COORDS_X5
+    int test_x[_TEST_COORDS_NB] =
+      { _TEST_COORDS_X1, _TEST_COORDS_X2, _TEST_COORDS_X3, _TEST_COORDS_X4,
+      _TEST_COORDS_X5
     };
-    int test_y[TEST_COORDS_NB] =
-      { TEST_COORDS_Y1, TEST_COORDS_Y2, TEST_COORDS_Y3, TEST_COORDS_Y4,
-      TEST_COORDS_Y5
+    int test_y[_TEST_COORDS_NB] =
+      { _TEST_COORDS_Y1, _TEST_COORDS_Y2, _TEST_COORDS_Y3, _TEST_COORDS_Y4,
+      _TEST_COORDS_Y5
     };
     int i, x, y, px, py;
 
     lw6map_rules_defaults (&rules);
-    shape.w = TEST_COORDS_W;
-    shape.h = TEST_COORDS_H;
-    shape.d = TEST_COORDS_D;
+    shape.w = _TEST_COORDS_W;
+    shape.h = _TEST_COORDS_H;
+    shape.d = _TEST_COORDS_D;
 
     for (py = 1; py >= -1; --py)
       {
@@ -188,7 +193,7 @@ test_coords ()
 	    rules.y_polarity = py;
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("polarity set to %d,%d"), px,
 			py);
-	    for (i = 0; i < TEST_COORDS_NB; ++i)
+	    for (i = 0; i < _TEST_COORDS_NB; ++i)
 	      {
 		x = test_x[i];
 		y = test_y[i];
@@ -361,8 +366,8 @@ test_dup ()
     char *repr2 = NULL;
 
     level1 =
-      lw6map_builtin_custom (TEST_MAP_WIDTH, TEST_MAP_HEIGHT,
-			     TEST_MAP_NB_LAYERS, TEST_MAP_NOISE_PERCENT);
+      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (level1)
       {
 	repr1 = lw6map_repr (level1);
@@ -473,8 +478,8 @@ test_hexa ()
     char *hexa_check = NULL;
 
     level =
-      lw6map_builtin_custom (TEST_MAP_WIDTH, TEST_MAP_HEIGHT,
-			     TEST_MAP_NB_LAYERS, TEST_MAP_NOISE_PERCENT);
+      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (level)
       {
 	repr = lw6map_repr (level);
@@ -566,10 +571,10 @@ test_rules ()
     rules = (lw6map_rules_t *) LW6SYS_CALLOC (sizeof (lw6map_rules_t));
     if (rules)
       {
-	lw6map_rules_set_int (rules, TEST_RULES_KEY, TEST_RULES_VALUE);
-	value = lw6map_rules_get_int (rules, TEST_RULES_KEY);
+	lw6map_rules_set_int (rules, _TEST_RULES_KEY, _TEST_RULES_VALUE);
+	value = lw6map_rules_get_int (rules, _TEST_RULES_KEY);
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("map rules for key \"%s\" is %d"),
-		    TEST_RULES_KEY, value);
+		    _TEST_RULES_KEY, value);
 	lw6map_rules_clear (rules);
 
 	lw6map_rules_defaults (rules);
@@ -579,8 +584,8 @@ test_rules ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
 		    ("rules checksum is %08x and should be %08x"),
-		    checksum, TEST_RULES_CHECKSUM);
-	ret = ret && (checksum == TEST_RULES_CHECKSUM);
+		    checksum, _TEST_RULES_CHECKSUM);
+	ret = ret && (checksum == _TEST_RULES_CHECKSUM);
 	if (lw6map_rules_sanity_check (rules))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -630,19 +635,19 @@ test_style ()
     style = (lw6map_style_t *) LW6SYS_CALLOC (sizeof (lw6map_style_t));
     if (style)
       {
-	lw6map_style_set (style, TEST_STYLE_KEY, TEST_STYLE_VALUE);
-	value = lw6map_style_get (style, TEST_STYLE_KEY);
+	lw6map_style_set (style, _TEST_STYLE_KEY, _TEST_STYLE_VALUE);
+	value = lw6map_style_get (style, _TEST_STYLE_KEY);
 	if (value)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("map style for key \"%s\" is \"%s\""),
-			TEST_STYLE_KEY, value);
+			_TEST_STYLE_KEY, value);
 	    LW6SYS_FREE (value);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_x_ ("can't find style key \"%s\""), TEST_STYLE_KEY);
+			_x_ ("can't find style key \"%s\""), _TEST_STYLE_KEY);
 	    ret = 0;
 	  }
 	if (!lw6map_style_is_same (style, style))
@@ -677,19 +682,19 @@ test_teams ()
     teams = (lw6map_teams_t *) LW6SYS_CALLOC (sizeof (lw6map_teams_t));
     if (teams)
       {
-	lw6map_teams_set (teams, TEST_TEAMS_KEY, TEST_TEAMS_VALUE);
-	value = lw6map_teams_get (teams, TEST_TEAMS_KEY);
+	lw6map_teams_set (teams, _TEST_TEAMS_KEY, _TEST_TEAMS_VALUE);
+	value = lw6map_teams_get (teams, _TEST_TEAMS_KEY);
 	if (value)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("map teams for key \"%s\" is \"%s\""),
-			TEST_TEAMS_KEY, value);
+			_TEST_TEAMS_KEY, value);
 	    LW6SYS_FREE (value);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_x_ ("can't find teams key \"%s\""), TEST_TEAMS_KEY);
+			_x_ ("can't find teams key \"%s\""), _TEST_TEAMS_KEY);
 	    ret = 0;
 	  }
 	if (!lw6map_teams_is_same (teams, teams))
@@ -746,8 +751,8 @@ test_meta_layer ()
     memset (&meta_layer, 0, sizeof (lw6map_meta_layer_t));
     lw6map_meta_layer_clear (&meta_layer);
     if (lw6map_meta_layer_builtin_custom
-	(&meta_layer, TEST_MAP_WIDTH, TEST_MAP_WIDTH, 0,
-	 TEST_MAP_NOISE_PERCENT, 0))
+	(&meta_layer, _TEST_MAP_WIDTH, _TEST_MAP_WIDTH, 0,
+	 _TEST_MAP_NOISE_PERCENT, 0))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("custom boolean meta-layer initialized"));
@@ -758,8 +763,8 @@ test_meta_layer ()
 	ret = 0;
       }
     if (lw6map_meta_layer_builtin_custom
-	(&meta_layer, TEST_MAP_WIDTH, TEST_MAP_WIDTH, 1,
-	 TEST_MAP_NOISE_PERCENT, 0))
+	(&meta_layer, _TEST_MAP_WIDTH, _TEST_MAP_WIDTH, 1,
+	 _TEST_MAP_NOISE_PERCENT, 0))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("custom boolean meta-layer initialized"));

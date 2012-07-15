@@ -27,8 +27,15 @@
 #include "pil.h"
 #include "pil-internal.h"
 
+/*
+ * The checksums below will change any time the core algorithm
+ * is changed. The standard backup checksum and the dump backup
+ * checksum differ because one uses the spread_thread algorithm
+ * and the other one does not.
+ */
 #define _TEST_BACKUP_CHECKSUM 0xe771d39e
-#define _TEST_DUMP_CHECKSUM 0x7455de3
+#define _TEST_DUMP_COMMAND_CHECKSUM 0x07455de3
+#define _TEST_DUMP_BACKUP_CHECKSUM 0xe55fc651
 
 #define _TEST_MAP_WIDTH 45
 #define _TEST_MAP_HEIGHT 15
@@ -65,7 +72,9 @@
 #define _TEST_LOCAL_CURSORS_MOUSE_CONTROLLED2 0
 #define _TEST_DUMP_ID 0x1234123412341234LL
 #define _TEST_DUMP_SLEEP 1.0f
-#define _TEST_DUMP_TRIES 10
+#define _TEST_DUMP_NB_TRIES 10
+#define _TEST_DUMP_NB_COMMANDS 6
+#define _TEST_DUMP_LAST_COMMIT_SEQ 10000000010LL
 
 static char *test_commands[] = {
   "10000000002 1234abcd1234abcd REGISTER",
@@ -350,9 +359,12 @@ test_dump ()
     char *repr = NULL;
     char *dump_command = NULL;
     u_int32_t checksum = 0;
+    u_int32_t dump_checksum = 0;
     char *without_seq = NULL;
     lw6pil_dump_t dump;
     int i = 0;
+    int commands_ok = 0;
+    int64_t seq = 0LL;
 
     lw6pil_dump_zero (&dump);
     level =
@@ -360,6 +372,11 @@ test_dump ()
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (level)
       {
+	/*
+	 * Here we do not fiddle with the spread_thread parameter, so the checksum
+	 * is different than the checksum in the other standard case. This is also
+	 * a way to test both algorithms, including the standard one (this case).
+	 */
 	game_struct = lw6ker_game_struct_new (level, NULL);
 	if (game_struct)
 	  {
@@ -389,18 +406,37 @@ test_dump ()
 			if (without_seq)
 			  {
 			    checksum = lw6sys_checksum_str (without_seq);
-			    if (checksum == _TEST_DUMP_CHECKSUM)
+			    if (checksum == _TEST_DUMP_COMMAND_CHECKSUM)
 			      {
 				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _x_ ("dump checksum=%x, OK"),
+					    _x_
+					    ("dump command checksum=%x, OK"),
 					    checksum);
 
+				commands_ok = 1;
 				if (lw6pil_pilot_send_command
-				    (pilot, dump_command, 1)
+				    (pilot, dump_command, 1))
+				  {
+				    for (i = 0;
+					 i < _TEST_DUMP_NB_COMMANDS
+					 && test_commands[i]; ++i)
+				      {
+					if (!lw6pil_pilot_send_command
+					    (pilot, test_commands[i], 1))
+					  {
+					    commands_ok = 0;
+					  }
+				      }
+				  }
+				else
+				  {
+				    commands_ok = 0;
+				  }
+				if (commands_ok
 				    && lw6pil_pilot_commit (NULL, pilot))
 				  {
 				    for (i = 0;
-					 i < _TEST_DUMP_TRIES
+					 i < _TEST_DUMP_NB_TRIES
 					 && !lw6pil_dump_exists (&dump); ++i)
 				      {
 					lw6sys_sleep (_TEST_DUMP_SLEEP);
@@ -409,11 +445,118 @@ test_dump ()
 				  }
 				if (lw6pil_dump_exists (&dump))
 				  {
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
-						_x_
-						("got dump from pilot, OK"));
+				    lw6pil_pilot_commit (NULL, dump.pilot);
+				    seq =
+				      lw6pil_pilot_get_last_commit_seq
+				      (dump.pilot);
+				    if (seq == _TEST_DUMP_LAST_COMMIT_SEQ)
+				      {
+					lw6sys_log (LW6SYS_LOG_NOTICE,
+						    _x_
+						    ("got dump from pilot, OK, last_commit_seq=%"
+						     LW6SYS_PRINTF_LL "d"),
+						    (long long) seq);
+					for (i = _TEST_DUMP_NB_COMMANDS;
+					     i <= _TEST_SYNC_COMMAND_I
+					     && test_commands[i]; ++i)
+					  {
+					    lw6pil_pilot_send_command (pilot,
+								       test_commands
+								       [i],
+								       1);
+					    lw6pil_pilot_send_command
+					      (dump.pilot, test_commands[i],
+					       1);
+					  }
+					lw6pil_pilot_commit (NULL, pilot);
+					lw6pil_pilot_commit (NULL,
+							     dump.pilot);
+
+					lw6sys_sleep (_TEST_CYCLE);
+
+					lw6pil_pilot_make_backup (pilot);
+					lw6pil_pilot_make_backup (dump.pilot);
+
+					lw6pil_pilot_sync_from_backup
+					  (game_state, pilot);
+					lw6pil_pilot_sync_from_backup
+					  (dump.game_state, dump.pilot);
+
+					while (lw6ker_game_state_get_rounds
+					       (game_state) <
+					       _TEST_BACKUP_ROUND
+					       &&
+					       lw6ker_game_state_get_rounds
+					       (dump.game_state) <
+					       _TEST_BACKUP_ROUND)
+					  {
+					    lw6sys_log (LW6SYS_LOG_WARNING,
+							_x_
+							("waiting for backup at round %d, is your computer slow or what?"),
+							_TEST_BACKUP_ROUND);
+					    lw6sys_sleep (_TEST_CYCLE);
+					    lw6pil_pilot_sync_from_backup
+					      (game_state, pilot);
+					    lw6pil_pilot_sync_from_backup
+					      (dump.game_state, dump.pilot);
+					  }
+
+					print_game_state (game_state,
+							  _x_
+							  ("backup of game_state"));
+					print_game_state (game_state,
+							  _x_
+							  ("backup of dump.game_state"));
+					if (lw6ker_game_state_get_rounds
+					    (game_state) == _TEST_BACKUP_ROUND
+					    &&
+					    lw6ker_game_state_get_rounds
+					    (dump.game_state))
+					  {
+					    checksum =
+					      lw6ker_game_state_checksum
+					      (game_state);
+					    dump_checksum =
+					      lw6ker_game_state_checksum
+					      (dump.game_state);
+					  }
+					if (checksum ==
+					    _TEST_DUMP_BACKUP_CHECKSUM
+					    && dump_checksum ==
+					    _TEST_DUMP_BACKUP_CHECKSUM)
+					  {
+					    lw6sys_log (LW6SYS_LOG_NOTICE,
+							_x_
+							("checksum of game_state and dump.game_state at round %d are both %x, OK"),
+							_TEST_BACKUP_ROUND,
+							_TEST_DUMP_BACKUP_CHECKSUM);
+					    ret = 1;
+					  }
+					else
+					  {
+					    lw6sys_log (LW6SYS_LOG_NOTICE,
+							_x_
+							("checksum of game_state and dump.game_state at round %d should be %x but got %x for game_state and %x for dump.game_state"),
+							_TEST_BACKUP_ROUND,
+							_TEST_DUMP_BACKUP_CHECKSUM,
+							checksum,
+							dump_checksum);
+					  }
+				      }
+				    else
+				      {
+					lw6sys_log (LW6SYS_LOG_WARNING,
+						    _x_
+						    ("got dump from pilot but seq mismatch last_commit_seq=%"
+						     LW6SYS_PRINTF_LL
+						     "d and should be %"
+						     LW6SYS_PRINTF_LL "d"),
+						    (long long) seq,
+						    (long long)
+						    _TEST_DUMP_LAST_COMMIT_SEQ);
+				      }
+
 				    lw6pil_dump_clear (&dump);
-				    ret = 1;
 				  }
 				else
 				  {
@@ -427,7 +570,8 @@ test_dump ()
 				lw6sys_log (LW6SYS_LOG_WARNING,
 					    _x_
 					    ("dump checksum=%x, and should be %x"),
-					    checksum, _TEST_DUMP_CHECKSUM);
+					    checksum,
+					    _TEST_DUMP_COMMAND_CHECKSUM);
 			      }
 			  }
 			else
