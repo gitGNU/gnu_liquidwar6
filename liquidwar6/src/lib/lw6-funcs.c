@@ -7569,6 +7569,11 @@ _scm_lw6pil_commit (SCM pilot)
 {
   lw6pil_pilot_t *c_pilot = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6pil_dump_t c_dump;
+  SCM ret_level;
+  SCM ret_game_struct;
+  SCM ret_game_state;
+  SCM ret_pilot;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
@@ -7580,7 +7585,35 @@ _scm_lw6pil_commit (SCM pilot)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      ret = lw6pil_pilot_commit (c_pilot) ? SCM_BOOL_T : SCM_BOOL_F;
+      if (lw6pil_pilot_commit (&c_dump, c_pilot))
+	{
+	  if (lw6pil_dump_exists (&c_dump))
+	    {
+	      ret_level = lw6_make_scm_map (c_dump.level);
+	      ret_game_struct =
+		lw6_make_scm_game_struct (c_dump.game_struct, ret_level);
+	      ret_game_state =
+		lw6_make_scm_game_state (c_dump.game_state, ret_game_struct);
+	      ret_pilot = lw6_make_scm_pilot (c_dump.pilot);
+	      ret = scm_list_4 (scm_cons
+				(scm_from_locale_string ("level"), ret_level),
+				scm_cons
+				(scm_from_locale_string ("game-struct"),
+				 ret_game_struct),
+				scm_cons (scm_from_locale_string
+					  ("game-state"), ret_game_state),
+				scm_cons (scm_from_locale_string ("pilot"),
+					  ret_pilot));
+	    }
+	  else
+	    {
+	      ret = SCM_EOL;
+	    }
+	}
+      else
+	{
+	  ret = SCM_BOOL_F;
+	}
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -7682,7 +7715,6 @@ _scm_lw6pil_execute_command (SCM game_state, SCM command_text, SCM seq_0)
   lw6ker_game_state_t *c_game_state = NULL;
   char *c_command_text = NULL;
   int64_t c_seq_0;
-
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;

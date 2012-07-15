@@ -107,11 +107,11 @@ _lw6pil_pilot_new (lw6ker_game_state_t * game_state, int64_t seq_0,
 							      ret->
 							      game_struct);
 				  if (_lw6pil_worker_init
-				      (&(ret->reference), ret->backup,
+				      (&(ret->reference), ret->backup, 1,
 				       &progress_reference))
 				    {
 				      if (_lw6pil_worker_init
-					  (&(ret->draft), ret->backup,
+					  (&(ret->draft), ret->backup, 0,
 					   &progress_draft))
 					{
 					  ok = 1;
@@ -330,7 +330,7 @@ sync_draft_from_reference (_lw6pil_pilot_t * pilot)
 }
 
 static int
-_commit_reference (_lw6pil_pilot_t * pilot)
+_commit_reference (lw6pil_dump_t * dump, _lw6pil_pilot_t * pilot)
 {
   int ret = 1;
   char *command_text = NULL;
@@ -372,6 +372,7 @@ _commit_reference (_lw6pil_pilot_t * pilot)
 	}
       pilot->verified_queue = lw6sys_list_new (lw6sys_free_callback);
       lw6sys_spinlock_unlock (pilot->reference.commands_spinlock);
+
       if (min_round >= 0)
 	{
 	  last_commit_round =
@@ -390,6 +391,44 @@ _commit_reference (_lw6pil_pilot_t * pilot)
       if (max_round > 0)
 	{
 	  pilot->last_commit_seq = _lw6pil_pilot_round2seq (pilot, max_round);
+	}
+    }
+
+  /*
+   * Pump dump back to caller if needed, we only do it if pilot
+   * if set and test this before locking to avoid locking all the
+   * time, after all, the operation that requires atomicity is
+   * the exchange of data, and we won't die if we miss one turn,
+   * actually, this is asynchronous anyway.
+   */
+  if (dump && lw6pil_dump_exists (&(pilot->reference.dump)))
+    {
+      lw6sys_mutex_lock (pilot->reference.global_mutex);
+      lw6sys_mutex_lock (pilot->reference.compute_mutex);
+      /*
+       * Yes, test again, now that we're locked
+       */
+      if (lw6pil_dump_exists (&(pilot->reference.dump)))
+	{
+	  (*dump) = pilot->reference.dump;
+	  lw6pil_dump_zero (&(pilot->reference.dump));
+	}
+      lw6sys_mutex_unlock (pilot->reference.compute_mutex);
+      lw6sys_mutex_unlock (pilot->reference.global_mutex);
+
+      /*
+       * Now pump any message left in queue, those already committed should
+       * have been processed but as this is asynchronous the dump might
+       * be from a *previous* commit so messages in this commit aren't in
+       * the queue...
+       */
+      if (lw6pil_dump_exists (dump))
+	{
+	  lw6sys_spinlock_lock (pilot->reference.commands_spinlock);
+	  lw6sys_list_map (pilot->reference.commands,
+			   _lw6pil_compute_pump_command_callback,
+			   dump->pilot);
+	  lw6sys_spinlock_unlock (pilot->reference.commands_spinlock);
 	}
     }
 
@@ -499,11 +538,12 @@ _commit_draft (_lw6pil_pilot_t * pilot)
 }
 
 int
-_lw6pil_pilot_commit (_lw6pil_pilot_t * pilot)
+_lw6pil_pilot_commit (lw6pil_dump_t * dump, _lw6pil_pilot_t * pilot)
 {
   int ret = 1;
 
-  ret = _commit_reference (pilot) && ret;
+  lw6pil_dump_zero (dump);
+  ret = _commit_reference (dump, pilot) && ret;
   ret = _commit_draft (pilot) && ret;
 
   return ret;
@@ -512,6 +552,7 @@ _lw6pil_pilot_commit (_lw6pil_pilot_t * pilot)
 /**
  * lw6pil_pilot_commit
  *
+ * @dump: will contain the dump information if needed, can be NULL
  * @pilot: the object to commit.
  *
  * Commits all commands sent and actually send them to the
@@ -521,9 +562,9 @@ _lw6pil_pilot_commit (_lw6pil_pilot_t * pilot)
  * Return value: none.
  */
 int
-lw6pil_pilot_commit (lw6pil_pilot_t * pilot)
+lw6pil_pilot_commit (lw6pil_dump_t * dump, lw6pil_pilot_t * pilot)
 {
-  return _lw6pil_pilot_commit ((_lw6pil_pilot_t *) pilot);
+  return _lw6pil_pilot_commit (dump, (_lw6pil_pilot_t *) pilot);
 }
 
 int

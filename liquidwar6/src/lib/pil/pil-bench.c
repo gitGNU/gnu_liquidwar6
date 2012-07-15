@@ -105,7 +105,7 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
       _lw6pil_pilot_send_command (pilot, command_str, 1);
       LW6SYS_FREE (command_str);
     }
-  _lw6pil_pilot_commit (pilot);
+  _lw6pil_pilot_commit (NULL, pilot);
 
   computed_reference_begin = pilot->reference.computed_rounds;
   computed_draft_begin = pilot->draft.computed_rounds;
@@ -132,7 +132,7 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
 	      _lw6pil_pilot_send_command (pilot, command_str, 0);
 	      LW6SYS_FREE (command_str);
 	    }
-	  _lw6pil_pilot_commit (pilot);
+	  _lw6pil_pilot_commit (NULL, pilot);
 	  last_seq = current_seq;
 	}
       lw6sys_progress_update (progress, 0, BENCH_DURATION,

@@ -137,6 +137,14 @@ the map but just to avoid overflow errors.
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {void} {lw6pil_dump_zero} (lw6pil_dump_t * @var{dump})
+@var{dump}:  object to initialize
+
+Fills a dump object with zero, regardless of what was there before.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {void} {lw6pil_dump_clear} (lw6pil_dump_t * @var{dump})
 @var{dump}:  object to clear
 
@@ -144,6 +152,14 @@ Clears a dump object, that is, frees all existing object if they are here,
 and sets pointers to NULL.
 
 @strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6pil_dump_exists} (const lw6pil_dump_t * @var{dump})
+@var{dump}:  object to test
+
+Tests wether there's actually a dump in the structure, or if it's empty.
+
+@strong{Return value:}  1 if there's a dump, 0 if all fields set to NULL.
 @end deftypefun
 
 @deftypefun {char *} {lw6pil_dump_pilot_to_command} (lw6pil_pilot_t * @var{pilot}, u_int64_t @var{server_id})
@@ -308,7 +324,9 @@ directly linked with the pilot way of doing things.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6pil_pilot_commit} (lw6pil_pilot_t * @var{pilot})
+@deftypefun {int} {lw6pil_pilot_commit} (lw6pil_dump_t * @var{dump}, lw6pil_pilot_t * @var{pilot})
+@var{dump}:  will contain the dump information if needed, can be NULL
+
 @var{pilot}:  the object to commit.
 
 Commits all commands sent and actually send them to the

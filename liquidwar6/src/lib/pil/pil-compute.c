@@ -37,13 +37,18 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
   _lw6pil_spread_data_t spread_data;
   lw6sys_thread_handler_t *spread_thread;
   int64_t timestamp = 0LL;
+  lw6pil_pilot_t *old_worker_dump_pilot_ptr = NULL;
+  u_int32_t old_worker_dump_pilot_id = 0;
 
   memset (&spread_data, 0, sizeof (_lw6pil_spread_data_t));
   while (worker->run)
     {
       commands = NULL;
       command = NULL;
-      timestamp = lw6sys_get_timestamp ();
+      if (worker->verified)
+	{
+	  timestamp = lw6sys_get_timestamp ();
+	}
 
       lw6sys_spinlock_lock (worker->commands_spinlock);
       if (worker->commands && !lw6sys_list_is_empty (worker->commands))
@@ -156,8 +161,46 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 	      lw6sys_mutex_lock (worker->compute_mutex);
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("worker execute command %s"),
 			  command->text);
-	      lw6pil_command_execute (&(worker->dump), timestamp,
-				      worker->game_state, command);
+	      if (worker->verified)
+		{
+		  lw6pil_command_execute (&(worker->dump), timestamp,
+					  worker->game_state, command);
+		  if (lw6pil_dump_exists (&(worker->dump)) &&
+		      ((old_worker_dump_pilot_ptr != worker->dump.pilot) ||
+		       (old_worker_dump_pilot_id != worker->dump.pilot->id)))
+		    {
+		      if (commands)
+			{
+			  lw6sys_list_map (commands,
+					   _lw6pil_compute_pump_command_callback,
+					   worker->dump.pilot);
+			}
+		    }
+		  /*
+		   * It's important to keep a track of the previous dump,
+		   * to avoid putting messages twice in it. In practice it should
+		   * be rare. Note that we srt these old_worker values *after*
+		   * pumping the data if needed, this way if there's already a 
+		   * dump from previous compute, data will be appended the right way.
+		   */
+		  old_worker_dump_pilot_ptr = worker->dump.pilot;
+		  if (old_worker_dump_pilot_ptr)
+		    {
+		      old_worker_dump_pilot_id =
+			old_worker_dump_pilot_ptr->id;
+		    }
+		}
+	      else
+		{
+		  /*
+		   * Not in verified mode, we ignore all that dump stuff, if there's a 
+		   * dump we ignore it, the cost of processing it is too expensive
+		   * compared to the gain it would introduce, we'll treat it when
+		   * it's verified, meanwhile, keep working on old map.
+		   */
+		  lw6pil_command_execute (NULL, 0L,
+					  worker->game_state, command);
+		}
 	      lw6sys_mutex_unlock (worker->compute_mutex);
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("worker execute end %d"),
 			  worker->current_round);
@@ -184,4 +227,21 @@ void
 _lw6pil_compute_thread_join (lw6pil_worker_t * worker)
 {
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("worker compute join"));
+}
+
+void
+_lw6pil_compute_pump_command_callback (void *func_data, void *data)
+{
+  _lw6pil_pilot_t *pilot = (_lw6pil_pilot_t *) func_data;
+  lw6pil_command_t *command = (lw6pil_command_t *) data;
+
+  if (pilot && command && command->text)
+    {
+      _lw6pil_pilot_send_command (pilot, command->text, 1);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("bad parameters for pump command callback"));
+    }
 }

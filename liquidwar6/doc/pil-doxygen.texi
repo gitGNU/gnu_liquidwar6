@@ -408,6 +408,16 @@ Wether this thread should run, 0 will stop it.
         
 @end defcv
 
+@defcv {Member} {lw6pil_worker_s} {verified}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_worker_s::verified}
+
+
+Wether this is running in verified mode or not.         
+        
+@end defcv
+
 @defcv {Member} {lw6pil_worker_s} {current_round}
 @strong{Type:} @code{int}
 

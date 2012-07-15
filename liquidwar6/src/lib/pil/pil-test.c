@@ -64,7 +64,8 @@
 #define _TEST_LOCAL_CURSORS_Y2 90
 #define _TEST_LOCAL_CURSORS_MOUSE_CONTROLLED2 0
 #define _TEST_DUMP_ID 0x1234123412341234LL
-#define _TEST_DUMP_SLEEP 3.0f
+#define _TEST_DUMP_SLEEP 1.0f
+#define _TEST_DUMP_TRIES 10
 
 static char *test_commands[] = {
   "10000000002 1234abcd1234abcd REGISTER",
@@ -350,7 +351,10 @@ test_dump ()
     char *dump_command = NULL;
     u_int32_t checksum = 0;
     char *without_seq = NULL;
+    lw6pil_dump_t dump;
+    int i = 0;
 
+    lw6pil_dump_zero (&dump);
     level =
       lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
@@ -393,11 +397,29 @@ test_dump ()
 
 				if (lw6pil_pilot_send_command
 				    (pilot, dump_command, 1)
-				    && lw6pil_pilot_commit (pilot))
+				    && lw6pil_pilot_commit (NULL, pilot))
 				  {
-				    lw6sys_sleep (_TEST_DUMP_SLEEP);
-
+				    for (i = 0;
+					 i < _TEST_DUMP_TRIES
+					 && !lw6pil_dump_exists (&dump); ++i)
+				      {
+					lw6sys_sleep (_TEST_DUMP_SLEEP);
+					lw6pil_pilot_commit (&dump, pilot);
+				      }
+				  }
+				if (lw6pil_dump_exists (&dump))
+				  {
+				    lw6sys_log (LW6SYS_LOG_NOTICE,
+						_x_
+						("got dump from pilot, OK"));
+				    lw6pil_dump_clear (&dump);
 				    ret = 1;
+				  }
+				else
+				  {
+				    lw6sys_log (LW6SYS_LOG_WARNING,
+						_x_
+						("didn't get dump from pilot"));
 				  }
 			      }
 			    else
@@ -517,7 +539,7 @@ test_pilot ()
 								[i + 2]);
 				  }
 			      }
-			    lw6pil_pilot_commit (pilot);
+			    lw6pil_pilot_commit (NULL, pilot);
 			    lw6sys_sleep (_TEST_CYCLE);
 
 			    if (i == _TEST_SYNC_COMMAND_I)

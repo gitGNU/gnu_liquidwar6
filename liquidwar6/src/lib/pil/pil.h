@@ -177,6 +177,8 @@ typedef struct lw6pil_worker_s
 {
   /// Wether this thread should run, 0 will stop it.
   int run;
+  /// Wether this is running in verified mode or not.
+  int verified;
   /// Current game round.
   int current_round;
   /// Round up to which we should compute stuff.
@@ -304,7 +306,9 @@ extern void lw6pil_coords_fix_x10 (lw6map_rules_t * rules,
 				   float *z);
 
 /* pil-dump.c */
+extern void lw6pil_dump_zero (lw6pil_dump_t * dump);
 extern void lw6pil_dump_clear (lw6pil_dump_t * dump);
+extern int lw6pil_dump_exists (const lw6pil_dump_t * dump);
 extern char *lw6pil_dump_pilot_to_command (lw6pil_pilot_t * pilot,
 					   u_int64_t server_id);
 extern int lw6pil_dump_command_to_pilot (lw6pil_dump_t * dump,
@@ -346,7 +350,7 @@ extern int lw6pil_pilot_send_command (lw6pil_pilot_t * pilot,
 				      char *command_text, int verified);
 extern int lw6pil_pilot_local_command (lw6pil_pilot_t * pilot,
 				       char *command_text);
-extern int lw6pil_pilot_commit (lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_commit (lw6pil_dump_t * dump, lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_make_backup (lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_can_sync (lw6ker_game_state_t * target,
 				  lw6pil_pilot_t * pilot);

@@ -62,6 +62,8 @@ extern int _lw6pil_command_sort_callback (lw6sys_list_t ** list_a,
 /* pil-compute.c */
 extern void _lw6pil_compute_thread_func (lw6pil_worker_t * worker);
 extern void _lw6pil_compute_thread_join (lw6pil_worker_t * worker);
+extern void _lw6pil_compute_pump_command_callback (void *func_data,
+						   void *data);
 
 /* pil-dump.c */
 extern char *_lw6pil_dump_pilot_to_command (_lw6pil_pilot_t * pilot,
@@ -77,7 +79,8 @@ extern int _lw6pil_pilot_send_command (_lw6pil_pilot_t * pilot,
 				       char *command_text, int verified);
 extern int _lw6pil_pilot_local_command (_lw6pil_pilot_t * pilot,
 					char *command_text);
-extern int _lw6pil_pilot_commit (_lw6pil_pilot_t * pilot);
+extern int _lw6pil_pilot_commit (lw6pil_dump_t * dump,
+				 _lw6pil_pilot_t * pilot);
 extern int _lw6pil_pilot_make_backup (_lw6pil_pilot_t * pilot);
 extern int _lw6pil_pilot_can_sync (lw6ker_game_state_t * target,
 				   _lw6pil_pilot_t * pilot);
@@ -118,7 +121,7 @@ extern void _lw6pil_spread_thread_func (_lw6pil_spread_data_t * spread_data);
 /* pil-worker.c */
 extern int _lw6pil_worker_init (lw6pil_worker_t * worker,
 				lw6ker_game_state_t * game_state,
-				lw6sys_progress_t * progress);
+				int verified, lw6sys_progress_t * progress);
 extern int _lw6pil_worker_quit (lw6pil_worker_t * worker);
 
 #endif

@@ -30,12 +30,13 @@
 int
 _lw6pil_worker_init (lw6pil_worker_t * worker,
 		     lw6ker_game_state_t * game_state,
-		     lw6sys_progress_t * progress)
+		     int verified, lw6sys_progress_t * progress)
 {
   int ret = 0;
 
   memset (worker, 0, sizeof (lw6pil_worker_t));
   worker->run = 1;
+  worker->verified = verified;
   worker->target_round = lw6ker_game_state_get_rounds (game_state);
   worker->current_round = worker->current_round;
   worker->computed_rounds = 0;

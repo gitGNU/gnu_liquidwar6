@@ -28,6 +28,24 @@
 #include "pil-internal.h"
 
 /**
+ * lw6pil_dump_zero
+ *
+ * @dump: object to initialize
+ *
+ * Fills a dump object with zero, regardless of what was there before.
+ *
+ * Return value: none.
+ */
+void
+lw6pil_dump_zero (lw6pil_dump_t * dump)
+{
+  if (dump)
+    {
+      memset (dump, 0, sizeof (lw6pil_dump_t));
+    }
+}
+
+/**
  * lw6pil_dump_clear
  *
  * @dump: object to clear
@@ -63,6 +81,22 @@ lw6pil_dump_clear (lw6pil_dump_t * dump)
       lw6pil_pilot_free (dump->pilot);
       (dump->pilot) = NULL;
     }
+}
+
+/**
+ * lw6pil_dump_exists
+ *
+ * @dump: object to test
+ *
+ * Tests wether there's actually a dump in the structure, or if it's empty.
+ *
+ * Return value: 1 if there's a dump, 0 if all fields set to NULL.
+ */
+int
+lw6pil_dump_exists (const lw6pil_dump_t * dump)
+{
+  return (dump && dump->level && dump->game_struct && dump->game_state
+	  && dump->pilot);
 }
 
 char *

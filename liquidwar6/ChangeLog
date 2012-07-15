@@ -1,3 +1,7 @@
+2012-07-15 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Dump messages and transforms to objects, can get them from scripts.
+
 2012-07-14 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Dump messages processed by pilot, still needs to be get at the end.
