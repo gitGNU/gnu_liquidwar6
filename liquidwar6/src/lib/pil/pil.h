@@ -156,7 +156,7 @@ typedef struct lw6pil_command_s
   char *text;
 } lw6pil_command_t;
 
-typedef struct lw6pil_pilot_s lw6pil_pilot_t;
+typedef struct lw6pil_pilot_s *lw6pil_pilot_p;
 
 /**
  * Stores the information contained in a dump, this is just
@@ -172,7 +172,7 @@ typedef struct lw6pil_dump_s
   /// Will hold the new game state if a dump is received
   lw6ker_game_state_t *game_state;
   /// Will hold the new pilot if a dump is received
-  lw6pil_pilot_t *pilot;
+  lw6pil_pilot_p pilot;
 } lw6pil_dump_t;
 
 /**
