@@ -860,9 +860,24 @@ Wrapper on lw6p2p_db_new.
 Wrapper on lw6p2p_db_reset.
 @end deffn
 
+@subsection c-lw6p2p-node-calibrate
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-calibrate}
+Wrapper on lw6p2p_node_calibrate.
+@end deffn
+
+@subsection c-lw6p2p-node-client-join
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-client-join}
+Wrapper on lw6p2p_node_client_join.
+@end deffn
+
 @subsection c-lw6p2p-node-close
 @deffn {C function exported to Guile} @code{c-lw6p2p-node-close}
 Wrapper on lw6p2p_node_close.
+@end deffn
+
+@subsection c-lw6p2p-node-disconnect
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-disconnect}
+Wrapper on lw6p2p_node_disconnect.
 @end deffn
 
 @subsection c-lw6p2p-node-get-entries
@@ -875,6 +890,26 @@ Wrapper on lw6p2p_node_get_entries.
 Wrapper on lw6p2p_node_get_id.
 @end deffn
 
+@subsection c-lw6p2p-node-get-next-draft-msg
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-get-next-draft-msg}
+Wrapper on lw6p2p_node_get_next_draft_msg.
+@end deffn
+
+@subsection c-lw6p2p-node-get-next-reference-msg
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-get-next-reference-msg}
+Wrapper on lw6p2p_node_get_next_reference_msg.
+@end deffn
+
+@subsection c-lw6p2p-node-get-seq-max
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-get-seq-max}
+Wrapper on lw6p2p_node_get_seq_max.
+@end deffn
+
+@subsection c-lw6p2p-node-is-dump-needed
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-is-dump-needed}
+Wrapper on lw6p2p_node_is_dump_needed.
+@end deffn
+
 @subsection c-lw6p2p-node-new
 @deffn {C function exported to Guile} @code{c-lw6p2p-node-new}
 Wrapper on lw6p2p_node_new.
@@ -883,6 +918,21 @@ Wrapper on lw6p2p_node_new.
 @subsection c-lw6p2p-node-poll
 @deffn {C function exported to Guile} @code{c-lw6p2p-node-poll}
 Wrapper on lw6p2p_node_poll.
+@end deffn
+
+@subsection c-lw6p2p-node-put-local-msg
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-put-local-msg}
+Wrapper on lw6p2p_node_put_local_msg.
+@end deffn
+
+@subsection c-lw6p2p-node-server-start
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-server-start}
+Wrapper on lw6p2p_node_server_start.
+@end deffn
+
+@subsection c-lw6p2p-node-update-info
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-update-info}
+Wrapper on lw6p2p_node_update_info.
 @end deffn
 
 @subsection c-lw6pil-bench

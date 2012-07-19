@@ -1192,6 +1192,16 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_CLOSE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_GET_ID);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_GET_ENTRIES);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_SERVER_START);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_CLIENT_JOIN);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_DISCONNECT);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_UPDATE_INFO);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_CALIBRATE);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_PUT_LOCAL_MSG);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_GET_NEXT_REFERENCE_MSG);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_GET_NEXT_DRAFT_MSG);
   lw6sys_list_push_back (list, LW6DEF_C_LW6BOT_GET_BACKENDS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6BOT_NEW);
   lw6sys_list_push_back (list, LW6DEF_C_LW6BOT_NEXT_MOVE);

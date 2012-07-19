@@ -175,9 +175,9 @@ Will hold the new game state if a dump is received.
 @end defcv
 
 @defcv {Member} {lw6pil_dump_s} {pilot}
-@strong{Type:} @code{lw6pil_pilot_t *}
+@strong{Type:} @code{lw6pil_pilot_p}
 
-@strong{Definition:} @code{lw6pil_pilot_t* lw6pil_dump_s::pilot}
+@strong{Definition:} @code{lw6pil_pilot_p lw6pil_dump_s::pilot}
 
 
 Will hold the new pilot if a dump is received.         

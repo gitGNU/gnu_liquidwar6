@@ -9302,6 +9302,11 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 
   if (lw6_global.net_initialized)
     {
+      SCM_ASSERT (SCM_SMOB_PREDICATE
+		  (lw6_global.smob_types.db, db), db, SCM_ARG1, __FUNCTION__);
+      SCM_ASSERT (SCM_CONSP (param)
+		  || param == SCM_EOL, param, SCM_ARG2, __FUNCTION__);
+
       client_backends =
 	scm_assoc_ref (param, scm_from_locale_string ("client-backends"));
       server_backends =
@@ -9323,11 +9328,6 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
       network_reliability =
 	scm_assoc_ref (param, scm_from_locale_string ("network-reliability"));
       trojan = scm_assoc_ref (param, scm_from_locale_string ("trojan"));
-
-      SCM_ASSERT (SCM_SMOB_PREDICATE
-		  (lw6_global.smob_types.db, db), db, SCM_ARG1, __FUNCTION__);
-      SCM_ASSERT (SCM_CONSP (param)
-		  || param == SCM_EOL, param, SCM_ARG2, __FUNCTION__);
 
       SCM_ASSERT (scm_is_string (client_backends), param, SCM_ARG2,
 		  __FUNCTION__);
@@ -9652,6 +9652,369 @@ _scm_lw6p2p_node_get_entries (SCM node)
 	  lw6sys_list_map (c_ret, _lw6p2p_node_get_entries_callback,
 			   (void *) &ret);
 	  lw6sys_list_free (c_ret);
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6p2p_node_server_start (SCM node, SCM seq_0)
+{
+  lw6p2p_node_t *c_node;
+  int64_t c_seq_0;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (seq_0), seq_0, SCM_ARG2, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_seq_0 = scm_to_long_long (seq_0);
+
+      ret =
+	lw6p2p_node_server_start (c_node, c_seq_0) ? SCM_BOOL_T : SCM_BOOL_F;
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6p2p_node_client_join (SCM node, SCM remote_id, SCM remote_url)
+{
+  lw6p2p_node_t *c_node;
+  char *c_remote_id_str = NULL;
+  u_int64_t c_remote_id_int = 0LL;
+  char *c_remote_url = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (remote_id), remote_id, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (remote_url), remote_url, SCM_ARG3, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_remote_id_str = to_0str (remote_id);
+      if (c_remote_id_str)
+	{
+	  c_remote_id_int = lw6sys_id_atol (c_remote_id_str);
+	  if (c_remote_id_int > 0)
+	    {
+	      c_remote_url = to_0str (remote_url);
+	      if (c_remote_url)
+		{
+		  ret =
+		    lw6p2p_node_client_join (c_node, c_remote_id_int,
+					     c_remote_url) ? SCM_BOOL_T :
+		    SCM_BOOL_F;
+		  LW6SYS_FREE (c_remote_url);
+		}
+	    }
+	  LW6SYS_FREE (c_remote_id_str);
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6p2p_node_disconnect (SCM node)
+{
+  lw6p2p_node_t *c_node;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      lw6p2p_node_disconnect (c_node);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return SCM_UNDEFINED;
+}
+
+static SCM
+_scm_lw6p2p_node_update_info (SCM node, SCM param)
+{
+  lw6p2p_node_t *c_node;
+  SCM round = SCM_BOOL_F;
+  SCM level = SCM_BOOL_F;
+  SCM nb_colors = SCM_BOOL_F;
+  SCM max_nb_colors = SCM_BOOL_F;
+  SCM nb_cursors = SCM_BOOL_F;
+  SCM max_nb_cursors = SCM_BOOL_F;
+  SCM nb_nodes = SCM_BOOL_F;
+  SCM max_nb_nodes = SCM_BOOL_F;
+  SCM screenshot = SCM_BOOL_F;
+  SCM ret = SCM_BOOL_F;
+  int c_round = 0;
+  char *c_level = NULL;
+  int c_nb_colors = 0;
+  int c_max_nb_colors = 0;
+  int c_nb_cursors = 0;
+  int c_max_nb_cursors = 0;
+  int c_nb_nodes = 0;
+  int c_max_nb_nodes = 0;
+  lw6img_jpeg_t *c_screenshot = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_CONSP (param)
+	      || param == SCM_EOL, param, SCM_ARG2, __FUNCTION__);
+
+  round = scm_assoc_ref (param, scm_from_locale_string ("round"));
+  level = scm_assoc_ref (param, scm_from_locale_string ("level"));
+  nb_colors = scm_assoc_ref (param, scm_from_locale_string ("nb-colors"));
+  max_nb_colors =
+    scm_assoc_ref (param, scm_from_locale_string ("max-nb-colors"));
+  nb_cursors = scm_assoc_ref (param, scm_from_locale_string ("nb-cursors"));
+  max_nb_cursors =
+    scm_assoc_ref (param, scm_from_locale_string ("max-nb-cursors"));
+  nb_nodes = scm_assoc_ref (param, scm_from_locale_string ("nb-nodes"));
+  max_nb_nodes =
+    scm_assoc_ref (param, scm_from_locale_string ("max-nb-nodes"));
+  screenshot = scm_assoc_ref (param, scm_from_locale_string ("screenshot"));
+
+  SCM_ASSERT (scm_is_integer (round), param, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (level), param, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (nb_colors), param, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (max_nb_colors), param, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (nb_cursors), param, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (max_nb_cursors), param, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (nb_nodes), param, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (max_nb_nodes), param, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.jpeg,
+	       screenshot), param, SCM_ARG2, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_round = scm_to_int (round);
+      c_level = to_0str (level);
+      if (c_level)
+	{
+	  c_nb_colors = scm_to_int (nb_colors);
+	  c_max_nb_colors = scm_to_int (max_nb_colors);
+	  c_nb_cursors = scm_to_int (nb_cursors);
+	  c_max_nb_cursors = scm_to_int (max_nb_cursors);
+	  c_nb_nodes = scm_to_int (nb_nodes);
+	  c_max_nb_nodes = scm_to_int (max_nb_nodes);
+	  c_screenshot = lw6_scm_to_jpeg (screenshot);
+	  if (c_screenshot)
+	    {
+	      ret =
+		lw6p2p_node_update_info (c_node, c_round, c_level,
+					 c_nb_colors, c_max_nb_colors,
+					 c_nb_cursors, c_max_nb_cursors,
+					 c_nb_nodes, c_max_nb_nodes,
+					 c_screenshot->jpeg_size,
+					 c_screenshot->jpeg_data) ? SCM_BOOL_T
+		: SCM_BOOL_F;
+	    }
+	  LW6SYS_FREE (c_level);
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6p2p_node_calibrate (SCM node, SCM timestamp, SCM seq_0)
+{
+  lw6p2p_node_t *c_node;
+  int64_t c_timestamp = 0LL;
+  int64_t c_seq_0 = 0LL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+
+  SCM_ASSERT (scm_is_integer (seq_0), seq_0, SCM_ARG2, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_timestamp = scm_to_long_long (timestamp);
+      c_seq_0 = scm_to_long_long (seq_0);
+
+      lw6p2p_node_calibrate (c_node, c_timestamp, c_seq_0);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return SCM_UNDEFINED;
+}
+
+static SCM
+_scm_lw6p2p_node_get_seq_max (SCM node)
+{
+  lw6p2p_node_t *c_node;
+  int64_t c_ret = 0LL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_ret = lw6p2p_node_get_seq_max (c_node);
+      ret = scm_from_long_long (c_ret);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6p2p_node_is_dump_needed (SCM node)
+{
+  lw6p2p_node_t *c_node;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      ret = lw6p2p_node_is_dump_needed (c_node) ? SCM_BOOL_T : SCM_BOOL_F;
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6p2p_node_put_local_msg (SCM node, SCM msg)
+{
+  lw6p2p_node_t *c_node;
+  char *c_msg = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node, node), node, SCM_ARG1,
+	      __FUNCTION__);
+  SCM_ASSERT (scm_is_string (msg), msg, SCM_ARG2, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_msg = to_0str (msg);
+      if (c_msg)
+	{
+	  ret =
+	    lw6p2p_node_put_local_msg (c_node,
+				       c_msg) ? SCM_BOOL_T : SCM_BOOL_F;
+	  LW6SYS_FREE (c_msg);
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6p2p_node_get_next_reference_msg (SCM node)
+{
+  lw6p2p_node_t *c_node;
+  char *c_ret = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_ret = lw6p2p_node_get_next_reference_msg (c_node);
+      if (c_ret)
+	{
+	  ret = scm_from_locale_string (c_ret);
+	  LW6SYS_FREE (c_ret);
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6p2p_node_get_next_draft_msg (SCM node)
+{
+  lw6p2p_node_t *c_node;
+  char *c_ret = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_ret = lw6p2p_node_get_next_draft_msg (c_node);
+      if (c_ret)
+	{
+	  ret = scm_from_locale_string (c_ret);
+	  LW6SYS_FREE (c_ret);
 	}
     }
 
@@ -10734,6 +11097,26 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6p2p_node_get_id);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_ENTRIES, 1, 0, 0,
 			 (SCM (*)())_scm_lw6p2p_node_get_entries);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_SERVER_START, 1, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_server_start);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_CLIENT_JOIN, 3, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_client_join);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_DISCONNECT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_disconnect);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_UPDATE_INFO, 2, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_update_info);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_CALIBRATE, 3, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_calibrate);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX, 2, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_get_seq_max);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED, 2, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_is_dump_needed);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_PUT_LOCAL_MSG, 3, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_put_local_msg);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_NEXT_REFERENCE_MSG, 2, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_get_next_reference_msg);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_NEXT_DRAFT_MSG, 2, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_get_next_draft_msg);
 
   /*
    * In liquidwar6bot

@@ -236,3 +236,5 @@ _("Sound backend");		// extracted by scriptpo-update.sh
 _("Graphics backend");		// extracted by scriptpo-update.sh
 _("Sound backend");		// extracted by scriptpo-update.sh
 _("Dummy test node");		// extracted by scriptpo-update.sh
+_("Dummy test node");		// extracted by scriptpo-update.sh
+_("Dummy test node");		// extracted by scriptpo-update.sh

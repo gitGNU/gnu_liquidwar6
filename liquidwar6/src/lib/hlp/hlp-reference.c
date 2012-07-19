@@ -2840,6 +2840,26 @@ populate_references ()
 		 _x_ ("Wrapper on lw6p2p_node_get_id."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_ENTRIES,
 		 _x_ ("Wrapper on lw6p2p_node_get_entries."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_SERVER_START,
+		 _x_ ("Wrapper on lw6p2p_node_server_start."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_CLIENT_JOIN,
+		 _x_ ("Wrapper on lw6p2p_node_client_join."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_DISCONNECT,
+		 _x_ ("Wrapper on lw6p2p_node_disconnect."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_UPDATE_INFO,
+		 _x_ ("Wrapper on lw6p2p_node_update_info."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_CALIBRATE,
+		 _x_ ("Wrapper on lw6p2p_node_calibrate."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX,
+		 _x_ ("Wrapper on lw6p2p_node_get_seq_max."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED,
+		 _x_ ("Wrapper on lw6p2p_node_is_dump_needed."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_PUT_LOCAL_MSG,
+		 _x_ ("Wrapper on lw6p2p_node_put_local_msg."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_NEXT_REFERENCE_MSG,
+		 _x_ ("Wrapper on lw6p2p_node_get_next_reference_msg."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_NEXT_DRAFT_MSG,
+		 _x_ ("Wrapper on lw6p2p_node_get_next_draft_msg."));
   POPULATE_VOID (LW6DEF_C_LW6BOT_GET_BACKENDS,
 		 _x_ ("Wrapper on lw6bot_get_backends."));
   POPULATE_VOID (LW6DEF_C_LW6BOT_NEW, _x_ ("Wrapper on lw6bot_new."));

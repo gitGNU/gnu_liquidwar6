@@ -1,3 +1,7 @@
+2012-07-19 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Exported p2p functions to script.
+
 2012-07-15 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Dump messages and transforms to objects, can get them from scripts.
