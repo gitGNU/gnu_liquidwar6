@@ -66,7 +66,7 @@ $(srcdir)/p2p-gdoc.texi: $(top_srcdir)/src/lib/p2p/p2p-backends.c $(top_srcdir)/
 $(srcdir)/pil-gdoc.texi: $(top_srcdir)/src/lib/pil/pil-bench.c $(top_srcdir)/src/lib/pil/pil-command.c $(top_srcdir)/src/lib/pil/pil-compute.c $(top_srcdir)/src/lib/pil/pil-coords.c $(top_srcdir)/src/lib/pil/pil-dump.c $(top_srcdir)/src/lib/pil/pil-localcursors.c $(top_srcdir)/src/lib/pil/pil-pilot.c $(top_srcdir)/src/lib/pil/pil-seq.c $(top_srcdir)/src/lib/pil/pil-spread.c $(top_srcdir)/src/lib/pil/pil-test.c $(top_srcdir)/src/lib/pil/pil-testmain.c $(top_srcdir)/src/lib/pil/pil-worker.c
 	echo gdoc pil && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/pil-gdoc.texi
 
-$(srcdir)/scm-gdoc.texi: $(top_srcdir)/src/lib/scm/scm-coverage.c $(top_srcdir)/src/lib/scm/scm-funcname.c $(top_srcdir)/src/lib/scm/scm-test.c $(top_srcdir)/src/lib/scm/scm-testmain.c $(top_srcdir)/src/lib/scm/scm-wrapper.c
+$(srcdir)/scm-gdoc.texi: $(top_srcdir)/src/lib/scm/scm-coverage.c $(top_srcdir)/src/lib/scm/scm-funcname.c $(top_srcdir)/src/lib/scm/scm-test.c $(top_srcdir)/src/lib/scm/scm-testmain.c $(top_srcdir)/src/lib/scm/scm-utils.c $(top_srcdir)/src/lib/scm/scm-wrapper.c
 	echo gdoc scm && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/scm-gdoc.texi
 
 $(srcdir)/sim-gdoc.texi: $(top_srcdir)/src/lib/sim/sim-mask.c $(top_srcdir)/src/lib/sim/sim-print.c $(top_srcdir)/src/lib/sim/sim-results.c $(top_srcdir)/src/lib/sim/sim-simulate.c $(top_srcdir)/src/lib/sim/sim-test.c $(top_srcdir)/src/lib/sim/sim-testmain.c

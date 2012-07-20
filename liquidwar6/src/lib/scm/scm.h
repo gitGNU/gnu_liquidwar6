@@ -40,6 +40,12 @@ extern void lw6scm_coverage_call (lw6sys_hash_t * coverage, const char *func);
 extern void lw6scm_coverage_log (lw6sys_hash_t * coverage);
 extern int lw6scm_coverage_check (int *percent, lw6sys_hash_t * coverage,
 				  lw6sys_list_t * funcs);
+/* scm-utils.c */
+extern char *lw6scm_utils_to_0str (SCM string);
+extern SCM lw6scm_utils_to_scm_str_list (lw6sys_list_t * c_list);
+extern SCM lw6scm_utils_to_scm_str_assoc (lw6sys_assoc_t * c_assoc);
+extern lw6sys_list_t *lw6scm_utils_to_sys_str_list (SCM list);
+extern lw6sys_assoc_t *lw6scm_utils_to_sys_str_assoc (SCM assoc);
 
 /* scm-wrapper.c */
 extern int lw6scm_c_define_gsubr (const char *name, int req, int opt, int rst,

@@ -28,140 +28,6 @@
 
 #include "liquidwar6.h"
 
-/*
- * Helper function, creates a 0 terminated string
- * from a Guile string. A very common task.
- * Returned pointer must be freed.
- */
-static char *
-to_0str (SCM string)
-{
-  char *c_string = NULL;
-  int length = 0;
-  int c_length = 0;
-
-  if (SCM_NFALSEP (string))
-    {
-      SCM_ASSERT (scm_is_string (string), string, SCM_ARG1, __FUNCTION__);
-      /*
-       * See the comment in sys/sys-str.c to see why we use
-       * 2 trailing '\0' at the end of the string.
-       */
-      length = scm_c_string_length (string);
-    }
-
-  /*
-   * We use a double size + 3 extra bytes to make double-triple
-   * sure it's zero terminated, you never know, if it's interpreted
-   * in UTF-16, who knows, I just don't want to take any risk,
-   * string handling is awfull enough...
-   */
-  c_length = length * 2 * sizeof (char);
-  c_string = (char *) LW6SYS_CALLOC (c_length + 3);
-  if (c_string)
-    {
-      if (length > 0)
-	{
-	  scm_to_locale_stringbuf (string, c_string, c_length);
-	}
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_
-		  ("unable to convert a guile SCM string to a standard C \"'\\0' terminated\" string"));
-    }
-
-  return c_string;
-}
-
-static SCM
-to_scm_str_list (lw6sys_list_t * c_list)
-{
-  SCM ret = SCM_EOL;
-  lw6sys_list_t *c_item = NULL;
-
-  for (c_item = c_list; c_item; c_item = lw6sys_list_next (c_item))
-    {
-      if (c_item->data)
-	{
-	  ret =
-	    scm_cons (scm_from_locale_string ((char *) c_item->data), ret);
-	}
-    }
-
-  ret = scm_reverse (ret);
-
-  return ret;
-}
-
-static lw6sys_assoc_t *
-to_sys_str_assoc (SCM assoc)
-{
-  lw6sys_assoc_t *c_assoc = NULL;
-
-  c_assoc = lw6sys_assoc_new (lw6sys_free_callback);
-  if (c_assoc)
-    {
-      if (SCM_CONSP (assoc))
-	{
-	  int i, n;
-	  char *key, *value;
-	  SCM item;
-
-	  n = scm_to_int (scm_length (assoc));
-	  for (i = 0; i < n; ++i)
-	    {
-	      item = scm_list_ref (assoc, scm_from_int (i));
-	      if (SCM_CONSP (item))
-		{
-		  key = to_0str (scm_car (item));
-		  value = to_0str (scm_cdr (item));
-		  if (key && value)
-		    {
-		      lw6sys_assoc_set (&c_assoc, key, (void *) value);
-		      LW6SYS_FREE (key);
-		      // value must not be freed now
-		    }
-		}
-	    }
-	}
-    }
-
-  return c_assoc;
-}
-
-static lw6sys_list_t *
-to_sys_str_list (SCM list)
-{
-  lw6sys_list_t *c_list = NULL;
-
-  c_list = lw6sys_list_new (lw6sys_free_callback);
-  if (c_list)
-    {
-      if (SCM_CONSP (list))
-	{
-	  int i, n;
-	  char *c_item;
-	  SCM item;
-
-	  n = scm_to_int (scm_length (list));
-	  for (i = n - 1; i >= 0; --i)
-	    {
-	      item = scm_list_ref (list, scm_from_int (i));
-	      c_item = to_0str (item);
-	      if (c_item)
-		{
-		  lw6sys_list_push_front (&c_list, c_item);
-		  // do not free c_item, list will do it
-		}
-	    }
-	}
-    }
-
-  return c_list;
-}
-
 static int
 prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
 {
@@ -602,7 +468,7 @@ _scm_gettext (SCM string)
 
   SCM_ASSERT (scm_is_string (string), string, SCM_ARG1, __FUNCTION__);
 
-  c_string = to_0str (string);
+  c_string = lw6scm_utils_to_0str (string);
   if (c_string)
     {
       ret = scm_from_locale_string (gettext (c_string));
@@ -1542,7 +1408,7 @@ _scm_lw6sys_dump (SCM content)
 
   SCM_ASSERT (scm_is_string (content), content, SCM_ARG1, __FUNCTION__);
 
-  c_content = to_0str (content);
+  c_content = lw6scm_utils_to_0str (content);
   if (c_content)
     {
       user_dir =
@@ -1637,7 +1503,7 @@ _scm_lw6sys_getenv (SCM key)
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-  c_key = to_0str (key);
+  c_key = lw6scm_utils_to_0str (key);
   if (c_key)
     {
       buf = lw6sys_getenv (c_key);
@@ -1666,7 +1532,7 @@ _scm_lw6sys_getenv_prefixed (SCM keyword)
 
   SCM_ASSERT (scm_is_string (keyword), keyword, SCM_ARG1, __FUNCTION__);
 
-  c_keyword = to_0str (keyword);
+  c_keyword = lw6scm_utils_to_0str (keyword);
   if (c_keyword)
     {
       buf = lw6sys_getenv_prefixed (c_keyword);
@@ -1765,7 +1631,7 @@ _scm_lw6sys_log (SCM level, SCM message)
   SCM_ASSERT (scm_is_string (message), message, SCM_ARG2, __FUNCTION__);
 
   c_level = scm_to_int (level);
-  c_message = to_0str (message);
+  c_message = lw6scm_utils_to_0str (message);
   if (c_message)
     {
       lw6sys_log (c_level, __FILE__, __LINE__, "%s", c_message);
@@ -2370,10 +2236,10 @@ _scm_lw6sys_path_concat (SCM path1, SCM path2)
   SCM_ASSERT (scm_is_string (path1), path1, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (path2), path2, SCM_ARG2, __FUNCTION__);
 
-  c_path1 = to_0str (path1);
+  c_path1 = lw6scm_utils_to_0str (path1);
   if (c_path1)
     {
-      c_path2 = to_0str (path2);
+      c_path2 = lw6scm_utils_to_0str (path2);
       if (c_path2)
 	{
 	  c_ret = lw6sys_path_concat (c_path1, c_path2);
@@ -2404,7 +2270,7 @@ _scm_lw6sys_path_file_only (SCM path)
 
   SCM_ASSERT (scm_is_string (path), path, SCM_ARG1, __FUNCTION__);
 
-  c_path = to_0str (path);
+  c_path = lw6scm_utils_to_0str (path);
   if (c_path)
     {
       c_ret = lw6sys_path_file_only (c_path);
@@ -2433,7 +2299,7 @@ _scm_lw6sys_path_parent (SCM path)
 
   SCM_ASSERT (scm_is_string (path), path, SCM_ARG1, __FUNCTION__);
 
-  c_path = to_0str (path);
+  c_path = lw6scm_utils_to_0str (path);
   if (c_path)
     {
       c_ret = lw6sys_path_parent (c_path);
@@ -2463,7 +2329,7 @@ _scm_lw6sys_path_split (SCM path)
 
   SCM_ASSERT (scm_is_string (path), path, SCM_ARG1, __FUNCTION__);
 
-  c_path = to_0str (path);
+  c_path = lw6scm_utils_to_0str (path);
   if (c_path)
     {
       ret = SCM_LIST0;
@@ -2680,7 +2546,7 @@ _scm_lw6sys_url_canonize (SCM url)
 
   SCM_ASSERT (scm_is_string (url), url, SCM_ARG1, __FUNCTION__);
 
-  c_url = to_0str (url);
+  c_url = lw6scm_utils_to_0str (url);
   if (c_url)
     {
       c_ret = lw6sys_url_canonize (c_url);
@@ -2710,7 +2576,7 @@ _scm_lw6hlp_about (SCM key)
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-  c_key = to_0str (key);
+  c_key = lw6scm_utils_to_0str (key);
   if (c_key)
     {
       c_ret = lw6hlp_about (NULL, NULL, NULL, NULL, c_key);
@@ -2734,7 +2600,7 @@ _scm_lw6hlp_get_default_value (SCM key)
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-  c_key = to_0str (key);
+  c_key = lw6scm_utils_to_0str (key);
   if (c_key)
     {
       c_ret = lw6hlp_get_default_value (c_key);
@@ -2761,7 +2627,7 @@ _scm_lw6hlp_list_quick ()
   c_list = lw6hlp_list_quick ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -2782,7 +2648,7 @@ _scm_lw6hlp_list_doc ()
   c_list = lw6hlp_list_doc ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -2803,7 +2669,7 @@ _scm_lw6hlp_list_show ()
   c_list = lw6hlp_list_show ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -2824,7 +2690,7 @@ _scm_lw6hlp_list_path ()
   c_list = lw6hlp_list_path ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -2845,7 +2711,7 @@ _scm_lw6hlp_list_players ()
   c_list = lw6hlp_list_players ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -2866,7 +2732,7 @@ _scm_lw6hlp_list_input ()
   c_list = lw6hlp_list_input ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -2887,7 +2753,7 @@ _scm_lw6hlp_list_graphics ()
   c_list = lw6hlp_list_graphics ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -2908,7 +2774,7 @@ _scm_lw6hlp_list_sound ()
   c_list = lw6hlp_list_sound ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -2929,7 +2795,7 @@ _scm_lw6hlp_list_network ()
   c_list = lw6hlp_list_network ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -2950,7 +2816,7 @@ _scm_lw6hlp_list_map ()
   c_list = lw6hlp_list_map ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -2971,7 +2837,7 @@ _scm_lw6hlp_list_map_rules ()
   c_list = lw6hlp_list_map_rules ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -2992,7 +2858,7 @@ _scm_lw6hlp_list_map_hints ()
   c_list = lw6hlp_list_map_hints ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -3013,7 +2879,7 @@ _scm_lw6hlp_list_map_style ()
   c_list = lw6hlp_list_map_style ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -3034,7 +2900,7 @@ _scm_lw6hlp_list_map_teams ()
   c_list = lw6hlp_list_map_teams ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -3055,7 +2921,7 @@ _scm_lw6hlp_list_funcs ()
   c_list = lw6hlp_list_funcs ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -3076,7 +2942,7 @@ _scm_lw6hlp_list_hooks ()
   c_list = lw6hlp_list_hooks ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -3097,7 +2963,7 @@ _scm_lw6hlp_list_advanced ()
   c_list = lw6hlp_list_advanced ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -3118,7 +2984,7 @@ _scm_lw6hlp_list_aliases ()
   c_list = lw6hlp_list_aliases ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -3139,7 +3005,7 @@ _scm_lw6hlp_list_team_colors ()
   c_list = lw6hlp_list_team_colors ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -3160,7 +3026,7 @@ _scm_lw6hlp_list_weapons ()
   c_list = lw6hlp_list_weapons ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -3181,7 +3047,7 @@ _scm_lw6hlp_list ()
   c_list = lw6hlp_list ();
   if (c_list)
     {
-      ret = to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (c_list);
       lw6sys_list_free (c_list);
     }
 
@@ -3228,7 +3094,7 @@ _scm_lw6cfg_load (SCM filename)
 
       SCM_ASSERT (scm_is_string (filename), filename, SCM_ARG1, __FUNCTION__);
 
-      c_filename = to_0str (filename);
+      c_filename = lw6scm_utils_to_0str (filename);
       if (c_filename)
 	{
 	  if (lw6cfg_load (lw6_global.cfg_context, c_filename))
@@ -3265,7 +3131,7 @@ _scm_lw6cfg_option_exists (SCM key)
 
       SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-      c_key = to_0str (key);
+      c_key = lw6scm_utils_to_0str (key);
       if (c_key)
 	{
 	  if (lw6cfg_option_exists (lw6_global.cfg_context, c_key))
@@ -3299,7 +3165,7 @@ _scm_lw6cfg_get_option (SCM key)
 
       SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-      c_key = to_0str (key);
+      c_key = lw6scm_utils_to_0str (key);
       if (c_key)
 	{
 	  char *value = NULL;
@@ -3334,10 +3200,10 @@ _scm_lw6cfg_set_option (SCM key, SCM value)
       SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
       SCM_ASSERT (scm_is_string (value), value, SCM_ARG2, __FUNCTION__);
 
-      c_key = to_0str (key);
+      c_key = lw6scm_utils_to_0str (key);
       if (c_key)
 	{
-	  c_value = to_0str (value);
+	  c_value = lw6scm_utils_to_0str (value);
 	  if (c_value)
 	    {
 	      lw6cfg_set_option (lw6_global.cfg_context, c_key, c_value);
@@ -3370,7 +3236,7 @@ _scm_lw6cfg_save (SCM filename)
 
       SCM_ASSERT (scm_is_string (filename), filename, SCM_ARG1, __FUNCTION__);
 
-      c_filename = to_0str (filename);
+      c_filename = lw6scm_utils_to_0str (filename);
       if (c_filename)
 	{
 	  if (lw6cfg_save (lw6_global.cfg_context, c_filename))
@@ -3558,7 +3424,7 @@ _scm_lw6gui_menu_new (SCM title, SCM help, SCM popup, SCM esc, SCM enable_esc)
 
   if (SCM_NFALSEP (title))
     {
-      c_title = to_0str (title);
+      c_title = lw6scm_utils_to_0str (title);
     }
   else
     {
@@ -3568,7 +3434,7 @@ _scm_lw6gui_menu_new (SCM title, SCM help, SCM popup, SCM esc, SCM enable_esc)
     {
       if (SCM_NFALSEP (help))
 	{
-	  c_help = to_0str (help);
+	  c_help = lw6scm_utils_to_0str (help);
 	}
       else
 	{
@@ -3578,7 +3444,7 @@ _scm_lw6gui_menu_new (SCM title, SCM help, SCM popup, SCM esc, SCM enable_esc)
 	{
 	  if (SCM_NFALSEP (popup))
 	    {
-	      c_popup = to_0str (popup);
+	      c_popup = lw6scm_utils_to_0str (popup);
 	    }
 	  else
 	    {
@@ -3586,7 +3452,7 @@ _scm_lw6gui_menu_new (SCM title, SCM help, SCM popup, SCM esc, SCM enable_esc)
 	    }
 	  if (c_popup)
 	    {
-	      c_esc = to_0str (esc);
+	      c_esc = lw6scm_utils_to_0str (esc);
 	      if (c_esc)
 		{
 		  c_enable_esc = SCM_NFALSEP (enable_esc);
@@ -3633,12 +3499,13 @@ _scm_lw6gui_menu_append (SCM menu, SCM menuitem)
 	      || menuitem == SCM_EOL, menuitem, SCM_ARG2, __FUNCTION__);
 
   c_label =
-    to_0str (scm_assoc_ref (menuitem, scm_from_locale_string ("label")));
+    lw6scm_utils_to_0str (scm_assoc_ref
+			  (menuitem, scm_from_locale_string ("label")));
   if (c_label)
     {
       c_tooltip =
-	to_0str (scm_assoc_ref
-		 (menuitem, scm_from_locale_string ("tooltip")));
+	lw6scm_utils_to_0str (scm_assoc_ref
+			      (menuitem, scm_from_locale_string ("tooltip")));
       if (c_tooltip)
 	{
 	  lw6gui_menu_t *c_menu;
@@ -3695,12 +3562,13 @@ _scm_lw6gui_menu_sync (SCM menu, SCM menuitem)
 	      || menuitem == SCM_EOL, menuitem, SCM_ARG2, __FUNCTION__);
 
   c_label =
-    to_0str (scm_assoc_ref (menuitem, scm_from_locale_string ("label")));
+    lw6scm_utils_to_0str (scm_assoc_ref
+			  (menuitem, scm_from_locale_string ("label")));
   if (c_label)
     {
       c_tooltip =
-	to_0str (scm_assoc_ref
-		 (menuitem, scm_from_locale_string ("tooltip")));
+	lw6scm_utils_to_0str (scm_assoc_ref
+			      (menuitem, scm_from_locale_string ("tooltip")));
       if (c_tooltip)
 	{
 	  lw6gui_menu_t *c_menu;
@@ -3876,7 +3744,7 @@ _scm_lw6gui_menu_set_breadcrumbs (SCM menu, SCM breadcrumbs)
 	      || breadcrumbs == SCM_EOL, breadcrumbs, SCM_ARG2, __FUNCTION__);
 
   c_menu = lw6_scm_to_menu (menu);
-  c_breadcrumbs = to_sys_str_list (breadcrumbs);
+  c_breadcrumbs = lw6scm_utils_to_sys_str_list (breadcrumbs);
   if (c_breadcrumbs)
     {
       lw6gui_menu_set_breadcrumbs (c_menu, c_breadcrumbs);
@@ -3967,10 +3835,10 @@ _scm_lw6gui_look_set (SCM look, SCM key, SCM value)
   c_look = lw6_scm_to_look (look);
   if (c_look)
     {
-      c_key = to_0str (key);
+      c_key = lw6scm_utils_to_0str (key);
       if (c_key)
 	{
-	  c_value = to_0str (value);
+	  c_value = lw6scm_utils_to_0str (value);
 	  if (c_value)
 	    {
 	      ret =
@@ -4006,7 +3874,7 @@ _scm_lw6gui_look_get (SCM look, SCM key)
   c_look = lw6_scm_to_look (look);
   if (c_look)
     {
-      c_key = to_0str (key);
+      c_key = lw6scm_utils_to_0str (key);
       if (c_key)
 	{
 	  c_value = lw6gui_look_get (c_look, c_key);
@@ -5388,7 +5256,7 @@ _scm_lw6dsp_new (SCM backend_name, SCM param)
 	      backend_name, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_hash_table_p (param), param, SCM_ARG2, __FUNCTION__);
 
-  c_backend_name = to_0str (backend_name);
+  c_backend_name = lw6scm_utils_to_0str (backend_name);
   if (backend_name)
     {
       if (prepare_update_param_bootstrap (&c_param, param))
@@ -5702,10 +5570,10 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
 	      __FUNCTION__);
 
   ret = SCM_LIST0;
-  c_map_path = to_0str (map_path);
+  c_map_path = lw6scm_utils_to_0str (map_path);
   if (c_map_path)
     {
-      c_relative_path = to_0str (relative_path);
+      c_relative_path = lw6scm_utils_to_0str (relative_path);
       if (c_relative_path)
 	{
 	  user_dir =
@@ -5833,13 +5701,13 @@ _scm_lw6ldr_read (SCM dirname, SCM default_param, SCM forced_param,
   lw6sys_progress_default (&progress, &(lw6_global.progress));
   lw6sys_progress_begin (&progress);
 
-  c_dirname = to_0str (dirname);
+  c_dirname = lw6scm_utils_to_0str (dirname);
   if (c_dirname)
     {
-      c_default_param = to_sys_str_assoc (default_param);
+      c_default_param = lw6scm_utils_to_sys_str_assoc (default_param);
       if (c_default_param)
 	{
-	  c_forced_param = to_sys_str_assoc (forced_param);
+	  c_forced_param = lw6scm_utils_to_sys_str_assoc (forced_param);
 	  if (c_forced_param)
 	    {
 	      c_display_width = scm_to_int (display_width);
@@ -5920,16 +5788,16 @@ _scm_lw6ldr_read_relative (SCM map_path, SCM relative_path, SCM default_param,
   progress.max = 1.0f;
   progress.value = &(lw6_global.progress);
 
-  c_map_path = to_0str (map_path);
+  c_map_path = lw6scm_utils_to_0str (map_path);
   if (c_map_path)
     {
-      c_relative_path = to_0str (relative_path);
+      c_relative_path = lw6scm_utils_to_0str (relative_path);
       if (c_relative_path)
 	{
-	  c_default_param = to_sys_str_assoc (default_param);
+	  c_default_param = lw6scm_utils_to_sys_str_assoc (default_param);
 	  if (c_default_param)
 	    {
-	      c_forced_param = to_sys_str_assoc (forced_param);
+	      c_forced_param = lw6scm_utils_to_sys_str_assoc (forced_param);
 	      if (c_forced_param)
 		{
 		  c_display_width = scm_to_int (display_width);
@@ -6001,7 +5869,7 @@ _scm_lw6ldr_hints_get_default (SCM key)
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-  c_key = to_0str (key);
+  c_key = lw6scm_utils_to_0str (key);
   if (c_key)
     {
       c_value = lw6ldr_hints_get_default (c_key);
@@ -6066,10 +5934,10 @@ _scm_lw6ldr_chain_entry (SCM map_path, SCM relative_path)
   SCM_ASSERT (scm_is_string (relative_path), relative_path, SCM_ARG2,
 	      __FUNCTION__);
 
-  c_map_path = to_0str (map_path);
+  c_map_path = lw6scm_utils_to_0str (map_path);
   if (c_map_path)
     {
-      c_relative_path = to_0str (relative_path);
+      c_relative_path = lw6scm_utils_to_0str (relative_path);
       if (c_relative_path)
 	{
 	  user_dir =
@@ -6200,7 +6068,7 @@ _scm_lw6map_param_get (SCM level, SCM key)
   c_level = lw6_scm_to_map (level);
   if (c_level)
     {
-      c_key = to_0str (key);
+      c_key = lw6scm_utils_to_0str (key);
       if (c_key)
 	{
 	  c_value = lw6map_param_get (&(c_level->param), c_key);
@@ -6269,7 +6137,7 @@ _scm_lw6map_team_color_key_to_index (SCM key)
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-  c_key = to_0str (key);
+  c_key = lw6scm_utils_to_0str (key);
   if (c_key)
     {
       ret = scm_from_int (lw6map_team_color_key_to_index (c_key));
@@ -6351,7 +6219,7 @@ _scm_lw6map_weapon_key_to_index (SCM key)
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-  c_key = to_0str (key);
+  c_key = lw6scm_utils_to_0str (key);
   if (c_key)
     {
       ret = scm_from_int (lw6map_weapon_key_to_index (c_key));
@@ -6425,7 +6293,7 @@ _scm_lw6map_rules_get_default (SCM key)
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-  c_key = to_0str (key);
+  c_key = lw6scm_utils_to_0str (key);
   if (c_key)
     {
       ret = scm_from_int (lw6map_rules_get_default (c_key));
@@ -6449,7 +6317,7 @@ _scm_lw6map_rules_get_min (SCM key)
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-  c_key = to_0str (key);
+  c_key = lw6scm_utils_to_0str (key);
   if (c_key)
     {
       ret = scm_from_int (lw6map_rules_get_min (c_key));
@@ -6473,7 +6341,7 @@ _scm_lw6map_rules_get_max (SCM key)
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-  c_key = to_0str (key);
+  c_key = lw6scm_utils_to_0str (key);
   if (c_key)
     {
       ret = scm_from_int (lw6map_rules_get_max (c_key));
@@ -6505,7 +6373,7 @@ _scm_lw6map_rules_get_int (SCM game_struct, SCM key)
   c_game_struct = lw6_scm_to_game_struct (game_struct);
   if (c_game_struct)
     {
-      c_key = to_0str (key);
+      c_key = lw6scm_utils_to_0str (key);
       if (c_key)
 	{
 	  ret =
@@ -6532,7 +6400,7 @@ _scm_lw6map_style_get_default (SCM key)
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-  c_key = to_0str (key);
+  c_key = lw6scm_utils_to_0str (key);
   if (c_key)
     {
       c_value = lw6map_style_get_default (c_key);
@@ -6561,7 +6429,7 @@ _scm_lw6map_teams_get_default (SCM key)
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-  c_key = to_0str (key);
+  c_key = lw6scm_utils_to_0str (key);
   if (c_key)
     {
       c_value = lw6map_teams_get_default (c_key);
@@ -6880,7 +6748,7 @@ _scm_lw6ker_register_node (SCM game_state, SCM node_id)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_node_id_str = to_0str (node_id);
+      c_node_id_str = lw6scm_utils_to_0str (node_id);
       if (c_node_id_str)
 	{
 	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
@@ -6920,7 +6788,7 @@ _scm_lw6ker_unregister_node (SCM game_state, SCM node_id)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_node_id_str = to_0str (node_id);
+      c_node_id_str = lw6scm_utils_to_0str (node_id);
       if (c_node_id_str)
 	{
 	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
@@ -6960,7 +6828,7 @@ _scm_lw6ker_node_exists (SCM game_state, SCM node_id)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_node_id_str = to_0str (node_id);
+      c_node_id_str = lw6scm_utils_to_0str (node_id);
       if (c_node_id_str)
 	{
 	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
@@ -7007,19 +6875,19 @@ _scm_lw6ker_add_cursor (SCM game_state, SCM node_id, SCM cursor_id,
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_node_id_str = to_0str (node_id);
+      c_node_id_str = lw6scm_utils_to_0str (node_id);
       if (c_node_id_str)
 	{
 	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
 	  LW6SYS_FREE (c_node_id_str);
 	}
-      c_cursor_id_str = to_0str (cursor_id);
+      c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
 	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
 	  LW6SYS_FREE (c_cursor_id_str);
 	}
-      c_team_color_str = to_0str (team_color);
+      c_team_color_str = lw6scm_utils_to_0str (team_color);
       if (c_team_color_str)
 	{
 	  c_team_color_int =
@@ -7066,13 +6934,13 @@ _scm_lw6ker_remove_cursor (SCM game_state, SCM node_id, SCM cursor_id)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_node_id_str = to_0str (node_id);
+      c_node_id_str = lw6scm_utils_to_0str (node_id);
       if (c_node_id_str)
 	{
 	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
 	  LW6SYS_FREE (c_node_id_str);
 	}
-      c_cursor_id_str = to_0str (cursor_id);
+      c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
 	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
@@ -7113,7 +6981,7 @@ _scm_lw6ker_cursor_exists (SCM game_state, SCM cursor_id)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_cursor_id_str = to_0str (cursor_id);
+      c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
 	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
@@ -7153,7 +7021,7 @@ _scm_lw6ker_get_cursor (SCM game_state, SCM cursor_id)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_cursor_id_str = to_0str (cursor_id);
+      c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
 	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
@@ -7237,13 +7105,13 @@ _scm_lw6ker_set_cursor (SCM game_state, SCM node_id, SCM cursor_id, SCM x,
     {
       lw6ker_cursor_reset (&c_cursor);
 
-      c_node_id_str = to_0str (node_id);
+      c_node_id_str = lw6scm_utils_to_0str (node_id);
       if (c_node_id_str)
 	{
 	  c_cursor.node_id = lw6sys_id_atol (c_node_id_str);
 	  LW6SYS_FREE (c_node_id_str);
 	}
-      c_cursor_id_str = to_0str (cursor_id);
+      c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
 	  c_cursor.cursor_id = lw6sys_id_atol (c_cursor_id_str);
@@ -7401,7 +7269,7 @@ _scm_lw6ker_did_cursor_win (SCM game_state, SCM cursor_id)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_cursor_id_str = to_0str (cursor_id);
+      c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
 	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
@@ -7470,7 +7338,7 @@ _scm_lw6pil_dump_command_generate (SCM pilot, SCM server_id)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      c_server_id_str = to_0str (server_id);
+      c_server_id_str = lw6scm_utils_to_0str (server_id);
       if (c_server_id_str)
 	{
 	  c_server_id_int = lw6sys_id_atol (c_server_id_str);
@@ -7556,7 +7424,7 @@ _scm_lw6pil_send_command (SCM pilot, SCM command_text, SCM verified)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      c_command_text = to_0str (command_text);
+      c_command_text = lw6scm_utils_to_0str (command_text);
       if (c_command_text)
 	{
 	  c_verified = SCM_NFALSEP (verified);
@@ -7591,7 +7459,7 @@ _scm_lw6pil_local_command (SCM pilot, SCM command_text)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      c_command_text = to_0str (command_text);
+      c_command_text = lw6scm_utils_to_0str (command_text);
       if (c_command_text)
 	{
 	  ret =
@@ -7773,7 +7641,7 @@ _scm_lw6pil_execute_command (SCM game_state, SCM command_text, SCM seq_0)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_command_text = to_0str (command_text);
+      c_command_text = lw6scm_utils_to_0str (command_text);
       c_seq_0 = scm_to_long_long (seq_0);
       if (c_command_text)
 	{
@@ -7809,7 +7677,7 @@ _scm_lw6pil_local_cursors_set_main (SCM pilot, SCM cursor_id)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      c_cursor_id_str = to_0str (cursor_id);
+      c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
 	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
@@ -7850,7 +7718,7 @@ _scm_lw6pil_local_cursors_set_mouse_controlled (SCM pilot, SCM cursor_id,
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      c_cursor_id_str = to_0str (cursor_id);
+      c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
 	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
@@ -8257,7 +8125,7 @@ _scm_lw6pil_did_cursor_win (SCM pilot, SCM cursor_id)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      c_cursor_id_str = to_0str (cursor_id);
+      c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
 	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
@@ -8424,7 +8292,7 @@ _scm_lw6snd_new (SCM backend_name, SCM fx_volume, SCM water_volume,
   SCM_ASSERT (SCM_REALP (music_volume), music_volume, SCM_ARG3, __FUNCTION__);
   SCM_ASSERT (SCM_REALP (water_volume), water_volume, SCM_ARG4, __FUNCTION__);
 
-  c_backend_name = to_0str (backend_name);
+  c_backend_name = lw6scm_utils_to_0str (backend_name);
   if (backend_name)
     {
       c_fx_volume = scm_to_double (fx_volume);
@@ -8598,13 +8466,13 @@ _scm_lw6snd_is_music_file (SCM snd, SCM map_dir, SCM music_path,
   c_snd = lw6_scm_to_snd (snd);
   if (c_snd)
     {
-      c_map_dir = to_0str (map_dir);
+      c_map_dir = lw6scm_utils_to_0str (map_dir);
       if (c_map_dir)
 	{
-	  c_music_path = to_0str (music_path);
+	  c_music_path = lw6scm_utils_to_0str (music_path);
 	  if (c_music_path)
 	    {
-	      c_music_file = to_0str (music_file);
+	      c_music_file = lw6scm_utils_to_0str (music_file);
 	      if (c_music_file)
 		{
 		  if (lw6snd_is_music_file
@@ -8647,13 +8515,13 @@ _scm_lw6snd_play_music_file (SCM snd, SCM map_dir, SCM music_path,
   c_snd = lw6_scm_to_snd (snd);
   if (c_snd)
     {
-      c_map_dir = to_0str (map_dir);
+      c_map_dir = lw6scm_utils_to_0str (map_dir);
       if (c_map_dir)
 	{
-	  c_music_path = to_0str (music_path);
+	  c_music_path = lw6scm_utils_to_0str (music_path);
 	  if (c_music_path)
 	    {
-	      c_music_file = to_0str (music_file);
+	      c_music_file = lw6scm_utils_to_0str (music_file);
 	      if (c_music_file)
 		{
 		  ret =
@@ -8697,13 +8565,13 @@ _scm_lw6snd_play_music_random (SCM snd, SCM music_path, SCM music_filter,
   c_snd = lw6_scm_to_snd (snd);
   if (c_snd)
     {
-      c_music_path = to_0str (music_path);
+      c_music_path = lw6scm_utils_to_0str (music_path);
       if (c_music_path)
 	{
-	  c_music_filter = to_0str (music_filter);
+	  c_music_filter = lw6scm_utils_to_0str (music_filter);
 	  if (c_music_filter)
 	    {
-	      c_music_exclude = to_0str (music_exclude);
+	      c_music_exclude = lw6scm_utils_to_0str (music_exclude);
 	      if (c_music_exclude)
 		{
 		  ret =
@@ -8920,16 +8788,16 @@ _scm_lw6tsk_loader_push (SCM loader, SCM map_path, SCM relative_path,
 	      __FUNCTION__);
 
   c_loader = lw6_scm_to_loader (loader);
-  c_map_path = to_0str (map_path);
+  c_map_path = lw6scm_utils_to_0str (map_path);
   if (c_map_path)
     {
-      c_relative_path = to_0str (relative_path);
+      c_relative_path = lw6scm_utils_to_0str (relative_path);
       if (c_relative_path)
 	{
-	  c_default_param = to_sys_str_assoc (default_param);
+	  c_default_param = lw6scm_utils_to_sys_str_assoc (default_param);
 	  if (c_default_param)
 	    {
-	      c_forced_param = to_sys_str_assoc (forced_param);
+	      c_forced_param = lw6scm_utils_to_sys_str_assoc (forced_param);
 	      if (c_forced_param)
 		{
 		  c_display_width = scm_to_int (display_width);
@@ -9205,7 +9073,7 @@ _scm_lw6p2p_db_new (SCM name)
 
   SCM_ASSERT (scm_is_string (name), name, SCM_ARG1, __FUNCTION__);
 
-  c_name = to_0str (name);
+  c_name = lw6scm_utils_to_0str (name);
   if (c_name)
     {
       c_db = lw6p2p_db_open (lw6_global.argc, lw6_global.argv, c_name);
@@ -9232,7 +9100,7 @@ _scm_lw6p2p_db_reset (SCM name)
 
   SCM_ASSERT (scm_is_string (name), name, SCM_ARG1, __FUNCTION__);
 
-  c_name = to_0str (name);
+  c_name = lw6scm_utils_to_0str (name);
   if (c_name)
     {
       ret =
@@ -9350,32 +9218,35 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
       c_db = lw6_scm_to_db (db);
       if (c_db)
 	{
-	  c_client_backends = to_0str (client_backends);
+	  c_client_backends = lw6scm_utils_to_0str (client_backends);
 	  if (c_client_backends)
 	    {
-	      c_server_backends = to_0str (server_backends);
+	      c_server_backends = lw6scm_utils_to_0str (server_backends);
 	      if (c_server_backends)
 		{
-		  c_bind_ip = to_0str (bind_ip);
+		  c_bind_ip = lw6scm_utils_to_0str (bind_ip);
 		  if (c_bind_ip)
 		    {
 		      c_bind_port = scm_to_int (bind_port);
 		      c_broadcast = SCM_NFALSEP (broadcast);
-		      c_public_url = to_0str (public_url);
+		      c_public_url = lw6scm_utils_to_0str (public_url);
 		      if (c_public_url)
 			{
-			  c_title = to_0str (title);
+			  c_title = lw6scm_utils_to_0str (title);
 			  if (c_title)
 			    {
-			      c_description = to_0str (description);
+			      c_description =
+				lw6scm_utils_to_0str (description);
 			      if (c_description)
 				{
-				  c_password = to_0str (password);
+				  c_password =
+				    lw6scm_utils_to_0str (password);
 				  if (c_password)
 				    {
 				      c_bench = scm_to_int (bench);
 				      c_open_relay = SCM_NFALSEP (open_relay);
-				      c_known_nodes = to_0str (known_nodes);
+				      c_known_nodes =
+					lw6scm_utils_to_0str (known_nodes);
 				      if (c_known_nodes)
 					{
 					  c_network_reliability =
@@ -9710,13 +9581,13 @@ _scm_lw6p2p_node_client_join (SCM node, SCM remote_id, SCM remote_url)
   c_node = lw6_scm_to_node (node);
   if (c_node)
     {
-      c_remote_id_str = to_0str (remote_id);
+      c_remote_id_str = lw6scm_utils_to_0str (remote_id);
       if (c_remote_id_str)
 	{
 	  c_remote_id_int = lw6sys_id_atol (c_remote_id_str);
 	  if (c_remote_id_int > 0)
 	    {
-	      c_remote_url = to_0str (remote_url);
+	      c_remote_url = lw6scm_utils_to_0str (remote_url);
 	      if (c_remote_url)
 		{
 		  ret =
@@ -9820,7 +9691,7 @@ _scm_lw6p2p_node_update_info (SCM node, SCM param)
   if (c_node)
     {
       c_round = scm_to_int (round);
-      c_level = to_0str (level);
+      c_level = lw6scm_utils_to_0str (level);
       if (c_level)
 	{
 	  c_nb_colors = scm_to_int (nb_colors);
@@ -9948,7 +9819,7 @@ _scm_lw6p2p_node_put_local_msg (SCM node, SCM msg)
   c_node = lw6_scm_to_node (node);
   if (c_node)
     {
-      c_msg = to_0str (msg);
+      c_msg = lw6scm_utils_to_0str (msg);
       if (c_msg)
 	{
 	  ret =
@@ -10107,7 +9978,7 @@ _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read,
   SCM_ASSERT (scm_is_number (speed), speed, SCM_ARG6, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (iq), iq, SCM_ARG7, __FUNCTION__);
 
-  c_backend_name = to_0str (backend_name);
+  c_backend_name = lw6scm_utils_to_0str (backend_name);
   if (backend_name)
     {
       c_game_state = lw6_scm_to_game_state (game_state);
@@ -10117,7 +9988,7 @@ _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read,
 	  if (c_pilot)
 	    {
 	      c_dirty_read = scm_to_int (dirty_read);
-	      c_cursor_id_str = to_0str (cursor_id);
+	      c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
 	      if (c_cursor_id_str)
 		{
 		  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);

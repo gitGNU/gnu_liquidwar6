@@ -39,6 +39,17 @@
 #define _TEST_COVERAGE_C_FUNC2 "_scm_my_function2"
 #define _TEST_COVERAGE_C_FUNC3 "_scm_my_other3"
 
+#define _TEST_UTILS_STRING "This is a test_string"
+#define _TEST_UTILS_LIST_1 "to be"
+#define _TEST_UTILS_LIST_2 "or not to be"
+#define _TEST_UTILS_LIST_3 "that is the question"
+#define _TEST_UTILS_ASSOC_KEY_1 "1"
+#define _TEST_UTILS_ASSOC_KEY_2 "2"
+#define _TEST_UTILS_ASSOC_KEY_3 "3"
+#define _TEST_UTILS_ASSOC_VALUE_1 "one"
+#define _TEST_UTILS_ASSOC_VALUE_2 "two"
+#define _TEST_UTILS_ASSOC_VALUE_3 "three"
+
 static int global_ret = 0;
 
 /*
@@ -92,6 +103,184 @@ test_funcname ()
 	  }
 	LW6SYS_FREE (funcname);
       }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+
+  return ret;
+}
+
+static void *
+guile_main_utils (void *data)
+{
+  SCM test_string = SCM_UNDEFINED;
+  char *c_test_string = NULL;
+  SCM test_list = SCM_UNDEFINED;
+  lw6sys_list_t *c_test_list_1 = NULL;
+  lw6sys_list_t *c_test_list_2 = NULL;
+  int c_test_list_1_length = 0;
+  int c_test_list_2_length = 0;
+  SCM test_assoc = SCM_UNDEFINED;
+  lw6sys_assoc_t *c_test_assoc_1 = NULL;
+  lw6sys_assoc_t *c_test_assoc_2 = NULL;
+  const char *c_test_assoc_1_value_1 = 0;
+  const char *c_test_assoc_2_value_1 = 0;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("entering Guile in %s"), __FUNCTION__);
+
+  test_string = scm_from_locale_string (_TEST_UTILS_STRING);
+  c_test_string = lw6scm_utils_to_0str (test_string);
+  if (c_test_string)
+    {
+      if (lw6sys_str_is_same (c_test_string, _TEST_UTILS_STRING))
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _x_
+		      ("was able to transfer string \"%s\" from C to Guile to C"),
+		      c_test_string);
+	}
+      LW6SYS_FREE (c_test_string);
+    }
+  else
+    {
+      global_ret = 0;
+    }
+
+  c_test_list_1 = lw6sys_list_new (NULL);
+  if (c_test_list_1)
+    {
+      lw6sys_list_push_front (&c_test_list_1, _TEST_UTILS_LIST_1);
+      lw6sys_list_push_front (&c_test_list_1, _TEST_UTILS_LIST_2);
+      lw6sys_list_push_front (&c_test_list_1, _TEST_UTILS_LIST_3);
+      if (c_test_list_1)
+	{
+	  test_list = lw6scm_utils_to_scm_str_list (c_test_list_1);
+	  c_test_list_2 = lw6scm_utils_to_sys_str_list (test_list);
+	  if (c_test_list_2)
+	    {
+	      c_test_list_1_length = lw6sys_list_length (c_test_list_1);
+	      c_test_list_2_length = lw6sys_list_length (c_test_list_2);
+	      if (c_test_list_1_length == c_test_list_2_length)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _x_
+			      ("was able to transfer list of length %d from C to Guile to C"),
+			      c_test_list_2_length);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("size mismatch c_test_list_1_lenght=%d c_test_list_2_length=%d"),
+			      c_test_list_1_length, c_test_list_2_length);
+		  global_ret = 0;
+		}
+	      lw6sys_list_free (c_test_list_2);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("unable to create C list from SCM object"));
+	      global_ret = 0;
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("problem setting list values"));
+	  global_ret = 0;
+	}
+      lw6sys_list_free (c_test_list_1);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create C list"));
+      global_ret = 0;
+    }
+
+  c_test_assoc_1 = lw6sys_assoc_new (NULL);
+  if (c_test_assoc_1)
+    {
+      lw6sys_assoc_set (&c_test_assoc_1, _TEST_UTILS_ASSOC_KEY_1,
+			_TEST_UTILS_ASSOC_VALUE_1);
+      lw6sys_assoc_set (&c_test_assoc_1, _TEST_UTILS_ASSOC_KEY_2,
+			_TEST_UTILS_ASSOC_VALUE_2);
+      lw6sys_assoc_set (&c_test_assoc_1, _TEST_UTILS_ASSOC_KEY_3,
+			_TEST_UTILS_ASSOC_VALUE_3);
+      if (c_test_assoc_1)
+	{
+	  test_assoc = lw6scm_utils_to_scm_str_assoc (c_test_assoc_1);
+	  c_test_assoc_2 = lw6scm_utils_to_sys_str_assoc (test_assoc);
+	  if (c_test_assoc_2)
+	    {
+	      c_test_assoc_1_value_1 =
+		lw6sys_str_empty_if_null ((char *)
+					  lw6sys_assoc_get (c_test_assoc_1,
+							    _TEST_UTILS_ASSOC_KEY_1));
+	      c_test_assoc_2_value_1 =
+		lw6sys_str_empty_if_null ((char *)
+					  lw6sys_assoc_get (c_test_assoc_2,
+							    _TEST_UTILS_ASSOC_KEY_1));
+	      if (lw6sys_str_is_same
+		  (c_test_assoc_1_value_1, c_test_assoc_2_value_1))
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _x_
+			      ("was able to transfer assoc from C to Guile to C, value for key \"%s\" is \"%s\""),
+			      _TEST_UTILS_ASSOC_KEY_1,
+			      c_test_assoc_2_value_1);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("content mismatch between assoc for key \"%s\" assoc_1 contains \"%s\" while assoc_2 contains \"%s\""),
+			      _TEST_UTILS_ASSOC_KEY_1, c_test_assoc_1_value_1,
+			      c_test_assoc_2_value_1);
+		  global_ret = 0;
+		}
+	      lw6sys_assoc_free (c_test_assoc_2);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("unable to create C assoc from SCM object"));
+	      global_ret = 0;
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("problem setting assoc values"));
+	  global_ret = 0;
+	}
+      lw6sys_assoc_free (c_test_assoc_1);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create C assoc"));
+      global_ret = 0;
+    }
+
+  scm_gc ();
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("leaving Guile in %s"), __FUNCTION__);
+
+  return NULL;
+}
+
+/*
+ * Testing functions in utils.c
+ */
+static int
+test_utils ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    global_ret = 1;
+    scm_with_guile (guile_main_utils, NULL);
+    ret = global_ret;
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -193,9 +382,9 @@ _scm_lw6sys_build_get_version ()
 }
 
 static void *
-guile_main (void *data)
+guile_main_wrapper (void *data)
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("entering Guile"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("entering Guile in %s"), __FUNCTION__);
 
   if (lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION, 0, 0, 0,
 			     (SCM (*)())_scm_lw6sys_build_get_version))
@@ -225,7 +414,7 @@ guile_main (void *data)
 	      TEST_UNEXISTING_FILE);
   lw6scm_c_primitive_load (TEST_UNEXISTING_FILE);
   scm_gc ();
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("leaving Guile"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("leaving Guile in %s"), __FUNCTION__);
 
   return NULL;
 }
@@ -241,7 +430,7 @@ test_wrapper ()
 
   {
     global_ret = 1;
-    scm_with_guile (guile_main, NULL);
+    scm_with_guile (guile_main_wrapper, NULL);
     ret = global_ret;
   }
 
@@ -272,6 +461,7 @@ lw6scm_test (int mode)
       lw6hlp_test (mode);
     }
 
-  ret = test_wrapper () && test_funcname () && test_coverage ();
+  ret = test_wrapper () && test_funcname () && test_utils ()
+    && test_coverage ();
   return ret;
 }

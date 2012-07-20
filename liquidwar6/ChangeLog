@@ -1,3 +1,7 @@
+2012-07-20 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Move SCM utility functions from lw6-funcs.c to libscm.
+
 2012-07-19 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Exported p2p functions to script.
