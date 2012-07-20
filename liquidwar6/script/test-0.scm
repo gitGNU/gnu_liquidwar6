@@ -8,7 +8,7 @@
 ;;
 ;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
 ;; GNU General Public License for more details.
 ;;
 ;; You should have received a copy of the GNU General Public License
@@ -16,7 +16,7 @@
 ;;
 ;;
 ;; Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
-;; Contact author        : ufoot@ufoot.org
+;; Contact author	 : ufoot@ufoot.org
 
 (load "load.scm") ; load this to catch error in make dist
 (lw6-load) ; will load all includes but main, trap syntax errors at least
@@ -155,6 +155,48 @@
       #t
       )))
 
+(define lw6-test-sys-debug
+  (lambda ()
+    (let (
+	  (debug #f)
+	  )
+      (begin
+	(set! debug (c-lw6sys-debug-get))
+	(lw6-log-notice (format #f "debug=~a" debug))
+	(c-lw6sys-debug-set debug)
+	#t
+	))))
+
+(define lw6-test-sys-env
+  (lambda ()
+    (begin
+      (lw6-log-notice (format #f "username=~a" (c-lw6sys-get-username)))
+      (lw6-log-notice (format #f "hostname=~a" (c-lw6sys-get-hostname)))
+      (lw6-log-notice (format #f "$HOME=~a" (c-lw6sys-getenv "HOME")))
+      (lw6-log-notice (format #f "$LW6_BENCH_VALUE=~a" (c-lw6sys-getenv-prefixed lw6def-bench-value)))
+      #t
+      )))
+
+(define lw6-test-sys-hardware
+  (lambda ()
+    (begin
+      (lw6-log-notice (format #f "username=~a" (c-lw6sys-megabytes-available)))
+      (lw6-log-notice (format #f "hostname=~a" (c-lw6sys-openmp-get-num-procs)))
+      #t
+      )))
+
+(define lw6-test-sys-time
+  (lambda ()
+    (begin
+      (lw6-log-notice (format #f "timestamp=~a" (c-lw6sys-get-timestamp)))
+      (lw6-log-notice (format #f "uptime=~a" (c-lw6sys-get-uptime)))
+      (lw6-log-notice (format #f "cycle=~a" (c-lw6sys-get-cycle)))
+      (c-lw6sys-delay 100)
+      (c-lw6sys-sleep 0.01)
+      (c-lw6sys-snooze)
+      #t
+      )))
+
 (define lw6-test-hlp-lists
   (lambda ()
     (begin
@@ -227,7 +269,7 @@
 	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))
 	   (game-struct (c-lw6ker-build-game-struct the-map))
 	   (game-state (c-lw6ker-build-game-state game-struct))
-	   (pilot (c-lw6pil-build-pilot game-state 					   
+	   (pilot (c-lw6pil-build-pilot game-state					   
 					(c-lw6pil-seq-random-0)
 					0))
 	   )
@@ -244,7 +286,7 @@
 	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))
 	   (game-struct (c-lw6ker-build-game-struct the-map))
 	   (game-state (c-lw6ker-build-game-state game-struct))
-	   (pilot (c-lw6pil-build-pilot game-state 					   
+	   (pilot (c-lw6pil-build-pilot game-state					   
 					(c-lw6pil-seq-random-0)
 					0))
 	   )
@@ -409,6 +451,10 @@
 		(lw6-test-sys-options)
 		(lw6-test-sys-id)
 		(lw6-test-sys-bazooka)
+		(lw6-test-sys-debug)
+		(lw6-test-sys-env)
+		(lw6-test-sys-hardware)
+		(lw6-test-sys-time)
 		(lw6-test-hlp-lists)
 		(lw6-test-map)
 		(lw6-test-game-struct)

@@ -138,6 +138,7 @@ lw6_register_funcs ()
   ret = ret && lw6_register_funcs_hlp ();
   ret = ret && lw6_register_funcs_cfg ();
   ret = ret && lw6_register_funcs_gui ();
+  ret = ret && lw6_register_funcs_gfx ();
   ret = ret && lw6_register_funcs_dsp ();
   ret = ret && lw6_register_funcs_ldr ();
   ret = ret && lw6_register_funcs_map ();
