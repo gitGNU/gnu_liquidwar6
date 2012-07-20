@@ -1,5 +1,7 @@
 2012-07-20 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Splitted jumbo lw6-funcs.c file into one file per module.
+
 	* Move SCM utility functions from lw6-funcs.c to libscm.
 
 2012-07-19 : Christian Mauduit <ufoot@ufoot.org>

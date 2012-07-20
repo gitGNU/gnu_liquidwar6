@@ -325,6 +325,60 @@ extern int lw6_fix_env (int argc, const char *argv[]);
 extern int lw6_register_funcs ();
 extern void lw6_cns_handler (char *line);
 
+/* lw6-funcssys.c */
+extern int lw6_register_funcs_sys ();
+
+/* lw6-funcshlp.c */
+extern int lw6_register_funcs_hlp ();
+
+/* lw6-funcscfg.c */
+extern int lw6_register_funcs_cfg ();
+
+/* lw6-funcsgui.c */
+extern int lw6_register_funcs_gui ();
+
+/* lw6-funcsgfx.c */
+extern int lw6_register_funcs_gfx ();
+
+/* lw6-funcsdsp.c */
+extern int lw6_register_funcs_dsp ();
+
+/* lw6-funcsldr.c */
+extern int lw6_register_funcs_ldr ();
+
+/* lw6-funcsmap.c */
+extern int lw6_register_funcs_map ();
+
+/* lw6-funcsker.c */
+extern int lw6_register_funcs_ker ();
+
+/* lw6-funcspil.c */
+extern int lw6_register_funcs_pil ();
+
+/* lw6-funcssnd.c */
+extern int lw6_register_funcs_snd ();
+
+/* lw6-funcscns.c */
+extern int lw6_register_funcs_cns ();
+
+/* lw6-funcstsk.c */
+extern int lw6_register_funcs_tsk ();
+
+/* lw6-funcsnet.c */
+extern int lw6_register_funcs_net ();
+
+/* lw6-funcscli.c */
+extern int lw6_register_funcs_cli ();
+
+/* lw6-funcssrv.c */
+extern int lw6_register_funcs_srv ();
+
+/* lw6-funcsp2p.c */
+extern int lw6_register_funcs_p2p ();
+
+/* lw6-funcsbot.c */
+extern int lw6_register_funcs_bot ();
+
 /* lw6-global.c */
 #define LW6_MUTEX_LOCK pthread_mutex_lock( &lw6_global.mutex );
 #define LW6_MUTEX_UNLOCK pthread_mutex_unlock( &lw6_global.mutex );

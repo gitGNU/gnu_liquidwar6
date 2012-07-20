@@ -61,6 +61,13 @@ might fail).
 @strong{Return value:}  1 if success, 0 if failure
 @end deftypefun
 
+@deftypefun {int} {lw6_register_funcs_bot} ()
+
+Register the functions of the bot module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
 @deftypefun {int} {lw6_register_funcs} ()
 
 Register all the functions, make them callable from Guile.
@@ -79,6 +86,125 @@ is typed on the console. It runs the given line in
 the current Guile environment.
 
 @strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_cfg} ()
+
+Register the functions of the cfg module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_cli} ()
+
+Register the functions of the cli module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_cns} ()
+
+Register the functions of the cns module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_dsp} ()
+
+Register the functions of the dsp module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_gfx} ()
+
+Register the functions of the gfx module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_gui} ()
+
+Register the functions of the gui module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_hlp} ()
+
+Register the functions of the hlp module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_ker} ()
+
+Register the functions of the ker module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_ldr} ()
+
+Register the functions of the ldr module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_map} ()
+
+Register the functions of the map module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_net} ()
+
+Register the functions of the net module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_p2p} ()
+
+Register the functions of the p2p module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_pil} ()
+
+Register the functions of the pil module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_snd} ()
+
+Register the functions of the snd module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_srv} ()
+
+Register the functions of the srv module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_sys} ()
+
+Register the functions of the sys module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs_tsk} ()
+
+Register the functions of the tsk module, make them callable from Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
 @end deftypefun
 
 @deftypefun {int} {lw6_init_global} (int @var{argc}, const char * [] @var{argv})
