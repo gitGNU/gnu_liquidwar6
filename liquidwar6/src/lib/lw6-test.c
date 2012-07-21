@@ -31,7 +31,7 @@
 #define TEST_ARGC 1
 #define TEST_ARGV0 "prog"
 
-#define _TEST_COVERAGE_PERCENT_MIN 25
+#define _TEST_COVERAGE_PERCENT_MIN 50
 
 typedef struct _lw6_test_param_s
 {

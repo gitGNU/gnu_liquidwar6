@@ -313,6 +313,92 @@
       #t
       )))
 
+(define lw6-test-cfg
+  (lambda ()
+    (let (
+	  (ret #f)
+	  )
+      (begin
+	(c-lw6cfg-init)
+	(c-lw6cfg-load (c-lw6sys-get-config-file))
+	(let* (
+	       (magic-number-exists (c-lw6cfg-option-exists lw6def-magic-number))
+	       (magic-number-value (c-lw6cfg-get-option lw6def-magic-number))
+	       )
+	  (if (and magic-number-exists magic-number-value)
+	      (begin
+		(set! ret #t)
+		(lw6-log-notice (format #f "magic-number=~a" magic-number-value))
+		(c-lw6cfg-set-option magic-number-value magic-number-value)
+		(lw6-log-notice (format #f "(c-lw6cfg-unified-get-user-dir) -> ~a" (c-lw6cfg-unified-get-user-dir)))
+		(lw6-log-notice (format #f "(c-lw6cfg-unified-get-log-file) -> ~a" (c-lw6cfg-unified-get-log-file)))
+		(lw6-log-notice (format #f "(c-lw6cfg-unified-get-music-path) -> ~a" (c-lw6cfg-unified-get-music-path)))		 
+		)))
+	(c-lw6cfg-save (c-lw6sys-get-config-file))
+	(c-lw6cfg-quit)
+	ret
+	))))
+
+(define lw6-test-gui-menu
+  (lambda ()
+    (let* (
+	   (menu (c-lw6gui-menu-new "Test menu" "Test help" "Pop... UP" "Esc" #t))
+	   (menu-item-1 (list (cons "label" "Test item 1")
+			      (cons "tooltip" "Test tooltip 1")
+			      (cons "value" 3)
+			      (cons "enabled" #t)
+			      (cons "selected" #t)
+			      (cons "colored" #f)))
+	   (menu-item-2 (list (cons "label" "Test item 2")
+			      (cons "tooltip" "Test tooltip 2")
+			      (cons "value" 5)
+			      (cons "enabled" #t)
+			      (cons "selected" #t)
+			      (cons "colored" #f)))
+	   (id-1 (c-lw6gui-menu-append menu menu-item-1))
+	   (id-2 (c-lw6gui-menu-append menu menu-item-2))
+	   (ret #f)
+	   )
+      (begin
+	(set! menu-item-1 (assoc-set! menu-item-1 "id" id-1))
+	(set! menu-item-2 (assoc-set! menu-item-2 "id" id-2))
+	(lw6-log-notice menu)
+	(if (c-lw6gui-menu-has-popup menu)
+	    (begin
+	      (set! ret #t)
+	      (lw6-log-notice menu)
+	      (c-lw6gui-menu-close-popup menu)
+	      (lw6-log-notice menu)
+	      (c-lw6gui-menu-set-breadcrumbs menu (list "lost" "in" "the" "woods"))
+	      (set! menu-item-2 (assoc-set! menu-item-2 "label" "Modified item 2"))
+	      (lw6-log-notice menu-item-2)
+	      (c-lw6gui-menu-sync menu menu-item-2)
+	      (lw6-log-notice menu)
+	      (c-lw6gui-menu-select-esc menu #t)
+	      (lw6-log-notice menu)
+	      (c-lw6gui-menu-select menu 0 #f)
+	      (lw6-log-notice menu)
+	      (c-lw6gui-menu-scroll-down menu)
+	      (lw6-log-notice menu)
+	      (c-lw6gui-menu-scroll-up menu)
+	      (lw6-log-notice menu)
+	      (c-lw6gui-menu-select menu 1 #t)
+	      (lw6-log-notice menu)
+	      (c-lw6gui-menu-enable-esc menu #f)
+	      (c-lw6gui-menu-enable-esc menu #t)
+	      (lw6-log-notice menu)
+	      (c-lw6gui-menu-enable-esc menu #f)
+	      (lw6-log-notice menu)
+	      ))
+	ret
+	))))
+
+(define lw6-test-gui-input
+  (lambda ()
+    ;; todo (need some sort of DSP to do this...)
+    #t
+    ))
+
 (define lw6-test-map
   (lambda ()
     (let (
@@ -429,7 +515,7 @@
 	(if (and loader loaded) #t #f)
 	))))
 
-(define lw6-test-db
+(define lw6-test-p2p-db
   (lambda ()
     (begin
       (let* (
@@ -441,7 +527,7 @@
 	  (if db #t #f)
 	  )))))
 
-(define lw6-test-node
+(define lw6-test-p2p-node
   (lambda ()
     (begin
       (c-lw6net-init #f)
@@ -474,7 +560,7 @@
       ;; if we get here, we have succeeded else node creation would raise an error
       #t)))
 
-(define lw6-test-join
+(define lw6-test-p2p-join
   (lambda ()
     (begin
       (c-lw6net-init #f)
@@ -528,6 +614,12 @@
       ;; if we get here, we have succeeded else node creation would raise an error
       #t)))
 
+(define lw6-test-control-0
+  (lambda ()
+    (begin
+      (lw6-log-notice (format #f "ret=~a" (c-lw6-get-ret)))
+      #t)))
+
 (c-lw6-set-ret #f) ;; reset this to "failed" so that it has the right value is script is interrupted
 (c-lw6-set-ret (and
 		(lw6-test-sys-build)
@@ -545,6 +637,9 @@
 		(lw6-test-sys-url)
 		(lw6-test-hlp-about)
 		(lw6-test-hlp-lists)
+		(lw6-test-cfg)
+		(lw6-test-gui-menu)
+		(lw6-test-gui-input)
 		(lw6-test-map)
 		(lw6-test-game-struct)
 		(lw6-test-game-state)
@@ -553,6 +648,8 @@
 		(lw6-test-smobs-gc)
 		(lw6-test-smobs-gc)
 		(lw6-test-async-load)
-		(lw6-test-db)
-		(lw6-test-node)
-		(lw6-test-join)))
+		(lw6-test-p2p-db)
+		(lw6-test-p2p-node)
+		(lw6-test-p2p-join)
+		(lw6-test-control-0)
+		))

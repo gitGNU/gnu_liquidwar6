@@ -20,6 +20,12 @@
 
 (load "test-0.scm") ; perform basic tests first
 
+(define lw6-test-control-1
+  (lambda ()
+    (begin
+      (c-lw6-release)
+      #t)))
+
 (define lw6-test-display
   (lambda () (begin
 	       (lw6-log-notice "todo")
@@ -29,4 +35,5 @@
 (c-lw6-set-ret (and
 		(c-lw6-get-ret)
 		(lw6-test-display)
+		(lw6-test-control-1)
 		))
