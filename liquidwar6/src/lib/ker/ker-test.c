@@ -564,6 +564,8 @@ test_hexa ()
     lw6map_level_t *level = NULL;
     lw6ker_game_struct_t *game_struct = NULL;
     lw6ker_game_state_t *game_state = NULL;
+    lw6ker_game_struct_t *dup_game_struct = NULL;
+    lw6ker_game_state_t *dup_game_state = NULL;
     lw6ker_game_struct_t *game_struct2 = NULL;
     lw6ker_game_state_t *game_state2 = NULL;
     u_int32_t checksum_struct = 0;
@@ -589,15 +591,29 @@ test_hexa ()
 	    checksum_struct = lw6ker_game_struct_checksum (game_struct);
 	    hexa_struct = lw6ker_game_struct_to_hexa (game_struct);
 	    lw6ker_game_struct_free (game_struct);
+	    game_struct = NULL;
 	    if (hexa_struct)
 	      {
 		game_struct2 =
 		  lw6ker_game_struct_from_hexa (hexa_struct, level);
 		if (game_struct2)
 		  {
-		    checksum_struct2 =
-		      lw6ker_game_struct_checksum (game_struct2);
-		    hexa_struct2 = lw6ker_game_struct_to_hexa (game_struct2);
+		    /*
+		     * Duplicate so that hexa dumps are calculated
+		     * from really different objects, any id error
+		     * will be tracked...
+		     */
+		    dup_game_struct =
+		      lw6ker_game_struct_dup (game_struct2, NULL);
+		    if (dup_game_struct)
+		      {
+			checksum_struct2 =
+			  lw6ker_game_struct_checksum (dup_game_struct);
+			hexa_struct2 =
+			  lw6ker_game_struct_to_hexa (dup_game_struct);
+			lw6ker_game_struct_free (dup_game_struct);
+			dup_game_struct = NULL;
+		      }
 		    if (hexa_struct2)
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -641,12 +657,26 @@ test_hexa ()
 								   game_struct2);
 				    if (game_state2)
 				      {
-					checksum_state2 =
-					  lw6ker_game_state_checksum
-					  (game_state2);
-					hexa_state2 =
-					  lw6ker_game_state_to_hexa
-					  (game_state2);
+					/*
+					 * Duplicate so that hexa dumps are calculated
+					 * from really different objects, any id error
+					 * will be tracked...
+					 */
+					dup_game_state =
+					  lw6ker_game_state_dup (game_state,
+								 NULL);
+					if (dup_game_state)
+					  {
+					    checksum_state2 =
+					      lw6ker_game_state_checksum
+					      (dup_game_state);
+					    hexa_state2 =
+					      lw6ker_game_state_to_hexa
+					      (dup_game_state);
+					    lw6ker_game_state_free
+					      (dup_game_state);
+					    dup_game_state = NULL;
+					  }
 					if (hexa_state2)
 					  {
 					    lw6sys_log (LW6SYS_LOG_NOTICE,

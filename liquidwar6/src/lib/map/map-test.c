@@ -473,6 +473,7 @@ test_hexa ()
 
   {
     lw6map_level_t *level = NULL;
+    lw6map_level_t *dup_level = NULL;
     char *repr = NULL;
     char *hexa = NULL;
     char *hexa_check = NULL;
@@ -495,6 +496,7 @@ test_hexa ()
 	  }
 	hexa = lw6map_to_hexa (level);
 	lw6map_free (level);
+	level = NULL;
 	if (hexa)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("hexa is \"%s\""), hexa);
@@ -513,34 +515,53 @@ test_hexa ()
 		  {
 		    ret = 0;
 		  }
-
-		hexa_check = lw6map_to_hexa (level);
-		if (hexa_check)
+		/*
+		 * Duplicate so that hexa dumps are calculated
+		 * from really different objects, any id error
+		 * will be tracked...
+		 */
+		dup_level = lw6map_dup (level, NULL);
+		if (dup_level)
 		  {
-		    if (!strcmp (hexa, hexa_check))
+		    hexa_check = lw6map_to_hexa (dup_level);
+		    lw6map_free (dup_level);
+		    dup_level = NULL;
+		    if (hexa_check)
 		      {
-			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("copy and original look the same"));
+			if (!strcmp (hexa, hexa_check))
+			  {
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_
+					("copy and original look the same"));
+			  }
+			else
+			  {
+			    lw6sys_log (LW6SYS_LOG_WARNING,
+					_x_
+					("copy and original are different"));
+			    ret = 0;
+			  }
+			LW6SYS_FREE (hexa_check);
+			hexa_check = NULL;
 		      }
 		    else
 		      {
-			lw6sys_log (LW6SYS_LOG_WARNING,
-				    _x_ ("copy and original are different"));
 			ret = 0;
 		      }
-		    LW6SYS_FREE (hexa_check);
 		  }
 		else
 		  {
 		    ret = 0;
 		  }
 		lw6map_free (level);
+		level = NULL;
 	      }
 	    else
 	      {
 		ret = 0;
 	      }
 	    LW6SYS_FREE (hexa);
+	    hexa = NULL;
 	  }
 	else
 	  {
