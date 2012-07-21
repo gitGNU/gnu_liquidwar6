@@ -36,6 +36,9 @@ _scm_lw6hlp_about (SCM key)
   const char *c_ret;
   SCM ret = SCM_BOOL_F;
 
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
   c_key = lw6scm_utils_to_0str (key);
@@ -50,6 +53,8 @@ _scm_lw6hlp_about (SCM key)
       LW6SYS_FREE (c_key);
     }
 
+  LW6SYS_SCRIPT_FUNCTION_END;
+
   return ret;
 }
 
@@ -59,6 +64,9 @@ _scm_lw6hlp_get_default_value (SCM key)
   char *c_key;
   const char *c_ret;
   SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
@@ -73,6 +81,8 @@ _scm_lw6hlp_get_default_value (SCM key)
 	}
       LW6SYS_FREE (c_key);
     }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
 
   return ret;
 }

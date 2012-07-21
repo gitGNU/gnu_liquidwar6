@@ -167,6 +167,26 @@
 	#t
 	))))
 
+(define lw6-test-sys-log-level
+  (lambda ()
+    (let (
+	  (log-level #f)
+	  )
+      (begin
+	(set! log-level (c-lw6sys-log-get-level))
+	(lw6-log-notice (format #f "log-level=~a" log-level))
+	(c-lw6sys-log-set-level log-level)
+	#t
+	))))
+
+(define lw6-test-sys-dump
+  (lambda ()
+    (begin
+      (c-lw6sys-dump-clear)
+      (c-lw6sys-dump "This is a message spanned on several lines\nLine 2;\nLine three!")
+      #t
+      )))
+
 (define lw6-test-sys-env
   (lambda ()
     (begin
@@ -193,8 +213,71 @@
       (lw6-log-notice (format #f "cycle=~a" (c-lw6sys-get-cycle)))
       (c-lw6sys-delay 100)
       (c-lw6sys-sleep 0.01)
+      (c-lw6sys-idle)
       (c-lw6sys-snooze)
       #t
+      )))
+
+(define lw6-test-sys-path
+  (lambda ()
+    (let (
+	  (test-path "/this/is/a/path/with/a/filename.ext")
+	  (test-file "other.file")
+	  )
+      (begin
+	(lw6-log-notice (format #f "test-path=~a" test-path))
+	(lw6-log-notice (format #f "test-file=~a" test-file))
+	(lw6-log-notice (format #f "(concat ~a ~a) -> ~a" test-path test-file
+				(c-lw6sys-path-concat test-path test-file)))
+	(lw6-log-notice (format #f "(file-only ~a) -> ~a" test-path
+				(c-lw6sys-path-file-only test-path)))
+	(lw6-log-notice (format #f "(file-only ~a) -> ~a" test-file
+				(c-lw6sys-path-file-only test-file)))
+	(lw6-log-notice (format #f "(parent ~a) -> ~a" test-path
+				(c-lw6sys-path-parent test-path)))
+	(lw6-log-notice (format #f "(parent ~a) -> ~a" test-file
+				(c-lw6sys-path-parent test-file)))
+	(lw6-log-notice (format #f "(split ~a) -> ~a" test-path
+				(c-lw6sys-path-split test-path)))
+	(lw6-log-notice (format #f "(split ~a) -> ~a" test-file
+				(c-lw6sys-path-split test-file)))
+	#t
+	))))
+
+(define lw6-test-sys-signal
+  (lambda ()
+    (begin
+      (c-lw6sys-signal-custom #f)
+      (c-lw6sys-signal-default)
+      (c-lw6sys-signal-custom #t)
+      (c-lw6sys-signal-default)
+      (lw6-log-notice (format #f "(poll-quit) -> ~a" (c-lw6sys-signal-poll-quit)))
+      #t
+      )))
+
+(define lw6-test-sys-url
+  (lambda ()
+    (let* (
+	   (url-src "HTTP://FOO.BAR:80/dir/file.ext")
+	   (url-dst (c-lw6sys-url-canonize url-src))
+	   (url-check "http://foo.bar/dir/file.ext/")
+	   )
+      (if (equal? url-dst url-check)
+	  (begin	    
+	    (lw6-log-notice (format #f "canonized URL \"~a\" -> \"~a\"" url-src url-dst))
+	    #t
+	    )
+	  (begin
+	    (lw6-log-warning (format #f "canonized URL failed \"~a\" != \"~a\"" url-dst url-check))
+	    #f
+	    )
+	  ))))	    
+
+(define lw6-test-hlp-about
+  (lambda ()
+    (begin
+      (lw6-log-notice (format #f "(about ~a) -> ~a" lw6def-about (c-lw6hlp-about lw6def-about)))
+      (lw6-log-notice (format #f "(default-value ~a) -> ~a" lw6def-zoom (c-lw6hlp-get-default-value lw6def-zoom)))
       )))
 
 (define lw6-test-hlp-lists
@@ -452,9 +535,15 @@
 		(lw6-test-sys-id)
 		(lw6-test-sys-bazooka)
 		(lw6-test-sys-debug)
+		(lw6-test-sys-log-level)
+		(lw6-test-sys-dump)
 		(lw6-test-sys-env)
 		(lw6-test-sys-hardware)
 		(lw6-test-sys-time)
+		(lw6-test-sys-path)
+		(lw6-test-sys-signal)
+		(lw6-test-sys-url)
+		(lw6-test-hlp-about)
 		(lw6-test-hlp-lists)
 		(lw6-test-map)
 		(lw6-test-game-struct)
