@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Liquid War 6 is a unique multiplayer wargame.
-# Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+# Copyright (C)	 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012	 Christian Mauduit <ufoot@ufoot.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -10,7 +10,7 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
@@ -65,26 +65,25 @@ make > ${LW6_LOG_FILE}.make.log.txt 2>&1
 #make check > ${LW6_LOG_FILE}.check.log.txt 2>&1
 #make dist > ${LW6_LOG_FILE}.dist.log.txt 2>&1
 #rm -f liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz
-if ! make distcheck > ${LW6_LOG_FILE}.distcheck.log.txt 2>&1 ; then
-    rm -f liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz
-fi
-make -C doc html > ${LW6_LOG_FILE}.doc.log.txt 2>&1
-if test -f liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz && test -d doc/liquidwar6.html ; then
-    install -d ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}
-    mv liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}/
-    cp ChangeLog ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}/ChangeLog.txt
-    install -d ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}/doc
-    mv doc/liquidwar6.html/*.html $LW6_PUB/${LW6_SNAPSHOT_VERSION}/doc/
-    if test -f ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}/liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz && test -d ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}/doc ; then
-	for i in ${LW6_PUB}/???* ; do
-	    if test -f "$i"; then
-		rm -f "$i"
-	    fi
-	    if test -d "$i"; then
-		find "$i" -ctime +${LW6_CTIME} -exec rm -rf "{}" \;
-	    fi
-	done
-        LW6_OK=1
+if make distcheck > ${LW6_LOG_FILE}.distcheck.log.txt 2>&1 ; then
+    make -C doc html > ${LW6_LOG_FILE}.doc.log.txt 2>&1
+    if test -f liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz && test -d doc/liquidwar6.html ; then
+	install -d ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}
+	mv liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}/
+	cp ChangeLog ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}/ChangeLog.txt
+	install -d ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}/doc
+	mv doc/liquidwar6.html/*.html $LW6_PUB/${LW6_SNAPSHOT_VERSION}/doc/
+	if test -f ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}/liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz && test -d ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}/doc ; then
+		for i in ${LW6_PUB}/???* ; do
+		    if test -f "$i"; then
+		    rm -f "$i"
+		fi
+		if test -d "$i"; then
+		    find "$i" -ctime +${LW6_CTIME} -exec rm -rf "{}" \;
+		fi
+	    done
+	    LW6_OK=1
+	fi
     fi
 fi
 
@@ -94,17 +93,18 @@ cd ..
 #tla get --archive "liquidwar6@sv.gnu.org" $LW6_BRANCH_EXTRA_MAPS > ${LW6_LOG_FILE}.get-extra-maps.log.txt 2>&1
 cd liquidwar6/liquidwar6-extra-maps || exit 1
 
-sed -i -e "s/\(^AC_INIT.*War 6 extra maps\]\,\[\)\(.*\)\(\]\,\[ufoot.*\)/\1${LW6_SNAPSHOT_VERSION}\3/g" configure.ac > ${LW6_LOG_FILE}.sed.log.txt 2>&1
+sed	-i -e "s/\(^AC_INIT.*War 6 extra maps\]\,\[\)\(.*\)\(\]\,\[ufoot.*\)/\1${LW6_SNAPSHOT_VERSION}\3/g" configure.ac > ${LW6_LOG_FILE}.sed.log.txt 2>&1
 rm -f configure
 autoconf > ${LW6_LOG_FILE}.autoconf-extra-maps.log.txt 2>&1
 ./configure > ${LW6_LOG_FILE}.configure-extra-maps.log.txt 2>&1
 make > ${LW6_LOG_FILE}.make-extra-maps.log.txt 2>&1
-make dist > ${LW6_LOG_FILE}.dist-extra-maps.log.txt 2>&1
-make zip > ${LW6_LOG_FILE}.zip-extra-maps.log.txt 2>&1
-if test -f liquidwar6-extra-maps-${LW6_SNAPSHOT_VERSION}.zip ; then
-    install -d ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}
-    mv liquidwar6-extra-maps-${LW6_SNAPSHOT_VERSION}.zip ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}/
-    LW6_OK_EXTRA_MAPS=1
+if make dist > ${LW6_LOG_FILE}.dist-extra-maps.log.txt 2>&1 ; then
+    make zip > ${LW6_LOG_FILE}.zip-extra-maps.log.txt 2>&1
+    if test -f liquidwar6-extra-maps-${LW6_SNAPSHOT_VERSION}.zip ; then
+	install -d ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}
+	mv liquidwar6-extra-maps-${LW6_SNAPSHOT_VERSION}.zip ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}/
+	LW6_OK_EXTRA_MAPS=1
+    fi
 fi
    
 cd ..
