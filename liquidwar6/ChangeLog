@@ -1,3 +1,7 @@
+2012-07-22 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed #36907, checksum calc now reliable.
+
 2012-07-20 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Splitted jumbo lw6-funcs.c file into one file per module.

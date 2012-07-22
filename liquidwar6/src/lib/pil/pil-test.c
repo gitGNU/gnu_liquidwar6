@@ -482,13 +482,13 @@ test_dump ()
 					lw6pil_pilot_sync_from_backup
 					  (dump.game_state, dump.pilot);
 
-					while (lw6ker_game_state_get_rounds
-					       (game_state) <
-					       _TEST_BACKUP_ROUND
-					       &&
-					       lw6ker_game_state_get_rounds
-					       (dump.game_state) <
-					       _TEST_BACKUP_ROUND)
+					while ((lw6ker_game_state_get_rounds
+						(game_state) <
+						_TEST_BACKUP_ROUND)
+					       ||
+					       (lw6ker_game_state_get_rounds
+						(dump.game_state) <
+						_TEST_BACKUP_ROUND))
 					  {
 					    lw6sys_log (LW6SYS_LOG_WARNING,
 							_x_
