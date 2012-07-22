@@ -46,6 +46,12 @@
 #define TEST_LINE3 "azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty"
 #define TEST_LINES_OK "there\nare\n4\nlines\n"
 #define TEST_LINES_KO "this\nis\ntruncated"
+/*
+ * When testing, using the port following the default one,
+ * to avoid the rather common bug: LW is actually running,
+ * and test fails...
+ */
+#define TEST_PORT (LW6NET_DEFAULT_PORT+1)
 
 static int
 test_address ()
@@ -188,8 +194,7 @@ test_if ()
 		    _x_
 		    ("unable to guess local interface, this is a problem only if machine *really* has no network available"));
       }
-    public_url =
-      lw6net_if_guess_public_url (LW6NET_ADDRESS_ANY, LW6NET_DEFAULT_PORT);
+    public_url = lw6net_if_guess_public_url (LW6NET_ADDRESS_ANY, TEST_PORT);
     if (public_url)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -234,27 +239,25 @@ prepare_2_tcp_socks (int *sock1, int *sock2)
   int accept_port = 0;
 
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("listening on port %d (TCP)"),
-	      LW6NET_DEFAULT_PORT);
-  listening_sock =
-    lw6net_tcp_listen (LW6NET_ADDRESS_ANY, LW6NET_DEFAULT_PORT);
+	      TEST_PORT);
+  listening_sock = lw6net_tcp_listen (LW6NET_ADDRESS_ANY, TEST_PORT);
   if (listening_sock >= 0)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE,
 		  _x_ ("TCP socket %d listening on port %d"), listening_sock,
-		  LW6NET_DEFAULT_PORT);
+		  TEST_PORT);
 
       lw6sys_log (LW6SYS_LOG_NOTICE,
 		  _x_ ("trying to connect on localhost %s:%d"),
-		  LW6NET_ADDRESS_LOOPBACK, LW6NET_DEFAULT_PORT);
+		  LW6NET_ADDRESS_LOOPBACK, TEST_PORT);
       connect_sock =
 	lw6net_tcp_connect (LW6NET_ADDRESS_LOOPBACK,
-			    LW6NET_DEFAULT_PORT, TEST_TCP_CONNECT_DELAY);
+			    TEST_PORT, TEST_TCP_CONNECT_DELAY);
       if (lw6net_socket_is_valid (connect_sock))
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_ ("TCP socket %d connected on %s:%d"),
-		      connect_sock, LW6NET_ADDRESS_LOOPBACK,
-		      LW6NET_DEFAULT_PORT);
+		      connect_sock, LW6NET_ADDRESS_LOOPBACK, TEST_PORT);
 	  accept_sock =
 	    lw6net_tcp_accept (&accept_ip,
 			       &accept_port, listening_sock,
@@ -394,13 +397,13 @@ prepare_2_udp_socks (int *sock1, int *sock2)
   int client_sock = -1;
 
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("listening on port %d (UDP)"),
-	      LW6NET_DEFAULT_PORT);
-  server_sock = lw6net_udp_server (LW6NET_ADDRESS_ANY, LW6NET_DEFAULT_PORT);
+	      TEST_PORT);
+  server_sock = lw6net_udp_server (LW6NET_ADDRESS_ANY, TEST_PORT);
   if (server_sock >= 0)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE,
 		  _x_ ("UDP socket %d listening on port %d"), server_sock,
-		  LW6NET_DEFAULT_PORT);
+		  TEST_PORT);
       client_sock = lw6net_udp_client ();
     }
   if (server_sock >= 0 && client_sock >= 0)
@@ -454,7 +457,7 @@ test_udp ()
 	  {
 	    if (lw6net_udp_send
 		(sock2, buf1_send, size,
-		 LW6NET_ADDRESS_LOOPBACK, LW6NET_DEFAULT_PORT) == size)
+		 LW6NET_ADDRESS_LOOPBACK, TEST_PORT) == size)
 	      {
 		lw6sys_delay (TEST_UDP_DELAY);
 		if (lw6net_udp_peek
@@ -599,13 +602,12 @@ test_line ()
       {
 	if (lw6net_send_line_udp
 	    (sock2, TEST_LINE1, LW6NET_ADDRESS_LOOPBACK,
-	     LW6NET_DEFAULT_PORT)
+	     TEST_PORT)
 	    && lw6net_send_line_udp (sock2, TEST_LINE2,
 				     LW6NET_ADDRESS_LOOPBACK,
-				     LW6NET_DEFAULT_PORT)
+				     TEST_PORT)
 	    && lw6net_send_line_udp (sock2, TEST_LINE3,
-				     LW6NET_ADDRESS_LOOPBACK,
-				     LW6NET_DEFAULT_PORT))
+				     LW6NET_ADDRESS_LOOPBACK, TEST_PORT))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lines sent"));
 	    lw6sys_idle ();
@@ -640,7 +642,7 @@ test_line ()
 	  }
 	if (lw6net_udp_send
 	    (sock2, TEST_LINES_OK, strlen (TEST_LINES_OK),
-	     LW6NET_ADDRESS_LOOPBACK, LW6NET_DEFAULT_PORT))
+	     LW6NET_ADDRESS_LOOPBACK, TEST_PORT))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lines sent"));
 	    lw6sys_idle ();
@@ -655,7 +657,7 @@ test_line ()
 	  }
 	if (lw6net_udp_send
 	    (sock2, TEST_LINES_OK, strlen (TEST_LINES_KO),
-	     LW6NET_ADDRESS_LOOPBACK, LW6NET_DEFAULT_PORT))
+	     LW6NET_ADDRESS_LOOPBACK, TEST_PORT))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lines sent"));
 	    lw6sys_idle ();

@@ -65,7 +65,9 @@ make > ${LW6_LOG_FILE}.make.log.txt 2>&1
 #make check > ${LW6_LOG_FILE}.check.log.txt 2>&1
 #make dist > ${LW6_LOG_FILE}.dist.log.txt 2>&1
 #rm -f liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz
-make distcheck > ${LW6_LOG_FILE}.distcheck.log.txt 2>&1
+if ! make distcheck > ${LW6_LOG_FILE}.distcheck.log.txt 2>&1 ; then
+    rm -f liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz
+fi
 make -C doc html > ${LW6_LOG_FILE}.doc.log.txt 2>&1
 if test -f liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz && test -d doc/liquidwar6.html ; then
     install -d ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}
