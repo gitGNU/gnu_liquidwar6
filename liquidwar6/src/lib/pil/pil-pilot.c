@@ -462,7 +462,8 @@ _commit_draft (_lw6pil_pilot_t * pilot)
 	    {
 	      last_sync_draft_from_reference =
 		_lw6pil_pilot_seq2round (pilot,
-					 pilot->last_sync_draft_from_reference_seq);
+					 pilot->
+					 last_sync_draft_from_reference_seq);
 	      if (command->round > last_sync_draft_from_reference
 		  && pilot->replay)
 		{
@@ -503,7 +504,8 @@ _commit_draft (_lw6pil_pilot_t * pilot)
 		{
 		  last_sync_draft_from_reference =
 		    _lw6pil_pilot_seq2round (pilot,
-					     pilot->last_sync_draft_from_reference_seq);
+					     pilot->
+					     last_sync_draft_from_reference_seq);
 		  if (command->round > last_sync_draft_from_reference)
 		    {
 		      command_dup = lw6pil_command_dup (command);

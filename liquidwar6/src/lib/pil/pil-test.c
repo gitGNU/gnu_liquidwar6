@@ -34,8 +34,8 @@
  * and the other one does not.
  */
 #define _TEST_BACKUP_CHECKSUM 0xe771d39e
-#define _TEST_DUMP_COMMAND_CHECKSUM 0x07455de3
-#define _TEST_DUMP_BACKUP_CHECKSUM 0xe55fc651
+#define _TEST_DUMP_COMMAND_CHECKSUM 0x3ce57a70
+#define _TEST_DUMP_BACKUP_CHECKSUM 0x03c2043f
 
 #define _TEST_MAP_WIDTH 45
 #define _TEST_MAP_HEIGHT 15
@@ -75,6 +75,7 @@
 #define _TEST_DUMP_NB_TRIES 10
 #define _TEST_DUMP_NB_COMMANDS 6
 #define _TEST_DUMP_LAST_COMMIT_SEQ 10000000010LL
+#define _TEST_DUMP_PREVIEW_LEN 100
 
 static char *test_commands[] = {
   "10000000002 1234abcd1234abcd REGISTER",
@@ -360,7 +361,8 @@ test_dump ()
     char *dump_command = NULL;
     u_int32_t checksum = 0;
     u_int32_t dump_checksum = 0;
-    char *without_seq = NULL;
+    int dump_len = 0;
+    char dump_preview[_TEST_DUMP_PREVIEW_LEN + 1];
     lw6pil_dump_t dump;
     int i = 0;
     int commands_ok = 0;
@@ -398,187 +400,179 @@ test_dump ()
 		      lw6pil_dump_command_generate (pilot, _TEST_DUMP_ID);
 		    if (dump_command)
 		      {
+			dump_len = strlen (dump_command);
+			memset (dump_preview, 0, _TEST_DUMP_PREVIEW_LEN + 1);
+			strncpy (dump_preview, dump_command,
+				 _TEST_DUMP_PREVIEW_LEN);
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("dump command with length=%d"),
-				    (int) strlen (dump_command));
+				    _x_
+				    ("dump command with length=%d, %d first chars are \"%s\""),
+				    dump_len, _TEST_DUMP_PREVIEW_LEN,
+				    dump_preview);
 
-			without_seq = strchr (dump_command, ' ');
-			if (without_seq)
+			checksum = lw6sys_checksum_str (dump_command);
+			if (checksum == _TEST_DUMP_COMMAND_CHECKSUM)
 			  {
-			    checksum = lw6sys_checksum_str (without_seq);
-			    if (checksum == _TEST_DUMP_COMMAND_CHECKSUM)
-			      {
-				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _x_
-					    ("dump command checksum=%x, OK"),
-					    checksum);
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_
+					("dump command checksum=%x, OK"),
+					checksum);
 
-				commands_ok = 1;
-				if (lw6pil_pilot_send_command
-				    (pilot, dump_command, 1))
+			    commands_ok = 1;
+			    if (lw6pil_pilot_send_command
+				(pilot, dump_command, 1))
+			      {
+				for (i = 0;
+				     i < _TEST_DUMP_NB_COMMANDS
+				     && test_commands[i]; ++i)
 				  {
-				    for (i = 0;
-					 i < _TEST_DUMP_NB_COMMANDS
+				    if (!lw6pil_pilot_send_command
+					(pilot, test_commands[i], 1))
+				      {
+					commands_ok = 0;
+				      }
+				  }
+			      }
+			    else
+			      {
+				commands_ok = 0;
+			      }
+			    if (commands_ok
+				&& lw6pil_pilot_commit (NULL, pilot))
+			      {
+				for (i = 0;
+				     i < _TEST_DUMP_NB_TRIES
+				     && !lw6pil_dump_exists (&dump); ++i)
+				  {
+				    lw6sys_sleep (_TEST_DUMP_SLEEP);
+				    lw6pil_pilot_commit (&dump, pilot);
+				  }
+			      }
+			    if (lw6pil_dump_exists (&dump))
+			      {
+				lw6pil_pilot_commit (NULL, dump.pilot);
+				seq =
+				  lw6pil_pilot_get_last_commit_seq
+				  (dump.pilot);
+				if (seq == _TEST_DUMP_LAST_COMMIT_SEQ)
+				  {
+				    lw6sys_log (LW6SYS_LOG_NOTICE,
+						_x_
+						("got dump from pilot, OK, last_commit_seq=%"
+						 LW6SYS_PRINTF_LL "d"),
+						(long long) seq);
+				    for (i = _TEST_DUMP_NB_COMMANDS;
+					 i <= _TEST_SYNC_COMMAND_I
 					 && test_commands[i]; ++i)
 				      {
-					if (!lw6pil_pilot_send_command
-					    (pilot, test_commands[i], 1))
-					  {
-					    commands_ok = 0;
-					  }
+					lw6pil_pilot_send_command (pilot,
+								   test_commands
+								   [i], 1);
+					lw6pil_pilot_send_command
+					  (dump.pilot, test_commands[i], 1);
 				      }
-				  }
-				else
-				  {
-				    commands_ok = 0;
-				  }
-				if (commands_ok
-				    && lw6pil_pilot_commit (NULL, pilot))
-				  {
-				    for (i = 0;
-					 i < _TEST_DUMP_NB_TRIES
-					 && !lw6pil_dump_exists (&dump); ++i)
-				      {
-					lw6sys_sleep (_TEST_DUMP_SLEEP);
-					lw6pil_pilot_commit (&dump, pilot);
-				      }
-				  }
-				if (lw6pil_dump_exists (&dump))
-				  {
+				    lw6pil_pilot_commit (NULL, pilot);
 				    lw6pil_pilot_commit (NULL, dump.pilot);
-				    seq =
-				      lw6pil_pilot_get_last_commit_seq
-				      (dump.pilot);
-				    if (seq == _TEST_DUMP_LAST_COMMIT_SEQ)
+
+				    lw6sys_sleep (_TEST_CYCLE);
+
+				    lw6pil_pilot_make_backup (pilot);
+				    lw6pil_pilot_make_backup (dump.pilot);
+
+				    lw6pil_pilot_sync_from_backup
+				      (game_state, pilot);
+				    lw6pil_pilot_sync_from_backup
+				      (dump.game_state, dump.pilot);
+
+				    while ((lw6ker_game_state_get_rounds
+					    (game_state) <
+					    _TEST_BACKUP_ROUND)
+					   ||
+					   (lw6ker_game_state_get_rounds
+					    (dump.game_state) <
+					    _TEST_BACKUP_ROUND))
 				      {
-					lw6sys_log (LW6SYS_LOG_NOTICE,
+					lw6sys_log (LW6SYS_LOG_WARNING,
 						    _x_
-						    ("got dump from pilot, OK, last_commit_seq=%"
-						     LW6SYS_PRINTF_LL "d"),
-						    (long long) seq);
-					for (i = _TEST_DUMP_NB_COMMANDS;
-					     i <= _TEST_SYNC_COMMAND_I
-					     && test_commands[i]; ++i)
-					  {
-					    lw6pil_pilot_send_command (pilot,
-								       test_commands
-								       [i],
-								       1);
-					    lw6pil_pilot_send_command
-					      (dump.pilot, test_commands[i],
-					       1);
-					  }
-					lw6pil_pilot_commit (NULL, pilot);
-					lw6pil_pilot_commit (NULL,
-							     dump.pilot);
-
+						    ("waiting for backup at round %d, is your computer slow or what?"),
+						    _TEST_BACKUP_ROUND);
 					lw6sys_sleep (_TEST_CYCLE);
-
-					lw6pil_pilot_make_backup (pilot);
-					lw6pil_pilot_make_backup (dump.pilot);
-
 					lw6pil_pilot_sync_from_backup
 					  (game_state, pilot);
 					lw6pil_pilot_sync_from_backup
 					  (dump.game_state, dump.pilot);
+				      }
 
-					while ((lw6ker_game_state_get_rounds
-						(game_state) <
-						_TEST_BACKUP_ROUND)
-					       ||
-					       (lw6ker_game_state_get_rounds
-						(dump.game_state) <
-						_TEST_BACKUP_ROUND))
-					  {
-					    lw6sys_log (LW6SYS_LOG_WARNING,
-							_x_
-							("waiting for backup at round %d, is your computer slow or what?"),
-							_TEST_BACKUP_ROUND);
-					    lw6sys_sleep (_TEST_CYCLE);
-					    lw6pil_pilot_sync_from_backup
-					      (game_state, pilot);
-					    lw6pil_pilot_sync_from_backup
-					      (dump.game_state, dump.pilot);
-					  }
-
-					print_game_state (game_state,
-							  _x_
-							  ("backup of game_state"));
-					print_game_state (game_state,
-							  _x_
-							  ("backup of dump.game_state"));
-					if (lw6ker_game_state_get_rounds
-					    (game_state) == _TEST_BACKUP_ROUND
-					    &&
-					    lw6ker_game_state_get_rounds
-					    (dump.game_state))
-					  {
-					    checksum =
-					      lw6ker_game_state_checksum
-					      (game_state);
-					    dump_checksum =
-					      lw6ker_game_state_checksum
-					      (dump.game_state);
-					  }
-					if (checksum ==
-					    _TEST_DUMP_BACKUP_CHECKSUM
-					    && dump_checksum ==
-					    _TEST_DUMP_BACKUP_CHECKSUM)
-					  {
-					    lw6sys_log (LW6SYS_LOG_NOTICE,
-							_x_
-							("checksum of game_state and dump.game_state at round %d are both %x, OK"),
-							_TEST_BACKUP_ROUND,
-							_TEST_DUMP_BACKUP_CHECKSUM);
-					    ret = 1;
-					  }
-					else
-					  {
-					    lw6sys_log (LW6SYS_LOG_NOTICE,
-							_x_
-							("checksum of game_state and dump.game_state at round %d should be %x but got %x for game_state and %x for dump.game_state"),
-							_TEST_BACKUP_ROUND,
-							_TEST_DUMP_BACKUP_CHECKSUM,
-							checksum,
-							dump_checksum);
-					  }
+				    print_game_state (game_state,
+						      _x_
+						      ("backup of game_state"));
+				    print_game_state (game_state,
+						      _x_
+						      ("backup of dump.game_state"));
+				    if (lw6ker_game_state_get_rounds
+					(game_state) == _TEST_BACKUP_ROUND
+					&&
+					lw6ker_game_state_get_rounds
+					(dump.game_state))
+				      {
+					checksum =
+					  lw6ker_game_state_checksum
+					  (game_state);
+					dump_checksum =
+					  lw6ker_game_state_checksum
+					  (dump.game_state);
+				      }
+				    if (checksum ==
+					_TEST_DUMP_BACKUP_CHECKSUM
+					&& dump_checksum ==
+					_TEST_DUMP_BACKUP_CHECKSUM)
+				      {
+					lw6sys_log (LW6SYS_LOG_NOTICE,
+						    _x_
+						    ("checksum of game_state and dump.game_state at round %d are both %x, OK"),
+						    _TEST_BACKUP_ROUND,
+						    _TEST_DUMP_BACKUP_CHECKSUM);
+					ret = 1;
 				      }
 				    else
 				      {
-					lw6sys_log (LW6SYS_LOG_WARNING,
+					lw6sys_log (LW6SYS_LOG_NOTICE,
 						    _x_
-						    ("got dump from pilot but seq mismatch last_commit_seq=%"
-						     LW6SYS_PRINTF_LL
-						     "d and should be %"
-						     LW6SYS_PRINTF_LL "d"),
-						    (long long) seq,
-						    (long long)
-						    _TEST_DUMP_LAST_COMMIT_SEQ);
+						    ("checksum of game_state and dump.game_state at round %d should be %x but got %x for game_state and %x for dump.game_state"),
+						    _TEST_BACKUP_ROUND,
+						    _TEST_DUMP_BACKUP_CHECKSUM,
+						    checksum, dump_checksum);
 				      }
-
-				    lw6pil_dump_clear (&dump);
 				  }
 				else
 				  {
 				    lw6sys_log (LW6SYS_LOG_WARNING,
 						_x_
-						("didn't get dump from pilot"));
+						("got dump from pilot but seq mismatch last_commit_seq=%"
+						 LW6SYS_PRINTF_LL
+						 "d and should be %"
+						 LW6SYS_PRINTF_LL "d"),
+						(long long) seq,
+						(long long)
+						_TEST_DUMP_LAST_COMMIT_SEQ);
 				  }
+
+				lw6pil_dump_clear (&dump);
 			      }
 			    else
 			      {
 				lw6sys_log (LW6SYS_LOG_WARNING,
 					    _x_
-					    ("dump checksum=%x, and should be %x"),
-					    checksum,
-					    _TEST_DUMP_COMMAND_CHECKSUM);
+					    ("didn't get dump from pilot"));
 			      }
 			  }
 			else
 			  {
 			    lw6sys_log (LW6SYS_LOG_WARNING,
 					_x_
-					("can't find space in dump, this is weird"));
+					("dump checksum=%x, and should be %x"),
+					checksum,
+					_TEST_DUMP_COMMAND_CHECKSUM);
 			  }
 
 			LW6SYS_FREE (dump_command);
