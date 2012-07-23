@@ -31,7 +31,9 @@
  * is changed. They are *very* important, the need to be respected.
  */
 #define _TEST_GAME_STRUCT_CHECKSUM 0xf9c216d4
+#define _TEST_GAME_STRUCT_HEXA_CHECKSUM 0xd9561e32
 #define _TEST_GAME_STATE_CHECKSUM 0x92f323b1
+#define _TEST_GAME_STATE_HEXA_CHECKSUM 0xd036c7ab
 #define _TEST_GAME_STATE_POPULATE_CHECKSUM 0x95922a8b
 #define _TEST_GAME_STATE_ALGORITHM_CHECKSUM 0x4fd07888
 
@@ -569,7 +571,9 @@ test_hexa ()
     lw6ker_game_struct_t *game_struct2 = NULL;
     lw6ker_game_state_t *game_state2 = NULL;
     u_int32_t checksum_struct = 0;
+    u_int32_t checksum_hexa_struct = 0;
     u_int32_t checksum_state = 0;
+    u_int32_t checksum_hexa_state = 0;
     u_int32_t checksum_struct2 = 0;
     u_int32_t checksum_state2 = 0;
     char *hexa_struct = NULL;
@@ -594,158 +598,188 @@ test_hexa ()
 	    game_struct = NULL;
 	    if (hexa_struct)
 	      {
-		game_struct2 =
-		  lw6ker_game_struct_from_hexa (hexa_struct, level);
-		if (game_struct2)
+		checksum_hexa_struct = lw6sys_checksum_str (hexa_struct);
+		if (checksum_hexa_struct == _TEST_GAME_STRUCT_HEXA_CHECKSUM)
 		  {
-		    /*
-		     * Duplicate so that hexa dumps are calculated
-		     * from really different objects, any id error
-		     * will be tracked...
-		     */
-		    dup_game_struct =
-		      lw6ker_game_struct_dup (game_struct2, NULL);
-		    if (dup_game_struct)
+		    game_struct2 =
+		      lw6ker_game_struct_from_hexa (hexa_struct, level);
+		    if (game_struct2)
 		      {
-			checksum_struct2 =
-			  lw6ker_game_struct_checksum (dup_game_struct);
-			hexa_struct2 =
-			  lw6ker_game_struct_to_hexa (dup_game_struct);
-			lw6ker_game_struct_free (dup_game_struct);
-			dup_game_struct = NULL;
-		      }
-		    if (hexa_struct2)
-		      {
-			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_
-				    ("hexa_struct length=%d hexa_struct2 length=%d checksum_struct=%08x checksum_struct2=%08x"),
-				    (int) strlen (hexa_struct),
-				    (int) strlen (hexa_struct2),
-				    checksum_struct, checksum_struct2);
-			if (checksum_struct == checksum_struct2
-			    && lw6sys_str_is_same (hexa_struct, hexa_struct2))
+			/*
+			 * Duplicate so that hexa dumps are calculated
+			 * from really different objects, any id error
+			 * will be tracked...
+			 */
+			dup_game_struct =
+			  lw6ker_game_struct_dup (game_struct2, NULL);
+			if (dup_game_struct)
 			  {
-			    game_state =
-			      lw6ker_game_state_new (game_struct2, NULL);
-			    if (game_state)
+			    checksum_struct2 =
+			      lw6ker_game_struct_checksum (dup_game_struct);
+			    hexa_struct2 =
+			      lw6ker_game_struct_to_hexa (dup_game_struct);
+			    lw6ker_game_struct_free (dup_game_struct);
+			    dup_game_struct = NULL;
+			  }
+			if (hexa_struct2)
+			  {
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_
+					("hexa_struct length=%d hexa_struct2 length=%d checksum_struct=%08x checksum_struct2=%08x"),
+					(int) strlen (hexa_struct),
+					(int) strlen (hexa_struct2),
+					checksum_struct, checksum_struct2);
+			    if (checksum_struct == checksum_struct2
+				&& lw6sys_str_is_same (hexa_struct,
+						       hexa_struct2))
 			      {
-				lw6ker_game_state_register_node (game_state,
-								 _TEST_NODE_ID);
-				lw6ker_game_state_add_cursor (game_state,
-							      _TEST_NODE_ID,
-							      _TEST_CURSOR1_ID,
-							      _TEST_COLOR1);
-				lw6ker_game_state_add_cursor (game_state,
-							      _TEST_NODE_ID,
-							      _TEST_CURSOR2_ID,
-							      _TEST_COLOR2);
-				for (i = 0; i < _TEST_NB_ROUNDS; ++i)
+				game_state =
+				  lw6ker_game_state_new (game_struct2, NULL);
+				if (game_state)
 				  {
-				    lw6ker_game_state_do_round (game_state);
-				  }
-				print_game_state_repr (game_state);
-				checksum_state =
-				  lw6ker_game_state_checksum (game_state);
-				hexa_state =
-				  lw6ker_game_state_to_hexa (game_state);
-				lw6ker_game_state_free (game_state);
-
-				if (hexa_state)
-				  {
-				    game_state2 =
-				      lw6ker_game_state_from_hexa (hexa_state,
-								   game_struct2);
-				    if (game_state2)
+				    lw6ker_game_state_register_node
+				      (game_state, _TEST_NODE_ID);
+				    lw6ker_game_state_add_cursor (game_state,
+								  _TEST_NODE_ID,
+								  _TEST_CURSOR1_ID,
+								  _TEST_COLOR1);
+				    lw6ker_game_state_add_cursor (game_state,
+								  _TEST_NODE_ID,
+								  _TEST_CURSOR2_ID,
+								  _TEST_COLOR2);
+				    for (i = 0; i < _TEST_NB_ROUNDS; ++i)
 				      {
-					/*
-					 * Duplicate so that hexa dumps are calculated
-					 * from really different objects, any id error
-					 * will be tracked...
-					 */
-					dup_game_state =
-					  lw6ker_game_state_dup (game_state,
-								 NULL);
-					if (dup_game_state)
-					  {
-					    checksum_state2 =
-					      lw6ker_game_state_checksum
-					      (dup_game_state);
-					    hexa_state2 =
-					      lw6ker_game_state_to_hexa
-					      (dup_game_state);
-					    lw6ker_game_state_free
-					      (dup_game_state);
-					    dup_game_state = NULL;
-					  }
-					if (hexa_state2)
-					  {
-					    lw6sys_log (LW6SYS_LOG_NOTICE,
-							_x_
-							("hexa_state length=%d hexa_state2 length=%d checksum_state=%08x checksum_state2=%08x"),
-							(int)
-							strlen (hexa_state),
-							(int)
-							strlen (hexa_state2),
-							checksum_state,
-							checksum_state2);
-					    if (checksum_state ==
-						checksum_state2
-						&&
-						lw6sys_str_is_same
-						(hexa_state, hexa_state2))
-					      {
-						ret = 1;
-					      }
-					    else
-					      {
-						if (checksum_state !=
-						    checksum_state2)
-						  {
-						    lw6sys_log
-						      (LW6SYS_LOG_WARNING,
-						       _x_
-						       ("game_state checksums differ"));
-						  }
-						if (!lw6sys_str_is_same
-						    (hexa_state, hexa_state2))
-						  {
-						    lw6sys_log
-						      (LW6SYS_LOG_WARNING,
-						       _x_
-						       ("game_state hexa dumps differ"));
-						  }
-						ret = 0;
-					      }
-					    LW6SYS_FREE (hexa_state2);
-					  }
-					lw6ker_game_state_free (game_state2);
-					game_state2 = NULL;
+					lw6ker_game_state_do_round
+					  (game_state);
 				      }
-				    LW6SYS_FREE (hexa_state);
+				    print_game_state_repr (game_state);
+				    checksum_state =
+				      lw6ker_game_state_checksum (game_state);
+				    hexa_state =
+				      lw6ker_game_state_to_hexa (game_state);
+				    lw6ker_game_state_free (game_state);
+
+				    if (hexa_state)
+				      {
+					checksum_hexa_state =
+					  lw6sys_checksum_str (hexa_state);
+					if (checksum_hexa_state ==
+					    _TEST_GAME_STATE_HEXA_CHECKSUM)
+					  {
+					    game_state2 =
+					      lw6ker_game_state_from_hexa
+					      (hexa_state, game_struct2);
+					    if (game_state2)
+					      {
+						/*
+						 * Duplicate so that hexa dumps are calculated
+						 * from really different objects, any id error
+						 * will be tracked...
+						 */
+						dup_game_state =
+						  lw6ker_game_state_dup
+						  (game_state, NULL);
+						if (dup_game_state)
+						  {
+						    checksum_state2 =
+						      lw6ker_game_state_checksum
+						      (dup_game_state);
+						    hexa_state2 =
+						      lw6ker_game_state_to_hexa
+						      (dup_game_state);
+						    lw6ker_game_state_free
+						      (dup_game_state);
+						    dup_game_state = NULL;
+						  }
+						if (hexa_state2)
+						  {
+						    lw6sys_log
+						      (LW6SYS_LOG_NOTICE,
+						       _x_
+						       ("hexa_state length=%d hexa_state2 length=%d checksum_state=%08x checksum_state2=%08x"),
+						       (int)
+						       strlen (hexa_state),
+						       (int)
+						       strlen (hexa_state2),
+						       checksum_state,
+						       checksum_state2);
+						    if (checksum_state ==
+							checksum_state2
+							&&
+							lw6sys_str_is_same
+							(hexa_state,
+							 hexa_state2))
+						      {
+							ret = 1;
+						      }
+						    else
+						      {
+							if (checksum_state !=
+							    checksum_state2)
+							  {
+							    lw6sys_log
+							      (LW6SYS_LOG_WARNING,
+							       _x_
+							       ("game_state checksums differ"));
+							  }
+							if (!lw6sys_str_is_same (hexa_state, hexa_state2))
+							  {
+							    lw6sys_log
+							      (LW6SYS_LOG_WARNING,
+							       _x_
+							       ("game_state hexa dumps differ"));
+							  }
+							ret = 0;
+						      }
+						    LW6SYS_FREE (hexa_state2);
+						  }
+						lw6ker_game_state_free
+						  (game_state2);
+						game_state2 = NULL;
+					      }
+					  }
+					else
+					  {
+					    lw6sys_log (LW6SYS_LOG_WARNING,
+							_x_
+							("bad state hexa checksum, got %x but shoud be %x"),
+							checksum_hexa_state,
+							_TEST_GAME_STATE_HEXA_CHECKSUM);
+					  }
+					LW6SYS_FREE (hexa_state);
+				      }
 				  }
 			      }
-			  }
-			else
-			  {
-			    if (checksum_struct != checksum_struct2)
+			    else
 			      {
-				lw6sys_log (LW6SYS_LOG_WARNING,
-					    _x_
-					    ("game_struct checksums differ"));
+				if (checksum_struct != checksum_struct2)
+				  {
+				    lw6sys_log (LW6SYS_LOG_WARNING,
+						_x_
+						("game_struct checksums differ"));
+				  }
+				if (!lw6sys_str_is_same
+				    (hexa_struct, hexa_struct2))
+				  {
+				    lw6sys_log (LW6SYS_LOG_WARNING,
+						_x_
+						("game_struct hexa dumps differ"));
+				  }
+				ret = 0;
 			      }
-			    if (!lw6sys_str_is_same
-				(hexa_struct, hexa_struct2))
-			      {
-				lw6sys_log (LW6SYS_LOG_WARNING,
-					    _x_
-					    ("game_struct hexa dumps differ"));
-			      }
-			    ret = 0;
+			    LW6SYS_FREE (hexa_struct2);
 			  }
-			LW6SYS_FREE (hexa_struct2);
+			lw6ker_game_struct_free (game_struct2);
+			game_struct2 = NULL;
 		      }
-		    lw6ker_game_struct_free (game_struct2);
-		    game_struct2 = NULL;
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("bad struct hexa checksum, got %x but shoud be %x"),
+				checksum_hexa_struct,
+				_TEST_GAME_STRUCT_HEXA_CHECKSUM);
 		  }
 		LW6SYS_FREE (hexa_struct);
 	      }

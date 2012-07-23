@@ -145,9 +145,8 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
 
   seq_reference =
     _lw6pil_pilot_round2seq (pilot,
-			     lw6ker_game_state_get_rounds (pilot->
-							   reference.
-							   game_state));
+			     lw6ker_game_state_get_rounds
+			     (pilot->reference.game_state));
   seq_draft =
     _lw6pil_pilot_round2seq (pilot,
 			     lw6ker_game_state_get_rounds (pilot->draft.

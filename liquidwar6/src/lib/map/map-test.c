@@ -29,10 +29,11 @@
 #include "map.h"
 
 /*
- * The checksum below will change any time a field is added
+ * The checksums below will change any time a field is added
  * or its default is changed in the map structure.
  */
 #define _TEST_RULES_CHECKSUM 0x765d8d06
+#define _TEST_LEVEL_HEXA_CHECKSUM 0x285faeeb
 
 #define _TEST_MAP_NB_LAYERS 2
 #define _TEST_MAP_WIDTH 20
@@ -477,6 +478,7 @@ test_hexa ()
     char *repr = NULL;
     char *hexa = NULL;
     char *hexa_check = NULL;
+    u_int32_t hexa_checksum = 0;
 
     level =
       lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
@@ -500,64 +502,78 @@ test_hexa ()
 	if (hexa)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("hexa is \"%s\""), hexa);
-	    level = lw6map_from_hexa (hexa);
-	    if (level)
+
+	    hexa_checksum = lw6sys_checksum_str (hexa);
+	    if (hexa_checksum == _TEST_LEVEL_HEXA_CHECKSUM)
 	      {
-		repr = lw6map_repr (level);
-		if (repr)
+		level = lw6map_from_hexa (hexa);
+		if (level)
 		  {
-		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_x_ ("map \"%s\" re-constructed from hexa"),
-				repr);
-		    LW6SYS_FREE (repr);
-		  }
-		else
-		  {
-		    ret = 0;
-		  }
-		/*
-		 * Duplicate so that hexa dumps are calculated
-		 * from really different objects, any id error
-		 * will be tracked...
-		 */
-		dup_level = lw6map_dup (level, NULL);
-		if (dup_level)
-		  {
-		    hexa_check = lw6map_to_hexa (dup_level);
-		    lw6map_free (dup_level);
-		    dup_level = NULL;
-		    if (hexa_check)
+		    repr = lw6map_repr (level);
+		    if (repr)
 		      {
-			if (!strcmp (hexa, hexa_check))
-			  {
-			    lw6sys_log (LW6SYS_LOG_NOTICE,
-					_x_
-					("copy and original look the same"));
-			  }
-			else
-			  {
-			    lw6sys_log (LW6SYS_LOG_WARNING,
-					_x_
-					("copy and original are different"));
-			    ret = 0;
-			  }
-			LW6SYS_FREE (hexa_check);
-			hexa_check = NULL;
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_
+				    ("map \"%s\" re-constructed from hexa"),
+				    repr);
+			LW6SYS_FREE (repr);
 		      }
 		    else
 		      {
 			ret = 0;
 		      }
+		    /*
+		     * Duplicate so that hexa dumps are calculated
+		     * from really different objects, any id error
+		     * will be tracked...
+		     */
+		    dup_level = lw6map_dup (level, NULL);
+		    if (dup_level)
+		      {
+			hexa_check = lw6map_to_hexa (dup_level);
+			lw6map_free (dup_level);
+			dup_level = NULL;
+			if (hexa_check)
+			  {
+			    if (!strcmp (hexa, hexa_check))
+			      {
+				lw6sys_log (LW6SYS_LOG_NOTICE,
+					    _x_
+					    ("copy and original look the same"));
+			      }
+			    else
+			      {
+				lw6sys_log (LW6SYS_LOG_WARNING,
+					    _x_
+					    ("copy and original are different"));
+				ret = 0;
+			      }
+			    LW6SYS_FREE (hexa_check);
+			    hexa_check = NULL;
+			  }
+			else
+			  {
+			    ret = 0;
+			  }
+		      }
+		    else
+		      {
+			ret = 0;
+		      }
+
+		    lw6map_free (level);
+		    level = NULL;
 		  }
 		else
 		  {
 		    ret = 0;
 		  }
-		lw6map_free (level);
-		level = NULL;
 	      }
 	    else
 	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("bad hexa checksum, got %x but shoud be %x"),
+			    hexa_checksum, _TEST_LEVEL_HEXA_CHECKSUM);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (hexa);

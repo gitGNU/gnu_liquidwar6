@@ -1,3 +1,7 @@
+2012-07-23 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Paranoid checksums to track down #36907, reopened...
+
 2012-07-22 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed #36907, checksum calc now reliable.
