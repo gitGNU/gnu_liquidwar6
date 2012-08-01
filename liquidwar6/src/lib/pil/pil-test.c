@@ -478,6 +478,21 @@ test_dump ()
 
 				    lw6sys_sleep (_TEST_CYCLE);
 
+				    while (lw6pil_pilot_seq2round
+					   (pilot,
+					    lw6pil_pilot_get_reference_current_seq
+					    (pilot)) < _TEST_BACKUP_ROUND
+					   || lw6pil_pilot_seq2round (pilot,
+								      lw6pil_pilot_get_reference_current_seq
+								      (dump.pilot))
+					   < _TEST_BACKUP_ROUND)
+				      {
+					lw6sys_log (LW6SYS_LOG_NOTICE,
+						    _x_
+						    ("waiting for reference round to increase"));
+					lw6sys_sleep (_TEST_CYCLE);
+				      }
+
 				    lw6pil_pilot_make_backup (pilot);
 				    lw6pil_pilot_make_backup (dump.pilot);
 
