@@ -359,6 +359,8 @@ test_dump ()
     lw6pil_pilot_t *pilot = NULL;
     char *repr = NULL;
     char *dump_command = NULL;
+    int rounds = 0;
+    int dump_rounds = 0;
     u_int32_t checksum = 0;
     u_int32_t dump_checksum = 0;
     int dump_len = 0;
@@ -509,11 +511,12 @@ test_dump ()
 				    print_game_state (game_state,
 						      _x_
 						      ("backup of dump.game_state"));
-				    if (lw6ker_game_state_get_rounds
-					(game_state) == _TEST_BACKUP_ROUND
-					&&
-					lw6ker_game_state_get_rounds
-					(dump.game_state))
+				    rounds = lw6ker_game_state_get_rounds
+				      (game_state);
+				    dump_rounds = lw6ker_game_state_get_rounds
+				      (dump.game_state);
+				    if (rounds == _TEST_BACKUP_ROUND
+					&& dump_rounds == _TEST_BACKUP_ROUND)
 				      {
 					checksum =
 					  lw6ker_game_state_checksum
@@ -521,6 +524,14 @@ test_dump ()
 					dump_checksum =
 					  lw6ker_game_state_checksum
 					  (dump.game_state);
+				      }
+				    else
+				      {
+					lw6sys_log (LW6SYS_LOG_NOTICE,
+						    _x_
+						    ("rounds mismatch, should be %d but rounds for game_state is %d and and rounds for dump.game_state is %d"),
+						    _TEST_BACKUP_ROUND,
+						    rounds, dump_rounds);
 				      }
 				    if (checksum ==
 					_TEST_DUMP_BACKUP_CHECKSUM
@@ -538,15 +549,10 @@ test_dump ()
 				      {
 					lw6sys_log (LW6SYS_LOG_NOTICE,
 						    _x_
-						    ("checksum of game_state and dump.game_state at round %d should be %x but got %x for game_state at round %d and %x for dump.game_state at round %d"),
+						    ("checksum of game_state and dump.game_state at round %d should be %x but got %x for game_state and %x for dump.game_state"),
 						    _TEST_BACKUP_ROUND,
 						    _TEST_DUMP_BACKUP_CHECKSUM,
-						    checksum,
-						    lw6ker_game_state_get_rounds
-						    (game_state),
-						    dump_checksum,
-						    lw6ker_game_state_get_rounds
-						    (dump.game_state));
+						    checksum, dump_checksum);
 				      }
 				  }
 				else
