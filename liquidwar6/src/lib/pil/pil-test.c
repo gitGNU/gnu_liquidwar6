@@ -538,10 +538,15 @@ test_dump ()
 				      {
 					lw6sys_log (LW6SYS_LOG_NOTICE,
 						    _x_
-						    ("checksum of game_state and dump.game_state at round %d should be %x but got %x for game_state and %x for dump.game_state"),
+						    ("checksum of game_state and dump.game_state at round %d should be %x but got %x for game_state at round %d and %x for dump.game_state at round %d"),
 						    _TEST_BACKUP_ROUND,
 						    _TEST_DUMP_BACKUP_CHECKSUM,
-						    checksum, dump_checksum);
+						    checksum,
+						    lw6ker_game_state_get_rounds
+						    (game_state),
+						    dump_checksum,
+						    lw6ker_game_state_get_rounds
+						    (dump.game_state));
 				      }
 				  }
 				else

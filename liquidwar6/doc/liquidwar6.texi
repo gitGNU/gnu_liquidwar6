@@ -5996,6 +5996,8 @@ This list is also by no way extensive, it's provided ``as is''.
 @uref{http://freecode.com/projects/liquid-war-6}: Liquid War 6 on Freecode.
 @item
 @uref{http://www.ohloh.net/p/liquidwar6}: Liquid War 6 on ohloh.
+@item
+@uref{http://www.playdeb.net/software/Liquid%20War%206}: Liquid War 6 on PlayDeb.
 @end itemize
 
 @appendixsec Old stuff

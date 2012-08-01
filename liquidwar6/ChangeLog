@@ -1,3 +1,7 @@
+2012-08-01 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Patches to try and fix #36907.
+
 2012-07-23 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Paranoid checksums to track down #36907, reopened...
