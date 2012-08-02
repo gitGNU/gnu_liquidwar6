@@ -537,7 +537,7 @@ _lw6pil_command_sort_callback (lw6sys_list_t ** list_a,
     }
   else
     {
-      ret = strcmp (command_a->text, command_a->text);
+      ret = strcmp (command_a->text, command_b->text);
     }
 
   return ret;
