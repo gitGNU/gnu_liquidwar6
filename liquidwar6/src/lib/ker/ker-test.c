@@ -682,7 +682,7 @@ test_hexa ()
 						 */
 						dup_game_state =
 						  lw6ker_game_state_dup
-						  (game_state, NULL);
+						  (game_state2, NULL);
 						if (dup_game_state)
 						  {
 						    checksum_state2 =
