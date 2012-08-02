@@ -261,6 +261,13 @@ typedef struct _lw6ker_game_state_s
   u_int32_t rounds;
   int max_reached_teams;
   int over;
+  /*
+   * The following parameter should not be used in checksums,
+   * in fact it's used to calculate and dump automatically
+   * checksums on a regular basis, but it should not change
+   * the checksum itself. Set to 0 to disable feature.
+   */
+  int checksum_log_interval;
 }
 _lw6ker_game_state_t;
 
@@ -320,6 +327,14 @@ extern int _lw6ker_armies_remove_fighter (_lw6ker_armies_t * armies);
 
 /* ker-capture.c */
 extern char *_lw6ker_capture_str (_lw6ker_game_state_t * game_state);
+
+/* ker-checksumlog.c */
+extern void _lw6ker_game_state_checksum_log_set_interval (_lw6ker_game_state_t
+							  * game_state,
+							  int
+							  checksum_log_interval);
+extern void _lw6ker_game_state_checksum_log_if_needed (_lw6ker_game_state_t *
+						       game_state);
 
 /* ker-cursor.c */
 extern void _lw6ker_cursor_init (lw6ker_cursor_t * cursor, char letter);

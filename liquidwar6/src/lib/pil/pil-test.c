@@ -76,6 +76,7 @@
 #define _TEST_DUMP_NB_COMMANDS 6
 #define _TEST_DUMP_LAST_COMMIT_SEQ 10000000010LL
 #define _TEST_DUMP_PREVIEW_LEN 100
+#define _TEST_CHECKSUM_LOG_INTERVAL 1
 
 static char *test_commands[] = {
   "10000000002 1234abcd1234abcd REGISTER",
@@ -398,6 +399,8 @@ test_dump ()
 				    _x_ ("pilot \"%s\" created"), repr);
 			LW6SYS_FREE (repr);
 		      }
+		    lw6pil_pilot_checksum_log_set_interval (pilot,
+							    _TEST_CHECKSUM_LOG_INTERVAL);
 		    dump_command =
 		      lw6pil_dump_command_generate (pilot, _TEST_DUMP_ID);
 		    if (dump_command)
@@ -452,6 +455,8 @@ test_dump ()
 			      }
 			    if (lw6pil_dump_exists (&dump))
 			      {
+				lw6pil_pilot_checksum_log_set_interval
+				  (dump.pilot, _TEST_CHECKSUM_LOG_INTERVAL);
 				lw6pil_pilot_commit (NULL, dump.pilot);
 				seq =
 				  lw6pil_pilot_get_last_commit_seq

@@ -51,6 +51,7 @@
 #define _TEST_COLOR3 LW6MAP_TEAM_COLOR_BLUE
 #define _TEST_TEAM_MASK_SEED 123
 #define _TEST_HISTORY_TEAM 0
+#define _TEST_CHECKSUM_LOG_INTERVAL 2
 
 static void
 print_game_struct_repr (lw6ker_game_struct_t * game_struct)
@@ -637,6 +638,9 @@ test_hexa ()
 				  lw6ker_game_state_new (game_struct2, NULL);
 				if (game_state)
 				  {
+				    lw6ker_game_state_checksum_log_set_interval
+				      (game_state,
+				       _TEST_CHECKSUM_LOG_INTERVAL);
 				    lw6ker_game_state_register_node
 				      (game_state, _TEST_NODE_ID);
 				    lw6ker_game_state_add_cursor (game_state,

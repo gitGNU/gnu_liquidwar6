@@ -588,6 +588,22 @@ the object. Beware, this is the *real* pointer, not a copy...
 @strong{Return value:}  pointer on internal object
 @end deftypefun
 
+@deftypefun {void} {lw6pil_pilot_checksum_log_set_interval} (lw6pil_pilot_t * @var{pilot}, int @var{checksum_log_interval})
+@var{pilot}:  the pilot to track
+
+@var{checksum_log_interval}:  dump interval, if 0, feature is disabled
+
+
+Debugging function used to set automatically an interval at which engine
+will log a checksum automatically. This is typically to track down where
+and when there starts to be a difference between two game_states that have
+evolved separately. This function will propagate the parameter to all
+the game_states handled by the pilot, each will log its informations
+separately.
+
+@strong{Return value:}  none
+@end deftypefun
+
 @deftypefun {int64_t} {lw6pil_seq_random_0} ()
 
 Gets a pseudo-random start seq, why do we use this? Just to make

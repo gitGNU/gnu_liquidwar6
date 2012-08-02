@@ -218,6 +218,7 @@ src/lib/img/img-test.c
 src/lib/img/img-testmain.c
 src/lib/ker/ker-armies.c
 src/lib/ker/ker-capture.c
+src/lib/ker/ker-checksumlog.c
 src/lib/ker/ker-cursorarray.c
 src/lib/ker/ker-cursor.c
 src/lib/ker/ker-fighter.c

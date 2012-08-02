@@ -1648,6 +1648,8 @@ _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
       game_state->moves += game_state->game_struct->rules.moves_per_round;
       game_state->spreads += game_state->game_struct->rules.spreads_per_round;
       game_state->rounds++;
+
+      _lw6ker_game_state_checksum_log_if_needed (game_state);
     }
 }
 
@@ -1676,7 +1678,7 @@ _lw6ker_game_state_do_round (_lw6ker_game_state_t * game_state)
    * call do_spread do_move and finish_round and do nothing
    * else. This is because code elsewhere (especially in pil)
    * might assume that those 3 functions are equivalent to
-   * do_round when they fiddle zith threads and team_mask.
+   * do_round when they fiddle with threads and team_mask.
    */
   _lw6ker_game_state_do_spread (game_state, LW6KER_TEAM_MASK_ALL);
   _lw6ker_game_state_do_move (game_state, LW6KER_TEAM_MASK_ALL);

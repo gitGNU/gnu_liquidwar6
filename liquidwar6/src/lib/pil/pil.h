@@ -393,6 +393,9 @@ extern int lw6pil_pilot_get_winner (lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_get_looser (lw6pil_pilot_t * pilot);
 extern lw6pil_local_cursors_t *lw6pil_pilot_get_local_cursors (lw6pil_pilot_t
 							       * pilot);
+extern void lw6pil_pilot_checksum_log_set_interval (lw6pil_pilot_t * pilot,
+						    int
+						    checksum_log_interval);
 
 /* pil-seq.c */
 extern int64_t lw6pil_seq_random_0 ();

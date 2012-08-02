@@ -1303,3 +1303,40 @@ lw6pil_pilot_get_local_cursors (lw6pil_pilot_t * pilot)
 {
   return _lw6pil_pilot_get_local_cursors ((_lw6pil_pilot_t *) pilot);
 }
+
+void
+_lw6pil_pilot_checksum_log_set_interval (_lw6pil_pilot_t * pilot,
+					 int checksum_log_interval)
+{
+  /*
+   * It's not necessary to lock here, it's only a simple integer
+   * affectation so should be fairly atomic
+   */
+  lw6ker_game_state_checksum_log_set_interval (pilot->reference.game_state,
+					       checksum_log_interval);
+  lw6ker_game_state_checksum_log_set_interval (pilot->draft.game_state,
+					       checksum_log_interval);
+}
+
+/**
+ * lw6pil_pilot_checksum_log_set_interval
+ *
+ * Debugging function used to set automatically an interval at which engine
+ * will log a checksum automatically. This is typically to track down where
+ * and when there starts to be a difference between two game_states that have
+ * evolved separately. This function will propagate the parameter to all
+ * the game_states handled by the pilot, each will log its informations
+ * separately.
+ *
+ * @pilot: the pilot to track
+ * @checksum_log_interval: dump interval, if 0, feature is disabled
+ *
+ * Return value: none
+ */
+void
+lw6pil_pilot_checksum_log_set_interval (lw6pil_pilot_t * pilot,
+					int checksum_log_interval)
+{
+  _lw6pil_pilot_checksum_log_set_interval ((_lw6pil_pilot_t *) pilot,
+					   checksum_log_interval);
+}

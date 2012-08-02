@@ -296,6 +296,12 @@ lw6ker_game_state_t;
 /* ker-capture.c */
 extern char *lw6ker_capture_str (lw6ker_game_state_t * game_state);
 
+/* ker-checksumlog.c */
+extern void lw6ker_game_state_checksum_log_set_interval (lw6ker_game_state_t *
+							 game_state,
+							 int
+							 checksum_log_interval);
+
 /* ker-cursor.c */
 extern void lw6ker_cursor_reset (lw6ker_cursor_t * cursor);
 

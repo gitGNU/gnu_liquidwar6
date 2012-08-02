@@ -114,6 +114,9 @@ extern int _lw6pil_pilot_did_cursor_win (_lw6pil_pilot_t * pilot,
 					 u_int16_t cursor_id);
 extern lw6pil_local_cursors_t
   * _lw6pil_pilot_get_local_cursors (_lw6pil_pilot_t * pilot);
+extern void _lw6pil_pilot_checksum_log_set_interval (_lw6pil_pilot_t * pilot,
+						     int
+						     checksum_log_interval);
 
 /* pil-spread.c */
 extern void _lw6pil_spread_thread_func (_lw6pil_spread_data_t * spread_data);
