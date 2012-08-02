@@ -900,7 +900,7 @@ lw6_register_funcs_p2p ()
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_ENTRIES, 1, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_get_entries);
   ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_SERVER_START, 1, 0, 0,
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_SERVER_START, 2, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_server_start);
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_CLIENT_JOIN, 3, 0, 0,

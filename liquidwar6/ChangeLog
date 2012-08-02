@@ -1,3 +1,7 @@
+2012-08-02 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Finally fixed #36907, yet more p2p script tests.
+
 2012-08-01 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Patches to try and fix #36907.

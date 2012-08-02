@@ -594,11 +594,25 @@
 						 (cons "network-reliability" 100)
 						 (cons "trojan" #f)
 						 )))
+	     (id-1 (c-lw6p2p-node-get-id node-1))
+	     (id-2 (c-lw6p2p-node-get-id node-2))
+ 	     (the-map-1 (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))
+	     (game-struct-1 (c-lw6ker-build-game-struct the-map-1))
+	     (game-state-1 (c-lw6ker-build-game-state game-struct-1))
+	     (pilot-1 (c-lw6pil-build-pilot game-state-1
+					    1000000000000
+					    0))
 	     (time-left 10.0)
 	     )
 	(begin
 	  (lw6-log-notice node-1)
 	  (lw6-log-notice node-2)
+	  (c-lw6p2p-node-poll node-1)
+	  (c-lw6p2p-node-poll node-2)
+	  (c-lw6pil-send-command pilot-1 (format #f "1000000000010 ~a REGISTER" id-1) #t)
+	  (c-lw6pil-send-command pilot-1 (format #f "1000000000010 ~a ADD 5678" id-1) #t)
+	  (c-lw6p2p-node-server-start node-1 1000000000000)
+	  (c-lw6p2p-node-client-join node-2 id-1 "http://localhost:8057/")
 	  (while (> time-left 0)
 		 (begin
 		   (set! time-left (- time-left 0.1))
