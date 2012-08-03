@@ -619,6 +619,13 @@
 		   (c-lw6sys-sleep 0.1)
 		   (c-lw6p2p-node-poll node-1)
 		   (c-lw6p2p-node-poll node-2)
+		   (if (c-lw6p2p-node-is-dump-needed node-1)
+		       (let (
+			     (dump-command (c-lw6pil-dump-command-generate pilot-1 id-1))
+			     )
+			 (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
+			 )
+		       )
 		   ))
 	  (c-lw6p2p-node-close node-1)
 	  (c-lw6p2p-node-close node-2)

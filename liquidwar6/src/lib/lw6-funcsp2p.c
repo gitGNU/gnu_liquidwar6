@@ -915,21 +915,21 @@ lw6_register_funcs_p2p ()
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_CALIBRATE, 3, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_calibrate);
   ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX, 2, 0, 0,
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX, 1, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_get_seq_max);
   ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED, 2, 0, 0,
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED, 1, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_is_dump_needed);
   ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_PUT_LOCAL_MSG, 3, 0, 0,
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_PUT_LOCAL_MSG, 2, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_put_local_msg);
   ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_NEXT_REFERENCE_MSG, 2,
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_NEXT_REFERENCE_MSG, 1,
 			      0, 0,
 			      (SCM (*)
 			       ())_scm_lw6p2p_node_get_next_reference_msg);
   ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_NEXT_DRAFT_MSG, 2, 0,
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_NEXT_DRAFT_MSG, 1, 0,
 			      0,
 			      (SCM (*)())_scm_lw6p2p_node_get_next_draft_msg);
 
