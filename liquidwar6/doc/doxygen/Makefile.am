@@ -26,8 +26,9 @@ if LW6_DOXYGEN
 all: opt
 endif
 
-html/index.html: doxygen.cfg ${top_srcdir}/doc/stamp.texi ${top_srcdir}/src/lib/bot/bot.h ${top_srcdir}/src/lib/cfg/cfg.h ${top_srcdir}/src/lib/cli/cli.h ${top_srcdir}/src/lib/cns/cns.h ${top_srcdir}/src/lib/cnx/cnx.h ${top_srcdir}/src/lib/dat/dat.h ${top_srcdir}/src/lib/dsp/dsp.h ${top_srcdir}/src/lib/dyn/dyn.h ${top_srcdir}/src/lib/gfx/gfx.h ${top_srcdir}/src/lib/glb/glb.h ${top_srcdir}/src/lib/gui/gui.h ${top_srcdir}/src/lib/hlp/hlp.h ${top_srcdir}/src/lib/img/img.h ${top_srcdir}/src/lib/ker/ker.h ${top_srcdir}/src/lib/ldr/ldr.h ${top_srcdir}/src/lib/map/map.h ${top_srcdir}/src/lib/msg/msg.h ${top_srcdir}/src/lib/net/net.h ${top_srcdir}/src/lib/nod/nod.h ${top_srcdir}/src/lib/p2p/p2p.h ${top_srcdir}/src/lib/pil/pil.h ${top_srcdir}/src/lib/scm/scm.h ${top_srcdir}/src/lib/sim/sim.h ${top_srcdir}/src/lib/snd/snd.h ${top_srcdir}/src/lib/srv/srv.h ${top_srcdir}/src/lib/sys/sys.h ${top_srcdir}/src/lib/tsk/tsk.h ${top_srcdir}/src/lib/vox/vox.h
-	export DOXYGEN_INPUT=${top_srcdir}/src ; doxygen doxygen.cfg
+# dependency on doxygen.cfg.in and not doxygen.cfg to avoid too many builds
+html/index.html: doxygen.cfg.in ${top_srcdir}/doc/stamp.texi ${top_srcdir}/src/lib/bot/bot.h ${top_srcdir}/src/lib/cfg/cfg.h ${top_srcdir}/src/lib/cli/cli.h ${top_srcdir}/src/lib/cns/cns.h ${top_srcdir}/src/lib/cnx/cnx.h ${top_srcdir}/src/lib/dat/dat.h ${top_srcdir}/src/lib/dsp/dsp.h ${top_srcdir}/src/lib/dyn/dyn.h ${top_srcdir}/src/lib/gfx/gfx.h ${top_srcdir}/src/lib/glb/glb.h ${top_srcdir}/src/lib/gui/gui.h ${top_srcdir}/src/lib/hlp/hlp.h ${top_srcdir}/src/lib/img/img.h ${top_srcdir}/src/lib/ker/ker.h ${top_srcdir}/src/lib/ldr/ldr.h ${top_srcdir}/src/lib/map/map.h ${top_srcdir}/src/lib/msg/msg.h ${top_srcdir}/src/lib/net/net.h ${top_srcdir}/src/lib/nod/nod.h ${top_srcdir}/src/lib/p2p/p2p.h ${top_srcdir}/src/lib/pil/pil.h ${top_srcdir}/src/lib/scm/scm.h ${top_srcdir}/src/lib/sim/sim.h ${top_srcdir}/src/lib/snd/snd.h ${top_srcdir}/src/lib/srv/srv.h ${top_srcdir}/src/lib/sys/sys.h ${top_srcdir}/src/lib/tsk/tsk.h ${top_srcdir}/src/lib/vox/vox.h
+	export DOXYGEN_INPUT=${top_srcdir}/src ; if test -f doxygen.cfg ; then doxygen doxygen.cfg ; fi
 
 clean-local:
 	rm -rf html xml
