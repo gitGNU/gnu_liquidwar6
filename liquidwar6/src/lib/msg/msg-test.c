@@ -68,7 +68,15 @@
 #define _TEST_ENVELOPE_PHYSICAL_TO_ID_KO 0x2345234523452346LL
 #define _TEST_ENVELOPE_LOGICAL_FROM_ID 0x3456345634563456LL
 #define _TEST_ENVELOPE_LOGICAL_TO_ID 0x4567456745674567LL
-#define _TEST_ENVELOPE_TRUNCATE_LEN 100
+/*
+ * It's important to truncate to show up the problem, should
+ * the message after the envelope be inconsistent, we still
+ * want the envelope to validate. However, too short causes
+ * error, more specifically the snapshot generator uses long
+ * version names that add extra bytes, this value used to
+ * be 100 but 100 is too short for that matter.
+ */
+#define _TEST_ENVELOPE_TRUNCATE_LEN 120
 #define _TEST_WORD_STR_OK "\"this was quoted\" in a phrase with words"
 #define _TEST_WORD_STR_KO " "
 #define _TEST_WORD_X_STR_OK "/parent/child/"
