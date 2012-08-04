@@ -436,7 +436,7 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 						      else
 							{
 							  lw6sys_log
-							    (LW6SYS_LOG_DEBUG,
+							    (LW6SYS_LOG_INFO,
 							     _x_
 							     ("can't parse \"logical_to\" (final destination) id"));
 							}
@@ -444,7 +444,7 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 						  else
 						    {
 						      lw6sys_log
-							(LW6SYS_LOG_DEBUG,
+							(LW6SYS_LOG_INFO,
 							 _x_
 							 ("can't parse \"logical_from\" (creator) id"));
 						    }
@@ -452,42 +452,42 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 					      else
 						{
 						  lw6sys_log
-						    (LW6SYS_LOG_DEBUG,
+						    (LW6SYS_LOG_INFO,
 						     _x_
 						     ("wrong \"physical_to\" (receiver) id"));
 						}
 					    }
 					  else
 					    {
-					      lw6sys_log (LW6SYS_LOG_DEBUG,
+					      lw6sys_log (LW6SYS_LOG_INFO,
 							  _x_
 							  ("can't parse \"physical_to\" (receiver) id"));
 					    }
 					}
 				      else
 					{
-					  lw6sys_log (LW6SYS_LOG_DEBUG,
+					  lw6sys_log (LW6SYS_LOG_INFO,
 						      _x_
 						      ("wrong \"physical_from\" (sender) id"));
 					}
 				    }
 				  else
 				    {
-				      lw6sys_log (LW6SYS_LOG_DEBUG,
+				      lw6sys_log (LW6SYS_LOG_INFO,
 						  _x_
 						  ("can't parse \"physical_from\" (sender) id"));
 				    }
 				}
 			      else
 				{
-				  lw6sys_log (LW6SYS_LOG_DEBUG,
+				  lw6sys_log (LW6SYS_LOG_INFO,
 					      _x_
 					      ("can't parse logical ticket sig"));
 				}
 			    }
 			  else
 			    {
-			      lw6sys_log (LW6SYS_LOG_DEBUG,
+			      lw6sys_log (LW6SYS_LOG_INFO,
 					  _x_
 					  ("can't parse physical ticket sig"));
 			    }
@@ -499,7 +499,7 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (LW6SYS_LOG_INFO,
 				  _x_ ("can't parse password"));
 		    }
 		}
@@ -513,19 +513,19 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("can't parse version"));
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("can't parse version"));
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (LW6SYS_LOG_INFO,
 		      _x_ ("bad lw6 key, received \"%s\", need \"%s\""),
 		      received_lw6.buf, lw6);
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (LW6SYS_LOG_INFO,
 		  _x_ ("message does not start with \"%s\""), lw6);
     }
 
