@@ -55,16 +55,13 @@ extern int _mod_udpd_load_data (_udpd_data_t * udpd_data,
 				const char *data_dir);
 extern void _mod_udpd_unload_data (_udpd_data_t * udpd_data);
 
-/*
- * In setup.c
- */
+/* mod-udpd-setup.c */
 extern _udpd_context_t *_mod_udpd_init (int argc, const char *argv[],
+					lw6cnx_properties_t * properties,
 					lw6srv_listener_t * listener);
 extern void _mod_udpd_quit (_udpd_context_t * udpd_context);
 
-/*
- * In handshake.c
- */
+/* mod-udpd-handshake.c */
 extern int _mod_udpd_analyse_tcp (_udpd_context_t * udpd_context,
 				  lw6srv_tcp_accepter_t * tcp_accepter,
 				  lw6nod_info_t * node_info,
@@ -80,9 +77,7 @@ extern int _mod_udpd_feed_with_udp (_udpd_context_t * udpd_context,
 				    lw6cnx_connection_t * connection,
 				    lw6srv_udp_buffer_t * udp_buffer);
 
-/*
- * In state.c
- */
+/* mod-udpd-state.c */
 extern lw6cnx_connection_t *_mod_udpd_open (_udpd_context_t * udpd_context,
 					    lw6srv_listener_t * listener,
 					    const char *local_url,
@@ -101,9 +96,7 @@ extern void _mod_udpd_close (_udpd_context_t * udpd_context,
 extern int _mod_udpd_timeout_ok (_udpd_context_t * udpd_context,
 				 int64_t origin_timestamp);
 
-/*
- * In message.c
- */
+/* mod-udpd-message.c */
 extern int _mod_udpd_send (_udpd_context_t * udpd_context,
 			   lw6cnx_connection_t * connection,
 			   u_int32_t physical_ticket_sig,
@@ -113,9 +106,7 @@ extern int _mod_udpd_send (_udpd_context_t * udpd_context,
 extern void _mod_udpd_poll (_udpd_context_t * udpd_context,
 			    lw6cnx_connection_t * connection);
 
-/*
- * In info.c
- */
+/* mod-udpd-info.c */
 extern char *_mod_udpd_repr (_udpd_context_t * udpd_context,
 			     lw6cnx_connection_t * connection);
 

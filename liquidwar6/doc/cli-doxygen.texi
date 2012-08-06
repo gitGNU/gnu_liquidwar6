@@ -67,10 +67,20 @@ Module name.
         
 @end defcv
 
+@defcv {Member} {lw6cli_backend_s} {properties}
+@strong{Type:} @code{lw6cnx_properties_t}
+
+@strong{Definition:} @code{lw6cnx_properties_t lw6cli_backend_s::properties}
+
+
+General backend properties.         
+        
+@end defcv
+
 @defcv {Member} {lw6cli_backend_s} {init}
 @strong{Type:} @code{void *(*}
 
-@strong{Definition:} @code{void*(* lw6cli_backend_s::init)(int argc, const char *argv[])}
+@strong{Definition:} @code{void*(* lw6cli_backend_s::init)(int argc, const char *argv[], lw6cnx_properties_t *properties)}
 
 
 Pointer on lw6cli_init callback code.         

@@ -46,9 +46,9 @@ mod_tcp_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, const char *argv[])
+_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 {
-  _mod_tcp_context_t *tcp_context = _mod_tcp_init (argc, argv);
+  _mod_tcp_context_t *tcp_context = _mod_tcp_init (argc, argv, properties);
 
   return (void *) tcp_context;
 }

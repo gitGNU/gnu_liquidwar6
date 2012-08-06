@@ -75,6 +75,12 @@ _lw6p2p_backends_init_cli (int argc, const char *argv[],
 		  if (lw6cli_init
 		      (backends->cli_backends[backends->nb_cli_backends - 1]))
 		    {
+		      backends->hint_timeout_max =
+			lw6sys_imax (backends->hint_timeout_max,
+				     backends->
+				     cli_backends[backends->nb_cli_backends -
+						  1]->
+				     properties.hint_timeout);
 		      ret = 1;
 		    }
 		  else
@@ -153,6 +159,12 @@ _lw6p2p_backends_init_srv (int argc, const char *argv[],
 		      (backends->srv_backends[backends->nb_srv_backends - 1],
 		       listener))
 		    {
+		      backends->hint_timeout_max =
+			lw6sys_imax (backends->hint_timeout_max,
+				     backends->
+				     srv_backends[backends->nb_srv_backends -
+						  1]->
+				     properties.hint_timeout);
 		      /*
 		       * OK, at this state, we have at
 		       * least one server backend working,

@@ -54,15 +54,12 @@ _udp_specific_data_t;
 extern int _mod_udp_load_data (_udp_data_t * udp_data, const char *data_dir);
 extern void _mod_udp_unload_data (_udp_data_t * udp_data);
 
-/*
- * In setup.c
- */
-extern _udp_context_t *_mod_udp_init (int argc, const char *argv[]);
+/* mod-udp-setup.c */
+extern _udp_context_t *_mod_udp_init (int argc, const char *argv[],
+				      lw6cnx_properties_t * properties);
 extern void _mod_udp_quit (_udp_context_t * udp_context);
 
-/*
- * In state.c
- */
+/* mod-udp-state.c */
 extern lw6cnx_connection_t *_mod_udp_open (_udp_context_t * udp_context,
 					   const char *local_url,
 					   const char *remote_url,
@@ -80,9 +77,7 @@ extern void _mod_udp_close (_udp_context_t * udp_context,
 extern int _mod_udp_timeout_ok (_udp_context_t * udp_context,
 				int64_t origin_timestamp, int broadcast);
 
-/*
- * In message.c
- */
+/* mod-udp-message.c */
 extern int _mod_udp_send (_udp_context_t * udp_context,
 			  lw6cnx_connection_t * connection,
 			  u_int32_t physical_ticket_sig,
@@ -92,15 +87,11 @@ extern int _mod_udp_send (_udp_context_t * udp_context,
 extern void _mod_udp_poll (_udp_context_t * udp_context,
 			   lw6cnx_connection_t * connection);
 
-/*
- * In info.c
- */
+/* mod-udp-info.c */
 extern char *_mod_udp_repr (_udp_context_t * udp_context,
 			    lw6cnx_connection_t * connection);
 
-/*
- * In oob.c
- */
+/* mod-udp-oob.c */
 extern int _mod_udp_process_oob (_udp_context_t * udp_context,
 				 lw6nod_info_t * node_info,
 				 lw6cli_oob_data_t * oob_data);

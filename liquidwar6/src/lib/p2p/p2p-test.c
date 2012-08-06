@@ -162,10 +162,11 @@
 #define _TEST_NODE_TROJAN 0
 #define _TEST_BOGUS_BACKEND "bogus"
 
+#define _TEST_NODE_ACK_DELAY_MSEC 7500
 #define TEST_NODE_OOB_DURATION 9000
-#define TEST_NODE_CMD_DURATION (9000+LW6CNX_TICKET_TABLE_ACK_MSEC)
+#define TEST_NODE_CMD_DURATION (9000+_TEST_NODE_ACK_DELAY_MSEC)
 #define TEST_NODE_API_DURATION_JOIN 500
-#define TEST_NODE_API_DURATION_THREAD (60000+LW6CNX_TICKET_TABLE_ACK_MSEC)
+#define TEST_NODE_API_DURATION_THREAD (60000+_TEST_NODE_ACK_DELAY_MSEC)
 #define TEST_NODE_API_DURATION_END 3000
 #define TEST_NODE_POLL_DURATION 100
 // 10 times bigger than _LW6PIL_MIN_SEQ_0
@@ -1099,7 +1100,7 @@ _test_node_api_node2_callback (void *api_data)
   char *tmp = NULL;
   int len = 0;
 
-  begin_timestamp = lw6sys_get_timestamp () + LW6CNX_TICKET_TABLE_ACK_MSEC;
+  begin_timestamp = lw6sys_get_timestamp () + _TEST_NODE_ACK_DELAY_MSEC;
   end_timestamp = begin_timestamp + TEST_NODE_API_DURATION_THREAD;
 
   /*
@@ -1282,7 +1283,7 @@ _test_node_api_node4_callback (void *api_data)
   int draft_received = 0;
   int reference_received = 0;
 
-  begin_timestamp = lw6sys_get_timestamp () + LW6CNX_TICKET_TABLE_ACK_MSEC;
+  begin_timestamp = lw6sys_get_timestamp () + _TEST_NODE_ACK_DELAY_MSEC;
   end_timestamp = begin_timestamp + TEST_NODE_API_DURATION_THREAD;
   data->ret = 0;
 

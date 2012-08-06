@@ -28,7 +28,7 @@
 #include "mod-tcp-internal.h"
 
 _mod_tcp_context_t *
-_mod_tcp_init (int argc, const char *argv[])
+_mod_tcp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 {
   _mod_tcp_context_t *tcp_context = NULL;
   char *data_dir = NULL;
@@ -45,6 +45,8 @@ _mod_tcp_init (int argc, const char *argv[])
 	{
 	  if (_mod_tcp_load_data (&(tcp_context->data), data_dir))
 	    {
+	      properties->hint_timeout =
+		tcp_context->data.consts.global_timeout;
 	      ok = 1;
 	    }
 	  LW6SYS_FREE (data_dir);

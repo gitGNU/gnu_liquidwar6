@@ -46,9 +46,9 @@ mod_udp_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, const char *argv[])
+_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 {
-  _udp_context_t *udp_context = _mod_udp_init (argc, argv);
+  _udp_context_t *udp_context = _mod_udp_init (argc, argv, properties);
 
   return (void *) udp_context;
 }

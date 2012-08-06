@@ -28,7 +28,9 @@
 #include "mod-tcpd-internal.h"
 
 _tcpd_context_t *
-_mod_tcpd_init (int argc, const char *argv[], lw6srv_listener_t * listener)
+_mod_tcpd_init (int argc, const char *argv[],
+		lw6cnx_properties_t * properties,
+		lw6srv_listener_t * listener)
 {
   _tcpd_context_t *tcpd_context = NULL;
   char *data_dir = NULL;
@@ -44,6 +46,8 @@ _mod_tcpd_init (int argc, const char *argv[], lw6srv_listener_t * listener)
 	{
 	  if (_mod_tcpd_load_data (&(tcpd_context->data), data_dir))
 	    {
+	      properties->hint_timeout =
+		tcpd_context->data.consts.error_timeout;
 	      ok = 1;
 	    }
 	  LW6SYS_FREE (data_dir);

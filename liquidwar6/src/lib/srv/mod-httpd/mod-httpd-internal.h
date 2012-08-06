@@ -155,16 +155,14 @@ extern _mod_httpd_response_t *_mod_httpd_http_error (_mod_httpd_context_t *
 						     httpd_context,
 						     int status);
 
-/*
- * In setup.c
- */
+/* mod-httpd-setup.c */
 extern _mod_httpd_context_t *_mod_httpd_init (int argc, const char *argv[],
+					      lw6cnx_properties_t *
+					      properties,
 					      lw6srv_listener_t * listener);
 extern void _mod_httpd_quit (_mod_httpd_context_t * httpd_context);
 
-/*
- * In handshake.c
- */
+/* mod-httpd-handshake.c */
 extern int _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
 				   lw6srv_tcp_accepter_t * tcp_accepter,
 				   lw6nod_info_t * node_info,
@@ -197,9 +195,7 @@ extern _mod_httpd_response_t
   * _mod_httpd_reply_thread_response (_mod_httpd_reply_thread_data_t *
 				      reply_thread_data);
 
-/*
- * In state.c
- */
+/* mod-httpd-state.c */
 extern lw6cnx_connection_t *_mod_httpd_open (_mod_httpd_context_t *
 					     httpd_context,
 					     lw6srv_listener_t * listener,
@@ -219,9 +215,7 @@ extern void _mod_httpd_close (_mod_httpd_context_t * httpd_context,
 extern int _mod_httpd_timeout_ok (_mod_httpd_context_t * httpd_context,
 				  int64_t origin_timestamp);
 
-/*
- * In message.c
- */
+/* mod-httpd-messages.c */
 extern int _mod_httpd_send (_mod_httpd_context_t * httpd_context,
 			    lw6cnx_connection_t * connection,
 			    u_int32_t physical_ticket_sig,
@@ -231,9 +225,7 @@ extern int _mod_httpd_send (_mod_httpd_context_t * httpd_context,
 extern void _mod_httpd_poll (_mod_httpd_context_t * httpd_context,
 			     lw6cnx_connection_t * connection);
 
-/*
- * In info.c
- */
+/* mod-httpd-info.c */
 extern char *_mod_httpd_repr (_mod_httpd_context_t * httpd_context,
 			      lw6cnx_connection_t * connection);
 

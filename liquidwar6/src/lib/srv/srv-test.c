@@ -167,7 +167,24 @@ _test_init (lw6srv_backend_t ** backend, lw6srv_listener_t * listener)
 
     for (i = 0; i < TEST_NB_BACKENDS; ++i)
       {
-	ret = ret && lw6srv_init (backend[i], listener);
+	if (ret)
+	  {
+	    if (lw6srv_init (backend[i], listener))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("successfull init for backend \"%s\", hint_timeout=%d seconds"),
+			    backend[i]->name,
+			    backend[i]->properties.hint_timeout);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("unable to init backend \"%s\""),
+			    backend[i]->name);
+		ret = 0;
+	      }
+	  }
       }
   }
 

@@ -37,7 +37,19 @@ test_init (lw6cli_backend_t * backend)
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    ret = ret && lw6cli_init (backend);
+    if (lw6cli_init (backend))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("successfull init for backend \"%s\", hint_timeout=%d seconds"),
+		    backend->name, backend->properties.hint_timeout);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init backend \"%s\""),
+		    backend->name);
+	ret = 0;
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;

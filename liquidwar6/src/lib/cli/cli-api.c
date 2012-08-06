@@ -47,9 +47,11 @@ lw6cli_init (lw6cli_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
+  backend->cli_context = NULL;
   if (backend->init)
     {
-      backend->cli_context = backend->init (backend->argc, backend->argv);
+      backend->cli_context =
+	backend->init (backend->argc, backend->argv, &(backend->properties));
     }
   else
     {
@@ -171,6 +173,10 @@ lw6cli_open (lw6cli_backend_t * backend, const char *local_url,
 		       remote_port, password, local_id, remote_id, dns_ok,
 		       network_reliability, recv_callback_func,
 		       recv_callback_data);
+      if (ret)
+	{
+	  ret->properties = backend->properties;
+	}
     }
   else
     {

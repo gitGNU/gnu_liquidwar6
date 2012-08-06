@@ -127,6 +127,16 @@ Will be set to 1 if the peer domain name is the same as the one reported in the 
 The higher, the most reliable message sending will be. It can never be perfect, LW6 will always drop some packets from time to time, just to simulate real packet loss and be sure if it happens, it's handled nicely.         
 @end defcv
 
+@defcv {Member} {lw6cnx_connection_s} {properties}
+@strong{Type:} @code{lw6cnx_properties_t}
+
+@strong{Definition:} @code{lw6cnx_properties_t lw6cnx_connection_s::properties}
+
+
+Properties got from the backend.         
+        
+@end defcv
+
 @defcv {Member} {lw6cnx_connection_s} {recv_callback_func}
 @strong{Type:} @code{lw6cnx_recv_callback_t}
 
@@ -215,6 +225,25 @@ Last time something was received on this connection.
 
         
 Store backend data, this is when, for instance, a socket handle will be kept, or a library handle (CURL, to name it). Common code does not know what's in there.         
+@end defcv
+
+
+
+  
+@deftp {Struct} {lw6cnx_properties_s}
+
+    
+Used to hold generic client/server properties, set up by the backend, can then be queried by the caller.     
+@end deftp
+
+@defcv {Member} {lw6cnx_properties_s} {hint_timeout}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6cnx_properties_s::hint_timeout}
+
+
+        
+Gives an idea of what timeout one can expect with this backend, this is not necessarly the exact timeout but it gives an order of magnitude. Unit is seconds.         
 @end defcv
 
 

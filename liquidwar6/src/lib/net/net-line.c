@@ -127,20 +127,29 @@ lw6net_send_line_tcp (int sock, const char *line)
 
   if (sock >= 0 && line)
     {
-      line_size = _lw6net_global_context->const_data.line_size;
-      line_delay = _lw6net_global_context->const_data.line_delay_msec;
-      wanted_size = strlen (line);
-      if (wanted_size > line_size)
+      /*
+       * If sock is not reported as alive, we don't even waste
+       * the time to try and send data, this could really slow
+       * down things on polling loops.
+       */
+      if (lw6net_tcp_is_alive (sock))
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_ ("stripping line \"%s\" of size %d, limit is %d"),
-		      line, wanted_size, line_size);
-	  wanted_size = line_size;
-	}
+	  line_size = _lw6net_global_context->const_data.line_size;
+	  line_delay = _lw6net_global_context->const_data.line_delay_msec;
+	  wanted_size = strlen (line);
+	  if (wanted_size > line_size)
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("stripping line \"%s\" of size %d, limit is %d"),
+			  line, wanted_size, line_size);
+	      wanted_size = line_size;
+	    }
 
-      ret =
-	lw6net_tcp_send (sock, line, wanted_size, line_delay, 0)
-	&& lw6net_tcp_send (sock, trail, strlen (trail), line_delay, 0);
+	  ret =
+	    lw6net_tcp_send (sock, line, wanted_size, line_delay, 0)
+	    && lw6net_tcp_send (sock, trail, strlen (trail), line_delay, 0);
+	}
     }
 
   return ret;

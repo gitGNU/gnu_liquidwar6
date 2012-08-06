@@ -37,6 +37,7 @@ _warning (const char *func_name)
  * lw6srv_init
  *
  * @backend: backend to use
+ * @listener: listener object to use when constructing the backend.
  *
  * Initializes a server backend. Must be performed before any other call.
  *
@@ -47,10 +48,12 @@ lw6srv_init (lw6srv_backend_t * backend, lw6srv_listener_t * listener)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
+  backend->srv_context = NULL;
   if (backend->init)
     {
       backend->srv_context =
-	backend->init (backend->argc, backend->argv, listener);
+	backend->init (backend->argc, backend->argv, &(backend->properties),
+		       listener);
     }
   else
     {
@@ -259,6 +262,10 @@ lw6srv_open (lw6srv_backend_t * backend, lw6srv_listener_t * listener,
 		       remote_ip, remote_port, password, local_id, remote_id,
 		       dns_ok, network_reliability, recv_callback_func,
 		       recv_callback_data);
+      if (ret)
+	{
+	  ret->properties = backend->properties;
+	}
     }
   else
     {

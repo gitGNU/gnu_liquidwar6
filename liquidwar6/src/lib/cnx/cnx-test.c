@@ -43,13 +43,14 @@
 #define _TEST_TICKET_TABLE_HASH_SIZE 11
 #define _TEST_TICKET_TABLE_ID1 "1234123412341234"
 #define _TEST_TICKET_TABLE_ID2 "2345234523452345"
+#define _TEST_TICKET_ACK_DELAY_MSEC 3000
 
 static void
-_recv_callback_func (void *recv_callback_data, void *connection,
+_recv_callback_func (void *recv_callback_data,
+		     lw6cnx_connection_t * connection,
 		     u_int32_t physical_ticket_sig,
-		     u_int32_t logical_ticket_sig,
-		     u_int64_t logical_from_id, u_int64_t logical_to_id,
-		     const char *message)
+		     u_int32_t logical_ticket_sig, u_int64_t logical_from_id,
+		     u_int64_t logical_to_id, const char *message)
 {
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("received \"%s\""), message);
 }
@@ -312,14 +313,16 @@ test_ticket_table ()
 			_x_
 			("recv ticket reported as *not* exchanged, this is right"));
 	    lw6cnx_ticket_table_ack_recv (&ticket_table,
-					  _TEST_TICKET_TABLE_ID1);
+					  _TEST_TICKET_TABLE_ID1,
+					  _TEST_TICKET_ACK_DELAY_MSEC);
 
 	    if (!lw6cnx_ticket_table_was_recv_exchanged
 		(&ticket_table, _TEST_TICKET_TABLE_ID1))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
-			    ("recv ticket still *not* reported as exchanged, this is right"));
+			    ("recv ticket still *not* reported as exchanged, this is right, we need to wait for %d msec"),
+			    _TEST_TICKET_ACK_DELAY_MSEC);
 	      }
 	    else
 	      {
@@ -329,7 +332,7 @@ test_ticket_table ()
 		ret = 0;
 	      }
 
-	    lw6sys_delay (LW6CNX_TICKET_TABLE_ACK_MSEC + 1);
+	    lw6sys_delay (_TEST_TICKET_ACK_DELAY_MSEC + 1);
 
 	    if (lw6cnx_ticket_table_was_recv_exchanged
 		(&ticket_table, _TEST_TICKET_TABLE_ID1))
@@ -343,6 +346,25 @@ test_ticket_table ()
 		lw6sys_log (LW6SYS_LOG_WARNING,
 			    _x_
 			    ("recv ticket now reported as *not* exchanged, this is wrong"));
+		ret = 0;
+	      }
+
+	    lw6cnx_ticket_table_ack_recv (&ticket_table,
+					  _TEST_TICKET_TABLE_ID1,
+					  _TEST_TICKET_ACK_DELAY_MSEC);
+
+	    if (lw6cnx_ticket_table_was_recv_exchanged
+		(&ticket_table, _TEST_TICKET_TABLE_ID1))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("recv ticket still reported as exchanged after double ack, this is right"));
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("recv ticket now reported as *not* exchanged after double ack, this is wrong"));
 		ret = 0;
 	      }
 	  }

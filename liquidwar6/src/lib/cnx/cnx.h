@@ -28,10 +28,27 @@
 
 #define LW6CNX_WORST_PING_MSEC 3600000
 
-#define LW6CNX_TICKET_TABLE_ACK_MSEC 3000
+//#define LW6CNX_TICKET_TABLE_ACK_MSEC 30000
+
+/**
+ * Used to hold generic client/server properties, set up by the backend,
+ * can then be queried by the caller.
+ */
+typedef struct lw6cnx_properties_s
+{
+  /**
+   * Gives an idea of what timeout one can expect with this backend,
+   * this is not necessarly the exact timeout but it gives an order
+   * of magnitude. Unit is seconds.
+   */
+  int hint_timeout;
+}
+lw6cnx_properties_t;
+
+typedef struct lw6cnx_connection_s *lw6cnx_connection_p;
 
 typedef void (*lw6cnx_recv_callback_t) (void *recv_callback_data,
-					void *connection,
+					lw6cnx_connection_p connection,
 					u_int32_t physical_ticket_sig,
 					u_int32_t logical_ticket_sig,
 					u_int64_t logical_from_id,
@@ -87,6 +104,8 @@ typedef struct lw6cnx_connection_s
    * be sure if it happens, it's handled nicely.
    */
   int network_reliability;
+  /// Properties got from the backend.
+  lw6cnx_properties_t properties;
   /**
    * Function which will be called when receiving data. This one
    * must clearly be reentrant, depending on the backend it could
@@ -210,7 +229,8 @@ extern u_int64_t lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t *
 					       ticket_table,
 					       const char *peer_id);
 extern void lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t *
-					  ticket_table, const char *peer_id);
+					  ticket_table, const char *peer_id,
+					  int ack_delay_msec);
 extern int lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t *
 						   ticket_table,
 						   const char *peer_id);

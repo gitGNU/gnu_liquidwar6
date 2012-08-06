@@ -1,3 +1,7 @@
+2012-08-06 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed some timeout issues in net code.
+
 2012-08-04 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed Makefile to avoid useless doxygen regeneration, also broke snapshots.

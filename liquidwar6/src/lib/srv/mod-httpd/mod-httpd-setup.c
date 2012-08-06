@@ -31,7 +31,9 @@
 #define _ACCESS_LOG_FILE "access_log.txt"
 
 _mod_httpd_context_t *
-_mod_httpd_init (int argc, const char *argv[], lw6srv_listener_t * listener)
+_mod_httpd_init (int argc, const char *argv[],
+		 lw6cnx_properties_t * properties,
+		 lw6srv_listener_t * listener)
 {
   _mod_httpd_context_t *httpd_context = NULL;
   char *user_dir;
@@ -50,6 +52,8 @@ _mod_httpd_init (int argc, const char *argv[], lw6srv_listener_t * listener)
 	{
 	  if (_mod_httpd_load_data (&(httpd_context->data), data_dir))
 	    {
+	      properties->hint_timeout =
+		httpd_context->data.consts.error_timeout;
 	      user_dir = lw6sys_get_user_dir (argc, argv);
 	      if (user_dir)
 		{

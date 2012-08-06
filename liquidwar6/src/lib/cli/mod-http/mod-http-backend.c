@@ -46,9 +46,9 @@ mod_http_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, const char *argv[])
+_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 {
-  _mod_http_context_t *http_context = _mod_http_init (argc, argv);
+  _mod_http_context_t *http_context = _mod_http_init (argc, argv, properties);
 
   return (void *) http_context;
 }

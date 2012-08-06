@@ -30,7 +30,8 @@
 #define _CURL_FLAGS 0
 
 _mod_http_context_t *
-_mod_http_init (int argc, const char *argv[])
+_mod_http_init (int argc, const char *argv[],
+		lw6cnx_properties_t * properties)
 {
   _mod_http_context_t *http_context = NULL;
   char *data_dir = NULL;
@@ -48,6 +49,8 @@ _mod_http_init (int argc, const char *argv[])
 	{
 	  if (_mod_http_load_data (&(http_context->data), data_dir))
 	    {
+	      properties->hint_timeout =
+		http_context->data.consts.global_timeout;
 	      http_context->curl_init_ret = curl_global_init (_CURL_FLAGS);
 	      if (http_context->curl_init_ret == CURLE_OK)
 		{

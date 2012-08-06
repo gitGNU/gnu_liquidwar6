@@ -485,7 +485,7 @@ _lw6p2p_recv_forward (_lw6p2p_node_t * node,
 static int
 _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
 	    u_int64_t local_id_int, const char *remote_id_str,
-	    const char *message, u_int32_t ticket_sig)
+	    const char *message, u_int32_t ticket_sig, int hint_timeout)
 {
   int ret = 0;
   u_int64_t recv_ticket = 0;
@@ -509,13 +509,15 @@ _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _x_ ("first good signature from \"%s\" to \"%"
+		      _x_ ("good sig from \"%s\" to \"%"
 			   LW6SYS_PRINTF_LL
 			   "x\" on message \"%s\" using ticket \"%"
-			   LW6SYS_PRINTF_LL "x\""), remote_id_str,
-		      (long long) local_id_int, message,
-		      (long long) recv_ticket);
-	  lw6cnx_ticket_table_ack_recv (ticket_table, remote_id_str);
+			   LW6SYS_PRINTF_LL
+			   "x\", registering the ticket as received, will be valid in %d seconds"),
+		      remote_id_str, (long long) local_id_int, message,
+		      (long long) recv_ticket, hint_timeout);
+	  lw6cnx_ticket_table_ack_recv (ticket_table, remote_id_str,
+					hint_timeout * LW6SYS_TICKS_PER_SEC);
 	}
       ret = 1;
     }
@@ -556,37 +558,37 @@ _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
 
 void
 _lw6p2p_recv_callback (void *recv_callback_data,
-		       void *connection,
+		       lw6cnx_connection_t * connection,
 		       u_int32_t physical_ticket_sig,
 		       u_int32_t logical_ticket_sig,
 		       u_int64_t logical_from_id, u_int64_t logical_to_id,
 		       const char *message)
 {
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) recv_callback_data;
-  lw6cnx_connection_t *cnx = (lw6cnx_connection_t *) connection;
   int physical_sig_ok = 0;
   int logical_sig_ok = 0;
   char *logical_from_id_str = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("recv_callback msg=\"%s\""), message);
-  if (node && cnx)
+  if (node && connection)
     {
       /*
        * We filter here, for it's node the backend responsibility
        * to do it, and there's no way to trap it in generic cli/srv
        * code.
        */
-      if (lw6cnx_connection_reliability_filter (cnx))
+      if (lw6cnx_connection_reliability_filter (connection))
 	{
 	  physical_sig_ok =
-	    _check_sig (&(node->ticket_table), cnx->remote_id_int,
-			cnx->local_id_int, cnx->remote_id_str, message,
-			physical_ticket_sig);
+	    _check_sig (&(node->ticket_table), connection->remote_id_int,
+			connection->local_id_int, connection->remote_id_str,
+			message, physical_ticket_sig,
+			connection->properties.hint_timeout);
 	  if (physical_sig_ok)
 	    {
-	      if (cnx->local_id_int == logical_to_id)
+	      if (connection->local_id_int == logical_to_id)
 		{
-		  if (logical_from_id == cnx->remote_id_int)
+		  if (logical_from_id == connection->remote_id_int)
 		    {
 		      /*
 		       * In this case, test was performed just before...
@@ -602,27 +604,29 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 			    _check_sig (&(node->ticket_table),
 					logical_from_id, logical_to_id,
 					logical_from_id_str, message,
-					logical_ticket_sig);
+					logical_ticket_sig,
+					connection->properties.hint_timeout);
 			  LW6SYS_FREE (logical_from_id_str);
 			}
 		    }
 		  if (logical_sig_ok)
 		    {
-		      _lw6p2p_recv_process (node, cnx, logical_from_id,
+		      _lw6p2p_recv_process (node, connection, logical_from_id,
 					    message);
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
 				  _x_ ("bad logical ticket_sig from \"%s\""),
-				  cnx->remote_url);
+				  connection->remote_url);
 		    }
 		}
 	      else
 		{
-		  if (cnx->remote_id_int == logical_from_id)
+		  if (connection->remote_id_int == logical_from_id)
 		    {
-		      _lw6p2p_recv_forward (node, cnx, logical_ticket_sig,
+		      _lw6p2p_recv_forward (node, connection,
+					    logical_ticket_sig,
 					    logical_from_id, logical_to_id,
 					    message);
 		    }
@@ -635,14 +639,14 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("good physical ticket_sig from \"%s\" on message \"%s\""),
-			  cnx->remote_url, message);
+			  connection->remote_url, message);
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("bad physical ticket_sig from \"%s\" on message \"%s\""),
-			  cnx->remote_url, message);
+			  connection->remote_url, message);
 	    }
 	}
     }

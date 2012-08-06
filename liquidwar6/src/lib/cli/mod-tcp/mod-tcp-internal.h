@@ -78,7 +78,8 @@ extern int _mod_tcp_load_data (_mod_tcp_data_t * tcp_data,
 extern void _mod_tcp_unload_data (_mod_tcp_data_t * tcp_data);
 
 /* mod-tcp-setup.c */
-extern _mod_tcp_context_t *_mod_tcp_init (int argc, const char *argv[]);
+extern _mod_tcp_context_t *_mod_tcp_init (int argc, const char *argv[],
+					  lw6cnx_properties_t * properties);
 extern void _mod_tcp_quit (_mod_tcp_context_t * tcp_context);
 
 /* mod-tcp-state.c */

@@ -67,6 +67,16 @@ Module name.
         
 @end defcv
 
+@defcv {Member} {lw6srv_backend_s} {properties}
+@strong{Type:} @code{lw6cnx_properties_t}
+
+@strong{Definition:} @code{lw6cnx_properties_t lw6srv_backend_s::properties}
+
+
+General backend properties.         
+        
+@end defcv
+
 @defcv {Member} {lw6srv_backend_s} {info}
 @strong{Type:} @code{lw6nod_info_t *}
 
@@ -80,7 +90,7 @@ Information about local node.
 @defcv {Member} {lw6srv_backend_s} {init}
 @strong{Type:} @code{void *(*}
 
-@strong{Definition:} @code{void*(* lw6srv_backend_s::init)(int argc, const char *argv[], lw6srv_listener_t *listener)}
+@strong{Definition:} @code{void*(* lw6srv_backend_s::init)(int argc, const char *argv[], lw6cnx_properties_t *properties, lw6srv_listener_t *listener)}
 
 
 Pointer on lw6srv_init callback code.         

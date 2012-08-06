@@ -563,7 +563,7 @@
 (define lw6-test-p2p-join
   (lambda ()
     (begin
-      (c-lw6net-init #f)
+      (c-lw6net-init #t)
       (let* (
 	     (db (c-lw6p2p-db-new (c-lw6p2p-db-default-name)))
 	     (node-1 (c-lw6p2p-node-new db (list (cons "client-backends" "tcp,udp")
@@ -602,7 +602,7 @@
 	     (pilot-1 (c-lw6pil-build-pilot game-state-1
 					    1000000000000
 					    0))
-	     (time-left 10.0)
+	     (time-limit (+ 30000 (c-lw6sys-get-timestamp)))
 	     )
 	(begin
 	  (lw6-log-notice node-1)
@@ -613,9 +613,8 @@
 	  (c-lw6pil-send-command pilot-1 (format #f "1000000000010 ~a ADD 5678" id-1) #t)
 	  (c-lw6p2p-node-server-start node-1 1000000000000)
 	  (c-lw6p2p-node-client-join node-2 id-1 "http://localhost:8057/")
-	  (while (> time-left 0)
+	  (while (< (c-lw6sys-get-timestamp) time-limit)
 		 (begin
-		   (set! time-left (- time-left 0.1))
 		   (c-lw6sys-sleep 0.1)
 		   (c-lw6p2p-node-poll node-1)
 		   (c-lw6p2p-node-poll node-2)
@@ -623,7 +622,10 @@
 		       (let (
 			     (dump-command (c-lw6pil-dump-command-generate pilot-1 id-1))
 			     )
-			 (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
+			 (begin
+			   (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
+			   (c-lw6p2p-node-put-local-msg node-1 dump-command)
+			   )
 			 )
 		       )
 		   ))

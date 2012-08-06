@@ -120,9 +120,12 @@ typedef struct lw6cli_backend_s
   u_int32_t id;
   /// Module name.
   char *name;
+  /// General backend properties.
+  lw6cnx_properties_t properties;
 
   /// Pointer on lw6cli_init callback code.
-  void *(*init) (int argc, const char *argv[]);
+  void *(*init) (int argc, const char *argv[],
+		 lw6cnx_properties_t * properties);
   /// Pointer on lw6cli_quit callback code.
   void (*quit) (void *cli_context);
   /// Pointer on lw6cli_process_oob callback code.

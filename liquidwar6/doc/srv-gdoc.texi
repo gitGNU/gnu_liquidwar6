@@ -1,6 +1,8 @@
 @deftypefun {int} {lw6srv_init} (lw6srv_backend_t * @var{backend}, lw6srv_listener_t * @var{listener})
 @var{backend}:  backend to use
 
+@var{listener}:  listener object to use when constructing the backend.
+
 Initializes a server backend. Must be performed before any other call.
 
 @strong{Return value:}  1 on success, 0 on failure

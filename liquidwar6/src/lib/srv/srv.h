@@ -193,11 +193,15 @@ typedef struct lw6srv_backend_s
   u_int32_t id;
   /// Module name.
   char *name;
+  /// General backend properties.
+  lw6cnx_properties_t properties;
   /// Information about local node.
   lw6nod_info_t *info;
 
   /// Pointer on lw6srv_init callback code.
-  void *(*init) (int argc, const char *argv[], lw6srv_listener_t * listener);
+  void *(*init) (int argc, const char *argv[],
+		 lw6cnx_properties_t * properties,
+		 lw6srv_listener_t * listener);
   /// Pointer on lw6srv_quit callback code.
   void (*quit) (void *srv_context);
   /// Pointer on lw6srv_analyse_tcp callback code.

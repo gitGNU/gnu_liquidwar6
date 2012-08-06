@@ -28,7 +28,7 @@
 #include "mod-udp-internal.h"
 
 _udp_context_t *
-_mod_udp_init (int argc, const char *argv[])
+_mod_udp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 {
   _udp_context_t *udp_context = NULL;
   char *data_dir = NULL;
@@ -44,6 +44,8 @@ _mod_udp_init (int argc, const char *argv[])
 	{
 	  if (_mod_udp_load_data (&(udp_context->data), data_dir))
 	    {
+	      properties->hint_timeout =
+		udp_context->data.consts.global_timeout;
 	      ok = 1;
 	    }
 	  LW6SYS_FREE (data_dir);

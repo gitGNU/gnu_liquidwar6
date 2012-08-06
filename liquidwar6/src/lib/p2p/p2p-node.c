@@ -936,13 +936,16 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node)
 					    node->node_id_int,
 					    remote_id_int, atom_str);
 
-		  _lw6p2p_tentacle_send_best (&
-					      (node->tentacles
-					       [i]),
-					      &(node->ticket_table),
-					      logical_ticket_sig,
-					      node->node_id_int,
-					      remote_id_int, atom_str);
+		  if (!_lw6p2p_tentacle_send_best (&
+						   (node->tentacles
+						    [i]),
+						   &(node->ticket_table),
+						   logical_ticket_sig,
+						   node->node_id_int,
+						   remote_id_int, atom_str))
+		    {
+		      ret = 0;
+		    }
 
 		  LW6SYS_FREE (atom_str);
 		}

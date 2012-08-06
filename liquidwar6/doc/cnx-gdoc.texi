@@ -177,15 +177,20 @@ generated so tunction will always return a non-zero value.
 @strong{Return value:}  the ticket used to check incoming messages.
 @end deftypefun
 
-@deftypefun {void} {lw6cnx_ticket_table_ack_recv} (lw6cnx_ticket_table_t * @var{ticket_table}, const char * @var{peer_id})
+@deftypefun {void} {lw6cnx_ticket_table_ack_recv} (lw6cnx_ticket_table_t * @var{ticket_table}, const char * @var{peer_id}, int @var{ack_delay_msec})
 @var{ticket_table}:  the ticket table to query
 
 @var{peer_id}:  the id of remote node
 
+@var{ack_delay_msec}:  delay before which we'll consider the ticket as really received
+
 Acknowledges the ticket used to communicate with peer, to check its incoming
 (recv) messages has been received. This is to avoid sending it again when
 it has been received, as it's kept "forever" by peer, we never need to
-send it again.
+send it again. The delay is here to avoid checking tickets too quickly,
+for instance one could have sent the ticket yet, but for some reason some
+unsigned messages are still in the pipe, typically they transit through
+another slow channel such as httpd while the ticket was sent on udp.
 
 @strong{Return value:}  none.
 @end deftypefun

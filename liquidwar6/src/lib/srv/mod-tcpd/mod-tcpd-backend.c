@@ -37,9 +37,11 @@ mod_tcpd_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, const char *argv[], lw6srv_listener_t * listener)
+_init (int argc, const char *argv[], lw6cnx_properties_t * properties,
+       lw6srv_listener_t * listener)
 {
-  _tcpd_context_t *tcpd_context = _mod_tcpd_init (argc, argv, listener);
+  _tcpd_context_t *tcpd_context =
+    _mod_tcpd_init (argc, argv, properties, listener);
 
   return (void *) tcpd_context;
 }

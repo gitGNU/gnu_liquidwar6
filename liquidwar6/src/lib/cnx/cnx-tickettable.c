@@ -172,29 +172,61 @@ lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table,
  *
  * @ticket_table: the ticket table to query
  * @peer_id: the id of remote node
+ * @ack_delay_msec: delay before which we'll consider the ticket as really received
  *
  * Acknowledges the ticket used to communicate with peer, to check its incoming
  * (recv) messages has been received. This is to avoid sending it again when
  * it has been received, as it's kept "forever" by peer, we never need to
- * send it again.
+ * send it again. The delay is here to avoid checking tickets too quickly,
+ * for instance one could have sent the ticket yet, but for some reason some
+ * unsigned messages are still in the pipe, typically they transit through
+ * another slow channel such as httpd while the ticket was sent on udp.
  *
  * Return value: none.
  */
 void
 lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table,
-			      const char *peer_id)
+			      const char *peer_id, int ack_delay_msec)
 {
-  int64_t *limit;
+  int64_t *limit = NULL;
+  int useless = 0;
 
   limit = (int64_t *) LW6SYS_MALLOC (sizeof (int64_t));
   if (limit)
     {
-      (*limit) = lw6sys_get_timestamp () + LW6CNX_TICKET_TABLE_ACK_MSEC;
+      (*limit) = lw6sys_get_timestamp () + ack_delay_msec;
       if (lw6sys_spinlock_lock (ticket_table->recv_ack_spinlock))
 	{
-	  lw6sys_hash_set (ticket_table->recv_ack_table, peer_id,
-			   (void *) limit);
+	  /*
+	   * If there was already something received, we don't acknowledge
+	   * it again, else on regular sends the limit would be endlessly
+	   * updated, thus checks would never be performed.
+	   */
+	  if (!lw6sys_hash_has_key (ticket_table->recv_ack_table, peer_id))
+	    {
+	      lw6sys_hash_set (ticket_table->recv_ack_table, peer_id,
+			       (void *) limit);
+	    }
+	  else
+	    {
+	      LW6SYS_FREE (limit);
+	      useless = 1;
+	    }
 	  lw6sys_spinlock_unlock (ticket_table->recv_ack_spinlock);
+	  if (!useless)
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_
+			  ("acknowledging ticket for peer_id=%s, ack_delay_msec=%d"),
+			  peer_id, ack_delay_msec);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_
+			  ("acknowledging ticket for peer_id=%s, but this is useless, we already got one"),
+			  peer_id);
+	    }
 	}
       else
 	{
@@ -237,9 +269,10 @@ lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _x_ ("ticket for \"%s\" exists but is too old"),
-			  peer_id);
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_
+			  ("ticket for \"%s\" exists but is too recent, still %d msec"),
+			  peer_id, (int) ((*limit) - now));
 	    }
 	}
       lw6sys_spinlock_unlock (ticket_table->recv_ack_spinlock);

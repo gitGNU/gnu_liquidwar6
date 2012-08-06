@@ -28,7 +28,9 @@
 #include "mod-udpd-internal.h"
 
 _udpd_context_t *
-_mod_udpd_init (int argc, const char *argv[], lw6srv_listener_t * listener)
+_mod_udpd_init (int argc, const char *argv[],
+		lw6cnx_properties_t * properties,
+		lw6srv_listener_t * listener)
 {
   _udpd_context_t *udpd_context = NULL;
   char *data_dir = NULL;
@@ -44,6 +46,8 @@ _mod_udpd_init (int argc, const char *argv[], lw6srv_listener_t * listener)
 	{
 	  if (_mod_udpd_load_data (&(udpd_context->data), data_dir))
 	    {
+	      properties->hint_timeout =
+		udpd_context->data.consts.error_timeout;
 	      ok = 1;
 	    }
 	  LW6SYS_FREE (data_dir);
