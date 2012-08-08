@@ -26,12 +26,22 @@
 
 #include "liquidwar6.h"
 
-#define TEST_FILE_0 "test-0.scm"
-#define TEST_FILE_1 "test-1.scm"
-#define TEST_ARGC 1
-#define TEST_ARGV0 "prog"
+#define _TEST_FILE_0_MAIN "test-0-main.scm"
+#define _TEST_FILE_0_CLIENT "test-0-client.scm"
+#define _TEST_FILE_0_SERVER "test-0-server.scm"
+#define _TEST_FILE_1_MAIN "test-1-main.scm"
+#define _TEST_FILE_1_CLIENT "test-1-client.scm"
+#define _TEST_FILE_1_SERVER "test-1-server.scm"
+#define _TEST_ARGC 1
+#define _TEST_ARGV0 "prog"
 
 #define _TEST_COVERAGE_PERCENT_MIN 50
+
+#define _TEST_SUITE_MAIN 0
+#define _TEST_SUITE_CLIENT 1
+#define _TEST_SUITE_SERVER 2
+
+#define _TEST_RUN_RANDOM_RANGE 2
 
 typedef struct _lw6_test_param_s
 {
@@ -39,11 +49,13 @@ typedef struct _lw6_test_param_s
   int argc;
   const char **argv;
   int mode;
+  int suite;
+  int coverage_check;
 }
 _lw6_test_param_t;
 
 static char *
-get_test_file (int argc, const char **argv, int mode)
+get_test_file (int argc, const char **argv, int mode, int suite)
 {
   char *script_file = NULL;
   char *script_dir = NULL;
@@ -57,11 +69,33 @@ get_test_file (int argc, const char **argv, int mode)
 	{
 	  if (!mode)
 	    {
-	      ret = lw6sys_path_concat (script_dir, TEST_FILE_0);
+	      switch (suite)
+		{
+		case _TEST_SUITE_CLIENT:
+		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_0_CLIENT);
+		  break;
+		case _TEST_SUITE_SERVER:
+		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_0_SERVER);
+		  break;
+		default:
+		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_0_MAIN);
+		  break;
+		}
 	    }
 	  else
 	    {
-	      ret = lw6sys_path_concat (script_dir, TEST_FILE_1);
+	      switch (suite)
+		{
+		case _TEST_SUITE_CLIENT:
+		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_1_CLIENT);
+		  break;
+		case _TEST_SUITE_SERVER:
+		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_1_SERVER);
+		  break;
+		default:
+		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_1_MAIN);
+		  break;
+		}
 	    }
 	  LW6SYS_FREE (script_dir);
 	}
@@ -79,7 +113,7 @@ get_test_file (int argc, const char **argv, int mode)
 }
 
 static void
-test_callback (_lw6_test_param_t * param)
+_test_callback (_lw6_test_param_t * param)
 {
   int ret = 1;
 
@@ -97,7 +131,9 @@ test_callback (_lw6_test_param_t * param)
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("registering Guile functions"));
 	if (lw6_register_funcs ())
 	  {
-	    test_file = get_test_file (param->argc, param->argv, param->mode);
+	    test_file =
+	      get_test_file (param->argc, param->argv, param->mode,
+			     param->suite);
 	    if (test_file)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("loading \"%s\""),
@@ -120,30 +156,38 @@ test_callback (_lw6_test_param_t * param)
 
     scm_gc ();
 
-    funcs = lw6hlp_list_funcs ();
-    if (funcs)
+    if (param->coverage_check)
       {
-	if (lw6scm_coverage_check
-	    (&coverage_percent, lw6_global.coverage, funcs)
-	    || coverage_percent >= _TEST_COVERAGE_PERCENT_MIN)
+	funcs = lw6hlp_list_funcs ();
+	if (funcs)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_x_ ("script coverage OK %d%% (%d%% required)"),
-			coverage_percent, _TEST_COVERAGE_PERCENT_MIN);
+	    if (lw6scm_coverage_check
+		(&coverage_percent, lw6_global.coverage, funcs)
+		|| coverage_percent >= _TEST_COVERAGE_PERCENT_MIN)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("script coverage OK %d%% (%d%% required)"),
+			    coverage_percent, _TEST_COVERAGE_PERCENT_MIN);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("script coverage is only %d%% (%d%% required)"),
+			    coverage_percent, _TEST_COVERAGE_PERCENT_MIN);
+		ret = 0;
+	      }
+	    lw6sys_list_free (funcs);
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_x_ ("script coverage is only %d%% (%d%% required)"),
-			coverage_percent, _TEST_COVERAGE_PERCENT_MIN);
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to get funcs list"));
 	    ret = 0;
 	  }
-	lw6sys_list_free (funcs);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to get funcs list"));
-	ret = 0;
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("skipping coverage check"));
       }
 
     if (ret)
@@ -172,13 +216,28 @@ test_callback (_lw6_test_param_t * param)
 }
 
 static void *
-guile_test (void *data)
+_guile_test (void *data)
 {
   _lw6_test_param_t *param = (_lw6_test_param_t *) data;
 
-  test_callback (param);
+  _test_callback (param);
 
   return NULL;
+}
+
+static void
+_guile_test_run (void *data)
+{
+  /*
+   * We wait (or not) for some time, to simulate, (randomly!)
+   * some time shift between various network flavors of tests.
+   */
+  if (!lw6sys_random (_TEST_RUN_RANDOM_RANGE))
+    {
+      lw6sys_snooze ();
+    }
+
+  scm_with_guile (_guile_test, data);
 }
 
 /**
@@ -197,8 +256,9 @@ int
 lw6_test (int mode)
 {
   _lw6_test_param_t param;
-  const int argc = TEST_ARGC;
-  const char *argv[] = { TEST_ARGV0 };
+  const int argc = _TEST_ARGC;
+  const char *argv[] = { _TEST_ARGV0 };
+  u_int64_t pid = 0LL;
 
   memset (&param, 0, sizeof (_lw6_test_param_t));
 
@@ -239,11 +299,71 @@ lw6_test (int mode)
   lw6_fix_env (argc, argv);
   if (lw6_init_global (argc, argv))
     {
-      param.mode = mode;
       param.argc = argc;
       param.argv = argv;
+      param.mode = mode;
+      param.suite = _TEST_SUITE_MAIN;
+      param.coverage_check = 1;
 
-      scm_with_guile (guile_test, &param);
+      _guile_test_run (&param);
+
+      param.coverage_check = 0;
+
+      if (param.ret && lw6_init_global (argc, argv))
+	{
+	  if (lw6sys_process_is_fully_supported ())
+	    {
+	      /*
+	       * First network test, we launch the client in our main process
+	       * and fire a server in a fork. Won't get the result from the
+	       * server, here we just test wether the client has consistent
+	       * informations. The other test will come later.
+	       */
+	      param.suite = _TEST_SUITE_SERVER;
+	      if ((pid =
+		   lw6sys_process_fork_and_call (_guile_test_run,
+						 &param)) != 0)
+		{
+		  param.suite = _TEST_SUITE_CLIENT;
+		  _guile_test_run (&param);
+		  lw6sys_process_kill_1_9 (pid);
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("skipping client/server test, platform does not have adequate process support and/or it's likely to fail anyway"));
+	    }
+	}
+
+      if (param.ret && lw6_init_global (argc, argv))
+	{
+	  if (lw6sys_process_is_fully_supported ())
+	    {
+	      /*
+	       * Second network test, we launch the server in our main process
+	       * and fire a client in a fork. Won't get the result from the
+	       * client, here we just test wether the server has consistent
+	       * informations. The other test was done before.
+	       */
+	      param.suite = _TEST_SUITE_CLIENT;
+	      if ((pid =
+		   lw6sys_process_fork_and_call (_guile_test_run,
+						 &param)) != 0)
+		{
+		  param.suite = _TEST_SUITE_SERVER;
+		  _guile_test_run (&param);
+		  lw6sys_process_kill_1_9 (pid);
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("skipping server/client test, platform does not have adequate process support and/or it's likely to fail anyway"));
+	    }
+	}
     }
 
   return param.ret;

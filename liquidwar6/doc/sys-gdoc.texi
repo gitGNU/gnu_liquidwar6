@@ -3265,7 +3265,21 @@ Prints a standard Liquid War 6 compliant XML footer in the given file.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {u_int64_t} {lw6sys_process_fork_and_call} (lw6sys_fork_func_t @var{func})
+@deftypefun {int} {lw6sys_process_is_fully_supported} ()
+
+Tells wether functions related to fork and pids are likely
+to work allright or not. Typically, those functions will
+return false (0) systematically if called on a platform that
+does not support them fully. In practice this is only for
+a few tests, so it's not that bad if it does not really work.
+Would be better if, but well, it's OK.
+
+@strong{Return value:}  1 if supported, 0 if not.
+@end deftypefun
+
+@deftypefun {u_int64_t} {lw6sys_process_fork_and_call} (lw6sys_fork_func_t @var{func}, void * @var{data})
+@var{data}:  pointer on arbitrary data used by func
+
 This is not a standard fork function, it will return to
 the caller (parent) with something >0 if a child has been
 created, or 0 if failed. On the child it will launch

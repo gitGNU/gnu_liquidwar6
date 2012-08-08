@@ -173,6 +173,8 @@
 #define _TEST_RANDOM_FLOAT_MIN 100.0f
 #define _TEST_RANDOM_FLOAT_MAX 101.0f
 #define _TEST_PROCESS_DELAY 3
+#define _TEST_PROCESS_CALLBACK1_STR "foo"
+#define _TEST_PROCESS_CALLBACK2_STR "bar"
 #define _TEST_PROGRESS_N 7
 #define _TEST_PROGRESS_HERE 0.3
 #define _TEST_HISTORY_MSG1 "1 too old"
@@ -2563,21 +2565,25 @@ test_path ()
 }
 
 static void
-_process_callback1 ()
+_process_callback1 (void *data)
 {
   while (1)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _x_ ("first process callback, will try and loop forever"));
+		  _x_
+		  ("first process callback, will try and loop forever, data=\"%s\""),
+		  (char *) data);
       lw6sys_snooze ();
     }
 }
 
 static void
-_process_callback2 ()
+_process_callback2 (void *data)
 {
   lw6sys_log (LW6SYS_LOG_NOTICE,
-	      _x_ ("second process callback, will terminate now"));
+	      _x_
+	      ("second process callback, will terminate now, data=\"%s\""),
+	      (char *) data);
 }
 
 /*
@@ -2593,56 +2599,70 @@ test_process ()
     u_int64_t pid1 = 0LL;
     u_int64_t pid2 = 0LL;
 
-    pid1 = lw6sys_process_fork_and_call (_process_callback1);
-    if (pid1 > 0)
+    if (lw6sys_process_is_fully_supported ())
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _x_ ("first child %" LW6SYS_PRINTF_LL "d running"),
-		    (long long) pid1);
-	pid2 = lw6sys_process_fork_and_call (_process_callback2);
-	if (pid2 > 0)
+	pid1 =
+	  lw6sys_process_fork_and_call (_process_callback1,
+					_TEST_PROCESS_CALLBACK1_STR);
+	if (pid1 > 0)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_x_ ("second child %" LW6SYS_PRINTF_LL "d running"),
-			(long long) pid2);
-	    lw6sys_sleep (_TEST_PROCESS_DELAY);
-	    if (lw6sys_process_kill_1_9 (pid2))
+			_x_ ("first child %" LW6SYS_PRINTF_LL "d running"),
+			(long long) pid1);
+	    pid2 =
+	      lw6sys_process_fork_and_call (_process_callback2,
+					    _TEST_PROCESS_CALLBACK2_STR);
+	    if (pid2 > 0)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("second child %" LW6SYS_PRINTF_LL
-				 "d killed"), (long long) pid2);
+				 "d running"), (long long) pid2);
+		lw6sys_sleep (_TEST_PROCESS_DELAY);
+		if (lw6sys_process_kill_1_9 (pid2))
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("second child %" LW6SYS_PRINTF_LL
+				     "d killed"), (long long) pid2);
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_ ("can't kill second child %"
+				     LW6SYS_PRINTF_LL "d"), (long long) pid2);
+		    ret = 0;
+		  }
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _x_ ("can't kill second child %" LW6SYS_PRINTF_LL
-				 "d"), (long long) pid2);
+			    _x_ ("can't run second child"));
+		ret = 0;
+	      }
+	    if (lw6sys_process_kill_1_9 (pid1))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("first child %" LW6SYS_PRINTF_LL "d killed"),
+			    (long long) pid1);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("can't kill first child %" LW6SYS_PRINTF_LL
+				 "d"), (long long) pid1);
 		ret = 0;
 	      }
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't run second child"));
-	    ret = 0;
-	  }
-	if (lw6sys_process_kill_1_9 (pid1))
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_x_ ("first child %" LW6SYS_PRINTF_LL "d killed"),
-			(long long) pid1);
-	  }
-	else
-	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_x_ ("can't kill first child %" LW6SYS_PRINTF_LL "d"),
-			(long long) pid1);
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't run first child"));
 	    ret = 0;
 	  }
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't run first child"));
-	ret = 0;
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("platform does not fully support fork & kill, the game should still run, but some tests won't be performed"));
       }
   }
 

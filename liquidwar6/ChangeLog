@@ -1,5 +1,7 @@
 2012-08-08 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Using fork to test client/network interaction in script tests.
+
 	* Added fork facility for better network tests.
 
 2012-08-06 : Christian Mauduit <ufoot@ufoot.org>

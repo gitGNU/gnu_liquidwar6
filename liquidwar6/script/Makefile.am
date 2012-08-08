@@ -72,8 +72,12 @@ sound.scm \
 speed.scm \
 splash.scm \
 style.scm \
-test-0.scm \
-test-1.scm \
+test-0-main.scm \
+test-0-client.scm \
+test-0-server.scm \
+test-1-main.scm \
+test-1-client.scm \
+test-1-server.scm \
 wait.scm \
 zoom.scm \
 README
