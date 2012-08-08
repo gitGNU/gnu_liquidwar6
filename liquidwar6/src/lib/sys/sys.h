@@ -327,6 +327,7 @@ typedef int (*lw6sys_list_filter_func_t) (void *func_data, void *data);
 typedef void *(*lw6sys_dup_func_t) (void *data);
 typedef void (*lw6sys_thread_callback_func_t) (void *callback_data);
 typedef int (*lw6sys_dir_list_filter_func_t) (void *func_data, char *file);
+typedef void (*lw6sys_fork_func_t) ();
 
 typedef struct lw6sys_assoc_s *lw6sys_assoc_p;
 
@@ -1065,6 +1066,10 @@ extern char *lw6sys_find_in_dir_and_path (const char *dir, const char *path,
 /* sys-print.c */
 extern void lw6sys_print_xml_header (FILE * f, char *comment);
 extern void lw6sys_print_xml_footer (FILE * f);
+
+/* sys-process.c */
+u_int64_t lw6sys_process_fork_and_call (lw6sys_fork_func_t func);
+int lw6sys_process_kill_1_9 (u_int64_t pid);
 
 /* sys-progress.c */
 extern void lw6sys_progress_default (lw6sys_progress_t * progress,

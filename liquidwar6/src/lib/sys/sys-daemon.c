@@ -35,7 +35,7 @@
 #define _PID_FILE "daemon.pid"
 
 #if LW6_MS_WINDOWS || LW6_MAC_OS_X
-// no fork support on those platforms
+// no daemon support on those platforms
 #else
 static int _pid_file_descriptor = -1;
 #endif
@@ -78,9 +78,8 @@ lw6sys_daemon_pid_file (int argc, const char *argv[])
  * an issue as MS-Windows users are rarely concerned with
  * detaching a program from a tty. Note that this isn't a
  * wrapper on @fork(), the return value is different,
- * 1 on success, 0 if failed.
  *
- * Return value: a process ID on success, 0 on failure.
+ * Return value: 1 on success, 0 on failure.
  */
 int
 lw6sys_daemon_start (char *pid_file)
@@ -101,9 +100,9 @@ lw6sys_daemon_start (char *pid_file)
 	      _x_ ("daemon mode not available on platform \"%s\""),
 	      lw6sys_build_get_host_os ());
 #else
-  int fork_ret = 0;
+  pid_t fork_ret = 0;
   char *pid_str = NULL;
-  int pid_int = 0;
+  pid_t pid_int = 0;
 
   if (_pid_file_descriptor < 0)
     {
@@ -142,7 +141,9 @@ lw6sys_daemon_start (char *pid_file)
 			      pid_file);
 		  if (lockf (_pid_file_descriptor, F_TLOCK, 0) >= 0)
 		    {
-		      pid_str = lw6sys_new_sprintf ("%d\n", pid_int);
+		      pid_str =
+			lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d\n",
+					    (long long) pid_int);
 		      if (pid_str)
 			{
 			  if (write
@@ -151,8 +152,10 @@ lw6sys_daemon_start (char *pid_file)
 			    {
 			      lw6sys_log (LW6SYS_LOG_NOTICE,
 					  _x_
-					  ("daemon started pid=%d, pid file is \"%s\""),
-					  pid_int, pid_file);
+					  ("daemon started pid=%"
+					   LW6SYS_PRINTF_LL
+					   "d, pid file is \"%s\""),
+					  (long long) pid_int, pid_file);
 			    }
 			  LW6SYS_FREE (pid_str);
 			}
@@ -161,15 +164,17 @@ lw6sys_daemon_start (char *pid_file)
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
 				  _x_
-				  ("daemon pid=%d unable to lock \"%s\""),
-				  pid_int, pid_file);
+				  ("daemon pid=%" LW6SYS_PRINTF_LL
+				   "d unable to lock \"%s\""),
+				  (long long) pid_int, pid_file);
 		    }
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _x_ ("daemon pid=%d unable to open \"%s\""),
-			      pid_int, pid_file);
+			      _x_ ("daemon pid=%" LW6SYS_PRINTF_LL
+				   "d unable to open \"%s\""),
+			      (long long) pid_int, pid_file);
 		}
 	    }
 	}
