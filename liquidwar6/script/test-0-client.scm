@@ -45,8 +45,8 @@
 						 (cons "trojan" #f)
 						 )))
 	     (id-2 (c-lw6p2p-node-get-id node-2))
-	     (time-limit (+ 30000 (c-lw6sys-get-timestamp)))
-	     (connect-time (- time-limit 5000))
+	     (time-limit (+ 60000 (c-lw6sys-get-timestamp)))
+	     (connect-time (- time-limit 15000))
 	     (connect-ret #f)
 	     (server-entry #f)
 	     )
@@ -58,7 +58,8 @@
 		       (entries (c-lw6p2p-node-get-entries node-2))
 		       )
 		   (begin		     
-		     (map (lambda(x) (if (equal? (assoc-ref x "url") "http://localhost:8057/")
+		     (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8057/")
+					      (assoc-ref x "id"))
 					 (begin
 					   (set! server-entry x)
 					   (set! connect-ret (c-lw6p2p-node-client-join 

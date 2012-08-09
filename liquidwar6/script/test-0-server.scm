@@ -48,7 +48,7 @@
 	     (pilot-1 (c-lw6pil-build-pilot game-state-1
 					    1000000000000
 					    0))
-	     (time-limit (+ 30000 (c-lw6sys-get-timestamp)))
+	     (time-limit (+ 60000 (c-lw6sys-get-timestamp)))
 	     )
 	(begin
 	  (lw6-log-notice node-1)
