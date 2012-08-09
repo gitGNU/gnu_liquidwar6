@@ -51,6 +51,7 @@ typedef struct _lw6_test_param_s
   int mode;
   int suite;
   int coverage_check;
+  int log_level_id;
 }
 _lw6_test_param_t;
 
@@ -123,6 +124,13 @@ _test_callback (_lw6_test_param_t * param)
     char *test_file = NULL;
     lw6sys_list_t *funcs = NULL;
     int coverage_percent = 0;
+
+    /*
+     * Change log level, this way on spawned processes there
+     * are no logs and this avoids dirty interferences.
+     * Will will run each test in the main thread anyway.
+     */
+    lw6sys_log_set_level (param->log_level_id);
 
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("registering Guile smobs"));
     if (lw6_register_smobs ())
@@ -259,6 +267,7 @@ lw6_test (int mode)
   const int argc = _TEST_ARGC;
   const char *argv[] = { _TEST_ARGV0 };
   u_int64_t pid = 0LL;
+  int default_log_level_id = LW6SYS_LOG_INFO_ID;
 
   memset (&param, 0, sizeof (_lw6_test_param_t));
 
@@ -299,11 +308,14 @@ lw6_test (int mode)
   lw6_fix_env (argc, argv);
   if (lw6_init_global (argc, argv))
     {
+      default_log_level_id = lw6sys_log_get_level ();
+
       param.argc = argc;
       param.argv = argv;
       param.mode = mode;
       param.suite = _TEST_SUITE_MAIN;
       param.coverage_check = 1;
+      param.log_level_id = default_log_level_id;
 
       _guile_test_run (&param);
 
@@ -320,11 +332,13 @@ lw6_test (int mode)
 	       * informations. The other test will come later.
 	       */
 	      param.suite = _TEST_SUITE_SERVER;
+	      param.log_level_id = LW6SYS_LOG_ERROR_ID;
 	      if ((pid =
 		   lw6sys_process_fork_and_call (_guile_test_run,
 						 &param)) != 0)
 		{
 		  param.suite = _TEST_SUITE_CLIENT;
+		  param.log_level_id = default_log_level_id;
 		  _guile_test_run (&param);
 		  lw6sys_process_kill_1_9 (pid);
 		}
@@ -348,11 +362,13 @@ lw6_test (int mode)
 	       * informations. The other test was done before.
 	       */
 	      param.suite = _TEST_SUITE_CLIENT;
+	      param.log_level_id = LW6SYS_LOG_ERROR_ID;
 	      if ((pid =
 		   lw6sys_process_fork_and_call (_guile_test_run,
 						 &param)) != 0)
 		{
 		  param.suite = _TEST_SUITE_SERVER;
+		  param.log_level_id = default_log_level_id;
 		  _guile_test_run (&param);
 		  lw6sys_process_kill_1_9 (pid);
 		}

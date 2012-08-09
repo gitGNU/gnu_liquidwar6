@@ -1,3 +1,7 @@
+2012-08-09 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Forked process in client/network test now logs errors and criticals only.
+
 2012-08-08 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Using fork to test client/network interaction in script tests.
