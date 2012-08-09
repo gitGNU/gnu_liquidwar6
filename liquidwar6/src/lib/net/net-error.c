@@ -31,6 +31,8 @@
 #include "net.h"
 #include "net-internal.h"
 
+#define _ERRBUFFER_LEN 1000
+
 #ifdef LW6_MS_WINDOWS
 /*
  * Convenience fonction which returns the readable name of a
@@ -554,7 +556,8 @@ lw6net_last_error ()
 
   if (ret)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("socket error %d"), ret);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("socket error %d \"%s\""), ret,
+		  lw6sys_log_errno_str (ret));
     }
 #endif
 

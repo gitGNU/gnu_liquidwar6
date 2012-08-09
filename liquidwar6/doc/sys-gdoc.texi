@@ -2452,6 +2452,18 @@ data is not dynamically allocated.
 @strong{Returned value:}  a newly allocated list.
 @end deftypefun
 
+@deftypefun {const char *} {lw6sys_log_errno_str} (int @var{errno_int})
+@var{errno_int}:  the error code, typically errno
+
+Convenience fonction which returns the "macro" corresponding
+to an errno code. I find it easier to use this than bothering
+declaring a buffer for strerror_r... Besides LW6b has its own
+error messages. Wil never return NULL, if error does not exists
+just returns "?".
+
+@strong{Return value:}  static string, must not be freed
+@end deftypefun
+
 @deftypefun {void} {lw6sys_log_set_file} (const char * @var{filename})
 @var{filename}:  the name of the log file.
 

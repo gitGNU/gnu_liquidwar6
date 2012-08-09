@@ -950,6 +950,7 @@ extern lw6sys_list_t *lw6sys_list_dup (lw6sys_list_t * list,
 				       lw6sys_dup_func_t dup_func);
 
 /* sys-log.c */
+extern const char *lw6sys_log_errno_str (int errno_int);
 extern void lw6sys_log_set_file (const char *filename);
 extern void lw6sys_log_clear (const char *filename);
 extern void lw6sys_log (int level_id, const char *file, int line,

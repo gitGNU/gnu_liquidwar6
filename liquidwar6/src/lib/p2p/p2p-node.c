@@ -1708,8 +1708,8 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
   remote_id_str = lw6sys_id_ltoa (remote_id);
   if (remote_id_str)
     {
-      if (!lw6nod_info_community_is_member
-	  (node->node_info, remote_id, remote_url))
+      if ((!lw6nod_info_community_has_id (node->node_info, remote_id)) &&
+	  (!lw6nod_info_community_has_url (node->node_info, remote_url)))
 	{
 	  i = _lw6p2p_node_find_tentacle (node, remote_id);
 	  if (i >= 0 && i < LW6P2P_MAX_NB_TENTACLES)
@@ -1830,11 +1830,23 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_ ("won't join %" LW6SYS_PRINTF_LL
-			   "x at \"%s\", it conflicts with an existing community member"),
-		      (long long) remote_id, remote_url);
-	  ret = 0;
+	  if (lw6nod_info_community_is_member
+	      (node->node_info, remote_id, remote_url))
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_ ("it's useless to join %" LW6SYS_PRINTF_LL
+			       "x at \"%s\", it's already a community member"),
+			  (long long) remote_id, remote_url);
+	    }
+	  else
+	    {
+
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("won't join %" LW6SYS_PRINTF_LL
+			       "x at \"%s\", it conflicts with an existing community member"),
+			  (long long) remote_id, remote_url);
+	      ret = 0;
+	    }
 	}
       LW6SYS_FREE (remote_id_str);
     }

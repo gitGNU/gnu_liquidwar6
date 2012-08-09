@@ -87,16 +87,23 @@ get_log_file ()
   return log_file;
 }
 
-/*
+/**
+ * lw6sys_log_errno_str
+ *
+ * @errno_int: the error code, typically errno
+ *
  * Convenience fonction which returns the "macro" corresponding
  * to an errno code. I find it easier to use this than bothering
  * declaring a buffer for strerror_r... Besides LW6b has its own
- * error messages.
+ * error messages. Wil never return NULL, if error does not exists
+ * just returns "?".
+ *
+ * Return value: static string, must not be freed
  */
-static char *
-errno_str (int errno_int)
+const char *
+lw6sys_log_errno_str (int errno_int)
 {
-  char *ret = "?";
+  const char *ret = "?";
 
   switch (errno_int)
     {
@@ -800,7 +807,7 @@ lw6sys_log (int level_id, const char *file, int line, const char *fmt, ...)
 	    {
 	      lw6sys_buf_sprintf (level_str, LEVEL_LENGTH,
 				  _("ERROR! (errno=%d:%s) "), errno_int,
-				  errno_str (errno_int));
+				  lw6sys_log_errno_str (errno_int));
 	    }
 	  else
 	    {
@@ -815,7 +822,7 @@ lw6sys_log (int level_id, const char *file, int line, const char *fmt, ...)
 	    {
 	      lw6sys_buf_sprintf (level_str, LEVEL_LENGTH,
 				  _("WARNING! (errno=%d:%s) "), errno_int,
-				  errno_str (errno_int));
+				  lw6sys_log_errno_str (errno_int));
 	    }
 	  else
 	    {
