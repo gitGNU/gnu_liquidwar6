@@ -438,7 +438,8 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 							  lw6sys_log
 							    (LW6SYS_LOG_INFO,
 							     _x_
-							     ("can't parse \"logical_to\" (final destination) id"));
+							     ("can't parse \"logical_to\" (final destination) id in envelope \"%s\""),
+							     envelope);
 							}
 						    }
 						  else
@@ -446,7 +447,8 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 						      lw6sys_log
 							(LW6SYS_LOG_INFO,
 							 _x_
-							 ("can't parse \"logical_from\" (creator) id"));
+							 ("can't parse \"logical_from\" (creator) id in envelope \"%s\""),
+							 envelope);
 						    }
 						}
 					      else
@@ -454,79 +456,110 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 						  lw6sys_log
 						    (LW6SYS_LOG_INFO,
 						     _x_
-						     ("wrong \"physical_to\" (receiver) id"));
+						     ("wrong \"physical_to\" (receiver) id expected %"
+						      LW6SYS_PRINTF_LL
+						      "x received %"
+						      LW6SYS_PRINTF_LL
+						      "x in envelope \"%s\""),
+						     (long long)
+						     expected_physical_to_id,
+						     (long long)
+						     received_physical_to_id,
+						     envelope);
 						}
 					    }
 					  else
 					    {
 					      lw6sys_log (LW6SYS_LOG_INFO,
 							  _x_
-							  ("can't parse \"physical_to\" (receiver) id"));
+							  ("can't parse \"physical_to\" (receiver) id in envelope \"%s\""),
+							  envelope);
 					    }
 					}
 				      else
 					{
 					  lw6sys_log (LW6SYS_LOG_INFO,
 						      _x_
-						      ("wrong \"physical_from\" (sender) id"));
+						      ("wrong \"physical_from\" (sender) id expected %"
+						       LW6SYS_PRINTF_LL
+						       "x received %"
+						       LW6SYS_PRINTF_LL
+						       "x in envelope \"%s\""),
+						      (long long)
+						      expected_physical_from_id,
+						      (long long)
+						      received_physical_from_id,
+						      envelope);
 					}
 				    }
 				  else
 				    {
 				      lw6sys_log (LW6SYS_LOG_INFO,
 						  _x_
-						  ("can't parse \"physical_from\" (sender) id"));
+						  ("can't parse \"physical_from\" (sender) id in envelope \"%s\""),
+						  envelope);
 				    }
 				}
 			      else
 				{
 				  lw6sys_log (LW6SYS_LOG_INFO,
 					      _x_
-					      ("can't parse logical ticket sig"));
+					      ("can't parse logical ticket sig in envelope \"%s\""),
+					      envelope);
 				}
 			    }
 			  else
 			    {
 			      lw6sys_log (LW6SYS_LOG_INFO,
 					  _x_
-					  ("can't parse physical ticket sig"));
+					  ("can't parse physical ticket sig in envelope \"%s\""),
+					  envelope);
 			    }
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad password"));
+			  lw6sys_log (LW6SYS_LOG_INFO,
+				      _x_ ("bad password in envelope \"%s\""),
+				      envelope);
 			}
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _x_ ("can't parse password"));
+				  _x_
+				  ("can't parse password in envelope \"%s\""),
+				  envelope);
 		    }
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
 			      _x_
-			      ("bad version, received \"%s\", need \"%s\""),
-			      received_version.buf, version);
+			      ("bad version, received \"%s\", need \"%s\" in envelope \"%s\""),
+			      received_version.buf, version, envelope);
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("can't parse version"));
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_ ("can't parse version in envelope \"%s\""),
+			  envelope);
 	    }
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _x_ ("bad lw6 key, received \"%s\", need \"%s\""),
-		      received_lw6.buf, lw6);
+		      _x_
+		      ("bad lw6 key, received \"%s\", need \"%s\" in envelope \"%s\""),
+		      received_lw6.buf, lw6, envelope);
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_INFO,
-		  _x_ ("message does not start with \"%s\""), lw6);
+		  _x_
+		  ("message does not start with \"%s\" in envelope \"%s\""),
+		  lw6, envelope);
     }
 
   return ret;

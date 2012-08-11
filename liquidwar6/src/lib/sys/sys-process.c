@@ -45,6 +45,14 @@
 #include <signal.h>
 #endif // LW6_GNU
 
+/*
+ * Wait for 5 minutes when done, logically we'll be killed
+ * before, but well, there must be a limit so that if for
+ * some reason kill does not work, process stills ends not
+ * too long after it's done its job
+ */
+#define _SLEEP_WHEN_DONE 300
+
 /**
  * lw6sys_process_is_fully_supported
  *
@@ -97,6 +105,12 @@ lw6sys_process_fork_and_call (lw6sys_fork_func_t func, void *data)
       lw6sys_log (LW6SYS_LOG_INFO,
 		  _x_ ("process forked, callback end func=%p data=%p"), &func,
 		  data);
+
+      lw6sys_log (LW6SYS_LOG_INFO,
+		  _x_ ("now naively trying to sleep for %d minutes"),
+		  _SLEEP_WHEN_DONE);
+      lw6sys_sleep (_SLEEP_WHEN_DONE);
+
       /*
        * Here we exit in "dirty" mode without continuing, freeing 
        * memory etc etc, the idea is that anyway, this would be very

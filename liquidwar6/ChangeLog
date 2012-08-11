@@ -1,3 +1,7 @@
+2012-08-10 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixing low-level network code.
+
 2012-08-09 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Forked process in client/network test now logs errors and criticals only.

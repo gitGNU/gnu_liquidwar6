@@ -246,6 +246,9 @@ lw6net_tcp_connect (const char *ip, int port, int delay_msec)
   int64_t origin = 0;
 #ifdef LW6_MS_WINDOWS
   int winerr = 0;
+#else
+  struct sockaddr getpeername_address;
+  socklen_t getpeername_address_len = sizeof (struct sockaddr);
 #endif
 
   sock = socket (AF_INET, SOCK_STREAM, 0);
@@ -353,7 +356,42 @@ lw6net_tcp_connect (const char *ip, int port, int delay_msec)
 				{
 				  if (FD_ISSET (sock, &write))
 				    {
+#ifdef LW6_MS_WINDOWS
 				      connected = 1;
+#else
+				      /*
+				       * This is a mess, logically, a select
+				       * on write should yield an error if
+				       * not connected, but this is not the
+				       * case. Following advices on
+				       * http://cr.yp.to/docs/connect.html
+				       * we use getpeername, which should
+				       * (at least on GNU/Linux) tell
+				       * something is wrong.
+				       */
+				      memset (&getpeername_address, 0,
+					      getpeername_address_len);
+				      if (!getpeername
+					  (sock, &getpeername_address,
+					   &getpeername_address_len))
+					{
+					  connected = 1;
+					}
+				      else
+					{
+					  lw6sys_log (LW6SYS_LOG_INFO,
+						      _x_
+						      ("async connect on \"%s:%d\" failed, getpeername didn't return 0 as expected"),
+						      ip, port);
+					}
+#endif
+				    }
+				  else
+				    {
+				      lw6sys_log (LW6SYS_LOG_INFO,
+						  _x_
+						  ("async connect on \"%s:%d\" failed, FD_ISSET returned 0"),
+						  ip, port);
 				    }
 				}
 			    }
