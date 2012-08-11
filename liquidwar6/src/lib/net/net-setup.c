@@ -104,10 +104,19 @@ lw6net_init (int argc, const char *argv[], int net_log)
 	&& _lw6net_dns_init (&(_lw6net_global_context->dns),
 			     _lw6net_global_context->
 			     const_data.dns_cache_hash_size);
+      ok = ok
+	&& _lw6net_connectable_init (&(_lw6net_global_context->connectable),
+				     _lw6net_global_context->
+				     const_data.connectable_cache_hash_size);
     }
 
   if (!ok)
     {
+      /*
+       * Todo -> fix this and do proper deinit since some members
+       * might have been allocated/initialized and require specific
+       * functions
+       */
       if (_lw6net_global_context)
 	{
 	  LW6SYS_FREE (_lw6net_global_context);
@@ -137,6 +146,7 @@ lw6net_quit ()
 
   if (_lw6net_global_context)
     {
+      _lw6net_connectable_quit (&(_lw6net_global_context->connectable));
       _lw6net_dns_quit (&(_lw6net_global_context->dns));
       _lw6net_log_quit (&(_lw6net_global_context->log));
       _lw6net_counters_quit (&(_lw6net_global_context->counters));

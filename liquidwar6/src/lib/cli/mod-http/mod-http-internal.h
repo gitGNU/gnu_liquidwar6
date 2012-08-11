@@ -87,7 +87,8 @@ extern void _mod_http_quit (_mod_http_context_t * http_context);
 
 /* http-get.c */
 extern char *_mod_http_get (_mod_http_context_t * http_context,
-			    const char *url, const char *password);
+			    const char *url, const char *password,
+			    const char *ip, int port);
 
 /* http-querythread.c */
 extern void _mod_http_query_thread_func (void *callback_data);

@@ -1,3 +1,36 @@
+@deftypefun {int} {lw6net_is_connectable} (const char * @var{ip}, int @var{port})
+@var{ip}:  IP address
+
+@var{port}:  IP port
+
+Tells wether we're likely to be able to connect on a given
+host and port. This is to save ressources, any call to
+connect which fails will register an entry that says
+"OK this is rotten, don't try it before some time, you'll
+waste your ressources trying to do this".
+
+@strong{Return value:}  1 if connectable, 0 if not.
+@end deftypefun
+
+@deftypefun {void} {lw6net_set_connectable} (const char * @var{ip}, int @var{port}, int @var{status})
+@var{ip}:  IP address
+
+@var{port}:  IP port
+
+@var{status}:  status, set to 1 if connectable, 0 if not
+
+
+@strong{Registers a destination ip:} port as connectable or not.
+Connectable means, there are chances that a connect on this
+might return true. The information will be kept in a cache.
+This is to avoid too many low-level calls to connect,
+the information will be kept in cache "for some time",
+and this way connect will return "can't connect" right
+away and not even try to connect, therefore saving ressources.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {int} {lw6net_dns_is_ip} (const char * @var{ip})
 @var{ip}:  the string to check
 

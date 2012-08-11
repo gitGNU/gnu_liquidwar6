@@ -1775,7 +1775,12 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 			     && lw6sys_get_timestamp () < limit_timestamp)
 			{
 			  _lw6p2p_node_poll (node);
-			  lw6sys_idle ();
+			  /*
+			   * Used to be lw6sys_idle but was generating
+			   * way too many calls, snooze is an order
+			   * of magnitude more reasonnable.
+			   */
+			  lw6sys_snooze ();
 			}
 		      /*
 		       * Generating a JOIN message with 0 seq
@@ -1787,13 +1792,6 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 						  (node->warehouse));
 		      if (msg)
 			{
-			  /*
-			     ticket_sig =
-			     lw6msg_ticket_calc_sig
-			     (lw6cnx_ticket_table_get_send
-			     (&(node->ticket_table), node->node_id_str),
-			     node->node_id_int, remote_id, msg);
-			   */
 			  ticket_sig =
 			    lw6msg_ticket_calc_sig
 			    (lw6cnx_ticket_table_get_send

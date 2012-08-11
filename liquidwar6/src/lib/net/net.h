@@ -54,8 +54,9 @@
 #define LW6NET_SOCKET_INVALID -1
 #define LW6NET_UDP_MINIMAL_BUF_SIZE 1
 
-// net-error.c
-extern int lw6net_last_error ();
+/* net-connectable.c */
+extern int lw6net_is_connectable (const char *ip, int port);
+extern void lw6net_set_connectable (const char *ip, int port, int status);
 
 /* net-counters.c */
 extern int lw6net_counters_get_sent_kbytes ();
@@ -66,6 +67,9 @@ extern int lw6net_dns_is_ip (const char *ip);
 extern char *lw6net_dns_gethostbyname (const char *name);
 extern int lw6net_dns_lock ();
 extern int lw6net_dns_unlock ();
+
+/* net-error.c */
+extern int lw6net_last_error ();
 
 /* net-if.c */
 extern char *lw6net_if_guess_local ();

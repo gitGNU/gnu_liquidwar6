@@ -5,4 +5,7 @@
   <int key="line-size" value="1333" />
   <int key="line-delay-msec" value="1000" />
   <int key="dns-cache-hash-size" value="101" />
+  <int key="dns-cache-delay-sec" value="3600" />
+  <int key="connectable-cache-hash-size" value="37" />
+  <int key="connectable-cache-delay-sec" value="3" />
 </liquidwar6>

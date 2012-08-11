@@ -47,6 +47,12 @@ read_callback (void *callback_data, const char *element, const char *key,
 			   &const_data->line_delay_msec);
       lw6cfg_read_xml_int (key, value, "dns-cache-hash-size",
 			   &const_data->dns_cache_hash_size);
+      lw6cfg_read_xml_int (key, value, "dns-cache-delay-sec",
+			   &const_data->dns_cache_delay_sec);
+      lw6cfg_read_xml_int (key, value, "connectable-cache-hash-size",
+			   &const_data->connectable_cache_hash_size);
+      lw6cfg_read_xml_int (key, value, "connectable-cache-delay-sec",
+			   &const_data->connectable_cache_delay_sec);
     }
 }
 

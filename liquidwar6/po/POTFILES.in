@@ -331,6 +331,7 @@ src/lib/msg/msg-utils.c
 src/lib/msg/msg-word.c
 src/lib/msg/msg-z.c
 src/lib/net/net-address.c
+src/lib/net/net-connectable.c
 src/lib/net/net-const.c
 src/lib/net/net-counters.c
 src/lib/net/net-dns.c

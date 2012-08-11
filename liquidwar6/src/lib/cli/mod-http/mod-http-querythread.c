@@ -46,7 +46,9 @@ _mod_http_query_thread_func (void *callback_data)
 	  response =
 	    _mod_http_get (query_thread_data->http_context,
 			   query_thread_data->url,
-			   query_thread_data->cnx->password_send_checksum);
+			   query_thread_data->cnx->password_send_checksum,
+			   query_thread_data->cnx->remote_ip,
+			   query_thread_data->cnx->remote_port);
 	  if (response)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,

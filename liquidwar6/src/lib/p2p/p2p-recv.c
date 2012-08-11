@@ -573,7 +573,7 @@ _lw6p2p_recv_callback (void *recv_callback_data,
   if (node && connection)
     {
       /*
-       * We filter here, for it's node the backend responsibility
+       * We filter here, for it's not the backend responsibility
        * to do it, and there's no way to trap it in generic cli/srv
        * code.
        */

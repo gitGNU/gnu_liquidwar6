@@ -1,3 +1,9 @@
+2012-08-11 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed bug in connect code, would waste time on useless loops.
+
+	* Caching "can't connect here" informations.
+
 2012-08-10 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixing low-level network code.

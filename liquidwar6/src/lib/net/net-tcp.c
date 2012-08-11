@@ -235,6 +235,7 @@ lw6net_tcp_connect (const char *ip, int port, int delay_msec)
   int connect_async = 0;
   int select_ret = 0;
   int connected = 0;
+  int refused = 0;
   struct sockaddr_in name;
   /*
      int enable = 1;
@@ -251,180 +252,193 @@ lw6net_tcp_connect (const char *ip, int port, int delay_msec)
   socklen_t getpeername_address_len = sizeof (struct sockaddr);
 #endif
 
-  sock = socket (AF_INET, SOCK_STREAM, 0);
-  if (sock >= 0)
+  if (lw6net_is_connectable (ip, port))
     {
-      if (lw6net_socket_set_blocking_mode (sock, 0))
+      sock = socket (AF_INET, SOCK_STREAM, 0);
+      if (sock >= 0)
 	{
-	  name.sin_family = AF_INET;
-	  name.sin_addr.s_addr = INADDR_ANY;
-	  name.sin_port = 0;
-	  if (bind (sock, (struct sockaddr *) &name, sizeof (name)) >= 0)
+	  if (lw6net_socket_set_blocking_mode (sock, 0))
 	    {
 	      name.sin_family = AF_INET;
-	      if (_lw6net_inet_aton (&name.sin_addr, ip))
+	      name.sin_addr.s_addr = INADDR_ANY;
+	      name.sin_port = 0;
+	      if (bind (sock, (struct sockaddr *) &name, sizeof (name)) >= 0)
 		{
-		  name.sin_port = htons (port);
-		  connect_ret =
-		    connect (sock, (struct sockaddr *) &name, sizeof (name));
-		  if (connect_ret >= 0)
+		  name.sin_family = AF_INET;
+		  if (_lw6net_inet_aton (&name.sin_addr, ip))
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _x_
-				  ("connect on \"%s:%d\" returned with a successfull code %d, this is very strange since we should be in non-blocking mode"),
-				  ip, port, connect_ret);
-		    }
-		  else
-		    {
+		      name.sin_port = htons (port);
+		      connect_ret =
+			connect (sock, (struct sockaddr *) &name,
+				 sizeof (name));
+		      if (connect_ret >= 0)
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("connect on \"%s:%d\" returned with a successfull code %d, this is very strange since we should be in non-blocking mode"),
+				      ip, port, connect_ret);
+			}
+		      else
+			{
 #ifdef LW6_MS_WINDOWS
-		      winerr = WSAGetLastError ();
-		      switch (winerr)
-			{
-			  /*
-			   * Fixed 35104 (warning on windows build) by specifically
-			   * adding both INPROGRESS and WOULDBLOCK in acceptable values.
-			   */
-			case WSAEINPROGRESS:
-			case WSAEWOULDBLOCK:
-			  connect_async = 1;
-			  break;
-			  /*
-			   * UNREACH is not reported as an error, only an info,
-			   * it's very common not to be able to reach host, it
-			   * can be down or you can just be playing locally.
-			   */
-			case WSAEHOSTUNREACH:
-			case WSAEHOSTDOWN:
-			  lw6sys_log (LW6SYS_LOG_INFO,
-				      _x_
-				      ("can't connect on \"%s:%d\", host unreachable or down"),
-				      ip, port);
-			  break;
-			default:
-			  lw6net_last_error ();
-			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _x_
-				      ("connect on \"%s:%d\" failed, did not return WSAEINPROGRESS or WSAEWOULDBLOCK (code=%d)"),
-				      ip, port, winerr);
-			}
-#else
-		      switch (errno)
-			{
-			  /*
-			   * Fixed 35104 (warning on windows build) by specifically
-			   * adding both INPROGRESS and WOULDBLOCK in acceptable values.
-			   */
-			case EINPROGRESS:
-			case EWOULDBLOCK:
-			  connect_async = 1;
-			  break;
-			  /*
-			   * UNREACH is not reported as an error, only an info,
-			   * it's very common not to be able to reach host, it
-			   * can be down or you can just be playing locally.
-			   */
-			case EHOSTUNREACH:
-			case EHOSTDOWN:
-			  lw6sys_log (LW6SYS_LOG_INFO,
-				      _x_
-				      ("can't connect on \"%s:%d\", host unreachable or down"),
-				      ip, port);
-			  break;
-			default:
-			  lw6net_last_error ();
-			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _x_
-				      ("connect on \"%s:%d\" failed, did not return EINPROGRESS or EWOULDBLOCK (code=%d)"),
-				      ip, port, errno);
-			}
-#endif
-		      if (connect_async)
-			{
-			  FD_ZERO (&write);
-			  FD_SET (sock, &write);
-			  _lw6net_delay_msec_to_timeval (&tv, delay_msec);
-
-			  origin = lw6sys_get_timestamp ();
-			  while (!connected
-				 && (lw6sys_get_timestamp () <
-				     (origin + delay_msec)))
+			  winerr = WSAGetLastError ();
+			  switch (winerr)
 			    {
-			      select_ret =
-				select (sock + 1, NULL, &write, NULL, &tv);
-
-			      if (select_ret > 0)
-				{
-				  if (FD_ISSET (sock, &write))
-				    {
-#ifdef LW6_MS_WINDOWS
-				      connected = 1;
+			      /*
+			       * Fixed 35104 (warning on windows build) by specifically
+			       * adding both INPROGRESS and WOULDBLOCK in acceptable values.
+			       */
+			    case WSAEINPROGRESS:
+			    case WSAEWOULDBLOCK:
+			      connect_async = 1;
+			      break;
+			      /*
+			       * UNREACH is not reported as an error, only an info,
+			       * it's very common not to be able to reach host, it
+			       * can be down or you can just be playing locally.
+			       */
+			    case WSAEHOSTUNREACH:
+			    case WSAEHOSTDOWN:
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _x_
+					  ("can't connect on \"%s:%d\", host unreachable or down"),
+					  ip, port);
+			      break;
+			    default:
+			      lw6net_last_error ();
+			      lw6sys_log (LW6SYS_LOG_WARNING,
+					  _x_
+					  ("connect on \"%s:%d\" failed, did not return WSAEINPROGRESS or WSAEWOULDBLOCK (code=%d)"),
+					  ip, port, winerr);
+			    }
 #else
-				      /*
-				       * This is a mess, logically, a select
-				       * on write should yield an error if
-				       * not connected, but this is not the
-				       * case. Following advices on
-				       * http://cr.yp.to/docs/connect.html
-				       * we use getpeername, which should
-				       * (at least on GNU/Linux) tell
-				       * something is wrong.
-				       */
-				      memset (&getpeername_address, 0,
-					      getpeername_address_len);
-				      if (!getpeername
-					  (sock, &getpeername_address,
-					   &getpeername_address_len))
+			  switch (errno)
+			    {
+			      /*
+			       * Fixed 35104 (warning on windows build) by specifically
+			       * adding both INPROGRESS and WOULDBLOCK in acceptable values.
+			       */
+			    case EINPROGRESS:
+			    case EWOULDBLOCK:
+			      connect_async = 1;
+			      break;
+			      /*
+			       * UNREACH is not reported as an error, only an info,
+			       * it's very common not to be able to reach host, it
+			       * can be down or you can just be playing locally.
+			       */
+			    case EHOSTUNREACH:
+			    case EHOSTDOWN:
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _x_
+					  ("can't connect on \"%s:%d\", host unreachable or down"),
+					  ip, port);
+			      break;
+			    default:
+			      lw6net_last_error ();
+			      lw6sys_log (LW6SYS_LOG_WARNING,
+					  _x_
+					  ("connect on \"%s:%d\" failed, did not return EINPROGRESS or EWOULDBLOCK (code=%d)"),
+					  ip, port, errno);
+			    }
+#endif
+			  if (connect_async)
+			    {
+			      FD_ZERO (&write);
+			      FD_SET (sock, &write);
+			      _lw6net_delay_msec_to_timeval (&tv, delay_msec);
+
+			      origin = lw6sys_get_timestamp ();
+			      while (!connected && !refused
+				     && (lw6sys_get_timestamp () <
+					 (origin + delay_msec)))
+				{
+				  select_ret =
+				    select (sock + 1, NULL, &write, NULL,
+					    &tv);
+
+				  if (select_ret > 0)
+				    {
+				      if (FD_ISSET (sock, &write))
 					{
+#ifdef LW6_MS_WINDOWS
 					  connected = 1;
+#else
+					  /*
+					   * This is a mess, logically, a select
+					   * on write should yield an error if
+					   * not connected, but this is not the
+					   * case. Following advices on
+					   * http://cr.yp.to/docs/connect.html
+					   * we use getpeername, which should
+					   * (at least on GNU/Linux) tell
+					   * something is wrong.
+					   */
+					  memset (&getpeername_address, 0,
+						  getpeername_address_len);
+					  if (!getpeername
+					      (sock, &getpeername_address,
+					       &getpeername_address_len))
+					    {
+					      connected = 1;
+					    }
+					  else
+					    {
+					      lw6sys_log (LW6SYS_LOG_INFO,
+							  _x_
+							  ("async connect on \"%s:%d\" failed, getpeername didn't return 0 as expected"),
+							  ip, port);
+					      refused = 1;
+					    }
+#endif
 					}
 				      else
 					{
 					  lw6sys_log (LW6SYS_LOG_INFO,
 						      _x_
-						      ("async connect on \"%s:%d\" failed, getpeername didn't return 0 as expected"),
+						      ("async connect on \"%s:%d\" failed, FD_ISSET returned 0"),
 						      ip, port);
+					  refused = 1;
 					}
-#endif
-				    }
-				  else
-				    {
-				      lw6sys_log (LW6SYS_LOG_INFO,
-						  _x_
-						  ("async connect on \"%s:%d\" failed, FD_ISSET returned 0"),
-						  ip, port);
 				    }
 				}
 			    }
 			}
 		    }
-
-		  if (connected)
-		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _x_ ("socket %d connected on %s:%d"), sock,
-				  ip, port);
-
-		      _lw6net_counters_register_socket (&
-							(_lw6net_global_context->
-							 counters));
-		    }
-		  else
-		    {
-		      /*
-		       * Here, no peculiar warning, connect() is definitely
-		       * the kind of function which *will* fail very
-		       * often, we certainly don't want this to fill our
-		       * log...
-		       */
-		    }
+		}
+	      else
+		{
+		  lw6net_last_error ();
+		  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bind() failed"));
 		}
 	    }
-	  else
-	    {
-	      lw6net_last_error ();
-	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bind() failed"));
-	    }
 	}
+      if (connected)
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_ ("socket %d connected on %s:%d"), sock, ip, port);
+
+	  _lw6net_counters_register_socket (&
+					    (_lw6net_global_context->
+					     counters));
+	}
+      else
+	{
+	  /*
+	   * Here, no peculiar warning, connect() is definitely
+	   * the kind of function which *will* fail very
+	   * often, we certainly don't want this to fill our
+	   * log...
+	   */
+	  lw6net_set_connectable (ip, port, 0);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_INFO,
+		  _x_
+		  ("destination %s:%d already marked as not connectable, not even trying to connect to it"),
+		  ip, port);
     }
 
   if (lw6net_socket_is_valid (sock) && !connected)

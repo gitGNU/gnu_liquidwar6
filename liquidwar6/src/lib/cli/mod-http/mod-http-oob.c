@@ -42,7 +42,8 @@ _do_ping (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
   ping_url = lw6sys_str_concat (url, _MOD_HTTP_OOB_PING_TXT);
   if (ping_url)
     {
-      response = _mod_http_get (http_context, ping_url, NULL);
+      response =
+	_mod_http_get (http_context, ping_url, NULL, ip, parsed_url->port);
       if (response)
 	{
 	  if (_mod_http_oob_should_continue (http_context, oob_data))
@@ -106,7 +107,8 @@ _do_info (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
       if (info_url)
 	{
 	  response =
-	    _mod_http_get (http_context, info_url, password_checksum);
+	    _mod_http_get (http_context, info_url, password_checksum, ip,
+			   parsed_url->port);
 	  if (response)
 	    {
 	      if (_mod_http_oob_should_continue (http_context, oob_data))
@@ -189,7 +191,9 @@ _do_list (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
   list_url = lw6sys_str_concat (url, _MOD_HTTP_OOB_LIST_TXT);
   if (list_url)
     {
-      response = _mod_http_get (http_context, list_url, password_checksum);
+      response =
+	_mod_http_get (http_context, list_url, password_checksum, ip,
+		       parsed_url->port);
       if (response)
 	{
 	  if (_mod_http_oob_should_continue (http_context, oob_data))

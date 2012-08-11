@@ -319,14 +319,44 @@ test_tcp ()
     int size;
     int received;
 
-    /*
-       lw6sys_log (LW6SYS_LOG_NOTICE,
-       _x_("trying to connect on unreachable point %s:%d"),
-       TEST_UNREACHABLE_IP, TEST_UNREACHABLE_PORT);
-       handler =
-       lw6net_tcp_async_connect_init (TEST_UNREACHABLE_IP,
-       TEST_UNREACHABLE_PORT);
-     */
+    sock1 =
+      lw6net_tcp_connect (TEST_UNREACHABLE_IP, TEST_UNREACHABLE_PORT,
+			  TEST_TCP_CONNECT_DELAY);
+    if (!lw6net_socket_is_valid (sock1))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("unable to connect on \"%s:%d\", this is fine"),
+		    TEST_UNREACHABLE_IP, TEST_UNREACHABLE_PORT);
+	sock1 =
+	  lw6net_tcp_connect (TEST_UNREACHABLE_IP, TEST_UNREACHABLE_PORT,
+			      TEST_TCP_CONNECT_DELAY);
+	if (!lw6net_socket_is_valid (sock1))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("unable to connect on \"%s:%d\", this is fine, this second test was just here to trigger the code that skips destinations marked as not connectable"),
+			TEST_UNREACHABLE_IP, TEST_UNREACHABLE_PORT);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("was able to connect on \"%s:%d\" the second time this is (very!) strange..."),
+			TEST_UNREACHABLE_IP, TEST_UNREACHABLE_PORT);
+	    lw6net_socket_close (sock1);
+	    ret = 0;
+	  }
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("was able to connect on \"%s:%d\", this is strange..."),
+		    TEST_UNREACHABLE_IP, TEST_UNREACHABLE_PORT);
+	lw6net_socket_close (sock1);
+	ret = 0;
+      }
+
     if (prepare_2_tcp_socks (&sock1, &sock2))
       {
 
