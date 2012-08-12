@@ -1,3 +1,7 @@
+2012-08-12 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Factorized cache code, using it for DNS too now.
+
 2012-08-11 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed bug in connect code, would waste time on useless loops.

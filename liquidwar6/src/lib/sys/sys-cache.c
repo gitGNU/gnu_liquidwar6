@@ -26,6 +26,26 @@
 
 #include "sys.h"
 
+/**
+ * lw6sys_cache_new:
+ *
+ * @free_func: optional callback used to free memory when stored
+ *   date is a pointer. Can be NULL when one stores non dynamically
+ *   allocated data, such as an integer or a static array.
+ * @size: the estimated size of the cache table. This is required because,
+ *   internally, the object uses a hash. Note that this is
+ *   an estimation only. You could theorically fit 1000000 objects
+ *   in a 3-sized cache. Problem -> this is inefficient, you'd better
+ *   use an assoc or a bigger cache. If you store 3 elements in a
+ *   1000000-sized cache, you'll waste memory. It might be wise to
+ *   use a prime number as the estimated size. 421 is prime ;)
+ *
+ * Creates an empty cache. There's a difference between NULL and an
+ * empty cache.
+ *
+ * Return value: a pointer to the newly allocated cache table.
+ * Must be freed with @lw6sys_cache_free.
+ */
 lw6sys_cache_t *
 lw6sys_cache_new (lw6sys_free_func_t free_func, int size, int delay_msec)
 {
@@ -47,6 +67,16 @@ lw6sys_cache_new (lw6sys_free_func_t free_func, int size, int delay_msec)
   return ret;
 }
 
+/**
+ * lw6sys_cache_free:
+ *
+ * @cache: the cache to be freed.
+ *
+ * The function will cascade  delete all elements, using (if not NULL...)
+ * the callback passed when first creating the cache.
+ * 
+ * Return value: void
+ */
 void
 lw6sys_cache_free (lw6sys_cache_t * cache)
 {
@@ -61,6 +91,20 @@ lw6sys_cache_free (lw6sys_cache_t * cache)
     }
 }
 
+/**
+ * lw6sys_cache_free_callback:
+ *
+ * @data: data to free, this is normally an cache item
+ *
+ * This is a wrapper, used as the actual free callback
+ * for the internal hash. What it does is that it just
+ * runs the real free callback (the one given by the
+ * user) on the member value. This indirection is required
+ * since we use the intermediate item object to store
+ * the timestamp along with the key and data.
+ * 
+ * Return value: none.
+ */
 void
 lw6sys_cache_free_callback (void *data)
 {
@@ -76,6 +120,19 @@ lw6sys_cache_free_callback (void *data)
     }
 }
 
+/**
+ * lw6sys_cache_has_key:
+ *
+ * @cache: the cache to test
+ * @key: the key to search
+ *
+ * Tells wether the key is present or not. If key is here but
+ * too old (expired) then will return 0 and key will be deleted
+ * on the fly.
+ *
+ * Return value: non-zero if there's an entry with the
+ *   corresponding key. 
+ */
 int
 lw6sys_cache_has_key (lw6sys_cache_t * cache, const char *key)
 {
@@ -108,6 +165,23 @@ lw6sys_cache_has_key (lw6sys_cache_t * cache, const char *key)
   return ret;
 }
 
+/**
+ * lw6sys_cache_get:
+ *
+ * @cache: the cache to query
+ * @key: the key of which we want the value
+ *
+ * Gets the value corresponding to a given key. Note that the
+ * value might be NULL, even if the key exists. If the key
+ * has expired, NULL will be returned, and the entry deleted
+ * on the fly.
+ *
+ * Return value: a void pointer to the data contained
+ *   in the cache. Note that the pointer on the actual data
+ *   is returned, that is, if it's static data, you must not
+ *   try to free it... As long as memory management is concerned,
+ *   destroying the cache will actually free the data if needed.
+ */
 void *
 lw6sys_cache_get (lw6sys_cache_t * cache, const char *key)
 {
@@ -134,6 +208,24 @@ lw6sys_cache_get (lw6sys_cache_t * cache, const char *key)
   return ret;
 }
 
+/**
+ * lw6sys_cache_set:
+ *
+ * @cache: the cache to modify
+ * @key: the key we want to updated
+ * @value: the new value
+ *
+ * Sets a value in a cache table. The key pointer need
+ * not be persistent, it can be freed after affectation. In
+ * fact a new string will be created internally. This is not
+ * true for the value, it's hard to find way to copy "any object".
+ * So if you want a cache of strings, key can
+ * disappear after calling this function, but not value. The
+ * function passed as free_func when creating the cache will
+ * be used to free stuff whenever needed (unset or free).
+ *
+ * Return value: void
+ */
 void
 lw6sys_cache_set (lw6sys_cache_t * cache, const char *key, void *value)
 {
@@ -151,28 +243,20 @@ lw6sys_cache_set (lw6sys_cache_t * cache, const char *key, void *value)
     }
 }
 
+/**
+ * lw6sys_cache_unset:
+ *
+ * @cache: the cache concerned
+ * @key: the key to unset
+ * 
+ * Clears an entry in a cache table. The callback passed when
+ * creating the cache will be called if needed, to free the data
+ * automatically.
+ *
+ * Return value: void
+ */
 void
 lw6sys_cache_unset (lw6sys_cache_t * cache, const char *key)
 {
-  // todo...
-}
-
-lw6sys_list_t *
-lw6sys_cache_keys (lw6sys_cache_t * cache)
-{
-  lw6sys_list_t *ret = NULL;
-
-  // todo...
-
-  return ret;
-}
-
-lw6sys_cache_t *
-lw6sys_cache_dup (lw6sys_cache_t * cache, lw6sys_dup_func_t dup_func)
-{
-  lw6sys_cache_t *ret = NULL;
-
-  // todo...
-
-  return ret;
+  lw6sys_hash_unset (cache->data, key);
 }

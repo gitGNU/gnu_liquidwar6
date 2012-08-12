@@ -67,6 +67,9 @@
 #define _TEST_ASSOC_KEY5 "5"
 #define _TEST_LIST_FILTER_NB_ITEMS 25
 #define _TEST_LIST_FILTER_RANGE 100
+#define _TEST_HASH_SIZE 7
+#define _TEST_CACHE_SIZE 7
+#define _TEST_CACHE_DELAY_MSEC 500
 #define _TEST_PATH_CWD "./"
 #define _TEST_PATH_SPLIT "/foo/\\bar\\"
 #define _TEST_DIR_LIST_FUNC_DATA "foo,bar"
@@ -432,6 +435,77 @@ test_build ()
 		lw6sys_build_get_version ());
 
     lw6sys_build_log_all ();
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
+ * Testing functions in cache.c
+ */
+static int
+test_cache ()
+{
+  int ret = 1;
+  lw6sys_cache_t *cache;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("new/delete on cache"));
+    cache = lw6sys_cache_new (NULL, _TEST_CACHE_SIZE, _TEST_CACHE_DELAY_MSEC);
+    lw6sys_cache_free (cache);
+  }
+
+  {
+    int a = 3, b = 5, c = 7;
+
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("set/unset/has_key/get/map on int cache"));
+    cache = lw6sys_cache_new (NULL, _TEST_CACHE_SIZE, _TEST_CACHE_DELAY_MSEC);
+    lw6sys_cache_set (cache, "a", (void *) &a);
+    lw6sys_cache_set (cache, "b", (void *) &b);
+    lw6sys_cache_set (cache, "c", (void *) &a);
+    lw6sys_cache_set (cache, "c", (void *) &c);
+    lw6sys_cache_unset (cache, "b");
+    ret = ret && lw6sys_cache_has_key (cache, "a");
+    ret = ret && !lw6sys_cache_has_key (cache, "b");
+    ret = ret && !lw6sys_cache_has_key (cache, "this key does not exist");
+    ret = ret && (*((int *) lw6sys_cache_get (cache, "a")) == 3);
+    ret = ret && ((int *) lw6sys_cache_get (cache, "b") == NULL);
+    ret = ret && (*((int *) lw6sys_cache_get (cache, "c")) == 7);
+    /*
+     * Now we wait for some time and keys should disappear
+     * as they've been set too long ago.
+     */
+    lw6sys_delay (_TEST_CACHE_DELAY_MSEC);
+    // wait even more
+    lw6sys_snooze ();
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing expiration"));
+    ret = ret && (!lw6sys_cache_has_key (cache, "a"));
+    lw6sys_cache_free (cache);
+  }
+
+  {
+    char *str1, *str2, *str3;
+
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("testing free_func callback on string cache"));
+    cache =
+      lw6sys_cache_new (&lw6sys_free_callback, _TEST_CACHE_SIZE,
+			_TEST_CACHE_DELAY_MSEC);
+    str1 = LW6SYS_MALLOC (5);
+    strncpy (str1, _TEST_LIST_STR1, 5);
+    lw6sys_cache_set (cache, _TEST_ASSOC_KEY1, (void *) str1);
+    str2 = LW6SYS_MALLOC (5);
+    strncpy (str2, _TEST_LIST_STR2, 5);
+    lw6sys_cache_set (cache, _TEST_ASSOC_KEY2, (void *) str2);
+    str3 = LW6SYS_MALLOC (5);
+    strncpy (str3, _TEST_LIST_STR3, 5);
+    lw6sys_cache_set (cache, _TEST_ASSOC_KEY3, (void *) str3);
+    lw6sys_cache_unset (cache, _TEST_ASSOC_KEY1);
+    lw6sys_cache_unset (cache, _TEST_ASSOC_KEY3);
+    lw6sys_cache_free (cache);
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -1101,7 +1175,7 @@ test_hash ()
 
   {
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("new/delete on hash"));
-    hash = lw6sys_hash_new (NULL, 7);
+    hash = lw6sys_hash_new (NULL, _TEST_HASH_SIZE);
     lw6sys_hash_free (hash);
   }
 
@@ -1110,7 +1184,7 @@ test_hash ()
 
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_ ("set/unset/has_key/get/map on int hash"));
-    hash = lw6sys_hash_new (NULL, 7);
+    hash = lw6sys_hash_new (NULL, _TEST_HASH_SIZE);
     lw6sys_hash_set (hash, "a", (void *) &a);
     lw6sys_hash_set (hash, "b", (void *) &b);
     lw6sys_hash_set (hash, "c", (void *) &a);
@@ -1160,7 +1234,7 @@ test_hash ()
     lw6sys_list_t *keys;
 
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing keys on int hash"));
-    hash = lw6sys_hash_new (NULL, 7);
+    hash = lw6sys_hash_new (NULL, _TEST_HASH_SIZE);
     lw6sys_hash_set (hash, "a", (void *) &a);
     lw6sys_hash_set (hash, "b", (void *) &b);
     lw6sys_hash_set (hash, "b", (void *) &b);
@@ -4207,16 +4281,17 @@ lw6sys_test (int mode)
   int ret = 0;
 
   ret = test_arg () && test_assoc () && test_backtrace () && test_build ()
-    && test_checksum () && test_color () && test_convert () && test_daemon ()
-    && test_dump () && test_env () && test_escape () && test_file ()
-    && test_profiler () && test_hash () && test_hexa () && test_history ()
-    && test_i18n () && test_id () && test_keyword () && test_list ()
-    && test_log (mode) && test_math () && test_mem () && test_mutex ()
-    && test_options () && test_nop () && test_path () && test_process ()
-    && test_progress () && test_random () && test_sdl () && test_serial ()
-    && test_shape () && _lw6sys_test_signal (mode) && test_sort ()
-    && test_spinlock () && test_str () && test_stream () && test_thread ()
-    && test_time () && test_url () && test_utils () && test_vthread ();
+    && test_cache () && test_checksum () && test_color () && test_convert ()
+    && test_daemon () && test_dump () && test_env () && test_escape ()
+    && test_file () && test_profiler () && test_hash () && test_hexa ()
+    && test_history () && test_i18n () && test_id () && test_keyword ()
+    && test_list () && test_log (mode) && test_math () && test_mem ()
+    && test_mutex () && test_options () && test_nop () && test_path ()
+    && test_process () && test_progress () && test_random () && test_sdl ()
+    && test_serial () && test_shape () && _lw6sys_test_signal (mode)
+    && test_sort () && test_spinlock () && test_str () && test_stream ()
+    && test_thread () && test_time () && test_url () && test_utils ()
+    && test_vthread ();
 
   return ret;
 }

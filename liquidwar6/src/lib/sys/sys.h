@@ -733,9 +733,6 @@ extern void *lw6sys_cache_get (lw6sys_cache_t * cache, const char *key);
 extern void lw6sys_cache_set (lw6sys_cache_t * cache, const char *key,
 			      void *value);
 extern void lw6sys_cache_unset (lw6sys_cache_t * cache, const char *key);
-extern lw6sys_list_t *lw6sys_cache_keys (lw6sys_cache_t * cache);
-extern lw6sys_cache_t *lw6sys_cache_dup (lw6sys_cache_t * cache,
-					 lw6sys_dup_func_t dup_func);
 
 /* sys-chr.c */
 static inline int

@@ -153,8 +153,7 @@ lw6sys_hash_free (lw6sys_hash_t * hash)
  * @hash: the hash to test
  * @key: the key to search
  *
- * Not a very fast function, since on a "big" hash, strcmp will be
- * called internally until the key is found.
+ * Tells wether the key is present or not.
  *
  * Return value: non-zero if there's an entry with the
  *   corresponding key. 
@@ -183,6 +182,9 @@ lw6sys_hash_has_key (lw6sys_hash_t * hash, const char *key)
  *
  * @hash: the hash to query
  * @key: the key of which we want the value
+ *
+ * Gets the value corresponding to a given key. Not that the
+ * value can be NULL, even if the key exitsts.
  *
  * Return value: a void pointer to the data contained
  *   in the hash. Note that the pointer on the actual data
@@ -280,7 +282,7 @@ lw6sys_hash_unset (lw6sys_hash_t * hash, const char *key)
  * list must be free with lw6sys_list_free by the caller.
  * This list copies all the keys of the hash, so it is
  * safe to use it once the hash is deleted. However the
- * keys will of course be of little interest in this case.
+ * keys will sometimes be of little interest in this case.
  * But the program won't segfault.
  *
  * Return value: the list of keys.

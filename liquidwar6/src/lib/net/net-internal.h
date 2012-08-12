@@ -78,14 +78,14 @@ typedef struct _lw6net_dns_s
 {
   lw6sys_mutex_t *dns_gethostbyname_mutex;
   lw6sys_mutex_t *dns_cache_mutex;
-  lw6sys_hash_t *dns_cache;
+  lw6sys_cache_t *dns_cache;
 }
 _lw6net_dns_t;
 
 typedef struct _lw6net_connectable_s
 {
   lw6sys_mutex_t *connectable_cache_mutex;
-  lw6sys_hash_t *connectable_cache;
+  lw6sys_cache_t *connectable_cache;
 }
 _lw6net_connectable_t;
 
@@ -115,9 +115,10 @@ extern char *_lw6net_inet_ntoa (struct in_addr in);
 extern int _lw6net_inet_aton (struct in_addr *in, const char *ip);
 
 /* net-connectable.c */
-extern int _lw6net_connectable_init (_lw6net_connectable_t * dns,
-				     int connectable_cache_hash_size);
-extern void _lw6net_connectable_quit (_lw6net_connectable_t * dns);
+extern int _lw6net_connectable_init (_lw6net_connectable_t * connectable,
+				     int connectable_cache_hash_size,
+				     int connectable_cache_delay_sec);
+extern void _lw6net_connectable_quit (_lw6net_connectable_t * connectable);
 
 /* net-const.c */
 extern int _lw6net_const_init (int argc, const char *argv[],
@@ -137,7 +138,8 @@ extern void _lw6net_counters_register_recv (_lw6net_counters_t * counters,
 					    int bytes);
 
 /* net-dns.c */
-extern int _lw6net_dns_init (_lw6net_dns_t * dns, int dns_cache_hash_size);
+extern int _lw6net_dns_init (_lw6net_dns_t * dns, int dns_cache_hash_size,
+			     int dns_cache_delay_sec);
 extern void _lw6net_dns_quit (_lw6net_dns_t * dns);
 
 /* net-error.c */

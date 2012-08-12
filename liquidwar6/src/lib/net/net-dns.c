@@ -28,16 +28,18 @@
 #include "net-internal.h"
 
 int
-_lw6net_dns_init (_lw6net_dns_t * dns, int dns_cache_hash_size)
+_lw6net_dns_init (_lw6net_dns_t * dns, int dns_cache_hash_size,
+		  int dns_cache_delay_sec)
 {
   int ret = 0;
 
   dns->dns_gethostbyname_mutex = lw6sys_mutex_create ();
   dns->dns_cache_mutex = lw6sys_mutex_create ();
   dns->dns_cache =
-    lw6sys_hash_new (lw6sys_free_callback, dns_cache_hash_size);
-  ret = (dns->dns_gethostbyname_mutex != NULL
-	 && dns->dns_cache_mutex != NULL && dns->dns_cache != NULL);
+    lw6sys_cache_new (lw6sys_free_callback, dns_cache_hash_size,
+		      dns_cache_delay_sec * LW6SYS_TICKS_PER_SEC);
+  ret = (dns->dns_gethostbyname_mutex != NULL && dns->dns_cache_mutex != NULL
+	 && dns->dns_cache != NULL);
 
   return ret;
 }
@@ -47,7 +49,7 @@ _lw6net_dns_quit (_lw6net_dns_t * dns)
 {
   if (dns->dns_cache)
     {
-      lw6sys_hash_free (dns->dns_cache);
+      lw6sys_cache_free (dns->dns_cache);
     }
   if (dns->dns_cache_mutex)
     {
@@ -149,7 +151,7 @@ lw6net_dns_gethostbyname (const char *name)
     {
       if (lw6sys_mutex_lock (dns->dns_cache_mutex))
 	{
-	  cached_ret = lw6sys_hash_get (dns->dns_cache, name);
+	  cached_ret = lw6sys_cache_get (dns->dns_cache, name);
 	  if (cached_ret)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -197,7 +199,7 @@ lw6net_dns_gethostbyname (const char *name)
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("put in DNS cache \"%s\" -> \"%s\""), name,
 		      to_put_in_cache);
-	  lw6sys_hash_set (dns->dns_cache, name, to_put_in_cache);
+	  lw6sys_cache_set (dns->dns_cache, name, to_put_in_cache);
 	  lw6sys_mutex_unlock (dns->dns_cache_mutex);
 	}
     }

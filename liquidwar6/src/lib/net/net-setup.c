@@ -103,11 +103,15 @@ lw6net_init (int argc, const char *argv[], int net_log)
       ok = ok
 	&& _lw6net_dns_init (&(_lw6net_global_context->dns),
 			     _lw6net_global_context->
-			     const_data.dns_cache_hash_size);
+			     const_data.dns_cache_hash_size,
+			     _lw6net_global_context->
+			     const_data.dns_cache_delay_sec);
       ok = ok
 	&& _lw6net_connectable_init (&(_lw6net_global_context->connectable),
 				     _lw6net_global_context->
-				     const_data.connectable_cache_hash_size);
+				     const_data.connectable_cache_hash_size,
+				     _lw6net_global_context->
+				     const_data.connectable_cache_delay_sec);
     }
 
   if (!ok)

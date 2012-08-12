@@ -29,13 +29,15 @@
 
 int
 _lw6net_connectable_init (_lw6net_connectable_t * connectable,
-			  int connectable_cache_hash_size)
+			  int connectable_cache_hash_size,
+			  int connectable_cache_delay_sec)
 {
   int ret = 0;
 
   connectable->connectable_cache_mutex = lw6sys_mutex_create ();
   connectable->connectable_cache =
-    lw6sys_hash_new (lw6sys_free_callback, connectable_cache_hash_size);
+    lw6sys_cache_new (NULL, connectable_cache_hash_size,
+		      connectable_cache_delay_sec * LW6SYS_TICKS_PER_SEC);
   ret = (connectable->connectable_cache_mutex != NULL
 	 && connectable->connectable_cache != NULL);
 
@@ -47,7 +49,7 @@ _lw6net_connectable_quit (_lw6net_connectable_t * connectable)
 {
   if (connectable->connectable_cache)
     {
-      lw6sys_hash_free (connectable->connectable_cache);
+      lw6sys_cache_free (connectable->connectable_cache);
     }
   if (connectable->connectable_cache_mutex)
     {
@@ -74,7 +76,6 @@ int
 lw6net_is_connectable (const char *ip, int port)
 {
   int ret = 1;			// by default, connectable
-  int64_t *limit_timestamp = NULL;
   char *key = NULL;
   _lw6net_connectable_t *connectable = &(_lw6net_global_context->connectable);
 
@@ -83,31 +84,21 @@ lw6net_is_connectable (const char *ip, int port)
     {
       if (lw6sys_mutex_lock (connectable->connectable_cache_mutex))
 	{
-	  limit_timestamp =
-	    lw6sys_hash_get (connectable->connectable_cache, key);
-	  if (limit_timestamp)
+	  /*
+	   * Yes, test is inverted, if there's no key it means we
+	   * can connect as we store probable impossibilities
+	   * in the cache, and not positive connects.
+	   */
+	  if (!lw6sys_cache_has_key (connectable->connectable_cache, key))
 	    {
-	      if ((*limit_timestamp) >= lw6sys_get_timestamp ())
-		{
-		  /*
-		   * Timestamp is enough in the future, so
-		   * we can consider this one is *NOT* connectable.
-		   */
-		  ret = 0;
-		}
-	      else
-		{
-		  /*
-		   * Second case, timestamp is too old, we remove it,
-		   * technically we could keep it, the results would
-		   * be the same, but after some time the hash
-		   * would be filled with garbage.
-		   */
-		  lw6sys_hash_unset (connectable->connectable_cache, key);
-		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _x_ ("destination %s:%d marked as connectable"),
-			      ip, port);
-		}
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_ ("destination %s:%d marked as connectable"),
+			  ip, port);
+	      ret = 1;
+	    }
+	  else
+	    {
+	      ret = 0;
 	    }
 	  lw6sys_mutex_unlock (connectable->connectable_cache_mutex);
 	}
@@ -138,7 +129,6 @@ lw6net_is_connectable (const char *ip, int port)
 void
 lw6net_set_connectable (const char *ip, int port, int status)
 {
-  int64_t *limit_timestamp = NULL;
   char *key = NULL;
   _lw6net_connectable_t *connectable = &(_lw6net_global_context->connectable);
 
@@ -156,34 +146,18 @@ lw6net_set_connectable (const char *ip, int port, int status)
 	       * the information to "yes you could connect" one just
 	       * needs to remove the entry.
 	       */
-	      lw6sys_hash_unset (connectable->connectable_cache, key);
+	      lw6sys_cache_unset (connectable->connectable_cache, key);
 	      lw6sys_log (LW6SYS_LOG_INFO,
 			  _x_ ("destination %s:%d marked as connectable"), ip,
 			  port);
 	    }
 	  else
 	    {
-	      limit_timestamp = (int64_t *) LW6SYS_CALLOC (sizeof (int64_t));;
-	      if (limit_timestamp)
-		{
-		  /*
-		   * Set an expiration time in the near future, based
-		   * on configuration. This way of proceeding will replace
-		   * a previous limit_timestamp, so if it was already
-		   * marked as unconnectable, it will be marked again.
-		   */
-		  (*limit_timestamp) =
-		    lw6sys_get_timestamp () +
-		    _lw6net_global_context->
-		    const_data.connectable_cache_delay_sec *
-		    LW6SYS_TICKS_PER_SEC;
-		  lw6sys_hash_set (connectable->connectable_cache, key,
-				   limit_timestamp);
-		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _x_
-			      ("destination %s:%d marked as not connectable"),
-			      ip, port);
-		}
+	      lw6sys_cache_set (connectable->connectable_cache, key, NULL);
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_
+			  ("destination %s:%d marked as not connectable"),
+			  ip, port);
 	    }
 
 	  lw6sys_mutex_unlock (connectable->connectable_cache_mutex);

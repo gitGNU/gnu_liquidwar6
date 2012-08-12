@@ -867,6 +867,109 @@ Usefull for bug reports.
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {lw6sys_cache_t *} {lw6sys_cache_new} (lw6sys_free_func_t @var{free_func}, int @var{size}, int @var{delay_msec})
+@var{free_func}:  optional callback used to free memory when stored
+date is a pointer. Can be NULL when one stores non dynamically
+allocated data, such as an integer or a static array.
+
+@var{size}:  the estimated size of the cache table. This is required because,
+internally, the object uses a hash. Note that this is
+an estimation only. You could theorically fit 1000000 objects
+in a 3-sized cache. Problem -> this is inefficient, you'd better
+use an assoc or a bigger cache. If you store 3 elements in a
+1000000-sized cache, you'll waste memory. It might be wise to
+use a prime number as the estimated size. 421 is prime ;)
+
+Creates an empty cache. There's a difference between NULL and an
+empty cache.
+
+@strong{Return value:}  a pointer to the newly allocated cache table.
+Must be freed with @code{lw6sys_cache_free}.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_cache_free} (lw6sys_cache_t * @var{cache})
+@var{cache}:  the cache to be freed.
+
+The function will cascade  delete all elements, using (if not NULL...)
+the callback passed when first creating the cache.
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {void} {lw6sys_cache_free_callback} (void * @var{data})
+@var{data}:  data to free, this is normally an cache item
+
+This is a wrapper, used as the actual free callback
+for the internal hash. What it does is that it just
+runs the real free callback (the one given by the
+user) on the member value. This indirection is required
+since we use the intermediate item object to store
+the timestamp along with the key and data.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_cache_has_key} (lw6sys_cache_t * @var{cache}, const char * @var{key})
+@var{cache}:  the cache to test
+
+@var{key}:  the key to search
+
+Tells wether the key is present or not. If key is here but
+too old (expired) then will return 0 and key will be deleted
+on the fly.
+
+@strong{Return value:}  non-zero if there's an entry with the
+corresponding key. 
+@end deftypefun
+
+@deftypefun {void *} {lw6sys_cache_get} (lw6sys_cache_t * @var{cache}, const char * @var{key})
+@var{cache}:  the cache to query
+
+@var{key}:  the key of which we want the value
+
+Gets the value corresponding to a given key. Note that the
+value might be NULL, even if the key exists. If the key
+has expired, NULL will be returned, and the entry deleted
+on the fly.
+
+@strong{Return value:}  a void pointer to the data contained
+in the cache. Note that the pointer on the actual data
+is returned, that is, if it's static data, you must not
+try to free it... As long as memory management is concerned,
+destroying the cache will actually free the data if needed.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_cache_set} (lw6sys_cache_t * @var{cache}, const char * @var{key}, void * @var{value})
+@var{cache}:  the cache to modify
+
+@var{key}:  the key we want to updated
+
+@var{value}:  the new value
+
+Sets a value in a cache table. The key pointer need
+not be persistent, it can be freed after affectation. In
+fact a new string will be created internally. This is not
+true for the value, it's hard to find way to copy "any object".
+So if you want a cache of strings, key can
+disappear after calling this function, but not value. The
+function passed as free_func when creating the cache will
+be used to free stuff whenever needed (unset or free).
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {void} {lw6sys_cache_unset} (lw6sys_cache_t * @var{cache}, const char * @var{key})
+@var{cache}:  the cache concerned
+
+@var{key}:  the key to unset
+
+Clears an entry in a cache table. The callback passed when
+creating the cache will be called if needed, to free the data
+automatically.
+
+@strong{Return value:}  void
+@end deftypefun
+
 @deftypefun {u_int32_t} {lw6sys_checksum} (unsigned char * @var{data}, int @var{len})
 @var{data}:  the data to process
 
@@ -1707,8 +1810,7 @@ the callback passed when first creating the hash.
 
 @var{key}:  the key to search
 
-Not a very fast function, since on a "big" hash, strcmp will be
-called internally until the key is found.
+Tells wether the key is present or not.
 
 @strong{Return value:}  non-zero if there's an entry with the
 corresponding key. 
@@ -1719,6 +1821,8 @@ corresponding key.
 
 @var{key}:  the key of which we want the value
 
+Gets the value corresponding to a given key. Not that the
+value can be NULL, even if the key exitsts.
 
 @strong{Return value:}  a void pointer to the data contained
 in the hash. Note that the pointer on the actual data
@@ -1765,7 +1869,7 @@ Returns a list containing all the keys of the hash. The
 list must be free with lw6sys_list_free by the caller.
 This list copies all the keys of the hash, so it is
 safe to use it once the hash is deleted. However the
-keys will of course be of little interest in this case.
+keys will sometimes be of little interest in this case.
 But the program won't segfault.
 
 @strong{Return value:}  the list of keys.
