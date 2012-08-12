@@ -383,6 +383,52 @@ typedef struct lw6sys_hash_s
 }
 lw6sys_hash_t;
 
+/**
+ * Cache item is the object used to hold data within hash, to
+ * implement cache features. It basically stores a pointer to
+ * the actual data, and a timestamp which marks the expiration
+ * time. In practice, a cache is just an hash which contains
+ * this kind of data.
+ */
+typedef struct lw6sys_cache_item_s
+{
+  /// Expiration time, after this time, key is considered invalid.
+  int64_t expiration_timestamp;
+  /**
+   * OK, now this requires some explanation : to use standard
+   * hash / assoc function we need the cache hash to behave
+   * like a real hash. So the trick is to store within the
+   * data structure the pointer on the real free callback.
+   * This way the special cache_free callback will have a
+   * way to call the genuine free function before destroying
+   * the cache container. This duplicates the pointer, but
+   * avoids code duplication. In practice caches shouldn't be
+   * that big anyway, so it won't eat up all your memory anyway.
+   */
+  lw6sys_free_func_t real_free_func;
+  /// The actual value.
+  void *value;
+} lw6sys_cache_item_t;
+
+/**
+ * Cache is an object based on which works pretty much the
+ * same but adds the possiblity to give an expiration time
+ * to a key. Any key with an expiration time in the past
+ * will be removed on query and appear as non-existing
+ * to callers.
+ */
+
+typedef struct lw6sys_cache_s
+{
+  /// Delay in milliseconds before a key expires.
+  int delay_msec;
+  /// The real free_func to call on objects
+  lw6sys_free_func_t real_free_func;
+  /// The actual data.
+  lw6sys_hash_t *data;
+}
+lw6sys_cache_t;
+
 typedef struct lw6sys_list_s *lw6sys_list_p;
 
 /**
@@ -676,6 +722,20 @@ extern char *lw6sys_build_get_enable_gcov ();
 extern char *lw6sys_build_get_enable_valgrind ();
 extern int lw6sys_build_get_bin_id ();
 extern void lw6sys_build_log_all ();
+
+/* sys-cache.c */
+extern lw6sys_cache_t *lw6sys_cache_new (lw6sys_free_func_t free_func,
+					 int size, int delay_msec);
+extern void lw6sys_cache_free (lw6sys_cache_t * cache);
+extern void lw6sys_cache_free_callback (void *data);
+extern int lw6sys_cache_has_key (lw6sys_cache_t * cache, const char *key);
+extern void *lw6sys_cache_get (lw6sys_cache_t * cache, const char *key);
+extern void lw6sys_cache_set (lw6sys_cache_t * cache, const char *key,
+			      void *value);
+extern void lw6sys_cache_unset (lw6sys_cache_t * cache, const char *key);
+extern lw6sys_list_t *lw6sys_cache_keys (lw6sys_cache_t * cache);
+extern lw6sys_cache_t *lw6sys_cache_dup (lw6sys_cache_t * cache,
+					 lw6sys_dup_func_t dup_func);
 
 /* sys-chr.c */
 static inline int

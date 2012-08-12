@@ -24,8 +24,6 @@
 #include "config.h"
 #endif
 
-#include <string.h>
-
 #include "sys.h"
 
 typedef struct assoc_dup_callback_data_s

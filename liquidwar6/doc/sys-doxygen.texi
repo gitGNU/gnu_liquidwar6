@@ -50,6 +50,84 @@ Pointer on the next item, will be NULL on last element, there's a difference bet
 
 
   
+@deftp {Struct} {lw6sys_cache_item_s}
+
+    
+Cache item is the object used to hold data within hash, to implement cache features. It basically stores a pointer to the actual data, and a timestamp which marks the expiration time. In practice, a cache is just an hash which contains this kind of data.     
+@end deftp
+
+@defcv {Member} {lw6sys_cache_item_s} {expiration_timestamp}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t lw6sys_cache_item_s::expiration_timestamp}
+
+
+Expiration time, after this time, key is considered invalid.         
+        
+@end defcv
+
+@defcv {Member} {lw6sys_cache_item_s} {real_free_func}
+@strong{Type:} @code{lw6sys_free_func_t}
+
+@strong{Definition:} @code{lw6sys_free_func_t lw6sys_cache_item_s::real_free_func}
+
+
+        
+OK, now this requires some explanation : to use standard hash / assoc function we need the cache hash to behave like a real hash. So the trick is to store within the data structure the pointer on the real free callback. This way the special cache_free callback will have a way to call the genuine free function before destroying the cache container. This duplicates the pointer, but avoids code duplication. In practice caches shouldn't be that big anyway, so it won't eat up all your memory anyway.         
+@end defcv
+
+@defcv {Member} {lw6sys_cache_item_s} {value}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6sys_cache_item_s::value}
+
+
+The actual value.         
+        
+@end defcv
+
+
+
+  
+@deftp {Struct} {lw6sys_cache_s}
+
+    
+Cache is an object based on which works pretty much the same but adds the possiblity to give an expiration time to a key. Any key with an expiration time in the past will be removed on query and appear as non-existing to callers.     
+@end deftp
+
+@defcv {Member} {lw6sys_cache_s} {delay_msec}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6sys_cache_s::delay_msec}
+
+
+Delay in milliseconds before a key expires.         
+        
+@end defcv
+
+@defcv {Member} {lw6sys_cache_s} {real_free_func}
+@strong{Type:} @code{lw6sys_free_func_t}
+
+@strong{Definition:} @code{lw6sys_free_func_t lw6sys_cache_s::real_free_func}
+
+
+The real free_func to call on objects.         
+        
+@end defcv
+
+@defcv {Member} {lw6sys_cache_s} {data}
+@strong{Type:} @code{lw6sys_hash_t *}
+
+@strong{Definition:} @code{lw6sys_hash_t* lw6sys_cache_s::data}
+
+
+The actual data.         
+        
+@end defcv
+
+
+
+  
 @deftp {Struct} {lw6sys_color_8_s}
 
     

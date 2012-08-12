@@ -452,6 +452,7 @@ src/lib/sys/sys-assoc.c
 src/lib/sys/sys-backtrace.c
 src/lib/sys/sys-bazooka.c
 src/lib/sys/sys-build.c
+src/lib/sys/sys-cache.c
 src/lib/sys/sys-checksum.c
 src/lib/sys/sys-color.c
 src/lib/sys/sys-convert.c

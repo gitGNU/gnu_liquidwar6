@@ -24,9 +24,14 @@
 #include "config.h"
 #endif
 
-#include <string.h>
-
 #include "sys.h"
+
+/*
+ * Hash smaller than 2 in size do not
+ * make any sense, assoc is more efficient for
+ * that matter...
+ */
+#define _HASH_SIZE_MIN 2
 
 typedef struct hash_dup_callback_data_s
 {
@@ -60,7 +65,7 @@ lw6sys_hash_new (lw6sys_free_func_t free_func, int size)
   int i;
   int null_entry = 0;
 
-  if (size > 1)
+  if (size >= _HASH_SIZE_MIN)
     {
       ret = LW6SYS_MALLOC (sizeof (lw6sys_hash_t));
       if (ret)
