@@ -62,7 +62,7 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results,
       seed.pilot = NULL;
       seed.dirty_read = 0;
       seed.param.speed = LW6MAP_TEAMS_DEFAULT_BOT_SPEED;
-      seed.param.speed = LW6MAP_TEAMS_DEFAULT_BOT_IQ;
+      seed.param.iq = LW6MAP_TEAMS_DEFAULT_BOT_IQ;
 
       ret = 1;
 
