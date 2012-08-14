@@ -827,7 +827,7 @@ test_warehouse ()
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
-			    ("could put again 1st atom in warehouse, shifting shoud work"));
+			    ("could put again 1st atom in warehouse, shifting should work"));
 	      }
 	    else
 	      {

@@ -383,6 +383,14 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 
   if (db12)
     {
+      /*
+       * It's important to reset test DBs before using them,
+       * else there could be temporaries IDs mismatches.
+       * In real use cases, only our local ID changes,
+       * and we really do want something with same URL but
+       * different ID than before to somewhat "not connect very well",
+       * at least for some time.
+       */
       lw6p2p_db_reset (argc, argv, _TEST_DB_NAME12);
       (*db12) = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
       if (*db12)
@@ -397,6 +405,14 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
     }
   if (db34)
     {
+      /*
+       * It's important to reset test DBs before using them,
+       * else there could be temporaries IDs mismatches.
+       * In real use cases, only our local ID changes,
+       * and we really do want something with same URL but
+       * different ID than before to somewhat "not connect very well",
+       * at least for some time.
+       */
       lw6p2p_db_reset (argc, argv, _TEST_DB_NAME34);
       (*db34) = lw6p2p_db_open (argc, argv, _TEST_DB_NAME34);
       if (*db34)
@@ -411,6 +427,14 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
     }
   if (db56)
     {
+      /*
+       * It's important to reset test DBs before using them,
+       * else there could be temporaries IDs mismatches.
+       * In real use cases, only our local ID changes,
+       * and we really do want something with same URL but
+       * different ID than before to somewhat "not connect very well",
+       * at least for some time.
+       */
       lw6p2p_db_reset (argc, argv, _TEST_DB_NAME56);
       (*db56) = lw6p2p_db_open (argc, argv, _TEST_DB_NAME56);
       if (*db56)

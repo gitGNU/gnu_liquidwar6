@@ -25,68 +25,75 @@
   (lambda ()
     (let (
 	  (ret #f)
+	  (db-name (format #f "~a.test.client" (c-lw6p2p-db-default-name)))
 	  )
       (begin
-      (c-lw6net-init #t)
-      (let* (
-	     (db (c-lw6p2p-db-new (format #f "~a.test.client" (c-lw6p2p-db-default-name))))
-	     (node-2 (c-lw6p2p-node-new db (list (cons "client-backends" "tcp,udp")
-						 (cons "server-backends" "tcpd,udpd,httpd")
-						 (cons "bind-ip" "0.0.0.0")
-						 (cons "bind-port" 8058)
-						 (cons "public-url" "http://localhost:8058/")
-						 (cons "password" "")
-						 (cons "title" "")
-						 (cons "description" (_ "Dummy test node"))
-						 (cons "bench" 10)
-						 (cons "open-relay" #f)
-						 (cons "known-nodes" "http://localhost:8057/")
-						 (cons "network-reliability" 100)
-						 (cons "trojan" #f)
-						 )))
-	     (id-2 (c-lw6p2p-node-get-id node-2))
-	     (time-limit (+ 60000 (c-lw6sys-get-timestamp)))
-	     (connect-time (- time-limit 15000))
-	     (connect-ret #f)
-	     (server-entry #f)
-	     )
-	(begin
-	  (lw6-log-notice node-2)
-	  (while (and (< (c-lw6sys-get-timestamp) connect-time) 
-		      (not connect-ret))
-		 (let (
-		       (entries (c-lw6p2p-node-get-entries node-2))
-		       )
-		   (begin		     
-		     (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8057/")
-					      (assoc-ref x "id"))
-					 (begin
-					   (set! server-entry x)
-					   (set! connect-ret (c-lw6p2p-node-client-join 
-							      node-2
-							      (assoc-ref x "id")
-							      (assoc-ref x "url")))
-					   )))
-			  entries)	 
+	(c-lw6net-init #t)
+	;; It's important to reset test DBs before using them,
+	;; else there could be temporaries IDs mismatches.
+	;; In real use cases, only our local ID changes,
+	;; and we really do want something with same URL but
+	;; different ID than before to somewhat "not connect very well",
+	;; at least for some time.
+	(c-lw6p2p-db-reset db-name)
+	(let* (
+	       (db (c-lw6p2p-db-new db-name))
+	       (node-2 (c-lw6p2p-node-new db (list (cons "client-backends" "tcp,udp")
+						   (cons "server-backends" "tcpd,udpd,httpd")
+						   (cons "bind-ip" "0.0.0.0")
+						   (cons "bind-port" 8058)
+						   (cons "public-url" "http://localhost:8058/")
+						   (cons "password" "")
+						   (cons "title" "")
+						   (cons "description" (_ "Dummy test node"))
+						   (cons "bench" 10)
+						   (cons "open-relay" #f)
+						   (cons "known-nodes" "http://localhost:8057/")
+						   (cons "network-reliability" 100)
+						   (cons "trojan" #f)
+						   )))
+	       (id-2 (c-lw6p2p-node-get-id node-2))
+	       (time-limit (+ 60000 (c-lw6sys-get-timestamp)))
+	       (connect-time (- time-limit 15000))
+	       (connect-ret #f)
+	       (server-entry #f)
+	       )
+	  (begin
+	    (lw6-log-notice node-2)
+	    (while (and (< (c-lw6sys-get-timestamp) connect-time) 
+			(not connect-ret))
+		   (let (
+			 (entries (c-lw6p2p-node-get-entries node-2))
+			 )
+		     (begin		     
+		       (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8057/")
+						(assoc-ref x "id"))
+					   (begin
+					     (set! server-entry x)
+					     (set! connect-ret (c-lw6p2p-node-client-join 
+								node-2
+								(assoc-ref x "id")
+								(assoc-ref x "url")))
+					     )))
+			    entries)	 
+		       (c-lw6sys-snooze)
+		       (c-lw6p2p-node-poll node-2)
+		       )))
+	    (if server-entry
+		(lw6-log-notice (format #f "OK, joining ~a" server-entry))
+		(lw6-log-warning "unable to find server")
+		)
+	    (while (and (< (c-lw6sys-get-timestamp) time-limit) server-entry)
+		   (begin
 		     (c-lw6sys-snooze)
 		     (c-lw6p2p-node-poll node-2)
-		     )))
-	  (if server-entry
-	      (lw6-log-notice (format #f "OK, joining ~a" server-entry))
-	      (lw6-log-warning "unable to find server")
-	      )
-	  (while (and (< (c-lw6sys-get-timestamp) time-limit) server-entry)
-		 (begin
-		   (c-lw6sys-snooze)
-		   (c-lw6p2p-node-poll node-2)
-		   (set! ret #t) ;; todo, fix this and set it to true on real success
-		   ))
-	  (c-lw6p2p-node-close node-2)
-	  ))
-      (c-lw6net-quit)
-      (gc)     
-      ;; if we get here, we have succeeded else node creation would raise an error
-      ret))))
+		     (set! ret #t) ;; todo, fix this and set it to true on real success
+		     ))
+	    (c-lw6p2p-node-close node-2)
+	    ))
+	(c-lw6net-quit)
+	(gc)     
+	ret))))
 
 (c-lw6-set-ret #f) ;; reset this to "failed" so that it has the right value is script is interrupted
 (c-lw6-set-ret (and
