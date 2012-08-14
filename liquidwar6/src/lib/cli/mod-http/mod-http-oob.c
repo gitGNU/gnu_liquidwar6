@@ -304,7 +304,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 					LW6SYS_TICKS_PER_SEC);
 		  if (lw6net_socket_is_valid (tcp_connect_sock))
 		    {
-		      lw6sys_log (LW6SYS_LOG_NOTICE,
+		      lw6sys_log (LW6SYS_LOG_INFO,
 				  _x_
 				  ("TCP check before HTTP request, connected to \"%s\" on %s:%d"),
 				  oob_data->public_url, ip, parsed_url->port);
@@ -314,7 +314,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_NOTICE,
+		      lw6sys_log (LW6SYS_LOG_INFO,
 				  _x_
 				  ("TCP check before HTTP request, can't connect to node \"%s\" on %s:%d"),
 				  oob_data->public_url, ip, parsed_url->port);

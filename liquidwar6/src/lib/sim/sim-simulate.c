@@ -50,6 +50,7 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results,
   memset (cursors_ids, 0, sizeof (cursors_ids));
   memset (cursors_bots, 0, sizeof (cursors_bots));
   memset (&cursor, 0, sizeof (lw6ker_cursor_t));
+  memset (&seed, 0, sizeof (lw6bot_seed_t));
 
   node_id = lw6sys_generate_id_64 ();
   nb_rounds =
