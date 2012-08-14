@@ -258,6 +258,8 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
   lw6sys_url_t *parsed_url = NULL;
   char *ip = NULL;
   char *password_checksum = NULL;
+  int tcp_connect_ok = 0;
+  int tcp_connect_sock = LW6NET_SOCKET_INVALID;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process http oob url=\"%s\""),
 	      oob_data->public_url);
@@ -282,7 +284,47 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 	  ip = lw6net_dns_gethostbyname (parsed_url->host);
 	  if (ip)
 	    {
-	      if (_mod_http_oob_should_continue (http_context, oob_data))
+	      if (_mod_http_oob_should_continue (http_context, oob_data) &&
+		  http_context->data.consts.tcp_connect_before_http_get)
+		{
+		  /*
+		   * We make a first dummy connect on the socket just to check
+		   * if it's available. The idea is not to wait ressources,
+		   * the idea is just to try and see wether this ip:port
+		   * is likely to respond. If not, we won't even waste
+		   * our time to try and connect to it using libcurl,
+		   * doing so requires locking and other nasty stuff, if
+		   * we can find out right away that something is wrong,
+		   * we just return immediately.
+		   */
+		  tcp_connect_sock =
+		    lw6net_tcp_connect (ip, parsed_url->port,
+					http_context->data.
+					consts.global_timeout *
+					LW6SYS_TICKS_PER_SEC);
+		  if (lw6net_socket_is_valid (tcp_connect_sock))
+		    {
+		      lw6sys_log (LW6SYS_LOG_NOTICE,
+				  _x_
+				  ("TCP check before HTTP request, connected to \"%s\" on %s:%d"),
+				  oob_data->public_url, ip, parsed_url->port);
+		      tcp_connect_ok = 1;
+		      lw6net_socket_close (tcp_connect_sock);
+		      tcp_connect_sock = LW6NET_SOCKET_INVALID;
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_NOTICE,
+				  _x_
+				  ("TCP check before HTTP request, can't connect to node \"%s\" on %s:%d"),
+				  oob_data->public_url, ip, parsed_url->port);
+		    }
+		}
+
+	      if (_mod_http_oob_should_continue (http_context, oob_data)
+		  && (tcp_connect_ok
+		      || !http_context->data.
+		      consts.tcp_connect_before_http_get))
 		{
 		  if (_do_ping
 		      (http_context, node_info, oob_data,

@@ -45,6 +45,12 @@ _read_callback (void *callback_data, const char *element, const char *key,
       lw6cfg_read_xml_int (key, value, "connect-timeout",
 			   &(consts->connect_timeout));
     }
+
+  if (!strcmp (element, "bool"))
+    {
+      lw6cfg_read_xml_bool (key, value, "tcp-connect-before-http-get",
+			    &(consts->tcp_connect_before_http_get));
+    }
 }
 
 static int

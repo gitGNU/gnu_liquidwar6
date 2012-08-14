@@ -2,4 +2,5 @@
 <liquidwar6>
   <int key="global-timeout" value="10" />
   <int key="connect-timeout" value="3" />
+  <bool key="tcp-connect-before-http-get" value="true" />
 </liquidwar6>
