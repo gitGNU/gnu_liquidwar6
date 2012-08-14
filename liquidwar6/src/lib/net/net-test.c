@@ -283,19 +283,19 @@ prepare_2_tcp_socks (int *sock1, int *sock2)
     }
   else
     {
-      if (accept_sock >= 0)
+      if (lw6net_socket_is_valid (accept_sock))
 	{
-	  lw6net_socket_close (accept_sock);
+	  lw6net_socket_close (&accept_sock);
 	}
-      if (connect_sock >= 0)
+      if (lw6net_socket_is_valid (connect_sock))
 	{
-	  lw6net_socket_close (connect_sock);
+	  lw6net_socket_close (&connect_sock);
 	}
-      (*sock1) = (*sock2) = -1;
+      (*sock1) = (*sock2) = LW6NET_SOCKET_INVALID;
     }
-  if (listening_sock >= 0)
+  if (lw6net_socket_is_valid (listening_sock))
     {
-      lw6net_socket_close (listening_sock);
+      lw6net_socket_close (&listening_sock);
     }
 
   return ret;
@@ -343,7 +343,7 @@ test_tcp ()
 			_x_
 			("was able to connect on \"%s:%d\" the second time this is (very!) strange..."),
 			TEST_UNREACHABLE_IP, TEST_UNREACHABLE_PORT);
-	    lw6net_socket_close (sock1);
+	    lw6net_socket_close (&sock1);
 	    ret = 0;
 	  }
       }
@@ -353,7 +353,7 @@ test_tcp ()
 		    _x_
 		    ("was able to connect on \"%s:%d\", this is strange..."),
 		    TEST_UNREACHABLE_IP, TEST_UNREACHABLE_PORT);
-	lw6net_socket_close (sock1);
+	lw6net_socket_close (&sock1);
 	ret = 0;
       }
 
@@ -407,11 +407,11 @@ test_tcp ()
       }
     if (sock1 >= 0)
       {
-	lw6net_socket_close (sock1);
+	lw6net_socket_close (&sock1);
       }
     if (sock2 >= 0)
       {
-	lw6net_socket_close (sock2);
+	lw6net_socket_close (&sock2);
       }
   }
 
@@ -446,13 +446,13 @@ prepare_2_udp_socks (int *sock1, int *sock2)
     {
       if (server_sock >= 0)
 	{
-	  lw6net_socket_close (server_sock);
+	  lw6net_socket_close (&server_sock);
 	}
       if (client_sock >= 0)
 	{
-	  lw6net_socket_close (client_sock);
+	  lw6net_socket_close (&client_sock);
 	}
-      (*sock1) = (*sock2) = -1;
+      (*sock1) = (*sock2) = LW6NET_SOCKET_INVALID;
     }
 
   return ret;
@@ -531,11 +531,11 @@ test_udp ()
       }
     if (sock1 >= 0)
       {
-	lw6net_socket_close (sock1);
+	lw6net_socket_close (&sock1);
       }
     if (sock2 >= 0)
       {
-	lw6net_socket_close (sock2);
+	lw6net_socket_close (&sock2);
       }
 
     if (!ret_tmp)
@@ -603,13 +603,13 @@ test_line ()
 	      }
 	  }
       }
-    if (sock1 >= 0)
+    if (lw6net_socket_is_valid (sock1))
       {
-	lw6net_socket_close (sock1);
+	lw6net_socket_close (&sock1);
       }
-    if (sock2 >= 0)
+    if (lw6net_socket_is_valid (sock2))
       {
-	lw6net_socket_close (sock2);
+	lw6net_socket_close (&sock2);
       }
 
     if (!ret_tmp)
@@ -709,13 +709,13 @@ test_line ()
 	      }
 	  }
       }
-    if (sock1 >= 0)
+    if (lw6net_socket_is_valid (sock1))
       {
-	lw6net_socket_close (sock1);
+	lw6net_socket_close (&sock1);
       }
-    if (sock2 >= 0)
+    if (lw6net_socket_is_valid (sock2))
       {
-	lw6net_socket_close (sock2);
+	lw6net_socket_close (&sock2);
       }
 
     if (!ret_tmp)

@@ -1,5 +1,7 @@
 2012-08-14 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Passing a pointer to lw6net_socket_close instead of direct handle.
+
 	* Added TCP check before HTTP oob requests.
 
 2012-08-12 : Christian Mauduit <ufoot@ufoot.org>

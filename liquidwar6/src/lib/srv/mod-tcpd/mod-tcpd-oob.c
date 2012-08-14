@@ -157,8 +157,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
       LW6SYS_FREE (response);
     }
 
-  lw6net_socket_close (oob_data->sock);
-  oob_data->sock = -1;
+  lw6net_socket_close (&(oob_data->sock));
 
   return ret;
 }

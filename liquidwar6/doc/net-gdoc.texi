@@ -239,10 +239,14 @@ it's just to avoid copy/pasting if (sock>=0)" everywhere.
 @strong{Return value:}  1 if valid, 0 if not
 @end deftypefun
 
-@deftypefun {void} {lw6net_socket_close} (int @var{sock})
+@deftypefun {void} {lw6net_socket_close} (int * @var{sock})
 @var{sock}:  the socket to close
 
 Closes a socket, that is, stop activity and free its descriptor.
+This function will take a pointer on the socket, this is done
+on purpose, the idea is to make sure once the socket is closed
+it's never used again within the code, so we modify the pointed
+value in place.
 
 @strong{Return value:}  none.
 @end deftypefun

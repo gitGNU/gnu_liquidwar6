@@ -268,8 +268,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 	    }
 	  else
 	    {
-	      lw6net_socket_close (specific_data->sock);
-	      specific_data->sock = LW6NET_SOCKET_INVALID;
+	      lw6net_socket_close (&(specific_data->sock));
 	      specific_data->state = _MOD_TCP_STATE_CLOSED;
 	    }
 	}

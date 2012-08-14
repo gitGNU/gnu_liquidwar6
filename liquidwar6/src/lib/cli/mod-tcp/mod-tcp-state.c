@@ -86,8 +86,7 @@ _mod_tcp_close (_mod_tcp_context_t * tcp_context,
 	}
       if (lw6net_socket_is_valid (specific_data->sock))
 	{
-	  lw6net_socket_close (specific_data->sock);
-	  specific_data->sock = LW6NET_SOCKET_INVALID;
+	  lw6net_socket_close (&(specific_data->sock));
 	}
       if (specific_data->send_backlog)
 	{

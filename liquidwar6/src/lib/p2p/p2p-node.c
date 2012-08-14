@@ -398,7 +398,7 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node)
   int ret = 1;
   char *ip = NULL;
   int port = 0;
-  int sock;
+  int sock = LW6NET_SOCKET_INVALID;
   lw6srv_tcp_accepter_t *tcp_accepter = NULL;
   char *guessed_public_url = NULL;
 
@@ -409,7 +409,7 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node)
       sock =
 	lw6net_tcp_accept (&ip, &port, node->listener->tcp_sock,
 			   node->db->data.consts.accept_delay);
-      if (sock >= 0 && ip != NULL && port > 0)
+      if (lw6net_socket_is_valid (sock) && ip != NULL && port > 0)
 	{
 	  tcp_accepter = lw6srv_tcp_accepter_new (ip, port, sock);
 	  if (tcp_accepter)
@@ -594,8 +594,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 		      _x_ ("dead accepter, scheduling it for deletion"));
 	  if (lw6net_socket_is_valid (tcp_accepter->sock))
 	    {
-	      lw6net_socket_close (tcp_accepter->sock);
-	      tcp_accepter->sock = LW6NET_SOCKET_INVALID;
+	      lw6net_socket_close (&(tcp_accepter->sock));
 	    }
 	  ret = 0;
 	}
@@ -682,8 +681,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 		    }
 		  else
 		    {
-		      lw6net_socket_close (tcp_accepter->sock);
-		      tcp_accepter->sock = LW6NET_SOCKET_INVALID;
+		      lw6net_socket_close (&(tcp_accepter->sock));
 		    }
 		}
 	    }

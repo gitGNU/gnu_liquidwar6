@@ -521,7 +521,7 @@ _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context,
       _mod_httpd_request_free (request);
     }
 
-  lw6net_socket_close (oob_data->sock);
+  lw6net_socket_close (&(oob_data->sock));
   oob_data->sock = -1;
 
   return ret;

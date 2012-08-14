@@ -61,15 +61,14 @@ lw6net_tcp_listen (const char *ip, int port)
 
   sock = _lw6net_socket_bind (ip, port, SOCK_STREAM);
 
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       if (listen (sock, backlog) < 0)
 	{
 	  lw6net_last_error ();
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("listen() failed"));
 
-	  lw6net_socket_close (sock);
-	  sock = -1;
+	  lw6net_socket_close (&sock);
 	}
     }
 
@@ -540,7 +539,6 @@ lw6net_tcp_send (int sock, const char *buf, int len, int delay_msec, int loop)
 				  _x_
 				  ("can't send data on TCP socket %d (%d bytes put)"),
 				  sock, sent);
-
 		      ret = 0;
 		    }
 		}

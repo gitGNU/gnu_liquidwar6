@@ -77,7 +77,7 @@ _mod_tcpd_close (_tcpd_context_t * tcpd_context,
     {
       if (lw6net_socket_is_valid (specific_data->sock))
 	{
-	  lw6net_socket_close (specific_data->sock);
+	  lw6net_socket_close (&(specific_data->sock));
 	}
       LW6SYS_FREE (specific_data);
     }

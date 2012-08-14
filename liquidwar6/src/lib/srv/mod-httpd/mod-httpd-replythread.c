@@ -143,7 +143,7 @@ _mod_httpd_reply_thread_join (void *callback_data)
     {
       if (lw6net_socket_is_valid (reply_thread_data->sock))
 	{
-	  lw6net_socket_close (reply_thread_data->sock);
+	  lw6net_socket_close (&(reply_thread_data->sock));
 	}
       LW6SYS_FREE (reply_thread_data);
     }

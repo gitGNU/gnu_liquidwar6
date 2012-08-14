@@ -41,7 +41,7 @@ _do_broadcast (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("UDP broadcast on %d"), port);
   sock = lw6net_udp_client ();
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       request =
 	lw6msg_oob_generate_request (LW6MSG_OOB_PING, NULL,
@@ -85,7 +85,7 @@ _do_broadcast (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	    }
 	  LW6SYS_FREE (request);
 	}
-      lw6net_socket_close (sock);
+      lw6net_socket_close (&sock);
     }
 
   return ret;
@@ -108,7 +108,7 @@ _do_ping (_udp_context_t * udp_context, lw6nod_info_t * node_info,
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("connecting in UDP on %s:%d"), ip,
 	      parsed_url->port);
   sock = lw6net_udp_client ();
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       request =
 	lw6msg_oob_generate_request (LW6MSG_OOB_PING, url,
@@ -174,7 +174,7 @@ _do_ping (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	    }
 	  LW6SYS_FREE (request);
 	}
-      lw6net_socket_close (sock);
+      lw6net_socket_close (&sock);
     }
 
   return ret;
@@ -217,7 +217,7 @@ _do_info (_udp_context_t * udp_context, lw6nod_info_t * node_info,
     {
       origin = lw6sys_get_timestamp ();
       sock = lw6net_udp_client ();
-      if (sock >= 0)
+      if (lw6net_socket_is_valid (sock))
 	{
 	  request =
 	    lw6msg_oob_generate_request (LW6MSG_OOB_INFO, url,
@@ -259,7 +259,7 @@ _do_info (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 		}
 	      LW6SYS_FREE (request);
 	    }
-	  lw6net_socket_close (sock);
+	  lw6net_socket_close (&sock);
 	}
       if (assoc)
 	{
@@ -317,7 +317,7 @@ _do_list (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	      parsed_url->port);
 
   sock = lw6net_udp_client ();
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       request =
 	lw6msg_oob_generate_request (LW6MSG_OOB_LIST, url,
@@ -351,7 +351,7 @@ _do_list (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	    }
 	  LW6SYS_FREE (request);
 	}
-      lw6net_socket_close (sock);
+      lw6net_socket_close (&sock);
     }
 
   return ret;

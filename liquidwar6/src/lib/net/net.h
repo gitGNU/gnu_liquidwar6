@@ -93,7 +93,7 @@ extern void lw6net_quit ();
 /* net-socket.c */
 extern int lw6net_socket_set_blocking_mode (int sock, int mode);
 extern int lw6net_socket_is_valid (int sock);
-extern void lw6net_socket_close (int sock);
+extern void lw6net_socket_close (int *sock);
 
 /* net-tcp.c */
 extern int lw6net_tcp_listen (const char *ip, int port);

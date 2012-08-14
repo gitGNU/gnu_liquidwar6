@@ -304,7 +304,7 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
 			  _x_
 			  ("destination %s:%d is reachable by plain TCP/IP, but unable to serve correct LW6 HTTP stuff on url \"%s\""),
 			  ip, port, url);
-	      lw6net_socket_close (test_sock);
+	      lw6net_socket_close (&test_sock);
 	    }
 	  else
 	    {

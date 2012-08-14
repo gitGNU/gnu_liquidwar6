@@ -43,7 +43,7 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
   sock =
     lw6net_tcp_connect (ip, parsed_url->port,
 			tcp_context->data.consts.connect_timeout * 1000);
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       request =
 	lw6msg_oob_generate_request (LW6MSG_OOB_PING, url,
@@ -101,7 +101,7 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	    }
 	  LW6SYS_FREE (request);
 	}
-      lw6net_socket_close (sock);
+      lw6net_socket_close (&sock);
     }
 
   return ret;
@@ -128,7 +128,7 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
       sock =
 	lw6net_tcp_connect (ip, parsed_url->port,
 			    tcp_context->data.consts.connect_timeout * 1000);
-      if (sock >= 0)
+      if (lw6net_socket_is_valid (sock))
 	{
 	  request =
 	    lw6msg_oob_generate_request (LW6MSG_OOB_INFO, url,
@@ -207,7 +207,7 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 		}
 	      LW6SYS_FREE (request);
 	    }
-	  lw6net_socket_close (sock);
+	  lw6net_socket_close (&sock);
 	}
       if (assoc)
 	{
@@ -249,7 +249,7 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
   sock =
     lw6net_tcp_connect (ip, parsed_url->port,
 			tcp_context->data.consts.connect_timeout * 1000);
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       request =
 	lw6msg_oob_generate_request (LW6MSG_OOB_LIST, url,
@@ -313,7 +313,7 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	    }
 	  LW6SYS_FREE (request);
 	}
-      lw6net_socket_close (sock);
+      lw6net_socket_close (&sock);
     }
 
   return ret;

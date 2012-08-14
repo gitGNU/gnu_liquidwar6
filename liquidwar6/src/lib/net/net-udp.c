@@ -48,7 +48,7 @@ lw6net_udp_client ()
 
   sock = socket (AF_INET, SOCK_DGRAM, 0);
 
-  sock = (sock >= 0) ? sock : LW6NET_SOCKET_INVALID;
+  sock = (lw6net_socket_is_valid (sock)) ? sock : LW6NET_SOCKET_INVALID;
 
   if (lw6net_socket_is_valid (sock))
     {
@@ -70,8 +70,7 @@ lw6net_udp_client ()
 	}
       else
 	{
-	  lw6net_socket_close (sock);
-	  sock = LW6NET_SOCKET_INVALID;
+	  lw6net_socket_close (&sock);
 	}
     }
 
@@ -96,7 +95,7 @@ lw6net_udp_server (const char *ip, int port)
   int enable = 1;
 
   sock = _lw6net_socket_bind (ip, port, SOCK_DGRAM);
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       if (setsockopt (sock, SOL_SOCKET, SO_BROADCAST,
 		      (char *) &enable, sizeof (int)))
@@ -112,8 +111,7 @@ lw6net_udp_server (const char *ip, int port)
 	}
       else
 	{
-	  lw6net_socket_close (sock);
-	  sock = LW6NET_SOCKET_INVALID;
+	  lw6net_socket_close (&sock);
 	}
     }
 

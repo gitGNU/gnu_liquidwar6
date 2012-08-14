@@ -309,8 +309,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 				  ("TCP check before HTTP request, connected to \"%s\" on %s:%d"),
 				  oob_data->public_url, ip, parsed_url->port);
 		      tcp_connect_ok = 1;
-		      lw6net_socket_close (tcp_connect_sock);
-		      tcp_connect_sock = LW6NET_SOCKET_INVALID;
+		      lw6net_socket_close (&tcp_connect_sock);
 		    }
 		  else
 		    {

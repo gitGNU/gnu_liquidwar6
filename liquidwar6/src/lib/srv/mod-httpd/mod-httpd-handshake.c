@@ -54,8 +54,7 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
   if (!lw6net_tcp_is_alive (tcp_accepter->sock))
     {
       ret |= LW6SRV_ANALYSE_DEAD;
-      lw6net_socket_close (tcp_accepter->sock);
-      tcp_accepter->sock = -1;
+      lw6net_socket_close (&(tcp_accepter->sock));
     }
 
   if (strlen (line) >=
@@ -212,8 +211,7 @@ _mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context,
     {
       if (lw6net_socket_is_valid (tcp_accepter->sock))
 	{
-	  lw6net_socket_close (tcp_accepter->sock);
-	  tcp_accepter->sock = LW6NET_SOCKET_INVALID;
+	  lw6net_socket_close (&(tcp_accepter->sock));
 	}
       if (reply_thread_data)
 	{

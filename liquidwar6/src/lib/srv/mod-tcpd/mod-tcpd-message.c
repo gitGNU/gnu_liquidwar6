@@ -132,8 +132,7 @@ _mod_tcpd_poll (_tcpd_context_t * tcpd_context,
 	}
       else
 	{
-	  lw6net_socket_close (specific_data->sock);
-	  specific_data->sock = LW6NET_SOCKET_INVALID;
+	  lw6net_socket_close (&(specific_data->sock));
 	}
     }
 }

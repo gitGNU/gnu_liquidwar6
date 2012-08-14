@@ -214,30 +214,45 @@ lw6net_socket_is_valid (int sock)
  * @sock: the socket to close
  *
  * Closes a socket, that is, stop activity and free its descriptor.
+ * This function will take a pointer on the socket, this is done
+ * on purpose, the idea is to make sure once the socket is closed
+ * it's never used again within the code, so we modify the pointed
+ * value in place.
  *
  * Return value: none.
  */
 void
-lw6net_socket_close (int sock)
+lw6net_socket_close (int *sock)
 {
-  if (lw6net_socket_is_valid (sock))
+  int tmp_sock = LW6NET_SOCKET_INVALID;
+
+  if (sock)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("close socket %d"), sock);
-      _lw6net_counters_unregister_socket (&
-					  (_lw6net_global_context->counters));
-#ifdef LW6_MS_WINDOWS
-      if (closesocket (sock))
-#else
-      if (close (sock))
-#endif
+      if (lw6net_socket_is_valid (*sock))
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("close() failed"));
-	  lw6net_last_error ();
+	  tmp_sock = (*sock);
+	  (*sock) = LW6NET_SOCKET_INVALID;
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("close socket %d"), tmp_sock);
+	  _lw6net_counters_unregister_socket (&
+					      (_lw6net_global_context->counters));
+#ifdef LW6_MS_WINDOWS
+	  if (closesocket (tmp_sock))
+#else
+	  if (close (tmp_sock))
+#endif
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("close() failed"));
+	      lw6net_last_error ();
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("can't close invalid socket %d"), tmp_sock);
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("can't close negative socket %d"), sock);
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to close NULL socket"));
     }
 }

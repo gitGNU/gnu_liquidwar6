@@ -107,6 +107,7 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
   else
     {
       ret |= LW6SRV_ANALYSE_DEAD;
+      lw6net_socket_close (&(tcp_accepter->sock));
     }
 
   return ret;
@@ -144,6 +145,7 @@ _mod_tcpd_feed_with_tcp (_tcpd_context_t * tcpd_context,
   int ret = 0;
   _tcpd_specific_data_t *specific_data =
     (_tcpd_specific_data_t *) connection->backend_specific_data;;
+  int tmp_sock = LW6NET_SOCKET_INVALID;
 
   if (specific_data)
     {
@@ -154,9 +156,10 @@ _mod_tcpd_feed_with_tcp (_tcpd_context_t * tcpd_context,
 	      /*
 	       * Close our old socket, use the new one
 	       */
-	      lw6net_socket_close (specific_data->sock);
-	      specific_data->sock = LW6NET_SOCKET_INVALID;
-	      specific_data->sock = tcp_accepter->sock;
+	      lw6net_socket_close (&(specific_data->sock));
+	      tmp_sock = tcp_accepter->sock;
+	      tcp_accepter->sock = LW6NET_SOCKET_INVALID;
+	      specific_data->sock = tmp_sock;
 	      ret = 1;
 	    }
 	  else
@@ -166,13 +169,14 @@ _mod_tcpd_feed_with_tcp (_tcpd_context_t * tcpd_context,
 			  ("double connection from \"%s\" (%s:%d), ignoring"),
 			  connection->remote_url, connection->remote_ip,
 			  connection->remote_port);
-	      lw6net_socket_close (tcp_accepter->sock);
-	      tcp_accepter->sock = LW6NET_SOCKET_INVALID;
+	      lw6net_socket_close (&(tcp_accepter->sock));
 	    }
 	}
       else
 	{
-	  specific_data->sock = tcp_accepter->sock;
+	  tmp_sock = tcp_accepter->sock;
+	  tcp_accepter->sock = LW6NET_SOCKET_INVALID;
+	  specific_data->sock = tmp_sock;
 	  ret = 1;
 	}
     }
