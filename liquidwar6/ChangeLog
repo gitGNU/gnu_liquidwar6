@@ -1,5 +1,7 @@
 2012-08-14 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Trying to make Guile and Valgrind work together nicely
+
 	* Resetting DBs on script p2p tests.
 
 	* Passing a pointer to lw6net_socket_close instead of direct handle.

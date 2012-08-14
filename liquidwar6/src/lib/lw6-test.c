@@ -245,7 +245,7 @@ _guile_test_run (void *data)
       lw6sys_snooze ();
     }
 
-  scm_with_guile (_guile_test, data);
+  lw6scm_with_guile (_guile_test, data);
 }
 
 /**

@@ -279,7 +279,7 @@ test_utils ()
 
   {
     global_ret = 1;
-    scm_with_guile (guile_main_utils, NULL);
+    lw6scm_with_guile (guile_main_utils, NULL);
     ret = global_ret;
   }
 
@@ -430,7 +430,7 @@ test_wrapper ()
 
   {
     global_ret = 1;
-    scm_with_guile (guile_main_wrapper, NULL);
+    lw6scm_with_guile (guile_main_wrapper, NULL);
     ret = global_ret;
   }
 

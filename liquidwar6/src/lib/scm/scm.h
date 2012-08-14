@@ -29,6 +29,7 @@
 #include <libguile.h>
 
 typedef SCM (*lw6scm_func_t) ();
+typedef void *(*lw6scm_callback_t) (void *);
 
 /* scm-funcname.c */
 extern char *lw6scm_funcname_scm2c (const char *funcname);
@@ -51,6 +52,7 @@ extern lw6sys_assoc_t *lw6scm_utils_to_sys_str_assoc (SCM assoc);
 extern int lw6scm_c_define_gsubr (const char *name, int req, int opt, int rst,
 				  lw6scm_func_t fcn);
 extern int lw6scm_c_primitive_load (const char *filename);
+extern void *lw6scm_with_guile (lw6scm_callback_t func, void *data);
 
 /* scm-test.c */
 extern int lw6scm_test (int mode);

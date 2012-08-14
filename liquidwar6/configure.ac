@@ -46,7 +46,7 @@ LW6_CODENAME="Davy Crockett"
 AC_SUBST(LW6_CODENAME)
 
 dnl Headers, some are optional
-AC_CHECK_HEADERS(arpa/inet.h ctype.h dirent.h errno.h execinfo.h expat.h fcntl.h gmp.h GL/gl.h GL/glu.h iconv.h ifaddrs.h jpeglib.h langinfo.h libintl.h libpng12/png.h libpng13/png.h libpng14/png.h libpng15/png.h lmcons.h limits.h locale.h ltdl.h mach/vm_statistics.h mach/mach_types.h mach/mach_init.h mach/mach_host.h math.h netdb.h netinet/in.h omp.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/sysinfo.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h)
+AC_CHECK_HEADERS(arpa/inet.h ctype.h dirent.h errno.h execinfo.h expat.h fcntl.h gc/gc.h gmp.h GL/gl.h GL/glu.h iconv.h ifaddrs.h jpeglib.h langinfo.h libintl.h libpng12/png.h libpng13/png.h libpng14/png.h libpng15/png.h lmcons.h limits.h locale.h ltdl.h mach/vm_statistics.h mach/mach_types.h mach/mach_init.h mach/mach_host.h math.h netdb.h netinet/in.h omp.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/sysinfo.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h)
 
 AM_MISSING_PROG(PERL, perl, ${missing_dir})
 AM_MISSING_PROG(AWK, awk, ${missing_dir})
@@ -149,9 +149,9 @@ if test x${GPROF} != xyes; then
    AC_MSG_NOTICE([Liquid War 6 suggests gprof (http://www.gnu.org/software/binutils/)])
 fi
 AC_CHECK_PROG(PPROF, google-pprof, yes, no)
-   if test x${PPROF} == no; then
+   if test x${PPROF} = no; then
    AC_CHECK_PROG(PPROF, pprof, yes, no)
-   if test x${PPROF} == no; then
+   if test x${PPROF} = no; then
       AC_MSG_NOTICE([Liquid War 6 suggests pprof (http://code.google.com/p/google-perftools/)])
    fi
 fi
@@ -172,6 +172,7 @@ dnl Guile
 AC_CHECK_HEADER(gmp.h, HAVE_GMP_H=1, AC_MSG_WARN([
 *** Liquid War 6 needs GNU MP because of Guile (http://gmplib.org/)
 ]))
+AC_CHECK_HEADER(gc/gc.h, HAVE_GC_GC_H=1, AC_MSG_NOTICE([Liquid War 6 can need libgc because of Guile (https://launchpad.net/libgc)]))
 AC_CHECK_HEADER(libguile.h, HAVE_LIBGUILE1_H=1)
 AC_CHECK_HEADER(guile/1.8/libguile.h, HAVE_LIBGUILE1_H=1)
 AC_CHECK_HEADER(guile/2.0/libguile.h, HAVE_LIBGUILE2_H=1)
@@ -185,12 +186,12 @@ fi
 AC_CHECK_LIB(dl, dlopen, HAVE_LIBDL=1, AC_MSG_NOTICE([Liquid War 6 can need libdl because of Guile (http://www.gnu.org/software/libc/)]))
 AC_CHECK_LIB(gc, GC_malloc, HAVE_LIBGC=1, AC_MSG_NOTICE([Liquid War 6 can need libgc because of Guile (https://launchpad.net/libgc)]))
 
-GUILE_CFLAGS=""
+GUILE_CFLAGS="-DLW6_GUILE1"
 GUILE_LDFLAGS=""
 if test "x${lw6_ms_windows}" = "xyes" ; then
    if test -f "/usr/local/lib/libguile.la" ; then
       AC_MSG_NOTICE([Found libguile in /usr/local/lib/libguile.la])
-      GUILE_CFLAGS=`guile-config compile`
+      GUILE_CFLAGS=`guile-config compile`" -DLW6_GUILE1"
       GUILE_LDFLAGS=`guile-config link`" /usr/local/lib/libguile.la"
    else
       # http://sourceforge.net/project/shownotes.php?release_id=540763
@@ -211,7 +212,6 @@ if test "x${lw6_ms_windows}" != "xyes" && test "x${lw6_gp2x}" != "xyes" ; then
 ])
    fi
    if guile-config --version 2> /dev/null ; then
-      GUILE_CFLAGS=`guile-config compile`
       GUILE_LDFLAGS=`guile-config link`
       AC_CHECK_LIB(guile, scm_with_guile, HAVE_LIBGUILE1=1, AC_MSG_NOTICE([Liquid War 6 needs Guile (http://www.gnu.org/software/guile/)]), [$GUILE_LDFLAGS])
       AC_CHECK_LIB(guile-2.0, scm_with_guile, HAVE_LIBGUILE2=1, AC_MSG_NOTICE([Liquid War 6 needs Guile (http://www.gnu.org/software/guile/)]), [$GUILE_LDFLAGS])
@@ -219,6 +219,12 @@ if test "x${lw6_ms_windows}" != "xyes" && test "x${lw6_gp2x}" != "xyes" ; then
       AC_MSG_ERROR([
 *** Liquid War 6 needs Guile 1.8 or 2.0 (http://www.gnu.org/software/guile/)
 ])
+      fi
+      if test x${HAVE_LIBGUILE1} = x1 ; then
+      	 GUILE_CFLAGS=`guile-config compile`" -DLW6_GUILE1"
+      fi
+      if test x${HAVE_LIBGUILE2} = x1 ; then
+      	 GUILE_CFLAGS=`guile-config compile`" -DLW6_GUILE2"
       fi
    else
       # Guile-config doesn't work (GP2X for instance), use builtin

@@ -22,9 +22,15 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include "scm.h"
+
+#ifdef LW6_GUILE2
+#ifdef HAVE_GC_GC_H
+#include <gc/gc.h>
+#endif // HAVE_GC_GC_H
+#endif // LW6_GUILE2
 
 /**
  * lw6scm_c_define_gsubr
@@ -100,4 +106,64 @@ lw6scm_c_primitive_load (const char *filename)
     }
 
   return ret;
+}
+
+/**
+ * lw6scm_with_guile
+ *
+ * @func: callback to use
+ * @data: data to pass to callback
+ *
+ * Initializes Guile and calls function within it.
+ *
+ * Return value: callback return value.
+ */
+void *
+lw6scm_with_guile (lw6scm_callback_t func, void *data)
+{
+  lw6sys_log (LW6SYS_LOG_INFO,
+	      _x_ ("running function %p(%p) in Guile context"), func, data);
+#ifdef LW6_GUILE2
+  /*
+   * When using Guile2, looks like Valgrind reports a bunch of non-initialized
+   * stuff, eg:
+   *
+   * ==32242== Conditional jump or move depends on uninitialised value(s)
+   * * ==32242==    at 0x51CD744: GC_push_all_eager (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x51D60BD: GC_with_callee_saves_pushed (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x51CEDEE: GC_push_roots (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x51CE1FA: GC_mark_some (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x51C5239: GC_stopped_mark (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x51C590E: GC_try_to_collect_inner (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x51D00AF: GC_init_inner (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x4EA7C12: ??? (in /usr/lib/libguile-2.0.so.22.4.0)
+   * ==32242==    by 0x4EB6D27: ??? (in /usr/lib/libguile-2.0.so.22.4.0)
+   * ==32242==    by 0x4F0980F: ??? (in /usr/lib/libguile-2.0.so.22.4.0)
+   * ==32242==    by 0x4F09846: ??? (in /usr/lib/libguile-2.0.so.22.4.0)
+   * ==32242==    by 0x51CFCC7: GC_call_with_stack_base (in /usr/lib/libgc.so.1.0.3)
+   * ==32242== 
+   * ==32242== Use of uninitialised value of size 8
+   * ==32242==    at 0x51CD52D: GC_mark_and_push_stack (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x51CD74E: GC_push_all_eager (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x51D60BD: GC_with_callee_saves_pushed (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x51CEDEE: GC_push_roots (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x51CE1FA: GC_mark_some (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x51C5239: GC_stopped_mark (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x51C590E: GC_try_to_collect_inner (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x51D00AF: GC_init_inner (in /usr/lib/libgc.so.1.0.3)
+   * ==32242==    by 0x4EA7C12: ??? (in /usr/lib/libguile-2.0.so.22.4.0)
+   * ==32242==    by 0x4EB6D27: ??? (in /usr/lib/libguile-2.0.so.22.4.0)
+   * ==32242==    by 0x4F0980F: ??? (in /usr/lib/libguile-2.0.so.22.4.0)
+   * ==32242==    by 0x4F09846: ??? (in /usr/lib/libguile-2.0.so.22.4.0)
+   *
+   * So what we could do is just force a call to GC_INIT, just in case.
+   * This is only for Guile2, Guile1 does not use GC. But anyway calling
+   * GC_INIT() here will cause a segfault on the later call within Guile...
+   * So my for now, we just do nothing, maybe it's just the Valgrind context
+   * that is broken, since Valgrind itself fiddles with threads.
+   *
+   * See http://thread.gmane.org/gmane.lisp.guile.bugs/5340 
+   */
+#endif // LW6_GUILE2
+  return scm_with_guile (func, data);
 }
