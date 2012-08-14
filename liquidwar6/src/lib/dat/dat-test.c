@@ -877,7 +877,7 @@ test_warehouse ()
 	    ret = 0;
 	  }
 
-	_lw6dat_warehouse_purge (_warehouse);
+	lw6dat_warehouse_purge (warehouse);
 
 	id_str = lw6sys_id_ltoa (_TEST_WAREHOUSE_LOCAL_NODE_ID);
 	if (id_str)
