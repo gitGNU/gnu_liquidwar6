@@ -49,29 +49,35 @@ int
 lw6bot_init (lw6bot_backend_t * backend, lw6bot_seed_t * seed)
 {
   lw6bot_data_t data;
+  int bad_speed = 0;
+  int bad_iq = 0;
 
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   if (backend->init)
     {
+      backend->bot_context = NULL;
       memset (&data, 0, sizeof (lw6bot_data_t));
       backend->seed = *seed;
       if (backend->seed.param.speed <= 0.0f)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("incorrect speed %0.1f"),
 		      backend->seed.param.speed);
-	  backend->seed.param.iq = 1.0f;
+	  bad_speed = 1;
 	}
       if (backend->seed.param.iq < 0)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("incorrect iq %d"),
 		      backend->seed.param.iq);
-	  backend->seed.param.iq = 100;
+	  bad_iq = 1;
 	}
       data.param = backend->seed.param;
       data.game_state = seed->game_state;
-      backend->bot_context =
-	backend->init (backend->argc, backend->argv, &data);
+      if ((!bad_speed) && (!bad_iq))
+	{
+	  backend->bot_context =
+	    backend->init (backend->argc, backend->argv, &data);
+	}
     }
   else
     {
