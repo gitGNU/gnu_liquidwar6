@@ -87,7 +87,7 @@ Contact author        : ufoot@ufoot.org
 
 extern int32_t LW6KER_TRIGO_SIN_TABLE[%d];
 
-#endif
+#endif // LIQUIDWAR6KER_TRIGO_H
 
 """ % (CONST_2PI,CONST_PI,CONST_PI2,CONST_2PI_MASK,CONST_PI_MASK,CONST_PI2_MASK,CONST_RADIUS,CONST_2PI)
 
@@ -119,7 +119,7 @@ Contact author        : ufoot@ufoot.org
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include "ker-trigo.h"
 

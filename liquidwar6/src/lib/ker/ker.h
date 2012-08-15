@@ -532,4 +532,4 @@ lw6ker_per100_2 (int32_t n, int32_t per100)
 		     ((int64_t) per100)) / 10000LL);
 }
 
-#endif
+#endif // LIQUIDWAR6KER_H

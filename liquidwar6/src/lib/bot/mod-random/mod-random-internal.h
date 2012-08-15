@@ -49,4 +49,4 @@ extern int _mod_random_next_move (_mod_random_context_t * random_context,
 extern char *_mod_random_repr (_mod_random_context_t * random_context,
 			       u_int32_t id);
 
-#endif
+#endif // LIQUIDWAR6BOT_RANDOM_INTERNAL_H

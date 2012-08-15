@@ -148,4 +148,4 @@ extern void lw6bot_destroy_backend (lw6bot_backend_t * backend);
 /* bot-test.c */
 extern int lw6bot_test (int mode);
 
-#endif
+#endif // LIQUIDWAR6BOT_H

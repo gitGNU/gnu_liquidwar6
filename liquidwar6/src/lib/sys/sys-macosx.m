@@ -22,7 +22,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #ifdef LW6_MAC_OS_X
 
@@ -70,4 +70,4 @@ _lw6sys_macosx_alert (char *title, char *msg)
    */
 }
 
-#endif
+#endif // LW6_MAC_OS_X

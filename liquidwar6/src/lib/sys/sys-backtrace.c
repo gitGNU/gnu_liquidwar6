@@ -22,7 +22,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #if LW6_UNIX && HAVE_EXECINFO_H
 #include <execinfo.h>

@@ -22,7 +22,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include <errno.h>
 
@@ -32,9 +32,9 @@
 #if ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 static u_int32_t seq_id = 0;
 #else
-#if LW6_X86
+#ifdef LW6_X86
 static u_int32_t seq_id = 0;
-#endif
+#endif // LW6_X86
 #endif
 
 /**
@@ -75,8 +75,8 @@ lw6sys_spinlock_create ()
     {
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create spinlock"));
     }
-#else
-#if LW6_X86
+#else // _POSIX_SPIN_LOCKS
+#ifdef LW6_X86
   spinlock =
     (_lw6sys_spinlock_t *) LW6SYS_CALLOC (sizeof (_lw6sys_spinlock_t));
   if (spinlock)
@@ -92,10 +92,10 @@ lw6sys_spinlock_create ()
     {
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create X86 spinlock"));
     }
-#else
+#else // LW6_X86
   spinlock = (_lw6sys_spinlock_t *) lw6sys_mutex_create ();
-#endif
-#endif
+#endif // LW6_X86
+#endif // _POSIX_SPIN_LOCKS
   return (lw6sys_spinlock_t *) spinlock;
 }
 
@@ -114,13 +114,13 @@ lw6sys_spinlock_destroy (lw6sys_spinlock_t * spinlock)
 #if ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
   pthread_spin_destroy (&(((_lw6sys_spinlock_t *) spinlock)->spinlock));
   LW6SYS_FREE ((void *) spinlock);
-#else
-#if LW6_X86
+#else // _POSIX_SPIN_LOCKS
+#ifdef LW6_X86
   LW6SYS_FREE ((void *) spinlock);
-#else
+#else // LW6_X86
   lw6sys_mutex_destroy ((lw6sys_mutex_t *) spinlock);
-#endif
-#endif
+#endif // LW6_X86
+#endif // _POSIX_SPIN_LOCKS
 }
 
 /**
@@ -153,18 +153,18 @@ lw6sys_spinlock_lock (lw6sys_spinlock_t * spinlock)
 		  _x_ ("pthread_spin_lock failed with error code %d"),
 		  pthread_ret);
     }
-#else
-#if LW6_X86
+#else // _POSIX_SPIN_LOCKS
+#ifdef LW6_X86
   // http://www.cis.temple.edu/~ingargio/cis307/readings/spinsem.html
   while (lw6sys_test_and_set (&(((_lw6sys_spinlock_t *) spinlock)->spinlock)))
     {
       // eat 100% CPU
     }
   ret = 1;
-#else
+#else // LW6_X86
   ret = lw6sys_mutex_lock ((lw6sys_mutex_t *) spinlock);
-#endif
-#endif
+#endif // LW6_X86
+#endif // _POSIX_SPIN_LOCKS
   return ret;
 }
 
@@ -207,13 +207,13 @@ lw6sys_spinlock_trylock (lw6sys_spinlock_t * spinlock)
 		      pthread_ret);
 	}
     }
-#else
-#if LW6_X86
+#else // _POSIX_SPIN_LOCKS
+#ifdef LW6_X86
   ret = !(((_lw6sys_spinlock_t *) spinlock)->spinlock);
-#else
+#else // LW6_X86
   ret = lw6sys_mutex_trylock ((lw6sys_mutex_t *) spinlock);
-#endif
-#endif
+#endif // LW6_X86
+#endif // _POSIX_SPIN_LOCKS
   return ret;
 }
 
@@ -245,13 +245,13 @@ lw6sys_spinlock_unlock (lw6sys_spinlock_t * spinlock)
 		  _x_ ("pthread_spin_unlock failed with error code %d"),
 		  pthread_ret);
     }
-#else
-#if LW6_X86
+#else // _POSIX_SPIN_LOCKS
+#ifdef LW6_X86
   (((_lw6sys_spinlock_t *) spinlock)->spinlock) = 0;
   ret = 1;
-#else
+#else // LW6_X86
   ret = lw6sys_mutex_unlock ((lw6sys_mutex_t *) spinlock);
-#endif
-#endif
+#endif // LW6_X86
+#endif // _POSIX_SPIN_LOCKS
   return ret;
 }

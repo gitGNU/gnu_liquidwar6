@@ -24,8 +24,8 @@ Contact author        : ufoot@ufoot.org
  * Generated automatically by def-update.py
  */
 
-#ifndef LIQUIDWAR6DEF_DEF_H
-#define LIQUIDWAR6DEF_DEF_H
+#ifndef LIQUIDWAR6DEF_H
+#define LIQUIDWAR6DEF_H
 
 #define LW6DEF_ABOUT "about"
 #define LW6DEF_AMBIANCE_EXCLUDE "ambiance-exclude"
@@ -902,4 +902,4 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_ZOOM_STICK_DELAY "zoom-stick-delay"
 
 
-#endif
+#endif // LIQUIDWAR6DEF_H

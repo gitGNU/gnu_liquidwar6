@@ -22,14 +22,14 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include "sys.h"
 #include "sys-internal.h"
 
 #ifdef LW6_OPENMP
 #include <omp.h>
-#endif
+#endif // LW6_OPENMP
 
 /**
  * lw6sys_openmp_get_num_procs
@@ -47,7 +47,7 @@ lw6sys_openmp_get_num_procs ()
 
 #ifdef LW6_OPENMP
   ret = omp_get_num_procs ();
-#endif
+#endif // LW6_OPENMP
 
   return ret;
 }

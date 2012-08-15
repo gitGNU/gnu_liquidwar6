@@ -68,12 +68,12 @@ Contact author        : ufoot@ufoot.org
  * Generated automatically by def-update.py
  */
 
-#ifndef LIQUIDWAR6DEF_DEF_H
-#define LIQUIDWAR6DEF_DEF_H
+#ifndef LIQUIDWAR6DEF_H
+#define LIQUIDWAR6DEF_H
 
 %s
 
-#endif
+#endif // LIQUIDWAR6DEF_H
 
 """ % (defs_c)
 

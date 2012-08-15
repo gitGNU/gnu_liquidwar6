@@ -22,7 +22,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include <string.h>
 
@@ -30,7 +30,7 @@
 
 #ifndef LW6_MS_WINDOWS
 #include <unistd.h>
-#endif
+#endif // LW6_MS_WINDOWS
 
 #define CONFIG_FILE "config.xml"
 #define LOG_FILE "log.csv"
@@ -41,18 +41,18 @@
 #ifdef LW6_MAC_OS_X
 #define RUN_REL "../Resources"
 #define APPLICATION_SUPPORT "Library/Application Support"
-#else
+#else // LW6_MAC_OS_X
 #define RUN_REL "."
-#endif
+#endif // LW6_MAX_OS_X
 #define DATA_DIR "data"
 #define MUSIC_DIR "music"
 #define MAP_DIR "map"
 #define SCRIPT_FILE "script/liquidwar6.scm"
 #ifdef LW6_MS_WINDOWS
 #define README_FILE "readme.txt"
-#else
+#else // LW6_MS_WINDOWS
 #define README_FILE "README"
-#endif
+#endif // LW6_MS_WINDOWS
 #define CWD_SIZE 2048
 
 /**
@@ -76,15 +76,15 @@ lw6sys_get_default_user_dir ()
     {
 #ifdef LW6_MS_WINDOWS
       relative = lw6sys_str_copy (lw6sys_build_get_package_name ());
-#else
+#else // LW6_MS_WINDOWS
 #ifdef LW6_MAC_OS_X
       relative =
 	lw6sys_path_concat (APPLICATION_SUPPORT,
 			    lw6sys_build_get_package_name ());
-#else
+#else // LW6_MAC_OS_X
       relative = lw6sys_str_concat (".", lw6sys_build_get_package_tarname ());
-#endif
-#endif
+#endif // LW6_MAC_OS_X
+#endif // LW6_MS_WINDOWS
       if (relative)
 	{
 	  user_dir = lw6sys_path_concat (home_dir, relative);

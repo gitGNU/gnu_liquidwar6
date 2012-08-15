@@ -50,4 +50,4 @@ extern int _mod_brute_next_move (_mod_brute_context_t * brute_context,
 extern char *_mod_brute_repr (_mod_brute_context_t * brute_context,
 			      u_int32_t id);
 
-#endif
+#endif // LIQUIDWAR6BOT_BRUTE_INTERNAL_H

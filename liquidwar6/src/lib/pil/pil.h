@@ -403,4 +403,4 @@ extern int64_t lw6pil_seq_random_0 ();
 /* pil-test.c */
 extern int lw6pil_test (int mode);
 
-#endif
+#endif // LIQUIDWAR6PIL_H

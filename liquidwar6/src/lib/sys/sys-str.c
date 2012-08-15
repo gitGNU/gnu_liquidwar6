@@ -22,7 +22,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include <ctype.h>
 
@@ -31,9 +31,9 @@
 
 #ifdef LW6_MS_WINDOWS
 #define STR_EOL "\r\n"
-#else
+#else // LW6_MS_WINDOWS
 #define STR_EOL "\n"
-#endif
+#endif // LW6_MS_WINDOWS
 
 #define _STR_BIN_TEXT_OTHER ".,:;!?()'\"-+*/=_ \t\r\n"
 #define _STR_BIN_TEXT_MIN_PERCENT 75

@@ -30,4 +30,4 @@ extern lw6sys_module_pedigree_t *mod_brute_get_pedigree ();
 extern lw6bot_backend_t *mod_brute_create_backend ();
 extern void mod_brute_is_GPL_compatible ();
 
-#endif
+#endif // LIQUIDWAR6BOT_BRUTE_H

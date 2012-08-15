@@ -39,4 +39,4 @@ Contact author        : ufoot@ufoot.org
 
 extern int32_t LW6KER_TRIGO_SIN_TABLE[16384];
 
-#endif
+#endif // LIQUIDWAR6KER_TRIGO_H

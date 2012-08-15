@@ -56,4 +56,4 @@ extern int _mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x,
 extern char *_mod_idiot_repr (_mod_idiot_context_t * idiot_context,
 			      u_int32_t id);
 
-#endif
+#endif // LIQUIDWAR6BOT_IDIOT_INTERNAL_H

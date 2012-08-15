@@ -54,4 +54,4 @@ extern int _mod_follow_next_move (_mod_follow_context_t * follow_context,
 extern char *_mod_follow_repr (_mod_follow_context_t * follow_context,
 			       u_int32_t id);
 
-#endif
+#endif // LIQUIDWAR6BOT_FOLLOW_INTERNAL_H

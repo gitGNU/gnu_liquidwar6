@@ -127,4 +127,4 @@ extern int _lw6pil_worker_init (lw6pil_worker_t * worker,
 				int verified, lw6sys_progress_t * progress);
 extern int _lw6pil_worker_quit (lw6pil_worker_t * worker);
 
-#endif
+#endif // LIQUIDWAR6PIL_INTERNAL_H

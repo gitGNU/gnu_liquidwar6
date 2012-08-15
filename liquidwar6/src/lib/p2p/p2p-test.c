@@ -1613,9 +1613,21 @@ lw6p2p_test (int mode)
 	}
       else
 	{
-	  ret = _test_db () && _test_entry () && _test_node_init ()
-	    && _test_node_oob () && _test_node_cmd () && _test_node_msg ()
-	    && _test_node_api ();
+	  /*
+	   * Replace the following to switch between two modes:
+	   * - lw6sys_true() -> dev mode, api is the most error-prone suite
+	   * - lw6sys_false() -> release mode, all tests enabled
+	   */
+	  if (lw6sys_true ())
+	    {
+	      ret = _test_node_api ();
+	    }
+	  else
+	    {
+	      ret = _test_db () && _test_entry () && _test_node_init ()
+		&& _test_node_oob () && _test_node_cmd () && _test_node_msg ()
+		&& _test_node_api ();
+	    }
 	}
 
       lw6net_quit (argc, argv);

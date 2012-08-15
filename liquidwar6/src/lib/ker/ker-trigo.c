@@ -26,7 +26,7 @@ Contact author        : ufoot@ufoot.org
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include "ker-trigo.h"
 

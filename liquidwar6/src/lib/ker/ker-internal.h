@@ -984,4 +984,4 @@ extern void _lw6ker_zone_struct_update_checksum (_lw6ker_zone_struct_t *
 						 zone_struct,
 						 u_int32_t * checksum);
 
-#endif
+#endif // LIQUIDWAR6KER_INTERNAL_H

@@ -22,7 +22,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include <dirent.h>
 #include <limits.h>
@@ -39,10 +39,10 @@
 #ifdef LW6_MS_WINDOWS
 #define DIR_SEP_CHAR DIR_SEP_CHAR_MS_WINDOWS
 #define DIR_SEP_STR DIR_SEP_STR_MS_WINDOWS
-#else
+#else // LW6_MS_WINDOWS
 #define DIR_SEP_CHAR DIR_SEP_CHAR_UNIX
 #define DIR_SEP_STR DIR_SEP_STR_UNIX
-#endif
+#endif // LW6_MS_WINDOWS
 
 static int
 is_dir_sep (char c)

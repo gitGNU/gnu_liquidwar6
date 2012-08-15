@@ -22,7 +22,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include "sys.h"
 
@@ -47,14 +47,14 @@
 #define PATH_CONCAT_PARENT "\\foo\\bar\\foo"
 #define PATH_RELATIVE "..\\..\\foo\\bar"
 #define PATH_RELATIVE_UNPARENT "..\\foo\\bar"
-#else
+#else // LW6_MS_WINDOWS
 #define PATH_WITH_SLASH "/foo/bar/"
 #define PATH_WITHOUT_SLASH "/foo/bar"
 #define PATH_CONCAT "/foo/bar/foo/bar"
 #define PATH_CONCAT_PARENT "/foo/bar/foo"
 #define PATH_RELATIVE "../../foo/bar"
 #define PATH_RELATIVE_UNPARENT "../foo/bar"
-#endif
+#endif // LW6_MS_WINDOWS
 #define _TEST_LIST_STR1 "str1"
 #define _TEST_LIST_STR2 "str2"
 #define _TEST_LIST_STR3 "str3"
