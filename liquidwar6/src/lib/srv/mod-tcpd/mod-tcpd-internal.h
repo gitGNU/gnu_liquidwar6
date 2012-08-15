@@ -35,6 +35,8 @@
 typedef struct _tcpd_consts_s
 {
   int error_timeout;
+  int ping_alter_base;
+  int ping_alter_percent;
 }
 _tcpd_consts_t;
 

@@ -48,6 +48,10 @@ _mod_tcpd_init (int argc, const char *argv[],
 	    {
 	      properties->hint_timeout =
 		tcpd_context->data.consts.error_timeout;
+	      properties->ping_alter_base =
+		tcpd_context->data.consts.ping_alter_base;
+	      properties->ping_alter_percent =
+		tcpd_context->data.consts.ping_alter_percent;
 	      ok = 1;
 	    }
 	  LW6SYS_FREE (data_dir);

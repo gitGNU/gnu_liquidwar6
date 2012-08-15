@@ -30,6 +30,8 @@ typedef struct _mod_tcp_consts_s
   int global_timeout;
   int connect_timeout;
   int reconnect_delay;
+  int ping_alter_base;
+  int ping_alter_percent;
 }
 _mod_tcp_consts_t;
 

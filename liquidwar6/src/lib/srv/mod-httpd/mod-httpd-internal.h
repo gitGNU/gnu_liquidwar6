@@ -59,6 +59,8 @@
 typedef struct _mod_httpd_consts_s
 {
   int error_timeout;
+  int ping_alter_base;
+  int ping_alter_percent;
   int max_age;
   int in_the_past;
   int refresh_index_header;

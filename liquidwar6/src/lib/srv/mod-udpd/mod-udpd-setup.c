@@ -48,6 +48,10 @@ _mod_udpd_init (int argc, const char *argv[],
 	    {
 	      properties->hint_timeout =
 		udpd_context->data.consts.error_timeout;
+	      properties->ping_alter_base =
+		udpd_context->data.consts.ping_alter_base;
+	      properties->ping_alter_percent =
+		udpd_context->data.consts.ping_alter_percent;
 	      ok = 1;
 	    }
 	  LW6SYS_FREE (data_dir);

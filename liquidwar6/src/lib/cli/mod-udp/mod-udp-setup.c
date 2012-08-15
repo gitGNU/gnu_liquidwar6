@@ -46,6 +46,10 @@ _mod_udp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 	    {
 	      properties->hint_timeout =
 		udp_context->data.consts.global_timeout;
+	      properties->ping_alter_base =
+		udp_context->data.consts.ping_alter_base;
+	      properties->ping_alter_percent =
+		udp_context->data.consts.ping_alter_percent;
 	      ok = 1;
 	    }
 	  LW6SYS_FREE (data_dir);

@@ -179,9 +179,27 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	       */
 	      if (foo_cnx && foo_cnx->remote_id_int == cnx->remote_id_int)
 		{
-		  foo_cnx->ping_msec =
-		    lw6sys_get_timestamp () -
-		    foo_cnx->last_send_foo_timestamp;
+		  /*
+		   * We modify the ping according to the connection
+		   * properties, this will favor some type of
+		   * connection over others. Avoiding, for instance,
+		   * using httpd by mistake when there's a better option...
+		   */
+		  foo_cnx->ping_msec = foo_cnx->properties.ping_alter_base +
+		    ((foo_cnx->properties.ping_alter_percent *
+		      ((lw6sys_get_timestamp () -
+			foo_cnx->last_send_foo_timestamp))) / 100);
+		  /*
+		   * We won't believe in a 0 msec ping. No way, this can not exist.
+		   * Even if it did we'd round it to 1 msec anyway. This allow us
+		   * to spot 0 msec pings as "not initialized yet" and hell, a 1 msec
+		   * ping is excellent as far as we are concerned, so there's no
+		   * real point in making the difference between, say 0.1 msec and 1 msec.
+		   */
+		  if (foo_cnx->ping_msec <= 0)
+		    {
+		      foo_cnx->ping_msec = 1;
+		    }
 		  foo_cnx->foo_bar_key = 0;
 		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("ping=%d"),
 			      foo_cnx->ping_msec);

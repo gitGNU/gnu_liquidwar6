@@ -44,6 +44,10 @@ _read_callback (void *callback_data, const char *element, const char *key,
 			   &(consts->global_timeout));
       lw6cfg_read_xml_int (key, value, "broadcast-timeout",
 			   &(consts->broadcast_timeout));
+      lw6cfg_read_xml_int (key, value, "ping-alter-base",
+			   &(consts->ping_alter_base));
+      lw6cfg_read_xml_int (key, value, "ping-alter-percent",
+			   &(consts->ping_alter_percent));
     }
 }
 

@@ -29,6 +29,8 @@ typedef struct _udp_consts_s
 {
   int global_timeout;
   int broadcast_timeout;
+  int ping_alter_base;
+  int ping_alter_percent;
 }
 _udp_consts_t;
 

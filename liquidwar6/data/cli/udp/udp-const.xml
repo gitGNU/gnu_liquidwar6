@@ -2,4 +2,6 @@
 <liquidwar6>
   <int key="global-timeout" value="10" />
   <int key="broadcast-timeout" value="2" />
+  <int key="ping-alter-base" value="0" />
+  <int key="ping-alter-percent" value="100" />
 </liquidwar6>

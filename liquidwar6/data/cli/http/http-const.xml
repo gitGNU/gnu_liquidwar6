@@ -2,5 +2,7 @@
 <liquidwar6>
   <int key="global-timeout" value="10" />
   <int key="connect-timeout" value="3" />
+  <int key="ping-alter-base" value="4" />
+  <int key="ping-alter-percent" value="120" />
   <bool key="tcp-connect-before-http-get" value="true" />
 </liquidwar6>

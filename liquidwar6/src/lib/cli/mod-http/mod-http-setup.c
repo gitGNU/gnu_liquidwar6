@@ -51,6 +51,10 @@ _mod_http_init (int argc, const char *argv[],
 	    {
 	      properties->hint_timeout =
 		http_context->data.consts.global_timeout;
+	      properties->ping_alter_base =
+		http_context->data.consts.ping_alter_base;
+	      properties->ping_alter_percent =
+		http_context->data.consts.ping_alter_percent;
 	      http_context->curl_init_ret = curl_global_init (_CURL_FLAGS);
 	      if (http_context->curl_init_ret == CURLE_OK)
 		{

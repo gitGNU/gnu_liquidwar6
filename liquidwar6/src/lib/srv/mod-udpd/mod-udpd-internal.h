@@ -28,6 +28,8 @@
 typedef struct _udpd_consts_s
 {
   int error_timeout;
+  int ping_alter_base;
+  int ping_alter_percent;
 }
 _udpd_consts_t;
 

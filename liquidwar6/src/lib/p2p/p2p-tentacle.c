@@ -444,36 +444,67 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
   cnx = _lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle);
   if (cnx)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _x_ ("send of \"%s\" on fastest connection"), msg);
-      physical_ticket_sig =
-	lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
-				(ticket_table, tentacle->remote_id_str),
-				tentacle->local_id_int,
-				tentacle->remote_id_int, msg);
-      /*
-       * Now we have the cnx, we must figure out its type (cnx/srv)
-       * and index to fire the right code on it.
-       */
-      for (i = 0; i < tentacle->nb_cli_connections; ++i)
+      if (cnx->ping_msec > 0)
 	{
-	  if (cnx == tentacle->cli_connections[i])
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("send of \"%s\" on fastest connection"), msg);
+	  physical_ticket_sig =
+	    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+				    (ticket_table, tentacle->remote_id_str),
+				    tentacle->local_id_int,
+				    tentacle->remote_id_int, msg);
+	  /*
+	   * Now we have the cnx, we must figure out its type (cnx/srv)
+	   * and index to fire the right code on it.
+	   */
+	  for (i = 0; i < tentacle->nb_cli_connections; ++i)
 	    {
-	      ret |=
-		lw6cli_send (tentacle->backends->cli_backends[i], cnx,
-			     physical_ticket_sig, logical_ticket_sig,
-			     cnx->local_id_int, cnx->remote_id_int, msg);
+	      if (cnx == tentacle->cli_connections[i])
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_
+			      ("found fastest connection to \"%s\", it's a client connection, backend name=\"%s\""),
+			      tentacle->remote_url,
+			      tentacle->backends->cli_backends[i]->name);
+		  ret |=
+		    lw6cli_send (tentacle->backends->cli_backends[i], cnx,
+				 physical_ticket_sig, logical_ticket_sig,
+				 cnx->local_id_int, cnx->remote_id_int, msg);
+		}
+	    }
+	  for (i = 0; i < tentacle->nb_srv_connections; ++i)
+	    {
+	      if (cnx == tentacle->srv_connections[i])
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_
+			      ("found fastest connection to \"%s\", it's a server connection, backend name=\"%s\""),
+			      tentacle->remote_url,
+			      tentacle->backends->srv_backends[i]->name);
+		  ret |=
+		    lw6srv_send (tentacle->backends->srv_backends[i], cnx,
+				 physical_ticket_sig, logical_ticket_sig,
+				 cnx->local_id_int, cnx->remote_id_int, msg);
+		}
 	    }
 	}
-      for (i = 0; i < tentacle->nb_srv_connections; ++i)
+      else
 	{
-	  if (cnx == tentacle->srv_connections[i])
-	    {
-	      ret |=
-		lw6srv_send (tentacle->backends->srv_backends[i], cnx,
-			     physical_ticket_sig, logical_ticket_sig,
-			     cnx->local_id_int, cnx->remote_id_int, msg);
-	    }
+	  /*
+	   * OK, we did not really find a "best connection" since it pretends
+	   * to have a zero ping, and ping zero is just a plain imaginary stuff,
+	   * and actually, we always force real pings to be at least one.
+	   * Well, anyway, just means we did not really find it, so meanwhile,
+	   * until we get a real "best" one, we go redundant.
+	   */
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_
+		      ("couldn't really find a \"best\" connection for now, fallback on redundant mode"));
+	  ret =
+	    _lw6p2p_tentacle_send_redundant (tentacle, ticket_table,
+					     logical_ticket_sig,
+					     logical_from_id, logical_to_id,
+					     msg);
 	}
     }
 
@@ -589,6 +620,11 @@ _lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t *
   if (!ret)
     {
       ret = any;
+    }
+
+  if (ret)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("best ping is %d"), ret->ping_msec);
     }
 
   return ret;

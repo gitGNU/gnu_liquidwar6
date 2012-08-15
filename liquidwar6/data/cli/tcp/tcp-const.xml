@@ -3,4 +3,6 @@
   <int key="global-timeout" value="10" />
   <int key="connect-timeout" value="3" />
   <int key="reconnect-delay" value="1" />
+  <int key="ping-alter-base" value="2" />
+  <int key="ping-alter-percent" value="110" />
 </liquidwar6>

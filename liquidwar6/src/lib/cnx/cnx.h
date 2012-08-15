@@ -42,6 +42,29 @@ typedef struct lw6cnx_properties_s
    * of magnitude. Unit is seconds.
    */
   int hint_timeout;
+  /**
+   * Modifies the ping returned by terrain experience, this is a
+   * way to help some kind of connections to be preferred over others.
+   * Set it to N to add N milliseconds to the real ping. Adding a
+   * few msecs, such as 1 or 5 will just give an advantage to a
+   * given connection while not giving really wrong results.
+   * High values like 50 or 100 seriously penalizes some kind of
+   * connections, which is whishable, think of the httpd way to
+   * send things for instance.
+   */
+  int ping_alter_base;
+  /**
+   * Modifies the ping returned by terrain experience, this is a
+   * way to help some kind of connections to be preferred over others.
+   * Set it to 100 for default value, means 100% of real ping delay,
+   * set it to 50 to make the algorithm believe lag is twice lower
+   * (this means, connection twice faster) and set it to 1000 to
+   * make believe that everything is slow. In practice only a
+   * slight alteration should be required, one should still favor
+   * really fast connections when it's proved in real life that they
+   * are faster!
+   */
+  int ping_alter_percent;
 }
 lw6cnx_properties_t;
 

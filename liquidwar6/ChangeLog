@@ -1,5 +1,7 @@
 2012-08-15 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added weights to network connections, to favor udp over http.
+
 	* Network test minor fixes.
 
 2012-08-14 : Christian Mauduit <ufoot@ufoot.org>

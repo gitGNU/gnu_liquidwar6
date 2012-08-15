@@ -54,6 +54,10 @@ _mod_httpd_init (int argc, const char *argv[],
 	    {
 	      properties->hint_timeout =
 		httpd_context->data.consts.error_timeout;
+	      properties->ping_alter_base =
+		httpd_context->data.consts.ping_alter_base;
+	      properties->ping_alter_percent =
+		httpd_context->data.consts.ping_alter_percent;
 	      user_dir = lw6sys_get_user_dir (argc, argv);
 	      if (user_dir)
 		{

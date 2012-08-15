@@ -48,6 +48,10 @@ _read_callback (void *callback_data, const char *element, const char *key,
     {
       lw6cfg_read_xml_int (key, value, "error-timeout",
 			   &(consts->error_timeout));
+      lw6cfg_read_xml_int (key, value, "ping-alter-base",
+			   &(consts->ping_alter_base));
+      lw6cfg_read_xml_int (key, value, "ping-alter-percent",
+			   &(consts->ping_alter_percent));
       lw6cfg_read_xml_int (key, value, "max-age", &(consts->max_age));
       lw6cfg_read_xml_int (key, value, "in-the-past", &(consts->in_the_past));
       lw6cfg_read_xml_int (key, value, "refresh-index-header",

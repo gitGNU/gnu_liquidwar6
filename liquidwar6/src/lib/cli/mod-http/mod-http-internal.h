@@ -44,6 +44,8 @@ typedef struct _mod_http_consts_s
 {
   int global_timeout;
   int connect_timeout;
+  int ping_alter_base;
+  int ping_alter_percent;
   int tcp_connect_before_http_get;
 }
 _mod_http_consts_t;
