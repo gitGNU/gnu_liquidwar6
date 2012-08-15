@@ -53,8 +53,8 @@
 						   (cons "trojan" #f)
 						   )))
 	       (id-2 (c-lw6p2p-node-get-id node-2))
-	       (time-limit (+ 60000 (c-lw6sys-get-timestamp)))
-	       (connect-time (- time-limit 15000))
+	       (time-limit (+ lw6-test-network-global-delay (c-lw6sys-get-timestamp)))
+	       (connect-time (- time-limit lw6-test-network-connect-delay))
 	       (connect-ret #f)
 	       (server-entry #f)
 	       )
@@ -97,5 +97,5 @@
 
 (c-lw6-set-ret #f) ;; reset this to "failed" so that it has the right value is script is interrupted
 (c-lw6-set-ret (and
-		(lw6-test-client-join)
+		(lw6-test-run lw6-test-client-join)
 		))

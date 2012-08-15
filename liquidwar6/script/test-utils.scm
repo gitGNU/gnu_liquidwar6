@@ -8,7 +8,7 @@
 ;;
 ;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
 ;; GNU General Public License for more details.
 ;;
 ;; You should have received a copy of the GNU General Public License
@@ -16,17 +16,24 @@
 ;;
 ;;
 ;; Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
-;; Contact author        : ufoot@ufoot.org
+;; Contact author	 : ufoot@ufoot.org
 
-(load "test-0-client.scm") ; perform basic tests first
+(define lw6-test-network-global-delay 90000)
+(define lw6-test-network-connect-delay 30000)
 
-(define lw6-test-client-more
-  (lambda ()
-    (begin
-      (lw6-log-notice "todo...")
-      #t)))
-
-(c-lw6-set-ret (and
-		(c-lw6-get-ret)
-		(lw6-test-run lw6-test-client-more)
-		))
+(define lw6-test-run
+  (lambda (proc)
+    (let (
+	  (ret #f)
+	  (proc-repr  (format #f "~a" proc))
+	  )
+      (begin
+	(lw6-log-notice (format #f "test ~a BEGIN" proc-repr))
+	(set! ret (proc))
+	;; Note, for some reason Guile seems to collapse if ret
+	;; is undefined, so be carefull, really set ret
+	;; to something in test functions
+	(if ret
+	    (lw6-log-notice (format #f "test ~a END returned ~a" proc-repr ret))
+	    (lw6-log-warning (format #f "test ~a END failed" proc-repr)))
+	ret))))

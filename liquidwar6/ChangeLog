@@ -1,3 +1,7 @@
+2012-08-15 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Network test minor fixes.
+
 2012-08-14 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Trying to make Guile and Valgrind work together nicely

@@ -34,6 +34,6 @@
 
 (c-lw6-set-ret (and
 		(c-lw6-get-ret)
-		(lw6-test-display)
-		(lw6-test-control-1)
+		(lw6-test-run lw6-test-display)
+		(lw6-test-run lw6-test-control-1)
 		))

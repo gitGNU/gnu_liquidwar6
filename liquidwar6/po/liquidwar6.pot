@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.14beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-08-07 00:38+0200\n"
+"POT-Creation-Date: 2012-08-15 08:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -209,7 +209,7 @@ msgid "Fight software patents %s"
 msgstr ""
 
 #: src/lib/hlp/hlp-credits.c:169 src/lib/lw6-print.c:58
-#: src/lib/sys/sys-log.c:646
+#: src/lib/sys/sys-log.c:653
 msgid "Report bugs"
 msgstr ""
 
@@ -596,46 +596,46 @@ msgstr ""
 msgid "log_file is NULL"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:543
+#: src/lib/sys/sys-log.c:550
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr ""
 
-#: src/lib/sys/sys-log.c:646
+#: src/lib/sys/sys-log.c:653
 msgid "Backtrace"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:802
+#: src/lib/sys/sys-log.c:809
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:807
+#: src/lib/sys/sys-log.c:814
 msgid "ERROR! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:817
+#: src/lib/sys/sys-log.c:824
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:822
+#: src/lib/sys/sys-log.c:829
 msgid "WARNING! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:839
+#: src/lib/sys/sys-log.c:846
 msgid "[tmp] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:845
+#: src/lib/sys/sys-log.c:852
 msgid "[debug] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:928
+#: src/lib/sys/sys-log.c:935
 msgid "CRITICAL! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:932
+#: src/lib/sys/sys-log.c:939
 msgid "CRITICAL!"
 msgstr ""
 
@@ -665,10 +665,6 @@ msgstr ""
 
 #: src/lib/sys/sys-signal.c:262
 msgid "Floating point exception"
-msgstr ""
-
-#: src/lib/sys/sys-test.c:2039
-msgid "this is a /TEST/ error"
 msgstr ""
 
 #: src/scriptpo.c:1

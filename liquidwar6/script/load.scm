@@ -71,6 +71,7 @@
       (load "splash.scm")
       (load "speed.scm")
       (load "style.scm")
+      (load "test-utils.scm")
       (load "wait.scm")
       (load "zoom.scm")
       )))

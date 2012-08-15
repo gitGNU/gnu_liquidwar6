@@ -28,5 +28,5 @@
 
 (c-lw6-set-ret (and
 		(c-lw6-get-ret)
-		(lw6-test-server-more)
+		(lw6-test-run lw6-test-server-more)
 		))

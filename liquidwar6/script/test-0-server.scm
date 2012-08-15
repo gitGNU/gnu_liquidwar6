@@ -59,7 +59,7 @@
 	       (pilot-1 (c-lw6pil-build-pilot game-state-1
 					      1000000000000
 					      0))
-	       (time-limit (+ 60000 (c-lw6sys-get-timestamp)))
+	       (time-limit (+ lw6-test-network-global-delay (c-lw6sys-get-timestamp)))
 	       )
 	  (begin
 	    (lw6-log-notice node-1)
@@ -91,5 +91,5 @@
 
 (c-lw6-set-ret #f) ;; reset this to "failed" so that it has the right value is script is interrupted
 (c-lw6-set-ret (and
-		(lw6-test-server-join)
+		(lw6-test-run lw6-test-server-join)
 		))

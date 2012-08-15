@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-08-07 00:38+0200\n"
+"POT-Creation-Date: 2012-08-15 08:47+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -209,7 +209,7 @@ msgid "Fight software patents %s"
 msgstr "Contre les brevets logiciels %s"
 
 #: src/lib/hlp/hlp-credits.c:169 src/lib/lw6-print.c:58
-#: src/lib/sys/sys-log.c:646
+#: src/lib/sys/sys-log.c:653
 msgid "Report bugs"
 msgstr "Soummission de bugs"
 
@@ -582,9 +582,9 @@ msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr "communication établie \"%s\" <-> \"%s\" sur %s:%d"
 
 #: src/lib/scm/scm-test.c:266 src/lib/scm/scm-test.c:417
-#, fuzzy, c-format
+#, c-format
 msgid "leaving Guile in %s"
-msgstr "fin de la session Guile"
+msgstr "fin de Guile dans %s"
 
 #: src/lib/snd/mod-csound/mod-csound-backend.c:215
 msgid "Csound"
@@ -622,46 +622,46 @@ msgstr "impossible d'initialiser mod_udpd"
 msgid "log_file is NULL"
 msgstr "Le fichier de log est NULL"
 
-#: src/lib/sys/sys-log.c:543
+#: src/lib/sys/sys-log.c:550
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr "impossible d'ouvrir le fichier de log \"%s\""
 
-#: src/lib/sys/sys-log.c:646
+#: src/lib/sys/sys-log.c:653
 msgid "Backtrace"
 msgstr "Trace"
 
-#: src/lib/sys/sys-log.c:802
+#: src/lib/sys/sys-log.c:809
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "ERREUR! (errno=%d:%s)"
 
-#: src/lib/sys/sys-log.c:807
+#: src/lib/sys/sys-log.c:814
 msgid "ERROR! "
 msgstr "ERREUR! "
 
-#: src/lib/sys/sys-log.c:817
+#: src/lib/sys/sys-log.c:824
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "ATTENTION! (errno=%d:%s) "
 
-#: src/lib/sys/sys-log.c:822
+#: src/lib/sys/sys-log.c:829
 msgid "WARNING! "
 msgstr "ATTENTION! "
 
-#: src/lib/sys/sys-log.c:839
+#: src/lib/sys/sys-log.c:846
 msgid "[tmp] "
 msgstr "[temp] "
 
-#: src/lib/sys/sys-log.c:845
+#: src/lib/sys/sys-log.c:852
 msgid "[debug] "
 msgstr "[déboggage] "
 
-#: src/lib/sys/sys-log.c:928
+#: src/lib/sys/sys-log.c:935
 msgid "CRITICAL! "
 msgstr "CRITIQUE! "
 
-#: src/lib/sys/sys-log.c:932
+#: src/lib/sys/sys-log.c:939
 msgid "CRITICAL!"
 msgstr "CRITIQUE! "
 
@@ -692,10 +692,6 @@ msgstr "Erreur de segmentation"
 #: src/lib/sys/sys-signal.c:262
 msgid "Floating point exception"
 msgstr "Erreur calcul flottant"
-
-#: src/lib/sys/sys-test.c:2039
-msgid "this is a /TEST/ error"
-msgstr "ceci est une erreur de /TEST/"
 
 #: src/scriptpo.c:1
 msgid "no gfx backend found"
@@ -1606,51 +1602,3 @@ msgstr "Moteur de son"
 #: src/scriptpo.c:238 src/scriptpo.c:239 src/scriptpo.c:240
 msgid "Dummy test node"
 msgstr "Noeud de test bidon"
-
-#, fuzzy
-#~ msgid "testing sys build"
-#~ msgstr "test chargement asynchrone"
-
-#, fuzzy
-#~ msgid "testing sys options"
-#~ msgstr "test de \"pilot\""
-
-#, fuzzy
-#~ msgid "testing hlp lists"
-#~ msgstr "test de \"pilot\""
-
-#~ msgid "testing map"
-#~ msgstr "test du niveau"
-
-#~ msgid "testing game struct"
-#~ msgstr "test game struct"
-
-#~ msgid "testing game state"
-#~ msgstr "test de \"game state\""
-
-#~ msgid "testing pilot"
-#~ msgstr "test de \"pilot\""
-
-#~ msgid "testing bot"
-#~ msgstr "test des bots"
-
-#~ msgid "testing smobs GC, step 1"
-#~ msgstr "test smobs GC, étape 1"
-
-#~ msgid "testing smobs GC, step 2"
-#~ msgstr "test smobs GC, étape 2"
-
-#~ msgid "testing async load"
-#~ msgstr "test chargement asynchrone"
-
-#~ msgid "testing db"
-#~ msgstr "test de la base de données"
-
-#~ msgid "testing node"
-#~ msgstr "test du noeud"
-
-#~ msgid "This is a test node."
-#~ msgstr "Ceci est un noeud de test."
-
-#~ msgid "Achievement 2/2"
-#~ msgstr "2/2"

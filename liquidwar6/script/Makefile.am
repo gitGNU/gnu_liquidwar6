@@ -78,6 +78,7 @@ test-0-server.scm \
 test-1-main.scm \
 test-1-client.scm \
 test-1-server.scm \
+test-utils.scm \
 wait.scm \
 zoom.scm \
 README

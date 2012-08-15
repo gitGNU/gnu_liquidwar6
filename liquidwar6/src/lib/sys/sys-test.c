@@ -2112,8 +2112,8 @@ test_log (int mode)
     lw6sys_log_set_level (log_level);
     if (mode)
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("this is a /_TEST/ warning"));
-	lw6sys_log (LW6SYS_LOG_ERROR, _("this is a /_TEST/ error"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("this is a /TEST/ warning"));
+	lw6sys_log (LW6SYS_LOG_ERROR, _x_ ("this is a /TEST/ error"));
       }
     else
       {

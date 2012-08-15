@@ -284,38 +284,49 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 	  ip = lw6net_dns_gethostbyname (parsed_url->host);
 	  if (ip)
 	    {
-	      if (_mod_http_oob_should_continue (http_context, oob_data) &&
-		  http_context->data.consts.tcp_connect_before_http_get)
+	      if (_mod_http_oob_should_continue (http_context, oob_data))
 		{
-		  /*
-		   * We make a first dummy connect on the socket just to check
-		   * if it's available. The idea is not to wait ressources,
-		   * the idea is just to try and see wether this ip:port
-		   * is likely to respond. If not, we won't even waste
-		   * our time to try and connect to it using libcurl,
-		   * doing so requires locking and other nasty stuff, if
-		   * we can find out right away that something is wrong,
-		   * we just return immediately.
-		   */
-		  tcp_connect_sock =
-		    lw6net_tcp_connect (ip, parsed_url->port,
-					http_context->data.
-					consts.global_timeout *
-					LW6SYS_TICKS_PER_SEC);
-		  if (lw6net_socket_is_valid (tcp_connect_sock))
+		  if (http_context->data.consts.tcp_connect_before_http_get)
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _x_
-				  ("TCP check before HTTP request, connected to \"%s\" on %s:%d"),
-				  oob_data->public_url, ip, parsed_url->port);
-		      tcp_connect_ok = 1;
-		      lw6net_socket_close (&tcp_connect_sock);
+		      /*
+		       * We make a first dummy connect on the socket just to check
+		       * if it's available. The idea is not to wait ressources,
+		       * the idea is just to try and see wether this ip:port
+		       * is likely to respond. If not, we won't even waste
+		       * our time to try and connect to it using libcurl,
+		       * doing so requires locking and other nasty stuff, if
+		       * we can find out right away that something is wrong,
+		       * we just return immediately.
+		       */
+		      tcp_connect_sock =
+			lw6net_tcp_connect (ip, parsed_url->port,
+					    http_context->data.
+					    consts.connect_timeout *
+					    LW6SYS_TICKS_PER_SEC);
+		      if (lw6net_socket_is_valid (tcp_connect_sock))
+			{
+			  lw6sys_log (LW6SYS_LOG_INFO,
+				      _x_
+				      ("TCP check before HTTP request, connected to \"%s\" on %s:%d"),
+				      oob_data->public_url, ip,
+				      parsed_url->port);
+			  tcp_connect_ok = 1;
+			  lw6net_socket_close (&tcp_connect_sock);
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_INFO,
+				      _x_
+				      ("TCP check before HTTP request, can't connect to node \"%s\" on %s:%d"),
+				      oob_data->public_url, ip,
+				      parsed_url->port);
+			}
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
 				  _x_
-				  ("TCP check before HTTP request, can't connect to node \"%s\" on %s:%d"),
+				  ("TCP check before HTTP request disabled, will use libcurl directly to connect to node \"%s\" on %s:%d"),
 				  oob_data->public_url, ip, parsed_url->port);
 		    }
 		}

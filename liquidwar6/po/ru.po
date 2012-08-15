@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-08-07 00:38+0200\n"
+"POT-Creation-Date: 2012-08-15 08:47+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -212,7 +212,7 @@ msgid "Fight software patents %s"
 msgstr ""
 
 #: src/lib/hlp/hlp-credits.c:169 src/lib/lw6-print.c:58
-#: src/lib/sys/sys-log.c:646
+#: src/lib/sys/sys-log.c:653
 msgid "Report bugs"
 msgstr ""
 
@@ -606,46 +606,46 @@ msgstr "ошибка инициализации mod_udpd"
 msgid "log_file is NULL"
 msgstr "журнал равен NULL"
 
-#: src/lib/sys/sys-log.c:543
+#: src/lib/sys/sys-log.c:550
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr "не могу открыть журнал \"%s\""
 
-#: src/lib/sys/sys-log.c:646
+#: src/lib/sys/sys-log.c:653
 msgid "Backtrace"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:802
+#: src/lib/sys/sys-log.c:809
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "ОШИБКА! (errno=%d:%s)"
 
-#: src/lib/sys/sys-log.c:807
+#: src/lib/sys/sys-log.c:814
 msgid "ERROR! "
 msgstr "ОШИБКА! "
 
-#: src/lib/sys/sys-log.c:817
+#: src/lib/sys/sys-log.c:824
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "ПРЕДУПРЕЖДЕНИЕ! (errno=%d:%s) "
 
-#: src/lib/sys/sys-log.c:822
+#: src/lib/sys/sys-log.c:829
 msgid "WARNING! "
 msgstr "ПРЕДУПРЕЖДЕНИЕ! "
 
-#: src/lib/sys/sys-log.c:839
+#: src/lib/sys/sys-log.c:846
 msgid "[tmp] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:845
+#: src/lib/sys/sys-log.c:852
 msgid "[debug] "
 msgstr "[отладка] "
 
-#: src/lib/sys/sys-log.c:928
+#: src/lib/sys/sys-log.c:935
 msgid "CRITICAL! "
 msgstr "КРИТИЧЕСКАЯ ОШИБКА! "
 
-#: src/lib/sys/sys-log.c:932
+#: src/lib/sys/sys-log.c:939
 msgid "CRITICAL!"
 msgstr "КРИТИЧЕСКАЯ ОШИБКА!"
 
@@ -676,10 +676,6 @@ msgstr ""
 #: src/lib/sys/sys-signal.c:262
 msgid "Floating point exception"
 msgstr ""
-
-#: src/lib/sys/sys-test.c:2039
-msgid "this is a /TEST/ error"
-msgstr "ошибка /TEST/"
 
 #: src/scriptpo.c:1
 msgid "no gfx backend found"
@@ -1558,6 +1554,10 @@ msgstr "Звуковая библиотека"
 #, fuzzy
 msgid "Dummy test node"
 msgstr "проверка узла"
+
+#, fuzzy
+#~ msgid "this is a /_TEST/ error"
+#~ msgstr "ошибка /TEST/"
 
 #, fuzzy
 #~ msgid "testing sys build"
