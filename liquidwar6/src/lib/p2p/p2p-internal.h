@@ -429,4 +429,4 @@ extern lw6cnx_connection_t
   * _lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t *
 						       tentacle);
 
-#endif
+#endif // LIQUIDWAR6P2P_INTERNAL_H

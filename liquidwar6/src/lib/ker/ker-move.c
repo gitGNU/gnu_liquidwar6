@@ -40,7 +40,7 @@
 #define _CALL_GOTO_WITH_DIR_Z(A,B,C,D,E) _lw6ker_move_goto_with_dir_z((A),(B),(C),(D),(E))
 #define _CALL_GOTO_WITH_DIR(A,B,C,D,E,F,G,H,I) _lw6ker_move_goto_with_dir((A),(B),(C),(D),(E),(F),(G),(H),(I))
 #define _CALL_ADJUST_HEALTH(A,B) _lw6ker_move_adjust_health((A),(B))
-#else
+#else // LW6_GPROF || LW6_INSTRUMENT || LW6_PROFILER
 #define _CALL_IS_SLOT_FREE(A,B,C,D,E) _is_slot_free((A),(B),(C),(D),(E))
 #define _CALL_IS_ENEMY_THERE(A,B,C,D,E,F,G,H) _is_enemy_there((A),(B),(C),(D),(E),(F),(G),(H))
 #define _CALL_IS_ALLY_THERE(A,B,C,D,E,F) _is_ally_there((A),(B),(C),(D),(E),(F))
@@ -50,7 +50,7 @@
 #define _CALL_GOTO_WITH_DIR_Z(A,B,C,D,E) _goto_with_dir_z((A),(B),(C),(D),(E))
 #define _CALL_GOTO_WITH_DIR(A,B,C,D,E,F,G,H,I) _goto_with_dir((A),(B),(C),(D),(E),(F),(G),(H),(I))
 #define _CALL_ADJUST_HEALTH(A,B) _adjust_health((A),(B))
-#endif
+#endif // LW6_GPROF || LW6_INSTRUMENT || LW6_PROFILER
 
 static inline int
 _is_slot_free (_lw6ker_map_struct_t * map_struct,

@@ -642,7 +642,7 @@ _lw6ker_map_state_spread_gradient (_lw6ker_map_state_t * map_state,
    */
 #ifdef LW6_OPENMP
 #pragma omp parallel for
-#endif
+#endif // LW6_OPENMP
   for (i = 0; i < n; ++i)
     {
       /*

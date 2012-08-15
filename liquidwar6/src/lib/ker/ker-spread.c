@@ -41,7 +41,7 @@
 #define _CALL_DO_ONE_DIR_INCR_Z(A,B,C,D) _lw6ker_spread_do_one_dir_incr_z((A),(B),(C),(D))
 #define _CALL_DO_ONE_DIR_DECR_XY(A,B,C,D) _lw6ker_spread_do_one_dir_decr_xy((A),(B),(C),(D))
 #define _CALL_DO_ONE_DIR_DECR_Z(A,B,C,D) _lw6ker_spread_do_one_dir_decr_z((A),(B),(C),(D))
-#else
+#else // LW6_GPROF || LW6_INSTRUMENT || LW6_PROFILER
 #define _CALL_NEXT_DIR(A) _next_dir((A))
 #define _CALL_DO_ALL_DIRS_INCR_XY(A,B,C) _do_all_dirs_incr_xy((A),(B),(C))
 #define _CALL_DO_ALL_DIRS_DECR_XY(A,B,C) _do_all_dirs_decr_xy((A),(B),(C))
@@ -53,7 +53,7 @@
 #define _CALL_DO_ONE_DIR_INCR_Z(A,B,C,D) _do_one_dir_incr_z((A),(B),(C),(D))
 #define _CALL_DO_ONE_DIR_DECR_XY(A,B,C,D) _do_one_dir_decr_xy((A),(B),(C),(D))
 #define _CALL_DO_ONE_DIR_DECR_Z(A,B,C,D) _do_one_dir_decr_z((A),(B),(C),(D))
-#endif
+#endif // LW6_GPROF || LW6_INSTRUMENT || LW6_PROFILER
 
 #define _ALL_DIRS_NB 6
 #define _HALF_DIRS_A_NB 3

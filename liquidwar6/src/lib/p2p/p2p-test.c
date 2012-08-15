@@ -22,7 +22,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include "p2p.h"
 #include "p2p-internal.h"
@@ -98,8 +98,12 @@
 #define _TEST_NODE_KNOWN_NODES4 "http://localhost:8068/"
 #define _TEST_NODE_KNOWN_NODES5 "http://localhost:8067/,http://localhost:8068/"
 #define _TEST_NODE_KNOWN_NODES6 "http://localhost:8067/,http://localhost:8068/"
+/*
+ * We use a low network reliability to be sure (really) sure program behaves
+ * like it's hell on earth and almost no packets make it home. Values between
+ * 10 and 100 are likely to give good results.
+ */
 #define _TEST_NODE_NETWORK_RELIABILITY 10
-//#define _TEST_NODE_NETWORK_RELIABILITY 100000000
 #define _TEST_NODE_TROJAN 0
 #define _TEST_BOGUS_BACKEND "bogus"
 

@@ -22,15 +22,15 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include "liquidwar6.h"
 
 #ifdef LW6_ALLINONE
 #define DYN_TEST 1
-#else
+#else // LW6_ALLINONE
 #define DYN_TEST lw6dyn_test(1)
-#endif
+#endif // LW6_ALLINONE
 
 static int
 check_arg (const char *arg)

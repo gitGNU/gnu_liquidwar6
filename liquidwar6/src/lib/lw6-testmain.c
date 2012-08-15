@@ -22,13 +22,13 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include "liquidwar6.h"
 
 #ifdef LW6_MAC_OS_X
 #include <SDL/SDL.h>
-#endif
+#endif // LW6_MAX_OS_X
 
 /*
  * On Mac OS X, SDL/SDL.h will redefine main, override it, whatever,
@@ -40,10 +40,10 @@
 #ifdef LW6_MAC_OS_X
 int
 main (int argc, char *argv[])
-#else
+#else // LW6_MAX_OS_X
 int
 main (int argc, const char *argv[])
-#endif
+#endif				// LW6_MAX_OS_X
 {
   int ret = 1;
 
