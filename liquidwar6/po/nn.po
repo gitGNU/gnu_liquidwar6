@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-08-15 08:47+0200\n"
+"POT-Creation-Date: 2012-08-15 23:10+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -39,7 +39,7 @@ msgstr ""
 msgid "HTTP (Curl)"
 msgstr ""
 
-#: src/lib/cli/mod-http/mod-http-setup.c:71
+#: src/lib/cli/mod-http/mod-http-setup.c:75
 msgid "can't initialize mod_http"
 msgstr "klarte ikkje starta mod_http"
 
@@ -47,7 +47,7 @@ msgstr "klarte ikkje starta mod_http"
 msgid "TCP"
 msgstr ""
 
-#: src/lib/cli/mod-tcp/mod-tcp-setup.c:63
+#: src/lib/cli/mod-tcp/mod-tcp-setup.c:67
 msgid "can't initialize mod_tcp"
 msgstr "klarte ikkje starta mod_tcp"
 
@@ -55,7 +55,7 @@ msgstr "klarte ikkje starta mod_tcp"
 msgid "UDP"
 msgstr ""
 
-#: src/lib/cli/mod-udp/mod-udp-setup.c:62
+#: src/lib/cli/mod-udp/mod-udp-setup.c:66
 msgid "can't initialize mod_udp"
 msgstr "klarte ikkje starta mod_udp"
 
@@ -565,7 +565,7 @@ msgstr ""
 msgid "started node \"%s\""
 msgstr ""
 
-#: src/lib/p2p/p2p-recv.c:202
+#: src/lib/p2p/p2p-recv.c:220
 #, c-format
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr ""
@@ -588,7 +588,7 @@ msgstr ""
 msgid "HTTPD"
 msgstr ""
 
-#: src/lib/srv/mod-httpd/mod-httpd-setup.c:115
+#: src/lib/srv/mod-httpd/mod-httpd-setup.c:119
 msgid "can't initialize mod_httpd"
 msgstr "klarte ikkje starta mod_httpd"
 
@@ -596,7 +596,7 @@ msgstr "klarte ikkje starta mod_httpd"
 msgid "TCPD"
 msgstr ""
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:64
+#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:68
 msgid "can't initialize mod_tcpd"
 msgstr "klarte ikkje starta mod_tcpd"
 
@@ -604,7 +604,7 @@ msgstr "klarte ikkje starta mod_tcpd"
 msgid "UDPD"
 msgstr ""
 
-#: src/lib/srv/mod-udpd/mod-udpd-setup.c:64
+#: src/lib/srv/mod-udpd/mod-udpd-setup.c:68
 msgid "can't initialize mod_udpd"
 msgstr "klarte ikkje starta mod_udpd"
 
