@@ -1542,6 +1542,22 @@ _test_node_api ()
 
 	_quit_nodes (db12, db34, db56, node1, node2, node3, node4, node5,
 		     node6);
+
+	ret = ret && api_data1.ret && api_data2.ret && api_data3.ret
+	  && api_data4.ret && api_data5.ret && api_data6.ret;
+	if (ret)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("all nodes completed their tests successfully"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("at least one node failed to complete its test, results are api_data1.ret=%d, api_data2.ret=%d, api_data3.ret=%d, api_data4.ret=%d, api_data5.ret=%d, api_data6.ret=%d"),
+			api_data1.ret, api_data2.ret, api_data3.ret,
+			api_data4.ret, api_data5.ret, api_data6.ret);
+	  }
       }
   }
 
