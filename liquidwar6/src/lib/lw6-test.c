@@ -347,6 +347,12 @@ lw6_test (int mode)
 	      lw6sys_log (LW6SYS_LOG_WARNING,
 			  _x_
 			  ("skipping client/server test, platform does not have adequate process support and/or it's likely to fail anyway"));
+              /*
+               * We need to call quit_global manually
+               * as the callback we skip obviously
+               * won't run it.
+               */
+              lw6_quit_global ();
 	    }
 	}
 
@@ -377,6 +383,12 @@ lw6_test (int mode)
 	      lw6sys_log (LW6SYS_LOG_WARNING,
 			  _x_
 			  ("skipping server/client test, platform does not have adequate process support and/or it's likely to fail anyway"));
+              /*
+               * We need to call quit_global manually
+               * as the callback we skip obviously
+               * won't run it.
+               */
+              lw6_quit_global ();
 	    }
 	}
     }
