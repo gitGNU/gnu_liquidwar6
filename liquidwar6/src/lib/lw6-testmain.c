@@ -51,6 +51,15 @@ main (int argc, const char *argv[])
   LW6HLP_MAIN_BEGIN;
 
   lw6sys_log_clear (NULL);
+  /*
+   * We need to call fix_env now and can't call it later since
+   * we *really* need the real argc / argv, especially on Mac OS/X
+   * where fix_env actually restarts the program. And moreover,
+   * calling fix_env within the internal lw6_test function means
+   * calling fix_env twice when running from LW6 context, and we
+   * don't want that.
+   */
+  lw6_fix_env (argc, argv);
   ret = lw6_test (lw6sys_arg_test_mode (argc, (const char **) argv));
 
   LW6SYS_TEST_OUTPUT;

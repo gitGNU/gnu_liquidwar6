@@ -305,7 +305,6 @@ lw6_test (int mode)
       lw6scm_test (mode);
     }
 
-  lw6_fix_env (argc, argv);
   if (lw6_init_global (argc, argv))
     {
       default_log_level_id = lw6sys_log_get_level ();
