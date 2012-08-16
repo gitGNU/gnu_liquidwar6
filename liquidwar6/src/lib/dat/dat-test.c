@@ -55,7 +55,8 @@
 #define _TEST_STACK_SEQ_FROM_CMD_STR_OFFSET 0
 #define _TEST_STACK_CMD_STR_OFFSET 0
 #define _TEST_STACK_NB_RANDOM_PUT (_LW6DAT_MAX_NB_ATOMS/100)
-#define _TEST_STACK_RANDOM_RANGE (_LW6DAT_MAX_NB_ATOMS-_LW6DAT_NB_ATOMS_PER_BLOCK)
+#define _TEST_STACK_RANDOM_BASE _LW6DAT_NB_ATOMS_PER_BLOCK
+#define _TEST_STACK_RANDOM_RANGE (_LW6DAT_MAX_NB_ATOMS-2*_LW6DAT_NB_ATOMS_PER_BLOCK)
 #define _TEST_STACK_SEND_FLAG 5
 #define _TEST_STACK_TARGET_INDEX 2
 #define _TEST_STACK_MSG_1 "10000000000002 2345234523452345 first message, short one"
@@ -378,7 +379,7 @@ test_stack ()
     for (i = 0; i < _TEST_STACK_NB_RANDOM_PUT; ++i)
       {
 	serial =
-	  _TEST_STACK_SERIAL_0 + lw6sys_random (_TEST_STACK_RANDOM_RANGE);
+	  _TEST_STACK_SERIAL_0 + _TEST_STACK_RANDOM_BASE + lw6sys_random (_TEST_STACK_RANDOM_RANGE);
 	seq = _TEST_STACK_SEQ + i;
 	if (!_lw6dat_stack_put_atom
 	    (&stack, serial, _TEST_STACK_ORDER_I, _TEST_STACK_ORDER_N,
@@ -411,7 +412,7 @@ test_stack ()
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_
-			("invalid seq number correctly treated by seq2serial"));
+			("invalid seq number *NOT* correctly treated by seq2serial"));
 	    ret = 0;
 	  }
 	if (_lw6dat_stack_serial2seq (&stack, _LW6DAT_SERIAL_INVALID) ==
@@ -425,7 +426,7 @@ test_stack ()
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_
-			("invalid serial number correctly treated by serial2seq"));
+			("invalid serial number *NOT* correctly treated by serial2seq"));
 	    ret = 0;
 	  }
 	tmp = _lw6dat_stack_serial2seq (&stack, serial);
