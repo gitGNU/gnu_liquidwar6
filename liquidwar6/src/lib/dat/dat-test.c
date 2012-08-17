@@ -379,7 +379,8 @@ test_stack ()
     for (i = 0; i < _TEST_STACK_NB_RANDOM_PUT; ++i)
       {
 	serial =
-	  _TEST_STACK_SERIAL_0 + _TEST_STACK_RANDOM_BASE + lw6sys_random (_TEST_STACK_RANDOM_RANGE);
+	  _TEST_STACK_SERIAL_0 + _TEST_STACK_RANDOM_BASE +
+	  lw6sys_random (_TEST_STACK_RANDOM_RANGE);
 	seq = _TEST_STACK_SEQ + i;
 	if (!_lw6dat_stack_put_atom
 	    (&stack, serial, _TEST_STACK_ORDER_I, _TEST_STACK_ORDER_N,
