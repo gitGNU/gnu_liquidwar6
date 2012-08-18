@@ -67,7 +67,7 @@
 		 lw6def-c-lw6sys-build-get-docdir
 		 lw6def-c-lw6sys-build-get-enable-console
 		 lw6def-c-lw6sys-build-get-enable-gtk
-		 lw6def-c-lw6sys-build-get-enable-mod-gl
+		 lw6def-c-lw6sys-build-get-enable-mod-gl1
 		 lw6def-c-lw6sys-build-get-enable-mod-csound
 		 lw6def-c-lw6sys-build-get-enable-mod-ogg
 		 lw6def-c-lw6sys-build-get-enable-mod-http

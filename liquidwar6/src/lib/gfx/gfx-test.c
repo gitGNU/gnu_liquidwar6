@@ -562,8 +562,8 @@ lw6gfx_test (int mode)
 
   if (mode)
     {
-#ifdef MOD_GL
-      backend = lw6gfx_create_backend (argc, argv, "gl");
+#ifdef MOD_GL1
+      backend = lw6gfx_create_backend (argc, argv, "gl1");
       if (backend)
 	{
 	  ret = (test_init (backend) && test_resolution (backend)

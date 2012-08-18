@@ -66,49 +66,49 @@ msgstr "cette erreur aussi"
 msgid "loaded module \"%s\""
 msgstr "chargement du module \"%s\""
 
-#: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:71
+#: src/lib/gfx/mod-gl1/gl-utils/gl-utils-data.c:71
 #, c-format
 msgid "unable to load image \"%s\""
 msgstr "impossible de charger l'image \"%s\""
 
-#: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:109
+#: src/lib/gfx/mod-gl1/gl-utils/gl-utils-data.c:109
 #, c-format
 msgid "unable to load font \"%s\""
 msgstr "impossible de charger la police \"%s\""
 
-#: src/lib/gfx/mod-gl/gl-utils/gl-utils-mode.c:78
+#: src/lib/gfx/mod-gl1/gl-utils/gl-utils-mode.c:78
 #, c-format
 msgid "SDL GetVideoInfo failed: \"%s\""
 msgstr "SDL GetVideoInfo a échoué: \"%s\""
 
-#: src/lib/gfx/mod-gl/gl-utils/gl-utils-mode.c:181
+#: src/lib/gfx/mod-gl1/gl-utils/gl-utils-mode.c:181
 #, c-format
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
 msgstr "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d a échoué: \"%s\""
 
-#: src/lib/gfx/mod-gl/mod-gl-backend.c:330
+#: src/lib/gfx/mod-gl1/mod-gl1-backend.c:330
 msgid "OpenGL/SDL"
 msgstr "OpenGL/SDL"
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:280
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:280
 #, c-format
 msgid "SDL init error: \"%s\""
 msgstr "SDL erreur d'initialisation: \"%s\""
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:307
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:307
 #, c-format
 msgid "SDL_ttf init error: \"%s\""
 msgstr "SDL_ttf erreur d'initialisation: \"%s\""
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:362
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:362
 msgid "unable to load data"
 msgstr "impossible de charger les données"
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:370
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:370
 msgid "unable to set video mode"
 msgstr "impossible de régler le mode vidéo"
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:377
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:377
 msgid "unable to load consts"
 msgstr "impossible de lire les constantes"
 

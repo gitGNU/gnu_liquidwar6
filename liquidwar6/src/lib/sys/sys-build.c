@@ -707,14 +707,14 @@ lw6sys_build_get_enable_gtk ()
 /**
  * lw6sys_build_get_enable_mod_gl
  *
- * Tells wether the graphical mod-gl backend was compiled.
+ * Tells wether the graphical mod-gl1 backend was compiled.
  *
  * Return value: "yes" or "no", must no be freed.
  */
 char *
 lw6sys_build_get_enable_mod_gl ()
 {
-#ifdef MOD_GL
+#ifdef MOD_GL1
   return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
   return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
@@ -1148,7 +1148,7 @@ lw6sys_build_log_all ()
 	      lw6sys_build_get_enable_console ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build enable gtk is \"%s\""),
 	      lw6sys_build_get_enable_gtk ());
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build enable mod-gl is \"%s\""),
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build enable mod-gl1 is \"%s\""),
 	      lw6sys_build_get_enable_mod_gl ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build enable mod-csound is \"%s\""),
 	      lw6sys_build_get_enable_mod_csound ());

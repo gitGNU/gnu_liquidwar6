@@ -284,7 +284,7 @@ typedef struct lw6sys_progress_s
  */
 typedef struct lw6sys_module_pedigree_s
 {
-  /// Module id, for instance, could be "gl".
+  /// Module id, for instance, could be "gl1".
   char *id;
   /// Module category, for instance, could be "gfx".
   char *category;

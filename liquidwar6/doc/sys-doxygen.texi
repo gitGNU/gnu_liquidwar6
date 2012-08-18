@@ -404,7 +404,7 @@ Structure used to store informations about a module. This describes the module, 
 @strong{Definition:} @code{char* lw6sys_module_pedigree_s::id}
 
 
-Module id, for instance, could be "gl".         
+Module id, for instance, could be "gl1".         
         
 @end defcv
 

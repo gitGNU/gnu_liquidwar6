@@ -83,7 +83,7 @@ make_system_backend_path (int argc, const char *argv[],
  *   category.
  * @backend_name: the actual name of the backend, this is the name of the
  *   .so file, between "libmod_" and ".so". For instance, to find
- *   "libmod_gl.so", the right argument is "gl".
+ *   "libmod_gl.so", the right argument is "gl1".
  *
  * Get the full path to a .so file corresponding to the given backend,
  * it is capable to search for system libraries installed after "make install"

@@ -298,9 +298,9 @@ populate_references ()
   POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_GTK,
 		 _x_
 		 ("Shows wether GTK+ support has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of GTK+ headers and libs. It uses pkg-config to detect it."));
-  POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_MOD_GL,
+  POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_MOD_GL1,
 		 _x_
-		 ("Shows wether the mod-gl graphical backend has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of SDL and related libraries."));
+		 ("Shows wether the mod-gl1 graphical backend has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of SDL and related libraries."));
   POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_MOD_CSOUND,
 		 _x_
 		 ("Shows wether the mod-csound audio backend has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of the csound library."));
@@ -623,7 +623,7 @@ populate_references ()
   POPULATE_STR (LW6DEF_GFX_BACKEND,
 		_x_
 		("Sets the graphics backend AKA 'gfx' to use. For now the only choice is 'gl' and will use an OpenGL/SDL 3D-accelerated driver."),
-		"gl");
+		"gl1");
   POPULATE_INT (LW6DEF_GFX_QUALITY,
 		_x_
 		("Sets the overall quality of the graphics backend. Depending on the backend, this can mean different things. For instance for the 'gl' backend, this can change texture filtering (nearest, linear, bilinear...). This is not the same as 'pixelize' which is a per-map option and emulates an old school appearance."),
@@ -2302,7 +2302,7 @@ populate_references ()
 		 _x_ ("Wrapper on lw6sys_build_get_enable_console."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GTK,
 		 _x_ ("Wrapper on lw6sys_build_get_enable_gtk."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GL,
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GL1,
 		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_gl."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CSOUND,
 		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_csound."));

@@ -96,7 +96,7 @@ Hacker's guide
 * Designing levels::    How to draw new maps.
 * Translating::         Translation HOWTO.
 * Architecture::        C, Scheme, modules and the rest.
-* About mod-gl::        The definitive graphics backend.
+* About mod-gl1::        The definitive graphics backend.
 * Compilation tips::    Advice for developpers and packagers.
 * Coding guidelines::   Ensure code remains maintainable.
 * Using the console::   How to interact with the game.
@@ -148,7 +148,7 @@ C API
 * libdsp::              Threaded display.
 * libdyn::              Dynamic module loading.
 * libgfx::              Graphics.
-* mod-gl::              Main 3D graphics backend.
+* mod-gl1::              Main 3D graphics backend.
 * libglb::              Gnulib embedded routines.
 * libgui::              GUI utilities.
 * libhlp::              Built-in help system.
@@ -1001,7 +1001,7 @@ Normally, once the game is installed, all of them should exist,
 and be populated with sub-directories and files.
 @item
 Run @code{liquidwar6 --modules}, to know which modules where compiled.
-You need at least one graphical module, for instance @code{mod-gl},
+You need at least one graphical module, for instance @code{mod-gl1},
 else the game won't run.
 @item
 Run @code{liquidwar6 --host}, this displays informations about
@@ -1620,7 +1620,7 @@ is welcome.
 * Designing levels::    How to draw new maps.
 * Translating::         Translation HOWTO.
 * Architecture::        C, Scheme, modules and the rest.
-* About mod-gl::        The definitive graphics backend.
+* About mod-gl1::        The definitive graphics backend.
 * Compilation tips::    Advice for developpers and packagers.
 * Coding guidelines::   Ensure code remains maintainable.
 * Using the console::   How to interact with the game.
@@ -2300,7 +2300,7 @@ priority today.
 @c Architecture
 @c ---------------------------------------------------------------------------
 
-@node Architecture, About mod-gl, Translating, Hacker's guide
+@node Architecture, About mod-gl1, Translating, Hacker's guide
 @section Architecture
 
 @subsection C + Guile
@@ -2430,7 +2430,7 @@ profiles depending on colors.
 
 The @code{libgfx} module handles all the graphics stuff. It is itself splitted
 in several sub-modules, that is, it does not do anything but load a module
-such as @code{mod-gl} which will actually contain the implementation. In an
+such as @code{mod-gl1} which will actually contain the implementation. In an
 object-oriented language, it would be an abstract class, an inteface. The
 implementation does not need to be thread-safe. It's better if it is, for
 theorically it could be possible to fire Liquid War 6 with two display
@@ -2565,11 +2565,11 @@ at a fast-paced rate is very hard, if possible at all, even with a high
 bandwidth. We're talking about Internet play here.
 
 @c ---------------------------------------------------------------------------
-@c About mod-gl
+@c About mod-gl1
 @c ---------------------------------------------------------------------------
 
-@node About mod-gl, Compilation tips, Architecture, Hacker's guide
-@section About mod-gl
+@node About mod-gl1, Compilation tips, Architecture, Hacker's guide
+@section About mod-gl1
 
 @subsection The main renderer
 
@@ -2577,7 +2577,7 @@ Liquid War 6 has a modular architecture which allows the programmer
 (and the player) to plug pretty much any rendering/graphics backend,
 provided this one is... developped.
 
-As of 2009 the only available backend is still @code{mod-gl}, it will
+As of 2009 the only available backend is still @code{mod-gl1}, it will
 display the game using 3D acceleration, if available, through the
 @uref{http://www.libsdl.org/,SDL} library, using its GL bindings.
 
@@ -2588,16 +2588,16 @@ graphical libraries to be loaded dynamically. In practice, both of them
 require hacks that override the standard @code{main} function. Microsoft Windows
 has its @code{WinMain} instead, and Mac OS X is even more pedantic,
 requiring graphical functions to be executed in the main thread.
-So @code{mod-gl} is just linked statically in those versions, and
+So @code{mod-gl1} is just linked statically in those versions, and
 the modularity of the game is purely theorical on these platforms.
 
-This @code{mod-gl} module is really one of the key stones of
+This @code{mod-gl1} module is really one of the key stones of
 Liquid War 6, and if you want to change graphical things, it's definitely
-the place to hack on. The source is in @code{src/lib/gfx/mod-gl}.
+the place to hack on. The source is in @code{src/lib/gfx/mod-gl1}.
 
 @subsection Hardware requirements
 
-The @code{mod-gl} backend requires ``moderate'' hardware, but it
+The @code{mod-gl1} backend requires ``moderate'' hardware, but it
 still does require hardware acceleration. Pure software rendering
 through @uref{http://www.mesa3d.org/, mesa} for instance, won't
 be enough.
@@ -2608,12 +2608,12 @@ for your card, the game should run fine.
 On the programmer side, the counterpart is that one should not rely
 on fancy OpenGL features. Textures have a maximum size of 512x512
 for instance. Of course some maps are bigger than this but this
-means that internally, @code{mod-gl} splits them into smaller tiles,
+means that internally, @code{mod-gl1} splits them into smaller tiles,
 and displays those tiles one by one.
 
 @subsection The gl-utils toolbox
 
-Inside the @code{mod-gl} backend, the @code{src/lib/gfx/mod-gl/gl-utils}
+Inside the @code{mod-gl1} backend, the @code{src/lib/gfx/mod-gl1/gl-utils}
 directory contains lots of common structures, factorized functions which
 can (and should, if appliable) be used.
 
@@ -2621,7 +2621,7 @@ can (and should, if appliable) be used.
 @c Compilation tips
 @c ---------------------------------------------------------------------------
 
-@node Compilation tips, Coding guidelines, About mod-gl, Hacker's guide
+@node Compilation tips, Coding guidelines, About mod-gl1, Hacker's guide
 @section Compilation tips
 
 @subsection Advanced ./configure options
@@ -4378,7 +4378,7 @@ describes the C structures and their attributes.
 * libdsp::              Threaded display.
 * libdyn::              Dynamic module loading.
 * libgfx::              Graphics.
-* mod-gl::              Main 3D graphics backend.
+* mod-gl1::              Main 3D graphics backend.
 * libglb::              Gnulib embedded routines.
 * libgui::              GUI utilities.
 * libhlp::              Built-in help system.
@@ -4901,7 +4901,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c libgfx
 @c ---------------------------------------------------------------------------
 
-@node libgfx, mod-gl, libdyn, C API
+@node libgfx, mod-gl1, libdyn, C API
 @section libgfx
 
 @subsection Overview
@@ -4928,30 +4928,30 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @end ifnotinfo
 
 @c ---------------------------------------------------------------------------
-@c mod-gl
+@c mod-gl1
 @c ---------------------------------------------------------------------------
 
-@node mod-gl, libglb, libgfx, C API
-@section mod-gl
+@node mod-gl1, libglb, libgfx, C API
+@section mod-gl1
 
 @subsection Overview
 
 View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
-on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/mod-gl/gl-utils/index.html} 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/mod-gl1/gl-utils/index.html} 
 (as there are many sub-directories in this module, please refer to the 
 @uref{http://www.gnu.org/software/liquidwar6/coverage/index.html, test coverage directory index} for complete information).
 
 @subsection API
 
 @ifinfo
-@include mod-gl-gdoc.texi
-@include mod-gl-doxygen.texi
+@include mod-gl1-gdoc.texi
+@include mod-gl1-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
-@include mod-gl-gdoc.texi
-@include mod-gl-doxygen.texi
+@include mod-gl1-gdoc.texi
+@include mod-gl1-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4963,7 +4963,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c libglb
 @c ---------------------------------------------------------------------------
 
-@node libglb, libgui, mod-gl, C API
+@node libglb, libgui, mod-gl1, C API
 @section libglb
 
 @subsection Overview

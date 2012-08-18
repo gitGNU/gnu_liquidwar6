@@ -29,6 +29,6 @@ libmsg_HEADERS = msg.h
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6msg-test
 liquidwar6msg_test_SOURCES = msg-testmain.c
-liquidwar6msg_test_LDADD = libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+liquidwar6msg_test_LDADD = libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../glb/libgl1b.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6msg-test
 endif

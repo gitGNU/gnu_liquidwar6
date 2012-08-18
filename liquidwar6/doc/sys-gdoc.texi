@@ -754,7 +754,7 @@ Tells wether gtk is enabled or not.
 
 @deftypefun {char *} {lw6sys_build_get_enable_mod_gl} ()
 
-Tells wether the graphical mod-gl backend was compiled.
+Tells wether the graphical mod-gl1 backend was compiled.
 
 @strong{Return value:}  "yes" or "no", must no be freed.
 @end deftypefun

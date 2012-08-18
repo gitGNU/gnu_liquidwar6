@@ -29,7 +29,7 @@ libcnx_HEADERS = cnx.h
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6cnx-test
 liquidwar6cnx_test_SOURCES = cnx-testmain.c
-liquidwar6cnx_test_LDADD = libcnx.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+liquidwar6cnx_test_LDADD = libcnx.la ../glb/libgl1b.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6cnx-test
 endif
 

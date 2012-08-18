@@ -27,7 +27,7 @@
 #include "dyn.h"
 
 #define TEST_DYN_TOP_LEVEL_LIB "gfx"
-#define TEST_DYN_BACKEND_NAME "gl"
+#define TEST_DYN_BACKEND_NAME "gl1"
 
 #define TEST_ARGC 2
 #define TEST_ARGV0 "program"

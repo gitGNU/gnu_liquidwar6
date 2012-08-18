@@ -1,3 +1,7 @@
+2012-08-18 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Renamed gl module to gl1.
+
 2012-08-16 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed test suite on Mac OS X.
@@ -492,7 +496,7 @@
 
 	* New widescreen fumes.png by Kasper Hviid.
 
-	* Added mod-gl planned optimized layout (.xcf doc).
+	* Added mod-gl1 planned optimized layout (.xcf doc).
 
 2011-09-07 : Christian Mauduit <ufoot@ufoot.org>
 
@@ -1568,7 +1572,7 @@
 
 	* Added visible_pos to cursor, which now moves real time.
 
-	* Moved default keysym defs so mod-gl const file.
+	* Moved default keysym defs so mod-gl1 const file.
 
 	* Border fix in map surfacearray creation.
 
@@ -1602,7 +1606,7 @@
 
 	* Added support for Google PerfTools (CPU/HEAP Profiler).
 
-	* Cached timestamp values in mod-gl.
+	* Cached timestamp values in mod-gl1.
 
 2009-09-14 : Christian Mauduit <ufoot@ufoot.org>
 

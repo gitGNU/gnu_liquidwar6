@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<liquidwar6>
+  <!-- The clock values below is used for the countdown timer in the
+       upper right: -->
+  <float key="clock-y1" value="-0.01" /><!-- Y POSITION OF THE TIMER
+					     default: -0.01 -->
+  <float key="clock-x2" value="0.98" /><!-- X POSITION OF THE TIMER
+					    default: 0.98 -->
+
+  <float key="clock-size" value="0.05" /><!-- The size of the text
+					      default: 0.05 -->
+  <float key="clock-dw" value="0.0025" /><!-- The text drop shadow's
+					      x-distance   default: 0.0025 -->
+  <float key="clock-dh" value="0.0025" /><!-- The text drop shadow's
+							  y-distance   default: 0.0025 -->
+
+  <!-- "bg" is the background - it uses the 128x128 px texture "marble.png" -->
+
+  <float key="gauge-relative-bg-inner" value="0.0001" />  <!-- default:
+							     0.36 - I have set it to 0.0001 if I want to hide the hole -->
+  <float key="gauge-relative-bg-outer" value="0.55" />  <!-- default: 0.48 -->
+
+  <!-- "fg" is the forground - the part which shows the color: -->
+
+  <float key="gauge-relative-fg-inner" value="0.33" /><!-- default: 0.38 -->
+  <float key="gauge-relative-fg-outer" value="0.38" /><!-- default: 0.46 -->
+
+  <!-- and here we have the text: -->
+
+  <float key="gauge-relative-text-size" value="0.35" /><!-- The size
+							    of the text   default: 0.40 -->
+  <float key="gauge-relative-text-dw" value="0.015" /><!-- The text
+							  drop shadow's x-distance   default: 0.02 -->
+  <float key="gauge-relative-text-dh" value="0.015" /><!-- The text
+						drop shadow's y-distance   default: 0.02 -->
+  <float key="gauge-relative-percent-only-y1" value="-30.20" /><!-- The text position when only percentage is show (non deathmach mode) Default: -0.20-->
+  <float key="gauge-relative-percent-y1" value="-30.35" /><!-- The text position (percent) when in deathmath mode Default: -0.35-->
+  <float key="gauge-relative-frags-y1" value="-0.20" /><!-- The text positino (frags) when in deathmatch mode (negative values = up) Default: -0.05-->
+  <int key="gauge-heartbeat-period" value="1000" />
+  <float key="gauge-relative-heartbeat-min" value="0.99" />
+  <float key="gauge-relative-heartbeat-max" value="1.01" />
+  <int key="gauge-slices" value="20" /><!-- How many lines the
+					    "circle" shall consist of. The value 4 makes it into a square with an
+					    extra leg   default: 20 -->
+  <int key="gauge-loops" value="1" /><!-- default: 1 -->
+  <float key="gauge-start" value="0.0" /><!-- The start angl1e of the
+						 gauge, 0 is at the 6 o'clock    default: -45.0 -->
+  <float key="gauge-sweep" value="-360.0" /><!-- The end angl1e of the
+						       gauge, -360 is at the 6 o'clock    default: -270.0 -->
+
+  <float key="gauge-min-size" value="0.066" /><!-- default: 0.05 -->
+  <float key="gauge-max-size" value="0.133" /><!-- default: 0.15 -->
+  <float key="gauge-max-health-angl1e" value="240" /><!-- Looks like it
+						       is the gradient of the health. Set it to 1 if you don't want any
+						       gradient effect   default: 240 -->
+  <float key="weapon-ambiance-alpha1" value="0.66" />
+  <float key="weapon-ambiance-alpha2" value="0.33" />
+  <int key="score-pie-rotation-period" value="12000" />
+  <int key="score-pie-heartbeat-period" value="1000" />
+  <float key="score-pie-heartbeat-factor1" value="1.05" />
+  <float key="score-pie-heartbeat-factor2" value="1.1" />
+  <int key="score-pie-slices" value="100" />
+  <int key="score-pie-loops" value="1" />
+  <float key="score-pie-inner" value="0.0" />
+  <float key="score-pie-outer" value="0.66" />
+  <float key="score-pie-offset" value="0.02" />
+  <float key="score-pie-text-radius-min" value="0.3" />
+  <float key="score-pie-text-radius-max" value="0.5" />
+  <float key="score-pie-text-size" value="0.05" />
+  <float key="score-pie-text-dw" value="0.002" />
+  <float key="score-pie-text-dh" value="0.002" />
+</liquidwar6>

@@ -19,24 +19,24 @@
 # Contact author        : ufoot@ufoot.org
 
 if ALLINONE
-AM_CFLAGS = @LW6_CFLAGS@ @MOD_GL_ENABLE_CFLAGS@ @SDL_CFLAGS@
+AM_CFLAGS = @LW6_CFLAGS@ @MOD_GL1_ENABLE_CFLAGS@ @SDL_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS@
 else
-AM_CFLAGS = @LW6_CFLAGS@ @MOD_GL_ENABLE_CFLAGS@
+AM_CFLAGS = @LW6_CFLAGS@ @MOD_GL1_ENABLE_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 endif
 
-if MOD_GL
-MOD_GL_SUBDIR = mod-gl
-MOD_GL_LIB_S = mod-gl/libmod_gl_s.la
+if MOD_GL1
+MOD_GL1_SUBDIR = mod-gl1
+MOD_GL1_LIB_S = mod-gl1/libmod_gl1_s.la
 else
-MOD_GL_SUBDIR =
-MOD_GL_LIB_S =
+MOD_GL1_SUBDIR =
+MOD_GL1_LIB_S =
 endif
 
 if ALLINONE
 LW6DYN_LIB = 
-LW6GFX_LIB_S = $(MOD_GL_LIB_S)
+LW6GFX_LIB_S = $(MOD_GL1_LIB_S)
 else
 LW6DYN_LIB = ../dyn/libdyn.la 
 LW6GFX_LIB_S =
@@ -55,5 +55,5 @@ liquidwar6gfx_test_LDADD = libgfx.la $(LW6DYN_LIB) ../vox/libvox.la ../gui/libgu
 TESTS = liquidwar6gfx-test
 endif
 
-SUBDIRS = $(MOD_GL_SUBDIR)
+SUBDIRS = $(MOD_GL1_SUBDIR)
 

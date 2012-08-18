@@ -123,7 +123,7 @@ lw6dyn_dlopen_backend_so (const char *so_file)
  *   category.
  * @backend: the actual name of the backend, this is the name of the
  *   .so file, between "libmod_" and ".so". For instance, to find
- *   "libmod_gl.so", the right argument is "gl".
+ *   "libmod_gl.so", the right argument is "gl1".
  *
  * Opens a .so file corresponding to the given backend,
  * it is capable to search for system libraries installed after "make install"

@@ -105,9 +105,9 @@ game. This depends on parameters passed to './configure' and also on the
 presence of the csound library.
 @end deffn
 
-@subsection show-build-enable-mod-gl
-@deffn {Command-line option} @code{--show-build-enable-mod-gl}
-Shows wether the mod-gl graphical backend has been enabled when building the
+@subsection show-build-enable-mod-gl1
+@deffn {Command-line option} @code{--show-build-enable-mod-gl1}
+Shows wether the mod-gl1 graphical backend has been enabled when building the
 game. This depends on parameters passed to './configure' and also on the
 presence of SDL and related libraries.
 @end deffn

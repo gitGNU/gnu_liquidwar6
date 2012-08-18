@@ -1225,8 +1225,8 @@ Wrapper on lw6sys_build_get_enable_instrument.
 Wrapper on lw6sys_build_get_enable_mod_csound.
 @end deffn
 
-@subsection c-lw6sys-build-get-enable-mod-gl
-@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-mod-gl}
+@subsection c-lw6sys-build-get-enable-mod-gl1
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-mod-gl1}
 Wrapper on lw6sys_build_get_enable_mod_gl.
 @end deffn
 

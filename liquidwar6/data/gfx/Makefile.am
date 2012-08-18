@@ -18,4 +18,4 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-SUBDIRS = gl 
+SUBDIRS = gl1

@@ -2271,7 +2271,7 @@ lw6_register_funcs_sys ()
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GTK, 0, 0, 0,
 			      (SCM (*)())_scm_lw6sys_build_get_enable_gtk);
   ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GL, 0, 0,
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GL1, 0, 0,
 			      0,
 			      (SCM (*)())_scm_lw6sys_build_get_enable_mod_gl);
   ret = ret

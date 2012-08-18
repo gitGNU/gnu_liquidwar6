@@ -68,49 +68,49 @@ msgstr "и эта ошибка"
 msgid "loaded module \"%s\""
 msgstr "начат узел \"%s\""
 
-#: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:71
+#: src/lib/gfx/mod-gl1/gl-utils/gl-utils-data.c:71
 #, c-format
 msgid "unable to load image \"%s\""
 msgstr "ошибка загрузки изображения \"%s\""
 
-#: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:109
+#: src/lib/gfx/mod-gl1/gl-utils/gl-utils-data.c:109
 #, c-format
 msgid "unable to load font \"%s\""
 msgstr " загрузки шрифта \"%s\""
 
-#: src/lib/gfx/mod-gl/gl-utils/gl-utils-mode.c:78
+#: src/lib/gfx/mod-gl1/gl-utils/gl-utils-mode.c:78
 #, c-format
 msgid "SDL GetVideoInfo failed: \"%s\""
 msgstr "Ошибка SDL GetVideoInfo: \"%s\""
 
-#: src/lib/gfx/mod-gl/gl-utils/gl-utils-mode.c:181
+#: src/lib/gfx/mod-gl1/gl-utils/gl-utils-mode.c:181
 #, c-format
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
 msgstr "Ошибка SDL SetVideoMode %dx%d bpp=%d fullscreen=%d: \"%s\""
 
-#: src/lib/gfx/mod-gl/mod-gl-backend.c:330
+#: src/lib/gfx/mod-gl1/mod-gl1-backend.c:330
 msgid "OpenGL/SDL"
 msgstr ""
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:280
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:280
 #, c-format
 msgid "SDL init error: \"%s\""
 msgstr "Ошибка инициализации SDL: \"%s\""
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:307
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:307
 #, c-format
 msgid "SDL_ttf init error: \"%s\""
 msgstr "Ошибка инициализации SDL_ttf: \"%s\""
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:362
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:362
 msgid "unable to load data"
 msgstr "ошибка загрузки данных"
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:370
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:370
 msgid "unable to set video mode"
 msgstr "ошибка установки видео режима"
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:377
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:377
 msgid "unable to load consts"
 msgstr "ошибка загрузки констант"
 

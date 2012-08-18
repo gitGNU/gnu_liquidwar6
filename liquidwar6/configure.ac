@@ -384,7 +384,7 @@ AC_CHECK_LIB(jpeg, jpeg_start_decompress, HAVE_LIBJPEG=1, AC_MSG_ERROR([
 AC_ARG_ENABLE([headless], AS_HELP_STRING([--enable-headless],[accept headless built default=no]), [enable_headless=$enableval], [enable_headless=no])
 AC_ARG_ENABLE([silent], AS_HELP_STRING([--enable-silent],[accept silent built default=no]), [enable_silent=$enableval], [enable_silent=no])
 
-dnl Begin mod-gl
+dnl Begin mod-gl1
 
 SDL_EXTRA_CFLAGS=
 SDL_EXTRA_LDFLAGS=
@@ -436,19 +436,19 @@ AC_CHECK_LIB(SDL_ttf, TTF_Init, HAVE_LIBSDL_TTF=1, AC_MSG_WARN([
 *** Liquid War 6 needs SDL_ttf (http://www.libsdl.org/projects/SDL_ttf/)
 ]),[${SDL_EXTRA}])
 
-AC_ARG_ENABLE([mod-gl], AS_HELP_STRING([--enable-mod-gl],[compile mod-gl default=yes]), [enable_mod_gl=$enableval], [enable_mod_gl=yes])
+AC_ARG_ENABLE([mod-gl1], AS_HELP_STRING([--enable-mod-gl1],[compile mod-gl1 default=yes]), [enable_mod_gl1=$enableval], [enable_mod_gl1=yes])
 
 SDL_CFLAGS=${SDL_EXTRA_CFLAGS}
 AC_SUBST(SDL_CFLAGS)
 
 if test "x${lw6_mac_os_x}" = "xyes" ; then
-   GL_LIBS="-L/usr/X11/lib -Wl,-framework,OpenGL"
+   GL1_LIBS="-L/usr/X11/lib -Wl,-framework,OpenGL"
 else
    if test x$HAVE_LIBGL = x1; then
-      GL_LIBS="-lGL"
+      GL1_LIBS="-lGL"
    fi
    if test "x${lw6_ms_windows}" = "xyes" ; then
-      GL_LIBS="-lopengl32"
+      GL1_LIBS="-lopengl32"
    fi
    if test x$HAVE_LIBGLU = x1; then
       GLU_LIBS="-lGLU"
@@ -457,26 +457,26 @@ else
       GLU_LIBS="-lglu32"
    fi
 fi
-if test x$enable_mod_gl = xyes; then
-   SDL_LIBS="$SDL_EXTRA_LIBS $GL_LIBS $GLU_LIBS -lSDL_image -lSDL_ttf -lz -lpng"
+if test x$enable_mod_gl1 = xyes; then
+   SDL_LIBS="$SDL_EXTRA_LIBS $GL1_LIBS $GLU_LIBS -lSDL_image -lSDL_ttf -lz -lpng"
 fi
 AC_SUBST(SDL_LIBS)
 
 # libGL and libGLU not required (mingw32 + Mac OS X issue)
-AM_CONDITIONAL(MOD_GL, test x$enable_mod_gl = xyes && test x$SDL_CONFIG = xyes && test x$HAVE_SDL_H = x1 && test x$HAVE_LIBSDL = x1 && test x$HAVE_SDL_IMAGE_H = x1 && test x$HAVE_LIBSDL_IMAGE = x1 && test x$HAVE_SDL_TTF_H = x1 && test x$HAVE_LIBSDL_TTF = x1 && test x$HAVE_GL_GL_H && test x$HAVE_GL_GLU_H)
+AM_CONDITIONAL(MOD_GL1, test x$enable_mod_gl1 = xyes && test x$SDL_CONFIG = xyes && test x$HAVE_SDL_H = x1 && test x$HAVE_LIBSDL = x1 && test x$HAVE_SDL_IMAGE_H = x1 && test x$HAVE_LIBSDL_IMAGE = x1 && test x$HAVE_SDL_TTF_H = x1 && test x$HAVE_LIBSDL_TTF = x1 && test x$HAVE_GL_GL_H && test x$HAVE_GL_GLU_H)
 
-if test -z "${MOD_GL_TRUE}"; then
-	MOD_GL_ENABLE_CFLAGS="-DMOD_GL=1"
+if test -z "${MOD_GL1_TRUE}"; then
+	MOD_GL1_ENABLE_CFLAGS="-DMOD_GL1=1"
 else
-	MOD_GL_ENABLE_CFLAGS=
+	MOD_GL1_ENABLE_CFLAGS=
 fi
-AC_SUBST(MOD_GL_ENABLE_CFLAGS)
-dnl End mod-gl
+AC_SUBST(MOD_GL1_ENABLE_CFLAGS)
+dnl End mod-gl1
 
 lw6_gfx_exists=no
 if test x$enable_headless != xyes ; then
-   if test -z "${MOD_GL_TRUE}"; then
-      lw6_gfx_exists=gl
+   if test -z "${MOD_GL1_TRUE}"; then
+      lw6_gfx_exists=gl1
    fi
    if test x$lw6_gfx_exists = xno; then
       AC_MSG_ERROR([No graphical support detected, please consider installing SDL (http://www.libsdl.org/), Mesa (http://www.mesa3d.org/), SDL_image (http://www.libsdl.org/projects/SDL_image/), SDL_ttf (http://www.libsdl.org/projects/SDL_ttf/) with development support (headers and libraries).])
@@ -826,19 +826,19 @@ AC_CONFIG_FILES([Makefile
 	  src/lib/gui/Makefile
 	  src/lib/vox/Makefile
 	  src/lib/gfx/Makefile
-  	  src/lib/gfx/mod-gl/Makefile
- 	  src/lib/gfx/mod-gl/gl-utils/Makefile
- 	  src/lib/gfx/mod-gl/gl-splash/Makefile
- 	  src/lib/gfx/mod-gl/gl-background/Makefile
- 	  src/lib/gfx/mod-gl/gl-background/gl-bubbles/Makefile
- 	  src/lib/gfx/mod-gl/gl-background/gl-void/Makefile
- 	  src/lib/gfx/mod-gl/gl-hud/Makefile
- 	  src/lib/gfx/mod-gl/gl-hud/gl-floating/Makefile
- 	  src/lib/gfx/mod-gl/gl-hud/gl-tactical/Makefile
- 	  src/lib/gfx/mod-gl/gl-menu/Makefile
- 	  src/lib/gfx/mod-gl/gl-menu/gl-cylinder/Makefile
- 	  src/lib/gfx/mod-gl/gl-view/Makefile
- 	  src/lib/gfx/mod-gl/gl-view/gl-flat/Makefile
+  	  src/lib/gfx/mod-gl1/Makefile
+ 	  src/lib/gfx/mod-gl1/gl1-utils/Makefile
+ 	  src/lib/gfx/mod-gl1/gl1-splash/Makefile
+ 	  src/lib/gfx/mod-gl1/gl1-background/Makefile
+ 	  src/lib/gfx/mod-gl1/gl1-background/gl1-bubbles/Makefile
+ 	  src/lib/gfx/mod-gl1/gl1-background/gl1-void/Makefile
+ 	  src/lib/gfx/mod-gl1/gl1-hud/Makefile
+ 	  src/lib/gfx/mod-gl1/gl1-hud/gl1-floating/Makefile
+ 	  src/lib/gfx/mod-gl1/gl1-hud/gl1-tactical/Makefile
+ 	  src/lib/gfx/mod-gl1/gl1-menu/Makefile
+ 	  src/lib/gfx/mod-gl1/gl1-menu/gl1-cylinder/Makefile
+ 	  src/lib/gfx/mod-gl1/gl1-view/Makefile
+ 	  src/lib/gfx/mod-gl1/gl1-view/gl1-flat/Makefile
 	  src/lib/dsp/Makefile
 	  src/lib/snd/Makefile
 	  src/lib/snd/mod-csound/Makefile
@@ -864,24 +864,24 @@ AC_CONFIG_FILES([Makefile
 	  data/Makefile
 	  data/icon/Makefile
 	  data/gfx/Makefile
-  	  data/gfx/gl/Makefile
- 	  data/gfx/gl/utils/Makefile
- 	  data/gfx/gl/utils/font/Makefile
- 	  data/gfx/gl/utils/icon/Makefile
- 	  data/gfx/gl/splash/Makefile
- 	  data/gfx/gl/splash/image/Makefile
- 	  data/gfx/gl/background/Makefile
- 	  data/gfx/gl/background/bubbles/Makefile
- 	  data/gfx/gl/background/bubbles/image/Makefile
- 	  data/gfx/gl/hud/Makefile
- 	  data/gfx/gl/hud/floating/Makefile
- 	  data/gfx/gl/hud/floating/image/Makefile
- 	  data/gfx/gl/hud/tactical/Makefile
- 	  data/gfx/gl/hud/tactical/image/Makefile
- 	  data/gfx/gl/menu/Makefile
- 	  data/gfx/gl/menu/cylinder/Makefile
- 	  data/gfx/gl/view/Makefile
- 	  data/gfx/gl/view/flat/Makefile
+  	  data/gfx/gl1/Makefile
+ 	  data/gfx/gl1/utils/Makefile
+ 	  data/gfx/gl1/utils/font/Makefile
+ 	  data/gfx/gl1/utils/icon/Makefile
+ 	  data/gfx/gl1/splash/Makefile
+ 	  data/gfx/gl1/splash/image/Makefile
+ 	  data/gfx/gl1/background/Makefile
+ 	  data/gfx/gl1/background/bubbles/Makefile
+ 	  data/gfx/gl1/background/bubbles/image/Makefile
+ 	  data/gfx/gl1/hud/Makefile
+ 	  data/gfx/gl1/hud/floating/Makefile
+ 	  data/gfx/gl1/hud/floating/image/Makefile
+ 	  data/gfx/gl1/hud/tactical/Makefile
+ 	  data/gfx/gl1/hud/tactical/image/Makefile
+ 	  data/gfx/gl1/menu/Makefile
+ 	  data/gfx/gl1/menu/cylinder/Makefile
+ 	  data/gfx/gl1/view/Makefile
+ 	  data/gfx/gl1/view/flat/Makefile
  	  data/snd/Makefile
  	  data/snd/csound/Makefile
  	  data/snd/ogg/Makefile
@@ -971,10 +971,10 @@ if test -z "${LW6_GTK_TRUE}"; then
 else
 	AC_MSG_NOTICE([enable gtk... no])
 fi
-if test -z "${MOD_GL_TRUE}"; then
-	AC_MSG_NOTICE([build mod-gl... yes])
+if test -z "${MOD_GL1_TRUE}"; then
+	AC_MSG_NOTICE([build mod-gl1... yes])
 else
-	AC_MSG_NOTICE([build mod-gl... no])
+	AC_MSG_NOTICE([build mod-gl1... no])
 fi
 if test -z "${MOD_CSOUND_TRUE}"; then
 	AC_MSG_NOTICE([build mod-csound... yes])

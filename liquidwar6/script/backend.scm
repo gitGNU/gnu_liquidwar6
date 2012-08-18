@@ -36,7 +36,7 @@
 (define lw6-get-default-gfx-backend
   (lambda () 
     (lw6-get-default-backend c-lw6gfx-get-backends 
-			     "gl"
+			     "gl1"
 			     (_ "no gfx backend found"))
     ))
 
@@ -66,7 +66,7 @@
   (lambda (backend)
     (lw6-check-backend c-lw6gfx-get-backends
 		       backend
-		       "gl"
+		       "gl1"
 		       (format #f (_ "gfx backend ~a not available") backend))
     ))
 

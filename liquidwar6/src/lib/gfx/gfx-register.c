@@ -26,7 +26,7 @@
 
 #include "gfx.h"
 #ifdef LW6_ALLINONE
-#include "mod-gl/mod-gl.h"
+#include "mod-gl1/mod-gl1.h"
 #endif
 
 /**
@@ -55,8 +55,8 @@ lw6gfx_get_backends (int argc, const char *argv[])
   ret = lw6sys_assoc_new (lw6sys_free_callback);
   if (ret)
     {
-#ifdef MOD_GL
-      module_pedigree = mod_gl_get_pedigree ();
+#ifdef MOD_GL1
+      module_pedigree = mod_gl1_get_pedigree ();
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (&ret, module_pedigree->id,
@@ -90,10 +90,10 @@ lw6gfx_create_backend (int argc, const char *argv[], const char *name)
 {
   lw6gfx_backend_t *backend = NULL;
 #ifdef LW6_ALLINONE
-#ifdef MOD_GL
-  if (name && !strcmp (name, "gl"))
+#ifdef MOD_GL1
+  if (name && !strcmp (name, "gl1"))
     {
-      backend = mod_gl_create_backend ();
+      backend = mod_gl1_create_backend ();
     }
 #endif
 
