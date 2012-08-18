@@ -752,9 +752,16 @@ Tells wether gtk is enabled or not.
 @strong{Return value:}  "yes" or "no", must no be freed.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_build_get_enable_mod_gl} ()
+@deftypefun {char *} {lw6sys_build_get_enable_mod_gl1} ()
 
 Tells wether the graphical mod-gl1 backend was compiled.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_mod_gles2} ()
+
+Tells wether the graphical mod-gles2 backend was compiled.
 
 @strong{Return value:}  "yes" or "no", must no be freed.
 @end deftypefun

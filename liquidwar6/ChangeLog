@@ -1,5 +1,7 @@
 2012-08-18 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Created new source free for upcoming gfx module gles2.
+
 	* Renamed gl module to gl1.
 
 2012-08-16 : Christian Mauduit <ufoot@ufoot.org>

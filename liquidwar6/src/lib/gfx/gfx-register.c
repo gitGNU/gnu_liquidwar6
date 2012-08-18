@@ -26,8 +26,14 @@
 
 #include "gfx.h"
 #ifdef LW6_ALLINONE
+#ifdef MOD_GL1
 #include "mod-gl1/mod-gl1.h"
-#endif
+#else // MOD_GL1
+#ifdef MOD_GLES2
+#include "mod-gles2/mod-gles2.h"
+#endif // MOD_GLES2
+#endif // MOD_GL1
+#endif // LW6_ALLINONE
 
 /**
  * lw6gfx_get_backends
@@ -63,11 +69,21 @@ lw6gfx_get_backends (int argc, const char *argv[])
 			    lw6sys_str_copy (module_pedigree->name));
 	  LW6SYS_FREE (module_pedigree);
 	}
-#endif
+#else // MOD_GL1
+#ifdef MOD_GLES2
+      module_pedigree = mod_gles2_get_pedigree ();
+      if (module_pedigree)
+	{
+	  lw6sys_assoc_set (&ret, module_pedigree->id,
+			    lw6sys_str_copy (module_pedigree->name));
+	  LW6SYS_FREE (module_pedigree);
+	}
+#endif // MOD_GLES2
+#endif // MOD_GL1
     }
-#else
+#else // LW6_ALLINONE
   ret = lw6dyn_list_backends (argc, argv, "gfx");
-#endif
+#endif // LW6_ALLINONE
 
   return ret;
 }
@@ -95,7 +111,14 @@ lw6gfx_create_backend (int argc, const char *argv[], const char *name)
     {
       backend = mod_gl1_create_backend ();
     }
-#endif
+#else // MOD_GL1
+#ifdef MOD_GLES2
+  if (name && !strcmp (name, "gles2"))
+    {
+      backend = mod_gl1_create_backend ();
+    }
+#endif // MOD_GLES2
+#endif // MOD_GL1
 
   if (backend)
     {
@@ -107,7 +130,7 @@ lw6gfx_create_backend (int argc, const char *argv[], const char *name)
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("graphical backend \"%s\" does not exist"), name);
     }
-#else
+#else // LW6_ALLINONE
   lw6dyn_dl_handle_t *backend_handle = NULL;
 
   backend_handle = lw6dyn_dlopen_backend (argc, argv, "gfx", name);
@@ -150,7 +173,7 @@ lw6gfx_create_backend (int argc, const char *argv[], const char *name)
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("unable to open gfx backend \"%s\""), name);
     }
-#endif
+#endif // LW6_ALLINONE
 
   if (backend)
     {

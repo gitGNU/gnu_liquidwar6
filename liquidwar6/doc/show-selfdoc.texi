@@ -109,7 +109,14 @@ presence of the csound library.
 @deffn {Command-line option} @code{--show-build-enable-mod-gl1}
 Shows wether the mod-gl1 graphical backend has been enabled when building the
 game. This depends on parameters passed to './configure' and also on the
-presence of SDL and related libraries.
+presence of SDL and OpenGL related libraries.
+@end deffn
+
+@subsection show-build-enable-mod-gles2
+@deffn {Command-line option} @code{--show-build-enable-mod-gles2}
+Shows wether the mod-gles2 graphical backend has been enabled when building
+the game. This depends on parameters passed to './configure' and also on the
+presence of SDL and OpenGL ES related libraries.
 @end deffn
 
 @subsection show-build-enable-mod-http

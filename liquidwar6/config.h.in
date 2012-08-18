@@ -46,6 +46,9 @@
 /* Define if the GNU gettext() function is already present or preinstalled. */
 #undef HAVE_GETTEXT
 
+/* Define to 1 if you have the <GLES2/gl2.h> header file. */
+#undef HAVE_GLES2_GL2_H
+
 /* Define to 1 if you have the <GL/glu.h> header file. */
 #undef HAVE_GL_GLU_H
 

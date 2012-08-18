@@ -46,7 +46,7 @@ LW6_CODENAME="Davy Crockett"
 AC_SUBST(LW6_CODENAME)
 
 dnl Headers, some are optional
-AC_CHECK_HEADERS(arpa/inet.h ctype.h dirent.h errno.h execinfo.h expat.h fcntl.h gc/gc.h gmp.h GL/gl.h GL/glu.h iconv.h ifaddrs.h jpeglib.h langinfo.h libintl.h libpng12/png.h libpng13/png.h libpng14/png.h libpng15/png.h lmcons.h limits.h locale.h ltdl.h mach/vm_statistics.h mach/mach_types.h mach/mach_init.h mach/mach_host.h math.h netdb.h netinet/in.h omp.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/sysinfo.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h)
+AC_CHECK_HEADERS(arpa/inet.h ctype.h dirent.h errno.h execinfo.h expat.h fcntl.h gc/gc.h gmp.h GL/gl.h GL/glu.h GLES2/gl2.h iconv.h ifaddrs.h jpeglib.h langinfo.h libintl.h libpng12/png.h libpng13/png.h libpng14/png.h libpng15/png.h lmcons.h limits.h locale.h ltdl.h mach/vm_statistics.h mach/mach_types.h mach/mach_init.h mach/mach_host.h math.h netdb.h netinet/in.h omp.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/sysinfo.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h)
 
 AM_MISSING_PROG(PERL, perl, ${missing_dir})
 AM_MISSING_PROG(AWK, awk, ${missing_dir})
@@ -463,7 +463,7 @@ fi
 AC_SUBST(SDL_LIBS)
 
 # libGL and libGLU not required (mingw32 + Mac OS X issue)
-AM_CONDITIONAL(MOD_GL1, test x$enable_mod_gl1 = xyes && test x$SDL_CONFIG = xyes && test x$HAVE_SDL_H = x1 && test x$HAVE_LIBSDL = x1 && test x$HAVE_SDL_IMAGE_H = x1 && test x$HAVE_LIBSDL_IMAGE = x1 && test x$HAVE_SDL_TTF_H = x1 && test x$HAVE_LIBSDL_TTF = x1 && test x$HAVE_GL_GL_H && test x$HAVE_GL_GLU_H)
+AM_CONDITIONAL(MOD_GL1, test x$enable_mod_gl1 = xyes && test x$SDL_CONFIG = xyes && test x$HAVE_SDL_H = x1 && test x$HAVE_LIBSDL = x1 && test x$HAVE_SDL_IMAGE_H = x1 && test x$HAVE_LIBSDL_IMAGE = x1 && test x$HAVE_SDL_TTF_H = x1 && test x$HAVE_LIBSDL_TTF = x1 && test x$HAVE_GL_GL_H = x1 && test x$HAVE_GL_GLU_H = x1)
 
 if test -z "${MOD_GL1_TRUE}"; then
 	MOD_GL1_ENABLE_CFLAGS="-DMOD_GL1=1"
@@ -473,10 +473,30 @@ fi
 AC_SUBST(MOD_GL1_ENABLE_CFLAGS)
 dnl End mod-gl1
 
+dnl Begin mod-gles2
+
+AC_ARG_ENABLE([mod-gles2], AS_HELP_STRING([--enable-mod-gles2],[compile mod-gles2 default=yes]), [enable_mod_gles2=$enableval], [enable_mod_gles2=yes])
+
+AC_CHECK_HEADER(GLES2/gl2.h, HAVE_GLES2_GL2_H=1,AC_MSG_NOTICE([OpenGL ES 2 support for Liquid War 6 needs Mesa (http://www.mesa3d.org/)]),[${SDL_EXTRA}])
+AC_CHECK_LIB(GLESv2, glBegin, HAVE_LIBGLESV2=1, AC_MSG_NOTICE([OpenGL ES 2 support for Liquid War 6 needs Mesa (http://www.mesa3d.org/)]),[${SDL_EXTRA}])
+
+AM_CONDITIONAL(MOD_GLES2, test x$enable_mod_gles2 = xyes && test x$SDL_CONFIG = xyes && test x$HAVE_SDL_H = x1 && test x$HAVE_LIBSDL = x1 && test x$HAVE_SDL_IMAGE_H = x1 && test x$HAVE_LIBSDL_IMAGE = x1 && test x$HAVE_SDL_TTF_H = x1 && test x$HAVE_LIBSDL_TTF = x1 && test x$HAVE_GLES2_GL2_H = x1 && test x$HAVE_LIBGLESV2 = x1)
+
+if test -z "${MOD_GLES2_TRUE}"; then
+	MOD_GLES2_ENABLE_CFLAGS="-DMOD_GLES2=1"
+else
+	MOD_GLES2_ENABLE_CFLAGS=
+fi
+AC_SUBST(MOD_GLES2_ENABLE_CFLAGS)
+dnl End mod-gles2
+
 lw6_gfx_exists=no
 if test x$enable_headless != xyes ; then
    if test -z "${MOD_GL1_TRUE}"; then
       lw6_gfx_exists=gl1
+   fi
+   if test -z "${MOD_GLES2_TRUE}"; then
+      lw6_gfx_exists=gles2
    fi
    if test x$lw6_gfx_exists = xno; then
       AC_MSG_ERROR([No graphical support detected, please consider installing SDL (http://www.libsdl.org/), Mesa (http://www.mesa3d.org/), SDL_image (http://www.libsdl.org/projects/SDL_image/), SDL_ttf (http://www.libsdl.org/projects/SDL_ttf/) with development support (headers and libraries).])
@@ -839,6 +859,7 @@ AC_CONFIG_FILES([Makefile
  	  src/lib/gfx/mod-gl1/gl1-menu/gl1-cylinder/Makefile
  	  src/lib/gfx/mod-gl1/gl1-view/Makefile
  	  src/lib/gfx/mod-gl1/gl1-view/gl1-flat/Makefile
+  	  src/lib/gfx/mod-gles2/Makefile
 	  src/lib/dsp/Makefile
 	  src/lib/snd/Makefile
 	  src/lib/snd/mod-csound/Makefile
@@ -975,6 +996,11 @@ if test -z "${MOD_GL1_TRUE}"; then
 	AC_MSG_NOTICE([build mod-gl1... yes])
 else
 	AC_MSG_NOTICE([build mod-gl1... no])
+fi
+if test -z "${MOD_GLES2_TRUE}"; then
+	AC_MSG_NOTICE([build mod-gles2... yes])
+else
+	AC_MSG_NOTICE([build mod-gles2... no])
 fi
 if test -z "${MOD_CSOUND_TRUE}"; then
 	AC_MSG_NOTICE([build mod-csound... yes])

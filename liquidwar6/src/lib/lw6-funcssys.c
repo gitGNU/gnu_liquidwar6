@@ -677,14 +677,29 @@ _scm_lw6sys_build_get_enable_gtk ()
 }
 
 static SCM
-_scm_lw6sys_build_get_enable_mod_gl ()
+_scm_lw6sys_build_get_enable_mod_gl1 ()
 {
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  ret = scm_from_locale_string (lw6sys_build_get_enable_mod_gl ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_mod_gl1 ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6sys_build_get_enable_mod_gles2 ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  ret = scm_from_locale_string (lw6sys_build_get_enable_mod_gles2 ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -2273,7 +2288,13 @@ lw6_register_funcs_sys ()
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GL1, 0, 0,
 			      0,
-			      (SCM (*)())_scm_lw6sys_build_get_enable_mod_gl);
+			      (SCM (*)
+			       ())_scm_lw6sys_build_get_enable_mod_gl1);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GLES2, 0,
+			      0, 0,
+			      (SCM (*)
+			       ())_scm_lw6sys_build_get_enable_mod_gles2);
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CSOUND, 0,
 			      0, 0,

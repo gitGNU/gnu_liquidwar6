@@ -1230,6 +1230,11 @@ Wrapper on lw6sys_build_get_enable_mod_csound.
 Wrapper on lw6sys_build_get_enable_mod_gl.
 @end deffn
 
+@subsection c-lw6sys-build-get-enable-mod-gles2
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-mod-gles2}
+Not documented.
+@end deffn
+
 @subsection c-lw6sys-build-get-enable-mod-http
 @deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-mod-http}
 Wrapper on lw6sys_build_get_enable_mod_http.

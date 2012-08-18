@@ -27,10 +27,10 @@
 #include <time.h>
 
 #include "../gfx.h"
-#include "mod-gl1-internal.h"
+#include "mod-gles2-internal.h"
 
 char *
-_mod_gl1_repr (_mod_gl1_context_t * gl_context, u_int32_t id)
+_mod_gles2_repr (_mod_gles2_context_t * gl_context, u_int32_t id)
 {
   char *ret = NULL;
   SDL_version version;
@@ -38,10 +38,11 @@ _mod_gl1_repr (_mod_gl1_context_t * gl_context, u_int32_t id)
   memset (&version, 0, sizeof (SDL_version));
   version = *SDL_Linked_Version ();
   ret =
-    lw6sys_new_sprintf (_x_ ("%u gl1 SDL version %u.%u.%u resolution %dx%d"),
+    lw6sys_new_sprintf (_x_
+			("%u gles2 SDL version %u.%u.%u resolution %dx%d"),
 			id, version.major, version.minor, version.patch,
-			gl_context->utils_context.video_mode.width,
-			gl_context->utils_context.video_mode.height);
+			gl_context->video_mode.width,
+			gl_context->video_mode.height);
 
   return ret;
 }

@@ -300,7 +300,10 @@ populate_references ()
 		 ("Shows wether GTK+ support has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of GTK+ headers and libs. It uses pkg-config to detect it."));
   POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_MOD_GL1,
 		 _x_
-		 ("Shows wether the mod-gl1 graphical backend has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of SDL and related libraries."));
+		 ("Shows wether the mod-gl1 graphical backend has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of SDL and OpenGL related libraries."));
+  POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_MOD_GLES2,
+		 _x_
+		 ("Shows wether the mod-gles2 graphical backend has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of SDL and OpenGL ES related libraries."));
   POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_MOD_CSOUND,
 		 _x_
 		 ("Shows wether the mod-csound audio backend has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of the csound library."));
@@ -622,7 +625,7 @@ populate_references ()
 		 LW6GUI_DEFAULT_FULLSCREEN);
   POPULATE_STR (LW6DEF_GFX_BACKEND,
 		_x_
-		("Sets the graphics backend AKA 'gfx' to use. For now the only choice is 'gl' and will use an OpenGL/SDL 3D-accelerated driver."),
+		("Sets the graphics backend AKA 'gfx' to use. For now the only reasonnable choice is 'gl1' and will use an OpenGL v1  / SDL 3D-accelerated driver."),
 		"gl1");
   POPULATE_INT (LW6DEF_GFX_QUALITY,
 		_x_

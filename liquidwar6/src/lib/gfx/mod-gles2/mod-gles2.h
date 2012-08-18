@@ -14,34 +14,19 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include <time.h>
+#ifndef LIQUIDWAR6GFX_MOD_GLES2_H
+#define LIQUIDWAR6GFX_MOD_GLES2_H
 
 #include "../gfx.h"
-#include "mod-gl1-internal.h"
 
-char *
-_mod_gl1_repr (_mod_gl1_context_t * gl_context, u_int32_t id)
-{
-  char *ret = NULL;
-  SDL_version version;
+extern lw6sys_module_pedigree_t *mod_gles2_get_pedigree ();
+extern lw6gfx_backend_t *mod_gles2_create_backend ();
+extern void mod_gles2_is_GPL_compatible ();
 
-  memset (&version, 0, sizeof (SDL_version));
-  version = *SDL_Linked_Version ();
-  ret =
-    lw6sys_new_sprintf (_x_ ("%u gl1 SDL version %u.%u.%u resolution %dx%d"),
-			id, version.major, version.minor, version.patch,
-			gl_context->utils_context.video_mode.width,
-			gl_context->utils_context.video_mode.height);
-
-  return ret;
-}
+#endif

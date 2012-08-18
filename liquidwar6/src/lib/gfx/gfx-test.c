@@ -575,6 +575,19 @@ lw6gfx_test (int mode)
 	  lw6gfx_destroy_backend (backend);
 	}
 #endif
+#ifdef MOD_GLES2
+      backend = lw6gfx_create_backend (argc, argv, "gles2");
+      if (backend)
+	{
+	  ret = (test_init (backend) && test_resolution (backend)
+		 && test_splash (backend)
+		 && test_background (backend) && test_menu (backend)
+		 && test_view (backend)
+		 && test_hud (backend)
+		 && test_events (backend) && test_quit (backend)) || ret;
+	  lw6gfx_destroy_backend (backend);
+	}
+#endif
     }
   else
     {

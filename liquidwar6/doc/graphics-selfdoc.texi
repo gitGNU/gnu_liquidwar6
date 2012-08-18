@@ -30,8 +30,8 @@ Type: string
 
 Default value: gl1
 
-Sets the graphics backend AKA 'gfx' to use. For now the only choice is 'gl'
-and will use an OpenGL/SDL 3D-accelerated driver.
+Sets the graphics backend AKA 'gfx' to use. For now the only reasonnable
+choice is 'gl1' and will use an OpenGL v1  / SDL 3D-accelerated driver.
 @end deffn
 
 @subsection gfx-quality

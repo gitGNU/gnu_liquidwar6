@@ -27,21 +27,35 @@
 #include <time.h>
 
 #include "../gfx.h"
-#include "mod-gl1-internal.h"
+#include "mod-gles2-internal.h"
 
-char *
-_mod_gl1_repr (_mod_gl1_context_t * gl_context, u_int32_t id)
+/*
+ * Low-level SDL initialisation.
+ */
+_mod_gles2_context_t *
+_mod_gles2_init (int argc, const char *argv[],
+		 lw6gui_video_mode_t * video_mode,
+		 lw6gui_resize_callback_func_t resize_callback)
 {
-  char *ret = NULL;
-  SDL_version version;
+  _mod_gles2_context_t *gl_context = NULL;
 
-  memset (&version, 0, sizeof (SDL_version));
-  version = *SDL_Linked_Version ();
-  ret =
-    lw6sys_new_sprintf (_x_ ("%u gl1 SDL version %u.%u.%u resolution %dx%d"),
-			id, version.major, version.minor, version.patch,
-			gl_context->utils_context.video_mode.width,
-			gl_context->utils_context.video_mode.height);
+  gl_context =
+    (_mod_gles2_context_t *) LW6SYS_CALLOC (sizeof (_mod_gles2_context_t));
+  if (gl_context)
+    {
+      // todo...
+    }
 
-  return ret;
+  return gl_context;
+}
+
+/*
+ * Ends-up all SDL stuff.
+ */
+void
+_mod_gles2_quit (_mod_gles2_context_t * gl_context)
+{
+  // todo...
+
+  LW6SYS_FREE (gl_context);
 }
