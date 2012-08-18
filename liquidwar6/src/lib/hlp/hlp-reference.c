@@ -2306,7 +2306,9 @@ populate_references ()
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GTK,
 		 _x_ ("Wrapper on lw6sys_build_get_enable_gtk."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GL1,
-		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_gl."));
+		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_gl1."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GLES2,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_gles2."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CSOUND,
 		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_csound."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_OGG,
