@@ -96,7 +96,8 @@ Hacker's guide
 * Designing levels::    How to draw new maps.
 * Translating::         Translation HOWTO.
 * Architecture::        C, Scheme, modules and the rest.
-* About mod-gl1::        The definitive graphics backend.
+* About mod-gl1::       The working graphics backend.
+* About mod-gles2::     The upcoming graphics backend.
 * Compilation tips::    Advice for developpers and packagers.
 * Coding guidelines::   Ensure code remains maintainable.
 * Using the console::   How to interact with the game.
@@ -148,7 +149,8 @@ C API
 * libdsp::              Threaded display.
 * libdyn::              Dynamic module loading.
 * libgfx::              Graphics.
-* mod-gl1::              Main 3D graphics backend.
+* mod-gl1::             Initial 3D graphics backend.
+* mod-gles2::           Upcoming 3D graphics backend.
 * libglb::              Gnulib embedded routines.
 * libgui::              GUI utilities.
 * libhlp::              Built-in help system.
@@ -1620,7 +1622,8 @@ is welcome.
 * Designing levels::    How to draw new maps.
 * Translating::         Translation HOWTO.
 * Architecture::        C, Scheme, modules and the rest.
-* About mod-gl1::        The definitive graphics backend.
+* About mod-gl1::       The working graphics backend.
+* About mod-gles2::     The upcoming graphics backend.
 * Compilation tips::    Advice for developpers and packagers.
 * Coding guidelines::   Ensure code remains maintainable.
 * Using the console::   How to interact with the game.
@@ -2568,7 +2571,7 @@ bandwidth. We're talking about Internet play here.
 @c About mod-gl1
 @c ---------------------------------------------------------------------------
 
-@node About mod-gl1, Compilation tips, Architecture, Hacker's guide
+@node About mod-gl1, About mod-gles2, Architecture, Hacker's guide
 @section About mod-gl1
 
 @subsection The main renderer
@@ -2618,10 +2621,25 @@ directory contains lots of common structures, factorized functions which
 can (and should, if appliable) be used.
 
 @c ---------------------------------------------------------------------------
+@c About mod-gles2
+@c ---------------------------------------------------------------------------
+
+@node About mod-gles2, Compilation tips, About mod-gl1, Hacker's guide
+@section About mod-gles2
+
+@subsection The alternative renderer
+
+This is under heavy development, the idea is to provide an alternative
+renderer based on OpenGL ES 2, which could be used on standard computers
+but also on mobile platforms.
+
+Work in progress, don't hold your breath.
+
+@c ---------------------------------------------------------------------------
 @c Compilation tips
 @c ---------------------------------------------------------------------------
 
-@node Compilation tips, Coding guidelines, About mod-gl1, Hacker's guide
+@node Compilation tips, Coding guidelines, About mod-gles2, Hacker's guide
 @section Compilation tips
 
 @subsection Advanced ./configure options
@@ -4378,7 +4396,8 @@ describes the C structures and their attributes.
 * libdsp::              Threaded display.
 * libdyn::              Dynamic module loading.
 * libgfx::              Graphics.
-* mod-gl1::              Main 3D graphics backend.
+* mod-gl1::             Initial 3D graphics backend.
+* mod-gles2::           Upcoming 3D graphics backend.
 * libglb::              Gnulib embedded routines.
 * libgui::              GUI utilities.
 * libhlp::              Built-in help system.
@@ -4931,7 +4950,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c mod-gl1
 @c ---------------------------------------------------------------------------
 
-@node mod-gl1, libglb, libgfx, C API
+@node mod-gl1, mod-gles2, libgfx, C API
 @section mod-gl1
 
 @subsection Overview
@@ -4955,7 +4974,39 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/mod-gl1/gl-
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
-@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/mod_002dgl.html}.
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/mod_002dgl1.html}.
+@end ifnothtml
+@end ifnotinfo
+ 
+@c ---------------------------------------------------------------------------
+@c mod-gles2
+@c ---------------------------------------------------------------------------
+
+@node mod-gles2, libglb, mod-gl1, C API
+@section mod-gles2
+
+@subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/mod-gles2/index.html} 
+(as there are many sub-directories in this module, please refer to the 
+@uref{http://www.gnu.org/software/liquidwar6/coverage/index.html, test coverage directory index} for complete information).
+
+@subsection API
+
+@ifinfo
+@include mod-gles2-gdoc.texi
+@include mod-gles2-doxygen.texi
+@end ifinfo
+
+@ifnotinfo
+@ifhtml
+@include mod-gles2-gdoc.texi
+@include mod-gles2-doxygen.texi
+@end ifhtml
+@ifnothtml
+Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/mod_002dgles2.html}.
 @end ifnothtml
 @end ifnotinfo
  
@@ -4963,7 +5014,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c libglb
 @c ---------------------------------------------------------------------------
 
-@node libglb, libgui, mod-gl1, C API
+@node libglb, libgui, mod-gles2, C API
 @section libglb
 
 @subsection Overview
