@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.14beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-08-15 23:10+0200\n"
+"POT-Creation-Date: 2012-08-18 10:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,49 +66,49 @@ msgstr ""
 msgid "loaded module \"%s\""
 msgstr ""
 
-#: src/lib/gfx/mod-gl1/gl-utils/gl-utils-data.c:71
+#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-data.c:71
 #, c-format
 msgid "unable to load image \"%s\""
 msgstr ""
 
-#: src/lib/gfx/mod-gl1/gl-utils/gl-utils-data.c:109
+#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-data.c:109
 #, c-format
 msgid "unable to load font \"%s\""
 msgstr ""
 
-#: src/lib/gfx/mod-gl1/gl-utils/gl-utils-mode.c:78
+#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-mode.c:78
 #, c-format
 msgid "SDL GetVideoInfo failed: \"%s\""
 msgstr ""
 
-#: src/lib/gfx/mod-gl1/gl-utils/gl-utils-mode.c:181
+#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-mode.c:181
 #, c-format
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
 msgstr ""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-backend.c:330
-msgid "OpenGL/SDL"
+#: src/lib/gfx/mod-gl1/mod-gl1-backend.c:335
+msgid "OpenGL v1 / SDL"
 msgstr ""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:280
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:283
 #, c-format
 msgid "SDL init error: \"%s\""
 msgstr ""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:307
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:310
 #, c-format
 msgid "SDL_ttf init error: \"%s\""
 msgstr ""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:362
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:366
 msgid "unable to load data"
 msgstr ""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:370
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:374
 msgid "unable to set video mode"
 msgstr ""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:377
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:381
 msgid "unable to load consts"
 msgstr ""
 
