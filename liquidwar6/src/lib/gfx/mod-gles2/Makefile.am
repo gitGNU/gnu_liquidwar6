@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
 if ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@
 else
-AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS@
+AM_LDFLAGS = @LW6_LDFLAGS@ @GLES2_LIBS@ @SDL_LIBS@
 endif
 
 libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/gfx
@@ -37,7 +37,7 @@ if !ALLINONE
 lib_LTLIBRARIES = libmod_gles2.la
 libmod_gles2_la_SOURCES = $(MOD_GLES2_FILES) 
 libmod_gles2_la_LIBADD = $(MOD_GLES2_LIBS) 
-libmod_gles2_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @SDL_LIBS@
+libmod_gles2_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @GLES2_LIBS@ @SDL_LIBS@
 libmod_gles2dir = $(includedir)/@PACKAGE_TARNAME@/gfx/mod-gles2
 libmod_gles2_HEADERS = mod-gles2.h
 endif

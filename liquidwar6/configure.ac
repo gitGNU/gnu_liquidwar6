@@ -388,8 +388,10 @@ dnl Begin mod-gl1
 
 SDL_EXTRA_CFLAGS=
 SDL_EXTRA_LDFLAGS=
-SDL_CFLAGS=
+GL1_CFLAGS=
 SDL_LIBS=
+GL1_LIBS=
+GLU_LIBS=
 AC_CHECK_PROG(SDL_CONFIG, sdl-config, yes, no)
 if test x${SDL_CONFIG} = xyes; then
    SDL_EXTRA_CFLAGS=`sdl-config --cflags`
@@ -458,9 +460,11 @@ else
    fi
 fi
 if test x$enable_mod_gl1 = xyes; then
-   SDL_LIBS="$SDL_EXTRA_LIBS $GL1_LIBS $GLU_LIBS -lSDL_image -lSDL_ttf -lz -lpng"
+   SDL_LIBS="$SDL_EXTRA_LIBS -lSDL_image -lSDL_ttf -lz -lpng"
 fi
 AC_SUBST(SDL_LIBS)
+AC_SUBST(GL1_LIBS)
+AC_SUBST(GLU_LIBS)
 
 # libGL and libGLU not required (mingw32 + Mac OS X issue)
 AM_CONDITIONAL(MOD_GL1, test x$enable_mod_gl1 = xyes && test x$SDL_CONFIG = xyes && test x$HAVE_SDL_H = x1 && test x$HAVE_LIBSDL = x1 && test x$HAVE_SDL_IMAGE_H = x1 && test x$HAVE_LIBSDL_IMAGE = x1 && test x$HAVE_SDL_TTF_H = x1 && test x$HAVE_LIBSDL_TTF = x1 && test x$HAVE_GL_GL_H = x1 && test x$HAVE_GL_GLU_H = x1)
@@ -478,6 +482,11 @@ AC_ARG_ENABLE([mod-gles2], AS_HELP_STRING([--enable-mod-gles2],[compile mod-gles
 
 AC_CHECK_HEADER(GLES2/gl2.h, HAVE_GLES2_GL2_H=1,AC_MSG_NOTICE([OpenGL ES 2 support for Liquid War 6 needs Mesa (http://www.mesa3d.org/)]),[${SDL_EXTRA}])
 AC_CHECK_LIB(GLESv2, glCreateShader, HAVE_LIBGLESV2=1, AC_MSG_NOTICE([OpenGL ES 2 support for Liquid War 6 needs Mesa (http://www.mesa3d.org/)]),[${SDL_EXTRA}])
+
+if test x$HAVE_LIBGLESV2 = x1; then
+    GLES2_LIBS="-lGLESv2"
+fi
+AC_SUBST(GLES2_LIBS)
 
 AM_CONDITIONAL(MOD_GLES2, test x$enable_mod_gles2 = xyes && test x$SDL_CONFIG = xyes && test x$HAVE_SDL_H = x1 && test x$HAVE_LIBSDL = x1 && test x$HAVE_SDL_IMAGE_H = x1 && test x$HAVE_LIBSDL_IMAGE = x1 && test x$HAVE_SDL_TTF_H = x1 && test x$HAVE_LIBSDL_TTF = x1 && test x$HAVE_GLES2_GL2_H = x1 && test x$HAVE_LIBGLESV2 = x1)
 
