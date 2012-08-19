@@ -22,7 +22,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include <time.h>
 
@@ -122,6 +122,7 @@ _mod_gles2_init (int argc, const char *argv[],
 		      if (_mod_gles2_set_video_mode
 			  (gles2_context, video_mode))
 			{
+			  _mod_gles2_timer_update (gles2_context);
 			  // todo
 			}
 		      else

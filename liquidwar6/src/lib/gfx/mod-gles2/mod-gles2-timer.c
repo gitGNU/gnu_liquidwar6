@@ -20,13 +20,34 @@
   Contact author        : ufoot@ufoot.org
 */
 
-#ifndef LIQUIDWAR6GFX_MOD_GLES2_H
-#define LIQUIDWAR6GFX_MOD_GLES2_H
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif // HAVE_CONFIG_H
 
-#include "../gfx.h"
+#include "mod-gles2-internal.h"
 
-extern lw6sys_module_pedigree_t *mod_gles2_get_pedigree ();
-extern lw6gfx_backend_t *mod_gles2_create_backend ();
-extern void mod_gles2_is_GPL_compatible ();
+void
+_mod_gles2_timer_update (_mod_gles2_context_t * gles2_context)
+{
+  lw6sys_timer_update (&(gles2_context->timer.timestamp),
+		       &(gles2_context->timer.uptime),
+		       &(gles2_context->timer.cycle));
+}
 
-#endif // LIQUIDWAR6GFX_MOD_GLES2_H
+int64_t
+_mod_gles2_timer_get_timestamp (_mod_gles2_context_t * gles2_context)
+{
+  return gles2_context->timer.timestamp;
+}
+
+int64_t
+_mod_gles2_timer_get_uptime (_mod_gles2_context_t * gles2_context)
+{
+  return gles2_context->timer.uptime;
+}
+
+int32_t
+_mod_gles2_timer_get_cycle (_mod_gles2_context_t * gles2_context)
+{
+  return gles2_context->timer.cycle;
+}

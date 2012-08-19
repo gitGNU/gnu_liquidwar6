@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-08-18 18:12+0200\n"
+"POT-Creation-Date: 2012-08-19 20:07+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -79,26 +79,30 @@ msgid "unable to load font \"%s\""
 msgstr " загрузки шрифта \"%s\""
 
 #: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-mode.c:78
+#: src/lib/gfx/mod-gles2/mod-gles2-mode.c:75
 #, c-format
 msgid "SDL GetVideoInfo failed: \"%s\""
 msgstr "Ошибка SDL GetVideoInfo: \"%s\""
 
 #: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-mode.c:181
+#: src/lib/gfx/mod-gles2/mod-gles2-mode.c:178
 #, c-format
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
 msgstr "Ошибка SDL SetVideoMode %dx%d bpp=%d fullscreen=%d: \"%s\""
 
 #: src/lib/gfx/mod-gl1/mod-gl1-backend.c:335
-#: src/lib/gfx/mod-gles2/mod-gles2-backend.c:181
+#: src/lib/gfx/mod-gles2/mod-gles2-backend.c:174
 msgid "OpenGL v1 / SDL"
 msgstr ""
 
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:283
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:80
 #, c-format
 msgid "SDL init error: \"%s\""
 msgstr "Ошибка инициализации SDL: \"%s\""
 
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:310
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:105
 #, c-format
 msgid "SDL_ttf init error: \"%s\""
 msgstr "Ошибка инициализации SDL_ttf: \"%s\""
@@ -108,10 +112,12 @@ msgid "unable to load data"
 msgstr "ошибка загрузки данных"
 
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:374
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:131
 msgid "unable to set video mode"
 msgstr "ошибка установки видео режима"
 
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:381
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:139
 msgid "unable to load consts"
 msgstr "ошибка загрузки констант"
 
@@ -222,134 +228,134 @@ msgstr ""
 msgid "unable to handle credits id %d"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2893
+#: src/lib/hlp/hlp-reference.c:2895
 msgid "moves faster than the average"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2894
+#: src/lib/hlp/hlp-reference.c:2896
 msgid "has a better defense than the average"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2895
+#: src/lib/hlp/hlp-reference.c:2897
 msgid "has a strong attack but is slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2896
+#: src/lib/hlp/hlp-reference.c:2898
 msgid "has a strong attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2897
+#: src/lib/hlp/hlp-reference.c:2899
 msgid "has an extremely good defense but is slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2899
+#: src/lib/hlp/hlp-reference.c:2901
 msgid "is extremely fast but also very vulnerable"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2900
+#: src/lib/hlp/hlp-reference.c:2902
 msgid "is fast, but has a very weak attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2902
+#: src/lib/hlp/hlp-reference.c:2904
 msgid "has an extremely strong attack but is very slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2904
+#: src/lib/hlp/hlp-reference.c:2906
 msgid "has a very good defense but a weak attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2906
+#: src/lib/hlp/hlp-reference.c:2908
 msgid "has a very strong attack, but is also very vulnerable"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2913
+#: src/lib/hlp/hlp-reference.c:2915
 msgid "super-strong attack for a limited time, crush your enemies"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2915
+#: src/lib/hlp/hlp-reference.c:2917
 msgid "no damage for a limited time, move untouched"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2918
+#: src/lib/hlp/hlp-reference.c:2920
 msgid ""
 "fighters placed as far as possible from cursor, magically escape from any "
 "grip"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2919
+#: src/lib/hlp/hlp-reference.c:2921
 msgid "move faster for a limited time"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2921
+#: src/lib/hlp/hlp-reference.c:2923
 msgid "fighters placed as close as possible to cursor"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2924
+#: src/lib/hlp/hlp-reference.c:2926
 msgid "every fighters of every team scattered in random places"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2927
+#: src/lib/hlp/hlp-reference.c:2929
 msgid "all other teams are freezed, you can move but not attack them"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2930
+#: src/lib/hlp/hlp-reference.c:2932
 msgid "fighters exchange position, their properties being preserved"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2933
+#: src/lib/hlp/hlp-reference.c:2935
 msgid ""
 "you take the control of all other teams while your cursor stays in place"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2936
+#: src/lib/hlp/hlp-reference.c:2938
 msgid ""
 "will exchange colors, randomly, requires at least 3 teams (double edged "
 "weapon)"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2937
+#: src/lib/hlp/hlp-reference.c:2939
 msgid "steals some fighters to other teams"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2940
+#: src/lib/hlp/hlp-reference.c:2942
 msgid "nuclear explosion, all fighters arround your cursor are about to die"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2943
+#: src/lib/hlp/hlp-reference.c:2945
 msgid ""
 "fighters continue to move normally, but attacks are done in reverse mode, "
 "backwards"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2946
+#: src/lib/hlp/hlp-reference.c:2948
 msgid "all your opponents go crazy for some time, acting with no logic"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2948
+#: src/lib/hlp/hlp-reference.c:2950
 msgid "make the battlefield be like it was a few seconds ago"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2951
+#: src/lib/hlp/hlp-reference.c:2953
 msgid "all fighters from all teams are packed near your cursor"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2953
+#: src/lib/hlp/hlp-reference.c:2955
 msgid "reduces the number of fighters on the map"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2956
+#: src/lib/hlp/hlp-reference.c:2958
 msgid ""
 "you die along with the strongest team on the battlefield, requires at least "
 "3 teams"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2959
+#: src/lib/hlp/hlp-reference.c:2961
 msgid ""
 "you disappear for some time from the battlefield, to reappear later, "
 "somewhere else"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2962
+#: src/lib/hlp/hlp-reference.c:2964
 msgid "general disease, all fighters mysteriously loose health"
 msgstr ""
 

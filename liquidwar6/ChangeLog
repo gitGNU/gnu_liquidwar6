@@ -1,3 +1,7 @@
+2012-08-19 : Christian Mauduit <ufoot@ufoot.org>
+
+	* mod-gles2 now has event loop support.
+
 2012-08-18 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Created new source free for upcoming gfx module gles2.

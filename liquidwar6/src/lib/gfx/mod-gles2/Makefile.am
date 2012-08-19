@@ -28,7 +28,7 @@ endif
 libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/gfx
 
 noinst_LTLIBRARIES = libmod_gles2_s.la
-MOD_GLES2_FILES = mod-gles2-backend.c mod-gles2-const.c mod-gles2-mode.c mod-gles2-path.c mod-gles2-repr.c mod-gles2-resolution.c mod-gles2-setup.c mod-gles2-viewport.c
+MOD_GLES2_FILES = mod-gles2-backend.c mod-gles2-const.c mod-gles2-event.c mod-gles2-mode.c mod-gles2-path.c mod-gles2-repr.c mod-gles2-resolution.c mod-gles2-setup.c mod-gles2-timer.c mod-gles2-viewport.c
 #MOD_GLES2_LIBS = gles2-utils/libgles2-utils.la gles2-splash/libgles2-splash.la gles2-background/libgles2-background.la gles2-hud/libgles2-hud.la gles2-menu/libgles2-menu.la gles2-view/libgles2-view.la
 libmod_gles2_s_la_SOURCES = $(MOD_GLES2_FILES) 
 libmod_gles2_s_la_LIBADD = $(MOD_GLES2_LIBS)

@@ -22,7 +22,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include "../gfx.h"
 #include "mod-gles2.h"
@@ -127,9 +127,8 @@ _pump_events (void *gfx_context)
 
   if (mod_gles2_context)
     {
-      // todo ...
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("%s not implemented yet"),
-		  __FUNCTION__);
+      _mod_gles2_timer_update (mod_gles2_context);
+      ret = _mod_gles2_pump_events (mod_gles2_context);
     }
 
   return ret;
