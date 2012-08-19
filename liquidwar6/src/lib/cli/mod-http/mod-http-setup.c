@@ -55,6 +55,11 @@ _mod_http_init (int argc, const char *argv[],
 		http_context->data.consts.ping_alter_base;
 	      properties->ping_alter_percent =
 		http_context->data.consts.ping_alter_percent;
+	      /*
+	       * HTTP *as a client* considered reliable. This is
+	       * not the case of the server, but the client is OK
+	       */
+	      properties->reliable = 1;
 	      http_context->curl_init_ret = curl_global_init (_CURL_FLAGS);
 	      if (http_context->curl_init_ret == CURLE_OK)
 		{

@@ -93,7 +93,19 @@
 		   (begin
 		     (c-lw6sys-snooze)
 		     (c-lw6p2p-node-poll node-2)
-		     (set! ret #t) ;; todo, fix this and set it to true on real success
+		     ;;(let (
+		     ;;	   (nop-command (lw6-command-nop (c-lw6pil-get-next-seq pilot-2) id-2))
+		     ;;	   )
+		     ;;     (c-lw6p2p-node-put-local-msg node-2 nop-command)
+		     ;;   )
+		     (let (
+			   (msg (c-lw6p2p-node-get-next-reference-msg node-2))
+			   )
+		       (if msg
+			   (begin
+			     (lw6-log-notice (format #f "received ~a bytes message" (string-length msg)))
+			     (set! ret #t) ;; todo, fix this and set it to true on real success
+			   )))
 		     ))
 	    (c-lw6p2p-node-close node-2)
 	    ))

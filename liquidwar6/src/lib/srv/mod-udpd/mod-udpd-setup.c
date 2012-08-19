@@ -52,6 +52,7 @@ _mod_udpd_init (int argc, const char *argv[],
 		udpd_context->data.consts.ping_alter_base;
 	      properties->ping_alter_percent =
 		udpd_context->data.consts.ping_alter_percent;
+	      properties->reliable = 0;
 	      ok = 1;
 	    }
 	  LW6SYS_FREE (data_dir);

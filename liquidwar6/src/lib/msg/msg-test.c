@@ -120,7 +120,7 @@
 #define _TEST_DATA_SERIAL 421
 #define _TEST_DATA_I 3
 #define _TEST_DATA_N 1000
-#define _TEST_DATA_ROUND 1000000
+#define _TEST_DATA_SEQ 1000000123456
 #define _TEST_DATA_KER_MSG "HELLO WORLD"
 #define _TEST_SEQ_BASE 1000000000000000LL
 #define _TEST_SEQ_RANGE 1000000000
@@ -157,7 +157,7 @@ test_cmd ()
     int data_serial = 0;
     int data_i = 0;
     int data_n = 0;
-    int data_round = 0;
+    int64_t data_seq = 0;
     char *data_ker_msg = NULL;
     u_int64_t miss_id_from = 0LL;
     u_int64_t miss_id_to = 0LL;
@@ -452,14 +452,14 @@ test_cmd ()
 
 	msg =
 	  lw6msg_cmd_generate_data (_TEST_DATA_SERIAL, _TEST_DATA_I,
-				    _TEST_DATA_N, _TEST_DATA_ROUND,
+				    _TEST_DATA_N, _TEST_DATA_SEQ,
 				    _TEST_DATA_KER_MSG);
 	if (msg)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("data command is \"%s\""),
 			msg);
 	    if (lw6msg_cmd_analyse_data
-		(&data_serial, &data_i, &data_n, &data_round, &data_ker_msg,
+		(&data_serial, &data_i, &data_n, &data_seq, &data_ker_msg,
 		 msg))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,

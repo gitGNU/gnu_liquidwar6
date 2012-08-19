@@ -65,6 +65,14 @@ typedef struct lw6cnx_properties_s
    * are faster!
    */
   int ping_alter_percent;
+  /**
+   * Wether this connexion is to be considered reliable or not.
+   * Well, in LW6, all connexions are unrealiable since LW6 will
+   * drop packets on purpose to simulate problems, but however,
+   * some are well-known to be unreliable (UDP...) while others
+   * are OK.
+   */
+  int reliable;
 }
 lw6cnx_properties_t;
 

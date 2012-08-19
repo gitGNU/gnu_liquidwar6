@@ -52,6 +52,7 @@ _mod_tcpd_init (int argc, const char *argv[],
 		tcpd_context->data.consts.ping_alter_base;
 	      properties->ping_alter_percent =
 		tcpd_context->data.consts.ping_alter_percent;
+	      properties->reliable = 1;
 	      ok = 1;
 	    }
 	  LW6SYS_FREE (data_dir);

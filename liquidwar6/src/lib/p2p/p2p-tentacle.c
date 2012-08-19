@@ -236,6 +236,10 @@ _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle)
 {
   int i = 0;
 
+  if (tentacle->unsent_queue)
+    {
+      lw6sys_list_free (tentacle->unsent_queue);
+    }
   if (tentacle->nb_srv_connections > 0 && tentacle->srv_connections)
     {
       for (i = 0; i < tentacle->nb_srv_connections; ++i)
@@ -434,14 +438,17 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 			    lw6cnx_ticket_table_t * ticket_table,
 			    u_int32_t logical_ticket_sig,
 			    u_int64_t logical_from_id,
-			    u_int64_t logical_to_id, const char *msg)
+			    u_int64_t logical_to_id, const char *msg,
+			    int reliable)
 {
   int ret = 0;
   lw6cnx_connection_t *cnx = NULL;
   u_int32_t physical_ticket_sig = 0;
   int i = 0;
+  char *msg_dup = NULL;
 
-  cnx = _lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle);
+  cnx =
+    _lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle, reliable);
   if (cnx)
     {
       if (cnx->ping_msec > 0)
@@ -505,6 +512,30 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 					     logical_ticket_sig,
 					     logical_from_id, logical_to_id,
 					     msg);
+	}
+    }
+
+  if (!ret)
+    {
+      msg_dup = lw6sys_str_copy (msg);
+      if (msg_dup)
+	{
+	  if (!tentacle->unsent_queue)
+	    {
+	      tentacle->unsent_queue = lw6sys_list_new (lw6sys_free_callback);
+	    }
+	  if (tentacle->unsent_queue)
+	    {
+	      lw6sys_log (LW6SYS_LOG_NOTICE,
+			  _x_
+			  ("message \"%s\" not sent, pushing it to unsent_queue"),
+			  msg_dup);
+	      lw6sys_fifo_push (&(tentacle->unsent_queue), msg_dup);
+	    }
+	  else
+	    {
+	      LW6SYS_FREE (msg_dup);
+	    }
 	}
     }
 
@@ -581,7 +612,7 @@ _lw6p2p_tentacle_find_connection_with_foo_bar_key (_lw6p2p_tentacle_t *
 
 lw6cnx_connection_t *
 _lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t *
-						   tentacle)
+						   tentacle, int reliable)
 {
   lw6cnx_connection_t *ret = NULL;
   lw6cnx_connection_t *any = NULL;
@@ -596,7 +627,8 @@ _lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t *
 	{
 	  any = cnx;
 	}
-      if (cnx->ping_msec > 0 && cnx->ping_msec < best_ping_msec)
+      if (cnx->ping_msec > 0 && cnx->ping_msec < best_ping_msec
+	  && (cnx->properties.reliable || !reliable))
 	{
 	  best_ping_msec = cnx->ping_msec;
 	  ret = cnx;
@@ -610,11 +642,17 @@ _lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t *
 	{
 	  any = cnx;
 	}
-      if (cnx->ping_msec > 0 && cnx->ping_msec < best_ping_msec)
+      if (cnx->ping_msec > 0 && cnx->ping_msec < best_ping_msec
+	  && (cnx->properties.reliable || !reliable))
 	{
 	  best_ping_msec = cnx->ping_msec;
 	  ret = cnx;
 	}
+    }
+
+  if (reliable && !ret)
+    {
+      ret = _lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle, 0);
     }
 
   if (!ret)

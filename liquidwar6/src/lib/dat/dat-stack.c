@@ -27,6 +27,13 @@
 
 #include "dat-internal.h"
 
+/*
+ * Above this limit, there will be a "NOTICE" message 
+ * written that says there's a big message being handled.
+ * This usually concerns dumps.
+ */
+#define _LONG_MSG_NOTICE 100000
+
 void
 _lw6dat_stack_zero (_lw6dat_stack_t * stack)
 {
@@ -430,6 +437,30 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg,
 	      len = strlen (z);
 	      order_n =
 		(lw6sys_imax ((len - 1), 0) / _LW6DAT_ATOM_MAX_SIZE) + 1;
+	      if (order_n > 1)
+		{
+		  if (len >= _LONG_MSG_NOTICE)
+		    {
+		      lw6sys_log (LW6SYS_LOG_NOTICE,
+				  _x_
+				  ("put long message in stack, %d bytes in %d atoms"),
+				  len, order_n);
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_
+				  ("put message in stack, %d bytes in %d atoms"),
+				  len, order_n);
+		    }
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_
+			      ("put message in stack, %d bytes in 1 atom"),
+			      len);
+		}
 	      for (order_i = 0; order_i < order_n; ++order_i)
 		{
 		  ret = 1;
@@ -858,6 +889,7 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
   int ret = 0;
   _lw6dat_atom_t *atom = NULL;
   char *full_str = NULL;
+  int atom_cmd_len = 0;
   char *msg = NULL;
   int cmd_len = 0;
   char *cmd = NULL;
@@ -912,12 +944,19 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 				       */
 				      if (no_hole && keep)
 					{
+					  atom_cmd_len = strlen (full_str +
+								 atom->cmd_str_offset);
 					  memcpy (cmd +
 						  (i * _LW6DAT_ATOM_MAX_SIZE),
 						  full_str +
 						  atom->cmd_str_offset,
-						  strlen (full_str +
-							  atom->cmd_str_offset));
+						  atom_cmd_len);
+					  if (i == (n - 1))
+					    {
+					      cmd_len =
+						(i * _LW6DAT_ATOM_MAX_SIZE) +
+						atom_cmd_len;
+					    }
 					}
 				    }
 				  else
@@ -1000,6 +1039,31 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 			      msg = lw6sys_str_concat (seq_from, unz);
 			      if (msg)
 				{
+				  if (n > 1)
+				    {
+				      if (cmd_len >= _LONG_MSG_NOTICE)
+					{
+					  lw6sys_log (LW6SYS_LOG_NOTICE,
+						      _x_
+						      ("get long message from stack, %d bytes in %d atoms"),
+						      cmd_len, n);
+					}
+				      else
+					{
+					  lw6sys_log (LW6SYS_LOG_INFO,
+						      _x_
+						      ("get message from stack, %d bytes in %d atoms"),
+						      cmd_len, n);
+					}
+				    }
+				  else
+				    {
+				      lw6sys_log (LW6SYS_LOG_DEBUG,
+						  _x_
+						  ("get message from stack, %d bytes in 1 atom"),
+						  cmd_len);
+				    }
+
 				  lw6sys_list_push_back (msg_list, msg);
 				  ret = 1;
 				}

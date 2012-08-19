@@ -51,6 +51,7 @@ _mod_tcp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 		tcp_context->data.consts.ping_alter_base;
 	      properties->ping_alter_percent =
 		tcp_context->data.consts.ping_alter_percent;
+	      properties->reliable = 1;
 	      ok = 1;
 	    }
 	  LW6SYS_FREE (data_dir);

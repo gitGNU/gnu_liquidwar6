@@ -81,6 +81,14 @@
 			     (set! ret #t) ;; todo, fix this and set it to true on real success
 			     )
 			   )
+			 (let (
+			       (nop-command (lw6-command-nop (c-lw6pil-get-next-seq 
+							      pilot-1
+							      (c-lw6sys-get-timestamp)) 
+							     id-1))
+			       )
+			   (c-lw6p2p-node-put-local-msg node-1 nop-command)
+			  )
 			 )
 		     ))
 	    (c-lw6p2p-node-close node-1)

@@ -238,7 +238,7 @@ lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
  * @serial: the message serial number
  * @i: the message index in the group
  * @n: the number of messages in the group
- * @round: the message round (can have an offset with real round)
+ * @seq: the message seq (round + an offset)
  * @ker_msg: the actual content of the message (passed to core algo)
  *
  * Generate a DATA command. Serial is an ever increasing number,
@@ -248,14 +248,15 @@ lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_data (int serial, int i, int n, int round,
+lw6msg_cmd_generate_data (int serial, int i, int n, int64_t seq,
 			  const char *ker_msg)
 {
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf ("%s %d %d %d %d %s", LW6MSG_CMD_DATA, serial, i, n,
-			round, ker_msg);
+    lw6sys_new_sprintf ("%s %d %d %d %" LW6SYS_PRINTF_LL "d %s",
+			LW6MSG_CMD_DATA, serial, i, n, (long long) seq,
+			ker_msg);
 
   return ret;
 }
@@ -337,7 +338,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad program \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad program \"%s\""), pos);
 	}
     }
 
@@ -351,7 +352,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad version \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad version \"%s\""), pos);
 	}
     }
 
@@ -365,7 +366,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad codename \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad codename \"%s\""), pos);
 	}
     }
 
@@ -379,7 +380,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad stamp \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad stamp \"%s\""), pos);
 	}
     }
 
@@ -394,7 +395,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
   else
     {
       still_ok = 0;
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad id \"%s\""), pos);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad id \"%s\""), pos);
     }
 
   if (still_ok)
@@ -408,7 +409,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad url \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad url \"%s\""), pos);
 	}
     }
 
@@ -422,7 +423,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad title \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad title \"%s\""), pos);
 	}
     }
 
@@ -437,7 +438,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad description \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad description \"%s\""), pos);
 	}
     }
 
@@ -452,7 +453,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad has_password \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad has_password \"%s\""), pos);
 	}
     }
 
@@ -466,7 +467,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad bench \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad bench \"%s\""), pos);
 	}
     }
 
@@ -480,7 +481,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad open_relay \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad open_relay \"%s\""), pos);
 	}
     }
 
@@ -494,7 +495,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad uptime \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad uptime \"%s\""), pos);
 	}
     }
 
@@ -519,14 +520,14 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
 	  else
 	    {
 	      still_ok = 0;
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad community id \"%s\""),
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad community id \"%s\""),
 			  pos);
 	    }
 	}
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad community id \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad community id \"%s\""), pos);
 	}
     }
 
@@ -540,7 +541,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad round \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad round \"%s\""), pos);
 	}
     }
 
@@ -554,7 +555,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad level \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad level \"%s\""), pos);
 	}
     }
 
@@ -569,7 +570,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (LW6SYS_LOG_INFO,
 		      _x_ ("bad required_bench \"%s\""), pos);
 	}
     }
@@ -599,8 +600,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_ ("bad max_nb_colors \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad max_nb_colors \"%s\""), pos);
 	}
     }
 
@@ -614,7 +614,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad nb_cursors \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad nb_cursors \"%s\""), pos);
 	}
     }
 
@@ -629,7 +629,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (LW6SYS_LOG_INFO,
 		      _x_ ("bad max_nb_cursors \"%s\""), pos);
 	}
     }
@@ -644,7 +644,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad nb_nodes \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad nb_nodes \"%s\""), pos);
 	}
     }
 
@@ -659,7 +659,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad max_nb_nodes \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad max_nb_nodes \"%s\""), pos);
 	}
     }
 
@@ -971,7 +971,7 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
  * @serial: will contain serial number on success
  * @i: will contain group index on success
  * @n: will contain group size on success
- * @round: will contain round on success (can have an offset with real round)
+ * @seq: will contain seq on success (round + an offset)
  * @ker_msg: will contain actual message on success
  * @msg: the message to analyze
  *
@@ -980,7 +980,7 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
+lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq,
 			 char **ker_msg, const char *msg)
 {
   int ret = 0;
@@ -989,7 +989,7 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
   int read_serial = 0;
   int read_i = 0;
   int read_n = 0;
-  int read_round = 0;
+  int64_t read_seq = 0;
   char *read_ker_msg = NULL;
   lw6msg_word_t data_word;
   lw6msg_word_t ker_msg_word;
@@ -1015,7 +1015,7 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
 	      if (lw6msg_word_first_int_32_gt0 (&read_n, &seek, pos))
 		{
 		  pos = seek;
-		  if (lw6msg_word_first_int_32_gt0 (&read_round, &seek, pos))
+		  if (lw6msg_word_first_int_64_gt0 (&read_seq, &seek, pos))
 		    {
 		      pos = seek;
 		      if (lw6msg_word_first (&ker_msg_word, &seek, pos))
@@ -1028,42 +1028,42 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
 			      (*serial) = read_serial;
 			      (*i) = read_i;
 			      (*n) = read_n;
-			      (*round) = read_round;
+			      (*seq) = read_seq;
 			      (*ker_msg) = read_ker_msg;
 			    }
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
+			  lw6sys_log (LW6SYS_LOG_INFO,
 				      _x_ ("unable to parse ker message"));
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _x_ ("unable to parse round"));
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_ ("unable to parse seq"));
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (LW6SYS_LOG_INFO,
 			      _x_ ("unable to parse group size n"));
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (LW6SYS_LOG_INFO,
 			  _x_ ("unable to parse group index i"));
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to parse serial"));
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("unable to parse serial"));
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to parse DATA"));
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("unable to parse DATA"));
     }
 
   return ret;
@@ -1127,29 +1127,29 @@ lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (LW6SYS_LOG_INFO,
 				  _x_ ("unable to parse serial_max"));
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (LW6SYS_LOG_INFO,
 			      _x_ ("unable to parse serial_min"));
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to parse id_to"));
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("unable to parse id_to"));
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to parse id_from"));
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("unable to parse id_from"));
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to parse MISS"));
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("unable to parse MISS"));
     }
 
   return ret;

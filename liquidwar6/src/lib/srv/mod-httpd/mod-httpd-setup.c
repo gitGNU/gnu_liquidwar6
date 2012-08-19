@@ -58,6 +58,14 @@ _mod_httpd_init (int argc, const char *argv[],
 		httpd_context->data.consts.ping_alter_base;
 	      properties->ping_alter_percent =
 		httpd_context->data.consts.ping_alter_percent;
+	      /*
+	       * HTTP *as a server* (httpd) marked as non-reliable.
+	       * Formally, it *is* reliable *only* if the client
+	       * makes requests. If it's the only option we have,
+	       * well, go for it, but if we have better (TCP?) just use
+	       * something else.
+	       */
+	      properties->reliable = 0;
 	      user_dir = lw6sys_get_user_dir (argc, argv);
 	      if (user_dir)
 		{

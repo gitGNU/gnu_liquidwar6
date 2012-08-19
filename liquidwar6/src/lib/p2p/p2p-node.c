@@ -940,7 +940,8 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node)
 						   &(node->ticket_table),
 						   logical_ticket_sig,
 						   node->node_id_int,
-						   remote_id_int, atom_str))
+						   remote_id_int, atom_str,
+						   0))
 		    {
 		      ret = 0;
 		    }
@@ -1019,7 +1020,7 @@ _poll_step11_miss_list (_lw6p2p_node_t * node)
 						      &(node->ticket_table),
 						      logical_ticket_sig,
 						      node->node_id_int,
-						      remote_id_int, msg);
+						      remote_id_int, msg, 1);
 
 			  LW6SYS_FREE (msg);
 			}

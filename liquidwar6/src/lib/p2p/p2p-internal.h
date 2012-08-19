@@ -174,6 +174,7 @@ typedef struct _lw6p2p_tentacle_s
   lw6cnx_connection_t **cli_connections;
   int nb_srv_connections;
   lw6cnx_connection_t **srv_connections;
+  lw6sys_list_t *unsent_queue;
 } _lw6p2p_tentacle_t;
 
 typedef struct _lw6p2p_node_s
@@ -413,7 +414,7 @@ extern int _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 				       u_int32_t logical_ticket_sig,
 				       u_int64_t logical_from_id,
 				       u_int64_t logical_to_id,
-				       const char *msg);
+				       const char *msg, int reliable);
 extern int _lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
 					    lw6cnx_ticket_table_t *
 					    ticket_table,
@@ -427,6 +428,7 @@ extern lw6cnx_connection_t
 						       u_int32_t foo_bar_key);
 extern lw6cnx_connection_t
   * _lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t *
-						       tentacle);
+						       tentacle,
+						       int reliable);
 
 #endif // LIQUIDWAR6P2P_INTERNAL_H

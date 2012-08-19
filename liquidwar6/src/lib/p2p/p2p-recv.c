@@ -40,7 +40,6 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   int serial = 0;
   int i = 0;
   int n = 0;
-  int round = 0;
   char *ker_message = NULL;
   char *reply_msg = NULL;
   int tentacle_i = 0;
@@ -209,7 +208,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 			_lw6p2p_tentacle_find_connection_with_lowest_ping (&
 									   (node->
 									    tentacles
-									    [tentacle_i]));
+									    [tentacle_i]),
+									   0);
 		      if (fastest_cnx)
 			{
 			  if (!node->tentacles[tentacle_i].data_exchanged)
@@ -431,7 +431,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_DATA))
     {
       if (lw6msg_cmd_analyse_data
-	  (&serial, &i, &n, &round, &ker_message, message))
+	  (&serial, &i, &n, &seq, &ker_message, message))
 	{
 	  if (lw6dat_warehouse_put_atom_str
 	      (node->warehouse, logical_from_id, message))
