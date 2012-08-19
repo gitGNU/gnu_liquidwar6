@@ -69,6 +69,12 @@
 		       (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8057/")
 						(assoc-ref x "id"))
 					   (begin
+					     ;; We wait a bit before trying to join, trying
+					     ;; to join too fast could possibly ruin the process,
+					     ;; a player would just try again, but here we really
+					     ;; want it to work right away
+					     (c-lw6sys-snooze)
+					     (c-lw6p2p-node-poll node-2)
 					     (set! server-entry x)
 					     (set! connect-ret (c-lw6p2p-node-client-join 
 								node-2
