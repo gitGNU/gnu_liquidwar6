@@ -52,6 +52,11 @@ _mod_gles2_path_init (_mod_gles2_path_t * path, int argc, const char *argv[])
 
   ret = (path->data_dir && path->debug_dir);
 
+  if (!ret)
+    {
+      _mod_gles2_path_quit (path);
+    }
+
   return ret;
 }
 

@@ -31,6 +31,8 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
+#define _MOD_GLES2_REQUIRED_TEXTURE_SIZE 4096
+
 typedef struct _mod_gles2_path_s
 {
   char *data_dir;
@@ -38,10 +40,26 @@ typedef struct _mod_gles2_path_s
 }
 _mod_gles2_path_t;
 
+typedef struct _mod_gles2_caps_s
+{
+  GLint max_texture_size;
+  int bpp;
+}
+_mod_gles2_caps_t;
+
+typedef struct _mod_gles2_const_data_s
+{
+  float warp_x;
+  float warp_y;
+  float mode_sleep;
+  float quit_sleep;
+}
+_mod_gles2_const_data_t;
+
 typedef struct _mod_gles2_context_s
 {
   /*
-   * One of the major flaws of the initial opengl1 backend
+   * One of the major flaws of the initial opengles2 backend
    * is that it uses per-backend data storage, and each backend
    * tries to handle its data on-the-fly as it's called.
    * There's nothing wrong with that but it makes it really
@@ -56,10 +74,36 @@ typedef struct _mod_gles2_context_s
    * common shared stuff, which appear together within this
    * context structure.
    */
+  lw6gui_resize_callback_func_t resize_callback;
   lw6gui_video_mode_t video_mode;
+  lw6gui_zone_t viewport;
+  _mod_gles2_caps_t caps;
   _mod_gles2_path_t path;
+  _mod_gles2_const_data_t const_data;
+  lw6gui_input_t input;
 }
 _mod_gles2_context_t;
+
+/* mod-gles2-const.c */
+int _mod_gles2_load_consts (_mod_gles2_context_t * context);
+void _mod_gles2_unload_consts (_mod_gles2_context_t * context);
+
+/* mod-gles2-mode.c */
+extern int _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
+				      lw6gui_video_mode_t * video_mode);
+extern int _mod_gles2_resize_video_mode (_mod_gles2_context_t * gles2_context,
+					 lw6gui_video_mode_t * video_mode);
+extern int _mod_gles2_get_video_mode (_mod_gles2_context_t * gles2_context,
+				      lw6gui_video_mode_t * video_mode);
+extern int _mod_gles2_sync_viewport (_mod_gles2_context_t * gles2_context);
+extern int _mod_gles2_sync_mode (_mod_gles2_context_t * gles2_context,
+				 int force);
+extern int _mod_gles2_set_resize_callback (_mod_gles2_context_t *
+					   gles2_context,
+					   lw6gui_resize_callback_func_t
+					   resize_callback);
+extern void _mod_gles2_call_resize_callback (_mod_gles2_context_t *
+					     gles2_context);
 
 /* mod-gles2-path.c */
 extern int _mod_gles2_path_init (_mod_gles2_path_t *
@@ -67,8 +111,20 @@ extern int _mod_gles2_path_init (_mod_gles2_path_t *
 extern void _mod_gles2_path_quit (_mod_gles2_path_t * path);
 
 /* mod-gles2-repr.c */
-extern char *_mod_gles2_repr (_mod_gles2_context_t * gl_context,
+extern char *_mod_gles2_repr (_mod_gles2_context_t * gles2_context,
 			      u_int32_t id);
+
+/* mod-gles2-resolution.c */
+extern int _mod_gles2_get_fullscreen_modes (_mod_gles2_context_t *
+					    gles2_context,
+					    lw6gui_fullscreen_modes_t *
+					    modes);
+extern void _mod_gles2_find_closest_resolution (_mod_gles2_context_t *
+						gles2_context,
+						int *closest_width,
+						int *closest_height,
+						int wished_width,
+						int wished_height);
 
 /* mod-gles2-setup.c */
 extern _mod_gles2_context_t *_mod_gles2_init (int argc, const char *argv[],
@@ -76,6 +132,9 @@ extern _mod_gles2_context_t *_mod_gles2_init (int argc, const char *argv[],
 					      video_mode,
 					      lw6gui_resize_callback_func_t
 					      resize_callback);
-extern void _mod_gles2_quit (_mod_gles2_context_t * gl_context);
+extern void _mod_gles2_quit (_mod_gles2_context_t * gles2_context);
+
+/* mod-gles2-viewport.c */
+void _mod_gles2_viewport_drawable_max (_mod_gles2_context_t * gles2_context);
 
 #endif

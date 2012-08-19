@@ -82,9 +82,7 @@ _set_video_mode (void *gfx_context, lw6gui_video_mode_t * video_mode)
 
   if (mod_gles2_context)
     {
-      // todo ...
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("%s not implemented yet"),
-		  __FUNCTION__);
+      ret = _mod_gles2_set_video_mode (mod_gles2_context, video_mode);
     }
 
   return ret;
@@ -99,9 +97,7 @@ _get_video_mode (void *gfx_context, lw6gui_video_mode_t * video_mode)
 
   if (mod_gles2_context)
     {
-      // todo ...
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("%s not implemented yet"),
-		  __FUNCTION__);
+      ret = _mod_gles2_get_video_mode (mod_gles2_context, video_mode);
     }
 
   return ret;
@@ -116,9 +112,7 @@ _get_fullscreen_modes (void *gfx_context, lw6gui_fullscreen_modes_t * modes)
 
   if (mod_gles2_context)
     {
-      // todo ...
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("%s not implemented yet"),
-		  __FUNCTION__);
+      ret = _mod_gles2_get_fullscreen_modes (mod_gles2_context, modes);
     }
 
   return ret;

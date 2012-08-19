@@ -37,15 +37,16 @@ _mod_gles2_init (int argc, const char *argv[],
 		 lw6gui_video_mode_t * video_mode,
 		 lw6gui_resize_callback_func_t resize_callback)
 {
-  _mod_gles2_context_t *gl_context = NULL;
+  _mod_gles2_context_t *gles2_context = NULL;
   int sdl_ok = 1;
+  int ttf_ok = 1;
   SDL_version version;
 
-  gl_context =
+  gles2_context =
     (_mod_gles2_context_t *) LW6SYS_CALLOC (sizeof (_mod_gles2_context_t));
-  if (gl_context)
+  if (gles2_context)
     {
-      if (_mod_gles2_path_init (&(gl_context->path), argc, argv))
+      if (_mod_gles2_path_init (&(gles2_context->path), argc, argv))
 	{
 	  memset (&version, 0, sizeof (SDL_version));
 	  SDL_VERSION (&version);
@@ -78,32 +79,99 @@ _mod_gles2_init (int argc, const char *argv[],
 	    {
 	      lw6sys_log (LW6SYS_LOG_ERROR, _("SDL init error: \"%s\""),
 			  SDL_GetError ());
-	      _mod_gles2_quit (gl_context);
-	      gl_context = NULL;
+	      _mod_gles2_quit (gles2_context);
+	      gles2_context = NULL;
 	    }
 
-	  if (gl_context)
+	  if (gles2_context)
 	    {
-	      // todo
+	      /*
+	       * Icon must be set before video mode is set
+	       */
+	      //_mod_gles2_icon_set (gles2_context);
+	      SDL_EnableUNICODE (1);
+	    }
+
+	  if (gles2_context)
+	    {
+	      ttf_ok = (TTF_Init () != -1);
+	      if (ttf_ok)
+		{
+		  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL_ttf Init"));
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_ERROR,
+			      _("SDL_ttf init error: \"%s\""),
+			      TTF_GetError ());
+		  _mod_gles2_quit (gles2_context);
+		  gles2_context = NULL;
+		}
+	    }
+
+	  if (gles2_context)
+	    {
+	      if (gles2_context && sdl_ok && ttf_ok)
+		{
+		  lw6gui_input_init (&(gles2_context->input));
+		  //_mod_gles2_show_mouse (&(gles2_context->utils_context), 0, 1);
+		  _mod_gles2_set_resize_callback (gles2_context,
+						  resize_callback);
+		  if (_mod_gles2_load_consts (gles2_context))
+		    {
+		      if (_mod_gles2_set_video_mode
+			  (gles2_context, video_mode))
+			{
+			  // todo
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_ERROR,
+				      _("unable to set video mode"));
+			  _mod_gles2_quit (gles2_context);
+			  gles2_context = NULL;
+			}
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_ERROR,
+				  _("unable to load consts"));
+		      _mod_gles2_quit (gles2_context);
+		      gles2_context = NULL;
+		    }
+		}
 	    }
 	}
       else
 	{
-	  LW6SYS_FREE (gl_context);
-	  gl_context = NULL;
+	  LW6SYS_FREE (gles2_context);
+	  gles2_context = NULL;
 	}
     }
 
-  return gl_context;
+  return gles2_context;
 }
 
 /*
  * Ends-up all SDL stuff.
  */
 void
-_mod_gles2_quit (_mod_gles2_context_t * gl_context)
+_mod_gles2_quit (_mod_gles2_context_t * gles2_context)
 {
+  float quit_sleep = 0.0f;
+
+  /*
+   * Keep this value locally since it can disappear
+   * when freeing stuff.
+   */
+  quit_sleep = gles2_context->const_data.quit_sleep;
+
+  lw6gui_input_quit (&(gles2_context->input));
+
   // todo...
+
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL_ttf Quit"));
+  TTF_Quit ();
 
   SDL_QuitSubSystem (SDL_INIT_VIDEO);
 
@@ -113,7 +181,16 @@ _mod_gles2_quit (_mod_gles2_context_t * gl_context)
       SDL_Quit ();
     }
 
-  _mod_gles2_path_quit (&(gl_context->path));
+  _mod_gles2_path_quit (&(gles2_context->path));
 
-  LW6SYS_FREE (gl_context);
+  LW6SYS_FREE (gles2_context);
+
+  /*
+   * For some reason, I suspect some segfaults occur when
+   * "dlclosing" mod-gles2 just after SDL_Quit. Might be a handler
+   * or callback called afterwards, whatever. So I prefer
+   * "wasting" a little time when closing, one never knows,
+   * it might better things.
+   */
+  lw6sys_sleep (quit_sleep);
 }

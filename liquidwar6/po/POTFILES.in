@@ -174,9 +174,13 @@ src/lib/gfx/mod-gl1/mod-gl1-backend.c
 src/lib/gfx/mod-gl1/mod-gl1-repr.c
 src/lib/gfx/mod-gl1/mod-gl1-setup.c
 src/lib/gfx/mod-gles2/mod-gles2-backend.c
+src/lib/gfx/mod-gles2/mod-gles2-const.c
+src/lib/gfx/mod-gles2/mod-gles2-mode.c
 src/lib/gfx/mod-gles2/mod-gles2-path.c
 src/lib/gfx/mod-gles2/mod-gles2-repr.c
+src/lib/gfx/mod-gles2/mod-gles2-resolution.c
 src/lib/gfx/mod-gles2/mod-gles2-setup.c
+src/lib/gfx/mod-gles2/mod-gles2-viewport.c
 src/lib/glb/glb-base64.c
 src/lib/glb/glb-sha1.c
 src/lib/glb/glb-test.c

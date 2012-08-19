@@ -536,7 +536,7 @@ test_quit (lw6gfx_backend_t * backend)
 int
 lw6gfx_test (int mode)
 {
-  int ret = 0;
+  int ret = 1;
   lw6gfx_backend_t *backend = NULL;
   const int argc = TEST_ARGC;
   const char *argv[TEST_ARGC] = { TEST_ARGV0 };
@@ -566,12 +566,19 @@ lw6gfx_test (int mode)
       backend = lw6gfx_create_backend (argc, argv, "gl1");
       if (backend)
 	{
-	  ret = (test_init (backend) && test_resolution (backend)
-		 && test_splash (backend)
-		 && test_background (backend) && test_menu (backend)
-		 && test_view (backend)
-		 && test_hud (backend)
-		 && test_events (backend) && test_quit (backend)) || ret;
+	  if (ret && test_init (backend))
+	    {
+	      ret = test_resolution (backend)
+		&& test_splash (backend)
+		&& test_background (backend) && test_menu (backend)
+		&& test_view (backend)
+		&& test_hud (backend) && test_events (backend);
+	      ret = test_quit (backend) && ret;
+	    }
+	  else
+	    {
+	      ret = 0;
+	    }
 	  lw6gfx_destroy_backend (backend);
 	}
 #endif
@@ -579,12 +586,19 @@ lw6gfx_test (int mode)
       backend = lw6gfx_create_backend (argc, argv, "gles2");
       if (backend)
 	{
-	  ret = (test_init (backend) && test_resolution (backend)
-		 && test_splash (backend)
-		 && test_background (backend) && test_menu (backend)
-		 && test_view (backend)
-		 && test_hud (backend)
-		 && test_events (backend) && test_quit (backend)) || ret;
+	  if (ret && test_init (backend))
+	    {
+	      ret = test_resolution (backend)
+		&& test_splash (backend)
+		&& test_background (backend) && test_menu (backend)
+		&& test_view (backend)
+		&& test_hud (backend) && test_events (backend);
+	      ret = test_quit (backend) && ret;
+	    }
+	  else
+	    {
+	      ret = 0;
+	    }
 	  lw6gfx_destroy_backend (backend);
 	}
 #endif

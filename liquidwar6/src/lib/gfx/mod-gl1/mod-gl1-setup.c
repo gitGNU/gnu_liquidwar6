@@ -425,7 +425,7 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
 void
 _mod_gl1_quit (_mod_gl1_context_t * gl_context)
 {
-  float quit_sleep;
+  float quit_sleep = 0.0f;
 
   lw6gui_input_quit (&(gl_context->utils_context.input));
 
@@ -480,15 +480,6 @@ _mod_gl1_quit (_mod_gl1_context_t * gl_context)
       gl_context->utils_context.bitmap_hash = NULL;
     }
 
-  /*
-   * For some reason, I suspect some segfaults occur when
-   * "dlclosing" mod-gl1 just after SDL_Quit. Might be a handler
-   * or callback called afterwards, whatever. So I prefer
-   * "wasting" a little time when closing, one never knows,
-   * it might better things.
-   */
-  lw6sys_sleep (quit_sleep);
-
   if (gl_context->utils_context.surface_counter.new_counter !=
       gl_context->utils_context.surface_counter.delete_counter)
     {
@@ -510,4 +501,13 @@ _mod_gl1_quit (_mod_gl1_context_t * gl_context)
     }
 
   LW6SYS_FREE (gl_context);
+
+  /*
+   * For some reason, I suspect some segfaults occur when
+   * "dlclosing" mod-gl1 just after SDL_Quit. Might be a handler
+   * or callback called afterwards, whatever. So I prefer
+   * "wasting" a little time when closing, one never knows,
+   * it might better things.
+   */
+  lw6sys_sleep (quit_sleep);
 }

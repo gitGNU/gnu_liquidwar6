@@ -18,4 +18,9 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-SUBDIRS = gl1 gles2
+#SUBDIRS = images fonts icon
+
+pkgdata_DATA = README gles2-const.xml
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/gfx/gles2
+EXTRA_DIST = $(pkgdata_DATA)
+
