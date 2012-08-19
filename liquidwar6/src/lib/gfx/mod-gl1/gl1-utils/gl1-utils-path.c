@@ -28,8 +28,8 @@
 #include "gl1-utils.h"
 
 #define SUB "gfx/gl1"
-#define CAPTURE "capture"
-#define BITMAP "bitmap"
+#define CAPTURE "gl1-capture"
+#define BITMAP "gl1-bitmap"
 
 int
 mod_gl1_utils_path_init (mod_gl1_utils_context_t *

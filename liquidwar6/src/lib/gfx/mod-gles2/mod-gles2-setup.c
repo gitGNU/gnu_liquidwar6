@@ -38,12 +38,60 @@ _mod_gles2_init (int argc, const char *argv[],
 		 lw6gui_resize_callback_func_t resize_callback)
 {
   _mod_gles2_context_t *gl_context = NULL;
+  int sdl_ok = 1;
+  SDL_version version;
 
   gl_context =
     (_mod_gles2_context_t *) LW6SYS_CALLOC (sizeof (_mod_gles2_context_t));
   if (gl_context)
     {
-      // todo...
+      if (_mod_gles2_path_init (&(gl_context->path), argc, argv))
+	{
+	  memset (&version, 0, sizeof (SDL_version));
+	  SDL_VERSION (&version);
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_ ("SDL header version when compiled %u.%u.%u"),
+		      version.major, version.minor, version.patch);
+	  version = *SDL_Linked_Version ();
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_ ("SDL linked version now at runtime %u.%u.%u"),
+		      version.major, version.minor, version.patch);
+
+	  if (lw6sys_sdl_register ())
+	    {
+	      sdl_ok = !SDL_Init (SDL_INIT_EVENTTHREAD);
+	    }
+
+	  if (!SDL_WasInit (SDL_INIT_EVENTTHREAD))
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_
+			  ("unable to start SDL event thread, events treated in main thread with poll() functions"));
+	    }
+	  sdl_ok = sdl_ok && (SDL_WasInit (SDL_INIT_VIDEO)
+			      || !SDL_InitSubSystem (SDL_INIT_VIDEO));
+	  if (sdl_ok)
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL Init"));
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_ERROR, _("SDL init error: \"%s\""),
+			  SDL_GetError ());
+	      _mod_gles2_quit (gl_context);
+	      gl_context = NULL;
+	    }
+
+	  if (gl_context)
+	    {
+	      // todo
+	    }
+	}
+      else
+	{
+	  LW6SYS_FREE (gl_context);
+	  gl_context = NULL;
+	}
     }
 
   return gl_context;
@@ -56,6 +104,16 @@ void
 _mod_gles2_quit (_mod_gles2_context_t * gl_context)
 {
   // todo...
+
+  SDL_QuitSubSystem (SDL_INIT_VIDEO);
+
+  if (lw6sys_sdl_unregister ())
+    {
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL Quit"));
+      SDL_Quit ();
+    }
+
+  _mod_gles2_path_quit (&(gl_context->path));
 
   LW6SYS_FREE (gl_context);
 }

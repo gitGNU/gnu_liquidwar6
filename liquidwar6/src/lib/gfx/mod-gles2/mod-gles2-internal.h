@@ -24,11 +24,19 @@
 #define LIQUIDWAR6GFX_MOD_GLES2_INTERNAL_H
 
 #include "../gfx.h"
+#include "mod-gles2.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+
+typedef struct _mod_gles2_path_s
+{
+  char *data_dir;
+  char *debug_dir;
+}
+_mod_gles2_path_t;
 
 typedef struct _mod_gles2_context_s
 {
@@ -49,8 +57,14 @@ typedef struct _mod_gles2_context_s
    * context structure.
    */
   lw6gui_video_mode_t video_mode;
+  _mod_gles2_path_t path;
 }
 _mod_gles2_context_t;
+
+/* mod-gles2-path.c */
+extern int _mod_gles2_path_init (_mod_gles2_path_t *
+				 path, int argc, const char *argv[]);
+extern void _mod_gles2_path_quit (_mod_gles2_path_t * path);
 
 /* mod-gles2-repr.c */
 extern char *_mod_gles2_repr (_mod_gles2_context_t * gl_context,
