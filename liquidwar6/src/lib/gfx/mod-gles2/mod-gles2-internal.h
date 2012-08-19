@@ -25,6 +25,11 @@
 
 #include "../gfx.h"
 
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+
 typedef struct _mod_gles2_context_s
 {
   /*

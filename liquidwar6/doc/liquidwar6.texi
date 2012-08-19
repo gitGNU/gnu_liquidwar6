@@ -860,6 +860,7 @@ libpng12-0 libpng12-dev libjpeg8 libjpeg-dev \
 libsqlite3-0 libsqlite3-dev \
 libncurses5 libncurses5-dev libreadline6 libreadline6-dev \
 libgl1-mesa-glx libgl1-mesa-dri libgl1-mesa-dev libglu1-mesa libglu1-mesa-dev \
+libgles2-mesa libgles2-mesa-dev \
 libsdl1.2debian libsdl1.2-dev libsdl-image1.2 libsdl-image1.2-dev \
 libsdl-mixer1.2 libsdl-mixer1.2-dev \
 libfreetype6 libfreetype6-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev \
