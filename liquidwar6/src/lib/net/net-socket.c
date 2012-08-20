@@ -46,6 +46,20 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
       if (!setsockopt (sock, SOL_SOCKET, SO_REUSEADDR,
 		       (char *) &enable, sizeof (int)))
 	{
+	  /*
+	   * SO_NOSIGPIPE not defined on GNU/Linux, in that case
+	   * we use MSG_NOSIGNAL on send calls
+	   */
+#ifdef SO_NOSIGPIPE
+	  if (setsockopt (new_sock, SOL_SOCKET, SO_NOSIGPIPE,
+			  (char *) &enable, sizeof (int)))
+	    {
+	      lw6net_last_error ();
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("setsockopt(SO_NOSIGPIPE) failed"));
+	    }
+#endif // SO_NOSIGPIPE
+
 	  name.sin_family = AF_INET;
 	  name.sin_addr.s_addr = INADDR_ANY;
 	  if (_lw6net_inet_aton (&name.sin_addr, ip))

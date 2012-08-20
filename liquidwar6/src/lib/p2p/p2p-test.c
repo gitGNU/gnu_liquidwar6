@@ -170,7 +170,8 @@
 #define TEST_NODE_OOB_DURATION 9000
 #define TEST_NODE_CMD_DURATION (9000+_TEST_NODE_ACK_DELAY_MSEC)
 #define TEST_NODE_API_DURATION_JOIN 500
-#define TEST_NODE_API_DURATION_THREAD (60000+_TEST_NODE_ACK_DELAY_MSEC)
+// this is a maximum time, test should end before anyway
+#define TEST_NODE_API_DURATION_THREAD (180000+_TEST_NODE_ACK_DELAY_MSEC)
 #define TEST_NODE_API_DURATION_END 3000
 #define TEST_NODE_POLL_DURATION 100
 // 10 times bigger than _LW6PIL_MIN_SEQ_0
@@ -1095,6 +1096,7 @@ typedef struct _test_node_api_data_s
   lw6p2p_node_t *node;
   u_int64_t peer_id;
   char *dump;
+  int *done;
   int ret;
 } _test_node_api_data_t;
 
@@ -1108,7 +1110,7 @@ _test_node_api_node1_callback (void *api_data)
 
   data->ret = 1;
 
-  while (lw6sys_get_timestamp () < end_timestamp)
+  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
     {
       lw6p2p_node_poll (data->node);
       lw6sys_idle ();
@@ -1154,7 +1156,7 @@ _test_node_api_node2_callback (void *api_data)
       lw6p2p_node_poll (data->node);
       lw6sys_idle ();
     }
-  while (lw6sys_get_timestamp () < end_timestamp)
+  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
     {
       lw6p2p_node_poll (data->node);
       lw6sys_idle ();
@@ -1292,7 +1294,7 @@ _test_node_api_node3_callback (void *api_data)
   data->ret = 1;
 
   end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_THREAD;
-  while (lw6sys_get_timestamp () < end_timestamp)
+  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
     {
       lw6p2p_node_poll (data->node);
       lw6sys_idle ();
@@ -1336,7 +1338,7 @@ _test_node_api_node4_callback (void *api_data)
       lw6sys_log (LW6SYS_LOG_NOTICE,
 		  _x_ ("node4 before loop seq_max=%" LW6SYS_PRINTF_LL "d"),
 		  (long long) seq);
-      while (lw6sys_get_timestamp () < end_timestamp)
+      while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
 	{
 	  lw6p2p_node_poll (data->node);
 	  lw6sys_idle ();
@@ -1368,6 +1370,19 @@ _test_node_api_node4_callback (void *api_data)
 		}
 	      ++draft_received;
 	      LW6SYS_FREE (msg);
+	    }
+	  if (reference_received >= TEST_NODE_API_NODE4_REFERENCE_RECEIVED &&
+	      draft_received >= TEST_NODE_API_NODE4_DRAFT_RECEIVED)
+	    {
+	      /*
+	       * If there are enough messages, consider the test is done,
+	       * this does not necessarly means it succeeded, even if there
+	       * are good chances it did, but at least it avoids waiting
+	       * uselessly for a long time on fast machines.
+	       */
+	      lw6sys_log (LW6SYS_LOG_NOTICE,
+			  _x_ ("node4, marking test as done"));
+	      (*(data->done)) = 1;
 	    }
 	}
       seq = lw6p2p_node_get_seq_max (data->node);
@@ -1410,7 +1425,7 @@ _test_node_api_node5_callback (void *api_data)
 
   data->ret = 1;
 
-  while (lw6sys_get_timestamp () < end_timestamp)
+  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
     {
       lw6p2p_node_poll (data->node);
       lw6sys_idle ();
@@ -1427,7 +1442,7 @@ _test_node_api_node6_callback (void *api_data)
 
   data->ret = 1;
 
-  while (lw6sys_get_timestamp () < end_timestamp)
+  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
     {
       lw6p2p_node_poll (data->node);
       lw6sys_idle ();
@@ -1466,6 +1481,7 @@ _test_node_api ()
     _test_node_api_data_t api_data4 = { NULL, 0LL, NULL, 0 };
     _test_node_api_data_t api_data5 = { NULL, 0LL, NULL, 0 };
     _test_node_api_data_t api_data6 = { NULL, 0LL, NULL, 0 };
+    int done = 0;
 
     if (_init_nodes
 	(lw6cli_default_backends (),
@@ -1478,6 +1494,12 @@ _test_node_api ()
 	api_data4.node = node4;
 	api_data5.node = node5;
 	api_data6.node = node6;
+	api_data1.done = &done;
+	api_data2.done = &done;
+	api_data3.done = &done;
+	api_data4.done = &done;
+	api_data5.done = &done;
+	api_data6.done = &done;
 
 	api_data4.peer_id = lw6p2p_node_get_id (node2);
 
@@ -1607,31 +1629,20 @@ lw6p2p_test (int mode)
 
   if (lw6net_init (argc, argv, _TEST_NET_LOG))
     {
-      if (lw6sys_false ())
+      /*
+       * Replace the following to switch between two modes:
+       * - lw6sys_true() -> release mode, all tests enabled
+       * - lw6sys_false() -> dev mode, api is the most error-prone suite
+       */
+      if (lw6sys_true ())
 	{
-	  /*
-	   * speed-up test while debugging _test_node_api
-	   * by putting disabled tests here
-	   */
-	  ret = 1;
+	  ret = _test_db () && _test_entry () && _test_node_init ()
+	    && _test_node_oob () && _test_node_cmd () && _test_node_msg ()
+	    && _test_node_api ();
 	}
       else
 	{
-	  /*
-	   * Replace the following to switch between two modes:
-	   * - lw6sys_true() -> dev mode, api is the most error-prone suite
-	   * - lw6sys_false() -> release mode, all tests enabled
-	   */
-	  if (lw6sys_true ())
-	    {
-	      ret = _test_node_api ();
-	    }
-	  else
-	    {
-	      ret = _test_db () && _test_entry () && _test_node_init ()
-		&& _test_node_oob () && _test_node_cmd () && _test_node_msg ()
-		&& _test_node_api ();
-	    }
+	  ret = _test_node_api ();
 	}
 
       lw6net_quit (argc, argv);

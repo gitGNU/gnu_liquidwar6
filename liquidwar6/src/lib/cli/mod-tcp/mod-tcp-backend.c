@@ -175,7 +175,7 @@ mod_tcp_get_pedigree ()
     LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
   if (module_pedigree)
     {
-      module_pedigree->id = "tcp";
+      module_pedigree->id = MOD_TCP_BACKEND_ID;
       module_pedigree->category = "cli";
       module_pedigree->name = _("TCP");
       module_pedigree->readme =

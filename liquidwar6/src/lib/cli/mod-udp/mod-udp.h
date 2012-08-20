@@ -25,6 +25,8 @@
 
 #include "../cli.h"
 
+#define MOD_UDP_BACKEND_ID "udp"
+
 /* mod-udp-backend.c */
 extern lw6sys_module_pedigree_t *mod_udp_get_pedigree ();
 extern lw6cli_backend_t *mod_udp_create_backend ();

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-08-19 20:07+0200\n"
+"POT-Creation-Date: 2012-08-20 23:21+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -39,7 +39,7 @@ msgstr "Случайно"
 msgid "HTTP (Curl)"
 msgstr ""
 
-#: src/lib/cli/mod-http/mod-http-setup.c:75
+#: src/lib/cli/mod-http/mod-http-setup.c:81
 msgid "can't initialize mod_http"
 msgstr "ошибка инициализации mod_http"
 
@@ -47,7 +47,7 @@ msgstr "ошибка инициализации mod_http"
 msgid "TCP"
 msgstr ""
 
-#: src/lib/cli/mod-tcp/mod-tcp-setup.c:67
+#: src/lib/cli/mod-tcp/mod-tcp-setup.c:69
 msgid "can't initialize mod_tcp"
 msgstr "ошибка инициализации mod_tcp"
 
@@ -55,7 +55,7 @@ msgstr "ошибка инициализации mod_tcp"
 msgid "UDP"
 msgstr ""
 
-#: src/lib/cli/mod-udp/mod-udp-setup.c:66
+#: src/lib/cli/mod-udp/mod-udp-setup.c:68
 msgid "can't initialize mod_udp"
 msgstr "ошибка инициализации mod_udp"
 
@@ -589,7 +589,7 @@ msgstr ""
 msgid "HTTPD"
 msgstr ""
 
-#: src/lib/srv/mod-httpd/mod-httpd-setup.c:119
+#: src/lib/srv/mod-httpd/mod-httpd-setup.c:128
 msgid "can't initialize mod_httpd"
 msgstr "ошибка инициализации mod_httpd"
 
@@ -597,7 +597,7 @@ msgstr "ошибка инициализации mod_httpd"
 msgid "TCPD"
 msgstr ""
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:68
+#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:70
 msgid "can't initialize mod_tcpd"
 msgstr "ошибка инициализации mod_tcpd"
 
@@ -605,7 +605,7 @@ msgstr "ошибка инициализации mod_tcpd"
 msgid "UDPD"
 msgstr ""
 
-#: src/lib/srv/mod-udpd/mod-udpd-setup.c:68
+#: src/lib/srv/mod-udpd/mod-udpd-setup.c:70
 msgid "can't initialize mod_udpd"
 msgstr "ошибка инициализации mod_udpd"
 

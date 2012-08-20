@@ -515,8 +515,26 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 	}
     }
 
-  if (!ret)
+  if (ret)
     {
+      if (cnx->properties.backend_id)
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_
+		      ("successfully send on connexion with backend_id=\"%s\""),
+		      cnx->properties.backend_id);
+	}
+    }
+  else
+    {
+      if (cnx->properties.backend_id)
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_
+		      ("failed send on \"best\" connexion with backend_id=\"%s\" current ping=%d msec"),
+		      cnx->properties.backend_id, cnx->ping_msec);
+	}
+
       msg_dup = lw6sys_str_copy (msg);
       if (msg_dup)
 	{

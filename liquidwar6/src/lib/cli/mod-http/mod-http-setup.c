@@ -60,6 +60,7 @@ _mod_http_init (int argc, const char *argv[],
 	       * not the case of the server, but the client is OK
 	       */
 	      properties->reliable = 1;
+	      properties->backend_id = MOD_HTTP_BACKEND_ID;
 	      http_context->curl_init_ret = curl_global_init (_CURL_FLAGS);
 	      if (http_context->curl_init_ret == CURLE_OK)
 		{

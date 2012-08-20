@@ -175,7 +175,7 @@ mod_http_get_pedigree ()
     LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
   if (module_pedigree)
     {
-      module_pedigree->id = "http";
+      module_pedigree->id = MOD_HTTP_BACKEND_ID;
       module_pedigree->category = "cli";
       module_pedigree->name = _("HTTP (Curl)");
       module_pedigree->readme =

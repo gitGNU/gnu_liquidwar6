@@ -24,6 +24,7 @@
 #define LIQUIDWAR6CLI_HTTP_INTERNAL_H
 
 #include "../cli.h"
+#include "mod-http.h"
 
 #define CURL_NO_OLDIES 1
 #include <curl/curl.h>

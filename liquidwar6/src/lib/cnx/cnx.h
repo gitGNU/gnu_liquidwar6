@@ -73,6 +73,12 @@ typedef struct lw6cnx_properties_s
    * are OK.
    */
   int reliable;
+  /**
+   * The backend id, beware, this is a static string, must
+   * not be freed, and depends on backend library to be here,
+   * if this one is unloaded, will point to nowhere.
+   */
+  const char *backend_id;
 }
 lw6cnx_properties_t;
 

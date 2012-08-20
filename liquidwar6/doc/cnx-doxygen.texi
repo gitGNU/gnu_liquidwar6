@@ -276,6 +276,16 @@ Modifies the ping returned by terrain experience, this is a way to help some kin
 Wether this connexion is to be considered reliable or not. Well, in LW6, all connexions are unrealiable since LW6 will drop packets on purpose to simulate problems, but however, some are well-known to be unreliable (UDP...) while others are OK.         
 @end defcv
 
+@defcv {Member} {lw6cnx_properties_s} {backend_id}
+@strong{Type:} @code{const char *}
+
+@strong{Definition:} @code{const char* lw6cnx_properties_s::backend_id}
+
+
+        
+The backend id, beware, this is a static string, must not be freed, and depends on backend library to be here, if this one is unloaded, will point to nowhere.         
+@end defcv
+
 
 
   

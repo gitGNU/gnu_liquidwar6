@@ -175,7 +175,7 @@ mod_udp_get_pedigree ()
     LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
   if (module_pedigree)
     {
-      module_pedigree->id = "udp";
+      module_pedigree->id = MOD_UDP_BACKEND_ID;
       module_pedigree->category = "cli";
       module_pedigree->name = _("UDP");
       module_pedigree->readme =

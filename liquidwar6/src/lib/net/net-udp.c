@@ -63,6 +63,19 @@ lw6net_udp_client ()
 		      _x_ ("setsockopt(SO_BROADCAST) failed"));
 	  lw6net_last_error ();
 	}
+      /*
+       * SO_NOSIGPIPE not defined on GNU/Linux, in that case
+       * we use MSG_NOSIGNAL on send calls
+       */
+#ifdef SO_NOSIGPIPE
+      if (setsockopt (new_sock, SOL_SOCKET, SO_NOSIGPIPE,
+		      (char *) &enable, sizeof (int)))
+	{
+	  lw6net_last_error ();
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("setsockopt(SO_NOSIGPIPE) failed"));
+	}
+#endif // SO_NOSIGPIPE
 
       if (lw6net_socket_set_blocking_mode (sock, 0))
 	{

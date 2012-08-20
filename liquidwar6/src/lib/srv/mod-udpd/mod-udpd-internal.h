@@ -24,6 +24,7 @@
 #define LIQUIDWAR6SRV_UDPD_INTERNAL_H
 
 #include "../srv.h"
+#include "mod-udpd.h"
 
 typedef struct _udpd_consts_s
 {

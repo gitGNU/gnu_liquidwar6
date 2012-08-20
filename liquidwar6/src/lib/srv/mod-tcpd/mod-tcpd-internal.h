@@ -24,6 +24,7 @@
 #define LIQUIDWAR6SRV_TCPD_INTERNAL_H
 
 #include "../srv.h"
+#include "mod-tcpd.h"
 
 #define _MOD_TCPD_PROTOCOL_LW6_STRING "LW6"
 #define _MOD_TCPD_PROTOCOL_LW6_SIZE 3

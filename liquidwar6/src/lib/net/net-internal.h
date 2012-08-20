@@ -30,7 +30,7 @@
 #include <winsock.h>
 typedef u_int32_t in_addr_t;
 typedef int socklen_t;
-#else
+#else // LW6_MS_WINDOWS
 #include <sys/types.h>
 #include <sys/signal.h>
 #include <netinet/in.h>
@@ -38,7 +38,7 @@ typedef int socklen_t;
 #include <sys/socket.h>
 #include <netdb.h>
 #include <ifaddrs.h>
-#endif
+#endif // LW6_MS_WINDOWS
 
 #define _LW6NET_IP_SIZE 20	// only 15 required but...
 

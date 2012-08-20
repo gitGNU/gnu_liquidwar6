@@ -24,6 +24,7 @@
 #define LIQUIDWAR6CLI_TCP_INTERNAL_H
 
 #include "../cli.h"
+#include "mod-tcp.h"
 
 typedef struct _mod_tcp_consts_s
 {

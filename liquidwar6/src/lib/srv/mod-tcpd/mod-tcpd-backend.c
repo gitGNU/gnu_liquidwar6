@@ -226,7 +226,7 @@ mod_tcpd_get_pedigree ()
     LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
   if (module_pedigree)
     {
-      module_pedigree->id = "tcpd";
+      module_pedigree->id = MOD_TCPD_BACKEND_ID;
       module_pedigree->category = "srv";
       module_pedigree->name = _("TCPD");
       module_pedigree->readme =

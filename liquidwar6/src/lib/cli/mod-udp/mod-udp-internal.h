@@ -24,6 +24,7 @@
 #define LIQUIDWAR6CLI_UDP_INTERNAL_H
 
 #include "../cli.h"
+#include "mod-udp.h"
 
 typedef struct _udp_consts_s
 {

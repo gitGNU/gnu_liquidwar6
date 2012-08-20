@@ -25,6 +25,8 @@
 
 #include "../cli.h"
 
+#define MOD_TCP_BACKEND_ID "tcp"
+
 /* mod-tcp-backend.c */
 extern lw6sys_module_pedigree_t *mod_tcp_get_pedigree ();
 extern lw6cli_backend_t *mod_tcp_create_backend ();

@@ -228,7 +228,7 @@ mod_httpd_get_pedigree ()
     LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
   if (module_pedigree)
     {
-      module_pedigree->id = "httpd";
+      module_pedigree->id = MOD_HTTPD_BACKEND_ID;
       module_pedigree->category = "srv";
       module_pedigree->name = _("HTTPD");
       module_pedigree->readme =

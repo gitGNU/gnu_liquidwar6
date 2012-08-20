@@ -81,6 +81,16 @@ lw6net_init (int argc, const char *argv[], int net_log)
        * just trap it and do nothing. Normally, the socket functions
        * should return an error anyway...
        */
+      /* 
+       * Update: actually, using SO_NOSIGPIPE on socket creation
+       * and/or MSG_NOSIGNAL on send/recv operations does seem
+       * to work much (much) better, as this signal handling is
+       * more or less (at least, this is what real-life examples
+       * with LW6 code base show) limited to the main thread.
+       * Still, we leave the signal trap here, it's anyway important
+       * to remember that *THIS SIGPIPE SIGNAL MUST NEVER BE RAISED*
+       * else LW6 will have bogus behaviors. Period.
+       */
       if (signal (SIGPIPE, SIG_IGN) != SIG_ERR)
 	{
 	  ok = 1;

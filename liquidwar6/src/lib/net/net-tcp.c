@@ -136,6 +136,19 @@ lw6net_tcp_accept (char **incoming_ip,
 		  lw6sys_log (LW6SYS_LOG_WARNING,
 			      _x_ ("setsockopt(SO_KEEPALIVE) failed"));
 		}
+	      /*
+	       * SO_NOSIGPIPE not defined on GNU/Linux, in that case
+	       * we use MSG_NOSIGNAL on send calls
+	       */
+#ifdef SO_NOSIGPIPE
+	      if (setsockopt (new_sock, SOL_SOCKET, SO_NOSIGPIPE,
+			      (char *) &enable, sizeof (int)))
+		{
+		  lw6net_last_error ();
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("setsockopt(SO_NOSIGPIPE) failed"));
+		}
+#endif // SO_NOSIGPIPE
 	      if (setsockopt (new_sock, SOL_SOCKET, SO_OOBINLINE,
 			      (char *) &disable, sizeof (int)))
 		{
@@ -236,11 +249,9 @@ lw6net_tcp_connect (const char *ip, int port, int delay_msec)
   int connected = 0;
   int refused = 0;
   struct sockaddr_in name;
-  /*
-     int enable = 1;
-     int disable = 0;
-     struct linger li; 
-   */
+#ifdef SO_NOSIGPIPE
+  int enable = 1;
+#endif // SO_NOSIGPIPE
   fd_set write;
   struct timeval tv;
   int64_t origin = 0;
@@ -379,6 +390,25 @@ lw6net_tcp_connect (const char *ip, int port, int delay_msec)
 					      (sock, &getpeername_address,
 					       &getpeername_address_len))
 					    {
+					      /*
+					       * SO_NOSIGPIPE not defined on GNU/Linux, in that case
+					       * we use MSG_NOSIGNAL on send calls
+					       */
+#ifdef SO_NOSIGPIPE
+					      if (setsockopt
+						  (new_sock, SOL_SOCKET,
+						   SO_NOSIGPIPE,
+						   (char *) &enable,
+						   sizeof (int)))
+						{
+						  lw6net_last_error ();
+						  lw6sys_log
+						    (LW6SYS_LOG_WARNING,
+						     _x_
+						     ("setsockopt(SO_NOSIGPIPE) failed"));
+						}
+#endif // SO_NOSIGPIPE
+
 					      connected = 1;
 					    }
 					  else
@@ -477,6 +507,19 @@ lw6net_tcp_send (int sock, const char *buf, int len, int delay_msec, int loop)
   int total_sent = 0;
   int sent = 0;
   int chunk_size;
+#ifdef MSG_NOSIGNAL
+  /*
+   * Defining MSG_NOSIGNAL is important because in a heavy
+   * multithreaded context, this signal is harder to handle
+   * than a proper "send failed with -1", and threads do
+   * tend to generate this signal. We also use SO_NOSIGPIPE
+   * on socket creation but some platforms, including GNU/Linux,
+   * do not support it.
+   */
+  int flags = MSG_NOSIGNAL;
+#else
+  int flags = 0;
+#endif
 #ifdef LW6_MS_WINDOWS
   int winerr = 0;
 #endif
@@ -521,7 +564,8 @@ lw6net_tcp_send (int sock, const char *buf, int len, int delay_msec, int loop)
 		{
 		  sent = send (sock,
 			       buf + total_sent,
-			       lw6sys_imin (len - total_sent, chunk_size), 0);
+			       lw6sys_imin (len - total_sent, chunk_size),
+			       flags);
 		  if (sent > 0 && sent <= len - total_sent)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -594,6 +638,19 @@ lw6net_tcp_peek (int sock, char *buf, int len, int delay_msec)
   int select_ret;
   char *buf2;
   int available = 0;
+#ifdef MSG_NOSIGNAL
+  /*
+   * Defining MSG_NOSIGNAL is important because in a heavy
+   * multithreaded context, this signal is harder to handle
+   * than a proper "send failed with -1", and threads do
+   * tend to generate this signal. We also use SO_NOSIGPIPE
+   * on socket creation but some platforms, including GNU/Linux,
+   * do not support it.
+   */
+  int flags = MSG_PEEK | MSG_NOSIGNAL;
+#else
+  int flags = MSG_PEEK;
+#endif
 
   if (sock >= 0)
     {
@@ -617,7 +674,7 @@ lw6net_tcp_peek (int sock, char *buf, int len, int delay_msec)
 	    {
 	      if (FD_ISSET (sock, &read))
 		{
-		  available = recv (sock, buf2, len, MSG_PEEK);
+		  available = recv (sock, buf2, len, flags);
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
 			      _x_ ("%d bytes available on TCP socket %d"),
 			      available, sock);
@@ -663,6 +720,19 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
   int total_received = 0;
   int received;
   int chunk_size;
+#ifdef MSG_NOSIGNAL
+  /*
+   * Defining MSG_NOSIGNAL is important because in a heavy
+   * multithreaded context, this signal is harder to handle
+   * than a proper "send failed with -1", and threads do
+   * tend to generate this signal. We also use SO_NOSIGPIPE
+   * on socket creation but some platforms, including GNU/Linux,
+   * do not support it.
+   */
+  int flags = MSG_NOSIGNAL;
+#else
+  int flags = 0;
+#endif
 
   if (lw6net_socket_is_valid (sock))
     {
@@ -697,7 +767,7 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
 		  received = recv (sock,
 				   buf + total_received,
 				   lw6sys_imin (len - total_received,
-						chunk_size), 0);
+						chunk_size), flags);
 		  if (received > 0 && received <= len - total_received)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,

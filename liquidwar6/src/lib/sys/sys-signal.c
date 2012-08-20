@@ -50,19 +50,19 @@ lw6sys_signal_custom (int trap_errors)
     {
       signal (SIGTERM, SIG_IGN);
     }
-#endif
+#endif //SIGTERM
 #ifdef SIGINT
   if (signal (SIGINT, lw6sys_signal_int_handler) == SIG_IGN)
     {
       signal (SIGINT, SIG_IGN);
     }
-#endif
+#endif //SIGINT
 #ifdef SIGHUP
   if (signal (SIGHUP, lw6sys_signal_hup_handler) == SIG_IGN)
     {
       signal (SIGHUP, SIG_IGN);
     }
-#endif
+#endif // SIGHUP
   if (trap_errors)
     {
 #ifdef SIGSEGV
@@ -70,14 +70,14 @@ lw6sys_signal_custom (int trap_errors)
 	{
 	  signal (SIGSEGV, SIG_IGN);
 	}
-#endif
+#endif // SIGSEGV
 #ifdef SIGFPE
       if (signal (SIGFPE, lw6sys_signal_fpe_handler) == SIG_IGN)
 	{
 	  signal (SIGFPE, SIG_IGN);
 	}
+#endif // SIGFPE
     }
-#endif
 }
 
 /**
@@ -98,31 +98,31 @@ lw6sys_signal_default ()
     {
       signal (SIGTERM, SIG_IGN);
     }
-#endif
+#endif // SIGTERM
 #ifdef SIGINT
   if (signal (SIGINT, SIG_DFL) == SIG_IGN)
     {
       signal (SIGINT, SIG_IGN);
     }
-#endif
+#endif // SIGINT
 #ifdef SIGHUP
   if (signal (SIGHUP, SIG_DFL) == SIG_IGN)
     {
       signal (SIGHUP, SIG_IGN);
     }
-#endif
+#endif // SIGHUP
 #ifdef SIGSEGV
   if (signal (SIGSEGV, SIG_DFL) == SIG_IGN)
     {
       signal (SIGSEGV, SIG_IGN);
     }
-#endif
+#endif // SIGSEGV
 #ifdef SIGFPE
   if (signal (SIGFPE, SIG_DFL) == SIG_IGN)
     {
       signal (SIGFPE, SIG_IGN);
     }
-#endif
+#endif // SIGFPE
 }
 
 /**

@@ -25,6 +25,8 @@
 
 #include "../srv.h"
 
+#define MOD_HTTPD_BACKEND_ID "httpd"
+
 extern lw6sys_module_pedigree_t *mod_httpd_get_pedigree ();
 extern lw6srv_backend_t *mod_httpd_create_backend ();
 extern void mod_http_is_GPL_compatible ();

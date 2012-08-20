@@ -227,7 +227,7 @@ mod_udpd_get_pedigree ()
     LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
   if (module_pedigree)
     {
-      module_pedigree->id = "udpd";
+      module_pedigree->id = MOD_UDPD_BACKEND_ID;
       module_pedigree->category = "srv";
       module_pedigree->name = _("UDPD");
       module_pedigree->readme =

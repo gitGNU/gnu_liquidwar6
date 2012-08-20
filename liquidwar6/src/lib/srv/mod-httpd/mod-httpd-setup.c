@@ -66,6 +66,7 @@ _mod_httpd_init (int argc, const char *argv[],
 	       * something else.
 	       */
 	      properties->reliable = 0;
+	      properties->backend_id = MOD_HTTPD_BACKEND_ID;
 	      user_dir = lw6sys_get_user_dir (argc, argv);
 	      if (user_dir)
 		{

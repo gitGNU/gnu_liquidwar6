@@ -53,6 +53,7 @@ _mod_udpd_init (int argc, const char *argv[],
 	      properties->ping_alter_percent =
 		udpd_context->data.consts.ping_alter_percent;
 	      properties->reliable = 0;
+	      properties->backend_id = MOD_UDPD_BACKEND_ID;
 	      ok = 1;
 	    }
 	  LW6SYS_FREE (data_dir);

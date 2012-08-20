@@ -24,6 +24,7 @@
 #define LIQUIDWAR6SRV_HTTPD_INTERNAL_H
 
 #include "../srv.h"
+#include "mod-httpd.h"
 
 #define _MOD_HTTPD_PROTOCOL_UNDERSTANDABLE_SIZE 8
 #define _MOD_HTTPD_PROTOCOL_GET_STRING "GET"

@@ -25,6 +25,8 @@
 
 #include "../cli.h"
 
+#define MOD_HTTP_BACKEND_ID "http"
+
 /* mod-http-backend.c */
 extern lw6sys_module_pedigree_t *mod_http_get_pedigree ();
 extern lw6cli_backend_t *mod_http_create_backend ();

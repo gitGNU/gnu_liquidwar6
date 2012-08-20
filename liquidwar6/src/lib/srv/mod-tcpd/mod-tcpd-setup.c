@@ -53,6 +53,7 @@ _mod_tcpd_init (int argc, const char *argv[],
 	      properties->ping_alter_percent =
 		tcpd_context->data.consts.ping_alter_percent;
 	      properties->reliable = 1;
+	      properties->backend_id = MOD_TCPD_BACKEND_ID;
 	      ok = 1;
 	    }
 	  LW6SYS_FREE (data_dir);

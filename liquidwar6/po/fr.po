@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-08-19 20:07+0200\n"
+"POT-Creation-Date: 2012-08-20 23:21+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -37,7 +37,7 @@ msgstr "Aléatoire"
 msgid "HTTP (Curl)"
 msgstr "HTTP (Curl)"
 
-#: src/lib/cli/mod-http/mod-http-setup.c:75
+#: src/lib/cli/mod-http/mod-http-setup.c:81
 msgid "can't initialize mod_http"
 msgstr "impossible d'initialiser mod_http"
 
@@ -45,7 +45,7 @@ msgstr "impossible d'initialiser mod_http"
 msgid "TCP"
 msgstr "TCP"
 
-#: src/lib/cli/mod-tcp/mod-tcp-setup.c:67
+#: src/lib/cli/mod-tcp/mod-tcp-setup.c:69
 msgid "can't initialize mod_tcp"
 msgstr "impossible d'initialiser mod_tcp"
 
@@ -53,7 +53,7 @@ msgstr "impossible d'initialiser mod_tcp"
 msgid "UDP"
 msgstr "UDP"
 
-#: src/lib/cli/mod-udp/mod-udp-setup.c:66
+#: src/lib/cli/mod-udp/mod-udp-setup.c:68
 msgid "can't initialize mod_udp"
 msgstr "impossible d'initialiser mod_udp"
 
@@ -606,7 +606,7 @@ msgstr "Ogg Vorbis"
 msgid "HTTPD"
 msgstr "HTTPD"
 
-#: src/lib/srv/mod-httpd/mod-httpd-setup.c:119
+#: src/lib/srv/mod-httpd/mod-httpd-setup.c:128
 msgid "can't initialize mod_httpd"
 msgstr "impossible d'initialiser mod_httpd"
 
@@ -614,7 +614,7 @@ msgstr "impossible d'initialiser mod_httpd"
 msgid "TCPD"
 msgstr "TCPD"
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:68
+#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:70
 msgid "can't initialize mod_tcpd"
 msgstr "impossible d'initialiser mod_tcpd"
 
@@ -622,7 +622,7 @@ msgstr "impossible d'initialiser mod_tcpd"
 msgid "UDPD"
 msgstr "UDPD"
 
-#: src/lib/srv/mod-udpd/mod-udpd-setup.c:68
+#: src/lib/srv/mod-udpd/mod-udpd-setup.c:70
 msgid "can't initialize mod_udpd"
 msgstr "impossible d'initialiser mod_udpd"
 
