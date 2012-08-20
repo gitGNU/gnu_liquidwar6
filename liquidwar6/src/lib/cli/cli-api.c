@@ -265,6 +265,9 @@ lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
 	  /*
 	   * Yes, we return true, the idea is to pretend success
 	   * but in fact real send failed.
+	   * It's also important not to report 0 to really fool the
+	   * caller and also to avoid flagging a connection as bad
+	   * when it's, in fact, working.
 	   */
 	  ret = 1;
 	}

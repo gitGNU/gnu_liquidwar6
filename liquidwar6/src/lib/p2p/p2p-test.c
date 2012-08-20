@@ -167,28 +167,31 @@
 #define _TEST_BOGUS_BACKEND "bogus"
 
 #define _TEST_NODE_ACK_DELAY_MSEC 7500
-#define TEST_NODE_OOB_DURATION 9000
-#define TEST_NODE_CMD_DURATION (9000+_TEST_NODE_ACK_DELAY_MSEC)
-#define TEST_NODE_API_DURATION_JOIN 500
+#define _TEST_NODE_OOB_DURATION 9000
+#define _TEST_NODE_CMD_DURATION (9000+_TEST_NODE_ACK_DELAY_MSEC)
+#define _TEST_NODE_API_DURATION_JOIN 500
 // this is a maximum time, test should end before anyway
-#define TEST_NODE_API_DURATION_THREAD (180000+_TEST_NODE_ACK_DELAY_MSEC)
-#define TEST_NODE_API_DURATION_END 3000
-#define TEST_NODE_POLL_DURATION 100
+#define _TEST_NODE_API_DURATION_THREAD (180000+_TEST_NODE_ACK_DELAY_MSEC)
+#define _TEST_NODE_API_DURATION_END 3000
+#define _TEST_NODE_POLL_DURATION 100
 // 10 times bigger than _LW6PIL_MIN_SEQ_0
-#define TEST_NODE_API_SEQ_0 100000000000LL
-#define TEST_NODE_API_DUMP_SIZE 1000000
-#define TEST_NODE_API_MSG1_STR "message number one"
-#define TEST_NODE_API_MSG2_STR "2"
-#define TEST_NODE_API_MSG3_STR "3 fire!"
-#define TEST_NODE_API_FINAL_SIZE 10000
-#define TEST_NODE_API_NODE4_REFERENCE_RECEIVED 0
-#define TEST_NODE_API_NODE4_DRAFT_RECEIVED 5
-#define TEST_API_NODE_LEN_LIMIT 100
-#define TEST_NODE_MSG_SEQ_0 100000000000LL
-#define TEST_NODE_MSG_NB_SEQS 97
-// TEST_NODE_MSG_NB_PER_SEQ must *not* be 10 or 100 or 1000
-#define TEST_NODE_MSG_NB_PER_SEQ 7
-#define TEST_NODE_MSG_RANDOM_STR_SIZE 10000
+#define _TEST_NODE_API_SEQ_0 100000000000LL
+#define _TEST_NODE_API_DUMP_SIZE 1000000
+#define _TEST_NODE_API_MSG1_STR "message number one"
+#define _TEST_NODE_API_MSG2_STR "2"
+#define _TEST_NODE_API_MSG3_STR "3 fire!"
+#define _TEST_NODE_API_MSGN_STR "All work and no play makes Jack a dull boy"
+#define _TEST_API_MSGN_DELAY_MSEC 2000
+#define _TEST_NODE_API_FINAL_SIZE 10000
+#define _TEST_NODE_API_NODE4_REFERENCE_RECEIVED 0
+#define _TEST_NODE_API_NODE4_LONG_DRAFT_RECEIVED 2
+#define _TEST_NODE_API_NODE4_SHORT_DRAFT_RECEIVED 3
+#define _TEST_API_NODE_LEN_LIMIT 100
+#define _TEST_NODE_MSG_SEQ_0 100000000000LL
+#define _TEST_NODE_MSG_NB_SEQS 97
+// _TEST_NODE_MSG_NB_PER_SEQ must *not* be 10 or 100 or 1000
+#define _TEST_NODE_MSG_NB_PER_SEQ 7
+#define _TEST_NODE_MSG_RANDOM_STR_SIZE 10000
 
 /* 
  * Testing db
@@ -723,7 +726,7 @@ _poll_nodes (lw6p2p_node_t * node1, lw6p2p_node_t * node2,
 {
   int64_t next_timestamp = 00L;
 
-  next_timestamp = lw6sys_get_timestamp () + TEST_NODE_POLL_DURATION;
+  next_timestamp = lw6sys_get_timestamp () + _TEST_NODE_POLL_DURATION;
   while (lw6sys_get_timestamp () < next_timestamp)
     {
       if (node1)
@@ -794,7 +797,7 @@ _cmd_with_backends (char *cli_backends, char *srv_backends)
 	      cli_backends, srv_backends);
 
   ret = 0;
-  end_timestamp = lw6sys_get_timestamp () + TEST_NODE_CMD_DURATION;
+  end_timestamp = lw6sys_get_timestamp () + _TEST_NODE_CMD_DURATION;
   if (_init_nodes
       (cli_backends, srv_backends, &db12, &db34, &db56, &node1, &node2,
        &node3, &node4, &node5, &node6))
@@ -901,7 +904,7 @@ _oob_with_backends (char *cli_backends, char *srv_backends)
 	      cli_backends, srv_backends);
 
   ret = 0;
-  end_timestamp = lw6sys_get_timestamp () + TEST_NODE_OOB_DURATION;
+  end_timestamp = lw6sys_get_timestamp () + _TEST_NODE_OOB_DURATION;
   if (_init_nodes
       (cli_backends, srv_backends, &db12, &db34, &db56, &node1, &node2,
        &node3, &node4, &node5, &node6))
@@ -962,9 +965,9 @@ _test_node_msg ()
     int64_t seq;
     char *random_str;
     u_int32_t checksum;
-    u_int32_t checksums[TEST_NODE_MSG_NB_SEQS * TEST_NODE_MSG_NB_PER_SEQ];
+    u_int32_t checksums[_TEST_NODE_MSG_NB_SEQS * _TEST_NODE_MSG_NB_PER_SEQ];
     char *msg;
-    char *msgs[TEST_NODE_MSG_NB_SEQS * TEST_NODE_MSG_NB_PER_SEQ];
+    char *msgs[_TEST_NODE_MSG_NB_SEQS * _TEST_NODE_MSG_NB_PER_SEQ];
     int found;
 
     memset (checksums, 0, sizeof (checksums));
@@ -984,18 +987,18 @@ _test_node_msg ()
 	if (node)
 	  {
 	    node_id = lw6p2p_node_get_id (node);
-	    seq = TEST_NODE_MSG_SEQ_0;
+	    seq = _TEST_NODE_MSG_SEQ_0;
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("step 1, seq_max=%" LW6SYS_PRINTF_LL "d"),
 			(long long) seq);
-	    for (i = 0, k = 0; i < TEST_NODE_MSG_NB_SEQS; ++i)
+	    for (i = 0, k = 0; i < _TEST_NODE_MSG_NB_SEQS; ++i)
 	      {
 		seq++;		// fake we're going next round...
-		for (j = 0; j < TEST_NODE_MSG_NB_PER_SEQ; ++j, ++k)
+		for (j = 0; j < _TEST_NODE_MSG_NB_PER_SEQ; ++j, ++k)
 		  {
 		    random_str =
 		      lw6sys_str_random_words (lw6sys_random
-					       (TEST_NODE_MSG_RANDOM_STR_SIZE)
+					       (_TEST_NODE_MSG_RANDOM_STR_SIZE)
 					       + 1);
 		    if (random_str)
 		      {
@@ -1030,7 +1033,7 @@ _test_node_msg ()
 		 */
 		found = 0;
 		for (i = 0;
-		     i < TEST_NODE_MSG_NB_SEQS * TEST_NODE_MSG_NB_PER_SEQ;
+		     i < _TEST_NODE_MSG_NB_SEQS * _TEST_NODE_MSG_NB_PER_SEQ;
 		     ++i)
 		  {
 		    if (checksum == checksums[i]
@@ -1050,7 +1053,7 @@ _test_node_msg ()
 		LW6SYS_FREE (msg);
 		++k;
 	      }
-	    if (k == TEST_NODE_MSG_NB_SEQS * TEST_NODE_MSG_NB_PER_SEQ)
+	    if (k == _TEST_NODE_MSG_NB_SEQS * _TEST_NODE_MSG_NB_PER_SEQ)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got %d draft messages"),
 			    k);
@@ -1059,11 +1062,12 @@ _test_node_msg ()
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
 			    _x_ ("only got %d draft messages, needed %d"), k,
-			    TEST_NODE_MSG_NB_SEQS * TEST_NODE_MSG_NB_PER_SEQ);
+			    _TEST_NODE_MSG_NB_SEQS *
+			    _TEST_NODE_MSG_NB_PER_SEQ);
 		ret = 0;
 	      }
-	    for (k = 0; k < TEST_NODE_MSG_NB_SEQS * TEST_NODE_MSG_NB_PER_SEQ;
-		 ++k)
+	    for (k = 0;
+		 k < _TEST_NODE_MSG_NB_SEQS * _TEST_NODE_MSG_NB_PER_SEQ; ++k)
 	      {
 		if (msgs[k])
 		  {
@@ -1106,7 +1110,7 @@ _test_node_api_node1_callback (void *api_data)
   _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
   int64_t end_timestamp = 0LL;
 
-  end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_THREAD;
+  end_timestamp = lw6sys_get_timestamp () + _TEST_NODE_API_DURATION_THREAD;
 
   data->ret = 1;
 
@@ -1129,14 +1133,16 @@ _test_node_api_node2_callback (void *api_data)
   char *msg = NULL;
   char *tmp = NULL;
   int len = 0;
+  int dump_sent = 0;
+  int64_t next_msgn_timestamp = 0LL;
 
   begin_timestamp = lw6sys_get_timestamp () + _TEST_NODE_ACK_DELAY_MSEC;
-  end_timestamp = begin_timestamp + TEST_NODE_API_DURATION_THREAD;
+  end_timestamp = begin_timestamp + _TEST_NODE_API_DURATION_THREAD;
 
   /*
    * This node acts as a server.
    */
-  data->ret = lw6p2p_node_server_start (data->node, TEST_NODE_API_SEQ_0);
+  data->ret = lw6p2p_node_server_start (data->node, _TEST_NODE_API_SEQ_0);
   if (data->ret)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("\"%s\" is ready"),
@@ -1162,7 +1168,7 @@ _test_node_api_node2_callback (void *api_data)
       lw6sys_idle ();
       if (lw6p2p_node_is_dump_needed (data->node))
 	{
-	  dump = lw6sys_str_random_words (TEST_NODE_API_DUMP_SIZE);
+	  dump = lw6sys_str_random_words (_TEST_NODE_API_DUMP_SIZE);
 	  if (dump)
 	    {
 	      msg =
@@ -1175,7 +1181,7 @@ _test_node_api_node2_callback (void *api_data)
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node2 sent dump draft message len=%d"),
 			      len);
-		  if (len < TEST_API_NODE_LEN_LIMIT)
+		  if (len < _TEST_API_NODE_LEN_LIMIT)
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 dump draft message is \"%s\""),
@@ -1188,13 +1194,13 @@ _test_node_api_node2_callback (void *api_data)
 		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
 				    LW6SYS_PRINTF_LL "x %s", (long long) seq,
 				    (long long) node_id,
-				    TEST_NODE_API_MSG1_STR);
+				    _TEST_NODE_API_MSG1_STR);
 	      if (msg)
 		{
 		  len = strlen (msg);
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node2 sent draft message len=%d"), len);
-		  if (len < TEST_API_NODE_LEN_LIMIT)
+		  if (len < _TEST_API_NODE_LEN_LIMIT)
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 draft message is \"%s\""), msg);
@@ -1207,13 +1213,13 @@ _test_node_api_node2_callback (void *api_data)
 		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
 				    LW6SYS_PRINTF_LL "x %s", (long long) seq,
 				    (long long) node_id,
-				    TEST_NODE_API_MSG2_STR);
+				    _TEST_NODE_API_MSG2_STR);
 	      if (msg)
 		{
 		  len = strlen (msg);
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node2 sent draft message len=%d"), len);
-		  if (len < TEST_API_NODE_LEN_LIMIT)
+		  if (len < _TEST_API_NODE_LEN_LIMIT)
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 draft message is \"%s\""), msg);
@@ -1225,13 +1231,13 @@ _test_node_api_node2_callback (void *api_data)
 		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
 				    LW6SYS_PRINTF_LL "x %s", (long long) seq,
 				    (long long) node_id,
-				    TEST_NODE_API_MSG3_STR);
+				    _TEST_NODE_API_MSG3_STR);
 	      if (msg)
 		{
 		  len = strlen (msg);
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node2 sent draft message len=%d"), len);
-		  if (len < TEST_API_NODE_LEN_LIMIT)
+		  if (len < _TEST_API_NODE_LEN_LIMIT)
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 draft message is \"%s\""), msg);
@@ -1248,7 +1254,7 @@ _test_node_api_node2_callback (void *api_data)
 	       * never sent, just because, well, receiver can really not guess
 	       * something is missing
 	       */
-	      tmp = lw6sys_str_random_word (TEST_NODE_API_FINAL_SIZE);
+	      tmp = lw6sys_str_random_word (_TEST_NODE_API_FINAL_SIZE);
 	      if (tmp)
 		{
 		  msg =
@@ -1264,7 +1270,7 @@ _test_node_api_node2_callback (void *api_data)
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node2 sent final draft message len=%d"),
 			      len);
-		  if (len < TEST_API_NODE_LEN_LIMIT)
+		  if (len < _TEST_API_NODE_LEN_LIMIT)
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 final draft message is \"%s\""),
@@ -1275,6 +1281,35 @@ _test_node_api_node2_callback (void *api_data)
 		}
 
 	      LW6SYS_FREE (dump);
+	      dump_sent = 1;
+	    }
+	}
+
+      if (dump_sent)
+	{
+	  if (next_msgn_timestamp < lw6sys_get_timestamp ())
+	    {
+	      seq++;		// fake we're going next round...
+	      msg =
+		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+				    LW6SYS_PRINTF_LL "x %s", (long long) seq,
+				    (long long) node_id,
+				    _TEST_NODE_API_MSGN_STR);
+	      if (msg)
+		{
+		  len = strlen (msg);
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _x_ ("node2 sent draft message len=%d"), len);
+		  if (len < _TEST_API_NODE_LEN_LIMIT)
+		    {
+		      lw6sys_log (LW6SYS_LOG_NOTICE,
+				  _x_ ("node2 draft message is \"%s\""), msg);
+		    }
+		  lw6p2p_node_put_local_msg (data->node, msg);
+		  LW6SYS_FREE (msg);
+		}
+	      next_msgn_timestamp =
+		lw6sys_get_timestamp () + _TEST_API_MSGN_DELAY_MSEC;
 	    }
 	}
     }
@@ -1293,7 +1328,7 @@ _test_node_api_node3_callback (void *api_data)
 
   data->ret = 1;
 
-  end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_THREAD;
+  end_timestamp = lw6sys_get_timestamp () + _TEST_NODE_API_DURATION_THREAD;
   while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
     {
       lw6p2p_node_poll (data->node);
@@ -1310,17 +1345,18 @@ _test_node_api_node4_callback (void *api_data)
   char *msg = NULL;
   int len = 0;
   int64_t seq;
-  int draft_received = 0;
+  int long_draft_received = 0;
+  int short_draft_received = 0;
   int reference_received = 0;
 
   begin_timestamp = lw6sys_get_timestamp () + _TEST_NODE_ACK_DELAY_MSEC;
-  end_timestamp = begin_timestamp + TEST_NODE_API_DURATION_THREAD;
+  end_timestamp = begin_timestamp + _TEST_NODE_API_DURATION_THREAD;
   data->ret = 0;
 
   /*
    * This node acts as a client.
    */
-  lw6sys_delay (TEST_NODE_API_DURATION_JOIN);
+  lw6sys_delay (_TEST_NODE_API_DURATION_JOIN);
   if (lw6p2p_node_client_join
       (data->node, data->peer_id, _TEST_NODE_PUBLIC_URL2))
     {
@@ -1350,7 +1386,7 @@ _test_node_api_node4_callback (void *api_data)
 	      lw6sys_log (LW6SYS_LOG_NOTICE,
 			  _x_ ("node4 received reference message len=%d"),
 			  len);
-	      if (len < TEST_API_NODE_LEN_LIMIT)
+	      if (len < _TEST_API_NODE_LEN_LIMIT)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node4 reference message is \"%s\""), msg);
@@ -1363,16 +1399,22 @@ _test_node_api_node4_callback (void *api_data)
 	      len = strlen (msg);
 	      lw6sys_log (LW6SYS_LOG_NOTICE,
 			  _x_ ("node4 received draft message len=%d"), len);
-	      if (len < TEST_API_NODE_LEN_LIMIT)
+	      if (len < _TEST_API_NODE_LEN_LIMIT)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node4 draft message is \"%s\""), msg);
+		  ++short_draft_received;
 		}
-	      ++draft_received;
+	      else
+		{
+		  ++long_draft_received;
+		}
 	      LW6SYS_FREE (msg);
 	    }
-	  if (reference_received >= TEST_NODE_API_NODE4_REFERENCE_RECEIVED &&
-	      draft_received >= TEST_NODE_API_NODE4_DRAFT_RECEIVED)
+	  if (reference_received >= _TEST_NODE_API_NODE4_REFERENCE_RECEIVED &&
+	      long_draft_received >= _TEST_NODE_API_NODE4_LONG_DRAFT_RECEIVED
+	      && short_draft_received >=
+	      _TEST_NODE_API_NODE4_SHORT_DRAFT_RECEIVED)
 	    {
 	      /*
 	       * If there are enough messages, consider the test is done,
@@ -1389,21 +1431,32 @@ _test_node_api_node4_callback (void *api_data)
       lw6sys_log (LW6SYS_LOG_NOTICE,
 		  _x_ ("node4 after loop seq_max=%" LW6SYS_PRINTF_LL "d"),
 		  (long long) seq);
-      if (reference_received == TEST_NODE_API_NODE4_REFERENCE_RECEIVED &&
-	  draft_received == TEST_NODE_API_NODE4_DRAFT_RECEIVED)
+      /*
+       * We don't test the draft received value for its exact value since
+       * some extra NOP messages might have been sent
+       */
+      if (reference_received == _TEST_NODE_API_NODE4_REFERENCE_RECEIVED &&
+	  long_draft_received == _TEST_NODE_API_NODE4_LONG_DRAFT_RECEIVED &&
+	  short_draft_received >= _TEST_NODE_API_NODE4_LONG_DRAFT_RECEIVED)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _x_ ("node4, looks like messages made it here"));
+		      _x_
+		      ("node4, looks like messages made it here, reference_received=%d, long_draft_received=%d, short_draft_received=%d"),
+		      reference_received, long_draft_received,
+		      short_draft_received);
 	  data->ret = 1;
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_
-		      ("node4, mismatch in number of received messages reference_received=%d should be %d draft_received=%d should be %d"),
+		      ("node4, mismatch in number of received messages reference_received=%d should be %d long_draft_received=%d should be %d short_draft_received=%d should be %d"),
 		      reference_received,
-		      TEST_NODE_API_NODE4_REFERENCE_RECEIVED, draft_received,
-		      TEST_NODE_API_NODE4_DRAFT_RECEIVED);
+		      _TEST_NODE_API_NODE4_REFERENCE_RECEIVED,
+		      long_draft_received,
+		      _TEST_NODE_API_NODE4_LONG_DRAFT_RECEIVED,
+		      short_draft_received,
+		      _TEST_NODE_API_NODE4_SHORT_DRAFT_RECEIVED);
 	}
       lw6p2p_node_disconnect (data->node);
     }
@@ -1421,7 +1474,7 @@ _test_node_api_node5_callback (void *api_data)
   _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
   int64_t end_timestamp = 0LL;
 
-  end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_THREAD;
+  end_timestamp = lw6sys_get_timestamp () + _TEST_NODE_API_DURATION_THREAD;
 
   data->ret = 1;
 
@@ -1438,7 +1491,7 @@ _test_node_api_node6_callback (void *api_data)
   _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
   int64_t end_timestamp = 0LL;
 
-  end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_THREAD;
+  end_timestamp = lw6sys_get_timestamp () + _TEST_NODE_API_DURATION_THREAD;
 
   data->ret = 1;
 
@@ -1560,7 +1613,7 @@ _test_node_api ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
 		    ("waiting for some time to let nodes handle disconnection"));
-	end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION_END;
+	end_timestamp = lw6sys_get_timestamp () + _TEST_NODE_API_DURATION_END;
 	while (lw6sys_get_timestamp () < end_timestamp)
 	  {
 	    _poll_nodes (node1, node2, node3, node4, node5, node6);
