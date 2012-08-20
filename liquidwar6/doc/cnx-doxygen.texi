@@ -266,6 +266,16 @@ Modifies the ping returned by terrain experience, this is a way to help some kin
 Modifies the ping returned by terrain experience, this is a way to help some kind of connections to be preferred over others. Set it to 100 for default value, means 100% of real ping delay, set it to 50 to make the algorithm believe lag is twice lower (this means, connection twice faster) and set it to 1000 to make believe that everything is slow. In practice only a slight alteration should be required, one should still favor really fast connections when it's proved in real life that they are faster!         
 @end defcv
 
+@defcv {Member} {lw6cnx_properties_s} {reliable}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6cnx_properties_s::reliable}
+
+
+        
+Wether this connexion is to be considered reliable or not. Well, in LW6, all connexions are unrealiable since LW6 will drop packets on purpose to simulate problems, but however, some are well-known to be unreliable (UDP...) while others are OK.         
+@end defcv
+
 
 
   
