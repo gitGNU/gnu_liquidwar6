@@ -1,3 +1,7 @@
+2012-08-21 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Handling per-tentacle unsent queue.
+
 2012-08-20 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Got rid of SIGPIPE on send/recv with tcp sockets.

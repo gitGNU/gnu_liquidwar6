@@ -312,6 +312,9 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
   int64_t now;
   lw6cnx_connection_t *cnx = NULL;
   u_int32_t ticket_sig = 0;
+  _lw6p2p_queue_item_t *queue_item = NULL;
+  lw6sys_list_t *unsent_queue = NULL;
+  int queue_i = 0;
 
   now = lw6sys_get_timestamp ();
   if (!tentacle->hello_sent)
@@ -431,6 +434,39 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	}
       lw6srv_poll (tentacle->backends->srv_backends[i], cnx);
     }
+
+  if (tentacle->unsent_queue)
+    {
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("flushing unsent_queue"));
+      /*
+       * Empty the queue associated to the tentacle, push data
+       * in our own queue, and flush it with send.
+       */
+      unsent_queue = tentacle->unsent_queue;
+      tentacle->unsent_queue = NULL;
+
+      while ((queue_item =
+	      (_lw6p2p_queue_item_t *) lw6sys_lifo_pop (&unsent_queue)) !=
+	     NULL)
+	{
+	  /*
+	   * Some of the data we use here could be in some cases
+	   * deduced from context but we prefer to use the
+	   * data stored in the queue_item, in case we want
+	   * to resend forwareded messages, you never know
+	   */
+	  _lw6p2p_tentacle_send_best (tentacle,
+				      ticket_table,
+				      queue_item->logical_ticket_sig,
+				      queue_item->logical_from_id,
+				      queue_item->logical_to_id,
+				      queue_item->msg, 0);
+	  _lw6p2p_queue_item_free (queue_item);
+	  queue_i++;
+	}
+      lw6sys_log (LW6SYS_LOG_INFO,
+		  _x_ ("there were %d messages in unsent_queue"), queue_i);
+    }
 }
 
 int
@@ -445,21 +481,29 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
   lw6cnx_connection_t *cnx = NULL;
   u_int32_t physical_ticket_sig = 0;
   int i = 0;
-  char *msg_dup = NULL;
+  int ping_msec = 0;
+  _lw6p2p_queue_item_t *queue_item = NULL;
+
+  physical_ticket_sig =
+    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+			    (ticket_table, tentacle->remote_id_str),
+			    tentacle->local_id_int,
+			    tentacle->remote_id_int, msg);
 
   cnx =
     _lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle, reliable);
   if (cnx)
     {
-      if (cnx->ping_msec > 0)
+      /*
+       * We store the cnx ping into a local variable since it might
+       * be altered if the send fails, and we want the original
+       * ping to be used/shown in logs.
+       */
+      ping_msec = cnx->ping_msec;
+      if (ping_msec > 0)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("send of \"%s\" on fastest connection"), msg);
-	  physical_ticket_sig =
-	    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
-				    (ticket_table, tentacle->remote_id_str),
-				    tentacle->local_id_int,
-				    tentacle->remote_id_int, msg);
 	  /*
 	   * Now we have the cnx, we must figure out its type (cnx/srv)
 	   * and index to fire the right code on it.
@@ -473,10 +517,11 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 			      ("found fastest connection to \"%s\", it's a client connection, backend name=\"%s\""),
 			      tentacle->remote_url,
 			      tentacle->backends->cli_backends[i]->name);
-		  ret |=
+		  ret =
 		    lw6cli_send (tentacle->backends->cli_backends[i], cnx,
 				 physical_ticket_sig, logical_ticket_sig,
-				 cnx->local_id_int, cnx->remote_id_int, msg);
+				 cnx->local_id_int, cnx->remote_id_int, msg)
+		    || ret;
 		}
 	    }
 	  for (i = 0; i < tentacle->nb_srv_connections; ++i)
@@ -488,10 +533,11 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 			      ("found fastest connection to \"%s\", it's a server connection, backend name=\"%s\""),
 			      tentacle->remote_url,
 			      tentacle->backends->srv_backends[i]->name);
-		  ret |=
+		  ret =
 		    lw6srv_send (tentacle->backends->srv_backends[i], cnx,
 				 physical_ticket_sig, logical_ticket_sig,
-				 cnx->local_id_int, cnx->remote_id_int, msg);
+				 cnx->local_id_int, cnx->remote_id_int, msg)
+		    || ret;
 		}
 	    }
 	}
@@ -527,32 +573,38 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
     }
   else
     {
-      if (cnx->properties.backend_id)
+      if (cnx && cnx->properties.backend_id)
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
 		      _x_
 		      ("failed send on \"best\" connexion with backend_id=\"%s\" current ping=%d msec"),
-		      cnx->properties.backend_id, cnx->ping_msec);
+		      cnx->properties.backend_id, ping_msec);
 	}
 
-      msg_dup = lw6sys_str_copy (msg);
-      if (msg_dup)
+      if (!tentacle->unsent_queue)
 	{
-	  if (!tentacle->unsent_queue)
+	  tentacle->unsent_queue =
+	    lw6sys_list_new ((lw6sys_free_func_t) _lw6p2p_queue_item_free);
+	}
+      if (tentacle->unsent_queue)
+	{
+	  queue_item =
+	    _lw6p2p_queue_item_new (logical_ticket_sig, logical_from_id,
+				    logical_to_id, msg);
+	  if (queue_item)
 	    {
-	      tentacle->unsent_queue = lw6sys_list_new (lw6sys_free_callback);
-	    }
-	  if (tentacle->unsent_queue)
-	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE,
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("message \"%s\" not sent, pushing it to unsent_queue"),
-			  msg_dup);
-	      lw6sys_fifo_push (&(tentacle->unsent_queue), msg_dup);
-	    }
-	  else
-	    {
-	      LW6SYS_FREE (msg_dup);
+			  queue_item->msg);
+	      /*
+	       * Use a lifo, a fifo would be cleaner but is more expensive
+	       * on big lists, this is a fallback action anyway, packets
+	       * will probably be in the wrong order anyway and we are
+	       * very likely sending a big hudge message splitted into
+	       * many atoms so order is irrelevant.
+	       */
+	      lw6sys_lifo_push (&(tentacle->unsent_queue), queue_item);
 	    }
 	}
     }
@@ -582,17 +634,17 @@ _lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
   for (i = 0; i < tentacle->nb_cli_connections; ++i)
     {
       cnx = tentacle->cli_connections[i];
-      ret |= lw6cli_send (tentacle->backends->cli_backends[i], cnx,
-			  physical_ticket_sig, logical_ticket_sig,
-			  cnx->local_id_int, cnx->remote_id_int, msg);
+      ret = lw6cli_send (tentacle->backends->cli_backends[i], cnx,
+			 physical_ticket_sig, logical_ticket_sig,
+			 cnx->local_id_int, cnx->remote_id_int, msg) || ret;
     }
 
   for (i = 0; i < tentacle->nb_srv_connections; ++i)
     {
       cnx = tentacle->srv_connections[i];
-      ret |= lw6srv_send (tentacle->backends->srv_backends[i], cnx,
-			  physical_ticket_sig, logical_ticket_sig,
-			  cnx->local_id_int, cnx->remote_id_int, msg);
+      ret = lw6srv_send (tentacle->backends->srv_backends[i], cnx,
+			 physical_ticket_sig, logical_ticket_sig,
+			 cnx->local_id_int, cnx->remote_id_int, msg) || ret;
     }
 
   return ret;

@@ -232,6 +232,15 @@ typedef struct _lw6p2p_cli_oob_callback_data_s
   lw6cli_oob_t *cli_oob;
 } _lw6p2p_cli_oob_callback_data_t;
 
+typedef struct _lw6p2p_queue_item_s
+{
+  u_int32_t logical_ticket_sig;
+  u_int64_t logical_from_id;
+  u_int64_t logical_to_id;
+  char *msg;
+}
+_lw6p2p_queue_item_t;
+
 /* p2p-backends.c */
 extern int _lw6p2p_backends_init_cli (int argc, const char *argv[],
 				      _lw6p2p_backends_t * backends,
@@ -359,6 +368,15 @@ extern int _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node,
 				       const char *msg);
 extern char *_lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node);
 extern char *_lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node);
+
+/* p2p-queueitem.c */
+extern _lw6p2p_queue_item_t *_lw6p2p_queue_item_new (u_int32_t
+						     logical_ticket_sig,
+						     u_int64_t
+						     logical_from_id,
+						     u_int64_t logical_to_id,
+						     const char *msg);
+extern void _lw6p2p_queue_item_free (_lw6p2p_queue_item_t * queue_item);
 
 /* p2p-recv.c */
 extern void _lw6p2p_recv_process (_lw6p2p_node_t * node,

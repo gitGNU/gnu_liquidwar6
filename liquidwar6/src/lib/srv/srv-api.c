@@ -428,13 +428,13 @@ lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
       else
 	{
 	  /*
-	   * Yes, we return true, the idea is to pretend success
-	   * but in fact real send failed.
-	   * It's also important not to report 0 to really fool the
-	   * caller and also to avoid flagging a connection as bad
-	   * when it's, in fact, working.
+	   * We return the "reliable" attribute of the backend, the
+	   * idea is that on so-called reliable backends we do not
+	   * want an error to be fired and reset the connection,
+	   * on unreliable backends, well it failed, it failed,
+	   * not that bad.
 	   */
-	  ret = 1;
+	  ret = backend->properties.reliable;
 	}
     }
   else

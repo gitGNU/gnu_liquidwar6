@@ -170,8 +170,11 @@
 #define _TEST_NODE_OOB_DURATION 9000
 #define _TEST_NODE_CMD_DURATION (9000+_TEST_NODE_ACK_DELAY_MSEC)
 #define _TEST_NODE_API_DURATION_JOIN 500
-// this is a maximum time, test should end before anyway
-#define _TEST_NODE_API_DURATION_THREAD (180000+_TEST_NODE_ACK_DELAY_MSEC)
+/*
+ * This is a maximum time, a high limit of 5 minutes to
+ * avoid stalled process, but test should end much before
+ */
+#define _TEST_NODE_API_DURATION_THREAD (300000+_TEST_NODE_ACK_DELAY_MSEC)
 #define _TEST_NODE_API_DURATION_END 3000
 #define _TEST_NODE_POLL_DURATION 100
 // 10 times bigger than _LW6PIL_MIN_SEQ_0
