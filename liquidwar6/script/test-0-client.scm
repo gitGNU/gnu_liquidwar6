@@ -98,14 +98,17 @@
 		     ;;	   )
 		     ;;     (c-lw6p2p-node-put-local-msg node-2 nop-command)
 		     ;;   )
-		     (let (
-			   (msg (c-lw6p2p-node-get-next-reference-msg node-2))
+		     (let* (
+			    (msg (c-lw6p2p-node-get-next-draft-msg node-2))
+			    (len (if msg (string-length msg) 0))
 			   )
 		       (if msg
 			   (begin
-			     (lw6-log-notice (format #f "received ~a bytes message" (string-length msg)))
+			     (if (> len 100)
+				 (lw6-log-notice (format #f "received ~a bytes message" len))
+				 (lw6-log-notice (format #f "received ~a bytes message \"~a\"" len msg)))
 			     (set! ret #t) ;; todo, fix this and set it to true on real success
-			   )))
+			     )))
 		     ))
 	    (c-lw6p2p-node-close node-2)
 	    ))
