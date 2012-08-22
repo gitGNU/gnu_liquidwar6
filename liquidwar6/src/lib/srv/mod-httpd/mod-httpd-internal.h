@@ -266,6 +266,6 @@ extern _mod_httpd_response_t
 extern void _mod_httpd_response_free (_mod_httpd_response_t * response);
 extern int _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
 				     _mod_httpd_response_t * response,
-				     int sock, int headers_only);
+				     int *sock, int headers_only);
 
 #endif

@@ -111,7 +111,7 @@ its default with a user settings.
 @strong{Return value:}  the IP as a string, dynamically allocated
 @end deftypefun
 
-@deftypefun {char *} {lw6net_recv_line_tcp} (int @var{sock})
+@deftypefun {char *} {lw6net_recv_line_tcp} (int * @var{sock})
 @var{sock}:  the socket descriptor
 
 Receives a line terminated by LF ("\n", chr(10)) or
@@ -120,12 +120,13 @@ stream oriented. If there's no complete line
 available, function returns immediately with NULL. Same
 if socket is closed, broken, whatever. Only if there's
 something consistent will the function return non-NULL.
+Socket descriptor is closed on the fly on connection problem.
 
 @strong{Return value:}  a dynamically allocated string with the
 content received. The tailing (CR)/LF is stripped.
 @end deftypefun
 
-@deftypefun {int} {lw6net_send_line_tcp} (int @var{sock}, const char * @var{line})
+@deftypefun {int} {lw6net_send_line_tcp} (int * @var{sock}, const char * @var{line})
 @var{sock}:  the socket descriptor
 
 @var{line}:  the line to be sent, without the "\n" at the end
@@ -133,6 +134,7 @@ content received. The tailing (CR)/LF is stripped.
 Sends a line terminated by LF ("\n", chr(10)) on a TCP
 socket, that is, stream oriented. The "\n" is automatically
 added, do not bother sending it.
+Socket descriptor is closed on the fly on connection problem.
 
 @strong{Return value:}  non-zero if success
 @end deftypefun
@@ -287,7 +289,7 @@ Tries to connect on a given socket.
 @strong{Return value:}  socket (>=0) on success, else -1
 @end deftypefun
 
-@deftypefun {int} {lw6net_tcp_send} (int @var{sock}, const char * @var{buf}, int @var{len}, int @var{delay_msec}, int @var{loop})
+@deftypefun {int} {lw6net_tcp_send} (int * @var{sock}, const char * @var{buf}, int @var{len}, int @var{delay_msec}, int @var{loop})
 @var{sock}:  socket to use
 
 @var{buf}:  data buffer
@@ -299,12 +301,13 @@ Tries to connect on a given socket.
 @var{loop}:  accept to do several calls if needed
 
 Will send data, possibly looping until all is send, and waiting for
-a maximum time of delay_msec.
+a maximum time of delay_msec. If the send reveals a socket closed
+by peer or other serious problem, socket is closed and sock set to -1.
 
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6net_tcp_peek} (int @var{sock}, char * @var{buf}, int @var{len}, int @var{delay_msec})
+@deftypefun {int} {lw6net_tcp_peek} (int * @var{sock}, char * @var{buf}, int @var{len}, int @var{delay_msec})
 @var{sock}:  socket to use
 
 @var{buf}:  data buffer
@@ -315,11 +318,13 @@ a maximum time of delay_msec.
 
 Tells wether data is available. Will actually fill the buffer
 with the data, but not remove it from the fifo list.
+If the peel reveals a socket closed
+by peer or other serious problem, socket is closed and sock set to -1.
 
 @strong{Return value:}  number of bytes available, 0 when nothing
 @end deftypefun
 
-@deftypefun {int} {lw6net_tcp_recv} (int @var{sock}, char * @var{buf}, int @var{len}, int @var{delay_msec}, int @var{loop})
+@deftypefun {int} {lw6net_tcp_recv} (int * @var{sock}, char * @var{buf}, int @var{len}, int @var{delay_msec}, int @var{loop})
 @var{sock}:  socket to use
 
 @var{buf}:  data buffer
@@ -332,6 +337,8 @@ with the data, but not remove it from the fifo list.
 
 If data is available, put it in buffer. If needed, will
 loop until @code{delay_msec} is elapsed. Data is removed from queue.
+If the peel reveals a socket closed
+by peer or other serious problem, socket is closed and sock set to -1.
 
 @strong{Return value:}  number of bytes received, 0 when nothing
 @end deftypefun

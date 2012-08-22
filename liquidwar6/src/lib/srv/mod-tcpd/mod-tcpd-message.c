@@ -52,7 +52,7 @@ _mod_tcpd_send (_tcpd_context_t * tcpd_context,
     {
       if (lw6cnx_connection_lock_send (connection))
 	{
-	  if (lw6net_send_line_tcp (specific_data->sock, line))
+	  if (lw6net_send_line_tcp (&(specific_data->sock), line))
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd sent \"%s\""),
 			  line);
@@ -88,11 +88,12 @@ _mod_tcpd_poll (_tcpd_context_t * tcpd_context,
 	{
 	  memset (buffer, 0, LW6SRV_CONTENT_BUFFER_SIZE + 1);
 	  if (lw6net_tcp_peek
-	      (specific_data->sock, buffer, LW6SRV_CONTENT_BUFFER_SIZE, 0))
+	      (&(specific_data->sock), buffer, LW6SRV_CONTENT_BUFFER_SIZE, 0))
 	    {
 	      if (strchr (buffer, '\n'))
 		{
-		  envelope_line = lw6net_recv_line_tcp (specific_data->sock);
+		  envelope_line =
+		    lw6net_recv_line_tcp (&(specific_data->sock));
 		  if (envelope_line)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,

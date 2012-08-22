@@ -128,7 +128,7 @@ _mod_httpd_response_free (_mod_httpd_response_t * response)
 
 int
 _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
-			  _mod_httpd_response_t * response, int sock,
+			  _mod_httpd_response_t * response, int *sock,
 			  int headers_only)
 {
   int ret = 0;
@@ -283,7 +283,7 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
 	  first_line = NULL;
 	}
       lw6net_send_line_tcp (sock, "");
-      if (lw6net_tcp_is_alive (sock) && !headers_only)
+      if (lw6net_tcp_is_alive (*sock) && !headers_only)
 	{
 	  ret =
 	    lw6net_tcp_send (sock, response->content_data,

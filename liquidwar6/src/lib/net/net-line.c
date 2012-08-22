@@ -57,12 +57,13 @@ static char trail[TRAIL_SIZE + 1] = { CHAR_LF, CHAR_0, CHAR_0 };
  * available, function returns immediately with NULL. Same
  * if socket is closed, broken, whatever. Only if there's
  * something consistent will the function return non-NULL.
+ * Socket descriptor is closed on the fly on connection problem.
  *
  * Return value: a dynamically allocated string with the
  *   content received. The tailing (CR)/LF is stripped.
  */
 char *
-lw6net_recv_line_tcp (int sock)
+lw6net_recv_line_tcp (int *sock)
 {
   char *ret = NULL;
   int line_size = 0;
@@ -73,7 +74,7 @@ lw6net_recv_line_tcp (int sock)
   char *pos_lf;
   char line_buf[LW6NET_MAX_LINE_SIZE + TRAIL_SIZE + 1];
 
-  if (sock >= 0)
+  if (*sock >= 0)
     {
       line_size = _lw6net_global_context->const_data.line_size;
       line_delay = _lw6net_global_context->const_data.line_delay_msec;
@@ -114,25 +115,26 @@ lw6net_recv_line_tcp (int sock)
  * Sends a line terminated by LF ("\n", chr(10)) on a TCP
  * socket, that is, stream oriented. The "\n" is automatically
  * added, do not bother sending it.
+ * Socket descriptor is closed on the fly on connection problem.
  *
  * Return value: non-zero if success
  */
 int
-lw6net_send_line_tcp (int sock, const char *line)
+lw6net_send_line_tcp (int *sock, const char *line)
 {
   int ret = 0;
   int line_size = 0;
   int line_delay;
   int wanted_size = 0;
 
-  if (sock >= 0 && line)
+  if (*sock >= 0 && line)
     {
       /*
        * If sock is not reported as alive, we don't even waste
        * the time to try and send data, this could really slow
        * down things on polling loops.
        */
-      if (lw6net_tcp_is_alive (sock))
+      if (lw6net_tcp_is_alive (*sock))
 	{
 	  line_size = _lw6net_global_context->const_data.line_size;
 	  line_delay = _lw6net_global_context->const_data.line_delay_msec;

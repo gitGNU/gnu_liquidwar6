@@ -1,3 +1,7 @@
+2012-08-22 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Revamped net api to close sockets on the fly.
+
 2012-08-21 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Handling per-tentacle unsent queue.

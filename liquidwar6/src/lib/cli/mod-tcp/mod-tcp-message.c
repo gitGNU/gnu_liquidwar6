@@ -55,7 +55,7 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
 	{
 	  if (lw6cnx_connection_lock_send (connection))
 	    {
-	      if (lw6net_send_line_tcp (specific_data->sock, line))
+	      if (lw6net_send_line_tcp (&(specific_data->sock), line))
 		{
 		  if (specific_data->send_failed_once)
 		    {
@@ -201,7 +201,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 			     != NULL)
 			{
 			  if (lw6net_send_line_tcp
-			      (specific_data->sock, line))
+			      (&(specific_data->sock), line))
 			    {
 			      lw6sys_log (LW6SYS_LOG_DEBUG,
 					  _x_
@@ -220,13 +220,13 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 	       */
 	      memset (buffer, 0, LW6CLI_CONTENT_BUFFER_SIZE + 1);
 	      if (lw6net_tcp_peek
-		  (specific_data->sock, buffer, LW6CLI_CONTENT_BUFFER_SIZE,
+		  (&(specific_data->sock), buffer, LW6CLI_CONTENT_BUFFER_SIZE,
 		   0))
 		{
 		  if (strchr (buffer, '\n'))
 		    {
 		      envelope_line =
-			lw6net_recv_line_tcp (specific_data->sock);
+			lw6net_recv_line_tcp (&(specific_data->sock));
 		      if (envelope_line)
 			{
 			  lw6sys_log (LW6SYS_LOG_DEBUG,

@@ -503,7 +503,7 @@ _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context,
 	{
 	  ret =
 	    _mod_httpd_response_send (httpd_context, response,
-				      oob_data->sock,
+				      &(oob_data->sock),
 				      request->get_head_post ==
 				      _MOD_HTTPD_HEAD);
 	  if (ret)

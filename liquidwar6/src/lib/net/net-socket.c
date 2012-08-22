@@ -261,7 +261,7 @@ lw6net_socket_close (int *sock)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("can't close invalid socket %d"), tmp_sock);
 	}
     }

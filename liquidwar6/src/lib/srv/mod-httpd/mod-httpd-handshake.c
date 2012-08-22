@@ -36,9 +36,11 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
   int ret = 0;
   char *pos = NULL;
   char *line = NULL;
+  int line_size = 0;
   char *msg = NULL;
 
   line = tcp_accepter->first_line;
+
   lw6sys_log (LW6SYS_LOG_DEBUG,
 	      _x_ ("trying to recognize httpd protocol in \"%s\""), line);
 
@@ -57,6 +59,7 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
       lw6net_socket_close (&(tcp_accepter->sock));
     }
 
+  line_size = strlen (line);
   if (strlen (line) >=
       _MOD_HTTPD_PROTOCOL_UNDERSTANDABLE_SIZE || strchr (line, '\n'))
     {
@@ -129,15 +132,27 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
   /*
    * Here, maybe we didn't recognize HTTPD protocol, but since we're
    * in timeout, we decide so send an error 500 answer anyway.
+   * An error 500 is rather readable even in plain text, we can
+   * suspect some hacker seeing this when administrating is box
+   * will find out the random he was trying was Liquid War 6...
    */
   if (lw6net_tcp_is_alive (tcp_accepter->sock)
       && !_mod_httpd_timeout_ok (httpd_context,
 				 tcp_accepter->creation_timestamp))
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _x_
-		  ("timeout on receive (first_line=\"%s\") so sending request to http handler, which will probably return error 500"),
-		  line);
+      if (line_size > 0)
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_
+		      ("timeout on receive (first_line=\"%s\") so sending request to http handler, which will probably return error 500"),
+		      line);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_
+		      ("timeout on receive and no input data, sending request to http handler, which will probably return nothing"));
+	}
       ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
     }
 

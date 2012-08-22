@@ -298,6 +298,7 @@ lw6net_tcp_connect (const char *ip, int port, int delay_msec)
 			       * Fixed 35104 (warning on windows build) by specifically
 			       * adding both INPROGRESS and WOULDBLOCK in acceptable values.
 			       */
+			    case WSAEINTR:
 			    case WSAEINPROGRESS:
 			    case WSAEWOULDBLOCK:
 			      connect_async = 1;
@@ -328,7 +329,13 @@ lw6net_tcp_connect (const char *ip, int port, int delay_msec)
 			       * Fixed 35104 (warning on windows build) by specifically
 			       * adding both INPROGRESS and WOULDBLOCK in acceptable values.
 			       */
+			    case EINTR:
 			    case EINPROGRESS:
+			      /*
+			       * Here we could test for EAGAIN too but on most systems
+			       * EAGAIN and EWOULDBLOCK are the same (ie glibc)
+			       * so this would yield a compilation warning
+			       */
 			    case EWOULDBLOCK:
 			      connect_async = 1;
 			      break;
@@ -493,12 +500,14 @@ lw6net_tcp_connect (const char *ip, int port, int delay_msec)
  * @loop: accept to do several calls if needed
  *
  * Will send data, possibly looping until all is send, and waiting for
- * a maximum time of delay_msec.
+ * a maximum time of delay_msec. If the send reveals a socket closed
+ * by peer or other serious problem, socket is closed and sock set to -1.
  *
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6net_tcp_send (int sock, const char *buf, int len, int delay_msec, int loop)
+lw6net_tcp_send (int *sock, const char *buf, int len, int delay_msec,
+		 int loop)
 {
   int ret = 0;
   fd_set write;
@@ -524,7 +533,7 @@ lw6net_tcp_send (int sock, const char *buf, int len, int delay_msec, int loop)
   int winerr = 0;
 #endif
 
-  if (lw6net_socket_is_valid (sock))
+  if (lw6net_socket_is_valid (*sock))
     {
       ret = 1;
 
@@ -533,36 +542,43 @@ lw6net_tcp_send (int sock, const char *buf, int len, int delay_msec, int loop)
       while (total_sent != len && ret)
 	{
 	  FD_ZERO (&write);
-	  FD_SET (sock, &write);
+	  FD_SET (*sock, &write);
 	  _lw6net_delay_msec_to_timeval (&tv, delay_msec);
 
-	  select_ret = select (sock + 1, NULL, &write, NULL, &tv);
+	  select_ret = select ((*sock) + 1, NULL, &write, NULL, &tv);
 
-	  switch (select_ret)
+	  if (select_ret < 0)
 	    {
-	    case -1:
 #ifdef LW6_MS_WINDOWS
 	      winerr = WSAGetLastError ();
 	      if (winerr != WSAEINTR && winerr != WSAENOBUFS)
 		{
 		  lw6net_last_error ();
-		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _x_ ("select() failed, code=%d"), winerr);
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _x_
+			      ("error sending data on socket %d select() failed, code=%d"),
+			      *sock, winerr);
+		  lw6net_socket_close (sock);
 		  ret = 0;
 		}
 #else
 	      if (errno != EINTR && errno != ENOBUFS)
 		{
 		  lw6net_last_error ();
-		  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("select() failed"));
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _x_
+			      ("error sending data on socket %d select() failed"),
+			      *sock);
+		  lw6net_socket_close (sock);
 		  ret = 0;
 		}
 #endif
-	      break;
-	    case 1:
-	      if (FD_ISSET (sock, &write))
+	    }
+	  else
+	    {
+	      if (FD_ISSET (*sock, &write))
 		{
-		  sent = send (sock,
+		  sent = send (*sock,
 			       buf + total_sent,
 			       lw6sys_imin (len - total_sent, chunk_size),
 			       flags);
@@ -570,35 +586,49 @@ lw6net_tcp_send (int sock, const char *buf, int len, int delay_msec, int loop)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
 				  _x_ ("%d bytes sent on TCP socket %d"),
-				  sent, sock);
+				  sent, *sock);
 		      total_sent += sent;
 		    }
 		  else
 		    {
 		      if (sent < 0)
 			{
-			  lw6net_last_error ();
+#ifdef LW6_MS_WINDOWS
+			  winerr = WSAGetLastError ();
+			  if (winerr != WSAEINTR && winerr != WSAENOBUFS
+			      && winerr != WSAEAGAIN
+			      && winerr != WSAEWOULDBLOCK)
+			    {
+			      lw6net_last_error ();
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _x_
+					  ("can't send data on socket %d select() failed, code=%d"),
+					  *sock, winerr);
+			      lw6net_socket_close (sock);
+			      ret = 0;
+			    }
+#else
+			  if (errno != EINTR && errno != ENOBUFS
+			      && errno != EAGAIN && errno != EWOULDBLOCK)
+			    {
+			      lw6net_last_error ();
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _x_
+					  ("can't send data on socket %d select() failed"),
+					  *sock);
+			      lw6net_socket_close (sock);
+			      ret = 0;
+			    }
+#endif
 			}
-		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _x_
-				  ("can't send data on TCP socket %d (%d bytes put)"),
-				  sock, sent);
-		      ret = 0;
 		    }
 		}
-	      break;
-	    default:
-	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _x_
-			  ("can't send data on socket %d (select returned %d)"),
-			  sock, select_ret);
-	      ret = 0;
 	    }
 
 	  if ((!loop) && (total_sent != len))
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _x_ ("can't send data on socket %d (%d/%d)"), sock,
+			  _x_ ("can't send data on socket %d (%d/%d)"), *sock,
 			  total_sent, len);
 	      ret = 0;
 	    }
@@ -627,11 +657,13 @@ lw6net_tcp_send (int sock, const char *buf, int len, int delay_msec, int loop)
  *
  * Tells wether data is available. Will actually fill the buffer
  * with the data, but not remove it from the fifo list.
+ * If the peel reveals a socket closed
+ * by peer or other serious problem, socket is closed and sock set to -1.
  *
  * Return value: number of bytes available, 0 when nothing
  */
 int
-lw6net_tcp_peek (int sock, char *buf, int len, int delay_msec)
+lw6net_tcp_peek (int *sock, char *buf, int len, int delay_msec)
 {
   fd_set read;
   struct timeval tv;
@@ -651,8 +683,11 @@ lw6net_tcp_peek (int sock, char *buf, int len, int delay_msec)
 #else
   int flags = MSG_PEEK;
 #endif
+#ifdef LW6_MS_WINDOWS
+  int winerr = 0;
+#endif
 
-  if (sock >= 0)
+  if (*sock >= 0)
     {
       if (buf)
 	{
@@ -665,19 +700,76 @@ lw6net_tcp_peek (int sock, char *buf, int len, int delay_msec)
       if (buf2)
 	{
 	  FD_ZERO (&read);
-	  FD_SET (sock, &read);
+	  FD_SET (*sock, &read);
 	  _lw6net_delay_msec_to_timeval (&tv, delay_msec);
 
-	  select_ret = select (sock + 1, &read, NULL, NULL, &tv);
+	  select_ret = select ((*sock) + 1, &read, NULL, NULL, &tv);
 
-	  if (select_ret > 0)
+	  if (select_ret < 0)
 	    {
-	      if (FD_ISSET (sock, &read))
+#ifdef LW6_MS_WINDOWS
+	      winerr = WSAGetLastError ();
+	      if (winerr != WSAEINTR)
 		{
-		  available = recv (sock, buf2, len, flags);
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _x_ ("%d bytes available on TCP socket %d"),
-			      available, sock);
+		  lw6net_last_error ();
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _x_
+			      ("error peeking data on socket %d select() failed, code=%d"),
+			      *sock, winerr);
+		}
+#else
+	      if (errno != EINTR)
+		{
+		  lw6net_last_error ();
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _x_
+			      ("error peeking data on socket %d select() failed"),
+			      *sock);
+		}
+#endif
+	    }
+	  else
+	    {
+	      if (FD_ISSET (*sock, &read))
+		{
+		  available = recv (*sock, buf2, len, flags);
+		  if (available >= 0)
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_ ("%d bytes available on TCP socket %d"),
+				  available, *sock);
+		    }
+		  else
+		    {
+		      if (available < 0)
+			{
+#ifdef LW6_MS_WINDOWS
+			  winerr = WSAGetLastError ();
+			  if (winerr != WSAEINTR
+			      && winerr != WSAEAGAIN
+			      && winerr != WSAEWOULDBLOCK)
+			    {
+			      lw6net_last_error ();
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _x_
+					  ("can't peek data on socket %d, code=%d"),
+					  *sock, winerr);
+			      lw6net_socket_close (sock);
+			    }
+#else
+			  if (errno != EINTR
+			      && errno != EAGAIN && errno != EWOULDBLOCK)
+			    {
+			      lw6net_last_error ();
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _x_
+					  ("can't peek data on socket %d"),
+					  *sock);
+			      lw6net_socket_close (sock);
+			    }
+#endif
+			}
+		    }
 		}
 	    }
 
@@ -707,11 +799,13 @@ lw6net_tcp_peek (int sock, char *buf, int len, int delay_msec)
  *
  * If data is available, put it in buffer. If needed, will
  * loop until @delay_msec is elapsed. Data is removed from queue.
+ * If the peel reveals a socket closed
+ * by peer or other serious problem, socket is closed and sock set to -1.
  *
  * Return value: number of bytes received, 0 when nothing
  */
 int
-lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
+lw6net_tcp_recv (int *sock, char *buf, int len, int delay_msec, int loop)
 {
   int ret = 0;
   fd_set read;
@@ -734,7 +828,7 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
   int flags = 0;
 #endif
 
-  if (lw6net_socket_is_valid (sock))
+  if (lw6net_socket_is_valid (*sock))
     {
       ret = 1;
       chunk_size = _lw6net_global_context->const_data.chunk_size;
@@ -743,28 +837,41 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
       while (total_received != len && ret)
 	{
 	  FD_ZERO (&read);
-	  FD_SET (sock, &read);
+	  FD_SET (*sock, &read);
 	  _lw6net_delay_msec_to_timeval (&tv, delay_msec);
 
-	  select_ret = select (sock + 1, &read, NULL, NULL, &tv);
+	  select_ret = select ((*sock) + 1, &read, NULL, NULL, &tv);
 
-	  switch (select_ret)
+	  if (select_ret < 0)
 	    {
-	    case -1:
+#ifdef LW6_MS_WINDOWS
+	      winerr = WSAGetLastError ();
+	      if (winerr != WSAEINTR)
+		{
+		  lw6net_last_error ();
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _x_
+			      ("error receiving data on socket %d select() failed, code=%d"),
+			      *sock, winerr);
+		  ret = 0;
+		}
+#else
 	      if (errno != EINTR)
 		{
 		  lw6net_last_error ();
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (LW6SYS_LOG_INFO,
 			      _x_
-			      ("error receiving data on socket %d (select error %d)"),
-			      sock, errno);
+			      ("error receiving data on socket %d select() failed"),
+			      *sock);
 		  ret = 0;
 		}
-	      break;
-	    case 1:
-	      if (FD_ISSET (sock, &read))
+#endif
+	    }
+	  else
+	    {
+	      if (FD_ISSET (*sock, &read))
 		{
-		  received = recv (sock,
+		  received = recv (*sock,
 				   buf + total_received,
 				   lw6sys_imin (len - total_received,
 						chunk_size), flags);
@@ -772,34 +879,50 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
 				  _x_ ("%d bytes received on TCP socket %d"),
-				  received, sock);
+				  received, *sock);
 		      total_received += received;
 		    }
 		  else
 		    {
-		      lw6net_last_error ();
-		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _x_
-				  ("can't recv data on socket %d (got %d bytes)"),
-				  sock, received);
-		      ret = 0;
+		      if (received < 0)
+			{
+#ifdef LW6_MS_WINDOWS
+			  winerr = WSAGetLastError ();
+			  if (winerr != WSAEINTR
+			      && winerr != WSAEAGAIN
+			      && winerr != WSAEWOULDBLOCK)
+			    {
+			      lw6net_last_error ();
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _x_
+					  ("can't recv data on socket %d, code=%d"),
+					  *sock, winerr);
+			      lw6net_socket_close (sock);
+			      ret = 0;
+			    }
+#else
+			  if (errno != EINTR
+			      && errno != EAGAIN && errno != EWOULDBLOCK)
+			    {
+			      lw6net_last_error ();
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _x_
+					  ("can't recv data on socket %d"),
+					  *sock);
+			      lw6net_socket_close (sock);
+			      ret = 0;
+			    }
+#endif
+			}
 		    }
 		}
 	      break;
-	    default:
-	      lw6net_last_error ();
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_
-			  ("can't recv data on socket %d (select returned %d)"),
-			  sock, select_ret);
-	      ret = 0;
 	    }
 
 	  if ((!loop) && (total_received != len))
 	    {
-	      lw6net_last_error ();
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_ ("can't recv data on socket %d (%d/%d)"), sock,
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_ ("can't recv data on socket %d (%d/%d)"), *sock,
 			  total_received, len);
 	      ret = 0;
 	    }
@@ -839,7 +962,7 @@ lw6net_tcp_is_alive (int sock)
   int winerr = 0;
 #endif
 
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       ret = 1;
 
@@ -850,9 +973,8 @@ lw6net_tcp_is_alive (int sock)
 
       select_ret = select (sock + 1, NULL, &write, NULL, &tv);
 
-      switch (select_ret)
+      if (select_ret < 0)
 	{
-	case -1:
 #ifdef LW6_MS_WINDOWS
 	  winerr = WSAGetLastError ();
 	  if (winerr != WSAEINTR && winerr != WSAENOBUFS)
@@ -863,17 +985,14 @@ lw6net_tcp_is_alive (int sock)
 	      // socket is closed...
 	      ret = 0;
 	    }
-	  break;
-	case 1:
+	}
+      else
+	{
 	  if (!FD_ISSET (sock, &write))
 	    {
 	      // socket is closed
 	      ret = 0;
 	    }
-	  break;
-	default:
-	  // socket is closed
-	  ret = 0;
 	}
     }
 

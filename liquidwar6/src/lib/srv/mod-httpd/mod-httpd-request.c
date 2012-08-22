@@ -162,69 +162,82 @@ _mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context,
   _mod_httpd_request_t *request = NULL;
   int eof = 0;
   char *line = NULL;
+  char b = '\0';
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process httpd oob"));
-  request =
-    (_mod_httpd_request_t *) LW6SYS_CALLOC (sizeof (_mod_httpd_request_t));
-  if (request)
-    {
-      request->client_ip = lw6sys_str_copy (oob_data->remote_ip);
 
-      if (_mod_httpd_oob_should_continue (httpd_context, oob_data))
+  /*
+   * If there's not even one byte available right now, it's no
+   * need to go further, we'll just return NULL and skip
+   * even the 500 error default trick, it's not even worth it.
+   */
+  if (lw6net_tcp_peek (&(oob_data->sock), &b, sizeof (b), 0) > 0)
+    {
+      request =
+	(_mod_httpd_request_t *)
+	LW6SYS_CALLOC (sizeof (_mod_httpd_request_t));
+      if (request)
 	{
-	  request->first_line = lw6net_recv_line_tcp (oob_data->sock);
-	  if (request->first_line)
+	  request->client_ip = lw6sys_str_copy (oob_data->remote_ip);
+
+	  if (_mod_httpd_oob_should_continue (httpd_context, oob_data))
 	    {
-	      if (_parse_first_line (request))
+	      request->first_line = lw6net_recv_line_tcp (&(oob_data->sock));
+	      if (request->first_line)
 		{
-		  if (lw6sys_str_is_null_or_empty
-		      (node_info->const_info.password))
+		  if (_parse_first_line (request))
 		    {
-		      request->password_ok = 1;
-		    }
-		  while ((!eof)
-			 && _mod_httpd_oob_should_continue (httpd_context,
-							    oob_data))
-		    {
-		      line = lw6net_recv_line_tcp (oob_data->sock);
-		      if (line)
+		      if (lw6sys_str_is_null_or_empty
+			  (node_info->const_info.password))
 			{
-			  if (strlen (line) == 0)
+			  request->password_ok = 1;
+			}
+		      while ((!eof)
+			     && _mod_httpd_oob_should_continue (httpd_context,
+								oob_data))
+			{
+			  line = lw6net_recv_line_tcp (&(oob_data->sock));
+			  if (line)
 			    {
-			      eof = 1;
+			      if (strlen (line) == 0)
+				{
+				  eof = 1;
+				}
+			      else
+				{
+				  _parse_header (request, line,
+						 node_info->const_info.
+						 ref_info.url,
+						 node_info->
+						 const_info.password);
+				}
+			      LW6SYS_FREE (line);
 			    }
-			  else
-			    {
-			      _parse_header (request, line,
-					     node_info->const_info.
-					     ref_info.url,
-					     node_info->const_info.password);
-			    }
-			  LW6SYS_FREE (line);
 			}
 		    }
 		}
 	    }
-	}
-      if ((!request->first_line) || (request->get_head_post == 0)
-	  || (!request->uri))
-	{
-	  /*
-	   * OK, not parseable, we put dummy (empty) values in all fields to
-	   * avoid suspicious NULL-string bugs, and let the following code
-	   * return error 500.
-	   */
-	  if (request->first_line)
+	  if ((!request->first_line) || (request->get_head_post == 0)
+	      || (!request->uri))
 	    {
-	      LW6SYS_FREE (request->first_line);
+	      /* 
+	       * Not parseable, user entered garbage but did enter something,
+	       * we put dummy (empty) values in all fields to
+	       * avoid suspicious NULL-string bugs, and let the following code
+	       * return error 500.
+	       */
+	      if (request->first_line)
+		{
+		  LW6SYS_FREE (request->first_line);
+		}
+	      if (request->uri)
+		{
+		  LW6SYS_FREE (request->uri);
+		}
+	      request->first_line = lw6sys_str_copy (_ERROR_FIRST_LINE);
+	      request->get_head_post = 0;
+	      request->uri = lw6sys_str_copy (_ERROR_URI);
 	    }
-	  if (request->uri)
-	    {
-	      LW6SYS_FREE (request->uri);
-	    }
-	  request->first_line = lw6sys_str_copy (_ERROR_FIRST_LINE);
-	  request->get_head_post = 0;
-	  request->uri = lw6sys_str_copy (_ERROR_URI);
 	}
     }
 
@@ -250,7 +263,7 @@ _mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t *
       if (_mod_httpd_reply_thread_should_continue (reply_thread_data))
 	{
 	  request->first_line =
-	    lw6net_recv_line_tcp (reply_thread_data->sock);
+	    lw6net_recv_line_tcp (&(reply_thread_data->sock));
 	  if (request->first_line)
 	    {
 	      if (_parse_first_line (request))
@@ -264,7 +277,8 @@ _mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t *
 			 _mod_httpd_reply_thread_should_continue
 			 (reply_thread_data))
 		    {
-		      line = lw6net_recv_line_tcp (reply_thread_data->sock);
+		      line =
+			lw6net_recv_line_tcp (&(reply_thread_data->sock));
 		      if (line)
 			{
 			  if (strlen (line) == 0)

@@ -51,13 +51,13 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 				     node_info->const_info.ref_info.url);
       if (request)
 	{
-	  if (lw6net_send_line_tcp (sock, request))
+	  if (lw6net_send_line_tcp (&sock, request))
 	    {
 	      lw6sys_snooze ();
 	      while (!ret
 		     && _mod_tcp_oob_should_continue (tcp_context, oob_data,
 						      sock)
-		     && ((response = lw6net_recv_line_tcp (sock)) == NULL))
+		     && ((response = lw6net_recv_line_tcp (&sock)) == NULL))
 		{
 		  lw6sys_snooze ();
 		}
@@ -144,7 +144,7 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	       * logical.
 	       */
 	      origin = lw6sys_get_timestamp ();
-	      if (lw6net_send_line_tcp (sock, request))
+	      if (lw6net_send_line_tcp (&sock, request))
 		{
 		  /*
 		   * Here we use idle and not snooze for we're concerned
@@ -156,7 +156,7 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 		    {
 		      while (_mod_tcp_oob_should_continue
 			     (tcp_context, oob_data, sock)
-			     && ((response = lw6net_recv_line_tcp (sock)) ==
+			     && ((response = lw6net_recv_line_tcp (&sock)) ==
 				 NULL) && !eom)
 			{
 			  /*
@@ -257,7 +257,7 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 				     node_info->const_info.ref_info.url);
       if (request)
 	{
-	  if (lw6net_send_line_tcp (sock, request))
+	  if (lw6net_send_line_tcp (&sock, request))
 	    {
 	      lw6sys_snooze ();
 	      while (_mod_tcp_oob_should_continue
@@ -265,7 +265,7 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 		{
 		  while (_mod_tcp_oob_should_continue
 			 (tcp_context, oob_data, sock)
-			 && ((response = lw6net_recv_line_tcp (sock)) ==
+			 && ((response = lw6net_recv_line_tcp (&sock)) ==
 			     NULL) && !eom)
 		    {
 		      lw6sys_snooze ();

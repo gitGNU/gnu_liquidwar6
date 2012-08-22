@@ -580,7 +580,7 @@ _tcp_accepter_reply (void *func_data, void *data)
   char *remote_url = NULL;
   int tentacle_index = -1;
 
-  lw6net_tcp_peek (tcp_accepter->sock, tcp_accepter->first_line,
+  lw6net_tcp_peek (&(tcp_accepter->sock), tcp_accepter->first_line,
 		   LW6SRV_PROTOCOL_BUFFER_SIZE, 0);
 
   for (i = 0; i < node->backends.nb_srv_backends && ret; ++i)

@@ -43,7 +43,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process tcpd oob"));
   if (_mod_tcpd_oob_should_continue (tcpd_context, oob_data))
     {
-      request_line = lw6net_recv_line_tcp (oob_data->sock);
+      request_line = lw6net_recv_line_tcp (&(oob_data->sock));
       if (request_line)
 	{
 	  if (lw6msg_oob_analyse_request (&syntax_ok, &command, &password_ok,
@@ -142,13 +142,13 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
     {
       if (response)
 	{
-	  lw6net_tcp_send (oob_data->sock, response,
+	  lw6net_tcp_send (&(oob_data->sock), response,
 			   strlen (response),
 			   tcpd_context->data.consts.error_timeout * 1000, 1);
 	}
       else
 	{
-	  lw6net_send_line_tcp (oob_data->sock, LW6MSG_ERROR);
+	  lw6net_send_line_tcp (&(oob_data->sock), LW6MSG_ERROR);
 	}
     }
 

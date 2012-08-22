@@ -367,19 +367,19 @@ test_tcp ()
 	if (buf1_send && buf1_recv)
 	  {
 	    if (lw6net_tcp_send
-		(sock1, buf1_send, size, TEST_TCP_STREAM_DELAY, 1))
+		(&sock1, buf1_send, size, TEST_TCP_STREAM_DELAY, 1))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("sent \"%s\" on TCP socket %d"),
 			    buf1_send, sock1);
 		received =
-		  lw6net_tcp_peek (sock2, NULL, size, TEST_TCP_STREAM_DELAY);
+		  lw6net_tcp_peek (&sock2, NULL, size, TEST_TCP_STREAM_DELAY);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
 			    ("%d bytes available on TCP socket %d"),
 			    received, sock2);
 		if (received == size
-		    && lw6net_tcp_recv (sock2,
+		    && lw6net_tcp_recv (&sock2,
 					buf1_recv, size,
 					TEST_TCP_STREAM_DELAY, 1))
 		  {
@@ -574,9 +574,9 @@ test_line ()
 
     if (prepare_2_tcp_socks (&sock1, &sock2))
       {
-	if (lw6net_send_line_tcp (sock1, TEST_LINE1) &&
-	    lw6net_send_line_tcp (sock1, TEST_LINE2) &&
-	    lw6net_send_line_tcp (sock1, TEST_LINE3))
+	if (lw6net_send_line_tcp (&sock1, TEST_LINE1) &&
+	    lw6net_send_line_tcp (&sock1, TEST_LINE2) &&
+	    lw6net_send_line_tcp (&sock1, TEST_LINE3))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lines sent"));
 	    ret_tmp = 1;
@@ -584,7 +584,7 @@ test_line ()
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("receiving line %d"),
 			    i + 1);
-		line = lw6net_recv_line_tcp (sock2);
+		line = lw6net_recv_line_tcp (&sock2);
 		if (line)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
