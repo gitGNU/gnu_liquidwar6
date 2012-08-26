@@ -220,6 +220,7 @@ lw6cli_close (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
  *
  * @backend: backend to use
  * @connection: connection to use
+ * @now: current timestamp
  * @physical_ticket_sig: signature of physical sender
  * @logical_ticket_sig: signature of logical sender
  * @logical_from_id: id of logical sender
@@ -232,6 +233,7 @@ lw6cli_close (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
  */
 int
 lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
+	     int64_t now,
 	     u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
 	     u_int64_t logical_from_id,
 	     u_int64_t logical_to_id, const char *message)
@@ -245,20 +247,9 @@ lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
       if (lw6cnx_connection_reliability_filter (connection))
 	{
 	  ret =
-	    backend->send (backend->cli_context, connection,
+	    backend->send (backend->cli_context, connection, now,
 			   physical_ticket_sig, logical_ticket_sig,
 			   logical_from_id, logical_to_id, message);
-	  if (!ret)
-	    {
-	      /*
-	       * If we can't send data, we mark this connection with
-	       * the worst possible ping, it basically means the
-	       * connexion just does not work, we do not want to send
-	       * data on it, at least, we do not want it to be identified
-	       * as a good connection any more.
-	       */
-	      connection->ping_msec = LW6CNX_WORST_PING_MSEC;
-	    }
 	}
       else
 	{

@@ -532,6 +532,8 @@ lw6net_tcp_send (int *sock, const char *buf, int len, int delay_msec,
 #ifdef LW6_MS_WINDOWS
   int winerr = 0;
 #endif
+  int try_again = 0;
+  int64_t limit_timestamp = 0LL;
 
   if (lw6net_socket_is_valid (*sock))
     {
@@ -541,6 +543,8 @@ lw6net_tcp_send (int *sock, const char *buf, int len, int delay_msec,
       total_sent = 0;
       while (total_sent != len && ret)
 	{
+	  try_again = 0;
+
 	  FD_ZERO (&write);
 	  FD_SET (*sock, &write);
 	  _lw6net_delay_msec_to_timeval (&tv, delay_msec);
@@ -573,6 +577,14 @@ lw6net_tcp_send (int *sock, const char *buf, int len, int delay_msec,
 		  ret = 0;
 		}
 #endif
+	      if (ret)
+		{
+		  /*
+		   * Got interrupted by something which is not really an error,
+		   * try again, even if not looping.
+		   */
+		  try_again = 1;
+		}
 	    }
 	  else
 	    {
@@ -602,7 +614,7 @@ lw6net_tcp_send (int *sock, const char *buf, int len, int delay_msec,
 			      lw6net_last_error ();
 			      lw6sys_log (LW6SYS_LOG_INFO,
 					  _x_
-					  ("can't send data on socket %d select() failed, code=%d"),
+					  ("can't send data on socket %d send() failed, code=%d"),
 					  *sock, winerr);
 			      lw6net_socket_close (sock);
 			      ret = 0;
@@ -614,23 +626,66 @@ lw6net_tcp_send (int *sock, const char *buf, int len, int delay_msec,
 			      lw6net_last_error ();
 			      lw6sys_log (LW6SYS_LOG_INFO,
 					  _x_
-					  ("can't send data on socket %d select() failed"),
+					  ("can't send data on socket %d send() failed"),
 					  *sock);
 			      lw6net_socket_close (sock);
 			      ret = 0;
 			    }
 #endif
+			  if (ret)
+			    {
+			      /*
+			       * Got interrupted by something which is not really an error,
+			       * try again, even if not looping.
+			       */
+			      try_again = 1;
+
+			    }
 			}
 		    }
 		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_
+			      ("socket %d is not writeable, it's very likely that TCP system buffer is full"),
+			      *sock);
+		}
 	    }
 
-	  if ((!loop) && (total_sent != len))
+	  if ((!loop) && (!try_again) && (total_sent != len))
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_ ("can't send data on socket %d (%d/%d)"), *sock,
 			  total_sent, len);
 	      ret = 0;
+	    }
+
+	  /*
+	   * Now we only use this get_timestamp foolishness
+	   * if we are heading towards a second try, for the
+	   * first one, the select timeout is likley to be
+	   * enough. But in looping mode, we need some barrier,
+	   * because if buffer is full, select will just wait
+	   * forever, while never reporting the socket as bad...
+	   */
+	  if (total_sent != len && ret)
+	    {
+	      if (limit_timestamp == 0LL)
+		{
+		  limit_timestamp = lw6sys_get_timestamp () + delay_msec;
+		}
+	      else
+		{
+		  if (lw6sys_get_timestamp () > limit_timestamp)
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_
+				  ("timeout on socket %d, could only send %d bytes out of %d in %d msec"),
+				  *sock, total_sent, len, delay_msec);
+		      ret = 0;
+		    }
+		}
 	    }
 	}
 
@@ -947,12 +1002,13 @@ lw6net_tcp_recv (int *sock, char *buf, int len, int delay_msec, int loop)
  * @sock: socket to test
  *
  * Tells wether a socket is alive and able to send data. This function
- * will attempt a write to test if it's really usable.
+ * will attempt a write to test if it's really usable. If not, will
+ * close in on the fly.
  *
  * Return value: 1 if alive, 0 if not.
  */
 int
-lw6net_tcp_is_alive (int sock)
+lw6net_tcp_is_alive (int *sock)
 {
   int ret = 0;
   fd_set write;
@@ -962,16 +1018,16 @@ lw6net_tcp_is_alive (int sock)
   int winerr = 0;
 #endif
 
-  if (lw6net_socket_is_valid (sock))
+  if (lw6net_socket_is_valid (*sock))
     {
       ret = 1;
 
       FD_ZERO (&write);
-      FD_SET (sock, &write);
+      FD_SET (*sock, &write);
       tv.tv_sec = 0;
       tv.tv_usec = 0;
 
-      select_ret = select (sock + 1, NULL, &write, NULL, &tv);
+      select_ret = select ((*sock) + 1, NULL, &write, NULL, &tv);
 
       if (select_ret < 0)
 	{
@@ -983,15 +1039,34 @@ lw6net_tcp_is_alive (int sock)
 #endif
 	    {
 	      // socket is closed...
+	      lw6net_last_error ();
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_ ("closing socket %d because select failed"),
+			  *sock);
+	      lw6net_socket_close (sock);
 	      ret = 0;
 	    }
 	}
       else
 	{
-	  if (!FD_ISSET (sock, &write))
+	  if (FD_ISSET (*sock, &write))
 	    {
-	      // socket is closed
-	      ret = 0;
+	      // OK, looks like we can send data on it
+	    }
+	  else
+	    {
+	      lw6net_last_error ();
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_
+			  ("socket %d is not writeable, it's very likely that TCP system buffer is full"),
+			  *sock);
+	      /*
+	       * Here, we don't mark the "alive" flag (ret) as
+	       * not alive, as a filled buffer is not a good enough
+	       * reason to close a socket and/or consider the
+	       * socket is broken. Only, send operations will return
+	       * 0 and not work.
+	       */
 	    }
 	}
     }

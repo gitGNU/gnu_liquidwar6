@@ -174,7 +174,7 @@ _close (void *srv_context, lw6cnx_connection_t * connection)
 }
 
 static int
-_send (void *srv_context, lw6cnx_connection_t * connection,
+_send (void *srv_context, lw6cnx_connection_t * connection, int64_t now,
        u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
        u_int64_t logical_from_id, u_int64_t logical_to_id,
        const char *message)
@@ -185,7 +185,7 @@ _send (void *srv_context, lw6cnx_connection_t * connection,
   if (connection)
     {
       ret =
-	_mod_httpd_send (httpd_context, connection, physical_ticket_sig,
+	_mod_httpd_send (httpd_context, connection, now, physical_ticket_sig,
 			 logical_ticket_sig, logical_from_id, logical_to_id,
 			 message);
     }

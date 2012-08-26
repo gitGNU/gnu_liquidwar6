@@ -39,8 +39,11 @@
 #define TEST_TCP_CONNECT_DELAY 1000
 #define TEST_TCP_ACCEPT_DELAY 1000
 #define TEST_TCP_STREAM_DELAY 100
+#define _TEST_TCP_MASSIVE_N 100000
+#define _TEST_TCP_MASSIVE_STEP 1000
 #define TEST_UDP_DELAY 100
 #define TEST_BUF1_STR "foo"
+#define TEST_BUF2_STR "what's the difference between a chicken and a house?"
 #define TEST_LINE1 "foo"
 #define TEST_LINE2 "a\tb\tc"
 #define TEST_LINE3 "azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty"
@@ -313,11 +316,24 @@ test_tcp ()
   {
     int sock1 = -1;
     int sock2 = -1;
-    int ret_tmp = 0;
+    int ret_tmp1 = 0;
+    int ret_tmp2 = 0;
     char *buf1_send = NULL;
     char *buf1_recv = NULL;
-    int size;
-    int received;
+    char *buf2_send = NULL;
+    char *buf2_recv = NULL;
+    int size = 0;
+    int received = 0;
+    int i = 0;
+    int j = 0;
+    int sent_i = 0;
+    int received_i = 0;
+    int send_failed = 0;
+    int64_t massive_begin_timestamp = 0LL;
+    int64_t massive_end_timestamp = 0LL;
+    int massive_duration = 0;
+    int bytes_per_sec = 0;
+    int internal_tcp_buffer_size = 0;
 
     sock1 =
       lw6net_tcp_connect (TEST_UNREACHABLE_IP, TEST_UNREACHABLE_PORT,
@@ -387,12 +403,144 @@ test_tcp ()
 				_x_
 				("received \"%s\" on TCP socket %d"),
 				buf1_recv, sock2);
-		    ret_tmp = 1;
+		    ret_tmp1 = 1;
+		  }
+	      }
+	  }
+	/*
+	 * Now proceeding with a massive data test
+	 */
+	size = strlen (TEST_BUF2_STR) + 1;
+	buf2_send = lw6sys_str_copy (TEST_BUF2_STR);
+	buf2_recv = LW6SYS_CALLOC (strlen (TEST_BUF2_STR) + 1);
+	if (buf2_send && buf2_recv)
+	  {
+	    massive_begin_timestamp = lw6sys_get_timestamp ();
+	    for (j = 0;
+		 j < _TEST_TCP_MASSIVE_N && sent_i < _TEST_TCP_MASSIVE_N
+		 && lw6net_tcp_is_alive (&sock1)
+		 && received_i < _TEST_TCP_MASSIVE_N
+		 && lw6net_tcp_is_alive (&sock2); ++j)
+	      {
+		send_failed = 0;
+		for (i = 0;
+		     i < _TEST_TCP_MASSIVE_N && sent_i < _TEST_TCP_MASSIVE_N
+		     && !send_failed && lw6net_tcp_is_alive (&sock1); ++i)
+		  {
+		    if (!(sent_i % _TEST_TCP_MASSIVE_STEP))
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_
+				    ("TCP massive data test, send sent_i=%d"),
+				    sent_i);
+		      }
+		    if (lw6net_tcp_send
+			(&sock1, buf2_send, size, TEST_TCP_STREAM_DELAY, 1))
+		      {
+			sent_i++;
+		      }
+		    else
+		      {
+			lw6sys_log (LW6SYS_LOG_WARNING,
+				    _x_
+				    ("unable to send \"%s\" on TCP socket, massive data (sent_i=%d)"),
+				    buf2_send, sent_i);
+			if (internal_tcp_buffer_size == 0)
+			  {
+			    /*
+			     * Raw estimation of internal TCP buffer size, we round
+			     * it to the closest thousand, there's no point in
+			     * doing more...
+			     */
+			    internal_tcp_buffer_size =
+			      (sent_i * size) / 1000 * 1000;
+			  }
+			send_failed = 1;
+		      }
+		  }
+
+		for (i = 0;
+		     i < _TEST_TCP_MASSIVE_N && received_i < sent_i
+		     && lw6net_tcp_is_alive (&sock2); ++i)
+		  {
+		    {
+		      if (!(received_i % _TEST_TCP_MASSIVE_STEP))
+			{
+			  lw6sys_log (LW6SYS_LOG_NOTICE,
+				      _x_
+				      ("TCP massive data test, recv received_i=%d"),
+				      received_i);
+			}
+		      received =
+			lw6net_tcp_peek (&sock2, NULL, size,
+					 TEST_TCP_STREAM_DELAY);
+		      if (received == size
+			  && lw6net_tcp_recv (&sock2, buf2_recv, size,
+					      TEST_TCP_STREAM_DELAY, 1))
+			{
+			  received_i++;
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("unable to recv %d bytes on TCP socket, massive data (received_i=%d)"),
+				      size, received_i);
+			}
+		    }
+		  }
+	      }
+	    massive_end_timestamp = lw6sys_get_timestamp ();
+	    massive_duration =
+	      massive_end_timestamp - massive_begin_timestamp;
+	    if (massive_duration)
+	      {
+		/*
+		 * It's important to multiplicate by LW6SYS_TICKS_PER_SEC after
+		 * the first value is computed, because a) it avoids out of range
+		 * error on int32 and b) it rounds to the closest thousand, and
+		 * this way one does not have the illusion the result is very precise.
+		 * And it's good, because it's not.
+		 */
+		bytes_per_sec =
+		  ((_TEST_TCP_MASSIVE_N * size) / massive_duration) *
+		  LW6SYS_TICKS_PER_SEC;
+	      }
+	    if (sent_i == _TEST_TCP_MASSIVE_N
+		&& received_i == _TEST_TCP_MASSIVE_N)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("OK, was able to send and receive %d bytes splitted in %d messages"),
+			    _TEST_TCP_MASSIVE_N * size, _TEST_TCP_MASSIVE_N);
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("exchange took %d msec, bytes_per_sec=%d"),
+			    massive_duration, bytes_per_sec);
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("raw estimation of internal TCP buffer size is %d bytes"),
+			    internal_tcp_buffer_size);
+
+		ret_tmp2 = 1;
+	      }
+	    else
+	      {
+		if (sent_i != _TEST_TCP_MASSIVE_N)
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_ ("only sent %d messages out of %d"),
+				sent_i, _TEST_TCP_MASSIVE_N);
+		  }
+		if (received_i != _TEST_TCP_MASSIVE_N)
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_ ("only received %d messages out of %d"),
+				received_i, _TEST_TCP_MASSIVE_N);
 		  }
 	      }
 	  }
       }
-    if (!ret_tmp)
+    if ((!ret_tmp1) || (!ret_tmp2))
       {
 	ret = 0;
       }
@@ -404,6 +552,14 @@ test_tcp ()
     if (buf1_recv)
       {
 	LW6SYS_FREE (buf1_recv);
+      }
+    if (buf2_send)
+      {
+	LW6SYS_FREE (buf2_send);
+      }
+    if (buf2_recv)
+      {
+	LW6SYS_FREE (buf2_recv);
       }
     if (sock1 >= 0)
       {
@@ -755,12 +911,12 @@ lw6net_test (int mode)
       lw6cfg_test (mode);
     }
 
-  ret = lw6net_init (argc, argv, TEST_NET_LOG) && test_address ()
-    && test_dns () && test_if () && test_tcp () && test_udp ()
-    && test_line ();
-
-  if (ret)
+  if (lw6net_init (argc, argv, TEST_NET_LOG))
     {
+      ret = test_address ()
+	&& test_dns () && test_if () && test_tcp () && test_udp ()
+	&& test_line ();
+
       lw6net_quit ();
     }
 

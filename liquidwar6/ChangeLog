@@ -1,3 +1,7 @@
+2012-08-26 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented local buffers/backlogs in mod_tcp and mod_tcpd.
+
 2012-08-22 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Revamped net api to close sockets on the fly.

@@ -74,7 +74,7 @@ lw6net_recv_line_tcp (int *sock)
   char *pos_lf;
   char line_buf[LW6NET_MAX_LINE_SIZE + TRAIL_SIZE + 1];
 
-  if (*sock >= 0)
+  if (lw6net_socket_is_valid (*sock))
     {
       line_size = _lw6net_global_context->const_data.line_size;
       line_delay = _lw6net_global_context->const_data.line_delay_msec;
@@ -126,31 +126,37 @@ lw6net_send_line_tcp (int *sock, const char *line)
   int line_size = 0;
   int line_delay;
   int wanted_size = 0;
+  char *trailed_line = NULL;
 
-  if (*sock >= 0 && line)
+  if (lw6net_socket_is_valid (*sock) && line)
     {
       /*
        * If sock is not reported as alive, we don't even waste
        * the time to try and send data, this could really slow
        * down things on polling loops.
        */
-      if (lw6net_tcp_is_alive (*sock))
+      if (lw6net_tcp_is_alive (sock))
 	{
-	  line_size = _lw6net_global_context->const_data.line_size;
-	  line_delay = _lw6net_global_context->const_data.line_delay_msec;
-	  wanted_size = strlen (line);
-	  if (wanted_size > line_size)
+	  trailed_line = lw6sys_str_concat (line, trail);
+	  if (trailed_line)
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_
-			  ("stripping line \"%s\" of size %d, limit is %d"),
-			  line, wanted_size, line_size);
-	      wanted_size = line_size;
-	    }
+	      line_size = _lw6net_global_context->const_data.line_size;
+	      line_delay = _lw6net_global_context->const_data.line_delay_msec;
+	      wanted_size = strlen (trailed_line);
+	      if (wanted_size > line_size)
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("stripping line \"%s\" of size %d, limit is %d"),
+			      line, wanted_size, line_size);
+		  wanted_size = line_size;
+		}
 
-	  ret =
-	    lw6net_tcp_send (sock, line, wanted_size, line_delay, 0)
-	    && lw6net_tcp_send (sock, trail, strlen (trail), line_delay, 0);
+	      ret =
+		lw6net_tcp_send (sock, trailed_line, wanted_size, line_delay,
+				 0);
+	      LW6SYS_FREE (trailed_line);
+	    }
 	}
     }
 
@@ -192,7 +198,7 @@ lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
    */
   char line_buf[LW6NET_MAX_LINE_SIZE + TRAIL_SIZE + 1];
 
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       line_size =
 	lw6sys_imin (_lw6net_global_context->const_data.line_size,
@@ -263,7 +269,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
   char *seek = NULL;
   int no_lf_at_very_end = 0;
 
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       ret = lw6sys_list_new (lw6sys_free_callback);
       if (ret)
@@ -368,7 +374,7 @@ lw6net_send_line_udp (int sock, const char *line, const char *ip, int port)
   char *copied_line;
   char *trailed_line;
 
-  if (sock >= 0 && line)
+  if (lw6net_socket_is_valid (sock) && line)
     {
       line_size =
 	lw6sys_imin (_lw6net_global_context->const_data.line_size,

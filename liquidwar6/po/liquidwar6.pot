@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.14beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-08-20 23:21+0200\n"
+"POT-Creation-Date: 2012-08-27 00:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -542,7 +542,7 @@ msgstr ""
 msgid "No weapon"
 msgstr ""
 
-#: src/lib/p2p/p2p-data.c:108
+#: src/lib/p2p/p2p-data.c:110
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
 msgstr ""
@@ -557,7 +557,7 @@ msgstr ""
 msgid "started node \"%s\""
 msgstr ""
 
-#: src/lib/p2p/p2p-recv.c:220
+#: src/lib/p2p/p2p-recv.c:221
 #, c-format
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr ""
@@ -587,7 +587,7 @@ msgstr ""
 msgid "TCPD"
 msgstr ""
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:70
+#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:71
 msgid "can't initialize mod_tcpd"
 msgstr ""
 
@@ -595,7 +595,7 @@ msgstr ""
 msgid "UDPD"
 msgstr ""
 
-#: src/lib/srv/mod-udpd/mod-udpd-setup.c:70
+#: src/lib/srv/mod-udpd/mod-udpd-setup.c:71
 msgid "can't initialize mod_udpd"
 msgstr ""
 

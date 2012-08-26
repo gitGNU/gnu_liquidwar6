@@ -28,7 +28,7 @@
 #include "mod-udpd-internal.h"
 
 int
-_mod_udpd_analyse_tcp (_udpd_context_t * udpd_context,
+_mod_udpd_analyse_tcp (_mod_udpd_context_t * udpd_context,
 		       lw6srv_tcp_accepter_t * tcp_accepter,
 		       lw6nod_info_t * node_info,
 		       u_int64_t * remote_id, char **remote_url)
@@ -52,7 +52,7 @@ _mod_udpd_analyse_tcp (_udpd_context_t * udpd_context,
 }
 
 int
-_mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
+_mod_udpd_analyse_udp (_mod_udpd_context_t * udpd_context,
 		       lw6srv_udp_buffer_t * udp_buffer,
 		       lw6nod_info_t * node_info,
 		       u_int64_t * remote_id, char **remote_url)
@@ -115,7 +115,7 @@ _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
 }
 
 int
-_mod_udpd_feed_with_tcp (_udpd_context_t * udpd_context,
+_mod_udpd_feed_with_tcp (_mod_udpd_context_t * udpd_context,
 			 lw6cnx_connection_t * connection,
 			 lw6srv_tcp_accepter_t * tcp_accepter)
 {
@@ -128,13 +128,13 @@ _mod_udpd_feed_with_tcp (_udpd_context_t * udpd_context,
 }
 
 int
-_mod_udpd_feed_with_udp (_udpd_context_t * udpd_context,
+_mod_udpd_feed_with_udp (_mod_udpd_context_t * udpd_context,
 			 lw6cnx_connection_t * connection,
 			 lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
-  _udpd_specific_data_t *specific_data =
-    (_udpd_specific_data_t *) connection->backend_specific_data;
+  _mod_udpd_specific_data_t *specific_data =
+    (_mod_udpd_specific_data_t *) connection->backend_specific_data;
   char *envelope_line = NULL;
   char *msg = NULL;
   u_int32_t physical_ticket_sig = 0;

@@ -236,6 +236,7 @@ typedef struct lw6srv_backend_s
   void (*close) (void *srv_context, lw6cnx_connection_t * connection);
   /// Pointer on lw6srv_send callback code.
   int (*send) (void *srv_context, lw6cnx_connection_t * connection,
+	       int64_t now,
 	       u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
 	       u_int64_t logical_from_id,
 	       u_int64_t logical_to_id, const char *message);
@@ -284,6 +285,7 @@ extern void lw6srv_close (lw6srv_backend_t * backend,
 			  lw6cnx_connection_t * connection);
 extern int lw6srv_send (lw6srv_backend_t * backend,
 			lw6cnx_connection_t * connection,
+			int64_t now,
 			u_int32_t physical_ticket_sig,
 			u_int32_t logical_ticket_sig,
 			u_int64_t logical_from_id, u_int64_t logical_to_id,

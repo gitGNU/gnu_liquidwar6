@@ -34,9 +34,9 @@ static void
 _read_callback (void *callback_data, const char *element, const char *key,
 		const char *value)
 {
-  _tcpd_consts_t *consts;
+  _mod_tcpd_consts_t *consts;
 
-  consts = (_tcpd_consts_t *) callback_data;
+  consts = (_mod_tcpd_consts_t *) callback_data;
 
   if (!strcmp (element, "int"))
     {
@@ -50,7 +50,7 @@ _read_callback (void *callback_data, const char *element, const char *key,
 }
 
 static int
-_load_consts (_tcpd_consts_t * consts, const char *consts_file)
+_load_consts (_mod_tcpd_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
@@ -64,7 +64,7 @@ _load_consts (_tcpd_consts_t * consts, const char *consts_file)
 }
 
 int
-_mod_tcpd_load_data (_tcpd_data_t * tcpd_data, const char *data_dir)
+_mod_tcpd_load_data (_mod_tcpd_data_t * tcpd_data, const char *data_dir)
 {
   int ret = 0;
   char *tcpd_subdir = NULL;
@@ -86,17 +86,17 @@ _mod_tcpd_load_data (_tcpd_data_t * tcpd_data, const char *data_dir)
 }
 
 static int
-_unload_consts (_tcpd_consts_t * consts)
+_unload_consts (_mod_tcpd_consts_t * consts)
 {
   int ret = 1;
 
-  memset (consts, 0, sizeof (_tcpd_consts_t));
+  memset (consts, 0, sizeof (_mod_tcpd_consts_t));
 
   return ret;
 }
 
 void
-_mod_tcpd_unload_data (_tcpd_data_t * tcpd_data)
+_mod_tcpd_unload_data (_mod_tcpd_data_t * tcpd_data)
 {
   _unload_consts (&(tcpd_data->consts));
 }

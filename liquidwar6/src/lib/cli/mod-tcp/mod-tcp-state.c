@@ -84,10 +84,7 @@ _mod_tcp_close (_mod_tcp_context_t * tcp_context,
 	  lw6sys_thread_join (specific_data->connect_thread);
 	  specific_data->connect_thread = NULL;
 	}
-      if (lw6net_socket_is_valid (specific_data->sock))
-	{
-	  lw6net_socket_close (&(specific_data->sock));
-	}
+      lw6net_socket_close (&(specific_data->sock));
       if (specific_data->send_backlog)
 	{
 	  lw6sys_list_free (specific_data->send_backlog);

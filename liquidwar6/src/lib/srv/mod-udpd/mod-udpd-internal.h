@@ -26,62 +26,63 @@
 #include "../srv.h"
 #include "mod-udpd.h"
 
-typedef struct _udpd_consts_s
+typedef struct _mod_udpd_consts_s
 {
   int error_timeout;
   int ping_alter_base;
   int ping_alter_percent;
 }
-_udpd_consts_t;
+_mod_udpd_consts_t;
 
-typedef struct _udpd_data_s
+typedef struct _mod_udpd_data_s
 {
-  _udpd_consts_t consts;
+  _mod_udpd_consts_t consts;
 }
-_udpd_data_t;
+_mod_udpd_data_t;
 
-typedef struct _udpd_context_s
+typedef struct _mod_udpd_context_s
 {
-  _udpd_data_t data;
+  _mod_udpd_data_t data;
 }
-_udpd_context_t;
+_mod_udpd_context_t;
 
-typedef struct _udpd_specific_data_s
+typedef struct _mod_udpd_specific_data_s
 {
   int sock;
   int remote_port;
 }
-_udpd_specific_data_t;
+_mod_udpd_specific_data_t;
 
 /* mod-udpd-data.c */
-extern int _mod_udpd_load_data (_udpd_data_t * udpd_data,
+extern int _mod_udpd_load_data (_mod_udpd_data_t * udpd_data,
 				const char *data_dir);
-extern void _mod_udpd_unload_data (_udpd_data_t * udpd_data);
+extern void _mod_udpd_unload_data (_mod_udpd_data_t * udpd_data);
 
 /* mod-udpd-setup.c */
-extern _udpd_context_t *_mod_udpd_init (int argc, const char *argv[],
-					lw6cnx_properties_t * properties,
-					lw6srv_listener_t * listener);
-extern void _mod_udpd_quit (_udpd_context_t * udpd_context);
+extern _mod_udpd_context_t *_mod_udpd_init (int argc, const char *argv[],
+					    lw6cnx_properties_t * properties,
+					    lw6srv_listener_t * listener);
+extern void _mod_udpd_quit (_mod_udpd_context_t * udpd_context);
 
 /* mod-udpd-handshake.c */
-extern int _mod_udpd_analyse_tcp (_udpd_context_t * udpd_context,
+extern int _mod_udpd_analyse_tcp (_mod_udpd_context_t * udpd_context,
 				  lw6srv_tcp_accepter_t * tcp_accepter,
 				  lw6nod_info_t * node_info,
 				  u_int64_t * remote_id, char **public_url);
-extern int _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
+extern int _mod_udpd_analyse_udp (_mod_udpd_context_t * udpd_context,
 				  lw6srv_udp_buffer_t * udp_buffer,
 				  lw6nod_info_t * node_info,
 				  u_int64_t * remote_id, char **public_url);
-extern int _mod_udpd_feed_with_tcp (_udpd_context_t * udpd_context,
+extern int _mod_udpd_feed_with_tcp (_mod_udpd_context_t * udpd_context,
 				    lw6cnx_connection_t * connection,
 				    lw6srv_tcp_accepter_t * tcp_accepter);
-extern int _mod_udpd_feed_with_udp (_udpd_context_t * udpd_context,
+extern int _mod_udpd_feed_with_udp (_mod_udpd_context_t * udpd_context,
 				    lw6cnx_connection_t * connection,
 				    lw6srv_udp_buffer_t * udp_buffer);
 
 /* mod-udpd-state.c */
-extern lw6cnx_connection_t *_mod_udpd_open (_udpd_context_t * udpd_context,
+extern lw6cnx_connection_t *_mod_udpd_open (_mod_udpd_context_t *
+					    udpd_context,
 					    lw6srv_listener_t * listener,
 					    const char *local_url,
 					    const char *remote_url,
@@ -94,30 +95,31 @@ extern lw6cnx_connection_t *_mod_udpd_open (_udpd_context_t * udpd_context,
 					    lw6cnx_recv_callback_t
 					    recv_callback_func,
 					    void *recv_callback_data);
-extern void _mod_udpd_close (_udpd_context_t * udpd_context,
+extern void _mod_udpd_close (_mod_udpd_context_t * udpd_context,
 			     lw6cnx_connection_t * connection);
-extern int _mod_udpd_timeout_ok (_udpd_context_t * udpd_context,
+extern int _mod_udpd_timeout_ok (_mod_udpd_context_t * udpd_context,
 				 int64_t origin_timestamp);
 
 /* mod-udpd-message.c */
-extern int _mod_udpd_send (_udpd_context_t * udpd_context,
+extern int _mod_udpd_send (_mod_udpd_context_t * udpd_context,
 			   lw6cnx_connection_t * connection,
+			   int64_t now,
 			   u_int32_t physical_ticket_sig,
 			   u_int32_t logical_ticket_sig,
 			   u_int64_t logical_from_id, u_int64_t logical_to_id,
 			   const char *message);
-extern void _mod_udpd_poll (_udpd_context_t * udpd_context,
+extern void _mod_udpd_poll (_mod_udpd_context_t * udpd_context,
 			    lw6cnx_connection_t * connection);
 
 /* mod-udpd-info.c */
-extern char *_mod_udpd_repr (_udpd_context_t * udpd_context,
+extern char *_mod_udpd_repr (_mod_udpd_context_t * udpd_context,
 			     lw6cnx_connection_t * connection);
 
 /* mod-udpd-oob.c */
-extern int _mod_udpd_process_oob (_udpd_context_t * udpd_context,
+extern int _mod_udpd_process_oob (_mod_udpd_context_t * udpd_context,
 				  lw6nod_info_t * node_info,
 				  lw6srv_oob_data_t * oob_data);
-extern int _mod_udpd_oob_should_continue (_udpd_context_t * udpd_context,
+extern int _mod_udpd_oob_should_continue (_mod_udpd_context_t * udpd_context,
 					  lw6srv_oob_data_t * oob_data);
 
 #endif

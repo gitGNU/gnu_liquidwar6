@@ -28,7 +28,7 @@
 #include "mod-tcpd-internal.h"
 
 int
-_mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
+_mod_tcpd_process_oob (_mod_tcpd_context_t * tcpd_context,
 		       lw6nod_info_t * node_info,
 		       lw6srv_oob_data_t * oob_data)
 {
@@ -138,7 +138,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 	}
     }
 
-  if (lw6net_tcp_is_alive (oob_data->sock))
+  if (lw6net_tcp_is_alive (&(oob_data->sock)))
     {
       if (response)
 	{
@@ -163,13 +163,13 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 }
 
 int
-_mod_tcpd_oob_should_continue (_tcpd_context_t * tcpd_context,
+_mod_tcpd_oob_should_continue (_mod_tcpd_context_t * tcpd_context,
 			       lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
 
   ret = (_mod_tcpd_timeout_ok (tcpd_context, oob_data->creation_timestamp)
-	 && lw6net_tcp_is_alive (oob_data->sock)
+	 && lw6net_tcp_is_alive (&(oob_data->sock))
 	 && (!oob_data->do_not_finish));
 
   return ret;

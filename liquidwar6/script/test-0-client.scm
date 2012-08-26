@@ -82,7 +82,7 @@
 								(assoc-ref x "url")))
 					     )))
 			    entries)	 
-		       (c-lw6sys-snooze)
+		       (c-lw6sys-idle)
 		       (c-lw6p2p-node-poll node-2)
 		       )))
 	    (if server-entry
@@ -91,7 +91,7 @@
 		)
 	    (while (and (< (c-lw6sys-get-timestamp) time-limit) server-entry)
 		   (begin
-		     (c-lw6sys-snooze)
+		     (c-lw6sys-idle)
 		     (c-lw6p2p-node-poll node-2)
 		     ;;(let (
 		     ;;	   (nop-command (lw6-command-nop (c-lw6pil-get-next-seq pilot-2) id-2))
@@ -105,10 +105,15 @@
 		       (if msg
 			   (begin
 			     (if (> len 100)
-				 (lw6-log-notice (format #f "received ~a bytes message" len))
-				 (lw6-log-notice (format #f "received ~a bytes message \"~a\"" len msg)))
-			     (set! ret #t) ;; todo, fix this and set it to true on real success
-			     )))
+				 (begin
+				   (lw6-log-notice (format #f "received ~a bytes message" len))
+				   (set! ret #t) ;; todo, fix this and set it to true on real success
+				   )
+				 (begin
+				   (lw6-log-notice (format #f "received ~a bytes message \"~a\"" len msg))
+				   (set! ret #t) ;; todo, remove this, this is to allow snapshot builds
+				   )
+				 ))))
 		     ))
 	    (c-lw6p2p-node-close node-2)
 	    ))

@@ -70,10 +70,12 @@ Closes a connection, this will free the connection object.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6cli_send} (lw6cli_backend_t * @var{backend}, lw6cnx_connection_t * @var{connection}, u_int32_t @var{physical_ticket_sig}, u_int32_t @var{logical_ticket_sig}, u_int64_t @var{logical_from_id}, u_int64_t @var{logical_to_id}, const char * @var{message})
+@deftypefun {int} {lw6cli_send} (lw6cli_backend_t * @var{backend}, lw6cnx_connection_t * @var{connection}, int64_t @var{now}, u_int32_t @var{physical_ticket_sig}, u_int32_t @var{logical_ticket_sig}, u_int64_t @var{logical_from_id}, u_int64_t @var{logical_to_id}, const char * @var{message})
 @var{backend}:  backend to use
 
 @var{connection}:  connection to use
+
+@var{now}:  current timestamp
 
 @var{physical_ticket_sig}:  signature of physical sender
 

@@ -393,7 +393,7 @@ lw6p2p_node_poll (lw6p2p_node_t * node)
 }
 
 static int
-_poll_step1_accept_tcp (_lw6p2p_node_t * node)
+_poll_step1_accept_tcp (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
   char *ip = NULL;
@@ -469,7 +469,7 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step2_recv_udp (_lw6p2p_node_t * node)
+_poll_step2_recv_udp (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
   char buf[LW6NET_UDP_MINIMAL_BUF_SIZE + 1];
@@ -592,10 +592,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("dead accepter, scheduling it for deletion"));
-	  if (lw6net_socket_is_valid (tcp_accepter->sock))
-	    {
-	      lw6net_socket_close (&(tcp_accepter->sock));
-	    }
+	  lw6net_socket_close (&(tcp_accepter->sock));
 	  ret = 0;
 	}
       else
@@ -806,7 +803,7 @@ _udp_buffer_reply (void *func_data, void *data)
 }
 
 static int
-_poll_step3_reply (_lw6p2p_node_t * node)
+_poll_step3_reply (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
 
@@ -831,7 +828,7 @@ _cli_oob_filter (void *func_data, void *data)
 }
 
 static int
-_poll_step4_cli_oob (_lw6p2p_node_t * node)
+_poll_step4_cli_oob (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
 
@@ -853,7 +850,7 @@ _srv_oob_filter (void *func_data, void *data)
 }
 
 static int
-_poll_step5_srv_oob (_lw6p2p_node_t * node)
+_poll_step5_srv_oob (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
 
@@ -863,7 +860,7 @@ _poll_step5_srv_oob (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step6_explore_discover_nodes (_lw6p2p_node_t * node)
+_poll_step6_explore_discover_nodes (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 0;
 
@@ -873,7 +870,7 @@ _poll_step6_explore_discover_nodes (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step7_flush_discovered_nodes (_lw6p2p_node_t * node)
+_poll_step7_flush_discovered_nodes (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 0;
 
@@ -883,7 +880,7 @@ _poll_step7_flush_discovered_nodes (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step8_explore_verify_nodes (_lw6p2p_node_t * node)
+_poll_step8_explore_verify_nodes (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 0;
 
@@ -893,7 +890,7 @@ _poll_step8_explore_verify_nodes (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step9_flush_verified_nodes (_lw6p2p_node_t * node)
+_poll_step9_flush_verified_nodes (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 0;
 
@@ -903,7 +900,7 @@ _poll_step9_flush_verified_nodes (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step10_send_atoms (_lw6p2p_node_t * node)
+_poll_step10_send_atoms (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
   int i = 0;
@@ -912,6 +909,7 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node)
   lw6sys_list_t *atom_str_list;
   char *atom_str = NULL;
   u_int32_t logical_ticket_sig = 0;
+  int send_i = 0;
 
   for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
     {
@@ -936,24 +934,23 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node)
 
 		  if (!_lw6p2p_tentacle_send_best (&
 						   (node->tentacles
-						    [i]),
+						    [i]), now,
 						   &(node->ticket_table),
 						   logical_ticket_sig,
 						   node->node_id_int,
 						   remote_id_int, atom_str,
-						   0))
+						   send_i >
+						   node->db->data.
+						   consts.send_best_reliable_limit_n))
 		    {
 		      ret = 0;
 		    }
 
+		  ++send_i;
+
 		  LW6SYS_FREE (atom_str);
 		}
 	    }
-	  /*
-	     _lw6p2p_tentacle_poll (&(node->tentacles[i]), node->node_info,
-	     &(node->ticket_table),
-	     node->db->data.consts.foo_delay,lw6dat_warehouse_get_local_serial(node->warehouse));
-	   */
 	}
     }
 
@@ -961,7 +958,7 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step11_miss_list (_lw6p2p_node_t * node)
+_poll_step11_miss_list (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
   lw6sys_list_t *list = NULL;
@@ -971,10 +968,8 @@ _poll_step11_miss_list (_lw6p2p_node_t * node)
   char *remote_id_str = NULL;
   int i = 0;
   const char *msg = NULL;
-  int64_t now;
   // int force_next = 0;
 
-  now = lw6sys_get_timestamp ();
   if (now - node->db->data.consts.miss_delay >=
       node->last_poll_miss_timestamp)
     {
@@ -1016,7 +1011,7 @@ _poll_step11_miss_list (_lw6p2p_node_t * node)
 
 			  _lw6p2p_tentacle_send_best (&
 						      (node->tentacles
-						       [i]),
+						       [i]), now,
 						      &(node->ticket_table),
 						      logical_ticket_sig,
 						      node->node_id_int,
@@ -1040,7 +1035,7 @@ _poll_step11_miss_list (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step12_tentacles (_lw6p2p_node_t * node)
+_poll_step12_tentacles (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
   int i = 0;
@@ -1051,7 +1046,7 @@ _poll_step12_tentacles (_lw6p2p_node_t * node)
 	{
 	  _lw6p2p_tentacle_poll (&(node->tentacles[i]), node->node_info,
 				 &(node->ticket_table),
-				 node->db->data.consts.foo_delay,
+				 &(node->db->data.consts),
 				 lw6dat_warehouse_get_local_serial
 				 (node->warehouse));
 	}
@@ -1064,19 +1059,22 @@ int
 _lw6p2p_node_poll (_lw6p2p_node_t * node)
 {
   int ret = 1;
+  int64_t now = 0LL;
 
-  ret = _poll_step1_accept_tcp (node) && ret;
-  ret = _poll_step2_recv_udp (node) && ret;
-  ret = _poll_step3_reply (node) && ret;
-  ret = _poll_step4_cli_oob (node) && ret;
-  ret = _poll_step5_srv_oob (node) && ret;
-  ret = _poll_step6_explore_discover_nodes (node) && ret;
-  ret = _poll_step7_flush_discovered_nodes (node) && ret;
-  ret = _poll_step8_explore_verify_nodes (node) && ret;
-  ret = _poll_step9_flush_verified_nodes (node) && ret;
-  ret = _poll_step10_send_atoms (node) && ret;
-  ret = _poll_step11_miss_list (node) && ret;
-  ret = _poll_step12_tentacles (node) && ret;
+  now = lw6sys_get_timestamp ();
+
+  ret = _poll_step1_accept_tcp (node, now) && ret;
+  ret = _poll_step2_recv_udp (node, now) && ret;
+  ret = _poll_step3_reply (node, now) && ret;
+  ret = _poll_step4_cli_oob (node, now) && ret;
+  ret = _poll_step5_srv_oob (node, now) && ret;
+  ret = _poll_step6_explore_discover_nodes (node, now) && ret;
+  ret = _poll_step7_flush_discovered_nodes (node, now) && ret;
+  ret = _poll_step8_explore_verify_nodes (node, now) && ret;
+  ret = _poll_step9_flush_verified_nodes (node, now) && ret;
+  ret = _poll_step10_send_atoms (node, now) && ret;
+  ret = _poll_step11_miss_list (node, now) && ret;
+  ret = _poll_step12_tentacles (node, now) && ret;
 
   return ret;
 }
@@ -1701,8 +1699,12 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
   u_int32_t ticket_sig = 0;
   char *msg = NULL;
   char *remote_id_str = NULL;
+  int64_t now = 0LL;
   int64_t limit_timestamp = 0LL;
+
   _lw6p2p_node_disconnect (node);
+
+  now = lw6sys_get_timestamp ();
 
   remote_id_str = lw6sys_id_ltoa (remote_id);
   if (remote_id_str)
@@ -1768,8 +1770,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 		      ret = 0;
 
 		      limit_timestamp =
-			lw6sys_get_timestamp () +
-			node->db->data.consts.join_delay;
+			now + node->db->data.consts.join_delay;
 		      while (!tentacle->data_exchanged
 			     && lw6sys_get_timestamp () < limit_timestamp)
 			{
@@ -1797,7 +1798,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 			     (&(node->ticket_table), remote_id_str),
 			     node->node_id_int, remote_id, msg);
 			  ret =
-			    _lw6p2p_tentacle_send_redundant (tentacle,
+			    _lw6p2p_tentacle_send_redundant (tentacle, now,
 							     &
 							     (node->ticket_table),
 							     ticket_sig,
@@ -1808,8 +1809,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 			      ret = 0;
 
 			      limit_timestamp =
-				lw6sys_get_timestamp () +
-				node->db->data.consts.join_delay;
+				now + node->db->data.consts.join_delay;
 			      while (!tentacle->joined
 				     && lw6sys_get_timestamp () <
 				     limit_timestamp)

@@ -28,7 +28,7 @@
 #include "mod-udpd-internal.h"
 
 int
-_mod_udpd_process_oob (_udpd_context_t * udpd_context,
+_mod_udpd_process_oob (_mod_udpd_context_t * udpd_context,
 		       lw6nod_info_t * node_info,
 		       lw6srv_oob_data_t * oob_data)
 {
@@ -134,7 +134,7 @@ _mod_udpd_process_oob (_udpd_context_t * udpd_context,
 }
 
 int
-_mod_udpd_oob_should_continue (_udpd_context_t * udpd_context,
+_mod_udpd_oob_should_continue (_mod_udpd_context_t * udpd_context,
 			       lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;

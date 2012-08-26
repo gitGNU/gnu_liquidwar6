@@ -125,6 +125,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		  _lw6p2p_tentacle_send_redundant (&
 						   (node->tentacles
 						    [tentacle_i]),
+						   cnx->last_recv_timestamp,
 						   &(node->ticket_table),
 						   logical_ticket_sig,
 						   cnx->local_id_int,
@@ -362,6 +363,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 			  _lw6p2p_tentacle_send_redundant (&
 							   (node->tentacles
 							    [tentacle_i]),
+							   cnx->last_recv_timestamp,
 							   &
 							   (node->ticket_table),
 							   logical_ticket_sig,

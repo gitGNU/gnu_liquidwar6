@@ -69,27 +69,32 @@
 	    (c-lw6p2p-node-server-start node-1 1000000000000)
 	    (while (< (c-lw6sys-get-timestamp) time-limit)
 		   (begin
-		     (c-lw6sys-snooze)
+		     (c-lw6sys-idle)
 		     (c-lw6p2p-node-poll node-1)
-		     (if (c-lw6p2p-node-is-dump-needed node-1)
-			 (let (
-			       (dump-command (c-lw6pil-dump-command-generate pilot-1 id-1))
-			       )
-			   (begin
-			     (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
-			     (c-lw6p2p-node-put-local-msg node-1 dump-command)
-			     (set! ret #t) ;; todo, fix this and set it to true on real success
+		     (cond
+		      (
+		       (c-lw6p2p-node-is-dump-needed node-1)
+		       (let (
+			     (dump-command (c-lw6pil-dump-command-generate pilot-1 id-1))
 			     )
+			 (begin
+			   (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
+			   (c-lw6p2p-node-put-local-msg node-1 dump-command)
+			   (set! ret #t) ;; todo, fix this and set it to true on real success
 			   )
-			 (let (
-			       (nop-command (lw6-command-nop (c-lw6pil-get-next-seq 
-							      pilot-1
-							      (c-lw6sys-get-timestamp)) 
-							     id-1))
+			 ))
+		      (
+		       ;; Don't send NOP too often...
+		       (< (random 10000) 10)
+		       (let (
+			     (nop-command (lw6-command-nop (c-lw6pil-get-next-seq 
+							    pilot-1
+							    (c-lw6sys-get-timestamp)) 
+							   id-1))
 			       )
-			   (c-lw6p2p-node-put-local-msg node-1 nop-command)
-			  )
-			 )
+			 (c-lw6p2p-node-put-local-msg node-1 nop-command)
+			 ))
+		      )
 		     ))
 	    (c-lw6p2p-node-close node-1)
 	    ))

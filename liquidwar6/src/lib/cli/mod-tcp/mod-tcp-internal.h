@@ -64,6 +64,7 @@ typedef struct _mod_tcp_specific_data_s
   int send_failed_once;
   int send_succeeded_once;
   lw6sys_list_t *send_backlog;
+  int64_t last_send_failed_timestamp;
   void *connect_thread;
 }
 _mod_tcp_specific_data_t;
@@ -107,6 +108,7 @@ extern void _mod_tcp_connect_func (void *func_data);
 /* mod-tcp-message.c */
 extern int _mod_tcp_send (_mod_tcp_context_t * tcp_context,
 			  lw6cnx_connection_t * connection,
+			  int64_t now,
 			  u_int32_t physical_ticket_sig,
 			  u_int32_t logical_ticket_sig,
 			  u_int64_t logical_from_id, u_int64_t logical_to_id,
@@ -124,6 +126,6 @@ extern int _mod_tcp_process_oob (_mod_tcp_context_t * tcp_context,
 				 lw6cli_oob_data_t * oob_data);
 extern int _mod_tcp_oob_should_continue (_mod_tcp_context_t * tcp_context,
 					 lw6cli_oob_data_t * oob_data,
-					 int sock);
+					 int *sock);
 
 #endif

@@ -28,7 +28,7 @@
 #include "mod-tcpd-internal.h"
 
 int
-_mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
+_mod_tcpd_analyse_tcp (_mod_tcpd_context_t * tcpd_context,
 		       lw6srv_tcp_accepter_t * tcp_accepter,
 		       lw6nod_info_t * node_info,
 		       u_int64_t * remote_id, char **remote_url)
@@ -50,7 +50,7 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
       (*remote_url) = NULL;
     }
 
-  if (lw6net_tcp_is_alive (tcp_accepter->sock))
+  if (lw6net_tcp_is_alive (&(tcp_accepter->sock)))
     {
       if (lw6sys_chr_is_eol (line[0])
 	  || lw6sys_str_starts_with_no_case (line,
@@ -107,14 +107,13 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
   else
     {
       ret |= LW6SRV_ANALYSE_DEAD;
-      lw6net_socket_close (&(tcp_accepter->sock));
     }
 
   return ret;
 }
 
 int
-_mod_tcpd_analyse_udp (_tcpd_context_t * tcpd_context,
+_mod_tcpd_analyse_udp (_mod_tcpd_context_t * tcpd_context,
 		       lw6srv_udp_buffer_t * udp_buffer,
 		       lw6nod_info_t * node_info,
 		       u_int64_t * remote_id, char **remote_url)
@@ -138,26 +137,25 @@ _mod_tcpd_analyse_udp (_tcpd_context_t * tcpd_context,
 }
 
 int
-_mod_tcpd_feed_with_tcp (_tcpd_context_t * tcpd_context,
+_mod_tcpd_feed_with_tcp (_mod_tcpd_context_t * tcpd_context,
 			 lw6cnx_connection_t * connection,
 			 lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
-  _tcpd_specific_data_t *specific_data =
-    (_tcpd_specific_data_t *) connection->backend_specific_data;;
+  _mod_tcpd_specific_data_t *specific_data =
+    (_mod_tcpd_specific_data_t *) connection->backend_specific_data;;
   int tmp_sock = LW6NET_SOCKET_INVALID;
 
   if (specific_data)
     {
+      tmp_sock = tcp_accepter->sock;
       if (lw6net_socket_is_valid (specific_data->sock))
 	{
-	  if (!lw6net_tcp_is_alive (specific_data->sock))
+	  if (!lw6net_tcp_is_alive (&(specific_data->sock)))
 	    {
 	      /*
 	       * Close our old socket, use the new one
 	       */
-	      lw6net_socket_close (&(specific_data->sock));
-	      tmp_sock = tcp_accepter->sock;
 	      tcp_accepter->sock = LW6NET_SOCKET_INVALID;
 	      specific_data->sock = tmp_sock;
 	      ret = 1;
@@ -174,7 +172,6 @@ _mod_tcpd_feed_with_tcp (_tcpd_context_t * tcpd_context,
 	}
       else
 	{
-	  tmp_sock = tcp_accepter->sock;
 	  tcp_accepter->sock = LW6NET_SOCKET_INVALID;
 	  specific_data->sock = tmp_sock;
 	  ret = 1;
@@ -191,7 +188,7 @@ _mod_tcpd_feed_with_tcp (_tcpd_context_t * tcpd_context,
 }
 
 int
-_mod_tcpd_feed_with_udp (_tcpd_context_t * tcpd_context,
+_mod_tcpd_feed_with_udp (_mod_tcpd_context_t * tcpd_context,
 			 lw6cnx_connection_t * connection,
 			 lw6srv_udp_buffer_t * udp_buffer)
 {

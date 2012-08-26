@@ -28,16 +28,16 @@
 #include "mod-tcpd-internal.h"
 
 lw6cnx_connection_t *
-_mod_tcpd_open (_tcpd_context_t * tcpd_context, lw6srv_listener_t * listener,
-		const char *local_url, const char *remote_url,
-		const char *remote_ip, int remote_port, const char *password,
-		u_int64_t local_id, u_int64_t remote_id, int dns_ok,
-		int network_reliability,
+_mod_tcpd_open (_mod_tcpd_context_t * tcpd_context,
+		lw6srv_listener_t * listener, const char *local_url,
+		const char *remote_url, const char *remote_ip,
+		int remote_port, const char *password, u_int64_t local_id,
+		u_int64_t remote_id, int dns_ok, int network_reliability,
 		lw6cnx_recv_callback_t recv_callback_func,
 		void *recv_callback_data)
 {
   lw6cnx_connection_t *ret = NULL;
-  _tcpd_specific_data_t *specific_data = NULL;
+  _mod_tcpd_specific_data_t *specific_data = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("_mod_tcpd_open \"%s\""), remote_url);
   ret =
@@ -48,8 +48,9 @@ _mod_tcpd_open (_tcpd_context_t * tcpd_context, lw6srv_listener_t * listener,
   if (ret)
     {
       ret->backend_specific_data =
-	LW6SYS_CALLOC (sizeof (_tcpd_specific_data_t));
-      specific_data = (_tcpd_specific_data_t *) ret->backend_specific_data;
+	LW6SYS_CALLOC (sizeof (_mod_tcpd_specific_data_t));
+      specific_data =
+	(_mod_tcpd_specific_data_t *) ret->backend_specific_data;
       if (specific_data)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -67,17 +68,19 @@ _mod_tcpd_open (_tcpd_context_t * tcpd_context, lw6srv_listener_t * listener,
 }
 
 void
-_mod_tcpd_close (_tcpd_context_t * tcpd_context,
+_mod_tcpd_close (_mod_tcpd_context_t * tcpd_context,
 		 lw6cnx_connection_t * connection)
 {
-  _tcpd_specific_data_t *specific_data =
-    (_tcpd_specific_data_t *) connection->backend_specific_data;;
+  _mod_tcpd_specific_data_t *specific_data =
+    (_mod_tcpd_specific_data_t *) connection->backend_specific_data;;
 
   if (specific_data)
     {
-      if (lw6net_socket_is_valid (specific_data->sock))
+      lw6net_socket_close (&(specific_data->sock));
+      if (specific_data->send_backlog)
 	{
-	  lw6net_socket_close (&(specific_data->sock));
+	  lw6sys_list_free (specific_data->send_backlog);
+	  specific_data->send_backlog = NULL;
 	}
       LW6SYS_FREE (specific_data);
     }
@@ -85,7 +88,7 @@ _mod_tcpd_close (_tcpd_context_t * tcpd_context,
 }
 
 int
-_mod_tcpd_timeout_ok (_tcpd_context_t * tcpd_context,
+_mod_tcpd_timeout_ok (_mod_tcpd_context_t * tcpd_context,
 		      int64_t origin_timestamp)
 {
   int ret = 0;

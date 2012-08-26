@@ -34,9 +34,9 @@ static void
 _read_callback (void *callback_data, const char *element, const char *key,
 		const char *value)
 {
-  _udpd_consts_t *consts;
+  _mod_udpd_consts_t *consts;
 
-  consts = (_udpd_consts_t *) callback_data;
+  consts = (_mod_udpd_consts_t *) callback_data;
 
   if (!strcmp (element, "int"))
     {
@@ -50,7 +50,7 @@ _read_callback (void *callback_data, const char *element, const char *key,
 }
 
 static int
-_load_consts (_udpd_consts_t * consts, const char *consts_file)
+_load_consts (_mod_udpd_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
@@ -64,7 +64,7 @@ _load_consts (_udpd_consts_t * consts, const char *consts_file)
 }
 
 int
-_mod_udpd_load_data (_udpd_data_t * udpd_data, const char *data_dir)
+_mod_udpd_load_data (_mod_udpd_data_t * udpd_data, const char *data_dir)
 {
   int ret = 0;
   char *udpd_subdir = NULL;
@@ -86,17 +86,17 @@ _mod_udpd_load_data (_udpd_data_t * udpd_data, const char *data_dir)
 }
 
 static int
-_unload_consts (_udpd_consts_t * consts)
+_unload_consts (_mod_udpd_consts_t * consts)
 {
   int ret = 1;
 
-  memset (consts, 0, sizeof (_udpd_consts_t));
+  memset (consts, 0, sizeof (_mod_udpd_consts_t));
 
   return ret;
 }
 
 void
-_mod_udpd_unload_data (_udpd_data_t * udpd_data)
+_mod_udpd_unload_data (_mod_udpd_data_t * udpd_data)
 {
   _unload_consts (&(udpd_data->consts));
 }

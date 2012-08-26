@@ -96,6 +96,7 @@ typedef struct _lw6p2p_consts_s
   int miss_wake_up_interval;
   int miss_max_range;
   int ticket_table_hash_size;
+  int send_best_reliable_limit_n;
 }
 _lw6p2p_consts_t;
 
@@ -426,14 +427,17 @@ extern int _lw6p2p_tentacle_enabled (_lw6p2p_tentacle_t * tentacle);
 extern void _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 				   lw6nod_info_t * node_info,
 				   lw6cnx_ticket_table_t * ticket_table,
-				   int next_foo_delay, int serial);
+				   const _lw6p2p_consts_t * consts,
+				   int serial);
 extern int _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
+				       int64_t now,
 				       lw6cnx_ticket_table_t * ticket_table,
 				       u_int32_t logical_ticket_sig,
 				       u_int64_t logical_from_id,
 				       u_int64_t logical_to_id,
 				       const char *msg, int reliable);
 extern int _lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
+					    int64_t now,
 					    lw6cnx_ticket_table_t *
 					    ticket_table,
 					    u_int32_t logical_ticket_sig,

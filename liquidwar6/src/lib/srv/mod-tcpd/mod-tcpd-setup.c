@@ -27,18 +27,19 @@
 #include "../srv.h"
 #include "mod-tcpd-internal.h"
 
-_tcpd_context_t *
+_mod_tcpd_context_t *
 _mod_tcpd_init (int argc, const char *argv[],
 		lw6cnx_properties_t * properties,
 		lw6srv_listener_t * listener)
 {
-  _tcpd_context_t *tcpd_context = NULL;
+  _mod_tcpd_context_t *tcpd_context = NULL;
   char *data_dir = NULL;
   int ok = 0;
 
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("tcpd init"));
 
-  tcpd_context = (_tcpd_context_t *) LW6SYS_CALLOC (sizeof (_tcpd_context_t));
+  tcpd_context =
+    (_mod_tcpd_context_t *) LW6SYS_CALLOC (sizeof (_mod_tcpd_context_t));
   if (tcpd_context)
     {
       data_dir = lw6sys_get_data_dir (argc, argv);
@@ -74,7 +75,7 @@ _mod_tcpd_init (int argc, const char *argv[],
 }
 
 void
-_mod_tcpd_quit (_tcpd_context_t * tcpd_context)
+_mod_tcpd_quit (_mod_tcpd_context_t * tcpd_context)
 {
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("tcpd quit"));
   _mod_tcpd_unload_data (&(tcpd_context->data));

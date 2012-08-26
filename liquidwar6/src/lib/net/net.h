@@ -106,7 +106,7 @@ extern int lw6net_tcp_send (int *sock, const char *buf,
 extern int lw6net_tcp_peek (int *sock, char *buf, int len, int delay_msec);
 extern int lw6net_tcp_recv (int *sock, char *buf,
 			    int len, int delay_msec, int loop);
-extern int lw6net_tcp_is_alive (int sock);
+extern int lw6net_tcp_is_alive (int *sock);
 
 /* net-test.c */
 extern int lw6net_test (int mode);

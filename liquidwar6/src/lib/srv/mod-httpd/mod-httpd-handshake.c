@@ -53,10 +53,9 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
       (*remote_url) = NULL;
     }
 
-  if (!lw6net_tcp_is_alive (tcp_accepter->sock))
+  if (!lw6net_tcp_is_alive (&(tcp_accepter->sock)))
     {
       ret |= LW6SRV_ANALYSE_DEAD;
-      lw6net_socket_close (&(tcp_accepter->sock));
     }
 
   line_size = strlen (line);
@@ -136,7 +135,7 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
    * suspect some hacker seeing this when administrating is box
    * will find out the random he was trying was Liquid War 6...
    */
-  if (lw6net_tcp_is_alive (tcp_accepter->sock)
+  if (lw6net_tcp_is_alive (&(tcp_accepter->sock))
       && !_mod_httpd_timeout_ok (httpd_context,
 				 tcp_accepter->creation_timestamp))
     {
@@ -224,10 +223,7 @@ _mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context,
 
   if (!ret)
     {
-      if (lw6net_socket_is_valid (tcp_accepter->sock))
-	{
-	  lw6net_socket_close (&(tcp_accepter->sock));
-	}
+      lw6net_socket_close (&(tcp_accepter->sock));
       if (reply_thread_data)
 	{
 	  LW6SYS_FREE (reply_thread_data);

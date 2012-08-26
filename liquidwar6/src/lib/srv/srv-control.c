@@ -74,10 +74,7 @@ _accepter_close_callback (void *func_data, void *data)
 {
   lw6srv_tcp_accepter_t *tcp_accepter = (lw6srv_tcp_accepter_t *) data;
 
-  if (lw6net_socket_is_valid (tcp_accepter->sock))
-    {
-      lw6net_socket_close (&(tcp_accepter->sock));
-    }
+  lw6net_socket_close (&(tcp_accepter->sock));
 }
 
 /**
@@ -98,20 +95,14 @@ lw6srv_stop (lw6srv_listener_t * listener)
 	{
 	  lw6sys_list_free (listener->udp_buffers);
 	}
-      if (lw6net_socket_is_valid (listener->udp_sock))
-	{
-	  lw6net_socket_close (&(listener->udp_sock));
-	}
+      lw6net_socket_close (&(listener->udp_sock));
       if (listener->tcp_accepters)
 	{
 	  lw6sys_list_map (listener->tcp_accepters, _accepter_close_callback,
 			   NULL);
 	  lw6sys_list_free (listener->tcp_accepters);
 	}
-      if (lw6net_socket_is_valid (listener->tcp_sock))
-	{
-	  lw6net_socket_close (&(listener->tcp_sock));
-	}
+      lw6net_socket_close (&(listener->tcp_sock));
       if (listener->ip)
 	{
 	  LW6SYS_FREE (listener->ip);

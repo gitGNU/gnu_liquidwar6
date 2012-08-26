@@ -28,15 +28,16 @@
 #include "mod-udpd-internal.h"
 
 int
-_mod_udpd_send (_udpd_context_t * udpd_context,
+_mod_udpd_send (_mod_udpd_context_t * udpd_context,
 		lw6cnx_connection_t * connection,
+		int64_t now,
 		u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
 		u_int64_t logical_from_id, u_int64_t logical_to_id,
 		const char *message)
 {
   int ret = 0;
-  _udpd_specific_data_t *specific_data =
-    (_udpd_specific_data_t *) connection->backend_specific_data;
+  _mod_udpd_specific_data_t *specific_data =
+    (_mod_udpd_specific_data_t *) connection->backend_specific_data;
   char *line;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_udpd send \"%s\""), message);
@@ -69,7 +70,7 @@ _mod_udpd_send (_udpd_context_t * udpd_context,
 }
 
 void
-_mod_udpd_poll (_udpd_context_t * udpd_context,
+_mod_udpd_poll (_mod_udpd_context_t * udpd_context,
 		lw6cnx_connection_t * connection)
 {
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_udpd poll"));

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-08-20 23:21+0200\n"
+"POT-Creation-Date: 2012-08-27 00:35+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -557,7 +557,7 @@ msgstr ""
 msgid "No weapon"
 msgstr ""
 
-#: src/lib/p2p/p2p-data.c:108
+#: src/lib/p2p/p2p-data.c:110
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
 msgstr "klarte ikkje lesa spørjinga «%s» i «%s»"
@@ -572,7 +572,7 @@ msgstr ""
 msgid "started node \"%s\""
 msgstr ""
 
-#: src/lib/p2p/p2p-recv.c:220
+#: src/lib/p2p/p2p-recv.c:221
 #, c-format
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr ""
@@ -603,7 +603,7 @@ msgstr "klarte ikkje starta mod_httpd"
 msgid "TCPD"
 msgstr ""
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:70
+#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:71
 msgid "can't initialize mod_tcpd"
 msgstr "klarte ikkje starta mod_tcpd"
 
@@ -611,7 +611,7 @@ msgstr "klarte ikkje starta mod_tcpd"
 msgid "UDPD"
 msgstr ""
 
-#: src/lib/srv/mod-udpd/mod-udpd-setup.c:70
+#: src/lib/srv/mod-udpd/mod-udpd-setup.c:71
 msgid "can't initialize mod_udpd"
 msgstr "klarte ikkje starta mod_udpd"
 
