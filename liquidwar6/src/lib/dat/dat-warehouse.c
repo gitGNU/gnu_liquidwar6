@@ -1034,3 +1034,78 @@ lw6dat_warehouse_update_serial_miss_max (lw6dat_warehouse_t * warehouse,
   _lw6dat_warehouse_update_serial_miss_max ((_lw6dat_warehouse_t *) warehouse,
 					    remote_id, serial);
 }
+
+void
+_lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (_lw6dat_warehouse_t *
+						       warehouse)
+{
+  int stack_index = 0;
+
+  for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
+    {
+      warehouse->stacks[stack_index].nb_atom_parts_since_last_poll = 0;
+    }
+
+}
+
+/**
+ * lw6dat_warehouse_reset_nb_atom_parts_since_last_poll
+ *
+ * @warehouse: data warehouse to reset
+ *
+ * Resets the nb_atom_parts_since_last_poll attribute of
+ * every stack.
+ *
+ * Return value: none
+ */
+void
+lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (lw6dat_warehouse_t *
+						      warehouse)
+{
+  _lw6dat_warehouse_reset_nb_atom_parts_since_last_poll ((_lw6dat_warehouse_t
+							  *) warehouse);
+}
+
+int
+_lw6dat_warehouse_get_nb_atom_parts_since_last_poll (_lw6dat_warehouse_t *
+						     warehouse,
+						     u_int64_t remote_id)
+{
+  int stack_index = 0;
+  int ret = 0;
+
+  stack_index = _lw6dat_warehouse_get_stack_index (warehouse, remote_id);
+  if (stack_index >= 0 && stack_index < LW6DAT_MAX_NB_STACKS)
+    {
+      ret = warehouse->stacks[stack_index].nb_atom_parts_since_last_poll;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_get_nb_atom_parts_since_last_poll
+ *
+ * @warehouse: data warehouse to get info from
+ * @remote_id: remote id to get info about
+ *
+ * Returns the nb_atom_parts_since_last_poll attribute of the stack
+ * concerning the remote_id. The idea is to track down, since the
+ * last call to the companion reset function, how many "atom parts"
+ * have been received, by "atom part" we mean atoms representing a
+ * splitted message. Usually this corresponds to very long messages
+ * and if this number of splitted messages is large enough, we don't
+ * send MISS commands, as it would overload the network for nothing.
+ *
+ * Return value: number of atom parts received since last reset.
+ */
+int
+lw6dat_warehouse_get_nb_atom_parts_since_last_poll (lw6dat_warehouse_t *
+						    warehouse,
+						    u_int64_t remote_id)
+{
+  return
+    _lw6dat_warehouse_get_nb_atom_parts_since_last_poll ((_lw6dat_warehouse_t
+							  *) warehouse,
+							 remote_id);
+}

@@ -1,3 +1,7 @@
+2012-08-27 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added new strategies not to overload network with MISS messages.
+
 2012-08-26 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Implemented local buffers/backlogs in mod_tcp and mod_tcpd.

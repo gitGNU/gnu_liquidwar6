@@ -128,6 +128,13 @@ extern void lw6dat_warehouse_update_serial_miss_max (lw6dat_warehouse_t *
 						     warehouse,
 						     u_int64_t remote_id,
 						     int serial);
+extern void
+lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (lw6dat_warehouse_t *
+						      warehouse);
+extern int
+lw6dat_warehouse_get_nb_atom_parts_since_last_poll (lw6dat_warehouse_t *
+						    warehouse,
+						    u_int64_t remote_id);
 
 /* dat-test.c */
 extern int lw6dat_test (int mode);

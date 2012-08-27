@@ -1,6 +1,54 @@
 
 
   
+@deftp {Struct} {lw6cnx_backlog_item_s}
+
+    
+Holds an item backlog, that is a message associated to a timestamp and whatever usesfull metadata that can help handling the message.     
+@end deftp
+
+@defcv {Member} {lw6cnx_backlog_item_s} {timestamp}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t lw6cnx_backlog_item_s::timestamp}
+
+
+        
+Timestamp when the message was first put in the backlog, this is used for sorting messages and also to find out messages that were in the queue for a very very long time.         
+@end defcv
+
+@defcv {Member} {lw6cnx_backlog_item_s} {str}
+@strong{Type:} @code{const char *}
+
+@strong{Definition:} @code{const char* lw6cnx_backlog_item_s::str}
+
+
+        
+The message itself, dynamically allocated string.         
+@end defcv
+
+
+
+  
+@deftp {Struct} {lw6cnx_backlog_s}
+
+    
+Used to hold per-connection message backlog, the connection might use it or not, it's up to it to decide wether this backlog is usefull, however the code is mutualized.     
+@end deftp
+
+@defcv {Member} {lw6cnx_backlog_s} {list}
+@strong{Type:} @code{lw6sys_list_t *}
+
+@strong{Definition:} @code{lw6sys_list_t* lw6cnx_backlog_s::list}
+
+
+        
+List of lw6cnx_backlog_t items.         
+@end defcv
+
+
+
+  
 @deftp {Struct} {lw6cnx_connection_s}
 
     

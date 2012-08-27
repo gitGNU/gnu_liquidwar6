@@ -915,6 +915,7 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node, int64_t now)
     {
       if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
 	{
+	  send_i = 0;
 	  remote_id_int = node->tentacles[i].remote_id_int;
 	  remote_id_str = node->tentacles[i].remote_id_str;
 	  atom_str_list =
@@ -958,84 +959,7 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node, int64_t now)
 }
 
 static int
-_poll_step11_miss_list (_lw6p2p_node_t * node, int64_t now)
-{
-  int ret = 1;
-  lw6sys_list_t *list = NULL;
-  lw6dat_miss_t *miss = NULL;
-  u_int32_t logical_ticket_sig = 0;
-  u_int64_t remote_id_int = 0LL;
-  char *remote_id_str = NULL;
-  int i = 0;
-  const char *msg = NULL;
-  // int force_next = 0;
-
-  if (now - node->db->data.consts.miss_delay >=
-      node->last_poll_miss_timestamp)
-    {
-      if (now - node->db->data.consts.miss_wake_up_interval >=
-	  node->last_miss_wake_up_timestamp)
-	{
-	  //      force_next = 1;
-	}
-
-      node->last_poll_miss_timestamp = now;
-      /*
-       * TODO use force_next to force get_miss_list to return the next serial
-       * even if it's not really missing
-       */
-      list =
-	lw6dat_warehouse_get_miss_list (node->warehouse,
-					node->db->data.consts.miss_max_range);
-      if (list)
-	{
-	  while ((miss = lw6sys_list_pop_front (&list)) != NULL)
-	    {
-	      msg =
-		lw6msg_cmd_generate_miss (miss->from_id, node->node_id_int,
-					  miss->serial_min, miss->serial_max);
-	      if (msg)
-		{
-		  for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
-		    {
-		      if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
-			{
-			  remote_id_int = node->tentacles[i].remote_id_int;
-			  remote_id_str = node->tentacles[i].remote_id_str;
-
-			  logical_ticket_sig =
-			    lw6msg_ticket_calc_sig
-			    (lw6cnx_ticket_table_get_send
-			     (&(node->ticket_table), remote_id_str),
-			     node->node_id_int, remote_id_int, msg);
-
-			  _lw6p2p_tentacle_send_best (&
-						      (node->tentacles
-						       [i]), now,
-						      &(node->ticket_table),
-						      logical_ticket_sig,
-						      node->node_id_int,
-						      remote_id_int, msg, 1);
-
-			  LW6SYS_FREE (msg);
-			}
-		    }
-		}
-	      node->last_miss_wake_up_timestamp = now;
-	      lw6dat_miss_free (miss);
-	    }
-	}
-      else
-	{
-	  ret = 0;
-	}
-    }
-
-  return ret;
-}
-
-static int
-_poll_step12_tentacles (_lw6p2p_node_t * node, int64_t now)
+_poll_step11_tentacles (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
   int i = 0;
@@ -1050,6 +974,91 @@ _poll_step12_tentacles (_lw6p2p_node_t * node, int64_t now)
 				 lw6dat_warehouse_get_local_serial
 				 (node->warehouse));
 	}
+    }
+
+  return ret;
+}
+
+static int
+_poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now)
+{
+  int ret = 1;
+  lw6sys_list_t *list = NULL;
+  lw6dat_miss_t *miss = NULL;
+  u_int32_t logical_ticket_sig = 0;
+  u_int64_t remote_id_int = 0LL;
+  char *remote_id_str = NULL;
+  int i = 0;
+  const char *msg = NULL;
+  int nb_atom_parts_since_last_poll = 0;
+  int disable_miss = 0;
+
+  if (now - node->db->data.consts.miss_delay >=
+      node->last_poll_miss_timestamp)
+    {
+      node->last_poll_miss_timestamp = now;
+
+      list =
+	lw6dat_warehouse_get_miss_list (node->warehouse,
+					node->db->data.consts.miss_max_range);
+      if (list)
+	{
+	  while ((miss = lw6sys_list_pop_front (&list)) != NULL)
+	    {
+	      nb_atom_parts_since_last_poll =
+		lw6dat_warehouse_get_nb_atom_parts_since_last_poll
+		(node->warehouse, miss->from_id);
+	      disable_miss =
+		(nb_atom_parts_since_last_poll >
+		 node->db->data.
+		 consts.received_atom_parts_per_poll_to_disable_miss) ? 1 : 0;
+	      if (!disable_miss)
+		{
+		  msg =
+		    lw6msg_cmd_generate_miss (miss->from_id,
+					      node->node_id_int,
+					      miss->serial_min,
+					      miss->serial_max);
+		  if (msg)
+		    {
+		      for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
+			{
+			  if (_lw6p2p_tentacle_enabled
+			      (&(node->tentacles[i])))
+			    {
+			      remote_id_int =
+				node->tentacles[i].remote_id_int;
+			      remote_id_str =
+				node->tentacles[i].remote_id_str;
+
+			      logical_ticket_sig =
+				lw6msg_ticket_calc_sig
+				(lw6cnx_ticket_table_get_send
+				 (&(node->ticket_table), remote_id_str),
+				 node->node_id_int, remote_id_int, msg);
+
+			      _lw6p2p_tentacle_send_best (&
+							  (node->tentacles
+							   [i]), now,
+							  &
+							  (node->ticket_table),
+							  logical_ticket_sig,
+							  node->node_id_int,
+							  remote_id_int, msg,
+							  1);
+			    }
+			}
+		      LW6SYS_FREE (msg);
+		    }
+		}
+	      lw6dat_miss_free (miss);
+	    }
+	}
+      else
+	{
+	  ret = 0;
+	}
+      lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (node->warehouse);
     }
 
   return ret;
@@ -1073,8 +1082,8 @@ _lw6p2p_node_poll (_lw6p2p_node_t * node)
   ret = _poll_step8_explore_verify_nodes (node, now) && ret;
   ret = _poll_step9_flush_verified_nodes (node, now) && ret;
   ret = _poll_step10_send_atoms (node, now) && ret;
-  ret = _poll_step11_miss_list (node, now) && ret;
-  ret = _poll_step12_tentacles (node, now) && ret;
+  ret = _poll_step11_tentacles (node, now) && ret;
+  ret = _poll_step12_miss_list (node, now) && ret;
 
   return ret;
 }

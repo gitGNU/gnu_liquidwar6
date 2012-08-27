@@ -15,4 +15,5 @@
   <int key="miss-max-range" value="100" />
   <int key="ticket-table-hash-size" value="257" />
   <int key="send-best-reliable-limit-n" value="100" />
+  <int key="received-atom-parts-per-poll-to-disable-miss" value="10" />
 </liquidwar6>

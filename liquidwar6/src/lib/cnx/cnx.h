@@ -223,6 +223,54 @@ typedef struct lw6cnx_ticket_table_s
 }
 lw6cnx_ticket_table_t;
 
+/**
+ * Holds an item backlog, that is a message associated to a timestamp
+ * and whatever usesfull metadata that can help handling the message.
+ */
+typedef struct lw6cnx_backlog_item_s
+{
+  /**
+   * Timestamp when the message was first put in the backlog,
+   * this is used for sorting messages and also to find out
+   * messages that were in the queue for a very very long time.
+   */
+  int64_t timestamp;
+  /**
+   * The message itself, dynamically allocated string.
+   */
+  const char *str;
+} lw6cnx_backlog_item_t;
+
+/**
+ * Used to hold per-connection message backlog, the connection might
+ * use it or not, it's up to it to decide wether this backlog is usefull,
+ * however the code is mutualized.
+ */
+typedef struct lw6cnx_backlog_s
+{
+  /**
+   * List of lw6cnx_backlog_t items.
+   */
+  lw6sys_list_t *list;
+} lw6cnx_backlog_t;
+
+/* cnx-backlog.c */
+extern int lw6cnx_backlog_init (lw6cnx_backlog_t * backlog);
+extern void lw6cnx_backlog_quit (lw6cnx_backlog_t * backlog);
+extern void lw6cnx_backlog_push (lw6cnx_backlog_t * backlog,
+				 int64_t timestamp, const char *str);
+extern char *lw6cnx_backlog_pop (lw6cnx_backlog_t * backlog);
+extern void lw6cnx_backlog_sort (lw6cnx_backlog_t * backlog);
+
+/* cnx-backlogitem.c */
+extern lw6cnx_backlog_item_t *lw6cnx_backlog_item_new (int64_t timestamp,
+						       const char *str);
+extern void lw6cnx_backlog_item_free (lw6cnx_backlog_item_t * backlog_item);
+extern int lw6cnx__backlog_item_compare (const lw6cnx_backlog_item_t *
+					 backlog_item_a,
+					 const lw6cnx_backlog_item_t *
+					 backlog_item_b);
+
 /* cnx-connection.c */
 extern lw6cnx_connection_t *lw6cnx_connection_new (const char *local_url,
 						   const char *remote_url,

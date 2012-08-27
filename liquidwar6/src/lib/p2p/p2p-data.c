@@ -70,6 +70,9 @@ _read_callback (void *callback_data, const char *element, const char *key,
 			   &consts->ticket_table_hash_size);
       lw6cfg_read_xml_int (key, value, "send-best-reliable-limit-n",
 			   &consts->send_best_reliable_limit_n);
+      lw6cfg_read_xml_int (key, value,
+			   "received-atom-parts-per-poll-to-disable-miss",
+			   &consts->received_atom_parts_per_poll_to_disable_miss);
     }
 }
 

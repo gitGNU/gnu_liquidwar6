@@ -343,6 +343,19 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 		  stack->serial_0, stack->serial_n_1, serial);
     }
 
+  /*
+   * Record that we got a message, this can be used later, for instance
+   * to be aware that we're receiving plenty of new messages and it's of
+   * no use to send MISS messages...
+   */
+  if (ret)
+    {
+      if (order_i > 0)
+	{
+	  ++(stack->nb_atom_parts_since_last_poll);
+	}
+    }
+
   return ret;
 }
 

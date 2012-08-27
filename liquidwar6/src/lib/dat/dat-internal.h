@@ -123,6 +123,7 @@ typedef struct _lw6dat_stack_s
   int serial_min_to_send[LW6DAT_MAX_NB_STACKS];
   // no nb_blocks, there can be "holes" in the array
   _lw6dat_block_t *blocks[_LW6DAT_MAX_NB_BLOCKS];
+  int nb_atom_parts_since_last_poll;
 } _lw6dat_stack_t;
 
 typedef struct _lw6dat_warehouse_s
@@ -227,6 +228,7 @@ extern lw6dat_miss_t *_lw6dat_stack_get_miss (_lw6dat_stack_t * stack,
 extern void _lw6dat_stack_miss_invalidate (_lw6dat_stack_t * stack,
 					   int target_index, int serial_min,
 					   int serial_max);
+
 static inline int
 _lw6dat_stack_get_block_index (_lw6dat_stack_t * stack, int serial)
 {
@@ -301,5 +303,12 @@ extern void _lw6dat_warehouse_update_serial_miss_max (_lw6dat_warehouse_t *
 						      warehouse,
 						      u_int64_t remote_id,
 						      int serial);
+extern void
+_lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (_lw6dat_warehouse_t *
+						       warehouse);
+extern int
+_lw6dat_warehouse_get_nb_atom_parts_since_last_poll (_lw6dat_warehouse_t *
+						     warehouse,
+						     u_int64_t remote_id);
 
 #endif

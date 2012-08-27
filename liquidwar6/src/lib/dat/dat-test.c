@@ -743,6 +743,7 @@ test_warehouse ()
     int64_t seq_reference = 0;
     lw6sys_list_t *miss_list = NULL;
     int miss_list_length = 0;
+    int nb_atom_parts_since_last_poll = 0;
 
     _warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
     if (_warehouse)
@@ -876,6 +877,38 @@ test_warehouse ()
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("lw6dat_warehouse_put_atom_str failed"));
+	    ret = 0;
+	  }
+	nb_atom_parts_since_last_poll =
+	  lw6dat_warehouse_get_nb_atom_parts_since_last_poll (warehouse,
+							      _TEST_WAREHOUSE_OTHER_NODE_ID);
+	if (nb_atom_parts_since_last_poll > 0)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("OK, got %d atom parts since last poll"),
+			nb_atom_parts_since_last_poll);
+	    lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (warehouse);
+	    nb_atom_parts_since_last_poll =
+	      lw6dat_warehouse_get_nb_atom_parts_since_last_poll (warehouse,
+								  _TEST_WAREHOUSE_OTHER_NODE_ID);
+	    if (nb_atom_parts_since_last_poll == 0)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("OK, got no atom parts since last poll"));
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("got %d atom parts since last poll but there should be none"),
+			    nb_atom_parts_since_last_poll);
+		ret = 0;
+	      }
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("got no atom parts since last poll"));
 	    ret = 0;
 	  }
 

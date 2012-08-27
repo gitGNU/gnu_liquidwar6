@@ -455,15 +455,19 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	   * data stored in the queue_item, in case we want
 	   * to resend forwareded messages, you never know
 	   */
+	  /*
+	   * Send them in reliable mode, if it's in the queue, it means
+	   * we're probably sending lots of data, we'd like TCP and/or
+	   * other reliable protocol to help us to the tiring job of
+	   * checking everything...
+	   */
 	  _lw6p2p_tentacle_send_best (tentacle,
 				      now,
 				      ticket_table,
 				      queue_item->logical_ticket_sig,
 				      queue_item->logical_from_id,
 				      queue_item->logical_to_id,
-				      queue_item->msg,
-				      queue_i >
-				      consts->send_best_reliable_limit_n);
+				      queue_item->msg, 1);
 	  _lw6p2p_queue_item_free (queue_item);
 	  ++queue_i;
 	}
