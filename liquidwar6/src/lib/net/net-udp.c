@@ -68,7 +68,7 @@ lw6net_udp_client ()
        * we use MSG_NOSIGNAL on send calls
        */
 #ifdef SO_NOSIGPIPE
-      if (setsockopt (new_sock, SOL_SOCKET, SO_NOSIGPIPE,
+      if (setsockopt (sock, SOL_SOCKET, SO_NOSIGPIPE,
 		      (char *) &enable, sizeof (int)))
 	{
 	  lw6net_last_error ();

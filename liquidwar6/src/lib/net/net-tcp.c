@@ -55,7 +55,7 @@ int
 lw6net_tcp_listen (const char *ip, int port)
 {
   int backlog;
-  int sock = -1;
+  int sock = LW6NET_SOCKET_INVALID;
 
   backlog = _lw6net_global_context->const_data.listen_backlog;
 
@@ -91,7 +91,7 @@ int
 lw6net_tcp_accept (char **incoming_ip,
 		   int *incoming_port, int listening_sock, int delay_msec)
 {
-  int new_sock = -1;
+  int new_sock = LW6NET_SOCKET_INVALID;
   int accepted = 0;
   struct sockaddr_in name;
   socklen_t namelen = sizeof (struct sockaddr_in);
@@ -222,7 +222,7 @@ lw6net_tcp_accept (char **incoming_ip,
 	  lw6net_last_error ();
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("close() failed"));
 	}
-      new_sock = -1;
+      new_sock = LW6NET_SOCKET_INVALID;
     }
 
   return new_sock;
@@ -242,7 +242,7 @@ lw6net_tcp_accept (char **incoming_ip,
 int
 lw6net_tcp_connect (const char *ip, int port, int delay_msec)
 {
-  int sock = -1;
+  int sock = LW6NET_SOCKET_INVALID;
   int connect_ret = 0;
   int connect_async = 0;
   int select_ret = 0;
@@ -403,7 +403,7 @@ lw6net_tcp_connect (const char *ip, int port, int delay_msec)
 					       */
 #ifdef SO_NOSIGPIPE
 					      if (setsockopt
-						  (new_sock, SOL_SOCKET,
+						  (sock, SOL_SOCKET,
 						   SO_NOSIGPIPE,
 						   (char *) &enable,
 						   sizeof (int)))
@@ -484,7 +484,7 @@ lw6net_tcp_connect (const char *ip, int port, int delay_msec)
 	  lw6net_last_error ();
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("close() failed"));
 	}
-      sock = -1;
+      sock = LW6NET_SOCKET_INVALID;
     }
 
   return sock;
