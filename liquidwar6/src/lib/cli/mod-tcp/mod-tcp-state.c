@@ -85,11 +85,7 @@ _mod_tcp_close (_mod_tcp_context_t * tcp_context,
 	  specific_data->connect_thread = NULL;
 	}
       lw6net_socket_close (&(specific_data->sock));
-      if (specific_data->send_backlog)
-	{
-	  lw6sys_list_free (specific_data->send_backlog);
-	  specific_data->send_backlog = NULL;
-	}
+      lw6cnx_backlog_reset (&(specific_data->backlog));
       LW6SYS_FREE (specific_data);
     }
   lw6cnx_connection_free (connection);

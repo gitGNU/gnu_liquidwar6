@@ -74,33 +74,28 @@ _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
 		  /*
 		   * Put stuff in backlog because the send failed
 		   */
-		  if (!specific_data->send_backlog)
-		    {
-		      specific_data->send_backlog =
-			lw6sys_list_new (lw6sys_free_callback);
-		    }
-		  if (specific_data->send_backlog)
-		    {
-		      // order is important, we prefer popping them the right order
-		      lw6sys_list_push_back (&(specific_data->send_backlog),
-					     line);
-		      if (now > specific_data->last_send_failed_timestamp)
-			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
-				      _x_
-				      ("mod_tcpd send put line in backlog since TCP low-level call failed"));
-			}
-		      else
-			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
-				      _x_
-				      ("mod_tcpd send put line in backlog since TCP low-level call was not even called, because it has failed very recently"));
-			}
-		      // don't want to free this as it's in the list
-		      line = NULL;
+		  lw6cnx_backlog_push (&(specific_data->backlog), line);
+		  // don't want to free this as it's in the backlog
+		  line = NULL;
 
-		      ret = 1;
+		  /*
+		   * The following test is here only to
+		   * give a meaningfull message
+		   */
+		  if (now > specific_data->last_send_failed_timestamp)
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_
+				  ("mod_tcpd send put line in backlog since TCP low-level call failed"));
 		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_
+				  ("mod_tcpd send put line in backlog since TCP low-level call was not even called, because it has failed very recently"));
+		    }
+
+		  ret = 1;
 		}
 	      specific_data->last_send_failed_timestamp = now;
 	    }
@@ -115,28 +110,22 @@ _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
   return ret;
 }
 
-typedef struct _backlog_filter_data_s
-{
-  _mod_tcpd_specific_data_t *specific_data;
-  int64_t now;
-} _backlog_filter_data_t;
-
 static int
-_backlog_filter_func (void *func_data, void *data)
+_backlog_filter_func (lw6cnx_backlog_filter_data_t * backlog_filter_data,
+		      char *str)
 {
   int ret = 1;
-  _backlog_filter_data_t *filter_data = (_backlog_filter_data_t *) func_data;
-  _mod_tcpd_specific_data_t *specific_data = filter_data->specific_data;
-  const char *line = (const char *) data;
+  _mod_tcpd_specific_data_t *specific_data =
+    backlog_filter_data->specific_data;
 
-  if (filter_data->now > specific_data->last_send_failed_timestamp)
+  if (backlog_filter_data->now > specific_data->last_send_failed_timestamp)
     {
-      if (lw6net_send_line_tcp (&(specific_data->sock), line))
+      if (lw6net_send_line_tcp (&(specific_data->sock), str))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_
-		      ("mod_tcpd sent \"%s\" from backlog sock=%d"),
-		      line, specific_data->sock);
+		      ("mod_tcp sent \"%s\" from backlog sock=%d"),
+		      str, specific_data->sock);
 	  /*
 	   * Setting ret to 0, since sent succeeded, we want the line to
 	   * be removed.
@@ -145,7 +134,8 @@ _backlog_filter_func (void *func_data, void *data)
 	}
       else
 	{
-	  specific_data->last_send_failed_timestamp = filter_data->now;
+	  specific_data->last_send_failed_timestamp =
+	    backlog_filter_data->now;
 	}
     }
 
@@ -167,9 +157,9 @@ _mod_tcpd_poll (_mod_tcpd_context_t * tcpd_context,
   u_int64_t physical_to_id = 0;
   u_int64_t logical_from_id = 0;
   u_int64_t logical_to_id = 0;
-  _backlog_filter_data_t backlog_filter_data;
+  lw6cnx_backlog_filter_data_t backlog_filter_data;
 
-  memset (&backlog_filter_data, 0, sizeof (_backlog_filter_data_t));
+  memset (&backlog_filter_data, 0, sizeof (lw6cnx_backlog_filter_data_t));
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd poll"));
   if (lw6net_socket_is_valid (specific_data->sock))
@@ -186,14 +176,12 @@ _mod_tcpd_poll (_mod_tcpd_context_t * tcpd_context,
 	   */
 	  if (lw6cnx_connection_lock_send (connection))
 	    {
-	      if (specific_data->send_backlog)
-		{
-		  backlog_filter_data.specific_data = specific_data;
-		  backlog_filter_data.now = lw6sys_get_timestamp ();
-		  lw6sys_list_filter (&(specific_data->send_backlog),
-				      _backlog_filter_func,
-				      &backlog_filter_data);
-		}
+	      backlog_filter_data.specific_data = specific_data;
+	      backlog_filter_data.now = lw6sys_get_timestamp ();
+	      lw6cnx_backlog_filter (&(specific_data->backlog),
+				     _backlog_filter_func,
+				     &backlog_filter_data);
+
 	      lw6cnx_connection_unlock_send (connection);
 	    }
 

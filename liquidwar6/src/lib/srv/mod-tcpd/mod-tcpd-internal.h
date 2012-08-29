@@ -56,7 +56,7 @@ _mod_tcpd_context_t;
 typedef struct _mod_tcpd_specific_data_s
 {
   int sock;
-  lw6sys_list_t *send_backlog;
+  lw6cnx_backlog_t backlog;
   int64_t last_send_failed_timestamp;
 }
 _mod_tcpd_specific_data_t;

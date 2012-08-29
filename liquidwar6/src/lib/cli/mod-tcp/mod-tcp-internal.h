@@ -63,7 +63,7 @@ typedef struct _mod_tcp_specific_data_s
   _mod_tcp_state_t state;
   int send_failed_once;
   int send_succeeded_once;
-  lw6sys_list_t *send_backlog;
+  lw6cnx_backlog_t backlog;
   int64_t last_send_failed_timestamp;
   void *connect_thread;
 }

@@ -1,6 +1,35 @@
 
 
   
+@deftp {Struct} {lw6cnx_backlog_filter_data_s}
+
+    
+Structure used to filter backlog data, that is, data we try to send but were unable to send. The idea is to have the information of the current timestamp (now) + a reference to the last failure timestamp, so that if it failed just now, we don't try anymore.     
+@end deftp
+
+@defcv {Member} {lw6cnx_backlog_filter_data_s} {specific_data}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6cnx_backlog_filter_data_s::specific_data}
+
+
+        
+Pointer specific data, depends on backend using the connection and backlog.         
+@end defcv
+
+@defcv {Member} {lw6cnx_backlog_filter_data_s} {now}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t lw6cnx_backlog_filter_data_s::now}
+
+
+        
+Current timestamp, we could technically use a call to a function to get it but the idea is to cache it for both performance and the fact it's easier to detect the fact that it failed during the current filtering.         
+@end defcv
+
+
+
+  
 @deftp {Struct} {lw6cnx_backlog_item_s}
 
     

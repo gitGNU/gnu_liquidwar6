@@ -44,6 +44,11 @@
 #define _TEST_TICKET_TABLE_ID1 "1234123412341234"
 #define _TEST_TICKET_TABLE_ID2 "2345234523452345"
 #define _TEST_TICKET_ACK_DELAY_MSEC 3000
+#define _TEST_BACKLOG_STR1 "this is"
+#define _TEST_BACKLOG_STR2 "a"
+#define _TEST_BACKLOG_STR3 "test"
+#define _TEST_BACKLOG_FILTER_LEN 2
+#define _TEST_BACKLOG_SPECIFIC_DATA_STR "hello world"
 
 static void
 _recv_callback_func (void *recv_callback_data,
@@ -53,6 +58,71 @@ _recv_callback_func (void *recv_callback_data,
 		     u_int64_t logical_to_id, const char *message)
 {
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("received \"%s\""), message);
+}
+
+static int
+_backlog_filter_callback (lw6cnx_backlog_filter_data_t * backlog_filter_data,
+			  char *str)
+{
+  int ret = 0;
+  char *specific_str = NULL;
+
+  specific_str = (char *) backlog_filter_data->specific_data;
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _x_ ("filtering string \"%s\", specific_data=\"%s\""), str,
+	      specific_str);
+  if (strlen (str) <= _TEST_BACKLOG_FILTER_LEN)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE,
+		  _x_ ("string is short, will be removed"));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("string is long, will be kept"));
+      ret = 1;
+    }
+
+  return ret;
+}
+
+/*
+ * Testing functions in backlog.c
+ */
+static int
+test_backlog ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6cnx_backlog_t backlog;
+    lw6cnx_backlog_filter_data_t backlog_filter_data;
+    char *str = NULL;
+
+    lw6cnx_backlog_zero (&backlog);
+
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("putting stuff in backlog"));
+    str = lw6sys_str_copy (_TEST_BACKLOG_STR1);
+    lw6cnx_backlog_push (&backlog, str);
+    str = lw6sys_str_copy (_TEST_BACKLOG_STR2);
+    lw6cnx_backlog_push (&backlog, str);
+    str = lw6sys_str_copy (_TEST_BACKLOG_STR3);
+    lw6cnx_backlog_push (&backlog, str);
+
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("filtering strings shorter that %d chars"),
+		_TEST_BACKLOG_FILTER_LEN);
+    backlog_filter_data.now = lw6sys_get_timestamp ();
+    backlog_filter_data.specific_data = _TEST_BACKLOG_SPECIFIC_DATA_STR;
+    lw6cnx_backlog_filter (&backlog, _backlog_filter_callback,
+			   &backlog_filter_data);
+
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("freeing ressources"));
+    lw6cnx_backlog_reset (&backlog);
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
 }
 
 /*
@@ -435,7 +505,8 @@ lw6cnx_test (int mode)
       lw6glb_test (mode);
     }
 
-  ret = test_connection () && test_password () && test_ticket_table ();
+  ret = test_backlog () && test_connection () && test_password ()
+    && test_ticket_table ();
 
   return ret;
 }

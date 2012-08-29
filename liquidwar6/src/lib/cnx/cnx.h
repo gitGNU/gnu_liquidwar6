@@ -254,22 +254,38 @@ typedef struct lw6cnx_backlog_s
   lw6sys_list_t *list;
 } lw6cnx_backlog_t;
 
-/* cnx-backlog.c */
-extern int lw6cnx_backlog_init (lw6cnx_backlog_t * backlog);
-extern void lw6cnx_backlog_quit (lw6cnx_backlog_t * backlog);
-extern void lw6cnx_backlog_push (lw6cnx_backlog_t * backlog,
-				 int64_t timestamp, const char *str);
-extern char *lw6cnx_backlog_pop (lw6cnx_backlog_t * backlog);
-extern void lw6cnx_backlog_sort (lw6cnx_backlog_t * backlog);
+/**
+ * Structure used to filter backlog data, that is, data we try to
+ * send but were unable to send. The idea is to have the information
+ * of the current timestamp (now) + a reference to the last failure
+ * timestamp, so that if it failed just now, we don't try anymore.
+ */
+typedef struct lw6cnx_backlog_filter_data_s
+{
+  /**
+   * Pointer specific data, depends on backend
+   * using the connection and backlog.
+   */
+  void *specific_data;
+  /**
+   * Current timestamp, we could technically use a call to a
+   * function to get it but the idea is to cache it for both
+   * performance and the fact it's easier to detect the fact
+   * that it failed during the current filtering.
+   */
+  int64_t now;
+} lw6cnx_backlog_filter_data_t;
 
-/* cnx-backlogitem.c */
-extern lw6cnx_backlog_item_t *lw6cnx_backlog_item_new (int64_t timestamp,
-						       const char *str);
-extern void lw6cnx_backlog_item_free (lw6cnx_backlog_item_t * backlog_item);
-extern int lw6cnx__backlog_item_compare (const lw6cnx_backlog_item_t *
-					 backlog_item_a,
-					 const lw6cnx_backlog_item_t *
-					 backlog_item_b);
+typedef int (*lw6cnx_backlog_filter_func_t) (lw6cnx_backlog_filter_data_t *
+					     backlog_filter_data, char *str);
+
+/* cnx-backlog.c */
+extern void lw6cnx_backlog_zero (lw6cnx_backlog_t * backlog);
+extern void lw6cnx_backlog_reset (lw6cnx_backlog_t * backlog);
+extern void lw6cnx_backlog_push (lw6cnx_backlog_t * backlog, char *str);
+extern void lw6cnx_backlog_filter (lw6cnx_backlog_t * backlog,
+				   lw6cnx_backlog_filter_func_t func,
+				   lw6cnx_backlog_filter_data_t * func_data);
 
 /* cnx-connection.c */
 extern lw6cnx_connection_t *lw6cnx_connection_new (const char *local_url,

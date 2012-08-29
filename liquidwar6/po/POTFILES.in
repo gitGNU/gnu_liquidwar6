@@ -64,6 +64,7 @@ src/lib/cns/cns-history.c
 src/lib/cns/cns-support.c
 src/lib/cns/cns-test.c
 src/lib/cns/cns-testmain.c
+src/lib/cnx/cnx-backlog.c
 src/lib/cnx/cnx-connection.c
 src/lib/cnx/cnx-password.c
 src/lib/cnx/cnx-test.c
