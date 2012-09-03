@@ -380,6 +380,7 @@ _lw6p2p_node_repr (_lw6p2p_node_t * node)
  * lw6p2p_node_poll
  *
  * @node: the node to poll
+ * @progress: progress indicator to show the advancement
  *
  * Polls a p2p node. This must be called on a regular basis, else
  * network communication is stalled.
@@ -387,9 +388,9 @@ _lw6p2p_node_repr (_lw6p2p_node_t * node)
  * Return value: 1 on success, 0 on error.
  */
 int
-lw6p2p_node_poll (lw6p2p_node_t * node)
+lw6p2p_node_poll (lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
-  return _lw6p2p_node_poll ((_lw6p2p_node_t *) node);
+  return _lw6p2p_node_poll ((_lw6p2p_node_t *) node, progress);
 }
 
 static int
@@ -980,7 +981,8 @@ _poll_step11_tentacles (_lw6p2p_node_t * node, int64_t now)
 }
 
 static int
-_poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now)
+_poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now,
+			lw6sys_progress_t * progress)
 {
   int ret = 1;
   lw6sys_list_t *list = NULL;
@@ -1000,7 +1002,8 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now)
 
       list =
 	lw6dat_warehouse_get_miss_list (node->warehouse,
-					node->db->data.consts.miss_max_range);
+					node->db->data.consts.miss_max_range,
+					progress);
       if (list)
 	{
 	  while ((miss = lw6sys_list_pop_front (&list)) != NULL)
@@ -1065,7 +1068,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now)
 }
 
 int
-_lw6p2p_node_poll (_lw6p2p_node_t * node)
+_lw6p2p_node_poll (_lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
   int ret = 1;
   int64_t now = 0LL;
@@ -1083,7 +1086,7 @@ _lw6p2p_node_poll (_lw6p2p_node_t * node)
   ret = _poll_step9_flush_verified_nodes (node, now) && ret;
   ret = _poll_step10_send_atoms (node, now) && ret;
   ret = _poll_step11_tentacles (node, now) && ret;
-  ret = _poll_step12_miss_list (node, now) && ret;
+  ret = _poll_step12_miss_list (node, now, progress) && ret;
 
   return ret;
 }
@@ -1700,7 +1703,8 @@ lw6p2p_node_server_start (lw6p2p_node_t * node, int64_t seq_0)
 
 int
 _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
-			  const char *remote_url)
+			  const char *remote_url,
+			  lw6sys_progress_t * progress)
 {
   int ret = 1;
   int i;
@@ -1783,7 +1787,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 		      while (!tentacle->data_exchanged
 			     && lw6sys_get_timestamp () < limit_timestamp)
 			{
-			  _lw6p2p_node_poll (node);
+			  _lw6p2p_node_poll (node, progress);
 			  /*
 			   * Used to be lw6sys_idle but was generating
 			   * way too many calls, snooze is an order
@@ -1823,7 +1827,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 				     && lw6sys_get_timestamp () <
 				     limit_timestamp)
 				{
-				  _lw6p2p_node_poll (node);
+				  _lw6p2p_node_poll (node, progress);
 				  lw6sys_idle ();
 				}
 			      ret = tentacle->joined;
@@ -1866,6 +1870,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
  * @node: node to use
  * @remote_id: id of remote node to join
  * @remote_url: url of remote node to join
+ * @progress: progress indicator to show end-user the advancement of process
  * 
  * Starts a node in client mode, joins the given node, 
  * if node was previously connected to other
@@ -1875,10 +1880,10 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
  */
 int
 lw6p2p_node_client_join (lw6p2p_node_t * node, u_int64_t remote_id,
-			 const char *remote_url)
+			 const char *remote_url, lw6sys_progress_t * progress)
 {
   return _lw6p2p_node_client_join ((_lw6p2p_node_t *) node, remote_id,
-				   remote_url);
+				   remote_url, progress);
 }
 
 void

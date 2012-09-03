@@ -744,6 +744,10 @@ test_warehouse ()
     lw6sys_list_t *miss_list = NULL;
     int miss_list_length = 0;
     int nb_atom_parts_since_last_poll = 0;
+    float progress_value = 0.0f;
+    lw6sys_progress_t progress;
+
+    lw6sys_progress_default (&progress, &progress_value);
 
     _warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
     if (_warehouse)
@@ -1047,7 +1051,11 @@ test_warehouse ()
 				    miss_list =
 				      lw6dat_warehouse_get_miss_list
 				      (warehouse,
-				       _TEST_WAREHOUSE_MISS_MAX_RANGE);
+				       _TEST_WAREHOUSE_MISS_MAX_RANGE,
+				       &progress);
+				    lw6sys_log (LW6SYS_LOG_NOTICE,
+						_x_ ("progress_value=%0.6f"),
+						progress_value);
 				    if (miss_list)
 				      {
 					miss_list_length =

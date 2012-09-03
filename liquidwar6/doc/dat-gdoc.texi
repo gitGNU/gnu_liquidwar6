@@ -229,10 +229,12 @@ Returns all the messages that were not sent for the given warehouse.
 @strong{Return value:}  a list of strings, containing atoms.
 @end deftypefun
 
-@deftypefun {lw6sys_list_t *} {lw6dat_warehouse_get_miss_list} (lw6dat_warehouse_t * @var{warehouse}, int @var{max_range})
+@deftypefun {lw6sys_list_t *} {lw6dat_warehouse_get_miss_list} (lw6dat_warehouse_t * @var{warehouse}, int @var{max_range}, lw6sys_progress_t * @var{progress})
 @var{warehouse}:  object to query
 
 @var{max_range}:  max range of the returned list (-1 if none)
+
+@var{progress}:  progress indicator, to show advancement to end-user
 
 Returns a list of @code{lw6dat_miss_t} objects which contains informations about
 the messages which need to be re-sent by peers. The function will always

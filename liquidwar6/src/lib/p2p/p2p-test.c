@@ -734,27 +734,27 @@ _poll_nodes (lw6p2p_node_t * node1, lw6p2p_node_t * node2,
     {
       if (node1)
 	{
-	  lw6p2p_node_poll (node1);
+	  lw6p2p_node_poll (node1, NULL);
 	}
       if (node2)
 	{
-	  lw6p2p_node_poll (node2);
+	  lw6p2p_node_poll (node2, NULL);
 	}
       if (node3)
 	{
-	  lw6p2p_node_poll (node3);
+	  lw6p2p_node_poll (node3, NULL);
 	}
       if (node4)
 	{
-	  lw6p2p_node_poll (node4);
+	  lw6p2p_node_poll (node4, NULL);
 	}
       if (node5)
 	{
-	  lw6p2p_node_poll (node5);
+	  lw6p2p_node_poll (node5, NULL);
 	}
       if (node6)
 	{
-	  lw6p2p_node_poll (node6);
+	  lw6p2p_node_poll (node6, NULL);
 	}
     }
   lw6sys_idle ();
@@ -1101,6 +1101,8 @@ _test_node_msg ()
 typedef struct _test_node_api_data_s
 {
   lw6p2p_node_t *node;
+  float progress_value;
+  lw6sys_progress_t progress;
   u_int64_t peer_id;
   char *dump;
   int *done;
@@ -1119,7 +1121,7 @@ _test_node_api_node1_callback (void *api_data)
 
   while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
     {
-      lw6p2p_node_poll (data->node);
+      lw6p2p_node_poll (data->node, &(data->progress));
       lw6sys_idle ();
     }
 }
@@ -1162,12 +1164,12 @@ _test_node_api_node2_callback (void *api_data)
   seq++;			// fake we're going next round...
   while (lw6sys_get_timestamp () < begin_timestamp)
     {
-      lw6p2p_node_poll (data->node);
+      lw6p2p_node_poll (data->node, &(data->progress));
       lw6sys_idle ();
     }
   while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
     {
-      lw6p2p_node_poll (data->node);
+      lw6p2p_node_poll (data->node, &(data->progress));
       lw6sys_idle ();
       if (lw6p2p_node_is_dump_needed (data->node))
 	{
@@ -1334,7 +1336,7 @@ _test_node_api_node3_callback (void *api_data)
   end_timestamp = lw6sys_get_timestamp () + _TEST_NODE_API_DURATION_THREAD;
   while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
     {
-      lw6p2p_node_poll (data->node);
+      lw6p2p_node_poll (data->node, &(data->progress));
       lw6sys_idle ();
     }
 }
@@ -1361,7 +1363,7 @@ _test_node_api_node4_callback (void *api_data)
    */
   lw6sys_delay (_TEST_NODE_API_DURATION_JOIN);
   if (lw6p2p_node_client_join
-      (data->node, data->peer_id, _TEST_NODE_PUBLIC_URL2))
+      (data->node, data->peer_id, _TEST_NODE_PUBLIC_URL2, &(data->progress)))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("\"%s\" joined \"%s\""),
 		  ((_lw6p2p_node_t *) data->node)->public_url,
@@ -1369,7 +1371,7 @@ _test_node_api_node4_callback (void *api_data)
 
       while (lw6sys_get_timestamp () < begin_timestamp)
 	{
-	  lw6p2p_node_poll (data->node);
+	  lw6p2p_node_poll (data->node, &(data->progress));
 	  lw6sys_idle ();
 	}
 
@@ -1379,7 +1381,7 @@ _test_node_api_node4_callback (void *api_data)
 		  (long long) seq);
       while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
 	{
-	  lw6p2p_node_poll (data->node);
+	  lw6p2p_node_poll (data->node, &(data->progress));
 	  lw6sys_idle ();
 
 	  while ((msg =
@@ -1483,7 +1485,7 @@ _test_node_api_node5_callback (void *api_data)
 
   while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
     {
-      lw6p2p_node_poll (data->node);
+      lw6p2p_node_poll (data->node, &(data->progress));
       lw6sys_idle ();
     }
 }
@@ -1500,7 +1502,7 @@ _test_node_api_node6_callback (void *api_data)
 
   while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
     {
-      lw6p2p_node_poll (data->node);
+      lw6p2p_node_poll (data->node, &(data->progress));
       lw6sys_idle ();
     }
 }
@@ -1531,13 +1533,20 @@ _test_node_api ()
     lw6sys_thread_handler_t *thread4 = NULL;
     lw6sys_thread_handler_t *thread5 = NULL;
     lw6sys_thread_handler_t *thread6 = NULL;
-    _test_node_api_data_t api_data1 = { NULL, 0LL, NULL, 0 };
-    _test_node_api_data_t api_data2 = { NULL, 0LL, NULL, 0 };
-    _test_node_api_data_t api_data3 = { NULL, 0LL, NULL, 0 };
-    _test_node_api_data_t api_data4 = { NULL, 0LL, NULL, 0 };
-    _test_node_api_data_t api_data5 = { NULL, 0LL, NULL, 0 };
-    _test_node_api_data_t api_data6 = { NULL, 0LL, NULL, 0 };
+    _test_node_api_data_t api_data1;
+    _test_node_api_data_t api_data2;
+    _test_node_api_data_t api_data3;
+    _test_node_api_data_t api_data4;
+    _test_node_api_data_t api_data5;
+    _test_node_api_data_t api_data6;
     int done = 0;
+
+    memset (&api_data1, 0, sizeof (_test_node_api_data_t));
+    memset (&api_data2, 0, sizeof (_test_node_api_data_t));
+    memset (&api_data3, 0, sizeof (_test_node_api_data_t));
+    memset (&api_data4, 0, sizeof (_test_node_api_data_t));
+    memset (&api_data5, 0, sizeof (_test_node_api_data_t));
+    memset (&api_data6, 0, sizeof (_test_node_api_data_t));
 
     if (_init_nodes
 	(lw6cli_default_backends (),
@@ -1556,6 +1565,18 @@ _test_node_api ()
 	api_data4.done = &done;
 	api_data5.done = &done;
 	api_data6.done = &done;
+	lw6sys_progress_default (&(api_data1.progress),
+				 &(api_data1.progress_value));
+	lw6sys_progress_default (&(api_data2.progress),
+				 &(api_data2.progress_value));
+	lw6sys_progress_default (&(api_data3.progress),
+				 &(api_data3.progress_value));
+	lw6sys_progress_default (&(api_data4.progress),
+				 &(api_data4.progress_value));
+	lw6sys_progress_default (&(api_data5.progress),
+				 &(api_data5.progress_value));
+	lw6sys_progress_default (&(api_data6.progress),
+				 &(api_data6.progress_value));
 
 	api_data4.peer_id = lw6p2p_node_get_id (node2);
 

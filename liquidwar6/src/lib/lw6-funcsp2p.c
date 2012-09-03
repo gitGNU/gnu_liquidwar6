@@ -280,7 +280,7 @@ _scm_lw6p2p_node_poll (SCM node)
   c_node = lw6_scm_to_node (node);
   if (c_node)
     {
-      if (lw6p2p_node_poll (c_node))
+      if (lw6p2p_node_poll (c_node, NULL))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -535,6 +535,7 @@ _scm_lw6p2p_node_client_join (SCM node, SCM remote_id, SCM remote_url)
   char *c_remote_id_str = NULL;
   u_int64_t c_remote_id_int = 0LL;
   char *c_remote_url = NULL;
+  lw6sys_progress_t progress;
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -545,6 +546,9 @@ _scm_lw6p2p_node_client_join (SCM node, SCM remote_id, SCM remote_url)
 	       node), node, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (remote_id), remote_id, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_string (remote_url), remote_url, SCM_ARG3, __FUNCTION__);
+
+  lw6sys_progress_default (&progress, &(lw6_global.progress));
+  lw6sys_progress_begin (&progress);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -560,7 +564,8 @@ _scm_lw6p2p_node_client_join (SCM node, SCM remote_id, SCM remote_url)
 		{
 		  ret =
 		    lw6p2p_node_client_join (c_node, c_remote_id_int,
-					     c_remote_url) ? SCM_BOOL_T :
+					     c_remote_url,
+					     &progress) ? SCM_BOOL_T :
 		    SCM_BOOL_F;
 		  LW6SYS_FREE (c_remote_url);
 		}
@@ -568,6 +573,8 @@ _scm_lw6p2p_node_client_join (SCM node, SCM remote_id, SCM remote_url)
 	  LW6SYS_FREE (c_remote_id_str);
 	}
     }
+
+  lw6sys_progress_begin (&progress);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 

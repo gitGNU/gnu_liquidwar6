@@ -318,7 +318,8 @@ extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, const char *argv[],
 					 int network_reliability, int trojan);
 extern void _lw6p2p_node_free (_lw6p2p_node_t * node);
 extern char *_lw6p2p_node_repr (_lw6p2p_node_t * node);
-extern int _lw6p2p_node_poll (_lw6p2p_node_t * node);
+extern int _lw6p2p_node_poll (_lw6p2p_node_t * node,
+			      lw6sys_progress_t * progress);
 extern void _lw6p2p_node_close (_lw6p2p_node_t * node);
 extern u_int64_t _lw6p2p_node_get_id (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node,
@@ -352,7 +353,8 @@ extern lw6sys_list_t *_lw6p2p_node_get_entries (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_server_start (_lw6p2p_node_t * node, int64_t seq_0);
 extern int _lw6p2p_node_client_join (_lw6p2p_node_t * node,
 				     u_int64_t remote_id,
-				     const char *remote_url);
+				     const char *remote_url,
+				     lw6sys_progress_t * progress);
 extern void _lw6p2p_node_disconnect (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_update_info (_lw6p2p_node_t * node,
 				     int round, const char *level,

@@ -293,7 +293,9 @@ extern lw6sys_list_t
 						  u_int64_t logical_to);
 extern lw6sys_list_t *_lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t *
 						       warehouse,
-						       int max_range);
+						       int max_range,
+						       lw6sys_progress_t *
+						       progress);
 extern void _lw6dat_warehouse_miss_invalidate (_lw6dat_warehouse_t *
 					       warehouse, u_int64_t from_id,
 					       u_int64_t to_id,

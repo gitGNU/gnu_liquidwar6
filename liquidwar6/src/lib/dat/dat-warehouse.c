@@ -904,7 +904,7 @@ lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
 
 lw6sys_list_t *
 _lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse,
-				 int max_range)
+				 int max_range, lw6sys_progress_t * progress)
 {
   lw6sys_list_t *ret = NULL;
   lw6dat_miss_t *miss = NULL;
@@ -935,6 +935,7 @@ _lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse,
  *
  * @warehouse: object to query
  * @max_range: max range of the returned list (-1 if none)
+ * @progress: progress indicator, to show advancement to end-user
  *
  * Returns a list of @lw6dat_miss_t objects which contains informations about
  * the messages which need to be re-sent by peers. The function will always
@@ -946,13 +947,14 @@ _lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse,
  * Return value: a list of pointers to @lw6dat_miss_t structs, NULL on failure.
  */
 lw6sys_list_t *
-lw6dat_warehouse_get_miss_list (lw6dat_warehouse_t * warehouse, int max_range)
+lw6dat_warehouse_get_miss_list (lw6dat_warehouse_t * warehouse, int max_range,
+				lw6sys_progress_t * progress)
 {
   lw6sys_list_t *ret = NULL;
 
   ret =
     _lw6dat_warehouse_get_miss_list ((_lw6dat_warehouse_t *) warehouse,
-				     max_range);
+				     max_range, progress);
 
   return ret;
 }
