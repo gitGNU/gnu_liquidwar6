@@ -9,6 +9,9 @@ http://topjeux.imaginux.com/topliste.php?fiche=1011
 http://www.assurance-vie-meilleure.com/2011/09/dimanche-pause-2x04-liquid-war.html
 http://www.metacritic.com/game/pc/liquid-war-6
 
+http://js13kgames.com/entries/gloopy/
+https://github.com/n17r4m/gloopy
+
 http://kasperhviid.dk/liquid-stuff.html
 http://kasperhviid.dk/lw6-eyecandy.html
 http://kasperhviid.dk/lw6-gui.html
