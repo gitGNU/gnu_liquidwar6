@@ -22,24 +22,24 @@ AM_CFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
 if ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@
 else
-AM_LDFLAGS = @LW6_LDFLAGS@ @GLES2_LIBS@ @SDL_LIBS@
+AM_LDFLAGS = @LW6_LDFLAGS@ @SOFT_LIBS@ @SDL_LIBS@
 endif
 
 libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/gfx
 
-noinst_LTLIBRARIES = libmod_gles2_s.la
-MOD_GLES2_FILES = mod-gles2-backend.c mod-gles2-const.c mod-gles2-event.c mod-gles2-mode.c mod-gles2-path.c mod-gles2-repr.c mod-gles2-resolution.c mod-gles2-setup.c mod-gles2-timer.c mod-gles2-viewport.c
-libmod_gles2_s_la_SOURCES = $(MOD_GLES2_FILES) 
+noinst_LTLIBRARIES = libmod_soft_s.la
+MOD_SOFT_FILES = mod-soft-backend.c mod-soft-const.c mod-soft-event.c mod-soft-mode.c mod-soft-path.c mod-soft-repr.c mod-soft-resolution.c mod-soft-setup.c mod-soft-timer.c mod-soft-viewport.c
+libmod_soft_s_la_SOURCES = $(MOD_SOFT_FILES) 
 
 if !ALLINONE
-lib_LTLIBRARIES = libmod_gles2.la
-libmod_gles2_la_SOURCES = $(MOD_GLES2_FILES) 
-libmod_gles2_la_LIBADD = $(MOD_GLES2_LIBS) 
-libmod_gles2_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @GLES2_LIBS@ @SDL_LIBS@
-libmod_gles2dir = $(includedir)/@PACKAGE_TARNAME@/gfx/mod-gles2
-libmod_gles2_HEADERS = mod-gles2.h
+lib_LTLIBRARIES = libmod_soft.la
+libmod_soft_la_SOURCES = $(MOD_SOFT_FILES) 
+libmod_soft_la_LIBADD = $(MOD_SOFT_LIBS) 
+libmod_soft_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @SOFT_LIBS@ @SDL_LIBS@
+libmod_softdir = $(includedir)/@PACKAGE_TARNAME@/gfx/mod-soft
+libmod_soft_HEADERS = mod-soft.h
 endif
 
-EXTRA_DIST = mod-gles2-internal.h
+EXTRA_DIST = mod-soft-internal.h
 
-#SUBDIRS = gles2-utils gles2-splash gles2-background gles2-hud gles2-menu gles2-view
+#SUBDIRS = soft-utils soft-splash soft-background soft-hud soft-menu soft-view

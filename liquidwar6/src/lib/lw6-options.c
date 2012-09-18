@@ -592,6 +592,11 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  printf ("%s\n", lw6sys_build_get_enable_mod_gles2 ());
 	  (*run_game) = 0;
 	}
+      else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_ENABLE_MOD_SOFT, argv[i]))
+	{
+	  printf ("%s\n", lw6sys_build_get_enable_mod_soft ());
+	  (*run_game) = 0;
+	}
       else
 	if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_ENABLE_MOD_CSOUND, argv[i]))
 	{

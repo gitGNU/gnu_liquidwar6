@@ -1,1 +1,1 @@
-#define LW6_MD5SUM "297fa7fd4a1ec49d856ecda90912cded"
+#define LW6_MD5SUM "52c00857c3272f19a4a759fd8a670b9b"

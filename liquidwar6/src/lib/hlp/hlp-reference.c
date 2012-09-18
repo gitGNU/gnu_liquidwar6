@@ -304,6 +304,9 @@ populate_references ()
   POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_MOD_GLES2,
 		 _x_
 		 ("Shows wether the mod-gles2 graphical backend has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of SDL and OpenGL ES related libraries."));
+  POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_MOD_SOFT,
+		 _x_
+		 ("Shows wether the mod-soft graphical backend has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of SDL related libraries."));
   POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_MOD_CSOUND,
 		 _x_
 		 ("Shows wether the mod-csound audio backend has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of the csound library."));
@@ -2309,6 +2312,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_gl1."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GLES2,
 		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_gles2."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_SOFT,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_soft."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CSOUND,
 		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_csound."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_OGG,

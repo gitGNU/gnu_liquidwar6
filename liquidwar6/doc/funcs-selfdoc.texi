@@ -1245,6 +1245,11 @@ Wrapper on lw6sys_build_get_enable_mod_http.
 Wrapper on lw6sys_build_get_enable_mod_ogg.
 @end deffn
 
+@subsection c-lw6sys-build-get-enable-mod-soft
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-mod-soft}
+Wrapper on lw6sys_build_get_enable_mod_soft.
+@end deffn
+
 @subsection c-lw6sys-build-get-enable-openmp
 @deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-openmp}
 Wrapper on lw6sys_build_get_enable_openmp.

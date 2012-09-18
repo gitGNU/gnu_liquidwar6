@@ -427,6 +427,7 @@ lw6_print_modules ()
   printf ("enable-gtk: %s\n", lw6sys_build_get_enable_gtk ());
   printf ("enable-mod-gl1: %s\n", lw6sys_build_get_enable_mod_gl1 ());
   printf ("enable-mod-gles2: %s\n", lw6sys_build_get_enable_mod_gles2 ());
+  printf ("enable-mod-soft: %s\n", lw6sys_build_get_enable_mod_soft ());
   printf ("enable-mod-csound: %s\n", lw6sys_build_get_enable_mod_csound ());
   printf ("enable-mod-ogg: %s\n", lw6sys_build_get_enable_mod_ogg ());
   printf ("enable-mod-http: %s\n", lw6sys_build_get_enable_mod_http ());

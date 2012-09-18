@@ -566,13 +566,13 @@ lw6gfx_test (int mode)
       backend = lw6gfx_create_backend (argc, argv, "gl1");
       if (backend)
 	{
-	  if (ret && test_init (backend))
+	  if (test_init (backend))
 	    {
 	      ret = test_resolution (backend)
 		&& test_splash (backend)
 		&& test_background (backend) && test_menu (backend)
 		&& test_view (backend)
-		&& test_hud (backend) && test_events (backend);
+		&& test_hud (backend) && test_events (backend) && ret;
 	      ret = test_quit (backend) && ret;
 	    }
 	  else
@@ -586,13 +586,33 @@ lw6gfx_test (int mode)
       backend = lw6gfx_create_backend (argc, argv, "gles2");
       if (backend)
 	{
-	  if (ret && test_init (backend))
+	  if (test_init (backend))
 	    {
 	      ret = test_resolution (backend)
 		&& test_splash (backend)
 		&& test_background (backend) && test_menu (backend)
 		&& test_view (backend)
-		&& test_hud (backend) && test_events (backend);
+		&& test_hud (backend) && test_events (backend) && ret;
+	      ret = test_quit (backend) && ret;
+	    }
+	  else
+	    {
+	      ret = 0;
+	    }
+	  lw6gfx_destroy_backend (backend);
+	}
+#endif
+#ifdef MOD_SOFT
+      backend = lw6gfx_create_backend (argc, argv, "soft");
+      if (backend)
+	{
+	  if (test_init (backend))
+	    {
+	      ret = test_resolution (backend)
+		&& test_splash (backend)
+		&& test_background (backend) && test_menu (backend)
+		&& test_view (backend)
+		&& test_hud (backend) && test_events (backend) && ret;
 	      ret = test_quit (backend) && ret;
 	    }
 	  else

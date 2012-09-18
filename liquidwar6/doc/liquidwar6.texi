@@ -98,6 +98,7 @@ Hacker's guide
 * Architecture::        C, Scheme, modules and the rest.
 * About mod-gl1::       The working graphics backend.
 * About mod-gles2::     The upcoming graphics backend.
+* About mod-soft::      A minimalist graphics backend.
 * Compilation tips::    Advice for developpers and packagers.
 * Coding guidelines::   Ensure code remains maintainable.
 * Using the console::   How to interact with the game.
@@ -150,7 +151,8 @@ C API
 * libdyn::              Dynamic module loading.
 * libgfx::              Graphics.
 * mod-gl1::             Initial 3D graphics backend.
-* mod-gles2::           Upcoming 3D graphics backend.
+* mod-gles2::           Embedded 3D graphics backend.
+* mod-soft::            Software only graphics backend.
 * libglb::              Gnulib embedded routines.
 * libgui::              GUI utilities.
 * libhlp::              Built-in help system.
@@ -1625,6 +1627,7 @@ is welcome.
 * Architecture::        C, Scheme, modules and the rest.
 * About mod-gl1::       The working graphics backend.
 * About mod-gles2::     The upcoming graphics backend.
+* About mod-soft::      A minimalist graphics backend.
 * Compilation tips::    Advice for developpers and packagers.
 * Coding guidelines::   Ensure code remains maintainable.
 * Using the console::   How to interact with the game.
@@ -2625,7 +2628,7 @@ can (and should, if appliable) be used.
 @c About mod-gles2
 @c ---------------------------------------------------------------------------
 
-@node About mod-gles2, Compilation tips, About mod-gl1, Hacker's guide
+@node About mod-gles2, About mod-soft, About mod-gl1, Hacker's guide
 @section About mod-gles2
 
 @subsection The alternative renderer
@@ -2637,10 +2640,26 @@ but also on mobile platforms.
 Work in progress, don't hold your breath.
 
 @c ---------------------------------------------------------------------------
+@c About mod-soft
+@c ---------------------------------------------------------------------------
+
+@node About mod-soft, Compilation tips, About mod-gles2, Hacker's guide
+@section About mod-soft
+
+@subsection The alternative renderer
+
+This is under heavy development, the idea is to provide an alternative
+renderer without Open GL hardware acceleration, using pure SDL software
+bitmap functions. This can be a ``compile anywhere'' backend, to use
+in contexts where 3D drivers are not available.
+
+Work in progress, don't hold your breath.
+
+@c ---------------------------------------------------------------------------
 @c Compilation tips
 @c ---------------------------------------------------------------------------
 
-@node Compilation tips, Coding guidelines, About mod-gles2, Hacker's guide
+@node Compilation tips, Coding guidelines, About mod-soft, Hacker's guide
 @section Compilation tips
 
 @subsection Advanced ./configure options
@@ -4398,7 +4417,8 @@ describes the C structures and their attributes.
 * libdyn::              Dynamic module loading.
 * libgfx::              Graphics.
 * mod-gl1::             Initial 3D graphics backend.
-* mod-gles2::           Upcoming 3D graphics backend.
+* mod-gles2::           Embedded 3D graphics backend.
+* mod-soft::            Software only graphics backend.
 * libglb::              Gnulib embedded routines.
 * libgui::              GUI utilities.
 * libhlp::              Built-in help system.
@@ -4983,7 +5003,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c mod-gles2
 @c ---------------------------------------------------------------------------
 
-@node mod-gles2, libglb, mod-gl1, C API
+@node mod-gles2, mod-soft, mod-gl1, C API
 @section mod-gles2
 
 @subsection Overview
@@ -5012,10 +5032,42 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @end ifnotinfo
  
 @c ---------------------------------------------------------------------------
+@c mod-soft
+@c ---------------------------------------------------------------------------
+
+@node mod-soft, libglb, mod-gles2, C API
+@section mod-soft
+
+@subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/mod-soft/index.html} 
+(as there are many sub-directories in this module, please refer to the 
+@uref{http://www.gnu.org/software/liquidwar6/coverage/index.html, test coverage directory index} for complete information).
+
+@subsection API
+
+@ifinfo
+@include mod-soft-gdoc.texi
+@include mod-soft-doxygen.texi
+@end ifinfo
+
+@ifnotinfo
+@ifhtml
+@include mod-soft-gdoc.texi
+@include mod-soft-doxygen.texi
+@end ifhtml
+@ifnothtml
+Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/mod_002dsoft.html}.
+@end ifnothtml
+@end ifnotinfo
+ 
+@c ---------------------------------------------------------------------------
 @c libglb
 @c ---------------------------------------------------------------------------
 
-@node libglb, libgui, mod-gles2, C API
+@node libglb, libgui, mod-soft, C API
 @section libglb
 
 @subsection Overview

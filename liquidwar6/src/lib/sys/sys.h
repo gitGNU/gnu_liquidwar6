@@ -708,6 +708,7 @@ extern char *lw6sys_build_get_enable_console ();
 extern char *lw6sys_build_get_enable_gtk ();
 extern char *lw6sys_build_get_enable_mod_gl1 ();
 extern char *lw6sys_build_get_enable_mod_gles2 ();
+extern char *lw6sys_build_get_enable_mod_soft ();
 extern char *lw6sys_build_get_enable_mod_csound ();
 extern char *lw6sys_build_get_enable_mod_ogg ();
 extern char *lw6sys_build_get_enable_mod_http ();

@@ -133,6 +133,13 @@ game. This depends on parameters passed to './configure' and also on the
 presence of SDL and related libraries.
 @end deffn
 
+@subsection show-build-enable-mod-soft
+@deffn {Command-line option} @code{--show-build-enable-mod-soft}
+Shows wether the mod-soft graphical backend has been enabled when building the
+game. This depends on parameters passed to './configure' and also on the
+presence of SDL related libraries.
+@end deffn
+
 @subsection show-build-enable-openmp
 @deffn {Command-line option} @code{--show-build-enable-openmp}
 Shows wether the program was built with OpenMP support. This depends on

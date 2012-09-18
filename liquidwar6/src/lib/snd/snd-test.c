@@ -203,9 +203,17 @@ lw6snd_test (int mode)
       backend = lw6snd_create_backend (argc, argv, "ogg");
       if (backend)
 	{
-	  ret = test_init (backend) && test_play_fx (backend)
-	    && test_play_water (backend) && test_play_music (backend)
-	    && test_quit (backend) && ret;
+	  if (test_init (backend))
+	    {
+	      ret = test_play_fx (backend)
+		&& test_play_water (backend) && test_play_music (backend)
+		&& ret;
+	      ret = test_quit (backend) && ret;
+	    }
+	  else
+	    {
+	      ret = 0;
+	    }
 	  lw6snd_destroy_backend (backend);
 	}
 #endif
@@ -214,8 +222,17 @@ lw6snd_test (int mode)
       backend = lw6snd_create_backend (argc, argv, "csound");
       if (backend)
 	{
-	  ret = test_init (backend) && test_play_fx (backend)
-	    && test_quit (backend) && ret;
+	  if (test_init (backend))
+	    {
+	      ret = test_play_fx (backend)
+		&& test_play_water (backend) && test_play_music (backend)
+		&& ret;
+	      ret = test_quit (backend) && ret;
+	    }
+	  else
+	    {
+	      ret = 0;
+	    }
 	  lw6snd_destroy_backend (backend);
 	}
 #endif

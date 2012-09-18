@@ -498,8 +498,27 @@ fi
 AC_SUBST(MOD_GLES2_ENABLE_CFLAGS)
 dnl End mod-gles2
 
+dnl Begin mod-soft
+AC_ARG_ENABLE([mod-soft], AS_HELP_STRING([--enable-mod-soft],[compile mod-soft default=yes]), [enable_mod_soft=$enableval], [enable_mod_soft=yes])
+
+SOFT_LIBS=""
+AC_SUBST(SOFT_LIBS)
+
+AM_CONDITIONAL(MOD_SOFT, test x$enable_mod_soft = xyes && test x$SDL_CONFIG = xyes && test x$HAVE_SDL_H = x1 && test x$HAVE_LIBSDL = x1 && test x$HAVE_SDL_IMAGE_H = x1 && test x$HAVE_LIBSDL_IMAGE = x1 && test x$HAVE_SDL_TTF_H = x1 && test x$HAVE_LIBSDL_TTF = x1)
+
+if test -z "${MOD_SOFT_TRUE}"; then
+	MOD_SOFT_ENABLE_CFLAGS="-DMOD_SOFT=1"
+else
+	MOD_SOFT_ENABLE_CFLAGS=
+fi
+AC_SUBST(MOD_SOFT_ENABLE_CFLAGS)
+dnl End mod-soft
+
 lw6_gfx_exists=no
 if test x$enable_headless != xyes ; then
+   if test -z "${MOD_SOFT_TRUE}"; then
+      lw6_gfx_exists=soft
+   fi
    if test -z "${MOD_GL1_TRUE}"; then
       lw6_gfx_exists=gl1
    fi
@@ -868,6 +887,7 @@ AC_CONFIG_FILES([Makefile
  	  src/lib/gfx/mod-gl1/gl1-view/Makefile
  	  src/lib/gfx/mod-gl1/gl1-view/gl1-flat/Makefile
   	  src/lib/gfx/mod-gles2/Makefile
+  	  src/lib/gfx/mod-soft/Makefile
 	  src/lib/dsp/Makefile
 	  src/lib/snd/Makefile
 	  src/lib/snd/mod-csound/Makefile
@@ -912,6 +932,7 @@ AC_CONFIG_FILES([Makefile
  	  data/gfx/gl1/view/Makefile
  	  data/gfx/gl1/view/flat/Makefile
   	  data/gfx/gles2/Makefile
+  	  data/gfx/soft/Makefile
  	  data/snd/Makefile
  	  data/snd/csound/Makefile
  	  data/snd/ogg/Makefile
@@ -1010,6 +1031,11 @@ if test -z "${MOD_GLES2_TRUE}"; then
 	AC_MSG_NOTICE([build mod-gles2... yes])
 else
 	AC_MSG_NOTICE([build mod-gles2... no])
+fi
+if test -z "${MOD_SOFT_TRUE}"; then
+	AC_MSG_NOTICE([build mod-soft... yes])
+else
+	AC_MSG_NOTICE([build mod-soft... no])
 fi
 if test -z "${MOD_CSOUND_TRUE}"; then
 	AC_MSG_NOTICE([build mod-csound... yes])
