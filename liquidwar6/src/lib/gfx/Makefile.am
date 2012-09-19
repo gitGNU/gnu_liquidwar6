@@ -65,9 +65,17 @@ MOD_SOFT_SUBDIR =
 MOD_SOFT_LIB_S =
 endif
 
+if SHARED_SDL
+SHARED_SDL_SUBDIR = shared-sdl
+SHARED_SDL_LIB_S = shared-sdl/libshared_sdl_s.la
+else
+SHARED_SDL_SUBDIR =
+SHARED_SDL_LIB_S =
+endif
+
 if ALLINONE
 LW6DYN_LIB = 
-LW6GFX_LIB_S = $(MOD_GL1_LIB_S) $(MOD_GLES2_LIB_S) $(MOD_SOFT_LIB_S)
+LW6GFX_LIB_S = $(MOD_GL1_LIB_S) $(MOD_GLES2_LIB_S) $(MOD_SOFT_LIB_S) $(SHARED_SDL_LIB_S) 
 else
 LW6DYN_LIB = ../dyn/libdyn.la 
 LW6GFX_LIB_S =
@@ -86,5 +94,5 @@ liquidwar6gfx_test_LDADD = libgfx.la $(LW6DYN_LIB) ../vox/libvox.la ../gui/libgu
 TESTS = liquidwar6gfx-test
 endif
 
-SUBDIRS = $(MOD_GL1_SUBDIR) $(MOD_GLES2_SUBDIR) $(MOD_SOFT_SUBDIR)
+SUBDIRS = $(MOD_GL1_SUBDIR) $(MOD_GLES2_SUBDIR) $(MOD_SOFT_SUBDIR) $(SHARED_SDL_SUBDIR)
 

@@ -194,6 +194,8 @@ src/lib/gfx/mod-soft/mod-soft-resolution.c
 src/lib/gfx/mod-soft/mod-soft-setup.c
 src/lib/gfx/mod-soft/mod-soft-timer.c
 src/lib/gfx/mod-soft/mod-soft-viewport.c
+src/lib/gfx/shared-sdl/shared-sdl-backend.c
+src/lib/gfx/shared-sdl/shared-sdl-event.c
 src/lib/glb/glb-base64.c
 src/lib/glb/glb-sha1.c
 src/lib/glb/glb-test.c

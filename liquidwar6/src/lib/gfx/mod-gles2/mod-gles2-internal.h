@@ -23,13 +23,10 @@
 #ifndef LIQUIDWAR6GFX_MOD_GLES2_INTERNAL_H
 #define LIQUIDWAR6GFX_MOD_GLES2_INTERNAL_H
 
-#include "../gfx.h"
+#include "../shared-sdl/shared-sdl.h"
 #include "mod-gles2.h"
 
-#include <SDL.h>
 #include <SDL_opengl.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
 
 /*
  * We require 2048x2048 at least, in fact the game will behave better

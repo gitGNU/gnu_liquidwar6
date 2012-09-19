@@ -42,4 +42,3 @@ endif
 
 EXTRA_DIST = mod-gles2-internal.h
 
-#SUBDIRS = gles2-utils gles2-splash gles2-background gles2-hud gles2-menu gles2-view

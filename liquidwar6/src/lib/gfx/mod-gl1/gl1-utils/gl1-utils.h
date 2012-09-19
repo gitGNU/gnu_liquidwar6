@@ -25,12 +25,9 @@
 
 #include <math.h>
 
-#include "../../gfx.h"
+#include "../../shared-sdl/shared-sdl.h"
 
-#include <SDL.h>
 #include <SDL_opengl.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
 
 #ifndef GL_CLAMP_TO_EDGE
 #define GL_CLAMP_TO_EDGE GL_CLAMP

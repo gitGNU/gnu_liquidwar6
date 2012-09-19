@@ -22,22 +22,20 @@ AM_CFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
 if ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@
 else
-AM_LDFLAGS = @LW6_LDFLAGS@ @SOFT_LIBS@ @SDL_LIBS@
+AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS@
 endif
 
 libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/gfx
 
-noinst_LTLIBRARIES = libmod_soft_s.la
-MOD_SOFT_FILES = mod-soft-backend.c mod-soft-const.c mod-soft-event.c mod-soft-mode.c mod-soft-path.c mod-soft-repr.c mod-soft-resolution.c mod-soft-setup.c mod-soft-timer.c mod-soft-viewport.c
-libmod_soft_s_la_SOURCES = $(MOD_SOFT_FILES) 
+noinst_LTLIBRARIES = libshared_sdl_s.la
+SHARED_SDL_FILES = shared-sdl-backend.c shared-sdl-event.c
+libshared_sdl_s_la_SOURCES = $(SHARED_SDL_FILES) 
 
 if !ALLINONE
-lib_LTLIBRARIES = libmod_soft.la
-libmod_soft_la_SOURCES = $(MOD_SOFT_FILES) 
-libmod_soft_la_LIBADD = $(MOD_SOFT_LIBS) 
-libmod_soft_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @SOFT_LIBS@ @SDL_LIBS@
-libmod_softdir = $(includedir)/@PACKAGE_TARNAME@/gfx/mod-soft
-libmod_soft_HEADERS = mod-soft.h
+lib_LTLIBRARIES = libshared_sdl.la
+libshared_sdl_la_SOURCES = $(SHARED_SDL_FILES) 
+libshared_sdl_la_LIBADD = $(SHARED_SDL_LIBS) 
+libshared_sdl_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @SDL_LIBS@
+libshared_sdldir = $(includedir)/@PACKAGE_TARNAME@/gfx/shared-sdl
+libshared_sdl_HEADERS = shared-sdl.h
 endif
-
-EXTRA_DIST = mod-soft-internal.h

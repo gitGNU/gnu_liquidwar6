@@ -23,7 +23,6 @@
 #ifndef LIQUIDWAR6GFX_MOD_GL1_INTERNAL_H
 #define LIQUIDWAR6GFX_MOD_GL1_INTERNAL_H
 
-#include "../gfx.h"
 #include "gl1-utils/gl1-utils.h"
 #include "gl1-splash/gl1-splash.h"
 #include "gl1-background/gl1-background.h"

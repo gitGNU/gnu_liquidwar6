@@ -514,6 +514,10 @@ fi
 AC_SUBST(MOD_SOFT_ENABLE_CFLAGS)
 dnl End mod-soft
 
+dnl Begin shared-sdl
+AM_CONDITIONAL(SHARED_SDL, test -z "${MOD_GL1_TRUE}" || test -z "${MOD_GLES2_TRUE}" || test -z "${MOD_SOFT_TRUE}")
+dnl End shared-sdl
+
 lw6_gfx_exists=no
 if test x$enable_headless != xyes ; then
    if test -z "${MOD_SOFT_TRUE}"; then
@@ -524,6 +528,9 @@ if test x$enable_headless != xyes ; then
    fi
    if test -z "${MOD_GLES2_TRUE}"; then
       lw6_gfx_exists=gles2
+   fi
+   if test -z "${MOD_SOFT_TRUE}"; then
+      lw6_gfx_exists=soft
    fi
    if test x$lw6_gfx_exists = xno; then
       AC_MSG_ERROR([No graphical support detected, please consider installing SDL (http://www.libsdl.org/), Mesa (http://www.mesa3d.org/), SDL_image (http://www.libsdl.org/projects/SDL_image/), SDL_ttf (http://www.libsdl.org/projects/SDL_ttf/) with development support (headers and libraries).])
@@ -888,6 +895,7 @@ AC_CONFIG_FILES([Makefile
  	  src/lib/gfx/mod-gl1/gl1-view/gl1-flat/Makefile
   	  src/lib/gfx/mod-gles2/Makefile
   	  src/lib/gfx/mod-soft/Makefile
+  	  src/lib/gfx/shared-sdl/Makefile
 	  src/lib/dsp/Makefile
 	  src/lib/snd/Makefile
 	  src/lib/snd/mod-csound/Makefile
