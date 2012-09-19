@@ -1,3 +1,7 @@
+2012-09-19 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added dyn code to support loading of non-module shared code.
+
 2012-09-18 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added framework for mod-soft software only graphics baclend.

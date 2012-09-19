@@ -76,6 +76,31 @@ finding the .so files in hidden .libs subdirectories.
 @strong{Return value:}  the full path of the .so file, needs to be freed.
 @end deftypefun
 
+@deftypefun {char *} {lw6dyn_path_find_shared} (int @var{argc}, const char * [] @var{argv}, const char * @var{top_level_lib}, const char * @var{shared_name})
+@var{argc}:  the number of command-line arguments as passed to @code{main}
+
+@var{top_level_lib}:  the top-level library concerned, this means is it
+"cli", "gfx", "snd" or "srv". This will tell the function to search
+for the .so file in the correct subdirectory. Think of this as a
+category.
+
+@var{shared_name}:  the actual name of the shared code, this is the name of the
+.so file, between "libshared_" and ".so". For instance, to find
+"libshared_sdl.so", the right argument is "sdl".
+
+Get the full path to a .so file corresponding to the given shared code entry,
+it is capable to search for system libraries installed after "make install"
+but if not found, it will also search in the current build directory,
+finding the .so files in hidden .libs subdirectories.
+This is different from the standard module loader, since it will search
+for .so files with a slightly different name. The idea is to distinguish
+modules that are truely loadable and shared code that can't be used 
+standalone and can't either be stuffed in the main binary since it refers
+to external dynamic library which will only be loaded at runtime.
+
+@strong{Return value:}  the full path of the .so file, needs to be freed.
+@end deftypefun
+
 @deftypefun {int} {lw6dyn_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 

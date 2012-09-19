@@ -69,6 +69,9 @@ extern lw6sys_assoc_t *lw6dyn_list_backends (int argc, const char *argv[],
 extern char *lw6dyn_path_find_backend (int argc, const char *argv[],
 				       const char *top_level_lib,
 				       const char *backend_name);
+extern char *lw6dyn_path_find_shared (int argc, const char *argv[],
+				      const char *top_level_lib,
+				      const char *backend_name);
 
 /* dyn-test.c */
 extern int lw6dyn_test (int mode);

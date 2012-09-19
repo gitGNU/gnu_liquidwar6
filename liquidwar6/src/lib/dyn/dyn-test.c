@@ -28,6 +28,7 @@
 
 #define TEST_DYN_TOP_LEVEL_LIB "gfx"
 #define TEST_DYN_BACKEND_NAME "gl1"
+#define TEST_DYN_SHARED_NAME "sdl"
 
 #define TEST_ARGC 2
 #define TEST_ARGV0 "program"
@@ -103,7 +104,42 @@ test_path ()
 		    library_path);
 	LW6SYS_FREE (library_path);
       }
+    else
+      {
+	/*
+	 * Displaying a warning but not considering this an error,
+	 * after all, this module can just not be compiled at all
+	 * if we didn't have the prerequisites.
+	 */
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("couldn't find library \"%s/mod-%s\" in \"%s\""),
+		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_BACKEND_NAME,
+		    library_path);
+      }
 
+    library_path =
+      lw6dyn_path_find_shared (argc, argv, TEST_DYN_TOP_LEVEL_LIB,
+			       TEST_DYN_SHARED_NAME);
+    if (library_path && lw6sys_file_exists (library_path))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("found library \"%s/mod-%s\" in \"%s\""),
+		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_SHARED_NAME,
+		    library_path);
+	LW6SYS_FREE (library_path);
+      }
+    else
+      {
+	/*
+	 * Displaying a warning but not considering this an error,
+	 * after all, this module can just not be compiled at all
+	 * if we didn't have the prerequisites.
+	 */
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("couldn't find library \"%s/mod-%s\" in \"%s\""),
+		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_BACKEND_NAME,
+		    library_path);
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;

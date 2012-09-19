@@ -31,19 +31,34 @@
 const char *_LW6DYN_DEVEL_DEPTH_STRINGS[_LW6DYN_DEVEL_NB_DEPTHS] =
   { "", "../", "../../", "../../../" };
 
-#define BACKEND_DEVEL_PATH_FORMAT "%ssrc/lib/%s/mod-%s/.libs/libmod_%s-%s." _LW6DYN_SUFFIX
-#define BACKEND_SYSTEM_PATH_FORMAT "%s/%s/libmod_%s-%s." _LW6DYN_SUFFIX
+/*
+ * Path used to find loadable modules, this is normalize for
+ * readability, the two variants, one with src/ and the other
+ * without it, are used, respectively, for development and
+ * real execution contexts.
+ */
+#define _BACKEND_DEVEL_PATH_FORMAT "%ssrc/lib/%s/mod-%s/.libs/libmod_%s-%s." _LW6DYN_SUFFIX
+#define _BACKEND_SYSTEM_PATH_FORMAT "%s/%s/libmod_%s-%s." _LW6DYN_SUFFIX
+
+/*
+ * Path for shared code for modules differ from standard module
+ * paths, to avoid loading them by mistake when listing dirs.
+ */
+#define _SHARED_DEVEL_PATH_FORMAT "%ssrc/lib/%s/shared-%s/.libs/libshared_%s-%s." _LW6DYN_SUFFIX
+#define _SHARED_SYSTEM_PATH_FORMAT "%s/%s/libshared_%s-%s." _LW6DYN_SUFFIX
+
+#define _SHARED_NEEDLE "shared"
 
 static char *
-make_devel_backend_path (const char *top_level_lib, const char *backend_name,
-			 int depth)
+_make_devel_path (const char *top_level_lib, const char *backend_name,
+		  int depth, const char *devel_path_format)
 {
   char *ret = NULL;
 
   if (depth >= 0 && depth < _LW6DYN_DEVEL_NB_DEPTHS)
     {
       ret =
-	lw6sys_new_sprintf (BACKEND_DEVEL_PATH_FORMAT,
+	lw6sys_new_sprintf (devel_path_format,
 			    _LW6DYN_DEVEL_DEPTH_STRINGS[depth], top_level_lib,
 			    backend_name, backend_name,
 			    lw6sys_build_get_version ());
@@ -53,8 +68,9 @@ make_devel_backend_path (const char *top_level_lib, const char *backend_name,
 }
 
 static char *
-make_system_backend_path (int argc, const char *argv[],
-			  const char *top_level_lib, const char *backend_name)
+_make_system_path (int argc, const char *argv[],
+		   const char *top_level_lib, const char *backend_name,
+		   const char *system_path_format)
 {
   char *ret = NULL;
   char *mod_dir = NULL;
@@ -63,10 +79,80 @@ make_system_backend_path (int argc, const char *argv[],
   if (mod_dir)
     {
       ret =
-	lw6sys_new_sprintf (BACKEND_SYSTEM_PATH_FORMAT, mod_dir,
+	lw6sys_new_sprintf (system_path_format, mod_dir,
 			    top_level_lib, backend_name,
 			    lw6sys_build_get_version ());
       LW6SYS_FREE (mod_dir);
+    }
+
+  return ret;
+}
+
+static char *
+_path_find (int argc, const char *argv[],
+	    const char *top_level_lib, const char *backend_name,
+	    const char *devel_path_format, const char *system_path_format)
+{
+  char *ret = NULL;
+  char *system_path = NULL;
+  char *devel_path = NULL;
+  int depth;
+
+  if (!ret)
+    {
+      system_path =
+	_make_system_path (argc, argv, top_level_lib, backend_name,
+			   system_path_format);
+      if (system_path)
+	{
+	  if (lw6sys_file_exists (system_path))
+	    {
+	      ret = lw6sys_str_copy (system_path);
+	    }
+	  else
+	    {
+	      for (depth = 0; depth < _LW6DYN_DEVEL_NB_DEPTHS && !ret;
+		   ++depth)
+		{
+		  if (!ret)
+		    {
+		      devel_path =
+			_make_devel_path (top_level_lib, backend_name,
+					  depth, devel_path_format);
+		      if (devel_path)
+			{
+			  if (lw6sys_file_exists (devel_path))
+			    {
+			      ret = lw6sys_str_copy (devel_path);
+			    }
+			  LW6SYS_FREE (devel_path);
+			}
+		    }
+		}
+	    }
+
+	  // module not found at all
+	  /*
+	   * We distinguish the case of a module or a shared code
+	   * bundle to display more explicit messages, this is a NOTICE
+	   * so it can be seen quite often and this kind of problem
+	   * requires very good feedback for it's tricky to fix.
+	   */
+	  if (strstr (system_path_format, _SHARED_NEEDLE))
+	    {
+	      lw6sys_log (LW6SYS_LOG_NOTICE,
+			  _x_ ("couldn't find shared code for %s/%s in %s"),
+			  top_level_lib, backend_name, system_path);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_NOTICE,
+			  _x_ ("couldn't find backend for %s/%s in %s"),
+			  top_level_lib, backend_name, system_path);
+	    }
+
+	  LW6SYS_FREE (system_path);
+	}
     }
 
   return ret;
@@ -97,52 +183,48 @@ lw6dyn_path_find_backend (int argc, const char *argv[],
 			  const char *top_level_lib, const char *backend_name)
 {
   char *ret = NULL;
-  char *system_backend_path = NULL;
-  char *devel_backend_path = NULL;
-  int depth;
 
-  if (!ret)
-    {
-      system_backend_path =
-	make_system_backend_path (argc, argv, top_level_lib, backend_name);
-      if (system_backend_path)
-	{
-	  if (lw6sys_file_exists (system_backend_path))
-	    {
-	      ret = lw6sys_str_copy (system_backend_path);
-	    }
-	  else
-	    {
-	      for (depth = 0; depth < _LW6DYN_DEVEL_NB_DEPTHS && !ret;
-		   ++depth)
-		{
-		  if (!ret)
-		    {
-		      devel_backend_path =
-			make_devel_backend_path (top_level_lib, backend_name,
-						 depth);
-		      if (devel_backend_path)
-			{
-			  if (lw6sys_file_exists (devel_backend_path))
-			    {
-			      ret = lw6sys_str_copy (devel_backend_path);
-			    }
-			  LW6SYS_FREE (devel_backend_path);
-			}
-		    }
-		}
-	    }
+  ret =
+    _path_find (argc, argv, top_level_lib, backend_name,
+		_BACKEND_DEVEL_PATH_FORMAT, _BACKEND_SYSTEM_PATH_FORMAT);
 
-	  if (!ret)
-	    {
-	      // module not found at all
-	      lw6sys_log (LW6SYS_LOG_NOTICE,
-			  _x_ ("couldn't find backend %s/%s in %s"),
-			  top_level_lib, backend_name, system_backend_path);
-	    }
-	  LW6SYS_FREE (system_backend_path);
-	}
-    }
+  return ret;
+}
+
+/**
+ * lw6dyn_path_find_shared:
+ *
+ * @argc: the number of command-line arguments as passed to @main
+ * @arvg: an array of command-line arguments as passed to @main
+ * @top_level_lib: the top-level library concerned, this means is it
+ *   "cli", "gfx", "snd" or "srv". This will tell the function to search
+ *   for the .so file in the correct subdirectory. Think of this as a
+ *   category.
+ * @shared_name: the actual name of the shared code, this is the name of the
+ *   .so file, between "libshared_" and ".so". For instance, to find
+ *   "libshared_sdl.so", the right argument is "sdl".
+ *
+ * Get the full path to a .so file corresponding to the given shared code entry,
+ * it is capable to search for system libraries installed after "make install"
+ * but if not found, it will also search in the current build directory,
+ * finding the .so files in hidden .libs subdirectories.
+ * This is different from the standard module loader, since it will search
+ * for .so files with a slightly different name. The idea is to distinguish
+ * modules that are truely loadable and shared code that can't be used 
+ * standalone and can't either be stuffed in the main binary since it refers
+ * to external dynamic library which will only be loaded at runtime.
+ *
+ * Return value: the full path of the .so file, needs to be freed.
+ */
+char *
+lw6dyn_path_find_shared (int argc, const char *argv[],
+			 const char *top_level_lib, const char *shared_name)
+{
+  char *ret = NULL;
+
+  ret =
+    _path_find (argc, argv, top_level_lib, shared_name,
+		_SHARED_DEVEL_PATH_FORMAT, _SHARED_SYSTEM_PATH_FORMAT);
 
   return ret;
 }
