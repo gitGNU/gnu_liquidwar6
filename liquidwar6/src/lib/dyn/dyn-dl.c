@@ -70,18 +70,8 @@ verbose_dlopen (const char *file)
   return ret;
 }
 
-/**
- * lw6dyn_dlopen_backend_so:
- *
- * @backend_so: the .so file to open
- *
- * Opens a .so file directly, using a valid (full) path name.
- *
- * Return value: a handle to the module, once it's opened. You might still
- *   need to call a module specific @init() function, but it's another story.
- */
-lw6dyn_dl_handle_t *
-lw6dyn_dlopen_backend_so (const char *so_file)
+static lw6dyn_dl_handle_t *
+_dlopen_so (const char *so_file, int is_backend)
 {
   lw6dyn_dl_handle_t *ret = NULL;
 
@@ -90,6 +80,7 @@ lw6dyn_dlopen_backend_so (const char *so_file)
       ret = LW6SYS_CALLOC (sizeof (lw6dyn_dl_handle_t));
       if (ret)
 	{
+	  ret->is_backend = is_backend;
 	  ret->library_path = lw6sys_str_copy (so_file);
 	  if (ret->library_path)
 	    {
@@ -110,6 +101,38 @@ lw6dyn_dlopen_backend_so (const char *so_file)
     }
 
   return ret;
+}
+
+/**
+ * lw6dyn_dlopen_backend_so:
+ *
+ * @backend_so: the .so file to open
+ *
+ * Opens a .so file directly, using a valid (full) path name.
+ *
+ * Return value: a handle to the module, once it's opened. You might still
+ *   need to call a module specific @init() function, but it's another story.
+ */
+lw6dyn_dl_handle_t *
+lw6dyn_dlopen_backend_so (const char *so_file)
+{
+  return _dlopen_so (so_file, 1);
+}
+
+/**
+ * lw6dyn_dlopen_shared_so:
+ *
+ * @shared_so: the .so file to open
+ *
+ * Opens a .so file directly, using a valid (full) path name.
+ *
+ * Return value: a handle to the shared code, once it's opened. You might still
+ *   need to call a module specific @init() function, but it's another story.
+ */
+lw6dyn_dl_handle_t *
+lw6dyn_dlopen_shared_so (const char *so_file)
+{
+  return _dlopen_so (so_file, 0);
 }
 
 /**
@@ -200,7 +223,7 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
 
 					      is_GPL_compatible_sym_str =
 						lw6sys_new_sprintf
-						(LW6DYN_IS_GPL_COMPATIBLE_SYM_FORMAT,
+						(LW6DYN_IS_BACKEND_GPL_COMPATIBLE_SYM_FORMAT,
 						 backend_name);
 					      if (is_GPL_compatible_sym_str)
 						{
@@ -388,17 +411,87 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
 }
 
 /**
- * lw6dyn_dlclose_backend:
+ * lw6dyn_dlopen_shared:
  *
- * @handle: the backend to close.
+ * @argc: the number of command-line arguments as passed to @main
+ * @arvg: an array of command-line arguments as passed to @main
+ * @top_level_lib: the top-level library concerned, this means is it
+ *   "cli", "gfx", "snd" or "srv". This will tell the function to search
+ *   for the .so file in the correct subdirectory. Think of this as a
+ *   category.
+ * @shared: the actual name of the shared, this is the name of the
+ *   .so file, between "libmod_" and ".so". For instance, to find
+ *   "libmod_gl.so", the right argument is "gl1".
  *
- * Closes an opened backend. Note that you must call any backend
- * specific clear, destroy, deinit, exit, function before.
+ * Opens a .so file corresponding to the given shared code,
+ * it is capable to search for system libraries installed after "make install"
+ * but if not found, it will also search in the current build directory,
+ * finding the .so files in hidden .libs subdirectories.
  *
- * Return value: 1 if success, 0 on error.
+ * Return value: a handle to the shared code, once it's opened. This is
+ *   different from a real module, there's no real prototype, it just loads code.
  */
-int
-lw6dyn_dlclose_backend (lw6dyn_dl_handle_t * handle)
+lw6dyn_dl_handle_t *
+lw6dyn_dlopen_shared (int argc, const char *argv[],
+		      const char *top_level_lib, const char *shared_name)
+{
+  lw6dyn_dl_handle_t *ret = NULL;
+  char *so_file = NULL;
+  char *is_GPL_compatible_sym_str = NULL;
+  int ok = 0;
+
+  so_file = lw6dyn_path_find_shared (argc, argv, top_level_lib, shared_name);
+  if (so_file)
+    {
+      ret = lw6dyn_dlopen_shared_so (so_file);
+
+      if (ret)
+	{
+	  ret->is_backend = 0;
+
+	  is_GPL_compatible_sym_str =
+	    lw6sys_new_sprintf
+	    (LW6DYN_IS_SHARED_GPL_COMPATIBLE_SYM_FORMAT, shared_name);
+	  if (is_GPL_compatible_sym_str)
+	    {
+	      if (lw6dyn_dlsym (ret, is_GPL_compatible_sym_str))
+		{
+		  lw6sys_log
+		    (LW6SYS_LOG_INFO,
+		     _x_ ("shared code \"%s\" loaded, looks fine"), so_file);
+		  /*
+		   * Verbose dlopen did log the so name
+		   */
+		  ok = 1;
+		}
+	      else
+		{
+		  lw6sys_log
+		    (LW6SYS_LOG_WARNING,
+		     _x_
+		     ("shared code shared_%s in \"%s\" is not GPL compatible"),
+		     shared_name, so_file);
+		}
+	      LW6SYS_FREE (is_GPL_compatible_sym_str);
+	    }
+	}
+      LW6SYS_FREE (so_file);
+    }
+
+  if (!ok)
+    {
+      if (ret)
+	{
+	  lw6dyn_dlclose_shared (ret);
+	  ret = NULL;
+	}
+    }
+
+  return ret;
+}
+
+static int
+_dlclose (lw6dyn_dl_handle_t * handle)
 {
   int nb_errs;
   int ret = 0;
@@ -411,7 +504,7 @@ lw6dyn_dlclose_backend (lw6dyn_dl_handle_t * handle)
        * a loaded shared library, we know *what* we're freeing,
        * which can be pretty usefull when debugging.
        */
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("unload module \"%s\""),
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("unload \"%s\""),
 		  handle->library_path);
       if (handle->handle)
 	{
@@ -449,6 +542,52 @@ lw6dyn_dlclose_backend (lw6dyn_dl_handle_t * handle)
   LW6SYS_FREE (handle);
 
   return ret;
+}
+
+/**
+ * lw6dyn_dlclose_backend:
+ *
+ * @handle: the backend to close.
+ *
+ * Closes an opened backend. Note that you must call any backend
+ * specific clear, destroy, deinit, exit, function before.
+ *
+ * Return value: 1 if success, 0 on error.
+ */
+int
+lw6dyn_dlclose_backend (lw6dyn_dl_handle_t * handle)
+{
+  if (!(handle->is_backend))
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("dlclosing \"%s\" as a backend but it's not one"),
+		  handle->library_path);
+    }
+
+  return _dlclose (handle);
+}
+
+/**
+ * lw6dyn_dlclose_shared:
+ *
+ * @handle: the shared code library to close.
+ *
+ * Closes an opened shared code library. Note that you must call any shared code library
+ * specific clear, destroy, deinit, exit, function before.
+ *
+ * Return value: 1 if success, 0 on error.
+ */
+int
+lw6dyn_dlclose_shared (lw6dyn_dl_handle_t * handle)
+{
+  if (handle->is_backend)
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("dlclosing \"%s\" as shared code but it's a backend"),
+		  handle->library_path);
+    }
+
+  return _dlclose (handle);
 }
 
 /**

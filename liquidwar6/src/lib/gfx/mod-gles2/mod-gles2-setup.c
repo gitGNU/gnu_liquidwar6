@@ -44,6 +44,21 @@ _mod_gles2_init (int argc, const char *argv[],
 
   gles2_context =
     (_mod_gles2_context_t *) LW6SYS_CALLOC (sizeof (_mod_gles2_context_t));
+#ifndef LW6_ALLINONE
+  if (gles2_context)
+    {
+      gles2_context->shared_sdl_handle =
+	lw6dyn_dlopen_shared (argc, argv, "gfx", "sdl");
+      if (gles2_context->shared_sdl_handle == NULL)
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("unable to load shared SDL code"));
+	  _mod_gles2_quit (gles2_context);
+	  gles2_context = NULL;
+	}
+    }
+#endif // LW6_ALLINONE
+
   if (gles2_context)
     {
       if (_mod_gles2_path_init (&(gles2_context->path), argc, argv))
@@ -145,7 +160,7 @@ _mod_gles2_init (int argc, const char *argv[],
 	}
       else
 	{
-	  LW6SYS_FREE (gles2_context);
+	  _mod_gles2_quit (gles2_context);
 	  gles2_context = NULL;
 	}
     }
@@ -183,6 +198,14 @@ _mod_gles2_quit (_mod_gles2_context_t * gles2_context)
     }
 
   _mod_gles2_path_quit (&(gles2_context->path));
+
+#ifndef LW6_ALLINONE
+  if (gles2_context->shared_sdl_handle)
+    {
+      lw6dyn_dlclose_shared (gles2_context->shared_sdl_handle);
+      gles2_context->shared_sdl_handle = NULL;
+    }
+#endif // LW6_ALLINONE
 
   LW6SYS_FREE (gles2_context);
 

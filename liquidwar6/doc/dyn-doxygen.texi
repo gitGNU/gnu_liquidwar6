@@ -27,4 +27,14 @@ Libtool handler.
 Path to .so file containing the code, or whatever file is relevant on the current platform, the idea is to keep track of where the library comes from.         
 @end defcv
 
+@defcv {Member} {lw6dyn_dl_handle_s} {is_backend}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6dyn_dl_handle_s::is_backend}
+
+
+        
+True (1) if the handle is a backend or false (0) if it's just some shared code.         
+@end defcv
+
 

@@ -171,10 +171,10 @@ mod_gles2_get_pedigree ()
     {
       module_pedigree->id = "gles2";
       module_pedigree->category = "gfx";
-      module_pedigree->name = _("OpenGL v1 / SDL");
+      module_pedigree->name = _("OpenGL ES v2 / SDL");
       module_pedigree->readme =
 	_x_
-	("This is the most accomplished graphics backend for Liquid War 6. It uses OpenGL v1 hardware acceleration if available, and uses SDL as a technical wrapper.");
+	("A backend designed for compatibility with mobile platofrms. It uses OpenGL ES v2 hardware acceleration if available, and uses SDL as a technical wrapper.");
       module_pedigree->version = VERSION;
       module_pedigree->copyright =
 	"Copyright (C)  2012  Christian Mauduit <ufoot@ufoot.org>";

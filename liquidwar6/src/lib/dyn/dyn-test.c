@@ -123,10 +123,60 @@ test_path ()
     if (library_path && lw6sys_file_exists (library_path))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _x_ ("found library \"%s/mod-%s\" in \"%s\""),
+		    _x_ ("found library \"%s/shared-%s\" in \"%s\""),
 		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_SHARED_NAME,
 		    library_path);
 	LW6SYS_FREE (library_path);
+      }
+    else
+      {
+	/*
+	 * Displaying a warning but not considering this an error,
+	 * after all, this shared code can just not be compiled at all
+	 * if we didn't have the prerequisites.
+	 */
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("couldn't find library \"%s/shared-%s\" in \"%s\""),
+		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_BACKEND_NAME,
+		    library_path);
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
+ * Testing dl functions
+ */
+static int
+test_dl ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    const int argc = TEST_ARGC;
+    const char *argv[] = { TEST_ARGV0, TEST_ARGV1 };
+    lw6dyn_dl_handle_t *handle = NULL;
+
+    /*
+     * Note : this test won't fail even even if modules are
+     * not here, but one of the good reason it's here is that
+     * this way all the functions are compiled in, this is
+     * very important since lw6dyn_dlopen_shared is typically
+     * called from dynamic modules, so compiler has no idea it's
+     * needed when stuffing stuff in the main binary.
+     */
+
+    handle = lw6dyn_dlopen_backend (argc, argv, TEST_DYN_TOP_LEVEL_LIB,
+				    TEST_DYN_BACKEND_NAME);
+    if (handle)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("opened library \"%s/mod-%s\""),
+		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_BACKEND_NAME);
+	lw6dyn_dlclose_backend (handle);
       }
     else
       {
@@ -136,9 +186,29 @@ test_path ()
 	 * if we didn't have the prerequisites.
 	 */
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _x_ ("couldn't find library \"%s/mod-%s\" in \"%s\""),
-		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_BACKEND_NAME,
-		    library_path);
+		    _x_ ("couldn't find library \"%s/mod-%s\""),
+		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_BACKEND_NAME);
+      }
+
+    handle = lw6dyn_dlopen_shared (argc, argv, TEST_DYN_TOP_LEVEL_LIB,
+				   TEST_DYN_SHARED_NAME);
+    if (handle)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("opened library \"%s/shared-%s\""),
+		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_SHARED_NAME);
+	lw6dyn_dlclose_shared (handle);
+      }
+    else
+      {
+	/*
+	 * Displaying a warning but not considering this an error,
+	 * after all, this shared_code can just not be compiled at all
+	 * if we didn't have the prerequisites.
+	 */
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("couldn't find library \"%s/shared-%s\""),
+		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_SHARED_NAME);
       }
   }
 
@@ -170,7 +240,7 @@ lw6dyn_test (int mode)
       lw6sys_test (mode);
     }
 
-  ret = test_list () && test_path ();
+  ret = test_list () && test_path () && test_dl ();
 
   return ret;
 }

@@ -941,6 +941,7 @@ AC_CONFIG_FILES([Makefile
  	  data/gfx/gl1/view/flat/Makefile
   	  data/gfx/gles2/Makefile
   	  data/gfx/soft/Makefile
+  	  data/gfx/sdl/Makefile
  	  data/snd/Makefile
  	  data/snd/csound/Makefile
  	  data/snd/ogg/Makefile

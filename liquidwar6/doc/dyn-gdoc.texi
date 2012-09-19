@@ -5,6 +5,13 @@ Opens a .so file directly, using a valid (full) path name.
 need to call a module specific @code{init}() function, but it's another story.
 @end deftypefun
 
+@deftypefun {lw6dyn_dl_handle_t *} {lw6dyn_dlopen_shared_so} (const char * @var{so_file})
+Opens a .so file directly, using a valid (full) path name.
+
+@strong{Return value:}  a handle to the shared code, once it's opened. You might still
+need to call a module specific @code{init}() function, but it's another story.
+@end deftypefun
+
 @deftypefun {lw6dyn_dl_handle_t *} {lw6dyn_dlopen_backend} (int @var{argc}, const char * [] @var{argv}, const char * @var{top_level_lib}, const char * @var{backend_name})
 @var{argc}:  the number of command-line arguments as passed to @code{main}
 
@@ -22,10 +29,36 @@ finding the .so files in hidden .libs subdirectories.
 need to call a module specific @code{init}() function, but it's another story.
 @end deftypefun
 
+@deftypefun {lw6dyn_dl_handle_t *} {lw6dyn_dlopen_shared} (int @var{argc}, const char * [] @var{argv}, const char * @var{top_level_lib}, const char * @var{shared_name})
+@var{argc}:  the number of command-line arguments as passed to @code{main}
+
+@var{top_level_lib}:  the top-level library concerned, this means is it
+"cli", "gfx", "snd" or "srv". This will tell the function to search
+for the .so file in the correct subdirectory. Think of this as a
+category.
+
+Opens a .so file corresponding to the given shared code,
+it is capable to search for system libraries installed after "make install"
+but if not found, it will also search in the current build directory,
+finding the .so files in hidden .libs subdirectories.
+
+@strong{Return value:}  a handle to the shared code, once it's opened. This is
+different from a real module, there's no real prototype, it just loads code.
+@end deftypefun
+
 @deftypefun {int} {lw6dyn_dlclose_backend} (lw6dyn_dl_handle_t * @var{handle})
 @var{handle}:  the backend to close.
 
 Closes an opened backend. Note that you must call any backend
+specific clear, destroy, deinit, exit, function before.
+
+@strong{Return value:}  1 if success, 0 on error.
+@end deftypefun
+
+@deftypefun {int} {lw6dyn_dlclose_shared} (lw6dyn_dl_handle_t * @var{handle})
+@var{handle}:  the shared code library to close.
+
+Closes an opened shared code library. Note that you must call any shared code library
 specific clear, destroy, deinit, exit, function before.
 
 @strong{Return value:}  1 if success, 0 on error.

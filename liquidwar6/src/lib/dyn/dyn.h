@@ -29,7 +29,8 @@
 
 #define LW6DYN_GET_PEDIGREE_FUNC_FORMAT "mod_%s_get_pedigree"
 #define LW6DYN_CREATE_BACKEND_FUNC_FORMAT "mod_%s_create_backend"
-#define LW6DYN_IS_GPL_COMPATIBLE_SYM_FORMAT "mod_%s_is_GPL_compatible"
+#define LW6DYN_IS_BACKEND_GPL_COMPATIBLE_SYM_FORMAT "mod_%s_is_GPL_compatible"
+#define LW6DYN_IS_SHARED_GPL_COMPATIBLE_SYM_FORMAT "shared_%s_is_GPL_compatible"
 
 /**
  * Handle on dynamic library. Well, actually, ltdl does already
@@ -48,16 +49,27 @@ typedef struct lw6dyn_dl_handle_s
    * track of where the library comes from.
    */
   char *library_path;
+  /**
+   * True (1) if the handle is a backend or false (0) if it's
+   * just some shared code.
+   */
+  int is_backend;
 }
 lw6dyn_dl_handle_t;
 
 /* dyn-dl.c */
 extern lw6dyn_dl_handle_t *lw6dyn_dlopen_backend_so (const char *so_file);
+extern lw6dyn_dl_handle_t *lw6dyn_dlopen_shared_so (const char *so_file);
 extern lw6dyn_dl_handle_t *lw6dyn_dlopen_backend (int argc,
 						  const char *argv[],
 						  const char *top_level_lib,
 						  const char *backend_name);
+extern lw6dyn_dl_handle_t *lw6dyn_dlopen_shared (int argc,
+						 const char *argv[],
+						 const char *top_level_lib,
+						 const char *shared_name);
 extern int lw6dyn_dlclose_backend (lw6dyn_dl_handle_t * handle);
+extern int lw6dyn_dlclose_shared (lw6dyn_dl_handle_t * handle);
 extern void *lw6dyn_dlsym (lw6dyn_dl_handle_t * handle,
 			   const char *func_name);
 

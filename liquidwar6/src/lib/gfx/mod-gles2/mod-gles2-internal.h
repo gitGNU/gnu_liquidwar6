@@ -138,6 +138,9 @@ typedef struct _mod_gles2_context_s
   _mod_gles2_const_data_t const_data;
   lw6gui_input_t input;
   _mod_gles2_timer_t timer;
+#ifndef LW6_ALLINONE
+  lw6dyn_dl_handle_t *shared_sdl_handle;
+#endif
 }
 _mod_gles2_context_t;
 

@@ -164,10 +164,9 @@ mod_soft_get_pedigree ()
     {
       module_pedigree->id = "soft";
       module_pedigree->category = "gfx";
-      module_pedigree->name = _("OpenGL v1 / SDL");
+      module_pedigree->name = _("Software / SDL");
       module_pedigree->readme =
-	_x_
-	("This is the most accomplished graphics backend for Liquid War 6. It uses OpenGL v1 hardware acceleration if available, and uses SDL as a technical wrapper.");
+	_x_ ("A plain and basic 2D only software renderer, based on SDL.");
       module_pedigree->version = VERSION;
       module_pedigree->copyright =
 	"Copyright (C)  2012  Christian Mauduit <ufoot@ufoot.org>";

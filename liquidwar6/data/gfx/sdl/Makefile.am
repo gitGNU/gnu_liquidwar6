@@ -18,4 +18,9 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-SUBDIRS = gl1 gles2 soft sdl
+#SUBDIRS = images fonts icon
+
+pkgdata_DATA = README sdl-const.xml
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/gfx/sdl
+EXTRA_DIST = $(pkgdata_DATA)
+
