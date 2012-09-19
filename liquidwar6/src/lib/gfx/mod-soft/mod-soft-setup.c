@@ -44,9 +44,26 @@ _mod_soft_init (int argc, const char *argv[],
 
   soft_context =
     (_mod_soft_context_t *) LW6SYS_CALLOC (sizeof (_mod_soft_context_t));
+#ifndef LW6_ALLINONE
   if (soft_context)
     {
-      if (_mod_soft_path_init (&(soft_context->path), argc, argv))
+      soft_context->shared_sdl_handle =
+	lw6dyn_dlopen_shared (argc, argv, "gfx", "sdl");
+      if (soft_context->shared_sdl_handle == NULL)
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("unable to load shared SDL code"));
+	  _mod_soft_quit (soft_context);
+	  soft_context = NULL;
+	}
+    }
+#endif // LW6_ALLINONE
+
+  if (soft_context)
+    {
+      if (_mod_soft_path_init (&(soft_context->path), argc, argv) &&
+	  shared_sdl_path_init (&(soft_context->shared_sdl_context.path),
+				argc, argv))
 	{
 	  memset (&version, 0, sizeof (SDL_version));
 	  SDL_VERSION (&version);
@@ -113,15 +130,21 @@ _mod_soft_init (int argc, const char *argv[],
 	    {
 	      if (soft_context && sdl_ok && ttf_ok)
 		{
-		  lw6gui_input_init (&(soft_context->input));
+		  lw6gui_input_init (&
+				     (soft_context->
+				      shared_sdl_context.input));
 		  //_mod_soft_show_mouse (&(soft_context->utils_context), 0, 1);
 		  _mod_soft_set_resize_callback (soft_context,
 						 resize_callback);
-		  if (_mod_soft_load_consts (soft_context))
+		  if (_mod_soft_load_consts (soft_context)
+		      &&
+		      shared_sdl_load_consts (&
+					      (soft_context->shared_sdl_context)))
 		    {
 		      if (_mod_soft_set_video_mode (soft_context, video_mode))
 			{
-			  _mod_soft_timer_update (soft_context);
+			  shared_sdl_timer_update (&
+						   (soft_context->shared_sdl_context));
 			  // todo
 			}
 		      else
@@ -164,9 +187,9 @@ _mod_soft_quit (_mod_soft_context_t * soft_context)
    * Keep this value locally since it can disappear
    * when freeing stuff.
    */
-  quit_sleep = soft_context->const_data.quit_sleep;
+  quit_sleep = soft_context->shared_sdl_context.const_data.quit_sleep;
 
-  lw6gui_input_quit (&(soft_context->input));
+  lw6gui_input_quit (&(soft_context->shared_sdl_context.input));
 
   // todo...
 
@@ -181,7 +204,19 @@ _mod_soft_quit (_mod_soft_context_t * soft_context)
       SDL_Quit ();
     }
 
+  shared_sdl_unload_consts (&(soft_context->shared_sdl_context));
+  _mod_soft_unload_consts (soft_context);
+
+  shared_sdl_path_quit (&(soft_context->shared_sdl_context.path));
   _mod_soft_path_quit (&(soft_context->path));
+
+#ifndef LW6_ALLINONE
+  if (soft_context->shared_sdl_handle)
+    {
+      lw6dyn_dlclose_shared (soft_context->shared_sdl_handle);
+      soft_context->shared_sdl_handle = NULL;
+    }
+#endif // LW6_ALLINONE
 
   LW6SYS_FREE (soft_context);
 

@@ -28,7 +28,7 @@ endif
 libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/gfx
 
 noinst_LTLIBRARIES = libmod_soft_s.la
-MOD_SOFT_FILES = mod-soft-backend.c mod-soft-const.c mod-soft-event.c mod-soft-mode.c mod-soft-path.c mod-soft-repr.c mod-soft-resolution.c mod-soft-setup.c mod-soft-timer.c mod-soft-viewport.c
+MOD_SOFT_FILES = mod-soft-backend.c mod-soft-const.c mod-soft-mode.c mod-soft-path.c mod-soft-repr.c mod-soft-resolution.c mod-soft-setup.c mod-soft-viewport.c
 libmod_soft_s_la_SOURCES = $(MOD_SOFT_FILES) 
 
 if !ALLINONE

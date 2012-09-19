@@ -24,10 +24,10 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include "mod-soft-internal.h"
+#include "shared-sdl.h"
 
 void
-_mod_soft_timer_update (_mod_soft_context_t * soft_context)
+shared_sdl_timer_update (shared_sdl_context_t * soft_context)
 {
   lw6sys_timer_update (&(soft_context->timer.timestamp),
 		       &(soft_context->timer.uptime),
@@ -35,19 +35,19 @@ _mod_soft_timer_update (_mod_soft_context_t * soft_context)
 }
 
 int64_t
-_mod_soft_timer_get_timestamp (_mod_soft_context_t * soft_context)
+shared_sdl_timer_get_timestamp (shared_sdl_context_t * soft_context)
 {
   return soft_context->timer.timestamp;
 }
 
 int64_t
-_mod_soft_timer_get_uptime (_mod_soft_context_t * soft_context)
+shared_sdl_timer_get_uptime (shared_sdl_context_t * soft_context)
 {
   return soft_context->timer.uptime;
 }
 
 int32_t
-_mod_soft_timer_get_cycle (_mod_soft_context_t * soft_context)
+shared_sdl_timer_get_cycle (shared_sdl_context_t * soft_context)
 {
   return soft_context->timer.cycle;
 }

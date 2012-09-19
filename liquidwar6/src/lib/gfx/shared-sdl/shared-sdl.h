@@ -20,14 +20,21 @@
   Contact author        : ufoot@ufoot.org
 */
 
-#ifndef LIQUIDWAR6GFX_MOD_SOFT_H
-#define LIQUIDWAR6GFX_MOD_SOFT_H
+#ifndef LIQUIDWAR6GFX_SHARED_SDL_H
+#define LIQUIDWAR6GFX_SHARED_SDL_H
 
 #include "../gfx.h"
 
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+
+typedef struct shared_sdl_path_s
+{
+  char *data_dir;
+  char *debug_dir;
+}
+shared_sdl_path_t;
 
 typedef struct shared_sdl_const_data_s
 {
@@ -83,22 +90,48 @@ typedef struct shared_sdl_const_data_s
 }
 shared_sdl_const_data_t;
 
+typedef struct shared_sdl_timer_s
+{
+  int64_t timestamp;
+  int64_t uptime;
+  int32_t cycle;
+}
+shared_sdl_timer_t;
+
 typedef struct shared_sdl_context_s
 {
+  shared_sdl_path_t path;
   lw6gui_resize_callback_func_t resize_callback;
   lw6gui_video_mode_t video_mode;
   lw6gui_zone_t viewport;
   shared_sdl_const_data_t const_data;
   lw6gui_input_t input;
+  shared_sdl_timer_t timer;
 }
 shared_sdl_context_t;
 
+/* shared-sdl-const.c */
+extern int shared_sdl_load_consts (shared_sdl_context_t * context);
+extern void shared_sdl_unload_consts (shared_sdl_context_t * context);
 
 /* shared-sdl-event.c */
 extern lw6gui_input_t *shared_sdl_pump_events (shared_sdl_context_t *
 					       sdl_context);
-
 /* shared-sdl-backend.c */
-extern void mod_soft_is_GPL_compatible ();
+extern void shared_sdl_is_GPL_compatible ();
 
-#endif // LIQUIDWAR6GFX_MOD_SOFT_H
+/* shared-sdl-path.c */
+extern int shared_sdl_path_init (shared_sdl_path_t *
+				 path, int argc, const char *argv[]);
+extern void shared_sdl_path_quit (shared_sdl_path_t * path);
+
+/* shared-sdl-timer.c */
+extern void shared_sdl_timer_update (shared_sdl_context_t * soft_context);
+extern int64_t shared_sdl_timer_get_timestamp (shared_sdl_context_t *
+					       soft_context);
+extern int64_t shared_sdl_timer_get_uptime (shared_sdl_context_t *
+					    soft_context);
+extern int32_t shared_sdl_timer_get_cycle (shared_sdl_context_t *
+					   soft_context);
+
+#endif // LIQUIDWAR6GFX_SHARED_SDL_H

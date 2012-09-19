@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+  
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -24,30 +24,51 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include "mod-gles2-internal.h"
+#include "shared-sdl.h"
+
+#define SUB "gfx/soft"
+#define DEBUG "soft-debug"
+
+int
+shared_sdl_path_init (shared_sdl_path_t * path, int argc, const char *argv[])
+{
+  char *data_root_dir = NULL;
+  char *user_dir = NULL;
+  int ret = 0;
+
+  data_root_dir = lw6sys_get_data_dir (argc, argv);
+  if (data_root_dir)
+    {
+      path->data_dir = lw6sys_path_concat (data_root_dir, SUB);
+      LW6SYS_FREE (data_root_dir);
+    }
+
+  user_dir = lw6sys_get_user_dir (argc, argv);
+  if (user_dir)
+    {
+      path->debug_dir = lw6sys_path_concat (user_dir, DEBUG);
+      LW6SYS_FREE (user_dir);
+    }
+
+  ret = (path->data_dir && path->debug_dir);
+
+  if (!ret)
+    {
+      shared_sdl_path_quit (path);
+    }
+
+  return ret;
+}
 
 void
-_mod_gles2_timer_update (_mod_gles2_context_t * gles2_context)
+shared_sdl_path_quit (shared_sdl_path_t * path)
 {
-  lw6sys_timer_update (&(gles2_context->timer.timestamp),
-		       &(gles2_context->timer.uptime),
-		       &(gles2_context->timer.cycle));
-}
-
-int64_t
-_mod_gles2_timer_get_timestamp (_mod_gles2_context_t * gles2_context)
-{
-  return gles2_context->timer.timestamp;
-}
-
-int64_t
-_mod_gles2_timer_get_uptime (_mod_gles2_context_t * gles2_context)
-{
-  return gles2_context->timer.uptime;
-}
-
-int32_t
-_mod_gles2_timer_get_cycle (_mod_gles2_context_t * gles2_context)
-{
-  return gles2_context->timer.cycle;
+  if (path->debug_dir)
+    {
+      LW6SYS_FREE (path->debug_dir);
+    }
+  if (path->data_dir)
+    {
+      LW6SYS_FREE (path->data_dir);
+    }
 }

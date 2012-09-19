@@ -61,7 +61,9 @@ _mod_gles2_init (int argc, const char *argv[],
 
   if (gles2_context)
     {
-      if (_mod_gles2_path_init (&(gles2_context->path), argc, argv))
+      if (_mod_gles2_path_init (&(gles2_context->path), argc, argv) &&
+	  shared_sdl_path_init (&(gles2_context->shared_sdl_context.path),
+				argc, argv))
 	{
 	  memset (&version, 0, sizeof (SDL_version));
 	  SDL_VERSION (&version);
@@ -128,16 +130,22 @@ _mod_gles2_init (int argc, const char *argv[],
 	    {
 	      if (gles2_context && sdl_ok && ttf_ok)
 		{
-		  lw6gui_input_init (&(gles2_context->input));
+		  lw6gui_input_init (&
+				     (gles2_context->
+				      shared_sdl_context.input));
 		  //_mod_gles2_show_mouse (&(gles2_context->utils_context), 0, 1);
 		  _mod_gles2_set_resize_callback (gles2_context,
 						  resize_callback);
-		  if (_mod_gles2_load_consts (gles2_context))
+		  if (_mod_gles2_load_consts (gles2_context)
+		      &&
+		      shared_sdl_load_consts (&
+					      (gles2_context->shared_sdl_context)))
 		    {
 		      if (_mod_gles2_set_video_mode
 			  (gles2_context, video_mode))
 			{
-			  _mod_gles2_timer_update (gles2_context);
+			  shared_sdl_timer_update (&
+						   (gles2_context->shared_sdl_context));
 			  // todo
 			}
 		      else
@@ -180,9 +188,9 @@ _mod_gles2_quit (_mod_gles2_context_t * gles2_context)
    * Keep this value locally since it can disappear
    * when freeing stuff.
    */
-  quit_sleep = gles2_context->const_data.quit_sleep;
+  quit_sleep = gles2_context->shared_sdl_context.const_data.quit_sleep;
 
-  lw6gui_input_quit (&(gles2_context->input));
+  lw6gui_input_quit (&(gles2_context->shared_sdl_context.input));
 
   // todo...
 
@@ -197,6 +205,10 @@ _mod_gles2_quit (_mod_gles2_context_t * gles2_context)
       SDL_Quit ();
     }
 
+  shared_sdl_unload_consts (&(gles2_context->shared_sdl_context));
+  _mod_gles2_unload_consts (gles2_context);
+
+  shared_sdl_path_quit (&(gles2_context->shared_sdl_context.path));
   _mod_gles2_path_quit (&(gles2_context->path));
 
 #ifndef LW6_ALLINONE

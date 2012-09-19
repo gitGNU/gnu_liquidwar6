@@ -28,7 +28,7 @@ endif
 libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/gfx
 
 noinst_LTLIBRARIES = libshared_sdl_s.la
-SHARED_SDL_FILES = shared-sdl-backend.c shared-sdl-event.c
+SHARED_SDL_FILES = shared-sdl-backend.c shared-sdl-const.c shared-sdl-event.c shared-sdl-path.c shared-sdl-timer.c
 libshared_sdl_s_la_SOURCES = $(SHARED_SDL_FILES) 
 
 if !ALLINONE

@@ -56,7 +56,7 @@ _mod_soft_set_video_mode (_mod_soft_context_t * soft_context,
   height = video_mode->height;
   fullscreen = video_mode->fullscreen;
 
-  lw6sys_sleep (soft_context->const_data.mode_sleep);
+  lw6sys_sleep (soft_context->shared_sdl_context.const_data.mode_sleep);
 
   /* Let's get some video information. */
   info = SDL_GetVideoInfo ();
@@ -173,9 +173,9 @@ _mod_soft_set_video_mode (_mod_soft_context_t * soft_context,
 	  SDL_PumpEvents ();
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("SDL events pumped"));
 
-	  soft_context->video_mode.width = width;
-	  soft_context->video_mode.height = height;
-	  soft_context->video_mode.fullscreen = fullscreen;
+	  soft_context->shared_sdl_context.video_mode.width = width;
+	  soft_context->shared_sdl_context.video_mode.height = height;
+	  soft_context->shared_sdl_context.video_mode.fullscreen = fullscreen;
 	  soft_context->caps.bpp = bpp;
 	  _mod_soft_sync_viewport (soft_context);
 	}
@@ -188,8 +188,12 @@ _mod_soft_set_video_mode (_mod_soft_context_t * soft_context,
 
       if (fullscreen)
 	{
-	  warp_x = soft_context->const_data.warp_x * (float) width;
-	  warp_y = soft_context->const_data.warp_y * (float) height;
+	  warp_x =
+	    soft_context->shared_sdl_context.const_data.warp_x *
+	    (float) width;
+	  warp_y =
+	    soft_context->shared_sdl_context.const_data.warp_y *
+	    (float) height;
 	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("warp mouse to %d,%d"), warp_x,
 		      warp_y);
 	  SDL_WarpMouse (warp_x, warp_y);
@@ -204,7 +208,7 @@ _mod_soft_set_video_mode (_mod_soft_context_t * soft_context,
       //_mod_soft_timer_set_bitmap_refresh (soft_context);
       //_mod_soft_smoothers_reset_drawable (soft_context);
 
-      lw6sys_sleep (soft_context->const_data.mode_sleep);
+      lw6sys_sleep (soft_context->shared_sdl_context.const_data.mode_sleep);
     }
 
   return ok;
@@ -220,8 +224,9 @@ _mod_soft_resize_video_mode (_mod_soft_context_t * soft_context,
 {
   int ret = 0;
 
-  if (video_mode->width != soft_context->video_mode.width
-      || video_mode->height != soft_context->video_mode.height)
+  if (video_mode->width != soft_context->shared_sdl_context.video_mode.width
+      || video_mode->height !=
+      soft_context->shared_sdl_context.video_mode.height)
     {
       int flags = 0;
 
@@ -237,7 +242,7 @@ _mod_soft_resize_video_mode (_mod_soft_context_t * soft_context,
 	  (video_mode->width, video_mode->height, soft_context->caps.bpp,
 	   flags) != 0)
 	{
-	  soft_context->video_mode = *video_mode;
+	  soft_context->shared_sdl_context.video_mode = *video_mode;
 	  _mod_soft_sync_viewport (soft_context);
 
 	  _mod_soft_call_resize_callback (soft_context);
@@ -278,7 +283,7 @@ _mod_soft_get_video_mode (_mod_soft_context_t * soft_context,
 {
   int ret = 0;
 
-  (*video_mode) = soft_context->video_mode;
+  (*video_mode) = soft_context->shared_sdl_context.video_mode;
 
   ret = 1;
 
@@ -345,7 +350,7 @@ _mod_soft_set_resize_callback (_mod_soft_context_t * soft_context,
 {
   int ret = 0;
 
-  soft_context->resize_callback = resize_callback;
+  soft_context->shared_sdl_context.resize_callback = resize_callback;
   ret = 1;
 
   return ret;
@@ -354,9 +359,11 @@ _mod_soft_set_resize_callback (_mod_soft_context_t * soft_context,
 void
 _mod_soft_call_resize_callback (_mod_soft_context_t * soft_context)
 {
-  if (soft_context->resize_callback)
+  if (soft_context->shared_sdl_context.resize_callback)
     {
       lw6sys_log (LW6SYS_LOG_INFO, _x_ ("calling resize callback"));
-      soft_context->resize_callback (&(soft_context->video_mode));
+      soft_context->shared_sdl_context.resize_callback (&
+							(soft_context->shared_sdl_context.
+							 video_mode));
     }
 }

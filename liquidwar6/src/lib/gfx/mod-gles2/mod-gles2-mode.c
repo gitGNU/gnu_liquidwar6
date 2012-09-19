@@ -56,7 +56,7 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
   height = video_mode->height;
   fullscreen = video_mode->fullscreen;
 
-  lw6sys_sleep (gles2_context->const_data.mode_sleep);
+  lw6sys_sleep (gles2_context->shared_sdl_context.const_data.mode_sleep);
 
   /* Let's get some video information. */
   info = SDL_GetVideoInfo ();
@@ -219,9 +219,10 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
 	  SDL_PumpEvents ();
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("SDL events pumped"));
 
-	  gles2_context->video_mode.width = width;
-	  gles2_context->video_mode.height = height;
-	  gles2_context->video_mode.fullscreen = fullscreen;
+	  gles2_context->shared_sdl_context.video_mode.width = width;
+	  gles2_context->shared_sdl_context.video_mode.height = height;
+	  gles2_context->shared_sdl_context.video_mode.fullscreen =
+	    fullscreen;
 	  gles2_context->caps.bpp = bpp;
 	  gles2_context->caps.max_texture_size = 0;
 	  _mod_gles2_sync_viewport (gles2_context);
@@ -243,8 +244,12 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
 
       if (fullscreen)
 	{
-	  warp_x = gles2_context->const_data.warp_x * (float) width;
-	  warp_y = gles2_context->const_data.warp_y * (float) height;
+	  warp_x =
+	    gles2_context->shared_sdl_context.const_data.warp_x *
+	    (float) width;
+	  warp_y =
+	    gles2_context->shared_sdl_context.const_data.warp_y *
+	    (float) height;
 	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("warp mouse to %d,%d"), warp_x,
 		      warp_y);
 	  SDL_WarpMouse (warp_x, warp_y);
@@ -275,7 +280,7 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
       //_mod_gles2_timer_set_bitmap_refresh (gles2_context);
       //_mod_gles2_smoothers_reset_drawable (gles2_context);
 
-      lw6sys_sleep (gles2_context->const_data.mode_sleep);
+      lw6sys_sleep (gles2_context->shared_sdl_context.const_data.mode_sleep);
     }
 
   return ok;
@@ -291,8 +296,9 @@ _mod_gles2_resize_video_mode (_mod_gles2_context_t * gles2_context,
 {
   int ret = 0;
 
-  if (video_mode->width != gles2_context->video_mode.width
-      || video_mode->height != gles2_context->video_mode.height)
+  if (video_mode->width != gles2_context->shared_sdl_context.video_mode.width
+      || video_mode->height !=
+      gles2_context->shared_sdl_context.video_mode.height)
     {
       int flags = 0;
 
@@ -308,7 +314,7 @@ _mod_gles2_resize_video_mode (_mod_gles2_context_t * gles2_context,
 	  (video_mode->width, video_mode->height, gles2_context->caps.bpp,
 	   flags) != 0)
 	{
-	  gles2_context->video_mode = *video_mode;
+	  gles2_context->shared_sdl_context.video_mode = *video_mode;
 	  _mod_gles2_sync_viewport (gles2_context);
 
 	  _mod_gles2_call_resize_callback (gles2_context);
@@ -349,7 +355,7 @@ _mod_gles2_get_video_mode (_mod_gles2_context_t * gles2_context,
 {
   int ret = 0;
 
-  (*video_mode) = gles2_context->video_mode;
+  (*video_mode) = gles2_context->shared_sdl_context.video_mode;
 
   ret = 1;
 
@@ -365,10 +371,10 @@ _mod_gles2_sync_viewport (_mod_gles2_context_t * gles2_context)
   int ret = 1;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("glViewport %dx%d"),
-	      gles2_context->video_mode.width,
-	      gles2_context->video_mode.height);
-  glViewport (0, 0, gles2_context->video_mode.width,
-	      gles2_context->video_mode.height);
+	      gles2_context->shared_sdl_context.video_mode.width,
+	      gles2_context->shared_sdl_context.video_mode.height);
+  glViewport (0, 0, gles2_context->shared_sdl_context.video_mode.width,
+	      gles2_context->shared_sdl_context.video_mode.height);
   _mod_gles2_viewport_drawable_max (gles2_context);
 
   return ret;
@@ -421,7 +427,7 @@ _mod_gles2_set_resize_callback (_mod_gles2_context_t * gles2_context,
 {
   int ret = 0;
 
-  gles2_context->resize_callback = resize_callback;
+  gles2_context->shared_sdl_context.resize_callback = resize_callback;
   ret = 1;
 
   return ret;
@@ -430,9 +436,11 @@ _mod_gles2_set_resize_callback (_mod_gles2_context_t * gles2_context,
 void
 _mod_gles2_call_resize_callback (_mod_gles2_context_t * gles2_context)
 {
-  if (gles2_context->resize_callback)
+  if (gles2_context->shared_sdl_context.resize_callback)
     {
       lw6sys_log (LW6SYS_LOG_INFO, _x_ ("calling resize callback"));
-      gles2_context->resize_callback (&(gles2_context->video_mode));
+      gles2_context->shared_sdl_context.resize_callback (&
+							 (gles2_context->
+							  shared_sdl_context.video_mode));
     }
 }

@@ -459,9 +459,6 @@ lw6dyn_dlopen_shared (int argc, const char *argv[],
 		  lw6sys_log
 		    (LW6SYS_LOG_INFO,
 		     _x_ ("shared code \"%s\" loaded, looks fine"), so_file);
-		  /*
-		   * Verbose dlopen did log the so name
-		   */
 		  ok = 1;
 		}
 	      else
