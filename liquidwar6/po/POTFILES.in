@@ -91,6 +91,7 @@ src/lib/dyn/dyn-test.c
 src/lib/dyn/dyn-testmain.c
 src/lib/gfx/gfx-api.c
 src/lib/gfx/gfx-register.c
+src/lib/gfx/gfx-sdl.c
 src/lib/gfx/gfx-test.c
 src/lib/gfx/gfx-testmain.c
 src/lib/gfx/mod-gl1/gl1-background/gl1-background-api.c

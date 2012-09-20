@@ -83,7 +83,7 @@ endif
 
 noinst_LTLIBRARIES = libgfx.la
 libgfx_la_LIBADD = $(LW6GFX_LIB_S) 
-libgfx_la_SOURCES = gfx-api.c gfx-register.c gfx-test.c
+libgfx_la_SOURCES = gfx-api.c gfx-register.c gfx-sdl.c gfx-test.c
 libgfxdir= $(includedir)/@PACKAGE_TARNAME@/gfx
 libgfx_HEADERS = gfx.h
 
@@ -96,3 +96,4 @@ endif
 
 SUBDIRS = $(MOD_GL1_SUBDIR) $(MOD_GLES2_SUBDIR) $(MOD_SOFT_SUBDIR) $(SHARED_SDL_SUBDIR)
 
+EXTRA_DIST = gfx-internal.h
