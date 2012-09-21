@@ -153,6 +153,7 @@ C API
 * mod-gl1::             Initial 3D graphics backend.
 * mod-gles2::           Embedded 3D graphics backend.
 * mod-soft::            Software only graphics backend.
+* shared-sdl::          SDL utils shared in some graphics backends.
 * libglb::              Gnulib embedded routines.
 * libgui::              GUI utilities.
 * libhlp::              Built-in help system.
@@ -4419,6 +4420,7 @@ describes the C structures and their attributes.
 * mod-gl1::             Initial 3D graphics backend.
 * mod-gles2::           Embedded 3D graphics backend.
 * mod-soft::            Software only graphics backend.
+* shared-sdl::          SDL utils shared in some graphics backends.
 * libglb::              Gnulib embedded routines.
 * libgui::              GUI utilities.
 * libhlp::              Built-in help system.
@@ -5035,7 +5037,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c mod-soft
 @c ---------------------------------------------------------------------------
 
-@node mod-soft, libglb, mod-gles2, C API
+@node mod-soft, shared-sdl, mod-gles2, C API
 @section mod-soft
 
 @subsection Overview
@@ -5064,10 +5066,42 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @end ifnotinfo
  
 @c ---------------------------------------------------------------------------
+@c shared-sdl
+@c ---------------------------------------------------------------------------
+
+@node shared-sdl, libglb, mod-soft, C API
+@section shared-sdl
+
+@subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/shared-sdl/index.html} 
+(as there are many sub-directories in this module, please refer to the 
+@uref{http://www.gnu.org/software/liquidwar6/coverage/index.html, test coverage directory index} for complete information).
+
+@subsection API
+
+@ifinfo
+@include shared-sdl-gdoc.texi
+@include shared-sdl-doxygen.texi
+@end ifinfo
+
+@ifnotinfo
+@ifhtml
+@include shared-sdl-gdoc.texi
+@include shared-sdl-doxygen.texi
+@end ifhtml
+@ifnothtml
+Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/mod_002dsoft.html}.
+@end ifnothtml
+@end ifnotinfo
+ 
+@c ---------------------------------------------------------------------------
 @c libglb
 @c ---------------------------------------------------------------------------
 
-@node libglb, libgui, mod-soft, C API
+@node libglb, libgui, shared-sdl, C API
 @section libglb
 
 @subsection Overview

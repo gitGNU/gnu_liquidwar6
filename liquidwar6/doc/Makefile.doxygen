@@ -27,7 +27,7 @@ $(top_srcdir)/doc/dsp-doxygen.texi: $(top_srcdir)/src/lib/dsp/dsp.h $(top_srcdir
 $(top_srcdir)/doc/dyn-doxygen.texi: $(top_srcdir)/src/lib/dyn/dyn.h $(top_srcdir)/src/lib/dyn/dyn-internal.h
 	if test -w $@ || test ! -f $@ ; then echo doxygen dyn && echo > $@; for l in doxygen/xml/structlw6dyn__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done; fi
 
-$(top_srcdir)/doc/gfx-doxygen.texi: $(top_srcdir)/src/lib/gfx/gfx.h
+$(top_srcdir)/doc/gfx-doxygen.texi: $(top_srcdir)/src/lib/gfx/gfx.h $(top_srcdir)/src/lib/gfx/gfx-internal.h
 	if test -w $@ || test ! -f $@ ; then echo doxygen gfx && echo > $@; for l in doxygen/xml/structlw6gfx__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done; fi
 
 $(top_srcdir)/doc/glb-doxygen.texi: $(top_srcdir)/src/lib/glb/glb.h $(top_srcdir)/src/lib/glb/glb-internal.h $(top_srcdir)/src/lib/glb/gnulib-base64.h $(top_srcdir)/src/lib/glb/gnulib-hmac.h $(top_srcdir)/src/lib/glb/gnulib-memxor.h $(top_srcdir)/src/lib/glb/gnulib-sha1.h $(top_srcdir)/src/lib/glb/gnulib-stdalign.h.in
@@ -107,6 +107,9 @@ $(top_srcdir)/doc/mod-gles2-doxygen.texi: $(top_srcdir)/src/lib/gfx/mod-gles2/mo
 
 $(top_srcdir)/doc/mod-soft-doxygen.texi: $(top_srcdir)/src/lib/gfx/mod-soft/mod-soft.h $(top_srcdir)/src/lib/gfx/mod-soft/mod-soft-internal.h
 	if test -w $@ || test ! -f $@ ; then echo doxygen mod-soft mod__soft && echo > $@; for l in doxygen/xml/structmod__soft__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done; fi
+
+$(top_srcdir)/doc/shared-sdl-doxygen.texi: $(top_srcdir)/src/lib/gfx/shared-sdl/shared-sdl.h $(top_srcdir)/src/lib/gfx/shared-sdl/shared-sdl-internal.h
+	if test -w $@ || test ! -f $@ ; then echo doxygen shared-sdl shared__sdl && echo > $@; for l in doxygen/xml/structshared__sdl__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done; fi
 
 $(top_srcdir)/doc/mod-csound-doxygen.texi: $(top_srcdir)/src/lib/snd/mod-csound/mod-csound.h $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-internal.h
 	if test -w $@ || test ! -f $@ ; then echo doxygen mod-csound mod__csound && echo > $@; for l in doxygen/xml/structmod__csound__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done; fi

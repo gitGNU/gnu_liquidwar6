@@ -25,7 +25,11 @@
 
 #include <math.h>
 
-#include "../../shared-sdl/shared-sdl.h"
+#include "../../gfx-internal.h"
+
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 
 #include <SDL_opengl.h>
 

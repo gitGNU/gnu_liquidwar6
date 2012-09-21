@@ -23,8 +23,12 @@
 #ifndef LIQUIDWAR6GFX_MOD_SOFT_INTERNAL_H
 #define LIQUIDWAR6GFX_MOD_SOFT_INTERNAL_H
 
-#include "../shared-sdl/shared-sdl.h"
+#include "../gfx-internal.h"
 #include "mod-soft.h"
+
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 
 typedef struct _mod_soft_path_s
 {
@@ -55,7 +59,7 @@ _mod_soft_timer_t;
 
 typedef struct _mod_soft_context_s
 {
-  shared_sdl_context_t shared_sdl_context;
+  _lw6gfx_sdl_context_t sdl_context;
   /*
    * One of the major flaws of the initial opensoft backend
    * is that it uses per-backend data storage, and each backend

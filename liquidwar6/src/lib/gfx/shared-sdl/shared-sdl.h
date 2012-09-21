@@ -23,11 +23,7 @@
 #ifndef LIQUIDWAR6GFX_SHARED_SDL_H
 #define LIQUIDWAR6GFX_SHARED_SDL_H
 
-#include "../gfx.h"
-
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
+#include "../gfx-internal.h"
 
 /* shared-sdl-const.c */
 extern int shared_sdl_load_consts (_lw6gfx_sdl_context_t * sdl_context);
@@ -46,8 +42,10 @@ extern void shared_sdl_path_quit (_lw6gfx_sdl_path_t * path);
 
 /* shared-sdl-timer.c */
 extern void shared_sdl_timer_update (_lw6gfx_sdl_timer_t * timer);
-extern int64_t shared_sdl_timer_get_timestamp (_lw6gfx_sdl_timer_t * timer);
-extern int64_t shared_sdl_timer_get_uptime (_lw6gfx_sdl_timer_t * timer);
-extern int32_t shared_sdl_timer_get_cycle (_lw6gfx_sdl_timer_t * timer);
+extern int64_t shared_sdl_timer_get_timestamp (const _lw6gfx_sdl_timer_t *
+					       timer);
+extern int64_t shared_sdl_timer_get_uptime (const _lw6gfx_sdl_timer_t *
+					    timer);
+extern int32_t shared_sdl_timer_get_cycle (const _lw6gfx_sdl_timer_t * timer);
 
 #endif // LIQUIDWAR6GFX_SHARED_SDL_H

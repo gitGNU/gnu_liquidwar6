@@ -41,8 +41,8 @@ _mod_soft_repr (_mod_soft_context_t * soft_context, u_int32_t id)
     lw6sys_new_sprintf (_x_
 			("%u soft SDL version %u.%u.%u resolution %dx%d"),
 			id, version.major, version.minor, version.patch,
-			soft_context->shared_sdl_context.video_mode.width,
-			soft_context->shared_sdl_context.video_mode.height);
+			soft_context->sdl_context.video_mode.width,
+			soft_context->sdl_context.video_mode.height);
 
   return ret;
 }

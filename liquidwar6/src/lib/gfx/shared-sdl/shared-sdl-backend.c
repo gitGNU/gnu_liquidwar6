@@ -24,8 +24,7 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include "../gfx.h"
-#include "shared-sdl.h"
+#include "shared-sdl-internal.h"
 
 /*
  * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html

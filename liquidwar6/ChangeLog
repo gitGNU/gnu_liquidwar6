@@ -1,3 +1,7 @@
+2012-09-21 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Shared SDL dynamically loaded.
+
 2012-09-19 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Started GFX SDL-based renderers refactoring.

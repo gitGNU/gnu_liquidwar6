@@ -27,7 +27,7 @@ $(srcdir)/dsp-gdoc.texi: $(top_srcdir)/src/lib/dsp/dsp-data.c $(top_srcdir)/src/
 $(srcdir)/dyn-gdoc.texi: $(top_srcdir)/src/lib/dyn/dyn-dl.c $(top_srcdir)/src/lib/dyn/dyn-list.c $(top_srcdir)/src/lib/dyn/dyn-path.c $(top_srcdir)/src/lib/dyn/dyn-test.c $(top_srcdir)/src/lib/dyn/dyn-testmain.c
 	echo gdoc dyn && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/dyn-gdoc.texi
 
-$(srcdir)/gfx-gdoc.texi: $(top_srcdir)/src/lib/gfx/gfx-api.c $(top_srcdir)/src/lib/gfx/gfx-register.c $(top_srcdir)/src/lib/gfx/gfx-test.c $(top_srcdir)/src/lib/gfx/gfx-testmain.c
+$(srcdir)/gfx-gdoc.texi: $(top_srcdir)/src/lib/gfx/gfx-api.c $(top_srcdir)/src/lib/gfx/gfx-register.c $(top_srcdir)/src/lib/gfx/gfx-sdl.c $(top_srcdir)/src/lib/gfx/gfx-test.c $(top_srcdir)/src/lib/gfx/gfx-testmain.c
 	echo gdoc gfx && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/gfx-gdoc.texi
 
 $(srcdir)/glb-gdoc.texi: $(top_srcdir)/src/lib/glb/glb-base64.c $(top_srcdir)/src/lib/glb/glb-sha1.c $(top_srcdir)/src/lib/glb/glb-test.c $(top_srcdir)/src/lib/glb/glb-testmain.c $(top_srcdir)/src/lib/glb/gnulib-base64.c $(top_srcdir)/src/lib/glb/gnulib-hmacsha1.c $(top_srcdir)/src/lib/glb/gnulib-memxor.c $(top_srcdir)/src/lib/glb/gnulib-sha1.c
@@ -107,6 +107,9 @@ $(top_srcdir)/doc/mod-gles2-gdoc.texi: $(top_srcdir)/src/lib/gfx/mod-gles2/mod-g
 
 $(top_srcdir)/doc/mod-soft-gdoc.texi: $(top_srcdir)/src/lib/gfx/mod-soft/mod-soft-backend.c $(top_srcdir)/src/lib/gfx/mod-soft/mod-soft-const.c $(top_srcdir)/src/lib/gfx/mod-soft/mod-soft-mode.c $(top_srcdir)/src/lib/gfx/mod-soft/mod-soft-path.c $(top_srcdir)/src/lib/gfx/mod-soft/mod-soft-repr.c $(top_srcdir)/src/lib/gfx/mod-soft/mod-soft-resolution.c $(top_srcdir)/src/lib/gfx/mod-soft/mod-soft-setup.c $(top_srcdir)/src/lib/gfx/mod-soft/mod-soft-viewport.c
 	echo gdoc mod-soft && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/mod-soft-gdoc.texi
+
+$(top_srcdir)/doc/shared-sdl-gdoc.texi: $(top_srcdir)/src/lib/gfx/shared-sdl/shared-sdl-backend.c $(top_srcdir)/src/lib/gfx/shared-sdl/shared-sdl-const.c $(top_srcdir)/src/lib/gfx/shared-sdl/shared-sdl-event.c $(top_srcdir)/src/lib/gfx/shared-sdl/shared-sdl-path.c $(top_srcdir)/src/lib/gfx/shared-sdl/shared-sdl-timer.c
+	echo gdoc shared-sdl && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/shared-sdl-gdoc.texi
 
 $(top_srcdir)/doc/mod-csound-gdoc.texi: $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-backend.c $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-fx.c $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-music.c $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-path.c $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-repr.c $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-setup.c $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-volume.c $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-water.c
 	echo gdoc mod-csound && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/mod-csound-gdoc.texi

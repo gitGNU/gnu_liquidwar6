@@ -39,3 +39,5 @@ libshared_sdl_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @SDL_LIBS@
 libshared_sdldir = $(includedir)/@PACKAGE_TARNAME@/gfx/shared-sdl
 libshared_sdl_HEADERS = shared-sdl.h
 endif
+
+EXTRA_DIST = shared-sdl-internal.h

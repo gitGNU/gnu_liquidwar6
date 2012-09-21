@@ -35,7 +35,7 @@ for i in bot cfg cli cns cnx dat dsp dyn gfx glb gui hlp img ker ldr map msg net
     #rm -f $i-doxygen.texi ; touch $i-doxygen.texi
 done
 
-for i in bot/mod-brute bot/mod-follow bot/mod-idiot bot/mod-random gfx/mod-gl1 gfx/mod-gles2 gfx/mod-soft snd/mod-csound snd/mod-ogg cli/mod-tcp cli/mod-udp cli/mod-http srv/mod-tcpd srv/mod-udpd srv/mod-httpd ; do
+for i in bot/mod-brute bot/mod-follow bot/mod-idiot bot/mod-random gfx/mod-gl1 gfx/mod-gles2 gfx/mod-soft gfx/shared-sdl snd/mod-csound snd/mod-ogg cli/mod-tcp cli/mod-udp cli/mod-http srv/mod-tcpd srv/mod-udpd srv/mod-httpd ; do
     j=`echo $i | cut -d "/" -f 2`
     k=`echo $j | sed "s/\-/__/g"`
     echo "\$(top_srcdir)/doc/$j-doxygen.texi: "`find ../src/lib/$i -name "*.h*" | sed "s/\.\./\$\(top_srcdir\)/g" | sort` >> Makefile.doxygen

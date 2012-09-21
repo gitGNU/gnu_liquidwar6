@@ -24,7 +24,7 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include "shared-sdl.h"
+#include "shared-sdl-internal.h"
 
 static void
 log_event (SDL_Event * event)
@@ -141,7 +141,7 @@ log_event (SDL_Event * event)
 
 static void
 key_down (lw6gui_keyboard_t * keyboard, SDL_Event * event,
-	  shared_sdl_const_data_t * const_data, int64_t timestamp)
+	  _lw6gfx_sdl_const_data_t * const_data, int64_t timestamp)
 {
   int sym = 0;
 
@@ -203,7 +203,7 @@ key_down (lw6gui_keyboard_t * keyboard, SDL_Event * event,
 
 static void
 key_up (lw6gui_keyboard_t * keyboard, SDL_Event * event,
-	shared_sdl_const_data_t * const_data)
+	_lw6gfx_sdl_const_data_t * const_data)
 {
   int sym = 0;
 
@@ -385,7 +385,7 @@ mouse_button_up (lw6gui_mouse_t * mouse, SDL_Event * event)
 }
 
 static int
-joystick_index (SDL_Event * event, shared_sdl_const_data_t * const_data)
+joystick_index (SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data)
 {
   int ret = -1;
 
@@ -403,7 +403,7 @@ joystick_index (SDL_Event * event, shared_sdl_const_data_t * const_data)
 
 static int
 joystick_button_index (SDL_Event * event,
-		       shared_sdl_const_data_t * const_data, int i)
+		       _lw6gfx_sdl_const_data_t * const_data, int i)
 {
   int ret = -1;
 
@@ -562,14 +562,14 @@ joystick_button_up (lw6gui_joystick_t * joystick, int b, SDL_Event * event)
  * Internal poll function.
  */
 lw6gui_input_t *
-shared_sdl_pump_events (shared_sdl_context_t * sdl_context)
+shared_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context)
 {
   // todo: fix this
   //lw6gui_video_mode_t video_mode;
   SDL_Event event;
   int64_t timestamp = 0LL;
   lw6gui_input_t *input = &(sdl_context->input);
-  shared_sdl_const_data_t *const_data = &(sdl_context->const_data);
+  _lw6gfx_sdl_const_data_t *const_data = &(sdl_context->const_data);
   int i, b;
 
   // todo: fix this

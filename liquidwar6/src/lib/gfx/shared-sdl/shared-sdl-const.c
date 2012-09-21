@@ -24,7 +24,7 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include "shared-sdl.h"
+#include "shared-sdl-internal.h"
 
 #define CONST_FILE "sdl-const.xml"
 
@@ -32,9 +32,9 @@ static void
 read_callback (void *callback_data, const char *element, const char *key,
 	       const char *value)
 {
-  shared_sdl_const_data_t *const_data;
+  _lw6gfx_sdl_const_data_t *const_data;
 
-  const_data = (shared_sdl_const_data_t *) callback_data;
+  const_data = (_lw6gfx_sdl_const_data_t *) callback_data;
 
   if (!strcmp (element, "bool"))
     {
@@ -145,12 +145,12 @@ read_callback (void *callback_data, const char *element, const char *key,
  * Loads constants.
  */
 int
-shared_sdl_load_consts (shared_sdl_context_t * context)
+shared_sdl_load_consts (_lw6gfx_sdl_context_t * sdl_context)
 {
   int ret = 0;
   char *const_file = NULL;
 
-  const_file = lw6sys_path_concat (context->path.data_dir, CONST_FILE);
+  const_file = lw6sys_path_concat (sdl_context->path.data_dir, CONST_FILE);
 
   if (const_file)
     {
@@ -158,7 +158,7 @@ shared_sdl_load_consts (shared_sdl_context_t * context)
 
       ret =
 	lw6cfg_read_key_value_xml_file (const_file, read_callback,
-					(void *) &(context->const_data));
+					(void *) &(sdl_context->const_data));
 
       LW6SYS_FREE (const_file);
     }
@@ -170,7 +170,7 @@ shared_sdl_load_consts (shared_sdl_context_t * context)
  * Unload constants, free memory
  */
 void
-shared_sdl_unload_consts (shared_sdl_context_t * context)
+shared_sdl_unload_consts (_lw6gfx_sdl_context_t * sdl_context)
 {
-  memset (&context->const_data, 0, sizeof (shared_sdl_const_data_t));
+  memset (&sdl_context->const_data, 0, sizeof (_lw6gfx_sdl_const_data_t));
 }

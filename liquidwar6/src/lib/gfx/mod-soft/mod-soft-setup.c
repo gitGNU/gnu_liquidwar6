@@ -61,9 +61,11 @@ _mod_soft_init (int argc, const char *argv[],
 
   if (soft_context)
     {
+      _lw6gfx_sdl_bind_funcs (&(soft_context->sdl_context.funcs),
+			      soft_context->shared_sdl_handle);
+
       if (_mod_soft_path_init (&(soft_context->path), argc, argv) &&
-	  shared_sdl_path_init (&(soft_context->shared_sdl_context.path),
-				argc, argv))
+	  _lw6gfx_sdl_path_init (&(soft_context->sdl_context), argc, argv))
 	{
 	  memset (&version, 0, sizeof (SDL_version));
 	  SDL_VERSION (&version);
@@ -130,21 +132,18 @@ _mod_soft_init (int argc, const char *argv[],
 	    {
 	      if (soft_context && sdl_ok && ttf_ok)
 		{
-		  lw6gui_input_init (&
-				     (soft_context->
-				      shared_sdl_context.input));
+		  lw6gui_input_init (&(soft_context->sdl_context.input));
 		  //_mod_soft_show_mouse (&(soft_context->utils_context), 0, 1);
 		  _mod_soft_set_resize_callback (soft_context,
 						 resize_callback);
 		  if (_mod_soft_load_consts (soft_context)
 		      &&
-		      shared_sdl_load_consts (&
-					      (soft_context->shared_sdl_context)))
+		      _lw6gfx_sdl_load_consts (&(soft_context->sdl_context)))
 		    {
 		      if (_mod_soft_set_video_mode (soft_context, video_mode))
 			{
-			  shared_sdl_timer_update (&
-						   (soft_context->shared_sdl_context));
+			  _lw6gfx_sdl_timer_update (&
+						    (soft_context->sdl_context));
 			  // todo
 			}
 		      else
@@ -187,9 +186,9 @@ _mod_soft_quit (_mod_soft_context_t * soft_context)
    * Keep this value locally since it can disappear
    * when freeing stuff.
    */
-  quit_sleep = soft_context->shared_sdl_context.const_data.quit_sleep;
+  quit_sleep = soft_context->sdl_context.const_data.quit_sleep;
 
-  lw6gui_input_quit (&(soft_context->shared_sdl_context.input));
+  lw6gui_input_quit (&(soft_context->sdl_context.input));
 
   // todo...
 
@@ -204,11 +203,13 @@ _mod_soft_quit (_mod_soft_context_t * soft_context)
       SDL_Quit ();
     }
 
-  shared_sdl_unload_consts (&(soft_context->shared_sdl_context));
+  _lw6gfx_sdl_unload_consts (&(soft_context->sdl_context));
   _mod_soft_unload_consts (soft_context);
 
-  shared_sdl_path_quit (&(soft_context->shared_sdl_context.path));
+  _lw6gfx_sdl_path_quit (&(soft_context->sdl_context));
   _mod_soft_path_quit (&(soft_context->path));
+
+  _lw6gfx_sdl_unbind_funcs (&(soft_context->sdl_context.funcs));
 
 #ifndef LW6_ALLINONE
   if (soft_context->shared_sdl_handle)

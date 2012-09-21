@@ -24,7 +24,7 @@
 #include "config.h"
 #endif
 
-#include "gfx.h"
+#include "gfx-internal.h"
 
 #define TEST_WIDTH 640
 #define TEST_HEIGHT 480
@@ -56,6 +56,55 @@
 
 //#define _TEST_HUD_STYLE_1 "floating"
 //#define _TEST_HUD_STYLE_2 "tactical"
+
+static int
+test_sdl (int argc, const char *argv[])
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    _lw6gfx_sdl_funcs_t funcs;
+    void *handle = NULL;
+
+    memset (&funcs, 0, sizeof (_lw6gfx_sdl_funcs_t));
+
+#ifndef LW6_ALLINONE
+    handle = lw6dyn_dlopen_shared (argc, argv, "gfx", "sdl");
+    if (!handle)
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("unable to load shared SDL code"));
+	ret = 0;
+      }
+#endif
+
+    if (ret)
+      {
+	if (_lw6gfx_sdl_bind_funcs (&funcs, handle))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("binded SDL funcs"));
+	    _lw6gfx_sdl_unbind_funcs (&funcs);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("couldn't bind SDL funcs"));
+	    ret = 0;
+	  }
+      }
+
+#ifndef LW6_ALLINONE
+    if (handle)
+      {
+	lw6dyn_dlclose_shared (handle);
+	handle = NULL;
+      }
+#endif
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
 
 static int
 test_resolution (lw6gfx_backend_t * backend)
@@ -559,6 +608,8 @@ lw6gfx_test (int mode)
        */
       // lw6dyn_test (mode);
     }
+
+  ret = test_sdl (argc, argv) && ret;
 
   if (mode)
     {

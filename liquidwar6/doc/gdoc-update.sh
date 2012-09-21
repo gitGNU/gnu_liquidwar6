@@ -35,7 +35,7 @@ for i in bot cfg cli cns cnx dat dsp dyn gfx glb gui hlp img ker ldr map msg net
     #perl gdoc.pl -texinfo ../src/lib/$i/*.c* > $i-gdoc.texi
 done
 
-for i in bot/mod-brute bot/mod-follow bot/mod-idiot bot/mod-random gfx/mod-gl1 gfx/mod-gles2 gfx/mod-soft snd/mod-csound snd/mod-ogg cli/mod-tcp cli/mod-udp cli/mod-http srv/mod-tcpd srv/mod-udpd srv/mod-httpd ; do
+for i in bot/mod-brute bot/mod-follow bot/mod-idiot bot/mod-random gfx/mod-gl1 gfx/mod-gles2 gfx/mod-soft gfx/shared-sdl snd/mod-csound snd/mod-ogg cli/mod-tcp cli/mod-udp cli/mod-http srv/mod-tcpd srv/mod-udpd srv/mod-httpd ; do
     j=`echo $i | cut -d "/" -f 2`
     echo "\$(top_srcdir)/doc/$j-gdoc.texi: "`find ../src/lib/$i -name "*.c*" | sed "s/\.\./\$\(top_srcdir\)/g" | sort` >> Makefile.gdoc
     echo "\techo gdoc $j && cd \$(top_srcdir)/doc && \$(PERL) \$(top_srcdir)/doc/gdoc.pl -texinfo \$^ > \$(top_srcdir)/doc/$j-gdoc.texi" >> Makefile.gdoc

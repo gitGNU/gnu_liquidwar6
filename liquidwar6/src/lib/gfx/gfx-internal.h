@@ -25,6 +25,24 @@
 
 #include "gfx.h"
 
+typedef struct _lw6gfx_sdl_context_s _lw6gfx_sdl_context_t;
+typedef struct _lw6gfx_sdl_path_s _lw6gfx_sdl_path_t;
+typedef struct _lw6gfx_sdl_timer_s _lw6gfx_sdl_timer_t;
+
+typedef struct _lw6gfx_sdl_funcs_s
+{
+  int (*load_consts) (_lw6gfx_sdl_context_t * sdl_context);
+  void (*unload_consts) (_lw6gfx_sdl_context_t * sdl_context);
+  lw6gui_input_t *(*pump_events) (_lw6gfx_sdl_context_t * sdl_context);
+  int (*path_init) (_lw6gfx_sdl_path_t * sdl_context,
+		    int argc, const char *argv[]);
+  void (*path_quit) (_lw6gfx_sdl_path_t * sdl_context);
+  void (*timer_update) (_lw6gfx_sdl_timer_t * sdl_context);
+    int64_t (*timer_get_timestamp) (const _lw6gfx_sdl_timer_t * sdl_context);
+    int64_t (*timer_get_uptime) (const _lw6gfx_sdl_timer_t * sdl_context);
+    int32_t (*timer_get_cycle) (const _lw6gfx_sdl_timer_t * sdl_context);
+} _lw6gfx_sdl_funcs_t;
+
 typedef struct _lw6gfx_sdl_path_s
 {
   char *data_dir;
@@ -96,6 +114,7 @@ _lw6gfx_sdl_timer_t;
 
 typedef struct _lw6gfx_sdl_context_s
 {
+  _lw6gfx_sdl_funcs_t funcs;
   _lw6gfx_sdl_path_t path;
   lw6gui_resize_callback_func_t resize_callback;
   lw6gui_video_mode_t video_mode;
@@ -107,6 +126,8 @@ typedef struct _lw6gfx_sdl_context_s
 _lw6gfx_sdl_context_t;
 
 /* gfx-sdl.c */
+extern int _lw6gfx_sdl_bind_funcs (_lw6gfx_sdl_funcs_t * funcs, void *handle);
+extern void _lw6gfx_sdl_unbind_funcs (_lw6gfx_sdl_funcs_t * funcs);
 extern int _lw6gfx_sdl_load_consts (_lw6gfx_sdl_context_t * sdl_context);
 extern void _lw6gfx_sdl_unload_consts (_lw6gfx_sdl_context_t * sdl_context);
 extern lw6gui_input_t *_lw6gfx_sdl_pump_events (_lw6gfx_sdl_context_t *
@@ -115,11 +136,11 @@ extern int _lw6gfx_sdl_path_init (_lw6gfx_sdl_context_t * sdl_context,
 				  int argc, const char *argv[]);
 extern void _lw6gfx_sdl_path_quit (_lw6gfx_sdl_context_t * sdl_context);
 extern void _lw6gfx_sdl_timer_update (_lw6gfx_sdl_context_t * sdl_context);
-extern int64_t _lw6gfx_sdl_timer_get_timestamp (_lw6gfx_sdl_context_t *
+extern int64_t _lw6gfx_sdl_timer_get_timestamp (const _lw6gfx_sdl_context_t *
 						sdl_context);
-extern int64_t _lw6gfx_sdl_timer_get_uptime (_lw6gfx_sdl_context_t *
+extern int64_t _lw6gfx_sdl_timer_get_uptime (const _lw6gfx_sdl_context_t *
 					     sdl_context);
-extern int32_t _lw6gfx_sdl_timer_get_cycle (_lw6gfx_sdl_context_t *
+extern int32_t _lw6gfx_sdl_timer_get_cycle (const _lw6gfx_sdl_context_t *
 					    sdl_context);
 
-#endif
+#endif // LIQUIDWAR6GFX_INTERNAL_H

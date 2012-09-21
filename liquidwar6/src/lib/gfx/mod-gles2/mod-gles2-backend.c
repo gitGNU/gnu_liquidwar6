@@ -127,8 +127,8 @@ _pump_events (void *gfx_context)
 
   if (mod_gles2_context)
     {
-      shared_sdl_timer_update (&(mod_gles2_context->shared_sdl_context));
-      ret = shared_sdl_pump_events (&(mod_gles2_context->shared_sdl_context));
+      _lw6gfx_sdl_timer_update (&(mod_gles2_context->sdl_context));
+      ret = _lw6gfx_sdl_pump_events (&(mod_gles2_context->sdl_context));
     }
 
   return ret;

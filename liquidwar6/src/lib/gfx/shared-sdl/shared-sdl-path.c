@@ -24,13 +24,13 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include "shared-sdl.h"
+#include "shared-sdl-internal.h"
 
-#define SUB "gfx/soft"
-#define DEBUG "soft-debug"
+#define SUB "gfx/sdl"
+#define DEBUG "sdl-debug"
 
 int
-shared_sdl_path_init (shared_sdl_path_t * path, int argc, const char *argv[])
+shared_sdl_path_init (_lw6gfx_sdl_path_t * path, int argc, const char *argv[])
 {
   char *data_root_dir = NULL;
   char *user_dir = NULL;
@@ -61,7 +61,7 @@ shared_sdl_path_init (shared_sdl_path_t * path, int argc, const char *argv[])
 }
 
 void
-shared_sdl_path_quit (shared_sdl_path_t * path)
+shared_sdl_path_quit (_lw6gfx_sdl_path_t * path)
 {
   if (path->debug_dir)
     {

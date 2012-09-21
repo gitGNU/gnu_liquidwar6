@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-09-20 01:22+0200\n"
+"POT-Creation-Date: 2012-09-21 07:21+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -97,15 +97,15 @@ msgid "OpenGL v1 / SDL"
 msgstr ""
 
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:283
-#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:97
-#: src/lib/gfx/mod-soft/mod-soft-setup.c:97
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:99
+#: src/lib/gfx/mod-soft/mod-soft-setup.c:99
 #, c-format
 msgid "SDL init error: \"%s\""
 msgstr "Ошибка инициализации SDL: \"%s\""
 
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:310
-#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:122
-#: src/lib/gfx/mod-soft/mod-soft-setup.c:122
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:124
+#: src/lib/gfx/mod-soft/mod-soft-setup.c:124
 #, c-format
 msgid "SDL_ttf init error: \"%s\""
 msgstr "Ошибка инициализации SDL_ttf: \"%s\""
@@ -115,14 +115,14 @@ msgid "unable to load data"
 msgstr "ошибка загрузки данных"
 
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:374
-#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:154
-#: src/lib/gfx/mod-soft/mod-soft-setup.c:153
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:153
+#: src/lib/gfx/mod-soft/mod-soft-setup.c:152
 msgid "unable to set video mode"
 msgstr "ошибка установки видео режима"
 
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:381
-#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:162
-#: src/lib/gfx/mod-soft/mod-soft-setup.c:161
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:161
+#: src/lib/gfx/mod-soft/mod-soft-setup.c:160
 msgid "unable to load consts"
 msgstr "ошибка загрузки констант"
 
