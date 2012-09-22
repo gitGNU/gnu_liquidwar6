@@ -35,13 +35,14 @@ _display_clock (mod_gl1_utils_context_t * utils_context,
 {
   float x1, x2, y1, y2, dw, dh;
   float size_factor =
-    sqrt (utils_context->video_mode.width * utils_context->video_mode.height);
+    sqrt (utils_context->sdl_context.video_mode.width *
+	  utils_context->sdl_context.video_mode.height);
 
   if (floating_context->clock.clock_text
       && floating_context->clock.clock_text->texture_h > 0)
     {
       x2 =
-	utils_context->video_mode.width *
+	utils_context->sdl_context.video_mode.width *
 	floating_context->const_data.clock_x2;
       x1 =
 	x2 -
@@ -66,7 +67,8 @@ _display_gauges (mod_gl1_utils_context_t * utils_context,
   float x1, x2, y1, y2, w, h;
   float text_w, text_h, text_x1, text_x2, text_y1, text_y2, text_dw, text_dh;
   float size_factor_screen =
-    sqrt (utils_context->video_mode.width * utils_context->video_mode.height);
+    sqrt (utils_context->sdl_context.video_mode.width *
+	  utils_context->sdl_context.video_mode.height);
   float size_factor_score;
   float size_factor_heartbeat;
   float size_factor;
@@ -84,8 +86,8 @@ _display_gauges (mod_gl1_utils_context_t * utils_context,
   if (floating_context->game_state && floating_context->gauges.gauge_frame
       && floating_context->gauges.gauge_frame->texture_h > 0)
     {
-      x2 = utils_context->video_mode.width;
-      y2 = utils_context->video_mode.height;
+      x2 = utils_context->sdl_context.video_mode.width;
+      y2 = utils_context->sdl_context.video_mode.height;
       start = floating_context->const_data.gauge_start;
       for (i = floating_context->score_array.nb_scores - 1; i >= 0; --i)
 	{
@@ -120,8 +122,8 @@ _display_gauges (mod_gl1_utils_context_t * utils_context,
 				       (floating_context->game_state,
 					team_color) >=
 				       1000) ?
-		lw6sys_math_heartbeat (mod_gl1_utils_timer_get_uptime
-				       (utils_context),
+		lw6sys_math_heartbeat (_lw6gfx_sdl_timer_get_uptime
+				       (&(utils_context->sdl_context)),
 				       floating_context->const_data.
 				       gauge_heartbeat_period,
 				       floating_context->
@@ -338,8 +340,8 @@ _display_weapon (mod_gl1_utils_context_t * utils_context,
 	utils_context->
 	textures_1x1.team_colors_transparency[team_color][transparency];
       x1 = y1 = 0.0f;
-      x2 = utils_context->video_mode.width;
-      y2 = utils_context->video_mode.height;
+      x2 = utils_context->sdl_context.video_mode.width;
+      y2 = utils_context->sdl_context.video_mode.height;
       mod_gl1_utils_bitmap_display (utils_context, bitmap, x1, y1, x2, y2);
     }
 }
@@ -398,7 +400,8 @@ _display_pie (mod_gl1_utils_context_t * utils_context,
   float text_x1, text_y1, text_x2, text_y2;
   int percent = 0;
   float size_factor_screen =
-    sqrt (utils_context->video_mode.width * utils_context->video_mode.height);
+    sqrt (utils_context->sdl_context.video_mode.width *
+	  utils_context->sdl_context.video_mode.height);
   float radius_scale;
   float inner, outer;
   float heartbeat_factor = 1.0f;
@@ -408,9 +411,9 @@ _display_pie (mod_gl1_utils_context_t * utils_context,
 
   if (floating_context->game_state)
     {
-      x0 = utils_context->video_mode.width / 2;
-      y0 = utils_context->video_mode.height / 2;
-      cycle = lw6sys_get_cycle ();
+      x0 = utils_context->sdl_context.video_mode.width / 2;
+      y0 = utils_context->sdl_context.video_mode.height / 2;
+      cycle = _lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context));
 
       inner =
 	floating_context->const_data.score_pie_inner *

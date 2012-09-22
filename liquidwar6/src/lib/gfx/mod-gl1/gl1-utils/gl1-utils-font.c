@@ -347,7 +347,7 @@ mod_gl1_utils_draw_system_text_top_right (mod_gl1_utils_context_t *
 
   mod_gl1_utils_set_render_mode_2d_blend (utils_context);
 
-  x = utils_context->video_mode.width;
+  x = utils_context->sdl_context.video_mode.width;
   y = 0;
   while (*text_list)
     {
@@ -384,7 +384,7 @@ mod_gl1_utils_draw_system_text_bottom_left (mod_gl1_utils_context_t *
       list_end++;
     }
 
-  y = utils_context->video_mode.height;
+  y = utils_context->sdl_context.video_mode.height;
   tmp_list = list_end;
   while (tmp_list != text_list)
     {
@@ -422,8 +422,8 @@ mod_gl1_utils_draw_system_text_bottom_right (mod_gl1_utils_context_t *
       list_end++;
     }
 
-  x = utils_context->video_mode.width;
-  y = utils_context->video_mode.height;
+  x = utils_context->sdl_context.video_mode.width;
+  y = utils_context->sdl_context.video_mode.height;
   tmp_list = list_end;
   while (tmp_list != text_list)
     {

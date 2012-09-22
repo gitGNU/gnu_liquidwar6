@@ -62,6 +62,11 @@ _mod_gles2_const_data_t;
 typedef struct _mod_gles2_context_s
 {
   _lw6gfx_sdl_context_t sdl_context;
+#ifndef LW6_ALLINONE
+  lw6dyn_dl_handle_t *shared_sdl_handle;
+#else				// LW6_ALLINONE
+  void *shared_sdl_handle;
+#endif				// LW6_ALLINONE
   /*
    * One of the major flaws of the initial opengles2 backend
    * is that it uses per-backend data storage, and each backend
@@ -81,9 +86,6 @@ typedef struct _mod_gles2_context_s
   _mod_gles2_caps_t caps;
   _mod_gles2_path_t path;
   _mod_gles2_const_data_t const_data;
-#ifndef LW6_ALLINONE
-  lw6dyn_dl_handle_t *shared_sdl_handle;
-#endif
 }
 _mod_gles2_context_t;
 

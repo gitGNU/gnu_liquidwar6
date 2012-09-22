@@ -121,7 +121,8 @@ _display_bitmap_array (mod_gl1_utils_context_t * utils_context,
 	  step_for_waves =
 	    wave_length /
 	    ((float) flat_context->const_data.vertices_per_wave);
-	  waves_cycle = mod_gl1_utils_timer_get_cycle (utils_context);
+	  waves_cycle =
+	    _lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context));
 	  waves_cycle_offset =
 	    ((float) (waves_cycle)) /
 	    ((float) flat_context->const_data.waves_period);
@@ -522,8 +523,10 @@ _display_cursor (mod_gl1_utils_context_t * utils_context,
 		  local_cursor->cursor_id);
       if (local_cursor->mouse_controlled)
 	{
-	  cursor_x = utils_context->input.mouse.screen_pointer.pos_x;
-	  cursor_y = utils_context->input.mouse.screen_pointer.pos_y;
+	  cursor_x =
+	    utils_context->sdl_context.input.mouse.screen_pointer.pos_x;
+	  cursor_y =
+	    utils_context->sdl_context.input.mouse.screen_pointer.pos_y;
 	}
       else
 	{
@@ -552,18 +555,18 @@ _display_cursor (mod_gl1_utils_context_t * utils_context,
       cursor_y <= flat_context->viewport.map_visible.y2)
     {
       cursor_avg =
-	(utils_context->video_mode.width +
-	 utils_context->video_mode.height) *
+	(utils_context->sdl_context.video_mode.width +
+	 utils_context->sdl_context.video_mode.height) *
 	flat_context->const_data.cursor_size * look->style.cursor_size;
       if (lw6ker_game_state_get_charge_per1000
 	  (game_state,
 	   flat_context->cursors_context.cursor[i].team_color) >= 1000)
 	{
 	  cursor_w = cursor_h =
-	    (utils_context->video_mode.width +
-	     utils_context->video_mode.height) *
-	    lw6sys_math_heartbeat (mod_gl1_utils_timer_get_uptime
-				   (utils_context),
+	    (utils_context->sdl_context.video_mode.width +
+	     utils_context->sdl_context.video_mode.height) *
+	    lw6sys_math_heartbeat (_lw6gfx_sdl_timer_get_uptime
+				   (&(utils_context->sdl_context)),
 				   flat_context->const_data.
 				   cursor_heartbeat_period,
 				   flat_context->
@@ -645,7 +648,8 @@ _display_cursors (mod_gl1_utils_context_t * utils_context,
 	  local_cursor =
 	    lw6pil_local_cursors_get_cursor (local_cursors, cursor.cursor_id);
 	  blink_state =
-	    lw6sys_math_blink (mod_gl1_utils_timer_get_uptime (utils_context),
+	    lw6sys_math_blink (_lw6gfx_sdl_timer_get_uptime
+			       (&(utils_context->sdl_context)),
 			       flat_context->const_data.cursor_blink_period);
 	  _display_cursor (utils_context, flat_context, look, game_state,
 			   local_cursor, i, cursor.pos.x, cursor.pos.y,

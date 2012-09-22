@@ -100,8 +100,8 @@ mod_gl1_utils_set_render_mode_2d (mod_gl1_utils_context_t * utils_context)
       glLoadIdentity ();
 
       gluOrtho2D (0.0f,		// left
-		  (GLfloat) utils_context->video_mode.width,	// right
-		  (GLfloat) utils_context->video_mode.height,	// bottom
+		  (GLfloat) utils_context->sdl_context.video_mode.width,	// right
+		  (GLfloat) utils_context->sdl_context.video_mode.height,	// bottom
 		  0.0f);	// top
 
       glDisable (GL_DEPTH_TEST);
@@ -124,8 +124,8 @@ mod_gl1_utils_set_render_mode_2d_blend (mod_gl1_utils_context_t *
       glLoadIdentity ();
 
       gluOrtho2D (0.0f,		// left
-		  (GLfloat) utils_context->video_mode.width,	// right
-		  (GLfloat) utils_context->video_mode.height,	// bottom
+		  (GLfloat) utils_context->sdl_context.video_mode.width,	// right
+		  (GLfloat) utils_context->sdl_context.video_mode.height,	// bottom
 		  0.0f);	// top
 
       glDisable (GL_DEPTH_TEST);
@@ -147,8 +147,8 @@ mod_gl1_utils_set_render_mode_3d_map (mod_gl1_utils_context_t * utils_context)
       glMatrixMode (GL_PROJECTION);
       glLoadIdentity ();
       gluPerspective (utils_context->const_data.persp_fovy,
-		      ((float) utils_context->video_mode.width) /
-		      ((float) utils_context->video_mode.height),
+		      ((float) utils_context->sdl_context.video_mode.width) /
+		      ((float) utils_context->sdl_context.video_mode.height),
 		      utils_context->const_data.persp_znear,
 		      utils_context->const_data.persp_zfar);
       glEnable (GL_DEPTH_TEST);
@@ -171,8 +171,8 @@ mod_gl1_utils_set_render_mode_3d_menu (mod_gl1_utils_context_t *
       glMatrixMode (GL_PROJECTION);
       glLoadIdentity ();
       gluPerspective (utils_context->const_data.persp_fovy,
-		      ((float) utils_context->video_mode.width) /
-		      ((float) utils_context->video_mode.height),
+		      ((float) utils_context->sdl_context.video_mode.width) /
+		      ((float) utils_context->sdl_context.video_mode.height),
 		      utils_context->const_data.persp_znear,
 		      utils_context->const_data.persp_zfar);
       glEnable (GL_DEPTH_TEST);
@@ -202,8 +202,8 @@ mod_gl1_utils_set_render_mode_3d_select (mod_gl1_utils_context_t *
 		     viewport);
 
       gluPerspective (utils_context->const_data.persp_fovy,
-		      ((float) utils_context->video_mode.width) /
-		      ((float) utils_context->video_mode.height),
+		      ((float) utils_context->sdl_context.video_mode.width) /
+		      ((float) utils_context->sdl_context.video_mode.height),
 		      utils_context->const_data.persp_znear,
 		      utils_context->const_data.persp_zfar);
       glDisable (GL_DEPTH_TEST);
@@ -230,8 +230,8 @@ mod_gl1_utils_set_render_mode_3d_feedback (mod_gl1_utils_context_t *
       glGetIntegerv (GL_VIEWPORT, viewport);
 
       gluPerspective (utils_context->const_data.persp_fovy,
-		      ((float) utils_context->video_mode.width) /
-		      ((float) utils_context->video_mode.height),
+		      ((float) utils_context->sdl_context.video_mode.width) /
+		      ((float) utils_context->sdl_context.video_mode.height),
 		      utils_context->const_data.persp_znear,
 		      utils_context->const_data.persp_zfar);
       glDisable (GL_DEPTH_TEST);

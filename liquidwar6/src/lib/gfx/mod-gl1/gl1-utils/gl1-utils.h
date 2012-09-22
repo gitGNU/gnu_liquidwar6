@@ -207,10 +207,6 @@ typedef struct mod_gl1_utils_const_data_s
   /*
    * Set by the utils module itself
    */
-  float warp_x;
-  float warp_y;
-  float mode_sleep;
-  float quit_sleep;
   float persp_fovy;
   float persp_znear;
   float persp_zfar;
@@ -230,51 +226,6 @@ typedef struct mod_gl1_utils_const_data_s
   float mainlight_x;
   float mainlight_y;
   float mainlight_z;
-  int keysym1_up;
-  int keysym2_up;
-  int keysym3_up;
-  int keysym4_up;
-  int keysym1_down;
-  int keysym2_down;
-  int keysym3_down;
-  int keysym4_down;
-  int keysym1_left;
-  int keysym2_left;
-  int keysym3_left;
-  int keysym4_left;
-  int keysym1_right;
-  int keysym2_right;
-  int keysym3_right;
-  int keysym4_right;
-  int keysym1_enter;
-  int keysym2_enter;
-  int keysym1_esc;
-  int keysym2_esc;
-  int keysym1_ctrl;
-  int keysym2_ctrl;
-  int keysym1_alt;
-  int keysym2_alt;
-  int keysym1_pgup;
-  int keysym2_pgup;
-  int keysym1_pgdown;
-  int keysym2_pgdown;
-  int keysym_quit;
-  int joystick_limit;
-  int joystick1_index;
-  int joystick1_button_a_index;
-  int joystick1_button_b_index;
-  int joystick1_button_c_index;
-  int joystick1_button_d_index;
-  int joystick1_button_e_index;
-  int joystick1_button_f_index;
-  int joystick2_index;
-  int joystick2_button_a_index;
-  int joystick2_button_b_index;
-  int joystick2_button_c_index;
-  int joystick2_button_d_index;
-  int joystick2_button_e_index;
-  int joystick2_button_f_index;
-  int joystick_all_buttons;
   int smoother_global_zoom_duration;
   int smoother_center_duration;
   int smoother_drawable_duration;
@@ -346,9 +297,6 @@ mod_gl1_utils_mouse_state_t;
 
 typedef struct mod_gl1_utils_timer_s
 {
-  int64_t timestamp;
-  int64_t uptime;
-  int32_t cycle;
   int64_t bitmap_refresh;
 }
 mod_gl1_utils_timer_t;
@@ -394,13 +342,11 @@ mod_gl1_utils_cache_t;
 
 typedef struct mod_gl1_utils_context_s
 {
-  lw6gui_resize_callback_func_t resize_callback;
+  _lw6gfx_sdl_context_t sdl_context;
   mod_gl1_utils_path_t path;
   mod_gl1_utils_mem_counter_t surface_counter;
   mod_gl1_utils_mem_counter_t texture_counter;
   mod_gl1_utils_caps_t caps;
-  lw6gui_video_mode_t video_mode;
-  lw6gui_zone_t viewport;
   mod_gl1_utils_render_param_t render_param;
   mod_gl1_utils_texture_data_t texture_data;
   mod_gl1_utils_font_data_t font_data;
@@ -411,14 +357,13 @@ typedef struct mod_gl1_utils_context_s
   mod_gl1_utils_last_action_t last_action;
   mod_gl1_utils_joysticks_info_t joysticks_info;
   mod_gl1_utils_mouse_state_t mouse_state;
-  mod_gl1_utils_timer_t timer;
-  lw6gui_input_t input;
   _mod_gl1_utils_smoothers_t smoothers;
   _mod_gl1_utils_smoothed_t smoothed;
   mod_gl1_utils_icon_t icon;
   mod_gl1_utils_counter_t counter;
   lw6sys_hash_t *bitmap_hash;
   mod_gl1_utils_cache_t cache;
+  mod_gl1_utils_timer_t timer;
 }
 mod_gl1_utils_context_t;
 
@@ -703,8 +648,7 @@ extern void mod_gl1_utils_draw_set_alpha_for_color (SDL_Surface * surface,
 /*
  * In event.c
  */
-extern lw6gui_input_t *mod_gl1_utils_pump_events (mod_gl1_utils_context_t *
-						  utils_context);
+extern void mod_gl1_utils_pump_event_callback (void *data, void *event);
 
 /*
  * In font.c
@@ -1041,14 +985,6 @@ extern void mod_gl1_utils_texture_1x1_clear (mod_gl1_utils_context_t *
 /*
  * In timer.c
  */
-extern void mod_gl1_utils_timer_update (mod_gl1_utils_context_t *
-					utils_context);
-extern int64_t mod_gl1_utils_timer_get_timestamp (mod_gl1_utils_context_t *
-						  utils_context);
-extern int64_t mod_gl1_utils_timer_get_uptime (mod_gl1_utils_context_t *
-					       utils_context);
-extern int32_t mod_gl1_utils_timer_get_cycle (mod_gl1_utils_context_t *
-					      utils_context);
 extern int64_t mod_gl1_utils_timer_get_bitmap_refresh (mod_gl1_utils_context_t
 						       * utils_context);
 extern void mod_gl1_utils_timer_set_bitmap_refresh (mod_gl1_utils_context_t *

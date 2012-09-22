@@ -44,7 +44,8 @@ _set_defaults (mod_gl1_utils_context_t * utils_context,
   bitmap->t2 = mod_gl1_utils_texture_scale (bitmap->surface->h);
   bitmap->texture_w = lw6gui_power_of_two_ge (bitmap->surface->w);
   bitmap->texture_h = lw6gui_power_of_two_ge (bitmap->surface->h);
-  bitmap->last_refresh = mod_gl1_utils_timer_get_timestamp (utils_context);
+  bitmap->last_refresh =
+    _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context));
   bitmap->desc = lw6sys_str_copy (desc);
   mod_gl1_utils_bitmap_hash_register (utils_context, bitmap);
   /*  if (utils_context->initialized)
@@ -421,7 +422,7 @@ mod_gl1_utils_bitmap_refresh (mod_gl1_utils_context_t *
   int64_t timestamp;
 
   bitmap_refresh = mod_gl1_utils_timer_get_bitmap_refresh (utils_context);
-  timestamp = mod_gl1_utils_timer_get_timestamp (utils_context);
+  timestamp = _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context));
 
   if (bitmap->last_refresh < bitmap_refresh)
     {

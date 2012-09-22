@@ -39,8 +39,8 @@ mod_gl1_utils_capture2surface (mod_gl1_utils_context_t * utils_context)
   int x, y, w, h;
   int offset_tmp, offset_ret;
 
-  w = utils_context->video_mode.width;
-  h = utils_context->video_mode.height;
+  w = utils_context->sdl_context.video_mode.width;
+  h = utils_context->sdl_context.video_mode.height;
   surface_tmp = mod_gl1_utils_create_surface (utils_context, w, h);
   if (surface_tmp)
     {

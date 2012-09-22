@@ -37,8 +37,9 @@ display_frame (mod_gl1_utils_context_t * utils_context,
 			     tactical_context->bitmap_data.frame);
   mod_gl1_utils_bitmap_display (utils_context,
 				tactical_context->bitmap_data.frame, 0.0f,
-				0.0f, utils_context->video_mode.width,
-				utils_context->video_mode.height);
+				0.0f,
+				utils_context->sdl_context.video_mode.width,
+				utils_context->sdl_context.video_mode.height);
 }
 
 

@@ -59,8 +59,8 @@ draw_button_corners (mod_gl1_utils_context_t * utils_context,
       float draw_esc_rotate;
 
       screen_ratio =
-	((float) utils_context->video_mode.width) /
-	((float) utils_context->video_mode.height);
+	((float) utils_context->sdl_context.video_mode.width) /
+	((float) utils_context->sdl_context.video_mode.height);
 
       draw_esc_offset = cylinder_context->const_data.esc_offset;
       draw_esc_radius = cylinder_context->const_data.esc_radius;
@@ -205,9 +205,9 @@ _mod_gl1_menu_cylinder_pick_item (mod_gl1_utils_context_t * utils_context,
       ptr++;
       if (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE)
 	{
-	  x_min = utils_context->video_mode.width + 1;
+	  x_min = utils_context->sdl_context.video_mode.width + 1;
 	  x_max = -1;
-	  y_min = utils_context->video_mode.height + 1;
+	  y_min = utils_context->sdl_context.video_mode.height + 1;
 	  y_max = -1;
 	  i = (int) (*ptr++);
 	  while ((*ptr) == GL_POINT_TOKEN
@@ -215,7 +215,7 @@ _mod_gl1_menu_cylinder_pick_item (mod_gl1_utils_context_t * utils_context,
 	    {
 	      ptr++;
 	      x = *(ptr++);
-	      y = (utils_context->video_mode.height - *(ptr++));
+	      y = (utils_context->sdl_context.video_mode.height - *(ptr++));
 	      if (x < x_min)
 		{
 		  x_min = x;
@@ -301,9 +301,9 @@ _mod_gl1_menu_cylinder_get_cylinder_right_point (mod_gl1_utils_context_t *
       ptr++;
       if (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE)
 	{
-	  x_min = utils_context->video_mode.width + 1;
+	  x_min = utils_context->sdl_context.video_mode.width + 1;
 	  x_max = -1;
-	  y_min = utils_context->video_mode.height + 1;
+	  y_min = utils_context->sdl_context.video_mode.height + 1;
 	  y_max = -1;
 	  ptr++;		// skipping passthrough value (_PASS_THROUGH_SELECTED)
 	  while ((*ptr) == GL_POINT_TOKEN
@@ -311,7 +311,7 @@ _mod_gl1_menu_cylinder_get_cylinder_right_point (mod_gl1_utils_context_t *
 	    {
 	      ptr++;
 	      x = *(ptr++);
-	      y = (utils_context->video_mode.height - *(ptr++));
+	      y = (utils_context->sdl_context.video_mode.height - *(ptr++));
 	      if (x < x_min)
 		{
 		  x_min = x;

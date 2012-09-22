@@ -27,32 +27,6 @@
 #include "../../gfx.h"
 #include "gl1-utils.h"
 
-void
-mod_gl1_utils_timer_update (mod_gl1_utils_context_t * utils_context)
-{
-  lw6sys_timer_update (&(utils_context->timer.timestamp),
-		       &(utils_context->timer.uptime),
-		       &(utils_context->timer.cycle));
-}
-
-int64_t
-mod_gl1_utils_timer_get_timestamp (mod_gl1_utils_context_t * utils_context)
-{
-  return utils_context->timer.timestamp;
-}
-
-int64_t
-mod_gl1_utils_timer_get_uptime (mod_gl1_utils_context_t * utils_context)
-{
-  return utils_context->timer.uptime;
-}
-
-int32_t
-mod_gl1_utils_timer_get_cycle (mod_gl1_utils_context_t * utils_context)
-{
-  return utils_context->timer.cycle;
-}
-
 extern int64_t
 mod_gl1_utils_timer_get_bitmap_refresh (mod_gl1_utils_context_t *
 					utils_context)
@@ -70,5 +44,6 @@ mod_gl1_utils_timer_set_bitmap_refresh (mod_gl1_utils_context_t *
 	      ("forcing the purge of textures now, OpenGL context might be lost"));
   mod_gl1_utils_bitmap_hash_refresh (utils_context);
 #endif
-  utils_context->timer.bitmap_refresh = utils_context->timer.timestamp;
+  utils_context->timer.bitmap_refresh =
+    _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context));
 }

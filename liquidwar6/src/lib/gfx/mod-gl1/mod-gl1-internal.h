@@ -33,6 +33,11 @@
 typedef struct _mod_gl1_context_s
 {
   mod_gl1_utils_context_t utils_context;
+#ifndef LW6_ALLINONE
+  lw6dyn_dl_handle_t *shared_sdl_handle;
+#else				// LW6_ALLINONE
+  void *shared_sdl_handle;
+#endif				// LW6_ALLINONE
   void *splash_context;
   mod_gl1_background_backend_t *background_backend;
   mod_gl1_hud_backend_t *hud_backend;

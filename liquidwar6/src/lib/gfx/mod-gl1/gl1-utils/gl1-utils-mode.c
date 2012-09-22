@@ -59,7 +59,7 @@ mod_gl1_utils_set_video_mode (mod_gl1_utils_context_t * utils_context,
   height = video_mode->height;
   fullscreen = video_mode->fullscreen;
 
-  lw6sys_sleep (utils_context->const_data.mode_sleep);
+  lw6sys_sleep (utils_context->sdl_context.const_data.mode_sleep);
 
   /* Let's get some video information. */
   info = SDL_GetVideoInfo ();
@@ -222,9 +222,9 @@ mod_gl1_utils_set_video_mode (mod_gl1_utils_context_t * utils_context,
 	  SDL_PumpEvents ();
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("SDL events pumped"));
 
-	  utils_context->video_mode.width = width;
-	  utils_context->video_mode.height = height;
-	  utils_context->video_mode.fullscreen = fullscreen;
+	  utils_context->sdl_context.video_mode.width = width;
+	  utils_context->sdl_context.video_mode.height = height;
+	  utils_context->sdl_context.video_mode.fullscreen = fullscreen;
 	  utils_context->caps.bpp = bpp;
 	  utils_context->caps.max_texture_size = 0;
 	  mod_gl1_utils_sync_viewport (utils_context);
@@ -246,8 +246,10 @@ mod_gl1_utils_set_video_mode (mod_gl1_utils_context_t * utils_context,
 
       if (fullscreen)
 	{
-	  warp_x = utils_context->const_data.warp_x * (float) width;
-	  warp_y = utils_context->const_data.warp_y * (float) height;
+	  warp_x =
+	    utils_context->sdl_context.const_data.warp_x * (float) width;
+	  warp_y =
+	    utils_context->sdl_context.const_data.warp_y * (float) height;
 	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("warp mouse to %d,%d"), warp_x,
 		      warp_y);
 	  SDL_WarpMouse (warp_x, warp_y);
@@ -278,7 +280,7 @@ mod_gl1_utils_set_video_mode (mod_gl1_utils_context_t * utils_context,
       mod_gl1_utils_timer_set_bitmap_refresh (utils_context);
       mod_gl1_utils_smoothers_reset_drawable (utils_context);
 
-      lw6sys_sleep (utils_context->const_data.mode_sleep);
+      lw6sys_sleep (utils_context->sdl_context.const_data.mode_sleep);
     }
 
   return ok;
@@ -294,8 +296,8 @@ mod_gl1_utils_resize_video_mode (mod_gl1_utils_context_t * utils_context,
 {
   int ret = 0;
 
-  if (video_mode->width != utils_context->video_mode.width
-      || video_mode->height != utils_context->video_mode.height)
+  if (video_mode->width != utils_context->sdl_context.video_mode.width
+      || video_mode->height != utils_context->sdl_context.video_mode.height)
     {
       int flags = 0;
 
@@ -311,7 +313,7 @@ mod_gl1_utils_resize_video_mode (mod_gl1_utils_context_t * utils_context,
 	  (video_mode->width, video_mode->height, utils_context->caps.bpp,
 	   flags) != 0)
 	{
-	  utils_context->video_mode = *video_mode;
+	  utils_context->sdl_context.video_mode = *video_mode;
 	  mod_gl1_utils_sync_viewport (utils_context);
 
 	  mod_gl1_utils_call_resize_callback (utils_context);
@@ -352,7 +354,7 @@ mod_gl1_utils_get_video_mode (mod_gl1_utils_context_t * utils_context,
 {
   int ret = 0;
 
-  (*video_mode) = utils_context->video_mode;
+  (*video_mode) = utils_context->sdl_context.video_mode;
 
   ret = 1;
 
@@ -368,10 +370,10 @@ mod_gl1_utils_sync_viewport (mod_gl1_utils_context_t * utils_context)
   int ret = 1;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("glViewport %dx%d"),
-	      utils_context->video_mode.width,
-	      utils_context->video_mode.height);
-  glViewport (0, 0, utils_context->video_mode.width,
-	      utils_context->video_mode.height);
+	      utils_context->sdl_context.video_mode.width,
+	      utils_context->sdl_context.video_mode.height);
+  glViewport (0, 0, utils_context->sdl_context.video_mode.width,
+	      utils_context->sdl_context.video_mode.height);
   mod_gl1_utils_viewport_drawable_max (utils_context);
 
   return ret;
@@ -425,7 +427,7 @@ mod_gl1_utils_set_resize_callback (mod_gl1_utils_context_t * utils_context,
 {
   int ret = 0;
 
-  utils_context->resize_callback = resize_callback;
+  utils_context->sdl_context.resize_callback = resize_callback;
   ret = 1;
 
   return ret;
@@ -434,9 +436,11 @@ mod_gl1_utils_set_resize_callback (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_utils_call_resize_callback (mod_gl1_utils_context_t * utils_context)
 {
-  if (utils_context->resize_callback)
+  if (utils_context->sdl_context.resize_callback)
     {
       lw6sys_log (LW6SYS_LOG_INFO, _x_ ("calling resize callback"));
-      utils_context->resize_callback (&(utils_context->video_mode));
+      utils_context->sdl_context.resize_callback (&
+						  (utils_context->
+						   sdl_context.video_mode));
     }
 }

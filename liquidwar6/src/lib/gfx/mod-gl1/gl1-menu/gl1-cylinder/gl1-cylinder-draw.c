@@ -67,13 +67,13 @@ _mod_gl1_menu_cylinder_draw_cylinder (mod_gl1_utils_context_t * utils_context,
       radius = cylinder_context->const_data.radius1 / n;
       cyl_height = relative_text_width *
 	cylinder_context->const_data.cyl_height *
-	((float) utils_context->video_mode.width) /
-	((float) utils_context->video_mode.height);
+	((float) utils_context->sdl_context.video_mode.width) /
+	((float) utils_context->sdl_context.video_mode.height);
       y =
 	_mod_gl1_menu_cylinder_get_cylinder_y (utils_context,
 					       cylinder_context, i, n);
       dt =
-	mod_gl1_utils_timer_get_cycle (utils_context) %
+	_lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) %
 	cylinder_context->const_data.oscil_period;
       dy =
 	(cylinder_context->const_data.oscil_range1 / n) * sin (2.0f * M_PI *
@@ -135,13 +135,13 @@ _mod_gl1_menu_cylinder_draw_cylinder_corners (mod_gl1_utils_context_t *
   radius = cylinder_context->const_data.radius1 / n;
   cyl_height = relative_text_width *
     cylinder_context->const_data.cyl_height *
-    ((float) utils_context->video_mode.width) /
-    ((float) utils_context->video_mode.height);
+    ((float) utils_context->sdl_context.video_mode.width) /
+    ((float) utils_context->sdl_context.video_mode.height);
   y =
     _mod_gl1_menu_cylinder_get_cylinder_y (utils_context, cylinder_context,
 					   i, n);
   dt =
-    mod_gl1_utils_timer_get_cycle (utils_context) %
+    _lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) %
     cylinder_context->const_data.oscil_period;
   dy =
     (cylinder_context->const_data.oscil_range1 / n) * sin (2.0f * M_PI *

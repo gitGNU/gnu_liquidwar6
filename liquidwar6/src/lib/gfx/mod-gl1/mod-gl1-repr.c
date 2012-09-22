@@ -40,8 +40,10 @@ _mod_gl1_repr (_mod_gl1_context_t * gl_context, u_int32_t id)
   ret =
     lw6sys_new_sprintf (_x_ ("%u gl1 SDL version %u.%u.%u resolution %dx%d"),
 			id, version.major, version.minor, version.patch,
-			gl_context->utils_context.video_mode.width,
-			gl_context->utils_context.video_mode.height);
+			gl_context->utils_context.sdl_context.
+			video_mode.width,
+			gl_context->utils_context.sdl_context.
+			video_mode.height);
 
   return ret;
 }

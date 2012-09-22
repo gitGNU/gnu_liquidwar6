@@ -48,18 +48,18 @@ _display_background (mod_gl1_utils_context_t * utils_context,
   glTranslatef (0.0f,
 		bubbles_context->const_data.yspeed *
 		look->style.animation_speed *
-		mod_gl1_utils_timer_get_cycle (utils_context) / 1000.0f,
-		0.0f);
+		_lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) /
+		1000.0f, 0.0f);
 
   glBegin (GL_QUADS);
   glTexCoord2d (0.0f, 0.0f);
   glVertex3f (0.0f, 0.0f, 0.0f);	// top left
   glTexCoord2d (1.0f, 0.0f);
-  glVertex3f (utils_context->video_mode.width, 0.0f, 0.0f);	// top right
+  glVertex3f (utils_context->sdl_context.video_mode.width, 0.0f, 0.0f);	// top right
   glTexCoord2d (1.0f, 1.0f);
-  glVertex3f (utils_context->video_mode.width, utils_context->video_mode.height, 0.0f);	// bottom right
+  glVertex3f (utils_context->sdl_context.video_mode.width, utils_context->sdl_context.video_mode.height, 0.0f);	// bottom right
   glTexCoord2d (0.0f, 1.0f);
-  glVertex3f (0.0f, utils_context->video_mode.height, 0.0f);	// bottom left
+  glVertex3f (0.0f, utils_context->sdl_context.video_mode.height, 0.0f);	// bottom left
   glEnd ();
 
   glMatrixMode (GL_TEXTURE);
@@ -80,21 +80,24 @@ _display_bubble (mod_gl1_utils_context_t * utils_context,
   if (!bubble->active)
     {
       bubble->active = 1;
-      bubble->t0 = mod_gl1_utils_timer_get_uptime (utils_context);
+      bubble->t0 =
+	_lw6gfx_sdl_timer_get_uptime (&(utils_context->sdl_context));
       bubble->size =
 	lw6sys_random_float (bubbles_context->const_data.bubble_size_min,
 			     bubbles_context->const_data.bubble_size_max);
       bubble->x = lw6sys_random_float (0.0f, 1.0f);
     }
 
-  dt = mod_gl1_utils_timer_get_uptime (utils_context) - bubble->t0;
-  x_px = bubble->x * utils_context->video_mode.width;
+  dt =
+    _lw6gfx_sdl_timer_get_uptime (&(utils_context->sdl_context)) - bubble->t0;
+  x_px = bubble->x * utils_context->sdl_context.video_mode.width;
   y =
     1.0f + (bubble->size / 2.0f) -
     (bubble->size * bubbles_context->const_data.bubble_yspeed *
      look->style.animation_speed * dt / 1000.0f);
-  y_px = y * utils_context->video_mode.height;
-  size2_px = (utils_context->video_mode.height * bubble->size) / 2.0f;
+  y_px = y * utils_context->sdl_context.video_mode.height;
+  size2_px =
+    (utils_context->sdl_context.video_mode.height * bubble->size) / 2.0f;
 
   glMatrixMode (GL_TEXTURE);
   glPushMatrix ();

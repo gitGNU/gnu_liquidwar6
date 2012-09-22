@@ -127,8 +127,13 @@ _pump_events (void *gfx_context)
 
   if (mod_gl1_context)
     {
-      mod_gl1_utils_timer_update (&(mod_gl1_context->utils_context));
-      ret = mod_gl1_utils_pump_events (&(mod_gl1_context->utils_context));
+      _lw6gfx_sdl_timer_update (&
+				(mod_gl1_context->utils_context.sdl_context));
+      ret =
+	_lw6gfx_sdl_pump_events (&
+				 (mod_gl1_context->utils_context.sdl_context),
+				 mod_gl1_utils_pump_event_callback,
+				 (void *) &(mod_gl1_context->utils_context));
     }
 
   return ret;
@@ -150,7 +155,8 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
 
   if (mod_gl1_context)
     {
-      mod_gl1_utils_timer_update (&(mod_gl1_context->utils_context));
+      _lw6gfx_sdl_timer_update (&
+				(mod_gl1_context->utils_context.sdl_context));
       mod_gl1_context->utils_context.counter.nb_frames++;
 
       /*

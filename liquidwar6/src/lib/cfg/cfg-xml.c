@@ -96,6 +96,8 @@ lw6cfg_read_xml_int (const char *xml_key, const char *xml_value,
       if (value)
 	{
 	  (*value) = lw6sys_atoi (xml_value);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("XML int \"%s\"=\"%d\""), xml_key,
+		      *value);
 	}
     }
 }
@@ -133,6 +135,8 @@ lw6cfg_read_xml_bool (const char *xml_key, const char *xml_value,
 	       * Note that prefered value is "true" 8-)
 	       */
 	      (*value) = lw6sys_atob (xml_value);
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("XML bool \"%s\"=\"%d\""),
+			  xml_key, *value);
 	    }
 	}
     }
@@ -162,6 +166,8 @@ lw6cfg_read_xml_float (const char *xml_key, const char *xml_value,
       if (value)
 	{
 	  (*value) = lw6sys_atof (xml_value);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("XML float \"%s\"=\"%f\""),
+		      xml_key, *value);
 	}
     }
 }
@@ -199,6 +205,11 @@ lw6cfg_read_xml_string (const char *xml_key, const char *xml_value,
 	      (*value) = NULL;
 	    }
 	  (*value) = lw6sys_str_copy (xml_value);
+	  if (*value)
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("XML string \"%s\"=\"%s\""),
+			  xml_key, *value);
+	    }
 	}
     }
 }
@@ -225,6 +236,9 @@ lw6cfg_read_xml_color (const char *xml_key, const char *xml_value,
   if (!strcasecmp (xml_key, target_key))
     {
       (*value) = lw6sys_color_a_to_8 (xml_value);
+      lw6sys_log (LW6SYS_LOG_INFO,
+		  _x_ ("XML color \"%s\"=\"#%02x%02x%02x%02x\""), xml_key,
+		  value->r, value->g, value->b, value->a);
     }
 }
 

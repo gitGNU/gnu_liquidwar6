@@ -60,8 +60,13 @@ _mod_soft_timer_t;
 typedef struct _mod_soft_context_s
 {
   _lw6gfx_sdl_context_t sdl_context;
+#ifndef LW6_ALLINONE
+  lw6dyn_dl_handle_t *shared_sdl_handle;
+#else				// LW6_ALLINONE
+  void *shared_sdl_handle;
+#endif				// LW6_ALLINONE
   /*
-   * One of the major flaws of the initial opensoft backend
+   * One of the major flaws of the initial opengl backend
    * is that it uses per-backend data storage, and each backend
    * tries to handle its data on-the-fly as it's called.
    * There's nothing wrong with that but it makes it really
@@ -79,9 +84,6 @@ typedef struct _mod_soft_context_s
   _mod_soft_caps_t caps;
   _mod_soft_path_t path;
   _mod_soft_const_data_t const_data;
-#ifndef LW6_ALLINONE
-  lw6dyn_dl_handle_t *shared_sdl_handle;
-#endif
 }
 _mod_soft_context_t;
 

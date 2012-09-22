@@ -98,8 +98,8 @@ draw_cylinder_with_color (mod_gl1_utils_context_t * utils_context,
 	  radius = cylinder_context->const_data.progress_radius;
 	  cyl_height =
 	    cylinder_context->const_data.progress_cyl_height *
-	    ((float) utils_context->video_mode.width) /
-	    ((float) utils_context->video_mode.height);
+	    ((float) utils_context->sdl_context.video_mode.width) /
+	    ((float) utils_context->sdl_context.video_mode.height);
 
 	  _mod_gl1_menu_cylinder_draw_fixed_cylinder (utils_context,
 						      cylinder_context,

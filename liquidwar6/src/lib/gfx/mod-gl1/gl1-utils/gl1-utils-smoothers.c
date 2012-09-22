@@ -75,13 +75,16 @@ mod_gl1_utils_smoothers_update (mod_gl1_utils_context_t * utils_context)
   //float drawable_x1, drawable_y1, drawable_x2, drawable_y2;
   utils_context->smoothed.global_zoom =
     lw6gui_smoother_get_value (&(utils_context->smoothers.global_zoom),
-			       utils_context->timer.timestamp);
+			       _lw6gfx_sdl_timer_get_timestamp (&
+								(utils_context->sdl_context)));
   utils_context->smoothed.map_center_x =
     lw6gui_smoother_get_value (&(utils_context->smoothers.map_center_x),
-			       utils_context->timer.timestamp);
+			       _lw6gfx_sdl_timer_get_timestamp (&
+								(utils_context->sdl_context)));
   utils_context->smoothed.map_center_y =
     lw6gui_smoother_get_value (&(utils_context->smoothers.map_center_y),
-			       utils_context->timer.timestamp);
+			       _lw6gfx_sdl_timer_get_timestamp (&
+								(utils_context->sdl_context)));
   /*
      drawable_x1 =
      lw6gui_smoother_get_value (&(utils_context->smoothers.drawable_x1),

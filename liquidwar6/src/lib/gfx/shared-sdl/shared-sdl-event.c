@@ -562,10 +562,10 @@ joystick_button_up (lw6gui_joystick_t * joystick, int b, SDL_Event * event)
  * Internal poll function.
  */
 lw6gui_input_t *
-shared_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context)
+shared_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context,
+			_lw6gfx_sdl_event_callback_t event_callback_func,
+			void *event_callback_data)
 {
-  // todo: fix this
-  //lw6gui_video_mode_t video_mode;
   SDL_Event event;
   int64_t timestamp = 0LL;
   lw6gui_input_t *input = &(sdl_context->input);
@@ -637,23 +637,21 @@ shared_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context)
 	      joystick_button_up (&(input->joysticks[i]), b, &event);
 	    }
 	  break;
-	case SDL_VIDEORESIZE:
-	  // todo: fix this
-	  //shared_sdl_get_video_mode (sdl_context, &video_mode);
-	  //video_mode.width = event.resize.w;
-	  //video_mode.height = event.resize.h;
-	  // todo: fix this
-	  //shared_sdl_resize_video_mode (sdl_context, &video_mode);
-	  // todo: fix this
-	  //shared_sdl_timer_set_bitmap_refresh (sdl_context);
-	  break;
-	case SDL_VIDEOEXPOSE:
-	  // todo: fix this
-	  //shared_sdl_sync_mode (sdl_context, 0);
-	  // todo: fix this
-	  //shared_sdl_timer_set_bitmap_refresh (sdl_context);
-	  break;
 	}
+    }
+
+  /*
+   * Event callback is here to implement specific functions, which
+   * might be backend specific. Typically, this will be SDL_VIDEORESIZE
+   * and SDL_VIDEOEXPOSE events, which can require specific treatments
+   * which depend on how SDL is set up (OpenGL corner cases).
+   */
+  if (event_callback_func)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("event_callback defined, calling it with data=%p"),
+		  event_callback_data);
+      event_callback_func (event_callback_data, (void *) &event);
     }
 
   return input;

@@ -111,13 +111,17 @@ _lw6gfx_sdl_unload_consts (_lw6gfx_sdl_context_t * sdl_context)
 }
 
 lw6gui_input_t *
-_lw6gfx_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context)
+_lw6gfx_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context,
+			 _lw6gfx_sdl_event_callback_t event_callback_func,
+			 void *event_callback_data)
 {
   lw6gui_input_t *ret = NULL;
 
   if (sdl_context->funcs.pump_events)
     {
-      ret = sdl_context->funcs.pump_events (sdl_context);
+      ret =
+	sdl_context->funcs.pump_events (sdl_context, event_callback_func,
+					event_callback_data);
     }
   else
     {

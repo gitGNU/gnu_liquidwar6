@@ -234,8 +234,8 @@ draw_button (mod_gl1_utils_context_t * utils_context,
       relative_text_width =
 	((float) bitmap->surface->w) / ((float) MOD_GL1_UTILS_MENU_TEXTURE_W);
       screen_ratio =
-	((float) utils_context->video_mode.width) /
-	((float) utils_context->video_mode.height);
+	((float) utils_context->sdl_context.video_mode.width) /
+	((float) utils_context->sdl_context.video_mode.height);
       texture_scale = mod_gl1_utils_texture_scale (bitmap->surface->w);
 
       mod_gl1_utils_bitmap_bind (utils_context, bitmap);
@@ -345,7 +345,7 @@ _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
 				    const_data.max_displayed_items);
 
   blink_state =
-    mod_gl1_utils_timer_get_uptime (utils_context) /
+    _lw6gfx_sdl_timer_get_uptime (&(utils_context->sdl_context)) /
     (cylinder_context->const_data.sphere_blink_period / 2) % 2;
   n = menu->nb_items_displayed + 2;
   if (menu->first_item_displayed > 0)
@@ -424,7 +424,7 @@ _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
 	      mod_gl1_utils_set_render_mode_2d_blend (utils_context);
 
 	      popup_w =
-		(utils_context->video_mode.width *
+		(utils_context->sdl_context.video_mode.width *
 		 cylinder_context->const_data.popup_relative_size *
 		 utils_context->menucache_array.popup_bitmap->surface->w) /
 		cylinder_context->const_data.popup_max_width;
@@ -432,8 +432,10 @@ _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
 		(popup_w *
 		 utils_context->menucache_array.popup_bitmap->surface->h) /
 		utils_context->menucache_array.popup_bitmap->surface->w;
-	      popup_x = (utils_context->video_mode.width - popup_w) / 2;
-	      popup_y = (utils_context->video_mode.height - popup_h) / 2;
+	      popup_x =
+		(utils_context->sdl_context.video_mode.width - popup_w) / 2;
+	      popup_y =
+		(utils_context->sdl_context.video_mode.height - popup_h) / 2;
 	      mod_gl1_utils_bitmap_display (utils_context,
 					    utils_context->
 					    menucache_array.popup_bitmap,
@@ -463,14 +465,15 @@ mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
 				    (_mod_gl1_menu_cylinder_context_t *)
 				    cylinder_context,
 				    look,
-				    &(utils_context->input.mouse.
+				    &(utils_context->sdl_context.input.mouse.
 				      menu_position),
-				    &(utils_context->input.mouse.menu_scroll),
-				    &(utils_context->input.mouse.menu_esc),
-				    menu,
-				    utils_context->input.mouse.
+				    &(utils_context->sdl_context.input.
+				      mouse.menu_scroll),
+				    &(utils_context->sdl_context.input.
+				      mouse.menu_esc), menu,
+				    utils_context->sdl_context.input.mouse.
 				    screen_pointer.pos_x,
-				    utils_context->input.mouse.
+				    utils_context->sdl_context.input.mouse.
 				    screen_pointer.pos_y);
 }
 
@@ -585,7 +588,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 	      mod_gl1_utils_set_render_mode_2d_blend (utils_context);
 
 	      tooltip_w =
-		(utils_context->video_mode.width *
+		(utils_context->sdl_context.video_mode.width *
 		 cylinder_context->const_data.tooltip_relative_size *
 		 utils_context->menucache_array.tooltip_bitmap->surface->w) /
 		cylinder_context->const_data.tooltip_max_width;
@@ -593,7 +596,8 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 		(tooltip_w *
 		 utils_context->menucache_array.tooltip_bitmap->surface->h) /
 		utils_context->menucache_array.tooltip_bitmap->surface->w;
-	      tooltip_x = utils_context->video_mode.width - tooltip_w;
+	      tooltip_x =
+		utils_context->sdl_context.video_mode.width - tooltip_w;
 	      tooltip_y = right_point_y - tooltip_h / 2;
 	      mod_gl1_utils_bitmap_display (utils_context,
 					    utils_context->
@@ -650,7 +654,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 	      mod_gl1_utils_set_render_mode_2d_blend (utils_context);
 
 	      help_w =
-		(utils_context->video_mode.width *
+		(utils_context->sdl_context.video_mode.width *
 		 cylinder_context->const_data.help_relative_size *
 		 utils_context->menucache_array.help_bitmap->surface->w) /
 		cylinder_context->const_data.help_max_width;
@@ -658,8 +662,9 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 		(help_w *
 		 utils_context->menucache_array.help_bitmap->surface->h) /
 		utils_context->menucache_array.help_bitmap->surface->w;
-	      help_x = (utils_context->video_mode.width - help_w) / 2;
-	      help_y = utils_context->video_mode.height - help_h;
+	      help_x =
+		(utils_context->sdl_context.video_mode.width - help_w) / 2;
+	      help_y = utils_context->sdl_context.video_mode.height - help_h;
 	      mod_gl1_utils_bitmap_display (utils_context,
 					    utils_context->
 					    menucache_array.help_bitmap,
@@ -719,7 +724,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 	  mod_gl1_utils_set_render_mode_2d_blend (utils_context);
 
 	  breadcrumbs_w =
-	    (utils_context->video_mode.width *
+	    (utils_context->sdl_context.video_mode.width *
 	     cylinder_context->const_data.breadcrumbs_relative_size *
 	     utils_context->menucache_array.breadcrumbs_bitmap->surface->w) /
 	    cylinder_context->const_data.breadcrumbs_max_width;
@@ -728,9 +733,9 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 	     utils_context->menucache_array.breadcrumbs_bitmap->surface->h) /
 	    utils_context->menucache_array.breadcrumbs_bitmap->surface->w;
 	  breadcrumbs_x =
-	    utils_context->video_mode.width * (1.0f -
-					       cylinder_context->
-					       const_data.breadcrumbs_relative_size)
+	    utils_context->sdl_context.video_mode.width * (1.0f -
+							   cylinder_context->
+							   const_data.breadcrumbs_relative_size)
 	    / 2.0f;
 	  breadcrumbs_y = 0.0f;
 	  mod_gl1_utils_bitmap_display (utils_context,

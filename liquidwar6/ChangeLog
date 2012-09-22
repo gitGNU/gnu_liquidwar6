@@ -1,3 +1,7 @@
+2012-09-22 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Factorized event code between all SDL backends.
+
 2012-09-21 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Shared SDL dynamically loaded.

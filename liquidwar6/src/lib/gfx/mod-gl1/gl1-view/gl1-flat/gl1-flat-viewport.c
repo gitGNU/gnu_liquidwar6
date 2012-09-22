@@ -50,17 +50,19 @@ _mod_gl1_view_flat_viewport_update_preview (mod_gl1_utils_context_t *
 
   global_zoom = look->dynamic_zoom * look->style.zoom;
   lw6gui_smoother_set_target (&(utils_context->smoothers.global_zoom),
-			      global_zoom, utils_context->timer.timestamp);
+			      global_zoom,
+			      _lw6gfx_sdl_timer_get_timestamp (&
+							       (utils_context->sdl_context)));
 
   mod_gl1_utils_smoothers_update (utils_context);
 
   lw6gui_viewport_init (&(flat_context->viewport),
-			utils_context->video_mode.width,
-			utils_context->video_mode.height,
-			utils_context->viewport.x1,
-			utils_context->viewport.y1,
-			utils_context->viewport.x2,
-			utils_context->viewport.y2,
+			utils_context->sdl_context.video_mode.width,
+			utils_context->sdl_context.video_mode.height,
+			utils_context->sdl_context.viewport.x1,
+			utils_context->sdl_context.viewport.y1,
+			utils_context->sdl_context.viewport.x2,
+			utils_context->sdl_context.viewport.y2,
 			center_x,
 			center_y,
 			level->body.shape.w,
@@ -127,7 +129,8 @@ _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
   if (mouse_controlled)
     {
       drag_pop = lw6gui_mouse_drag_pop
-	(&(utils_context->input.mouse), &dx, &dy, &px, &py, &sx, &sy);
+	(&(utils_context->sdl_context.input.mouse), &dx, &dy, &px, &py, &sx,
+	 &sy);
       delta_x =
 	px - (flat_context->viewport.drawable.x1 +
 	      flat_context->viewport.drawable.x2) / 2.0f;
@@ -159,9 +162,13 @@ _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
       center_x = main_cursor_x;
       center_y = main_cursor_y;
       lw6gui_smoother_set_target (&(utils_context->smoothers.map_center_x),
-				  center_x, utils_context->timer.timestamp);
+				  center_x,
+				  _lw6gfx_sdl_timer_get_timestamp (&
+								   (utils_context->sdl_context)));
       lw6gui_smoother_set_target (&(utils_context->smoothers.map_center_y),
-				  center_y, utils_context->timer.timestamp);
+				  center_y,
+				  _lw6gfx_sdl_timer_get_timestamp (&
+								   (utils_context->sdl_context)));
       lw6gui_smoother_fix_overflow (&(utils_context->smoothers.map_center_x),
 				    shape.w * LW6PIL_COORDS_X2);
       lw6gui_smoother_fix_overflow (&(utils_context->smoothers.map_center_y),
@@ -170,17 +177,19 @@ _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
 
   global_zoom = look->dynamic_zoom * look->style.zoom;
   lw6gui_smoother_set_target (&(utils_context->smoothers.global_zoom),
-			      global_zoom, utils_context->timer.timestamp);
+			      global_zoom,
+			      _lw6gfx_sdl_timer_get_timestamp (&
+							       (utils_context->sdl_context)));
 
   mod_gl1_utils_smoothers_update (utils_context);
 
   lw6gui_viewport_init (&test,
-			utils_context->video_mode.width,
-			utils_context->video_mode.height,
-			utils_context->viewport.x1,
-			utils_context->viewport.y1,
-			utils_context->viewport.x2,
-			utils_context->viewport.y2,
+			utils_context->sdl_context.video_mode.width,
+			utils_context->sdl_context.video_mode.height,
+			utils_context->sdl_context.viewport.x1,
+			utils_context->sdl_context.viewport.y1,
+			utils_context->sdl_context.viewport.x2,
+			utils_context->sdl_context.viewport.y2,
 			utils_context->smoothed.map_center_x,
 			utils_context->smoothed.map_center_y,
 			shape.w,
@@ -195,8 +204,8 @@ _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
 
   flat_context->viewport = test;
 
-  lw6gui_viewport_screen_to_map (&(flat_context->viewport), &map_mouse_x, &map_mouse_y, utils_context->input.mouse.screen_pointer.pos_x, utils_context->input.mouse.screen_pointer.pos_y, 0);	// was 1
+  lw6gui_viewport_screen_to_map (&(flat_context->viewport), &map_mouse_x, &map_mouse_y, utils_context->sdl_context.input.mouse.screen_pointer.pos_x, utils_context->sdl_context.input.mouse.screen_pointer.pos_y, 0);	// was 1
 
-  utils_context->input.mouse.map_pointer.pos_x = map_mouse_x;
-  utils_context->input.mouse.map_pointer.pos_y = map_mouse_y;
+  utils_context->sdl_context.input.mouse.map_pointer.pos_x = map_mouse_x;
+  utils_context->sdl_context.input.mouse.map_pointer.pos_y = map_mouse_y;
 }

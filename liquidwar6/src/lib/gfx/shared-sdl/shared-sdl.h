@@ -25,16 +25,19 @@
 
 #include "../gfx-internal.h"
 
+/* shared-sdl-backend.c */
+extern void shared_sdl_is_GPL_compatible ();
+
 /* shared-sdl-const.c */
 extern int shared_sdl_load_consts (_lw6gfx_sdl_context_t * sdl_context);
 extern void shared_sdl_unload_consts (_lw6gfx_sdl_context_t * sdl_context);
 
 /* shared-sdl-event.c */
 extern lw6gui_input_t *shared_sdl_pump_events (_lw6gfx_sdl_context_t *
-					       sdl_context);
-/* shared-sdl-backend.c */
-extern void shared_sdl_is_GPL_compatible ();
-
+					       sdl_context,
+					       _lw6gfx_sdl_event_callback_t
+					       event_callback_func,
+					       void *event_callback_data);
 /* shared-sdl-path.c */
 extern int shared_sdl_path_init (_lw6gfx_sdl_path_t *
 				 path, int argc, const char *argv[]);
