@@ -371,6 +371,8 @@ test_stack ()
     char *msg4_random_part = NULL;
     _test_stack_msg_data_t msg_data = { NULL, 0, 0, 0 };
     lw6dat_miss_t *miss = NULL;
+    int worst_msg_i = 0;
+    int worst_msg_n = 0;
 
     _lw6dat_stack_zero (&stack);
     _lw6dat_stack_init (&stack, _TEST_STACK_NODE_ID, _TEST_STACK_SERIAL_0);
@@ -651,27 +653,30 @@ test_stack ()
 
 		    miss =
 		      _lw6dat_stack_get_miss (&stack,
-					      _TEST_STACK_MISS_MAX_RANGE);
+					      _TEST_STACK_MISS_MAX_RANGE,
+					      &worst_msg_i, &worst_msg_n);
 		    if (miss)
 		      {
 			if (miss->serial_min <= stack.serial_max)
 			  {
 			    lw6sys_log (LW6SYS_LOG_WARNING,
 					_x_ ("miss from_id=%" LW6SYS_PRINTF_LL
-					     "x miss->serial_min=%d miss->serial_max=%d stack.serial_min=%d stack.serial_max=%d, normally all messages should be complete"),
+					     "x miss->serial_min=%d miss->serial_max=%d stack.serial_min=%d stack.serial_max=%d worst_msg_i=%d worst_msg_n=%d, normally all messages should be complete"),
 					(long long) miss->from_id,
 					miss->serial_min, miss->serial_max,
-					stack.serial_min, stack.serial_max);
+					stack.serial_min, stack.serial_max,
+					worst_msg_i, worst_msg_n);
 			    ret = 0;
 			  }
 			else
 			  {
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
 					_x_ ("miss from_id=%" LW6SYS_PRINTF_LL
-					     "x miss->serial_min=%d miss->serial_max=%d stack.serial_min=%d stack.serial_max=%d, since the range is outside (later than) our current data, it will simply cause a new fetch, this does not harm (and can help if remote host is stall)"),
+					     "x miss->serial_min=%d miss->serial_max=%d stack.serial_min=%d stack.serial_max=%d worst_msg_i=%d worst_msg_n=%d, since the range is outside (later than) our current data, it will simply cause a new fetch, this does not harm (and can help if remote host is stall)"),
 					(long long) miss->from_id,
 					miss->serial_min, miss->serial_max,
-					stack.serial_min, stack.serial_max);
+					stack.serial_min, stack.serial_max,
+					worst_msg_i, worst_msg_n);
 			  }
 			lw6dat_miss_free (miss);
 		      }

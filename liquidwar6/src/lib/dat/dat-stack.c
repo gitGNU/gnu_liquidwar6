@@ -34,6 +34,12 @@
  */
 #define _LONG_MSG_NOTICE 100000
 
+/*
+ * If order is below this, don't report in progress, just
+ * ignore.
+ */
+#define _ORDER_N_PROGRESS_REPORT_MIN 10
+
 void
 _lw6dat_stack_zero (_lw6dat_stack_t * stack)
 {
@@ -1243,13 +1249,18 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 
 
 lw6dat_miss_t *
-_lw6dat_stack_get_miss (_lw6dat_stack_t * stack, int max_range)
+_lw6dat_stack_get_miss (_lw6dat_stack_t * stack, int max_range,
+			int *worst_msg_i, int *worst_msg_n)
 {
   lw6dat_miss_t *ret = NULL;
   int serial = 0;
   int serial_min = 0;
   int serial_max = 0;
   _lw6dat_atom_t *atom = NULL;
+  int tmp_worst_msg_i = 0;
+  int tmp_worst_msg_n = 0;
+  int main_worst_msg_i = 0;
+  int main_worst_msg_n = 0;
 
   /*
    * We need the serial_max limit to be set to something meaningfull,
@@ -1297,6 +1308,24 @@ _lw6dat_stack_get_miss (_lw6dat_stack_t * stack, int max_range)
 		{
 		  stack->serial_miss_min = serial;
 		  //stack->serial_miss_max = serial;
+		  if (tmp_worst_msg_i * main_worst_msg_n <=
+		      main_worst_msg_i * tmp_worst_msg_n)
+		    {
+		      main_worst_msg_i = tmp_worst_msg_i;
+		      main_worst_msg_n = tmp_worst_msg_n;
+		    }
+		}
+	      else
+		{
+		  if (atom->order_n >= _ORDER_N_PROGRESS_REPORT_MIN)
+		    {
+		      tmp_worst_msg_i = atom->order_i + 1;
+		      tmp_worst_msg_n = atom->order_n;
+		      if (tmp_worst_msg_i == tmp_worst_msg_n)
+			{
+			  tmp_worst_msg_i = tmp_worst_msg_n = 0;
+			}
+		    }
 		}
 	    }
 	  if (stack->serial_miss_min < stack->serial_n_1)
@@ -1320,6 +1349,18 @@ _lw6dat_stack_get_miss (_lw6dat_stack_t * stack, int max_range)
 	  ret =
 	    lw6dat_miss_new (stack->node_id, stack->serial_miss_min,
 			     stack->serial_miss_max);
+	}
+
+      if (main_worst_msg_n > 0)
+	{
+	  if (worst_msg_i)
+	    {
+	      (*worst_msg_i) = main_worst_msg_i;
+	    }
+	  if (worst_msg_n)
+	    {
+	      (*worst_msg_n) = main_worst_msg_n;
+	    }
 	}
     }
 

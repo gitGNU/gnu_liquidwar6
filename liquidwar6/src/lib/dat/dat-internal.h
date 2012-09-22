@@ -224,7 +224,8 @@ extern int _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t *
 							msg_list,
 							int target_index);
 extern lw6dat_miss_t *_lw6dat_stack_get_miss (_lw6dat_stack_t * stack,
-					      int max_range);
+					      int max_range, int *worst_msg_i,
+					      int *worst_msg_n);
 extern void _lw6dat_stack_miss_invalidate (_lw6dat_stack_t * stack,
 					   int target_index, int serial_min,
 					   int serial_max);
