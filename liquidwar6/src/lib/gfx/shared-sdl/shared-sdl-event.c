@@ -572,8 +572,7 @@ shared_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context)
   _lw6gfx_sdl_const_data_t *const_data = &(sdl_context->const_data);
   int i, b;
 
-  // todo: fix this
-  // timestamp = shared_sdl_timer_get_timestamp (sdl_context);
+  timestamp = shared_sdl_timer_get_timestamp (&(sdl_context->timer));
   memset (&event, 0, sizeof (SDL_Event));
   while (SDL_PollEvent (&event))
     {
