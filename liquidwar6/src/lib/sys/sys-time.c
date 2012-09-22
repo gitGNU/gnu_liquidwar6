@@ -27,8 +27,12 @@
 #include <time.h>
 #ifndef LW6_MS_WINDOWS
 #include <sys/select.h>
-#endif
+#endif // LW6_MS_WINDOWS
 #include <sys/time.h>
+#if HAVE_UNISTD_H
+#include <unistd.h>
+#endif // HAVE_UNISTD_H
+
 
 #include "sys.h"
 #include "sys-internal.h"
@@ -185,7 +189,8 @@ lw6sys_sleep (float seconds)
  * @msec: the number of milliseconds (ticks) to wait
  *
  * Will sleep for the given amount of seconds. Provides accurate timing
- * and has "about-millisecond" precision, since it uses @select internally.
+ * and has "about-millisecond" precision, since it 
+ * uses @usleep or @select internally.
  * Might however be interrupted in some cases, so consider function can
  * always return quicker than specified. A common usage of this function
  * is polling loops, where you don't care if 2 polls are very close,
@@ -199,14 +204,24 @@ lw6sys_delay (int msec)
     {
 #ifdef LW6_MS_WINDOWS
       Sleep (msec);
-#else
+#else // LW6_MS_WINDOWS
+#ifdef HAVE_UNISTD_H
+      usleep (msec * 1000);
+#else // HAVE_UNISTD_H
+      /*
+       * Alternate, fallback way of sleeping. Normally, this
+       * is never needed since usleep is here, but well, just
+       * in case usleep is not here, this (hopefully portable)
+       * code will do the job.
+       */
       struct timeval tv;
 
       tv.tv_sec = msec / 1000;
       tv.tv_usec = (msec % 1000) * 1000;
 
       select (0, NULL, NULL, NULL, &tv);
-#endif
+#endif // HAVE_UNISTD_H
+#endif // LW6_MS_WINDOWS
     }
 }
 
@@ -305,10 +320,10 @@ lw6sys_date_rfc1123 (int seconds_from_now)
        * gmtime function could be thread safe anyway
        */
       tm_ptr = gmtime (&when);
-#else
+#else // LW6_MS_WINDOWS
       gmtime_r (&when, &tm);
       tm_ptr = &tm;
-#endif
+#endif // LW6_MS_WINDOWS
       // http://www.gta.igs.net/~hwt/rfcdate.html
       strflen =
 	strftime (ret, _RFC1123_SIZE, "%a, %d %b %Y %H:%M:%S +0000", tm_ptr);
@@ -374,10 +389,10 @@ lw6sys_date_clf ()
        * gmtime function could be thread safe anyway
        */
       tm_ptr = localtime (&now);
-#else
+#else // LW6_MS_WINDOWS
       localtime_r (&now, &tm);
       tm_ptr = &tm;
-#endif
+#endif // LW6_MS_WINDOWS
       // http://www.gta.igs.net/~hwt/rfcdate.html
       strflen = strftime (ret, _CLF_SIZE, "%d/%b/%Y:%H:%M:%S %z", tm_ptr);
       if (strflen >= _CLF_SIZE)

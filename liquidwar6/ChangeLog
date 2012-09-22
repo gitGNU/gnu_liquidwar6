@@ -1,5 +1,7 @@
 2012-09-22 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Using usleep instead of select when available.
+
 	* Factorized event code between all SDL backends.
 
 2012-09-21 : Christian Mauduit <ufoot@ufoot.org>
