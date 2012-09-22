@@ -4428,7 +4428,8 @@ of ticks.
 @var{msec}:  the number of milliseconds (ticks) to wait
 
 Will sleep for the given amount of seconds. Provides accurate timing
-and has "about-millisecond" precision, since it uses @code{select} internally.
+and has "about-millisecond" precision, since it 
+uses @code{usleep} or @code{select} internally.
 Might however be interrupted in some cases, so consider function can
 always return quicker than specified. A common usage of this function
 is polling loops, where you don't care if 2 polls are very close,

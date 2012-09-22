@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-09-21 07:21+0200\n"
+"POT-Creation-Date: 2012-09-22 10:24+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -92,45 +92,45 @@ msgstr "Ошибка SDL GetVideoInfo: \"%s\""
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
 msgstr "Ошибка SDL SetVideoMode %dx%d bpp=%d fullscreen=%d: \"%s\""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-backend.c:335
+#: src/lib/gfx/mod-gl1/mod-gl1-backend.c:341
 msgid "OpenGL v1 / SDL"
 msgstr ""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:283
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:303
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:99
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:99
 #, c-format
 msgid "SDL init error: \"%s\""
 msgstr "Ошибка инициализации SDL: \"%s\""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:310
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:330
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:124
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:124
 #, c-format
 msgid "SDL_ttf init error: \"%s\""
 msgstr "Ошибка инициализации SDL_ttf: \"%s\""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:366
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:393
 msgid "unable to load data"
 msgstr "ошибка загрузки данных"
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:374
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:401
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:153
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:152
 msgid "unable to set video mode"
 msgstr "ошибка установки видео режима"
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:381
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:408
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:161
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:160
 msgid "unable to load consts"
 msgstr "ошибка загрузки констант"
 
-#: src/lib/gfx/mod-gles2/mod-gles2-backend.c:174
+#: src/lib/gfx/mod-gles2/mod-gles2-backend.c:176
 msgid "OpenGL ES v2 / SDL"
 msgstr ""
 
-#: src/lib/gfx/mod-soft/mod-soft-backend.c:167
+#: src/lib/gfx/mod-soft/mod-soft-backend.c:169
 msgid "Software / SDL"
 msgstr ""
 
