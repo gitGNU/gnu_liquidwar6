@@ -25,28 +25,9 @@
 
 #include "gfx.h"
 
-typedef struct _lw6gfx_sdl_context_s _lw6gfx_sdl_context_t;
-typedef struct _lw6gfx_sdl_path_s _lw6gfx_sdl_path_t;
-typedef struct _lw6gfx_sdl_timer_s _lw6gfx_sdl_timer_t;
+typedef struct _lw6gfx_sdl_context_s *_lw6gfx_sdl_context_p;
 
 typedef void (*_lw6gfx_sdl_event_callback_t) (void *data, void *event);
-
-typedef struct _lw6gfx_sdl_funcs_s
-{
-  int (*load_consts) (_lw6gfx_sdl_context_t * sdl_context);
-  void (*unload_consts) (_lw6gfx_sdl_context_t * sdl_context);
-  lw6gui_input_t *(*pump_events) (_lw6gfx_sdl_context_t * sdl_context,
-				  _lw6gfx_sdl_event_callback_t
-				  event_callback_func,
-				  void *event_callback_data);
-  int (*path_init) (_lw6gfx_sdl_path_t * sdl_context, int argc,
-		    const char *argv[]);
-  void (*path_quit) (_lw6gfx_sdl_path_t * sdl_context);
-  void (*timer_update) (_lw6gfx_sdl_timer_t * sdl_context);
-    int64_t (*timer_get_timestamp) (const _lw6gfx_sdl_timer_t * sdl_context);
-    int64_t (*timer_get_uptime) (const _lw6gfx_sdl_timer_t * sdl_context);
-    int32_t (*timer_get_cycle) (const _lw6gfx_sdl_timer_t * sdl_context);
-} _lw6gfx_sdl_funcs_t;
 
 typedef struct _lw6gfx_sdl_path_s
 {
@@ -116,6 +97,23 @@ typedef struct _lw6gfx_sdl_timer_s
   int32_t cycle;
 }
 _lw6gfx_sdl_timer_t;
+
+typedef struct _lw6gfx_sdl_funcs_s
+{
+  int (*load_consts) (_lw6gfx_sdl_context_p sdl_context);
+  void (*unload_consts) (_lw6gfx_sdl_context_p sdl_context);
+  lw6gui_input_t *(*pump_events) (_lw6gfx_sdl_context_p sdl_context,
+				  _lw6gfx_sdl_event_callback_t
+				  event_callback_func,
+				  void *event_callback_data);
+  int (*path_init) (_lw6gfx_sdl_path_t * sdl_context, int argc,
+		    const char *argv[]);
+  void (*path_quit) (_lw6gfx_sdl_path_t * sdl_context);
+  void (*timer_update) (_lw6gfx_sdl_timer_t * sdl_context);
+    int64_t (*timer_get_timestamp) (const _lw6gfx_sdl_timer_t * sdl_context);
+    int64_t (*timer_get_uptime) (const _lw6gfx_sdl_timer_t * sdl_context);
+    int32_t (*timer_get_cycle) (const _lw6gfx_sdl_timer_t * sdl_context);
+} _lw6gfx_sdl_funcs_t;
 
 typedef struct _lw6gfx_sdl_context_s
 {
