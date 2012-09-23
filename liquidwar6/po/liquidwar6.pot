@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.14beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-09-22 10:24+0200\n"
+"POT-Creation-Date: 2012-09-23 18:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,7 +57,7 @@ msgstr ""
 msgid "can't initialize mod_udp"
 msgstr ""
 
-#: src/lib/dsp/dsp-test.c:328
+#: src/lib/dsp/dsp-test.c:329
 msgid "this error too"
 msgstr ""
 
