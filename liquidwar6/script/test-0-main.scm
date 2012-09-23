@@ -321,6 +321,7 @@
 	  )
       (begin
 	(c-lw6cfg-init)
+	(c-lw6cfg-defaults)
 	(c-lw6cfg-load (c-lw6sys-get-config-file))
 	(let* (
 	       (magic-number-exists (c-lw6cfg-option-exists lw6def-magic-number))

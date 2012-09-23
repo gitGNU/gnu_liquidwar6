@@ -496,3 +496,22 @@ guessing the type does consume some CPU.
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {void} {lw6cfg_write_xml_guess_type_skip_same} (FILE * @var{f}, const char * @var{key}, const char * @var{value})
+@var{f}:  file to write data to (append mode)
+
+@var{key}:  key to write
+
+@var{value}:  value to write
+
+Writes an entry into an opened XML file, will try and guess
+type from the internal help system, typically, if this is a
+standard config file entry (the one documented by the about
+command line function) it will pick up the right type. The
+reason not to use this all the times is that sometimes, one
+might to to store non-standard options, and additionnally,
+guessing the type does consume some CPU. Also, this function
+will write only values that are different from the default.
+
+@strong{Return value:}  none.
+@end deftypefun
+

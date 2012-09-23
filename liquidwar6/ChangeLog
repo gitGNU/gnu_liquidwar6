@@ -1,5 +1,7 @@
 2012-09-23 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed cfg issues + now storing only changed entries in config file.
+
 	* Fixed header for GCC 4.4 compatibility.
 
 2012-09-22 : Christian Mauduit <ufoot@ufoot.org>

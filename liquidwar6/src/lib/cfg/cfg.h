@@ -123,5 +123,7 @@ extern void lw6cfg_write_xml_color (FILE * f, const char *key,
 				    lw6sys_color_8_t value);
 extern void lw6cfg_write_xml_guess_type (FILE * f, const char *key,
 					 const char *value);
+extern void lw6cfg_write_xml_guess_type_skip_same (FILE * f, const char *key,
+						   const char *value);
 
 #endif

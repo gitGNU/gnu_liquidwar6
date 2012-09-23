@@ -80,12 +80,13 @@ _lw6cfg_save (_lw6cfg_context_t * cfg_context, const char *filename)
     {
       lw6sys_print_xml_header (f,
 			       _x_
-			       ("This is the main Liquid War 6 config file. Here you'll be able to tweak many, if not all, parameters in the game. Some of these values simply reflect changes you can make through the interface, some are not even present in the menus. What is sure is that if you can modify it by clicking somewhere in the game interface, it can surely be done here too. Note that this file is overwritten every time you run the game, your own comments and personnal touch in it will simply be squashed and disappear. But of course the values you set will be kept. All entries should be documented in the file. If in doubt, documentation is online on http://www.gnu.org/software/liquidwar6/manual/"));
+			       ("This is the main Liquid War 6 config file. Here you'll be able to tweak many, if not all, parameters in the game. Some of these values simply reflect changes you can make through the interface, some are not even present in the menus. What is sure is that if you can modify it by clicking somewhere in the game interface, it can surely be done here too. Note that this file is overwritten every time you run the game, your own comments and personnal touch in it will simply be squashed and disappear. But of course the values you set will be kept. All entries should be documented in the file. This file should only contain entries that have values which are different from the default, so if you set a value to the default, it will automatically be removed from the file. If in doubt, documentation is online on http://www.gnu.org/software/liquidwar6/manual/"));
       if (lw6sys_spinlock_lock (cfg_context->spinlock))
 	{
 	  lw6sys_hash_sort_and_map (cfg_context->options,
 				    (lw6sys_assoc_callback_func_t)
-				    lw6cfg_write_xml_guess_type, (void *) f);
+				    lw6cfg_write_xml_guess_type_skip_same,
+				    (void *) f);
 	  lw6sys_spinlock_unlock (cfg_context->spinlock);
 	}
       lw6sys_print_xml_footer (f);

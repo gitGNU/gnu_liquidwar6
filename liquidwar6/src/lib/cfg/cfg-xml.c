@@ -363,7 +363,8 @@ lw6cfg_read_key_value_xml_file (const char *filename,
 
 // if type is NULL, will be guessed automatically
 static void
-write_xml (FILE * f, const char *type, const char *key, const char *value)
+write_xml (FILE * f, const char *type, const char *key, const char *value,
+	   int skip_same)
 {
   char *tmp = NULL;
   int pos = 0;
@@ -374,6 +375,7 @@ write_xml (FILE * f, const char *type, const char *key, const char *value)
   const char *hlp_default_value = NULL;
   int hlp_min_value = 0;
   int hlp_max_value = 0;
+  int same = 0;
 
   if (lw6cfg_must_be_saved (key))
     {
@@ -425,23 +427,46 @@ write_xml (FILE * f, const char *type, const char *key, const char *value)
 	{
 	case LW6HLP_TYPE_STR:
 	  guessed_type = LW6CFG_XML_STRING;
+	  if (hlp_default_value)
+	    {
+	      same = lw6sys_str_is_same (value, hlp_default_value);
+	    }
 	  break;
 	case LW6HLP_TYPE_INT:
 	  guessed_type = LW6CFG_XML_INT;
+	  if (hlp_default_value)
+	    {
+	      same = (lw6sys_atoi (value) == lw6sys_atoi (hlp_default_value));
+	    }
 	  break;
 	case LW6HLP_TYPE_BOOL:
 	  guessed_type = LW6CFG_XML_BOOL;
+	  if (hlp_default_value)
+	    {
+	      same = (lw6sys_atob (value) == lw6sys_atob (hlp_default_value));
+	    }
 	  break;
 	case LW6HLP_TYPE_FLOAT:
 	  guessed_type = LW6CFG_XML_FLOAT;
+	  if (hlp_default_value)
+	    {
+	      same = (lw6sys_atof (value) == lw6sys_atof (hlp_default_value));
+	    }
 	  break;
 	case LW6HLP_TYPE_COLOR:
 	  guessed_type = LW6CFG_XML_COLOR;
+	  if (hlp_default_value)
+	    {
+	      same =
+		lw6sys_color_is_same (lw6sys_color_a_to_8 (value),
+				      lw6sys_color_a_to_8
+				      (hlp_default_value));
+	    }
 	  break;
 	default:
 	  guessed_type = NULL;	// LW6HLP_TYPE_VOID
 	}
-      if (guessed_type)
+      if (guessed_type && ((!skip_same) || (!same)))
 	{
 	  if (help_string)
 	    {
@@ -512,7 +537,7 @@ lw6cfg_write_xml_int (FILE * f, const char *key, int value)
   str_value = lw6sys_itoa (value);
   if (str_value)
     {
-      write_xml (f, LW6CFG_XML_INT, key, str_value);
+      write_xml (f, LW6CFG_XML_INT, key, str_value, 0);
       LW6SYS_FREE (str_value);
     }
 }
@@ -536,7 +561,7 @@ lw6cfg_write_xml_bool (FILE * f, const char *key, int value)
   str_value = lw6sys_btoa (value);
   if (str_value)
     {
-      write_xml (f, LW6CFG_XML_BOOL, key, str_value);
+      write_xml (f, LW6CFG_XML_BOOL, key, str_value, 0);
       LW6SYS_FREE (str_value);
     }
 }
@@ -560,7 +585,7 @@ lw6cfg_write_xml_float (FILE * f, const char *key, float value)
   str_value = lw6sys_ftoa (value);
   if (str_value)
     {
-      write_xml (f, LW6CFG_XML_FLOAT, key, str_value);
+      write_xml (f, LW6CFG_XML_FLOAT, key, str_value, 0);
       LW6SYS_FREE (str_value);
     }
 }
@@ -579,7 +604,7 @@ lw6cfg_write_xml_float (FILE * f, const char *key, float value)
 void
 lw6cfg_write_xml_string (FILE * f, const char *key, const char *value)
 {
-  write_xml (f, LW6CFG_XML_STRING, key, value);
+  write_xml (f, LW6CFG_XML_STRING, key, value, 0);
 }
 
 /**
@@ -601,7 +626,7 @@ lw6cfg_write_xml_color (FILE * f, const char *key, lw6sys_color_8_t value)
   str_value = lw6sys_color_8_to_a (value);
   if (str_value)
     {
-      write_xml (f, LW6CFG_XML_COLOR, key, str_value);
+      write_xml (f, LW6CFG_XML_COLOR, key, str_value, 0);
       LW6SYS_FREE (str_value);
     }
 }
@@ -626,5 +651,30 @@ lw6cfg_write_xml_color (FILE * f, const char *key, lw6sys_color_8_t value)
 void
 lw6cfg_write_xml_guess_type (FILE * f, const char *key, const char *value)
 {
-  write_xml (f, NULL, key, value);
+  write_xml (f, NULL, key, value, 0);
+}
+
+/**
+ * lw6cfg_write_xml_guess_type_skip_same
+ *
+ * @f: file to write data to (append mode)
+ * @key: key to write
+ * @value: value to write
+ *
+ * Writes an entry into an opened XML file, will try and guess
+ * type from the internal help system, typically, if this is a
+ * standard config file entry (the one documented by the about
+ * command line function) it will pick up the right type. The
+ * reason not to use this all the times is that sometimes, one
+ * might to to store non-standard options, and additionnally,
+ * guessing the type does consume some CPU. Also, this function
+ * will write only values that are different from the default.
+ *
+ * Return value: none.
+ */
+void
+lw6cfg_write_xml_guess_type_skip_same (FILE * f, const char *key,
+				       const char *value)
+{
+  write_xml (f, NULL, key, value, 1);
 }

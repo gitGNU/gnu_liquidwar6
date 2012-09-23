@@ -4,7 +4,7 @@
 @deffnx {XML key} @code{animation-density}
 Type: float
 
-Default value: 1.0f
+Default value: 1.0
 Min value: 0
 Max value: 10
 
@@ -19,7 +19,7 @@ bubbles. A value of 1.0 corresponds to the default setting.
 @deffnx {XML key} @code{animation-speed}
 Type: float
 
-Default value: 1.0f
+Default value: 1.0
 Min value: 0
 Max value: 10
 
@@ -34,7 +34,7 @@ to move very fast. A value of 1.0 corresponds to the default setting.
 @deffnx {XML key} @code{background-color-root-bg}
 Type: color
 
-Default value: #000
+Default value: #000000
 
 Defines the main background color. This is, for instance, the color which will
 be used to clear the screen before drawing thing. Will be automatically
@@ -48,7 +48,7 @@ or #RRGGBBAA.
 @deffnx {XML key} @code{background-color-root-fg}
 Type: color
 
-Default value: #ccc
+Default value: #cccccc
 
 Defines a color which will be used together with color-base-bg to compose the
 background. It can be wise to have a minimum contrast between this color and
@@ -63,7 +63,7 @@ color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 @deffnx {XML key} @code{background-color-stuff-bg}
 Type: color
 
-Default value: #333
+Default value: #333333
 
 Defines a color which will be used together with color-alternate-fg to draw
 things (animations, sprites, text, whatever) in the background. It should be
@@ -78,7 +78,7 @@ is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 @deffnx {XML key} @code{background-color-stuff-fg}
 Type: color
 
-Default value: #fff
+Default value: #ffffff
 
 Defines a color which will be used to draw things (animations, sprites, text,
 whatever) in the background. It should be different enough from
@@ -121,7 +121,7 @@ action below
 @deffnx {XML key} @code{color-alternate-bg}
 Type: color
 
-Default value: #333
+Default value: #333333
 
 Defines the alternate color, more precisely, its bg (background) part. Colors
 are always defined by a bg/fg pair. Most colors in the game can be deduced
@@ -135,7 +135,7 @@ color-base-fg, color-alternate-bg and color-alternate-fg.
 @deffnx {XML key} @code{color-alternate-fg}
 Type: color
 
-Default value: #fff
+Default value: #ffffff
 
 Defines the alternate color, more precisely, its fg (foreground) part. Colors
 are always defined by a bg/fg pair. Most colors in the game can be deduced
@@ -149,7 +149,7 @@ color-base-fg, color-alternate-bg and color-alternate-fg.
 @deffnx {XML key} @code{color-base-bg}
 Type: color
 
-Default value: #000
+Default value: #000000
 
 Defines the base color, more precisely, its bg (background) part. Colors are
 always defined by a bg/fg pair. Most colors in the game can be deduced from
@@ -163,7 +163,7 @@ color-base-fg, color-alternate-bg and color-alternate-fg.
 @deffnx {XML key} @code{color-base-fg}
 Type: color
 
-Default value: #ccc
+Default value: #cccccc
 
 Defines the base color, more precisely, its fg (foreground) part. Colors are
 always defined by a bg/fg pair. Most colors in the game can be deduced from
@@ -207,7 +207,7 @@ accorded to the level.
 @deffnx {XML key} @code{cursor-size}
 Type: float
 
-Default value: 1.0f
+Default value: 1.0
 Min value: 0
 Max value: 10
 
@@ -221,7 +221,7 @@ will make cursors bigger, a lower value will make them smaller.
 @deffnx {XML key} @code{hidden-layer-alpha}
 Type: float
 
-Default value: 0.1f
+Default value: 0.1
 Min value: 0
 Max value: 1
 
@@ -238,7 +238,7 @@ will make them totally opaque, like if they were on layer 1.
 @deffnx {XML key} @code{hud-color-frame-bg}
 Type: color
 
-Default value: #000
+Default value: #000000
 
 Defines the background color for the hud frame. Ignored if hud-color-auto is
 set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
@@ -250,7 +250,7 @@ set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 @deffnx {XML key} @code{hud-color-frame-fg}
 Type: color
 
-Default value: #ccc
+Default value: #cccccc
 
 Defines the foreground color for the hud frame. Ignored if hud-color-auto is
 set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
@@ -262,7 +262,7 @@ set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 @deffnx {XML key} @code{hud-color-text-bg}
 Type: color
 
-Default value: #333
+Default value: #333333
 
 Defines the background color for hud text. Ignored if hud-color-auto is set.
 Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
@@ -274,7 +274,7 @@ Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 @deffnx {XML key} @code{hud-color-text-fg}
 Type: color
 
-Default value: #fff
+Default value: #ffffff
 
 Defines the foreground color for hud text. Ignored if hud-color-auto is set.
 Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
@@ -311,7 +311,7 @@ fill the shape of your screen.
 @deffnx {XML key} @code{menu-color-default-bg}
 Type: color
 
-Default value: #333
+Default value: #333333
 
 Defines the default background color for menus. Ignored if menu-color-auto is
 set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
@@ -323,7 +323,7 @@ set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 @deffnx {XML key} @code{menu-color-default-fg}
 Type: color
 
-Default value: #fff
+Default value: #ffffff
 
 Defines the default foreground color for menus. In fact, this is the main
 color for menu text, the color used to draw letters in menus. Ignored if
@@ -336,7 +336,7 @@ menu-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 @deffnx {XML key} @code{menu-color-disabled-bg}
 Type: color
 
-Default value: #000
+Default value: #000000
 
 Defines the background color for a disabled menu item. Ignored if
 menu-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
@@ -348,7 +348,7 @@ menu-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 @deffnx {XML key} @code{menu-color-disabled-fg}
 Type: color
 
-Default value: #ccc
+Default value: #cccccc
 
 Defines the foreground color for a disabled menu item. Ignored if
 menu-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
@@ -360,7 +360,7 @@ menu-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 @deffnx {XML key} @code{menu-color-selected-bg}
 Type: color
 
-Default value: #fff
+Default value: #ffffff
 
 Defines the background color for a selected menu item. Ignored if
 menu-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
@@ -372,7 +372,7 @@ menu-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 @deffnx {XML key} @code{menu-color-selected-fg}
 Type: color
 
-Default value: #333
+Default value: #333333
 
 Defines the foreground color for a selected menu item. Ignored if
 menu-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
@@ -450,7 +450,7 @@ game. This can be used to emulate the old LW5 appearance.
 @deffnx {XML key} @code{system-color-bg}
 Type: color
 
-Default value: #333
+Default value: #333333
 
 Defines the system background color, used when displaying system info, such as
 the number of frames per second. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
@@ -462,7 +462,7 @@ the number of frames per second. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 @deffnx {XML key} @code{system-color-fg}
 Type: color
 
-Default value: #fff
+Default value: #ffffff
 
 Defines the system foreground color, used when displaying system info, such as
 the number of frames per second. This will typically be text color. Can be
@@ -475,7 +475,7 @@ the number of frames per second. This will typically be text color. Can be
 @deffnx {XML key} @code{team-color-blue}
 Type: color
 
-Default value: #00f
+Default value: #0000ff
 
 Defines the color for the blue team. Syntax is HTML-like, #RGB or #RRGGBB.
 @end deffn
@@ -486,7 +486,7 @@ Defines the color for the blue team. Syntax is HTML-like, #RGB or #RRGGBB.
 @deffnx {XML key} @code{team-color-cyan}
 Type: color
 
-Default value: #0ff
+Default value: #00ffff
 
 Defines the color for the cyan team. Syntax is HTML-like, #RGB or #RRGGBB.
 @end deffn
@@ -497,7 +497,7 @@ Defines the color for the cyan team. Syntax is HTML-like, #RGB or #RRGGBB.
 @deffnx {XML key} @code{team-color-dead}
 Type: color
 
-Default value: #000
+Default value: #000000
 
 Defines the color for the teams when they are dead. By default it is black,
 this means when a team is weak it becomes black. Syntax is HTML-like, #RGB or
@@ -510,7 +510,7 @@ this means when a team is weak it becomes black. Syntax is HTML-like, #RGB or
 @deffnx {XML key} @code{team-color-green}
 Type: color
 
-Default value: #0f0
+Default value: #00ff00
 
 Defines the color for the green team. Syntax is HTML-like, #RGB or #RRGGBB.
 @end deffn
@@ -521,7 +521,7 @@ Defines the color for the green team. Syntax is HTML-like, #RGB or #RRGGBB.
 @deffnx {XML key} @code{team-color-lightblue}
 Type: color
 
-Default value: #8bf
+Default value: #88bbff
 
 Defines the color for the light blue team. Syntax is HTML-like, #RGB or
 #RRGGBB.
@@ -533,7 +533,7 @@ Defines the color for the light blue team. Syntax is HTML-like, #RGB or
 @deffnx {XML key} @code{team-color-magenta}
 Type: color
 
-Default value: #f0f
+Default value: #ff00ff
 
 Defines the color for the magenta team. Syntax is HTML-like, #RGB or #RRGGBB.
 @end deffn
@@ -544,7 +544,7 @@ Defines the color for the magenta team. Syntax is HTML-like, #RGB or #RRGGBB.
 @deffnx {XML key} @code{team-color-orange}
 Type: color
 
-Default value: #f80
+Default value: #ff8800
 
 Defines the color for the orange team. Syntax is HTML-like, #RGB or #RRGGBB.
 @end deffn
@@ -555,7 +555,7 @@ Defines the color for the orange team. Syntax is HTML-like, #RGB or #RRGGBB.
 @deffnx {XML key} @code{team-color-pink}
 Type: color
 
-Default value: #f8b
+Default value: #ff88bb
 
 Defines the color for the pink team. Syntax is HTML-like, #RGB or #RRGGBB.
 @end deffn
@@ -566,7 +566,7 @@ Defines the color for the pink team. Syntax is HTML-like, #RGB or #RRGGBB.
 @deffnx {XML key} @code{team-color-purple}
 Type: color
 
-Default value: #b8f
+Default value: #bb88ff
 
 Defines the color for the purple team. Syntax is HTML-like, #RGB or #RRGGBB.
 @end deffn
@@ -577,7 +577,7 @@ Defines the color for the purple team. Syntax is HTML-like, #RGB or #RRGGBB.
 @deffnx {XML key} @code{team-color-red}
 Type: color
 
-Default value: #f00
+Default value: #ff0000
 
 Defines the color for the red team. Syntax is HTML-like, #RGB or #RRGGBB.
 @end deffn
@@ -588,7 +588,7 @@ Defines the color for the red team. Syntax is HTML-like, #RGB or #RRGGBB.
 @deffnx {XML key} @code{team-color-yellow}
 Type: color
 
-Default value: #ff0
+Default value: #ffff00
 
 Defines the color for the yellow team. Syntax is HTML-like, #RGB or #RRGGBB.
 @end deffn
@@ -599,7 +599,7 @@ Defines the color for the yellow team. Syntax is HTML-like, #RGB or #RRGGBB.
 @deffnx {XML key} @code{view-color-cursor-bg}
 Type: color
 
-Default value: #333
+Default value: #333333
 
 Defines the background cursor color. Will typically be used to draw the shape
 of the cursor. Ignored if view-color-auto is set. Can be #RGB, #RGBA, #RRGGBB
@@ -612,7 +612,7 @@ or #RRGGBBAA.
 @deffnx {XML key} @code{view-color-cursor-fg}
 Type: color
 
-Default value: #fff
+Default value: #ffffff
 
 Defines the foreground cursor color. Will typically be used to draw text in
 the cursor. Ignored if view-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or
@@ -625,7 +625,7 @@ the cursor. Ignored if view-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or
 @deffnx {XML key} @code{view-color-map-bg}
 Type: color
 
-Default value: #000
+Default value: #000000
 
 Defines the background map color. If there's no map texture defined or if
 use-texture is false, this is the color of the places where armies will go.
@@ -638,7 +638,7 @@ Ignored if view-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 @deffnx {XML key} @code{view-color-map-fg}
 Type: color
 
-Default value: #ccc
+Default value: #cccccc
 
 Defines the foreground map color. If there's no map texture defined or if
 use-texture is false, this is the color of walls, what armies can't go
@@ -706,7 +706,7 @@ instance, textures do not tile nicely.
 @deffnx {XML key} @code{zoom}
 Type: float
 
-Default value: 1.0f
+Default value: 1.0
 
 Defines the map zoom. If lower than 1.0, map will occupy only a fraction of
 the screen, if greater than 1.0, some areas will be outside the screen, and
@@ -719,7 +719,7 @@ the player will need to scroll through it.
 @deffnx {XML key} @code{zoom-max}
 Type: float
 
-Default value: 30.0f
+Default value: 30.0
 
 Defines the max map zoom. If set to a high value, you'll be able to
 dynamically view the map with hudge fighters, seeing only a fraction of the
@@ -732,7 +732,7 @@ level.
 @deffnx {XML key} @code{zoom-min}
 Type: float
 
-Default value: 0.3f
+Default value: 0.3
 
 Defines the min map zoom. If set to a low value, you'll be able to dynamically
 view a very small, reduced map.

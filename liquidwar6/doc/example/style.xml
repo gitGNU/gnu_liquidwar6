@@ -23,34 +23,34 @@
   -->
   <bool key="guess-colors" value="false"/>
   <!--
-    "color-base-bg" (default="#000"): Defines the base color, more precisely,
-    its bg (background) part. Colors are always defined by a bg/fg pair. Most
-    colors in the game can be deduced from this one, usually to color a map
-    you only need to define color-base-bg, color-base-fg, color-alternate-bg
-    and color-alternate-fg.
-  -->
-  <color key="color-base-bg" value="#0000ff"/>
-  <!--
-    "color-base-fg" (default="#ccc"): Defines the base color, more precisely,
-    its fg (foreground) part. Colors are always defined by a bg/fg pair. Most
-    colors in the game can be deduced from this one, usually to color a map
-    you only need to define color-base-bg, color-base-fg, color-alternate-bg
-    and color-alternate-fg.
-  -->
-  <color key="color-base-fg" value="#ffffff"/>
-  <!--
-    "color-alternate-bg" (default="#333"): Defines the alternate color, more
+    "color-base-bg" (default="#000000"): Defines the base color, more
     precisely, its bg (background) part. Colors are always defined by a bg/fg
     pair. Most colors in the game can be deduced from this one, usually to
     color a map you only need to define color-base-bg, color-base-fg,
     color-alternate-bg and color-alternate-fg.
   -->
-  <color key="color-alternate-bg" value="#000000"/>
+  <color key="color-base-bg" value="#0000ff"/>
   <!--
-    "color-alternate-fg" (default="#fff"): Defines the alternate color, more
+    "color-base-fg" (default="#cccccc"): Defines the base color, more
     precisely, its fg (foreground) part. Colors are always defined by a bg/fg
     pair. Most colors in the game can be deduced from this one, usually to
     color a map you only need to define color-base-bg, color-base-fg,
+    color-alternate-bg and color-alternate-fg.
+  -->
+  <color key="color-base-fg" value="#ffffff"/>
+  <!--
+    "color-alternate-bg" (default="#333333"): Defines the alternate color,
+    more precisely, its bg (background) part. Colors are always defined by a
+    bg/fg pair. Most colors in the game can be deduced from this one, usually
+    to color a map you only need to define color-base-bg, color-base-fg,
+    color-alternate-bg and color-alternate-fg.
+  -->
+  <color key="color-alternate-bg" value="#000000"/>
+  <!--
+    "color-alternate-fg" (default="#ffffff"): Defines the alternate color,
+    more precisely, its fg (foreground) part. Colors are always defined by a
+    bg/fg pair. Most colors in the game can be deduced from this one, usually
+    to color a map you only need to define color-base-bg, color-base-fg,
     color-alternate-bg and color-alternate-fg.
   -->
   <color key="color-alternate-fg" value="#ff0000"/>

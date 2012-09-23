@@ -1002,7 +1002,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-blue-weapon-alternate-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_CONTROL
+Default value: 8
 Min value: 0
 Max value: 19
 
@@ -1016,7 +1016,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-blue-weapon-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_REWIND
+Default value: 14
 Min value: 0
 Max value: 19
 
@@ -1105,7 +1105,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-cyan-weapon-alternate-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_REVERSE
+Default value: 12
 Min value: 0
 Max value: 19
 
@@ -1119,7 +1119,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-cyan-weapon-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_TURBO
+Default value: 3
 Min value: 0
 Max value: 19
 
@@ -1208,7 +1208,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-green-weapon-alternate-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_MIX
+Default value: 7
 Min value: 0
 Max value: 19
 
@@ -1222,7 +1222,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-green-weapon-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_CRAZY
+Default value: 13
 Min value: 0
 Max value: 19
 
@@ -1312,7 +1312,7 @@ default value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-lightblue-weapon-alternate-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_KAMIKAZE
+Default value: 17
 Min value: 0
 Max value: 19
 
@@ -1326,7 +1326,7 @@ documentation about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-lightblue-weapon-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_TELEPORT
+Default value: 4
 Min value: 0
 Max value: 19
 
@@ -1415,7 +1415,7 @@ default value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-magenta-weapon-alternate-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_ATTRACT
+Default value: 15
 Min value: 0
 Max value: 19
 
@@ -1429,7 +1429,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-magenta-weapon-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_FIX
+Default value: 6
 Min value: 0
 Max value: 19
 
@@ -1518,7 +1518,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-orange-weapon-alternate-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_SHRINK
+Default value: 16
 Min value: 0
 Max value: 19
 
@@ -1532,7 +1532,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-orange-weapon-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_BERZERK
+Default value: 0
 Min value: 0
 Max value: 19
 
@@ -1621,7 +1621,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-pink-weapon-alternate-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_PLAGUE
+Default value: 19
 Min value: 0
 Max value: 19
 
@@ -1635,7 +1635,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-pink-weapon-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_INVINCIBLE
+Default value: 1
 Min value: 0
 Max value: 19
 
@@ -1724,7 +1724,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-purple-weapon-alternate-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_DISAPPEAR
+Default value: 18
 Min value: 0
 Max value: 19
 
@@ -1738,7 +1738,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-purple-weapon-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_ATOMIC
+Default value: 11
 Min value: 0
 Max value: 19
 
@@ -1827,7 +1827,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-red-weapon-alternate-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_ESCAPE
+Default value: 2
 Min value: 0
 Max value: 19
 
@@ -1841,7 +1841,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-red-weapon-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_STEAL
+Default value: 10
 Min value: 0
 Max value: 19
 
@@ -1930,7 +1930,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-yellow-weapon-alternate-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_PERMUTATION
+Default value: 9
 Min value: 0
 Max value: 19
 
@@ -1944,7 +1944,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-yellow-weapon-id}
 Type: integer
 
-Default value: LW6MAP_WEAPON_SCATTER
+Default value: 5
 Min value: 0
 Max value: 19
 
