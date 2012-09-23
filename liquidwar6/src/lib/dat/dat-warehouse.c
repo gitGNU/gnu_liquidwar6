@@ -763,11 +763,16 @@ lw6dat_warehouse_get_seq_reference (lw6dat_warehouse_t * warehouse)
 lw6sys_list_t *
 _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
 				       int64_t seq_min, int64_t seq_max,
-				       int for_reference)
+				       int for_reference,
+				       lw6sys_progress_t * progress)
 {
   lw6sys_list_t *ret = NULL;
   int stack_index = 0;
   int64_t seq = 0;
+  int tmp_worst_msg_i = 0;
+  int tmp_worst_msg_n = 0;
+  int main_worst_msg_i = 0;
+  int main_worst_msg_n = 0;
 
   if (seq_max - seq_min > _SEQ_RANGE_CHECK_LIMIT)
     {
@@ -804,7 +809,15 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
 							 [stack_index]), &ret,
 							seq, for_reference,
 							for_reference
-							&& (seq == seq_max));
+							&& (seq == seq_max),
+							&tmp_worst_msg_i,
+							&tmp_worst_msg_n);
+		  if (tmp_worst_msg_i * main_worst_msg_n <=
+		      main_worst_msg_i * tmp_worst_msg_n)
+		    {
+		      main_worst_msg_i = tmp_worst_msg_i;
+		      main_worst_msg_n = tmp_worst_msg_n;
+		    }
 		}
 	    }
 	}
@@ -819,6 +832,16 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
       lw6sys_sort (&ret, lw6msg_sort_str_by_seq_callback);
     }
 
+  if (main_worst_msg_n > 0)
+    {
+      lw6sys_progress_update (progress, 0, main_worst_msg_n,
+			      main_worst_msg_i);
+    }
+  else
+    {
+      lw6sys_progress_end (progress);
+    }
+
   return ret;
 }
 
@@ -829,6 +852,7 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
  * @seq_min: lowest sequence number (round or chat index)
  * @seq_max: highest sequence number (round or chat index)
  * @for_reference: set to 1 if this is for reference building else 0 for draft
+ * @progress: progress indicator (read/write).
  * 
  * Gets the list of messages for a given sequence (round or chat index),
  * polling all the nodes. The from and to boundaries are included.
@@ -838,13 +862,15 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
 lw6sys_list_t *
 lw6dat_warehouse_get_msg_list_by_seq (lw6dat_warehouse_t * warehouse,
 				      int64_t seq_min, int64_t seq_max,
-				      int for_reference)
+				      int for_reference,
+				      lw6sys_progress_t * progress)
 {
   lw6sys_list_t *ret = NULL;
 
   ret =
     _lw6dat_warehouse_get_msg_list_by_seq ((_lw6dat_warehouse_t *) warehouse,
-					   seq_min, seq_max, for_reference);
+					   seq_min, seq_max, for_reference,
+					   progress);
 
   return ret;
 }

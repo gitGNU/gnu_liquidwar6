@@ -112,7 +112,9 @@ extern lw6sys_list_t *lw6dat_warehouse_get_msg_list_by_seq (lw6dat_warehouse_t
 							    int64_t seq_min,
 							    int64_t seq_max,
 							    int
-							    for_reference);
+							    for_reference,
+							    lw6sys_progress_t
+							    * progress);
 extern lw6sys_list_t
   * lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
 						 warehouse,

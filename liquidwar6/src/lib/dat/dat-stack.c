@@ -902,7 +902,8 @@ static int
 _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 				     lw6sys_list_t ** msg_list, int64_t seq,
 				     int serial, int search_inc,
-				     int search_dec, int get_all)
+				     int search_dec, int get_all,
+				     int *worst_msg_i, int *worst_msg_n)
 {
   int ret = 0;
   _lw6dat_atom_t *atom = NULL;
@@ -917,6 +918,17 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
   int seq_from_len = 0;
   char seq_from[_LW6DAT_HEADER_MAX_SIZE + 1];
   char *unz = NULL;
+  int local_worst_msg_i = 0;
+  int local_worst_msg_n = 0;
+
+  if (worst_msg_i)
+    {
+      local_worst_msg_i = (*worst_msg_i);
+    }
+  if (worst_msg_n)
+    {
+      local_worst_msg_n = (*worst_msg_n);
+    }
 
   if (serial >= stack->serial_min && serial <= stack->serial_max)
     {
@@ -1023,6 +1035,16 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 				}
 
 			      no_hole = 0;
+
+			      if (n >= _ORDER_N_PROGRESS_REPORT_MIN)
+				{
+				  if (i * local_worst_msg_n <=
+				      local_worst_msg_i * n)
+				    {
+				      local_worst_msg_i = i;
+				      local_worst_msg_n = n;
+				    }
+				}
 			    }
 			}
 		      // search messages before
@@ -1032,7 +1054,9 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 							       msg_list,
 							       seq,
 							       serial - 1,
-							       0, 1, get_all);
+							       0, 1, get_all,
+							       &local_worst_msg_i,
+							       &local_worst_msg_n);
 			}
 		      if (no_hole && keep)
 			{
@@ -1095,7 +1119,9 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 							       msg_list,
 							       seq,
 							       serial + n,
-							       1, 0, get_all);
+							       1, 0, get_all,
+							       &local_worst_msg_i,
+							       &local_worst_msg_n);
 			}
 		    }
 		  else
@@ -1106,6 +1132,21 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 		  LW6SYS_FREE (cmd);
 		}
 	    }
+	}
+    }
+
+  if (local_worst_msg_n >= _ORDER_N_PROGRESS_REPORT_MIN)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("local_worst_msg_i=%d local_worst_msg_n=%d"),
+		  local_worst_msg_i, local_worst_msg_n);
+      if (worst_msg_i)
+	{
+	  (*worst_msg_i) = local_worst_msg_i;
+	}
+      if (worst_msg_n)
+	{
+	  (*worst_msg_n) = local_worst_msg_n;
 	}
     }
 
@@ -1132,7 +1173,8 @@ _clear_recent (_lw6dat_stack_t * stack, int serial)
 int
 _lw6dat_stack_update_msg_list_by_seq (_lw6dat_stack_t * stack,
 				      lw6sys_list_t ** msg_list, int64_t seq,
-				      int get_all, int clear_recent)
+				      int get_all, int clear_recent,
+				      int *worst_msg_i, int *worst_msg_n)
 {
   int ret = 0;
   int serial;
@@ -1157,7 +1199,8 @@ _lw6dat_stack_update_msg_list_by_seq (_lw6dat_stack_t * stack,
 
 	  ret =
 	    _update_msg_list_by_seq_with_search (stack, msg_list, seq, serial,
-						 1, 1, get_all);
+						 1, 1, get_all, worst_msg_i,
+						 worst_msg_n);
 	}
     }
 
@@ -1352,6 +1395,9 @@ _lw6dat_stack_get_miss (_lw6dat_stack_t * stack, int max_range,
 
       if (main_worst_msg_n >= _ORDER_N_PROGRESS_REPORT_MIN)
 	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("main_worst_msg_i=%d main_worst_msg_n=%d"),
+		      main_worst_msg_i, main_worst_msg_n);
 	  if (worst_msg_i)
 	    {
 	      (*worst_msg_i) = main_worst_msg_i;

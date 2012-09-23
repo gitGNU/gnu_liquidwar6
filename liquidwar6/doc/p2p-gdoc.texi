@@ -348,8 +348,10 @@ several atoms if needed, it can be arbitrary long.
 @strong{Return value:}  1 on success, 0 on error
 @end deftypefun
 
-@deftypefun {char *} {lw6p2p_node_get_next_reference_msg} (lw6p2p_node_t * @var{node})
+@deftypefun {char *} {lw6p2p_node_get_next_reference_msg} (lw6p2p_node_t * @var{node}, lw6sys_progress_t * @var{progress})
 @var{node}:  node to query
+
+@var{progress}:  progress indicator (read/write)
 
 Get the next waiting reference msg. This is used to maintain
 the stable reference game state we can rely upon. One is
@@ -359,8 +361,10 @@ draft messages.
 @strong{Return value:}  newly allocated string, must be freed.
 @end deftypefun
 
-@deftypefun {char *} {lw6p2p_node_get_next_draft_msg} (lw6p2p_node_t * @var{node})
+@deftypefun {char *} {lw6p2p_node_get_next_draft_msg} (lw6p2p_node_t * @var{node}, lw6sys_progress_t * @var{progress})
 @var{node}:  node to query
+
+@var{progress}:  progress indicator (read/write)
 
 Get the next waiting draft msg. This is used to maintain
 the anticipated draft game state we use for drawing. One is

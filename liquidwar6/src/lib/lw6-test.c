@@ -35,7 +35,7 @@
 #define _TEST_ARGC 1
 #define _TEST_ARGV0 "prog"
 
-#define _TEST_COVERAGE_PERCENT_MIN 50
+#define _TEST_COVERAGE_PERCENT_MIN 33
 
 #define _TEST_SUITE_MAIN 0
 #define _TEST_SUITE_CLIENT 1

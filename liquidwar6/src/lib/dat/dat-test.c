@@ -619,7 +619,8 @@ test_stack ()
 		  {
 		    _lw6dat_stack_update_msg_list_by_seq (&stack, &msg_list,
 							  _TEST_STACK_MSG_GET_SEQ,
-							  1, 1);
+							  1, 1, &worst_msg_i,
+							  &worst_msg_n);
 		    length = lw6sys_list_length (msg_list);
 		    if (length == _TEST_STACK_MSG_GET_NB)
 		      {
@@ -753,6 +754,7 @@ test_warehouse ()
     lw6sys_progress_t progress;
 
     lw6sys_progress_default (&progress, &progress_value);
+    lw6sys_progress_begin (&progress);
 
     _warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
     if (_warehouse)
@@ -1026,14 +1028,15 @@ test_warehouse ()
 								    seq_reference
 								    + 1,
 								    seq_draft,
-								    1);
+								    1,
+								    &progress);
 			    if (list_by_seq)
 			      {
 				length = lw6sys_list_length (list_by_seq);
 				list_by_seq2 =
 				  lw6dat_warehouse_get_msg_list_by_seq
 				  (warehouse2, seq_reference + 1, seq_draft,
-				   0);
+				   0, &progress);
 				if (list_by_seq2)
 				  {
 				    length2 =

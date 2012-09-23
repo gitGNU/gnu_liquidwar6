@@ -28,12 +28,34 @@
 #include "sys-internal.h"
 
 /**
+ * lw6sys_progress_bind
+ *
+ * @progress: the progress struct to initialize
+ * @value: the value to point to
+ *
+ * Sets a progress struct to default values, that is, ranging from 0.0f to 1.0f,
+ * does not touch the value.
+ *
+ * Return value: none.
+ */
+void
+lw6sys_progress_bind (lw6sys_progress_t * progress, float *value)
+{
+  if (progress)
+    {
+      progress->value = value;
+    }
+}
+
+/**
  * lw6sys_progress_default
  *
  * @progress: the progress struct to initialize
  * @value: the value to point to
  *
  * Sets a progress struct to default values, that is, ranging from 0.0f to 1.0f.
+ * This function won't touch the value, one needs to call begin or update 
+ * or end to do that.
  *
  * Return value: none.
  */
@@ -44,11 +66,7 @@ lw6sys_progress_default (lw6sys_progress_t * progress, float *value)
     {
       progress->min = 0.0f;
       progress->max = 1.0f;
-      progress->value = value;
-      if (progress->value)
-	{
-	  (*(progress->value)) = progress->min;
-	}
+      lw6sys_progress_bind (progress, value);
     }
 }
 

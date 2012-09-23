@@ -370,8 +370,11 @@ extern int64_t _lw6p2p_node_get_seq_max (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_is_dump_needed (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node,
 				       const char *msg);
-extern char *_lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node);
-extern char *_lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node);
+extern char *_lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node,
+						  lw6sys_progress_t *
+						  progress);
+extern char *_lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node,
+					      lw6sys_progress_t * progress);
 
 /* p2p-queueitem.c */
 extern _lw6p2p_queue_item_t *_lw6p2p_queue_item_new (u_int32_t

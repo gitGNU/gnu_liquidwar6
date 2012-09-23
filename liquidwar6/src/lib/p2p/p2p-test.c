@@ -972,9 +972,14 @@ _test_node_msg ()
     char *msg;
     char *msgs[_TEST_NODE_MSG_NB_SEQS * _TEST_NODE_MSG_NB_PER_SEQ];
     int found;
+    lw6sys_progress_t progress;
+    float progress_value = 0.0f;
 
     memset (checksums, 0, sizeof (checksums));
     memset (msgs, 0, sizeof (msgs));
+    memset (&progress, 0, sizeof (lw6sys_progress_t));
+    lw6sys_progress_default (&progress, &progress_value);
+
     db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
     if (db)
       {
@@ -1026,7 +1031,8 @@ _test_node_msg ()
 			_x_ ("step 2, seq_max=%" LW6SYS_PRINTF_LL "d"),
 			(long long) seq);
 	    k = 0;
-	    while ((msg = lw6p2p_node_get_next_draft_msg (node)) != NULL)
+	    while ((msg =
+		    lw6p2p_node_get_next_draft_msg (node, &progress)) != NULL)
 	      {
 		checksum = lw6sys_checksum_str (msg);
 		/*
@@ -1385,7 +1391,9 @@ _test_node_api_node4_callback (void *api_data)
 	  lw6sys_idle ();
 
 	  while ((msg =
-		  lw6p2p_node_get_next_reference_msg (data->node)) != NULL)
+		  lw6p2p_node_get_next_reference_msg (data->node,
+						      &(data->progress))) !=
+		 NULL)
 	    {
 	      len = strlen (msg);
 	      lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -1399,7 +1407,9 @@ _test_node_api_node4_callback (void *api_data)
 	      ++reference_received;
 	      LW6SYS_FREE (msg);
 	    }
-	  while ((msg = lw6p2p_node_get_next_draft_msg (data->node)) != NULL)
+	  while ((msg =
+		  lw6p2p_node_get_next_draft_msg (data->node,
+						  &(data->progress))) != NULL)
 	    {
 	      len = strlen (msg);
 	      lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -1577,6 +1587,12 @@ _test_node_api ()
 				 &(api_data5.progress_value));
 	lw6sys_progress_default (&(api_data6.progress),
 				 &(api_data6.progress_value));
+	lw6sys_progress_begin (&(api_data1.progress));
+	lw6sys_progress_begin (&(api_data2.progress));
+	lw6sys_progress_begin (&(api_data3.progress));
+	lw6sys_progress_begin (&(api_data4.progress));
+	lw6sys_progress_begin (&(api_data5.progress));
+	lw6sys_progress_begin (&(api_data6.progress));
 
 	api_data4.peer_id = lw6p2p_node_get_id (node2);
 

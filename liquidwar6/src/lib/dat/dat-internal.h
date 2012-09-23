@@ -212,7 +212,9 @@ extern lw6sys_list_t *_lw6dat_stack_init_list ();
 extern int _lw6dat_stack_update_msg_list_by_seq (_lw6dat_stack_t * stack,
 						 lw6sys_list_t ** msg_list,
 						 int64_t seq, int get_all,
-						 int clear_recent);
+						 int clear_recent,
+						 int *worst_msg_i,
+						 int *worst_msg_n);
 extern int _lw6dat_stack_update_atom_str_list_by_serial (_lw6dat_stack_t *
 							 stack,
 							 lw6sys_list_t **
@@ -287,7 +289,8 @@ extern int64_t _lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t *
 extern lw6sys_list_t
   * _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
 					   int64_t seq_min, int64_t seq_max,
-					   int for_reference);
+					   int for_reference,
+					   lw6sys_progress_t * progress);
 extern lw6sys_list_t
   * _lw6dat_warehouse_get_atom_str_list_not_sent (_lw6dat_warehouse_t *
 						  warehouse,

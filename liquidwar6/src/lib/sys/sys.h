@@ -1133,6 +1133,7 @@ u_int64_t lw6sys_process_fork_and_call (lw6sys_fork_func_t func, void *data);
 int lw6sys_process_kill_1_9 (u_int64_t pid);
 
 /* sys-progress.c */
+extern void lw6sys_progress_bind (lw6sys_progress_t * progress, float *value);
 extern void lw6sys_progress_default (lw6sys_progress_t * progress,
 				     float *value);
 extern void lw6sys_progress_update (lw6sys_progress_t * progress, int min,

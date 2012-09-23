@@ -3440,12 +3440,25 @@ binary has no support for it, will display a warning message.
 @strong{Return value:}  1 if google profile enabled and activated, 0 if not
 @end deftypefun
 
+@deftypefun {void} {lw6sys_progress_bind} (lw6sys_progress_t * @var{progress}, float * @var{value})
+@var{progress}:  the progress struct to initialize
+
+@var{value}:  the value to point to
+
+Sets a progress struct to default values, that is, ranging from 0.0f to 1.0f,
+does not touch the value.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {void} {lw6sys_progress_default} (lw6sys_progress_t * @var{progress}, float * @var{value})
 @var{progress}:  the progress struct to initialize
 
 @var{value}:  the value to point to
 
 Sets a progress struct to default values, that is, ranging from 0.0f to 1.0f.
+This function won't touch the value, one needs to call begin or update 
+or end to do that.
 
 @strong{Return value:}  none.
 @end deftypefun

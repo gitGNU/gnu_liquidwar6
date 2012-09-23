@@ -2114,7 +2114,8 @@ lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg)
 }
 
 char *
-_lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node)
+_lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node,
+				     lw6sys_progress_t * progress)
 {
   char *ret = NULL;
   int64_t seq_reference = 0LL;
@@ -2128,7 +2129,8 @@ _lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node)
 	  node->reference_msg =
 	    lw6dat_warehouse_get_msg_list_by_seq (node->warehouse,
 						  node->last_seq_reference +
-						  1, seq_reference, 1);
+						  1, seq_reference, 1,
+						  progress);
 	  node->last_seq_reference = seq_reference;
 	}
     }
@@ -2145,6 +2147,7 @@ _lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node)
  * lw6p2p_node_get_next_reference_msg
  *
  * @node: node to query
+ * @progress: progress indicator (read/write)
  *
  * Get the next waiting reference msg. This is used to maintain
  * the stable reference game state we can rely upon. One is
@@ -2154,13 +2157,16 @@ _lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node)
  * Return value: newly allocated string, must be freed.
  */
 char *
-lw6p2p_node_get_next_reference_msg (lw6p2p_node_t * node)
+lw6p2p_node_get_next_reference_msg (lw6p2p_node_t * node,
+				    lw6sys_progress_t * progress)
 {
-  return _lw6p2p_node_get_next_reference_msg ((_lw6p2p_node_t *) node);
+  return _lw6p2p_node_get_next_reference_msg ((_lw6p2p_node_t *) node,
+					      progress);
 }
 
 char *
-_lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node)
+_lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node,
+				 lw6sys_progress_t * progress)
 {
   char *ret = NULL;
   int64_t seq_draft = 0LL;
@@ -2177,7 +2183,8 @@ _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node)
 	      node->draft_msg =
 		lw6dat_warehouse_get_msg_list_by_seq (node->warehouse,
 						      node->last_seq_reference
-						      + 1, seq_draft, 0);
+						      + 1, seq_draft, 0,
+						      progress);
 	    }
 	}
       else
@@ -2194,7 +2201,8 @@ _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node)
 	    {
 	      node->draft_msg =
 		lw6dat_warehouse_get_msg_list_by_seq (node->warehouse,
-						      seq_min, seq_max, 0);
+						      seq_min, seq_max, 0,
+						      progress);
 	    }
 	  if (node->draft_msg)
 	    {
@@ -2221,6 +2229,7 @@ _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node)
  * lw6p2p_node_get_next_draft_msg
  *
  * @node: node to query
+ * @progress: progress indicator (read/write)
  *
  * Get the next waiting draft msg. This is used to maintain
  * the anticipated draft game state we use for drawing. One is
@@ -2230,7 +2239,8 @@ _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node)
  * Return value: newly allocated string, must be freed.
  */
 char *
-lw6p2p_node_get_next_draft_msg (lw6p2p_node_t * node)
+lw6p2p_node_get_next_draft_msg (lw6p2p_node_t * node,
+				lw6sys_progress_t * progress)
 {
-  return _lw6p2p_node_get_next_draft_msg ((_lw6p2p_node_t *) node);
+  return _lw6p2p_node_get_next_draft_msg ((_lw6p2p_node_t *) node, progress);
 }

@@ -815,6 +815,7 @@ _scm_lw6p2p_node_get_next_reference_msg (SCM node)
   lw6p2p_node_t *c_node;
   char *c_ret = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_progress_t progress;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
@@ -823,10 +824,13 @@ _scm_lw6p2p_node_get_next_reference_msg (SCM node)
 	      (lw6_global.smob_types.node,
 	       node), node, SCM_ARG1, __FUNCTION__);
 
+  lw6sys_progress_default (&progress, &(lw6_global.progress));
+  // do *not* call lw6sys_progress_begin here!
+
   c_node = lw6_scm_to_node (node);
   if (c_node)
     {
-      c_ret = lw6p2p_node_get_next_reference_msg (c_node);
+      c_ret = lw6p2p_node_get_next_reference_msg (c_node, &progress);
       if (c_ret)
 	{
 	  ret = scm_from_locale_string (c_ret);
@@ -845,6 +849,7 @@ _scm_lw6p2p_node_get_next_draft_msg (SCM node)
   lw6p2p_node_t *c_node;
   char *c_ret = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_progress_t progress;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
@@ -853,10 +858,13 @@ _scm_lw6p2p_node_get_next_draft_msg (SCM node)
 	      (lw6_global.smob_types.node,
 	       node), node, SCM_ARG1, __FUNCTION__);
 
+  lw6sys_progress_default (&progress, &(lw6_global.progress));
+  // do *not* call lw6sys_progress_begin here!
+
   c_node = lw6_scm_to_node (node);
   if (c_node)
     {
-      c_ret = lw6p2p_node_get_next_draft_msg (c_node);
+      c_ret = lw6p2p_node_get_next_draft_msg (c_node, &progress);
       if (c_ret)
 	{
 	  ret = scm_from_locale_string (c_ret);

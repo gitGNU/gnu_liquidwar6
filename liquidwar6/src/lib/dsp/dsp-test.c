@@ -228,6 +228,7 @@ test_display (const char *gfx_backend_name)
     lw6pil_pilot_t *pilot = NULL;
 
     lw6sys_progress_default (&progress, &progress_value);
+    lw6sys_progress_begin (&progress);
     display = lw6dsp_create_backend (argc, argv, gfx_backend_name);
     if (display)
       {
