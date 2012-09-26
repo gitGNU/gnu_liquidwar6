@@ -31,8 +31,8 @@ if cd liquidwar6 ; then
 	if ./configure --prefix=$WORKSPACE/local ; then
 	    echo "******** $0 $(date) ********"
 	    if make ; then
-#		echo "******** $0 $(date) ********"
-#		if make check; then
+		echo "******** $0 $(date) ********"
+		if make check; then
 		    echo "******** $0 $(date) ********"
 		    if cd ../liquidwar6-extra-maps ; then
 			echo "******** $0 $(date) ********"
@@ -64,10 +64,10 @@ if cd liquidwar6 ; then
 			echo "cd failed"
 			exit 6
 		    fi
-#		else
-#		    echo "make check failed"
-#		    exit 5
-#		fi
+		else
+		    echo "make check failed"
+		    exit 5
+		fi
 	    else
 		echo "make failed"
 		exit 4
