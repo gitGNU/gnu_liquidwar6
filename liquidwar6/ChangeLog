@@ -1,3 +1,7 @@
+2012-09-26 : Christian Mauduit <ufoot@ufoot.org>
+
+	Added Jenkins (continuous integration) script.
+
 2012-09-23 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed cfg issues + now storing only changed entries in config file.
