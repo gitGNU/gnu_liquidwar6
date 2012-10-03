@@ -1,1 +1,1 @@
-#define LW6_STAMP "3244"
+#define LW6_STAMP "3248"

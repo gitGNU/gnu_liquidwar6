@@ -94,6 +94,13 @@ src/lib/gfx/gfx-register.c
 src/lib/gfx/gfx-sdl.c
 src/lib/gfx/gfx-test.c
 src/lib/gfx/gfx-testmain.c
+src/lib/gfx/mod-caca/mod-caca-backend.c
+src/lib/gfx/mod-caca/mod-caca-const.c
+src/lib/gfx/mod-caca/mod-caca-mode.c
+src/lib/gfx/mod-caca/mod-caca-path.c
+src/lib/gfx/mod-caca/mod-caca-repr.c
+src/lib/gfx/mod-caca/mod-caca-resolution.c
+src/lib/gfx/mod-caca/mod-caca-setup.c
 src/lib/gfx/mod-gl1/gl1-background/gl1-background-api.c
 src/lib/gfx/mod-gl1/gl1-background/gl1-background-register.c
 src/lib/gfx/mod-gl1/gl1-background/gl1-bubbles/gl1-bubbles-backend.c

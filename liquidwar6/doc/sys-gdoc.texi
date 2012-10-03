@@ -773,6 +773,13 @@ Tells wether the graphical mod-soft backend was compiled.
 @strong{Return value:}  "yes" or "no", must no be freed.
 @end deftypefun
 
+@deftypefun {char *} {lw6sys_build_get_enable_mod_caca} ()
+
+Tells wether the graphical mod-caca backend was compiled.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
 @deftypefun {char *} {lw6sys_build_get_enable_mod_csound} ()
 
 Tells wether the audio mod-csound backend was compiled.

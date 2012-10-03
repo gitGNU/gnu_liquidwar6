@@ -673,6 +673,26 @@ lw6gfx_test (int mode)
 	  lw6gfx_destroy_backend (backend);
 	}
 #endif
+#ifdef MOD_CACA
+      backend = lw6gfx_create_backend (argc, argv, "caca");
+      if (backend)
+	{
+	  if (test_init (backend))
+	    {
+	      ret = test_resolution (backend)
+		&& test_splash (backend)
+		&& test_background (backend) && test_menu (backend)
+		&& test_view (backend)
+		&& test_hud (backend) && test_events (backend) && ret;
+	      ret = test_quit (backend) && ret;
+	    }
+	  else
+	    {
+	      ret = 0;
+	    }
+	  lw6gfx_destroy_backend (backend);
+	}
+#endif
     }
   else
     {

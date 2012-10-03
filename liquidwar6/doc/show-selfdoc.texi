@@ -98,6 +98,13 @@ Shows wether the game was build with the '-finstrument-functions' GCC switch.
 This depends on parameters passed to './configure'.
 @end deffn
 
+@subsection show-build-enable-mod-caca
+@deffn {Command-line option} @code{--show-build-enable-mod-caca}
+Shows wether the mod-caca graphical backend has been enabled when building the
+game. This depends on parameters passed to './configure' and also on the
+presence of libcaca related libraries.
+@end deffn
+
 @subsection show-build-enable-mod-csound
 @deffn {Command-line option} @code{--show-build-enable-mod-csound}
 Shows wether the mod-csound audio backend has been enabled when building the

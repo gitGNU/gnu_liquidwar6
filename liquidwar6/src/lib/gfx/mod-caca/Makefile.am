@@ -18,4 +18,26 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-SUBDIRS = gl1 gles2 soft sdl caca
+AM_CFLAGS = @LW6_CFLAGS@ @CACA_CFLAGS@
+if ALLINONE
+AM_LDFLAGS = @LW6_LDFLAGS@
+else
+AM_LDFLAGS = @LW6_LDFLAGS@ @CACA_LIBS@
+endif
+
+libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/gfx
+
+noinst_LTLIBRARIES = libmod_caca_s.la
+MOD_CACA_FILES = mod-caca-backend.c mod-caca-const.c mod-caca-mode.c mod-caca-path.c mod-caca-repr.c mod-caca-resolution.c mod-caca-setup.c
+libmod_caca_s_la_SOURCES = $(MOD_CACA_FILES) 
+
+if !ALLINONE
+lib_LTLIBRARIES = libmod_caca.la
+libmod_caca_la_SOURCES = $(MOD_CACA_FILES) 
+libmod_caca_la_LIBADD = $(MOD_CACA_LIBS) 
+libmod_caca_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @CACA_LIBS@
+libmod_cacadir = $(includedir)/@PACKAGE_TARNAME@/gfx/mod-caca
+libmod_caca_HEADERS = mod-caca.h
+endif
+
+EXTRA_DIST = mod-caca-internal.h

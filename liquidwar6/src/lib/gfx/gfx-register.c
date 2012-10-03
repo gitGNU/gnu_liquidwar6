@@ -34,6 +34,10 @@
 #else // MOD_GLES2
 #ifdef MOD_SOFT
 #include "mod-soft/mod-soft.h"
+#else // MOD_SOFT
+#ifdef MOD_CACA
+#include "mod-caca/mod-caca.h"
+#endif // MOD_CACA
 #endif // MOD_SOFT
 #endif // MOD_GLES2
 #endif // MOD_GL1
@@ -92,6 +96,16 @@ lw6gfx_get_backends (int argc, const char *argv[])
 			    lw6sys_str_copy (module_pedigree->name));
 	  LW6SYS_FREE (module_pedigree);
 	}
+#else // MOD_SOFT
+#ifdef MOD_CACA
+      module_pedigree = mod_caca_get_pedigree ();
+      if (module_pedigree)
+	{
+	  lw6sys_assoc_set (&ret, module_pedigree->id,
+			    lw6sys_str_copy (module_pedigree->name));
+	  LW6SYS_FREE (module_pedigree);
+	}
+#endif // MOD_CACA
 #endif // MOD_SOFT
 #endif // MOD_GLES2
 #endif // MOD_GL1
@@ -138,6 +152,13 @@ lw6gfx_create_backend (int argc, const char *argv[], const char *name)
     {
       backend = mod_gl1_create_backend ();
     }
+#else // MOD_SOFT
+#ifdef MOD_CACA
+  if (name && !strcmp (name, "caca"))
+    {
+      backend = mod_gl1_create_backend ();
+    }
+#endif // MOD_CACA
 #endif // MOD_SOFT
 #endif // MOD_GLES2
 #endif // MOD_GL1

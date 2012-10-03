@@ -597,6 +597,11 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  printf ("%s\n", lw6sys_build_get_enable_mod_soft ());
 	  (*run_game) = 0;
 	}
+      else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_ENABLE_MOD_CACA, argv[i]))
+	{
+	  printf ("%s\n", lw6sys_build_get_enable_mod_caca ());
+	  (*run_game) = 0;
+	}
       else
 	if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_ENABLE_MOD_CSOUND, argv[i]))
 	{

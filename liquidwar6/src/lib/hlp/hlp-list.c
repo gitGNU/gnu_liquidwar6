@@ -164,6 +164,7 @@ update_show (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_MOD_GL1);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_MOD_GLES2);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_MOD_SOFT);
+  lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_MOD_CACA);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_MOD_CSOUND);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_MOD_OGG);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_MOD_HTTP);
@@ -911,6 +912,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GL1);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GLES2);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_SOFT);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CACA);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CSOUND);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_OGG);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_HTTP);

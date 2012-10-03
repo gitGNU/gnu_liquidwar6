@@ -756,6 +756,23 @@ lw6sys_build_get_enable_mod_soft ()
 }
 
 /**
+ * lw6sys_build_get_enable_mod_caca
+ *
+ * Tells wether the graphical mod-caca backend was compiled.
+ *
+ * Return value: "yes" or "no", must no be freed.
+ */
+char *
+lw6sys_build_get_enable_mod_caca ()
+{
+#ifdef MOD_CACA
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
+#else
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
+#endif
+}
+
+/**
  * lw6sys_build_get_enable_mod_csound
  *
  * Tells wether the audio mod-csound backend was compiled.
@@ -1058,6 +1075,8 @@ lw6sys_build_get_bin_id ()
 			      lw6sys_build_get_enable_mod_gles2 ());
   lw6sys_checksum_update_str (&checksum_global,
 			      lw6sys_build_get_enable_mod_soft ());
+  lw6sys_checksum_update_str (&checksum_global,
+			      lw6sys_build_get_enable_mod_caca ());
   lw6sys_checksum_update_str (&checksum_global,
 			      lw6sys_build_get_enable_mod_csound ());
   lw6sys_checksum_update_str (&checksum_global,

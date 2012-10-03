@@ -49,14 +49,6 @@ typedef struct _mod_soft_const_data_s
 }
 _mod_soft_const_data_t;
 
-typedef struct _mod_soft_timer_s
-{
-  int64_t timestamp;
-  int64_t uptime;
-  int32_t cycle;
-}
-_mod_soft_timer_t;
-
 typedef struct _mod_soft_context_s
 {
   _lw6gfx_sdl_context_t sdl_context;

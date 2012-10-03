@@ -111,6 +111,9 @@ $(top_srcdir)/doc/mod-soft-gdoc.texi: $(top_srcdir)/src/lib/gfx/mod-soft/mod-sof
 $(top_srcdir)/doc/shared-sdl-gdoc.texi: $(top_srcdir)/src/lib/gfx/shared-sdl/shared-sdl-backend.c $(top_srcdir)/src/lib/gfx/shared-sdl/shared-sdl-const.c $(top_srcdir)/src/lib/gfx/shared-sdl/shared-sdl-event.c $(top_srcdir)/src/lib/gfx/shared-sdl/shared-sdl-path.c $(top_srcdir)/src/lib/gfx/shared-sdl/shared-sdl-timer.c
 	echo gdoc shared-sdl && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/shared-sdl-gdoc.texi
 
+$(top_srcdir)/doc/mod-caca-gdoc.texi: $(top_srcdir)/src/lib/gfx/mod-caca/mod-caca-backend.c $(top_srcdir)/src/lib/gfx/mod-caca/mod-caca-const.c $(top_srcdir)/src/lib/gfx/mod-caca/mod-caca-mode.c $(top_srcdir)/src/lib/gfx/mod-caca/mod-caca-path.c $(top_srcdir)/src/lib/gfx/mod-caca/mod-caca-repr.c $(top_srcdir)/src/lib/gfx/mod-caca/mod-caca-resolution.c $(top_srcdir)/src/lib/gfx/mod-caca/mod-caca-setup.c
+	echo gdoc mod-caca && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/mod-caca-gdoc.texi
+
 $(top_srcdir)/doc/mod-csound-gdoc.texi: $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-backend.c $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-fx.c $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-music.c $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-path.c $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-repr.c $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-setup.c $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-volume.c $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-water.c
 	echo gdoc mod-csound && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/mod-csound-gdoc.texi
 

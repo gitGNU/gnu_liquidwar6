@@ -98,7 +98,7 @@ Hacker's guide
 * Architecture::        C, Scheme, modules and the rest.
 * About mod-gl1::       The working graphics backend.
 * About mod-gles2::     The upcoming graphics backend.
-* About mod-soft::      A minimalist graphics backend.
+* About mod-caca::      An ascii-art based graphics backend.
 * Compilation tips::    Advice for developpers and packagers.
 * Coding guidelines::   Ensure code remains maintainable.
 * Using the console::   How to interact with the game.
@@ -154,6 +154,7 @@ C API
 * mod-gles2::           Embedded 3D graphics backend.
 * mod-soft::            Software only graphics backend.
 * shared-sdl::          SDL utils shared in some graphics backends.
+* mod-caca::            TTY/xterm text graphics backend.
 * libglb::              Gnulib embedded routines.
 * libgui::              GUI utilities.
 * libhlp::              Built-in help system.
@@ -737,6 +738,11 @@ This SDL extension is used to draw fonts. It is UTF-8
 enabled.
 
 @item
+@uref{http://caca.zoy.org/, libcaca}. This library
+transforms bitmaps into ascii-art images, allowing an
+alternative style of display, TTY compatible.
+
+@item
 @uref{http://www.csounds.com/, libcsound}.
 While this tool is not used yet, it is meant to be
 the final sound backend, as CSounds offers great power to the composer,
@@ -840,6 +846,7 @@ libGL libGL-devel libGLU libGLU-devel \
 SDL SDL-devel SDL_image SDL_image-devel \
 SDL_mixer SDL_mixer-devel \
 freetype freetype-devel SDL_ttf SDL_ttf-devel \
+libcaca libcaca-devel \
 libcurl libcurl-devel \
 gtk2-devel \
 perl lcov global valgrind graphviz gv \
@@ -867,6 +874,7 @@ libgles2-mesa libgles2-mesa-dev \
 libsdl1.2debian libsdl1.2-dev libsdl-image1.2 libsdl-image1.2-dev \
 libsdl-mixer1.2 libsdl-mixer1.2-dev \
 libfreetype6 libfreetype6-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev \
+libcaca0 caca-utils libcaca-dev \
 libcurl4-gnutls-dev \
 libgtk2.0-dev \
 perl lcov global valgrind graphviz gv \
@@ -1628,7 +1636,7 @@ is welcome.
 * Architecture::        C, Scheme, modules and the rest.
 * About mod-gl1::       The working graphics backend.
 * About mod-gles2::     The upcoming graphics backend.
-* About mod-soft::      A minimalist graphics backend.
+* About mod-caca::      An ascii-art based graphics backend.
 * Compilation tips::    Advice for developpers and packagers.
 * Coding guidelines::   Ensure code remains maintainable.
 * Using the console::   How to interact with the game.
@@ -2629,7 +2637,7 @@ can (and should, if appliable) be used.
 @c About mod-gles2
 @c ---------------------------------------------------------------------------
 
-@node About mod-gles2, About mod-soft, About mod-gl1, Hacker's guide
+@node About mod-gles2, About mod-caca, About mod-gl1, Hacker's guide
 @section About mod-gles2
 
 @subsection The alternative renderer
@@ -2641,26 +2649,22 @@ but also on mobile platforms.
 Work in progress, don't hold your breath.
 
 @c ---------------------------------------------------------------------------
-@c About mod-soft
+@c About mod-caca
 @c ---------------------------------------------------------------------------
 
-@node About mod-soft, Compilation tips, About mod-gles2, Hacker's guide
-@section About mod-soft
+@node About mod-caca, Compilation tips, About mod-gles2, Hacker's guide
+@section About mod-caca
 
 @subsection The alternative renderer
 
-This is under heavy development, the idea is to provide an alternative
-renderer without Open GL hardware acceleration, using pure SDL software
-bitmap functions. This can be a ``compile anywhere'' backend, to use
-in contexts where 3D drivers are not available.
-
-Work in progress, don't hold your breath.
+This is under heavy development, the idea is to provide a basic
+yet surprising alternative text-based renderer, using libcaca.
 
 @c ---------------------------------------------------------------------------
 @c Compilation tips
 @c ---------------------------------------------------------------------------
 
-@node Compilation tips, Coding guidelines, About mod-soft, Hacker's guide
+@node Compilation tips, Coding guidelines, About mod-caca, Hacker's guide
 @section Compilation tips
 
 @subsection Advanced ./configure options
@@ -4421,6 +4425,7 @@ describes the C structures and their attributes.
 * mod-gles2::           Embedded 3D graphics backend.
 * mod-soft::            Software only graphics backend.
 * shared-sdl::          SDL utils shared in some graphics backends.
+* mod-caca::            TTY/xterm text graphics backend.
 * libglb::              Gnulib embedded routines.
 * libgui::              GUI utilities.
 * libhlp::              Built-in help system.
@@ -5069,7 +5074,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c shared-sdl
 @c ---------------------------------------------------------------------------
 
-@node shared-sdl, libglb, mod-soft, C API
+@node shared-sdl, mod-caca, mod-soft, C API
 @section shared-sdl
 
 @subsection Overview
@@ -5098,10 +5103,42 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @end ifnotinfo
  
 @c ---------------------------------------------------------------------------
+@c mod-caca
+@c ---------------------------------------------------------------------------
+
+@node mod-caca, libglb, shared-sdl, C API
+@section mod-caca
+
+@subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/mod-caca/index.html} 
+(as there are many sub-directories in this module, please refer to the 
+@uref{http://www.gnu.org/software/liquidwar6/coverage/index.html, test coverage directory index} for complete information).
+
+@subsection API
+
+@ifinfo
+@include mod-caca-gdoc.texi
+@include mod-caca-doxygen.texi
+@end ifinfo
+
+@ifnotinfo
+@ifhtml
+@include mod-caca-gdoc.texi
+@include mod-caca-doxygen.texi
+@end ifhtml
+@ifnothtml
+Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/mod_002dcaca.html}.
+@end ifnothtml
+@end ifnotinfo
+ 
+@c ---------------------------------------------------------------------------
 @c libglb
 @c ---------------------------------------------------------------------------
 
-@node libglb, libgui, shared-sdl, C API
+@node libglb, libgui, mod-caca, C API
 @section libglb
 
 @subsection Overview

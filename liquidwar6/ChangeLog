@@ -1,3 +1,7 @@
+2012-10-03 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added empty gfx module, linked on libcaca.
+
 2012-10-02 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Relaxed network test suite to generate snapshots, #37429 still open.

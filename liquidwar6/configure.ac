@@ -46,7 +46,7 @@ LW6_CODENAME="Davy Crockett"
 AC_SUBST(LW6_CODENAME)
 
 dnl Headers, some are optional
-AC_CHECK_HEADERS(arpa/inet.h ctype.h dirent.h errno.h execinfo.h expat.h fcntl.h gc/gc.h gmp.h GL/gl.h GL/glu.h GLES2/gl2.h iconv.h ifaddrs.h jpeglib.h langinfo.h libintl.h libpng12/png.h libpng13/png.h libpng14/png.h libpng15/png.h lmcons.h limits.h locale.h ltdl.h mach/vm_statistics.h mach/mach_types.h mach/mach_init.h mach/mach_host.h math.h netdb.h netinet/in.h omp.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/sysinfo.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h)
+AC_CHECK_HEADERS(arpa/inet.h caca.h ctype.h dirent.h errno.h execinfo.h expat.h fcntl.h gc/gc.h gmp.h GL/gl.h GL/glu.h GLES2/gl2.h iconv.h ifaddrs.h jpeglib.h langinfo.h libintl.h libpng12/png.h libpng13/png.h libpng14/png.h libpng15/png.h lmcons.h limits.h locale.h ltdl.h mach/vm_statistics.h mach/mach_types.h mach/mach_init.h mach/mach_host.h math.h netdb.h netinet/in.h omp.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/sysinfo.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h)
 
 AM_MISSING_PROG(PERL, perl, ${missing_dir})
 AM_MISSING_PROG(AWK, awk, ${missing_dir})
@@ -518,11 +518,42 @@ dnl Begin shared-sdl
 AM_CONDITIONAL(SHARED_SDL, test -z "${MOD_GL1_TRUE}" || test -z "${MOD_GLES2_TRUE}" || test -z "${MOD_SOFT_TRUE}")
 dnl End shared-sdl
 
+dnl Begin mod-caca
+AC_ARG_ENABLE([mod-caca], AS_HELP_STRING([--enable-mod-caca],[compile mod-caca default=yes]), [enable_mod_caca=$enableval], [enable_mod_caca=yes])
+
+AC_CHECK_HEADER(caca.h, HAVE_CACA_H=1)
+
+CACA_CFLAGS=""
+CACA_LIBS=""
+AC_CHECK_PROG(CACA_CONFIG, caca-config, yes, no)
+if test x${CACA_CONFIG} = xyes; then
+   CACA_CFLAGS=`caca-config --cflags`
+   CACA_LIBS=`caca-config --libs`
+else
+   AC_MSG_WARN([
+*** Liquid War 6 recommends libcaca (http://caca.zoy.org/)
+])
+fi
+
+AC_CHECK_LIB(caca, caca_create_canvas, HAVE_LIBCACA=1, AC_MSG_WARN([
+*** Liquid War 6 recommends libcaca (http://caca.zoy.org/)
+]),[${CACA_CFLAGS} ${CACA_LIBS}])
+
+AC_SUBST(CACA_CFLAGS)
+AC_SUBST(CACA_LIBS)
+
+AM_CONDITIONAL(MOD_CACA, test x$enable_mod_caca = xyes && test x$HAVE_CACA_H = x1 && test x$HAVE_LIBCACA = x1)
+
+if test -z "${MOD_CACA_TRUE}"; then
+	MOD_CACA_ENABLE_CFLAGS="-DMOD_CACA=1"
+else
+	MOD_CACA_ENABLE_CFLAGS=
+fi
+AC_SUBST(MOD_CACA_ENABLE_CFLAGS)
+dnl End mod-caca
+
 lw6_gfx_exists=no
 if test x$enable_headless != xyes ; then
-   if test -z "${MOD_SOFT_TRUE}"; then
-      lw6_gfx_exists=soft
-   fi
    if test -z "${MOD_GL1_TRUE}"; then
       lw6_gfx_exists=gl1
    fi
@@ -531,6 +562,9 @@ if test x$enable_headless != xyes ; then
    fi
    if test -z "${MOD_SOFT_TRUE}"; then
       lw6_gfx_exists=soft
+   fi
+   if test -z "${MOD_CACA_TRUE}"; then
+      lw6_gfx_exists=caca
    fi
    if test x$lw6_gfx_exists = xno; then
       AC_MSG_ERROR([No graphical support detected, please consider installing SDL (http://www.libsdl.org/), Mesa (http://www.mesa3d.org/), SDL_image (http://www.libsdl.org/projects/SDL_image/), SDL_ttf (http://www.libsdl.org/projects/SDL_ttf/) with development support (headers and libraries).])
@@ -895,6 +929,7 @@ AC_CONFIG_FILES([Makefile
  	  src/lib/gfx/mod-gl1/gl1-view/gl1-flat/Makefile
   	  src/lib/gfx/mod-gles2/Makefile
   	  src/lib/gfx/mod-soft/Makefile
+  	  src/lib/gfx/mod-caca/Makefile
   	  src/lib/gfx/shared-sdl/Makefile
 	  src/lib/dsp/Makefile
 	  src/lib/snd/Makefile
@@ -942,6 +977,7 @@ AC_CONFIG_FILES([Makefile
   	  data/gfx/gles2/Makefile
   	  data/gfx/soft/Makefile
   	  data/gfx/sdl/Makefile
+  	  data/gfx/caca/Makefile
  	  data/snd/Makefile
  	  data/snd/csound/Makefile
  	  data/snd/ogg/Makefile
@@ -1045,6 +1081,11 @@ if test -z "${MOD_SOFT_TRUE}"; then
 	AC_MSG_NOTICE([build mod-soft... yes])
 else
 	AC_MSG_NOTICE([build mod-soft... no])
+fi
+if test -z "${MOD_CACA_TRUE}"; then
+	AC_MSG_NOTICE([build mod-caca... yes])
+else
+	AC_MSG_NOTICE([build mod-caca... no])
 fi
 if test -z "${MOD_CSOUND_TRUE}"; then
 	AC_MSG_NOTICE([build mod-csound... yes])

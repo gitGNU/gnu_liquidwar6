@@ -111,6 +111,9 @@ $(top_srcdir)/doc/mod-soft-doxygen.texi: $(top_srcdir)/src/lib/gfx/mod-soft/mod-
 $(top_srcdir)/doc/shared-sdl-doxygen.texi: $(top_srcdir)/src/lib/gfx/shared-sdl/shared-sdl.h $(top_srcdir)/src/lib/gfx/shared-sdl/shared-sdl-internal.h
 	if test -w $@ || test ! -f $@ ; then echo doxygen shared-sdl shared__sdl && echo > $@; for l in doxygen/xml/structshared__sdl__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done; fi
 
+$(top_srcdir)/doc/mod-caca-doxygen.texi: $(top_srcdir)/src/lib/gfx/mod-caca/mod-caca.h $(top_srcdir)/src/lib/gfx/mod-caca/mod-caca-internal.h
+	if test -w $@ || test ! -f $@ ; then echo doxygen mod-caca mod__caca && echo > $@; for l in doxygen/xml/structmod__caca__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done; fi
+
 $(top_srcdir)/doc/mod-csound-doxygen.texi: $(top_srcdir)/src/lib/snd/mod-csound/mod-csound.h $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-internal.h
 	if test -w $@ || test ! -f $@ ; then echo doxygen mod-csound mod__csound && echo > $@; for l in doxygen/xml/structmod__csound__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done; fi
 

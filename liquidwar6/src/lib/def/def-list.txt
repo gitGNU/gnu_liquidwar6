@@ -291,6 +291,7 @@ c-lw6sys-build-get-enable-gcov
 c-lw6sys-build-get-enable-gprof
 c-lw6sys-build-get-enable-gtk
 c-lw6sys-build-get-enable-instrument
+c-lw6sys-build-get-enable-mod-caca
 c-lw6sys-build-get-enable-mod-csound
 c-lw6sys-build-get-enable-mod-gl1
 c-lw6sys-build-get-enable-mod-gles2
@@ -644,6 +645,7 @@ show-build-enable-gcov
 show-build-enable-gprof
 show-build-enable-gtk
 show-build-enable-instrument
+show-build-enable-mod-caca
 show-build-enable-mod-csound
 show-build-enable-mod-gl1
 show-build-enable-mod-gles2
