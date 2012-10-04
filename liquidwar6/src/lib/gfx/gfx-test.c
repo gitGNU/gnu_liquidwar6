@@ -57,6 +57,7 @@
 //#define _TEST_HUD_STYLE_1 "floating"
 //#define _TEST_HUD_STYLE_2 "tactical"
 
+#if MOD_GL1 || MOD_GLES2 || MOD_SOFT
 static int
 test_sdl (int argc, const char *argv[])
 {
@@ -105,6 +106,7 @@ test_sdl (int argc, const char *argv[])
   LW6SYS_TEST_FUNCTION_END;
   return ret;
 }
+#endif // MOD_GL1 || MOD_GLES2 || MOD_SOFT
 
 static int
 test_resolution (lw6gfx_backend_t * backend)
@@ -609,7 +611,9 @@ lw6gfx_test (int mode)
       // lw6dyn_test (mode);
     }
 
+#if MOD_GL1 || MOD_GLES2 || MOD_SOFT
   ret = test_sdl (argc, argv) && ret;
+#endif // MOD_GL1 || MOD_GLES2 || MOD_SOFT
 
   if (mode)
     {

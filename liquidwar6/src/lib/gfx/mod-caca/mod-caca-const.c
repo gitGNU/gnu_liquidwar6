@@ -26,7 +26,7 @@
 
 #include "mod-caca-internal.h"
 
-#define CONST_FILE "soft-const.xml"
+#define CONST_FILE "caca-const.xml"
 
 static void
 read_callback (void *callback_data, const char *element, const char *key,

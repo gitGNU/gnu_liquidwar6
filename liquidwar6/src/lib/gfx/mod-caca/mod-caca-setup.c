@@ -46,33 +46,50 @@ _mod_caca_init (int argc, const char *argv[],
       /*
        * Todo: init library
        */
-      if (_mod_caca_load_consts (caca_context))
+      TMP
+	("There's a big TODO here, that is, the init proc probably requires more stuff. OTOH this is not where we set the video mode, only initialize the library basics, set up shared values such as data path. Choosing a video mode is yet another question, it comes later.");
+      TMP2
+	("Oh, BTW, see this TMP macro? It's very convenient to quick hack and display instant debug messages. The kind of thing which is never committed but fast to write for a quick test, here we'll display an int=%03d and a string=\"%s\"",
+	 7, "Bond, James Bond");
+
+
+      if (_mod_caca_path_init (&(caca_context->path), argc, argv))
 	{
-	  if (_mod_caca_set_resize_callback (caca_context, resize_callback))
+	  if (_mod_caca_load_consts (caca_context))
 	    {
-	      if (_mod_caca_set_video_mode (caca_context, video_mode))
+	      if (_mod_caca_set_resize_callback
+		  (caca_context, resize_callback))
 		{
-		  // todo
+		  if (_mod_caca_set_video_mode (caca_context, video_mode))
+		    {
+		      // todo                 
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_ERROR,
+				  _("unable to set video mode"));
+		      _mod_caca_quit (caca_context);
+		      caca_context = NULL;
+		    }
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_ERROR,
-			      _("unable to set video mode"));
+			      _("unable to set resize callback"));
 		  _mod_caca_quit (caca_context);
 		  caca_context = NULL;
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_ERROR,
-			  _("unable to set resize callback"));
+	      lw6sys_log (LW6SYS_LOG_ERROR, _("unable to load consts"));
 	      _mod_caca_quit (caca_context);
 	      caca_context = NULL;
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_ERROR, _("unable to load consts"));
+	  lw6sys_log (LW6SYS_LOG_ERROR, _("unable to init paths"));
 	  _mod_caca_quit (caca_context);
 	  caca_context = NULL;
 	}
@@ -88,6 +105,7 @@ void
 _mod_caca_quit (_mod_caca_context_t * caca_context)
 {
   _mod_caca_unload_consts (caca_context);
+  _mod_caca_path_quit (&(caca_context->path));
 
   LW6SYS_FREE (caca_context);
 }

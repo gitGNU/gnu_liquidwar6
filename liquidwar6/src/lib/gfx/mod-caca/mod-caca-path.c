@@ -26,8 +26,8 @@
 
 #include "mod-caca-internal.h"
 
-#define SUB "gfx/soft"
-#define DEBUG "soft-debug"
+#define SUB "gfx/caca"
+#define DEBUG "caca-debug"
 
 int
 _mod_caca_path_init (_mod_caca_path_t * path, int argc, const char *argv[])
