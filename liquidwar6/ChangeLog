@@ -1,5 +1,7 @@
 2012-10-04 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Removed compiler warning (strcpy better than sprintf when no args).
+
 	* Fixed ugly segfault in libcaca bootstrap.
 
 2012-10-03 : Christian Mauduit <ufoot@ufoot.org>

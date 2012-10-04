@@ -1609,9 +1609,9 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node)
        */
       if (_lw6p2p_db_lock (node->db))
 	{
-	  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
-				      (node->db,
-				       _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL));
+	  query = lw6sys_str_copy (_lw6p2p_db_get_query
+				   (node->db,
+				    _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL));
 	  if (query)
 	    {
 	      _lw6p2p_db_exec (node->db, query, _get_entries_callback, &ret);
@@ -1619,9 +1619,9 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node)
 	    }
 	  LW6SYS_FREE (query);
 
-	  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
-				      (node->db,
-				       _LW6P2P_SELECT_AVAILABLE_NODE_SQL));
+	  query = lw6sys_str_copy (_lw6p2p_db_get_query
+				   (node->db,
+				    _LW6P2P_SELECT_AVAILABLE_NODE_SQL));
 	  if (query)
 	    {
 	      if (_lw6p2p_db_lock (node->db))
