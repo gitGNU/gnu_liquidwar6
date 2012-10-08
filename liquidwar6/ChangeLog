@@ -1,3 +1,7 @@
+2012-10-08 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated doc about graphics backends.
+
 2012-10-04 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Removed compiler warning (strcpy better than sprintf when no args).

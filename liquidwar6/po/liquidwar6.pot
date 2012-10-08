@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.14beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-10-04 00:37+0200\n"
+"POT-Creation-Date: 2012-10-08 23:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,22 +70,26 @@ msgstr ""
 msgid "libcaca"
 msgstr ""
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:60
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:70
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:401
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:153
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:152
 msgid "unable to set video mode"
 msgstr ""
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:68
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:78
 msgid "unable to set resize callback"
 msgstr ""
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:75
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:85
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:408
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:161
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:160
 msgid "unable to load consts"
+msgstr ""
+
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:92
+msgid "unable to init paths"
 msgstr ""
 
 #: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-data.c:71

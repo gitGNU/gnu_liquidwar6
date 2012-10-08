@@ -96,9 +96,7 @@ Hacker's guide
 * Designing levels::    How to draw new maps.
 * Translating::         Translation HOWTO.
 * Architecture::        C, Scheme, modules and the rest.
-* About mod-gl1::       The working graphics backend.
-* About mod-gles2::     The upcoming graphics backend.
-* About mod-caca::      An ascii-art based graphics backend.
+* Graphics backends::   How gfx modules work, how to write them.
 * Compilation tips::    Advice for developpers and packagers.
 * Coding guidelines::   Ensure code remains maintainable.
 * Using the console::   How to interact with the game.
@@ -1634,9 +1632,7 @@ is welcome.
 * Designing levels::    How to draw new maps.
 * Translating::         Translation HOWTO.
 * Architecture::        C, Scheme, modules and the rest.
-* About mod-gl1::       The working graphics backend.
-* About mod-gles2::     The upcoming graphics backend.
-* About mod-caca::      An ascii-art based graphics backend.
+* Graphics backends::   How gfx modules work, how to write them.
 * Compilation tips::    Advice for developpers and packagers.
 * Coding guidelines::   Ensure code remains maintainable.
 * Using the console::   How to interact with the game.
@@ -2316,7 +2312,7 @@ priority today.
 @c Architecture
 @c ---------------------------------------------------------------------------
 
-@node Architecture, About mod-gl1, Translating, Hacker's guide
+@node Architecture, Graphics backends, Translating, Hacker's guide
 @section Architecture
 
 @subsection C + Guile
@@ -2581,13 +2577,33 @@ at a fast-paced rate is very hard, if possible at all, even with a high
 bandwidth. We're talking about Internet play here.
 
 @c ---------------------------------------------------------------------------
-@c About mod-gl1
+@c Graphics backends
 @c ---------------------------------------------------------------------------
 
-@node About mod-gl1, About mod-gles2, Architecture, Hacker's guide
-@section About mod-gl1
+@node Graphics backends, Compilation tips, Architecture, Hacker's guide
+@section Graphics backends
 
-@subsection The main renderer
+@subsection Modularity
+
+Liquid War 6 has a modular architecture which allows the programmer
+(and the player) to plug pretty much any rendering/graphics backend,
+provided this one is... developped.
+
+As of 2009 the only available backend was  @code{mod-gl1}, it would
+display the game using 3D acceleration, if available, through the
+@uref{http://www.libsdl.org/,SDL} library, using its GL bindings.
+
+As of 2012, other backends are begin developped, the idea is that
+each backend can provide the user with enough visual feedback to
+play, and convey input informations to the core engine.
+
+The rest of the game is exactly the same, this means playing with
+@code{mod-gl1} you can do exactly the same things than with @code{mod-caca}.
+
+@subsection List of backends
+
+@itemize
+@item mod-gl1
 
 Liquid War 6 has a modular architecture which allows the programmer
 (and the player) to plug pretty much any rendering/graphics backend,
@@ -2611,8 +2627,6 @@ This @code{mod-gl1} module is really one of the key stones of
 Liquid War 6, and if you want to change graphical things, it's definitely
 the place to hack on. The source is in @code{src/lib/gfx/mod-gl1}.
 
-@subsection Hardware requirements
-
 The @code{mod-gl1} backend requires ``moderate'' hardware, but it
 still does require hardware acceleration. Pure software rendering
 through @uref{http://www.mesa3d.org/, mesa} for instance, won't
@@ -2627,44 +2641,131 @@ for instance. Of course some maps are bigger than this but this
 means that internally, @code{mod-gl1} splits them into smaller tiles,
 and displays those tiles one by one.
 
-@subsection The gl-utils toolbox
-
 Inside the @code{mod-gl1} backend, the @code{src/lib/gfx/mod-gl1/gl-utils}
 directory contains lots of common structures, factorized functions which
 can (and should, if appliable) be used.
 
-@c ---------------------------------------------------------------------------
-@c About mod-gles2
-@c ---------------------------------------------------------------------------
+@item mod-gles2
 
-@node About mod-gles2, About mod-caca, About mod-gl1, Hacker's guide
-@section About mod-gles2
-
-@subsection The alternative renderer
-
-This is under heavy development, the idea is to provide an alternative
+This is under development, the idea is to provide an alternative
 renderer based on OpenGL ES 2, which could be used on standard computers
 but also on mobile platforms.
 
 Work in progress, don't hold your breath.
 
-@c ---------------------------------------------------------------------------
-@c About mod-caca
-@c ---------------------------------------------------------------------------
+@item mod-soft
 
-@node About mod-caca, Compilation tips, About mod-gles2, Hacker's guide
-@section About mod-caca
+This is under development, the idea is to provide a very basic
+rendered which can be compiled pretty much anywhere as long as SDL
+is available, since it does use software rendering only.
 
-@subsection The alternative renderer
+Work in progress, don't hold your breath.
+
+@item mod-caca
 
 This is under heavy development, the idea is to provide a basic
 yet surprising alternative text-based renderer, using libcaca.
+
+@end itemize
+
+@subsection How to write a new backend
+
+The starting point for any hack are the files @code{src/lib/gfx/gfx.h}.
+This is where the API is defined.
+
+Basically, the type @code{lw6gfx_backend_t} contains all the required
+callbacks. You must provide an implementation for each function.
+
+Let's take an example, taken from @code{mod-gl1}. When calling
+@code{lw6gfx_get_video_mode} and passing it a first argument which
+is a valid @code{mod-gl1} backend, the function
+@code{mod_gl1_utils_get_video_mode} will be called. How this is done
+is a little C casting wizardry.
+
+To understand how this works, read the files:
+
+@itemize
+@item
+@code{src/lib/gfx/gfx-api.c}: contains all the functions which
+are part of the API and can be called elsewhere in the code.
+@item
+@code{src/lib/gfx/gfx-register.c}: contains the code that allows
+a module to be loaded/unloaded at runtime. Will act differently
+if the games is compile with the @code{--allinone} flag, but
+for the caller this is transparent, just create and destroy 
+backend, period.
+@item
+@code{src/lib/gfx/mod-gl1/mod-gl1-backend.c}: this is where the
+module actually binds its internal functions with the callbacks
+defined in the @code{lw6gfx_backend_s} struct. None of these
+internal functions should be called directly, code in
+@code{libdsp} for instance should only refer to the @code{lw6gfx_...}
+bindings. Reading the code in @code{src/lib/gfx/gfx-test.c}
+shows how these functions can be called, and in which order.
+@end itemize
+
+All the functions should be defined, but some of them are
+obviously more important. The two most critical functions are:
+
+@itemize
+@item
+@code{pump_events}
+This is used to process inputs. The function should update
+a @code{lw6gui_input_s} struct and return it to the caller.
+How this done is really up to the backend, it happens that
+all SDL based backends (@code{mod-gl1}, @code{mod-gles2} and @code{mod-soft})
+share the same code for this, but another backend could
+do this differently, there's no real need to use SDL.
+
+Only, the returned input should behave correctly when queried
+with function from @code{libgui}. As a consequence, one needs
+to have a look at @code{libgui} to understand how input works.
+A look at @code{src/lib/gfx/shared-sdl/shared-sdl-event.c} is a good example
+of this, as this file contains the implementation for SDL-based input.
+
+@xref{libgfx, libgfx reference}.
+@xref{libgui, libgui reference}.
+
+@item
+@code{display}
+By far the most complicated function, this one is called
+on each display loop to render the game. It's always used in the
+same thread, so need not be reentrant,
+and on some platforms (eg Mac OS X) it will even be 
+called in the main thread (this can be of some importance regarding
+some libraries such as SDL).
+
+Still, beware, the @code{game_state} object it uses can change
+on the fly while rendering. In that case ``changing'' means that
+fighters can move and gradients be updated but the global structure
+won't change. So any pointer on a fighter will still be valid after
+it's been obtained, but the renderer should not expect the game
+to be static. In practice this is not really a problem. If you are
+curious, you can look in @code{libdsp} how and when this function
+is called.
+
+A very important parameter is @code{mask}, depending on its value,
+the backend should, or not, display the menu, or the map, or both, etc.
+The reference for this are the @code{LW6GUI_DISPLAY_...} constants
+in @code{src/lib/gui/gui.h}.
+
+As a starting point, implementing menu display before anything
+else is probably the best bet, since without menus it's hard to
+do anything within the game.
+
+To test out a backend, one can either launch the full game using
+the ``under development'' backend, or launch the test suite by
+typing @code{./liquidwar6gfx-test 1} in @code{./src/lib/gfx}.
+
+@xref{libdsp, libdsp reference}.
+
+@end itemize
 
 @c ---------------------------------------------------------------------------
 @c Compilation tips
 @c ---------------------------------------------------------------------------
 
-@node Compilation tips, Coding guidelines, About mod-caca, Hacker's guide
+@node Compilation tips, Coding guidelines, Graphics backends, Hacker's guide
 @section Compilation tips
 
 @subsection Advanced ./configure options
