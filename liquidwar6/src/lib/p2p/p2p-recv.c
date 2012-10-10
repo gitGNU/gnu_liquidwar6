@@ -373,6 +373,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 			  /*
 			   * Finally, prepare to send game information.
 			   */
+			  node->seed_needed = 1;
 			  node->dump_needed = 1;
 			}
 		    }

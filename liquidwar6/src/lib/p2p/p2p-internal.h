@@ -212,6 +212,7 @@ typedef struct _lw6p2p_node_s
   //  char *serialized_level;
   //  char *serialized_game_struct;
   //  char *serialized_game_state;
+  int seed_needed;
   int dump_needed;
   int64_t last_seq_reference;
   //int64_t last_seq_draft;
@@ -367,6 +368,7 @@ extern int _lw6p2p_node_update_info (_lw6p2p_node_t * node,
 extern void _lw6p2p_node_calibrate (_lw6p2p_node_t * node, int64_t timestamp,
 				    int64_t seq);
 extern int64_t _lw6p2p_node_get_seq_max (_lw6p2p_node_t * node);
+extern int _lw6p2p_node_is_seed_needed (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_is_dump_needed (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node,
 				       const char *msg);

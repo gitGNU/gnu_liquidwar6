@@ -107,16 +107,15 @@
 			     (if (> len 100)
 				 (begin
 				   (lw6-log-notice (format #f "received ~a bytes message" len))
+				   (set! ret #t) ;; todo, fix this and set it to true on real success
 				   )
 				 (begin
 				   (lw6-log-notice (format #f "received ~a bytes message \"~a\"" len msg))
-				   (set! ret #t) ;; todo, remove this, this is to allow snapshot builds
 				   )
 				 ))))
 		     ))
 	    (c-lw6p2p-node-close node-2)
 	    ))
-	(set! ret #t) ;; until p2p bug is found, this allow builds to continue
 	(c-lw6net-quit)
 	(gc)     
 	ret))))

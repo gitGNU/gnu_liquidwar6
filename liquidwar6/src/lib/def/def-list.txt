@@ -229,6 +229,7 @@ c-lw6p2p-node-get-next-draft-msg
 c-lw6p2p-node-get-next-reference-msg
 c-lw6p2p-node-get-seq-max
 c-lw6p2p-node-is-dump-needed
+c-lw6p2p-node-is-seed-needed
 c-lw6p2p-node-new
 c-lw6p2p-node-poll
 c-lw6p2p-node-put-local-msg
@@ -255,6 +256,7 @@ c-lw6pil-local-command
 c-lw6pil-local-cursors-set-main
 c-lw6pil-local-cursors-set-mouse-controlled
 c-lw6pil-make-backup
+c-lw6pil-seed-command-generate
 c-lw6pil-send-command
 c-lw6pil-seq-random-0
 c-lw6pil-slow-down

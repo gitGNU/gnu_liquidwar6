@@ -354,6 +354,12 @@ command_parse (lw6pil_command_t * command, char *command_text, int64_t seq_0)
 				    LW6PIL_COMMAND_CODE_UNREGISTER;
 				  ret = 1;
 				}
+			      else
+				if (!strcmp (pos, LW6PIL_COMMAND_TEXT_SEED))
+				{
+				  command->code = LW6PIL_COMMAND_CODE_SEED;
+				  ret = 1;
+				}
 			    }
 			}
 		      else
@@ -608,6 +614,13 @@ lw6pil_command_repr (lw6pil_command_t * command)
 			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_UNREGISTER);
       break;
+    case LW6PIL_COMMAND_CODE_SEED:
+      ret =
+	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+			    "x %s", (long long) command->seq,
+			    (long long) command->node_id,
+			    LW6PIL_COMMAND_TEXT_SEED);
+      break;
     case LW6PIL_COMMAND_CODE_DUMP:
       ret =
 	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
@@ -689,6 +702,14 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
       break;
     case LW6PIL_COMMAND_CODE_DUMP:
       ret = lw6pil_dump_command_execute (dump, timestamp, command, NULL);
+      break;
+    case LW6PIL_COMMAND_CODE_SEED:
+      /*
+       * SEED is always fine, this is sort of a placeholder to make
+       * sure the first message is not a hudge DUMP, but else, it
+       * really does nothing serious.
+       */
+      ret = 1;
       break;
     default:
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("incorrect command \"%s\""),

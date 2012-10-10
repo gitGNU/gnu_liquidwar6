@@ -34,6 +34,7 @@
 #define LW6PIL_COMMAND_TEXT_SET "SET"
 #define LW6PIL_COMMAND_TEXT_REMOVE "REMOVE"
 #define LW6PIL_COMMAND_TEXT_UNREGISTER "UNREGISTER"
+#define LW6PIL_COMMAND_TEXT_SEED "SEED"
 #define LW6PIL_COMMAND_TEXT_DUMP "DUMP"
 
 #define LW6PIL_DIRTY_READ_NEVER 0
@@ -52,6 +53,7 @@ typedef enum lw6pil_command_code_e
   LW6PIL_COMMAND_CODE_SET = 4,
   LW6PIL_COMMAND_CODE_REMOVE = 5,
   LW6PIL_COMMAND_CODE_UNREGISTER = 6,
+  LW6PIL_COMMAND_CODE_SEED = 7,
   /*
    * It's important that DUMP is the last one, so that it's sorted
    * at the end as far as messages with the same ID are concerned.
@@ -61,7 +63,7 @@ typedef enum lw6pil_command_code_e
    * after the rest of the battle, so it's safer to put it at
    * the end.
    */
-  LW6PIL_COMMAND_CODE_DUMP = 7,
+  LW6PIL_COMMAND_CODE_DUMP = 8
 } lw6pil_command_code_t;
 
 /**
@@ -396,6 +398,10 @@ extern lw6pil_local_cursors_t *lw6pil_pilot_get_local_cursors (lw6pil_pilot_t
 extern void lw6pil_pilot_checksum_log_set_interval (lw6pil_pilot_t * pilot,
 						    int
 						    checksum_log_interval);
+
+/* pil-seed.c */
+extern char *lw6pil_seed_command_generate (lw6pil_pilot_t * pilot,
+					   u_int64_t server_id);
 
 /* pil-seq.c */
 extern int64_t lw6pil_seq_random_0 ();

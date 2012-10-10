@@ -753,6 +753,30 @@ _scm_lw6p2p_node_get_seq_max (SCM node)
 }
 
 static SCM
+_scm_lw6p2p_node_is_seed_needed (SCM node)
+{
+  lw6p2p_node_t *c_node;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      ret = lw6p2p_node_is_seed_needed (c_node) ? SCM_BOOL_T : SCM_BOOL_F;
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6p2p_node_is_dump_needed (SCM node)
 {
   lw6p2p_node_t *c_node;
@@ -932,6 +956,9 @@ lw6_register_funcs_p2p ()
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX, 1, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_get_seq_max);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_SEED_NEEDED, 1, 0, 0,
+			      (SCM (*)())_scm_lw6p2p_node_is_seed_needed);
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED, 1, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_is_dump_needed);

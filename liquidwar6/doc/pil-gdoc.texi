@@ -604,6 +604,18 @@ separately.
 @strong{Return value:}  none
 @end deftypefun
 
+@deftypefun {char *} {lw6pil_seed_command_generate} (lw6pil_pilot_t * @var{pilot}, u_int64_t @var{server_id})
+@var{pilot}:  the pilot to transform as a SEED.
+
+@var{server_id}:  ID of server issuing the command
+
+Creates the SEED command for a given pilot, that is, a command that
+contains macro informations about the game state such as current seq.
+It should be followed by a dump.
+
+@strong{Return value:}  newly allocated string
+@end deftypefun
+
 @deftypefun {int64_t} {lw6pil_seq_random_0} ()
 
 Gets a pseudo-random start seq, why do we use this? Just to make

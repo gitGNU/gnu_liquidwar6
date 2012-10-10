@@ -118,6 +118,10 @@ extern void _lw6pil_pilot_checksum_log_set_interval (_lw6pil_pilot_t * pilot,
 						     int
 						     checksum_log_interval);
 
+/* pil-seed.c */
+extern char *_lw6pil_seed_command_generate (_lw6pil_pilot_t * pilot,
+					    u_int64_t server_id);
+
 /* pil-spread.c */
 extern void _lw6pil_spread_thread_func (_lw6pil_spread_data_t * spread_data);
 

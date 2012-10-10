@@ -2749,6 +2749,8 @@ populate_references ()
   POPULATE_VOID (LW6DEF_C_LW6KER_DID_CURSOR_WIN,
 		 _x_ ("Wrapper on lw6ker_did_cursor_win."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_BENCH, _x_ ("Wrapper on lw6pil_bench."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SEED_COMMAND_GENERATE,
+		 _x_ ("Wrapper on lw6pil_seed_command_generate."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_DUMP_COMMAND_GENERATE,
 		 _x_ ("Wrapper on lw6pil_dump_command_generate."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_BUILD_PILOT,
@@ -2867,6 +2869,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6p2p_node_calibrate."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX,
 		 _x_ ("Wrapper on lw6p2p_node_get_seq_max."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_IS_SEED_NEEDED,
+		 _x_ ("Wrapper on lw6p2p_node_is_seed_needed."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED,
 		 _x_ ("Wrapper on lw6p2p_node_is_dump_needed."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_PUT_LOCAL_MSG,

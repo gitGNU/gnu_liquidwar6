@@ -1138,6 +1138,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_IS_OVER);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_DID_CURSOR_WIN);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_BENCH);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SEED_COMMAND_GENERATE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_DUMP_COMMAND_GENERATE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_BUILD_PILOT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SEND_COMMAND);
@@ -1204,6 +1205,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_UPDATE_INFO);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_CALIBRATE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_IS_SEED_NEEDED);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_PUT_LOCAL_MSG);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_GET_NEXT_REFERENCE_MSG);

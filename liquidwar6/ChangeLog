@@ -1,3 +1,7 @@
+2012-10-10 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed #37429, introduced SEED (problem was pilot commit in test).
+
 2012-10-08 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Updated doc about graphics backends.

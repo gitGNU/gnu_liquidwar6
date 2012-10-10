@@ -910,6 +910,11 @@ Wrapper on lw6p2p_node_get_seq_max.
 Wrapper on lw6p2p_node_is_dump_needed.
 @end deffn
 
+@subsection c-lw6p2p-node-is-seed-needed
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-is-seed-needed}
+Wrapper on lw6p2p_node_is_seed_needed.
+@end deffn
+
 @subsection c-lw6p2p-node-new
 @deffn {C function exported to Guile} @code{c-lw6p2p-node-new}
 Wrapper on lw6p2p_node_new.
@@ -1038,6 +1043,11 @@ Wrapper on lw6pil_local_cursors_set_mouse_controlled.
 @subsection c-lw6pil-make-backup
 @deffn {C function exported to Guile} @code{c-lw6pil-make-backup}
 Wrapper on lw6pil_make_backup.
+@end deffn
+
+@subsection c-lw6pil-seed-command-generate
+@deffn {C function exported to Guile} @code{c-lw6pil-seed-command-generate}
+Wrapper on lw6pil_seed_command_generate.
 @end deffn
 
 @subsection c-lw6pil-send-command

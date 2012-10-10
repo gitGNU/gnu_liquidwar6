@@ -1905,6 +1905,7 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
   lw6nod_info_community_reset (node->node_info);
   lw6nod_info_update (node->node_info, LW6NOD_COMMUNITY_ID_NONE,
 		      0, NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
+  node->seed_needed = 0;
   node->dump_needed = 0;
   node->last_seq_reference =
     lw6dat_warehouse_get_seq_min (node->warehouse) - 1;
@@ -2047,6 +2048,40 @@ int64_t
 lw6p2p_node_get_seq_max (lw6p2p_node_t * node)
 {
   return _lw6p2p_node_get_seq_max ((_lw6p2p_node_t *) node);
+}
+
+int
+_lw6p2p_node_is_seed_needed (_lw6p2p_node_t * node)
+{
+  int ret = 0;
+
+  if (node->seed_needed)
+    {
+      ret = 1;
+
+      node->seed_needed = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_is_seed_needed
+ *
+ * @node: node to query
+ *
+ * Returns true (1) if the local node needs to send a SEED message.
+ * A SEED message will basically be sent at the beginning of a session
+ * when a client connects to a server. Basically this message is of
+ * no use but it's interesting to have a short message (not DUMP) to
+ * start with.
+ *
+ * Return value: 1 if SEED must be sent.
+ */
+int
+lw6p2p_node_is_seed_needed (lw6p2p_node_t * node)
+{
+  return _lw6p2p_node_is_seed_needed ((_lw6p2p_node_t *) node);
 }
 
 int

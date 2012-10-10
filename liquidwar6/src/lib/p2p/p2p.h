@@ -216,6 +216,7 @@ extern int lw6p2p_node_update_info (lw6p2p_node_t * node,
 extern void lw6p2p_node_calibrate (lw6p2p_node_t * node, int64_t timestamp,
 				   int64_t seq);
 extern int64_t lw6p2p_node_get_seq_max (lw6p2p_node_t * node);
+extern int lw6p2p_node_is_seed_needed (lw6p2p_node_t * node);
 extern int lw6p2p_node_is_dump_needed (lw6p2p_node_t * node);
 extern int lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg);
 extern char *lw6p2p_node_get_next_reference_msg (lw6p2p_node_t * node,

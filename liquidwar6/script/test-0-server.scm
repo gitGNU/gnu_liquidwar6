@@ -66,6 +66,7 @@
 	    (c-lw6p2p-node-poll node-1)
 	    (c-lw6pil-send-command pilot-1 (format #f "1000000000010 ~a REGISTER" id-1) #t)
 	    (c-lw6pil-send-command pilot-1 (format #f "1000000000010 ~a ADD 5678" id-1) #t)
+	    (c-lw6pil-commit pilot-1)
 	    (c-lw6p2p-node-server-start node-1 1000000000000)
 	    (let (
 		  (seq (c-lw6pil-get-max-seq pilot-1))
@@ -76,6 +77,18 @@
 		       (c-lw6p2p-node-poll node-1)
 		       (cond
 			(
+			 (c-lw6p2p-node-is-seed-needed node-1)
+			 (let (
+			       (seed-command (c-lw6pil-seed-command-generate pilot-1 id-1))
+			       )
+			   (begin
+			     (lw6-log-notice (format #f "seed-command -> ~a" seed-command))
+			     (c-lw6p2p-node-put-local-msg node-1 seed-command)
+			     (c-lw6sys-idle)
+			     (c-lw6p2p-node-poll node-1)
+			     )
+			   ))
+			(
 			 (c-lw6p2p-node-is-dump-needed node-1)
 			 (let (
 			       (dump-command (c-lw6pil-dump-command-generate pilot-1 id-1))
@@ -83,6 +96,8 @@
 			   (begin
 			     (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
 			     (c-lw6p2p-node-put-local-msg node-1 dump-command)
+			     (c-lw6sys-idle)
+			     (c-lw6p2p-node-poll node-1)
 			     (set! ret #t) ;; todo, fix this and set it to true on real success
 			     )
 			   ))
@@ -105,7 +120,6 @@
 		       )))
 	    (c-lw6p2p-node-close node-1)
 	    ))
-	(set! ret #t) ;; until p2p bug is found, this allow builds to continue
 	(c-lw6net-quit)
 	(gc)
 	ret))))
