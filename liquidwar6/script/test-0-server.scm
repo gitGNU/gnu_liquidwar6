@@ -65,7 +65,7 @@
 	    (lw6-log-notice node-1)
 	    (c-lw6p2p-node-poll node-1)
 	    (c-lw6pil-send-command pilot-1 (format #f "1000000000010 ~a REGISTER" id-1) #t)
-	    (c-lw6pil-send-command pilot-1 (format #f "1000000000010 ~a ADD 5678" id-1) #t)
+	    (c-lw6pil-send-command pilot-1 (format #f "1000000000010 ~a ADD 5678 RED" id-1) #t)
 	    (c-lw6pil-commit pilot-1)
 	    (c-lw6p2p-node-server-start node-1 1000000000000)
 	    (let (
