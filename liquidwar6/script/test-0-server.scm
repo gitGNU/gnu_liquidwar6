@@ -69,7 +69,7 @@
 	    (c-lw6pil-commit pilot-1)
 	    (c-lw6p2p-node-server-start node-1 1000000000000)
 	    (let (
-		  (seq (c-lw6pil-get-max-seq pilot-1))
+		  (seq (c-lw6pil-get-last-commit-seq pilot-1))
 		  )
 	      (while (< (c-lw6sys-get-timestamp) time-limit)
 		     (begin
