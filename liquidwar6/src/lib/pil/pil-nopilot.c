@@ -47,6 +47,16 @@ int
 lw6pil_nopilot_poll_dump (lw6pil_dump_t * dump, const char *command_text,
 			  int64_t seq_0, int64_t timestamp)
 {
-  return lw6pil_command_execute_text (dump,
-				      timestamp, NULL, command_text, seq_0);
+  int ret = 0;
+
+  /*
+   * Yes, we need to set dump to zero, else we might return 
+   * false positives...
+   */
+  lw6pil_dump_zero (dump);
+
+  ret = lw6pil_command_execute_text (dump,
+				     timestamp, NULL, command_text, seq_0);
+
+  return ret;
 }

@@ -19,7 +19,7 @@
 ;; Contact author	 : ufoot@ufoot.org
 
 (define lw6-test-network-global-delay 180000)
-(define lw6-test-network-connect-delay 30000)
+(define lw6-test-network-connect-delay 60000)
 
 (define lw6-test-run
   (lambda (proc)

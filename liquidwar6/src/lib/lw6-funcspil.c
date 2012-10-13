@@ -189,14 +189,6 @@ _scm_lw6pil_poll_dump (SCM command_text, SCM seq_0, SCM timestamp)
 				scm_cons (scm_from_locale_string ("pilot"),
 					  ret_pilot));
 	    }
-	  else
-	    {
-	      ret = SCM_EOL;
-	    }
-	}
-      else
-	{
-	  ret = SCM_BOOL_F;
 	}
       LW6SYS_FREE (c_command_text);
     }
@@ -361,14 +353,6 @@ _scm_lw6pil_commit (SCM pilot)
 				scm_cons (scm_from_locale_string ("pilot"),
 					  ret_pilot));
 	    }
-	  else
-	    {
-	      ret = SCM_EOL;
-	    }
-	}
-      else
-	{
-	  ret = SCM_BOOL_F;
 	}
     }
 

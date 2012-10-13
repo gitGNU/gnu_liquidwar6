@@ -36,6 +36,12 @@
 	;; different ID than before to somewhat "not connect very well",
 	;; at least for some time.
 	(c-lw6p2p-db-reset db-name)
+	;; We wait a bit before starting the client node. This is to
+	;; make sure server has had time to start before. In practice
+	;; most players will connect on servers that already appear
+	;; on the list of discovered servers, so this isn't a real
+	;; issue but here, we need to help the batch to work.
+	(c-lw6sys-delay (/ lw6-test-network-connect-delay 10))
 	(let* (
 	       (db (c-lw6p2p-db-new db-name))
 	       (node-2 (c-lw6p2p-node-new db (list (cons "client-backends" "tcp,udp")
@@ -61,7 +67,7 @@
 	  (begin
 	    (lw6-log-notice node-2)
 	    (while (and (< (c-lw6sys-get-timestamp) connect-time) 
-			(not connect-ret))
+			(not (and connect-ret server-entry)))
 		   (let (
 			 (entries (c-lw6p2p-node-get-entries node-2))
 			 )
@@ -101,7 +107,10 @@
 		     (let* (
 			    (msg (c-lw6p2p-node-get-next-draft-msg node-2))
 			    (len (if msg (string-length msg) 0))
-			   )
+			    (dump (if msg (c-lw6pil-poll-dump msg
+							      (c-lw6p2p-node-get-seq-max node-2)
+							      (c-lw6sys-get-timestamp))))
+			    )
 		       (if msg
 			   (begin
 			     (if (> len 100)
@@ -112,7 +121,12 @@
 				 (begin
 				   (lw6-log-notice (format #f "received ~a bytes message \"~a\"" len msg))
 				   )
-				 ))))
+				 )
+			     (if dump
+				 (begin
+				   (lw6-log-notice (format #f "dump ~a" dump))
+				   ))
+			     )))
 		     ))
 	    (c-lw6p2p-node-close node-2)
 	    ))
