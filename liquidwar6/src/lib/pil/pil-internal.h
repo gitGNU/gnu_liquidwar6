@@ -76,9 +76,10 @@ extern _lw6pil_pilot_t *_lw6pil_pilot_new (lw6ker_game_state_t * game_state,
 					   lw6sys_progress_t * progress);
 extern void _lw6pil_pilot_free (_lw6pil_pilot_t * pilot);
 extern int _lw6pil_pilot_send_command (_lw6pil_pilot_t * pilot,
-				       char *command_text, int verified);
+				       const char *command_text,
+				       int verified);
 extern int _lw6pil_pilot_local_command (_lw6pil_pilot_t * pilot,
-					char *command_text);
+					const char *command_text);
 extern int _lw6pil_pilot_commit (lw6pil_dump_t * dump,
 				 _lw6pil_pilot_t * pilot);
 extern int _lw6pil_pilot_make_backup (_lw6pil_pilot_t * pilot);

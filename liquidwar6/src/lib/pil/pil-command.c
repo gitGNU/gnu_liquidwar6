@@ -259,7 +259,8 @@ command_dump_parse (lw6pil_command_t * command, char *command_args)
 }
 
 static int
-command_parse (lw6pil_command_t * command, char *command_text, int64_t seq_0)
+command_parse (lw6pil_command_t * command, const char *command_text,
+	       int64_t seq_0)
 {
   int ret = 0;
   char *pos;
@@ -406,7 +407,7 @@ command_parse (lw6pil_command_t * command, char *command_text, int64_t seq_0)
  * Return value: newly allocated object
  */
 lw6pil_command_t *
-lw6pil_command_new (char *command_text, int64_t seq_0)
+lw6pil_command_new (const char *command_text, int64_t seq_0)
 {
   lw6pil_command_t *ret = NULL;
 
@@ -647,7 +648,7 @@ lw6pil_command_repr (lw6pil_command_t * command)
  *
  * @dump: pointer on dump structure (out param, can be NULL)
  * @timestamp: current timestamp (can be 0 if dump is NULL)
- * @game_state: game state to work on
+ * @game_state: game state to work on, can be NULL (usefull for DUMP)
  * @command: command to process
  *
  * Interprets a command and runs it against game_state. If
@@ -674,33 +675,57 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
       ret = 1;
       break;
     case LW6PIL_COMMAND_CODE_REGISTER:
-      ret = lw6ker_game_state_register_node (game_state, command->node_id);
+      if (game_state)
+	{
+	  ret =
+	    lw6ker_game_state_register_node (game_state, command->node_id);
+	}
       break;
     case LW6PIL_COMMAND_CODE_ADD:
-      ret =
-	lw6ker_game_state_add_cursor (game_state, command->node_id,
-				      command->args.add.cursor_id,
-				      command->args.add.team_color);
+      if (game_state)
+	{
+	  ret =
+	    lw6ker_game_state_add_cursor (game_state, command->node_id,
+					  command->args.add.cursor_id,
+					  command->args.add.team_color);
+	}
       break;
     case LW6PIL_COMMAND_CODE_SET:
-      lw6ker_cursor_reset (&cursor);
-      cursor.node_id = command->node_id;
-      cursor.cursor_id = command->args.set.cursor_id;
-      cursor.pos.x = command->args.set.x;
-      cursor.pos.y = command->args.set.y;
-      cursor.fire = command->args.set.fire;
-      cursor.fire2 = command->args.set.fire2;
-      ret = lw6ker_game_state_set_cursor (game_state, &cursor);
+      if (game_state)
+	{
+	  lw6ker_cursor_reset (&cursor);
+	  cursor.node_id = command->node_id;
+	  cursor.cursor_id = command->args.set.cursor_id;
+	  cursor.pos.x = command->args.set.x;
+	  cursor.pos.y = command->args.set.y;
+	  cursor.fire = command->args.set.fire;
+	  cursor.fire2 = command->args.set.fire2;
+	  ret = lw6ker_game_state_set_cursor (game_state, &cursor);
+	}
       break;
     case LW6PIL_COMMAND_CODE_REMOVE:
-      ret =
-	lw6ker_game_state_remove_cursor (game_state, command->node_id,
-					 command->args.remove.cursor_id);
+      if (game_state)
+	{
+	  ret =
+	    lw6ker_game_state_remove_cursor (game_state, command->node_id,
+					     command->args.remove.cursor_id);
+	}
       break;
     case LW6PIL_COMMAND_CODE_UNREGISTER:
-      ret = lw6ker_game_state_unregister_node (game_state, command->node_id);
+      if (game_state)
+	{
+	  ret =
+	    lw6ker_game_state_unregister_node (game_state, command->node_id);
+	}
       break;
     case LW6PIL_COMMAND_CODE_DUMP:
+      /*
+       * Here we don't test for game_state being not NULL, in fact,
+       * the whole purpose of allowing game_state to be NULL is to
+       * be able to execute DUMP, which does not require a game_state.
+       * Note that DUMP can arrive both in the case game_state is not NULL
+       * and in the case it is NULL.
+       */
       ret = lw6pil_dump_command_execute (dump, timestamp, command, NULL);
       break;
     case LW6PIL_COMMAND_CODE_SEED:
@@ -725,7 +750,7 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
  *
  * @dump: pointer on dump structure (out param, can be NULL)
  * @timestamp: current timestamp (can be 0 if dump is NULL)
- * @game_state: game state to work on
+ * @game_state: game state to work on, can be NULL (typically for DUMP)
  * @command_text: command text to process
  * @seq_0: sequence offset (diffrerence between sequence and round)
  *
@@ -740,7 +765,7 @@ int
 lw6pil_command_execute_text (lw6pil_dump_t * dump,
 			     int64_t timestamp,
 			     lw6ker_game_state_t * game_state,
-			     char *command_text, int64_t seq_0)
+			     const char *command_text, int64_t seq_0)
 {
   int ret = 0;
   lw6pil_command_t *command = NULL;
@@ -814,7 +839,7 @@ lw6pil_command_execute_local (lw6pil_local_cursors_t * local_cursors,
  */
 int
 lw6pil_command_execute_local_text (lw6pil_local_cursors_t * local_cursors,
-				   char *command_text)
+				   const char *command_text)
 {
   int ret = 0;
   lw6pil_command_t *command = NULL;

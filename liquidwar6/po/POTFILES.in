@@ -402,6 +402,7 @@ src/lib/pil/pil-compute.c
 src/lib/pil/pil-coords.c
 src/lib/pil/pil-dump.c
 src/lib/pil/pil-localcursors.c
+src/lib/pil/pil-nopilot.c
 src/lib/pil/pil-pilot.c
 src/lib/pil/pil-seed.c
 src/lib/pil/pil-seq.c

@@ -493,6 +493,8 @@ _lw6ker_weapon_fire_teleport (_lw6ker_map_state_t * map_state,
 {
   int ret = 0;
 
+  // todo...
+
   return ret;
 }
 
@@ -502,6 +504,8 @@ _lw6ker_weapon_fire_scatter (_lw6ker_map_state_t * map_state,
 			     int team_color, int charge_percent)
 {
   int ret = 0;
+
+  // todo...
 
   return ret;
 }
@@ -513,7 +517,14 @@ _lw6ker_weapon_fire_fix (_lw6ker_map_state_t * map_state,
 {
   int ret = 0;
 
+  /* 
+   * FIX is an exclusive weapon, as such, when someone is using
+   * it, no one else can. So we disable it for everyone before triggering
+   * it for a given team.
+   */
   _lw6ker_weapon_unset_by_weapon_id (map_state, LW6MAP_WEAPON_FIX);
+
+  // todo...
 
   return ret;
 }
@@ -525,6 +536,8 @@ _lw6ker_weapon_fire_mix (_lw6ker_map_state_t * map_state,
 {
   int ret = 0;
 
+  // todo...
+
   return ret;
 }
 
@@ -535,7 +548,14 @@ _lw6ker_weapon_fire_control (_lw6ker_map_state_t * map_state,
 {
   int ret = 0;
 
+  /* 
+   * CONTROL is an exclusive weapon, as such, when someone is using
+   * it, no one else can. So we disable it for everyone before triggering
+   * it for a given team.
+   */
   _lw6ker_weapon_unset_by_weapon_id (map_state, LW6MAP_WEAPON_CONTROL);
+
+  // todo...
 
   return ret;
 }
@@ -547,6 +567,8 @@ _lw6ker_weapon_fire_permutation (_lw6ker_map_state_t * map_state,
 {
   int ret = 0;
 
+  // todo...
+
   return ret;
 }
 
@@ -556,6 +578,9 @@ _lw6ker_weapon_fire_steal (_lw6ker_map_state_t * map_state,
 			   int team_color, int charge_percent)
 {
   int ret = 0;
+
+  // todo...
+
   return ret;
 }
 
@@ -565,6 +590,9 @@ _lw6ker_weapon_fire_atomic (_lw6ker_map_state_t * map_state,
 			    int team_color, int charge_percent)
 {
   int ret = 0;
+
+  // todo...
+
   return ret;
 }
 
@@ -574,6 +602,9 @@ _lw6ker_weapon_fire_reverse (_lw6ker_map_state_t * map_state,
 			     int team_color, int charge_percent)
 {
   int ret = 0;
+
+  // todo...
+
   return ret;
 }
 
@@ -583,6 +614,9 @@ _lw6ker_weapon_fire_crazy (_lw6ker_map_state_t * map_state,
 			   int team_color, int charge_percent)
 {
   int ret = 0;
+
+  // todo...
+
   return ret;
 }
 
@@ -592,6 +626,8 @@ _lw6ker_weapon_fire_rewind (_lw6ker_map_state_t * map_state,
 			    int team_color, int charge_percent)
 {
   int ret = 0;
+
+  // todo...
 
   return ret;
 }
@@ -603,6 +639,8 @@ _lw6ker_weapon_fire_attract (_lw6ker_map_state_t * map_state,
 {
   int ret = 0;
 
+  // todo...
+
   return ret;
 }
 
@@ -612,6 +650,8 @@ _lw6ker_weapon_fire_shrink (_lw6ker_map_state_t * map_state,
 			    int team_color, int charge_percent)
 {
   int ret = 0;
+
+  // todo...
 
   return ret;
 }
@@ -623,6 +663,8 @@ _lw6ker_weapon_fire_kamikaze (_lw6ker_map_state_t * map_state,
 {
   int ret = 0;
 
+  // todo...
+
   return ret;
 }
 
@@ -633,6 +675,8 @@ _lw6ker_weapon_fire_disappear (_lw6ker_map_state_t * map_state,
 {
   int ret = 0;
 
+  // todo...
+
   return ret;
 }
 
@@ -642,6 +686,8 @@ _lw6ker_weapon_fire_plague (_lw6ker_map_state_t * map_state,
 			    int team_color, int charge_percent)
 {
   int ret = 0;
+
+  // todo...
 
   return ret;
 }

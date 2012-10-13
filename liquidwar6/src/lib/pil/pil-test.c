@@ -623,6 +623,108 @@ test_dump ()
 }
 
 /*
+ * Testing functions in nopilot.c
+ */
+static int
+test_nopilot ()
+{
+  int ret = 0;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6map_level_t *level = NULL;
+    lw6ker_game_struct_t *game_struct = NULL;
+    lw6ker_game_state_t *game_state = NULL;
+    lw6pil_pilot_t *pilot = NULL;
+    char *repr = NULL;
+    char *dump_command = NULL;
+    int dump_len = 0;
+    char dump_preview[_TEST_DUMP_PREVIEW_LEN + 1];
+    lw6pil_dump_t dump;
+
+    lw6pil_dump_zero (&dump);
+    level =
+      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
+    if (level)
+      {
+	/*
+	 * Here we do not fiddle with the spread_thread parameter, so the checksum
+	 * is different than the checksum in the other standard case. This is also
+	 * a way to test both algorithms, including the standard one (this case).
+	 */
+	game_struct = lw6ker_game_struct_new (level, NULL);
+	if (game_struct)
+	  {
+	    game_state = lw6ker_game_state_new (game_struct, NULL);
+	    if (game_state)
+	      {
+		pilot =
+		  lw6pil_pilot_new (game_state, _LW6PIL_MIN_SEQ_0, 0, NULL);
+		if (pilot)
+		  {
+		    repr = lw6pil_pilot_repr (pilot);
+		    if (repr)
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_ ("pilot \"%s\" created"), repr);
+			LW6SYS_FREE (repr);
+		      }
+		    lw6pil_pilot_checksum_log_set_interval (pilot,
+							    _TEST_CHECKSUM_LOG_INTERVAL);
+		    dump_command =
+		      lw6pil_dump_command_generate (pilot, _TEST_DUMP_ID);
+		    if (dump_command)
+		      {
+			dump_len = strlen (dump_command);
+			memset (dump_preview, 0, _TEST_DUMP_PREVIEW_LEN + 1);
+			strncpy (dump_preview, dump_command,
+				 _TEST_DUMP_PREVIEW_LEN);
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_
+				    ("dump command with length=%d, %d first chars are \"%s\""),
+				    dump_len, _TEST_DUMP_PREVIEW_LEN,
+				    dump_preview);
+			if (lw6pil_nopilot_poll_dump
+			    (&dump, dump_command, _LW6PIL_MIN_SEQ_0))
+			  {
+			    if (lw6pil_dump_exists (&dump))
+			      {
+				lw6sys_log (LW6SYS_LOG_NOTICE,
+					    _x_ ("dump exists"));
+				ret = 1;
+				lw6pil_dump_clear (&dump);
+			      }
+			  }
+		      }
+
+		    lw6pil_pilot_free (pilot);
+		  }
+		if (game_state)
+		  {
+		    lw6ker_game_state_free (game_state);
+		    game_state = NULL;
+		  }
+	      }
+	    if (game_struct)
+	      {
+		lw6ker_game_struct_free (game_struct);
+		game_struct = NULL;
+	      }
+	  }
+	if (level)
+	  {
+	    lw6map_free (level);
+	    level = NULL;
+	  }
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
  * Testing functions in pilot.c
  */
 static int
@@ -893,7 +995,8 @@ lw6pil_test (int mode)
     }
 
   ret = test_command () && test_coords () && test_local_cursors ()
-    && test_pilot () && test_dump () && test_bench () && test_seq ();
+    && test_nopilot () && test_pilot () && test_dump () && test_bench ()
+    && test_seq ();
 
   return ret;
 }

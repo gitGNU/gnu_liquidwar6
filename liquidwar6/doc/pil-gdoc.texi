@@ -9,7 +9,7 @@ be interpreted as an estimated speed/power of your computer.
 @strong{Return value:}  1 on success, 0 if failure
 @end deftypefun
 
-@deftypefun {lw6pil_command_t *} {lw6pil_command_new} (char * @var{command_text}, int64_t @var{seq_0})
+@deftypefun {lw6pil_command_t *} {lw6pil_command_new} (const char * @var{command_text}, int64_t @var{seq_0})
 @var{command_text}:  readable text of the command
 
 @var{seq_0}:  sequence offset (difference between sequence and rounds)
@@ -48,7 +48,7 @@ Gives a readable representation of a command.
 
 @var{timestamp}:  current timestamp (can be 0 if dump is NULL)
 
-@var{game_state}:  game state to work on
+@var{game_state}:  game state to work on, can be NULL (usefull for DUMP)
 
 @var{command}:  command to process
 
@@ -60,12 +60,12 @@ from a pilot context, this is useless, use NULL and 0LL.
 @strong{Return value:}  1 if ok, 0 if failed.
 @end deftypefun
 
-@deftypefun {int} {lw6pil_command_execute_text} (lw6pil_dump_t * @var{dump}, int64_t @var{timestamp}, lw6ker_game_state_t * @var{game_state}, char * @var{command_text}, int64_t @var{seq_0})
+@deftypefun {int} {lw6pil_command_execute_text} (lw6pil_dump_t * @var{dump}, int64_t @var{timestamp}, lw6ker_game_state_t * @var{game_state}, const char * @var{command_text}, int64_t @var{seq_0})
 @var{dump}:  pointer on dump structure (out param, can be NULL)
 
 @var{timestamp}:  current timestamp (can be 0 if dump is NULL)
 
-@var{game_state}:  game state to work on
+@var{game_state}:  game state to work on, can be NULL (typically for DUMP)
 
 @var{command_text}:  command text to process
 
@@ -90,7 +90,7 @@ local_cursor struct, without changing any game state.
 @strong{Return value:}  1 if success, 0 if failure.
 @end deftypefun
 
-@deftypefun {int} {lw6pil_command_execute_local_text} (lw6pil_local_cursors_t * @var{local_cursors}, char * @var{command_text})
+@deftypefun {int} {lw6pil_command_execute_local_text} (lw6pil_local_cursors_t * @var{local_cursors}, const char * @var{command_text})
 @var{local_cursors}:  local cursors information
 
 @var{command_text}:  command text to execute
@@ -269,6 +269,22 @@ for instance).
 @strong{Return value:}  1 on success (cursor exists), 0 on failure (no such cursor).
 @end deftypefun
 
+@deftypefun {int} {lw6pil_nopilot_poll_dump} (lw6pil_dump_t * @var{dump}, const char * @var{command_text}, int64_t @var{seq_0})
+@var{dump}:  will contain the dump information if needed, can be NULL
+
+@var{command_text}:  the command received from the network.
+
+@var{seq_0}:  reference seq for the beginning of the game
+
+Normally, it's the commit function of the pilot which will automatically
+return a dump if needed. But... when a client connects, at first, it has
+absolutely no pilot/map whatsoever yet, so this is just to bootstrap the
+process, this function will take network messages, any message, and if
+it's about a dump -> it will create the dump.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
 @deftypefun {lw6pil_pilot_t *} {lw6pil_pilot_new} (lw6ker_game_state_t * @var{game_state}, int64_t @var{seq_0}, int64_t @var{timestamp}, lw6sys_progress_t * @var{progress})
 @var{game_state}:  the game state we're going to work on
 
@@ -294,7 +310,7 @@ some threads, so it can 'take some time'.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6pil_pilot_send_command} (lw6pil_pilot_t * @var{pilot}, char * @var{command_text}, int @var{verified})
+@deftypefun {int} {lw6pil_pilot_send_command} (lw6pil_pilot_t * @var{pilot}, const char * @var{command_text}, int @var{verified})
 @var{pilot}:  the object to send commands to.
 
 @var{command_text}:  the text of the command, as received form network
@@ -306,7 +322,7 @@ Sends a command and handles it internally.
 @strong{Return value:}  1 if OK, 0 if not.
 @end deftypefun
 
-@deftypefun {int} {lw6pil_pilot_local_command} (lw6pil_pilot_t * @var{pilot}, char * @var{command_text})
+@deftypefun {int} {lw6pil_pilot_local_command} (lw6pil_pilot_t * @var{pilot}, const char * @var{command_text})
 @var{pilot}:  the object to apply the local command on
 
 @var{command_text}:  the command text

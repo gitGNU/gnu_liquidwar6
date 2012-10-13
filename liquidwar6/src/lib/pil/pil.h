@@ -290,7 +290,7 @@ typedef struct lw6pil_pilot_s
 extern int lw6pil_bench (float *bench_result, lw6sys_progress_t * progress);
 
 /* pil-command.c */
-extern lw6pil_command_t *lw6pil_command_new (char *command_text,
+extern lw6pil_command_t *lw6pil_command_new (const char *command_text,
 					     int64_t seq_0);
 extern lw6pil_command_t *lw6pil_command_dup (lw6pil_command_t * command);
 extern void lw6pil_command_free (lw6pil_command_t * command);
@@ -301,13 +301,14 @@ extern int lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
 extern int lw6pil_command_execute_text (lw6pil_dump_t * dump,
 					int64_t timestamp,
 					lw6ker_game_state_t * game_state,
-					char *command_text, int64_t seq_0);
+					const char *command_text,
+					int64_t seq_0);
 extern int lw6pil_command_execute_local (lw6pil_local_cursors_t *
 					 local_cursors,
 					 lw6pil_command_t * command);
 extern int lw6pil_command_execute_local_text (lw6pil_local_cursors_t *
 					      local_cursors,
-					      char *command_text);
+					      const char *command_text);
 
 /* pil-coords.c */
 extern void lw6pil_coords_fix (lw6map_rules_t * rules, lw6sys_whd_t * shape,
@@ -351,6 +352,10 @@ extern int lw6pil_local_cursors_get_main_info (lw6pil_local_cursors_t *
 extern int lw6pil_local_cursors_set_main (lw6pil_local_cursors_t *
 					  local_cursors, u_int16_t cursor_id);
 
+/* pil-nopilot.c */
+extern int lw6pil_nopilot_poll_dump (lw6pil_dump_t * dump,
+				     const char *command_text, int64_t seq_0);
+
 /* pil-pilot.c */
 extern lw6pil_pilot_t *lw6pil_pilot_new (lw6ker_game_state_t * game_state,
 					 int64_t seq_0,
@@ -358,9 +363,9 @@ extern lw6pil_pilot_t *lw6pil_pilot_new (lw6ker_game_state_t * game_state,
 					 lw6sys_progress_t * progress);
 extern void lw6pil_pilot_free (lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_send_command (lw6pil_pilot_t * pilot,
-				      char *command_text, int verified);
+				      const char *command_text, int verified);
 extern int lw6pil_pilot_local_command (lw6pil_pilot_t * pilot,
-				       char *command_text);
+				       const char *command_text);
 extern int lw6pil_pilot_commit (lw6pil_dump_t * dump, lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_make_backup (lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_can_sync (lw6ker_game_state_t * target,

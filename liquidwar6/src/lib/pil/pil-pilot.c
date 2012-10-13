@@ -222,7 +222,7 @@ lw6pil_pilot_free (lw6pil_pilot_t * pilot)
 }
 
 int
-_lw6pil_pilot_send_command (_lw6pil_pilot_t * pilot, char *command_text,
+_lw6pil_pilot_send_command (_lw6pil_pilot_t * pilot, const char *command_text,
 			    int verified)
 {
   int ret = 1;
@@ -257,7 +257,7 @@ _lw6pil_pilot_send_command (_lw6pil_pilot_t * pilot, char *command_text,
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6pil_pilot_send_command (lw6pil_pilot_t * pilot, char *command_text,
+lw6pil_pilot_send_command (lw6pil_pilot_t * pilot, const char *command_text,
 			   int verified)
 {
   return _lw6pil_pilot_send_command ((_lw6pil_pilot_t *) pilot, command_text,
@@ -265,7 +265,8 @@ lw6pil_pilot_send_command (lw6pil_pilot_t * pilot, char *command_text,
 }
 
 int
-_lw6pil_pilot_local_command (_lw6pil_pilot_t * pilot, char *command_text)
+_lw6pil_pilot_local_command (_lw6pil_pilot_t * pilot,
+			     const char *command_text)
 {
   int ret = 0;
 
@@ -294,7 +295,7 @@ _lw6pil_pilot_local_command (_lw6pil_pilot_t * pilot, char *command_text)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6pil_pilot_local_command (lw6pil_pilot_t * pilot, char *command_text)
+lw6pil_pilot_local_command (lw6pil_pilot_t * pilot, const char *command_text)
 {
   return _lw6pil_pilot_local_command ((_lw6pil_pilot_t *) pilot,
 				      command_text);
