@@ -2753,6 +2753,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6pil_seed_command_generate."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_DUMP_COMMAND_GENERATE,
 		 _x_ ("Wrapper on lw6pil_dump_command_generate."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_POLL_DUMP,
+		 _x_ ("Wrapper on lw6pil_poll_dump."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_BUILD_PILOT,
 		 _x_ ("Wrapper on lw6pil_build_pilot."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_SEND_COMMAND,

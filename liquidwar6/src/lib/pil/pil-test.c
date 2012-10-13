@@ -686,7 +686,8 @@ test_nopilot ()
 				    dump_len, _TEST_DUMP_PREVIEW_LEN,
 				    dump_preview);
 			if (lw6pil_nopilot_poll_dump
-			    (&dump, dump_command, _LW6PIL_MIN_SEQ_0))
+			    (&dump, dump_command, _LW6PIL_MIN_SEQ_0,
+			     lw6sys_get_timestamp ()))
 			  {
 			    if (lw6pil_dump_exists (&dump))
 			      {
@@ -696,6 +697,8 @@ test_nopilot ()
 				lw6pil_dump_clear (&dump);
 			      }
 			  }
+
+			LW6SYS_FREE (dump_command);
 		      }
 
 		    lw6pil_pilot_free (pilot);

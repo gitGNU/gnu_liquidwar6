@@ -276,6 +276,7 @@
 (define lw6def-c-lw6pil-local-cursors-set-main "c-lw6pil-local-cursors-set-main")
 (define lw6def-c-lw6pil-local-cursors-set-mouse-controlled "c-lw6pil-local-cursors-set-mouse-controlled")
 (define lw6def-c-lw6pil-make-backup "c-lw6pil-make-backup")
+(define lw6def-c-lw6pil-poll-dump "c-lw6pil-poll-dump")
 (define lw6def-c-lw6pil-seed-command-generate "c-lw6pil-seed-command-generate")
 (define lw6def-c-lw6pil-send-command "c-lw6pil-send-command")
 (define lw6def-c-lw6pil-seq-random-0 "c-lw6pil-seq-random-0")

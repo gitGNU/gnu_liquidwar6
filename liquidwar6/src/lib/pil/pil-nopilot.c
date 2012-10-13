@@ -33,6 +33,7 @@
  * @dump: will contain the dump information if needed, can be NULL
  * @command_text: the command received from the network.
  * @seq_0: reference seq for the beginning of the game
+ * @timestamp: timestamp, used to initialize the pilot
  *
  * Normally, it's the commit function of the pilot which will automatically
  * return a dump if needed. But... when a client connects, at first, it has
@@ -44,9 +45,8 @@
  */
 int
 lw6pil_nopilot_poll_dump (lw6pil_dump_t * dump, const char *command_text,
-			  int64_t seq_0)
+			  int64_t seq_0, int64_t timestamp)
 {
   return lw6pil_command_execute_text (dump,
-				      lw6sys_get_timestamp (),
-				      NULL, command_text, seq_0);
+				      timestamp, NULL, command_text, seq_0);
 }

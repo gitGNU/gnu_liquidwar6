@@ -142,6 +142,69 @@ _scm_lw6pil_dump_command_generate (SCM pilot, SCM server_id)
   return ret;
 }
 
+static SCM
+_scm_lw6pil_poll_dump (SCM command_text, SCM seq_0, SCM timestamp)
+{
+  char *c_command_text = NULL;
+  int64_t c_seq_0;
+  int64_t c_timestamp;
+  SCM ret = SCM_BOOL_F;
+  lw6pil_dump_t c_dump;
+  SCM ret_level;
+  SCM ret_game_struct;
+  SCM ret_game_state;
+  SCM ret_pilot;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (scm_is_string (command_text), command_text, SCM_ARG1,
+	      __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (seq_0), seq_0, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (timestamp), timestamp, SCM_ARG2, __FUNCTION__);
+
+  c_command_text = lw6scm_utils_to_0str (command_text);
+  if (c_command_text)
+    {
+      c_seq_0 = scm_to_long_long (seq_0);
+      c_timestamp = scm_to_long_long (timestamp);
+      if (lw6pil_nopilot_poll_dump
+	  (&c_dump, c_command_text, c_seq_0, c_timestamp))
+	{
+	  if (lw6pil_dump_exists (&c_dump))
+	    {
+	      ret_level = lw6_make_scm_map (c_dump.level);
+	      ret_game_struct =
+		lw6_make_scm_game_struct (c_dump.game_struct, ret_level);
+	      ret_game_state =
+		lw6_make_scm_game_state (c_dump.game_state, ret_game_struct);
+	      ret_pilot = lw6_make_scm_pilot (c_dump.pilot);
+	      ret = scm_list_4 (scm_cons
+				(scm_from_locale_string ("level"), ret_level),
+				scm_cons
+				(scm_from_locale_string ("game-struct"),
+				 ret_game_struct),
+				scm_cons (scm_from_locale_string
+					  ("game-state"), ret_game_state),
+				scm_cons (scm_from_locale_string ("pilot"),
+					  ret_pilot));
+	    }
+	  else
+	    {
+	      ret = SCM_EOL;
+	    }
+	}
+      else
+	{
+	  ret = SCM_BOOL_F;
+	}
+      LW6SYS_FREE (c_command_text);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
 
 static SCM
 _scm_lw6pil_build_pilot (SCM game_state, SCM seq_0, SCM timestamp)
@@ -1026,6 +1089,9 @@ lw6_register_funcs_pil ()
 				      2, 0, 0,
 				      (SCM (*)
 				       ())_scm_lw6pil_dump_command_generate);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_POLL_DUMP, 3, 0, 0,
+			      (SCM (*)())_scm_lw6pil_poll_dump);
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_BUILD_PILOT, 3, 0, 0,
 			      (SCM (*)())_scm_lw6pil_build_pilot);

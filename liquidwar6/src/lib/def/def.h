@@ -283,6 +283,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN "c-lw6pil-local-cursors-set-main"
 #define LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MOUSE_CONTROLLED "c-lw6pil-local-cursors-set-mouse-controlled"
 #define LW6DEF_C_LW6PIL_MAKE_BACKUP "c-lw6pil-make-backup"
+#define LW6DEF_C_LW6PIL_POLL_DUMP "c-lw6pil-poll-dump"
 #define LW6DEF_C_LW6PIL_SEED_COMMAND_GENERATE "c-lw6pil-seed-command-generate"
 #define LW6DEF_C_LW6PIL_SEND_COMMAND "c-lw6pil-send-command"
 #define LW6DEF_C_LW6PIL_SEQ_RANDOM_0 "c-lw6pil-seq-random-0"
