@@ -107,6 +107,7 @@ Hacker's guide
 * Technical HOWTOs::    Recipes for the maintainer(s).
 * Using GNU Arch::      A quick tla survival guide.
 * Using GIT::           GIT is used to handle source code.
+* Jenkins builds::      Continuous integration with Jenkins.
 
 Reference
 
@@ -1643,6 +1644,7 @@ is welcome.
 * Technical HOWTOs::    Recipes for the maintainer(s).
 * Using GNU Arch::      A quick tla survival guide.
 * Using GIT::           GIT is used to handle source code.
+* Jenkins builds::      Continuous integration with Jenkins
 @end menu
 
 @c ---------------------------------------------------------------------------
@@ -4204,7 +4206,7 @@ directory can be empty. Once you've done this, try to re-commit.
 @c Using GIT
 @c ---------------------------------------------------------------------------
 
-@node Using GIT, , Using GNU Arch, Hacker's guide
+@node Using GIT, Jenkins builds, Using GNU Arch, Hacker's guide
 @section Using GIT
 
 @cindex GIT
@@ -4269,6 +4271,30 @@ run @code{git format-patch -p origin} this command will generate @code{.patch} f
 @end itemize
 
 Note that you can need to run @code{git format-patch -p master} (with @code{master} instead of @code{origin}) it not using a fresh checkout. Also consider adding the @code{--stdout} switch, eg @code{git format-patch -p master --stdout > my-changes.patch} if you're not using a fresh checkout.
+
+@c ---------------------------------------------------------------------------
+@c Jenkins builds
+@c ---------------------------------------------------------------------------
+
+@node Jenkins builds, , Using GIT, Hacker's guide
+@section Jenkins builds
+
+Liquid War 6 uses @uref{http://jenkins-ci.org/, Jenkins} for continuous integration.
+
+Each time a commit is done on the main GIT source tree, a build is triggered.
+The list of builds, their status, is available on:
+
+@itemize
+@item
+@uref{http://www.ufoot.org/jenkins/, all Jenkins jobs on ufoot.org}.
+@item
+@uref{http://www.ufoot.org/jenkins/job/liquidwar6/, liquidwar6 Jenkins job on ufoot.org}.
+@end itemize
+
+It's interesting, among other things, to look at the log produced when
+the game is built, as it contains the test suite output, and can provide
+usefull informations of what is supposed to happen when the game is built
+correctly, and what happens when things go wrong.
 
 @c ===========================================================================
 @c Reference
@@ -6240,6 +6266,8 @@ you need here:
 @uref{http://www.ufoot.org/download/liquidwar/v6/}: ufoot.org downloads (mirror)
 @item
 @uref{http://www.ufoot.org/liquidwar/v6/snapshots/}: daily snapshots
+@item
+@uref{http://www.ufoot.org/jenkins/job/liquidwar6/}: Jenkins continuous integration
 @item
 @uref{http://git.savannah.gnu.org/cgit/liquidwar6.git}: GIT repository
 @item
