@@ -214,8 +214,6 @@ _test_callback (_lw6_test_param_t * param)
 	    ret = 0;
 	  }
       }
-
-    lw6_quit_global ();
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -334,78 +332,62 @@ lw6_test (int mode)
 	   */
 	  param.coverage_check = 0;
 
-	  if (lw6_init_global (argc, argv))
+	  if (lw6sys_process_is_fully_supported ())
 	    {
-	      if (lw6sys_process_is_fully_supported ())
+	      /*
+	       * First network test, we launch the client in our main process
+	       * and fire a server in a fork. Won't get the result from the
+	       * server, here we just test wether the client has consistent
+	       * informations. The other test will come later.
+	       */
+	      param.suite = _TEST_SUITE_SERVER;
+	      param.log_level_id = LW6SYS_LOG_ERROR_ID;
+	      if ((pid =
+		   lw6sys_process_fork_and_call (_guile_test_run,
+						 &param)) != 0)
 		{
-		  /*
-		   * First network test, we launch the client in our main process
-		   * and fire a server in a fork. Won't get the result from the
-		   * server, here we just test wether the client has consistent
-		   * informations. The other test will come later.
-		   */
-		  param.suite = _TEST_SUITE_SERVER;
-		  param.log_level_id = LW6SYS_LOG_ERROR_ID;
-		  if ((pid =
-		       lw6sys_process_fork_and_call (_guile_test_run,
-						     &param)) != 0)
-		    {
-		      param.suite = _TEST_SUITE_CLIENT;
-		      param.log_level_id = default_log_level_id;
-		      _guile_test_run (&param);
-		      lw6sys_process_kill_1_9 (pid);
-		    }
+		  param.suite = _TEST_SUITE_CLIENT;
+		  param.log_level_id = default_log_level_id;
+		  _guile_test_run (&param);
+		  lw6sys_process_kill_1_9 (pid);
 		}
-	      else
-		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _x_
-			      ("skipping client/server test, platform does not have adequate process support and/or it's likely to fail anyway"));
-		  /*
-		   * We need to call quit_global manually
-		   * as the callback we skip obviously
-		   * won't run it.
-		   */
-		  lw6_quit_global ();
-		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("skipping client/server test, platform does not have adequate process support and/or it's likely to fail anyway"));
 	    }
 
-	  if (lw6_init_global (argc, argv))
+	  if (lw6sys_process_is_fully_supported ())
 	    {
-	      if (lw6sys_process_is_fully_supported ())
+	      /*
+	       * Second network test, we launch the server in our main process
+	       * and fire a client in a fork. Won't get the result from the
+	       * client, here we just test wether the server has consistent
+	       * informations. The other test was done before.
+	       */
+	      param.suite = _TEST_SUITE_CLIENT;
+	      param.log_level_id = LW6SYS_LOG_ERROR_ID;
+	      if ((pid =
+		   lw6sys_process_fork_and_call (_guile_test_run,
+						 &param)) != 0)
 		{
-		  /*
-		   * Second network test, we launch the server in our main process
-		   * and fire a client in a fork. Won't get the result from the
-		   * client, here we just test wether the server has consistent
-		   * informations. The other test was done before.
-		   */
-		  param.suite = _TEST_SUITE_CLIENT;
-		  param.log_level_id = LW6SYS_LOG_ERROR_ID;
-		  if ((pid =
-		       lw6sys_process_fork_and_call (_guile_test_run,
-						     &param)) != 0)
-		    {
-		      param.suite = _TEST_SUITE_SERVER;
-		      param.log_level_id = default_log_level_id;
-		      _guile_test_run (&param);
-		      lw6sys_process_kill_1_9 (pid);
-		    }
-		}
-	      else
-		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _x_
-			      ("skipping server/client test, platform does not have adequate process support and/or it's likely to fail anyway"));
-		  /*
-		   * We need to call quit_global manually
-		   * as the callback we skip obviously
-		   * won't run it.
-		   */
-		  lw6_quit_global ();
+		  param.suite = _TEST_SUITE_SERVER;
+		  param.log_level_id = default_log_level_id;
+		  _guile_test_run (&param);
+		  lw6sys_process_kill_1_9 (pid);
 		}
 	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("skipping server/client test, platform does not have adequate process support and/or it's likely to fail anyway"));
+	    }
 	}
+
+      lw6_quit_global ();
     }
 
   return param.ret;
