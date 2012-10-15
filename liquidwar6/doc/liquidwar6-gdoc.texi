@@ -221,7 +221,21 @@ Initializes global values to their defaults.
 
 Frees global values. Will also garbage collect objects
 in case Guile failed to do it perfectly (or we failed to
-tell Guile how to do it).
+tell Guile how to do it). Important note: this function
+can only be called once in a program, usually at the end.
+If called twice, and typically, if *any* Guile code is run
+after it, the risk is that Guile code does not find objects
+that it should, or said differently, Guile might try to
+manipulate stuff that has been deleted without its being
+warned about it. In practice, libGC way of doing thing is
+usually a good thing, since it will from time to time
+keep objects in memory that shouldn't, so there's no point
+in changing that, but as we are pedantic in LW6 about the
+fact that everything at program exit must be perfectly
+freed, the problem arises. So well, only call this once
+at the end, else problem will show up, the usual form
+is a segfault on the delete callback, as when Guile finally
+runs its GC, the object does not exist any more.
 
 @strong{Return value:}  none.
 @end deftypefun
