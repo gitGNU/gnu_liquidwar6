@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
 noinst_LTLIBRARIES = libpil.la
-libpil_la_SOURCES = pil-bench.c pil-command.c pil-compute.c pil-coords.c pil-dump.c pil-localcursors.c pil-nopilot.c pil-pilot.c pil-seed.c pil-seq.c pil-spread.c pil-test.c pil-worker.c
+libpil_la_SOURCES = pil-bench.c pil-command.c pil-compute.c pil-coords.c pil-dump.c pil-localcursors.c pil-nopilot.c pil-pilot.c pil-seed.c pil-seq.c pil-spread.c pil-suite.c pil-test.c pil-worker.c
 libpildir= $(includedir)/@PACKAGE_TARNAME@/pil
 libpil_HEADERS = pil.h
 

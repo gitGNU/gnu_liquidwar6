@@ -643,6 +643,61 @@ random, this way this is one less bug to check in networked context.
 @strong{Return value:}  random integer value, always greater than INT_MAX
 @end deftypefun
 
+@deftypefun {int64_t} {lw6pil_suite_get_seq_0} ()
+
+Get the base seq_0 for the reference test suite.
+
+@strong{Return value:}  64-bit integer.
+@end deftypefun
+
+@deftypefun {const char *} {lw6pil_suite_get_command_by_node_index} (int @var{node_index}, int @var{stage}, int @var{step})
+@var{node_index}:  index of the node (not its id)
+
+@var{stage}:  major stage of the test suite
+
+@var{step}:  minor step of the test suite
+
+Get the reference test suite message by node_index, stage and step.
+
+@strong{Return value:}  static string, must not be freed.
+@end deftypefun
+
+@deftypefun {const char *} {lw6pil_suite_get_command_by_stage} (int @var{stage}, int @var{step})
+@var{stage}:  major stage of the test suite
+
+@var{step}:  minor step of the test suite
+
+Get the reference test suite message by stage and step.
+Messages from various nodes are mixed and sorted.
+
+@strong{Return value:}  static string, must not be freed.
+@end deftypefun
+
+@deftypefun {const char *} {lw6pil_suite_get_command_by_step} (int @var{step})
+@var{step}:  minor step of the test suite
+
+Get the reference test suite message by step.
+Messages from various nodes and stages are mixed and sorted.
+
+@strong{Return value:}  static string, must not be freed.
+@end deftypefun
+
+@deftypefun {void} {lw6pil_suite_get_checkpoint} (u_int32_t * @var{checksum}, int64_t * @var{seq}, int * @var{round}, int @var{stage})
+@var{checksum}:  expected checksum for the given checkpoint (out param)
+
+@var{seq}:  expected seq for the given checkpoint (out param)
+
+@var{round}:  expected round for the given checkpoint (out param)
+
+@var{stage}:  stage to query checksum and other info about
+
+Gives the values which are expected for a given checkpoint.
+If the right messages have been feeded, then these values
+are expected.
+
+@strong{Return value:}  none, everything in out params
+@end deftypefun
+
 @deftypefun {int} {lw6pil_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 

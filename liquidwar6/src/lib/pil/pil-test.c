@@ -85,6 +85,8 @@
 #define _TEST_DUMP_LAST_COMMIT_SEQ 10000000010LL
 #define _TEST_DUMP_PREVIEW_LEN 100
 #define _TEST_CHECKSUM_LOG_INTERVAL 1
+#define _TEST_SUITE_NODE_INDEX 1
+#define _TEST_SUITE_STAGE 1
 
 static char *test_commands[] = {
   "10000000002 1234abcd1234abcd REGISTER",
@@ -973,6 +975,58 @@ test_seq ()
   return ret;
 }
 
+/*
+ * Testing functions in suite.c
+ */
+static int
+test_suite ()
+{
+  int ret = 0;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int step = 0;
+    const char *command = NULL;
+
+    step = 0;
+    while ((command =
+	    lw6pil_suite_get_command_by_node_index (_TEST_SUITE_NODE_INDEX,
+						    _TEST_SUITE_STAGE,
+						    step)) != NULL)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("command for node_index=%d, stage=%d, step=%d is \"%s\""),
+		    _TEST_SUITE_NODE_INDEX, _TEST_SUITE_STAGE, step, command);
+	step++;
+      }
+
+    step = 0;
+    while ((command =
+	    lw6pil_suite_get_command_by_stage (_TEST_SUITE_STAGE,
+					       step)) != NULL)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("command for stage=%d, step=%d is \"%s\""),
+		    _TEST_SUITE_STAGE, step, command);
+	step++;
+      }
+
+    step = 0;
+    while ((command = lw6pil_suite_get_command_by_step (step)) != NULL)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("command for step=%d is \"%s\""),
+		    step, command);
+	step++;
+      }
+
+    ret = 1;
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6pil_test
  *
@@ -999,7 +1053,7 @@ lw6pil_test (int mode)
 
   ret = test_command () && test_coords () && test_local_cursors ()
     && test_nopilot () && test_pilot () && test_dump () && test_bench ()
-    && test_seq ();
+    && test_seq () && test_suite ();
 
   return ret;
 }

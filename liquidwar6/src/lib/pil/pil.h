@@ -44,6 +44,13 @@
 #define LW6PIL_COORDS_X10 10
 #define LW6PIL_COORDS_X2 2
 
+#define LW6PIL_SUITE_NB_NODES 3
+#define LW6PIL_SUITE_NB_STAGES 3
+
+#define LW6PIL_SUITE_STAGE_1 0
+#define LW6PIL_SUITE_STAGE_2 1
+#define LW6PIL_SUITE_STAGE_3 2
+
 typedef enum lw6pil_command_code_e
 {
   LW6PIL_COMMAND_CODE_INVALID = 0,
@@ -411,6 +418,17 @@ extern char *lw6pil_seed_command_generate (lw6pil_pilot_t * pilot,
 
 /* pil-seq.c */
 extern int64_t lw6pil_seq_random_0 ();
+
+/* pil-suite.c */
+extern int64_t lw6pil_suite_get_seq_0 ();
+extern const char *lw6pil_suite_get_command_by_node_index (int node_index,
+							   int stage,
+							   int step);
+extern int _command_sort (const void *arg_a, const void *arg_b);
+extern const char *lw6pil_suite_get_command_by_stage (int stage, int step);
+extern const char *lw6pil_suite_get_command_by_step (int step);
+extern void lw6pil_suite_get_checkpoint (u_int32_t * checksum, int64_t * seq,
+					 int *round, int stage);
 
 /* pil-test.c */
 extern int lw6pil_test (int mode);
