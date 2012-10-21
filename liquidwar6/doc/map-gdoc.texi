@@ -315,6 +315,18 @@ This builtin map has walls, paths, it's playable.
 @strong{Return value:}  a newly allocated map. 
 @end deftypefun
 
+@deftypefun {lw6map_level_t *} {lw6map_builtin_scale} (int @var{percent_factor})
+@var{percent_factor}:  how big the map should be, 100 is defaults 200 is double.
+
+
+Creates a map, set to defaults. This is usefull mostly for testing.
+This builtin map has walls, paths, it's playable, additionnally
+it's scalable, that's to say one can make it bigger if needed,
+using a percent factor.
+
+@strong{Return value:}  a newly allocated map. 
+@end deftypefun
+
 @deftypefun {lw6map_level_t *} {lw6map_builtin_custom} (int @var{w}, int @var{h}, int @var{d}, int @var{noise_percent})
 @var{w}:  the width of the map
 

@@ -84,6 +84,45 @@ lw6map_builtin_defaults ()
 }
 
 /**
+ * lw6map_builtin_scale
+ *
+ * Creates a map, set to defaults. This is usefull mostly for testing.
+ * This builtin map has walls, paths, it's playable, additionnally
+ * it's scalable, that's to say one can make it bigger if needed,
+ * using a percent factor.
+ *
+ * @percent_factor: how big the map should be, 100 is defaults 200 is double.
+ *
+ * Return value: a newly allocated map. 
+ */
+lw6map_level_t *
+lw6map_builtin_scale (int percent_factor)
+{
+  int width = 0;
+  int height = 0;
+  int depth = 0;
+
+  width =
+    lw6sys_imax (LW6MAP_MIN_BODY_WIDTH,
+		 lw6sys_imin (LW6MAP_MAX_BODY_WIDTH,
+			      (LW6MAP_BUILTIN_DEFAULT_WIDTH *
+			       percent_factor) / 100));
+  height =
+    lw6sys_imax (LW6MAP_MIN_BODY_HEIGHT,
+		 lw6sys_imin (LW6MAP_MAX_BODY_HEIGHT,
+			      (LW6MAP_BUILTIN_DEFAULT_HEIGHT *
+			       percent_factor) / 100));
+  depth =
+    lw6sys_imax (LW6MAP_MIN_BODY_DEPTH,
+		 lw6sys_imin (LW6MAP_MAX_BODY_DEPTH,
+			      (LW6MAP_BUILTIN_DEFAULT_DEPTH *
+			       percent_factor) / 100));
+
+  return lw6map_builtin_custom (width, height, depth,
+				LW6MAP_BUILTIN_DEFAULT_NOISE_PERCENT);
+}
+
+/**
  * lw6map_builtin_custom
  *
  * @w: the width of the map
@@ -116,7 +155,20 @@ lw6map_builtin_custom (int w, int h, int d, int noise_percent)
 	}
 
       lw6map_param_defaults (&level->param);
+      /*
+       * Default map is a world map with polarity enabled on the X axis
+       */
       level->param.rules.x_polarity = 1;
+      /*
+       * Enable all weapons, this is usefull when testing, we want the
+       * complete, full-featured algorithm with all bell and whistles
+       * enabled to be tested.
+       */
+      level->param.rules.exp = LW6MAP_RULES_MAX_EXP;
+      level->metadata.vanilla_exp = LW6MAP_RULES_MAX_EXP;
+      /*
+       * Now proceed with standard construction
+       */
       lw6map_body_builtin_custom (&level->body, w, h, d, noise_percent,
 				  &level->param.rules);
       lw6map_texture_from_body (&level->texture, &level->body, &color);

@@ -1444,6 +1444,7 @@ extern void lw6map_layer_clear (lw6map_layer_t * layer);
 /* map-level.c */
 extern lw6map_level_t *lw6map_new ();
 extern lw6map_level_t *lw6map_builtin_defaults ();
+extern lw6map_level_t *lw6map_builtin_scale (int percent_factor);
 extern lw6map_level_t *lw6map_builtin_custom (int w, int h, int d,
 					      int noise_percent);
 extern void lw6map_free (lw6map_level_t * level);

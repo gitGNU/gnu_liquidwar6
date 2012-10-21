@@ -33,8 +33,8 @@
  * checksum differ because one uses the spread_thread algorithm
  * and the other one does not.
  */
-#define _TEST_BACKUP_CHECKSUM 0xe771d39e
-#define _TEST_DUMP_BACKUP_CHECKSUM 0xe55fc651
+#define _TEST_BACKUP_CHECKSUM 0xc4822ec9
+#define _TEST_DUMP_BACKUP_CHECKSUM 0xc6ac3b06
 /*
  * At some point a checksum on command was implemented but
  * this is not a very good idea, a map can have (int its dump)

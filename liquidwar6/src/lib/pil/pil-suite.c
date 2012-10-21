@@ -28,8 +28,8 @@
 #include "pil-internal.h"
 
 #define _STAGE_1_CHECKSUM 0x0
-#define _STAGE_1_CHECKSUM 0x0
-#define _STAGE_1_CHECKSUM 0x0
+#define _STAGE_2_CHECKSUM 0x0
+#define _STAGE_3_CHECKSUM 0x0
 
 #define _STAGE_1_ROUND 1000
 #define _STAGE_2_ROUND 2000
@@ -38,52 +38,166 @@
 #define _SEQ_0 1000000000000
 
 #define _MAX_MESSAGES_PER_NODE_AND_STAGE 20
+#define _INIT_SCALE_PERCENT 200
 
+/*
+ * Note: it's important that last message round is less than
+ * (LW6MAP_RULES_DEFAULT_TOTAL_TIME * 
+ * LW6MAP_RULES_DEFAULT_ROUNDS_PER_SEC *
+ * LW6MAP_RULES_DEFAULT_MOVES_PER_ROUND)
+ * which is something like 900 * 50 * 2 = 90000.
+ */
 static const char
   *_commands[LW6PIL_SUITE_NB_NODES][LW6PIL_SUITE_NB_STAGES]
-  [_MAX_MESSAGES_PER_NODE_AND_STAGE] = { {
-					  {
-					   "1000000000005 1001100110011001 REGISTER",
-					   "1000000000005 1001100110011001 ADD 1001 RED",
-					   "1000000000005 1001100110011001 ADD 1002 GREEN",
-					   "1000000000005 1001100110011001 ADD 1003 BLUE",
-					   "1000000000005 1001100110011001 ADD 1004 YELLOW",
-					   "1000000010005 1001100110011001 SET 1001 1 1 1 0",
-					   "1000000010005 1001100110011001 SET 1002 2 2 1 0",
-					   "1000000010005 1001100110011001 SET 1003 3 3 1 0",
-					   "1000000010005 1001100110011001 SET 1004 4 4 1 0",
-					   "1000000020005 1001100110011001 SET 1001 1 1 0 1",
-					   "1000000020005 1001100110011001 SET 1002 2 2 0 1",
-					   "1000000020005 1001100110011001 SET 1003 3 3 0 1",
-					   "1000000020005 1001100110011001 SET 1004 4 4 0 1",
-					   NULL}
-					  , {NULL}, {NULL}},
-{{NULL},
- {
-  "1000000030005 2002200220022002 REGISTER",
-  "1000000030005 2002200220022002 ADD 2001 CYAN",
-  "1000000030005 2002200220022002 ADD 2002 MAGENTA",
-  "1000000030005 2002200220022002 ADD 2003 ORANGE",
-  "1000000040005 2002200220022002 SET 2001 11 11 1 0",
-  "1000000040005 2002200220022002 SET 2002 22 22 1 0",
-  "1000000040005 2002200220022002 SET 2003 33 33 1 0",
-  "1000000050005 2002200220022002 SET 2001 11 11 0 1",
-  "1000000050005 2002200220022002 SET 2002 22 22 0 1",
-  "1000000050005 2002200220022002 SET 2003 33 33 0 1",
-  NULL}, {NULL}}, {{NULL}, {NULL},
-		   {
-		    "1000000060005 3003300330033003 REGISTER",
-		    "1000000060005 3003300330033003 ADD 3001 LIGHTBLUE",
-		    "1000000060005 3003300330033003 ADD 3002 PURPLE",
-		    "1000000060005 3003300330033003 ADD 3003 PINK",
-		    "1000000070005 3003300330033003 SET 3001 11 1 1 0",
-		    "1000000070005 3003300330033003 SET 3002 22 2 1 0",
-		    "1000000070005 3003300330033003 SET 3003 33 3 1 0",
-		    "1000000080005 3003300330033003 SET 3001 1 11 0 1",
-		    "1000000080005 3003300330033003 SET 3002 2 22 0 1",
-		    "1000000080005 3003300330033003 SET 3003 3 33 0 1",
-		    NULL}}
+  [_MAX_MESSAGES_PER_NODE_AND_STAGE] = {
+  /*
+   * NODE_A messages
+   */
+  {
+   /*
+    * STAGE_1 messages
+    */
+   {
+    "1000000000005 1001100110011001 REGISTER",
+    "1000000000005 1001100110011001 ADD 1001 RED",
+    "1000000000005 1001100110011001 ADD 1002 GREEN",
+    "1000000000005 1001100110011001 ADD 1003 BLUE",
+    "1000000000005 1001100110011001 ADD 1004 YELLOW",
+    "1000000010005 1001100110011001 SET 1001 1 1 1 0",
+    "1000000010005 1001100110011001 SET 1002 2 2 1 0",
+    "1000000010005 1001100110011001 SET 1003 3 3 1 0",
+    "1000000010005 1001100110011001 SET 1004 4 4 1 0",
+    "1000000020005 1001100110011001 SET 1001 1 1 0 1",
+    "1000000020005 1001100110011001 SET 1002 2 2 0 1",
+    "1000000020005 1001100110011001 SET 1003 3 3 0 1",
+    "1000000020005 1001100110011001 SET 1004 4 4 0 1",
+    NULL},
+   /*
+    * STAGE_2 messages
+    */
+   {NULL},
+   /*
+    * STAGE_3 messages
+    */
+   {NULL}},
+  /*
+   * NODE_B messages
+   */
+  {
+   {NULL},
+   {
+    "1000000030005 2002200220022002 REGISTER",
+    "1000000030005 2002200220022002 ADD 2001 CYAN",
+    "1000000030005 2002200220022002 ADD 2002 MAGENTA",
+    "1000000030005 2002200220022002 ADD 2003 ORANGE",
+    "1000000040005 2002200220022002 SET 2001 11 11 1 0",
+    "1000000040005 2002200220022002 SET 2002 22 22 1 0",
+    "1000000040005 2002200220022002 SET 2003 33 33 1 0",
+    "1000000050005 2002200220022002 SET 2001 11 11 0 1",
+    "1000000050005 2002200220022002 SET 2002 22 22 0 1",
+    "1000000050005 2002200220022002 SET 2003 33 33 0 1",
+    NULL},
+   {NULL}},
+  /*
+   * NODE_C messages
+   */
+  {
+   /*
+    * STAGE_1 messages
+    */
+   {NULL},
+   /*
+    * STAGE_2 messages
+    */
+   {NULL},
+   /*
+    * STAGE_3 messages
+    */
+   {
+    "1000000060005 3003300330033003 REGISTER",
+    "1000000060005 3003300330033003 ADD 3001 LIGHTBLUE",
+    "1000000060005 3003300330033003 ADD 3002 PURPLE",
+    "1000000060005 3003300330033003 ADD 3003 PINK",
+    "1000000070005 3003300330033003 SET 3001 11 1 1 0",
+    "1000000070005 3003300330033003 SET 3002 22 2 1 0",
+    "1000000070005 3003300330033003 SET 3003 33 3 1 0",
+    "1000000080005 3003300330033003 SET 3001 1 11 0 1",
+    "1000000080005 3003300330033003 SET 3002 2 22 0 1",
+    "1000000080005 3003300330033003 SET 3003 3 33 0 1",
+    NULL}}
 };
+
+/**
+ * lw6pil_suite_init
+ *
+ * @pilot: pilot to run test suite (out param)
+ * @game_state: game state to run test suite (out param)
+ * @game_struct: game struct to run test suite (out param)
+ * @level: level to run test suite (out param)
+ * @timestamp: timestamp used for pilot creation (should be "now")
+ * 
+ * Build the objects used by the test suite. The idea is to wrap all this
+ * in a single function since it requires to be exactly the same every time
+ * as the test suite is very pedantic about checksums.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6pil_suite_init (lw6pil_pilot_t ** pilot, lw6ker_game_state_t ** game_state,
+		   lw6ker_game_struct_t ** game_struct,
+		   lw6map_level_t ** level, int64_t timestamp)
+{
+  int ret = 0;
+
+  (*level) = NULL;
+  (*game_struct) = NULL;
+  (*game_state) = NULL;
+  (*pilot) = NULL;
+
+  (*level) = lw6map_builtin_scale (_INIT_SCALE_PERCENT);
+  if (*level)
+    {
+      (*game_struct) = lw6ker_game_struct_new (*level, NULL);
+      if (*game_struct)
+	{
+	  (*game_state) = lw6ker_game_state_new (*game_struct, NULL);
+	  if (*game_state)
+	    {
+	      (*pilot) =
+		lw6pil_pilot_new (*game_state, _SEQ_0, timestamp, NULL);
+	      if (*pilot)
+		{
+		  ret = 1;
+		}
+	    }
+	}
+    }
+
+  if (!ret)
+    {
+      if (*pilot)
+	{
+	  lw6pil_pilot_free (*pilot);
+	  (*pilot) = NULL;
+	}
+      if (*game_state)
+	{
+	  lw6ker_game_state_free (*game_state);
+	  (*game_state) = NULL;
+	}
+      if (*game_struct)
+	{
+	  lw6ker_game_struct_free (*game_struct);
+	  (*game_struct) = NULL;
+	}
+      if (*level)
+	{
+	  lw6map_free (*level);
+	  (*level) = NULL;
+	}
+    }
+  return ret;
+}
 
 /**
  * lw6pil_suite_get_seq_0

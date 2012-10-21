@@ -70,6 +70,11 @@
 #define _TEST_COORDS_Y5 51
 #define _TEST_MUSIC_DIR1 "../"
 #define _TEST_MUSIC_DIR2 "/foo/bar"
+#define _TEST_BUILTIN_WIDTH 100
+#define _TEST_BUILTIN_HEIGHT 50
+#define _TEST_BUILTIN_DEPTH 4
+#define _TEST_BUILTIN_NOISE_PERCENT 5
+#define _TEST_BUILTIN_SCALE 250
 
 /*
  * Testing basic new & free functions
@@ -317,10 +322,10 @@ _print_cursor_texture (lw6map_cursor_texture_t * cursor_texture)
 }
 
 /*
- * Testing defaults
+ * Testing builtin
  */
 static int
-test_defaults ()
+test_builtin ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -331,6 +336,59 @@ test_defaults ()
     int has_alpha = 0;
 
     level = lw6map_builtin_defaults ();
+    if (level)
+      {
+	repr = lw6map_repr (level);
+	if (repr)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("default map \"%s\" constructed"), repr);
+	    has_alpha = lw6map_texture_has_alpha (&(level->texture));
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"), has_alpha);
+	    _print_body (&level->body);
+	    _print_cursor_texture (&level->cursor_texture);
+	    LW6SYS_FREE (repr);
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	lw6map_free (level);
+      }
+    else
+      {
+	ret = 0;
+      }
+
+    level =
+      lw6map_builtin_custom (_TEST_BUILTIN_WIDTH, _TEST_BUILTIN_HEIGHT,
+			     _TEST_BUILTIN_DEPTH,
+			     _TEST_BUILTIN_NOISE_PERCENT);
+    if (level)
+      {
+	repr = lw6map_repr (level);
+	if (repr)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("default map \"%s\" constructed"), repr);
+	    has_alpha = lw6map_texture_has_alpha (&(level->texture));
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"), has_alpha);
+	    _print_body (&level->body);
+	    _print_cursor_texture (&level->cursor_texture);
+	    LW6SYS_FREE (repr);
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	lw6map_free (level);
+      }
+    else
+      {
+	ret = 0;
+      }
+
+    level = lw6map_builtin_scale (_TEST_BUILTIN_SCALE);
     if (level)
       {
 	repr = lw6map_repr (level);
@@ -887,7 +945,7 @@ lw6map_test (int mode)
     }
 
   ret = test_new () && test_color () && test_coords ()
-    && test_defaults () && test_dup () && test_exp ()
+    && test_builtin () && test_dup () && test_exp ()
     && test_hexa () && test_local_info () && test_meta_layer ()
     && test_rules () && test_style () && test_teams () && test_weapon ();
 
