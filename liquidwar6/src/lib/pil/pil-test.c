@@ -87,6 +87,7 @@
 #define _TEST_CHECKSUM_LOG_INTERVAL 1
 #define _TEST_SUITE_NODE_INDEX 1
 #define _TEST_SUITE_STAGE 1
+#define _TEST_SUITE_SLEEP 3
 
 static char *test_commands[] = {
   "10000000002 1234abcd1234abcd REGISTER",
@@ -985,8 +986,19 @@ test_suite ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
+    int stage = 0;
     int step = 0;
     const char *command = NULL;
+    lw6map_level_t *level = NULL;
+    lw6ker_game_struct_t *game_struct = NULL;
+    lw6ker_game_state_t *game_state = NULL;
+    lw6pil_pilot_t *pilot = NULL;
+    u_int32_t checkpoint_checksum = 0;
+    int64_t checkpoint_seq = 0LL;
+    int checkpoint_round = 0;
+    u_int32_t checksum = 0;
+    int64_t seq = 0LL;
+    int round = 0;
 
     step = 0;
     while ((command =
@@ -1020,7 +1032,67 @@ test_suite ()
 	step++;
       }
 
-    ret = 1;
+
+    if (lw6pil_suite_init
+	(&level, &game_struct, &game_state, &pilot, lw6sys_get_timestamp ()))
+      {
+	ret = 1;
+
+	for (stage = 0; stage < LW6PIL_SUITE_NB_STAGES && ret; ++stage)
+	  {
+	    step = 0;
+	    while ((command =
+		    lw6pil_suite_get_command_by_stage (stage, step)) != NULL)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("running command for stage=%d, step=%d is \"%s\""),
+			    _TEST_SUITE_STAGE, step, command);
+		lw6pil_pilot_send_command (pilot, command, 1);
+		step++;
+	      }
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("commit"));
+	    lw6pil_pilot_commit (NULL, pilot);
+	    lw6pil_suite_get_checkpoint (&checkpoint_checksum,
+					 &checkpoint_seq, &checkpoint_round,
+					 stage);
+
+	    while ((seq =
+		    lw6pil_pilot_get_reference_current_seq (pilot)) <
+		   checkpoint_seq)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("seq=%" LW6SYS_PRINTF_LL
+				 "d < checkpoint_seq=%" LW6SYS_PRINTF_LL "d"),
+			    (long long) seq, (long long) checkpoint_seq);
+		lw6sys_sleep (_TEST_SUITE_SLEEP);
+	      }
+	    lw6pil_pilot_sync_from_reference (game_state, pilot);
+	    round = lw6ker_game_state_get_rounds (game_state);
+	    checksum = lw6ker_game_state_checksum (game_state);
+	    if (round == checkpoint_round && checksum == checkpoint_checksum)
+	      {
+		print_game_state (game_state, _x_ ("checkpoint"));
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("OK, stage=%d round=%d checksum=%08x"),
+			    stage, round, checksum);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("problem, stage=%d expecting checkpoint_round=%d checkpoint_checksum of %08x but got round=%d checksum of %08x"),
+			    stage, checkpoint_round, checkpoint_checksum,
+			    round, checksum);
+		ret = 0;
+	      }
+	  }
+
+	lw6pil_pilot_free (pilot);
+	lw6ker_game_state_free (game_state);
+	lw6ker_game_struct_free (game_struct);
+	lw6map_free (level);
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -1052,8 +1124,8 @@ lw6pil_test (int mode)
     }
 
   ret = test_command () && test_coords () && test_local_cursors ()
-    && test_nopilot () && test_pilot () && test_dump () && test_bench ()
-    && test_seq () && test_suite ();
+    && test_seq () && test_nopilot () && test_pilot () && test_dump ()
+    && test_suite () && test_bench ();
 
   return ret;
 }

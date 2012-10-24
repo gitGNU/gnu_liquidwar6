@@ -643,14 +643,14 @@ random, this way this is one less bug to check in networked context.
 @strong{Return value:}  random integer value, always greater than INT_MAX
 @end deftypefun
 
-@deftypefun {int} {lw6pil_suite_init} (lw6pil_pilot_t ** @var{pilot}, lw6ker_game_state_t ** @var{game_state}, lw6ker_game_struct_t ** @var{game_struct}, lw6map_level_t ** @var{level}, int64_t @var{timestamp})
-@var{pilot}:  pilot to run test suite (out param)
-
-@var{game_state}:  game state to run test suite (out param)
+@deftypefun {int} {lw6pil_suite_init} (lw6map_level_t ** @var{level}, lw6ker_game_struct_t ** @var{game_struct}, lw6ker_game_state_t ** @var{game_state}, lw6pil_pilot_t ** @var{pilot}, int64_t @var{timestamp})
+@var{level}:  level to run test suite (out param)
 
 @var{game_struct}:  game struct to run test suite (out param)
 
-@var{level}:  level to run test suite (out param)
+@var{game_state}:  game state to run test suite (out param)
+
+@var{pilot}:  pilot to run test suite (out param)
 
 @var{timestamp}:  timestamp used for pilot creation (should be "now")
 

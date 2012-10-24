@@ -1,3 +1,7 @@
+2012-10-24 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Now testing pil test suite checksums in liquidwar6pil-test.
+
 2012-10-21 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Enhanced builtin map creation so that it fits pil test suite.
