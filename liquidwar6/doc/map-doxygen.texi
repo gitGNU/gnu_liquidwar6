@@ -1155,6 +1155,16 @@ team_profile_fast parameters, stored as a per team integer.
         
 @end defcv
 
+@defcv {Member} {lw6map_rules_s} {team_profile_handicap}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_handicap[LW6MAP_MAX_NB_TEAMS]}
+
+
+team_profile_handicap parameters, stored as a per team integer.         
+        
+@end defcv
+
 @defcv {Member} {lw6map_rules_s} {team_profile_weapon_id}
 @strong{Type:} @code{int32_t}
 

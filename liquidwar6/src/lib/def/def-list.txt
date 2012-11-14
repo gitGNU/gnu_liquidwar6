@@ -764,6 +764,7 @@ team-color-red
 team-color-yellow
 team-profile-blue-aggressive
 team-profile-blue-fast
+team-profile-blue-handicap
 team-profile-blue-mobile
 team-profile-blue-vulnerable
 team-profile-blue-weapon-alternate-id
@@ -771,6 +772,7 @@ team-profile-blue-weapon-id
 team-profile-blue-weapon-mode
 team-profile-cyan-aggressive
 team-profile-cyan-fast
+team-profile-cyan-handicap
 team-profile-cyan-mobile
 team-profile-cyan-vulnerable
 team-profile-cyan-weapon-alternate-id
@@ -778,6 +780,7 @@ team-profile-cyan-weapon-id
 team-profile-cyan-weapon-mode
 team-profile-green-aggressive
 team-profile-green-fast
+team-profile-green-handicap
 team-profile-green-mobile
 team-profile-green-vulnerable
 team-profile-green-weapon-alternate-id
@@ -785,6 +788,7 @@ team-profile-green-weapon-id
 team-profile-green-weapon-mode
 team-profile-lightblue-aggressive
 team-profile-lightblue-fast
+team-profile-lightblue-handicap
 team-profile-lightblue-mobile
 team-profile-lightblue-vulnerable
 team-profile-lightblue-weapon-alternate-id
@@ -792,6 +796,7 @@ team-profile-lightblue-weapon-id
 team-profile-lightblue-weapon-mode
 team-profile-magenta-aggressive
 team-profile-magenta-fast
+team-profile-magenta-handicap
 team-profile-magenta-mobile
 team-profile-magenta-vulnerable
 team-profile-magenta-weapon-alternate-id
@@ -799,6 +804,7 @@ team-profile-magenta-weapon-id
 team-profile-magenta-weapon-mode
 team-profile-orange-aggressive
 team-profile-orange-fast
+team-profile-orange-handicap
 team-profile-orange-mobile
 team-profile-orange-vulnerable
 team-profile-orange-weapon-alternate-id
@@ -806,6 +812,7 @@ team-profile-orange-weapon-id
 team-profile-orange-weapon-mode
 team-profile-pink-aggressive
 team-profile-pink-fast
+team-profile-pink-handicap
 team-profile-pink-mobile
 team-profile-pink-vulnerable
 team-profile-pink-weapon-alternate-id
@@ -813,6 +820,7 @@ team-profile-pink-weapon-id
 team-profile-pink-weapon-mode
 team-profile-purple-aggressive
 team-profile-purple-fast
+team-profile-purple-handicap
 team-profile-purple-mobile
 team-profile-purple-vulnerable
 team-profile-purple-weapon-alternate-id
@@ -820,6 +828,7 @@ team-profile-purple-weapon-id
 team-profile-purple-weapon-mode
 team-profile-red-aggressive
 team-profile-red-fast
+team-profile-red-handicap
 team-profile-red-mobile
 team-profile-red-vulnerable
 team-profile-red-weapon-alternate-id
@@ -827,6 +836,7 @@ team-profile-red-weapon-id
 team-profile-red-weapon-mode
 team-profile-yellow-aggressive
 team-profile-yellow-fast
+team-profile-yellow-handicap
 team-profile-yellow-mobile
 team-profile-yellow-vulnerable
 team-profile-yellow-weapon-alternate-id

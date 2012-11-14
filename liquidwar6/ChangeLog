@@ -1,3 +1,7 @@
+2012-11-15 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added color-handicap profile options, not implemented yet.
+
 2012-10-24 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Now testing pil test suite checksums in liquidwar6pil-test.

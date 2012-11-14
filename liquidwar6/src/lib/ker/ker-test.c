@@ -31,12 +31,12 @@
  * The checksums below will change any time the core algorithm
  * is changed. They are *very* important, the need to be respected.
  */
-#define _TEST_GAME_STRUCT_CHECKSUM 0xc0f5fe31
+#define _TEST_GAME_STRUCT_CHECKSUM 0x7c3cf9f5
 #define _TEST_GAME_STRUCT_HEXA_CHECKSUM 0xd9561e32
-#define _TEST_GAME_STATE_CHECKSUM 0xd8212fcc
+#define _TEST_GAME_STATE_CHECKSUM 0x327caad7
 #define _TEST_GAME_STATE_HEXA_CHECKSUM 0xd036c7ab
-#define _TEST_GAME_STATE_POPULATE_CHECKSUM 0xdf4026f6
-#define _TEST_GAME_STATE_ALGORITHM_CHECKSUM 0x050274f5
+#define _TEST_GAME_STATE_POPULATE_CHECKSUM 0x351da3ed
+#define _TEST_GAME_STATE_ALGORITHM_CHECKSUM 0xef5ff1ee
 
 #define _TEST_MAP_WIDTH 72
 #define _TEST_MAP_HEIGHT 24

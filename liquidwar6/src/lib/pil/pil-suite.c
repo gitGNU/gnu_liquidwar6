@@ -27,9 +27,9 @@
 #include "pil.h"
 #include "pil-internal.h"
 
-#define _STAGE_1_CHECKSUM 0xc9d044b7
-#define _STAGE_2_CHECKSUM 0x8df1eaad
-#define _STAGE_3_CHECKSUM 0x11a86f7b
+#define _STAGE_1_CHECKSUM 0xb506f246
+#define _STAGE_2_CHECKSUM 0xf1275c5c
+#define _STAGE_3_CHECKSUM 0x6d7ed98a
 
 #define _STAGE_1_ROUND 10005
 #define _STAGE_2_ROUND 25005

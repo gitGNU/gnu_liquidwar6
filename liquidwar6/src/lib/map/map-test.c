@@ -32,7 +32,7 @@
  * The checksums below will change any time a field is added
  * or its default is changed in the map structure.
  */
-#define _TEST_RULES_CHECKSUM 0x765d8d06
+#define _TEST_RULES_CHECKSUM 0xe45216e7
 
 /*
  * At some point a checksum on hexa dump was implemented but

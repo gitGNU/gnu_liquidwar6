@@ -965,6 +965,19 @@ team will move twice slower than other teams with the default parameter.
 Setting this high is very likely to advantage the team.
 @end deffn
 
+@subsection team-profile-blue-handicap
+@deffn {Command-line option} @code{--team-profile-blue-handicap=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_BLUE_HANDICAP}
+@deffnx {XML key} @code{team-profile-blue-handicap}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines the handicap for the blue team.
+@end deffn
+
 @subsection team-profile-blue-mobile
 @deffn {Command-line option} @code{--team-profile-blue-mobile=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_BLUE_MOBILE}
@@ -1066,6 +1079,19 @@ Max value: 2000
 Changes the speed of the cyan team. This is a percentage, if set to 50, then
 team will move twice slower than other teams with the default parameter.
 Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-cyan-handicap
+@deffn {Command-line option} @code{--team-profile-cyan-handicap=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_CYAN_HANDICAP}
+@deffnx {XML key} @code{team-profile-cyan-handicap}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines the handicap for the cyan team.
 @end deffn
 
 @subsection team-profile-cyan-mobile
@@ -1171,6 +1197,19 @@ team will move twice slower than other teams with the default parameter.
 Setting this high is very likely to advantage the team.
 @end deffn
 
+@subsection team-profile-green-handicap
+@deffn {Command-line option} @code{--team-profile-green-handicap=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_GREEN_HANDICAP}
+@deffnx {XML key} @code{team-profile-green-handicap}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines the handicap for the green team.
+@end deffn
+
 @subsection team-profile-green-mobile
 @deffn {Command-line option} @code{--team-profile-green-mobile=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_GREEN_MOBILE}
@@ -1272,6 +1311,19 @@ Max value: 2000
 Changes the speed of the lightblue team. This is a percentage, if set to 50,
 then team will move twice slower than other teams with the default parameter.
 Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-lightblue-handicap
+@deffn {Command-line option} @code{--team-profile-lightblue-handicap=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_LIGHTBLUE_HANDICAP}
+@deffnx {XML key} @code{team-profile-lightblue-handicap}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines the handicap for the lightblue team.
 @end deffn
 
 @subsection team-profile-lightblue-mobile
@@ -1378,6 +1430,19 @@ then team will move twice slower than other teams with the default parameter.
 Setting this high is very likely to advantage the team.
 @end deffn
 
+@subsection team-profile-magenta-handicap
+@deffn {Command-line option} @code{--team-profile-magenta-handicap=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_MAGENTA_HANDICAP}
+@deffnx {XML key} @code{team-profile-magenta-handicap}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines the handicap for the magenta team.
+@end deffn
+
 @subsection team-profile-magenta-mobile
 @deffn {Command-line option} @code{--team-profile-magenta-mobile=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_MAGENTA_MOBILE}
@@ -1479,6 +1544,19 @@ Max value: 2000
 Changes the speed of the orange team. This is a percentage, if set to 50, then
 team will move twice slower than other teams with the default parameter.
 Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-orange-handicap
+@deffn {Command-line option} @code{--team-profile-orange-handicap=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_ORANGE_HANDICAP}
+@deffnx {XML key} @code{team-profile-orange-handicap}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines the handicap for the orange team.
 @end deffn
 
 @subsection team-profile-orange-mobile
@@ -1584,6 +1662,19 @@ team will move twice slower than other teams with the default parameter.
 Setting this high is very likely to advantage the team.
 @end deffn
 
+@subsection team-profile-pink-handicap
+@deffn {Command-line option} @code{--team-profile-pink-handicap=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PINK_HANDICAP}
+@deffnx {XML key} @code{team-profile-pink-handicap}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines the handicap for the pink team.
+@end deffn
+
 @subsection team-profile-pink-mobile
 @deffn {Command-line option} @code{--team-profile-pink-mobile=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PINK_MOBILE}
@@ -1685,6 +1776,19 @@ Max value: 2000
 Changes the speed of the purple team. This is a percentage, if set to 50, then
 team will move twice slower than other teams with the default parameter.
 Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-purple-handicap
+@deffn {Command-line option} @code{--team-profile-purple-handicap=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PURPLE_HANDICAP}
+@deffnx {XML key} @code{team-profile-purple-handicap}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines the handicap for the purple team.
 @end deffn
 
 @subsection team-profile-purple-mobile
@@ -1790,6 +1894,19 @@ team will move twice slower than other teams with the default parameter.
 Setting this high is very likely to advantage the team.
 @end deffn
 
+@subsection team-profile-red-handicap
+@deffn {Command-line option} @code{--team-profile-red-handicap=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_RED_HANDICAP}
+@deffnx {XML key} @code{team-profile-red-handicap}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines the handicap for the red team.
+@end deffn
+
 @subsection team-profile-red-mobile
 @deffn {Command-line option} @code{--team-profile-red-mobile=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_RED_MOBILE}
@@ -1891,6 +2008,19 @@ Max value: 2000
 Changes the speed of the yellow team. This is a percentage, if set to 50, then
 team will move twice slower than other teams with the default parameter.
 Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-yellow-handicap
+@deffn {Command-line option} @code{--team-profile-yellow-handicap=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_YELLOW_HANDICAP}
+@deffnx {XML key} @code{team-profile-yellow-handicap}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines the handicap for the yellow team.
 @end deffn
 
 @subsection team-profile-yellow-mobile

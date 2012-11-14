@@ -611,6 +611,16 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_LIGHTBLUE_FAST);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PURPLE_FAST);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PINK_FAST);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_RED_HANDICAP);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_GREEN_HANDICAP);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_BLUE_HANDICAP);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_YELLOW_HANDICAP);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_CYAN_HANDICAP);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_MAGENTA_HANDICAP);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_ORANGE_HANDICAP);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_LIGHTBLUE_HANDICAP);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PURPLE_HANDICAP);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PINK_HANDICAP);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_RED_WEAPON_ID);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_GREEN_WEAPON_ID);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_BLUE_WEAPON_ID);
