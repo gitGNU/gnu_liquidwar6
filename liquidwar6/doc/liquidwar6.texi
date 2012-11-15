@@ -3577,6 +3577,33 @@ This does not mean it is not possible to have public structures,
 only these structures must reflect some truely public, accessible
 and safe to access structures.
 
+@subsection Commit policy
+
+Basic rules :
+
+@itemize
+@item
+commits should be as small as possible, yet leave the code in
+a consistent state. The general idea is that big commits tend to
+make error tracking more complicated;
+@item 
+a commit should not
+leave the code in a state in which it does not compile and/or is
+consistent from a user point of view. The general idea is to go
+step by step and break as little things as possible.
+@item
+tests should be written along the way. The project is not developped
+with a ``test driven'' method, still, it's a good practice to write
+the tests functions as soon as possible.
+@end itemize
+
+To check that a commit does not break everything, a good practice is to
+run a @code{make check} before committing / submitting anything.
+
+Then, once it's within the main GIT repository, check the
+@uref{http://www.ufoot.org/jenkins/job/liquidwar6/, Jenkins builds}
+to see if the program still builds correctly.
+
 @subsection Audit the code
 
 Liquid War 6 is regularly audited with automated tools. You might
@@ -3962,6 +3989,17 @@ to sort @code{src/lib/def/def-list.txt} a common practice is to fill it with the
 @end itemize
 
 Unless this is done, program won't accept the option.
+
+Some options need more work, for instance:
+
+@itemize
+@item
+Any option which is a command-line argument needs to be added to @code{src/lib/lw6-options.c}.
+@item
+Any option which is related to the build system (to enable or disable some feature) must be referenced in @code{src/lib/sys-build.c} and also @code{src/lw6-funcssys.c} to be callable from scripts.
+@item
+Any option which changes the map rules (any new rule...) impacts the game checksums so these ones need to be updated in @code{src/lib/map/map-test.c}, @code{src/lib/ker/ker-test.c}, @code{src/lib/pil/pil-test.c} and @code{src/lib/pil/pil-suite.c}.
+@end itemize
 
 @subsection Add a new internal library
 
