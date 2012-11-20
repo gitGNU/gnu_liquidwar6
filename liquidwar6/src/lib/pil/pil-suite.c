@@ -35,14 +35,14 @@
 #define _STAGE_2_ROUND 25005
 #define _STAGE_3_ROUND 40005
 
-#define _SEQ_0 1000000000000
+#define _SEQ_0 1000000000000LL
 
 #define _MAX_MESSAGES_PER_NODE_AND_STAGE 20
 #define _INIT_SCALE_PERCENT 33
 
 /*
  * Note: it's important that last message round is less than
- * (LW6MAP_RULES_DEFAULT_TOTAL_TIME * 
+ * (LW6MAP_RULES_DEFAULT_TOTAL_TIME *
  * LW6MAP_RULES_DEFAULT_ROUNDS_PER_SEC *
  * LW6MAP_RULES_DEFAULT_MOVES_PER_ROUND)
  * which is something like 900 * 50 * 2 = 90000.
@@ -135,7 +135,7 @@ static const char
  * @game_state: game state to run test suite (out param)
  * @pilot: pilot to run test suite (out param)
  * @timestamp: timestamp used for pilot creation (should be "now")
- * 
+ *
  * Build the objects used by the test suite. The idea is to wrap all this
  * in a single function since it requires to be exactly the same every time
  * as the test suite is very pedantic about checksums.

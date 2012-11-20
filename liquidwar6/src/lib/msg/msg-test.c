@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -120,7 +120,7 @@
 #define _TEST_DATA_SERIAL 421
 #define _TEST_DATA_I 3
 #define _TEST_DATA_N 1000
-#define _TEST_DATA_SEQ 1000000123456
+#define _TEST_DATA_SEQ 1000000123456LL
 #define _TEST_DATA_KER_MSG "HELLO WORLD"
 #define _TEST_SEQ_BASE 1000000000000000LL
 #define _TEST_SEQ_RANGE 1000000000

@@ -1,3 +1,7 @@
+2012-11-20 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed long integer constants (patch by Theo Licin).
+
 2012-11-16 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Minor doc update (hacker's guide).
