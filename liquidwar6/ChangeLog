@@ -1,3 +1,7 @@
+2012-11-22 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Made lw6pil_suite functions available from scripts.
+
 2012-11-20 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed long integer constants (patch by Theo Licin).

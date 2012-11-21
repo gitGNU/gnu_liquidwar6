@@ -27,9 +27,9 @@
 #include "pil.h"
 #include "pil-internal.h"
 
-#define _STAGE_1_CHECKSUM 0xb506f246
-#define _STAGE_2_CHECKSUM 0xf1275c5c
-#define _STAGE_3_CHECKSUM 0x6d7ed98a
+#define _STAGE_1_GAME_STATE_CHECKSUM 0xb506f246
+#define _STAGE_2_GAME_STATE_CHECKSUM 0xf1275c5c
+#define _STAGE_3_GAME_STATE_CHECKSUM 0x6d7ed98a
 
 #define _STAGE_1_ROUND 10005
 #define _STAGE_2_ROUND 25005
@@ -130,10 +130,7 @@ static const char
 /**
  * lw6pil_suite_init
  *
- * @level: level to run test suite (out param)
- * @game_struct: game struct to run test suite (out param)
- * @game_state: game state to run test suite (out param)
- * @pilot: pilot to run test suite (out param)
+ * @dump: dump to use as a base to init the suite (out param)
  * @timestamp: timestamp used for pilot creation (should be "now")
  *
  * Build the objects used by the test suite. The idea is to wrap all this
@@ -143,30 +140,24 @@ static const char
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6pil_suite_init (lw6map_level_t ** level,
-		   lw6ker_game_struct_t ** game_struct,
-		   lw6ker_game_state_t ** game_state, lw6pil_pilot_t ** pilot,
-		   int64_t timestamp)
+lw6pil_suite_init (lw6pil_dump_t * dump, int64_t timestamp)
 {
   int ret = 0;
 
-  (*level) = NULL;
-  (*game_struct) = NULL;
-  (*game_state) = NULL;
-  (*pilot) = NULL;
+  lw6pil_dump_zero (dump);
 
-  (*level) = lw6map_builtin_scale (_INIT_SCALE_PERCENT);
-  if (*level)
+  dump->level = lw6map_builtin_scale (_INIT_SCALE_PERCENT);
+  if (dump->level)
     {
-      (*game_struct) = lw6ker_game_struct_new (*level, NULL);
-      if (*game_struct)
+      dump->game_struct = lw6ker_game_struct_new (dump->level, NULL);
+      if (dump->game_struct)
 	{
-	  (*game_state) = lw6ker_game_state_new (*game_struct, NULL);
-	  if (*game_state)
+	  dump->game_state = lw6ker_game_state_new (dump->game_struct, NULL);
+	  if (dump->game_state)
 	    {
-	      (*pilot) =
-		lw6pil_pilot_new (*game_state, _SEQ_0, timestamp, NULL);
-	      if (*pilot)
+	      dump->pilot =
+		lw6pil_pilot_new (dump->game_state, _SEQ_0, timestamp, NULL);
+	      if (dump->pilot)
 		{
 		  ret = 1;
 		}
@@ -176,26 +167,7 @@ lw6pil_suite_init (lw6map_level_t ** level,
 
   if (!ret)
     {
-      if (*pilot)
-	{
-	  lw6pil_pilot_free (*pilot);
-	  (*pilot) = NULL;
-	}
-      if (*game_state)
-	{
-	  lw6ker_game_state_free (*game_state);
-	  (*game_state) = NULL;
-	}
-      if (*game_struct)
-	{
-	  lw6ker_game_struct_free (*game_struct);
-	  (*game_struct) = NULL;
-	}
-      if (*level)
-	{
-	  lw6map_free (*level);
-	  (*level) = NULL;
-	}
+      lw6pil_dump_clear (dump);
     }
   return ret;
 }
@@ -412,7 +384,7 @@ lw6pil_suite_get_command_by_step (int step)
 /**
  * lw6pil_suite_get_checkpoint
  *
- * @checksum: expected checksum for the given checkpoint (out param)
+ * @game_state_checksum: expected checksum for the given checkpoint (out param)
  * @seq: expected seq for the given checkpoint (out param)
  * @round: expected round for the given checkpoint (out param)
  * @stage: stage to query checksum and other info about
@@ -424,29 +396,29 @@ lw6pil_suite_get_command_by_step (int step)
  * Return value: none, everything in out params
  */
 void
-lw6pil_suite_get_checkpoint (u_int32_t * checksum, int64_t * seq, int *round,
-			     int stage)
+lw6pil_suite_get_checkpoint (u_int32_t * game_state_checksum, int64_t * seq,
+			     int *round, int stage)
 {
   switch (stage)
     {
     case LW6PIL_SUITE_STAGE_1:
-      (*checksum) = _STAGE_1_CHECKSUM;
+      (*game_state_checksum) = _STAGE_1_GAME_STATE_CHECKSUM;
       (*seq) = _STAGE_1_ROUND + _SEQ_0;
       (*round) = _STAGE_1_ROUND;
       break;
     case LW6PIL_SUITE_STAGE_2:
-      (*checksum) = _STAGE_2_CHECKSUM;
+      (*game_state_checksum) = _STAGE_2_GAME_STATE_CHECKSUM;
       (*seq) = _STAGE_2_ROUND + _SEQ_0;
       (*round) = _STAGE_2_ROUND;
       break;
     case LW6PIL_SUITE_STAGE_3:
-      (*checksum) = _STAGE_3_CHECKSUM;
+      (*game_state_checksum) = _STAGE_3_GAME_STATE_CHECKSUM;
       (*seq) = _STAGE_3_ROUND + _SEQ_0;
       (*round) = _STAGE_3_ROUND;
       break;
     default:
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("invalid stage %d"), stage);
-      (*checksum) = 0;
+      (*game_state_checksum) = 0;
       (*seq) = 0LL;
       (*round) = 0;
     }

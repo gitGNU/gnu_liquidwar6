@@ -2866,6 +2866,18 @@ populate_references ()
 		 _x_ ("Wrapper on lw6pil_get_looser."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_SEQ_RANDOM_0,
 		 _x_ ("Wrapper on lw6pil_seq_random_0."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SUITE_INIT,
+		 _x_ ("Wrapper on lw6pil_suite_init."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SUITE_GET_SEQ_0,
+		 _x_ ("Wrapper on lw6pil_suite_get_seq_0."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_NODE_INDEX,
+		 _x_
+		 ("Wrapper on lw6pil_suite_get_command_by_node_index, returns the list of all steps."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_STAGE,
+		 _x_
+		 ("Wrapper on lw6pil_suite_get_command_by_stage, returns the list of all steps."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SUITE_GET_CHECKPOINT,
+		 _x_ ("Wrapper on lw6pil_suite_get_checkpoint."));
   POPULATE_VOID (LW6DEF_C_LW6SND_GET_BACKENDS,
 		 _x_ ("Wrapper on lw6snd_get_backends."));
   POPULATE_VOID (LW6DEF_C_LW6SND_NEW, _x_ ("Wrapper on lw6snd_new."));

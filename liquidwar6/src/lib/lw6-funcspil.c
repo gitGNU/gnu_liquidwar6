@@ -1048,6 +1048,159 @@ _scm_lw6pil_seq_random_0 ()
   return ret;
 }
 
+static SCM
+_scm_lw6pil_suite_init (SCM timestamp)
+{
+  SCM ret = SCM_BOOL_F;
+  lw6pil_dump_t c_dump;
+  int64_t c_timestamp;
+  SCM ret_level;
+  SCM ret_game_struct;
+  SCM ret_game_state;
+  SCM ret_pilot;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (scm_is_integer (timestamp), timestamp, SCM_ARG1, __FUNCTION__);
+
+  c_timestamp = scm_to_long_long (timestamp);
+
+  if (lw6pil_suite_init (&c_dump, c_timestamp))
+    {
+      ret_level = lw6_make_scm_map (c_dump.level);
+      ret_game_struct =
+	lw6_make_scm_game_struct (c_dump.game_struct, ret_level);
+      ret_game_state =
+	lw6_make_scm_game_state (c_dump.game_state, ret_game_struct);
+      ret_pilot = lw6_make_scm_pilot (c_dump.pilot);
+      ret = scm_list_4 (scm_cons
+			(scm_from_locale_string ("level"), ret_level),
+			scm_cons
+			(scm_from_locale_string ("game-struct"),
+			 ret_game_struct),
+			scm_cons (scm_from_locale_string
+				  ("game-state"), ret_game_state),
+			scm_cons (scm_from_locale_string ("pilot"),
+				  ret_pilot));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6pil_suite_get_seq_0 ()
+{
+  SCM ret = SCM_BOOL_F;
+  int64_t c_ret = 0;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  c_ret = lw6pil_suite_get_seq_0 ();
+  ret = scm_from_long_long (c_ret);
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6pil_suite_get_commands_by_node_index (SCM node_index, SCM stage)
+{
+  SCM ret = SCM_BOOL_F;
+  int c_node_index = 0;
+  int c_stage = 0;
+  int c_step = 0;
+  const char *c_command = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (scm_is_integer (node_index), node_index, SCM_ARG1,
+	      __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (stage), stage, SCM_ARG2, __FUNCTION__);
+
+  c_node_index = scm_to_int (node_index);
+  c_stage = scm_to_int (stage);
+
+  ret = SCM_LIST0;
+  while ((c_command =
+	  lw6pil_suite_get_command_by_node_index (c_node_index, c_stage,
+						  c_step)) != NULL)
+    {
+      ret = scm_cons (scm_from_locale_string (c_command), ret);
+    }
+  ret = scm_reverse (ret);
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6pil_suite_get_commands_by_stage (SCM stage)
+{
+  SCM ret = SCM_BOOL_F;
+  int c_stage = 0;
+  int c_step = 0;
+  const char *c_command = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (scm_is_integer (stage), stage, SCM_ARG1, __FUNCTION__);
+
+  c_stage = scm_to_int (stage);
+
+  ret = SCM_LIST0;
+  while ((c_command =
+	  lw6pil_suite_get_command_by_stage (c_stage, c_step)) != NULL)
+    {
+      ret = scm_cons (scm_from_locale_string (c_command), ret);
+    }
+  ret = scm_reverse (ret);
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6pil_suite_get_checkpoint (SCM stage)
+{
+  SCM ret = SCM_BOOL_F;
+  int c_stage = 0;
+  u_int32_t c_game_state_checksum = 0;
+  int64_t c_seq = 0LL;
+  int c_round = 0;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (scm_is_integer (stage), stage, SCM_ARG1, __FUNCTION__);
+
+  c_stage = scm_to_int (stage);
+
+  lw6pil_suite_get_checkpoint (&c_game_state_checksum, &c_seq, &c_round,
+			       c_stage);
+
+  ret =
+    scm_list_3 (scm_cons
+		(scm_from_locale_string ("game-state-checksum"),
+		 scm_from_int (c_game_state_checksum)),
+		scm_cons (scm_from_locale_string ("seq"),
+			  scm_from_long_long (c_seq)),
+		scm_cons (scm_from_locale_string ("round"),
+			  scm_from_int (c_round)));
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
 /**
  * lw6_register_funcs_pil
  *
@@ -1161,6 +1314,26 @@ lw6_register_funcs_pil ()
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SEQ_RANDOM_0, 0, 0, 0,
 			      (SCM (*)())_scm_lw6pil_seq_random_0);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SUITE_INIT, 1, 0, 0,
+			      (SCM (*)())_scm_lw6pil_suite_init);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SUITE_GET_SEQ_0, 0, 0, 0,
+			      (SCM (*)())_scm_lw6pil_suite_get_seq_0);
+  ret = ret
+    &&
+    lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_NODE_INDEX,
+			   2, 0, 0,
+			   (SCM (*)
+			    ())_scm_lw6pil_suite_get_commands_by_node_index);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_STAGE, 1,
+			      0, 0,
+			      (SCM (*)
+			       ())_scm_lw6pil_suite_get_commands_by_stage);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SUITE_GET_CHECKPOINT, 1, 0, 0,
+			      (SCM (*)())_scm_lw6pil_suite_get_checkpoint);
 
   return ret;
 }

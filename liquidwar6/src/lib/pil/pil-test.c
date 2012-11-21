@@ -989,10 +989,7 @@ test_suite ()
     int stage = 0;
     int step = 0;
     const char *command = NULL;
-    lw6map_level_t *level = NULL;
-    lw6ker_game_struct_t *game_struct = NULL;
-    lw6ker_game_state_t *game_state = NULL;
-    lw6pil_pilot_t *pilot = NULL;
+    lw6pil_dump_t dump = { NULL, NULL, NULL, NULL };
     u_int32_t checkpoint_checksum = 0;
     int64_t checkpoint_seq = 0LL;
     int checkpoint_round = 0;
@@ -1033,8 +1030,7 @@ test_suite ()
       }
 
 
-    if (lw6pil_suite_init
-	(&level, &game_struct, &game_state, &pilot, lw6sys_get_timestamp ()))
+    if (lw6pil_suite_init (&dump, lw6sys_get_timestamp ()))
       {
 	ret = 1;
 
@@ -1048,17 +1044,17 @@ test_suite ()
 			    _x_
 			    ("running command for stage=%d, step=%d is \"%s\""),
 			    _TEST_SUITE_STAGE, step, command);
-		lw6pil_pilot_send_command (pilot, command, 1);
+		lw6pil_pilot_send_command (dump.pilot, command, 1);
 		step++;
 	      }
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("commit"));
-	    lw6pil_pilot_commit (NULL, pilot);
+	    lw6pil_pilot_commit (NULL, dump.pilot);
 	    lw6pil_suite_get_checkpoint (&checkpoint_checksum,
 					 &checkpoint_seq, &checkpoint_round,
 					 stage);
 
 	    while ((seq =
-		    lw6pil_pilot_get_reference_current_seq (pilot)) <
+		    lw6pil_pilot_get_reference_current_seq (dump.pilot)) <
 		   checkpoint_seq)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -1067,12 +1063,12 @@ test_suite ()
 			    (long long) seq, (long long) checkpoint_seq);
 		lw6sys_sleep (_TEST_SUITE_SLEEP);
 	      }
-	    lw6pil_pilot_sync_from_reference (game_state, pilot);
-	    round = lw6ker_game_state_get_rounds (game_state);
-	    checksum = lw6ker_game_state_checksum (game_state);
+	    lw6pil_pilot_sync_from_reference (dump.game_state, dump.pilot);
+	    round = lw6ker_game_state_get_rounds (dump.game_state);
+	    checksum = lw6ker_game_state_checksum (dump.game_state);
 	    if (round == checkpoint_round && checksum == checkpoint_checksum)
 	      {
-		print_game_state (game_state, _x_ ("checkpoint"));
+		print_game_state (dump.game_state, _x_ ("checkpoint"));
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("OK, stage=%d round=%d checksum=%08x"),
 			    stage, round, checksum);
@@ -1088,10 +1084,7 @@ test_suite ()
 	      }
 	  }
 
-	lw6pil_pilot_free (pilot);
-	lw6ker_game_state_free (game_state);
-	lw6ker_game_struct_free (game_struct);
-	lw6map_free (level);
+	lw6pil_dump_clear (&dump);
       }
   }
 

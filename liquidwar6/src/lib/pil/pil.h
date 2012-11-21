@@ -424,10 +424,7 @@ extern char *lw6pil_seed_command_generate (lw6pil_pilot_t * pilot,
 extern int64_t lw6pil_seq_random_0 ();
 
 /* pil-suite.c */
-extern int lw6pil_suite_init (lw6map_level_t ** level,
-			      lw6ker_game_struct_t ** game_struct,
-			      lw6ker_game_state_t ** game_state,
-			      lw6pil_pilot_t ** pilot, int64_t timestamp);
+extern int lw6pil_suite_init (lw6pil_dump_t * dump, int64_t timestamp);
 extern int64_t lw6pil_suite_get_seq_0 ();
 extern const char *lw6pil_suite_get_command_by_node_index (int node_index,
 							   int stage,
@@ -435,8 +432,9 @@ extern const char *lw6pil_suite_get_command_by_node_index (int node_index,
 extern int _command_sort (const void *arg_a, const void *arg_b);
 extern const char *lw6pil_suite_get_command_by_stage (int stage, int step);
 extern const char *lw6pil_suite_get_command_by_step (int step);
-extern void lw6pil_suite_get_checkpoint (u_int32_t * checksum, int64_t * seq,
-					 int *round, int stage);
+extern void lw6pil_suite_get_checkpoint (u_int32_t * game_state_checksum,
+					 int64_t * seq, int *round,
+					 int stage);
 
 /* pil-test.c */
 extern int lw6pil_test (int mode);
