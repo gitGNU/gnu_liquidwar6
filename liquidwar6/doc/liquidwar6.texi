@@ -97,6 +97,7 @@ Hacker's guide
 * Translating::         Translation HOWTO.
 * Architecture::        C, Scheme, modules and the rest.
 * Graphics backends::   How gfx modules work, how to write them.
+* Core algorithm::      About shortest path & moving fighters.
 * Compilation tips::    Advice for developpers and packagers.
 * Coding guidelines::   Ensure code remains maintainable.
 * Using the console::   How to interact with the game.
@@ -1641,6 +1642,7 @@ is welcome.
 * Translating::         Translation HOWTO.
 * Architecture::        C, Scheme, modules and the rest.
 * Graphics backends::   How gfx modules work, how to write them.
+* Core algorithm::      About shortest path & moving fighters.
 * Compilation tips::    Advice for developpers and packagers.
 * Coding guidelines::   Ensure code remains maintainable.
 * Using the console::   How to interact with the game.
@@ -2589,7 +2591,7 @@ bandwidth. We're talking about Internet play here.
 @c Graphics backends
 @c ---------------------------------------------------------------------------
 
-@node Graphics backends, Compilation tips, Architecture, Hacker's guide
+@node Graphics backends, Core algorithm, Architecture, Hacker's guide
 @section Graphics backends
 
 @subsection Modularity
@@ -2771,10 +2773,101 @@ typing @code{./liquidwar6gfx-test 1} in @code{./src/lib/gfx}.
 @end itemize
 
 @c ---------------------------------------------------------------------------
+@c Core algorithm
+@c ---------------------------------------------------------------------------
+
+@node Core algorithm, Compilation tips, Graphics backends, Hacker's guide
+@section Core algorithm
+
+@subsection Introduction
+
+Since @uref{http://ufoot.org/liquidwar/v5/techinfo/algorithm, Liquid War 3} the algorithm
+to power Liquid War is pretty much unchanged, at least, there has been no revolution,
+the basic principles remain the same. This has been 
+@uref{http://ufoot.org/liquidwar/v5/techinfo/algorithm, explained in Liquid War 5 doc},
+but is repeated here, along with the specific Liquid War 6 stuff.
+
+The very important things to remember are:
+@itemize
+@item
+The algorithm is 100.00% predictable. This means given the same input,
+it will give exactly the same output. This is very important for the
+network games to work correctly, therefore, the algorithm does not ever
+use any call to @code{rand} / @code{random} functions, it also does not use
+any float value either, since different type of processors/contexts might give slightly different
+results because of rounding problems.
+@item
+It's a two-pass algorithm, the first step is to calculate the distance from any
+point of the map to the closest cursor. This step is always imperfect, the shortest
+path is never really found, the naive approach is to consider that if a place on the map
+is at distance @code{N} of the cursor, then in the worst case, all adjacent places are at distance @code{N+1}.
+As of Liquid War 6, the corresponding code is in @code{src/lib/ker/ker-spread.c}. The second
+step is to move the fighters, make them act. In Liquid War 6, the corresponding code is in
+@code{src/lib/ker/ker-move.c}. One can have a look at the code source for the
+function @code{lw6ker_game_state_do_round} in @code{src/lib/ker/ker-gamestate.c} to see
+how these are called.
+@end itemize
+
+@subsection Level, game struct, game state and pilot
+
+Most of the algorithm code has something to do with the following types (which are structs):
+
+@itemize
+@item
+@code{lw6map_level_t} defined in  which is used to store the level data.
+@item
+@code{lw6ker_game_struct_t} defined in @code{src/lib/map/map.h} which is used to store the memory data required by the
+algorithm, but which are immutable. There's a difference between those data and the ones stored in the level
+struct. For instance, those data are ``private'' since @code{lw6ker_game_struct_t} is opaque, while
+everything is @code{lw6map_level_t} is ``public''. Also, data in @code{lw6ker_game_struct_t} might be
+highly redundant for performance issues and is optimized for speed while data in @code{lw6map_level_t} is
+just plain data and won't change if the algorithm is updated.
+@item
+@code{lw6ker_game_state_t} defined in @code{src/lib/ker/ker.h} which is used to store the level data required by the
+algorithm, and which changes during the game. This is typically where an information such as ``there's a red
+fighter in slot (3,23,1)'' will be stored.
+@item
+@code{lw6pil_pilot_t} defined in @code{src/lib/pil/pil.h} which is used to handle all the threading issues. It keeps
+a track of 3 game states. A ``reference'' state which is the state of the game considering all input has been received
+from the network, and is validated. A ``draft'' state which might be anticipated and updated ``as if the
+players we did not get input from did not move there cursors''. This can give the illusion that the game
+is running smoothly while in reality input from other players on the network is choppy. In a local game,
+``draft'' and ``reference'' are equivalent, since there's no doubt about what's on the network. And finally,
+a ``backup'' state which can be pulled in case of a serious flaw and is a good way to solve the ``hey, someone
+untrusted is throwing garbage on the net''. One can always pull a backup. 
+@end itemize
+
+Most of the time, hacking on the algorithm, changing the gameplay, does not require
+to touch anything but the code in @code{src/lib/ker}.
+
+See @xref{libmap}.
+See @xref{libker}.
+See @xref{libpil}.
+
+@subsection Getting informations about where fighters are
+
+One of the key functions is @code{lw6ker_game_state_get_fighter_id}, which will return
+the id of a fighter at a given position.
+Then its companion function @code{lw6ker_game_state_get_fighter_by_id} can be called,
+it will return a @code{lw6ker_fighter_t}, which contains the real data.
+
+The type @code{lw6ker_fighter_t} is not opaque and can be freely accessed by the caller,
+which, typically, is a graphics backend trying to display informations. Try and grep
+for the string ``lw6ker_game_state_get_fighter_id'' withing the @code{src/lib/gfx} source tree
+for examples.
+
+One thing that is very important when hacking on @code{libker}: you should always
+leave the @code{lw6ker_game_state_t} struct in a state that is compatible with a
+correct usage of public ``getters'' in @code{src/lib/ker/ker.h}. The reason is that
+this code can be executed by separate threads, more precisely, in ``dirty read'' mode,
+the rendering thread will try and display a ``game state'' while this very ``game state'' is
+being updated by another thread.
+
+@c ---------------------------------------------------------------------------
 @c Compilation tips
 @c ---------------------------------------------------------------------------
 
-@node Compilation tips, Coding guidelines, Graphics backends, Hacker's guide
+@node Compilation tips, Coding guidelines, Core algorithm, Hacker's guide
 @section Compilation tips
 
 @subsection Advanced ./configure options
