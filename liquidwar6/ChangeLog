@@ -1,3 +1,7 @@
+2012-11-28 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Revamped network/script test suite to add 3 nodes support.
+
 2012-11-27 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Started doc about core algorithm

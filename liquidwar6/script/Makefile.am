@@ -73,11 +73,13 @@ speed.scm \
 splash.scm \
 style.scm \
 test-0-main.scm \
-test-0-client.scm \
-test-0-server.scm \
+test-0-node-a.scm \
+test-0-node-b.scm \
+test-0-node-c.scm \
 test-1-main.scm \
-test-1-client.scm \
-test-1-server.scm \
+test-1-node-a.scm \
+test-1-node-b.scm \
+test-1-node-c.scm \
 test-utils.scm \
 wait.scm \
 zoom.scm \

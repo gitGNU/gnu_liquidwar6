@@ -18,9 +18,9 @@
 ;; Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;; Contact author        : ufoot@ufoot.org
 
-(load "test-0-server.scm") ; perform basic tests first
+(load "test-0-node-b.scm") ; perform basic tests first
 
-(define lw6-test-server-more
+(define lw6-test-node-b-more
   (lambda ()
     (begin
       (lw6-log-notice "todo...")
@@ -28,5 +28,5 @@
 
 (c-lw6-set-ret (and
 		(c-lw6-get-ret)
-		(lw6-test-run lw6-test-server-more)
+		(lw6-test-run lw6-test-node-b-more)
 		))

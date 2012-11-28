@@ -27,19 +27,22 @@
 #include "liquidwar6.h"
 
 #define _TEST_FILE_0_MAIN "test-0-main.scm"
-#define _TEST_FILE_0_CLIENT "test-0-client.scm"
-#define _TEST_FILE_0_SERVER "test-0-server.scm"
+#define _TEST_FILE_0_NODE_A "test-0-node-a.scm"
+#define _TEST_FILE_0_NODE_B "test-0-node-b.scm"
+#define _TEST_FILE_0_NODE_C "test-0-node-c.scm"
 #define _TEST_FILE_1_MAIN "test-1-main.scm"
-#define _TEST_FILE_1_CLIENT "test-1-client.scm"
-#define _TEST_FILE_1_SERVER "test-1-server.scm"
+#define _TEST_FILE_1_NODE_A "test-1-node-a.scm"
+#define _TEST_FILE_1_NODE_B "test-1-node-b.scm"
+#define _TEST_FILE_1_NODE_C "test-1-node-c.scm"
 #define _TEST_ARGC 1
 #define _TEST_ARGV0 "prog"
 
 #define _TEST_COVERAGE_PERCENT_MIN 33
 
 #define _TEST_SUITE_MAIN 0
-#define _TEST_SUITE_CLIENT 1
-#define _TEST_SUITE_SERVER 2
+#define _TEST_SUITE_NODE_A 1
+#define _TEST_SUITE_NODE_B 2
+#define _TEST_SUITE_NODE_C 3
 
 #define _TEST_RUN_RANDOM_RANGE 2
 
@@ -72,11 +75,14 @@ get_test_file (int argc, const char **argv, int mode, int suite)
 	    {
 	      switch (suite)
 		{
-		case _TEST_SUITE_CLIENT:
-		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_0_CLIENT);
+		case _TEST_SUITE_NODE_A:
+		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_0_NODE_A);
 		  break;
-		case _TEST_SUITE_SERVER:
-		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_0_SERVER);
+		case _TEST_SUITE_NODE_B:
+		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_0_NODE_B);
+		  break;
+		case _TEST_SUITE_NODE_C:
+		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_0_NODE_C);
 		  break;
 		default:
 		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_0_MAIN);
@@ -87,11 +93,14 @@ get_test_file (int argc, const char **argv, int mode, int suite)
 	    {
 	      switch (suite)
 		{
-		case _TEST_SUITE_CLIENT:
-		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_1_CLIENT);
+		case _TEST_SUITE_NODE_A:
+		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_1_NODE_A);
 		  break;
-		case _TEST_SUITE_SERVER:
-		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_1_SERVER);
+		case _TEST_SUITE_NODE_B:
+		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_1_NODE_B);
+		  break;
+		case _TEST_SUITE_NODE_C:
+		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_1_NODE_C);
 		  break;
 		default:
 		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_1_MAIN);
@@ -267,12 +276,20 @@ int
 lw6_test (int mode)
 {
   _lw6_test_param_t param;
+  _lw6_test_param_t param_a;
+  _lw6_test_param_t param_b;
+  _lw6_test_param_t param_c;
   const int argc = _TEST_ARGC;
   const char *argv[] = { _TEST_ARGV0 };
-  u_int64_t pid = 0LL;
+  u_int64_t pid_a = 0LL;
+  u_int64_t pid_b = 0LL;
+  u_int64_t pid_c = 0LL;
   int default_log_level_id = LW6SYS_LOG_INFO_ID;
 
   memset (&param, 0, sizeof (_lw6_test_param_t));
+  memset (&param_a, 0, sizeof (_lw6_test_param_t));
+  memset (&param_b, 0, sizeof (_lw6_test_param_t));
+  memset (&param_c, 0, sizeof (_lw6_test_param_t));
 
   if (lw6sys_false ())
     {
@@ -320,6 +337,13 @@ lw6_test (int mode)
       param.log_level_id = default_log_level_id;
       param.ret = 1;
 
+      memcpy (&param_a, &param, sizeof (_lw6_test_param_t));
+      memcpy (&param_b, &param, sizeof (_lw6_test_param_t));
+      memcpy (&param_c, &param, sizeof (_lw6_test_param_t));
+      param_a.suite = _TEST_SUITE_NODE_A;
+      param_b.suite = _TEST_SUITE_NODE_B;
+      param_c.suite = _TEST_SUITE_NODE_C;
+
       _guile_test_run (&param);
 
       if (param.ret)
@@ -335,22 +359,88 @@ lw6_test (int mode)
 	  if (lw6sys_process_is_fully_supported ())
 	    {
 	      /*
-	       * First network test, we launch the client in our main process
-	       * and fire a server in a fork. Won't get the result from the
-	       * server, here we just test wether the client has consistent
-	       * informations. The other test will come later.
+	       * First network test, we launch node_a in the main thread,
+	       * and fire node_b and node_c in separate threads.
+	       * We won't get the result from the node_b and node_c but
+	       * this is not a problem, we run the same test in other
+	       * configurations to gather that output.
 	       */
-	      param.suite = _TEST_SUITE_SERVER;
-	      param.log_level_id = LW6SYS_LOG_ERROR_ID;
-	      if ((pid =
-		   lw6sys_process_fork_and_call (_guile_test_run,
-						 &param)) != 0)
+	      param_b.log_level_id = LW6SYS_LOG_ERROR_ID;
+	      param_c.log_level_id = LW6SYS_LOG_ERROR_ID;
+	      pid_b = lw6sys_process_fork_and_call (_guile_test_run,
+						    &param_b);
+	      pid_c = lw6sys_process_fork_and_call (_guile_test_run,
+						    &param_c);
+	      if (pid_b != 0 && pid_c != 0)
 		{
-		  param.suite = _TEST_SUITE_CLIENT;
-		  param.log_level_id = default_log_level_id;
-		  _guile_test_run (&param);
-		  lw6sys_process_kill_1_9 (pid);
+		  _guile_test_run (&param_a);
 		}
+	      if (pid_b != 0)
+		{
+		  lw6sys_process_kill_1_9 (pid_b);
+		}
+	      if (pid_c != 0)
+		{
+		  lw6sys_process_kill_1_9 (pid_c);
+		}
+	      param_b.log_level_id = default_log_level_id;
+	      param_c.log_level_id = default_log_level_id;
+
+	      /*
+	       * Second network test, we launch node_b in the main thread,
+	       * and fire node_c and node_a in separate threads.
+	       * We won't get the result from the node_c and node_a but
+	       * this is not a problem, we run the same test in other
+	       * configurations to gather that output.
+	       */
+	      param_c.log_level_id = LW6SYS_LOG_ERROR_ID;
+	      param_a.log_level_id = LW6SYS_LOG_ERROR_ID;
+	      pid_c = lw6sys_process_fork_and_call (_guile_test_run,
+						    &param_c);
+	      pid_a = lw6sys_process_fork_and_call (_guile_test_run,
+						    &param_a);
+	      if (pid_c != 0 && pid_a != 0)
+		{
+		  _guile_test_run (&param_b);
+		}
+	      if (pid_c != 0)
+		{
+		  lw6sys_process_kill_1_9 (pid_c);
+		}
+	      if (pid_a != 0)
+		{
+		  lw6sys_process_kill_1_9 (pid_a);
+		}
+	      param_c.log_level_id = default_log_level_id;
+	      param_a.log_level_id = default_log_level_id;
+
+	      /*
+	       * Third network test, we launch node_c in the main thread,
+	       * and fire node_a and node_b in separate threads.
+	       * We won't get the result from the node_a and node_b but
+	       * this is not a problem, we run the same test in other
+	       * configurations to gather that output.
+	       */
+	      param_a.log_level_id = LW6SYS_LOG_ERROR_ID;
+	      param_b.log_level_id = LW6SYS_LOG_ERROR_ID;
+	      pid_a = lw6sys_process_fork_and_call (_guile_test_run,
+						    &param_a);
+	      pid_b = lw6sys_process_fork_and_call (_guile_test_run,
+						    &param_b);
+	      if (pid_a != 0 && pid_b != 0)
+		{
+		  _guile_test_run (&param_c);
+		}
+	      if (pid_a != 0)
+		{
+		  lw6sys_process_kill_1_9 (pid_a);
+		}
+	      if (pid_b != 0)
+		{
+		  lw6sys_process_kill_1_9 (pid_b);
+		}
+	      param_a.log_level_id = default_log_level_id;
+	      param_b.log_level_id = default_log_level_id;
 	    }
 	  else
 	    {
@@ -358,37 +448,10 @@ lw6_test (int mode)
 			  _x_
 			  ("skipping client/server test, platform does not have adequate process support and/or it's likely to fail anyway"));
 	    }
-
-	  if (lw6sys_process_is_fully_supported ())
-	    {
-	      /*
-	       * Second network test, we launch the server in our main process
-	       * and fire a client in a fork. Won't get the result from the
-	       * client, here we just test wether the server has consistent
-	       * informations. The other test was done before.
-	       */
-	      param.suite = _TEST_SUITE_CLIENT;
-	      param.log_level_id = LW6SYS_LOG_ERROR_ID;
-	      if ((pid =
-		   lw6sys_process_fork_and_call (_guile_test_run,
-						 &param)) != 0)
-		{
-		  param.suite = _TEST_SUITE_SERVER;
-		  param.log_level_id = default_log_level_id;
-		  _guile_test_run (&param);
-		  lw6sys_process_kill_1_9 (pid);
-		}
-	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_
-			  ("skipping server/client test, platform does not have adequate process support and/or it's likely to fail anyway"));
-	    }
 	}
 
       lw6_quit_global ();
     }
 
-  return param.ret;
+  return param.ret && param_a.ret && param_b.ret && param_c.ret;
 }
