@@ -64,34 +64,35 @@ targz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 pub: pub.tar.gz
 
 pub.tar.gz: coverage-pub global-pub cyclo-pub doxygen-pub
-	rm -rf pub && mkdir pub && cd pub && tar xzf ../coverage-pub.tar.gz && tar xzf ../global-pub.tar.gz && tar xzf ../cyclo-pub.tar.gz && tar xzf ../doxygen-pub.tar.gz && cd .. && tar czf $@ pub && rm -rf pub
+	rm -rf pub && mkdir pub && cd pub && tar xzf ../coverage.tar.gz && tar xzf ../global.tar.gz && tar xzf ../cyclo.tar.gz && tar xzf ../doxygen.tar.gz && cd .. && tar czf $@ pub && rm -rf pub
 
-coverage-pub: coverage-pub.tar.gz
+coverage-pub: coverage.tar.gz
 
-coverage-pub.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	rm -rf coverage-tmp && mkdir coverage-tmp && cd coverage-tmp && tar xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && mkdir build && cd build && ../src/configure --enable-gcov && make && src/liquidwar6 check && cd doc/coverage && make opt
-	tar czf coverage-pub.tar.gz coverage
+coverage.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -rf coverage-tmp && mkdir coverage-tmp && cd coverage-tmp && tar xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && pwd > pwd.txt && mkdir build && cd build && $$(cat ../pwd.txt)/configure --enable-gcov && rm -f ../pwd.txt && make && src/liquidwar6 check && cd doc/coverage && make opt && rm -f Makefile && cd .. && tar czf coverage.tar.gz coverage && cd ../../../.. && mv coverage-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/build/doc/coverage.tar.gz . && rm -rf coverage-tmp
+	tar czf coverage.tar.gz coverage
 
-global-pub: global-pub.tar.gz
+global-pub: global.tar.gz
 
-global-pub.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	tar czf global-pub.tar.gz global
+global.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	tar czf global.tar.gz global
 
-cyclo-pub: cyclo-pub.tar.gz
+cyclo-pub: cyclo.tar.gz
 
-cyclo-pub.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	tar czf cyclo-pub.tar.gz cyclo
+cyclo.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	tar czf cyclo.tar.gz cyclo
 
-doxygen-pub: doxygen-pub.tar.gz
+doxygen-pub: doxygen.tar.gz
 
-doxygen-pub.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	tar czf doxygen-pub.tar.gz doxygen
+doxygen.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	tar czf doxygen.tar.gz doxygen
 
 @PACKAGE_TARNAME@-savannah-cvs.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 	rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && ./configure && cd doc/
 
 clean-local:
 	rm -f deps.png deps.pdf
+	rm -rf pub.tar.gz && coverage.tar.gz && global.tar.gz && cyclo.tar.gz && doxygen.tar.gz
 
 install-data-local:
 	if test -d liquidwar6.html ; then install -d $(DESTDIR)$(docdir)/html ; cp -f liquidwar6.html/* $(DESTDIR)$(docdir)/html/ ; fi
