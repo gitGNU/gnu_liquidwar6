@@ -426,7 +426,7 @@ The id of the object, this is non-zero and unique within one run session, increm
 @strong{Definition:} @code{lw6map_metadata_t lw6map_level_s::metadata}
 
 
-Metadata (title, copyright, description, ...)         
+Metadata (title, copyright, description, ...).         
         
 @end defcv
 
@@ -1529,7 +1529,7 @@ Bots speed.
 @strong{Definition:} @code{int lw6map_teams_s::bot_iq}
 
 
-Bots IQ (how strong they are)         
+Bots IQ (how strong they are).         
         
 @end defcv
 

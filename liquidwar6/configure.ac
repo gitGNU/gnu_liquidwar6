@@ -95,6 +95,17 @@ if test x${XSLTPROC} != xyes; then
 ])
 fi
 
+DOXYGEN_HAVE_DOT=YES
+AC_CHECK_PROG(DOT, dot, yes, no)
+if test x${DOT} != xyes; then
+   AC_MSG_WARN([
+*** Liquid War 6 recommends dot (http://www.graphviz.org/)
+])
+   DOXYGEN_HAVE_DOT=NO
+fi
+
+AC_SUBST(DOXYGEN_HAVE_DOT)
+
 if test x${lw6_doxygen} != xyes ; then
    AC_MSG_WARN(["No Doxygen support"])
 fi
@@ -884,7 +895,8 @@ AC_CONFIG_FILES([Makefile
           doc/global/Makefile
           doc/cyclo/Makefile
           doc/doxygen/Makefile
-          doc/doxygen/doxygen.cfg
+          doc/doxygen/doxygen-xml.cfg
+          doc/doxygen/doxygen-html.cfg
           doc/example/Makefile
           doc/dtd/Makefile
           src/Makefile

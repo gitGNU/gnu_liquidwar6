@@ -807,6 +807,10 @@ manual.
 Used to post-process Doxygen output and transform it to texinfo.
 
 @item
+@uref{http://www.graphviz.org/, dot}.
+Used to generate Doxygen call graphs.
+
+@item
 @uref{http://code.google.com/p/google-perftools/, Google Performance Tools}.
 This tool is convenient to optimize the program and find out what
 parts of it take most of the CPU power to execute.

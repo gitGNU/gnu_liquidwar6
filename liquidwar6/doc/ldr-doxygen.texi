@@ -43,7 +43,7 @@ The map relative path, store this in config file.
 @strong{Definition:} @code{int lw6ldr_entry_s::has_subdirs}
 
 
-Wether the entry has subdirs (and consequently, isn't a map)         
+Wether the entry has subdirs (and consequently, isn't a map).         
         
 @end defcv
 
