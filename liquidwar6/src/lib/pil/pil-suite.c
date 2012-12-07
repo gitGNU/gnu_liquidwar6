@@ -37,6 +37,10 @@
 
 #define _SEQ_0 1000000000000LL
 
+#define _NODE_A_ID 1001100110011001LL
+#define _NODE_B_ID 2002200220022002LL
+#define _NODE_C_ID 3003300330033003LL
+
 #define _MAX_MESSAGES_PER_NODE_AND_STAGE 20
 #define _INIT_SCALE_PERCENT 33
 
@@ -183,6 +187,41 @@ int64_t
 lw6pil_suite_get_seq_0 ()
 {
   return _SEQ_0;
+}
+
+/**
+ * lw6pil_suite_get_node_id
+ *
+ * @node_index: index of the node we want informations about
+ *
+ * Get the node_id associated to an index, typically a 64-bit
+ * unique. The index is just a simple integer which is 0 for node A,
+ * 1 for node B, etc.
+ *
+ * Return value: the node id, as an unsigned 64-bit integer
+ */
+int64_t
+lw6pil_suite_get_node_id (int node_index)
+{
+  u_int64_t ret = 0LL;
+
+  switch (node_index)
+    {
+    case LW6PIL_SUITE_NODE_A:
+      ret = _NODE_A_ID;
+      break;
+    case LW6PIL_SUITE_NODE_B:
+      ret = _NODE_B_ID;
+      break;
+    case LW6PIL_SUITE_NODE_C:
+      ret = _NODE_C_ID;
+      break;
+    default:
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("invalid node_index %d"),
+		  node_index);
+    }
+
+  return ret;
 }
 
 /**

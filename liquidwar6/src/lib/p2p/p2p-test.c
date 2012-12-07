@@ -330,10 +330,14 @@ _test_node_init ()
     db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
     if (db)
       {
+	/*
+	 * Passing 0LL as a node id will cause automatic generation of an id
+	 */
 	node =
 	  lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
 			   lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			   _TEST_NODE_BIND_PORT1, _TEST_NODE_BROADCAST,
+			   0LL,
 			   _TEST_NODE_PUBLIC_URL1,
 			   _TEST_NODE_TITLE1, _TEST_NODE_DESCRIPTION, NULL,
 			   _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY,
@@ -466,6 +470,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	    lw6p2p_node_new (argc, argv, *db12, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT1, _TEST_NODE_BROADCAST,
+			     lw6sys_generate_id_64 (),
 			     _TEST_NODE_PUBLIC_URL1,
 			     _TEST_NODE_TITLE1,
 			     _TEST_NODE_DESCRIPTION, _TEST_NODE_PASSWORD,
@@ -491,6 +496,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	    lw6p2p_node_new (argc, argv, *db12, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT2, _TEST_NODE_BROADCAST,
+			     lw6sys_generate_id_64 (),
 			     _TEST_NODE_PUBLIC_URL2,
 			     _TEST_NODE_TITLE2, _TEST_NODE_DESCRIPTION, NULL,
 			     _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY,
@@ -517,6 +523,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	    lw6p2p_node_new (argc, argv, *db34, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT3, _TEST_NODE_BROADCAST,
+			     lw6sys_generate_id_64 (),
 			     _TEST_NODE_PUBLIC_URL3,
 			     _TEST_NODE_TITLE3,
 			     _TEST_NODE_DESCRIPTION, _TEST_NODE_PASSWORD,
@@ -542,6 +549,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	    lw6p2p_node_new (argc, argv, *db34, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT4, _TEST_NODE_BROADCAST,
+			     lw6sys_generate_id_64 (),
 			     _TEST_NODE_PUBLIC_URL4,
 			     _TEST_NODE_TITLE4, _TEST_NODE_DESCRIPTION, NULL,
 			     _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY,
@@ -569,6 +577,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	    lw6p2p_node_new (argc, argv, *db56, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT5, _TEST_NODE_BROADCAST,
+			     lw6sys_generate_id_64 (),
 			     _TEST_NODE_PUBLIC_URL5,
 			     _TEST_NODE_TITLE5,
 			     _TEST_NODE_DESCRIPTION, NULL,
@@ -594,6 +603,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	    lw6p2p_node_new (argc, argv, *db56, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT6, _TEST_NODE_BROADCAST,
+			     lw6sys_generate_id_64 (),
 			     _TEST_NODE_PUBLIC_URL6,
 			     _TEST_NODE_TITLE6, _TEST_NODE_DESCRIPTION, NULL,
 			     _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY,
@@ -983,10 +993,14 @@ _test_node_msg ()
     db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
     if (db)
       {
+	/*
+	 * Passing 0LL as a node id will cause automatic generation of an id
+	 */
 	node =
 	  lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
 			   lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			   _TEST_NODE_BIND_PORT1, _TEST_NODE_BROADCAST,
+			   0LL,
 			   _TEST_NODE_PUBLIC_URL1,
 			   _TEST_NODE_TITLE1, _TEST_NODE_DESCRIPTION, NULL,
 			   _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY,

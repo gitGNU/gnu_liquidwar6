@@ -1,3 +1,7 @@
+2012-12-07 : Christian Mauduit <ufoot@ufoot.org>
+
+	* P2p node creation now takes ID as a param.
+
 2012-11-28 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Revamped network/script test suite to add 3 nodes support.

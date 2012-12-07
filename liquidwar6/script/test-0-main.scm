@@ -451,6 +451,32 @@
 	(if pilot #t #f)
 	))))
 
+(define lw6-test-suite
+  (lambda ()
+    (let* (
+	   (dump (c-lw6pil-suite-init (c-lw6sys-get-timestamp)))
+	   (seq-0 (c-lw6pil-suite-get-seq-0))
+	   (node-ids (map c-lw6pil-suite-get-node-id (list 0 1 2)))
+	   (commands-by-node-index (map (lambda (node-index) 
+					  (map (lambda (stage) 
+						 (c-lw6pil-suite-get-commands-by-node-index node-index stage))
+					       (list 0 1 2)))
+					(list 0 1 2)))
+	   (commands-by-stage (map c-lw6pil-suite-get-commands-by-stage
+				   (list 0 1 2)))
+	   (checkpoints (map c-lw6pil-suite-get-checkpoint
+			     (list 0 1 2)))
+	   )
+      (begin
+	(lw6-log-notice (format #f "dump = ~a" dump))
+	(lw6-log-notice (format #f "seq-0 = ~a" seq-0))
+	(lw6-log-notice (format #f "node-ids = ~a" node-ids))
+	(lw6-log-notice (format #f "commands-by-node-index = ~a" commands-by-node-index))
+	(lw6-log-notice (format #f "commands-by-stage = ~a" commands-by-stage))
+	(lw6-log-notice (format #f "checkpoints = ~a" checkpoints))
+	#t
+	))))
+
 (define lw6-test-bot
   (lambda ()
     (let* (
@@ -539,6 +565,7 @@
 					       (cons "server-backends" "tcpd,udpd,httpd")
 					       (cons "bind-ip" "0.0.0.0")
 					       (cons "bind-port" 8057)
+					       (cons "node-id" (c-lw6sys-generate-id-64))
 					       (cons "public-url" "http://localhost/")
 					       (cons "password" "")
 					       (cons "title" "")
@@ -592,6 +619,7 @@
 		(lw6-test-run lw6-test-game-struct)
 		(lw6-test-run lw6-test-game-state)
 		(lw6-test-run lw6-test-pilot)
+		(lw6-test-run lw6-test-suite)
 		(lw6-test-run lw6-test-bot)
 		(lw6-test-run lw6-test-smobs-gc)
 		(lw6-test-run lw6-test-smobs-gc)

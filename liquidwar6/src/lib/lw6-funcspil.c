@@ -1108,6 +1108,33 @@ _scm_lw6pil_suite_get_seq_0 ()
 }
 
 static SCM
+_scm_lw6pil_suite_get_node_id (SCM node_index)
+{
+  SCM ret = SCM_BOOL_F;
+  int c_node_index = 0;
+  char *c_ret = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (scm_is_integer (node_index), node_index, SCM_ARG1,
+	      __FUNCTION__);
+
+  c_node_index = scm_to_int (node_index);
+
+  c_ret = lw6sys_id_ltoa (lw6pil_suite_get_node_id (c_node_index));
+  if (c_ret)
+    {
+      ret = scm_from_locale_string (c_ret);
+      LW6SYS_FREE (c_ret);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6pil_suite_get_commands_by_node_index (SCM node_index, SCM stage)
 {
   SCM ret = SCM_BOOL_F;
@@ -1132,6 +1159,7 @@ _scm_lw6pil_suite_get_commands_by_node_index (SCM node_index, SCM stage)
 						  c_step)) != NULL)
     {
       ret = scm_cons (scm_from_locale_string (c_command), ret);
+      ++c_step;
     }
   ret = scm_reverse (ret);
 
@@ -1160,6 +1188,7 @@ _scm_lw6pil_suite_get_commands_by_stage (SCM stage)
 	  lw6pil_suite_get_command_by_stage (c_stage, c_step)) != NULL)
     {
       ret = scm_cons (scm_from_locale_string (c_command), ret);
+      ++c_step;
     }
   ret = scm_reverse (ret);
 
@@ -1320,6 +1349,9 @@ lw6_register_funcs_pil ()
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SUITE_GET_SEQ_0, 0, 0, 0,
 			      (SCM (*)())_scm_lw6pil_suite_get_seq_0);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SUITE_GET_NODE_ID, 1, 0, 0,
+			      (SCM (*)())_scm_lw6pil_suite_get_node_id);
   ret = ret
     &&
     lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_NODE_INDEX,

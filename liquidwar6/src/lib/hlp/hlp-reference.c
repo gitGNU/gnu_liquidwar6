@@ -2870,6 +2870,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6pil_suite_init."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_SUITE_GET_SEQ_0,
 		 _x_ ("Wrapper on lw6pil_suite_get_seq_0."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SUITE_GET_NODE_ID,
+		 _x_ ("Wrapper on lw6pil_suite_get_node_id."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_NODE_INDEX,
 		 _x_
 		 ("Wrapper on lw6pil_suite_get_command_by_node_index, returns the list of all steps."));

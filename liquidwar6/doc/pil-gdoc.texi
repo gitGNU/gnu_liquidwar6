@@ -662,6 +662,16 @@ Get the base seq_0 for the reference test suite.
 @strong{Return value:}  64-bit integer.
 @end deftypefun
 
+@deftypefun {int64_t} {lw6pil_suite_get_node_id} (int @var{node_index})
+@var{node_index}:  index of the node we want informations about
+
+Get the node_id associated to an index, typically a 64-bit
+unique. The index is just a simple integer which is 0 for node A,
+1 for node B, etc.
+
+@strong{Return value:}  the node id, as an unsigned 64-bit integer
+@end deftypefun
+
 @deftypefun {const char *} {lw6pil_suite_get_command_by_node_index} (int @var{node_index}, int @var{stage}, int @var{step})
 @var{node_index}:  index of the node (not its id)
 

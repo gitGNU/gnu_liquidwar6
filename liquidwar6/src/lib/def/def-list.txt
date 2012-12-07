@@ -48,11 +48,6 @@ bot9-color
 broadcast
 c
 c-gettext
-c-lw6pil-suite-init
-c-lw6pil-suite-get-seq-0
-c-lw6pil-suite-get-commands-by-node-index
-c-lw6pil-suite-get-commands-by-stage
-c-lw6pil-suite-get-checkpoint
 c-lw6-exit
 c-lw6-get-ret
 c-lw6-release
@@ -267,6 +262,12 @@ c-lw6pil-send-command
 c-lw6pil-seq-random-0
 c-lw6pil-slow-down
 c-lw6pil-speed-up
+c-lw6pil-suite-get-checkpoint
+c-lw6pil-suite-get-commands-by-node-index
+c-lw6pil-suite-get-commands-by-stage
+c-lw6pil-suite-get-node-id
+c-lw6pil-suite-get-seq-0
+c-lw6pil-suite-init
 c-lw6pil-sync-from-backup
 c-lw6pil-sync-from-draft
 c-lw6pil-sync-from-reference

@@ -40,6 +40,7 @@ static u_int32_t seq_id = 0;
  * @bind_ip: the IP address to bind on
  * @bind_port: the IP port to listen on
  * @broadcast: wether broadcast is allowed on this node
+ * @node_id: the node id
  * @public_url: the public URL we want to show
  * @title: the title of the node
  * @description: the description of the node
@@ -59,7 +60,7 @@ static u_int32_t seq_id = 0;
 lw6p2p_node_t *
 lw6p2p_node_new (int argc, const char *argv[], lw6p2p_db_t * db,
 		 char *client_backends, char *server_backends, char *bind_ip,
-		 int bind_port, int broadcast,
+		 int bind_port, int broadcast, u_int64_t node_id,
 		 char *public_url, char *title,
 		 char *description, char *password, int bench, int open_relay,
 		 char *known_nodes, int network_reliability, int trojan)
@@ -67,16 +68,16 @@ lw6p2p_node_new (int argc, const char *argv[], lw6p2p_db_t * db,
   return (lw6p2p_node_t *) _lw6p2p_node_new (argc, argv, (_lw6p2p_db_t *) db,
 					     client_backends, server_backends,
 					     bind_ip, bind_port, broadcast,
-					     public_url,
-					     title, description, password,
-					     bench, open_relay, known_nodes,
+					     node_id, public_url, title,
+					     description, password, bench,
+					     open_relay, known_nodes,
 					     network_reliability, trojan);
 }
 
 _lw6p2p_node_t *
 _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 		  char *client_backends, char *server_backends, char *bind_ip,
-		  int bind_port, int broadcast,
+		  int bind_port, int broadcast, u_int64_t node_id,
 		  char *public_url, char *title,
 		  char *description, char *password, int bench,
 		  int open_relay, char *known_nodes, int network_reliability,
@@ -102,7 +103,14 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
       node->bind_ip = lw6sys_str_copy (bind_ip);
       node->bind_port = bind_port;
       node->broadcast = broadcast;
-      node->node_id_int = lw6sys_generate_id_64 ();
+      /*
+       * If submitted id is not valid, just generate a new one
+       */
+      if (!lw6sys_check_id_64 (node_id))
+	{
+	  node_id = lw6sys_generate_id_64 ();
+	}
+      node->node_id_int = node_id;
       node->node_id_str = lw6sys_id_ltoa (node->node_id_int);
       if (public_url && strlen (public_url) > 0)
 	{

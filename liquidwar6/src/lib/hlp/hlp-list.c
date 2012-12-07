@@ -1180,6 +1180,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SEQ_RANDOM_0);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SUITE_INIT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SUITE_GET_SEQ_0);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SUITE_GET_NODE_ID);
   lw6sys_list_push_back (list,
 			 LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_NODE_INDEX);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_STAGE);

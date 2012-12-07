@@ -48,6 +48,7 @@
 						   (cons "server-backends" "tcpd,udpd,httpd")
 						   (cons "bind-ip" "0.0.0.0")
 						   (cons "bind-port" 8058)
+						   (cons "node-id" (c-lw6pil-suite-get-node-id 1))
 						   (cons "public-url" "http://localhost:8058/")
 						   (cons "password" "")
 						   (cons "title" "")

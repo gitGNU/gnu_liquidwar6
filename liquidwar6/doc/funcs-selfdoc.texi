@@ -1091,6 +1091,11 @@ steps.
 Wrapper on lw6pil_suite_get_command_by_stage, returns the list of all steps.
 @end deffn
 
+@subsection c-lw6pil-suite-get-node-id
+@deffn {C function exported to Guile} @code{c-lw6pil-suite-get-node-id}
+Wrapper on lw6pil_suite_get_node_id.
+@end deffn
+
 @subsection c-lw6pil-suite-get-seq-0
 @deffn {C function exported to Guile} @code{c-lw6pil-suite-get-seq-0}
 Wrapper on lw6pil_suite_get_seq_0.

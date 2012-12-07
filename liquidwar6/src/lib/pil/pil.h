@@ -426,6 +426,7 @@ extern int64_t lw6pil_seq_random_0 ();
 /* pil-suite.c */
 extern int lw6pil_suite_init (lw6pil_dump_t * dump, int64_t timestamp);
 extern int64_t lw6pil_suite_get_seq_0 ();
+extern int64_t lw6pil_suite_get_node_id (int node_index);
 extern const char *lw6pil_suite_get_command_by_node_index (int node_index,
 							   int stage,
 							   int step);

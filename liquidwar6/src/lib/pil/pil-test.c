@@ -986,6 +986,7 @@ test_suite ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
+    int node_index = 0;
     int stage = 0;
     int step = 0;
     const char *command = NULL;
@@ -994,9 +995,17 @@ test_suite ()
     int64_t checkpoint_seq = 0LL;
     int checkpoint_round = 0;
     u_int32_t checksum = 0;
+    u_int64_t node_id = 0LL;
     int64_t seq = 0LL;
     int round = 0;
 
+    for (node_index = 0; node_index < LW6PIL_SUITE_NB_NODES; ++node_index)
+      {
+	node_id = lw6pil_suite_get_node_id (node_index);
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("node_id=%" LW6SYS_PRINTF_LL "x for node_index=%d"),
+		    (long long) node_id, node_index);
+      }
     step = 0;
     while ((command =
 	    lw6pil_suite_get_command_by_node_index (_TEST_SUITE_NODE_INDEX,

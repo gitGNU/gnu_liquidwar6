@@ -135,7 +135,7 @@ Gives a human-readable representation of the entry
 @strong{Return value:}  dynamically allocated string
 @end deftypefun
 
-@deftypefun {lw6p2p_node_t *} {lw6p2p_node_new} (int @var{argc}, const char * [] @var{argv}, lw6p2p_db_t * @var{db}, char * @var{client_backends}, char * @var{server_backends}, char * @var{bind_ip}, int @var{bind_port}, int @var{broadcast}, char * @var{public_url}, char * @var{title}, char * @var{description}, char * @var{password}, int @var{bench}, int @var{open_relay}, char * @var{known_nodes}, int @var{network_reliability}, int @var{trojan})
+@deftypefun {lw6p2p_node_t *} {lw6p2p_node_new} (int @var{argc}, const char * [] @var{argv}, lw6p2p_db_t * @var{db}, char * @var{client_backends}, char * @var{server_backends}, char * @var{bind_ip}, int @var{bind_port}, int @var{broadcast}, u_int64_t @var{node_id}, char * @var{public_url}, char * @var{title}, char * @var{description}, char * @var{password}, int @var{bench}, int @var{open_relay}, char * @var{known_nodes}, int @var{network_reliability}, int @var{trojan})
 @var{argc}:  number of args, as passed to @code{main}
 
 @var{argv}:  args array, as passed to @code{main}
@@ -151,6 +151,8 @@ Gives a human-readable representation of the entry
 @var{bind_port}:  the IP port to listen on
 
 @var{broadcast}:  wether broadcast is allowed on this node
+
+@var{node_id}:  the node id
 
 @var{public_url}:  the public URL we want to show
 
