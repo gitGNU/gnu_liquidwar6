@@ -56,6 +56,40 @@ liquidwar6.html: deps.png
 
 liquidwar6.pdf: deps.pdf
 
+targz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+
+@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz:
+	echo "Run make dist in parent directory and/or copy @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz here."
+
+pub: pub.tar.gz
+
+pub.tar.gz: coverage-pub global-pub cyclo-pub doxygen-pub
+	rm -rf pub && mkdir pub && cd pub && tar xzf ../coverage-pub.tar.gz && tar xzf ../global-pub.tar.gz && tar xzf ../cyclo-pub.tar.gz && tar xzf ../doxygen-pub.tar.gz && cd .. && tar czf $@ pub && rm -rf pub
+
+coverage-pub: coverage-pub.tar.gz
+
+coverage-pub.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -rf coverage-tmp && mkdir coverage-tmp && cd coverage-tmp && tar xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && mkdir build && cd build && ../src/configure --enable-gcov && make && src/liquidwar6 check && cd doc/coverage && make opt
+	tar czf coverage-pub.tar.gz coverage
+
+global-pub: global-pub.tar.gz
+
+global-pub.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	tar czf global-pub.tar.gz global
+
+cyclo-pub: cyclo-pub.tar.gz
+
+cyclo-pub.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	tar czf cyclo-pub.tar.gz cyclo
+
+doxygen-pub: doxygen-pub.tar.gz
+
+doxygen-pub.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	tar czf doxygen-pub.tar.gz doxygen
+
+@PACKAGE_TARNAME@-savannah-cvs.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && ./configure && cd doc/
+
 clean-local:
 	rm -f deps.png deps.pdf
 
