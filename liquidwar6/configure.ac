@@ -106,6 +106,10 @@ fi
 
 AC_SUBST(DOXYGEN_HAVE_DOT)
 
+DOXYGEN_SRCDIR=${srcdir}
+
+AC_SUBST(DOXYGEN_SRCDIR)
+
 if test x${lw6_doxygen} != xyes ; then
    AC_MSG_WARN(["No Doxygen support"])
 fi

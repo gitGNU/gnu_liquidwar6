@@ -109,9 +109,5 @@ else
   exit 1
 fi
 
-cd $WORKSPACE
-install -d $WORKSPACE/pub
-  for i in 
-
 echo "OK"
 exit 0
