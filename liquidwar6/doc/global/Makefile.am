@@ -22,7 +22,7 @@ opt: HTML
 
 HTML:
 	rm -rf ./HTML
-	cd ${top_srcdir}/src && gtags && htags
+	cd ${top_srcdir}/src && gtags -v && htags -v
 	rm -f ${top_srcdir}/src/GPATH ${top_srcdir}/src/GRTAGS ${top_srcdir}/src/GSYMS ${top_srcdir}/src/GTAGS
 	mv ${top_srcdir}/src/HTML .
 
