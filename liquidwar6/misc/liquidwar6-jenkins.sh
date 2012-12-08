@@ -25,64 +25,76 @@
 
 echo "******** $0 $(date) ********"
 if cd liquidwar6 ; then
+  echo "******** $0 $(date) ********"
+  if autoreconf ; then
     echo "******** $0 $(date) ********"
-    if autoreconf ; then
-	echo "******** $0 $(date) ********"
-	if ./configure --prefix=$WORKSPACE/local ; then
-	    echo "******** $0 $(date) ********"
-	    if make ; then
-		echo "******** $0 $(date) ********"
-		if make check; then
-		    echo "******** $0 $(date) ********"
-		    if cd ../liquidwar6-extra-maps ; then
-			echo "******** $0 $(date) ********"
-			if autoreconf ; then
-			    echo "******** $0 $(date) ********"
-			    if ./configure --prefix=$WORKSPACE/local ; then
-				echo "******** $0 $(date) ********"
-				if make ; then
-				    echo "******** $0 $(date) ********"
-				    if make install; then
-					echo "******** $0 $(date) ********"
-				    else
-					echo "make install failed"
-					exit 10
-				    fi
-				else
-				    echo "make failed"
-				    exit 9
-				fi
-			    else
-				echo "./configure failed"
-				exit 8
-			    fi
-			else
-			    echo "autoreconf failed"
-			    exit 7
-			fi
-		    else
-			echo "cd failed"
-			exit 6
-		    fi
-		else
-		    echo "make check failed"
-		    exit 5
-		fi
-	    else
-		echo "make failed"
-		exit 4
-	    fi
-	else
-	    echo "./configure failed"
-	    exit 3
-		    fi
+    if ./configure --prefix=$WORKSPACE/local ; then
+      echo "******** $0 $(date) ********"
+      if make ; then
+        echo "******** $0 $(date) ********"
+        if make check; then
+          echo "******** $0 $(date) ********"
+          if make dist; then
+            echo "******** $0 $(date) ********"
+            if cp liquidwar6-*.tar.gz doc/ && make -C doc pub; then
+              echo "******** $0 $(date) ********"
+              if cd ../liquidwar6-extra-maps ; then
+                echo "******** $0 $(date) ********"
+                if autoreconf ; then
+                  echo "******** $0 $(date) ********"
+                  if ./configure --prefix=$WORKSPACE/local ; then
+                    echo "******** $0 $(date) ********"
+                    if make ; then
+                      echo "******** $0 $(date) ********"
+                      if make install; then
+                        echo "******** $0 $(date) ********"
+                      else
+                        echo "make install failed"
+                        exit 12
+                      fi
+                    else
+                      echo "make failed"
+                      exit 11
+                    fi
+                  else
+                    echo "./configure failed"
+                    exit 10
+                  fi
+                else
+                  echo "autoreconf failed"
+                  exit 9
+                fi
+              else
+                echo "cd failed"
+                exit 8
+              fi
+            else
+              echo "make pub failed"
+              exit 7
+            fi
+          else
+            echo "make dist failed"
+            exit 6
+          fi
+        else
+          echo "make check failed"
+          exit 5
+        fi
+      else
+        echo "make failed"
+        exit 4
+      fi
     else
-	echo "autoreconf failed"
-	exit 2
+      echo "./configure failed"
+      exit 3
     fi
+  else
+    echo "autoreconf failed"
+    exit 2
+  fi
 else
-    echo "cd failed"
-    exit 1
+  echo "cd failed"
+  exit 1
 fi
 
 echo "OK"
