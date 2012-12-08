@@ -897,6 +897,7 @@ AC_CONFIG_FILES([Makefile
           doc/doxygen/Makefile
           doc/doxygen/doxygen-xml.cfg
           doc/doxygen/doxygen-html.cfg
+	  doc/manual/Makefile
           doc/example/Makefile
           doc/dtd/Makefile
           src/Makefile

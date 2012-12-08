@@ -48,6 +48,18 @@ if cd liquidwar6 ; then
                       echo "******** $0 $(date) ********"
                       if make install; then
                         echo "******** $0 $(date) ********"
+                        if install -d $WORKSPACE/pub && cd .. ; then
+                          echo "******** $0 $(date) ********"
+                          if for i in coverage global cyclo doxygen manual ; do tar -xzf $WORKSPACE/liquidwar6/doc/$i.tar.gz -C $WORKSPACE/pub ; done; then
+                            echo "******** $0 $(date) ********"
+                          else
+                            echo "extract pub failed"
+                            exit 14
+                          fi
+                        else
+                          echo "install pub failed"
+                          exit 13
+                        fi
                       else
                         echo "make install failed"
                         exit 12
@@ -96,6 +108,10 @@ else
   echo "cd failed"
   exit 1
 fi
+
+cd $WORKSPACE
+install -d $WORKSPACE/pub
+  for i in 
 
 echo "OK"
 exit 0
