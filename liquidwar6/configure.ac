@@ -106,7 +106,7 @@ fi
 
 AC_SUBST(DOXYGEN_HAVE_DOT)
 
-DOXYGEN_SRCDIR=${srcdir}
+DOXYGEN_SRCDIR=`readlink -f ${srcdir}`
 
 AC_SUBST(DOXYGEN_SRCDIR)
 

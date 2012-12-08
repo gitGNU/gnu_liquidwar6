@@ -67,30 +67,30 @@ pub: coverage-pub global-pub cyclo-pub doxygen-pub manual-pub
 coverage-pub: coverage.tar.gz
 
 coverage.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	rm -rf coverage-tmp && mkdir coverage-tmp && cd coverage-tmp && tar xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && pwd > pwd.txt && mkdir build && cd build && $$(cat ../pwd.txt)/configure --enable-gcov && rm -f ../pwd.txt && make && src/liquidwar6 check && cd doc/coverage && make opt && rm -f Makefile && cd .. && tar czf coverage.tar.gz coverage && cd ../../../.. && mv coverage-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/build/doc/coverage.tar.gz . && rm -rf coverage-tmp
+	rm -rf coverage-tmp && mkdir coverage-tmp && cd coverage-tmp && tar -xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && pwd > pwd.txt && mkdir build && cd build && $$(cat ../pwd.txt)/configure --enable-gcov && rm -f ../pwd.txt && make && src/liquidwar6 check && cd doc/coverage && make opt && rm -f Makefile && cd .. && tar -czf coverage.tar.gz coverage && cd ../../../.. && mv coverage-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/build/doc/coverage.tar.gz . && rm -rf coverage-tmp
 
 global-pub: global.tar.gz
 
 global.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	rm -rf global-tmp && mkdir global-tmp && cd global-tmp && tar xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure && cd doc/global && make opt && mv HTML global && tar czf global.tar.gz global && cd ../../../.. && mv global-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/doc/global/global.tar.gz . && rm -rf global-tmp
+	rm -rf global-tmp && mkdir global-tmp && cd global-tmp && tar -xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure && cd doc/global && make opt && mv HTML global && tar -czf global.tar.gz global && cd ../../../.. && mv global-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/doc/global/global.tar.gz . && rm -rf global-tmp
 
 cyclo-pub: cyclo.tar.gz
 
 cyclo.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	rm -rf cyclo-tmp && mkdir cyclo-tmp && cd cyclo-tmp && tar xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure && cd doc/cyclo && make opt && mkdir cyclo && mv index.html cyclo && tar czf cyclo.tar.gz cyclo && cd ../../../.. && mv cyclo-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/doc/cyclo/cyclo.tar.gz . && rm -rf cyclo-tmp
+	rm -rf cyclo-tmp && mkdir cyclo-tmp && cd cyclo-tmp && tar -xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure && cd doc/cyclo && make opt && mkdir cyclo && mv index.html cyclo && tar -czf cyclo.tar.gz cyclo && cd ../../../.. && mv cyclo-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/doc/cyclo/cyclo.tar.gz . && rm -rf cyclo-tmp
 
 doxygen-pub: doxygen.tar.gz
 
 doxygen.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	rm -rf doxygen-tmp && mkdir doxygen-tmp && cd doxygen-tmp && tar xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure && cd doc/doxygen && make opt && mv html doxygen && tar czf doxygen.tar.gz doxygen && cd ../../../.. && mv doxygen-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/doc/doxygen/doxygen.tar.gz . && rm -rf doxygen-tmp
+	rm -rf doxygen-tmp && mkdir doxygen-tmp && cd doxygen-tmp && tar -xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure && cd doc/doxygen && make opt && mv html doxygen && tar -czf doxygen.tar.gz doxygen && cd ../../../.. && mv doxygen-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/doc/doxygen/doxygen.tar.gz . && rm -rf doxygen-tmp
 
 manual-pub: manual.tar.gz
 
 manual.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	rm -rf manual-tmp && mkdir manual-tmp && cd manual-tmp && tar xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure && cd doc/manual && make opt && tar czf manual.tar.gz manual && cd ../../../.. && mv manual-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/doc/manual/manual.tar.gz . && rm -rf manual-tmp
+	rm -rf manual-tmp && mkdir manual-tmp && cd manual-tmp && tar -xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure && cd doc/manual && make opt && tar -czf manual.tar.gz manual && cd ../../../.. && mv manual-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/doc/manual/manual.tar.gz . && rm -rf manual-tmp
 
 @PACKAGE_TARNAME@-savannah-cvs.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && ./configure && cd doc/
+	rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && tar -xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && ./configure && cd doc/
 
 clean-local:
 	rm -f deps.png deps.pdf
