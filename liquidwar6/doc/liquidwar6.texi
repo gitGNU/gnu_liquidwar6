@@ -890,7 +890,7 @@ libcurl4-gnutls-dev \
 libgtk2.0-dev \
 perl lcov global valgrind graphviz gv \
 texinfo texlive-base texlive-generic-extra \
-indent emacs doxygen xlstproc \
+indent emacs doxygen xlstproc pmccabe \
 debhelper
 @end example
 
