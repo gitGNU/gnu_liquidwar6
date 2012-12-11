@@ -96,6 +96,8 @@ src/lib/gfx/gfx-test.c
 src/lib/gfx/gfx-testmain.c
 src/lib/gfx/mod-caca/mod-caca-backend.c
 src/lib/gfx/mod-caca/mod-caca-const.c
+src/lib/gfx/mod-caca/mod-caca-display.c
+src/lib/gfx/mod-caca/mod-caca-event.c
 src/lib/gfx/mod-caca/mod-caca-mode.c
 src/lib/gfx/mod-caca/mod-caca-path.c
 src/lib/gfx/mod-caca/mod-caca-repr.c

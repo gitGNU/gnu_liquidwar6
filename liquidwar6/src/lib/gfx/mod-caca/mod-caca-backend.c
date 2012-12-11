@@ -121,9 +121,7 @@ _pump_events (void *gfx_context)
 
   if (mod_caca_context)
     {
-      /*
-       * Todo, pump events and return an updated input struct
-       */
+      ret = _mod_caca_pump_events (mod_caca_context);
     }
 
   return ret;
@@ -145,9 +143,11 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
 
   if (mod_caca_context)
     {
-      // todo ...
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("%s not implemented yet"),
-		  __FUNCTION__);
+      ret =
+	_mod_caca_display (mod_caca_context, mask, look, level, game_struct,
+			   game_state, local_cursors, menu, progress, fps,
+			   mps, log_list, capture, gfx_debug, debug_team_id,
+			   debug_layer_id);
     }
 
   return ret;

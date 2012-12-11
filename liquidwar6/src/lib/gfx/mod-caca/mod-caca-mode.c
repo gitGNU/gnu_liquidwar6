@@ -24,7 +24,47 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <errno.h>
+
 #include "mod-caca-internal.h"
+
+static caca_display_t *
+_set_with_driver (const char *driver)
+{
+  caca_display_t *ret = NULL;
+
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("trying libcaca driver \"%s\""), driver);
+  ret = caca_create_display_with_driver (NULL, driver);
+  if (ret == NULL)
+    {
+      switch (errno)
+	{
+	case ENOMEM:
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("libcaca driver \"%s\" failed to create display (memory problem)"),
+		      driver);
+	  break;
+	case ENODEV:
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("libcaca driver \"%s\" failed to create display (device problem)"),
+		      driver);
+	  break;
+	default:
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("libcaca driver \"%s\" failed to create display (unknown problem)"),
+		      driver);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("set libcaca driver \"%s\""), driver);
+    }
+
+  return ret;
+}
 
 /*
  * Initialize display.
@@ -35,9 +75,33 @@ _mod_caca_set_video_mode (_mod_caca_context_t * caca_context,
 {
   int ret = 0;
 
-  /*
-   * Todo -> set up video mode
-   */
+  caca_context->display =
+    _set_with_driver (caca_context->const_data.video_mode_default);
+  if (caca_context == NULL)
+    {
+      caca_context->display =
+	_set_with_driver (caca_context->const_data.video_mode_fallback);
+    }
+
+  if (caca_context->display)
+    {
+      caca_context->canvas = caca_get_canvas (caca_context->display);
+    }
+
+  if (caca_context->display && caca_context->canvas)
+    {
+      caca_set_display_title (caca_context->display,
+			      lw6sys_build_get_package_string ());
+      caca_context->video_mode.width =
+	caca_get_canvas_width (caca_context->canvas);
+      caca_context->video_mode.height =
+	caca_get_canvas_height (caca_context->canvas);
+      caca_context->video_mode.fullscreen = 1;
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("libcaca mode with canvas=%dx%d OK"),
+		  caca_context->video_mode.width,
+		  caca_context->video_mode.height);
+      ret = 1;
+    }
 
   return ret;
 }

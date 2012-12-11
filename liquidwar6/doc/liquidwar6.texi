@@ -591,6 +591,9 @@ daily snapshots mentionned above are better since
 a @code{make dist} has been run on them.
 Using a checkout is really for developpers.
 
+A batch also generates documentation at each commit, the generated files
+are available on @uref{http://www.ufoot.org/liquidwar/v6/doc/}.
+
 @c ---------------------------------------------------------------------------
 @c Installation
 @c ---------------------------------------------------------------------------
@@ -6407,7 +6410,9 @@ you need here:
 @item
 @uref{http://www.ufoot.org/download/liquidwar/v6/}: ufoot.org downloads (mirror)
 @item
-@uref{http://www.ufoot.org/liquidwar/v6/snapshots/}: daily snapshots
+@uref{http://www.ufoot.org/liquidwar/v6/snapshots/}: Daily snapshots
+@item
+@uref{http://www.ufoot.org/liquidwar/v6/doc/}: Automatically generated doc
 @item
 @uref{http://www.ufoot.org/jenkins/job/liquidwar6/}: Jenkins continuous integration
 @item

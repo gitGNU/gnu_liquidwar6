@@ -1,3 +1,7 @@
+2012-12-11 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Basic libcaca initialization.
+
 2012-12-08 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added gendocs.sh utility to generate official docs automatically.

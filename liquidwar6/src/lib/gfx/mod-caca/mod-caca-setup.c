@@ -37,32 +37,45 @@ _mod_caca_init (int argc, const char *argv[],
 		lw6gui_video_mode_t * video_mode,
 		lw6gui_resize_callback_func_t resize_callback)
 {
+  const char **d = NULL;
+  const char *driver_id = NULL;
+  const char *driver_desc = NULL;
   _mod_caca_context_t *caca_context = NULL;
 
   caca_context =
     (_mod_caca_context_t *) LW6SYS_CALLOC (sizeof (_mod_caca_context_t));
   if (caca_context)
     {
-      /*
-       * Todo: init library
-       */
-      TMP
-	("There's a big TODO here, that is, the init proc probably requires more stuff. OTOH this is not where we set the video mode, only initialize the library basics, set up shared values such as data path. Choosing a video mode is yet another question, it comes later.");
-      TMP2
-	("Oh, BTW, see this TMP macro? It's very convenient to quick hack and display instant debug messages. The kind of thing which is never committed but fast to write for a quick test, here we'll display an int=%03d and a string=\"%s\"",
-	 7, "Bond, James Bond");
-
+      caca_context->version = (const char *) caca_get_version ();
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("libcaca version %s"),
+		  caca_context->version);
+      caca_context->driver_list =
+	(const char **) caca_get_display_driver_list ();
+      d = caca_context->driver_list;
+      if (d)
+	{
+	  while ((driver_id = d[0]) != NULL && (driver_desc = d[1]) != NULL)
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_
+			  ("libcaca driver available id=\"%s\" desc=\"%s\""),
+			  d[0], d[1]);
+	      d += 2;
+	    }
+	}
 
       if (_mod_caca_path_init (&(caca_context->path), argc, argv))
 	{
 	  if (_mod_caca_load_consts (caca_context))
 	    {
+	      lw6gui_input_init (&(caca_context->input));
+
 	      if (_mod_caca_set_resize_callback
 		  (caca_context, resize_callback))
 		{
 		  if (_mod_caca_set_video_mode (caca_context, video_mode))
 		    {
-		      // todo                 
+		      // OK
 		    }
 		  else
 		    {
@@ -104,6 +117,17 @@ _mod_caca_init (int argc, const char *argv[],
 void
 _mod_caca_quit (_mod_caca_context_t * caca_context)
 {
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("quit libcaca"));
+
+  if (caca_context->display)
+    {
+      caca_free_display (caca_context->display);
+      lw6sys_snooze ();
+      caca_context->display = NULL;
+    }
+
+  lw6gui_input_quit (&(caca_context->input));
+
   _mod_caca_unload_consts (caca_context);
   _mod_caca_path_quit (&(caca_context->path));
 

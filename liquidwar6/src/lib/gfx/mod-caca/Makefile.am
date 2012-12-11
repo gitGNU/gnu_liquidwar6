@@ -28,7 +28,7 @@ endif
 libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/gfx
 
 noinst_LTLIBRARIES = libmod_caca_s.la
-MOD_CACA_FILES = mod-caca-backend.c mod-caca-const.c mod-caca-mode.c mod-caca-path.c mod-caca-repr.c mod-caca-resolution.c mod-caca-setup.c
+MOD_CACA_FILES = mod-caca-backend.c mod-caca-const.c mod-caca-display.c mod-caca-event.c mod-caca-mode.c mod-caca-path.c mod-caca-repr.c mod-caca-resolution.c mod-caca-setup.c
 libmod_caca_s_la_SOURCES = $(MOD_CACA_FILES) 
 
 if !ALLINONE

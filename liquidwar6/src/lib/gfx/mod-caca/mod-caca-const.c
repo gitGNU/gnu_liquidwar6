@@ -40,6 +40,14 @@ read_callback (void *callback_data, const char *element, const char *key,
     {
       lw6cfg_read_xml_int (key, value, "dummy", &const_data->dummy);
     }
+
+  if (!strcmp (element, "string"))
+    {
+      lw6cfg_read_xml_string (key, value, "video-mode-default",
+			      &const_data->video_mode_default);
+      lw6cfg_read_xml_string (key, value, "video-mode-fallback",
+			      &const_data->video_mode_fallback);
+    }
 }
 
 /*
@@ -64,6 +72,17 @@ _mod_caca_load_consts (_mod_caca_context_t * context)
       LW6SYS_FREE (const_file);
     }
 
+  if (context->const_data.video_mode_default
+      && context->const_data.video_mode_fallback)
+    {
+      // OK
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad caca consts"));
+      ret = 0;
+    }
+
   return ret;
 }
 
@@ -73,5 +92,13 @@ _mod_caca_load_consts (_mod_caca_context_t * context)
 void
 _mod_caca_unload_consts (_mod_caca_context_t * context)
 {
+  if (context->const_data.video_mode_default)
+    {
+      LW6SYS_FREE (context->const_data.video_mode_default);
+    }
+  if (context->const_data.video_mode_fallback)
+    {
+      LW6SYS_FREE (context->const_data.video_mode_fallback);
+    }
   memset (&context->const_data, 0, sizeof (_mod_caca_const_data_t));
 }

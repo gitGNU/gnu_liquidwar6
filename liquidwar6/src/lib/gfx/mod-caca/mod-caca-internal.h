@@ -38,6 +38,8 @@ _mod_caca_path_t;
 typedef struct _mod_caca_const_data_s
 {
   int dummy;
+  char *video_mode_default;
+  char *video_mode_fallback;
 }
 _mod_caca_const_data_t;
 
@@ -47,12 +49,32 @@ typedef struct _mod_caca_context_s
   lw6gui_video_mode_t video_mode;
   _mod_caca_path_t path;
   _mod_caca_const_data_t const_data;
+  const char *version;
+  const char **driver_list;
+  caca_display_t *display;
+  caca_canvas_t *canvas;
+  lw6gui_input_t input;
 }
 _mod_caca_context_t;
 
 /* mod-caca-const.c */
 extern int _mod_caca_load_consts (_mod_caca_context_t * context);
 extern void _mod_caca_unload_consts (_mod_caca_context_t * context);
+
+/* mod-caca-display.c */
+extern int _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
+			      lw6gui_look_t * look, lw6map_level_t * level,
+			      lw6ker_game_struct_t * game_struct,
+			      lw6ker_game_state_t * game_state,
+			      lw6pil_local_cursors_t * local_cursors,
+			      lw6gui_menu_t * menu, float progress, float fps,
+			      float mps, char **log_list, int capture,
+			      int gfx_debug, int debug_team_id,
+			      int debug_layer_id);
+
+/* mod-caca-event.c */
+extern lw6gui_input_t *_mod_caca_pump_events (_mod_caca_context_t *
+					      caca_context);
 
 /* mod-caca-mode.c */
 extern int _mod_caca_set_video_mode (_mod_caca_context_t * caca_context,
