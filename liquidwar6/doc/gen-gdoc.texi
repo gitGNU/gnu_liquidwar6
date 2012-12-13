@@ -1,0 +1,22 @@
+@deftypefun {lw6map_level_t *} {lw6gen_create_from_seed} (const char * @var{seed}, int @var{map_w}, int @var{map_h})
+@var{seed}:  a random seed used to generate the map
+
+@var{map_w}:  width of the screen, in pixels
+
+@var{map_h}:  height of the screen, in pixels
+
+Builds a complete, usable map from the string passed in seed. Each triplet
+composed of seed/map_w/map_h should build the same map on any computer,
+in any context, for a given version of the game (no backwards compatibility).
+
+@strong{Return value:}  new map on success, NULL on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6gen_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{gen} module test suite.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+

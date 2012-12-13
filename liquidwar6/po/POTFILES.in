@@ -89,6 +89,9 @@ src/lib/dyn/dyn-list.c
 src/lib/dyn/dyn-path.c
 src/lib/dyn/dyn-test.c
 src/lib/dyn/dyn-testmain.c
+src/lib/gen/gen-create.c
+src/lib/gen/gen-test.c
+src/lib/gen/gen-testmain.c
 src/lib/gfx/gfx-api.c
 src/lib/gfx/gfx-register.c
 src/lib/gfx/gfx-sdl.c
@@ -311,6 +314,7 @@ src/lib/lw6-funcscfg.c
 src/lib/lw6-funcscli.c
 src/lib/lw6-funcscns.c
 src/lib/lw6-funcsdsp.c
+src/lib/lw6-funcsgen.c
 src/lib/lw6-funcsgfx.c
 src/lib/lw6-funcsgui.c
 src/lib/lw6-funcshlp.c

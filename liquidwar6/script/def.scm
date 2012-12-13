@@ -101,6 +101,7 @@
 (define lw6def-c-lw6dsp-new "c-lw6dsp-new")
 (define lw6def-c-lw6dsp-release "c-lw6dsp-release")
 (define lw6def-c-lw6dsp-update "c-lw6dsp-update")
+(define lw6def-c-lw6gen-create-from-seed "c-lw6gen-create-from-seed")
 (define lw6def-c-lw6gfx-get-backends "c-lw6gfx-get-backends")
 (define lw6def-c-lw6gui-default-look "c-lw6gui-default-look")
 (define lw6def-c-lw6gui-input-reset "c-lw6gui-input-reset")

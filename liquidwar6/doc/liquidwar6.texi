@@ -149,6 +149,7 @@ C API
 * libdef::              Keywords definitions.
 * libdsp::              Threaded display.
 * libdyn::              Dynamic module loading.
+* libgen::              Pseudo-random map generation.
 * libgfx::              Graphics.
 * mod-gl1::             Initial 3D graphics backend.
 * mod-gles2::           Embedded 3D graphics backend.
@@ -4129,6 +4130,8 @@ in every internal @code{abc} library that depends on @code{xyz/xyz.h}, edit the 
 @item
 in every internal @code{abc} library that depends on @code{libxyz}, add a reference to @code{../xyz/libxyz.la} inf the @code{_LDADD} section.
 @item
+create a new @code{src/lib/lw6-funcsxyz.c} file which declares Guile bindings for this lib, if needed
+@item
 edit @code{doc/gdoc-update.sh} and add the entry for @code{xyz}.
 @item
 edit @code{doc/Makefile.am} and add @code{xyz-gdoc.texi} in @code{gdoc_TEXINFOS}.
@@ -4670,8 +4673,8 @@ the @uref{http://parisc-linux.org/~bame/pmccabe/, pmccabe} output shows the cycl
 of functions. It enables the programmer to spots the ``ugly'' and dangerous parts of the program.
 @item
 @uref{http://www.gnu.org/software/liquidwar6/doxygen/}:
-the @uref{http://www.stack.nl/~dimitri/doxygen/, Doxygen} documentation essentially
-describes the C structures and their attributes.
+the @uref{http://www.stack.nl/~dimitri/doxygen/, Doxygen} documentation gives an interactive
+access to the code, the structures and functions, and their dependencies.
 @end itemize
 
 @menu
@@ -4692,6 +4695,7 @@ describes the C structures and their attributes.
 * libdef::              Keywords definitions.
 * libdsp::              Threaded display.
 * libdyn::              Dynamic module loading.
+* libgen::              Pseudo-random map generation.
 * libgfx::              Graphics.
 * mod-gl1::             Initial 3D graphics backend.
 * mod-gles2::           Embedded 3D graphics backend.
@@ -5190,7 +5194,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c libdyn
 @c ---------------------------------------------------------------------------
 
-@node libdyn, libgfx, libdsp, C API
+@node libdyn, libgen, libdsp, C API
 @section libdyn
 
 @subsection Overview
@@ -5217,10 +5221,40 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @end ifnotinfo
 
 @c ---------------------------------------------------------------------------
+@c libgen
+@c ---------------------------------------------------------------------------
+
+@node libgen, libgfx, libdyn, C API
+@section libgen
+
+@subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/gen/index.html}.
+
+@subsection API
+
+@ifinfo
+@include gen-gdoc.texi
+@include gen-doxygen.texi
+@end ifinfo
+
+@ifnotinfo
+@ifhtml
+@include gen-gdoc.texi
+@include gen-doxygen.texi
+@end ifhtml
+@ifnothtml
+Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/libgen.html}.
+@end ifnothtml
+@end ifnotinfo
+
+@c ---------------------------------------------------------------------------
 @c libgfx
 @c ---------------------------------------------------------------------------
 
-@node libgfx, mod-gl1, libdyn, C API
+@node libgfx, mod-gl1, libgen, C API
 @section libgfx
 
 @subsection Overview

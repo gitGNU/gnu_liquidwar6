@@ -2808,6 +2808,8 @@ populate_references ()
   POPULATE_VOID (LW6DEF_C_LW6KER_IS_OVER, _x_ ("Wrapper on lw6ker_is_over."));
   POPULATE_VOID (LW6DEF_C_LW6KER_DID_CURSOR_WIN,
 		 _x_ ("Wrapper on lw6ker_did_cursor_win."));
+  POPULATE_VOID (LW6DEF_C_LW6GEN_CREATE_FROM_SEED,
+		 _x_ ("Wrapper on lw6gen_create_from_seed."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_BENCH, _x_ ("Wrapper on lw6pil_bench."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_SEED_COMMAND_GENERATE,
 		 _x_ ("Wrapper on lw6pil_seed_command_generate."));

@@ -108,6 +108,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6DSP_NEW "c-lw6dsp-new"
 #define LW6DEF_C_LW6DSP_RELEASE "c-lw6dsp-release"
 #define LW6DEF_C_LW6DSP_UPDATE "c-lw6dsp-update"
+#define LW6DEF_C_LW6GEN_CREATE_FROM_SEED "c-lw6gen-create-from-seed"
 #define LW6DEF_C_LW6GFX_GET_BACKENDS "c-lw6gfx-get-backends"
 #define LW6DEF_C_LW6GUI_DEFAULT_LOOK "c-lw6gui-default-look"
 #define LW6DEF_C_LW6GUI_INPUT_RESET "c-lw6gui-input-reset"

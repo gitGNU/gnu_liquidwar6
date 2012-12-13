@@ -300,6 +300,7 @@ lw6_test (int mode)
       lw6glb_test (mode);
       lw6map_test (mode);
       lw6ker_test (mode);
+      lw6gen_test (mode);
       lw6pil_test (mode);
       lw6bot_test (mode);
       lw6sim_test (mode);

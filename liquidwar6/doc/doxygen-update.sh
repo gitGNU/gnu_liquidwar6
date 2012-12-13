@@ -28,7 +28,7 @@ echo "\tif test -w \$@ || test ! -f \$@ ; then echo doxygen liquidwar6 && echo >
 echo >> Makefile.doxygen
 #rm -f liquidwar6-doxygen.texi ; touch liquidwar6-doxygen.texi
 
-for i in bot cfg cli cns cnx dat dsp dyn gfx glb gui hlp img ker ldr map msg net nod p2p pil scm sim snd srv sys tsk vox ; do
+for i in bot cfg cli cns cnx dat dsp dyn gen gfx glb gui hlp img ker ldr map msg net nod p2p pil scm sim snd srv sys tsk vox ; do
     echo "\$(top_srcdir)/doc/$i-doxygen.texi: "`ls ../src/lib/$i/*.h* | sed "s/\.\./\$\(top_srcdir\)/g" | sort` >> Makefile.doxygen
     echo "\tif test -w \$@ || test ! -f \$@ ; then echo doxygen $i && echo > \$@; for l in `echo doxygen/xml/structlw6${i}__* | sort` ; do if test -f \"\$\$l\"; then xsltproc \$(srcdir)/doxygen/texinfo-struct.xsl \"\$\$l\" | grep -v \"<?xml\" >> \$@; fi; done; fi" >> Makefile.doxygen
     echo >> Makefile.doxygen

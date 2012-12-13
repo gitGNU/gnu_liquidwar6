@@ -918,6 +918,7 @@ AC_CONFIG_FILES([Makefile
 	  src/lib/cfg/Makefile
 	  src/lib/map/Makefile
 	  src/lib/ker/Makefile
+	  src/lib/gen/Makefile
 	  src/lib/pil/Makefile
 	  src/lib/bot/Makefile
 	  src/lib/bot/mod-brute/Makefile

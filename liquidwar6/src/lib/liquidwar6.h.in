@@ -43,6 +43,7 @@
 #include "pil/pil.h"
 #include "bot/bot.h"
 #include "sim/sim.h"
+#include "gen/gen.h"
 #include "ldr/ldr.h"
 #include "tsk/tsk.h"
 #include "gui/gui.h"
@@ -343,14 +344,17 @@ extern int lw6_register_funcs_gfx ();
 /* lw6-funcsdsp.c */
 extern int lw6_register_funcs_dsp ();
 
-/* lw6-funcsldr.c */
-extern int lw6_register_funcs_ldr ();
-
 /* lw6-funcsmap.c */
 extern int lw6_register_funcs_map ();
 
 /* lw6-funcsker.c */
 extern int lw6_register_funcs_ker ();
+
+/* lw6-funcsgen.c */
+extern int lw6_register_funcs_gen ();
+
+/* lw6-funcsldr.c */
+extern int lw6_register_funcs_ldr ();
 
 /* lw6-funcspil.c */
 extern int lw6_register_funcs_pil ();

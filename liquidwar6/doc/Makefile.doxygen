@@ -27,6 +27,9 @@ $(top_srcdir)/doc/dsp-doxygen.texi: $(top_srcdir)/src/lib/dsp/dsp.h $(top_srcdir
 $(top_srcdir)/doc/dyn-doxygen.texi: $(top_srcdir)/src/lib/dyn/dyn.h $(top_srcdir)/src/lib/dyn/dyn-internal.h
 	if test -w $@ || test ! -f $@ ; then echo doxygen dyn && echo > $@; for l in doxygen/xml/structlw6dyn__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done; fi
 
+$(top_srcdir)/doc/gen-doxygen.texi: $(top_srcdir)/src/lib/gen/gen.h $(top_srcdir)/src/lib/gen/gen-internal.h
+	if test -w $@ || test ! -f $@ ; then echo doxygen gen && echo > $@; for l in doxygen/xml/structlw6gen__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done; fi
+
 $(top_srcdir)/doc/gfx-doxygen.texi: $(top_srcdir)/src/lib/gfx/gfx.h $(top_srcdir)/src/lib/gfx/gfx-internal.h
 	if test -w $@ || test ! -f $@ ; then echo doxygen gfx && echo > $@; for l in doxygen/xml/structlw6gfx__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done; fi
 
