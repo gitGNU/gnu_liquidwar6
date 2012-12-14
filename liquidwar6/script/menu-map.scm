@@ -18,95 +18,41 @@
 ;; Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;; Contact author        : ufoot@ufoot.org
 
-(define lw6-map-menu-item
-  (lambda (entry)
-    (let* (
-	   (title (assoc-ref entry "title"))
-	   (author (assoc-ref entry "author"))
-	   (description (assoc-ref entry "description"))
-	   (license (assoc-ref entry "license"))
-	   (has-subdirs (assoc-ref entry "has-subdirs"))
-	   (nb-submaps (assoc-ref entry "nb-submaps"))
-	   (forbidden (assoc-ref entry "forbidden"))
-	   (menuitem (lw6-menu-item-template title 
-					     (if has-subdirs 
-						 (format #f
-							 (_ "Subfolder with ~a maps")
-							 nb-submaps)
-						 (if forbidden
-						     (_ "You can't play this map yet")
-						     (format #f "~a: ~a~%~a: ~a~%~a: ~a"
-							     (_ "Author")
-							     author
-							     (_ "Description")
-							     description
-							     (_ "License")
-							     license)))))
-	   (relative-path (assoc-ref entry "relative-path"))
-	   )
-      (if has-subdirs
-	  (begin
-	    (set! menuitem (assoc-set! menuitem "selected" (string-prefix? relative-path (lw6-config-get-string lw6def-chosen-map))))
-	    (set! menuitem (assoc-set! menuitem "label" (format #f "~a/ (~a)" title nb-submaps)))
-	    (set! menuitem (assoc-set! menuitem "on-select" (lambda (mi) (begin (lw6-game-idle)))))
-	    (set! menuitem (assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-menu (lw6-map-menu-relative (c-lw6sys-path-concat relative-path title))))))
-	    (set! menuitem (assoc-set! menuitem "enabled" #t))
-	    menuitem
-	    )
-	  (begin
-	    (set! menuitem (assoc-set! menuitem "selected" (equal? relative-path (lw6-config-get-string lw6def-chosen-map))))
-	    (set! menuitem (assoc-set! menuitem "on-select" (lambda (mi) (begin (lw6-game-preview) (lw6-loader-push-if-needed relative-path) (lw6-config-set-string! lw6def-chosen-map relative-path)))))
-	    (set! menuitem (assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-menu (lw6-play-menu-map)))))
-	    (set! menuitem (assoc-set! menuitem "enabled" (not forbidden)))
-	    menuitem
-	    )
-	  ))))
-
-(define lw6-map-menu-item-appender
-  (lambda (menu)
-    (lambda (entry)
-      (lw6-append-menuitem! menu (lw6-map-menu-item entry)))))
-
-(define lw6-map-menu-relative
-  (lambda (relative-path)
-    (let* (
-	   (map-parent-path (c-lw6sys-path-parent relative-path))
-	   (file-only (c-lw6sys-path-file-only map-parent-path))
-	   (map-path (c-lw6cfg-unified-get-map-path))
-	   (entries (c-lw6ldr-get-entries map-path map-parent-path))
-	   (title (if (or (not file-only)
-			  (equal? file-only "")
-			  (equal? file-only "."))
-		      (_ "Choose map")
-		      file-only))
-	   (menu (lw6-menu-template title
-				    (_ "Browse your hard drive to find a map")
-				    #f))
+(define lw6-map-menu-map-browse-item
+  (lambda ()
+    (let (
+	  (menuitem (lw6-menu-item-template (_ "Browse maps")
+					    (_ "Browse map directory and choose a map to play on")))
 	  )
       (begin
-	(map (lw6-map-menu-item-appender menu) entries)
-	(set! menu (assoc-set! menu "on-push" (lambda (m) (lw6-game-preview))))
-	(set! menu (assoc-set! menu "on-pop" (lambda (m) (lw6-game-idle))))
-	menu
+	(assoc-set! menuitem "selected" #t)
+	(assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-map-browse-menu)))
+	menuitem
+	))))
+
+(define lw6-map-menu-map-random-item
+  (lambda ()
+    (let (
+	  (menuitem (lw6-menu-item-template (_ "Random map")
+					    (_ "Play on a randomly generated map")))
+	  )
+      (begin
+	(assoc-set! menuitem "on-valid" (lambda (mi)
+					  (begin (lw6-game-preview) 
+						 (lw6-loader-push-gen "xxxxyyyyzzzzaaaa"))))
+	menuitem
 	))))
 
 (define lw6-map-menu
-  (lambda ()
-    (lw6-map-menu-relative (lw6-config-get-string lw6def-chosen-map))))
-
-(define lw6-push-map-menu
-  (lambda ()
-    (let* (
-	   (chosen-map (lw6-config-get-string lw6def-chosen-map))
-	   (chosen-map-splitted (c-lw6sys-path-split chosen-map))
-	   (relative-path "")
+  (lambda()
+    (let (
+	  (menu (lw6-menu-template (_ "Map")
+				   (_ "Choose the map you want to play on")
+				   #f))
 	  )
       (begin
-	(map (lambda (path-elem) (begin 
-				   (set! relative-path (c-lw6sys-path-concat relative-path path-elem))
-				   (lw6-push-menu-nowarp (lw6-map-menu-relative relative-path))
-				   ))
-	     chosen-map-splitted)
-	;(lw6-menu-warp-mouse)
-	)
-      )))
+	(lw6-append-menuitem! menu (lw6-map-menu-map-browse-item))
+	(lw6-append-menuitem! menu (lw6-map-menu-map-random-item))
+	menu
+	))))
+

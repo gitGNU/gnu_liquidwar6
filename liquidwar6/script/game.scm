@@ -177,7 +177,7 @@
 	  (begin
 	    (lw6-push-menu (lw6-wait-menu
 			    (_ "Preparing map, this can take some time")))
-	    (lw6-loader-push-if-needed (lw6-config-get-string lw6def-chosen-map))
+	    (lw6-loader-push-ldr-if-needed (lw6-config-get-string lw6def-chosen-map))
 	    (lw6-set-game-global! "loaded-func" (lw6-loaded-func-local-game step2-func))
 	    )
 	  ))))

@@ -24,7 +24,7 @@
 	  (snd (lw6-get-game-global "snd"))
 	  )
       (if snd
-	  (if (c-lw6snd-is-music-file snd music-dir music-path music-file)
+	  (if (and music-dir music-path music-file (c-lw6snd-is-music-file snd music-dir music-path music-file))
 	      (c-lw6snd-play-music-file snd music-dir music-path music-file)
 	      (c-lw6snd-play-music-random snd music-path music-filter music-exclude))))))
 

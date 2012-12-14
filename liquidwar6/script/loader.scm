@@ -25,8 +25,8 @@
       (map (lambda (key)
 	     (lw6-set-game-global! key #f))
 	   (list "loaded" "level" "game-state" "pilot")))))
-      
-(define lw6-loader-push
+
+(define lw6-loader-push-ldr
   (lambda (relative-path) 
     (let* (
 	   (dsp (lw6-get-game-global "dsp"))
@@ -41,25 +41,47 @@
 			 (lw6-config-get-number lw6def-bench-value)
 			 (lw6-config-get-number lw6def-max-local-bench-value)))
 	   (magic-number (lw6-config-get-number lw6def-magic-number))
-	  )
+	   )
       (begin
 	(lw6-set-game-global! "loaded" (list))
 	(c-lw6tsk-loader-push-ldr loader 
-			      map-path 
-			      relative-path
-			      default-param
-			      forced-param
-			      width
-			      height
-			      bench-value
-			      magic-number)))))
+				  map-path 
+				  relative-path
+				  default-param
+				  forced-param
+				  width
+				  height
+				  bench-value
+				  magic-number)))))
 
-(define lw6-loader-push-if-needed
+(define lw6-loader-push-ldr-if-needed
   (lambda (relative-path) 
     (if (and (equal? relative-path (lw6-config-get-string lw6def-chosen-map))
 	     (assoc-ref (lw6-get-game-global "loaded") "level"))
 	#t
-	(lw6-loader-push relative-path))))
+	(lw6-loader-push-ldr relative-path))))
+
+(define lw6-loader-push-gen
+  (lambda (seed) 
+    (let* (
+	   (dsp (lw6-get-game-global "dsp"))
+	   (loader (lw6-get-game-global "loader"))
+	   (video-mode (c-lw6dsp-get-video-mode dsp))
+	   (width (assoc-ref video-mode "width"))
+	   (height (assoc-ref video-mode "height"))
+	   (bench-value (min 
+			 (lw6-config-get-number lw6def-bench-value)
+			 (lw6-config-get-number lw6def-max-local-bench-value)))
+	   (magic-number (lw6-config-get-number lw6def-magic-number))
+	   )
+      (begin
+	(lw6-set-game-global! "loaded" (list))
+	(c-lw6tsk-loader-push-gen loader 
+				  seed
+				  width
+				  height
+				  bench-value
+				  magic-number)))))
 
 (define lw6-loaded-func-idle
   (lambda (loaded)
@@ -70,8 +92,8 @@
     (begin
       (lw6-set-game-global! "look" (c-lw6map-get-look (assoc-ref loaded "level")))
       (lw6-set-game-global! "loaded" loaded)
-	(map (lambda (key) (lw6-display-param-set! key (assoc-ref loaded key)))
-	     (list "level" "game-struct" "game-state"))
+      (map (lambda (key) (lw6-display-param-set! key (assoc-ref loaded key)))
+	   (list "level" "game-struct" "game-state"))
       (lw6-display-param-set! "look" (lw6-get-game-global "look"))
       (lw6-game-put-local-teams))))
 

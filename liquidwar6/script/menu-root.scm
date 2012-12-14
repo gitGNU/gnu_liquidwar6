@@ -48,7 +48,7 @@
 					    (_ "Browse map directory and choose a map to play on")))
 	  )
       (begin
-	(assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-map-menu)))
+	(assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-menu (lw6-map-menu))))
 	menuitem
 	))))
 

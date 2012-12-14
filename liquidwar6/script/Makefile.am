@@ -47,6 +47,7 @@ menu-exit.scm \
 menu-ingame.scm \
 menu-join.scm \
 menu-map.scm \
+menu-map-browse.scm \
 menu-options-audio.scm \
 menu-options-rules.scm \
 menu-options.scm \
