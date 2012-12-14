@@ -404,7 +404,8 @@ c-lw6sys-url-canonize
 c-lw6tsk-loader-get-stage
 c-lw6tsk-loader-new
 c-lw6tsk-loader-pop
-c-lw6tsk-loader-push
+c-lw6tsk-loader-push-gen
+c-lw6tsk-loader-push-ldr
 capture
 cflags
 check

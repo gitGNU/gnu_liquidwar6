@@ -2908,8 +2908,10 @@ populate_references ()
   POPULATE_VOID (LW6DEF_C_LW6CNS_POLL, _x_ ("Wrapper on lw6cns_poll."));
   POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_NEW,
 		 _x_ ("Wrapper on lw6tsk_loader_new."));
-  POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_PUSH,
-		 _x_ ("Wrapper on lw6tsk_loader_push."));
+  POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_PUSH_GEN,
+		 _x_ ("Wrapper on lw6tsk_loader_push_gen."));
+  POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_PUSH_LDR,
+		 _x_ ("Wrapper on lw6tsk_loader_push_ldr."));
   POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_POP,
 		 _x_ ("Wrapper on lw6tsk_loader_pop."));
   POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_GET_STAGE,

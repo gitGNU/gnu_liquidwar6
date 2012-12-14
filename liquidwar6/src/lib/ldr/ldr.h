@@ -315,6 +315,10 @@ extern void lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 				   int display_h, float target_ratio,
 				   int bench_value, int magic_number,
 				   int expected_depth, float gray_level);
+extern void lw6ldr_resampler_use_for_gen (int *map_w, int *map_h,
+					  int display_w,
+					  int display_h,
+					  int bench_value, int magic_number);
 extern void lw6ldr_resampler_force (lw6ldr_resampler_t * resampler,
 				    int source_w, int source_h, int target_w,
 				    int target_h);

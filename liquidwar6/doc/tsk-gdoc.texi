@@ -1,4 +1,4 @@
-@deftypefun {void} {lw6tsk_loader_push} (lw6tsk_loader_t * @var{loader}, char * @var{map_path}, char * @var{relative_path}, lw6sys_assoc_t * @var{default_param}, lw6sys_assoc_t * @var{forced_param}, int @var{display_w}, int @var{display_h}, int @var{bench_value}, int @var{magic_number})
+@deftypefun {void} {lw6tsk_loader_push_ldr} (lw6tsk_loader_t * @var{loader}, const char * @var{map_path}, const char * @var{relative_path}, lw6sys_assoc_t * @var{default_param}, lw6sys_assoc_t * @var{forced_param}, int @var{display_w}, int @var{display_h}, int @var{bench_value}, int @var{magic_number})
 @var{loader}:  loader object
 
 @var{map_path}:  map-path config entry
@@ -13,10 +13,33 @@
 
 @var{display_h}:  display height
 
+@var{bench_value}:  bench value, reflecting computer CPU power
+
 @var{magic_number}:  used to calibrate speed
 
 Pushes a load request to the loader. Will stop the current
-load and push a new one.
+load and push a new one. The request concerns a map which
+should be loaded from a map directory on the filesystem.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6tsk_loader_push_gen} (lw6tsk_loader_t * @var{loader}, const char * @var{seed}, int @var{display_w}, int @var{display_h}, int @var{bench_value}, int @var{magic_number})
+@var{loader}:  loader object
+
+@var{seed}:  seed string used to create the map
+
+@var{display_w}:  display width
+
+@var{display_h}:  display height
+
+@var{bench_value}:  bench value, reflecting computer CPU power
+
+@var{magic_number}:  used to calibrate speed
+
+Pushes a load request to the loader. Will stop the current
+load and push a new one. The request is forwarded to the 
+pseudo-random map generation module.
 
 @strong{Return value:}  none.
 @end deftypefun

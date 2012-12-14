@@ -22,8 +22,14 @@ digraph g {
 	}
 	subgraph cluster_gfx {
 		graph [label="gfx backends"];
-		"mod-gl" [style=filled, fillcolor=lightgrey, shape=hexagon];
-		gfx -> "mod-gl" [dir=both];
+		"mod-gl1" [style=filled, fillcolor=lightgrey];
+		gfx -> "mod-gl1" [dir=both];
+		gfx -> "mod-gles2" [dir=both];
+		gfx -> "mod-soft" [dir=both];
+		gfx -> "mod-caca" [dir=both];
+		"mod-gl1" -> "shared-sdl";
+		"mod-gles2" -> "shared-sdl";
+		"mod-soft" -> "shared-sdl";
 	}
 	subgraph cluster_snd {
 		graph [label="snd backends"];
@@ -54,8 +60,8 @@ digraph g {
 		curl [color=grey, fontcolor=grey];
 		readline [color=grey, fontcolor=grey];
 		ltdl [color=grey, fontcolor=grey];
-		SDL [color=grey, fontcolor=grey];
 		GL [color=grey, fontcolor=grey];
+		SDL [color=grey, fontcolor=grey];
 		SDL_image [color=grey, fontcolor=grey];
 		SDL_ttf [color=grey, fontcolor=grey];
 		gnulib [color=grey, fontcolor=grey];
@@ -77,6 +83,7 @@ digraph g {
 	p2p [style=filled, fillcolor=lightgrey];
 	liquidwar6 [style=filled, fillcolor=lightgrey];
 	data [style=filled, fillcolor=lightgrey, shape=triangle];
+	"mod-gl" [shape=hexagon];
 	bot -> dyn;
 	bot -> pil;
 	cfg -> hlp;
@@ -92,13 +99,15 @@ digraph g {
 	dsp -> gfx;
 	dyn -> sys;
 	dyn -> ltdl;
+	gen -> map;
 	gfx -> dyn;
 	gfx -> vox;
 	gfx -> pil;
-	"mod-gl" -> SDL;
-	"mod-gl" -> GL;
-	"mod-gl" -> SDL_image;
-	"mod-gl" -> SDL_ttf;
+	"mod-gl1" -> GL;
+	"mod-gles2" -> GLESv2;
+	"shared-sdl" -> SDL;
+	"shared-sdl" -> SDL_image;
+	"shared-sdl" -> SDL_ttf;
 	glb -> sys;
 	glb -> gnulib;
 	gui -> map;
@@ -139,6 +148,7 @@ digraph g {
 	sys -> pthread;
 	sys -> math;
 	tsk -> ldr;
+	tsk -> gen;
 	vox -> gui;
 	vox -> ker;
 	liquidwar6 -> sim;

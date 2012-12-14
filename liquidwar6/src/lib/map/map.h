@@ -1522,6 +1522,7 @@ extern int lw6map_meta_layer_builtin_custom (lw6map_meta_layer_t * meta_layer,
 					     int noise_percent, int seed);
 
 /* map-rules.c */
+extern void lw6map_rules_zero (lw6map_rules_t * rules);
 extern void lw6map_rules_defaults (lw6map_rules_t * rules);
 extern void lw6map_rules_copy (lw6map_rules_t * dst,
 			       const lw6map_rules_t * src);
@@ -1544,6 +1545,7 @@ extern int lw6map_rules_is_same (const lw6map_rules_t * rules_a,
 extern int lw6map_rules_sanity_check (const lw6map_rules_t * rules);
 
 /* map-param.c */
+extern void lw6map_param_zero (lw6map_param_t * param);
 extern void lw6map_param_defaults (lw6map_param_t * param);
 extern void lw6map_param_clear (lw6map_param_t * param);
 extern void lw6map_param_copy (lw6map_param_t * dst, lw6map_param_t * src);

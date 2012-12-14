@@ -528,19 +528,30 @@
   (lambda ()
     (let* (
 	   (loader (c-lw6tsk-loader-new 1.0))
-	   (loaded #f)
+	   (loaded-ldr #f)
+	   (loaded-gen #f)
 	   )
       (begin
-	(c-lw6tsk-loader-push loader (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333)
-	(c-lw6tsk-loader-push loader (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333)
-	(c-lw6tsk-loader-push loader (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333)
-	(while (not loaded)
+	(c-lw6tsk-loader-push-ldr loader (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333)
+	(c-lw6tsk-loader-push-ldr loader (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333)
+	(c-lw6tsk-loader-push-ldr loader (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333)
+	(while (not loaded-ldr)
 	       (begin
-		 (set! loaded (c-lw6tsk-loader-pop loader))
+		 (set! loaded-ldr (c-lw6tsk-loader-pop loader))
 		 (c-lw6sys-sleep 0.1)
 		 (lw6-log-notice loader)
 		 #t))
-	(if (and loader loaded) #t #f)
+	(lw6-log-notice loaded-ldr)
+	(c-lw6tsk-loader-push-gen loader "abcdabcdabcdabcd" 640 480 100 33333)
+	(c-lw6tsk-loader-push-gen loader "1234123412341234" 640 480 100 33333)
+	(while (not loaded-gen)
+	       (begin
+		 (set! loaded-gen (c-lw6tsk-loader-pop loader))
+		 (c-lw6sys-sleep 0.1)
+		 (lw6-log-notice loader)
+		 #t))
+	(lw6-log-notice loaded-gen)
+	(if (and loader loaded-ldr loaded-gen) #t #f)
 	))))
 
 (define lw6-test-p2p-db

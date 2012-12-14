@@ -706,6 +706,22 @@ static lw6map_rules_t max_rules = {
 };
 
 /**
+ * lw6map_rules_zero
+ *
+ * @rules: struct to initialize
+ *
+ * Sets a rules struct to zero, simply puts zero everywhere
+ * without checking what was here before
+ *
+ * Return value: none.
+ */
+void
+lw6map_rules_zero (lw6map_rules_t * rules)
+{
+  memset (rules, 0, sizeof (lw6map_rules_t));
+}
+
+/**
  * lw6map_rules_defaults
  *
  * @rules: struct to set to defaults

@@ -478,6 +478,15 @@ is "full". If noise is 0, then meta layer is empty.
 @strong{Return value:}  1 if OK, 0 on failure.
 @end deftypefun
 
+@deftypefun {void} {lw6map_param_zero} (lw6map_param_t * @var{param})
+@var{param}:  struct to initialize
+
+Sets a param struct to zero, simply puts zero everywhere
+without checking what was here before
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {void} {lw6map_param_defaults} (lw6map_param_t * @var{param})
 @var{param}:  the param struct to modify
 
@@ -544,6 +553,15 @@ might return a string containing 0 on bad keys.
 Compares the contents of two param structs.
 
 @strong{Return value:}  1 if they contain the same thing, 0 if not
+@end deftypefun
+
+@deftypefun {void} {lw6map_rules_zero} (lw6map_rules_t * @var{rules})
+@var{rules}:  struct to initialize
+
+Sets a rules struct to zero, simply puts zero everywhere
+without checking what was here before
+
+@strong{Return value:}  none.
 @end deftypefun
 
 @deftypefun {void} {lw6map_rules_defaults} (lw6map_rules_t * @var{rules})

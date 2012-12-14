@@ -46,6 +46,7 @@ typedef struct _lw6tsk_loader_stage1_s
   char *relative_path;
   lw6sys_assoc_t *default_param;
   lw6sys_assoc_t *forced_param;
+  char *seed;
   int display_w;
   int display_h;
   int bench_value;

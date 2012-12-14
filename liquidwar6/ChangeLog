@@ -1,5 +1,7 @@
 2012-12-13 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Integrated libgen to libtsk and made it callable by scripts.
+
 	* Created libgen module, to host pseudo-random map generation code.
 
 2012-12-11 : Christian Mauduit <ufoot@ufoot.org>

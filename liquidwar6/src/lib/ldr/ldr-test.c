@@ -28,34 +28,36 @@
 
 #include "ldr.h"
 
-#define TEST_MAP "subflower/"
-#define TEST_ARGC 2
-#define TEST_ARGV0 "prog"
-#define TEST_ARGV1 "--arg=X"
-#define TEST_DIR_RELATIVE_PATH ""
-#define TEST_DIR_CHAIN_PATH TEST_MAP
-#define TEST_PARAM_KEY1 LW6DEF_TOTAL_TIME
-#define TEST_PARAM_VALUE1 "180"
-#define TEST_PARAM_KEY2 LW6DEF_BACKGROUND_STYLE
-#define TEST_PARAM_VALUE2 "bubbles"
-#define TEST_PARAM_KEY3 LW6DEF_ZOOM
-#define TEST_PARAM_VALUE3 "1.0"
-#define TEST_HINTS_KEY1 LW6DEF_RESAMPLE
-#define TEST_HINTS_VALUE1 "true"
-#define TEST_HINTS_KEY2 LW6DEF_FIGHTER_SCALE
-#define TEST_HINTS_VALUE2 "3.5"
-#define TEST_HINTS_KEY3 LW6DEF_MAX_MAP_SURFACE
-#define TEST_HINTS_VALUE3 "1000000"
-#define TEST_TEAMS_KEY1 LW6DEF_PLAYER1_COLOR
-#define TEST_TEAMS_VALUE1 "red"
-#define TEST_TEAMS_KEY2 LW6DEF_BOT_SPEED
-#define TEST_TEAMS_VALUE2 "1.5"
-#define TEST_TEAMS_KEY3 LW6DEF_BOT1_AI
-#define TEST_TEAMS_VALUE3 "foo"
-#define TEST_DISPLAY_WIDTH 640
-#define TEST_DISPLAY_HEIGHT 480
-#define TEST_PROGRESS_MIN 0.1f
-#define TEST_PROGRESS_MAX 0.9f
+#define _TEST_MAP "subflower/"
+#define _TEST_ARGC 2
+#define _TEST_ARGV0 "prog"
+#define _TEST_ARGV1 "--arg=X"
+#define _TEST_DIR_RELATIVE_PATH ""
+#define _TEST_DIR_CHAIN_PATH _TEST_MAP
+#define _TEST_PARAM_KEY1 LW6DEF_TOTAL_TIME
+#define _TEST_PARAM_VALUE1 "180"
+#define _TEST_PARAM_KEY2 LW6DEF_BACKGROUND_STYLE
+#define _TEST_PARAM_VALUE2 "bubbles"
+#define _TEST_PARAM_KEY3 LW6DEF_ZOOM
+#define _TEST_PARAM_VALUE3 "1.0"
+#define _TEST_HINTS_KEY1 LW6DEF_RESAMPLE
+#define _TEST_HINTS_VALUE1 "true"
+#define _TEST_HINTS_KEY2 LW6DEF_FIGHTER_SCALE
+#define _TEST_HINTS_VALUE2 "3.5"
+#define _TEST_HINTS_KEY3 LW6DEF_MAX_MAP_SURFACE
+#define _TEST_HINTS_VALUE3 "1000000"
+#define _TEST_TEAMS_KEY1 LW6DEF_PLAYER1_COLOR
+#define _TEST_TEAMS_VALUE1 "red"
+#define _TEST_TEAMS_KEY2 LW6DEF_BOT_SPEED
+#define _TEST_TEAMS_VALUE2 "1.5"
+#define _TEST_TEAMS_KEY3 LW6DEF_BOT1_AI
+#define _TEST_TEAMS_VALUE3 "foo"
+#define _TEST_DISPLAY_WIDTH 640
+#define _TEST_DISPLAY_HEIGHT 480
+#define _TEST_PROGRESS_MIN 0.1f
+#define _TEST_PROGRESS_MAX 0.9f
+#define _TEST_RESAMPLER_DISPLAY_W 1920
+#define _TEST_RESAMPLER_DISPLAY_H 1080
 
 static int
 check_map_with_absolute_path (char *absolute_path)
@@ -75,8 +77,8 @@ check_map_with_absolute_path (char *absolute_path)
   if (user_dir)
     {
       level1 =
-	lw6ldr_read (absolute_path, NULL, NULL, TEST_DISPLAY_WIDTH,
-		     TEST_DISPLAY_HEIGHT, LW6LDR_DEFAULT_BENCH_VALUE,
+	lw6ldr_read (absolute_path, NULL, NULL, _TEST_DISPLAY_WIDTH,
+		     _TEST_DISPLAY_HEIGHT, LW6LDR_DEFAULT_BENCH_VALUE,
 		     LW6LDR_DEFAULT_MAGIC_NUMBER, user_dir, NULL);
       if (level1)
 	{
@@ -201,8 +203,8 @@ test_data ()
 
   LW6SYS_TEST_FUNCTION_BEGIN;
 
-  const int argc = TEST_ARGC;
-  const char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1 };
+  const int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0, _TEST_ARGV1 };
 
   {
     char *map_path = NULL;
@@ -238,8 +240,8 @@ test_dir ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
-  const int argc = TEST_ARGC;
-  const char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1 };
+  const int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0, _TEST_ARGV1 };
 
   {
     lw6sys_list_t *entries = NULL;
@@ -255,7 +257,8 @@ test_dir ()
 	if (user_dir)
 	  {
 	    entries =
-	      lw6ldr_get_entries (map_path, TEST_DIR_RELATIVE_PATH, user_dir);
+	      lw6ldr_get_entries (map_path, _TEST_DIR_RELATIVE_PATH,
+				  user_dir);
 	    if (entries)
 	      {
 		while (entries
@@ -279,11 +282,11 @@ test_dir ()
 	    ret = 0;
 	  }
 
-	entry = lw6ldr_chain_entry (map_path, TEST_DIR_CHAIN_PATH, user_dir);
+	entry = lw6ldr_chain_entry (map_path, _TEST_DIR_CHAIN_PATH, user_dir);
 	if (entry)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("chain for \"%s\" is \"%s\""),
-			TEST_DIR_CHAIN_PATH, entry->relative_path);
+			_TEST_DIR_CHAIN_PATH, entry->relative_path);
 	    lw6ldr_free_entry (entry);
 	  }
 	else
@@ -325,9 +328,9 @@ test_param ()
     values = lw6sys_assoc_new (NULL);
     if (values)
       {
-	lw6sys_assoc_set (&values, TEST_PARAM_KEY1, TEST_PARAM_VALUE1);
-	lw6sys_assoc_set (&values, TEST_PARAM_KEY2, TEST_PARAM_VALUE2);
-	lw6sys_assoc_set (&values, TEST_PARAM_KEY3, TEST_PARAM_VALUE3);
+	lw6sys_assoc_set (&values, _TEST_PARAM_KEY1, _TEST_PARAM_VALUE1);
+	lw6sys_assoc_set (&values, _TEST_PARAM_KEY2, _TEST_PARAM_VALUE2);
+	lw6sys_assoc_set (&values, _TEST_PARAM_KEY3, _TEST_PARAM_VALUE3);
 
 	if (lw6ldr_param_update (&param, values))
 	  {
@@ -368,9 +371,9 @@ test_hints ()
     values = lw6sys_assoc_new (NULL);
     if (values)
       {
-	lw6sys_assoc_set (&values, TEST_HINTS_KEY1, TEST_HINTS_VALUE1);
-	lw6sys_assoc_set (&values, TEST_HINTS_KEY2, TEST_HINTS_VALUE2);
-	lw6sys_assoc_set (&values, TEST_HINTS_KEY3, TEST_HINTS_VALUE3);
+	lw6sys_assoc_set (&values, _TEST_HINTS_KEY1, _TEST_HINTS_VALUE1);
+	lw6sys_assoc_set (&values, _TEST_HINTS_KEY2, _TEST_HINTS_VALUE2);
+	lw6sys_assoc_set (&values, _TEST_HINTS_KEY3, _TEST_HINTS_VALUE3);
 
 	if (lw6ldr_hints_update (&hints, values))
 	  {
@@ -410,9 +413,9 @@ test_teams ()
     values = lw6sys_assoc_new (NULL);
     if (values)
       {
-	lw6sys_assoc_set (&values, TEST_TEAMS_KEY1, TEST_TEAMS_VALUE1);
-	lw6sys_assoc_set (&values, TEST_TEAMS_KEY2, TEST_TEAMS_VALUE2);
-	lw6sys_assoc_set (&values, TEST_TEAMS_KEY3, TEST_TEAMS_VALUE3);
+	lw6sys_assoc_set (&values, _TEST_TEAMS_KEY1, _TEST_TEAMS_VALUE1);
+	lw6sys_assoc_set (&values, _TEST_TEAMS_KEY2, _TEST_TEAMS_VALUE2);
+	lw6sys_assoc_set (&values, _TEST_TEAMS_KEY3, _TEST_TEAMS_VALUE3);
 
 	if (lw6ldr_teams_update (&teams, values))
 	  {
@@ -441,8 +444,8 @@ test_read ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
-  const int argc = TEST_ARGC;
-  const char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1 };
+  const int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0, _TEST_ARGV1 };
 
   {
     lw6map_level_t *level = NULL;
@@ -452,8 +455,8 @@ test_read ()
     lw6sys_progress_t progress;
     float done = 0.0f;
 
-    progress.min = TEST_PROGRESS_MIN;
-    progress.max = TEST_PROGRESS_MAX;
+    progress.min = _TEST_PROGRESS_MIN;
+    progress.max = _TEST_PROGRESS_MAX;
     progress.value = &done;
     map_path = lw6cfg_unified_get_map_path (argc, argv);
     if (map_path)
@@ -462,8 +465,8 @@ test_read ()
 	if (user_dir)
 	  {
 	    level =
-	      lw6ldr_read_relative (map_path, TEST_MAP, NULL, NULL,
-				    TEST_DISPLAY_WIDTH, TEST_DISPLAY_HEIGHT,
+	      lw6ldr_read_relative (map_path, _TEST_MAP, NULL, NULL,
+				    _TEST_DISPLAY_WIDTH, _TEST_DISPLAY_HEIGHT,
 				    LW6LDR_DEFAULT_BENCH_VALUE,
 				    LW6LDR_DEFAULT_MAGIC_NUMBER, user_dir,
 				    &progress);
@@ -506,6 +509,33 @@ test_read ()
   return ret;
 }
 
+/*
+ * Testing resampler
+ */
+static int
+test_resampler ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int map_w = 0;
+    int map_h = 0;
+
+    lw6ldr_resampler_use_for_gen (&map_w, &map_h, _TEST_RESAMPLER_DISPLAY_W,
+				  _TEST_RESAMPLER_DISPLAY_H,
+				  LW6LDR_DEFAULT_BENCH_VALUE,
+				  LW6LDR_DEFAULT_MAGIC_NUMBER);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("gen would create a %dx%d map with a display of %dx%d"),
+		map_w, map_h, _TEST_RESAMPLER_DISPLAY_W,
+		_TEST_RESAMPLER_DISPLAY_H);
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6ldr_test
  *
@@ -532,7 +562,7 @@ lw6ldr_test (int mode)
     }
 
   ret = test_dir () && test_hints () && test_teams () && test_param ()
-    && test_read () && test_data ();
+    && test_read () && test_data () && test_resampler ();
 
   return ret;
 }

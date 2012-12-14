@@ -26,22 +26,24 @@
 
 #include "tsk.h"
 
-#define TEST_MANAGER_SLEEP 1.0f
-#define TEST_LOOP_SLEEP 0.1f
-#define TEST_LOOP_N 600
-#define TEST_LOAD_MAP "subflower"
-#define TEST_OPTION_KEY1 LW6DEF_TOTAL_TIME
-#define TEST_OPTION_VALUE1 "250"
-#define TEST_OPTION_KEY2 LW6DEF_BACKGROUND_STYLE
-#define TEST_OPTION_VALUE2 "air"
-#define TEST_DISPLAY_WIDTH 640
-#define TEST_DISPLAY_HEIGHT 480
+#define _TEST_MANAGER_SLEEP 1.0f
+#define _TEST_LOOP_SLEEP 0.1f
+#define _TEST_LOOP_N 600
+#define _TEST_LOAD_MAP "subflower"
+#define _TEST_OPTION_KEY1 LW6DEF_TOTAL_TIME
+#define _TEST_OPTION_VALUE1 "250"
+#define _TEST_OPTION_KEY2 LW6DEF_BACKGROUND_STYLE
+#define _TEST_OPTION_VALUE2 "air"
+#define _TEST_DISPLAY_WIDTH 640
+#define _TEST_DISPLAY_HEIGHT 480
+#define _TEST_SEED_1 "1234567890abcdef"
+#define _TEST_SEED_2 "abcdef1234567890"
 
 /*
- * Testing task manager
+ * Testing manager (ldr)
  */
 static int
-test_manager ()
+test_manager_ldr ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -63,7 +65,8 @@ test_manager ()
     user_dir = lw6sys_get_default_user_dir ();
     if (user_dir)
       {
-	manager = lw6tsk_loader_new (TEST_MANAGER_SLEEP, user_dir, &progress);
+	manager =
+	  lw6tsk_loader_new (_TEST_MANAGER_SLEEP, user_dir, &progress);
 	if (manager)
 	  {
 	    map_path = lw6sys_get_default_map_path ();
@@ -71,28 +74,28 @@ test_manager ()
 	      {
 		default_param = lw6sys_assoc_new (lw6sys_free_callback);
 		forced_param = lw6sys_assoc_new (lw6sys_free_callback);
-		lw6sys_assoc_set (&default_param, TEST_OPTION_KEY1,
-				  lw6sys_str_copy (TEST_OPTION_VALUE1));
-		lw6sys_assoc_set (&forced_param, TEST_OPTION_KEY2,
-				  lw6sys_str_copy (TEST_OPTION_VALUE2));
+		lw6sys_assoc_set (&default_param, _TEST_OPTION_KEY1,
+				  lw6sys_str_copy (_TEST_OPTION_VALUE1));
+		lw6sys_assoc_set (&forced_param, _TEST_OPTION_KEY2,
+				  lw6sys_str_copy (_TEST_OPTION_VALUE2));
 		if (default_param && forced_param)
 		  {
-		    lw6tsk_loader_push (manager, map_path, TEST_LOAD_MAP,
-					default_param, forced_param,
-					TEST_DISPLAY_WIDTH,
-					TEST_DISPLAY_HEIGHT,
-					LW6LDR_DEFAULT_BENCH_VALUE,
-					LW6LDR_DEFAULT_MAGIC_NUMBER);
-		    lw6sys_sleep (TEST_LOOP_SLEEP);
-		    lw6tsk_loader_push (manager, map_path, TEST_LOAD_MAP,
-					default_param, forced_param,
-					TEST_DISPLAY_WIDTH,
-					TEST_DISPLAY_HEIGHT,
-					LW6LDR_DEFAULT_BENCH_VALUE,
-					LW6LDR_DEFAULT_MAGIC_NUMBER);
-		    for (i = 0; i < TEST_LOOP_N && !done; i++)
+		    lw6tsk_loader_push_ldr (manager, map_path, _TEST_LOAD_MAP,
+					    default_param, forced_param,
+					    _TEST_DISPLAY_WIDTH,
+					    _TEST_DISPLAY_HEIGHT,
+					    LW6LDR_DEFAULT_BENCH_VALUE,
+					    LW6LDR_DEFAULT_MAGIC_NUMBER);
+		    lw6sys_sleep (_TEST_LOOP_SLEEP);
+		    lw6tsk_loader_push_ldr (manager, map_path, _TEST_LOAD_MAP,
+					    default_param, forced_param,
+					    _TEST_DISPLAY_WIDTH,
+					    _TEST_DISPLAY_HEIGHT,
+					    LW6LDR_DEFAULT_BENCH_VALUE,
+					    LW6LDR_DEFAULT_MAGIC_NUMBER);
+		    for (i = 0; i < _TEST_LOOP_N && !done; i++)
 		      {
-			lw6sys_sleep (TEST_LOOP_SLEEP);
+			lw6sys_sleep (_TEST_LOOP_SLEEP);
 			repr = lw6tsk_loader_repr (manager);
 			if (repr)
 			  {
@@ -171,6 +174,117 @@ test_manager ()
   return ret;
 }
 
+/*
+ * Testing manager (gen)
+ */
+static int
+test_manager_gen ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6tsk_loader_t *manager = NULL;
+    char *repr;
+    int i;
+    lw6map_level_t *level = NULL;
+    lw6ker_game_struct_t *game_struct = NULL;
+    lw6ker_game_state_t *game_state = NULL;
+    int done = 0;
+    float progress = 0.0f;
+    char *user_dir;
+
+    user_dir = lw6sys_get_default_user_dir ();
+    if (user_dir)
+      {
+	manager =
+	  lw6tsk_loader_new (_TEST_MANAGER_SLEEP, user_dir, &progress);
+	if (manager)
+	  {
+	    lw6tsk_loader_push_gen (manager, _TEST_SEED_1,
+				    _TEST_DISPLAY_WIDTH,
+				    _TEST_DISPLAY_HEIGHT,
+				    LW6LDR_DEFAULT_BENCH_VALUE,
+				    LW6LDR_DEFAULT_MAGIC_NUMBER);
+	    lw6sys_sleep (_TEST_LOOP_SLEEP);
+	    lw6tsk_loader_push_gen (manager, _TEST_SEED_2,
+				    _TEST_DISPLAY_WIDTH,
+				    _TEST_DISPLAY_HEIGHT,
+				    LW6LDR_DEFAULT_BENCH_VALUE,
+				    LW6LDR_DEFAULT_MAGIC_NUMBER);
+	    for (i = 0; i < _TEST_LOOP_N && !done; i++)
+	      {
+		lw6sys_sleep (_TEST_LOOP_SLEEP);
+		repr = lw6tsk_loader_repr (manager);
+		if (repr)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("waiting for manager \"%s\""), repr);
+		    LW6SYS_FREE (repr);
+		  }
+		if (lw6tsk_loader_pop
+		    (&level, &game_struct, &game_state, manager))
+		  {
+		    if (level && game_struct && game_state)
+		      {
+			done = 1;
+			repr = lw6ker_game_struct_repr (game_struct);
+			if (repr)
+			  {
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_
+					("generated game_struct \"%s\""),
+					repr);
+			    LW6SYS_FREE (repr);
+			  }
+			repr = lw6ker_game_state_repr (game_state);
+			if (repr)
+			  {
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_
+					("generated game_state \"%s\""),
+					repr);
+			    LW6SYS_FREE (repr);
+			  }
+			lw6ker_game_state_free (game_state);
+			game_state = NULL;
+			lw6ker_game_struct_free (game_struct);
+			game_struct = NULL;
+			lw6map_free (level);
+			level = NULL;
+		      }
+		    if (level)
+		      {
+			repr = lw6map_repr (level);
+			if (repr)
+			  {
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_ ("generated map \"%s\""), repr);
+			    LW6SYS_FREE (repr);
+			  }
+			lw6map_free (level);
+			level = NULL;
+		      }
+		  }
+	      }
+	    lw6tsk_loader_free (manager);
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	LW6SYS_FREE (user_dir);
+      }
+    else
+      {
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6tsk_test
  *
@@ -196,9 +310,10 @@ lw6tsk_test (int mode)
       lw6map_test (mode);
       lw6ker_test (mode);
       lw6ldr_test (mode);
+      lw6gen_test (mode);
     }
 
-  ret = test_manager ();
+  ret = test_manager_ldr () && test_manager_gen ();
 
   return ret;
 }

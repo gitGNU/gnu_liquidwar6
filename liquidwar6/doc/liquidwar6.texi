@@ -2427,7 +2427,8 @@ maps in memory. But it does not know how to load them from disk. This is the
 responsability of another module, @code{libldr}, which is linked against libraries
 such as @uref{http://www.libpng.org/pub/png/libpng.html, libpng} or
 @uref{http://www.ijg.org/, libjpeg} and does the job of transforming those
-standard formats into a usable in-memory structure. There's still a third
+standard formats into a usable in-memory structure. The @code{libgen} module
+also works the same way, creating pseudo-random maps. There's still a another
 moduled involved in map handling, it's @code{libtsk}, whose job is to load a
 level in the background. It has a 2-steps asynchronous loading system which allows
 the game to load maps while the user interface is still responsive, and give

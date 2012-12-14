@@ -29,7 +29,7 @@ libtsk_HEADERS = tsk.h
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6tsk-test
 liquidwar6tsk_test_SOURCES = tsk-testmain.c
-liquidwar6tsk_test_LDADD = libtsk.la ../ldr/libldr.la ../cfg/libcfg.la ../hlp/libhlp.la ../ker/libker.la ../map/libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+liquidwar6tsk_test_LDADD = libtsk.la ../gen/libgen.la ../ldr/libldr.la ../cfg/libcfg.la ../hlp/libhlp.la ../ker/libker.la ../map/libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6tsk-test
 endif
 

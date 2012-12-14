@@ -54,6 +54,8 @@
 #define _TEST_STYLE_VALUE "1.0"
 #define _TEST_TEAMS_KEY LW6DEF_BOT_IQ
 #define _TEST_TEAMS_VALUE "99"
+#define _TEST_PARAM_KEY LW6DEF_MOVES_PER_ROUND
+#define _TEST_PARAM_VALUE "3"
 #define _TEST_COORDS_NB 5
 #define _TEST_COORDS_W 100
 #define _TEST_COORDS_H 50
@@ -650,6 +652,81 @@ test_hexa ()
 }
 
 static int
+test_param ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6map_param_t *param = NULL;
+    lw6map_param_t param2;
+    char *value = NULL;
+
+    param = (lw6map_param_t *) LW6SYS_CALLOC (sizeof (lw6map_param_t));
+    if (param)
+      {
+	lw6map_param_zero (param);
+	lw6map_param_defaults (param);
+
+	lw6map_param_set (param, _TEST_PARAM_KEY, _TEST_PARAM_VALUE);
+	value = lw6map_param_get (param, _TEST_PARAM_KEY);
+	if (value)
+	  {
+	    if (lw6sys_str_is_same (value, _TEST_PARAM_VALUE))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("param value getter and setter seem to work value for \"%s\" is \"%s\""),
+			    _TEST_PARAM_KEY, value);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("bad param value returned for \"%s\", was \"%s\" should have been \"%s\""),
+			    _TEST_PARAM_KEY, value, _TEST_PARAM_VALUE);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (value);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("no param value for \"%s\""),
+			_TEST_PARAM_KEY);
+	    ret = 0;
+	  }
+	lw6map_param_zero (&param2);
+	if (lw6map_param_is_same (param, &param2))
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("param and param2 reported as same, they should be different"));
+	    ret = 0;
+	  }
+	lw6map_param_copy (&param2, param);
+	if (!lw6map_param_is_same (param, &param2))
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("param and param2 reported as different, they should be the same"));
+	    ret = 0;
+	  }
+
+	lw6map_param_clear (&param2);
+	lw6map_param_clear (param);
+	LW6SYS_FREE (param);
+      }
+    else
+      {
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+static int
 test_rules ()
 {
   int ret = 1;
@@ -663,6 +740,7 @@ test_rules ()
     rules = (lw6map_rules_t *) LW6SYS_CALLOC (sizeof (lw6map_rules_t));
     if (rules)
       {
+	lw6map_rules_zero (rules);
 	lw6map_rules_set_int (rules, _TEST_RULES_KEY, _TEST_RULES_VALUE);
 	value = lw6map_rules_get_int (rules, _TEST_RULES_KEY);
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("map rules for key \"%s\" is %d"),
@@ -727,6 +805,7 @@ test_style ()
     style = (lw6map_style_t *) LW6SYS_CALLOC (sizeof (lw6map_style_t));
     if (style)
       {
+	lw6map_style_zero (style);
 	lw6map_style_set (style, _TEST_STYLE_KEY, _TEST_STYLE_VALUE);
 	value = lw6map_style_get (style, _TEST_STYLE_KEY);
 	if (value)
@@ -774,6 +853,7 @@ test_teams ()
     teams = (lw6map_teams_t *) LW6SYS_CALLOC (sizeof (lw6map_teams_t));
     if (teams)
       {
+	lw6map_teams_zero (teams);
 	lw6map_teams_set (teams, _TEST_TEAMS_KEY, _TEST_TEAMS_VALUE);
 	value = lw6map_teams_get (teams, _TEST_TEAMS_KEY);
 	if (value)
@@ -947,7 +1027,8 @@ lw6map_test (int mode)
   ret = test_new () && test_color () && test_coords ()
     && test_builtin () && test_dup () && test_exp ()
     && test_hexa () && test_local_info () && test_meta_layer ()
-    && test_rules () && test_style () && test_teams () && test_weapon ();
+    && test_param () && test_rules () && test_style () && test_teams ()
+    && test_weapon ();
 
   return ret;
 }

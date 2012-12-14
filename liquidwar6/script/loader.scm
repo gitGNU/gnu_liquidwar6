@@ -44,7 +44,7 @@
 	  )
       (begin
 	(lw6-set-game-global! "loaded" (list))
-	(c-lw6tsk-loader-push loader 
+	(c-lw6tsk-loader-push-ldr loader 
 			      map-path 
 			      relative-path
 			      default-param

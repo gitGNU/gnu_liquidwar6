@@ -1786,8 +1786,13 @@ Wrapper on lw6tsk_loader_new.
 Wrapper on lw6tsk_loader_pop.
 @end deffn
 
-@subsection c-lw6tsk-loader-push
-@deffn {C function exported to Guile} @code{c-lw6tsk-loader-push}
-Wrapper on lw6tsk_loader_push.
+@subsection c-lw6tsk-loader-push-gen
+@deffn {C function exported to Guile} @code{c-lw6tsk-loader-push-gen}
+Wrapper on lw6tsk_loader_push_gen.
+@end deffn
+
+@subsection c-lw6tsk-loader-push-ldr
+@deffn {C function exported to Guile} @code{c-lw6tsk-loader-push-ldr}
+Wrapper on lw6tsk_loader_push_ldr.
 @end deffn
 

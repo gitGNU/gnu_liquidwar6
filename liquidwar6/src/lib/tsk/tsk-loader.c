@@ -78,6 +78,11 @@ stage1_clear_request (_lw6tsk_loader_stage1_t * stage1)
       lw6sys_assoc_free (stage1->forced_param);
       stage1->forced_param = NULL;
     }
+  if (stage1->seed)
+    {
+      LW6SYS_FREE (stage1->seed);
+      stage1->seed = NULL;
+    }
   stage1->display_w = 0;
   stage1->display_h = 0;
 }
@@ -153,9 +158,12 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
   char *relative_path = NULL;
   lw6sys_assoc_t *default_param = NULL;
   lw6sys_assoc_t *forced_param = NULL;
+  char *seed = NULL;
   lw6map_level_t *level = NULL;
   int display_w = 0;
   int display_h = 0;
+  int map_w = 0;
+  int map_h = 0;
   int bench_value = 0;
   int magic_number = 0;
   lw6map_level_t *src2 = NULL;
@@ -172,11 +180,14 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
   LOADER_LOCK;
   request_number = loader_data->request_number;
 
+  /*
+   * First case, load a map from disk.
+   */
   if (loader_data->stage1.map_path && loader_data->stage1.relative_path)
     {
       lw6sys_log (LW6SYS_LOG_INFO,
 		  _x_
-		  ("async load stage1, request_number %d, level \"%s\""),
+		  ("async load stage1 using ldr, request_number %d, level \"%s\""),
 		  request_number, loader_data->stage1.relative_path);
 
       (*(progress.value)) = _LW6TSK_LOADER_PROGRESS_STAGE1_BEGIN;
@@ -195,6 +206,26 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
 
       stage1_clear_request (&(loader_data->stage1));
     }
+
+  /*
+   * Second case, generate a map
+   */
+  if (loader_data->stage1.seed)
+    {
+      lw6sys_log (LW6SYS_LOG_INFO,
+		  _x_
+		  ("async load stage1 using gen, request_number %d, seed \"%s\""),
+		  request_number, loader_data->stage1.seed);
+
+      (*(progress.value)) = _LW6TSK_LOADER_PROGRESS_STAGE1_BEGIN;
+      seed = lw6sys_str_copy (loader_data->stage1.seed);
+      display_w = loader_data->stage1.display_w;
+      display_h = loader_data->stage1.display_h;
+      bench_value = loader_data->stage1.bench_value;
+      magic_number = loader_data->stage1.magic_number;
+
+      stage1_clear_request (&(loader_data->stage1));
+    }
   LOADER_UNLOCK;
 
   if (map_path && relative_path)
@@ -206,6 +237,20 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
 	lw6ldr_read_relative (map_path, relative_path, default_param,
 			      forced_param, display_w, display_h, bench_value,
 			      magic_number, loader_data->user_dir, &progress);
+      if (level)
+	{
+	  lw6sys_progress_end (&progress);
+	}
+    }
+
+  if (seed)
+    {
+      progress.min = _LW6TSK_LOADER_PROGRESS_STAGE1_BEGIN_MAP;
+      progress.max = _LW6TSK_LOADER_PROGRESS_STAGE1_END_MAP;
+      lw6sys_progress_begin (&progress);
+      lw6ldr_resampler_use_for_gen (&map_w, &map_h, display_w, display_h,
+				    bench_value, magic_number);
+      level = lw6gen_create_from_seed (seed, map_w, map_h);
       if (level)
 	{
 	  lw6sys_progress_end (&progress);
@@ -231,6 +276,11 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
     {
       lw6sys_assoc_free (forced_param);
       forced_param = NULL;
+    }
+  if (seed)
+    {
+      LW6SYS_FREE (seed);
+      seed = NULL;
     }
 
   if (level)
@@ -425,7 +475,7 @@ _lw6tsk_loader_poll (_lw6tsk_loader_data_t * loader_data)
 }
 
 /**
- * lw6tsk_loader_push
+ * lw6tsk_loader_push_ldr
  * 
  * @loader: loader object
  * @map_path: map-path config entry
@@ -434,19 +484,21 @@ _lw6tsk_loader_poll (_lw6tsk_loader_data_t * loader_data)
  * @forced_param: parameters to be forced and their values
  * @display_w: display width
  * @display_h: display height
+ * @bench_value: bench value, reflecting computer CPU power
  * @magic_number: used to calibrate speed
  *
  * Pushes a load request to the loader. Will stop the current
- * load and push a new one.
+ * load and push a new one. The request concerns a map which
+ * should be loaded from a map directory on the filesystem.
  *
  * Return value: none.
  */
 void
-lw6tsk_loader_push (lw6tsk_loader_t * loader, char *map_path,
-		    char *relative_path, lw6sys_assoc_t * default_param,
-		    lw6sys_assoc_t * forced_param,
-		    int display_w, int display_h, int bench_value,
-		    int magic_number)
+lw6tsk_loader_push_ldr (lw6tsk_loader_t * loader, const char *map_path,
+			const char *relative_path,
+			lw6sys_assoc_t * default_param,
+			lw6sys_assoc_t * forced_param, int display_w,
+			int display_h, int bench_value, int magic_number)
 {
   _lw6tsk_loader_data_t *loader_data;
 
@@ -462,6 +514,49 @@ lw6tsk_loader_push (lw6tsk_loader_t * loader, char *map_path,
     lw6sys_assoc_dup (default_param, (lw6sys_dup_func_t) lw6sys_str_copy);
   loader_data->stage1.forced_param =
     lw6sys_assoc_dup (forced_param, (lw6sys_dup_func_t) lw6sys_str_copy);
+  loader_data->stage1.seed = NULL;
+  loader_data->stage1.display_w = display_w;
+  loader_data->stage1.display_h = display_h;
+  loader_data->stage1.bench_value = bench_value;
+  loader_data->stage1.magic_number = magic_number;
+
+  LOADER_UNLOCK;
+}
+
+/**
+ * lw6tsk_loader_push_gen
+ * 
+ * @loader: loader object
+ * @seed: seed string used to create the map
+ * @display_w: display width
+ * @display_h: display height
+ * @bench_value: bench value, reflecting computer CPU power
+ * @magic_number: used to calibrate speed
+ *
+ * Pushes a load request to the loader. Will stop the current
+ * load and push a new one. The request is forwarded to the 
+ * pseudo-random map generation module.
+ *
+ * Return value: none.
+ */
+void
+lw6tsk_loader_push_gen (lw6tsk_loader_t * loader, const char *seed,
+			int display_w, int display_h, int bench_value,
+			int magic_number)
+{
+  _lw6tsk_loader_data_t *loader_data;
+
+  loader_data = (_lw6tsk_loader_data_t *) loader->data;
+
+  LOADER_LOCK;
+
+  loader_data->request_number++;
+  clear (loader_data);
+  loader_data->stage1.map_path = NULL;
+  loader_data->stage1.relative_path = NULL;
+  loader_data->stage1.default_param = NULL;
+  loader_data->stage1.forced_param = NULL;
+  loader_data->stage1.seed = lw6sys_str_copy (seed);
   loader_data->stage1.display_w = display_w;
   loader_data->stage1.display_h = display_h;
   loader_data->stage1.bench_value = bench_value;

@@ -29,6 +29,7 @@
 #include "../cfg/cfg.h"
 #include "../hlp/hlp.h"
 #include "../ldr/ldr.h"
+#include "../gen/gen.h"
 
 /**
  * Loader object, allows asynchronous map loading.
@@ -48,12 +49,17 @@ typedef struct lw6tsk_loader_s
 lw6tsk_loader_t;
 
 /* tsk-loader.c */
-extern void lw6tsk_loader_push (lw6tsk_loader_t * loader, char *map_path,
-				char *relative_path,
-				lw6sys_assoc_t * default_param,
-				lw6sys_assoc_t * forced_param,
-				int display_w, int display_h, int bench_value,
-				int magic_number);
+extern void lw6tsk_loader_push_ldr (lw6tsk_loader_t * loader,
+				    const char *map_path,
+				    const char *relative_path,
+				    lw6sys_assoc_t * default_param,
+				    lw6sys_assoc_t * forced_param,
+				    int display_w, int display_h,
+				    int bench_value, int magic_number);
+extern void lw6tsk_loader_push_gen (lw6tsk_loader_t * loader,
+				    const char *seed, int display_w,
+				    int display_h, int bench_value,
+				    int magic_number);
 extern int lw6tsk_loader_pop (lw6map_level_t ** level,
 			      lw6ker_game_struct_t ** game_struct,
 			      lw6ker_game_state_t ** game_state,

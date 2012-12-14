@@ -29,6 +29,22 @@
 #include "map.h"
 
 /**
+ * lw6map_param_zero
+ *
+ * @param: struct to initialize
+ *
+ * Sets a param struct to zero, simply puts zero everywhere
+ * without checking what was here before
+ *
+ * Return value: none.
+ */
+void
+lw6map_param_zero (lw6map_param_t * param)
+{
+  memset (param, 0, sizeof (lw6map_param_t));
+}
+
+/**
  * lw6map_param_defaults:
  *
  * @param: the param struct to modify

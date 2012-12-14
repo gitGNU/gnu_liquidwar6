@@ -1203,7 +1203,8 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6CNS_QUIT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6CNS_POLL);
   lw6sys_list_push_back (list, LW6DEF_C_LW6TSK_LOADER_NEW);
-  lw6sys_list_push_back (list, LW6DEF_C_LW6TSK_LOADER_PUSH);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6TSK_LOADER_PUSH_GEN);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6TSK_LOADER_PUSH_LDR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6TSK_LOADER_POP);
   lw6sys_list_push_back (list, LW6DEF_C_LW6TSK_LOADER_GET_STAGE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6NET_INIT);

@@ -33,19 +33,27 @@ subgraph cluster_cli {
 	dsp -> gfx
 	dyn -> sys
 	dyn -> ltdl
+	gen -> map
 	gfx -> dyn
 	gfx -> vox
 	gfx -> pil
 subgraph cluster_gfx {
 	label="gfx backends"
 	gfx
-	gfx -> "mod-gl" [dir=both]
+	gfx -> "mod-gl1" [dir=both]
+	gfx -> "mod-gles2" [dir=both]
+	gfx -> "mod-soft" [dir=both]
+	gfx -> "mod-caca" [dir=both]
+	"mod-gl1" -> "shared-sdl"
+	"mod-gles2" -> "shared-sdl"
+	"mod-soft" -> "shared-sdl"
 }
-	"mod-gl" [style=filled,fillcolor=lightgrey]
-	"mod-gl" -> SDL
-	"mod-gl" -> GL
-	"mod-gl" -> SDL_image
-	"mod-gl" -> SDL_ttf
+	"mod-gl1" [style=filled,fillcolor=lightgrey]
+	"mod-gl1" -> GL
+	"mod-gles2" -> GLESv2
+	"shared-sdl" -> SDL
+	"shared-sdl" -> SDL_image
+	"shared-sdl" -> SDL_ttf
 	glb -> sys
 	glb -> gnulib
 	gui -> map
@@ -103,6 +111,7 @@ subgraph cluster_srv {
 	sys -> math
 
 	tsk -> ldr
+	tsk -> gen
 	vox -> gui
 	vox -> ker
 

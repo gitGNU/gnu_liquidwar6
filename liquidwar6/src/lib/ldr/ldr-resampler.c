@@ -46,6 +46,9 @@
 #define _RESAMPLER_R2 1.414f
 #define _RESAMPLER_05 0.49f
 
+#define _RESAMPLER_USE_FOR_GEN_EXPECTED_DEPTH 2
+#define _RESAMPLER_USE_FOR_GEN_GRAY_LEVEL 0.5f
+
 static void
 _check_limits (lw6ldr_hints_t * hints, int *w, int *h)
 {
@@ -419,6 +422,42 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
     ((float) (resampler->target_w)) / ((float) (resampler->source_w));
   resampler->scale_y =
     ((float) (resampler->target_h)) / ((float) (resampler->source_h));
+}
+
+void
+lw6ldr_resampler_use_for_gen (int *map_w, int *map_h,
+			      int display_w,
+			      int display_h,
+			      int bench_value, int magic_number)
+{
+  lw6map_param_t param;
+  lw6ldr_hints_t hints;
+  float target_ratio = 0.0f;
+  lw6ldr_resampler_t resampler;
+
+  display_w = lw6sys_imax (display_w, 1);
+  display_h = lw6sys_imax (display_h, 1);
+
+  lw6map_param_zero (&param);
+  lw6map_param_defaults (&param);
+  lw6ldr_hints_zero (&hints);
+  lw6ldr_hints_defaults (&hints);
+
+  target_ratio = ((float) display_w) / ((float) display_h);
+
+  lw6sys_log (LW6SYS_LOG_INFO,
+	      _x_ ("using resampler for gen, display=%dx%d bench_value=%d"),
+	      display_w, display_h, bench_value);
+  lw6ldr_resampler_init (&resampler, &param, &hints, display_w, display_h,
+			 display_w, display_h, target_ratio, bench_value,
+			 magic_number, _RESAMPLER_USE_FOR_GEN_EXPECTED_DEPTH,
+			 _RESAMPLER_USE_FOR_GEN_GRAY_LEVEL);
+
+  (*map_w) = resampler.target_w;
+  (*map_h) = resampler.target_h;
+
+  lw6map_param_clear (&param);
+  lw6ldr_hints_clear (&hints);
 }
 
 static void
