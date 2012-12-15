@@ -2658,6 +2658,17 @@ an immediate error message is the only issue.
 
 @end deftypefun
 
+@deftypefun {void} {lw6sys_log_console_enable} (int @var{state})
+@var{state}:  1 to activate console output, 0 to disable it.
+
+Enables or disables console output. By console output, we basically
+mean stderr (and possibly stdout). If console output is enabled (the default)
+all output is copied to stderr. If it's disabled, only the log file
+will contain the information.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {void} {lw6sys_math_poly_wy1y2s1} (float * @var{y}, float * @var{s}, float @var{x}, float @var{w}, float @var{y1}, float @var{y2}, float @var{s1})
 @var{y}:  the return value (position, may be NULL)
 

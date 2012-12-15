@@ -541,7 +541,7 @@ AC_CHECK_HEADER(caca.h, HAVE_CACA_H=1)
 CACA_CFLAGS=""
 CACA_LIBS=""
 AC_CHECK_PROG(CACA_CONFIG, caca-config, yes, no)
-if test x${CACA_CONFIG} = xyes; then
+if test x${CACA_CONFIG} = xyes ; then
    CACA_CFLAGS=`caca-config --cflags`
    CACA_LIBS=`caca-config --libs`
 else
@@ -557,7 +557,7 @@ AC_CHECK_LIB(caca, caca_create_canvas, HAVE_LIBCACA=1, AC_MSG_WARN([
 AC_SUBST(CACA_CFLAGS)
 AC_SUBST(CACA_LIBS)
 
-AM_CONDITIONAL(MOD_CACA, test x$enable_mod_caca = xyes && test x$HAVE_CACA_H = x1 && test x$HAVE_LIBCACA = x1)
+AM_CONDITIONAL(MOD_CACA, test x$enable_mod_caca = xyes && test x$HAVE_CACA_H = x1 && test x$HAVE_LIBCACA = x1 && test x$HAVE_NCURSES_H && test x$HAVE_LIBNCURSES = x1)
 
 if test -z "${MOD_CACA_TRUE}"; then
 	MOD_CACA_ENABLE_CFLAGS="-DMOD_CACA=1"

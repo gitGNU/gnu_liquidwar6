@@ -39,44 +39,51 @@
 #include <gtk/gtk.h>
 #endif
 
-#define HISTORY_LENGTH 256
-#define LEVEL_LENGTH 80
-#define MSGBOX_LENGTH 4096
-#define BT_FACTOR 2
+#define _HISTORY_LENGTH 256
+#define _LEVEL_LENGTH 80
+#define _MSGBOX_LENGTH 4096
+#define _BT_FACTOR 2
 /*
  * For some reason seams on GNU/Linux (gtk2/xorg) systems
  * the message box is trimmed at 64 chars width. 128 makes
  * it transparent. For the "\n" is already here on one over
  * two lines.
  */
-#define MSGBOX_WIDTH 128
+#define _MSGBOX_WIDTH 128
 
-#define CRITICAL_FILE "sys-log.c"
-#define CRITICAL_LINE __LINE__
+#define _CRITICAL_FILE "sys-log.c"
+#define _CRITICAL_LINE __LINE__
 
-#define STATIC_LOG_FILENAME_SIZE 65536
-static char static_log_filename[STATIC_LOG_FILENAME_SIZE + 1] = { 0 };
+#define _STATIC_LOG_FILENAME_SIZE 65536
+static char _static_log_filename[_STATIC_LOG_FILENAME_SIZE + 1] = { 0 };
 
-#define GTK_NB_IDLE_ITERATIONS 10
+/*
+ * Console is enabled by default, disabling it is indeed a special
+ * case, for instance when there's an interaction with a text-based
+ * graphics renderer.
+ */
+static int _console_enable_state = 1;
+
+#define _GTK_NB_IDLE_ITERATIONS 10
 
 static char *
-get_log_file ()
+_get_log_file ()
 {
   char *log_file;
 
-  if (static_log_filename[0] != 0)
+  if (_static_log_filename[0] != 0)
     {
-      log_file = static_log_filename;
+      log_file = _static_log_filename;
     }
   else
     {
       log_file = lw6sys_get_default_log_file ();
       if (log_file)
 	{
-	  lw6sys_buf_sprintf (static_log_filename, STATIC_LOG_FILENAME_SIZE,
+	  lw6sys_buf_sprintf (_static_log_filename, _STATIC_LOG_FILENAME_SIZE,
 			      "%s", log_file);
 	  LW6SYS_FREE (log_file);
-	  log_file = static_log_filename;
+	  log_file = _static_log_filename;
 	}
       else
 	{
@@ -511,9 +518,9 @@ lw6sys_log_errno_str (int errno_int)
 void
 lw6sys_log_set_file (const char *filename)
 {
-  memset (static_log_filename, 0, sizeof (static_log_filename));
-  memcpy (static_log_filename, filename,
-	  lw6sys_imin (sizeof (static_log_filename) - 1, strlen (filename)));
+  memset (_static_log_filename, 0, sizeof (_static_log_filename));
+  memcpy (_static_log_filename, filename,
+	  lw6sys_imin (sizeof (_static_log_filename) - 1, strlen (filename)));
 }
 
 /**
@@ -558,20 +565,20 @@ lw6sys_log_clear (const char *filename)
 }
 
 static FILE *
-open_log_file ()
+_open_log_file ()
 {
   FILE *ret = NULL;
   char *name;
 
-  name = get_log_file ();
+  name = _get_log_file ();
   ret = fopen (name, "ab");
 
   return ret;
 }
 
 static void
-log_to_file (FILE * f, int level_id, const char *level_str, const char *file,
-	     int line, const char *fmt, va_list ap)
+_log_to_file (FILE * f, int level_id, const char *level_str, const char *file,
+	      int line, const char *fmt, va_list ap)
 {
   time_t t_now;
   struct tm tm_now;
@@ -600,22 +607,25 @@ log_to_file (FILE * f, int level_id, const char *level_str, const char *file,
 }
 
 static void
-log_to_console (FILE * f, const char *level_str, const char *fmt, va_list ap)
+_log_to_console (FILE * f, const char *level_str, const char *fmt, va_list ap)
 {
-  fprintf (f, "%s: %s", lw6sys_build_get_package_tarname (), level_str);
-  vfprintf (f, fmt, ap);
-  fprintf (f, "\n");
-  fflush (f);
+  if (_console_enable_state)
+    {
+      fprintf (f, "%s: %s", lw6sys_build_get_package_tarname (), level_str);
+      vfprintf (f, fmt, ap);
+      fprintf (f, "\n");
+      fflush (f);
+    }
 }
 
 static void
-log_to_history (const char *level_str, const char *fmt, va_list ap)
+_log_to_history (const char *level_str, const char *fmt, va_list ap)
 {
-  char msg[HISTORY_LENGTH + 1];
-  char full_msg[HISTORY_LENGTH + 1];
+  char msg[_HISTORY_LENGTH + 1];
+  char full_msg[_HISTORY_LENGTH + 1];
 
-  _lw6sys_buf_vsnprintf (msg, HISTORY_LENGTH, fmt, ap);
-  lw6sys_buf_sprintf (full_msg, HISTORY_LENGTH, "%s%s", level_str, msg);
+  _lw6sys_buf_vsnprintf (msg, _HISTORY_LENGTH, fmt, ap);
+  lw6sys_buf_sprintf (full_msg, _HISTORY_LENGTH, "%s%s", level_str, msg);
   lw6sys_history_register (full_msg);
 }
 
@@ -629,18 +639,18 @@ void
 _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
 		      const char *fmt, va_list ap)
 {
-  char message_raw[MSGBOX_LENGTH + 1];
-  char message_full[MSGBOX_LENGTH + 1];
+  char message_raw[_MSGBOX_LENGTH + 1];
+  char message_full[_MSGBOX_LENGTH + 1];
   char *bt = NULL;
   int bt_width = 0;
   int free_bt = 0;
 
-  _lw6sys_buf_vsnprintf (message_raw, MSGBOX_LENGTH, fmt, ap);
-  lw6sys_str_reformat_this (message_raw, MSGBOX_WIDTH);
+  _lw6sys_buf_vsnprintf (message_raw, _MSGBOX_LENGTH, fmt, ap);
+  lw6sys_str_reformat_this (message_raw, _MSGBOX_WIDTH);
   bt = lw6sys_backtrace (2);	// skip this function & caller  
   if (bt)
     {
-      bt_width = lw6sys_imax (MSGBOX_WIDTH, sqrt (strlen (bt)) * BT_FACTOR);
+      bt_width = lw6sys_imax (_MSGBOX_WIDTH, sqrt (strlen (bt)) * _BT_FACTOR);
       lw6sys_str_reformat_this (bt, bt_width);
       free_bt = 1;
     }
@@ -648,7 +658,7 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
     {
       bt = "";
     }
-  lw6sys_buf_sprintf (message_full, MSGBOX_LENGTH,
+  lw6sys_buf_sprintf (message_full, _MSGBOX_LENGTH,
 		      "%s (%s:%d)\n\n%s\n\n%s: %s\n\n%s: %s", level_str, file,
 		      line, message_raw, _("Backtrace"), bt, _("Report bugs"),
 		      lw6sys_build_get_bugs_url ());
@@ -775,7 +785,7 @@ lw6sys_log (int level_id, const char *file, int line, const char *fmt, ...)
       || lw6sys_debug_get ())
 #endif
     {
-      char level_str[LEVEL_LENGTH + 1];
+      char level_str[_LEVEL_LENGTH + 1];
 #ifdef HAVE_SYSLOG_H
       int syslog_priority = 0;
 #endif
@@ -805,13 +815,13 @@ lw6sys_log (int level_id, const char *file, int line, const char *fmt, ...)
 	case LW6SYS_LOG_ERROR_ID:
 	  if (errno_int)
 	    {
-	      lw6sys_buf_sprintf (level_str, LEVEL_LENGTH,
+	      lw6sys_buf_sprintf (level_str, _LEVEL_LENGTH,
 				  _("ERROR! (errno=%d:%s) "), errno_int,
 				  lw6sys_log_errno_str (errno_int));
 	    }
 	  else
 	    {
-	      lw6sys_buf_sprintf (level_str, LEVEL_LENGTH, _("ERROR! "));
+	      lw6sys_buf_sprintf (level_str, _LEVEL_LENGTH, _("ERROR! "));
 	    }
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_ERR;
@@ -820,13 +830,13 @@ lw6sys_log (int level_id, const char *file, int line, const char *fmt, ...)
 	case LW6SYS_LOG_WARNING_ID:
 	  if (errno_int)
 	    {
-	      lw6sys_buf_sprintf (level_str, LEVEL_LENGTH,
+	      lw6sys_buf_sprintf (level_str, _LEVEL_LENGTH,
 				  _("WARNING! (errno=%d:%s) "), errno_int,
 				  lw6sys_log_errno_str (errno_int));
 	    }
 	  else
 	    {
-	      lw6sys_buf_sprintf (level_str, LEVEL_LENGTH, _("WARNING! "));
+	      lw6sys_buf_sprintf (level_str, _LEVEL_LENGTH, _("WARNING! "));
 	    }
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_WARNING;
@@ -843,13 +853,13 @@ lw6sys_log (int level_id, const char *file, int line, const char *fmt, ...)
 #endif
 	  break;
 	case LW6SYS_LOG_TMP_ID:
-	  lw6sys_buf_sprintf (level_str, LEVEL_LENGTH, _("[tmp] "));
+	  lw6sys_buf_sprintf (level_str, _LEVEL_LENGTH, _("[tmp] "));
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_DEBUG;
 #endif
 	  break;
 	default:		// LW6SYS_LOG_DEBUG_ID
-	  lw6sys_buf_sprintf (level_str, LEVEL_LENGTH, _("[debug] "));
+	  lw6sys_buf_sprintf (level_str, _LEVEL_LENGTH, _("[debug] "));
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_DEBUG;
 #endif
@@ -863,14 +873,14 @@ lw6sys_log (int level_id, const char *file, int line, const char *fmt, ...)
 	      || level_id == LW6SYS_LOG_TMP_ID || lw6sys_debug_get ())
 	    {
 	      va_copy (ap2, ap);
-	      log_to_console (stderr, level_str, fmt, ap2);
+	      _log_to_console (stderr, level_str, fmt, ap2);
 	      va_end (ap2);
 	    }
 	  if (level_id <= LW6SYS_LOG_WARNING_ID
 	      || level_id == LW6SYS_LOG_TMP_ID)
 	    {
 	      va_copy (ap2, ap);
-	      log_to_history (level_str, fmt, ap2);
+	      _log_to_history (level_str, fmt, ap2);
 	      va_end (ap2);
 	    }
 #ifdef HAVE_SYSLOG_H
@@ -882,11 +892,12 @@ lw6sys_log (int level_id, const char *file, int line, const char *fmt, ...)
 	      va_end (ap2);
 	    }
 #endif
-	  f = open_log_file ();
+	  f = _open_log_file ();
 	  if (f)
 	    {
 	      va_copy (ap2, ap);
-	      log_to_file (f, level_id, level_str, file_only, line, fmt, ap2);
+	      _log_to_file (f, level_id, level_str, file_only, line, fmt,
+			    ap2);
 	      va_end (ap2);
 	      fclose (f);
 	    }
@@ -932,11 +943,11 @@ lw6sys_log_critical (const char *fmt, ...)
   va_start (ap, fmt);
 
   va_copy (ap2, ap);
-  log_to_console (stderr, _("CRITICAL! "), fmt, ap2);
+  _log_to_console (stderr, _("CRITICAL! "), fmt, ap2);
   va_end (ap2);
 
   va_copy (ap2, ap);
-  _lw6sys_msgbox_alert (_("CRITICAL!"), CRITICAL_FILE, CRITICAL_LINE, fmt,
+  _lw6sys_msgbox_alert (_("CRITICAL!"), _CRITICAL_FILE, _CRITICAL_LINE, fmt,
 			ap2);
   va_end (ap2);
 
@@ -970,4 +981,22 @@ lw6sys_log_set_level (int level)
   level = lw6sys_imax (level, LW6SYS_LOG_ERROR_ID);
 
   _lw6sys_global.log_level = level;
+}
+
+/**
+ * lw6sys_log_console_enable
+ *
+ * @state: 1 to activate console output, 0 to disable it.
+ *
+ * Enables or disables console output. By console output, we basically
+ * mean stderr (and possibly stdout). If console output is enabled (the default)
+ * all output is copied to stderr. If it's disabled, only the log file
+ * will contain the information.
+ *
+ * Return value: none.
+ */
+void
+lw6sys_log_console_enable (int state)
+{
+  _console_enable_state = state ? 1 : 0;
 }

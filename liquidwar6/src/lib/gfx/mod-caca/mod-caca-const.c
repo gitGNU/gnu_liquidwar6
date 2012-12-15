@@ -38,7 +38,8 @@ read_callback (void *callback_data, const char *element, const char *key,
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "dummy", &const_data->dummy);
+      lw6cfg_read_xml_int (key, value, "event-timeout-microseconds",
+			   &const_data->event_timeout_microseconds);
     }
 
   if (!strcmp (element, "string"))

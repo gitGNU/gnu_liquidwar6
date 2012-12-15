@@ -1020,6 +1020,7 @@ extern void lw6sys_log_critical (const char *fmt, ...)
   __attribute__ ((format (printf, 1, 2)));
 extern int lw6sys_log_get_level ();
 extern void lw6sys_log_set_level (int level);
+extern void lw6sys_log_console_enable (int state);
 
 /* sys-math.c */
 extern void lw6sys_math_poly_wy1y2s1 (float *y, float *s, float x, float w,

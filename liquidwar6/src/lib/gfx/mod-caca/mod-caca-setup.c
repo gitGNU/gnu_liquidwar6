@@ -25,6 +25,7 @@
 #endif // HAVE_CONFIG_H
 
 #include <time.h>
+#include <ncurses.h>
 
 #include "../gfx.h"
 #include "mod-caca-internal.h"
@@ -73,6 +74,14 @@ _mod_caca_init (int argc, const char *argv[],
 	      if (_mod_caca_set_resize_callback
 		  (caca_context, resize_callback))
 		{
+		  /*
+		   * Disabling console output, it could interfere with libcaca
+		   * output and wreck everything...
+		   */
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _x_ ("disabling console output (libcaca)"));
+		  lw6sys_log_console_enable (0);
+
 		  if (_mod_caca_set_video_mode (caca_context, video_mode))
 		    {
 		      // OK
@@ -108,6 +117,13 @@ _mod_caca_init (int argc, const char *argv[],
 	}
     }
 
+  /*
+   * Depending on global success, might be interesting to
+   * re-enable console output, should have been done by _mod_caca_quit, 
+   * but, just in case...
+   */
+  lw6sys_log_console_enable (caca_context == NULL);
+
   return caca_context;
 }
 
@@ -121,10 +137,18 @@ _mod_caca_quit (_mod_caca_context_t * caca_context)
 
   if (caca_context->display)
     {
+      if (caca_context->canvas)
+	{
+	  caca_clear_canvas (caca_context->canvas);
+	}
+      caca_refresh_display (caca_context->display);
       caca_free_display (caca_context->display);
       lw6sys_snooze ();
       caca_context->display = NULL;
     }
+
+  lw6sys_log_console_enable (1);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("console output enabled (libcaca)"));
 
   lw6gui_input_quit (&(caca_context->input));
 

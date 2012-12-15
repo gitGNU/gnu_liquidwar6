@@ -36,10 +36,14 @@ _mod_caca_pump_events (_mod_caca_context_t * caca_context)
 
   if (caca_context)
     {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("pumping libcaca events timeout %d microseconds"),
+		  caca_context->const_data.event_timeout_microseconds);
+
       // todo : pump them for good!
 
       caca_get_event (caca_context->display, CACA_EVENT_KEY_PRESS, &event,
-		      -1);
+		      caca_context->const_data.event_timeout_microseconds);
       ret = &(caca_context->input);
     }
 

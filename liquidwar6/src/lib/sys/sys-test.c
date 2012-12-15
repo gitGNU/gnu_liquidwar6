@@ -2128,6 +2128,17 @@ test_log (int mode)
     // normally, this one does now show with defaults settings...
     lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("testing log_debug %s=%d"),
 		"log_level=%d", log_level);
+
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_
+		("now, testing console disabling, next displayed message should be about bar, not foo"));
+    lw6sys_log_console_enable (0);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("message about foo, should appear in log only"));
+    lw6sys_log_console_enable (1);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_
+		("message about bar, should appear in both log file and console"));
   }
 
   LW6SYS_TEST_FUNCTION_END;

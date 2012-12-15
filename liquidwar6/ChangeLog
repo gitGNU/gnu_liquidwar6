@@ -1,5 +1,7 @@
 2012-12-15 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed libcaca wrapping.
+
 	* Added utility functions to generate and normalize pseudo-random seeds.
 
 2012-12-14 : Christian Mauduit <ufoot@ufoot.org>

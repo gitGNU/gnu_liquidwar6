@@ -37,7 +37,7 @@ _mod_caca_path_t;
 
 typedef struct _mod_caca_const_data_s
 {
-  int dummy;
+  int event_timeout_microseconds;
   char *video_mode_default;
   char *video_mode_fallback;
 }
