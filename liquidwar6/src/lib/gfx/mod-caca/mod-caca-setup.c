@@ -83,14 +83,36 @@ _mod_caca_init (int argc, const char *argv[],
 		  lw6sys_log_console_enable (0);
 
 		  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("libcaca init"));
-		  if (_mod_caca_set_video_mode (caca_context, video_mode))
+		  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default canvas %dx%d"),
+			      caca_context->const_data.canvas_create_width,
+			      caca_context->const_data.canvas_create_height);
+		  caca_context->canvas =
+		    caca_create_canvas (caca_context->
+					const_data.canvas_create_width,
+					caca_context->
+					const_data.canvas_create_height);
+		  if (caca_context->canvas)
 		    {
-		      // OK
+		      if (_mod_caca_set_video_mode (caca_context, video_mode))
+			{
+			  // OK
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_ERROR,
+				      _("unable to set video mode"));
+			  _mod_caca_quit (caca_context);
+			  caca_context = NULL;
+			}
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_ERROR,
-				  _("unable to set video mode"));
+				  _("unable to create canvas %dx%d"),
+				  caca_context->
+				  const_data.canvas_create_width,
+				  caca_context->
+				  const_data.canvas_create_height);
 		      _mod_caca_quit (caca_context);
 		      caca_context = NULL;
 		    }
@@ -148,11 +170,17 @@ _mod_caca_quit (_mod_caca_context_t * caca_context)
 	}
       caca_refresh_display (caca_context->display);
       caca_free_display (caca_context->display);
-      lw6sys_log_console_enable (1);
-      lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _x_ ("console output enabled (libcaca)"));
       caca_context->display = NULL;
     }
+
+  if (caca_context->canvas)
+    {
+      caca_free_canvas (caca_context->canvas);
+      caca_context->canvas = NULL;
+    }
+
+  lw6sys_log_console_enable (1);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("console output enabled (libcaca)"));
 
   lw6gui_input_quit (&(caca_context->input));
 

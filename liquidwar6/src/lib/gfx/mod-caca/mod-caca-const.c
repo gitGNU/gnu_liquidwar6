@@ -40,6 +40,10 @@ read_callback (void *callback_data, const char *element, const char *key,
     {
       lw6cfg_read_xml_int (key, value, "event-timeout-microseconds",
 			   &const_data->event_timeout_microseconds);
+      lw6cfg_read_xml_int (key, value, "canvas-create-width",
+			   &const_data->canvas_create_width);
+      lw6cfg_read_xml_int (key, value, "canvas-create-height",
+			   &const_data->canvas_create_height);
     }
 
   if (!strcmp (element, "float"))

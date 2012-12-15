@@ -38,6 +38,8 @@ _mod_caca_path_t;
 typedef struct _mod_caca_const_data_s
 {
   int event_timeout_microseconds;
+  int canvas_create_width;
+  int canvas_create_height;
   float quit_sleep;
   char *video_mode_default;
   char *video_mode_fallback;

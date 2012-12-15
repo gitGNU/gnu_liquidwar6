@@ -29,12 +29,12 @@
 #include "mod-caca-internal.h"
 
 static caca_display_t *
-_set_with_driver (const char *driver)
+_set_with_driver (caca_canvas_t * canvas, const char *driver)
 {
   caca_display_t *ret = NULL;
 
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("trying libcaca driver \"%s\""), driver);
-  ret = caca_create_display_with_driver (NULL, driver);
+  ret = caca_create_display_with_driver (canvas, driver);
   if (ret == NULL)
     {
       switch (errno)
@@ -75,32 +75,38 @@ _mod_caca_set_video_mode (_mod_caca_context_t * caca_context,
 {
   int ret = 0;
 
-  caca_context->display =
-    _set_with_driver (caca_context->const_data.video_mode_default);
-  if (caca_context == NULL)
+  if (caca_context->canvas)
     {
       caca_context->display =
-	_set_with_driver (caca_context->const_data.video_mode_fallback);
-    }
+	_set_with_driver (caca_context->canvas,
+			  caca_context->const_data.video_mode_default);
+      if (caca_context->display == NULL)
+	{
+	  caca_context->display =
+	    _set_with_driver (caca_context->canvas,
+			      caca_context->const_data.video_mode_fallback);
+	}
 
-  if (caca_context->display)
-    {
-      caca_context->canvas = caca_get_canvas (caca_context->display);
-    }
+      if (caca_context->display)
+	{
+	  caca_context->canvas = caca_get_canvas (caca_context->display);
+	}
 
-  if (caca_context->display && caca_context->canvas)
-    {
-      caca_set_display_title (caca_context->display,
-			      lw6sys_build_get_package_string ());
-      caca_context->video_mode.width =
-	caca_get_canvas_width (caca_context->canvas);
-      caca_context->video_mode.height =
-	caca_get_canvas_height (caca_context->canvas);
-      caca_context->video_mode.fullscreen = 1;
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("libcaca mode with canvas=%dx%d OK"),
-		  caca_context->video_mode.width,
-		  caca_context->video_mode.height);
-      ret = 1;
+      if (caca_context->display && caca_context->canvas)
+	{
+	  caca_set_display_title (caca_context->display,
+				  lw6sys_build_get_package_string ());
+	  caca_context->video_mode.width =
+	    caca_get_canvas_width (caca_context->canvas);
+	  caca_context->video_mode.height =
+	    caca_get_canvas_height (caca_context->canvas);
+	  caca_context->video_mode.fullscreen = 1;
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_ ("libcaca mode with canvas=%dx%d OK"),
+		      caca_context->video_mode.width,
+		      caca_context->video_mode.height);
+	  ret = 1;
+	}
     }
 
   return ret;

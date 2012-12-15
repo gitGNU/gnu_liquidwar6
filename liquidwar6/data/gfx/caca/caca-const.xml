@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <liquidwar6>
   <int key="event-timeout-microseconds" value="1" />
+  <int key="canvas-create-width" value="80" />
+  <int key="canvas-create-height" value="24" />
   <float key="quit-sleep" value="0.01" />
-  <string key="video-mode-default" value="ncurses" />
-  <string key="video-mode-fallback" value="slang" />
+  <string key="video-mode-default" value="gl" />
+  <string key="video-mode-fallback" value="ncurses" />
 </liquidwar6>
