@@ -3,7 +3,7 @@
   <float key="warp-x" value="0.1" />
   <float key="warp-y" value="0.1" />
   <float key="mode-sleep" value="0.0" />
-  <float key="quit-sleep" value="0.0" />
+  <float key="quit-sleep" value="0.01" />
   <int key="keysym1-up" value="273" /> <!-- SDLK_UP -->
   <int key="keysym2-up" value="263" /> <!-- SDLK_KP7 -->
   <int key="keysym3-up" value="264" /> <!-- SDLK_KP8 -->

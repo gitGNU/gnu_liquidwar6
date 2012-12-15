@@ -82,6 +82,7 @@ _mod_caca_init (int argc, const char *argv[],
 			      _x_ ("disabling console output (libcaca)"));
 		  lw6sys_log_console_enable (0);
 
+		  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("libcaca init"));
 		  if (_mod_caca_set_video_mode (caca_context, video_mode))
 		    {
 		      // OK
@@ -133,7 +134,11 @@ _mod_caca_init (int argc, const char *argv[],
 void
 _mod_caca_quit (_mod_caca_context_t * caca_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("quit libcaca"));
+  float quit_sleep = 0.0f;
+
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("libcaca quit"));
+
+  quit_sleep = caca_context->const_data.quit_sleep;
 
   if (caca_context->display)
     {
@@ -143,12 +148,11 @@ _mod_caca_quit (_mod_caca_context_t * caca_context)
 	}
       caca_refresh_display (caca_context->display);
       caca_free_display (caca_context->display);
-      lw6sys_snooze ();
+      lw6sys_log_console_enable (1);
+      lw6sys_log (LW6SYS_LOG_NOTICE,
+		  _x_ ("console output enabled (libcaca)"));
       caca_context->display = NULL;
     }
-
-  lw6sys_log_console_enable (1);
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("console output enabled (libcaca)"));
 
   lw6gui_input_quit (&(caca_context->input));
 
@@ -156,4 +160,13 @@ _mod_caca_quit (_mod_caca_context_t * caca_context)
   _mod_caca_path_quit (&(caca_context->path));
 
   LW6SYS_FREE (caca_context);
+
+  /*
+   * For some reason, I suspect some segfaults occur when
+   * "dlclosing" mod-caca just after caca_free_display. Might be a handler
+   * or callback called afterwards, whatever. So I prefer
+   * "wasting" a little time when closing, one never knows,
+   * it might better things. Cf bug https://savannah.gnu.org/bugs/?37904
+   */
+  lw6sys_sleep (quit_sleep);
 }

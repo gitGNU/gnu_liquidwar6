@@ -42,6 +42,12 @@ read_callback (void *callback_data, const char *element, const char *key,
 			   &const_data->event_timeout_microseconds);
     }
 
+  if (!strcmp (element, "float"))
+    {
+      lw6cfg_read_xml_float (key, value, "quit-sleep",
+			     &const_data->quit_sleep);
+    }
+
   if (!strcmp (element, "string"))
     {
       lw6cfg_read_xml_string (key, value, "video-mode-default",
