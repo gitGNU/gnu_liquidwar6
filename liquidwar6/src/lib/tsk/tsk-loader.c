@@ -218,7 +218,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
 		  request_number, loader_data->stage1.seed);
 
       (*(progress.value)) = _LW6TSK_LOADER_PROGRESS_STAGE1_BEGIN;
-      seed = lw6sys_str_copy (loader_data->stage1.seed);
+      seed = lw6gen_seed_normalize (loader_data->stage1.seed);
       display_w = loader_data->stage1.display_w;
       display_h = loader_data->stage1.display_h;
       bench_value = loader_data->stage1.bench_value;
@@ -556,7 +556,7 @@ lw6tsk_loader_push_gen (lw6tsk_loader_t * loader, const char *seed,
   loader_data->stage1.relative_path = NULL;
   loader_data->stage1.default_param = NULL;
   loader_data->stage1.forced_param = NULL;
-  loader_data->stage1.seed = lw6sys_str_copy (seed);
+  loader_data->stage1.seed = lw6gen_seed_normalize (seed);
   loader_data->stage1.display_w = display_w;
   loader_data->stage1.display_h = display_h;
   loader_data->stage1.bench_value = bench_value;

@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
 noinst_LTLIBRARIES = libgen.la
-libgen_la_SOURCES = gen-create.c gen-test.c
+libgen_la_SOURCES = gen-create.c gen-seed.c gen-test.c
 libgendir= $(includedir)/@PACKAGE_TARNAME@/gen
 libgen_HEADERS = gen.h
 

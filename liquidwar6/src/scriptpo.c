@@ -60,6 +60,12 @@ _("Description");		// extracted by scriptpo-update.sh
 _("License");			// extracted by scriptpo-update.sh
 _("Choose map");		// extracted by scriptpo-update.sh
 _("Browse your hard drive to find a map");	// extracted by scriptpo-update.sh
+_("Browse maps");		// extracted by scriptpo-update.sh
+_("Browse map directory and choose a map to play on");	// extracted by scriptpo-update.sh
+_("Random map");		// extracted by scriptpo-update.sh
+_("Play on a randomly generated map");	// extracted by scriptpo-update.sh
+_("Map");			// extracted by scriptpo-update.sh
+_("Choose the map you want to play on");	// extracted by scriptpo-update.sh
 _("No sound FX");		// extracted by scriptpo-update.sh
 _("Sound FX ~a%");		// extracted by scriptpo-update.sh
 _("Change volume for sound FX, this includes all sounds but music and background water sound");	// extracted by scriptpo-update.sh

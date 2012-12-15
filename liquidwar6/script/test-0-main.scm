@@ -524,6 +524,20 @@
 	(if (and menu game-state game-look loader) #t #f)
 	))))
 
+(define lw6-test-gen
+  (lambda ()
+    (let* (
+	   (seed-new (c-lw6gen-seed-new))
+	   (seed-normalize (c-lw6gen-seed-normalize "GA-BU-z0 ME_%!"))
+	   (level-new (c-lw6gen-create-from-seed seed-new 800 450))
+	   (level-normalize (c-lw6gen-create-from-seed seed-normalize 160 90))
+	   )
+      (begin
+	(lw6-log-notice (format #f "new seed \"~a\" -> \"~a\"" seed-new level-new))
+	(lw6-log-notice (format #f "normalize seed \"~a\" -> \"~a\"" seed-normalize level-normalize))
+	(and seed-new seed-normalize level-new level-normalize)
+	))))
+
 (define lw6-test-async-load
   (lambda ()
     (let* (
@@ -634,6 +648,7 @@
 		(lw6-test-run lw6-test-bot)
 		(lw6-test-run lw6-test-smobs-gc)
 		(lw6-test-run lw6-test-smobs-gc)
+		(lw6-test-run lw6-test-gen)
 		(lw6-test-run lw6-test-async-load)
 		(lw6-test-run lw6-test-p2p-db)
 		(lw6-test-run lw6-test-p2p-node)

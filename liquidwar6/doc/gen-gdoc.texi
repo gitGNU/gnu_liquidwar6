@@ -12,6 +12,30 @@ in any context, for a given version of the game (no backwards compatibility).
 @strong{Return value:}  new map on success, NULL on failure.
 @end deftypefun
 
+@deftypefun {char *} {lw6gen_seed_new} ()
+
+Generate a new random seed. The seed is composed of letters and numbers.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6gen_seed_normalize} (const char * @var{seed})
+@var{seed}:  the seed to normalize
+
+Builds a normalized seed from an arbitrary string. The idea is to
+avoid sending strange stuff on the network and/or storing strange
+stuff in config files, so we process correct strings only
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
+@deftypefun {char} {lw6gen_seed_char} ()
+
+Returns a random char suitable for seed (letter or digit).
+
+@strong{Return value:}  a single char
+@end deftypefun
+
 @deftypefun {int} {lw6gen_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 

@@ -175,6 +175,16 @@ Wrapper on lw6dsp_update.
 Wrapper on lw6gen_create_from_seed.
 @end deffn
 
+@subsection c-lw6gen-seed-new
+@deffn {C function exported to Guile} @code{c-lw6gen-seed-new}
+Wrapper on lw6gen_seed_new.
+@end deffn
+
+@subsection c-lw6gen-seed-normalize
+@deffn {C function exported to Guile} @code{c-lw6gen-seed-normalize}
+Wrapper on lw6gen_seed_normalize.
+@end deffn
+
 @subsection c-lw6gfx-get-backends
 @deffn {C function exported to Guile} @code{c-lw6gfx-get-backends}
 Wrapper on lw6gfx_get_backends.

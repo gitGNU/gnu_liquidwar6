@@ -82,6 +82,8 @@ c-lw6dsp-new
 c-lw6dsp-release
 c-lw6dsp-update
 c-lw6gen-create-from-seed
+c-lw6gen-seed-new
+c-lw6gen-seed-normalize
 c-lw6gfx-get-backends
 c-lw6gui-default-look
 c-lw6gui-input-reset

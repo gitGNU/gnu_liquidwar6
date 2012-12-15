@@ -26,9 +26,17 @@
 #include "../sys/sys.h"
 #include "../map/map.h"
 
+#define LW6GEN_SEED_CHARS "0123456789abcdefghijklmnopqrstuvwxyz"
+#define LW6GEN_SEED_LENGTH 16
+
 /* gen-create.c */
 extern lw6map_level_t *lw6gen_create_from_seed (const char *seed, int map_w,
 						int map_h);
+
+/* gen-seed.c */
+extern char *lw6gen_seed_new ();
+extern char *lw6gen_seed_normalize (const char *seed);
+extern char lw6gen_seed_char ();
 
 /* gen-test.c */
 extern int lw6gen_test (int mode);

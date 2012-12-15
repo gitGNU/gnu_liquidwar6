@@ -30,6 +30,11 @@
 #define _TEST_WIDTH 320
 #define _TEST_HEIGHT 180
 
+#define _TEST_SEED_SHORT_SRC "abc{}"
+#define _TEST_SEED_SHORT_DST "abcfhabcfhabcfha"
+#define _TEST_SEED_LONG_SRC "FOO' BAR' 1234567890 you'll never read this!"
+#define _TEST_SEED_LONG_DST "foo3wbar3w123456"
+
 /*
  * test create
  */
@@ -87,6 +92,87 @@ test_create ()
   return ret;
 }
 
+/*
+ * test seed
+ */
+static int
+test_seed ()
+{
+  int ret = 1;
+
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    char *seed = NULL;
+
+    seed = lw6gen_seed_new ();
+    if (seed)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("generated new random seed \"%s\""), seed);
+	LW6SYS_FREE (seed);
+      }
+    else
+      {
+	ret = 0;
+      }
+
+    seed = lw6gen_seed_normalize (_TEST_SEED_SHORT_SRC);
+    if (seed)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("normalizing short seed \"%s\" -> \"%s\""),
+		    _TEST_SEED_SHORT_SRC, seed);
+	if (lw6sys_str_is_same (seed, _TEST_SEED_SHORT_DST))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ouput is correct"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("bad ouput, should have been \"%s\" but is \"%s\""),
+			_TEST_SEED_SHORT_DST, seed);
+	    ret = 0;
+	  }
+	LW6SYS_FREE (seed);
+      }
+    else
+      {
+	ret = 0;
+      }
+
+    seed = lw6gen_seed_normalize (_TEST_SEED_LONG_SRC);
+    if (seed)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("normalizing long seed \"%s\" -> \"%s\""),
+		    _TEST_SEED_LONG_SRC, seed);
+	if (lw6sys_str_is_same (seed, _TEST_SEED_LONG_DST))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ouput is correct"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("bad ouput, should have been \"%s\" but is \"%s\""),
+			_TEST_SEED_LONG_DST, seed);
+	    ret = 0;
+	  }
+	LW6SYS_FREE (seed);
+      }
+    else
+      {
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+
+  return ret;
+}
+
 /**
  * lw6gen_test
  *
@@ -110,7 +196,7 @@ lw6gen_test (int mode)
       lw6map_test (mode);
     }
 
-  ret = test_create ();
+  ret = test_create () && test_seed ();
 
   return ret;
 }

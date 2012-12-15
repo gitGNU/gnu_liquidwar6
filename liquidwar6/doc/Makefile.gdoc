@@ -27,7 +27,7 @@ $(srcdir)/dsp-gdoc.texi: $(top_srcdir)/src/lib/dsp/dsp-data.c $(top_srcdir)/src/
 $(srcdir)/dyn-gdoc.texi: $(top_srcdir)/src/lib/dyn/dyn-dl.c $(top_srcdir)/src/lib/dyn/dyn-list.c $(top_srcdir)/src/lib/dyn/dyn-path.c $(top_srcdir)/src/lib/dyn/dyn-test.c $(top_srcdir)/src/lib/dyn/dyn-testmain.c
 	echo gdoc dyn && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/dyn-gdoc.texi
 
-$(srcdir)/gen-gdoc.texi: $(top_srcdir)/src/lib/gen/gen-create.c $(top_srcdir)/src/lib/gen/gen-test.c $(top_srcdir)/src/lib/gen/gen-testmain.c
+$(srcdir)/gen-gdoc.texi: $(top_srcdir)/src/lib/gen/gen-create.c $(top_srcdir)/src/lib/gen/gen-seed.c $(top_srcdir)/src/lib/gen/gen-test.c $(top_srcdir)/src/lib/gen/gen-testmain.c
 	echo gdoc gen && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/gen-gdoc.texi
 
 $(srcdir)/gfx-gdoc.texi: $(top_srcdir)/src/lib/gfx/gfx-api.c $(top_srcdir)/src/lib/gfx/gfx-register.c $(top_srcdir)/src/lib/gfx/gfx-sdl.c $(top_srcdir)/src/lib/gfx/gfx-test.c $(top_srcdir)/src/lib/gfx/gfx-testmain.c
