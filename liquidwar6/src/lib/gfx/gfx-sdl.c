@@ -45,6 +45,7 @@ _lw6gfx_sdl_bind_funcs (_lw6gfx_sdl_funcs_t * funcs, void *handle)
 
   ret = 1;
 #else // LW6_ALLINONE
+#if  MOD_GL1 || MOD_GLES2 || MOD_SOFT
   funcs->load_consts = lw6dyn_dlsym (handle, "shared_sdl_load_consts");
   funcs->unload_consts = lw6dyn_dlsym (handle, "shared_sdl_unload_consts");
   funcs->pump_events = lw6dyn_dlsym (handle, "shared_sdl_pump_events");
@@ -62,6 +63,7 @@ _lw6gfx_sdl_bind_funcs (_lw6gfx_sdl_funcs_t * funcs, void *handle)
 	 && funcs->path_init && funcs->path_quit && funcs->timer_update
 	 && funcs->timer_get_timestamp && funcs->timer_get_uptime
 	 && funcs->timer_get_cycle);
+#endif // MOD_GL1 || MOD_GLES2 || MOD_SOFT
 #endif // LW6_ALLINONE
 
   return ret;

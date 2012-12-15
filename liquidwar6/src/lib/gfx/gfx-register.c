@@ -144,19 +144,19 @@ lw6gfx_create_backend (int argc, const char *argv[], const char *name)
 #ifdef MOD_GLES2
   if (name && !strcmp (name, "gles2"))
     {
-      backend = mod_gl1_create_backend ();
+      backend = mod_gles2_create_backend ();
     }
 #else // MOD_GLES2
 #ifdef MOD_SOFT
   if (name && !strcmp (name, "soft"))
     {
-      backend = mod_gl1_create_backend ();
+      backend = mod_soft_create_backend ();
     }
 #else // MOD_SOFT
 #ifdef MOD_CACA
   if (name && !strcmp (name, "caca"))
     {
-      backend = mod_gl1_create_backend ();
+      backend = mod_caca_create_backend ();
     }
 #endif // MOD_CACA
 #endif // MOD_SOFT
