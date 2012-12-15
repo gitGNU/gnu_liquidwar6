@@ -471,7 +471,7 @@ lw6_test (int mode)
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_
 		  ("script tests failed main=%d node-a=%d node-b=%d node-c=%d"),
-		  param.ret && param_a.ret && param_b.ret && param_c.ret);
+		  param.ret, param_a.ret, param_b.ret, param_c.ret);
     }
 
   return ret;
