@@ -275,6 +275,7 @@ _guile_test_run (void *data)
 int
 lw6_test (int mode)
 {
+  int ret = 0;
   _lw6_test_param_t param;
   _lw6_test_param_t param_a;
   _lw6_test_param_t param_b;
@@ -454,5 +455,24 @@ lw6_test (int mode)
       lw6_quit_global ();
     }
 
-  return param.ret && param_a.ret && param_b.ret && param_c.ret;
+  ret = param.ret && param_a.ret && param_b.ret && param_c.ret;
+
+  if (ret)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("scripts tests OK"));
+    }
+  else
+    {
+      /*
+       * Displaying a message detailing the status, this is important
+       * else standard output is pretty much undreadable since one must
+       * scroll up to the test that failed, this being akward.
+       */
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
+		  ("script tests failed main=%d node-a=%d node-b=%d node-c=%d"),
+		  param.ret && param_a.ret && param_b.ret && param_c.ret);
+    }
+
+  return ret;
 }
