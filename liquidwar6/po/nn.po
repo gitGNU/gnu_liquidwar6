@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-12-12 19:29+0100\n"
+"POT-Creation-Date: 2012-12-15 13:03+0100\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -72,26 +72,26 @@ msgstr "Kodenamn «%s»"
 msgid "libcaca"
 msgstr ""
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:83
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:92
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:401
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:153
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:152
 msgid "unable to set video mode"
 msgstr "klarte ikkje byta videomodus"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:91
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:100
 #, fuzzy
 msgid "unable to set resize callback"
 msgstr "klarte ikkje byta videomodus"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:98
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:107
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:408
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:161
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:160
 msgid "unable to load consts"
 msgstr "klarte ikkje lasta konstantar"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:105
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:114
 #, fuzzy
 msgid "unable to init paths"
 msgstr "klarte ikkje lasta data"
@@ -248,7 +248,7 @@ msgid "Fight software patents %s"
 msgstr "Kjemp mot programvarepatentar %s"
 
 #: src/lib/hlp/hlp-credits.c:169 src/lib/lw6-print.c:58
-#: src/lib/sys/sys-log.c:653
+#: src/lib/sys/sys-log.c:663
 msgid "Report bugs"
 msgstr ""
 
@@ -257,134 +257,134 @@ msgstr ""
 msgid "unable to handle credits id %d"
 msgstr "klarte ikkje handtera bidragsytar-ID %d"
 
-#: src/lib/hlp/hlp-reference.c:2985
+#: src/lib/hlp/hlp-reference.c:2993
 msgid "moves faster than the average"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2986
+#: src/lib/hlp/hlp-reference.c:2994
 msgid "has a better defense than the average"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2987
+#: src/lib/hlp/hlp-reference.c:2995
 msgid "has a strong attack but is slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2988
+#: src/lib/hlp/hlp-reference.c:2996
 msgid "has a strong attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2989
+#: src/lib/hlp/hlp-reference.c:2997
 msgid "has an extremely good defense but is slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2991
+#: src/lib/hlp/hlp-reference.c:2999
 msgid "is extremely fast but also very vulnerable"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2992
+#: src/lib/hlp/hlp-reference.c:3000
 msgid "is fast, but has a very weak attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2994
+#: src/lib/hlp/hlp-reference.c:3002
 msgid "has an extremely strong attack but is very slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2996
+#: src/lib/hlp/hlp-reference.c:3004
 msgid "has a very good defense but a weak attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2998
+#: src/lib/hlp/hlp-reference.c:3006
 msgid "has a very strong attack, but is also very vulnerable"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3005
+#: src/lib/hlp/hlp-reference.c:3013
 msgid "super-strong attack for a limited time, crush your enemies"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3007
+#: src/lib/hlp/hlp-reference.c:3015
 msgid "no damage for a limited time, move untouched"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3010
+#: src/lib/hlp/hlp-reference.c:3018
 msgid ""
 "fighters placed as far as possible from cursor, magically escape from any "
 "grip"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3011
+#: src/lib/hlp/hlp-reference.c:3019
 msgid "move faster for a limited time"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3013
+#: src/lib/hlp/hlp-reference.c:3021
 msgid "fighters placed as close as possible to cursor"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3016
+#: src/lib/hlp/hlp-reference.c:3024
 msgid "every fighters of every team scattered in random places"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3019
+#: src/lib/hlp/hlp-reference.c:3027
 msgid "all other teams are freezed, you can move but not attack them"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3022
+#: src/lib/hlp/hlp-reference.c:3030
 msgid "fighters exchange position, their properties being preserved"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3025
+#: src/lib/hlp/hlp-reference.c:3033
 msgid ""
 "you take the control of all other teams while your cursor stays in place"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3028
+#: src/lib/hlp/hlp-reference.c:3036
 msgid ""
 "will exchange colors, randomly, requires at least 3 teams (double edged "
 "weapon)"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3029
+#: src/lib/hlp/hlp-reference.c:3037
 msgid "steals some fighters to other teams"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3032
+#: src/lib/hlp/hlp-reference.c:3040
 msgid "nuclear explosion, all fighters arround your cursor are about to die"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3035
+#: src/lib/hlp/hlp-reference.c:3043
 msgid ""
 "fighters continue to move normally, but attacks are done in reverse mode, "
 "backwards"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3038
+#: src/lib/hlp/hlp-reference.c:3046
 msgid "all your opponents go crazy for some time, acting with no logic"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3040
+#: src/lib/hlp/hlp-reference.c:3048
 msgid "make the battlefield be like it was a few seconds ago"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3043
+#: src/lib/hlp/hlp-reference.c:3051
 msgid "all fighters from all teams are packed near your cursor"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3045
+#: src/lib/hlp/hlp-reference.c:3053
 msgid "reduces the number of fighters on the map"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3048
+#: src/lib/hlp/hlp-reference.c:3056
 msgid ""
 "you die along with the strongest team on the battlefield, requires at least "
 "3 teams"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3051
+#: src/lib/hlp/hlp-reference.c:3059
 msgid ""
 "you disappear for some time from the battlefield, to reappear later, "
 "somewhere else"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3054
+#: src/lib/hlp/hlp-reference.c:3062
 msgid "general disease, all fighters mysteriously loose health"
 msgstr ""
 
@@ -534,7 +534,7 @@ msgstr ""
 msgid "Mix"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:258 src/scriptpo.c:146
+#: src/lib/map/map-weapon.c:258 src/scriptpo.c:152
 msgid "Control"
 msgstr ""
 
@@ -644,50 +644,50 @@ msgstr ""
 msgid "can't initialize mod_udpd"
 msgstr "klarte ikkje starta mod_udpd"
 
-#: src/lib/sys/sys-log.c:83
+#: src/lib/sys/sys-log.c:90
 msgid "log_file is NULL"
 msgstr "log_file er NULL"
 
-#: src/lib/sys/sys-log.c:550
+#: src/lib/sys/sys-log.c:557
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr "klarte ikkje opna loggfila «%s»"
 
-#: src/lib/sys/sys-log.c:653
+#: src/lib/sys/sys-log.c:663
 msgid "Backtrace"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:809
+#: src/lib/sys/sys-log.c:819
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "Feil (feilnummer: %d:%s) "
 
-#: src/lib/sys/sys-log.c:814
+#: src/lib/sys/sys-log.c:824
 msgid "ERROR! "
 msgstr "Feil"
 
-#: src/lib/sys/sys-log.c:824
+#: src/lib/sys/sys-log.c:834
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "Åtvaring (feilnummer: %d:%s)"
 
-#: src/lib/sys/sys-log.c:829
+#: src/lib/sys/sys-log.c:839
 msgid "WARNING! "
 msgstr "Åtvaring"
 
-#: src/lib/sys/sys-log.c:846
+#: src/lib/sys/sys-log.c:856
 msgid "[tmp] "
 msgstr "[tmp] "
 
-#: src/lib/sys/sys-log.c:852
+#: src/lib/sys/sys-log.c:862
 msgid "[debug] "
 msgstr "[feilsøk] "
 
-#: src/lib/sys/sys-log.c:935
+#: src/lib/sys/sys-log.c:946
 msgid "CRITICAL! "
 msgstr "Kritisk"
 
-#: src/lib/sys/sys-log.c:939
+#: src/lib/sys/sys-log.c:950
 msgid "CRITICAL!"
 msgstr "Kritisk"
 
@@ -892,7 +892,7 @@ msgstr ""
 msgid "no"
 msgstr ""
 
-#: src/scriptpo.c:45 src/scriptpo.c:219
+#: src/scriptpo.c:45 src/scriptpo.c:225
 msgid "Version"
 msgstr "Versjon"
 
@@ -912,7 +912,7 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: src/scriptpo.c:50
+#: src/scriptpo.c:50 src/scriptpo.c:67
 msgid "Map"
 msgstr "Kart"
 
@@ -955,11 +955,11 @@ msgstr ""
 msgid "Author"
 msgstr "Utviklarar"
 
-#: src/scriptpo.c:60 src/scriptpo.c:218
+#: src/scriptpo.c:60 src/scriptpo.c:224
 msgid "License"
 msgstr "Lisens"
 
-#: src/scriptpo.c:61 src/scriptpo.c:176
+#: src/scriptpo.c:61 src/scriptpo.c:182
 msgid "Choose map"
 msgstr "Vel kart"
 
@@ -968,649 +968,666 @@ msgid "Browse your hard drive to find a map"
 msgstr ""
 
 #: src/scriptpo.c:63
+#, fuzzy
+msgid "Browse maps"
+msgstr "Vel kart"
+
+#: src/scriptpo.c:64 src/scriptpo.c:183
+msgid "Browse map directory and choose a map to play on"
+msgstr ""
+
+#: src/scriptpo.c:65
+msgid "Random map"
+msgstr ""
+
+#: src/scriptpo.c:66
+msgid "Play on a randomly generated map"
+msgstr ""
+
+#: src/scriptpo.c:68
+msgid "Choose the map you want to play on"
+msgstr ""
+
+#: src/scriptpo.c:69
 msgid "No sound FX"
 msgstr "Ingen lydeffektar"
 
-#: src/scriptpo.c:64
+#: src/scriptpo.c:70
 msgid "Sound FX ~a%"
 msgstr "Lydeffekt ~a%"
 
-#: src/scriptpo.c:65
+#: src/scriptpo.c:71
 msgid ""
 "Change volume for sound FX, this includes all sounds but music and "
 "background water sound"
 msgstr ""
 
-#: src/scriptpo.c:66
+#: src/scriptpo.c:72
 msgid "No water sounds"
 msgstr ""
 
-#: src/scriptpo.c:67
+#: src/scriptpo.c:73
 msgid "Water sounds ~a%"
 msgstr ""
 
-#: src/scriptpo.c:68
+#: src/scriptpo.c:74
 msgid ""
 "Change volume for water sound, the bubbling sound you can here in the "
 "background"
 msgstr ""
 
-#: src/scriptpo.c:69
+#: src/scriptpo.c:75
 msgid "No music"
 msgstr "Ingen musikk"
 
-#: src/scriptpo.c:70
+#: src/scriptpo.c:76
 msgid "Music ~a%"
 msgstr "Musikk ~a%"
 
-#: src/scriptpo.c:71
+#: src/scriptpo.c:77
 #, fuzzy
 msgid "Change music volume"
 msgstr "Lydstyrke: musikk"
 
-#: src/scriptpo.c:72 src/scriptpo.c:135
+#: src/scriptpo.c:78 src/scriptpo.c:141
 msgid "Backend ~a"
 msgstr "Motor ~a"
 
-#: src/scriptpo.c:73
+#: src/scriptpo.c:79
 msgid ""
 "The sound backend is the library used to play sounds, if in doubt, don't "
 "touch"
 msgstr ""
 
-#: src/scriptpo.c:74 src/scriptpo.c:232
+#: src/scriptpo.c:80 src/scriptpo.c:238
 msgid "Sound options"
 msgstr "Lydoppsett"
 
-#: src/scriptpo.c:75
+#: src/scriptpo.c:81
 msgid "Change volumes and audio settings here"
 msgstr ""
 
-#: src/scriptpo.c:76
+#: src/scriptpo.c:82
 msgid "One life (last wins)"
 msgstr "Eitt liv (den siste vinn)"
 
-#: src/scriptpo.c:77
+#: src/scriptpo.c:83
 msgid "Respawn (deatchmatch)"
 msgstr "Attfødingsmodus (daudskamp)"
 
-#: src/scriptpo.c:78
+#: src/scriptpo.c:84
 msgid ""
 "Choose wether you want the game to end when everyone is dead but the winner "
 "or if you prefer to keep playing until time limit, with teams respawning"
 msgstr ""
 
-#: src/scriptpo.c:79
+#: src/scriptpo.c:85
 msgid "All teams are equal"
 msgstr ""
 
-#: src/scriptpo.c:80
+#: src/scriptpo.c:86
 #, fuzzy
 msgid "Use team profiles"
 msgstr "Bruk XML-filer"
 
-#: src/scriptpo.c:81
+#: src/scriptpo.c:87
 msgid ""
 "Team profiles can really change the game, depending on your color you could "
 "move faster or slower, have a stronger or weaker attack, and so on"
 msgstr ""
 
-#: src/scriptpo.c:82
+#: src/scriptpo.c:88
 msgid "Armies ~a% - ~a%"
 msgstr "Styrker ~a% – ~a%"
 
-#: src/scriptpo.c:83
+#: src/scriptpo.c:89
 msgid ""
 "Defines how crowded the battlefield is, if you raise this, there will be a "
 "lot of fighters in a limited space"
 msgstr ""
 
-#: src/scriptpo.c:84 src/scriptpo.c:88
+#: src/scriptpo.c:90 src/scriptpo.c:94
 msgid "Rules"
 msgstr "Reglar"
 
-#: src/scriptpo.c:85
+#: src/scriptpo.c:91
 msgid ""
 "Changing rules will modify the gameplay, you can also be curious, read the "
 "documentation and try config file and command line options"
 msgstr ""
 
-#: src/scriptpo.c:86 src/scriptpo.c:125
+#: src/scriptpo.c:92 src/scriptpo.c:131
 msgid "Time & speed"
 msgstr "Tid og fart"
 
-#: src/scriptpo.c:87
+#: src/scriptpo.c:93
 msgid "Define how long the game lasts, and how fast it is"
 msgstr ""
 
-#: src/scriptpo.c:89
+#: src/scriptpo.c:95
 msgid ""
 "Modify the gameplay, note that config file and command-line options allow "
 "you to change many more things"
 msgstr ""
 
-#: src/scriptpo.c:90
+#: src/scriptpo.c:96
 msgid "Video"
 msgstr "Video"
 
-#: src/scriptpo.c:91
+#: src/scriptpo.c:97
 msgid "Resolution and fullscreen vs windowed modes"
 msgstr ""
 
-#: src/scriptpo.c:92 src/scriptpo.c:228
+#: src/scriptpo.c:98 src/scriptpo.c:234
 msgid "Sound"
 msgstr "Lyd"
 
-#: src/scriptpo.c:93
+#: src/scriptpo.c:99
 msgid "Audio settings"
 msgstr ""
 
-#: src/scriptpo.c:94
+#: src/scriptpo.c:100
 msgid "System"
 msgstr "System"
 
-#: src/scriptpo.c:95
+#: src/scriptpo.c:101
 msgid "Advanced system stuff"
 msgstr ""
 
-#: src/scriptpo.c:96
+#: src/scriptpo.c:102
 msgid "Stop current game"
 msgstr "Stopp spelet"
 
-#: src/scriptpo.c:97
+#: src/scriptpo.c:103
 msgid "Return to parent menu"
 msgstr ""
 
-#: src/scriptpo.c:98 src/scriptpo.c:100 src/scriptpo.c:180 src/scriptpo.c:212
-#: src/scriptpo.c:226
+#: src/scriptpo.c:104 src/scriptpo.c:106 src/scriptpo.c:186 src/scriptpo.c:218
+#: src/scriptpo.c:232
 msgid "Options"
 msgstr "Oppsett"
 
-#: src/scriptpo.c:99
+#: src/scriptpo.c:105
 msgid ""
 "Change options here, but player settings and map choosing are done elsewhere"
 msgstr ""
 
-#: src/scriptpo.c:101
+#: src/scriptpo.c:107
 #, fuzzy
 msgid "Change options"
 msgstr "Kartoppsett"
 
-#: src/scriptpo.c:102
+#: src/scriptpo.c:108
 msgid "Display FPS"
 msgstr "Vis biletrate"
 
-#: src/scriptpo.c:103
+#: src/scriptpo.c:109
 msgid "FPS hidden"
 msgstr "Biletrate gøymd"
 
-#: src/scriptpo.c:104
+#: src/scriptpo.c:110
 msgid "Use this to check how fast your display is"
 msgstr ""
 
-#: src/scriptpo.c:105
+#: src/scriptpo.c:111
 msgid "Display MPS"
 msgstr "Vis biletrate"
 
-#: src/scriptpo.c:106
+#: src/scriptpo.c:112
 msgid "MPS hidden"
 msgstr "Biletrate gøymd"
 
-#: src/scriptpo.c:107
+#: src/scriptpo.c:113
 msgid ""
 "MPS stands for Moves Per Second, displaying this might reveal some slowing "
 "down in gameplay"
 msgstr ""
 
-#: src/scriptpo.c:108
+#: src/scriptpo.c:114
 msgid "Verbose display"
 msgstr ""
 
-#: src/scriptpo.c:109
+#: src/scriptpo.c:115
 msgid "Clean display"
 msgstr ""
 
-#: src/scriptpo.c:110
+#: src/scriptpo.c:116
 msgid "Do you want breadcrumbs, help and tooltips to be displayed?"
 msgstr ""
 
-#: src/scriptpo.c:111
+#: src/scriptpo.c:117
 msgid "Console enabled"
 msgstr "Konsoll på"
 
-#: src/scriptpo.c:112
+#: src/scriptpo.c:118
 msgid "Console disabled"
 msgstr "Konsoll av"
 
-#: src/scriptpo.c:113
+#: src/scriptpo.c:119
 msgid ""
 "Console is a Guile interpreter which will allow you to type any command "
 "interactively, use at your own risk"
 msgstr ""
 
-#: src/scriptpo.c:114
+#: src/scriptpo.c:120
 msgid "System options"
 msgstr "Systemval"
 
-#: src/scriptpo.c:115
+#: src/scriptpo.c:121
 msgid "All those weird options and tweaks you can live without"
 msgstr ""
 
-#: src/scriptpo.c:116
+#: src/scriptpo.c:122
 msgid "Time ~a:~a~a:~a~a"
 msgstr "Tid ~a.~a~a.~a~a"
 
-#: src/scriptpo.c:117
+#: src/scriptpo.c:123
 msgid "Defines how long the game will last, this is a maximum limit"
 msgstr ""
 
-#: src/scriptpo.c:118
+#: src/scriptpo.c:124
 msgid "Default speed"
 msgstr "Standardfart"
 
-#: src/scriptpo.c:119
+#: src/scriptpo.c:125
 msgid "Speed x~a"
 msgstr "Fart x~a"
 
-#: src/scriptpo.c:120
+#: src/scriptpo.c:126
 msgid "Speed ~a%"
 msgstr "Fart ~a %"
 
-#: src/scriptpo.c:121
+#: src/scriptpo.c:127
 msgid "Unknown speed"
 msgstr "Ukjend fart"
 
-#: src/scriptpo.c:122
+#: src/scriptpo.c:128
 msgid ""
 "Defines the global speed of the game, if set to a high value, there will be "
 "more moves per second"
 msgstr ""
 
-#: src/scriptpo.c:123
+#: src/scriptpo.c:129
 msgid "Bench ~a"
 msgstr ""
 
-#: src/scriptpo.c:124
+#: src/scriptpo.c:130
 msgid ""
 "Bench is counted in an arbitrary unit, it gives a global idea of how fast "
 "your computer is, as far as this game is concerned"
 msgstr ""
 
-#: src/scriptpo.c:126
+#: src/scriptpo.c:132
 msgid "Shorten and/or accelerate your games"
 msgstr ""
 
-#: src/scriptpo.c:127 src/scriptpo.c:230
+#: src/scriptpo.c:133 src/scriptpo.c:236
 msgid "Fullscreen"
 msgstr "Fullskjerm"
 
-#: src/scriptpo.c:128
+#: src/scriptpo.c:134
 msgid "Windowed"
 msgstr "Vindauge"
 
-#: src/scriptpo.c:129
+#: src/scriptpo.c:135
 msgid "Use this to toggle between windowed and fullscreen mode"
 msgstr ""
 
-#: src/scriptpo.c:130
+#: src/scriptpo.c:136
 msgid "Low res"
 msgstr "Låg oppløysing"
 
-#: src/scriptpo.c:131
+#: src/scriptpo.c:137
 msgid "Standard res"
 msgstr "Standard oppløysing"
 
-#: src/scriptpo.c:132
+#: src/scriptpo.c:138
 msgid "High res"
 msgstr "Høg oppløysing"
 
-#: src/scriptpo.c:133
+#: src/scriptpo.c:139
 msgid "User res"
 msgstr "Brukaroppløysing"
 
-#: src/scriptpo.c:134
+#: src/scriptpo.c:140
 msgid ""
 "Change the window size, in windowed mode you could just resize it with the "
 "mouse"
 msgstr ""
 
-#: src/scriptpo.c:136
+#: src/scriptpo.c:142
 msgid ""
 "The graphics backend is the library used for rendering images, if in doubt, "
 "don't touch"
 msgstr ""
 
-#: src/scriptpo.c:137
+#: src/scriptpo.c:143
 msgid "Video options"
 msgstr "Videooppsett"
 
-#: src/scriptpo.c:138
+#: src/scriptpo.c:144
 msgid "Change screen resolution, video mode, ..."
 msgstr ""
 
-#: src/scriptpo.c:139
+#: src/scriptpo.c:145
 msgid "Not playing"
 msgstr "Spelar ikkje"
 
-#: src/scriptpo.c:140
+#: src/scriptpo.c:146
 msgid "Activate or disable a human player"
 msgstr ""
 
-#: src/scriptpo.c:141
+#: src/scriptpo.c:147
 msgid "Choose the control device"
 msgstr ""
 
-#: src/scriptpo.c:142
+#: src/scriptpo.c:148
 msgid "Change options for player ~a"
 msgstr ""
 
-#: src/scriptpo.c:143
+#: src/scriptpo.c:149
 msgid "Free slot"
 msgstr "Ledig plass"
 
-#: src/scriptpo.c:144
+#: src/scriptpo.c:150
 msgid "Name"
 msgstr ""
 
-#: src/scriptpo.c:145
+#: src/scriptpo.c:151
 msgid "Color"
 msgstr ""
 
-#: src/scriptpo.c:147
+#: src/scriptpo.c:153
 msgid "You can create a new player here"
 msgstr ""
 
-#: src/scriptpo.c:148
+#: src/scriptpo.c:154
 msgid "No bots"
 msgstr ""
 
-#: src/scriptpo.c:149
+#: src/scriptpo.c:155
 msgid "One bot"
 msgstr ""
 
-#: src/scriptpo.c:150
+#: src/scriptpo.c:156
 msgid "~a bots"
 msgstr ""
 
-#: src/scriptpo.c:151
+#: src/scriptpo.c:157
 msgid "Put up to ~a bots on your map"
 msgstr ""
 
-#: src/scriptpo.c:152 src/scriptpo.c:178
+#: src/scriptpo.c:158 src/scriptpo.c:184
 msgid "Players"
 msgstr "Spelarar"
 
-#: src/scriptpo.c:153
+#: src/scriptpo.c:159
 #, fuzzy
 msgid "Change player options"
 msgstr "Kartoppsett"
 
-#: src/scriptpo.c:154
+#: src/scriptpo.c:160
 #, fuzzy
 msgid "Solo game"
 msgstr "Lokalt spel"
 
-#: src/scriptpo.c:155
+#: src/scriptpo.c:161
 msgid ""
 "Play alone against the computer, try and win levels to get access to new "
 "colors and weapons"
 msgstr ""
 
-#: src/scriptpo.c:156
+#: src/scriptpo.c:162
 msgid "1 on 1"
 msgstr ""
 
-#: src/scriptpo.c:157
+#: src/scriptpo.c:163
 msgid "Play with a friend locally on this computer"
 msgstr ""
 
-#: src/scriptpo.c:158
+#: src/scriptpo.c:164
 msgid "Local multiplayer"
 msgstr ""
 
-#: src/scriptpo.c:159
+#: src/scriptpo.c:165
 msgid "Start a local multiplayer session, with up to 4 players, plus some bots"
 msgstr ""
 
-#: src/scriptpo.c:160
+#: src/scriptpo.c:166
 msgid "Join network game"
 msgstr "Vert med i nettverksspel"
 
-#: src/scriptpo.c:161
+#: src/scriptpo.c:167
 msgid "Join an existing network game, DOES NOT WORK YET"
 msgstr ""
 
-#: src/scriptpo.c:162
+#: src/scriptpo.c:168
 msgid "Start server"
 msgstr "Start tenar"
 
-#: src/scriptpo.c:163
+#: src/scriptpo.c:169
 msgid "Start a server, DOES NOT WORK YET"
 msgstr ""
 
-#: src/scriptpo.c:164
+#: src/scriptpo.c:170
 msgid "Demo"
 msgstr "Demo"
 
-#: src/scriptpo.c:165
+#: src/scriptpo.c:171
 msgid "Watch the AI play against itself"
 msgstr ""
 
-#: src/scriptpo.c:166
+#: src/scriptpo.c:172
 msgid "Back to main menu"
 msgstr "Tilbake til hovudmenyen"
 
-#: src/scriptpo.c:167
+#: src/scriptpo.c:173
 #, fuzzy
 msgid "Go back to main menu"
 msgstr "Tilbake til hovudmenyen"
 
-#: src/scriptpo.c:168 src/scriptpo.c:170 src/scriptpo.c:174
+#: src/scriptpo.c:174 src/scriptpo.c:176 src/scriptpo.c:180
 msgid "Play"
 msgstr "Spel"
 
-#: src/scriptpo.c:169
+#: src/scriptpo.c:175
 msgid "Choose your game type"
 msgstr ""
 
-#: src/scriptpo.c:171
+#: src/scriptpo.c:177
 msgid "Choose your game type and play with chosen map"
 msgstr ""
 
-#: src/scriptpo.c:172 src/scriptpo.c:207 src/scriptpo.c:214
+#: src/scriptpo.c:178 src/scriptpo.c:213 src/scriptpo.c:220
 msgid "Quick start"
 msgstr "Snøggstart"
 
-#: src/scriptpo.c:173
+#: src/scriptpo.c:179
 #, fuzzy
 msgid "Start playing now!"
 msgstr "Spelar ikkje"
 
-#: src/scriptpo.c:175
+#: src/scriptpo.c:181
 msgid "Start a new game"
 msgstr ""
 
-#: src/scriptpo.c:177
-msgid "Browse map directory and choose a map to play on"
-msgstr ""
-
-#: src/scriptpo.c:179
+#: src/scriptpo.c:185
 msgid ""
 "Choose player name, color (teams), controls (keyboard, mouse, joystick) and "
 "populate your map with bots"
 msgstr ""
 
-#: src/scriptpo.c:181
+#: src/scriptpo.c:187
 msgid "Set up video, sound, game rules, and more"
 msgstr ""
 
-#: src/scriptpo.c:182 src/scriptpo.c:206
+#: src/scriptpo.c:188 src/scriptpo.c:212
 msgid "Liquid War 6"
 msgstr "Liquid War 6"
 
-#: src/scriptpo.c:183
+#: src/scriptpo.c:189
 #, fuzzy
 msgid "Welcome to Liquid War 6, have fun!"
 msgstr "Velkommen til Liquid War 6"
 
-#: src/scriptpo.c:184
+#: src/scriptpo.c:190
 msgid "Replay"
 msgstr ""
 
-#: src/scriptpo.c:185
+#: src/scriptpo.c:191
 msgid "Replay this level"
 msgstr ""
 
-#: src/scriptpo.c:186
+#: src/scriptpo.c:192
 msgid "Continue"
 msgstr ""
 
-#: src/scriptpo.c:187
+#: src/scriptpo.c:193
 msgid "Advance to next level"
 msgstr ""
 
-#: src/scriptpo.c:188
+#: src/scriptpo.c:194
 #, fuzzy
 msgid "Back to previous menu"
 msgstr "Tilbake til hovudmenyen"
 
-#: src/scriptpo.c:189
+#: src/scriptpo.c:195
 #, fuzzy
 msgid "Go back to previous menu"
 msgstr "Tilbake til hovudmenyen"
 
-#: src/scriptpo.c:190 src/scriptpo.c:192
+#: src/scriptpo.c:196 src/scriptpo.c:198
 msgid "Next"
 msgstr ""
 
-#: src/scriptpo.c:191 src/scriptpo.c:193
+#: src/scriptpo.c:197 src/scriptpo.c:199
 msgid "And now?"
 msgstr ""
 
-#: src/scriptpo.c:194
+#: src/scriptpo.c:200
 msgid "New color available"
 msgstr ""
 
-#: src/scriptpo.c:195 src/scriptpo.c:197
+#: src/scriptpo.c:201 src/scriptpo.c:203
 msgid "Score"
 msgstr ""
 
-#: src/scriptpo.c:196 src/scriptpo.c:198
+#: src/scriptpo.c:202 src/scriptpo.c:204
 msgid "~a wins"
 msgstr ""
 
-#: src/scriptpo.c:199
+#: src/scriptpo.c:205
 msgid "You win!"
 msgstr ""
 
-#: src/scriptpo.c:200
+#: src/scriptpo.c:206
 msgid "You loose..."
 msgstr ""
 
-#: src/scriptpo.c:201 src/scriptpo.c:202
+#: src/scriptpo.c:207 src/scriptpo.c:208
 msgid "Please wait..."
 msgstr "Vent litt …"
 
-#: src/scriptpo.c:203
+#: src/scriptpo.c:209
 msgid "Exit?"
 msgstr "Vil du avslutta?"
 
-#: src/scriptpo.c:204
+#: src/scriptpo.c:210
 msgid "Exit"
 msgstr "Avslutt"
 
-#: src/scriptpo.c:205
+#: src/scriptpo.c:211
 msgid "Resume LW6"
 msgstr "Hald fram LW 6"
 
-#: src/scriptpo.c:208
+#: src/scriptpo.c:214
 msgid "Local game"
 msgstr "Lokalt spel"
 
-#: src/scriptpo.c:209
+#: src/scriptpo.c:215
 msgid "Network game"
 msgstr "Nettverksspel"
 
-#: src/scriptpo.c:210 src/scriptpo.c:225
+#: src/scriptpo.c:216 src/scriptpo.c:231
 msgid "Level"
 msgstr "Brett"
 
-#: src/scriptpo.c:211
+#: src/scriptpo.c:217
 msgid "Teams"
 msgstr "Lag"
 
-#: src/scriptpo.c:213 src/scriptpo.c:215
+#: src/scriptpo.c:219 src/scriptpo.c:221
 msgid "About"
 msgstr "Om"
 
-#: src/scriptpo.c:216
+#: src/scriptpo.c:222
 msgid "Authors"
 msgstr "Utviklarar"
 
-#: src/scriptpo.c:217
+#: src/scriptpo.c:223
 msgid "Copyright"
 msgstr "Opphavsrett"
 
-#: src/scriptpo.c:220
+#: src/scriptpo.c:226
 msgid "View level"
 msgstr "Vis brett"
 
-#: src/scriptpo.c:221
+#: src/scriptpo.c:227
 msgid "Confirm level choice"
 msgstr "Stadfest brettval"
 
-#: src/scriptpo.c:222
+#: src/scriptpo.c:228
 msgid "Choose it"
 msgstr "Vel det"
 
-#: src/scriptpo.c:223
+#: src/scriptpo.c:229
 msgid "View"
 msgstr "Vis"
 
-#: src/scriptpo.c:224
+#: src/scriptpo.c:230
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: src/scriptpo.c:227
+#: src/scriptpo.c:233
 msgid "Graphics"
 msgstr "Bilete"
 
-#: src/scriptpo.c:229
+#: src/scriptpo.c:235
 msgid "Graphics options"
 msgstr "Biletoppsett"
 
-#: src/scriptpo.c:231 src/scriptpo.c:236
+#: src/scriptpo.c:237 src/scriptpo.c:242
 msgid "Graphics backend"
 msgstr "Grafikkmotor"
 
-#: src/scriptpo.c:233
+#: src/scriptpo.c:239
 msgid "Sound fx volume"
 msgstr "Lydstyrke: lydeffektar"
 
-#: src/scriptpo.c:234
+#: src/scriptpo.c:240
 msgid "Music volume"
 msgstr "Lydstyrke: musikk"
 
-#: src/scriptpo.c:235 src/scriptpo.c:237
+#: src/scriptpo.c:241 src/scriptpo.c:243
 msgid "Sound backend"
 msgstr "Lydmotor"
 
-#: src/scriptpo.c:238
+#: src/scriptpo.c:244
 #, fuzzy
 msgid "Dummy test node"
 msgstr "testar node"
 
-#: src/scriptpo.c:239
+#: src/scriptpo.c:245
 #, fuzzy
 msgid "Dummy test node A"
 msgstr "testar node"
 
-#: src/scriptpo.c:240
+#: src/scriptpo.c:246
 #, fuzzy
 msgid "Dummy test node B"
 msgstr "testar node"
 
-#: src/scriptpo.c:241
+#: src/scriptpo.c:247
 #, fuzzy
 msgid "Dummy test node C"
 msgstr "testar node"
