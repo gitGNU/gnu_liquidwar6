@@ -99,6 +99,12 @@ test_new ()
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("empty map \"%s\" constructed"), repr);
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("max_nb_colors=%d max_nb_cursors=%d max_nb_nodes=%d"),
+			lw6map_get_max_nb_colors (level),
+			lw6map_get_max_nb_cursors (level),
+			lw6map_get_max_nb_nodes (level));
 	    LW6SYS_FREE (repr);
 	  }
 	else

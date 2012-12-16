@@ -34,6 +34,7 @@
 #include "../ldr/ldr.h"
 #include "../gui/gui.h"
 #include "../net/net.h"
+#include "../img/img.h"
 
 #define DEFAULT_TRUE "true"
 #define DEFAULT_FALSE "false"
@@ -949,6 +950,11 @@ populate_references ()
 		 _x_
 		 ("If set to true, will trap segmentation fault and floating point errors, and display messages about those in a custom box instead of the default one"),
 		 1);
+  POPULATE_INT (LW6DEF_JPEG_QUALITY,
+		_x_
+		("Quality used by libjpeg when creating screenshot images. The same value you would give to Gimp before exporting an image as a JPEG."),
+		LW6IMG_JPEG_QUALITY_DEFAULT, LW6IMG_JPEG_QUALITY_MIN,
+		LW6IMG_JPEG_QUALITY_DEFAULT);
   /*
    * Game settings
    */
@@ -2731,6 +2737,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6map_get_look."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_PARAM_GET,
 		 _x_ ("Wrapper on lw6map_param_get."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_GET_TITLE,
+		 _x_ ("Wrapper on lw6map_get_title."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_GET_MUSIC_DIR,
 		 _x_ ("Wrapper on lw6map_get_music_dir."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_KEY,
@@ -2769,6 +2777,12 @@ populate_references ()
 		 _x_ ("Wrapper on lw6map_exp_get_unlocked_team_color."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_EXP_GET_UNLOCKED_WEAPON,
 		 _x_ ("Wrapper on lw6map_exp_get_unlocked_weapon."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_GET_MAX_NB_COLORS,
+		 _x_ ("Wrapper on lw6map_get_max_nb_colors."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_GET_MAX_NB_CURSORS,
+		 _x_ ("Wrapper on lw6map_get_max_nb_cursors."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_GET_MAX_NB_NODES,
+		 _x_ ("Wrapper on lw6map_get_max_nb_nodes."));
   POPULATE_VOID (LW6DEF_C_LW6KER_BUILD_GAME_STRUCT,
 		 _x_ ("Wrapper on lw6ker_build_game_struct."));
   POPULATE_VOID (LW6DEF_C_LW6KER_BUILD_GAME_STATE,
@@ -2808,6 +2822,12 @@ populate_references ()
   POPULATE_VOID (LW6DEF_C_LW6KER_IS_OVER, _x_ ("Wrapper on lw6ker_is_over."));
   POPULATE_VOID (LW6DEF_C_LW6KER_DID_CURSOR_WIN,
 		 _x_ ("Wrapper on lw6ker_did_cursor_win."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_GET_NB_COLORS,
+		 _x_ ("Wrapper on lw6ker_game_state_get_nb_colors."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_GET_NB_CURSORS,
+		 _x_ ("Wrapper on lw6ker_game_state_get_nb_cursors."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_GET_NB_NODES,
+		 _x_ ("Wrapper on lw6ker_game_state_get_nb_nodes."));
   POPULATE_VOID (LW6DEF_C_LW6GEN_CREATE_FROM_SEED,
 		 _x_ ("Wrapper on lw6gen_create_from_seed."));
   POPULATE_VOID (LW6DEF_C_LW6GEN_SEED_NEW,
@@ -2928,6 +2948,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6tsk_loader_pop."));
   POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_GET_STAGE,
 		 _x_ ("Wrapper on lw6tsk_loader_get_stage."));
+  POPULATE_VOID (LW6DEF_C_LW6IMG_SCREENSHOT,
+		 _x_ ("Wrapper on lw6img_screenshot."));
   POPULATE_VOID (LW6DEF_C_LW6NET_INIT, _x_ ("Wrapper on lw6net_init."));
   POPULATE_VOID (LW6DEF_C_LW6NET_QUIT, _x_ ("Wrapper on lw6net_quit."));
   POPULATE_VOID (LW6DEF_C_LW6CLI_GET_BACKENDS,

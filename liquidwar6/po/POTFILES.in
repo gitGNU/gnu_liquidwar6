@@ -319,6 +319,7 @@ src/lib/lw6-funcsgen.c
 src/lib/lw6-funcsgfx.c
 src/lib/lw6-funcsgui.c
 src/lib/lw6-funcshlp.c
+src/lib/lw6-funcsimg.c
 src/lib/lw6-funcsker.c
 src/lib/lw6-funcsldr.c
 src/lib/lw6-funcsmap.c

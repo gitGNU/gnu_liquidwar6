@@ -2384,3 +2384,75 @@ lw6ker_game_state_get_latest_weapon (lw6ker_game_state_t *
 				      (game_state), team_color, weapon_id,
 				      per1000_left);
 }
+
+int
+_lw6ker_game_state_get_nb_colors (const _lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_map_state_get_nb_teams (&(game_state->map_state));
+}
+
+/**
+ * lw6ker_game_state_get_nb_colors
+ *
+ * @game_state: game state to query
+ *
+ * Gives the max number of colors (AKA teams) that are present
+ * in the game. This is just a simple utility/wrapper function
+ * which is meant to be exported to Guile scripts.
+ *
+ * Return value: number of colors
+ */
+int
+lw6ker_game_state_get_nb_colors (const lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_get_nb_colors ((const _lw6ker_game_state_t *)
+					   game_state);
+}
+
+int
+_lw6ker_game_state_get_nb_cursors (const _lw6ker_game_state_t * game_state)
+{
+  return game_state->map_state.cursor_array.nb_cursors;
+}
+
+/**
+ * lw6ker_game_state_get_nb_cursors
+ *
+ * @game_state: game state to query
+ *
+ * Gives the max number of cursors that are present
+ * in the game. This is just a simple utility/wrapper function
+ * which is meant to be exported to Guile scripts.
+ *
+ * Return value: number of cursors
+ */
+int
+lw6ker_game_state_get_nb_cursors (const lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_get_nb_cursors ((const _lw6ker_game_state_t *)
+					    game_state);
+}
+
+int
+_lw6ker_game_state_get_nb_nodes (const _lw6ker_game_state_t * game_state)
+{
+  return game_state->node_array.nb_nodes;
+}
+
+/**
+ * lw6ker_game_state_get_nb_nodes
+ *
+ * @game_state: game state to query
+ *
+ * Gives the max number of nodes that are present
+ * in the game. This is just a simple utility/wrapper function
+ * which is meant to be exported to Guile scripts.
+ *
+ * Return value: number of nodes
+ */
+int
+lw6ker_game_state_get_nb_nodes (const lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_get_nb_nodes ((const _lw6ker_game_state_t *)
+					  game_state);
+}

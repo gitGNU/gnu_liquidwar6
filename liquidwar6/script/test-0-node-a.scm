@@ -62,15 +62,12 @@
 	       (game-state (assoc-ref dump "game-state"))
 	       (pilot (assoc-ref dump "pilot"))
 	       (time-limit (+ lw6-test-network-global-delay timestamp-0))
+	       (stage 0)
+	       (next-update-info 0)
 	       )
 	  (begin
 	    (lw6-log-notice node)
 	    (c-lw6p2p-node-poll node)
-	    (map (lambda (command) (begin
-				     (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 0" command))
-				     (c-lw6pil-send-command pilot command #t)
-				     ))
-		 (c-lw6pil-suite-get-commands-by-node-index 0 0))
 	    (c-lw6pil-commit pilot)
 	    (c-lw6p2p-node-server-start node seq-0)
 	    (let (
@@ -122,6 +119,62 @@
 			   ;; reference messages anyway...
 			   (c-lw6p2p-node-put-local-msg node nop-command)
 			   ))
+			)
+		       ;; pump all draft messages
+		       (let* (
+			      (msg (c-lw6p2p-node-get-next-draft-msg node))
+			     )
+			 (while msg
+			     (begin
+			       (lw6-test-log-message "draft" msg)
+			       (c-lw6pil-send-command pilot msg #f)
+			       (set! msg (c-lw6p2p-node-get-next-draft-msg node))
+			       )
+			     ))
+		       ;; pump all reference messages
+		       (let* (
+			      (msg (c-lw6p2p-node-get-next-reference-msg node))
+			     )
+			 (while msg
+			     (begin
+			       (lw6-test-log-message "reference" msg)
+			       (c-lw6pil-send-command pilot msg #t)
+			       (set! msg (c-lw6p2p-node-get-next-reference-msg node))
+			       )
+			     ))
+		       ;; commit now, even if there are no messages, won't harm
+		       (c-lw6pil-commit pilot)
+		       ;; update node info, this is important for our peers
+		       ;; might be wanting to poll this
+		       (if (> (c-lw6sys-get-timestamp) next-update-info)
+			   (begin
+			     (set! next-update-info (+ (c-lw6sys-get-timestamp) lw6-test-network-update-delay))
+			     (c-lw6pil-sync-from-reference game-state pilot)
+			     (lw6-test-update-info node level game-state)
+			     ))
+		       (cond 
+			(
+			 (= stage 0)
+			 (begin
+			   (lw6-log-notice "stage 0, putting messages in queue")
+			   (map (lambda (command) (begin
+						    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 0" command))
+						    (c-lw6p2p-node-put-local-msg node command)
+						    ))
+				(append (c-lw6pil-suite-get-commands-by-node-index 0 0)
+					(c-lw6pil-suite-get-commands-by-node-index 0 1))
+				)
+			   (set! stage 1)
+			   )
+			 )
+			(
+			 (= stage 1)
+			 #f
+			 )
+			(
+			 (= stage 2)
+			 #f
+			 )
 			)
 		       )))
 	    (c-lw6p2p-node-close node)

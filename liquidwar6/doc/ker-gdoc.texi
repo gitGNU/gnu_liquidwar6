@@ -674,6 +674,36 @@ are untouched. Pointers can be passed as NULL.
 @strong{Return value:}  1 if found, 0 if not.
 @end deftypefun
 
+@deftypefun {int} {lw6ker_game_state_get_nb_colors} (const lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  game state to query
+
+Gives the max number of colors (AKA teams) that are present
+in the game. This is just a simple utility/wrapper function
+which is meant to be exported to Guile scripts.
+
+@strong{Return value:}  number of colors
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_get_nb_cursors} (const lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  game state to query
+
+Gives the max number of cursors that are present
+in the game. This is just a simple utility/wrapper function
+which is meant to be exported to Guile scripts.
+
+@strong{Return value:}  number of cursors
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_get_nb_nodes} (const lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  game state to query
+
+Gives the max number of nodes that are present
+in the game. This is just a simple utility/wrapper function
+which is meant to be exported to Guile scripts.
+
+@strong{Return value:}  number of nodes
+@end deftypefun
+
 @deftypefun {lw6ker_game_struct_t *} {lw6ker_game_struct_new} (lw6map_level_t * @var{level}, lw6sys_progress_t * @var{progress})
 @var{level}:  the level on which the game_struct is based
 

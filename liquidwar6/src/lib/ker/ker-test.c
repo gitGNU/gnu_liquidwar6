@@ -212,6 +212,11 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
       fflush (stdout);
       LW6SYS_FREE (capture);
     }
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _x_ ("nb_colors=%d nb_cursors=%d nb_nodes=%d"),
+	      lw6ker_game_state_get_nb_colors (game_state),
+	      lw6ker_game_state_get_nb_cursors (game_state),
+	      lw6ker_game_state_get_nb_nodes (game_state));
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("time_elapsed=%d time_left=%d"),
 	      lw6ker_game_state_get_time_elapsed (game_state),
 	      lw6ker_game_state_get_time_left (game_state));

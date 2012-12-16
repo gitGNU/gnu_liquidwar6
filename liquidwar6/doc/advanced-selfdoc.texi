@@ -411,6 +411,20 @@ affect speed of menus but also cursors, but won't change the speed of the game
 itself. It's a cosmectic, comfort option.
 @end deffn
 
+@subsection jpeg-quality
+@deffn {Command-line option} @code{--jpeg-quality=<value>}
+@deffnx {Environment variable} @code{LW6_JPEG_QUALITY}
+@deffnx {XML key} @code{jpeg-quality}
+Type: integer
+
+Default value: 85
+Min value: 0
+Max value: 85
+
+Quality used by libjpeg when creating screenshot images. The same value you
+would give to Gimp before exporting an image as a JPEG.
+@end deffn
+
 @subsection loader-sleep
 @deffn {Command-line option} @code{--loader-sleep=<value>}
 @deffnx {Environment variable} @code{LW6_LOADER_SLEEP}

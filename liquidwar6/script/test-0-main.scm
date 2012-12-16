@@ -510,6 +510,19 @@
 	    (if (and bot1 bot2) #t #f)
 	    ))))))
 
+(define lw6-test-img
+  (lambda ()
+    (let* (
+	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))
+	   (game-struct (c-lw6ker-build-game-struct the-map))
+	   (game-state (c-lw6ker-build-game-state game-struct))
+	   (jpeg (c-lw6img-screenshot game-state 85))
+	   )
+      (begin
+	(lw6-log-notice (format #f "JPEG screenshot for \"~a\" is \"~a\"" game-state jpeg))
+	(and game-state jpeg)
+	))))
+
 (define lw6-test-smobs-gc
   (lambda ()
     (let (
@@ -651,6 +664,7 @@
 		(lw6-test-run lw6-test-game-state)
 		(lw6-test-run lw6-test-pilot)
 		(lw6-test-run lw6-test-suite)
+		(lw6-test-run lw6-test-img)
 		(lw6-test-run lw6-test-bot)
 		(lw6-test-run lw6-test-smobs-gc)
 		(lw6-test-run lw6-test-smobs-gc)

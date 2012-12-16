@@ -1498,6 +1498,10 @@ extern int lw6map_memory_footprint (lw6map_level_t * level);
 extern char *lw6map_repr (lw6map_level_t * level);
 extern int lw6map_is_same (const lw6map_level_t * level_a,
 			   const lw6map_level_t * level_b);
+extern const char *lw6map_get_title (lw6map_level_t * level);
+extern int lw6map_get_max_nb_colors (const lw6map_level_t * level);
+extern int lw6map_get_max_nb_cursors (const lw6map_level_t * level);
+extern int lw6map_get_max_nb_nodes (const lw6map_level_t * level);
 
 /* map-localinfo.c */
 extern int lw6map_local_info_set_music_dir (lw6map_local_info_t *

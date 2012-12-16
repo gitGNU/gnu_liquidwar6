@@ -45,7 +45,7 @@
 #define LW6PIL_COORDS_X2 2
 
 #define LW6PIL_SUITE_NB_NODES 3
-#define LW6PIL_SUITE_NB_STAGES 3
+#define LW6PIL_SUITE_NB_STAGES 6
 
 #define LW6PIL_SUITE_NODE_A 0
 #define LW6PIL_SUITE_NODE_B 1
@@ -54,6 +54,9 @@
 #define LW6PIL_SUITE_STAGE_1 0
 #define LW6PIL_SUITE_STAGE_2 1
 #define LW6PIL_SUITE_STAGE_3 2
+#define LW6PIL_SUITE_STAGE_4 3
+#define LW6PIL_SUITE_STAGE_5 4
+#define LW6PIL_SUITE_STAGE_6 5
 
 typedef enum lw6pil_command_code_e
 {

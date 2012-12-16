@@ -26,6 +26,8 @@
 
 #include "map.h"
 
+#define _BUILTIN_NAME "builtin"
+
 /**
  * lw6map_metadata_defaults
  *

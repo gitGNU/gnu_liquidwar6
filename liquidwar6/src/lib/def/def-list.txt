@@ -169,6 +169,7 @@ c-lw6hlp-list-show
 c-lw6hlp-list-sound
 c-lw6hlp-list-team-colors
 c-lw6hlp-list-weapons
+c-lw6img-screenshot
 c-lw6ker-add-cursor
 c-lw6ker-build-game-state
 c-lw6ker-build-game-struct
@@ -180,6 +181,9 @@ c-lw6ker-game-state-checksum
 c-lw6ker-game-struct-checksum
 c-lw6ker-get-cursor
 c-lw6ker-get-moves
+c-lw6ker-get-nb-colors
+c-lw6ker-get-nb-cursors
+c-lw6ker-get-nb-nodes
 c-lw6ker-get-rounds
 c-lw6ker-get-spreads
 c-lw6ker-is-over
@@ -201,7 +205,11 @@ c-lw6map-exp-get-unlocked-weapon
 c-lw6map-exp-is-team-color-allowed
 c-lw6map-exp-is-weapon-allowed
 c-lw6map-get-look
+c-lw6map-get-max-nb-colors
+c-lw6map-get-max-nb-cursors
+c-lw6map-get-max-nb-nodes
 c-lw6map-get-music-dir
+c-lw6map-get-title
 c-lw6map-param-get
 c-lw6map-rules-get-default
 c-lw6map-rules-get-int
@@ -521,6 +529,7 @@ hud-color-text-fg
 hud-style
 invincible
 io-per-sec
+jpeg-quality
 kamikaze
 keep-ratio
 known-nodes

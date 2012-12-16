@@ -108,6 +108,17 @@ _lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id)
   char *game_state_hexa = NULL;
   int64_t seq = 0LL;
 
+  /*
+   * Before we can generate a dump, we want to make sure
+   * the dump really corresponds to the right seq, so
+   * we basically wait until reference is up-to-date.
+   */
+  while (_lw6pil_pilot_get_reference_current_seq (pilot) <
+	 _lw6pil_pilot_get_last_commit_seq (pilot))
+    {
+      lw6sys_idle ();
+    }
+
   level_hexa =
     lw6map_to_hexa (pilot->reference.game_state->game_struct->level);
   if (level_hexa)

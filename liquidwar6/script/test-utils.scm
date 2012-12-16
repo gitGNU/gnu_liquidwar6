@@ -21,6 +21,7 @@
 (define lw6-test-network-global-delay 180000)
 (define lw6-test-network-connect-delay 60000)
 (define lw6-test-network-shift-delay 90000)
+(define lw6-test-network-update-delay 3000)
 
 (define lw6-test-run
   (lambda (proc)
@@ -38,3 +39,35 @@
 	    (lw6-log-notice (format #f "test ~a END returned ~a" proc-repr ret))
 	    (lw6-log-warning (format #f "test ~a END failed" proc-repr)))
 	ret))))
+
+(define lw6-test-log-message
+  (lambda (type msg)
+    (let (
+	  (len (string-length msg))
+	  )
+      (if (>  len 100) 
+	  (lw6-log-notice (format #f "received ~a bytes ~a message" len type))
+	  (lw6-log-notice (format #f "received ~a message \"~a\"" type msg))
+	  )
+      )))
+
+(define lw6-test-update-info
+  (lambda (node level game-state)
+    (let (
+	  (param (list (cons "round" (c-lw6ker-get-rounds game-state))
+		       (cons "level" (c-lw6map-get-title level))
+		       (cons "nb-colors" (c-lw6ker-get-nb-colors game-state))
+		       (cons "max-nb-colors" (c-lw6map-get-max-nb-colors level))
+		       (cons "nb-cursors" (c-lw6ker-get-nb-cursors game-state))
+		       (cons "max-nb-cursors" (c-lw6map-get-max-nb-cursors level))
+		       (cons "nb-nodes" (c-lw6ker-get-nb-nodes game-state))
+		       (cons "max-nb-nodes" (c-lw6map-get-max-nb-nodes level))
+		       (cons "screenshot" (c-lw6img-screenshot game-state 85))))
+	  )
+      (begin
+	(lw6-log-notice (format #f "updating info of node \"~a\" with param \"~a\"" node param))
+	#t
+	))))
+
+	  
+	   

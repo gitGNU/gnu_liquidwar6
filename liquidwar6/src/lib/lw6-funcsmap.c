@@ -97,6 +97,30 @@ _scm_lw6map_param_get (SCM level, SCM key)
 }
 
 static SCM
+_scm_lw6map_get_title (SCM level)
+{
+  lw6map_level_t *c_level = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.map,
+	       level), level, SCM_ARG1, __FUNCTION__);
+
+  c_level = lw6_scm_to_map (level);
+  if (c_level)
+    {
+      ret = scm_from_locale_string (lw6map_get_title (c_level));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6map_get_music_dir (SCM level)
 {
   SCM ret = SCM_BOOL_F;
@@ -567,6 +591,78 @@ _scm_lw6map_exp_get_unlocked_weapon (SCM weapon)
   return ret;
 }
 
+static SCM
+_scm_lw6map_get_max_nb_colors (SCM level)
+{
+  lw6map_level_t *c_level = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.map,
+	       level), level, SCM_ARG1, __FUNCTION__);
+
+  c_level = lw6_scm_to_map (level);
+  if (c_level)
+    {
+      ret = scm_from_int (lw6map_get_max_nb_colors (c_level));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6map_get_max_nb_cursors (SCM level)
+{
+  lw6map_level_t *c_level = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.map,
+	       level), level, SCM_ARG1, __FUNCTION__);
+
+  c_level = lw6_scm_to_map (level);
+  if (c_level)
+    {
+      ret = scm_from_int (lw6map_get_max_nb_cursors (c_level));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6map_get_max_nb_nodes (SCM level)
+{
+  lw6map_level_t *c_level = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.map,
+	       level), level, SCM_ARG1, __FUNCTION__);
+
+  c_level = lw6_scm_to_map (level);
+  if (c_level)
+    {
+      ret = scm_from_int (lw6map_get_max_nb_nodes (c_level));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
 /**
  * lw6_register_funcs_map
  *
@@ -586,6 +682,8 @@ lw6_register_funcs_map ()
     (LW6DEF_C_LW6MAP_GET_LOOK, 1, 0, 0, (SCM (*)())_scm_lw6map_get_look);
   ret = ret && lw6scm_c_define_gsubr
     (LW6DEF_C_LW6MAP_PARAM_GET, 2, 0, 0, (SCM (*)())_scm_lw6map_param_get);
+  ret = ret && lw6scm_c_define_gsubr
+    (LW6DEF_C_LW6MAP_GET_TITLE, 1, 0, 0, (SCM (*)())_scm_lw6map_get_title);
   ret = ret && lw6scm_c_define_gsubr
     (LW6DEF_C_LW6MAP_GET_MUSIC_DIR, 1, 0, 0,
      (SCM (*)())_scm_lw6map_get_music_dir);
@@ -652,6 +750,15 @@ lw6_register_funcs_map ()
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_EXP_GET_UNLOCKED_WEAPON, 0, 0,
 			      0,
 			      (SCM (*)())_scm_lw6map_exp_get_unlocked_weapon);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_GET_MAX_NB_COLORS, 1, 0,
+			      0, (SCM (*)())_scm_lw6map_get_max_nb_colors);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_GET_MAX_NB_CURSORS, 1, 0,
+			      0, (SCM (*)())_scm_lw6map_get_max_nb_cursors);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_GET_MAX_NB_NODES, 1, 0,
+			      0, (SCM (*)())_scm_lw6map_get_max_nb_nodes);
 
   return ret;
 }

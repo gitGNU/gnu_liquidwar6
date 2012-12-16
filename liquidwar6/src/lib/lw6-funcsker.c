@@ -759,6 +759,78 @@ _scm_lw6ker_did_cursor_win (SCM game_state, SCM cursor_id)
   return ret;
 }
 
+static SCM
+_scm_lw6ker_get_nb_colors (SCM game_state)
+{
+  lw6ker_game_state_t *c_game_state = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.game_state,
+	       game_state), game_state, SCM_ARG1, __FUNCTION__);
+
+  c_game_state = lw6_scm_to_game_state (game_state);
+  if (c_game_state)
+    {
+      ret = scm_from_int (lw6ker_game_state_get_nb_colors (c_game_state));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6ker_get_nb_cursors (SCM game_state)
+{
+  lw6ker_game_state_t *c_game_state = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.game_state,
+	       game_state), game_state, SCM_ARG1, __FUNCTION__);
+
+  c_game_state = lw6_scm_to_game_state (game_state);
+  if (c_game_state)
+    {
+      ret = scm_from_int (lw6ker_game_state_get_nb_cursors (c_game_state));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6ker_get_nb_nodes (SCM game_state)
+{
+  lw6ker_game_state_t *c_game_state = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.game_state,
+	       game_state), game_state, SCM_ARG1, __FUNCTION__);
+
+  c_game_state = lw6_scm_to_game_state (game_state);
+  if (c_game_state)
+    {
+      ret = scm_from_int (lw6ker_game_state_get_nb_nodes (c_game_state));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
 /**
  * lw6_register_funcs_ker
  *
@@ -835,6 +907,15 @@ lw6_register_funcs_ker ()
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_DID_CURSOR_WIN, 5, 0, 0,
 			      (SCM (*)())_scm_lw6ker_did_cursor_win);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_GET_NB_COLORS, 1, 0, 0,
+			      (SCM (*)())_scm_lw6ker_get_nb_colors);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_GET_NB_CURSORS, 1, 0, 0,
+			      (SCM (*)())_scm_lw6ker_get_nb_cursors);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_GET_NB_NODES, 1, 0, 0,
+			      (SCM (*)())_scm_lw6ker_get_nb_nodes);
 
   return ret;
 }

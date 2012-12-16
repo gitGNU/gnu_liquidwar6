@@ -28,12 +28,23 @@
 #include "pil-internal.h"
 
 #define _STAGE_1_GAME_STATE_CHECKSUM 0xb506f246
-#define _STAGE_2_GAME_STATE_CHECKSUM 0x774fd948
-#define _STAGE_3_GAME_STATE_CHECKSUM 0x4a4c9635
+#define _STAGE_2_GAME_STATE_CHECKSUM 0xd7708e00
+#define _STAGE_3_GAME_STATE_CHECKSUM 0x774fd948
+#define _STAGE_4_GAME_STATE_CHECKSUM 0x4536c835
+#define _STAGE_5_GAME_STATE_CHECKSUM 0x4a4c9635
+#define _STAGE_6_GAME_STATE_CHECKSUM 0x9ee0c901
 
+/*
+ * There are 6 numbered stages, but they correspond, basically,
+ * to only 3 logical stages, the idea is that stage_2 only contains
+ * dummy nop messages to bump the queue and validate stage_1 messages
+ */
 #define _STAGE_1_ROUND 10005
-#define _STAGE_2_ROUND 25005
-#define _STAGE_3_ROUND 40005
+#define _STAGE_2_ROUND 10006
+#define _STAGE_3_ROUND 25005
+#define _STAGE_4_ROUND 25006
+#define _STAGE_5_ROUND 40005
+#define _STAGE_6_ROUND 40006
 
 #define _SEQ_0 1000000000000LL
 
@@ -79,6 +90,10 @@ static const char
    /*
     * STAGE_2 messages
     */
+   {"1000000010006 1001100110011001 NOP", NULL},
+   /*
+    * STAGE_3 messages
+    */
    {
     "1000000010055 1001100110011001 SET 1001 5 5 0 0",
     "1000000010055 1001100110011001 SET 1002 6 6 0 0",
@@ -91,7 +106,11 @@ static const char
     "1000000025005 1001100110011001 NOP",
     NULL},
    /*
-    * STAGE_3 messages
+    * STAGE_4 messages
+    */
+   {"1000000025006 1001100110011001 NOP", NULL},
+   /*
+    * STAGE_5 messages
     */
    {
     "1000000025055 1001100110011001 SET 1001 1 1 0 0",
@@ -103,7 +122,11 @@ static const char
     "1000000030055 1001100110011001 SET 1003 3 3 0 1",
     "1000000030055 1001100110011001 SET 1003 3 3 0 1",
     "1000000040005 1001100110011001 NOP",
-    NULL}
+    NULL},
+   /*
+    * STAGE_6 messages
+    */
+   {"1000000040006 1001100110011001 NOP", NULL}
    },
   /*
    * NODE_B messages
@@ -115,6 +138,10 @@ static const char
    {NULL},
    /*
     * STAGE_2 messages
+    */
+   {NULL},
+   /*
+    * STAGE_3 messages
     */
    {
     "1000000015005 2002200220022002 REGISTER",
@@ -129,7 +156,11 @@ static const char
     "1000000025005 2002200220022002 SET 2003 33 33 0 1",
     NULL},
    /*
-    * STAGE_3 messages
+    * STAGE_4 messages
+    */
+   {"1000000025006 2002200220022002 NOP", NULL},
+   /*
+    * STAGE_5 messages
     */
    {
     "1000000025555 2002200220022002 SET 2001 44 44 1 0",
@@ -139,7 +170,12 @@ static const char
     "1000000030555 2002200220022002 SET 2002 22 22 0 1",
     "1000000030555 2002200220022002 SET 2003 33 33 0 1",
     "1000000040005 2002200220022002 NOP",
-    NULL}},
+    NULL},
+   /*
+    * STAGE_6 messages
+    */
+   {"1000000040006 2002200220022002 NOP", NULL}
+   },
   /*
    * NODE_C messages
    */
@@ -155,6 +191,14 @@ static const char
    /*
     * STAGE_3 messages
     */
+   {NULL},
+   /*
+    * STAGE_4 messages
+    */
+   {NULL},
+   /*
+    * STAGE_5 messages
+    */
    {
     "1000000030005 3003300330033003 REGISTER",
     "1000000030005 3003300330033003 ADD 3001 LIGHTBLUE",
@@ -166,7 +210,12 @@ static const char
     "1000000040005 3003300330033003 SET 3001 1 11 0 1",
     "1000000040005 3003300330033003 SET 3002 2 22 0 1",
     "1000000040005 3003300330033003 SET 3003 3 33 0 1",
-    NULL}}
+    NULL},
+   /*
+    * STAGE_6 messages
+    */
+   {"1000000040006 3003300330033003 NOP", NULL}
+   }
 };
 
 /**
@@ -492,6 +541,21 @@ lw6pil_suite_get_checkpoint (u_int32_t * game_state_checksum, int64_t * seq,
       (*game_state_checksum) = _STAGE_3_GAME_STATE_CHECKSUM;
       (*seq) = _STAGE_3_ROUND + _SEQ_0;
       (*round) = _STAGE_3_ROUND;
+      break;
+    case LW6PIL_SUITE_STAGE_4:
+      (*game_state_checksum) = _STAGE_4_GAME_STATE_CHECKSUM;
+      (*seq) = _STAGE_4_ROUND + _SEQ_0;
+      (*round) = _STAGE_4_ROUND;
+      break;
+    case LW6PIL_SUITE_STAGE_5:
+      (*game_state_checksum) = _STAGE_5_GAME_STATE_CHECKSUM;
+      (*seq) = _STAGE_5_ROUND + _SEQ_0;
+      (*round) = _STAGE_5_ROUND;
+      break;
+    case LW6PIL_SUITE_STAGE_6:
+      (*game_state_checksum) = _STAGE_6_GAME_STATE_CHECKSUM;
+      (*seq) = _STAGE_6_ROUND + _SEQ_0;
+      (*round) = _STAGE_6_ROUND;
       break;
     default:
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("invalid stage %d"), stage);

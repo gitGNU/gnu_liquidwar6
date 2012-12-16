@@ -674,9 +674,12 @@ _scm_lw6p2p_node_update_info (SCM node, SCM param)
   SCM_ASSERT (scm_is_integer (max_nb_cursors), param, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (nb_nodes), param, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (max_nb_nodes), param, SCM_ARG2, __FUNCTION__);
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.jpeg,
-	       screenshot), param, SCM_ARG2, __FUNCTION__);
+  if (SCM_NFALSEP (screenshot))
+    {
+      SCM_ASSERT (SCM_SMOB_PREDICATE
+		  (lw6_global.smob_types.jpeg,
+		   screenshot), param, SCM_ARG2, __FUNCTION__);
+    }
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -691,17 +694,29 @@ _scm_lw6p2p_node_update_info (SCM node, SCM param)
 	  c_max_nb_cursors = scm_to_int (max_nb_cursors);
 	  c_nb_nodes = scm_to_int (nb_nodes);
 	  c_max_nb_nodes = scm_to_int (max_nb_nodes);
-	  c_screenshot = lw6_scm_to_jpeg (screenshot);
-	  if (c_screenshot)
+	  if (SCM_NFALSEP (screenshot))
+	    {
+	      c_screenshot = lw6_scm_to_jpeg (screenshot);
+	      if (c_screenshot)
+		{
+		  ret =
+		    lw6p2p_node_update_info (c_node, c_round, c_level,
+					     c_nb_colors, c_max_nb_colors,
+					     c_nb_cursors, c_max_nb_cursors,
+					     c_nb_nodes, c_max_nb_nodes,
+					     c_screenshot->jpeg_size,
+					     c_screenshot->jpeg_data) ?
+		    SCM_BOOL_T : SCM_BOOL_F;
+		}
+	    }
+	  else
 	    {
 	      ret =
 		lw6p2p_node_update_info (c_node, c_round, c_level,
 					 c_nb_colors, c_max_nb_colors,
 					 c_nb_cursors, c_max_nb_cursors,
 					 c_nb_nodes, c_max_nb_nodes,
-					 c_screenshot->jpeg_size,
-					 c_screenshot->jpeg_data) ? SCM_BOOL_T
-		: SCM_BOOL_F;
+					 0, NULL) ? SCM_BOOL_T : SCM_BOOL_F;
 	    }
 	  LW6SYS_FREE (c_level);
 	}

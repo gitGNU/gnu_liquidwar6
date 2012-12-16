@@ -1108,6 +1108,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6LDR_CHAIN_ENTRY);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_GET_LOOK);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_PARAM_GET);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_GET_TITLE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_GET_MUSIC_DIR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_KEY);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_TEAM_COLOR_KEY_TO_INDEX);
@@ -1127,6 +1128,9 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_EXP_IS_WEAPON_ALLOWED);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_EXP_GET_UNLOCKED_TEAM_COLOR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_EXP_GET_UNLOCKED_WEAPON);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_GET_MAX_NB_COLORS);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_GET_MAX_NB_CURSORS);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_GET_MAX_NB_NODES);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_BUILD_GAME_STRUCT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_BUILD_GAME_STATE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_SYNC_GAME_STATE);
@@ -1147,6 +1151,9 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_GET_ROUNDS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_IS_OVER);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_DID_CURSOR_WIN);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6KER_GET_NB_COLORS);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6KER_GET_NB_CURSORS);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6KER_GET_NB_NODES);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GEN_CREATE_FROM_SEED);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GEN_SEED_NEW);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GEN_SEED_NORMALIZE);
@@ -1213,6 +1220,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6TSK_LOADER_PUSH_LDR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6TSK_LOADER_POP);
   lw6sys_list_push_back (list, LW6DEF_C_LW6TSK_LOADER_GET_STAGE);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6IMG_SCREENSHOT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6NET_INIT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6NET_QUIT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6CLI_GET_BACKENDS);
@@ -1356,6 +1364,7 @@ update_advanced (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_SIMULATE_BASIC);
   lw6sys_list_push_back (list, LW6DEF_SIMULATE_FULL);
   lw6sys_list_push_back (list, LW6DEF_TRAP_ERRORS);
+  lw6sys_list_push_back (list, LW6DEF_JPEG_QUALITY);
 
   return ((*list) != NULL);
 }

@@ -425,6 +425,12 @@ extern int lw6ker_game_state_get_latest_weapon (lw6ker_game_state_t *
 						game_state, int *team_color,
 						int *weapon_id,
 						int *per1000_left);
+extern int lw6ker_game_state_get_nb_colors (const lw6ker_game_state_t *
+					    game_state);
+extern int lw6ker_game_state_get_nb_cursors (const lw6ker_game_state_t *
+					     game_state);
+extern int lw6ker_game_state_get_nb_nodes (const lw6ker_game_state_t *
+					   game_state);
 
 /* ker-gamestruct.c */
 extern lw6ker_game_struct_t *lw6ker_game_struct_new (lw6map_level_t * level,

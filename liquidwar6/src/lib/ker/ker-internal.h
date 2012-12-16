@@ -552,6 +552,12 @@ extern void _lw6ker_game_struct_update_checksum (_lw6ker_game_struct_t *
 						 u_int32_t * checksum);
 extern u_int32_t _lw6ker_game_struct_checksum (_lw6ker_game_struct_t *
 					       game_struct);
+extern int _lw6ker_game_state_get_nb_colors (const _lw6ker_game_state_t *
+					     game_state);
+extern int _lw6ker_game_state_get_nb_cursors (const _lw6ker_game_state_t *
+					      game_state);
+extern int _lw6ker_game_state_get_nb_nodes (const _lw6ker_game_state_t *
+					    game_state);
 
 /* ker-hexa.c */
 extern char *_lw6ker_game_struct_to_hexa (_lw6ker_game_struct_t *
@@ -586,7 +592,8 @@ extern int _lw6ker_map_state_sync (_lw6ker_map_state_t * dst,
 extern void _lw6ker_map_state_update_checksum (_lw6ker_map_state_t *
 					       map_state,
 					       u_int32_t * checksum);
-extern int _lw6ker_map_state_get_nb_teams (_lw6ker_map_state_t * map_state);
+extern int _lw6ker_map_state_get_nb_teams (const _lw6ker_map_state_t *
+					   map_state);
 extern void _lw6ker_map_state_frag (_lw6ker_map_state_t * map_state,
 				    int team_color, int frags_mode,
 				    int frags_to_distribute,

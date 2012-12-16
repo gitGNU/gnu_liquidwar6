@@ -664,7 +664,7 @@ _lw6ker_map_state_spread_gradient (_lw6ker_map_state_t * map_state,
 }
 
 int
-_lw6ker_map_state_get_nb_teams (_lw6ker_map_state_t * map_state)
+_lw6ker_map_state_get_nb_teams (const _lw6ker_map_state_t * map_state)
 {
   int ret = 0;
   int i;

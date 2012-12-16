@@ -262,14 +262,9 @@ lw6map_repr (lw6map_level_t * level)
 
   if (level)
     {
-      char *title = NULL;
+      const char *title = NULL;
 
-      title = level->metadata.title;
-      if (!title)
-	{
-	  title = _x_ ("No title");
-	}
-
+      title = lw6map_get_title (level);
       ret =
 	lw6sys_new_sprintf ("%u \"%s\" (%dx%dx%d)", level->id, title,
 			    level->body.shape.w,
@@ -326,4 +321,79 @@ lw6map_is_same (const lw6map_level_t * level_a,
     }
 
   return ret;
+}
+
+/**
+ * lw6map_get_title
+ *
+ * @level: level to get informations about
+ *
+ * Gives the map name. This is just a simple utility/wrapper function
+ * which is meant to be exported to Guile scripts.
+ *
+ * Return value: static string, must not be freed, can't be NULL
+ */
+const char *
+lw6map_get_title (lw6map_level_t * level)
+{
+  const char *ret = NULL;
+
+  ret = level->metadata.title;
+  if (!ret)
+    {
+      ret = _x_ ("No title");
+    }
+
+  return ret;
+}
+
+/**
+ * lw6map_get_max_nb_colors
+ *
+ * @level: level to get informations about
+ *
+ * Gives the max number of colors (AKA teams) that can fit
+ * on this map. This is just a simple utility/wrapper function
+ * which is meant to be exported to Guile scripts.
+ *
+ * Return value: number of colors, taken from rules
+ */
+int
+lw6map_get_max_nb_colors (const lw6map_level_t * level)
+{
+  return level->param.rules.max_nb_teams;
+}
+
+/**
+ * lw6map_get_max_nb_cursors
+ *
+ * @level: level to get informations about
+ *
+ * Gives the max number of cursors that can fit
+ * on this map. This is just a simple utility/wrapper function
+ * which is meant to be exported to Guile scripts.
+ *
+ * Return value: number of cursors, taken from rules
+ */
+int
+lw6map_get_max_nb_cursors (const lw6map_level_t * level)
+{
+  return level->param.rules.max_nb_cursors;
+}
+
+/**
+ * lw6map_get_max_nb_nodes
+ *
+ * @level: level to get informations about
+ *
+ * Gives the max number of nodes that can fit
+ * on this map. This is just a simple utility/wrapper function
+ * which is meant to be exported to Guile scripts.
+ *
+ * Return value: number of nodes, taken from rules
+ */
+int
+lw6map_get_max_nb_nodes (const lw6map_level_t * level)
+{
+  return level->param.rules.max_nb_nodes;
 }

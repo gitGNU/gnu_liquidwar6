@@ -728,7 +728,7 @@ _lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t * warehouse)
 							    [i])));
 	}
     }
-  if (ret >= INT_MAX)
+  if (ret >= LLONG_MAX)
     {
       ret = _LW6DAT_SEQ_INVALID;
     }

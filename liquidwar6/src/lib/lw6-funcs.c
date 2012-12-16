@@ -148,6 +148,7 @@ lw6_register_funcs ()
   ret = ret && lw6_register_funcs_snd ();
   ret = ret && lw6_register_funcs_cns ();
   ret = ret && lw6_register_funcs_tsk ();
+  ret = ret && lw6_register_funcs_img ();
   ret = ret && lw6_register_funcs_net ();
   ret = ret && lw6_register_funcs_cli ();
   ret = ret && lw6_register_funcs_srv ();

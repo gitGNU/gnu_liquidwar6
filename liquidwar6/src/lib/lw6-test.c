@@ -285,6 +285,15 @@ lw6_test (int mode)
   u_int64_t pid_b = 0LL;
   u_int64_t pid_c = 0LL;
   int default_log_level_id = LW6SYS_LOG_INFO_ID;
+  /*
+   * Use the run{|_.} integers to trigger the corresponding
+   * tests, since those can be quite long, it's convenient to
+   * enable/disable them when developping/testing.
+   */
+  int run = 0;
+  int run_a = 1;
+  int run_b = 0;
+  int run_c = 0;
 
   memset (&param, 0, sizeof (_lw6_test_param_t));
   memset (&param_a, 0, sizeof (_lw6_test_param_t));
@@ -344,9 +353,12 @@ lw6_test (int mode)
       param_b.suite = _TEST_SUITE_NODE_B;
       param_c.suite = _TEST_SUITE_NODE_C;
 
-      _guile_test_run (&param);
+      if (run)
+	{
+	  _guile_test_run (&param);
+	}
 
-      if (param.ret)
+      if (param.ret || !run)
 	{
 	  /*
 	   * We do the network tests only if the other tests worked
@@ -354,93 +366,100 @@ lw6_test (int mode)
 	   * one failed, to (that's the hop...) get interesting informations
 	   * in the logs on why the other test failed.
 	   */
-	  param.coverage_check = 0;
-
 	  if (lw6sys_process_is_fully_supported ())
 	    {
-	      /*
-	       * First network test, we launch node_a in the main thread,
-	       * and fire node_b and node_c in separate threads.
-	       * We won't get the result from the node_b and node_c but
-	       * this is not a problem, we run the same test in other
-	       * configurations to gather that output.
-	       */
-	      param_b.log_level_id = LW6SYS_LOG_ERROR_ID;
-	      param_c.log_level_id = LW6SYS_LOG_ERROR_ID;
-	      pid_b = lw6sys_process_fork_and_call (_guile_test_run,
-						    &param_b);
-	      pid_c = lw6sys_process_fork_and_call (_guile_test_run,
-						    &param_c);
-	      if (pid_b != 0 && pid_c != 0)
+	      if (run_a)
 		{
-		  _guile_test_run (&param_a);
+		  /*
+		   * First network test, we launch node_a in the main thread,
+		   * and fire node_b and node_c in separate threads.
+		   * We won't get the result from the node_b and node_c but
+		   * this is not a problem, we run the same test in other
+		   * configurations to gather that output.
+		   */
+		  param_b.log_level_id = LW6SYS_LOG_ERROR_ID;
+		  param_c.log_level_id = LW6SYS_LOG_ERROR_ID;
+		  pid_b = lw6sys_process_fork_and_call (_guile_test_run,
+							&param_b);
+		  pid_c = lw6sys_process_fork_and_call (_guile_test_run,
+							&param_c);
+		  if (pid_b != 0 && pid_c != 0)
+		    {
+		      _guile_test_run (&param_a);
+		    }
+		  if (pid_b != 0)
+		    {
+		      lw6sys_process_kill_1_9 (pid_b);
+		    }
+		  if (pid_c != 0)
+		    {
+		      lw6sys_process_kill_1_9 (pid_c);
+		    }
+		  param_b.log_level_id = default_log_level_id;
+		  param_c.log_level_id = default_log_level_id;
 		}
-	      if (pid_b != 0)
-		{
-		  lw6sys_process_kill_1_9 (pid_b);
-		}
-	      if (pid_c != 0)
-		{
-		  lw6sys_process_kill_1_9 (pid_c);
-		}
-	      param_b.log_level_id = default_log_level_id;
-	      param_c.log_level_id = default_log_level_id;
 
-	      /*
-	       * Second network test, we launch node_b in the main thread,
-	       * and fire node_c and node_a in separate threads.
-	       * We won't get the result from the node_c and node_a but
-	       * this is not a problem, we run the same test in other
-	       * configurations to gather that output.
-	       */
-	      param_c.log_level_id = LW6SYS_LOG_ERROR_ID;
-	      param_a.log_level_id = LW6SYS_LOG_ERROR_ID;
-	      pid_c = lw6sys_process_fork_and_call (_guile_test_run,
-						    &param_c);
-	      pid_a = lw6sys_process_fork_and_call (_guile_test_run,
-						    &param_a);
-	      if (pid_c != 0 && pid_a != 0)
+	      if (run_b)
 		{
-		  _guile_test_run (&param_b);
+		  /*
+		   * Second network test, we launch node_b in the main thread,
+		   * and fire node_c and node_a in separate threads.
+		   * We won't get the result from the node_c and node_a but
+		   * this is not a problem, we run the same test in other
+		   * configurations to gather that output.
+		   */
+		  param_c.log_level_id = LW6SYS_LOG_ERROR_ID;
+		  param_a.log_level_id = LW6SYS_LOG_ERROR_ID;
+		  pid_c = lw6sys_process_fork_and_call (_guile_test_run,
+							&param_c);
+		  pid_a = lw6sys_process_fork_and_call (_guile_test_run,
+							&param_a);
+		  if (pid_c != 0 && pid_a != 0)
+		    {
+		      _guile_test_run (&param_b);
+		    }
+		  if (pid_c != 0)
+		    {
+		      lw6sys_process_kill_1_9 (pid_c);
+		    }
+		  if (pid_a != 0)
+		    {
+		      lw6sys_process_kill_1_9 (pid_a);
+		    }
+		  param_c.log_level_id = default_log_level_id;
+		  param_a.log_level_id = default_log_level_id;
 		}
-	      if (pid_c != 0)
-		{
-		  lw6sys_process_kill_1_9 (pid_c);
-		}
-	      if (pid_a != 0)
-		{
-		  lw6sys_process_kill_1_9 (pid_a);
-		}
-	      param_c.log_level_id = default_log_level_id;
-	      param_a.log_level_id = default_log_level_id;
 
-	      /*
-	       * Third network test, we launch node_c in the main thread,
-	       * and fire node_a and node_b in separate threads.
-	       * We won't get the result from the node_a and node_b but
-	       * this is not a problem, we run the same test in other
-	       * configurations to gather that output.
-	       */
-	      param_a.log_level_id = LW6SYS_LOG_ERROR_ID;
-	      param_b.log_level_id = LW6SYS_LOG_ERROR_ID;
-	      pid_a = lw6sys_process_fork_and_call (_guile_test_run,
-						    &param_a);
-	      pid_b = lw6sys_process_fork_and_call (_guile_test_run,
-						    &param_b);
-	      if (pid_a != 0 && pid_b != 0)
+	      if (run_c)
 		{
-		  _guile_test_run (&param_c);
+		  /*
+		   * Third network test, we launch node_c in the main thread,
+		   * and fire node_a and node_b in separate threads.
+		   * We won't get the result from the node_a and node_b but
+		   * this is not a problem, we run the same test in other
+		   * configurations to gather that output.
+		   */
+		  param_a.log_level_id = LW6SYS_LOG_ERROR_ID;
+		  param_b.log_level_id = LW6SYS_LOG_ERROR_ID;
+		  pid_a = lw6sys_process_fork_and_call (_guile_test_run,
+							&param_a);
+		  pid_b = lw6sys_process_fork_and_call (_guile_test_run,
+							&param_b);
+		  if (pid_a != 0 && pid_b != 0)
+		    {
+		      _guile_test_run (&param_c);
+		    }
+		  if (pid_a != 0)
+		    {
+		      lw6sys_process_kill_1_9 (pid_a);
+		    }
+		  if (pid_b != 0)
+		    {
+		      lw6sys_process_kill_1_9 (pid_b);
+		    }
+		  param_a.log_level_id = default_log_level_id;
+		  param_b.log_level_id = default_log_level_id;
 		}
-	      if (pid_a != 0)
-		{
-		  lw6sys_process_kill_1_9 (pid_a);
-		}
-	      if (pid_b != 0)
-		{
-		  lw6sys_process_kill_1_9 (pid_b);
-		}
-	      param_a.log_level_id = default_log_level_id;
-	      param_b.log_level_id = default_log_level_id;
 	    }
 	  else
 	    {
