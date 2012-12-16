@@ -228,11 +228,10 @@ _test_callback (_lw6_test_param_t * param)
   LW6SYS_TEST_FUNCTION_END;
 
   /*
-   * Since we want to perform some network tests even if some other 
-   * tests failed we need to go the "set me to 1 only if I was already
-   * to 1 and the latest worked" route.
+   * Local ret is initialized to 1, but the caller's param->ret
+   * was set to 0 (else non-running script would return 1).
    */
-  param->ret = param->ret && ret;
+  param->ret = ret;
 }
 
 static void *
@@ -337,7 +336,6 @@ lw6_test (int mode)
       param.suite = _TEST_SUITE_MAIN;
       param.coverage_check = 1;
       param.log_level_id = default_log_level_id;
-      param.ret = 1;
 
       memcpy (&param_a, &param, sizeof (_lw6_test_param_t));
       memcpy (&param_b, &param, sizeof (_lw6_test_param_t));
@@ -449,6 +447,9 @@ lw6_test (int mode)
 	      lw6sys_log (LW6SYS_LOG_WARNING,
 			  _x_
 			  ("skipping client/server test, platform does not have adequate process support and/or it's likely to fail anyway"));
+	      param_a.ret = 1;
+	      param_b.ret = 1;
+	      param_c.ret = 1;
 	    }
 	}
 

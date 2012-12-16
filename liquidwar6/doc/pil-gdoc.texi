@@ -474,6 +474,15 @@ This will basically decrease next_seq by seq_inc.
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {int} {lw6pil_pilot_get_round_0} (lw6pil_pilot_t * @var{pilot})
+@var{pilot}:  pilot object to query
+
+Get the initial round (the one passed at object construction) which
+says what the round was at object creation, it's just an offset.
+
+@strong{Return value:}  64-bit integer
+@end deftypefun
+
 @deftypefun {int64_t} {lw6pil_pilot_get_seq_0} (lw6pil_pilot_t * @var{pilot})
 @var{pilot}:  pilot object to query
 
@@ -662,7 +671,7 @@ Get the base seq_0 for the reference test suite.
 @strong{Return value:}  64-bit integer.
 @end deftypefun
 
-@deftypefun {int64_t} {lw6pil_suite_get_node_id} (int @var{node_index})
+@deftypefun {u_int64_t} {lw6pil_suite_get_node_id} (int @var{node_index})
 @var{node_index}:  index of the node we want informations about
 
 Get the node_id associated to an index, typically a 64-bit

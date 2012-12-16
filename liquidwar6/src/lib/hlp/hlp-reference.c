@@ -2853,6 +2853,14 @@ populate_references ()
 		 _x_ ("Wrapper on lw6pil_speed_up."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_SLOW_DOWN,
 		 _x_ ("Wrapper on lw6pil_slow_down."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_ROUND_0,
+		 _x_ ("Wrapper on lw6pil_get_round_0."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_SEQ_0,
+		 _x_ ("Wrapper on lw6pil_get_seq_0."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SEQ2ROUND,
+		 _x_ ("Wrapper on lw6pil_seq2round."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_ROUND2SEQ,
+		 _x_ ("Wrapper on lw6pil_round2seq."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_GET_NEXT_SEQ,
 		 _x_ ("Wrapper on lw6pil_get_next_seq."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_GET_LAST_COMMIT_SEQ,

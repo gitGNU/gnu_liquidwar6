@@ -42,6 +42,9 @@
 	;; on the list of discovered servers, so this isn't a real
 	;; issue but here, we need to help the batch to work.
 	(c-lw6sys-delay (/ lw6-test-network-connect-delay 10))
+	;; Now really wait for some long time to give a and b a chance
+	;; to finish their stuff.
+	(c-lw6sys-delay lw6-test-network-shift-delay)
 	(let* (
 	       (db (c-lw6p2p-db-new db-name))
 	       (node (c-lw6p2p-node-new db (list (cons "client-backends" "tcp,udp")
@@ -55,13 +58,13 @@
 						   (cons "description" (_ "Dummy test node C"))
 						   (cons "bench" 10)
 						   (cons "open-relay" #f)
-						   (cons "known-nodes" "http://localhost:8057/")
+						   (cons "known-nodes" "http://localhost:8058/")
 						   (cons "network-reliability" 100)
 						   (cons "trojan" #f)
 						   )))
 	       (id-2 (c-lw6p2p-node-get-id node))
 	       (time-limit (+ lw6-test-network-global-delay (c-lw6sys-get-timestamp)))
-	       (connect-time (- time-limit lw6-test-network-connect-delay))
+	       (connect-time (- time-limit (+ lw6-test-network-connect-delay lw6-test-network-shift-delay)))
 	       (connect-ret #f)
 	       (server-entry #f)
 	       )
@@ -73,7 +76,7 @@
 			 (entries (c-lw6p2p-node-get-entries node))
 			 )
 		     (begin		     
-		       (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8057/")
+		       (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8058/")
 						(assoc-ref x "id"))
 					   (begin
 					     ;; We wait a bit before trying to join, trying
@@ -103,6 +106,7 @@
 		     (set! ret #t) ;; todo, fix this and set it to true on real success
 		     ))
 	    (c-lw6p2p-node-close node)
+	    (set! ret #t) ;; todo, fix this and set it to true on real success
 	    ))
 	(c-lw6net-quit)
 	(gc)     

@@ -37,12 +37,15 @@
 	;; at least for some time.
 	(c-lw6p2p-db-reset db-name)
 	(let* (
+	       (timestamp-0 (c-lw6sys-get-timestamp))
+	       (seq-0 (c-lw6pil-suite-get-seq-0))
+	       (id (c-lw6pil-suite-get-node-id 0))
 	       (db (c-lw6p2p-db-new db-name))
 	       (node (c-lw6p2p-node-new db (list (cons "client-backends" "tcp,udp")
 						   (cons "server-backends" "tcpd,udpd,httpd")
 						   (cons "bind-ip" "0.0.0.0")
 						   (cons "bind-port" 8057)
-						   (cons "node-id" (c-lw6pil-suite-get-node-id 0))
+						   (cons "node-id" id)
 						   (cons "public-url" "http://localhost:8057/")
 						   (cons "password" "")
 						   (cons "title" "")
@@ -53,24 +56,25 @@
 						   (cons "network-reliability" 100)
 						   (cons "trojan" #f)
 						   )))
-	       (id-1 (c-lw6p2p-node-get-id node))
-	       (the-map-1 (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))
-	       (game-struct-1 (c-lw6ker-build-game-struct the-map-1))
-	       (game-state-1 (c-lw6ker-build-game-state game-struct-1))
-	       (pilot-1 (c-lw6pil-build-pilot game-state-1
-					      1000000000000
-					      0))
-	       (time-limit (+ lw6-test-network-global-delay (c-lw6sys-get-timestamp)))
+	       (dump (c-lw6pil-suite-init timestamp-0))
+	       (level (assoc-ref dump "level"))
+	       (game-struct (assoc-ref dump "game-struct"))
+	       (game-state (assoc-ref dump "game-state"))
+	       (pilot (assoc-ref dump "pilot"))
+	       (time-limit (+ lw6-test-network-global-delay timestamp-0))
 	       )
 	  (begin
 	    (lw6-log-notice node)
 	    (c-lw6p2p-node-poll node)
-	    (c-lw6pil-send-command pilot-1 (format #f "1000000000010 ~a REGISTER" id-1) #t)
-	    (c-lw6pil-send-command pilot-1 (format #f "1000000000010 ~a ADD 5678 RED" id-1) #t)
-	    (c-lw6pil-commit pilot-1)
-	    (c-lw6p2p-node-server-start node 1000000000000)
+	    (map (lambda (command) (begin
+				     (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 0" command))
+				     (c-lw6pil-send-command pilot command #t)
+				     ))
+		 (c-lw6pil-suite-get-commands-by-node-index 0 0))
+	    (c-lw6pil-commit pilot)
+	    (c-lw6p2p-node-server-start node seq-0)
 	    (let (
-		  (seq (c-lw6pil-get-last-commit-seq pilot-1))
+		  (seq (c-lw6pil-get-last-commit-seq pilot))
 		  )
 	      (while (< (c-lw6sys-get-timestamp) time-limit)
 		     (begin
@@ -80,7 +84,7 @@
 			(
 			 (c-lw6p2p-node-is-seed-needed node)
 			 (let (
-			       (seed-command (c-lw6pil-seed-command-generate pilot-1 id-1))
+			       (seed-command (c-lw6pil-seed-command-generate pilot id))
 			       )
 			   (begin
 			     (lw6-log-notice (format #f "seed-command -> ~a" seed-command))
@@ -92,7 +96,7 @@
 			(
 			 (c-lw6p2p-node-is-dump-needed node)
 			 (let (
-			       (dump-command (c-lw6pil-dump-command-generate pilot-1 id-1))
+			       (dump-command (c-lw6pil-dump-command-generate pilot id))
 			       )
 			   (begin
 			     (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
@@ -104,13 +108,14 @@
 			   ))
 			(
 			 ;; Don't send NOP too often...
-			 (< (random 10000) 10)
+			 ;;(< (random 10000) 10)
+			 #f
 			 (let (
 			       ;;(nop-command (lw6-command-nop (c-lw6pil-get-next-seq 
-			       ;;			      pilot-1
+			       ;;			      pilot
 			       ;;			      (c-lw6sys-get-timestamp)) 
-			       ;;			     id-1))
-			       (nop-command (lw6-command-nop seq id-1))
+			       ;;			     id))
+			       (nop-command (lw6-command-nop seq id))
 			       )
 			   ;; OK, we put it with the same seq, else it won't show
 			   ;; up in draft messages. Next versions should test

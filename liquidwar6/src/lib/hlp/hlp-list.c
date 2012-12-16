@@ -1171,6 +1171,10 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_CALIBRATE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SPEED_UP);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SLOW_DOWN);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_GET_ROUND_0);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_GET_SEQ_0);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SEQ2ROUND);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_ROUND2SEQ);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_GET_NEXT_SEQ);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_GET_LAST_COMMIT_SEQ);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_GET_REFERENCE_CURRENT_SEQ);

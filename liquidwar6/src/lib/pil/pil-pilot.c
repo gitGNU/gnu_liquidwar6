@@ -63,6 +63,7 @@ _lw6pil_pilot_new (lw6ker_game_state_t * game_state, int64_t seq_0,
 	}
       ret->last_commit_seq = -1L;
       ret->last_sync_draft_from_reference_seq = -1L;
+      ret->round_0 = lw6ker_game_state_get_rounds (game_state);
       ret->seq_0 = seq_0;
       _lw6pil_pilot_calibrate (ret, timestamp,
 			       seq_0 +
@@ -949,6 +950,28 @@ lw6pil_pilot_slow_down (lw6pil_pilot_t * pilot, int seq_dec)
   _lw6pil_pilot_slow_down ((_lw6pil_pilot_t *) pilot, seq_dec);
 }
 
+int
+_lw6pil_pilot_get_round_0 (_lw6pil_pilot_t * pilot)
+{
+  return pilot->round_0;
+}
+
+/**
+ * lw6pil_pilot_get_round_0
+ *
+ * @pilot: pilot object to query
+ * 
+ * Get the initial round (the one passed at object construction) which
+ * says what the round was at object creation, it's just an offset.
+ *
+ * Return value: 64-bit integer
+ */
+int
+lw6pil_pilot_get_round_0 (lw6pil_pilot_t * pilot)
+{
+  return _lw6pil_pilot_get_round_0 ((_lw6pil_pilot_t *) pilot);
+}
+
 int64_t
 _lw6pil_pilot_get_seq_0 (_lw6pil_pilot_t * pilot)
 {
@@ -975,7 +998,8 @@ int
 _lw6pil_pilot_seq2round (_lw6pil_pilot_t * pilot, int64_t seq)
 {
   return (seq >=
-	  _LW6PIL_MIN_SEQ_0 ? (seq - _lw6pil_pilot_get_seq_0 (pilot)) : -1);
+	  _LW6PIL_MIN_SEQ_0 ? ((seq - _lw6pil_pilot_get_seq_0 (pilot)) +
+			       _lw6pil_pilot_get_round_0 (pilot)) : -1);
 }
 
 /**
@@ -1000,7 +1024,8 @@ lw6pil_pilot_seq2round (lw6pil_pilot_t * pilot, int64_t seq)
 int64_t
 _lw6pil_pilot_round2seq (_lw6pil_pilot_t * pilot, int round)
 {
-  return round + _lw6pil_pilot_get_seq_0 (pilot);
+  return round + _lw6pil_pilot_get_seq_0 (pilot) -
+    _lw6pil_pilot_get_round_0 (pilot);
 }
 
 /**

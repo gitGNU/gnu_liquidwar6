@@ -38,7 +38,7 @@ _lw6pil_worker_init (lw6pil_worker_t * worker,
   worker->run = 1;
   worker->verified = verified;
   worker->target_round = lw6ker_game_state_get_rounds (game_state);
-  worker->current_round = worker->current_round;
+  worker->current_round = worker->target_round;
   worker->computed_rounds = 0;
   worker->game_state = lw6ker_game_state_dup (game_state, progress);
   if (worker->game_state)

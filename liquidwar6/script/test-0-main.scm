@@ -443,12 +443,18 @@
 	   (pilot (c-lw6pil-build-pilot game-state					   
 					(c-lw6pil-seq-random-0)
 					0))
+	   (round-0 (c-lw6pil-get-round-0 pilot))
+	   (seq-0 (c-lw6pil-get-seq-0 pilot))
+	   (round-from-seq (c-lw6pil-seq2round pilot seq-0))
+	   (seq-from-round (c-lw6pil-round2seq pilot round-0))
 	   )
       (begin
-	(c-lw6sys-sleep 1)
-	(lw6-log-notice pilot)
-	(c-lw6sys-sleep 1)
-	(if pilot #t #f)
+	(c-lw6sys-idle)
+	(lw6-log-notice (format #f "pilot -> \"~a\"" pilot))
+	(lw6-log-notice (format #f "round-0 -> \"~a\", seq-0 -> ~a" round-0 seq-0))
+	(lw6-log-notice (format #f "round-from-seq -> \"~a\", seq-from-round -> ~a" round-from-seq seq-from-round))
+	(c-lw6sys-snooze)
+	(if (and pilot (= round-0 round-from-seq) (= seq-0 seq-from-round)) #t #f)
 	))))
 
 (define lw6-test-suite

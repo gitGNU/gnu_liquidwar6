@@ -31,6 +31,7 @@
 typedef struct _lw6pil_pilot_s
 {
   u_int32_t id;
+  int round_0;
   int64_t seq_0;
   int64_t calibrate_timestamp;
   int64_t calibrate_seq;

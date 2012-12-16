@@ -1030,6 +1030,16 @@ Wrapper on lw6pil_get_reference_current_seq.
 Wrapper on lw6pil_get_reference_target_seq.
 @end deffn
 
+@subsection c-lw6pil-get-round-0
+@deffn {C function exported to Guile} @code{c-lw6pil-get-round-0}
+Wrapper on lw6pil_get_round_0.
+@end deffn
+
+@subsection c-lw6pil-get-seq-0
+@deffn {C function exported to Guile} @code{c-lw6pil-get-seq-0}
+Wrapper on lw6pil_get_seq_0.
+@end deffn
+
 @subsection c-lw6pil-get-winner
 @deffn {C function exported to Guile} @code{c-lw6pil-get-winner}
 Wrapper on lw6pil_get_winner.
@@ -1065,6 +1075,11 @@ Wrapper on lw6pil_make_backup.
 Wrapper on lw6pil_poll_dump.
 @end deffn
 
+@subsection c-lw6pil-round2seq
+@deffn {C function exported to Guile} @code{c-lw6pil-round2seq}
+Wrapper on lw6pil_round2seq.
+@end deffn
+
 @subsection c-lw6pil-seed-command-generate
 @deffn {C function exported to Guile} @code{c-lw6pil-seed-command-generate}
 Wrapper on lw6pil_seed_command_generate.
@@ -1078,6 +1093,11 @@ Wrapper on lw6pil_send_command.
 @subsection c-lw6pil-seq-random-0
 @deffn {C function exported to Guile} @code{c-lw6pil-seq-random-0}
 Wrapper on lw6pil_seq_random_0.
+@end deffn
+
+@subsection c-lw6pil-seq2round
+@deffn {C function exported to Guile} @code{c-lw6pil-seq2round}
+Wrapper on lw6pil_seq2round.
 @end deffn
 
 @subsection c-lw6pil-slow-down

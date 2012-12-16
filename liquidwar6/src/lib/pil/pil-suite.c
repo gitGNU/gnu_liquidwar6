@@ -37,9 +37,9 @@
 
 #define _SEQ_0 1000000000000LL
 
-#define _NODE_A_ID 1001100110011001LL
-#define _NODE_B_ID 2002200220022002LL
-#define _NODE_C_ID 3003300330033003LL
+#define _NODE_A_ID 0x1001100110011001LL
+#define _NODE_B_ID 0x2002200220022002LL
+#define _NODE_C_ID 0x3003300330033003LL
 
 #define _MAX_MESSAGES_PER_NODE_AND_STAGE 20
 #define _INIT_SCALE_PERCENT 33
@@ -200,7 +200,7 @@ lw6pil_suite_get_seq_0 ()
  *
  * Return value: the node id, as an unsigned 64-bit integer
  */
-int64_t
+u_int64_t
 lw6pil_suite_get_node_id (int node_index)
 {
   u_int64_t ret = 0LL;

@@ -782,6 +782,110 @@ _scm_lw6pil_slow_down (SCM pilot, SCM round_dec)
 }
 
 static SCM
+_scm_lw6pil_get_round_0 (SCM pilot)
+{
+  lw6pil_pilot_t *c_pilot = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.pilot,
+	       pilot), pilot, SCM_ARG1, __FUNCTION__);
+
+  c_pilot = lw6_scm_to_pilot (pilot);
+  if (c_pilot)
+    {
+      ret = scm_from_int (lw6pil_pilot_get_round_0 (c_pilot));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6pil_get_seq_0 (SCM pilot)
+{
+  lw6pil_pilot_t *c_pilot = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.pilot,
+	       pilot), pilot, SCM_ARG1, __FUNCTION__);
+
+  c_pilot = lw6_scm_to_pilot (pilot);
+  if (c_pilot)
+    {
+      ret = scm_from_long_long (lw6pil_pilot_get_seq_0 (c_pilot));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6pil_seq2round (SCM pilot, SCM seq)
+{
+  lw6pil_pilot_t *c_pilot = NULL;
+  int64_t c_seq;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.pilot,
+	       pilot), pilot, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (seq), seq, SCM_ARG2, __FUNCTION__);
+
+  c_pilot = lw6_scm_to_pilot (pilot);
+  if (c_pilot)
+    {
+      c_seq = scm_to_long_long (seq);
+
+      ret = scm_from_int (lw6pil_pilot_seq2round (c_pilot, c_seq));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6pil_round2seq (SCM pilot, SCM round)
+{
+  lw6pil_pilot_t *c_pilot = NULL;
+  int64_t c_round;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.pilot,
+	       pilot), pilot, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (round), round, SCM_ARG2, __FUNCTION__);
+
+  c_pilot = lw6_scm_to_pilot (pilot);
+  if (c_pilot)
+    {
+      c_round = scm_to_int (round);
+
+      ret = scm_from_long_long (lw6pil_pilot_round2seq (c_pilot, c_round));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6pil_get_next_seq (SCM pilot, SCM timestamp)
 {
   lw6pil_pilot_t *c_pilot = NULL;
@@ -1309,6 +1413,18 @@ lw6_register_funcs_pil ()
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SLOW_DOWN, 2, 0, 0,
 			      (SCM (*)())_scm_lw6pil_slow_down);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_ROUND_0, 1, 0, 0,
+			      (SCM (*)())_scm_lw6pil_get_round_0);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_SEQ_0, 1, 0, 0,
+			      (SCM (*)())_scm_lw6pil_get_seq_0);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SEQ2ROUND, 2, 0, 0,
+			      (SCM (*)())_scm_lw6pil_seq2round);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_ROUND2SEQ, 2, 0, 0,
+			      (SCM (*)())_scm_lw6pil_round2seq);
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_NEXT_SEQ, 2, 0, 0,
 			      (SCM (*)())_scm_lw6pil_get_next_seq);
