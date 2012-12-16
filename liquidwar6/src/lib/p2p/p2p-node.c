@@ -245,7 +245,8 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 
   if (node && ret)
     {
-      node->warehouse = lw6dat_warehouse_new (node->node_id_int);
+      node->warehouse =
+	lw6dat_warehouse_new (node->node_id_int, _LW6P2P_NODE_DEFAULT_SEQ_0);
       ret = (node->warehouse != NULL);
     }
 
@@ -1686,6 +1687,7 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node, int64_t seq_0)
 		      node->node_info->const_info.bench /
 		      LW6P2P_BENCH_NETWORK_DIVIDE, 0, 0, 0, 0, 0, 0, 0, NULL);
   _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (), seq_0);
+  lw6dat_warehouse_set_local_seq_0 (node->warehouse, seq_0);
 
   ret = 1;
 
@@ -1904,7 +1906,8 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
    * and a clear only is too much for it looses the local_id
    */
   lw6dat_warehouse_clear (node->warehouse);
-  lw6dat_warehouse_init (node->warehouse, node->node_id_int);
+  lw6dat_warehouse_init (node->warehouse, node->node_id_int,
+			 _LW6P2P_NODE_DEFAULT_SEQ_0);
 
   for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
     {

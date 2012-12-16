@@ -112,6 +112,7 @@ typedef struct _lw6dat_stack_s
 {
   u_int64_t node_id;
   const char *node_id_str;
+  int seq_0;
   int serial_0;
   int serial_n_1;
   int serial_min;
@@ -186,7 +187,7 @@ extern void _lw6dat_stack_zero (_lw6dat_stack_t * stack);
 extern void _lw6dat_stack_clear (_lw6dat_stack_t * stack);
 extern void _lw6dat_stack_purge (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id,
-			       int serial_0);
+			       int serial_0, int64_t seq_0);
 extern int _lw6dat_stack_get_serial (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 				   int serial,
@@ -247,8 +248,9 @@ _lw6dat_stack_get_block_index (_lw6dat_stack_t * stack, int serial)
 
 /* dat-warehouse.c */
 extern int _lw6dat_warehouse_init (_lw6dat_warehouse_t * warehouse,
-				   u_int64_t local_node_id);
-extern _lw6dat_warehouse_t *_lw6dat_warehouse_new (u_int64_t local_node_id);
+				   u_int64_t local_node_id, int64_t seq_0);
+extern _lw6dat_warehouse_t *_lw6dat_warehouse_new (u_int64_t local_node_id,
+						   int64_t seq_0);
 extern void _lw6dat_warehouse_free (_lw6dat_warehouse_t * warehouse);
 extern void _lw6dat_warehouse_clear (_lw6dat_warehouse_t * warehouse);
 extern void _lw6dat_warehouse_purge (_lw6dat_warehouse_t * warehouse);
@@ -257,10 +259,15 @@ extern u_int64_t _lw6dat_warehouse_get_local_id (_lw6dat_warehouse_t *
 						 warehouse);
 extern int _lw6dat_warehouse_get_local_serial (_lw6dat_warehouse_t *
 					       warehouse);
+extern int64_t _lw6dat_warehouse_get_local_seq_0 (_lw6dat_warehouse_t *
+						  warehouse);
+extern void _lw6dat_warehouse_set_local_seq_0 (_lw6dat_warehouse_t *
+					       warehouse, int64_t seq_0);
 extern int _lw6dat_warehouse_get_stack_index (_lw6dat_warehouse_t * warehouse,
 					      u_int64_t node_id);
 extern int _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
-					    u_int64_t node_id, int serial_0);
+					    u_int64_t node_id, int serial_0,
+					    int64_t seq_0);
 extern int _lw6dat_warehouse_is_node_registered (_lw6dat_warehouse_t *
 						 warehouse,
 						 u_int64_t node_id);

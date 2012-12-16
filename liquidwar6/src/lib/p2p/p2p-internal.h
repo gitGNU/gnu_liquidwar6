@@ -76,6 +76,8 @@
 #define _LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC 24
 #define _LW6P2P_DB_NODE_ORDER_AVAILABLE 25
 
+#define _LW6P2P_NODE_DEFAULT_SEQ_0 0LL
+
 typedef int (*_lw6p2p_db_callback_t) (void *func_data, int nb_fields,
 				      char **fields_values,
 				      char **fields_names);

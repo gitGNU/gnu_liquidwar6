@@ -139,7 +139,8 @@ static const char
    /*
     * STAGE_2 messages
     */
-   {NULL},
+   {"1000000010006 2002200220022002 NOP",
+    NULL},
    /*
     * STAGE_3 messages
     */
@@ -195,7 +196,7 @@ static const char
    /*
     * STAGE_4 messages
     */
-   {NULL},
+   {"1000000025006 3003300330033003 NOP", NULL},
    /*
     * STAGE_5 messages
     */

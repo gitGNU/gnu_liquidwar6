@@ -30,7 +30,7 @@
 
 int
 _lw6dat_warehouse_init (_lw6dat_warehouse_t * warehouse,
-			u_int64_t local_node_id)
+			u_int64_t local_node_id, int64_t seq_0)
 {
   int ok = 0;
   int stack_index = 0;
@@ -42,7 +42,7 @@ _lw6dat_warehouse_init (_lw6dat_warehouse_t * warehouse,
 	{
 	  if (_lw6dat_stack_init
 	      (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]),
-	       local_node_id, _LW6DAT_SERIAL_START))
+	       local_node_id, _LW6DAT_SERIAL_START, seq_0))
 	    {
 	      ok = 1;
 	    }
@@ -64,19 +64,20 @@ _lw6dat_warehouse_init (_lw6dat_warehouse_t * warehouse,
  *
  * @warehouse: object to initialize 
  * @local_node_id: id of local node, used to handle local messages
+ * @seq_0: initial seq number
  *
  * Return value: new object, allocated dynamically
  */
 int
 lw6dat_warehouse_init (lw6dat_warehouse_t * warehouse,
-		       u_int64_t local_node_id)
+		       u_int64_t local_node_id, int64_t seq_0)
 {
   return _lw6dat_warehouse_init ((_lw6dat_warehouse_t *) warehouse,
-				 local_node_id);
+				 local_node_id, seq_0);
 }
 
 _lw6dat_warehouse_t *
-_lw6dat_warehouse_new (u_int64_t local_node_id)
+_lw6dat_warehouse_new (u_int64_t local_node_id, int64_t seq_0)
 {
   _lw6dat_warehouse_t *warehouse;
   int ok = 0;
@@ -85,7 +86,7 @@ _lw6dat_warehouse_new (u_int64_t local_node_id)
     (_lw6dat_warehouse_t *) LW6SYS_MALLOC (sizeof (_lw6dat_warehouse_t));
   if (warehouse)
     {
-      ok = _lw6dat_warehouse_init (warehouse, local_node_id);
+      ok = _lw6dat_warehouse_init (warehouse, local_node_id, seq_0);
     }
   if (warehouse && !ok)
     {
@@ -102,15 +103,17 @@ _lw6dat_warehouse_new (u_int64_t local_node_id)
  * Creates a new warehouse object.
  *
  * @local_node_id: id of local node, used to handle local messages
+ * @seq_0: initial seq number
  *
  * Return value: new object, allocated dynamically
  */
 lw6dat_warehouse_t *
-lw6dat_warehouse_new (u_int64_t local_node_id)
+lw6dat_warehouse_new (u_int64_t local_node_id, int64_t seq_0)
 {
   lw6dat_warehouse_t *warehouse;
 
-  warehouse = (lw6dat_warehouse_t *) _lw6dat_warehouse_new (local_node_id);
+  warehouse =
+    (lw6dat_warehouse_t *) _lw6dat_warehouse_new (local_node_id, seq_0);
 
   return warehouse;
 }
@@ -300,9 +303,57 @@ lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t * warehouse)
 					     warehouse);
 }
 
+int64_t
+_lw6dat_warehouse_get_local_seq_0 (_lw6dat_warehouse_t * warehouse)
+{
+  return warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0;
+}
+
+/**
+ * lw6dat_warehouse_get_local_seq_0
+ *
+ * @warehouse: the warehouse object to query
+ *
+ * Gives the warehouse seq_0 number, any seq below does not make sense.
+ *
+ * Return value: long integer.
+ */
+int64_t
+lw6dat_warehouse_get_local_seq_0 (lw6dat_warehouse_t * warehouse)
+{
+  return _lw6dat_warehouse_get_local_seq_0 ((_lw6dat_warehouse_t *)
+					    warehouse);
+}
+
+void
+_lw6dat_warehouse_set_local_seq_0 (_lw6dat_warehouse_t * warehouse,
+				   int64_t seq_0)
+{
+  warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0 = seq_0;
+}
+
+/**
+ * lw6dat_warehouse_set_local_seq_0
+ *
+ * @warehouse: the warehouse object to modify
+ * @seq_0: the new seq value
+ *
+ * Set the warehouse seq_0 number, any seq below does not make sense.
+ *
+ * Return value: none.
+ */
+void
+lw6dat_warehouse_set_local_seq_0 (lw6dat_warehouse_t * warehouse,
+				  int64_t seq_0)
+{
+  _lw6dat_warehouse_set_local_seq_0 ((_lw6dat_warehouse_t *) warehouse,
+				     seq_0);
+}
+
 int
 _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
-				 u_int64_t node_id, int serial_0)
+				 u_int64_t node_id, int serial_0,
+				 int64_t seq_0)
 {
   int ret = -1;
   int stack_index;
@@ -317,7 +368,8 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 	  if (warehouse->stacks[stack_index].node_id == 0)
 	    {
 	      if (_lw6dat_stack_init
-		  (&(warehouse->stacks[stack_index]), node_id, serial_0))
+		  (&(warehouse->stacks[stack_index]), node_id, serial_0,
+		   seq_0))
 		{
 		  ret = stack_index;
 		}
@@ -339,6 +391,7 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
  * @warehouse: object to update
  * @node_id: id of node to register
  * @serial_0: serial number of first message 
+ * @seq_0: initial seq number
  *
  * Registers a node, in practice this is automatically done when receiving
  * a data message but it might be interesting to do it elsewhere and force it.
@@ -347,10 +400,11 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
  */
 int
 lw6dat_warehouse_register_node (lw6dat_warehouse_t * warehouse,
-				u_int64_t node_id, int serial_0)
+				u_int64_t node_id, int serial_0,
+				int64_t seq_0)
 {
   return _lw6dat_warehouse_register_node ((_lw6dat_warehouse_t *) warehouse,
-					  node_id, serial_0);
+					  node_id, serial_0, seq_0);
 }
 
 int
@@ -397,7 +451,8 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
   if (stack_index < 0)
     {
       stack_index =
-	_lw6dat_warehouse_register_node (warehouse, logical_from, serial);
+	_lw6dat_warehouse_register_node (warehouse, logical_from, serial,
+					 seq);
     }
   if (stack_index >= 0)
     {

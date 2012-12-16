@@ -113,6 +113,7 @@ lw6p2p_entry_new (int creation_timestamp, char *version, char *codename,
 	  strncpy (entry->community_id, community_id,
 		   LW6P2P_COMMUNITY_ID_SIZE);
 	}
+      entry->round = round;
       if (level)
 	{
 	  strncpy (entry->level, level, LW6P2P_LEVEL_SIZE);

@@ -576,6 +576,21 @@ _lw6pil_pilot_make_backup (_lw6pil_pilot_t * pilot)
 {
   int ret = 0;
 
+  /*
+   * Before we start the backup, we want to make sure
+   * the backup really corresponds to the right seq, so
+   * we basically wait until reference is up-to-date.
+   *
+   * It's not as crucial as for a dump, but it can avoid
+   * mysterious bugs, why on earth my backup was done
+   * in the past, and why can't I find the backup I want?
+   */
+  while (_lw6pil_pilot_get_reference_current_seq (pilot) <
+	 _lw6pil_pilot_get_last_commit_seq (pilot))
+    {
+      lw6sys_idle ();
+    }
+
   ret = _lw6pil_pilot_sync_from_reference (pilot->backup, pilot);
 
   return ret;

@@ -20,7 +20,7 @@
 
 (define lw6-test-network-global-delay 180000)
 (define lw6-test-network-connect-delay 60000)
-(define lw6-test-network-shift-delay 90000)
+(define lw6-test-network-shift-delay 7000)
 (define lw6-test-network-update-delay 3000)
 
 (define lw6-test-run
@@ -66,7 +66,7 @@
 	  )
       (begin
 	(lw6-log-notice (format #f "updating info of node \"~a\" with param \"~a\"" node param))
-	#t
+	(c-lw6p2p-node-update-info node param)
 	))))
 
 	  

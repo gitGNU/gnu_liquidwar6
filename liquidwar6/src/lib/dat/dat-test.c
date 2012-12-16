@@ -48,6 +48,7 @@
 
 #define _TEST_STACK_NODE_ID 0x2345234523452345LL
 #define _TEST_STACK_SERIAL_0 123
+#define _TEST_STACK_SEQ_0 10LL
 #define _TEST_STACK_ORDER_I 0
 #define _TEST_STACK_ORDER_N 1
 #define _TEST_STACK_SEQ 10000000000005LL
@@ -75,6 +76,7 @@
 #define _TEST_WAREHOUSE_SERIAL 789
 #define _TEST_WAREHOUSE_ORDER_I 0
 #define _TEST_WAREHOUSE_ORDER_N 1
+#define _TEST_WAREHOUSE_SEQ_0 10LL
 #define _TEST_WAREHOUSE_SEQ 10000000000007LL
 #define _TEST_WAREHOUSE_TEXT "spam and ham"
 #define _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET 0
@@ -375,7 +377,8 @@ test_stack ()
     int worst_msg_n = 0;
 
     _lw6dat_stack_zero (&stack);
-    _lw6dat_stack_init (&stack, _TEST_STACK_NODE_ID, _TEST_STACK_SERIAL_0);
+    _lw6dat_stack_init (&stack, _TEST_STACK_NODE_ID, _TEST_STACK_SERIAL_0,
+			_TEST_STACK_SEQ_0);
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("putting %d atoms in stack"),
 		_TEST_STACK_NB_RANDOM_PUT);
     for (i = 0; i < _TEST_STACK_NB_RANDOM_PUT; ++i)
@@ -756,7 +759,9 @@ test_warehouse ()
     lw6sys_progress_default (&progress, &progress_value);
     lw6sys_progress_begin (&progress);
 
-    _warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
+    _warehouse =
+      _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID,
+			     _TEST_WAREHOUSE_SEQ_0);
     if (_warehouse)
       {
 	if (_lw6dat_warehouse_put_atom
@@ -804,7 +809,9 @@ test_warehouse ()
 	ret = 0;
       }
 
-    _warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
+    _warehouse =
+      _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID,
+			     _TEST_WAREHOUSE_SEQ_0);
     if (_warehouse)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("putting %d atoms in warehouse"),
@@ -867,7 +874,9 @@ test_warehouse ()
 	ret = 0;
       }
 
-    warehouse = lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
+    warehouse =
+      lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID,
+			    _TEST_WAREHOUSE_SEQ_0);
     if (warehouse)
       {
 	if (lw6dat_warehouse_get_local_id (warehouse) !=
@@ -976,7 +985,9 @@ test_warehouse ()
 		    (long long) seq_min, (long long) seq_max,
 		    (long long) seq_draft, (long long) seq_reference);
 
-	warehouse2 = lw6dat_warehouse_new (_TEST_WAREHOUSE_OTHER_NODE_ID);
+	warehouse2 =
+	  lw6dat_warehouse_new (_TEST_WAREHOUSE_OTHER_NODE_ID,
+				_TEST_WAREHOUSE_SEQ_0);
 	if (warehouse2)
 	  {
 	    id_str = lw6sys_id_ltoa (_TEST_WAREHOUSE_LOCAL_NODE_ID);

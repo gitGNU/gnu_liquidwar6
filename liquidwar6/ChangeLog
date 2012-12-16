@@ -1,5 +1,7 @@
 2012-12-16 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Modifying the script test suite and fixing p2p and dat along the way.
+
 	* Fixed lw6pil round to seq conversion bug.
 
 2012-12-15 : Christian Mauduit <ufoot@ufoot.org>

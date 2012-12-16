@@ -156,9 +156,9 @@
 			(
 			 (= stage 0)
 			 (begin
-			   (lw6-log-notice "stage 0, putting messages in queue")
+			   (lw6-log-notice "stage 1 & 2, putting messages in queue")
 			   (map (lambda (command) (begin
-						    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 0" command))
+						    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 1 & 2" command))
 						    (c-lw6p2p-node-put-local-msg node command)
 						    ))
 				(append (c-lw6pil-suite-get-commands-by-node-index 0 0)
