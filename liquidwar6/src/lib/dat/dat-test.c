@@ -89,6 +89,22 @@
 #define _TEST_WAREHOUSE_OTHER_NODE_MSG "toto"
 #define _TEST_WAREHOUSE_MISS_MAX_RANGE LW6DAT_MISS_MAX_RANGE_UNLIMITED
 
+#define _TEST_MORE_WAREHOUSE_NB_NODES 3
+#define _TEST_MORE_WAREHOUSE_NB_MSGS_PER_STAGE 5
+#define _TEST_MORE_WAREHOUSE_NODE_A_ID 0x1234123412341234LL
+#define _TEST_MORE_WAREHOUSE_NODE_B_ID 0x2345234523452345LL
+#define _TEST_MORE_WAREHOUSE_NODE_C_ID 0x3456345634563456LL
+#define _TEST_MORE_WAREHOUSE_NODE_A_SERIAL 1
+#define _TEST_MORE_WAREHOUSE_NODE_B_SERIAL 10
+#define _TEST_MORE_WAREHOUSE_NODE_C_SERIAL 100
+#define _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0 10000000001000LL
+#define _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0 10000000010000LL
+#define _TEST_MORE_WAREHOUSE_NODE_C_SEQ_0 10000000100000LL
+#define _TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT 10
+#define _TEST_MORE_WAREHOUSE_MSG_CHAR_SHORT 's'
+#define _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG 10000
+#define _TEST_MORE_WAREHOUSE_MSG_CHAR_LONG 'l'
+
 typedef struct _test_stack_msg_data_s
 {
   char *msg4;
@@ -1107,6 +1123,12 @@ test_warehouse ()
 			      }
 			    lw6sys_list_free (list_not_sent);
 			  }
+			else
+			  {
+			    lw6sys_log (LW6SYS_LOG_WARNING,
+					_x_ ("list_not_sent is NULL"));
+			    ret = 0;
+			  }
 		      }
 		    else
 		      {
@@ -1141,6 +1163,175 @@ test_warehouse ()
   return ret;
 }
 
+/*
+ * Even more tests (paranoid mode)
+ */
+static int
+test_more ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6dat_warehouse_t *warehouse[_TEST_MORE_WAREHOUSE_NB_NODES] =
+      { NULL, NULL, NULL };
+    int warehouse_index = 0;
+    int stage = 0;
+    int node_index = 0;
+    int64_t msg_index = 0LL;
+    int64_t seq = 0LL;
+    u_int64_t node_id = 0LL;
+    u_int64_t node_ids[_TEST_MORE_WAREHOUSE_NB_NODES] =
+      { _TEST_MORE_WAREHOUSE_NODE_A_ID, _TEST_MORE_WAREHOUSE_NODE_B_ID,
+      _TEST_MORE_WAREHOUSE_NODE_C_ID
+    };
+    int node_serials[_TEST_MORE_WAREHOUSE_NB_NODES] =
+      { _TEST_MORE_WAREHOUSE_NODE_A_SERIAL,
+      _TEST_MORE_WAREHOUSE_NODE_B_SERIAL, _TEST_MORE_WAREHOUSE_NODE_C_SERIAL
+    };
+    int64_t node_seq_0s[_TEST_MORE_WAREHOUSE_NB_NODES] =
+      { _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0, _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0,
+      _TEST_MORE_WAREHOUSE_NODE_C_SEQ_0
+    };
+    char *msg = NULL;
+    char *short_text = NULL;
+    char *long_text = NULL;
+    lw6sys_list_t *not_sent_list = NULL;
+    int not_sent_length = 0;
+
+    short_text = LW6SYS_MALLOC (_TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT + 1);
+    if (short_text)
+      {
+	memset (short_text, _TEST_MORE_WAREHOUSE_MSG_CHAR_SHORT,
+		_TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT);
+	short_text[_TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT] = '\0';
+	long_text = LW6SYS_MALLOC (_TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG + 1);
+	if (long_text)
+	  {
+	    memset (long_text, _TEST_MORE_WAREHOUSE_MSG_CHAR_LONG,
+		    _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG);
+	    long_text[_TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG] = '\0';
+	    for (warehouse_index = 0;
+		 warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+		 ++warehouse_index)
+	      {
+		warehouse[warehouse_index] =
+		  lw6dat_warehouse_new (node_ids[warehouse_index],
+					_TEST_WAREHOUSE_SEQ_0);
+	      }
+	    if (warehouse[0] && warehouse[1] && warehouse[2])
+	      {
+		for (stage = 0; stage < _TEST_MORE_WAREHOUSE_NB_NODES;
+		     ++stage)
+		  {
+		    /*
+		     * Following line might look wrong but yes, we initialize
+		     * using stage as a node index : the idea is that each
+		     * node is coming in its own time, this is to simulate
+		     * a real life example with several nodes coming one after
+		     * the other.
+		     */
+		    for (warehouse_index = 0;
+			 warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+			 ++warehouse_index)
+		      {
+			if (warehouse_index != stage)
+			  {
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_ ("registering node %"
+					     LW6SYS_PRINTF_LL "x with seq %"
+					     LW6SYS_PRINTF_LL "d"),
+					(long long) node_ids[stage],
+					(long long) node_seq_0s[stage]);
+			    lw6dat_warehouse_register_node (warehouse
+							    [warehouse_index],
+							    node_ids[stage],
+							    node_serials
+							    [stage],
+							    node_seq_0s
+							    [stage]);
+			  }
+		      }
+		    for (node_index = 0; node_index < stage + 1; ++node_index)
+		      {
+			for (msg_index = 0LL;
+			     msg_index <
+			     _TEST_MORE_WAREHOUSE_NB_MSGS_PER_STAGE;
+			     ++msg_index)
+			  {
+			    seq = node_seq_0s[stage] + msg_index;
+			    node_id = node_ids[node_index];
+			    msg =
+			      lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+						  LW6SYS_PRINTF_LL "x %s",
+						  (long long) seq,
+						  (long long) node_id,
+						  msg_index & 1LL ? long_text
+						  : short_text);
+			    if (msg)
+			      {
+				lw6sys_log (LW6SYS_LOG_NOTICE,
+					    _x_ ("seq=%" LW6SYS_PRINTF_LL
+						 "d id=%" LW6SYS_PRINTF_LL
+						 "x len=%d"), (long long) seq,
+					    (long long) node_id,
+					    (int) strlen (msg));
+				lw6dat_warehouse_put_local_msg (warehouse
+								[node_index],
+								msg);
+				LW6SYS_FREE (msg);
+			      }
+			  }
+		      }
+		  }
+
+		for (warehouse_index = 0;
+		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+		     ++warehouse_index)
+		  {
+		    for (node_index = 0;
+			 node_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+			 ++node_index)
+		      {
+			node_id = node_ids[node_index];
+			not_sent_list =
+			  lw6dat_warehouse_get_atom_str_list_not_sent
+			  (warehouse[warehouse_index], node_id);
+			if (not_sent_list)
+			  {
+			    not_sent_length =
+			      lw6sys_list_length (not_sent_list);
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_
+					("in warehouse %d are %d messages not sent for node %"
+					 LW6SYS_PRINTF_LL "x"),
+					warehouse_index, not_sent_length,
+					(long long) node_id);
+			    lw6sys_list_free (not_sent_list);
+			  }
+		  }}
+	      }
+
+	    for (warehouse_index = 0;
+		 warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+		 ++warehouse_index)
+	      {
+		if (warehouse[warehouse_index])
+		  {
+		    lw6dat_warehouse_free (warehouse[warehouse_index]);
+		  }
+	      }
+
+	    LW6SYS_FREE (long_text);
+	  }
+	LW6SYS_FREE (short_text);
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6dat_test
  *
@@ -1168,7 +1359,7 @@ lw6dat_test (int mode)
     }
 
   ret = test_atom () && test_block () && test_miss () && test_stack ()
-    && test_warehouse ();
+    && test_warehouse () && test_more ();
 
   return ret;
 }
