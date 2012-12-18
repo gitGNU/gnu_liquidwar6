@@ -306,7 +306,8 @@ lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t * warehouse)
 int64_t
 _lw6dat_warehouse_get_local_seq_0 (_lw6dat_warehouse_t * warehouse)
 {
-  return warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0;
+  return warehouse->
+    stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0[_LW6DAT_LOCAL_NODE_INDEX];
 }
 
 /**
@@ -329,7 +330,12 @@ void
 _lw6dat_warehouse_set_local_seq_0 (_lw6dat_warehouse_t * warehouse,
 				   int64_t seq_0)
 {
-  warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0 = seq_0;
+  int stack_index = 0;
+
+  for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
+    {
+      warehouse->stacks[stack_index].seq_0[_LW6DAT_LOCAL_NODE_INDEX] = seq_0;
+    }
 }
 
 /**
@@ -373,6 +379,32 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 		{
 		  ret = stack_index;
 		}
+	    }
+	}
+      if (ret >= 0 && stack_index < LW6DAT_MAX_NB_STACKS)
+	{
+	  for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS;
+	       ++stack_index)
+	    {
+	      /*
+	       * For affectations below, use the seq_0 llmax
+	       */
+	      /*
+	       * Tell all stacks that for this node, it's useless to consider
+	       * messages that have a seq that is older than seq_0
+	       */
+	      warehouse->stacks[stack_index].seq_0[ret] =
+		lw6sys_llmax (warehouse->stacks[stack_index].seq_0[ret],
+			      seq_0);
+	      /*
+	       * Tell this stack about all other nodes limits, this is done
+	       * by copying informations from local stack.
+	       */
+	      warehouse->stacks[ret].seq_0[stack_index] =
+		lw6sys_llmax (warehouse->stacks[ret].seq_0[stack_index],
+			      warehouse->
+			      stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0
+			      [stack_index]);
 	    }
 	}
     }

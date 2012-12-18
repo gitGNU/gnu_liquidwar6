@@ -50,7 +50,6 @@ _prepare (_lw6dat_stack_t * stack)
 {
   int i = 0;
 
-  stack->seq_0 = _LW6DAT_SEQ_INVALID;
   stack->serial_n_1 =
     stack->serial_0 + (_LW6DAT_MAX_NB_BLOCKS * _LW6DAT_NB_ATOMS_PER_BLOCK) -
     1;
@@ -63,6 +62,7 @@ _prepare (_lw6dat_stack_t * stack)
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
     {
       stack->serial_min_to_send[i] = stack->serial_0;
+      stack->seq_0[i] = _LW6DAT_SEQ_INVALID;
     }
   for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
     {
@@ -101,6 +101,7 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0,
 		    int64_t seq_0)
 {
   int ret = 0;
+  int stack_index = 0;
 
   if (lw6sys_check_id (node_id) && serial_0 >= _LW6DAT_SERIAL_START)
     {
@@ -123,7 +124,18 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0,
       stack->node_id = node_id;
       stack->node_id_str = lw6sys_id_ltoa (node_id);
       stack->serial_0 = serial_0;
-      stack->seq_0 = seq_0;
+
+      /*
+       * Fill up all other stacks information with our seq_0 number,
+       * in practice this is not much of a problem, indeed we won't
+       * send to another host/stack informations we do not even
+       * care about...
+       */
+      for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS && ret < 0;
+	   ++stack_index)
+	{
+	  stack->seq_0[stack_index] = seq_0;
+	}
       _prepare (stack);
       if (stack->node_id_str != NULL)
 	{
@@ -175,7 +187,7 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
   _lw6dat_block_t *block = NULL;
   int i, j, delta;
 
-  if (seq >= stack->seq_0)
+  if (seq >= stack->seq_0[_LW6DAT_LOCAL_NODE_INDEX])
     {
       block_index = _lw6dat_stack_get_block_index (stack, serial);
 
@@ -374,7 +386,7 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("atom is too old seq=%" LW6SYS_PRINTF_LL "d seq_0=%"
 		       LW6SYS_PRINTF_LL "d"), (long long) seq,
-		  (long long) stack->seq_0);
+		  (long long) stack->seq_0[_LW6DAT_LOCAL_NODE_INDEX]);
     }
 
   return ret;
@@ -1281,7 +1293,7 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 	{
 	  if ((atom->send_flag & send_mask)
 	      && (!(atom->sent_status & send_mask))
-	      && (atom->seq >= stack->seq_0))
+	      && (atom->seq >= stack->seq_0[target_index]))
 	    {
 	      atom_str = _lw6dat_atom_get_full_str (atom);
 	      if (atom_str)
