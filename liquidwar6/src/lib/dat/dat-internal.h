@@ -121,7 +121,7 @@ typedef struct _lw6dat_stack_s
   int serial_miss_min;
   int serial_miss_max;
   int serial_min_to_send[LW6DAT_MAX_NB_STACKS];
-  int seq_0[LW6DAT_MAX_NB_STACKS];
+  int64_t seq_0[LW6DAT_MAX_NB_STACKS];
   // no nb_blocks, there can be "holes" in the array
   _lw6dat_block_t *blocks[_LW6DAT_MAX_NB_BLOCKS];
   int nb_atom_parts_since_last_poll;

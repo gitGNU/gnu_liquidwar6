@@ -104,6 +104,25 @@
 #define _TEST_MORE_WAREHOUSE_MSG_CHAR_SHORT 's'
 #define _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG 10000
 #define _TEST_MORE_WAREHOUSE_MSG_CHAR_LONG 'l'
+/*
+ * Below are the actual values expected for the "not sent" messages
+ * list length. It's important that they are different, for a given
+ * warehouse, for all other warehouses, the idea is that depending
+ * at which time the peer connected, some messages are irrelevant.
+ * For instance if foo joins at seq 1010000000000 there's no point
+ * in sending informations about what happened between 1000000000000
+ * and 1010000000000 even if local node has done stuff during that
+ * time.
+ */
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_0_0 0
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_0_1 10
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_0_2 5
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_1_0 10
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_1_1 0
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_1_2 5
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_2_0 5
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_2_1 5
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_2_2 0
 
 typedef struct _test_stack_msg_data_s
 {
@@ -1193,6 +1212,16 @@ test_more ()
       { _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0, _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0,
       _TEST_MORE_WAREHOUSE_NODE_C_SEQ_0
     };
+    int
+      nb_not_sent[_TEST_MORE_WAREHOUSE_NB_NODES]
+      [_TEST_MORE_WAREHOUSE_NB_NODES] =
+      { {_TEST_MORE_WAREHOUSE_NOT_SENT_0_0, _TEST_MORE_WAREHOUSE_NOT_SENT_0_1,
+	 _TEST_MORE_WAREHOUSE_NOT_SENT_0_2},
+    {_TEST_MORE_WAREHOUSE_NOT_SENT_1_0, _TEST_MORE_WAREHOUSE_NOT_SENT_1_1,
+     _TEST_MORE_WAREHOUSE_NOT_SENT_1_2}, {_TEST_MORE_WAREHOUSE_NOT_SENT_2_0,
+					  _TEST_MORE_WAREHOUSE_NOT_SENT_2_1,
+					  _TEST_MORE_WAREHOUSE_NOT_SENT_2_2}
+    };
     char *msg = NULL;
     char *short_text = NULL;
     char *long_text = NULL;
@@ -1301,12 +1330,29 @@ test_more ()
 			  {
 			    not_sent_length =
 			      lw6sys_list_length (not_sent_list);
-			    lw6sys_log (LW6SYS_LOG_NOTICE,
-					_x_
-					("in warehouse %d are %d messages not sent for node %"
-					 LW6SYS_PRINTF_LL "x"),
-					warehouse_index, not_sent_length,
-					(long long) node_id);
+			    if (not_sent_length ==
+				nb_not_sent[warehouse_index][node_index])
+			      {
+				lw6sys_log (LW6SYS_LOG_NOTICE,
+					    _x_
+					    ("in warehouse %d are %d messages not sent for node %"
+					     LW6SYS_PRINTF_LL "x"),
+					    warehouse_index, not_sent_length,
+					    (long long) node_id);
+			      }
+			    else
+			      {
+				lw6sys_log (LW6SYS_LOG_WARNING,
+					    _x_
+					    ("in warehouse %d are %d messages not sent for node %"
+					     LW6SYS_PRINTF_LL
+					     "x, expecting %d"),
+					    warehouse_index, not_sent_length,
+					    (long long) node_id,
+					    nb_not_sent[warehouse_index]
+					    [node_index]);
+				ret = 0;
+			      }
 			    lw6sys_list_free (not_sent_list);
 			  }
 		  }}
