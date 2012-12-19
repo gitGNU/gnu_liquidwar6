@@ -113,15 +113,20 @@
  * in sending informations about what happened between 1000000000000
  * and 1010000000000 even if local node has done stuff during that
  * time.
+ *
+ * Note that 5 messages (3 short ones, 2 long ones) give a result
+ * of 11 atomes (3+2*4) since long messages, after compression, 
+ * still give 4 atoms. One of the aspects of the test is to check
+ * that messages spanned on several atoms behave well.
  */
 #define _TEST_MORE_WAREHOUSE_NOT_SENT_0_0 0
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_0_1 10
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_0_2 5
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_1_0 10
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_0_1 22
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_0_2 11
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_1_0 22
 #define _TEST_MORE_WAREHOUSE_NOT_SENT_1_1 0
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_1_2 5
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_2_0 5
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_2_1 5
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_1_2 11
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_2_0 11
+#define _TEST_MORE_WAREHOUSE_NOT_SENT_2_1 11
 #define _TEST_MORE_WAREHOUSE_NOT_SENT_2_2 0
 
 typedef struct _test_stack_msg_data_s
@@ -1182,6 +1187,38 @@ test_warehouse ()
   return ret;
 }
 
+typedef struct _fake_send_data_s
+{
+  lw6dat_warehouse_t *warehouse;
+  u_int64_t logical_from;
+  int ret;
+} _fake_send_data_t;
+
+static void
+_fake_send (void *func_data, void *data)
+{
+  _fake_send_data_t *fake_send_data = (_fake_send_data_t *) func_data;
+  const char *msg = (const char *) data;
+  int len = 0;
+
+  if (fake_send_data && msg)
+    {
+      len = strlen (msg);
+      lw6sys_log (LW6SYS_LOG_NOTICE,
+		  _x_
+		  ("faking net send/recv and putting msg of length %d into warehouse"),
+		  len);
+      if (!lw6dat_warehouse_put_atom_str
+	  (fake_send_data->warehouse, fake_send_data->logical_from, msg))
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("failed to put message \"%s\" into warehouse"),
+		      msg);
+	  fake_send_data->ret = 0;
+	}
+    }
+}
+
 /*
  * Even more tests (paranoid mode)
  */
@@ -1222,11 +1259,14 @@ test_more ()
 					  _TEST_MORE_WAREHOUSE_NOT_SENT_2_1,
 					  _TEST_MORE_WAREHOUSE_NOT_SENT_2_2}
     };
+    lw6sys_list_t *not_sent_list[_TEST_MORE_WAREHOUSE_NB_NODES]
+      [_TEST_MORE_WAREHOUSE_NB_NODES];
     char *msg = NULL;
     char *short_text = NULL;
     char *long_text = NULL;
-    lw6sys_list_t *not_sent_list = NULL;
+    int i = 0;
     int not_sent_length = 0;
+    _fake_send_data_t fake_send_data;
 
     short_text = LW6SYS_MALLOC (_TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT + 1);
     if (short_text)
@@ -1240,6 +1280,20 @@ test_more ()
 	    memset (long_text, _TEST_MORE_WAREHOUSE_MSG_CHAR_LONG,
 		    _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG);
 	    long_text[_TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG] = '\0';
+	    /*
+	     * OK, it proved the simple memset is not enough to make
+	     * a good string, for it compresses to one single atom,
+	     * so we introduce some entropy by putting pseudo-random
+	     * but absolutely repeatable stuff. The idea is that with
+	     * a real random stuff, compression could change the number
+	     * of atoms/msgs sent. OTOH, beware, if the compression code
+	     * is refactored, this test suite might fail.
+	     */
+	    for (i = _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG / 2;
+		 i < _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG; ++i)
+	      {
+		long_text[i] = 'a' + lw6sys_checksum_int32 (i) % 26;
+	      }
 	    for (warehouse_index = 0;
 		 warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
 		 ++warehouse_index)
@@ -1314,6 +1368,7 @@ test_more ()
 		      }
 		  }
 
+		memset (&not_sent_list, 0, sizeof (not_sent_list));
 		for (warehouse_index = 0;
 		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
 		     ++warehouse_index)
@@ -1323,13 +1378,15 @@ test_more ()
 			 ++node_index)
 		      {
 			node_id = node_ids[node_index];
-			not_sent_list =
+			not_sent_list[warehouse_index][node_index] =
 			  lw6dat_warehouse_get_atom_str_list_not_sent
 			  (warehouse[warehouse_index], node_id);
-			if (not_sent_list)
+			if (not_sent_list[warehouse_index][node_index])
 			  {
 			    not_sent_length =
-			      lw6sys_list_length (not_sent_list);
+			      lw6sys_list_length (not_sent_list
+						  [warehouse_index]
+						  [node_index]);
 			    if (not_sent_length ==
 				nb_not_sent[warehouse_index][node_index])
 			      {
@@ -1353,9 +1410,47 @@ test_more ()
 					    [node_index]);
 				ret = 0;
 			      }
-			    lw6sys_list_free (not_sent_list);
 			  }
-		  }}
+		      }
+		  }
+		memset (&fake_send_data, 0, sizeof (_fake_send_data_t));
+		fake_send_data.ret = 1;
+		for (warehouse_index = 0;
+		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+		     ++warehouse_index)
+		  {
+		    for (node_index = 0;
+			 node_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+			 ++node_index)
+		      {
+			if (not_sent_list[warehouse_index][node_index])
+			  {
+			    /*
+			     * In the following, we're referencing warehouse[node_index]
+			     * (and not warehouse_index) because, indeed, we want
+			     * to ventilate all messages to the right warehouses,
+			     * as if they had been sent on the network and received
+			     * by peers.
+			     */
+			    fake_send_data.warehouse = warehouse[node_index];
+			    fake_send_data.logical_from =
+			      node_ids[warehouse_index];
+			    lw6sys_list_map (not_sent_list[warehouse_index]
+					     [node_index], _fake_send,
+					     &fake_send_data);
+			    if (!fake_send_data.ret)
+			      {
+				lw6sys_log (LW6SYS_LOG_WARNING,
+					    _x_
+					    ("problem with fake send/recv of messages"));
+				ret = 0;
+			      }
+			    lw6sys_list_free (not_sent_list[warehouse_index]
+					      [node_index]);
+			  }
+		      }
+		  }
+		memset (&not_sent_list, 0, sizeof (not_sent_list));
 	      }
 
 	    for (warehouse_index = 0;
