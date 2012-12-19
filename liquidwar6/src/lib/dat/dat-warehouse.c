@@ -397,6 +397,16 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 		lw6sys_llmax (warehouse->stacks[stack_index].seq_0[ret],
 			      seq_0);
 	      /*
+	       * Not sure how the line below is totally required, might
+	       * need some tuning, but at least it shouldn't harm from
+	       * a functionnal point of view, only performance is concerned.
+	       * The risk is to re-parse the whole stack for nothing.
+	       */
+	      warehouse->stacks[stack_index].serial_min_to_send[ret] =
+		lw6sys_imin (warehouse->
+			     stacks[stack_index].serial_min_to_send[ret],
+			     serial_0);
+	      /*
 	       * Tell this stack about all other nodes limits, this is done
 	       * by copying informations from local stack.
 	       */
