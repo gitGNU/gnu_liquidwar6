@@ -97,9 +97,12 @@
 #define _TEST_MORE_WAREHOUSE_NODE_A_SERIAL 1
 #define _TEST_MORE_WAREHOUSE_NODE_B_SERIAL 10
 #define _TEST_MORE_WAREHOUSE_NODE_C_SERIAL 100
-#define _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0 10000000001000LL
-#define _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0 10000000010000LL
-#define _TEST_MORE_WAREHOUSE_NODE_C_SEQ_0 10000000100000LL
+#define _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0 10000000100000LL
+#define _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0 10000001000000LL
+#define _TEST_MORE_WAREHOUSE_NODE_C_SEQ_0 10000010000000LL
+#define _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0_OFFSET 100
+#define _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0_OFFSET 1000
+#define _TEST_MORE_WAREHOUSE_NODE_C_SEQ_0_OFFSET 10000
 #define _TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT 10
 #define _TEST_MORE_WAREHOUSE_MSG_CHAR_SHORT 's'
 #define _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG 10000
@@ -119,15 +122,30 @@
  * still give 4 atoms. One of the aspects of the test is to check
  * that messages spanned on several atoms behave well.
  */
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_0_0 0
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_0_1 22
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_0_2 11
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_1_0 22
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_1_1 0
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_1_2 11
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_2_0 11
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_2_1 11
-#define _TEST_MORE_WAREHOUSE_NOT_SENT_2_2 0
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_0 0
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_1 22
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_2 11
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_1_0 22
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_1_1 0
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_1_2 11
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_2_0 11
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_2_1 11
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_2_2 0
+/*
+ * Now this is the equivalent of the above, but figures
+ * are different since now we'll be handling "cross"
+ * messages, that is messages sent from 0 to 1 on behalf
+ * of 2.
+ */
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_0 33
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_1 11
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_2 11
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_0 11
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_1 33
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_2 11
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_0 11
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_1 11
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_2 22
 
 typedef struct _test_stack_msg_data_s
 {
@@ -1187,6 +1205,34 @@ test_warehouse ()
   return ret;
 }
 
+static void
+_print_msg (void *func_data, void *data)
+{
+  const char *msg = (const char *) data;
+  int len = 0;
+  int serial = 0;
+  int order_i = 0;
+  int order_n = 0;
+  int64_t seq = 0;
+  u_int64_t logical_from2 = 0LL;
+  int seq_from_cmd_str_offset = 0;
+  int cmd_str_offset = 0;
+
+  if ((!func_data) && msg)
+    {
+      len = strlen (msg);
+      _lw6dat_atom_parse_serial_i_n_seq_from_cmd
+	(&serial, &order_i, &order_n, &seq, &logical_from2,
+	 &seq_from_cmd_str_offset, &cmd_str_offset, msg);
+      lw6sys_log (LW6SYS_LOG_NOTICE,
+		  _x_
+		  ("serial=%d order_i=%d order_n=%d seq=%" LW6SYS_PRINTF_LL
+		   "d logicial_from=%" LW6SYS_PRINTF_LL "x len=%d"), serial,
+		  order_i, order_n, (long long) seq,
+		  (long long) logical_from2, len);
+    }
+}
+
 typedef struct _fake_send_data_s
 {
   lw6dat_warehouse_t *warehouse;
@@ -1200,16 +1246,41 @@ _fake_send (void *func_data, void *data)
   _fake_send_data_t *fake_send_data = (_fake_send_data_t *) func_data;
   const char *msg = (const char *) data;
   int len = 0;
+  int serial = 0;
+  int order_i = 0;
+  int order_n = 0;
+  int64_t seq = 0;
+  u_int64_t logical_from2 = 0LL;
+  int seq_from_cmd_str_offset = 0;
+  int cmd_str_offset = 0;
 
   if (fake_send_data && msg)
     {
       len = strlen (msg);
-      lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _x_
-		  ("faking net send/recv and putting msg of length %d into warehouse"),
-		  len);
-      if (!lw6dat_warehouse_put_atom_str
-	  (fake_send_data->warehouse, fake_send_data->logical_from, msg))
+      if (fake_send_data->logical_from == 0)
+	{
+	  /*
+	   * Now, in a real network context, the logical
+	   * sender has been parsed upstream but here we
+	   * need to figure it out "manually".
+	   */
+	  _lw6dat_atom_parse_serial_i_n_seq_from_cmd
+	    (&serial, &order_i, &order_n, &seq, &logical_from2,
+	     &seq_from_cmd_str_offset, &cmd_str_offset, msg);
+	}
+      else
+	{
+	  logical_from2 = fake_send_data->logical_from;
+	}
+      if (lw6dat_warehouse_put_atom_str
+	  (fake_send_data->warehouse, logical_from2, msg))
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _x_
+		      ("faking net send/recv and putting msg of length %d into warehouse"),
+		      len);
+	}
+      else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_ ("failed to put message \"%s\" into warehouse"),
@@ -1249,15 +1320,36 @@ test_more ()
       { _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0, _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0,
       _TEST_MORE_WAREHOUSE_NODE_C_SEQ_0
     };
+    int node_seq_0_offsets[_TEST_MORE_WAREHOUSE_NB_NODES] =
+      { _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0_OFFSET,
+      _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0_OFFSET,
+      _TEST_MORE_WAREHOUSE_NODE_C_SEQ_0_OFFSET
+    };
     int
-      nb_not_sent[_TEST_MORE_WAREHOUSE_NB_NODES]
+      nb_init_not_sent[_TEST_MORE_WAREHOUSE_NB_NODES]
       [_TEST_MORE_WAREHOUSE_NB_NODES] =
-      { {_TEST_MORE_WAREHOUSE_NOT_SENT_0_0, _TEST_MORE_WAREHOUSE_NOT_SENT_0_1,
-	 _TEST_MORE_WAREHOUSE_NOT_SENT_0_2},
-    {_TEST_MORE_WAREHOUSE_NOT_SENT_1_0, _TEST_MORE_WAREHOUSE_NOT_SENT_1_1,
-     _TEST_MORE_WAREHOUSE_NOT_SENT_1_2}, {_TEST_MORE_WAREHOUSE_NOT_SENT_2_0,
-					  _TEST_MORE_WAREHOUSE_NOT_SENT_2_1,
-					  _TEST_MORE_WAREHOUSE_NOT_SENT_2_2}
+      { {_TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_0,
+	 _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_1,
+	 _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_2},
+    {_TEST_MORE_WAREHOUSE_INIT_NOT_SENT_1_0,
+     _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_1_1,
+     _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_1_2},
+    {_TEST_MORE_WAREHOUSE_INIT_NOT_SENT_2_0,
+     _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_2_1,
+     _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_2_2}
+    };
+    int
+      nb_cross_not_sent[_TEST_MORE_WAREHOUSE_NB_NODES]
+      [_TEST_MORE_WAREHOUSE_NB_NODES] =
+      { {_TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_0,
+	 _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_1,
+	 _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_2},
+    {_TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_0,
+     _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_1,
+     _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_2},
+    {_TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_0,
+     _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_1,
+     _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_2}
     };
     lw6sys_list_t *not_sent_list[_TEST_MORE_WAREHOUSE_NB_NODES]
       [_TEST_MORE_WAREHOUSE_NB_NODES];
@@ -1342,7 +1434,9 @@ test_more ()
 			     _TEST_MORE_WAREHOUSE_NB_MSGS_PER_STAGE;
 			     ++msg_index)
 			  {
-			    seq = node_seq_0s[stage] + msg_index;
+			    seq =
+			      node_seq_0s[stage] +
+			      node_seq_0_offsets[node_index] + msg_index;
 			    node_id = node_ids[node_index];
 			    msg =
 			      lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
@@ -1383,12 +1477,14 @@ test_more ()
 			  (warehouse[warehouse_index], node_id);
 			if (not_sent_list[warehouse_index][node_index])
 			  {
+			    lw6sys_list_map (not_sent_list[warehouse_index]
+					     [node_index], _print_msg, NULL);
 			    not_sent_length =
 			      lw6sys_list_length (not_sent_list
 						  [warehouse_index]
 						  [node_index]);
 			    if (not_sent_length ==
-				nb_not_sent[warehouse_index][node_index])
+				nb_init_not_sent[warehouse_index][node_index])
 			      {
 				lw6sys_log (LW6SYS_LOG_NOTICE,
 					    _x_
@@ -1406,7 +1502,7 @@ test_more ()
 					     "x, expecting %d"),
 					    warehouse_index, not_sent_length,
 					    (long long) node_id,
-					    nb_not_sent[warehouse_index]
+					    nb_init_not_sent[warehouse_index]
 					    [node_index]);
 				ret = 0;
 			      }
@@ -1450,19 +1546,100 @@ test_more ()
 			  }
 		      }
 		  }
+		/*
+		 * Now at this stage it's like all messages have been sent
+		 * over the network, so warehouse 0 is finally aware of
+		 * all the messages from warehouse 1, etc. So, there are
+		 * new unsent messages!
+		 */
 		memset (&not_sent_list, 0, sizeof (not_sent_list));
-	      }
-
-	    for (warehouse_index = 0;
-		 warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-		 ++warehouse_index)
-	      {
-		if (warehouse[warehouse_index])
+		for (warehouse_index = 0;
+		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+		     ++warehouse_index)
 		  {
-		    lw6dat_warehouse_free (warehouse[warehouse_index]);
+		    for (node_index = 0;
+			 node_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+			 ++node_index)
+		      {
+			node_id = node_ids[node_index];
+			not_sent_list[warehouse_index][node_index] =
+			  lw6dat_warehouse_get_atom_str_list_not_sent
+			  (warehouse[warehouse_index], node_id);
+			if (not_sent_list[warehouse_index][node_index])
+			  {
+			    lw6sys_list_map (not_sent_list[warehouse_index]
+					     [node_index], _print_msg, NULL);
+			    not_sent_length =
+			      lw6sys_list_length (not_sent_list
+						  [warehouse_index]
+						  [node_index]);
+			    if (not_sent_length ==
+				nb_cross_not_sent[warehouse_index]
+				[node_index])
+			      {
+				lw6sys_log (LW6SYS_LOG_NOTICE,
+					    _x_
+					    ("in warehouse %d are %d messages not sent for node %"
+					     LW6SYS_PRINTF_LL "x"),
+					    warehouse_index, not_sent_length,
+					    (long long) node_id);
+			      }
+			    else
+			      {
+				lw6sys_log (LW6SYS_LOG_WARNING,
+					    _x_
+					    ("in warehouse %d are %d messages not sent for node %"
+					     LW6SYS_PRINTF_LL
+					     "x, expecting %d"),
+					    warehouse_index, not_sent_length,
+					    (long long) node_id,
+					    nb_cross_not_sent[warehouse_index]
+					    [node_index]);
+				ret = 0;
+			      }
+			  }
+		      }
+		  }
+
+		memset (&fake_send_data, 0, sizeof (_fake_send_data_t));
+		fake_send_data.ret = 1;
+		for (warehouse_index = 0;
+		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+		     ++warehouse_index)
+		  {
+		    for (node_index = 0;
+			 node_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+			 ++node_index)
+		      {
+			if (not_sent_list[warehouse_index][node_index])
+			  {
+			    fake_send_data.warehouse = warehouse[node_index];
+			    fake_send_data.logical_from = 0LL;
+			    lw6sys_list_map (not_sent_list[warehouse_index]
+					     [node_index], _fake_send,
+					     &fake_send_data);
+			    if (!fake_send_data.ret)
+			      {
+				lw6sys_log (LW6SYS_LOG_WARNING,
+					    _x_
+					    ("problem with fake send/recv of messages"));
+				ret = 0;
+			      }
+			    lw6sys_list_free (not_sent_list[warehouse_index]
+					      [node_index]);
+			  }
+		      }
+		  }
+		for (warehouse_index = 0;
+		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+		     ++warehouse_index)
+		  {
+		    if (warehouse[warehouse_index])
+		      {
+			lw6dat_warehouse_free (warehouse[warehouse_index]);
+		      }
 		  }
 	      }
-
 	    LW6SYS_FREE (long_text);
 	  }
 	LW6SYS_FREE (short_text);
