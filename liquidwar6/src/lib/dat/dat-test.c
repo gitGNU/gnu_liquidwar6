@@ -147,6 +147,35 @@
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_1 11
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_2 22
 
+/*
+ * All range limits, not that seq_max, seq_draft
+ * and seq_reference are the same but seq_min differs
+ */
+#define _TEST_MORE_WAREHOUSE_SEQ_MIN_0 10000000100100LL
+#define _TEST_MORE_WAREHOUSE_SEQ_MIN_1 10000001000100LL
+#define _TEST_MORE_WAREHOUSE_SEQ_MIN_2 10000010000100LL
+#define _TEST_MORE_WAREHOUSE_SEQ_MAX_0 10000010010004LL
+#define _TEST_MORE_WAREHOUSE_SEQ_MAX_1 10000010010004LL
+#define _TEST_MORE_WAREHOUSE_SEQ_MAX_2 10000010010004LL
+#define _TEST_MORE_WAREHOUSE_SEQ_DRAFT_0 10000010010004LL
+#define _TEST_MORE_WAREHOUSE_SEQ_DRAFT_1 10000010010004LL
+#define _TEST_MORE_WAREHOUSE_SEQ_DRAFT_2 10000010010004LL
+#define _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_0 10000010000103LL
+#define _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_1 10000010000103LL
+#define _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_2 10000010000103LL
+
+/*
+ * Number of messages expected per type of message,
+ * here we are talking of high level meaningfull
+ * messages, not only compressed atoms.
+ */
+#define _TEST_MORE_WAREHOUSE_DRAFT_LEN_0 30
+#define _TEST_MORE_WAREHOUSE_DRAFT_LEN_1 25
+#define _TEST_MORE_WAREHOUSE_DRAFT_LEN_2 15
+#define _TEST_MORE_WAREHOUSE_REFERENCE_LEN_0 19
+#define _TEST_MORE_WAREHOUSE_REFERENCE_LEN_1 14
+#define _TEST_MORE_WAREHOUSE_REFERENCE_LEN_2 4
+
 typedef struct _test_stack_msg_data_s
 {
   char *msg4;
@@ -1359,6 +1388,39 @@ test_more ()
     int i = 0;
     int not_sent_length = 0;
     _fake_send_data_t fake_send_data;
+    int64_t seq_min = 0LL;
+    int64_t seq_max = 0LL;
+    int64_t seq_draft = 0LL;
+    int64_t seq_reference = 0LL;
+    lw6sys_list_t *msg_list = NULL;
+    int64_t seq_mins[_TEST_MORE_WAREHOUSE_NB_NODES] =
+      { _TEST_MORE_WAREHOUSE_SEQ_MIN_0, _TEST_MORE_WAREHOUSE_SEQ_MIN_1,
+      _TEST_MORE_WAREHOUSE_SEQ_MIN_2
+    };
+    int64_t seq_maxs[_TEST_MORE_WAREHOUSE_NB_NODES] =
+      { _TEST_MORE_WAREHOUSE_SEQ_MAX_0, _TEST_MORE_WAREHOUSE_SEQ_MAX_1,
+      _TEST_MORE_WAREHOUSE_SEQ_MAX_2
+    };
+    int64_t seq_drafts[_TEST_MORE_WAREHOUSE_NB_NODES] =
+      { _TEST_MORE_WAREHOUSE_SEQ_DRAFT_0, _TEST_MORE_WAREHOUSE_SEQ_DRAFT_1,
+      _TEST_MORE_WAREHOUSE_SEQ_DRAFT_2
+    };
+    int64_t seq_references[_TEST_MORE_WAREHOUSE_NB_NODES] =
+      { _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_0,
+      _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_1,
+      _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_2
+    };
+    int draft_len = 0;
+    int reference_len = 0;
+    int draft_lens[_TEST_MORE_WAREHOUSE_NB_NODES] =
+      { _TEST_MORE_WAREHOUSE_DRAFT_LEN_0, _TEST_MORE_WAREHOUSE_DRAFT_LEN_1,
+      _TEST_MORE_WAREHOUSE_DRAFT_LEN_2
+    };
+    int reference_lens[_TEST_MORE_WAREHOUSE_NB_NODES] =
+      { _TEST_MORE_WAREHOUSE_REFERENCE_LEN_0,
+      _TEST_MORE_WAREHOUSE_REFERENCE_LEN_1,
+      _TEST_MORE_WAREHOUSE_REFERENCE_LEN_2
+    };
 
     short_text = LW6SYS_MALLOC (_TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT + 1);
     if (short_text)
@@ -1680,6 +1742,125 @@ test_more ()
 			    lw6sys_list_free (not_sent_list[warehouse_index]
 					      [node_index]);
 			  }
+		      }
+		  }
+
+		/*
+		 * Now testing that actual messages can be extracted from
+		 * the warehouses, and not only atoms.
+		 */
+		for (warehouse_index = 0;
+		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+		     ++warehouse_index)
+		  {
+		    lw6dat_warehouse_calc_serial_draft_and_reference
+		      (warehouse[warehouse_index]);
+		    seq_min =
+		      lw6dat_warehouse_get_seq_min (warehouse
+						    [warehouse_index]);
+		    seq_max =
+		      lw6dat_warehouse_get_seq_max (warehouse
+						    [warehouse_index]);
+		    seq_draft =
+		      lw6dat_warehouse_get_seq_draft (warehouse
+						      [warehouse_index]);
+		    seq_reference =
+		      lw6dat_warehouse_get_seq_reference (warehouse
+							  [warehouse_index]);
+		    if (seq_min == seq_mins[warehouse_index]
+			&& seq_max == seq_maxs[warehouse_index]
+			&& seq_draft == seq_drafts[warehouse_index]
+			&& seq_reference == seq_references[warehouse_index])
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_ ("warehouse %d seq_min=%"
+					 LW6SYS_PRINTF_LL "d seq_max=%"
+					 LW6SYS_PRINTF_LL "d seq_draft=%"
+					 LW6SYS_PRINTF_LL "d seq_reference=%"
+					 LW6SYS_PRINTF_LL "d"),
+				    warehouse_index, (long long) seq_min,
+				    (long long) seq_max,
+				    (long long) seq_draft,
+				    (long long) seq_reference);
+			msg_list =
+			  lw6dat_warehouse_get_msg_list_by_seq (warehouse
+								[warehouse_index],
+								seq_min,
+								seq_draft, 0,
+								NULL);
+			if (msg_list)
+			  {
+			    draft_len = lw6sys_list_length (msg_list);
+			    if (draft_len == draft_lens[warehouse_index])
+			      {
+				lw6sys_log (LW6SYS_LOG_NOTICE,
+					    _x_
+					    ("%d draft messages in warehouse %d, OK"),
+					    draft_len, warehouse_index);
+			      }
+			    else
+			      {
+				lw6sys_log (LW6SYS_LOG_WARNING,
+					    _x_
+					    ("%d draft  messages in warehouse %d, expected %d"),
+					    draft_len, warehouse_index,
+					    draft_lens[warehouse_index]);
+				ret = 0;
+			      }
+			    lw6sys_list_free (msg_list);
+			  }
+			msg_list =
+			  lw6dat_warehouse_get_msg_list_by_seq (warehouse
+								[warehouse_index],
+								seq_min,
+								seq_reference,
+								1, NULL);
+			if (msg_list)
+			  {
+			    reference_len = lw6sys_list_length (msg_list);
+			    if (reference_len ==
+				reference_lens[warehouse_index])
+			      {
+				lw6sys_log (LW6SYS_LOG_NOTICE,
+					    _x_
+					    ("%d reference messages in warehouse %d, OK"),
+					    reference_len, warehouse_index);
+			      }
+			    else
+			      {
+				lw6sys_log (LW6SYS_LOG_WARNING,
+					    _x_
+					    ("%d reference messages in warehouse %d, expected %d"),
+					    reference_len, warehouse_index,
+					    reference_lens[warehouse_index]);
+				ret = 0;
+			      }
+			    lw6sys_list_free (msg_list);
+			  }
+		      }
+		    else
+		      {
+			lw6sys_log (LW6SYS_LOG_WARNING,
+				    _x_ ("warehouse %d seq_min=%"
+					 LW6SYS_PRINTF_LL "d seq_max=%"
+					 LW6SYS_PRINTF_LL "d seq_draft=%"
+					 LW6SYS_PRINTF_LL "d seq_reference=%"
+					 LW6SYS_PRINTF_LL
+					 "d, should have been seq_min=%"
+					 LW6SYS_PRINTF_LL "d seq_max=%"
+					 LW6SYS_PRINTF_LL "d seq_draft=%"
+					 LW6SYS_PRINTF_LL "d seq_reference=%"
+					 LW6SYS_PRINTF_LL "d"),
+				    warehouse_index, (long long) seq_min,
+				    (long long) seq_max,
+				    (long long) seq_draft,
+				    (long long) seq_reference,
+				    (long long) seq_mins[warehouse_index],
+				    (long long) seq_maxs[warehouse_index],
+				    (long long) seq_drafts[warehouse_index],
+				    (long long)
+				    seq_references[warehouse_index]);
+			ret = 0;
 		      }
 		  }
 
