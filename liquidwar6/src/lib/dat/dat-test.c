@@ -1630,6 +1630,59 @@ test_more ()
 			  }
 		      }
 		  }
+
+		/*
+		 * Now that we have faked the send/recv process
+		 * we check that there's nothing to send left,
+		 * since all has been done.
+		 */
+		memset (&not_sent_list, 0, sizeof (not_sent_list));
+		for (warehouse_index = 0;
+		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+		     ++warehouse_index)
+		  {
+		    for (node_index = 0;
+			 node_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+			 ++node_index)
+		      {
+			node_id = node_ids[node_index];
+			not_sent_list[warehouse_index][node_index] =
+			  lw6dat_warehouse_get_atom_str_list_not_sent
+			  (warehouse[warehouse_index], node_id);
+			if (not_sent_list[warehouse_index][node_index])
+			  {
+			    lw6sys_list_map (not_sent_list[warehouse_index]
+					     [node_index], _print_msg, NULL);
+			    not_sent_length =
+			      lw6sys_list_length (not_sent_list
+						  [warehouse_index]
+						  [node_index]);
+			    if (not_sent_length == 0)
+			      {
+				lw6sys_log (LW6SYS_LOG_NOTICE,
+					    _x_
+					    ("in warehouse %d are no messages not sent for node %"
+					     LW6SYS_PRINTF_LL "x"),
+					    warehouse_index,
+					    (long long) node_id);
+			      }
+			    else
+			      {
+				lw6sys_log (LW6SYS_LOG_WARNING,
+					    _x_
+					    ("in warehouse %d are %d messages not sent for node %"
+					     LW6SYS_PRINTF_LL
+					     "x but there should be none"),
+					    warehouse_index, not_sent_length,
+					    (long long) node_id);
+				ret = 0;
+			      }
+			    lw6sys_list_free (not_sent_list[warehouse_index]
+					      [node_index]);
+			  }
+		      }
+		  }
+
 		for (warehouse_index = 0;
 		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
 		     ++warehouse_index)
