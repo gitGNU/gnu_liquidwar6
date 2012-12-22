@@ -176,7 +176,8 @@ test_command ()
 	for (i = 0; test_commands[i] && commands; ++i)
 	  {
 	    command =
-	      lw6pil_command_new (test_commands[i], _LW6PIL_MIN_SEQ_0);
+	      lw6pil_command_new (test_commands[i], _LW6PIL_MIN_SEQ_0,
+				  _LW6PIL_MIN_ROUND_0);
 	    if (command)
 	      {
 		repr = lw6pil_command_repr (command);
@@ -413,7 +414,9 @@ test_dump ()
 		    lw6pil_pilot_checksum_log_set_interval (pilot,
 							    _TEST_CHECKSUM_LOG_INTERVAL);
 		    dump_command =
-		      lw6pil_dump_command_generate (pilot, _TEST_DUMP_ID);
+		      lw6pil_dump_command_generate (pilot, _TEST_DUMP_ID,
+						    lw6pil_pilot_get_last_commit_seq
+						    (pilot) + 1);
 		    if (dump_command)
 		      {
 			dump_len = strlen (dump_command);
@@ -434,8 +437,15 @@ test_dump ()
 				 i < _TEST_DUMP_NB_COMMANDS
 				 && test_commands[i]; ++i)
 			      {
-				if (!lw6pil_pilot_send_command
+				if (lw6pil_pilot_send_command
 				    (pilot, test_commands[i], 1))
+				  {
+				    lw6sys_log (LW6SYS_LOG_NOTICE,
+						_x_
+						("sent command \"%s\" to pilot"),
+						test_commands[i]);
+				  }
+				else
 				  {
 				    commands_ok = 0;
 				  }
@@ -478,6 +488,10 @@ test_dump ()
 							       [i], 1);
 				    lw6pil_pilot_send_command
 				      (dump.pilot, test_commands[i], 1);
+				    lw6sys_log (LW6SYS_LOG_NOTICE,
+						_x_
+						("sent command \"%s\" to pilots"),
+						test_commands[i]);
 				  }
 				lw6pil_pilot_commit (NULL, pilot);
 				lw6pil_pilot_commit (NULL, dump.pilot);
@@ -517,8 +531,12 @@ test_dump ()
 				  {
 				    lw6sys_log (LW6SYS_LOG_WARNING,
 						_x_
-						("waiting for backup at round %d, is your computer slow or what?"),
-						_TEST_BACKUP_ROUND);
+						("waiting for backups at round %d (game_state: %d dump.game_state: %d) is your computer slow or what?"),
+						_TEST_BACKUP_ROUND,
+						lw6ker_game_state_get_rounds
+						(game_state),
+						lw6ker_game_state_get_rounds
+						(dump.game_state));
 				    lw6sys_sleep (_TEST_CYCLE);
 				    lw6pil_pilot_sync_from_backup
 				      (game_state, pilot);
@@ -676,7 +694,9 @@ test_nopilot ()
 		    lw6pil_pilot_checksum_log_set_interval (pilot,
 							    _TEST_CHECKSUM_LOG_INTERVAL);
 		    dump_command =
-		      lw6pil_dump_command_generate (pilot, _TEST_DUMP_ID);
+		      lw6pil_dump_command_generate (pilot, _TEST_DUMP_ID,
+						    lw6pil_pilot_get_last_commit_seq
+						    (pilot) + 1);
 		    if (dump_command)
 		      {
 			dump_len = strlen (dump_command);

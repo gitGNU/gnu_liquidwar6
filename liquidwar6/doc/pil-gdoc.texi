@@ -9,10 +9,12 @@ be interpreted as an estimated speed/power of your computer.
 @strong{Return value:}  1 on success, 0 if failure
 @end deftypefun
 
-@deftypefun {lw6pil_command_t *} {lw6pil_command_new} (const char * @var{command_text}, int64_t @var{seq_0})
+@deftypefun {lw6pil_command_t *} {lw6pil_command_new} (const char * @var{command_text}, int64_t @var{seq_0}, int @var{round_0})
 @var{command_text}:  readable text of the command
 
-@var{seq_0}:  sequence offset (difference between sequence and rounds)
+@var{seq_0}:  sequence offset reference (to calculate difference between sequence and rounds)
+
+@var{round_0}:  round offset reference (to calculate difference between sequence and rounds)
 
 Creates a new command from its text representation.
 
@@ -69,7 +71,7 @@ from a pilot context, this is useless, use NULL and 0LL.
 
 @var{command_text}:  command text to process
 
-@var{seq_0}:  sequence offset (diffrerence between sequence and round)
+@var{seq_0}:  reference seq_0, used to genereate consistent dumps if needed
 
 Interprets a command text and runs it against game_state. If
 dump and timestamp are set, then any DUMP command will fill
@@ -162,13 +164,18 @@ Tests wether there's actually a dump in the structure, or if it's empty.
 @strong{Return value:}  1 if there's a dump, 0 if all fields set to NULL.
 @end deftypefun
 
-@deftypefun {char *} {lw6pil_dump_command_generate} (lw6pil_pilot_t * @var{pilot}, u_int64_t @var{server_id})
+@deftypefun {char *} {lw6pil_dump_command_generate} (lw6pil_pilot_t * @var{pilot}, u_int64_t @var{server_id}, int64_t @var{seq})
 @var{pilot}:  the pilot to transform as a DUMP.
 
 @var{server_id}:  ID of server issuing the command
 
+@var{seq}:  seq at which the dump should be generated
+
 Creates the DUMP command for a given pilot, that is, a command that
-describes the whole data and state.
+describes the whole data and state. One must give a sequence number
+since the dump would otherwise typically be *always* late by at
+least one round (or seq). We give the seq as we would for any message
+generated, to make it fit well within the standard message queue.
 
 @strong{Return value:}  newly allocated string
 @end deftypefun
@@ -631,10 +638,12 @@ separately.
 @strong{Return value:}  none
 @end deftypefun
 
-@deftypefun {char *} {lw6pil_seed_command_generate} (lw6pil_pilot_t * @var{pilot}, u_int64_t @var{server_id})
+@deftypefun {char *} {lw6pil_seed_command_generate} (lw6pil_pilot_t * @var{pilot}, u_int64_t @var{server_id}, int64_t @var{seq})
 @var{pilot}:  the pilot to transform as a SEED.
 
 @var{server_id}:  ID of server issuing the command
+
+@var{seq}:  seq at which the dump should be generated
 
 Creates the SEED command for a given pilot, that is, a command that
 contains macro informations about the game state such as current seq.

@@ -260,7 +260,7 @@ command_dump_parse (lw6pil_command_t * command, char *command_args)
 
 static int
 command_parse (lw6pil_command_t * command, const char *command_text,
-	       int64_t seq_0)
+	       int64_t seq_0, int round_0)
 {
   int ret = 0;
   char *pos;
@@ -287,7 +287,7 @@ command_parse (lw6pil_command_t * command, const char *command_text,
 	      command->seq = lw6sys_atoll (pos);
 	      if (command->seq >= _LW6PIL_MIN_SEQ_0 && command->seq >= seq_0)
 		{
-		  command->round = command->seq - seq_0;
+		  command->round = command->seq - seq_0 + round_0;
 		  pos = seek;
 		  while (!is_spc (*seek))
 		    {
@@ -400,21 +400,22 @@ command_parse (lw6pil_command_t * command, const char *command_text,
  * lw6pil_command_new
  *
  * @command_text: readable text of the command
- * @seq_0: sequence offset (difference between sequence and rounds)
+ * @seq_0: sequence offset reference (to calculate difference between sequence and rounds)
+ * @round_0: round offset reference (to calculate difference between sequence and rounds)
  *
  * Creates a new command from its text representation.
  *
  * Return value: newly allocated object
  */
 lw6pil_command_t *
-lw6pil_command_new (const char *command_text, int64_t seq_0)
+lw6pil_command_new (const char *command_text, int64_t seq_0, int round_0)
 {
   lw6pil_command_t *ret = NULL;
 
   ret = (lw6pil_command_t *) LW6SYS_CALLOC (sizeof (lw6pil_command_t));
   if (ret)
     {
-      if (!command_parse (ret, command_text, seq_0))
+      if (!command_parse (ret, command_text, seq_0, round_0))
 	{
 	  LW6SYS_FREE (ret);
 	  ret = NULL;
@@ -668,6 +669,7 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("execute command \"%s\""),
 	      command->text);
+
   switch (command->code)
     {
     case LW6PIL_COMMAND_CODE_NOP:
@@ -752,7 +754,7 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
  * @timestamp: current timestamp (can be 0 if dump is NULL)
  * @game_state: game state to work on, can be NULL (typically for DUMP)
  * @command_text: command text to process
- * @seq_0: sequence offset (diffrerence between sequence and round)
+ * @seq_0: reference seq_0, used to genereate consistent dumps if needed
  *
  * Interprets a command text and runs it against game_state. If
  * dump and timestamp are set, then any DUMP command will fill
@@ -770,7 +772,7 @@ lw6pil_command_execute_text (lw6pil_dump_t * dump,
   int ret = 0;
   lw6pil_command_t *command = NULL;
 
-  command = lw6pil_command_new (command_text, seq_0);
+  command = lw6pil_command_new (command_text, seq_0, _LW6PIL_MIN_ROUND_0);
   if (command)
     {
       ret = lw6pil_command_execute (dump, timestamp, game_state, command);
@@ -844,7 +846,8 @@ lw6pil_command_execute_local_text (lw6pil_local_cursors_t * local_cursors,
   int ret = 0;
   lw6pil_command_t *command = NULL;
 
-  command = lw6pil_command_new (command_text, _LW6PIL_MIN_SEQ_0);
+  command =
+    lw6pil_command_new (command_text, _LW6PIL_MIN_SEQ_0, _LW6PIL_MIN_ROUND_0);
   if (command)
     {
       ret = lw6pil_command_execute_local (local_cursors, command);

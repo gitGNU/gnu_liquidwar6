@@ -351,7 +351,8 @@ _commit_reference (lw6pil_dump_t * dump, _lw6pil_pilot_t * pilot)
 	     && (command_text =
 		 lw6sys_list_pop_front (&(pilot->verified_queue))) != NULL)
 	{
-	  command = lw6pil_command_new (command_text, pilot->seq_0);
+	  command =
+	    lw6pil_command_new (command_text, pilot->seq_0, pilot->round_0);
 	  if (command)
 	    {
 	      if (min_round < 0)
@@ -397,7 +398,7 @@ _commit_reference (lw6pil_dump_t * dump, _lw6pil_pilot_t * pilot)
     }
 
   /*
-   * Pump dump back to caller if needed, we only do it if pilot
+   * Pump dump back to caller if needed, we only do it if dump
    * if set and test this before locking to avoid locking all the
    * time, after all, the operation that requires atomicity is
    * the exchange of data, and we won't die if we miss one turn,
@@ -459,7 +460,8 @@ _commit_draft (_lw6pil_pilot_t * pilot)
 	     && (command_text =
 		 lw6sys_list_pop_front (&(pilot->unverified_queue))) != NULL)
 	{
-	  command = lw6pil_command_new (command_text, pilot->seq_0);
+	  command =
+	    lw6pil_command_new (command_text, pilot->seq_0, pilot->round_0);
 	  if (command)
 	    {
 	      last_sync_draft_from_reference =

@@ -58,11 +58,12 @@ _scm_lw6pil_bench ()
 }
 
 static SCM
-_scm_lw6pil_seed_command_generate (SCM pilot, SCM server_id)
+_scm_lw6pil_seed_command_generate (SCM pilot, SCM server_id, SCM seq)
 {
   lw6pil_pilot_t *c_pilot = NULL;
   char *c_server_id_str = NULL;
   u_int64_t c_server_id_int = 0LL;
+  int64_t c_seq = 0LL;
   char *c_ret = NULL;
   SCM ret = SCM_BOOL_F;
 
@@ -73,6 +74,7 @@ _scm_lw6pil_seed_command_generate (SCM pilot, SCM server_id)
 	      (lw6_global.smob_types.pilot,
 	       pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (seq), seq, SCM_ARG3, __FUNCTION__);
 
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
@@ -83,7 +85,10 @@ _scm_lw6pil_seed_command_generate (SCM pilot, SCM server_id)
 	  c_server_id_int = lw6sys_id_atol (c_server_id_str);
 	  if (c_server_id_int > 0)
 	    {
-	      c_ret = lw6pil_seed_command_generate (c_pilot, c_server_id_int);
+	      c_seq = scm_to_long_long (seq);
+	      c_ret =
+		lw6pil_seed_command_generate (c_pilot, c_server_id_int,
+					      c_seq);
 	      if (c_ret)
 		{
 		  ret = scm_from_locale_string (c_ret);
@@ -101,11 +106,12 @@ _scm_lw6pil_seed_command_generate (SCM pilot, SCM server_id)
 
 
 static SCM
-_scm_lw6pil_dump_command_generate (SCM pilot, SCM server_id)
+_scm_lw6pil_dump_command_generate (SCM pilot, SCM server_id, SCM seq)
 {
   lw6pil_pilot_t *c_pilot = NULL;
   char *c_server_id_str = NULL;
   u_int64_t c_server_id_int = 0LL;
+  int64_t c_seq = 0LL;
   char *c_ret = NULL;
   SCM ret = SCM_BOOL_F;
 
@@ -116,6 +122,7 @@ _scm_lw6pil_dump_command_generate (SCM pilot, SCM server_id)
 	      (lw6_global.smob_types.pilot,
 	       pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (seq), seq, SCM_ARG3, __FUNCTION__);
 
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
@@ -126,7 +133,10 @@ _scm_lw6pil_dump_command_generate (SCM pilot, SCM server_id)
 	  c_server_id_int = lw6sys_id_atol (c_server_id_str);
 	  if (c_server_id_int > 0)
 	    {
-	      c_ret = lw6pil_dump_command_generate (c_pilot, c_server_id_int);
+	      c_seq = scm_to_long_long (seq);
+	      c_ret =
+		lw6pil_dump_command_generate (c_pilot, c_server_id_int,
+					      c_seq);
 	      if (c_ret)
 		{
 		  ret = scm_from_locale_string (c_ret);
@@ -1352,11 +1362,11 @@ lw6_register_funcs_pil ()
   ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_BENCH,
 				      0, 0, 0, (SCM (*)())_scm_lw6pil_bench);
   ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SEED_COMMAND_GENERATE,
-				      2, 0, 0,
+				      3, 0, 0,
 				      (SCM (*)
 				       ())_scm_lw6pil_seed_command_generate);
   ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_DUMP_COMMAND_GENERATE,
-				      2, 0, 0,
+				      3, 0, 0,
 				      (SCM (*)
 				       ())_scm_lw6pil_dump_command_generate);
   ret = ret

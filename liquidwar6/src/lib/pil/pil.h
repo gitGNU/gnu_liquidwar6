@@ -305,7 +305,7 @@ extern int lw6pil_bench (float *bench_result, lw6sys_progress_t * progress);
 
 /* pil-command.c */
 extern lw6pil_command_t *lw6pil_command_new (const char *command_text,
-					     int64_t seq_0);
+					     int64_t seq_0, int round_0);
 extern lw6pil_command_t *lw6pil_command_dup (lw6pil_command_t * command);
 extern void lw6pil_command_free (lw6pil_command_t * command);
 extern char *lw6pil_command_repr (lw6pil_command_t * command);
@@ -336,7 +336,7 @@ extern void lw6pil_dump_zero (lw6pil_dump_t * dump);
 extern void lw6pil_dump_clear (lw6pil_dump_t * dump);
 extern int lw6pil_dump_exists (const lw6pil_dump_t * dump);
 extern char *lw6pil_dump_command_generate (lw6pil_pilot_t * pilot,
-					   u_int64_t server_id);
+					   u_int64_t server_id, int64_t seq);
 extern int lw6pil_dump_command_execute (lw6pil_dump_t * dump,
 					int64_t timestamp,
 					lw6pil_command_t * command,
@@ -422,7 +422,7 @@ extern void lw6pil_pilot_checksum_log_set_interval (lw6pil_pilot_t * pilot,
 
 /* pil-seed.c */
 extern char *lw6pil_seed_command_generate (lw6pil_pilot_t * pilot,
-					   u_int64_t server_id);
+					   u_int64_t server_id, int64_t seq);
 
 /* pil-seq.c */
 extern int64_t lw6pil_seq_random_0 ();

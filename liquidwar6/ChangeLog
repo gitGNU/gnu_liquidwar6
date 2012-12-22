@@ -1,3 +1,7 @@
+2012-12-22: Christian Mauduit <ufoot@ufoot.org>
+
+	* Introduced shift between dump request and dump message seq.
+
 2012-12-18 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Partially fixed dat bug by removing irrelevant msgs from unsent lists.

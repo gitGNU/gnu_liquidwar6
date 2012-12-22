@@ -26,6 +26,7 @@
 #include "pil.h"
 
 #define _LW6PIL_MIN_SEQ_0 10000000000LL
+#define _LW6PIL_MIN_ROUND_0 0
 #define _LW6PIL_RANGE_SEQ_0 1000000000
 
 typedef struct _lw6pil_pilot_s
@@ -68,7 +69,7 @@ extern void _lw6pil_compute_pump_command_callback (void *func_data,
 
 /* pil-dump.c */
 extern char *_lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot,
-					    u_int64_t server_id);
+					    u_int64_t server_id, int64_t seq);
 
 /* pil-pilot.c */
 extern _lw6pil_pilot_t *_lw6pil_pilot_new (lw6ker_game_state_t * game_state,
@@ -122,7 +123,7 @@ extern void _lw6pil_pilot_checksum_log_set_interval (_lw6pil_pilot_t * pilot,
 
 /* pil-seed.c */
 extern char *_lw6pil_seed_command_generate (_lw6pil_pilot_t * pilot,
-					    u_int64_t server_id);
+					    u_int64_t server_id, int64_t seq);
 
 /* pil-spread.c */
 extern void _lw6pil_spread_thread_func (_lw6pil_spread_data_t * spread_data);
