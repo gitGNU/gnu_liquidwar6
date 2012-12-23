@@ -399,9 +399,20 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		  /*
 		   * OK, accepted by server.
 		   */
-		  node->tentacles[tentacle_i].joined = 1;
+		  lw6dat_warehouse_register_node (node->warehouse,
+						  cnx->remote_id_int,
+						  serial,
+						  _lw6p2p_node_get_seq_max
+						  (node));
+
 		  _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (), seq);
 		  lw6dat_warehouse_set_local_seq_0 (node->warehouse, seq);
+
+		  /*
+		   * Last thing to do, other code in main thread might
+		   * be polling this...
+		   */
+		  node->tentacles[tentacle_i].joined = 1;
 		}
 	      else
 		{

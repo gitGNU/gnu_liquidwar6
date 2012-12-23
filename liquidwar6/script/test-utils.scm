@@ -69,5 +69,13 @@
 	(c-lw6p2p-node-update-info node param)
 	))))
 
-	  
+;; Utility function that builds an assoc similar to the
+;; one returned by c-lw6pil-suite-get-checkpoint
+(define lw6-test-checkpoint
+  (lambda (game-state pilot)
+    (list (cons "game-state-checksum" (c-lw6ker-game-state-checksum game-state))
+	  (cons "seq" (c-lw6pil-get-reference-current-seq pilot))
+	  (cons "round" (c-lw6ker-get-rounds game-state)))
+    ))
+
 	   

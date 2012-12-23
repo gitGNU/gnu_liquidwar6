@@ -112,7 +112,6 @@
 			     (set! dump-sent #t)
 			     (if (and seed-sent (= stage 1))
 				 (set! stage 2))
-			     (set! ret #t) ;; todo, fix this and set it to true on real success
 			     )
 			   ))
 			(
@@ -182,6 +181,25 @@
 			(
 			 (= stage 2)
 			 (begin
+			   ;; Now verifying that at this stage the game-state 
+			   ;; is correct, will validate the whole test suite at
+			   ;; this point, it could fail later, but in that case
+			   ;; other nodes would receive garbage and *they* would
+			   ;; fail. 
+			   (c-lw6pil-sync-from-reference game-state pilot)
+			   (let ( 
+				 (ref-checkpoint (c-lw6pil-suite-get-checkpoint 0))
+				 (this-checkpoint (lw6-test-checkpoint game-state pilot))
+				 )
+			     (if (equal? ref-checkpoint this-checkpoint)
+				 (begin
+				   (lw6-log-notice (format #f "checkpoint OK ~a" this-checkpoint))
+				   (set! ret #t) ;; here we validate the test
+				   )
+				 (lw6-log-warning (format #f "bad checkpoint ~a vs ~a" this-checkpoint ref-checkpoint))
+				 )
+			     )
+			   ;; Now proceed, putting the messages in the queue for good
 			   (lw6-log-notice "stage 3 & 4, putting messages in queue")
 			   (map (lambda (command) (begin
 						    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 1 & 2" command))

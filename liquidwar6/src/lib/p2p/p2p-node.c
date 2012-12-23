@@ -1780,6 +1780,11 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 		}
 	      if (ret && tentacle)
 		{
+		  /*
+		   * Adding to community, the warehouse_register
+		   * part will come later when messages are
+		   * actually received and join is complete.
+		   */
 		  lw6nod_info_community_add (node->node_info, remote_id,
 					     remote_url);
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
