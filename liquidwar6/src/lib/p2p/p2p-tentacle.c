@@ -316,6 +316,11 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
   lw6sys_list_t *unsent_queue = NULL;
   int queue_i = 0;
 
+  /*
+   * IMPORTANT -> this function is called in unlock mode, it can
+   * be in conflict with code from the recv callback. Normally this
+   * should not be a problem.
+   */
   now = lw6sys_get_timestamp ();
   if (!tentacle->hello_sent)
     {

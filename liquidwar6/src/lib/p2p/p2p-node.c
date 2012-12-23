@@ -98,6 +98,7 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 	{
 	  node->id = ++seq_id;
 	}
+      node->mutex = lw6sys_mutex_create ();
       node->closed = 0;
       node->db = db;
       node->bind_ip = lw6sys_str_copy (bind_ip);
@@ -147,8 +148,8 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 	}
       node->network_reliability = network_reliability;
       node->trojan = trojan;
-      ret = (node->bind_ip && node->node_id_str && node->public_url
-	     && node->password && node->node_info);
+      ret = (node->mutex && node->bind_ip && node->node_id_str
+	     && node->public_url && node->password && node->node_info);
       if (ret)
 	{
 	  node->listener = lw6srv_start (node->bind_ip, node->bind_port);
@@ -341,6 +342,10 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
 	{
 	  lw6sys_list_free (node->draft_msg);
 	}
+      if (node->mutex)
+	{
+	  lw6sys_mutex_destroy (node->mutex);
+	}
       LW6SYS_FREE (node);
     }
   else
@@ -391,6 +396,68 @@ _lw6p2p_node_repr (_lw6p2p_node_t * node)
   return repr;
 }
 
+int
+_lw6p2p_node_lock (_lw6p2p_node_t * node)
+{
+  int ret = 0;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("lock node"));
+  ret = lw6sys_mutex_lock (node->mutex);
+  if (ret)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("lock node OK"));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to lock node"));
+    }
+
+  return ret;
+}
+
+int
+_lw6p2p_node_unlock (_lw6p2p_node_t * node)
+{
+  int ret = 0;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unlock node"));
+  ret = lw6sys_mutex_unlock (node->mutex);
+  if (ret)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unlock node OK"));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to unlock node"));
+    }
+
+  return ret;
+}
+
+int
+_lw6p2p_node_trylock (_lw6p2p_node_t * node)
+{
+  int ret = 0;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("trylock node"));
+  ret = lw6sys_mutex_trylock (node->mutex);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("trylock node ret=%d"), ret);
+
+  return ret;
+}
+
+static int
+_node_lock (lw6p2p_node_t * node)
+{
+  return _lw6p2p_node_lock ((_lw6p2p_node_t *) node);
+}
+
+static int
+_node_unlock (lw6p2p_node_t * node)
+{
+  return _lw6p2p_node_unlock ((_lw6p2p_node_t *) node);
+}
+
 /**
  * lw6p2p_node_poll
  *
@@ -405,7 +472,20 @@ _lw6p2p_node_repr (_lw6p2p_node_t * node)
 int
 lw6p2p_node_poll (lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
-  return _lw6p2p_node_poll ((_lw6p2p_node_t *) node, progress);
+  int ret = 0;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_poll ((_lw6p2p_node_t *) node, progress);
+      _node_unlock (node);
+    }
+
+  return ret;
 }
 
 static int
@@ -823,10 +903,20 @@ _poll_step3_reply (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
 
-  lw6sys_list_filter (&(node->listener->tcp_accepters), _tcp_accepter_reply,
-		      node);
-  lw6sys_list_filter (&(node->listener->udp_buffers), _udp_buffer_reply,
-		      node);
+  /*
+   * This is a place where, definitely, there's *really* an
+   * interest in all those lock functions. The idea is that
+   * the reply process might trigger recv callbacks which
+   * require lock access.
+   */
+  if (_lw6p2p_node_unlock (node))
+    {
+      lw6sys_list_filter (&(node->listener->tcp_accepters),
+			  _tcp_accepter_reply, node);
+      lw6sys_list_filter (&(node->listener->udp_buffers), _udp_buffer_reply,
+			  node);
+      _lw6p2p_node_lock (node);
+    }
 
   return ret;
 }
@@ -974,22 +1064,39 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node, int64_t now)
   return ret;
 }
 
+/*
+ * This function *must* be called in locked mode
+ */
 static int
 _poll_step11_tentacles (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
   int i = 0;
 
-  for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
+  /*
+   * This is a place where, definitely, there's *really* an
+   * interest in all those lock functions. The idea is that
+   * the tentacle polling might trigger recv messages which
+   * can be asynchronous (in that case, the lock protects us,
+   * typical case: mod_http with its threads) but also
+   * synchronous (typical case: any backend which polls on
+   * a socket, UDP or TCP). So we don't want to be in locked
+   * when those are fired.
+   */
+  if (_lw6p2p_node_unlock (node))
     {
-      if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
+      for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
 	{
-	  _lw6p2p_tentacle_poll (&(node->tentacles[i]), node->node_info,
-				 &(node->ticket_table),
-				 &(node->db->data.consts),
-				 lw6dat_warehouse_get_local_serial
-				 (node->warehouse));
+	  if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
+	    {
+	      _lw6p2p_tentacle_poll (&(node->tentacles[i]), node->node_info,
+				     &(node->ticket_table),
+				     &(node->db->data.consts),
+				     lw6dat_warehouse_get_local_serial
+				     (node->warehouse));
+	    }
 	}
+      _lw6p2p_node_lock (node);
     }
 
   return ret;
@@ -1082,6 +1189,9 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now,
   return ret;
 }
 
+/*
+ * This function *must* be called in locked mode
+ */
 int
 _lw6p2p_node_poll (_lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
@@ -1121,7 +1231,16 @@ _lw6p2p_node_poll (_lw6p2p_node_t * node, lw6sys_progress_t * progress)
 void
 lw6p2p_node_close (lw6p2p_node_t * node)
 {
-  _lw6p2p_node_close ((_lw6p2p_node_t *) node);
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      _lw6p2p_node_close ((_lw6p2p_node_t *) node);
+      _node_unlock (node);
+    }
 }
 
 void
@@ -1669,7 +1788,20 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node)
 lw6sys_list_t *
 lw6p2p_node_get_entries (lw6p2p_node_t * node)
 {
-  return _lw6p2p_node_get_entries ((_lw6p2p_node_t *) node);
+  lw6sys_list_t *ret = NULL;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_get_entries ((_lw6p2p_node_t *) node);
+      _node_unlock (node);
+    }
+
+  return ret;
 }
 
 int
@@ -1714,9 +1846,25 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node, int64_t seq_0)
 int
 lw6p2p_node_server_start (lw6p2p_node_t * node, int64_t seq_0)
 {
-  return _lw6p2p_node_server_start ((_lw6p2p_node_t *) node, seq_0);
+  int ret = 0;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_server_start ((_lw6p2p_node_t *) node, seq_0);
+      _node_unlock (node);
+    }
+
+  return ret;
 }
 
+/*
+ * This function *must* be called in locked mode
+ */
 int
 _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 			  const char *remote_url,
@@ -1809,12 +1957,16 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 			     && lw6sys_get_timestamp () < limit_timestamp)
 			{
 			  _lw6p2p_node_poll (node, progress);
-			  /*
-			   * Used to be lw6sys_idle but was generating
-			   * way too many calls, snooze is an order
-			   * of magnitude more reasonnable.
-			   */
-			  lw6sys_snooze ();
+			  if (_lw6p2p_node_unlock (node))
+			    {
+			      /*
+			       * Used to be lw6sys_idle but was generating
+			       * way too many calls, snooze is an order
+			       * of magnitude more reasonnable.
+			       */
+			      lw6sys_snooze ();
+			      _lw6p2p_node_lock (node);
+			    }
 			}
 		      /*
 		       * Generating a JOIN message with 0 seq
@@ -1849,7 +2001,11 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 				     limit_timestamp)
 				{
 				  _lw6p2p_node_poll (node, progress);
-				  lw6sys_idle ();
+				  if (_lw6p2p_node_unlock (node))
+				    {
+				      lw6sys_idle ();
+				      _lw6p2p_node_lock (node);
+				    }
 				}
 			      ret = tentacle->joined;
 			    }
@@ -1903,8 +2059,21 @@ int
 lw6p2p_node_client_join (lw6p2p_node_t * node, u_int64_t remote_id,
 			 const char *remote_url, lw6sys_progress_t * progress)
 {
-  return _lw6p2p_node_client_join ((_lw6p2p_node_t *) node, remote_id,
-				   remote_url, progress);
+  int ret = 0;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_client_join ((_lw6p2p_node_t *) node, remote_id,
+				      remote_url, progress);
+      _node_unlock (node);
+    }
+
+  return ret;
 }
 
 void
@@ -1957,7 +2126,16 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
 void
 lw6p2p_node_disconnect (lw6p2p_node_t * node)
 {
-  _lw6p2p_node_disconnect ((_lw6p2p_node_t *) node);
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      _lw6p2p_node_disconnect ((_lw6p2p_node_t *) node);
+      _node_unlock (node);
+    }
 }
 
 int
@@ -2010,13 +2188,25 @@ lw6p2p_node_update_info (lw6p2p_node_t * node,
 			 int nb_nodes, int max_nb_nodes,
 			 int game_screenshot_size, void *game_screenshot_data)
 {
-  return _lw6p2p_node_update_info ((_lw6p2p_node_t *) node,
-				   round, level,
-				   nb_colors, max_nb_colors,
-				   nb_cursors, max_nb_cursors,
-				   nb_nodes, max_nb_nodes,
-				   game_screenshot_size,
-				   game_screenshot_data);
+  int ret = 0;
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_update_info ((_lw6p2p_node_t *) node,
+				      round, level,
+				      nb_colors, max_nb_colors,
+				      nb_cursors, max_nb_cursors,
+				      nb_nodes, max_nb_nodes,
+				      game_screenshot_size,
+				      game_screenshot_data);
+      _node_unlock (node);
+    }
+
+  return ret;
 }
 
 void
@@ -2041,7 +2231,16 @@ _lw6p2p_node_calibrate (_lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
 void
 lw6p2p_node_calibrate (lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
 {
-  _lw6p2p_node_calibrate ((_lw6p2p_node_t *) node, timestamp, seq);
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      _lw6p2p_node_calibrate ((_lw6p2p_node_t *) node, timestamp, seq);
+      _node_unlock (node);
+    }
 }
 
 int64_t
@@ -2069,7 +2268,20 @@ _lw6p2p_node_get_seq_max (_lw6p2p_node_t * node)
 int64_t
 lw6p2p_node_get_seq_max (lw6p2p_node_t * node)
 {
-  return _lw6p2p_node_get_seq_max ((_lw6p2p_node_t *) node);
+  int64_t ret = 0LL;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_get_seq_max ((_lw6p2p_node_t *) node);
+      _node_unlock (node);
+    }
+
+  return ret;
 }
 
 int
@@ -2103,7 +2315,20 @@ _lw6p2p_node_is_seed_needed (_lw6p2p_node_t * node)
 int
 lw6p2p_node_is_seed_needed (lw6p2p_node_t * node)
 {
-  return _lw6p2p_node_is_seed_needed ((_lw6p2p_node_t *) node);
+  int ret = 0;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_is_seed_needed ((_lw6p2p_node_t *) node);
+      _node_unlock (node);
+    }
+
+  return ret;
 }
 
 int
@@ -2137,7 +2362,20 @@ _lw6p2p_node_is_dump_needed (_lw6p2p_node_t * node)
 int
 lw6p2p_node_is_dump_needed (lw6p2p_node_t * node)
 {
-  return _lw6p2p_node_is_dump_needed ((_lw6p2p_node_t *) node);
+  int ret = 0;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_is_dump_needed ((_lw6p2p_node_t *) node);
+      _node_unlock (node);
+    }
+
+  return ret;
 }
 
 int
@@ -2167,7 +2405,20 @@ _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg)
 int
 lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg)
 {
-  return _lw6p2p_node_put_local_msg ((_lw6p2p_node_t *) node, msg);
+  int ret = 0;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_put_local_msg ((_lw6p2p_node_t *) node, msg);
+      _node_unlock (node);
+    }
+
+  return ret;
 }
 
 char *
@@ -2217,8 +2468,22 @@ char *
 lw6p2p_node_get_next_reference_msg (lw6p2p_node_t * node,
 				    lw6sys_progress_t * progress)
 {
-  return _lw6p2p_node_get_next_reference_msg ((_lw6p2p_node_t *) node,
-					      progress);
+  char *ret = NULL;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret =
+	_lw6p2p_node_get_next_reference_msg ((_lw6p2p_node_t *) node,
+					     progress);
+      _node_unlock (node);
+    }
+
+  return ret;
 }
 
 char *
@@ -2299,5 +2564,19 @@ char *
 lw6p2p_node_get_next_draft_msg (lw6p2p_node_t * node,
 				lw6sys_progress_t * progress)
 {
-  return _lw6p2p_node_get_next_draft_msg ((_lw6p2p_node_t *) node, progress);
+  char *ret = NULL;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret =
+	_lw6p2p_node_get_next_draft_msg ((_lw6p2p_node_t *) node, progress);
+      _node_unlock (node);
+    }
+
+  return ret;
 }

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-12-17 07:00+0100\n"
+"POT-Creation-Date: 2012-12-23 18:47+0100\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -596,12 +596,12 @@ msgstr ""
 msgid "can't read query \"%s\" in \"%s\""
 msgstr "klarte ikkje lesa spørjinga «%s» i «%s»"
 
-#: src/lib/p2p/p2p-node.c:265
+#: src/lib/p2p/p2p-node.c:266
 #, c-format
 msgid "started node \"%s\" in trojan mode, expect problems"
 msgstr ""
 
-#: src/lib/p2p/p2p-node.c:270
+#: src/lib/p2p/p2p-node.c:271
 #, c-format
 msgid "started node \"%s\""
 msgstr ""

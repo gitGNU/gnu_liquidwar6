@@ -514,6 +514,7 @@ _lw6p2p_recv_forward (_lw6p2p_node_t * node,
 		      const char *message)
 {
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("forward \"%s\""), message);
+
   // todo, forwarding
 }
 
@@ -608,81 +609,97 @@ _lw6p2p_recv_callback (void *recv_callback_data,
   if (node && connection)
     {
       /*
-       * We filter here, for it's not the backend responsibility
-       * to do it, and there's no way to trap it in generic cli/srv
-       * code.
+       * Important, this function can be called in main thread (and for this
+       * the poll_tentacle code is unlocked...) but also in other threads.
+       * Basically, all node code is locked some way, with the notable
+       * exception of tentacle_poll, and typically, tentacle poll could
+       * be run concurrently with this code, so double-triple-quadruple check
+       * there's no serious interaction.
        */
-      if (lw6cnx_connection_reliability_filter (connection))
+      if (_lw6p2p_node_lock (node))
 	{
-	  physical_sig_ok =
-	    _check_sig (&(node->ticket_table), connection->remote_id_int,
-			connection->local_id_int, connection->remote_id_str,
-			message, physical_ticket_sig,
-			connection->properties.hint_timeout);
-	  if (physical_sig_ok)
+	  /*
+	   * We filter here, for it's not the backend responsibility
+	   * to do it, and there's no way to trap it in generic cli/srv
+	   * code.
+	   */
+	  if (lw6cnx_connection_reliability_filter (connection))
 	    {
-	      if (connection->local_id_int == logical_to_id)
+	      physical_sig_ok =
+		_check_sig (&(node->ticket_table), connection->remote_id_int,
+			    connection->local_id_int,
+			    connection->remote_id_str, message,
+			    physical_ticket_sig,
+			    connection->properties.hint_timeout);
+	      if (physical_sig_ok)
 		{
-		  if (logical_from_id == connection->remote_id_int)
+		  if (connection->local_id_int == logical_to_id)
 		    {
-		      /*
-		       * In this case, test was performed just before...
-		       */
-		      logical_sig_ok = 1;
-		    }
-		  else
-		    {
-		      logical_from_id_str = lw6sys_id_ltoa (logical_from_id);
-		      if (logical_from_id_str)
+		      if (logical_from_id == connection->remote_id_int)
 			{
-			  logical_sig_ok =
-			    _check_sig (&(node->ticket_table),
-					logical_from_id, logical_to_id,
-					logical_from_id_str, message,
-					logical_ticket_sig,
-					connection->properties.hint_timeout);
-			  LW6SYS_FREE (logical_from_id_str);
+			  /*
+			   * In this case, test was performed just before...
+			   */
+			  logical_sig_ok = 1;
+			}
+		      else
+			{
+			  logical_from_id_str =
+			    lw6sys_id_ltoa (logical_from_id);
+			  if (logical_from_id_str)
+			    {
+			      logical_sig_ok =
+				_check_sig (&(node->ticket_table),
+					    logical_from_id, logical_to_id,
+					    logical_from_id_str, message,
+					    logical_ticket_sig,
+					    connection->
+					    properties.hint_timeout);
+			      LW6SYS_FREE (logical_from_id_str);
+			    }
+			}
+		      if (logical_sig_ok)
+			{
+			  _lw6p2p_recv_process (node, connection,
+						logical_from_id, message);
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("bad logical ticket_sig from \"%s\""),
+				      connection->remote_url);
 			}
 		    }
-		  if (logical_sig_ok)
-		    {
-		      _lw6p2p_recv_process (node, connection, logical_from_id,
-					    message);
-		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _x_ ("bad logical ticket_sig from \"%s\""),
-				  connection->remote_url);
+		      if (connection->remote_id_int == logical_from_id)
+			{
+			  _lw6p2p_recv_forward (node, connection,
+						logical_ticket_sig,
+						logical_from_id,
+						logical_to_id, message);
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_ ("open relay not allowed (yet)"));
+			}
 		    }
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_
+			      ("good physical ticket_sig from \"%s\" on message \"%s\""),
+			      connection->remote_url, message);
 		}
 	      else
 		{
-		  if (connection->remote_id_int == logical_from_id)
-		    {
-		      _lw6p2p_recv_forward (node, connection,
-					    logical_ticket_sig,
-					    logical_from_id, logical_to_id,
-					    message);
-		    }
-		  else
-		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _x_ ("open relay not allowed (yet)"));
-		    }
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_
+			      ("bad physical ticket_sig from \"%s\" on message \"%s\""),
+			      connection->remote_url, message);
 		}
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("good physical ticket_sig from \"%s\" on message \"%s\""),
-			  connection->remote_url, message);
 	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("bad physical ticket_sig from \"%s\" on message \"%s\""),
-			  connection->remote_url, message);
-	    }
+	  _lw6p2p_node_unlock (node);
 	}
     }
 }

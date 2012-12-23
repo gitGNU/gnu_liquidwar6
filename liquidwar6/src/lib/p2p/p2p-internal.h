@@ -185,6 +185,7 @@ typedef struct _lw6p2p_tentacle_s
 typedef struct _lw6p2p_node_s
 {
   u_int32_t id;
+  lw6sys_mutex_t *mutex;
   int closed;
   _lw6p2p_db_t *db;
   char *bind_ip;
@@ -322,6 +323,9 @@ extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, const char *argv[],
 					 int network_reliability, int trojan);
 extern void _lw6p2p_node_free (_lw6p2p_node_t * node);
 extern char *_lw6p2p_node_repr (_lw6p2p_node_t * node);
+extern int _lw6p2p_node_lock (_lw6p2p_node_t * node);
+extern int _lw6p2p_node_unlock (_lw6p2p_node_t * node);
+extern int _lw6p2p_node_trylock (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_poll (_lw6p2p_node_t * node,
 			      lw6sys_progress_t * progress);
 extern void _lw6p2p_node_close (_lw6p2p_node_t * node);

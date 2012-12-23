@@ -1175,7 +1175,7 @@ _test_node_api_node2_callback (void *api_data)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("\"%s\" is ready"),
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("could not start \"%s\""),
 		  ((_lw6p2p_node_t *) data->node)->public_url);
     }
 

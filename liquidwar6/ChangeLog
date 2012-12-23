@@ -1,4 +1,6 @@
-2012-12-22: Christian Mauduit <ufoot@ufoot.org>
+2012-12-22 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added lock support to p2p nodes to avoid recv callback problems.
 
 	* Introduced shift between dump request and dump message seq.
 
