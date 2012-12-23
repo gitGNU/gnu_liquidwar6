@@ -44,20 +44,20 @@
 	       (id (c-lw6pil-suite-get-node-id 0))
 	       (db (c-lw6p2p-db-new db-name))
 	       (node (c-lw6p2p-node-new db (list (cons "client-backends" "tcp,udp")
-						   (cons "server-backends" "tcpd,udpd,httpd")
-						   (cons "bind-ip" "0.0.0.0")
-						   (cons "bind-port" 8057)
-						   (cons "node-id" id)
-						   (cons "public-url" "http://localhost:8057/")
-						   (cons "password" "")
-						   (cons "title" "")
-						   (cons "description" (_ "Dummy test node A"))
-						   (cons "bench" 10)
-						   (cons "open-relay" #f)
-						   (cons "known-nodes" "http://localhost:8058/")
-						   (cons "network-reliability" 100)
-						   (cons "trojan" #f)
-						   )))
+						 (cons "server-backends" "tcpd,udpd,httpd")
+						 (cons "bind-ip" "0.0.0.0")
+						 (cons "bind-port" 8057)
+						 (cons "node-id" id)
+						 (cons "public-url" "http://localhost:8057/")
+						 (cons "password" "")
+						 (cons "title" "")
+						 (cons "description" (_ "Dummy test node A"))
+						 (cons "bench" 10)
+						 (cons "open-relay" #f)
+						 (cons "known-nodes" "http://localhost:8058/")
+						 (cons "network-reliability" 100)
+						 (cons "trojan" #f)
+						 )))
 	       (dump (c-lw6pil-suite-init timestamp-0))
 	       (level (assoc-ref dump "level"))
 	       (game-struct (assoc-ref dump "game-struct"))
@@ -66,6 +66,8 @@
 	       (time-limit (+ lw6-test-network-global-delay timestamp-0))
 	       (stage 0)
 	       (next-update-info 0)
+	       (seed-sent #f)
+	       (dump-sent #f)
 	       )
 	  (begin
 	    (lw6-log-notice node)
@@ -77,10 +79,10 @@
 		  )
 	      (while (< timestamp time-limit)
 		     (begin
-		       (c-lw6sys-idle)
-		       (c-lw6p2p-node-poll node)
 		       (set! timestamp (c-lw6sys-get-timestamp))
 		       (set! next-seq (c-lw6pil-get-next-seq pilot timestamp))
+		       (c-lw6sys-idle)
+		       (c-lw6p2p-node-poll node)
 		       (cond
 			(
 			 (c-lw6p2p-node-is-seed-needed node)
@@ -92,6 +94,9 @@
 			     (c-lw6p2p-node-put-local-msg node seed-command)
 			     (c-lw6sys-idle)
 			     (c-lw6p2p-node-poll node)
+			     (set! seed-sent #t)
+			     (if (and dump-sent (= stage 1))
+				 (set! stage 2))
 			     )
 			   ))
 			(
@@ -104,6 +109,9 @@
 			     (c-lw6p2p-node-put-local-msg node dump-command)
 			     (c-lw6sys-idle)
 			     (c-lw6p2p-node-poll node)
+			     (set! dump-sent #t)
+			     (if (and seed-sent (= stage 1))
+				 (set! stage 2))
 			     (set! ret #t) ;; todo, fix this and set it to true on real success
 			     )
 			   ))
@@ -127,25 +135,25 @@
 		       ;; pump all draft messages
 		       (let* (
 			      (msg (c-lw6p2p-node-get-next-draft-msg node))
-			     )
+			      )
 			 (while msg
-			     (begin
-			       (lw6-test-log-message "draft" msg)
-			       (c-lw6pil-send-command pilot msg #f)
-			       (set! msg (c-lw6p2p-node-get-next-draft-msg node))
-			       )
-			     ))
+				(begin
+				  (lw6-test-log-message "draft" msg)
+				  (c-lw6pil-send-command pilot msg #f)
+				  (set! msg (c-lw6p2p-node-get-next-draft-msg node))
+				  )
+				))
 		       ;; pump all reference messages
 		       (let* (
 			      (msg (c-lw6p2p-node-get-next-reference-msg node))
-			     )
+			      )
 			 (while msg
-			     (begin
-			       (lw6-test-log-message "reference" msg)
-			       (c-lw6pil-send-command pilot msg #t)
-			       (set! msg (c-lw6p2p-node-get-next-reference-msg node))
-			       )
-			     ))
+				(begin
+				  (lw6-test-log-message "reference" msg)
+				  (c-lw6pil-send-command pilot msg #t)
+				  (set! msg (c-lw6p2p-node-get-next-reference-msg node))
+				  )
+				))
 		       ;; commit now, even if there are no messages, won't harm
 		       (c-lw6pil-commit pilot)
 		       ;; update node info, this is important for our peers
@@ -172,11 +180,21 @@
 			   )
 			 )
 			(
-			 (= stage 1)
-			 #f
+			 (= stage 2)
+			 (begin
+			   (lw6-log-notice "stage 3 & 4, putting messages in queue")
+			   (map (lambda (command) (begin
+						    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 1 & 2" command))
+						    (c-lw6p2p-node-put-local-msg node command)
+						    ))
+				(append (c-lw6pil-suite-get-commands-by-node-index 0 2)
+					(c-lw6pil-suite-get-commands-by-node-index 0 3))
+				)
+			   (set! stage 3)
+			   )
 			 )
 			(
-			 (= stage 2)
+			 (= stage 4)
 			 #f
 			 )
 			)

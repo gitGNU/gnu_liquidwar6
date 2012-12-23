@@ -368,13 +368,19 @@ char *
 _lw6p2p_node_repr (_lw6p2p_node_t * node)
 {
   char *repr = NULL;
+  int nb_nodes = 0;
 
   if (node && node->id && node->bind_ip)
     {
+      if (node->warehouse)
+	{
+	  nb_nodes = lw6dat_warehouse_get_nb_nodes (node->warehouse);
+	}
+
       repr =
-	lw6sys_new_sprintf (_x_ ("%u %s %s:%d %s"), node->id,
+	lw6sys_new_sprintf (_x_ ("%u %s %s:%d %s (%d nodes)"), node->id,
 			    node->node_id_str, node->bind_ip,
-			    node->bind_port, node->public_url);
+			    node->bind_port, node->public_url, nb_nodes);
     }
   else
     {

@@ -772,8 +772,13 @@ _lw6dat_stack_get_seq_reference (_lw6dat_stack_t * stack)
 	   * no way we can still have informations about round 1199
 	   * again.
 	   */
-	  ret = atom->seq - 1;
+	  ret = atom->seq - 1LL;
 	}
+    }
+
+  if (ret <= _LW6DAT_SEQ_INVALID)
+    {
+      ret = _LW6DAT_SEQ_INVALID;
     }
 
   return ret;

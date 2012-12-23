@@ -812,20 +812,34 @@ int64_t
 _lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t * warehouse)
 {
   int64_t ret = LLONG_MAX;
+  int64_t seq_reference = _LW6DAT_SEQ_INVALID;
   int i;
 
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
     {
       if (warehouse->stacks[i].node_id)
 	{
-	  ret =
-	    lw6sys_llmin (ret,
-			  _lw6dat_stack_get_seq_reference (&
+	  seq_reference = _lw6dat_stack_get_seq_reference (&
 							   (warehouse->stacks
-							    [i])));
+							    [i]));
+	  if (seq_reference == _LW6DAT_SEQ_INVALID)
+	    {
+	      /*
+	       * If we could not find real messages with actual seqs within the
+	       * stack, then consider seq_0 and substract 1, this way we still
+	       * report some value which makes sense, while not jeopardizing the
+	       * rest of the process (we could possibly return seqs as being
+	       * completed while they aren't). This usually happens when a 
+	       * peer connects, at some point it has no messages yet, but
+	       * we do know about its seq_0.
+	       */
+	      seq_reference =
+		warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0[i] - 1LL;
+	    }
+	  ret = lw6sys_llmin (ret, seq_reference);
 	}
     }
-  if (ret >= LLONG_MAX)
+  if ((ret < _LW6DAT_SEQ_INVALID) || (ret >= LLONG_MAX))
     {
       ret = _LW6DAT_SEQ_INVALID;
     }

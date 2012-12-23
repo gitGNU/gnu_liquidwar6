@@ -36,12 +36,8 @@
 	;; different ID than before to somewhat "not connect very well",
 	;; at least for some time.
 	(c-lw6p2p-db-reset db-name)
-	;; We wait a bit before starting the node-c node. This is to
-	;; make sure server has had time to start before. In practice
-	;; most players will connect on servers that already appear
-	;; on the list of discovered servers, so this isn't a real
-	;; issue but here, we need to help the batch to work.
-	(c-lw6sys-delay (/ lw6-test-network-connect-delay 10))
+	;; We wait a bit before starting the node-c node.
+	(c-lw6sys-delay lw6-test-network-connect-delay)
 	;; Now really wait for some long time to give a and b a chance
 	;; to finish their stuff.
 	(c-lw6sys-delay lw6-test-network-shift-delay)

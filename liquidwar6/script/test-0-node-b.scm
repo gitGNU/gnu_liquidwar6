@@ -45,30 +45,32 @@
 	(c-lw6sys-delay lw6-test-network-shift-delay)
 	(let* (
 	       (timestamp-0 (c-lw6sys-get-timestamp))
+	       (timestamp timestamp-0)
 	       (seq-0 (c-lw6pil-suite-get-seq-0))
+	       (next-seq seq-0)
 	       (id (c-lw6pil-suite-get-node-id 1))
 	       (db (c-lw6p2p-db-new db-name))
 	       (node (c-lw6p2p-node-new db (list (cons "client-backends" "tcp,udp")
-						   (cons "server-backends" "tcpd,udpd,httpd")
-						   (cons "bind-ip" "0.0.0.0")
-						   (cons "bind-port" 8058)
-						   (cons "node-id" id)
-						   (cons "public-url" "http://localhost:8058/")
-						   (cons "password" "")
-						   (cons "title" "")
-						   (cons "description" (_ "Dummy test node B"))
-						   (cons "bench" 10)
-						   (cons "open-relay" #f)
-						   (cons "known-nodes" "http://localhost:8057/")
-						   (cons "network-reliability" 100)
-						   (cons "trojan" #f)
-						   )))
+						 (cons "server-backends" "tcpd,udpd,httpd")
+						 (cons "bind-ip" "0.0.0.0")
+						 (cons "bind-port" 8058)
+						 (cons "node-id" id)
+						 (cons "public-url" "http://localhost:8058/")
+						 (cons "password" "")
+						 (cons "title" "")
+						 (cons "description" (_ "Dummy test node B"))
+						 (cons "bench" 10)
+						 (cons "open-relay" #f)
+						 (cons "known-nodes" "http://localhost:8057/")
+						 (cons "network-reliability" 100)
+						 (cons "trojan" #f)
+						 )))
 	       (dump #f)
 	       (level #f)
 	       (game-struct #f)
 	       (game-state #f)
 	       (pilot #f)
-	       (time-limit (+ lw6-test-network-global-delay (c-lw6sys-get-timestamp)))
+	       (time-limit (+ lw6-test-network-global-delay timestamp))
 	       (connect-time (- time-limit lw6-test-network-connect-delay))
 	       (connect-ret #f)
 	       (server-entry #f)
@@ -77,12 +79,13 @@
 	  (begin
 	    (lw6-log-notice node)
 	    ;; First, we try to establish a link to the server (OOB only)
-	    (while (and (< (c-lw6sys-get-timestamp) connect-time) 
+	    (while (and (< timestamp connect-time) 
 			(not server-entry))
 		   (let (
 			 (entries (c-lw6p2p-node-get-entries node))
 			 )
 		     (begin		     
+		       (set! timestamp (c-lw6sys-get-timestamp))
 		       (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8057/")
 						(assoc-ref x "id"))
 					   (begin
@@ -97,12 +100,13 @@
 		       )))
 	    ;; Then, we wait until the server (node-a) is up-to-date enough
 	    (if server-entry
-		(while (and (< (c-lw6sys-get-timestamp) connect-time) 
+		(while (and (< timestamp connect-time) 
 			    (< (assoc-ref server-entry "round") connect-round))		       
 		       (let (
 			     (entries (c-lw6p2p-node-get-entries node))
 			     )
 			 (begin		     
+			   (set! timestamp (c-lw6sys-get-timestamp))
 			   (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8057/")
 						    (assoc-ref x "id"))
 					       (begin
@@ -120,40 +124,42 @@
 		     (assoc-ref server-entry "id")
 		     (assoc-ref server-entry "url"))
 		    (begin
-			   (map (lambda (command) (begin
-						    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 2" command))
-						    (c-lw6p2p-node-put-local-msg node command)
-						    ))
-				(c-lw6pil-suite-get-commands-by-node-index 1 1)
-				)
-		    (while (and (< (c-lw6sys-get-timestamp) connect-time)
-				(not pilot))
-			   (begin
-			     (c-lw6sys-idle)
-			     (c-lw6p2p-node-poll node)
-			     ;; pump all draft messages
-			     (let* (
-				    (msg (c-lw6p2p-node-get-next-draft-msg node))
-				    )
-			       (while msg
-				      (begin
-					(lw6-test-log-message "draft" msg)
-					;;(c-lw6pil-send-command pilot msg #f)
-					(set! msg (c-lw6p2p-node-get-next-draft-msg node))
-					)
-				      ))
-			     ;; pump all reference messages
-			     (let* (
-				    (msg (c-lw6p2p-node-get-next-reference-msg node))
-				    )
-			       (while msg
-				      (begin
-					(lw6-test-log-message "reference" msg)
-					;;(c-lw6pil-send-command pilot msg #t)
-					(set! msg (c-lw6p2p-node-get-next-reference-msg node))
-					)
-				      ))
-			     )))))
+		      (map (lambda (command) (begin
+					       (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 2" command))
+					       (c-lw6p2p-node-put-local-msg node command)
+					       ))
+			   (append (c-lw6pil-suite-get-commands-by-node-index 1 1)
+				   (c-lw6pil-suite-get-commands-by-node-index 1 2))
+			   )
+		      (while (and (< timestamp connect-time)
+				  (not pilot))
+			     (begin
+			       (set! timestamp (c-lw6sys-get-timestamp))
+			       (c-lw6sys-idle)
+			       (c-lw6p2p-node-poll node)
+			       ;; pump all draft messages
+			       (let* (
+				      (msg (c-lw6p2p-node-get-next-draft-msg node))
+				      )
+				 (while msg
+					(begin
+					  (lw6-test-log-message "draft" msg)
+					  ;;(c-lw6pil-send-command pilot msg #f)
+					  (set! msg (c-lw6p2p-node-get-next-draft-msg node))
+					  )
+					))
+			       ;; pump all reference messages
+			       (let* (
+				      (msg (c-lw6p2p-node-get-next-reference-msg node))
+				      )
+				 (while msg
+					(begin
+					  (lw6-test-log-message "reference" msg)
+					  ;;(c-lw6pil-send-command pilot msg #t)
+					  (set! msg (c-lw6p2p-node-get-next-reference-msg node))
+					  )
+					))
+			       )))))
 	    (c-lw6p2p-node-close node)
 	    ))
 	(c-lw6net-quit)
