@@ -368,7 +368,7 @@ extern int lw6pil_local_cursors_set_main (lw6pil_local_cursors_t *
 
 /* pil-nopilot.c */
 extern int lw6pil_nopilot_poll_dump (lw6pil_dump_t * dump,
-				     const char *command_text, int64_t seq_0,
+				     const char *command_text,
 				     int64_t timestamp);
 
 /* pil-pilot.c */

@@ -75,6 +75,10 @@
 	       (connect-ret #f)
 	       (server-entry #f)
 	       (connect-round (assoc-ref (c-lw6pil-suite-get-checkpoint 0) "round"))
+	       (stage 1)
+	       (next-update-info 0)
+	       (seed-sent #f)
+	       (dump-sent #f)
 	       )
 	  (begin
 	    (lw6-log-notice node)
@@ -124,43 +128,165 @@
 		     (assoc-ref server-entry "id")
 		     (assoc-ref server-entry "url"))
 		    (begin
-		      (map (lambda (command) (begin
-					       (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 2" command))
-					       (c-lw6p2p-node-put-local-msg node command)
-					       ))
-			   (append (c-lw6pil-suite-get-commands-by-node-index 1 1)
-				   (c-lw6pil-suite-get-commands-by-node-index 1 2)
-				   (c-lw6pil-suite-get-commands-by-node-index 1 3))
-			   )
-		      (while (and (< timestamp connect-time)
-				  (not pilot))
+		      (while (< timestamp time-limit)
 			     (begin
 			       (set! timestamp (c-lw6sys-get-timestamp))
 			       (c-lw6sys-idle)
 			       (c-lw6p2p-node-poll node)
-			       ;; pump all draft messages
-			       (let* (
-				      (msg (c-lw6p2p-node-get-next-draft-msg node))
+			       (if pilot
+				   (begin
+				     (set! next-seq (c-lw6pil-get-next-seq pilot timestamp))
+				     (cond
+				      (
+				       (c-lw6p2p-node-is-seed-needed node)
+				       (let (
+					     (seed-command (c-lw6pil-seed-command-generate pilot id next-seq))
+					     )
+					 (begin
+					   (lw6-log-notice (format #f "seed-command -> ~a" seed-command))
+					   (c-lw6p2p-node-put-local-msg node seed-command)
+					   (c-lw6sys-idle)
+					   (c-lw6p2p-node-poll node)
+					   (set! seed-sent #t)
+					   (if (and dump-sent (= stage 3))
+					       (set! stage 4))
+					   )
+					 ))
+				      (
+				       (c-lw6p2p-node-is-dump-needed node)
+				       (let (
+					     (dump-command (c-lw6pil-dump-command-generate pilot id next-seq))
+					     )
+					 (begin
+					   (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
+					   (c-lw6p2p-node-put-local-msg node dump-command)
+					   (c-lw6sys-idle)
+					   (c-lw6p2p-node-poll node)
+					   (set! dump-sent #t)
+					   (if (and seed-sent (= stage 3))
+					       (set! stage 4))
+					   )
+					 ))
 				      )
-				 (while msg
-					(begin
-					  (lw6-test-log-message "draft" msg)
-					  ;;(c-lw6pil-send-command pilot msg #f)
-					  (set! msg (c-lw6p2p-node-get-next-draft-msg node))
-					  )
-					))
-			       ;; pump all reference messages
-			       (let* (
-				      (msg (c-lw6p2p-node-get-next-reference-msg node))
-				      )
-				 (while msg
-					(begin
-					  (lw6-test-log-message "reference" msg)
-					  ;;(c-lw6pil-send-command pilot msg #t)
-					  (set! msg (c-lw6p2p-node-get-next-reference-msg node))
-					  )
-					))
-			       )))))
+				     ;; pump all draft messages
+				     (let (
+					   (msg (c-lw6p2p-node-get-next-draft-msg node))
+					   )
+				       (while msg
+					      (begin
+						(lw6-test-log-message "draft" msg)
+						(c-lw6pil-send-command pilot msg #f)
+						(set! msg (c-lw6p2p-node-get-next-draft-msg node))
+						)
+					      ))
+				     ;; pump all reference messages
+				     (let (
+					   (msg (c-lw6p2p-node-get-next-reference-msg node))
+					   )
+				       (while msg
+					      (begin
+						(lw6-test-log-message "reference" msg)
+						(c-lw6pil-send-command pilot msg #t)
+						(set! msg (c-lw6p2p-node-get-next-reference-msg node))
+						)
+					      ))
+				     ;; commit now, even if there are no messages, won't harm
+				     (c-lw6pil-commit pilot)
+				     ;; update node info, this is important for our peers
+				     ;; might be wanting to poll this
+				     (if (> (c-lw6sys-get-timestamp) next-update-info)
+					 (begin
+					   (set! next-update-info (+ (c-lw6sys-get-timestamp) lw6-test-network-update-delay))
+					   (c-lw6pil-sync-from-reference game-state pilot)
+					   (lw6-test-update-info node level game-state)
+					   ))
+				     )
+				   ;; pilot not defined
+				   (begin
+				     ;; pump all draft messages
+				     (let (
+					   (msg (c-lw6p2p-node-get-next-draft-msg node))
+					   )
+				       (while msg
+					      (begin
+						(lw6-test-log-message "draft" msg)
+						(set! msg (c-lw6p2p-node-get-next-draft-msg node))
+						)
+					      ))
+				     ;; pump reference messages until we find a dump
+				     (let (
+					   (msg (c-lw6p2p-node-get-next-reference-msg node))
+					   )
+				       (if msg
+					   (begin
+					     (lw6-test-log-message "reference" msg)
+					     (set! dump (c-lw6pil-poll-dump msg timestamp))
+					     (if dump
+						 (begin
+						   (set! level (assoc-ref dump "level"))
+						   (set! game-struct (assoc-ref dump "game-struct"))
+						   (set! game-state (assoc-ref dump "game-state"))
+						   (set! pilot (assoc-ref dump "pilot"))
+						   (lw6-log-notice (format #f "got dump ~a" dump))
+						   )
+						 )
+					     )))))
+			       (cond 
+				(
+				 (= stage 1)
+				 (begin
+				   (lw6-log-notice "stage 3 & 4, putting messages in queue")
+				   (map (lambda (command) (begin
+							    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 2, 3 & 4" command))
+							    (c-lw6p2p-node-put-local-msg node command)
+							    ))
+					(append (c-lw6pil-suite-get-commands-by-node-index 1 1)
+						(c-lw6pil-suite-get-commands-by-node-index 1 2)
+						(c-lw6pil-suite-get-commands-by-node-index 1 3))
+					)
+				   (set! stage 3)
+				   )
+				 )
+				(
+				 (= stage 4)
+				 (begin
+				   ;; Now verifying that at this stage the game-state 
+				   ;; is correct, will validate the whole test suite at
+				   ;; this point, it could fail later, but in that case
+				   ;; other nodes would receive garbage and *they* would
+				   ;; fail. 
+				   (c-lw6pil-sync-from-reference game-state pilot)
+				   (let ( 
+					 (ref-checkpoint (c-lw6pil-suite-get-checkpoint 2))
+					 (this-checkpoint (lw6-test-checkpoint game-state pilot))
+					 )
+				     (if (equal? ref-checkpoint this-checkpoint)
+					 (begin
+					   (lw6-log-notice (format #f "checkpoint OK ~a" this-checkpoint))
+					   (set! ret #t) ;; here we validate the test
+					   )
+					 (lw6-log-warning (format #f "bad checkpoint ~a vs ~a" this-checkpoint ref-checkpoint))
+					 )
+				     )
+				   ;; Now proceed, putting the messages in the queue for good
+				   (lw6-log-notice "stage 5 & 6, putting messages in queue")
+				   (map (lambda (command) (begin
+							    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 5 & 6" command))
+							    (c-lw6p2p-node-put-local-msg node command)
+							    ))
+					(append (c-lw6pil-suite-get-commands-by-node-index 1 4)
+						(c-lw6pil-suite-get-commands-by-node-index 1 5))
+					)
+				   (set! stage 3)
+				   )
+				 )
+				(
+				 (= stage 4)
+				 #f
+				 )
+				)
+			       ))
+		      )))
 	    (c-lw6p2p-node-close node)
 	    ))
 	(c-lw6net-quit)

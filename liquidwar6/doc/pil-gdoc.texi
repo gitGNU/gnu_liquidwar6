@@ -276,12 +276,10 @@ for instance).
 @strong{Return value:}  1 on success (cursor exists), 0 on failure (no such cursor).
 @end deftypefun
 
-@deftypefun {int} {lw6pil_nopilot_poll_dump} (lw6pil_dump_t * @var{dump}, const char * @var{command_text}, int64_t @var{seq_0}, int64_t @var{timestamp})
+@deftypefun {int} {lw6pil_nopilot_poll_dump} (lw6pil_dump_t * @var{dump}, const char * @var{command_text}, int64_t @var{timestamp})
 @var{dump}:  will contain the dump information if needed, can be NULL
 
 @var{command_text}:  the command received from the network.
-
-@var{seq_0}:  reference seq for the beginning of the game
 
 @var{timestamp}:  timestamp, used to initialize the pilot
 

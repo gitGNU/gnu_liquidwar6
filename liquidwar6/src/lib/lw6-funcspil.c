@@ -153,10 +153,9 @@ _scm_lw6pil_dump_command_generate (SCM pilot, SCM server_id, SCM seq)
 }
 
 static SCM
-_scm_lw6pil_poll_dump (SCM command_text, SCM seq_0, SCM timestamp)
+_scm_lw6pil_poll_dump (SCM command_text, SCM timestamp)
 {
   char *c_command_text = NULL;
-  int64_t c_seq_0;
   int64_t c_timestamp;
   SCM ret = SCM_BOOL_F;
   lw6pil_dump_t c_dump;
@@ -170,16 +169,13 @@ _scm_lw6pil_poll_dump (SCM command_text, SCM seq_0, SCM timestamp)
 
   SCM_ASSERT (scm_is_string (command_text), command_text, SCM_ARG1,
 	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (seq_0), seq_0, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (timestamp), timestamp, SCM_ARG2, __FUNCTION__);
 
   c_command_text = lw6scm_utils_to_0str (command_text);
   if (c_command_text)
     {
-      c_seq_0 = scm_to_long_long (seq_0);
       c_timestamp = scm_to_long_long (timestamp);
-      if (lw6pil_nopilot_poll_dump
-	  (&c_dump, c_command_text, c_seq_0, c_timestamp))
+      if (lw6pil_nopilot_poll_dump (&c_dump, c_command_text, c_timestamp))
 	{
 	  if (lw6pil_dump_exists (&c_dump))
 	    {
@@ -1370,7 +1366,7 @@ lw6_register_funcs_pil ()
 				      (SCM (*)
 				       ())_scm_lw6pil_dump_command_generate);
   ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_POLL_DUMP, 3, 0, 0,
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_POLL_DUMP, 2, 0, 0,
 			      (SCM (*)())_scm_lw6pil_poll_dump);
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_BUILD_PILOT, 3, 0, 0,
