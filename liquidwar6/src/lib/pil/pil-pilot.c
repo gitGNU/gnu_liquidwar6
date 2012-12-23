@@ -1067,15 +1067,33 @@ lw6pil_pilot_round2seq (lw6pil_pilot_t * pilot, int round)
 int64_t
 _lw6pil_pilot_get_next_seq (_lw6pil_pilot_t * pilot, int64_t timestamp)
 {
-  int64_t ret = 0;
+  int64_t next_seq = 0LL;
+  int64_t last_commit_seq = 0LL;
   int64_t delta;
 
   delta = timestamp - pilot->calibrate_timestamp;
   delta *= (int64_t) pilot->backup->game_struct->rules.rounds_per_sec;
   delta /= LW6SYS_TICKS_PER_SEC;
-  ret = pilot->calibrate_seq + (int) delta;
+  next_seq = pilot->calibrate_seq + (int) delta;
 
-  return ret;
+  /*
+   * Now, most of the time, the value at this stage is OK,
+   * but when processing long operations and/or when the command
+   * queue is really filled, the pilot might fall behind, in that
+   * case, we use at least last_commit_seq + 1
+   */
+  last_commit_seq = _lw6pil_pilot_get_last_commit_seq (pilot);
+  if (next_seq <= last_commit_seq)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("ideal next_seq=%" LW6SYS_PRINTF_LL
+		       "d but last_commit_seq=%" LW6SYS_PRINTF_LL
+		       "d, forcing greater value"), (long long) next_seq,
+		  (long long) last_commit_seq);
+      next_seq = last_commit_seq + 1LL;
+    }
+
+  return next_seq;
 }
 
 /**

@@ -38,7 +38,9 @@
 	(c-lw6p2p-db-reset db-name)
 	(let* (
 	       (timestamp-0 (c-lw6sys-get-timestamp))
+	       (timestamp timestamp-0)
 	       (seq-0 (c-lw6pil-suite-get-seq-0))
+	       (next-seq seq-0)
 	       (id (c-lw6pil-suite-get-node-id 0))
 	       (db (c-lw6p2p-db-new db-name))
 	       (node (c-lw6p2p-node-new db (list (cons "client-backends" "tcp,udp")
@@ -73,15 +75,17 @@
 	    (let (
 		  (seq (c-lw6pil-get-last-commit-seq pilot))
 		  )
-	      (while (< (c-lw6sys-get-timestamp) time-limit)
+	      (while (< timestamp time-limit)
 		     (begin
 		       (c-lw6sys-idle)
 		       (c-lw6p2p-node-poll node)
+		       (set! timestamp (c-lw6sys-get-timestamp))
+		       (set! next-seq (c-lw6pil-get-next-seq pilot timestamp))
 		       (cond
 			(
 			 (c-lw6p2p-node-is-seed-needed node)
 			 (let (
-			       (seed-command (c-lw6pil-seed-command-generate pilot id))
+			       (seed-command (c-lw6pil-seed-command-generate pilot id next-seq))
 			       )
 			   (begin
 			     (lw6-log-notice (format #f "seed-command -> ~a" seed-command))
@@ -93,7 +97,7 @@
 			(
 			 (c-lw6p2p-node-is-dump-needed node)
 			 (let (
-			       (dump-command (c-lw6pil-dump-command-generate pilot id))
+			       (dump-command (c-lw6pil-dump-command-generate pilot id next-seq))
 			       )
 			   (begin
 			     (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))

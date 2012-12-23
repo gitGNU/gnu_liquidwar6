@@ -74,7 +74,7 @@ _scm_lw6pil_seed_command_generate (SCM pilot, SCM server_id, SCM seq)
 	      (lw6_global.smob_types.pilot,
 	       pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG2, __FUNCTION__);
-  SCM_ASSERT (scm_is_string (seq), seq, SCM_ARG3, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (seq), seq, SCM_ARG3, __FUNCTION__);
 
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
@@ -122,7 +122,7 @@ _scm_lw6pil_dump_command_generate (SCM pilot, SCM server_id, SCM seq)
 	      (lw6_global.smob_types.pilot,
 	       pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG2, __FUNCTION__);
-  SCM_ASSERT (scm_is_string (seq), seq, SCM_ARG3, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (seq), seq, SCM_ARG3, __FUNCTION__);
 
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
