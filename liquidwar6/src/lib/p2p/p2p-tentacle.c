@@ -533,8 +533,7 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 		  ret =
 		    lw6cli_send (tentacle->backends->cli_backends[i], cnx,
 				 now, physical_ticket_sig, logical_ticket_sig,
-				 cnx->local_id_int, cnx->remote_id_int, msg)
-		    || ret;
+				 logical_from_id, logical_to_id, msg) || ret;
 		}
 	    }
 	  for (i = 0; i < tentacle->nb_srv_connections; ++i)
@@ -549,8 +548,7 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 		  ret =
 		    lw6srv_send (tentacle->backends->srv_backends[i], cnx,
 				 now, physical_ticket_sig, logical_ticket_sig,
-				 cnx->local_id_int, cnx->remote_id_int, msg)
-		    || ret;
+				 logical_from_id, logical_to_id, msg) || ret;
 		}
 	    }
 	}
@@ -650,7 +648,7 @@ _lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
       cnx = tentacle->cli_connections[i];
       ret = lw6cli_send (tentacle->backends->cli_backends[i], cnx, now,
 			 physical_ticket_sig, logical_ticket_sig,
-			 cnx->local_id_int, cnx->remote_id_int, msg) || ret;
+			 logical_from_id, logical_to_id, msg) || ret;
     }
 
   for (i = 0; i < tentacle->nb_srv_connections; ++i)
@@ -658,7 +656,7 @@ _lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
       cnx = tentacle->srv_connections[i];
       ret = lw6srv_send (tentacle->backends->srv_backends[i], cnx, now,
 			 physical_ticket_sig, logical_ticket_sig,
-			 cnx->local_id_int, cnx->remote_id_int, msg) || ret;
+			 logical_from_id, logical_to_id, msg) || ret;
     }
 
   return ret;

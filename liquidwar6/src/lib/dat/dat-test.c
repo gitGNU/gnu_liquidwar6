@@ -30,7 +30,6 @@
 
 #define _TEST_ATOM_TEXT_SHORT "this is a short text"
 #define _TEST_ATOM_TEXT_LONG "this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text..."
-#define _TEST_ATOM_LOGICAL_FROM_STR "1234123412341234"
 
 #define _TEST_BLOCK_SERIAL_0 456
 #define _TEST_BLOCK_ORDER_N 7
@@ -245,16 +244,6 @@ test_atom ()
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to get atom text"));
       }
-    /*
-       cmd =
-       _lw6dat_atom_recreate_atom_str_from_atom (&atom,
-       _TEST_ATOM_LOGICAL_FROM_STR);
-       if (cmd)
-       {
-       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("recreated cmd is \"%s\""), cmd);
-       LW6SYS_FREE (cmd);
-       }
-     */
     _lw6dat_atom_clear (&atom);
   }
 
@@ -1290,7 +1279,7 @@ _fake_send (void *func_data, void *data)
 	{
 	  /*
 	   * Now, in a real network context, the logical
-	   * sender has been parsed upstream but here we
+	   * sender can been parsed upstream but here we
 	   * need to figure it out "manually".
 	   */
 	  _lw6dat_atom_parse_serial_i_n_seq_from_cmd

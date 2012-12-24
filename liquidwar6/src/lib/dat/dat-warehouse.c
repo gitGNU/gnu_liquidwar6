@@ -537,23 +537,34 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
       (&serial, &order_i, &order_n, &seq, &logical_from2,
        &seq_from_cmd_str_offset, &cmd_str_offset, full_str))
     {
-      if (logical_from == logical_from2)
+      if (logical_from != logical_from2)
 	{
-	  ret =
-	    _lw6dat_warehouse_put_atom (warehouse, logical_from,
-					serial, order_i, order_n, seq,
-					full_str, seq_from_cmd_str_offset,
-					cmd_str_offset);
-	}
-      else
-	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  /*
+	   * Now, in practice, logical_from and logical_from2
+	   * can be different, after, this is the whole thing
+	   * about this dat-warehouse, it allows messages issued
+	   * by B to be forwarded to C by A.
+	   *
+	   * One option would be to consider that messages 
+	   * that have the same logical_from and logical_from2
+	   * are condidered "safer" than other messages as
+	   * they are issued by the real owner. One could
+	   * imagine that in case of conflict/difference
+	   * this information is used. Yet to be implemented.
+	   */
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_
-		      ("cant't put atom string, logical_from inconsistency logical_from=%"
-		       LW6SYS_PRINTF_LL "x logical_from2=%" LW6SYS_PRINTF_LL
-		       "x"), (long long) logical_from,
+		      ("unsure message logical_from=%"
+		       LW6SYS_PRINTF_LL "x and logical_from2=%"
+		       LW6SYS_PRINTF_LL "x"), (long long) logical_from,
 		      (long long) logical_from2);
 	}
+
+      ret =
+	_lw6dat_warehouse_put_atom (warehouse, logical_from2,
+				    serial, order_i, order_n, seq,
+				    full_str, seq_from_cmd_str_offset,
+				    cmd_str_offset);
     }
 
   return ret;

@@ -1038,7 +1038,6 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node, int64_t now)
 					     remote_id_str),
 					    node->node_id_int,
 					    remote_id_int, atom_str);
-
 		  if (!_lw6p2p_tentacle_send_best (&
 						   (node->tentacles
 						    [i]), now,
@@ -1162,6 +1161,12 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now,
 				 (&(node->ticket_table), remote_id_str),
 				 node->node_id_int, remote_id_int, msg);
 
+			      /*
+			       * Some hesitation on what to put in the
+			       * logical_from parameter here, saying it's
+			       * us is not such a bad idea as we are
+			       * at the initiative of saying "this is missing"
+			       */
 			      _lw6p2p_tentacle_send_best (&
 							  (node->tentacles
 							   [i]), now,

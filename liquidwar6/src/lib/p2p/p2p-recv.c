@@ -638,12 +638,22 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 		      if (logical_from_id == connection->remote_id_int)
 			{
 			  /*
-			   * In this case, test was performed just before...
+			   * In this case, test was performed just before,
+			   * but we check it again, just to make sure.
 			   */
-			  logical_sig_ok = 1;
+			  logical_sig_ok =
+			    _check_sig (&(node->ticket_table),
+					connection->remote_id_int,
+					connection->local_id_int,
+					connection->remote_id_str, message,
+					logical_ticket_sig,
+					connection->properties.hint_timeout);
 			}
 		      else
 			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("message forwarding not supported yet"));
 			  logical_from_id_str =
 			    lw6sys_id_ltoa (logical_from_id);
 			  if (logical_from_id_str)
@@ -675,6 +685,9 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 		    {
 		      if (connection->remote_id_int == logical_from_id)
 			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("message forwarding not supported yet"));
 			  _lw6p2p_recv_forward (node, connection,
 						logical_ticket_sig,
 						logical_from_id,
@@ -686,6 +699,10 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 				      _x_ ("open relay not allowed (yet)"));
 			}
 		    }
+		}
+
+	      if (physical_sig_ok)
+		{
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("good physical ticket_sig from \"%s\" on message \"%s\""),
@@ -696,6 +713,20 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("bad physical ticket_sig from \"%s\" on message \"%s\""),
+			      connection->remote_url, message);
+		}
+	      if (logical_sig_ok)
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_
+			      ("good logical ticket_sig from \"%s\" on message \"%s\""),
+			      connection->remote_url, message);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_
+			      ("bad logical ticket_sig from \"%s\" on message \"%s\""),
 			      connection->remote_url, message);
 		}
 	    }

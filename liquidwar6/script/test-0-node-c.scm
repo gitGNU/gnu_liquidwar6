@@ -36,73 +36,244 @@
 	;; different ID than before to somewhat "not connect very well",
 	;; at least for some time.
 	(c-lw6p2p-db-reset db-name)
-	;; We wait a bit before starting the node-c node.
-	(c-lw6sys-delay lw6-test-network-connect-delay)
-	;; Now really wait for some long time to give a and b a chance
-	;; to finish their stuff.
-	(c-lw6sys-delay lw6-test-network-shift-delay)
+	;; Wait for a little time before trying to do anything, just to
+	;; let the server fire itself, start doing things, else because
+	;; of threading issue we could try to connect to a server which
+	;; is not ready. Then it would finally work, but it just takes
+	;; time to get back in the polling queue and have that server
+	;; queried again since it was reported non-existent at first.
+	(c-lw6sys-delay (* 2 lw6-test-network-shift-delay))
 	(let* (
+	       (timestamp-0 (c-lw6sys-get-timestamp))
+	       (timestamp timestamp-0)
+	       (seq-0 (c-lw6pil-suite-get-seq-0))
+	       (next-seq seq-0)
+	       (id (c-lw6pil-suite-get-node-id 2))
 	       (db (c-lw6p2p-db-new db-name))
 	       (node (c-lw6p2p-node-new db (list (cons "client-backends" "tcp,udp")
-						   (cons "server-backends" "tcpd,udpd,httpd")
-						   (cons "bind-ip" "0.0.0.0")
-						   (cons "bind-port" 8059)
-						   (cons "node-id" (c-lw6pil-suite-get-node-id 2))
-						   (cons "public-url" "http://localhost:8059/")
-						   (cons "password" "")
-						   (cons "title" "")
-						   (cons "description" (_ "Dummy test node C"))
-						   (cons "bench" 10)
-						   (cons "open-relay" #f)
-						   (cons "known-nodes" "http://localhost:8058/")
-						   (cons "network-reliability" 100)
-						   (cons "trojan" #f)
-						   )))
-	       (id-2 (c-lw6p2p-node-get-id node))
-	       (time-limit (+ lw6-test-network-global-delay (c-lw6sys-get-timestamp)))
-	       (connect-time (- time-limit (+ lw6-test-network-connect-delay lw6-test-network-shift-delay)))
+						 (cons "server-backends" "tcpd,udpd,httpd")
+						 (cons "bind-ip" "0.0.0.0")
+						 (cons "bind-port" 8059)
+						 (cons "node-id" id)
+						 (cons "public-url" "http://localhost:8059/")
+						 (cons "password" "")
+						 (cons "title" "")
+						 (cons "description" (_ "Dummy test node C"))
+						 (cons "bench" 10)
+						 (cons "open-relay" #f)
+						 (cons "known-nodes" "http://localhost:8058/")
+						 (cons "network-reliability" 100)
+						 (cons "trojan" #f)
+						 )))
+	       (dump #f)
+	       (level #f)
+	       (game-struct #f)
+	       (game-state #f)
+	       (pilot #f)
+	       (time-limit (+ lw6-test-network-global-delay timestamp))
+	       (connect-time (- time-limit lw6-test-network-connect-delay))
 	       (connect-ret #f)
 	       (server-entry #f)
+	       (connect-round (assoc-ref (c-lw6pil-suite-get-checkpoint 2) "round"))
+	       (stage 3)
+	       (next-update-info 0)
+	       (seed-sent #f)
+	       (dump-sent #f)
 	       )
 	  (begin
 	    (lw6-log-notice node)
-	    (while (and (< (c-lw6sys-get-timestamp) connect-time) 
-			(not (and connect-ret server-entry)))
+	    ;; First, we try to establish a link to the server (OOB only)
+	    (while (and (< timestamp connect-time) 
+			(not server-entry))
 		   (let (
 			 (entries (c-lw6p2p-node-get-entries node))
 			 )
 		     (begin		     
+		       (set! timestamp (c-lw6sys-get-timestamp))
 		       (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8058/")
 						(assoc-ref x "id"))
 					   (begin
-					     ;; We wait a bit before trying to join, trying
-					     ;; to join too fast could possibly ruin the process,
-					     ;; a player would just try again, but here we really
-					     ;; want it to work right away
-					     (c-lw6sys-snooze)
+					     (lw6-log-notice (format #f "discovered \"~a\"" x))
+					     (c-lw6sys-idle)
 					     (c-lw6p2p-node-poll node)
-					     (set! server-entry x)
-					     (set! connect-ret (c-lw6p2p-node-client-join 
-								node
-								(assoc-ref x "id")
-								(assoc-ref x "url")))
+					     (set! server-entry x)					     
 					     )))
 			    entries)	 
 		       (c-lw6sys-idle)
 		       (c-lw6p2p-node-poll node)
 		       )))
+	    ;; Then, we wait until the server (node-a) is up-to-date enough
 	    (if server-entry
-		(lw6-log-notice (format #f "OK, joining ~a" server-entry))
-		(lw6-log-warning "unable to find server")
-		)
-	    (while (and (< (c-lw6sys-get-timestamp) time-limit) server-entry)
-		   (begin
-		     (c-lw6sys-idle)
-		     (c-lw6p2p-node-poll node)
-		     (set! ret #t) ;; todo, fix this and set it to true on real success
-		     ))
+		(while (and (< timestamp connect-time) 
+			    (< (assoc-ref server-entry "round") connect-round))		       
+		       (let (
+			     (entries (c-lw6p2p-node-get-entries node))
+			     )
+			 (begin		     
+			   (set! timestamp (c-lw6sys-get-timestamp))
+			   (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8058/")
+						    (assoc-ref x "id"))
+					       (begin
+						 (c-lw6sys-idle)
+						 (c-lw6p2p-node-poll node)
+						 (set! server-entry x)
+						 )))
+				entries)	 
+			   (c-lw6sys-idle)
+			   (c-lw6p2p-node-poll node)
+			   ))))
+	    (if (and server-entry (>= (assoc-ref server-entry "round") connect-round))
+		(if (c-lw6p2p-node-client-join 
+		     node
+		     (assoc-ref server-entry "id")
+		     (assoc-ref server-entry "url"))
+		    (begin
+		      (while (< timestamp time-limit)
+			     (begin
+			       (set! timestamp (c-lw6sys-get-timestamp))
+			       (c-lw6sys-idle)
+			       (c-lw6p2p-node-poll node)
+			       (if pilot
+				   (begin
+				     (set! next-seq (c-lw6pil-get-next-seq pilot timestamp))
+				     (cond
+				      (
+				       (c-lw6p2p-node-is-seed-needed node)
+				       (let (
+					     (seed-command (c-lw6pil-seed-command-generate pilot id next-seq))
+					     )
+					 (begin
+					   (lw6-log-notice (format #f "seed-command -> ~a" seed-command))
+					   (c-lw6p2p-node-put-local-msg node seed-command)
+					   (c-lw6sys-idle)
+					   (c-lw6p2p-node-poll node)
+					   (set! seed-sent #t)
+					   (if (and dump-sent (= stage 3))
+					       (set! stage 4))
+					   )
+					 ))
+				      (
+				       (c-lw6p2p-node-is-dump-needed node)
+				       (let (
+					     (dump-command (c-lw6pil-dump-command-generate pilot id next-seq))
+					     )
+					 (begin
+					   (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
+					   (c-lw6p2p-node-put-local-msg node dump-command)
+					   (c-lw6sys-idle)
+					   (c-lw6p2p-node-poll node)
+					   (set! dump-sent #t)
+					   (if (and seed-sent (= stage 3))
+					       (set! stage 4))
+					   )
+					 ))
+				      )
+				     ;; pump all draft messages
+				     (let (
+					   (msg (c-lw6p2p-node-get-next-draft-msg node))
+					   )
+				       (while msg
+					      (begin
+						(lw6-test-log-message "draft" msg)
+						(c-lw6pil-send-command pilot msg #f)
+						(set! msg (c-lw6p2p-node-get-next-draft-msg node))
+						)
+					      ))
+				     ;; pump all reference messages
+				     (let (
+					   (msg (c-lw6p2p-node-get-next-reference-msg node))
+					   )
+				       (while msg
+					      (begin
+						(lw6-test-log-message "reference" msg)
+						(c-lw6pil-send-command pilot msg #t)
+						(set! msg (c-lw6p2p-node-get-next-reference-msg node))
+						)
+					      ))
+				     ;; commit now, even if there are no messages, won't harm
+				     (c-lw6pil-commit pilot)
+				     ;; update node info, this is important for our peers
+				     ;; might be wanting to poll this
+				     (if (> (c-lw6sys-get-timestamp) next-update-info)
+					 (begin
+					   (set! next-update-info (+ (c-lw6sys-get-timestamp) lw6-test-network-update-delay))
+					   (c-lw6pil-sync-from-reference game-state pilot)
+					   (lw6-test-update-info node level game-state)
+					   ))
+				     )
+				   ;; pilot not defined
+				   (begin
+				     ;; pump all draft messages
+				     (let (
+					   (msg (c-lw6p2p-node-get-next-draft-msg node))
+					   )
+				       (while msg
+					      (begin
+						(lw6-test-log-message "draft" msg)
+						(set! msg (c-lw6p2p-node-get-next-draft-msg node))
+						)
+					      ))
+				     ;; pump reference messages until we find a dump
+				     (let (
+					   (msg (c-lw6p2p-node-get-next-reference-msg node))
+					   )
+				       (if msg
+					   (begin
+					     (lw6-test-log-message "reference" msg)
+					     (set! dump (c-lw6pil-poll-dump msg timestamp))
+					     (if dump
+						 (begin
+						   (set! level (assoc-ref dump "level"))
+						   (set! game-struct (assoc-ref dump "game-struct"))
+						   (set! game-state (assoc-ref dump "game-state"))
+						   (set! pilot (assoc-ref dump "pilot"))
+						   (lw6-log-notice (format #f "got dump ~a" dump))
+						   )
+						 )
+					     )))))
+			       (cond 
+				(
+				 (= stage 3)
+				 (begin
+				   (lw6-log-notice "stage 5 & 6, putting messages in queue")
+				   (map (lambda (command) (begin
+							    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 4, 5 & 6" command))
+							    (c-lw6p2p-node-put-local-msg node command)
+							    ))
+					(append (c-lw6pil-suite-get-commands-by-node-index 2 3)
+						(c-lw6pil-suite-get-commands-by-node-index 2 4)
+						(c-lw6pil-suite-get-commands-by-node-index 2 5))
+					)
+				   (set! stage 5)
+				   )
+				 )
+				(
+				 (= stage 6)
+				 (begin
+				   ;; Now verifying that at this stage the game-state 
+				   ;; is correct, will validate the whole test suite at
+				   ;; this point, it could fail later, but in that case
+				   ;; other nodes would receive garbage and *they* would
+				   ;; fail. 
+				   (c-lw6pil-sync-from-reference game-state pilot)
+				   (let ( 
+					 (ref-checkpoint (c-lw6pil-suite-get-checkpoint 4))
+					 (this-checkpoint (lw6-test-checkpoint game-state pilot))
+					 )
+				     (if (equal? ref-checkpoint this-checkpoint)
+					 (begin
+					   (lw6-log-notice (format #f "checkpoint OK ~a" this-checkpoint))
+					   (set! ret #t) ;; here we validate the test
+					   )
+					 (lw6-log-warning (format #f "bad checkpoint ~a vs ~a" this-checkpoint ref-checkpoint))
+					 )
+				     )
+				   )
+				 )
+				)
+			       ))
+		      )))
 	    (c-lw6p2p-node-close node)
-	    (set! ret #t) ;; todo, fix this and set it to true on real success
 	    ))
 	(c-lw6net-quit)
 	(gc)     
