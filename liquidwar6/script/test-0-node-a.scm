@@ -79,7 +79,13 @@
 		     (set! timestamp (c-lw6sys-get-timestamp))
 		     (c-lw6sys-idle)
 		     (c-lw6p2p-node-poll node)
-		     (set! next-seq (c-lw6pil-get-next-seq pilot timestamp))
+		     ;; Normally, we should get the next seq with a command like:
+		     ;;(set! next-seq (c-lw6pil-get-next-seq pilot timestamp))
+		     ;; but... here we don't want the seq to depend on current timestamp,
+		     ;; rather, we want them to be fixed so that there are no surprises
+		     ;; due to a script being fast or slow, whatever. So what we do
+		     ;; is that we just increment last-commit-seq by 1.
+		     (set! next-seq (max seq-0 (1+ (c-lw6pil-get-last-commit-seq pilot))))
 		     (cond
 		      (
 		       (c-lw6p2p-node-is-seed-needed node)
@@ -112,6 +118,21 @@
 			   )
 			 ))
 		      )
+		     ;; update node info, this is important for our peers
+		     ;; might be wanting to poll this
+		     (if (> timestamp next-update-info)
+			 (begin
+			   (set! next-update-info (+ timestamp lw6-test-network-update-delay))
+			   (c-lw6pil-sync-from-reference game-state pilot)
+			   (lw6-test-update-info node level game-state)
+			   (let (
+				 (nop-command (lw6-command-nop next-seq id))
+				 )
+			     (begin
+			       (lw6-log-notice (format #f "nop-command -> ~a" nop-command))
+			       (c-lw6p2p-node-put-local-msg node nop-command)
+			       )
+			     )))
 		     ;; pump all draft messages
 		     (let* (
 			    (msg (c-lw6p2p-node-get-next-draft-msg node))
@@ -136,14 +157,6 @@
 			      ))
 		     ;; commit now, even if there are no messages, won't harm
 		     (c-lw6pil-commit pilot)
-		     ;; update node info, this is important for our peers
-		     ;; might be wanting to poll this
-		     (if (> (c-lw6sys-get-timestamp) next-update-info)
-			 (begin
-			   (set! next-update-info (+ (c-lw6sys-get-timestamp) lw6-test-network-update-delay))
-			   (c-lw6pil-sync-from-reference game-state pilot)
-			   (lw6-test-update-info node level game-state)
-			   ))
 		     (cond 
 		      (
 		       (= stage 0)
