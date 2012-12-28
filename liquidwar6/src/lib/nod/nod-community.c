@@ -283,6 +283,55 @@ lw6nod_info_community_reset (lw6nod_info_t * info)
     }
 }
 
+/**
+ * lw6nod_info_community_peer_id_list_str
+ *
+ * @info: node to query
+ *
+ * Builds a string containing all peer ids, separated by
+ * separator sep.
+ *
+ * Return value: newly allocated string
+ */
+char *
+lw6nod_info_community_peer_id_list_str (lw6nod_info_t * info, char sep)
+{
+  char *ret = NULL;
+  char *tmp = NULL;
+  u_int64_t peer_id = 0LL;
+  int i = 0;
+
+  ret = lw6sys_str_copy ("");
+
+  for (i = 0; i < LW6NOD_MAX_NB_PEERS && ret; ++i)
+    {
+      peer_id = info->dyn_info.community_peers[i].id_int;
+      if (peer_id)
+	{
+	  if (strlen (ret) > 0)
+	    {
+	      tmp =
+		lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "x", ret, sep,
+				    (long long) peer_id);
+	    }
+	  else
+	    {
+	      tmp =
+		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "x",
+				    (long long) peer_id);
+	    }
+	  if (tmp)
+	    {
+	      LW6SYS_FREE (ret);
+	      ret = tmp;
+	      tmp = NULL;
+	    }
+	}
+    }
+
+  return ret;
+}
+
 lw6nod_ref_info_t *
 _lw6nod_node_info_community_get_by_id (lw6nod_info_t * node_info,
 				       u_int64_t id)

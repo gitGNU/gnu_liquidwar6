@@ -64,6 +64,8 @@
 #define _TEST_MAX_NB_NODES 12
 #define _TEST_GAME_SCREENSHOT_SIZE 10
 #define _TEST_GAME_SCREENSHOT_DATA "123456789"
+#define _TEST_PEER_ID_LIST_STR_SEP ','
+#define _TEST_PEER_ID_LIST_STR "2345234523452345,3456345634563456"
 
 static void
 _node_dup_dyn_callback (void *data)
@@ -452,6 +454,7 @@ test_community ()
   {
     lw6nod_info_t *info = NULL;
     int count = 0;
+    char *peer_id_list_str = NULL;
 
     info =
       lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
@@ -570,6 +573,33 @@ test_community ()
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("wrong count=%d"), count);
+	    ret = 0;
+	  }
+	peer_id_list_str =
+	  lw6nod_info_community_peer_id_list_str (info,
+						  _TEST_PEER_ID_LIST_STR_SEP);
+	if (peer_id_list_str)
+	  {
+	    if (lw6sys_str_is_same (_TEST_PEER_ID_LIST_STR, peer_id_list_str))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("peer_id_list_str = \"%s\""),
+			    peer_id_list_str);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("peer_id_list_str = \"%s\", should have been \"%s\""),
+			    peer_id_list_str, _TEST_PEER_ID_LIST_STR);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (peer_id_list_str);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("unable to create peer_id_list_str"));
 	    ret = 0;
 	  }
 	if (lw6nod_info_community_remove_by_id (info, _TEST_ID_2))
