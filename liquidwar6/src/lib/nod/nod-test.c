@@ -62,9 +62,9 @@
 #define _TEST_MAX_NB_CURSORS 26
 #define _TEST_NB_NODES 2
 #define _TEST_MAX_NB_NODES 12
+#define _TEST_PEER_ID_LIST "1111222233334444,2222333344441111,3333444411112222,4444111122223333"
 #define _TEST_GAME_SCREENSHOT_SIZE 10
 #define _TEST_GAME_SCREENSHOT_DATA "123456789"
-#define _TEST_PEER_ID_LIST_STR_SEP ','
 #define _TEST_PEER_ID_LIST_STR "2345234523452345,3456345634563456"
 
 static void
@@ -111,7 +111,8 @@ _node_update_callback (void *data)
 			    _TEST_REQUIRED_BENCH, _TEST_NB_COLORS,
 			    _TEST_MAX_NB_COLORS, _TEST_NB_CURSORS,
 			    _TEST_MAX_NB_CURSORS, _TEST_NB_NODES,
-			    _TEST_MAX_NB_NODES, _TEST_GAME_SCREENSHOT_SIZE,
+			    _TEST_MAX_NB_NODES, _TEST_PEER_ID_LIST,
+			    _TEST_GAME_SCREENSHOT_SIZE,
 			    _TEST_GAME_SCREENSHOT_DATA);
       if (first_time)
 	{
@@ -352,14 +353,16 @@ test_node ()
 			    _TEST_REQUIRED_BENCH, _TEST_NB_COLORS,
 			    _TEST_MAX_NB_COLORS, _TEST_NB_CURSORS,
 			    _TEST_MAX_NB_CURSORS, _TEST_NB_NODES,
-			    _TEST_MAX_NB_NODES, _TEST_GAME_SCREENSHOT_SIZE,
+			    _TEST_MAX_NB_NODES, _TEST_PEER_ID_LIST,
+			    _TEST_GAME_SCREENSHOT_SIZE,
 			    _TEST_GAME_SCREENSHOT_DATA);
 	lw6nod_info_idle (info);
 	lw6nod_info_update (info, _TEST_COMMUNITY, _TEST_ROUND, _TEST_LEVEL,
 			    _TEST_REQUIRED_BENCH, _TEST_NB_COLORS,
 			    _TEST_MAX_NB_COLORS, _TEST_NB_CURSORS,
 			    _TEST_MAX_NB_CURSORS, _TEST_NB_NODES,
-			    _TEST_MAX_NB_NODES, _TEST_GAME_SCREENSHOT_SIZE,
+			    _TEST_MAX_NB_NODES, _TEST_PEER_ID_LIST,
+			    _TEST_GAME_SCREENSHOT_SIZE,
 			    _TEST_GAME_SCREENSHOT_DATA);
 
 	if (lw6nod_info_add_discovered_node (info, _TEST_URL))
@@ -575,9 +578,7 @@ test_community ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("wrong count=%d"), count);
 	    ret = 0;
 	  }
-	peer_id_list_str =
-	  lw6nod_info_community_peer_id_list_str (info,
-						  _TEST_PEER_ID_LIST_STR_SEP);
+	peer_id_list_str = lw6nod_info_community_get_peer_id_list_str (info);
 	if (peer_id_list_str)
 	  {
 	    if (lw6sys_str_is_same (_TEST_PEER_ID_LIST_STR, peer_id_list_str))

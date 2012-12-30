@@ -284,17 +284,17 @@ lw6nod_info_community_reset (lw6nod_info_t * info)
 }
 
 /**
- * lw6nod_info_community_peer_id_list_str
+ * lw6nod_info_community_get_peer_id_list_str
  *
  * @info: node to query
  *
- * Builds a string containing all peer ids, separated by
- * separator sep.
+ * Builds a string containing all peer ids, separated by a
+ * separator.
  *
  * Return value: newly allocated string
  */
 char *
-lw6nod_info_community_peer_id_list_str (lw6nod_info_t * info, char sep)
+lw6nod_info_community_get_peer_id_list_str (lw6nod_info_t * info)
 {
   char *ret = NULL;
   char *tmp = NULL;
@@ -311,7 +311,8 @@ lw6nod_info_community_peer_id_list_str (lw6nod_info_t * info, char sep)
 	  if (strlen (ret) > 0)
 	    {
 	      tmp =
-		lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "x", ret, sep,
+		lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "x", ret,
+				    LW6NOD_PEER_ID_LIST_SEP,
 				    (long long) peer_id);
 	    }
 	  else

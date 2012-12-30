@@ -31,6 +31,7 @@
  * one peer less, we don't store ourselves it the list of peers.
  */
 #define LW6NOD_MAX_NB_PEERS 25
+#define LW6NOD_PEER_ID_LIST_SEP ','
 
 /**
  * Reference information about a node, this is all you need
@@ -193,8 +194,8 @@ extern int lw6nod_info_community_remove_by_url (lw6nod_info_t * info,
 						const char *url);
 extern int lw6nod_info_community_count (lw6nod_info_t * info);
 extern void lw6nod_info_community_reset (lw6nod_info_t * info);
-extern char *lw6nod_info_community_peer_id_list_str (lw6nod_info_t * info,
-						     char sep);
+extern char *lw6nod_info_community_get_peer_id_list_str (lw6nod_info_t *
+							 info);
 
 /* nod-dyninfo.c */
 extern void lw6nod_dyn_info_free (lw6nod_dyn_info_t * info);
@@ -220,7 +221,8 @@ extern int lw6nod_info_update (lw6nod_info_t * info, u_int64_t community_id,
 			       int required_bench, int nb_colors,
 			       int max_nb_colors, int nb_cursors,
 			       int max_nb_cursors, int nb_nodes,
-			       int max_nb_nodes, int game_screenshot_size,
+			       int max_nb_nodes, const char *peer_id_list,
+			       int game_screenshot_size,
 			       void *game_screenshot_data);
 extern lw6nod_dyn_info_t *lw6nod_info_dup_dyn (lw6nod_info_t * info);
 extern lw6sys_hash_t *lw6nod_info_new_discovered_nodes ();

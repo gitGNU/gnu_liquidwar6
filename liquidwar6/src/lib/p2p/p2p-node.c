@@ -1828,7 +1828,8 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node, int64_t seq_0)
 		      0,
 		      NULL,
 		      node->node_info->const_info.bench /
-		      LW6P2P_BENCH_NETWORK_DIVIDE, 0, 0, 0, 0, 0, 0, 0, NULL);
+		      LW6P2P_BENCH_NETWORK_DIVIDE, 0, 0, 0, 0, 0, 0, NULL, 0,
+		      NULL);
   _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (), seq_0);
   lw6dat_warehouse_set_local_seq_0 (node->warehouse, seq_0);
 
@@ -2100,7 +2101,7 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
     }
   lw6nod_info_community_reset (node->node_info);
   lw6nod_info_update (node->node_info, LW6NOD_COMMUNITY_ID_NONE,
-		      0, NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
+		      0, NULL, 0, 0, 0, 0, 0, 0, 0, NULL, 0, NULL);
   node->seed_needed = 0;
   node->dump_needed = 0;
   node->last_seq_reference =
@@ -2159,7 +2160,7 @@ _lw6p2p_node_update_info (_lw6p2p_node_t * node,
 			node->node_info->dyn_info.community_id_int, round,
 			level, node->node_info->dyn_info.required_bench,
 			nb_colors, max_nb_colors, nb_cursors, max_nb_cursors,
-			nb_nodes, max_nb_nodes, game_screenshot_size,
+			nb_nodes, max_nb_nodes, NULL, game_screenshot_size,
 			game_screenshot_data);
 
   return ret;

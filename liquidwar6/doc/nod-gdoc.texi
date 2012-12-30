@@ -89,11 +89,11 @@ Resets all peers, set community to only one member, ourselves.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {char *} {lw6nod_info_community_peer_id_list_str} (lw6nod_info_t * @var{info}, char @var{sep})
+@deftypefun {char *} {lw6nod_info_community_get_peer_id_list_str} (lw6nod_info_t * @var{info})
 @var{info}:  node to query
 
-Builds a string containing all peer ids, separated by
-separator sep.
+Builds a string containing all peer ids, separated by a
+separator.
 
 @strong{Return value:}  newly allocated string
 @end deftypefun
@@ -181,7 +181,7 @@ not playing.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6nod_info_update} (lw6nod_info_t * @var{info}, u_int64_t @var{community_id}, int @var{round}, const char * @var{level}, int @var{required_bench}, int @var{nb_colors}, int @var{max_nb_colors}, int @var{nb_cursors}, int @var{max_nb_cursors}, int @var{nb_nodes}, int @var{max_nb_nodes}, int @var{game_screenshot_size}, void * @var{game_screenshot_data})
+@deftypefun {int} {lw6nod_info_update} (lw6nod_info_t * @var{info}, u_int64_t @var{community_id}, int @var{round}, const char * @var{level}, int @var{required_bench}, int @var{nb_colors}, int @var{max_nb_colors}, int @var{nb_cursors}, int @var{max_nb_cursors}, int @var{nb_nodes}, int @var{max_nb_nodes}, const char * @var{peer_id_list}, int @var{game_screenshot_size}, void * @var{game_screenshot_data})
 @var{info}:  the node info to update
 
 @var{community_id}:  the id of the community the node belongs to
@@ -203,6 +203,8 @@ not playing.
 @var{nb_nodes}:  number of nodes playing
 
 @var{max_nb_nodes}:  max number of nodes allowed
+
+@var{peer_id_list}:  list of peers ids
 
 @var{game_screenshot_size}:  size of screenshot (bytes)
 

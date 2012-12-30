@@ -33,6 +33,7 @@ _generate_info (const char *cmd, lw6nod_info_t * info)
   char sep = LW6MSG_TELNET_SEP;
   char *base64_title;
   char *base64_description;
+  char *peer_id_list;
   int uptime = 0;
 
   base64_title = lw6glb_base64_encode_str (info->const_info.title);
@@ -42,26 +43,33 @@ _generate_info (const char *cmd, lw6nod_info_t * info)
 	lw6glb_base64_encode_str (info->const_info.description);
       if (base64_description)
 	{
-	  uptime =
-	    (lw6sys_get_timestamp () -
-	     info->const_info.creation_timestamp) / 1000;
-	  ret =
-	    lw6sys_new_sprintf
-	    ("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d%c%d%c%d%c%s%c%d%c\"%s\"%c%d%c%d%c%d%c%d%c%d%c%d%c%d",
-	     cmd, sep, info->const_info.program, sep,
-	     info->const_info.version, sep, info->const_info.codename, sep,
-	     info->const_info.stamp, sep, info->const_info.ref_info.id_str,
-	     sep, info->const_info.ref_info.url, sep, base64_title, sep,
-	     base64_description, sep, info->const_info.has_password, sep,
-	     info->const_info.bench, sep, info->const_info.open_relay, sep,
-	     uptime, sep,
-	     lw6sys_str_empty_if_null (info->dyn_info.community_id_str), sep,
-	     info->dyn_info.round, sep,
-	     lw6sys_str_empty_if_null (info->dyn_info.level), sep,
-	     info->dyn_info.required_bench, sep, info->dyn_info.nb_colors,
-	     sep, info->dyn_info.max_nb_colors, sep,
-	     info->dyn_info.nb_cursors, sep, info->dyn_info.max_nb_cursors,
-	     sep, info->dyn_info.nb_nodes, sep, info->dyn_info.max_nb_nodes);
+	  peer_id_list = lw6nod_info_community_get_peer_id_list_str (info);
+	  if (peer_id_list)
+	    {
+	      uptime =
+		(lw6sys_get_timestamp () -
+		 info->const_info.creation_timestamp) / 1000;
+	      ret =
+		lw6sys_new_sprintf
+		("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d%c%d%c%d%c%s%c%d%c\"%s\"%c%d%c%d%c%d%c%d%c%d%c%d%c%d%c\"%s\"",
+		 cmd, sep, info->const_info.program, sep,
+		 info->const_info.version, sep, info->const_info.codename,
+		 sep, info->const_info.stamp, sep,
+		 info->const_info.ref_info.id_str, sep,
+		 info->const_info.ref_info.url, sep, base64_title, sep,
+		 base64_description, sep, info->const_info.has_password, sep,
+		 info->const_info.bench, sep, info->const_info.open_relay,
+		 sep, uptime, sep,
+		 lw6sys_str_empty_if_null (info->dyn_info.community_id_str),
+		 sep, info->dyn_info.round, sep,
+		 lw6sys_str_empty_if_null (info->dyn_info.level), sep,
+		 info->dyn_info.required_bench, sep, info->dyn_info.nb_colors,
+		 sep, info->dyn_info.max_nb_colors, sep,
+		 info->dyn_info.nb_cursors, sep,
+		 info->dyn_info.max_nb_cursors, sep, info->dyn_info.nb_nodes,
+		 sep, info->dyn_info.max_nb_nodes, sep, peer_id_list);
+	      LW6SYS_FREE (peer_id_list);
+	    }
 	  LW6SYS_FREE (base64_description);
 	}
       LW6SYS_FREE (base64_title);
@@ -305,6 +313,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
   lw6msg_word_t url;
   lw6msg_word_t title;
   lw6msg_word_t description;
+  lw6msg_word_t peer_id_list;
   int has_password = 0;
   int bench = 0;
   int open_relay = 0;
@@ -665,6 +674,21 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
 
   if (still_ok)
     {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("analyzing peer_id_list \"%s\""), pos);
+      if (lw6msg_word_first (&peer_id_list, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad peer_id_list \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
       (*info) =
 	lw6nod_info_new
 	(program.buf, version.buf,
@@ -676,7 +700,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
 	  if (lw6nod_info_update ((*info), community_id, round, level.buf,
 				  required_bench, nb_colors, max_nb_colors,
 				  nb_cursors, max_nb_cursors, nb_nodes,
-				  max_nb_nodes, 0, NULL))
+				  max_nb_nodes, peer_id_list.buf, 0, NULL))
 	    {
 	      (*info)->const_info.has_password = has_password;
 	      if (next)

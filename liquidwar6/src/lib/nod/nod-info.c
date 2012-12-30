@@ -216,6 +216,7 @@ lw6nod_info_idle (lw6nod_info_t * info)
  * @max_nb_cursors: max number of cursors allowed
  * @nb_nodes: number of nodes playing
  * @max_nb_nodes: max number of nodes allowed
+ * @peer_id_list: list of peers ids
  * @game_screenshot_size: size of screenshot (bytes)
  * @game_screenshot_data: screenshot data (byte buffer, contains JPEG)
  *
@@ -230,8 +231,8 @@ int
 lw6nod_info_update (lw6nod_info_t * info, u_int64_t community_id, int round,
 		    const char *level, int required_bench, int nb_colors,
 		    int max_nb_colors, int nb_cursors, int max_nb_cursors,
-		    int nb_nodes, int max_nb_nodes, int game_screenshot_size,
-		    void *game_screenshot_data)
+		    int nb_nodes, int max_nb_nodes, const char *peer_id_list,
+		    int game_screenshot_size, void *game_screenshot_data)
 {
   int ret = 0;
 
@@ -241,8 +242,8 @@ lw6nod_info_update (lw6nod_info_t * info, u_int64_t community_id, int round,
 	_lw6nod_dyn_info_update (&(info->dyn_info), community_id, round,
 				 level, required_bench, nb_colors,
 				 max_nb_colors, nb_cursors, max_nb_cursors,
-				 nb_nodes, max_nb_nodes, game_screenshot_size,
-				 game_screenshot_data);
+				 nb_nodes, max_nb_nodes, peer_id_list,
+				 game_screenshot_size, game_screenshot_data);
       lw6nod_info_unlock (info);
     }
 
@@ -273,6 +274,11 @@ lw6nod_info_dup_dyn (lw6nod_info_t * info)
     {
       if (lw6nod_info_lock (info))
 	{
+	  /*
+	   * Note, we pass NULL as a peer_id_list since we do not
+	   * really want to parse and update this, the array
+	   * of ref_info does this job.
+	   */
 	  ok = _lw6nod_dyn_info_update
 	    (dyn_info, info->dyn_info.community_id_int,
 	     info->dyn_info.round, info->dyn_info.level,
@@ -280,6 +286,7 @@ lw6nod_info_dup_dyn (lw6nod_info_t * info)
 	     info->dyn_info.max_nb_colors, info->dyn_info.nb_cursors,
 	     info->dyn_info.max_nb_cursors, info->dyn_info.nb_nodes,
 	     info->dyn_info.max_nb_nodes,
+	     NULL,
 	     info->dyn_info.game_screenshot_size,
 	     info->dyn_info.game_screenshot_data) && ok;
 	  for (i = 0; i < LW6NOD_MAX_NB_PEERS; ++i)

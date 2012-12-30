@@ -1,3 +1,7 @@
+2012-12-30 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Preparing exchange of peer id list within p2p messages.
+
 2012-12-22 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added lock support to p2p nodes to avoid recv callback problems.
