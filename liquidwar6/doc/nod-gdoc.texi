@@ -89,6 +89,15 @@ Resets all peers, set community to only one member, ourselves.
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {char *} {lw6nod_info_community_peer_id_list_str} (lw6nod_info_t * @var{info}, char @var{sep})
+@var{info}:  node to query
+
+Builds a string containing all peer ids, separated by
+separator sep.
+
+@strong{Return value:}  newly allocated string
+@end deftypefun
+
 @deftypefun {void} {lw6nod_dyn_info_free} (lw6nod_dyn_info_t * @var{dyn_info})
 @var{dyn_info}:  the dyn info struct to free
 
