@@ -28,33 +28,6 @@
 
 #include "mod-caca-internal.h"
 
-int
-_display_caca_menu (_mod_caca_context_t * caca_context, lw6gui_look_t * look,
-		    lw6gui_menu_t * menu)
-{
-  int ret = 1;
-  int i, j, n, wc;
-  lw6gui_menuitem_t *menuitem;
-
-  n = menu->nb_items_displayed + 2;
-  wc = caca_get_canvas_width(caca_context->canvas);
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("menu:nb_item %d"), menu->nb_items);
-  for (i = 0; i < menu->nb_items; ++i)
-  {
-    j = i + menu->first_item_displayed;
-    menuitem = menu->items[j];
-    caca_set_color_ansi (caca_context->canvas, CACA_WHITE, CACA_DEFAULT);
-    if (menuitem->selected)
-    {
-      caca_set_color_ansi (caca_context->canvas, CACA_BLACK, CACA_WHITE);
-    }
-    lw6sys_log (LW6SYS_LOG_INFO, _x_ ("menu:nb_item %s"), menuitem->label);
-    caca_put_str (caca_context->canvas, (wc-strlen(menuitem->label))/2, 4+i, menuitem->label);
-  }
-
-  return ret;
-}
-
 extern int
 _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
 		   lw6gui_look_t * look, lw6map_level_t * level,
@@ -72,8 +45,6 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
   wc = caca_get_canvas_width(caca_context->canvas);
   caca_set_color_ansi (caca_context->canvas, CACA_WHITE, CACA_DEFAULT);
 
-  /* caca_put_str (caca_context->canvas, 0, 0, __FUNCTION__); */
-
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display mask=%d"), mask);
   if (mask & LW6GUI_DISPLAY_SPLASH)
   {
@@ -89,37 +60,38 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
     if ((mask & LW6GUI_DISPLAY_MENU) && menu)
     {
     lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=menu"));
-      _display_caca_menu(caca_context, look, menu);
+      _mod_caca_display_menu(caca_context, look, menu);
     }
     if ((mask & LW6GUI_DISPLAY_MAP) && game_state)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=map"));
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=map"));
+      _mod_caca_display_map(caca_context, look, game_state, game_struct);
 
     }
     if ((mask & LW6GUI_DISPLAY_FIGHTERS) && game_state)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=fighters"));
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=fighters"));
 
     }
     if ((mask & LW6GUI_DISPLAY_CURSORS) && game_state)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=cursor"));
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=cursor"));
 
       // Why not ?
     }
     if ((mask & LW6GUI_DISPLAY_HUD) && game_state)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=hud"));
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=hud"));
 
     }
     if ((mask & LW6GUI_DISPLAY_SCORE) && game_state)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=score"));
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=score"));
 
     }
     if ((mask & LW6GUI_DISPLAY_PROGRESS))
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=progress"));
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=progress"));
     }
   }
 
