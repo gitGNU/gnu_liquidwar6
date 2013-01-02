@@ -29,7 +29,7 @@
 #define TEST_WIDTH 640
 #define TEST_HEIGHT 480
 #define TEST_FULLSCREEN 0
-#define TEST_SLEEP 0.01
+#define TEST_SLEEP 1.00
 #define TEST_DURATION_SETUP 100
 #define TEST_DURATION_SPLASH 500
 #define TEST_DURATION_BACKGROUND 500
@@ -393,7 +393,7 @@ test_view (lw6gfx_backend_t * backend)
 	lw6gui_look_free (look);
       }
   }
-
+  
   LW6SYS_TEST_FUNCTION_END;
   return ret;
 }
