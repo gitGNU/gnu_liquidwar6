@@ -28,48 +28,6 @@
 
 #include "mod-caca-internal.h"
 
-int
-caca_color_for_fighters(int team_color)
-{
-  int color = 0xFFFFFF;
-
-  switch (team_color) {
-    case 0:
-      color = 0xAA0000; // red
-      break;
-    case 1:
-      color = 0x3146FF; // blue
-      break;
-    case 2:
-      color = 0xAA5500; // yellow
-      break;
-    case 3:
-      color = 0x009000; // green
-      break;
-    case 4:
-      color = 0x0E697B; // cyan
-      break;
-    case 5:
-      color = 0xAA00AA; // magenta
-      break;
-    case 6:
-      color = 0x5555FF; // bright blue
-      break;
-    case 7:
-      color = 0xFF5555; // bright red
-      break;
-    case 8:
-      color = 0x55FFFF; //bright cyan
-      break;
-    case 9:
-      color = 0x55FF55; // bright green
-      break;
-    default:
-      break;
-  }
-  return color;
-}
-
 extern int
 _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
 		  lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct)
@@ -78,7 +36,6 @@ _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
   lw6ker_fighter_t *fighter;
   int team_color;
   int ret = 1, width, height, y, x;
-  /* lw6map_rules_t *rules = NULL; */
   lw6sys_whd_t shape = {0, 0, 0};
   caca_dither_t *dither;
   uint32_t *buffer;
@@ -94,23 +51,24 @@ _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
   {
     for (x = 0; x < width; x++)
     {
-      if (lw6ker_game_struct_is_fg(game_struct, x, y, 0))
-	buffer[width * y + x] = 0x2a2a2a;
-      else if ((lw6ker_game_struct_is_bg(game_struct, x, y, 0)))
-	buffer[width * y + x] = 0xFFFFFF;
+      fighter_id = -1;
+      fighter_id = lw6ker_game_state_get_fighter_id (game_state, x, y, 0);
+      if (fighter_id >= 0)
+      {
+	fighter = lw6ker_game_state_get_fighter_by_id (game_state, fighter_id);
+	team_color = fighter->team_color;
+	if (team_color >= 0 && team_color < 10)
+	{
+	  buffer[width * y + x] = lw6sys_color_8_to_i(caca_context->const_data.team_color[team_color]);
+	}
+	free(fighter); // needed ?
+      }
       else
       {
-	fighter_id = -1;
-	fighter_id = lw6ker_game_state_get_fighter_id (game_state, x, y, 0);
-	if (fighter_id >= 0)
-	{
-	  fighter = lw6ker_game_state_get_fighter_by_id (game_state, fighter_id);
-	  team_color = fighter->team_color;
-	  if (team_color >= 0)
-	  {
-	    buffer[width * y + x] = caca_color_for_fighters(team_color);
-	  }
-	}
+	if (lw6ker_game_struct_is_bg(game_struct, x, y, 0))
+	  buffer[width * y + x] = lw6sys_color_8_to_i(caca_context->const_data.bg_color);
+	else
+	  buffer[width * y + x] = lw6sys_color_8_to_i(caca_context->const_data.fg_color);
       }
     }
   }

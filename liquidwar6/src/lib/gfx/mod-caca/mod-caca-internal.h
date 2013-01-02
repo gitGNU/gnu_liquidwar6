@@ -43,6 +43,10 @@ typedef struct _mod_caca_const_data_s
   float quit_sleep;
   char *video_mode_default;
   char *video_mode_fallback;
+
+  lw6sys_color_8_t bg_color;
+  lw6sys_color_8_t fg_color;
+  lw6sys_color_8_t team_color[10];
 }
 _mod_caca_const_data_t;
 
@@ -71,6 +75,12 @@ extern int _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look
 /* mod-caca-menu.c */
 extern int _mod_caca_display_menu(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
 				  lw6gui_menu_t * menu);
+
+/* mod-caca-utils.c */
+extern int _mod_caca_display_hud(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
+				 lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct);
+extern int _mod_caca_display_score(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
+				   lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct);
 
 /* mod-caca-display.c */
 extern int _mod_caca_display (_mod_caca_context_t * caca_context, int mask,

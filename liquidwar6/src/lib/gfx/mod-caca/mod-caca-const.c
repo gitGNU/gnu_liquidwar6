@@ -45,6 +45,33 @@ read_callback (void *callback_data, const char *element, const char *key,
       lw6cfg_read_xml_int (key, value, "canvas-create-height",
 			   &const_data->canvas_create_height);
     }
+  if (!strcmp (element, "color"))
+  {
+      lw6cfg_read_xml_color (key, value, "color-bg",
+			     &const_data->bg_color);
+      lw6cfg_read_xml_color (key, value, "color-fg",
+			     &const_data->fg_color);
+      lw6cfg_read_xml_color (key, value, "team_color0",
+			     &const_data->team_color[0]);
+      lw6cfg_read_xml_color (key, value, "team_color1",
+			     &const_data->team_color[1]);
+      lw6cfg_read_xml_color (key, value, "team_color2",
+			     &const_data->team_color[2]);
+      lw6cfg_read_xml_color (key, value, "team_color3",
+			     &const_data->team_color[3]);
+      lw6cfg_read_xml_color (key, value, "team_color4",
+			     &const_data->team_color[4]);
+      lw6cfg_read_xml_color (key, value, "team_color5",
+			     &const_data->team_color[5]);
+      lw6cfg_read_xml_color (key, value, "team_color6",
+			     &const_data->team_color[6]);
+      lw6cfg_read_xml_color (key, value, "team_color7",
+			     &const_data->team_color[7]);
+      lw6cfg_read_xml_color (key, value, "team_color8",
+			     &const_data->team_color[8]);
+      lw6cfg_read_xml_color (key, value, "team_color9",
+			     &const_data->team_color[9]);
+    }
 
   if (!strcmp (element, "float"))
     {
