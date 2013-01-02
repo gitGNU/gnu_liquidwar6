@@ -49,9 +49,7 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
   if (mask & LW6GUI_DISPLAY_SPLASH)
   {
     lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=splash"));
-    caca_put_str (caca_context->canvas, (wc-11)/2, hc/2 , "LiquidWar 6");
-    caca_put_str (caca_context->canvas, wc-8, hc-1 , "mod-caca");
-    caca_put_str (caca_context->canvas, 0, hc-1 , "PFA Epitech");
+    plasma_anim(caca_context);
   }
   else
   {

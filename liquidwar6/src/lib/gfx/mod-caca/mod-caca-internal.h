@@ -76,6 +76,9 @@ extern int _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look
 extern int _mod_caca_display_menu(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
 				  lw6gui_menu_t * menu);
 
+/* mod-caca-splash.c */
+extern void plasma_anim(_mod_caca_context_t * caca_context);
+
 /* mod-caca-utils.c */
 extern int _mod_caca_display_hud(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
 				 lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct);

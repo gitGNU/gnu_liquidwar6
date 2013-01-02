@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <liquidwar6>
   <int key="event-timeout-microseconds" value="1" />
-  <int key="canvas-create-width" value="80" />
-  <int key="canvas-create-height" value="24" />
+  <int key="canvas-create-width" value="130" />
+  <int key="canvas-create-height" value="42" />
   <float key="quit-sleep" value="0.01" />
-  <string key="video-mode-default" value="gl" />
+  <string key="video-mode-default" value="ncurses" />
   <string key="video-mode-fallback" value="ncurses" />
   <color key="color-fg" value="#2a2a2a" />
   <color key="color-bg" value="#ffffff" />
