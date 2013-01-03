@@ -33,10 +33,9 @@ _mod_caca_display_menu(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
 		       lw6gui_menu_t * menu)
 {
   int ret = 1;
-  int i, j, n, wc;
+  int i, j, wc;
   lw6gui_menuitem_t *menuitem;
 
-  n = menu->nb_items_displayed + 2;
   wc = caca_get_canvas_width(caca_context->canvas);
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("menu:nb_item %d"), menu->nb_items);
   for (i = 0; i < menu->nb_items; ++i)

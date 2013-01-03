@@ -137,10 +137,9 @@ static void do_plasma(uint8_t *pixels, double x_1, double y_1,
 
     for(y = 0; y < YSIZ; y++)
     {
-        unsigned int x;
-        uint8_t * tmp = pixels + y * YSIZ;
+         uint8_t * tmp = pixels + y * YSIZ;
         unsigned int ty = y * TABLEX, tmax = ty + XSIZ;
-        for(x = 0; ty < tmax; ty++, tmp++)
+        for(; ty < tmax; ty++, tmp++)
             tmp[0] = t1[ty] + t2[ty] + t3[ty];
     }
 }

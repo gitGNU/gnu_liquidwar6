@@ -121,10 +121,30 @@ _mod_caca_resize_video_mode (_mod_caca_context_t * caca_context,
 			     lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
+  int canvas_width=0;
+  int canvas_height=0;
 
-  /*
-   * Todo -> update video mode on a resize
-   */
+  canvas_width=caca_get_canvas_width (caca_context->canvas);
+  canvas_height=caca_get_canvas_height (caca_context->canvas);
+
+  if ( video_mode->width != canvas_width
+       || video_mode->height!=canvas_height)
+    {
+      lw6sys_log(LW6SYS_LOG_DEBUG,_x_("canvas should be resized %dx%d -> %dx%d"), canvas_width,canvas_height,video_mode->width,video_mode->height);
+      /*
+       * No clue how to do that, but what should be done here
+       * is to adjust the canvas size to the video_mode size.
+       */
+      ret = 1; // on resize success
+    } else
+    {
+      // do nothing, useless
+      ret =1;
+    }
+
+  // canvas always has the last word, it knows the real resolution
+  caca_context->video_mode.width=canvas_width;
+  caca_context->video_mode.height=canvas_height;
 
   return ret;
 }
@@ -138,6 +158,7 @@ _mod_caca_get_video_mode (_mod_caca_context_t * caca_context,
   if (caca_context && video_mode)
     {
       caca_context->video_mode = *video_mode;
+      ret = 1;
     }
 
   return ret;

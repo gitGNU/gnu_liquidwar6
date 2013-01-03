@@ -36,9 +36,9 @@ _mod_caca_get_fullscreen_modes (_mod_caca_context_t *
   modes->low.width = LW6GUI_DEFAULT_LOW_WIDTH;
   modes->low.height = LW6GUI_DEFAULT_LOW_HEIGHT;
   modes->low.fullscreen = 1;
-  modes->low.width = LW6GUI_DEFAULT_STANDARD_WIDTH;
-  modes->low.height = LW6GUI_DEFAULT_STANDARD_HEIGHT;
-  modes->low.fullscreen = 1;
+  modes->standard.width = LW6GUI_DEFAULT_STANDARD_WIDTH;
+  modes->standard.height = LW6GUI_DEFAULT_STANDARD_HEIGHT;
+  modes->standard.fullscreen = 1;
   modes->high.width = LW6GUI_DEFAULT_HIGH_WIDTH;
   modes->high.height = LW6GUI_DEFAULT_HIGH_HEIGHT;
   modes->high.fullscreen = 1;
@@ -58,6 +58,15 @@ _mod_caca_get_fullscreen_modes (_mod_caca_context_t *
 				     &(modes->standard.height),
 				     modes->standard.width,
 				     modes->standard.height);
+
+  /*
+   * Liquid War 6 does have a (retrospectively) quite awfull way
+   * of dealing with return codes. 0 means error, and 1 means OK.
+   * This allows stuff like if (foo()) { bar();} but is against
+   * all established C/POSIX standards. The hell with if, function
+   * must return 1, period.
+   */
+  ret = 1;
 
   return ret;
 }
