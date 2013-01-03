@@ -32,7 +32,7 @@
  *
  * @info: node info object to modify
  * @id: ID of the new member
- * @url: URL of the new member
+ * @url: URL of the new member, can be NULL
  *
  * Adds a new member to the community.
  *
@@ -46,35 +46,65 @@ lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id,
   int i = 0;
   int found_i = -1;
 
-  if (!lw6nod_info_community_is_member (info, id, url))
+  if (lw6sys_check_id (id) && id != info->const_info.ref_info.id_int)
     {
-      for (i = 0; i < LW6NOD_MAX_NB_PEERS && found_i < 0; ++i)
+      if (((url != NULL)
+	   && (!lw6nod_info_community_is_member (info, id, url)))
+	  || ((url == NULL) && (!lw6nod_info_community_has_id (info, id)))
+	  || ((url != NULL)
+	      && (lw6nod_info_community_has_id_without_url (info, id))))
 	{
-	  if (!(info->dyn_info.community_peers[i].id_int))
+	  for (i = 0; i < LW6NOD_MAX_NB_PEERS && found_i < 0; ++i)
 	    {
-	      found_i = i;
+	      if ((!(info->dyn_info.community_peers[i].id_int))
+		  || (info->dyn_info.community_peers[i].id_int == id))
+		{
+		  found_i = i;
+		}
+	      if (found_i >= 0)
+		{
+		  ret =
+		    _lw6nod_ref_info_update (&
+					     (info->
+					      dyn_info.community_peers[i]),
+					     id, url);
+		}
+	      else
+		{
+		  if (url)
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_ ("can't add node with id=%"
+				       LW6SYS_PRINTF_LL
+				       "x url=\"%s\", no free slot"),
+				  (long long) id, url);
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_ ("can't add node with id=%"
+				       LW6SYS_PRINTF_LL "x, no free slot"),
+				  (long long) id);
+		    }
+		}
 	    }
-	  if (found_i >= 0)
+	}
+      else
+	{
+	  if (url)
 	    {
-	      ret =
-		_lw6nod_ref_info_update (&(info->dyn_info.community_peers[i]),
-					 id, url);
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("can't add node with id=%" LW6SYS_PRINTF_LL
+			       "x url=\"%s\", already here"),
+			  (long long) id, url);
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_ ("can't add node with id=%" LW6SYS_PRINTF_LL
-			       "x url=\"%s\", already here, no free slot"),
-			  (long long) id, url);
+			       "x, already here"), (long long) id);
 	    }
 	}
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _x_ ("can't add node with id=%" LW6SYS_PRINTF_LL
-		       "x url=\"%s\", already here, already here"),
-		  (long long) id, url);
     }
 
   return ret;
@@ -125,6 +155,30 @@ lw6nod_info_community_has_id (lw6nod_info_t * info, u_int64_t id)
   int ret = 0;
 
   ret = (_lw6nod_node_info_community_get_by_id (info, id) != NULL);
+
+  return ret;
+}
+
+/**
+ * lw6nod_info_community_has_id_without_url
+ *
+ * @info: node info object to test
+ * @id: ID of the member we want to check
+ *
+ * Tells wether a member exists with this ID, but for which we
+ * don't know the URL, that is, url is NULL.
+ *
+ * Return value: 1 if ID is already taken and has NULL url, 0 else.
+ */
+int
+lw6nod_info_community_has_id_without_url (lw6nod_info_t * info, u_int64_t id)
+{
+  int ret = 0;
+  lw6nod_ref_info_t *ref_info = NULL;
+
+  ref_info = _lw6nod_node_info_community_get_by_id (info, id);
+
+  ret = ((ref_info != NULL) && (ref_info->url == NULL));
 
   return ret;
 }
@@ -331,6 +385,120 @@ lw6nod_info_community_get_peer_id_list_str (lw6nod_info_t * info)
     }
 
   return ret;
+}
+
+/**
+ * lw6nod_info_community_set_peer_id_list_str
+ *
+ * @info: node to modify
+ * @peer_id_list_str: new value
+ *
+ * Interprets a peer_id_list_str and puts it into the node data
+ * structures. Note that this function won't really copy the
+ * list, instead it will populate the dyn_info struct with
+ * the right values.
+ *
+ * Return value: none
+ */
+void
+lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info,
+					    const char *peer_id_list_str)
+{
+  char *pos = NULL;
+  char *tmp = NULL;
+  char *end = NULL;
+  u_int64_t peer_id = 0LL;
+  int done = 0;
+
+  tmp = lw6sys_str_copy (peer_id_list_str);
+  if (tmp)
+    {
+      pos = tmp;
+      while (!done)
+	{
+	  end = strchr (pos, LW6NOD_PEER_ID_LIST_SEP);
+	  if (end == NULL)
+	    {
+	      done = 1;
+	    }
+	  else
+	    {
+	      end[0] = '\0';
+	    }
+	  peer_id = lw6sys_id_atol (pos);
+	  if (lw6sys_check_id (peer_id))
+	    {
+	      if (peer_id != info->const_info.ref_info.id_int)
+		{
+		  if (lw6nod_info_community_has_id (info, peer_id))
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_ ("peer_id \"%" LW6SYS_PRINTF_LL
+				       "x\" already in the community"),
+				  (long long) peer_id);
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_ ("adding peer_id \"%" LW6SYS_PRINTF_LL
+				       "x\" to the community"),
+				  (long long) peer_id);
+		      /*
+		       * Calling it with a NULL url, we might have received the URL from a peer
+		       * but we don't care until we are *really* connected to this host and
+		       * have its real URL.
+		       */
+		      lw6nod_info_community_add (info, peer_id, NULL);
+		    }
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_ ("not adding %" LW6SYS_PRINTF_LL
+				   "x, this is ourselves"),
+			      (long long) peer_id);
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("bad id \"%s\" in peer_id_list_str \"%s\""),
+			  pos, peer_id_list_str);
+	    }
+	  pos = end + 1;
+	}
+      LW6SYS_FREE (tmp);
+    }
+}
+
+/**
+ * lw6nod_info_community_id_without_url_map
+ *
+ * @info: node to process
+ * @func: function to use as a callback
+ * @func_data: data passed along with the function
+ *
+ * Applies function func to all the members of the community
+ * which have an id but not an URL...
+ *
+ * Return value: none.
+ */
+void
+lw6nod_info_community_id_without_url_map (lw6nod_info_t * info,
+					  lw6nod_info_community_id_callback_func_t
+					  func, void *func_data)
+{
+  u_int64_t peer_id = 0LL;
+  int i = 0;
+
+  for (i = 0; i < LW6NOD_MAX_NB_PEERS; ++i)
+    {
+      peer_id = info->dyn_info.community_peers[i].id_int;
+      if (peer_id && !(info->dyn_info.community_peers[i].url))
+	{
+	  func (func_data, peer_id);
+	}
+    }
 }
 
 lw6nod_ref_info_t *

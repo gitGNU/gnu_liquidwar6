@@ -57,7 +57,6 @@ extern int _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info,
 				    int nb_colors, int max_nb_colors,
 				    int nb_cursors, int max_nb_cursors,
 				    int nb_nodes, int max_nb_nodes,
-				    const char *peer_id_list,
 				    int game_screenshot_size,
 				    void *game_screenshot_data);
 

@@ -3,7 +3,7 @@
 
 @var{id}:  ID of the new member
 
-@var{url}:  URL of the new member
+@var{url}:  URL of the new member, can be NULL
 
 Adds a new member to the community.
 
@@ -36,6 +36,17 @@ Tells wether a member exists with this ID. Will test both
 ourselves and remote peers.
 
 @strong{Return value:}  1 if ID is already taken, 0 if available.
+@end deftypefun
+
+@deftypefun {int} {lw6nod_info_community_has_id_without_url} (lw6nod_info_t * @var{info}, u_int64_t @var{id})
+@var{info}:  node info object to test
+
+@var{id}:  ID of the member we want to check
+
+Tells wether a member exists with this ID, but for which we
+don't know the URL, that is, url is NULL.
+
+@strong{Return value:}  1 if ID is already taken and has NULL url, 0 else.
 @end deftypefun
 
 @deftypefun {int} {lw6nod_info_community_has_url} (lw6nod_info_t * @var{info}, const char * @var{url})
@@ -96,6 +107,32 @@ Builds a string containing all peer ids, separated by a
 separator.
 
 @strong{Return value:}  newly allocated string
+@end deftypefun
+
+@deftypefun {void} {lw6nod_info_community_set_peer_id_list_str} (lw6nod_info_t * @var{info}, const char * @var{peer_id_list_str})
+@var{info}:  node to modify
+
+@var{peer_id_list_str}:  new value
+
+Interprets a peer_id_list_str and puts it into the node data
+structures. Note that this function won't really copy the
+list, instead it will populate the dyn_info struct with
+the right values.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6nod_info_community_id_without_url_map} (lw6nod_info_t * @var{info}, lw6nod_info_community_id_callback_func_t        @var{func}, void * @var{func_data})
+@var{info}:  node to process
+
+@var{func}:  function to use as a callback
+
+@var{func_data}:  data passed along with the function
+
+Applies function func to all the members of the community
+which have an id but not an URL...
+
+@strong{Return value:}  none.
 @end deftypefun
 
 @deftypefun {void} {lw6nod_dyn_info_free} (lw6nod_dyn_info_t * @var{dyn_info})
@@ -204,7 +241,7 @@ not playing.
 
 @var{max_nb_nodes}:  max number of nodes allowed
 
-@var{peer_id_list}:  list of peers ids
+@var{peer_id_list}:  list of peers ids, can be NULL
 
 @var{game_screenshot_size}:  size of screenshot (bytes)
 

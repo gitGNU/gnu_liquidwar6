@@ -71,7 +71,18 @@ _lw6nod_ref_info_update (lw6nod_ref_info_t * ref_info, u_int64_t id,
 	  LW6SYS_FREE (ref_info->url);
 	  ref_info->url = NULL;
 	}
-      ref_info->url = lw6sys_url_canonize (url);
+      if (url)
+	{
+	  ref_info->url = lw6sys_url_canonize (url);
+	}
+      else
+	{
+	  /*
+	   * url could technically be NULL if we just had a node id
+	   * and/or do not know for sure the node url yet
+	   */
+	  ref_info->url = NULL;
+	}
     }
 
   if (id != 0LL)

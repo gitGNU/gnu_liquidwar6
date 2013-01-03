@@ -53,6 +53,7 @@
 #define _TEST_IDLE_SCREENSHOT_SIZE 5
 #define _TEST_IDLE_SCREENSHOT_DATA "1234"
 #define _TEST_COMMUNITY 0x4321432143214321LL
+#define _TEST_COMMUNITY_NB_IDS_WITHOUT_URL 2
 #define _TEST_ROUND 5432
 #define _TEST_LEVEL "toto.map"
 #define _TEST_REQUIRED_BENCH 7
@@ -445,6 +446,20 @@ test_node ()
   return ret;
 }
 
+static void
+_community_id_without_url_callback (void *func_data, u_int64_t peer_id)
+{
+  int *nb_ids_without_url = (int *) func_data;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _x_ ("calling id_wihout_url callback with peer_id=%"
+		   LW6SYS_PRINTF_LL "x"), (long long) peer_id);
+  if (nb_ids_without_url)
+    {
+      ++(*nb_ids_without_url);
+    }
+}
+
 /*
  * Testing functions in commmunity.c
  */
@@ -458,6 +473,7 @@ test_community ()
     lw6nod_info_t *info = NULL;
     int count = 0;
     char *peer_id_list_str = NULL;
+    int nb_ids_without_url = 0;
 
     info =
       lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
@@ -677,12 +693,51 @@ test_community ()
 			_x_ ("could remove ourselves, this is shocking"));
 	    ret = 0;
 	  }
-
+	/*
+	 * Setting this should set nodes that have been removed before
+	 */
+	lw6nod_info_community_set_peer_id_list_str (info,
+						    _TEST_PEER_ID_LIST_STR);
+	lw6nod_info_community_id_without_url_map (info,
+						  _community_id_without_url_callback,
+						  (void *)
+						  &nb_ids_without_url);
+	if (nb_ids_without_url == _TEST_COMMUNITY_NB_IDS_WITHOUT_URL)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("got the right number of ids without url %d"),
+			nb_ids_without_url);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("bad number of ids without url got %d expected %d"),
+			nb_ids_without_url,
+			_TEST_COMMUNITY_NB_IDS_WITHOUT_URL);
+	    ret = 0;
+	  }
+	if (lw6nod_info_community_has_id_without_url (info, _TEST_ID_2))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("node %" LW6SYS_PRINTF_LL
+			     "d reported as present without an URL, OK"),
+			(long long) _TEST_ID_2);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("node %" LW6SYS_PRINTF_LL
+			     "d not reported as present without an URL, this is a problem"),
+			(long long) _TEST_ID_2);
+	    ret = 0;
+	  }
 	lw6nod_info_free (info);
       }
   }
 
   LW6SYS_TEST_FUNCTION_END;
+
   return ret;
 }
 

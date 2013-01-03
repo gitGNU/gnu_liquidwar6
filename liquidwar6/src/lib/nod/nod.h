@@ -180,12 +180,17 @@ typedef struct lw6nod_info_s
   lw6sys_list_t *verified_nodes;
 } lw6nod_info_t;
 
+typedef void (*lw6nod_info_community_id_callback_func_t) (void *func_data,
+							  u_int64_t peer_id);
+
 /* nod-community.c */
 extern int lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id,
 				      const char *url);
 extern int lw6nod_info_community_is_member (lw6nod_info_t * info,
 					    u_int64_t id, const char *url);
 extern int lw6nod_info_community_has_id (lw6nod_info_t * info, u_int64_t id);
+extern int lw6nod_info_community_has_id_without_url (lw6nod_info_t * info,
+						     u_int64_t id);
 extern int lw6nod_info_community_has_url (lw6nod_info_t * info,
 					  const char *url);
 extern int lw6nod_info_community_remove_by_id (lw6nod_info_t * info,
@@ -196,6 +201,12 @@ extern int lw6nod_info_community_count (lw6nod_info_t * info);
 extern void lw6nod_info_community_reset (lw6nod_info_t * info);
 extern char *lw6nod_info_community_get_peer_id_list_str (lw6nod_info_t *
 							 info);
+extern void lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info,
+							const char
+							*peer_id_list_str);
+extern void lw6nod_info_community_id_without_url_map (lw6nod_info_t * info,
+						      lw6nod_info_community_id_callback_func_t
+						      func, void *func_data);
 
 /* nod-dyninfo.c */
 extern void lw6nod_dyn_info_free (lw6nod_dyn_info_t * info);

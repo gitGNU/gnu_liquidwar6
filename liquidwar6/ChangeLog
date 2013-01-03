@@ -1,3 +1,7 @@
+2012-01-03 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added functions to handle nodes without URLs in node_info.
+
 2012-01-02 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Copyright 2012 -> 2013.
