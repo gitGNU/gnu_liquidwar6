@@ -75,6 +75,11 @@ _mod_caca_set_video_mode (_mod_caca_context_t * caca_context,
 {
   int ret = 0;
 
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("setVideo Mode"));
+  if (caca_context->display && caca_context->canvas)
+  {
+    caca_free_display (caca_context->display);
+  }
   if (caca_context->canvas)
     {
       caca_context->display =
@@ -139,7 +144,7 @@ _mod_caca_resize_video_mode (_mod_caca_context_t * caca_context,
     } else
     {
       // do nothing, useless
-      ret =1;
+      ret = 0;
     }
 
   // canvas always has the last word, it knows the real resolution

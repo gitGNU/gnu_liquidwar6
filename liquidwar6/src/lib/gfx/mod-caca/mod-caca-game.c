@@ -47,6 +47,7 @@ _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
   if (buffer == NULL)
     return 0;
 
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("map before for"));
   for (y = 0; y < height; y++)
   {
     for (x = 0; x < width; x++)
@@ -57,11 +58,12 @@ _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
       {
 	fighter = lw6ker_game_state_get_fighter_by_id (game_state, fighter_id);
 	team_color = fighter->team_color;
+	lw6sys_log (LW6SYS_LOG_INFO, _x_ ("teamcolor = %d"), team_color);
 	if (team_color >= 0 && team_color < 10)
 	{
 	  buffer[width * y + x] = lw6sys_color_8_to_i(caca_context->const_data.team_color[team_color]);
 	}
-	free(fighter); // needed ?
+	//free(fighter); // needed ?
       }
       else
       {
@@ -72,6 +74,7 @@ _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
       }
     }
   }
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("map before after"));
 
   dither = caca_create_dither(32, width, height, 4 * width,
 			      0x00ff0000, 0x0000ff00, 0x000000ff, 0x0);
