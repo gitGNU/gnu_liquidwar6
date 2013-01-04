@@ -47,6 +47,37 @@ typedef struct _mod_caca_const_data_s
   lw6sys_color_8_t bg_color;
   lw6sys_color_8_t fg_color;
   lw6sys_color_8_t team_color[10];
+
+  /* KEYS */
+  int keysym1_up;
+  int keysym2_up;
+  int keysym3_up;
+  int keysym4_up;
+  int keysym1_down;
+  int keysym2_down;
+  int keysym3_down;
+  int keysym4_down;
+  int keysym1_left;
+  int keysym2_left;
+  int keysym3_left;
+  int keysym4_left;
+  int keysym1_right;
+  int keysym2_right;
+  int keysym3_right;
+  int keysym4_right;
+  int keysym1_enter;
+  int keysym2_enter;
+  int keysym1_esc;
+  int keysym2_esc;
+  int keysym1_ctrl;
+  int keysym2_ctrl;
+  int keysym1_alt;
+  int keysym2_alt;
+  int keysym1_pgup;
+  int keysym2_pgup;
+  int keysym1_pgdown;
+  int keysym2_pgdown;
+  int keysym_quit;
 }
 _mod_caca_const_data_t;
 
