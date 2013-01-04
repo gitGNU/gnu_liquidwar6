@@ -362,7 +362,7 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 				 int64_t seq_0)
 {
   int ret = -1;
-  int stack_index;
+  int stack_index = -1;
 
   serial_0 = lw6sys_imax (serial_0, _LW6DAT_SERIAL_START);
   ret = _lw6dat_warehouse_get_stack_index (warehouse, node_id);
@@ -381,47 +381,45 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 		}
 	    }
 	}
-      if (ret >= 0 && stack_index < LW6DAT_MAX_NB_STACKS)
-	{
-	  for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS;
-	       ++stack_index)
-	    {
-	      /*
-	       * For affectations below, use the seq_0 llmax
-	       */
-	      /*
-	       * Tell all stacks that for this node, it's useless to consider
-	       * messages that have a seq that is older than seq_0
-	       */
-	      warehouse->stacks[stack_index].seq_0[ret] =
-		lw6sys_llmax (warehouse->stacks[stack_index].seq_0[ret],
-			      seq_0);
-	      /*
-	       * Not sure how the line below is totally required, might
-	       * need some tuning, but at least it shouldn't harm from
-	       * a functionnal point of view, only performance is concerned.
-	       * The risk is to re-parse the whole stack for nothing.
-	       */
-	      warehouse->stacks[stack_index].serial_min_to_send[ret] =
-		lw6sys_imin (warehouse->
-			     stacks[stack_index].serial_min_to_send[ret],
-			     serial_0);
-	      /*
-	       * Tell this stack about all other nodes limits, this is done
-	       * by copying informations from local stack.
-	       */
-	      warehouse->stacks[ret].seq_0[stack_index] =
-		lw6sys_llmax (warehouse->stacks[ret].seq_0[stack_index],
-			      warehouse->
-			      stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0
-			      [stack_index]);
-	    }
-	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("registering already registered node"));
+    }
+
+  if (ret >= 0 && ret < LW6DAT_MAX_NB_STACKS)
+    {
+      for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
+	{
+	  /*
+	   * For affectations below, use the seq_0 llmax
+	   */
+	  /*
+	   * Tell all stacks that for this node, it's useless to consider
+	   * messages that have a seq that is older than seq_0
+	   */
+	  warehouse->stacks[stack_index].seq_0[ret] =
+	    lw6sys_llmax (warehouse->stacks[stack_index].seq_0[ret], seq_0);
+	  /*
+	   * Not sure how the line below is totally required, might
+	   * need some tuning, but at least it shouldn't harm from
+	   * a functionnal point of view, only performance is concerned.
+	   * The risk is to re-parse the whole stack for nothing.
+	   */
+	  warehouse->stacks[stack_index].serial_min_to_send[ret] =
+	    lw6sys_imin (warehouse->
+			 stacks[stack_index].serial_min_to_send[ret],
+			 serial_0);
+	  /*
+	   * Tell this stack about all other nodes limits, this is done
+	   * by copying informations from local stack.
+	   */
+	  warehouse->stacks[ret].seq_0[stack_index] =
+	    lw6sys_llmax (warehouse->stacks[ret].seq_0[stack_index],
+			  warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0
+			  [stack_index]);
+	}
     }
 
   return ret;

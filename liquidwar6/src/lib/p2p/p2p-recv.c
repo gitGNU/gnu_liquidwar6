@@ -452,12 +452,10 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	  (&serial, &i, &n, &seq, &ker_message, message))
 	{
 	  /*
-	   * Todo : add a check here to verify the node is correctly
-	   * registered, at least within the warehouse,
-	   * the problem if it's not is that possibly,
-	   * on a late joining peer, lots of time could be spent trying
-	   * to parse the warehouse and/or other peers could wait for
-	   * hypothetical validations for ages.
+	   * Note that put_atom_str could/should automatically
+	   * register the node who initially wrote the message
+	   * if needed, this is complicated to do here as it would
+	   * require us to parse the whole message in advance.
 	   */
 	  if (lw6dat_warehouse_put_atom_str
 	      (node->warehouse, logical_from_id, message))
