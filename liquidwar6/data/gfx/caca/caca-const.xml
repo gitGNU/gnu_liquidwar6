@@ -18,4 +18,33 @@
   <color key="team_color7" value="#ff5555" />
   <color key="team_color8" value="#55ffff" />
   <color key="team_color9" value="#55ff55" />
+  <int key="keysym1-up" value="273" /> <!-- KEY_UP -->
+  <int key="keysym2-up" value="55" /> <!-- 7 -->
+  <int key="keysym3-up" value="56" /> <!-- 8 -->
+  <int key="keysym4-up" value="57" /> <!-- 9 -->
+  <int key="keysym1-down" value="274" /> <!-- KEY_DOWN -->
+  <int key="keysym2-down" value="49" /> <!-- 1 -->
+  <int key="keysym3-down" value="50" /> <!-- 2 -->
+  <int key="keysym4-down" value="51" /> <!-- 3 -->
+  <int key="keysym1-left" value="275" /> <!-- KEY_LEFT -->
+  <int key="keysym2-left" value="49" /> <!-- 1 -->
+  <int key="keysym3-left" value="52" /> <!-- 4 -->
+  <int key="keysym4-left" value="55" /> <!-- 7 -->
+  <int key="keysym1-right" value="276" /> <!-- KEY_RIGHT -->
+  <int key="keysym2-right" value="51" /> <!-- 3 -->
+  <int key="keysym3-right" value="54" /> <!-- 6 -->
+  <int key="keysym4-right" value="57" /> <!-- 9 -->
+  <int key="keysym1-enter" value="8" /> <!-- RETURN -->
+  <int key="keysym2-enter" value="13" /> <!-- ENTER -->
+  <int key="keysym1-esc" value="27" /> <!-- ESCAPE -->
+  <int key="keysym2-esc" value="48" /> <!-- P0 -->
+  <int key="keysym1-ctrl" value="119" /> <!-- W -->
+  <int key="keysym2-ctrl" value="120" /> <!-- X -->
+  <int key="keysym1-alt" value="99" /> <!-- C -->
+  <int key="keysym2-alt" value="118" /> <!-- V -->
+  <int key="keysym1-pgup" value="280" /> <!-- PAGEUP -->
+  <int key="keysym2-pgup" value="45" /> <!-- KP_MINUS -->
+  <int key="keysym1-pgdown" value="281" /> <!-- PAGEDOWN -->
+  <int key="keysym2-pgdown" value="43" /> <!-- KP_PLUS -->
+  <int key="keysym-quit" value="291" /> <!-- F10 -->
 </liquidwar6>
