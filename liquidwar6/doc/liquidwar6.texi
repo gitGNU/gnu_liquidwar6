@@ -876,9 +876,10 @@ would be:
 
 @example
 apt-get install \
-make gcc libc6 libc6-dev binutils \
+make autoconf automake \
+gcc libc6 libc6-dev binutils \
 libgomp1 \
-guile-1.8 guile-1.8-dev guile-1.8-libs libgmp3c2 libgmp3-dev \
+guile-2.0 guile-2.0-dev guile-2.0-libs libgmp10 libgmp3-dev \
 libtool libltdl7 libltdl-dev \
 zlib1g zlib1g-dev libexpat1 libexpat1-dev \
 libpng12-0 libpng12-dev libjpeg8 libjpeg-dev \
@@ -894,7 +895,7 @@ libcurl4-gnutls-dev \
 libgtk2.0-dev \
 perl lcov global valgrind graphviz gv \
 texinfo texlive-base texlive-generic-extra \
-indent emacs doxygen xlstproc pmccabe \
+indent emacs doxygen xsltproc pmccabe \
 debhelper
 @end example
 

@@ -20,7 +20,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-BUILDDIR=/mnt/ramdisk/liquidwar6
+BUILDDIR=/ramdisk/liquidwar6
 SRCDIR=$HOME/Home/_/liquidwar6
 INSTALLDIR=$HOME/Home/local/liquidwar6
 
