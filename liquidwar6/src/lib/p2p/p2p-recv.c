@@ -313,7 +313,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_JOIN))
     {
-      if (lw6msg_cmd_analyse_join (&remote_node_info, &seq, &serial, message))
+      if (lw6msg_cmd_analyse_join
+	  (&remote_node_info, node->node_info, &seq, &serial, message))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("received join from \"%s\""),
 		      cnx->remote_url);

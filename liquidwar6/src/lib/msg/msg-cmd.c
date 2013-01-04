@@ -298,7 +298,8 @@ lw6msg_cmd_generate_miss (u_int64_t id_from, u_int64_t id_to, int serial_min,
 }
 
 static int
-_analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
+_analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
+	       const char *msg)
 {
   int ret = 0;
   int still_ok = 1;
@@ -702,6 +703,16 @@ _analyse_info (lw6nod_info_t ** info, char **next, const char *msg)
 				  nb_cursors, max_nb_cursors, nb_nodes,
 				  max_nb_nodes, peer_id_list.buf, 0, NULL))
 	    {
+	      if (local_info)
+		{
+		  /*
+		   * Only if local_info is set, we update the local_info
+		   * peer database too, this is usually performed on join
+		   * messages.
+		   */
+		  lw6nod_info_community_set_peer_id_list_str (local_info,
+							      peer_id_list.buf);
+		}
 	      (*info)->const_info.has_password = has_password;
 	      if (next)
 		{
@@ -736,7 +747,7 @@ lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, const char *msg)
 
   if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_HELLO))
     {
-      if (_analyse_info (info, NULL, msg + strlen (LW6MSG_CMD_HELLO)))
+      if (_analyse_info (info, NULL, NULL, msg + strlen (LW6MSG_CMD_HELLO)))
 	{
 	  ret = 1;
 	}
@@ -772,7 +783,7 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket,
   if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_TICKET))
     {
       pos = msg + strlen (LW6MSG_CMD_TICKET);
-      if (_analyse_info (info, &seek, pos))
+      if (_analyse_info (info, NULL, &seek, pos))
 	{
 	  pos = seek;
 	  if (lw6msg_word_first_id_64 (ticket, &seek, pos))
@@ -818,7 +829,7 @@ lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, int *serial,
   if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_FOO))
     {
       pos = msg + strlen (LW6MSG_CMD_FOO);
-      if (_analyse_info (info, &seek, pos))
+      if (_analyse_info (info, NULL, &seek, pos))
 	{
 	  pos = seek;
 	  if (lw6msg_word_first_id_32 (key, &seek, pos))
@@ -872,7 +883,7 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, int *serial,
   if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_BAR))
     {
       pos = msg + strlen (LW6MSG_CMD_BAR);
-      if (_analyse_info (info, &seek, pos))
+      if (_analyse_info (info, NULL, &seek, pos))
 	{
 	  pos = seek;
 	  if (lw6msg_word_first_id_32 (key, &seek, pos))
@@ -907,6 +918,7 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, int *serial,
  * lw6msg_cmd_analyse_join
  *
  * @info: will contain (remote) node info on success
+ * @local_info: local node info to be updated (peer_id list), can be NULL
  * @seq: sequence used to initialize communication
  * @serial: serial used to initialize communication
  * @msg: the message to analyse
@@ -916,8 +928,8 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, int *serial,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_join (lw6nod_info_t ** info, int64_t * seq, int *serial,
-			 const char *msg)
+lw6msg_cmd_analyse_join (lw6nod_info_t ** info, lw6nod_info_t * local_info,
+			 int64_t * seq, int *serial, const char *msg)
 {
   int ret = 0;
   const char *pos = NULL;
@@ -926,7 +938,7 @@ lw6msg_cmd_analyse_join (lw6nod_info_t ** info, int64_t * seq, int *serial,
   if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_JOIN))
     {
       pos = msg + strlen (LW6MSG_CMD_JOIN);
-      if (_analyse_info (info, &seek, pos))
+      if (_analyse_info (info, local_info, &seek, pos))
 	{
 	  pos = seek;
 	  if (lw6msg_word_first_int_64 (seq, &seek, pos))
@@ -974,7 +986,7 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
 
   if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_GOODBYE))
     {
-      if (_analyse_info (info, NULL, msg + strlen (LW6MSG_CMD_GOODBYE)))
+      if (_analyse_info (info, NULL, NULL, msg + strlen (LW6MSG_CMD_GOODBYE)))
 	{
 	  ret = 1;
 	}
@@ -1207,7 +1219,7 @@ lw6msg_cmd_guess_from_url (const char *msg)
       if (lw6sys_str_starts_with_no_case (msg, *command))
 	{
 	  pos = msg + strlen (*command);
-	  if (_analyse_info (&node_info, &seek, pos))
+	  if (_analyse_info (&node_info, NULL, &seek, pos))
 	    {
 	      ret = lw6sys_str_copy (node_info->const_info.ref_info.url);
 	      lw6nod_info_free (node_info);

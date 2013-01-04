@@ -368,7 +368,7 @@ test_cmd ()
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("join command is \"%s\""),
 			msg);
 	    if (lw6msg_cmd_analyse_join
-		(&analysed_info, &analysed_seq, &analysed_serial, msg))
+		(&analysed_info, NULL, &analysed_seq, &analysed_serial, msg))
 	      {
 		if (seq == analysed_seq && serial == analysed_serial)
 		  {

@@ -141,7 +141,8 @@ extern int lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key,
 				   int *serial, const char *msg);
 extern int lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key,
 				   int *serial, const char *msg);
-extern int lw6msg_cmd_analyse_join (lw6nod_info_t ** info, int64_t * seq,
+extern int lw6msg_cmd_analyse_join (lw6nod_info_t ** info,
+				    lw6nod_info_t * local_info, int64_t * seq,
 				    int *serial, const char *msg);
 extern int lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info,
 				       const char *msg);

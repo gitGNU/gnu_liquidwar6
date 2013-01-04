@@ -447,13 +447,13 @@ test_node ()
 }
 
 static void
-_community_id_without_url_callback (void *func_data, u_int64_t peer_id)
+_community_id_without_url_callback (void *func_data, u_int64_t id)
 {
   int *nb_ids_without_url = (int *) func_data;
 
   lw6sys_log (LW6SYS_LOG_NOTICE,
-	      _x_ ("calling id_wihout_url callback with peer_id=%"
-		   LW6SYS_PRINTF_LL "x"), (long long) peer_id);
+	      _x_ ("calling id_wihout_url callback with id=%"
+		   LW6SYS_PRINTF_LL "x"), (long long) id);
   if (nb_ids_without_url)
     {
       ++(*nb_ids_without_url);

@@ -122,7 +122,7 @@ the right values.
 @strong{Return value:}  none
 @end deftypefun
 
-@deftypefun {void} {lw6nod_info_community_id_without_url_map} (lw6nod_info_t * @var{info}, lw6nod_info_community_id_callback_func_t        @var{func}, void * @var{func_data})
+@deftypefun {void} {lw6nod_info_community_id_without_url_map} (lw6nod_info_t * @var{info}, lw6nod_id_callback_func_t        @var{func}, void * @var{func_data})
 @var{info}:  node to process
 
 @var{func}:  function to use as a callback

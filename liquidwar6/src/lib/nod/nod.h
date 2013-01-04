@@ -180,8 +180,7 @@ typedef struct lw6nod_info_s
   lw6sys_list_t *verified_nodes;
 } lw6nod_info_t;
 
-typedef void (*lw6nod_info_community_id_callback_func_t) (void *func_data,
-							  u_int64_t peer_id);
+typedef void (*lw6nod_id_callback_func_t) (void *func_data, u_int64_t id);
 
 /* nod-community.c */
 extern int lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id,
@@ -205,7 +204,7 @@ extern void lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info,
 							const char
 							*peer_id_list_str);
 extern void lw6nod_info_community_id_without_url_map (lw6nod_info_t * info,
-						      lw6nod_info_community_id_callback_func_t
+						      lw6nod_id_callback_func_t
 						      func, void *func_data);
 
 /* nod-dyninfo.c */

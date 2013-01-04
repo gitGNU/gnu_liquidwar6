@@ -485,7 +485,7 @@ lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info,
  */
 void
 lw6nod_info_community_id_without_url_map (lw6nod_info_t * info,
-					  lw6nod_info_community_id_callback_func_t
+					  lw6nod_id_callback_func_t
 					  func, void *func_data)
 {
   u_int64_t peer_id = 0LL;
