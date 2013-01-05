@@ -2981,6 +2981,10 @@ populate_references ()
 		 _x_ ("Wrapper on lw6p2p_node_update_info."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_CALIBRATE,
 		 _x_ ("Wrapper on lw6p2p_node_calibrate."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_SEQ_0,
+		 _x_ ("Wrapper on lw6p2p_node_get_seq_0."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MIN,
+		 _x_ ("Wrapper on lw6p2p_node_get_seq_min."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX,
 		 _x_ ("Wrapper on lw6p2p_node_get_seq_max."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_IS_SEED_NEEDED,

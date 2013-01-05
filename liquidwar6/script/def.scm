@@ -258,6 +258,8 @@
 (define lw6def-c-lw6p2p-node-get-id "c-lw6p2p-node-get-id")
 (define lw6def-c-lw6p2p-node-get-next-draft-msg "c-lw6p2p-node-get-next-draft-msg")
 (define lw6def-c-lw6p2p-node-get-next-reference-msg "c-lw6p2p-node-get-next-reference-msg")
+(define lw6def-c-lw6p2p-node-get-seq-0 "c-lw6p2p-node-get-seq-0")
+(define lw6def-c-lw6p2p-node-get-seq-min "c-lw6p2p-node-get-seq-min")
 (define lw6def-c-lw6p2p-node-get-seq-max "c-lw6p2p-node-get-seq-max")
 (define lw6def-c-lw6p2p-node-is-dump-needed "c-lw6p2p-node-is-dump-needed")
 (define lw6def-c-lw6p2p-node-is-seed-needed "c-lw6p2p-node-is-seed-needed")

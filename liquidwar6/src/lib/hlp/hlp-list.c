@@ -1238,6 +1238,8 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_DISCONNECT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_UPDATE_INFO);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_CALIBRATE);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_GET_SEQ_0);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_GET_SEQ_MIN);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_IS_SEED_NEEDED);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED);

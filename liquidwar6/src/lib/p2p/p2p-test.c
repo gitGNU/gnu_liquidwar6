@@ -328,6 +328,9 @@ _test_node_init ()
     lw6p2p_node_t *node = NULL;
     char *id_str;
     char *repr = NULL;
+    int64_t seq_0 = 0LL;
+    int64_t seq_min = 0LL;
+    int64_t seq_max = 0LL;
 
     db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
     if (db)
@@ -361,6 +364,18 @@ _test_node_init ()
 			    id_str);
 		LW6SYS_FREE (id_str);
 	      }
+	    seq_0 = lw6p2p_node_get_seq_0 (node);
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("seq_0=%" LW6SYS_PRINTF_LL "d"),
+			(long long) seq_0);
+	    seq_min = lw6p2p_node_get_seq_min (node);
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("seq_min=%" LW6SYS_PRINTF_LL "d"),
+			(long long) seq_min);
+	    seq_max = lw6p2p_node_get_seq_max (node);
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("seq_max=%" LW6SYS_PRINTF_LL "d"),
+			(long long) seq_max);
 	    lw6p2p_node_close (node);
 	    lw6p2p_node_close (node);	// yes, do it twice just to check
 	    lw6p2p_node_free (node);

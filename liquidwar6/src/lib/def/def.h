@@ -265,6 +265,8 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6P2P_NODE_GET_ID "c-lw6p2p-node-get-id"
 #define LW6DEF_C_LW6P2P_NODE_GET_NEXT_DRAFT_MSG "c-lw6p2p-node-get-next-draft-msg"
 #define LW6DEF_C_LW6P2P_NODE_GET_NEXT_REFERENCE_MSG "c-lw6p2p-node-get-next-reference-msg"
+#define LW6DEF_C_LW6P2P_NODE_GET_SEQ_0 "c-lw6p2p-node-get-seq-0"
+#define LW6DEF_C_LW6P2P_NODE_GET_SEQ_MIN "c-lw6p2p-node-get-seq-min"
 #define LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX "c-lw6p2p-node-get-seq-max"
 #define LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED "c-lw6p2p-node-is-dump-needed"
 #define LW6DEF_C_LW6P2P_NODE_IS_SEED_NEEDED "c-lw6p2p-node-is-seed-needed"

@@ -128,6 +128,11 @@
 		     (assoc-ref server-entry "id")
 		     (assoc-ref server-entry "url"))
 		    (begin
+		      ;; First, send a NOP message for automatic self-registering
+		      ;; this one is really important, it's a NOP but not sending
+		      ;; it could cause problems if all nodes can't communicate
+		      (c-lw6p2p-node-put-local-msg node (lw6-command-nop (c-lw6p2p-node-get-seq-0 node) id) #t)
+		      ;; Now, loop for the rest of the test
 		      (while (< timestamp time-limit)
 			     (begin
 			       (set! timestamp (c-lw6sys-get-timestamp))

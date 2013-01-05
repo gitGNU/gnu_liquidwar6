@@ -490,7 +490,7 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
   stack_index = _lw6dat_warehouse_get_stack_index (warehouse, logical_from);
   if (reg && stack_index < 0)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE,
+      lw6sys_log (LW6SYS_LOG_INFO,
 		  _x_ ("registering %" LW6SYS_PRINTF_LL
 		       "x on the fly at serial=%d and seq=%" LW6SYS_PRINTF_LL
 		       "d"), (long long) logical_from, serial,
