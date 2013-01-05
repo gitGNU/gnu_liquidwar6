@@ -945,6 +945,16 @@ Wrapper on lw6p2p_node_get_entries.
 Wrapper on lw6p2p_node_get_id.
 @end deffn
 
+@subsection c-lw6p2p-node-get-local-seq-0
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-get-local-seq-0}
+Wrapper on lw6p2p_node_get_local_seq_0.
+@end deffn
+
+@subsection c-lw6p2p-node-get-local-seq-last
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-get-local-seq-last}
+Wrapper on lw6p2p_node_get_local_seq_last.
+@end deffn
+
 @subsection c-lw6p2p-node-get-next-draft-msg
 @deffn {C function exported to Guile} @code{c-lw6p2p-node-get-next-draft-msg}
 Wrapper on lw6p2p_node_get_next_draft_msg.
@@ -953,11 +963,6 @@ Wrapper on lw6p2p_node_get_next_draft_msg.
 @subsection c-lw6p2p-node-get-next-reference-msg
 @deffn {C function exported to Guile} @code{c-lw6p2p-node-get-next-reference-msg}
 Wrapper on lw6p2p_node_get_next_reference_msg.
-@end deffn
-
-@subsection c-lw6p2p-node-get-seq-0
-@deffn {C function exported to Guile} @code{c-lw6p2p-node-get-seq-0}
-Wrapper on lw6p2p_node_get_seq_0.
 @end deffn
 
 @subsection c-lw6p2p-node-get-seq-max

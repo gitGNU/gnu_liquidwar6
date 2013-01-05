@@ -685,20 +685,20 @@ test_stack ()
 			_x_
 			("put a few messages in stack to test recollection of atoms into a full message"));
 	    if (_lw6dat_stack_put_msg
-		(&stack, _TEST_STACK_MSG_1, _TEST_STACK_REG,
+		(&stack, NULL, _TEST_STACK_MSG_1, _TEST_STACK_REG,
 		 _TEST_STACK_SEND_FLAG)
-		&& _lw6dat_stack_put_msg (&stack, _TEST_STACK_MSG_2,
+		&& _lw6dat_stack_put_msg (&stack, NULL, _TEST_STACK_MSG_2,
 					  _TEST_STACK_REG,
 					  _TEST_STACK_SEND_FLAG)
-		&& _lw6dat_stack_put_msg (&stack, _TEST_STACK_MSG_3,
+		&& _lw6dat_stack_put_msg (&stack, NULL, _TEST_STACK_MSG_3,
 					  _TEST_STACK_REG,
 					  _TEST_STACK_SEND_FLAG)
-		&& _lw6dat_stack_put_msg (&stack, msg4, _TEST_STACK_REG,
+		&& _lw6dat_stack_put_msg (&stack, NULL, msg4, _TEST_STACK_REG,
 					  _TEST_STACK_SEND_FLAG)
-		&& _lw6dat_stack_put_msg (&stack, _TEST_STACK_MSG_5,
+		&& _lw6dat_stack_put_msg (&stack, NULL, _TEST_STACK_MSG_5,
 					  _TEST_STACK_REG,
 					  _TEST_STACK_SEND_FLAG)
-		&& _lw6dat_stack_put_msg (&stack, _TEST_STACK_MSG_6,
+		&& _lw6dat_stack_put_msg (&stack, NULL, _TEST_STACK_MSG_6,
 					  _TEST_STACK_REG,
 					  _TEST_STACK_SEND_FLAG))
 	      {

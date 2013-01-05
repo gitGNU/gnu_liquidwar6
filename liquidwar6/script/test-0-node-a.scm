@@ -85,7 +85,7 @@
 		     ;; rather, we want them to be fixed so that there are no surprises
 		     ;; due to a script being fast or slow, whatever. So what we do
 		     ;; is that we just increment last-commit-seq by 1.
-		     (set! next-seq (max seq-0 (1+ (c-lw6pil-get-last-commit-seq pilot))))
+		     (set! next-seq (max (c-lw6p2p-node-get-local-seq-last node) (1+ (c-lw6pil-get-last-commit-seq pilot))))
 		     (cond
 		      (
 		       (c-lw6p2p-node-is-seed-needed node)

@@ -94,6 +94,8 @@ extern int64_t lw6dat_warehouse_get_local_seq_0 (lw6dat_warehouse_t *
 						 warehouse);
 extern void lw6dat_warehouse_set_local_seq_0 (lw6dat_warehouse_t * warehouse,
 					      int64_t seq_0);
+extern int64_t lw6dat_warehouse_get_local_seq_last (lw6dat_warehouse_t *
+						    warehouse);
 extern int lw6dat_warehouse_register_node (lw6dat_warehouse_t * warehouse,
 					   u_int64_t node_id, int serial_0,
 					   int64_t seq_0);

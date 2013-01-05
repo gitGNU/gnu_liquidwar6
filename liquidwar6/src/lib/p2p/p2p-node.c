@@ -2267,7 +2267,7 @@ lw6p2p_node_calibrate (lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
 }
 
 int64_t
-_lw6p2p_node_get_seq_0 (_lw6p2p_node_t * node)
+_lw6p2p_node_get_local_seq_0 (_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2277,7 +2277,7 @@ _lw6p2p_node_get_seq_0 (_lw6p2p_node_t * node)
 }
 
 /**
- * lw6p2p_node_get_seq_0
+ * lw6p2p_node_get_local_seq_0
  *
  * @node: the object to query
  *
@@ -2288,7 +2288,7 @@ _lw6p2p_node_get_seq_0 (_lw6p2p_node_t * node)
  * Return value: the seq.
  */
 int64_t
-lw6p2p_node_get_seq_0 (lw6p2p_node_t * node)
+lw6p2p_node_get_local_seq_0 (lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2299,7 +2299,49 @@ lw6p2p_node_get_seq_0 (lw6p2p_node_t * node)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_get_seq_0 ((_lw6p2p_node_t *) node);
+      ret = _lw6p2p_node_get_local_seq_0 ((_lw6p2p_node_t *) node);
+      _node_unlock (node);
+    }
+
+  return ret;
+}
+
+int64_t
+_lw6p2p_node_get_local_seq_last (_lw6p2p_node_t * node)
+{
+  int64_t ret = 0LL;
+
+  ret = lw6dat_warehouse_get_local_seq_last (node->warehouse);
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_get_local_seq_last
+ *
+ * @node: the object to query
+ *
+ * Gets the local seq_last for this node, the information
+ * is taken from the warehouse, which has parsed the messages
+ * and this information can in return be used to avoid maintaining
+ * outside of the node the information about what was the last
+ * seq used for a local message.
+ *
+ * Return value: the seq.
+ */
+int64_t
+lw6p2p_node_get_local_seq_last (lw6p2p_node_t * node)
+{
+  int64_t ret = 0LL;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_get_local_seq_last ((_lw6p2p_node_t *) node);
       _node_unlock (node);
     }
 

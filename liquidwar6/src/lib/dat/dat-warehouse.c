@@ -36,6 +36,7 @@ _lw6dat_warehouse_init (_lw6dat_warehouse_t * warehouse,
   int stack_index = 0;
 
   memset (warehouse, 0, sizeof (_lw6dat_warehouse_t));
+  warehouse->local_seq_last = lw6sys_llmax (seq_0, _LW6DAT_SEQ_START);
   for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
     {
       if (stack_index == _LW6DAT_LOCAL_NODE_INDEX)
@@ -146,6 +147,7 @@ _lw6dat_warehouse_clear (_lw6dat_warehouse_t * warehouse)
 {
   int i;
 
+  warehouse->local_seq_last = _LW6DAT_SEQ_START;
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
     {
       if (warehouse->stacks[i].node_id != 0)
@@ -332,6 +334,7 @@ _lw6dat_warehouse_set_local_seq_0 (_lw6dat_warehouse_t * warehouse,
 {
   int stack_index = 0;
 
+  warehouse->local_seq_last = lw6sys_llmax (seq_0, warehouse->local_seq_last);
   for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
     {
       warehouse->stacks[stack_index].seq_0[_LW6DAT_LOCAL_NODE_INDEX] = seq_0;
@@ -354,6 +357,31 @@ lw6dat_warehouse_set_local_seq_0 (lw6dat_warehouse_t * warehouse,
 {
   _lw6dat_warehouse_set_local_seq_0 ((_lw6dat_warehouse_t *) warehouse,
 				     seq_0);
+}
+
+int64_t
+_lw6dat_warehouse_get_local_seq_last (_lw6dat_warehouse_t * warehouse)
+{
+  return warehouse->local_seq_last;
+}
+
+/**
+ * lw6dat_warehouse_get_local_seq_last
+ *
+ * @warehouse: the warehouse object to query
+ *
+ * Gives the warehouse seq_last number, this is the seq that corresponds
+ * to the last local message put in this warehouse. This is usefull
+ * to get the last seq used and, for instance, put a NOP message just
+ * for keepalive purposes.
+ *
+ * Return value: long integer.
+ */
+int64_t
+lw6dat_warehouse_get_local_seq_last (lw6dat_warehouse_t * warehouse)
+{
+  return _lw6dat_warehouse_get_local_seq_last ((_lw6dat_warehouse_t *)
+					       warehouse);
 }
 
 int
@@ -684,7 +712,8 @@ _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse,
 
   ret =
     _lw6dat_stack_put_msg (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]),
-			   msg, reg, _LW6DAT_FLAG_REMOTE);
+			   &(warehouse->local_seq_last), msg, reg,
+			   _LW6DAT_FLAG_REMOTE);
 
   return ret;
 }

@@ -317,12 +317,24 @@ accross nodes.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int64_t} {lw6p2p_node_get_seq_0} (lw6p2p_node_t * @var{node})
+@deftypefun {int64_t} {lw6p2p_node_get_local_seq_0} (lw6p2p_node_t * @var{node})
 @var{node}:  the object to query
 
 Gets the reference local seq_0 for this node, the information
 is taken from the warehouse, even if node->calibrate_seq
 should probably return the same value.
+
+@strong{Return value:}  the seq.
+@end deftypefun
+
+@deftypefun {int64_t} {lw6p2p_node_get_local_seq_last} (lw6p2p_node_t * @var{node})
+@var{node}:  the object to query
+
+Gets the local seq_last for this node, the information
+is taken from the warehouse, which has parsed the messages
+and this information can in return be used to avoid maintaining
+outside of the node the information about what was the last
+seq used for a local message.
 
 @strong{Return value:}  the seq.
 @end deftypefun

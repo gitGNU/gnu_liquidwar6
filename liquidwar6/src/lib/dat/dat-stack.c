@@ -454,8 +454,8 @@ _lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
 }
 
 int
-_lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg, int reg,
-		       int send_flag)
+_lw6dat_stack_put_msg (_lw6dat_stack_t * stack, int64_t * local_seq_last,
+		       const char *msg, int reg, int send_flag)
 {
   int ret = 0;
   int len = 0;
@@ -597,6 +597,17 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg, int reg,
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad seq in message \"%s\""), msg);
+    }
+
+  if (ret && local_seq_last)
+    {
+      /*
+       * If operation was successful and local_seq_last is not NULL,
+       * then update it, this is usefull to maintain a typical seq
+       * that could use to put further dummy NOP operations for
+       * keepalive's sake.
+       */
+      (*local_seq_last) = ret;
     }
 
   return ret;

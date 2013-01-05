@@ -130,6 +130,7 @@ typedef struct _lw6dat_stack_s
 typedef struct _lw6dat_warehouse_s
 {
   int dummy;			// same as in lw6dat_warehouse_t
+  int64_t local_seq_last;
   _lw6dat_stack_t stacks[LW6DAT_MAX_NB_STACKS];
 } _lw6dat_warehouse_t;
 
@@ -202,7 +203,8 @@ extern int _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
 				       const char *full_str, int send_flag);
 extern _lw6dat_atom_t *_lw6dat_stack_get_atom (_lw6dat_stack_t * stack,
 					       int serial);
-extern int _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg,
+extern int _lw6dat_stack_put_msg (_lw6dat_stack_t * stack,
+				  int64_t * local_seq_seq, const char *msg,
 				  int reg, int send_flag);
 extern int _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t *
 							  stack);
@@ -266,6 +268,8 @@ extern int64_t _lw6dat_warehouse_get_local_seq_0 (_lw6dat_warehouse_t *
 						  warehouse);
 extern void _lw6dat_warehouse_set_local_seq_0 (_lw6dat_warehouse_t *
 					       warehouse, int64_t seq_0);
+extern int64_t _lw6dat_warehouse_get_local_seq_last (_lw6dat_warehouse_t *
+						     warehouse);
 extern int _lw6dat_warehouse_get_stack_index (_lw6dat_warehouse_t * warehouse,
 					      u_int64_t node_id);
 extern int _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,

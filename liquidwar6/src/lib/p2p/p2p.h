@@ -216,7 +216,8 @@ extern int lw6p2p_node_update_info (lw6p2p_node_t * node,
 				    void *game_screenshot_data);
 extern void lw6p2p_node_calibrate (lw6p2p_node_t * node, int64_t timestamp,
 				   int64_t seq);
-extern int64_t lw6p2p_node_get_seq_0 (lw6p2p_node_t * node);
+extern int64_t lw6p2p_node_get_local_seq_0 (lw6p2p_node_t * node);
+extern int64_t lw6p2p_node_get_local_seq_last (lw6p2p_node_t * node);
 extern int64_t lw6p2p_node_get_seq_min (lw6p2p_node_t * node);
 extern int64_t lw6p2p_node_get_seq_max (lw6p2p_node_t * node);
 extern int lw6p2p_node_is_seed_needed (lw6p2p_node_t * node);

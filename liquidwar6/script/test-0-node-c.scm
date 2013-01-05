@@ -131,7 +131,7 @@
 		      ;; First, send a NOP message for automatic self-registering
 		      ;; this one is really important, it's a NOP but not sending
 		      ;; it could cause problems if all nodes can't communicate
-		      (c-lw6p2p-node-put-local-msg node (lw6-command-nop (c-lw6p2p-node-get-seq-0 node) id) #t)
+		      (c-lw6p2p-node-put-local-msg node (lw6-command-nop (c-lw6p2p-node-get-local-seq-last node) id) #t)
 		      ;; Now, loop for the rest of the test
 		      (while (< timestamp time-limit)
 			     (begin
@@ -146,7 +146,7 @@
 				     ;; rather, we want them to be fixed so that there are no surprises
 				     ;; due to a script being fast or slow, whatever. So what we do
 				     ;; is that we just increment last-commit-seq by 1.
-				     (set! next-seq (max seq-0 (1+ (c-lw6pil-get-last-commit-seq pilot))))
+				     (set! next-seq (max (c-lw6p2p-node-get-local-seq-last node) (1+ (c-lw6pil-get-last-commit-seq pilot))))
 				     (cond
 				      (
 				       (c-lw6p2p-node-is-seed-needed node)
