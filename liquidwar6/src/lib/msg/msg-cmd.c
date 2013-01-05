@@ -246,6 +246,7 @@ lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
  * @serial: the message serial number
  * @i: the message index in the group
  * @n: the number of messages in the group
+ * @reg: wether to self-register peer on receiving this message
  * @seq: the message seq (round + an offset)
  * @ker_msg: the actual content of the message (passed to core algo)
  *
@@ -256,14 +257,14 @@ lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_data (int serial, int i, int n, int64_t seq,
+lw6msg_cmd_generate_data (int serial, int i, int n, int reg, int64_t seq,
 			  const char *ker_msg)
 {
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf ("%s %d %d %d %" LW6SYS_PRINTF_LL "d %s",
-			LW6MSG_CMD_DATA, serial, i, n, (long long) seq,
+    lw6sys_new_sprintf ("%s %d %d %d %d %" LW6SYS_PRINTF_LL "d %s",
+			LW6MSG_CMD_DATA, serial, i, n, reg, (long long) seq,
 			ker_msg);
 
   return ret;
@@ -1007,6 +1008,7 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
  * @serial: will contain serial number on success
  * @i: will contain group index on success
  * @n: will contain group size on success
+ * @reg: will contain reg on success (wether peer should be registered)
  * @seq: will contain seq on success (round + an offset)
  * @ker_msg: will contain actual message on success
  * @msg: the message to analyze
@@ -1016,7 +1018,7 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq,
+lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *reg, int64_t * seq,
 			 char **ker_msg, const char *msg)
 {
   int ret = 0;
@@ -1025,6 +1027,7 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq,
   int read_serial = 0;
   int read_i = 0;
   int read_n = 0;
+  int read_reg = 0;
   int64_t read_seq = 0;
   char *read_ker_msg = NULL;
   lw6msg_word_t data_word;
@@ -1051,33 +1054,46 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq,
 	      if (lw6msg_word_first_int_32_gt0 (&read_n, &seek, pos))
 		{
 		  pos = seek;
-		  if (lw6msg_word_first_int_64_gt0 (&read_seq, &seek, pos))
+		  if (lw6msg_word_first_int_32_ge0 (&read_reg, &seek, pos))
 		    {
 		      pos = seek;
-		      if (lw6msg_word_first (&ker_msg_word, &seek, pos))
+		      if (lw6msg_word_first_int_64_gt0
+			  (&read_seq, &seek, pos))
 			{
 			  pos = seek;
-			  read_ker_msg = lw6sys_str_copy (ker_msg_word.buf);
-			  if (read_ker_msg)
+			  if (lw6msg_word_first (&ker_msg_word, &seek, pos))
 			    {
-			      ret = 1;
-			      (*serial) = read_serial;
-			      (*i) = read_i;
-			      (*n) = read_n;
-			      (*seq) = read_seq;
-			      (*ker_msg) = read_ker_msg;
+			      pos = seek;
+			      read_ker_msg =
+				lw6sys_str_copy (ker_msg_word.buf);
+			      if (read_ker_msg)
+				{
+				  ret = 1;
+				  (*serial) = read_serial;
+				  (*i) = read_i;
+				  (*n) = read_n;
+				  (*reg) = read_reg ? 1 : 0;
+				  (*seq) = read_seq;
+				  (*ker_msg) = read_ker_msg;
+				}
+			    }
+			  else
+			    {
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _x_
+					  ("unable to parse ker message"));
 			    }
 			}
 		      else
 			{
 			  lw6sys_log (LW6SYS_LOG_INFO,
-				      _x_ ("unable to parse ker message"));
+				      _x_ ("unable to parse seq"));
 			}
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _x_ ("unable to parse seq"));
+				  _x_ ("unable to parse reg"));
 		    }
 		}
 	      else

@@ -479,21 +479,35 @@ lw6dat_warehouse_is_node_registered (lw6dat_warehouse_t * warehouse,
 int
 _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 			    u_int64_t logical_from,
-			    int serial, int order_i, int order_n, int64_t seq,
-			    const char *full_str, int seq_from_cmd_str_offset,
-			    int cmd_str_offset)
+			    int serial, int order_i, int order_n, int reg,
+			    int64_t seq, const char *full_str,
+			    int seq_from_cmd_str_offset, int cmd_str_offset)
 {
   int stack_index = -1;
   int send_flag = 0;
   int ret = 0;
 
   stack_index = _lw6dat_warehouse_get_stack_index (warehouse, logical_from);
-  if (stack_index < 0)
+  if (reg && stack_index < 0)
     {
+      lw6sys_log (LW6SYS_LOG_NOTICE,
+		  _x_ ("registering %" LW6SYS_PRINTF_LL
+		       "x on the fly at serial=%d and seq=%" LW6SYS_PRINTF_LL
+		       "d"), (long long) logical_from, serial,
+		  (long long) seq);
+      /*
+       * We had never seen this node before and for some reason we receive
+       * data about it, marked as reg=1, which typically means it's a SEED.
+       * So we registered the node, doing so will set up correct serial_min and
+       * seq_0 values, the rest will be ignored. This can happen if we did not
+       * receive the join because of a race condition and/or if the peer
+       * is unjoignable and we must communicate through other hosts.
+       */
       stack_index =
 	_lw6dat_warehouse_register_node (warehouse, logical_from, serial,
 					 seq);
     }
+
   if (stack_index >= 0)
     {
       send_flag = _lw6dat_not_flag (stack_index);
@@ -505,8 +519,18 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _x_ ("warehouse is full, too many stacks"));
+      if (reg)
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("warehouse is full, too many stacks"));
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("peer %" LW6SYS_PRINTF_LL
+			   "x is not registered in warehouse"),
+		      (long long) logical_from);
+	}
     }
 
   return ret;
@@ -520,6 +544,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
   int serial = 0;
   int order_i = 0;
   int order_n = 0;
+  int reg = 0;
   int64_t seq = 0;
   u_int64_t logical_from2 = 0L;
   int seq_from_cmd_str_offset = 0;
@@ -531,8 +556,8 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
    * logical ids match, and else we'd parse the message twice
    * in most cases.
    */
-  if (_lw6dat_atom_parse_serial_i_n_seq_from_cmd
-      (&serial, &order_i, &order_n, &seq, &logical_from2,
+  if (_lw6dat_atom_parse_serial_i_n_reg_seq_id_from_cmd
+      (&serial, &order_i, &order_n, &reg, &seq, &logical_from2,
        &seq_from_cmd_str_offset, &cmd_str_offset, full_str))
     {
       if (logical_from != logical_from2)
@@ -557,10 +582,13 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 		       LW6SYS_PRINTF_LL "x"), (long long) logical_from,
 		      (long long) logical_from2);
 	}
-
+      /*
+       * Note that we operate on logical_from2, indeed this is
+       * the real original writer of the message.
+       */
       ret =
 	_lw6dat_warehouse_put_atom (warehouse, logical_from2,
-				    serial, order_i, order_n, seq,
+				    serial, order_i, order_n, reg, seq,
 				    full_str, seq_from_cmd_str_offset,
 				    cmd_str_offset);
     }
@@ -650,13 +678,13 @@ lw6dat_warehouse_calc_serial_draft_and_reference (lw6dat_warehouse_t *
 
 int
 _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse,
-				 const char *msg)
+				 const char *msg, int reg)
 {
   int ret = 0;
 
   ret =
     _lw6dat_stack_put_msg (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]),
-			   msg, _LW6DAT_FLAG_REMOTE);
+			   msg, reg, _LW6DAT_FLAG_REMOTE);
 
   return ret;
 }
@@ -666,6 +694,7 @@ _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse,
  *
  * @warehouse: warehouse object to use
  * @msg: message
+ * @reg: wether message should be a node-self-registering one
  *
  * Puts a message in the object. The message will be splitted into
  * several atoms if needed, it can be arbitrary long.
@@ -674,12 +703,13 @@ _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse,
  */
 int
 lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse,
-				const char *msg)
+				const char *msg, int reg)
 {
   int ret = 0;
 
   ret =
-    _lw6dat_warehouse_put_local_msg ((_lw6dat_warehouse_t *) warehouse, msg);
+    _lw6dat_warehouse_put_local_msg ((_lw6dat_warehouse_t *) warehouse, msg,
+				     reg);
 
   return ret;
 }

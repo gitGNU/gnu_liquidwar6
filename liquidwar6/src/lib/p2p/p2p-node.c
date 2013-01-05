@@ -2385,13 +2385,13 @@ lw6p2p_node_is_dump_needed (lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg)
+_lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg, int reg)
 {
   int ret = 0;
 
   if (node->warehouse)
     {
-      ret = lw6dat_warehouse_put_local_msg (node->warehouse, msg);
+      ret = lw6dat_warehouse_put_local_msg (node->warehouse, msg, reg);
     }
 
   return ret;
@@ -2402,6 +2402,7 @@ _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg)
  *
  * @node: node object to use
  * @msg: message
+ * @reg: wether the message should register the author on other nodes
  *
  * Puts a message in the object. The message will be splitted into
  * several atoms if needed, it can be arbitrary long.
@@ -2409,7 +2410,7 @@ _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg)
  * Return value: 1 on success, 0 on error
  */
 int
-lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg)
+lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg, int reg)
 {
   int ret = 0;
 
@@ -2420,7 +2421,7 @@ lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_put_local_msg ((_lw6p2p_node_t *) node, msg);
+      ret = _lw6p2p_node_put_local_msg ((_lw6p2p_node_t *) node, msg, reg);
       _node_unlock (node);
     }
 

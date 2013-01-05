@@ -103,7 +103,7 @@ extern int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse,
 					  u_int64_t logical_from,
 					  const char *full_str);
 extern int lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse,
-					   const char *msg);
+					   const char *msg, int reg);
 extern int
 lw6dat_warehouse_calc_serial_draft_and_reference (lw6dat_warehouse_t *
 						  warehouse);

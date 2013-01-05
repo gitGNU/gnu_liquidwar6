@@ -378,7 +378,7 @@ extern int64_t _lw6p2p_node_get_seq_max (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_is_seed_needed (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_is_dump_needed (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node,
-				       const char *msg);
+				       const char *msg, int reg);
 extern char *_lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node,
 						  lw6sys_progress_t *
 						  progress);

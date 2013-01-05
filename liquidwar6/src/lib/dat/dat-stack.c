@@ -400,13 +400,14 @@ _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
   int serial = 0;
   int order_i = 0;
   int order_n = 0;
+  int reg = 0;
   int64_t seq = 0LL;
   u_int64_t logical_from = 0L;
   int seq_from_cmd_str_offset = 0;
   int cmd_str_offset = 0;
 
-  if (_lw6dat_atom_parse_serial_i_n_seq_from_cmd
-      (&serial, &order_i, &order_n, &seq, &logical_from,
+  if (_lw6dat_atom_parse_serial_i_n_reg_seq_id_from_cmd
+      (&serial, &order_i, &order_n, &reg, &seq, &logical_from,
        &seq_from_cmd_str_offset, &cmd_str_offset, full_str))
     {
       ret =
@@ -453,7 +454,7 @@ _lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
 }
 
 int
-_lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg,
+_lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg, int reg,
 		       int send_flag)
 {
   int ret = 0;
@@ -517,9 +518,18 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg,
 		      if (s >= 0)
 			{
 			  serial = _lw6dat_stack_get_serial (stack) + 1;
+			  /*
+			   * mmm, this is weird, ugly, we're not using the
+			   * standard libmsg function lw6msg_cmd_generate_data,
+			   * this is bad because it's a bug nest to duplicate
+			   * code but OTOH we really must split the message
+			   * and at the same time not having a test function
+			   * in libmsg would really be a problem. On short
+			   * messages it could fit, but not long ones...
+			   */
 			  snprintf (full_str, _LW6DAT_HEADER_MAX_SIZE,
-				    "%s %d %d %d ", LW6MSG_CMD_DATA, serial,
-				    order_i, order_n);
+				    "%s %d %d %d %d ", LW6MSG_CMD_DATA,
+				    serial, order_i, order_n, reg);
 			  seq_from_cmd_str_offset = strlen (full_str);
 			  if (seq_from_cmd_str_offset <
 			      _LW6DAT_HEADER_MAX_SIZE)

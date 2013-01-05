@@ -130,8 +130,8 @@ extern char *lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key,
 extern char *lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq,
 				       int serial);
 extern char *lw6msg_cmd_generate_goodbye (lw6nod_info_t * info);
-extern char *lw6msg_cmd_generate_data (int serial, int i, int n, int64_t seq,
-				       const char *ker_msg);
+extern char *lw6msg_cmd_generate_data (int serial, int i, int n, int reg,
+				       int64_t seq, const char *ker_msg);
 extern char *lw6msg_cmd_generate_miss (u_int64_t id_from, u_int64_t id_to,
 				       int serial_min, int serial_max);
 extern int lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, const char *msg);
@@ -146,7 +146,7 @@ extern int lw6msg_cmd_analyse_join (lw6nod_info_t ** info,
 				    int *serial, const char *msg);
 extern int lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info,
 				       const char *msg);
-extern int lw6msg_cmd_analyse_data (int *serial, int *i, int *n,
+extern int lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *reg,
 				    int64_t * seq, char **ker_msg,
 				    const char *msg);
 extern int lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to,

@@ -1,3 +1,7 @@
+2012-01-04 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added reg parameter to atoms to allow self-registration of nodes.
+
 2012-01-03 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added functions to handle nodes without URLs in node_info.

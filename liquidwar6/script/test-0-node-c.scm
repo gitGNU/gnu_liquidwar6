@@ -150,7 +150,7 @@
 					     )
 					 (begin
 					   (lw6-log-notice (format #f "seed-command -> ~a" seed-command))
-					   (c-lw6p2p-node-put-local-msg node seed-command)
+					   (c-lw6p2p-node-put-local-msg node seed-command #t)
 					   (c-lw6sys-idle)
 					   (c-lw6p2p-node-poll node)
 					   (set! seed-sent #t)
@@ -165,7 +165,7 @@
 					     )
 					 (begin
 					   (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
-					   (c-lw6p2p-node-put-local-msg node dump-command)
+					   (c-lw6p2p-node-put-local-msg node dump-command #f)
 					   (c-lw6sys-idle)
 					   (c-lw6p2p-node-poll node)
 					   (set! dump-sent #t)
@@ -186,7 +186,7 @@
 						 )
 					     (begin
 					       (lw6-log-notice (format #f "nop-command -> ~a" nop-command))
-					       (c-lw6p2p-node-put-local-msg node nop-command)
+					       (c-lw6p2p-node-put-local-msg node nop-command #f)
 					       )
 					   )))
 				     ;; pump all draft messages
@@ -251,7 +251,7 @@
 				   (lw6-log-notice "stage 5 & 6, putting messages in queue")
 				   (map (lambda (command) (begin
 							    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 4, 5 & 6" command))
-							    (c-lw6p2p-node-put-local-msg node command)
+							    (c-lw6p2p-node-put-local-msg node command #f)
 							    ))
 					(append (c-lw6pil-suite-get-commands-by-node-index 2 3)
 						(c-lw6pil-suite-get-commands-by-node-index 2 4)
