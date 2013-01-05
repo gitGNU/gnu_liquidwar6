@@ -317,6 +317,26 @@ accross nodes.
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {int64_t} {lw6p2p_node_get_seq_0} (lw6p2p_node_t * @var{node})
+@var{node}:  the object to query
+
+Gets the reference local seq_0 for this node, the information
+is taken from the warehouse, even if node->calibrate_seq
+should probably return the same value.
+
+@strong{Return value:}  the seq.
+@end deftypefun
+
+@deftypefun {int64_t} {lw6p2p_node_get_seq_min} (lw6p2p_node_t * @var{node})
+@var{node}:  the object to query
+
+Gets the minimum seq registered, not of utmost importance but
+interesting for debugging purpose, to check what's in the
+warehouse.
+
+@strong{Return value:}  the seq.
+@end deftypefun
+
 @deftypefun {int64_t} {lw6p2p_node_get_seq_max} (lw6p2p_node_t * @var{node})
 @var{node}:  the object to query
 
