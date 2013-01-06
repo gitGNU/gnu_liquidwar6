@@ -42,39 +42,35 @@ if cd liquidwar6 ; then
 				echo "******** $0 $(date) ********"
                             else
 				echo "extract pub failed"
-				exit 9
+				exit 8
                             fi
 			else
                             echo "install pub failed"
-                            exit 8
+                            exit 7
 			fi
 		    else
-			echo "cd failed"
-			exit 7
+			echo "make pub failed"
+			exit 6
 		    fi
 		else
-		    echo "make pub failed"
-		    exit 6
+		    echo "make dist failed"
+		    exit 5
 		fi
             else
-		echo "make dist failed"
-		exit 5
+		echo "make failed"
+		exit 4
             fi
-        else
-            echo "make failed"
-            exit 4
-        fi
+	else
+	    echo "./configure failed"
+	    exit 3
+	fi
     else
-	echo "./configure failed"
-	exit 3
+	echo "autoreconf failed"
+	exit 2
     fi
 else
-    echo "autoreconf failed"
-    exit 2
-fi
-else
-echo "cd failed"
-exit 1
+    echo "cd failed"
+    exit 1
 fi
 
 echo "OK"
