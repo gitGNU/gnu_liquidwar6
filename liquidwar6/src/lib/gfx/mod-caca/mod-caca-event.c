@@ -37,8 +37,8 @@ key_down (lw6gui_keyboard_t * keyboard, caca_event_t* event,
   sym = caca_get_event_key_ch(event);
 
   lw6gui_keyboard_register_key_down (keyboard, sym,
-				     caca_get_event_key_utf32(event),
-				     NULL, timestamp);
+  				     caca_get_event_key_utf32(event),
+  				     NULL, timestamp);
 
   if (sym == const_data->keysym1_up ||
       sym == const_data->keysym2_up ||
@@ -222,10 +222,11 @@ _mod_caca_pump_events (_mod_caca_context_t * caca_context)
 			    CACA_EVENT_KEY_PRESS | CACA_EVENT_KEY_RELEASE,
 			    &event, caca_context->const_data.event_timeout_microseconds))
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _x_ ("Got event !")
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("libcaca event type=%s ascii=%d\n"),
+			   (caca_get_event_type(&event) == CACA_EVENT_KEY_PRESS ? "CACA_EVENT_KEY_PRESS" : "CACA_EVENT_KEY_RELEASE"),
+			   caca_get_event_key_ch(&event)
 		      );
-	  /* TODO : log_event */
 	  switch (caca_get_event_type(&event))
 	    {
 	    case CACA_EVENT_KEY_PRESS:
