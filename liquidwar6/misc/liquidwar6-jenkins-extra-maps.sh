@@ -32,16 +32,10 @@ if cd liquidwar6-extra-maps ; then
 	    echo "******** $0 $(date) ********"
 	    if make ; then
 		echo "******** $0 $(date) ********"
-		if make check; then
+		if make dist; then
 		    echo "******** $0 $(date) ********"
-		    if make dist; then
-			echo "******** $0 $(date) ********"
-		    else
-			echo "make dist failed"
-			exit 6
-		    fi
 		else
-		    echo "make check failed"
+		    echo "make dist failed"
 		    exit 5
 		fi
 	    else
