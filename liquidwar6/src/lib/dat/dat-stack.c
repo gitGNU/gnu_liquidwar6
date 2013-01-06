@@ -461,7 +461,7 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, int64_t * local_seq_last,
   int len = 0;
   int order_n = 0;
   int order_i = 0;
-  int64_t seq = 0LL;
+  int64_t seq = _LW6DAT_SEQ_INVALID;
   u_int64_t logical_from = 0;
   int p = 0;
   int s = 0;
@@ -599,7 +599,7 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, int64_t * local_seq_last,
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad seq in message \"%s\""), msg);
     }
 
-  if (ret && local_seq_last)
+  if (ret && local_seq_last && seq >= _LW6DAT_SEQ_START)
     {
       /*
        * If operation was successful and local_seq_last is not NULL,
@@ -607,7 +607,7 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, int64_t * local_seq_last,
        * that could use to put further dummy NOP operations for
        * keepalive's sake.
        */
-      (*local_seq_last) = ret;
+      (*local_seq_last) = seq;
     }
 
   return ret;

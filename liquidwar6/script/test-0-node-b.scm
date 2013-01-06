@@ -138,6 +138,24 @@
 			       (set! timestamp (c-lw6sys-get-timestamp))
 			       (c-lw6sys-idle)
 			       (c-lw6p2p-node-poll node)
+			       ;; update node info, this is important for our peers
+			       ;; might be wanting to poll this
+			       (if (> timestamp next-update-info)
+				   (begin
+				     (set! next-update-info (+ timestamp lw6-test-network-update-delay))
+				     (if pilot
+					 (begin
+					   (c-lw6pil-sync-from-reference game-state pilot)
+					   (lw6-test-update-info node level game-state)
+					   ))
+				     (let (
+					   (nop-command (lw6-command-nop (c-lw6p2p-node-get-local-seq-last node) id))
+					   )
+				       (begin
+					 (lw6-log-notice (format #f "nop-command -> ~a" nop-command))
+					 (c-lw6p2p-node-put-local-msg node nop-command #f)
+					 )
+				       )))
 			       (if pilot
 				   (begin
 				     ;; Normally, we should get the next seq with a command like:
@@ -179,21 +197,6 @@
 					   )
 					 ))
 				      )
-				     ;; update node info, this is important for our peers
-				     ;; might be wanting to poll this
-				     (if (> timestamp next-update-info)
-					 (begin
-					   (set! next-update-info (+ timestamp lw6-test-network-update-delay))
-					   (c-lw6pil-sync-from-reference game-state pilot)
-					   (lw6-test-update-info node level game-state)
-					   (let (
-						 (nop-command (lw6-command-nop next-seq id))
-						 )
-					     (begin
-					       (lw6-log-notice (format #f "nop-command -> ~a" nop-command))
-					       (c-lw6p2p-node-put-local-msg node nop-command #f)
-					       )
-					     )))
 				     ;; pump all draft messages
 				     (let (
 					   (msg (c-lw6p2p-node-get-next-draft-msg node))
