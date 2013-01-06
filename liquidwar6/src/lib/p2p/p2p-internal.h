@@ -388,6 +388,11 @@ extern char *_lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node,
 extern char *_lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node,
 					      lw6sys_progress_t * progress);
 
+/* p2p-peeridlist.c */
+extern void _lw6p2p_peer_id_list_process_join (_lw6p2p_node_t * node,
+					       lw6nod_info_t *
+					       remote_node_info);
+
 /* p2p-queueitem.c */
 extern _lw6p2p_queue_item_t *_lw6p2p_queue_item_new (u_int32_t
 						     logical_ticket_sig,

@@ -360,6 +360,10 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 							  serial,
 							  _lw6p2p_node_get_seq_max
 							  (node));
+
+			  _lw6p2p_peer_id_list_process_join (node,
+							     remote_node_info);
+
 			  /*
 			   * Send reply message, to acknowledge
 			   * JOIN request.
@@ -409,6 +413,11 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 
 		  _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (), seq);
 		  lw6dat_warehouse_set_local_seq_0 (node->warehouse, seq);
+
+		  /*
+		   * Do this *after* calibrating
+		   */
+		  _lw6p2p_peer_id_list_process_join (node, remote_node_info);
 
 		  /*
 		   * Last thing to do, other code in main thread might

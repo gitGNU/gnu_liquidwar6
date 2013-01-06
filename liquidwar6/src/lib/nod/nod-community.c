@@ -414,7 +414,7 @@ lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info,
   if (tmp)
     {
       pos = tmp;
-      while (!done)
+      while ((!done) && pos[0])
 	{
 	  end = strchr (pos, LW6NOD_PEER_ID_LIST_SEP);
 	  if (end == NULL)
