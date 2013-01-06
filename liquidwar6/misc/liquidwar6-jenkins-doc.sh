@@ -30,32 +30,38 @@ if cd liquidwar6 ; then
 	echo "******** $0 $(date) ********"
 	if ./configure --prefix=$WORKSPACE/local ; then
             echo "******** $0 $(date) ********"
-            if make dist; then
+            if make; then
 		echo "******** $0 $(date) ********"
-		if cp liquidwar6-*.tar.gz doc/ && make -C doc pub; then
+		if make dist; then
 		    echo "******** $0 $(date) ********"
-                    if install -d $WORKSPACE/pub && cd .. ; then
-                        echo "******** $0 $(date) ********"
-                        if for i in coverage global cyclo doxygen manual ; do tar -xzf $WORKSPACE/liquidwar6/doc/$i.tar.gz -C $WORKSPACE/pub ; done; then
+		    if cp liquidwar6-*.tar.gz doc/ && make -C doc pub; then
+			echo "******** $0 $(date) ********"
+			if install -d $WORKSPACE/pub && cd .. ; then
                             echo "******** $0 $(date) ********"
-                        else
-                            echo "extract pub failed"
+                            if for i in coverage global cyclo doxygen manual ; do tar -xzf $WORKSPACE/liquidwar6/doc/$i.tar.gz -C $WORKSPACE/pub ; done; then
+				echo "******** $0 $(date) ********"
+                            else
+				echo "extract pub failed"
+				exit 9
+                            fi
+			else
+                            echo "install pub failed"
                             exit 8
-                        fi
-                    else
-                        echo "install pub failed"
-                        exit 7
-                    fi
+			fi
+		    else
+			echo "cd failed"
+			exit 7
+		    fi
 		else
-                    echo "cd failed"
-                    exit 6
+		    echo "make pub failed"
+		    exit 6
 		fi
             else
-		echo "make pub failed"
+		echo "make dist failed"
 		exit 5
             fi
         else
-            echo "make dist failed"
+            echo "make failed"
             exit 4
         fi
     else
