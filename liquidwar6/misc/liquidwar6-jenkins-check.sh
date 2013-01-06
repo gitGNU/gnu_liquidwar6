@@ -32,10 +32,16 @@ if cd liquidwar6 ; then
 	    echo "******** $0 $(date) ********"
 	    if make ; then
 		echo "******** $0 $(date) ********"
-		if make dist; then
+		if make check; then
 		    echo "******** $0 $(date) ********"
+		    if make dist; then
+			echo "******** $0 $(date) ********"
+		    else
+			echo "make dist failed"
+			exit 6
+		    fi
 		else
-		    echo "make dist failed"
+		    echo "make check failed"
 		    exit 5
 		fi
 	    else
