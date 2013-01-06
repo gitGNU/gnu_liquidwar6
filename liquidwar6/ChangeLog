@@ -1,3 +1,7 @@
+2012-01-06 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added new Jenkins to handle doc & extra-maps separately.
+
 2012-01-04 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added reg parameter to atoms to allow self-registration of nodes.

@@ -24,7 +24,7 @@
 # continuous integration mode. http://jenkins-ci.org/
 
 echo "******** $0 $(date) ********"
-if cd liquidwar6 ; then
+if cd liquidwar6-extra-maps ; then
     echo "******** $0 $(date) ********"
     if autoreconf ; then
 	echo "******** $0 $(date) ********"
