@@ -29,68 +29,6 @@
 #include "mod-caca-internal.h"
 
 static void
-key_down (lw6gui_keyboard_t * keyboard, caca_event_t* event,
-	  _mod_caca_const_data_t * const_data, int64_t timestamp)
-{
-  int sym = 0;
-
-  sym = caca_get_event_key_ch(event);
-
-  lw6gui_keyboard_register_key_down (keyboard, sym,
-  				     caca_get_event_key_utf32(event),
-  				     NULL, timestamp);
-
-  if (sym == const_data->keysym1_up ||
-      sym == const_data->keysym2_up ||
-      sym == const_data->keysym3_up || sym == const_data->keysym4_up)
-    {
-      lw6gui_button_register_down (&(keyboard->arrow_up), timestamp);
-    }
-  if (sym == const_data->keysym1_down ||
-      sym == const_data->keysym2_down ||
-      sym == const_data->keysym3_down || sym == const_data->keysym4_down)
-    {
-      lw6gui_button_register_down (&(keyboard->arrow_down), timestamp);
-    }
-  if (sym == const_data->keysym1_left ||
-      sym == const_data->keysym2_left ||
-      sym == const_data->keysym3_left || sym == const_data->keysym4_left)
-    {
-      lw6gui_button_register_down (&(keyboard->arrow_left), timestamp);
-    }
-  if (sym == const_data->keysym1_right ||
-      sym == const_data->keysym2_right ||
-      sym == const_data->keysym3_right || sym == const_data->keysym4_right)
-    {
-      lw6gui_button_register_down (&(keyboard->arrow_right), timestamp);
-    }
-  if (sym == const_data->keysym1_enter || sym == const_data->keysym2_enter)
-    {
-      lw6gui_button_register_down (&(keyboard->key_enter), timestamp);
-    }
-  if (sym == const_data->keysym1_esc || sym == const_data->keysym2_esc)
-    {
-      lw6gui_button_register_down (&(keyboard->key_esc), timestamp);
-    }
-  if (sym == const_data->keysym1_ctrl || sym == const_data->keysym2_ctrl)
-    {
-      lw6gui_button_register_down (&(keyboard->key_ctrl), timestamp);
-    }
-  if (sym == const_data->keysym1_alt || sym == const_data->keysym2_alt)
-    {
-      lw6gui_button_register_down (&(keyboard->key_alt), timestamp);
-    }
-  if (sym == const_data->keysym1_pgup || sym == const_data->keysym2_pgup)
-    {
-      lw6gui_button_register_down (&(keyboard->key_pgup), timestamp);
-    }
-  if (sym == const_data->keysym1_pgdown || sym == const_data->keysym2_pgdown)
-    {
-      lw6gui_button_register_down (&(keyboard->key_pgdown), timestamp);
-    }
-}
-
-static void
 key_up (lw6gui_keyboard_t * keyboard, caca_event_t * event,
 	_mod_caca_const_data_t* const_data)
 {
@@ -201,6 +139,69 @@ key_up (lw6gui_keyboard_t * keyboard, caca_event_t * event,
     }
 }
 
+static void
+key_down (lw6gui_keyboard_t * keyboard, caca_event_t* event,
+	  _mod_caca_const_data_t * const_data, int64_t timestamp)
+{
+  int sym = 0;
+
+  sym = caca_get_event_key_ch(event);
+
+  lw6gui_keyboard_register_key_down (keyboard, sym,
+  				     caca_get_event_key_utf32(event),
+  				     NULL, timestamp);
+
+  if (sym == const_data->keysym1_up ||
+      sym == const_data->keysym2_up ||
+      sym == const_data->keysym3_up || sym == const_data->keysym4_up)
+    {
+      lw6gui_button_register_down (&(keyboard->arrow_up), timestamp);
+    }
+  if (sym == const_data->keysym1_down ||
+      sym == const_data->keysym2_down ||
+      sym == const_data->keysym3_down || sym == const_data->keysym4_down)
+    {
+      lw6gui_button_register_down (&(keyboard->arrow_down), timestamp);
+    }
+  if (sym == const_data->keysym1_left ||
+      sym == const_data->keysym2_left ||
+      sym == const_data->keysym3_left || sym == const_data->keysym4_left)
+    {
+      lw6gui_button_register_down (&(keyboard->arrow_left), timestamp);
+    }
+  if (sym == const_data->keysym1_right ||
+      sym == const_data->keysym2_right ||
+      sym == const_data->keysym3_right || sym == const_data->keysym4_right)
+    {
+      lw6gui_button_register_down (&(keyboard->arrow_right), timestamp);
+    }
+  if (sym == const_data->keysym1_enter || sym == const_data->keysym2_enter)
+    {
+      lw6gui_button_register_down (&(keyboard->key_enter), timestamp);
+    }
+  if (sym == const_data->keysym1_esc || sym == const_data->keysym2_esc)
+    {
+      lw6gui_button_register_down (&(keyboard->key_esc), timestamp);
+    }
+  if (sym == const_data->keysym1_ctrl || sym == const_data->keysym2_ctrl)
+    {
+      lw6gui_button_register_down (&(keyboard->key_ctrl), timestamp);
+    }
+  if (sym == const_data->keysym1_alt || sym == const_data->keysym2_alt)
+    {
+      lw6gui_button_register_down (&(keyboard->key_alt), timestamp);
+    }
+  if (sym == const_data->keysym1_pgup || sym == const_data->keysym2_pgup)
+    {
+      lw6gui_button_register_down (&(keyboard->key_pgup), timestamp);
+    }
+  if (sym == const_data->keysym1_pgdown || sym == const_data->keysym2_pgdown)
+    {
+      lw6gui_button_register_down (&(keyboard->key_pgdown), timestamp);
+    }
+  key_up(keyboard, event, const_data);
+}
+
 lw6gui_input_t *
 _mod_caca_pump_events (_mod_caca_context_t * caca_context)
 {
@@ -219,10 +220,10 @@ _mod_caca_pump_events (_mod_caca_context_t * caca_context)
       // todo : pump them for good!
 
       while (caca_get_event(caca_context->display,
-			    CACA_EVENT_KEY_PRESS | CACA_EVENT_KEY_RELEASE,
+			    CACA_EVENT_KEY_PRESS,
 			    &event, caca_context->const_data.event_timeout_microseconds))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_ ("libcaca event type=%s ascii=%d\n"),
 			   (caca_get_event_type(&event) == CACA_EVENT_KEY_PRESS ? "CACA_EVENT_KEY_PRESS" : "CACA_EVENT_KEY_RELEASE"),
 			   caca_get_event_key_ch(&event)
@@ -236,10 +237,6 @@ _mod_caca_pump_events (_mod_caca_context_t * caca_context)
 		{
 		  lw6sys_signal_send_quit ();
 		}
-	      break ;
-	    case CACA_EVENT_KEY_RELEASE:
-	      lw6gui_input_register_change (input);
-	      key_up (&(input->keyboard), &event, const_data);
 	      break ;
 	    default:
 	      break ;
