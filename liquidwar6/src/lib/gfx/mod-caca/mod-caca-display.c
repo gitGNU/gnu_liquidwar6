@@ -29,37 +29,6 @@
 #include "mod-caca-internal.h"
 
 extern int
-_mod_caca_display_cursor(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
-			 lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct,
-			 lw6pil_local_cursors_t * local_cursors)
-{
-  int ret = 1, width, height;
-  lw6sys_whd_t shape = {0, 0, 0};
-  caca_dither_t *dither;
-  uint32_t *buffer;
-  lw6pil_local_cursor_t *cursor = &local_cursors->cursors[local_cursors->main_i];
-
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("cursor [%d|%d]"), cursor->x, cursor->y);
-  lw6ker_game_state_get_shape (game_state, &shape);
-  width = shape.w;
-  height = shape.h;
-  buffer = malloc(sizeof(*buffer) * (shape.w * shape.h));
-//  memset(buffer, 0, sizeof(*buffer) * (shape.w * shape.h));
-  if (buffer == NULL)
-    return 0;
-
-  buffer[width * cursor->y + cursor->x] = 0xff0000;
-
-  dither = caca_create_dither(32, width, height, 4 * width,
-			      0x00ff0000, 0x0000ff00, 0x000000ff, 0x0);
-  caca_dither_bitmap(caca_context->canvas, 0, 0, caca_get_canvas_width(caca_context->canvas),
-		     caca_get_canvas_height(caca_context->canvas), dither, buffer);
-  caca_free_dither(dither);
-  free(buffer);
-  return ret;
-}
-
-extern int
 _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
 		   lw6gui_look_t * look, lw6map_level_t * level,
 		   lw6ker_game_struct_t * game_struct,
@@ -94,7 +63,7 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
     if ((mask & LW6GUI_DISPLAY_MAP) && game_state)
     {
       lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=map"));
-      _mod_caca_display_map(caca_context, look, game_state, game_struct);
+      _mod_caca_display_map(caca_context, look, game_state, game_struct, local_cursors);
 
     }
     if ((mask & LW6GUI_DISPLAY_FIGHTERS) && game_state)
@@ -105,8 +74,6 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
     if ((mask & LW6GUI_DISPLAY_CURSORS) && game_state)
     {
       lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=cursor"));
-
-      _mod_caca_display_cursor(caca_context, look, game_state, game_struct, local_cursors);
       // Why not ?
     }
     if ((mask & LW6GUI_DISPLAY_HUD) && game_state)

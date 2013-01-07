@@ -30,7 +30,8 @@
 
 extern int
 _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
-		  lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct)
+		      lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct, 
+		      lw6pil_local_cursors_t * local_cursors)
 {
   int fighter_id;
   lw6ker_fighter_t *fighter;
@@ -39,6 +40,7 @@ _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
   lw6sys_whd_t shape = {0, 0, 0};
   caca_dither_t *dither;
   uint32_t *buffer;
+  lw6pil_local_cursor_t *cursor = &local_cursors->cursors[local_cursors->main_i];
 
   lw6ker_game_state_get_shape (game_state, &shape);
   width = shape.w;
@@ -46,6 +48,7 @@ _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
   buffer = malloc(sizeof(*buffer) * (shape.w * shape.h));
   if (buffer == NULL)
     return 0;
+  memset(buffer, lw6sys_color_8_to_i(caca_context->const_data.bg_color), sizeof(*buffer) * (shape.w * shape.h));
 
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("map [%d|%d]"), width, height);
   for (y = 0; y < height; y++)
@@ -62,7 +65,6 @@ _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
 	{
 	  buffer[width * y + x] = lw6sys_color_8_to_i(caca_context->const_data.team_color[team_color]);
 	}
-	//free(fighter); // needed ?
       }
       else
       {
@@ -73,6 +75,7 @@ _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
       }
     }
   }
+  buffer[width * cursor->y + cursor->x] = 0xff0000;
 
   dither = caca_create_dither(32, width, height, 4 * width,
 			      0x00ff0000, 0x0000ff00, 0x000000ff, 0x0);

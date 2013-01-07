@@ -101,7 +101,8 @@ extern void _mod_caca_unload_consts (_mod_caca_context_t * context);
 
 /* mod-caca-game.c */
 extern int _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
-				 lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct);
+				 lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct,
+				 lw6pil_local_cursors_t * local_cursors);
 
 /* mod-caca-menu.c */
 extern int _mod_caca_display_menu(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
