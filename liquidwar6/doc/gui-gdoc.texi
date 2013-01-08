@@ -441,6 +441,119 @@ Returns a human-readable representation of the keypress.
 @strong{Return value:}  a newly allocated string
 @end deftypefun
 
+@deftypefun {lw6gui_look_t *} {lw6gui_look_new} (lw6map_style_t * @var{map_style})
+@var{map_style}:  map_style to use as a base
+
+Create a new look object, a look is basically a style plus
+some dynamic parameters.
+
+@strong{Return value:}  newly created object.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_look_free} (lw6gui_look_t * @var{look})
+@var{look}:  look object to free
+
+Frees a look and all its members.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_look_memory_footprint} (lw6gui_look_t * @var{look})
+@var{look}:  look object to query
+
+Gives the memory taken by this object in memory.
+
+@strong{Return value:}  number of bytes.
+@end deftypefun
+
+@deftypefun {char *} {lw6gui_look_repr} (lw6gui_look_t * @var{look})
+@var{look}:  look object to describe
+
+Returns a readable description of the object.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_look_set} (lw6gui_look_t * @var{look}, char * @var{key}, char * @var{value})
+@var{look}:  look object to modify
+
+@var{key}:  the key to change
+
+@var{value}:  the new value for the key
+
+Sets a new value for a given key in the look. The value is
+always a string, it will be converted/casted to the right
+type if needed.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {char *} {lw6gui_look_get} (lw6gui_look_t * @var{look}, char * @var{key})
+@var{look}:  look object to query
+
+@var{key}:  the key to get
+
+Gets a new value for a given key in the look. The value is
+always a string, it will be converted/casted from the right
+type if needed.
+
+@strong{Return value:}  dynamically allocated string.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_look_is_same} (const lw6gui_look_t * @var{look_a}, const lw6gui_look_t * @var{look_b})
+@var{look_a}:  first object to compare
+
+@var{look_b}:  second object to compare
+
+Compares two look objects, doing recursive
+comparisons. This can be very usefull if, for
+instance, a graphics renderer is using some contextual
+objects that depend on the look (colors?) and need
+to be updated/regenerated on a look change
+
+@strong{Return value:}  1 if they are the same, 0 if not.
+@end deftypefun
+
+@deftypefun {lw6gui_look_t *} {lw6gui_look_dup} (lw6gui_look_t * @var{look})
+@var{look}:  object to duplicate
+
+Duplicates a look object, performing recursive copies.
+
+@strong{Return value:}  newly allocated object.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_look_fix} (lw6gui_look_t * @var{look})
+@var{look}:  look object to modify
+
+Peforms sanity checks and modifies the look if needed,
+to make all values fit within acceptable ranges, among
+other things.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_look_zoom_in} (lw6gui_look_t * @var{look}, float @var{zoom_step})
+@var{look}:  look object to act upon
+
+@var{zoom_step}:  how much we should zoom, 2.0 means 2 times bigger
+
+Zooms in, the function does not only multiplicates the current
+zoom, it also performs sanity checks.
+
+@strong{Return value:}  1 if zoom was changed, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_look_zoom_out} (lw6gui_look_t * @var{look}, float @var{zoom_step})
+@var{look}:  look object to act upon
+
+@var{zoom_step}:  how much we should zoom, 2.0 means 2 times smaller
+
+Zooms out, the function does not only divides the current
+zoom, it also performs sanity checks.
+
+@strong{Return value:}  1 if zoom was changed, 0 if not.
+@end deftypefun
+
 @deftypefun {lw6gui_menu_t *} {lw6gui_menu_new} (char * @var{title}, char * @var{help}, char * @var{popup}, char * @var{esc}, int @var{enable_esc})
 @var{title}:  the string to be displayed, what the user sees. Can be freed after
 the call is done, function will make a copy internally.

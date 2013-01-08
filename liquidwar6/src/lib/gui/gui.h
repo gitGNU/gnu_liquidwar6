@@ -948,9 +948,7 @@ extern lw6gui_keypress_t *lw6gui_keypress_new (int keysym, int unicode,
 extern void lw6gui_keypress_free (lw6gui_keypress_t * keypress);
 extern char *lw6gui_keypress_repr (lw6gui_keypress_t * keypress);
 
-/*
- * In look.c
- */
+/* gui-look.c */
 extern lw6gui_look_t *lw6gui_look_new (lw6map_style_t * map_style);
 extern void lw6gui_look_free (lw6gui_look_t * look);
 extern int lw6gui_look_memory_footprint (lw6gui_look_t * look);
