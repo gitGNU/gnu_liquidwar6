@@ -198,6 +198,7 @@ lw6gui_button_pop_triple_click (lw6gui_button_t * button)
  * @button: the button to update
  * @repeat_settings: the repeat settings
  * @timestamp: the current ticks (milliseconds)
+ # @auto_release_enabled: wether to use the auto_release feature
  *
  * Updates the repeat informations for a button, must be called
  * regularly, as often as possible.
@@ -207,8 +208,19 @@ lw6gui_button_pop_triple_click (lw6gui_button_t * button)
 void
 lw6gui_button_update_repeat (lw6gui_button_t * button,
 			     lw6gui_repeat_settings_t * repeat_settings,
-			     int64_t timestamp)
+			     int64_t timestamp, int auto_release_enabled)
 {
+  if (auto_release_enabled && button->is_pressed
+      && button->last_press <=
+      timestamp - repeat_settings->auto_release_delay)
+    {
+      /*
+       * Before anything else, register a fake button_up if we're
+       * in auto_release mode and it's relevant. 
+       */
+      lw6gui_button_register_up (button);
+    }
+
   if (button->is_pressed)
     {
       if ((repeat_settings->delay > 0 && button->last_repeat == 0
@@ -221,6 +233,7 @@ lw6gui_button_update_repeat (lw6gui_button_t * button,
 	  button->last_repeat = timestamp;
 	}
     }
+
   if (button->double_click_t1 > 0 && button->double_click_t2 > 0
       && button->double_click_t3 > 0
       && (button->double_click_t3 - button->double_click_t2) <

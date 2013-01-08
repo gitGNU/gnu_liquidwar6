@@ -126,15 +126,15 @@ lw6gui_mouse_update_repeat (lw6gui_mouse_t * mouse,
 			    int64_t timestamp)
 {
   lw6gui_button_update_repeat (&(mouse->button_left), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
   lw6gui_button_update_repeat (&(mouse->button_right), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
   lw6gui_button_update_repeat (&(mouse->button_middle), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
   lw6gui_button_update_repeat (&(mouse->wheel_up), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
   lw6gui_button_update_repeat (&(mouse->wheel_down), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
 }
 
 /**

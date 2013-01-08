@@ -254,3 +254,19 @@ lw6gui_input_sync (lw6gui_input_t * dst, lw6gui_input_t * src)
 
   return ret;
 }
+
+/**
+ * lw6gui_input_enable_auto_release
+ *
+ * @input: input object to modify
+ *
+ * Enables auto_release mode, in this mode, it's assummed after
+ * some time any key is automatically released.
+ *
+ * Return value: none.
+ */
+void
+lw6gui_input_enable_auto_release (lw6gui_input_t * input)
+{
+  input->keyboard.auto_release_enabled = 1;
+}

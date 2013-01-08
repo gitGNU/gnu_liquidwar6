@@ -8,6 +8,7 @@ animation-speed
 atomic
 attract
 audit
+auto-release-delay
 background-color-auto
 background-color-root-bg
 background-color-root-fg

@@ -556,6 +556,10 @@ populate_references ()
 		_x_
 		("Time, in milliseconds, determining wether two consecutive clicks make a double-click or not."),
 		333, 0, 0);
+  POPULATE_INT (LW6DEF_AUTO_RELEASE_DELAY,
+		_x_
+		("Time, in milliseconds, before which a key is automatically released. This might or might not be used by the graphics backend, it's typically used by backends which don't always handle key releases events the right way, that is, don't fire them. Libcaca is a good example of such a case."),
+		250, 0, 0);
   POPULATE_BOOL (LW6DEF_USE_DOUBLE_CLICK,
 		 _x_
 		 ("Wether to use double-click feature, mostly usefull if running on a system that has only one button (such as a tablet-PC or anything with a tactile screen), if your mouse has three buttons, disabling this might avoid some confusion. Basically, if enabled, double-click is equivalent to right-click (fire) and triple-click is equivalent to middle-click (alternate fire)."),

@@ -29,6 +29,7 @@
 (define lw6def-atomic "atomic")
 (define lw6def-attract "attract")
 (define lw6def-audit "audit")
+(define lw6def-auto-release-delay "auto-release-delay")
 (define lw6def-background-color-auto "background-color-auto")
 (define lw6def-background-color-root-bg "background-color-root-bg")
 (define lw6def-background-color-root-fg "background-color-root-fg")

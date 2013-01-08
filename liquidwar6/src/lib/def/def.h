@@ -36,6 +36,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_ATOMIC "atomic"
 #define LW6DEF_ATTRACT "attract"
 #define LW6DEF_AUDIT "audit"
+#define LW6DEF_AUTO_RELEASE_DELAY "auto-release-delay"
 #define LW6DEF_BACKGROUND_COLOR_AUTO "background-color-auto"
 #define LW6DEF_BACKGROUND_COLOR_ROOT_BG "background-color-root-bg"
 #define LW6DEF_BACKGROUND_COLOR_ROOT_FG "background-color-root-fg"

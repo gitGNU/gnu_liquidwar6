@@ -71,6 +71,14 @@ _mod_caca_init (int argc, const char *argv[],
 	    {
 	      lw6gui_input_init (&(caca_context->input));
 
+	      /*
+	       * We enable auto_release mode for libcaca, not doing
+	       * it leads to awkard bugs since release events are
+	       * not sent (at least for gl and ncurses drivers) so
+	       * one needs to find a workarround.
+	       */
+	      lw6gui_input_enable_auto_release (&(caca_context->input));
+
 	      if (_mod_caca_set_resize_callback
 		  (caca_context, resize_callback))
 		{

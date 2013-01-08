@@ -40,6 +40,7 @@
 #define TEST_REPEAT_DELAY 200
 #define TEST_REPEAT_INTERVAL 20
 #define TEST_DOUBLE_CLICK_DELAY 400
+#define TEST_AUTO_RELEASE_DELAY 300
 #define TEST_FRAMES_PER_SEC 60
 #define TEST_DISPLAY_BACKGROUND 1
 #define TEST_DISPLAY_MENU 1
@@ -276,6 +277,8 @@ test_display (const char *gfx_backend_name)
 		param.misc.repeat_settings.interval = TEST_REPEAT_INTERVAL;
 		param.misc.repeat_settings.double_click_delay =
 		  TEST_DOUBLE_CLICK_DELAY;
+		param.misc.repeat_settings.auto_release_delay =
+		  TEST_AUTO_RELEASE_DELAY;
 		param.misc.log_timeout = TEST_LOG_TIMEOUT;
 		lw6dsp_update (display, &param);
 		sleep_and_report (display, TEST_SLEEP_LONG);

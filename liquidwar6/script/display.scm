@@ -54,6 +54,7 @@
 		   lw6def-repeat-delay
 		   lw6def-repeat-interval
 		   lw6def-double-click-delay
+		   lw6def-auto-release-delay
 		   lw6def-log-timeout
 		   lw6def-width
 		   lw6def-height

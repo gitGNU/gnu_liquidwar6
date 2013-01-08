@@ -76,6 +76,7 @@
 #define TEST_REPEAT_DELAY 100
 #define TEST_REPEAT_INTERVAL 10
 #define TEST_REPEAT_DOUBLE_CLICK_DELAY 250
+#define TEST_REPEAT_AUTO_RELEASE_DELAY 50
 #define TEST_MOUSE_X 12
 #define TEST_MOUSE_Y 34
 #define TEST_JOYSTICK_LIMIT 20
@@ -179,6 +180,7 @@ test_button ()
     repeat_settings.delay = TEST_REPEAT_DELAY;
     repeat_settings.interval = TEST_REPEAT_INTERVAL;
     repeat_settings.double_click_delay = TEST_REPEAT_DOUBLE_CLICK_DELAY;
+    repeat_settings.auto_release_delay = TEST_REPEAT_AUTO_RELEASE_DELAY;
 
     memset (&button, 0, sizeof (lw6gui_button_t));
 
@@ -204,16 +206,16 @@ test_button ()
     if (ret)
       {
 	ret = 0;
-	lw6gui_button_update_repeat (&button, &repeat_settings, timestamp);
+	lw6gui_button_update_repeat (&button, &repeat_settings, timestamp, 0);
 	if (!lw6gui_button_pop_double_click (&button)
 	    && !lw6gui_button_pop_triple_click (&button))
 	  {
 	    lw6gui_button_register_down (&button, timestamp++);
 	    lw6gui_button_update_repeat (&button, &repeat_settings,
-					 timestamp);
+					 timestamp, 0);
 	    timestamp += 2 * TEST_REPEAT_DOUBLE_CLICK_DELAY;
 	    lw6gui_button_update_repeat (&button, &repeat_settings,
-					 timestamp);
+					 timestamp, 0);
 	    if (lw6gui_button_pop_double_click (&button))
 	      {
 		if (!lw6gui_button_pop_double_click (&button))
@@ -221,11 +223,11 @@ test_button ()
 		    timestamp += 2 * TEST_REPEAT_DOUBLE_CLICK_DELAY;
 		    lw6gui_button_register_down (&button, timestamp);
 		    lw6gui_button_update_repeat (&button, &repeat_settings,
-						 timestamp);
+						 timestamp, 0);
 		    timestamp += 2 * TEST_REPEAT_DOUBLE_CLICK_DELAY;
 		    lw6gui_button_register_down (&button, timestamp);
 		    lw6gui_button_update_repeat (&button, &repeat_settings,
-						 timestamp);
+						 timestamp, 0);
 		    if (!lw6gui_button_pop_double_click (&button))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -238,6 +240,63 @@ test_button ()
 	if (!ret)
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("double click problem"));
+	  }
+      }
+    if (ret)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing auto_release mode"));
+	lw6gui_button_register_up (&button);
+	lw6gui_button_register_down (&button, timestamp);
+	lw6gui_button_update_repeat (&button, &repeat_settings, timestamp, 1);
+	if (lw6gui_button_is_pressed (&button))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("OK, button pressed at t=%" LW6SYS_PRINTF_LL
+			     "d just after press"), (long long) timestamp);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("Problem, button not pressed at t=%"
+			     LW6SYS_PRINTF_LL "d just after press"),
+			(long long) timestamp);
+	    ret = 0;
+	  }
+	timestamp += TEST_REPEAT_AUTO_RELEASE_DELAY / 2;
+	lw6gui_button_update_repeat (&button, &repeat_settings, timestamp, 1);
+	if (lw6gui_button_is_pressed (&button))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("OK, button still pressed at t=%"
+			     LW6SYS_PRINTF_LL "d \"half delay\" after press"),
+			(long long) timestamp);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("Problem, button not pressed at t=%"
+			     LW6SYS_PRINTF_LL "d \"half delay\" after press"),
+			(long long) timestamp);
+	    ret = 0;
+	  }
+	timestamp += TEST_REPEAT_AUTO_RELEASE_DELAY;
+	lw6gui_button_update_repeat (&button, &repeat_settings, timestamp, 1);
+	if (!lw6gui_button_is_pressed (&button))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("OK, button now not pressed at t=%"
+			     LW6SYS_PRINTF_LL
+			     "d \"1 1/2 delay\" after press"),
+			(long long) timestamp);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("Problem, button still pressed at t=%"
+			     LW6SYS_PRINTF_LL
+			     "d \"1 1/2 delay\" after press"),
+			(long long) timestamp);
+	    ret = 0;
 	  }
       }
   }

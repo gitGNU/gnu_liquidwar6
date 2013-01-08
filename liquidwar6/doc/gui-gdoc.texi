@@ -67,7 +67,7 @@ after all this, you want to know how many times it has been tripleclicked.
 @strong{Return value:}  1 if there's a tripleclick event in the queue, 0 if empty.
 @end deftypefun
 
-@deftypefun {void} {lw6gui_button_update_repeat} (lw6gui_button_t * @var{button}, lw6gui_repeat_settings_t * @var{repeat_settings}, int64_t @var{timestamp})
+@deftypefun {void} {lw6gui_button_update_repeat} (lw6gui_button_t * @var{button}, lw6gui_repeat_settings_t * @var{repeat_settings}, int64_t @var{timestamp}, int @var{auto_release_enabled})
 @var{button}:  the button to update
 
 @var{repeat_settings}:  the repeat settings
@@ -236,6 +236,15 @@ And if there are key in the target buffer, they won't be overwritten
 but kept in front of the FIFO list.
 
 @strong{Return value:}  1 if success, O if failure.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_input_enable_auto_release} (lw6gui_input_t * @var{input})
+@var{input}:  input object to modify
+
+Enables auto_release mode, in this mode, it's assummed after
+some time any key is automatically released.
+
+@strong{Return value:}  none.
 @end deftypefun
 
 @deftypefun {int} {lw6gui_joystick_check_index} (int @var{i})

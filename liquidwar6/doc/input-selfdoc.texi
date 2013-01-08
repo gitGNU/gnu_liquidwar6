@@ -1,3 +1,17 @@
+@subsection auto-release-delay
+@deffn {Command-line option} @code{--auto-release-delay=<value>}
+@deffnx {Environment variable} @code{LW6_AUTO_RELEASE_DELAY}
+@deffnx {XML key} @code{auto-release-delay}
+Type: integer
+
+Default value: 250
+
+Time, in milliseconds, before which a key is automatically released. This
+might or might not be used by the graphics backend, it's typically used by
+backends which don't always handle key releases events the right way, that is,
+don't fire them. Libcaca is a good example of such a case.
+@end deffn
+
 @subsection click-to-focus
 @deffn {Command-line option} @code{--click-to-focus=<value>}
 @deffnx {Environment variable} @code{LW6_CLICK_TO_FOCUS}
