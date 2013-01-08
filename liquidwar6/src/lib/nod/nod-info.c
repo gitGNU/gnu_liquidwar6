@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -76,7 +76,6 @@ lw6nod_info_new (const char *program,
       lw6nod_info_idle (info);
       info->discovered_nodes = lw6nod_info_new_discovered_nodes ();
       info->verified_nodes = lw6nod_info_new_verified_nodes ();
-
       if (info->mutex && const_init_ret && info->discovered_nodes
 	  && info->verified_nodes)
 	{
@@ -216,7 +215,7 @@ lw6nod_info_idle (lw6nod_info_t * info)
  * @max_nb_cursors: max number of cursors allowed
  * @nb_nodes: number of nodes playing
  * @max_nb_nodes: max number of nodes allowed
- * @peer_id_list: list of peers ids
+ * @peer_id_list: list of peers ids, can be NULL
  * @game_screenshot_size: size of screenshot (bytes)
  * @game_screenshot_data: screenshot data (byte buffer, contains JPEG)
  *
@@ -242,7 +241,7 @@ lw6nod_info_update (lw6nod_info_t * info, u_int64_t community_id, int round,
 	_lw6nod_dyn_info_update (&(info->dyn_info), community_id, round,
 				 level, required_bench, nb_colors,
 				 max_nb_colors, nb_cursors, max_nb_cursors,
-				 nb_nodes, max_nb_nodes, peer_id_list,
+				 nb_nodes, max_nb_nodes,
 				 game_screenshot_size, game_screenshot_data);
       lw6nod_info_unlock (info);
     }
@@ -274,11 +273,6 @@ lw6nod_info_dup_dyn (lw6nod_info_t * info)
     {
       if (lw6nod_info_lock (info))
 	{
-	  /*
-	   * Note, we pass NULL as a peer_id_list since we do not
-	   * really want to parse and update this, the array
-	   * of ref_info does this job.
-	   */
 	  ok = _lw6nod_dyn_info_update
 	    (dyn_info, info->dyn_info.community_id_int,
 	     info->dyn_info.round, info->dyn_info.level,
@@ -286,7 +280,6 @@ lw6nod_info_dup_dyn (lw6nod_info_t * info)
 	     info->dyn_info.max_nb_colors, info->dyn_info.nb_cursors,
 	     info->dyn_info.max_nb_cursors, info->dyn_info.nb_nodes,
 	     info->dyn_info.max_nb_nodes,
-	     NULL,
 	     info->dyn_info.game_screenshot_size,
 	     info->dyn_info.game_screenshot_data) && ok;
 	  for (i = 0; i < LW6NOD_MAX_NB_PEERS; ++i)

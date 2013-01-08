@@ -1,5 +1,5 @@
 ;; Liquid War 6 is a unique multiplayer wargame.
-;; Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+;; Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -256,9 +256,12 @@
 (define lw6def-c-lw6p2p-node-disconnect "c-lw6p2p-node-disconnect")
 (define lw6def-c-lw6p2p-node-get-entries "c-lw6p2p-node-get-entries")
 (define lw6def-c-lw6p2p-node-get-id "c-lw6p2p-node-get-id")
+(define lw6def-c-lw6p2p-node-get-local-seq-0 "c-lw6p2p-node-get-local-seq-0")
+(define lw6def-c-lw6p2p-node-get-local-seq-last "c-lw6p2p-node-get-local-seq-last")
 (define lw6def-c-lw6p2p-node-get-next-draft-msg "c-lw6p2p-node-get-next-draft-msg")
 (define lw6def-c-lw6p2p-node-get-next-reference-msg "c-lw6p2p-node-get-next-reference-msg")
 (define lw6def-c-lw6p2p-node-get-seq-max "c-lw6p2p-node-get-seq-max")
+(define lw6def-c-lw6p2p-node-get-seq-min "c-lw6p2p-node-get-seq-min")
 (define lw6def-c-lw6p2p-node-is-dump-needed "c-lw6p2p-node-is-dump-needed")
 (define lw6def-c-lw6p2p-node-is-seed-needed "c-lw6p2p-node-is-seed-needed")
 (define lw6def-c-lw6p2p-node-new "c-lw6p2p-node-new")

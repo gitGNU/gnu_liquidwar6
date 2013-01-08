@@ -120,6 +120,17 @@ Set the warehouse seq_0 number, any seq below does not make sense.
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {int64_t} {lw6dat_warehouse_get_local_seq_last} (lw6dat_warehouse_t * @var{warehouse})
+@var{warehouse}:  the warehouse object to query
+
+Gives the warehouse seq_last number, this is the seq that corresponds
+to the last local message put in this warehouse. This is usefull
+to get the last seq used and, for instance, put a NOP message just
+for keepalive purposes.
+
+@strong{Return value:}  long integer.
+@end deftypefun
+
 @deftypefun {int} {lw6dat_warehouse_register_node} (lw6dat_warehouse_t * @var{warehouse}, u_int64_t @var{node_id}, int @var{serial_0}, int64_t @var{seq_0})
 @var{warehouse}:  object to update
 
@@ -172,10 +183,12 @@ which means no interesting (complete) atoms where found, and
 there's probably nothing to do yet.
 @end deftypefun
 
-@deftypefun {int} {lw6dat_warehouse_put_local_msg} (lw6dat_warehouse_t * @var{warehouse}, const char * @var{msg})
+@deftypefun {int} {lw6dat_warehouse_put_local_msg} (lw6dat_warehouse_t * @var{warehouse}, const char * @var{msg}, int @var{reg})
 @var{warehouse}:  warehouse object to use
 
 @var{msg}:  message
+
+@var{reg}:  wether message should be a node-self-registering one
 
 Puts a message in the object. The message will be splitted into
 several atoms if needed, it can be arbitrary long.

@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -2981,6 +2981,12 @@ populate_references ()
 		 _x_ ("Wrapper on lw6p2p_node_update_info."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_CALIBRATE,
 		 _x_ ("Wrapper on lw6p2p_node_calibrate."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_LOCAL_SEQ_0,
+		 _x_ ("Wrapper on lw6p2p_node_get_local_seq_0."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_LOCAL_SEQ_LAST,
+		 _x_ ("Wrapper on lw6p2p_node_get_local_seq_last."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MIN,
+		 _x_ ("Wrapper on lw6p2p_node_get_seq_min."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX,
 		 _x_ ("Wrapper on lw6p2p_node_get_seq_max."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_IS_SEED_NEEDED,

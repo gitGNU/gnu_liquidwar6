@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -130,8 +130,8 @@ extern char *lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key,
 extern char *lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq,
 				       int serial);
 extern char *lw6msg_cmd_generate_goodbye (lw6nod_info_t * info);
-extern char *lw6msg_cmd_generate_data (int serial, int i, int n, int64_t seq,
-				       const char *ker_msg);
+extern char *lw6msg_cmd_generate_data (int serial, int i, int n, int reg,
+				       int64_t seq, const char *ker_msg);
 extern char *lw6msg_cmd_generate_miss (u_int64_t id_from, u_int64_t id_to,
 				       int serial_min, int serial_max);
 extern int lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, const char *msg);
@@ -141,11 +141,12 @@ extern int lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key,
 				   int *serial, const char *msg);
 extern int lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key,
 				   int *serial, const char *msg);
-extern int lw6msg_cmd_analyse_join (lw6nod_info_t ** info, int64_t * seq,
+extern int lw6msg_cmd_analyse_join (lw6nod_info_t ** info,
+				    lw6nod_info_t * local_info, int64_t * seq,
 				    int *serial, const char *msg);
 extern int lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info,
 				       const char *msg);
-extern int lw6msg_cmd_analyse_data (int *serial, int *i, int *n,
+extern int lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *reg,
 				    int64_t * seq, char **ker_msg,
 				    const char *msg);
 extern int lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to,

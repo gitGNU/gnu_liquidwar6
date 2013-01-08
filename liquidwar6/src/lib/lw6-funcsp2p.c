@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -758,6 +758,84 @@ _scm_lw6p2p_node_calibrate (SCM node, SCM timestamp, SCM seq_0)
 }
 
 static SCM
+_scm_lw6p2p_node_get_local_seq_0 (SCM node)
+{
+  lw6p2p_node_t *c_node;
+  int64_t c_ret = 0LL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_ret = lw6p2p_node_get_local_seq_0 (c_node);
+      ret = scm_from_long_long (c_ret);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6p2p_node_get_local_seq_last (SCM node)
+{
+  lw6p2p_node_t *c_node;
+  int64_t c_ret = 0LL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_ret = lw6p2p_node_get_local_seq_last (c_node);
+      ret = scm_from_long_long (c_ret);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6p2p_node_get_seq_min (SCM node)
+{
+  lw6p2p_node_t *c_node;
+  int64_t c_ret = 0LL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_ret = lw6p2p_node_get_seq_min (c_node);
+      ret = scm_from_long_long (c_ret);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6p2p_node_get_seq_max (SCM node)
 {
   lw6p2p_node_t *c_node;
@@ -832,10 +910,11 @@ _scm_lw6p2p_node_is_dump_needed (SCM node)
 }
 
 static SCM
-_scm_lw6p2p_node_put_local_msg (SCM node, SCM msg)
+_scm_lw6p2p_node_put_local_msg (SCM node, SCM msg, SCM reg)
 {
   lw6p2p_node_t *c_node;
   char *c_msg = NULL;
+  int c_reg = 0;
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -845,6 +924,7 @@ _scm_lw6p2p_node_put_local_msg (SCM node, SCM msg)
 	      (lw6_global.smob_types.node, node), node, SCM_ARG1,
 	      __FUNCTION__);
   SCM_ASSERT (scm_is_string (msg), msg, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (SCM_BOOLP (reg), reg, SCM_ARG3, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -852,9 +932,11 @@ _scm_lw6p2p_node_put_local_msg (SCM node, SCM msg)
       c_msg = lw6scm_utils_to_0str (msg);
       if (c_msg)
 	{
+	  c_reg = SCM_NFALSEP (reg);
 	  ret =
 	    lw6p2p_node_put_local_msg (c_node,
-				       c_msg) ? SCM_BOOL_T : SCM_BOOL_F;
+				       c_msg,
+				       c_reg) ? SCM_BOOL_T : SCM_BOOL_F;
 	  LW6SYS_FREE (c_msg);
 	}
     }
@@ -985,6 +1067,16 @@ lw6_register_funcs_p2p ()
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_CALIBRATE, 3, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_calibrate);
   ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_LOCAL_SEQ_0, 1, 0, 0,
+			      (SCM (*)())_scm_lw6p2p_node_get_local_seq_0);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_LOCAL_SEQ_LAST, 1, 0,
+			      0,
+			      (SCM (*)())_scm_lw6p2p_node_get_local_seq_last);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MIN, 1, 0, 0,
+			      (SCM (*)())_scm_lw6p2p_node_get_seq_min);
+  ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX, 1, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_get_seq_max);
   ret = ret
@@ -994,7 +1086,7 @@ lw6_register_funcs_p2p ()
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED, 1, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_is_dump_needed);
   ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_PUT_LOCAL_MSG, 2, 0, 0,
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_PUT_LOCAL_MSG, 3, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_put_local_msg);
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_NEXT_REFERENCE_MSG, 1,

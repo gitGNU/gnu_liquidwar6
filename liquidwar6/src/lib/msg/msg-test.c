@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -120,6 +120,7 @@
 #define _TEST_DATA_SERIAL 421
 #define _TEST_DATA_I 3
 #define _TEST_DATA_N 1000
+#define _TEST_DATA_REG 0
 #define _TEST_DATA_SEQ 1000000123456LL
 #define _TEST_DATA_KER_MSG "HELLO WORLD"
 #define _TEST_SEQ_BASE 1000000000000000LL
@@ -157,6 +158,7 @@ test_cmd ()
     int data_serial = 0;
     int data_i = 0;
     int data_n = 0;
+    int data_reg = 0;
     int64_t data_seq = 0;
     char *data_ker_msg = NULL;
     u_int64_t miss_id_from = 0LL;
@@ -368,7 +370,7 @@ test_cmd ()
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("join command is \"%s\""),
 			msg);
 	    if (lw6msg_cmd_analyse_join
-		(&analysed_info, &analysed_seq, &analysed_serial, msg))
+		(&analysed_info, NULL, &analysed_seq, &analysed_serial, msg))
 	      {
 		if (seq == analysed_seq && serial == analysed_serial)
 		  {
@@ -452,15 +454,15 @@ test_cmd ()
 
 	msg =
 	  lw6msg_cmd_generate_data (_TEST_DATA_SERIAL, _TEST_DATA_I,
-				    _TEST_DATA_N, _TEST_DATA_SEQ,
-				    _TEST_DATA_KER_MSG);
+				    _TEST_DATA_N, _TEST_DATA_REG,
+				    _TEST_DATA_SEQ, _TEST_DATA_KER_MSG);
 	if (msg)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("data command is \"%s\""),
 			msg);
 	    if (lw6msg_cmd_analyse_data
-		(&data_serial, &data_i, &data_n, &data_seq, &data_ker_msg,
-		 msg))
+		(&data_serial, &data_i, &data_n, &data_reg, &data_seq,
+		 &data_ker_msg, msg))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_

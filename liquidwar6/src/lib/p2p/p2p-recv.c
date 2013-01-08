@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -36,10 +36,11 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   u_int64_t ticket = 0;
   u_int32_t foo_bar_key = 0;
   u_int32_t logical_ticket_sig = 0;
-  int64_t seq = 0LL;
   int serial = 0;
   int i = 0;
   int n = 0;
+  int reg = 0;
+  int64_t seq = 0LL;
   char *ker_message = NULL;
   char *reply_msg = NULL;
   int tentacle_i = 0;
@@ -313,7 +314,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_JOIN))
     {
-      if (lw6msg_cmd_analyse_join (&remote_node_info, &seq, &serial, message))
+      if (lw6msg_cmd_analyse_join
+	  (&remote_node_info, node->node_info, &seq, &serial, message))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("received join from \"%s\""),
 		      cnx->remote_url);
@@ -358,6 +360,10 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 							  serial,
 							  _lw6p2p_node_get_seq_max
 							  (node));
+
+			  _lw6p2p_peer_id_list_process_join (node,
+							     remote_node_info);
+
 			  /*
 			   * Send reply message, to acknowledge
 			   * JOIN request.
@@ -409,6 +415,11 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		  lw6dat_warehouse_set_local_seq_0 (node->warehouse, seq);
 
 		  /*
+		   * Do this *after* calibrating
+		   */
+		  _lw6p2p_peer_id_list_process_join (node, remote_node_info);
+
+		  /*
 		   * Last thing to do, other code in main thread might
 		   * be polling this...
 		   */
@@ -448,15 +459,13 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_DATA))
     {
       if (lw6msg_cmd_analyse_data
-	  (&serial, &i, &n, &seq, &ker_message, message))
+	  (&serial, &i, &n, &reg, &seq, &ker_message, message))
 	{
 	  /*
-	   * Todo : add a check here to verify the node is correctly
-	   * registered, at least within the warehouse,
-	   * the problem if it's not is that possibly,
-	   * on a late joining peer, lots of time could be spent trying
-	   * to parse the warehouse and/or other peers could wait for
-	   * hypothetical validations for ages.
+	   * Note that put_atom_str could/should automatically
+	   * register the node who initially wrote the message
+	   * if needed, this is complicated to do here as it would
+	   * require us to parse the whole message in advance.
 	   */
 	  if (lw6dat_warehouse_put_atom_str
 	      (node->warehouse, logical_from_id, message))

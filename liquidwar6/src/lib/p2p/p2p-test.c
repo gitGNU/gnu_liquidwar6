@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -184,12 +184,14 @@
 #define _TEST_NODE_API_MSG2_STR "2"
 #define _TEST_NODE_API_MSG3_STR "3 fire!"
 #define _TEST_NODE_API_MSGN_STR "All work and no play makes Jack a dull boy"
-#define _TEST_API_MSGN_DELAY_MSEC 2000
+#define _TEST_NODE_API_MSGN_DELAY_MSEC 2000
 #define _TEST_NODE_API_FINAL_SIZE 10000
 #define _TEST_NODE_API_NODE4_REFERENCE_RECEIVED 0
 #define _TEST_NODE_API_NODE4_LONG_DRAFT_RECEIVED 2
 #define _TEST_NODE_API_NODE4_SHORT_DRAFT_RECEIVED 3
-#define _TEST_API_NODE_LEN_LIMIT 100
+#define _TEST_NODE_API_LEN_LIMIT 100
+#define _TEST_NODE_API_REG 0
+#define _TEST_NODE_MSG_REG 0
 #define _TEST_NODE_MSG_SEQ_0 100000000000LL
 #define _TEST_NODE_MSG_NB_SEQS 97
 // _TEST_NODE_MSG_NB_PER_SEQ must *not* be 10 or 100 or 1000
@@ -326,6 +328,10 @@ _test_node_init ()
     lw6p2p_node_t *node = NULL;
     char *id_str;
     char *repr = NULL;
+    int64_t local_seq_0 = 0LL;
+    int64_t local_seq_last = 0LL;
+    int64_t seq_min = 0LL;
+    int64_t seq_max = 0LL;
 
     db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
     if (db)
@@ -359,6 +365,22 @@ _test_node_init ()
 			    id_str);
 		LW6SYS_FREE (id_str);
 	      }
+	    local_seq_0 = lw6p2p_node_get_local_seq_0 (node);
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("local_seq_0=%" LW6SYS_PRINTF_LL "d"),
+			(long long) local_seq_0);
+	    local_seq_last = lw6p2p_node_get_local_seq_last (node);
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("local_seq_last=%" LW6SYS_PRINTF_LL "d"),
+			(long long) local_seq_last);
+	    seq_min = lw6p2p_node_get_seq_min (node);
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("seq_min=%" LW6SYS_PRINTF_LL "d"),
+			(long long) seq_min);
+	    seq_max = lw6p2p_node_get_seq_max (node);
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("seq_max=%" LW6SYS_PRINTF_LL "d"),
+			(long long) seq_max);
 	    lw6p2p_node_close (node);
 	    lw6p2p_node_close (node);	// yes, do it twice just to check
 	    lw6p2p_node_free (node);
@@ -1034,7 +1056,8 @@ _test_node_msg ()
 			  {
 			    checksums[k] = lw6sys_checksum_str (msg);
 			    msgs[k] = msg;
-			    lw6p2p_node_put_local_msg (node, msg);
+			    lw6p2p_node_put_local_msg (node, msg,
+						       _TEST_NODE_MSG_REG);
 			  }
 			LW6SYS_FREE (random_str);
 		      }
@@ -1206,13 +1229,14 @@ _test_node_api_node2_callback (void *api_data)
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node2 sent dump draft message len=%d"),
 			      len);
-		  if (len < _TEST_API_NODE_LEN_LIMIT)
+		  if (len < _TEST_NODE_API_LEN_LIMIT)
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 dump draft message is \"%s\""),
 				  msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg);
+		  lw6p2p_node_put_local_msg (data->node, msg,
+					     _TEST_NODE_API_REG);
 		  LW6SYS_FREE (msg);
 		}
 	      msg =
@@ -1225,12 +1249,13 @@ _test_node_api_node2_callback (void *api_data)
 		  len = strlen (msg);
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node2 sent draft message len=%d"), len);
-		  if (len < _TEST_API_NODE_LEN_LIMIT)
+		  if (len < _TEST_NODE_API_LEN_LIMIT)
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 draft message is \"%s\""), msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg);
+		  lw6p2p_node_put_local_msg (data->node, msg,
+					     _TEST_NODE_API_REG);
 		  LW6SYS_FREE (msg);
 		}
 	      seq++;		// fake we're going next round...
@@ -1244,12 +1269,13 @@ _test_node_api_node2_callback (void *api_data)
 		  len = strlen (msg);
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node2 sent draft message len=%d"), len);
-		  if (len < _TEST_API_NODE_LEN_LIMIT)
+		  if (len < _TEST_NODE_API_LEN_LIMIT)
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 draft message is \"%s\""), msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg);
+		  lw6p2p_node_put_local_msg (data->node, msg,
+					     _TEST_NODE_API_REG);
 		  LW6SYS_FREE (msg);
 		}
 	      msg =
@@ -1262,12 +1288,13 @@ _test_node_api_node2_callback (void *api_data)
 		  len = strlen (msg);
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node2 sent draft message len=%d"), len);
-		  if (len < _TEST_API_NODE_LEN_LIMIT)
+		  if (len < _TEST_NODE_API_LEN_LIMIT)
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 draft message is \"%s\""), msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg);
+		  lw6p2p_node_put_local_msg (data->node, msg,
+					     _TEST_NODE_API_REG);
 		  LW6SYS_FREE (msg);
 		}
 
@@ -1295,13 +1322,14 @@ _test_node_api_node2_callback (void *api_data)
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node2 sent final draft message len=%d"),
 			      len);
-		  if (len < _TEST_API_NODE_LEN_LIMIT)
+		  if (len < _TEST_NODE_API_LEN_LIMIT)
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 final draft message is \"%s\""),
 				  msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg);
+		  lw6p2p_node_put_local_msg (data->node, msg,
+					     _TEST_NODE_API_REG);
 		  LW6SYS_FREE (msg);
 		}
 
@@ -1325,16 +1353,17 @@ _test_node_api_node2_callback (void *api_data)
 		  len = strlen (msg);
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node2 sent draft message len=%d"), len);
-		  if (len < _TEST_API_NODE_LEN_LIMIT)
+		  if (len < _TEST_NODE_API_LEN_LIMIT)
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 draft message is \"%s\""), msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg);
+		  lw6p2p_node_put_local_msg (data->node, msg,
+					     _TEST_NODE_API_REG);
 		  LW6SYS_FREE (msg);
 		}
 	      next_msgn_timestamp =
-		lw6sys_get_timestamp () + _TEST_API_MSGN_DELAY_MSEC;
+		lw6sys_get_timestamp () + _TEST_NODE_API_MSGN_DELAY_MSEC;
 	    }
 	}
     }
@@ -1413,7 +1442,7 @@ _test_node_api_node4_callback (void *api_data)
 	      lw6sys_log (LW6SYS_LOG_NOTICE,
 			  _x_ ("node4 received reference message len=%d"),
 			  len);
-	      if (len < _TEST_API_NODE_LEN_LIMIT)
+	      if (len < _TEST_NODE_API_LEN_LIMIT)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node4 reference message is \"%s\""), msg);
@@ -1428,7 +1457,7 @@ _test_node_api_node4_callback (void *api_data)
 	      len = strlen (msg);
 	      lw6sys_log (LW6SYS_LOG_NOTICE,
 			  _x_ ("node4 received draft message len=%d"), len);
-	      if (len < _TEST_API_NODE_LEN_LIMIT)
+	      if (len < _TEST_NODE_API_LEN_LIMIT)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("node4 draft message is \"%s\""), msg);

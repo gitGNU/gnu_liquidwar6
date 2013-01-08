@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -50,6 +50,7 @@
 #define _TEST_STACK_SEQ_0 10LL
 #define _TEST_STACK_ORDER_I 0
 #define _TEST_STACK_ORDER_N 1
+#define _TEST_STACK_REG 1
 #define _TEST_STACK_SEQ 10000000000005LL
 #define _TEST_STACK_TEXT "..."
 #define _TEST_STACK_SEQ_FROM_CMD_STR_OFFSET 0
@@ -75,6 +76,7 @@
 #define _TEST_WAREHOUSE_SERIAL 789
 #define _TEST_WAREHOUSE_ORDER_I 0
 #define _TEST_WAREHOUSE_ORDER_N 1
+#define _TEST_WAREHOUSE_REG 1
 #define _TEST_WAREHOUSE_SEQ_0 10LL
 #define _TEST_WAREHOUSE_SEQ 10000000000007LL
 #define _TEST_WAREHOUSE_TEXT "spam and ham"
@@ -82,7 +84,7 @@
 #define _TEST_WAREHOUSE_CMD_STR_OFFSET 0
 #define _TEST_WAREHOUSE_NB_STACKS_OVERFLOW (LW6DAT_MAX_NB_STACKS*2)
 #define _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW (_LW6DAT_MAX_NB_ATOMS*2)
-#define _TEST_WAREHOUSE_SERIAL_I_N_MSG "DATA 123 2 4 10 2345234523452345 foo bar"
+#define _TEST_WAREHOUSE_SERIAL_I_N_MSG "DATA 123 2 4 10 0 2345234523452345 foo bar"
 #define _TEST_WAREHOUSE_PUT_MIN_SIZE 1
 #define _TEST_WAREHOUSE_PUT_MAX_SIZE 3000
 #define _TEST_WAREHOUSE_OTHER_NODE_MSG "toto"
@@ -106,6 +108,7 @@
 #define _TEST_MORE_WAREHOUSE_MSG_CHAR_SHORT 's'
 #define _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG 10000
 #define _TEST_MORE_WAREHOUSE_MSG_CHAR_LONG 'l'
+#define _TEST_MORE_WAREHOUSE_REG 0
 /*
  * Below are the actual values expected for the "not sent" messages
  * list length. It's important that they are different, for a given
@@ -682,15 +685,21 @@ test_stack ()
 			_x_
 			("put a few messages in stack to test recollection of atoms into a full message"));
 	    if (_lw6dat_stack_put_msg
-		(&stack, _TEST_STACK_MSG_1, _TEST_STACK_SEND_FLAG)
-		&& _lw6dat_stack_put_msg (&stack, _TEST_STACK_MSG_2,
+		(&stack, NULL, _TEST_STACK_MSG_1, _TEST_STACK_REG,
+		 _TEST_STACK_SEND_FLAG)
+		&& _lw6dat_stack_put_msg (&stack, NULL, _TEST_STACK_MSG_2,
+					  _TEST_STACK_REG,
 					  _TEST_STACK_SEND_FLAG)
-		&& _lw6dat_stack_put_msg (&stack, _TEST_STACK_MSG_3,
+		&& _lw6dat_stack_put_msg (&stack, NULL, _TEST_STACK_MSG_3,
+					  _TEST_STACK_REG,
 					  _TEST_STACK_SEND_FLAG)
-		&& _lw6dat_stack_put_msg (&stack, msg4, _TEST_STACK_SEND_FLAG)
-		&& _lw6dat_stack_put_msg (&stack, _TEST_STACK_MSG_5,
+		&& _lw6dat_stack_put_msg (&stack, NULL, msg4, _TEST_STACK_REG,
 					  _TEST_STACK_SEND_FLAG)
-		&& _lw6dat_stack_put_msg (&stack, _TEST_STACK_MSG_6,
+		&& _lw6dat_stack_put_msg (&stack, NULL, _TEST_STACK_MSG_5,
+					  _TEST_STACK_REG,
+					  _TEST_STACK_SEND_FLAG)
+		&& _lw6dat_stack_put_msg (&stack, NULL, _TEST_STACK_MSG_6,
+					  _TEST_STACK_REG,
 					  _TEST_STACK_SEND_FLAG))
 	      {
 		msg_list = _lw6dat_stack_init_list ();
@@ -843,8 +852,9 @@ test_warehouse ()
 	if (_lw6dat_warehouse_put_atom
 	    (_warehouse, _TEST_WAREHOUSE_LOCAL_NODE_ID,
 	     _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
-	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_SEQ,
-	     _TEST_WAREHOUSE_TEXT, _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
+	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_REG,
+	     _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT,
+	     _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
 	     _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -856,7 +866,8 @@ test_warehouse ()
 	    if (!_lw6dat_warehouse_put_atom
 		(_warehouse, lw6sys_generate_id_64 (), _TEST_WAREHOUSE_SERIAL,
 		 _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
-		 _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT,
+		 _TEST_WAREHOUSE_REG, _TEST_WAREHOUSE_SEQ,
+		 _TEST_WAREHOUSE_TEXT,
 		 _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
 		 _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	      {
@@ -895,8 +906,9 @@ test_warehouse ()
 	if (_lw6dat_warehouse_put_atom
 	    (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 	     _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
-	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_SEQ,
-	     _TEST_WAREHOUSE_TEXT, _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
+	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_REG,
+	     _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT,
+	     _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
 	     _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	  {
 	    for (i = 1; i < _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW; ++i)
@@ -904,8 +916,8 @@ test_warehouse ()
 		if (!_lw6dat_warehouse_put_atom
 		    (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 		     _TEST_WAREHOUSE_SERIAL + i, _TEST_WAREHOUSE_ORDER_I,
-		     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_SEQ,
-		     _TEST_WAREHOUSE_TEXT,
+		     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_REG,
+		     _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT,
 		     _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
 		     _TEST_WAREHOUSE_CMD_STR_OFFSET))
 		  {
@@ -917,8 +929,8 @@ test_warehouse ()
 	    if (_lw6dat_warehouse_put_atom
 		(_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 		 _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
-		 _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_SEQ,
-		 _TEST_WAREHOUSE_TEXT,
+		 _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_REG,
+		 _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT,
 		 _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
 		 _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	      {
@@ -1026,7 +1038,8 @@ test_warehouse ()
 					  id_str, cmd);
 		    if (msg)
 		      {
-			if (lw6dat_warehouse_put_local_msg (warehouse, msg))
+			if (lw6dat_warehouse_put_local_msg
+			    (warehouse, msg, _TEST_WAREHOUSE_REG))
 			  {
 			    // ok
 			  }
@@ -1075,7 +1088,8 @@ test_warehouse ()
 				      id_str, _TEST_WAREHOUSE_OTHER_NODE_MSG);
 		if (msg)
 		  {
-		    if (lw6dat_warehouse_put_local_msg (warehouse2, msg))
+		    if (lw6dat_warehouse_put_local_msg
+			(warehouse2, msg, _TEST_WAREHOUSE_REG))
 		      {
 			list_not_sent =
 			  lw6dat_warehouse_get_atom_str_list_not_sent
@@ -1231,6 +1245,7 @@ _print_msg (void *func_data, void *data)
   int serial = 0;
   int order_i = 0;
   int order_n = 0;
+  int reg = 0;
   int64_t seq = 0;
   u_int64_t logical_from2 = 0LL;
   int seq_from_cmd_str_offset = 0;
@@ -1239,15 +1254,15 @@ _print_msg (void *func_data, void *data)
   if ((!func_data) && msg)
     {
       len = strlen (msg);
-      _lw6dat_atom_parse_serial_i_n_seq_from_cmd
-	(&serial, &order_i, &order_n, &seq, &logical_from2,
+      _lw6dat_atom_parse_serial_i_n_reg_seq_id_from_cmd
+	(&serial, &order_i, &order_n, &reg, &seq, &logical_from2,
 	 &seq_from_cmd_str_offset, &cmd_str_offset, msg);
       lw6sys_log (LW6SYS_LOG_NOTICE,
 		  _x_
-		  ("serial=%d order_i=%d order_n=%d seq=%" LW6SYS_PRINTF_LL
-		   "d logicial_from=%" LW6SYS_PRINTF_LL "x len=%d"), serial,
-		  order_i, order_n, (long long) seq,
-		  (long long) logical_from2, len);
+		  ("serial=%d order_i=%d order_n=%d reg=%d seq=%"
+		   LW6SYS_PRINTF_LL "d logicial_from=%" LW6SYS_PRINTF_LL
+		   "x len=%d"), serial, order_i, order_n, reg,
+		  (long long) seq, (long long) logical_from2, len);
     }
 }
 
@@ -1267,6 +1282,7 @@ _fake_send (void *func_data, void *data)
   int serial = 0;
   int order_i = 0;
   int order_n = 0;
+  int reg = 0;
   int64_t seq = 0;
   u_int64_t logical_from2 = 0LL;
   int seq_from_cmd_str_offset = 0;
@@ -1282,8 +1298,8 @@ _fake_send (void *func_data, void *data)
 	   * sender can been parsed upstream but here we
 	   * need to figure it out "manually".
 	   */
-	  _lw6dat_atom_parse_serial_i_n_seq_from_cmd
-	    (&serial, &order_i, &order_n, &seq, &logical_from2,
+	  _lw6dat_atom_parse_serial_i_n_reg_seq_id_from_cmd
+	    (&serial, &order_i, &order_n, &reg, &seq, &logical_from2,
 	     &seq_from_cmd_str_offset, &cmd_str_offset, msg);
 	}
       else
@@ -1506,7 +1522,8 @@ test_more ()
 					    (int) strlen (msg));
 				lw6dat_warehouse_put_local_msg (warehouse
 								[node_index],
-								msg);
+								msg,
+								_TEST_WAREHOUSE_REG);
 				LW6SYS_FREE (msg);
 			      }
 			  }

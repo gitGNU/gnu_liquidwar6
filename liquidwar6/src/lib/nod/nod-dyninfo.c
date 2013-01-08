@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -105,7 +105,6 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
 			 int round, const char *level, int required_bench,
 			 int nb_colors, int max_nb_colors, int nb_cursors,
 			 int max_nb_cursors, int nb_nodes, int max_nb_nodes,
-			 const char *peer_id_list,
 			 int game_screenshot_size, void *game_screenshot_data)
 {
   int ret = 1;
@@ -133,8 +132,6 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
   dyn_info->max_nb_cursors = max_nb_cursors;
   dyn_info->nb_nodes = nb_nodes;
   dyn_info->max_nb_nodes = max_nb_nodes;
-
-  //  TMP1("TODO: process peer_id_list \"%s\"",peer_id_list);
 
   dyn_info->game_screenshot_size = game_screenshot_size;
   /*

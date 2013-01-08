@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -1880,7 +1880,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
   int i;
   _lw6p2p_tentacle_t *tentacle = NULL;
   u_int32_t ticket_sig = 0;
-  char *msg = NULL;
+  char *msg_join = NULL;
   char *remote_id_str = NULL;
   int64_t now = 0LL;
   int64_t limit_timestamp = 0LL;
@@ -1978,24 +1978,25 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 		       * Generating a JOIN message with 0 seq
 		       * means "I want to connect to you"
 		       */
-		      msg =
+		      msg_join =
 			lw6msg_cmd_generate_join (node->node_info, 0,
 						  lw6dat_warehouse_get_local_serial
 						  (node->warehouse));
-		      if (msg)
+		      if (msg_join)
 			{
 			  ticket_sig =
 			    lw6msg_ticket_calc_sig
 			    (lw6cnx_ticket_table_get_send
 			     (&(node->ticket_table), remote_id_str),
-			     node->node_id_int, remote_id, msg);
+			     node->node_id_int, remote_id, msg_join);
 			  ret =
 			    _lw6p2p_tentacle_send_redundant (tentacle, now,
 							     &
 							     (node->ticket_table),
 							     ticket_sig,
 							     node->node_id_int,
-							     remote_id, msg);
+							     remote_id,
+							     msg_join);
 			  if (ret)
 			    {
 			      ret = 0;
@@ -2013,9 +2014,25 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 				      _lw6p2p_node_lock (node);
 				    }
 				}
-			      ret = tentacle->joined;
+			      if (tentacle->joined)
+				{
+				  /*
+				   * We're almost there, the connection
+				   * is established, we have correct
+				   * seq_0/round_0 thanks to the join, 
+				   * now we send a NOP message *with* the
+				   * reg flag set to 1, this will allow
+				   * all other nodes to automatically
+				   * register this node even if they
+				   * are not connected yet. But... we leave
+				   * the responsability to the caller, which
+				   * has more tools available (more precisely
+				   * it's lw6pil "aware".
+				   */
+				  ret = 1;
+				}
 			    }
-			  LW6SYS_FREE (msg);
+			  LW6SYS_FREE (msg_join);
 			}
 		    }
 		}
@@ -2250,6 +2267,129 @@ lw6p2p_node_calibrate (lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
 }
 
 int64_t
+_lw6p2p_node_get_local_seq_0 (_lw6p2p_node_t * node)
+{
+  int64_t ret = 0LL;
+
+  ret = lw6dat_warehouse_get_local_seq_0 (node->warehouse);
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_get_local_seq_0
+ *
+ * @node: the object to query
+ *
+ * Gets the reference local seq_0 for this node, the information
+ * is taken from the warehouse, even if node->calibrate_seq
+ * should probably return the same value.
+ *
+ * Return value: the seq.
+ */
+int64_t
+lw6p2p_node_get_local_seq_0 (lw6p2p_node_t * node)
+{
+  int64_t ret = 0LL;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_get_local_seq_0 ((_lw6p2p_node_t *) node);
+      _node_unlock (node);
+    }
+
+  return ret;
+}
+
+int64_t
+_lw6p2p_node_get_local_seq_last (_lw6p2p_node_t * node)
+{
+  int64_t ret = 0LL;
+
+  ret = lw6dat_warehouse_get_local_seq_last (node->warehouse);
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_get_local_seq_last
+ *
+ * @node: the object to query
+ *
+ * Gets the local seq_last for this node, the information
+ * is taken from the warehouse, which has parsed the messages
+ * and this information can in return be used to avoid maintaining
+ * outside of the node the information about what was the last
+ * seq used for a local message.
+ *
+ * Return value: the seq.
+ */
+int64_t
+lw6p2p_node_get_local_seq_last (lw6p2p_node_t * node)
+{
+  int64_t ret = 0LL;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_get_local_seq_last ((_lw6p2p_node_t *) node);
+      _node_unlock (node);
+    }
+
+  return ret;
+}
+
+int64_t
+_lw6p2p_node_get_seq_min (_lw6p2p_node_t * node)
+{
+  int64_t ret = 0LL;
+
+  ret = lw6sys_llmax
+    (lw6dat_warehouse_get_seq_min (node->warehouse), node->calibrate_seq);
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_get_seq_min
+ *
+ * @node: the object to query
+ *
+ * Gets the minimum seq registered, not of utmost importance but
+ * interesting for debugging purpose, to check what's in the
+ * warehouse.
+ *
+ * Return value: the seq.
+ */
+int64_t
+lw6p2p_node_get_seq_min (lw6p2p_node_t * node)
+{
+  int64_t ret = 0LL;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_get_seq_min ((_lw6p2p_node_t *) node);
+      _node_unlock (node);
+    }
+
+  return ret;
+}
+
+int64_t
 _lw6p2p_node_get_seq_max (_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
@@ -2385,13 +2525,13 @@ lw6p2p_node_is_dump_needed (lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg)
+_lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg, int reg)
 {
   int ret = 0;
 
   if (node->warehouse)
     {
-      ret = lw6dat_warehouse_put_local_msg (node->warehouse, msg);
+      ret = lw6dat_warehouse_put_local_msg (node->warehouse, msg, reg);
     }
 
   return ret;
@@ -2402,6 +2542,7 @@ _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg)
  *
  * @node: node object to use
  * @msg: message
+ * @reg: wether the message should register the author on other nodes
  *
  * Puts a message in the object. The message will be splitted into
  * several atoms if needed, it can be arbitrary long.
@@ -2409,7 +2550,7 @@ _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg)
  * Return value: 1 on success, 0 on error
  */
 int
-lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg)
+lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg, int reg)
 {
   int ret = 0;
 
@@ -2420,7 +2561,7 @@ lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_put_local_msg ((_lw6p2p_node_t *) node, msg);
+      ret = _lw6p2p_node_put_local_msg ((_lw6p2p_node_t *) node, msg, reg);
       _node_unlock (node);
     }
 

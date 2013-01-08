@@ -1,5 +1,5 @@
 # Liquid War 6 is a unique multiplayer wargame.
-# Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+# Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ LW6DYN_LIB = ../dyn/libdyn.la
 endif
 
 noinst_LTLIBRARIES = libp2p.la
-libp2p_la_SOURCES = p2p-backends.c p2p-clioob.c p2p-data.c p2p-db.c p2p-entry.c p2p-explore.c p2p-flush.c p2p-node.c p2p-queueitem.c p2p-recv.c p2p-srvoob.c p2p-tentacle.c p2p-test.c
+libp2p_la_SOURCES = p2p-backends.c p2p-clioob.c p2p-data.c p2p-db.c p2p-entry.c p2p-explore.c p2p-flush.c p2p-node.c p2p-peeridlist.c p2p-queueitem.c p2p-recv.c p2p-srvoob.c p2p-tentacle.c p2p-test.c
 libp2pdir= $(includedir)/@PACKAGE_TARNAME@/p2p
 libp2p_HEADERS = p2p.h
 

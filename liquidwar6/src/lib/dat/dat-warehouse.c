@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ _lw6dat_warehouse_init (_lw6dat_warehouse_t * warehouse,
   int stack_index = 0;
 
   memset (warehouse, 0, sizeof (_lw6dat_warehouse_t));
+  warehouse->local_seq_last = lw6sys_llmax (seq_0, _LW6DAT_SEQ_START);
   for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
     {
       if (stack_index == _LW6DAT_LOCAL_NODE_INDEX)
@@ -146,6 +147,7 @@ _lw6dat_warehouse_clear (_lw6dat_warehouse_t * warehouse)
 {
   int i;
 
+  warehouse->local_seq_last = _LW6DAT_SEQ_START;
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
     {
       if (warehouse->stacks[i].node_id != 0)
@@ -332,6 +334,7 @@ _lw6dat_warehouse_set_local_seq_0 (_lw6dat_warehouse_t * warehouse,
 {
   int stack_index = 0;
 
+  warehouse->local_seq_last = lw6sys_llmax (seq_0, warehouse->local_seq_last);
   for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
     {
       warehouse->stacks[stack_index].seq_0[_LW6DAT_LOCAL_NODE_INDEX] = seq_0;
@@ -356,13 +359,43 @@ lw6dat_warehouse_set_local_seq_0 (lw6dat_warehouse_t * warehouse,
 				     seq_0);
 }
 
+int64_t
+_lw6dat_warehouse_get_local_seq_last (_lw6dat_warehouse_t * warehouse)
+{
+  return warehouse->local_seq_last;
+}
+
+/**
+ * lw6dat_warehouse_get_local_seq_last
+ *
+ * @warehouse: the warehouse object to query
+ *
+ * Gives the warehouse seq_last number, this is the seq that corresponds
+ * to the last local message put in this warehouse. This is usefull
+ * to get the last seq used and, for instance, put a NOP message just
+ * for keepalive purposes.
+ *
+ * Return value: long integer.
+ */
+int64_t
+lw6dat_warehouse_get_local_seq_last (lw6dat_warehouse_t * warehouse)
+{
+  return _lw6dat_warehouse_get_local_seq_last ((_lw6dat_warehouse_t *)
+					       warehouse);
+}
+
 int
 _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 				 u_int64_t node_id, int serial_0,
 				 int64_t seq_0)
 {
   int ret = -1;
-  int stack_index;
+  int stack_index = -1;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG,
+	      _x_ ("registering %" LW6SYS_PRINTF_LL "x serial_0=%d seq_0=%"
+		   LW6SYS_PRINTF_LL "d"), (long long) node_id, serial_0,
+	      (long long) seq_0);
 
   serial_0 = lw6sys_imax (serial_0, _LW6DAT_SERIAL_START);
   ret = _lw6dat_warehouse_get_stack_index (warehouse, node_id);
@@ -381,47 +414,53 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 		}
 	    }
 	}
-      if (ret >= 0 && stack_index < LW6DAT_MAX_NB_STACKS)
-	{
-	  for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS;
-	       ++stack_index)
-	    {
-	      /*
-	       * For affectations below, use the seq_0 llmax
-	       */
-	      /*
-	       * Tell all stacks that for this node, it's useless to consider
-	       * messages that have a seq that is older than seq_0
-	       */
-	      warehouse->stacks[stack_index].seq_0[ret] =
-		lw6sys_llmax (warehouse->stacks[stack_index].seq_0[ret],
-			      seq_0);
-	      /*
-	       * Not sure how the line below is totally required, might
-	       * need some tuning, but at least it shouldn't harm from
-	       * a functionnal point of view, only performance is concerned.
-	       * The risk is to re-parse the whole stack for nothing.
-	       */
-	      warehouse->stacks[stack_index].serial_min_to_send[ret] =
-		lw6sys_imin (warehouse->
-			     stacks[stack_index].serial_min_to_send[ret],
-			     serial_0);
-	      /*
-	       * Tell this stack about all other nodes limits, this is done
-	       * by copying informations from local stack.
-	       */
-	      warehouse->stacks[ret].seq_0[stack_index] =
-		lw6sys_llmax (warehouse->stacks[ret].seq_0[stack_index],
-			      warehouse->
-			      stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0
-			      [stack_index]);
-	    }
-	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("registering already registered node"));
+    }
+
+  if (ret >= 0 && ret < LW6DAT_MAX_NB_STACKS)
+    {
+      /*
+       * Now ret is valid but in the case the node is already registered
+       * we perform another check to make sure the udpdate makes sense,
+       * we don't want seq_0 and serial_min_to_send to decrease. What
+       * is likely to happen is that those are initialized when the
+       * host is listed as a simple ID, then updated whenever a real
+       * contact is established.
+       */
+      for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
+	{
+	  /*
+	   * For affectations below, use the seq_0 llmax
+	   */
+	  /*
+	   * Tell all stacks that for this node, it's useless to consider
+	   * messages that have a seq that is older than seq_0
+	   */
+	  warehouse->stacks[stack_index].seq_0[ret] =
+	    lw6sys_llmax (warehouse->stacks[stack_index].seq_0[ret], seq_0);
+	  /*
+	   * Tell this stack about all other nodes limits, this is done
+	   * by copying informations from local stack.
+	   */
+	  warehouse->stacks[ret].seq_0[stack_index] =
+	    lw6sys_llmax (warehouse->stacks[ret].seq_0[stack_index],
+			  warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0
+			  [stack_index]);
+	  /*
+	   * Not sure how the line below is totally required, might
+	   * need some tuning, but at least it shouldn't harm from
+	   * a functionnal point of view, only performance is concerned.
+	   * The risk is to re-parse the whole stack for nothing.
+	   */
+	  warehouse->stacks[stack_index].serial_min_to_send[ret] =
+	    lw6sys_imin (warehouse->
+			 stacks[stack_index].serial_min_to_send[ret],
+			 serial_0);
+	}
     }
 
   return ret;
@@ -481,21 +520,35 @@ lw6dat_warehouse_is_node_registered (lw6dat_warehouse_t * warehouse,
 int
 _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 			    u_int64_t logical_from,
-			    int serial, int order_i, int order_n, int64_t seq,
-			    const char *full_str, int seq_from_cmd_str_offset,
-			    int cmd_str_offset)
+			    int serial, int order_i, int order_n, int reg,
+			    int64_t seq, const char *full_str,
+			    int seq_from_cmd_str_offset, int cmd_str_offset)
 {
   int stack_index = -1;
   int send_flag = 0;
   int ret = 0;
 
   stack_index = _lw6dat_warehouse_get_stack_index (warehouse, logical_from);
-  if (stack_index < 0)
+  if (reg && stack_index < 0)
     {
+      lw6sys_log (LW6SYS_LOG_INFO,
+		  _x_ ("registering %" LW6SYS_PRINTF_LL
+		       "x on the fly at serial=%d and seq=%" LW6SYS_PRINTF_LL
+		       "d"), (long long) logical_from, serial,
+		  (long long) seq);
+      /*
+       * We had never seen this node before and for some reason we receive
+       * data about it, marked as reg=1, which typically means it's a SEED.
+       * So we registered the node, doing so will set up correct serial_min and
+       * seq_0 values, the rest will be ignored. This can happen if we did not
+       * receive the join because of a race condition and/or if the peer
+       * is unjoignable and we must communicate through other hosts.
+       */
       stack_index =
 	_lw6dat_warehouse_register_node (warehouse, logical_from, serial,
 					 seq);
     }
+
   if (stack_index >= 0)
     {
       send_flag = _lw6dat_not_flag (stack_index);
@@ -507,8 +560,18 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _x_ ("warehouse is full, too many stacks"));
+      if (reg)
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("warehouse is full, too many stacks"));
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("peer %" LW6SYS_PRINTF_LL
+			   "x is not registered in warehouse"),
+		      (long long) logical_from);
+	}
     }
 
   return ret;
@@ -522,6 +585,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
   int serial = 0;
   int order_i = 0;
   int order_n = 0;
+  int reg = 0;
   int64_t seq = 0;
   u_int64_t logical_from2 = 0L;
   int seq_from_cmd_str_offset = 0;
@@ -533,8 +597,8 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
    * logical ids match, and else we'd parse the message twice
    * in most cases.
    */
-  if (_lw6dat_atom_parse_serial_i_n_seq_from_cmd
-      (&serial, &order_i, &order_n, &seq, &logical_from2,
+  if (_lw6dat_atom_parse_serial_i_n_reg_seq_id_from_cmd
+      (&serial, &order_i, &order_n, &reg, &seq, &logical_from2,
        &seq_from_cmd_str_offset, &cmd_str_offset, full_str))
     {
       if (logical_from != logical_from2)
@@ -559,10 +623,13 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 		       LW6SYS_PRINTF_LL "x"), (long long) logical_from,
 		      (long long) logical_from2);
 	}
-
+      /*
+       * Note that we operate on logical_from2, indeed this is
+       * the real original writer of the message.
+       */
       ret =
 	_lw6dat_warehouse_put_atom (warehouse, logical_from2,
-				    serial, order_i, order_n, seq,
+				    serial, order_i, order_n, reg, seq,
 				    full_str, seq_from_cmd_str_offset,
 				    cmd_str_offset);
     }
@@ -652,13 +719,14 @@ lw6dat_warehouse_calc_serial_draft_and_reference (lw6dat_warehouse_t *
 
 int
 _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse,
-				 const char *msg)
+				 const char *msg, int reg)
 {
   int ret = 0;
 
   ret =
     _lw6dat_stack_put_msg (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]),
-			   msg, _LW6DAT_FLAG_REMOTE);
+			   &(warehouse->local_seq_last), msg, reg,
+			   _LW6DAT_FLAG_REMOTE);
 
   return ret;
 }
@@ -668,6 +736,7 @@ _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse,
  *
  * @warehouse: warehouse object to use
  * @msg: message
+ * @reg: wether message should be a node-self-registering one
  *
  * Puts a message in the object. The message will be splitted into
  * several atoms if needed, it can be arbitrary long.
@@ -676,12 +745,13 @@ _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse,
  */
 int
 lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse,
-				const char *msg)
+				const char *msg, int reg)
 {
   int ret = 0;
 
   ret =
-    _lw6dat_warehouse_put_local_msg ((_lw6dat_warehouse_t *) warehouse, msg);
+    _lw6dat_warehouse_put_local_msg ((_lw6dat_warehouse_t *) warehouse, msg,
+				     reg);
 
   return ret;
 }

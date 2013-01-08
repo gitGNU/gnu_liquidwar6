@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -216,10 +216,14 @@ extern int lw6p2p_node_update_info (lw6p2p_node_t * node,
 				    void *game_screenshot_data);
 extern void lw6p2p_node_calibrate (lw6p2p_node_t * node, int64_t timestamp,
 				   int64_t seq);
+extern int64_t lw6p2p_node_get_local_seq_0 (lw6p2p_node_t * node);
+extern int64_t lw6p2p_node_get_local_seq_last (lw6p2p_node_t * node);
+extern int64_t lw6p2p_node_get_seq_min (lw6p2p_node_t * node);
 extern int64_t lw6p2p_node_get_seq_max (lw6p2p_node_t * node);
 extern int lw6p2p_node_is_seed_needed (lw6p2p_node_t * node);
 extern int lw6p2p_node_is_dump_needed (lw6p2p_node_t * node);
-extern int lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg);
+extern int lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg,
+				      int reg);
 extern char *lw6p2p_node_get_next_reference_msg (lw6p2p_node_t * node,
 						 lw6sys_progress_t *
 						 progress);

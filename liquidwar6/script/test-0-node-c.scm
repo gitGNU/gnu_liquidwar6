@@ -1,5 +1,5 @@
 ;; Liquid War 6 is a unique multiplayer wargame.
-;; Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+;; Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -128,11 +128,34 @@
 		     (assoc-ref server-entry "id")
 		     (assoc-ref server-entry "url"))
 		    (begin
+		      ;; First, send a NOP message for automatic self-registering
+		      ;; this one is really important, it's a NOP but not sending
+		      ;; it could cause problems if all nodes can't communicate
+		      (c-lw6p2p-node-put-local-msg node (lw6-command-nop (c-lw6p2p-node-get-local-seq-last node) id) #t)
+		      ;; Now, loop for the rest of the test
 		      (while (< timestamp time-limit)
 			     (begin
 			       (set! timestamp (c-lw6sys-get-timestamp))
 			       (c-lw6sys-idle)
 			       (c-lw6p2p-node-poll node)
+			       ;; update node info, this is important for our peers
+			       ;; might be wanting to poll this
+			       (if (> timestamp next-update-info)
+				   (begin
+				     (set! next-update-info (+ timestamp lw6-test-network-update-delay))
+				     (if pilot
+					 (begin
+					   (c-lw6pil-sync-from-reference game-state pilot)
+					   (lw6-test-update-info node level game-state)
+					   ))
+				     (let (
+					   (nop-command (lw6-command-nop (c-lw6p2p-node-get-local-seq-last node) id))
+					   )
+				       (begin
+					 (lw6-log-notice (format #f "nop-command -> ~a" nop-command))
+					 (c-lw6p2p-node-put-local-msg node nop-command #f)
+					 )
+				       )))
 			       (if pilot
 				   (begin
 				     ;; Normally, we should get the next seq with a command like:
@@ -141,7 +164,7 @@
 				     ;; rather, we want them to be fixed so that there are no surprises
 				     ;; due to a script being fast or slow, whatever. So what we do
 				     ;; is that we just increment last-commit-seq by 1.
-				     (set! next-seq (max seq-0 (1+ (c-lw6pil-get-last-commit-seq pilot))))
+				     (set! next-seq (max (c-lw6p2p-node-get-local-seq-last node) (1+ (c-lw6pil-get-last-commit-seq pilot))))
 				     (cond
 				      (
 				       (c-lw6p2p-node-is-seed-needed node)
@@ -150,7 +173,7 @@
 					     )
 					 (begin
 					   (lw6-log-notice (format #f "seed-command -> ~a" seed-command))
-					   (c-lw6p2p-node-put-local-msg node seed-command)
+					   (c-lw6p2p-node-put-local-msg node seed-command #t)
 					   (c-lw6sys-idle)
 					   (c-lw6p2p-node-poll node)
 					   (set! seed-sent #t)
@@ -165,7 +188,7 @@
 					     )
 					 (begin
 					   (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
-					   (c-lw6p2p-node-put-local-msg node dump-command)
+					   (c-lw6p2p-node-put-local-msg node dump-command #f)
 					   (c-lw6sys-idle)
 					   (c-lw6p2p-node-poll node)
 					   (set! dump-sent #t)
@@ -174,21 +197,6 @@
 					   )
 					 ))
 				      )
-				     ;; update node info, this is important for our peers
-				     ;; might be wanting to poll this
-				     (if (> timestamp next-update-info)
-					 (begin
-					   (set! next-update-info (+ timestamp lw6-test-network-update-delay))
-					   (c-lw6pil-sync-from-reference game-state pilot)
-					   (lw6-test-update-info node level game-state)
-					   (let (
-						 (nop-command (lw6-command-nop next-seq id))
-						 )
-					     (begin
-					       (lw6-log-notice (format #f "nop-command -> ~a" nop-command))
-					       (c-lw6p2p-node-put-local-msg node nop-command)
-					       )
-					   )))
 				     ;; pump all draft messages
 				     (let (
 					   (msg (c-lw6p2p-node-get-next-draft-msg node))
@@ -251,7 +259,7 @@
 				   (lw6-log-notice "stage 5 & 6, putting messages in queue")
 				   (map (lambda (command) (begin
 							    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 4, 5 & 6" command))
-							    (c-lw6p2p-node-put-local-msg node command)
+							    (c-lw6p2p-node-put-local-msg node command #f)
 							    ))
 					(append (c-lw6pil-suite-get-commands-by-node-index 2 3)
 						(c-lw6pil-suite-get-commands-by-node-index 2 4)

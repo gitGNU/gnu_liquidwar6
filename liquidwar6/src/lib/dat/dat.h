@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -94,6 +94,8 @@ extern int64_t lw6dat_warehouse_get_local_seq_0 (lw6dat_warehouse_t *
 						 warehouse);
 extern void lw6dat_warehouse_set_local_seq_0 (lw6dat_warehouse_t * warehouse,
 					      int64_t seq_0);
+extern int64_t lw6dat_warehouse_get_local_seq_last (lw6dat_warehouse_t *
+						    warehouse);
 extern int lw6dat_warehouse_register_node (lw6dat_warehouse_t * warehouse,
 					   u_int64_t node_id, int serial_0,
 					   int64_t seq_0);
@@ -103,7 +105,7 @@ extern int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse,
 					  u_int64_t logical_from,
 					  const char *full_str);
 extern int lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse,
-					   const char *msg);
+					   const char *msg, int reg);
 extern int
 lw6dat_warehouse_calc_serial_draft_and_reference (lw6dat_warehouse_t *
 						  warehouse);

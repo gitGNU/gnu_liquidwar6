@@ -236,9 +236,12 @@ c-lw6p2p-node-close
 c-lw6p2p-node-disconnect
 c-lw6p2p-node-get-entries
 c-lw6p2p-node-get-id
+c-lw6p2p-node-get-local-seq-0
+c-lw6p2p-node-get-local-seq-last
 c-lw6p2p-node-get-next-draft-msg
 c-lw6p2p-node-get-next-reference-msg
 c-lw6p2p-node-get-seq-max
+c-lw6p2p-node-get-seq-min
 c-lw6p2p-node-is-dump-needed
 c-lw6p2p-node-is-seed-needed
 c-lw6p2p-node-new

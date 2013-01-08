@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -400,13 +400,14 @@ _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
   int serial = 0;
   int order_i = 0;
   int order_n = 0;
+  int reg = 0;
   int64_t seq = 0LL;
   u_int64_t logical_from = 0L;
   int seq_from_cmd_str_offset = 0;
   int cmd_str_offset = 0;
 
-  if (_lw6dat_atom_parse_serial_i_n_seq_from_cmd
-      (&serial, &order_i, &order_n, &seq, &logical_from,
+  if (_lw6dat_atom_parse_serial_i_n_reg_seq_id_from_cmd
+      (&serial, &order_i, &order_n, &reg, &seq, &logical_from,
        &seq_from_cmd_str_offset, &cmd_str_offset, full_str))
     {
       ret =
@@ -453,14 +454,14 @@ _lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
 }
 
 int
-_lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg,
-		       int send_flag)
+_lw6dat_stack_put_msg (_lw6dat_stack_t * stack, int64_t * local_seq_last,
+		       const char *msg, int reg, int send_flag)
 {
   int ret = 0;
   int len = 0;
   int order_n = 0;
   int order_i = 0;
-  int64_t seq = 0LL;
+  int64_t seq = _LW6DAT_SEQ_INVALID;
   u_int64_t logical_from = 0;
   int p = 0;
   int s = 0;
@@ -517,9 +518,18 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg,
 		      if (s >= 0)
 			{
 			  serial = _lw6dat_stack_get_serial (stack) + 1;
+			  /*
+			   * mmm, this is weird, ugly, we're not using the
+			   * standard libmsg function lw6msg_cmd_generate_data,
+			   * this is bad because it's a bug nest to duplicate
+			   * code but OTOH we really must split the message
+			   * and at the same time not having a test function
+			   * in libmsg would really be a problem. On short
+			   * messages it could fit, but not long ones...
+			   */
 			  snprintf (full_str, _LW6DAT_HEADER_MAX_SIZE,
-				    "%s %d %d %d ", LW6MSG_CMD_DATA, serial,
-				    order_i, order_n);
+				    "%s %d %d %d %d ", LW6MSG_CMD_DATA,
+				    serial, order_i, order_n, reg);
 			  seq_from_cmd_str_offset = strlen (full_str);
 			  if (seq_from_cmd_str_offset <
 			      _LW6DAT_HEADER_MAX_SIZE)
@@ -587,6 +597,17 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg,
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad seq in message \"%s\""), msg);
+    }
+
+  if (ret && local_seq_last && seq >= _LW6DAT_SEQ_START)
+    {
+      /*
+       * If operation was successful and local_seq_last is not NULL,
+       * then update it, this is usefull to maintain a typical seq
+       * that could use to put further dummy NOP operations for
+       * keepalive's sake.
+       */
+      (*local_seq_last) = seq;
     }
 
   return ret;

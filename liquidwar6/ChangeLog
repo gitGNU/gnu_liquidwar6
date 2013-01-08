@@ -1,3 +1,19 @@
+2012-01-06 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added new Jenkins to handle doc & extra-maps separately.
+
+2012-01-04 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added reg parameter to atoms to allow self-registration of nodes.
+
+2012-01-03 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added functions to handle nodes without URLs in node_info.
+
+2012-01-02 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Copyright 2012 -> 2013.
+
 2012-12-30 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Preparing exchange of peer id list within p2p messages.

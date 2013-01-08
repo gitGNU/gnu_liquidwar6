@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -130,6 +130,7 @@ typedef struct _lw6dat_stack_s
 typedef struct _lw6dat_warehouse_s
 {
   int dummy;			// same as in lw6dat_warehouse_t
+  int64_t local_seq_last;
   _lw6dat_stack_t stacks[LW6DAT_MAX_NB_STACKS];
 } _lw6dat_warehouse_t;
 
@@ -139,16 +140,19 @@ extern void _lw6dat_atom_clear (_lw6dat_atom_t * atom);
 extern int _lw6dat_atom_set_full_str (_lw6dat_atom_t * atom,
 				      const char *full_str);
 extern char *_lw6dat_atom_get_full_str (_lw6dat_atom_t * atom);
-extern int _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial,
-						       int *order_i,
-						       int *order_n,
-						       int64_t * seq,
-						       u_int64_t *
-						       logical_from,
-						       int
-						       *seq_from_cmd_str_offset,
-						       int *cmd_str_offset,
-						       const char *full_str);
+extern int _lw6dat_atom_parse_serial_i_n_reg_seq_id_from_cmd (int *serial,
+							      int *order_i,
+							      int *order_n,
+							      int *reg,
+							      int64_t * seq,
+							      u_int64_t *
+							      logical_from,
+							      int
+							      *seq_from_cmd_str_offset,
+							      int
+							      *cmd_str_offset,
+							      const char
+							      *full_str);
 
 /* dat-block.c */
 extern _lw6dat_block_t *_lw6dat_block_new (int serial_0);
@@ -199,8 +203,9 @@ extern int _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
 				       const char *full_str, int send_flag);
 extern _lw6dat_atom_t *_lw6dat_stack_get_atom (_lw6dat_stack_t * stack,
 					       int serial);
-extern int _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, const char *msg,
-				  int send_flag);
+extern int _lw6dat_stack_put_msg (_lw6dat_stack_t * stack,
+				  int64_t * local_seq_seq, const char *msg,
+				  int reg, int send_flag);
 extern int _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t *
 							  stack);
 extern int64_t _lw6dat_stack_get_seq_min (_lw6dat_stack_t * stack);
@@ -263,6 +268,8 @@ extern int64_t _lw6dat_warehouse_get_local_seq_0 (_lw6dat_warehouse_t *
 						  warehouse);
 extern void _lw6dat_warehouse_set_local_seq_0 (_lw6dat_warehouse_t *
 					       warehouse, int64_t seq_0);
+extern int64_t _lw6dat_warehouse_get_local_seq_last (_lw6dat_warehouse_t *
+						     warehouse);
 extern int _lw6dat_warehouse_get_stack_index (_lw6dat_warehouse_t * warehouse,
 					      u_int64_t node_id);
 extern int _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
@@ -273,15 +280,15 @@ extern int _lw6dat_warehouse_is_node_registered (_lw6dat_warehouse_t *
 						 u_int64_t node_id);
 extern int _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 				       u_int64_t logical_from, int serial,
-				       int order_i, int order_n, int64_t seq,
-				       const char *full_str,
+				       int order_i, int order_n, int reg,
+				       int64_t seq, const char *full_str,
 				       int seq_from_cmd_str_offset,
 				       int cmd_str_offset);
 extern int _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 					   u_int64_t logical_from,
 					   const char *full_str);
 extern int _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse,
-					    const char *msg);
+					    const char *msg, int reg);
 extern int
 _lw6dat_warehouse_calc_serial_draft_and_reference (_lw6dat_warehouse_t *
 						   warehouse);
