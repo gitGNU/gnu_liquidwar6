@@ -40,8 +40,10 @@ _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
   lw6sys_whd_t shape = {0, 0, 0};
   caca_dither_t *dither;
   uint32_t *buffer;
-  lw6pil_local_cursor_t *cursor = &local_cursors->cursors[local_cursors->main_i];
+  lw6pil_local_cursor_t *cursor = NULL;
 
+  if (local_cursors && local_cursors->cursors && local_cursors->main_i)
+    cursor = &local_cursors->cursors[local_cursors->main_i];
   lw6ker_game_state_get_shape (game_state, &shape);
   width = shape.w;
   height = shape.h;
@@ -75,7 +77,8 @@ _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
       }
     }
   }
-  buffer[width * cursor->y + cursor->x] = 0xff0000;
+  if (cursor && cursor->y < height && cursor->x < width)
+    buffer[width * cursor->y + cursor->x] = 0xff0000;
 
   dither = caca_create_dither(32, width, height, 4 * width,
 			      0x00ff0000, 0x0000ff00, 0x000000ff, 0x0);
