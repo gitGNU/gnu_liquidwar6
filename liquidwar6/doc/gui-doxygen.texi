@@ -313,6 +313,16 @@ Joystick f button state.
 Stores a complete keyboard state.     
 @end deftp
 
+@defcv {Member} {lw6gui_keyboard_s} {auto_release_enabled}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_keyboard_s::auto_release_enabled}
+
+
+Wether auto_release mode is set.         
+        
+@end defcv
+
 @defcv {Member} {lw6gui_keyboard_s} {arrow_up}
 @strong{Type:} @code{lw6gui_button_t}
 
@@ -1299,6 +1309,16 @@ Interval, in milliseconds, between two key/button press events in repeat mode.
 
         
 If pressed twice within this delay (in milliseconds) then a double-click event is generated.         
+@end defcv
+
+@defcv {Member} {lw6gui_repeat_settings_s} {auto_release_delay}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_repeat_settings_s::auto_release_delay}
+
+
+        
+After this delay (milliseconds) any key will be considered be unpressed, that is, it will be released automatically. This is usefull when the input library (depends on the gfx backend) does not send proper "key up" events. The workarround is to automatically consider the key is released after some time. Usually, this would typically be set just below the repeat delay.         
 @end defcv
 
 

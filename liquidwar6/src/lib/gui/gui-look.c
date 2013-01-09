@@ -68,8 +68,15 @@ _fix_gfx_quality (lw6gui_look_t * look)
  */
 static u_int32_t seq_id = 0;
 
-/*
- * Creates a new default look.
+/**
+ * lw6gui_look_new
+ *
+ * @map_style: map_style to use as a base
+ *
+ * Create a new look object, a look is basically a style plus
+ * some dynamic parameters.
+ *
+ * Return value: newly created object.
  */
 lw6gui_look_t *
 lw6gui_look_new (lw6map_style_t * map_style)
@@ -101,8 +108,14 @@ lw6gui_look_new (lw6map_style_t * map_style)
   return look;
 }
 
-/*
+/**
+ * lw6gui_look_free
+ *
+ * @look: look object to free
+ *
  * Frees a look and all its members.
+ *
+ * Return value: none.
  */
 void
 lw6gui_look_free (lw6gui_look_t * look)
@@ -119,6 +132,15 @@ lw6gui_look_free (lw6gui_look_t * look)
 }
 
 
+/**
+ * lw6gui_look_memory_footprint
+ *
+ * @look: look object to query
+ *
+ * Gives the memory taken by this object in memory.
+ *
+ * Return value: number of bytes.
+ */
 int
 lw6gui_look_memory_footprint (lw6gui_look_t * look)
 {
@@ -126,6 +148,15 @@ lw6gui_look_memory_footprint (lw6gui_look_t * look)
   return sizeof (lw6gui_look_t);
 }
 
+/**
+ * lw6gui_look_repr
+ *
+ * @look: look object to describe
+ *
+ * Returns a readable description of the object.
+ *
+ * Return value: newly allocated string.
+ */
 char *
 lw6gui_look_repr (lw6gui_look_t * look)
 {
@@ -144,6 +175,19 @@ lw6gui_look_repr (lw6gui_look_t * look)
   return ret;
 }
 
+/**
+ * lw6gui_look_set
+ *
+ * @look: look object to modify
+ * @key: the key to change
+ * @value: the new value for the key
+ *
+ * Sets a new value for a given key in the look. The value is
+ * always a string, it will be converted/casted to the right
+ * type if needed.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
 lw6gui_look_set (lw6gui_look_t * look, char *key, char *value)
 {
@@ -168,6 +212,18 @@ lw6gui_look_set (lw6gui_look_t * look, char *key, char *value)
   return ret;
 }
 
+/**
+ * lw6gui_look_get
+ *
+ * @look: look object to query
+ * @key: the key to get
+ *
+ * Gets a new value for a given key in the look. The value is
+ * always a string, it will be converted/casted from the right
+ * type if needed.
+ *
+ * Return value: dynamically allocated string.
+ */
 char *
 lw6gui_look_get (lw6gui_look_t * look, char *key)
 {
@@ -189,6 +245,20 @@ lw6gui_look_get (lw6gui_look_t * look, char *key)
   return ret;
 }
 
+/**
+ * lw6gui_look_is_same
+ *
+ * @look_a: first object to compare
+ * @look_b: second object to compare
+ *
+ * Compares two look objects, doing recursive
+ * comparisons. This can be very usefull if, for
+ * instance, a graphics renderer is using some contextual
+ * objects that depend on the look (colors?) and need
+ * to be updated/regenerated on a look change
+ *
+ * Return value: 1 if they are the same, 0 if not.
+ */
 int
 lw6gui_look_is_same (const lw6gui_look_t * look_a,
 		     const lw6gui_look_t * look_b)
@@ -209,6 +279,15 @@ lw6gui_look_is_same (const lw6gui_look_t * look_a,
   return ret;
 }
 
+/**
+ * lw6gui_look_dup
+ *
+ * @look: object to duplicate
+ *
+ * Duplicates a look object, performing recursive copies.
+ *
+ * Return value: newly allocated object.
+ */
 lw6gui_look_t *
 lw6gui_look_dup (lw6gui_look_t * look)
 {
@@ -231,12 +310,34 @@ lw6gui_look_dup (lw6gui_look_t * look)
   return ret;
 }
 
+/**
+ * lw6gui_look_fix
+ * 
+ * @look: look object to modify
+ * 
+ * Peforms sanity checks and modifies the look if needed,
+ * to make all values fit within acceptable ranges, among
+ * other things.
+ *
+ * Return value: none.
+ */
 void
 lw6gui_look_fix (lw6gui_look_t * look)
 {
   _fix_zoom (look);
 }
 
+/**
+ * lw6gui_look_zoom_in
+ * 
+ * @look: look object to act upon
+ * @zoom_step: how much we should zoom, 2.0 means 2 times bigger
+ *
+ * Zooms in, the function does not only multiplicates the current
+ * zoom, it also performs sanity checks.
+ *
+ * Return value: 1 if zoom was changed, 0 if not.
+ */
 int
 lw6gui_look_zoom_in (lw6gui_look_t * look, float zoom_step)
 {
@@ -266,6 +367,17 @@ lw6gui_look_zoom_in (lw6gui_look_t * look, float zoom_step)
   return ret;
 }
 
+/**
+ * lw6gui_look_zoom_out
+ * 
+ * @look: look object to act upon
+ * @zoom_step: how much we should zoom, 2.0 means 2 times smaller
+ *
+ * Zooms out, the function does not only divides the current
+ * zoom, it also performs sanity checks.
+ *
+ * Return value: 1 if zoom was changed, 0 if not.
+ */
 int
 lw6gui_look_zoom_out (lw6gui_look_t * look, float zoom_step)
 {

@@ -131,6 +131,15 @@ typedef struct lw6gui_repeat_settings_s
    * double-click event is generated.
    */
   int double_click_delay;
+  /**
+   * After this delay (milliseconds) any key will be considered be
+   * unpressed, that is, it will be released automatically. This is
+   * usefull when the input library (depends on the gfx backend) does
+   * not send proper "key up" events. The workarround is to automatically
+   * consider the key is released after some time. Usually, this
+   * would typically be set just below the repeat delay.
+   */
+  int auto_release_delay;
 } lw6gui_repeat_settings_t;
 
 typedef void (*lw6gui_resize_callback_func_t) (lw6gui_video_mode_t *
@@ -274,6 +283,8 @@ lw6gui_button_t;
  */
 typedef struct lw6gui_keyboard_s
 {
+  /// Wether auto_release mode is set.
+  int auto_release_enabled;
   /**
    * State of keyboard up arrow.
    * This can be the combination of several keys,
@@ -866,7 +877,8 @@ extern int lw6gui_button_pop_double_click (lw6gui_button_t * button);
 extern int lw6gui_button_pop_triple_click (lw6gui_button_t * button);
 extern void lw6gui_button_update_repeat (lw6gui_button_t * button,
 					 lw6gui_repeat_settings_t *
-					 repeat_settings, int64_t timestamp);
+					 repeat_settings, int64_t timestamp,
+					 int auto_release_enabled);
 extern int lw6gui_button_sync (lw6gui_button_t * dst, lw6gui_button_t * src);
 
 /* gui-coord.c */
@@ -891,6 +903,7 @@ extern void lw6gui_input_update_repeat (lw6gui_input_t * input,
 extern void lw6gui_input_register_change (lw6gui_input_t * input);
 extern int lw6gui_input_need_sync (lw6gui_input_t * input);
 extern int lw6gui_input_sync (lw6gui_input_t * dst, lw6gui_input_t * src);
+extern void lw6gui_input_enable_auto_release (lw6gui_input_t * input);
 
 /* gui-joystick.c */
 extern int lw6gui_joystick_check_index (int i);
@@ -935,9 +948,7 @@ extern lw6gui_keypress_t *lw6gui_keypress_new (int keysym, int unicode,
 extern void lw6gui_keypress_free (lw6gui_keypress_t * keypress);
 extern char *lw6gui_keypress_repr (lw6gui_keypress_t * keypress);
 
-/*
- * In look.c
- */
+/* gui-look.c */
 extern lw6gui_look_t *lw6gui_look_new (lw6map_style_t * map_style);
 extern void lw6gui_look_free (lw6gui_look_t * look);
 extern int lw6gui_look_memory_footprint (lw6gui_look_t * look);

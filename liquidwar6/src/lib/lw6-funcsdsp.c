@@ -260,6 +260,13 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
   c_param->misc.repeat_settings.double_click_delay = scm_to_int (value);
 
   value =
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_AUTO_RELEASE_DELAY),
+		  SCM_BOOL_F);
+  SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn,
+	      LW6DEF_AUTO_RELEASE_DELAY);
+  c_param->misc.repeat_settings.auto_release_delay = scm_to_int (value);
+
+  value =
     scm_hash_ref (param, scm_from_locale_string (LW6DEF_LOG_TIMEOUT),
 		  SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_LOG_TIMEOUT);

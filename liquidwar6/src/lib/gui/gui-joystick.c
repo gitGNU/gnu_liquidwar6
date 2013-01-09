@@ -158,25 +158,25 @@ lw6gui_joystick_update_repeat (lw6gui_joystick_t * joystick,
 			       int64_t timestamp)
 {
   lw6gui_button_update_repeat (&(joystick->pad_up), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
   lw6gui_button_update_repeat (&(joystick->pad_down), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
   lw6gui_button_update_repeat (&(joystick->pad_left), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
   lw6gui_button_update_repeat (&(joystick->pad_right), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
   lw6gui_button_update_repeat (&(joystick->button_a), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
   lw6gui_button_update_repeat (&(joystick->button_b), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
   lw6gui_button_update_repeat (&(joystick->button_c), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
   lw6gui_button_update_repeat (&(joystick->button_d), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
   lw6gui_button_update_repeat (&(joystick->button_e), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
   lw6gui_button_update_repeat (&(joystick->button_f), repeat_settings,
-			       timestamp);
+			       timestamp, 0);
 }
 
 /**

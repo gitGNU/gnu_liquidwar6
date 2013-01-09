@@ -182,30 +182,31 @@ lw6gui_keyboard_update_repeat (lw6gui_keyboard_t * keyboard,
   int i = 0;
 
   lw6gui_button_update_repeat (&(keyboard->arrow_up), repeat_settings,
-			       timestamp);
+			       timestamp, keyboard->auto_release_enabled);
   lw6gui_button_update_repeat (&(keyboard->arrow_down), repeat_settings,
-			       timestamp);
+			       timestamp, keyboard->auto_release_enabled);
   lw6gui_button_update_repeat (&(keyboard->arrow_left), repeat_settings,
-			       timestamp);
+			       timestamp, keyboard->auto_release_enabled);
   lw6gui_button_update_repeat (&(keyboard->arrow_right), repeat_settings,
-			       timestamp);
+			       timestamp, keyboard->auto_release_enabled);
   lw6gui_button_update_repeat (&(keyboard->key_enter), repeat_settings,
-			       timestamp);
+			       timestamp, keyboard->auto_release_enabled);
   lw6gui_button_update_repeat (&(keyboard->key_esc), repeat_settings,
-			       timestamp);
+			       timestamp, keyboard->auto_release_enabled);
   lw6gui_button_update_repeat (&(keyboard->key_ctrl), repeat_settings,
-			       timestamp);
+			       timestamp, keyboard->auto_release_enabled);
   lw6gui_button_update_repeat (&(keyboard->key_alt), repeat_settings,
-			       timestamp);
+			       timestamp, keyboard->auto_release_enabled);
   lw6gui_button_update_repeat (&(keyboard->key_pgup), repeat_settings,
-			       timestamp);
+			       timestamp, keyboard->auto_release_enabled);
   lw6gui_button_update_repeat (&(keyboard->key_pgdown), repeat_settings,
-			       timestamp);
+			       timestamp, keyboard->auto_release_enabled);
 
   for (i = 0; i < LW6GUI_NB_KEYS; ++i)
     {
       lw6gui_button_update_repeat (&(keyboard->keys_state[i]),
-				   repeat_settings, timestamp);
+				   repeat_settings, timestamp,
+				   keyboard->auto_release_enabled);
     }
 }
 
@@ -226,6 +227,8 @@ lw6gui_keyboard_sync (lw6gui_keyboard_t * dst, lw6gui_keyboard_t * src)
   int ret = 1;
   int i;
   lw6gui_keypress_t *keypress;
+
+  dst->auto_release_enabled = src->auto_release_enabled;
 
   ret = lw6gui_button_sync (&(dst->arrow_up), &(src->arrow_up)) &&
     lw6gui_button_sync (&(dst->arrow_down), &(src->arrow_down)) &&

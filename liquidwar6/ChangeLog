@@ -1,3 +1,7 @@
+2012-01-08 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added auto_release mode to fix libcaca key release issue.
+
 2012-01-06 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added new Jenkins to handle doc & extra-maps separately.
