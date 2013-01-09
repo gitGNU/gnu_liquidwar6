@@ -42,8 +42,7 @@ _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
   uint32_t *buffer;
   lw6pil_local_cursor_t *cursor = NULL;
 
-  if (local_cursors && local_cursors->cursors && local_cursors->main_i)
-    cursor = &local_cursors->cursors[local_cursors->main_i];
+  cursor = &local_cursors->cursors[local_cursors->main_i];
   lw6ker_game_state_get_shape (game_state, &shape);
   width = shape.w;
   height = shape.h;
@@ -53,6 +52,7 @@ _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
   memset(buffer, lw6sys_color_8_to_i(caca_context->const_data.bg_color), sizeof(*buffer) * (shape.w * shape.h));
 
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("map [%d|%d]"), width, height);
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("cursor [%d|%d]"), cursor->x, cursor->y);
   for (y = 0; y < height; y++)
   {
     for (x = 0; x < width; x++)

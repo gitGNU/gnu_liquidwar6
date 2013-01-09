@@ -55,11 +55,6 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
   {
     caca_set_color_ansi (caca_context->canvas, CACA_DEFAULT, CACA_DEFAULT);
     caca_fill_box(caca_context->canvas, 0, 0, wc, hc, ' ');
-    if ((mask & LW6GUI_DISPLAY_MENU) && menu)
-    {
-    lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=menu"));
-      _mod_caca_display_menu(caca_context, look, menu);
-    }
     if ((mask & LW6GUI_DISPLAY_MAP) && game_state)
     {
       lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=map"));
@@ -89,6 +84,11 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
     if ((mask & LW6GUI_DISPLAY_PROGRESS))
     {
       lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=progress"));
+    }
+    if ((mask & LW6GUI_DISPLAY_MENU) && menu)
+    {
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=menu"));
+      _mod_caca_display_menu(caca_context, look, menu);
     }
   }
 
