@@ -29,117 +29,6 @@
 #include "mod-caca-internal.h"
 
 static void
-key_up (lw6gui_keyboard_t * keyboard, caca_event_t * event,
-	_mod_caca_const_data_t* const_data)
-{
-  int sym = 0;
-
-  sym = caca_get_event_key_ch(event);
-
-  lw6gui_keyboard_register_key_up (keyboard, sym);
-
-  if (sym == const_data->keysym1_up ||
-      sym == const_data->keysym2_up ||
-      sym == const_data->keysym3_up || sym == const_data->keysym4_up)
-    {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_up)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_up)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_up)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym4_up))
-	{
-	  lw6gui_button_register_up (&(keyboard->arrow_up));
-	}
-    }
-  if (sym == const_data->keysym1_down ||
-      sym == const_data->keysym2_down ||
-      sym == const_data->keysym3_down || sym == const_data->keysym4_down)
-    {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_down)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_down)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_down)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym4_down))
-	{
-	  lw6gui_button_register_up (&(keyboard->arrow_down));
-	}
-    }
-  if (sym == const_data->keysym1_left ||
-      sym == const_data->keysym2_left ||
-      sym == const_data->keysym3_left || sym == const_data->keysym4_left)
-    {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_left)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_left)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_left)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym4_left))
-	{
-	  lw6gui_button_register_up (&(keyboard->arrow_left));
-	}
-    }
-  if (sym == const_data->keysym1_right ||
-      sym == const_data->keysym2_right ||
-      sym == const_data->keysym3_right || sym == const_data->keysym4_right)
-    {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_right)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_right)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_right)
-	  && !lw6gui_keyboard_is_pressed (keyboard,
-					  const_data->keysym4_right))
-	{
-	  lw6gui_button_register_up (&(keyboard->arrow_right));
-	}
-    }
-  if (sym == const_data->keysym1_enter || sym == const_data->keysym2_enter)
-    {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_enter)
-	  && !lw6gui_keyboard_is_pressed (keyboard,
-					  const_data->keysym2_enter))
-	{
-	  lw6gui_button_register_up (&(keyboard->key_enter));
-	}
-    }
-  if (sym == const_data->keysym1_esc || sym == const_data->keysym2_esc)
-    {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_esc)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_esc))
-	{
-	  lw6gui_button_register_up (&(keyboard->key_esc));
-	}
-    }
-  if (sym == const_data->keysym1_ctrl || sym == const_data->keysym2_ctrl)
-    {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_ctrl)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_ctrl))
-	{
-	  lw6gui_button_register_up (&(keyboard->key_ctrl));
-	}
-    }
-  if (sym == const_data->keysym1_alt || sym == const_data->keysym2_alt)
-    {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_alt)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_alt))
-	{
-	  lw6gui_button_register_up (&(keyboard->key_alt));
-	}
-    }
-  if (sym == const_data->keysym1_pgup || sym == const_data->keysym2_pgup)
-    {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_pgup)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_pgup))
-	{
-	  lw6gui_button_register_up (&(keyboard->key_pgup));
-	}
-    }
-  if (sym == const_data->keysym1_pgdown || sym == const_data->keysym2_pgdown)
-    {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_pgdown)
-	  && !lw6gui_keyboard_is_pressed (keyboard,
-					  const_data->keysym2_pgdown))
-	{
-	  lw6gui_button_register_up (&(keyboard->key_pgdown));
-	}
-    }
-}
-
-static void
 key_down (lw6gui_keyboard_t * keyboard, caca_event_t* event,
 	  _mod_caca_const_data_t * const_data, int64_t timestamp)
 {
@@ -199,7 +88,6 @@ key_down (lw6gui_keyboard_t * keyboard, caca_event_t* event,
     {
       lw6gui_button_register_down (&(keyboard->key_pgdown), timestamp);
     }
-  key_up(keyboard, event, const_data);
 }
 
 lw6gui_input_t *
@@ -223,6 +111,7 @@ _mod_caca_pump_events (_mod_caca_context_t * caca_context)
 			    CACA_EVENT_KEY_PRESS,
 			    &event, caca_context->const_data.event_timeout_microseconds))
 	{
+	  timestamp = lw6sys_get_timestamp();
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_ ("libcaca event type=%s ascii=%d\n"),
 			   (caca_get_event_type(&event) == CACA_EVENT_KEY_PRESS ? "CACA_EVENT_KEY_PRESS" : "CACA_EVENT_KEY_RELEASE"),
