@@ -298,11 +298,11 @@
 					(append (c-lw6pil-suite-get-commands-by-node-index 1 4)
 						(c-lw6pil-suite-get-commands-by-node-index 1 5))
 					)
-				   (set! stage 3)
+				   (set! stage 5)
 				   )
 				 )
 				(
-				 (= stage 4)
+				 (= stage 6)
 				 #f
 				 )
 				)
