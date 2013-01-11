@@ -206,11 +206,43 @@
 			 )
 		       )
 		      (
-		       (= stage 4)
-		       #f
+		       ;; Nothing to be done on stage 3, just fire nex 
+		       (= stage 3)
+		       (let (
+			     (entries (c-lw6p2p-node-get-entries node))
+			     )
+			 (begin		     
+			   (set! timestamp (c-lw6sys-get-timestamp))
+			   (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8058/")
+						    (assoc-ref x "round")
+						    (>= (assoc-ref x "round")
+							(assoc-ref (c-lw6pil-suite-get-checkpoint 3) "round")))
+					       (begin
+						 (lw6-log-notice (format #f "checked entry \"~a\"" x))
+						 (c-lw6sys-idle)
+						 (c-lw6p2p-node-poll node)
+						 (set! stage 4)
+						 )))
+				entries)	 
+			   (c-lw6sys-idle)
+			   (c-lw6p2p-node-poll node)
+			   ))
 		       )
-		      )
-		     ))
+		      (
+		       (= stage 4)
+		       (begin
+			 ;; Now proceed, putting the messages in the queue for good
+			 (lw6-log-notice "stage 5 & 6, putting messages in queue")
+			 (map (lambda (command) (begin
+						  (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 5 & 6" command))
+						  (c-lw6p2p-node-put-local-msg node command #f)
+						  ))
+			      (append (c-lw6pil-suite-get-commands-by-node-index 0 4)
+				      (c-lw6pil-suite-get-commands-by-node-index 0 5))
+			      )
+			 )
+		       )
+		      )))
 	    (c-lw6p2p-node-close node)
 	    ))
 	(c-lw6net-quit)
