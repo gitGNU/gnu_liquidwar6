@@ -23,6 +23,22 @@
 # Script used by Jenkins daemon to autobuild the program in
 # continuous integration mode. http://jenkins-ci.org/
 
+if test x$WORKSPACE = x1 ; then
+    if test x$TMP = x1 ; then
+	if test x$TMPDIR = x1 ; then
+	    WORKSPACE=/tmp
+	else
+	    WORKSPACE=$TMPDIR
+	fi
+    else
+	WORKSPACE=$TMP
+    fi
+fi	
+
+# This will build and check the program, it runs it a quite
+# paranoid mode, running a check then a dist then a distcheck.
+# If this passes, one can be confident program is OK.
+
 echo "******** $0 $(date) ********"
 if cd liquidwar6 ; then
     echo "******** $0 $(date) ********"
@@ -32,16 +48,22 @@ if cd liquidwar6 ; then
 	    echo "******** $0 $(date) ********"
 	    if make ; then
 		echo "******** $0 $(date) ********"
-		if make check; then
+		if make dist; then
 		    echo "******** $0 $(date) ********"
-		    if make dist; then
+		    if make check; then
 			echo "******** $0 $(date) ********"
+			if make distcheck; then
+			    echo "******** $0 $(date) ********"
+			else
+			    echo "make distcheck failed"
+			    exit 7
+			fi
 		    else
-			echo "make dist failed"
+			echo "make check failed"
 			exit 6
 		    fi
 		else
-		    echo "make check failed"
+		    echo "make dist failed"
 		    exit 5
 		fi
 	    else

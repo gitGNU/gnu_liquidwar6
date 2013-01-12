@@ -23,6 +23,24 @@
 # Script used by Jenkins daemon to autobuild the program in
 # continuous integration mode. http://jenkins-ci.org/
 
+if test x$WORKSPACE = x1 ; then
+    if test x$TMP = x1 ; then
+	if test x$TMPDIR = x1 ; then
+	    WORKSPACE=/tmp
+	else
+	    WORKSPACE=$TMPDIR
+	fi
+    else
+	WORKSPACE=$TMP
+    fi
+fi	
+
+# This will build the docs, which is quite long and has been
+# separated from the other builds. The idea was to allow quick
+# builds for the main and avoid it being reported as broken when
+# there's only a doc generation problem. Which is of small concern
+# for end users as doc ships already generated.
+
 echo "******** $0 $(date) ********"
 if cd liquidwar6 ; then
     echo "******** $0 $(date) ********"

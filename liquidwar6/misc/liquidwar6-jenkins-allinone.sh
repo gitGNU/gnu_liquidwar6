@@ -35,20 +35,28 @@ if test x$WORKSPACE = x1 ; then
     fi
 fi	
 
-# This is the default, base test, it just compiles the program.
-# If this does not work -> not need to proceed.
+# This will try and compile the game in allinone mode.
+# It does not run the tests twice by issuing a check *and* a distcheck,
+# we assume it's enough to just test that the program runs with
+# a simple "check".
 
 echo "******** $0 $(date) ********"
 if cd liquidwar6 ; then
     echo "******** $0 $(date) ********"
     if autoreconf ; then
 	echo "******** $0 $(date) ********"
-	if ./configure --prefix=$WORKSPACE/local ; then
+	if ./configure --prefix=$WORKSPACE/local --enable-allinone ; then
 	    echo "******** $0 $(date) ********"
 	    if make ; then
 		echo "******** $0 $(date) ********"
 		if make install; then
 		    echo "******** $0 $(date) ********"
+		    if make check; then
+			echo "******** $0 $(date) ********"
+		    else
+			echo "make check failed"
+			exit 6
+		    fi
 		else
 		    echo "make install failed"
 		    exit 5
