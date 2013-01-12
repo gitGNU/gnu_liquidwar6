@@ -23,6 +23,21 @@
 # Script used by Jenkins daemon to autobuild the program in
 # continuous integration mode. http://jenkins-ci.org/
 
+if test x$WORKSPACE = x1 ; then
+    if test x$TMP = x1 ; then
+	if test x$TMPDIR = x1 ; then
+	    WORKSPACE=/tmp
+	else
+	    WORKSPACE=$TMPDIR
+	fi
+    else
+	WORKSPACE=$TMP
+    fi
+fi	
+
+# This will try and compile the extra-maps package, this one
+# rarely fails, but, just in case, it's interessant to check
+
 echo "******** $0 $(date) ********"
 if cd liquidwar6-extra-maps ; then
     echo "******** $0 $(date) ********"
@@ -32,10 +47,10 @@ if cd liquidwar6-extra-maps ; then
 	    echo "******** $0 $(date) ********"
 	    if make ; then
 		echo "******** $0 $(date) ********"
-		if make dist; then
+		if make install; then
 		    echo "******** $0 $(date) ********"
 		else
-		    echo "make dist failed"
+		    echo "make install failed"
 		    exit 5
 		fi
 	    else
