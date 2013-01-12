@@ -86,14 +86,8 @@
 			   (set! next-update-info (+ timestamp lw6-test-network-update-delay))
 			   (c-lw6pil-sync-from-reference game-state pilot)
 			   (lw6-test-update-info node level game-state)
-			   (let (
-				 (nop-command (lw6-command-nop (c-lw6p2p-node-get-local-seq-last node) id))
-				 )
-			     (begin
-			       (lw6-log-notice (format #f "nop-command -> ~a" nop-command))
-			       (c-lw6p2p-node-put-local-msg node nop-command #f)
-			       )
-			     )))
+			   (c-lw6p2p-node-put-local-msg node (lw6-test-nop node) #f)
+			   ))
 		     ;; Normally, we should get the next seq with a command like:
 		     ;;(set! next-seq (c-lw6pil-get-next-seq pilot timestamp))
 		     ;; but... here we don't want the seq to depend on current timestamp,

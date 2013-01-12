@@ -1,3 +1,7 @@
+2012-01-12 : Christian Mauduit <ufoot@ufoot.org>
+
+	* New lw6p2p functions to get draft and reference seqs.
+
 2012-01-08 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added auto_release mode to fix libcaca key release issue.

@@ -359,6 +359,28 @@ should rely on algorithm/ker-side kept values.
 @strong{Return value:}  the seq.
 @end deftypefun
 
+@deftypefun {int64_t} {lw6p2p_node_get_seq_draft} (lw6p2p_node_t * @var{node})
+@var{node}:  the object to query
+
+Gets the seq of the current draft as the warehouse understands it.
+Note that it's the responsibility of the caller to update the pilot
+according to this, this information is just about what is in the
+warehouse, not necessarly what is in the pilot / game_state.
+
+@strong{Return value:}  the seq.
+@end deftypefun
+
+@deftypefun {int64_t} {lw6p2p_node_get_seq_reference} (lw6p2p_node_t * @var{node})
+@var{node}:  the object to query
+
+Gets the seq of the current reference as the warehouse understands it.
+Note that it's the responsibility of the caller to update the pilot
+according to this, this information is just about what is in the
+warehouse, not necessarly what is in the pilot / game_state.
+
+@strong{Return value:}  the seq.
+@end deftypefun
+
 @deftypefun {int} {lw6p2p_node_is_seed_needed} (lw6p2p_node_t * @var{node})
 @var{node}:  node to query
 
