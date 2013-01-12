@@ -78,4 +78,19 @@
 	  (cons "round" (c-lw6ker-get-rounds game-state)))
     ))
 
-	   
+;; Generate a NOP command and log our current state as well, for
+;; debugging purposes. The NOP command itself is required for if
+;; we don't send regular stuff on the network, messages can be lost
+;; because never sent, and it's hard to plan this in advance in the
+;; static suite messages arrays.
+(define lw6-test-nop
+  (lambda (node)
+    (let (
+	  (nop-command (lw6-command-nop (c-lw6p2p-node-get-local-seq-last node) 
+					(c-lw6p2p-node-get-id node)))
+	  )
+      (begin	
+	(lw6-log-notice (format #f "nop-command -> ~a" nop-command))
+	(lw6-log-notice (format #f "current state \"~a\"" node))
+	nop-command
+	))))

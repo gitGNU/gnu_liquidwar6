@@ -374,18 +374,32 @@ _lw6p2p_node_repr (_lw6p2p_node_t * node)
 {
   char *repr = NULL;
   int nb_nodes = 0;
+  int64_t seq_min = 0LL;
+  int64_t seq_max = 0LL;
+  int64_t seq_draft = 0LL;
+  int64_t seq_reference = 0LL;
 
   if (node && node->id && node->bind_ip)
     {
       if (node->warehouse)
 	{
 	  nb_nodes = lw6dat_warehouse_get_nb_nodes (node->warehouse);
+	  seq_min = lw6dat_warehouse_get_seq_min (node->warehouse);
+	  seq_max = lw6dat_warehouse_get_seq_max (node->warehouse);
+	  seq_draft = lw6dat_warehouse_get_seq_draft (node->warehouse);
+	  seq_reference =
+	    lw6dat_warehouse_get_seq_reference (node->warehouse);
 	}
-
       repr =
-	lw6sys_new_sprintf (_x_ ("%u %s %s:%d %s (%d nodes)"), node->id,
-			    node->node_id_str, node->bind_ip,
-			    node->bind_port, node->public_url, nb_nodes);
+	lw6sys_new_sprintf (_x_
+			    ("%u %s %s:%d %s (%d nodes, seq_min=%"
+			     LW6SYS_PRINTF_LL "d, seq_max=%" LW6SYS_PRINTF_LL
+			     "d, seq_draft=%" LW6SYS_PRINTF_LL
+			     "d, seq_reference=%" LW6SYS_PRINTF_LL "d)"),
+			    node->id, node->node_id_str, node->bind_ip,
+			    node->bind_port, node->public_url, nb_nodes,
+			    (long long) seq_min, (long long) seq_max,
+			    (long long) seq_draft, (long long) seq_reference);
     }
   else
     {
@@ -2424,6 +2438,91 @@ lw6p2p_node_get_seq_max (lw6p2p_node_t * node)
   if (_node_lock (node))
     {
       ret = _lw6p2p_node_get_seq_max ((_lw6p2p_node_t *) node);
+      _node_unlock (node);
+    }
+
+  return ret;
+}
+
+int64_t
+_lw6p2p_node_get_seq_draft (_lw6p2p_node_t * node)
+{
+  int64_t ret = 0LL;
+
+  ret = lw6sys_llmax
+    (lw6dat_warehouse_get_seq_draft (node->warehouse), node->calibrate_seq);
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_get_seq_draft
+ *
+ * @node: the object to query
+ *
+ * Gets the seq of the current draft as the warehouse understands it.
+ * Note that it's the responsibility of the caller to update the pilot
+ * according to this, this information is just about what is in the
+ * warehouse, not necessarly what is in the pilot / game_state.
+ *
+ * Return value: the seq.
+ */
+int64_t
+lw6p2p_node_get_seq_draft (lw6p2p_node_t * node)
+{
+  int64_t ret = 0LL;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_get_seq_draft ((_lw6p2p_node_t *) node);
+      _node_unlock (node);
+    }
+
+  return ret;
+}
+
+int64_t
+_lw6p2p_node_get_seq_reference (_lw6p2p_node_t * node)
+{
+  int64_t ret = 0LL;
+
+  ret = lw6sys_llmax
+    (lw6dat_warehouse_get_seq_reference (node->warehouse),
+     node->calibrate_seq);
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_get_seq_reference
+ *
+ * @node: the object to query
+ *
+ * Gets the seq of the current reference as the warehouse understands it.
+ * Note that it's the responsibility of the caller to update the pilot
+ * according to this, this information is just about what is in the
+ * warehouse, not necessarly what is in the pilot / game_state.
+ *
+ * Return value: the seq.
+ */
+int64_t
+lw6p2p_node_get_seq_reference (lw6p2p_node_t * node)
+{
+  int64_t ret = 0LL;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_get_seq_reference ((_lw6p2p_node_t *) node);
       _node_unlock (node);
     }
 

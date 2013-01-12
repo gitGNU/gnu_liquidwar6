@@ -131,7 +131,7 @@
 		      ;; First, send a NOP message for automatic self-registering
 		      ;; this one is really important, it's a NOP but not sending
 		      ;; it could cause problems if all nodes can't communicate
-		      (c-lw6p2p-node-put-local-msg node (lw6-command-nop (c-lw6p2p-node-get-local-seq-last node) id) #t)
+		      (c-lw6p2p-node-put-local-msg node (lw6-test-nop node) #t)
 		      ;; Now, loop for the rest of the test
 		      (while (< timestamp time-limit)
 			     (begin
@@ -148,14 +148,8 @@
 					   (c-lw6pil-sync-from-reference game-state pilot)
 					   (lw6-test-update-info node level game-state)
 					   ))
-				     (let (
-					   (nop-command (lw6-command-nop (c-lw6p2p-node-get-local-seq-last node) id))
-					   )
-				       (begin
-					 (lw6-log-notice (format #f "nop-command -> ~a" nop-command))
-					 (c-lw6p2p-node-put-local-msg node nop-command #f)
-					 )
-				       )))
+				     (c-lw6p2p-node-put-local-msg node (lw6-test-nop node) #f)
+				     ))
 			       (if pilot
 				   (begin
 				     ;; Normally, we should get the next seq with a command like:
