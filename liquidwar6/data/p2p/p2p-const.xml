@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <liquidwar6>
-  <int key="accept-delay" value="10" />
+  <int key="accept-delay" value="0" />
   <int key="flush-verified-nodes-delay" value="3000" />
   <int key="flush-discovered-nodes-delay" value="11000" />
   <int key="explore-discover-nodes-delay" value="5000" />
@@ -16,4 +16,5 @@
   <int key="ticket-table-hash-size" value="257" />
   <int key="send-best-reliable-limit-n" value="100" />
   <int key="received-atom-parts-per-poll-to-disable-miss" value="10" />
+  <int key="reg-nb-duplicates" value="5" />
 </liquidwar6>
