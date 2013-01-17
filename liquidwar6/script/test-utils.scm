@@ -94,3 +94,27 @@
 	(lw6-log-notice (format #f "current state \"~a\"" node))
 	nop-command
 	))))
+
+;; Check a given checksum, this is used for debugging, to
+;; make double-triple sure the game-state we get is the right one.
+;; This is a really strong test as the slightest difference between
+;; messages will cause a checksum difference. Returns #t if they
+;; are the same (the checksums) which means the test succeeded.
+(define lw6-test-verify-checksum
+  (lambda (game-state pilot stage)
+    (begin
+      (c-lw6pil-sync-from-reference game-state pilot)
+      (let ( 
+	    (ref-checkpoint (c-lw6pil-suite-get-checkpoint stage))
+	    (this-checkpoint (lw6-test-checkpoint game-state pilot))
+	    )
+	(if (equal? ref-checkpoint this-checkpoint)
+	    (begin
+	      (lw6-log-notice (format #f "checkpoint OK ~a" this-checkpoint))
+	      #t
+	      )
+	    (begin
+	      (lw6-log-warning (format #f "bad checkpoint ~a vs ~a" this-checkpoint ref-checkpoint))
+	      #f
+	      )
+	)))))  

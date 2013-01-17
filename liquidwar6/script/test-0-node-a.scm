@@ -68,13 +68,16 @@
 	       (next-update-info 0)
 	       (seed-sent #f)
 	       (dump-sent #f)
+	       (checkpoint-0-ok #f)
+	       (checkpoint-2-ok #f)
+	       (checkpoint-4-ok #f)
 	       )
 	  (begin
 	    (lw6-log-notice node)
 	    (c-lw6p2p-node-poll node)
 	    (c-lw6pil-commit pilot)
 	    (c-lw6p2p-node-server-start node seq-0)
-	    (while (< timestamp time-limit)
+	    (while (and (< timestamp time-limit) (< stage 6))
 		   (begin
 		     (set! timestamp (c-lw6sys-get-timestamp))
 		     (c-lw6sys-idle)
@@ -155,6 +158,7 @@
 		      (
 		       (= stage 0)
 		       (begin
+			 ;; Now proceed, putting the messages in the queue for good
 			 (lw6-log-notice "stage 1 & 2, putting messages in queue")
 			 (map (lambda (command) (begin
 						  (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 1 & 2" command))
@@ -168,63 +172,62 @@
 		       )
 		      (
 		       (= stage 2)
+		       (if (>= (c-lw6pil-get-reference-current-seq pilot)
+			       (assoc-ref (c-lw6pil-suite-get-checkpoint 0) "seq"))
+			   (begin
+			     ;; Now verifying that at this stage the game-state 
+			     ;; is correct, will validate the whole test suite at
+			     ;; this point, it could fail later, but in that case
+			     ;; other nodes would receive garbage and *they* would
+			     ;; fail. 
+			     (set! checkpoint-0-ok (lw6-test-verify-checksum game-state pilot 0))
+			     ;; Now proceed, putting the messages in the queue for good
+			     (lw6-log-notice "stage 3 & 4, putting messages in queue")
+			     (map (lambda (command) (begin
+						      (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 3 & 4" command))
+						      (c-lw6p2p-node-put-local-msg node command #f)
+						      ))
+				  (append (c-lw6pil-suite-get-commands-by-node-index 0 2)
+					  (c-lw6pil-suite-get-commands-by-node-index 0 3))
+				  )
+			     (set! stage 3)
+			     ))
+		       )
+		      (
+		       ;; Wait for peer to be at least the right round 
+		       (= stage 3)
+		       (let (
+			     (entries (c-lw6p2p-node-get-entries node))
+			     )
+			 (if (>= (c-lw6pil-get-reference-current-seq pilot)
+				 (assoc-ref (c-lw6pil-suite-get-checkpoint 2) "seq"))			     
+			     (begin		     
+			       (set! timestamp (c-lw6sys-get-timestamp))
+			       (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8058/")
+							(assoc-ref x "round")
+							(>= (assoc-ref x "round")
+							    (assoc-ref (c-lw6pil-suite-get-checkpoint 2) "round"))
+							)
+						   (begin
+						     (lw6-log-notice (format #f "checked entry \"~a\"" x))
+						     (c-lw6sys-idle)
+						     (c-lw6p2p-node-poll node)
+						     (set! stage 4)
+						     )))
+				    entries)	 
+			       (c-lw6sys-idle)
+			       (c-lw6p2p-node-poll node)
+			       )))
+		       )
+		      (
+		       (= stage 4)
 		       (begin
 			 ;; Now verifying that at this stage the game-state 
 			 ;; is correct, will validate the whole test suite at
 			 ;; this point, it could fail later, but in that case
 			 ;; other nodes would receive garbage and *they* would
 			 ;; fail. 
-			 (c-lw6pil-sync-from-reference game-state pilot)
-			 (let ( 
-			       (ref-checkpoint (c-lw6pil-suite-get-checkpoint 0))
-			       (this-checkpoint (lw6-test-checkpoint game-state pilot))
-			       )
-			   (if (equal? ref-checkpoint this-checkpoint)
-			       (begin
-				 (lw6-log-notice (format #f "checkpoint OK ~a" this-checkpoint))
-				 (set! ret #t) ;; here we validate the test
-				 )
-			       (lw6-log-warning (format #f "bad checkpoint ~a vs ~a" this-checkpoint ref-checkpoint))
-			       )
-			   )
-			 ;; Now proceed, putting the messages in the queue for good
-			 (lw6-log-notice "stage 3 & 4, putting messages in queue")
-			 (map (lambda (command) (begin
-						  (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 3 & 4" command))
-						  (c-lw6p2p-node-put-local-msg node command #f)
-						  ))
-			      (append (c-lw6pil-suite-get-commands-by-node-index 0 2)
-				      (c-lw6pil-suite-get-commands-by-node-index 0 3))
-			      )
-			 (set! stage 3)
-			 )
-		       )
-		      (
-		       ;; Nothing to be done on stage 3, just fire nex 
-		       (= stage 3)
-		       (let (
-			     (entries (c-lw6p2p-node-get-entries node))
-			     )
-			 (begin		     
-			   (set! timestamp (c-lw6sys-get-timestamp))
-			   (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8058/")
-						    (assoc-ref x "round")
-						    (>= (assoc-ref x "round")
-							(assoc-ref (c-lw6pil-suite-get-checkpoint 3) "round")))
-					       (begin
-						 (lw6-log-notice (format #f "checked entry \"~a\"" x))
-						 (c-lw6sys-idle)
-						 (c-lw6p2p-node-poll node)
-						 (set! stage 4)
-						 )))
-				entries)	 
-			   (c-lw6sys-idle)
-			   (c-lw6p2p-node-poll node)
-			   ))
-		       )
-		      (
-		       (= stage 4)
-		       (begin
+			 (set! checkpoint-2-ok (lw6-test-verify-checksum game-state pilot 2))
 			 ;; Now proceed, putting the messages in the queue for good
 			 (lw6-log-notice "stage 5 & 6, putting messages in queue")
 			 (map (lambda (command) (begin
@@ -234,14 +237,31 @@
 			      (append (c-lw6pil-suite-get-commands-by-node-index 0 4)
 				      (c-lw6pil-suite-get-commands-by-node-index 0 5))
 			      )
+			 (set! stage 5)
 			 )
 		       )
+		      (
+		       (= stage 5)
+		       (if (>= (c-lw6pil-get-reference-current-seq pilot)
+			       (assoc-ref (c-lw6pil-suite-get-checkpoint 4) "seq"))
+			   (begin
+			     (set! checkpoint-4-ok (lw6-test-verify-checksum game-state pilot 4))
+			     ;; Will now end the test, we're done, it might be right
+			     ;; or wrong, but there's no point in waiting
+			     (lw6-log-notice "done with test, ready to quit")
+			     (set! stage 6)
+			     )
+			   )
+		       )
 		      )))
+	    ;; Condition of success is: all checkpoints are OK
+	    (set! ret (and checkpoint-0-ok checkpoint-2-ok checkpoint-4-ok))
 	    (c-lw6p2p-node-close node)
 	    ))
 	(c-lw6net-quit)
 	(gc)
-	ret))))
+	ret
+	))))
 
 (c-lw6-set-ret #f) ;; reset this to "failed" so that it has the right value is script is interrupted
 (c-lw6-set-ret (and
