@@ -476,7 +476,12 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      /*
+	       * A common error is when message comes too early and node has
+	       * not been properly registered yet (order of messages is not
+	       * garanteed). So it's worth noting in the log for troubleshooting.
+	       */
+	      lw6sys_log (LW6SYS_LOG_INFO,
 			  _x_
 			  ("unable to put in dataware message \"%s\" from \"%s\""),
 			  message, cnx->remote_url);

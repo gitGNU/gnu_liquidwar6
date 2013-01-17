@@ -2627,10 +2627,34 @@ int
 _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg, int reg)
 {
   int ret = 0;
+  int i = 0;
+  int n = 1;
 
   if (node->warehouse)
     {
-      ret = lw6dat_warehouse_put_local_msg (node->warehouse, msg, reg);
+      /*
+       * If in registering mode, then fire several messages, since
+       * it's very important it's send, and transport is not assumed
+       * reliable. This is the protocol Achille's tendon, this message
+       * should really make it through.
+       */
+      n = reg ? node->db->data.consts.reg_nb_duplicates : 1;
+      for (i = 0; i < n; ++i)
+	{
+	  if (lw6dat_warehouse_put_local_msg (node->warehouse, msg, reg))
+	    {
+	      ret = 1;
+	    }
+	  /*
+	   * If in reg mode, poll and wait, this will help sending the
+	   * message for real and avoid pipeline full errors.
+	   */
+	  if (reg)
+	    {
+	      _lw6p2p_node_poll (node, NULL);
+	      lw6sys_idle ();
+	    }
+	}
     }
 
   return ret;

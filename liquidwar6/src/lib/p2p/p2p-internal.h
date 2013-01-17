@@ -100,6 +100,7 @@ typedef struct _lw6p2p_consts_s
   int ticket_table_hash_size;
   int send_best_reliable_limit_n;
   int received_atom_parts_per_poll_to_disable_miss;
+  int reg_nb_duplicates;
 }
 _lw6p2p_consts_t;
 

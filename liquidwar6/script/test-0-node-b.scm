@@ -167,7 +167,7 @@
 					     )
 					 (begin
 					   (lw6-log-notice (format #f "seed-command -> ~a" seed-command))
-					   (c-lw6p2p-node-put-local-msg node seed-command #t)
+					   (c-lw6p2p-node-put-local-msg node seed-command #f)
 					   (c-lw6sys-idle)
 					   (c-lw6p2p-node-poll node)
 					   (set! seed-sent #t)
