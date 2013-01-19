@@ -246,6 +246,8 @@ c-lw6p2p-node-get-seq-max
 c-lw6p2p-node-get-seq-min
 c-lw6p2p-node-get-seq-reference
 c-lw6p2p-node-is-dump-needed
+c-lw6p2p-node-is-peer-connected
+c-lw6p2p-node-is-peer-registered
 c-lw6p2p-node-is-seed-needed
 c-lw6p2p-node-new
 c-lw6p2p-node-poll

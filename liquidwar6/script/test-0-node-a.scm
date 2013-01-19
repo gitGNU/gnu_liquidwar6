@@ -199,8 +199,12 @@
 		       (let (
 			     (entries (c-lw6p2p-node-get-entries node))
 			     )
-			 (if (>= (c-lw6pil-get-reference-current-seq pilot)
-				 (assoc-ref (c-lw6pil-suite-get-checkpoint 2) "seq"))			     
+			 (if (and (>= (c-lw6pil-get-reference-current-seq pilot)
+				      (assoc-ref (c-lw6pil-suite-get-checkpoint 2) "seq"))
+				  (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 0))
+				  (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 1))
+				  (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 2))
+				  )			     
 			     (begin		     
 			       (set! timestamp (c-lw6sys-get-timestamp))
 			       (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8058/")

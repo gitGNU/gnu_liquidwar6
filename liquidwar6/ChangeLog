@@ -1,3 +1,7 @@
+2012-01-19 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added script funcs to test wether peers are connected/registered.
+
 2012-01-17 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed network NOP message reg/bootstrap problem.

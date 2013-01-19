@@ -2997,6 +2997,10 @@ populate_references ()
 		 _x_ ("Wrapper on lw6p2p_node_get_seq_draft."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_SEQ_REFERENCE,
 		 _x_ ("Wrapper on lw6p2p_node_get_seq_reference."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_IS_PEER_CONNECTED,
+		 _x_ ("Wrapper on lw6p2p_node_is_peer_connected."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_IS_PEER_REGISTERED,
+		 _x_ ("Wrapper on lw6p2p_node_is_peer_registered."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_IS_SEED_NEEDED,
 		 _x_ ("Wrapper on lw6p2p_node_is_seed_needed."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED,
