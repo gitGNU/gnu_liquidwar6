@@ -990,6 +990,16 @@ Wrapper on lw6p2p_node_get_seq_reference.
 Wrapper on lw6p2p_node_is_dump_needed.
 @end deffn
 
+@subsection c-lw6p2p-node-is-peer-connected
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-is-peer-connected}
+Wrapper on lw6p2p_node_is_peer_connected.
+@end deffn
+
+@subsection c-lw6p2p-node-is-peer-registered
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-is-peer-registered}
+Wrapper on lw6p2p_node_is_peer_registered.
+@end deffn
+
 @subsection c-lw6p2p-node-is-seed-needed
 @deffn {C function exported to Guile} @code{c-lw6p2p-node-is-seed-needed}
 Wrapper on lw6p2p_node_is_seed_needed.

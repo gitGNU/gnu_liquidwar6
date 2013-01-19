@@ -381,6 +381,10 @@ extern int64_t _lw6p2p_node_get_seq_min (_lw6p2p_node_t * node);
 extern int64_t _lw6p2p_node_get_seq_max (_lw6p2p_node_t * node);
 extern int64_t _lw6p2p_node_get_seq_draft (_lw6p2p_node_t * node);
 extern int64_t _lw6p2p_node_get_seq_reference (_lw6p2p_node_t * node);
+extern int _lw6p2p_node_is_peer_connected (_lw6p2p_node_t * node,
+					   u_int64_t peer_id);
+extern int _lw6p2p_node_is_peer_registered (_lw6p2p_node_t * node,
+					    u_int64_t peer_id);
 extern int _lw6p2p_node_is_seed_needed (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_is_dump_needed (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node,

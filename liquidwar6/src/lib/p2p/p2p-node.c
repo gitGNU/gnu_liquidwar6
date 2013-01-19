@@ -2530,6 +2530,95 @@ lw6p2p_node_get_seq_reference (lw6p2p_node_t * node)
 }
 
 int
+_lw6p2p_node_is_peer_connected (_lw6p2p_node_t * node, u_int64_t peer_id)
+{
+  int ret = 0;
+
+  ret = (peer_id == node->node_id_int) ||
+    (_lw6p2p_node_find_tentacle (node, peer_id) >= 0);
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_is_peer_connected
+ *
+ * @node: the object to query
+ @ @peer_id: id of the peer we want to check
+ *
+ * Tests wether the node is connected to us.
+ * This is a different question from being registered, being connected
+ * means there's a tentacle connected to the peer, but it does not
+ * necessarly means this peer actively takes part in the game.
+ *
+ * Return value: 1 if connected, 0 if not.
+ */
+int
+lw6p2p_node_is_peer_connected (lw6p2p_node_t * node, u_int64_t peer_id)
+{
+  int64_t ret = 0LL;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_is_peer_connected ((_lw6p2p_node_t *) node, peer_id);
+      _node_unlock (node);
+    }
+
+  return ret;
+}
+
+int
+_lw6p2p_node_is_peer_registered (_lw6p2p_node_t * node, u_int64_t peer_id)
+{
+  int ret = 0;
+
+  ret = (peer_id == node->node_id_int) ||
+    lw6dat_warehouse_is_node_registered (node->warehouse, peer_id);
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_is_peer_registered
+ *
+ * @node: the object to query
+ @ @peer_id: id of the peer we want to check
+ *
+ * Tests wether the node is registered within the warehouse.
+ * This is a different question from being connected, being registered
+ * means we received a message (possibly from another peer) that
+ * means "this peer is part of the game" regardless of the fact
+ * it's connected or not. Returns true if test is performed with
+ * the local id.
+ *
+ * Return value: 1 if registered, 0 if not.
+ */
+int
+lw6p2p_node_is_peer_registered (lw6p2p_node_t * node, u_int64_t peer_id)
+{
+  int64_t ret = 0LL;
+
+  /*
+   * We lock in public function, the private one does not use 
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret =
+	_lw6p2p_node_is_peer_registered ((_lw6p2p_node_t *) node, peer_id);
+      _node_unlock (node);
+    }
+
+  return ret;
+}
+
+int
 _lw6p2p_node_is_seed_needed (_lw6p2p_node_t * node)
 {
   int ret = 0;

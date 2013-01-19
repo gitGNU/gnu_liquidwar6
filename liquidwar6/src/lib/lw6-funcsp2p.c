@@ -914,6 +914,82 @@ _scm_lw6p2p_node_get_seq_reference (SCM node)
 }
 
 static SCM
+_scm_lw6p2p_node_is_peer_connected (SCM node, SCM peer_id)
+{
+  lw6p2p_node_t *c_node;
+  char *c_peer_id_str = NULL;
+  u_int64_t c_peer_id_int = 0LL;
+  int c_ret = 0LL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (peer_id), peer_id, SCM_ARG2, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_peer_id_str = lw6scm_utils_to_0str (peer_id);
+      if (c_peer_id_str)
+	{
+	  c_peer_id_int = lw6sys_id_atol (c_peer_id_str);
+	  if (c_peer_id_int > 0)
+	    {
+	      c_ret = lw6p2p_node_is_peer_connected (c_node, c_peer_id_int);
+	      ret = scm_from_int (c_ret);
+	    }
+	  LW6SYS_FREE (c_peer_id_str);
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6p2p_node_is_peer_registered (SCM node, SCM peer_id)
+{
+  lw6p2p_node_t *c_node;
+  char *c_peer_id_str = NULL;
+  u_int64_t c_peer_id_int = 0LL;
+  int c_ret = 0LL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (peer_id), peer_id, SCM_ARG2, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_peer_id_str = lw6scm_utils_to_0str (peer_id);
+      if (c_peer_id_str)
+	{
+	  c_peer_id_int = lw6sys_id_atol (c_peer_id_str);
+	  if (c_peer_id_int > 0)
+	    {
+	      c_ret = lw6p2p_node_is_peer_registered (c_node, c_peer_id_int);
+	      ret = scm_from_int (c_ret);
+	    }
+	  LW6SYS_FREE (c_peer_id_str);
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6p2p_node_is_seed_needed (SCM node)
 {
   lw6p2p_node_t *c_node;
@@ -1137,6 +1213,13 @@ lw6_register_funcs_p2p ()
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_REFERENCE, 1, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_get_seq_reference);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_PEER_CONNECTED, 2, 0, 0,
+			      (SCM (*)())_scm_lw6p2p_node_is_peer_connected);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_PEER_REGISTERED, 2, 0,
+			      0,
+			      (SCM (*)())_scm_lw6p2p_node_is_peer_registered);
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_SEED_NEEDED, 1, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_is_seed_needed);
