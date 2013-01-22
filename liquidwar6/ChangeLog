@@ -1,3 +1,7 @@
+2012-01-22 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Trying (but failed) to fix 3rd peer connection problem.
+
 2012-01-19 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added script funcs to test wether peers are connected/registered.

@@ -97,6 +97,9 @@
 					     (c-lw6sys-idle)
 					     (c-lw6p2p-node-poll node)
 					     (set! server-entry x)					     
+					     (lw6-log-notice (format #f "current round is ~a, will wait ~a to connect"
+								     (assoc-ref server-entry "round")
+								     connect-round))
 					     )))
 			    entries)	 
 		       (c-lw6sys-idle)
