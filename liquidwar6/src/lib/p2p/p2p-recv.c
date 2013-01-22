@@ -41,6 +41,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   int n = 0;
   int reg = 0;
   int64_t seq = 0LL;
+  int64_t seq_register = 0LL;
   char *ker_message = NULL;
   char *reply_msg = NULL;
   int tentacle_i = 0;
@@ -319,6 +320,14 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("received join from \"%s\""),
 		      cnx->remote_url);
+	  /*
+	   * Wether seq_register should be seq_max or seq_reference
+	   * is debatable. Anyway, the real point is that those join
+	   * messages should make it through the warehouse itself
+	   * so that they get at the real right time to all peers,
+	   * including those we're not directly connected to.
+	   */
+	  seq_register = _lw6p2p_node_get_seq_max (node);
 	  if (seq == 0LL)
 	    {
 	      /*
@@ -327,7 +336,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	       */
 	      reply_msg =
 		lw6msg_cmd_generate_join (node->node_info,
-					  _lw6p2p_node_get_seq_max (node),
+					  seq_register,
 					  lw6dat_warehouse_get_local_serial
 					  (node->warehouse));
 	      if (reply_msg)
@@ -351,15 +360,22 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		      if (!lw6dat_warehouse_is_node_registered
 			  (node->warehouse, cnx->remote_id_int))
 			{
+			  lw6sys_log (LW6SYS_LOG_INFO,
+				      _x_
+				      ("getting ready to send SEED/DUMP to %"
+				       LW6SYS_PRINTF_LL "x at seq %"
+				       LW6SYS_PRINTF_LL "d"),
+				      (long long) cnx->remote_id_int,
+				      (long long) seq_register);
 			  /*
 			   * Need this else warehouse won't bootstrap and start forwarding
-			   * messages to this peer.
+			   * messages to this peer. The seq we use here to bootstrap might
+			   * be updated afterwards by a self "reg" message.
 			   */
 			  lw6dat_warehouse_register_node (node->warehouse,
 							  cnx->remote_id_int,
 							  serial,
-							  _lw6p2p_node_get_seq_max
-							  (node));
+							  seq_register);
 
 			  _lw6p2p_peer_id_list_process_join (node,
 							     remote_node_info);
@@ -407,9 +423,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		   */
 		  lw6dat_warehouse_register_node (node->warehouse,
 						  cnx->remote_id_int,
-						  serial,
-						  _lw6p2p_node_get_seq_max
-						  (node));
+						  serial, seq_register);
 
 		  _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (), seq);
 		  lw6dat_warehouse_set_local_seq_0 (node->warehouse, seq);
