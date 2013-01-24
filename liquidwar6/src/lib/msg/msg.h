@@ -72,6 +72,7 @@
 #define LW6MSG_CMD_JOIN "JOIN"
 #define LW6MSG_CMD_GOODBYE "GOODBYE"
 #define LW6MSG_CMD_DATA "DATA"
+#define LW6MSG_CMD_META "META"
 #define LW6MSG_CMD_MISS "MISS"
 
 //#define LW6MSG_DATA_KER "KER"
@@ -94,6 +95,12 @@
 #define LW6MSG_URL_SEP '/'
 
 #define LW6MSG_UNDEF "-"
+
+/*
+ * Must be greater than LW6MAP_MAX_NB_NODES
+ * but still lower than 32.
+ */
+#define LW6MSG_NB_META_ARRAY_ITEMS 30
 
 typedef enum lw6msg_envelope_mode_e
 {
@@ -119,6 +126,20 @@ typedef struct lw6msg_word_s
 
 } lw6msg_word_t;
 
+typedef struct lw6msg_meta_array_item_s
+{
+  u_int64_t node_id;
+  int serial_0;
+  int64_t seq_0;
+}
+lw6msg_meta_array_item_t;
+
+typedef struct lw6msg_meta_array_s
+{
+  lw6msg_meta_array_item_t items[LW6MSG_NB_META_ARRAY_ITEMS];
+}
+lw6msg_meta_array_t;
+
 /* msg-cmd.c */
 extern char *lw6msg_cmd_generate_hello (lw6nod_info_t * info);
 extern char *lw6msg_cmd_generate_ticket (lw6nod_info_t * info,
@@ -131,6 +152,8 @@ extern char *lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq,
 				       int serial);
 extern char *lw6msg_cmd_generate_goodbye (lw6nod_info_t * info);
 extern char *lw6msg_cmd_generate_data (int serial, int i, int n, int reg,
+				       int64_t seq, const char *ker_msg);
+extern char *lw6msg_cmd_generate_meta (int serial, int i, int n, int reg,
 				       int64_t seq, const char *ker_msg);
 extern char *lw6msg_cmd_generate_miss (u_int64_t id_from, u_int64_t id_to,
 				       int serial_min, int serial_max);
@@ -147,6 +170,9 @@ extern int lw6msg_cmd_analyse_join (lw6nod_info_t ** info,
 extern int lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info,
 				       const char *msg);
 extern int lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *reg,
+				    int64_t * seq, char **ker_msg,
+				    const char *msg);
+extern int lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int *reg,
 				    int64_t * seq, char **ker_msg,
 				    const char *msg);
 extern int lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to,
@@ -179,6 +205,15 @@ extern int lw6msg_envelope_analyse (const char *envelope,
 				    u_int64_t * logical_from_id,
 				    u_int64_t * logical_to_id,
 				    char **physical_from_url);
+
+/* msg-meta.c */
+extern void lw6msg_meta_array_clear (lw6msg_meta_array_t * array);
+extern int lw6msg_meta_array_set (lw6msg_meta_array_t * array,
+				  u_int64_t node_id, int serial_0,
+				  int64_t seq_0);
+extern int lw6msg_meta_str2array (lw6msg_meta_array_t * array,
+				  const char *str);
+extern char *lw6msg_meta_array2str (const lw6msg_meta_array_t * array);
 
 /* msg-oob.c */
 extern char *lw6msg_oob_generate_info (lw6nod_info_t * info);

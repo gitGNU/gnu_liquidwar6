@@ -33,7 +33,7 @@
  * Must be greater than LW6MAP_MAX_NB_NODES
  * but still lower than 32.
  */
-#define LW6DAT_MAX_NB_STACKS 30
+#define LW6DAT_MAX_NB_STACKS LW6MSG_NB_META_ARRAY_ITEMS
 
 /*
  * Value to use to explicit say no limit must be used when
