@@ -83,11 +83,19 @@
 #define _LW6DAT_FLAG_LOCAL 0x00000001
 #define _LW6DAT_FLAG_REMOTE 0x3ffffffe
 
+/*
+ * Atoms can have 2 types
+ */
+#define _LW6DAT_ATOM_TYPE_UNKNOWN 0
+#define _LW6DAT_ATOM_TYPE_DATA 1
+#define _LW6DAT_ATOM_TYPE_META 2
+
 typedef struct _lw6dat_atom_s
 {
   int not_null;
   int send_flag;
   int sent_status;
+  int atom_type;
   int update_msg_called;
   int serial;
   int order_i;

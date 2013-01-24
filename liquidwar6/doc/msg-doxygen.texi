@@ -1,6 +1,64 @@
 
 
   
+@deftp {Struct} {lw6msg_meta_array_item_s}
+
+    
+    
+@end deftp
+
+@defcv {Member} {lw6msg_meta_array_item_s} {node_id}
+@strong{Type:} @code{u_int64_t}
+
+@strong{Definition:} @code{u_int64_t lw6msg_meta_array_item_s::node_id}
+
+
+        
+        
+@end defcv
+
+@defcv {Member} {lw6msg_meta_array_item_s} {serial_0}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6msg_meta_array_item_s::serial_0}
+
+
+        
+        
+@end defcv
+
+@defcv {Member} {lw6msg_meta_array_item_s} {seq_0}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t lw6msg_meta_array_item_s::seq_0}
+
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp {Struct} {lw6msg_meta_array_s}
+
+    
+    
+@end deftp
+
+@defcv {Member} {lw6msg_meta_array_s} {items}
+@strong{Type:} @code{lw6msg_meta_array_item_t}
+
+@strong{Definition:} @code{lw6msg_meta_array_item_t lw6msg_meta_array_s::items[LW6MSG_NB_META_ARRAY_ITEMS]}
+
+
+        
+        
+@end defcv
+
+
+
+  
 @deftp {Struct} {lw6msg_word_s}
 
     

@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ -lz
 
 noinst_LTLIBRARIES = libmsg.la
-libmsg_la_SOURCES = msg-cmd.c msg-envelope.c msg-oob.c msg-sort.c msg-test.c msg-ticket.c msg-utils.c msg-word.c msg-z.c
+libmsg_la_SOURCES = msg-cmd.c msg-envelope.c msg-meta.c msg-oob.c msg-sort.c msg-test.c msg-ticket.c msg-utils.c msg-word.c msg-z.c
 libmsgdir= $(includedir)/@PACKAGE_TARNAME@/msg
 libmsg_HEADERS = msg.h
 
