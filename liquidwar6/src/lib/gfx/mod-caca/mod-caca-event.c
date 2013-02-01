@@ -120,7 +120,6 @@ _mod_caca_pump_events (_mod_caca_context_t * caca_context)
 	  switch (caca_get_event_type(&event))
 	    {
 	    case CACA_EVENT_KEY_PRESS:
-	      lw6gui_input_register_change (input);
 	      key_down (&(input->keyboard), &event, const_data, timestamp);
 	      if (caca_get_event_key_ch(&event) == const_data->keysym_quit)
 		{
@@ -131,6 +130,16 @@ _mod_caca_pump_events (_mod_caca_context_t * caca_context)
 	      break ;
 	    }
 	}
+      /*
+       * Since we have the "autorelease" hack, key releases
+       * can happen at any time under the hood, without any
+       * real user-based event. So we consider input changes
+       * all the time. One optimisation would be to do this on
+       * a regular basis, for instance "at least every 10 msec"
+       * or even better base this polling on the autorelease delay
+       * itself.
+       */
+      lw6gui_input_register_change (input);
     }
 
   return input;
