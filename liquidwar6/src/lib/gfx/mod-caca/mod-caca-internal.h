@@ -100,22 +100,29 @@ extern int _mod_caca_load_consts (_mod_caca_context_t * context);
 extern void _mod_caca_unload_consts (_mod_caca_context_t * context);
 
 /* mod-caca-game.c */
-extern int _mod_caca_display_map(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
-				 lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct,
-				 lw6pil_local_cursors_t * local_cursors);
+extern int _mod_caca_display_map (_mod_caca_context_t * caca_context,
+				  lw6gui_look_t * look,
+				  lw6ker_game_state_t * game_state,
+				  lw6ker_game_struct_t * game_struct,
+				  lw6pil_local_cursors_t * local_cursors);
 
 /* mod-caca-menu.c */
-extern int _mod_caca_display_menu(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
-				  lw6gui_menu_t * menu);
+extern int _mod_caca_display_menu (_mod_caca_context_t * caca_context,
+				   lw6gui_look_t * look,
+				   lw6gui_menu_t * menu);
 
 /* mod-caca-splash.c */
-extern void plasma_anim(_mod_caca_context_t * caca_context);
+extern void plasma_anim (_mod_caca_context_t * caca_context);
 
 /* mod-caca-utils.c */
-extern int _mod_caca_display_hud(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
-				 lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct);
-extern int _mod_caca_display_score(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
-				   lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct);
+extern int _mod_caca_display_hud (_mod_caca_context_t * caca_context,
+				  lw6gui_look_t * look,
+				  lw6ker_game_state_t * game_state,
+				  lw6ker_game_struct_t * game_struct);
+extern int _mod_caca_display_score (_mod_caca_context_t * caca_context,
+				    lw6gui_look_t * look,
+				    lw6ker_game_state_t * game_state,
+				    lw6ker_game_struct_t * game_struct);
 
 /* mod-caca-display.c */
 extern int _mod_caca_display (_mod_caca_context_t * caca_context, int mask,

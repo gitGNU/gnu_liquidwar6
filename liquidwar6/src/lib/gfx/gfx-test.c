@@ -393,7 +393,7 @@ test_view (lw6gfx_backend_t * backend)
 	lw6gui_look_free (look);
       }
   }
-  
+
   LW6SYS_TEST_FUNCTION_END;
   return ret;
 }

@@ -29,8 +29,9 @@
 #include "mod-caca-internal.h"
 
 extern int
-_mod_caca_display_hud(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
-		      lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct)
+_mod_caca_display_hud (_mod_caca_context_t * caca_context,
+		       lw6gui_look_t * look, lw6ker_game_state_t * game_state,
+		       lw6ker_game_struct_t * game_struct)
 {
   int ret = 1;
 
@@ -38,8 +39,10 @@ _mod_caca_display_hud(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
 }
 
 extern int
-_mod_caca_display_score(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
-			lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct)
+_mod_caca_display_score (_mod_caca_context_t * caca_context,
+			 lw6gui_look_t * look,
+			 lw6ker_game_state_t * game_state,
+			 lw6ker_game_struct_t * game_struct)
 {
   int ret = 1;
 

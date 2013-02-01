@@ -29,16 +29,16 @@
 #include "mod-caca-internal.h"
 
 static void
-key_down (lw6gui_keyboard_t * keyboard, caca_event_t* event,
+key_down (lw6gui_keyboard_t * keyboard, caca_event_t * event,
 	  _mod_caca_const_data_t * const_data, int64_t timestamp)
 {
   int sym = 0;
 
-  sym = caca_get_event_key_ch(event);
+  sym = caca_get_event_key_ch (event);
 
   lw6gui_keyboard_register_key_down (keyboard, sym,
-  				     caca_get_event_key_utf32(event),
-  				     NULL, timestamp);
+				     caca_get_event_key_utf32 (event),
+				     NULL, timestamp);
 
   if (sym == const_data->keysym1_up ||
       sym == const_data->keysym2_up ||
@@ -104,30 +104,33 @@ _mod_caca_pump_events (_mod_caca_context_t * caca_context)
 		  _x_ ("pumping libcaca events timeout %d microseconds"),
 		  caca_context->const_data.event_timeout_microseconds);
 
-      memset(&event, 0, sizeof(event));
+      memset (&event, 0, sizeof (event));
       // todo : pump them for good!
 
-      while (caca_get_event(caca_context->display,
-			    CACA_EVENT_KEY_PRESS,
-			    &event, caca_context->const_data.event_timeout_microseconds))
+      while (caca_get_event (caca_context->display,
+			     CACA_EVENT_KEY_PRESS,
+			     &event,
+			     caca_context->
+			     const_data.event_timeout_microseconds))
 	{
-	  timestamp = lw6sys_get_timestamp();
+	  timestamp = lw6sys_get_timestamp ();
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_ ("libcaca event type=%s ascii=%d\n"),
-			   (caca_get_event_type(&event) == CACA_EVENT_KEY_PRESS ? "CACA_EVENT_KEY_PRESS" : "CACA_EVENT_KEY_RELEASE"),
-			   caca_get_event_key_ch(&event)
-		      );
-	  switch (caca_get_event_type(&event))
+		      (caca_get_event_type (&event) ==
+		       CACA_EVENT_KEY_PRESS ? "CACA_EVENT_KEY_PRESS" :
+		       "CACA_EVENT_KEY_RELEASE"),
+		      caca_get_event_key_ch (&event));
+	  switch (caca_get_event_type (&event))
 	    {
 	    case CACA_EVENT_KEY_PRESS:
 	      key_down (&(input->keyboard), &event, const_data, timestamp);
-	      if (caca_get_event_key_ch(&event) == const_data->keysym_quit)
+	      if (caca_get_event_key_ch (&event) == const_data->keysym_quit)
 		{
 		  lw6sys_signal_send_quit ();
 		}
-	      break ;
+	      break;
 	    default:
-	      break ;
+	      break;
 	    }
 	}
       /*

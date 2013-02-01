@@ -102,11 +102,9 @@ read_callback (void *callback_data, const char *element, const char *key,
 			   &const_data->keysym_quit);
     }
   if (!strcmp (element, "color"))
-  {
-      lw6cfg_read_xml_color (key, value, "color-bg",
-			     &const_data->bg_color);
-      lw6cfg_read_xml_color (key, value, "color-fg",
-			     &const_data->fg_color);
+    {
+      lw6cfg_read_xml_color (key, value, "color-bg", &const_data->bg_color);
+      lw6cfg_read_xml_color (key, value, "color-fg", &const_data->fg_color);
       lw6cfg_read_xml_color (key, value, "team_color0",
 			     &const_data->team_color[0]);
       lw6cfg_read_xml_color (key, value, "team_color1",
