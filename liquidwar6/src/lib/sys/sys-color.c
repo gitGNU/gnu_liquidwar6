@@ -164,6 +164,87 @@ lw6sys_color_f_to_irgba (const lw6sys_color_f_t * color_f)
 }
 
 /**
+ * lw6sys_color_f_to_ibgra
+ *
+ * @color_f: the color to convert
+ *
+ * Converts a color from floating point format to a single
+ * integer, where all fields (BGRA) are serialized. This
+ * serialization is endianess independant. Could be used
+ * directly by low-level libraries such as SDL.
+ *
+ * Return value: the color serialized in an integer.
+ */
+u_int32_t
+lw6sys_color_f_to_ibgra (const lw6sys_color_f_t * color_f)
+{
+  u_int32_t ret;
+
+  u_int8_t *p = (u_int8_t *) & ret;
+
+  p[0] = float2char (color_f->b);
+  p[1] = float2char (color_f->g);
+  p[2] = float2char (color_f->r);
+  p[3] = float2char (color_f->a);
+
+  return ret;
+}
+
+/**
+ * lw6sys_color_f_to_iargb
+ *
+ * @color_f: the color to convert
+ *
+ * Converts a color from floating point format to a single
+ * integer, where all fields (ARGB) are serialized. This
+ * serialization is endianess independant. Could be used
+ * directly by low-level libraries such as SDL.
+ *
+ * Return value: the color serialized in an integer.
+ */
+u_int32_t
+lw6sys_color_f_to_iargb (const lw6sys_color_f_t * color_f)
+{
+  u_int32_t ret;
+
+  u_int8_t *p = (u_int8_t *) & ret;
+
+  p[0] = float2char (color_f->a);
+  p[1] = float2char (color_f->r);
+  p[2] = float2char (color_f->g);
+  p[3] = float2char (color_f->b);
+
+  return ret;
+}
+
+/**
+ * lw6sys_color_f_to_iabgr
+ *
+ * @color_f: the color to convert
+ *
+ * Converts a color from floating point format to a single
+ * integer, where all fields (ABGR) are serialized. This
+ * serialization is endianess independant. Could be used
+ * directly by low-level libraries such as SDL.
+ *
+ * Return value: the color serialized in an integer.
+ */
+u_int32_t
+lw6sys_color_f_to_iabgr (const lw6sys_color_f_t * color_f)
+{
+  u_int32_t ret;
+
+  u_int8_t *p = (u_int8_t *) & ret;
+
+  p[0] = float2char (color_f->a);
+  p[1] = float2char (color_f->b);
+  p[2] = float2char (color_f->g);
+  p[3] = float2char (color_f->r);
+
+  return ret;
+}
+
+/**
  * lw6sys_color_8_to_irgba
  *
  * @color_8: the color to convert
@@ -191,12 +272,93 @@ lw6sys_color_8_to_irgba (lw6sys_color_8_t color_8)
 }
 
 /**
+ * lw6sys_color_8_to_ibgra
+ *
+ * @color_8: the color to convert
+ *
+ * Converts a color from common "0 to 255" structured format to a single
+ * integer, where all fields (BGRA) are serialized. This
+ * serialization is endianess independant. Could be used
+ * directly by low-level libraries such as SDL.
+ *
+ * Return value: the color serialized in an integer.
+ */
+u_int32_t
+lw6sys_color_8_to_ibgra (lw6sys_color_8_t color_8)
+{
+  u_int32_t ret;
+
+  u_int8_t *p = (u_int8_t *) & ret;
+
+  p[0] = color_8.b;
+  p[1] = color_8.g;
+  p[2] = color_8.r;
+  p[3] = color_8.a;
+
+  return ret;
+}
+
+/**
+ * lw6sys_color_8_to_iargb
+ *
+ * @color_8: the color to convert
+ *
+ * Converts a color from common "0 to 255" structured format to a single
+ * integer, where all fields (ARGB) are serialized. This
+ * serialization is endianess independant. Could be used
+ * directly by low-level libraries such as SDL.
+ *
+ * Return value: the color serialized in an integer.
+ */
+u_int32_t
+lw6sys_color_8_to_iargb (lw6sys_color_8_t color_8)
+{
+  u_int32_t ret;
+
+  u_int8_t *p = (u_int8_t *) & ret;
+
+  p[0] = color_8.a;
+  p[1] = color_8.r;
+  p[2] = color_8.g;
+  p[3] = color_8.b;
+
+  return ret;
+}
+
+/**
+ * lw6sys_color_8_to_iabgr
+ *
+ * @color_8: the color to convert
+ *
+ * Converts a color from common "0 to 255" structured format to a single
+ * integer, where all fields (ABGR) are serialized. This
+ * serialization is endianess independant. Could be used
+ * directly by low-level libraries such as SDL.
+ *
+ * Return value: the color serialized in an integer.
+ */
+u_int32_t
+lw6sys_color_8_to_iabgr (lw6sys_color_8_t color_8)
+{
+  u_int32_t ret;
+
+  u_int8_t *p = (u_int8_t *) & ret;
+
+  p[0] = color_8.a;
+  p[1] = color_8.b;
+  p[2] = color_8.g;
+  p[3] = color_8.r;
+
+  return ret;
+}
+
+/**
  * lw6sys_color_irgba_to_f
  *
  * @color_f: the converted color (point must point to writable memory)
  * @color_i: the color to convert
  *
- * Converts a color from a serialized integer format to
+ * Converts a color from a serialized integer format (RGBA) to
  * a floating point structure.
  *
  * Return value: none.
@@ -213,11 +375,77 @@ lw6sys_color_irgba_to_f (lw6sys_color_f_t * color_f, u_int32_t color_i)
 }
 
 /**
+ * lw6sys_color_ibgra_to_f
+ *
+ * @color_f: the converted color (point must point to writable memory)
+ * @color_i: the color to convert
+ *
+ * Converts a color from a serialized integer format (BGRA) to
+ * a floating point structure.
+ *
+ * Return value: none.
+ */
+void
+lw6sys_color_ibgra_to_f (lw6sys_color_f_t * color_f, u_int32_t color_i)
+{
+  u_int8_t *p = (u_int8_t *) & color_i;
+
+  color_f->b = char2float (p[0]);
+  color_f->g = char2float (p[1]);
+  color_f->r = char2float (p[2]);
+  color_f->a = char2float (p[3]);
+}
+
+/**
+ * lw6sys_color_iargb_to_f
+ *
+ * @color_f: the converted color (point must point to writable memory)
+ * @color_i: the color to convert
+ *
+ * Converts a color from a serialized integer format (ARGB) to
+ * a floating point structure.
+ *
+ * Return value: none.
+ */
+void
+lw6sys_color_iargb_to_f (lw6sys_color_f_t * color_f, u_int32_t color_i)
+{
+  u_int8_t *p = (u_int8_t *) & color_i;
+
+  color_f->a = char2float (p[0]);
+  color_f->r = char2float (p[1]);
+  color_f->g = char2float (p[2]);
+  color_f->b = char2float (p[3]);
+}
+
+/**
+ * lw6sys_color_iabgr_to_f
+ *
+ * @color_f: the converted color (point must point to writable memory)
+ * @color_i: the color to convert
+ *
+ * Converts a color from a serialized integer format (ABGR) to
+ * a floating point structure.
+ *
+ * Return value: none.
+ */
+void
+lw6sys_color_iabgr_to_f (lw6sys_color_f_t * color_f, u_int32_t color_i)
+{
+  u_int8_t *p = (u_int8_t *) & color_i;
+
+  color_f->a = char2float (p[0]);
+  color_f->b = char2float (p[1]);
+  color_f->g = char2float (p[2]);
+  color_f->r = char2float (p[3]);
+}
+
+/**
  * lw6sys_color_irgba_to_8
  *
  * @color_i: the color to convert
  *
- * Converts a color from a serialized integer format to
+ * Converts a color from a serialized integer format (RGBA) to
  * a "0 to 255" based structure.
  *
  * Return value: the converted color (structure).
@@ -232,6 +460,78 @@ lw6sys_color_irgba_to_8 (u_int32_t color_i)
   ret.g = p[1];
   ret.b = p[2];
   ret.a = p[3];
+
+  return ret;
+}
+
+/**
+ * lw6sys_color_ibgra_to_8
+ *
+ * @color_i: the color to convert
+ *
+ * Converts a color from a serialized integer format (BGRA) to
+ * a "0 to 255" based structure.
+ *
+ * Return value: the converted color (structure).
+ */
+lw6sys_color_8_t
+lw6sys_color_ibgra_to_8 (u_int32_t color_i)
+{
+  lw6sys_color_8_t ret;
+  u_int8_t *p = (u_int8_t *) & color_i;
+
+  ret.b = p[0];
+  ret.g = p[1];
+  ret.r = p[2];
+  ret.a = p[3];
+
+  return ret;
+}
+
+/**
+ * lw6sys_color_iargb_to_8
+ *
+ * @color_i: the color to convert
+ *
+ * Converts a color from a serialized integer format (ARGB) to
+ * a "0 to 255" based structure.
+ *
+ * Return value: the converted color (structure).
+ */
+lw6sys_color_8_t
+lw6sys_color_iargb_to_8 (u_int32_t color_i)
+{
+  lw6sys_color_8_t ret;
+  u_int8_t *p = (u_int8_t *) & color_i;
+
+  ret.a = p[0];
+  ret.r = p[1];
+  ret.g = p[2];
+  ret.b = p[3];
+
+  return ret;
+}
+
+/**
+ * lw6sys_color_iabgr_to_8
+ *
+ * @color_i: the color to convert
+ *
+ * Converts a color from a serialized integer format (ABGR) to
+ * a "0 to 255" based structure.
+ *
+ * Return value: the converted color (structure).
+ */
+lw6sys_color_8_t
+lw6sys_color_iabgr_to_8 (u_int32_t color_i)
+{
+  lw6sys_color_8_t ret;
+  u_int8_t *p = (u_int8_t *) & color_i;
+
+  ret.a = p[0];
+  ret.b = p[1];
+  ret.g = p[2];
+  ret.r = p[3];
 
   return ret;
 }

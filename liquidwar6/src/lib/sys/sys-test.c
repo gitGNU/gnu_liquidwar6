@@ -604,6 +604,14 @@ test_color ()
 
   {
     lw6sys_color_8_t color_8;
+    int32_t color_irgba;
+    int32_t color_ibgra;
+    int32_t color_iargb;
+    int32_t color_iabgr;
+    lw6sys_color_8_t color_8_from_irgba;
+    lw6sys_color_8_t color_8_from_ibgra;
+    lw6sys_color_8_t color_8_from_iargb;
+    lw6sys_color_8_t color_8_from_iabgr;
     lw6sys_color_f_t color_f;
     lw6sys_color_8_t color_8_average[3];
     float distance;
@@ -614,6 +622,33 @@ test_color ()
     if (color_8.r != COLOR_8_R || color_8.g != COLOR_8_G
 	|| color_8.b != COLOR_8_B || color_8.a != COLOR_8_A)
       {
+	ret = 0;
+      }
+
+    color_irgba = lw6sys_color_8_to_irgba (color_8);
+    color_ibgra = lw6sys_color_8_to_ibgra (color_8);
+    color_iargb = lw6sys_color_8_to_iargb (color_8);
+    color_iabgr = lw6sys_color_8_to_iabgr (color_8);
+    color_8_from_irgba = lw6sys_color_irgba_to_8 (color_irgba);
+    color_8_from_ibgra = lw6sys_color_irgba_to_8 (color_ibgra);
+    color_8_from_iargb = lw6sys_color_iargb_to_8 (color_iargb);
+    color_8_from_iabgr = lw6sys_color_iargb_to_8 (color_iabgr);
+    if (lw6sys_color_is_same (color_8_from_irgba, color_8) &&
+	lw6sys_color_is_same (color_8_from_ibgra, color_8) &&
+	lw6sys_color_is_same (color_8_from_iargb, color_8) &&
+	lw6sys_color_is_same (color_8_from_iabgr, color_8))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("all 8-bit colors to 32-bit integer conversions seem to work color_irgba=%x color_ibgra=%x color_iargb=%x color_iabgr=%x"),
+		    color_irgba, color_ibgra, color_iargb, color_iabgr);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("8-bit colors to 32-bit integer conversions have a problem color_irgba=%x color_ibgra=%x color_iargb=%x color_iabgr=%x"),
+		    color_irgba, color_ibgra, color_iargb, color_iabgr);
 	ret = 0;
       }
 

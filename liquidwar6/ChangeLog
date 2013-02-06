@@ -1,5 +1,7 @@
 2012-02-06 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added RGBA / BGRA / ARGB / ABGR flavors of color conf funcs.
+
 	* Implemented msg_meta parsing to list peers.
 
 2012-02-01 : Christian Mauduit <ufoot@ufoot.org>

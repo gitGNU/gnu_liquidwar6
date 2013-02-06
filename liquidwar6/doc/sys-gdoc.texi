@@ -1196,7 +1196,73 @@ directly by low-level libraries such as SDL.
 @strong{Return value:}  the color serialized in an integer.
 @end deftypefun
 
+@deftypefun {u_int32_t} {lw6sys_color_f_to_ibgra} (const lw6sys_color_f_t * @var{color_f})
+@var{color_f}:  the color to convert
+
+Converts a color from floating point format to a single
+integer, where all fields (RGBA) are serialized. This
+serialization is endianess independant. Could be used
+directly by low-level libraries such as SDL.
+
+@strong{Return value:}  the color serialized in an integer.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_color_f_to_iargb} (const lw6sys_color_f_t * @var{color_f})
+@var{color_f}:  the color to convert
+
+Converts a color from floating point format to a single
+integer, where all fields (RGBA) are serialized. This
+serialization is endianess independant. Could be used
+directly by low-level libraries such as SDL.
+
+@strong{Return value:}  the color serialized in an integer.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_color_f_to_iabgr} (const lw6sys_color_f_t * @var{color_f})
+@var{color_f}:  the color to convert
+
+Converts a color from floating point format to a single
+integer, where all fields (RGBA) are serialized. This
+serialization is endianess independant. Could be used
+directly by low-level libraries such as SDL.
+
+@strong{Return value:}  the color serialized in an integer.
+@end deftypefun
+
 @deftypefun {u_int32_t} {lw6sys_color_8_to_irgba} (lw6sys_color_8_t @var{color_8})
+@var{color_8}:  the color to convert
+
+Converts a color from common "0 to 255" structured format to a single
+integer, where all fields (RGBA) are serialized. This
+serialization is endianess independant. Could be used
+directly by low-level libraries such as SDL.
+
+@strong{Return value:}  the color serialized in an integer.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_color_8_to_ibgra} (lw6sys_color_8_t @var{color_8})
+@var{color_8}:  the color to convert
+
+Converts a color from common "0 to 255" structured format to a single
+integer, where all fields (RGBA) are serialized. This
+serialization is endianess independant. Could be used
+directly by low-level libraries such as SDL.
+
+@strong{Return value:}  the color serialized in an integer.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_color_8_to_iargb} (lw6sys_color_8_t @var{color_8})
+@var{color_8}:  the color to convert
+
+Converts a color from common "0 to 255" structured format to a single
+integer, where all fields (RGBA) are serialized. This
+serialization is endianess independant. Could be used
+directly by low-level libraries such as SDL.
+
+@strong{Return value:}  the color serialized in an integer.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_color_8_to_iabgr} (lw6sys_color_8_t @var{color_8})
 @var{color_8}:  the color to convert
 
 Converts a color from common "0 to 255" structured format to a single
@@ -1218,7 +1284,67 @@ a floating point structure.
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {void} {lw6sys_color_ibgra_to_f} (lw6sys_color_f_t * @var{color_f}, u_int32_t @var{color_i})
+@var{color_f}:  the converted color (point must point to writable memory)
+
+@var{color_i}:  the color to convert
+
+Converts a color from a serialized integer format to
+a floating point structure.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_color_iargb_to_f} (lw6sys_color_f_t * @var{color_f}, u_int32_t @var{color_i})
+@var{color_f}:  the converted color (point must point to writable memory)
+
+@var{color_i}:  the color to convert
+
+Converts a color from a serialized integer format to
+a floating point structure.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_color_iabgr_to_f} (lw6sys_color_f_t * @var{color_f}, u_int32_t @var{color_i})
+@var{color_f}:  the converted color (point must point to writable memory)
+
+@var{color_i}:  the color to convert
+
+Converts a color from a serialized integer format to
+a floating point structure.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {lw6sys_color_8_t} {lw6sys_color_irgba_to_8} (u_int32_t @var{color_i})
+@var{color_i}:  the color to convert
+
+Converts a color from a serialized integer format to
+a "0 to 255" based structure.
+
+@strong{Return value:}  the converted color (structure).
+@end deftypefun
+
+@deftypefun {lw6sys_color_8_t} {lw6sys_color_ibgra_to_8} (u_int32_t @var{color_i})
+@var{color_i}:  the color to convert
+
+Converts a color from a serialized integer format to
+a "0 to 255" based structure.
+
+@strong{Return value:}  the converted color (structure).
+@end deftypefun
+
+@deftypefun {lw6sys_color_8_t} {lw6sys_color_iargb_to_8} (u_int32_t @var{color_i})
+@var{color_i}:  the color to convert
+
+Converts a color from a serialized integer format to
+a "0 to 255" based structure.
+
+@strong{Return value:}  the converted color (structure).
+@end deftypefun
+
+@deftypefun {lw6sys_color_8_t} {lw6sys_color_iabgr_to_8} (u_int32_t @var{color_i})
 @var{color_i}:  the color to convert
 
 Converts a color from a serialized integer format to

@@ -791,10 +791,25 @@ extern lw6sys_color_8_t lw6sys_color_f_to_8 (const lw6sys_color_f_t *
 extern void lw6sys_color_8_to_f (lw6sys_color_f_t * color_f,
 				 lw6sys_color_8_t color_8);
 extern u_int32_t lw6sys_color_f_to_irgba (const lw6sys_color_f_t * color_f);
+extern u_int32_t lw6sys_color_f_to_ibgra (const lw6sys_color_f_t * color_f);
+extern u_int32_t lw6sys_color_f_to_iargb (const lw6sys_color_f_t * color_f);
+extern u_int32_t lw6sys_color_f_to_iabgr (const lw6sys_color_f_t * color_f);
 extern u_int32_t lw6sys_color_8_to_irgba (lw6sys_color_8_t color_8);
+extern u_int32_t lw6sys_color_8_to_ibgra (lw6sys_color_8_t color_8);
+extern u_int32_t lw6sys_color_8_to_iargb (lw6sys_color_8_t color_8);
+extern u_int32_t lw6sys_color_8_to_iabgr (lw6sys_color_8_t color_8);
 extern void lw6sys_color_irgba_to_f (lw6sys_color_f_t * color_f,
 				     u_int32_t color_i);
+extern void lw6sys_color_ibgra_to_f (lw6sys_color_f_t * color_f,
+				     u_int32_t color_i);
+extern void lw6sys_color_iargb_to_f (lw6sys_color_f_t * color_f,
+				     u_int32_t color_i);
+extern void lw6sys_color_iabgr_to_f (lw6sys_color_f_t * color_f,
+				     u_int32_t color_i);
 extern lw6sys_color_8_t lw6sys_color_irgba_to_8 (u_int32_t color_i);
+extern lw6sys_color_8_t lw6sys_color_ibgra_to_8 (u_int32_t color_i);
+extern lw6sys_color_8_t lw6sys_color_iargb_to_8 (u_int32_t color_i);
+extern lw6sys_color_8_t lw6sys_color_iabgr_to_8 (u_int32_t color_i);
 extern lw6sys_color_8_t lw6sys_color_a_to_8 (const char *ascii);
 extern void lw6sys_color_a_to_f (lw6sys_color_f_t * color_f,
 				 const char *ascii);
