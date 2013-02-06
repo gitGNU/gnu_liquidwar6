@@ -1,3 +1,7 @@
+2012-02-06 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented msg_meta parsing to list peers.
+
 2012-02-01 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Integration of libcaca branch by Epitech team.

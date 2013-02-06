@@ -77,6 +77,15 @@
  * be 100 but 100 is too short for that matter.
  */
 #define _TEST_ENVELOPE_TRUNCATE_LEN 120
+#define _TEST_META_NODE_ID_1 0x1234123412341234LL
+#define _TEST_META_NODE_ID_2 0x2345234523452345LL
+#define _TEST_META_SERIAL_0_1 0
+#define _TEST_META_SERIAL_0_2A 3
+#define _TEST_META_SERIAL_0_2B 7
+#define _TEST_META_SEQ_0_1 100000LL
+#define _TEST_META_SEQ_0_2A 300000LL
+#define _TEST_META_SEQ_0_2B 700000LL
+#define _TEST_META_STR "3456345634563456 0 1 4567456745674567 1000 1000000000000"
 #define _TEST_WORD_STR_OK "\"this was quoted\" in a phrase with words"
 #define _TEST_WORD_STR_KO " "
 #define _TEST_WORD_X_STR_OK "/parent/child/"
@@ -813,6 +822,148 @@ test_envelope ()
   {
     ret = ret && _do_test_envelope (LW6MSG_ENVELOPE_MODE_TELNET);
     ret = ret && _do_test_envelope (LW6MSG_ENVELOPE_MODE_URL);
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
+ * Testing functions in meta.c
+ */
+static int
+test_meta ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6msg_meta_array_t meta_array;
+    int i = 0;
+    char *str = NULL;
+
+    lw6msg_meta_array_zero (&meta_array);
+    if (lw6msg_meta_array_exists (&meta_array, _TEST_META_NODE_ID_1))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("could find id in zeroed array, this is wrong"));
+	ret = 0;
+      }
+    if (!lw6msg_meta_array_set
+	(&meta_array, _TEST_META_NODE_ID_1, _TEST_META_SERIAL_0_1,
+	 _TEST_META_SEQ_0_1))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("unable to set node_id %" LW6SYS_PRINTF_LL "x"),
+		    (long long) _TEST_META_NODE_ID_1);
+	ret = 0;
+      }
+    if (!lw6msg_meta_array_set
+	(&meta_array, _TEST_META_NODE_ID_2, _TEST_META_SERIAL_0_2A,
+	 _TEST_META_SEQ_0_2A))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("unable to set node_id %" LW6SYS_PRINTF_LL
+			 "x (stage A)"), (long long) _TEST_META_NODE_ID_2);
+	ret = 0;
+      }
+    if (!lw6msg_meta_array_set
+	(&meta_array, _TEST_META_NODE_ID_2, _TEST_META_SERIAL_0_2B,
+	 _TEST_META_SEQ_0_2B))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("unable to set node_id %" LW6SYS_PRINTF_LL
+			 "x (stage B)"), (long long) _TEST_META_NODE_ID_2);
+	ret = 0;
+      }
+    if (!lw6msg_meta_array_exists (&meta_array, _TEST_META_NODE_ID_1))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("couldn't find id %" LW6SYS_PRINTF_LL
+			 "x in array, it should be here"),
+		    (long long) _TEST_META_NODE_ID_1);
+	ret = 0;
+      }
+    i = lw6msg_meta_array_exists (&meta_array, _TEST_META_NODE_ID_2);
+    if (i >= 0)
+      {
+	if (meta_array.items[i].node_id == _TEST_META_NODE_ID_2 &&
+	    meta_array.items[i].serial_0 == _TEST_META_SERIAL_0_2B &&
+	    meta_array.items[i].seq_0 == _TEST_META_SEQ_0_2B)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("OK, found node_id=%" LW6SYS_PRINTF_LL
+			     "x serial_0=%d seq_0=%" LW6SYS_PRINTF_LL "d"),
+			(long long) _TEST_META_NODE_ID_2,
+			_TEST_META_SERIAL_0_2B, _TEST_META_SEQ_0_2B);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("could not find node_id=%" LW6SYS_PRINTF_LL
+			     "x serial_0=%d seq_0=%" LW6SYS_PRINTF_LL "d"),
+			(long long) _TEST_META_NODE_ID_2,
+			_TEST_META_SERIAL_0_2B, _TEST_META_SEQ_0_2B);
+	    ret = 0;
+	  }
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("couldn't find id %" LW6SYS_PRINTF_LL
+			 "x in array, it should be here"),
+		    (long long) _TEST_META_NODE_ID_2);
+	ret = 0;
+      }
+    if (!lw6msg_meta_array_unset (&meta_array, _TEST_META_NODE_ID_1))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("couldn't remove %" LW6SYS_PRINTF_LL "x from array"),
+		    (long long) _TEST_META_NODE_ID_1);
+	ret = 0;
+      }
+    if (lw6msg_meta_array_exists (&meta_array, _TEST_META_NODE_ID_1))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("could find id %" LW6SYS_PRINTF_LL
+			 "x after removing it"), _TEST_META_NODE_ID_1);
+	ret = 0;
+      }
+    lw6msg_meta_array_zero (&meta_array);
+    if (lw6msg_meta_str2array (&meta_array, _TEST_META_STR))
+      {
+	str = lw6msg_meta_array2str (&meta_array);
+	if (str)
+	  {
+	    if (lw6sys_str_is_same (str, _TEST_META_STR))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("OK, str2array and array2str give the same result \"%s\""),
+			    str);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("problem, str2array and array2str give different results src=\"%s\" dst=\"%s\""),
+			    _TEST_META_STR, str);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (str);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("lw6msg_meta_array2str failed"));
+	    ret = 0;
+	  }
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("lw6msg_meta_str2array failed"));
+	ret = 0;
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -2001,8 +2152,9 @@ lw6msg_test (int mode)
       lw6cnx_test (mode);
     }
 
-  ret = test_cmd () && test_envelope () && test_oob () && test_sort ()
-    && test_ticket () && test_utils () && test_word () && test_z ();
+  ret = test_cmd () && test_envelope () && test_meta () && test_oob ()
+    && test_sort () && test_ticket () && test_utils () && test_word ()
+    && test_z ();
 
   return ret;
 }

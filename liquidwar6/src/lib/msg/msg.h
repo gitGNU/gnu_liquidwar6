@@ -207,17 +207,19 @@ extern int lw6msg_envelope_analyse (const char *envelope,
 				    char **physical_from_url);
 
 /* msg-meta.c */
-extern void lw6msg_meta_array_clear (lw6msg_meta_array_t * array);
-extern int lw6msg_meta_array_find (const lw6msg_meta_array_t * array,
+extern void lw6msg_meta_array_zero (lw6msg_meta_array_t * meta_array);
+extern int lw6msg_meta_array_find (const lw6msg_meta_array_t * meta_array,
 				   u_int64_t node_id);
-extern int lw6msg_meta_array_exists (const lw6msg_meta_array_t * array,
+extern int lw6msg_meta_array_exists (const lw6msg_meta_array_t * meta_array,
 				     u_int64_t node_id);
-extern int lw6msg_meta_array_set (lw6msg_meta_array_t * array,
+extern int lw6msg_meta_array_set (lw6msg_meta_array_t * meta_array,
 				  u_int64_t node_id, int serial_0,
 				  int64_t seq_0);
-extern int lw6msg_meta_str2array (lw6msg_meta_array_t * array,
+extern int lw6msg_meta_array_unset (lw6msg_meta_array_t * meta_array,
+				    u_int64_t node_id);
+extern int lw6msg_meta_str2array (lw6msg_meta_array_t * meta_array,
 				  const char *str);
-extern char *lw6msg_meta_array2str (const lw6msg_meta_array_t * array);
+extern char *lw6msg_meta_array2str (const lw6msg_meta_array_t * meta_array);
 
 /* msg-oob.c */
 extern char *lw6msg_oob_generate_info (lw6nod_info_t * info);
