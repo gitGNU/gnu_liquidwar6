@@ -1,5 +1,7 @@
 2012-02-06 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Partly fixed mod-caca color problems.
+
 	* Added RGBA / BGRA / ARGB / ABGR flavors of color conf funcs.
 
 	* Implemented msg_meta parsing to list peers.

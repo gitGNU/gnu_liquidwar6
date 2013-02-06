@@ -4,20 +4,20 @@
   <int key="canvas-create-width" value="130" />
   <int key="canvas-create-height" value="42" />
   <float key="quit-sleep" value="0.01" />
-  <string key="video-mode-default" value="ncurses" />
+  <string key="video-mode-default" value="gl" />
   <string key="video-mode-fallback" value="ncurses" />
   <color key="color-fg" value="#2a2a2a" />
   <color key="color-bg" value="#ffffff" />
-  <color key="team_color0" value="#aa0000" />
-  <color key="team_color1" value="#3146ff" />
-  <color key="team_color2" value="#aa5500" />
-  <color key="team_color3" value="#009000" />
-  <color key="team_color4" value="#0e697b" />
-  <color key="team_color5" value="#aa00aa" />
-  <color key="team_color6" value="#5555ff" />
-  <color key="team_color7" value="#ff5555" />
-  <color key="team_color8" value="#55ffff" />
-  <color key="team_color9" value="#55ff55" />
+  <color key="team_color0" value="#ff0000" />
+  <color key="team_color1" value="#00ff00" />
+  <color key="team_color2" value="#0000ff" />
+  <color key="team_color3" value="#ffff00" />
+  <color key="team_color4" value="#00ffff" />
+  <color key="team_color5" value="#ff00ff" />
+  <color key="team_color6" value="#ff7700" />
+  <color key="team_color7" value="#7777ff" />
+  <color key="team_color8" value="#7700ff" />
+  <color key="team_color9" value="#ff7777" />
   <int key="keysym1-up" value="273" /> <!-- KEY_UP -->
   <int key="keysym2-up" value="55" /> <!-- 7 -->
   <int key="keysym3-up" value="56" /> <!-- 8 -->

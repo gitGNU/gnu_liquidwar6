@@ -53,7 +53,7 @@ _mod_caca_display_map (_mod_caca_context_t * caca_context,
   buffer = malloc (sizeof (*buffer) * (shape.w * shape.h));
   if (buffer == NULL)
     return 0;
-  memset (buffer, lw6sys_color_8_to_irgba (caca_context->const_data.bg_color),
+  memset (buffer, lw6sys_color_8_to_ibgra (caca_context->const_data.bg_color),
 	  sizeof (*buffer) * (shape.w * shape.h));
 
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("map [%d|%d]"), width, height);
@@ -76,7 +76,7 @@ _mod_caca_display_map (_mod_caca_context_t * caca_context,
 	      if (team_color >= 0 && team_color < 10)
 		{
 		  buffer[width * y + x] =
-		    lw6sys_color_8_to_irgba (caca_context->
+		    lw6sys_color_8_to_ibgra (caca_context->
 					     const_data.team_color
 					     [team_color]);
 		}
@@ -85,10 +85,10 @@ _mod_caca_display_map (_mod_caca_context_t * caca_context,
 	    {
 	      if (lw6ker_game_struct_is_bg (game_struct, x, y, 0))
 		buffer[width * y + x] =
-		  lw6sys_color_8_to_irgba (caca_context->const_data.bg_color);
+		  lw6sys_color_8_to_ibgra (caca_context->const_data.bg_color);
 	      else
 		buffer[width * y + x] =
-		  lw6sys_color_8_to_irgba (caca_context->const_data.fg_color);
+		  lw6sys_color_8_to_ibgra (caca_context->const_data.fg_color);
 	    }
 	}
     }
