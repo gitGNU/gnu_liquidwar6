@@ -61,8 +61,8 @@ draw_cylinder_with_color (mod_gl1_utils_context_t * utils_context,
   done = look->style.color_set.menu_color_default.fg;
   todo = look->style.color_set.menu_color_default.bg;
   sdl_todo = mod_gl1_utils_color_8_to_sdl (todo);
-  i_done = lw6sys_color_8_to_i (done);
-  i_todo = lw6sys_color_8_to_i (todo);
+  i_done = lw6sys_color_8_to_irgba (done);
+  i_todo = lw6sys_color_8_to_irgba (todo);
 
   surface =
     mod_gl1_utils_create_surface (utils_context, MOD_GL1_UTILS_MENU_TEXTURE_W,

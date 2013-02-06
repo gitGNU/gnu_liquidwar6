@@ -231,8 +231,8 @@ mod_gl1_utils_multiline_text_write (mod_gl1_utils_context_t *
 	    {
 	      data.sdl_color_bg = mod_gl1_utils_color_8_to_sdl (color->bg);
 	      data.sdl_color_fg = mod_gl1_utils_color_8_to_sdl (color->fg);
-	      i_color_bg = lw6sys_color_8_to_i (color->bg);
-	      i_color_fg = lw6sys_color_8_to_i (color->fg);
+	      i_color_bg = lw6sys_color_8_to_irgba (color->bg);
+	      i_color_fg = lw6sys_color_8_to_irgba (color->fg);
 
 	      mod_gl1_utils_draw_rectfill (data.target, 0, 0,
 					   data.shape.w - 1, data.shape.h - 1,

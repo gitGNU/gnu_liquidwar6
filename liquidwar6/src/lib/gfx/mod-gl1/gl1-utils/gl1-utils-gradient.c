@@ -110,7 +110,7 @@ mod_gl1_utils_create_gradient_surface (mod_gl1_utils_context_t *
 					   zone_pos.y,
 					   zone_pos.x + zone_size - 1,
 					   zone_pos.y + zone_size - 1,
-					   lw6sys_color_f_to_i (&color));
+					   lw6sys_color_f_to_irgba (&color));
 	    }
 	}
     }

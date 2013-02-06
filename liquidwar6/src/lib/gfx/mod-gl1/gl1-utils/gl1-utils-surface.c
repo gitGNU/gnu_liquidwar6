@@ -112,7 +112,7 @@ map2surface_xywh (mod_gl1_utils_context_t * gfx_context,
 	    {
 	      color_8 = lw6map_texture_get (&level->texture, i, j);
 	      mod_gl1_utils_putpixel (ret, i + x, j + y,
-				      lw6sys_color_8_to_i (color_8));
+				      lw6sys_color_8_to_irgba (color_8));
 	    }
 	}
     }

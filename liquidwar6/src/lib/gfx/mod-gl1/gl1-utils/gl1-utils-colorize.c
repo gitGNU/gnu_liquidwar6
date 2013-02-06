@@ -46,7 +46,7 @@ mod_gl1_utils_colorize_surface (mod_gl1_utils_context_t *
       for (x = 0; x < surface->w; ++x)
 	{
 	  color_8 =
-	    lw6sys_color_i_to_8 (mod_gl1_utils_getpixel (surface, x, y));
+	    lw6sys_color_irgba_to_8 (mod_gl1_utils_getpixel (surface, x, y));
 	  if (has_alpha)
 	    {
 	      a = color_8.a;
@@ -60,7 +60,7 @@ mod_gl1_utils_colorize_surface (mod_gl1_utils_context_t *
 					    color->fg, color_hsv.v);
 	  color_8.a = a;
 	  mod_gl1_utils_putpixel (colorized_surface, x, y,
-				  lw6sys_color_8_to_i (color_8));
+				  lw6sys_color_8_to_irgba (color_8));
 	}
     }
 

@@ -64,7 +64,7 @@ _prepare_shaded_color_for_fighter (lw6sys_color_8_t dead_color,
 			    ((float) j) /
 			    ((float) MOD_GL1_SHADES_FOR_FIGHTERS_SCALE));
   color.a = 0xFF;
-  ret = lw6sys_color_8_to_i (color);
+  ret = lw6sys_color_8_to_irgba (color);
 
   return ret;
 }

@@ -58,8 +58,8 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
   lw6map_coords_fix_xy (rules, &shape, &x1, &y1);
   x1++;
   y1++;
-  bg = lw6sys_color_8_to_i (map_color->bg);
-  fg = lw6sys_color_8_to_i (map_color->fg);
+  bg = lw6sys_color_8_to_irgba (map_color->bg);
+  fg = lw6sys_color_8_to_irgba (map_color->fg);
   bytes_per_pixel = surface->format->BytesPerPixel;
   if (x1 - x0 <= surface->w && y1 - y0 <= surface->h)
     {

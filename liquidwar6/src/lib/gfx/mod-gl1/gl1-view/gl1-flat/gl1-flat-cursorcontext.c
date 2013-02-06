@@ -87,7 +87,7 @@ _cursor_bitmap (mod_gl1_utils_context_t * utils_context, int w, int h,
 		    sqrt ((x - w / 2) * (x - w / 2) +
 			  (y - h / 2) * (y - h / 2));
 		  tmp_color =
-		    lw6sys_color_i_to_8 (mod_gl1_utils_getpixel
+		    lw6sys_color_irgba_to_8 (mod_gl1_utils_getpixel
 					 (cursor_surface, x, y));
 		  if (distance >= d1)
 		    {
@@ -115,7 +115,7 @@ _cursor_bitmap (mod_gl1_utils_context_t * utils_context, int w, int h,
 		      // do nothing
 		    }
 		  mod_gl1_utils_putpixel (cursor_surface, x, y,
-					 lw6sys_color_8_to_i (tmp_color));
+					 lw6sys_color_8_to_irgba (tmp_color));
 		}
 	    }
 	  ret = mod_gl1_utils_surface2bitmap (utils_context, cursor_surface);

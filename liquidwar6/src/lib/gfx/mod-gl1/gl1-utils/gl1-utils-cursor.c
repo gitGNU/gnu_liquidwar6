@@ -49,7 +49,7 @@ mod_gl1_utils_cursor_create_fg_bg (mod_gl1_utils_context_t * utils_context,
 	  for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE; ++x)
 	    {
 	      mod_gl1_utils_putpixel (surface, x, y,
-				      lw6sys_color_8_to_i
+				      lw6sys_color_8_to_irgba
 				      (lw6map_cursor_texture_layer_get
 				       (&(level->cursor_texture.fg_bg_layer),
 					x, y)));
@@ -96,7 +96,7 @@ mod_gl1_utils_bitmap_t
 	  for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE; ++x)
 	    {
 	      mod_gl1_utils_putpixel (surface, x, y,
-				      lw6sys_color_8_to_i
+				      lw6sys_color_8_to_irgba
 				      (lw6map_cursor_texture_layer_get
 				       (&(level->cursor_texture.color_layer),
 					x, y)));
