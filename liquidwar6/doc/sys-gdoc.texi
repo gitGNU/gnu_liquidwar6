@@ -1200,7 +1200,7 @@ directly by low-level libraries such as SDL.
 @var{color_f}:  the color to convert
 
 Converts a color from floating point format to a single
-integer, where all fields (RGBA) are serialized. This
+integer, where all fields (BGRA) are serialized. This
 serialization is endianess independant. Could be used
 directly by low-level libraries such as SDL.
 
@@ -1211,7 +1211,7 @@ directly by low-level libraries such as SDL.
 @var{color_f}:  the color to convert
 
 Converts a color from floating point format to a single
-integer, where all fields (RGBA) are serialized. This
+integer, where all fields (ARGB) are serialized. This
 serialization is endianess independant. Could be used
 directly by low-level libraries such as SDL.
 
@@ -1222,7 +1222,7 @@ directly by low-level libraries such as SDL.
 @var{color_f}:  the color to convert
 
 Converts a color from floating point format to a single
-integer, where all fields (RGBA) are serialized. This
+integer, where all fields (ABGR) are serialized. This
 serialization is endianess independant. Could be used
 directly by low-level libraries such as SDL.
 
@@ -1244,7 +1244,7 @@ directly by low-level libraries such as SDL.
 @var{color_8}:  the color to convert
 
 Converts a color from common "0 to 255" structured format to a single
-integer, where all fields (RGBA) are serialized. This
+integer, where all fields (BGRA) are serialized. This
 serialization is endianess independant. Could be used
 directly by low-level libraries such as SDL.
 
@@ -1255,7 +1255,7 @@ directly by low-level libraries such as SDL.
 @var{color_8}:  the color to convert
 
 Converts a color from common "0 to 255" structured format to a single
-integer, where all fields (RGBA) are serialized. This
+integer, where all fields (ARGB) are serialized. This
 serialization is endianess independant. Could be used
 directly by low-level libraries such as SDL.
 
@@ -1266,7 +1266,7 @@ directly by low-level libraries such as SDL.
 @var{color_8}:  the color to convert
 
 Converts a color from common "0 to 255" structured format to a single
-integer, where all fields (RGBA) are serialized. This
+integer, where all fields (ABGR) are serialized. This
 serialization is endianess independant. Could be used
 directly by low-level libraries such as SDL.
 
@@ -1278,7 +1278,7 @@ directly by low-level libraries such as SDL.
 
 @var{color_i}:  the color to convert
 
-Converts a color from a serialized integer format to
+Converts a color from a serialized integer format (RGBA) to
 a floating point structure.
 
 @strong{Return value:}  none.
@@ -1289,7 +1289,7 @@ a floating point structure.
 
 @var{color_i}:  the color to convert
 
-Converts a color from a serialized integer format to
+Converts a color from a serialized integer format (BGRA) to
 a floating point structure.
 
 @strong{Return value:}  none.
@@ -1300,7 +1300,7 @@ a floating point structure.
 
 @var{color_i}:  the color to convert
 
-Converts a color from a serialized integer format to
+Converts a color from a serialized integer format (ARGB) to
 a floating point structure.
 
 @strong{Return value:}  none.
@@ -1311,7 +1311,7 @@ a floating point structure.
 
 @var{color_i}:  the color to convert
 
-Converts a color from a serialized integer format to
+Converts a color from a serialized integer format (ABGR) to
 a floating point structure.
 
 @strong{Return value:}  none.
@@ -1320,7 +1320,7 @@ a floating point structure.
 @deftypefun {lw6sys_color_8_t} {lw6sys_color_irgba_to_8} (u_int32_t @var{color_i})
 @var{color_i}:  the color to convert
 
-Converts a color from a serialized integer format to
+Converts a color from a serialized integer format (RGBA) to
 a "0 to 255" based structure.
 
 @strong{Return value:}  the converted color (structure).
@@ -1329,7 +1329,7 @@ a "0 to 255" based structure.
 @deftypefun {lw6sys_color_8_t} {lw6sys_color_ibgra_to_8} (u_int32_t @var{color_i})
 @var{color_i}:  the color to convert
 
-Converts a color from a serialized integer format to
+Converts a color from a serialized integer format (BGRA) to
 a "0 to 255" based structure.
 
 @strong{Return value:}  the converted color (structure).
@@ -1338,7 +1338,7 @@ a "0 to 255" based structure.
 @deftypefun {lw6sys_color_8_t} {lw6sys_color_iargb_to_8} (u_int32_t @var{color_i})
 @var{color_i}:  the color to convert
 
-Converts a color from a serialized integer format to
+Converts a color from a serialized integer format (ARGB) to
 a "0 to 255" based structure.
 
 @strong{Return value:}  the converted color (structure).
@@ -1347,7 +1347,7 @@ a "0 to 255" based structure.
 @deftypefun {lw6sys_color_8_t} {lw6sys_color_iabgr_to_8} (u_int32_t @var{color_i})
 @var{color_i}:  the color to convert
 
-Converts a color from a serialized integer format to
+Converts a color from a serialized integer format (ABGR) to
 a "0 to 255" based structure.
 
 @strong{Return value:}  the converted color (structure).
