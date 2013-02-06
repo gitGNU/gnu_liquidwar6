@@ -42,9 +42,56 @@ lw6msg_meta_array_clear (lw6msg_meta_array_t * array)
 }
 
 /**
+ * lw6msg_meta_array_find
+ *
+ * @array: meta array (list of nodes) to modify
+ * @node_id: the ID (64-bit) of the node to seartch
+ *
+ * Registers a node in the array.
+ *
+ * Return value: 1 if registered, 0 if not (possible error: no place left)
+ */
+int
+lw6msg_meta_array_find (const lw6msg_meta_array_t * array, u_int64_t node_id)
+{
+  int ret = -1;
+  int i = 0;
+
+  for (i = 0; i < LW6MSG_NB_META_ARRAY_ITEMS && ret < 0; ++i)
+    {
+      if (array->items[i].node_id == node_id)
+	{
+	  ret = i;
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6msg_meta_array_exists
+ *
+ * @array: meta array (list of nodes) to modify
+ * @node_id: the ID (64-bit) of the node to test
+ *
+ * Registers a node in the array.
+ *
+ * Return value: 1 if registered, 0 if not (possible error: no place left)
+ */
+int
+lw6msg_meta_array_exists (const lw6msg_meta_array_t * array,
+			  u_int64_t node_id)
+{
+  return (lw6msg_meta_array_find (array, node_id) >= 0);
+}
+
+/**
  * lw6msg_meta_array_set
  *
  * @array: meta array (list of nodes) to modify
+ * @node_id: the ID (64-bit) of the node to add
+ * @serial_0: base serialfor the node to add
+ * @seq_0: base seq for for node to add
  *
  * Registers a node in the array.
  *

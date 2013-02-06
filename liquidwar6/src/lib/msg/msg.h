@@ -208,6 +208,10 @@ extern int lw6msg_envelope_analyse (const char *envelope,
 
 /* msg-meta.c */
 extern void lw6msg_meta_array_clear (lw6msg_meta_array_t * array);
+extern int lw6msg_meta_array_find (const lw6msg_meta_array_t * array,
+				   u_int64_t node_id);
+extern int lw6msg_meta_array_exists (const lw6msg_meta_array_t * array,
+				     u_int64_t node_id);
 extern int lw6msg_meta_array_set (lw6msg_meta_array_t * array,
 				  u_int64_t node_id, int serial_0,
 				  int64_t seq_0);
