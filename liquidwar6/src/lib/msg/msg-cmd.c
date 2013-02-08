@@ -278,7 +278,7 @@ lw6msg_cmd_generate_data (int serial, int i, int n, int reg, int64_t seq,
  * @n: the number of messages in the group
  * @reg: wether to self-register peer on receiving this message
  * @seq: the message seq (round + an offset)
- * @ker_msg: the actual content of the message (passed to core algo)
+ * @meta_array: the content to send
  *
  * Generate a META command. Serial is an ever increasing number,
  * i and n are most of the time 1 and 1, they are usefull
@@ -288,14 +288,26 @@ lw6msg_cmd_generate_data (int serial, int i, int n, int reg, int64_t seq,
  */
 char *
 lw6msg_cmd_generate_meta (int serial, int i, int n, int reg, int64_t seq,
-			  const char *ker_msg)
+			  const lw6msg_meta_array_t * meta_array)
 {
   char *ret = NULL;
+  char *meta_str = NULL;
+  char *base64_meta_str = NULL;
 
-  ret =
-    lw6sys_new_sprintf ("%s %d %d %d %d %" LW6SYS_PRINTF_LL "d %s",
-			LW6MSG_CMD_META, serial, i, n, reg, (long long) seq,
-			ker_msg);
+  meta_str = lw6msg_meta_array2str (meta_array);
+  if (meta_str)
+    {
+      base64_meta_str = lw6glb_base64_encode_str (meta_str);
+      if (base64_meta_str)
+	{
+	  ret =
+	    lw6sys_new_sprintf ("%s %d %d %d %d %" LW6SYS_PRINTF_LL "d %s",
+				LW6MSG_CMD_META, serial, i, n, reg,
+				(long long) seq, base64_meta_str);
+	  LW6SYS_FREE (base64_meta_str);
+	}
+      LW6SYS_FREE (meta_str);
+    }
 
   return ret;
 }
@@ -1159,7 +1171,7 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *reg, int64_t * seq,
  * @n: will contain group size on success
  * @reg: will contain reg on success (wether peer should be registered)
  * @seq: will contain seq on success (round + an offset)
- * @ker_msg: will contain actual message on success
+ * @meta_array: will contain the content on success
  * @msg: the message to analyze
  *
  * Analyzes a META message.
@@ -1168,7 +1180,7 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *reg, int64_t * seq,
  */
 int
 lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int *reg, int64_t * seq,
-			 char **ker_msg, const char *msg)
+			 lw6msg_meta_array_t * meta_array, const char *msg)
 {
   int ret = 0;
   char *seek = NULL;
@@ -1178,14 +1190,13 @@ lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int *reg, int64_t * seq,
   int read_n = 0;
   int read_reg = 0;
   int64_t read_seq = 0;
-  char *read_ker_msg = NULL;
+  char *read_meta_str = NULL;
   lw6msg_word_t meta_word;
-  lw6msg_word_t ker_msg_word;
+  lw6msg_word_t meta_str_word;
 
   (*serial) = 0;
   (*i) = 0;
   (*n) = 0;
-  (*ker_msg) = NULL;
 
   pos = msg;
   seek = (char *) pos;
@@ -1210,27 +1221,45 @@ lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int *reg, int64_t * seq,
 			  (&read_seq, &seek, pos))
 			{
 			  pos = seek;
-			  if (lw6msg_word_first (&ker_msg_word, &seek, pos))
+			  if (lw6msg_word_first (&meta_str_word, &seek, pos))
 			    {
 			      pos = seek;
-			      read_ker_msg =
-				lw6sys_str_copy (ker_msg_word.buf);
-			      if (read_ker_msg)
+			      read_meta_str =
+				lw6glb_base64_decode_str (meta_str_word.buf);
+			      if (read_meta_str)
 				{
-				  ret = 1;
-				  (*serial) = read_serial;
-				  (*i) = read_i;
-				  (*n) = read_n;
-				  (*reg) = read_reg ? 1 : 0;
-				  (*seq) = read_seq;
-				  (*ker_msg) = read_ker_msg;
+				  if (lw6msg_meta_str2array
+				      (meta_array, read_meta_str))
+				    {
+				      ret = 1;
+				      (*serial) = read_serial;
+				      (*i) = read_i;
+				      (*n) = read_n;
+				      (*reg) = read_reg ? 1 : 0;
+				      (*seq) = read_seq;
+				    }
+				  else
+				    {
+				      lw6sys_log (LW6SYS_LOG_INFO,
+						  _x_
+						  ("unable to parse meta message (stage 3), read_meta_str=\"%s\""),
+						  read_meta_str);
+				    }
+				  LW6SYS_FREE (read_meta_str);
+				}
+			      else
+				{
+				  lw6sys_log (LW6SYS_LOG_INFO,
+					      _x_
+					      ("unable to parse meta message (stage 2), meea_str_word.buf=\"%s\""),
+					      meta_str_word.buf);
 				}
 			    }
 			  else
 			    {
 			      lw6sys_log (LW6SYS_LOG_INFO,
 					  _x_
-					  ("unable to parse ker message"));
+					  ("unable to parse meta message (stage 1)"));
 			    }
 			}
 		      else

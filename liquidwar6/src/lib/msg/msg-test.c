@@ -132,6 +132,20 @@
 #define _TEST_DATA_REG 0
 #define _TEST_DATA_SEQ 1000000123456LL
 #define _TEST_DATA_KER_MSG "HELLO WORLD"
+#define _TEST_META_SERIAL 123
+#define _TEST_META_I 2
+#define _TEST_META_N 500
+#define _TEST_META_REG 0
+#define _TEST_META_SEQ 1000000654321LL
+#define _TEST_META_ARRAY_ITEM_NODE_ID_1 0x1111111111111111LL
+#define _TEST_META_ARRAY_ITEM_NODE_ID_2 0x2222222222222222LL
+#define _TEST_META_ARRAY_ITEM_NODE_ID_3 0x3333333333333333LL
+#define _TEST_META_ARRAY_ITEM_SERIAL_0_1 2
+#define _TEST_META_ARRAY_ITEM_SERIAL_0_2 4
+#define _TEST_META_ARRAY_ITEM_SERIAL_0_3 6
+#define _TEST_META_ARRAY_ITEM_SEQ_0_1 2000000000001LL
+#define _TEST_META_ARRAY_ITEM_SEQ_0_2 4000000000002LL
+#define _TEST_META_ARRAY_ITEM_SEQ_0_3 6000000000003LL
 #define _TEST_SEQ_BASE 1000000000000000LL
 #define _TEST_SEQ_RANGE 1000000000
 #define _TEST_SERIAL_BASE 10000000
@@ -170,6 +184,13 @@ test_cmd ()
     int data_reg = 0;
     int64_t data_seq = 0;
     char *data_ker_msg = NULL;
+    int meta_serial = 0;
+    int meta_i = 0;
+    int meta_n = 0;
+    int meta_reg = 0;
+    int64_t meta_seq = 0;
+    lw6msg_meta_array_t meta_array_src;
+    lw6msg_meta_array_t meta_array_dst;
     u_int64_t miss_id_from = 0LL;
     u_int64_t miss_id_to = 0LL;
     int miss_serial_min = 0;
@@ -478,6 +499,73 @@ test_cmd ()
 			    ("data command analysed (node ker_msg=\"%s\")"),
 			    data_ker_msg);
 		LW6SYS_FREE (data_ker_msg);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("unable to analyze \"%s\""), msg);
+		ret = 0;
+	      }
+	    remote_url = lw6msg_cmd_guess_from_url (msg);
+	    if (remote_url)
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("could guess url \"%s\" from \"%s\", this is wrong"),
+			    remote_url, msg);
+		LW6SYS_FREE (remote_url);
+		ret = 0;
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("unable to guess url from \"%s\", this is right"),
+			    msg);
+	      }
+	    LW6SYS_FREE (msg);
+	  }
+
+	lw6msg_meta_array_zero (&meta_array_src);
+	lw6msg_meta_array_zero (&meta_array_dst);
+	lw6msg_meta_array_set (&meta_array_src,
+			       _TEST_META_ARRAY_ITEM_NODE_ID_1,
+			       _TEST_META_ARRAY_ITEM_SERIAL_0_1,
+			       _TEST_META_ARRAY_ITEM_SEQ_0_1);
+	lw6msg_meta_array_set (&meta_array_src,
+			       _TEST_META_ARRAY_ITEM_NODE_ID_2,
+			       _TEST_META_ARRAY_ITEM_SERIAL_0_2,
+			       _TEST_META_ARRAY_ITEM_SEQ_0_2);
+	lw6msg_meta_array_set (&meta_array_src,
+			       _TEST_META_ARRAY_ITEM_NODE_ID_3,
+			       _TEST_META_ARRAY_ITEM_SERIAL_0_3,
+			       _TEST_META_ARRAY_ITEM_SEQ_0_3);
+	msg =
+	  lw6msg_cmd_generate_meta (_TEST_META_SERIAL, _TEST_META_I,
+				    _TEST_META_N, _TEST_META_REG,
+				    _TEST_META_SEQ, &meta_array_src);
+	if (msg)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("meta command is \"%s\""),
+			msg);
+	    if (lw6msg_cmd_analyse_meta
+		(&meta_serial, &meta_i, &meta_n, &meta_reg, &meta_seq,
+		 &meta_array_dst, msg))
+	      {
+		if (!memcmp
+		    (&meta_array_src, &meta_array_dst,
+		     sizeof (lw6msg_meta_array_t)))
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("meta command parsed, dst == src, this is fine"));
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("meta command not parsed, dst != src, should be the same"));
+		  }
 	      }
 	    else
 	      {

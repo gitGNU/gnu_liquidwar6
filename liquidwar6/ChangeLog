@@ -1,3 +1,7 @@
+2012-02-08 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented meta message handling in libmsg + reduced LW6MAP_MAX_NB_NODES.
+
 2012-02-06 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Partly fixed mod-caca color problems.

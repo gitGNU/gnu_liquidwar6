@@ -303,7 +303,7 @@ Type: integer
 
 Default value: 12
 Min value: 2
-Max value: 26
+Max value: 15
 
 Defines the maximum number of servers who can enter the game. Really makes
 sense in network games. Default value is 10, and should fit in most cases. Can

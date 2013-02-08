@@ -97,10 +97,14 @@
 #define LW6MSG_UNDEF "-"
 
 /*
- * Must be greater than LW6MAP_MAX_NB_NODES
- * but still lower than 32.
+ * Must be greater or equal to LW6MAP_MAX_NB_NODES if one wants
+ * the array to be able to cope with everything but at the same
+ * time, should be small enough so that everything fits in one message
+ * (which is about 1kb minus all the protocol tax, etc. etc.
+ * And note that each item can eat up to (almost) 50 chars with
+ * 2 64-bit integers and a 32-bit one.
  */
-#define LW6MSG_NB_META_ARRAY_ITEMS 30
+#define LW6MSG_NB_META_ARRAY_ITEMS 16
 
 typedef enum lw6msg_envelope_mode_e
 {
@@ -154,7 +158,9 @@ extern char *lw6msg_cmd_generate_goodbye (lw6nod_info_t * info);
 extern char *lw6msg_cmd_generate_data (int serial, int i, int n, int reg,
 				       int64_t seq, const char *ker_msg);
 extern char *lw6msg_cmd_generate_meta (int serial, int i, int n, int reg,
-				       int64_t seq, const char *ker_msg);
+				       int64_t seq,
+				       const lw6msg_meta_array_t *
+				       meta_array);
 extern char *lw6msg_cmd_generate_miss (u_int64_t id_from, u_int64_t id_to,
 				       int serial_min, int serial_max);
 extern int lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, const char *msg);
@@ -173,7 +179,8 @@ extern int lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *reg,
 				    int64_t * seq, char **ker_msg,
 				    const char *msg);
 extern int lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int *reg,
-				    int64_t * seq, char **ker_msg,
+				    int64_t * seq,
+				    lw6msg_meta_array_t * meta_array,
 				    const char *msg);
 extern int lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to,
 				    int *serial_min, int *serial_max,

@@ -26,9 +26,30 @@
 #include "../sys/sys.h"
 
 #define LW6MAP_MAX_FIGHTER_HEALTH 10000
+/*
+ * 10 teams maximum because well, in fact 5 is probably
+ * enough but we raise the limit not to frustrate too much
+ * is some players want to try out 7, 8, 9... Note that
+ * increasing this could *really* slow down the game, so
+ * there are good technical reasons not to have this too high.
+ */
 #define LW6MAP_MAX_NB_TEAMS 10
+/*
+ * Maximum of 26, just because there are 26 letters in the
+ * standard latin alphabet, and associating a letter to a
+ * cursor is convenient. 26 cursors for 10 teams is plenty
+ * enough of cursors.
+ */
 #define LW6MAP_MAX_NB_CURSORS 26
-#define LW6MAP_MAX_NB_NODES 26
+/*
+ * This should not be too high since it's closely related
+ * to the max number of nodes in a network and in most
+ * cases traffic is proportionnal to the square of nb_players-1,
+ * that's to say with 11 players we already have 100 times more
+ * traffic. In that context, 15 is enough, also don't forget
+ * there are 10 teams max.
+ */
+#define LW6MAP_MAX_NB_NODES 15
 #define LW6MAP_MAX_NB_DIR_TRIES 7
 #define LW6MAP_CURSOR_TEXTURE_SIZE 64
 #define LW6MAP_MIN_WEAPON_ID 0
