@@ -177,7 +177,7 @@ _lw6dat_stack_get_serial (_lw6dat_stack_t * stack)
 }
 
 int
-_lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
+_lw6dat_stack_put_atom (_lw6dat_stack_t * stack, int type,
 			int serial, int order_i, int order_n, int64_t seq,
 			const char *full_str, int seq_from_cmd_str_offset,
 			int cmd_str_offset, int send_flag)
@@ -325,8 +325,9 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 	  if (block)
 	    {
 	      ret =
-		_lw6dat_block_put_atom (block, serial, order_i, order_n, seq,
-					full_str, seq_from_cmd_str_offset,
+		_lw6dat_block_put_atom (block, type, serial, order_i, order_n,
+					seq, full_str,
+					seq_from_cmd_str_offset,
 					cmd_str_offset, send_flag);
 	      if (!ret)
 		{
@@ -397,6 +398,7 @@ _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
 			    const char *full_str, int send_flag)
 {
   int ret = 0;
+  int type = 0;
   int serial = 0;
   int order_i = 0;
   int order_n = 0;
@@ -406,12 +408,12 @@ _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
   int seq_from_cmd_str_offset = 0;
   int cmd_str_offset = 0;
 
-  if (_lw6dat_atom_parse_serial_i_n_reg_seq_id_from_cmd
-      (&serial, &order_i, &order_n, &reg, &seq, &logical_from,
+  if (_lw6dat_atom_parse_from_cmd
+      (&type, &serial, &order_i, &order_n, &reg, &seq, &logical_from,
        &seq_from_cmd_str_offset, &cmd_str_offset, full_str))
     {
       ret =
-	_lw6dat_stack_put_atom (stack,
+	_lw6dat_stack_put_atom (stack, type,
 				serial, order_i, order_n, seq, full_str,
 				seq_from_cmd_str_offset, cmd_str_offset,
 				send_flag);
@@ -557,6 +559,7 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, int64_t * local_seq_last,
 				  full_str[cmd_str_offset + s] = '\0';
 				  ret = ret
 				    && _lw6dat_stack_put_atom (stack,
+							       _LW6DAT_ATOM_TYPE_DATA,
 							       serial,
 							       order_i,
 							       order_n, seq,
@@ -1496,4 +1499,46 @@ _lw6dat_stack_miss_invalidate (_lw6dat_stack_t *
       stack->serial_min_to_send[target_index] =
 	lw6sys_imin (stack->serial_min_to_send[target_index], loop_min);
     }
+}
+
+int
+_lw6dat_stack_meta_update (_lw6dat_stack_t * stack,
+			   lw6msg_meta_array_t * meta_array, int64_t seq)
+{
+  int ret = 0;
+  int serial = 0;
+
+  if (stack->node_id)
+    {
+      serial = _lw6dat_stack_seq2serial (stack, seq);
+      ret = lw6msg_meta_array_set (meta_array, stack->node_id, serial, seq);
+    }
+
+  return ret;
+}
+
+int
+_lw6dat_stack_meta_put (_lw6dat_stack_t * stack, int64_t seq,
+			lw6msg_meta_array_t * meta_array)
+{
+  int ret = 0;
+  char *meta_msg;
+  int serial = 0;
+  /*
+   * We always have i=0 and n=1 here as there's only
+   * one message, spawning meta messages on several atoms
+   * could probably be possible but just... we don't do it.
+   */
+  int i = 0;
+  int n = 1;
+
+  serial = _lw6dat_stack_get_serial (stack) + 1;
+  meta_msg = lw6msg_cmd_generate_meta (serial, i, n, 1, seq, meta_array);
+  if (meta_msg)
+    {
+      ret = _lw6dat_stack_put_atom_str (stack, meta_msg, _LW6DAT_FLAG_REMOTE);
+      LW6SYS_FREE (meta_msg);
+    }
+
+  return ret;
 }

@@ -140,6 +140,7 @@ lw6msg_meta_array_item_t;
 
 typedef struct lw6msg_meta_array_s
 {
+  u_int64_t logical_from;
   lw6msg_meta_array_item_t items[LW6MSG_NB_META_ARRAY_ITEMS];
 }
 lw6msg_meta_array_t;

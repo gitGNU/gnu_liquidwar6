@@ -46,6 +46,16 @@
     
 @end deftp
 
+@defcv {Member} {lw6msg_meta_array_s} {logical_from}
+@strong{Type:} @code{u_int64_t}
+
+@strong{Definition:} @code{u_int64_t lw6msg_meta_array_s::logical_from}
+
+
+        
+        
+@end defcv
+
 @defcv {Member} {lw6msg_meta_array_s} {items}
 @strong{Type:} @code{lw6msg_meta_array_item_t}
 

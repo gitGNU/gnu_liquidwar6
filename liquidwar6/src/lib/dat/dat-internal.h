@@ -95,7 +95,7 @@ typedef struct _lw6dat_atom_s
   int not_null;
   int send_flag;
   int sent_status;
-  int atom_type;
+  int type;
   int update_msg_called;
   int serial;
   int order_i;
@@ -148,24 +148,24 @@ extern void _lw6dat_atom_clear (_lw6dat_atom_t * atom);
 extern int _lw6dat_atom_set_full_str (_lw6dat_atom_t * atom,
 				      const char *full_str);
 extern char *_lw6dat_atom_get_full_str (_lw6dat_atom_t * atom);
-extern int _lw6dat_atom_parse_serial_i_n_reg_seq_id_from_cmd (int *serial,
-							      int *order_i,
-							      int *order_n,
-							      int *reg,
-							      int64_t * seq,
-							      u_int64_t *
-							      logical_from,
-							      int
-							      *seq_from_cmd_str_offset,
-							      int
-							      *cmd_str_offset,
-							      const char
-							      *full_str);
+extern int _lw6dat_atom_parse_from_cmd (int *type, int *serial,
+					int *order_i,
+					int *order_n,
+					int *reg,
+					int64_t * seq,
+					u_int64_t *
+					logical_from,
+					int
+					*seq_from_cmd_str_offset,
+					int
+					*cmd_str_offset,
+					const char *full_str);
 
 /* dat-block.c */
 extern _lw6dat_block_t *_lw6dat_block_new (int serial_0);
 extern void _lw6dat_block_free (_lw6dat_block_t * block);
 extern int _lw6dat_block_put_atom (_lw6dat_block_t * block,
+				   int type,
 				   int serial,
 				   int order_i, int order_n, int64_t seq,
 				   const char *full_str,
@@ -202,6 +202,7 @@ extern int _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id,
 			       int serial_0, int64_t seq_0);
 extern int _lw6dat_stack_get_serial (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
+				   int type,
 				   int serial,
 				   int order_i, int order_n, int64_t seq,
 				   const char *full_str,
@@ -245,6 +246,11 @@ extern lw6dat_miss_t *_lw6dat_stack_get_miss (_lw6dat_stack_t * stack,
 extern void _lw6dat_stack_miss_invalidate (_lw6dat_stack_t * stack,
 					   int target_index, int serial_min,
 					   int serial_max);
+extern int _lw6dat_stack_meta_update (_lw6dat_stack_t * stack,
+				      lw6msg_meta_array_t * meta_array,
+				      int64_t seq);
+extern int _lw6dat_stack_meta_put (_lw6dat_stack_t * stack, int64_t seq,
+				   lw6msg_meta_array_t * meta_array);
 
 static inline int
 _lw6dat_stack_get_block_index (_lw6dat_stack_t * stack, int serial)
@@ -287,9 +293,10 @@ extern int _lw6dat_warehouse_is_node_registered (_lw6dat_warehouse_t *
 						 warehouse,
 						 u_int64_t node_id);
 extern int _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
-				       u_int64_t logical_from, int serial,
-				       int order_i, int order_n, int reg,
-				       int64_t seq, const char *full_str,
+				       u_int64_t logical_from, int type,
+				       int serial, int order_i, int order_n,
+				       int reg, int64_t seq,
+				       const char *full_str,
 				       int seq_from_cmd_str_offset,
 				       int cmd_str_offset);
 extern int _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
@@ -338,5 +345,7 @@ extern int
 _lw6dat_warehouse_get_nb_atom_parts_since_last_poll (_lw6dat_warehouse_t *
 						     warehouse,
 						     u_int64_t remote_id);
+extern int _lw6dat_warehouse_meta_put (_lw6dat_warehouse_t * warehouse,
+				       int64_t seq);
 
 #endif

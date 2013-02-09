@@ -322,12 +322,17 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		      cnx->remote_url);
 	  /*
 	   * Wether seq_register should be seq_max or seq_reference
-	   * is debatable. Anyway, the real point is that those join
+	   * has been a question. The worst choice looks like being
+	   * get_local_seq_last as it's the value used to send
+	   * dumps & messages and anything. The idea is that we
+	   * send a register seq according to *our* state since anyway
+	   * we're never sure of how far the others have gone locally.
+	   * Anyway, the real point is that those join
 	   * messages should make it through the warehouse itself
 	   * so that they get at the real right time to all peers,
 	   * including those we're not directly connected to.
 	   */
-	  seq_register = _lw6p2p_node_get_seq_max (node);
+	  seq_register = _lw6p2p_node_get_local_seq_last (node);
 	  if (seq == 0LL)
 	    {
 	      /*

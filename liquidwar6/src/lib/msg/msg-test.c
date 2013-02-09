@@ -77,6 +77,7 @@
  * be 100 but 100 is too short for that matter.
  */
 #define _TEST_ENVELOPE_TRUNCATE_LEN 120
+#define _TEST_META_LOGICAL_FROM 0x1234123412341234LL
 #define _TEST_META_NODE_ID_1 0x1234123412341234LL
 #define _TEST_META_NODE_ID_2 0x2345234523452345LL
 #define _TEST_META_SERIAL_0_1 0
@@ -188,7 +189,7 @@ test_cmd ()
     int meta_i = 0;
     int meta_n = 0;
     int meta_reg = 0;
-    int64_t meta_seq = 0;
+    int64_t meta_seq = 0LL;
     lw6msg_meta_array_t meta_array_src;
     lw6msg_meta_array_t meta_array_dst;
     u_int64_t miss_id_from = 0LL;
@@ -528,6 +529,7 @@ test_cmd ()
 
 	lw6msg_meta_array_zero (&meta_array_src);
 	lw6msg_meta_array_zero (&meta_array_dst);
+	meta_array_src.logical_from = _TEST_META_LOGICAL_FROM;
 	lw6msg_meta_array_set (&meta_array_src,
 			       _TEST_META_ARRAY_ITEM_NODE_ID_1,
 			       _TEST_META_ARRAY_ITEM_SERIAL_0_1,

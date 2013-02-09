@@ -147,6 +147,8 @@ extern int
 lw6dat_warehouse_get_nb_atom_parts_since_last_poll (lw6dat_warehouse_t *
 						    warehouse,
 						    u_int64_t remote_id);
+extern int
+lw6dat_warehouse_meta_put (lw6dat_warehouse_t * warehouse, int64_t seq);
 
 /* dat-test.c */
 extern int lw6dat_test (int mode);

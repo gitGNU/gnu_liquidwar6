@@ -54,7 +54,7 @@ _lw6dat_block_free (_lw6dat_block_t * block)
 }
 
 int
-_lw6dat_block_put_atom (_lw6dat_block_t * block,
+_lw6dat_block_put_atom (_lw6dat_block_t * block, int type,
 			int serial, int order_i, int order_n, int64_t seq,
 			const char *full_str, int seq_from_cmd_str_offset,
 			int cmd_str_offset, int send_flag)
@@ -93,6 +93,7 @@ _lw6dat_block_put_atom (_lw6dat_block_t * block,
 	  if (ret)
 	    {
 	      atom->not_null = 1;
+	      atom->type = type;
 	      atom->serial = serial;
 	      atom->order_i = order_i;
 	      atom->order_n = order_n;

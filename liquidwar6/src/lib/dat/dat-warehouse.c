@@ -520,6 +520,7 @@ lw6dat_warehouse_is_node_registered (lw6dat_warehouse_t * warehouse,
 int
 _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 			    u_int64_t logical_from,
+			    int type,
 			    int serial, int order_i, int order_n, int reg,
 			    int64_t seq, const char *full_str,
 			    int seq_from_cmd_str_offset, int cmd_str_offset)
@@ -553,8 +554,8 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
     {
       send_flag = _lw6dat_not_flag (stack_index);
       ret =
-	_lw6dat_stack_put_atom (&(warehouse->stacks[stack_index]), serial,
-				order_i, order_n, seq, full_str,
+	_lw6dat_stack_put_atom (&(warehouse->stacks[stack_index]), type,
+				serial, order_i, order_n, seq, full_str,
 				seq_from_cmd_str_offset, cmd_str_offset,
 				send_flag);
     }
@@ -582,6 +583,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 				u_int64_t logical_from, const char *full_str)
 {
   int ret = 0;
+  int type = 0;
   int serial = 0;
   int order_i = 0;
   int order_n = 0;
@@ -597,8 +599,8 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
    * logical ids match, and else we'd parse the message twice
    * in most cases.
    */
-  if (_lw6dat_atom_parse_serial_i_n_reg_seq_id_from_cmd
-      (&serial, &order_i, &order_n, &reg, &seq, &logical_from2,
+  if (_lw6dat_atom_parse_from_cmd
+      (&type, &serial, &order_i, &order_n, &reg, &seq, &logical_from2,
        &seq_from_cmd_str_offset, &cmd_str_offset, full_str))
     {
       if (logical_from != logical_from2)
@@ -628,7 +630,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
        * the real original writer of the message.
        */
       ret =
-	_lw6dat_warehouse_put_atom (warehouse, logical_from2,
+	_lw6dat_warehouse_put_atom (warehouse, logical_from2, type,
 				    serial, order_i, order_n, reg, seq,
 				    full_str, seq_from_cmd_str_offset,
 				    cmd_str_offset);
@@ -1349,4 +1351,85 @@ lw6dat_warehouse_get_nb_atom_parts_since_last_poll (lw6dat_warehouse_t *
     _lw6dat_warehouse_get_nb_atom_parts_since_last_poll ((_lw6dat_warehouse_t
 							  *) warehouse,
 							 remote_id);
+}
+
+int
+_lw6dat_warehouse_meta_put (_lw6dat_warehouse_t * warehouse, int64_t seq)
+{
+  int ret = 0;
+  int64_t local_seq_last = 0LL;
+  lw6msg_meta_array_t meta_array;
+  int i = 0;
+
+  local_seq_last = _lw6dat_warehouse_get_local_seq_last (warehouse);
+  if (seq >= local_seq_last)
+    {
+      lw6msg_meta_array_zero (&meta_array);
+      meta_array.logical_from = _lw6dat_warehouse_get_local_id (warehouse);
+      ret = 1;
+      for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+	{
+	  if (warehouse->stacks[i].node_id)
+	    {
+	      /*
+	       * Check that seq is great enough, setting a seq lower than what
+	       * we have within the warehouse is just, err, well, suicide ;)
+	       * Note that later, receviver of the meta information might
+	       * decide to use another seq depending on what relationship is
+	       * already established.
+	       */
+	      if (seq >= warehouse->stacks[i].seq_0[i])
+		{
+		  _lw6dat_stack_meta_update (&(warehouse->stacks[i]),
+					     &meta_array, seq);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("unable to update META message at seq %"
+				   LW6SYS_PRINTF_LL
+				   "d when warehouse->stacks[%d].seq_0=%"
+				   LW6SYS_PRINTF_LL "d"), (long long) seq, i,
+			      (long long) warehouse->stacks[i].seq_0);
+		  ret = 0;
+		}
+	    }
+	}
+      if (ret)
+	{
+	  ret =
+	    _lw6dat_stack_meta_put (&
+				    (warehouse->stacks
+				     [_LW6DAT_LOCAL_NODE_INDEX]), seq,
+				    &meta_array);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to put META message at seq %" LW6SYS_PRINTF_LL
+		       "d when local_seq_last=%" LW6SYS_PRINTF_LL "d"),
+		  (long long) seq, (long long) local_seq_last);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_meta_put
+ *
+ * @warehouse: data warehouse to put message into
+ * @seq: seq to use to stamp the message
+ *
+ * Puts a META message in the warehouse. The META message purpose is
+ * to tell other warehouses (on other nodes, peers) that the list of peers
+ * is updated. This typically happens when a node joins in.
+ *
+ * Return value: 1 on success, 0 if failed.
+ */
+int
+lw6dat_warehouse_meta_put (lw6dat_warehouse_t * warehouse, int64_t seq)
+{
+  return (_lw6dat_warehouse_meta_put
+	  ((_lw6dat_warehouse_t *) warehouse, seq));
 }

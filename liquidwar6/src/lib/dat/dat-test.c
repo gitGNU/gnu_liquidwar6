@@ -31,6 +31,7 @@
 #define _TEST_ATOM_TEXT_SHORT "this is a short text"
 #define _TEST_ATOM_TEXT_LONG "this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text..."
 
+#define _TEST_BLOCK_ATOM_TYPE _LW6DAT_ATOM_TYPE_DATA
 #define _TEST_BLOCK_SERIAL_0 456
 #define _TEST_BLOCK_ORDER_N 7
 #define _TEST_BLOCK_SEQ 10000000000002LL
@@ -46,6 +47,7 @@
 #define _TEST_MISS_SERIAL_MAX 456
 
 #define _TEST_STACK_NODE_ID 0x2345234523452345LL
+#define _TEST_STACK_ATOM_TYPE _LW6DAT_ATOM_TYPE_DATA
 #define _TEST_STACK_SERIAL_0 123
 #define _TEST_STACK_SEQ_0 10LL
 #define _TEST_STACK_ORDER_I 0
@@ -73,6 +75,7 @@
 
 #define _TEST_WAREHOUSE_LOCAL_NODE_ID 0x1234123412341234LL
 #define _TEST_WAREHOUSE_OTHER_NODE_ID 0x2345234523452345LL
+#define _TEST_WAREHOUSE_ATOM_TYPE _LW6DAT_ATOM_TYPE_DATA
 #define _TEST_WAREHOUSE_SERIAL 789
 #define _TEST_WAREHOUSE_ORDER_I 0
 #define _TEST_WAREHOUSE_ORDER_N 1
@@ -277,8 +280,8 @@ test_block ()
 	     serial += _TEST_BLOCK_STEP, order_i += _TEST_BLOCK_STEP)
 	  {
 	    if (_lw6dat_block_put_atom
-		(block, serial, order_i, _TEST_BLOCK_ORDER_N,
-		 _TEST_BLOCK_SEQ, _TEST_BLOCK_TEXT_1,
+		(block, _TEST_BLOCK_ATOM_TYPE, serial, order_i,
+		 _TEST_BLOCK_ORDER_N, _TEST_BLOCK_SEQ, _TEST_BLOCK_TEXT_1,
 		 _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET,
 		 _TEST_BLOCK_CMD_STR_OFFSET, _TEST_BLOCK_SEND_FLAG))
 	      {
@@ -300,8 +303,8 @@ test_block ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("trying various invalid atom \"put\" calls"));
 	if (_lw6dat_block_put_atom
-	    (block, _TEST_BLOCK_SERIAL_0, 0, _TEST_BLOCK_ORDER_N,
-	     _TEST_BLOCK_SEQ, _TEST_BLOCK_TEXT_2,
+	    (block, _TEST_BLOCK_ATOM_TYPE, _TEST_BLOCK_SERIAL_0, 0,
+	     _TEST_BLOCK_ORDER_N, _TEST_BLOCK_SEQ, _TEST_BLOCK_TEXT_2,
 	     _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET, _TEST_BLOCK_CMD_STR_OFFSET,
 	     _TEST_BLOCK_SEND_FLAG))
 	  {
@@ -314,11 +317,11 @@ test_block ()
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("duplicate detection OK"));
 	  }
 	if (_lw6dat_block_put_atom
-	    (block, _TEST_BLOCK_SERIAL_0 - 1, 0, _TEST_BLOCK_ORDER_N,
-	     _TEST_BLOCK_SEQ, _TEST_BLOCK_TEXT_1,
+	    (block, _TEST_BLOCK_ATOM_TYPE, _TEST_BLOCK_SERIAL_0 - 1, 0,
+	     _TEST_BLOCK_ORDER_N, _TEST_BLOCK_SEQ, _TEST_BLOCK_TEXT_1,
 	     _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET, _TEST_BLOCK_CMD_STR_OFFSET,
 	     _TEST_BLOCK_SEND_FLAG)
-	    || _lw6dat_block_put_atom (block,
+	    || _lw6dat_block_put_atom (block, _TEST_BLOCK_ATOM_TYPE,
 				       _TEST_BLOCK_SERIAL_0 +
 				       _LW6DAT_NB_ATOMS_PER_BLOCK, 0,
 				       _TEST_BLOCK_ORDER_N, _TEST_BLOCK_SEQ,
@@ -467,9 +470,10 @@ test_stack ()
 	  lw6sys_random (_TEST_STACK_RANDOM_RANGE);
 	seq = _TEST_STACK_SEQ + i;
 	if (!_lw6dat_stack_put_atom
-	    (&stack, serial, _TEST_STACK_ORDER_I, _TEST_STACK_ORDER_N,
-	     seq, _TEST_STACK_TEXT, _TEST_STACK_SEQ_FROM_CMD_STR_OFFSET,
-	     _TEST_STACK_CMD_STR_OFFSET, _TEST_STACK_SEND_FLAG))
+	    (&stack, _TEST_STACK_ATOM_TYPE, serial, _TEST_STACK_ORDER_I,
+	     _TEST_STACK_ORDER_N, seq, _TEST_STACK_TEXT,
+	     _TEST_STACK_SEQ_FROM_CMD_STR_OFFSET, _TEST_STACK_CMD_STR_OFFSET,
+	     _TEST_STACK_SEND_FLAG))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("error putting atom on stack i=%d serial=%d"), i,
@@ -851,9 +855,9 @@ test_warehouse ()
       {
 	if (_lw6dat_warehouse_put_atom
 	    (_warehouse, _TEST_WAREHOUSE_LOCAL_NODE_ID,
-	     _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
-	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_REG,
-	     _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT,
+	     _TEST_WAREHOUSE_ATOM_TYPE, _TEST_WAREHOUSE_SERIAL,
+	     _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
+	     _TEST_WAREHOUSE_REG, _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT,
 	     _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
 	     _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	  {
@@ -864,7 +868,8 @@ test_warehouse ()
 	for (i = 0; i < _TEST_WAREHOUSE_NB_STACKS_OVERFLOW; ++i)
 	  {
 	    if (!_lw6dat_warehouse_put_atom
-		(_warehouse, lw6sys_generate_id_64 (), _TEST_WAREHOUSE_SERIAL,
+		(_warehouse, lw6sys_generate_id_64 (),
+		 _TEST_WAREHOUSE_ATOM_TYPE, _TEST_WAREHOUSE_SERIAL,
 		 _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
 		 _TEST_WAREHOUSE_REG, _TEST_WAREHOUSE_SEQ,
 		 _TEST_WAREHOUSE_TEXT,
@@ -905,9 +910,9 @@ test_warehouse ()
 		    _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW);
 	if (_lw6dat_warehouse_put_atom
 	    (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
-	     _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
-	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_REG,
-	     _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT,
+	     _TEST_WAREHOUSE_ATOM_TYPE, _TEST_WAREHOUSE_SERIAL,
+	     _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
+	     _TEST_WAREHOUSE_REG, _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT,
 	     _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
 	     _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	  {
@@ -915,9 +920,10 @@ test_warehouse ()
 	      {
 		if (!_lw6dat_warehouse_put_atom
 		    (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
-		     _TEST_WAREHOUSE_SERIAL + i, _TEST_WAREHOUSE_ORDER_I,
-		     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_REG,
-		     _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT,
+		     _TEST_WAREHOUSE_ATOM_TYPE, _TEST_WAREHOUSE_SERIAL + i,
+		     _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
+		     _TEST_WAREHOUSE_REG, _TEST_WAREHOUSE_SEQ,
+		     _TEST_WAREHOUSE_TEXT,
 		     _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
 		     _TEST_WAREHOUSE_CMD_STR_OFFSET))
 		  {
@@ -928,9 +934,10 @@ test_warehouse ()
 	      }
 	    if (_lw6dat_warehouse_put_atom
 		(_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
-		 _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
-		 _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_REG,
-		 _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT,
+		 _TEST_WAREHOUSE_ATOM_TYPE, _TEST_WAREHOUSE_SERIAL,
+		 _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
+		 _TEST_WAREHOUSE_REG, _TEST_WAREHOUSE_SEQ,
+		 _TEST_WAREHOUSE_TEXT,
 		 _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
 		 _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	      {
@@ -1041,7 +1048,19 @@ test_warehouse ()
 			if (lw6dat_warehouse_put_local_msg
 			    (warehouse, msg, _TEST_WAREHOUSE_REG))
 			  {
-			    // ok
+			    if (lw6dat_warehouse_meta_put
+				(warehouse,
+				 lw6dat_warehouse_get_local_seq_last
+				 (warehouse)))
+			      {
+				// ok
+			      }
+			    else
+			      {
+				lw6sys_log (LW6SYS_LOG_WARNING,
+					    _x_ ("unable to put meta"));
+				ret = 0;
+			      }
 			  }
 			else
 			  {
@@ -1242,6 +1261,7 @@ _print_msg (void *func_data, void *data)
 {
   const char *msg = (const char *) data;
   int len = 0;
+  int type = 0;
   int serial = 0;
   int order_i = 0;
   int order_n = 0;
@@ -1254,8 +1274,8 @@ _print_msg (void *func_data, void *data)
   if ((!func_data) && msg)
     {
       len = strlen (msg);
-      _lw6dat_atom_parse_serial_i_n_reg_seq_id_from_cmd
-	(&serial, &order_i, &order_n, &reg, &seq, &logical_from2,
+      _lw6dat_atom_parse_from_cmd
+	(&type, &serial, &order_i, &order_n, &reg, &seq, &logical_from2,
 	 &seq_from_cmd_str_offset, &cmd_str_offset, msg);
       lw6sys_log (LW6SYS_LOG_NOTICE,
 		  _x_
@@ -1279,6 +1299,7 @@ _fake_send (void *func_data, void *data)
   _fake_send_data_t *fake_send_data = (_fake_send_data_t *) func_data;
   const char *msg = (const char *) data;
   int len = 0;
+  int type = 0;
   int serial = 0;
   int order_i = 0;
   int order_n = 0;
@@ -1298,8 +1319,8 @@ _fake_send (void *func_data, void *data)
 	   * sender can been parsed upstream but here we
 	   * need to figure it out "manually".
 	   */
-	  _lw6dat_atom_parse_serial_i_n_reg_seq_id_from_cmd
-	    (&serial, &order_i, &order_n, &reg, &seq, &logical_from2,
+	  _lw6dat_atom_parse_from_cmd
+	    (&type, &serial, &order_i, &order_n, &reg, &seq, &logical_from2,
 	     &seq_from_cmd_str_offset, &cmd_str_offset, msg);
 	}
       else
