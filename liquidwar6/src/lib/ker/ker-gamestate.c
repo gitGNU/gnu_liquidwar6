@@ -1073,6 +1073,15 @@ _lw6ker_game_state_add_team_internal (_lw6ker_game_state_t * game_state,
 	    game_state->map_state.armies.max_fighters /
 	    (_lw6ker_map_state_get_nb_teams (&(game_state->map_state)) + 1);
 	}
+
+      /*
+       * Changing the number of fighter to incorporate the handicap
+       * set in the configuration. Doing it here will do it both
+       * on game startup and respawn.
+       */
+      nb_fighters = (nb_fighters * rules->team_profile_handicap[team_color])
+	/ 100;
+
       /*
        * Remove fighters if needed
        */
