@@ -28,5 +28,6 @@
 extern lw6sys_module_pedigree_t *mod_ogg_get_pedigree ();
 extern lw6snd_backend_t *mod_ogg_create_backend ();
 extern void mod_ogg_is_GPL_compatible ();
+extern void mod_ogg_is_dlclose_safe ();
 
 #endif

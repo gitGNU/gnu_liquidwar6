@@ -28,11 +28,34 @@
 #include "mod-ogg.h"
 #include "mod-ogg-internal.h"
 
-/*
- * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+/**
+ * mod_ogg_is_GPL_compatible
+ *
+ * Defined to tell mod_ogg is compatible with GNU General Public License
+ * Of course it is. This function does nothing, but the fact it's declared
+ * makes its GPL compatibility obvious. Having this declared is required.
+ *
+ * Return value: none
  */
 void
 mod_ogg_is_GPL_compatible ()
+{
+/*
+ * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+ */
+}
+
+/**
+ * mod_ogg_is_dlclose_safe
+ *
+ * Defined to tell mod_ogg has no dlclose issue, once can safely call
+ * lt_dlclose on it when done with it, without risking any segfault.
+ * Some other LW6 modules/shared libraries do have this problem.
+ *
+ * Return value: none
+ */
+void
+mod_ogg_is_dlclose_safe ()
 {
 }
 

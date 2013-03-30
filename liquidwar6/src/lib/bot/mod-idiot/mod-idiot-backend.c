@@ -45,6 +45,20 @@ mod_idiot_is_GPL_compatible ()
  */
 }
 
+/**
+ * mod_idiot_is_dlclose_safe
+ *
+ * Defined to tell mod_idiot has no dlclose issue, once can safely call
+ * lt_dlclose on it when done with it, without risking any segfault.
+ * Some other LW6 modules/shared libraries do have this problem.
+ *
+ * Return value: none
+ */
+void
+mod_idiot_is_dlclose_safe ()
+{
+}
+
 static void *
 _init (int argc, const char *argv[], lw6bot_data_t * data)
 {

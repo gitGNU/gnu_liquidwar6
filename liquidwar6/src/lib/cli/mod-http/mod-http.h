@@ -31,5 +31,6 @@
 extern lw6sys_module_pedigree_t *mod_http_get_pedigree ();
 extern lw6cli_backend_t *mod_http_create_backend ();
 extern void mod_http_is_GPL_compatible ();
+extern void mod_http_is_dlclose_safe ();
 
 #endif

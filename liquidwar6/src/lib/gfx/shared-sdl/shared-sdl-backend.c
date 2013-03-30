@@ -26,10 +26,19 @@
 
 #include "shared-sdl-internal.h"
 
-/*
- * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+/**
+ * mod_share_sdl_is_GPL_compatible
+ *
+ * Defined to tell shared_sdl is compatible with GNU General Public License
+ * Of course it is. This function does nothing, but the fact it's declared
+ * makes its GPL compatibility obvious. Having this declared is required.
+ *
+ * Return value: none
  */
 void
 shared_sdl_is_GPL_compatible ()
 {
+/*
+ * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+ */
 }

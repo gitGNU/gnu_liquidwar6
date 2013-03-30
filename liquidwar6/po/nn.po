@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2013-01-24 06:22+0100\n"
+"POT-Creation-Date: 2013-03-30 16:35+0100\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -18,24 +18,24 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: ~\n"
 
-#: src/lib/bot/mod-brute/mod-brute-backend.c:115
+#: src/lib/bot/mod-brute/mod-brute-backend.c:129
 msgid "Brute"
 msgstr ""
 
-#: src/lib/bot/mod-follow/mod-follow-backend.c:118
+#: src/lib/bot/mod-follow/mod-follow-backend.c:132
 #, fuzzy
 msgid "Follow"
 msgstr "gul"
 
-#: src/lib/bot/mod-idiot/mod-idiot-backend.c:115
+#: src/lib/bot/mod-idiot/mod-idiot-backend.c:129
 msgid "Idiot"
 msgstr ""
 
-#: src/lib/bot/mod-random/mod-random-backend.c:118
+#: src/lib/bot/mod-random/mod-random-backend.c:132
 msgid "Random"
 msgstr ""
 
-#: src/lib/cli/mod-http/mod-http-backend.c:180
+#: src/lib/cli/mod-http/mod-http-backend.c:194
 msgid "HTTP (Curl)"
 msgstr ""
 
@@ -43,7 +43,7 @@ msgstr ""
 msgid "can't initialize mod_http"
 msgstr "klarte ikkje starta mod_http"
 
-#: src/lib/cli/mod-tcp/mod-tcp-backend.c:180
+#: src/lib/cli/mod-tcp/mod-tcp-backend.c:194
 msgid "TCP"
 msgstr ""
 
@@ -51,7 +51,7 @@ msgstr ""
 msgid "can't initialize mod_tcp"
 msgstr "klarte ikkje starta mod_tcp"
 
-#: src/lib/cli/mod-udp/mod-udp-backend.c:180
+#: src/lib/cli/mod-udp/mod-udp-backend.c:194
 msgid "UDP"
 msgstr ""
 
@@ -63,12 +63,12 @@ msgstr "klarte ikkje starta mod_udp"
 msgid "this error too"
 msgstr "denne feilen òg"
 
-#: src/lib/dyn/dyn-dl.c:246
+#: src/lib/dyn/dyn-dl.c:263
 #, fuzzy, c-format
 msgid "loaded module \"%s\""
 msgstr "Kodenamn «%s»"
 
-#: src/lib/gfx/mod-caca/mod-caca-backend.c:168
+#: src/lib/gfx/mod-caca/mod-caca-backend.c:177
 msgid "libcaca"
 msgstr ""
 
@@ -125,7 +125,7 @@ msgstr "Feil ved SDL GetVideoInfo: «%s»"
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
 msgstr "Feil ved SDL SetVideoMode %dx%d bpp=%d fullscreen=%d: «%s»"
 
-#: src/lib/gfx/mod-gl1/mod-gl1-backend.c:341
+#: src/lib/gfx/mod-gl1/mod-gl1-backend.c:350
 msgid "OpenGL v1 / SDL"
 msgstr ""
 
@@ -147,11 +147,11 @@ msgstr "Feil ved start av SDL_ttf: «%s»"
 msgid "unable to load data"
 msgstr "klarte ikkje lasta data"
 
-#: src/lib/gfx/mod-gles2/mod-gles2-backend.c:176
+#: src/lib/gfx/mod-gles2/mod-gles2-backend.c:185
 msgid "OpenGL ES v2 / SDL"
 msgstr ""
 
-#: src/lib/gfx/mod-soft/mod-soft-backend.c:169
+#: src/lib/gfx/mod-soft/mod-soft-backend.c:178
 msgid "Software / SDL"
 msgstr ""
 
@@ -616,16 +616,16 @@ msgstr ""
 msgid "leaving Guile in %s"
 msgstr "forlèt Guile"
 
-#: src/lib/snd/mod-csound/mod-csound-backend.c:215
+#: src/lib/snd/mod-csound/mod-csound-backend.c:238
 #, fuzzy
 msgid "Csound"
 msgstr "Lyd"
 
-#: src/lib/snd/mod-ogg/mod-ogg-backend.c:204
+#: src/lib/snd/mod-ogg/mod-ogg-backend.c:227
 msgid "Ogg Vorbis"
 msgstr ""
 
-#: src/lib/srv/mod-httpd/mod-httpd-backend.c:233
+#: src/lib/srv/mod-httpd/mod-httpd-backend.c:256
 msgid "HTTPD"
 msgstr ""
 
@@ -633,7 +633,7 @@ msgstr ""
 msgid "can't initialize mod_httpd"
 msgstr "klarte ikkje starta mod_httpd"
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:231
+#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:254
 msgid "TCPD"
 msgstr ""
 
@@ -641,7 +641,7 @@ msgstr ""
 msgid "can't initialize mod_tcpd"
 msgstr "klarte ikkje starta mod_tcpd"
 
-#: src/lib/srv/mod-udpd/mod-udpd-backend.c:232
+#: src/lib/srv/mod-udpd/mod-udpd-backend.c:255
 msgid "UDPD"
 msgstr ""
 

@@ -30,5 +30,6 @@
 extern lw6sys_module_pedigree_t *mod_udpd_get_pedigree ();
 extern lw6srv_backend_t *mod_udpd_create_backend ();
 extern void mod_udpd_is_GPL_compatible ();
+extern void mod_udpd_is_dlclose_safe ();
 
 #endif

@@ -28,12 +28,21 @@
 #include "mod-gl1.h"
 #include "mod-gl1-internal.h"
 
-/*
- * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+/**
+ * mod_gl1_is_GPL_compatible
+ *
+ * Defined to tell mod_gl1 is compatible with GNU General Public License
+ * Of course it is. This function does nothing, but the fact it's declared
+ * makes its GPL compatibility obvious. Having this declared is required.
+ *
+ * Return value: none
  */
 void
 mod_gl1_is_GPL_compatible ()
 {
+/*
+ * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+ */
 }
 
 static void *

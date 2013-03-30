@@ -77,6 +77,10 @@ _dlopen_so (const char *so_file, int is_backend)
 
   if (lw6sys_file_exists (so_file))
     {
+      /*
+       * We really rely on calloc, for instance,
+       * is_dlclose_safe must be 0 at init
+       */
       ret = LW6SYS_CALLOC (sizeof (lw6dyn_dl_handle_t));
       if (ret)
 	{
@@ -135,6 +139,27 @@ lw6dyn_dlopen_shared_so (const char *so_file)
   return _dlopen_so (so_file, 0);
 }
 
+static int
+_sym_exists (lw6dyn_dl_handle_t * handle, const char *sym_format,
+	     const char *backend_name)
+{
+  int ret = 0;
+  char *sym_str = NULL;
+
+  sym_str = lw6sys_new_sprintf (sym_format, backend_name);
+  if (sym_str)
+    {
+      if (lw6dyn_dlsym (handle, sym_str))
+	{
+	  ret = 1;
+	}
+      LW6SYS_FREE (sym_str);
+      sym_str = NULL;
+    }
+
+  return ret;
+}
+
 /**
  * lw6dyn_dlopen_backend:
  *
@@ -167,7 +192,6 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
   lw6sys_module_pedigree_t *module_pedigree = NULL;
   char *create_backend_func_str = NULL;
   void *(*create_backend_func) () = NULL;
-  char *is_GPL_compatible_sym_str = NULL;
   int ok = 0;
   static int first_load = 1;
 
@@ -220,118 +244,112 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
 					      (lw6sys_build_get_version (),
 					       module_pedigree->version))
 					    {
-
-					      is_GPL_compatible_sym_str =
-						lw6sys_new_sprintf
-						(LW6DYN_IS_BACKEND_GPL_COMPATIBLE_SYM_FORMAT,
-						 backend_name);
-					      if (is_GPL_compatible_sym_str)
+					      if (_sym_exists (ret,
+							       LW6DYN_IS_BACKEND_GPL_COMPATIBLE_SYM_FORMAT,
+							       backend_name))
 						{
-						  if (lw6dyn_dlsym
-						      (ret,
-						       is_GPL_compatible_sym_str))
+						  if (first_load)
 						    {
-						      if (first_load)
-							{
-							  /*
-							   * the first time we
-							   * load a .so file,
-							   * log it to console
-							   * just to make sure
-							   * paths are right.
-							   */
-							  lw6sys_log
-							    (LW6SYS_LOG_NOTICE,
-							     _
-							     ("loaded module \"%s\""),
-							     so_file);
-							  first_load = 0;
-							}
-
-						      lw6sys_log
-							(LW6SYS_LOG_INFO,
-							 _x_
-							 ("module \"%s\" loaded, looks fine"),
-							 so_file);
 						      /*
-						       * Verbose dlopen did log the so name
+						       * the first time we
+						       * load a .so file,
+						       * log it to console
+						       * just to make sure
+						       * paths are right.
 						       */
 						      lw6sys_log
-							(LW6SYS_LOG_INFO,
-							 _x_
-							 ("id for \"%s\" is \"%s\""),
-							 so_file,
-							 module_pedigree->id);
-						      lw6sys_log
-							(LW6SYS_LOG_INFO,
-							 _x_
-							 ("category for \"%s\" is \"%s\""),
-							 so_file,
-							 module_pedigree->
-							 category);
-						      lw6sys_log
-							(LW6SYS_LOG_INFO,
-							 _x_
-							 ("name for \"%s\" is \"%s\""),
-							 so_file,
-							 module_pedigree->
-							 name);
-						      lw6sys_log
-							(LW6SYS_LOG_INFO,
-							 _x_
-							 ("readme for \"%s\" is \"%s\""),
-							 so_file,
-							 module_pedigree->
-							 readme);
-						      lw6sys_log
-							(LW6SYS_LOG_INFO,
-							 _x_
-							 ("version for \"%s\" is \"%s\""),
-							 so_file,
-							 module_pedigree->
-							 version);
-						      lw6sys_log
-							(LW6SYS_LOG_INFO,
-							 _x_
-							 ("copyright for \"%s\" is \"%s\""),
-							 so_file,
-							 module_pedigree->
-							 copyright);
-						      lw6sys_log
-							(LW6SYS_LOG_INFO,
-							 _x_
-							 ("license for \"%s\" is \"%s\""),
-							 so_file,
-							 module_pedigree->
-							 license);
-						      lw6sys_log
-							(LW6SYS_LOG_INFO,
-							 _x_
-							 ("date for \"%s\" is \"%s\""),
-							 so_file,
-							 module_pedigree->
-							 date);
-						      lw6sys_log
-							(LW6SYS_LOG_INFO,
-							 _x_
-							 ("time for \"%s\" is \"%s\""),
-							 so_file,
-							 module_pedigree->
-							 time);
-						      ok = 1;
+							(LW6SYS_LOG_NOTICE,
+							 _
+							 ("loaded module \"%s\""),
+							 so_file);
+						      first_load = 0;
 						    }
-						  else
-						    {
-						      lw6sys_log
-							(LW6SYS_LOG_WARNING,
-							 _x_
-							 ("module mod_%s \"%s\" in \"%s\" is not GPL compatible"),
-							 backend_name,
-							 module_pedigree->
-							 name, so_file);
-						    }
-						  LW6SYS_FREE
-						    (is_GPL_compatible_sym_str);
+
+						  lw6sys_log
+						    (LW6SYS_LOG_INFO,
+						     _x_
+						     ("module \"%s\" loaded, looks fine"),
+						     so_file);
+
+						  ret->is_dlclose_safe =
+						    _sym_exists (ret,
+								 LW6DYN_IS_BACKEND_DLCLOSE_SAFE_SYM_FORMAT,
+								 backend_name);
+						  lw6sys_log (LW6SYS_LOG_INFO,
+							      _x_
+							      ("is_dlclose_safe for \"%s\" is %d"),
+							      so_file,
+							      ret->is_dlclose_safe);
+
+						  /*
+						   * Verbose dlopen did log the so name
+						   */
+						  lw6sys_log
+						    (LW6SYS_LOG_INFO,
+						     _x_
+						     ("id for \"%s\" is \"%s\""),
+						     so_file,
+						     module_pedigree->id);
+						  lw6sys_log
+						    (LW6SYS_LOG_INFO,
+						     _x_
+						     ("category for \"%s\" is \"%s\""),
+						     so_file,
+						     module_pedigree->
+						     category);
+						  lw6sys_log (LW6SYS_LOG_INFO,
+							      _x_
+							      ("name for \"%s\" is \"%s\""),
+							      so_file,
+							      module_pedigree->
+							      name);
+						  lw6sys_log (LW6SYS_LOG_INFO,
+							      _x_
+							      ("readme for \"%s\" is \"%s\""),
+							      so_file,
+							      module_pedigree->
+							      readme);
+						  lw6sys_log (LW6SYS_LOG_INFO,
+							      _x_
+							      ("version for \"%s\" is \"%s\""),
+							      so_file,
+							      module_pedigree->
+							      version);
+						  lw6sys_log (LW6SYS_LOG_INFO,
+							      _x_
+							      ("copyright for \"%s\" is \"%s\""),
+							      so_file,
+							      module_pedigree->
+							      copyright);
+						  lw6sys_log (LW6SYS_LOG_INFO,
+							      _x_
+							      ("license for \"%s\" is \"%s\""),
+							      so_file,
+							      module_pedigree->
+							      license);
+						  lw6sys_log (LW6SYS_LOG_INFO,
+							      _x_
+							      ("date for \"%s\" is \"%s\""),
+							      so_file,
+							      module_pedigree->
+							      date);
+						  lw6sys_log (LW6SYS_LOG_INFO,
+							      _x_
+							      ("time for \"%s\" is \"%s\""),
+							      so_file,
+							      module_pedigree->
+							      time);
+						  ok = 1;
+						}
+					      else
+						{
+						  lw6sys_log
+						    (LW6SYS_LOG_WARNING,
+						     _x_
+						     ("module mod_%s \"%s\" in \"%s\" is not GPL compatible"),
+						     backend_name,
+						     module_pedigree->name,
+						     so_file);
 						}
 					    }
 					  else
@@ -437,7 +455,6 @@ lw6dyn_dlopen_shared (int argc, const char *argv[],
 {
   lw6dyn_dl_handle_t *ret = NULL;
   char *so_file = NULL;
-  char *is_GPL_compatible_sym_str = NULL;
   int ok = 0;
 
   so_file = lw6dyn_path_find_shared (argc, argv, top_level_lib, shared_name);
@@ -449,27 +466,27 @@ lw6dyn_dlopen_shared (int argc, const char *argv[],
 	{
 	  ret->is_backend = 0;
 
-	  is_GPL_compatible_sym_str =
-	    lw6sys_new_sprintf
-	    (LW6DYN_IS_SHARED_GPL_COMPATIBLE_SYM_FORMAT, shared_name);
-	  if (is_GPL_compatible_sym_str)
+	  if (_sym_exists
+	      (ret, LW6DYN_IS_SHARED_GPL_COMPATIBLE_SYM_FORMAT, shared_name))
 	    {
-	      if (lw6dyn_dlsym (ret, is_GPL_compatible_sym_str))
-		{
-		  lw6sys_log
-		    (LW6SYS_LOG_INFO,
-		     _x_ ("shared code \"%s\" loaded, looks fine"), so_file);
-		  ok = 1;
-		}
-	      else
-		{
-		  lw6sys_log
-		    (LW6SYS_LOG_WARNING,
-		     _x_
-		     ("shared code shared_%s in \"%s\" is not GPL compatible"),
-		     shared_name, so_file);
-		}
-	      LW6SYS_FREE (is_GPL_compatible_sym_str);
+	      lw6sys_log
+		(LW6SYS_LOG_INFO,
+		 _x_ ("shared code \"%s\" loaded, looks fine"), so_file);
+	      ret->is_dlclose_safe =
+		_sym_exists (ret, LW6DYN_IS_SHARED_DLCLOSE_SAFE_SYM_FORMAT,
+			     shared_name);
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_ ("is_dlclose_safe for \"%s\" is %d"),
+			  so_file, ret->is_dlclose_safe);
+	      ok = 1;
+	    }
+	  else
+	    {
+	      lw6sys_log
+		(LW6SYS_LOG_WARNING,
+		 _x_
+		 ("shared code shared_%s in \"%s\" is not GPL compatible"),
+		 shared_name, so_file);
 	    }
 	}
       LW6SYS_FREE (so_file);
@@ -495,37 +512,47 @@ _dlclose (lw6dyn_dl_handle_t * handle)
 
   if (handle)
     {
-      /*
-       * Just for this log line, it's interesting to wrap
-       * the libtool lt_dlclose in our own function: when freeing
-       * a loaded shared library, we know *what* we're freeing,
-       * which can be pretty usefull when debugging.
-       */
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("unload \"%s\""),
-		  handle->library_path);
-      if (handle->handle)
+      if (handle->is_dlclose_safe)
 	{
-	  if (!lt_dlclose (handle->handle))
+	  /*
+	   * Just for this log line, it's interesting to wrap
+	   * the libtool lt_dlclose in our own function: when freeing
+	   * a loaded shared library, we know *what* we're freeing,
+	   * which can be pretty usefull when debugging.
+	   */
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("unload \"%s\""),
+		      handle->library_path);
+	  if (handle->handle)
 	    {
-	      ret = 1;
+	      if (!lt_dlclose (handle->handle))
+		{
+		  ret = 1;
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("couldn't unload shared library"));
+		}
+	      handle->handle = NULL;
 	    }
-	  else
+
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("lt_dlclose done for \"%s\""),
+		      handle->library_path);
+
+	  if ((nb_errs = lt_dlexit ()) > 0)
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_ ("couldn't unload shared library"));
+			  _x_ ("couldn't exit libltdl, %d errors"), nb_errs);
+	      ret = 0;
 	    }
 	}
-
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("lt_dlclose done for \"%s\""),
-		  handle->library_path);
-
-      if ((nb_errs = lt_dlexit ()) > 0)
+      else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_ ("couldn't exit libltdl, %d errors"), nb_errs);
-	  ret = 0;
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_
+		      ("unload \"%s\" skipped, marked as not \"dlclose safe\""),
+		      handle->library_path);
 	}
-
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("lt_dlexit done for \"%s\""),
 		  handle->library_path);
 

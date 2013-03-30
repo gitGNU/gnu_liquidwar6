@@ -31,6 +31,8 @@
 #define LW6DYN_CREATE_BACKEND_FUNC_FORMAT "mod_%s_create_backend"
 #define LW6DYN_IS_BACKEND_GPL_COMPATIBLE_SYM_FORMAT "mod_%s_is_GPL_compatible"
 #define LW6DYN_IS_SHARED_GPL_COMPATIBLE_SYM_FORMAT "shared_%s_is_GPL_compatible"
+#define LW6DYN_IS_BACKEND_DLCLOSE_SAFE_SYM_FORMAT "mod_%s_is_dlclose_safe"
+#define LW6DYN_IS_SHARED_DLCLOSE_SAFE_SYM_FORMAT "shared_%s_is_dlclose_safe"
 
 /**
  * Handle on dynamic library. Well, actually, ltdl does already
@@ -54,6 +56,20 @@ typedef struct lw6dyn_dl_handle_s
    * just some shared code.
    */
   int is_backend;
+  /**
+   * True (1) if one can safely call dlclose on this backend.
+   * Set to false (0) if low level dlclose must be skipped.
+   * For some reason, some (external) libraries really do not
+   * behave well when unloaded on the fly, even if we stop threads
+   * using them and don't use them anymore. The workarround
+   * is to have this flag defined, to skip the internal close
+   * to dlclose. LW will still free the memory, but won't call 
+   * libtool dlclose for real. Libtool keeps track of this internally
+   * and won't reload it on next call, maintain reference counts etc.
+   * so there's no real harm. Except it just looks ugly not to be
+   * able to truely unload the module.
+   */
+  int is_dlclose_safe;
 }
 lw6dyn_dl_handle_t;
 

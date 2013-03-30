@@ -7,6 +7,15 @@ makes its GPL compatibility obvious. Having this declared is required.
 @strong{Return value:}  none
 @end deftypefun
 
+@deftypefun {void} {mod_random_is_dlclose_safe} ()
+
+Defined to tell mod_random has no dlclose issue, once can safely call
+lt_dlclose on it when done with it, without risking any segfault.
+Some other LW6 modules/shared libraries do have this problem.
+
+@strong{Return value:}  none
+@end deftypefun
+
 @deftypefun {lw6sys_module_pedigree_t *} {mod_random_get_pedigree} ()
 
 Returns the pedigree for mod-random, giving details about the module,

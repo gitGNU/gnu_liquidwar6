@@ -1,0 +1,9 @@
+@deftypefun {void} {shared_sdl_is_GPL_compatible} ()
+
+Defined to tell shared_sdl is compatible with GNU General Public License
+Of course it is. This function does nothing, but the fact it's declared
+makes its GPL compatibility obvious. Having this declared is required.
+
+@strong{Return value:}  none
+@end deftypefun
+

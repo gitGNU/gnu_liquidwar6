@@ -1,3 +1,7 @@
+2013-03-30 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Skipping dlclose on all gfx backends, should fix #37904.
+
 2013-03-08 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Handicap patch by Epitech team.

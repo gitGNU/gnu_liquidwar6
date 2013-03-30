@@ -28,5 +28,6 @@
 extern lw6sys_module_pedigree_t *mod_csound_get_pedigree ();
 extern lw6snd_backend_t *mod_csound_create_backend ();
 extern void mod_csound_is_GPL_compatible ();
+extern void mod_csound_is_dlclose_safe ();
 
 #endif
