@@ -116,11 +116,11 @@ typedef struct lw6cnx_connection_s
   /// Password as a checksum, what will be sent on the network.
   char *password_send_checksum;
   /// ID of the local node, as an unsigned 64-bit integer.
-  int64_t local_id_int;
+  u_int64_t local_id_int;
   /// ID of the local node, as an hexa string.
   char *local_id_str;
   /// ID of the remote node, as an unsigned 64-bit integer.
-  int64_t remote_id_int;
+  u_int64_t remote_id_int;
   /// ID of the local node, as an hexa string.
   char *remote_id_str;
   /**

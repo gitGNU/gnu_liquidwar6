@@ -53,6 +53,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   u_int64_t id_to = 0LL;
   int serial_min = 0;
   int serial_max = 0;
+  lw6msg_meta_array_t meta_array;
+  int index = 0;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process \"%s\""), message);
 
@@ -322,15 +324,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		      cnx->remote_url);
 	  /*
 	   * Wether seq_register should be seq_max or seq_reference
-	   * has been a question. The worst choice looks like being
-	   * get_local_seq_last as it's the value used to send
-	   * dumps & messages and anything. The idea is that we
-	   * send a register seq according to *our* state since anyway
-	   * we're never sure of how far the others have gone locally.
-	   * Anyway, the real point is that those join
-	   * messages should make it through the warehouse itself
-	   * so that they get at the real right time to all peers,
-	   * including those we're not directly connected to.
+	   * or local_seq_last has been a question. Refactoring
+	   * using meta messages did change the deal.
 	   */
 	  seq_register = _lw6p2p_node_get_local_seq_last (node);
 	  if (seq == 0LL)
@@ -399,6 +394,29 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 							   cnx->local_id_int,
 							   cnx->remote_id_int,
 							   reply_msg);
+			  /*
+			   * Generate a META message so that other peers are aware of
+			   * that new node.
+			   */
+			  if (lw6dat_warehouse_meta_put
+			      (node->warehouse, seq_register))
+			    {
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _x_
+					  ("putting META message in queue at seq %"
+					   LW6SYS_PRINTF_LL "d"),
+					  (long long) seq_register);
+			    }
+			  else
+			    {
+			      lw6sys_log (LW6SYS_LOG_WARNING,
+					  _x_
+					  ("problem putting META message in queue at seq %"
+					   LW6SYS_PRINTF_LL
+					   "d, expect network inconsistencies"),
+					  (long long) seq_register);
+			    }
+
 			  /*
 			   * Finally, prepare to send game information.
 			   */
@@ -511,6 +529,45 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_ ("bad data from \"%s\" (\"%s\")"), cnx->remote_url,
+		      message);
+	}
+    }
+  else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_DATA))
+    {
+      lw6msg_meta_array_zero (&meta_array);
+
+      if (lw6msg_cmd_analyse_meta
+	  (&serial, &i, &n, &reg, &seq, &meta_array, message))
+	{
+	  for (index = 0; index < LW6MSG_NB_META_ARRAY_ITEMS; ++index)
+	    {
+	      if (meta_array.items[index].node_id)
+		{
+		  if (!lw6dat_warehouse_is_node_registered
+		      (node->warehouse, meta_array.items[index].node_id))
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_
+				  ("node %" LW6SYS_PRINTF_LL
+				   "x is in registered for %" LW6SYS_PRINTF_LL
+				   "x but not for us, registering it on local warehouse"),
+				  (long long) meta_array.items[index].node_id,
+				  (long long) cnx->remote_id_int);
+		      lw6dat_warehouse_register_node (node->warehouse,
+						      meta_array.
+						      items[index].node_id,
+						      meta_array.
+						      items[index].serial_0,
+						      meta_array.
+						      items[index].seq_0);
+		    }
+		}
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("bad meta from \"%s\" (\"%s\")"), cnx->remote_url,
 		      message);
 	}
     }
