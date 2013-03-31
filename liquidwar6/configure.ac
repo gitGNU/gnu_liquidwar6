@@ -493,7 +493,7 @@ AC_SUBST(MOD_GL1_ENABLE_CFLAGS)
 dnl End mod-gl1
 
 dnl Begin mod-gles2
-AC_ARG_ENABLE([mod-gles2], AS_HELP_STRING([--enable-mod-gles2],[compile mod-gles2 default=yes]), [enable_mod_gles2=$enableval], [enable_mod_gles2=yes])
+AC_ARG_ENABLE([mod-gles2], AS_HELP_STRING([--enable-mod-gles2],[compile mod-gles2 default=no]), [enable_mod_gles2=$enableval], [enable_mod_gles2=no])
 
 AC_CHECK_HEADER(GLES2/gl2.h, HAVE_GLES2_GL2_H=1,AC_MSG_NOTICE([OpenGL ES 2 support for Liquid War 6 needs Mesa (http://www.mesa3d.org/)]),[${SDL_EXTRA}])
 AC_CHECK_LIB(GLESv2, glCreateShader, HAVE_LIBGLESV2=1, AC_MSG_NOTICE([OpenGL ES 2 support for Liquid War 6 needs Mesa (http://www.mesa3d.org/)]),[${SDL_EXTRA}])
@@ -514,7 +514,7 @@ AC_SUBST(MOD_GLES2_ENABLE_CFLAGS)
 dnl End mod-gles2
 
 dnl Begin mod-soft
-AC_ARG_ENABLE([mod-soft], AS_HELP_STRING([--enable-mod-soft],[compile mod-soft default=yes]), [enable_mod_soft=$enableval], [enable_mod_soft=yes])
+AC_ARG_ENABLE([mod-soft], AS_HELP_STRING([--enable-mod-soft],[compile mod-soft default=no]), [enable_mod_soft=$enableval], [enable_mod_soft=no])
 
 SOFT_LIBS=""
 AC_SUBST(SOFT_LIBS)

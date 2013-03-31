@@ -1,5 +1,7 @@
 2013-03-31 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Disabling mod-gles2 and mod-soft by default.
+
 	* Handling meta messages within p2p module.
 
 2013-03-30 : Christian Mauduit <ufoot@ufoot.org>
