@@ -397,6 +397,7 @@ src/lib/nod/nod-test.c
 src/lib/nod/nod-testmain.c
 src/lib/p2p/p2p-backends.c
 src/lib/p2p/p2p-clioob.c
+src/lib/p2p/p2p-connectregistered.c
 src/lib/p2p/p2p-data.c
 src/lib/p2p/p2p-db.c
 src/lib/p2p/p2p-entry.c

@@ -1211,6 +1211,20 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now,
 /*
  * This function *must* be called in locked mode
  */
+static int
+_poll_step13_connect_registered (_lw6p2p_node_t * node, int64_t now)
+{
+  int ret = 0;
+
+  ret = _lw6p2p_connect_registered_nodes_if_needed (node);
+
+  return ret;
+}
+
+
+/*
+ * This function *must* be called in locked mode
+ */
 int
 _lw6p2p_node_poll (_lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
@@ -1231,6 +1245,7 @@ _lw6p2p_node_poll (_lw6p2p_node_t * node, lw6sys_progress_t * progress)
   ret = _poll_step10_send_atoms (node, now) && ret;
   ret = _poll_step11_tentacles (node, now) && ret;
   ret = _poll_step12_miss_list (node, now, progress) && ret;
+  ret = _poll_step13_connect_registered (node, now) && ret;
 
   return ret;
 }

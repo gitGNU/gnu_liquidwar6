@@ -1359,42 +1359,13 @@ _lw6dat_warehouse_meta_put (_lw6dat_warehouse_t * warehouse, int64_t seq)
   int ret = 0;
   int64_t local_seq_last = 0LL;
   lw6msg_meta_array_t meta_array;
-  int i = 0;
 
   local_seq_last = _lw6dat_warehouse_get_local_seq_last (warehouse);
   if (seq >= local_seq_last)
     {
       lw6msg_meta_array_zero (&meta_array);
       meta_array.logical_from = _lw6dat_warehouse_get_local_id (warehouse);
-      ret = 1;
-      for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
-	{
-	  if (warehouse->stacks[i].node_id)
-	    {
-	      /*
-	       * Check that seq is great enough, setting a seq lower than what
-	       * we have within the warehouse is just, err, well, suicide ;)
-	       * Note that later, receviver of the meta information might
-	       * decide to use another seq depending on what relationship is
-	       * already established.
-	       */
-	      if (seq >= warehouse->stacks[i].seq_0[i])
-		{
-		  _lw6dat_stack_meta_update (&(warehouse->stacks[i]),
-					     &meta_array, seq);
-		}
-	      else
-		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _x_ ("unable to update META message at seq %"
-				   LW6SYS_PRINTF_LL
-				   "d when warehouse->stacks[%d].seq_0=%"
-				   LW6SYS_PRINTF_LL "d"), (long long) seq, i,
-			      (long long) warehouse->stacks[i].seq_0);
-		  ret = 0;
-		}
-	    }
-	}
+      ret = _lw6dat_warehouse_meta_get (warehouse, &meta_array, seq);
       if (ret)
 	{
 	  ret =
@@ -1432,4 +1403,65 @@ lw6dat_warehouse_meta_put (lw6dat_warehouse_t * warehouse, int64_t seq)
 {
   return (_lw6dat_warehouse_meta_put
 	  ((_lw6dat_warehouse_t *) warehouse, seq));
+}
+
+int
+_lw6dat_warehouse_meta_get (_lw6dat_warehouse_t * warehouse,
+			    lw6msg_meta_array_t * meta_array, int64_t seq)
+{
+  int ret = 1;
+
+  int i = 0;
+
+  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+    {
+      if (warehouse->stacks[i].node_id)
+	{
+	  /*
+	   * Check that seq is great enough, setting a seq lower than what
+	   * we have within the warehouse is just, err, well, suicide ;)
+	   * Note that later, receviver of the meta information might
+	   * decide to use another seq depending on what relationship is
+	   * already established.
+	   */
+	  if (seq >= warehouse->stacks[i].seq_0[i])
+	    {
+	      _lw6dat_stack_meta_update (&(warehouse->stacks[i]),
+					 meta_array, seq);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("unable to update META message at seq %"
+			       LW6SYS_PRINTF_LL
+			       "d when warehouse->stacks[%d].seq_0=%"
+			       LW6SYS_PRINTF_LL "d"), (long long) seq, i,
+			  (long long) warehouse->stacks[i].seq_0);
+	      ret = 0;
+	    }
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_meta_get
+ *
+ * @warehouse: data warehouse to put message into
+ * @meta_array: current informations sendable by a meta message
+ * @seq: seq to use to stamp the message
+ *
+ * Gets the data required for a META message. Note that this function
+ * can be called in other contexts to know who is registered within the
+ * warehouse, which, as an opaque type, doesn't export that info otherwise.
+ *
+ * Return value: 1 on success, 0 if failed.
+ */
+int
+lw6dat_warehouse_meta_get (lw6dat_warehouse_t * warehouse,
+			   lw6msg_meta_array_t * meta_array, int64_t seq)
+{
+  return _lw6dat_warehouse_meta_get ((_lw6dat_warehouse_t *) warehouse,
+				     meta_array, seq);
 }

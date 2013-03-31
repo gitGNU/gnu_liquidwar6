@@ -1,3 +1,7 @@
+2013-03-31 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Handling meta messages within p2p module.
+
 2013-03-30 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Skipping dlclose on all gfx backends, should fix #37904.

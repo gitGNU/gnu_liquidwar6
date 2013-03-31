@@ -145,9 +145,9 @@ Password as a checksum, what will be sent on the network.
 @end defcv
 
 @defcv {Member} {lw6cnx_connection_s} {local_id_int}
-@strong{Type:} @code{int64_t}
+@strong{Type:} @code{u_int64_t}
 
-@strong{Definition:} @code{int64_t lw6cnx_connection_s::local_id_int}
+@strong{Definition:} @code{u_int64_t lw6cnx_connection_s::local_id_int}
 
 
 ID of the local node, as an unsigned 64-bit integer.         
@@ -165,9 +165,9 @@ ID of the local node, as an hexa string.
 @end defcv
 
 @defcv {Member} {lw6cnx_connection_s} {remote_id_int}
-@strong{Type:} @code{int64_t}
+@strong{Type:} @code{u_int64_t}
 
-@strong{Definition:} @code{int64_t lw6cnx_connection_s::remote_id_int}
+@strong{Definition:} @code{u_int64_t lw6cnx_connection_s::remote_id_int}
 
 
 ID of the remote node, as an unsigned 64-bit integer.         

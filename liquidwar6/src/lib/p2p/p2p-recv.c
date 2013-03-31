@@ -543,8 +543,15 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	    {
 	      if (meta_array.items[index].node_id)
 		{
-		  if (!lw6dat_warehouse_is_node_registered
-		      (node->warehouse, meta_array.items[index].node_id))
+		  /*
+		   * Checking wether peer is registered, if not
+		   * then register it. Else all messages will
+		   * be rejected. This is the whole purpose of
+		   * the meta messages -> informing nodes that
+		   * other joined.
+		   */
+		  if (!_lw6p2p_node_is_peer_registered
+		      (node, meta_array.items[index].node_id))
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
 				  _x_
@@ -561,6 +568,13 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 						      meta_array.
 						      items[index].seq_0);
 		    }
+		  /*
+		   * We do not check for connection now, we'll do that
+		   * later when polling, if a peer appears registered
+		   * without a connection : try to connect to it, but it's
+		   * redundant to do it here, and moreover *not* doing
+		   * it ensures the othe (polling) way does work.
+		   */
 		}
 	    }
 	}

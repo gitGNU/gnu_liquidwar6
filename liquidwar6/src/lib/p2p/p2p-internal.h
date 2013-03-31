@@ -41,6 +41,7 @@
 #define _LW6P2P_INSERT_LOCAL_NODE_SQL "insert-local-node.sql"
 #define _LW6P2P_INSERT_DISCOVERED_NODE_SQL "insert-discovered-node.sql"
 #define _LW6P2P_SELECT_CONNECTION_SQL "select-connection.sql"
+#define _LW6P2P_SELECT_NODE_BY_ID_SQL "select-node-by-id.sql"
 #define _LW6P2P_SELECT_NODE_BY_URL_SQL "select-node-by-url.sql"
 #define _LW6P2P_SELECT_UNVERIFIED_NODE_SQL "select-unverified-node.sql"
 #define _LW6P2P_SELECT_OTHER_NODE_SQL "select-other-node.sql"
@@ -89,6 +90,8 @@ typedef struct _lw6p2p_consts_s
   int flush_discovered_nodes_delay;
   int explore_discover_nodes_delay;
   int explore_verify_nodes_delay;
+  int connect_registered_nodes_delay;
+  int connect_registered_max_ping;
   int node_expire_soft_delay;
   int node_expire_hard_delay;
   int node_verify_max_at_once;
@@ -150,6 +153,12 @@ typedef struct _lw6p2p_explore_s
 }
 _lw6p2p_explore_t;
 
+typedef struct _lw6p2p_connect_registered_s
+{
+  int64_t next_connect_registered_nodes_timestamp;
+}
+_lw6p2p_connect_registered_t;
+
 typedef struct _lw6p2p_backends_s
 {
   int hint_timeout_max;
@@ -206,6 +215,7 @@ typedef struct _lw6p2p_node_s
   lw6sys_list_t *cli_oobs;
   _lw6p2p_flush_t flush;
   _lw6p2p_explore_t explore;
+  _lw6p2p_connect_registered_t connect_registered;
   lw6cnx_ticket_table_t ticket_table;
   _lw6p2p_tentacle_t tentacles[LW6P2P_MAX_NB_TENTACLES];
   lw6dat_warehouse_t *warehouse;
@@ -274,6 +284,10 @@ extern int _lw6p2p_cli_oob_verify_callback_func (void *func_data,
 						 const char *ip, int port,
 						 int ping_delay_msec,
 						 lw6sys_assoc_t * assoc);
+
+/* p2p-connectregistered.c */
+extern int _lw6p2p_connect_registered_nodes_if_needed (_lw6p2p_node_t * node);
+extern int _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node);
 
 /* p2p-data.c */
 extern int _lw6p2p_data_load (_lw6p2p_data_t * data, const char *data_dir);
