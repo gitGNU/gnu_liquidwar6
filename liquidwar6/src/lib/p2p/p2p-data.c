@@ -77,8 +77,8 @@ _read_callback (void *callback_data, const char *element, const char *key,
       lw6cfg_read_xml_int (key, value,
 			   "received-atom-parts-per-poll-to-disable-miss",
 			   &consts->received_atom_parts_per_poll_to_disable_miss);
-      lw6cfg_read_xml_int (key, value, "reg-nb-duplicates",
-			   &consts->reg_nb_duplicates);
+      lw6cfg_read_xml_int (key, value, "meta-nb-duplicates",
+			   &consts->meta_nb_duplicates);
     }
 }
 

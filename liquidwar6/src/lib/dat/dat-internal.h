@@ -151,7 +151,6 @@ extern char *_lw6dat_atom_get_full_str (_lw6dat_atom_t * atom);
 extern int _lw6dat_atom_parse_from_cmd (int *type, int *serial,
 					int *order_i,
 					int *order_n,
-					int *reg,
 					int64_t * seq,
 					u_int64_t *
 					logical_from,
@@ -214,7 +213,7 @@ extern _lw6dat_atom_t *_lw6dat_stack_get_atom (_lw6dat_stack_t * stack,
 					       int serial);
 extern int _lw6dat_stack_put_msg (_lw6dat_stack_t * stack,
 				  int64_t * local_seq_seq, const char *msg,
-				  int reg, int send_flag);
+				  int send_flag);
 extern int _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t *
 							  stack);
 extern int64_t _lw6dat_stack_get_seq_min (_lw6dat_stack_t * stack);
@@ -295,7 +294,7 @@ extern int _lw6dat_warehouse_is_node_registered (_lw6dat_warehouse_t *
 extern int _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 				       u_int64_t logical_from, int type,
 				       int serial, int order_i, int order_n,
-				       int reg, int64_t seq,
+				       int64_t seq,
 				       const char *full_str,
 				       int seq_from_cmd_str_offset,
 				       int cmd_str_offset);
@@ -303,7 +302,7 @@ extern int _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 					   u_int64_t logical_from,
 					   const char *full_str);
 extern int _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse,
-					    const char *msg, int reg);
+					    const char *msg);
 extern int
 _lw6dat_warehouse_calc_serial_draft_and_reference (_lw6dat_warehouse_t *
 						   warehouse);

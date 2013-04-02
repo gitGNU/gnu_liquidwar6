@@ -134,7 +134,7 @@
 		      ;; First, send a NOP message for automatic self-registering
 		      ;; this one is really important, it's a NOP but not sending
 		      ;; it could cause problems if all nodes can't communicate
-		      (c-lw6p2p-node-put-local-msg node (lw6-test-nop node) #t)
+		      (c-lw6p2p-node-put-local-msg node (lw6-test-nop node))
 		      ;; Now, loop for the rest of the test
 		      (while (< timestamp time-limit)
 			     (begin
@@ -151,7 +151,7 @@
 					   (c-lw6pil-sync-from-reference game-state pilot)
 					   (lw6-test-update-info node level game-state)
 					   ))
-				     (c-lw6p2p-node-put-local-msg node (lw6-test-nop node) #f)
+				     (c-lw6p2p-node-put-local-msg node (lw6-test-nop node))
 				     ))
 			       (if pilot
 				   (begin
@@ -170,7 +170,7 @@
 					     )
 					 (begin
 					   (lw6-log-notice (format #f "seed-command -> ~a" seed-command))
-					   (c-lw6p2p-node-put-local-msg node seed-command #f)
+					   (c-lw6p2p-node-put-local-msg node seed-command)
 					   (c-lw6sys-idle)
 					   (c-lw6p2p-node-poll node)
 					   (set! seed-sent #t)
@@ -185,7 +185,7 @@
 					     )
 					 (begin
 					   (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
-					   (c-lw6p2p-node-put-local-msg node dump-command #f)
+					   (c-lw6p2p-node-put-local-msg node dump-command)
 					   (c-lw6sys-idle)
 					   (c-lw6p2p-node-poll node)
 					   (set! dump-sent #t)
@@ -256,7 +256,7 @@
 				   (lw6-log-notice "stage 3 & 4, putting messages in queue")
 				   (map (lambda (command) (begin
 							    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 2, 3 & 4" command))
-							    (c-lw6p2p-node-put-local-msg node command #f)
+							    (c-lw6p2p-node-put-local-msg node command)
 							    ))
 					(append (c-lw6pil-suite-get-commands-by-node-index 1 1)
 						(c-lw6pil-suite-get-commands-by-node-index 1 2)
@@ -290,7 +290,7 @@
 				   (lw6-log-notice "stage 5 & 6, putting messages in queue")
 				   (map (lambda (command) (begin
 							    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 5 & 6" command))
-							    (c-lw6p2p-node-put-local-msg node command #f)
+							    (c-lw6p2p-node-put-local-msg node command)
 							    ))
 					(append (c-lw6pil-suite-get-commands-by-node-index 1 4)
 						(c-lw6pil-suite-get-commands-by-node-index 1 5))

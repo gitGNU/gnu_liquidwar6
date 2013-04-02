@@ -89,7 +89,7 @@
 			   (set! next-update-info (+ timestamp lw6-test-network-update-delay))
 			   (c-lw6pil-sync-from-reference game-state pilot)
 			   (lw6-test-update-info node level game-state)
-			   (c-lw6p2p-node-put-local-msg node (lw6-test-nop node) #f)
+			   (c-lw6p2p-node-put-local-msg node (lw6-test-nop node))
 			   ))
 		     ;; Normally, we should get the next seq with a command like:
 		     ;;(set! next-seq (c-lw6pil-get-next-seq pilot timestamp))
@@ -106,7 +106,7 @@
 			     )
 			 (begin
 			   (lw6-log-notice (format #f "seed-command -> ~a" seed-command))
-			   (c-lw6p2p-node-put-local-msg node seed-command #t)
+			   (c-lw6p2p-node-put-local-msg node seed-command)
 			   (c-lw6sys-idle)
 			   (c-lw6p2p-node-poll node)
 			   (set! seed-sent #t)
@@ -121,7 +121,7 @@
 			     )
 			 (begin
 			   (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
-			   (c-lw6p2p-node-put-local-msg node dump-command #f)
+			   (c-lw6p2p-node-put-local-msg node dump-command)
 			   (c-lw6sys-idle)
 			   (c-lw6p2p-node-poll node)
 			   (set! dump-sent #t)
@@ -162,7 +162,7 @@
 			 (lw6-log-notice "stage 1 & 2, putting messages in queue")
 			 (map (lambda (command) (begin
 						  (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 1 & 2" command))
-						  (c-lw6p2p-node-put-local-msg node command #f)
+						  (c-lw6p2p-node-put-local-msg node command)
 						  ))
 			      (append (c-lw6pil-suite-get-commands-by-node-index 0 0)
 				      (c-lw6pil-suite-get-commands-by-node-index 0 1))
@@ -185,7 +185,7 @@
 			     (lw6-log-notice "stage 3 & 4, putting messages in queue")
 			     (map (lambda (command) (begin
 						      (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 3 & 4" command))
-						      (c-lw6p2p-node-put-local-msg node command #f)
+						      (c-lw6p2p-node-put-local-msg node command)
 						      ))
 				  (append (c-lw6pil-suite-get-commands-by-node-index 0 2)
 					  (c-lw6pil-suite-get-commands-by-node-index 0 3))
@@ -236,7 +236,7 @@
 			 (lw6-log-notice "stage 5 & 6, putting messages in queue")
 			 (map (lambda (command) (begin
 						  (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 5 & 6" command))
-						  (c-lw6p2p-node-put-local-msg node command #f)
+						  (c-lw6p2p-node-put-local-msg node command)
 						  ))
 			      (append (c-lw6pil-suite-get-commands-by-node-index 0 4)
 				      (c-lw6pil-suite-get-commands-by-node-index 0 5))

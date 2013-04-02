@@ -190,8 +190,6 @@
 #define _TEST_NODE_API_NODE4_LONG_DRAFT_RECEIVED 2
 #define _TEST_NODE_API_NODE4_SHORT_DRAFT_RECEIVED 3
 #define _TEST_NODE_API_LEN_LIMIT 100
-#define _TEST_NODE_API_REG 0
-#define _TEST_NODE_MSG_REG 0
 #define _TEST_NODE_MSG_SEQ_0 100000000000LL
 #define _TEST_NODE_MSG_NB_SEQS 97
 // _TEST_NODE_MSG_NB_PER_SEQ must *not* be 10 or 100 or 1000
@@ -1066,8 +1064,7 @@ _test_node_msg ()
 			  {
 			    checksums[k] = lw6sys_checksum_str (msg);
 			    msgs[k] = msg;
-			    lw6p2p_node_put_local_msg (node, msg,
-						       _TEST_NODE_MSG_REG);
+			    lw6p2p_node_put_local_msg (node, msg);
 			  }
 			LW6SYS_FREE (random_str);
 		      }
@@ -1245,8 +1242,7 @@ _test_node_api_node2_callback (void *api_data)
 				  _x_ ("node2 dump draft message is \"%s\""),
 				  msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg,
-					     _TEST_NODE_API_REG);
+		  lw6p2p_node_put_local_msg (data->node, msg);
 		  LW6SYS_FREE (msg);
 		}
 	      msg =
@@ -1264,8 +1260,7 @@ _test_node_api_node2_callback (void *api_data)
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 draft message is \"%s\""), msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg,
-					     _TEST_NODE_API_REG);
+		  lw6p2p_node_put_local_msg (data->node, msg);
 		  LW6SYS_FREE (msg);
 		}
 	      seq++;		// fake we're going next round...
@@ -1284,8 +1279,7 @@ _test_node_api_node2_callback (void *api_data)
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 draft message is \"%s\""), msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg,
-					     _TEST_NODE_API_REG);
+		  lw6p2p_node_put_local_msg (data->node, msg);
 		  LW6SYS_FREE (msg);
 		}
 	      msg =
@@ -1303,8 +1297,7 @@ _test_node_api_node2_callback (void *api_data)
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 draft message is \"%s\""), msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg,
-					     _TEST_NODE_API_REG);
+		  lw6p2p_node_put_local_msg (data->node, msg);
 		  LW6SYS_FREE (msg);
 		}
 
@@ -1338,8 +1331,7 @@ _test_node_api_node2_callback (void *api_data)
 				  _x_ ("node2 final draft message is \"%s\""),
 				  msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg,
-					     _TEST_NODE_API_REG);
+		  lw6p2p_node_put_local_msg (data->node, msg);
 		  LW6SYS_FREE (msg);
 		}
 
@@ -1368,8 +1360,7 @@ _test_node_api_node2_callback (void *api_data)
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _x_ ("node2 draft message is \"%s\""), msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg,
-					     _TEST_NODE_API_REG);
+		  lw6p2p_node_put_local_msg (data->node, msg);
 		  LW6SYS_FREE (msg);
 		}
 	      next_msgn_timestamp =

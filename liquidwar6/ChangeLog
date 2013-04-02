@@ -1,3 +1,7 @@
+2013-04-02 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Removed reg parameter from messages, superseded by META.
+
 2013-03-31 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Disabling mod-gles2 and mod-soft by default.

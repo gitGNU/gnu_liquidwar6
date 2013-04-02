@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2013-03-31 18:36+0200\n"
+"POT-Creation-Date: 2013-04-02 22:21+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -600,7 +600,7 @@ msgstr ""
 msgid "started node \"%s\""
 msgstr "начат узел \"%s\""
 
-#: src/lib/p2p/p2p-recv.c:225
+#: src/lib/p2p/p2p-recv.c:224
 #, c-format
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr "соединение установлено \"%s\" <-> \"%s\" в %s:%d"

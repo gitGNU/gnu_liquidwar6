@@ -114,7 +114,6 @@ _lw6dat_atom_get_full_str (_lw6dat_atom_t * atom)
 int
 _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
 			     int *order_n,
-			     int *reg,
 			     int64_t * seq,
 			     u_int64_t * logical_from,
 			     int
@@ -151,37 +150,27 @@ _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
 		{
 		  if (lw6msg_word_first_int_32_gt0 (order_n, &next, next))
 		    {
-		      if (lw6msg_word_first_int_32_ge0 (reg, &next, next))
+		      /*
+		       * Now this is a "trick", we set cmd to the part that is just
+		       * after order_n and before the seq, this is so that the stored
+		       * string contains seq and logical_from. OK, it's redundant, but
+		       * the advantage is that it allows us to cache the whole stuff
+		       * and avoid rewritting it each time we need to read it.
+		       */
+		      (*seq_from_cmd_str_offset) = next - full_str;
+		      if (lw6msg_word_first_int_64_ge0 (seq, &next, next))
 			{
-			  /*
-			   * Now this is a "trick", we set cmd to the part that is just
-			   * after order_n and before the seq, this is so that the stored
-			   * string contains seq and logical_from. OK, it's redundant, but
-			   * the advantage is that it allows us to cache the whole stuff
-			   * and avoid rewritting it each time we need to read it.
-			   */
-			  (*seq_from_cmd_str_offset) = next - full_str;
-			  if (lw6msg_word_first_int_64_ge0 (seq, &next, next))
+			  if (lw6msg_word_first_id_64
+			      (logical_from, &next, next))
 			    {
-			      if (lw6msg_word_first_id_64
-				  (logical_from, &next, next))
-				{
-				  (*cmd_str_offset) = next - full_str;
-				  ret = 1;
-				}
-			      else
-				{
-				  lw6sys_log (LW6SYS_LOG_WARNING,
-					      _x_
-					      ("bad value for logical_from in atom \"%s\""),
-					      full_str);
-				}
+			      (*cmd_str_offset) = next - full_str;
+			      ret = 1;
 			    }
 			  else
 			    {
 			      lw6sys_log (LW6SYS_LOG_WARNING,
 					  _x_
-					  ("bad value for reg in atom \"%s\""),
+					  ("bad value for logical_from in atom \"%s\""),
 					  full_str);
 			    }
 			}

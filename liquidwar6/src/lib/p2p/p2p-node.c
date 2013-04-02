@@ -2045,19 +2045,6 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 				}
 			      if (tentacle->joined)
 				{
-				  /*
-				   * We're almost there, the connection
-				   * is established, we have correct
-				   * seq_0/round_0 thanks to the join, 
-				   * now we send a NOP message *with* the
-				   * reg flag set to 1, this will allow
-				   * all other nodes to automatically
-				   * register this node even if they
-				   * are not connected yet. But... we leave
-				   * the responsability to the caller, which
-				   * has more tools available (more precisely
-				   * it's lw6pil "aware".
-				   */
 				  ret = 1;
 				}
 			    }
@@ -2728,37 +2715,13 @@ lw6p2p_node_is_dump_needed (lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg, int reg)
+_lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg)
 {
   int ret = 0;
-  int i = 0;
-  int n = 1;
 
   if (node->warehouse)
     {
-      /*
-       * If in registering mode, then fire several messages, since
-       * it's very important it's send, and transport is not assumed
-       * reliable. This is the protocol Achille's tendon, this message
-       * should really make it through.
-       */
-      n = reg ? node->db->data.consts.reg_nb_duplicates : 1;
-      for (i = 0; i < n; ++i)
-	{
-	  if (lw6dat_warehouse_put_local_msg (node->warehouse, msg, reg))
-	    {
-	      ret = 1;
-	    }
-	  /*
-	   * If in reg mode, poll and wait, this will help sending the
-	   * message for real and avoid pipeline full errors.
-	   */
-	  if (reg)
-	    {
-	      _lw6p2p_node_poll (node, NULL);
-	      lw6sys_idle ();
-	    }
-	}
+      ret = lw6dat_warehouse_put_local_msg (node->warehouse, msg);
     }
 
   return ret;
@@ -2769,7 +2732,6 @@ _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg, int reg)
  *
  * @node: node object to use
  * @msg: message
- * @reg: wether the message should register the author on other nodes
  *
  * Puts a message in the object. The message will be splitted into
  * several atoms if needed, it can be arbitrary long.
@@ -2777,7 +2739,7 @@ _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg, int reg)
  * Return value: 1 on success, 0 on error
  */
 int
-lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg, int reg)
+lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg)
 {
   int ret = 0;
 
@@ -2788,7 +2750,7 @@ lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg, int reg)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_put_local_msg ((_lw6p2p_node_t *) node, msg, reg);
+      ret = _lw6p2p_node_put_local_msg ((_lw6p2p_node_t *) node, msg);
       _node_unlock (node);
     }
 

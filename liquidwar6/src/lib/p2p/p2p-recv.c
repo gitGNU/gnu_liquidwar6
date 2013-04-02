@@ -39,7 +39,6 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   int serial = 0;
   int i = 0;
   int n = 0;
-  int reg = 0;
   int64_t seq = 0LL;
   int64_t seq_register = 0LL;
   char *ker_message = NULL;
@@ -395,26 +394,38 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 							   cnx->remote_id_int,
 							   reply_msg);
 			  /*
-			   * Generate a META message so that other peers are aware of
-			   * that new node.
+			   * Sending several times the same message, this should not
+			   * happen too often and its size is nothing compared to
+			   * the size of the seed/dump. And if it does not makes it way
+			   * to new peers -> no connection :( So we send it redundant.
 			   */
-			  if (lw6dat_warehouse_meta_put
-			      (node->warehouse, seq_register))
+			  for (index = 0;
+			       index <
+			       node->db->data.consts.meta_nb_duplicates;
+			       ++index)
 			    {
-			      lw6sys_log (LW6SYS_LOG_INFO,
-					  _x_
-					  ("putting META message in queue at seq %"
-					   LW6SYS_PRINTF_LL "d"),
-					  (long long) seq_register);
-			    }
-			  else
-			    {
-			      lw6sys_log (LW6SYS_LOG_WARNING,
-					  _x_
-					  ("problem putting META message in queue at seq %"
-					   LW6SYS_PRINTF_LL
-					   "d, expect network inconsistencies"),
-					  (long long) seq_register);
+			      /*
+			       * Generate a META message so that other peers are aware of
+			       * that new node.
+			       */
+			      if (lw6dat_warehouse_meta_put
+				  (node->warehouse, seq_register))
+				{
+				  lw6sys_log (LW6SYS_LOG_INFO,
+					      _x_
+					      ("putting META message in queue at seq %"
+					       LW6SYS_PRINTF_LL "d"),
+					      (long long) seq_register);
+				}
+			      else
+				{
+				  lw6sys_log (LW6SYS_LOG_WARNING,
+					      _x_
+					      ("problem putting META message in queue at seq %"
+					       LW6SYS_PRINTF_LL
+					       "d, expect network inconsistencies"),
+					      (long long) seq_register);
+				}
 			    }
 
 			  /*
@@ -496,7 +507,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_DATA))
     {
       if (lw6msg_cmd_analyse_data
-	  (&serial, &i, &n, &reg, &seq, &ker_message, message))
+	  (&serial, &i, &n, &seq, &ker_message, message))
 	{
 	  /*
 	   * Note that put_atom_str could/should automatically
@@ -537,7 +548,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
       lw6msg_meta_array_zero (&meta_array);
 
       if (lw6msg_cmd_analyse_meta
-	  (&serial, &i, &n, &reg, &seq, &meta_array, message))
+	  (&serial, &i, &n, &seq, &meta_array, message))
 	{
 	  for (index = 0; index < LW6MSG_NB_META_ARRAY_ITEMS; ++index)
 	    {

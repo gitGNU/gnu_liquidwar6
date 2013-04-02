@@ -130,13 +130,11 @@
 #define _TEST_DATA_SERIAL 421
 #define _TEST_DATA_I 3
 #define _TEST_DATA_N 1000
-#define _TEST_DATA_REG 0
 #define _TEST_DATA_SEQ 1000000123456LL
 #define _TEST_DATA_KER_MSG "HELLO WORLD"
 #define _TEST_META_SERIAL 123
 #define _TEST_META_I 2
 #define _TEST_META_N 500
-#define _TEST_META_REG 0
 #define _TEST_META_SEQ 1000000654321LL
 #define _TEST_META_ARRAY_ITEM_NODE_ID_1 0x1111111111111111LL
 #define _TEST_META_ARRAY_ITEM_NODE_ID_2 0x2222222222222222LL
@@ -182,13 +180,11 @@ test_cmd ()
     int data_serial = 0;
     int data_i = 0;
     int data_n = 0;
-    int data_reg = 0;
     int64_t data_seq = 0;
     char *data_ker_msg = NULL;
     int meta_serial = 0;
     int meta_i = 0;
     int meta_n = 0;
-    int meta_reg = 0;
     int64_t meta_seq = 0LL;
     lw6msg_meta_array_t meta_array_src;
     lw6msg_meta_array_t meta_array_dst;
@@ -485,14 +481,14 @@ test_cmd ()
 
 	msg =
 	  lw6msg_cmd_generate_data (_TEST_DATA_SERIAL, _TEST_DATA_I,
-				    _TEST_DATA_N, _TEST_DATA_REG,
+				    _TEST_DATA_N,
 				    _TEST_DATA_SEQ, _TEST_DATA_KER_MSG);
 	if (msg)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("data command is \"%s\""),
 			msg);
 	    if (lw6msg_cmd_analyse_data
-		(&data_serial, &data_i, &data_n, &data_reg, &data_seq,
+		(&data_serial, &data_i, &data_n, &data_seq,
 		 &data_ker_msg, msg))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -544,14 +540,14 @@ test_cmd ()
 			       _TEST_META_ARRAY_ITEM_SEQ_0_3);
 	msg =
 	  lw6msg_cmd_generate_meta (_TEST_META_SERIAL, _TEST_META_I,
-				    _TEST_META_N, _TEST_META_REG,
+				    _TEST_META_N,
 				    _TEST_META_SEQ, &meta_array_src);
 	if (msg)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("meta command is \"%s\""),
 			msg);
 	    if (lw6msg_cmd_analyse_meta
-		(&meta_serial, &meta_i, &meta_n, &meta_reg, &meta_seq,
+		(&meta_serial, &meta_i, &meta_n, &meta_seq,
 		 &meta_array_dst, msg))
 	      {
 		if (!memcmp

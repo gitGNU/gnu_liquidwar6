@@ -246,7 +246,6 @@ lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
  * @serial: the message serial number
  * @i: the message index in the group
  * @n: the number of messages in the group
- * @reg: wether to self-register peer on receiving this message
  * @seq: the message seq (round + an offset)
  * @ker_msg: the actual content of the message (passed to core algo)
  *
@@ -257,14 +256,14 @@ lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_data (int serial, int i, int n, int reg, int64_t seq,
+lw6msg_cmd_generate_data (int serial, int i, int n, int64_t seq,
 			  const char *ker_msg)
 {
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf ("%s %d %d %d %d %" LW6SYS_PRINTF_LL "d %s",
-			LW6MSG_CMD_DATA, serial, i, n, reg, (long long) seq,
+    lw6sys_new_sprintf ("%s %d %d %d %" LW6SYS_PRINTF_LL "d %s",
+			LW6MSG_CMD_DATA, serial, i, n, (long long) seq,
 			ker_msg);
 
   return ret;
@@ -276,7 +275,6 @@ lw6msg_cmd_generate_data (int serial, int i, int n, int reg, int64_t seq,
  * @serial: the message serial number
  * @i: the message index in the group
  * @n: the number of messages in the group
- * @reg: wether to self-register peer on receiving this message
  * @seq: the message seq (round + an offset)
  * @meta_array: the content to send
  *
@@ -287,7 +285,7 @@ lw6msg_cmd_generate_data (int serial, int i, int n, int reg, int64_t seq,
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_meta (int serial, int i, int n, int reg, int64_t seq,
+lw6msg_cmd_generate_meta (int serial, int i, int n, int64_t seq,
 			  const lw6msg_meta_array_t * meta_array)
 {
   char *ret = NULL;
@@ -301,9 +299,9 @@ lw6msg_cmd_generate_meta (int serial, int i, int n, int reg, int64_t seq,
       if (base64_meta_str)
 	{
 	  ret =
-	    lw6sys_new_sprintf ("%s %d %d %d %d %" LW6SYS_PRINTF_LL "d %"
+	    lw6sys_new_sprintf ("%s %d %d %d %" LW6SYS_PRINTF_LL "d %"
 				LW6SYS_PRINTF_LL "x %s", LW6MSG_CMD_META,
-				serial, i, n, reg, (long long) seq,
+				serial, i, n, (long long) seq,
 				(long long) meta_array->logical_from,
 				base64_meta_str);
 	  if (ret)
@@ -1066,7 +1064,6 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
  * @serial: will contain serial number on success
  * @i: will contain group index on success
  * @n: will contain group size on success
- * @reg: will contain reg on success (wether peer should be registered)
  * @seq: will contain seq on success (round + an offset)
  * @ker_msg: will contain actual message on success
  * @msg: the message to analyze
@@ -1076,7 +1073,7 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *reg, int64_t * seq,
+lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq,
 			 char **ker_msg, const char *msg)
 {
   int ret = 0;
@@ -1085,7 +1082,6 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *reg, int64_t * seq,
   int read_serial = 0;
   int read_i = 0;
   int read_n = 0;
-  int read_reg = 0;
   int64_t read_seq = 0;
   char *read_ker_msg = NULL;
   lw6msg_word_t data_word;
@@ -1112,46 +1108,33 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *reg, int64_t * seq,
 	      if (lw6msg_word_first_int_32_gt0 (&read_n, &seek, pos))
 		{
 		  pos = seek;
-		  if (lw6msg_word_first_int_32_ge0 (&read_reg, &seek, pos))
+		  if (lw6msg_word_first_int_64_gt0 (&read_seq, &seek, pos))
 		    {
 		      pos = seek;
-		      if (lw6msg_word_first_int_64_gt0
-			  (&read_seq, &seek, pos))
+		      if (lw6msg_word_first (&ker_msg_word, &seek, pos))
 			{
 			  pos = seek;
-			  if (lw6msg_word_first (&ker_msg_word, &seek, pos))
+			  read_ker_msg = lw6sys_str_copy (ker_msg_word.buf);
+			  if (read_ker_msg)
 			    {
-			      pos = seek;
-			      read_ker_msg =
-				lw6sys_str_copy (ker_msg_word.buf);
-			      if (read_ker_msg)
-				{
-				  ret = 1;
-				  (*serial) = read_serial;
-				  (*i) = read_i;
-				  (*n) = read_n;
-				  (*reg) = read_reg ? 1 : 0;
-				  (*seq) = read_seq;
-				  (*ker_msg) = read_ker_msg;
-				}
-			    }
-			  else
-			    {
-			      lw6sys_log (LW6SYS_LOG_INFO,
-					  _x_
-					  ("unable to parse ker message"));
+			      ret = 1;
+			      (*serial) = read_serial;
+			      (*i) = read_i;
+			      (*n) = read_n;
+			      (*seq) = read_seq;
+			      (*ker_msg) = read_ker_msg;
 			    }
 			}
 		      else
 			{
 			  lw6sys_log (LW6SYS_LOG_INFO,
-				      _x_ ("unable to parse seq"));
+				      _x_ ("unable to parse ker message"));
 			}
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _x_ ("unable to parse reg"));
+				  _x_ ("unable to parse seq"));
 		    }
 		}
 	      else
@@ -1185,7 +1168,6 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *reg, int64_t * seq,
  * @serial: will contain serial number on success
  * @i: will contain group index on success
  * @n: will contain group size on success
- * @reg: will contain reg on success (wether peer should be registered)
  * @seq: will contain seq on success (round + an offset)
  * @meta_array: will contain the content on success
  * @msg: the message to analyze
@@ -1195,7 +1177,7 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *reg, int64_t * seq,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int *reg, int64_t * seq,
+lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int64_t * seq,
 			 lw6msg_meta_array_t * meta_array, const char *msg)
 {
   int ret = 0;
@@ -1204,7 +1186,6 @@ lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int *reg, int64_t * seq,
   int read_serial = 0;
   int read_i = 0;
   int read_n = 0;
-  int read_reg = 0;
   int64_t read_seq = 0;
   u_int64_t read_logical_from = 0LL;
   char *read_meta_str = NULL;
@@ -1231,79 +1212,65 @@ lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int *reg, int64_t * seq,
 	      if (lw6msg_word_first_int_32_gt0 (&read_n, &seek, pos))
 		{
 		  pos = seek;
-		  if (lw6msg_word_first_int_32_ge0 (&read_reg, &seek, pos))
+		  if (lw6msg_word_first_int_64_gt0 (&read_seq, &seek, pos))
 		    {
 		      pos = seek;
-		      if (lw6msg_word_first_int_64_gt0
-			  (&read_seq, &seek, pos))
+		      if (lw6msg_word_first_id_64
+			  (&read_logical_from, &seek, pos))
 			{
 			  pos = seek;
-			  if (lw6msg_word_first_id_64
-			      (&read_logical_from, &seek, pos))
+			  if (lw6msg_word_first (&meta_str_word, &seek, pos))
 			    {
 			      pos = seek;
-			      if (lw6msg_word_first
-				  (&meta_str_word, &seek, pos))
+			      read_meta_str =
+				lw6glb_base64_decode_str (meta_str_word.buf);
+			      if (read_meta_str)
 				{
-				  pos = seek;
-				  read_meta_str =
-				    lw6glb_base64_decode_str
-				    (meta_str_word.buf);
-				  if (read_meta_str)
+				  if (lw6msg_meta_str2array
+				      (meta_array, read_meta_str))
 				    {
-				      if (lw6msg_meta_str2array
-					  (meta_array, read_meta_str))
-					{
-					  ret = 1;
-					  (*serial) = read_serial;
-					  (*i) = read_i;
-					  (*n) = read_n;
-					  (*reg) = read_reg ? 1 : 0;
-					  (*seq) = read_seq;
-					  meta_array->logical_from =
-					    read_logical_from;
-					}
-				      else
-					{
-					  lw6sys_log (LW6SYS_LOG_INFO,
-						      _x_
-						      ("unable to parse meta message (stage 3), read_meta_str=\"%s\""),
-						      read_meta_str);
-					}
-				      LW6SYS_FREE (read_meta_str);
+				      ret = 1;
+				      (*serial) = read_serial;
+				      (*i) = read_i;
+				      (*n) = read_n;
+				      (*seq) = read_seq;
+				      meta_array->logical_from =
+					read_logical_from;
 				    }
 				  else
 				    {
 				      lw6sys_log (LW6SYS_LOG_INFO,
 						  _x_
-						  ("unable to parse meta message (stage 2), meea_str_word.buf=\"%s\""),
-						  meta_str_word.buf);
+						  ("unable to parse meta message (stage 3), read_meta_str=\"%s\""),
+						  read_meta_str);
 				    }
+				  LW6SYS_FREE (read_meta_str);
 				}
 			      else
 				{
 				  lw6sys_log (LW6SYS_LOG_INFO,
 					      _x_
-					      ("unable to parse meta message (stage 1)"));
+					      ("unable to parse meta message (stage 2), meea_str_word.buf=\"%s\""),
+					      meta_str_word.buf);
 				}
 			    }
 			  else
 			    {
 			      lw6sys_log (LW6SYS_LOG_INFO,
 					  _x_
-					  ("unable to parse logical_from"));
+					  ("unable to parse meta message (stage 1)"));
 			    }
 			}
 		      else
 			{
 			  lw6sys_log (LW6SYS_LOG_INFO,
-				      _x_ ("unable to parse seq"));
+				      _x_ ("unable to parse logical_from"));
 			}
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _x_ ("unable to parse reg"));
+				  _x_ ("unable to parse seq"));
 		    }
 		}
 	      else

@@ -103,7 +103,7 @@ typedef struct _lw6p2p_consts_s
   int ticket_table_hash_size;
   int send_best_reliable_limit_n;
   int received_atom_parts_per_poll_to_disable_miss;
-  int reg_nb_duplicates;
+  int meta_nb_duplicates;
 }
 _lw6p2p_consts_t;
 
@@ -402,7 +402,7 @@ extern int _lw6p2p_node_is_peer_registered (_lw6p2p_node_t * node,
 extern int _lw6p2p_node_is_seed_needed (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_is_dump_needed (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node,
-				       const char *msg, int reg);
+				       const char *msg);
 extern char *_lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node,
 						  lw6sys_progress_t *
 						  progress);

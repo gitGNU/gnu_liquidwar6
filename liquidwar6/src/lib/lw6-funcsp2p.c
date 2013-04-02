@@ -1038,11 +1038,10 @@ _scm_lw6p2p_node_is_dump_needed (SCM node)
 }
 
 static SCM
-_scm_lw6p2p_node_put_local_msg (SCM node, SCM msg, SCM reg)
+_scm_lw6p2p_node_put_local_msg (SCM node, SCM msg)
 {
   lw6p2p_node_t *c_node;
   char *c_msg = NULL;
-  int c_reg = 0;
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1052,7 +1051,6 @@ _scm_lw6p2p_node_put_local_msg (SCM node, SCM msg, SCM reg)
 	      (lw6_global.smob_types.node, node), node, SCM_ARG1,
 	      __FUNCTION__);
   SCM_ASSERT (scm_is_string (msg), msg, SCM_ARG2, __FUNCTION__);
-  SCM_ASSERT (SCM_BOOLP (reg), reg, SCM_ARG3, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -1060,11 +1058,9 @@ _scm_lw6p2p_node_put_local_msg (SCM node, SCM msg, SCM reg)
       c_msg = lw6scm_utils_to_0str (msg);
       if (c_msg)
 	{
-	  c_reg = SCM_NFALSEP (reg);
 	  ret =
 	    lw6p2p_node_put_local_msg (c_node,
-				       c_msg,
-				       c_reg) ? SCM_BOOL_T : SCM_BOOL_F;
+				       c_msg) ? SCM_BOOL_T : SCM_BOOL_F;
 	  LW6SYS_FREE (c_msg);
 	}
     }
@@ -1227,7 +1223,7 @@ lw6_register_funcs_p2p ()
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED, 1, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_is_dump_needed);
   ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_PUT_LOCAL_MSG, 3, 0, 0,
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_PUT_LOCAL_MSG, 2, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_put_local_msg);
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_NEXT_REFERENCE_MSG, 1,

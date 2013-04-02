@@ -402,14 +402,13 @@ _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
   int serial = 0;
   int order_i = 0;
   int order_n = 0;
-  int reg = 0;
   int64_t seq = 0LL;
   u_int64_t logical_from = 0L;
   int seq_from_cmd_str_offset = 0;
   int cmd_str_offset = 0;
 
   if (_lw6dat_atom_parse_from_cmd
-      (&type, &serial, &order_i, &order_n, &reg, &seq, &logical_from,
+      (&type, &serial, &order_i, &order_n, &seq, &logical_from,
        &seq_from_cmd_str_offset, &cmd_str_offset, full_str))
     {
       ret =
@@ -457,7 +456,7 @@ _lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
 
 int
 _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, int64_t * local_seq_last,
-		       const char *msg, int reg, int send_flag)
+		       const char *msg, int send_flag)
 {
   int ret = 0;
   int len = 0;
@@ -530,8 +529,8 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, int64_t * local_seq_last,
 			   * messages it could fit, but not long ones...
 			   */
 			  snprintf (full_str, _LW6DAT_HEADER_MAX_SIZE,
-				    "%s %d %d %d %d ", LW6MSG_CMD_DATA,
-				    serial, order_i, order_n, reg);
+				    "%s %d %d %d ", LW6MSG_CMD_DATA,
+				    serial, order_i, order_n);
 			  seq_from_cmd_str_offset = strlen (full_str);
 			  if (seq_from_cmd_str_offset <
 			      _LW6DAT_HEADER_MAX_SIZE)
@@ -1533,7 +1532,7 @@ _lw6dat_stack_meta_put (_lw6dat_stack_t * stack, int64_t seq,
   int n = 1;
 
   serial = _lw6dat_stack_get_serial (stack) + 1;
-  meta_msg = lw6msg_cmd_generate_meta (serial, i, n, 1, seq, meta_array);
+  meta_msg = lw6msg_cmd_generate_meta (serial, i, n, seq, meta_array);
   if (meta_msg)
     {
       ret = _lw6dat_stack_put_atom_str (stack, meta_msg, _LW6DAT_FLAG_REMOTE);
