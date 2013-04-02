@@ -1080,7 +1080,7 @@ _lw6ker_game_state_add_team_internal (_lw6ker_game_state_t * game_state,
        * on game startup and respawn.
        */
       nb_fighters = (nb_fighters * rules->team_profile_handicap[team_color])
-	/ 100;
+	/ LW6MAP_RULES_DEFAULT_TEAM_PROFILE_HANDICAP;
 
       /*
        * Remove fighters if needed
