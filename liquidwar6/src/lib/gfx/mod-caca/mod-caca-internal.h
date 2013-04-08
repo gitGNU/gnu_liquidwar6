@@ -113,6 +113,8 @@ extern int _mod_caca_display_menu (_mod_caca_context_t * caca_context,
 
 /* mod-caca-splash.c */
 extern void plasma_anim (_mod_caca_context_t * caca_context);
+extern void splash_free (_mod_caca_context_t * caca_context, caca_font_t * fo,
+			 caca_dither_t * di, uint8_t * buff, int init);
 
 /* mod-caca-utils.c */
 extern int _mod_caca_display_hud (_mod_caca_context_t * caca_context,
