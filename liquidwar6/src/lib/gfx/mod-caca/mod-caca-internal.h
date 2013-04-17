@@ -92,6 +92,7 @@ typedef struct _mod_caca_context_s
   caca_display_t *display;
   caca_canvas_t *canvas;
   lw6gui_input_t input;
+  lw6ker_score_array_t score_array;
 }
 _mod_caca_context_t;
 
