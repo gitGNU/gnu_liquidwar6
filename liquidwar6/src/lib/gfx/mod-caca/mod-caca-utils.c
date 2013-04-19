@@ -31,42 +31,50 @@
 static int
 mod_caca_score_font(_mod_caca_context_t * caca_context, int player_id, lw6ker_score_t *score)
 {
-  int wc, hc;
+  int wc, hc, i;
   caca_canvas_t *cv;
   caca_font_t *f;
   caca_dither_t *d;
   char score_str[32];
   char const * const * fonts;
   uint8_t *buf;
+  uint32_t *buffer;
 
-  int color_map[10] = {
-    CACA_BLUE,
-    CACA_GREEN,
-    CACA_CYAN,
-    CACA_RED,
-    CACA_MAGENTA,
-    CACA_LIGHTGRAY,
-    CACA_YELLOW,
-    CACA_LIGHTBLUE,
-    CACA_LIGHTGREEN,
-    CACA_LIGHTRED
-  };
+  hc = caca_get_canvas_height(caca_context->canvas);
+  wc = caca_get_canvas_width(caca_context->canvas);
 
-  cv = caca_create_canvas(32, 1);
+  buffer = malloc (sizeof (*buffer) * 4 * (hc / 5));
+  if (buffer == NULL)
+    return 0;
+  memset (buffer, CACA_TRANSPARENT,
+	  sizeof (*buffer) * 4 * (hc / 5));
+
+  for (i = 0; i < 4 * (hc / 5); ++i)
+    buffer[i] =
+      lw6sys_color_8_to_ibgra (caca_context->const_data.team_color[score->team_color]);
+
+  d = caca_create_dither (32, 4, (hc / 5), 4 * 4,
+  			       0x00ff0000, 0x0000ff00, 0x000000ff, 0x0);
+  if (player_id < 5)
+    caca_dither_bitmap (caca_context->canvas, (wc / 2) - 4, (hc / 5) * player_id,
+			4, (hc / 5), d, buffer);
+  else
+    caca_dither_bitmap (caca_context->canvas, wc - 4, (hc / 5) * (player_id - 5),
+			4, (hc / 5), d, buffer);
+
+  caca_free_dither(d);
+
+  cv = caca_create_canvas(wc / 2, hc / 5);
   if(cv == NULL)
     {
       lw6sys_log (LW6SYS_LOG_ERROR, _x_ ("Can't create tmp canvas"));
       return (0);
     }
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("team_color: %d"), score->team_color);
-  caca_set_color_ansi(cv, color_map[score->team_color], CACA_BLACK);
-
-  hc = caca_get_canvas_height(caca_context->canvas);
-  wc = caca_get_canvas_width(caca_context->canvas);
+  caca_set_color_ansi (cv, CACA_WHITE, CACA_BLACK);
 
   memset(score_str, 0, 32);
-  /* snprintf(score_str, 31, "%d %d %%", player_id + 1, score->fighters_percent); */
+  snprintf(score_str, 31, "%d %d %%", player_id, score->fighters_percent);
   caca_put_str(cv, 0, 0, score_str);
 
   fonts = caca_get_font_list();
@@ -82,66 +90,67 @@ mod_caca_score_font(_mod_caca_context_t * caca_context, int player_id, lw6ker_sc
       return (0);
     }
 
-  buf = malloc(4 * wc * hc);
-  if(buf == NULL)
-    return (0);
+  buf = malloc (4 * hc * wc);
+  if (buf == NULL)
+    return 0;
+  memset(buf, 0, 4 * hc * wc);
+
   caca_render_canvas(cv, f, buf, wc, hc, 4 * wc);
 
-  d = caca_create_dither(32, wc, hc, 4 * wc, 0xff00, 0xff0000, 0xff000000, 0xff);
-
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("score:playerId %d"), player_id);
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("score:height %d"), (hc - caca_get_font_height(f)) / 10 * player_id);
+  d = caca_create_dither (32, wc, hc, 4 * wc,
+			  0xff00, 0xff0000, 0xff000000, 0xff);
 
   if (player_id < 5)
-    {
-      caca_dither_bitmap(caca_context->canvas,
-			 /* (wc / 2 - (strlen(score_str) * caca_get_font_width(f))) / 2, */
-			 0,
-                         hc / 5 * player_id,
-			 wc,
-			 22,
-			 d,
-			 buf);
-    }
+    caca_dither_bitmap (caca_context->canvas, 0, (hc / 5) * player_id,
+  			wc, 22, d, buf);
   else
-    {
-      caca_dither_bitmap(caca_context->canvas,
-			 /* wc / 2 + (wc / 2 - (strlen(score_str) * caca_get_font_width(f))) / 2, */
-			 wc / 2,
-                         hc / 5 * (player_id - 5),
-			 wc,
-			 22,
-			 d,
-			 buf);
-    }
+    caca_dither_bitmap (caca_context->canvas, (wc / 2), (hc / 5) * (player_id - 5),
+  			wc, 22, d, buf);
 
   caca_refresh_display(caca_context->display);
 
-  caca_free_dither(d);
-  caca_free_canvas(cv);
   free(buf);
+  caca_free_dither(d);
   caca_free_font(f);
+  caca_free_canvas(cv);
+
   return (1);
 }
 
 static int
 mod_caca_score_text(_mod_caca_context_t * caca_context, int player_id, lw6ker_score_t *score)
 {
-  int wc, hc;
+  int wc, hc, i;
   char score_str[32];
-
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("team_color: %d"), score->team_color);
+  uint32_t *buffer;
+  caca_dither_t *dither;
 
   hc = caca_get_canvas_height(caca_context->canvas);
   wc = caca_get_canvas_width(caca_context->canvas);
 
-  memset(score_str, 0, 32);
-  snprintf(score_str, 31, "P%d: %d %%", player_id + 1, score->fighters_percent);
+  buffer = malloc (sizeof (*buffer) * 3);
+  if (buffer == NULL)
+    return 0;
+  memset (buffer, CACA_TRANSPARENT,
+	  sizeof (*buffer) * 3);
 
-  caca_set_color_argb(caca_context->canvas, CACA_BLACK,
-		      lw6sys_color_8_to_iargb (caca_context->const_data.team_color[score->team_color]));
-  caca_put_str(caca_context->canvas, player_id * 10, 0, score_str);
-  caca_refresh_display(caca_context->display);
+  memset(score_str, 0, 32);
+  snprintf(score_str, 12, " P%2d: %d %% ", player_id, score->fighters_percent);
+
+  for (i = 0; i < 3; ++i)
+    buffer[i] =
+      lw6sys_color_8_to_ibgra (caca_context->const_data.team_color[score->team_color]);
+
+  dither = caca_create_dither (32, 3, 1, 4 * 3,
+  			       0x00ff0000, 0x0000ff00, 0x000000ff, 0x0);
+  caca_dither_bitmap (caca_context->canvas, player_id * 15, 0,
+  		      3, 1, dither, buffer);
+
+  caca_set_color_ansi(caca_context->canvas, CACA_BLACK, CACA_WHITE);
+  caca_put_str(caca_context->canvas, player_id * 15 + 3, 0, score_str);
+
+  caca_free_dither (dither);
+  free (buffer);
 
   return (1);
 }
@@ -158,6 +167,7 @@ _mod_caca_display_hud(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
   for (i = 0; i < LW6MAP_NB_TEAM_COLORS; ++i)
     if (caca_context->score_array.scores[i].has_been_active)
       mod_caca_score_text(caca_context, i, &caca_context->score_array.scores[i]);
+  caca_refresh_display(caca_context->display);
   return ret;
 }
 
@@ -165,12 +175,12 @@ extern int
 _mod_caca_display_score(_mod_caca_context_t * caca_context, lw6gui_look_t * look,
                         lw6ker_game_state_t * game_state, lw6ker_game_struct_t * game_struct)
 {
-  int ret = 1;
-  int i;
+  int ret = 1, i;
 
   lw6ker_score_array_update(&caca_context->score_array, game_state);
   for (i = 0; i < LW6MAP_NB_TEAM_COLORS; ++i)
     if (caca_context->score_array.scores[i].has_been_active)
       mod_caca_score_font(caca_context, i, &caca_context->score_array.scores[i]);
+  caca_refresh_display(caca_context->display);
   return ret;
 }
