@@ -23,9 +23,9 @@
 # Script used by Jenkins daemon to autobuild the program in
 # continuous integration mode. http://jenkins-ci.org/
 
-if test x$WORKSPACE = x1 ; then
-    if test x$TMP = x1 ; then
-	if test x$TMPDIR = x1 ; then
+if test x$WORKSPACE = x ; then
+    if test x$TMP = x ; then
+	if test x$TMPDIR = x ; then
 	    WORKSPACE=/tmp
 	else
 	    WORKSPACE=$TMPDIR
@@ -35,10 +35,10 @@ if test x$WORKSPACE = x1 ; then
     fi
 fi	
 
-# This will try and compile the game in allinone mode.
-# It does not run the tests twice by issuing a check *and* a distcheck,
-# we assume it's enough to just test that the program runs with
-# a simple "check".
+# Build in allinone mode, while most of the time there's no difference
+# between allinone and not-allinone builds, sometimes, there is, so
+# it's good to fire a build from time to time, just to check it still
+# works, having it done by Jenkins is just fine.
 
 echo "******** $0 $(date) ********"
 if cd liquidwar6 ; then
@@ -51,12 +51,6 @@ if cd liquidwar6 ; then
 		echo "******** $0 $(date) ********"
 		if make install; then
 		    echo "******** $0 $(date) ********"
-		    if make check; then
-			echo "******** $0 $(date) ********"
-		    else
-			echo "make check failed"
-			exit 6
-		    fi
 		else
 		    echo "make install failed"
 		    exit 5

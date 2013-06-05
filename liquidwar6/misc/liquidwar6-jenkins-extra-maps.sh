@@ -23,9 +23,9 @@
 # Script used by Jenkins daemon to autobuild the program in
 # continuous integration mode. http://jenkins-ci.org/
 
-if test x$WORKSPACE = x1 ; then
-    if test x$TMP = x1 ; then
-	if test x$TMPDIR = x1 ; then
+if test x$WORKSPACE = x ; then
+    if test x$TMP = x ; then
+	if test x$TMPDIR = x ; then
 	    WORKSPACE=/tmp
 	else
 	    WORKSPACE=$TMPDIR
