@@ -542,6 +542,11 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  printf ("%s\n", lw6sys_build_get_top_srcdir ());
 	  (*run_game) = 0;
 	}
+      else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_ABS_SRCDIR, argv[i]))
+	{
+	  printf ("%s\n", lw6sys_build_get_abs_srcdir ());
+	  (*run_game) = 0;
+	}
       else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_PREFIX, argv[i]))
 	{
 	  printf ("%s\n", lw6sys_build_get_prefix ());

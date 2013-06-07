@@ -153,6 +153,7 @@ update_show (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_MAC_OS_X);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_GP2X);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_TOP_SRCDIR);
+  lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ABS_SRCDIR);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_PREFIX);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_DATADIR);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_LIBDIR);
@@ -912,6 +913,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_IS_MAC_OS_X);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_IS_GP2X);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_TOP_SRCDIR);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ABS_SRCDIR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_PREFIX);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_DATADIR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_LIBDIR);

@@ -188,7 +188,7 @@ get_dir_common (char *mask1, char *prefix1, char *mask2, char *prefix2,
 		char *sub, int check_readme)
 {
   char *system_dir = NULL;
-  char *top_srcdir = NULL;
+  char *abs_srcdir = NULL;
   char *dir = NULL;
   int dir_exists = 0;
 
@@ -250,8 +250,8 @@ get_dir_common (char *mask1, char *prefix1, char *mask2, char *prefix2,
 
   if (dir == NULL && strlen (sub) > 0)
     {
-      top_srcdir = lw6sys_build_get_top_srcdir ();
-      dir = lw6sys_path_concat (top_srcdir, sub);
+      abs_srcdir = lw6sys_build_get_abs_srcdir ();
+      dir = lw6sys_path_concat (abs_srcdir, sub);
       if (dir)
 	{
 	  dir_exists =
@@ -537,7 +537,7 @@ get_file_common (char *mask1, char *prefix1, char *mask2, char *prefix2,
 		 char *sub)
 {
   char *system_dir = NULL;
-  char *top_srcdir = NULL;
+  char *abs_srcdir = NULL;
   char *file = NULL;
 
   if (file == NULL)
@@ -586,8 +586,8 @@ get_file_common (char *mask1, char *prefix1, char *mask2, char *prefix2,
 
   if (file == NULL && strlen (sub) > 0)
     {
-      top_srcdir = lw6sys_build_get_top_srcdir ();
-      file = lw6sys_path_concat (top_srcdir, sub);
+      abs_srcdir = lw6sys_build_get_abs_srcdir ();
+      file = lw6sys_path_concat (abs_srcdir, sub);
       if (file)
 	{
 	  if (!lw6sys_file_exists (file))

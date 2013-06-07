@@ -670,6 +670,15 @@ painfull. So this function is here to help finding data within the
 source tree when the game is not installed yet. Note that the function
 is rather clever, since it will automatically try to remove useless
 '../' sequences at the beginning of a possibly relative path.
+Note that the equivalent abs_srcdir function is somewhat more reliable.
+
+@strong{Return value:}  a non-NULL string, must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_abs_srcdir} ()
+
+Returns top_srcdir as an absolute path, this is most of the time
+more usable than the relative path.
 
 @strong{Return value:}  a non-NULL string, must not be freed.
 @end deftypefun

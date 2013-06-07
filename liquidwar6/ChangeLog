@@ -1,3 +1,9 @@
+2013-06-07 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added abs_srcdir parameter to find out where the source tree is when building.
+
+	* Updated aclocal/automake scripts.
+
 2013-06-05 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fine-tuned Jenkins scripts.

@@ -215,6 +215,7 @@ lw6_print_audit (int argc, const char *argv[])
    * compared with other path values.
    */
   printf ("top-srcdir: %s\n", lw6sys_build_get_top_srcdir ());
+  printf ("abs-srcdir: %s\n", lw6sys_build_get_abs_srcdir ());
   printf ("datadir: %s\n", lw6sys_build_get_datadir ());
   printf ("libdir: %s\n", lw6sys_build_get_libdir ());
   printf ("includedir: %s\n", lw6sys_build_get_includedir ());

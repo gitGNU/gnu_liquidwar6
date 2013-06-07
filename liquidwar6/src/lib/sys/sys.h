@@ -698,6 +698,7 @@ extern int lw6sys_build_is_ms_windows ();
 extern int lw6sys_build_is_mac_os_x ();
 extern int lw6sys_build_is_gp2x ();
 extern char *lw6sys_build_get_top_srcdir ();
+extern char *lw6sys_build_get_abs_srcdir ();
 extern char *lw6sys_build_get_prefix ();
 extern char *lw6sys_build_get_datadir ();
 extern char *lw6sys_build_get_libdir ();

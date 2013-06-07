@@ -52,6 +52,13 @@ AM_MISSING_PROG(PERL, perl, ${missing_dir})
 AM_MISSING_PROG(AWK, awk, ${missing_dir})
 AM_MISSING_PROG(SED, sed, ${missing_dir})
 
+dnl Absolute path can be of some use
+LW6_ABS_SRCDIR=`readlink -f ${srcdir}`
+LW6_ABS_SRCDIR_CFLAGS="-DLW6_ABS_SRCDIR=\\\"${LW6_ABS_SRCDIR}\\\""
+
+AC_SUBST(LW6_ABS_SRCDIR)
+AC_SUBST(LW6_ABS_SRCDIR_CFLAGS)
+
 dnl For gdoc
 lw6_gdoc=no
 # Testing for real perl and not relying on AM_MISSING_PROG is not
@@ -1041,6 +1048,7 @@ AC_OUTPUT
 
 AC_MSG_NOTICE([version is "${VERSION}"])
 AC_MSG_NOTICE([prefix is "${prefix}"])
+AC_MSG_NOTICE([abs_srcdir is "${LW6_ABS_SRCDIR}"])
 AC_MSG_NOTICE([hostname is "${HOSTNAME}"])
 AC_MSG_NOTICE([host_cpu is "${host_cpu}"])
 AC_MSG_NOTICE([host_os is "${host_os}"])

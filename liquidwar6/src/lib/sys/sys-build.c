@@ -535,6 +535,7 @@ lw6sys_build_is_gp2x ()
  * source tree when the game is not installed yet. Note that the function
  * is rather clever, since it will automatically try to remove useless
  * '../' sequences at the beginning of a possibly relative path.
+ * Note that the equivalent abs_srcdir function is somewhat more reliable.
  *
  * Return value: a non-NULL string, must not be freed.
  */
@@ -568,6 +569,20 @@ lw6sys_build_get_top_srcdir ()
     }
 
   return top_srcdir;
+}
+
+/**
+ * lw6sys_build_get_abs_srcdir:
+ *
+ * Returns top_srcdir as an absolute path, this is most of the time
+ * more usable than the relative path.
+ *
+ * Return value: a non-NULL string, must not be freed.
+ */
+char *
+lw6sys_build_get_abs_srcdir ()
+{
+  return LW6_ABS_SRCDIR;
 }
 
 /**
@@ -1057,6 +1072,8 @@ lw6sys_build_get_bin_id ()
   lw6sys_checksum_update_int32 (&checksum_global, lw6sys_build_is_gp2x ());
   lw6sys_checksum_update_str (&checksum_global,
 			      lw6sys_build_get_top_srcdir ());
+  lw6sys_checksum_update_str (&checksum_global,
+			      lw6sys_build_get_abs_srcdir ());
   lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_prefix ());
   lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_datadir ());
   lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_libdir ());
@@ -1189,6 +1206,8 @@ lw6sys_build_log_all ()
 	      lw6sys_build_is_gp2x ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build top_srcdir is \"%s\""),
 	      lw6sys_build_get_top_srcdir ());
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build abs_srcdir is \"%s\""),
+	      lw6sys_build_get_abs_srcdir ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build prefix is \"%s\""),
 	      lw6sys_build_get_prefix ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build datadir is \"%s\""),

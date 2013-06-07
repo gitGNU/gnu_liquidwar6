@@ -557,6 +557,21 @@ _scm_lw6sys_build_get_top_srcdir ()
 }
 
 static SCM
+_scm_lw6sys_build_get_abs_srcdir ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  ret = scm_from_locale_string (lw6sys_build_get_abs_srcdir ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6sys_build_get_prefix ()
 {
   SCM ret = SCM_BOOL_F;
@@ -2289,6 +2304,9 @@ lw6_register_funcs_sys ()
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_TOP_SRCDIR, 0, 0, 0,
 			      (SCM (*)())_scm_lw6sys_build_get_top_srcdir);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ABS_SRCDIR, 0, 0, 0,
+			      (SCM (*)())_scm_lw6sys_build_get_abs_srcdir);
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PREFIX, 0, 0, 0,
 			      (SCM (*)())_scm_lw6sys_build_get_prefix);

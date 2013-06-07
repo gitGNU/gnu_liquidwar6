@@ -1,3 +1,9 @@
+@subsection show-build-abs-srcdir
+@deffn {Command-line option} @code{--show-build-abs-srcdir}
+Shows the top source directory on the machine where the binary was compiled,
+as an absolute path.
+@end deffn
+
 @subsection show-build-bin-id
 @deffn {Command-line option} @code{--show-build-bin-id}
 Shows the internal 'bin-id' value. This value does not mean anything in itself
@@ -317,7 +323,8 @@ Shows the time when the binary was compiled.
 
 @subsection show-build-top-srcdir
 @deffn {Command-line option} @code{--show-build-top-srcdir}
-Shows the top source directory on the machine where the binary was compiled.
+Shows the top source directory on the machine where the binary was compiled,
+as a (possibly) relative path.
 @end deffn
 
 @subsection show-build-unix

@@ -274,7 +274,10 @@ populate_references ()
 		 ("Returns 1 (true) if host is a GP2X, 0 (false) if not."));
   POPULATE_VOID (LW6DEF_SHOW_BUILD_TOP_SRCDIR,
 		 _x_
-		 ("Shows the top source directory on the machine where the binary was compiled."));
+		 ("Shows the top source directory on the machine where the binary was compiled, as a (possibly) relative path."));
+  POPULATE_VOID (LW6DEF_SHOW_BUILD_ABS_SRCDIR,
+		 _x_
+		 ("Shows the top source directory on the machine where the binary was compiled, as an absolute path."));
   POPULATE_VOID (LW6DEF_SHOW_BUILD_PREFIX,
 		 _x_
 		 ("Shows the 'prefix' value as passed to the GNU Autoconf './configure' script when compiling the program. Default is '/usr/local'."));
@@ -2365,6 +2368,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6sys_build_is_gp2x."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_TOP_SRCDIR,
 		 _x_ ("Wrapper on lw6sys_build_get_top_srcdir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ABS_SRCDIR,
+		 _x_ ("Wrapper on lw6sys_build_get_abs_srcdir."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_PREFIX,
 		 _x_ ("Wrapper on lw6sys_build_get_prefix."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_DATADIR,
