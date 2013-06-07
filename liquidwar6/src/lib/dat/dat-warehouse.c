@@ -1411,7 +1411,7 @@ _lw6dat_warehouse_meta_get (_lw6dat_warehouse_t * warehouse,
 			       LW6SYS_PRINTF_LL
 			       "d when warehouse->stacks[%d].seq_0=%"
 			       LW6SYS_PRINTF_LL "d"), (long long) seq, i,
-			  (long long) (warehouse->stacks[i].seq_0));
+			  (long long) (warehouse->stacks[i].seq_0[i]));
 	      ret = 0;
 	    }
 	}

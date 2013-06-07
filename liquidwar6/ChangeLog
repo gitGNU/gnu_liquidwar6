@@ -1,5 +1,7 @@
 2013-06-07 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed pointer/int mismatch in log message.
+
 	* Added abs_srcdir parameter to find out where the source tree is when building.
 
 	* Updated aclocal/automake scripts.
