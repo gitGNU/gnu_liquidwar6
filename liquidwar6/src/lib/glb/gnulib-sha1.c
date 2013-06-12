@@ -24,8 +24,8 @@
 #include <config.h>
 
 #include "gnulib-sha1.h"
+#include "gnulib-stdalign.h"
 
-#include <stdalign.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
