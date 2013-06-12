@@ -28,6 +28,7 @@
 
 #include <zlib.h>
 
+#define _MSG_LEN_DUMP_MAX 4096
 #define _IN_LEN_DUMP_MAX 4096
 
 /*
@@ -268,6 +269,12 @@ lw6msg_z_decode (const char *msg)
 * We don't log "very" long messages, this would 
 * make log file unusable in case of map dumps
 */
+	      if (strlen (msg) < _MSG_LEN_DUMP_MAX)
+		{
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _x_ ("z-decode %d bytes msg was \"%s\""),
+			      (int) strlen (msg), msg);
+		}
 	      if (in_len < _IN_LEN_DUMP_MAX)
 		{
 		  char *in_hexa_str = NULL;
@@ -276,8 +283,9 @@ lw6msg_z_decode (const char *msg)
 		  if (in_hexa_str)
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _x_ ("zlib in buffer hexa was \"%s\""),
-				  in_hexa_str);
+				  _x_
+				  ("z-decode %d bytes in_hexa_str was \"%s\""),
+				  in_len, in_hexa_str);
 		      LW6SYS_FREE (in_hexa_str);
 		    }
 		}
