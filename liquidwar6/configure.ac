@@ -48,6 +48,15 @@ AC_SUBST(LW6_CODENAME)
 dnl Headers, some are optional
 AC_CHECK_HEADERS(arpa/inet.h caca.h ctype.h dirent.h errno.h execinfo.h expat.h fcntl.h gc/gc.h gmp.h GL/gl.h GL/glu.h GLES2/gl2.h iconv.h ifaddrs.h jpeglib.h langinfo.h libintl.h libpng12/png.h libpng13/png.h libpng14/png.h libpng15/png.h lmcons.h limits.h locale.h ltdl.h mach/vm_statistics.h mach/mach_types.h mach/mach_init.h mach/mach_host.h math.h netdb.h netinet/in.h omp.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/sysinfo.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h)
 
+dnl GNULIB stuff, http://www.gnu.org/software/gnulib/
+gl_00GNULIB
+gl_COMMON
+gl_FUNC_BASE64
+gl_MEMXOR
+gl_SHA1
+gl_STDALIGN_H
+
+dnl Those programs are a must-have
 AM_MISSING_PROG(PERL, perl, ${missing_dir})
 AM_MISSING_PROG(AWK, awk, ${missing_dir})
 AM_MISSING_PROG(SED, sed, ${missing_dir})
