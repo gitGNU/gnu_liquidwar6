@@ -67,8 +67,15 @@ void
 base64_encode (const char *restrict in, size_t inlen,
 	       char *restrict out, size_t outlen)
 {
+  /*
+   * Modified to fit URL requirements, see:
+   * http://en.wikipedia.org/wiki/Base64#URL_applications
+   * http://tools.ietf.org/html/rfc4648 "base64url"
+   */
+  //  static const char b64str[64] =
+  //    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
   static const char b64str[64] =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
   while (inlen && outlen)
     {
@@ -213,6 +220,8 @@ base64_encode_alloc (const char *in, size_t inlen, char **out)
    : (_) == '9' ? 61                            \
    : (_) == '+' ? 62                            \
    : (_) == '/' ? 63                            \
+   : (_) == '-' ? 62                            \
+   : (_) == '_' ? 63                            \
    : -1)
 
 static const signed char b64[0x100] = {

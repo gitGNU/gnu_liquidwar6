@@ -2,7 +2,7 @@
 
 	* Updated GNULIB and dependencies, could fix #35168 'Wrong SHA1 sum on ppc'
 
-	* Tracking down zlib problem on powerpc.
+	* Fixed z-encoding of message (reported old patch to GNULIB).
 
 2013-06-07 : Christian Mauduit <ufoot@ufoot.org>
 
