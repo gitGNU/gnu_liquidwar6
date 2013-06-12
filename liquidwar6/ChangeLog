@@ -2,6 +2,8 @@
 
 	* Updated GNULIB and dependencies, could fix #35168 'Wrong SHA1 sum on ppc'
 
+	* Tracking down zlib problem on powerpc.
+
 2013-06-07 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed pointer/int mismatch in log message.

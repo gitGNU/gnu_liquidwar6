@@ -28,6 +28,8 @@
 
 #include <zlib.h>
 
+#define _IN_LEN_DUMP_MAX 4096
+
 /*
  *  http://www.zlib.net/zlib_how.html
  */
@@ -261,6 +263,23 @@ lw6msg_z_decode (const char *msg)
 		  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("zlib error, ret=%d"),
 			      z_ret);
 		  break;
+		}
+/*
+* We don't log "very" long messages, this would 
+* make log file unusable in case of map dumps
+*/
+	      if (in_len < _IN_LEN_DUMP_MAX)
+		{
+		  char *in_hexa_str = NULL;
+
+		  in_hexa_str = lw6sys_hexa_buf_to_str (in_buf, in_len);
+		  if (in_hexa_str)
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_ ("zlib in buffer hexa was \"%s\""),
+				  in_hexa_str);
+		      LW6SYS_FREE (in_hexa_str);
+		    }
 		}
 	    }
 	  LW6SYS_FREE (in_buf);
