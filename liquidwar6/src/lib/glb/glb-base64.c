@@ -220,6 +220,13 @@ lw6glb_base64_decode_bin_prefix (int *size, const char *base64_str,
 	       */
 	      while (decode_ret != 1 && (cut < _CUT_MAX && cut < in_len))
 		{
+		  if (cut > 0)
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_
+				  ("base64 decoding with cut=%d, in_len=%d"),
+				  cut, in_len);
+		    }
 		  decode_ret =
 		    base64_decode (base64_str, in_len - cut, ret, &out_len);
 		  cut++;
