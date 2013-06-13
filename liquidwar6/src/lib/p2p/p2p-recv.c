@@ -543,7 +543,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		      message);
 	}
     }
-  else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_DATA))
+  else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_META))
     {
       lw6msg_meta_array_zero (&meta_array);
 
