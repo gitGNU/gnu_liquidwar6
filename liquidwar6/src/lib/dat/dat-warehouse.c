@@ -1385,35 +1385,55 @@ _lw6dat_warehouse_meta_get (_lw6dat_warehouse_t * warehouse,
 			    lw6msg_meta_array_t * meta_array, int64_t seq)
 {
   int ret = 1;
-
   int i = 0;
+  int64_t lowest_seq = _LW6DAT_SEQ_INVALID;
+
+  /*
+   * Check that seq is great enough, setting a seq lower than what
+   * we have within the warehouse is just, err, well, suicide ;)
+   * Note that later, receiver of the meta information might
+   * decide to use another seq depending on what relationship is
+   * already established.
+   *
+   * Earlier version used to bail out and block this, now we
+   * just force the seq to a higher value.
+   */
+  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+    {
+      if (warehouse->stacks[i].node_id)
+	{
+	  if (warehouse->stacks[i].seq_0[i] >= _LW6DAT_SEQ_START)
+	    {
+	      if (lowest_seq == _LW6DAT_SEQ_INVALID)
+		{
+		  lowest_seq = warehouse->stacks[i].seq_0[i];
+		}
+	      else
+		{
+		  lowest_seq =
+		    lw6sys_llmin (lowest_seq, warehouse->stacks[i].seq_0[i]);
+		}
+	    }
+	}
+    }
+
+  if (seq < lowest_seq)
+    {
+      seq = lw6sys_llmax (seq, lowest_seq);
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("updating META message at seq %"
+		       LW6SYS_PRINTF_LL
+		       "d with lowes_seq=%"
+		       LW6SYS_PRINTF_LL "d"), (long long) seq,
+		  (long long) lowest_seq);
+    }
 
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
     {
       if (warehouse->stacks[i].node_id)
 	{
-	  /*
-	   * Check that seq is great enough, setting a seq lower than what
-	   * we have within the warehouse is just, err, well, suicide ;)
-	   * Note that later, receviver of the meta information might
-	   * decide to use another seq depending on what relationship is
-	   * already established.
-	   */
-	  if (seq >= warehouse->stacks[i].seq_0[i])
-	    {
-	      _lw6dat_stack_meta_update (&(warehouse->stacks[i]),
-					 meta_array, seq);
-	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_ ("unable to update META message at seq %"
-			       LW6SYS_PRINTF_LL
-			       "d when warehouse->stacks[%d].seq_0=%"
-			       LW6SYS_PRINTF_LL "d"), (long long) seq, i,
-			  (long long) (warehouse->stacks[i].seq_0[i]));
-	      ret = 0;
-	    }
+	  _lw6dat_stack_meta_update (&(warehouse->stacks[i]), meta_array,
+				     seq);
 	}
     }
 
