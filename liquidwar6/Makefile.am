@@ -25,7 +25,7 @@ ACLOCAL_AMFLAGS = -I m4
 EXTRA_DIST = config.rpath
 
 all-local:
-	cd $(srcdir)/src && ./stamp.sh auto
+	cd $(abs_srcdir)/src && ./stamp.sh auto
 
 clean-local:
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
