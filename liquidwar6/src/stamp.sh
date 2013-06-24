@@ -81,6 +81,8 @@ auto_id () {
                 echo "new MD5SUM: $new_md5"
                 next_id
                 echo "#define LW6_MD5SUM \"$new_md5\"" > ${BUILD_MD5SUM_H}
+            else
+                echo "C source files unchanged"
             fi
         else
             echo "Not in source tree"
