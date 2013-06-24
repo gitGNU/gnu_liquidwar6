@@ -31,16 +31,16 @@ MINOR=1
 if [ -f ../configure.ac ] ; then
     CONFIGURE_AC=$(readlink -f ../configure.ac)
     if [ -f ${CONFIGURE_AC} ] ; then
-	CONFIGURE_AC_EXTRA_MAPS="$(dirname $(dirname ${CONFIGURE_AC}))/liquidwar6-extra-maps/configure.ac"
-	if [ -f ${CONFIGURE_AC_EXTRA_MAPS} ] ; then
-	    true
-	else
-	    echo "unable to open ${CONFIGURE_AC_EXTRA_MAPS}"
-	    exit 3
-	fi
+        CONFIGURE_AC_EXTRA_MAPS="$(dirname $(dirname ${CONFIGURE_AC}))/liquidwar6-extra-maps/configure.ac"
+        if [ -f ${CONFIGURE_AC_EXTRA_MAPS} ] ; then
+            true
+        else
+            echo "unable to open ${CONFIGURE_AC_EXTRA_MAPS}"
+            exit 3
+        fi
     else
-	echo "unable to open ${CONFIGURE_AC}"
-	exit 2
+        echo "unable to open ${CONFIGURE_AC}"
+        exit 2
     fi
 else
     echo "unable to find ../configure.ac"
@@ -64,8 +64,12 @@ next_id () {
 }
 
 auto_id () {
-    # defining LW6_NO_STAMP avoids recompiling the same files over and over
-    if [ "x${LW6_NO_STAMP}" = "x" ]; then
+    # Defining LW6_STAMP_AUTO required for stamp to increase automatically.
+    # This is not the default since it causes some (lots?) of stupid git
+    # conflicts when merging. The idea is to have it set for "main" developper
+    # or at least he who is responsible for releasing, as well as for Jenkins
+    # continuous integration builder and all kind of "official" builds.
+    if [ "x${LW6_STAMP_AUTO}" != "x" ]; then
         if [ -f ${BUILD_STAMP_H} ] && [ -f ${BUILD_MD5SUM_H} ]; then
             export LANG=C
             export LC_ALL=C # important for sort
@@ -82,7 +86,8 @@ auto_id () {
             echo "Not in source tree"
         fi
     else
-        echo "LW6_NO_STAMP defined, not updating stamp"
+        # Not defined, not doing anything.
+        true
     fi
 }
 
