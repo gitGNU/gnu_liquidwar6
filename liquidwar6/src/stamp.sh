@@ -32,12 +32,6 @@ if [ -f ../configure.ac ] ; then
     CONFIGURE_AC=$(readlink -f ../configure.ac)
     if [ -f ${CONFIGURE_AC} ] ; then
         CONFIGURE_AC_EXTRA_MAPS="$(dirname $(dirname ${CONFIGURE_AC}))/liquidwar6-extra-maps/configure.ac"
-        if [ -f ${CONFIGURE_AC_EXTRA_MAPS} ] ; then
-            true
-        else
-            echo "unable to open ${CONFIGURE_AC_EXTRA_MAPS}"
-            exit 3
-        fi
     else
         echo "unable to open ${CONFIGURE_AC}"
         exit 2
@@ -59,8 +53,12 @@ next_id () {
     echo "patching ${CONFIGURE_AC}"
     sed -i "s/^AC_INIT.*/AC_INIT([Liquid War 6],[${MAJOR}.${MINOR}.${stamp}],[ufoot@ufoot.org],[liquidwar6],[http:\/\/www.gnu.org\/software\/liquidwar6\/])/g" ${CONFIGURE_AC}
     sed -i "s/^LW6_MS_WINDOWS_VERSION.*/LW6_MS_WINDOWS_VERSION=\"${MAJOR}, ${MINOR}, ${stamp}\"/g" ${CONFIGURE_AC}
-    echo "patching ${CONFIGURE_AC_EXTRA_MAPS}"
-    sed -i "s/^AC_INIT.*/AC_INIT([Liquid War 6 extra maps],[${MAJOR}.${MINOR}.${stamp}],[ufoot@ufoot.org],[liquidwar6-extra-maps],[http:\/\/www.gnu.org\/software\/liquidwar6\/])/g" ${CONFIGURE_AC_EXTRA_MAPS}
+    if [ -f ${CONFIGURE_AC_EXTRA_MAPS} ] ; then
+        echo "patching ${CONFIGURE_AC_EXTRA_MAPS}"
+        sed -i "s/^AC_INIT.*/AC_INIT([Liquid War 6 extra maps],[${MAJOR}.${MINOR}.${stamp}],[ufoot@ufoot.org],[liquidwar6-extra-maps],[http:\/\/www.gnu.org\/software\/liquidwar6\/])/g" ${CONFIGURE_AC_EXTRA_MAPS}
+    else
+        echo "skipping ${CONFIGURE_AC_EXTRA_MAPS} (not found)"
+    fi
 }
 
 auto_id () {
