@@ -1551,6 +1551,21 @@ Wrapper on lw6sys_build_get_top_srcdir.
 Wrapper on lw6sys_build_get_version.
 @end deffn
 
+@subsection c-lw6sys-build-get-version-base
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-version-base}
+Wrapper on lw6sys_build_get_version_base.
+@end deffn
+
+@subsection c-lw6sys-build-get-version-major
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-version-major}
+Wrapper on lw6sys_build_get_version_major.
+@end deffn
+
+@subsection c-lw6sys-build-get-version-minor
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-version-minor}
+Wrapper on lw6sys_build_get_version_minor.
+@end deffn
+
 @subsection c-lw6sys-build-is-gnu
 @deffn {C function exported to Guile} @code{c-lw6sys-build-is-gnu}
 Wrapper on lw6sys_build_is_gnu.

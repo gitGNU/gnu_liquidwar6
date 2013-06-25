@@ -197,7 +197,7 @@ get_dir_common (char *mask1, char *prefix1, char *mask2, char *prefix2,
       system_dir =
 	lw6sys_new_sprintf (mask1, prefix1,
 			    lw6sys_build_get_package_tarname (),
-			    lw6sys_build_get_version ());
+			    lw6sys_build_get_version_base ());
       if (system_dir)
 	{
 	  dir = lw6sys_path_concat (system_dir, sub);
@@ -225,7 +225,7 @@ get_dir_common (char *mask1, char *prefix1, char *mask2, char *prefix2,
       system_dir =
 	lw6sys_new_sprintf (mask2, prefix2,
 			    lw6sys_build_get_package_tarname (),
-			    lw6sys_build_get_version ());
+			    lw6sys_build_get_version_base ());
       if (system_dir)
 	{
 	  dir = lw6sys_path_concat (system_dir, sub);
@@ -545,7 +545,7 @@ get_file_common (char *mask1, char *prefix1, char *mask2, char *prefix2,
       system_dir =
 	lw6sys_new_sprintf (mask1, prefix1,
 			    lw6sys_build_get_package_tarname (),
-			    lw6sys_build_get_version ());
+			    lw6sys_build_get_version_base ());
       if (system_dir)
 	{
 	  file = lw6sys_path_concat (system_dir, sub);
@@ -567,7 +567,7 @@ get_file_common (char *mask1, char *prefix1, char *mask2, char *prefix2,
       system_dir =
 	lw6sys_new_sprintf (mask2, prefix2,
 			    lw6sys_build_get_package_tarname (),
-			    lw6sys_build_get_version ());
+			    lw6sys_build_get_version_base ());
       if (system_dir)
 	{
 	  file = lw6sys_path_concat (system_dir, sub);

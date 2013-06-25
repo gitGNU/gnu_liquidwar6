@@ -209,9 +209,18 @@ populate_references ()
   POPULATE_VOID (LW6DEF_SHOW_BUILD_CODENAME,
 		 _x_
 		 ("Shows the codename associated with this version, generally the name of someone famous who is war-related (a general, an emperor...)."));
+  POPULATE_VOID (LW6DEF_SHOW_BUILD_VERSION_BASE,
+		 _x_
+		 ("Shows the version base. This is basically MAJOR.MINOR and determines the level of compatibility of the program. Two programs with the same base version should be able to communicate on the network, share data files and even binary modules if on the same platform."));
+  POPULATE_VOID (LW6DEF_SHOW_BUILD_VERSION_MAJOR,
+		 _x_
+		 ("Shows the major version number. This is just used to differenciate alpha/beta releases (using 0) from stable releases (using 6)."));
+  POPULATE_VOID (LW6DEF_SHOW_BUILD_VERSION_MINOR,
+		 _x_
+		 ("Shows the minor version number. This is manually increased at each significant, public release of the game."));
   POPULATE_VOID (LW6DEF_SHOW_BUILD_STAMP,
 		 _x_
-		 ("Shows the build stamp. A very usefull value, more precise than the version to track down binaries. It is incremented each time the core C code is updated. It won't reflect all the programs for it does not take scripts in account, but if you are running a work-in-progress version, it might be very convenient to use this to know what your are running exactly."));
+		 ("Shows the build stamp. A very usefull value, more precise than the version to track down binaries. It is incremented each time the core C code is updated. It won't reflect all the programs for it does not take scripts in account, but if you are running a work-in-progress version, it might be very convenient to use this to know what your are running exactly. It's also used as the revision number (the third number afer MAJOR.MINOR)."));
   POPULATE_VOID (LW6DEF_SHOW_BUILD_MD5SUM,
 		 _x_
 		 ("Shows the MD5 checksum, which has been calculated from the C source files. Complementary with 'show-build-stamp'."));
@@ -2320,6 +2329,12 @@ populate_references ()
 		 _x_ ("Wrapper on lw6sys_build_get_version."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_CODENAME,
 		 _x_ ("Wrapper on lw6sys_build_get_codename."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_VERSION_BASE,
+		 _x_ ("Wrapper on lw6sys_build_get_version_base."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_VERSION_MAJOR,
+		 _x_ ("Wrapper on lw6sys_build_get_version_major."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_VERSION_MINOR,
+		 _x_ ("Wrapper on lw6sys_build_get_version_minor."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_STAMP,
 		 _x_ ("Wrapper on lw6sys_build_get_stamp."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_MD5SUM,

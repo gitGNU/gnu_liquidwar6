@@ -19,6 +19,6 @@
 # Contact author        : ufoot@ufoot.org
 
 pkgdata_DATA = tcp-const.xml
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/cli/tcp
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/data/cli/tcp
 EXTRA_DIST = $(pkgdata_DATA)
 

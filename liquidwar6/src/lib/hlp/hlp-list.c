@@ -129,6 +129,9 @@ update_show (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_PACKAGE_ID);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_VERSION);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_CODENAME);
+  lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_VERSION_BASE);
+  lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_VERSION_MAJOR);
+  lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_VERSION_MINOR);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_STAMP);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_MD5SUM);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_COPYRIGHT);
@@ -889,6 +892,9 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_ID);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_VERSION);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_CODENAME);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_VERSION_BASE);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_VERSION_MAJOR);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_VERSION_MINOR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_STAMP);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_MD5SUM);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_COPYRIGHT);

@@ -19,6 +19,6 @@
 # Contact author        : ufoot@ufoot.org
 
 pkgdata_DATA = liquidwar6-icon-32x32.png liquidwar6-icon-128x128.png
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/gfx/gl1/utils/icon
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/data/gfx/gl1/utils/icon
 EXTRA_DIST = $(pkgdata_DATA)
 

@@ -240,7 +240,7 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
 					  (top_level_lib,
 					   module_pedigree->category))
 					{
-					  if (!strcmp
+					  if (lw6sys_version_is_compatible
 					      (lw6sys_build_get_version (),
 					       module_pedigree->version))
 					    {

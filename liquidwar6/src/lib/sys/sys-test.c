@@ -235,6 +235,20 @@
 #define _TEST_UTILS_DA 30.0f
 #define _TEST_UTILS_DB 40.0f
 
+#define _TEST_VERSION_COMPATIBLE_NB 4
+#define _TEST_VERSION_COMPATIBLE_A1 "10.11.12"
+#define _TEST_VERSION_COMPATIBLE_B1 "10.11.13"
+#define _TEST_VERSION_COMPATIBLE_RET1 1
+#define _TEST_VERSION_COMPATIBLE_A2 "10.11.12"
+#define _TEST_VERSION_COMPATIBLE_B2 "10.12.13"
+#define _TEST_VERSION_COMPATIBLE_RET2 0
+#define _TEST_VERSION_COMPATIBLE_A3 "Alpha-2"
+#define _TEST_VERSION_COMPATIBLE_B3 "ALPHA-2"
+#define _TEST_VERSION_COMPATIBLE_RET3 1
+#define _TEST_VERSION_COMPATIBLE_A4 "10.11.12"
+#define _TEST_VERSION_COMPATIBLE_B4 "10.11"
+#define _TEST_VERSION_COMPATIBLE_RET4 1
+
 /*
  * Testing functions in arg.c
  */
@@ -4053,6 +4067,55 @@ test_url ()
   return ret;
 }
 
+/*
+ * Testing functions in version.c
+ */
+static int
+test_version ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    const char *version_a[_TEST_VERSION_COMPATIBLE_NB] =
+      { _TEST_VERSION_COMPATIBLE_A1, _TEST_VERSION_COMPATIBLE_A2,
+      _TEST_VERSION_COMPATIBLE_A3, _TEST_VERSION_COMPATIBLE_A4
+    };
+    const char *version_b[_TEST_VERSION_COMPATIBLE_NB] =
+      { _TEST_VERSION_COMPATIBLE_B1, _TEST_VERSION_COMPATIBLE_B2,
+      _TEST_VERSION_COMPATIBLE_B3, _TEST_VERSION_COMPATIBLE_B4
+    };
+    int version_ret[_TEST_VERSION_COMPATIBLE_NB] =
+      { _TEST_VERSION_COMPATIBLE_RET1, _TEST_VERSION_COMPATIBLE_RET2,
+      _TEST_VERSION_COMPATIBLE_RET3, _TEST_VERSION_COMPATIBLE_RET4
+    };
+    int i;
+
+    for (i = 0; i < _TEST_VERSION_COMPATIBLE_NB; ++i)
+      {
+	if (lw6sys_version_is_compatible (version_a[i], version_b[i]) ==
+	    version_ret[i])
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("OK, comparison of versions \"%s\" and \"%s\" returned %d"),
+			version_a[i], version_b[i], version_ret[i]);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("Unexpected value, omparison of versions \"%s\" and \"%s\" returned %d"),
+			version_a[i], version_b[i], version_ret[i]);
+	    ret = 0;
+	  }
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 static void
 vthread_func (void *callback_data)
 {
@@ -4345,7 +4408,7 @@ lw6sys_test (int mode)
     && test_serial () && test_shape () && _lw6sys_test_signal (mode)
     && test_sort () && test_spinlock () && test_str () && test_stream ()
     && test_thread () && test_time () && test_url () && test_utils ()
-    && test_vthread ();
+    && test_version () && test_vthread ();
 
   return ret;
 }

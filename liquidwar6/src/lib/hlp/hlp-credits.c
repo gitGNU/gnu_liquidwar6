@@ -29,7 +29,7 @@
 #include "hlp.h"
 #include "hlp-internal.h"
 
-#define _NB_CREDITS_ENTRIES 26
+#define _NB_CREDITS_ENTRIES 25
 
 #define _CREDITS_IDEA "Thomas Colcombet"
 #define _CREDITS_CODING "Christian Mauduit"
@@ -154,17 +154,12 @@ lw6hlp_get_credits (int id)
 			    lw6sys_build_get_time ());
       break;
     case 22:
-      ret =
-	lw6sys_new_sprintf (_("Stamp %s, Id %d"), lw6sys_build_get_stamp (),
-			    lw6sys_build_get_bin_id ());
-      break;
-    case 23:
       ret = lw6sys_new_sprintf (_("Help GNU %s"), _HELP_GNU_URL);
       break;
-    case 24:
+    case 23:
       ret = lw6sys_new_sprintf (_("Fight software patents %s"), _FFII_URL);
       break;
-    case 25:
+    case 24:
       ret =
 	lw6sys_new_sprintf ("%s: %s", _("Report bugs"),
 			    lw6sys_build_get_bugs_url ());

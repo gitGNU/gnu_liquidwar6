@@ -8,7 +8,6 @@
 
 @include version.texi
 @include const.texi
-@include stamp.texi
 
 @copying
 Liquid War 6, a unique multiplayer wargame.
@@ -37,7 +36,7 @@ section entitled ``GNU Free Documentation License''.
 @titlepage
 @title Liquid War 6
 @subtitle A unique multiplayer wargame
-@subtitle Documentation for version @value{VERSION} codename ``@value{LW6_CODENAME}'' stamp @value{LW6_STAMP} 
+@subtitle Documentation for version @value{VERSION} codename ``@value{LW6_CODENAME}''
 @subtitle @value{UPDATED}
 @author by Christian Mauduit <ufoot@@ufoot.org>
 
@@ -351,7 +350,8 @@ real or mythical characters. Here is a short revision history.
 For details, see the @code{ChangeLog}
 and @code{NEWS} files distributed with the game. Additionnally, there's
 an ever-increasing ``stamp'' number which is incremented each time
-a build is done with a different source.
+a build is done with a different source. Latest versions use the stamp
+as the revision number (the version 3rd number).
 
 @itemize
 @item

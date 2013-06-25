@@ -1,5 +1,5 @@
 usr/games
-usr/share/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
+usr/share/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@
 usr/share/pixmaps
 usr/share/applications
 usr/share/locale/fr/LC_MESSAGES

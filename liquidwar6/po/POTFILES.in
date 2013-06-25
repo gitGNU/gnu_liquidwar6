@@ -546,6 +546,7 @@ src/lib/sys/sys-testmain.c
 src/lib/sys/sys-thread.c
 src/lib/sys/sys-time.c
 src/lib/sys/sys-url.c
+src/lib/sys/sys-version.c
 src/lib/sys/sys-vthread.c
 src/lib/tsk/tsk-loader.c
 src/lib/tsk/tsk-test.c

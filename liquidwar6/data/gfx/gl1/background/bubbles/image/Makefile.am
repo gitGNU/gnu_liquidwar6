@@ -19,6 +19,6 @@
 # Contact author        : ufoot@ufoot.org
 
 pkgdata_DATA = bubble.png fumes.png
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/gfx/gl1/background/bubbles/image
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/data/gfx/gl1/background/bubbles/image
 EXTRA_DIST = $(pkgdata_DATA)
 

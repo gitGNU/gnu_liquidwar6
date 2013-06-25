@@ -37,9 +37,6 @@
 #define LIST_DEVEL_MOD_PREFIX_STR "mod-"
 #define LIST_DEVEL_MOD_PREFIX_SIZE 4
 
-#define LIST_SYSTEM_DIR_FORMAT "%s/%s"
-#define LIST_SYSTEM_FILE_MATCH "libmod_x_(.*)-.*." _LW6DYN_SUFFIX
-
 #define LIST_LIBMOD_PREFIX_STR "libmod_"
 #define LIST_LIBMOD_PREFIX_SIZE 7
 #define LIST_SO_STR "." _LW6DYN_SUFFIX

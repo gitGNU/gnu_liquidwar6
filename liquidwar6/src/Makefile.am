@@ -66,10 +66,10 @@ SUBDIRS = lib
 
 install-exec-local:
 	if which id && which ldconfig && test `id -u` -eq 0 && test "$(prefix)" != "/usr"; then ldconfig; fi # Run ldconfig automatically if we're root
-	if test -x $(DESTDIR)$(bindir)/liquidwar6; then mv $(DESTDIR)$(bindir)/liquidwar6 $(DESTDIR)$(bindir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@; ln -s @PACKAGE_TARNAME@-@PACKAGE_VERSION@ $(DESTDIR)$(bindir)/liquidwar6; fi
+	if test -x $(DESTDIR)$(bindir)/liquidwar6; then mv $(DESTDIR)$(bindir)/liquidwar6 $(DESTDIR)$(bindir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@; ln -s @PACKAGE_TARNAME@-@PACKAGE_VERSION@ $(DESTDIR)$(bindir)/liquidwar6; fi
 
 uninstall-local:
-	rm -f $(DESTDIR)$(bindir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
+	rm -f $(DESTDIR)$(bindir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@
 
 clean-local:
 	rm -f liquidwar6.exe

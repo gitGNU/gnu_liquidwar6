@@ -43,6 +43,9 @@ Contact author        : ufoot@ufoot.org
 #define LW6_LDFLAGS "@LW6_LDFLAGS@"
 
 #define LW6_CODENAME "@LW6_CODENAME@"
+#define LW6_VERSION_BASE "@LW6_VERSION_BASE@"
+#define LW6_VERSION_MAJOR "@LW6_VERSION_MAJOR@"
+#define LW6_VERSION_MINOR "@LW6_VERSION_MINOR@"
 #include "sys-build-stamp.h"
 #include "sys-build-md5sum.h"
 

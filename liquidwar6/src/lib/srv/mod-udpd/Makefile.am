@@ -21,7 +21,7 @@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
-libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/srv
+libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/srv
 
 noinst_LTLIBRARIES = libmod_udpd_s.la
 MOD_UDPD_FILES = mod-udpd-backend.c mod-udpd-data.c mod-udpd-handshake.c mod-udpd-info.c mod-udpd-message.c mod-udpd-oob.c mod-udpd-setup.c mod-udpd-state.c

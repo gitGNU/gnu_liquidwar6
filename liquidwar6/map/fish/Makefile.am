@@ -19,6 +19,6 @@
 # Contact author        : ufoot@ufoot.org
 
 pkgdata_DATA = README map.png texture.jpeg texture-alpha.jpeg style.xml teams.xml rules.xml metadata.xml
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map/fish
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/map/fish
 EXTRA_DIST = $(pkgdata_DATA)
 

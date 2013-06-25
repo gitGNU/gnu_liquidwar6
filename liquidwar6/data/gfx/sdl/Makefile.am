@@ -21,6 +21,6 @@
 #SUBDIRS = images fonts icon
 
 pkgdata_DATA = README sdl-const.xml
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/gfx/sdl
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/data/gfx/sdl
 EXTRA_DIST = $(pkgdata_DATA)
 

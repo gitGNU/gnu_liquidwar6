@@ -19,6 +19,6 @@
 # Contact author        : ufoot@ufoot.org
 
 pkgdata_DATA = README map.png texture.jpeg glue.png rules.xml hints.xml style.xml teams.xml metadata.xml cursor.png cursor-color.png
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map/fishy
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/map/fishy
 EXTRA_DIST = $(pkgdata_DATA)
 

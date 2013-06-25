@@ -21,6 +21,6 @@
 SUBDIRS = utils splash background hud menu view
 
 pkgdata_DATA = README
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/gfx/gl1
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/data/gfx/gl1
 EXTRA_DIST = $(pkgdata_DATA)
 

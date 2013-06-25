@@ -21,7 +21,7 @@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
-libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/bot
+libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/bot
 
 noinst_LTLIBRARIES = libmod_idiot_s.la
 MOD_IDIOT_FILES = mod-idiot-backend.c mod-idiot-move.c mod-idiot-repr.c mod-idiot-setup.c

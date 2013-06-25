@@ -21,6 +21,6 @@
 SUBDIRS = htdocs
 
 pkgdata_DATA = README httpd-const.xml
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/srv/httpd
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/data/srv/httpd
 EXTRA_DIST = $(pkgdata_DATA)
 

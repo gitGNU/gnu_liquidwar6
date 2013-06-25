@@ -451,6 +451,40 @@ general, someone which has been involved in war. Must not be freed
 (I mean, the string, not the general).
 @end deftypefun
 
+@deftypefun {char *} {lw6sys_build_get_version_base} ()
+
+Returns the program base version number. 
+If version is X.Y.Z, this is X.Y, think of it as MAJOR.MINOR
+and globally determines the level of compatibility of the program.
+Two program exposing the same version should be network compatible
+and also be able to use the same ressource files (graphics, maps, sounds...)
+as well as being capable of using the same binary modules (graphics backends,
+bots and so on).
+
+@strong{Return value:}  a non-NULL string, typically "0.1" (beta release) or "6.0" (stable).
+Must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_version_major} ()
+
+Returns the program major version number. 
+If version is X.Y.Z, this is X. It's mainly used to make the difference
+between alpha/beta releases (with "0" here) and stable releases using
+"6" as we are talking about LW6, after all.
+
+@strong{Return value:}  a non-NULL string, typically "0" (beta release) or "6" (stable).
+Must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_version_minor} ()
+
+Returns the program minor version number. 
+If version is X.Y.Z, this is Y. This one should increase manually at each
+significant/public release of the game.
+
+@strong{Return value:}  a non-NULL string like "42", which must not be freed.
+@end deftypefun
+
 @deftypefun {char *} {lw6sys_build_get_stamp} ()
 
 Returns the program stamp. This is like a serial number. It's is not
@@ -465,8 +499,9 @@ impossible if you sign archives. One more point: this is a string. It's
 true the return value is actually a string containing the representation
 of an integer, but because all other build parameters are strings, and
 because we don't know what the future reserves, it's a string.
+If version is X.Y.Z, this is Z. Also called revision.
 
-@strong{Return value:}  a non-NULL string like "42", which must not be freed.
+@strong{Return value:}  a non-NULL string like "666", which must not be freed.
 @end deftypefun
 
 @deftypefun {char *} {lw6sys_build_get_md5sum} ()

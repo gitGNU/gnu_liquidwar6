@@ -20,6 +20,6 @@
 
 pkgdata_DATA = README boiling-water-teabag-mug.ogg faucet-water-into-sink.ogg rivulet.ogg storm.ogg toilet-flush.ogg waterinmuginsink.ogg
 
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/snd/ogg/water/
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/data/snd/ogg/water/
 EXTRA_DIST = $(pkgdata_DATA)
 

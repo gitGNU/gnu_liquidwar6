@@ -21,6 +21,6 @@
 SUBDIRS = image
 
 pkgdata_DATA = gl1-floating-const.xml
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/gfx/gl1/hud/floating
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/data/gfx/gl1/hud/floating
 EXTRA_DIST = $(pkgdata_DATA)
 

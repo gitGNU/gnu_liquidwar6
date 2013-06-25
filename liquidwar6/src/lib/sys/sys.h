@@ -674,6 +674,9 @@ extern char *lw6sys_build_get_package_string ();
 extern char *lw6sys_build_get_package_id ();
 extern char *lw6sys_build_get_version ();
 extern char *lw6sys_build_get_codename ();
+extern char *lw6sys_build_get_version_base ();
+extern char *lw6sys_build_get_version_major ();
+extern char *lw6sys_build_get_version_minor ();
 extern char *lw6sys_build_get_stamp ();
 extern char *lw6sys_build_get_md5sum ();
 extern char *lw6sys_build_get_copyright ();
@@ -1325,6 +1328,10 @@ extern lw6sys_url_t *lw6sys_url_parse (const char *url);
 extern void lw6sys_url_free (lw6sys_url_t * url);
 extern char *lw6sys_url_canonize (const char *url);
 extern int lw6sys_url_is_canonized (const char *url);
+
+/* sys-version.c */
+extern int lw6sys_version_is_compatible (const char *version_a,
+					 const char *version_b);
 
 /* sys-vthread.c */
 extern int lw6sys_vthread_run (lw6sys_thread_callback_func_t callback_func,

@@ -21,6 +21,6 @@
 SUBDIRS = sql screenshot
 
 pkgdata_DATA = README p2p-const.xml
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/p2p
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/data/p2p
 EXTRA_DIST = $(pkgdata_DATA)
 

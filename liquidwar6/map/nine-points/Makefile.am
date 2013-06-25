@@ -19,6 +19,6 @@
 # Contact author        : ufoot@ufoot.org
 
 pkgdata_DATA = README hints.xml layer2.png layer3.png map.png rules.xml style.xml teams.xml metadata.xml texture.jpeg
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map/nine-points
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/map/nine-points
 EXTRA_DIST = $(pkgdata_DATA)
 

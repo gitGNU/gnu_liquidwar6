@@ -22,5 +22,5 @@ SUBDIRS = acadia fish fishy five-points ink-and-oil january liquid-dream nine-po
 
 pkgdata_DATA = README
 
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/map
 EXTRA_DIST = $(pkgdata_DATA)

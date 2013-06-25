@@ -292,7 +292,8 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 	  pos = seek;
 	  if (lw6msg_word_first_x (&received_version, &seek, pos))
 	    {
-	      if (lw6sys_str_is_same (received_version.buf, version))
+	      if (lw6sys_version_is_compatible
+		  (received_version.buf, version))
 		{
 		  pos = seek;
 		  if (lw6msg_word_first_x (&received_password, &seek, pos))

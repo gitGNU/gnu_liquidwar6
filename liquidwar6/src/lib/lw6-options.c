@@ -419,6 +419,21 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  printf ("%s\n", lw6sys_build_get_codename ());
 	  (*run_game) = 0;
 	}
+      else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_VERSION_BASE, argv[i]))
+	{
+	  printf ("%s\n", lw6sys_build_get_version_base ());
+	  (*run_game) = 0;
+	}
+      else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_VERSION_MAJOR, argv[i]))
+	{
+	  printf ("%s\n", lw6sys_build_get_version_major ());
+	  (*run_game) = 0;
+	}
+      else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_VERSION_MINOR, argv[i]))
+	{
+	  printf ("%s\n", lw6sys_build_get_version_minor ());
+	  (*run_game) = 0;
+	}
       else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_STAMP, argv[i]))
 	{
 	  printf ("%s\n", lw6sys_build_get_stamp ());

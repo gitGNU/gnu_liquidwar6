@@ -1,1 +1,0 @@
-@set LW6_STAMP 3404

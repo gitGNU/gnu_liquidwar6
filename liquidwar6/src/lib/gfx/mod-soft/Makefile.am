@@ -25,7 +25,7 @@ else
 AM_LDFLAGS = @LW6_LDFLAGS@ @SOFT_LIBS@ @SDL_LIBS@
 endif
 
-libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/gfx
+libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/gfx
 
 noinst_LTLIBRARIES = libmod_soft_s.la
 MOD_SOFT_FILES = mod-soft-backend.c mod-soft-const.c mod-soft-mode.c mod-soft-path.c mod-soft-repr.c mod-soft-resolution.c mod-soft-setup.c mod-soft-viewport.c

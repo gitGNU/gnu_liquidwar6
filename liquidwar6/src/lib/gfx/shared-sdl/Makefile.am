@@ -25,7 +25,7 @@ else
 AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS@
 endif
 
-libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/gfx
+libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/gfx
 
 noinst_LTLIBRARIES = libshared_sdl_s.la
 SHARED_SDL_FILES = shared-sdl-backend.c shared-sdl-const.c shared-sdl-event.c shared-sdl-path.c shared-sdl-timer.c

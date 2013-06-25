@@ -25,7 +25,7 @@ else
 AM_LDFLAGS = @LW6_LDFLAGS@ @CACA_LIBS@
 endif
 
-libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/gfx
+libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/gfx
 
 noinst_LTLIBRARIES = libmod_caca_s.la
 MOD_CACA_FILES = mod-caca-backend.c mod-caca-const.c mod-caca-display.c mod-caca-event.c mod-caca-mode.c mod-caca-path.c mod-caca-repr.c mod-caca-resolution.c mod-caca-setup.c mod-caca-menu.c mod-caca-game.c mod-caca-utils.c mod-caca-splash.c

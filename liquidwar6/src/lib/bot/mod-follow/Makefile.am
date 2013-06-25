@@ -21,7 +21,7 @@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
-libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/bot
+libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/bot
 
 noinst_LTLIBRARIES = libmod_follow_s.la
 MOD_FOLLOW_FILES = mod-follow-backend.c mod-follow-move.c mod-follow-repr.c mod-follow-setup.c

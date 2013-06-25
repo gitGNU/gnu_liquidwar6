@@ -19,6 +19,6 @@
 # Contact author        : ufoot@ufoot.org
 
 pkgdata_DATA = index.html error.html favicon.ico robots.txt gpl.txt
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/srv/httpd/htdocs
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/data/srv/httpd/htdocs
 EXTRA_DIST = $(pkgdata_DATA)
 

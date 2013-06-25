@@ -21,6 +21,6 @@
 #SUBDIRS = images fonts icon
 
 pkgdata_DATA = README caca-const.xml
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/gfx/caca
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/data/gfx/caca
 EXTRA_DIST = $(pkgdata_DATA)
 

@@ -142,6 +142,58 @@ lw6sys_build_get_codename ()
 }
 
 /**
+ * lw6sys_build_get_version_base:
+ *
+ * Returns the program base version number. 
+ * If version is X.Y.Z, this is X.Y, think of it as MAJOR.MINOR
+ * and globally determines the level of compatibility of the program.
+ * Two program exposing the same version should be network compatible
+ * and also be able to use the same ressource files (graphics, maps, sounds...)
+ * as well as being capable of using the same binary modules (graphics backends,
+ * bots and so on).
+ *
+ * Return value: a non-NULL string, typically "0.1" (beta release) or "6.0" (stable).
+ *   Must not be freed.
+ */
+char *
+lw6sys_build_get_version_base ()
+{
+  return LW6_VERSION_BASE;
+}
+
+/**
+ * lw6sys_build_get_version_major:
+ *
+ * Returns the program major version number. 
+ * If version is X.Y.Z, this is X. It's mainly used to make the difference
+ * between alpha/beta releases (with "0" here) and stable releases using
+ * "6" as we are talking about LW6, after all.
+ *
+ * Return value: a non-NULL string, typically "0" (beta release) or "6" (stable).
+ *   Must not be freed.
+ */
+char *
+lw6sys_build_get_version_major ()
+{
+  return LW6_VERSION_MAJOR;
+}
+
+/**
+ * lw6sys_build_get_version_minor:
+ *
+ * Returns the program minor version number. 
+ * If version is X.Y.Z, this is Y. This one should increase manually at each
+ * significant/public release of the game.
+ *
+ * Return value: a non-NULL string like "42", which must not be freed.
+ */
+char *
+lw6sys_build_get_version_minor ()
+{
+  return LW6_VERSION_MINOR;
+}
+
+/**
  * lw6sys_build_get_stamp:
  *
  * Returns the program stamp. This is like a serial number. It's is not
@@ -156,8 +208,9 @@ lw6sys_build_get_codename ()
  * true the return value is actually a string containing the representation
  * of an integer, but because all other build parameters are strings, and
  * because we don't know what the future reserves, it's a string.
+ * If version is X.Y.Z, this is Z. Also called revision.
  *
- * Return value: a non-NULL string like "42", which must not be freed.
+ * Return value: a non-NULL string like "666", which must not be freed.
  */
 char *
 lw6sys_build_get_stamp ()
@@ -1040,6 +1093,12 @@ lw6sys_build_get_bin_id ()
 			      lw6sys_build_get_package_id ());
   lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_version ());
   lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_codename ());
+  lw6sys_checksum_update_str (&checksum_global,
+			      lw6sys_build_get_version_base ());
+  lw6sys_checksum_update_str (&checksum_global,
+			      lw6sys_build_get_version_major ());
+  lw6sys_checksum_update_str (&checksum_global,
+			      lw6sys_build_get_version_minor ());
   lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_stamp ());
   lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_md5sum ());
   lw6sys_checksum_update_str (&checksum_global,
@@ -1162,6 +1221,12 @@ lw6sys_build_log_all ()
 	      lw6sys_build_get_version ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build codename is \"%s\""),
 	      lw6sys_build_get_codename ());
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build version_base is \"%s\""),
+	      lw6sys_build_get_version_base ());
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build version_major is \"%s\""),
+	      lw6sys_build_get_version_major ());
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build version_minor is \"%s\""),
+	      lw6sys_build_get_version_minor ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build stamp is \"%s\""),
 	      lw6sys_build_get_stamp ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build md5sum is \"%s\""),

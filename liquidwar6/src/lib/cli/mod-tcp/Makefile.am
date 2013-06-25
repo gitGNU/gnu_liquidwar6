@@ -21,7 +21,7 @@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
-libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/cli
+libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/cli
 
 noinst_LTLIBRARIES = libmod_tcp_s.la
 MOD_TCP_FILES = mod-tcp-backend.c mod-tcp-data.c mod-tcp-info.c mod-tcp-message.c mod-tcp-oob.c mod-tcp-setup.c mod-tcp-state.c

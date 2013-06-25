@@ -86,6 +86,6 @@ wait.scm \
 zoom.scm \
 README
 
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/script
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/script
 EXTRA_DIST = $(pkgdata_DATA)
 

@@ -43,8 +43,8 @@ make
 %install
 rm -rf %{buildroot}%{_prefix}/share
 export DESTDIR=%{buildroot} && make install 
-install -d %{buildroot}%{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/
-cp ChangeLog README NEWS COPYING AUTHORS %{buildroot}%{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/
+install -d %{buildroot}%{_prefix}/share/doc/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/
+cp ChangeLog README NEWS COPYING AUTHORS %{buildroot}%{_prefix}/share/doc/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/
 
 # Cleaning
 %clean
@@ -53,10 +53,13 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 # using liquidwar6 and *not* PACKAGE_TARNAME here
-%{_prefix}/share/liquidwar6-@PACKAGE_VERSION@/map/extra/*
-%{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/*
+%{_prefix}/share/liquidwar6-@LW6_VERSION_BASE@/map/extra/*
+%{_prefix}/share/doc/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/*
 
 %changelog
+
+* Tue Jun 25 2013 Christian Mauduit <ufoot@ufoot.org>
+- Using major.minor.version as version number.
 
 * Mon Jul 05 2010 Christian Mauduit <ufoot@ufoot.org>
 - Added comments on how to sign package.

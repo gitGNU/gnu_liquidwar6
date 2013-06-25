@@ -21,6 +21,6 @@
 #SUBDIRS = images fonts icon
 
 pkgdata_DATA = README soft-const.xml
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/gfx/soft
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/data/gfx/soft
 EXTRA_DIST = $(pkgdata_DATA)
 

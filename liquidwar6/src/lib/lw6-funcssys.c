@@ -197,6 +197,51 @@ _scm_lw6sys_build_get_codename ()
 }
 
 static SCM
+_scm_lw6sys_build_get_version_base ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  ret = scm_from_locale_string (lw6sys_build_get_version_base ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6sys_build_get_version_major ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  ret = scm_from_locale_string (lw6sys_build_get_version_major ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6sys_build_get_version_minor ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  ret = scm_from_locale_string (lw6sys_build_get_version_minor ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6sys_build_get_stamp ()
 {
   SCM ret = SCM_BOOL_F;
@@ -2231,6 +2276,17 @@ lw6_register_funcs_sys ()
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CODENAME, 0, 0, 0,
 			      (SCM (*)())_scm_lw6sys_build_get_codename);
   ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION_BASE, 0, 0, 0,
+			      (SCM (*)())_scm_lw6sys_build_get_version_base);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION_MAJOR, 0, 0,
+			      0,
+			      (SCM (*)())_scm_lw6sys_build_get_version_major);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION_MINOR, 0, 0,
+			      0,
+			      (SCM (*)())_scm_lw6sys_build_get_version_minor);
+  ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_STAMP, 0, 0, 0,
 			      (SCM (*)())_scm_lw6sys_build_get_stamp);
   ret = ret
@@ -2344,13 +2400,13 @@ lw6_register_funcs_sys ()
 			      (SCM (*)
 			       ())_scm_lw6sys_build_get_enable_mod_gles2);
   ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_SOFT, 0,
-			      0, 0,
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_SOFT, 0, 0,
+			      0,
 			      (SCM (*)
 			       ())_scm_lw6sys_build_get_enable_mod_soft);
   ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CACA, 0,
-			      0, 0,
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CACA, 0, 0,
+			      0,
 			      (SCM (*)
 			       ())_scm_lw6sys_build_get_enable_mod_caca);
   ret = ret

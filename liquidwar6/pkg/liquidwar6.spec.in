@@ -104,7 +104,7 @@ Liquid War 6 est un wargame multijoueurs unique en son genre. Votre
 armée est une masse informe de liquide, et vous devez essayer de
 manger votre adversaire. La règle est très simple mais originale, elle
 a été inventée par Thomas Colcombet. Il est possible de jouer seul
-contre l'ordinateur mais le jeu est vraiment conçu pour être joué à
+contre un ordinateur mais le jeu est vraiment conçu pour être joué à
 plusieurs, sur une seule machine, sur un réseau local, ou sur
 Internet.
 
@@ -125,7 +125,7 @@ til multiplayer, og har netværks-support.
 # Preparation of the package
 %prep
 %setup
-./configure --prefix=%{_prefix} --docdir=%{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@ --infodir=%{_prefix}/info --enable-allinone --disable-mod-csound
+./configure --prefix=%{_prefix} --docdir=%{_prefix}/share/doc/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@ --infodir=%{_prefix}/info --enable-allinone --disable-mod-csound
 
 # Building the package
 %build
@@ -138,7 +138,7 @@ rm -rf %{buildroot}%{_prefix}/bin
 rm -rf %{buildroot}%{_prefix}/share
 rm -rf %{buildroot}%{_prefix}/info
 export DESTDIR=%{buildroot} && make install 
-cp ChangeLog README NEWS COPYING AUTHORS %{buildroot}%{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/
+cp ChangeLog README NEWS COPYING AUTHORS %{buildroot}%{_prefix}/share/doc/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/
 for i in %{buildroot}%{_prefix}/info/liquidwar6*info*; do gzip $i; done
 # No devel stuff in this RPM
 rm -rf %{buildroot}%{_prefix}/include
@@ -168,15 +168,18 @@ if which install-info && test -d %{_prefix}/info && test -f %{_prefix}/info/dir;
 %files
 %defattr(-,root,root)
 %{_prefix}/bin/*
-%{_prefix}/share/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/*
+%{_prefix}/share/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/*
 %{_prefix}/share/locale/*/LC_MESSAGES/*
 %{_prefix}/share/pixmaps/*
 %{_prefix}/share/applications/*
 %{_prefix}/info/*
 %{_prefix}/share/man/man6/*
-%{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/*
+%{_prefix}/share/doc/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/*
 
 %changelog
+
+* Tue Jun 25 2013 Christian Mauduit <ufoot@ufoot.org>
+- Using major.minor.version as version number.
 
 * Fri Oct 28 2011 Christian Mauduit <ufoot@ufoot.org>
 - Fixed license and explicitly set it to GPLv3+ instead of GPL.

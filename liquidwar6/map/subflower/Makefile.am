@@ -19,6 +19,6 @@
 # Contact author        : ufoot@ufoot.org
 
 pkgdata_DATA = README map.png texture.jpeg rules.xml hints.xml style.xml teams.xml metadata.xml cursor.png cursor-color.png
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map/subflower
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/map/subflower
 EXTRA_DIST = $(pkgdata_DATA)
 

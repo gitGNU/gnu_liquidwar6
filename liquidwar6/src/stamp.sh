@@ -24,9 +24,9 @@
 
 BUILD_STAMP_H=./lib/sys/sys-build-stamp.h
 BUILD_MD5SUM_H=./lib/sys/sys-build-md5sum.h
-BUILD_STAMP_TEXI=../doc/stamp.texi
-MAJOR=0
-MINOR=1
+#BUILD_STAMP_TEXI=../doc/stamp.texi
+VERSION_MAJOR=0
+VERSION_MINOR=1
 
 if [ -f ../configure.ac ] ; then
     CONFIGURE_AC=$(readlink -f ../configure.ac)
@@ -46,16 +46,20 @@ usage () {
 }
 
 next_id () {
-    stamp=`cat ${BUILD_STAMP_H} | cut -d "\"" -f 2`
+    stamp=`cat ${BUILD_STAMP_H} | grep STAMP | cut -d "\"" -f 2`
     stamp=$((${stamp}+1))
     echo "#define LW6_STAMP \"${stamp}\"" > ${BUILD_STAMP_H}
-    echo "@set LW6_STAMP ${stamp}" > ${BUILD_STAMP_TEXI}
+    #echo "@set LW6_STAMP ${stamp}" > ${BUILD_STAMP_TEXI}
     echo "patching ${CONFIGURE_AC}"
-    sed -i "s/^AC_INIT.*/AC_INIT([Liquid War 6],[${MAJOR}.${MINOR}.${stamp}],[ufoot@ufoot.org],[liquidwar6],[http:\/\/www.gnu.org\/software\/liquidwar6\/])/g" ${CONFIGURE_AC}
-    sed -i "s/^LW6_MS_WINDOWS_VERSION.*/LW6_MS_WINDOWS_VERSION=\"${MAJOR}, ${MINOR}, ${stamp}\"/g" ${CONFIGURE_AC}
+    sed -i "s/^AC_INIT.*/AC_INIT([Liquid War 6],[${VERSION_MAJOR}.${VERSION_MINOR}.${stamp}],[ufoot@ufoot.org],[liquidwar6],[http:\/\/www.gnu.org\/software\/liquidwar6\/])/g" ${CONFIGURE_AC}
+    sed -i "s/^LW6_VERSION_BASE.*/LW6_VERSION_BASE=\"${VERSION_MAJOR}.${VERSION_MINOR}\"/g" ${CONFIGURE_AC}
+    sed -i "s/^LW6_VERSION_MAJOR.*/LW6_VERSION_MAJOR=\"${VERSION_MAJOR}\"/g" ${CONFIGURE_AC}
+    sed -i "s/^LW6_VERSION_MINOR.*/LW6_VERSION_MINOR=\"${VERSION_MINOR}\"/g" ${CONFIGURE_AC}
+    sed -i "s/^LW6_MS_WINDOWS_VERSION.*/LW6_MS_WINDOWS_VERSION=\"${VERSION_MAJOR}, ${VERSION_MINOR}, ${stamp}\"/g" ${CONFIGURE_AC}
     if [ -f ${CONFIGURE_AC_EXTRA_MAPS} ] ; then
         echo "patching ${CONFIGURE_AC_EXTRA_MAPS}"
-        sed -i "s/^AC_INIT.*/AC_INIT([Liquid War 6 extra maps],[${MAJOR}.${MINOR}.${stamp}],[ufoot@ufoot.org],[liquidwar6-extra-maps],[http:\/\/www.gnu.org\/software\/liquidwar6\/])/g" ${CONFIGURE_AC_EXTRA_MAPS}
+        sed -i "s/^AC_INIT.*/AC_INIT([Liquid War 6 extra maps],[${VERSION_MAJOR}.${VERSION_MINOR}.${stamp}],[ufoot@ufoot.org],[liquidwar6-extra-maps],[http:\/\/www.gnu.org\/software\/liquidwar6\/])/g" ${CONFIGURE_AC_EXTRA_MAPS}
+        sed -i "s/^LW6_VERSION_BASE.*/LW6_VERSION_BASE=\"${VERSION_MAJOR}.${VERSION_MINOR}\"/g" ${CONFIGURE_AC_EXTRA_MAPS}
     else
         echo "skipping ${CONFIGURE_AC_EXTRA_MAPS} (not found)"
     fi

@@ -35,6 +35,9 @@
 		 lw6def-c-lw6sys-build-get-package-id
 		 lw6def-c-lw6sys-build-get-version
 		 lw6def-c-lw6sys-build-get-codename
+		 lw6def-c-lw6sys-build-get-version-base
+		 lw6def-c-lw6sys-build-get-version-major
+		 lw6def-c-lw6sys-build-get-version-minor
 		 lw6def-c-lw6sys-build-get-stamp
 		 lw6def-c-lw6sys-build-get-md5sum
 		 lw6def-c-lw6sys-build-get-copyright

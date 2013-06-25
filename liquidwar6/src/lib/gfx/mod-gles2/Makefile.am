@@ -25,7 +25,7 @@ else
 AM_LDFLAGS = @LW6_LDFLAGS@ @GLES2_LIBS@ @SDL_LIBS@
 endif
 
-libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/gfx
+libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/gfx
 
 noinst_LTLIBRARIES = libmod_gles2_s.la
 MOD_GLES2_FILES = mod-gles2-backend.c mod-gles2-const.c mod-gles2-mode.c mod-gles2-path.c mod-gles2-repr.c mod-gles2-resolution.c mod-gles2-setup.c mod-gles2-viewport.c

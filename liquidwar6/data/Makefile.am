@@ -22,7 +22,7 @@ SUBDIRS = icon gfx snd net srv cli p2p
 
 pkgdata_DATA = README
 
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/data
 EXTRA_DIST = $(pkgdata_DATA)
 
 

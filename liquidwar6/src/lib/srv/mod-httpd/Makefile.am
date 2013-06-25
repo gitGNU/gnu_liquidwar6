@@ -21,7 +21,7 @@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
-libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/srv
+libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/srv
 
 noinst_LTLIBRARIES = libmod_httpd_s.la
 MOD_HTTPD_FILES = mod-httpd-backend.c mod-httpd-data.c mod-httpd-error.c mod-httpd-handshake.c mod-httpd-info.c mod-httpd-log.c mod-httpd-message.c mod-httpd-oob.c mod-httpd-replythread.c mod-httpd-request.c mod-httpd-response.c mod-httpd-setup.c mod-httpd-state.c

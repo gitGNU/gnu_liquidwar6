@@ -358,6 +358,9 @@ c-lw6sys-build-get-stamp
 c-lw6sys-build-get-time
 c-lw6sys-build-get-top-srcdir
 c-lw6sys-build-get-version
+c-lw6sys-build-get-version-base
+c-lw6sys-build-get-version-major
+c-lw6sys-build-get-version-minor
 c-lw6sys-build-is-gnu
 c-lw6sys-build-is-gp2x
 c-lw6sys-build-is-mac-os-x
@@ -720,6 +723,9 @@ show-build-time
 show-build-top-srcdir
 show-build-unix
 show-build-version
+show-build-version-base
+show-build-version-major
+show-build-version-minor
 show-build-x86
 show-config-file
 show-cwd

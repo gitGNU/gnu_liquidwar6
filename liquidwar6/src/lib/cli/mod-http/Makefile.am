@@ -21,7 +21,7 @@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ -lcurl
 
-libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/cli
+libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/cli
 
 noinst_LTLIBRARIES = libmod_http_s.la
 MOD_HTTP_FILES = mod-http-backend.c mod-http-data.c mod-http-get.c mod-http-querythread.c mod-http-info.c mod-http-message.c mod-http-oob.c mod-http-setup.c mod-http-state.c

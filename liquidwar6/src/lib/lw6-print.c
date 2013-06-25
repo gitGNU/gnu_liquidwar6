@@ -157,6 +157,9 @@ lw6_print_pedigree ()
   printf ("package-id: %s\n", lw6sys_build_get_package_id ());
   printf ("version: %s\n", lw6sys_build_get_version ());
   printf ("codename: %s\n", lw6sys_build_get_codename ());
+  printf ("version-base: %s\n", lw6sys_build_get_version_base ());
+  printf ("version-major: %s\n", lw6sys_build_get_version_major ());
+  printf ("version-minor: %s\n", lw6sys_build_get_version_minor ());
   printf ("stamp: %s\n", lw6sys_build_get_stamp ());
   printf ("md5sum: %s\n", lw6sys_build_get_md5sum ());
   printf ("copyright: %s\n", lw6sys_build_get_copyright ());
@@ -896,10 +899,9 @@ lw6_print_hello (int argc, const char *argv[])
 
   lw6sys_log (LW6SYS_LOG_INFO, _("hello"));
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, "v%s \"%s\" #%s (%s) %s/%s",
+  lw6sys_log (LW6SYS_LOG_NOTICE, "v%s \"%s\" (%s) %s/%s",
 	      lw6sys_build_get_version (),
 	      lw6sys_build_get_codename (),
-	      lw6sys_build_get_stamp (),
 	      lw6sys_build_get_date (),
 	      lw6sys_build_get_host_os (), lw6sys_build_get_host_cpu ());
 

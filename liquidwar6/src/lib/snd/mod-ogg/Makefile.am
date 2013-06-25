@@ -25,7 +25,7 @@ else
 AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS_SOUND@
 endif
 
-libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/snd
+libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/snd
 
 noinst_LTLIBRARIES = libmod_ogg_s.la
 MOD_OGG_FILES = mod-ogg-backend.c mod-ogg-const.c mod-ogg-fx.c mod-ogg-music.c mod-ogg-path.c mod-ogg-repr.c mod-ogg-setup.c mod-ogg-volume.c mod-ogg-water.c

@@ -21,6 +21,6 @@
 SUBDIRS = image
 
 pkgdata_DATA = gl1-splash-const.xml
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/gfx/gl1/splash
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/data/gfx/gl1/splash
 EXTRA_DIST = $(pkgdata_DATA)
 
