@@ -29,6 +29,7 @@ all-local:
 
 clean-local:
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -f confdefs.h # causes problems on Jenkins (still there...)
 
 distclean-local:
 	rm -rf autom4te.cache # curiously this directory is left by autotools
