@@ -1,3 +1,7 @@
+2013-06-26 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Linking against CUnit.
+
 2013-06-25 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Using major.minor.stamp as version number.

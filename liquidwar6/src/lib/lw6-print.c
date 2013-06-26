@@ -153,14 +153,8 @@ lw6_print_pedigree ()
 {
   printf ("package-tarname: %s\n", lw6sys_build_get_package_tarname ());
   printf ("package-name: %s\n", lw6sys_build_get_package_name ());
-  printf ("package-string: %s\n", lw6sys_build_get_package_string ());
-  printf ("package-id: %s\n", lw6sys_build_get_package_id ());
   printf ("version: %s\n", lw6sys_build_get_version ());
   printf ("codename: %s\n", lw6sys_build_get_codename ());
-  printf ("version-base: %s\n", lw6sys_build_get_version_base ());
-  printf ("version-major: %s\n", lw6sys_build_get_version_major ());
-  printf ("version-minor: %s\n", lw6sys_build_get_version_minor ());
-  printf ("stamp: %s\n", lw6sys_build_get_stamp ());
   printf ("md5sum: %s\n", lw6sys_build_get_md5sum ());
   printf ("copyright: %s\n", lw6sys_build_get_copyright ());
   printf ("license: %s\n", lw6sys_build_get_license ());

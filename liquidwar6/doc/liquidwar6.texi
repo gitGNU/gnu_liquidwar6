@@ -63,9 +63,7 @@ a unique multiplayer wargame.
 * Hacker's guide::      How to hack the game and make it better.
 * Reference::  Command line options, configuration file entries.
 * C API::               Internal C functions documentation.
-@end menu
 
-@menu
 Introduction
 
 * In a nutshell::       Quick introduction to Liquid War 6.
@@ -707,6 +705,12 @@ libraries are required. The rest is truely optional.
 @itemize
 
 @item
+@uref{http://cunit.sourceforge.net/, libcunit}.
+Provides (hopefully) more readable test output. It's not strictly
+mandatory but still highly recommended. Building without is just allowed
+in case some rare and bizarre platform would not have a libcunit port.
+
+@item
 @uref{http://www.gnu.org/software/ncurses/, ncurses}.
 Required by readline, needs to be there otherwise readline
 might not be detected properly on some systems.
@@ -896,6 +900,7 @@ libgtk2.0-dev \
 perl lcov global valgrind graphviz gv \
 texinfo texlive-base texlive-generic-extra \
 indent emacs doxygen xsltproc pmccabe \
+libcunit1-ncurses libcunit1-ncurses-dev \
 debhelper
 @end example
 
@@ -2888,15 +2893,22 @@ such as @code{--prefix}, Liquid War 6 has some custom switches:
 
 @itemize
 @item
-@code{--enable-console}: allows you to turn on/off console support.
+@code{--disable-console}: allows you to turn on/off console support.
 Normally this is detected automatically but in case you really want
 to disable it on platforms which support it, you can. This will cause
 the program no to link against @code{libreadline}, among other things.
 @item
-@code{--enable-gtk}: allows you to turn on/off gtk support.
+@code{--disable-gtk}: allows you to turn on/off gtk support.
 Normally this is detected automatically but in case you really want
 to disable it on platforms which support it, you can. This will cause
-the program no to link against GTK libs.
+the program not to link against GTK libs.
+@item
+@code{--disable-cunit}: allows you to turn on/off 
+@uref{http://cunit.sourceforge.net/, CUnit}
+support.
+Normally this is detected automatically but in case you really want
+to disable it on platforms which support it, you can. This will cause
+the program not to link against CUnit libs.
 @item
 @code{--enable-optimize}: will turn on optimizations. This will
 turn on compiler options such as @code{-fomit-frame-pointer}
@@ -3714,6 +3726,11 @@ need to pass @code{--enable-gcov} to @code{--configure} if you want
 to use thes tools yourself. More precisely:
 
 @itemize
+@item
+@uref{http://cunit.sourceforge.net, CUnit} is used for regression tests.
+It's used to provide hopefully standardized output when testing, and
+provide test statistics more easily. It's a rule of thumb to try and write
+tests when new features and/or bug-fixes pour in.
 @item
 @uref{http://ltp.sourceforge.net/coverage/lcov.php, lcov} is run,
 ideally with each release - but it's not garanteed, check the output date and time -

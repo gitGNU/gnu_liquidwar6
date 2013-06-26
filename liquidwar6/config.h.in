@@ -24,6 +24,15 @@
 /* Define to 1 if you have the <ctype.h> header file. */
 #undef HAVE_CTYPE_H
 
+/* Define to 1 if you have the <CUnit/Automated.h> header file. */
+#undef HAVE_CUNIT_AUTOMATED_H
+
+/* Define to 1 if you have the <CUnit/CUCurses.h> header file. */
+#undef HAVE_CUNIT_CUCURSES_H
+
+/* Define to 1 if you have the <CUnit/CUnit.h> header file. */
+#undef HAVE_CUNIT_CUNIT_H
+
 /* Define if the GNU dcgettext() function is already present or preinstalled.
    */
 #undef HAVE_DCGETTEXT
