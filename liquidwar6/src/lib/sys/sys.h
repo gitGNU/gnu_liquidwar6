@@ -133,14 +133,14 @@ typedef char *char_ptr_t;
 #define LW6SYS_MAIN_END { ret = lw6sys_check_thread_count () && ret; ret = lw6sys_memory_bazooka_report() && ret; lw6sys_clear_memory_bazooka(); }
 
 #define LW6SYS_TEST_FUNCTION_BEGIN { lw6sys_log(LW6SYS_LOG_NOTICE,_("running tests in function \"%s\""),__FUNCTION__); }
-#define LW6SYS_TEST_FUNCTION_END   if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("tests in \"%s\" OK"),__FUNCTION__); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("tests in \"%s\" failed"),__FUNCTION__); }
+#define LW6SYS_TEST_FUNCTION_END   if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("tests OK in function \"%s\""),__FUNCTION__); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("tests FAILED in function \"%s\""),__FUNCTION__); }
 #define LW6SYS_BACKEND_FUNCTION_BEGIN { lw6sys_log(LW6SYS_LOG_DEBUG,_("begin backend function \"%s\""),__FUNCTION__); }
 #define LW6SYS_BACKEND_FUNCTION_END { lw6sys_log(LW6SYS_LOG_DEBUG,_("end backend function \"%s\""),__FUNCTION__); }
 
 #define LW6SYS_SCRIPT_FUNCTION_BEGIN { lw6sys_log(LW6SYS_LOG_DEBUG,_("begin script function \"%s\""),__FUNCTION__); }
 #define LW6SYS_SCRIPT_FUNCTION_END { lw6sys_log(LW6SYS_LOG_DEBUG,_("end script function \"%s\""),__FUNCTION__); }
 
-#define LW6SYS_TEST_OUTPUT { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("test SUCCESSFULL!")); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("test FAILED...")); } }
+#define LW6SYS_TEST_OUTPUT { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("test suite OK!")); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("test suite FAILED...")); } }
 
 #define LW6SYS_BUILD_ENABLE_YES "yes"
 #define LW6SYS_BUILD_ENABLE_NO "no"
