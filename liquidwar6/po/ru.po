@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2013-06-25 21:33+0200\n"
+"POT-Creation-Date: 2013-06-27 23:50+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -443,11 +443,11 @@ msgstr ""
 "распространять и/или модифицировать её.\n"
 "Эта программа распространяется БЕЗ ВСЯКИХ ГАРАНТИЙ, но в рамках закона.\n"
 
-#: src/lib/lw6-print.c:900
+#: src/lib/lw6-print.c:894
 msgid "hello"
 msgstr "приветствую"
 
-#: src/lib/lw6-print.c:947
+#: src/lib/lw6-print.c:941
 msgid "goodbye"
 msgstr "счастливо"
 
