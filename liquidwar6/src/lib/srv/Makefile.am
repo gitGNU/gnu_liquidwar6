@@ -31,15 +31,22 @@ endif
 
 noinst_LTLIBRARIES = libsrv.la
 libsrv_la_LIBADD = $(LW6SRV_LIB_S)
-libsrv_la_SOURCES = srv-api.c srv-control.c srv-oob.c srv-register.c srv-tcpaccepter.c srv-test.c srv-udpbuffer.c
+if LW6_CUNIT
+TEST_SRC_FILE = srv-test.c
+else
+TEST_SRC_FILE =
+endif
+libsrv_la_SOURCES = srv-api.c srv-control.c srv-oob.c srv-register.c srv-tcpaccepter.c $(TEST_SRC_FILE) srv-udpbuffer.c
 libsrvdir= $(includedir)/@PACKAGE_TARNAME@/srv
 libsrv_HEADERS = srv.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6srv-test
 liquidwar6srv_test_SOURCES = srv-testmain.c
 liquidwar6srv_test_LDADD = libsrv.la $(LW6DYN_LIB) ../msg/libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../net/libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libgl1b.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6srv-test
+endif
 endif
 
 SUBDIRS = mod-tcpd mod-udpd mod-httpd

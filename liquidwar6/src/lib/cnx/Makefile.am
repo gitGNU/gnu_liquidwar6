@@ -22,14 +22,21 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
 noinst_LTLIBRARIES = libcnx.la
-libcnx_la_SOURCES = cnx-backlog.c cnx-connection.c cnx-password.c cnx-test.c cnx-tickettable.c
+if LW6_CUNIT
+TEST_SRC_FILE = cnx-test.c
+else
+TEST_SRC_FILE =
+endif
+libcnx_la_SOURCES = cnx-backlog.c cnx-connection.c cnx-password.c $(TEST_SRC_FILE) cnx-tickettable.c
 libcnxdir= $(includedir)/@PACKAGE_TARNAME@/cnx
 libcnx_HEADERS = cnx.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6cnx-test
 liquidwar6cnx_test_SOURCES = cnx-testmain.c
 liquidwar6cnx_test_LDADD = libcnx.la ../glb/libgl1b.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6cnx-test
+endif
 endif
 

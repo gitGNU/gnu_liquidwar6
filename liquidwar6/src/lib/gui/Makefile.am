@@ -22,13 +22,20 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
 noinst_LTLIBRARIES = libgui.la
-libgui_la_SOURCES = gui-button.c gui-coord.c gui-joystick.c gui-keyboard.c gui-keypress.c gui-input.c gui-look.c gui-menu.c gui-menuitem.c gui-mouse.c gui-point.c gui-poweroftwo.c gui-quad.c gui-rect.c gui-rectarray.c gui-segment.c gui-smoother.c gui-test.c gui-triangle.c gui-videomode.c gui-viewport.c gui-zone.c
+if LW6_CUNIT
+TEST_SRC_FILE = gui-test.c
+else
+TEST_SRC_FILE =
+endif
+libgui_la_SOURCES = gui-button.c gui-coord.c gui-joystick.c gui-keyboard.c gui-keypress.c gui-input.c gui-look.c gui-menu.c gui-menuitem.c gui-mouse.c gui-point.c gui-poweroftwo.c gui-quad.c gui-rect.c gui-rectarray.c gui-segment.c gui-smoother.c $(TEST_SRC_FILE) gui-triangle.c gui-videomode.c gui-viewport.c gui-zone.c
 libguidir= $(includedir)/@PACKAGE_TARNAME@/gui
 libgui_HEADERS = gui.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6gui-test
 liquidwar6gui_test_SOURCES = gui-testmain.c
 liquidwar6gui_test_LDADD = libgui.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6gui-test
+endif
 endif

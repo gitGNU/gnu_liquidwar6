@@ -39,15 +39,22 @@ endif
 
 noinst_LTLIBRARIES = libcli.la
 libcli_la_LIBADD = $(LW6CLI_LIB_S)
-libcli_la_SOURCES = cli-api.c cli-oob.c cli-register.c cli-test.c
+if LW6_CUNIT
+TEST_SRC_FILE = cli-test.c
+else
+TEST_SRC_FILE =
+endif
+libcli_la_SOURCES = cli-api.c cli-oob.c cli-register.c $(TEST_SRC_FILE)
 libclidir= $(includedir)/@PACKAGE_TARNAME@/cli
 libcli_HEADERS = cli.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6cli-test
 liquidwar6cli_test_SOURCES = cli-testmain.c
 liquidwar6cli_test_LDADD = libcli.la $(LW6DYN_LIB) ../msg/libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../net/libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libgl1b.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6cli-test
+endif
 endif
 
 SUBDIRS = mod-tcp mod-udp $(MOD_HTTP_SUBDIR)

@@ -38,15 +38,22 @@ OBJC_EXTRA_FILES = sys-macosx.m
 endif
 
 noinst_LTLIBRARIES = libsys.la
-libsys_la_SOURCES = sys-arg.c sys-assoc.c sys-backtrace.c sys-bazooka.c sys-build.c sys-cache.c sys-checksum.c sys-color.c sys-convert.c sys-daemon.c sys-debug.c sys-dump.c sys-env.c sys-escape.c sys-exec.c sys-file.c sys-global.c sys-profiler.c sys-hash.c sys-hexa.c sys-history.c sys-i18n.c sys-id.c sys-keyword.c sys-list.c sys-log.c sys-math.c sys-mem.c sys-mutex.c sys-nop.c sys-openmp.c sys-options.c sys-path.c sys-print.c sys-process.c sys-progress.c sys-random.c sys-sdl.c sys-serial.c sys-shape.c sys-signal.c sys-sort.c sys-spinlock.c sys-str.c sys-stream.c sys-test.c sys-thread.c sys-time.c sys-url.c sys-version.c sys-vthread.c $(X86_SRC_FILES) $(OBJC_SRC_FILES)
+if LW6_CUNIT
+TEST_SRC_FILE = sys-test.c
+else
+TEST_SRC_FILE =
+endif
+libsys_la_SOURCES = sys-arg.c sys-assoc.c sys-backtrace.c sys-bazooka.c sys-build.c sys-cache.c sys-checksum.c sys-color.c sys-convert.c sys-daemon.c sys-debug.c sys-dump.c sys-env.c sys-escape.c sys-exec.c sys-file.c sys-global.c sys-profiler.c sys-hash.c sys-hexa.c sys-history.c sys-i18n.c sys-id.c sys-keyword.c sys-list.c sys-log.c sys-math.c sys-mem.c sys-mutex.c sys-nop.c sys-openmp.c sys-options.c sys-path.c sys-print.c sys-process.c sys-progress.c sys-random.c sys-sdl.c sys-serial.c sys-shape.c sys-signal.c sys-sort.c sys-spinlock.c sys-str.c sys-stream.c $(TEST_SRC_FILE) sys-thread.c sys-time.c sys-url.c sys-version.c sys-vthread.c $(X86_SRC_FILES) $(OBJC_SRC_FILES)
 libsysdir= $(includedir)/@PACKAGE_TARNAME@/sys
 libsys_HEADERS = sys.h sys-gettext.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6sys-test
 liquidwar6sys_test_SOURCES = sys-testmain.c
 liquidwar6sys_test_LDADD = libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6sys-test
+endif
 endif
 
 EXTRA_DIST = sys-internal.h sys-build-stamp.h sys-build-md5sum.h $(X86_EXTRA_FILES) $(OBJC_EXTRA_FILES)

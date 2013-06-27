@@ -27,13 +27,20 @@ AM_LDFLAGS = @LW6_LDFLAGS@ @GUILE_LDFLAGS@
 endif
 
 noinst_LTLIBRARIES = libscm.la
-libscm_la_SOURCES = scm-coverage.c scm-funcname.c scm-test.c scm-utils.c scm-wrapper.c
+if LW6_CUNIT
+TEST_SRC_FILE = scm-test.c
+else
+TEST_SRC_FILE =
+endif
+libscm_la_SOURCES = scm-coverage.c scm-funcname.c $(TEST_SRC_FILE) scm-utils.c scm-wrapper.c
 libscmdir= $(includedir)/@PACKAGE_TARNAME@/scm
 libscm_HEADERS = scm.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6scm-test
 liquidwar6scm_test_SOURCES = scm-testmain.c
 liquidwar6scm_test_LDADD = libscm.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6scm-test
+endif
 endif

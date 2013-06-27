@@ -22,13 +22,20 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ -lz
 
 noinst_LTLIBRARIES = libmsg.la
-libmsg_la_SOURCES = msg-cmd.c msg-envelope.c msg-meta.c msg-oob.c msg-sort.c msg-test.c msg-ticket.c msg-utils.c msg-word.c msg-z.c
+if LW6_CUNIT
+TEST_SRC_FILE = msg-test.c
+else
+TEST_SRC_FILE =
+endif
+libmsg_la_SOURCES = msg-cmd.c msg-envelope.c msg-meta.c msg-oob.c msg-sort.c $(TEST_SRC_FILE) msg-ticket.c msg-utils.c msg-word.c msg-z.c
 libmsgdir= $(includedir)/@PACKAGE_TARNAME@/msg
 libmsg_HEADERS = msg.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6msg-test
 liquidwar6msg_test_SOURCES = msg-testmain.c
 liquidwar6msg_test_LDADD = libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../glb/libgl1b.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6msg-test
+endif
 endif

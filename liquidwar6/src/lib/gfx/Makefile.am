@@ -96,15 +96,22 @@ endif
 
 noinst_LTLIBRARIES = libgfx.la
 libgfx_la_LIBADD = $(LW6GFX_LIB_S) 
-libgfx_la_SOURCES = gfx-api.c gfx-register.c gfx-sdl.c gfx-test.c
+if LW6_CUNIT
+TEST_SRC_FILE = gfx-test.c
+else
+TEST_SRC_FILE =
+endif
+libgfx_la_SOURCES = gfx-api.c gfx-register.c gfx-sdl.c $(TEST_SRC_FILE)
 libgfxdir= $(includedir)/@PACKAGE_TARNAME@/gfx
 libgfx_HEADERS = gfx.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6gfx-test
 liquidwar6gfx_test_SOURCES = gfx-testmain.c
 liquidwar6gfx_test_LDADD = libgfx.la $(LW6DYN_LIB) ../vox/libvox.la ../gui/libgui.la ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6gfx-test
+endif
 endif
 
 SUBDIRS = $(MOD_GL1_SUBDIR) $(MOD_GLES2_SUBDIR) $(MOD_SOFT_SUBDIR) $(SHARED_SDL_SUBDIR) $(MOD_CACA_SUBDIR)

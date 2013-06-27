@@ -31,15 +31,22 @@ endif
 
 noinst_LTLIBRARIES = libbot.la
 libbot_la_LIBADD = $(LW6BOT_LIB_S)
-libbot_la_SOURCES = bot-api.c bot-register.c bot-test.c 
+if LW6_CUNIT
+TEST_SRC_FILE = bot-test.c
+else
+TEST_SRC_FILE =
+endif
+libbot_la_SOURCES = bot-api.c bot-register.c $(TEST_SRC_FILE)
 libbotdir= $(includedir)/@PACKAGE_TARNAME@/bot
 libbot_HEADERS = bot.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6bot-test
 liquidwar6bot_test_SOURCES = bot-testmain.c
 liquidwar6bot_test_LDADD = libbot.la $(LW6DYN_LIB) ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6bot-test
+endif
 endif
 
 SUBDIRS = mod-brute mod-follow mod-idiot mod-random

@@ -22,15 +22,22 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ -lltdl
 
 noinst_LTLIBRARIES = libdyn.la
-libdyn_la_SOURCES = dyn-dl.c dyn-list.c dyn-path.c dyn-test.c
+if LW6_CUNIT
+TEST_SRC_FILE = dyn-test.c
+else
+TEST_SRC_FILE =
+endif
+libdyn_la_SOURCES = dyn-dl.c dyn-list.c dyn-path.c $(TEST_SRC_FILE)
 libdyndir= $(includedir)/@PACKAGE_TARNAME@/dyn
 libdyn_HEADERS = dyn.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6dyn-test
 liquidwar6dyn_test_SOURCES = dyn-testmain.c
 liquidwar6dyn_test_LDADD = libdyn.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6dyn-test
+endif
 endif
 
 EXTRA_DIST = dyn-internal.h

@@ -22,15 +22,22 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ -lexpat
 
 noinst_LTLIBRARIES = libhlp.la
-libhlp_la_SOURCES = hlp-about.c hlp-credits.c hlp-keyword.c hlp-list.c hlp-print.c hlp-reference.c hlp-test.c
+if LW6_CUNIT
+TEST_SRC_FILE = hlp-test.c
+else
+TEST_SRC_FILE =
+endif
+libhlp_la_SOURCES = hlp-about.c hlp-credits.c hlp-keyword.c hlp-list.c hlp-print.c hlp-reference.c $(TEST_SRC_FILE)
 libhlpdir= $(includedir)/@PACKAGE_TARNAME@/hlp
 libhlp_HEADERS = hlp.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6hlp-test
 liquidwar6hlp_test_SOURCES = hlp-testmain.c
 liquidwar6hlp_test_LDADD = libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6hlp-test
+endif
 endif
 
 EXTRA_DIST = hlp-internal.h

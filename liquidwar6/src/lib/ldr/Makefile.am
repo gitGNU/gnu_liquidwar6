@@ -22,15 +22,22 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ -lpng -ljpeg
 
 noinst_LTLIBRARIES = libldr.la
-libldr_la_SOURCES = ldr-body.c ldr-bw.c ldr-color.c ldr-cursortexture.c ldr-cursortexturelayer.c ldr-dir.c ldr-exp.c ldr-metalayer.c ldr-grease.c ldr-hints.c ldr-layer.c ldr-metadata.c ldr-param.c ldr-print.c ldr-read.c ldr-resampler.c ldr-rgba.c ldr-rules.c ldr-style.c ldr-teams.c ldr-test.c ldr-texture.c ldr-use.c
+if LW6_CUNIT
+TEST_SRC_FILE = ldr-test.c
+else
+TEST_SRC_FILE =
+endif
+libldr_la_SOURCES = ldr-body.c ldr-bw.c ldr-color.c ldr-cursortexture.c ldr-cursortexturelayer.c ldr-dir.c ldr-exp.c ldr-metalayer.c ldr-grease.c ldr-hints.c ldr-layer.c ldr-metadata.c ldr-param.c ldr-print.c ldr-read.c ldr-resampler.c ldr-rgba.c ldr-rules.c ldr-style.c ldr-teams.c $(TEST_SRC_FILE) ldr-texture.c ldr-use.c
 libldrdir= $(includedir)/@PACKAGE_TARNAME@/ldr
 libldr_HEADERS = ldr.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6ldr-test
 liquidwar6ldr_test_SOURCES = ldr-testmain.c
 liquidwar6ldr_test_LDADD = libldr.la ../cfg/libcfg.la ../hlp/libhlp.la ../map/libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6ldr-test
+endif
 endif
 
 EXTRA_DIST = ldr-internal.h

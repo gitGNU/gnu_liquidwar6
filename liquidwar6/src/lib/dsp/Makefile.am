@@ -55,15 +55,22 @@ OBJC_EXTRA_FILES = dsp-macosx.m
 endif
 
 noinst_LTLIBRARIES = libdsp.la
-libdsp_la_SOURCES = dsp-data.c dsp-display.c $(OBJC_SRC_FILES) dsp-param.c dsp-thread.c dsp-test.c
+if LW6_CUNIT
+TEST_SRC_FILE = dsp-test.c
+else
+TEST_SRC_FILE =
+endif
+libdsp_la_SOURCES = dsp-data.c dsp-display.c $(OBJC_SRC_FILES) dsp-param.c dsp-thread.c $(TEST_SRC_FILE)
 libdspdir= $(includedir)/@PACKAGE_TARNAME@/dsp
 libdsp_HEADERS = dsp.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6dsp-test
 liquidwar6dsp_test_SOURCES = dsp-testmain.c
 liquidwar6dsp_test_LDADD = libdsp.la ../gfx/libgfx.la $(LW6DYN_LIB) ../vox/libvox.la ../gui/libgui.la ../ldr/libldr.la ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6dsp-test
+endif
 endif
 
 EXTRA_DIST = dsp-internal.h $(OBJC_EXTRA_FILES)

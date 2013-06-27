@@ -52,15 +52,22 @@ endif
 
 noinst_LTLIBRARIES = libsnd.la
 libsnd_la_LIBADD = $(LW6SND_LIB_S) 
-libsnd_la_SOURCES = snd-api.c snd-register.c snd-test.c
+if LW6_CUNIT
+TEST_SRC_FILE = snd-test.c
+else
+TEST_SRC_FILE =
+endif
+libsnd_la_SOURCES = snd-api.c snd-register.c $(TEST_SRC_FILE)
 libsnddir= $(includedir)/@PACKAGE_TARNAME@/snd
 libsnd_HEADERS = snd.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6snd-test
 liquidwar6snd_test_SOURCES = snd-testmain.c
 liquidwar6snd_test_LDADD = libsnd.la $(LW6DYN_LIB) ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6snd-test
+endif
 endif
 
 SUBDIRS = $(MOD_CSOUND_SUBDIR) $(MOD_OGG_SUBDIR)

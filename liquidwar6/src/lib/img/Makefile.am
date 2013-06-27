@@ -22,14 +22,21 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ -ljpeg
 
 noinst_LTLIBRARIES = libimg.la
-libimg_la_SOURCES = img-repr.c img-screenshot.c img-test.c
+if LW6_CUNIT
+TEST_SRC_FILE = img-test.c
+else
+TEST_SRC_FILE =
+endif
+libimg_la_SOURCES = img-repr.c img-screenshot.c $(TEST_SRC_FILE)
 libimgdir= $(includedir)/@PACKAGE_TARNAME@/img
 libimg_HEADERS = img.h
 
+if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6img-test
 liquidwar6img_test_SOURCES = img-testmain.c
 liquidwar6img_test_LDADD = libimg.la ../cfg/libcfg.la ../hlp/libhlp.la ../ker/libker.la ../map/libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+endif
 endif
 
 TESTS = liquidwar6img-test
