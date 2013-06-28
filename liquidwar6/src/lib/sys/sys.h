@@ -142,6 +142,17 @@ typedef char *char_ptr_t;
 
 #define LW6SYS_TEST_OUTPUT { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("test suite OK!")); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("test suite FAILED...")); } }
 
+/*
+ * Bit masks used for testing, the mode is a combination
+ * of bits, typically passed as a command line argument.
+ * - 0 : batch mode, check only
+ * - 1 : batch mode, all tests
+ * - 2 : interactive mode, check only
+ * - 3 : interactive mode, all tests
+ */
+#define LW6SYS_TEST_MODE_FULL_TEST 0x1
+#define LW6SYS_TEST_MODE_INTERACTIVE 0x2
+
 #define LW6SYS_BUILD_ENABLE_YES "yes"
 #define LW6SYS_BUILD_ENABLE_NO "no"
 

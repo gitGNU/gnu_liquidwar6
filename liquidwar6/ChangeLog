@@ -1,3 +1,7 @@
+2013-06-28 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Introducing CUnit usage.
+
 2013-06-26 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Linking against CUnit.

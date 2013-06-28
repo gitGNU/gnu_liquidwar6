@@ -39,7 +39,7 @@ endif
 
 noinst_LTLIBRARIES = libsys.la
 if LW6_CUNIT
-TEST_SRC_FILE = sys-test.c
+TEST_SRC_FILE = sys-cunit.c sys-test.c
 else
 TEST_SRC_FILE =
 endif
