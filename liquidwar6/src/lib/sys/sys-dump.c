@@ -82,12 +82,15 @@ lw6sys_dump (char *user_dir, char *content)
   dump_file = get_dump_file (user_dir);
   if (dump_file)
     {
-      /*
-       * To log the actual content, we don't use log function, for
-       * they would pollute the CSV and they are not "\n" friendly.
-       */
-      fprintf (stderr, "%s", content);
-      fflush (stderr);
+      if (lw6sys_log_get_console_state ())
+	{
+	  /*
+	   * To log the actual content, we don't use log function, for
+	   * they would pollute the CSV and they are not "\n" friendly.
+	   */
+	  fprintf (stderr, "%s", content);
+	  fflush (stderr);
+	}
       /*
        * Send a message in log file to tell where the dump is,
        * very convenient to copy-paste then cat file.

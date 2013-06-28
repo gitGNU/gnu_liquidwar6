@@ -26,6 +26,8 @@
 
 #include "sys.h"
 
+#include <CUnit/CUnit.h>
+
 #define _TEST_KEYWORD_AS "--this-is_a_TEST-KeYWord"
 #define _TEST_ARG_KEYWORD "my-option"
 #define _TEST_ARG_ARGV_STRING "--my-option=my-value"
@@ -249,11 +251,18 @@
 #define _TEST_VERSION_COMPATIBLE_B4 "10.11"
 #define _TEST_VERSION_COMPATIBLE_RET4 1
 
+typedef struct _test_data_s
+{
+  int ret;
+} _test_data_t;
+
+static _test_data_t _test_data = { 0 };
+
 /*
  * Testing functions in arg.c
  */
-static int
-test_arg ()
+static void
+_test_arg ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -307,7 +316,6 @@ test_arg ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
@@ -326,8 +334,8 @@ assoc_map_func (void *func_data, const char *key, void *value)
 /*
  * Testing functions in assoc.c
  */
-static int
-test_assoc ()
+static void
+_test_assoc ()
 {
   int ret = 1;
   lw6sys_assoc_t *assoc;
@@ -407,14 +415,13 @@ test_assoc ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Test functions in backtrace.c
  */
-static int
-test_backtrace ()
+static void
+_test_backtrace ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -432,14 +439,13 @@ test_backtrace ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Test functions in build.c
  */
-static int
-test_build ()
+static void
+_test_build ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -452,14 +458,13 @@ test_build ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in cache.c
  */
-static int
-test_cache ()
+static void
+_test_cache ()
 {
   int ret = 1;
   lw6sys_cache_t *cache;
@@ -523,14 +528,13 @@ test_cache ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in checksum.c
  */
-static int
-test_checksum ()
+static void
+_test_checksum ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -569,7 +573,6 @@ test_checksum ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static void
@@ -610,8 +613,8 @@ hsv_invert (char *label, lw6sys_color_8_t color_8)
 /*
  * Testing functions in color.c
  */
-static int
-test_color ()
+static void
+_test_color ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -719,14 +722,13 @@ test_color ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in convert.c
  */
-static int
-test_convert ()
+static void
+_test_convert ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -814,14 +816,13 @@ test_convert ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Test functions in daemon.c
  */
-static int
-test_daemon ()
+static void
+_test_daemon ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -846,14 +847,13 @@ test_daemon ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in dump.c
  */
-static int
-test_dump ()
+static void
+_test_dump ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -882,14 +882,13 @@ test_dump ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in env.c
  */
-static int
-test_env ()
+static void
+_test_env ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -987,14 +986,13 @@ test_env ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in env.c
  */
-static int
-test_escape ()
+static void
+_test_escape ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1062,14 +1060,13 @@ test_escape ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in exec.c
  */
 static int
-test_exec (int argc, const char *argv[], int mode)
+_test_exec (int argc, const char *argv[], int mode)
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1125,15 +1122,15 @@ test_exec (int argc, const char *argv[], int mode)
       }
   }
 
-  LW6SYS_TEST_FUNCTION_END;
+  LW6SYS_TEST_FUNCTION_END_NO_CUNIT;
   return ret;
 }
 
 /*
  * Testing functions in file.c
  */
-static int
-test_file ()
+static void
+_test_file ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1198,14 +1195,13 @@ test_file ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in profiler.c
  */
-static int
-test_profiler ()
+static void
+_test_profiler ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1216,14 +1212,13 @@ test_profiler ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in hash.c
  */
-static int
-test_hash ()
+static void
+_test_hash ()
 {
   int ret = 1;
   lw6sys_hash_t *hash;
@@ -1302,11 +1297,10 @@ test_hash ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_hexa ()
+static void
+_test_hexa ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1314,15 +1308,15 @@ test_hexa ()
   {
     lw6sys_hexa_serializer_t *hexa_serializer;
     char *hexa_string = NULL;
-    int64_t test_64;
-    int32_t test_32;
-    int16_t test_16;
-    int8_t test_8;
-    float test_float;
-    char *test_str = NULL;
-    lw6sys_whd_t test_whd = _TEST_HEXA_WHD;
-    lw6sys_xyz_t test_xyz = _TEST_HEXA_XYZ;
-    lw6sys_color_8_t test_color = _TEST_HEXA_COLOR;
+    int64_t _test_64;
+    int32_t _test_32;
+    int16_t _test_16;
+    int8_t _test_8;
+    float _test_float;
+    char *_test_str = NULL;
+    lw6sys_whd_t _test_whd = _TEST_HEXA_WHD;
+    lw6sys_xyz_t _test_xyz = _TEST_HEXA_XYZ;
+    lw6sys_color_8_t _test_color = _TEST_HEXA_COLOR;
     void *ptr = NULL;
     char *ptr_str = NULL;
 
@@ -1352,11 +1346,11 @@ test_hexa ()
 	  && lw6sys_hexa_serializer_push_str (hexa_serializer,
 					      _TEST_HEXA_STR2);
 	ret = ret
-	  && lw6sys_hexa_serializer_push_whd (hexa_serializer, test_whd);
+	  && lw6sys_hexa_serializer_push_whd (hexa_serializer, _test_whd);
 	ret = ret
-	  && lw6sys_hexa_serializer_push_xyz (hexa_serializer, test_xyz);
+	  && lw6sys_hexa_serializer_push_xyz (hexa_serializer, _test_xyz);
 	ret = ret
-	  && lw6sys_hexa_serializer_push_color (hexa_serializer, test_color);
+	  && lw6sys_hexa_serializer_push_color (hexa_serializer, _test_color);
 	if (ret)
 	  {
 	    hexa_string = lw6sys_hexa_serializer_as_string (hexa_serializer);
@@ -1376,101 +1370,101 @@ test_hexa ()
 		ret = 0;
 	      }
 
-	    if (lw6sys_hexa_serializer_pop_int64 (hexa_serializer, &test_64))
+	    if (lw6sys_hexa_serializer_pop_int64 (hexa_serializer, &_test_64))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("int64 loaded, value=%d"),
-			    (int) test_64);
+			    (int) _test_64);
 	      }
 	    else
 	      {
 		ret = 0;
 	      }
-	    if (lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &test_32))
+	    if (lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &_test_32))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("int32 loaded, value=%d"),
-			    (int) test_32);
+			    (int) _test_32);
 	      }
 	    else
 	      {
 		ret = 0;
 	      }
-	    if (lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &test_16))
+	    if (lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &_test_16))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("int16 loaded, value=%d"),
-			    (int) test_16);
+			    (int) _test_16);
 	      }
 	    else
 	      {
 		ret = 0;
 	      }
-	    if (lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &test_8))
+	    if (lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &_test_8))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("int8 loaded, value=%d"),
-			    (int) test_8);
+			    (int) _test_8);
 	      }
 	    else
 	      {
 		ret = 0;
 	      }
 	    if (lw6sys_hexa_serializer_pop_float
-		(hexa_serializer, &test_float))
+		(hexa_serializer, &_test_float))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("float loaded, value=%f"),
-			    test_float);
+			    _test_float);
 	      }
 	    else
 	      {
 		ret = 0;
 	      }
-	    if (lw6sys_hexa_serializer_pop_str (hexa_serializer, &test_str))
+	    if (lw6sys_hexa_serializer_pop_str (hexa_serializer, &_test_str))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_ ("str loaded, value=\"%s\""), test_str);
-		LW6SYS_FREE (test_str);
+			    _x_ ("str loaded, value=\"%s\""), _test_str);
+		LW6SYS_FREE (_test_str);
 	      }
 	    else
 	      {
 		ret = 0;
 	      }
-	    if (lw6sys_hexa_serializer_pop_str (hexa_serializer, &test_str))
+	    if (lw6sys_hexa_serializer_pop_str (hexa_serializer, &_test_str))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_ ("str loaded, value=\"%s\""), test_str);
-		LW6SYS_FREE (test_str);
+			    _x_ ("str loaded, value=\"%s\""), _test_str);
+		LW6SYS_FREE (_test_str);
 	      }
 	    else
 	      {
 		ret = 0;
 	      }
-	    if (lw6sys_hexa_serializer_pop_whd (hexa_serializer, &test_whd))
+	    if (lw6sys_hexa_serializer_pop_whd (hexa_serializer, &_test_whd))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("whd loaded, value=%dx%dx%d"),
-			    (int) test_whd.w, (int) test_whd.h,
-			    (int) test_whd.d);
+			    (int) _test_whd.w, (int) _test_whd.h,
+			    (int) _test_whd.d);
 	      }
 	    else
 	      {
 		ret = 0;
 	      }
-	    if (lw6sys_hexa_serializer_pop_xyz (hexa_serializer, &test_xyz))
+	    if (lw6sys_hexa_serializer_pop_xyz (hexa_serializer, &_test_xyz))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("xyz loaded, value=%d,%d,%d"),
-			    (int) test_xyz.x, (int) test_xyz.y,
-			    (int) test_xyz.z);
+			    (int) _test_xyz.x, (int) _test_xyz.y,
+			    (int) _test_xyz.z);
 	      }
 	    else
 	      {
 		ret = 0;
 	      }
 	    if (lw6sys_hexa_serializer_pop_color
-		(hexa_serializer, &test_color))
+		(hexa_serializer, &_test_color))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("color loaded, value=#%02x%02x%02x%02x"),
-			    (int) test_color.r, (int) test_color.g,
-			    (int) test_color.b, (int) test_color.a);
+			    (int) _test_color.r, (int) _test_color.g,
+			    (int) _test_color.b, (int) _test_color.a);
 	      }
 	    else
 	      {
@@ -1521,14 +1515,13 @@ test_hexa ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in history.c
  */
-static int
-test_history ()
+static void
+_test_history ()
 {
   int ret = 0;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1557,14 +1550,13 @@ test_history ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in i18n.c
  */
-static int
-test_i18n ()
+static void
+_test_i18n ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1588,14 +1580,13 @@ test_i18n ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in id.c
  */
-static int
-test_id ()
+static void
+_test_id ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1673,14 +1664,13 @@ test_id ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in keyword.c
  */
-static int
-test_keyword ()
+static void
+_test_keyword ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1715,7 +1705,6 @@ test_keyword ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
@@ -1764,8 +1753,8 @@ list_filter_func (void *func_data, void *data)
 /*
  * Testing functions in list.c
  */
-static int
-test_list ()
+static void
+_test_list ()
 {
   int ret = 1;
   lw6sys_list_t *list;
@@ -2150,14 +2139,13 @@ test_list ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in log.c
  */
-static int
-test_log (int mode)
+static void
+_test_log ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -2167,17 +2155,6 @@ test_log (int mode)
 
     log_level = lw6sys_log_get_level ();
     lw6sys_log_set_level (log_level);
-    if (mode)
-      {
-	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("this is a /TEST/ warning"));
-	lw6sys_log (LW6SYS_LOG_ERROR, _x_ ("this is a /TEST/ error"));
-      }
-    else
-      {
-	/*
-	 * We do not test WARNING & ERROR to avoid confusion...
-	 */
-      }
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing log_notice %s=%d"),
 		"log_level=%d", log_level);
     lw6sys_log (LW6SYS_LOG_INFO, _x_ ("testing log_info %s=%d"),
@@ -2189,24 +2166,69 @@ test_log (int mode)
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
 		("now, testing console disabling, next displayed message should be about bar, not foo"));
-    lw6sys_log_console_enable (0);
-    lw6sys_log (LW6SYS_LOG_NOTICE,
-		_x_ ("message about foo, should appear in log only"));
-    lw6sys_log_console_enable (1);
-    lw6sys_log (LW6SYS_LOG_NOTICE,
-		_x_
-		("message about bar, should appear in both log file and console"));
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+/*
+ * Testing (more) functions in log.c
+ */
+static void
+_test_log_more ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    /*
+     * WARNING & ERROR tested only in full test mode
+     */
+    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("this is a /TEST/ warning"));
+    lw6sys_log (LW6SYS_LOG_ERROR, _x_ ("this is a /TEST/ error"));
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
+/*
+ * Testing (even more) functions in log.c
+ */
+static void
+_test_log_even_more ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int console_state = 0;
+
+    console_state = lw6sys_log_get_console_state ();
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("console state is %d"), console_state);
+
+    lw6sys_log_set_console_state (0);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("message about foo, should appear in log only"));
+    lw6sys_log_set_console_state (1);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_
+		("message about bar, should appear in both log file and console"));
+
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("setting console state back to %d"), console_state);
+    lw6sys_log_set_console_state (console_state);
+
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
 }
 
 /*
  * Testing functions in math.c
  */
-static int
-test_math ()
+static void
+_test_math ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -2271,14 +2293,13 @@ test_math ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in mem.c
  */
-static int
-test_mem ()
+static void
+_test_mem ()
 {
   int ret = 1;
   char *ptr = NULL;
@@ -2318,14 +2339,13 @@ test_mem ()
   ret = ret && lw6sys_check_types_size ();
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in mutex.c
  */
-static int
-test_mutex ()
+static void
+_test_mutex ()
 {
   int ret = 0;
   lw6sys_mutex_t *mutex = NULL;
@@ -2372,14 +2392,13 @@ test_mutex ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing options functions
  */
-static int
-test_options ()
+static void
+_test_options ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -2446,14 +2465,13 @@ test_options ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in nop.c
  */
-static int
-test_nop ()
+static void
+_test_nop ()
 {
   int ret = 0;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -2462,7 +2480,7 @@ test_nop ()
     ret = lw6sys_true () && !lw6sys_false ();
   }
 
-  LW6SYS_TEST_FUNCTION_END return ret;
+  LW6SYS_TEST_FUNCTION_END;
 }
 
 /*
@@ -2506,8 +2524,8 @@ _dir_list_print (void *func_data, void *data)
 /*
  * Testing functions in path.c
  */
-static int
-test_path ()
+static void
+_test_path ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -2703,7 +2721,6 @@ test_path ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static void
@@ -2731,8 +2748,8 @@ _process_callback2 (void *data)
 /*
  * Testing functions in process.c
  */
-static int
-test_process ()
+static void
+_test_process ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -2809,14 +2826,13 @@ test_process ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in progress.c
  */
-static int
-test_progress ()
+static void
+_test_progress ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -2874,14 +2890,13 @@ test_progress ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in random.c
  */
-static int
-test_random ()
+static void
+_test_random ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -2901,7 +2916,6 @@ test_random ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
@@ -2910,53 +2924,90 @@ test_random ()
  * Not declared static so that backtrace is more meaningfull.
  */
 int
-_lw6sys_test_signal (int mode)
+_lw6sys_test_signal ()
+{
+  int ret = 1;
+  int i;
+
+  if (lw6sys_signal_poll_quit ())
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("quit!=0, strange..."));
+    }
+  lw6sys_signal_custom (_TEST_SIGNAL_TRAP_ERRORS);
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _x_
+	      ("our own SIGTERM and SIGHUP signals are in place, try typing CTRL+C for instance"));
+  for (i = 0; i < _TEST_SIGNAL_LOOPS; ++i)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit=%d"),
+		  lw6sys_signal_poll_quit ());
+      lw6sys_snooze ();
+    }
+  lw6sys_signal_send_quit ();
+  if (!lw6sys_signal_poll_quit ())
+    {
+      ret = 0;
+    }
+  lw6sys_signal_term_handler (0);
+  lw6sys_signal_int_handler (0);
+  lw6sys_signal_hup_handler (0);
+  lw6sys_signal_default ();
+
+  return ret;
+}
+
+/*
+ * Testing functions in signal.c
+ */
+static void
+_test_signal ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    int i;
-
-    if (lw6sys_signal_poll_quit ())
-      {
-	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("quit!=0, strange..."));
-      }
-    lw6sys_signal_custom (_TEST_SIGNAL_TRAP_ERRORS);
-    lw6sys_log (LW6SYS_LOG_NOTICE,
-		_x_
-		("our own SIGTERM and SIGHUP signals are in place, try typing CTRL+C for instance"));
-    for (i = 0; i < _TEST_SIGNAL_LOOPS; ++i)
-      {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit=%d"),
-		    lw6sys_signal_poll_quit ());
-	lw6sys_snooze ();
-      }
-    lw6sys_signal_send_quit ();
-    if (!lw6sys_signal_poll_quit ())
-      {
-	ret = 0;
-      }
-    lw6sys_signal_term_handler (0);
-    lw6sys_signal_int_handler (0);
-    lw6sys_signal_hup_handler (0);
-    if (mode)
-      {
-	lw6sys_signal_segv_handler (0);
-	lw6sys_signal_fpe_handler (0);
-      }
-    lw6sys_signal_default ();
+    ret = _lw6sys_test_signal ();
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
+
+/*
+ * Not declared static so that backtrace is more meaningfull.
+ */
+int
+_lw6sys_test_signal_more ()
+{
+  int ret = 1;
+
+  lw6sys_signal_segv_handler (0);
+  lw6sys_signal_fpe_handler (0);
+  lw6sys_signal_default ();
+
   return ret;
+}
+
+/*
+ * Testing (more) functions in signal.c
+ */
+static void
+_test_signal_more ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    ret = _lw6sys_test_signal_more ();
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
 }
 
 /*
  * Testing functions in sort.c
  */
-static int
-test_sort ()
+static void
+_test_sort ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -3143,14 +3194,13 @@ test_sort ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in spinlock.c
  */
-static int
-test_spinlock ()
+static void
+_test_spinlock ()
 {
   int ret = 0;
   lw6sys_spinlock_t *spinlock = NULL;
@@ -3182,7 +3232,6 @@ test_spinlock ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
@@ -3199,8 +3248,8 @@ str_split_func (void *func_data, void *data)
 /*
  * Testing functions in str.c
  */
-static int
-test_str ()
+static void
+_test_str ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -3437,14 +3486,13 @@ test_str ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in sdl.c
  */
-static int
-test_sdl ()
+static void
+_test_sdl ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -3455,14 +3503,13 @@ test_sdl ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in serial.c
  */
-static int
-test_serial ()
+static void
+_test_serial ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -3505,14 +3552,13 @@ test_serial ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in shape.c
  */
-static int
-test_shape ()
+static void
+_test_shape ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -3609,7 +3655,6 @@ test_shape ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static void
@@ -3677,8 +3722,8 @@ thread_stress_func (void *callback_data)
 /*
  * Testing functions in stream.c
  */
-static int
-test_stream ()
+static void
+_test_stream ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -3758,14 +3803,13 @@ test_stream ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in thread.c
  */
-static int
-test_thread ()
+static void
+_test_thread ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -3833,14 +3877,13 @@ test_thread ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in time.c
  */
-static int
-test_time ()
+static void
+_test_time ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -3933,14 +3976,13 @@ test_time ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in url.c
  */
-static int
-test_url ()
+static void
+_test_url ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -4064,14 +4106,13 @@ test_url ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in version.c
  */
-static int
-test_version ()
+static void
+_test_version ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -4113,7 +4154,6 @@ test_version ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static void
@@ -4194,8 +4234,8 @@ vthread_func_no_spawn (void *callback_data)
 /*
  * Testing functions in vthread.c
  */
-static int
-test_vthread ()
+static void
+_test_vthread ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -4255,14 +4295,13 @@ test_vthread ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing inline utils functions in sys.h
  */
-static int
-test_utils ()
+static void
+_test_utils ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -4353,6 +4392,141 @@ test_utils ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libsys CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libsys CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+/**
+ * lw6sys_test_register
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Registers all tests for the libsys module.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6sys_test_register (int mode)
+{
+  int ret = 1;
+  CU_Suite *suite;
+
+  suite = CU_add_suite ("lw6sys", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_arg);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_assoc);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_backtrace);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_build);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_cache);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_checksum);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_color);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_convert);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_daemon);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_dump);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_env);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_escape);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_file);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_profiler);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_hash);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_hexa);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_history);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_i18n);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_id);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_keyword);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_list);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_log);
+      if (mode & LW6SYS_TEST_MODE_FULL_TEST)
+	{
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_log_more);
+	}
+      if (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
+	{
+	  /*
+	   * We don't want garbage output when going interactive
+	   */
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_log_even_more);
+	}
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_math);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_mem);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_mutex);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_options);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_nop);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_path);
+      if (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
+	{
+	  /*
+	   * For some reason, forking can wreck the output, 
+	   * and NCurses gets lost.
+	   */
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_process);
+	}
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_progress);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_random);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_sdl);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_serial);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_shape);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_signal);
+      if (mode & LW6SYS_TEST_MODE_FULL_TEST)
+	{
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_signal_more);
+	}
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_sort);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_spinlock);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_str);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_stream);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_thread);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_time);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_url);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_utils);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_version);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_vthread);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+  return ret;
+}
+
+/**
+ * lw6sys_test
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @sys module test suite, testing most (if not all...)
+ * functions. Note that some tests perform file system operations
+ * and might therefore fail on a read-only filesystem, or if
+ * user permissions are not sufficient.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6sys_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
+
   return ret;
 }
 
@@ -4363,10 +4537,13 @@ test_utils ()
  * @argv: array of args as passed to main
  * @mode: 0 for check only, 1 for full test
  *
- * Runs the @sys module test suite which is specific to exec functions,
+ * Runs the @sys module test which is specific to exec functions,
  * these ones require @argc and @argv to be correctly set so the
  * extra argument justifies putting it outside @lw6sys_test.
- * Additionnally, it's not fool proof...
+ * Additionnally, it's not fool proof... Moreover, it should be
+ * run at the beginning of the program, running it afterwards could
+ * give unpredictable results. So it's safer to use it outside the
+ * CUnit standard mechanisms.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
@@ -4375,40 +4552,7 @@ lw6sys_test_exec (int argc, const char *argv[], int mode)
 {
   int ret = 0;
 
-  ret = test_exec (argc, argv, mode);
-
-  return ret;
-}
-
-/**
- * lw6sys_test
- *
- * @mode: 0 for check only, 1 for full test
- *
- * Runs the @sys module test suite, testing most (if not all...)
- * functions. Note that some tests perform file system operations
- * and might therefore fail on a read-only filesystem, or if
- * user permissions are not sufficient.
- *
- * Return value: 1 if test is successfull, 0 on error.
- */
-int
-lw6sys_test (int mode)
-{
-  int ret = 0;
-
-  ret = test_arg () && test_assoc () && test_backtrace () && test_build ()
-    && test_cache () && test_checksum () && test_color () && test_convert ()
-    && test_daemon () && test_dump () && test_env () && test_escape ()
-    && test_file () && test_profiler () && test_hash () && test_hexa ()
-    && test_history () && test_i18n () && test_id () && test_keyword ()
-    && test_list () && test_log (mode) && test_math () && test_mem ()
-    && test_mutex () && test_options () && test_nop () && test_path ()
-    && test_process () && test_progress () && test_random () && test_sdl ()
-    && test_serial () && test_shape () && _lw6sys_test_signal (mode)
-    && test_sort () && test_spinlock () && test_str () && test_stream ()
-    && test_thread () && test_time () && test_url () && test_utils ()
-    && test_version () && test_vthread ();
+  ret = _test_exec (argc, argv, mode);
 
   return ret;
 }

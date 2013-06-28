@@ -133,7 +133,8 @@ typedef char *char_ptr_t;
 #define LW6SYS_MAIN_END { ret = lw6sys_check_thread_count () && ret; ret = lw6sys_memory_bazooka_report() && ret; lw6sys_clear_memory_bazooka(); }
 
 #define LW6SYS_TEST_FUNCTION_BEGIN { lw6sys_log(LW6SYS_LOG_NOTICE,_("running tests in function \"%s\""),__FUNCTION__); }
-#define LW6SYS_TEST_FUNCTION_END   if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("tests OK in function \"%s\""),__FUNCTION__); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("tests FAILED in function \"%s\""),__FUNCTION__); }
+#define LW6SYS_TEST_FUNCTION_END_NO_CUNIT { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("tests OK in function \"%s\""),__FUNCTION__); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("tests FAILED in function \"%s\""),__FUNCTION__); } }
+#define LW6SYS_TEST_FUNCTION_END { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("tests OK in function \"%s\""),__FUNCTION__); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("tests FAILED in function \"%s\""),__FUNCTION__); } _test_data.ret=_test_data.ret && ret; CU_ASSERT_EQUAL(ret, 1); }
 #define LW6SYS_BACKEND_FUNCTION_BEGIN { lw6sys_log(LW6SYS_LOG_DEBUG,_("begin backend function \"%s\""),__FUNCTION__); }
 #define LW6SYS_BACKEND_FUNCTION_END { lw6sys_log(LW6SYS_LOG_DEBUG,_("end backend function \"%s\""),__FUNCTION__); }
 
@@ -141,6 +142,8 @@ typedef char *char_ptr_t;
 #define LW6SYS_SCRIPT_FUNCTION_END { lw6sys_log(LW6SYS_LOG_DEBUG,_("end script function \"%s\""),__FUNCTION__); }
 
 #define LW6SYS_TEST_OUTPUT { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("test suite OK!")); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("test suite FAILED...")); } }
+
+#define LW6SYS_CUNIT_ADD_TEST(suite, test) { if (CU_add_test(suite, #test, test)) { lw6sys_log(LW6SYS_LOG_INFO,_x_("registered test \"%s\""), #test); } else { lw6sys_log(LW6SYS_LOG_WARNING,_x_("unable to register test \"%s\""), #test); ret=0; } }
 
 /*
  * Bit masks used for testing, the mode is a combination
@@ -860,6 +863,9 @@ extern char *lw6sys_lltoa (int64_t value);
 extern char *lw6sys_btoa (int value);
 extern char *lw6sys_ftoa (float value);
 
+/* sys-cunit.c */
+extern int lw6sys_cunit_run_tests (int mode);
+
 /* sys-daemon.c */
 extern char *lw6sys_daemon_pid_file (int argc, const char *argv[]);
 extern int lw6sys_daemon_start (char *pid_file);
@@ -1050,7 +1056,8 @@ extern void lw6sys_log_critical (const char *fmt, ...)
   __attribute__ ((format (printf, 1, 2)));
 extern int lw6sys_log_get_level ();
 extern void lw6sys_log_set_level (int level);
-extern void lw6sys_log_console_enable (int state);
+extern int lw6sys_log_get_console_state ();
+extern void lw6sys_log_set_console_state (int state);
 
 /* sys-math.c */
 extern void lw6sys_math_poly_wy1y2s1 (float *y, float *s, float x, float w,
@@ -1297,8 +1304,9 @@ extern char *lw6sys_stream_file_to_str (FILE * f);
 extern void lw6sys_stream_str_to_file (FILE * f, char *str);
 
 /* sys-test.c */
+extern int lw6sys_test_register (int mode);
+extern int lw6sys_test_run (int mode);
 extern int lw6sys_test_exec (int argc, const char *argv[], int mode);
-extern int lw6sys_test (int mode);
 
 /* sys-testandset.s */
 extern int lw6sys_test_and_set (int *spinlock);

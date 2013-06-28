@@ -69,13 +69,12 @@ parameter is present.
 
 @var{argv}:  argv as passed to main
 
-Chooses between the two test modes "check" or "test". Check (value 0)
-is a lighter test which should never fail even if some special
-hardware or environment is missing. Test (value 1) is a more complete
-test which does things which *can* require some special conditions.
-Function will log and be verbose is syntax is not correct.
+Chooses between the two test modes "check" or "test" and also
+reports wether one should run "batch" or "interactive" tests.
+This is done by using the bit mask defined in
+LW6SYS_TEST_MODE_FULL_TEST and LW6SYS_TEST_MODE_INTERACTIVE.
 
-@strong{Return value:}  1 if complete test must be run, 0 is only check
+@strong{Return value:}  a bit mask one can pass to test functions
 @end deftypefun
 
 @deftypefun {lw6sys_assoc_t *} {lw6sys_assoc_new} (lw6sys_free_func_t @var{free_func})

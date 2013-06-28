@@ -505,6 +505,7 @@ src/lib/sys/sys-cache.c
 src/lib/sys/sys-checksum.c
 src/lib/sys/sys-color.c
 src/lib/sys/sys-convert.c
+src/lib/sys/sys-cunit.c
 src/lib/sys/sys-daemon.c
 src/lib/sys/sys-debug.c
 src/lib/sys/sys-dump.c

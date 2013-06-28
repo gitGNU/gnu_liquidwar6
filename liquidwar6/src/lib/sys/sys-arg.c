@@ -39,9 +39,6 @@
 #define MATCH_LAZY_FORMAT_3 "--%s="
 #define MATCH_LAZY_FORMAT_4 "/%s="
 
-#define _ARG_CHECK "0"
-#define _ARG_TEST "1"
-
 /**
  * lw6sys_arg_match
  *
@@ -222,19 +219,19 @@ lw6sys_arg_get_value_with_env (int argc, const char *argv[],
  * @argc: argc as passed to main
  * @argv: argv as passed to main
  *
- * Chooses between the two test modes "check" or "test". Check (value 0)
- * is a lighter test which should never fail even if some special
- * hardware or environment is missing. Test (value 1) is a more complete
- * test which does things which *can* require some special conditions.
- * Function will log and be verbose is syntax is not correct.
+ * Chooses between the two test modes "check" or "test" and also
+ * reports wether one should run "batch" or "interactive" tests.
+ * This is done by using the bit mask defined in
+ * LW6SYS_TEST_MODE_FULL_TEST and LW6SYS_TEST_MODE_INTERACTIVE.
  *
- * Return value: 1 if complete test must be run, 0 is only check
+ * Return value: a bit mask one can pass to test functions
  */
 int
 lw6sys_arg_test_mode (int argc, const char *argv[])
 {
   int ret = 0;
   int syntax_ok = 0;
+  int mode = 0;
 
   if (argc == 1)
     {
@@ -242,13 +239,11 @@ lw6sys_arg_test_mode (int argc, const char *argv[])
     }
   if (argc >= 2)
     {
-      if (!strcmp (argv[1], _ARG_CHECK))
+      mode = lw6sys_atoi (argv[1]);
+      ret =
+	mode & (LW6SYS_TEST_MODE_FULL_TEST | LW6SYS_TEST_MODE_INTERACTIVE);
+      if (ret == mode)
 	{
-	  syntax_ok = 1;
-	}
-      else if (!strcmp (argv[1], _ARG_TEST))
-	{
-	  ret = 1;
 	  syntax_ok = 1;
 	}
     }
@@ -256,7 +251,8 @@ lw6sys_arg_test_mode (int argc, const char *argv[])
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_
-		  ("wrong syntax (should be \"<program> {0|1}\"), test suite will be run anyways"));
+		  ("wrong syntax (should be \"<program> {0|1|2|3}\"), test suite will be run anyways with mode=%d"),
+		  ret);
     }
 
   return ret;

@@ -984,7 +984,21 @@ lw6sys_log_set_level (int level)
 }
 
 /**
- * lw6sys_log_console_enable
+ * lw6sys_log_get_console_state
+ *
+ * Get the console output state. This is important, for instance to
+ * set the console "back in the state it was" after setting it on or off.
+ *
+ * Return value: 1 if enabled, 0 if not.
+ */
+int
+lw6sys_log_get_console_state ()
+{
+  return _console_enable_state ? 1 : 0;
+}
+
+/**
+ * lw6sys_log_set_console_state
  *
  * @state: 1 to activate console output, 0 to disable it.
  *
@@ -996,7 +1010,7 @@ lw6sys_log_set_level (int level)
  * Return value: none.
  */
 void
-lw6sys_log_console_enable (int state)
+lw6sys_log_set_console_state (int state)
 {
   _console_enable_state = state ? 1 : 0;
 }

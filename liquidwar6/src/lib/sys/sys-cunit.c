@@ -33,6 +33,11 @@
 #include <CUnit/CUCurses.h>
 #endif // LW6_CUNIT_CURSES
 
+/*
+ * Base filename, -Listing.xml or -Results.xml will be appended to it
+ */
+#define _CUNIT_BASENAME "CUnit"
+
 /**
  * lw6sys_cunit_run_tests
  *
@@ -47,30 +52,70 @@ int
 lw6sys_cunit_run_tests (int mode)
 {
   int ret = 0;
-  CU_pRunSummary run_summary=NULL;
+  CU_pRunSummary run_summary = NULL;
+  int console_state = 0;
+  char *user_dir = NULL;
+  char *cunit_basename = NULL;
 
-  if (mode & LW6SYS_TEST_MODE_INTERACTIVE) {
+  if (mode & LW6SYS_TEST_MODE_INTERACTIVE)
+    {
+      console_state = lw6sys_log_get_console_state ();
+      lw6sys_log_set_console_state (0);
 #ifdef LW6_CUNIT_CURSES
-    CU_curses_run_tests();
+      CU_curses_run_tests ();
 #else
-    CU_console_run_tests();
+      CU_console_run_tests ();
 #endif // LW6_CUNIT_CURSES
-  } else {
-    CU_automated_run_tests();
-  }
+      lw6sys_log_set_console_state (console_state);
+    }
+  else
+    {
+      user_dir = lw6sys_get_default_user_dir ();
+      if (user_dir)
+	{
+	  cunit_basename = lw6sys_path_concat (user_dir, _CUNIT_BASENAME);
+	  if (cunit_basename)
+	    {
+	      CU_set_output_filename (cunit_basename);
+	    }
+	}
+      CU_automated_run_tests ();
+      CU_list_tests_to_file ();
+    }
 
-  run_summary=CU_get_run_summary();
-  if (run_summary) {
-    lw6sys_log(LW6SYS_LOG_NOTICE,_x_("%d CUnit suites run"),run_summary->nSuitesRun);
-    lw6sys_log(LW6SYS_LOG_NOTICE,_x_("%d CUnit suites failed"),run_summary->nSuitesFailed);
-    lw6sys_log(LW6SYS_LOG_NOTICE,_x_("%d CUnit tests"),run_summary->nTestsRun);
-    lw6sys_log(LW6SYS_LOG_NOTICE,_x_("%d CUnit tests failed"),run_summary->nTestsFailed);
-    lw6sys_log(LW6SYS_LOG_NOTICE,_x_("%d CUnit asserts"),run_summary->nAsserts);
-    lw6sys_log(LW6SYS_LOG_NOTICE,_x_("%d CUnit successes"),run_summary->nAssertsFailed);
-    lw6sys_log(LW6SYS_LOG_NOTICE,_x_("%d CUnit failures"),run_summary->nFailureRecords);
-  } else {
-    lw6sys_log(LW6SYS_LOG_WARNING,_x_("CU_get_run_summary failed"));
-  }
+  run_summary = CU_get_run_summary ();
+  if (run_summary)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%d CUnit suites run"),
+		  run_summary->nSuitesRun);
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%d CUnit suites failed"),
+		  run_summary->nSuitesFailed);
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%d CUnit tests"),
+		  run_summary->nTestsRun);
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%d CUnit tests failed"),
+		  run_summary->nTestsFailed);
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%d CUnit asserts"),
+		  run_summary->nAsserts);
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%d CUnit successes"),
+		  run_summary->nAssertsFailed);
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%d CUnit failures"),
+		  run_summary->nFailureRecords);
+
+      ret = (run_summary->nTestsFailed == 0);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("CU_get_run_summary failed"));
+    }
+
+  if (user_dir)
+    {
+      LW6SYS_FREE (user_dir);
+    }
+  if (cunit_basename)
+    {
+      LW6SYS_FREE (cunit_basename);
+    }
 
   return ret;
 }
