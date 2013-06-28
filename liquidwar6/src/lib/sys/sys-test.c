@@ -4505,7 +4505,7 @@ lw6sys_test_register (int mode)
 }
 
 /**
- * lw6sys_test
+ * lw6sys_test_run
  *
  * @mode: test mode (bitmask)
  *

@@ -26,6 +26,8 @@
 
 #include "glb.h"
 
+#include <CUnit/CUnit.h>
+
 #define _TEST_BASE64_STR_1 "this is a string!"
 #define _TEST_BASE64_STR_2 ""
 #define _TEST_BASE64_STR_3 "this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string"
@@ -35,21 +37,28 @@
 #define _TEST_SHA1_KEY "toto"
 #define _TEST_SHA1_CHECK 0xd4a35ebb
 
+typedef struct _test_data_s
+{
+  int ret;
+} _test_data_t;
+
+static _test_data_t _test_data = { 0 };
+
 static int
-_test_base64_ok (char *test_str, int log_all)
+_test_base64_ok (char *_test_str, int log_all)
 {
   int ret = 1;
   char *base64_str = NULL;
   char *str = NULL;
 
-  base64_str = lw6glb_base64_encode_str (test_str);
+  base64_str = lw6glb_base64_encode_str (_test_str);
   if (base64_str)
     {
       if (log_all)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_ ("base64 encoded version of \"%s\" is \"%s\""),
-		      test_str, base64_str);
+		      _test_str, base64_str);
 	}
       else
 	{
@@ -59,7 +68,7 @@ _test_base64_ok (char *test_str, int log_all)
       str = lw6glb_base64_decode_str (base64_str);
       if (str)
 	{
-	  if (lw6sys_str_is_same (str, test_str))
+	  if (lw6sys_str_is_same (str, _test_str))
 	    {
 	      if (log_all)
 		{
@@ -83,7 +92,7 @@ _test_base64_ok (char *test_str, int log_all)
 		  lw6sys_log (LW6SYS_LOG_WARNING,
 			      _x_
 			      ("base64 string \"%s\" decoded to \"%s\" but should be \"%s\""),
-			      base64_str, str, test_str);
+			      base64_str, str, _test_str);
 		}
 	      else
 		{
@@ -109,7 +118,7 @@ _test_base64_ok (char *test_str, int log_all)
       if (log_all)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_ ("unable to encode \"%s\" in base64"), test_str);
+		      _x_ ("unable to encode \"%s\" in base64"), _test_str);
 	}
       else
 	{
@@ -119,7 +128,7 @@ _test_base64_ok (char *test_str, int log_all)
     }
 
   base64_str =
-    lw6glb_base64_encode_str_prefix (test_str, _TEST_BASE64_PREFIX);
+    lw6glb_base64_encode_str_prefix (_test_str, _TEST_BASE64_PREFIX);
   if (base64_str)
     {
       if (log_all)
@@ -127,7 +136,7 @@ _test_base64_ok (char *test_str, int log_all)
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_
 		      ("base64 encoded version of \"%s\" is \"%s\" (prefix=\"%s\")"),
-		      test_str, base64_str, _TEST_BASE64_PREFIX);
+		      _test_str, base64_str, _TEST_BASE64_PREFIX);
 	}
       else
 	{
@@ -139,7 +148,7 @@ _test_base64_ok (char *test_str, int log_all)
       str = lw6glb_base64_decode_str_prefix (base64_str, _TEST_BASE64_PREFIX);
       if (str)
 	{
-	  if (lw6sys_str_is_same (str, test_str))
+	  if (lw6sys_str_is_same (str, _test_str))
 	    {
 	      if (log_all)
 		{
@@ -163,7 +172,8 @@ _test_base64_ok (char *test_str, int log_all)
 		  lw6sys_log (LW6SYS_LOG_WARNING,
 			      _x_
 			      ("base64 string \"%s\" decoded to \"%s\" but should be \"%s\" (prefix=\"%s\")"),
-			      base64_str, str, test_str, _TEST_BASE64_PREFIX);
+			      base64_str, str, _test_str,
+			      _TEST_BASE64_PREFIX);
 		}
 	      else
 		{
@@ -193,7 +203,7 @@ _test_base64_ok (char *test_str, int log_all)
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_
 		      ("unable to encode \"%s\" in base64 (prefix=\"%s\")"),
-		      test_str, _TEST_BASE64_PREFIX);
+		      _test_str, _TEST_BASE64_PREFIX);
 	}
       else
 	{
@@ -208,12 +218,12 @@ _test_base64_ok (char *test_str, int log_all)
 }
 
 static int
-_test_base64_ko (char *test_str, int log_all)
+_test_base64_ko (char *_test_str, int log_all)
 {
   int ret = 1;
   char *str = NULL;
 
-  str = lw6glb_base64_decode_str (test_str);
+  str = lw6glb_base64_decode_str (_test_str);
   if (str)
     {
       if (strlen (str) > 0)
@@ -221,7 +231,7 @@ _test_base64_ko (char *test_str, int log_all)
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_
 		      ("base64 routine was able to decode \"%s\", this is in theory wrong, but we just keep going to check if nothing real bad happen (buffer overflow, core dump...)"),
-		      test_str);
+		      _test_str);
 	}
       else
 	{
@@ -236,7 +246,7 @@ _test_base64_ko (char *test_str, int log_all)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_ ("unable to decode \"%s\", this is normal"),
-		      test_str);
+		      _test_str);
 	}
       else
 	{
@@ -251,8 +261,8 @@ _test_base64_ko (char *test_str, int log_all)
 /*
  * Testing functions in base64.c
  */
-static int
-test_base64 ()
+static void
+_test_base64 ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -279,14 +289,13 @@ test_base64 ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in sha1.c
  */
-static int
-test_sha1 ()
+static void
+_test_sha1 ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -353,32 +362,83 @@ test_sha1 ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libglb CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libglb CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6glb_test
+ * lw6glb_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @glb module test suite.
+ * Registers all tests for the libglb module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6glb_test (int mode)
+lw6glb_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
+      lw6sys_test_register (mode);
     }
 
-  ret = test_base64 () && test_sha1 ();
+  suite = CU_add_suite ("lw6glb", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_base64);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_sha1);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+  return ret;
+}
+
+/**
+ * lw6sys_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @sys module test suite, testing most (if not all...)
+ * functions. Note that some tests perform file system operations
+ * and might therefore fail on a read-only filesystem, or if
+ * user permissions are not sufficient.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6glb_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }

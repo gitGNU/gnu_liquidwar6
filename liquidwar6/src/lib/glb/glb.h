@@ -52,6 +52,7 @@ u_int32_t lw6glb_sha1_hmac_32_bin (const char *key, int key_size,
 u_int32_t lw6glb_sha1_hmac_32_str (const char *key, const char *str);
 
 /* glb-test.c */
-extern int lw6glb_test (int mode);
+extern int lw6glb_test_register (int mode);
+extern int lw6glb_test_run (int mode);
 
 #endif

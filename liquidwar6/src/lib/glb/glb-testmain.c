@@ -26,15 +26,27 @@
 
 #include "glb.h"
 
+#include <CUnit/CUnit.h>
+
 int
 main (int argc, const char *argv[])
 {
-  int ret = 1;
+  int ret = 0;
+  int mode = 0;
 
   LW6SYS_MAIN_BEGIN;
 
   lw6sys_log_clear (NULL);
-  ret = lw6glb_test (lw6sys_arg_test_mode (argc, argv));
+  mode = lw6sys_arg_test_mode (argc, argv);
+
+  if (CU_initialize_registry () == CUE_SUCCESS)
+    {
+      if (lw6glb_test_register (mode))
+	{
+	  ret = lw6glb_test_run (mode);
+	}
+      CU_cleanup_registry ();
+    }
 
   LW6SYS_TEST_OUTPUT;
 
