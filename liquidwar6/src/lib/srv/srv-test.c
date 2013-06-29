@@ -28,11 +28,11 @@
 
 #include "srv.h"
 
-#define TEST_ARGC 1
-#define TEST_ARGV0 "prog"
+#define _TEST_ARGC 1
+#define _TEST_ARGV0 "prog"
 #define _TEST_NET_LOG 0
 
-#define TEST_NB_BACKENDS 3
+#define _TEST_NB_BACKENDS 3
 
 #define _NODE_INFO_ID 0x1234123412341234LL
 #define _NODE_INFO_URL "http://localhost/"
@@ -49,7 +49,16 @@
 #define _TEST_OOB_REMOTE_PORT 6789
 #define _TEST_OOB_INVALID_SOCK -1
 
-static int
+typedef struct _lw6srv_test_data_s
+{
+  int ret;
+  lw6srv_backend_t *backend[_TEST_NB_BACKENDS];
+  lw6srv_listener_t *listener;
+} _lw6srv_test_data_t;
+
+static _lw6srv_test_data_t _test_data = { 0, {NULL, NULL, NULL}, NULL };
+
+static void
 _test_oob ()
 {
   int ret = 1;
@@ -73,10 +82,9 @@ _test_oob ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
+static void
 _test_tcp_accepter ()
 {
   int ret = 1;
@@ -109,10 +117,9 @@ _test_tcp_accepter ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
+static void
 _test_udp_buffer ()
 {
   int ret = 1;
@@ -155,94 +162,164 @@ _test_udp_buffer ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-_test_init (lw6srv_backend_t ** backend, lw6srv_listener_t * listener)
+/*
+ * Dummy test
+ */
+static void
+_test_dummy ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    int i;
-
-    for (i = 0; i < TEST_NB_BACKENDS; ++i)
-      {
-	if (ret)
-	  {
-	    if (lw6srv_init (backend[i], listener))
-	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("successfull init for backend \"%s\", hint_timeout=%d seconds"),
-			    backend[i]->name,
-			    backend[i]->properties.hint_timeout);
-	      }
-	    else
-	      {
-		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _x_ ("unable to init backend \"%s\""),
-			    backend[i]->name);
-		ret = 0;
-	      }
-	  }
-      }
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dummy test"));
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libsrv CUnit test suite"));
+
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libsrv CUnit test suite"));
+
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_init_listener ()
+{
+  int ret = CUE_SINIT_FAILED;
+  int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
+  int i = 0;
+  int ok = 1;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _x_ ("init libsrv-listener CUnit test suite"));
+
+  if (lw6net_init (argc, argv, _TEST_NET_LOG))
+    {
+      _test_data.backend[0] = lw6srv_create_backend (argc, argv, "tcpd");
+      _test_data.backend[1] = lw6srv_create_backend (argc, argv, "udpd");
+      _test_data.backend[2] = lw6srv_create_backend (argc, argv, "httpd");
+
+      if (_test_data.backend[0] && _test_data.backend[1]
+	  && _test_data.backend[2])
+	{
+	  _test_data.listener =
+	    lw6srv_start (LW6NET_ADDRESS_ANY, LW6NET_DEFAULT_PORT);
+	  if (_test_data.listener)
+	    {
+	      for (i = 0; i < _TEST_NB_BACKENDS; ++i)
+		{
+		  if (ok)
+		    {
+		      if (lw6srv_init
+			  (_test_data.backend[i], _test_data.listener))
+			{
+			  lw6sys_log (LW6SYS_LOG_NOTICE,
+				      _x_
+				      ("successfull init for backend \"%s\", hint_timeout=%d seconds"),
+				      _test_data.backend[i]->name,
+				      _test_data.backend[i]->
+				      properties.hint_timeout);
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_ ("unable to init backend \"%s\""),
+				      _test_data.backend[i]->name);
+			  ok = 0;
+			}
+		      if (ok)
+			{
+			  ret = CUE_SUCCESS;
+			}
+		    }
+		}
+	    }
+	}
+    }
+
   return ret;
 }
 
 static int
-_test_quit (lw6srv_backend_t ** backend)
+_setup_quit_listener ()
 {
-  int ret = 1;
-  LW6SYS_TEST_FUNCTION_BEGIN;
+  int ret = CUE_SCLEAN_FAILED;
+  int i = 0;
 
-  {
-    int i;
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libsrv-listener CUnit test suite"));
 
-    for (i = 0; i < TEST_NB_BACKENDS; ++i)
-      {
-	lw6srv_quit (backend[i]);
-      }
-  }
+  if (_test_data.listener)
+    {
+      if (_test_data.backend[0] && _test_data.backend[1]
+	  && _test_data.backend[2])
+	{
+	  for (i = 0; i < _TEST_NB_BACKENDS; ++i)
+	    {
+	      lw6srv_quit (_test_data.backend[i]);
+	    }
+	  ret = CUE_SUCCESS;
+	}
+      lw6srv_stop (_test_data.listener);
+      _test_data.listener = NULL;
+      if (_test_data.backend[0] && _test_data.backend[1]
+	  && _test_data.backend[2])
+	{
+	  for (i = 0; i < _TEST_NB_BACKENDS; ++i)
+	    {
+	      lw6srv_destroy_backend (_test_data.backend[i]);
+	      _test_data.backend[i] = NULL;
+	    }
+	}
+    }
+  lw6net_quit ();
 
-  LW6SYS_TEST_FUNCTION_END;
   return ret;
 }
 
 /**
- * lw6srv_test
+ * lw6srv_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @srv module test suite.
+ * Registers all tests for the libsrv module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6srv_test (int mode)
+lw6srv_test_register (int mode)
 {
-  int ret = 0;
-  lw6srv_backend_t *backend[TEST_NB_BACKENDS];
-  lw6srv_listener_t *listener = NULL;
-  const int argc = TEST_ARGC;
-  const char *argv[TEST_ARGC] = { TEST_ARGV0 };
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6glb_test (mode);
-      lw6cfg_test (mode);
-      lw6net_test (mode);
-      lw6nod_test (mode);
-      lw6cnx_test (mode);
-      lw6msg_test (mode);
+      lw6sys_test_register (mode);
+      lw6glb_test_register (mode);
+      lw6cfg_test_register (mode);
+      lw6net_test_register (mode);
+      lw6nod_test_register (mode);
+      lw6cnx_test_register (mode);
+      lw6msg_test_register (mode);
+
       /*
        * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
        * this function is available only in non-allinone mode.
@@ -250,32 +327,58 @@ lw6srv_test (int mode)
       // lw6dyn_test (mode);
     }
 
-  ret = _test_oob () && _test_tcp_accepter () && _test_udp_buffer ();
-
-  if (ret)
+  suite = CU_add_suite ("lw6srv", _setup_init, _setup_quit);
+  if (suite)
     {
-      if (lw6net_init (argc, argv, _TEST_NET_LOG))
-	{
-	  backend[0] = lw6srv_create_backend (argc, argv, "tcpd");
-	  backend[1] = lw6srv_create_backend (argc, argv, "udpd");
-	  backend[2] = lw6srv_create_backend (argc, argv, "httpd");
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_oob);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_tcp_accepter);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_udp_buffer);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
 
-	  if (backend[0] && backend[1] && backend[2])
-	    {
-	      listener =
-		lw6srv_start (LW6NET_ADDRESS_ANY, LW6NET_DEFAULT_PORT);
-	      if (listener)
-		{
-		  ret = _test_init (backend, listener) && _test_quit (backend)
-		    && ret;
-		  lw6srv_stop (listener);
-		}
-	      lw6srv_destroy_backend (backend[0]);
-	      lw6srv_destroy_backend (backend[1]);
-	      lw6srv_destroy_backend (backend[2]);
-	    }
-	  lw6net_quit ();
-	}
+  suite =
+    CU_add_suite ("lw6srv-listener", _setup_init_listener,
+		  _setup_quit_listener);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_dummy);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6srv_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @srv module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6srv_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
     }
 
   return ret;

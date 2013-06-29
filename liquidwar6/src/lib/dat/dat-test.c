@@ -179,6 +179,13 @@
 #define _TEST_MORE_WAREHOUSE_REFERENCE_LEN_1 14
 #define _TEST_MORE_WAREHOUSE_REFERENCE_LEN_2 4
 
+typedef struct _lw6dat_test_data_s
+{
+  int ret;
+} _lw6dat_test_data_t;
+
+static _lw6dat_test_data_t _test_data = { 0 };
+
 typedef struct _test_stack_msg_data_s
 {
   char *msg4;
@@ -190,8 +197,8 @@ typedef struct _test_stack_msg_data_s
 /*
  * Testing functions in atom.c
  */
-static int
-test_atom ()
+static void
+_test_atom ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -252,14 +259,13 @@ test_atom ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in block.c
  */
-static int
-test_block ()
+static void
+_test_block ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -366,14 +372,13 @@ test_block ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in miss.c
  */
-static int
-test_miss ()
+static void
+_test_miss ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -400,7 +405,6 @@ test_miss ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static void
@@ -432,8 +436,8 @@ _test_stack_msg_callback (void *func_data, void *data)
 /*
  * Testing functions in stack.c
  */
-static int
-test_stack ()
+static void
+_test_stack ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -785,7 +789,6 @@ test_stack ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static void
@@ -809,8 +812,8 @@ _test_warehouse_copy_atoms_callback (void *func_data, void *data)
 /*
  * Testing functions in warehouse.c
  */
-static int
-test_warehouse ()
+static void
+_test_warehouse ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1257,7 +1260,6 @@ test_warehouse ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static void
@@ -1350,8 +1352,8 @@ _fake_send (void *func_data, void *data)
 /*
  * Even more tests (paranoid mode)
  */
-static int
-test_more ()
+static void
+_test_more ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1909,37 +1911,90 @@ test_more ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libdat CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libdat CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6dat_test
+ * lw6dat_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @dat module test suite.
+ * Registers all tests for the libdat module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6dat_test (int mode)
+lw6dat_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6glb_test (mode);
-      lw6nod_test (mode);
-      lw6cnx_test (mode);
-      lw6msg_test (mode);
+      lw6sys_test_register (mode);
+      lw6glb_test_register (mode);
+      lw6nod_test_register (mode);
+      lw6cnx_test_register (mode);
+      lw6msg_test_register (mode);
     }
 
-  ret = test_atom () && test_block () && test_miss () && test_stack ()
-    && test_warehouse () && test_more ();
+  suite = CU_add_suite ("lw6dat", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_atom);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_block);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_miss);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_stack);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_warehouse);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_more);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6dat_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @dat module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6dat_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }

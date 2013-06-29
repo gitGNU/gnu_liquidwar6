@@ -198,10 +198,17 @@
 #define _TEST_NODE_MSG_NB_PER_SEQ 7
 #define _TEST_NODE_MSG_RANDOM_STR_SIZE 10000
 
+typedef struct _lw6p2p_test_data_s
+{
+  int ret;
+} _lw6p2p_test_data_t;
+
+static _lw6p2p_test_data_t _test_data = { 0 };
+
 /* 
  * Testing db
  */
-static int
+static void
 _test_db ()
 {
   int ret = 1;
@@ -247,13 +254,12 @@ _test_db ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /* 
  * Testing entry
  */
-static int
+static void
 _test_entry ()
 {
   int ret = 1;
@@ -309,13 +315,12 @@ _test_entry ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /* 
  * Testing node initialisation
  */
-static int
+static void
 _test_node_init ()
 {
   int ret = 1;
@@ -410,7 +415,6 @@ _test_node_init ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /* 
@@ -908,7 +912,7 @@ _cmd_with_backends (char *cli_backends, char *srv_backends)
 /* 
  * Testing node connection
  */
-static int
+static void
 _test_node_cmd ()
 {
   int ret = 1;
@@ -926,7 +930,6 @@ _test_node_cmd ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static int
@@ -971,7 +974,7 @@ _oob_with_backends (char *cli_backends, char *srv_backends)
 /* 
  * Testing node connection
  */
-static int
+static void
 _test_node_oob ()
 {
   int ret = 1;
@@ -988,13 +991,12 @@ _test_node_oob ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /* 
  * Testing node msg
  */
-static int
+static void
 _test_node_msg ()
 {
   int ret = 1;
@@ -1147,7 +1149,6 @@ _test_node_msg ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 typedef struct _test_node_api_data_s
@@ -1566,7 +1567,7 @@ _test_node_api_node6_callback (void *api_data)
 /* 
  * Testing node api
  */
-static int
+static void
 _test_node_api ()
 {
   int ret = 1;
@@ -1727,64 +1728,111 @@ _test_node_api ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
+
+static int
+_setup_init ()
+{
+  int ret = CUE_SINIT_FAILED;
+  const int argc = _TEST_ARGC;
+  const char *argv[] = { _TEST_ARGV0 };
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libp2p CUnit test suite"));
+
+  if (lw6net_init (argc, argv, _TEST_NET_LOG))
+    {
+      ret = CUE_SUCCESS;
+    }
+
+  return ret;
+}
+
+static int
+_setup_quit ()
+{
+  int ret = CUE_SCLEAN_FAILED;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libp2p CUnit test suite"));
+
+  lw6net_quit ();
+  ret = CUE_SUCCESS;
+
   return ret;
 }
 
 /**
- * lw6p2p_test
+ * lw6p2p_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @p2p module test suite. This test can fail if one
- * cannot bind on some network port, in a general manner it is
- * dependent on the network environment, so it's better if there's
- * some sort of human control on it.
+ * Registers all tests for the libp2p module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6p2p_test (int mode)
+lw6p2p_test_register (int mode)
 {
-  int ret = 0;
-  const int argc = _TEST_ARGC;
-  const char *argv[] = { _TEST_ARGV0 };
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6glb_test (mode);
-      lw6cfg_test (mode);
-      lw6net_test (mode);
-      lw6nod_test (mode);
-      lw6cnx_test (mode);
-      lw6msg_test (mode);
-      lw6cli_test (mode);
-      lw6srv_test (mode);
-      lw6dat_test (mode);
+      lw6sys_test_register (mode);
+      lw6glb_test_register (mode);
+      lw6cfg_test_register (mode);
+      lw6net_test_register (mode);
+      lw6nod_test_register (mode);
+      lw6cnx_test_register (mode);
+      lw6msg_test_register (mode);
+      lw6cli_test_register (mode);
+      lw6srv_test_register (mode);
+      lw6dat_test_register (mode);
     }
 
-  if (lw6net_init (argc, argv, _TEST_NET_LOG))
+  suite = CU_add_suite ("lw6p2p", _setup_init, _setup_quit);
+  if (suite)
     {
-      /*
-       * Replace the following to switch between two modes:
-       * - lw6sys_true() -> release mode, all tests enabled
-       * - lw6sys_false() -> dev mode, api is the most error-prone suite
-       */
-      if (lw6sys_true ())
-	{
-	  ret = _test_db () && _test_entry () && _test_node_init ()
-	    && _test_node_oob () && _test_node_cmd () && _test_node_msg ()
-	    && _test_node_api ();
-	}
-      else
-	{
-	  ret = _test_node_api ();
-	}
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_db);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_entry);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_node_init);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_node_oob);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_node_cmd);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_node_msg);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_node_api);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
 
-      lw6net_quit (argc, argv);
+  return ret;
+}
+
+/**
+ * lw6p2p_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @p2p module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6p2p_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
     }
 
   return ret;
