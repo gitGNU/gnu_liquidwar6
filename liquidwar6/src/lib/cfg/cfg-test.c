@@ -28,27 +28,34 @@
 
 #include "cfg.h"
 
-#define TEST_CFG "test.xml"
-#define TEST_ARGC 3
-#define TEST_ARGV0 "abc"
-#define TEST_ARGV1 "--fullscreen"
-#define TEST_ARGV2 "--width=800"
-#define TEST_UNIFIED_KEY_YES LW6DEF_WIDTH
-#define TEST_UNIFIED_KEY_NO "unknown"
-#define TEST_EXP_DIR "/tmp"
+#define _TEST_CFG "test.xml"
+#define _TEST_ARGC 3
+#define _TEST_ARGV0 "abc"
+#define _TEST_ARGV1 "--fullscreen"
+#define _TEST_ARGV2 "--width=800"
+#define _TEST_UNIFIED_KEY_YES LW6DEF_WIDTH
+#define _TEST_UNIFIED_KEY_NO "unknown"
+#define _TEST_EXP_DIR "/tmp"
+
+typedef struct _lw6cfg_test_data_s
+{
+  int ret;
+} _lw6cfg_test_data_t;
+
+static _lw6cfg_test_data_t _test_data = { 0 };
 
 /*
  * Testing loading/saving
  */
-static int
-test_load_save ()
+static void
+_test_load_save ()
 {
   int ret = 1;
   void *context;
-  const int argc = TEST_ARGC;
-  const char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2 };
+  const int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0, _TEST_ARGV1, _TEST_ARGV2 };
   char *user_dir = NULL;
-  char *test_cfg = NULL;
+  char *_test_cfg = NULL;
 
   LW6SYS_TEST_FUNCTION_BEGIN;
 
@@ -62,18 +69,18 @@ test_load_save ()
 	    {
 	      lw6sys_create_dir (user_dir);
 	    }
-	  test_cfg = lw6sys_path_concat (user_dir, TEST_CFG);
-	  if (test_cfg)
+	  _test_cfg = lw6sys_path_concat (user_dir, _TEST_CFG);
+	  if (_test_cfg)
 	    {
 	      /*
 	       * Note: we don't consider the test as invalid if the
 	       * file does not exist, after all, it's a normal behavior
 	       * of the game to be launched without any config file.
 	       */
-	      lw6cfg_load (context, test_cfg);
-	      lw6cfg_save (context, test_cfg);
+	      lw6cfg_load (context, _test_cfg);
+	      lw6cfg_save (context, _test_cfg);
 
-	      LW6SYS_FREE (test_cfg);
+	      LW6SYS_FREE (_test_cfg);
 	    }
 	  LW6SYS_FREE (user_dir);
 	}
@@ -85,28 +92,27 @@ test_load_save ()
     }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Test unified options
  */
-static int
-test_unified ()
+static void
+_test_unified ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
-  const int argc = TEST_ARGC;
-  const char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2 };
+  const int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0, _TEST_ARGV1, _TEST_ARGV2 };
 
   {
     char *value;
 
-    value = lw6cfg_unified_get_value (argc, argv, TEST_UNIFIED_KEY_YES);
+    value = lw6cfg_unified_get_value (argc, argv, _TEST_UNIFIED_KEY_YES);
     if (value)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("value for \"%s\" is \"%s\""),
-		    TEST_UNIFIED_KEY_YES, value);
+		    _TEST_UNIFIED_KEY_YES, value);
 	LW6SYS_FREE (value);
       }
     else
@@ -114,12 +120,12 @@ test_unified ()
 	ret = 0;
       }
 
-    value = lw6cfg_unified_get_value (argc, argv, TEST_UNIFIED_KEY_NO);
+    value = lw6cfg_unified_get_value (argc, argv, _TEST_UNIFIED_KEY_NO);
     if (value)
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("key \"%s\" has value \"%s\", should be NULL"),
-		    TEST_UNIFIED_KEY_NO, value);
+		    _TEST_UNIFIED_KEY_NO, value);
 	LW6SYS_FREE (value);
 	ret = 0;
       }
@@ -130,14 +136,13 @@ test_unified ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Test exp functions
  */
-static int
-test_exp ()
+static void
+_test_exp ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -146,12 +151,12 @@ test_exp ()
     int exp = 0;
     int new_exp = 0;
 
-    lw6cfg_load_exp (TEST_EXP_DIR, &exp);
+    lw6cfg_load_exp (_TEST_EXP_DIR, &exp);
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("first exp read exp=%d"), exp);
-    if (lw6cfg_save_exp (TEST_EXP_DIR, exp))
+    if (lw6cfg_save_exp (_TEST_EXP_DIR, exp))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("exp saved"));
-	if (lw6cfg_load_exp (TEST_EXP_DIR, &new_exp))
+	if (lw6cfg_load_exp (_TEST_EXP_DIR, &new_exp))
 	  {
 	    if (new_exp == exp)
 	      {
@@ -175,36 +180,85 @@ test_exp ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libcfg CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libcfg CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6cfg_test
+ * lw6cfg_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @cfg module test suite.
+ * Registers all tests for the libcfg module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6cfg_test (int mode)
+lw6cfg_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
+      lw6sys_test_register (mode);
     }
 
-  ret = test_load_save () && test_unified ();
-
-  if (mode)
+  suite = CU_add_suite ("lw6cfg", _setup_init, _setup_quit);
+  if (suite)
     {
-      ret = ret && test_exp ();
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_load_save);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_unified);
+      if (mode & LW6SYS_TEST_MODE_FULL_TEST)
+	{
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_exp);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6cfg_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @cfg module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6cfg_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
     }
 
   return ret;

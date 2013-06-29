@@ -28,14 +28,21 @@
 
 #include "hlp.h"
 
-#define TEST_KEYWORD LW6DEF_PREFIX
+#define _TEST_KEYWORD LW6DEF_PREFIX
 #define _TEST_MAX_CREDITS 50
+
+typedef struct _lw6hlp_test_data_s
+{
+  int ret;
+} _lw6hlp_test_data_t;
+
+static _lw6hlp_test_data_t _test_data = { 0 };
 
 /*
  * Testing about
  */
-static int
-test_about ()
+static void
+_test_about ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -47,41 +54,40 @@ test_about ()
     int min_value;
     int max_value;
 
-    if (!lw6hlp_is_documented (TEST_KEYWORD))
+    if (!lw6hlp_is_documented (_TEST_KEYWORD))
       {
 	ret = 0;
       }
 
-    help_string = lw6hlp_about (NULL, NULL, NULL, NULL, TEST_KEYWORD);
+    help_string = lw6hlp_about (NULL, NULL, NULL, NULL, _TEST_KEYWORD);
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("help for \"%s\" is \"%s\""),
-		TEST_KEYWORD, help_string);
-    type = lw6hlp_get_type (TEST_KEYWORD);
+		_TEST_KEYWORD, help_string);
+    type = lw6hlp_get_type (_TEST_KEYWORD);
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("type for \"%s\" is \"%d\""),
-		TEST_KEYWORD, (int) type);
-    default_value = lw6hlp_get_default_value (TEST_KEYWORD);
+		_TEST_KEYWORD, (int) type);
+    default_value = lw6hlp_get_default_value (_TEST_KEYWORD);
     if (default_value)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _x_ ("default value for \"%s\" is \"%s\""), TEST_KEYWORD,
+		    _x_ ("default value for \"%s\" is \"%s\""), _TEST_KEYWORD,
 		    default_value);
       }
-    min_value = lw6hlp_get_min_value (TEST_KEYWORD);
+    min_value = lw6hlp_get_min_value (_TEST_KEYWORD);
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("min value for \"%s\" is \"%d\""),
-		TEST_KEYWORD, min_value);
-    max_value = lw6hlp_get_max_value (TEST_KEYWORD);
+		_TEST_KEYWORD, min_value);
+    max_value = lw6hlp_get_max_value (_TEST_KEYWORD);
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("max value for \"%s\" is \"%d\""),
-		TEST_KEYWORD, max_value);
+		_TEST_KEYWORD, max_value);
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing credits
  */
-static int
-test_credits ()
+static void
+_test_credits ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -107,14 +113,13 @@ test_credits ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing print
  */
-static int
-test_print ()
+static void
+_test_print ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -130,37 +135,91 @@ test_print ()
       }
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_ ("now showing what \"--about=%s\" would look like"),
-		TEST_KEYWORD);
-    lw6hlp_print_about (TEST_KEYWORD, stdout);
+		_TEST_KEYWORD);
+    lw6hlp_print_about (_TEST_KEYWORD, stdout);
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libhlp CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libhlp CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6hlp_test
+ * lw6hlp_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @hlp module test suite.
+ * Registers all tests for the libhlp module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6hlp_test (int mode)
+lw6hlp_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
+      lw6sys_test_register (mode);
     }
 
-  ret = test_about () && test_credits () && test_print ();
+  suite = CU_add_suite ("lw6hlp", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_about);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_credits);
+      if (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
+	{
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_print);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6hlp_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @hlp module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6hlp_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }
