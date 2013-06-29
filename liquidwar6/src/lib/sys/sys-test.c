@@ -251,12 +251,12 @@
 #define _TEST_VERSION_COMPATIBLE_B4 "10.11"
 #define _TEST_VERSION_COMPATIBLE_RET4 1
 
-typedef struct _sys_test_data_s
+typedef struct _lw6sys_test_data_s
 {
   int ret;
-} _sys_test_data_t;
+} _lw6sys_test_data_t;
 
-static _sys_test_data_t _test_data = { 0 };
+static _lw6sys_test_data_t _test_data = { 0 };
 
 /*
  * Testing functions in arg.c

@@ -501,7 +501,8 @@ extern int lw6ker_team_mask_is_concerned (int team_color,
 extern int lw6ker_team_mask_color2mask (int team_color);
 
 /* ker-test.c */
-extern int lw6ker_test (int mode);
+extern int lw6ker_test_register (int mode);
+extern int lw6ker_test_run (int mode);
 
 /* ker-trigo.c */
 static inline int32_t

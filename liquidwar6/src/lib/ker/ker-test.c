@@ -1,4 +1,3 @@
-
 /*
   Liquid War 6 is a unique multiplayer wargame.
   Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013  Christian Mauduit <ufoot@ufoot.org>
@@ -56,8 +55,15 @@
 #define _TEST_HISTORY_TEAM 0
 #define _TEST_CHECKSUM_LOG_INTERVAL 2
 
+typedef struct _lw6ker_test_data_s
+{
+  int ret;
+} _lw6ker_test_data_t;
+
+static _lw6ker_test_data_t _test_data = { 0 };
+
 static void
-print_game_struct_repr (lw6ker_game_struct_t * game_struct)
+_print_game_struct_repr (lw6ker_game_struct_t * game_struct)
 {
   char *repr = NULL;
   lw6sys_whd_t shape;
@@ -103,7 +109,7 @@ print_game_struct_repr (lw6ker_game_struct_t * game_struct)
 }
 
 static void
-print_game_state_repr (lw6ker_game_state_t * game_state)
+_print_game_state_repr (lw6ker_game_state_t * game_state)
 {
   char *repr = NULL;
   char *capture = NULL;
@@ -210,8 +216,11 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
   capture = lw6ker_capture_str (game_state);
   if (capture)
     {
-      printf ("%s", capture);
-      fflush (stdout);
+      if (lw6sys_log_get_console_state ())
+	{
+	  printf ("%s", capture);
+	  fflush (stdout);
+	}
       LW6SYS_FREE (capture);
     }
   lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -224,8 +233,8 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
 	      lw6ker_game_state_get_time_left (game_state));
 }
 
-static int
-test_struct ()
+static void
+_test_struct ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -244,7 +253,7 @@ test_struct ()
 	game_struct = lw6ker_game_struct_new (level, NULL);
 	if (game_struct)
 	  {
-	    print_game_struct_repr (game_struct);
+	    _print_game_struct_repr (game_struct);
 	    checksum = lw6ker_game_struct_checksum (game_struct);
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_
@@ -258,11 +267,10 @@ test_struct ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_state ()
+static void
+_test_state ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -282,13 +290,13 @@ test_state ()
 	game_struct = lw6ker_game_struct_new (level, NULL);
 	if (game_struct)
 	  {
-	    print_game_struct_repr (game_struct);
+	    _print_game_struct_repr (game_struct);
 	    game_state = lw6ker_game_state_new (game_struct, NULL);
 	    if (game_state)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("is_over returns %d"),
 			    lw6ker_game_state_is_over (game_state));
-		print_game_state_repr (game_state);
+		_print_game_state_repr (game_state);
 		checksum = lw6ker_game_state_checksum (game_state);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -304,11 +312,10 @@ test_state ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_population ()
+static void
+_test_population ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -329,24 +336,24 @@ test_population ()
 	game_struct = lw6ker_game_struct_new (level, NULL);
 	if (game_struct)
 	  {
-	    print_game_struct_repr (game_struct);
+	    _print_game_struct_repr (game_struct);
 	    game_state = lw6ker_game_state_new (game_struct, NULL);
 	    if (game_state)
 	      {
-		print_game_state_repr (game_state);
+		_print_game_state_repr (game_state);
 		lw6ker_game_state_register_node (game_state, _TEST_NODE_ID);
 		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
 					      _TEST_CURSOR1_ID, _TEST_COLOR1);
-		print_game_state_repr (game_state);
+		_print_game_state_repr (game_state);
 		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
 					      _TEST_CURSOR2_ID, _TEST_COLOR2);
-		print_game_state_repr (game_state);
+		_print_game_state_repr (game_state);
 		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
 					      _TEST_CURSOR3_ID, _TEST_COLOR3);
-		print_game_state_repr (game_state);
+		_print_game_state_repr (game_state);
 		lw6ker_game_state_remove_cursor (game_state, _TEST_NODE_ID,
 						 _TEST_CURSOR2_ID);
-		print_game_state_repr (game_state);
+		_print_game_state_repr (game_state);
 		checksum = lw6ker_game_state_checksum (game_state);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -362,11 +369,10 @@ test_population ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_algorithm ()
+static void
+_test_algorithm ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -389,11 +395,11 @@ test_algorithm ()
 	game_struct = lw6ker_game_struct_new (level, NULL);
 	if (game_struct)
 	  {
-	    print_game_struct_repr (game_struct);
+	    _print_game_struct_repr (game_struct);
 	    game_state = lw6ker_game_state_new (game_struct, NULL);
 	    if (game_state)
 	      {
-		print_game_state_repr (game_state);
+		_print_game_state_repr (game_state);
 		lw6ker_game_state_register_node (game_state, _TEST_NODE_ID);
 		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
 					      _TEST_CURSOR1_ID, _TEST_COLOR1);
@@ -401,7 +407,7 @@ test_algorithm ()
 					      _TEST_CURSOR2_ID, _TEST_COLOR2);
 		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
 					      _TEST_CURSOR3_ID, _TEST_COLOR3);
-		print_game_state_repr (game_state);
+		_print_game_state_repr (game_state);
 		lw6ker_cursor_reset (&cursor);
 		cursor.pos.x = lw6ker_game_state_get_w (game_state) / 2;
 		cursor.pos.y = lw6ker_game_state_get_h (game_state) / 2;
@@ -458,7 +464,7 @@ test_algorithm ()
 			    (game_state),
 			    lw6ker_game_state_get_latest_history_max
 			    (game_state));
-		print_game_state_repr (game_state);
+		_print_game_state_repr (game_state);
 		checksum = lw6ker_game_state_checksum (game_state);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -474,11 +480,10 @@ test_algorithm ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_dup ()
+static void
+_test_dup ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -499,19 +504,19 @@ test_dup ()
 	game_struct = lw6ker_game_struct_new (level, NULL);
 	if (game_struct)
 	  {
-	    print_game_struct_repr (game_struct);
+	    _print_game_struct_repr (game_struct);
 	    game_struct2 = lw6ker_game_struct_dup (game_struct, NULL);
 	    lw6ker_game_struct_free (game_struct);
 	    game_struct = NULL;
-	    print_game_struct_repr (game_struct2);
+	    _print_game_struct_repr (game_struct2);
 	    game_state = lw6ker_game_state_new (game_struct2, NULL);
 	    if (game_state)
 	      {
-		print_game_state_repr (game_state);
+		_print_game_state_repr (game_state);
 		game_state2 = lw6ker_game_state_dup (game_state, NULL);
 		lw6ker_game_state_free (game_state);
 		game_state = NULL;
-		print_game_state_repr (game_state2);
+		_print_game_state_repr (game_state2);
 		lw6ker_game_state_free (game_state2);
 		game_state2 = NULL;
 		ret = 1;
@@ -525,11 +530,10 @@ test_dup ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_team_mask ()
+static void
+_test_team_mask ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -562,11 +566,10 @@ test_team_mask ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_hexa ()
+static void
+_test_hexa ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -600,7 +603,7 @@ test_hexa ()
 	game_struct = lw6ker_game_struct_new (level, NULL);
 	if (game_struct)
 	  {
-	    print_game_struct_repr (game_struct);
+	    _print_game_struct_repr (game_struct);
 	    checksum_struct = lw6ker_game_struct_checksum (game_struct);
 	    hexa_struct = lw6ker_game_struct_to_hexa (game_struct);
 	    lw6ker_game_struct_free (game_struct);
@@ -664,7 +667,7 @@ test_hexa ()
 					lw6ker_game_state_do_round
 					  (game_state);
 				      }
-				    print_game_state_repr (game_state);
+				    _print_game_state_repr (game_state);
 				    checksum_state =
 				      lw6ker_game_state_checksum (game_state);
 				    hexa_state =
@@ -802,37 +805,91 @@ test_hexa ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libker CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libker CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6ker_test
+ * lw6ker_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @ker module test suite. Will perform deep checksums
+ * Registers all tests for the libker module.
+ * Thoses tests Will perform deep checksums
  * and *really* check many things. If this passes, the algorithm
  * is fine. What could make it fail is a serious bug and/or some
- * weird combination of endianess, byte alignment...
- *
+ * weird combination of endianess, byte alignment... *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6ker_test (int mode)
+lw6ker_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6map_test (mode);
+      lw6sys_test_register (mode);
+      lw6map_test_register (mode);
     }
 
-  ret = test_team_mask () && test_struct () && test_state ()
-    && test_population () && test_algorithm () && test_dup () && test_hexa ();
+  suite = CU_add_suite ("lw6ker", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_team_mask);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_struct);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_population);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_algorithm);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_dup);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_hexa);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_state);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6ker_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @ker module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6ker_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }

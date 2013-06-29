@@ -37,12 +37,12 @@
 #define _TEST_SHA1_KEY "toto"
 #define _TEST_SHA1_CHECK 0xd4a35ebb
 
-typedef struct _glb_test_data_s
+typedef struct _lw6glb_test_data_s
 {
   int ret;
-} _glb_test_data_t;
+} _lw6glb_test_data_t;
 
-static _glb_test_data_t _test_data = { 0 };
+static _lw6glb_test_data_t _test_data = { 0 };
 
 static int
 _test_base64_ok (char *_test_str, int log_all)
