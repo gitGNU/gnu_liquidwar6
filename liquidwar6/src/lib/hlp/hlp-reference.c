@@ -899,6 +899,9 @@ populate_references ()
   POPULATE_VOID (LW6DEF_CHECK,
 		 _x_
 		 ("Running the game with '--check' is almost like running '--test', the difference is that '--check' will not run tests which involve graphics or sound backends, so it's adapted to pure console mode. This can be usefull for automated checks on a build farm, or if you want to check things in a headless (pure console) environment."));
+  POPULATE_VOID (LW6DEF_CUNIT,
+		 _x_
+		 ("Running the game with '--cunit' is almost like running '--test', the difference is that '--cunit' will use CUnit interactive interface, allowing the user to cherry-pick some tests, and avoid running the whole suite just for one test. This can be usefull for debugging, when individual test binaries are not available."));
   POPULATE_INT (LW6DEF_DEBUG_TEAM_ID,
 		_x_
 		("A team id which will be used for debugging purposes, for instance when displaying gradient."),

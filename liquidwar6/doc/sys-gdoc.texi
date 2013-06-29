@@ -2827,7 +2827,15 @@ an immediate error message is the only issue.
 
 @end deftypefun
 
-@deftypefun {void} {lw6sys_log_console_enable} (int @var{state})
+@deftypefun {int} {lw6sys_log_get_console_state} ()
+
+Get the console output state. This is important, for instance to
+set the console "back in the state it was" after setting it on or off.
+
+@strong{Return value:}  1 if enabled, 0 if not.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_log_set_console_state} (int @var{state})
 @var{state}:  1 to activate console output, 0 to disable it.
 
 Enables or disables console output. By console output, we basically
@@ -4465,6 +4473,25 @@ file (just a simple fprint).
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {int} {lw6sys_test_register} (int @var{mode})
+@var{mode}:  test mode (bitmask)
+
+Registers all tests for the libsys module.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_test_run} (int @var{mode})
+@var{mode}:  test mode (bitmask)
+
+Runs the @code{sys} module test suite, testing most (if not all...)
+functions. Note that some tests perform file system operations
+and might therefore fail on a read-only filesystem, or if
+user permissions are not sufficient.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+
 @deftypefun {int} {lw6sys_test_exec} (int @var{argc}, const char * [] @var{argv}, int @var{mode})
 @var{argc}:  number of args as passed to main
 
@@ -4472,21 +4499,13 @@ file (just a simple fprint).
 
 @var{mode}:  0 for check only, 1 for full test
 
-Runs the @code{sys} module test suite which is specific to exec functions,
+Runs the @code{sys} module test which is specific to exec functions,
 these ones require @code{argc} and @code{argv} to be correctly set so the
 extra argument justifies putting it outside @code{lw6sys_test}.
-Additionnally, it's not fool proof...
-
-@strong{Return value:}  1 if test is successfull, 0 on error.
-@end deftypefun
-
-@deftypefun {int} {lw6sys_test} (int @var{mode})
-@var{mode}:  0 for check only, 1 for full test
-
-Runs the @code{sys} module test suite, testing most (if not all...)
-functions. Note that some tests perform file system operations
-and might therefore fail on a read-only filesystem, or if
-user permissions are not sufficient.
+Additionnally, it's not fool proof... Moreover, it should be
+run at the beginning of the program, running it afterwards could
+give unpredictable results. So it's safer to use it outside the
+CUnit standard mechanisms.
 
 @strong{Return value:}  1 if test is successfull, 0 on error.
 @end deftypefun

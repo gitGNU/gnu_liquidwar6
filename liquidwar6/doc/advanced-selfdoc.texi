@@ -70,6 +70,15 @@ So this option will affect game responsiveness, setting this to a high value
 will make the game more responsive but consume bandwidth on network games.
 @end deffn
 
+@subsection cunit
+@deffn {Command-line option} @code{--cunit}
+Running the game with '--cunit' is almost like running '--test', the
+difference is that '--cunit' will use CUnit interactive interface, allowing
+the user to cherry-pick some tests, and avoid running the whole suite just for
+one test. This can be usefull for debugging, when individual test binaries are
+not available.
+@end deffn
+
 @subsection daemon
 @deffn {Command-line option} @code{--daemon}
 Start the game in daemon mode, this is typically used with the server mode, if

@@ -60,6 +60,24 @@ typedef struct _lw6_test_param_s
 }
 _lw6_test_param_t;
 
+typedef struct _lw6_test_data_s
+{
+  int ret;
+  _lw6_test_param_t param;
+  _lw6_test_param_t param_a;
+  _lw6_test_param_t param_b;
+  _lw6_test_param_t param_c;
+  int default_log_level_id;
+} _lw6_test_data_t;
+
+static _lw6_test_data_t _test_data =
+  { 0, {0, 0, NULL, 0, 0, 0, 0}, {0, 0, NULL, 0, 0, 0, 0}, {0, 0, NULL, 0, 0,
+							    0, 0}, {0, 0,
+								    NULL, 0,
+								    0, 0, 0},
+0
+};
+
 static char *
 get_test_file (int argc, const char **argv, int mode, int suite)
 {
@@ -73,7 +91,7 @@ get_test_file (int argc, const char **argv, int mode, int suite)
       script_dir = lw6sys_path_parent (script_file);
       if (script_dir)
 	{
-	  if (!mode)
+	  if (!(mode & LW6SYS_TEST_MODE_FULL_TEST))
 	    {
 	      switch (suite)
 		{
@@ -125,7 +143,7 @@ get_test_file (int argc, const char **argv, int mode, int suite)
 }
 
 static void
-_test_callback (_lw6_test_param_t * param)
+_guile_test_callback (_lw6_test_param_t * param)
 {
   int ret = 1;
 
@@ -241,7 +259,7 @@ _guile_test (void *data)
 {
   _lw6_test_param_t *param = (_lw6_test_param_t *) data;
 
-  _test_callback (param);
+  _guile_test_callback (param);
 
   return NULL;
 }
@@ -261,10 +279,254 @@ _guile_test_run (void *data)
   lw6scm_with_guile (_guile_test, data);
 }
 
+/*
+ * Test test-?-main.scm
+ */
+static void
+_test_main ()
+{
+  _guile_test_run (&_test_data.param);
+}
+
+static void
+_test_node_abc ()
+{
+  u_int64_t pid_b = 0LL;
+  u_int64_t pid_c = 0LL;
+
+  /*
+   * First network test, we launch node_a in the main thread,
+   * and fire node_b and node_c in separate threads.
+   * We won't get the result from the node_b and node_c but
+   * this is not a problem, we run the same test in other
+   * configurations to gather that output.
+   */
+  _test_data.param_b.log_level_id = LW6SYS_LOG_ERROR_ID;
+  _test_data.param_c.log_level_id = LW6SYS_LOG_ERROR_ID;
+  pid_b = lw6sys_process_fork_and_call (_guile_test_run, &_test_data.param_b);
+  pid_c = lw6sys_process_fork_and_call (_guile_test_run, &_test_data.param_c);
+  if (pid_b != 0 && pid_c != 0)
+    {
+      _guile_test_run (&_test_data.param_a);
+    }
+  if (pid_b != 0)
+    {
+      lw6sys_process_kill_1_9 (pid_b);
+    }
+  if (pid_c != 0)
+    {
+      lw6sys_process_kill_1_9 (pid_c);
+    }
+  _test_data.param_b.log_level_id = _test_data.default_log_level_id;
+  _test_data.param_c.log_level_id = _test_data.default_log_level_id;
+}
+
+static void
+_test_node_bca ()
+{
+  u_int64_t pid_c = 0LL;
+  u_int64_t pid_a = 0LL;
+
+  /*
+   * Second network test, we launch node_b in the main thread,
+   * and fire node_c and node_a in separate threads.
+   * We won't get the result from the node_c and node_a but
+   * this is not a problem, we run the same test in other
+   * configurations to gather that output.
+   */
+  _test_data.param_c.log_level_id = LW6SYS_LOG_ERROR_ID;
+  _test_data.param_a.log_level_id = LW6SYS_LOG_ERROR_ID;
+  pid_c = lw6sys_process_fork_and_call (_guile_test_run, &_test_data.param_c);
+  pid_a = lw6sys_process_fork_and_call (_guile_test_run, &_test_data.param_a);
+  if (pid_c != 0 && pid_a != 0)
+    {
+      _guile_test_run (&_test_data.param_b);
+    }
+  if (pid_c != 0)
+    {
+      lw6sys_process_kill_1_9 (pid_c);
+    }
+  if (pid_a != 0)
+    {
+      lw6sys_process_kill_1_9 (pid_a);
+    }
+  _test_data.param_c.log_level_id = _test_data.default_log_level_id;
+  _test_data.param_a.log_level_id = _test_data.default_log_level_id;
+}
+
+static void
+_test_node_cab ()
+{
+  u_int64_t pid_a = 0LL;
+  u_int64_t pid_b = 0LL;
+
+  /*
+   * Third network test, we launch node_c in the main thread,
+   * and fire node_a and node_b in separate threads.
+   * We won't get the result from the node_a and node_b but
+   * this is not a problem, we run the same test in other
+   * configurations to gather that output.
+   */
+  _test_data.param_a.log_level_id = LW6SYS_LOG_ERROR_ID;
+  _test_data.param_b.log_level_id = LW6SYS_LOG_ERROR_ID;
+  pid_a = lw6sys_process_fork_and_call (_guile_test_run, &_test_data.param_a);
+  pid_b = lw6sys_process_fork_and_call (_guile_test_run, &_test_data.param_b);
+  if (pid_a != 0 && pid_b != 0)
+    {
+      _guile_test_run (&_test_data.param_c);
+    }
+  if (pid_a != 0)
+    {
+      lw6sys_process_kill_1_9 (pid_a);
+    }
+  if (pid_b != 0)
+    {
+      lw6sys_process_kill_1_9 (pid_b);
+    }
+  _test_data.param_a.log_level_id = _test_data.default_log_level_id;
+  _test_data.param_b.log_level_id = _test_data.default_log_level_id;
+}
+
+static int
+_setup_init ()
+{
+  int ret = CUE_SINIT_FAILED;
+  const int argc = _TEST_ARGC;
+  const char *argv[] = { _TEST_ARGV0 };
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init lw6 CUnit test suite"));
+
+  if (lw6_init_global (argc, argv))
+    {
+      _test_data.param.argc = argc;
+      _test_data.param.argv = argv;
+      _test_data.param.suite = _TEST_SUITE_MAIN;
+      _test_data.param.coverage_check = 1;
+      _test_data.default_log_level_id = lw6sys_log_get_level ();
+
+      memcpy (&_test_data.param_a, &_test_data.param,
+	      sizeof (_lw6_test_param_t));
+      memcpy (&_test_data.param_b, &_test_data.param,
+	      sizeof (_lw6_test_param_t));
+      memcpy (&_test_data.param_c, &_test_data.param,
+	      sizeof (_lw6_test_param_t));
+
+      _test_data.param_a.suite = _TEST_SUITE_NODE_A;
+      _test_data.param_b.suite = _TEST_SUITE_NODE_B;
+      _test_data.param_c.suite = _TEST_SUITE_NODE_C;
+
+      ret = CUE_SUCCESS;
+    }
+
+  return ret;
+}
+
+static int
+_setup_quit ()
+{
+  int ret = CUE_SCLEAN_FAILED;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit lw6 CUnit test suite"));
+
+  lw6_quit_global ();
+  lw6sys_log_set_level (_test_data.default_log_level_id);
+
+  ret = CUE_SUCCESS;
+
+  return ret;
+}
+
 /**
- * lw6_test
+ * lw6_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
+ *
+ * Registers all tests for the lw6 module.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6_test_register (int mode)
+{
+  int ret = 1;
+  CU_Suite *suite;
+
+  if (lw6sys_false ())
+    {
+      /*
+       * Just to make sure most functions are stuffed in the binary
+       */
+      lw6sys_test_register (mode);
+      lw6glb_test_register (mode);
+      lw6map_test_register (mode);
+      lw6ker_test_register (mode);
+      lw6gen_test_register (mode);
+      lw6pil_test_register (mode);
+      lw6bot_test_register (mode);
+      lw6sim_test_register (mode);
+      lw6cns_test_register (mode);
+      lw6hlp_test_register (mode);
+      lw6cfg_test_register (mode);
+      lw6ldr_test_register (mode);
+      lw6tsk_test_register (mode);
+      lw6gui_test_register (mode);
+      lw6vox_test_register (mode);
+      lw6gfx_test_register (mode);
+      lw6dsp_test_register (mode);
+      lw6snd_test_register (mode);
+      lw6img_test_register (mode);
+      lw6net_test_register (mode);
+      lw6nod_test_register (mode);
+      lw6cnx_test_register (mode);
+      lw6msg_test_register (mode);
+      lw6cli_test_register (mode);
+      lw6srv_test_register (mode);
+      lw6dat_test_register (mode);
+      lw6p2p_test_register (mode);
+      lw6scm_test_register (mode);
+    }
+
+  memset (&_test_data.param, 0, sizeof (_lw6_test_param_t));
+  memset (&_test_data.param_a, 0, sizeof (_lw6_test_param_t));
+  memset (&_test_data.param_b, 0, sizeof (_lw6_test_param_t));
+  memset (&_test_data.param_c, 0, sizeof (_lw6_test_param_t));
+  _test_data.param.mode = mode;
+
+  suite = CU_add_suite ("lw6", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_main);
+      if (lw6sys_process_is_fully_supported ())
+	{
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_node_abc);
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_node_bca);
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_node_cab);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("skipping client/server test, platform does not have adequate process support and/or it's likely to fail anyway"));
+	  _test_data.param_a.ret = 1;
+	  _test_data.param_b.ret = 1;
+	  _test_data.param_c.ret = 1;
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6_test_run
+ *
+ * @mode: test mode (bitmask)
  *
  * Runs the liquidwar6 core module test suite, this will mostly
  * test how Guile script integration works, loading a sample
@@ -274,211 +536,16 @@ _guile_test_run (void *data)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6_test (int mode)
+lw6_test_run (int mode)
 {
   int ret = 0;
-  _lw6_test_param_t param;
-  _lw6_test_param_t param_a;
-  _lw6_test_param_t param_b;
-  _lw6_test_param_t param_c;
-  const int argc = _TEST_ARGC;
-  const char *argv[] = { _TEST_ARGV0 };
-  u_int64_t pid_a = 0LL;
-  u_int64_t pid_b = 0LL;
-  u_int64_t pid_c = 0LL;
-  int default_log_level_id = LW6SYS_LOG_INFO_ID;
-  /*
-   * Use the run{|_.} integers to trigger the corresponding
-   * tests, since those can be quite long, it's convenient to
-   * enable/disable them when developping/testing.
-   */
-  int run = 1;
-  int run_a = 0;
-  int run_b = 0;
-  int run_c = 0;
 
-  memset (&param, 0, sizeof (_lw6_test_param_t));
-  memset (&param_a, 0, sizeof (_lw6_test_param_t));
-  memset (&param_b, 0, sizeof (_lw6_test_param_t));
-  memset (&param_c, 0, sizeof (_lw6_test_param_t));
-
-  if (lw6sys_false ())
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
     {
-      /*
-       * Just to make sure most functions are stuffed in the binary
-       */
-      lw6sys_test (mode);
-      lw6glb_test (mode);
-      lw6map_test (mode);
-      lw6ker_test (mode);
-      lw6gen_test (mode);
-      lw6pil_test (mode);
-      lw6bot_test (mode);
-      lw6sim_test (mode);
-      lw6cns_test (mode);
-      lw6hlp_test (mode);
-      lw6cfg_test (mode);
-      lw6ldr_test (mode);
-      lw6tsk_test (mode);
-      lw6gui_test (mode);
-      lw6vox_test (mode);
-      lw6gfx_test (mode);
-      lw6dsp_test (mode);
-      lw6snd_test (mode);
-      lw6img_test (mode);
-      lw6net_test (mode);
-      lw6nod_test (mode);
-      lw6cnx_test (mode);
-      lw6msg_test (mode);
-      lw6cli_test (mode);
-      lw6srv_test (mode);
-      lw6dat_test (mode);
-      lw6p2p_test (mode);
-      lw6scm_test (mode);
+      ret = _test_data.ret && _test_data.param.ret && _test_data.param_a.ret
+	&& _test_data.param_b.ret && _test_data.param_c.ret;;
     }
-
-  if (lw6_init_global (argc, argv))
-    {
-      default_log_level_id = lw6sys_log_get_level ();
-
-      param.argc = argc;
-      param.argv = argv;
-      param.mode = mode;
-      param.suite = _TEST_SUITE_MAIN;
-      param.coverage_check = 1;
-      param.log_level_id = default_log_level_id;
-
-      memcpy (&param_a, &param, sizeof (_lw6_test_param_t));
-      memcpy (&param_b, &param, sizeof (_lw6_test_param_t));
-      memcpy (&param_c, &param, sizeof (_lw6_test_param_t));
-      param_a.suite = _TEST_SUITE_NODE_A;
-      param_b.suite = _TEST_SUITE_NODE_B;
-      param_c.suite = _TEST_SUITE_NODE_C;
-
-      if (run)
-	{
-	  _guile_test_run (&param);
-	}
-
-      if (param.ret || !run)
-	{
-	  /*
-	   * We do the network tests only if the other tests worked
-	   * but still we perform client and server even if the first
-	   * one failed, to (that's the hop...) get interesting informations
-	   * in the logs on why the other test failed.
-	   */
-	  if (lw6sys_process_is_fully_supported ())
-	    {
-	      if (run_a)
-		{
-		  /*
-		   * First network test, we launch node_a in the main thread,
-		   * and fire node_b and node_c in separate threads.
-		   * We won't get the result from the node_b and node_c but
-		   * this is not a problem, we run the same test in other
-		   * configurations to gather that output.
-		   */
-		  param_b.log_level_id = LW6SYS_LOG_ERROR_ID;
-		  param_c.log_level_id = LW6SYS_LOG_ERROR_ID;
-		  pid_b = lw6sys_process_fork_and_call (_guile_test_run,
-							&param_b);
-		  pid_c = lw6sys_process_fork_and_call (_guile_test_run,
-							&param_c);
-		  if (pid_b != 0 && pid_c != 0)
-		    {
-		      _guile_test_run (&param_a);
-		    }
-		  if (pid_b != 0)
-		    {
-		      lw6sys_process_kill_1_9 (pid_b);
-		    }
-		  if (pid_c != 0)
-		    {
-		      lw6sys_process_kill_1_9 (pid_c);
-		    }
-		  param_b.log_level_id = default_log_level_id;
-		  param_c.log_level_id = default_log_level_id;
-		}
-
-	      if (run_b)
-		{
-		  /*
-		   * Second network test, we launch node_b in the main thread,
-		   * and fire node_c and node_a in separate threads.
-		   * We won't get the result from the node_c and node_a but
-		   * this is not a problem, we run the same test in other
-		   * configurations to gather that output.
-		   */
-		  param_c.log_level_id = LW6SYS_LOG_ERROR_ID;
-		  param_a.log_level_id = LW6SYS_LOG_ERROR_ID;
-		  pid_c = lw6sys_process_fork_and_call (_guile_test_run,
-							&param_c);
-		  pid_a = lw6sys_process_fork_and_call (_guile_test_run,
-							&param_a);
-		  if (pid_c != 0 && pid_a != 0)
-		    {
-		      _guile_test_run (&param_b);
-		    }
-		  if (pid_c != 0)
-		    {
-		      lw6sys_process_kill_1_9 (pid_c);
-		    }
-		  if (pid_a != 0)
-		    {
-		      lw6sys_process_kill_1_9 (pid_a);
-		    }
-		  param_c.log_level_id = default_log_level_id;
-		  param_a.log_level_id = default_log_level_id;
-		}
-
-	      if (run_c)
-		{
-		  /*
-		   * Third network test, we launch node_c in the main thread,
-		   * and fire node_a and node_b in separate threads.
-		   * We won't get the result from the node_a and node_b but
-		   * this is not a problem, we run the same test in other
-		   * configurations to gather that output.
-		   */
-		  param_a.log_level_id = LW6SYS_LOG_ERROR_ID;
-		  param_b.log_level_id = LW6SYS_LOG_ERROR_ID;
-		  pid_a = lw6sys_process_fork_and_call (_guile_test_run,
-							&param_a);
-		  pid_b = lw6sys_process_fork_and_call (_guile_test_run,
-							&param_b);
-		  if (pid_a != 0 && pid_b != 0)
-		    {
-		      _guile_test_run (&param_c);
-		    }
-		  if (pid_a != 0)
-		    {
-		      lw6sys_process_kill_1_9 (pid_a);
-		    }
-		  if (pid_b != 0)
-		    {
-		      lw6sys_process_kill_1_9 (pid_b);
-		    }
-		  param_a.log_level_id = default_log_level_id;
-		  param_b.log_level_id = default_log_level_id;
-		}
-	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_
-			  ("skipping client/server test, platform does not have adequate process support and/or it's likely to fail anyway"));
-	      param_a.ret = 1;
-	      param_b.ret = 1;
-	      param_c.ret = 1;
-	    }
-	}
-
-      lw6_quit_global ();
-    }
-
-  //  ret = param.ret && param_a.ret && param_b.ret && param_c.ret;
-  ret = param.ret;		// OK, temporary disabled to build, serious WIP
 
   if (ret)
     {
@@ -494,7 +561,8 @@ lw6_test (int mode)
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_
 		  ("script tests failed main=%d node-a=%d node-b=%d node-c=%d"),
-		  param.ret, param_a.ret, param_b.ret, param_c.ret);
+		  _test_data.param.ret, _test_data.param_a.ret,
+		  _test_data.param_b.ret, _test_data.param_c.ret);
     }
 
   return ret;

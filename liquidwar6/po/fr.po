@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2013-06-27 23:50+0200\n"
+"POT-Creation-Date: 2013-06-29 21:46+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -57,7 +57,7 @@ msgstr "UDP"
 msgid "can't initialize mod_udp"
 msgstr "impossible d'initialiser mod_udp"
 
-#: src/lib/dsp/dsp-test.c:332
+#: src/lib/dsp/dsp-test.c:336
 msgid "this error too"
 msgstr "cette erreur aussi"
 
@@ -70,31 +70,31 @@ msgstr "chargement du module \"%s\""
 msgid "libcaca"
 msgstr ""
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:111
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:117
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:401
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:153
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:152
 msgid "unable to set video mode"
 msgstr "impossible de régler le mode vidéo"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:119
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:125
 #, fuzzy, c-format
 msgid "unable to create canvas %dx%d"
 msgstr "impossible de lire la ligne de 'credits' %d"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:131
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:137
 #, fuzzy
 msgid "unable to set resize callback"
 msgstr "impossible de régler le mode vidéo"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:138
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:144
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:408
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:161
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:160
 msgid "unable to load consts"
 msgstr "impossible de lire les constantes"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:145
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:151
 #, fuzzy
 msgid "unable to init paths"
 msgstr "impossible de charger les données"
@@ -256,55 +256,55 @@ msgstr "Soummission de bugs"
 msgid "unable to handle credits id %d"
 msgstr "impossible de lire la ligne de 'credits' %d"
 
-#: src/lib/hlp/hlp-reference.c:3061
+#: src/lib/hlp/hlp-reference.c:3064
 msgid "moves faster than the average"
 msgstr "se déplace plus vite que les autres"
 
-#: src/lib/hlp/hlp-reference.c:3062
+#: src/lib/hlp/hlp-reference.c:3065
 msgid "has a better defense than the average"
 msgstr "a une meilleure défense que les autres"
 
-#: src/lib/hlp/hlp-reference.c:3063
+#: src/lib/hlp/hlp-reference.c:3066
 msgid "has a strong attack but is slow"
 msgstr "a une attaque forte, mais se déplace lentement"
 
-#: src/lib/hlp/hlp-reference.c:3064
+#: src/lib/hlp/hlp-reference.c:3067
 msgid "has a strong attack"
 msgstr "a une attaque forte"
 
-#: src/lib/hlp/hlp-reference.c:3065
+#: src/lib/hlp/hlp-reference.c:3068
 msgid "has an extremely good defense but is slow"
 msgstr "extrêmement bon en défense, mais très lent"
 
-#: src/lib/hlp/hlp-reference.c:3067
+#: src/lib/hlp/hlp-reference.c:3070
 msgid "is extremely fast but also very vulnerable"
 msgstr "extrêmement rapide, mais aussi très vulnérable"
 
-#: src/lib/hlp/hlp-reference.c:3068
+#: src/lib/hlp/hlp-reference.c:3071
 msgid "is fast, but has a very weak attack"
 msgstr "rapide, mais avec peu d'attaque"
 
-#: src/lib/hlp/hlp-reference.c:3070
+#: src/lib/hlp/hlp-reference.c:3073
 msgid "has an extremely strong attack but is very slow"
 msgstr "attaque très forte, mais très lent"
 
-#: src/lib/hlp/hlp-reference.c:3072
+#: src/lib/hlp/hlp-reference.c:3075
 msgid "has a very good defense but a weak attack"
 msgstr "très bonne défense mais attaque faible"
 
-#: src/lib/hlp/hlp-reference.c:3074
+#: src/lib/hlp/hlp-reference.c:3077
 msgid "has a very strong attack, but is also very vulnerable"
 msgstr "attaque très forte, et aussi très vulnérable"
 
-#: src/lib/hlp/hlp-reference.c:3081
+#: src/lib/hlp/hlp-reference.c:3084
 msgid "super-strong attack for a limited time, crush your enemies"
 msgstr "attaque super forte pour un temps limité, écrasez vos ennemis"
 
-#: src/lib/hlp/hlp-reference.c:3083
+#: src/lib/hlp/hlp-reference.c:3086
 msgid "no damage for a limited time, move untouched"
 msgstr "pas de dégâts pendant un certain temps, ne craignez plus rien"
 
-#: src/lib/hlp/hlp-reference.c:3086
+#: src/lib/hlp/hlp-reference.c:3089
 msgid ""
 "fighters placed as far as possible from cursor, magically escape from any "
 "grip"
@@ -312,52 +312,52 @@ msgstr ""
 "les combattants sont placés aussi loin que possible du curseur, échappant à "
 "n'importe quel éteau"
 
-#: src/lib/hlp/hlp-reference.c:3087
+#: src/lib/hlp/hlp-reference.c:3090
 msgid "move faster for a limited time"
 msgstr "déplacement plus rapide pendant un certain temps"
 
-#: src/lib/hlp/hlp-reference.c:3089
+#: src/lib/hlp/hlp-reference.c:3092
 msgid "fighters placed as close as possible to cursor"
 msgstr "les combattants sont placés au plus près du curseur"
 
-#: src/lib/hlp/hlp-reference.c:3092
+#: src/lib/hlp/hlp-reference.c:3095
 msgid "every fighters of every team scattered in random places"
 msgstr "tous les combattants se retrouvent éparpillés n'importe où"
 
-#: src/lib/hlp/hlp-reference.c:3095
+#: src/lib/hlp/hlp-reference.c:3098
 msgid "all other teams are freezed, you can move but not attack them"
 msgstr ""
 "toutes les autres couleurs sont figées sur place, vous pouvez vos déplacer "
 "sans attaquer"
 
-#: src/lib/hlp/hlp-reference.c:3098
+#: src/lib/hlp/hlp-reference.c:3101
 msgid "fighters exchange position, their properties being preserved"
 msgstr "toutes les autres équipes sont fig;ees sur pl"
 
-#: src/lib/hlp/hlp-reference.c:3101
+#: src/lib/hlp/hlp-reference.c:3104
 msgid ""
 "you take the control of all other teams while your cursor stays in place"
 msgstr ""
 "vous prenez le contrôle des autres équipes, pendant ce temps-là votre "
 "curseur reste à sa place"
 
-#: src/lib/hlp/hlp-reference.c:3104
+#: src/lib/hlp/hlp-reference.c:3107
 msgid ""
 "will exchange colors, randomly, requires at least 3 teams (double edged "
 "weapon)"
 msgstr "échange les couleurs, au hasard, nécessite au moins 3 couleurs"
 
-#: src/lib/hlp/hlp-reference.c:3105
+#: src/lib/hlp/hlp-reference.c:3108
 msgid "steals some fighters to other teams"
 msgstr "vole des combattants aux autres équipes"
 
-#: src/lib/hlp/hlp-reference.c:3108
+#: src/lib/hlp/hlp-reference.c:3111
 msgid "nuclear explosion, all fighters arround your cursor are about to die"
 msgstr ""
 "explosion nucléaire, tous les combattants autour de votre curseur sont morts "
 "ou presque"
 
-#: src/lib/hlp/hlp-reference.c:3111
+#: src/lib/hlp/hlp-reference.c:3114
 msgid ""
 "fighters continue to move normally, but attacks are done in reverse mode, "
 "backwards"
@@ -365,26 +365,26 @@ msgstr ""
 "les combattans continuent à se déplacer normalement, mais ils attaquent à "
 "l'envers, par derrière"
 
-#: src/lib/hlp/hlp-reference.c:3114
+#: src/lib/hlp/hlp-reference.c:3117
 msgid "all your opponents go crazy for some time, acting with no logic"
 msgstr ""
 "tous vos ennemis deviennent fou pendant quelques temps, agissant sans logique"
 
-#: src/lib/hlp/hlp-reference.c:3116
+#: src/lib/hlp/hlp-reference.c:3119
 msgid "make the battlefield be like it was a few seconds ago"
 msgstr "remet le champs de bataille tel qu'il était quelques secondes avant"
 
-#: src/lib/hlp/hlp-reference.c:3119
+#: src/lib/hlp/hlp-reference.c:3122
 msgid "all fighters from all teams are packed near your cursor"
 msgstr ""
 "tous les combattants de toutes les équipes sont réunis autour de votre "
 "curseur"
 
-#: src/lib/hlp/hlp-reference.c:3121
+#: src/lib/hlp/hlp-reference.c:3124
 msgid "reduces the number of fighters on the map"
 msgstr "réduit le nombre de combattants dans le tableau"
 
-#: src/lib/hlp/hlp-reference.c:3124
+#: src/lib/hlp/hlp-reference.c:3127
 msgid ""
 "you die along with the strongest team on the battlefield, requires at least "
 "3 teams"
@@ -392,14 +392,14 @@ msgstr ""
 "vous mourrez et emportez dans votre mort la puissante des autres équipes, "
 "nécessite 3 équipes"
 
-#: src/lib/hlp/hlp-reference.c:3127
+#: src/lib/hlp/hlp-reference.c:3130
 msgid ""
 "you disappear for some time from the battlefield, to reappear later, "
 "somewhere else"
 msgstr ""
 "vous disparaissez pour quelques temps, pour réapparaitre plus tard, ailleurs"
 
-#: src/lib/hlp/hlp-reference.c:3130
+#: src/lib/hlp/hlp-reference.c:3133
 msgid "general disease, all fighters mysteriously loose health"
 msgstr ""
 "maladie généralisée, les combattants perdent mystérieusement des points de "
@@ -419,20 +419,20 @@ msgstr "impossible de redémarrer en corrigeant les variables d'environnement"
 msgid "unable to read main script file \"%s\""
 msgstr "impossible de lire le fichier de script principal \"%s\""
 
-#: src/lib/lw6-options.c:90
+#: src/lib/lw6-options.c:142
 #, c-format
 msgid "unknown option \"%s\""
 msgstr "option inconnue \"%s\""
 
-#: src/lib/lw6-options.c:108
+#: src/lib/lw6-options.c:160
 msgid "unable to start daemon"
 msgstr "impossible de démarrer le démon"
 
-#: src/lib/lw6-options.c:159
+#: src/lib/lw6-options.c:202 src/lib/lw6-options.c:257
 msgid "all tests SUCCESSFULL!"
 msgstr "tous les tests passés avec SUCCÈS!"
 
-#: src/lib/lw6-options.c:165
+#: src/lib/lw6-options.c:208 src/lib/lw6-options.c:263
 #, c-format
 msgid "test FAILED, see log file \"%s\" for details"
 msgstr ""
@@ -619,7 +619,7 @@ msgstr "démarrage du noeud \"%s\""
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr "communication établie \"%s\" <-> \"%s\" sur %s:%d"
 
-#: src/lib/scm/scm-test.c:266 src/lib/scm/scm-test.c:417
+#: src/lib/scm/scm-test.c:273 src/lib/scm/scm-test.c:420
 #, c-format
 msgid "leaving Guile in %s"
 msgstr "fin de Guile dans %s"

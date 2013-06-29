@@ -154,12 +154,19 @@ properly uninitialized before.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6gfx_test} (int @var{mode})
-@var{mode}:  0 for check only, 1 for full test
+@deftypefun {int} {lw6gfx_test_register} (int @var{mode})
+@var{mode}:  test mode (bitmask)
 
-Runs the @code{gfx} module test suite. In check-only mode, this
-function won't test many things, for it requires a graphical
-mode to be available to perform the complete test.
+Registers all tests for the libgfx module.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+
+@deftypefun {int} {lw6gfx_test_run} (int @var{mode})
+@var{mode}:  test mode (bitmask)
+
+Runs the @code{gfx} module test suite, testing most (if not all...)
+functions.
 
 @strong{Return value:}  1 if test is successfull, 0 on error.
 @end deftypefun

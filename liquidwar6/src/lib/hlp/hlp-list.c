@@ -1362,6 +1362,7 @@ update_advanced (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_MAGIC_NUMBER);
   lw6sys_list_push_back (list, LW6DEF_BIN_ID);
   lw6sys_list_push_back (list, LW6DEF_CHECK);
+  lw6sys_list_push_back (list, LW6DEF_CUNIT);
   lw6sys_list_push_back (list, LW6DEF_DEBUG_TEAM_ID);
   lw6sys_list_push_back (list, LW6DEF_DEBUG_LAYER_ID);
   lw6sys_list_push_back (list, LW6DEF_LOG_TIMEOUT);

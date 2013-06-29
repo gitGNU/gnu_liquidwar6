@@ -453,6 +453,7 @@ copy
 copyleft
 copyright
 crazy
+cunit
 cursor-pot-init
 cursor-sensitivity
 cursor-size

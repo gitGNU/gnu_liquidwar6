@@ -24,12 +24,16 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#ifdef LW6_CUNIT
+#include <CUnit/CUnit.h>
+#endif // LW6_CUNIT
+
 #include "liquidwar6.h"
 
 #ifdef LW6_ALLINONE
-#define DYN_TEST 1
+#define DYN_TEST_REGISTER(mode) 1
 #else // LW6_ALLINONE
-#define DYN_TEST lw6dyn_test(1)
+#define DYN_TEST_REGISTER(mode) lw6dyn_test_register(mode)
 #endif // LW6_ALLINONE
 
 static int
@@ -50,6 +54,54 @@ check_arg (const char *arg)
       ret = lw6hlp_is_documented (keyword);
       LW6SYS_FREE (keyword);
     }
+
+  return ret;
+}
+
+static int
+_register_and_run_tests (int argc, const char **argv, int mode)
+{
+  int ret = 1;
+
+#ifdef LW6_CUNIT
+  ret = lw6sys_test_exec (argc, argv, mode) && ret;
+
+  if (ret)
+    {
+      ret = 0;
+      if (CU_initialize_registry () == CUE_SUCCESS)
+	{
+	  ret =
+	    lw6sys_test_register (mode)
+	    && lw6glb_test_register (mode)
+	    && lw6map_test_register (mode)
+	    && lw6ker_test_register (mode) && lw6pil_test_register (mode)
+	    && DYN_TEST_REGISTER (mode) && lw6bot_test_register (mode)
+	    && lw6gen_test_register (mode) && lw6sim_test_register (mode)
+	    && lw6cns_test_register (mode) && lw6hlp_test_register (mode)
+	    && lw6cfg_test_register (mode) && lw6ldr_test_register (mode)
+	    && lw6tsk_test_register (mode) && lw6gui_test_register (mode)
+	    && lw6vox_test_register (mode) && lw6gfx_test_register (mode)
+	    && lw6dsp_test_register (mode) && lw6snd_test_register (mode)
+	    && lw6img_test_register (mode) && lw6net_test_register (mode)
+	    && lw6nod_test_register (mode) && lw6cnx_test_register (mode)
+	    && lw6msg_test_register (mode) && lw6cli_test_register (mode)
+	    && lw6srv_test_register (mode) && lw6dat_test_register (mode)
+	    && lw6p2p_test_register (mode) && lw6scm_test_register (mode)
+	    && lw6_test_register (mode);
+
+	  if (ret)
+	    {
+	      ret = lw6sys_cunit_run_tests (mode);
+	    }
+	  CU_cleanup_registry ();
+	}
+    }
+
+#else // LW6_CUNIT
+  lw6sys_log ("no test support, CUnit not linked");
+  ret = 0;
+#endif // LW6_CUNIT
 
   return ret;
 }
@@ -142,18 +194,9 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	    {
 	      lw6sys_log_clear (log_file);
 
-	      ret = lw6sys_test_exec (argc, argv, 1) && lw6sys_test (1)
-		&& lw6glb_test (1)
-		&& lw6map_test (1)
-		&& lw6ker_test (1) && lw6pil_test (1) && DYN_TEST
-		&& lw6bot_test (1) && lw6gen_test (1) && lw6sim_test (1)
-		&& lw6cns_test (1) && lw6hlp_test (1) && lw6cfg_test (1)
-		&& lw6ldr_test (1) && lw6tsk_test (1) && lw6gui_test (1)
-		&& lw6vox_test (1) && lw6gfx_test (1) && lw6dsp_test (1)
-		&& lw6snd_test (1) && lw6img_test (1) && lw6net_test (1)
-		&& lw6nod_test (1) && lw6cnx_test (1) && lw6msg_test (1)
-		&& lw6cli_test (1) && lw6srv_test (1) && lw6dat_test (1)
-		&& lw6p2p_test (1) && lw6scm_test (1) && lw6_test (1);
+	      ret =
+		_register_and_run_tests (argc, argv,
+					 LW6SYS_TEST_MODE_FULL_TEST);
 	      if (ret)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE, _("all tests SUCCESSFULL!"));
@@ -176,18 +219,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	    {
 	      lw6sys_log_clear (log_file);
 
-	      ret = lw6sys_test_exec (argc, argv, 0) && lw6sys_test (0)
-		&& lw6glb_test (0)
-		&& lw6map_test (0)
-		&& lw6ker_test (0) && lw6pil_test (0) && DYN_TEST
-		&& lw6bot_test (0) && lw6gen_test (0) && lw6sim_test (0)
-		&& lw6cns_test (0) && lw6hlp_test (0) && lw6cfg_test (0)
-		&& lw6ldr_test (0) && lw6tsk_test (0) && lw6gui_test (0)
-		&& lw6vox_test (0) && lw6gfx_test (0) && lw6dsp_test (0)
-		&& lw6snd_test (0) && lw6img_test (0) && lw6net_test (0)
-		&& lw6nod_test (0) && lw6cnx_test (0) && lw6msg_test (0)
-		&& lw6cli_test (0) && lw6srv_test (0) && lw6dat_test (0)
-		&& lw6p2p_test (0) && lw6scm_test (0) && lw6_test (0);
+	      ret = _register_and_run_tests (argc, argv, 0);
 	      if (ret)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -197,12 +229,38 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	      else
 		{
 		  /*
-		   * Here only a warning, not an erro which can require
+		   * Here only a warning, not an error which can require
 		   * interactive operation to finish
 		   */
 		  lw6sys_log (LW6SYS_LOG_WARNING,
 			      _x_
 			      ("check FAILED, see log file \"%s\" for details"),
+			      log_file);
+		}
+	      LW6SYS_FREE (log_file);
+	    }
+	  (*run_game) = 0;
+	}
+      else if (lw6sys_arg_match (LW6DEF_CUNIT, argv[i]))
+	{
+	  log_file = lw6cfg_unified_get_log_file (argc, argv);
+	  if (log_file)
+	    {
+	      lw6sys_log_clear (log_file);
+
+	      ret =
+		_register_and_run_tests (argc, argv,
+					 LW6SYS_TEST_MODE_FULL_TEST |
+					 LW6SYS_TEST_MODE_INTERACTIVE);
+	      if (ret)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE, _("all tests SUCCESSFULL!"));
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_ERROR,
+			      _
+			      ("test FAILED, see log file \"%s\" for details"),
 			      log_file);
 		}
 	      LW6SYS_FREE (log_file);

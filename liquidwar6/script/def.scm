@@ -473,6 +473,7 @@
 (define lw6def-copyleft "copyleft")
 (define lw6def-copyright "copyright")
 (define lw6def-crazy "crazy")
+(define lw6def-cunit "cunit")
 (define lw6def-cursor-pot-init "cursor-pot-init")
 (define lw6def-cursor-sensitivity "cursor-sensitivity")
 (define lw6def-cursor-size "cursor-size")

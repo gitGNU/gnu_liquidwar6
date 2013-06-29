@@ -28,8 +28,8 @@
 
 #include "scm.h"
 
-#define TEST_UNEXISTING_FILE "/foo/bar.scm"
-#define TEST_UNEXISTING_FUNC "foo-bar"
+#define _TEST_UNEXISTING_FILE "/foo/bar.scm"
+#define _TEST_UNEXISTING_FUNC "foo-bar"
 
 #define _TEST_FUNCNAME_C "_scm_foo_bar"
 #define _TEST_FUNCNAME_SCM "c-foo-bar"
@@ -41,7 +41,7 @@
 #define _TEST_COVERAGE_C_FUNC2 "_scm_my_function2"
 #define _TEST_COVERAGE_C_FUNC3 "_scm_my_other3"
 
-#define _TEST_UTILS_STRING "This is a test_string"
+#define _TEST_UTILS_STRING "This is a _test_string"
 #define _TEST_UTILS_LIST_1 "to be"
 #define _TEST_UTILS_LIST_2 "or not to be"
 #define _TEST_UTILS_LIST_3 "that is the question"
@@ -52,13 +52,20 @@
 #define _TEST_UTILS_ASSOC_VALUE_2 "two"
 #define _TEST_UTILS_ASSOC_VALUE_3 "three"
 
+typedef struct _lw6scm_test_data_s
+{
+  int ret;
+} _lw6scm_test_data_t;
+
+static _lw6scm_test_data_t _test_data = { 0 };
+
 static int global_ret = 0;
 
 /*
  * Testing functions in funcname.c
  */
-static int
-test_funcname ()
+static void
+_test_funcname ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -108,21 +115,19 @@ test_funcname ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-
-  return ret;
 }
 
 static void *
 guile_main_utils (void *data)
 {
-  SCM test_string = SCM_UNDEFINED;
+  SCM _test_string = SCM_UNDEFINED;
   char *c_test_string = NULL;
-  SCM test_list = SCM_UNDEFINED;
+  SCM _test_list = SCM_UNDEFINED;
   lw6sys_list_t *c_test_list_1 = NULL;
   lw6sys_list_t *c_test_list_2 = NULL;
   int c_test_list_1_length = 0;
   int c_test_list_2_length = 0;
-  SCM test_assoc = SCM_UNDEFINED;
+  SCM _test_assoc = SCM_UNDEFINED;
   lw6sys_assoc_t *c_test_assoc_1 = NULL;
   lw6sys_assoc_t *c_test_assoc_2 = NULL;
   const char *c_test_assoc_1_value_1 = 0;
@@ -130,8 +135,8 @@ guile_main_utils (void *data)
 
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("entering Guile in %s"), __FUNCTION__);
 
-  test_string = scm_from_locale_string (_TEST_UTILS_STRING);
-  c_test_string = lw6scm_utils_to_0str (test_string);
+  _test_string = scm_from_locale_string (_TEST_UTILS_STRING);
+  c_test_string = lw6scm_utils_to_0str (_test_string);
   if (c_test_string)
     {
       if (lw6sys_str_is_same (c_test_string, _TEST_UTILS_STRING))
@@ -156,8 +161,8 @@ guile_main_utils (void *data)
       lw6sys_list_push_front (&c_test_list_1, _TEST_UTILS_LIST_3);
       if (c_test_list_1)
 	{
-	  test_list = lw6scm_utils_to_scm_str_list (c_test_list_1);
-	  c_test_list_2 = lw6scm_utils_to_sys_str_list (test_list);
+	  _test_list = lw6scm_utils_to_scm_str_list (c_test_list_1);
+	  c_test_list_2 = lw6scm_utils_to_sys_str_list (_test_list);
 	  if (c_test_list_2)
 	    {
 	      c_test_list_1_length = lw6sys_list_length (c_test_list_1);
@@ -211,8 +216,8 @@ guile_main_utils (void *data)
 			_TEST_UTILS_ASSOC_VALUE_3);
       if (c_test_assoc_1)
 	{
-	  test_assoc = lw6scm_utils_to_scm_str_assoc (c_test_assoc_1);
-	  c_test_assoc_2 = lw6scm_utils_to_sys_str_assoc (test_assoc);
+	  _test_assoc = lw6scm_utils_to_scm_str_assoc (c_test_assoc_1);
+	  c_test_assoc_2 = lw6scm_utils_to_sys_str_assoc (_test_assoc);
 	  if (c_test_assoc_2)
 	    {
 	      c_test_assoc_1_value_1 =
@@ -273,8 +278,8 @@ guile_main_utils (void *data)
 /*
  * Testing functions in utils.c
  */
-static int
-test_utils ()
+static void
+_test_utils ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -286,15 +291,13 @@ test_utils ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-
-  return ret;
 }
 
 /*
  * Testing functions in coverage.c
  */
-static int
-test_coverage ()
+static void
+_test_coverage ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -365,8 +368,6 @@ test_coverage ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-
-  return ret;
 }
 
 static SCM
@@ -394,14 +395,14 @@ guile_main_wrapper (void *data)
       lw6sys_log (LW6SYS_LOG_NOTICE,
 		  _x_
 		  ("next you should see a message complaining \"%s\" is not documented"),
-		  TEST_UNEXISTING_FUNC);
-      if (lw6scm_c_define_gsubr (TEST_UNEXISTING_FUNC, 0, 0, 0,
+		  _TEST_UNEXISTING_FUNC);
+      if (lw6scm_c_define_gsubr (_TEST_UNEXISTING_FUNC, 0, 0, 0,
 				 (SCM (*)())_scm_lw6sys_build_get_version))
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_
 		      ("function \"%s\" was defined, should have been refused"),
-		      TEST_UNEXISTING_FUNC);
+		      _TEST_UNEXISTING_FUNC);
 	  global_ret = 0;
 	}
     }
@@ -413,8 +414,8 @@ guile_main_wrapper (void *data)
   lw6sys_log (LW6SYS_LOG_NOTICE,
 	      _x_
 	      ("next you should see a message complaining \"%s\" does not exists"),
-	      TEST_UNEXISTING_FILE);
-  lw6scm_c_primitive_load (TEST_UNEXISTING_FILE);
+	      _TEST_UNEXISTING_FILE);
+  lw6scm_c_primitive_load (_TEST_UNEXISTING_FILE);
   scm_gc ();
   lw6sys_log (LW6SYS_LOG_NOTICE, _("leaving Guile in %s"), __FUNCTION__);
 
@@ -424,8 +425,8 @@ guile_main_wrapper (void *data)
 /*
  * Testing functions in wrapper.c
  */
-static int
-test_wrapper ()
+static void
+_test_wrapper ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -437,33 +438,85 @@ test_wrapper ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
 
-  return ret;
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libscm CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libscm CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6scm_test
+ * lw6scm_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @scm module test suite.
+ * Registers all tests for the libscm module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6scm_test (int mode)
+lw6scm_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
+
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6hlp_test (mode);
+      lw6sys_test_register (mode);
+      lw6hlp_test_register (mode);
     }
 
-  ret = test_wrapper () && test_funcname () && test_utils ()
-    && test_coverage ();
+  suite = CU_add_suite ("lw6scm", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_wrapper);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_funcname);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_utils);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_coverage);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6scm_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @scm module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6scm_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
+
   return ret;
 }

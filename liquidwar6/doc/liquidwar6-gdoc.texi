@@ -911,8 +911,16 @@ Register all smobs to Guile.
 @strong{Return value:}  1 on success, 0 if failed.
 @end deftypefun
 
-@deftypefun {int} {lw6_test} (int @var{mode})
-@var{mode}:  0 for check only, 1 for full test
+@deftypefun {int} {lw6_test_register} (int @var{mode})
+@var{mode}:  test mode (bitmask)
+
+Registers all tests for the lw6 module.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+
+@deftypefun {int} {lw6_test_run} (int @var{mode})
+@var{mode}:  test mode (bitmask)
 
 Runs the liquidwar6 core module test suite, this will mostly
 test how Guile script integration works, loading a sample

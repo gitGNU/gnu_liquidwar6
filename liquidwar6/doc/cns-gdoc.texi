@@ -36,10 +36,19 @@ Tells wether console is supported.
 @strong{Return value:}  1 if console can be enabled, 0 if not
 @end deftypefun
 
-@deftypefun {int} {lw6cns_test} (int @var{mode})
-@var{mode}:  0 for check only, 1 for full test
+@deftypefun {int} {lw6cns_test_register} (int @var{mode})
+@var{mode}:  test mode (bitmask)
 
-Runs the @code{cns} module test suite.
+Registers all tests for the libcns module.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+
+@deftypefun {int} {lw6cns_test_run} (int @var{mode})
+@var{mode}:  test mode (bitmask)
+
+Runs the @code{cns} module test suite, testing most (if not all...)
+functions.
 
 @strong{Return value:}  1 if test is successfull, 0 on error.
 @end deftypefun

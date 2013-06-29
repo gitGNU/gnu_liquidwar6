@@ -480,6 +480,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_COPYLEFT "copyleft"
 #define LW6DEF_COPYRIGHT "copyright"
 #define LW6DEF_CRAZY "crazy"
+#define LW6DEF_CUNIT "cunit"
 #define LW6DEF_CURSOR_POT_INIT "cursor-pot-init"
 #define LW6DEF_CURSOR_SENSITIVITY "cursor-sensitivity"
 #define LW6DEF_CURSOR_SIZE "cursor-size"
