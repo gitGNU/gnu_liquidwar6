@@ -37,11 +37,18 @@
 #define _TEST_SEED_LONG_SRC "FOO' BAR' 1234567890 you'll never read this!"
 #define _TEST_SEED_LONG_DST "foo3wbar3w123456"
 
+typedef struct _lw6gen_test_data_s
+{
+  int ret;
+} _lw6gen_test_data_t;
+
+static _lw6gen_test_data_t _test_data = { 0 };
+
 /*
  * test create
  */
-static int
-test_create ()
+static void
+_test_create ()
 {
   int ret = 0;
 
@@ -90,15 +97,13 @@ test_create ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-
-  return ret;
 }
 
 /*
  * test seed
  */
-static int
-test_seed ()
+static void
+_test_seed ()
 {
   int ret = 1;
 
@@ -171,34 +176,83 @@ test_seed ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
 
-  return ret;
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libgen CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libgen CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6gen_test
+ * lw6gen_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @gen module test suite.
+ * Registers all tests for the libgen module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6gen_test (int mode)
+lw6gen_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6map_test (mode);
+      lw6sys_test_register (mode);
+      lw6map_test_register (mode);
     }
 
-  ret = test_create () && test_seed ();
+  suite = CU_add_suite ("lw6gen", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_create);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_seed);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6gen_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @gen module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6gen_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }
