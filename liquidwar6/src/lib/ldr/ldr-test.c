@@ -59,6 +59,13 @@
 #define _TEST_RESAMPLER_DISPLAY_W 1920
 #define _TEST_RESAMPLER_DISPLAY_H 1080
 
+typedef struct _lw6ldr_test_data_s
+{
+  int ret;
+} _lw6ldr_test_data_t;
+
+static _lw6ldr_test_data_t _test_data = { 0 };
+
 static int
 check_map_with_absolute_path (char *absolute_path)
 {
@@ -158,7 +165,7 @@ check_map_with_absolute_path (char *absolute_path)
 }
 
 static void
-test_data_callback_quick (void *func_data, void *data)
+_test_data_callback_quick (void *func_data, void *data)
 {
   lw6ldr_entry_t *entry = (lw6ldr_entry_t *) data;
   int *ret = (int *) func_data;
@@ -177,7 +184,7 @@ test_data_callback_quick (void *func_data, void *data)
 }
 
 static void
-test_data_callback_deep (void *func_data, void *data)
+_test_data_callback_deep (void *func_data, void *data)
 {
   lw6ldr_entry_t *entry = (lw6ldr_entry_t *) data;
   int *ret = (int *) func_data;
@@ -194,10 +201,10 @@ test_data_callback_deep (void *func_data, void *data)
 }
 
 /*
- * test_data
+ * Quick test
  */
-static int
-test_data ()
+static void
+_test_quick ()
 {
   int ret = 0;
 
@@ -218,9 +225,7 @@ test_data ()
 	if (user_dir)
 	  {
 	    lw6ldr_for_all_entries (map_path, "", user_dir, 1,
-				    test_data_callback_quick, &ret);
-	    lw6ldr_for_all_entries (map_path, "", user_dir, 0,
-				    test_data_callback_deep, &ret);
+				    _test_data_callback_quick, &ret);
 	    LW6SYS_FREE (user_dir);
 	  }
 	LW6SYS_FREE (map_path);
@@ -228,15 +233,48 @@ test_data ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
 
-  return ret;
+/*
+ * Deep test
+ */
+static void
+_test_deep ()
+{
+  int ret = 0;
+
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  const int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0, _TEST_ARGV1 };
+
+  {
+    char *map_path = NULL;
+    char *user_dir = NULL;
+
+    ret = 1;
+    map_path = lw6cfg_unified_get_map_path (argc, argv);
+    if (map_path)
+      {
+	user_dir = lw6sys_get_user_dir (argc, argv);
+	if (user_dir)
+	  {
+	    lw6ldr_for_all_entries (map_path, "", user_dir, 0,
+				    _test_data_callback_deep, &ret);
+	    LW6SYS_FREE (user_dir);
+	  }
+	LW6SYS_FREE (map_path);
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
 }
 
 /*
  * Testing dirs/entries
  */
-static int
-test_dir ()
+static void
+_test_dir ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -306,14 +344,13 @@ test_dir ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing param
  */
-static int
-test_param ()
+static void
+_test_param ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -349,14 +386,13 @@ test_param ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing hints
  */
-static int
-test_hints ()
+static void
+_test_hints ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -391,14 +427,13 @@ test_hints ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing teams
  */
-static int
-test_teams ()
+static void
+_test_teams ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -433,14 +468,13 @@ test_teams ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing reading
  */
-static int
-test_read ()
+static void
+_test_read ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -506,14 +540,13 @@ test_read ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing resampler
  */
-static int
-test_resampler ()
+static void
+_test_resampler ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -533,36 +566,91 @@ test_resampler ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libldr CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libldr CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6ldr_test
+ * lw6ldr_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @ldr module test suite.
+ * Registers all tests for the libldr module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6ldr_test (int mode)
+lw6ldr_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6hlp_test (mode);
-      lw6cfg_test (mode);
-      lw6map_test (mode);
+      lw6sys_test_register (mode);
+      lw6hlp_test_register (mode);
+      lw6cfg_test_register (mode);
+      lw6map_test_register (mode);
     }
 
-  ret = test_dir () && test_hints () && test_teams () && test_param ()
-    && test_read () && test_data () && test_resampler ();
+  suite = CU_add_suite ("lw6ldr", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_dir);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_hints);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_teams);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_param);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_read);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_quick);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_deep);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_resampler);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6ldr_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @ldr module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6ldr_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }

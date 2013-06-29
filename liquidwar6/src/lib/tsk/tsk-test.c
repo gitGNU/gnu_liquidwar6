@@ -41,11 +41,18 @@
 #define _TEST_SEED_1 "1234567890abcdef"
 #define _TEST_SEED_2 "abcdef1234567890"
 
+typedef struct _lw6tsk_test_data_s
+{
+  int ret;
+} _lw6tsk_test_data_t;
+
+static _lw6tsk_test_data_t _test_data = { 0 };
+
 /*
  * Testing manager (ldr)
  */
-static int
-test_manager_ldr ()
+static void
+_test_manager_ldr ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -173,14 +180,13 @@ test_manager_ldr ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing manager (gen)
  */
-static int
-test_manager_gen ()
+static void
+_test_manager_gen ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -284,38 +290,88 @@ test_manager_gen ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libtsk CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libtsk CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6tsk_test
+ * lw6tsk_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @tsk module test suite.
+ * Registers all tests for the libtsk module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6tsk_test (int mode)
+lw6tsk_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6cfg_test (mode);
-      lw6hlp_test (mode);
-      lw6map_test (mode);
-      lw6ker_test (mode);
-      lw6ldr_test (mode);
-      lw6gen_test (mode);
+      lw6sys_test_register (mode);
+      lw6cfg_test_register (mode);
+      lw6hlp_test_register (mode);
+      lw6map_test_register (mode);
+      lw6ker_test_register (mode);
+      lw6ldr_test_register (mode);
+      lw6gen_test_register (mode);
     }
 
-  ret = test_manager_ldr () && test_manager_gen ();
+  suite = CU_add_suite ("lw6tsk", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_manager_ldr);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_manager_gen);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6tsk_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @tsk module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6tsk_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }

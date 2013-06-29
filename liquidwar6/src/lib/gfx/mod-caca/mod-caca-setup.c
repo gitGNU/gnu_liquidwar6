@@ -42,7 +42,9 @@ _mod_caca_init (int argc, const char *argv[],
   const char *driver_id = NULL;
   const char *driver_desc = NULL;
   _mod_caca_context_t *caca_context = NULL;
+  int console_state = 0;
 
+  console_state = lw6sys_log_get_console_state ();
   caca_context =
     (_mod_caca_context_t *) LW6SYS_CALLOC (sizeof (_mod_caca_context_t));
   if (caca_context)
@@ -88,7 +90,11 @@ _mod_caca_init (int argc, const char *argv[],
 		   */
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("disabling console output (libcaca)"));
-		  lw6sys_log_console_enable (0);
+		  /*
+		   * Storing old state to restore it later
+		   */
+		  caca_context->console_state = console_state;
+		  lw6sys_log_set_console_state (0);
 
 		  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("libcaca init"));
 		  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default canvas %dx%d"),
@@ -153,7 +159,10 @@ _mod_caca_init (int argc, const char *argv[],
    * re-enable console output, should have been done by _mod_caca_quit, 
    * but, just in case...
    */
-  lw6sys_log_console_enable (caca_context == NULL);
+  if (caca_context == NULL)
+    {
+      lw6sys_log_set_console_state (console_state);
+    }
 
   return caca_context;
 }
@@ -187,8 +196,12 @@ _mod_caca_quit (_mod_caca_context_t * caca_context)
       caca_context->canvas = NULL;
     }
 
-  lw6sys_log_console_enable (1);
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("console output enabled (libcaca)"));
+  lw6sys_log_set_console_state (caca_context->console_state);
+  if (caca_context->console_state)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE,
+		  _x_ ("console output enabled (libcaca)"));
+    }
 
   lw6gui_input_quit (&(caca_context->input));
 

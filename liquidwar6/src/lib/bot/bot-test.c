@@ -171,7 +171,7 @@ _setup_init_brute ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libbot CUnit test suite"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libbot-brute CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6bot_create_backend (argc, argv, "brute");
@@ -189,7 +189,7 @@ _setup_quit_brute ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libbot CUnit test suite"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libbot-brute CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -208,7 +208,7 @@ _setup_init_follow ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libbot CUnit test suite"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libbot-follow CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6bot_create_backend (argc, argv, "follow");
@@ -226,7 +226,7 @@ _setup_quit_follow ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libbot CUnit test suite"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libbot-follow CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -245,7 +245,7 @@ _setup_init_idiot ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libbot CUnit test suite"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libbot-idiot CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6bot_create_backend (argc, argv, "idiot");
@@ -263,7 +263,7 @@ _setup_quit_idiot ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libbot CUnit test suite"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libbot-idiot CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -282,7 +282,7 @@ _setup_init_random ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libbot CUnit test suite"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libbot-random CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6bot_create_backend (argc, argv, "random");
@@ -300,7 +300,7 @@ _setup_quit_random ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libbot CUnit test suite"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libbot-random CUnit test suite"));
 
   if (_test_data.backend)
     {

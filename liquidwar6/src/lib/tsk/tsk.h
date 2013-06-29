@@ -71,6 +71,7 @@ extern char *lw6tsk_loader_repr (lw6tsk_loader_t * loader);
 extern int lw6tsk_loader_get_stage (lw6tsk_loader_t * loader);
 
 /* tsk-test.c */
-extern int lw6tsk_test (int mode);
+extern int lw6tsk_test_register (int mode);
+extern int lw6tsk_test_run (int mode);
 
 #endif

@@ -29,11 +29,18 @@
 #include "vox.h"
 #include "vox-internal.h"
 
+typedef struct _lw6vox_test_data_s
+{
+  int ret;
+} _lw6vox_test_data_t;
+
+static _lw6vox_test_data_t _test_data = { 0 };
+
 /*
  * Testing functions in renderer.c
  */
-static int
-test_renderer ()
+static void
+_test_renderer ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -85,37 +92,86 @@ test_renderer ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libvox CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libvox CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6vox_test
+ * lw6vox_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @vox module test suite.
+ * Registers all tests for the libvox module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6vox_test (int mode)
+lw6vox_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6cfg_test (mode);
-      lw6hlp_test (mode);
-      lw6map_test (mode);
-      lw6ker_test (mode);
-      lw6gui_test (mode);
+      lw6sys_test_register (mode);
+      lw6cfg_test_register (mode);
+      lw6hlp_test_register (mode);
+      lw6map_test_register (mode);
+      lw6ker_test_register (mode);
+      lw6gui_test_register (mode);
     }
 
-  ret = test_renderer ();
+  suite = CU_add_suite ("lw6vox", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_renderer);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6vox_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @vox module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6vox_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }
