@@ -52,6 +52,13 @@
 #define _TEST_BACKLOG_FILTER_LEN 2
 #define _TEST_BACKLOG_SPECIFIC_DATA_STR "hello world"
 
+typedef struct _lw6cnx_test_data_s
+{
+  int ret;
+} _lw6cnx_test_data_t;
+
+static _lw6cnx_test_data_t _test_data = { 0 };
+
 static void
 _recv_callback_func (void *recv_callback_data,
 		     lw6cnx_connection_t * connection,
@@ -90,8 +97,8 @@ _backlog_filter_callback (lw6cnx_backlog_filter_data_t * backlog_filter_data,
 /*
  * Testing functions in backlog.c
  */
-static int
-test_backlog ()
+static void
+_test_backlog ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -124,14 +131,13 @@ test_backlog ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in connection.c
  */
-static int
-test_connection ()
+static void
+_test_connection ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -225,14 +231,13 @@ test_connection ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in password.c
  */
-static int
-test_password ()
+static void
+_test_password ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -350,14 +355,13 @@ test_password ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in tickettable.c
  */
-static int
-test_ticket_table ()
+static void
+_test_ticket_table ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -481,34 +485,85 @@ test_ticket_table ()
       }
   }
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libcnx CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libcnx CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6cnx_test
+ * lw6cnx_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @cnx module test suite.
+ * Registers all tests for the libcnx module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6cnx_test (int mode)
+lw6cnx_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6glb_test (mode);
+      lw6sys_test_register (mode);
+      lw6glb_test_register (mode);
     }
 
-  ret = test_backlog () && test_connection () && test_password ()
-    && test_ticket_table ();
+  suite = CU_add_suite ("lw6cnx", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_backlog);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_connection);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_password);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_ticket_table);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6cnx_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @cnx module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6cnx_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }

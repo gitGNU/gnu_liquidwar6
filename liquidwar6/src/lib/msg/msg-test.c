@@ -157,11 +157,18 @@
 #define _TEST_MISS_SERIAL_MAX 100
 #define _TEST_MSG_SERIAL_RANGE 1000000000
 
+typedef struct _lw6msg_test_data_s
+{
+  int ret;
+} _lw6msg_test_data_t;
+
+static _lw6msg_test_data_t _test_data = { 0 };
+
 /*
  * Testing functions in cmd.c
  */
-static int
-test_cmd ()
+static void
+_test_cmd ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -644,7 +651,6 @@ test_cmd ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static int
@@ -901,8 +907,8 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 /*
  * Testing functions in envelope.c
  */
-static int
-test_envelope ()
+static void
+_test_envelope ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -913,14 +919,13 @@ test_envelope ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in meta.c
  */
-static int
-test_meta ()
+static void
+_test_meta ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1055,14 +1060,13 @@ test_meta ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in oob.c
  */
-static int
-test_oob ()
+static void
+_test_oob ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1406,14 +1410,13 @@ test_oob ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in sort.c
  */
-static int
-test_sort ()
+static void
+_test_sort ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1491,14 +1494,13 @@ test_sort ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in ticket.c
  */
-static int
-test_ticket ()
+static void
+_test_ticket ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1575,7 +1577,6 @@ test_ticket ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static void
@@ -1593,8 +1594,8 @@ _key_value_assoc_callback (void *func_data, const char *key, void *value)
 /*
  * Testing functions in utils.c
  */
-static int
-test_utils ()
+static void
+_test_utils ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1680,14 +1681,13 @@ test_utils ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in word.c
  */
-static int
-test_word ()
+static void
+_test_word ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -2042,23 +2042,22 @@ test_word ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static int
-_test_z_ok (char *test_str, int log_all)
+_test_z_ok (char *_test_str, int log_all)
 {
   int ret = 1;
   char *encoded_string = NULL;
   char *decoded_string = NULL;
 
-  encoded_string = lw6msg_z_encode (test_str, _TEST_Z_LIMIT);
+  encoded_string = lw6msg_z_encode (_test_str, _TEST_Z_LIMIT);
   if (encoded_string)
     {
       if (log_all)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _x_ ("z-encode of \"%s\" gives \"%s\""), test_str,
+		      _x_ ("z-encode of \"%s\" gives \"%s\""), _test_str,
 		      encoded_string);
 	}
       else
@@ -2069,7 +2068,7 @@ _test_z_ok (char *test_str, int log_all)
       decoded_string = lw6msg_z_decode (encoded_string);
       if (decoded_string)
 	{
-	  if (lw6sys_str_is_same (decoded_string, test_str))
+	  if (lw6sys_str_is_same (decoded_string, _test_str))
 	    {
 	      if (log_all)
 		{
@@ -2091,7 +2090,7 @@ _test_z_ok (char *test_str, int log_all)
 		  lw6sys_log (LW6SYS_LOG_WARNING,
 			      _x_
 			      ("z-decoded \"%s\" but it's \"%s\", different from \"%s\""),
-			      encoded_string, decoded_string, test_str);
+			      encoded_string, decoded_string, _test_str);
 		}
 	      else
 		{
@@ -2117,7 +2116,7 @@ _test_z_ok (char *test_str, int log_all)
       if (log_all)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to z-encode \"%s\""),
-		      test_str);
+		      _test_str);
 	}
       else
 	{
@@ -2130,19 +2129,19 @@ _test_z_ok (char *test_str, int log_all)
 }
 
 static int
-_test_z_ko (char *test_str, int log_all)
+_test_z_ko (char *_test_str, int log_all)
 {
   int ret = 1;
   char *decoded_string = NULL;
 
-  decoded_string = lw6msg_z_decode (test_str);
+  decoded_string = lw6msg_z_decode (_test_str);
   if (decoded_string)
     {
       if (log_all)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_ ("z-decoded \"%s\" -> \"%s\", this is wrong!"),
-		      test_str, decoded_string);
+		      _test_str, decoded_string);
 	}
       else
 	{
@@ -2159,7 +2158,7 @@ _test_z_ko (char *test_str, int log_all)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_ ("unable to z-decode \"%s\", that's right"),
-		      test_str);
+		      _test_str);
 	}
       else
 	{
@@ -2175,8 +2174,8 @@ _test_z_ko (char *test_str, int log_all)
 /*
  * Testing functions in z.c
  */
-static int
-test_z ()
+static void
+_test_z ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -2212,37 +2211,92 @@ test_z ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libmsg CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libmsg CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6msg_test
+ * lw6msg_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @nod module test suite.
+ * Registers all tests for the libmsg module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6msg_test (int mode)
+lw6msg_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6glb_test (mode);
-      lw6nod_test (mode);
-      lw6cnx_test (mode);
+      lw6sys_test_register (mode);
+      lw6glb_test_register (mode);
+      lw6nod_test_register (mode);
+      lw6cnx_test_register (mode);
     }
 
-  ret = test_cmd () && test_envelope () && test_meta () && test_oob ()
-    && test_sort () && test_ticket () && test_utils () && test_word ()
-    && test_z ();
+  suite = CU_add_suite ("lw6msg", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_cmd);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_envelope);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_meta);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_oob);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_sort);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_ticket);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_utils);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_word);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_z);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6msg_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @msg module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6msg_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }

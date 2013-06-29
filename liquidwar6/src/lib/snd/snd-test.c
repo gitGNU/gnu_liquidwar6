@@ -28,59 +28,64 @@
 
 #include "snd.h"
 
-#define TEST_FX_VOLUME 0.6f
-#define TEST_WATER_VOLUME 0.5f
-#define TEST_MUSIC_VOLUME 0.4f
-#define TEST_FX_SLEEP 1.0f
-#define TEST_WATER_NB 10
-#define TEST_WATER_SLEEP 1.0f
-#define TEST_MUSIC_SLEEP 10.0f
-#define TEST_MUSIC_FILTER ""
-#define TEST_MUSIC_EXCLUDE ""
-#define TEST_ARGC 1
-#define TEST_ARGV0 "prog"
+#define _TEST_FX_VOLUME 0.6f
+#define _TEST_WATER_VOLUME 0.5f
+#define _TEST_MUSIC_VOLUME 0.4f
+#define _TEST_FX_SLEEP 1.0f
+#define _TEST_WATER_NB 10
+#define _TEST_WATER_SLEEP 1.0f
+#define _TEST_MUSIC_SLEEP 10.0f
+#define _TEST_MUSIC_FILTER ""
+#define _TEST_MUSIC_EXCLUDE ""
+#define _TEST_ARGC 1
+#define _TEST_ARGV0 "prog"
 
+typedef struct _lw6snd_test_data_s
+{
+  int ret;
+  lw6snd_backend_t *backend;
+} _lw6snd_test_data_t;
+
+static _lw6snd_test_data_t _test_data = { 0, NULL };
+
+#if MOD_OGG || MOD_CSOUND
 static int
-test_init (lw6snd_backend_t * backend)
+_call_init (lw6snd_backend_t * backend)
 {
   int ret = 1;
-  LW6SYS_TEST_FUNCTION_BEGIN;
+  char *repr = NULL;
 
-  {
-    char *repr = NULL;
+  ret = ret
+    && lw6snd_init (backend, _TEST_FX_VOLUME, _TEST_WATER_VOLUME,
+		    _TEST_MUSIC_VOLUME);
+  if (ret)
+    {
+      repr = lw6snd_repr (backend);
+      if (repr)
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("snd repr is \"%s\""), repr);
+	  LW6SYS_FREE (repr);
+	}
+    }
 
-    ret = ret
-      && lw6snd_init (backend, TEST_FX_VOLUME, TEST_WATER_VOLUME,
-		      TEST_MUSIC_VOLUME);
-    if (ret)
-      {
-	repr = lw6snd_repr (backend);
-	if (repr)
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("snd repr is \"%s\""), repr);
-	    LW6SYS_FREE (repr);
-	  }
-      }
-  }
-
-  LW6SYS_TEST_FUNCTION_END;
   return ret;
 }
 
-static int
-test_play_fx (lw6snd_backend_t * backend)
+static void
+_test_play_fx ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
+    lw6snd_backend_t *backend = _test_data.backend;
     int i;
 
     for (i = 0; i < LW6SND_NB_FX; ++i)
       {
 	if (lw6snd_play_fx (backend, i))
 	  {
-	    lw6sys_sleep (TEST_FX_SLEEP);
+	    lw6sys_sleep (_TEST_FX_SLEEP);
 	  }
 	else
 	  {
@@ -90,51 +95,51 @@ test_play_fx (lw6snd_backend_t * backend)
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_play_water (lw6snd_backend_t * backend)
+static void
+_test_play_water ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
+    lw6snd_backend_t *backend = _test_data.backend;
     int i;
 
-    for (i = 0; i < TEST_WATER_NB; ++i)
+    for (i = 0; i < _TEST_WATER_NB; ++i)
       {
 	lw6snd_poll (backend);
-	lw6sys_sleep (TEST_WATER_SLEEP);
+	lw6sys_sleep (_TEST_WATER_SLEEP);
       }
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_play_music (lw6snd_backend_t * backend)
+static void
+_test_play_music ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
+    lw6snd_backend_t *backend = _test_data.backend;
     char *map_path = NULL;
-    const int argc = TEST_ARGC;
-    const char *argv[TEST_ARGC] = { TEST_ARGV0 };
+    const int argc = _TEST_ARGC;
+    const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
     map_path = lw6cfg_unified_get_music_path (argc, argv);
     if (map_path)
       {
 	if (lw6snd_play_music_random
-	    (backend, map_path, TEST_MUSIC_FILTER, TEST_MUSIC_EXCLUDE))
+	    (backend, map_path, _TEST_MUSIC_FILTER, _TEST_MUSIC_EXCLUDE))
 	  {
-	    lw6sys_sleep (TEST_MUSIC_SLEEP);
+	    lw6sys_sleep (_TEST_MUSIC_SLEEP);
 	    if (lw6snd_play_music_random
-		(backend, map_path, TEST_MUSIC_FILTER, TEST_MUSIC_EXCLUDE))
+		(backend, map_path, _TEST_MUSIC_FILTER, _TEST_MUSIC_EXCLUDE))
 	      {
-		lw6sys_sleep (TEST_MUSIC_SLEEP);
+		lw6sys_sleep (_TEST_MUSIC_SLEEP);
 	      }
 	    else
 	      {
@@ -151,47 +156,135 @@ test_play_music (lw6snd_backend_t * backend)
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
+#endif // MOD_OGG || MOD_CSOUND
+
+static void
+_call_quit (lw6snd_backend_t * backend)
+{
+  lw6snd_quit (backend);
+}
+
+#ifdef MOD_OGG
+static int
+_setup_init_ogg ()
+{
+  int ret = CUE_SINIT_FAILED;
+  int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libsnd-ogg CUnit test suite"));
+  if (_test_data.backend == NULL)
+    {
+      _test_data.backend = lw6snd_create_backend (argc, argv, "ogg");
+      if (_test_data.backend)
+	{
+	  if (_call_init (_test_data.backend))
+	    {
+	      ret = CUE_SUCCESS;
+	    }
+	  else
+	    {
+	      lw6snd_destroy_backend (_test_data.backend);
+	      _test_data.backend = NULL;
+	    }
+	}
+    }
+
   return ret;
 }
 
 static int
-test_quit (lw6snd_backend_t * backend)
+_setup_quit_ogg ()
 {
-  int ret = 1;
-  LW6SYS_TEST_FUNCTION_BEGIN;
+  int ret = CUE_SCLEAN_FAILED;
 
-  lw6snd_quit (backend);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libsnd-ogg CUnit test suite"));
 
-  LW6SYS_TEST_FUNCTION_END;
+  if (_test_data.backend)
+    {
+      _call_quit (_test_data.backend);
+      lw6snd_destroy_backend (_test_data.backend);
+      _test_data.backend = NULL;
+      ret = CUE_SUCCESS;
+    }
+
+  return ret;
+}
+#endif // MOD_OGG
+
+#ifdef MOD_CSOUND
+static int
+_setup_init_csound ()
+{
+  int ret = CUE_SINIT_FAILED;
+  int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libsnd-csound CUnit test suite"));
+  if (_test_data.backend == NULL)
+    {
+      _test_data.backend = lw6snd_create_backend (argc, argv, "csound");
+      if (_test_data.backend)
+	{
+	  if (_call_init (_test_data.backend))
+	    {
+	      ret = CUE_SUCCESS;
+	    }
+	  else
+	    {
+	      lw6snd_destroy_backend (_test_data.backend);
+	      _test_data.backend = NULL;
+	    }
+	}
+    }
+
   return ret;
 }
 
+static int
+_setup_quit_csound ()
+{
+  int ret = CUE_SCLEAN_FAILED;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libsnd-csound CUnit test suite"));
+
+  if (_test_data.backend)
+    {
+      _call_quit (_test_data.backend);
+      lw6snd_destroy_backend (_test_data.backend);
+      _test_data.backend = NULL;
+      ret = CUE_SUCCESS;
+    }
+
+  return ret;
+}
+#endif // MOD_CSOUND
+
 /**
- * lw6snd_test
+ * lw6snd_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @snd module test suite. If run in check mode (0),
- * won't really perform the test, since it could fail because
- * of hardware problems, context, permissions...
+ * Registers all tests for the libsnd module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6snd_test (int mode)
+lw6snd_test_register (int mode)
 {
   int ret = 1;
-  lw6snd_backend_t *backend;
-  const int argc = TEST_ARGC;
-  const char *argv[TEST_ARGC] = { TEST_ARGV0 };
+#if MOD_OGG || MOD_CSOUND || MOD_SOFT || MOD_CACA
+  CU_Suite *suite;
+#endif // MOD_OGG || MOD_CSOUND || MOD_SOFT || MOD_CACA
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6cfg_test (mode);
+      lw6sys_test_register (mode);
+      lw6cfg_test_register (mode);
       /*
        * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
        * this function is available only in non-allinone mode.
@@ -199,49 +292,63 @@ lw6snd_test (int mode)
       // lw6dyn_test (mode);
     }
 
-  if (mode)
-    {
 #ifdef MOD_OGG
-      backend = lw6snd_create_backend (argc, argv, "ogg");
-      if (backend)
-	{
-	  if (test_init (backend))
-	    {
-	      ret = test_play_fx (backend)
-		&& test_play_water (backend) && test_play_music (backend)
-		&& ret;
-	      ret = test_quit (backend) && ret;
-	    }
-	  else
-	    {
-	      ret = 0;
-	    }
-	  lw6snd_destroy_backend (backend);
-	}
-#endif
-
-#ifdef MOD_CSOUND
-      backend = lw6snd_create_backend (argc, argv, "csound");
-      if (backend)
-	{
-	  if (test_init (backend))
-	    {
-	      ret = test_play_fx (backend)
-		&& test_play_water (backend) && test_play_music (backend)
-		&& ret;
-	      ret = test_quit (backend) && ret;
-	    }
-	  else
-	    {
-	      ret = 0;
-	    }
-	  lw6snd_destroy_backend (backend);
-	}
-#endif
+  suite = CU_add_suite ("lw6snd-ogg", _setup_init_ogg, _setup_quit_ogg);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_play_fx);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_play_water);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_play_music);
     }
   else
     {
-      ret = 1;
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+#endif // MOD_OGG
+
+#ifdef MOD_CSOUND
+  suite =
+    CU_add_suite ("lw6snd-csound", _setup_init_csound, _setup_quit_csound);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_play_fx);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_play_water);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_play_music);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+#endif // MOD_CSOUND
+
+  return ret;
+}
+
+/**
+ * lw6snd_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @snd module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6snd_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
     }
 
   return ret;

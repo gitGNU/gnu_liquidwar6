@@ -29,45 +29,53 @@
 #include "dsp.h"
 #include "dsp-internal.h"
 
-#define TEST_ARGC 1
-#define TEST_ARGV0 "prog"
-#define TEST_SLEEP_LONG 1.0f
-#define TEST_SLEEP_SHORT 0.2f
-#define TEST_WIDTH1 640
-#define TEST_HEIGHT1 480
-#define TEST_FULLSCREEN1 0
-#define TEST_WIDTH2 800
-#define TEST_HEIGHT2 600
-#define TEST_FULLSCREEN2 0
-#define TEST_REPEAT_DELAY 200
-#define TEST_REPEAT_INTERVAL 20
-#define TEST_DOUBLE_CLICK_DELAY 400
-#define TEST_AUTO_RELEASE_DELAY 300
-#define TEST_FRAMES_PER_SEC 60
-#define TEST_DISPLAY_BACKGROUND 1
-#define TEST_DISPLAY_MENU 1
-#define TEST_DISPLAY_HUD 1
-#define TEST_DISPLAY_VIEW 1
-#define TEST_MENU_TITLE "This is a title"
-#define TEST_MENU_HELP "This is a help, it's quite long so it's very likely it should be displayed on several lines, anyways, who knows, you can't garantee that"
-#define TEST_MENU_POPUP ""
-#define TEST_MENU_ESC "<-"
-#define TEST_MENU_ENABLE_ESC 1
-#define TEST_MENU_ALLOW_SCROLL 0
-#define TEST_NB_MENUITEMS1 5
-#define TEST_NB_MENUITEMS2 15
-#define TEST_MENUITEM_LABEL_FORMAT "Item %d"
-#define TEST_MENUITEM_TOOLTIP_FORMAT "Item %d"
-#define TEST_MENUITEM_COLORED_INDEX 2
-#define TEST_MAP "subflower/"
-#define TEST_NB_ROUNDS 250
-#define TEST_NODE_ID 0x1234123412341234LL
-#define TEST_CURSOR1_ID 0x1234
-#define TEST_CURSOR2_ID 0x2345
-#define TEST_COLOR1 LW6MAP_TEAM_COLOR_RED
-#define TEST_COLOR2 LW6MAP_TEAM_COLOR_GREEN
-#define TEST_INPUT_TICKS 3000
-#define TEST_LOG_TIMEOUT 5
+#define _TEST_ARGC 1
+#define _TEST_ARGV0 "prog"
+#define _TEST_SLEEP_LONG 1.0f
+#define _TEST_SLEEP_SHORT 0.2f
+#define _TEST_WIDTH1 640
+#define _TEST_HEIGHT1 480
+#define _TEST_FULLSCREEN1 0
+#define _TEST_WIDTH2 800
+#define _TEST_HEIGHT2 600
+#define _TEST_FULLSCREEN2 0
+#define _TEST_REPEAT_DELAY 200
+#define _TEST_REPEAT_INTERVAL 20
+#define _TEST_DOUBLE_CLICK_DELAY 400
+#define _TEST_AUTO_RELEASE_DELAY 300
+#define _TEST_FRAMES_PER_SEC 60
+#define _TEST_DISPLAY_BACKGROUND 1
+#define _TEST_DISPLAY_MENU 1
+#define _TEST_DISPLAY_HUD 1
+#define _TEST_DISPLAY_VIEW 1
+#define _TEST_MENU_TITLE "This is a title"
+#define _TEST_MENU_HELP "This is a help, it's quite long so it's very likely it should be displayed on several lines, anyways, who knows, you can't garantee that"
+#define _TEST_MENU_POPUP ""
+#define _TEST_MENU_ESC "<-"
+#define _TEST_MENU_ENABLE_ESC 1
+#define _TEST_MENU_ALLOW_SCROLL 0
+#define _TEST_NB_MENUITEMS1 5
+#define _TEST_NB_MENUITEMS2 15
+#define _TEST_MENUITEM_LABEL_FORMAT "Item %d"
+#define _TEST_MENUITEM_TOOLTIP_FORMAT "Item %d"
+#define _TEST_MENUITEM_COLORED_INDEX 2
+#define _TEST_MAP "subflower/"
+#define _TEST_NB_ROUNDS 250
+#define _TEST_NODE_ID 0x1234123412341234LL
+#define _TEST_CURSOR1_ID 0x1234
+#define _TEST_CURSOR2_ID 0x2345
+#define _TEST_COLOR1 LW6MAP_TEAM_COLOR_RED
+#define _TEST_COLOR2 LW6MAP_TEAM_COLOR_GREEN
+#define _TEST_INPUT_TICKS 3000
+#define _TEST_LOG_TIMEOUT 5
+
+typedef struct _lw6dsp_test_data_s
+{
+  int ret;
+  lw6dsp_backend_t *backend;
+} _lw6dsp_test_data_t;
+
+static _lw6dsp_test_data_t _test_data = { 0, NULL };
 
 static void
 sleep_and_report (lw6dsp_backend_t * display, float delay)
@@ -91,22 +99,22 @@ menu_new (int n)
   int i;
 
   ret =
-    lw6gui_menu_new (TEST_MENU_TITLE, TEST_MENU_HELP, TEST_MENU_POPUP,
-		     TEST_MENU_ESC, TEST_MENU_ENABLE_ESC);
+    lw6gui_menu_new (_TEST_MENU_TITLE, _TEST_MENU_HELP, _TEST_MENU_POPUP,
+		     _TEST_MENU_ESC, _TEST_MENU_ENABLE_ESC);
   if (ret)
     {
       for (i = 0; i < n; ++i)
 	{
-	  label = lw6sys_new_sprintf (TEST_MENUITEM_LABEL_FORMAT, i + 1);
+	  label = lw6sys_new_sprintf (_TEST_MENUITEM_LABEL_FORMAT, i + 1);
 	  if (label)
 	    {
 	      tooltip =
-		lw6sys_new_sprintf (TEST_MENUITEM_TOOLTIP_FORMAT, i + 1);
+		lw6sys_new_sprintf (_TEST_MENUITEM_TOOLTIP_FORMAT, i + 1);
 	      if (tooltip)
 		{
 		  item =
 		    lw6gui_menuitem_new (label, tooltip, i + 1, 1, i == 0,
-					 i == TEST_MENUITEM_COLORED_INDEX);
+					 i == _TEST_MENUITEM_COLORED_INDEX);
 		  if (item)
 		    {
 		      lw6gui_menu_append (ret, item, 0);
@@ -128,8 +136,8 @@ level_new (char *name, int display_width, int display_height,
   lw6map_level_t *ret = NULL;
   char *map_path = NULL;
   char *user_dir = NULL;
-  const int argc = TEST_ARGC;
-  const char *argv[TEST_ARGC] = { TEST_ARGV0 };
+  const int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
   lw6sys_progress_begin (progress);
   map_path = lw6cfg_unified_get_map_path (argc, argv);
@@ -139,7 +147,7 @@ level_new (char *name, int display_width, int display_height,
       if (user_dir)
 	{
 	  ret =
-	    lw6ldr_read_relative (map_path, TEST_MAP, NULL, NULL,
+	    lw6ldr_read_relative (map_path, _TEST_MAP, NULL, NULL,
 				  display_width, display_height,
 				  LW6LDR_DEFAULT_BENCH_VALUE,
 				  LW6LDR_DEFAULT_MAGIC_NUMBER, user_dir,
@@ -175,11 +183,11 @@ game_state_new (lw6ker_game_struct_t * game_struct,
   ret = lw6ker_game_state_new (game_struct, progress);
   if (ret)
     {
-      lw6ker_game_state_register_node (ret, TEST_NODE_ID);
-      lw6ker_game_state_add_cursor (ret, TEST_NODE_ID,
-				    TEST_CURSOR1_ID, TEST_COLOR1);
-      lw6ker_game_state_add_cursor (ret, TEST_NODE_ID,
-				    TEST_CURSOR2_ID, TEST_COLOR2);
+      lw6ker_game_state_register_node (ret, _TEST_NODE_ID);
+      lw6ker_game_state_add_cursor (ret, _TEST_NODE_ID,
+				    _TEST_CURSOR1_ID, _TEST_COLOR1);
+      lw6ker_game_state_add_cursor (ret, _TEST_NODE_ID,
+				    _TEST_CURSOR2_ID, _TEST_COLOR2);
     }
   lw6sys_progress_begin (progress);
 
@@ -204,17 +212,15 @@ pilot_new (lw6ker_game_state_t * game_state, lw6sys_progress_t * progress)
   return ret;
 }
 
-static int
-test_display (const char *gfx_backend_name)
+static void
+_test_display ()
 {
   int ret = 0;
 
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    const int argc = TEST_ARGC;
-    const char *argv[TEST_ARGC] = { TEST_ARGV0 };
-    lw6dsp_backend_t *display = NULL;
+    lw6dsp_backend_t *display = _test_data.backend;
     lw6gui_keypress_t *keypress = NULL;
     lw6dsp_param_t param;
     lw6gui_menu_t *menu = NULL;
@@ -232,314 +238,537 @@ test_display (const char *gfx_backend_name)
 
     lw6sys_progress_default (&progress, &progress_value);
     lw6sys_progress_begin (&progress);
-    display = lw6dsp_create_backend (argc, argv, gfx_backend_name);
-    if (display)
+    repr = lw6dsp_repr (display);
+    if (repr)
       {
-	repr = lw6dsp_repr (display);
-	if (repr)
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("display repr is \"%s\""), repr);
+	LW6SYS_FREE (repr);
+      }
+    lw6dsp_param_zero (&param);
+    param.video_mode.width = _TEST_WIDTH1;
+    param.video_mode.height = _TEST_HEIGHT1;
+    param.video_mode.fullscreen = _TEST_FULLSCREEN1;
+    param.misc.target_fps = _TEST_FRAMES_PER_SEC;
+    param.misc.mask =
+      LW6GUI_DISPLAY_BACKGROUND | LW6GUI_DISPLAY_PREVIEW |
+      LW6GUI_DISPLAY_MAP | LW6GUI_DISPLAY_FIGHTERS |
+      LW6GUI_DISPLAY_CURSORS | LW6GUI_DISPLAY_MENU | LW6GUI_DISPLAY_META |
+      LW6GUI_DISPLAY_LOG | LW6GUI_DISPLAY_FPS;
+    param.look = lw6gui_look_new (NULL);
+    if (param.look)
+      {
+	if (lw6dsp_init (display, &param, NULL))
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("display repr is \"%s\""),
-			repr);
-	    LW6SYS_FREE (repr);
-	  }
-	lw6dsp_param_zero (&param);
-	param.video_mode.width = TEST_WIDTH1;
-	param.video_mode.height = TEST_HEIGHT1;
-	param.video_mode.fullscreen = TEST_FULLSCREEN1;
-	param.misc.target_fps = TEST_FRAMES_PER_SEC;
-	param.misc.mask =
-	  LW6GUI_DISPLAY_BACKGROUND | LW6GUI_DISPLAY_PREVIEW |
-	  LW6GUI_DISPLAY_MAP | LW6GUI_DISPLAY_FIGHTERS |
-	  LW6GUI_DISPLAY_CURSORS | LW6GUI_DISPLAY_MENU | LW6GUI_DISPLAY_META |
-	  LW6GUI_DISPLAY_LOG | LW6GUI_DISPLAY_FPS;
-	param.look = lw6gui_look_new (NULL);
-	if (param.look)
-	  {
-	    if (lw6dsp_init (display, &param, NULL))
+	    repr = lw6dsp_repr (display);
+	    if (repr)
 	      {
-		repr = lw6dsp_repr (display);
-		if (repr)
-		  {
-		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_x_ ("display repr is \"%s\""), repr);
-		    LW6SYS_FREE (repr);
-		  }
-		lw6dsp_get_video_mode (display, &video_mode);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_ ("video mode is %dx%d fullscreen=%d"),
-			    video_mode.width, video_mode.height,
-			    video_mode.fullscreen);
-		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("displaying background"));
-		sleep_and_report (display, TEST_SLEEP_LONG);
-		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("changing resolution"));
-		param.video_mode.width = TEST_WIDTH2;
-		param.video_mode.height = TEST_HEIGHT2;
-		param.video_mode.fullscreen = TEST_FULLSCREEN2;
-		param.misc.repeat_settings.delay = TEST_REPEAT_DELAY;
-		param.misc.repeat_settings.interval = TEST_REPEAT_INTERVAL;
-		param.misc.repeat_settings.double_click_delay =
-		  TEST_DOUBLE_CLICK_DELAY;
-		param.misc.repeat_settings.auto_release_delay =
-		  TEST_AUTO_RELEASE_DELAY;
-		param.misc.log_timeout = TEST_LOG_TIMEOUT;
+			    _x_ ("display repr is \"%s\""), repr);
+		LW6SYS_FREE (repr);
+	      }
+	    lw6dsp_get_video_mode (display, &video_mode);
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("video mode is %dx%d fullscreen=%d"),
+			video_mode.width, video_mode.height,
+			video_mode.fullscreen);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("displaying background"));
+	    sleep_and_report (display, _TEST_SLEEP_LONG);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("changing resolution"));
+	    param.video_mode.width = _TEST_WIDTH2;
+	    param.video_mode.height = _TEST_HEIGHT2;
+	    param.video_mode.fullscreen = _TEST_FULLSCREEN2;
+	    param.misc.repeat_settings.delay = _TEST_REPEAT_DELAY;
+	    param.misc.repeat_settings.interval = _TEST_REPEAT_INTERVAL;
+	    param.misc.repeat_settings.double_click_delay =
+	      _TEST_DOUBLE_CLICK_DELAY;
+	    param.misc.repeat_settings.auto_release_delay =
+	      _TEST_AUTO_RELEASE_DELAY;
+	    param.misc.log_timeout = _TEST_LOG_TIMEOUT;
+	    lw6dsp_update (display, &param);
+	    sleep_and_report (display, _TEST_SLEEP_LONG);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("displaying menu"));
+	    param.menu = menu_new (_TEST_NB_MENUITEMS1);
+	    if (param.menu)
+	      {
 		lw6dsp_update (display, &param);
-		sleep_and_report (display, TEST_SLEEP_LONG);
-		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("displaying menu"));
-		param.menu = menu_new (TEST_NB_MENUITEMS1);
+		sleep_and_report (display, _TEST_SLEEP_SHORT);
+		while (param.menu->nb_items > 0)
+		  {
+		    lw6gui_menu_remove (param.menu, 0, 0);
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("displaying menu with %d items"),
+				param.menu->nb_items);
+		    lw6dsp_update (display, &param);
+		    sleep_and_report (display, _TEST_SLEEP_SHORT);
+		  }
+		lw6gui_menu_free (param.menu);
+		param.menu = menu_new (_TEST_NB_MENUITEMS2);
 		if (param.menu)
 		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("displaying big menu (%d items)"),
+				param.menu->nb_items);
 		    lw6dsp_update (display, &param);
-		    sleep_and_report (display, TEST_SLEEP_SHORT);
-		    while (param.menu->nb_items > 0)
+		    sleep_and_report (display, _TEST_SLEEP_SHORT);
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("nb items displayed is %d"),
+				param.menu->nb_items_displayed);
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("scrolling to middle of big menu (%d)"),
+				param.menu->nb_items / 2);
+		    lw6gui_menu_select (param.menu,
+					param.menu->nb_items / 2,
+					_TEST_MENU_ALLOW_SCROLL, 0);
+		    lw6dsp_update (display, &param);
+		    sleep_and_report (display, _TEST_SLEEP_SHORT);
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("nb items displayed is %d"),
+				param.menu->nb_items_displayed);
+		    menu = param.menu;
+		    param.menu = NULL;
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("big menu disappears"));
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("this warning should appear for %d seconds on the screen"),
+				_TEST_LOG_TIMEOUT);
+		    lw6sys_log (LW6SYS_LOG_ERROR, _("this error too"));
+		    lw6dsp_update (display, &param);
+		    sleep_and_report (display, _TEST_SLEEP_SHORT);
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("big menu is back again"));
+		    param.menu = menu;
+		    lw6dsp_update (display, &param);
+		    sleep_and_report (display, _TEST_SLEEP_SHORT);
+		    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("loading a map"));
+		    param.misc.progress = &progress_value;
+		    lw6dsp_update (display, &param);
+		    level =
+		      level_new (_TEST_MAP, _TEST_WIDTH2, _TEST_HEIGHT2,
+				 &progress);
+		    if (level)
 		      {
-			lw6gui_menu_remove (param.menu, 0, 0);
+			param.level = level;
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("displaying menu with %d items"),
-				    param.menu->nb_items);
+				    _x_ ("displaying a map"));
 			lw6dsp_update (display, &param);
-			sleep_and_report (display, TEST_SLEEP_SHORT);
-		      }
-		    lw6gui_menu_free (param.menu);
-		    param.menu = menu_new (TEST_NB_MENUITEMS2);
-		    if (param.menu)
-		      {
-			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("displaying big menu (%d items)"),
-				    param.menu->nb_items);
-			lw6dsp_update (display, &param);
-			sleep_and_report (display, TEST_SLEEP_SHORT);
-			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("nb items displayed is %d"),
-				    param.menu->nb_items_displayed);
-			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_
-				    ("scrolling to middle of big menu (%d)"),
-				    param.menu->nb_items / 2);
-			lw6gui_menu_select (param.menu,
-					    param.menu->nb_items / 2,
-					    TEST_MENU_ALLOW_SCROLL, 0);
-			lw6dsp_update (display, &param);
-			sleep_and_report (display, TEST_SLEEP_SHORT);
-			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("nb items displayed is %d"),
-				    param.menu->nb_items_displayed);
-			menu = param.menu;
-			param.menu = NULL;
-			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("big menu disappears"));
-			lw6sys_log (LW6SYS_LOG_WARNING,
-				    _x_
-				    ("this warning should appear for %d seconds on the screen"),
-				    TEST_LOG_TIMEOUT);
-			lw6sys_log (LW6SYS_LOG_ERROR, _("this error too"));
-			lw6dsp_update (display, &param);
-			sleep_and_report (display, TEST_SLEEP_SHORT);
-			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("big menu is back again"));
-			param.menu = menu;
-			lw6dsp_update (display, &param);
-			sleep_and_report (display, TEST_SLEEP_SHORT);
-			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("loading a map"));
-			param.misc.progress = &progress_value;
-			lw6dsp_update (display, &param);
-			level =
-			  level_new (TEST_MAP, TEST_WIDTH2, TEST_HEIGHT2,
-				     &progress);
-			if (level)
-			  {
-			    param.level = level;
-			    lw6sys_log (LW6SYS_LOG_NOTICE,
-					_x_ ("displaying a map"));
-			    lw6dsp_update (display, &param);
-			    sleep_and_report (display, TEST_SLEEP_LONG);
+			sleep_and_report (display, _TEST_SLEEP_LONG);
 
+			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("build struct"));
+			game_struct =
+			  game_struct_new (param.level, &progress);
+			if (game_struct)
+			  {
+			    param.game_struct = game_struct;
+			    lw6dsp_update (display, &param);
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
-					_x_ ("build struct"));
-			    game_struct =
-			      game_struct_new (param.level, &progress);
-			    if (game_struct)
+					_x_ ("build state"));
+			    game_state =
+			      game_state_new (param.game_struct, &progress);
+			    if (game_state)
 			      {
-				param.game_struct = game_struct;
+				param.game_state = game_state;
 				lw6dsp_update (display, &param);
 				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _x_ ("build state"));
-				game_state =
-				  game_state_new (param.game_struct,
-						  &progress);
-				if (game_state)
+					    _x_ ("displaying a game"));
+				sleep_and_report (display, _TEST_SLEEP_LONG);
+				lw6sys_log (LW6SYS_LOG_NOTICE,
+					    _x_
+					    ("start play with game state"));
+				for (i = 0; i < _TEST_NB_ROUNDS; ++i)
 				  {
-				    param.game_state = game_state;
+				    lw6ker_game_state_do_round (game_state);
 				    lw6dsp_update (display, &param);
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
-						_x_ ("displaying a game"));
-				    sleep_and_report (display,
-						      TEST_SLEEP_LONG);
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
-						_x_
-						("start play with game state"));
-				    for (i = 0; i < TEST_NB_ROUNDS; ++i)
-				      {
-					lw6ker_game_state_do_round
-					  (game_state);
-					lw6dsp_update (display, &param);
-				      }
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
-						_x_
-						("stop play with game state"));
-				    pilot = pilot_new (game_state, &progress);
-				    if (pilot)
-				      {
-					lw6sys_log (LW6SYS_LOG_NOTICE,
-						    _x_
-						    ("start play with pilot"));
-					sleep_and_report (display,
-							  TEST_SLEEP_LONG);
-					lw6sys_log (LW6SYS_LOG_NOTICE,
-						    _x_
-						    ("stop play with pilot"));
-					param.pilot = NULL;
-					lw6dsp_update (display, &param);
-					lw6pil_pilot_free (pilot);
-					pilot = NULL;
-				      }
-				    param.game_state = NULL;
-				    lw6dsp_update (display, &param);
-				    lw6ker_game_state_free (game_state);
-				    game_state = NULL;
-				    ret = 1;
 				  }
-				param.game_struct = NULL;
+				lw6sys_log (LW6SYS_LOG_NOTICE,
+					    _x_
+					    ("stop play with game state"));
+				pilot = pilot_new (game_state, &progress);
+				if (pilot)
+				  {
+				    lw6sys_log (LW6SYS_LOG_NOTICE,
+						_x_
+						("start play with pilot"));
+				    sleep_and_report (display,
+						      _TEST_SLEEP_LONG);
+				    lw6sys_log (LW6SYS_LOG_NOTICE,
+						_x_ ("stop play with pilot"));
+				    param.pilot = NULL;
+				    lw6dsp_update (display, &param);
+				    lw6pil_pilot_free (pilot);
+				    pilot = NULL;
+				  }
+				param.game_state = NULL;
 				lw6dsp_update (display, &param);
-				lw6ker_game_struct_free (game_struct);
-				game_struct = NULL;
+				lw6ker_game_state_free (game_state);
+				game_state = NULL;
+				ret = 1;
 			      }
-			    param.level = NULL;
+			    param.game_struct = NULL;
 			    lw6dsp_update (display, &param);
-			    lw6map_free (level);
-			    level = NULL;
+			    lw6ker_game_struct_free (game_struct);
+			    game_struct = NULL;
 			  }
-			lw6gui_menu_free (param.menu);
-			param.menu = NULL;
+			param.level = NULL;
+			lw6dsp_update (display, &param);
+			lw6map_free (level);
+			level = NULL;
 		      }
+		    lw6gui_menu_free (param.menu);
+		    param.menu = NULL;
 		  }
-		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("checking what happens when replicated objects are freed in the param (menu, for instance)"));
-		sleep_and_report (display, TEST_SLEEP_SHORT);
-		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("now applying the params, nothing should be displayed but the background"));
-		lw6dsp_update (display, &param);
-		sleep_and_report (display, TEST_SLEEP_LONG);
-
-		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("pumping events, try to press random keys while having the focus on the game window, you should get one log message per keypress, test will end after %d seconds"),
-			    (int) (TEST_INPUT_TICKS / LW6SYS_TICKS_PER_SEC));
-		ticks = lw6sys_get_uptime ();
-		while ((!lw6sys_signal_poll_quit ())
-		       && lw6sys_get_uptime () < ticks + TEST_INPUT_TICKS)
-		  {
-		    /*
-		     * Note, there's no sleep in this sloop, should be CPU greedy,
-		     * it's interesting to see how display reacts.
-		     */
-		    lw6dsp_update (display, &param);
-		    keypress =
-		      lw6gui_keyboard_pop_keypress (&
-						    (display->input->
-						     keyboard));
-		    if (keypress)
-		      {
-			repr = lw6gui_keypress_repr (keypress);
-			if (repr)
-			  {
-			    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s"), repr);
-			    LW6SYS_FREE (repr);
-			  }
-			lw6gui_keypress_free (keypress);
-		      }
-		  }
-		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("done with events"));
-
-		nb_frames = lw6dsp_get_nb_frames (display);
-
-		lw6dsp_quit (display);
 	      }
-	    else
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("checking what happens when replicated objects are freed in the param (menu, for instance)"));
+	    sleep_and_report (display, _TEST_SLEEP_SHORT);
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("now applying the params, nothing should be displayed but the background"));
+	    lw6dsp_update (display, &param);
+	    sleep_and_report (display, _TEST_SLEEP_LONG);
+
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("pumping events, try to press random keys while having the focus on the game window, you should get one log message per keypress, test will end after %d seconds"),
+			(int) (_TEST_INPUT_TICKS / LW6SYS_TICKS_PER_SEC));
+	    ticks = lw6sys_get_uptime ();
+	    while ((!lw6sys_signal_poll_quit ())
+		   && lw6sys_get_uptime () < ticks + _TEST_INPUT_TICKS)
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _x_ ("unable to start display"));
+		/*
+		 * Note, there's no sleep in this sloop, should be CPU greedy,
+		 * it's interesting to see how display reacts.
+		 */
+		lw6dsp_update (display, &param);
+		keypress =
+		  lw6gui_keyboard_pop_keypress (&(display->input->keyboard));
+		if (keypress)
+		  {
+		    repr = lw6gui_keypress_repr (keypress);
+		    if (repr)
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s"), repr);
+			LW6SYS_FREE (repr);
+		      }
+		    lw6gui_keypress_free (keypress);
+		  }
 	      }
-	    lw6gui_look_free (param.look);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("done with events"));
+
+	    nb_frames = lw6dsp_get_nb_frames (display);
+
+	    lw6dsp_quit (display);
 	  }
 	else
 	  {
-	    ret = 0;
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to start display"));
 	  }
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("frames=%d"), nb_frames);
-	lw6dsp_destroy_backend (display);
+	lw6gui_look_free (param.look);
       }
+    else
+      {
+	ret = 0;
+      }
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("frames=%d"), nb_frames);
+    lw6dsp_destroy_backend (display);
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
+
+static int
+_setup_init_gl1 ()
+{
+  int ret = CUE_SINIT_FAILED;
+  int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libdsp-gl1 CUnit test suite"));
+  if (_test_data.backend == NULL)
+    {
+      _test_data.backend = lw6dsp_create_backend (argc, argv, "gl1");
+      if (_test_data.backend)
+	{
+	  ret = CUE_SUCCESS;
+	}
+    }
 
   return ret;
 }
 
-static void
-test_callback_func (void *func_data, const char *key, void *value)
+static int
+_setup_quit_gl1 ()
 {
-  int *ret = NULL;
+  int ret = CUE_SCLEAN_FAILED;
 
-  ret = (int *) func_data;
-  (*ret) = test_display (key) || (*ret);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libdsp-gl1 CUnit test suite"));
+
+  if (_test_data.backend)
+    {
+      lw6dsp_destroy_backend (_test_data.backend);
+      _test_data.backend = NULL;
+      ret = CUE_SUCCESS;
+    }
+
+  return ret;
+}
+
+static int
+_setup_init_gles2 ()
+{
+  int ret = CUE_SINIT_FAILED;
+  int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libdsp-gles2 CUnit test suite"));
+  if (_test_data.backend == NULL)
+    {
+      _test_data.backend = lw6dsp_create_backend (argc, argv, "gles2");
+      if (_test_data.backend)
+	{
+	  ret = CUE_SUCCESS;
+	}
+    }
+
+  return ret;
+}
+
+static int
+_setup_quit_gles2 ()
+{
+  int ret = CUE_SCLEAN_FAILED;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libdsp-gles2 CUnit test suite"));
+
+  if (_test_data.backend)
+    {
+      lw6dsp_destroy_backend (_test_data.backend);
+      _test_data.backend = NULL;
+      ret = CUE_SUCCESS;
+    }
+
+  return ret;
+}
+
+static int
+_setup_init_soft ()
+{
+  int ret = CUE_SINIT_FAILED;
+  int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libdsp-soft CUnit test suite"));
+  if (_test_data.backend == NULL)
+    {
+      _test_data.backend = lw6dsp_create_backend (argc, argv, "soft");
+      if (_test_data.backend)
+	{
+	  ret = CUE_SUCCESS;
+	}
+    }
+
+  return ret;
+}
+
+static int
+_setup_quit_soft ()
+{
+  int ret = CUE_SCLEAN_FAILED;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libdsp-soft CUnit test suite"));
+
+  if (_test_data.backend)
+    {
+      lw6dsp_destroy_backend (_test_data.backend);
+      _test_data.backend = NULL;
+      ret = CUE_SUCCESS;
+    }
+
+  return ret;
+}
+
+static int
+_setup_init_caca ()
+{
+  int ret = CUE_SINIT_FAILED;
+  int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libdsp-caca CUnit test suite"));
+  if (_test_data.backend == NULL)
+    {
+      _test_data.backend = lw6dsp_create_backend (argc, argv, "caca");
+      if (_test_data.backend)
+	{
+	  ret = CUE_SUCCESS;
+	}
+    }
+
+  return ret;
+}
+
+static int
+_setup_quit_caca ()
+{
+  int ret = CUE_SCLEAN_FAILED;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libdsp-caca CUnit test suite"));
+
+  if (_test_data.backend)
+    {
+      lw6dsp_destroy_backend (_test_data.backend);
+      _test_data.backend = NULL;
+      ret = CUE_SUCCESS;
+    }
+
+  return ret;
 }
 
 /**
- * lw6dsp_test
+ * lw6dsp_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the test suite for the dsp module. In check (0) mode, won't
- * test much to avoid failure because of missing graphical environment.
+ * Registers all tests for the libdsp module.
  *
- * Return value: 1 if OK, 0 if error.
+ * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6dsp_test (int mode)
+lw6dsp_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  int argc = _TEST_ARGC;
+  const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
+  CU_Suite *suite;
   lw6sys_assoc_t *gfx_backends = NULL;
-  const int argc = TEST_ARGC;
-  const char *argv[TEST_ARGC] = { TEST_ARGV0 };
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6cfg_test (mode);
-      lw6map_test (mode);
-      lw6ker_test (mode);
-      lw6gui_test (mode);
-      lw6vox_test (mode);
-      lw6gfx_test (mode);
+      lw6sys_test_register (mode);
+      lw6cfg_test_register (mode);
+      lw6map_test_register (mode);
+      lw6ker_test_register (mode);
+      lw6pil_test_register (mode);
+      lw6gui_test_register (mode);
+      lw6vox_test_register (mode);
+      lw6gfx_test_register (mode);
+      /*
+       * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
+       * this function is available only in non-allinone mode.
+       */
+      // lw6dyn_test (mode);
     }
 
   gfx_backends = lw6gfx_get_backends (argc, argv);
   if (gfx_backends)
     {
-      if (mode)
+      if (lw6sys_assoc_has_key (gfx_backends, "gl1"))
 	{
-	  lw6sys_assoc_map (gfx_backends, test_callback_func, &ret);
+	  suite =
+	    CU_add_suite ("lw6dsp-gl1", _setup_init_gl1, _setup_quit_gl1);
+	  if (suite)
+	    {
+	      LW6SYS_CUNIT_ADD_TEST (suite, _test_display);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("unable to add CUnit test suite, error msg is \"%s\""),
+			  CU_get_error_msg ());
+	      ret = 0;
+	    }
 	}
-      else
+
+      if (lw6sys_assoc_has_key (gfx_backends, "gles2"))
 	{
-	  ret = 1;
+	  suite =
+	    CU_add_suite ("lw6dsp-gles2", _setup_init_gles2,
+			  _setup_quit_gles2);
+	  if (suite)
+	    {
+	      LW6SYS_CUNIT_ADD_TEST (suite, _test_display);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("unable to add CUnit test suite, error msg is \"%s\""),
+			  CU_get_error_msg ());
+	      ret = 0;
+	    }
 	}
+
+      if (lw6sys_assoc_has_key (gfx_backends, "soft"))
+	{
+	  suite =
+	    CU_add_suite ("lw6dsp-soft", _setup_init_soft, _setup_quit_soft);
+	  if (suite)
+	    {
+	      LW6SYS_CUNIT_ADD_TEST (suite, _test_display);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("unable to add CUnit test suite, error msg is \"%s\""),
+			  CU_get_error_msg ());
+	      ret = 0;
+	    }
+	}
+
+      if (lw6sys_assoc_has_key (gfx_backends, "caca"))
+	{
+	  if (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
+	    {
+	      suite =
+		CU_add_suite ("lw6dsp-caca", _setup_init_caca,
+			      _setup_quit_caca);
+	      if (suite)
+		{
+		  LW6SYS_CUNIT_ADD_TEST (suite, _test_display);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("unable to add CUnit test suite, error msg is \"%s\""),
+			      CU_get_error_msg ());
+		  ret = 0;
+		}
+	    }
+	}
+
       lw6sys_assoc_free (gfx_backends);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6dsp_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @dsp module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6dsp_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
     }
 
   return ret;

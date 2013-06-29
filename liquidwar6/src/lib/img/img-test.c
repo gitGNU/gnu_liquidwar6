@@ -29,28 +29,35 @@
 
 #include "img.h"
 
-#define TEST_ARGC 1
-#define TEST_ARGV0 "foo"
-#define TEST_NODE_ID 0x1234123412341234LL
-#define TEST_CURSOR1_ID 0x1234
-#define TEST_CURSOR2_ID 0x2345
-#define TEST_CURSOR3_ID 0x3456
-#define TEST_COLOR1 LW6MAP_TEAM_COLOR_RED
-#define TEST_COLOR2 LW6MAP_TEAM_COLOR_GREEN
-#define TEST_COLOR3 LW6MAP_TEAM_COLOR_BLUE
+#define _TEST_ARGC 1
+#define _TEST_ARGV0 "foo"
+#define _TEST_NODE_ID 0x1234123412341234LL
+#define _TEST_CURSOR1_ID 0x1234
+#define _TEST_CURSOR2_ID 0x2345
+#define _TEST_CURSOR3_ID 0x3456
+#define _TEST_COLOR1 LW6MAP_TEAM_COLOR_RED
+#define _TEST_COLOR2 LW6MAP_TEAM_COLOR_GREEN
+#define _TEST_COLOR3 LW6MAP_TEAM_COLOR_BLUE
+
+typedef struct _lw6img_test_data_s
+{
+  int ret;
+} _lw6img_test_data_t;
+
+static _lw6img_test_data_t _test_data = { 0 };
 
 /*
  * Testing functions in screenshot.c
  */
-static int
-test_screenshot ()
+static void
+_test_screenshot ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    const int argc = TEST_ARGC;
-    const char *argv[TEST_ARGC] = { TEST_ARGV0 };
+    const int argc = _TEST_ARGC;
+    const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
     lw6map_level_t *level = NULL;
     lw6ker_game_struct_t *game_struct = NULL;
     lw6ker_game_state_t *game_state = NULL;
@@ -67,13 +74,13 @@ test_screenshot ()
 	    game_state = lw6ker_game_state_new (game_struct, NULL);
 	    if (game_state)
 	      {
-		lw6ker_game_state_register_node (game_state, TEST_NODE_ID);
-		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
-					      TEST_CURSOR1_ID, TEST_COLOR1);
-		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
-					      TEST_CURSOR2_ID, TEST_COLOR2);
-		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
-					      TEST_CURSOR3_ID, TEST_COLOR3);
+		lw6ker_game_state_register_node (game_state, _TEST_NODE_ID);
+		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
+					      _TEST_CURSOR1_ID, _TEST_COLOR1);
+		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
+					      _TEST_CURSOR2_ID, _TEST_COLOR2);
+		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
+					      _TEST_CURSOR3_ID, _TEST_COLOR3);
 
 		user_dir = lw6sys_get_user_dir (argc, argv);
 		if (user_dir)
@@ -131,35 +138,84 @@ test_screenshot ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libimg CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libimg CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6img_test
+ * lw6img_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @img module test suite.
+ * Registers all tests for the libimg module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6img_test (int mode)
+lw6img_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6cfg_test (mode);
-      lw6map_test (mode);
-      lw6ker_test (mode);
+      lw6sys_test_register (mode);
+      lw6cfg_test_register (mode);
+      lw6map_test_register (mode);
+      lw6ker_test_register (mode);
     }
 
-  ret = test_screenshot ();
+  suite = CU_add_suite ("lw6img", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_screenshot);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6img_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @img module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6img_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }

@@ -162,32 +162,30 @@ _call_init (lw6gfx_backend_t * backend)
 {
   int ret = 1;
 
-  {
-    lw6gui_video_mode_t video_mode;
-    int64_t ticks;
-    char *repr;
+  lw6gui_video_mode_t video_mode;
+  int64_t ticks;
+  char *repr;
 
-    video_mode.width = _TEST_WIDTH;
-    video_mode.height = _TEST_HEIGHT;
-    video_mode.fullscreen = _TEST_FULLSCREEN;
+  video_mode.width = _TEST_WIDTH;
+  video_mode.height = _TEST_HEIGHT;
+  video_mode.fullscreen = _TEST_FULLSCREEN;
 
-    ret = ret && lw6gfx_init (backend, &video_mode, resize_callback);
-    if (ret)
-      {
-	repr = lw6gfx_repr (backend);
-	if (repr)
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("display repr is \"%s\""),
-			repr);
-	    LW6SYS_FREE (repr);
-	  }
-	ticks = lw6sys_get_uptime ();
-	while (lw6sys_get_uptime () < ticks + _TEST_DURATION_SETUP)
-	  {
-	    lw6sys_sleep (_TEST_SLEEP);
-	  }
-      }
-  }
+  ret = ret && lw6gfx_init (backend, &video_mode, resize_callback);
+  if (ret)
+    {
+      repr = lw6gfx_repr (backend);
+      if (repr)
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("display repr is \"%s\""),
+		      repr);
+	  LW6SYS_FREE (repr);
+	}
+      ticks = lw6sys_get_uptime ();
+      while (lw6sys_get_uptime () < ticks + _TEST_DURATION_SETUP)
+	{
+	  lw6sys_sleep (_TEST_SLEEP);
+	}
+    }
 
   return ret;
 }

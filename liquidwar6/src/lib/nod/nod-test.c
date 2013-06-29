@@ -70,6 +70,13 @@
 #define _TEST_GAME_SCREENSHOT_DATA "123456789"
 #define _TEST_PEER_ID_LIST_STR "2345234523452345,3456345634563456"
 
+typedef struct _lw6nod_test_data_s
+{
+  int ret;
+} _lw6nod_test_data_t;
+
+static _lw6nod_test_data_t _test_data = { 0 };
+
 static void
 _node_dup_dyn_callback (void *data)
 {
@@ -325,8 +332,8 @@ _node_map_verified_callback (void *data)
 /*
  * Testing functions in node.c
  */
-static int
-test_node ()
+static void
+_test_node ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -445,7 +452,6 @@ test_node ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static void
@@ -465,8 +471,8 @@ _community_id_without_url_callback (void *func_data, u_int64_t id)
 /*
  * Testing functions in commmunity.c
  */
-static int
-test_community ()
+static void
+_test_community ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -739,33 +745,82 @@ test_community ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
 
-  return ret;
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libnod CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libnod CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6nod_test
+ * lw6nod_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @nod module test suite.
+ * Registers all tests for the libnod module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6nod_test (int mode)
+lw6nod_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
+      lw6sys_test_register (mode);
     }
 
-  ret = test_node () && test_community ();
+  suite = CU_add_suite ("lw6nod", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_node);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_community);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6nod_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @nod module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6nod_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }
