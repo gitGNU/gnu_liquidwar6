@@ -24,9 +24,9 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include "sys.h"
-
 #include <CUnit/CUnit.h>
+
+#include "sys.h"
 
 int
 main (int argc, const char *argv[])

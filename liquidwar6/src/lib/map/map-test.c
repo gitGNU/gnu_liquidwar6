@@ -24,7 +24,7 @@
 #include "config.h"
 #endif
 
-#include <string.h>
+#include <CUnit/CUnit.h>
 
 #include "map.h"
 
@@ -78,11 +78,18 @@
 #define _TEST_BUILTIN_NOISE_PERCENT 5
 #define _TEST_BUILTIN_SCALE 250
 
+typedef struct _map_test_data_s
+{
+  int ret;
+} _map_test_data_t;
+
+static _map_test_data_t _test_data = { 0 };
+
 /*
  * Testing basic new & free functions
  */
-static int
-test_new ()
+static void
+_test_new ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -120,11 +127,10 @@ test_new ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_color ()
+static void
+_test_color ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -181,11 +187,10 @@ test_color ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_coords ()
+static void
+_test_coords ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -193,11 +198,11 @@ test_coords ()
   {
     lw6map_rules_t rules;
     lw6sys_whd_t shape;
-    int test_x[_TEST_COORDS_NB] =
+    int _test_x[_TEST_COORDS_NB] =
       { _TEST_COORDS_X1, _TEST_COORDS_X2, _TEST_COORDS_X3, _TEST_COORDS_X4,
       _TEST_COORDS_X5
     };
-    int test_y[_TEST_COORDS_NB] =
+    int _test_y[_TEST_COORDS_NB] =
       { _TEST_COORDS_Y1, _TEST_COORDS_Y2, _TEST_COORDS_Y3, _TEST_COORDS_Y4,
       _TEST_COORDS_Y5
     };
@@ -218,8 +223,8 @@ test_coords ()
 			py);
 	    for (i = 0; i < _TEST_COORDS_NB; ++i)
 	      {
-		x = test_x[i];
-		y = test_y[i];
+		x = _test_x[i];
+		y = _test_y[i];
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("coords before fix %d,%d"), x, y);
 		lw6map_coords_fix_xy (&rules, &shape, &x, &y);
@@ -233,7 +238,6 @@ test_coords ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static void
@@ -242,20 +246,23 @@ _print_meta_layer (lw6map_meta_layer_t * meta_layer, char *label)
   int x, y, w, h;
   int value;
 
-  w = meta_layer->shape.w;
-  h = meta_layer->shape.h;
-
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("meta-layer \"%s\""), label);
-  for (y = 0; y < h; ++y)
+  if (lw6sys_log_get_console_state ())
     {
-      for (x = 0; x < w; ++x)
+      w = meta_layer->shape.w;
+      h = meta_layer->shape.h;
+
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("meta-layer \"%s\""), label);
+      for (y = 0; y < h; ++y)
 	{
-	  value = lw6map_meta_layer_get (meta_layer, x, y);
-	  printf ("%03d ", value);
+	  for (x = 0; x < w; ++x)
+	    {
+	      value = lw6map_meta_layer_get (meta_layer, x, y);
+	      printf ("%03d ", value);
+	    }
+	  printf ("\n");
 	}
-      printf ("\n");
+      fflush (stdout);
     }
-  fflush (stdout);
 }
 
 static void
@@ -263,30 +270,33 @@ _print_body (lw6map_body_t * body)
 {
   int x, y, z, w, h, d;
 
-  w = body->shape.w;
-  h = body->shape.h;
-  d = body->shape.d;
-
-  for (z = 0; z < d; ++z)
+  if (lw6sys_log_get_console_state ())
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("layer%d (z=%d)"), z + 1, z);
-      for (y = 0; y < h; ++y)
+      w = body->shape.w;
+      h = body->shape.h;
+      d = body->shape.d;
+
+      for (z = 0; z < d; ++z)
 	{
-	  for (x = 0; x < w; ++x)
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("layer%d (z=%d)"), z + 1, z);
+	  for (y = 0; y < h; ++y)
 	    {
-	      if (lw6map_body_get (body, x, y, z))
+	      for (x = 0; x < w; ++x)
 		{
-		  printf (".");
+		  if (lw6map_body_get (body, x, y, z))
+		    {
+		      printf (".");
+		    }
+		  else
+		    {
+		      printf ("#");
+		    }
 		}
-	      else
-		{
-		  printf ("#");
-		}
+	      printf ("\n");
 	    }
-	  printf ("\n");
 	}
+      fflush (stdout);
     }
-  fflush (stdout);
 }
 
 static void
@@ -296,44 +306,49 @@ _print_cursor_texture (lw6map_cursor_texture_t * cursor_texture)
   lw6sys_color_8_t fg_bg;
   lw6sys_color_8_t color;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("cursor_texture:"));
-  for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE; ++y)
+  if (lw6sys_log_get_console_state ())
     {
-      for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE; ++x)
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("cursor_texture:"));
+      for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE; ++y)
 	{
-	  fg_bg =
-	    lw6map_cursor_texture_layer_get (&(cursor_texture->fg_bg_layer),
-					     x, y);
-	  color =
-	    lw6map_cursor_texture_layer_get (&(cursor_texture->color_layer),
-					     x, y);
-	  if (color.a < 128)
+	  for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE; ++x)
 	    {
-	      if (fg_bg.a < 128)
+	      fg_bg =
+		lw6map_cursor_texture_layer_get (&
+						 (cursor_texture->fg_bg_layer),
+						 x, y);
+	      color =
+		lw6map_cursor_texture_layer_get (&
+						 (cursor_texture->color_layer),
+						 x, y);
+	      if (color.a < 128)
 		{
-		  printf (".");
+		  if (fg_bg.a < 128)
+		    {
+		      printf (".");
+		    }
+		  else
+		    {
+		      printf ("#");
+		    }
 		}
 	      else
 		{
-		  printf ("#");
+		  printf ("C");
 		}
 	    }
-	  else
-	    {
-	      printf ("C");
-	    }
+	  printf ("\n");
 	}
-      printf ("\n");
-    }
 
-  fflush (stdout);
+      fflush (stdout);
+    }
 }
 
 /*
  * Testing builtin
  */
-static int
-test_builtin ()
+static void
+_test_builtin ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -423,14 +438,13 @@ test_builtin ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing dup
  */
-static int
-test_dup ()
+static void
+_test_dup ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -496,14 +510,13 @@ test_dup ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing exp
  */
-static int
-test_exp ()
+static void
+_test_exp ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -535,14 +548,13 @@ test_exp ()
       }
   }
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing hexa
  */
-static int
-test_hexa ()
+static void
+_test_hexa ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -654,11 +666,10 @@ test_hexa ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_param ()
+static void
+_test_param ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -729,11 +740,10 @@ test_param ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_rules ()
+static void
+_test_rules ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -795,11 +805,10 @@ test_rules ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_style ()
+static void
+_test_style ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -843,11 +852,10 @@ test_style ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_teams ()
+static void
+_test_teams ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -891,11 +899,10 @@ test_teams ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_local_info ()
+static void
+_test_local_info ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -914,11 +921,10 @@ test_local_info ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_meta_layer ()
+static void
+_test_meta_layer ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -956,11 +962,10 @@ test_meta_layer ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_weapon ()
+static void
+_test_weapon ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1004,37 +1009,94 @@ test_weapon ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libmap CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libmap CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6map_test
+ * lw6map_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @map module test suite.
+ * Registers all tests for the libmap module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6map_test (int mode)
+lw6map_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6map_test (mode);
+      lw6sys_test_register (mode);
     }
 
-  ret = test_new () && test_color () && test_coords ()
-    && test_builtin () && test_dup () && test_exp ()
-    && test_hexa () && test_local_info () && test_meta_layer ()
-    && test_param () && test_rules () && test_style () && test_teams ()
-    && test_weapon ();
+  suite = CU_add_suite ("lw6map", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_new);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_color);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_coords);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_builtin);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_dup);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_exp);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_hexa);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_local_info);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_meta_layer);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_param);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_rules);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_style);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_teams);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_weapon);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6map_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @map module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6map_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }

@@ -1607,7 +1607,8 @@ extern int lw6map_teams_is_same (const lw6map_teams_t * teams_a,
 				 const lw6map_teams_t * teams_b);
 
 /* map-test.c */
-extern int lw6map_test (int mode);
+extern int lw6map_test_register (int mode);
+extern int lw6map_test_run (int mode);
 
 /* map-texture.c */
 extern int lw6map_texture_from_body (lw6map_texture_t * texture,

@@ -24,9 +24,9 @@
 #include "config.h"
 #endif
 
-#include "glb.h"
-
 #include <CUnit/CUnit.h>
+
+#include "glb.h"
 
 #define _TEST_BASE64_STR_1 "this is a string!"
 #define _TEST_BASE64_STR_2 ""
@@ -37,12 +37,12 @@
 #define _TEST_SHA1_KEY "toto"
 #define _TEST_SHA1_CHECK 0xd4a35ebb
 
-typedef struct _test_data_s
+typedef struct _glb_test_data_s
 {
   int ret;
-} _test_data_t;
+} _glb_test_data_t;
 
-static _test_data_t _test_data = { 0 };
+static _glb_test_data_t _test_data = { 0 };
 
 static int
 _test_base64_ok (char *_test_str, int log_all)
@@ -414,18 +414,17 @@ lw6glb_test_register (int mode)
 		  CU_get_error_msg ());
       ret = 0;
     }
+
   return ret;
 }
 
 /**
- * lw6sys_test_run
+ * lw6map_test_run
  *
  * @mode: test mode (bitmask)
  *
- * Runs the @sys module test suite, testing most (if not all...)
- * functions. Note that some tests perform file system operations
- * and might therefore fail on a read-only filesystem, or if
- * user permissions are not sufficient.
+ * Runs the @glb module test suite, testing most (if not all...)
+ * functions.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */

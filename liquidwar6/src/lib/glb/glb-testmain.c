@@ -24,9 +24,9 @@
 #include "config.h"
 #endif
 
-#include "glb.h"
-
 #include <CUnit/CUnit.h>
+
+#include "glb.h"
 
 int
 main (int argc, const char *argv[])

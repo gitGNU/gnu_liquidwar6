@@ -24,9 +24,9 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include "sys.h"
-
 #include <CUnit/CUnit.h>
+
+#include "sys.h"
 
 #define _TEST_KEYWORD_AS "--this-is_a_TEST-KeYWord"
 #define _TEST_ARG_KEYWORD "my-option"
@@ -251,12 +251,12 @@
 #define _TEST_VERSION_COMPATIBLE_B4 "10.11"
 #define _TEST_VERSION_COMPATIBLE_RET4 1
 
-typedef struct _test_data_s
+typedef struct _sys_test_data_s
 {
   int ret;
-} _test_data_t;
+} _sys_test_data_t;
 
-static _test_data_t _test_data = { 0 };
+static _sys_test_data_t _test_data = { 0 };
 
 /*
  * Testing functions in arg.c
@@ -4501,6 +4501,7 @@ lw6sys_test_register (int mode)
 		  CU_get_error_msg ());
       ret = 0;
     }
+
   return ret;
 }
 
