@@ -38,7 +38,14 @@ static int _mode = 0;
 static void
 run (void *data)
 {
-  _ret = lw6dsp_test (_mode);
+  if (CU_initialize_registry () == CUE_SUCCESS)
+    {
+      if (lw6dsp_test_register (_mode))
+	{
+	  _ret = lw6dsp_test_run (_mode);
+	}
+      CU_cleanup_registry ();
+    }
 }
 
 /*

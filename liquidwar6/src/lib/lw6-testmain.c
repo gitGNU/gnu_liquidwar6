@@ -47,12 +47,15 @@ int
 main (int argc, const char *argv[])
 #endif				// LW6_MAX_OS_X
 {
-  int ret = 1;
+  int ret = 0;
+  int mode = 0;
 
   LW6SYS_MAIN_BEGIN;
   LW6HLP_MAIN_BEGIN;
 
   lw6sys_log_clear (NULL);
+  mode = lw6sys_arg_test_mode (argc, argv);
+
   /*
    * We need to call fix_env now and can't call it later since
    * we *really* need the real argc / argv, especially on Mac OS/X
@@ -62,7 +65,15 @@ main (int argc, const char *argv[])
    * don't want that.
    */
   lw6_fix_env (argc, argv);
-  ret = lw6_test (lw6sys_arg_test_mode (argc, (const char **) argv));
+
+  if (CU_initialize_registry () == CUE_SUCCESS)
+    {
+      if (lw6_test_register (mode))
+	{
+	  ret = lw6_test_run (mode);
+	}
+      CU_cleanup_registry ();
+    }
 
   LW6SYS_TEST_OUTPUT;
 
