@@ -36,11 +36,18 @@
 #define _TEST_SIMULATE_BOT_BACKEND "random"
 #define _TEST_MASK_NB_TEAMS 3
 
+typedef struct _lw6sim_test_data_s
+{
+  int ret;
+} _lw6sim_test_data_t;
+
+static _lw6sim_test_data_t _test_data = { 0 };
+
 /*
  * Testing functions in mask.c
  */
-static int
-test_mask ()
+static void
+_test_mask ()
 {
   int ret = 0;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -67,14 +74,13 @@ test_mask ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in simulate.c
  */
-static int
-test_simulate ()
+static void
+_test_simulate ()
 {
   int ret = 0;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -93,46 +99,94 @@ test_simulate ()
 		       _TEST_SIMULATE_BOT_BACKEND);
     if (ret)
       {
-	lw6sim_print (&results, stderr);
+	if (lw6sys_log_get_console_state ())
+	  {
+	    lw6sim_print (&results, stderr);
+	  }
       }
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libsim CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libsim CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6sim_test
+ * lw6sim_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @sim module test suite.
+ * Registers all tests for the libsim module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6sim_test (int mode)
+lw6sim_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6map_test (mode);
-      lw6ker_test (mode);
-      lw6pil_test (mode);
-      lw6bot_test (mode);
-      /*
-       * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
-       * this function is available only in non-allinone mode.
-       */
-      // lw6dyn_test (mode);
+      lw6sys_test_register (mode);
+      lw6map_test_register (mode);
+      lw6ker_test_register (mode);
+      lw6pil_test_register (mode);
+      lw6bot_test_register (mode);
     }
 
-  ret = test_mask () && test_simulate ();
+  suite = CU_add_suite ("lw6sim", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_mask);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_simulate);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6sim_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @sim module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6sim_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }

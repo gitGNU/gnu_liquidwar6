@@ -78,12 +78,12 @@
 #define _TEST_BUILTIN_NOISE_PERCENT 5
 #define _TEST_BUILTIN_SCALE 250
 
-typedef struct _map_test_data_s
+typedef struct _lw6map_test_data_s
 {
   int ret;
-} _map_test_data_t;
+} _lw6map_test_data_t;
 
-static _map_test_data_t _test_data = { 0 };
+static _lw6map_test_data_t _test_data = { 0 };
 
 /*
  * Testing basic new & free functions

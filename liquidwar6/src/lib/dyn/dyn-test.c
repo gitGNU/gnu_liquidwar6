@@ -28,16 +28,23 @@
 
 #include "dyn.h"
 
-#define TEST_DYN_TOP_LEVEL_LIB "gfx"
-#define TEST_DYN_BACKEND_NAME "gl1"
-#define TEST_DYN_SHARED_NAME "sdl"
+#define _TEST_DYN_TOP_LEVEL_LIB "gfx"
+#define _TEST_DYN_BACKEND_NAME "gl1"
+#define _TEST_DYN_SHARED_NAME "sdl"
 
-#define TEST_ARGC 2
-#define TEST_ARGV0 "program"
-#define TEST_ARGV1 "--toto=this-is-a-test"
+#define _TEST_ARGC 2
+#define _TEST_ARGV0 "program"
+#define _TEST_ARGV1 "--toto=this-is-a-test"
+
+typedef struct _lw6dyn_test_data_s
+{
+  int ret;
+} _lw6dyn_test_data_t;
+
+static _lw6dyn_test_data_t _test_data = { 0 };
 
 static void
-display_module (void *func_data, const char *key, void *value)
+_display_module (void *func_data, const char *key, void *value)
 {
   int *found;
   const char *id;
@@ -48,11 +55,11 @@ display_module (void *func_data, const char *key, void *value)
   name = (char *) value;
   (*found) = 1;
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("module \"%s/%s\" \"%s\" found"),
-	      TEST_DYN_TOP_LEVEL_LIB, id, name);
+	      _TEST_DYN_TOP_LEVEL_LIB, id, name);
 }
 
-static int
-test_list ()
+static void
+_test_list ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -60,49 +67,47 @@ test_list ()
   {
     lw6sys_assoc_t *list = NULL;
     int found = 0;
-    const int argc = TEST_ARGC;
-    const char *argv[] = { TEST_ARGV0, TEST_ARGV1 };
+    const int argc = _TEST_ARGC;
+    const char *argv[] = { _TEST_ARGV0, _TEST_ARGV1 };
 
-    list = lw6dyn_list_backends (argc, argv, TEST_DYN_TOP_LEVEL_LIB);
+    list = lw6dyn_list_backends (argc, argv, _TEST_DYN_TOP_LEVEL_LIB);
     if (list)
       {
-	lw6sys_assoc_map (list, display_module, (void *) &found);
+	lw6sys_assoc_map (list, _display_module, (void *) &found);
 	lw6sys_assoc_free (list);
       }
     if (!found)
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("no module found for \"%s\""),
-		    TEST_DYN_TOP_LEVEL_LIB);
+		    _TEST_DYN_TOP_LEVEL_LIB);
       }
   }
 
   LW6SYS_TEST_FUNCTION_END;
-
-  return ret;
 }
 
 /*
  * Testing path functions
  */
-static int
-test_path ()
+static void
+_test_path ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
     char *library_path;
-    const int argc = TEST_ARGC;
-    const char *argv[] = { TEST_ARGV0, TEST_ARGV1 };
+    const int argc = _TEST_ARGC;
+    const char *argv[] = { _TEST_ARGV0, _TEST_ARGV1 };
 
     library_path =
-      lw6dyn_path_find_backend (argc, argv, TEST_DYN_TOP_LEVEL_LIB,
-				TEST_DYN_BACKEND_NAME);
+      lw6dyn_path_find_backend (argc, argv, _TEST_DYN_TOP_LEVEL_LIB,
+				_TEST_DYN_BACKEND_NAME);
     if (library_path && lw6sys_file_exists (library_path))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("found library \"%s/mod-%s\" in \"%s\""),
-		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_BACKEND_NAME,
+		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME,
 		    library_path);
 	LW6SYS_FREE (library_path);
       }
@@ -115,18 +120,18 @@ test_path ()
 	 */
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("couldn't find library \"%s/mod-%s\" in \"%s\""),
-		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_BACKEND_NAME,
+		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME,
 		    library_path);
       }
 
     library_path =
-      lw6dyn_path_find_shared (argc, argv, TEST_DYN_TOP_LEVEL_LIB,
-			       TEST_DYN_SHARED_NAME);
+      lw6dyn_path_find_shared (argc, argv, _TEST_DYN_TOP_LEVEL_LIB,
+			       _TEST_DYN_SHARED_NAME);
     if (library_path && lw6sys_file_exists (library_path))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("found library \"%s/shared-%s\" in \"%s\""),
-		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_SHARED_NAME,
+		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME,
 		    library_path);
 	LW6SYS_FREE (library_path);
       }
@@ -139,27 +144,26 @@ test_path ()
 	 */
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("couldn't find library \"%s/shared-%s\" in \"%s\""),
-		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_BACKEND_NAME,
+		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME,
 		    library_path);
       }
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing dl functions
  */
-static int
-test_dl ()
+static void
+_test_dl ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    const int argc = TEST_ARGC;
-    const char *argv[] = { TEST_ARGV0, TEST_ARGV1 };
+    const int argc = _TEST_ARGC;
+    const char *argv[] = { _TEST_ARGV0, _TEST_ARGV1 };
     lw6dyn_dl_handle_t *handle = NULL;
 
     /*
@@ -171,13 +175,13 @@ test_dl ()
      * needed when stuffing stuff in the main binary.
      */
 
-    handle = lw6dyn_dlopen_backend (argc, argv, TEST_DYN_TOP_LEVEL_LIB,
-				    TEST_DYN_BACKEND_NAME);
+    handle = lw6dyn_dlopen_backend (argc, argv, _TEST_DYN_TOP_LEVEL_LIB,
+				    _TEST_DYN_BACKEND_NAME);
     if (handle)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("opened library \"%s/mod-%s\""),
-		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_BACKEND_NAME);
+		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
 	lw6dyn_dlclose_backend (handle);
       }
     else
@@ -189,16 +193,16 @@ test_dl ()
 	 */
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("couldn't find library \"%s/mod-%s\""),
-		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_BACKEND_NAME);
+		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
       }
 
-    handle = lw6dyn_dlopen_shared (argc, argv, TEST_DYN_TOP_LEVEL_LIB,
-				   TEST_DYN_SHARED_NAME);
+    handle = lw6dyn_dlopen_shared (argc, argv, _TEST_DYN_TOP_LEVEL_LIB,
+				   _TEST_DYN_SHARED_NAME);
     if (handle)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("opened library \"%s/shared-%s\""),
-		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_SHARED_NAME);
+		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
 	lw6dyn_dlclose_shared (handle);
       }
     else
@@ -210,39 +214,88 @@ test_dl ()
 	 */
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("couldn't find library \"%s/shared-%s\""),
-		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_SHARED_NAME);
+		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
       }
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libdyn CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libdyn CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6dyn_test
+ * lw6dyn_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @dyn module test suite, testing most (if not all...)
- * functions. Will try to load libraries and query them for
- * standard LW6-expected functions.
+ * Registers all tests for the libdyn module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6dyn_test (int mode)
+lw6dyn_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
+      lw6sys_test_register (mode);
     }
 
-  ret = test_list () && test_path () && test_dl ();
+  suite = CU_add_suite ("lw6dyn", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_path);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_list);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_dl);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6dyn_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @dyn module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6dyn_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }
