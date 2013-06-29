@@ -1113,7 +1113,8 @@ extern void lw6gui_smoother_fix_overflow (lw6gui_smoother_t * smoother,
 					  int step);
 
 /* gui-test.c */
-extern int lw6gui_test (int mode);
+extern int lw6gui_test_register (int mode);
+extern int lw6gui_test_run (int mode);
 
 /* gui-triangle.c */
 extern int lw6gui_triangle_is_inside_rect (lw6gui_triangle_t * triangle,

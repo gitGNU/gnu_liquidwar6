@@ -86,7 +86,8 @@ extern void lw6cfg_quit (void *cfg_context);
 extern void lw6cfg_reset (int argc, const char *argv[]);
 
 /* cfg-test.c */
-extern int lw6cfg_test (int mode);
+extern int lw6cfg_test_register (int mode);
+extern int lw6cfg_test_run (int mode);
 
 /* cfg-unified.c */
 extern char *lw6cfg_unified_get_value (int argc, const char *argv[],

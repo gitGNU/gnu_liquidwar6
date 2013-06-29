@@ -109,7 +109,8 @@ extern int lw6net_tcp_recv (int *sock, char *buf,
 extern int lw6net_tcp_is_alive (int *sock);
 
 /* net-test.c */
-extern int lw6net_test (int mode);
+extern int lw6net_test_register (int mode);
+extern int lw6net_test_run (int mode);
 
 /* net-udp.c */
 extern int lw6net_udp_client ();

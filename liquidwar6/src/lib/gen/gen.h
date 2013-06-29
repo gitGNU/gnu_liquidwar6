@@ -39,6 +39,7 @@ extern char *lw6gen_seed_normalize (const char *seed);
 extern char lw6gen_seed_char ();
 
 /* gen-test.c */
-extern int lw6gen_test (int mode);
+extern int lw6gen_test_register (int mode);
+extern int lw6gen_test_run (int mode);
 
 #endif

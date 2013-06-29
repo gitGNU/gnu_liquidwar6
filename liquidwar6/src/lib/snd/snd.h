@@ -130,6 +130,7 @@ extern lw6snd_backend_t *lw6snd_create_backend (int argc, const char *argv[],
 extern void lw6snd_destroy_backend (lw6snd_backend_t * backend);
 
 /* snd-test.c */
-extern int lw6snd_test (int mode);
+extern int lw6snd_test_register (int mode);
+extern int lw6snd_test_run (int mode);
 
 #endif

@@ -55,6 +55,7 @@ extern int lw6scm_c_primitive_load (const char *filename);
 extern void *lw6scm_with_guile (lw6scm_callback_t func, void *data);
 
 /* scm-test.c */
-extern int lw6scm_test (int mode);
+extern int lw6scm_test_register (int mode);
+extern int lw6scm_test_run (int mode);
 
 #endif

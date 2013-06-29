@@ -91,7 +91,14 @@
 #define _TEST_SUITE_STAGE 1
 #define _TEST_SUITE_SLEEP 3
 
-static char *test_commands[] = {
+typedef struct _lw6pil_test_data_s
+{
+  int ret;
+} _lw6pil_test_data_t;
+
+static _lw6pil_test_data_t _test_data = { 0 };
+
+static char *_test_commands[] = {
   "10000000002 1234abcd1234abcd REGISTER",
   "10000000003 1234abcd1234abcd ADD 5678 YELLOW",
   "10000000003 1234abcd1234abcd ADD 6789 PURPLE",
@@ -117,8 +124,8 @@ static char *test_commands[] = {
 /*
  * Testing functions in bench.c
  */
-static int
-test_bench ()
+static void
+_test_bench ()
 {
   int ret = 0;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -138,7 +145,6 @@ test_bench ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static void
@@ -160,8 +166,8 @@ command_map_func (void *func_data, void *data)
 /*
  * Testing functions in command.c
  */
-static int
-test_command ()
+static void
+_test_command ()
 {
   int ret = 0;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -175,10 +181,10 @@ test_command ()
     commands = lw6sys_list_new ((lw6sys_free_func_t) lw6pil_command_free);
     if (commands)
       {
-	for (i = 0; test_commands[i] && commands; ++i)
+	for (i = 0; _test_commands[i] && commands; ++i)
 	  {
 	    command =
-	      lw6pil_command_new (test_commands[i], _LW6PIL_MIN_SEQ_0,
+	      lw6pil_command_new (_test_commands[i], _LW6PIL_MIN_SEQ_0,
 				  _LW6PIL_MIN_ROUND_0);
 	    if (command)
 	      {
@@ -187,7 +193,7 @@ test_command ()
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("command \"%s\" interpreted as \"%s\""),
-				test_commands[i], repr);
+				_test_commands[i], repr);
 		    LW6SYS_FREE (repr);
 		    ret = 1;
 		  }
@@ -211,11 +217,10 @@ test_command ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
-static int
-test_coords ()
+static void
+_test_coords ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -223,11 +228,11 @@ test_coords ()
   {
     lw6map_rules_t rules;
     lw6sys_whd_t shape;
-    float test_x[_TEST_COORDS_NB] =
+    float _test_x[_TEST_COORDS_NB] =
       { _TEST_COORDS_X1, _TEST_COORDS_X2, _TEST_COORDS_X3, _TEST_COORDS_X4,
       _TEST_COORDS_X5
     };
-    float test_y[_TEST_COORDS_NB] =
+    float _test_y[_TEST_COORDS_NB] =
       { _TEST_COORDS_Y1, _TEST_COORDS_Y2, _TEST_COORDS_Y3, _TEST_COORDS_Y4,
       _TEST_COORDS_Y5
     };
@@ -249,8 +254,8 @@ test_coords ()
 			py);
 	    for (i = 0; i < _TEST_COORDS_NB; ++i)
 	      {
-		x = test_x[i];
-		y = test_y[i];
+		x = _test_x[i];
+		y = _test_y[i];
 		z = _TEST_COORDS_Z;
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("coords before fix %0.2f,%0.2f,%0.2f"), x, y,
@@ -268,11 +273,10 @@ test_coords ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 static void
-print_game_state (lw6ker_game_state_t * game_state, char *text)
+_print_game_state (lw6ker_game_state_t * game_state, char *text)
 {
   char *capture_str;
 
@@ -281,8 +285,11 @@ print_game_state (lw6ker_game_state_t * game_state, char *text)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s round=%d"), text,
 		  lw6ker_game_state_get_rounds (game_state));
-      printf ("%s", capture_str);
-      fflush (stdout);
+      if (lw6sys_log_get_console_state ())
+	{
+	  printf ("%s", capture_str);
+	  fflush (stdout);
+	}
       LW6SYS_FREE (capture_str);
     }
 }
@@ -290,8 +297,8 @@ print_game_state (lw6ker_game_state_t * game_state, char *text)
 /*
  * Testing local_cursors
  */
-static int
-test_local_cursors ()
+static void
+_test_local_cursors ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -354,15 +361,13 @@ test_local_cursors ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-
-  return ret;
 }
 
 /*
  * Testing functions in dump.c
  */
-static int
-test_dump ()
+static void
+_test_dump ()
 {
   int ret = 0;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -437,15 +442,15 @@ test_dump ()
 			  {
 			    for (i = 0;
 				 i < _TEST_DUMP_NB_COMMANDS
-				 && test_commands[i]; ++i)
+				 && _test_commands[i]; ++i)
 			      {
 				if (lw6pil_pilot_send_command
-				    (pilot, test_commands[i], 1))
+				    (pilot, _test_commands[i], 1))
 				  {
 				    lw6sys_log (LW6SYS_LOG_NOTICE,
 						_x_
 						("sent command \"%s\" to pilot"),
-						test_commands[i]);
+						_test_commands[i]);
 				  }
 				else
 				  {
@@ -483,17 +488,17 @@ test_dump ()
 					    (long long) seq);
 				for (i = _TEST_DUMP_NB_COMMANDS;
 				     i <= _TEST_SYNC_COMMAND_I
-				     && test_commands[i]; ++i)
+				     && _test_commands[i]; ++i)
 				  {
 				    lw6pil_pilot_send_command (pilot,
-							       test_commands
+							       _test_commands
 							       [i], 1);
 				    lw6pil_pilot_send_command
-				      (dump.pilot, test_commands[i], 1);
+				      (dump.pilot, _test_commands[i], 1);
 				    lw6sys_log (LW6SYS_LOG_NOTICE,
 						_x_
 						("sent command \"%s\" to pilots"),
-						test_commands[i]);
+						_test_commands[i]);
 				  }
 				lw6pil_pilot_commit (NULL, pilot);
 				lw6pil_pilot_commit (NULL, dump.pilot);
@@ -546,12 +551,12 @@ test_dump ()
 				      (dump.game_state, dump.pilot);
 				  }
 
-				print_game_state (game_state,
-						  _x_
-						  ("backup of game_state"));
-				print_game_state (game_state,
-						  _x_
-						  ("backup of dump.game_state"));
+				_print_game_state (game_state,
+						   _x_
+						   ("backup of game_state"));
+				_print_game_state (game_state,
+						   _x_
+						   ("backup of dump.game_state"));
 				rounds = lw6ker_game_state_get_rounds
 				  (game_state);
 				dump_rounds = lw6ker_game_state_get_rounds
@@ -642,14 +647,13 @@ test_dump ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in nopilot.c
  */
-static int
-test_nopilot ()
+static void
+_test_nopilot ()
 {
   int ret = 0;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -748,14 +752,13 @@ test_nopilot ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in pilot.c
  */
-static int
-test_pilot ()
+static void
+_test_pilot ()
 {
   int ret = 0;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -795,32 +798,30 @@ test_pilot ()
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("pilot \"%s\" start"), repr);
 
-			for (i = 0; test_commands[i]; i += 2)
+			for (i = 0; _test_commands[i]; i += 2)
 			  {
-			    if (i > 1 && test_commands[i - 1])
+			    if (i > 1 && _test_commands[i - 1])
 			      {
 				lw6pil_pilot_send_command (pilot,
-							   test_commands[i -
-									 1],
+							   _test_commands[i -
+									  1],
 							   1);
 			      }
 			    lw6pil_pilot_send_command (pilot,
-						       test_commands[i], 1);
-			    if (test_commands[i + 1])
+						       _test_commands[i], 1);
+			    if (_test_commands[i + 1])
 			      {
 				lw6pil_pilot_send_command (pilot,
-							   test_commands[i +
-									 1],
+							   _test_commands[i +
+									  1],
 							   0);
-				if (test_commands[i + 2])
+				if (_test_commands[i + 2])
 				  {
 				    lw6pil_pilot_send_command (pilot,
-							       test_commands[i
-									     +
-									     2],
-							       0);
+							       _test_commands
+							       [i + 2], 0);
 				    lw6pil_pilot_local_command (pilot,
-								test_commands
+								_test_commands
 								[i + 2]);
 				  }
 			      }
@@ -835,13 +836,13 @@ test_pilot ()
 								   pilot));
 				lw6pil_pilot_sync_from_reference (game_state,
 								  pilot);
-				print_game_state (game_state,
-						  _x_ ("reference"));
+				_print_game_state (game_state,
+						   _x_ ("reference"));
 
 				lw6pil_pilot_sync_from_backup (game_state,
 							       pilot);
-				print_game_state (game_state,
-						  _x_ ("backup 1"));
+				_print_game_state (game_state,
+						   _x_ ("backup 1"));
 
 				lw6pil_pilot_make_backup (pilot);
 
@@ -858,23 +859,23 @@ test_pilot ()
 				    lw6pil_pilot_sync_from_backup (game_state,
 								   pilot);
 				  }
-				print_game_state (game_state,
-						  _x_ ("backup 2"));
+				_print_game_state (game_state,
+						   _x_ ("backup 2"));
 				if (lw6ker_game_state_get_rounds (game_state)
 				    == _TEST_BACKUP_ROUND)
 				  {
 				    checksum =
 				      lw6ker_game_state_checksum (game_state);
 				  }
-				print_game_state (lw6pil_pilot_dirty_read
-						  (pilot),
-						  _x_ ("dirty read"));
+				_print_game_state (lw6pil_pilot_dirty_read
+						   (pilot),
+						   _x_ ("dirty read"));
 			      }
 			    else
 			      {
 				lw6pil_pilot_sync_from_draft (game_state,
 							      pilot, i % 2);
-				print_game_state (game_state, _x_ ("draft"));
+				_print_game_state (game_state, _x_ ("draft"));
 			      }
 			  }
 
@@ -971,14 +972,13 @@ test_pilot ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in seq.c
  */
-static int
-test_seq ()
+static void
+_test_seq ()
 {
   int ret = 0;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -994,14 +994,13 @@ test_seq ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
 }
 
 /*
  * Testing functions in suite.c
  */
-static int
-test_suite ()
+static void
+_test_suite ()
 {
   int ret = 0;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1098,7 +1097,7 @@ test_suite ()
 	    checksum = lw6ker_game_state_checksum (dump.game_state);
 	    if (round == checkpoint_round && checksum == checkpoint_checksum)
 	      {
-		print_game_state (dump.game_state, _x_ ("checkpoint"));
+		_print_game_state (dump.game_state, _x_ ("checkpoint"));
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("OK, stage=%d round=%d checksum=%08x"),
 			    stage, round, checksum);
@@ -1119,36 +1118,91 @@ test_suite ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-  return ret;
+}
+
+static int
+_setup_init ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libpil CUnit test suite"));
+  return CUE_SUCCESS;
+}
+
+static int
+_setup_quit ()
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libpil CUnit test suite"));
+  return CUE_SUCCESS;
 }
 
 /**
- * lw6pil_test
+ * lw6pil_test_register
  *
- * @mode: 0 for check only, 1 for full test
+ * @mode: test mode (bitmask)
  *
- * Runs the @pil module test suite.
+ * Registers all tests for the libpil module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6pil_test (int mode)
+lw6pil_test_register (int mode)
 {
-  int ret = 0;
+  int ret = 1;
+  CU_Suite *suite;
 
   if (lw6sys_false ())
     {
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test (mode);
-      lw6map_test (mode);
-      lw6ker_test (mode);
+      lw6sys_test_register (mode);
+      lw6map_test_register (mode);
+      lw6ker_test_register (mode);
     }
 
-  ret = test_command () && test_coords () && test_local_cursors ()
-    && test_seq () && test_nopilot () && test_pilot () && test_dump ()
-    && test_suite () && test_bench ();
+  suite = CU_add_suite ("lw6pil", _setup_init, _setup_quit);
+  if (suite)
+    {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_seq);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_command);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_coords);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_local_cursors);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_dump);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_nopilot);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_pilot);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_bench);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_suite);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
+		  CU_get_error_msg ());
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6pil_test_run
+ *
+ * @mode: test mode (bitmask)
+ *
+ * Runs the @pil module test suite, testing most (if not all...)
+ * functions.
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6pil_test_run (int mode)
+{
+  int ret = 0;
+
+  _test_data.ret = 1;
+  if (lw6sys_cunit_run_tests (mode))
+    {
+      ret = _test_data.ret;
+    }
 
   return ret;
 }

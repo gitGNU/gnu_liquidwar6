@@ -45,6 +45,7 @@ extern lw6vox_renderer_t *lw6vox_renderer_new (lw6ker_game_state_t *
 extern void lw6vox_renderer_free (lw6vox_renderer_t * renderer);
 
 /* vox-test.c */
-extern int lw6vox_test (int mode);
+extern int lw6vox_test_register (int mode);
+extern int lw6vox_test_run (int mode);
 
 #endif

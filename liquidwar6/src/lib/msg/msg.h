@@ -249,7 +249,8 @@ int lw6msg_sort_str_by_seq_callback (lw6sys_list_t ** list_a,
 				     lw6sys_list_t ** list_b);
 
 /* msg-test.c */
-extern int lw6msg_test (int mode);
+extern int lw6msg_test_register (int mode);
+extern int lw6msg_test_run (int mode);
 
 /* msg-ticket.c */
 extern u_int32_t lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id,

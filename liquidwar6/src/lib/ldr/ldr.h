@@ -340,7 +340,8 @@ extern int lw6ldr_teams_update (lw6map_teams_t * teams,
 				lw6sys_assoc_t * values);
 
 /* ldr-test.c */
-extern int lw6ldr_test (int mode);
+extern int lw6ldr_test_register (int mode);
+extern int lw6ldr_test_run (int mode);
 
 /* ldr-texture.c */
 extern int lw6ldr_texture_read (lw6map_texture_t * texture,

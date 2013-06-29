@@ -121,6 +121,7 @@ extern lw6gfx_backend_t *lw6gfx_create_backend (int argc, const char *argv[],
 extern void lw6gfx_destroy_backend (lw6gfx_backend_t * backend);
 
 /* gfx-test.c */
-extern int lw6gfx_test (int mode);
+extern int lw6gfx_test_register (int mode);
+extern int lw6gfx_test_run (int mode);
 
 #endif

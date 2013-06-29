@@ -442,6 +442,7 @@ extern void lw6pil_suite_get_checkpoint (u_int32_t * game_state_checksum,
 					 int stage);
 
 /* pil-test.c */
-extern int lw6pil_test (int mode);
+extern int lw6pil_test_register (int mode);
+extern int lw6pil_test_run (int mode);
 
 #endif // LIQUIDWAR6PIL_H

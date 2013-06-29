@@ -318,7 +318,8 @@ extern lw6srv_tcp_accepter_t *lw6srv_tcp_accepter_new (char *client_ip,
 extern void lw6srv_tcp_accepter_free (lw6srv_tcp_accepter_t * tcp_accepter);
 
 /* srv-test.c */
-extern int lw6srv_test ();
+extern int lw6srv_test_register ();
+extern int lw6srv_test_run ();
 
 /* srv-udpbuffer.c */
 extern lw6srv_udp_buffer_t *lw6srv_udp_buffer_new (char *client_ip,

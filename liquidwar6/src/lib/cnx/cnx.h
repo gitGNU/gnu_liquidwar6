@@ -319,7 +319,8 @@ extern int lw6cnx_password_verify (const char *seed,
 				   const char *password_received);
 
 /* cnx-test.c */
-extern int lw6cnx_test (int mode);
+extern int lw6cnx_test_register (int mode);
+extern int lw6cnx_test_run (int mode);
 
 /* cnx-tickettable.c */
 extern void lw6cnx_ticket_table_zero (lw6cnx_ticket_table_t * ticket_table);

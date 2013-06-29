@@ -91,6 +91,7 @@ extern int lw6hlp_reference_init ();
 extern void lw6hlp_reference_quit ();
 
 /* hlp-test.c */
-extern int lw6hlp_test (int mode);
+extern int lw6hlp_test_register (int mode);
+extern int lw6hlp_test_run (int mode);
 
 #endif

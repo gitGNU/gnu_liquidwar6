@@ -74,6 +74,7 @@ extern int lw6sim_simulate_full (int argc, const char *argv[],
 				 lw6sim_results_t * results);
 
 /* sim-test.c */
-extern int lw6sim_test (int mode);
+extern int lw6sim_test_register (int mode);
+extern int lw6sim_test_run (int mode);
 
 #endif

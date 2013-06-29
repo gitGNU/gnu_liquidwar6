@@ -484,6 +484,7 @@ extern void lw6_free_jpeg_smob (lw6_jpeg_smob_t * jpeg_smob);
 extern int lw6_register_smobs ();
 
 /* lw6-test.c */
-extern int lw6_test (int mode);
+extern int lw6_test_register (int mode);
+extern int lw6_test_run (int mode);
 
 #endif

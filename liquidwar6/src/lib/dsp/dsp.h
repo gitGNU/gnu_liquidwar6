@@ -179,6 +179,7 @@ extern int lw6dsp_get_fullscreen_modes (lw6dsp_backend_t * dsp_backend,
 extern void lw6dsp_param_zero (lw6dsp_param_t * param);
 
 /* dsp-test.c */
-extern int lw6dsp_test (int mode);
+extern int lw6dsp_test_register (int mode);
+extern int lw6dsp_test_run (int mode);
 
 #endif

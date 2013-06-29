@@ -204,6 +204,7 @@ extern lw6cli_backend_t *lw6cli_create_backend (int argc, const char *argv[],
 extern void lw6cli_destroy_backend (lw6cli_backend_t * backend);
 
 /* cli-test.c */
-extern int lw6cli_test (int mode);
+extern int lw6cli_test_register (int mode);
+extern int lw6cli_test_run (int mode);
 
 #endif

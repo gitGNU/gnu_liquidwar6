@@ -236,6 +236,7 @@ extern char *lw6p2p_node_get_next_draft_msg (lw6p2p_node_t * node,
 					     lw6sys_progress_t * progress);
 
 /* p2p-test.c */
-extern int lw6p2p_test (int mode);
+extern int lw6p2p_test_register (int mode);
+extern int lw6p2p_test_run (int mode);
 
 #endif // LIQUIDWAR6P2P_H

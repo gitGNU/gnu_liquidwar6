@@ -154,6 +154,7 @@ lw6dat_warehouse_meta_get (lw6dat_warehouse_t * warehouse,
 			   lw6msg_meta_array_t * meta_array, int64_t seq);
 
 /* dat-test.c */
-extern int lw6dat_test (int mode);
+extern int lw6dat_test_register (int mode);
+extern int lw6dat_test_run (int mode);
 
 #endif

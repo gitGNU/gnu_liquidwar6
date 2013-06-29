@@ -60,6 +60,7 @@ extern lw6img_jpeg_t *lw6img_screenshot_new (lw6ker_game_state_t * game_state,
 extern void lw6img_screenshot_free (lw6img_jpeg_t * screenshot);
 
 /* img-test.c */
-extern int lw6img_test (int mode);
+extern int lw6img_test_register (int mode);
+extern int lw6img_test_run (int mode);
 
 #endif

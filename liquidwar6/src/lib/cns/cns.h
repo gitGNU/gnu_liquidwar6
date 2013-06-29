@@ -39,6 +39,7 @@ extern void lw6cns_history_add_if_needed (char *line);
 extern int lw6cns_support ();
 
 /* cns-test.c */
-extern int lw6cns_test (int mode);
+extern int lw6cns_test_register (int mode);
+extern int lw6cns_test_run (int mode);
 
 #endif

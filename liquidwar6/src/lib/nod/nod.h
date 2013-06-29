@@ -247,6 +247,7 @@ extern void lw6nod_info_map_verified_nodes (lw6nod_info_t * info,
 					    void *func_data);
 
 /* nod-test.c */
-extern int lw6nod_test (int mode);
+extern int lw6nod_test_register (int mode);
+extern int lw6nod_test_run (int mode);
 
 #endif

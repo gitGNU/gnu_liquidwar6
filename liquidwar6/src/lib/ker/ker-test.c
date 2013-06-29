@@ -831,6 +831,7 @@ _setup_quit ()
  * and *really* check many things. If this passes, the algorithm
  * is fine. What could make it fail is a serious bug and/or some
  * weird combination of endianess, byte alignment... *
+ *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int

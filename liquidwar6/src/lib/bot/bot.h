@@ -146,6 +146,7 @@ extern lw6bot_backend_t *lw6bot_create_backend (int argc, const char *argv[],
 extern void lw6bot_destroy_backend (lw6bot_backend_t * backend);
 
 /* bot-test.c */
-extern int lw6bot_test (int mode);
+extern int lw6bot_test_register (int mode);
+extern int lw6bot_test_run (int mode);
 
 #endif // LIQUIDWAR6BOT_H
