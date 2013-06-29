@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <CUnit/CUnit.h>
+
 #include "snd.h"
 
 #define TEST_FX_VOLUME 0.6f

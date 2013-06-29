@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <CUnit/CUnit.h>
+
 #include "cnx.h"
 
 #define _TEST_LOCAL_URL "http://ufoot.org:8056/"

@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <CUnit/CUnit.h>
+
 #include "hlp.h"
 
 #define TEST_KEYWORD LW6DEF_PREFIX

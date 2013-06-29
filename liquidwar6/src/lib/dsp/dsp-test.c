@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <CUnit/CUnit.h>
+
 #include "dsp.h"
 #include "dsp-internal.h"
 

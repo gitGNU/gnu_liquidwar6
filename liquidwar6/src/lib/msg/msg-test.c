@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <CUnit/CUnit.h>
+
 #include "msg.h"
 
 #define _TEST_IP_1 "123.123.123.123"

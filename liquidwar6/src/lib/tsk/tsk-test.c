@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <CUnit/CUnit.h>
+
 #include "tsk.h"
 
 #define _TEST_MANAGER_SLEEP 1.0f

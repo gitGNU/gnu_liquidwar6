@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <CUnit/CUnit.h>
+
 #include "nod.h"
 
 #define _TEST_NB_IP 3

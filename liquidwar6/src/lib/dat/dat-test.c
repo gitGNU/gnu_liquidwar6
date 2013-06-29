@@ -25,6 +25,7 @@
 #endif
 
 #include <math.h>
+#include <CUnit/CUnit.h>
 
 #include "dat-internal.h"
 

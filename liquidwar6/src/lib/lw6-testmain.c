@@ -24,6 +24,8 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <CUnit/CUnit.h>
+
 #include "liquidwar6.h"
 
 #ifdef LW6_MAC_OS_X

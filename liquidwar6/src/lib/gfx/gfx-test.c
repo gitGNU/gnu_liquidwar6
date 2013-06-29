@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <CUnit/CUnit.h>
+
 #include "gfx-internal.h"
 
 #define TEST_WIDTH 640

@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <CUnit/CUnit.h>
+
 #include "gui.h"
 
 #define TEST_LOOK_KEY1 "dynamic-zoom"

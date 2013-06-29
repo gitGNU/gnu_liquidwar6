@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <CUnit/CUnit.h>
+
 #include "cfg.h"
 
 #define TEST_CFG "test.xml"

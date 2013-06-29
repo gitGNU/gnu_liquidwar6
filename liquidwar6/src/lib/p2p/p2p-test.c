@@ -24,6 +24,8 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <CUnit/CUnit.h>
+
 #include "p2p.h"
 #include "p2p-internal.h"
 

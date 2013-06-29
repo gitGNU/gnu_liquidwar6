@@ -24,6 +24,8 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <CUnit/CUnit.h>
+
 #include "liquidwar6.h"
 
 #define _TEST_FILE_0_MAIN "test-0-main.scm"

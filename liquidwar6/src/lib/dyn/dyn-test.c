@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <CUnit/CUnit.h>
+
 #include "dyn.h"
 
 #define TEST_DYN_TOP_LEVEL_LIB "gfx"

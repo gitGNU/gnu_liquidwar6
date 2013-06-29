@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <CUnit/CUnit.h>
+
 #include "scm.h"
 
 #define TEST_UNEXISTING_FILE "/foo/bar.scm"

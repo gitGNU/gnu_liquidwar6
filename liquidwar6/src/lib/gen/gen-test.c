@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <CUnit/CUnit.h>
+
 #include "gen-internal.h"
 
 #define _TEST_SEED "abcdef0123456789"

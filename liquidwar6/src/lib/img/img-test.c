@@ -25,6 +25,8 @@
 #include "config.h"
 #endif
 
+#include <CUnit/CUnit.h>
+
 #include "img.h"
 
 #define TEST_ARGC 1

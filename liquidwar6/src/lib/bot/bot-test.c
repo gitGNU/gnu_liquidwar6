@@ -24,6 +24,8 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <CUnit/CUnit.h>
+
 #include "bot.h"
 
 #define TEST_ARGC 1
