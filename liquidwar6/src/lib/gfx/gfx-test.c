@@ -72,8 +72,10 @@ static void
 _test_sdl ()
 {
   int ret = 1;
+#ifndef LW6_ALLINONE
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
+#endif
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {

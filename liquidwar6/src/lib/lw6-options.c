@@ -99,7 +99,7 @@ _register_and_run_tests (int argc, const char **argv, int mode)
     }
 
 #else // LW6_CUNIT
-  lw6sys_log ("no test support, CUnit not linked");
+  lw6sys_log (LW6SYS_LOG_WARNING,_x_("no test support, CUnit not linked"));
   ret = 0;
 #endif // LW6_CUNIT
 
