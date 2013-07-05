@@ -1,3 +1,7 @@
+2013-07-05 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Removed unstable tests from check test suite.
+
 2013-06-29 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Migrated all tests to CUnit, and added --cunit run-time option.

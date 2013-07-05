@@ -1801,7 +1801,14 @@ lw6p2p_test_register (int mode)
       LW6SYS_CUNIT_ADD_TEST (suite, _test_node_oob);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_node_cmd);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_node_msg);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_node_api);
+      /*
+       * API test is really long and not always bullet-proof, until it's rock
+       * stable it's only in full test.
+       */
+      if (mode & LW6SYS_TEST_MODE_FULL_TEST)
+	{
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_node_api);
+	}
     }
   else
     {
