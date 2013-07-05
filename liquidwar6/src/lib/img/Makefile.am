@@ -36,7 +36,6 @@ if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6img-test
 liquidwar6img_test_SOURCES = img-testmain.c
 liquidwar6img_test_LDADD = libimg.la ../cfg/libcfg.la ../hlp/libhlp.la ../ker/libker.la ../map/libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
-endif
-endif
-
 TESTS = liquidwar6img-test
+endif
+endif
