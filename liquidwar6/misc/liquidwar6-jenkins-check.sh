@@ -48,22 +48,19 @@ if cd liquidwar6 ; then
 	    echo "******** $0 $(date) ********"
 	    if make ; then
 		echo "******** $0 $(date) ********"
-		if make dist; then
+		# No check on --cunit output, make check will do this, we do not
+		# want the whole build to fail just because of cunit, only, we
+		# look at the XML output with Jenkins
+		src/liquidwar6 --cunit
+		if [ -f $HOME/.liquidwar6/CUnit-Results.xml ] && [ -x /usr/bin/xsltproc ] ; then
+		    cp $HOME/.liquidwar6/CUnit-Results.xml .
+		    /usr/bin/xsltproc --output JUnit-Results.xml --path $WORKSPACE/misc/cunit-to-junit/ $WORKSPACE/misc/cunit-to-junit/cunit-to-junit.xsl CUnit-Results.xml
+		fi
+		echo "******** $0 $(date) ********"
+		if make distcheck; then
 		    echo "******** $0 $(date) ********"
-		    if make check; then
-			echo "******** $0 $(date) ********"
-			if make distcheck; then
-			    echo "******** $0 $(date) ********"
-			else
-			    echo "make distcheck failed"
-			    exit 7
-			fi
-		    else
-			echo "make check failed"
-			exit 6
-		    fi
 		else
-		    echo "make dist failed"
+		    echo "make distcheck failed"
 		    exit 5
 		fi
 	    else

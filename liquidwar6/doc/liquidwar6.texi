@@ -871,6 +871,7 @@ gtk2-devel \
 perl lcov global valgrind graphviz gv \
 texinfo-tex \
 indent emacs doxygen libxml \
+CUnit CUnit-devel \
 rpm-build
 @end example
 

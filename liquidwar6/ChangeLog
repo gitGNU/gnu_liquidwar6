@@ -1,3 +1,7 @@
+2013-07-06 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Post-processing CUnit output with cunit-to-junit by Jenkins.
+
 2013-07-05 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Removed unstable tests from check test suite.
