@@ -51,7 +51,7 @@ if cd liquidwar6 ; then
 		# No check on --cunit output, make check will do this, we do not
 		# want the whole build to fail just because of cunit, only, we
 		# look at the XML output with Jenkins
-		src/liquidwar6 --cunit
+		src/liquidwar6 --check
 		if [ -f $HOME/.liquidwar6/CUnit-Results.xml ] && [ -x /usr/bin/xsltproc ] ; then
 		    cp $HOME/.liquidwar6/CUnit-Results.xml .
 		    /usr/bin/xsltproc --output JUnit-Results.xml --path $WORKSPACE/misc/cunit-to-junit/ $WORKSPACE/misc/cunit-to-junit/cunit-to-junit.xsl CUnit-Results.xml
