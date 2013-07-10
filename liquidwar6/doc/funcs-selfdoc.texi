@@ -1816,6 +1816,11 @@ Wrapper on lw6sys_log.
 Wrapper on lw6sys_log_get_level.
 @end deffn
 
+@subsection c-lw6sys-log-set-dialog-timeout
+@deffn {C function exported to Guile} @code{c-lw6sys-log-set-dialog-timeout}
+Wrapper on lw6sys_log_set_dialog_timeout.
+@end deffn
+
 @subsection c-lw6sys-log-set-level
 @deffn {C function exported to Guile} @code{c-lw6sys-log-set-level}
 Wrapper on lw6sys_log_set_level.

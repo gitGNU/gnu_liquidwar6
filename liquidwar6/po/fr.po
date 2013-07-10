@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2013-06-29 21:46+0200\n"
+"POT-Creation-Date: 2013-07-11 01:01+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -247,7 +247,7 @@ msgid "Fight software patents %s"
 msgstr "Contre les brevets logiciels %s"
 
 #: src/lib/hlp/hlp-credits.c:164 src/lib/lw6-print.c:58
-#: src/lib/sys/sys-log.c:663
+#: src/lib/sys/sys-log.c:711
 msgid "Report bugs"
 msgstr "Soummission de bugs"
 
@@ -256,55 +256,55 @@ msgstr "Soummission de bugs"
 msgid "unable to handle credits id %d"
 msgstr "impossible de lire la ligne de 'credits' %d"
 
-#: src/lib/hlp/hlp-reference.c:3064
+#: src/lib/hlp/hlp-reference.c:3071
 msgid "moves faster than the average"
 msgstr "se déplace plus vite que les autres"
 
-#: src/lib/hlp/hlp-reference.c:3065
+#: src/lib/hlp/hlp-reference.c:3072
 msgid "has a better defense than the average"
 msgstr "a une meilleure défense que les autres"
 
-#: src/lib/hlp/hlp-reference.c:3066
+#: src/lib/hlp/hlp-reference.c:3073
 msgid "has a strong attack but is slow"
 msgstr "a une attaque forte, mais se déplace lentement"
 
-#: src/lib/hlp/hlp-reference.c:3067
+#: src/lib/hlp/hlp-reference.c:3074
 msgid "has a strong attack"
 msgstr "a une attaque forte"
 
-#: src/lib/hlp/hlp-reference.c:3068
+#: src/lib/hlp/hlp-reference.c:3075
 msgid "has an extremely good defense but is slow"
 msgstr "extrêmement bon en défense, mais très lent"
 
-#: src/lib/hlp/hlp-reference.c:3070
+#: src/lib/hlp/hlp-reference.c:3077
 msgid "is extremely fast but also very vulnerable"
 msgstr "extrêmement rapide, mais aussi très vulnérable"
 
-#: src/lib/hlp/hlp-reference.c:3071
+#: src/lib/hlp/hlp-reference.c:3078
 msgid "is fast, but has a very weak attack"
 msgstr "rapide, mais avec peu d'attaque"
 
-#: src/lib/hlp/hlp-reference.c:3073
+#: src/lib/hlp/hlp-reference.c:3080
 msgid "has an extremely strong attack but is very slow"
 msgstr "attaque très forte, mais très lent"
 
-#: src/lib/hlp/hlp-reference.c:3075
+#: src/lib/hlp/hlp-reference.c:3082
 msgid "has a very good defense but a weak attack"
 msgstr "très bonne défense mais attaque faible"
 
-#: src/lib/hlp/hlp-reference.c:3077
+#: src/lib/hlp/hlp-reference.c:3084
 msgid "has a very strong attack, but is also very vulnerable"
 msgstr "attaque très forte, et aussi très vulnérable"
 
-#: src/lib/hlp/hlp-reference.c:3084
+#: src/lib/hlp/hlp-reference.c:3091
 msgid "super-strong attack for a limited time, crush your enemies"
 msgstr "attaque super forte pour un temps limité, écrasez vos ennemis"
 
-#: src/lib/hlp/hlp-reference.c:3086
+#: src/lib/hlp/hlp-reference.c:3093
 msgid "no damage for a limited time, move untouched"
 msgstr "pas de dégâts pendant un certain temps, ne craignez plus rien"
 
-#: src/lib/hlp/hlp-reference.c:3089
+#: src/lib/hlp/hlp-reference.c:3096
 msgid ""
 "fighters placed as far as possible from cursor, magically escape from any "
 "grip"
@@ -312,52 +312,52 @@ msgstr ""
 "les combattants sont placés aussi loin que possible du curseur, échappant à "
 "n'importe quel éteau"
 
-#: src/lib/hlp/hlp-reference.c:3090
+#: src/lib/hlp/hlp-reference.c:3097
 msgid "move faster for a limited time"
 msgstr "déplacement plus rapide pendant un certain temps"
 
-#: src/lib/hlp/hlp-reference.c:3092
+#: src/lib/hlp/hlp-reference.c:3099
 msgid "fighters placed as close as possible to cursor"
 msgstr "les combattants sont placés au plus près du curseur"
 
-#: src/lib/hlp/hlp-reference.c:3095
+#: src/lib/hlp/hlp-reference.c:3102
 msgid "every fighters of every team scattered in random places"
 msgstr "tous les combattants se retrouvent éparpillés n'importe où"
 
-#: src/lib/hlp/hlp-reference.c:3098
+#: src/lib/hlp/hlp-reference.c:3105
 msgid "all other teams are freezed, you can move but not attack them"
 msgstr ""
 "toutes les autres couleurs sont figées sur place, vous pouvez vos déplacer "
 "sans attaquer"
 
-#: src/lib/hlp/hlp-reference.c:3101
+#: src/lib/hlp/hlp-reference.c:3108
 msgid "fighters exchange position, their properties being preserved"
 msgstr "toutes les autres équipes sont fig;ees sur pl"
 
-#: src/lib/hlp/hlp-reference.c:3104
+#: src/lib/hlp/hlp-reference.c:3111
 msgid ""
 "you take the control of all other teams while your cursor stays in place"
 msgstr ""
 "vous prenez le contrôle des autres équipes, pendant ce temps-là votre "
 "curseur reste à sa place"
 
-#: src/lib/hlp/hlp-reference.c:3107
+#: src/lib/hlp/hlp-reference.c:3114
 msgid ""
 "will exchange colors, randomly, requires at least 3 teams (double edged "
 "weapon)"
 msgstr "échange les couleurs, au hasard, nécessite au moins 3 couleurs"
 
-#: src/lib/hlp/hlp-reference.c:3108
+#: src/lib/hlp/hlp-reference.c:3115
 msgid "steals some fighters to other teams"
 msgstr "vole des combattants aux autres équipes"
 
-#: src/lib/hlp/hlp-reference.c:3111
+#: src/lib/hlp/hlp-reference.c:3118
 msgid "nuclear explosion, all fighters arround your cursor are about to die"
 msgstr ""
 "explosion nucléaire, tous les combattants autour de votre curseur sont morts "
 "ou presque"
 
-#: src/lib/hlp/hlp-reference.c:3114
+#: src/lib/hlp/hlp-reference.c:3121
 msgid ""
 "fighters continue to move normally, but attacks are done in reverse mode, "
 "backwards"
@@ -365,26 +365,26 @@ msgstr ""
 "les combattans continuent à se déplacer normalement, mais ils attaquent à "
 "l'envers, par derrière"
 
-#: src/lib/hlp/hlp-reference.c:3117
+#: src/lib/hlp/hlp-reference.c:3124
 msgid "all your opponents go crazy for some time, acting with no logic"
 msgstr ""
 "tous vos ennemis deviennent fou pendant quelques temps, agissant sans logique"
 
-#: src/lib/hlp/hlp-reference.c:3119
+#: src/lib/hlp/hlp-reference.c:3126
 msgid "make the battlefield be like it was a few seconds ago"
 msgstr "remet le champs de bataille tel qu'il était quelques secondes avant"
 
-#: src/lib/hlp/hlp-reference.c:3122
+#: src/lib/hlp/hlp-reference.c:3129
 msgid "all fighters from all teams are packed near your cursor"
 msgstr ""
 "tous les combattants de toutes les équipes sont réunis autour de votre "
 "curseur"
 
-#: src/lib/hlp/hlp-reference.c:3124
+#: src/lib/hlp/hlp-reference.c:3131
 msgid "reduces the number of fighters on the map"
 msgstr "réduit le nombre de combattants dans le tableau"
 
-#: src/lib/hlp/hlp-reference.c:3127
+#: src/lib/hlp/hlp-reference.c:3134
 msgid ""
 "you die along with the strongest team on the battlefield, requires at least "
 "3 teams"
@@ -392,14 +392,14 @@ msgstr ""
 "vous mourrez et emportez dans votre mort la puissante des autres équipes, "
 "nécessite 3 équipes"
 
-#: src/lib/hlp/hlp-reference.c:3130
+#: src/lib/hlp/hlp-reference.c:3137
 msgid ""
 "you disappear for some time from the battlefield, to reappear later, "
 "somewhere else"
 msgstr ""
 "vous disparaissez pour quelques temps, pour réapparaitre plus tard, ailleurs"
 
-#: src/lib/hlp/hlp-reference.c:3133
+#: src/lib/hlp/hlp-reference.c:3140
 msgid "general disease, all fighters mysteriously loose health"
 msgstr ""
 "maladie généralisée, les combattants perdent mystérieusement des points de "
@@ -656,50 +656,50 @@ msgstr "UDPD"
 msgid "can't initialize mod_udpd"
 msgstr "impossible d'initialiser mod_udpd"
 
-#: src/lib/sys/sys-log.c:90
+#: src/lib/sys/sys-log.c:92
 msgid "log_file is NULL"
 msgstr "Le fichier de log est NULL"
 
-#: src/lib/sys/sys-log.c:557
+#: src/lib/sys/sys-log.c:559
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr "impossible d'ouvrir le fichier de log \"%s\""
 
-#: src/lib/sys/sys-log.c:663
+#: src/lib/sys/sys-log.c:711
 msgid "Backtrace"
 msgstr "Trace"
 
-#: src/lib/sys/sys-log.c:819
+#: src/lib/sys/sys-log.c:891
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "ERREUR! (errno=%d:%s)"
 
-#: src/lib/sys/sys-log.c:824
+#: src/lib/sys/sys-log.c:896
 msgid "ERROR! "
 msgstr "ERREUR! "
 
-#: src/lib/sys/sys-log.c:834
+#: src/lib/sys/sys-log.c:906
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "ATTENTION! (errno=%d:%s) "
 
-#: src/lib/sys/sys-log.c:839
+#: src/lib/sys/sys-log.c:911
 msgid "WARNING! "
 msgstr "ATTENTION! "
 
-#: src/lib/sys/sys-log.c:856
+#: src/lib/sys/sys-log.c:928
 msgid "[tmp] "
 msgstr "[temp] "
 
-#: src/lib/sys/sys-log.c:862
+#: src/lib/sys/sys-log.c:934
 msgid "[debug] "
 msgstr "[déboggage] "
 
-#: src/lib/sys/sys-log.c:946
+#: src/lib/sys/sys-log.c:1018
 msgid "CRITICAL! "
 msgstr "CRITIQUE! "
 
-#: src/lib/sys/sys-log.c:950
+#: src/lib/sys/sys-log.c:1022
 msgid "CRITICAL!"
 msgstr "CRITIQUE! "
 

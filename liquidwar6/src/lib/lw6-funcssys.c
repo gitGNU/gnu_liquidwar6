@@ -1295,6 +1295,28 @@ _scm_lw6sys_log (SCM level, SCM message)
 }
 
 static SCM
+_scm_lw6sys_log_set_dialog_timeout (SCM dialog_timeout)
+{
+  SCM ret = SCM_BOOL_F;
+  int c_dialog_timeout = 0;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (scm_is_integer (dialog_timeout), dialog_timeout, SCM_ARG1,
+	      __FUNCTION__);
+
+  c_dialog_timeout = scm_to_int (dialog_timeout);
+  ret =
+    lw6sys_log_set_dialog_timeout (c_dialog_timeout) ? SCM_BOOL_T :
+    SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6sys_log_get_level ()
 {
   SCM ret = SCM_BOOL_F;
@@ -2514,10 +2536,15 @@ lw6_register_funcs_sys ()
    */
   ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG, 2, 0, 0,
 				      (SCM (*)())_scm_lw6sys_log);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_GET_LEVEL, 0, 0, 0,
-				      (SCM (*)())_scm_lw6sys_log_get_level);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_LEVEL, 1, 0, 0,
-				      (SCM (*)())_scm_lw6sys_log_set_level);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_DIALOG_TIMEOUT, 1, 0, 0,
+			      (SCM (*)())_scm_lw6sys_log_set_dialog_timeout);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_GET_LEVEL, 0, 0, 0,
+			      (SCM (*)())_scm_lw6sys_log_get_level);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_LEVEL, 1, 0, 0,
+			      (SCM (*)())_scm_lw6sys_log_set_level);
   /*
    * in mem.c
    */

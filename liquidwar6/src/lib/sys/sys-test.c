@@ -251,6 +251,8 @@
 #define _TEST_VERSION_COMPATIBLE_B4 "10.11"
 #define _TEST_VERSION_COMPATIBLE_RET4 1
 
+#define _TEST_LOG_MORE_DIALOG_TIMEOUT 5
+
 typedef struct _lw6sys_test_data_s
 {
   int ret;
@@ -2184,6 +2186,7 @@ _test_log_more ()
     /*
      * WARNING & ERROR tested only in full test mode
      */
+    lw6sys_log_set_dialog_timeout (_TEST_LOG_MORE_DIALOG_TIMEOUT);
     lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("this is a /TEST/ warning"));
     lw6sys_log (LW6SYS_LOG_ERROR, _x_ ("this is a /TEST/ error"));
   }

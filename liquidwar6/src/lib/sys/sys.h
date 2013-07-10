@@ -159,6 +159,10 @@ typedef char *char_ptr_t;
 #define LW6SYS_BUILD_ENABLE_YES "yes"
 #define LW6SYS_BUILD_ENABLE_NO "no"
 
+#define LW6SYS_DIALOG_TIMEOUT_DEFAULT 3600
+#define LW6SYS_DIALOG_TIMEOUT_MIN 0
+#define LW6SYS_DIALOG_TIMEOUT_MAX 86400
+
 /**
  * All-in 32 bit 3D position, to save memory.
  *
@@ -1048,6 +1052,7 @@ extern lw6sys_list_t *lw6sys_list_dup (lw6sys_list_t * list,
 /* sys-log.c */
 extern const char *lw6sys_log_errno_str (int errno_int);
 extern void lw6sys_log_set_file (const char *filename);
+extern int lw6sys_log_set_dialog_timeout (int timeout_sec);
 extern void lw6sys_log_clear (const char *filename);
 extern void lw6sys_log (int level_id, const char *file, int line,
 			const char *fmt, ...)

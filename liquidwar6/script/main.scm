@@ -55,6 +55,7 @@
       (c-lw6sys-set-memory-bazooka-size (lw6-config-get-number lw6def-memory-bazooka-size))
       (c-lw6sys-set-memory-bazooka-eraser (lw6-config-is-true? lw6def-memory-bazooka-eraser))
       (c-lw6sys-dump-clear)
+      (c-lw6sys-log-set-dialog-timeout (lw6-config-get-number lw6def-dialog-timeout))
       (c-lw6ldr-print-examples)
       (c-lw6net-init (lw6-config-is-true? lw6def-net-log))
       (c-lw6sys-signal-custom (lw6-config-is-true? lw6def-trap-errors))

@@ -33,6 +33,8 @@
 #include <CUnit/CUCurses.h>
 #endif // LW6_CUNIT_CURSES
 
+#define _LW6SYS_CUNIT_DIALOG_TIMEOUT 3
+
 /*
  * Base filename, -Listing.xml or -Results.xml will be appended to it
  */
@@ -57,6 +59,7 @@ lw6sys_cunit_run_tests (int mode)
   char *user_dir = NULL;
   char *cunit_basename = NULL;
 
+  lw6sys_log_set_dialog_timeout (_LW6SYS_CUNIT_DIALOG_TIMEOUT);
   if (mode & LW6SYS_TEST_MODE_INTERACTIVE)
     {
       console_state = lw6sys_log_get_console_state ();

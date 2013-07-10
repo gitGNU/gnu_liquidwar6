@@ -1,3 +1,7 @@
+2013-07-11 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added support for timeout in Gtk dialogs.
+
 2013-07-06 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Post-processing CUnit output with cunit-to-junit by Jenkins.

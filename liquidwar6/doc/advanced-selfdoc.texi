@@ -119,6 +119,23 @@ displaying gradient.
 Start the game in demo mode. 2 bots play against each other forever.
 @end deffn
 
+@subsection dialog-timeout
+@deffn {Command-line option} @code{--dialog-timeout=<value>}
+@deffnx {Environment variable} @code{LW6_DIALOG_TIMEOUT}
+@deffnx {XML key} @code{dialog-timeout}
+Type: integer
+
+Default value: 3600
+Min value: 0
+Max value: 86400
+
+Timeout, in seconds, after which a dialog will automatically be closed, wether
+user clicked on it or not. Mostly used for testing, to avoid program being
+stall on a visual prompt. 0 will simply disable this feature and wait forever.
+Note that some platforms might not support this. Interfaces using Gtk do
+support it.
+@end deffn
+
 @subsection dirty-read
 @deffn {Command-line option} @code{--dirty-read=<value>}
 @deffnx {Environment variable} @code{LW6_DIRTY_READ}

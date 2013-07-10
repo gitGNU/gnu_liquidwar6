@@ -2778,6 +2778,16 @@ default log file is cleared.
 @strong{Return value:}  void
 @end deftypefun
 
+@deftypefun {int} {lw6sys_log_set_dialog_timeout} (int @var{timeout_sec})
+@var{timeout_sec}:  number of seconds to wait before alert dialogs disappear
+
+By default, alert boxes will stay out forever unless one clicks on them,
+however, this parameter will force the dialog shutdown after some time.
+Mostly used for testing, to allow tests being blocked on a dialog.
+
+@strong{Return value:}  1 if timeout is supported on platform, 0 if not
+@end deftypefun
+
 @deftypefun {void} {lw6sys_log} (int @var{level_id}, const char * @var{file}, int @var{line}, const char * @var{fmt},  @var{...})
 @var{level_id}:  the log level to use. Possible values are, by order, 
 LW6SYS_LOG_ERROR_ID (0), 

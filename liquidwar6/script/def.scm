@@ -21,6 +21,7 @@
 ;; Generated automatically by def-update.py
 
 (define lw6def-about "about")
+(define lw6def-dialog-timeout "dialog-timeout")
 (define lw6def-ambiance-exclude "ambiance-exclude")
 (define lw6def-ambiance-file "ambiance-file")
 (define lw6def-ambiance-filter "ambiance-filter")
@@ -430,6 +431,7 @@
 (define lw6def-c-lw6sys-getenv-prefixed "c-lw6sys-getenv-prefixed")
 (define lw6def-c-lw6sys-idle "c-lw6sys-idle")
 (define lw6def-c-lw6sys-log "c-lw6sys-log")
+(define lw6def-c-lw6sys-log-set-dialog-timeout "c-lw6sys-log-set-dialog-timeout")
 (define lw6def-c-lw6sys-log-get-level "c-lw6sys-log-get-level")
 (define lw6def-c-lw6sys-log-set-level "c-lw6sys-log-set-level")
 (define lw6def-c-lw6sys-megabytes-available "c-lw6sys-megabytes-available")

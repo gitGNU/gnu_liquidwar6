@@ -958,6 +958,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_GENERATE_ID_32);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_GENERATE_ID_64);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_LOG);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_LOG_SET_DIALOG_TIMEOUT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_LOG_GET_LEVEL);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_LOG_SET_LEVEL);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_MEGABYTES_AVAILABLE);
@@ -1382,6 +1383,7 @@ update_advanced (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_SIMULATE_FULL);
   lw6sys_list_push_back (list, LW6DEF_TRAP_ERRORS);
   lw6sys_list_push_back (list, LW6DEF_JPEG_QUALITY);
+  lw6sys_list_push_back (list, LW6DEF_DIALOG_TIMEOUT);
 
   return ((*list) != NULL);
 }

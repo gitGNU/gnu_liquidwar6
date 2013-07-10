@@ -57,6 +57,8 @@
 #define _STATIC_LOG_FILENAME_SIZE 65536
 static char _static_log_filename[_STATIC_LOG_FILENAME_SIZE + 1] = { 0 };
 
+static int _timeout_msec = LW6SYS_DIALOG_TIMEOUT_DEFAULT;
+
 /*
  * Console is enabled by default, disabling it is indeed a special
  * case, for instance when there's an interaction with a text-based
@@ -564,6 +566,33 @@ lw6sys_log_clear (const char *filename)
     }
 }
 
+/**
+ * lw6sys_log_set_dialog_timeout
+ *
+ * @timeout_sec: number of seconds to wait before alert dialogs disappear
+ *
+ * By default, alert boxes will stay out forever unless one clicks on them,
+ * however, this parameter will force the dialog shutdown after some time.
+ * Mostly used for testing, to allow tests being blocked on a dialog.
+ *
+ * Return value: 1 if timeout is supported on platform, 0 if not
+ */
+int
+lw6sys_log_set_dialog_timeout (int timeout_sec)
+{
+  _timeout_msec =
+    LW6SYS_TICKS_PER_SEC * lw6sys_imax (0,
+					lw6sys_imin
+					(LW6SYS_DIALOG_TIMEOUT_MAX,
+					 timeout_sec));
+
+#ifdef LW6_GTK
+  return 1;
+#else // LW6_GTK
+  return 0;
+#endif //LW6_GTK
+}
+
 static FILE *
 _open_log_file ()
 {
@@ -628,6 +657,25 @@ _log_to_history (const char *level_str, const char *fmt, va_list ap)
   lw6sys_buf_sprintf (full_msg, _HISTORY_LENGTH, "%s%s", level_str, msg);
   lw6sys_history_register (full_msg);
 }
+
+#ifdef LW6_GTK
+static void
+_gtk_dlg_timeout_callback (void *data)
+{
+  GtkDialog **dlg_timeout_ptr = (GtkDialog **) data;
+  int64_t start_time = lw6sys_get_timestamp ();
+  int64_t end_time = start_time + _timeout_msec;
+
+  while (((*dlg_timeout_ptr) != NULL) && lw6sys_get_timestamp () < end_time)
+    {
+      lw6sys_idle ();
+    }
+  if (*dlg_timeout_ptr)
+    {
+      gtk_dialog_response (*dlg_timeout_ptr, GTK_RESPONSE_OK);
+    }
+}
+#endif // LW6_GTK
 
 /*
  * This function not declared static so that we're sure it's never inlined
@@ -704,6 +752,8 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
   int argc = 1;
   char **argv = NULL;
   GtkWidget *dlg = NULL;
+  GtkWidget *dlg_timeout = NULL;
+  lw6sys_thread_handler_t *timeout_thread = NULL;
 
   empty_str[0] = '\0';
   argv_data[0] = empty_str;
@@ -729,9 +779,31 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
 				lw6sys_build_get_package_name ());
 	  gtk_dialog_add_button (GTK_DIALOG (dlg), GTK_STOCK_OK,
 				 GTK_RESPONSE_OK);
+	  dlg_timeout = dlg;
+	  if (_timeout_msec > 0)
+	    {
+	      timeout_thread =
+		lw6sys_thread_create (_gtk_dlg_timeout_callback, NULL,
+				      (void *) &dlg_timeout);
+	    }
+	  /*
+	   * Here we don't log on error, it's not a really good idea to call
+	   * ourselves, side effects could be worse than remedy.
+	   */
 	  gtk_dialog_run (GTK_DIALOG (dlg));
+	  /*
+	   * It's important to set dlg_timeout to NULL so that 
+	   * timeout thread does finish when we click on OK.
+	   */
+	  dlg_timeout = NULL;
+	  if (timeout_thread)
+	    {
+	      lw6sys_thread_join (timeout_thread);
+	      timeout_thread = NULL;
+	    }
 	  gtk_widget_hide_all (dlg);
 	  gtk_widget_destroy (dlg);
+	  dlg = NULL;
 
 	  while (gtk_events_pending ())
 	    {

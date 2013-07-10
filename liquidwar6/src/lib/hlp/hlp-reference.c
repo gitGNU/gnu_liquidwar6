@@ -974,6 +974,11 @@ populate_references ()
 		("Quality used by libjpeg when creating screenshot images. The same value you would give to Gimp before exporting an image as a JPEG."),
 		LW6IMG_JPEG_QUALITY_DEFAULT, LW6IMG_JPEG_QUALITY_MIN,
 		LW6IMG_JPEG_QUALITY_DEFAULT);
+  POPULATE_INT (LW6DEF_DIALOG_TIMEOUT,
+		_x_
+		("Timeout, in seconds, after which a dialog will automatically be closed, wether user clicked on it or not. Mostly used for testing, to avoid program being stall on a visual prompt. 0 will simply disable this feature and wait forever. Note that some platforms might not support this. Interfaces using Gtk do support it."),
+		LW6SYS_DIALOG_TIMEOUT_DEFAULT, LW6SYS_DIALOG_TIMEOUT_MIN,
+		LW6SYS_DIALOG_TIMEOUT_MAX);
   /*
    * Game settings
    */
@@ -2461,6 +2466,8 @@ populate_references ()
   POPULATE_VOID (LW6DEF_C_LW6SYS_GENERATE_ID_64,
 		 _x_ ("Wrapper on lw6sys_generate_id_64."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_LOG, _x_ ("Wrapper on lw6sys_log."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_LOG_SET_DIALOG_TIMEOUT,
+		 _x_ ("Wrapper on lw6sys_log_set_dialog_timeout."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_LOG_GET_LEVEL,
 		 _x_ ("Wrapper on lw6sys_log_get_level."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_LOG_SET_LEVEL,

@@ -1,5 +1,6 @@
 ?
 about
+dialog-timeout
 ambiance-exclude
 ambiance-file
 ambiance-filter
@@ -410,6 +411,7 @@ c-lw6sys-getenv
 c-lw6sys-getenv-prefixed
 c-lw6sys-idle
 c-lw6sys-log
+c-lw6sys-log-set-dialog-timeout
 c-lw6sys-log-get-level
 c-lw6sys-log-set-level
 c-lw6sys-megabytes-available
