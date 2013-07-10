@@ -28,7 +28,6 @@ Contact author        : ufoot@ufoot.org
 #define LIQUIDWAR6DEF_H
 
 #define LW6DEF_ABOUT "about"
-#define LW6DEF_DIALOG_TIMEOUT "dialog-timeout"
 #define LW6DEF_AMBIANCE_EXCLUDE "ambiance-exclude"
 #define LW6DEF_AMBIANCE_FILE "ambiance-file"
 #define LW6DEF_AMBIANCE_FILTER "ambiance-filter"
@@ -438,8 +437,8 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6SYS_GETENV_PREFIXED "c-lw6sys-getenv-prefixed"
 #define LW6DEF_C_LW6SYS_IDLE "c-lw6sys-idle"
 #define LW6DEF_C_LW6SYS_LOG "c-lw6sys-log"
-#define LW6DEF_C_LW6SYS_LOG_SET_DIALOG_TIMEOUT "c-lw6sys-log-set-dialog-timeout"
 #define LW6DEF_C_LW6SYS_LOG_GET_LEVEL "c-lw6sys-log-get-level"
+#define LW6DEF_C_LW6SYS_LOG_SET_DIALOG_TIMEOUT "c-lw6sys-log-set-dialog-timeout"
 #define LW6DEF_C_LW6SYS_LOG_SET_LEVEL "c-lw6sys-log-set-level"
 #define LW6DEF_C_LW6SYS_MEGABYTES_AVAILABLE "c-lw6sys-megabytes-available"
 #define LW6DEF_C_LW6SYS_OPENMP_GET_NUM_PROCS "c-lw6sys-openmp-get-num-procs"
@@ -505,6 +504,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_DEBUG_TEAM_ID "debug-team-id"
 #define LW6DEF_DEFAULTS "defaults"
 #define LW6DEF_DEMO "demo"
+#define LW6DEF_DIALOG_TIMEOUT "dialog-timeout"
 #define LW6DEF_DIRTY_READ "dirty-read"
 #define LW6DEF_DISAPPEAR "disappear"
 #define LW6DEF_DISPLAY_BACKGROUND "display-background"
