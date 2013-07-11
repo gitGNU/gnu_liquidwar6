@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
    <xsl:output method="xml" indent="yes" />
 
@@ -52,7 +52,7 @@
   <xsl:template match="CUNIT_RUN_TEST_SUCCESS">
     <testcase>
        <xsl:attribute name="classname">
-          <xsl:value-of select="substring-before(substring-after(TEST_NAME,'test_'),'_')" />
+          <xsl:value-of select="normalize-space(../../SUITE_NAME/text())" />
        </xsl:attribute>
        <xsl:attribute name="name">
           <xsl:value-of select="normalize-space(TEST_NAME)" />
@@ -63,7 +63,7 @@
   <xsl:template match="CUNIT_RUN_TEST_FAILURE">
     <testcase>
         <xsl:attribute name="classname">
-          <xsl:value-of select="substring-before(substring-after(TEST_NAME,'test_'),'_')" />
+          <xsl:value-of select="normalize-space(../../SUITE_NAME/text())" />
        </xsl:attribute>
        <xsl:attribute name="name">
           <xsl:value-of select="normalize-space(TEST_NAME)" />
