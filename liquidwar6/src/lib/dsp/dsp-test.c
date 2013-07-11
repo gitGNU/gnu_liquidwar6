@@ -473,6 +473,7 @@ _test_display ()
       }
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("frames=%d"), nb_frames);
     lw6dsp_destroy_backend (display);
+    _test_data.backend = display = NULL;
   }
 
   LW6SYS_TEST_FUNCTION_END;

@@ -65,13 +65,6 @@ if cd liquidwar6 ; then
                     fi
                 fi
                 echo "******** $0 $(date) ********"
-                if make distcheck; then
-                    echo "******** $0 $(date) ********"
-                else
-                    killall Xvfb
-                    echo "make distcheck failed"
-                    exit 5
-                fi
             else
                 killall Xvfb
                 echo "make failed"
