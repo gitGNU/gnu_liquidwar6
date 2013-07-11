@@ -58,6 +58,7 @@ if cd liquidwar6 ; then
 		src/liquidwar6 --test
 		killall Xvfb
 		if [ -f $HOME/.liquidwar6/CUnit-Results.xml ] && [ -x /usr/bin/xsltproc ] && [ -x /usr/bin/xmllint ] ; then
+		    rm -f *-Results.xml
 		    xmllint --recover $HOME/.liquidwar6/CUnit-Results.xml > CUnit-Results.xml
 		    /usr/bin/xsltproc --output JUnit-Results.xml --path ./misc/cunit-to-junit/ misc/cunit-to-junit/cunit-to-junit.xsl CUnit-Results.xml
 		fi
