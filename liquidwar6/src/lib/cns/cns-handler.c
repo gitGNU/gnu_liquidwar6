@@ -50,6 +50,10 @@ _flushall ()
   fflush (stderr);
 }
 
+#ifdef LW6_CONSOLE
+static int _console_handler_installed = 0;
+#endif // LW6_CONSOLE
+
 static int
 _env_term_check ()
 {
@@ -104,22 +108,32 @@ void
 lw6cns_handler_install (lw6cns_callback_func_t callback)
 {
 #ifdef LW6_CONSOLE
-  _flushall ();
-
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("opening console"));
-
-  _flushall ();
-
-  if (_env_term_check ())
+  if (!_console_handler_installed)
     {
-      rl_set_keyboard_input_timeout (1);
-      rl_callback_handler_install (_PROMPT, callback);
-    }
+      _flushall ();
 
-  _flushall ();
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("opening console"));
+
+      _flushall ();
+
+      if (_env_term_check ())
+	{
+	  rl_set_keyboard_input_timeout (1);
+	  rl_callback_handler_install (_PROMPT, callback);
+	  _console_handler_installed = 1;
+	}
+
+      _flushall ();
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
+		  ("trying to install console handler but it looks like it's already installed..."));
+    }
 #else
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("no console support"));
-#endif
+#endif // LW6_CONSOLE
 }
 
 /**
@@ -138,31 +152,40 @@ lw6cns_handler_poll ()
   int retval = 1;
   int c;
 
-  /*
-   * It's important to have a while here, for characters
-   * are read one by one, and input could be slowed if
-   * we had a simple "if".
-   */
-  while (retval)
+  if (_console_handler_installed)
     {
-      _flushall ();
-
-      FD_ZERO (&rfds);
-      FD_SET (0, &rfds);	// stdin == fd 0
-
-      tv.tv_sec = 0;
-      tv.tv_usec = 0;
-
-      retval = select (1, &rfds, NULL, NULL, &tv);
-
-      if (retval > 0 && FD_ISSET (0, &rfds) && !feof (stdin))
+      /*
+       * It's important to have a while here, for characters
+       * are read one by one, and input could be slowed if
+       * we had a simple "if".
+       */
+      while (retval)
 	{
-	  c = fgetc (stdin);
-	  ungetc (c, stdin);
-	  rl_callback_read_char ();
+	  _flushall ();
+
+	  FD_ZERO (&rfds);
+	  FD_SET (0, &rfds);	// stdin == fd 0
+
+	  tv.tv_sec = 0;
+	  tv.tv_usec = 0;
+
+	  retval = select (1, &rfds, NULL, NULL, &tv);
+
+	  if (retval > 0 && FD_ISSET (0, &rfds) && !feof (stdin))
+	    {
+	      c = fgetc (stdin);
+	      ungetc (c, stdin);
+	      rl_callback_read_char ();
+	    }
 	}
     }
-#endif
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
+		  ("trying to poll console handler but it looks like it's not installed..."));
+    }
+#endif // LW6_CONSOLE
 }
 
 /**
@@ -176,16 +199,23 @@ void
 lw6cns_handler_remove ()
 {
 #ifdef LW6_CONSOLE
-  _flushall ();
-
-  if (_env_term_check())
+  if (_console_handler_installed)
     {
-      rl_callback_handler_remove ();
-    }
-  fprintf (stdout, "\n");
+      _flushall ();
 
-  _flushall ();
+      rl_callback_handler_remove ();
+      _console_handler_installed = 0;
+      fprintf (stdout, "\n");
+
+      _flushall ();
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
+		  ("trying to remove console handler but it looks like it's not installed..."));
+    }
 
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("console closed"));
-#endif
+#endif // LW6_CONSOLE
 }
