@@ -823,89 +823,26 @@ lw6gfx_test_register (int mode)
       // lw6dyn_test (mode);
     }
 
+  if (mode & LW6SYS_TEST_MODE_FULL_TEST)
+    {
 #if MOD_GL1 || MOD_GLES2 || MOD_SOFT
-  suite = CU_add_suite ("lw6gfx-sdl", _setup_init_sdl, _setup_quit_sdl);
-  if (suite)
-    {
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_sdl);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
-      ret = 0;
-    }
+      suite = CU_add_suite ("lw6gfx-sdl", _setup_init_sdl, _setup_quit_sdl);
+      if (suite)
+	{
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_sdl);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("unable to add CUnit test suite, error msg is \"%s\""),
+		      CU_get_error_msg ());
+	  ret = 0;
+	}
 #endif // MOD_GL1 || MOD_GLES2 || MOD_SOFT
 
 #ifdef MOD_GL1
-  suite = CU_add_suite ("lw6gfx-gl1", _setup_init_gl1, _setup_quit_gl1);
-  if (suite)
-    {
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_resolution);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_splash);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_background);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_menu);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_view);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_hud);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_events);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
-      ret = 0;
-    }
-#endif // MOD_GL1
-
-#ifdef MOD_GLES2
-  suite = CU_add_suite ("lw6gfx-gles2", _setup_init_gles2, _setup_quit_gles2);
-  if (suite)
-    {
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_resolution);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_splash);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_background);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_menu);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_view);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_hud);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_events);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
-      ret = 0;
-    }
-#endif // MOD_GLES2
-
-#ifdef MOD_SOFT
-  suite = CU_add_suite ("lw6gfx-soft", _setup_init_soft, _setup_quit_soft);
-  if (suite)
-    {
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_resolution);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_splash);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_background);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_menu);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_view);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_hud);
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_events);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
-      ret = 0;
-    }
-#endif // MOD_SOFT
-
-#ifdef MOD_CACA
-  if (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
-    {
-      suite =
-	CU_add_suite ("lw6gfx-caca", _setup_init_caca, _setup_quit_caca);
+      suite = CU_add_suite ("lw6gfx-gl1", _setup_init_gl1, _setup_quit_gl1);
       if (suite)
 	{
 	  LW6SYS_CUNIT_ADD_TEST (suite, _test_resolution);
@@ -924,8 +861,80 @@ lw6gfx_test_register (int mode)
 		      CU_get_error_msg ());
 	  ret = 0;
 	}
-    }
+#endif // MOD_GL1
+
+#ifdef MOD_GLES2
+      suite =
+	CU_add_suite ("lw6gfx-gles2", _setup_init_gles2, _setup_quit_gles2);
+      if (suite)
+	{
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_resolution);
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_splash);
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_background);
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_menu);
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_view);
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_hud);
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_events);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("unable to add CUnit test suite, error msg is \"%s\""),
+		      CU_get_error_msg ());
+	  ret = 0;
+	}
+#endif // MOD_GLES2
+
+#ifdef MOD_SOFT
+      suite =
+	CU_add_suite ("lw6gfx-soft", _setup_init_soft, _setup_quit_soft);
+      if (suite)
+	{
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_resolution);
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_splash);
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_background);
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_menu);
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_view);
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_hud);
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_events);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("unable to add CUnit test suite, error msg is \"%s\""),
+		      CU_get_error_msg ());
+	  ret = 0;
+	}
+#endif // MOD_SOFT
+
+#ifdef MOD_CACA
+      if (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
+	{
+	  suite =
+	    CU_add_suite ("lw6gfx-caca", _setup_init_caca, _setup_quit_caca);
+	  if (suite)
+	    {
+	      LW6SYS_CUNIT_ADD_TEST (suite, _test_resolution);
+	      LW6SYS_CUNIT_ADD_TEST (suite, _test_splash);
+	      LW6SYS_CUNIT_ADD_TEST (suite, _test_background);
+	      LW6SYS_CUNIT_ADD_TEST (suite, _test_menu);
+	      LW6SYS_CUNIT_ADD_TEST (suite, _test_view);
+	      LW6SYS_CUNIT_ADD_TEST (suite, _test_hud);
+	      LW6SYS_CUNIT_ADD_TEST (suite, _test_events);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("unable to add CUnit test suite, error msg is \"%s\""),
+			  CU_get_error_msg ());
+	      ret = 0;
+	    }
+	}
 #endif // MOD_CACA
+    }
 
   return ret;
 }

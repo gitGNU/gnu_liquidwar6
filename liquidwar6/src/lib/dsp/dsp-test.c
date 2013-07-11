@@ -664,71 +664,15 @@ lw6dsp_test_register (int mode)
       // lw6dyn_test (mode);
     }
 
-  gfx_backends = lw6gfx_get_backends (argc, argv);
-  if (gfx_backends)
+  if (mode & LW6SYS_TEST_MODE_FULL_TEST)
     {
-      if (lw6sys_assoc_has_key (gfx_backends, "gl1"))
+      gfx_backends = lw6gfx_get_backends (argc, argv);
+      if (gfx_backends)
 	{
-	  suite =
-	    CU_add_suite ("lw6dsp-gl1", _setup_init_gl1, _setup_quit_gl1);
-	  if (suite)
-	    {
-	      LW6SYS_CUNIT_ADD_TEST (suite, _test_display);
-	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_
-			  ("unable to add CUnit test suite, error msg is \"%s\""),
-			  CU_get_error_msg ());
-	      ret = 0;
-	    }
-	}
-
-      if (lw6sys_assoc_has_key (gfx_backends, "gles2"))
-	{
-	  suite =
-	    CU_add_suite ("lw6dsp-gles2", _setup_init_gles2,
-			  _setup_quit_gles2);
-	  if (suite)
-	    {
-	      LW6SYS_CUNIT_ADD_TEST (suite, _test_display);
-	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_
-			  ("unable to add CUnit test suite, error msg is \"%s\""),
-			  CU_get_error_msg ());
-	      ret = 0;
-	    }
-	}
-
-      if (lw6sys_assoc_has_key (gfx_backends, "soft"))
-	{
-	  suite =
-	    CU_add_suite ("lw6dsp-soft", _setup_init_soft, _setup_quit_soft);
-	  if (suite)
-	    {
-	      LW6SYS_CUNIT_ADD_TEST (suite, _test_display);
-	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_
-			  ("unable to add CUnit test suite, error msg is \"%s\""),
-			  CU_get_error_msg ());
-	      ret = 0;
-	    }
-	}
-
-      if (lw6sys_assoc_has_key (gfx_backends, "caca"))
-	{
-	  if (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
+	  if (lw6sys_assoc_has_key (gfx_backends, "gl1"))
 	    {
 	      suite =
-		CU_add_suite ("lw6dsp-caca", _setup_init_caca,
-			      _setup_quit_caca);
+		CU_add_suite ("lw6dsp-gl1", _setup_init_gl1, _setup_quit_gl1);
 	      if (suite)
 		{
 		  LW6SYS_CUNIT_ADD_TEST (suite, _test_display);
@@ -742,9 +686,69 @@ lw6dsp_test_register (int mode)
 		  ret = 0;
 		}
 	    }
-	}
 
-      lw6sys_assoc_free (gfx_backends);
+	  if (lw6sys_assoc_has_key (gfx_backends, "gles2"))
+	    {
+	      suite =
+		CU_add_suite ("lw6dsp-gles2", _setup_init_gles2,
+			      _setup_quit_gles2);
+	      if (suite)
+		{
+		  LW6SYS_CUNIT_ADD_TEST (suite, _test_display);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("unable to add CUnit test suite, error msg is \"%s\""),
+			      CU_get_error_msg ());
+		  ret = 0;
+		}
+	    }
+
+	  if (lw6sys_assoc_has_key (gfx_backends, "soft"))
+	    {
+	      suite =
+		CU_add_suite ("lw6dsp-soft", _setup_init_soft,
+			      _setup_quit_soft);
+	      if (suite)
+		{
+		  LW6SYS_CUNIT_ADD_TEST (suite, _test_display);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("unable to add CUnit test suite, error msg is \"%s\""),
+			      CU_get_error_msg ());
+		  ret = 0;
+		}
+	    }
+
+	  if (lw6sys_assoc_has_key (gfx_backends, "caca"))
+	    {
+	      if (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
+		{
+		  suite =
+		    CU_add_suite ("lw6dsp-caca", _setup_init_caca,
+				  _setup_quit_caca);
+		  if (suite)
+		    {
+		      LW6SYS_CUNIT_ADD_TEST (suite, _test_display);
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _x_
+				  ("unable to add CUnit test suite, error msg is \"%s\""),
+				  CU_get_error_msg ());
+		      ret = 0;
+		    }
+		}
+	    }
+
+	  lw6sys_assoc_free (gfx_backends);
+	}
     }
 
   return ret;
