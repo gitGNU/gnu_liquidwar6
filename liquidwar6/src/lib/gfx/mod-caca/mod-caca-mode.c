@@ -95,22 +95,23 @@ _mod_caca_set_video_mode (_mod_caca_context_t * caca_context,
 			  lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
+  int i = 0;
 
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("setVideo Mode"));
   if (caca_context->display && caca_context->canvas)
     {
       caca_free_display (caca_context->display);
+      caca_context->display = NULL;
     }
   if (caca_context->canvas)
     {
-      caca_context->display =
-	_set_with_driver (caca_context->canvas,
-			  caca_context->const_data.video_mode_default);
-      if (caca_context->display == NULL)
+      for (i = 0; i < _MOD_CACA_NB_VIDEO_DRIVERS && !caca_context->display;
+	   ++i)
 	{
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("trying video driver i=%d"), i);
 	  caca_context->display =
 	    _set_with_driver (caca_context->canvas,
-			      caca_context->const_data.video_mode_fallback);
+			      caca_context->const_data.video_driver[i]);
 	}
 
       if (caca_context->display)

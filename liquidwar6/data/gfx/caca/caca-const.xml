@@ -4,8 +4,10 @@
   <int key="canvas-create-width" value="130" />
   <int key="canvas-create-height" value="42" />
   <float key="quit-sleep" value="0.01" />
-  <string key="video-mode-default" value="gl" />
-  <string key="video-mode-fallback" value="ncurses" />
+  <string key="video-driver-1" value="x11" />
+  <string key="video-driver-2" value="gl" />
+  <string key="video-driver-3" value="ncurses" />
+  <string key="video-driver-4" value="slang" />
   <color key="color-fg" value="#2a2a2a" />
   <color key="color-bg" value="#ffffff" />
   <color key="team_color0" value="#ff0000" />

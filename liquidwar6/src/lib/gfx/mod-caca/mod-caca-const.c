@@ -135,10 +135,14 @@ read_callback (void *callback_data, const char *element, const char *key,
 
   if (!strcmp (element, "string"))
     {
-      lw6cfg_read_xml_string (key, value, "video-mode-default",
-			      &const_data->video_mode_default);
-      lw6cfg_read_xml_string (key, value, "video-mode-fallback",
-			      &const_data->video_mode_fallback);
+      lw6cfg_read_xml_string (key, value, "video-driver-1",
+			      &(const_data->video_driver[0]));
+      lw6cfg_read_xml_string (key, value, "video-driver-2",
+			      &(const_data->video_driver[1]));
+      lw6cfg_read_xml_string (key, value, "video-driver-3",
+			      &(const_data->video_driver[2]));
+      lw6cfg_read_xml_string (key, value, "video-driver-4",
+			      &(const_data->video_driver[3]));
     }
 }
 
@@ -150,6 +154,7 @@ _mod_caca_load_consts (_mod_caca_context_t * context)
 {
   int ret = 0;
   char *const_file = NULL;
+  int i = 0;
 
   const_file = lw6sys_path_concat (context->path.data_dir, CONST_FILE);
 
@@ -164,15 +169,16 @@ _mod_caca_load_consts (_mod_caca_context_t * context)
       LW6SYS_FREE (const_file);
     }
 
-  if (context->const_data.video_mode_default
-      && context->const_data.video_mode_fallback)
+  for (i = 0; i < _MOD_CACA_NB_VIDEO_DRIVERS; ++i)
     {
-      // OK
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad caca consts"));
-      ret = 0;
+      if (!context->const_data.video_driver[i])
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("bad caca consts, \"video-driver-%d\" (i=%d) not found"),
+		      i + 1, i);
+	  ret = 0;
+	}
     }
 
   return ret;
@@ -184,13 +190,15 @@ _mod_caca_load_consts (_mod_caca_context_t * context)
 void
 _mod_caca_unload_consts (_mod_caca_context_t * context)
 {
-  if (context->const_data.video_mode_default)
+  int i = 0;
+
+  for (i = 0; i < _MOD_CACA_NB_VIDEO_DRIVERS; ++i)
     {
-      LW6SYS_FREE (context->const_data.video_mode_default);
+      if (context->const_data.video_driver[i])
+	{
+	  LW6SYS_FREE (context->const_data.video_driver[i]);
+	}
     }
-  if (context->const_data.video_mode_fallback)
-    {
-      LW6SYS_FREE (context->const_data.video_mode_fallback);
-    }
+
   memset (&context->const_data, 0, sizeof (_mod_caca_const_data_t));
 }

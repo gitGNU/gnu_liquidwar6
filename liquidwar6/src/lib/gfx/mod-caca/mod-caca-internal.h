@@ -28,6 +28,8 @@
 
 #include <caca.h>
 
+#define _MOD_CACA_NB_VIDEO_DRIVERS 4
+
 typedef struct _mod_caca_path_s
 {
   char *data_dir;
@@ -41,8 +43,7 @@ typedef struct _mod_caca_const_data_s
   int canvas_create_width;
   int canvas_create_height;
   float quit_sleep;
-  char *video_mode_default;
-  char *video_mode_fallback;
+  char *video_driver[_MOD_CACA_NB_VIDEO_DRIVERS];
 
   lw6sys_color_8_t bg_color;
   lw6sys_color_8_t fg_color;
