@@ -54,7 +54,7 @@ if cd liquidwar6 ; then
 		src/liquidwar6 --check
 		if [ -f $HOME/.liquidwar6/CUnit-Results.xml ] && [ -x /usr/bin/xsltproc ] ; then
 		    cp $HOME/.liquidwar6/CUnit-Results.xml .
-		    /usr/bin/xsltproc --output JUnit-Results.xml --path $WORKSPACE/misc/cunit-to-junit/ $WORKSPACE/misc/cunit-to-junit/cunit-to-junit.xsl CUnit-Results.xml
+		    /usr/bin/xsltproc --output JUnit-Results.xml --path $WORKSPACE/liquidwar6/misc/cunit-to-junit/ $WORKSPACE/liquidwar6/misc/cunit-to-junit/cunit-to-junit.xsl CUnit-Results.xml
 		fi
 		echo "******** $0 $(date) ********"
 		if make distcheck; then
