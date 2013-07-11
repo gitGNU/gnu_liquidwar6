@@ -37,7 +37,59 @@
 
 #include "cns.h"
 
-#define PROMPT "lw6> "
+#define _PROMPT "lw6> "
+#define _ENV_TERM_KEY "TERM"
+#define _ENV_TERM_ALLOWED_XTERM "xterm"
+#define _ENV_TERM_ALLOWED_LINUX "linux"
+
+static void
+_flushall ()
+{
+  fflush (stdin);
+  fflush (stdout);
+  fflush (stderr);
+}
+
+static int
+_env_term_check ()
+{
+  int ret = 0;
+  char *env_term = NULL;
+
+  /* 
+   * We're sort of paranoid, if TERM is not a well-known proven-to-work
+   * entry, then simply disable console support.
+   */
+  env_term = lw6sys_getenv (_ENV_TERM_KEY);
+  if (env_term)
+    {
+      if (lw6sys_str_is_same (env_term, _ENV_TERM_ALLOWED_XTERM)
+	  || lw6sys_str_is_same (env_term, _ENV_TERM_ALLOWED_LINUX))
+	{
+	  ret = 1;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("console function called but env variable \"%s\" is \"%s\" which is neither \"%s\" or \"%s\", aborting"),
+		      _ENV_TERM_KEY, env_term, _ENV_TERM_ALLOWED_XTERM,
+		      _ENV_TERM_ALLOWED_LINUX);
+	}
+
+      LW6SYS_FREE (env_term);
+      env_term = NULL;
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
+		  ("console function called but env variable \"%s\" is not set, aborting"),
+		  _ENV_TERM_KEY);
+    }
+
+  return ret;
+}
 
 /**
  * lw6cns_handler_install
@@ -52,14 +104,19 @@ void
 lw6cns_handler_install (lw6cns_callback_func_t callback)
 {
 #ifdef LW6_CONSOLE
-  fflush (stdin);
-  fflush (stdout);
-  fflush (stderr);
+  _flushall ();
 
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("opening console"));
 
-  rl_set_keyboard_input_timeout (1);
-  rl_callback_handler_install (PROMPT, callback);
+  _flushall ();
+
+  if (_env_term_check ())
+    {
+      rl_set_keyboard_input_timeout (1);
+      rl_callback_handler_install (_PROMPT, callback);
+    }
+
+  _flushall ();
 #else
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("no console support"));
 #endif
@@ -88,6 +145,8 @@ lw6cns_handler_poll ()
    */
   while (retval)
     {
+      _flushall ();
+
       FD_ZERO (&rfds);
       FD_SET (0, &rfds);	// stdin == fd 0
 
@@ -117,9 +176,15 @@ void
 lw6cns_handler_remove ()
 {
 #ifdef LW6_CONSOLE
-  rl_callback_handler_remove ();
+  _flushall ();
+
+  if (_env_term_check())
+    {
+      rl_callback_handler_remove ();
+    }
   fprintf (stdout, "\n");
-  fflush (stdout);
+
+  _flushall ();
 
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("console closed"));
 #endif
