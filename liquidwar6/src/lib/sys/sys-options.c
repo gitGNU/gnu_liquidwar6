@@ -1257,7 +1257,7 @@ lw6sys_get_run_dir (int argc, const char *argv[])
 {
   char *run_dir = NULL;
 
-  if (argc >= 1)
+  if (argc >= 1 && argv[0] != NULL)
     {
       run_dir = lw6sys_path_parent (argv[0]);
     }

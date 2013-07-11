@@ -576,65 +576,72 @@ lw6sys_path_parent (const char *path)
   char *stripped_path = NULL;
   char *pos = NULL;
 
-  stripped_path = lw6sys_path_strip_slash (path);
-  if (stripped_path)
+  if (path)
     {
-      pos = strrchr (stripped_path, DIR_SEP_CHAR);
-      if (pos)
+      stripped_path = lw6sys_path_strip_slash (path);
+      if (stripped_path)
 	{
-	  if (strcmp (pos + 1, "..") == 0)
+	  pos = strrchr (stripped_path, DIR_SEP_CHAR);
+	  if (pos)
 	    {
-	      /*
-	       * Path ends with "..", so we just append ".." 
-	       * again on it.
-	       */
-	      parent = lw6sys_path_concat (stripped_path, "..");
-	    }
-	  else
-	    {
-	      /*
-	       * Path has a slash (or whatever dir sep is 
-	       * so we just get rid of that item
-	       */
-	      (*pos) = '\0';
-	      parent = lw6sys_str_copy (stripped_path);
-	    }
-	}
-      else
-	{
-	  if (strcmp (stripped_path, "") == 0
-	      || strcmp (stripped_path, ".") == 0)
-	    {
-	      /*
-	       * Path is cwd, or empty, so we just return
-	       * the standard shell for parent : ..
-	       */
-	      parent = lw6sys_str_copy ("..");
-	    }
-	  else
-	    {
-	      if (strcmp (stripped_path, "..") == 0)
+	      if (strcmp (pos + 1, "..") == 0)
 		{
 		  /*
-		   * Special case, if path was "..", then
-		   * return "../.."
+		   * Path ends with "..", so we just append ".." 
+		   * again on it.
 		   */
 		  parent = lw6sys_path_concat (stripped_path, "..");
 		}
 	      else
 		{
-		  /* 
-		   * Path is just a file name, with no / no nothing,
-		   * we consider parent is "." since an unqualified
-		   * filename is by default taken from cwd
+		  /*
+		   * Path has a slash (or whatever dir sep is 
+		   * so we just get rid of that item
 		   */
-		  parent = lw6sys_str_copy (".");
+		  (*pos) = '\0';
+		  parent = lw6sys_str_copy (stripped_path);
 		}
 	    }
+	  else
+	    {
+	      if (strcmp (stripped_path, "") == 0
+		  || strcmp (stripped_path, ".") == 0)
+		{
+		  /*
+		   * Path is cwd, or empty, so we just return
+		   * the standard shell for parent : ..
+		   */
+		  parent = lw6sys_str_copy ("..");
+		}
+	      else
+		{
+		  if (strcmp (stripped_path, "..") == 0)
+		    {
+		      /*
+		       * Special case, if path was "..", then
+		       * return "../.."
+		       */
+		      parent = lw6sys_path_concat (stripped_path, "..");
+		    }
+		  else
+		    {
+		      /* 
+		       * Path is just a file name, with no / no nothing,
+		       * we consider parent is "." since an unqualified
+		       * filename is by default taken from cwd
+		       */
+		      parent = lw6sys_str_copy (".");
+		    }
+		}
+	    }
+	  LW6SYS_FREE (stripped_path);
 	}
-      LW6SYS_FREE (stripped_path);
     }
 
+  if (!parent)
+    {
+      parent = lw6sys_str_copy ("..");
+    }
   if (parent)
     {
       normalize (parent);
