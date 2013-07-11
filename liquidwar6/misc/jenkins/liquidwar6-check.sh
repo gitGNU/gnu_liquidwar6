@@ -48,44 +48,35 @@ if cd liquidwar6 ; then
 	    echo "******** $0 $(date) ********"
 	    if make ; then
 		echo "******** $0 $(date) ********"
-		killall Xvfb
-		Xvfb :6 -pixdepths 1 8 16 24 32 -screen 0 640x480x24 &
-		export DISPLAY=:6
-		echo "******** $0 $(date) ********"
 		# No check on --cunit output, make check will do this, we do not
 		# want the whole build to fail just because of cunit, only, we
 		# look at the XML output with Jenkins
-		src/liquidwar6 --test
-		killall Xvfb
-		if [ -f $HOME/.liquidwar6/CUnit-Results.xml ] && [ -x /usr/bin/xsltproc ] ; then
-		    cp $HOME/.liquidwar6/CUnit-Results.xml .
-		    /usr/bin/xsltproc --output JUnit-Results.xml --path $WORKSPACE/liquidwar6/misc/cunit-to-junit/ $WORKSPACE/liquidwar6/misc/cunit-to-junit/cunit-to-junit.xsl CUnit-Results.xml
+		src/liquidwar6 --check
+		if [ -f $HOME/.liquidwar6/CUnit-Results.xml ] && [ -x /usr/bin/xsltproc ] && [ -x /usr/bin/xmllint ] ; then
+		    xmllint --recover $HOME/.liquidwar6/CUnit-Results.xml > CUnit-Results.xml
+		    /usr/bin/xsltproc --output JUnit-Results.xml --path ./misc/cunit-to-junit/ misc/cunit-to-junit/cunit-to-junit.xsl CUnit-Results.xml
 		fi
 		echo "******** $0 $(date) ********"
 		if make distcheck; then
 		    echo "******** $0 $(date) ********"
 		else
-		    killall Xvfb
 		    echo "make distcheck failed"
 		    exit 5
 		fi
 	    else
-		killall Xvfb
 		echo "make failed"
 		exit 4
 	    fi
 	else
-	    killall Xvfb
 	    echo "./configure failed"
 	    exit 3
 	fi
     else
-	killall Xvfb
 	echo "autoreconf failed"
 	exit 2
     fi
 else
-echo "cd failed"
+    echo "cd failed"
     exit 1
 fi
 
