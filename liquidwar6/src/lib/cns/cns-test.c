@@ -139,7 +139,7 @@ lw6cns_test_register (int mode)
   suite = CU_add_suite ("lw6cns", _setup_init, _setup_quit);
   if (suite)
     {
-      if (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
+      if ((mode & LW6SYS_TEST_MODE_FULL_TEST) && !(mode & LW6SYS_TEST_MODE_INTERACTIVE))
 	{
 	  LW6SYS_CUNIT_ADD_TEST (suite, _test_handler);
 	}
