@@ -36,7 +36,8 @@ extern void lw6cns_handler_remove ();
 extern void lw6cns_history_add_if_needed (char *line);
 
 /* cns-support.c */
-extern int lw6cns_support ();
+extern int lw6cns_console_support ();
+extern int lw6cns_term_support ();
 
 /* cns-test.c */
 extern int lw6cns_test_register (int mode);

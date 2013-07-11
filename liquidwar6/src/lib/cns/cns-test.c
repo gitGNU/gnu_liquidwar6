@@ -93,7 +93,9 @@ _test_support ()
 
   {
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_x_ ("console support -> %d"), lw6cns_support ());
+		_x_ ("console support -> %d"), lw6cns_console_support ());
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("term support -> %d"), lw6cns_term_support ());
   }
 
   LW6SYS_TEST_FUNCTION_END;

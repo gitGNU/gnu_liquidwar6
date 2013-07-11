@@ -69,10 +69,11 @@ c-lw6cfg-unified-get-map-path
 c-lw6cfg-unified-get-music-path
 c-lw6cfg-unified-get-user-dir
 c-lw6cli-get-backends
+c-lw6cns-console-support
 c-lw6cns-init
 c-lw6cns-poll
 c-lw6cns-quit
-c-lw6cns-support
+c-lw6cns-term-support
 c-lw6dsp-get-average-fps
 c-lw6dsp-get-fullscreen-modes
 c-lw6dsp-get-instant-fps

@@ -34,13 +34,27 @@
  * In support.c
  */
 static SCM
-_scm_lw6cns_support ()
+_scm_lw6cns_console_support ()
 {
   SCM ret = SCM_BOOL_F;
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6cns_support ()? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6cns_console_support ()? SCM_BOOL_T : SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6cns_term_support ()
+{
+  SCM ret = SCM_BOOL_F;
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  ret = lw6cns_term_support ()? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -118,8 +132,12 @@ lw6_register_funcs_cns ()
   /*
    * In support.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_SUPPORT, 0, 0, 0,
-				      (SCM (*)())_scm_lw6cns_support);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_CONSOLE_SUPPORT, 0, 0, 0,
+			      (SCM (*)())_scm_lw6cns_console_support);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_TERM_SUPPORT, 0, 0, 0,
+			      (SCM (*)())_scm_lw6cns_term_support);
   /*
    * In handler.c
    */

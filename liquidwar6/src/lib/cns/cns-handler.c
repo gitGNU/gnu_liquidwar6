@@ -38,9 +38,6 @@
 #include "cns.h"
 
 #define _PROMPT "lw6> "
-#define _ENV_TERM_KEY "TERM"
-#define _ENV_TERM_ALLOWED_XTERM "xterm"
-#define _ENV_TERM_ALLOWED_LINUX "linux"
 
 static void
 _flushall ()
@@ -53,47 +50,6 @@ _flushall ()
 #ifdef LW6_CONSOLE
 static int _console_handler_installed = 0;
 #endif // LW6_CONSOLE
-
-static int
-_env_term_check ()
-{
-  int ret = 0;
-  char *env_term = NULL;
-
-  /* 
-   * We're sort of paranoid, if TERM is not a well-known proven-to-work
-   * entry, then simply disable console support.
-   */
-  env_term = lw6sys_getenv (_ENV_TERM_KEY);
-  if (env_term)
-    {
-      if (lw6sys_str_is_same (env_term, _ENV_TERM_ALLOWED_XTERM)
-	  || lw6sys_str_is_same (env_term, _ENV_TERM_ALLOWED_LINUX))
-	{
-	  ret = 1;
-	}
-      else
-	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_
-		      ("console function called but env variable \"%s\" is \"%s\" which is neither \"%s\" or \"%s\", aborting"),
-		      _ENV_TERM_KEY, env_term, _ENV_TERM_ALLOWED_XTERM,
-		      _ENV_TERM_ALLOWED_LINUX);
-	}
-
-      LW6SYS_FREE (env_term);
-      env_term = NULL;
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_
-		  ("console function called but env variable \"%s\" is not set, aborting"),
-		  _ENV_TERM_KEY);
-    }
-
-  return ret;
-}
 
 /**
  * lw6cns_handler_install
@@ -116,7 +72,7 @@ lw6cns_handler_install (lw6cns_callback_func_t callback)
 
       _flushall ();
 
-      if (_env_term_check ())
+      if (lw6cns_term_support ())
 	{
 	  rl_set_keyboard_input_timeout (1);
 	  rl_callback_handler_install (_PROMPT, callback);
@@ -181,7 +137,7 @@ lw6cns_handler_poll ()
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (LW6SYS_LOG_INFO,
 		  _x_
 		  ("trying to poll console handler but it looks like it's not installed..."));
     }
@@ -211,7 +167,7 @@ lw6cns_handler_remove ()
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (LW6SYS_LOG_INFO,
 		  _x_
 		  ("trying to remove console handler but it looks like it's not installed..."));
     }

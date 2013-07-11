@@ -28,39 +28,60 @@
 
 #include "mod-caca-internal.h"
 
+#define _DRIVER_NCURSES "ncurses"
+#define _DRIVER_SLANG "slang"
+
 static caca_display_t *
 _set_with_driver (caca_canvas_t * canvas, const char *driver)
 {
   caca_display_t *ret = NULL;
+  int try_it = 1;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("trying libcaca driver \"%s\""), driver);
-  ret = caca_create_display_with_driver (canvas, driver);
-  if (ret == NULL)
+  if (!lw6cns_term_support ())
     {
-      switch (errno)
+      if (lw6sys_str_is_same (driver, _DRIVER_NCURSES)
+	  || lw6sys_str_is_same (driver, _DRIVER_SLANG))
 	{
-	case ENOMEM:
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_
-		      ("libcaca driver \"%s\" failed to create display (memory problem)"),
+		      ("not even trying driver \"%s\" since no proper TERM support was detected"),
 		      driver);
-	  break;
-	case ENODEV:
-	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_
-		      ("libcaca driver \"%s\" failed to create display (device problem)"),
-		      driver);
-	  break;
-	default:
-	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_
-		      ("libcaca driver \"%s\" failed to create display (unknown problem)"),
-		      driver);
+	  try_it = 0;
 	}
     }
-  else
+  if (try_it)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("set libcaca driver \"%s\""), driver);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("trying libcaca driver \"%s\""),
+		  driver);
+      ret = caca_create_display_with_driver (canvas, driver);
+      if (ret == NULL)
+	{
+	  switch (errno)
+	    {
+	    case ENOMEM:
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("libcaca driver \"%s\" failed to create display (memory problem)"),
+			  driver);
+	      break;
+	    case ENODEV:
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("libcaca driver \"%s\" failed to create display (device problem)"),
+			  driver);
+	      break;
+	    default:
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("libcaca driver \"%s\" failed to create display (unknown problem)"),
+			  driver);
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("set libcaca driver \"%s\""),
+		      driver);
+	}
     }
 
   return ret;

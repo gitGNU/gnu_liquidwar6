@@ -1221,7 +1221,8 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6SND_PLAY_MUSIC_RANDOM);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SND_STOP_MUSIC);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SND_SET_MUSIC_VOLUME);
-  lw6sys_list_push_back (list, LW6DEF_C_LW6CNS_SUPPORT);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6CNS_CONSOLE_SUPPORT);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6CNS_TERM_SUPPORT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6CNS_INIT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6CNS_QUIT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6CNS_POLL);

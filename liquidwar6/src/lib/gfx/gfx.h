@@ -33,6 +33,7 @@
 #include "../ldr/ldr.h"
 #include "../gui/gui.h"
 #include "../vox/vox.h"
+#include "../cns/cns.h"
 
 /**
  * The gfx backend is the first argument passed to any gfx function,

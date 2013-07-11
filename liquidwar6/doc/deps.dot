@@ -37,6 +37,7 @@ subgraph cluster_cli {
 	gfx -> dyn
 	gfx -> vox
 	gfx -> pil
+	gfx -> cns
 subgraph cluster_gfx {
 	label="gfx backends"
 	gfx

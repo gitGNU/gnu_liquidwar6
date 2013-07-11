@@ -103,6 +103,7 @@ digraph g {
 	gfx -> dyn;
 	gfx -> vox;
 	gfx -> pil;
+	gfx -> cns;
 	"mod-gl1" -> GL;
 	"mod-gles2" -> GLESv2;
 	"shared-sdl" -> SDL;

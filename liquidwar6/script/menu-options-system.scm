@@ -119,7 +119,7 @@
 	(lw6-append-menuitem! menu (lw6-system-options-menu-display-fps-item))
 	(lw6-append-menuitem! menu (lw6-system-options-menu-display-mps-item))
 	(lw6-append-menuitem! menu (lw6-system-options-menu-display-meta-item))
-	(if (c-lw6cns-support)
+	(if (c-lw6cns-console-support)
 	    (lw6-append-menuitem! menu (lw6-system-options-menu-display-console-item)))
 	menu
 	))))

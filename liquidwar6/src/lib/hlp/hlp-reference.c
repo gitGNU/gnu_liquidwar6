@@ -2968,7 +2968,10 @@ populate_references ()
 		 _x_ ("Wrapper on lw6snd_stop_music."));
   POPULATE_VOID (LW6DEF_C_LW6SND_SET_MUSIC_VOLUME,
 		 _x_ ("Wrapper on lw6snd_set_music_volume."));
-  POPULATE_VOID (LW6DEF_C_LW6CNS_SUPPORT, _x_ ("Wrapper on lw6cns_support."));
+  POPULATE_VOID (LW6DEF_C_LW6CNS_CONSOLE_SUPPORT,
+		 _x_ ("Wrapper on lw6cns_console_support."));
+  POPULATE_VOID (LW6DEF_C_LW6CNS_TERM_SUPPORT,
+		 _x_ ("Wrapper on lw6cns_term_support."));
   POPULATE_VOID (LW6DEF_C_LW6CNS_INIT, _x_ ("Wrapper on lw6cns_init."));
   POPULATE_VOID (LW6DEF_C_LW6CNS_QUIT, _x_ ("Wrapper on lw6cns_quit."));
   POPULATE_VOID (LW6DEF_C_LW6CNS_POLL, _x_ ("Wrapper on lw6cns_poll."));

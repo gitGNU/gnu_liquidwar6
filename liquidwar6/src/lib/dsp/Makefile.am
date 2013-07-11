@@ -68,7 +68,7 @@ if LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6dsp-test
 liquidwar6dsp_test_SOURCES = dsp-testmain.c
-liquidwar6dsp_test_LDADD = libdsp.la ../gfx/libgfx.la $(LW6DYN_LIB) ../vox/libvox.la ../gui/libgui.la ../ldr/libldr.la ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+liquidwar6dsp_test_LDADD = libdsp.la ../gfx/libgfx.la $(LW6DYN_LIB) ../cns/libcns.la ../vox/libvox.la ../gui/libgui.la ../ldr/libldr.la ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6dsp-test
 endif
 endif

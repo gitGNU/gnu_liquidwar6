@@ -26,21 +26,77 @@
 
 #include "cns.h"
 
+#define _ENV_TERM_KEY "TERM"
+#define _ENV_TERM_ALLOWED_XTERM "xterm"
+#define _ENV_TERM_ALLOWED_LINUX "linux"
+
 /**
- * lw6cns_support
+ * lw6cns_console_support
  *
  * Tells wether console is supported.
  *
  * Return value: 1 if console can be enabled, 0 if not
  */
 int
-lw6cns_support ()
+lw6cns_console_support ()
 {
   int ret = 0;
 
 #ifdef LW6_CONSOLE
   ret = 1;
 #endif
+
+  return ret;
+}
+
+/**
+ * lw6cns_term_support
+ *
+ * Tells wether program is likely to have proper term (xterm, Linux console) support.
+ *
+ * Return value: 1 if has validated TERM support, 0 if not
+ */
+int
+lw6cns_term_support ()
+{
+  int ret = 0;
+  char *env_term = NULL;
+
+  /* 
+   * We're sort of paranoid, if TERM is not a well-known proven-to-work
+   * entry, then simply disable console support.
+   */
+  env_term = lw6sys_getenv (_ENV_TERM_KEY);
+  if (env_term)
+    {
+      if (lw6sys_str_is_same (env_term, _ENV_TERM_ALLOWED_XTERM)
+	  || lw6sys_str_is_same (env_term, _ENV_TERM_ALLOWED_LINUX))
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_
+		      ("term support should be fine, env variable \"%s\" is \"%s\""),
+		      _ENV_TERM_KEY, env_term);
+	  ret = 1;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_
+		      ("term support probably broken, env variable \"%s\" is \"%s\" which is neither \"%s\" or \"%s\""),
+		      _ENV_TERM_KEY, env_term, _ENV_TERM_ALLOWED_XTERM,
+		      _ENV_TERM_ALLOWED_LINUX);
+	}
+
+      LW6SYS_FREE (env_term);
+      env_term = NULL;
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_INFO,
+		  _x_
+		  ("term support probably broken, env variable \"%s\" is not set"),
+		  _ENV_TERM_KEY);
+    }
 
   return ret;
 }

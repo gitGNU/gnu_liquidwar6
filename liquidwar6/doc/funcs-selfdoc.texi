@@ -105,6 +105,11 @@ Wrapper on lw6cfg_unified_get_user_dir.
 Wrapper on lw6cli_get_backends.
 @end deffn
 
+@subsection c-lw6cns-console-support
+@deffn {C function exported to Guile} @code{c-lw6cns-console-support}
+Wrapper on lw6cns_console_support.
+@end deffn
+
 @subsection c-lw6cns-init
 @deffn {C function exported to Guile} @code{c-lw6cns-init}
 Wrapper on lw6cns_init.
@@ -120,9 +125,9 @@ Wrapper on lw6cns_poll.
 Wrapper on lw6cns_quit.
 @end deffn
 
-@subsection c-lw6cns-support
-@deffn {C function exported to Guile} @code{c-lw6cns-support}
-Wrapper on lw6cns_support.
+@subsection c-lw6cns-term-support
+@deffn {C function exported to Guile} @code{c-lw6cns-term-support}
+Wrapper on lw6cns_term_support.
 @end deffn
 
 @subsection c-lw6dsp-get-average-fps
