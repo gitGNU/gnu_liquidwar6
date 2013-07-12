@@ -411,6 +411,7 @@ extern void lw6_print_pedigree ();
 extern void lw6_print_host ();
 extern void lw6_print_audit (int argc, const char *argv[]);
 extern void lw6_print_modules ();
+extern void lw6_print_credits ();
 extern void lw6_print_list_quick ();
 extern void lw6_print_list_doc ();
 extern void lw6_print_list_show ();

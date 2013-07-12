@@ -29,8 +29,6 @@
 #include "hlp.h"
 #include "hlp-internal.h"
 
-#define _NB_CREDITS_ENTRIES 25
-
 #define _CREDITS_IDEA "Thomas Colcombet"
 #define _CREDITS_CODING "Christian Mauduit"
 #define _CREDITS_ARTWORK "Kasper Hviid"
@@ -55,7 +53,8 @@
  *
  * Returns a "credit line", that is a short sentence, about 30 to 50 chars,
  * saying who developped the game, created graphics, giving important URLs,
- * and so on. One can pass an arbitraty high @id, no risk.
+ * and so on. One can pass an arbitraty high @id, no risk, it will just loop
+ * on previous lines.
  *
  * Return value: the string, must be freed.
  */
@@ -68,7 +67,7 @@ lw6hlp_get_credits (int id)
     {
       id = -id;
     }
-  id = id % _NB_CREDITS_ENTRIES;
+  id = id % LW6HLP_NB_CREDITS_ENTRIES;
 
   switch (id)
     {

@@ -43,6 +43,7 @@ update_quick (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_HOST);
   lw6sys_list_push_back (list, LW6DEF_AUDIT);
   lw6sys_list_push_back (list, LW6DEF_MODULES);
+  lw6sys_list_push_back (list, LW6DEF_CREDITS);
 
   return ((*list) != NULL);
 }

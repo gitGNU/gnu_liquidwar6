@@ -23,6 +23,11 @@ then give this option a try.
 Returns the copyright notice for the program.
 @end deffn
 
+@subsection credits
+@deffn {Command-line option} @code{--credits}
+Gives hopefully extensive information on who contributed to the game.
+@end deffn
+
 @subsection debug
 @deffn {Command-line option} @code{--debug}
 Enables debug mode. This will turn on maximum log information, and display

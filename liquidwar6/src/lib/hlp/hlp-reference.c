@@ -125,6 +125,9 @@ populate_references ()
   POPULATE_VOID (LW6DEF_MODULES,
 		 _x_
 		 ("Tells which modules have been enabled when the game was compiled. It's still possible to add or remove modules afterwards, but this option allows you to know how things were at first."));
+  POPULATE_VOID (LW6DEF_CREDITS,
+		 _x_
+		 ("Gives hopefully extensive information on who contributed to the game."));
   /*
    * Advanced doc
    */

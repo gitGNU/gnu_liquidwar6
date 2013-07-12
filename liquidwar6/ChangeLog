@@ -1,3 +1,7 @@
+2013-07-12 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added --credits command line option.
+
 2013-07-11 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Allowing console only if TERM has well-known working values.

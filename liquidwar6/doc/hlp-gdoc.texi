@@ -72,7 +72,8 @@ A min and max of zero means min and max make no sense.
 
 Returns a "credit line", that is a short sentence, about 30 to 50 chars,
 saying who developped the game, created graphics, giving important URLs,
-and so on. One can pass an arbitraty high @code{id}, no risk.
+and so on. One can pass an arbitraty high @code{id}, no risk, it will just loop
+on previous lines.
 
 @strong{Return value:}  the string, must be freed.
 @end deftypefun

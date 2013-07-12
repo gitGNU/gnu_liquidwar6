@@ -47,6 +47,7 @@ bot8-color
 bot9-ai
 bot9-color
 broadcast
+credits
 c
 c-gettext
 c-lw6-exit

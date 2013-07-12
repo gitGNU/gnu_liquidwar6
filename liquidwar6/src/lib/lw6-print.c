@@ -412,7 +412,7 @@ lw6_print_audit (int argc, const char *argv[])
 }
 
 /**
- * lw6_print_audit
+ * lw6_print_modules
  *
  * Displays the list of modules compiled with the game.
  *
@@ -440,6 +440,34 @@ lw6_print_modules ()
   printf ("enable-profiler: %s\n", lw6sys_build_get_enable_profiler ());
   printf ("enable-gcov: %s\n", lw6sys_build_get_enable_gcov ());
   printf ("enable-valgrind: %s\n", lw6sys_build_get_enable_valgrind ());
+
+  fflush (stdout);
+}
+
+/**
+ * lw6_print_credits
+ *
+ * Displays all credits on stdout, those should be available elsewhere
+ * within the game (typically on splash screen) but it's good to be able
+ * to show them "standalone".
+ *
+ * Return value: none
+ */
+void
+lw6_print_credits ()
+{
+  int i = 0;
+  char *credits;
+
+  for (i = 0; i < LW6HLP_NB_CREDITS_ENTRIES; ++i)
+    {
+      credits = lw6hlp_get_credits (i);
+      if (credits)
+	{
+	  printf ("%s\n", lw6hlp_get_credits (i));
+	  LW6SYS_FREE (credits);
+	}
+    }
 
   fflush (stdout);
 }

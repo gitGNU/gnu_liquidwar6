@@ -306,6 +306,11 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  lw6_print_modules ();
 	  (*run_game) = 0;
 	}
+      else if (lw6sys_arg_match (LW6DEF_CREDITS, argv[i]))
+	{
+	  lw6_print_credits ();
+	  (*run_game) = 0;
+	}
       else if (lw6sys_arg_match (LW6DEF_LIST, argv[i]))
 	{
 	  lw6_print_list ();
