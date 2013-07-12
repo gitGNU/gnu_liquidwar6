@@ -29,7 +29,7 @@
 #define LW6HLP_MAIN_END {lw6hlp_reference_quit();}
 
 // number of credits entries, how many different lines can be shown
-#define LW6HLP_NB_CREDITS_ENTRIES 25
+#define LW6HLP_NB_CREDITS_ENTRIES 26
 
 // used to create hash tables for help & config
 #define LW6HLP_APPROX_NB_ENTRIES 421

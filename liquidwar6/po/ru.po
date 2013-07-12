@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2013-07-11 15:13+0200\n"
+"POT-Creation-Date: 2013-07-12 21:54+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -155,236 +155,242 @@ msgstr ""
 msgid "Software / SDL"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:80
+#: src/lib/hlp/hlp-credits.c:81
 #, c-format
 msgid "Codename \"%s\""
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:87
+#: src/lib/hlp/hlp-credits.c:88
 #, c-format
 msgid "Idea: %s"
 msgstr "Идея : %s"
 
-#: src/lib/hlp/hlp-credits.c:90
+#: src/lib/hlp/hlp-credits.c:91
 #, c-format
 msgid "Programming: %s"
 msgstr "Программирование : %s"
 
-#: src/lib/hlp/hlp-credits.c:93
+#: src/lib/hlp/hlp-credits.c:94
 #, c-format
 msgid "Artwork & design: %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:96
+#: src/lib/hlp/hlp-credits.c:97
 #, c-format
 msgid "Menu music: %s"
 msgstr "Музыка из меню: %s"
 
-#: src/lib/hlp/hlp-credits.c:99
+#: src/lib/hlp/hlp-credits.c:100
 #, fuzzy
 msgid "Thanks to all Liquid War 5 contributors"
 msgstr "Также спасибо всем, внесшим свой вклад в проект"
 
-#: src/lib/hlp/hlp-credits.c:102
+#: src/lib/hlp/hlp-credits.c:103
 #, fuzzy, c-format
 msgid "Extra maps: %s"
 msgstr "Карты : %s"
 
-#: src/lib/hlp/hlp-credits.c:106 src/lib/hlp/hlp-credits.c:111
-#: src/lib/hlp/hlp-credits.c:116
+#: src/lib/hlp/hlp-credits.c:107 src/lib/hlp/hlp-credits.c:112
+#: src/lib/hlp/hlp-credits.c:117
 #, c-format
 msgid "Song \"%s\" by %s"
 msgstr "Песня \"%s\" %s"
 
-#: src/lib/hlp/hlp-credits.c:121
+#: src/lib/hlp/hlp-credits.c:122
 #, c-format
 msgid "Norwegian translation by %s"
 msgstr "Норвежский перевод %s"
 
-#: src/lib/hlp/hlp-credits.c:126
+#: src/lib/hlp/hlp-credits.c:127
 #, fuzzy, c-format
 msgid "Russian translation by %s"
 msgstr "Норвежский перевод %s"
 
-#: src/lib/hlp/hlp-credits.c:130
+#: src/lib/hlp/hlp-credits.c:131
+#, c-format
+msgid "Libcaca port by %s"
+msgstr ""
+
+#: src/lib/hlp/hlp-credits.c:134
+#, c-format
+msgid "Handicap patch by %s"
+msgstr ""
+
+#: src/lib/hlp/hlp-credits.c:137
 msgid "Thanks to all other contributors"
 msgstr "Также спасибо всем, внесшим свой вклад в проект"
 
-#: src/lib/hlp/hlp-credits.c:133
+#: src/lib/hlp/hlp-credits.c:140
 msgid "Help is always appreciated"
 msgstr "Мы всегда рады вашей помощи"
 
-#: src/lib/hlp/hlp-credits.c:136
-msgid "Join us now!"
-msgstr "Присоединяйтесь!"
-
-#: src/lib/hlp/hlp-credits.c:139
+#: src/lib/hlp/hlp-credits.c:143
 #, c-format
 msgid "Mailing list: <%s>"
 msgstr "Список рассылки: <%s>"
 
-#: src/lib/hlp/hlp-credits.c:142
+#: src/lib/hlp/hlp-credits.c:146
 msgid "Free as in \"free speech\" (not beer)"
 msgstr "Свобода"
 
-#: src/lib/hlp/hlp-credits.c:146
+#: src/lib/hlp/hlp-credits.c:150
 #, c-format
 msgid "License: %s"
 msgstr "Лицензия: %s"
 
-#: src/lib/hlp/hlp-credits.c:153
+#: src/lib/hlp/hlp-credits.c:157
 #, c-format
 msgid "Built on %s at %s"
 msgstr "Собрано на %s в %s"
 
-#: src/lib/hlp/hlp-credits.c:157
+#: src/lib/hlp/hlp-credits.c:161
 #, c-format
 msgid "Help GNU %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:160
+#: src/lib/hlp/hlp-credits.c:164
 #, c-format
 msgid "Fight software patents %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:164 src/lib/lw6-print.c:58
+#: src/lib/hlp/hlp-credits.c:168 src/lib/lw6-print.c:58
 #: src/lib/sys/sys-log.c:711
 msgid "Report bugs"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:168
+#: src/lib/hlp/hlp-credits.c:172
 #, c-format
 msgid "unable to handle credits id %d"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3074
+#: src/lib/hlp/hlp-reference.c:3077
 msgid "moves faster than the average"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3075
+#: src/lib/hlp/hlp-reference.c:3078
 msgid "has a better defense than the average"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3076
+#: src/lib/hlp/hlp-reference.c:3079
 msgid "has a strong attack but is slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3077
+#: src/lib/hlp/hlp-reference.c:3080
 msgid "has a strong attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3078
+#: src/lib/hlp/hlp-reference.c:3081
 msgid "has an extremely good defense but is slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3080
+#: src/lib/hlp/hlp-reference.c:3083
 msgid "is extremely fast but also very vulnerable"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3081
+#: src/lib/hlp/hlp-reference.c:3084
 msgid "is fast, but has a very weak attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3083
+#: src/lib/hlp/hlp-reference.c:3086
 msgid "has an extremely strong attack but is very slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3085
+#: src/lib/hlp/hlp-reference.c:3088
 msgid "has a very good defense but a weak attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3087
+#: src/lib/hlp/hlp-reference.c:3090
 msgid "has a very strong attack, but is also very vulnerable"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3094
+#: src/lib/hlp/hlp-reference.c:3097
 msgid "super-strong attack for a limited time, crush your enemies"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3096
+#: src/lib/hlp/hlp-reference.c:3099
 msgid "no damage for a limited time, move untouched"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3099
+#: src/lib/hlp/hlp-reference.c:3102
 msgid ""
 "fighters placed as far as possible from cursor, magically escape from any "
 "grip"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3100
+#: src/lib/hlp/hlp-reference.c:3103
 msgid "move faster for a limited time"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3102
+#: src/lib/hlp/hlp-reference.c:3105
 msgid "fighters placed as close as possible to cursor"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3105
+#: src/lib/hlp/hlp-reference.c:3108
 msgid "every fighters of every team scattered in random places"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3108
+#: src/lib/hlp/hlp-reference.c:3111
 msgid "all other teams are freezed, you can move but not attack them"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3111
+#: src/lib/hlp/hlp-reference.c:3114
 msgid "fighters exchange position, their properties being preserved"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3114
+#: src/lib/hlp/hlp-reference.c:3117
 msgid ""
 "you take the control of all other teams while your cursor stays in place"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3117
+#: src/lib/hlp/hlp-reference.c:3120
 msgid ""
 "will exchange colors, randomly, requires at least 3 teams (double edged "
 "weapon)"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3118
+#: src/lib/hlp/hlp-reference.c:3121
 msgid "steals some fighters to other teams"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3121
+#: src/lib/hlp/hlp-reference.c:3124
 msgid "nuclear explosion, all fighters arround your cursor are about to die"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3124
+#: src/lib/hlp/hlp-reference.c:3127
 msgid ""
 "fighters continue to move normally, but attacks are done in reverse mode, "
 "backwards"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3127
+#: src/lib/hlp/hlp-reference.c:3130
 msgid "all your opponents go crazy for some time, acting with no logic"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3129
+#: src/lib/hlp/hlp-reference.c:3132
 msgid "make the battlefield be like it was a few seconds ago"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3132
+#: src/lib/hlp/hlp-reference.c:3135
 msgid "all fighters from all teams are packed near your cursor"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3134
+#: src/lib/hlp/hlp-reference.c:3137
 msgid "reduces the number of fighters on the map"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3137
+#: src/lib/hlp/hlp-reference.c:3140
 msgid ""
 "you die along with the strongest team on the battlefield, requires at least "
 "3 teams"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3140
+#: src/lib/hlp/hlp-reference.c:3143
 msgid ""
 "you disappear for some time from the battlefield, to reappear later, "
 "somewhere else"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3143
+#: src/lib/hlp/hlp-reference.c:3146
 msgid "general disease, all fighters mysteriously loose health"
 msgstr ""
 
@@ -443,11 +449,11 @@ msgstr ""
 "распространять и/или модифицировать её.\n"
 "Эта программа распространяется БЕЗ ВСЯКИХ ГАРАНТИЙ, но в рамках закона.\n"
 
-#: src/lib/lw6-print.c:894
+#: src/lib/lw6-print.c:922
 msgid "hello"
 msgstr "приветствую"
 
-#: src/lib/lw6-print.c:941
+#: src/lib/lw6-print.c:969
 msgid "goodbye"
 msgstr "счастливо"
 
@@ -1623,6 +1629,9 @@ msgstr "проверка узла"
 #, fuzzy
 msgid "Dummy test node C"
 msgstr "проверка узла"
+
+#~ msgid "Join us now!"
+#~ msgstr "Присоединяйтесь!"
 
 #, fuzzy
 #~ msgid "this is a /_TEST/ error"

@@ -42,6 +42,8 @@
 #define _CREDITS_MUSIC3_AUTHOR "Nighter313"
 #define _CREDITS_NN_TRANSLATOR "Karl Ove Hufthammer"
 #define _CREDITS_RU_TRANSLATOR "Yevgeny Lezhnin"
+#define _CREDITS_LIBCACA "PFA Epitech 2012-2013 (france_a, clavel_r, lemonn_k, vougie_c)"
+#define _CREDITS_HANDICAP "PFA Epitech 2012-2013 (Timothee Menage)"
 #define _LIST_EMAIL "help-liquidwar6@gnu.org"
 #define _HELP_GNU_URL "http://www.gnu.org/help/"
 #define _FFII_URL "http://www.ffii.org/"
@@ -126,39 +128,42 @@ lw6hlp_get_credits (int id)
 			    _CREDITS_RU_TRANSLATOR);
       break;
     case 14:
-      ret = lw6sys_str_copy (_("Thanks to all other contributors"));
+      ret = lw6sys_new_sprintf (_("Libcaca port by %s"), _CREDITS_LIBCACA);
       break;
     case 15:
-      ret = lw6sys_str_copy (_("Help is always appreciated"));
+      ret = lw6sys_new_sprintf (_("Handicap patch by %s"), _CREDITS_HANDICAP);
       break;
     case 16:
-      ret = lw6sys_str_copy (_("Join us now!"));
+      ret = lw6sys_str_copy (_("Thanks to all other contributors"));
       break;
     case 17:
-      ret = lw6sys_new_sprintf (_("Mailing list: <%s>"), _LIST_EMAIL);
+      ret = lw6sys_str_copy (_("Help is always appreciated"));
       break;
     case 18:
-      ret = lw6sys_str_copy (_("Free as in \"free speech\" (not beer)"));
+      ret = lw6sys_new_sprintf (_("Mailing list: <%s>"), _LIST_EMAIL);
       break;
     case 19:
+      ret = lw6sys_str_copy (_("Free as in \"free speech\" (not beer)"));
+      break;
+    case 20:
       ret =
 	lw6sys_new_sprintf (_("License: %s"), lw6sys_build_get_license ());
       break;
-    case 20:
+    case 21:
       ret = lw6sys_str_copy (lw6sys_build_get_copyright ());
       break;
-    case 21:
+    case 22:
       ret =
 	lw6sys_new_sprintf (_("Built on %s at %s"), lw6sys_build_get_date (),
 			    lw6sys_build_get_time ());
       break;
-    case 22:
+    case 23:
       ret = lw6sys_new_sprintf (_("Help GNU %s"), _HELP_GNU_URL);
       break;
-    case 23:
+    case 24:
       ret = lw6sys_new_sprintf (_("Fight software patents %s"), _FFII_URL);
       break;
-    case 24:
+    case 25:
       ret =
 	lw6sys_new_sprintf ("%s: %s", _("Report bugs"),
 			    lw6sys_build_get_bugs_url ());
