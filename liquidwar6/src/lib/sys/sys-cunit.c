@@ -33,7 +33,7 @@
 #include <CUnit/CUCurses.h>
 #endif // LW6_CUNIT_CURSES
 
-#define _LW6SYS_CUNIT_DIALOG_TIMEOUT 3
+#define _LW6SYS_CUNIT_DIALOG_TIMEOUT 10
 
 /*
  * Base filename, -Listing.xml or -Results.xml will be appended to it

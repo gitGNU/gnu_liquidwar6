@@ -251,7 +251,7 @@
 #define _TEST_VERSION_COMPATIBLE_B4 "10.11"
 #define _TEST_VERSION_COMPATIBLE_RET4 1
 
-#define _TEST_LOG_MORE_DIALOG_TIMEOUT 5
+#define _TEST_LOG_MORE_DIALOG_TIMEOUT 10
 
 typedef struct _lw6sys_test_data_s
 {
