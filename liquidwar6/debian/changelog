@@ -1,3 +1,9 @@
+liquidwar6 (0.1.3463-1vendor) unstable; urgency=low
+
+  * Bump version
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Sat, 13 Jul 2013 00:27:02 +0200
+
 liquidwar6 (0.0.14beta-1vendor) unstable; urgency=low
 
   * Updated for 0.0.14beta.

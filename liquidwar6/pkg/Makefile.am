@@ -20,7 +20,7 @@
 
 pkgdata_DATA = liquidwar6.desktop
 pkgdatadir = $(datadir)/applications
-EXTRA_DIST =  $(pkgdata_DATA) liquidwar6.spec liquidwar6d
+EXTRA_DIST =  $(pkgdata_DATA) liquidwar6.spec liquidwar6d 406FFCAB.gnupg.txt FD409E94.gnupg.txt
 
 distclean-local:
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
@@ -30,6 +30,7 @@ clean-local:
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.exe
 	rm -f @PACKAGE_TARNAME@*.deb
+	rm -f @PACKAGE_TARNAME@*vendor*
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 
 # Rules below concern packaging, do not use them on untrusted
@@ -115,17 +116,17 @@ deb: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${top_srcdir}/debian/changelog
 	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
 	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 	cd ${PACKAGE_TMP} && ./configure
-	cd ${PACKAGE_TMP} && dpkg-buildpackage -kFD409E94 -rfakeroot || true
-	cp ${TMP}/*.deb .
-	rm -rf ${TMP}
+	cd ${PACKAGE_TMP} && dpkg-buildpackage -k406FFCAB -rfakeroot || true
+	cp ${TMP}/*vendor* .
+	echo "rm -rf ${TMP}"
 
 rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6.spec
 	rm -rf ${TMP}
 	install -d ${TMP}
 	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
-	echo "next command will prompt for root password"
-	cd ${TMP} && su -c "rpmbuild -ta --sign @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz"
-	rm -rf ${TMP}
+	echo "next command will require sudo to allow rpmbuild to be run"
+	cd ${TMP} && sudo rpmbuild -ta --sign @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	echo "rm -rf ${TMP}"
 
 dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 

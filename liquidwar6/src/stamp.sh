@@ -28,6 +28,7 @@ BUILD_MD5SUM_H=./lib/sys/sys-build-md5sum.h
 VERSION_MAJOR=0
 VERSION_MINOR=1
 
+HERE="$(readlink -f $(dirname $0))"
 if [ -f ../configure.ac ] ; then
     CONFIGURE_AC=$(readlink -f ../configure.ac)
     if [ -f ${CONFIGURE_AC} ] ; then
@@ -62,6 +63,15 @@ next_id () {
         sed -i "s/^LW6_VERSION_BASE.*/LW6_VERSION_BASE=\"${VERSION_MAJOR}.${VERSION_MINOR}\"/g" ${CONFIGURE_AC_EXTRA_MAPS}
     else
         echo "skipping ${CONFIGURE_AC_EXTRA_MAPS} (not found)"
+    fi
+    if [ -x /usr/bin/debchange ] ; then
+	DEBIAN_CHANGELOG="$(dirname ${CONFIGURE_AC})/debian"
+	DEBIAN_EXTRA_MAPS_CHANGELOG="$(dirname $(dirname ${CONFIGURE_AC}))/liquidwar6-extra-maps/debian"
+        echo "updating ${DEBIAN_CHANGELOG}/changelog"
+	cd ${DEBIAN_CHANGELOG} && /usr/bin/debchange --newversion ${VERSION_MAJOR}.${VERSION_MINOR}.${stamp}-1vendor --release-heuristic log --maintmaint "Bump version"
+        echo "updating ${DEBIAN_EXTRA_MAPS_CHANGELOG}/changelog"
+	cd ${DEBIAN_EXTRA_MAPS_CHANGELOG} && /usr/bin/debchange --newversion ${VERSION_MAJOR}.${VERSION_MINOR}.${stamp}-1vendor --release-heuristic log --maintmaint "Bump version"
+	cd "${HERE}"
     fi
 }
 

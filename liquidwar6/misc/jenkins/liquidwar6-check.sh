@@ -25,51 +25,80 @@
 
 if test x$WORKSPACE = x ; then
     if test x$TMP = x ; then
-	if test x$TMPDIR = x ; then
-	    WORKSPACE=/tmp
-	else
-	    WORKSPACE=$TMPDIR
-	fi
+        if test x$TMPDIR = x ; then
+            WORKSPACE=/tmp
+        else
+            WORKSPACE=$TMPDIR
+        fi
     else
-	WORKSPACE=$TMP
+        WORKSPACE=$TMP
     fi
-fi	
+fi      
 
 # This will build and check the program, it runs it a quite
 # paranoid mode, running a check then a dist then a distcheck.
 # If this passes, one can be confident program is OK.
 
 echo "******** $0 $(date) ********"
-if cd liquidwar6 ; then
-    echo "******** $0 $(date) ********"
-    if autoreconf ; then
-	echo "******** $0 $(date) ********"
-	if ./configure --prefix=$WORKSPACE/local ; then
-	    echo "******** $0 $(date) ********"
-	    if make ; then
-		echo "******** $0 $(date) ********"
-		if make distcheck; then
-		    echo "******** $0 $(date) ********"
-		else
-		    echo "make distcheck failed"
-		    exit 5
-		fi
-	    else
-		echo "make failed"
-		exit 4
-	    fi
-	else
-	    echo "./configure failed"
-	    exit 3
-	fi
-    else
-	echo "autoreconf failed"
-	exit 2
-    fi
+if cd liquidwar6 && rm -f *.gz pkg/*.rpm pkg/*.deb ; then
+    echo "cd liquidwar6 OK"
 else
-    echo "cd failed"
+    echo "cd liquidwar6 failed"
     exit 1
 fi
 
+echo "******** $0 $(date) ********"
+if autoreconf ; then
+    echo "autoreconf OK"
+else
+    echo "autoreconf failed"
+    exit 2
+fi
+
+echo "******** $0 $(date) ********"
+if ./configure --prefix=$WORKSPACE/local ; then
+    echo "./configure OK"
+else
+    echo "./configure failed"
+    exit 3
+fi
+
+echo "******** $0 $(date) ********"
+if make ; then
+    echo "make OK"
+else
+    echo "make failed"
+    exit 4
+fi
+
+echo "******** $0 $(date) ********"
+if make distcheck ; then
+    echo "make distcheck OK"
+else
+    echo "make distcheck failed"
+    exit 5
+fi
+
+if [ -f /etc/debian_version ] ; then
+    echo "******** $0 $(date) ********"
+    if cp *.gz pkg/ && make -C pkg deb ; then
+        echo "make deb OK"
+    else
+        echo "make deb failed"
+        exit 6
+    fi
+fi
+
+if [ -f /etc/redhat-release ] ; then
+    echo "******** $0 $(date) ********"
+    if cp *.gz pkg/ && make -C pkg rpm ; then
+        echo "make rpm OK"
+    else
+        echo "make rpm failed"
+        exit 7
+    fi
+fi
+
+echo "******** $0 $(date) ********"
 echo "OK"
 exit 0

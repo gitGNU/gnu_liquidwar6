@@ -22,10 +22,10 @@
 %define version @PACKAGE_VERSION@
 %define release 1vendor
 
-#Put this in /etc/rpm/macros.ufoot
+#Put this in /etc/rpm/macros.jenkins
 #%_signature gpg
-#%_gpg_path /home/ufoot/.gnupg
-#%_gpg_name Christian Mauduit (U-Foot) <ufoot@ufoot.org>
+#%_gpg_path /var/lib/jenkins/.gnupg
+#%_gpg_name Jenkins Daemon (Christian Mauduit) <jenkins@ufoot.org>
 #%_gpgbin /usr/bin/gpg
 
 ## Uncomment these if complaints about unpackaged files
