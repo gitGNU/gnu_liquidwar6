@@ -20,7 +20,7 @@
 
 %define name @PACKAGE_TARNAME@
 %define version @PACKAGE_VERSION@
-%define release 1vendor
+%define release 0vendor
 
 #Put this in /etc/rpm/macros.jenkins
 #%_signature gpg

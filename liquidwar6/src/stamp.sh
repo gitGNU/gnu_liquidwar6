@@ -68,9 +68,9 @@ next_id () {
 	DEBIAN_CHANGELOG="$(dirname ${CONFIGURE_AC})/debian"
 	DEBIAN_EXTRA_MAPS_CHANGELOG="$(dirname $(dirname ${CONFIGURE_AC}))/liquidwar6-extra-maps/debian"
         echo "updating ${DEBIAN_CHANGELOG}/changelog"
-	cd ${DEBIAN_CHANGELOG} && /usr/bin/debchange --newversion ${VERSION_MAJOR}.${VERSION_MINOR}.${stamp}-1vendor --release-heuristic log --maintmaint "Bump version"
+	cd ${DEBIAN_CHANGELOG} && /usr/bin/debchange --newversion ${VERSION_MAJOR}.${VERSION_MINOR}.${stamp}-0vendor --release-heuristic log --maintmaint "Bump version"
         echo "updating ${DEBIAN_EXTRA_MAPS_CHANGELOG}/changelog"
-	cd ${DEBIAN_EXTRA_MAPS_CHANGELOG} && /usr/bin/debchange --newversion ${VERSION_MAJOR}.${VERSION_MINOR}.${stamp}-1vendor --release-heuristic log --maintmaint "Bump version"
+	cd ${DEBIAN_EXTRA_MAPS_CHANGELOG} && /usr/bin/debchange --newversion ${VERSION_MAJOR}.${VERSION_MINOR}.${stamp}-0vendor --release-heuristic log --maintmaint "Bump version"
 	cd "${HERE}"
     fi
 }
