@@ -580,18 +580,19 @@ You can browse the code online, consult log summary, and in a general manner ``f
 
 Alternatively, you can download daily snapshots on
 @uref{http://www.ufoot.org/liquidwar/v6/snapshots/}
-These files should be built every day, but a @code{make distcheck} is
-done before creating them. So if the source code is, for some reason, broken, then
-they won't be generated. It is a good source if you want the
-most up-to-date code which is not completely unstable. This is typically
-the place to go if you want to know a reported bug is correctly fixed. Please
-do not rely on snapshots generated on the fly by the source content manager,
-daily snapshots mentionned above are better since
-a @code{make dist} has been run on them.
-Using a checkout is really for developpers.
+These files used to be built every day, now they are generated
+by @uref{http://jenkins-ci.org/,Jenkins} whenever there's a source change (commit).
+A simple @code{make} is done before generating source tarballs however
+a @code{make distcheck} is performed before generating binaries, therefore sometimes
+you can have the source but no associated tarballs.
 
-A batch also generates documentation at each commit, the generated files
-are available on @uref{http://www.ufoot.org/liquidwar/v6/doc/}.
+Beware of revision numbers, snapshots can make you believe version X.Y is out when
+it's only a release candidate at best, and most of the time just a work-in-progress.
+
+Still, if you want bleeding edge versions, this is the way to go.
+
+Documentation is automatically updated as well, and available
+on @uref{http://www.ufoot.org/liquidwar/v6/doc/}.
 
 @subsection Check integrity
 
