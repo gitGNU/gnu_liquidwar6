@@ -88,7 +88,7 @@ else
 fi
 
 echo "******** $0 $(date) ********"
-if scp liquidwar6*.tar.gz jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/source/ ; then
+if cp -f liquidwar6*.tar.gz /var/lib/jenkins/pub/snapshots/source/ ; then
     echo "scp OK"
 else
     echo "scp failed"
