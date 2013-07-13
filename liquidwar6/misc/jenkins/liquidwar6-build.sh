@@ -39,7 +39,7 @@ fi
 # If this does not work -> not need to proceed.
 
 echo "******** $0 $(date) ********"
-if cd liquidwar6 && rm -f *.gz pkg/*vendor* ; then
+if cd liquidwar6 && rm -f *.gz doc/*.gz pkg/*.gz pkg/*vendor* ; then
     echo "cd liquidwar6 OK"
 else
     echo "cd liquidwar6 failed"

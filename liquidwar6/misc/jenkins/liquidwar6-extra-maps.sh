@@ -39,7 +39,7 @@ fi
 # rarely fails, but, just in case, it's interessant to check
 
 echo "******** $0 $(date) ********"
-if cd liquidwar6-extra-maps && rm -f *.gz pkg/*vendor* ; then
+if cd liquidwar6-extra-maps && rm -f *.gz pkg/*.gz pkg/*vendor* ; then
     echo "cd liquidwar6-extra-maps OK"
 else
     echo "cd liquidwar6-extra-maps failed"

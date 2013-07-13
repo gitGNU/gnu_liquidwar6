@@ -39,7 +39,7 @@ fi
 # do not pass, it's used to collect test stats through Jenkins
 
 echo "******** $0 $(date) ********"
-if cd liquidwar6 && rm -f *.gz pkg/*.rpm pkg/*.deb ; then
+if cd liquidwar6 && rm -f *.gz doc/*.gz pkg/*.gz pkg/*vendor* ; then
     echo "cd liquidwar6 OK"
 else
     echo "cd liquidwar6 failed"
