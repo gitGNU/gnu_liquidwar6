@@ -79,5 +79,13 @@ else
 fi
 
 echo "******** $0 $(date) ********"
+if make dist ; then
+    echo "make dist OK"
+else
+    echo "make dist failed"
+    exit 6
+fi
+
+echo "******** $0 $(date) ********"
 echo "OK"
 exit 0
