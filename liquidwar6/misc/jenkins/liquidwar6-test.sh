@@ -35,55 +35,77 @@ if test x$WORKSPACE = x ; then
     fi
 fi      
 
-# This will build and check the program, it runs it a quite
-# paranoid mode, running a check then a dist then a distcheck.
-# If this passes, one can be confident program is OK.
+# This will test the program, test won't fail if some tests
+# do not pass, it's used to collect test stats through Jenkins
 
 echo "******** $0 $(date) ********"
-if cd liquidwar6 ; then
-    echo "******** $0 $(date) ********"
-    if autoreconf ; then
-        echo "******** $0 $(date) ********"
-        if ./configure --prefix=$WORKSPACE/local ; then
-            echo "******** $0 $(date) ********"
-            if make ; then
-                if [ -x /usr/bin/Xvfb ] ; then
-                    echo "******** $0 $(date) ********"
-                    killall Xvfb
-                    Xvfb :6 -pixdepths 1 8 16 24 32 -screen 0 640x480x24 &
-                    export DISPLAY=:6
-                    echo "******** $0 $(date) ********"
-                    # No check on --cunit output, make check will do this, we do not
-                    # want the whole build to fail just because of cunit, only, we
-                    # look at the XML output with Jenkins
-                    src/liquidwar6 --test
-                    killall Xvfb
-                    if [ -f $HOME/.liquidwar6/CUnit-Results.xml ] && [ -x /usr/bin/xsltproc ] && [ -x /usr/bin/xmllint ] ; then
-                        rm -f *-Results.xml
-                        xmllint --recover $HOME/.liquidwar6/CUnit-Results.xml > CUnit-Results.xml
-                        /usr/bin/xsltproc --output JUnit-Results.xml --path ./misc/cunit-to-junit/ misc/cunit-to-junit/cunit-to-junit.xsl CUnit-Results.xml
-                    fi
-                fi
-                echo "******** $0 $(date) ********"
-            else
-                killall Xvfb
-                echo "make failed"
-                exit 4
-            fi
-        else
-            killall Xvfb
-            echo "./configure failed"
-            exit 3
-        fi
-    else
-        killall Xvfb
-        echo "autoreconf failed"
-        exit 2
-    fi
+if cd liquidwar6 && rm -f *.gz pkg/*.rpm pkg/*.deb ; then
+    echo "cd liquidwar6 OK"
 else
-    echo "cd failed"
+    echo "cd liquidwar6 failed"
     exit 1
 fi
 
+echo "******** $0 $(date) ********"
+if autoreconf ; then
+    echo "autoreconf OK"
+else
+    echo "autoreconf failed"
+    exit 2
+fi
+
+echo "******** $0 $(date) ********"
+if ./configure --prefix=$WORKSPACE/local ; then
+    echo "./configure OK"
+else
+    echo "./configure failed"
+    exit 3
+fi
+
+echo "******** $0 $(date) ********"
+if make ; then
+    echo "make OK"
+else
+    echo "make failed"
+    exit 4
+fi
+
+echo "******** $0 $(date) ********"
+TEST_DONE=no
+if [ -x /usr/bin/Xvfb ] ; then
+    echo "******** $0 $(date) ********"
+    killall Xvfb
+    Xvfb :6 -pixdepths 1 8 16 24 32 -screen 0 640x480x24 &
+    export DISPLAY=:6
+    echo "******** $0 $(date) ********"
+                    # No check on --cunit output, make check will do this, we do not
+                    # want the whole build to fail just because of cunit, only, we
+                    # look at the XML output with Jenkins
+    src/liquidwar6 --test
+    killall Xvfb
+    if [ -f $HOME/.liquidwar6/CUnit-Results.xml ] && [ -x /usr/bin/xsltproc ] && [ -x /usr/bin/xmllint ] ; then
+        rm -f *-Results.xml
+        xmllint --recover $HOME/.liquidwar6/CUnit-Results.xml > CUnit-Results.xml
+        /usr/bin/xsltproc --output JUnit-Results.xml --path ./misc/cunit-to-junit/ misc/cunit-to-junit/cunit-to-junit.xsl CUnit-Results.xml
+        if [ -f $HOME/.liquidwar6/log.csv ] ; then
+            cp -f $HOME/.liquidwar6/log.csv .
+            TEST_DONE=yes
+        else
+            echo "unable to find $HOME/.liquidwar6/log.csv"
+        fi
+    else
+        echo "unable to find $HOME/.liquidwar6/CUnit-Results.xml and XML tools"
+    fi
+else
+    echo "unable to find Xvfb"
+fi
+if [ x$TEST_DONE = xyes ] ; then
+    echo "test OK"
+else
+    echo "test failed"
+    exit 5
+fi
+
+echo "******** $0 $(date) ********"
 echo "OK"
 exit 0
