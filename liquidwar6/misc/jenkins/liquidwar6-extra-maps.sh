@@ -88,5 +88,13 @@ else
 fi
 
 echo "******** $0 $(date) ********"
+if scp liquidwar6-extra-maps*.tar.gz jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/source/ ; then
+    echo "scp OK"
+else
+    echo "scp failed"
+    exit 7
+fi
+
+echo "******** $0 $(date) ********"
 echo "OK"
 exit 0

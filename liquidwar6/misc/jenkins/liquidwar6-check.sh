@@ -88,6 +88,14 @@ if [ -f /etc/debian_version ] ; then
         echo "make deb failed"
         exit 6
     fi
+
+    echo "******** $0 $(date) ********"
+    if scp pkg/*.deb jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/debian/ ; then
+	echo "scp OK"
+    else
+	echo "scp failed"
+	exit 7
+    fi
 fi
 
 if [ -f /etc/redhat-release ] ; then
@@ -96,7 +104,15 @@ if [ -f /etc/redhat-release ] ; then
         echo "make rpm OK"
     else
         echo "make rpm failed"
-        exit 7
+        exit 8
+    fi
+
+    echo "******** $0 $(date) ********"
+    if scp pkg/*.rpm jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/redhat/ ; then
+	echo "scp OK"
+    else
+	echo "scp failed"
+	exit 9
     fi
 fi
 
