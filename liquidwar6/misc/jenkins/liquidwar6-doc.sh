@@ -99,7 +99,7 @@ else
 fi
 
 echo "******** $0 $(date) ********"
-if rsync --rsh=ssh --archive --delete $WORKSPACE/pub/ /var/lib/jenkins/pub/doc/ ; then
+if rsync --archive --delete $WORKSPACE/pub/ /var/lib/jenkins/pub/doc/ ; then
     echo "rsync OK"
 else
     echo "rsync failed"
