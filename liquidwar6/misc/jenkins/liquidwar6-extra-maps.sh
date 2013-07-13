@@ -39,36 +39,45 @@ fi
 # rarely fails, but, just in case, it's interessant to check
 
 echo "******** $0 $(date) ********"
-if cd liquidwar6-extra-maps ; then
-    echo "******** $0 $(date) ********"
-    if autoreconf ; then
-	echo "******** $0 $(date) ********"
-	if ./configure --prefix=$WORKSPACE/local ; then
-	    echo "******** $0 $(date) ********"
-	    if make ; then
-		echo "******** $0 $(date) ********"
-		if make install; then
-		    echo "******** $0 $(date) ********"
-		else
-		    echo "make install failed"
-		    exit 5
-		fi
-	    else
-		echo "make failed"
-		exit 4
-	    fi
-	else
-	    echo "./configure failed"
-	    exit 3
-	fi
-    else
-	echo "autoreconf failed"
-	exit 2
-    fi
+if cd liquidwar6-extra-maps && rm -f *.gz pkg/*vendor* ; then
+    echo "cd liquidwar6-extra-maps OK"
 else
-    echo "cd failed"
+    echo "cd liquidwar6-extra-maps failed"
     exit 1
 fi
 
+echo "******** $0 $(date) ********"
+if autoreconf ; then
+    echo "autoreconf OK"
+else
+    echo "autoreconf failed"
+    exit 2
+fi
+
+echo "******** $0 $(date) ********"
+if ./configure --prefix=$WORKSPACE/local ; then
+    echo "./configure OK"
+else
+    echo "./configure failed"
+    exit 3
+fi
+
+echo "******** $0 $(date) ********"
+if make ; then
+    echo "make OK"
+else
+    echo "make failed"
+    exit 4
+fi
+
+echo "******** $0 $(date) ********"
+if make install ; then
+    echo "make install OK"
+else
+    echo "make install failed"
+    exit 5
+fi
+
+echo "******** $0 $(date) ********"
 echo "OK"
 exit 0

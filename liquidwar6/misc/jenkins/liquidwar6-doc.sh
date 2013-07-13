@@ -42,54 +42,61 @@ fi
 # for end users as doc ships already generated.
 
 echo "******** $0 $(date) ********"
-if cd liquidwar6 ; then
-    echo "******** $0 $(date) ********"
-    if autoreconf ; then
-	echo "******** $0 $(date) ********"
-	if ./configure --prefix=$WORKSPACE/local ; then
-            echo "******** $0 $(date) ********"
-            if make; then
-		echo "******** $0 $(date) ********"
-		if make dist; then
-		    echo "******** $0 $(date) ********"
-		    if cp liquidwar6-*.tar.gz doc/ && make -C doc pub; then
-			echo "******** $0 $(date) ********"
-			if install -d $WORKSPACE/pub && cd .. ; then
-                            echo "******** $0 $(date) ********"
-                            if for i in coverage global cyclo doxygen manual ; do tar -xzf $WORKSPACE/liquidwar6/doc/$i.tar.gz -C $WORKSPACE/pub ; done; then
-				echo "******** $0 $(date) ********"
-                            else
-				echo "extract pub failed"
-				exit 8
-                            fi
-			else
-                            echo "install pub failed"
-                            exit 7
-			fi
-		    else
-			echo "make pub failed"
-			exit 6
-		    fi
-		else
-		    echo "make dist failed"
-		    exit 5
-		fi
-            else
-		echo "make failed"
-		exit 4
-            fi
-	else
-	    echo "./configure failed"
-	    exit 3
-	fi
-    else
-	echo "autoreconf failed"
-	exit 2
-    fi
+if cd liquidwar6 && rm -f *.gz pkg/*vendor* ; then
+    echo "cd liquidwar6 OK"
 else
-    echo "cd failed"
+    echo "cd liquidwar6 failed"
     exit 1
 fi
 
+echo "******** $0 $(date) ********"
+if autoreconf ; then
+    echo "autoreconf OK"
+else
+    echo "autoreconf failed"
+    exit 2
+fi
+
+echo "******** $0 $(date) ********"
+if ./configure --prefix=$WORKSPACE/local ; then
+    echo "./configure OK"
+else
+    echo "./configure failed"
+    exit 3
+fi
+
+echo "******** $0 $(date) ********"
+if make ; then
+    echo "make OK"
+else
+    echo "make failed"
+    exit 4
+fi
+
+echo "******** $0 $(date) ********"
+if make dist ; then
+    echo "make dist OK"
+else
+    echo "make dist failed"
+    exit 5
+fi
+
+echo "******** $0 $(date) ********"
+if cp liquidwar6-*.tar.gz doc/ && make -C doc pub; then
+    echo "make pub OK"
+else
+    echo "make pub failed"
+    exit 6
+fi
+
+echo "******** $0 $(date) ********"
+if rm -rf $WORKSPACE/pub && install -d $WORKSPACE/pub && cd .. && for i in coverage global cyclo doxygen manual ; do tar -xzf $WORKSPACE/liquidwar6/doc/$i.tar.gz -C $WORKSPACE/pub ; done; then
+    echo "extract pub OK"
+else
+    echo "extract pub failed"
+    exit 7
+fi
+
+echo "******** $0 $(date) ********"
 echo "OK"
 exit 0

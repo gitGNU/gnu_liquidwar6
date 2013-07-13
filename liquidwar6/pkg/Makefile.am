@@ -29,9 +29,8 @@ distclean-local:
 clean-local:
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.exe
-	rm -f @PACKAGE_TARNAME@*.deb
-	rm -f @PACKAGE_TARNAME@*vendor*
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
+	rm -f *vendor*
 
 # Rules below concern packaging, do not use them on untrusted
 # computers, as they use /tmp and assume they are the only scripts

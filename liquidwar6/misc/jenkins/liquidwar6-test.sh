@@ -89,6 +89,11 @@ if [ -x /usr/bin/Xvfb ] ; then
         /usr/bin/xsltproc --output JUnit-Results.xml --path ./misc/cunit-to-junit/ misc/cunit-to-junit/cunit-to-junit.xsl CUnit-Results.xml
         if [ -f $HOME/.liquidwar6/log.csv ] ; then
             cp -f $HOME/.liquidwar6/log.csv .
+            cp -f $HOME/.liquidwar6/net/tcp-send.log .
+            cp -f $HOME/.liquidwar6/net/tcp-recv.log .
+            cp -f $HOME/.liquidwar6/net/udp-send.log .
+            cp -f $HOME/.liquidwar6/net/udp-recv.log .
+            cp -f $HOME/.liquidwar6/httpd/access_log.txt .
             TEST_DONE=yes
         else
             echo "unable to find $HOME/.liquidwar6/log.csv"
