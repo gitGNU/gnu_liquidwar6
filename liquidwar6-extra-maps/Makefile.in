@@ -100,8 +100,8 @@ deb: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${srcdir}/debian/changelog
 	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
 	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 	cd ${PACKAGE_TMP} && ./configure
-	cd ${PACKAGE_TMP} && dpkg-buildpackage -kFD409E94 -rfakeroot || true
-	cp ${TMP}/*.deb .
+	cd ${PACKAGE_TMP} && dpkg-buildpackage -k406FFCAB -rfakeroot || true
+	cp ${TMP}/*vendor* .
 	rm -rf ${TMP}
 
 rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6-extra-maps.spec
@@ -109,5 +109,5 @@ rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6-extra-maps.spec
 	install -d ${TMP}
 	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
 	echo "next command will prompt for root password"
-	cd ${TMP} && su -c "rpmbuild -ta --sign @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz"
-	rm -rf ${TMP}
+	cd ${TMP} && sudo rpmbuild -ta --sign @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	echo "rm -rf ${TMP}"

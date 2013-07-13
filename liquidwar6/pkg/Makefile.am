@@ -117,7 +117,7 @@ deb: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${top_srcdir}/debian/changelog
 	cd ${PACKAGE_TMP} && ./configure
 	cd ${PACKAGE_TMP} && dpkg-buildpackage -k406FFCAB -rfakeroot || true
 	cp ${TMP}/*vendor* .
-	echo "rm -rf ${TMP}"
+	rm -rf ${TMP}
 
 rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6.spec
 	rm -rf ${TMP}

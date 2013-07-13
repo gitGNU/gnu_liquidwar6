@@ -117,5 +117,81 @@ if [ -f /etc/redhat-release ] ; then
 fi
 
 echo "******** $0 $(date) ********"
+if cd $WORKSPACE/liquidwar6-extra-maps && rm -f *.gz ; then
+    echo "cd liquidwar6-extra-maps OK"
+else
+    echo "cd liquidwar6-extra-maps failed"
+    exit 10
+fi
+
+echo "******** $0 $(date) ********"
+if autoreconf ; then
+    echo "autoreconf OK"
+else
+    echo "autoreconf failed"
+    exit 11
+fi
+
+echo "******** $0 $(date) ********"
+if ./configure --prefix=$WORKSPACE/local ; then
+    echo "./configure OK"
+else
+    echo "./configure failed"
+    exit 12
+fi
+
+echo "******** $0 $(date) ********"
+if make ; then
+    echo "make OK"
+else
+    echo "make failed"
+    exit 13
+fi
+
+echo "******** $0 $(date) ********"
+if make dist ; then
+    echo "make dist OK"
+else
+    echo "make dist failed"
+    exit 14
+fi
+
+if [ -f /etc/debian_version ] ; then
+    echo "******** $0 $(date) ********"
+    if make deb ; then
+        echo "make deb OK"
+    else
+        echo "make deb failed"
+        exit 15
+    fi
+
+    echo "******** $0 $(date) ********"
+    if scp *.deb jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/debian/ ; then
+	echo "scp OK"
+    else
+	echo "scp failed"
+	exit 16
+    fi
+fi
+
+if [ -f /etc/redhat-release ] ; then
+    echo "******** $0 $(date) ********"
+    if make rpm ; then
+        echo "make rpm OK"
+    else
+        echo "make rpm failed"
+        exit 17
+    fi
+
+    echo "******** $0 $(date) ********"
+    if scp *.rpm jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/redhat/ ; then
+	echo "scp OK"
+    else
+	echo "scp failed"
+	exit 18
+    fi
+fi
+
+echo "******** $0 $(date) ********"
 echo "OK"
 exit 0
