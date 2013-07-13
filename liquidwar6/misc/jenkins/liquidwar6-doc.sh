@@ -42,6 +42,7 @@ fi
 # for end users as doc ships already generated.
 
 echo "******** $0 $(date) ********"
+git clean -d -f -x
 if cd liquidwar6 && rm -f *.gz doc/*.gz pkg/*.gz pkg/*vendor* ; then
     echo "cd liquidwar6 OK"
 else
