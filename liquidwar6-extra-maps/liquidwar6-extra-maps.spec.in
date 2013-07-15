@@ -33,7 +33,7 @@ because the package is big.
 # Preparation of the package
 %prep
 %setup
-./configure --prefix=%{_prefix}
+./configure --prefix=%{_prefix} ---liquidwar6-bin=no
 
 # Building the package
 %build

@@ -159,17 +159,17 @@ fi
 if [ -f /etc/debian_version ] ; then
     echo "******** $0 $(date) ********"
     if make deb ; then
-        echo "make deb OK"
+        echo "make extra deb OK"
     else
-        echo "make deb failed"
+        echo "make extra deb failed"
         exit 15
     fi
 
     echo "******** $0 $(date) ********"
     if scp *.deb jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/debian/ ; then
-	echo "scp OK"
+	echo "scp extra OK"
     else
-	echo "scp failed"
+	echo "scp extra failed"
 	exit 16
     fi
 fi
@@ -177,17 +177,17 @@ fi
 if [ -f /etc/redhat-release ] ; then
     echo "******** $0 $(date) ********"
     if make rpm ; then
-        echo "make rpm OK"
+        echo "make extra rpm OK"
     else
-        echo "make rpm failed"
+        echo "make extra rpm failed"
         exit 17
     fi
 
     echo "******** $0 $(date) ********"
     if scp *.rpm jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/redhat/ ; then
-	echo "scp OK"
+	echo "scp extra OK"
     else
-	echo "scp failed"
+	echo "scp extra failed"
 	exit 18
     fi
 fi

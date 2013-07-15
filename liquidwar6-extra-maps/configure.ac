@@ -35,9 +35,14 @@ if test "$LIQUIDWAR6_BIN" == "yes" ; then
     fi
 fi
 
-LW6_MAP_DIR=${datadir}/liquidwar6-${LW6_VERSION_MAP}/map
+LW6_MAP_DIR=${datadir}/liquidwar6-${LW6_VERSION_BASE}/map
 if test "$LIQUIDWAR6_BIN" != "no"  && test -x "$LIQUIDWAR6_BIN" ; then
-   LW6_MAP_DIR=`liquidwar6 --show-map-dir`
+    LIQUIDWAR6_BIN_MAP_DIR=`liquidwar6 --show-map-dir`
+    if test -d "$LIQUIDWAR6_BIN_MAP_DIR" ; then
+	LW6_MAP_DIR="$LIQUIDWAR6_BIN_MAP_DIR"
+    else
+	AC_MSG_WARN([liquidwar6 binary found $LIQUIDWAR6_BIN but liquidwar6 data dir $LIQUIDWAR6_BIN_MAP_DIR does not exist])
+    fi
 fi
 
 AC_SUBST(LW6_MAP_DIR)
@@ -54,7 +59,7 @@ AC_OUTPUT
 AC_MSG_NOTICE([prefix is "${prefix}"])
 
 if test "$LIQUIDWAR6_BIN" != "no"  && test -x "$LIQUIDWAR6_BIN" ; then
-   AC_MSG_NOTICE([liquidwar6 binary is "$LIQUIDWAR6_BIN"])
-   AC_MSG_NOTICE([mapdir is "$LW6_MAP_DIR"])
+    AC_MSG_NOTICE([liquidwar6 binary is "$LIQUIDWAR6_BIN"])
+    AC_MSG_NOTICE([mapdir is "$LW6_MAP_DIR"])
 fi
 
