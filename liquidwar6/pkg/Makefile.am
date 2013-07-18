@@ -116,7 +116,7 @@ deb: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${top_srcdir}/debian/changelog
 	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 	cd ${PACKAGE_TMP} && ./configure
 	cd ${PACKAGE_TMP} && dpkg-buildpackage -k406FFCAB -rfakeroot || true
-	cp ${TMP}/*vendor* .
+	cp ${TMP}/@PACKAGE_TARNAME@*@PACKAGE_VERSION@*vendor* .
 	rm -rf ${TMP}
 
 rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6.spec
@@ -125,7 +125,9 @@ rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6.spec
 	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
 	echo "next command will require sudo to allow rpmbuild to be run"
 	cd ${TMP} && sudo rpmbuild -ta --sign @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	echo "rm -rf ${TMP}"
+	cp /root/rpmbuild/SRPMS/@PACKAGE_TARNAME@*@PACKAGE_VERSION@*vendor*.src.rpm .
+	cp /root/rpmbuild/RPMS/*/@PACKAGE_TARNAME@*@PACKAGE_VERSION*vendor*.rpm .
+	rm -rf ${TMP}
 
 dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 
