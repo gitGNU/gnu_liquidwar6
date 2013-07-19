@@ -20,6 +20,6 @@
 
 pkgdata_DATA = 28035-Robert_Radamant-Free_the_sounds-GNU_GPL-Dogmazic.ogg 38018-LapSuS-heav_hypnosis-GNU_GPL-Dogmazic.ogg 44213-Nighter313-Oriental_travels-GNU_GPL-Dogmazic.ogg Tim_Chadburn-7.ogg Tim_Chadburn-Vaguely_jazzy_thing.ogg README
 
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/music
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/music
 EXTRA_DIST = $(pkgdata_DATA)
 
