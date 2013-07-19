@@ -125,8 +125,9 @@ rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6.spec
 	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
 	echo "next command will require sudo to allow rpmbuild to be run"
 	cd ${TMP} && sudo rpmbuild -ta --sign @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	cp /root/rpmbuild/SRPMS/@PACKAGE_TARNAME@*@PACKAGE_VERSION@*vendor*.src.rpm .
-	cp /root/rpmbuild/RPMS/*/@PACKAGE_TARNAME@*@PACKAGE_VERSION@*vendor*.rpm .
+	sudo cp /root/rpmbuild/SRPMS/@PACKAGE_TARNAME@*@PACKAGE_VERSION@*vendor*.src.rpm .
+	sudo cp /root/rpmbuild/RPMS/*/@PACKAGE_TARNAME@*@PACKAGE_VERSION@*vendor*.rpm .
+	sudo chmod 666 *.rpm
 	rm -rf ${TMP}
 
 dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
