@@ -83,11 +83,29 @@ else
 fi
 
 echo "******** $0 $(date) ********"
-if cp liquidwar6-*.tar.gz doc/ && make -C doc pub; then
-    echo "make pub OK"
+DOC_DONE=no
+if [ -x /usr/bin/Xvfb ] ; then
+    echo "******** $0 $(date) ********"
+    killall Xvfb
+    Xvfb :6 -pixdepths 1 8 16 24 32 -screen 0 640x480x24 &
+    export DISPLAY=:6
+    echo "******** $0 $(date) ********"
+    if cp liquidwar6-*.tar.gz doc/ && make -C doc pub; then
+	echo "make pub OK"
+	DOC_DONE=yes
+    else
+	echo "make pub failed"
+	exit 6
+    fi
 else
-    echo "make pub failed"
-    exit 6
+    echo "unable to find Xvfb"
+fi
+
+if [ x$DOC_DONE = xyes ] ; then
+    echo "doc OK"
+else
+    echo "doc failed"
+    exit 7
 fi
 
 echo "******** $0 $(date) ********"
@@ -95,7 +113,7 @@ if rm -rf $WORKSPACE/pub && install -d $WORKSPACE/pub && cd .. && for i in cover
     echo "extract pub OK"
 else
     echo "extract pub failed"
-    exit 7
+    exit 8
 fi
 
 echo "******** $0 $(date) ********"
@@ -103,7 +121,7 @@ if rsync --archive --delete $WORKSPACE/pub/ /var/lib/jenkins/pub/doc/ ; then
     echo "rsync OK"
 else
     echo "rsync failed"
-    exit 8
+    exit 9
 fi
 
 echo "******** $0 $(date) ********"
