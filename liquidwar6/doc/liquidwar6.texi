@@ -973,7 +973,7 @@ perl lcov global valgrind graphviz gv \
 texinfo texlive-base texlive-generic-extra \
 indent emacs doxygen xsltproc pmccabe \
 libcunit1-ncurses libcunit1-ncurses-dev \
-debhelper
+debhelper devscripts
 @end example
 
 Note that those requirements really depend on the exact distribution you
