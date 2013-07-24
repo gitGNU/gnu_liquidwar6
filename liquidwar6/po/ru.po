@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2013-07-22 15:04+0200\n"
+"POT-Creation-Date: 2013-07-24 21:51+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -72,31 +72,31 @@ msgstr "начат узел \"%s\""
 msgid "libcaca"
 msgstr ""
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:117
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:118
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:401
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:153
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:152
 msgid "unable to set video mode"
 msgstr "ошибка установки видео режима"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:125
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:126
 #, fuzzy, c-format
 msgid "unable to create canvas %dx%d"
 msgstr "ошибка установки видео режима"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:137
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:138
 #, fuzzy
 msgid "unable to set resize callback"
 msgstr "ошибка установки видео режима"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:144
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:145
 #: src/lib/gfx/mod-gl1/mod-gl1-setup.c:408
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:161
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:160
 msgid "unable to load consts"
 msgstr "ошибка загрузки констант"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:151
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:152
 #, fuzzy
 msgid "unable to init paths"
 msgstr "ошибка загрузки данных"

@@ -82,12 +82,13 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
       if ((mask & LW6GUI_DISPLAY_HUD) && game_state)
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=hud"));
-	  _mod_caca_display_hud(caca_context, look, game_state, game_struct);
+	  _mod_caca_display_hud (caca_context, look, game_state, game_struct);
 	}
       if ((mask & LW6GUI_DISPLAY_SCORE) && game_state)
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=score"));
-	  _mod_caca_display_score(caca_context, look, game_state, game_struct);
+	  _mod_caca_display_score (caca_context, look, game_state,
+				   game_struct);
 	}
       if ((mask & LW6GUI_DISPLAY_PROGRESS))
 	{
