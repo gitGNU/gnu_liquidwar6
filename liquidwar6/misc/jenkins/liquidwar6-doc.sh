@@ -89,6 +89,7 @@ if [ -x /usr/bin/Xvfb ] ; then
     killall Xvfb
     Xvfb :6 -pixdepths 1 8 16 24 32 -screen 0 640x480x24 &
     export DISPLAY=:6
+    export TERM=none-when-building-with-jenkins
     echo "******** $0 $(date) ********"
     if cp liquidwar6-*.tar.gz doc/ && make -C doc pub; then
 	echo "make pub OK"
