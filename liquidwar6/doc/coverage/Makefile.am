@@ -25,7 +25,7 @@ opt: index.html
 
 ../../src/main.gcda:
 	lcov --directory ../../src --zerocounters
-	cd ../../src && ./liquidwar6 --test
+	cd ../../src && ./liquidwar6 --test || true
 
 liquidwar6.info: ../../src/main.gcno ../../src/main.gcda
 	lcov --directory `readlink -m ${top_builddir}/src/` --capture --base-directory `readlink -m ${top_srcdir}/src/` --output-file liquidwar6.info
