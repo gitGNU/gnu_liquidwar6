@@ -67,7 +67,7 @@ pub: coverage-pub global-pub cyclo-pub doxygen-pub manual-pub
 coverage-pub: coverage.tar.gz
 
 coverage.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	rm -rf coverage-tmp && mkdir coverage-tmp && cd coverage-tmp && tar -xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && pwd > pwd.txt && mkdir build && cd build && $$(cat ../pwd.txt)/configure --enable-gcov --enable-allinone && rm -f ../pwd.txt && make && src/liquidwar6 --test && cd doc/coverage && make opt && rm -f Makefile && cd .. && tar -czf coverage.tar.gz coverage && cd ../../../.. && mv coverage-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/build/doc/coverage.tar.gz . && rm -rf coverage-tmp
+	rm -rf coverage-tmp && mkdir coverage-tmp && cd coverage-tmp && tar -xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && pwd > pwd.txt && mkdir build && cd build && $$(cat ../pwd.txt)/configure --enable-gcov --enable-allinone && rm -f ../pwd.txt && make && cd doc/coverage && make opt && rm -f Makefile && cd .. && tar -czf coverage.tar.gz coverage && cd ../../../.. && mv coverage-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/build/doc/coverage.tar.gz . && rm -rf coverage-tmp
 
 global-pub: global.tar.gz
 
