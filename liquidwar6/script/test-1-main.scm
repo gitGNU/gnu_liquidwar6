@@ -18,7 +18,7 @@
 ;; Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;; Contact author        : ufoot@ufoot.org
 
-(load "test-0.scm") ; perform basic tests first
+(load "test-0-main.scm") ; perform basic tests first
 
 (define lw6-test-control-1
   (lambda ()
