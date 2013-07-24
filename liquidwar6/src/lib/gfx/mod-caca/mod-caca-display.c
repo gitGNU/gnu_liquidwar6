@@ -40,6 +40,7 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
 {
   int ret = 1;
   int wc, hc;
+  static int sp_free = 0;
 
   hc = caca_get_canvas_height (caca_context->canvas);
   wc = caca_get_canvas_width (caca_context->canvas);
@@ -50,9 +51,15 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
     {
       lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=splash"));
       plasma_anim (caca_context);
+      sp_free = 1;
     }
   else
     {
+      if (sp_free == 1)
+	{
+	  splash_free (caca_context, NULL, NULL, NULL, 0);
+	  sp_free = 0;
+	}
       caca_set_color_ansi (caca_context->canvas, CACA_DEFAULT, CACA_DEFAULT);
       caca_fill_box (caca_context->canvas, 0, 0, wc, hc, ' ');
       if ((mask & LW6GUI_DISPLAY_MAP) && game_state)
@@ -75,12 +82,12 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
       if ((mask & LW6GUI_DISPLAY_HUD) && game_state)
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=hud"));
-
+	  _mod_caca_display_hud(caca_context, look, game_state, game_struct);
 	}
       if ((mask & LW6GUI_DISPLAY_SCORE) && game_state)
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("display step=score"));
-
+	  _mod_caca_display_score(caca_context, look, game_state, game_struct);
 	}
       if ((mask & LW6GUI_DISPLAY_PROGRESS))
 	{

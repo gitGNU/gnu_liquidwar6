@@ -88,6 +88,7 @@ _mod_caca_init (int argc, const char *argv[],
 		   * Disabling console output, it could interfere with libcaca
 		   * output and wreck everything...
 		   */
+
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("disabling console output (libcaca)"));
 		  /*

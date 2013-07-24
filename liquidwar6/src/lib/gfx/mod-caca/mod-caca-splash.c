@@ -144,14 +144,74 @@ do_plasma (uint8_t * pixels, double x_1, double y_1,
     }
 }
 
+static void
+increment_frame (_mod_caca_context_t * caca_context, caca_font_t * fo,
+		 caca_dither_t * di, uint8_t * buff)
+{
+  int wc, hc;
+  static caca_font_t *f = NULL;
+  static caca_dither_t *d = NULL;
+  static uint8_t *buf = NULL;
+
+  if (fo != NULL)
+    f = fo;
+  if (di != NULL)
+    d = di;
+  if (buff != NULL)
+    buf = buff;
+  hc = caca_get_canvas_height (caca_context->canvas);
+  wc = caca_get_canvas_width (caca_context->canvas);
+  plasma (UPDATE, caca_context->canvas);
+  plasma (RENDER, caca_context->canvas);
+
+  caca_set_color_ansi (caca_context->canvas, CACA_WHITE, CACA_BLACK);
+  caca_dither_bitmap (caca_context->canvas,
+		      (wc - (10 * caca_get_font_width (f))) / 2,
+		      (hc - caca_get_font_height (f)) / 2, wc, hc, d, buf);
+  caca_put_str (caca_context->canvas, wc - 8, 0, "mod-caca");
+  caca_put_str (caca_context->canvas, 0, 0, "PFA Epitech 2012-2013");
+  caca_put_str (caca_context->canvas, (wc - 41) / 2, hc - 1,
+		"by france_a, clavel_r, lemonn_k, vougie_c");
+  caca_refresh_display (caca_context->display);
+  frame++;
+}
+
+extern void
+splash_free (_mod_caca_context_t * caca_context, caca_font_t * fo,
+	     caca_dither_t * di, uint8_t * buff, int init)
+{
+  static caca_font_t *f = NULL;
+  static caca_dither_t *d = NULL;
+  static uint8_t *buf = NULL;
+
+  if (init == 1)
+    {
+      f = fo;
+      d = di;
+      buf = buff;
+    }
+  if (init == 0)
+    {
+      plasma (FREE, caca_context->canvas);
+      free (buf);
+      caca_free_dither (d);
+      caca_free_font (f);
+    }
+}
+
 extern void
 plasma_anim (_mod_caca_context_t * caca_context)
 {
+  if (frame != 0)
+    {
+      increment_frame (caca_context, NULL, NULL, NULL);
+      return;
+    }
   int wc, hc;
-  caca_canvas_t *cv;
-  caca_font_t *f;
-  caca_dither_t *d;
-  uint8_t *buf;
+  caca_canvas_t *cv = NULL;
+  caca_font_t *f = NULL;
+  caca_dither_t *d = NULL;
+  uint8_t *buf = NULL;
   char const *const *fonts;
 
   cv = caca_create_canvas (10, 1);
@@ -188,26 +248,7 @@ plasma_anim (_mod_caca_context_t * caca_context)
   d =
     caca_create_dither (32, wc, hc, 4 * wc, 0xff00, 0xff0000, 0xff000000,
 			0xff);
-  while (frame < 200)
-    {
-      plasma (UPDATE, caca_context->canvas);
-      plasma (RENDER, caca_context->canvas);
-
-      caca_set_color_ansi (caca_context->canvas, CACA_WHITE, CACA_BLACK);
-      caca_dither_bitmap (caca_context->canvas,
-			  (wc - (10 * caca_get_font_width (f))) / 2,
-			  (hc - caca_get_font_height (f)) / 2, wc, hc, d,
-			  buf);
-      caca_put_str (caca_context->canvas, wc - 8, 0, "mod-caca");
-      caca_put_str (caca_context->canvas, 0, 0, "PFA Epitech 2012-2013");
-      caca_put_str (caca_context->canvas, (wc - 41) / 2, hc - 1,
-		    "by france_a, clavel_r, lemonn_k, vougie_c");
-      caca_refresh_display (caca_context->display);
-      frame++;
-    }
-  plasma (FREE, caca_context->canvas);
+  increment_frame (caca_context, f, d, buf);
+  splash_free (caca_context, f, d, buf, 1);
   caca_free_canvas (cv);
-  free (buf);
-  caca_free_dither (d);
-  caca_free_font (f);
 }
