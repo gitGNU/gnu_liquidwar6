@@ -106,6 +106,9 @@
 /* Define to 1 if you have the <libpng15/png.h> header file. */
 #undef HAVE_LIBPNG15_PNG_H
 
+/* Define to 1 if you have the <libpng16/png.h> header file. */
+#undef HAVE_LIBPNG16_PNG_H
+
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
 
