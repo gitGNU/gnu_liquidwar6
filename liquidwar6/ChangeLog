@@ -1,3 +1,7 @@
+2013-09-30 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Applied patch by Samuel Bauer to allow libpng 1.6 support.
+
 2013-07-24 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Merged with http://git.aufrinfo.net/git/pfa/liquidwar6.git
