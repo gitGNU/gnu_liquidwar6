@@ -84,7 +84,7 @@ ms-windows-zip: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
 	for i in `find ${PACKAGE_TMP}/ -name README`; do j=`echo $$i | sed s/README/readme.txt/g`; mv $$i $$j ; done
 	find ${PACKAGE_TMP} -name "Makefile*" | xargs rm -f
 	install -d ${PACKAGE_TMP}/doc
-	make -C ../doc liquidwar6.html liquidwar6.pdf
+	$(MAKE) -C ../doc liquidwar6.html liquidwar6.pdf
 	cp -r ../doc/liquidwar6.html ${PACKAGE_TMP}/doc/html
 	${top_srcdir}/src/utod.sh `find ${PACKAGE_TMP} -name "*.txt"`
 	${top_srcdir}/src/utod.sh `find ${PACKAGE_TMP} -name "*.html"`
@@ -156,7 +156,7 @@ dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 	install -d ${TMP}/dll
 	cd ${TMP}/dll && unzip ${DLL_ZIP}
 	cp -r ${TMP}/dll/guile "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
-	cd ${PACKAGE_TMP} && ./configure --prefix=/opt && make
+	cd ${PACKAGE_TMP} && ./configure --prefix=/opt && $(MAKE)
 	install -d "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS"
 	cp ${PACKAGE_TMP}/src/liquidwar6 "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/"
 	for i in `otool -L ${PACKAGE_TMP}/src/liquidwar6 | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do j=$${i##*/}; cp $$i "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/"; chmod 644 "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/$$j"; install_name_tool -id @executable_path/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/$$j"; install_name_tool -change $$i @executable_path/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/liquidwar6"; done # yes, this is complicated, the idea is to run otool -L to find every library dependency, keep only those in /opt installed by macports or from source, then run install_name_tool to change references to a path relative to the executable path, so that it's findable within the package and does not rely on some developper's local install. One more point: we can't put libs outsite @executable_path (./MacOS) because if path is too long install_name_path won't work... See -headerpad_max_install_names option in LDFLAGS, might help too.
@@ -165,7 +165,7 @@ dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 	ln -s "libjpeg.62.dylib" "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/libjpeg.dylib" # needed by SDL_image
 	cp ${PACKAGE_TMP}/pkg/Info.plist "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/"
 	install -d "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/doc"
-	make -C ../doc liquidwar6.html liquidwar6.pdf
+	$(MAKE) -C ../doc liquidwar6.html liquidwar6.pdf
 	cp -r ../doc/liquidwar6.html "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/doc/html"
 	cp ../doc/liquidwar6.pdf "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/doc"
 	cp ../doc/liquidwar6.pdf "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.pdf"

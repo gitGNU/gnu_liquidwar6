@@ -1,5 +1,7 @@
 2013-09-30 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Replaced calls to make by calls to $(MAKE) in Makefiles.
+
 	* Applied patch by Samuel Bauer to allow libpng 1.6 support.
 
 2013-07-24 : Christian Mauduit <ufoot@ufoot.org>

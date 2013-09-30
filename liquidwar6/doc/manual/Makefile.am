@@ -27,7 +27,7 @@ manual/index.html: ../liquidwar6.texi
 	cp ${top_srcdir}/doc/*.eps .
 	if test -r gendocs_template ; then true ; else ln -s ${srcdir}/gendocs_template . ; fi
 	if test -r deps.eps ; then true ; else ln -s ${srcdir}/deps.eps . ; fi
-	make -C .. deps.png && cp ../deps.png .
+	$(MAKE) -C .. deps.png && cp ../deps.png .
 	${srcdir}/gendocs.sh -I ${srcdir} -I . @PACKAGE_TARNAME@ "@PACKAGE_NAME@"
 	rm -f *.texi *.eps liquidwar6.* deps.*
 	if test -h gendocs_template ; then rm gendocs_template ; fi
