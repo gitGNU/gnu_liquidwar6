@@ -1,3 +1,7 @@
+2013-10-12 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Switched to aclocal-1.14.
+
 2013-09-30 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Replaced calls to make by calls to $(MAKE) in Makefiles.
