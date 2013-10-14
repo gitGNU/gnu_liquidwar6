@@ -1,5 +1,7 @@
 2013-10-15 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Put ./configure and Makefile.in files again in repo.
+
 	* Added MSYS dedicated Jenkins script.
 
 2013-10-12 : Christian Mauduit <ufoot@ufoot.org>
