@@ -18037,7 +18037,7 @@ if test "x${lw6_unix}" = "xyes" ; then
    LW6_UNIX_CFLAGS="-DLW6_UNIX"
 fi
 if test "x${lw6_ms_windows}" = "xyes" ; then
-   LW6_MS_WINDOWS_CFLAGS="-DLW6_MS_WINDOWS=1 -DWIN32"
+   LW6_MS_WINDOWS_CFLAGS="-DLW6_MS_WINDOWS=1"
    LW6_OS_LDFLAGS="-lpthreadGC2 -lws2_32 -liphlpapi"
 else
    if test "x${lw6_mac_os_x}" = "xyes" ; then
