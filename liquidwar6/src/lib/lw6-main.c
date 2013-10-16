@@ -95,12 +95,12 @@ _end (void *data)
 /**
  * lw6_main:
  * 
- * @argc: the argc parameter of the @main() function, that is, the number
+ * @argc: the argc parameter of the @main function, that is, the number
  *   of command-line args.
- * @argv: the argv parameter of the @main() function, that is, an array
+ * @argv: the argv parameter of the @main function, that is, an array
  *   containing pointers on command-line args.
  *
- * This function is directly called by @main(). This means by linking
+ * This function is directly called by @main. This means by linking
  * against libliquidwar6 and calling it, you would have a program
  * that is almost exactly the "official" upstream liquidwar6 binary,
  * except you can tweak it and have all the power to call whatever
@@ -109,7 +109,7 @@ _end (void *data)
  * library and calling this function.
  *
  * Return value: 1 if success, zero if failure. Note that this
- *   is the "standard" C / liquidwar6 way to proceed, but your @main()
+ *   is the "standard" C / liquidwar6 way to proceed, but your @main
  *   function should return 0 if success, else an error code. Typical
  *   use is "return !lw6_main(argc, argv);".
  */

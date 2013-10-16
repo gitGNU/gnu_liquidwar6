@@ -15,7 +15,7 @@ like a thumb isn't a bad thing.
 
 @deftypefun {void} {lw6_release} ()
 
-Functions which will call @code{quit}(), @code{free}(), @code{destroy}() on whatever
+Functions which will call @code{quit}, @code{free}, @code{destroy} on whatever
 smob object that has threads and/or requires hardware ressources.
 This is to be called before the Guile interpreter ends. This is because
 when it garbage collects objects at the end of the program, it has
@@ -255,13 +255,13 @@ runs its GC, the object does not exist any more.
 @end deftypefun
 
 @deftypefun {int} {lw6_main} (int @var{argc}, const char * [] @var{argv})
-@var{argc}:  the argc parameter of the @code{main}() function, that is, the number
+@var{argc}:  the argc parameter of the @code{main} function, that is, the number
 of command-line args.
 
-@var{argv}:  the argv parameter of the @code{main}() function, that is, an array
+@var{argv}:  the argv parameter of the @code{main} function, that is, an array
 containing pointers on command-line args.
 
-This function is directly called by @code{main}(). This means by linking
+This function is directly called by @code{main}. This means by linking
 against libliquidwar6 and calling it, you would have a program
 that is almost exactly the "official" upstream liquidwar6 binary,
 except you can tweak it and have all the power to call whatever
@@ -270,7 +270,7 @@ does, you can do it in your own binarn, by linking against the
 library and calling this function.
 
 @strong{Return value:}  1 if success, zero if failure. Note that this
-is the "standard" C / liquidwar6 way to proceed, but your @code{main}()
+is the "standard" C / liquidwar6 way to proceed, but your @code{main}
 function should return 0 if success, else an error code. Typical
 use is "return !lw6_main(argc, argv);".
 @end deftypefun

@@ -135,7 +135,7 @@ lw6sys_escape_http_uri (const char *src)
  *
  * Transforms a string so that it can fit in a html field, 
  * this is typically for alt="" or title="" fields so it
- * will convert " into &quot;.
+ * will convert a double quote into its equivalent escaped char.
  *
  * Return value: newly allocated string.
  */

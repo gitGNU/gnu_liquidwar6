@@ -1847,7 +1847,7 @@ and the program will never generate such url when guessing urls.
 
 Transforms a string so that it can fit in a html field, 
 this is typically for alt="" or title="" fields so it
-will convert " into @code{quot};.
+will convert a double quote into its equivalent escaped char.
 
 @strong{Return value:}  newly allocated string.
 @end deftypefun

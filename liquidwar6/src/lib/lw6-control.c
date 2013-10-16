@@ -87,7 +87,7 @@ _release_node_close (void *func_data, const char *key, void *value)
 /**
  * lw6_release
  *
- * Functions which will call @quit(), @free(), @destroy() on whatever
+ * Functions which will call @quit, @free, @destroy on whatever
  * smob object that has threads and/or requires hardware ressources.
  * This is to be called before the Guile interpreter ends. This is because
  * when it garbage collects objects at the end of the program, it has

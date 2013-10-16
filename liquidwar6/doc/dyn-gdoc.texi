@@ -2,14 +2,14 @@
 Opens a .so file directly, using a valid (full) path name.
 
 @strong{Return value:}  a handle to the module, once it's opened. You might still
-need to call a module specific @code{init}() function, but it's another story.
+need to call a module specific @code{init} function, but it's another story.
 @end deftypefun
 
 @deftypefun {lw6dyn_dl_handle_t *} {lw6dyn_dlopen_shared_so} (const char * @var{so_file})
 Opens a .so file directly, using a valid (full) path name.
 
 @strong{Return value:}  a handle to the shared code, once it's opened. You might still
-need to call a module specific @code{init}() function, but it's another story.
+need to call a module specific @code{init} function, but it's another story.
 @end deftypefun
 
 @deftypefun {lw6dyn_dl_handle_t *} {lw6dyn_dlopen_backend} (int @var{argc}, const char * [] @var{argv}, const char * @var{top_level_lib}, const char * @var{backend_name})
@@ -26,7 +26,7 @@ but if not found, it will also search in the current build directory,
 finding the .so files in hidden .libs subdirectories.
 
 @strong{Return value:}  a handle to the module, once it's opened. You might still
-need to call a module specific @code{init}() function, but it's another story.
+need to call a module specific @code{init} function, but it's another story.
 @end deftypefun
 
 @deftypefun {lw6dyn_dl_handle_t *} {lw6dyn_dlopen_shared} (int @var{argc}, const char * [] @var{argv}, const char * @var{top_level_lib}, const char * @var{shared_name})

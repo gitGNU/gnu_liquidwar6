@@ -115,7 +115,7 @@ _dlopen_so (const char *so_file, int is_backend)
  * Opens a .so file directly, using a valid (full) path name.
  *
  * Return value: a handle to the module, once it's opened. You might still
- *   need to call a module specific @init() function, but it's another story.
+ *   need to call a module specific @init function, but it's another story.
  */
 lw6dyn_dl_handle_t *
 lw6dyn_dlopen_backend_so (const char *so_file)
@@ -131,7 +131,7 @@ lw6dyn_dlopen_backend_so (const char *so_file)
  * Opens a .so file directly, using a valid (full) path name.
  *
  * Return value: a handle to the shared code, once it's opened. You might still
- *   need to call a module specific @init() function, but it's another story.
+ *   need to call a module specific @init function, but it's another story.
  */
 lw6dyn_dl_handle_t *
 lw6dyn_dlopen_shared_so (const char *so_file)
@@ -179,7 +179,7 @@ _sym_exists (lw6dyn_dl_handle_t * handle, const char *sym_format,
  * finding the .so files in hidden .libs subdirectories.
  *
  * Return value: a handle to the module, once it's opened. You might still
- *   need to call a module specific @init() function, but it's another story.
+ *   need to call a module specific @init function, but it's another story.
  */
 lw6dyn_dl_handle_t *
 lw6dyn_dlopen_backend (int argc, const char *argv[],
