@@ -276,9 +276,9 @@ use is "return !lw6_main(argc, argv);".
 @end deftypefun
 
 @deftypefun {int} {lw6_process_non_run_options} (int @var{argc}, const char * [] @var{argv}, int * @var{run_game})
-@var{argc}:  the number of command-line args, as passed to @code{main()}
+@var{argc}:  the number of command-line args, as passed to @code{code}{main()}
 
-@var{argv}:  an array of strings containing command-line args, as passed to @code{main()}
+@var{argv}:  an array of strings containing command-line args, as passed to @code{code}{main()}
 
 @var{run_game}:  a pointer to a boolean which will contain true (1) if the
 game must be launched, or false (0) if the option is such that game 

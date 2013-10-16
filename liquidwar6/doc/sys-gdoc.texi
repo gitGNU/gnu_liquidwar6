@@ -1635,12 +1635,12 @@ Get the default pid file, used to lock daemon and avoid
 @deftypefun {int} {lw6sys_daemon_start} (char * @var{pid_file})
 @var{pid_file}:  the pid file used for the daemon
 
-Calls @code{fork}() internally to put the process in the program, 
+Calls @code{fork} internally to put the process in the program, 
 make it a daemon. Note this won't work on all platforms,
 for instance it won't work on MS-Windows but this is rarely
 an issue as MS-Windows users are rarely concerned with
 detaching a program from a tty. Note that this isn't a
-wrapper on @code{fork}(), the return value is different,
+wrapper on @code{fork}, the return value is different,
 
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
@@ -1832,7 +1832,7 @@ provide default values for player names and such things.
 
 Transforms a string so that it does not contain any non-valid
 URL chars, it will mostly convert chars over 128 into their
-@var{XY} form where XY is the hexadecimal code. Note that this function
+@code{var}{XY} form where XY is the hexadecimal code. Note that this function
 is non really standard compliant for it won't encode '%' but keep
 it the same. This is to allow using it several times on the same
 string and avoid double-triple encoding of '%'. In practice it's
@@ -1858,7 +1858,7 @@ will convert a double quote into its equivalent escaped char.
 Transforms a string so that it can fit as an SQL parameter,
 it will get rid
 URL chars, it will mostly convert chars over 128 into their
-@var{XY} form where XY is the hexadecimal code.
+@code{var}{XY} form where XY is the hexadecimal code.
 
 @strong{Return value:}  newly allocated string.
 @end deftypefun
