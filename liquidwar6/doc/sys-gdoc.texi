@@ -1832,7 +1832,7 @@ provide default values for player names and such things.
 
 Transforms a string so that it does not contain any non-valid
 URL chars, it will mostly convert chars over 128 into their
-@code{var}{XY} form where XY is the hexadecimal code. Note that this function
+an hexadecimal code which replaces them in URLs. Note that this function
 is non really standard compliant for it won't encode '%' but keep
 it the same. This is to allow using it several times on the same
 string and avoid double-triple encoding of '%'. In practice it's
@@ -1857,8 +1857,8 @@ will convert a double quote into its equivalent escaped char.
 
 Transforms a string so that it can fit as an SQL parameter,
 it will get rid
-URL chars, it will mostly convert chars over 128 into their
-@code{var}{XY} form where XY is the hexadecimal code.
+URL chars, it will mostly convert chars over 128 into an 
+hexadecimal form which replaces them in URLs.
 
 @strong{Return value:}  newly allocated string.
 @end deftypefun
@@ -4628,7 +4628,7 @@ zero again. Besides, those values are often used for their "rest"
 in a module operation, to translate textures for instance, and
 having too big numbers causes floating point imprecisions. In fact
 those values or even only 20-bit. The function is based 
-on @code{lw6sys_get_uptime}() so it will return 0 at game startup.
+on @code{lw6sys_get_uptime} so it will return 0 at game startup.
 
 @strong{Return value:}  the cycle value, a 20-bit integer.
 @end deftypefun

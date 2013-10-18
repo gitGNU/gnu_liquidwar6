@@ -51,7 +51,7 @@
  *
  * Transforms a string so that it does not contain any non-valid
  * URL chars, it will mostly convert chars over 128 into their
- * %XY form where XY is the hexadecimal code. Note that this function
+ * an hexadecimal code which replaces them in URLs. Note that this function
  * is non really standard compliant for it won't encode '%' but keep
  * it the same. This is to allow using it several times on the same
  * string and avoid double-triple encoding of '%'. In practice it's
@@ -215,8 +215,8 @@ lw6sys_escape_html_attribute (const char *src)
  *
  * Transforms a string so that it can fit as an SQL parameter,
  * it will get rid
- * URL chars, it will mostly convert chars over 128 into their
- * %XY form where XY is the hexadecimal code.
+ * URL chars, it will mostly convert chars over 128 into an 
+ * hexadecimal form which replaces them in URLs.
  *
  * Return value: newly allocated string.
  */

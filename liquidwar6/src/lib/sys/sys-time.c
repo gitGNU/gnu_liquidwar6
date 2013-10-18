@@ -122,7 +122,7 @@ lw6sys_get_uptime ()
  * in a module operation, to translate textures for instance, and
  * having too big numbers causes floating point imprecisions. In fact
  * those values or even only 20-bit. The function is based 
- * on @lw6sys_get_uptime() so it will return 0 at game startup.
+ * on @lw6sys_get_uptime so it will return 0 at game startup.
  *
  * Return value: the cycle value, a 20-bit integer.
  */
