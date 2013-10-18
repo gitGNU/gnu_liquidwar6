@@ -109,8 +109,8 @@ _register_and_run_tests (int argc, const char **argv, int mode)
 /**
  * lw6_process_non_run_options:
  *
- * @argc: the number of command-line args, as passed to main()
- * @argv: an array of strings containing command-line args, as passed to main()
+ * @argc: the number of command-line args, as passed to main
+ * @argv: an array of strings containing command-line args, as passed to main
  * @run_game: a pointer to a boolean which will contain true (1) if the
  *   game must be launched, or false (0) if the option is such that game 
  *   must be skipped. Example: --copyright, --help, ...
