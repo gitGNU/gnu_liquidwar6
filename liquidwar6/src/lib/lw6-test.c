@@ -496,10 +496,10 @@ lw6_test_register (int mode)
   suite = CU_add_suite ("lw6", _setup_init, _setup_quit);
   if (suite)
     {
-      if (lw6sys_false ())
-	{
-	  LW6SYS_CUNIT_ADD_TEST (suite, _test_main);
-	}
+      //if (lw6sys_false ())
+      //        {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_main);
+      //}
       if (mode & LW6SYS_TEST_MODE_FULL_TEST)
 	{
 	  if (lw6sys_process_is_fully_supported ())

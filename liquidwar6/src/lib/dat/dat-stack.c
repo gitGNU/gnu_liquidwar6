@@ -1134,36 +1134,64 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 			  unz = lw6msg_z_decode (cmd);
 			  if (unz)
 			    {
-			      msg = lw6sys_str_concat (seq_from, unz);
-			      if (msg)
+			      if (atom
+				  && atom->type == _LW6DAT_ATOM_TYPE_DATA)
 				{
-				  if (n > 1)
+				  msg = lw6sys_str_concat (seq_from, unz);
+				  if (msg)
 				    {
-				      if (cmd_len >= _LONG_MSG_NOTICE)
+				      if (n > 1)
 					{
-					  lw6sys_log (LW6SYS_LOG_NOTICE,
-						      _x_
-						      ("get long message from stack, %d bytes in %d atoms"),
-						      cmd_len, n);
+					  if (cmd_len >= _LONG_MSG_NOTICE)
+					    {
+					      lw6sys_log (LW6SYS_LOG_NOTICE,
+							  _x_
+							  ("get long DATA message from stack, %d bytes in %d atoms"),
+							  cmd_len, n);
+					    }
+					  else
+					    {
+					      lw6sys_log (LW6SYS_LOG_INFO,
+							  _x_
+							  ("get DATA message from stack, %d bytes in %d atoms"),
+							  cmd_len, n);
+					    }
 					}
 				      else
 					{
-					  lw6sys_log (LW6SYS_LOG_INFO,
+					  lw6sys_log (LW6SYS_LOG_DEBUG,
 						      _x_
-						      ("get message from stack, %d bytes in %d atoms"),
-						      cmd_len, n);
+						      ("get DATA message from stack, %d bytes in 1 atom"),
+						      cmd_len);
 					}
+
+				      lw6sys_list_push_back (msg_list, msg);
+				      ret = 1;
+				    }
+				}
+			      else
+				if (atom
+				    && atom->type == _LW6DAT_ATOM_TYPE_META)
+				{
+				  if (n == 1)
+				    {
+				      lw6sys_log (LW6SYS_LOG_INFO,
+						  _x_
+						  ("get META message from stack, ignoring"));
 				    }
 				  else
 				    {
-				      lw6sys_log (LW6SYS_LOG_DEBUG,
+				      lw6sys_log (LW6SYS_LOG_WARNING,
 						  _x_
-						  ("get message from stack, %d bytes in 1 atom"),
-						  cmd_len);
+						  ("get long META message from stack, this should never happen, n=%d"),
+						  n);
 				    }
-
-				  lw6sys_list_push_back (msg_list, msg);
-				  ret = 1;
+				}
+			      else
+				{
+				  lw6sys_log (LW6SYS_LOG_WARNING,
+					      _x_
+					      ("get UNKNOWN message from stack, ignoring"));
 				}
 			      LW6SYS_FREE (unz);
 			    }

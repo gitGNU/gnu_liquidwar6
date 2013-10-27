@@ -1,3 +1,7 @@
+2013-10-27 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Log file now displays backtrace on each line to ease up debug.
+
 2013-10-16 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Minor doc update to handle gdoc/texinfo parsing problem.
