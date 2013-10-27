@@ -402,7 +402,8 @@ _setup_init ()
       _test_data.param.argv = argv;
       _test_data.param.suite = _TEST_SUITE_MAIN;
       _test_data.param.coverage_check = 1;
-      _test_data.default_log_level_id = lw6sys_log_get_level ();
+      _test_data.param.log_level_id = lw6sys_log_get_level ();
+      _test_data.default_log_level_id = _test_data.param.log_level_id;
 
       memcpy (&_test_data.param_a, &_test_data.param,
 	      sizeof (_lw6_test_param_t));
