@@ -290,35 +290,28 @@ lw6msg_cmd_generate_meta (int serial, int i, int n, int64_t seq,
 {
   char *ret = NULL;
   char *meta_str = NULL;
-  char *base64_meta_str = NULL;
 
   meta_str = lw6msg_meta_array2str (meta_array);
   if (meta_str)
     {
-      base64_meta_str = lw6glb_base64_encode_str (meta_str);
-      if (base64_meta_str)
+      ret =
+	lw6sys_new_sprintf ("%s %d %d %d %" LW6SYS_PRINTF_LL "d %"
+			    LW6SYS_PRINTF_LL "x %s", LW6MSG_CMD_META,
+			    serial, i, n, (long long) seq,
+			    (long long) meta_array->logical_from, meta_str);
+      if (ret)
 	{
-	  ret =
-	    lw6sys_new_sprintf ("%s %d %d %d %" LW6SYS_PRINTF_LL "d %"
-				LW6SYS_PRINTF_LL "x %s", LW6MSG_CMD_META,
-				serial, i, n, (long long) seq,
-				(long long) meta_array->logical_from,
-				base64_meta_str);
-	  if (ret)
+	  if (strlen (ret) < LW6MSG_MAX_WORD_SIZE)
 	    {
-	      if (strlen (ret) < LW6MSG_MAX_WORD_SIZE)
-		{
-		  // OK, everthing's fine
-		}
-	      else
-		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _x_ ("message \"%s\" is too long"), ret);
-		  LW6SYS_FREE (ret);
-		  ret = NULL;
-		}
+	      // OK, everthing's fine
 	    }
-	  LW6SYS_FREE (base64_meta_str);
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("message \"%s\" is too long"), ret);
+	      LW6SYS_FREE (ret);
+	      ret = NULL;
+	    }
 	}
       LW6SYS_FREE (meta_str);
     }
@@ -1188,9 +1181,7 @@ lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int64_t * seq,
   int read_n = 0;
   int64_t read_seq = 0;
   u_int64_t read_logical_from = 0LL;
-  char *read_meta_str = NULL;
   lw6msg_word_t meta_word;
-  lw6msg_word_t meta_str_word;
 
   (*serial) = 0;
   (*i) = 0;
@@ -1219,46 +1210,32 @@ lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int64_t * seq,
 			  (&read_logical_from, &seek, pos))
 			{
 			  pos = seek;
-			  if (lw6msg_word_first (&meta_str_word, &seek, pos))
+			  if (!lw6sys_str_is_null_or_empty (pos))
 			    {
 			      pos = seek;
-			      read_meta_str =
-				lw6glb_base64_decode_str (meta_str_word.buf);
-			      if (read_meta_str)
+			      if (lw6msg_meta_str2array (meta_array, pos))
 				{
-				  if (lw6msg_meta_str2array
-				      (meta_array, read_meta_str))
-				    {
-				      ret = 1;
-				      (*serial) = read_serial;
-				      (*i) = read_i;
-				      (*n) = read_n;
-				      (*seq) = read_seq;
-				      meta_array->logical_from =
-					read_logical_from;
-				    }
-				  else
-				    {
-				      lw6sys_log (LW6SYS_LOG_INFO,
-						  _x_
-						  ("unable to parse meta message (stage 3), read_meta_str=\"%s\""),
-						  read_meta_str);
-				    }
-				  LW6SYS_FREE (read_meta_str);
+				  ret = 1;
+				  (*serial) = read_serial;
+				  (*i) = read_i;
+				  (*n) = read_n;
+				  (*seq) = read_seq;
+				  meta_array->logical_from =
+				    read_logical_from;
 				}
 			      else
 				{
 				  lw6sys_log (LW6SYS_LOG_INFO,
 					      _x_
-					      ("unable to parse meta message (stage 2), meea_str_word.buf=\"%s\""),
-					      meta_str_word.buf);
+					      ("unable to parse meta message (stage 2), pos=\"%s\""),
+					      pos);
 				}
 			    }
 			  else
 			    {
 			      lw6sys_log (LW6SYS_LOG_INFO,
 					  _x_
-					  ("unable to parse meta message (stage 1)"));
+					  ("unable to parse meta message (stage 1), no content"));
 			    }
 			}
 		      else

@@ -35,7 +35,7 @@
 #define _BACKTRACE_FILE "backtrace.txt"
 
 static char *
-get_backtrace_file ()
+_get_backtrace_file ()
 {
   char *backtrace_file = NULL;
   char *user_dir = NULL;
@@ -50,10 +50,69 @@ get_backtrace_file ()
   return backtrace_file;
 }
 
+#if LW6_UNIX && HAVE_EXECINFO_H
+static char *
+_append_symbols (const char *base, const char *symbols, int detailed)
+{
+  char *begin = NULL;
+  char *end = NULL;
+  char *func = NULL;
+  char *ret = NULL;
+
+  if (!detailed)
+    {
+      begin = strchr (symbols, '(');
+      if (begin)
+	{
+	  end = strchr (begin, '+');
+	}
+      if (begin && end && begin + 1 < end)
+	{
+	  func = (char *) LW6SYS_MALLOC (end - begin);
+	  if (func)
+	    {
+	      memcpy (func, begin + 1, end - begin - 1);
+	      func[end - begin - 1] = '\0';
+	    }
+	}
+      if (func)
+	{
+	  if (lw6sys_str_is_null_or_empty (base))
+	    {
+	      ret = lw6sys_str_copy (func);
+	    }
+	  else
+	    {
+	      ret = lw6sys_new_sprintf ("%s<-%s", base, func);
+	    }
+	  LW6SYS_FREE (func);
+	}
+      else
+	{
+	  ret = lw6sys_str_copy (base);
+	}
+    }
+  else
+    {
+      if (lw6sys_str_is_null_or_empty (base))
+	{
+	  ret = lw6sys_str_copy (symbols);
+	}
+      else
+	{
+	  ret = lw6sys_new_sprintf ("%s, %s", base, symbols);
+	}
+    }
+
+  return ret;
+}
+#endif // LW6_UNIX && HAVE_EXECINFO_H
+
 /**
  * lw6sys_backtrace
  *
  * @skip: number of calls to skip
+ * @detailed: 0 for light output, 1 for complete, detailed messages
  *
  * Returns the current backtrace as a comma separated list.
  * This can typically be used for debugging purposes. Not available
@@ -69,7 +128,7 @@ get_backtrace_file ()
  * Return value: dynamically allocated string
  */
 char *
-lw6sys_backtrace (int skip)
+lw6sys_backtrace (int skip, int detailed)
 {
   char *ret = NULL;
   char *backtrace_file = NULL;
@@ -79,6 +138,12 @@ lw6sys_backtrace (int skip)
   char **symbols = NULL;
   int i = 0, n = 0;
   char *tmp = NULL;
+  /*
+   * Skipping 2 frames allows us to skip main parents,
+   * which are of no real practical use unless we want very
+   * complete infos (that is detailed mode...).
+   */
+  int detailed_skip = detailed ? 0 : -2;
 
   skip = lw6sys_imax (skip, 0);
   memset (callstack, 0, sizeof (void *) * _CALLSTACK_SIZE);
@@ -93,13 +158,13 @@ lw6sys_backtrace (int skip)
 	   */
 	  if (n > skip + 1)
 	    {
-	      ret = lw6sys_str_copy (symbols[skip + 1]);
+	      ret = _append_symbols ("", symbols[skip + 1], detailed);
 	    }
 	  if (ret)
 	    {
-	      for (i = skip + 2; i < n; i++)
+	      for (i = skip + 2; i < n + detailed_skip; i++)
 		{
-		  tmp = lw6sys_new_sprintf ("%s, %s", ret, symbols[i]);
+		  tmp = _append_symbols (ret, symbols[i], detailed);
 		  if (tmp)
 		    {
 		      LW6SYS_FREE (ret);
@@ -111,13 +176,13 @@ lw6sys_backtrace (int skip)
 	  free (symbols);	// call to real free() and not LW6SYS_FREE
 	}
     }
-#else
+#else // LW6_UNIX && HAVE_EXECINFO_H
   ret = lw6sys_new_sprintf (_x_ ("no backtrace"));
-#endif
+#endif // LW6_UNIX && HAVE_EXECINFO_H
 
-  if (ret)
+  if (ret && detailed)
     {
-      backtrace_file = get_backtrace_file ();
+      backtrace_file = _get_backtrace_file ();
       if (backtrace_file)
 	{
 	  /*

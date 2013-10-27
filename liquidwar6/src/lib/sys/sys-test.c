@@ -431,10 +431,22 @@ _test_backtrace ()
   {
     char *bt = NULL;
 
-    bt = lw6sys_backtrace (0);
+    bt = lw6sys_backtrace (0, 0);
     if (bt)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("backtrace=\"%s\""), bt);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("backtrace(0,0)=\"%s\""), bt);
+	LW6SYS_FREE (bt);
+      }
+    bt = lw6sys_backtrace (0, 1);
+    if (bt)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("backtrace(0,1)=\"%s\""), bt);
+	LW6SYS_FREE (bt);
+      }
+    bt = lw6sys_backtrace (1, 1);
+    if (bt)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("backtrace(1,1)=\"%s\""), bt);
 	LW6SYS_FREE (bt);
       }
     BT;

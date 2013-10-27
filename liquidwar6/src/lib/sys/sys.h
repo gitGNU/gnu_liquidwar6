@@ -575,7 +575,7 @@ extern lw6sys_color_hsv_t LW6SYS_COLOR_HSV_BLUE;
 /*
  * Instant backtrace facility
  */
-#define BT { char *bt=lw6sys_backtrace(0); if (bt) { TMP1("bt: \"%s\"",bt); LW6SYS_FREE(bt); } }
+#define BT { char *bt=lw6sys_backtrace(0,1); if (bt) { TMP1("bt: \"%s\"",bt); LW6SYS_FREE(bt); } }
 
 /*
  * Common indenting parameters
@@ -663,7 +663,7 @@ extern lw6sys_assoc_t *lw6sys_assoc_dup (lw6sys_assoc_t * assoc,
 					 lw6sys_dup_func_t dup_func);
 
 /* sys-backtrace.c */
-extern char *lw6sys_backtrace (int skip);
+extern char *lw6sys_backtrace (int skip, int detailed);
 
 /* sys-bazooka.c */
 extern int lw6sys_default_memory_bazooka ();

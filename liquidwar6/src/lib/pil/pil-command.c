@@ -331,6 +331,12 @@ command_parse (lw6pil_command_t * command, const char *command_text,
 				  command->code = LW6PIL_COMMAND_CODE_DUMP;
 				  ret = command_dump_parse (command, seek);
 				}
+			      else
+				{
+				  lw6sys_log (LW6SYS_LOG_WARNING,
+					      _x_ ("bad command text \"%s\""),
+					      pos);
+				}
 			    }
 			  else
 			    {
@@ -360,6 +366,12 @@ command_parse (lw6pil_command_t * command, const char *command_text,
 				{
 				  command->code = LW6PIL_COMMAND_CODE_SEED;
 				  ret = 1;
+				}
+			      else
+				{
+				  lw6sys_log (LW6SYS_LOG_WARNING,
+					      _x_ ("bad command text \"%s\""),
+					      pos);
 				}
 			    }
 			}

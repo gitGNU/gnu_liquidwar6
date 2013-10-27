@@ -613,6 +613,14 @@ _log_to_file (FILE * f, int level_id, const char *level_str, const char *file,
   struct tm tm_now;
   struct tm *tm_ret = NULL;
   struct timeval timeval_now;
+  char *bt = NULL;
+  int free_bt = 0;
+
+  bt = lw6sys_backtrace (1, 0);
+  if (bt)
+    {
+      free_bt = 1;
+    }
 
   memset (&t_now, 0, sizeof (time_t));
   memset (&tm_now, 0, sizeof (struct tm));
@@ -622,15 +630,22 @@ _log_to_file (FILE * f, int level_id, const char *level_str, const char *file,
   tm_ret = localtime_r (&t_now, &tm_now);
   if (tm_ret == &tm_now)
     {
-      fprintf (f, "%04d-%02d-%02d %02d.%02d:%02d,%03d\t%s:%d\t%d\t%s\t",
+      fprintf (f, "%04d-%02d-%02d %02d:%02d:%02d.%03d\t%s:%d:%s\t%d\t%s\t",
 	       (int) tm_now.tm_year + 1900, (int) tm_now.tm_mon + 1,
 	       (int) tm_now.tm_mday, (int) tm_now.tm_hour,
 	       (int) tm_now.tm_min, (int) tm_now.tm_sec,
 	       (int) timeval_now.tv_usec / (int) (1000000 /
 						  LW6SYS_TICKS_PER_SEC),
-	       file, line, level_id, level_str);
+	       file, line, lw6sys_str_empty_if_null (bt), level_id,
+	       level_str);
     }
   vfprintf (f, fmt, ap);
+
+  if (free_bt)
+    {
+      LW6SYS_FREE (bt);
+    }
+
   fprintf (f, "\n");
   fflush (f);
 }
@@ -695,7 +710,7 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
 
   _lw6sys_buf_vsnprintf (message_raw, _MSGBOX_LENGTH, fmt, ap);
   lw6sys_str_reformat_this (message_raw, _MSGBOX_WIDTH);
-  bt = lw6sys_backtrace (2);	// skip this function & caller  
+  bt = lw6sys_backtrace (2, 1);	// skip this function & caller  
   if (bt)
     {
       bt_width = lw6sys_imax (_MSGBOX_WIDTH, sqrt (strlen (bt)) * _BT_FACTOR);
