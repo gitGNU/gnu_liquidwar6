@@ -215,8 +215,10 @@ data is not dynamically allocated.
 @strong{Returned value:}  a newly allocated assoc.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_backtrace} (int @var{skip})
+@deftypefun {char *} {lw6sys_backtrace} (int @var{skip}, int @var{detailed})
 @var{skip}:  number of calls to skip
+
+@var{detailed}:  0 for light output, 1 for complete, detailed messages
 
 Returns the current backtrace as a comma separated list.
 This can typically be used for debugging purposes. Not available
