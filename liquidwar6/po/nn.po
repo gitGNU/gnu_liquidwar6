@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2013-10-16 09:30+0200\n"
+"POT-Creation-Date: 2013-10-29 06:58+0100\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -254,7 +254,7 @@ msgid "Fight software patents %s"
 msgstr "Kjemp mot programvarepatentar %s"
 
 #: src/lib/hlp/hlp-credits.c:168 src/lib/lw6-print.c:58
-#: src/lib/sys/sys-log.c:711
+#: src/lib/sys/sys-log.c:726
 msgid "Report bugs"
 msgstr ""
 
@@ -659,41 +659,41 @@ msgstr "log_file er NULL"
 msgid "can't open log file \"%s\""
 msgstr "klarte ikkje opna loggfila «%s»"
 
-#: src/lib/sys/sys-log.c:711
+#: src/lib/sys/sys-log.c:726
 msgid "Backtrace"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:891
+#: src/lib/sys/sys-log.c:906
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "Feil (feilnummer: %d:%s) "
 
-#: src/lib/sys/sys-log.c:896
+#: src/lib/sys/sys-log.c:911
 msgid "ERROR! "
 msgstr "Feil"
 
-#: src/lib/sys/sys-log.c:906
+#: src/lib/sys/sys-log.c:921
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "Åtvaring (feilnummer: %d:%s)"
 
-#: src/lib/sys/sys-log.c:911
+#: src/lib/sys/sys-log.c:926
 msgid "WARNING! "
 msgstr "Åtvaring"
 
-#: src/lib/sys/sys-log.c:928
+#: src/lib/sys/sys-log.c:943
 msgid "[tmp] "
 msgstr "[tmp] "
 
-#: src/lib/sys/sys-log.c:934
+#: src/lib/sys/sys-log.c:949
 msgid "[debug] "
 msgstr "[feilsøk] "
 
-#: src/lib/sys/sys-log.c:1018
+#: src/lib/sys/sys-log.c:1033
 msgid "CRITICAL! "
 msgstr "Kritisk"
 
-#: src/lib/sys/sys-log.c:1022
+#: src/lib/sys/sys-log.c:1037
 msgid "CRITICAL!"
 msgstr "Kritisk"
 

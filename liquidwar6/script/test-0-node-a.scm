@@ -207,7 +207,8 @@
 				  )			     
 			     (begin		     
 			       (set! timestamp (c-lw6sys-get-timestamp))
-			       (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8058/")
+			       (map (lambda(x) (if (equal? (assoc-ref x "url") "http://localhost:8058/")
+						   (if (and
 							(assoc-ref x "round")
 							(>= (assoc-ref x "round")
 							    (assoc-ref (c-lw6pil-suite-get-checkpoint 2) "round"))
@@ -217,7 +218,9 @@
 						     (c-lw6sys-idle)
 						     (c-lw6p2p-node-poll node)
 						     (set! stage 4)
-						     )))
+						     )
+						   (lw6-log-notice (format #f "waiting for entry \"~a\" to be at least at round ~a" x (c-lw6pil-suite-get-checkpoint 2))))
+						   ))
 				    entries)	 
 			       (c-lw6sys-idle)
 			       (c-lw6p2p-node-poll node)

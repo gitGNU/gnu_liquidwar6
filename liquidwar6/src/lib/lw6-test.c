@@ -496,18 +496,40 @@ lw6_test_register (int mode)
   suite = CU_add_suite ("lw6", _setup_init, _setup_quit);
   if (suite)
     {
-      //if (lw6sys_false ())
-      //        {
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_main);
-      //}
+      /*
+       * Switch between lw6sys_true / lw6sys_false to
+       * speed up test while debugging.
+       */
+      if (lw6sys_true ())
+	{
+	  LW6SYS_CUNIT_ADD_TEST (suite, _test_main);
+	}
       if (mode & LW6SYS_TEST_MODE_FULL_TEST)
 	{
 	  if (lw6sys_process_is_fully_supported ())
 	    {
-	      LW6SYS_CUNIT_ADD_TEST (suite, _test_node_abc);
-	      if (lw6sys_false ())
+	      /*
+	       * Switch between lw6sys_true / lw6sys_false to
+	       * speed up test while debugging.
+	       */
+	      if (lw6sys_true ())
+		{
+		  LW6SYS_CUNIT_ADD_TEST (suite, _test_node_abc);
+		}
+	      /*
+	       * Switch between lw6sys_true / lw6sys_false to
+	       * speed up test while debugging.
+	       */
+	      if (lw6sys_true ())
 		{
 		  LW6SYS_CUNIT_ADD_TEST (suite, _test_node_bca);
+		}
+	      /*
+	       * Switch between lw6sys_true / lw6sys_false to
+	       * speed up test while debugging.
+	       */
+	      if (lw6sys_true ())
+		{
 		  LW6SYS_CUNIT_ADD_TEST (suite, _test_node_cab);
 		}
 	    }
