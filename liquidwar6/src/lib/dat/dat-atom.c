@@ -164,6 +164,9 @@ _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
 			      (logical_from, &next, next))
 			    {
 			      (*cmd_str_offset) = next - full_str;
+			      lw6sys_log (LW6SYS_LOG_DEBUG,
+					  _x_ ("successfully parsed \"%s\""),
+					  full_str);
 			      ret = 1;
 			    }
 			  else

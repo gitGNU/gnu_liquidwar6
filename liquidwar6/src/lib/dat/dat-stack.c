@@ -1560,6 +1560,9 @@ _lw6dat_stack_meta_put (_lw6dat_stack_t * stack, int64_t seq,
   int n = 1;
 
   serial = _lw6dat_stack_get_serial (stack) + 1;
+  lw6sys_log (LW6SYS_LOG_DEBUG,
+	      _x_ ("meta_put seq=%" LW6SYS_PRINTF_LL "d serial=%d"),
+	      (long long) seq, serial);
   meta_msg = lw6msg_cmd_generate_meta (serial, i, n, seq, meta_array);
   if (meta_msg)
     {

@@ -1,3 +1,7 @@
+2013-10-31 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed net code, META messages were not stored in warehouse.
+
 2013-10-27 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Log file now displays backtrace on each line to ease up debug.

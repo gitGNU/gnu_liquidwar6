@@ -519,7 +519,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	      (node->warehouse, logical_from_id, message))
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _x_ ("put in warehouse message \"%s\" from \"%s\""),
+			  _x_
+			  ("put in warehouse DATA message \"%s\" from \"%s\""),
 			  message, cnx->remote_url);
 	    }
 	  else
@@ -531,7 +532,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	       */
 	      lw6sys_log (LW6SYS_LOG_INFO,
 			  _x_
-			  ("unable to put in dataware message \"%s\" from \"%s\""),
+			  ("unable to put in warehouse message \"%s\" from \"%s\""),
 			  message, cnx->remote_url);
 	    }
 	  LW6SYS_FREE (ker_message);
@@ -550,6 +551,33 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
       if (lw6msg_cmd_analyse_meta
 	  (&serial, &i, &n, &seq, &meta_array, message))
 	{
+	  /*
+	   * While META messages are not returned to the game logical
+	   * state handler, they still need to be passed to the
+	   * warehouse, at least to maintain message order consistency 
+	   * and to be able to re-send them if needed.
+	   */
+	  if (lw6dat_warehouse_put_atom_str
+	      (node->warehouse, logical_from_id, message))
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_
+			  ("put in warehouse META message \"%s\" from \"%s\""),
+			  message, cnx->remote_url);
+	    }
+	  else
+	    {
+	      /*
+	       * A common error is when message comes too early and node has
+	       * not been properly registered yet (order of messages is not
+	       * garanteed). So it's worth noting in the log for troubleshooting.
+	       */
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_
+			  ("unable to put in warehouse message \"%s\" from \"%s\""),
+			  message, cnx->remote_url);
+	    }
+
 	  for (index = 0; index < LW6MSG_NB_META_ARRAY_ITEMS; ++index)
 	    {
 	      if (meta_array.items[index].node_id)
