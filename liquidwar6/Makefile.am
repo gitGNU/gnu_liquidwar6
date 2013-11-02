@@ -28,7 +28,7 @@ all-local:
 	cd $(abs_srcdir)/src && ./stamp.sh auto
 
 clean-local:
-	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -f @PACKAGE_TARNAME@-*.tar.gz # wildcard because stamp is ever-increasing
 	rm -f confdefs.h # causes problems on Jenkins (still there...)
 
 distclean-local:

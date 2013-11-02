@@ -4239,18 +4239,35 @@ to fetch from us. The peer, in turn, might fire @code{MISS} messages, but withou
 this feature, peers could ``fall asleep'' and forget to pump messages, especially on
 non-reliable connections.
 @item
-@code{JOIN <seq> <serial>}: TODO
+@code{JOIN <seq> <serial>}: Used to join a game. In fact, having said @code{HELLO}
+and exchanged @code{FOO} and @code{BAR} messages does not mean one has joined the game
+for real. The reason for this is that those messages help establishing a stable
+communication channel, then one needs to come in with the right @code{seq} and @code{serial}.
+There are basically two cases. First case, @code{seq} can be zero, in that case it means
+we're trying to connect on an existing server, which will in turn send a @code{JOIN}
+message with a non-zero value, giving the current seq. Second case, @code{seq} is non-zero,
+in that case it means we're answering a connection request. In both cases,
+@code{serial} is a serial number other peers should use as a minimum limit, and never
+ask for messages with a @code{serial} lower than that.
 @item
 @code{GOODBYE}: symetric of @code{HELLO}, should be called on disconnection, however,
 the peers should handle the case when no @code{GOODBYE} message is sent, this is
 just about being polite. No command args.
 @end itemize
 
+It's implemented in @code{src/lib/msg/msg-cmd.c}.
+
 @subsection Regular MISS messages
+
+Todo...
 
 @subsection Regular META messages
 
+Todo...
+
 @subsection Regular DATA messages
+
+Todo...
 
 @subsection Other raw technical stuff (WIP)
 
