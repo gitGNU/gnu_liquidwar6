@@ -4145,7 +4145,7 @@ Example:
 LW6 0.1.3485 - ffffffff - 1001100110011001 2002200220022002 - - HELLO liquidwar6 0.1.3485 "Davy Crockett" 3485 1001100110011001 http://localhost:8057/ cGF0 RHVtbXkgdGVzdCBub2RlIEE= 0 10 0 5 372057f45b3d2ba5 10005 "Default map" 5 4 10 4 26 1 12 ""
 @end verbatim
 
-The fields, starting from @code{LW6} up to (and including) @code{<LOGICAL_TO_ID} are part of the envelope, described previously.
+The fields, starting from @code{LW6} up to (and including) @code{<LOGICAL_TO_ID>} are part of the envelope, described previously.
 
 The message fields are:
 @itemize
