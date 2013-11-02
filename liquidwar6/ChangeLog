@@ -1,3 +1,7 @@
+2013-11-02 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed DB locking bug.
+
 2013-10-31 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed net code, META messages were not stored in warehouse.

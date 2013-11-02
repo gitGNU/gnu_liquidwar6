@@ -150,10 +150,18 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 					      node_by_id_data.node_id);
 		  if (query)
 		    {
-		      ret =
-			_lw6p2p_db_exec (node->db, query,
-					 _select_node_by_id_callback,
-					 (void *) &node_by_id_data) && ret;
+		      if (_lw6p2p_db_lock (node->db))
+			{
+			  ret =
+			    _lw6p2p_db_exec (node->db, query,
+					     _select_node_by_id_callback,
+					     (void *) &node_by_id_data)
+			    && ret;
+			  _lw6p2p_db_unlock (node->db);
+			}
+		      LW6SYS_FREE (query);
+		      query = NULL;
+
 		      if (node_by_id_data.node_url && node_by_id_data.node_ip)
 			{
 			  /*
@@ -226,7 +234,6 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 					  consts.connect_registered_nodes_delay);
 			    }
 			}
-		      LW6SYS_FREE (query);
 		    }
 		}
 	    }
