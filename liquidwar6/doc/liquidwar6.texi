@@ -4023,6 +4023,19 @@ The complete syntax of OOB messages is:
 
 The @code{password} and @code{url} parameters are optionnal. @code{password} can contain either the plain text password or a checksum calculated from the password which is, for security reasons, seeded with the public url of the node we're connecting to, so that this password can't be re-used on another node. @code{url} is simply a clue we give to the other node to help find us, the other node will automatically try to detect our IP address and use standard LW6 port 8056, but if for some reason we use a different setting, this is a good way to pass the hint.
 
+Here are examples of valid messages:
+
+@verbatim
+LIST
+PING http://myhost.mydomain:1234/
+INFO secret http://myhost.mydomain:1234/
+LIST 12ab34cd
+@end verbatim
+
+If there's only one argument, the parser will first try and interpret it as a URL. If it's not
+parseable that way, it will consider it's a password. The password, in turn,
+may be specified as clear text or as a 32-bit checksum.
+
 As far as OOB is concerned, TCP and UDP work almost the same, HTTP is a bit different, the OOB commands are accessed through the following URLs:
 @itemize
 @item
@@ -4032,6 +4045,184 @@ As far as OOB is concerned, TCP and UDP work almost the same, HTTP is a bit diff
 @item
 @code{/list.txt} 
 @end itemize
+
+OOB messages are usually sent many times in redundant mode on the network,
+as there's no tracking of them, sending them through multiple channels
+ensures they make their way to the right place.
+
+The parser for these messages is located in @code{src/lib/msg/msg-oob.c}.
+
+@subsection Regular messages overview
+
+All messages that are non-OOB share a common syntax. This is called the ``envelope'' of messages.
+
+The general syntax is:
+
+@verbatim
+LW6 <VERSION> <PASSWORD_CHECKSUM> <PHYSICAL_TICKET_SIG> <LOGICAL_TICKET_SIG> <PHYSICAL_FROM_ID> <PHYSICAL_TO_ID> <LOGICAL_FROM_ID> <LOGICAL_TO_ID> <MSG>
+@end verbatim
+
+Here's an example:
+
+@verbatim
+LW6 0.1.3485 - 2d1dbed7 - 3003300330033003 2002200220022002 - - DATA 8 0 1 1000000035005 3003300330033003 SET 3001 11 1 1 0
+@end verbatim
+
+In this example, the messages carried is @code{DATA 8 0 1 1000000035005 3003300330033003 SET 3001 11 1 1 0}, the
+rest is part of the envelope protocol.
+
+Here's what those fields mean:
+@itemize
+@item
+LW6: should always be LW6, this is a marker to make sure we're speaking the right protocol.
+@item
+<VERSION>: the version of the program sending the message, the receiver of the message should check this version
+is compatible.
+@item
+<PASSWORD_CHECKSUM>: the password checksum, while a clear password should still be correctly interpreted,
+as for OOB messages, there's no reason to send the cleartext password, so the checksum is just fine.
+Note that the checksum is short, and vulnerable to brute-force attacks. If you want strong protection, 
+the general advice is to tunnel your connections through SSL or TLS, use a VPN, LW6 won't implement
+``fortress mode'', third party tools should do this much better. If undefined, should be replaced by the
+dash character @code{-}.
+@item
+<PHYSICAL_TICKET_SIG>: a signature done by the sender, which is unique for the combination message+from+to.
+This means two different messages will generate two differents signatures, but different senders and/or
+receivers will also change this, so it's not possible, unless one has the ``ticket'' to fake a message.
+This is clearly not bullet-proof, and more specifically, brute-force attacks and/or network listening
+could break the protocol and/or reveal the ticket, still, this is a good way to make sure that if
+something is inconsistent, someone is trying to cheat. As every node maintain its own game state,
+a cheater can ``only'' be a nuisance by sending wrong key presses, but in the long run it will
+be defeated by the fact that an attacker should intercept and modify all messages on all
+channels (tcp, udp, http ...) and make sure the official, real informations, 
+never makes its way to the right node. This is quite hard to achieve, very likely, an inconsistency
+will be detected, nodes concerned should be disconnected, period.
+When sending the first messages, ticket might not be exchanged yet, so there's no way to
+calculate this, during this period, @code{ffffffff} is sent, and checksum errors are ignored.
+@item
+<LOGICAL_TICKET_SIG>: another signature, but this one concerns the physical sender/receiver.
+If the physical sender is the logical sender, and the physical receiver is the logical receiver,
+that is, if physical and logical nodes are the same pair of nodes, then it need not be defined
+and can be replaced by the dash character @code{-}. In fact, in that case, the physical
+and logical signatures are obviously the same.
+However (not implemented yet) the protocol is designed so that nodes can act as messages
+forwarders, in that case they have no knowledge of the secret ticket to use, so this ticket
+is here to ensure message consistency for the final, real (logical) receiver of the message.
+@item
+<PHYSICAL_FROM_ID>: the id of the physical sender, the node that created the message.
+@item
+<PHYSICAL_TO_ID>: the id of the physical receiver, the node that should receive the message.
+@item
+<LOGICAL_FROM_ID>: the id of the logical sender, if it's the same than the physical sender, can be replaced
+ by the dash character @code{-}.
+@item
+<LOGICAL_TO_ID>: the id of the logical receiver, if it's the same than the physical receiver, can be replaced
+ by the dash character @code{-}.
+@item
+<MSG>: the message itself, it might in turn be separated by spaces, or whatever the message delimiter
+is. It should not be too long, as it must be sendable on the network by UDP, so it must fit within
+the MTU (about 1.4 kb) with all the protocol (envelope) stuff before it. In practice, it's cut into 1.2 kb parts
+by @code{libdat}, the constant @code{_LW6DAT_ATOM_MAX_SIZE} is used to split big messages in smaller parts.
+@end itemize
+
+It's implemented in @code{src/lib/msg/msg-envelope.c}.
+
+@subsection Regular control messages
+
+To establish a connection, maintain it, and do the OOB job, a set of
+control message is used. Those messages carry a bunch of informations
+about who is sending them, in fact, they just contain the informations
+that would otherwise be handled by out-of-band messages, but it's convenient
+to have the information first-hand rather than relying on the other protocol.
+
+The syntax is:
+@verbatim
+LW6 <VERSION> <PASSWORD_CHECKSUM> <PHYSICAL_TICKET_SIG> <LOGICAL_TICKET_SIG> <PHYSICAL_FROM_ID> <PHYSICAL_TO_ID> <LOGICAL_FROM_ID> <LOGICAL_TO_ID> <COMMAND> <PROGRAM> <VERSION> <CODENAME> <STAMP> <ID> <URL> <TITLE> <DESCRIPTION> <HAS_PASSWORD> <BENCH> <OPEN_RELAY> <UPTIME> <COMMUNITY_ID> <ROUND> <LEVEL> <REQUIRED_BENCH> <NB_COLORS> <MAX_NB_COLORS> <NB_CURSORS> <MAX_NB_CURSORS> <NB_NODES> <MAX_NB_NODES> <PEER_LIST>
+@end verbatim
+
+Example:
+@verbatim
+LW6 0.1.3485 - ffffffff - 1001100110011001 2002200220022002 - - HELLO liquidwar6 0.1.3485 "Davy Crockett" 3485 1001100110011001 http://localhost:8057/ cGF0 RHVtbXkgdGVzdCBub2RlIEE= 0 10 0 5 372057f45b3d2ba5 10005 "Default map" 5 4 10 4 26 1 12 ""
+@end verbatim
+
+The fields, starting from @code{LW6} up to (and including) @code{<LOGICAL_TO_ID} are part of the envelope, described previously.
+
+The message fields are:
+@itemize
+@item
+<COMMAMD>: described below, the main command,
+@item
+<PROGRAM>: should be @code{liquidwar6}
+@item
+<VERSION>: the version of the program. Yes, this is also in the envelope, but one could think
+of instances relaying informations for other peers, in that case this could prove useful.
+@item
+<CODENAME>: the code name of the program.
+@item
+<STAMP>: the stamp, it's normally contained within the version, but this avoids parsing issues.
+@item
+<ID>: the node id (could be inferred from envelope, but repeated here).
+@item
+<URL>: the node url (could be inferred from envelope, but repeated here).
+@item
+<TITLE>: the readable title of the node, base64 encrypted.
+@item
+<DESCRIPTION>: the readable description of the node, base64 encrypted.
+@item
+<HAS_PASSWORD>: wether it's protected by a password or not, 0 if not, 1 if protected.
+@item
+<BENCH>: the bench of the node, giving its CPU strength in an arbitrary unit.
+@item
+<OPEN_RELAY>: wether the node act as an open relay, 0 if not, 1 if in relaying.
+@item
+<UPTIME>: node uptime, in seconds.
+@item
+<COMMUNITY_ID>: the community id, a unique id shared by all nodes connected to a game session.
+@item
+<ROUND>: the current round id.
+@item
+<REQUIRED_BENCH>: the minimum bench required to connect to this node (used to avoid slow nodes connecting
+to way-too-fast games).
+@item
+<NB_COLORS>: number of colors playing.
+@item
+<MAX_NB_COLORS>: maximum number of colors allowed on this node.
+@item
+<NB_CURSORS>: number of cursors playing.
+@item
+<MAX_NB_CURSORS>: maximum number of cursors allowed on this node.
+@item
+<NB_NODES>: number of nodes connected.
+@item
+<MAX_NB_NODES>: maximum number of nodes allowed on this node.
+@item
+<PEER_LIST>: list of peers connected to this node.
+@end itemize
+
+Here are the different possibilities for the @code{<COMMAND>} field.
+
+@itemize
+@item
+HELLO is used when connecting, this should be the first message sent. In itself, the message
+means pretty much noting, it just says ``I'm here'' which could be infered from any other 
+message.
+@item
+TICKET
+@item
+FOO
+@item
+BAR
+@item
+JOIN
+@item
+GOODBYE
+@end itemize
+
+@subsection Regular MISS messages
+
+@subsection Regular META messages
+
+@subsection Regular DATA messages
 
 @subsection Other raw technical stuff (WIP)
 
