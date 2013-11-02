@@ -4074,19 +4074,19 @@ rest is part of the envelope protocol.
 Here's what those fields mean:
 @itemize
 @item
-LW6: should always be LW6, this is a marker to make sure we're speaking the right protocol.
+@code{LW6}: should always be LW6, this is a marker to make sure we're speaking the right protocol.
 @item
-<VERSION>: the version of the program sending the message, the receiver of the message should check this version
+@code{<VERSION>}: the version of the program sending the message, the receiver of the message should check this version
 is compatible.
 @item
-<PASSWORD_CHECKSUM>: the password checksum, while a clear password should still be correctly interpreted,
+@code{<PASSWORD_CHECKSUM>}: the password checksum, while a clear password should still be correctly interpreted,
 as for OOB messages, there's no reason to send the cleartext password, so the checksum is just fine.
 Note that the checksum is short, and vulnerable to brute-force attacks. If you want strong protection, 
 the general advice is to tunnel your connections through SSL or TLS, use a VPN, LW6 won't implement
 ``fortress mode'', third party tools should do this much better. If undefined, should be replaced by the
 dash character @code{-}.
 @item
-<PHYSICAL_TICKET_SIG>: a signature done by the sender, which is unique for the combination message+from+to.
+@code{<PHYSICAL_TICKET_SIG>}: a signature done by the sender, which is unique for the combination message+from+to.
 This means two different messages will generate two differents signatures, but different senders and/or
 receivers will also change this, so it's not possible, unless one has the ``ticket'' to fake a message.
 This is clearly not bullet-proof, and more specifically, brute-force attacks and/or network listening
@@ -4100,7 +4100,7 @@ will be detected, nodes concerned should be disconnected, period.
 When sending the first messages, ticket might not be exchanged yet, so there's no way to
 calculate this, during this period, @code{ffffffff} is sent, and checksum errors are ignored.
 @item
-<LOGICAL_TICKET_SIG>: another signature, but this one concerns the physical sender/receiver.
+@code{<LOGICAL_TICKET_SIG>}: another signature, but this one concerns the physical sender/receiver.
 If the physical sender is the logical sender, and the physical receiver is the logical receiver,
 that is, if physical and logical nodes are the same pair of nodes, then it need not be defined
 and can be replaced by the dash character @code{-}. In fact, in that case, the physical
@@ -4109,17 +4109,17 @@ However (not implemented yet) the protocol is designed so that nodes can act as 
 forwarders, in that case they have no knowledge of the secret ticket to use, so this ticket
 is here to ensure message consistency for the final, real (logical) receiver of the message.
 @item
-<PHYSICAL_FROM_ID>: the id of the physical sender, the node that created the message.
+@code{<PHYSICAL_FROM_ID>}: the id of the physical sender, the node that created the message.
 @item
-<PHYSICAL_TO_ID>: the id of the physical receiver, the node that should receive the message.
+@code{<PHYSICAL_TO_ID>}: the id of the physical receiver, the node that should receive the message.
 @item
-<LOGICAL_FROM_ID>: the id of the logical sender, if it's the same than the physical sender, can be replaced
+@code{<LOGICAL_FROM_ID>}: the id of the logical sender, if it's the same than the physical sender, can be replaced
  by the dash character @code{-}.
 @item
-<LOGICAL_TO_ID>: the id of the logical receiver, if it's the same than the physical receiver, can be replaced
+@code{<LOGICAL_TO_ID>}: the id of the logical receiver, if it's the same than the physical receiver, can be replaced
  by the dash character @code{-}.
 @item
-<MSG>: the message itself, it might in turn be separated by spaces, or whatever the message delimiter
+@code{<MSG>}: the message itself, it might in turn be separated by spaces, or whatever the message delimiter
 is. It should not be too long, as it must be sendable on the network by UDP, so it must fit within
 the MTU (about 1.4 kb) with all the protocol (envelope) stuff before it. In practice, it's cut into 1.2 kb parts
 by @code{libdat}, the constant @code{_LW6DAT_ATOM_MAX_SIZE} is used to split big messages in smaller parts.
@@ -4137,7 +4137,7 @@ to have the information first-hand rather than relying on the other protocol.
 
 The syntax is:
 @verbatim
-LW6 <VERSION> <PASSWORD_CHECKSUM> <PHYSICAL_TICKET_SIG> <LOGICAL_TICKET_SIG> <PHYSICAL_FROM_ID> <PHYSICAL_TO_ID> <LOGICAL_FROM_ID> <LOGICAL_TO_ID> <COMMAND> <PROGRAM> <VERSION> <CODENAME> <STAMP> <ID> <URL> <TITLE> <DESCRIPTION> <HAS_PASSWORD> <BENCH> <OPEN_RELAY> <UPTIME> <COMMUNITY_ID> <ROUND> <LEVEL> <REQUIRED_BENCH> <NB_COLORS> <MAX_NB_COLORS> <NB_CURSORS> <MAX_NB_CURSORS> <NB_NODES> <MAX_NB_NODES> <PEER_LIST>
+LW6 <VERSION> <PASSWORD_CHECKSUM> <PHYSICAL_TICKET_SIG> <LOGICAL_TICKET_SIG> <PHYSICAL_FROM_ID> <PHYSICAL_TO_ID> <LOGICAL_FROM_ID> <LOGICAL_TO_ID> <COMMAND> <PROGRAM> <VERSION> <CODENAME> <STAMP> <ID> <URL> <TITLE> <DESCRIPTION> <HAS_PASSWORD> <BENCH> <OPEN_RELAY> <UPTIME> <COMMUNITY_ID> <ROUND> <LEVEL> <REQUIRED_BENCH> <NB_COLORS> <MAX_NB_COLORS> <NB_CURSORS> <MAX_NB_CURSORS> <NB_NODES> <MAX_NB_NODES> <PEER_LIST> <COMMAND_ARGS>
 @end verbatim
 
 Example:
@@ -4150,72 +4150,100 @@ The fields, starting from @code{LW6} up to (and including) @code{<LOGICAL_TO_ID}
 The message fields are:
 @itemize
 @item
-<COMMAMD>: described below, the main command,
+@code{<COMMAMD>}: described below, the main command,
 @item
-<PROGRAM>: should be @code{liquidwar6}
+@code{<PROGRAM>}: should be @code{liquidwar6}
 @item
-<VERSION>: the version of the program. Yes, this is also in the envelope, but one could think
+@code{<VERSION>}: the version of the program. Yes, this is also in the envelope, but one could think
 of instances relaying informations for other peers, in that case this could prove useful.
 @item
-<CODENAME>: the code name of the program.
+@code{<CODENAME>}: the code name of the program.
 @item
-<STAMP>: the stamp, it's normally contained within the version, but this avoids parsing issues.
+@code{<STAMP>}: the stamp, it's normally contained within the version, but this avoids parsing issues.
 @item
-<ID>: the node id (could be inferred from envelope, but repeated here).
+@code{<ID>}: the node id (could be inferred from envelope, but repeated here).
 @item
-<URL>: the node url (could be inferred from envelope, but repeated here).
+@code{<URL>}: the node url (could be inferred from envelope, but repeated here).
 @item
-<TITLE>: the readable title of the node, base64 encrypted.
+@code{<TITLE>}: the readable title of the node, base64 encrypted.
 @item
-<DESCRIPTION>: the readable description of the node, base64 encrypted.
+@code{<DESCRIPTION>}: the readable description of the node, base64 encrypted.
 @item
-<HAS_PASSWORD>: wether it's protected by a password or not, 0 if not, 1 if protected.
+@code{<HAS_PASSWORD>}: wether it's protected by a password or not, 0 if not, 1 if protected.
 @item
-<BENCH>: the bench of the node, giving its CPU strength in an arbitrary unit.
+@code{<BENCH>}: the bench of the node, giving its CPU strength in an arbitrary unit.
 @item
-<OPEN_RELAY>: wether the node act as an open relay, 0 if not, 1 if in relaying.
+@code{<OPEN_RELAY>}: wether the node act as an open relay, 0 if not, 1 if in relaying.
 @item
-<UPTIME>: node uptime, in seconds.
+@code{<UPTIME>}: node uptime, in seconds.
 @item
-<COMMUNITY_ID>: the community id, a unique id shared by all nodes connected to a game session.
+@code{<COMMUNITY_ID>}: the community id, a unique id shared by all nodes connected to a game session.
 @item
-<ROUND>: the current round id.
+@code{<ROUND>}: the current round id.
 @item
-<REQUIRED_BENCH>: the minimum bench required to connect to this node (used to avoid slow nodes connecting
+@code{<REQUIRED_BENCH>}: the minimum bench required to connect to this node (used to avoid slow nodes connecting
 to way-too-fast games).
 @item
-<NB_COLORS>: number of colors playing.
+@code{<NB_COLORS>}: number of colors playing.
 @item
-<MAX_NB_COLORS>: maximum number of colors allowed on this node.
+@code{<MAX_NB_COLORS>}: maximum number of colors allowed on this node.
 @item
-<NB_CURSORS>: number of cursors playing.
+@code{<NB_CURSORS>}: number of cursors playing.
 @item
-<MAX_NB_CURSORS>: maximum number of cursors allowed on this node.
+@code{<MAX_NB_CURSORS>}: maximum number of cursors allowed on this node.
 @item
-<NB_NODES>: number of nodes connected.
+@code{<NB_NODES>}: number of nodes connected.
 @item
-<MAX_NB_NODES>: maximum number of nodes allowed on this node.
+@code{<MAX_NB_NODES>}: maximum number of nodes allowed on this node.
 @item
-<PEER_LIST>: list of peers connected to this node.
+@code{<PEER_LIST>}: list of peers connected to this node.
+@item
+@code{<COMMAND_ARGS>}: command-specific arguments
 @end itemize
 
 Here are the different possibilities for the @code{<COMMAND>} field.
 
 @itemize
 @item
-HELLO is used when connecting, this should be the first message sent. In itself, the message
+@code{HELLO}: is used when connecting, this should be the first message sent. In itself, the message
 means pretty much noting, it just says ``I'm here'' which could be infered from any other 
-message.
+message. No command args.
 @item
-TICKET
+@code{TICKET <ticket>}: is used to inform the caller of the ticket we use. The ticket sent from A to B is
+ised by B to sign messages for A. A node typically sents a different ticket to all its peers
+so when sending the same message to A and C, B will typically use two different tickets,
+thus generating two different signatures, and if sending the exact same string to C, A 
+generate yet another signature as it will have sent another ticket. There's one optional
+argument, which is the ticket itself, a 64-bit hexa integer.
 @item
-FOO
+@code{FOO <key> <serial>}: is sent on a regular basis, it's really the replacement of the OOB 
+@code{PING} message, 
+it will update the peer status and maintain consistent informations.
+It has two arguments, the first one is @code{key}, a 32-bit hexa integer, which will,
+upon @code{BAR} message reception, used to figure out ``OK, this is the @code{BAR}
+message associated to this @code{FOO} message I sent before''.
+The second one, @code{serial}, is used to inform the peer that, possibly, there are new messages
+to fetch from us. The peer, in turn, might fire @code{MISS} messages, but without
+this feature, peers could ``fall asleep'' and forget to pump messages, especially on
+non-reliable connections.
 @item
-BAR
+@code{BAR <key> <serial>}: is the response to @code{FOO} which is received on a regular basis, 
+it's really the replacement of the OOB @code{PONG} message, 
+it will update the peer status and maintain consistent informations.
+It has two arguments, the first one is @code{key}, a 32-bit hexa integer, which will,
+upon reception, ne matched against a corresponding @code{FOO} messaged,
+used to figure out ``OK, this is the @code{BAR}
+message associated to this @code{FOO} message I sent before''.
+The second one, @code{serial}, is used to inform the peer that, possibly, there are new messages
+to fetch from us. The peer, in turn, might fire @code{MISS} messages, but without
+this feature, peers could ``fall asleep'' and forget to pump messages, especially on
+non-reliable connections.
 @item
-JOIN
+@code{JOIN <seq> <serial>}: TODO
 @item
-GOODBYE
+@code{GOODBYE}: symetric of @code{HELLO}, should be called on disconnection, however,
+the peers should handle the case when no @code{GOODBYE} message is sent, this is
+just about being polite. No command args.
 @end itemize
 
 @subsection Regular MISS messages
