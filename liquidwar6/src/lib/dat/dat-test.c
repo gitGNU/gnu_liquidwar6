@@ -823,7 +823,7 @@ _test_warehouse ()
     lw6dat_warehouse_t *warehouse;
     lw6dat_warehouse_t *warehouse2;
     int overflow = 0;
-    int i;
+    int i = 0;
     char *cmd = NULL;
     char *id_str = NULL;
     char *msg = NULL;
