@@ -77,7 +77,7 @@
 	    (c-lw6p2p-node-poll node)
 	    (c-lw6pil-commit pilot)
 	    (c-lw6p2p-node-server-start node seq-0)
-	    (while (and (< timestamp time-limit) (< stage 6))
+	    (while (and (< timestamp time-limit) (< stage 7))
 		   (begin
 		     (set! timestamp (c-lw6sys-get-timestamp))
 		     (c-lw6sys-idle)
@@ -213,13 +213,17 @@
 							(>= (assoc-ref x "round")
 							    (assoc-ref (c-lw6pil-suite-get-checkpoint 2) "round"))
 							)
-						   (begin
-						     (lw6-log-notice (format #f "checked entry \"~a\"" x))
-						     (c-lw6sys-idle)
-						     (c-lw6p2p-node-poll node)
-						     (set! stage 4)
-						     )
-						   (lw6-log-notice (format #f "waiting for entry \"~a\" to be at least at round ~a" x (c-lw6pil-suite-get-checkpoint 2))))
+						       (begin
+							 (lw6-log-notice (format #f "checked entry \"~a\"" x))
+							 (c-lw6sys-idle)
+							 (c-lw6p2p-node-poll node)
+							 (set! stage 4)
+							 )
+						       (begin
+							 (lw6-log-notice (format #f "waiting for entry \"~a\" to be at least at round ~a" x (c-lw6pil-suite-get-checkpoint 2)))
+							 (c-lw6sys-snooze)
+							 )
+						       )
 						   ))
 				    entries)	 
 			       (c-lw6sys-idle)
@@ -258,6 +262,32 @@
 			     (lw6-log-notice "done with test, ready to quit")
 			     (set! stage 6)
 			     )
+			   )
+		       )
+		      (
+		       (= stage 6)
+		       (if (and
+			    (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 0))
+			    (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 1))
+			    (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 2))
+			    ;; We filter node that are really too old (unknown ones?) but if they
+			    ;; are recent enough, check they have reached checkpoint 4, but
+			    ;; do not fail if they do not match, the idea is just to wait until
+			    ;; everyone is done.
+			    (and . (map (lambda(x) (or (not (assoc-ref x "round"))
+						       (and
+							(assoc-ref x "round")
+							(< (assoc-ref x "round")
+							    (assoc-ref (c-lw6pil-suite-get-checkpoint 2) "round")))
+						       (and
+							(assoc-ref x "round")
+							(>= (assoc-ref x "round")
+							    (assoc-ref (c-lw6pil-suite-get-checkpoint 4) "round")))
+						       ))
+					(c-lw6p2p-node-get-entries node)
+					))
+			    )
+			   (set! stage 7)
 			   )
 		       )
 		      )))

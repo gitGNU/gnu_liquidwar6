@@ -309,7 +309,7 @@ int64_t
 _lw6dat_warehouse_get_local_seq_0 (_lw6dat_warehouse_t * warehouse)
 {
   return warehouse->
-    stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0[_LW6DAT_LOCAL_NODE_INDEX];
+    stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0s[_LW6DAT_LOCAL_NODE_INDEX];
 }
 
 /**
@@ -337,7 +337,7 @@ _lw6dat_warehouse_set_local_seq_0 (_lw6dat_warehouse_t * warehouse,
   warehouse->local_seq_last = lw6sys_llmax (seq_0, warehouse->local_seq_last);
   for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
     {
-      warehouse->stacks[stack_index].seq_0[_LW6DAT_LOCAL_NODE_INDEX] = seq_0;
+      warehouse->stacks[stack_index].seq_0s[_LW6DAT_LOCAL_NODE_INDEX] = seq_0;
     }
 }
 
@@ -415,10 +415,15 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 	    }
 	}
     }
-  else
+  else if (ret >= 0 && ret < LW6DAT_MAX_NB_STACKS)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("registering already registered node"));
+      _lw6dat_stack_rebase (&(warehouse->stacks[ret]), serial_0, seq_0);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad stack index %d"), ret);
     }
 
   if (ret >= 0 && ret < LW6DAT_MAX_NB_STACKS)
@@ -440,15 +445,15 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 	   * Tell all stacks that for this node, it's useless to consider
 	   * messages that have a seq that is older than seq_0
 	   */
-	  warehouse->stacks[stack_index].seq_0[ret] =
-	    lw6sys_llmax (warehouse->stacks[stack_index].seq_0[ret], seq_0);
+	  warehouse->stacks[stack_index].seq_0s[ret] =
+	    lw6sys_llmax (warehouse->stacks[stack_index].seq_0s[ret], seq_0);
 	  /*
 	   * Tell this stack about all other nodes limits, this is done
 	   * by copying informations from local stack.
 	   */
-	  warehouse->stacks[ret].seq_0[stack_index] =
-	    lw6sys_llmax (warehouse->stacks[ret].seq_0[stack_index],
-			  warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0
+	  warehouse->stacks[ret].seq_0s[stack_index] =
+	    lw6sys_llmax (warehouse->stacks[ret].seq_0s[stack_index],
+			  warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0s
 			  [stack_index]);
 	  /*
 	   * Not sure how the line below is totally required, might
@@ -892,7 +897,7 @@ _lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t * warehouse)
 	       * we do know about its seq_0.
 	       */
 	      seq_reference =
-		warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0[i] - 1LL;
+		warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0s[i] - 1LL;
 	    }
 	  ret = lw6sys_llmin (ret, seq_reference);
 	}
@@ -1402,16 +1407,16 @@ _lw6dat_warehouse_meta_get (_lw6dat_warehouse_t * warehouse,
     {
       if (warehouse->stacks[i].node_id)
 	{
-	  if (warehouse->stacks[i].seq_0[i] >= _LW6DAT_SEQ_START)
+	  if (warehouse->stacks[i].seq_0s[i] >= _LW6DAT_SEQ_START)
 	    {
 	      if (lowest_seq == _LW6DAT_SEQ_INVALID)
 		{
-		  lowest_seq = warehouse->stacks[i].seq_0[i];
+		  lowest_seq = warehouse->stacks[i].seq_0s[i];
 		}
 	      else
 		{
 		  lowest_seq =
-		    lw6sys_llmin (lowest_seq, warehouse->stacks[i].seq_0[i]);
+		    lw6sys_llmin (lowest_seq, warehouse->stacks[i].seq_0s[i]);
 		}
 	    }
 	}

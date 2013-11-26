@@ -137,7 +137,7 @@
 		      ;; it could cause problems if all nodes can't communicate
 		      (c-lw6p2p-node-put-local-msg node (lw6-test-nop node))
 		      ;; Now, loop for the rest of the test
-		      (while (and (< timestamp time-limit) (< stage 6))
+		      (while (and (< timestamp time-limit) (< stage 7))
 			     (begin
 			       (set! timestamp (c-lw6sys-get-timestamp))
 			       (c-lw6sys-idle)
@@ -269,8 +269,8 @@
 				(
 				 (= stage 5)
 				 (if (and pilot
-					  (>= (c-lw6pil-get-reference-current-seq pilot))
-					  (assoc-ref (c-lw6pil-suite-get-checkpoint 4) "seq"))
+					  (>= (c-lw6pil-get-reference-current-seq pilot)
+					      (assoc-ref (c-lw6pil-suite-get-checkpoint 4) "seq")))
 				     (begin
 				       (set! checkpoint-4-ok (lw6-test-verify-checksum game-state pilot 4))
 				       ;; Will now end the test, we're done, it might be right
@@ -278,6 +278,32 @@
 				       (lw6-log-notice "done with test, ready to quit")
 				       (set! stage 6)
 				       )
+				     )
+				 )
+				(
+				 (= stage 6)
+				 (if (and
+				      (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 0))
+				      (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 1))
+				      (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 2))
+				      ;; We filter node that are really too old (unknown ones?) but if they
+				      ;; are recent enough, check they have reached checkpoint 4, but
+				      ;; do not fail if they do not match, the idea is just to wait until
+				      ;; everyone is done.
+				      (and . (map (lambda(x) (or (not (assoc-ref x "round"))
+								 (and
+								  (assoc-ref x "round")
+								  (<= (assoc-ref x "round")
+								      (assoc-ref (c-lw6pil-suite-get-checkpoint 2) "round")))
+								 (and
+								  (assoc-ref x "round")
+								  (>= (assoc-ref x "round")
+								      (assoc-ref (c-lw6pil-suite-get-checkpoint 4) "round")))
+								 ))
+						  (c-lw6p2p-node-get-entries node)
+						  ))
+				      )
+				     (set! stage 7)
 				     )
 				 )
 				)

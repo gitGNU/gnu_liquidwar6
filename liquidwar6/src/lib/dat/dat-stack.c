@@ -62,8 +62,9 @@ _prepare (_lw6dat_stack_t * stack)
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
     {
       stack->serial_min_to_send[i] = stack->serial_0;
-      stack->seq_0[i] = _LW6DAT_SEQ_INVALID;
+      stack->seq_0s[i] = _LW6DAT_SEQ_INVALID;
     }
+  stack->seq_0 = _LW6DAT_SEQ_INVALID;
   for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
     {
       if (stack->blocks[i])
@@ -134,8 +135,9 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0,
       for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS && ret < 0;
 	   ++stack_index)
 	{
-	  stack->seq_0[stack_index] = seq_0;
+	  stack->seq_0s[stack_index] = seq_0;
 	}
+      stack->seq_0 = seq_0;
       _prepare (stack);
       if (stack->node_id_str != NULL)
 	{
@@ -187,7 +189,7 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack, int type,
   _lw6dat_block_t *block = NULL;
   int i, j, delta;
 
-  if (seq >= stack->seq_0[_LW6DAT_LOCAL_NODE_INDEX])
+  if (seq >= stack->seq_0s[_LW6DAT_LOCAL_NODE_INDEX])
     {
       block_index = _lw6dat_stack_get_block_index (stack, serial);
 
@@ -387,7 +389,7 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack, int type,
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("atom is too old seq=%" LW6SYS_PRINTF_LL "d seq_0=%"
 		       LW6SYS_PRINTF_LL "d"), (long long) seq,
-		  (long long) stack->seq_0[_LW6DAT_LOCAL_NODE_INDEX]);
+		  (long long) stack->seq_0s[_LW6DAT_LOCAL_NODE_INDEX]);
     }
 
   return ret;
@@ -610,6 +612,136 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, int64_t * local_seq_last,
        * keepalive's sake.
        */
       (*local_seq_last) = seq;
+    }
+
+  return ret;
+}
+
+int
+_lw6dat_stack_rebase (_lw6dat_stack_t * stack, int new_serial_0,
+		      int64_t new_seq_0)
+{
+  int ret = 0;
+  int delta_serial = 0;
+  int64_t delta_seq = 0LL;
+  _lw6dat_stack_t *rebased_stack = NULL;
+  _lw6dat_atom_t *tmp_atom = NULL;
+  int i = 0;
+  int get_put_ok = 1;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG,
+	      _x_ ("rebase stack serial_0=%d seq_0=%" LW6SYS_PRINTF_LL
+		   "d with new_serial_0=%d and new_seq_0=%" LW6SYS_PRINTF_LL
+		   "d"), stack->serial_0, (long long) stack->seq_0,
+	      new_serial_0, (long long) new_seq_0);
+
+  delta_serial = new_serial_0 - stack->serial_0;
+  delta_seq = new_seq_0 - stack->seq_0;
+
+  if (delta_serial == 0 && delta_seq == 0)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("rebase stack, nothing to do"));
+      ret = 1;
+    }
+  else if (delta_serial >= 0 && delta_seq >= 0)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("rebase stack delta_serial=%d delta_seq=%"
+		       LW6SYS_PRINTF_LL "d"), delta_serial,
+		  (long long) delta_seq);
+      /*
+       * Now rebasing a stack is fundamentally very long, but it should not
+       * happen often, only at game creation/join and moreover, it should happen
+       * on almost empty stacks.
+       */
+      rebased_stack =
+	(_lw6dat_stack_t *) LW6SYS_CALLOC (sizeof (_lw6dat_stack_t));
+      if (rebased_stack)
+	{
+	  if (_lw6dat_stack_init
+	      (rebased_stack, stack->node_id, new_serial_0, new_seq_0))
+	    {
+	      for (i = stack->serial_0; i <= stack->serial_max; ++i)
+		{
+		  if ((tmp_atom = _lw6dat_stack_get_atom (stack, i)) != NULL)
+		    {
+		      get_put_ok = get_put_ok
+			&& _lw6dat_stack_put_atom (rebased_stack,
+						   tmp_atom->type,
+						   tmp_atom->serial,
+						   tmp_atom->order_i,
+						   tmp_atom->order_n,
+						   tmp_atom->seq,
+						   _lw6dat_atom_get_full_str
+						   (tmp_atom),
+						   tmp_atom->seq_from_cmd_str_offset,
+						   tmp_atom->cmd_str_offset,
+						   tmp_atom->send_flag);
+		    }
+		}
+	      if (get_put_ok)
+		{
+		  tmp_atom =
+		    _lw6dat_stack_get_atom (rebased_stack, new_serial_0);
+		  if (!tmp_atom)
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_ ("after stack rebase of node_id %"
+				       LW6SYS_PRINTF_LL
+				       "x unable to get atom for serial %d (which should be serial_0), while this is not formally an error, it's strange"),
+				  (long long) stack->node_id, new_serial_0);
+		      ret = 1;
+		    }
+		  else if (tmp_atom->seq != new_seq_0)
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _x_
+				  ("inconsistent stack rebase for node_id %"
+				   LW6SYS_PRINTF_LL "x tmp_atom->seq=%"
+				   LW6SYS_PRINTF_LL "d stack->seq_0=%"
+				   LW6SYS_PRINTF_LL "d for serial %d"),
+				  (long long) stack->node_id,
+				  (long long) tmp_atom->seq,
+				  (long long) stack->seq_0, new_serial_0);
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_ ("rebased stack for node_id %"
+				       LW6SYS_PRINTF_LL "x serial_0=%d"),
+				  (long long) stack->node_id, new_serial_0);
+		      _lw6dat_stack_clear (stack);
+		      memcpy (stack, rebased_stack, sizeof (_lw6dat_stack_t));
+		      LW6SYS_FREE (rebased_stack);
+		      rebased_stack = NULL;
+		      ret = 1;
+		    }
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("error rebasing stack for node_id %"
+				   LW6SYS_PRINTF_LL
+				   "x , get/put problem, i=%d"),
+			      (long long) stack->node_id, i);
+		}
+	    }
+	  if (rebased_stack)
+	    {
+	      _lw6dat_stack_clear (rebased_stack);
+	      LW6SYS_FREE (rebased_stack);
+	      rebased_stack = NULL;
+	    }
+	}
+      // todo ret=1
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
+		  ("rebase stack with negative delta delta_serial=%d delta_seq=%"
+		   LW6SYS_PRINTF_LL "d"), delta_serial,
+		  (long long) delta_seq);
     }
 
   return ret;
@@ -1349,7 +1481,7 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 	{
 	  if ((atom->send_flag & send_mask)
 	      && (!(atom->sent_status & send_mask))
-	      && (atom->seq >= stack->seq_0[target_index]))
+	      && (atom->seq >= stack->seq_0s[target_index]))
 	    {
 	      atom_str = _lw6dat_atom_get_full_str (atom);
 	      if (atom_str)

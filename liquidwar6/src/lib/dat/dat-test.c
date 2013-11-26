@@ -72,6 +72,8 @@
 #define _TEST_STACK_MSG_GET_SEQ 10000000000011LL
 #define _TEST_STACK_MSG_GET_NB 3
 #define _TEST_STACK_MISS_MAX_RANGE 100
+#define _TEST_STACK_REBASE_SERIAL_DELTA 3
+#define _TEST_STACK_REBASE_SEQ_DELTA 10000000LL
 
 #define _TEST_WAREHOUSE_LOCAL_NODE_ID 0x1234123412341234LL
 #define _TEST_WAREHOUSE_OTHER_NODE_ID 0x2345234523452345LL
@@ -459,6 +461,8 @@ _test_stack ()
     lw6dat_miss_t *miss = NULL;
     int worst_msg_i = 0;
     int worst_msg_n = 0;
+    _lw6dat_atom_t *tmp_atom = NULL;
+    int64_t new_seq_0 = 0LL;
 
     _lw6dat_stack_zero (&stack);
     _lw6dat_stack_init (&stack, _TEST_STACK_NODE_ID, _TEST_STACK_SERIAL_0,
@@ -782,6 +786,79 @@ _test_stack ()
 	    LW6SYS_FREE (msg4);
 	  }
 	LW6SYS_FREE (msg4_random_part);
+      }
+
+    if (_lw6dat_stack_rebase (&stack, stack.serial_0, stack.seq_0))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("rebased stack with same values OK"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("rebased stack with same values failed"));
+	ret = 0;
+      }
+
+    if (!_lw6dat_stack_rebase
+	(&stack, stack.serial_0 - _TEST_STACK_REBASE_SERIAL_DELTA,
+	 stack.seq_0 - _TEST_STACK_REBASE_SEQ_DELTA))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("rebased stack with inconsistent values did not work, this is fine"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("rebased stack with inconsistent values worked, it should have raised an error"));
+	ret = 0;
+      }
+
+    if (!_lw6dat_stack_rebase
+	(&stack, stack.serial_0 + _TEST_STACK_REBASE_SERIAL_DELTA,
+	 stack.seq_0 + _TEST_STACK_REBASE_SEQ_DELTA))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("rebased stack with inconsitent values did not work, this is fine"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("rebased stack with inconsistent values worked, it should have raised an error"));
+	ret = 0;
+      }
+
+    tmp_atom =
+      _lw6dat_stack_get_atom (&stack,
+			      stack.serial_0 +
+			      _TEST_STACK_REBASE_SERIAL_DELTA);
+    if (tmp_atom)
+      {
+	new_seq_0 = tmp_atom->seq;
+	if (_lw6dat_stack_rebase
+	    (&stack, stack.serial_0 + _TEST_STACK_REBASE_SERIAL_DELTA,
+	     new_seq_0))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("rebased stack with real world delta OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("rebased stack with real world delta failed"));
+	    ret = 0;
+	  }
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("unable to get atom for serial %d"),
+		    stack.serial_0 + _TEST_STACK_REBASE_SERIAL_DELTA);
+	ret = 0;
       }
 
     _lw6dat_stack_clear (&stack);
