@@ -79,6 +79,8 @@
 	       (next-update-info 0)
 	       (seed-sent #f)
 	       (dump-sent #f)
+	       (checkpoint-2-ok #f)
+	       (checkpoint-4-ok #f)
 	       )
 	  (begin
 	    (lw6-log-notice node)
@@ -136,7 +138,7 @@
 		      ;; it could cause problems if all nodes can't communicate
 		      (c-lw6p2p-node-put-local-msg node (lw6-test-nop node))
 		      ;; Now, loop for the rest of the test
-		      (while (< timestamp time-limit)
+		      (while (and (< timestamp time-limit) (< stage 6))
 			     (begin
 			       (set! timestamp (c-lw6sys-get-timestamp))
 			       (c-lw6sys-idle)
@@ -281,7 +283,7 @@
 				     (if (equal? ref-checkpoint this-checkpoint)
 					 (begin
 					   (lw6-log-notice (format #f "checkpoint OK ~a" this-checkpoint))
-					   (set! ret #t) ;; here we validate the test
+					   (set! checkpoint-2-ok #t) ;; here we validate the test
 					   )
 					 (lw6-log-warning (format #f "bad checkpoint ~a vs ~a" this-checkpoint ref-checkpoint))
 					 )
@@ -299,12 +301,25 @@
 				   )
 				 )
 				(
-				 (= stage 6)
-				 #f
+				 (= stage 5)
+				 (if (>= (c-lw6pil-get-reference-current-seq pilot)
+					 (assoc-ref (c-lw6pil-suite-get-checkpoint 4) "seq"))
+				     (begin
+				       (set! checkpoint-4-ok (lw6-test-verify-checksum game-state pilot 4))
+				       ;; Will now end the test, we're done, it might be right
+				       ;; or wrong, but there's no point in waiting
+				       (lw6-log-notice "done with test, ready to quit")
+				       (set! stage 6)
+				       )
+				     )
 				 )
 				)
 			       ))
 		      )))
+	    ;; Condition of success is: all checkpoints are OK
+	    (lw6-log-notice (format #f "test summary checkpoint-2-ok=~a checkpoint-4-ok=~a" 
+				    checkpoint-2-ok checkpoint-4-ok))
+	    (set! ret (and checkpoint-2-ok checkpoint-4-ok))
 	    (c-lw6p2p-node-close node)
 	    ))
 	(c-lw6net-quit)

@@ -262,6 +262,8 @@
 		       )
 		      )))
 	    ;; Condition of success is: all checkpoints are OK
+	    (lw6-log-notice (format #f "test summary checkpoint-0-ok=~a checkpoint-2-ok=~a checkpoint-4-ok=~a" 
+				    checkpoint-0-ok checkpoint-2-ok checkpoint-4-ok))
 	    (set! ret (and checkpoint-0-ok checkpoint-2-ok checkpoint-4-ok))
 	    (c-lw6p2p-node-close node)
 	    ))
