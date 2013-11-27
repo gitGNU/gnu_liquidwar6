@@ -51,17 +51,17 @@ _prepare (_lw6dat_stack_t * stack)
   int i = 0;
 
   stack->serial_n_1 =
-    stack->serial_0 + (_LW6DAT_MAX_NB_BLOCKS * _LW6DAT_NB_ATOMS_PER_BLOCK) -
-    1;
+    stack->serial_0_base +
+    (_LW6DAT_MAX_NB_BLOCKS * _LW6DAT_NB_ATOMS_PER_BLOCK) - 1;
   stack->serial_min = INT_MAX;
   stack->serial_max = _LW6DAT_SERIAL_INVALID;
   stack->serial_draft = stack->serial_max;
   stack->serial_reference = stack->serial_max;
   stack->serial_miss_min = stack->serial_n_1;
-  stack->serial_miss_max = stack->serial_0;
+  stack->serial_miss_max = stack->serial_0_base;
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
     {
-      stack->serial_min_to_send[i] = stack->serial_0;
+      stack->serial_min_to_send[i] = stack->serial_0_base;
       stack->seq_0s[i] = _LW6DAT_SEQ_INVALID;
     }
   stack->seq_0 = _LW6DAT_SEQ_INVALID;
@@ -84,7 +84,8 @@ _lw6dat_stack_clear (_lw6dat_stack_t * stack)
       LW6SYS_FREE (stack->node_id_str);
       stack->node_id_str = NULL;
     }
-  stack->serial_0 = _LW6DAT_SERIAL_START;
+  stack->serial_0_base = _LW6DAT_SERIAL_START;
+  stack->serial_0_real = _LW6DAT_SERIAL_START;
 
   _prepare (stack);
 }
@@ -92,7 +93,8 @@ _lw6dat_stack_clear (_lw6dat_stack_t * stack)
 void
 _lw6dat_stack_purge (_lw6dat_stack_t * stack)
 {
-  stack->serial_0 = stack->serial_n_1 + 1;
+  stack->serial_0_base = stack->serial_n_1 + 1;
+  stack->serial_0_real = stack->serial_n_1 + 1;
 
   _prepare (stack);
 }
@@ -103,6 +105,8 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0,
 {
   int ret = 0;
   int stack_index = 0;
+  int serial_0_base = serial_0;
+  int serial_0_real = serial_0;
 
   if (lw6sys_check_id (node_id) && serial_0 >= _LW6DAT_SERIAL_START)
     {
@@ -116,15 +120,16 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0,
        * additionnally it provides an easy way to implement per block
        * checkpoints since blocks are aligned the same way on every node.
        */
-      serial_0 =
-	(((serial_0 -
+      serial_0_base =
+	(((serial_0_real -
 	   _LW6DAT_SERIAL_START) / _LW6DAT_NB_ATOMS_PER_BLOCK) *
 	 _LW6DAT_NB_ATOMS_PER_BLOCK) + _LW6DAT_SERIAL_START;
 
       _lw6dat_stack_clear (stack);
       stack->node_id = node_id;
       stack->node_id_str = lw6sys_id_ltoa (node_id);
-      stack->serial_0 = serial_0;
+      stack->serial_0_base = serial_0_base;
+      stack->serial_0_real = serial_0_real;
 
       _prepare (stack);
 
@@ -142,7 +147,8 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0,
       stack->seq_0 = seq_0;
       if (stack->node_id_str != NULL)
 	{
-	  if (stack->serial_0 > _LW6DAT_SERIAL_INVALID
+	  if (stack->serial_0_base > _LW6DAT_SERIAL_INVALID
+	      && stack->serial_0_real > _LW6DAT_SERIAL_INVALID
 	      && stack->serial_n_1 >= _LW6DAT_SERIAL_INVALID)
 	    {
 	      ret = 1;
@@ -150,8 +156,10 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0,
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_ ("bad range serial_0=%d and serial_n_1=%d"),
-			  stack->serial_0, stack->serial_n_1);
+			  _x_
+			  ("bad range serial_0_base=%d serial_0_real=%d and serial_n_1=%d"),
+			  stack->serial_0_base, stack->serial_0_real,
+			  stack->serial_n_1);
 	    }
 	}
       if (!ret)
@@ -229,7 +237,8 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack, int type,
 		}
 	      stack->blocks[i] = NULL;
 	    }
-	  stack->serial_0 += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
+	  stack->serial_0_base += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
+	  stack->serial_0_real += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
 	  stack->serial_n_1 += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
 
 	  stack->serial_min = serial;
@@ -285,7 +294,8 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack, int type,
 		}
 	      stack->blocks[i] = NULL;
 	    }
-	  stack->serial_0 += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
+	  stack->serial_0_base += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
+	  stack->serial_0_real += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
 	  stack->serial_n_1 += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
 
 	  stack->serial_max = serial;
@@ -293,7 +303,8 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack, int type,
 	  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
 	    {
 	      stack->serial_min_to_send[i] =
-		lw6sys_imax (stack->serial_min_to_send[i], stack->serial_0);
+		lw6sys_imax (stack->serial_min_to_send[i],
+			     stack->serial_0_base);
 	    }
 	  for (i = 0;
 	       i < _LW6DAT_MAX_NB_BLOCKS && stack->serial_min == INT_MAX; ++i)
@@ -321,7 +332,7 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack, int type,
 	  if (!block)
 	    {
 	      stack->blocks[block_index] =
-		_lw6dat_block_new (stack->serial_0 +
+		_lw6dat_block_new (stack->serial_0_base +
 				   block_index * _LW6DAT_NB_ATOMS_PER_BLOCK);
 	      block = stack->blocks[block_index];
 	    }
@@ -344,8 +355,9 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack, int type,
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_
-		      ("serial out of range serial=%d stack->serial_0=%d, block_index=%d"),
-		      serial, stack->serial_0, block_index);
+		      ("serial out of range serial=%d stack->serial_0_base=%d, stack->serial_0_real=%d, block_index=%d"),
+		      serial, stack->serial_0_base, stack->serial_0_real,
+		      block_index);
 	}
 
       if (ret)
@@ -363,13 +375,15 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack, int type,
 	    }
 	}
 
-      if (stack->serial_0 <= _LW6DAT_SERIAL_INVALID
+      if (stack->serial_0_base <= _LW6DAT_SERIAL_INVALID
+	  || stack->serial_0_real <= _LW6DAT_SERIAL_INVALID
 	  || stack->serial_n_1 < _LW6DAT_SERIAL_INVALID)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_
-		      ("bad range serial_0=%d and serial_n_1=%d (serial=%d)"),
-		      stack->serial_0, stack->serial_n_1, serial);
+		      ("bad range serial_0_base=%d serial_0_real=%d and serial_n_1=%d (serial=%d)"),
+		      stack->serial_0_base, stack->serial_0_real,
+		      stack->serial_n_1, serial);
 	}
 
       /*
@@ -633,10 +647,12 @@ _lw6dat_stack_shift (_lw6dat_stack_t * stack, int new_serial_0,
   int guessed = 0;
 
   lw6sys_log (LW6SYS_LOG_DEBUG,
-	      _x_ ("BEGIN shift stack serial_0=%d seq_0=%" LW6SYS_PRINTF_LL
-		   "d with new_serial_0=%d and new_seq_0=%" LW6SYS_PRINTF_LL
-		   "d"), stack->serial_0, (long long) stack->seq_0,
-	      new_serial_0, (long long) new_seq_0);
+	      _x_
+	      ("BEGIN shift stack serial_0_base=%d serial_0_real=%d, seq_0=%"
+	       LW6SYS_PRINTF_LL "d with new_serial_0=%d and new_seq_0=%"
+	       LW6SYS_PRINTF_LL "d"), stack->serial_0_base,
+	      stack->serial_0_real, (long long) stack->seq_0, new_serial_0,
+	      (long long) new_seq_0);
 
   if (new_seq_0 == _LW6DAT_SEQ_INVALID
       && ((first_atom = _lw6dat_stack_get_atom (stack, new_serial_0)) !=
@@ -653,7 +669,7 @@ _lw6dat_stack_shift (_lw6dat_stack_t * stack, int new_serial_0,
       guessed = 1;
     }
 
-  delta_serial = new_serial_0 - stack->serial_0;
+  delta_serial = new_serial_0 - stack->serial_0_real;
   delta_seq = new_seq_0 - stack->seq_0;
 
   if (delta_serial == 0 && delta_seq == 0)
@@ -679,8 +695,8 @@ _lw6dat_stack_shift (_lw6dat_stack_t * stack, int new_serial_0,
 	  if (_lw6dat_stack_init
 	      (shifted_stack, stack->node_id, new_serial_0, new_seq_0))
 	    {
-	      for (i = stack->serial_0 + delta_serial; i <= stack->serial_max;
-		   ++i)
+	      for (i = stack->serial_0_real + delta_serial;
+		   i <= stack->serial_max; ++i)
 		{
 		  if ((tmp_atom = _lw6dat_stack_get_atom (stack, i)) != NULL)
 		    {
@@ -768,10 +784,11 @@ _lw6dat_stack_shift (_lw6dat_stack_t * stack, int new_serial_0,
     }
 
   lw6sys_log (LW6SYS_LOG_DEBUG,
-	      _x_ ("END shift stack serial_0=%d seq_0=%" LW6SYS_PRINTF_LL
-		   "d with new_serial_0=%d and new_seq_0=%" LW6SYS_PRINTF_LL
-		   "d"), stack->serial_0, (long long) stack->seq_0,
-	      new_serial_0, (long long) new_seq_0);
+	      _x_ ("END shift stack serial_0_base=%d serial_0_real=%d seq_0=%"
+		   LW6SYS_PRINTF_LL "d with new_serial_0=%d and new_seq_0=%"
+		   LW6SYS_PRINTF_LL "d"), stack->serial_0_base,
+	      stack->serial_0_real, (long long) stack->seq_0, new_serial_0,
+	      (long long) new_seq_0);
 
   return ret;
 }
@@ -884,7 +901,7 @@ _lw6dat_stack_get_seq_min (_lw6dat_stack_t * stack)
   int64_t ret = _LW6DAT_SEQ_INVALID;
   _lw6dat_atom_t *atom = NULL;
 
-  if (stack->serial_min >= stack->serial_0
+  if (stack->serial_min >= stack->serial_0_base
       && stack->serial_min <= stack->serial_n_1)
     {
       atom = _lw6dat_stack_get_atom (stack, stack->serial_min);
@@ -903,7 +920,7 @@ _lw6dat_stack_get_seq_max (_lw6dat_stack_t * stack)
   int64_t ret = _LW6DAT_SEQ_INVALID;
   _lw6dat_atom_t *atom = NULL;
 
-  if (stack->serial_max >= stack->serial_0
+  if (stack->serial_max >= stack->serial_0_base
       && stack->serial_max <= stack->serial_n_1)
     {
       atom = _lw6dat_stack_get_atom (stack, stack->serial_max);
@@ -922,7 +939,7 @@ _lw6dat_stack_get_seq_draft (_lw6dat_stack_t * stack)
   int64_t ret = _LW6DAT_SEQ_INVALID;
   _lw6dat_atom_t *atom = NULL;
 
-  if (stack->serial_draft >= stack->serial_0
+  if (stack->serial_draft >= stack->serial_0_base
       && stack->serial_draft <= stack->serial_n_1)
     {
       atom = _lw6dat_stack_get_atom (stack, stack->serial_draft);
@@ -941,7 +958,7 @@ _lw6dat_stack_get_seq_reference (_lw6dat_stack_t * stack)
   int64_t ret = _LW6DAT_SEQ_INVALID;
   _lw6dat_atom_t *atom = NULL;
 
-  if (stack->serial_reference >= stack->serial_0
+  if (stack->serial_reference >= stack->serial_0_base
       && stack->serial_reference <= stack->serial_n_1)
     {
       atom = _lw6dat_stack_get_atom (stack, stack->serial_reference);
@@ -986,7 +1003,7 @@ _lw6dat_stack_seq2serial (_lw6dat_stack_t * stack, int64_t seq)
   int64_t seq_max = _LW6DAT_SEQ_INVALID;
   int i;
 
-  if (stack->serial_max >= stack->serial_0
+  if (stack->serial_max >= stack->serial_0_base
       && stack->serial_max <= stack->serial_n_1)
     {
       atom = _lw6dat_stack_get_atom (stack, stack->serial_min);
@@ -1555,7 +1572,7 @@ _lw6dat_stack_get_miss (_lw6dat_stack_t * stack, int max_range,
    * else we would make useless requests for tons of messages that simply
    * were not sent yet.
    */
-  if (stack->serial_max >= stack->serial_0
+  if (stack->serial_max >= stack->serial_0_base
       && stack->serial_max <= stack->serial_n_1)
     {
       /*
@@ -1578,13 +1595,13 @@ _lw6dat_stack_get_miss (_lw6dat_stack_t * stack, int max_range,
 	   * might, indeed, be the very first one, and no previous
 	   * message has ever been received.
 	   */
-	  serial_min = stack->serial_0;
+	  serial_min = stack->serial_0_base;
 	  serial_max =
 	    lw6sys_imax (stack->serial_max, stack->serial_miss_max);
 	}
 
       stack->serial_miss_min = stack->serial_n_1;
-      //stack->serial_miss_max = stack->serial_0;
+      //stack->serial_miss_max = stack->serial_0_base;
       if (serial_min <= serial_max)
 	{
 	  for (serial = serial_min;

@@ -74,9 +74,11 @@
 #define _TEST_STACK_MISS_MAX_RANGE 100
 #define _TEST_STACK_SHIFT_SERIAL_DELTA 3
 #define _TEST_STACK_SHIFT_SEQ_DELTA 10000000000LL
-#define _TEST_STACK_SHIFT_REAL_WORLD_SERIAL 126
+#define _TEST_STACK_SHIFT_REAL_WORLD_SERIAL_BASE 1
+#define _TEST_STACK_SHIFT_REAL_WORLD_SERIAL_REAL 126
 #define _TEST_STACK_SHIFT_REAL_WORLD_SEQ 10000000000011LL
-#define _TEST_STACK_SHIFT_GUESSED_SERIAL 129
+#define _TEST_STACK_SHIFT_GUESSED_SERIAL_BASE 1
+#define _TEST_STACK_SHIFT_GUESSED_SERIAL_REAL 129
 #define _TEST_STACK_SHIFT_GUESSED_SEQ 10000000000011LL
 
 #define _TEST_WAREHOUSE_LOCAL_NODE_ID 0x1234123412341234LL
@@ -558,7 +560,8 @@ _test_stack ()
 			(long long) seq, (long long) tmp, serial);
 	    ret = 0;
 	  }
-	for (serial = stack.serial_0; serial <= stack.serial_n_1; ++serial)
+	for (serial = stack.serial_0_real; serial <= stack.serial_n_1;
+	     ++serial)
 	  {
 	    if (_lw6dat_stack_get_atom (&stack, serial))
 	      {
@@ -792,7 +795,7 @@ _test_stack ()
 	LW6SYS_FREE (msg4_random_part);
       }
 
-    if (_lw6dat_stack_shift (&stack, stack.serial_0, stack.seq_0))
+    if (_lw6dat_stack_shift (&stack, stack.serial_0_real, stack.seq_0))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("shifted stack with same values OK"));
@@ -805,7 +808,7 @@ _test_stack ()
       }
 
     if (!_lw6dat_stack_shift
-	(&stack, stack.serial_0 - _TEST_STACK_SHIFT_SERIAL_DELTA,
+	(&stack, stack.serial_0_base - _TEST_STACK_SHIFT_SERIAL_DELTA,
 	 stack.seq_0 - _TEST_STACK_SHIFT_SEQ_DELTA))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -837,21 +840,26 @@ _test_stack ()
 				      _TEST_STACK_SHIFT_SERIAL_DELTA);
 	    if (tmp_atom)
 	      {
-		if (tmp_atom->serial == _TEST_STACK_SHIFT_REAL_WORLD_SERIAL &&
-		    tmp_atom->seq == _TEST_STACK_SHIFT_REAL_WORLD_SEQ)
+		if (stack.serial_0_base ==
+		    _TEST_STACK_SHIFT_REAL_WORLD_SERIAL_BASE
+		    && stack.serial_0_real ==
+		    _TEST_STACK_SHIFT_REAL_WORLD_SERIAL_REAL
+		    && tmp_atom->seq == _TEST_STACK_SHIFT_REAL_WORLD_SEQ)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
-				("shifted stack with real world delta OK serial=%d seq=%"
-				 LW6SYS_PRINTF_LL "d"), tmp_atom->serial,
+				("shifted stack with real world delta OK serial_0_base=%d serial_0_real=%d seq=%"
+				 LW6SYS_PRINTF_LL "d"), stack.serial_0_base,
+				stack.serial_0_real,
 				(long long) tmp_atom->seq);
 		  }
 		else
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
 				_x_
-				("shifted stack with real world delta OK serial=%d seq=%"
-				 LW6SYS_PRINTF_LL "d"), tmp_atom->serial,
+				("shifted stack with real world delta OK serial_0_base=%d serial_0_real=%d seq=%"
+				 LW6SYS_PRINTF_LL "d"), stack.serial_0_base,
+				stack.serial_0_real,
 				(long long) tmp_atom->seq);
 		    ret = 0;
 		  }
@@ -888,22 +896,24 @@ _test_stack ()
 				  2 * _TEST_STACK_SHIFT_SERIAL_DELTA);
 	if (tmp_atom)
 	  {
-	    if (tmp_atom->serial == _TEST_STACK_SHIFT_GUESSED_SERIAL &&
-		tmp_atom->seq == _TEST_STACK_SHIFT_GUESSED_SEQ)
+	    if (stack.serial_0_base == _TEST_STACK_SHIFT_GUESSED_SERIAL_BASE
+		&& stack.serial_0_real ==
+		_TEST_STACK_SHIFT_GUESSED_SERIAL_REAL
+		&& tmp_atom->seq == _TEST_STACK_SHIFT_GUESSED_SEQ)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
-			    ("shifted stack with guessed delta OK serial=%d seq=%"
-			     LW6SYS_PRINTF_LL "d"), tmp_atom->serial,
-			    (long long) tmp_atom->seq);
+			    ("shifted stack with guessed delta OK serial_0_base=%d serial_0_real=%d seq=%"
+			     LW6SYS_PRINTF_LL "d"), stack.serial_0_base,
+			    stack.serial_0_real, (long long) tmp_atom->seq);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
 			    _x_
-			    ("shifted stack with guessed delta OK serial=%d seq=%"
-			     LW6SYS_PRINTF_LL "d"), tmp_atom->serial,
-			    (long long) tmp_atom->seq);
+			    ("shifted stack with guessed delta OK serial_0_base=%d serial_0_real=%d seq=%"
+			     LW6SYS_PRINTF_LL "d"), stack.serial_0_base,
+			    stack.serial_0_real, (long long) tmp_atom->seq);
 		ret = 0;
 	      }
 	  }

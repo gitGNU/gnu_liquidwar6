@@ -120,7 +120,8 @@ typedef struct _lw6dat_stack_s
 {
   u_int64_t node_id;
   const char *node_id_str;
-  int serial_0;
+  int serial_0_base;
+  int serial_0_real;
   int serial_n_1;
   int serial_min;
   int serial_max;
@@ -263,7 +264,7 @@ _lw6dat_stack_get_block_index (_lw6dat_stack_t * stack, int serial)
    */
   return
     ((serial + _LW6DAT_GET_FACTOR * _LW6DAT_MAX_NB_ATOMS -
-      stack->serial_0) / _LW6DAT_NB_ATOMS_PER_BLOCK) -
+      stack->serial_0_base) / _LW6DAT_NB_ATOMS_PER_BLOCK) -
     (_LW6DAT_GET_FACTOR * _LW6DAT_MAX_NB_BLOCKS);
 }
 
