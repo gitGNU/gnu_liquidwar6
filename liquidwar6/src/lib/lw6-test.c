@@ -500,7 +500,7 @@ lw6_test_register (int mode)
        * Switch between lw6sys_true / lw6sys_false to
        * speed up test while debugging.
        */
-      if (lw6sys_true ())
+      if (lw6sys_false ())
 	{
 	  LW6SYS_CUNIT_ADD_TEST (suite, _test_main);
 	}
@@ -512,7 +512,7 @@ lw6_test_register (int mode)
 	       * Switch between lw6sys_true / lw6sys_false to
 	       * speed up test while debugging.
 	       */
-	      if (lw6sys_true ())
+	      if (lw6sys_false ())
 		{
 		  LW6SYS_CUNIT_ADD_TEST (suite, _test_node_abc);
 		}
@@ -520,7 +520,7 @@ lw6_test_register (int mode)
 	       * Switch between lw6sys_true / lw6sys_false to
 	       * speed up test while debugging.
 	       */
-	      if (lw6sys_true ())
+	      if (lw6sys_false ())
 		{
 		  LW6SYS_CUNIT_ADD_TEST (suite, _test_node_bca);
 		}

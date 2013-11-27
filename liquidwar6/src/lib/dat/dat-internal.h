@@ -215,8 +215,8 @@ extern _lw6dat_atom_t *_lw6dat_stack_get_atom (_lw6dat_stack_t * stack,
 extern int _lw6dat_stack_put_msg (_lw6dat_stack_t * stack,
 				  int64_t * local_seq_seq, const char *msg,
 				  int send_flag);
-extern int _lw6dat_stack_rebase (_lw6dat_stack_t * stack, int new_serial_0,
-				 int64_t new_seq_0);
+extern int _lw6dat_stack_shift (_lw6dat_stack_t * stack, int new_serial_0,
+				int64_t new_seq_0);
 extern int _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t *
 							  stack);
 extern int64_t _lw6dat_stack_get_seq_min (_lw6dat_stack_t * stack);

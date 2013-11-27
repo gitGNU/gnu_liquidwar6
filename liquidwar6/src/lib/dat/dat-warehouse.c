@@ -419,7 +419,7 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("registering already registered node"));
-      _lw6dat_stack_rebase (&(warehouse->stacks[ret]), serial_0, seq_0);
+      _lw6dat_stack_shift (&(warehouse->stacks[ret]), serial_0, seq_0);
     }
   else
     {
