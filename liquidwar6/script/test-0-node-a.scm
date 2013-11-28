@@ -196,39 +196,11 @@
 		      (
 		       ;; Wait for peer to be at least the right round 
 		       (= stage 3)
-		       (let (
-			     (entries (c-lw6p2p-node-get-entries node))
-			     )
-			 (if (and (>= (c-lw6pil-get-reference-current-seq pilot)
-				      (assoc-ref (c-lw6pil-suite-get-checkpoint 2) "seq"))
-				  (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 0))
-				  (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 1))
-				  (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 2))
-				  )			     
-			     (begin		     
-			       (set! timestamp (c-lw6sys-get-timestamp))
-			       (map (lambda(x) (if (equal? (assoc-ref x "url") "http://localhost:8058/")
-						   (if (and
-							(assoc-ref x "round")
-							(>= (assoc-ref x "round")
-							    (assoc-ref (c-lw6pil-suite-get-checkpoint 2) "round"))
-							)
-						       (begin
-							 (lw6-log-notice (format #f "checked entry \"~a\"" x))
-							 (c-lw6sys-idle)
-							 (c-lw6p2p-node-poll node)
-							 (set! stage 4)
-							 )
-						       (begin
-							 (lw6-log-notice (format #f "waiting for entry \"~a\" to be at least at round ~a" x (c-lw6pil-suite-get-checkpoint 2)))
-							 (c-lw6sys-snooze)
-							 )
-						       )
-						   ))
-				    entries)	 
-			       (c-lw6sys-idle)
-			       (c-lw6p2p-node-poll node)
-			       )))
+		       (if (lw6-test-check-nodes pilot node
+						 (list 0 1 2)
+						 (list "http://localhost:8057/"  "http://localhost:8058/"  "http://localhost:8059/")
+						 2)
+			   (set! stage 4))
 		       )
 		      (
 		       (= stage 4)

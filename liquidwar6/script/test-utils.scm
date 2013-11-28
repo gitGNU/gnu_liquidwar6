@@ -117,4 +117,63 @@
 	      (lw6-log-warning (format #f "bad checkpoint ~a vs ~a" this-checkpoint ref-checkpoint))
 	      #f
 	      )
-	)))))  
+	    )))))
+
+
+;; Waits until other nodes are connected, and if they are connected, have
+;; at least reached a given round. This is usefull to make sure a given
+;; point has been reached, however this one does not check that the checksum
+;; is right, it's just a timing function.
+(define lw6-test-check-nodes
+  (lambda (pilot node suite-node-ids node-urls checkpoint)
+    (let (
+	  (entries (c-lw6p2p-node-get-entries node))
+	  (timestamp #f)
+	  (ret #f)
+	  )
+      (if (and (>= (c-lw6pil-get-reference-current-seq pilot)
+		   (assoc-ref (c-lw6pil-suite-get-checkpoint checkpoint) "seq"))
+	       . (map (lambda (x) (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id x))) suite-node-ids)
+	       )	     
+	  (begin		     
+	    (set! timestamp (c-lw6sys-get-timestamp))
+	    (set! ret #t)
+	    (map (lambda(x) (if (and (member (assoc-ref x "url") node-urls)
+				     (not (equal? (assoc-ref x "id") (c-lw6p2p-node-get-id node))))
+				(if (and
+				     (assoc-ref x "round")
+				     (>= (assoc-ref x "round")
+					 (assoc-ref (c-lw6pil-suite-get-checkpoint checkpoint) "round"))
+				     )
+				    (begin
+				      (lw6-log-notice (format #f "checked entry id=~a url=\"~a\" round=~a" 
+							      (assoc-ref x "id") 
+							      (assoc-ref x "url") 
+							      (assoc-ref x "round")
+							      ))
+				      (c-lw6sys-idle)
+				      (c-lw6p2p-node-poll node)
+				      )
+				    (begin
+				      (lw6-log-notice (format #f "waiting for entry id=~a url=\"~a\" round=~a to be at least at round ~a" 
+							      (assoc-ref x "id") 
+							      (assoc-ref x "url") 
+							      (assoc-ref x "round") 
+							      (assoc-ref (c-lw6pil-suite-get-checkpoint checkpoint) "round")
+							      ))
+				      (set! ret #f)
+				      (c-lw6sys-snooze)
+				      )
+				    )
+				))
+		 entries)	 
+	    (c-lw6sys-idle)
+	    (c-lw6p2p-node-poll node)
+	    ret)
+	  (begin
+	    (lw6-log-notice (format #f "waiting for all nodes to be connected"))
+	    (c-lw6sys-snooze)
+	    #f
+	  )
+	  )
+      )))
