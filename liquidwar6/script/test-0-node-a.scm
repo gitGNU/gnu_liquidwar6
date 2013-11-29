@@ -77,7 +77,7 @@
 	    (c-lw6p2p-node-poll node)
 	    (c-lw6pil-commit pilot)
 	    (c-lw6p2p-node-server-start node seq-0)
-	    (while (and (< timestamp time-limit) (< stage 7))
+	    (while (and (< timestamp time-limit) (< stage 80))
 		   (begin
 		     (set! timestamp (c-lw6sys-get-timestamp))
 		     (c-lw6sys-idle)
@@ -89,7 +89,7 @@
 			   (set! next-update-info (+ timestamp lw6-test-network-update-delay))
 			   (c-lw6pil-sync-from-reference game-state pilot)
 			   (lw6-test-update-info node level game-state)
-			   (c-lw6p2p-node-put-local-msg node (lw6-test-nop node))
+			   (c-lw6p2p-node-put-local-msg node (lw6-test-nop node stage))
 			   ))
 		     ;; Normally, we should get the next seq with a command like:
 		     ;;(set! next-seq (c-lw6pil-get-next-seq pilot timestamp))
@@ -110,8 +110,8 @@
 			   (c-lw6sys-idle)
 			   (c-lw6p2p-node-poll node)
 			   (set! seed-sent #t)
-			   (if (and dump-sent (= stage 1))
-			       (set! stage 2))
+			   (if (and dump-sent (= stage 10))
+			       (set! stage 20))
 			   )
 			 ))
 		      (
@@ -125,8 +125,8 @@
 			   (c-lw6sys-idle)
 			   (c-lw6p2p-node-poll node)
 			   (set! dump-sent #t)
-			   (if (and seed-sent (= stage 1))
-			       (set! stage 2))
+			   (if (and seed-sent (= stage 10))
+			       (set! stage 20))
 			   )
 			 ))
 		      )
@@ -159,19 +159,19 @@
 		       (= stage 0)
 		       (begin
 			 ;; Now proceed, putting the messages in the queue for good
-			 (lw6-log-notice "stage 1 & 2, putting messages in queue")
+			 (lw6-log-notice "stage 10 & 2, putting messages in queue")
 			 (map (lambda (command) (begin
-						  (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 1 & 2" command))
+						  (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 10 & 2" command))
 						  (c-lw6p2p-node-put-local-msg node command)
 						  ))
 			      (append (c-lw6pil-suite-get-commands-by-node-index 0 0)
 				      (c-lw6pil-suite-get-commands-by-node-index 0 1))
 			      )
-			 (set! stage 1)
+			 (set! stage 10)
 			 )
 		       )
 		      (
-		       (= stage 2)
+		       (= stage 20)
 		       (if (>= (c-lw6pil-get-reference-current-seq pilot)
 			       (assoc-ref (c-lw6pil-suite-get-checkpoint 0) "seq"))
 			   (begin
@@ -182,28 +182,28 @@
 			     ;; fail. 
 			     (set! checkpoint-0-ok (lw6-test-verify-checksum game-state pilot 0))
 			     ;; Now proceed, putting the messages in the queue for good
-			     (lw6-log-notice "stage 3 & 4, putting messages in queue")
+			     (lw6-log-notice "stage 30 & 4, putting messages in queue")
 			     (map (lambda (command) (begin
-						      (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 3 & 4" command))
+						      (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 30 & 4" command))
 						      (c-lw6p2p-node-put-local-msg node command)
 						      ))
 				  (append (c-lw6pil-suite-get-commands-by-node-index 0 2)
 					  (c-lw6pil-suite-get-commands-by-node-index 0 3))
 				  )
-			     (set! stage 3)
+			     (set! stage 30)
 			     ))
 		       )
 		      (
 		       ;; Wait for peer to be at least the right round 
-		       (= stage 3)
+		       (= stage 30)
 		       (if (lw6-test-check-nodes pilot node
 						 (list 0 1 2)
 						 (list "http://localhost:8057/"  "http://localhost:8058/"  "http://localhost:8059/")
 						 2)
-			   (set! stage 4))
+			   (set! stage 50))
 		       )
 		      (
-		       (= stage 4)
+		       (= stage 50)
 		       (begin
 			 ;; Now verifying that at this stage the game-state 
 			 ;; is correct, will validate the whole test suite at
@@ -212,19 +212,19 @@
 			 ;; fail. 
 			 (set! checkpoint-2-ok (lw6-test-verify-checksum game-state pilot 2))
 			 ;; Now proceed, putting the messages in the queue for good
-			 (lw6-log-notice "stage 5 & 6, putting messages in queue")
+			 (lw6-log-notice "stage 60 & 6, putting messages in queue")
 			 (map (lambda (command) (begin
-						  (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 5 & 6" command))
+						  (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 60 & 6" command))
 						  (c-lw6p2p-node-put-local-msg node command)
 						  ))
 			      (append (c-lw6pil-suite-get-commands-by-node-index 0 4)
 				      (c-lw6pil-suite-get-commands-by-node-index 0 5))
 			      )
-			 (set! stage 5)
+			 (set! stage 60)
 			 )
 		       )
 		      (
-		       (= stage 5)
+		       (= stage 60)
 		       (if (>= (c-lw6pil-get-reference-current-seq pilot)
 			       (assoc-ref (c-lw6pil-suite-get-checkpoint 4) "seq"))
 			   (begin
@@ -232,35 +232,17 @@
 			     ;; Will now end the test, we're done, it might be right
 			     ;; or wrong, but there's no point in waiting
 			     (lw6-log-notice "done with test, ready to quit")
-			     (set! stage 6)
+			     (set! stage 70)
 			     )
 			   )
 		       )
 		      (
-		       (= stage 6)
-		       (if (and
-			    (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 0))
-			    (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 1))
-			    (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 2))
-			    ;; We filter node that are really too old (unknown ones?) but if they
-			    ;; are recent enough, check they have reached checkpoint 4, but
-			    ;; do not fail if they do not match, the idea is just to wait until
-			    ;; everyone is done.
-			    (and . (map (lambda(x) (or (not (assoc-ref x "round"))
-						       (and
-							(assoc-ref x "round")
-							(< (assoc-ref x "round")
-							    (assoc-ref (c-lw6pil-suite-get-checkpoint 2) "round")))
-						       (and
-							(assoc-ref x "round")
-							(>= (assoc-ref x "round")
-							    (assoc-ref (c-lw6pil-suite-get-checkpoint 4) "round")))
-						       ))
-					(c-lw6p2p-node-get-entries node)
-					))
-			    )
-			   (set! stage 7)
-			   )
+		       (= stage 70)
+		       (if (lw6-test-check-nodes pilot node
+						 (list 0 1 2)
+						 (list "http://localhost:8057/"  "http://localhost:8058/"  "http://localhost:8059/")
+						 4)
+			   (set! stage 80))
 		       )
 		      )))
 	    ;; Condition of success is: all checkpoints are OK

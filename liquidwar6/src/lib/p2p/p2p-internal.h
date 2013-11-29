@@ -363,6 +363,7 @@ extern int _lw6p2p_node_update_peer (_lw6p2p_node_t * node,
 				     const char *ip, int port,
 				     int last_ping_timestamp,
 				     int ping_delay_msec);
+extern int _lw6p2p_node_update_local (_lw6p2p_node_t * node, lw6nod_info_t *node_info);
 extern int _lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_find_tentacle (_lw6p2p_node_t * node,
 				       u_int64_t remote_id);

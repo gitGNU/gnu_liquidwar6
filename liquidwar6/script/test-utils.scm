@@ -67,6 +67,7 @@
       (begin
 	(lw6-log-notice (format #f "updating info of node \"~a\" with param \"~a\"" node param))
 	(c-lw6p2p-node-update-info node param)
+	(lw6-log-notice (format #f "new entries are \"~a\"" (c-lw6p2p-node-get-entries node)))
 	))))
 
 ;; Utility function that builds an assoc similar to the
@@ -84,14 +85,14 @@
 ;; because never sent, and it's hard to plan this in advance in the
 ;; static suite messages arrays.
 (define lw6-test-nop
-  (lambda (node)
+  (lambda (node stage)
     (let (
 	  (nop-command (lw6-command-nop (c-lw6p2p-node-get-local-seq-last node) 
 					(c-lw6p2p-node-get-id node)))
 	  )
       (begin	
 	(lw6-log-notice (format #f "nop-command -> ~a" nop-command))
-	(lw6-log-notice (format #f "current state \"~a\"" node))
+	(lw6-log-notice (format #f "current state stage=~a \"~a\"" stage node))
 	nop-command
 	))))
 
@@ -131,15 +132,17 @@
 	  (timestamp #f)
 	  (ret #f)
 	  )
-      (if (and (>= (c-lw6pil-get-reference-current-seq pilot)
-		   (assoc-ref (c-lw6pil-suite-get-checkpoint checkpoint) "seq"))
-	       . (map (lambda (x) (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id x))) suite-node-ids)
-	       )	     
+      (if (or (not pilot) 
+	      (and (>= (c-lw6pil-get-reference-current-seq pilot)
+		       (assoc-ref (c-lw6pil-suite-get-checkpoint checkpoint) "seq"))
+		   . (map (lambda (x) (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id x))) suite-node-ids)
+	       ))	     
 	  (begin		     
 	    (set! timestamp (c-lw6sys-get-timestamp))
 	    (set! ret #t)
 	    (map (lambda(x) (if (and (member (assoc-ref x "url") node-urls)
-				     (not (equal? (assoc-ref x "id") (c-lw6p2p-node-get-id node))))
+				     ;;(not (equal? (assoc-ref x "id") (c-lw6p2p-node-get-id node))))
+				     #t)
 				(if (and
 				     (assoc-ref x "round")
 				     (>= (assoc-ref x "round")

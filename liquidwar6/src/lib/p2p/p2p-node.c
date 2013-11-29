@@ -1600,6 +1600,17 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, const char *version,
 }
 
 int
+_lw6p2p_node_update_local (_lw6p2p_node_t * node, lw6nod_info_t *node_info)
+{
+  int ret = 1;
+
+  // todo
+  TMP("todo...");
+
+  return ret;
+}
+
+int
 _lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node)
 {
   int ret = -1;
@@ -2194,8 +2205,9 @@ _lw6p2p_node_update_info (_lw6p2p_node_t * node,
 			level, node->node_info->dyn_info.required_bench,
 			nb_colors, max_nb_colors, nb_cursors, max_nb_cursors,
 			nb_nodes, max_nb_nodes, NULL, game_screenshot_size,
-			game_screenshot_data);
-
+			game_screenshot_data) &&
+    _lw6p2p_node_update_local(node,node->node_info);
+  
   return ret;
 }
 

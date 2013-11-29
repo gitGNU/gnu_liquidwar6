@@ -75,7 +75,7 @@
 	       (connect-ret #f)
 	       (server-entry #f)
 	       (connect-round (assoc-ref (c-lw6pil-suite-get-checkpoint 2) "round"))
-	       (stage 3)
+	       (stage 0)
 	       (next-update-info 0)
 	       (seed-sent #f)
 	       (dump-sent #f)
@@ -135,9 +135,9 @@
 		      ;; First, send a NOP message for automatic self-registering
 		      ;; this one is really important, it's a NOP but not sending
 		      ;; it could cause problems if all nodes can't communicate
-		      (c-lw6p2p-node-put-local-msg node (lw6-test-nop node))
+		      (c-lw6p2p-node-put-local-msg node (lw6-test-nop node stage))
 		      ;; Now, loop for the rest of the test
-		      (while (and (< timestamp time-limit) (< stage 7))
+		      (while (and (< timestamp time-limit) (< stage 80))
 			     (begin
 			       (set! timestamp (c-lw6sys-get-timestamp))
 			       (c-lw6sys-idle)
@@ -152,7 +152,7 @@
 					   (c-lw6pil-sync-from-reference game-state pilot)
 					   (lw6-test-update-info node level game-state)
 					   ))
-				     (c-lw6p2p-node-put-local-msg node (lw6-test-nop node))
+				     (c-lw6p2p-node-put-local-msg node (lw6-test-nop node stage))
 				     ))
 			       (if pilot
 				   (begin
@@ -175,8 +175,8 @@
 					   (c-lw6sys-idle)
 					   (c-lw6p2p-node-poll node)
 					   (set! seed-sent #t)
-					   (if (and dump-sent (= stage 3))
-					       (set! stage 4))
+					   (if (and dump-sent (= stage 30))
+					       (set! stage 40))
 					   )
 					 ))
 				      (
@@ -190,8 +190,8 @@
 					   (c-lw6sys-idle)
 					   (c-lw6p2p-node-poll node)
 					   (set! dump-sent #t)
-					   (if (and seed-sent (= stage 3))
-					       (set! stage 4))
+					   (if (and seed-sent (= stage 30))
+					       (set! stage 40))
 					   )
 					 ))
 				      )
@@ -252,22 +252,31 @@
 					     )))))
 			       (cond 
 				(
-				 (= stage 3)
+				 ;; Wait for peer to be at least the right round 
+				 (= stage 0)
+				 (if (lw6-test-check-nodes pilot node
+							   (list 0 1)
+							   (list "http://localhost:8057/"  "http://localhost:8058/")
+							   2)
+				     (set! stage 30))
+				 )
+				(
+				 (= stage 30)
 				 (begin
-				   (lw6-log-notice "stage 5 & 6, putting messages in queue")
+				   (lw6-log-notice "stage 60 & 6, putting messages in queue")
 				   (map (lambda (command) (begin
-							    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 4, 5 & 6" command))
+							    (lw6-log-notice (format #f "sending command \"~a\" from test suite stage 50, 5 & 6" command))
 							    (c-lw6p2p-node-put-local-msg node command)
 							    ))
 					(append (c-lw6pil-suite-get-commands-by-node-index 2 3)
 						(c-lw6pil-suite-get-commands-by-node-index 2 4)
 						(c-lw6pil-suite-get-commands-by-node-index 2 5))
 					)
-				   (set! stage 5)
+				   (set! stage 60)
 				   )
 				 )
 				(
-				 (= stage 5)
+				 (= stage 60)
 				 (if (and pilot
 					  (>= (c-lw6pil-get-reference-current-seq pilot)
 					      (assoc-ref (c-lw6pil-suite-get-checkpoint 4) "seq")))
@@ -276,35 +285,17 @@
 				       ;; Will now end the test, we're done, it might be right
 				       ;; or wrong, but there's no point in waiting
 				       (lw6-log-notice "done with test, ready to quit")
-				       (set! stage 6)
+				       (set! stage 70)
 				       )
 				     )
 				 )
 				(
-				 (= stage 6)
-				 (if (and
-				      (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 0))
-				      (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 1))
-				      (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id 2))
-				      ;; We filter node that are really too old (unknown ones?) but if they
-				      ;; are recent enough, check they have reached checkpoint 4, but
-				      ;; do not fail if they do not match, the idea is just to wait until
-				      ;; everyone is done.
-				      (and . (map (lambda(x) (or (not (assoc-ref x "round"))
-								 (and
-								  (assoc-ref x "round")
-								  (<= (assoc-ref x "round")
-								      (assoc-ref (c-lw6pil-suite-get-checkpoint 2) "round")))
-								 (and
-								  (assoc-ref x "round")
-								  (>= (assoc-ref x "round")
-								      (assoc-ref (c-lw6pil-suite-get-checkpoint 4) "round")))
-								 ))
-						  (c-lw6p2p-node-get-entries node)
-						  ))
-				      )
-				     (set! stage 7)
-				     )
+				 (= stage 70)
+				 (if (lw6-test-check-nodes pilot node
+							   (list 0 1 2)
+							   (list "http://localhost:8057/"  "http://localhost:8058/"  "http://localhost:8059/")
+							   4)
+				     (set! stage 80))
 				 )
 				)
 			       ))
