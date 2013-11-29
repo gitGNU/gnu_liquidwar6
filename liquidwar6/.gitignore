@@ -2,5 +2,3 @@ Makefile.in
 configure
 liquidwar6.info*
 autom4te.cache
-po/*.gmo 
-po/liquidwar6.pot 
