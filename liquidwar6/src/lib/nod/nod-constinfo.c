@@ -109,8 +109,13 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
     }
   const_info->bench = bench;
   const_info->open_relay = open_relay ? 1 : 0;
-  const_info->creation_timestamp =
-    lw6sys_get_timestamp () - (u_int64_t) (uptime * 1000);
+  /*
+   * Creation timestamp is relative to the creation
+   * date of the local us, by definition, it's 0 when
+   * local so this is a correct init value. Remotes
+   * will change this if needed.
+   */
+  const_info->creation_timestamp = 0;
   const_info->idle_screenshot_size = idle_screenshot_size;
   if (idle_screenshot_size > 0)
     {

@@ -1,3 +1,7 @@
+2013-12-03 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Updating DB when local node's state changes.
+
 2013-11-26 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Introduced dat-stack rebasing, to fix net bugs.

@@ -349,8 +349,10 @@ extern int _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node,
 					   char *public_url);
 extern int _lw6p2p_node_update_peer (_lw6p2p_node_t * node,
 				     const char *version,
-				     const char *codename, int stamp,
-				     const char *id, const char *url,
+				     const char *codename,
+				     int stamp,
+				     const char *id,
+				     const char *url,
 				     const char *title,
 				     const char *description, int password,
 				     int bench, int open_relay,
@@ -363,7 +365,8 @@ extern int _lw6p2p_node_update_peer (_lw6p2p_node_t * node,
 				     const char *ip, int port,
 				     int last_ping_timestamp,
 				     int ping_delay_msec);
-extern int _lw6p2p_node_update_local (_lw6p2p_node_t * node, lw6nod_info_t *node_info);
+extern int _lw6p2p_node_update_local (_lw6p2p_node_t * node,
+				      lw6nod_info_t * node_info);
 extern int _lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_find_tentacle (_lw6p2p_node_t * node,
 				       u_int64_t remote_id);

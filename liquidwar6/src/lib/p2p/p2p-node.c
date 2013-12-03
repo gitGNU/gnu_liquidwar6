@@ -1600,12 +1600,39 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, const char *version,
 }
 
 int
-_lw6p2p_node_update_local (_lw6p2p_node_t * node, lw6nod_info_t *node_info)
+_lw6p2p_node_update_local (_lw6p2p_node_t * node, lw6nod_info_t * node_info)
 {
   int ret = 1;
 
-  // todo
-  TMP("todo...");
+  /*
+   * Call the generic update_peer function for that matter, in fact
+   * the update is pretty much the same except for the IP/port & timeout
+   */
+  ret =
+    _lw6p2p_node_update_peer (node, node_info->const_info.version,
+			      node_info->const_info.codename,
+			      node_info->const_info.stamp,
+			      node_info->const_info.ref_info.id_str,
+			      node_info->const_info.ref_info.url,
+			      node_info->const_info.title,
+			      node_info->const_info.description,
+			      node_info->const_info.has_password,
+			      node_info->const_info.bench,
+			      node_info->const_info.open_relay,
+			      node_info->const_info.creation_timestamp,
+			      lw6sys_str_empty_if_null (node_info->
+							dyn_info.community_id_str),
+			      node_info->dyn_info.round,
+			      lw6sys_str_empty_if_null (node_info->
+							dyn_info.level),
+			      node_info->dyn_info.required_bench,
+			      node_info->dyn_info.nb_colors,
+			      node_info->dyn_info.max_nb_colors,
+			      node_info->dyn_info.nb_cursors,
+			      node_info->dyn_info.max_nb_cursors,
+			      node_info->dyn_info.nb_nodes,
+			      node_info->dyn_info.max_nb_nodes, node->bind_ip,
+			      node->bind_port, 0, 0);
 
   return ret;
 }
@@ -2205,9 +2232,9 @@ _lw6p2p_node_update_info (_lw6p2p_node_t * node,
 			level, node->node_info->dyn_info.required_bench,
 			nb_colors, max_nb_colors, nb_cursors, max_nb_cursors,
 			nb_nodes, max_nb_nodes, NULL, game_screenshot_size,
-			game_screenshot_data) &&
-    _lw6p2p_node_update_local(node,node->node_info);
-  
+			game_screenshot_data)
+    && _lw6p2p_node_update_local (node, node->node_info);
+
   return ret;
 }
 
