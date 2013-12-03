@@ -308,6 +308,7 @@ extern int _lw6p2p_db_exec (_lw6p2p_db_t * db, char *sql,
 			    _lw6p2p_db_callback_t func, void *func_data);
 extern int _lw6p2p_db_create_database (_lw6p2p_db_t * db);
 extern int _lw6p2p_db_clean_database (_lw6p2p_db_t * db);
+extern int _lw6p2p_db_timestamp (_lw6p2p_db_t * db, int64_t timestamp);
 extern int _lw6p2p_db_now (_lw6p2p_db_t * db);
 
 /* p2p-explore.c */

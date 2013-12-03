@@ -1619,7 +1619,9 @@ _lw6p2p_node_update_local (_lw6p2p_node_t * node, lw6nod_info_t * node_info)
 			      node_info->const_info.has_password,
 			      node_info->const_info.bench,
 			      node_info->const_info.open_relay,
-			      node_info->const_info.creation_timestamp,
+			      _lw6p2p_db_timestamp (node->db,
+						    node_info->
+						    const_info.creation_timestamp),
 			      lw6sys_str_empty_if_null (node_info->
 							dyn_info.community_id_str),
 			      node_info->dyn_info.round,

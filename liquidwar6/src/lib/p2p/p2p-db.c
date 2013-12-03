@@ -584,11 +584,38 @@ lw6p2p_db_default_name ()
 }
 
 /**
+ * _lw6p2p_db_timestamp
+ *
+ * @db: the db object concerned (used to calculate time origin)
+ * @timestamp: the timestamp as returned by lw6sys_get_timestamp
+ *
+ * Returns a timestamp suitable for db usage (seconds since object
+ * creation), set to the timestamp passed as an argument (milliseconds). 
+ * The reason we don't use
+ * regular timestamps is that they are 1) too accurate (msec is useless
+ * for what's involved here) and 2) too big and likely to be negative
+ * in signed mode even if converted to seconds.
+ *
+ * Return value: a timestamp, 0 means "beginning of program" (think of it as uptime)
+ */
+int
+_lw6p2p_db_timestamp (_lw6p2p_db_t * db, int64_t timestamp)
+{
+  int ret = 0;
+
+  ret = (timestamp - db->t0) / 1000;
+
+  return ret;
+}
+
+/**
  * _lw6p2p_db_now
  *
  * @db: the db object concerned (used to calculate time origin)
  *
- * Returns a timestamp suitable for db usage. The reason we don't use
+ * Returns a timestamp suitable for db usage, (seconds since object
+ * creation) set to the current
+ * moment. The reason we don't use
  * regular timestamps is that they are 1) too accurate (msec is useless
  * for what's involved here) and 2) too big and likely to be negative
  * in signed mode even if converted to seconds.
@@ -600,7 +627,7 @@ _lw6p2p_db_now (_lw6p2p_db_t * db)
 {
   int ret = 0;
 
-  ret = (lw6sys_get_timestamp () - db->t0) / 1000;
+  ret = _lw6p2p_db_timestamp (db, lw6sys_get_timestamp ());
 
   return ret;
 }

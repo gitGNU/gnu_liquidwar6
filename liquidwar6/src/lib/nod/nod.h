@@ -80,7 +80,7 @@ typedef struct lw6nod_const_info_s
   /// Wether the node acts as an open relay or not.
   int open_relay;
   /// The node creation timestamp.
-  int creation_timestamp;
+  int64_t creation_timestamp;
   /// Size of the screenshot (in bytes) when in idle mode
   int idle_screenshot_size;
   /**

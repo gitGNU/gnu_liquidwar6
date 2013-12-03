@@ -118,9 +118,9 @@ Wether the node acts as an open relay or not.
 @end defcv
 
 @defcv {Member} {lw6nod_const_info_s} {creation_timestamp}
-@strong{Type:} @code{int}
+@strong{Type:} @code{int64_t}
 
-@strong{Definition:} @code{int lw6nod_const_info_s::creation_timestamp}
+@strong{Definition:} @code{int64_t lw6nod_const_info_s::creation_timestamp}
 
 
 The node creation timestamp.         
