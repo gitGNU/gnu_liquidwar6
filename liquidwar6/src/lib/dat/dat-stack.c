@@ -58,10 +58,10 @@ _prepare (_lw6dat_stack_t * stack)
   stack->serial_draft = stack->serial_max;
   stack->serial_reference = stack->serial_max;
   stack->serial_miss_min = stack->serial_n_1;
-  stack->serial_miss_max = stack->serial_0_base;
+  stack->serial_miss_max = stack->serial_0_real;
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
     {
-      stack->serial_min_to_send[i] = stack->serial_0_base;
+      stack->serial_min_to_send[i] = stack->serial_0_real;
       stack->seq_0s[i] = _LW6DAT_SEQ_INVALID;
     }
   stack->seq_0 = _LW6DAT_SEQ_INVALID;
@@ -304,7 +304,7 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack, int type,
 	    {
 	      stack->serial_min_to_send[i] =
 		lw6sys_imax (stack->serial_min_to_send[i],
-			     stack->serial_0_base);
+			     stack->serial_0_real);
 	    }
 	  for (i = 0;
 	       i < _LW6DAT_MAX_NB_BLOCKS && stack->serial_min == INT_MAX; ++i)
@@ -901,7 +901,7 @@ _lw6dat_stack_get_seq_min (_lw6dat_stack_t * stack)
   int64_t ret = _LW6DAT_SEQ_INVALID;
   _lw6dat_atom_t *atom = NULL;
 
-  if (stack->serial_min >= stack->serial_0_base
+  if (stack->serial_min >= stack->serial_0_real
       && stack->serial_min <= stack->serial_n_1)
     {
       atom = _lw6dat_stack_get_atom (stack, stack->serial_min);
@@ -920,7 +920,7 @@ _lw6dat_stack_get_seq_max (_lw6dat_stack_t * stack)
   int64_t ret = _LW6DAT_SEQ_INVALID;
   _lw6dat_atom_t *atom = NULL;
 
-  if (stack->serial_max >= stack->serial_0_base
+  if (stack->serial_max >= stack->serial_0_real
       && stack->serial_max <= stack->serial_n_1)
     {
       atom = _lw6dat_stack_get_atom (stack, stack->serial_max);
@@ -939,7 +939,7 @@ _lw6dat_stack_get_seq_draft (_lw6dat_stack_t * stack)
   int64_t ret = _LW6DAT_SEQ_INVALID;
   _lw6dat_atom_t *atom = NULL;
 
-  if (stack->serial_draft >= stack->serial_0_base
+  if (stack->serial_draft >= stack->serial_0_real
       && stack->serial_draft <= stack->serial_n_1)
     {
       atom = _lw6dat_stack_get_atom (stack, stack->serial_draft);
@@ -958,7 +958,7 @@ _lw6dat_stack_get_seq_reference (_lw6dat_stack_t * stack)
   int64_t ret = _LW6DAT_SEQ_INVALID;
   _lw6dat_atom_t *atom = NULL;
 
-  if (stack->serial_reference >= stack->serial_0_base
+  if (stack->serial_reference >= stack->serial_0_real
       && stack->serial_reference <= stack->serial_n_1)
     {
       atom = _lw6dat_stack_get_atom (stack, stack->serial_reference);
@@ -1003,7 +1003,7 @@ _lw6dat_stack_seq2serial (_lw6dat_stack_t * stack, int64_t seq)
   int64_t seq_max = _LW6DAT_SEQ_INVALID;
   int i;
 
-  if (stack->serial_max >= stack->serial_0_base
+  if (stack->serial_max >= stack->serial_0_real
       && stack->serial_max <= stack->serial_n_1)
     {
       atom = _lw6dat_stack_get_atom (stack, stack->serial_min);
@@ -1572,7 +1572,7 @@ _lw6dat_stack_get_miss (_lw6dat_stack_t * stack, int max_range,
    * else we would make useless requests for tons of messages that simply
    * were not sent yet.
    */
-  if (stack->serial_max >= stack->serial_0_base
+  if (stack->serial_max >= stack->serial_0_real
       && stack->serial_max <= stack->serial_n_1)
     {
       /*
@@ -1595,13 +1595,13 @@ _lw6dat_stack_get_miss (_lw6dat_stack_t * stack, int max_range,
 	   * might, indeed, be the very first one, and no previous
 	   * message has ever been received.
 	   */
-	  serial_min = stack->serial_0_base;
+	  serial_min = stack->serial_0_real;
 	  serial_max =
 	    lw6sys_imax (stack->serial_max, stack->serial_miss_max);
 	}
 
       stack->serial_miss_min = stack->serial_n_1;
-      //stack->serial_miss_max = stack->serial_0_base;
+      //stack->serial_miss_max = stack->serial_0_real;
       if (serial_min <= serial_max)
 	{
 	  for (serial = serial_min;

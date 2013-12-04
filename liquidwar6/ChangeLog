@@ -1,3 +1,7 @@
+2013-12-04 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Using serial_real and not serial_base to get MISS messages.
+
 2013-12-03 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed creation timestamp in local node.
