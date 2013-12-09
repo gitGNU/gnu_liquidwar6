@@ -187,55 +187,6 @@ Will hold the new pilot if a dump is received.
 
 
   
-@deftp {Struct} {lw6pil_local_cursors_s}
-
-    
-Contains information about all local cursors, which will override information from game state.     
-@end deftp
-
-@defcv {Member} {lw6pil_local_cursors_s} {main_cursor_id}
-@strong{Type:} @code{u_int16_t}
-
-@strong{Definition:} @code{u_int16_t lw6pil_local_cursors_s::main_cursor_id}
-
-
-        
-Main cursor ID (16-bit non-zero unsigned int). By main, we usually mean the mouse-driven one but necessarily. But still, this is a cursor which will have a special role, it will be used to center the map if needed, among other things.         
-@end defcv
-
-@defcv {Member} {lw6pil_local_cursors_s} {main_i}
-@strong{Type:} @code{int}
-
-@strong{Definition:} @code{int lw6pil_local_cursors_s::main_i}
-
-
-Main cursor index.         
-        
-@end defcv
-
-@defcv {Member} {lw6pil_local_cursors_s} {nb_cursors}
-@strong{Type:} @code{int}
-
-@strong{Definition:} @code{int lw6pil_local_cursors_s::nb_cursors}
-
-
-Number of cursors.         
-        
-@end defcv
-
-@defcv {Member} {lw6pil_local_cursors_s} {cursors}
-@strong{Type:} @code{lw6pil_local_cursor_t}
-
-@strong{Definition:} @code{lw6pil_local_cursor_t lw6pil_local_cursors_s::cursors[LW6MAP_MAX_NB_CURSORS]}
-
-
-The cursors array.         
-        
-@end defcv
-
-
-
-  
 @deftp {Struct} {lw6pil_local_cursor_s}
 
     
@@ -289,6 +240,55 @@ Wether this cursor is mouse controlled. If yes, then information will be taken d
 
 
 Wether this cursor is the main cursor.         
+        
+@end defcv
+
+
+
+  
+@deftp {Struct} {lw6pil_local_cursors_s}
+
+    
+Contains information about all local cursors, which will override information from game state.     
+@end deftp
+
+@defcv {Member} {lw6pil_local_cursors_s} {main_cursor_id}
+@strong{Type:} @code{u_int16_t}
+
+@strong{Definition:} @code{u_int16_t lw6pil_local_cursors_s::main_cursor_id}
+
+
+        
+Main cursor ID (16-bit non-zero unsigned int). By main, we usually mean the mouse-driven one but necessarily. But still, this is a cursor which will have a special role, it will be used to center the map if needed, among other things.         
+@end defcv
+
+@defcv {Member} {lw6pil_local_cursors_s} {main_i}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_local_cursors_s::main_i}
+
+
+Main cursor index.         
+        
+@end defcv
+
+@defcv {Member} {lw6pil_local_cursors_s} {nb_cursors}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_local_cursors_s::nb_cursors}
+
+
+Number of cursors.         
+        
+@end defcv
+
+@defcv {Member} {lw6pil_local_cursors_s} {cursors}
+@strong{Type:} @code{lw6pil_local_cursor_t}
+
+@strong{Definition:} @code{lw6pil_local_cursor_t lw6pil_local_cursors_s::cursors[LW6MAP_MAX_NB_CURSORS]}
+
+
+The cursors array.         
         
 @end defcv
 

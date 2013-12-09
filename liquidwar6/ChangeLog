@@ -1,3 +1,7 @@
+2013-12-09 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Re-organized test scripts.
+
 2013-12-04 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Using serial_real and not serial_base to get MISS messages.

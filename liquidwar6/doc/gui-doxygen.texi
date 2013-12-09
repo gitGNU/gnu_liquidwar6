@@ -534,115 +534,6 @@ A style structure which will override the one from the map, depending on the loc
 
 
   
-@deftp {Struct} {lw6gui_menuitem_s}
-
-    
-Menu item object. Basically, a menu is an array of these items, it's up to the gfx backend to render this as accurately as possible. The most important field is probably the label.     
-@end deftp
-
-@defcv {Member} {lw6gui_menuitem_s} {id}
-@strong{Type:} @code{u_int32_t}
-
-@strong{Definition:} @code{u_int32_t lw6gui_menuitem_s::id}
-
-
-        
-The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
-@end defcv
-
-@defcv {Member} {lw6gui_menuitem_s} {label}
-@strong{Type:} @code{char *}
-
-@strong{Definition:} @code{char* lw6gui_menuitem_s::label}
-
-
-What is displayed in the menu item.         
-        
-@end defcv
-
-@defcv {Member} {lw6gui_menuitem_s} {tooltip}
-@strong{Type:} @code{char *}
-
-@strong{Definition:} @code{char* lw6gui_menuitem_s::tooltip}
-
-
-An additionnal tooltip explaining what the item is about.         
-        
-@end defcv
-
-@defcv {Member} {lw6gui_menuitem_s} {value}
-@strong{Type:} @code{int}
-
-@strong{Definition:} @code{int lw6gui_menuitem_s::value}
-
-
-        
-The value for this item, can typically be used for booleans and integer values, in addition to the information conveyed by the label. One special case is colored items, in that case the value will be used as a color index.         
-@end defcv
-
-@defcv {Member} {lw6gui_menuitem_s} {enabled}
-@strong{Type:} @code{int}
-
-@strong{Definition:} @code{int lw6gui_menuitem_s::enabled}
-
-
-Wether the item is valid and can be used.         
-        
-@end defcv
-
-@defcv {Member} {lw6gui_menuitem_s} {selected}
-@strong{Type:} @code{int}
-
-@strong{Definition:} @code{int lw6gui_menuitem_s::selected}
-
-
-Wether the item is the current selection.         
-        
-@end defcv
-
-@defcv {Member} {lw6gui_menuitem_s} {colored}
-@strong{Type:} @code{int}
-
-@strong{Definition:} @code{int lw6gui_menuitem_s::colored}
-
-
-        
-Wether to colorize the item, and in that case, use the value field to know which color to use.         
-@end defcv
-
-@defcv {Member} {lw6gui_menuitem_s} {last_change}
-@strong{Type:} @code{int}
-
-@strong{Definition:} @code{int lw6gui_menuitem_s::last_change}
-
-
-Timestamp of last time the menu item was updated and changed.         
-        
-@end defcv
-
-@defcv {Member} {lw6gui_menuitem_s} {last_select}
-@strong{Type:} @code{int}
-
-@strong{Definition:} @code{int lw6gui_menuitem_s::last_select}
-
-
-Timestamp of last time the menu was selected.         
-        
-@end defcv
-
-@defcv {Member} {lw6gui_menuitem_s} {last_unselect}
-@strong{Type:} @code{int}
-
-@strong{Definition:} @code{int lw6gui_menuitem_s::last_unselect}
-
-
-Timestamp of last time the menu was unselected.         
-        
-@end defcv
-
-
-
-  
 @deftp {Struct} {lw6gui_menu_s}
 
     
@@ -777,6 +668,115 @@ Wether scrolling is allowed.
 
         
 List of strings containing the breadcrumbs, that is to say all the menu titles that one must use to get here.         
+@end defcv
+
+
+
+  
+@deftp {Struct} {lw6gui_menuitem_s}
+
+    
+Menu item object. Basically, a menu is an array of these items, it's up to the gfx backend to render this as accurately as possible. The most important field is probably the label.     
+@end deftp
+
+@defcv {Member} {lw6gui_menuitem_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6gui_menuitem_s::id}
+
+
+        
+The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
+@end defcv
+
+@defcv {Member} {lw6gui_menuitem_s} {label}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6gui_menuitem_s::label}
+
+
+What is displayed in the menu item.         
+        
+@end defcv
+
+@defcv {Member} {lw6gui_menuitem_s} {tooltip}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6gui_menuitem_s::tooltip}
+
+
+An additionnal tooltip explaining what the item is about.         
+        
+@end defcv
+
+@defcv {Member} {lw6gui_menuitem_s} {value}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menuitem_s::value}
+
+
+        
+The value for this item, can typically be used for booleans and integer values, in addition to the information conveyed by the label. One special case is colored items, in that case the value will be used as a color index.         
+@end defcv
+
+@defcv {Member} {lw6gui_menuitem_s} {enabled}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menuitem_s::enabled}
+
+
+Wether the item is valid and can be used.         
+        
+@end defcv
+
+@defcv {Member} {lw6gui_menuitem_s} {selected}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menuitem_s::selected}
+
+
+Wether the item is the current selection.         
+        
+@end defcv
+
+@defcv {Member} {lw6gui_menuitem_s} {colored}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menuitem_s::colored}
+
+
+        
+Wether to colorize the item, and in that case, use the value field to know which color to use.         
+@end defcv
+
+@defcv {Member} {lw6gui_menuitem_s} {last_change}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menuitem_s::last_change}
+
+
+Timestamp of last time the menu item was updated and changed.         
+        
+@end defcv
+
+@defcv {Member} {lw6gui_menuitem_s} {last_select}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menuitem_s::last_select}
+
+
+Timestamp of last time the menu was selected.         
+        
+@end defcv
+
+@defcv {Member} {lw6gui_menuitem_s} {last_unselect}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menuitem_s::last_unselect}
+
+
+Timestamp of last time the menu was unselected.         
+        
 @end defcv
 
 

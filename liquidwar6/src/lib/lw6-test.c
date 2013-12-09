@@ -504,44 +504,41 @@ lw6_test_register (int mode)
 	{
 	  LW6SYS_CUNIT_ADD_TEST (suite, _test_main);
 	}
-      if (mode & LW6SYS_TEST_MODE_FULL_TEST)
+      if (lw6sys_process_is_fully_supported ())
 	{
-	  if (lw6sys_process_is_fully_supported ())
+	  /*
+	   * Switch between lw6sys_true / lw6sys_false to
+	   * speed up test while debugging.
+	   */
+	  if (lw6sys_true ())
 	    {
-	      /*
-	       * Switch between lw6sys_true / lw6sys_false to
-	       * speed up test while debugging.
-	       */
-	      if (lw6sys_true ())
-		{
-		  LW6SYS_CUNIT_ADD_TEST (suite, _test_node_abc);
-		}
-	      /*
-	       * Switch between lw6sys_true / lw6sys_false to
-	       * speed up test while debugging.
-	       */
-	      if (lw6sys_true ())
-		{
-		  LW6SYS_CUNIT_ADD_TEST (suite, _test_node_bca);
-		}
-	      /*
-	       * Switch between lw6sys_true / lw6sys_false to
-	       * speed up test while debugging.
-	       */
-	      if (lw6sys_true ())
-		{
-		  LW6SYS_CUNIT_ADD_TEST (suite, _test_node_cab);
-		}
+	      LW6SYS_CUNIT_ADD_TEST (suite, _test_node_abc);
 	    }
-	  else
+	  /*
+	   * Switch between lw6sys_true / lw6sys_false to
+	   * speed up test while debugging.
+	   */
+	  if (lw6sys_true ())
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_
-			  ("skipping client/server test, platform does not have adequate process support and/or it's likely to fail anyway"));
-	      _test_data.param_a.ret = 1;
-	      _test_data.param_b.ret = 1;
-	      _test_data.param_c.ret = 1;
+	      LW6SYS_CUNIT_ADD_TEST (suite, _test_node_bca);
 	    }
+	  /*
+	   * Switch between lw6sys_true / lw6sys_false to
+	   * speed up test while debugging.
+	   */
+	  if (lw6sys_true ())
+	    {
+	      LW6SYS_CUNIT_ADD_TEST (suite, _test_node_cab);
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("skipping client/server test, platform does not have adequate process support and/or it's likely to fail anyway"));
+	  _test_data.param_a.ret = 1;
+	  _test_data.param_b.ret = 1;
+	  _test_data.param_c.ret = 1;
 	}
     }
   else

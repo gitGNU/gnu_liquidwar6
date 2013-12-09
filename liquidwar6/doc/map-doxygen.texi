@@ -502,6 +502,35 @@ Directory where music files can be loaded.
 
 
   
+@deftp {Struct} {lw6map_meta_layer_s}
+
+    
+A meta layer is a special layer which contains, for instance, informations such as where there's a special trick like glue.     
+@end deftp
+
+@defcv {Member} {lw6map_meta_layer_s} {shape}
+@strong{Type:} @code{lw6sys_whd_t}
+
+@strong{Definition:} @code{lw6sys_whd_t lw6map_meta_layer_s::shape}
+
+
+Shape of the metalayer.         
+        
+@end defcv
+
+@defcv {Member} {lw6map_meta_layer_s} {data}
+@strong{Type:} @code{u_int8_t *}
+
+@strong{Definition:} @code{u_int8_t* lw6map_meta_layer_s::data}
+
+
+Raw (byte) data.         
+        
+@end defcv
+
+
+
+  
 @deftp {Struct} {lw6map_metadata_s}
 
     
@@ -555,35 +584,6 @@ License of the map (short, like GPLv2+ or GPLv3+).
 
 
 Exp as stored in the XML file of the map.         
-        
-@end defcv
-
-
-
-  
-@deftp {Struct} {lw6map_meta_layer_s}
-
-    
-A meta layer is a special layer which contains, for instance, informations such as where there's a special trick like glue.     
-@end deftp
-
-@defcv {Member} {lw6map_meta_layer_s} {shape}
-@strong{Type:} @code{lw6sys_whd_t}
-
-@strong{Definition:} @code{lw6sys_whd_t lw6map_meta_layer_s::shape}
-
-
-Shape of the metalayer.         
-        
-@end defcv
-
-@defcv {Member} {lw6map_meta_layer_s} {data}
-@strong{Type:} @code{u_int8_t *}
-
-@strong{Definition:} @code{u_int8_t* lw6map_meta_layer_s::data}
-
-
-Raw (byte) data.         
         
 @end defcv
 

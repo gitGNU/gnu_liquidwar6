@@ -82,18 +82,29 @@ _scm_lw6_exit ()
 }
 
 static SCM
-_scm_lw6_set_ret (SCM ret)
+_scm_lw6_set_ret (SCM set_ret)
 {
+  SCM get_ret = SCM_UNDEFINED;
+
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_BOOLP (ret), ret, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_BOOLP (set_ret), set_ret, SCM_ARG1, __FUNCTION__);
 
-  lw6_set_ret (SCM_NFALSEP (ret));
+  if (SCM_NFALSEP (set_ret))
+    {
+      lw6_set_ret (1);
+      get_ret = SCM_BOOL_T;
+    }
+  else
+    {
+      lw6_set_ret (0);
+      get_ret = SCM_BOOL_F;
+    }
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
-  return SCM_UNDEFINED;
+  return get_ret;
 }
 
 static SCM
