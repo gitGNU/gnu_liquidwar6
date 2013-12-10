@@ -1,3 +1,7 @@
+2013-12-10 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Removed auto-generated doc files from repo.
+
 2013-12-09 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Re-organized test scripts.
