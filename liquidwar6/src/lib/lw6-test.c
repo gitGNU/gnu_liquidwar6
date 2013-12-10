@@ -416,6 +416,10 @@ _setup_init ()
       _test_data.param_b.suite = _TEST_SUITE_NODE_B;
       _test_data.param_c.suite = _TEST_SUITE_NODE_C;
 
+      _test_data.param_a.coverage_check = 0;
+      _test_data.param_b.coverage_check = 0;
+      _test_data.param_c.coverage_check = 0;
+
       ret = CUE_SUCCESS;
     }
 
