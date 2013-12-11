@@ -1652,9 +1652,11 @@ _test_more ()
 			  {
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
 					_x_ ("registering node %"
-					     LW6SYS_PRINTF_LL "x with seq %"
+					     LW6SYS_PRINTF_LL
+					     "x in warehouse %d with seq %"
 					     LW6SYS_PRINTF_LL "d"),
 					(long long) node_ids[stage],
+					warehouse_index,
 					(long long) node_seq_0s[stage]);
 			    lw6dat_warehouse_register_node (warehouse
 							    [warehouse_index],
@@ -1726,20 +1728,20 @@ _test_more ()
 			      {
 				lw6sys_log (LW6SYS_LOG_NOTICE,
 					    _x_
-					    ("in warehouse %d are %d messages not sent for node %"
+					    ("check nb_init_not_sent, in warehouse %d are %d messages not sent for node index=%d id=%"
 					     LW6SYS_PRINTF_LL "x"),
 					    warehouse_index, not_sent_length,
-					    (long long) node_id);
+					    node_index, (long long) node_id);
 			      }
 			    else
 			      {
 				lw6sys_log (LW6SYS_LOG_WARNING,
 					    _x_
-					    ("in warehouse %d are %d messages not sent for node %"
+					    ("check nb_init_ot_sent, in warehouse %d are %d messages not sent for node index=%d id=%"
 					     LW6SYS_PRINTF_LL
 					     "x, expecting %d"),
 					    warehouse_index, not_sent_length,
-					    (long long) node_id,
+					    node_index, (long long) node_id,
 					    nb_init_not_sent[warehouse_index]
 					    [node_index]);
 				ret = 0;
@@ -1817,20 +1819,20 @@ _test_more ()
 			      {
 				lw6sys_log (LW6SYS_LOG_NOTICE,
 					    _x_
-					    ("in warehouse %d are %d messages not sent for node %"
+					    ("check nb_cross_not_sent, in warehouse %d are %d messages not sent for node index=%d id=%"
 					     LW6SYS_PRINTF_LL "x"),
 					    warehouse_index, not_sent_length,
-					    (long long) node_id);
+					    node_index, (long long) node_id);
 			      }
 			    else
 			      {
 				lw6sys_log (LW6SYS_LOG_WARNING,
 					    _x_
-					    ("in warehouse %d are %d messages not sent for node %"
+					    ("check nb_cross_not_sent, in warehouse %d are %d messages not sent for node index=%d id=%"
 					     LW6SYS_PRINTF_LL
 					     "x, expecting %d"),
 					    warehouse_index, not_sent_length,
-					    (long long) node_id,
+					    node_index, (long long) node_id,
 					    nb_cross_not_sent[warehouse_index]
 					    [node_index]);
 				ret = 0;
