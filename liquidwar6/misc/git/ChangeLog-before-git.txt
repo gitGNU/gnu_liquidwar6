@@ -1,0 +1,2731 @@
+2010-01-16  Christian Mauduit <ufoot@ufoot.org>
+
+	* Minor p2p fix, calling poll in test.
+
+2010-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated doc, background-style does support void.
+
+2010-01-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* Minor p2p hack, back on track.
+
+2010-01-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* Copyright 2009 -> 2010.
+
+	* Updated gauge bitmap, new layout by Kasper, respecting Tim's idea.
+
+2009-12-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* Map XML update by Kasper.
+
+2009-11-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated snapshot generator, should now generate extra-maps too.
+
+2009-11-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Level redisign (new XML files) by Kasper Hviid.
+
+2009-11-16  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed vthread bug caused by previous fix (thread was fired twice).
+
+2009-11-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed #27819, by creating a dedicated vthread struct.
+
+2009-11-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* Snapshot generator now adds ChangeLog and deletes old files.
+
+2009-11-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* P2P node objects can be instanciated in Guile code.
+
+2009-11-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* Better meta-layer management, using random "noised" builtin.
+
+2009-11-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Task #9286: alpha blending for floating hud -> done.
+
+	* http://parisc-linux.org/~bame/pmccabe/ (cyclomatic complexity)
+
+2009-11-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed lw6_test, now uses argc & argv to find script file.
+
+	* Fixed #27843 (params not passed).
+
+2009-11-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed one-way meta-layers, they do work.
+
+2009-11-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started to implement one-way meta-layers.
+
+2009-10-31  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixes to allow snapshot generation.
+
+2009-10-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* Re-imported 2 of Tim Chadburn's Ogg, plus added music exclude filters.
+
+	* Changed test suite functions prototype all smoother make check.
+
+2009-10-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented danger.png an medicine.png support.
+
+	* Updated credits, giving an entry to all music contributors.
+
+	* Map fixes.
+
+2009-10-28  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented glue, still need a good level to test it.
+
+	* Changed the way bin-id is calculated.
+
+	* Added simple all in one 'speed' parameter.
+
+	* Displayings moves per sec (mps) instead of rounds per sec (rps).
+
+	* Added time-to-cross-level and guess-speed options.
+
+2009-10-27  Christian Mauduit <ufoot@ufoot.org>
+
+	* No more duplication of log messages, fixes #27803.
+
+	* Esc button selectable in-game, fixes #27804.
+
+	* Local cursor support, fixes #27806.
+
+2009-10-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* Preparing local cursor array support in GUI module.
+
+2009-10-25  Christian Mauduit <ufoot@ufoot.org>
+
+	* Inverted the texture-alpha.jpeg convention. White == transparent.
+
+	* It's now possible to embed music within a map directory.
+
+	* Added music-filter and ambiance-filter.
+
+	* Added music-file and music-file options to style.xml.
+
+	* Added Tim Chadburn's midis and some ModArchive modules.
+
+2009-10-24  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added techno musics from dogmazic.net.
+
+	* Started to add support for boost, danger, medicine meta layers.
+
+2009-10-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Bench can be accessed through the interface.
+
+	* Preparing the terrain to implement glue support.
+
+	* Better bench based map resizing.
+
+2009-10-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Hacked p2p module. Created node object.
+
+2009-10-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Bench is used to downscale maps, if needed.
+	
+	* Added bench at game startup, along with bin-id support.
+	
+	* Fixed https://savannah.gnu.org/bugs/?25504 by adding --enable-headless
+	
+2009-10-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* Changed packaging scripts.
+
+	* Got rid of strcasestr calls (does not exist on mingw32).
+
+2009-10-19  Christian Mauduit <ufoot@ufoot.org>
+
+	* Finally, music are played in game.
+
+	* Music moved in source tree, listed automatically by program.
+
+	* Added music-dir and music-path options.
+
+	* Fixed memory bug in file reading.
+
+2009-10-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added directory list functions.
+
+	* Fixed bug in builtin map generation (added check_and_fix_holes).
+
+2009-10-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* Music API works, now need to wire that in the game.
+
+	* Credits displayed in splash screen.
+
+	* Added credits entries in hlp module.
+
+	* Added music options (--music-file and --use-music-ogg).
+	
+	* Imported Tim Chadburn's music from http://orbitalwintersong.org.uk/
+
+2009-10-16  Christian Mauduit <ufoot@ufoot.org>
+
+	* Complete team-dead-color support.
+
+	* Added icon support.
+
+	* Implemented wall-grease option.
+
+	* New bubbles.png by Kasper Hviid.
+
+	* Added --display-url and --respawn-random-place options.
+
+2009-10-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added fanfare start jingle by Tim Chadburn.
+
+	* Added --capture option.
+
+2009-10-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Splash screen works. Needs adjustments, but works.
+
+	* Added cycle time function.
+
+	* Disactivated selfdoc and gdoc on cross-compiling.
+
+2009-10-13  Christian Mauduit <ufoot@ufoot.org>
+
+	* Starting to implement splash screen.
+
+	* Added windows rc file.
+
+	* Added gfx-quality parameter.
+
+	* On windowed/screen switch, bitmaps are only refreshed, not reloaded.
+
+2009-10-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* Bitmap refresh on resize works.
+
+2009-10-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* Tried to implement auto bitmap refresh. Still buggy.
+
+	* Display map and armies uses new bitmap object.
+
+2009-10-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Percent and frags shown together in deathmatch mode.
+
+	* Factorizing text display code.
+
+2009-10-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added GP2X platform detection.
+
+	* Added heap size control to bazooka.
+
+	* Menu/bubbles now uses new bitmap objects.
+
+2009-10-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed bug in colorization.
+
+	* Replaced target_cpu and target_os by host_cpu and host_os
+
+2009-10-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* Bubbles background now uses new bitmap functions.
+
+2009-10-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* Adding new "bitmap" object to handle surface & texture together.
+
+	* Fixed RPM postinstall script.
+
+2009-10-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Trying to get read for the cab't read README MS-Windows message.
+
+	* Packed utod.sh & dotu.sh
+
+2009-10-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 0.0.7beta.
+
+	* Video options menu now accessible again for MS-Windows.
+
+	* Changed sounds, using Kasper ones.
+
+2009-10-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* Deathmatch mode implemented.
+
+	* Implemented pixelize option to emulate old LW5 look.
+
+	* Implemented history in ker module.
+
+	* Defaults map is now a real world map.
+
+2009-10-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* Optimized update_game_texture.
+
+	* Changed static funcs to extern, to ease up profiling.
+
+	* Optimized core algorithm (20% gain on flat maps).
+
+2009-09-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* Input is now cleared at game start/end.
+
+	* Fixed F10 hot quit key.
+
+2009-09-27  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed bot support which had been broken by dirty reads.
+
+2009-09-25  Christian Mauduit <ufoot@ufoot.org>
+
+	* Tracked down display bug, game_state pointer wasn't updated.
+
+	* Gauge disks display percentage. Done with it.
+
+2009-09-24  Christian Mauduit <ufoot@ufoot.org>
+
+	* Gauge disks use score.
+
+	* Added score functions to ker module.
+
+2009-09-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Starting to display team gauge disks.
+
+2009-09-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Better speed/time calibration
+
+	* Changed the way main_cursor is handled.
+
+2009-09-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added translation howto.
+
+	* Now caching clock display.
+
+2009-09-21  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* m4/codeset.m4: New file, from gettext-0.17.
+	* m4/glibc2.m4: New file, from gettext-0.17.
+	* m4/glibc21.m4: New file, from gettext-0.17.
+	* m4/intdiv0.m4: New file, from gettext-0.17.
+	* m4/intl.m4: New file, from gettext-0.17.
+	* m4/intldir.m4: New file, from gettext-0.17.
+	* m4/intlmacosx.m4: New file, from gettext-0.17.
+	* m4/intmax.m4: New file, from gettext-0.17.
+	* m4/inttypes_h.m4: New file, from gettext-0.17.
+	* m4/inttypes-pri.m4: New file, from gettext-0.17.
+	* m4/lcmessage.m4: New file, from gettext-0.17.
+	* m4/lock.m4: New file, from gettext-0.17.
+	* m4/longlong.m4: New file, from gettext-0.17.
+	* m4/printf-posix.m4: New file, from gettext-0.17.
+	* m4/size_max.m4: New file, from gettext-0.17.
+	* m4/stdint_h.m4: New file, from gettext-0.17.
+	* m4/uintmax_t.m4: New file, from gettext-0.17.
+	* m4/visibility.m4: New file, from gettext-0.17.
+	* m4/wchar_t.m4: New file, from gettext-0.17.
+	* m4/wint_t.m4: New file, from gettext-0.17.
+	* m4/xsize.m4: New file, from gettext-0.17.
+	* configure.ac (AC_CONFIG_FILES): Add intl/Makefile.
+
+2009-09-21  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* m4/gettext.m4: New file, from gettext-0.17.
+	* m4/iconv.m4: New file, from gettext-0.17.
+	* m4/lib-ld.m4: New file, from gettext-0.17.
+	* m4/lib-link.m4: New file, from gettext-0.17.
+	* m4/lib-prefix.m4: New file, from gettext-0.17.
+	* m4/nls.m4: New file, from gettext-0.17.
+	* m4/po.m4: New file, from gettext-0.17.
+	* m4/progtest.m4: New file, from gettext-0.17.
+	* Makefile.am (SUBDIRS): Remove intl.
+	* configure.ac (AM_GNU_GETTEXT_VERSION): Bump to 0.17.
+
+2009-09-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed bug in pointer passing (display_update).
+
+2009-09-19  Christian Mauduit <ufoot@ufoot.org>
+
+	* Full dynamic zoom.
+
+	* Smooth scrolling implemented.
+
+	* Added visible_pos to cursor, which now moves real time.
+
+	* Moved default keysym defs so mod-gl1 const file.
+
+	* Border fix in map surfacearray creation.
+
+2009-09-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* Better tiling (overlaps by 1 pixel).
+
+	* Displaying progress bar for pilot creation.
+
+	* Menu display doesn't use blending any more, picking more precise.
+
+	* Progress passed by pointer.
+
+	* No mutex reserved when there's no input change.
+
+	* Added mipmapping and increased texture size for map tiles.
+
+2009-09-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* Various optimisations, including OpenGL stuff.
+
+2009-09-16  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented spinlocks, suspected to be faster with memory bazooka.
+
+	* Removed files form po/POTFILES.in (lighter translation).
+
+	* Added hash index to bazooka, improves performance.
+
+2009-09-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added support for Google PerfTools (CPU/HEAP Profiler).
+
+	* Cached timestamp values in mod-gl1.
+
+2009-09-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented (real) dirty read mode.
+
+2009-09-13  Christian Mauduit <ufoot@ufoot.org>
+
+	* Dsp does not duplicate level/game_struct/game_state anymore.
+
+	* Dsp functions now use a smob.
+
+2009-09-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* Better rps display (conditionnal + floating point).
+
+	* Sound functions now use a smob.
+
+	* Preparing terrain for multiple displays.
+
+	* Can display RPS (again).
+
+	* Changed cursor blink.
+
+	* Added dirty read option for getting game_state.
+
+2009-09-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added getitimer/setitimer calls so that gprof profiles threads.
+
+	* Added --enable-instrument switch.
+
+2009-09-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implememted sticky mouse.
+
+	* Implemented smoothers, yet to be used.
+
+	* New 64-bit timestamps fully implemented, timing bug suspected.
+
+2009-09-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* Replacing all ticks by 64-bit timestamps.
+
+	* Added precise dependencies to RPM spec file.
+
+	* Added x-wrap and y-wrap style parameters.
+
+2009-09-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* New viewport handling, uniform, knows about wrapping.
+
+	* Test for gui viewport/zone functions.
+
+	* Correct implemenatation of lw6sys_math_poly_wy1y2s1.
+
+	* Started to implement math wizardry in sys module.
+
+	* Updated doc.
+
+2009-09-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* Switched to automake 1.11
+
+	* Started to implement viewport code in GUI module.
+
+2009-09-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed map loading, was broken when texture.jpeg was not here.
+
+2009-09-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* Mouse control works again.
+
+	* Added mouse coordinate feedback func.
+
+	* Fixed bug in wheelup/wheeldown handling.
+
+	* Game is playable again, at least with keyboard.
+
+	* Fixed resolution detection/change.
+
+2009-09-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Better fullscreen mode detection.
+
+	* Revamped default options handing.
+
+	* Default, min, max values now displayed in help.
+
+	* Hacking the hlp module.
+
+2009-09-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* New display-mouse option now works (mouse can be hidden).
+
+2009-08-31  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added --display-mouse option.
+
+	* Merged various sensitivity/max-speed parameters.
+
+2009-08-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* Map choosing works, has quirks, but works.
+
+2009-08-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added allow_scroll option to select menu function.
+
+	* Fixed video options menu.
+
+2009-08-28  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added the possibility to get rid of esc button.
+
+	* Fixed bug in Guile objects freeing.
+
+	* Esc button can be dectected by GUI.
+
+2009-08-28  Christian Mauduit <ufoot@ufoot.org>
+
+	* Displaying an "Esc" button in menus (not functional yet).
+
+	* Re-exported C keyboard and joystick functions to Guile.
+
+	* Added --paranoid build option.
+
+2009-08-27  Christian Mauduit <ufoot@ufoot.org>
+
+	* Setting up display through script works.
+
+	* Implemented dsp param conversion (guile to C).
+
+	* Added display options switches to handle display mask.
+
+	* Critical warning when bazooka can't alloc memory.
+
+	*  Tracked down long suspected double-free issue in dsp code.
+
+2009-08-26  Christian Mauduit <ufoot@ufoot.org>
+
+	*  Moved QUIT handling to gui code.
+
+	* Proper cross-thread error checking when setting up video mode.
+
+2009-08-25  Christian Mauduit <ufoot@ufoot.org>
+
+	* Game compiles again. Scripts need fixes, along with Guile bindings.
+
+	* liquidwar6dsp-test too, and log display is fixed.
+
+	* liquidwar6gfx-test compiles again, works.
+
+2009-08-24  Christian Mauduit <ufoot@ufoot.org>
+
+	* Disabled C-reference in printed documentation.
+
+	* Normalized key naming (up/down/left/right/enter/esc/pgup/pgdown)
+
+	* Fixed key repeat support.
+
+	* New TMP macro for debugging.
+
+2009-08-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* The dsp module is now able to use the new input system.
+
+	* Changing input mode to use the new gui structure. Doesn't compile.
+
+	* Splitted input structure with separated keyboard info.
+
+2009-08-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Introducing input object at GUI level.
+
+	* Added fps support to dsp module.
+
+2009-08-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Module dsp displays game with fighters & all.
+
+	* Module dsp displays map preview.
+
+	* Module dsp displays menus.
+
+	* Memory bazooka now has rudimentary double-free detection.
+
+	* Data is reloaded after a screen resize.
+
+	* Implemented vthread to handle SDL thread limitation.
+	
+	* Removed flag parameter from threads.
+
+2009-08-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* All graphics handled within thread in dsp module.
+
+	* Minor GL fixes, glIsTexure was called when not needed.
+
+2009-08-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* Mac OS/X fully supported, only packaging lacks.
+
+2009-08-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* First workable OS/X binary, needed to patch SDL.
+
+	* Preparing Mac OS X support, various comestic fixes.
+
+2009-07-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Hacked the dsp module, better param comparison.
+
+2009-01-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Update to GFDL 1.3 for manual.
+
+	* Introduced lw6gui_video_mode_t in gfx API.
+
+2009-01-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added global (GTAGS/HTML) support.
+
+2009-01-16  Christian Mauduit <ufoot@ufoot.org>
+
+	* Created libdsp internal module.
+
+2009-01-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* 0.0.6beta -> 0.0.7beta.
+
+2009-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 0.0.6beta.
+
+	* Added a minimum resolution to fishy map.
+
+	* Removed config.xml read Warning on MS-Windows.
+
+	* Added doc on layers and extra maps.
+
+2009-01-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed NSIS installer .nsi file.
+
+2009-01-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed RPM spec file.
+
+2009-01-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* Display centered on main cursor when zoom>1.
+
+2009-01-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* Splitted '--pedigree' output to '--pedigree' and '--target'.
+
+	* Fixed idiot bot which was fooled by layers.
+
+	* Fixed Debian packages.
+	
+	* Can query program about pointer-size and endianness.
+
+2009-01-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added memory basic integer & struct size checks.
+
+	* Transparency 'hidden-layer-alpha' style property works.
+	
+	* Added vertical-move & fighter-regenerate rules.
+
+2009-01-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed layer bug, gradient is now correct even on multilayer maps.
+
+2009-01-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* Map struct fix (discovered hacking on layers).
+
+2009-01-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed bug #25224, broken macro + configure.ac script
+
+	* Fixed bug #24315, <stdio.h> was forgotten in cns-history.c
+
+	* Partial layer support, compiles, runs with 1 layer.
+
+	* Copyright 2008 -> 2009.
+ 	
+2009-01-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* Heavy hack on layers, introduced 3-d pos.
+
+2008-12-31  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started to implement layers. Code does not compile.
+
+2008-12-30  Christian Mauduit <ufoot@ufoot.org>
+	
+	* Implemented universal input.
+
+2008-12-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* Idiot bot changes speed depending on map size.
+
+	* Fixed bug in event handling, caused cursor not to be applied.
+
+2008-12-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed in-game joystick support.
+
+2008-12-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed Debian packaging.
+
+	* Opening files in binary mode, should fix MS-Windows warning.
+
+2008-12-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 0.0.5beta, codename Henri IV.
+	
+	* Fixed id_64 conversion on MS-Windows.
+
+	* Fixed hole detection on polarized maps.
+
+2008-12-19  Christian Mauduit <ufoot@ufoot.org>
+
+	* Demo & quick start.
+
+2008-12-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* Mouse control works.
+
+	* Bots mod-random & mod-stupid completed.
+
+	* Guile callbacks to manipulate bot smob.
+
+2008-12-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented bot smob.
+
+2008-12-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Illusion of instant cursor move.
+
+	* Game slows down if neeeded.
+
+	* Cursor are displayed (plain squares for now).
+	
+2008-12-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started to hack display cursor code.
+
+	* Can (finally!) move keyboard-based cursor.
+
+2008-12-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* Messages sent to pilot. Note : still buggy :(
+
+	* Fixed polarity support.
+	
+	* Source stamp strips spaces and control characters.
+
+2008-12-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started to implement cursor moving.
+
+2008-12-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Modified "ADD" command, now takes text color.
+
+2008-12-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started to implement local game
+
+2008-12-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added loader-get-stage function.
+
+	* Removed pot-offset arg from cursor set function.
+
+2008-12-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added script bindings for 'pil' module.
+
+2008-12-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added spread-thread switch
+
+	* Simpler 'pil' thread model
+
+2008-12-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* Bench now also stresses draft threads.
+
+2008-12-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented synchronisation & anticipation in 'pil'.
+	
+	* Added a warning when verified commands are not sent correctly.
+	
+	* Bench works.
+
+2008-12-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* Commands are executed by 'pil'.
+	
+	* Getting texture from depth (exact pixel match) when ignoring jpeg
+	
+	* Mask & odd/even move/spread handled in 'ker'/'pil' modules.
+	
+	* Threads synchronisation in 'pil' lib works.
+
+	* Better cos & sin roundings.
+
+2008-11-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implementing thread sync in 'pil' module.
+
+2008-11-28  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented basic 'pil' command parser.
+
+	* Added game_struct dup function.
+
+2008-11-27  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added --bench option (not implemented yet).
+
+	* Added server registering/unregistering functions.
+
+	* Modified smob code to acknowledge non-stable objects repr.
+
+2008-11-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* Removed slowish calls to lw6sys_arg_match
+	
+	* Team removal works again.
+
+2008-11-25  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started to hack in pil module.
+
+	* Config uses hash table too.
+
+	* Help system uses hash table.
+
+	* Implemented hash low-level support.
+	
+	* Added module_pedigree support.
+
+2008-11-24  Christian Mauduit <ufoot@ufoot.org>
+
+	* New '--force' option, comma-delimited list.
+
+2008-11-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* armies_surface -> armies_size (as a %)
+
+	* Can choose bot mode through menus.
+
+	* Can change fighter-scale, resample, color-conflict-mode with menu.
+
+	* Added moves per round to speed settings.
+
+	* Fixed bug in colorization, background was colorized too late.
+
+2008-11-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Map view when choosing colors.
+	
+	* Teams populated from script.
+
+2008-11-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Brand new way to add teams, using cursor ids.
+
+2008-11-19  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started to revamp cursor handling in ker module.
+
+	* Added 16/32/64-bit ids generator.
+
+	* Added shape control in sys module.
+
+2008-11-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* Removed deprecated bot code.
+
+	* Added log history support.
+
+2008-11-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* Files options.xml+style.xml > rules.xml+hints.xml+style.xml
+
+	* Added windowed-mode-limit option.
+
+2008-11-16  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added windowed-mode-limit parameter, not implemented yet.
+
+	* Complete progress bar support.
+
+2008-11-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Guessed colors are now solid.
+
+	* Implemented progress bar, needs polishing, but works.
+	
+	* Log file cleared when running tests.
+
+	* Using map copy instead of hexa serialization in async loader.
+
+	* Implemented map copy.
+
+	* More complete map check in ldr module.
+
+2008-11-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented stage2 async loader (loads game_struct).
+
+	* Replaced register-...-allinone.c files by #defines.
+
+	* Added LW6_OPTIMIZE def, which disables some logs & mem bazooka.
+
+	* Created bot internal libraries with dynamic modules.
+
+2008-11-13  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented joystick repeat support, needs testing.
+
+	* Added 'def' module, to avoid typesettings errors.
+
+2008-11-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added key repeat support.
+
+	* Added support for lcov html reports.
+
+2008-11-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Menu is centered when first pushed.
+
+	* Added 'color-base' and 'background-root'.
+
+	* Maps can be chosen in subdirs.
+
+2008-11-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented path splitting.
+
+	* Fixing handling of recursive map menus.
+
+2008-11-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* Timid network protocol documentation.
+
+	* On the fly changing of gfx/snd backend works.
+
+2008-11-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added gfx/snd backends to config + proper script detection.
+
+	* Fixed lt dependency wreck in mod-ogg (automake 1.10 broken)
+
+2008-11-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* Time setable through the menus.
+
+2008-11-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* More options in the menus.
+	
+	* Menuitem warp fix (replaced GL_POINT by GL_POINTS...)
+
+2008-11-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* Chaining of players/rules/map/play menus.
+
+	* Added gcov/lcov support.
+
+2008-10-31  Christian Mauduit <ufoot@ufoot.org>
+
+	* Choosing player color is possible through the menus.
+
+2008-10-28  Christian Mauduit <ufoot@ufoot.org>
+
+	* Changed menu & menuitem script callback protocol.
+
+2008-10-24  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added new pil C internal library. No code for now.
+
+2008-10-16  Christian Mauduit <ufoot@ufoot.org>
+
+	* Version check when loading modules.
+
+	* Added keyword type support in documentation.
+
+2008-10-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Console can be enabled/disabled from GUI.
+
+	* Added lw6cns_support function.
+
+	* Dynamic modules (backends) listed dynamically.
+
+2008-10-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Preparing terrain for dynamic modules listing.
+
+2008-10-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added preset-resolution parameter.
+
+2008-10-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added color in players menu.
+
+2008-10-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Joystick parameters in config file.
+
+2008-10-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added more players options.
+
+2008-09-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* More explicit message when script can't be found.
+
+2008-09-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* Unworking graphical backend correctly handled.
+
+	* Added internal script to ease up Savannah uploads.
+
+	* Fixed Savannah bug #24315 concerning broken readline support.
+
+	* Documentation Index -> Indexes (was causing .zip name conflict)
+
+2008-09-19  Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 0.0.4beta.
+
+	* Better UTF-8 & codeset support under MS-Windows.
+
+2008-09-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* Reads README.txt and *.jpg if README and *.jpeg are not here.
+
+2008-09-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* MS-Windows binary works outside Guile context.
+
+2008-09-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* MS-Windows packaging in process...
+
+2008-09-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* s/WIN32/MS_WINDOWS/g
+	
+	* Windowed mode disabled on MS Windows.
+	
+	* Added is_win32 option & script function.
+
+2008-08-25  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added a video re-setup on videoexpose.
+
+	* Map listing/loading finally works on MS Windows.
+
+	* Replaced readdir by FindFirstFile/FindNextFile on MS Windows.
+
+2008-08-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added glViewport call on SDL_VIDEOEXPOSE event.
+
+2008-08-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* SDL_VIDEOEXPOSE events logged.
+
+	* Fixed WIN32 bug loading maps.
+
+	* Using readdir_r instead of readdir.
+
+2008-08-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* More network debug logs.
+
+	* UDP set to nonblocking when WIN32 is defined.
+
+2008-08-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added libogg support under Microsoft Windows.
+
+2008-08-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added #ifdef for non-existing WSA error codes.
+
+2008-08-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added code to log more explicitely WSA winsock error codes.
+	
+	* log_sos -> log_critical
+
+2008-08-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added debug messages for SDL events.
+
+2008-08-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Moved 13 maps to "extra-maps" package.
+
+2008-07-31  Christian Mauduit <ufoot@ufoot.org>
+
+	* Doc update.
+
+	* Fixed environment variable problem.
+
+2008-07-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added debug traces to follow call stack when gdb can't do it.
+
+2008-07-27  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started to add log-level support.
+
+2008-07-25  Christian Mauduit <ufoot@ufoot.org>
+
+	* Renamed all backend funcs (_ prefixed) to avoid name conflics.
+
+2008-07-24  Christian Mauduit <ufoot@ufoot.org>
+
+	* Replaced static recv with _recv to avoid winsock conflict.
+
+2008-07-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Replaced setenv by its Windows equivalent on mingw32
+
+2008-07-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Linking on static Guile under mingw32	
+
+2008-07-16  Christian Mauduit <ufoot@ufoot.org>
+
+	* Doc update.
+
+2008-07-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added spiral by Kasper Hviid.
+
+2008-06-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added patch to compile Guile 1.8.5 under Windows. WIP.
+
+2008-06-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added autoconf-4-1-bin.tar.bz2 & automake-3-1-bin.tar.bz2 
+
+2008-06-24  Christian Mauduit <ufoot@ufoot.org>
+
+	* Guile compile/link option use guile-config.
+
+2008-06-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added alert box on errors on mingw32.
+
+	* Option --audit displays default only if overridden.
+
+2008-06-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added --audit option to track down path problems.
+
+	* Added wrapper on rand_r() function.
+
+2008-06-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added --show-cwd option.
+
+2008-06-19  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added --show-run-dir option.
+
+2008-06-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* Doc update.
+
+	* Updated joystick API to handle 4 joysticks, 6 buttons
+
+2008-06-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added fishy by Kasper Hviid.
+
+2008-06-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* libnet compiles under Win32 (but not working yet).
+
+2008-06-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* Removed all traces of scandir.
+
+	* libsys now fully works under Win32.
+
+2008-06-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added pizza-face map by K. Hviid.
+
+2008-06-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* Changed path for windows.
+
+2008-06-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added info-1 and info-2 files.
+
+2008-06-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* Mingw32 port update.
+
+2008-05-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* Makefile fix for mingw32.
+
+2008-05-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Doc update.
+
+2008-05-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed sys-path.c to support mingw32.
+	
+	* Fixed sys-mem.c for win32 support.
+	
+	* Added AC_CHECK_HEADERS to define HAVE_..._H values in config.h
+	
+	* Skipped nl_langinfo under mingw32.
+
+2008-05-13  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fix for mingw32, using GetUserName & GetComputerName
+
+	* Fixes for mingw32 port, not using utsname.
+
+2008-04-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Include config.h normalization.
+
+2008-04-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started Microsoft Windows porting HOWTO.
+
+2008-04-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added get-build-enable functions to query compile options at runtime.
+
+2008-04-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* Better mouse warping in video options menu.
+
+	* Finished commenting code in sys module.
+
+2008-04-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Video options menu works (resolution + fullscreen)
+
+2008-04-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* 2 new levels by kasper.
+
+2008-04-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated docs.
+
+2008-04-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added functions to list available video modes.
+
+2008-04-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* Sound & music volume setting works.
+
+2008-04-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed broken environment variable support.
+
+	* Options handling working as in the doc.
+
+	* Removed curl depency on main net module.
+
+2008-04-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added new options to control map-driven/user-defined params.
+
+2008-03-31  Christian Mauduit <ufoot@ufoot.org>
+
+	* Background colorization works.
+
+2008-03-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added colorize-background parameter.
+
+2008-03-28  Christian Mauduit <ufoot@ufoot.org>
+
+	* Starting to implement background colorization.
+
+2008-03-27  Christian Mauduit <ufoot@ufoot.org>
+
+	* Menu colors guessed from map background.
+
+2008-01-31  Christian Mauduit <ufoot@ufoot.org>
+
+	* Help list functions accessible from scripts.
+
+2008-01-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 0.0.3beta
+
+2008-01-25  Christian Mauduit <ufoot@ufoot.org>
+
+	* Better "memory bazooka", revamping color handling.
+
+2008-01-16  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added functions to handle the look structure.
+
+2008-01-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Revamping gfx API to use look instead of skin. Still WIP.
+
+2008-01-13  Christian Mauduit <ufoot@ufoot.org>
+
+	* Colors auto-generation should work, while not used yet.
+	
+	* Added fighter_scale to resize map from resolution.
+
+2008-01-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* Resolution passed as a parameter when loading maps.
+
+2008-01-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* More color routines (average, ponderate, distance).
+
+2008-01-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added RGB <-> HSB color conversion routines.
+
+2008-01-07  Christian Mauduit <ufoot@ufoot.org>
+	
+	* Moving color definitions from graphic backend to maps.
+
+2008-01-03  Christian Mauduit <ufoot@ufoot.org>
+	
+	* Better memory checking.
+
+2008-01-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implementing memory bazooka.
+
+2008-01-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* 4 more Kasper maps.
+
+	* Copyright 2007 -> 2008
+
+2007-12-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* map/map-map.c -> map/map-level.c
+
+2007-12-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* Asynchronous map loading. Menus need work (script).
+
+2007-12-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* tsk_manager -> tsk_loader.
+
+2007-12-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* Float serialization.
+
+2007-12-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* Map hexa serialization.
+
+	* All typedef struct lowercased and passed to _t suffix.
+
+	* Fixed GUI scroll.
+
+2007-12-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Mouse warp support.
+
+	* Mouse wheel support.
+
+2007-12-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* Freshly developped hexa_serializer handles low-level types.
+
+2007-12-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added hexa_serializer, almost done.
+
+	* Added memory & endianess low-level funcs.
+
+2007-12-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Created (task) manager smob.
+	
+	* Task manager does load maps asynchronously.
+
+2007-12-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implementing task manager.
+
+2007-12-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* Example options.xml and style.xml written in user-dir.
+	
+	* Scaled some bitmaps to reduce tarball size.
+	
+	* LW6SYS_INT32 -> int32_t. Got rid of all trivial custom types.
+
+2007-12-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added empty tsk module (task manager).
+
+	* Joystick support.
+
+2007-11-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* Colored menuitem support.
+
+	* Sky -> light blue.
+
+2007-11-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* New menu scroll system.
+	
+	* Added spheres to scroll on cylinder menus.
+
+2007-11-28  Christian Mauduit <ufoot@ufoot.org>
+
+	* Changed way of handling menu scroll.
+
+	* Menus working again.
+	
+	* Revamped docs.
+
+2007-11-27  Christian Mauduit <ufoot@ufoot.org>
+
+	* Simplified GFX api.
+	
+	* Added SMOB wrapper (container) objects for cleaner GC.
+	
+	* Changed hud API, added dtd.
+
+2007-11-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* New assoc_sort_and_map func.
+	
+	* Simplified gfx.h
+	
+	* "on-enter" -> "on-valid"
+
+	* Added player names support.
+
+2007-11-25  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started major menu script engine revamping...
+
+	* Fixed style.xml documentation, minor XML handling updates.
+
+2007-11-24  Christian Mauduit <ufoot@ufoot.org>
+
+	* Typed entries in written XML files.
+
+	* Example options.xml auto-dump.
+
+2007-11-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Introduced menu smob.
+
+	* Added sort list functions.
+
+2007-11-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Hacked new GUI (menu system).
+	
+	* Generation of texinfo reference files from internal self-doc.
+
+2007-11-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* --help now uses self-documentation entries.
+
+	* Implemented fifo lists.
+
+2007-11-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* Revamped map loading, is now relative.
+
+	* Added split env functions, removed some file/dir tests.
+	
+	* Removed libopt, introduced libldr.
+
+2007-11-19  Christian Mauduit <ufoot@ufoot.org>
+
+	* --about and --list options implemented.
+
+	* Help strings written in config file.
+
+2007-11-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added empty hlp module, introducing self-documentation of program.
+
+2007-11-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* Minor options handling fix.
+
+2007-11-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Minor fixes for MS Windows compatibility.
+
+2007-11-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added environment LW6_ variables support.
+
+	* Added map-path command-line parameter support.
+
+	* Renamed libcon to libcns (DOS filename problem, con is forbidden).
+
+2007-11-13  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added --enable/--disable options for modules.
+
+2007-11-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* Allinone build works again.
+
+2007-11-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added target_os support in binary.
+
+	* Added empty GUI module, ready to implement menu/menuitem stuff.
+
+2007-11-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added codename/id support to track releases.
+
+	* More system/debugging command-line options.
+
+2007-11-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added empty scheme test file.
+
+	* Hacked gdoc to fix double output problem.
+
+	* Hacked get_top_srcdir so that it handles relative path nicely.
+
+2007-11-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* Game is runable again!
+
+	* Auto-documentation of options.
+
+2007-11-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added a dump.txt for Guile errors.
+
+	* Package compiles again, scripts must be updated.
+
+2007-11-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* Changed installation dirs, moved data files, broke scripts.
+
+2007-10-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* Yet another Makefile update, moved directories.
+
+2007-10-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* Removed an argument from log functions.
+
+2007-10-28  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added --test option to main executable.
+
+2007-10-27  Christian Mauduit <ufoot@ufoot.org>
+
+	* Serious Makefile update...
+
+2007-10-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* Refounded libs & modularity of binaries.
+
+2007-10-25  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added new cfg funcs to handle prefix/path.
+
+2007-10-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Minor con/log system update.
+
+2007-10-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added warnings in network code.
+
+2007-10-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added void background style.
+
+2007-10-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated genuine-liquidwar level.
+
+	* Net context made global.
+	
+	* Client & server API normalization.
+	
+	* Typedefs for callbacks for better readibility.
+
+	* Moved most maps to extra-maps package.
+
+2007-10-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added --mapdir option.
+
+2007-10-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* sys/list -> sys/fifo
+
+	* Updated docs.
+
+	* More gdoc support.
+
+2007-10-08  Christian Mauduit <ufoot@ufoot.org>
+	
+	* Added gdoc support http://josefsson.org/gdoc/
+
+2007-10-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* New acadia  garden  liquid-dream  motherboard maps by Kasper Hviid
+
+	* Ready to implement all the cli/srv "intelligent" code.
+
+2007-10-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* Network code plumbery.
+
+2007-09-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* Network cli/srv API is ready.
+
+2007-09-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed low-level UDP functions.
+
+2007-09-13  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started to add UDP support.
+
+	* Conditionnal build of mod-http (only if libcurl present).
+
+	* Completeley revamped network code, server broken (code split).
+
+2007-09-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* Exploded /net dir struct, revamping all code, get modular (broken)
+
+2007-09-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed RPM spec file
+
+	* Added doc about Fedora Core 6 SDL rpm hack.
+
+2007-09-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 0.0.2beta.
+
+	* Fixes and updates on Debian & RPM packages.
+
+	* Guile 1.6 -> Guile 1.8
+
+	* Fixed libreadline & libpng detection bug.
+
+2007-09-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* 4 new maps from Kasper Hviid
+
+2007-07-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Upgraded to GPL v3.
+
+2007-05-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Now linking against libcURL.
+
+2007-05-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* Minor dependency fix.
+
+2007-03-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* Basic pattern substitution in web templates.
+
+	* Added file mutex support for screenshot (avoid inconsitent JPEG).
+
+	* Now serving correct JPEG screenshots (wow!).
+
+2007-03-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Serving a default black JPEG for screenshot.
+
+	* Added basic mutex wrapper functions.
+
+2007-03-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added empty net/screenshot module.
+	
+	* Game map & state passed to web server.
+	
+	* Added socket_is_alive.
+
+	* httpd.log now in Apache Common Log format.
+
+	* /index.html served.
+
+	* Http server now handles GNU jpeg.
+
+2007-03-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* REQUEST_URI parsed, static web files served.
+
+	* Starting to parse HTTP requests.
+
+	* SIGPIPE now ignored (fixes "program stops" bug)
+
+2007-02-28  Christian Mauduit <ufoot@ufoot.org>
+
+	* More httpd, default one-liner served.
+
+2007-02-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started httpd development.
+
+	* Server now recognizes HTTP & LW6 protocols.
+
+	* Fixed bug in net-line.
+
+2007-02-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added simple line protocol (in progress).
+
+2007-02-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Server now listens on a TCP port
+
+2007-02-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* Revamped thread handling for network purposes.
+
+2007-02-19  Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated RPM & .deb packages.
+
+	* Implemented thread wrapper funcs in sys module.
+
+2007-02-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* Factorizing thread code.
+
+	* Added net_context, still need to work on thread safety.
+
+2007-02-16  Christian Mauduit <ufoot@ufoot.org>
+
+	* Moved modules from lib/liquidwar6xyz to lib/liquidwar6/xyz.
+
+2007-02-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented basic send/recv functions.
+
+2007-01-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented asynchronous connect.
+	
+	* Corrected copyright.xcf which was broken by 2006 -> 2007 script.
+
+	* Fixed check target, and fixed a bug in fighters count.
+
+	* Coded listen/accept/connect TCP/IP wrappers.
+
+	* Updated copyright information (-> 2007).
+
+2006-12-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 0.0.1beta.
+
+	* Updated docs, packaging fixes.
+
+2006-12-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* Test binaries now in {prefix}/libexec.
+
+	* Fixed max frames per display limit (was broken).
+
+2006-12-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* Mod-ogg is now the default sound backend, and plays beeps.
+
+2006-12-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* Replaced libao/libogg with SDL/SDL_mixer.
+
+2006-12-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* Replaced LW6SYS_WIZARDRY with lib globals.
+
+	* Added dependency on libao for mod-ogg module.
+
+2006-12-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added RPM package support.
+
+2006-12-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Debian packages finally work.
+
+2006-12-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* More Debian packages work.
+
+2006-12-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* Preparing Debian package (.deb).
+
+	* Entering beta stage, new path and numbering scheme.
+
+2006-12-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added nb_spreads.
+
+2006-11-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated French translation.
+
+	* Fixed bug in command line args handling.
+
+	* Fixed map polarity. 
+
+2006-11-28  Christian Mauduit <ufoot@ufoot.org>
+
+	* Map polarity/wrapping still buggy, but becoming a reality.
+
+2006-11-27  Christian Mauduit <ufoot@ufoot.org>
+
+	* Caching texture array when displaying several times the same state.
+	
+	* Started to implement polarity option (in ker module).
+	
+	* Even more tolerant with --help option syntax.
+
+2006-11-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated docs.
+
+2006-11-24  Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 20061124.
+
+	* GUI work, demo workable.
+
+2006-11-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added hud_preview.
+
+	* Fixed the way multiple moves per round are handled.
+
+	* Updated menu choose procedure.
+
+2006-11-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed memory leak in snd backend switch.
+
+2006-11-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Rewriting guile scripts and globals access.
+
+2006-11-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Minor packaging work.
+
+2006-11-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated genuine-liquidwar map.
+
+	* Started to update the way options are handled in scripts.
+	
+	* Added new basic options to get config information from binary.
+	
+	* Added lw6-config.h
+
+2006-11-13  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added empty net module
+
+2006-11-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* Team color is now a per-map option.
+
+	* Changed PNG -> JPEG on many levels.
+
+	* Optimized display of big maps (skipping tiles when outside screen).
+
+	* Forced tiling of maps under OpenGL limit.
+	
+	* Greyscale JPEGs are now correctly read.
+
+2006-11-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added texture-alpha.jpeg support.
+
+2006-11-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented gradient normalization.
+
+2006-11-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* 4 new maps from Kasper Hviid.
+	
+	* Defense works as well as attack (could be a playable demo).
+	
+	* Moved most color-related code to sys module.
+
+	* Moved xy & wh checksum functions from ker to sys.
+
+	* More elements can be used as map parameters.
+
+2006-11-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* Minor fixes in bot code.
+
+2006-11-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* Dummy stupid crazy nuts bots implemented.
+
+2006-11-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started to add bot related code.
+
+2006-11-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fighters start to attack (no side attack yet).
+	
+	* Added proper cleanup of all libs when script fails.
+	
+	* Separated volume for sound and music in snd module.
+
+2006-11-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed the code which moves fighters, not perfect but works.
+
+	* For the first time, fighters move! (badly, but they move)
+	
+	* Fixed wrong GL resizing when displaying map zones & gradient.
+
+2006-10-31  Christian Mauduit <ufoot@ufoot.org>
+
+	* It's possible to move cursor arround, and the gradient be updated.
+	
+	* Now able to handle empty menus correctly.
+
+2006-10-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* Minor fix when displaying resampled textures.
+
+2006-10-27  Christian Mauduit <ufoot@ufoot.org>
+
+	* Resampling maps on the fly when loading.
+
+2006-10-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated map kasper/fish for transparency.
+
+	* Added date/time in user log file.
+	
+	* Compiles again, splitted param.xml into style.xml and options.xml.
+
+2006-10-25  Christian Mauduit <ufoot@ufoot.org>
+
+	* Revamping all options/param/style stuff. WIP, does not compile.
+
+	* Now using syslog, hopefully fixed log formatting bug.
+	
+	* Added Kasper Hviid vortex map.
+	
+	* Created libliquidwar6opt library.
+	
+	* Code cleanup.
+
+2006-10-24  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added Fish map by Kasper Hviid.
+
+	* It's possible to display arbitrary big map textures.
+
+2006-10-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Prepared code for "array" fashion display of map (preview).
+	
+	* Changed the order of console/backends opening.
+
+2006-10-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Rewrote log functions to include __FILE__/__LINE.
+
+2006-10-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented pick_map_coord for flat backend.
+	
+	* Code cleanup.
+
+2006-10-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* Simplified Makefiles.
+
+2006-10-19  Christian Mauduit <ufoot@ufoot.org>
+
+	* Tactical hud frame is displayed.
+	
+	* Fixed buffer overflows with the help of valgrind hints.
+	
+	* Added new ./configure options (optimize & valgrind)
+
+2006-10-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* Moved coverage global parameter to zoom/ratio per map options.
+
+	* Fixed bug linked with timer, when changing video backend.
+
+2006-10-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added a sleep() just after quiting SDL.
+
+	* Moved _XY and _WH struct from ker to sys.
+
+2006-10-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Gfx and snd backends changeable on the fly through menus.
+	
+	* Script stdin input is now processed at very startup.
+
+2006-10-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Backend list can be queried from scheme.
+	
+	* Code cleanup.
+	
+	* Better console support.
+
+2006-10-13  Christian Mauduit <ufoot@ufoot.org>
+
+	* Documentation update.
+
+2006-10-13  Christian Mauduit <ufoot@ufoot.org>
+
+	* Documentation update.
+
+2006-10-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 20061012.
+
+	* Catching scheme errors on console.
+	
+	* Added $HOME/.liquidwar6/log.txt file.
+	
+	* Renamed static -> allione and profile -> gprof.
+
+2006-10-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* Options --enable-static and --enable-profile "work"
+
+2006-10-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Starting to implement --enable-static
+
+2006-10-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added an interactive Guile console (con module).
+
+2006-10-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* Finally, put ltdl code in a separated "dyn" module.
+
+2006-10-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* Factorized ltdl code in sys module.
+
+2006-10-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Conditional compilation of gfx & snd modules.
+
+2006-10-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added hud "sub gfx" module.
+	
+	* Minor fix, libmod_csound wasn't always correctly found.`
+
+2006-09-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* sdl_gl -> mod_gl
+
+	* Added 2 empty sound modules (mod_csound and mod_ogg).
+
+2006-09-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Chosen map is memorized and handled in menus.
+
+	* Added an automatic demo mode.
+
+2006-09-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Menus now correctly centered.
+
+2006-09-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* Packaging fixes.
+
+2006-09-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented dummy pick_map_coord func.
+	
+	* MALLOC_0 -> CALLOC.
+
+	* Renamed view/simple to view/flat (preventing name collisions)
+
+2006-09-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* Menu scrolling works (mouse + keyboard).
+
+	* Started to implement a menu state.
+
+2006-09-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added an id and a label to menus.
+
+2006-09-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* high-level io polled only 15 times/sec.
+
+	* added calls to glViewport to fix issues with some OpenGL drivers.
+
+2006-09-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* mouse pointer works in menus.
+
+	* mouse buttons work in menus.
+
+	* added poll_mouse_move.
+
+2006-09-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* pick_menuitem callable from script.
+
+2006-09-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added an empty pick_menuitem gfx function.
+	
+	* Changed the prototype of keysym functions.
+
+2006-08-31  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added basic gfx functions to handle mouse.
+
+2006-08-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Add_team and remove_team callable from script.
+
+	* Better gfx tests (background).
+
+2006-08-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Make check works, even for gfx module (but only basic setup)
+	
+	* Better checksums, finally a decent ker/algorithm test suite.
+
+	* First ker unit test.
+	
+	* Basic rectangle builtin map creation (for testing purposes).
+
+2006-08-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added new unitary tests.
+
+2006-08-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* Scripts & data now also searched in "$top_srcdir" (easy debug).
+	
+	* Implemented checksum calculus on game struct/state objects (buggy).
+	
+	* Implemented basic serialize/unserialize funcs, for checksum calculus.
+
+2006-08-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* Moved functions from ker.h to ker-internal.h
+
+	* LW6KER_INTXX -> LW6SYS_INTXX.
+
+	* Updated autotools/gettextize files. 
+
+2006-08-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added basic checksum functions.
+
+2006-08-13  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added a game_state_copy function, for latest/stable states.
+
+	* Added "ticks" parameter at init to have ticks be library independant.
+
+	* Prefixed all ./src files/dirs so that there are no name conflicts.
+
+2006-08-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* Gradient is calculated & displayed for debugging purposes.
+
+	* Map holes are automatically detected and fixed.
+
+2006-08-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* LD_PRELOAD OpenGL hack to fix GNU/Linux / x.org issue.
+
+2006-05-16  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started to implement gradient spread.
+
+	* Code cleanup in ker module.
+
+2006-05-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Minor fixes in autotools files.
+
+2006-05-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Now possible to use JPEG textures.
+
+2006-05-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* Now linked against libjpeg.
+
+	* Bug-fix, texture arrays finally work.
+
+2006-05-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* Building in a separate directory works.
+
+2006-04-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* Texture arrays work (in 1x1 mode...) needs debugging.
+
+2006-04-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started to implement texture arrays, not tested yet.
+
+2006-04-19  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added print_debug and sanity_check to mapstate (and fixed bugs!) 
+
+2006-04-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* Possible to dynamically add/remove team, redistributing fighters.
+
+2006-04-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* Better placement of teams (but still buggy).
+
+2006-04-16  Christian Mauduit <ufoot@ufoot.org>
+
+	* Game (teams) can now be displayed.
+
+	* Ready to implement display_game.
+
+2006-04-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Introduced GAME_LOOK structure to hold graphical params.
+	
+	* Added empty display_game func.
+	
+	* Added LAYER struct and a dummy populating function.
+
+2006-04-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Memory structures allocated for STATE KER structs.
+	
+	* Added trigonometric fixed point routines.
+
+2006-04-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* MAP_STRUCT.slots is calculated.
+
+2006-04-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* MAP_STRUCT.zones is calculated, and viewable.
+
+2006-04-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Started to implement lw6ker zones (AKA LW5 MESHER).
+
+2006-04-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* Scheme bindings for game_struct smob.
+	
+	* Fixed makefiles, more ker module code.
+
+2006-04-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* Remove map "not even a puzzle" (duplicate of "puzzle for kids")
+
+2006-04-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* Code starts to pour in in ker module.
+
+2006-03-31  Christian Mauduit <ufoot@ufoot.org>
+
+	* Imported Kasper & LW3 maps, introduced subdirs in data/map.
+
+2006-03-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added 3 new maps, all background skins now exist.
+
+2006-03-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented a basic "fire" skin.
+	
+	* Created empty air/earth/fire themes for backgrounds.
+
+2006-03-25  Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 20060325.
+	
+	* updated translation.
+	
+	* Finally, everything working again, but modular. Hura!
+	
+	* More cleanup, graphical mode up again.
+
+2006-03-24  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fonts are loaded again.
+	
+	* More and more hack for modularity.
+
+2006-03-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Code cleanup.
+
+2006-03-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Revamped all source dirs (modularity). Compiles but segfaults.
+
+2006-03-07  Christian Mauduit <ufoot@ufoot.org>
+	
+	* Limited textures to 512x512, which is commonly supported.
+	
+	* Fixed bug in i18n when locale codeset was UTF-8.
+	
+	* Added transparency layer to pure-fight map.
+	
+	* One load_data function for the graphics backend.
+
+2006-01-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* Using libtool libltdl instead of raw dlopen.
+
+2006-01-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Jumbo patch: implemented "gfx backends" using dlopen.
+
+	* Sub-libraries only link to "what is needed".
+	
+	* Fixed bug, time display didn't work on 32-bit platforms.
+
+2006-01-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* Defined public data structs for ker module.
+	
+	* Max frames/rounds per second correctly handled.
+
+	* Now displaying time & version on screen.
+
+	* Changed order of on screen logged strings.
+
+2006-01-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added empty liquidwar6ker module, ready to implement.
+
+2006-01-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 20060101.
+
+2005-12-31  Christian Mauduit <ufoot@ufoot.org>
+
+	* Map reading works. Period.
+	
+	* Chosen map is displayed, in raw mode, but displayed.
+	
+	* Implementing map -> OpenGL texture conversion.
+
+2005-12-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implementing texture reading.
+	
+	* Fixed Guile garbage collection disease.
+
+	* Created Guile smob for maps.
+
+	* Factorized SCM_STRING to char * conversion in wrapper.c.
+
+2005-12-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* More precise information when launching with --version.
+	
+	* Command line parameters work.
+
+	* Factored XML reading code in xml.c.
+
+	* Updated docs, added "how to desgin new maps" section.
+
+2005-12-28  Christian Mauduit <ufoot@ufoot.org>
+
+	* Switched to  -Wall and removed all compilation warnings.
+	
+	* Indented all source files automatically.
+
+2005-12-27  Christian Mauduit <ufoot@ufoot.org>
+
+	* User config now read from disk (fully persistent).
+	
+	* User config now saved on disk.
+	
+	* Added a function to test directory existence.
+
+	* Docs updated, described libliquidwar6sys in detail.
+
+2005-12-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* Screen resizing updates options through a dedicated callback.
+	
+	* Added dummy conversion functions.
+	
+	* Implemented set/get options, callable from C & Scheme.
+
+	* Implemented a basic associative array in standard C.
+
+	* Basic options --help, --copyright and --version are handled.
+	
+	* Reorganized include files so that there are installable in /usr/local
+	
+	* Added empty liquidwar6cfg library, ready to be implemented.
+
+2005-12-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Map wall/free parts are read from PNG files. Depth is 0 or 1 for now.
+	
+	* Map metadata are now loaded in memory.
+	
+	* Added on-select event on menuitems.
+
+2005-12-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Map chooser uses the newly created chained list handler.
+	
+	* Texture deletes use the newly created chained list handler.
+	
+	* Implemented a generic chained list handler.
+	
+	* Added new "copyright-notice" map.
+
+2005-12-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Basic directory listing, which enables choosing a map.
+	
+	* Added 2 maps (the first ones!)
+
+2005-12-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* Defined structs in lw6map.
+	
+	* Checking the number of times textures and surfaces are created/freed
+
+2005-12-19  Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated docs.
+
+2005-12-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Revamped the doc.
+	
+	* Added the structure of the liquidwar6map module.
+
+2005-12-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Now links to gnu.org/software/liquidwar6 instead of ufoot.org
+
+2005-12-13  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added a "cache" for OpenGL texture handlers.
+
+2005-12-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* Moved Arch depot to Savannah.
+
+2005-12-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* ./configure says Mesa is needed, not OpenGL.
+
+	* Optimized menu display, caching the aliased rendered fonts.
+
+2005-12-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed the installation section to insist on using free drivers.
+	
+	* Added UML/XMI modelization file, generated by Umbrella.
+
+2005-12-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated docs to clarify the 3-D acceleration issues.
+
+2005-12-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated po files.
+	
+	* Fixed i18n support which was broken.
+	
+ 	* Menus are now interactive.
+
+2005-12-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated docs. 
+
+	* /liquidwar/liquidwar6 -> /liquidwar/v6
+
+2005-12-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed Makefile to include doc/COPYING in dist
+
+2005-12-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated the docs (added intro, status, and install notes).
+
+	* Updated copyright notices and added GNU FDL.
+
+2005-11-28  Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 20051128.
+
+	* Updated READMEs to reflect that this is pre-alpha stuff.
+
+2005-09-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* Errors in scheme code are now correctly dumped on the console.
+
+2005-09-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implementing scheme error handling, not finished yet.
+
+2005-09-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* Pressing F10 now instantaneously quits the game.
+	
+	* Added a control of how many calls to malloc/free are issued.
+	
+	* Moved gfx data from data/ to data/gfx/
+
+2005-09-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented a scrolling background with bubbles on it.
+
+	* Got rid of hard-coded const3d.h, everything in .XML file.
+
+2005-08-24  Christian Mauduit <ufoot@ufoot.org>
+
+	* Worked on menus, ESC key works.
+
+2005-08-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented C functions to draw script log & system info.
+
+	* Fixed quirk in texture freeing strategy.
+
+2005-08-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Starting to implement proper menu structure in Guile.
+
+2005-08-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Menu display callable with parameters passed from Guile.
+
+2005-08-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added XML configuration file for gfx module.
+
+2005-08-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* Pre-alpha code drawing "cylinder" menus.
+
+2005-08-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* Changed background texture and its mapping coordinates.
+	
+	* Main game loop calls logic/display with indendent fixed rates.
+
+2005-08-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* Window is now resizable.
+
+2005-07-31  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added ./intl dir, and fixed autotools wizardry.
+
+2005-07-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added iconv support for UTF8/TTF conversion.
+
+	* TTF font drawn on screen.
+
+2005-07-27  Christian Mauduit <ufoot@ufoot.org>
+
+	* Preparing text drawing with freetype/SDL/OpenGL
+	
+2005-07-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added ICONV detection
+	
+	* Linking with SDL_ttf
+
+2005-07-23  Christian Mauduit <ufoot@ufoot.org>
+
+	* Gettext interface for Guile/scheme code.
+
+2005-07-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added i18n support, using GNU gettext.
+
+2005-07-22  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Remove intl.
+	(ACLOCAL_AMFLAGS): New variable.
+	(EXTRA_DIST): New variable.
+	
+	* configure.ac (AC_CONFIG_FILES): Add po/Makefile.in.
+
+2005-07-22  Christian Mauduit <ufoot@ufoot.org>
+
+	* Code cleanup, fixed dist target.
+
+2005-07-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* Wrote and use proper log functions.
+
+2005-07-20  Christian Mauduit <ufoot@ufoot.org>
+
+	* Concentrated all globals into one single struct.
+
+2005-07-19  Christian Mauduit <ufoot@ufoot.org>
+
+	* Basic info doc file generated (but nothing interesting in it).
+
+	* Uses automake 1.9.
+
+2005-07-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added some dummy animations for the background image.
+
+2005-07-17  Christian Mauduit <ufoot@ufoot.org>
+
+	* A basic background image is displayed.
+	
+	* Added a basic logging facility usable from scheme.
+
+	* An image is loaded from /usr/share/blahblah to memory.
+
+	* Game links against SDL_image.
+
+2005-07-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* Game links against OpenGL.
+
+2005-07-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* Keys are polled and returned to scheme. Basic game loop.
+
+	* Prefix liquidwar6 -> lw6
+
+2005-07-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* Autotools wizardry, scripts are installed in /usr/local/share.
+
+2005-07-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* Added event.c file.
+
+	* Code cleanup.
+
+2005-07-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* SDL function wrappers called from Guile.
+	
+	* C functions now registered for Guile.
+	
+
+2005-07-03  Christian Mauduit <ufoot@ufoot.org>
+
+	* A Guile script is loaded and run.
+
