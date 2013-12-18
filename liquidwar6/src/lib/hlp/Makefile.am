@@ -27,13 +27,15 @@ TEST_SRC_FILE = hlp-test.c
 else
 TEST_SRC_FILE =
 endif
-libhlp_la_SOURCES = hlp-about.c hlp-credits.c hlp-keyword.c hlp-list.c hlp-print.c hlp-reference.c $(TEST_SRC_FILE)
+libhlp_la_SOURCES = hlp-about.c hlp-credits.c hlp-keyword.c hlp-list.c hlp-options.c hlp-print.c hlp-reference.c $(TEST_SRC_FILE)
 libhlpdir= $(includedir)/@PACKAGE_TARNAME@/hlp
 libhlp_HEADERS = hlp.h
 
 if LW6_CUNIT
 if !FULLSTATIC
-libexec_PROGRAMS = liquidwar6hlp-test
+libexec_PROGRAMS = liquidwar6-doc liquidwar6hlp-test
+liquidwar6_doc_SOURCES = hlp-docmain.c
+liquidwar6_doc_LDADD = libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 liquidwar6hlp_test_SOURCES = hlp-testmain.c
 liquidwar6hlp_test_LDADD = libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6hlp-test

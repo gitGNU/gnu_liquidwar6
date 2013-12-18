@@ -246,8 +246,10 @@ src/lib/gui/gui-viewport.c
 src/lib/gui/gui-zone.c
 src/lib/hlp/hlp-about.c
 src/lib/hlp/hlp-credits.c
+src/lib/hlp/hlp-docmain.c
 src/lib/hlp/hlp-keyword.c
 src/lib/hlp/hlp-list.c
+src/lib/hlp/hlp-options.c
 src/lib/hlp/hlp-print.c
 src/lib/hlp/hlp-reference.c
 src/lib/hlp/hlp-test.c
@@ -337,7 +339,6 @@ src/lib/lw6-funcstsk.c
 src/lib/lw6-global.c
 src/lib/lw6-main.c
 src/lib/lw6-options.c
-src/lib/lw6-print.c
 src/lib/lw6-smobs.c
 src/lib/lw6-test.c
 src/lib/lw6-testmain.c

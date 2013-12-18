@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2013-12-11 06:31+0100\n"
+"POT-Creation-Date: 2013-12-18 14:33+0100\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -253,7 +253,7 @@ msgstr "Hjelp GNU %s"
 msgid "Fight software patents %s"
 msgstr "Kjemp mot programvarepatentar %s"
 
-#: src/lib/hlp/hlp-credits.c:168 src/lib/lw6-print.c:58
+#: src/lib/hlp/hlp-credits.c:168 src/lib/hlp/hlp-print.c:263
 #: src/lib/sys/sys-log.c:726
 msgid "Report bugs"
 msgstr ""
@@ -262,6 +262,46 @@ msgstr ""
 #, c-format
 msgid "unable to handle credits id %d"
 msgstr "klarte ikkje handtera bidragsytar-ID %d"
+
+#: src/lib/hlp/hlp-options.c:82
+#, c-format
+msgid "unknown option \"%s\""
+msgstr "ukjend val: «%s»"
+
+#: src/lib/hlp/hlp-options.c:101
+msgid "unable to start daemon"
+msgstr "klarte ikkje starta tenesta"
+
+#: src/lib/hlp/hlp-print.c:251
+#, c-format
+msgid "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
+msgstr "Bruk: %s [--val1[=verdu1]] … [--valN[=verdiN]]\n"
+
+#: src/lib/hlp/hlp-print.c:262
+msgid "Home page"
+msgstr ""
+
+#: src/lib/hlp/hlp-print.c:299
+#, c-format
+msgid ""
+"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
+"html>\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+msgstr ""
+"Lisens GPLv3+: GNU GPL versjon 3 eller seinare <http://gnu.org/licenses/gpl."
+"html>\n"
+"Dette er fri programvare: du har rett til å endra og vidareformidla "
+"programvara.\n"
+"Programvare kjem UTAN NOKON GARANTIAR, så langt dette er mogleg.\n"
+
+#: src/lib/hlp/hlp-print.c:1178
+msgid "hello"
+msgstr "hallo"
+
+#: src/lib/hlp/hlp-print.c:1225
+msgid "goodbye"
+msgstr "ha det"
 
 #: src/lib/hlp/hlp-reference.c:3077
 msgid "moves faster than the average"
@@ -408,54 +448,14 @@ msgstr "klarte ikkje fiksa miljøvariabelen ved å starta programmet på nytt"
 msgid "unable to read main script file \"%s\""
 msgstr "klarte ikkje lesa hovudskriptfila «%s»"
 
-#: src/lib/lw6-options.c:142
-#, c-format
-msgid "unknown option \"%s\""
-msgstr "ukjend val: «%s»"
-
-#: src/lib/lw6-options.c:160
-msgid "unable to start daemon"
-msgstr "klarte ikkje starta tenesta"
-
-#: src/lib/lw6-options.c:202 src/lib/lw6-options.c:257
+#: src/lib/lw6-options.c:130 src/lib/lw6-options.c:186
 msgid "all tests SUCCESSFULL!"
 msgstr "alle testane vart utførte utan feil"
 
-#: src/lib/lw6-options.c:208 src/lib/lw6-options.c:263
+#: src/lib/lw6-options.c:136 src/lib/lw6-options.c:192
 #, c-format
 msgid "test FAILED, see log file \"%s\" for details"
 msgstr "test feila (sjå loggfila «%s» for meir informasjon)"
-
-#: src/lib/lw6-print.c:46
-#, c-format
-msgid "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
-msgstr "Bruk: %s [--val1[=verdu1]] … [--valN[=verdiN]]\n"
-
-#: src/lib/lw6-print.c:57
-msgid "Home page"
-msgstr ""
-
-#: src/lib/lw6-print.c:92
-#, c-format
-msgid ""
-"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
-"html>\n"
-"This is free software: you are free to change and redistribute it.\n"
-"There is NO WARRANTY, to the extent permitted by law.\n"
-msgstr ""
-"Lisens GPLv3+: GNU GPL versjon 3 eller seinare <http://gnu.org/licenses/gpl."
-"html>\n"
-"Dette er fri programvare: du har rett til å endra og vidareformidla "
-"programvara.\n"
-"Programvare kjem UTAN NOKON GARANTIAR, så langt dette er mogleg.\n"
-
-#: src/lib/lw6-print.c:922
-msgid "hello"
-msgstr "hallo"
-
-#: src/lib/lw6-print.c:969
-msgid "goodbye"
-msgstr "ha det"
 
 #: src/lib/map/map-color.c:204
 #, fuzzy

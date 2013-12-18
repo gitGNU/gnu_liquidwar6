@@ -50,7 +50,7 @@ TEST_SRC_FILE = lw6-test.c
 else
 TEST_SRC_FILE =
 endif
-LW6_FILES = lw6-callback.c lw6-control.c lw6-fix.c lw6-funcs.c lw6-funcssys.c lw6-funcshlp.c lw6-funcscfg.c lw6-funcsgen.c lw6-funcsgui.c lw6-funcsgfx.c lw6-funcsdsp.c lw6-funcsldr.c lw6-funcsmap.c lw6-funcsker.c lw6-funcspil.c lw6-funcssnd.c lw6-funcscns.c lw6-funcstsk.c lw6-funcsimg.c lw6-funcsnet.c lw6-funcscli.c lw6-funcssrv.c lw6-funcsp2p.c lw6-funcsbot.c lw6-global.c lw6-main.c lw6-options.c lw6-print.c lw6-smobs.c $(TEST_SRC_FILE)
+LW6_FILES = lw6-callback.c lw6-control.c lw6-fix.c lw6-funcs.c lw6-funcssys.c lw6-funcshlp.c lw6-funcscfg.c lw6-funcsgen.c lw6-funcsgui.c lw6-funcsgfx.c lw6-funcsdsp.c lw6-funcsldr.c lw6-funcsmap.c lw6-funcsker.c lw6-funcspil.c lw6-funcssnd.c lw6-funcscns.c lw6-funcstsk.c lw6-funcsimg.c lw6-funcsnet.c lw6-funcscli.c lw6-funcssrv.c lw6-funcsp2p.c lw6-funcsbot.c lw6-global.c lw6-main.c lw6-options.c lw6-smobs.c $(TEST_SRC_FILE)
 LW6_LIBS = sys/libsys.la glb/libgl1b.la cns/libcns.la hlp/libhlp.la cfg/libcfg.la map/libmap.la ker/libker.la pil/libpil.la bot/libbot.la sim/libsim.la gen/libgen.la ldr/libldr.la gui/libgui.la vox/libvox.la gfx/libgfx.la dsp/libdsp.la snd/libsnd.la img/libimg.la net/libnet.la nod/libnod.la cnx/libcnx.la msg/libmsg.la cli/libcli.la srv/libsrv.la dat/libdat.la p2p/libp2p.la scm/libscm.la tsk/libtsk.la $(LW6DYN_LIB) 
 libliquidwar6_s_la_SOURCES = $(LW6_FILES)
 libliquidwar6_s_la_LIBADD = $(LW6_LIBS)

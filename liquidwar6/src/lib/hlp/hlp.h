@@ -58,6 +58,10 @@ extern int lw6hlp_get_max_value (const char *keyword);
 /* hlp-credits.c */
 extern char *lw6hlp_get_credits (int id);
 
+/* hlp-options.c */
+extern int lw6hlp_process_non_run_options (int argc, const char *argv[],
+					   int *run_game);
+
 /* hlp-keyword.c */
 extern int lw6hlp_match (const char *keyword1, const char *keyword2);
 
@@ -88,6 +92,39 @@ extern lw6sys_list_t *lw6hlp_list ();
 extern void lw6hlp_print_keyword (lw6sys_list_t ** list, FILE * f);
 extern void lw6hlp_print_content (lw6sys_list_t ** list, FILE * f);
 extern void lw6hlp_print_about (const char *keyword, FILE * f);
+extern void lw6hlp_print_help (FILE * f);
+extern void lw6hlp_print_version (FILE * f);
+extern void lw6hlp_print_short_copyright (FILE * f);
+extern void lw6hlp_print_long_copyright (FILE * f);
+extern void lw6hlp_print_bench (float bench_result, FILE * f);
+extern void lw6hlp_print_pedigree (FILE * f);
+extern void lw6hlp_print_host (FILE * f);
+extern void lw6hlp_print_audit (int argc, const char *argv[], FILE * f);
+extern void lw6hlp_print_modules (FILE * f);
+extern void lw6hlp_print_credits (FILE * f);
+extern void lw6hlp_print_list_quick (FILE * f);
+extern void lw6hlp_print_list_doc (FILE * f);
+extern void lw6hlp_print_list_show (FILE * f);
+extern void lw6hlp_print_list_path (FILE * f);
+extern void lw6hlp_print_list_players (FILE * f);
+extern void lw6hlp_print_list_input (FILE * f);
+extern void lw6hlp_print_list_graphics (FILE * f);
+extern void lw6hlp_print_list_sound (FILE * f);
+extern void lw6hlp_print_list_network (FILE * f);
+extern void lw6hlp_print_list_map (FILE * f);
+extern void lw6hlp_print_list_map_hints (FILE * f);
+extern void lw6hlp_print_list_map_rules (FILE * f);
+extern void lw6hlp_print_list_map_style (FILE * f);
+extern void lw6hlp_print_list_map_teams (FILE * f);
+extern void lw6hlp_print_list_funcs (FILE * f);
+extern void lw6hlp_print_list_hooks (FILE * f);
+extern void lw6hlp_print_list_advanced (FILE * f);
+extern void lw6hlp_print_list_aliases (FILE * f);
+extern void lw6hlp_print_list_team_colors (FILE * f);
+extern void lw6hlp_print_list_weapons (FILE * f);
+extern void lw6hlp_print_list (FILE * f);
+extern void lw6hlp_print_hello (int argc, const char *argv[]);
+extern void lw6hlp_print_goodbye ();
 
 /* hlp-reference.c */
 extern int lw6hlp_reference_init ();

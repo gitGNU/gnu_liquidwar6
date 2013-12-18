@@ -25,25 +25,25 @@ echo >> Makefile.selfdoc
 
 for i in quick doc show aliases ; do
     echo "\$(srcdir)/$i-selfdoc.texi: \$(top_srcdir)/src/lib/hlp/hlp-reference.c" >> Makefile.selfdoc
-    echo "\techo selfdoc $i && for k in \`\$(top_builddir)/src/liquidwar6 --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/liquidwar6 cmd \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
+    echo "\techo selfdoc $i && for k in \`\$(top_builddir)/src/lib/hlp/liquidwar6-doc --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/lib/hlp/liquidwar6-doc cmd \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
     echo >> Makefile.selfdoc
 done
 
 for i in path players input graphics sound network map map-rules map-hints map-style map-teams hooks advanced ; do
     echo "\$(srcdir)/$i-selfdoc.texi: \$(top_srcdir)/src/lib/hlp/hlp-reference.c \$(top_srcdir)/src/lib/map/map.h \$(top_srcdir)/src/lib/ldr/ldr.h" >> Makefile.selfdoc
-    echo "\techo selfdoc $i && for k in \`\$(top_builddir)/src/liquidwar6 --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/liquidwar6 default \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
+    echo "\techo selfdoc $i && for k in \`\$(top_builddir)/src/lib/hlp/liquidwar6-doc --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/lib/hlp/liquidwar6-doc default \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
     echo >> Makefile.selfdoc
 done
 
 for i in funcs ; do
     echo "\$(srcdir)/$i-selfdoc.texi: \$(top_srcdir)/src/lib/hlp/hlp-reference.c" >> Makefile.selfdoc
-    echo "\techo selfdoc $i && for k in \`\$(top_builddir)/src/liquidwar6 --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/liquidwar6 func \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
+    echo "\techo selfdoc $i && for k in \`\$(top_builddir)/src/lib/hlp/liquidwar6-doc --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/lib/hlp/liquidwar6-doc func \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
     echo >> Makefile.selfdoc
 done
 
 for i in team-colors weapons ; do
     echo "\$(srcdir)/$i-selfdoc.texi: \$(top_srcdir)/src/lib/hlp/hlp-reference.c" >> Makefile.selfdoc
-    echo "\techo selfdoc $i && for k in \`\$(top_builddir)/src/liquidwar6 --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/liquidwar6 item \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
+    echo "\techo selfdoc $i && for k in \`\$(top_builddir)/src/lib/hlp/liquidwar6-doc --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/lib/hlp/liquidwar6-doc item \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
     echo >> Makefile.selfdoc
 done
 

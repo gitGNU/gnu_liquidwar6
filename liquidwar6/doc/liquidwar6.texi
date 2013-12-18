@@ -971,8 +971,10 @@ libcurl4-gnutls-dev \
 libgtk2.0-dev \
 perl lcov global valgrind graphviz gv \
 texinfo texlive-base texlive-generic-extra \
+texlive-fonts-recommended texlive-latex-extra \
 indent emacs doxygen xsltproc pmccabe \
 libcunit1-ncurses libcunit1-ncurses-dev \
+git git2cl \
 debhelper devscripts
 @end example
 

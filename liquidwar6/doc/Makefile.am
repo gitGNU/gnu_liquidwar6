@@ -96,6 +96,7 @@ clean-local:
 	rm -f deps.png deps.pdf
 	rm -f coverage.tar.gz global.tar.gz cyclo.tar.gz doxygen.tar.gz manual.tar.gz
 	rm -rf coverage-tmp global-tmp cyclo-tmp doxygen-tmp manual-tmp
+	rm -rf liquidwar6.t??
 
 install-data-local:
 	if test -d liquidwar6.html ; then install -d $(DESTDIR)$(docdir)/html ; cp -f liquidwar6.html/* $(DESTDIR)$(docdir)/html/ ; fi
