@@ -4,3 +4,10 @@ liquidwar6.info*
 *-selfdoc.texi
 version.texi
 stamp-vti
+const.texi.in
+deps.png
+deps.pdf
+*-tmp
+liquidwar6.t??
+liquidwar6.man
+liquidwar6.pdf

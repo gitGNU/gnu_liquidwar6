@@ -1,0 +1,7 @@
+*.tar.gz
+*.zip
+*.exe
+*.dmg
+*.deb
+*.rpm
+build

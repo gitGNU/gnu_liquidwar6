@@ -1,3 +1,15 @@
 Makefile.in
+Makefile
 configure
 autom4te.cache
+*.o
+*.lo
+*.la
+.deps
+.libs
+confdefs.h
+config.h
+config.log
+config.status
+stamp-h1
+libtool
