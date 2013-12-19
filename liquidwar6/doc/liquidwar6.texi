@@ -576,6 +576,19 @@ git clone http://git.sv.gnu.org/r/liquidwar6.git
 
 You can browse the code online, consult log summary, and in a general manner ``follow'' the project on @uref{http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git} and @uref{http://git.savannah.gnu.org/cgit/liquidwar6.git}.
 
+Beware, git does not contain all the files included in the official source tarball.
+For instance, the @code{./configure} script is not present. You need to run :
+@example
+autoreconf
+./configure
+make
+make install
+@end example
+The @code{autoreconf} call is really mandatory the first time, @code{autoconf}
+is not enough. You will also need all the prerequisites needed to build the docs,
+generally speaking, getting the source from git requires more tools to build the
+package than picking a ready-to-use tarball.
+
 @subsection Daily snapshots
 
 Alternatively, you can download daily snapshots on
