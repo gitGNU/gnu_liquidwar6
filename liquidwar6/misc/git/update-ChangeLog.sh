@@ -2,7 +2,7 @@
 
 NEW_CHANGELOG=ChangeLog
 OLD_CHANGELOG=misc/git/ChangeLog-before-git.txt
-EXTRA_CHANGELOG=$(dirname $(dirname $(readlink -f $NEW_CHANGELOG)))/liquidwar6-extra-maps/ChangeLog
+EXTRA_CHANGELOG=$(dirname $(dirname $(readlink $NEW_CHANGELOG)))/liquidwar6-extra-maps/ChangeLog
 
 echo "updating ChangeLog"
 echo NEW_CHANGELOG=$NEW_CHANGELOG

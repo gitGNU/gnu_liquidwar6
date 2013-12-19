@@ -71,7 +71,7 @@ AM_MISSING_PROG(AWK, awk, ${missing_dir})
 AM_MISSING_PROG(SED, sed, ${missing_dir})
 
 dnl Absolute path can be of some use
-LW6_ABS_SRCDIR=`readlink -f ${srcdir}`
+LW6_ABS_SRCDIR=`readlink ${srcdir}`
 LW6_ABS_SRCDIR_CFLAGS="-DLW6_ABS_SRCDIR=\\\"${LW6_ABS_SRCDIR}\\\""
 
 AC_SUBST(LW6_ABS_SRCDIR)
@@ -131,7 +131,7 @@ fi
 
 AC_SUBST(DOXYGEN_HAVE_DOT)
 
-DOXYGEN_SRCDIR=`readlink -f ${srcdir}`
+DOXYGEN_SRCDIR=`readlink ${srcdir}`
 
 AC_SUBST(DOXYGEN_SRCDIR)
 
