@@ -28,18 +28,26 @@ BUILD_MD5SUM_H=./lib/sys/sys-build-md5sum.h
 VERSION_MAJOR=0
 VERSION_MINOR=1
 
-HERE="$(readlink -f $(dirname $0))"
-if [ -f ../configure.ac ] ; then
-    CONFIGURE_AC=$(readlink -f ../configure.ac)
-    if [ -f ${CONFIGURE_AC} ] ; then
-        CONFIGURE_AC_EXTRA_MAPS="$(dirname $(dirname ${CONFIGURE_AC}))/liquidwar6-extra-maps/configure.ac"
-    else
-        echo "unable to open ${CONFIGURE_AC}"
-        exit 2
-    fi
+if test "$1" = "show" ; then
+    # in "show" mode, do not query for complex path, readlink
+    # has some compatibility issues on Mac OS X, and in a general
+    # manner, if showing only, keep it simple stupid, no need
+    # to set vars we won't use.
+    true
 else
-    echo "unable to find ../configure.ac"
-    exit 1
+    HERE="$(readlink -f $(dirname $0))"
+    if [ -f ../configure.ac ] ; then
+	CONFIGURE_AC=$(readlink -f ../configure.ac)
+	if [ -f ${CONFIGURE_AC} ] ; then
+            CONFIGURE_AC_EXTRA_MAPS="$(dirname $(dirname ${CONFIGURE_AC}))/liquidwar6-extra-maps/configure.ac"
+	else
+            echo "unable to open ${CONFIGURE_AC}"
+            exit 2
+	fi
+    else
+	echo "unable to find ../configure.ac"
+	exit 1
+    fi
 fi
 
 usage () {
