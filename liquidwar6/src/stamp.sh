@@ -28,9 +28,9 @@ BUILD_MD5SUM_H=./lib/sys/sys-build-md5sum.h
 VERSION_MAJOR=0
 VERSION_MINOR=1
 
-HERE="$(readlink $(dirname $0))"
+HERE="$(readlink -f $(dirname $0))"
 if [ -f ../configure.ac ] ; then
-    CONFIGURE_AC=$(readlink ../configure.ac)
+    CONFIGURE_AC=$(readlink -f ../configure.ac)
     if [ -f ${CONFIGURE_AC} ] ; then
         CONFIGURE_AC_EXTRA_MAPS="$(dirname $(dirname ${CONFIGURE_AC}))/liquidwar6-extra-maps/configure.ac"
     else
