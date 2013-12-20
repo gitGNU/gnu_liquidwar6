@@ -162,6 +162,7 @@ fi
 if test x${lw6_cunit} = xyes && test x${HAVE_CUNIT_CUCURSES_H} = x1 && test x${HAVE_LIBCUNIT_CURSES} = x1 ; then
    lw6_cunit_ncurses=yes
    LW6_CUNIT_CFLAGS="-DLW6_CUNIT -DLW6_CUNIT_CURSES"
+   LW6_CUNIT_LDFLAGS="-lcunit -lncurses"
 fi
 
 AM_CONDITIONAL(LW6_CUNIT, test x${lw6_cunit} = xyes)
