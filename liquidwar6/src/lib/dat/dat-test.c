@@ -149,9 +149,9 @@
  * of 2.
  */
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_0 0
-#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_1 11
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_1 0
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_2 11
-#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_0 11
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_0 0
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_1 0
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_2 11
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_0 11
@@ -955,6 +955,17 @@ _test_warehouse_copy_atoms_callback (void *func_data, void *data)
     }
 }
 
+static void
+_test_miss_print_callback (void *func_data, void *data)
+{
+  lw6dat_miss_t *miss = (lw6dat_miss_t *) data;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _x_ ("MISS item from_id=%" LW6SYS_PRINTF_LL
+		   "x serial_min=%d serial_max=%d"),
+	      (long long) miss->from_id, miss->serial_min, miss->serial_max);
+}
+
 /*
  * Testing functions in warehouse.c
  */
@@ -1353,6 +1364,9 @@ _test_warehouse ()
 							_x_
 							("miss_list contains %d members, should be empty"),
 							miss_list_length);
+					    lw6sys_list_map (miss_list,
+							     _test_miss_print_callback,
+							     NULL);
 					  }
 					lw6sys_list_free (miss_list);
 				      }
@@ -1601,6 +1615,8 @@ _test_more ()
       _TEST_MORE_WAREHOUSE_REFERENCE_LEN_1,
       _TEST_MORE_WAREHOUSE_REFERENCE_LEN_2
     };
+    lw6sys_list_t *miss_list = NULL;
+    int miss_list_length = 0;
 
     short_text = LW6SYS_MALLOC (_TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT + 1);
     if (short_text)
@@ -1634,7 +1650,7 @@ _test_more ()
 	      {
 		warehouse[warehouse_index] =
 		  lw6dat_warehouse_new (node_ids[warehouse_index],
-					_TEST_WAREHOUSE_SEQ_0);
+					node_seq_0s[warehouse_index]);
 	      }
 	    if (warehouse[0] && warehouse[1] && warehouse[2])
 	      {
@@ -1961,6 +1977,13 @@ _test_more ()
 		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
 		     ++warehouse_index)
 		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("checking node index=%d id=%"
+				     LW6SYS_PRINTF_LL "x"), warehouse_index,
+				(long long)
+				lw6dat_warehouse_get_local_id (warehouse
+							       [warehouse_index]));
+
 		    lw6dat_warehouse_calc_serial_draft_and_reference
 		      (warehouse[warehouse_index]);
 		    seq_min =
@@ -1975,6 +1998,32 @@ _test_more ()
 		    seq_reference =
 		      lw6dat_warehouse_get_seq_reference (warehouse
 							  [warehouse_index]);
+
+		    miss_list =
+		      lw6dat_warehouse_get_miss_list
+		      (warehouse[warehouse_index],
+		       _TEST_WAREHOUSE_MISS_MAX_RANGE, NULL);
+		    if (miss_list)
+		      {
+			miss_list_length = lw6sys_list_length (miss_list);
+			if (miss_list_length == 0)
+			  {
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_ ("OK, no messages in MISS list"));
+			  }
+			else
+			  {
+			    lw6sys_log (LW6SYS_LOG_WARNING,
+					_x_
+					("MISS list contains %d elements"),
+					miss_list_length);
+			    lw6sys_list_map (miss_list,
+					     _test_miss_print_callback, NULL);
+			    ret = 0;
+			  }
+			lw6sys_list_free (miss_list);
+		      }
+
 		    if (seq_min == seq_mins[warehouse_index]
 			&& seq_max == seq_maxs[warehouse_index]
 			&& seq_draft == seq_drafts[warehouse_index]
