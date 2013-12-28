@@ -1060,18 +1060,22 @@ _lw6dat_warehouse_get_atom_str_list_not_sent (_lw6dat_warehouse_t *
   ret = _lw6dat_stack_init_list ();
   if (ret)
     {
-      target_index =
-	_lw6dat_warehouse_get_stack_index (warehouse, logical_to);
-      for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
+      if (logical_to != _lw6dat_warehouse_get_local_id (warehouse))
 	{
-	  if ((stack_index != target_index)
-	      && (warehouse->stacks[stack_index].node_id != 0))
+	  target_index =
+	    _lw6dat_warehouse_get_stack_index (warehouse, logical_to);
+	  for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS;
+	       ++stack_index)
 	    {
-	      _lw6dat_stack_update_atom_str_list_not_sent (&
-							   (warehouse->stacks
-							    [stack_index]),
-							   &ret,
-							   target_index);
+	      if ((stack_index != target_index)
+		  && (warehouse->stacks[stack_index].node_id != 0))
+		{
+		  _lw6dat_stack_update_atom_str_list_not_sent (&
+							       (warehouse->stacks
+								[stack_index]),
+							       &ret,
+							       target_index);
+		}
 	    }
 	}
     }

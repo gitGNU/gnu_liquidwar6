@@ -148,15 +148,15 @@
  * messages, that is messages sent from 0 to 1 on behalf
  * of 2.
  */
-#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_0 33
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_0 0
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_1 11
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_2 11
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_0 11
-#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_1 33
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_1 0
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_2 11
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_0 11
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_1 11
-#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_2 22
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_2 0
 
 /*
  * All range limits, not that seq_max, seq_draft
@@ -1482,8 +1482,12 @@ _fake_send (void *func_data, void *data)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_
-		      ("faking net send/recv and putting msg of length %d into warehouse"),
-		      len);
+		      ("faking net send/recv and putting msg of length %d into warehouse (%"
+		       LW6SYS_PRINTF_LL "x -> %" LW6SYS_PRINTF_LL "x)"), len,
+		      (long long) logical_from2,
+		      (long long)
+		      lw6dat_warehouse_get_local_id
+		      (fake_send_data->warehouse));
 	}
       else
 	{
