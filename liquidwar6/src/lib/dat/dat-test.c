@@ -101,19 +101,34 @@
 #define _TEST_WAREHOUSE_MISS_MAX_RANGE LW6DAT_MISS_MAX_RANGE_UNLIMITED
 
 #define _TEST_MORE_WAREHOUSE_NB_NODES 3
-#define _TEST_MORE_WAREHOUSE_NB_MSGS_PER_STAGE 5
+#define _TEST_MORE_WAREHOUSE_NB_MSGS_PER_STAGE 2
 #define _TEST_MORE_WAREHOUSE_NODE_A_ID 0x1234123412341234LL
 #define _TEST_MORE_WAREHOUSE_NODE_B_ID 0x2345234523452345LL
 #define _TEST_MORE_WAREHOUSE_NODE_C_ID 0x3456345634563456LL
-#define _TEST_MORE_WAREHOUSE_NODE_A_SERIAL 1
-#define _TEST_MORE_WAREHOUSE_NODE_B_SERIAL 12
-#define _TEST_MORE_WAREHOUSE_NODE_C_SERIAL 23
+/*
+ * On node A, there is 3 * a sequence of 1+4+1 = 6 messages
+ * On node B, there is 3 * a sequence of 1+4+1+4+1 = 11 messages
+ * On node C, there is 3 * a sequence of 1+4+1+4+1+4+1 = 16 messages
+ * 
+ * On node A, everyone comes at its lower start, on node B the second
+ * or later stage, on node C the last one.
+ */
+#define _TEST_MORE_WAREHOUSE_NODE_A_A_SERIAL 1
+#define _TEST_MORE_WAREHOUSE_NODE_A_B_SERIAL 12
+#define _TEST_MORE_WAREHOUSE_NODE_A_C_SERIAL 33
+#define _TEST_MORE_WAREHOUSE_NODE_B_A_SERIAL 7
+#define _TEST_MORE_WAREHOUSE_NODE_B_B_SERIAL 12
+#define _TEST_MORE_WAREHOUSE_NODE_B_C_SERIAL 33
+#define _TEST_MORE_WAREHOUSE_NODE_C_A_SERIAL 13
+#define _TEST_MORE_WAREHOUSE_NODE_C_B_SERIAL 23
+#define _TEST_MORE_WAREHOUSE_NODE_C_C_SERIAL 33
 #define _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0 10000000100000LL
 #define _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0 10000001000000LL
 #define _TEST_MORE_WAREHOUSE_NODE_C_SEQ_0 10000010000000LL
 #define _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0_OFFSET 100
 #define _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0_OFFSET 1000
 #define _TEST_MORE_WAREHOUSE_NODE_C_SEQ_0_OFFSET 10000
+#define _TEST_MORE_WAREHOUSE_NODE_FINAL_SEQ 10000066666666LL
 #define _TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT 10
 #define _TEST_MORE_WAREHOUSE_MSG_CHAR_SHORT 's'
 #define _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG 10000
@@ -134,13 +149,13 @@
  * that messages spanned on several atoms behave well.
  */
 #define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_0 0
-#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_1 22
-#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_2 11
-#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_1_0 22
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_1 19
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_2 19
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_1_0 23
 #define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_1_1 0
-#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_1_2 11
-#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_2_0 11
-#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_2_1 11
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_1_2 23
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_2_0 17
+#define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_2_1 17
 #define _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_2_2 0
 /*
  * Now this is the equivalent of the above, but figures
@@ -149,13 +164,13 @@
  * of 2.
  */
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_0 0
-#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_1 0
-#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_2 11
-#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_0 0
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_1 17
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_2 23
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_0 17
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_1 0
-#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_2 11
-#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_0 11
-#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_1 11
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_2 13
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_0 12
+#define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_1 7
 #define _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_2 0
 
 /*
@@ -163,29 +178,29 @@
  * and seq_reference are the same but seq_min differs
  */
 #define _TEST_MORE_WAREHOUSE_SEQ_MIN_0 10000000100100LL
-#define _TEST_MORE_WAREHOUSE_SEQ_MIN_1 10000001000100LL
-#define _TEST_MORE_WAREHOUSE_SEQ_MIN_2 10000010000100LL
-#define _TEST_MORE_WAREHOUSE_SEQ_MAX_0 10000010010004LL
-#define _TEST_MORE_WAREHOUSE_SEQ_MAX_1 10000010010004LL
-#define _TEST_MORE_WAREHOUSE_SEQ_MAX_2 10000010010004LL
-#define _TEST_MORE_WAREHOUSE_SEQ_DRAFT_0 10000010010004LL
-#define _TEST_MORE_WAREHOUSE_SEQ_DRAFT_1 10000010010004LL
-#define _TEST_MORE_WAREHOUSE_SEQ_DRAFT_2 10000010010004LL
-#define _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_0 10000010000103LL
-#define _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_1 10000010000103LL
-#define _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_2 10000010000103LL
+#define _TEST_MORE_WAREHOUSE_SEQ_MIN_1 10000000101000LL
+#define _TEST_MORE_WAREHOUSE_SEQ_MIN_2 10000000110000LL
+#define _TEST_MORE_WAREHOUSE_SEQ_MAX_0 10000066666666LL
+#define _TEST_MORE_WAREHOUSE_SEQ_MAX_1 10000066666666LL
+#define _TEST_MORE_WAREHOUSE_SEQ_MAX_2 10000066666666LL
+#define _TEST_MORE_WAREHOUSE_SEQ_DRAFT_0 10000066666666LL
+#define _TEST_MORE_WAREHOUSE_SEQ_DRAFT_1 10000066666666LL
+#define _TEST_MORE_WAREHOUSE_SEQ_DRAFT_2 10000066666666LL
+#define _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_0 10000066666665LL
+#define _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_1 10000066666665LL
+#define _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_2 10000066666665LL
 
 /*
  * Number of messages expected per type of message,
  * here we are talking of high level meaningfull
  * messages, not only compressed atoms.
  */
-#define _TEST_MORE_WAREHOUSE_DRAFT_LEN_0 30
-#define _TEST_MORE_WAREHOUSE_DRAFT_LEN_1 25
-#define _TEST_MORE_WAREHOUSE_DRAFT_LEN_2 15
-#define _TEST_MORE_WAREHOUSE_REFERENCE_LEN_0 19
-#define _TEST_MORE_WAREHOUSE_REFERENCE_LEN_1 14
-#define _TEST_MORE_WAREHOUSE_REFERENCE_LEN_2 4
+#define _TEST_MORE_WAREHOUSE_DRAFT_LEN_0 29
+#define _TEST_MORE_WAREHOUSE_DRAFT_LEN_1 31
+#define _TEST_MORE_WAREHOUSE_DRAFT_LEN_2 40
+#define _TEST_MORE_WAREHOUSE_REFERENCE_LEN_0 26
+#define _TEST_MORE_WAREHOUSE_REFERENCE_LEN_1 28
+#define _TEST_MORE_WAREHOUSE_REFERENCE_LEN_2 37
 
 typedef struct _lw6dat_test_data_s
 {
@@ -1541,10 +1556,20 @@ _test_more ()
       { _TEST_MORE_WAREHOUSE_NODE_A_ID, _TEST_MORE_WAREHOUSE_NODE_B_ID,
       _TEST_MORE_WAREHOUSE_NODE_C_ID
     };
-    int node_serials[_TEST_MORE_WAREHOUSE_NB_NODES] =
-      { _TEST_MORE_WAREHOUSE_NODE_A_SERIAL,
-      _TEST_MORE_WAREHOUSE_NODE_B_SERIAL, _TEST_MORE_WAREHOUSE_NODE_C_SERIAL
-    };
+    int
+      node_serials[_TEST_MORE_WAREHOUSE_NB_NODES]
+      [_TEST_MORE_WAREHOUSE_NB_NODES] = {
+      {_TEST_MORE_WAREHOUSE_NODE_A_A_SERIAL,
+       _TEST_MORE_WAREHOUSE_NODE_A_B_SERIAL,
+       _TEST_MORE_WAREHOUSE_NODE_A_C_SERIAL},
+      {_TEST_MORE_WAREHOUSE_NODE_B_A_SERIAL,
+       _TEST_MORE_WAREHOUSE_NODE_B_B_SERIAL,
+       _TEST_MORE_WAREHOUSE_NODE_B_C_SERIAL},
+      {_TEST_MORE_WAREHOUSE_NODE_C_A_SERIAL,
+       _TEST_MORE_WAREHOUSE_NODE_C_B_SERIAL,
+       _TEST_MORE_WAREHOUSE_NODE_C_C_SERIAL}
+    }
+    ;
     int64_t node_seq_0s[_TEST_MORE_WAREHOUSE_NB_NODES] =
       { _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0, _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0,
       _TEST_MORE_WAREHOUSE_NODE_C_SEQ_0
@@ -1679,26 +1704,32 @@ _test_more ()
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
 					_x_ ("registering node %"
 					     LW6SYS_PRINTF_LL
-					     "x in warehouse %d with serial %d  %"
+					     "x in warehouse %d with serial %d seq %"
 					     LW6SYS_PRINTF_LL "d"),
 					(long long) node_ids[stage],
-					warehouse_index, node_serials[stage],
-					(long long) node_seq_0s[stage]);
+					warehouse_index,
+					node_serials[warehouse_index][stage],
+					(long long)
+					node_seq_0s[warehouse_index]);
 			    lw6dat_warehouse_register_node (warehouse
 							    [warehouse_index],
 							    node_ids[stage],
 							    node_serials
+							    [warehouse_index]
 							    [stage],
 							    node_seq_0s
-							    [stage]);
+							    [warehouse_index]);
 			  }
 		      }
-		    for (node_index = 0; node_index < stage + 1; ++node_index)
+		    for (node_index = 0;
+			 node_index < _TEST_MORE_WAREHOUSE_NB_NODES;
+			 ++node_index)
 		      {
 			for (msg_index = 0LL;
 			     msg_index <
-			     _TEST_MORE_WAREHOUSE_NB_MSGS_PER_STAGE;
-			     ++msg_index)
+			     ((node_index +
+			       1) * _TEST_MORE_WAREHOUSE_NB_MSGS_PER_STAGE) +
+			     1; ++msg_index)
 			  {
 			    seq =
 			      node_seq_0s[stage] +
@@ -1714,7 +1745,7 @@ _test_more ()
 			    if (msg)
 			      {
 				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _x_ ("seq=%" LW6SYS_PRINTF_LL
+					    _x_ ("PUT seq=%" LW6SYS_PRINTF_LL
 						 "d id=%" LW6SYS_PRINTF_LL
 						 "x len=%d"), (long long) seq,
 					    (long long) node_id,
@@ -1725,6 +1756,34 @@ _test_more ()
 				LW6SYS_FREE (msg);
 			      }
 			  }
+		      }
+		  }
+
+		for (stage = 0; stage < _TEST_MORE_WAREHOUSE_NB_NODES;
+		     ++stage)
+		  {
+		    /*
+		     * Insert a final message, else we are stuck at N-1
+		     */
+		    node_id = node_ids[stage];
+		    msg =
+		      lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+					  LW6SYS_PRINTF_LL "x %s",
+					  (long long)
+					  _TEST_MORE_WAREHOUSE_NODE_FINAL_SEQ,
+					  (long long) node_id, short_text);
+		    if (msg)
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_ ("PUT seq=%" LW6SYS_PRINTF_LL
+					 "d id=%" LW6SYS_PRINTF_LL
+					 "x len=%d"),
+				    (long long)
+				    _TEST_MORE_WAREHOUSE_NODE_FINAL_SEQ,
+				    (long long) node_id, (int) strlen (msg));
+			lw6dat_warehouse_put_local_msg (warehouse[stage],
+							msg);
+			LW6SYS_FREE (msg);
 		      }
 		  }
 
