@@ -308,8 +308,11 @@ lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t * warehouse)
 int64_t
 _lw6dat_warehouse_get_local_seq_0 (_lw6dat_warehouse_t * warehouse)
 {
-  return warehouse->
-    stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0s[_LW6DAT_LOCAL_NODE_INDEX];
+  /*
+     return warehouse->
+     stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0s[_LW6DAT_LOCAL_NODE_INDEX];
+   */
+  return warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].seq_0;
 }
 
 /**

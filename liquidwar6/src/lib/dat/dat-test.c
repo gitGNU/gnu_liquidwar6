@@ -106,8 +106,8 @@
 #define _TEST_MORE_WAREHOUSE_NODE_B_ID 0x2345234523452345LL
 #define _TEST_MORE_WAREHOUSE_NODE_C_ID 0x3456345634563456LL
 #define _TEST_MORE_WAREHOUSE_NODE_A_SERIAL 1
-#define _TEST_MORE_WAREHOUSE_NODE_B_SERIAL 10
-#define _TEST_MORE_WAREHOUSE_NODE_C_SERIAL 100
+#define _TEST_MORE_WAREHOUSE_NODE_B_SERIAL 12
+#define _TEST_MORE_WAREHOUSE_NODE_C_SERIAL 23
 #define _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0 10000000100000LL
 #define _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0 10000001000000LL
 #define _TEST_MORE_WAREHOUSE_NODE_C_SEQ_0 10000010000000LL
@@ -1476,18 +1476,16 @@ _fake_send (void *func_data, void *data)
   if (fake_send_data && msg)
     {
       len = strlen (msg);
-      if (fake_send_data->logical_from == 0)
-	{
-	  /*
-	   * Now, in a real network context, the logical
-	   * sender can been parsed upstream but here we
-	   * need to figure it out "manually".
-	   */
-	  _lw6dat_atom_parse_from_cmd
-	    (&type, &serial, &order_i, &order_n, &seq, &logical_from2,
-	     &seq_from_cmd_str_offset, &cmd_str_offset, msg);
-	}
-      else
+
+      /*
+       * Now, in a real network context, the logical
+       * sender can been parsed upstream but here we
+       * need to figure it out "manually".
+       */
+      _lw6dat_atom_parse_from_cmd
+	(&type, &serial, &order_i, &order_n, &seq, &logical_from2,
+	 &seq_from_cmd_str_offset, &cmd_str_offset, msg);
+      if (fake_send_data->logical_from)
 	{
 	  logical_from2 = fake_send_data->logical_from;
 	}
@@ -1497,11 +1495,19 @@ _fake_send (void *func_data, void *data)
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_
 		      ("faking net send/recv and putting msg of length %d into warehouse (%"
-		       LW6SYS_PRINTF_LL "x -> %" LW6SYS_PRINTF_LL "x)"), len,
+		       LW6SYS_PRINTF_LL "x -> %" LW6SYS_PRINTF_LL
+		       "x serial=%d seq=%" LW6SYS_PRINTF_LL "d)"), len,
 		      (long long) logical_from2,
 		      (long long)
 		      lw6dat_warehouse_get_local_id
-		      (fake_send_data->warehouse));
+		      (fake_send_data->warehouse), serial, (long long) seq);
+	  if (!serial || !seq)
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("strange, serial=%d and seq=%" LW6SYS_PRINTF_LL
+			       "d msg was \"%s\""), serial, (long long) seq,
+			  msg);
+	    }
 	}
       else
 	{
@@ -1673,10 +1679,10 @@ _test_more ()
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
 					_x_ ("registering node %"
 					     LW6SYS_PRINTF_LL
-					     "x in warehouse %d with seq %"
+					     "x in warehouse %d with serial %d  %"
 					     LW6SYS_PRINTF_LL "d"),
 					(long long) node_ids[stage],
-					warehouse_index,
+					warehouse_index, node_serials[stage],
 					(long long) node_seq_0s[stage]);
 			    lw6dat_warehouse_register_node (warehouse
 							    [warehouse_index],
