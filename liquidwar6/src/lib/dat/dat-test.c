@@ -1729,9 +1729,16 @@ _test_more ()
 				lw6sys_log (LW6SYS_LOG_NOTICE,
 					    _x_
 					    ("check nb_init_not_sent, in warehouse %d are %d messages not sent for node index=%d id=%"
-					     LW6SYS_PRINTF_LL "x"),
+					     LW6SYS_PRINTF_LL
+					     "x local_serial=%d local_seq_0=%"
+					     LW6SYS_PRINTF_LL "d"),
 					    warehouse_index, not_sent_length,
-					    node_index, (long long) node_id);
+					    node_index, (long long) node_id,
+					    lw6dat_warehouse_get_local_serial
+					    (warehouse[warehouse_index]),
+					    (long long)
+					    lw6dat_warehouse_get_local_seq_0
+					    (warehouse[warehouse_index]));
 			      }
 			    else
 			      {
@@ -1739,11 +1746,17 @@ _test_more ()
 					    _x_
 					    ("check nb_init_ot_sent, in warehouse %d are %d messages not sent for node index=%d id=%"
 					     LW6SYS_PRINTF_LL
-					     "x, expecting %d"),
+					     "x, expecting %d local_serial=%d local_seq_0=%"
+					     LW6SYS_PRINTF_LL "d"),
 					    warehouse_index, not_sent_length,
 					    node_index, (long long) node_id,
 					    nb_init_not_sent[warehouse_index]
-					    [node_index]);
+					    [node_index],
+					    lw6dat_warehouse_get_local_serial
+					    (warehouse[warehouse_index]),
+					    (long long)
+					    lw6dat_warehouse_get_local_seq_0
+					    (warehouse[warehouse_index]));
 				ret = 0;
 			      }
 			  }
@@ -1820,21 +1833,34 @@ _test_more ()
 				lw6sys_log (LW6SYS_LOG_NOTICE,
 					    _x_
 					    ("check nb_cross_not_sent, in warehouse %d are %d messages not sent for node index=%d id=%"
-					     LW6SYS_PRINTF_LL "x"),
+					     LW6SYS_PRINTF_LL
+					     "x local_serial=%d local_seq_0=%"
+					     LW6SYS_PRINTF_LL "d"),
 					    warehouse_index, not_sent_length,
-					    node_index, (long long) node_id);
+					    node_index, (long long) node_id,
+					    lw6dat_warehouse_get_local_serial
+					    (warehouse[warehouse_index]),
+					    (long long)
+					    lw6dat_warehouse_get_local_seq_0
+					    (warehouse[warehouse_index]));
 			      }
 			    else
 			      {
 				lw6sys_log (LW6SYS_LOG_WARNING,
 					    _x_
-					    ("check nb_cross_not_sent, in warehouse %d are %d messages not sent for node index=%d id=%"
+					    ("check nb_cross_ot_sent, in warehouse %d are %d messages not sent for node index=%d id=%"
 					     LW6SYS_PRINTF_LL
-					     "x, expecting %d"),
+					     "x, expecting %d local_serial=%d local_seq_0=%"
+					     LW6SYS_PRINTF_LL "d"),
 					    warehouse_index, not_sent_length,
 					    node_index, (long long) node_id,
 					    nb_cross_not_sent[warehouse_index]
-					    [node_index]);
+					    [node_index],
+					    lw6dat_warehouse_get_local_serial
+					    (warehouse[warehouse_index]),
+					    (long long)
+					    lw6dat_warehouse_get_local_seq_0
+					    (warehouse[warehouse_index]));
 				ret = 0;
 			      }
 			  }
