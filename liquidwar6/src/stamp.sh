@@ -76,8 +76,10 @@ next_id () {
 	DEBIAN_CHANGELOG="$(dirname ${CONFIGURE_AC})/debian"
 	DEBIAN_EXTRA_MAPS_CHANGELOG="$(dirname $(dirname ${CONFIGURE_AC}))/liquidwar6-extra-maps/debian"
         echo "updating ${DEBIAN_CHANGELOG}/changelog"
+	if cat ${DEBIAN_CHANGELOG}/changelog | head -n 3 | grep "Bump version" ; then cat ${DEBIAN_CHANGELOG}/changelog | tail -n +7 > ${DEBIAN_CHANGELOG}/changelog.old ; mv ${DEBIAN_CHANGELOG}/changelog.old ${DEBIAN_CHANGELOG}/changelog ; fi
 	cd ${DEBIAN_CHANGELOG} && /usr/bin/debchange --newversion ${VERSION_MAJOR}.${VERSION_MINOR}.${stamp}-0vendor --release-heuristic log --maintmaint "Bump version"
         echo "updating ${DEBIAN_EXTRA_MAPS_CHANGELOG}/changelog"
+	if cat ${DEBIAN_EXTRA_MAPS_CHANGELOG}/changelog | head -n 3 | grep "Bump version" ; then cat ${DEBIAN_EXTRA_MAPS_CHANGELOG}/changelog | tail -n +7 > ${DEBIAN_EXTRA_MAPS_CHANGELOG}/changelog.old ; mv ${DEBIAN_EXTRA_MAPS_CHANGELOG}/changelog.old ${DEBIAN_EXTRA_MAPS_CHANGELOG}/changelog ; fi
 	cd ${DEBIAN_EXTRA_MAPS_CHANGELOG} && /usr/bin/debchange --newversion ${VERSION_MAJOR}.${VERSION_MINOR}.${stamp}-0vendor --release-heuristic log --maintmaint "Bump version"
 	cd "${HERE}"
     fi

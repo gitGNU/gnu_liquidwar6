@@ -6,3 +6,6 @@
 *.rpm
 build
 *~
+.#*
+*.tmp
+*.bak
