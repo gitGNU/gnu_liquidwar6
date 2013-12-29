@@ -157,13 +157,12 @@
 	  #f))))
 
 (define lw6-set-menuitem!
-  (lambda (i allow-scroll)
+  (lambda (menu i allow-scroll)
     (let (
 	  (menuitem (lw6-current-menuitem))
 	  )
       (if menuitem
 	  (let* (
-		 (menu (lw6-current-menu))
 		 (items (assoc-ref menu "items"))
 		 (selected-item (assoc-ref menu "selected-item"))
 		 (nb-items (length items))
@@ -173,8 +172,8 @@
 		#f
 		(begin
 		  (lw6-menuitem-action menuitem "on-unselect")
-		  (assoc-set! menu "selected-item" new-selected-item)
-		  (assoc-set! menu "allow-scroll" allow-scroll)
+		  (set! menu (assoc-set! menu "selected-item" new-selected-item))
+		  (set! menu (assoc-set! menu "allow-scroll" allow-scroll))
 		  (lw6-menu-sync menu)
 		  (let (
 			(menuitem (lw6-current-menuitem))
@@ -197,7 +196,7 @@
 	  (menuitem (lw6-current-menuitem))
 	  )
       (if menuitem
-	  (lw6-set-menuitem! (- (assoc-ref menu "selected-item") 1) allow-scroll)
+	  (lw6-set-menuitem! menu (- (assoc-ref menu "selected-item") 1) allow-scroll)
 	  ))))
 
 (define lw6-next-menuitem
@@ -207,7 +206,7 @@
 	  (menuitem (lw6-current-menuitem))
 	  )
       (if menuitem
-	  (lw6-set-menuitem! (+ (assoc-ref menu "selected-item") 1) allow-scroll)
+	  (lw6-set-menuitem! menu (+ (assoc-ref menu "selected-item") 1) allow-scroll)
 	  ))))
 
 (define lw6-menu-action
@@ -573,7 +572,7 @@
 	       (c-lw6gui-mouse-pop-triple-click dsp)
 	       (if (c-lw6gui-mouse-pop-button-left dsp)
 		   (begin
-		     (lw6-set-menuitem! menu-position #f)
+		     (lw6-set-menuitem! menu menu-position #f)
 		     (set! menuitem (lw6-current-menuitem))
 		     (if (assoc-ref menuitem "enabled") 
 			 (if
@@ -639,7 +638,7 @@
 		  (if (and menu menuitem)
 		      (cond (
 			     (>= menu-position 0)
-			     (lw6-set-menuitem! menu-position #f)
+			     (lw6-set-menuitem! menu menu-position #f)
 			     )
 			    (
 			     (> menu-scroll 0)
@@ -676,12 +675,16 @@
 
 (define lw6-menu-update
   (lambda ()
-    (let (
+    (let* (
 	  (new-menu (lw6-menu-action (lw6-current-menu) "update"))
+	  (selected-item (if new-menu (assoc-ref new-menu "selected-item") #f))
 	  )
       (if new-menu
 	  (begin
-	    (lw6-log-notice new-menu)
+	    (lw6-pop-menu (lw6-current-menu))
+	    (lw6-push-menu new-menu)
+	    (lw6-set-menuitem! new-menu selected-item #t)
+	    #t
 	    )
 	  #f
 	  ))))

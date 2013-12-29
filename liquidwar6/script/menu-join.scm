@@ -18,7 +18,7 @@
 ;; Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;; Contact author        : ufoot@ufoot.org
 
-(define lw6-join-menu-items
+(define lw6-join-menu-item
   (lambda (menu entry)
     (let* (
 	   (title (assoc-ref entry "title"))
@@ -39,7 +39,9 @@
 						 (_ "Map") level)))
 	   )
       (begin
+	(set! item (assoc-set! item "node-id" id))
 	(lw6-append-menuitem! menu item)
+	item
 	))))
 
 (define lw6-join-menu-none-item
@@ -55,10 +57,49 @@
 
 (define lw6-join-menu-update
   (lambda (m)
-    (begin
-      (lw6-log-notice "update")
-      #f
-      )))
+    (let* (
+	  (menu-smob (assoc-ref m "smob"))
+	  (selected-item (assoc-ref m "selected-item"))
+	  (current-menuitem (lw6-current-menuitem))
+	  (current-node-id (if current-menuitem (assoc-ref current-menuitem "node-id") #f))
+	  (tmp-item 0)
+	  (new-id 0)
+	  (node (lw6-get-game-global "node"))
+	  (entries (if node (c-lw6p2p-node-get-entries node) #f))
+	)
+      (if menu-smob
+	  (begin
+	    (c-lw6gui-menu-remove-all menu-smob)
+	    (set! m (assoc-set! m "smob" menu-smob))
+	    (set! m (assoc-set! m "items" (list)))
+	    (set! m (assoc-set! m "selected-item" 0))
+	    (if entries
+		(map (lambda (entry)
+		       (let* (
+			      (menuitem (lw6-join-menu-item m entry)) 
+			      (node-id (if menuitem (assoc-ref menuitem "node-id") #f)) 
+			      )
+			 (begin
+			   ;;(lw6-log-notice (format #f "~a ~a ~a" node-id current-node-id tmp-item))
+			   ;;(lw6-log-notice menuitem)
+			   (if (and node-id current-node-id (equal? node-id current-node-id))
+			       (set! selected-item tmp-item))
+			   (set! tmp-item (+ tmp-item 1))
+			   menuitem
+			   )))
+		     entries)
+		(lw6-append-menuitem! m (lw6-join-menu-none-item))
+		)
+	    (if current-node-id 
+		(begin
+		  ;;(lw6-log-notice selected-item)
+		  (set! m (assoc-set! m "selected-item" selected-item))
+		  ))
+	    ;;(lw6-log-notice m)
+	    m
+	    )
+	  #f
+	  ))))
 
 (define lw6-join-menu
   (lambda()
@@ -70,10 +111,7 @@
 	  (entries (if node (c-lw6p2p-node-get-entries node) #f))
 	  )
       (begin
-	(if entries
-	    (map (lambda (entry) (lw6-join-menu-items menu entry)) entries)
-	    (lw6-append-menuitem! menu (lw6-join-menu-none-item))
-	    )
 	(assoc-set! menu "update" lw6-join-menu-update)
+	(set! menu (lw6-join-menu-update menu))
 	menu
 	))))
