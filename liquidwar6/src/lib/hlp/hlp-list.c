@@ -1041,6 +1041,8 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6CFG_UNIFIED_GET_MAP_PATH);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MENU_NEW);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MENU_APPEND);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MENU_REMOVE);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MENU_REMOVE_ALL);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MENU_SYNC);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MENU_SELECT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MENU_SELECT_ESC);

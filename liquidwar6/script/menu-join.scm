@@ -53,6 +53,13 @@
 	item
 	))))
 
+(define lw6-join-menu-update
+  (lambda (m)
+    (begin
+      (lw6-log-notice "update")
+      #f
+      )))
+
 (define lw6-join-menu
   (lambda()
     (let* (
@@ -67,5 +74,6 @@
 	    (map (lambda (entry) (lw6-join-menu-items menu entry)) entries)
 	    (lw6-append-menuitem! menu (lw6-join-menu-none-item))
 	    )
+	(assoc-set! menu "update" lw6-join-menu-update)
 	menu
 	))))

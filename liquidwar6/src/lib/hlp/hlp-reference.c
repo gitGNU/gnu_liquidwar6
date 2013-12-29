@@ -2622,6 +2622,10 @@ populate_references ()
 		 _x_ ("Wrapper on lw6gui_menu_new."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_APPEND,
 		 _x_ ("Wrapper on lw6gui_menu_append."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_REMOVE,
+		 _x_ ("Wrapper on lw6gui_menu_remove."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_REMOVE_ALL,
+		 _x_ ("Wrapper on lw6gui_menu_remove_all."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_SYNC,
 		 _x_ ("Wrapper on lw6gui_menu_sync."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_SELECT,

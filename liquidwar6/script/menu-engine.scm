@@ -234,6 +234,7 @@
      (cons "selected-item" 0)
      (cons "allow-scroll" #f)
      (cons "items" (list))
+     (cons "update" (lambda (m) #f))
      (cons "on-pop" (lambda (m) #t))
      (cons "on-push" (lambda (m) #t))
      (cons "on-push-child" (lambda (m) #t))
@@ -673,6 +674,18 @@
 	    menu-stack)
        ))))
 
+(define lw6-menu-update
+  (lambda ()
+    (let (
+	  (new-menu (lw6-menu-action (lw6-current-menu) "update"))
+	  )
+      (if new-menu
+	  (begin
+	    (lw6-log-notice new-menu)
+	    )
+	  #f
+	  ))))
+
 (define lw6-menu
   (lambda () 
     (begin 
@@ -683,6 +696,7 @@
 	  (if (lw6-wait-is-any-key-pressed?)
 	      (lw6-menu-close-popup))
 	  (begin
+	    (lw6-menu-update)
 	    (lw6-menu-pump-buttons)
 	    (lw6-menu-pump-mouse)
 	    (if (not (lw6-menu-pump-all?))

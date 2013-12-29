@@ -717,6 +717,30 @@ lw6gui_menu_remove (lw6gui_menu_t * menu, int position, int64_t now)
 }
 
 /**
+ * lw6gui_menu_remove_all
+ *
+ * @menu: the menu we want to modify
+ * @now: the current time, as a timestamp.
+ *
+ * Removes all items from the menu, usefull when one wants
+ * to repopulate the items completely, from scratch.
+ *
+ * Return value: 1 if success, 0 if failure.
+ */
+int
+lw6gui_menu_remove_all (lw6gui_menu_t * menu, int64_t now)
+{
+  int ret = 1;
+
+  while (menu->nb_items > 0)
+    {
+      ret = lw6gui_menu_remove (menu, 0, now) && ret;
+    }
+
+  return ret;
+}
+
+/**
  * lw6gui_menu_update_display_range
  *
  * @menu: the menu concerned

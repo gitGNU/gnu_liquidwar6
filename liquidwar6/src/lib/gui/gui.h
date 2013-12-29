@@ -1020,6 +1020,7 @@ extern int lw6gui_menu_append (lw6gui_menu_t * menu,
 			       lw6gui_menuitem_t * menuitem, int64_t now);
 extern int lw6gui_menu_remove (lw6gui_menu_t * menu, int position,
 			       int64_t now);
+extern int lw6gui_menu_remove_all (lw6gui_menu_t * menu, int64_t now);
 extern void lw6gui_menu_update_display_range (lw6gui_menu_t * menu,
 					      int max_displayed_items);
 extern int lw6gui_menu_insert_for_id_use (lw6gui_menu_t * menu, char *label,

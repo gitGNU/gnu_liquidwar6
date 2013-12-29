@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2013-12-28 11:57+0100\n"
+"POT-Creation-Date: 2013-12-29 10:52+0100\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -302,55 +302,55 @@ msgstr "bonjour"
 msgid "goodbye"
 msgstr "au revoir"
 
-#: src/lib/hlp/hlp-reference.c:3077
+#: src/lib/hlp/hlp-reference.c:3081
 msgid "moves faster than the average"
 msgstr "se déplace plus vite que les autres"
 
-#: src/lib/hlp/hlp-reference.c:3078
+#: src/lib/hlp/hlp-reference.c:3082
 msgid "has a better defense than the average"
 msgstr "a une meilleure défense que les autres"
 
-#: src/lib/hlp/hlp-reference.c:3079
+#: src/lib/hlp/hlp-reference.c:3083
 msgid "has a strong attack but is slow"
 msgstr "a une attaque forte, mais se déplace lentement"
 
-#: src/lib/hlp/hlp-reference.c:3080
+#: src/lib/hlp/hlp-reference.c:3084
 msgid "has a strong attack"
 msgstr "a une attaque forte"
 
-#: src/lib/hlp/hlp-reference.c:3081
+#: src/lib/hlp/hlp-reference.c:3085
 msgid "has an extremely good defense but is slow"
 msgstr "extrêmement bon en défense, mais très lent"
 
-#: src/lib/hlp/hlp-reference.c:3083
+#: src/lib/hlp/hlp-reference.c:3087
 msgid "is extremely fast but also very vulnerable"
 msgstr "extrêmement rapide, mais aussi très vulnérable"
 
-#: src/lib/hlp/hlp-reference.c:3084
+#: src/lib/hlp/hlp-reference.c:3088
 msgid "is fast, but has a very weak attack"
 msgstr "rapide, mais avec peu d'attaque"
 
-#: src/lib/hlp/hlp-reference.c:3086
+#: src/lib/hlp/hlp-reference.c:3090
 msgid "has an extremely strong attack but is very slow"
 msgstr "attaque très forte, mais très lent"
 
-#: src/lib/hlp/hlp-reference.c:3088
+#: src/lib/hlp/hlp-reference.c:3092
 msgid "has a very good defense but a weak attack"
 msgstr "très bonne défense mais attaque faible"
 
-#: src/lib/hlp/hlp-reference.c:3090
+#: src/lib/hlp/hlp-reference.c:3094
 msgid "has a very strong attack, but is also very vulnerable"
 msgstr "attaque très forte, et aussi très vulnérable"
 
-#: src/lib/hlp/hlp-reference.c:3097
+#: src/lib/hlp/hlp-reference.c:3101
 msgid "super-strong attack for a limited time, crush your enemies"
 msgstr "attaque super forte pour un temps limité, écrasez vos ennemis"
 
-#: src/lib/hlp/hlp-reference.c:3099
+#: src/lib/hlp/hlp-reference.c:3103
 msgid "no damage for a limited time, move untouched"
 msgstr "pas de dégâts pendant un certain temps, ne craignez plus rien"
 
-#: src/lib/hlp/hlp-reference.c:3102
+#: src/lib/hlp/hlp-reference.c:3106
 msgid ""
 "fighters placed as far as possible from cursor, magically escape from any "
 "grip"
@@ -358,52 +358,52 @@ msgstr ""
 "les combattants sont placés aussi loin que possible du curseur, échappant à "
 "n'importe quel éteau"
 
-#: src/lib/hlp/hlp-reference.c:3103
+#: src/lib/hlp/hlp-reference.c:3107
 msgid "move faster for a limited time"
 msgstr "déplacement plus rapide pendant un certain temps"
 
-#: src/lib/hlp/hlp-reference.c:3105
+#: src/lib/hlp/hlp-reference.c:3109
 msgid "fighters placed as close as possible to cursor"
 msgstr "les combattants sont placés au plus près du curseur"
 
-#: src/lib/hlp/hlp-reference.c:3108
+#: src/lib/hlp/hlp-reference.c:3112
 msgid "every fighters of every team scattered in random places"
 msgstr "tous les combattants se retrouvent éparpillés n'importe où"
 
-#: src/lib/hlp/hlp-reference.c:3111
+#: src/lib/hlp/hlp-reference.c:3115
 msgid "all other teams are freezed, you can move but not attack them"
 msgstr ""
 "toutes les autres couleurs sont figées sur place, vous pouvez vos déplacer "
 "sans attaquer"
 
-#: src/lib/hlp/hlp-reference.c:3114
+#: src/lib/hlp/hlp-reference.c:3118
 msgid "fighters exchange position, their properties being preserved"
 msgstr "toutes les autres équipes sont fig;ees sur pl"
 
-#: src/lib/hlp/hlp-reference.c:3117
+#: src/lib/hlp/hlp-reference.c:3121
 msgid ""
 "you take the control of all other teams while your cursor stays in place"
 msgstr ""
 "vous prenez le contrôle des autres équipes, pendant ce temps-là votre "
 "curseur reste à sa place"
 
-#: src/lib/hlp/hlp-reference.c:3120
+#: src/lib/hlp/hlp-reference.c:3124
 msgid ""
 "will exchange colors, randomly, requires at least 3 teams (double edged "
 "weapon)"
 msgstr "échange les couleurs, au hasard, nécessite au moins 3 couleurs"
 
-#: src/lib/hlp/hlp-reference.c:3121
+#: src/lib/hlp/hlp-reference.c:3125
 msgid "steals some fighters to other teams"
 msgstr "vole des combattants aux autres équipes"
 
-#: src/lib/hlp/hlp-reference.c:3124
+#: src/lib/hlp/hlp-reference.c:3128
 msgid "nuclear explosion, all fighters arround your cursor are about to die"
 msgstr ""
 "explosion nucléaire, tous les combattants autour de votre curseur sont morts "
 "ou presque"
 
-#: src/lib/hlp/hlp-reference.c:3127
+#: src/lib/hlp/hlp-reference.c:3131
 msgid ""
 "fighters continue to move normally, but attacks are done in reverse mode, "
 "backwards"
@@ -411,26 +411,26 @@ msgstr ""
 "les combattans continuent à se déplacer normalement, mais ils attaquent à "
 "l'envers, par derrière"
 
-#: src/lib/hlp/hlp-reference.c:3130
+#: src/lib/hlp/hlp-reference.c:3134
 msgid "all your opponents go crazy for some time, acting with no logic"
 msgstr ""
 "tous vos ennemis deviennent fou pendant quelques temps, agissant sans logique"
 
-#: src/lib/hlp/hlp-reference.c:3132
+#: src/lib/hlp/hlp-reference.c:3136
 msgid "make the battlefield be like it was a few seconds ago"
 msgstr "remet le champs de bataille tel qu'il était quelques secondes avant"
 
-#: src/lib/hlp/hlp-reference.c:3135
+#: src/lib/hlp/hlp-reference.c:3139
 msgid "all fighters from all teams are packed near your cursor"
 msgstr ""
 "tous les combattants de toutes les équipes sont réunis autour de votre "
 "curseur"
 
-#: src/lib/hlp/hlp-reference.c:3137
+#: src/lib/hlp/hlp-reference.c:3141
 msgid "reduces the number of fighters on the map"
 msgstr "réduit le nombre de combattants dans le tableau"
 
-#: src/lib/hlp/hlp-reference.c:3140
+#: src/lib/hlp/hlp-reference.c:3144
 msgid ""
 "you die along with the strongest team on the battlefield, requires at least "
 "3 teams"
@@ -438,14 +438,14 @@ msgstr ""
 "vous mourrez et emportez dans votre mort la puissante des autres équipes, "
 "nécessite 3 équipes"
 
-#: src/lib/hlp/hlp-reference.c:3143
+#: src/lib/hlp/hlp-reference.c:3147
 msgid ""
 "you disappear for some time from the battlefield, to reappear later, "
 "somewhere else"
 msgstr ""
 "vous disparaissez pour quelques temps, pour réapparaitre plus tard, ailleurs"
 
-#: src/lib/hlp/hlp-reference.c:3146
+#: src/lib/hlp/hlp-reference.c:3150
 msgid "general disease, all fighters mysteriously loose health"
 msgstr ""
 "maladie généralisée, les combattants perdent mystérieusement des points de "

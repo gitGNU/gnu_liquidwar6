@@ -47,7 +47,6 @@ bot8-color
 bot9-ai
 bot9-color
 broadcast
-credits
 c
 c-gettext
 c-lw6-exit
@@ -133,6 +132,8 @@ c-lw6gui-menu-close-popup
 c-lw6gui-menu-enable-esc
 c-lw6gui-menu-has-popup
 c-lw6gui-menu-new
+c-lw6gui-menu-remove
+c-lw6gui-menu-remove-all
 c-lw6gui-menu-scroll-down
 c-lw6gui-menu-scroll-up
 c-lw6gui-menu-select
@@ -456,6 +457,7 @@ copy
 copyleft
 copyright
 crazy
+credits
 cunit
 cursor-pot-init
 cursor-sensitivity

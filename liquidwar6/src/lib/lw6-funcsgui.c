@@ -233,6 +233,56 @@ _scm_lw6gui_menu_append (SCM menu, SCM menuitem)
 }
 
 static SCM
+_scm_lw6gui_menu_remove (SCM menu, SCM position)
+{
+  lw6gui_menu_t *c_menu;
+  int c_position;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.menu,
+	       menu), menu, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (position), position, SCM_ARG2, __FUNCTION__);
+
+  c_menu = lw6_scm_to_menu (menu);
+  c_position = scm_to_int (position);
+
+  ret =
+    lw6gui_menu_remove (c_menu, c_position,
+			lw6sys_get_timestamp ())? SCM_BOOL_T : SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6gui_menu_remove_all (SCM menu, SCM position)
+{
+  lw6gui_menu_t *c_menu;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.menu,
+	       menu), menu, SCM_ARG1, __FUNCTION__);
+
+  c_menu = lw6_scm_to_menu (menu);
+  ret =
+    lw6gui_menu_remove_all (c_menu,
+			    lw6sys_get_timestamp ())? SCM_BOOL_T : SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6gui_menu_sync (SCM menu, SCM menuitem)
 {
   int c_id;
@@ -1899,10 +1949,17 @@ lw6_register_funcs_gui ()
 				      (SCM (*)())_scm_lw6gui_menu_new);
   ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_APPEND, 2, 0, 0,
 				      (SCM (*)())_scm_lw6gui_menu_append);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SYNC, 2, 0, 0,
-				      (SCM (*)())_scm_lw6gui_menu_sync);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SELECT, 3, 0, 0,
-				      (SCM (*)())_scm_lw6gui_menu_select);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_REMOVE, 2, 0, 0,
+				      (SCM (*)())_scm_lw6gui_menu_remove);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_REMOVE_ALL, 1, 0, 0,
+			      (SCM (*)())_scm_lw6gui_menu_remove_all);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SYNC, 2, 0, 0,
+			      (SCM (*)())_scm_lw6gui_menu_sync);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SELECT, 3, 0, 0,
+			      (SCM (*)())_scm_lw6gui_menu_select);
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SELECT_ESC, 2, 0, 0,
 			      (SCM (*)())_scm_lw6gui_menu_select_esc);

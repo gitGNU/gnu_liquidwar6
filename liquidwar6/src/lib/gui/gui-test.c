@@ -983,6 +983,34 @@ _test_menu ()
 	      {
 		ret = 0;
 	      }
+	    if (menu->nb_items > 0)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("%d items in menu, will try to remove them all"),
+			    menu->nb_items);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("%d items in menu, there should be more"),
+			    menu->nb_items);
+		ret = 0;
+	      }
+	    lw6gui_menu_remove_all (menu, lw6sys_get_timestamp ());
+	    if (menu->nb_items == 0)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("no more items in menu, fine"));
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("%d items in menu, there should be none after complete removal"),
+			    menu->nb_items);
+		ret = 0;
+	      }
 	    lw6gui_menu_free (menu);
 	  }
 	else
