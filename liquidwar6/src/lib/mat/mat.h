@@ -25,6 +25,197 @@
 
 #include "../sys/sys.h"
 
+/*
+ * Float API.
+ */
+
+/**
+ * Float vector with 2 elements (AKA 2D point).
+ */
+typedef union
+{
+  /// Accessor with named/point coords.
+  struct
+  {
+    float x;
+    float y;
+  } p;
+  /// Accessor with array index.
+  float v[2];
+} lw6mat_fvec2_t;
+
+/**
+ * Float vector with 3 elements (AKA 3D point).
+ */
+typedef union
+{
+  /// Accessor with named/point coords.
+  struct
+  {
+    float x;
+    float y;
+    float z;
+  } p;
+  /// Accessor with array index.
+  float v[3];
+  /// Accessor with color-like name.
+  struct
+  {
+    float r;
+    float g;
+    float b;
+  } c;
+} lw6mat_fvec3_t;
+
+/**
+ * Float vector with 4 elements (AKA quaternion).
+ */
+typedef union
+{
+  /// Accessor with named/point coords.
+  struct
+  {
+    float x;
+    float y;
+    float z;
+    float w;
+  } p;
+  /// Accessor with array index.
+  float v[4];
+  /// Accessor with color-like name.
+  struct
+  {
+    float r;
+    float g;
+    float b;
+    float a;
+  } c;
+} lw6mat_fvec4_t;
+
+/**
+ * Float 2x2 matrix (AKA 2D rectangle).
+ */
+typedef union
+{
+  /// Accessor with array index.
+  float m[2][2];
+} lw6mat_fmat2_t;
+
+/**
+ * Float 3x3 matrix (AKA 3D triangle).
+ */
+typedef union
+{
+  /// Accessor with array index.
+  float m[3][3];
+} lw6mat_fmat3_t;
+
+/**
+ * Float 4x4 matrix (AKA 3D transformation/composition matrix).
+ */
+typedef union
+{
+  /// Accessor with array index.
+  float m[4][4];
+} lw6mat_fmat4_t;
+
+/*
+ * Integer API.
+ */
+
+/**
+ * Integer vector with 2 elements (AKA 2D point).
+ */
+typedef union
+{
+  /// Accessor with named/point coords.
+  struct
+  {
+    int32_t x;
+    int32_t y;
+  } p;
+  /// Accessor with array index.
+  int32_t v[2];
+} lw6mat_ivec2_t;
+
+/**
+ * Integer vector with 3 elements (AKA 3D point).
+ */
+typedef union
+{
+  /// Accessor with named/point coords.
+  struct
+  {
+    int32_t x;
+    int32_t y;
+    int32_t z;
+  } p;
+  /// Accessor with array index.
+  int32_t v[3];
+  /// Accessor with color-like name.
+  struct
+  {
+    int32_t r;
+    int32_t g;
+    int32_t b;
+  } c;
+} lw6mat_ivec3_t;
+
+/**
+ * Integer vector with 4 elements (AKA quaternion).
+ */
+typedef union
+{
+  /// Accessor with named/point coords.
+  struct
+  {
+    int32_t x;
+    int32_t y;
+    int32_t z;
+    int32_t w;
+  } p;
+  /// Accessor with array index.
+  int32_t v[4];
+  /// Accessor with color-like name.
+  struct
+  {
+    int32_t r;
+    int32_t g;
+    int32_t b;
+    int32_t a;
+  } c;
+} lw6mat_ivec4_t;
+
+/**
+ * Integer 2x2 matrix (AKA 2D rectangle).
+ */
+typedef union
+{
+  /// Accessor with array index.
+  int32_t m[2][2];
+} lw6mat_imat2_t;
+
+/**
+ * Integer 3x3 matrix (AKA 3D triangle).
+ */
+typedef union
+{
+  /// Accessor with array index.
+  int32_t m[3][3];
+} lw6mat_imat3_t;
+
+/**
+ * Integer 4x4 matrix (AKA 3D transformation/composition matrix).
+ */
+typedef union
+{
+  /// Accessor with array index.
+  int32_t m[4][4];
+} lw6mat_imat4_t;
+
+/* mat-ivec2.c */
+extern void lw6mat_ivec2_zero (lw6mat_ivec2_t * ivec2);
+
 /* mat-test.c */
 extern int lw6mat_test_register (int mode);
 extern int lw6mat_test_run (int mode);

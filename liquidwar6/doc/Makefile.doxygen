@@ -54,7 +54,7 @@ $(srcdir)/ldr-doxygen.texi: $(top_srcdir)/src/lib/ldr/ldr.h $(top_srcdir)/src/li
 $(srcdir)/map-doxygen.texi: $(top_srcdir)/src/lib/map/map.h $(top_srcdir)/src/lib/map/map-internal.h
 	if test -w $@ || test ! -f $@ ; then echo doxygen map && echo > $@; for l in doxygen/xml/structlw6map__body__s.xml doxygen/xml/structlw6map__bot__info__s.xml doxygen/xml/structlw6map__color__couple__s.xml doxygen/xml/structlw6map__color__set__s.xml doxygen/xml/structlw6map__cursor__texture__layer__s.xml doxygen/xml/structlw6map__cursor__texture__s.xml doxygen/xml/structlw6map__layer__s.xml doxygen/xml/structlw6map__level__s.xml doxygen/xml/structlw6map__local__info__s.xml doxygen/xml/structlw6map__meta__layer__s.xml doxygen/xml/structlw6map__metadata__s.xml doxygen/xml/structlw6map__param__s.xml doxygen/xml/structlw6map__rules__s.xml doxygen/xml/structlw6map__style__s.xml doxygen/xml/structlw6map__teams__s.xml doxygen/xml/structlw6map__texture__s.xml ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done; fi
 
-$(srcdir)/mat-doxygen.texi: $(top_srcdir)/src/lib/mat/mat.h $(top_srcdir)/src/lib/mat/mat-internal.h
+$(srcdir)/mat-doxygen.texi: $(top_srcdir)/src/lib/mat/mat.h
 	if test -w $@ || test ! -f $@ ; then echo doxygen mat && echo > $@; for l in doxygen/xml/structlw6mat__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done; fi
 
 $(srcdir)/msg-doxygen.texi: $(top_srcdir)/src/lib/msg/msg.h

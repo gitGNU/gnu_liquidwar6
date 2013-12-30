@@ -25,7 +25,6 @@
 #endif
 
 #include "mat.h"
-#include "mat-internal.h"
 
 // todo...
 int lw6mat_ivec4_todo = 0;
