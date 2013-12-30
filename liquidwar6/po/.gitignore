@@ -1,3 +1,4 @@
 *.gmo
 liquidwar6.pot
 POTFILES
+remove-potcdate.sed
