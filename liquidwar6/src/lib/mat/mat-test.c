@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+  
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -26,69 +26,26 @@
 
 #include <CUnit/CUnit.h>
 
-#include "vox.h"
-#include "vox-internal.h"
+#include "mat.h"
 
-typedef struct _lw6vox_test_data_s
+typedef struct _lw6mat_test_data_s
 {
   int ret;
-} _lw6vox_test_data_t;
+} _lw6mat_test_data_t;
 
-static _lw6vox_test_data_t _test_data = { 0 };
+static _lw6mat_test_data_t _test_data = { 0 };
 
 /*
- * Testing functions in renderer.c
+ * Testing functions in ... .c
  */
 static void
-_test_renderer ()
+_test_dummy ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6map_level_t *level;
-    lw6ker_game_struct_t *game_struct;
-    lw6ker_game_state_t *game_state;
-    lw6vox_renderer_t *renderer;
-
-    level = lw6map_builtin_defaults ();
-    if (level)
-      {
-	game_struct = lw6ker_game_struct_new (level, NULL);
-	if (game_struct)
-	  {
-	    game_state = lw6ker_game_state_new (game_struct, NULL);
-	    if (game_state)
-	      {
-		renderer = lw6vox_renderer_new (game_state);
-		if (renderer)
-		  {
-		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_x_ ("vox renderer created"));
-		    lw6vox_renderer_free (renderer);
-		  }
-		else
-		  {
-		    ret = 0;
-		  }
-		lw6ker_game_state_free (game_state);
-	      }
-	    else
-	      {
-		ret = 0;
-	      }
-	    lw6ker_game_struct_free (game_struct);
-	  }
-	else
-	  {
-	    ret = 0;
-	  }
-	lw6map_free (level);
-      }
-    else
-      {
-	ret = 0;
-      }
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("todo..."));
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -97,28 +54,28 @@ _test_renderer ()
 static int
 _setup_init ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libvox CUnit test suite"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libmat CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libvox CUnit test suite"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libmat CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 /**
- * lw6vox_test_register
+ * lw6mat_test_register
  *
  * @mode: test mode (bitmask)
  *
- * Registers all tests for the libvox module.
+ * Registers all tests for the libmat module.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6vox_test_register (int mode)
+lw6mat_test_register (int mode)
 {
   int ret = 1;
   CU_Suite *suite;
@@ -129,18 +86,12 @@ lw6vox_test_register (int mode)
        * Just to make sure most functions are stuffed in the binary
        */
       lw6sys_test_register (mode);
-      lw6cfg_test_register (mode);
-      lw6hlp_test_register (mode);
-      lw6map_test_register (mode);
-      lw6ker_test_register (mode);
-      lw6mat_test_register (mode);
-      lw6gui_test_register (mode);
     }
 
-  suite = CU_add_suite ("lw6vox", _setup_init, _setup_quit);
+  suite = CU_add_suite ("lw6mat", _setup_init, _setup_quit);
   if (suite)
     {
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_renderer);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_dummy);
     }
   else
     {
@@ -154,17 +105,17 @@ lw6vox_test_register (int mode)
 }
 
 /**
- * lw6vox_test_run
+ * lw6mat_test_run
  *
  * @mode: test mode (bitmask)
  *
- * Runs the @vox module test suite, testing most (if not all...)
+ * Runs the @mat module test suite, testing most (if not all...)
  * functions.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6vox_test_run (int mode)
+lw6mat_test_run (int mode)
 {
   int ret = 0;
 

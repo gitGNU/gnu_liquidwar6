@@ -21,23 +21,23 @@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
-noinst_LTLIBRARIES = libvox.la
+noinst_LTLIBRARIES = libmat.la
 if LW6_CUNIT
-TEST_SRC_FILE = vox-test.c
+TEST_SRC_FILE = mat-test.c
 else
 TEST_SRC_FILE =
 endif
-libvox_la_SOURCES = vox-renderer.c $(TEST_SRC_FILE)
-libvoxdir= $(includedir)/@PACKAGE_TARNAME@/vox
-libvox_HEADERS = vox.h
+libmat_la_SOURCES = mat-fmat2.c mat-fmat3.c mat-fmat4.c mat-fvec2.c mat-fvec3.c mat-fvec4.c mat-imat2.c mat-imat3.c mat-imat4.c mat-ivec2.c mat-ivec3.c mat-ivec4.c $(TEST_SRC_FILE)
+libmatdir= $(includedir)/@PACKAGE_TARNAME@/mat
+libmat_HEADERS = mat.h
 
 if LW6_CUNIT
 if !FULLSTATIC
-libexec_PROGRAMS = liquidwar6vox-test
-liquidwar6vox_test_SOURCES = vox-testmain.c
-liquidwar6vox_test_LDADD = libvox.la ../mat/libmat.la ../gui/libgui.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
-TESTS = liquidwar6vox-test
+libexec_PROGRAMS = liquidwar6mat-test
+liquidwar6mat_test_SOURCES = mat-testmain.c
+liquidwar6mat_test_LDADD = libmat.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+TESTS = liquidwar6mat-test
 endif
 endif
 
-EXTRA_DIST = vox-internal.h
+EXTRA_DIST = map-internal.h

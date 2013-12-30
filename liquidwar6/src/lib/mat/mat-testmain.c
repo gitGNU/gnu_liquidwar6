@@ -20,33 +20,37 @@
   Contact author        : ufoot@ufoot.org
 */
 
-#ifndef LIQUIDWAR6VOX_H
-#define LIQUIDWAR6VOX_H
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif // HAVE_CONFIG_H
 
-#include "../sys/sys.h"
-#include "../hlp/hlp.h"
-#include "../cfg/cfg.h"
-#include "../map/map.h"
-#include "../ker/ker.h"
-#include "../mat/mat.h"
-#include "../gui/gui.h"
+#include <CUnit/CUnit.h>
 
-/**
- * Voxel renderer object, not implemented yet.
- */
-typedef struct lw6vox_renderer_s
+#include "mat.h"
+
+int
+main (int argc, const char *argv[])
 {
-  /// Todo...
-  int dummy;
-} lw6vox_renderer_t;
+  int ret = 0;
+  int mode = 0;
 
-/* vox-renderer.c */
-extern lw6vox_renderer_t *lw6vox_renderer_new (lw6ker_game_state_t *
-					       game_state);
-extern void lw6vox_renderer_free (lw6vox_renderer_t * renderer);
+  LW6SYS_MAIN_BEGIN;
 
-/* vox-test.c */
-extern int lw6vox_test_register (int mode);
-extern int lw6vox_test_run (int mode);
+  lw6sys_log_clear (NULL);
+  mode = lw6sys_arg_test_mode (argc, argv);
 
-#endif
+  if (CU_initialize_registry () == CUE_SUCCESS)
+    {
+      if (lw6mat_test_register (mode))
+	{
+	  ret = lw6mat_test_run (mode);
+	}
+      CU_cleanup_registry ();
+    }
+
+  LW6SYS_TEST_OUTPUT;
+
+  LW6SYS_MAIN_END;
+
+  return (!ret);
+}

@@ -14,39 +14,18 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+  
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
 */
 
-#ifndef LIQUIDWAR6VOX_H
-#define LIQUIDWAR6VOX_H
-
-#include "../sys/sys.h"
-#include "../hlp/hlp.h"
-#include "../cfg/cfg.h"
-#include "../map/map.h"
-#include "../ker/ker.h"
-#include "../mat/mat.h"
-#include "../gui/gui.h"
-
-/**
- * Voxel renderer object, not implemented yet.
- */
-typedef struct lw6vox_renderer_s
-{
-  /// Todo...
-  int dummy;
-} lw6vox_renderer_t;
-
-/* vox-renderer.c */
-extern lw6vox_renderer_t *lw6vox_renderer_new (lw6ker_game_state_t *
-					       game_state);
-extern void lw6vox_renderer_free (lw6vox_renderer_t * renderer);
-
-/* vox-test.c */
-extern int lw6vox_test_register (int mode);
-extern int lw6vox_test_run (int mode);
-
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
+
+#include "mat.h"
+#include "mat-internal.h"
+
+// todo...
+int lw6mat_imat2_todo = 0;

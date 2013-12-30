@@ -154,6 +154,7 @@ C API
 * shared-sdl::          SDL utils shared in some graphics backends.
 * mod-caca::            TTY/xterm text graphics backend.
 * libglb::              Gnulib embedded routines.
+* libmat::              Math and matrix utilities.
 * libgui::              GUI utilities.
 * libhlp::              Built-in help system.
 * libimg::              Generating screenshots.
@@ -2580,7 +2581,8 @@ To ease up the implementation of different graphics backends, a @code{libgui}
 module contains code which is meant to be used by any graphics backend.
 It's just a factorisation module, containing common code and interfaces,
 related to displaying things. This is where, for instance, one can find
-a high level menu object.
+a high level menu object. In the same spirit, @code{libmat} contains
+generic math, vector and matrix code, which is commonly used in 3D interfaces.
 
 The @code{libsnd} module handles sound. It's also an abstract class, an interface,
 which uses dynamic backends as implementations.
@@ -4482,8 +4484,6 @@ edit @code{doc/doxygen-update.sh} and add the entry for @code{xyz}.
 @item
 edit @code{doc/Makefile.am} and add @code{xyz-doxygen.texi} in @code{doxygen_TEXINFOS}.
 @item
-type @code{touch doc/xyz-gdoc.texi doc/xyz-doxygen.texi} else dependencies checking will fail.
-@item
 in @code{./doc}, run @code{./gdoc-update.sh} and @code{./doxygen-update.sh}.
 @item
 edit @code{doc/doxygen/Makefile.am} and add the dependency on @code{src/lib/xyz/xyz.h}.
@@ -5045,6 +5045,7 @@ access to the code, the structures and functions, and their dependencies.
 * shared-sdl::          SDL utils shared in some graphics backends.
 * mod-caca::            TTY/xterm text graphics backend.
 * libglb::              Gnulib embedded routines.
+* libmat::              Math and matrix utilities.
 * libgui::              GUI utilities.
 * libhlp::              Built-in help system.
 * libimg::              Generating screenshots.
@@ -5786,7 +5787,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c libglb
 @c ---------------------------------------------------------------------------
 
-@node libglb, libgui, mod-caca, C API
+@node libglb, libmat, mod-caca, C API
 @section libglb
 
 @subsection Overview
@@ -5813,10 +5814,40 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @end ifnotinfo
 
 @c ---------------------------------------------------------------------------
+@c libmat
+@c ---------------------------------------------------------------------------
+
+@node libmat, libgui, libglb, C API
+@section libmat
+
+@subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/mat/index.html}.
+
+@subsection API
+
+@ifinfo
+@include mat-gdoc.texi
+@include mat-doxygen.texi
+@end ifinfo
+
+@ifnotinfo
+@ifhtml
+@include mat-gdoc.texi
+@include mat-doxygen.texi
+@end ifhtml
+@ifnothtml
+Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/libmat.html}.
+@end ifnothtml
+@end ifnotinfo
+
+@c ---------------------------------------------------------------------------
 @c libgui
 @c ---------------------------------------------------------------------------
 
-@node libgui, libhlp, libglb, C API
+@node libgui, libhlp, libmat, C API
 @section libgui
 
 @subsection Overview

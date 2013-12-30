@@ -115,6 +115,8 @@ subgraph cluster_srv {
 	tsk -> gen
 	vox -> gui
 	vox -> ker
+	vox -> mat
+	mat -> sys
 
 	liquidwar6 [style=filled,fillcolor=lightgrey]
 	liquidwar6 -> sim

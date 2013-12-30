@@ -152,6 +152,8 @@ digraph g {
 	tsk -> gen;
 	vox -> gui;
 	vox -> ker;
+	vox -> mat;
+	mat -> sys;
 	liquidwar6 -> sim;
 	liquidwar6 -> dsp;
 	liquidwar6 -> img;

@@ -46,6 +46,7 @@
 #include "gen/gen.h"
 #include "ldr/ldr.h"
 #include "tsk/tsk.h"
+#include "mat/mat.h"
 #include "gui/gui.h"
 #include "gfx/gfx.h"
 #include "dsp/dsp.h"
