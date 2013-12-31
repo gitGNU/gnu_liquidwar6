@@ -34,8 +34,8 @@
  * @fvec4: the vector to initialize.
  *
  * Fills the vector with zeros, regardless of what was there before.
- * Internally, does a memset(0) the only advantage is that this function
- * should use the right sizeof() and therefore avoids typo errors.
+ * Internally, does a memset the only advantage is that this function
+ * should use the right sizeof and therefore avoids typo errors.
  *
  * Return value: none.
  */
