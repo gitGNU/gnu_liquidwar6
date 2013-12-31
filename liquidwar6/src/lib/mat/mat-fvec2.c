@@ -26,5 +26,76 @@
 
 #include "mat.h"
 
-// todo...
-int lw6mat_fvec2_todo = 0;
+#include <math.h>
+
+/**
+ * lw6mat_fvec2_zero
+ *
+ * @fvec2: the vector to initialize.
+ *
+ * Fills the vector with zeros, regardless of what was there before.
+ * Internally, does a memset(0) the only advantage is that this function
+ * should use the right sizeof() and therefore avoids typo errors.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_fvec2_zero (lw6mat_fvec2_t * fvec2)
+{
+  memset (fvec2, 0, sizeof (lw6mat_fvec2_t));
+}
+
+/**
+ * lw6mat_fvec2_len_sq
+ *
+ * @fvec2: the vector to query.
+ *
+ * Returns the square of a vector length. To get the real length
+ * one should then apply a square root but at this stage one has
+ * at least an idea about vector length, and this information is
+ * enough to compare them.
+ *
+ * Return value: sigma(coord*coord)
+ */
+float
+lw6mat_fvec2_len_sq (const lw6mat_fvec2_t * fvec2)
+{
+  return fvec2->p.x * fvec2->p.x + fvec2->p.y * fvec2->p.y;
+}
+
+/**
+ * lw6mat_fvec2_len_sq
+ *
+ * @fvec2: the vector to query.
+ *
+ * Returns the size/length of a vector, this is the distance
+ * of the point from origin, not the number of elements.
+ *
+ * Return value: the length of the vector.
+ */
+float
+lw6mat_fvec2_len (const lw6mat_fvec2_t * fvec2)
+{
+  return sqrt (lw6mat_fvec2_len_sq (fvec2));
+}
+
+/**
+ * Normalizes a vector
+ *
+ * @fvec2: the vector to normalize.
+ *
+ * Normalizes a vector, that is, make its length be 1.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_fvec2_norm (lw6mat_fvec2_t * fvec2)
+{
+  float len = lw6mat_fvec2_len (fvec2);
+
+  if (len)
+    {
+      fvec2->p.x /= len;
+      fvec2->p.y /= len;
+    }
+}

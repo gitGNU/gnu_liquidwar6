@@ -25,6 +25,11 @@
 
 #include "../sys/sys.h"
 
+#include <math.h>
+
+#define LW6MAT_X_MUL_F 65536.0f
+#define LW6MAT_X_SHIFT_I 16
+
 /*
  * Float API.
  */
@@ -213,8 +218,99 @@ typedef union
   int32_t m[4][4];
 } lw6mat_imat4_t;
 
-/* mat-ivec2.c */
-extern void lw6mat_ivec2_zero (lw6mat_ivec2_t * ivec2);
+/*
+ * Conversions.
+ */
+
+static inline int32_t
+lw6mat_ftoi (float f)
+{
+  return (int32_t) round (f);
+}
+
+static inline double
+lw6mat_ftod (float f)
+{
+  return (double) f;
+}
+
+static inline int32_t
+lw6mat_ftox (float f)
+{
+  return (int32_t) (f * LW6MAT_X_MUL_F);
+}
+
+static inline float
+lw6mat_itof (int32_t i)
+{
+  return (float) i;
+}
+
+static inline double
+lw6mat_itod (int32_t i)
+{
+  return (double) i;
+}
+
+static inline int32_t
+lw6mat_itox (int32_t i)
+{
+  return i << LW6MAT_X_SHIFT_I;
+}
+
+static inline float
+lw6mat_dtof (double d)
+{
+  return (float) d;
+}
+
+static inline int32_t
+lw6mat_dtoi (double d)
+{
+  return (int32_t) round (d);
+}
+
+static inline int32_t
+lw6mat_dtox (double d)
+{
+  return (int32_t) (d * LW6MAT_X_MUL_F);
+}
+
+static inline float
+lw6mat_xtof (int32_t x)
+{
+  return ((float) x) / LW6MAT_X_MUL_F;
+}
+
+static inline int32_t
+lw6mat_xtoi (int32_t x)
+{
+  return x >> LW6MAT_X_SHIFT_I;
+}
+
+static inline double
+lw6mat_xtod (int32_t x)
+{
+  return ((double) x) / LW6MAT_X_MUL_F;
+}
+
+/* mat-fvec2.c */
+extern void lw6mat_fvec2_zero (lw6mat_fvec2_t * fvec2);
+extern float lw6mat_fvec2_len_sq (const lw6mat_fvec2_t * fvec2);
+extern float lw6mat_fvec2_len (const lw6mat_fvec2_t * fvec2);
+extern void lw6mat_fvec2_norm (lw6mat_fvec2_t * fvec2);
+
+/* mat-fvec3.c */
+extern void lw6mat_fvec3_zero (lw6mat_fvec3_t * fvec3);
+extern float lw6mat_fvec3_len_sq (const lw6mat_fvec3_t * fvec3);
+extern float lw6mat_fvec3_len (const lw6mat_fvec3_t * fvec3);
+extern void lw6mat_fvec3_norm (lw6mat_fvec3_t * fvec3);
+
+/* mat-fvec4.c */
+extern void lw6mat_fvec4_zero (lw6mat_fvec4_t * fvec4);
+extern float lw6mat_fvec4_len_sq (const lw6mat_fvec4_t * fvec4);
+extern float lw6mat_fvec4_len (const lw6mat_fvec4_t * fvec4);
+extern void lw6mat_fvec4_norm (lw6mat_fvec4_t * fvec4);
 
 /* mat-test.c */
 extern int lw6mat_test_register (int mode);
