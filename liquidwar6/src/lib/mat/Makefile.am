@@ -40,4 +40,3 @@ TESTS = liquidwar6mat-test
 endif
 endif
 
-EXTRA_DIST = map-internal.h
