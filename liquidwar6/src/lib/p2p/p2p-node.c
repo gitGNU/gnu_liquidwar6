@@ -2587,7 +2587,7 @@ _lw6p2p_node_is_peer_connected (_lw6p2p_node_t * node, u_int64_t peer_id)
  * lw6p2p_node_is_peer_connected
  *
  * @node: the object to query
- @ @peer_id: id of the peer we want to check
+ * @peer_id: id of the peer we want to check
  *
  * Tests wether the node is connected to us.
  * This is a different question from being registered, being connected
@@ -2630,7 +2630,7 @@ _lw6p2p_node_is_peer_registered (_lw6p2p_node_t * node, u_int64_t peer_id)
  * lw6p2p_node_is_peer_registered
  *
  * @node: the object to query
- @ @peer_id: id of the peer we want to check
+ * @peer_id: id of the peer we want to check
  *
  * Tests wether the node is registered within the warehouse.
  * This is a different question from being connected, being registered
