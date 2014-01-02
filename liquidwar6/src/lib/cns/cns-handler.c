@@ -39,13 +39,15 @@
 
 #define _PROMPT "lw6> "
 
+#ifdef LW6_CONSOLE
 static void
-_flushall ()
+_lw6cns_flushall ()
 {
   fflush (stdin);
   fflush (stdout);
   fflush (stderr);
 }
+#endif // LW6_CONSOLE
 
 #ifdef LW6_CONSOLE
 static int _console_handler_installed = 0;
@@ -66,11 +68,11 @@ lw6cns_handler_install (lw6cns_callback_func_t callback)
 #ifdef LW6_CONSOLE
   if (!_console_handler_installed)
     {
-      _flushall ();
+      _lw6cns_flushall ();
 
       lw6sys_log (LW6SYS_LOG_INFO, _x_ ("opening console"));
 
-      _flushall ();
+      _lw6cns_flushall ();
 
       if (lw6cns_term_support ())
 	{
@@ -79,7 +81,7 @@ lw6cns_handler_install (lw6cns_callback_func_t callback)
 	  _console_handler_installed = 1;
 	}
 
-      _flushall ();
+      _lw6cns_flushall ();
     }
   else
     {
@@ -117,7 +119,7 @@ lw6cns_handler_poll ()
        */
       while (retval)
 	{
-	  _flushall ();
+	  _lw6cns_flushall ();
 
 	  FD_ZERO (&rfds);
 	  FD_SET (0, &rfds);	// stdin == fd 0
@@ -157,13 +159,13 @@ lw6cns_handler_remove ()
 #ifdef LW6_CONSOLE
   if (_console_handler_installed)
     {
-      _flushall ();
+      _lw6cns_flushall ();
 
       rl_callback_handler_remove ();
       _console_handler_installed = 0;
       fprintf (stdout, "\n");
 
-      _flushall ();
+      _lw6cns_flushall ();
     }
   else
     {
