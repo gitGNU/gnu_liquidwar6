@@ -804,7 +804,7 @@ _dir_list_add_entries (lw6sys_list_t ** list, const char *dir,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_INFO, "", _x_ ("no files in dir \"%s\""), dir);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("no files in dir \"%s\""), dir);
     }
 #else
   dir_handle = opendir (dir);

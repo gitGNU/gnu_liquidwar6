@@ -103,7 +103,11 @@ lw6sys_locale_to_utf8 (const char *string)
 		   * actually iconv does modify iptr when
 		   * passed &iptr but it does not touch *iptr.
 		   */
+#ifdef LW6_MS_WINDOWS
+		  iptr = (const char *) string;
+#else // LW6_MS_WINDOWS
 		  iptr = (char *) string;
+#endif // LW6_MS_WINDOWS
 		  ileft = ilen;
 		  optr = utf8;
 		  oleft = max_olen;
