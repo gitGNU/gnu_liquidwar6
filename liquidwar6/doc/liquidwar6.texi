@@ -154,13 +154,13 @@ C API
 * shared-sdl::          SDL utils shared in some graphics backends.
 * mod-caca::            TTY/xterm text graphics backend.
 * libglb::              Gnulib embedded routines.
-* libmat::              Math and matrix utilities.
 * libgui::              GUI utilities.
 * libhlp::              Built-in help system.
 * libimg::              Generating screenshots.
 * libker::              Main kernel module (core algorithm).
 * libldr::              Loading maps.
 * libmap::              Map, AKA levels.
+* libmat::              Math and matrix utilities.
 * libmsg::              Network messages.
 * libnet::              Low-level network routines.
 * libnod::              Manipulating node data.
@@ -5045,13 +5045,13 @@ access to the code, the structures and functions, and their dependencies.
 * shared-sdl::          SDL utils shared in some graphics backends.
 * mod-caca::            TTY/xterm text graphics backend.
 * libglb::              Gnulib embedded routines.
-* libmat::              Math and matrix utilities.
 * libgui::              GUI utilities.
 * libhlp::              Built-in help system.
 * libimg::              Generating screenshots.
 * libker::              Main kernel module (core algorithm).
 * libldr::              Loading maps.
 * libmap::              Map, AKA levels.
+* libmat::              Math and matrix utilities.
 * libmsg::              Network messages.
 * libnet::              Low-level network routines.
 * libnod::              Manipulating node data.
@@ -5787,7 +5787,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c libglb
 @c ---------------------------------------------------------------------------
 
-@node libglb, libmat, mod-caca, C API
+@node libglb, libgui, mod-caca, C API
 @section libglb
 
 @subsection Overview
@@ -5814,40 +5814,10 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @end ifnotinfo
 
 @c ---------------------------------------------------------------------------
-@c libmat
-@c ---------------------------------------------------------------------------
-
-@node libmat, libgui, libglb, C API
-@section libmat
-
-@subsection Overview
-
-View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
-on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/mat/index.html}.
-
-@subsection API
-
-@ifinfo
-@include mat-gdoc.texi
-@include mat-doxygen.texi
-@end ifinfo
-
-@ifnotinfo
-@ifhtml
-@include mat-gdoc.texi
-@include mat-doxygen.texi
-@end ifhtml
-@ifnothtml
-Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
-@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/libmat.html}.
-@end ifnothtml
-@end ifnotinfo
-
-@c ---------------------------------------------------------------------------
 @c libgui
 @c ---------------------------------------------------------------------------
 
-@node libgui, libhlp, libmat, C API
+@node libgui, libhlp, libglb, C API
 @section libgui
 
 @subsection Overview
@@ -5997,7 +5967,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c libmap
 @c ---------------------------------------------------------------------------
 
-@node libmap, libmsg, libldr, C API
+@node libmap, libmat, libldr, C API
 @section libmap
 
 @subsection Overview
@@ -6024,10 +5994,40 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @end ifnotinfo
  
 @c ---------------------------------------------------------------------------
+@c libmat
+@c ---------------------------------------------------------------------------
+
+@node libmat, libmsg, libmap, C API
+@section libmat
+
+@subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/mat/index.html}.
+
+@subsection API
+
+@ifinfo
+@include mat-gdoc.texi
+@include mat-doxygen.texi
+@end ifinfo
+
+@ifnotinfo
+@ifhtml
+@include mat-gdoc.texi
+@include mat-doxygen.texi
+@end ifhtml
+@ifnothtml
+Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/libmat.html}.
+@end ifnothtml
+@end ifnotinfo
+
+@c ---------------------------------------------------------------------------
 @c libmsg
 @c ---------------------------------------------------------------------------
 
-@node libmsg, libnet, libmap, C API
+@node libmsg, libnet, libmat, C API
 @section libmsg
 
 @subsection Overview
