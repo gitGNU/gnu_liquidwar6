@@ -608,7 +608,6 @@ lw6net_tcp_send (int *sock, const char *buf, int len, int delay_msec,
 #ifdef LW6_MS_WINDOWS
 			  winerr = WSAGetLastError ();
 			  if (winerr != WSAEINTR && winerr != WSAENOBUFS
-			      && winerr != WSAEAGAIN
 			      && winerr != WSAEWOULDBLOCK)
 			    {
 			      lw6net_last_error ();
@@ -800,9 +799,7 @@ lw6net_tcp_peek (int *sock, char *buf, int len, int delay_msec)
 			{
 #ifdef LW6_MS_WINDOWS
 			  winerr = WSAGetLastError ();
-			  if (winerr != WSAEINTR
-			      && winerr != WSAEAGAIN
-			      && winerr != WSAEWOULDBLOCK)
+			  if (winerr != WSAEINTR && winerr != WSAEWOULDBLOCK)
 			    {
 			      lw6net_last_error ();
 			      lw6sys_log (LW6SYS_LOG_INFO,
@@ -943,9 +940,7 @@ lw6net_tcp_recv (int *sock, char *buf, int len, int delay_msec, int loop)
 			{
 #ifdef LW6_MS_WINDOWS
 			  winerr = WSAGetLastError ();
-			  if (winerr != WSAEINTR
-			      && winerr != WSAEAGAIN
-			      && winerr != WSAEWOULDBLOCK)
+			  if (winerr != WSAEINTR && winerr != WSAEWOULDBLOCK)
 			    {
 			      lw6net_last_error ();
 			      lw6sys_log (LW6SYS_LOG_INFO,
