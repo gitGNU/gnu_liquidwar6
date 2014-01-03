@@ -305,7 +305,7 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_INFO, "", _x_ ("no files in dir \"%s\""),
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("no files in dir \"%s\""),
 		  absolute_path);
     }
 #else

@@ -24,19 +24,16 @@
 #include "config.h"
 #endif
 
-#include "img.h"
+#undef HAVE_STDDEF_H		// redefined by jpeglib.h
+#undef HAVE_STDLIB_H		// redefined by jpeglib.h
 
-/*
- * On Mac OS X, the libjpeg header (the one I use...) has HAVE_STDLIB_H
- * defined and this causes a stupid warning (redefined). So here it's
- * undefed, shouldn't change much anyway, the code here does not really
- * use stdlib.
- */
-#ifdef LW6_MAC_OS_X
-#undef HAVE_STDLIB_H
-#endif
-
+#include <stdlib.h>
+#include <stdio.h>
 #include <jpeglib.h>
+
+#define LW6_SKIP_WINDOWS_H
+
+#include "img.h"
 
 #define _JPEG_3 3
 #define _SCREENSHOT_JPEG_FILE "screenshot.jpeg"

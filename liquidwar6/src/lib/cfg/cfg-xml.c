@@ -340,7 +340,7 @@ lw6cfg_read_key_value_xml_file (const char *filename,
 			      _x_
 			      ("parse error reading XML file \"%s\" at line %d: \"%s\""),
 			      filename,
-			      XML_GetCurrentLineNumber (parser),
+			      (int) XML_GetCurrentLineNumber (parser),
 			      XML_ErrorString (XML_GetErrorCode (parser)));
 #else
 		  lw6sys_log (LW6SYS_LOG_WARNING,
