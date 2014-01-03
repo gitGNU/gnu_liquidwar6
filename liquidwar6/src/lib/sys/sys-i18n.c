@@ -83,7 +83,11 @@ lw6sys_locale_to_utf8 (const char *string)
 	{
 	  int ilen;
 	  int max_olen;
+#ifdef LW6_MS_WINDOWS
+	  const char *iptr = NULL;
+#else // LW6_MS_WINDOWS
 	  char *iptr = NULL;
+#endif // LW6_MS_WINDOWS
 	  size_t ileft;
 	  char *optr = NULL;
 	  size_t oleft;
