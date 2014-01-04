@@ -380,7 +380,7 @@ as the revision number (the version 3rd number).
 @item
 2011-12-24 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.13beta/,0.0.13beta}, codename ``Blackbeard'', stamp 2950
 @item
-2012-??-?? : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.14beta/,0.0.14beta}, codename ``Davy Crockett'', stamp ????
+2014-01-04 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.2.3550/,0.2.3550}, codename ``Davy Crockett''
 @end itemize
 
 @subsection Road map
