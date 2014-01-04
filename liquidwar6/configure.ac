@@ -1102,11 +1102,6 @@ AC_CONFIG_FILES([Makefile
 
 AC_OUTPUT
 
-# Mac OS X workarround, old autoconf does not handle ./po correctly
-if test -z "${LW6_MAC_OS_X_TRUE}"; then
-	make -C po update-po
-fi
-
 AC_MSG_NOTICE([version is "${VERSION}"])
 AC_MSG_NOTICE([prefix is "${prefix}"])
 AC_MSG_NOTICE([abs_srcdir is "${LW6_ABS_SRCDIR}"])
