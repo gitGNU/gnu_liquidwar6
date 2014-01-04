@@ -53,6 +53,24 @@
 #define _TEST_XTOD_IN -32768
 #define _TEST_XTOD_OUT -0.5f
 
+#define _TEST_X_IN_N 8
+#define _TEST_X_IN_1 2
+#define _TEST_X_IN_2 1000
+#define _TEST_X_IN_3 -4000
+#define _TEST_X_IN_4 20000
+#define _TEST_X_IN_5 -100000
+#define _TEST_X_IN_6 7000000
+#define _TEST_X_IN_7 -30000000
+#define _TEST_X_IN_8 500000000
+#define _TEST_X_LIMIT_IN_F 100.0f
+#define _TEST_X_LIMIT_OUT_F 10000.0f
+#define _TEST_X_EQUAL_MUL_32_THRESHOLD 500
+#define _TEST_X_EQUAL_DIV_32_THRESHOLD 200000
+#define _TEST_X_EQUAL_INV_32_THRESHOLD 200000
+#define _TEST_X_EQUAL_MUL_64_THRESHOLD 10
+#define _TEST_X_EQUAL_DIV_64_THRESHOLD 10
+#define _TEST_X_EQUAL_INV_64_THRESHOLD 10
+
 #define _TEST_FVEC_X1 5.0f
 #define _TEST_FVEC_Y1 -10.0f
 #define _TEST_FVEC_Z1 15.0f
@@ -265,6 +283,230 @@ _test_convert ()
 		    (float) d, _TEST_XTOD_OUT);
 	ret = 0;
       }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
+static int
+_x_f_is_within_limit (float f, float limit_f)
+{
+  return (((f > -limit_f) && (f < -1.0 / limit_f))
+	  || ((f > 1.0f / limit_f) && (f < limit_f)));
+}
+
+/*
+ * Testing functions in header (fixed point arithmetic)
+ */
+static void
+_test_x ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int i = 0;
+    int j = 0;
+    int32_t x = 0;
+    float f = 0.0f;
+    //int64_t a=0LL;
+    //int64_t b=0LL;
+    //int64_t c=0LL;
+    int x_in[_TEST_X_IN_N] =
+      { _TEST_X_IN_1, _TEST_X_IN_2, _TEST_X_IN_3, _TEST_X_IN_4, _TEST_X_IN_5,
+      _TEST_X_IN_6, _TEST_X_IN_7, _TEST_X_IN_8
+    };
+
+    for (i = 0; i < _TEST_X_IN_N; ++i)
+      {
+	for (j = 0; j < _TEST_X_IN_N; ++j)
+	  {
+	    f = lw6mat_xtof (x_in[i]) * lw6mat_xtof (x_in[j]);
+	    if (_x_f_is_within_limit (f, _TEST_X_LIMIT_OUT_F))
+	      {
+		if (_x_f_is_within_limit
+		    (lw6mat_xtof (x_in[i]), _TEST_X_LIMIT_IN_F)
+		    && _x_f_is_within_limit (lw6mat_xtof (x_in[j]),
+					     _TEST_X_LIMIT_IN_F))
+		  {
+		    x = lw6mat_x_mul_32 (x_in[i], x_in[j]);
+		    if (abs (x - lw6mat_ftox (f)) <=
+			_TEST_X_EQUAL_MUL_32_THRESHOLD)
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_
+				    ("mul32 %f * %f -> %f OK (fixed point) (%d ~= %d)"),
+				    lw6mat_xtof (x_in[i]),
+				    lw6mat_xtof (x_in[j]), lw6mat_xtof (x), x,
+				    lw6mat_ftox (f));
+		      }
+		    else
+		      {
+			lw6sys_log (LW6SYS_LOG_WARNING,
+				    _x_
+				    ("mul32 %f * %f -> %f problem (fixed point) was expecting %f (%d != %d)"),
+				    lw6mat_xtof (x_in[i]),
+				    lw6mat_xtof (x_in[j]), lw6mat_xtof (x), f,
+				    x, lw6mat_ftox (f));
+			ret = 0;
+		      }
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("mul32 not testing out-of-range %f * %f"),
+				lw6mat_xtof (x_in[i]), lw6mat_xtof (x_in[j]));
+		  }
+		x = lw6mat_x_mul_64 (x_in[i], x_in[j]);
+		if (abs (x - lw6mat_ftox (f)) <=
+		    _TEST_X_EQUAL_MUL_64_THRESHOLD)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("mul64 %f * %f -> %f OK (fixed point) (%d ~= %d)"),
+				lw6mat_xtof (x_in[i]), lw6mat_xtof (x_in[j]),
+				lw6mat_xtof (x), x, lw6mat_ftox (f));
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("mul64 %f * %f -> %f problem (fixed point) was expecting %f (%d != %d)"),
+				lw6mat_xtof (x_in[i]), lw6mat_xtof (x_in[j]),
+				lw6mat_xtof (x), f, x, lw6mat_ftox (f));
+		    ret = 0;
+		  }
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("mul32/64 not testing out-of-range %f * %f"),
+			    lw6mat_xtof (x_in[i]), lw6mat_xtof (x_in[j]));
+	      }
+	    f = lw6mat_xtof (x_in[i]) / lw6mat_xtof (x_in[j]);
+	    if (_x_f_is_within_limit (f, _TEST_X_LIMIT_OUT_F))
+	      {
+		if (_x_f_is_within_limit
+		    (lw6mat_xtof (x_in[i]), _TEST_X_LIMIT_IN_F)
+		    && _x_f_is_within_limit (lw6mat_xtof (x_in[j]),
+					     _TEST_X_LIMIT_IN_F))
+		  {
+		    x = lw6mat_x_div_32 (x_in[i], x_in[j]);
+		    if (abs (x - lw6mat_ftox (f)) <=
+			_TEST_X_EQUAL_DIV_32_THRESHOLD)
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_
+				    ("div32 %f / %f -> %f OK (fixed point) (%d ~= %d)"),
+				    lw6mat_xtof (x_in[i]),
+				    lw6mat_xtof (x_in[j]), lw6mat_xtof (x), x,
+				    lw6mat_ftox (f));
+		      }
+		    else
+		      {
+			lw6sys_log (LW6SYS_LOG_WARNING,
+				    _x_
+				    ("div32 %f / %f -> %f problem (fixed point) was expecting %f (%d != %d)"),
+				    lw6mat_xtof (x_in[i]),
+				    lw6mat_xtof (x_in[j]), lw6mat_xtof (x), f,
+				    x, lw6mat_ftox (f));
+			ret = 0;
+		      }
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("div32 not testing out-of-range %f / %f"),
+				lw6mat_xtof (x_in[i]), lw6mat_xtof (x_in[j]));
+		  }
+		x = lw6mat_x_div_64 (x_in[i], x_in[j]);
+		if (abs (x - lw6mat_ftox (f)) <=
+		    _TEST_X_EQUAL_DIV_64_THRESHOLD)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("div64 %f / %f -> %f OK (fixed point) (%d ~= %d)"),
+				lw6mat_xtof (x_in[i]), lw6mat_xtof (x_in[j]),
+				lw6mat_xtof (x), x, lw6mat_ftox (f));
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("div64 %f / %f -> %f problem (fixed point) was expecting %f (%d != %d)"),
+				lw6mat_xtof (x_in[i]), lw6mat_xtof (x_in[j]),
+				lw6mat_xtof (x), f, x, lw6mat_ftox (f));
+		    ret = 0;
+		  }
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("div32/64 not testing out-of-range %f / %f"),
+			    lw6mat_xtof (x_in[i]), lw6mat_xtof (x_in[j]));
+	      }
+	  }
+	f = LW6MAT_F_1 / lw6mat_xtof (x_in[i]);
+	if (_x_f_is_within_limit (f, _TEST_X_LIMIT_OUT_F))
+	  {
+	    if (_x_f_is_within_limit
+		(lw6mat_xtof (x_in[i]), _TEST_X_LIMIT_IN_F))
+	      {
+		x = lw6mat_x_inv_32 (x_in[i]);
+		if (abs (x - lw6mat_ftox (f)) <=
+		    _TEST_X_EQUAL_INV_32_THRESHOLD)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("inv32 1/%f -> %f OK (fixed point) (%d ~= %d)"),
+				lw6mat_xtof (x_in[i]), lw6mat_xtof (x), x,
+				lw6mat_ftox (f));
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("inv32  1/%f -> %f problem (fixed point) was expecting %f (%d != %d)"),
+				lw6mat_xtof (x_in[i]), lw6mat_xtof (x), f, x,
+				lw6mat_ftox (f));
+		    ret = 0;
+		  }
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("inv32 not testing out-of-range 1/%f"),
+			    lw6mat_xtof (x_in[i]));
+	      }
+	    x = lw6mat_x_inv_64 (x_in[i]);
+	    if (abs (x - lw6mat_ftox (f)) <= _TEST_X_EQUAL_INV_64_THRESHOLD)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("inv64 1/%f -> %f OK (fixed point) (%d ~= %d)"),
+			    lw6mat_xtof (x_in[i]), lw6mat_xtof (x), x,
+			    lw6mat_ftox (f));
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("inv64 1/%f -> %f problem (fixed point) was expecting %f (%d != %d)"),
+			    lw6mat_xtof (x_in[i]), lw6mat_xtof (x), f, x,
+			    lw6mat_ftox (f));
+		ret = 0;
+	      }
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("inv32/64 not testing out-of-range 1/%f"),
+			lw6mat_xtof (x_in[i]));
+	  }
+      }
+    //#define _TEST_X_32_64_LIMIT 2000000001
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -923,6 +1165,7 @@ lw6mat_test_register (int mode)
   if (suite)
     {
       LW6SYS_CUNIT_ADD_TEST (suite, _test_convert);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_x);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_fvec2);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_fvec3);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_fvec4);
