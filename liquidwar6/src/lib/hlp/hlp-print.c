@@ -688,7 +688,7 @@ lw6hlp_print_credits (FILE * f)
       credits = lw6hlp_get_credits (i);
       if (credits)
 	{
-	  fprintf (f, "%s\n", lw6hlp_get_credits (i));
+	  fprintf (f, "%s\n", credits);
 	  LW6SYS_FREE (credits);
 	}
     }
