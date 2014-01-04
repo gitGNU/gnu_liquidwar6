@@ -46,6 +46,24 @@ lw6mat_fvec4_zero (lw6mat_fvec4_t * fvec4)
 }
 
 /**
+ * lw6mat_fvec4_is_same
+ *
+ * @fvec4_a: 1st vector to compare
+ * @fvec4_b: 2nd vector to compare
+ *
+ * Compares two vectors, returns true if they are equal.
+ *
+ * Return value: 1 if equal, 0 if different.
+ */
+int
+lw6mat_fvec4_is_same (const lw6mat_fvec4_t * fvec4_a,
+		      const lw6mat_fvec4_t * fvec4_b)
+{
+  return (!memcmp
+	  ((void *) fvec4_a, (void *) fvec4_b, sizeof (lw6mat_fvec4_t)));
+}
+
+/**
  * lw6mat_fvec4_len_sq
  *
  * @fvec4: the vector to query.
@@ -87,9 +105,9 @@ lw6mat_fvec4_len (const lw6mat_fvec4_t * fvec4)
  *
  * Normalizes a vector, that is, make its length be 1.
  *
- * Return value: none.
+ * Return value: 1 if OK, 0 if error, such as trying to normalize vector zero.
  */
-void
+int
 lw6mat_fvec4_norm (lw6mat_fvec4_t * fvec4)
 {
   float len = lw6mat_fvec4_len (fvec4);
@@ -100,10 +118,134 @@ lw6mat_fvec4_norm (lw6mat_fvec4_t * fvec4)
       fvec4->p.y /= len;
       fvec4->p.z /= len;
       fvec4->p.w /= len;
+
+      return 1;
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("trying to normalize vector zero"));
+
+      return 0;
     }
+}
+
+/**
+ * lw6mat_fvec4_neg
+ *
+ * @fvec4: vector to modify
+ *
+ * Calcs the opposite vector, by making a negation on all its members
+ *
+ * Return value: none
+ */
+void
+lw6mat_fvec4_neg (lw6mat_fvec4_t * fvec4)
+{
+  fvec4->p.x = -fvec4->p.x;
+  fvec4->p.y = -fvec4->p.y;
+  fvec4->p.z = -fvec4->p.z;
+  fvec4->p.w = -fvec4->p.w;
+}
+
+/**
+ * lw6mat_fvec4_add
+ *
+ * @fvec4: result vector
+ * @fvec4_a: 1st vector to add
+ * @fvec4_b: 2nd vector to add
+ *
+ * Adds two vectors.
+ *
+ * Return value: none
+ */
+void
+lw6mat_fvec4_add (lw6mat_fvec4_t * fvec4, const lw6mat_fvec4_t * fvec4_a,
+		  const lw6mat_fvec4_t * fvec4_b)
+{
+  fvec4->p.x = fvec4_a->p.x + fvec4_b->p.x;
+  fvec4->p.y = fvec4_a->p.y + fvec4_b->p.y;
+  fvec4->p.z = fvec4_a->p.z + fvec4_b->p.z;
+  fvec4->p.w = fvec4_a->p.w + fvec4_b->p.w;
+}
+
+/**
+ * lw6mat_fvec4_sub
+ *
+ * @fvec4: result vector
+ * @fvec4_a: 1st vector
+ * @fvec4_b: 2nd vector, will be substracted to 1st vector
+ *
+ * Substracts vector b from vector a.
+ *
+ * Return value: none
+ */
+void
+lw6mat_fvec4_sub (lw6mat_fvec4_t * fvec4, const lw6mat_fvec4_t * fvec4_a,
+		  const lw6mat_fvec4_t * fvec4_b)
+{
+  fvec4->p.x = fvec4_a->p.x - fvec4_b->p.x;
+  fvec4->p.y = fvec4_a->p.y - fvec4_b->p.y;
+  fvec4->p.z = fvec4_a->p.z - fvec4_b->p.z;
+  fvec4->p.w = fvec4_a->p.w - fvec4_b->p.w;
+}
+
+/**
+ * lw6mat_fvec4_dot
+ *
+ * @fvec4_a: 1st vector
+ * @fvec4_b: 2nd vector
+ *
+ * Calculates the dot AKA scalar product of the two vectors.
+ *
+ * Return value: none
+ */
+float
+lw6mat_fvec4_dot (const lw6mat_fvec4_t * fvec4_a,
+		  const lw6mat_fvec4_t * fvec4_b)
+{
+  return fvec4_a->p.x * fvec4_b->p.x + fvec4_a->p.y * fvec4_b->p.y +
+    fvec4_a->p.z * fvec4_b->p.z + fvec4_a->p.w * fvec4_b->p.w;
+}
+
+/**
+ * lw6mat_fvec4_cross
+ *
+ * @fvec3: result vector
+ * @fvec4_a: 1st vector
+ * @fvec4_b: 2nd vector
+ *
+ * Calculates the cross AKA vectorial product of the two vectors.
+ * Since cross product only really makes sense in 3D, this function
+ * will interpret the 4D vectors as 3D vectors only, ignoring
+ * the last value.
+ *
+ * Return value: none
+ */
+void
+lw6mat_fvec4_cross (lw6mat_fvec3_t * fvec3, const lw6mat_fvec4_t * fvec4_a,
+		    const lw6mat_fvec4_t * fvec4_b)
+{
+  fvec3->p.x = fvec4_a->p.y * fvec4_b->p.z - fvec4_a->p.z * fvec4_b->p.y;
+  fvec3->p.y = fvec4_a->p.z * fvec4_b->p.x - fvec4_a->p.x * fvec4_b->p.z;
+  fvec3->p.z = fvec4_a->p.x * fvec4_b->p.y - fvec4_a->p.y * fvec4_b->p.x;
+}
+
+/**
+ * lw6mat_fvec4_scale
+ *
+ * @fvec4: vector to modify
+ * @f: scale factor
+ *
+ * Scales the vector by multiplying all its members by a scalar value.
+ *
+ * Return value: none
+ */
+void
+lw6mat_fvec4_scale (lw6mat_fvec4_t * fvec4, float f)
+{
+  fvec4->p.x *= f;
+  fvec4->p.y *= f;
+  fvec4->p.z *= f;
+  fvec4->p.w *= f;
 }

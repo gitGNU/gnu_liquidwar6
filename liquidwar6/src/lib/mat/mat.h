@@ -80,6 +80,8 @@ typedef union
     float g;
     float b;
   } c;
+  /// Accessor with smaller-sized vector, only 2 dimensions
+  lw6mat_fvec2_t v2;
 } lw6mat_fvec3_t;
 
 /**
@@ -105,6 +107,10 @@ typedef union
     float b;
     float a;
   } c;
+  /// Accessor with smaller-sized vector, only 2 dimensions
+  lw6mat_fvec2_t v2;
+  /// Accessor with smaller-sized vector, only 3 dimensions
+  lw6mat_fvec3_t v3;
 } lw6mat_fvec4_t;
 
 /**
@@ -326,21 +332,66 @@ lw6mat_xtod (int32_t x)
 
 /* mat-fvec2.c */
 extern void lw6mat_fvec2_zero (lw6mat_fvec2_t * fvec2);
+extern int lw6mat_fvec2_is_same (const lw6mat_fvec2_t * fvec2_a,
+				 const lw6mat_fvec2_t * fvec2_b);
 extern float lw6mat_fvec2_len_sq (const lw6mat_fvec2_t * fvec2);
 extern float lw6mat_fvec2_len (const lw6mat_fvec2_t * fvec2);
-extern void lw6mat_fvec2_norm (lw6mat_fvec2_t * fvec2);
+extern int lw6mat_fvec2_norm (lw6mat_fvec2_t * fvec2);
+extern void lw6mat_fvec2_neg (lw6mat_fvec2_t * fvec2);
+extern void lw6mat_fvec2_add (lw6mat_fvec2_t * fvec2,
+			      const lw6mat_fvec2_t * fvec2_a,
+			      const lw6mat_fvec2_t * fvec2_b);
+extern void lw6mat_fvec2_sub (lw6mat_fvec2_t * fvec2,
+			      const lw6mat_fvec2_t * fvec2_a,
+			      const lw6mat_fvec2_t * fvec2_b);
+extern float lw6mat_fvec2_dot (const lw6mat_fvec2_t * fvec2_a,
+			       const lw6mat_fvec2_t * fvec2_b);
+extern void lw6mat_fvec2_cross (lw6mat_fvec3_t * fvec3,
+				const lw6mat_fvec2_t * fvec2_a,
+				const lw6mat_fvec2_t * fvec2_b);
+extern void lw6mat_fvec2_scale (lw6mat_fvec2_t * fvec2, float f);
 
 /* mat-fvec3.c */
 extern void lw6mat_fvec3_zero (lw6mat_fvec3_t * fvec3);
+extern int lw6mat_fvec3_is_same (const lw6mat_fvec3_t * fvec3_a,
+				 const lw6mat_fvec3_t * fvec3_b);
 extern float lw6mat_fvec3_len_sq (const lw6mat_fvec3_t * fvec3);
 extern float lw6mat_fvec3_len (const lw6mat_fvec3_t * fvec3);
-extern void lw6mat_fvec3_norm (lw6mat_fvec3_t * fvec3);
+extern int lw6mat_fvec3_norm (lw6mat_fvec3_t * fvec3);
+extern void lw6mat_fvec3_neg (lw6mat_fvec3_t * fvec3);
+extern void lw6mat_fvec3_add (lw6mat_fvec3_t * fvec3,
+			      const lw6mat_fvec3_t * fvec3_a,
+			      const lw6mat_fvec3_t * fvec3_b);
+extern void lw6mat_fvec3_sub (lw6mat_fvec3_t * fvec3,
+			      const lw6mat_fvec3_t * fvec3_a,
+			      const lw6mat_fvec3_t * fvec3_b);
+extern float lw6mat_fvec3_dot (const lw6mat_fvec3_t * fvec3_a,
+			       const lw6mat_fvec3_t * fvec3_b);
+extern void lw6mat_fvec3_cross (lw6mat_fvec3_t * fvec3,
+				const lw6mat_fvec3_t * fvec3_a,
+				const lw6mat_fvec3_t * fvec3_b);
+extern void lw6mat_fvec3_scale (lw6mat_fvec3_t * fvec3, float f);
 
-/* mat-fvec4.c */
+/* mat-fvec3.c */
 extern void lw6mat_fvec4_zero (lw6mat_fvec4_t * fvec4);
+extern int lw6mat_fvec4_is_same (const lw6mat_fvec4_t * fvec4_a,
+				 const lw6mat_fvec4_t * fvec4_b);
 extern float lw6mat_fvec4_len_sq (const lw6mat_fvec4_t * fvec4);
 extern float lw6mat_fvec4_len (const lw6mat_fvec4_t * fvec4);
-extern void lw6mat_fvec4_norm (lw6mat_fvec4_t * fvec4);
+extern int lw6mat_fvec4_norm (lw6mat_fvec4_t * fvec4);
+extern void lw6mat_fvec4_neg (lw6mat_fvec4_t * fvec4);
+extern void lw6mat_fvec4_add (lw6mat_fvec4_t * fvec4,
+			      const lw6mat_fvec4_t * fvec4_a,
+			      const lw6mat_fvec4_t * fvec4_b);
+extern void lw6mat_fvec4_sub (lw6mat_fvec4_t * fvec4,
+			      const lw6mat_fvec4_t * fvec4_a,
+			      const lw6mat_fvec4_t * fvec4_b);
+extern float lw6mat_fvec4_dot (const lw6mat_fvec4_t * fvec4_a,
+			       const lw6mat_fvec4_t * fvec4_b);
+extern void lw6mat_fvec4_cross (lw6mat_fvec3_t * fvec3,
+				const lw6mat_fvec4_t * fvec4_a,
+				const lw6mat_fvec4_t * fvec4_b);
+extern void lw6mat_fvec4_scale (lw6mat_fvec4_t * fvec4, float f);
 
 /* mat-test.c */
 extern int lw6mat_test_register (int mode);
