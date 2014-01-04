@@ -39,7 +39,7 @@ clean-local:
 TMP=/tmp/@PACKAGE_TARNAME@
 PACKAGE_TMP=/tmp/@PACKAGE_TARNAME@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
 PACKAGE_TMP_EXTRA=/tmp/@PACKAGE_TARNAME@/liquidwar6-extra-maps-@PACKAGE_VERSION@
-DLL_ZIP=/storage/download/liquidwar/v6/mingw32/dll-for-liquidwar6-20100823.zip
+DLL_ZIP=/storage/1-platinum/download/liquidwar/v6/mingw32/dll-for-liquidwar6-20100823.zip
 
 targz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 
@@ -68,18 +68,18 @@ ms-windows-zip: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
 	mv ${PACKAGE_TMP}/map/README ${PACKAGE_TMP}/map/readme.txt
 	mv ${PACKAGE_TMP}/music/README ${PACKAGE_TMP}/music/readme.txt
 	mv ${PACKAGE_TMP}/script/README ${PACKAGE_TMP}/script/readme.txt
-	rm -rf ${PACKAGE_TMP}2
-	mv ${PACKAGE_TMP} ${PACKAGE_TMP}2
+	rm -rf ${PACKAGE_TMP}-2
+	mv ${PACKAGE_TMP} ${PACKAGE_TMP}-2
 	install -d ${PACKAGE_TMP}
-	mv ${PACKAGE_TMP}2/data ${PACKAGE_TMP}/
-	mv ${PACKAGE_TMP}2/music ${PACKAGE_TMP}/
-	mv ${PACKAGE_TMP}2/map ${PACKAGE_TMP}/
-	mv ${PACKAGE_TMP}2/script ${PACKAGE_TMP}/
-	mv ${PACKAGE_TMP}2/news.txt ${PACKAGE_TMP}/
-	mv ${PACKAGE_TMP}2/changes.txt ${PACKAGE_TMP}/
-	mv ${PACKAGE_TMP}2/license.txt ${PACKAGE_TMP}/
-	mv ${PACKAGE_TMP}2/readme.txt ${PACKAGE_TMP}/
-	rm -rf ${PACKAGE_TMP}2
+	mv ${PACKAGE_TMP}-2/data ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}-2/music ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}-2/map ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}-2/script ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}-2/news.txt ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}-2/changes.txt ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}-2/license.txt ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}-2/readme.txt ${PACKAGE_TMP}/
+	rm -rf ${PACKAGE_TMP}-2
 	mv ${PACKAGE_TMP_EXTRA}/map ${PACKAGE_TMP}/map/extra
 	for i in `find ${PACKAGE_TMP}/ -name README`; do j=`echo $$i | sed s/README/readme.txt/g`; mv $$i $$j ; done
 	find ${PACKAGE_TMP} -name "Makefile*" | xargs rm -f
