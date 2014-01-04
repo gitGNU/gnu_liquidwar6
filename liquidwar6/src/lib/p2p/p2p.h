@@ -200,7 +200,8 @@ extern int lw6p2p_node_poll (lw6p2p_node_t * node,
 			     lw6sys_progress_t * progress);
 extern void lw6p2p_node_close (lw6p2p_node_t * node);
 extern u_int64_t lw6p2p_node_get_id (lw6p2p_node_t * node);
-extern lw6sys_list_t *lw6p2p_node_get_entries (lw6p2p_node_t * node);
+extern lw6sys_list_t *lw6p2p_node_get_entries (lw6p2p_node_t * node,
+					       int skip_local);
 extern int lw6p2p_node_server_start (lw6p2p_node_t * node, int64_t seq_0);
 extern int lw6p2p_node_client_join (lw6p2p_node_t * node, u_int64_t remote_id,
 				    const char *remote_url,

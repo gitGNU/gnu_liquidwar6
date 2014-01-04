@@ -1800,7 +1800,7 @@ _get_entries_callback (void *func_data, int nb_fields,
 }
 
 lw6sys_list_t *
-_lw6p2p_node_get_entries (_lw6p2p_node_t * node)
+_lw6p2p_node_get_entries (_lw6p2p_node_t * node, int skip_local)
 {
   lw6sys_list_t *ret;
   char *query = NULL;
@@ -1817,9 +1817,11 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node)
        */
       if (_lw6p2p_db_lock (node->db))
 	{
-	  query = lw6sys_str_copy (_lw6p2p_db_get_query
-				   (node->db,
-				    _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL));
+	  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+				      (node->db,
+				       _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL),
+				      skip_local ? node->node_id_str :
+				      LW6SYS_STR_EMPTY);
 	  if (query)
 	    {
 	      _lw6p2p_db_exec (node->db, query, _get_entries_callback, &ret);
@@ -1827,9 +1829,11 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node)
 	    }
 	  LW6SYS_FREE (query);
 
-	  query = lw6sys_str_copy (_lw6p2p_db_get_query
-				   (node->db,
-				    _LW6P2P_SELECT_AVAILABLE_NODE_SQL));
+	  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+				      (node->db,
+				       _LW6P2P_SELECT_AVAILABLE_NODE_SQL),
+				      skip_local ? node->node_id_str :
+				      LW6SYS_STR_EMPTY);
 	  if (query)
 	    {
 	      if (_lw6p2p_db_lock (node->db))
@@ -1850,6 +1854,7 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node)
  * lw6p2p_node_get_entries
  *
  * @node: node to query
+ * @skip_local: wether to skip local node, 1 to skip, 0 to keep
  *
  * Returns a list of all known nodes, this is a plain
  * table dump, sorted so that the most likely to be interesting
@@ -1860,7 +1865,7 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node)
  * Return value: list object containing @lw6p2p_entry_t objects
  */
 lw6sys_list_t *
-lw6p2p_node_get_entries (lw6p2p_node_t * node)
+lw6p2p_node_get_entries (lw6p2p_node_t * node, int skip_local)
 {
   lw6sys_list_t *ret = NULL;
 
@@ -1871,7 +1876,7 @@ lw6p2p_node_get_entries (lw6p2p_node_t * node)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_get_entries ((_lw6p2p_node_t *) node);
+      ret = _lw6p2p_node_get_entries ((_lw6p2p_node_t *) node, skip_local);
       _node_unlock (node);
     }
 

@@ -892,7 +892,7 @@ _cmd_with_backends (char *cli_backends, char *srv_backends)
 	      _poll_nodes (node1, node2, node3, node4, node5, node6);
 	    }
 
-	  entries = lw6p2p_node_get_entries (node1);
+	  entries = lw6p2p_node_get_entries (node1, 0);
 	  if (entries)
 	    {
 	      lw6sys_list_map (entries, _print_entry_callback,

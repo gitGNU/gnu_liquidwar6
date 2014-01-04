@@ -484,9 +484,10 @@ _lw6p2p_node_get_entries_callback (void *func_data, void *data)
 }
 
 static SCM
-_scm_lw6p2p_node_get_entries (SCM node)
+_scm_lw6p2p_node_get_entries (SCM node, SCM skip_local)
 {
   lw6p2p_node_t *c_node;
+  int c_skip_local;
   SCM ret = SCM_BOOL_F;
   lw6sys_list_t *c_ret = NULL;
 
@@ -496,11 +497,13 @@ _scm_lw6p2p_node_get_entries (SCM node)
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.node,
 	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_BOOLP (skip_local), skip_local, SCM_ARG2, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
     {
-      c_ret = lw6p2p_node_get_entries (c_node);
+      c_skip_local = SCM_NFALSEP (skip_local) ? 1 : 0;
+      c_ret = lw6p2p_node_get_entries (c_node, c_skip_local);
       if (c_ret)
 	{
 	  ret = SCM_EOL;
@@ -1173,7 +1176,7 @@ lw6_register_funcs_p2p ()
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_ID, 1, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_get_id);
   ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_ENTRIES, 1, 0, 0,
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_ENTRIES, 2, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_get_entries);
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_SERVER_START, 2, 0, 0,

@@ -377,7 +377,8 @@ extern int _lw6p2p_node_register_tentacle (_lw6p2p_node_t * node,
 					   u_int64_t remote_id);
 extern int _lw6p2p_node_unregister_tentacle (_lw6p2p_node_t * node,
 					     u_int64_t remote_id);
-extern lw6sys_list_t *_lw6p2p_node_get_entries (_lw6p2p_node_t * node);
+extern lw6sys_list_t *_lw6p2p_node_get_entries (_lw6p2p_node_t * node,
+						int skip_local);
 extern int _lw6p2p_node_server_start (_lw6p2p_node_t * node, int64_t seq_0);
 extern int _lw6p2p_node_client_join (_lw6p2p_node_t * node,
 				     u_int64_t remote_id,

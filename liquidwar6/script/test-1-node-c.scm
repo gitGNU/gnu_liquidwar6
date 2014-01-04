@@ -86,7 +86,7 @@
 	    (while (and (< timestamp connect-time) 
 			(not server-entry))
 		   (let (
-			 (entries (c-lw6p2p-node-get-entries node))
+			 (entries (c-lw6p2p-node-get-entries node #f))
 			 )
 		     (begin		     
 		       (set! timestamp (c-lw6sys-get-timestamp))
@@ -110,7 +110,7 @@
 		(while (and (< timestamp connect-time) 
 			    (< (assoc-ref server-entry "round") connect-round))		       
 		       (let (
-			     (entries (c-lw6p2p-node-get-entries node))
+			     (entries (c-lw6p2p-node-get-entries node #f))
 			     )
 			 (begin		     
 			   (set! timestamp (c-lw6sys-get-timestamp))

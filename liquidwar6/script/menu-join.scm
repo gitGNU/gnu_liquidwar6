@@ -65,7 +65,7 @@
 	  (tmp-item 0)
 	  (new-id 0)
 	  (node (lw6-get-game-global "node"))
-	  (entries (if node (c-lw6p2p-node-get-entries node) #f))
+	  (entries (if node (c-lw6p2p-node-get-entries node #t) #f))
 	)
       (if menu-smob
 	  (begin
@@ -108,7 +108,7 @@
 				   (_ "Choose a server and connect to it, all the nodes which you can technically connect to are listed, however you might not be able to connect to some of them, just because they are either idle, full, running another version of the game, etc.")
 				   (_ "Network does NOT work yet")))
 	  (node (lw6-get-game-global "node"))
-	  (entries (if node (c-lw6p2p-node-get-entries node) #f))
+	  (entries (if node (c-lw6p2p-node-get-entries node #t) #f))
 	  )
       (begin
 	(assoc-set! menu "update" lw6-join-menu-update)

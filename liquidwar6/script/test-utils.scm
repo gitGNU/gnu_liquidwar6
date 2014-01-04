@@ -67,7 +67,7 @@
       (begin
 	(lw6-log-notice (format #f "updating info of node \"~a\" with param \"~a\"" node param))
 	(c-lw6p2p-node-update-info node param)
-	(lw6-log-notice (format #f "new entries are \"~a\"" (c-lw6p2p-node-get-entries node)))
+	(lw6-log-notice (format #f "new entries are \"~a\"" (c-lw6p2p-node-get-entries node #f)))
 	))))
 
 ;; Utility function that builds an assoc similar to the
@@ -128,7 +128,7 @@
 (define lw6-test-check-nodes
   (lambda (pilot node suite-node-ids node-urls checkpoint)
     (let (
-	  (entries (c-lw6p2p-node-get-entries node))
+	  (entries (c-lw6p2p-node-get-entries node #f))
 	  (timestamp #f)
 	  (ret #f)
 	  )
