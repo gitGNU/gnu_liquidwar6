@@ -35,9 +35,9 @@ if test "$1" = "show" ; then
     # to set vars we won't use.
     true
 else
-    HERE="$(readlink -f $(dirname $0))"
+    HERE="$(readlink -f $(dirname $0) || readlink $(dirname $0))"
     if [ -f ../configure.ac ] ; then
-	CONFIGURE_AC=$(readlink -f ../configure.ac)
+	CONFIGURE_AC="$(readlink -f ../configure.ac || readlink ../configure.ac)"
 	if [ -f ${CONFIGURE_AC} ] ; then
             CONFIGURE_AC_EXTRA_MAPS="$(dirname $(dirname ${CONFIGURE_AC}))/liquidwar6-extra-maps/configure.ac"
 	else
