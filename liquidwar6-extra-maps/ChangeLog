@@ -2,6 +2,20 @@
 
 	* liquidwar6-extra-maps/configure.ac,
 	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/doc/liquidwar6.texi,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Bump version
+
+2014-01-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/ChangeLog, liquidwar6-extra-maps/NEWS,
+	liquidwar6/ChangeLog, liquidwar6/NEWS,
+	liquidwar6/doc/liquidwar6.texi: Updated doc and NEWS files to
+	prepare Davy Crockett release
+
+2014-01-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
 	liquidwar6/data/p2p/sql/select-available-node.sql,
 	liquidwar6/data/p2p/sql/select-unavailable-node.sql,
 	liquidwar6/debian/changelog, liquidwar6/po/fr.po,
