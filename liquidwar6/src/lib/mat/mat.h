@@ -29,6 +29,16 @@
 
 #define LW6MAT_X_MUL_F 65536.0f
 #define LW6MAT_X_SHIFT_I 16
+#define LW6MAT_X_ROUND_I 32767
+
+#define LW6MAT_F_0 0.0f
+#define LW6MAT_I_0 0
+#define LW6MAT_D_0 0.0d
+#define LW6MAT_X_0 0
+#define LW6MAT_F_1 1.0f
+#define LW6MAT_I_1 1
+#define LW6MAT_D_1 1.0d
+#define LW6MAT_X_1 65536
 
 /*
  * Float API.
@@ -225,6 +235,10 @@ typedef union
 static inline int32_t
 lw6mat_ftoi (float f)
 {
+  /*
+   * Calling round() gives a better conversion
+   * than a plain cast, which does an implicit floor()
+   */
   return (int32_t) round (f);
 }
 
@@ -237,7 +251,14 @@ lw6mat_ftod (float f)
 static inline int32_t
 lw6mat_ftox (float f)
 {
-  return (int32_t) (f * LW6MAT_X_MUL_F);
+  /*
+   * Calling round() gives a better conversion
+   * than a plain cast, which does an implicit floor()
+   * Wether it's really usefull here is questionnable,
+   * but not doing it causes some weird "65535 errors".
+   * Which are ugly. And break tests.
+   */
+  return (int32_t) round (f * LW6MAT_X_MUL_F);
 }
 
 static inline float
@@ -267,6 +288,10 @@ lw6mat_dtof (double d)
 static inline int32_t
 lw6mat_dtoi (double d)
 {
+  /*
+   * Calling round() gives a better conversion
+   * than a plain cast, which does an implicit floor()
+   */
   return (int32_t) round (d);
 }
 
@@ -285,7 +310,12 @@ lw6mat_xtof (int32_t x)
 static inline int32_t
 lw6mat_xtoi (int32_t x)
 {
-  return x >> LW6MAT_X_SHIFT_I;
+  /*
+   * We add 0.5 to the number before truncating
+   * its left part, this simulates a round()
+   * and provides more consistent conversions.
+   */
+  return (x + LW6MAT_X_ROUND_I) >> LW6MAT_X_SHIFT_I;
 }
 
 static inline double

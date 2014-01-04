@@ -101,4 +101,9 @@ lw6mat_fvec4_norm (lw6mat_fvec4_t * fvec4)
       fvec4->p.z /= len;
       fvec4->p.w /= len;
     }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("trying to normalize vector zero"));
+    }
 }

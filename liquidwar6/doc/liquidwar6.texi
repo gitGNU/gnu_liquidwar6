@@ -2625,7 +2625,13 @@ big picture is here. Each module is testable separately.
 Below is a @uref{http://www.graphviz.org/, Graphviz} diagram, which shows
 the modules dependencies.
 
-@image{deps,19cm,,Diagram showing modules and libraries dependencies}
+@ifhtml
+@image{deps,,,Diagram showing modules and libraries dependencies}
+@end ifhtml
+
+@iftex
+@image{deps,17cm,,Diagram showing modules and libraries dependencies}
+@end iftex
 
 @section Memory structures
 

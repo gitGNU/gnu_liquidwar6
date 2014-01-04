@@ -53,6 +53,18 @@
 #define _TEST_XTOD_IN -32768
 #define _TEST_XTOD_OUT -0.5f
 
+#define _TEST_FVEC_X 5.0f
+#define _TEST_FVEC_Y -10.0f
+#define _TEST_FVEC_Z 15.0f
+#define _TEST_FVEC_W -20.0f
+
+#define _TEST_FVEC2_LEN_SQ 8192000
+#define _TEST_FVEC2_LEN 732715
+#define _TEST_FVEC3_LEN_SQ 22937600
+#define _TEST_FVEC3_LEN 1226066
+#define _TEST_FVEC4_LEN_SQ 49152000
+#define _TEST_FVEC4_LEN 1794777
+
 typedef struct _lw6mat_test_data_s
 {
   int ret;
@@ -247,6 +259,249 @@ _setup_init ()
   return CUE_SUCCESS;
 }
 
+/*
+ * Testing functions in fvec2.c
+ */
+static void
+_test_fvec2 ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6mat_fvec2_t fvec2;
+    float len_sq = 0.0f;
+    float len = 0.0f;
+
+    lw6mat_fvec2_zero (&fvec2);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_
+		("will try to normalize vector zero, following line should be a warning"));
+    lw6mat_fvec2_norm (&fvec2);
+    if (!lw6mat_fvec2_len (&fvec2))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("zero fvec2 has zero size, this is fine"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("zero fvec2 has non-zero size"));
+	ret = 0;
+      }
+    fvec2.p.x = _TEST_FVEC_X;
+    fvec2.p.y = _TEST_FVEC_Y;
+    len_sq = lw6mat_fvec2_len_sq (&fvec2);
+    if (lw6mat_ftox (len_sq) == _TEST_FVEC2_LEN_SQ)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for fvec2 is %d -> OK"),
+		    lw6mat_ftoi (len_sq));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len_sq for fvec2 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_ftoi (len_sq), lw6mat_ftox (len_sq),
+		    _TEST_FVEC2_LEN_SQ);
+	ret = 0;
+      }
+    len = lw6mat_fvec2_len (&fvec2);
+    if (lw6mat_ftox (len) == _TEST_FVEC2_LEN)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for fvec2 is %d -> OK"),
+		    lw6mat_ftoi (len));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len for fvec2 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_ftoi (len), lw6mat_ftox (len), _TEST_FVEC2_LEN);
+	ret = 0;
+      }
+    lw6mat_fvec2_norm (&fvec2);
+    len = lw6mat_fvec2_len (&fvec2);
+    if (lw6mat_ftox (len) == LW6MAT_X_1)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("len for normalized fvec2 is 1 -> OK"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len for normalized fvec2 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_ftoi (len), lw6mat_ftox (len), LW6MAT_X_1);
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
+/*
+ * Testing functions in fvec3.c
+ */
+static void
+_test_fvec3 ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6mat_fvec3_t fvec3;
+    float len_sq = 0.0f;
+    float len = 0.0f;
+
+    lw6mat_fvec3_zero (&fvec3);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_
+		("will try to normalize vector zero, following line should be a warning"));
+    lw6mat_fvec3_norm (&fvec3);
+    if (!lw6mat_fvec3_len (&fvec3))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("zero fvec3 has zero size, this is fine"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("zero fvec3 has non-zero size"));
+	ret = 0;
+      }
+    fvec3.p.x = _TEST_FVEC_X;
+    fvec3.p.y = _TEST_FVEC_Y;
+    fvec3.p.z = _TEST_FVEC_Z;
+    len_sq = lw6mat_fvec3_len_sq (&fvec3);
+    if (lw6mat_ftox (len_sq) == _TEST_FVEC3_LEN_SQ)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for fvec3 is %d -> OK"),
+		    lw6mat_ftoi (len_sq));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len_sq for fvec3 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_ftoi (len_sq), lw6mat_ftox (len_sq),
+		    _TEST_FVEC3_LEN_SQ);
+	ret = 0;
+      }
+    len = lw6mat_fvec3_len (&fvec3);
+    if (lw6mat_ftox (len) == _TEST_FVEC3_LEN)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for fvec3 is %d -> OK"),
+		    lw6mat_ftoi (len));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len for fvec3 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_ftoi (len), lw6mat_ftox (len), _TEST_FVEC3_LEN);
+	ret = 0;
+      }
+    lw6mat_fvec3_norm (&fvec3);
+    len = lw6mat_fvec3_len (&fvec3);
+    if (lw6mat_ftox (len) == LW6MAT_X_1)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("len for normalized fvec3 is 1 -> OK"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len for normalized fvec3 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_ftoi (len), lw6mat_ftox (len), LW6MAT_X_1);
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
+/*
+ * Testing functions in fvec4.c
+ */
+static void
+_test_fvec4 ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6mat_fvec4_t fvec4;
+    float len_sq = 0.0f;
+    float len = 0.0f;
+
+    lw6mat_fvec4_zero (&fvec4);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_
+		("will try to normalize vector zero, following line should be a warning"));
+    lw6mat_fvec4_norm (&fvec4);
+    if (!lw6mat_fvec4_len (&fvec4))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("zero fvec4 has zero size, this is fine"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("zero fvec4 has non-zero size"));
+	ret = 0;
+      }
+    fvec4.p.x = _TEST_FVEC_X;
+    fvec4.p.y = _TEST_FVEC_Y;
+    fvec4.p.z = _TEST_FVEC_Z;
+    fvec4.p.w = _TEST_FVEC_W;
+    len_sq = lw6mat_fvec4_len_sq (&fvec4);
+    if (lw6mat_ftox (len_sq) == _TEST_FVEC4_LEN_SQ)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for fvec4 is %d -> OK"),
+		    lw6mat_ftoi (len_sq));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len_sq for fvec4 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_ftoi (len_sq), lw6mat_ftox (len_sq),
+		    _TEST_FVEC4_LEN_SQ);
+	ret = 0;
+      }
+    len = lw6mat_fvec4_len (&fvec4);
+    if (lw6mat_ftox (len) == _TEST_FVEC4_LEN)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for fvec4 is %d -> OK"),
+		    lw6mat_ftoi (len));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len for fvec4 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_ftoi (len), lw6mat_ftox (len), _TEST_FVEC4_LEN);
+	ret = 0;
+      }
+    lw6mat_fvec4_norm (&fvec4);
+    len = lw6mat_fvec4_len (&fvec4);
+    if (lw6mat_ftox (len) == LW6MAT_X_1)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("len for normalized fvec4 is 1 -> OK"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len for normalized fvec4 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_ftoi (len), lw6mat_ftox (len), LW6MAT_X_1);
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
 static int
 _setup_quit ()
 {
@@ -281,6 +536,9 @@ lw6mat_test_register (int mode)
   if (suite)
     {
       LW6SYS_CUNIT_ADD_TEST (suite, _test_convert);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_fvec2);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_fvec3);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_fvec4);
     }
   else
     {
