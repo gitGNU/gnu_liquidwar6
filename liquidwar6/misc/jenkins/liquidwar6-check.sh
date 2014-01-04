@@ -90,7 +90,7 @@ if [ -f /etc/debian_version ] ; then
     fi
 
     echo "******** $0 $(date) ********"
-    if scp pkg/*.deb jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/debian/ ; then
+    if scp -P 9221 pkg/*.deb jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/debian/ ; then
 	echo "scp OK"
     else
 	echo "scp failed"
@@ -108,7 +108,7 @@ if [ -f /etc/redhat-release ] ; then
     fi
 
     echo "******** $0 $(date) ********"
-    if scp pkg/*.rpm jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/redhat/ ; then
+    if scp -P 9221 pkg/*.rpm jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/redhat/ ; then
 	echo "scp OK"
     else
 	echo "scp failed"
@@ -166,7 +166,7 @@ if [ -f /etc/debian_version ] ; then
     fi
 
     echo "******** $0 $(date) ********"
-    if scp *.deb jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/debian/ ; then
+    if scp -P 9221 *.deb jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/debian/ ; then
 	echo "scp extra OK"
     else
 	echo "scp extra failed"
@@ -184,7 +184,7 @@ if [ -f /etc/redhat-release ] ; then
     fi
 
     echo "******** $0 $(date) ********"
-    if scp *.rpm jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/redhat/ ; then
+    if scp -P 9221 *.rpm jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/redhat/ ; then
 	echo "scp extra OK"
     else
 	echo "scp extra failed"
