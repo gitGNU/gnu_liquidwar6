@@ -1260,5 +1260,10 @@ else
 	AC_MSG_NOTICE([doxygen support... no])
 fi
 
-cd ${srcdir}/src && ./stamp.sh auto && cd ${top_builddir}
+# Mac OS X workarround, old autoconf does not handle ./po correctly
+if test -z "${LW6_MAC_OS_X_TRUE}"; then
+	make -C po update-po
+fi
+
+cd ${srcdir}/src && ./stamp.sh auto
 
