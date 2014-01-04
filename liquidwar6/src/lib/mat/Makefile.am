@@ -27,7 +27,7 @@ TEST_SRC_FILE = mat-test.c
 else
 TEST_SRC_FILE =
 endif
-libmat_la_SOURCES = mat-fmat2.c mat-fmat3.c mat-fmat4.c mat-fvec2.c mat-fvec3.c mat-fvec4.c mat-imat2.c mat-imat3.c mat-imat4.c mat-ivec2.c mat-ivec3.c mat-ivec4.c $(TEST_SRC_FILE)
+libmat_la_SOURCES = mat-fmat2.c mat-fmat3.c mat-fmat4.c mat-fvec2.c mat-fvec3.c mat-fvec4.c mat-imat2.c mat-imat3.c mat-imat4.c mat-ivec2.c mat-ivec3.c mat-ivec4.c mat-dmat2.c mat-dmat3.c mat-dmat4.c mat-dvec2.c mat-dvec3.c mat-dvec4.c mat-xmat2.c mat-xmat3.c mat-xmat4.c mat-xvec2.c mat-xvec3.c mat-xvec4.c $(TEST_SRC_FILE)
 libmatdir= $(includedir)/@PACKAGE_TARNAME@/mat
 libmat_HEADERS = mat.h
 

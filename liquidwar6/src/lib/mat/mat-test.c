@@ -28,6 +28,10 @@
 
 #include "mat.h"
 
+#define _TEST_SIZEOF_INT32 4
+#define _TEST_SIZEOF_FLOAT 4
+#define _TEST_SIZEOF_DOUBLE 8
+
 #define _TEST_FTOI_IN 2.9f
 #define _TEST_FTOI_OUT 3
 #define _TEST_FTOD_IN 2.0f
@@ -101,12 +105,95 @@
 #define _TEST_FVEC4_CROSS_Y -1966080
 #define _TEST_FVEC4_CROSS_Z 1966080
 
+#define _TEST_DVEC_X1 5.0f
+#define _TEST_DVEC_Y1 -10.0f
+#define _TEST_DVEC_Z1 15.0f
+#define _TEST_DVEC_W1 -20.0f
+#define _TEST_DVEC_X2 1.0f
+#define _TEST_DVEC_Y2 4.0f
+#define _TEST_DVEC_Z2 9.0f
+#define _TEST_DVEC_W2 16.0f
+
+#define _TEST_DVEC2_LEN_SQ 8192000
+#define _TEST_DVEC2_LEN 732715
+#define _TEST_DVEC2_DOT -2293760
+#define _TEST_DVEC2_CROSS_X 0
+#define _TEST_DVEC2_CROSS_Y 0
+#define _TEST_DVEC2_CROSS_Z 1966080
+
+#define _TEST_DVEC3_LEN_SQ 22937600
+#define _TEST_DVEC3_LEN 1226066
+#define _TEST_DVEC3_DOT 6553600
+#define _TEST_DVEC3_CROSS_X -9830400
+#define _TEST_DVEC3_CROSS_Y -1966080
+#define _TEST_DVEC3_CROSS_Z 1966080
+
+#define _TEST_DVEC4_LEN_SQ 49152000
+#define _TEST_DVEC4_LEN 1794777
+#define _TEST_DVEC4_DOT -14417920
+#define _TEST_DVEC4_CROSS_X -9830400
+#define _TEST_DVEC4_CROSS_Y -1966080
+#define _TEST_DVEC4_CROSS_Z 1966080
+
 typedef struct _lw6mat_test_data_s
 {
   int ret;
 } _lw6mat_test_data_t;
 
 static _lw6mat_test_data_t _test_data = { 0 };
+
+/*
+ * Testing functions in header (fixed point arithmetic)
+ */
+static void
+_test_sizeof ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int s = 0;
+
+    s = sizeof (int32_t);
+    if (s == _TEST_SIZEOF_INT32)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("sizeof(int32_t) is %d, OK"), s);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("sizeof(int32_t) is %d, what the hell is going on?"),
+		    s);
+	ret = 0;
+      }
+    s = sizeof (float);
+    if (s == _TEST_SIZEOF_FLOAT)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("sizeof(float) is %d, OK"), s);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("sizeof(float) is %d, what the hell is going on?"),
+		    s);
+	ret = 0;
+      }
+    s = sizeof (double);
+    if (s == _TEST_SIZEOF_DOUBLE)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("sizeof(double) is %d, OK"), s);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("sizeof(double) is %d, what the hell is going on?"),
+		    s);
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
 
 /*
  * Testing functions in header (conversions)
@@ -1124,6 +1211,618 @@ _test_fvec4 ()
   LW6SYS_TEST_FUNCTION_END;
 }
 
+/*
+ * Testing functions in dvec2.c
+ */
+static void
+_test_dvec2 ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6mat_dvec2_t dvec2;
+    lw6mat_dvec2_t dvec2_a;
+    lw6mat_dvec2_t dvec2_b;
+    double len_sq = 0.0f;
+    double len = 0.0f;
+    double dot = 0.0f;
+    lw6mat_dvec3_t dvec3;	// needed for cross-product
+
+    lw6mat_dvec2_zero (&dvec2);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_
+		("will try to normalize vector zero, following line should be a warning"));
+    if (lw6mat_dvec2_norm (&dvec2))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("norm did not return an error on vector zero"));
+	ret = 1;
+      }
+    if (!lw6mat_dvec2_len (&dvec2))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("zero dvec2 has zero size, this is fine"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("zero dvec2 has non-zero size"));
+	ret = 0;
+      }
+    dvec2.p.x = _TEST_DVEC_X1;
+    dvec2.p.y = _TEST_DVEC_Y1;
+    len_sq = lw6mat_dvec2_len_sq (&dvec2);
+    if (lw6mat_dtox (len_sq) == _TEST_DVEC2_LEN_SQ)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for dvec2 is %d -> OK"),
+		    lw6mat_dtoi (len_sq));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len_sq for dvec2 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_dtoi (len_sq), lw6mat_dtox (len_sq),
+		    _TEST_DVEC2_LEN_SQ);
+	ret = 0;
+      }
+    len = lw6mat_dvec2_len (&dvec2);
+    if (lw6mat_dtox (len) == _TEST_DVEC2_LEN)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for dvec2 is %d -> OK"),
+		    lw6mat_dtoi (len));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len for dvec2 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_dtoi (len), lw6mat_dtox (len), _TEST_DVEC2_LEN);
+	ret = 0;
+      }
+    lw6mat_dvec2_norm (&dvec2);
+    if (!lw6mat_dvec2_norm (&dvec2))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
+	ret = 1;
+      }
+    len = lw6mat_dvec2_len (&dvec2);
+    if (lw6mat_dtox (len) == LW6MAT_X_1)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("len for normalized dvec2 is 1 -> OK"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len for normalized dvec2 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_dtoi (len), lw6mat_dtox (len), LW6MAT_X_1);
+	ret = 0;
+      }
+
+    dvec2_a = dvec2;
+    /*
+     * Here we do a per-member affectation on purpose, just in case
+     * the struct/union would be two big and is_same would fail
+     * because of extra data at its end.
+     */
+    memset (&dvec2_b, 0xff, sizeof (lw6mat_dvec2_t));
+    dvec2_b.p.x = dvec2.p.x;
+    dvec2_b.p.y = dvec2.p.y;
+    if (lw6mat_dvec2_is_same (&dvec2_a, &dvec2_b))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("dvec2 comparison works when equal"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("dvec2 comparison broken when equal"));
+	ret = 0;
+      }
+    lw6mat_dvec2_neg (&dvec2_b);
+    if (!lw6mat_dvec2_is_same (&dvec2_a, &dvec2_b))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("dvec2 comparison works when different"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("dvec2 comparison broken when different"));
+	ret = 0;
+      }
+    lw6mat_dvec2_add (&dvec2, &dvec2_a, &dvec2_b);
+    if (!lw6mat_dvec2_len (&dvec2))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("adding a dvec2 vector ands its neg gives zero, fine"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("adding a dvec2 vector ands its neg does not give zero"));
+	ret = 0;
+      }
+    lw6mat_dvec2_sub (&dvec2, &dvec2_a, &dvec2_a);
+    if (!lw6mat_dvec2_len (&dvec2))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("substracting a dvec2 vector to itself gives zero, fine"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("substracting a dvec2 vector to itself does not give zero"));
+	ret = 0;
+      }
+    // re-initializing for easier check of expected values
+    dvec2_a.p.x = _TEST_DVEC_X1;
+    dvec2_a.p.y = _TEST_DVEC_Y1;
+    dvec2_b.p.x = _TEST_DVEC_X2;
+    dvec2_b.p.y = _TEST_DVEC_Y2;
+    dot = lw6mat_dvec2_dot (&dvec2_a, &dvec2_b);
+    if (lw6mat_dtox (dot) == _TEST_DVEC2_DOT)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for dvec2 is %d -> OK"),
+		    lw6mat_dtoi (dot));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("dot for dvec2 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_dtoi (dot), lw6mat_dtox (dot), _TEST_DVEC2_DOT);
+	ret = 0;
+      }
+
+    /*
+     * Cross product test is specific to 3 dimensions vectors,
+     * does not really make sense for dim 2 and 4.
+     */
+    lw6mat_dvec2_cross (&dvec3, &dvec2_a, &dvec2_b);
+    if (lw6mat_dtox (dvec3.p.x) == _TEST_DVEC2_CROSS_X &&
+	lw6mat_dtox (dvec3.p.y) == _TEST_DVEC2_CROSS_Y &&
+	lw6mat_dtox (dvec3.p.z) == _TEST_DVEC2_CROSS_Z)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("cross product for dvec2 is (%d,%d,%d) -> OK"),
+		    lw6mat_dtoi (dvec3.p.x), lw6mat_dtoi (dvec3.p.y),
+		    lw6mat_dtoi (dvec3.p.z));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("cross product for dvec2 is (%d,%d,%d) -> bad, fixed point value is (%d,%d,%d) and shoud be (%d,%d,%d)"),
+		    lw6mat_dtoi (dvec3.p.x), lw6mat_dtoi (dvec3.p.y),
+		    lw6mat_dtoi (dvec3.p.z), lw6mat_dtox (dvec3.p.x),
+		    lw6mat_dtox (dvec3.p.y), lw6mat_dtox (dvec3.p.z),
+		    _TEST_FVEC2_CROSS_X, _TEST_FVEC2_CROSS_Y,
+		    _TEST_FVEC2_CROSS_Z);
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
+/*
+ * Testing functions in dvec3.c
+ */
+static void
+_test_dvec3 ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6mat_dvec3_t dvec3;
+    lw6mat_dvec3_t dvec3_a;
+    lw6mat_dvec3_t dvec3_b;
+    double len_sq = 0.0f;
+    double len = 0.0f;
+    double dot = 0.0f;
+
+    lw6mat_dvec3_zero (&dvec3);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_
+		("will try to normalize vector zero, following line should be a warning"));
+    if (lw6mat_dvec3_norm (&dvec3))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("norm did not return an error on vector zero"));
+	ret = 1;
+      }
+    if (!lw6mat_dvec3_len (&dvec3))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("zero dvec3 has zero size, this is fine"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("zero dvec3 has non-zero size"));
+	ret = 0;
+      }
+    dvec3.p.x = _TEST_DVEC_X1;
+    dvec3.p.y = _TEST_DVEC_Y1;
+    dvec3.p.z = _TEST_DVEC_Z1;
+    len_sq = lw6mat_dvec3_len_sq (&dvec3);
+    if (lw6mat_dtox (len_sq) == _TEST_DVEC3_LEN_SQ)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for dvec3 is %d -> OK"),
+		    lw6mat_dtoi (len_sq));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len_sq for dvec3 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_dtoi (len_sq), lw6mat_dtox (len_sq),
+		    _TEST_DVEC3_LEN_SQ);
+	ret = 0;
+      }
+    len = lw6mat_dvec3_len (&dvec3);
+    if (lw6mat_dtox (len) == _TEST_DVEC3_LEN)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for dvec3 is %d -> OK"),
+		    lw6mat_dtoi (len));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len for dvec3 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_dtoi (len), lw6mat_dtox (len), _TEST_DVEC3_LEN);
+	ret = 0;
+      }
+    if (!lw6mat_dvec3_norm (&dvec3))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
+	ret = 1;
+      }
+    len = lw6mat_dvec3_len (&dvec3);
+    if (lw6mat_dtox (len) == LW6MAT_X_1)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("len for normalized dvec3 is 1 -> OK"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len for normalized dvec3 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_dtoi (len), lw6mat_dtox (len), LW6MAT_X_1);
+	ret = 0;
+      }
+
+    dvec3_a = dvec3;
+    /*
+     * Here we do a per-member affectation on purpose, just in case
+     * the struct/union would be two big and is_same would fail
+     * because of extra data at its end.
+     */
+    memset (&dvec3_b, 0xff, sizeof (lw6mat_dvec3_t));
+    dvec3_b.p.x = dvec3.p.x;
+    dvec3_b.p.y = dvec3.p.y;
+    dvec3_b.p.z = dvec3.p.z;
+    if (lw6mat_dvec3_is_same (&dvec3_a, &dvec3_b))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("dvec3 comparison works when equal"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("dvec3 comparison broken when equal"));
+	ret = 0;
+      }
+    lw6mat_dvec3_neg (&dvec3_b);
+    if (!lw6mat_dvec3_is_same (&dvec3_a, &dvec3_b))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("dvec3 comparison works when different"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("dvec3 comparison broken when different"));
+	ret = 0;
+      }
+    lw6mat_dvec3_add (&dvec3, &dvec3_a, &dvec3_b);
+    if (!lw6mat_dvec3_len (&dvec3))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("adding a dvec3 vector ands its neg gives zero, fine"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("adding a dvec3 vector ands its neg does not give zero"));
+	ret = 0;
+      }
+    lw6mat_dvec3_sub (&dvec3, &dvec3_a, &dvec3_a);
+    if (!lw6mat_dvec3_len (&dvec3))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("substracting a dvec3 vector to itself gives zero, fine"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("substracting a dvec3 vector to itself does not give zero"));
+	ret = 0;
+      }
+    // re-initializing for easier check of expected values
+    dvec3_a.p.x = _TEST_DVEC_X1;
+    dvec3_a.p.y = _TEST_DVEC_Y1;
+    dvec3_a.p.z = _TEST_DVEC_Z1;
+    dvec3_b.p.x = _TEST_DVEC_X2;
+    dvec3_b.p.y = _TEST_DVEC_Y2;
+    dvec3_b.p.z = _TEST_DVEC_Z2;
+    dot = lw6mat_dvec3_dot (&dvec3_a, &dvec3_b);
+    if (lw6mat_dtox (dot) == _TEST_DVEC3_DOT)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for dvec3 is %d -> OK"),
+		    lw6mat_dtoi (dot));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("dot for dvec3 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_dtoi (dot), lw6mat_dtox (dot), _TEST_DVEC3_DOT);
+	ret = 0;
+      }
+
+    /*
+     * Cross product test is specific to 3 dimensions vectors,
+     * does not really make sense for dim 2 and 4.
+     */
+    lw6mat_dvec3_cross (&dvec3, &dvec3_a, &dvec3_b);
+    if (lw6mat_dtox (dvec3.p.x) == _TEST_DVEC3_CROSS_X &&
+	lw6mat_dtox (dvec3.p.y) == _TEST_DVEC3_CROSS_Y &&
+	lw6mat_dtox (dvec3.p.z) == _TEST_DVEC3_CROSS_Z)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("cross product for dvec3 is (%d,%d,%d) -> OK"),
+		    lw6mat_dtoi (dvec3.p.x), lw6mat_dtoi (dvec3.p.y),
+		    lw6mat_dtoi (dvec3.p.z));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("cross product for dvec3 is (%d,%d,%d) -> bad, fixed point value is (%d,%d,%d) and shoud be (%d,%d,%d)"),
+		    lw6mat_dtoi (dvec3.p.x), lw6mat_dtoi (dvec3.p.y),
+		    lw6mat_dtoi (dvec3.p.z), lw6mat_dtox (dvec3.p.x),
+		    lw6mat_dtox (dvec3.p.y), lw6mat_dtox (dvec3.p.z),
+		    _TEST_DVEC3_CROSS_X, _TEST_DVEC3_CROSS_Y,
+		    _TEST_DVEC3_CROSS_Z);
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
+/*
+ * Testing functions in dvec4.c
+ */
+static void
+_test_dvec4 ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6mat_dvec4_t dvec4;
+    lw6mat_dvec4_t dvec4_a;
+    lw6mat_dvec4_t dvec4_b;
+    double len_sq = 0.0f;
+    double len = 0.0f;
+    double dot = 0.0f;
+    lw6mat_dvec3_t dvec3;	// needed for cross-product
+
+    lw6mat_dvec4_zero (&dvec4);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_
+		("will try to normalize vector zero, following line should be a warning"));
+    if (lw6mat_dvec4_norm (&dvec4))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("norm did not return an error on vector zero"));
+	ret = 1;
+      }
+    if (!lw6mat_dvec4_len (&dvec4))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("zero dvec4 has zero size, this is fine"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("zero dvec4 has non-zero size"));
+	ret = 0;
+      }
+    dvec4.p.x = _TEST_DVEC_X1;
+    dvec4.p.y = _TEST_DVEC_Y1;
+    dvec4.p.z = _TEST_DVEC_Z1;
+    dvec4.p.w = _TEST_DVEC_W1;
+    len_sq = lw6mat_dvec4_len_sq (&dvec4);
+    if (lw6mat_dtox (len_sq) == _TEST_DVEC4_LEN_SQ)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for dvec4 is %d -> OK"),
+		    lw6mat_dtoi (len_sq));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len_sq for dvec4 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_dtoi (len_sq), lw6mat_dtox (len_sq),
+		    _TEST_DVEC4_LEN_SQ);
+	ret = 0;
+      }
+    len = lw6mat_dvec4_len (&dvec4);
+    if (lw6mat_dtox (len) == _TEST_DVEC4_LEN)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for dvec4 is %d -> OK"),
+		    lw6mat_dtoi (len));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len for dvec4 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_dtoi (len), lw6mat_dtox (len), _TEST_DVEC4_LEN);
+	ret = 0;
+      }
+    if (!lw6mat_dvec4_norm (&dvec4))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
+	ret = 1;
+      }
+    len = lw6mat_dvec4_len (&dvec4);
+    if (lw6mat_dtox (len) == LW6MAT_X_1)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("len for normalized dvec4 is 1 -> OK"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("len for normalized dvec4 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_dtoi (len), lw6mat_dtox (len), LW6MAT_X_1);
+	ret = 0;
+      }
+
+    dvec4_a = dvec4;
+    /*
+     * Here we do a per-member affectation on purpose, just in case
+     * the struct/union would be two big and is_same would fail
+     * because of extra data at its end.
+     */
+    memset (&dvec4_b, 0xff, sizeof (lw6mat_dvec4_t));
+    dvec4_b.p.x = dvec4.p.x;
+    dvec4_b.p.y = dvec4.p.y;
+    dvec4_b.p.z = dvec4.p.z;
+    dvec4_b.p.w = dvec4.p.w;
+    if (lw6mat_dvec4_is_same (&dvec4_a, &dvec4_b))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("dvec4 comparison works when equal"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("dvec4 comparison broken when equal"));
+	ret = 0;
+      }
+    lw6mat_dvec4_neg (&dvec4_b);
+    if (!lw6mat_dvec4_is_same (&dvec4_a, &dvec4_b))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("dvec4 comparison works when different"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("dvec4 comparison broken when different"));
+	ret = 0;
+      }
+    lw6mat_dvec4_add (&dvec4, &dvec4_a, &dvec4_b);
+    if (!lw6mat_dvec4_len (&dvec4))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("adding a dvec4 vector ands its neg gives zero, fine"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("adding a dvec4 vector ands its neg does not give zero"));
+	ret = 0;
+      }
+    lw6mat_dvec4_sub (&dvec4, &dvec4_a, &dvec4_a);
+    if (!lw6mat_dvec4_len (&dvec4))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("substracting a dvec4 vector to itself gives zero, fine"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("substracting a dvec4 vector to itself does not give zero"));
+	ret = 0;
+      }
+    // re-initializing for easier check of expected values
+    dvec4_a.p.x = _TEST_DVEC_X1;
+    dvec4_a.p.y = _TEST_DVEC_Y1;
+    dvec4_a.p.z = _TEST_DVEC_Z1;
+    dvec4_a.p.w = _TEST_DVEC_W1;
+    dvec4_b.p.x = _TEST_DVEC_X2;
+    dvec4_b.p.y = _TEST_DVEC_Y2;
+    dvec4_b.p.z = _TEST_DVEC_Z2;
+    dvec4_b.p.w = _TEST_DVEC_W2;
+    dot = lw6mat_dvec4_dot (&dvec4_a, &dvec4_b);
+    if (lw6mat_dtox (dot) == _TEST_DVEC4_DOT)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for dvec4 is %d -> OK"),
+		    lw6mat_dtoi (dot));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("dot for dvec4 is %d -> bad, fixed point value is %d and should be %d"),
+		    lw6mat_dtoi (dot), lw6mat_dtox (dot), _TEST_DVEC4_DOT);
+	ret = 0;
+      }
+
+    /*
+     * Cross product test is specific to 3 dimensions vectors,
+     * does not really make sense for dim 2 and 4.
+     */
+    lw6mat_dvec4_cross (&dvec3, &dvec4_a, &dvec4_b);
+    if (lw6mat_dtox (dvec3.p.x) == _TEST_DVEC4_CROSS_X &&
+	lw6mat_dtox (dvec3.p.y) == _TEST_DVEC4_CROSS_Y &&
+	lw6mat_dtox (dvec3.p.z) == _TEST_DVEC4_CROSS_Z)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("cross product for dvec4 is (%d,%d,%d) -> OK"),
+		    lw6mat_dtoi (dvec3.p.x), lw6mat_dtoi (dvec3.p.y),
+		    lw6mat_dtoi (dvec3.p.z));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("cross product for dvec4 is (%d,%d,%d) -> bad, fixed point value is (%d,%d,%d) and shoud be (%d,%d,%d)"),
+		    lw6mat_dtoi (dvec3.p.x), lw6mat_dtoi (dvec3.p.y),
+		    lw6mat_dtoi (dvec3.p.z), lw6mat_dtox (dvec3.p.x),
+		    lw6mat_dtox (dvec3.p.y), lw6mat_dtox (dvec3.p.z),
+		    _TEST_DVEC4_CROSS_X, _TEST_DVEC4_CROSS_Y,
+		    _TEST_DVEC4_CROSS_Z);
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
 static int
 _setup_init ()
 {
@@ -1164,11 +1863,15 @@ lw6mat_test_register (int mode)
   suite = CU_add_suite ("lw6mat", _setup_init, _setup_quit);
   if (suite)
     {
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_sizeof);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_convert);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_x);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_fvec2);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_fvec3);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_fvec4);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_dvec2);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_dvec3);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_dvec4);
     }
   else
     {

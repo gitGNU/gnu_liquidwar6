@@ -584,7 +584,7 @@ lw6mat_dtoi (double d)
 static inline int32_t
 lw6mat_dtox (double d)
 {
-  return (int32_t) (d * LW6MAT_X_MUL_F);
+  return (int32_t) round (d * LW6MAT_X_MUL_F);
 }
 
 static inline float

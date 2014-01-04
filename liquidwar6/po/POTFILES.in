@@ -363,6 +363,12 @@ src/lib/map/map-test.c
 src/lib/map/map-testmain.c
 src/lib/map/map-texture.c
 src/lib/map/map-weapon.c
+src/lib/mat/mat-dmat2.c
+src/lib/mat/mat-dmat3.c
+src/lib/mat/mat-dmat4.c
+src/lib/mat/mat-dvec2.c
+src/lib/mat/mat-dvec3.c
+src/lib/mat/mat-dvec4.c
 src/lib/mat/mat-fmat2.c
 src/lib/mat/mat-fmat3.c
 src/lib/mat/mat-fmat4.c
@@ -377,6 +383,12 @@ src/lib/mat/mat-ivec3.c
 src/lib/mat/mat-ivec4.c
 src/lib/mat/mat-test.c
 src/lib/mat/mat-testmain.c
+src/lib/mat/mat-xmat2.c
+src/lib/mat/mat-xmat3.c
+src/lib/mat/mat-xmat4.c
+src/lib/mat/mat-xvec2.c
+src/lib/mat/mat-xvec3.c
+src/lib/mat/mat-xvec4.c
 src/lib/msg/msg-cmd.c
 src/lib/msg/msg-envelope.c
 src/lib/msg/msg-meta.c
