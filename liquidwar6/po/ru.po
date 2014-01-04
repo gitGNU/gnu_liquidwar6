@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2014-01-04 09:35+0100\n"
+"POT-Creation-Date: 2014-01-04 15:32+0100\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -263,12 +263,12 @@ msgstr ""
 msgid "unable to handle credits id %d"
 msgstr ""
 
-#: src/lib/hlp/hlp-options.c:82
+#: src/lib/hlp/hlp-options.c:87
 #, c-format
 msgid "unknown option \"%s\""
 msgstr "неизвестный параметр \"%s\""
 
-#: src/lib/hlp/hlp-options.c:101
+#: src/lib/hlp/hlp-options.c:106
 msgid "unable to start daemon"
 msgstr "невозможно инициализировать демона"
 
@@ -448,11 +448,11 @@ msgstr "невозможно исправить переменную окруж�
 msgid "unable to read main script file \"%s\""
 msgstr "ошибка чтения главного файла сценариев \"%s\""
 
-#: src/lib/lw6-options.c:130 src/lib/lw6-options.c:186
+#: src/lib/lw6-options.c:134 src/lib/lw6-options.c:190
 msgid "all tests SUCCESSFULL!"
 msgstr "все тесты прошли УСПЕШНО!"
 
-#: src/lib/lw6-options.c:136 src/lib/lw6-options.c:192
+#: src/lib/lw6-options.c:140 src/lib/lw6-options.c:196
 #, c-format
 msgid "test FAILED, see log file \"%s\" for details"
 msgstr "тест завершился с ошибкой, подробности в журнале \"%s\""

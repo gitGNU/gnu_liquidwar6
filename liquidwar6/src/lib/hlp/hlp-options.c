@@ -58,6 +58,11 @@ _check_arg (const char *arg)
  *   game must be launched, or false (0) if the option is such that game 
  *   must be skipped. Example: --copyright, --help, ...
  *
+ * Will interpret the command-line arguments, and trap those who are
+ * related to docs, this is usefull when building the game,
+ * we want to have an extra binary to do this without being linked
+ * to SDL, for instance.
+ *
  * Return value: non-zero if success, 0 if error. The error can be, for
  *   instance, the test suite returning "no, tests were not OK".
  */

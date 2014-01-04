@@ -106,7 +106,11 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
   char *input = NULL;
   char *output = NULL;
 
-  ret = lw6hlp_process_non_run_options (argc, argv, run_game);
+  /*
+   * The following will call lw6hlp_process_non_run_options under
+   * the hood, handling basic syntax and a load of doc-related options.
+   */
+  ret = lw6ldr_process_non_run_options (argc, argv, run_game);
   if (ret && (*run_game))
     {
       for (i = 1; i < argc; ++i)
@@ -214,26 +218,6 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  else if (lw6sys_arg_match (LW6DEF_DEFAULTS, argv[i]))
 	    {
 	      lw6cfg_reset (argc, argv);
-	    }
-	  else if (lw6sys_arg_match (LW6DEF_EXAMPLE_RULES_XML, argv[i]))
-	    {
-	      lw6ldr_print_example_rules_xml (stdout);
-	      (*run_game) = 0;
-	    }
-	  else if (lw6sys_arg_match (LW6DEF_EXAMPLE_HINTS_XML, argv[i]))
-	    {
-	      lw6ldr_print_example_hints_xml (stdout);
-	      (*run_game) = 0;
-	    }
-	  else if (lw6sys_arg_match (LW6DEF_EXAMPLE_STYLE_XML, argv[i]))
-	    {
-	      lw6ldr_print_example_style_xml (stdout);
-	      (*run_game) = 0;
-	    }
-	  else if (lw6sys_arg_match (LW6DEF_EXAMPLE_TEAMS_XML, argv[i]))
-	    {
-	      lw6ldr_print_example_teams_xml (stdout);
-	      (*run_game) = 0;
 	    }
 	  /*
 	   * Show any interesting path

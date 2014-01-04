@@ -300,6 +300,7 @@ src/lib/ldr/ldr-hints.c
 src/lib/ldr/ldr-layer.c
 src/lib/ldr/ldr-metadata.c
 src/lib/ldr/ldr-metalayer.c
+src/lib/ldr/ldr-options.c
 src/lib/ldr/ldr-param.c
 src/lib/ldr/ldr-print.c
 src/lib/ldr/ldr-read.c
@@ -312,6 +313,7 @@ src/lib/ldr/ldr-test.c
 src/lib/ldr/ldr-testmain.c
 src/lib/ldr/ldr-texture.c
 src/lib/ldr/ldr-use.c
+src/lib/ldr/ldr-xmlmain.c
 src/lib/lw6-callback.c
 src/lib/lw6-control.c
 src/lib/lw6-fix.c

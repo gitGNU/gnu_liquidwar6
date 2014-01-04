@@ -270,6 +270,10 @@ extern int lw6ldr_meta_layer_read_if_exists (lw6map_meta_layer_t * meta_layer,
 					     int target_w, int target_h,
 					     int analog);
 
+/* ldr-options.c */
+extern int lw6ldr_process_non_run_options (int argc, const char *argv[],
+					   int *run_game);
+
 /* ldr-rules.c */
 extern int lw6ldr_rules_read (lw6map_rules_t * rules, const char *dirname);
 extern int lw6ldr_rules_update (lw6map_rules_t * rules,

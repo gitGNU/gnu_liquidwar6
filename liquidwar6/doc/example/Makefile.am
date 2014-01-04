@@ -23,16 +23,16 @@ pkgdatadir = $(docdir)/example
 EXTRA_DIST = $(pkgdata_DATA)
 
 if LW6_SELFDOC
-$(srcdir)/rules.xml: $(top_srcdir)/src/lib/hlp/hlp-about.c
-	$(top_builddir)/src/liquidwar6 --example-rules-xml | grep -v "DOCTYPE liquidwar6 SYSTEM" > $@
+$(srcdir)/rules.xml: $(top_srcdir)/src/lib/map/map.h $(top_srcdir)/src/lib/ldr/ldr.h
+	$(top_builddir)/src/lib/ldr/liquidwar6-xml --example-rules-xml | grep -v "DOCTYPE liquidwar6 SYSTEM" > $@
 
-$(srcdir)/hints.xml: $(top_srcdir)/src/lib/hlp/hlp-about.c
-	$(top_builddir)/src/liquidwar6 --example-hints-xml | grep -v "DOCTYPE liquidwar6 SYSTEM" > $@
+$(srcdir)/hints.xml: $(top_srcdir)/src/lib/map/map.h $(top_srcdir)/src/lib/ldr/ldr.h
+	$(top_builddir)/src/lib/ldr/liquidwar6-xml --example-hints-xml | grep -v "DOCTYPE liquidwar6 SYSTEM" > $@
 
-$(srcdir)/style.xml: $(top_srcdir)/src/lib/hlp/hlp-about.c
-	$(top_builddir)/src/liquidwar6 --example-style-xml | grep -v "DOCTYPE liquidwar6 SYSTEM" > $@
+$(srcdir)/style.xml: $(top_srcdir)/src/lib/map/map.h $(top_srcdir)/src/lib/ldr/ldr.h
+	$(top_builddir)/src/lib/ldr/liquidwar6-xml --example-style-xml | grep -v "DOCTYPE liquidwar6 SYSTEM" > $@
 
-$(srcdir)/teams.xml: $(top_srcdir)/src/lib/hlp/hlp-about.c
-	$(top_builddir)/src/liquidwar6 --example-teams-xml | grep -v "DOCTYPE liquidwar6 SYSTEM" > $@
+$(srcdir)/teams.xml: $(top_srcdir)/src/lib/map/map.h $(top_srcdir)/src/lib/ldr/ldr.h
+	$(top_builddir)/src/lib/ldr/liquidwar6-xml --example-teams-xml | grep -v "DOCTYPE liquidwar6 SYSTEM" > $@
 endif
 

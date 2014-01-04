@@ -40,6 +40,12 @@ liquidwar6hlp_test_SOURCES = hlp-testmain.c
 liquidwar6hlp_test_LDADD = libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6hlp-test
 endif
+else
+if !FULLSTATIC
+libexec_PROGRAMS = liquidwar6-doc
+liquidwar6_doc_SOURCES = hlp-docmain.c
+liquidwar6_doc_LDADD = libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+endif
 endif
 
 EXTRA_DIST = hlp-internal.h

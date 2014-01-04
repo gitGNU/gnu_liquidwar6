@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2014-01-04 09:35+0100\n"
+"POT-Creation-Date: 2014-01-04 15:32+0100\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -262,12 +262,12 @@ msgstr "Soummission de bugs"
 msgid "unable to handle credits id %d"
 msgstr "impossible de lire la ligne de 'credits' %d"
 
-#: src/lib/hlp/hlp-options.c:82
+#: src/lib/hlp/hlp-options.c:87
 #, c-format
 msgid "unknown option \"%s\""
 msgstr "option inconnue \"%s\""
 
-#: src/lib/hlp/hlp-options.c:101
+#: src/lib/hlp/hlp-options.c:106
 msgid "unable to start daemon"
 msgstr "impossible de démarrer le démon"
 
@@ -465,11 +465,11 @@ msgstr "impossible de redémarrer en corrigeant les variables d'environnement"
 msgid "unable to read main script file \"%s\""
 msgstr "impossible de lire le fichier de script principal \"%s\""
 
-#: src/lib/lw6-options.c:130 src/lib/lw6-options.c:186
+#: src/lib/lw6-options.c:134 src/lib/lw6-options.c:190
 msgid "all tests SUCCESSFULL!"
 msgstr "tous les tests passés avec SUCCÈS!"
 
-#: src/lib/lw6-options.c:136 src/lib/lw6-options.c:192
+#: src/lib/lw6-options.c:140 src/lib/lw6-options.c:196
 #, c-format
 msgid "test FAILED, see log file \"%s\" for details"
 msgstr ""
