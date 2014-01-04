@@ -96,7 +96,7 @@ lw6net_if_guess_local ()
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
 			  _x_ ("GetAdaptersInfo failed with error %d"),
-			  dwRetVal);
+			  (int) dwRetVal);
 	    }
 	}
     }

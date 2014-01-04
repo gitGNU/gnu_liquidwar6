@@ -866,6 +866,9 @@ lw6net_tcp_recv (int *sock, char *buf, int len, int delay_msec, int loop)
   int total_received = 0;
   int received;
   int chunk_size;
+#ifdef LW6_MS_WINDOWS
+  int winerr = 0;
+#endif
 #ifdef MSG_NOSIGNAL
   /*
    * Defining MSG_NOSIGNAL is important because in a heavy
