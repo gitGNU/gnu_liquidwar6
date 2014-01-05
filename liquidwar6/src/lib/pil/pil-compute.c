@@ -39,8 +39,20 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
   int64_t timestamp = 0LL;
   lw6pil_pilot_t *old_worker_dump_pilot_ptr = NULL;
   u_int32_t old_worker_dump_pilot_id = 0;
+  int yield_limit = 0;
+  int yield_period = 1;
 
   memset (&spread_data, 0, sizeof (_lw6pil_spread_data_t));
+
+  lw6sys_mutex_lock (worker->global_mutex);
+  yield_limit =
+    (worker->game_state->game_struct->rules.rounds_per_sec *
+     _LW6PIL_YIELD_LIMIT_MSEC) / 1000;
+  yield_period =
+    (worker->game_state->game_struct->rules.rounds_per_sec *
+     _LW6PIL_YIELD_PERIOD_MSEC) / 1000;
+  lw6sys_mutex_unlock (worker->global_mutex);
+
   while (worker->run)
     {
       commands = NULL;
@@ -155,6 +167,31 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 		  lw6sys_mutex_unlock (worker->compute_mutex);
 		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("worker compute end %d"),
 			      worker->current_round);
+
+		  /*
+		   * https://savannah.gnu.org/bugs/index.php?41113
+		   * One needs to stop calculating like mad if one is way behind schedule
+		   * else control thread never gets its hands on this. In real games
+		   * this rarely happens if the computer is correctly calibrated
+		   * but during the bench we're actually targetting an infinite
+		   * (or, for that matter, it's pretty much the same, as great as possible)
+		   * number of rounds, so with lots of fast cores, the unlock/lock is done
+		   * too fast for the control thread to hope and get the lock.
+		   * Going idle() does fix the problem, there's no garantee (after all,
+		   * main thread could never be fast enough to catch up) but in practice
+		   * it does work.
+		   */
+		  if ((worker->target_round - worker->current_round >
+		       yield_limit)
+		      && (!(worker->computed_rounds % yield_period)))
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_
+				  ("at round %d and targetting %d, yielding a timeslice every %d rounds"),
+				  worker->current_round, worker->target_round,
+				  yield_period);
+		      lw6sys_idle ();
+		    }
 		}
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("worker execute begin %d"),
 			  worker->current_round);

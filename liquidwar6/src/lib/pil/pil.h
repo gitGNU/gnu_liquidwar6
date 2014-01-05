@@ -201,17 +201,17 @@ typedef struct lw6pil_dump_s
 typedef struct lw6pil_worker_s
 {
   /// Wether this thread should run, 0 will stop it.
-  int run;
+  volatile int run;
   /// Wether this is running in verified mode or not.
   int verified;
   /// Current game round.
-  int current_round;
+  volatile int current_round;
   /// Round up to which we should compute stuff.
-  int target_round;
+  volatile int target_round;
   /// How many rounds where computed since object creation.
-  int computed_rounds;
+  volatile int computed_rounds;
   /// Wether the game is over or not.
-  int over;
+  volatile int over;
   /// The thread that does the job.
   lw6sys_thread_handler_t *compute_thread;
   /// Global data mutex.

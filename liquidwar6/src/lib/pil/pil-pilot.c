@@ -498,6 +498,7 @@ _commit_draft (_lw6pil_pilot_t * pilot)
 	  sync_draft_from_reference (pilot);
 
 	  lw6sys_spinlock_lock (pilot->draft.commands_spinlock);
+
 	  replay = lw6sys_list_new ((lw6sys_free_func_t) lw6pil_command_free);
 	  if (replay)
 	    {

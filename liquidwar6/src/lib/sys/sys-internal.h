@@ -93,9 +93,9 @@ typedef struct _lw6sys_thread_handler_s
   pthread_t thread;
   pthread_mutex_t mutex;
   pthread_cond_t cond_callback_done;
-  int flag_callback_done;
+  volatile int flag_callback_done;
   pthread_cond_t cond_can_join;
-  int flag_can_join;
+  volatile int flag_can_join;
   void (*callback_func) (void *callback_data);
   void (*callback_join) (void *callback_data);
   void *callback_data;

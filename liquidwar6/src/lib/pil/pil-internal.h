@@ -28,6 +28,8 @@
 #define _LW6PIL_MIN_SEQ_0 10000000000LL
 #define _LW6PIL_MIN_ROUND_0 0
 #define _LW6PIL_RANGE_SEQ_0 1000000000
+#define _LW6PIL_YIELD_LIMIT_MSEC 3000
+#define _LW6PIL_YIELD_PERIOD_MSEC 500
 
 typedef struct _lw6pil_pilot_s
 {
