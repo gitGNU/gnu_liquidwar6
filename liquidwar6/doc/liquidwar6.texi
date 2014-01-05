@@ -4411,14 +4411,6 @@ update online docs with @code{gendocs.sh}, carefull, @code{liquidwar6.html} is s
 @item
 update @code{index.html}, @code{liquidwar6.html} and @code{liquidwar6.fr.html} so that they reflect the latest release. Check download links are OK.
 @item
-run @code{./configure --enable-gcov ; make clean ; make}. Then run @code{src/liquidwar6 --test}, stay here and get ready to respond interactively to various questions. Then cd to @code{./doc/coverage} and run @code{make opt}. Copy files to web CVS, sync them.
-@item
-cd to @code{./doc/global} and run @code{make opt}. Copy files to web CVS, sync them.
-@item
-cd to @code{./doc/cyclo} and run @code{make opt}. Copy files to web CVS, sync them.
-@item
-copy Doxygen HTML documentation files from @code{./doc/doxygen/html} to web CVS, sync them.
-@item
 post news on @uref{https://savannah.gnu.org/news/?group=liquidwar6}, @uref{http://lists.gnu.org/mailman/listinfo/help-liquidwar6} and @uref{http://lists.gnu.org/mailman/listinfo/info-liquidwar6}.
 @item
 after everything did work, upload files on @uref{ftp://ftp.gnu.org/}, for instance use @code{gnupload --to ftp.gnu.org:liquidwar6 liquidwar6-X.Y.Z.tar.gz}.
