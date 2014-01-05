@@ -88,11 +88,19 @@ else
 fi
 
 echo "******** $0 $(date) ********"
+if make zip ; then
+    echo "make zip OK"
+else
+    echo "make zip failed"
+    exit 7
+fi
+
+echo "******** $0 $(date) ********"
 if cp -f liquidwar6-extra-maps*.tar.gz /var/lib/jenkins/pub/snapshots/source/ ; then
     echo "scp OK"
 else
     echo "scp failed"
-    exit 7
+    exit 8
 fi
 
 echo "******** $0 $(date) ********"
