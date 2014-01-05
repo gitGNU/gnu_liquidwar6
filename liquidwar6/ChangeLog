@@ -1,3 +1,26 @@
+2014-01-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/doc/const.texi,
+	liquidwar6/doc/liquidwar6.texi,
+	liquidwar6/src/lib/sys/sys-build-stamp.h, liquidwar6/src/stamp.sh: 
+	Bump version to 0.3.X (develop branch) and changed codename to
+	Hannibal
+
+2014-01-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/configure.ac, liquidwar6/src/Makefile.am: Packaging fix
+	for 0.2.3551
+
+2014-01-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/ChangeLog,
+	liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/ChangeLog,
+	liquidwar6/configure.ac, liquidwar6/debian/changelog: Changed
+	version from 0.1 to 0.2 to mark it as stable
+
 2014-01-04  Christian Mauduit <ufoot@ufoot.org>
 
 	* liquidwar6-extra-maps/configure.ac,
