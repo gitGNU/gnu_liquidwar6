@@ -46,11 +46,12 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 
   lw6sys_mutex_lock (worker->global_mutex);
   yield_limit =
-    (worker->game_state->game_struct->rules.rounds_per_sec *
-     _LW6PIL_YIELD_LIMIT_MSEC) / 1000;
+    lw6sys_imax (1, (worker->game_state->game_struct->rules.rounds_per_sec *
+		     _LW6PIL_YIELD_LIMIT_MSEC) / 1000);
   yield_period =
-    (worker->game_state->game_struct->rules.rounds_per_sec *
-     _LW6PIL_YIELD_PERIOD_MSEC) / 1000;
+    lw6sys_imax (1,
+		 (worker->game_state->game_struct->rules.rounds_per_sec *
+		  _LW6PIL_YIELD_PERIOD_MSEC) / 1000);
   lw6sys_mutex_unlock (worker->global_mutex);
 
   while (worker->run)
