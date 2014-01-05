@@ -3831,11 +3831,12 @@ _test_thread ()
 
   {
     lw6sys_thread_handler_t *thread_handler = NULL;
-    char *text = lw6sys_str_copy (THREAD_TEXT);
+    char *text = NULL;
     int i = 0;
     thread_stress_data_t thread_stress_data;
 
     ret = 1;
+    text = lw6sys_str_copy (THREAD_TEXT);
     if (text)
       {
 	thread_handler =
@@ -3849,6 +3850,50 @@ _test_thread ()
 			    i + 1,
 			    lw6sys_thread_is_callback_done (thread_handler));
 		lw6sys_sleep (THREAD_SLEEP_MAIN);
+	      }
+
+	    lw6sys_thread_join (thread_handler);
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+      }
+    else
+      {
+	ret = 0;
+      }
+
+    text = lw6sys_str_copy (THREAD_TEXT);
+    if (text)
+      {
+	thread_handler =
+	  lw6sys_thread_create (&thread_func, &thread_join, (void *) text);
+	if (thread_handler)
+	  {
+	    if (lw6sys_thread_wait_callback_done (thread_handler))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("wait_callback_done over"));
+		if (lw6sys_thread_is_callback_done (thread_handler))
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("is_callback_done returns true, looks good"));
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("is_callback_done returns false when wait_callback_done is over"));
+		    ret = 0;
+		  }
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("wait_callback_done problem"));
+		ret = 0;
 	      }
 
 	    lw6sys_thread_join (thread_handler);

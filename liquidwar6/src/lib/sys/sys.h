@@ -1323,6 +1323,8 @@ extern lw6sys_thread_handler_t
 			  void *callback_data);
 extern int lw6sys_thread_is_callback_done (lw6sys_thread_handler_t *
 					   thread_handler);
+extern int lw6sys_thread_wait_callback_done (lw6sys_thread_handler_t *
+					     thread_handler);
 extern int lw6sys_thread_get_id (lw6sys_thread_handler_t * thread_handler);
 extern void *lw6sys_thread_get_data (lw6sys_thread_handler_t *
 				     thread_handler);

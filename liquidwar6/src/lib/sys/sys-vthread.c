@@ -51,7 +51,8 @@ _vthread_callback ()
   /* 
    * callback is over, we signal it to the caller, if needed
    */
-  _main_handler->callback_done = 1;
+  _main_handler->flag_callback_done = 1;
+  pthread_cond_broadcast (&(_main_handler->cond_callback_done));
   /*
    * If callback_join is defined, we wait until the caller
    * has called "join" before freeing the ressources. If it's
@@ -62,7 +63,7 @@ _vthread_callback ()
    */
   if (_main_handler->callback_join)
     {
-      while (!_main_handler->can_join)
+      while (!_main_handler->flag_can_join)
 	{
 	  /*
 	   * Now the caller is supposed to set "can_join"
@@ -70,7 +71,18 @@ _vthread_callback ()
 	   */
 	  lw6sys_log (LW6SYS_LOG_INFO,
 		      _x_ ("waiting for can_join to be 1 (vhtread)"));
-	  lw6sys_snooze ();
+	  if (!pthread_mutex_lock (&(_main_handler->mutex)))
+	    {
+	      pthread_cond_wait (&(_main_handler->cond_can_join),
+				 &(_main_handler->mutex));
+	      pthread_mutex_unlock (&(_main_handler->mutex));
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("unable to lock internal thread mutex thread (vthread)"));
+	    }
 	}
       /*
        * In the peculiar case of vthread, join must imperatively
@@ -91,6 +103,21 @@ _vthread_callback ()
    */
   tmp_handler = _main_handler;
   _main_handler = NULL;
+
+  if (!pthread_mutex_lock (&(tmp_handler->mutex)))
+    {
+      pthread_cond_destroy (&(tmp_handler->cond_callback_done));
+      pthread_cond_destroy (&(tmp_handler->cond_can_join));
+      pthread_mutex_unlock (&(tmp_handler->mutex));
+      pthread_mutex_destroy (&(tmp_handler->mutex));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
+		  ("unable to lock internal thread mutex thread (vthread)"));
+    }
+
   LW6SYS_FREE (tmp_handler);
 }
 
@@ -143,7 +170,7 @@ lw6sys_vthread_run (lw6sys_thread_callback_func_t callback_func,
 		  lw6sys_snooze ();
 		}
 	      /*
-	       * _main_vandler could be NULL if we're here because
+	       * _main_handler could be NULL if we're here because
 	       * the callback is done
 	       */
 	      if (_main_handler)
@@ -234,6 +261,10 @@ lw6sys_vthread_create (lw6sys_thread_callback_func_t callback_func,
 {
   int ret = 0;
   _lw6sys_thread_handler_t *tmp_handler = NULL;
+  int thread_ok = 0;
+  int mutex_ok = 0;
+  int cond_callback_done_ok = 0;
+  int cond_can_join_ok = 0;
 
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("vthread_create"));
   if (!_main_handler)
@@ -243,6 +274,24 @@ lw6sys_vthread_create (lw6sys_thread_callback_func_t callback_func,
 	LW6SYS_CALLOC (sizeof (_lw6sys_thread_handler_t));
       if (tmp_handler)
 	{
+	  if (!pthread_mutex_init (&(tmp_handler->mutex), NULL))
+	    {
+	      mutex_ok = 1;
+	      if (!pthread_cond_init
+		  (&(tmp_handler->cond_callback_done), NULL))
+		{
+		  cond_callback_done_ok = 1;
+		  if (!pthread_cond_init
+		      (&(tmp_handler->cond_can_join), NULL))
+		    {
+		      cond_can_join_ok = 1;
+		      thread_ok = 1;
+		    }
+		}
+	    }
+	}
+      if (thread_ok)
+	{
 	  // handler->thread member should stay O/NULL
 	  tmp_handler->id = _LW6SYS_VTHREAD_ID;
 	  tmp_handler->callback_func = callback_func;
@@ -251,6 +300,8 @@ lw6sys_vthread_create (lw6sys_thread_callback_func_t callback_func,
 	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("vhtread create successfull"));
 	  ret = 1;
 	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("defining _main_handler"));
+
+
 	  /*
 	   * It's important to only affect in now that 
 	   * all fields are correctly filled.
@@ -260,6 +311,22 @@ lw6sys_vthread_create (lw6sys_thread_callback_func_t callback_func,
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't create vthread"));
+	  if (tmp_handler)
+	    {
+	      if (mutex_ok)
+		{
+		  pthread_mutex_destroy (&(tmp_handler->mutex));
+		}
+	      if (cond_callback_done_ok)
+		{
+		  pthread_cond_destroy (&(tmp_handler->cond_callback_done));
+		}
+	      if (cond_can_join_ok)
+		{
+		  pthread_cond_destroy (&(tmp_handler->cond_can_join));
+		}
+	      LW6SYS_FREE (tmp_handler);
+	    }
 	}
     }
   else
@@ -297,7 +364,8 @@ lw6sys_vthread_join ()
 		      _x_ ("joining vthread (fast mode, no join)"));
 	}
 
-      _main_handler->can_join = 1;
+      _main_handler->flag_can_join = 1;
+      pthread_cond_broadcast (&(_main_handler->cond_can_join));
 
       while (_main_handler)
 	{

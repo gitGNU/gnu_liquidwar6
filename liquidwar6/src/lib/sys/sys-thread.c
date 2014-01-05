@@ -71,7 +71,8 @@ thread_callback (void *thread_handler)
       /* 
        * callback is over, we signal it to the caller, if needed
        */
-      th->callback_done = 1;
+      th->flag_callback_done = 1;
+      pthread_cond_broadcast (&(th->cond_callback_done));
       /*
        * If callback_join is defined, we wait until the caller
        * has called "join" before freeing the ressources. If it's
@@ -82,7 +83,7 @@ thread_callback (void *thread_handler)
        */
       if (th->callback_join)
 	{
-	  while (!th->can_join)
+	  while (!th->flag_can_join)
 	    {
 	      /*
 	       * Now the caller is supposed to set "can_join"
@@ -91,7 +92,18 @@ thread_callback (void *thread_handler)
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_ ("waiting for can_join to be 1, thread id=%u"),
 			  th->id);
-	      lw6sys_idle ();
+	      if (!pthread_mutex_lock (&(th->mutex)))
+		{
+		  pthread_cond_wait (&(th->cond_can_join), &(th->mutex));
+		  pthread_mutex_unlock (&(th->mutex));
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("unable to lock internal thread mutex thread id=%u"),
+			      th->id);
+		}
 	    }
 	  th->callback_join (th->callback_data);
 	}
@@ -136,13 +148,17 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
 		      void *callback_data)
 {
   _lw6sys_thread_handler_t *thread_handler = NULL;
+  int thread_ok = 0;
+  int mutex_ok = 0;
+  int cond_callback_done_ok = 0;
+  int cond_can_join_ok = 0;
 
   thread_handler =
     (_lw6sys_thread_handler_t *)
     LW6SYS_CALLOC (sizeof (_lw6sys_thread_handler_t));
   if (thread_handler)
     {
-      // callback_done & the rest already set to 0
+      // callback_done & the rest already set to 0, CALLOC is important
       ++thread_create_counter;
       thread_handler->id = 0;
       while (thread_handler->id)
@@ -180,14 +196,41 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
 #endif
 #endif
 
-      if (!pthread_create (&(thread_handler->thread), NULL,
-			   (void *) thread_callback, (void *) thread_handler))
+      if (!pthread_mutex_init (&(thread_handler->mutex), NULL))
 	{
-	  // OK, thread created
+	  mutex_ok = 1;
+	  if (!pthread_cond_init
+	      (&(thread_handler->cond_callback_done), NULL))
+	    {
+	      cond_callback_done_ok = 1;
+	      if (!pthread_cond_init (&(thread_handler->cond_can_join), NULL))
+		{
+		  cond_can_join_ok = 1;
+		  if (!pthread_create (&(thread_handler->thread), NULL,
+				       (void *) thread_callback,
+				       (void *) thread_handler))
+		    {
+		      thread_ok = 1;
+		    }
+		}
+	    }
 	}
-      else
+
+      if (!thread_ok)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't start thread"));
+	  if (mutex_ok)
+	    {
+	      pthread_mutex_destroy (&(thread_handler->mutex));
+	    }
+	  if (cond_callback_done_ok)
+	    {
+	      pthread_cond_destroy (&(thread_handler->cond_callback_done));
+	    }
+	  if (cond_can_join_ok)
+	    {
+	      pthread_cond_destroy (&(thread_handler->cond_can_join));
+	    }
 	  /*
 	   * Better do a thread_create_counter-- here, this way we
 	   * can use a "very probably" atomic operation to increase
@@ -224,12 +267,62 @@ lw6sys_thread_is_callback_done (lw6sys_thread_handler_t * thread_handler)
       _lw6sys_thread_handler_t *th;
       th = (_lw6sys_thread_handler_t *) thread_handler;
 
-      ret = th->callback_done;
+      ret = th->flag_callback_done;
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("can't call is_callback_done on NULL thread_handler"));
+    }
+
+  return ret;
+}
+
+/**
+ * lw6sys_thread_wait_callback_done
+ *
+ * @thread_handler: thread to work on
+ *
+ * Waits until the callback of the thread is done, this does not
+ * necessarly mean it's freed, in fact it's not at this stage,
+ * the join callback can still be yet to call, but at least the
+ * main stuff is done.
+ *
+ * Return value: 1 if done, 0 on error
+ */
+int
+lw6sys_thread_wait_callback_done (lw6sys_thread_handler_t * thread_handler)
+{
+  int ret = 0;
+
+  if (thread_handler)
+    {
+      _lw6sys_thread_handler_t *th;
+      th = (_lw6sys_thread_handler_t *) thread_handler;
+
+      while (!th->flag_callback_done)
+	{
+	  if (!pthread_mutex_lock (&(th->mutex)))
+	    {
+	      pthread_cond_wait (&(th->cond_callback_done), &(th->mutex));
+	      pthread_mutex_unlock (&(th->mutex));
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("unable to lock internal thread mutex thread id=%u"),
+			  th->id);
+	    }
+	}
+
+      ret = 1;
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
+		  ("can't call wait_callback_done on NULL thread_handler"));
     }
 
   return ret;
@@ -328,10 +421,25 @@ lw6sys_thread_join (lw6sys_thread_handler_t * thread_handler)
 		      th->id);
 	}
 
-      th->can_join = 1;
+      th->flag_can_join = 1;
+      pthread_cond_broadcast (&(th->cond_can_join));
 
       if (!pthread_join (th->thread, NULL))
 	{
+	  if (!pthread_mutex_lock (&(th->mutex)))
+	    {
+	      pthread_cond_destroy (&(th->cond_callback_done));
+	      pthread_cond_destroy (&(th->cond_can_join));
+	      pthread_mutex_unlock (&(th->mutex));
+	      pthread_mutex_destroy (&(th->mutex));
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("unable to lock internal thread mutex thread id=%u"),
+			  th->id);
+	    }
 	  LW6SYS_FREE (th);
 	  thread_join_counter++;
 	}
