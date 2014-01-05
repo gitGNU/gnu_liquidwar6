@@ -26,7 +26,7 @@ BUILD_STAMP_H=./lib/sys/sys-build-stamp.h
 BUILD_MD5SUM_H=./lib/sys/sys-build-md5sum.h
 #BUILD_STAMP_TEXI=../doc/stamp.texi
 VERSION_MAJOR=0
-VERSION_MINOR=1
+VERSION_MINOR=3
 
 if test "$1" = "show" ; then
     # in "show" mode, do not query for complex path, readlink
