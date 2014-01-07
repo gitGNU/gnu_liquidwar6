@@ -158,7 +158,8 @@ lw6mat_dmat3_scale (lw6mat_dmat3_t * dmat3, double f)
 /**
  * lw6mat_dmat3_inv
  *
- * @dmat3: the matrix to invert
+ * @dmat3_dst: the matrix inverted
+ * @dmat3_src: the matrix to invert
  *
  * Inverts a matrix. Probably not the fastest implementation, but
  * should work in all cases. Use hardware accelerated API such as
@@ -168,47 +169,75 @@ lw6mat_dmat3_scale (lw6mat_dmat3_t * dmat3, double f)
  * can not be inverted.
  */
 int
-lw6mat_dmat3_inv (lw6mat_dmat3_t * dmat3)
+lw6mat_dmat3_inv (lw6mat_dmat3_t * dmat3_dst,
+		  const lw6mat_dmat3_t * dmat3_src)
 {
-  double det = lw6mat_dmat3_det (dmat3);
-
-  if (det)
+  /*
+   * In case src and dst or the same, recursively call this
+   * with a tmp pivot to avoid wrecking source while writing
+   * destination.
+   */
+  if (dmat3_dst == dmat3_src)
     {
-      lw6mat_dmat3_t orig;
+      lw6mat_dmat3_t dmat3_tmp = *dmat3_src;
 
-      orig = (*dmat3);
-
-      /*
-       * Wooo I'm so lazy, got this one from :
-       * http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/
-       */
-      dmat3->m[0][0] =
-	(orig.m[1][1] * orig.m[2][2] - orig.m[1][2] * orig.m[2][1]) / det;
-      dmat3->m[0][1] =
-	(orig.m[0][2] * orig.m[2][1] - orig.m[0][1] * orig.m[2][2]) / det;
-      dmat3->m[0][2] =
-	(orig.m[0][1] * orig.m[1][2] - orig.m[0][2] * orig.m[1][1]) / det;
-      dmat3->m[1][0] =
-	(orig.m[1][2] * orig.m[2][0] - orig.m[1][0] * orig.m[2][2]) / det;
-      dmat3->m[1][1] =
-	(orig.m[0][0] * orig.m[2][2] - orig.m[0][2] * orig.m[2][0]) / det;
-      dmat3->m[1][2] =
-	(orig.m[0][2] * orig.m[1][0] - orig.m[0][0] * orig.m[1][2]) / det;
-      dmat3->m[2][0] =
-	(orig.m[1][0] * orig.m[2][1] - orig.m[1][1] * orig.m[2][0]) / det;
-      dmat3->m[2][1] =
-	(orig.m[0][1] * orig.m[2][0] - orig.m[0][0] * orig.m[2][1]) / det;
-      dmat3->m[2][2] =
-	(orig.m[0][0] * orig.m[1][1] - orig.m[0][1] * orig.m[1][0]) / det;
-
-      return 1;
+      return lw6mat_dmat3_inv (dmat3_dst, &dmat3_tmp);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_INFO,
-		  _x_
-		  ("trying to invert non-invertible dmat3 matrix, determinant is 0"));
-      return 0;
+      double det = lw6mat_dmat3_det (dmat3_src);
+
+      if (det)
+	{
+	  /*
+	   * Wooo I'm so lazy, got this one from :
+	   * http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/
+	   */
+	  dmat3_dst->m[0][0] =
+	    (dmat3_src->m[1][1] * dmat3_src->m[2][2] -
+	     dmat3_src->m[1][2] * dmat3_src->m[2][1]) / det;
+	  dmat3_dst->m[0][1] =
+	    (dmat3_src->m[0][2] * dmat3_src->m[2][1] -
+	     dmat3_src->m[0][1] * dmat3_src->m[2][2]) / det;
+	  dmat3_dst->m[0][2] =
+	    (dmat3_src->m[0][1] * dmat3_src->m[1][2] -
+	     dmat3_src->m[0][2] * dmat3_src->m[1][1]) / det;
+	  dmat3_dst->m[1][0] =
+	    (dmat3_src->m[1][2] * dmat3_src->m[2][0] -
+	     dmat3_src->m[1][0] * dmat3_src->m[2][2]) / det;
+	  dmat3_dst->m[1][1] =
+	    (dmat3_src->m[0][0] * dmat3_src->m[2][2] -
+	     dmat3_src->m[0][2] * dmat3_src->m[2][0]) / det;
+	  dmat3_dst->m[1][2] =
+	    (dmat3_src->m[0][2] * dmat3_src->m[1][0] -
+	     dmat3_src->m[0][0] * dmat3_src->m[1][2]) / det;
+	  dmat3_dst->m[2][0] =
+	    (dmat3_src->m[1][0] * dmat3_src->m[2][1] -
+	     dmat3_src->m[1][1] * dmat3_src->m[2][0]) / det;
+	  dmat3_dst->m[2][1] =
+	    (dmat3_src->m[0][1] * dmat3_src->m[2][0] -
+	     dmat3_src->m[0][0] * dmat3_src->m[2][1]) / det;
+	  dmat3_dst->m[2][2] =
+	    (dmat3_src->m[0][0] * dmat3_src->m[1][1] -
+	     dmat3_src->m[0][1] * dmat3_src->m[1][0]) / det;
+
+	  return 1;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_
+		      ("trying to invert non-invertible dmat3 matrix, determinant is 0"));
+	  /*
+	   * Putting identity in result, yes it's not optimal it's CPU
+	   * waste but in case matrix was not invertible, it the
+	   * problem will really show afterwards, and the result can
+	   * always be inverted again.
+	   */
+	  lw6mat_dmat3_id (dmat3_dst);
+
+	  return 0;
+	}
     }
 }
 

@@ -2104,7 +2104,7 @@ _test_fmat2 ()
 	  }
 
 	fmat2_inv = fmat2;
-	if (lw6mat_fmat2_inv (&fmat2_inv))
+	if (lw6mat_fmat2_inv (&fmat2_inv, &fmat2_inv))
 	  {
 	    ret = _print_fmat2 (&fmat2_inv, "inv") && ret;
 
@@ -2341,7 +2341,7 @@ _test_fmat3 ()
 	  }
 
 	fmat3_inv = fmat3;
-	if (lw6mat_fmat3_inv (&fmat3_inv))
+	if (lw6mat_fmat3_inv (&fmat3_inv, &fmat3_inv))
 	  {
 	    ret = _print_fmat3 (&fmat3_inv, "inv") && ret;
 
@@ -2579,7 +2579,7 @@ _test_fmat4 ()
 	  }
 
 	fmat4_inv = fmat4;
-	if (lw6mat_fmat4_inv (&fmat4_inv))
+	if (lw6mat_fmat4_inv (&fmat4_inv, &fmat4_inv))
 	  {
 	    ret = _print_fmat4 (&fmat4_inv, "inv") && ret;
 
@@ -2818,7 +2818,7 @@ _test_dmat2 ()
 	  }
 
 	dmat2_inv = dmat2;
-	if (lw6mat_dmat2_inv (&dmat2_inv))
+	if (lw6mat_dmat2_inv (&dmat2_inv, &dmat2_inv))
 	  {
 	    ret = _print_dmat2 (&dmat2_inv, "inv") && ret;
 
@@ -3055,7 +3055,7 @@ _test_dmat3 ()
 	  }
 
 	dmat3_inv = dmat3;
-	if (lw6mat_dmat3_inv (&dmat3_inv))
+	if (lw6mat_dmat3_inv (&dmat3_inv, &dmat3_inv))
 	  {
 	    ret = _print_dmat3 (&dmat3_inv, "inv") && ret;
 
@@ -3293,7 +3293,7 @@ _test_dmat4 ()
 	  }
 
 	dmat4_inv = dmat4;
-	if (lw6mat_dmat4_inv (&dmat4_inv))
+	if (lw6mat_dmat4_inv (&dmat4_inv, &dmat4_inv))
 	  {
 	    ret = _print_dmat4 (&dmat4_inv, "inv") && ret;
 

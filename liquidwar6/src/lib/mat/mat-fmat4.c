@@ -176,7 +176,8 @@ lw6mat_fmat4_scale (lw6mat_fmat4_t * fmat4, float f)
 /**
  * lw6mat_fmat4_inv
  *
- * @fmat4: the matrix to invert
+ * @fmat4_dst: the matrix inverted
+ * @fmat4_src: the matrix to invert
  *
  * Inverts a matrix. Probably not the fastest implementation, but
  * should work in all cases. Use hardware accelerated API such as
@@ -186,142 +187,177 @@ lw6mat_fmat4_scale (lw6mat_fmat4_t * fmat4, float f)
  * can not be inverted.
  */
 int
-lw6mat_fmat4_inv (lw6mat_fmat4_t * fmat4)
+lw6mat_fmat4_inv (lw6mat_fmat4_t * fmat4_dst,
+		  const lw6mat_fmat4_t * fmat4_src)
 {
-  float det = lw6mat_fmat4_det (fmat4);
-
-  if (det)
+  /*
+   * In case src and dst or the same, recursively call this
+   * with a tmp pivot to avoid wrecking source while writing
+   * destination.
+   */
+  if (fmat4_dst == fmat4_src)
     {
-      lw6mat_fmat4_t orig;
+      lw6mat_fmat4_t fmat4_tmp = *fmat4_src;
 
-      orig = (*fmat4);
-
-      /*
-       * Wooo I'm so lazy, got this one from :
-       * http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
-       */
-
-      fmat4->m[0][0] =
-	(orig.m[1][2] * orig.m[2][3] * orig.m[3][1] -
-	 orig.m[1][3] * orig.m[2][2] * orig.m[3][1] +
-	 orig.m[1][3] * orig.m[2][1] * orig.m[3][2] -
-	 orig.m[1][1] * orig.m[2][3] * orig.m[3][2] -
-	 orig.m[1][2] * orig.m[2][1] * orig.m[3][3] +
-	 orig.m[1][1] * orig.m[2][2] * orig.m[3][3]) / det;
-      fmat4->m[0][1] =
-	(orig.m[0][3] * orig.m[2][2] * orig.m[3][1] -
-	 orig.m[0][2] * orig.m[2][3] * orig.m[3][1] -
-	 orig.m[0][3] * orig.m[2][1] * orig.m[3][2] +
-	 orig.m[0][1] * orig.m[2][3] * orig.m[3][2] +
-	 orig.m[0][2] * orig.m[2][1] * orig.m[3][3] -
-	 orig.m[0][1] * orig.m[2][2] * orig.m[3][3]) / det;
-      fmat4->m[0][2] =
-	(orig.m[0][2] * orig.m[1][3] * orig.m[3][1] -
-	 orig.m[0][3] * orig.m[1][2] * orig.m[3][1] +
-	 orig.m[0][3] * orig.m[1][1] * orig.m[3][2] -
-	 orig.m[0][1] * orig.m[1][3] * orig.m[3][2] -
-	 orig.m[0][2] * orig.m[1][1] * orig.m[3][3] +
-	 orig.m[0][1] * orig.m[1][2] * orig.m[3][3]) / det;
-      fmat4->m[0][3] =
-	(orig.m[0][3] * orig.m[1][2] * orig.m[2][1] -
-	 orig.m[0][2] * orig.m[1][3] * orig.m[2][1] -
-	 orig.m[0][3] * orig.m[1][1] * orig.m[2][2] +
-	 orig.m[0][1] * orig.m[1][3] * orig.m[2][2] +
-	 orig.m[0][2] * orig.m[1][1] * orig.m[2][3] -
-	 orig.m[0][1] * orig.m[1][2] * orig.m[2][3]) / det;
-      fmat4->m[1][0] =
-	(orig.m[1][3] * orig.m[2][2] * orig.m[3][0] -
-	 orig.m[1][2] * orig.m[2][3] * orig.m[3][0] -
-	 orig.m[1][3] * orig.m[2][0] * orig.m[3][2] +
-	 orig.m[1][0] * orig.m[2][3] * orig.m[3][2] +
-	 orig.m[1][2] * orig.m[2][0] * orig.m[3][3] -
-	 orig.m[1][0] * orig.m[2][2] * orig.m[3][3]) / det;
-      fmat4->m[1][1] =
-	(orig.m[0][2] * orig.m[2][3] * orig.m[3][0] -
-	 orig.m[0][3] * orig.m[2][2] * orig.m[3][0] +
-	 orig.m[0][3] * orig.m[2][0] * orig.m[3][2] -
-	 orig.m[0][0] * orig.m[2][3] * orig.m[3][2] -
-	 orig.m[0][2] * orig.m[2][0] * orig.m[3][3] +
-	 orig.m[0][0] * orig.m[2][2] * orig.m[3][3]) / det;
-      fmat4->m[1][2] =
-	(orig.m[0][3] * orig.m[1][2] * orig.m[3][0] -
-	 orig.m[0][2] * orig.m[1][3] * orig.m[3][0] -
-	 orig.m[0][3] * orig.m[1][0] * orig.m[3][2] +
-	 orig.m[0][0] * orig.m[1][3] * orig.m[3][2] +
-	 orig.m[0][2] * orig.m[1][0] * orig.m[3][3] -
-	 orig.m[0][0] * orig.m[1][2] * orig.m[3][3]) / det;
-      fmat4->m[1][3] =
-	(orig.m[0][2] * orig.m[1][3] * orig.m[2][0] -
-	 orig.m[0][3] * orig.m[1][2] * orig.m[2][0] +
-	 orig.m[0][3] * orig.m[1][0] * orig.m[2][2] -
-	 orig.m[0][0] * orig.m[1][3] * orig.m[2][2] -
-	 orig.m[0][2] * orig.m[1][0] * orig.m[2][3] +
-	 orig.m[0][0] * orig.m[1][2] * orig.m[2][3]) / det;
-      fmat4->m[2][0] =
-	(orig.m[1][1] * orig.m[2][3] * orig.m[3][0] -
-	 orig.m[1][3] * orig.m[2][1] * orig.m[3][0] +
-	 orig.m[1][3] * orig.m[2][0] * orig.m[3][1] -
-	 orig.m[1][0] * orig.m[2][3] * orig.m[3][1] -
-	 orig.m[1][1] * orig.m[2][0] * orig.m[3][3] +
-	 orig.m[1][0] * orig.m[2][1] * orig.m[3][3]) / det;
-      fmat4->m[2][1] =
-	(orig.m[0][3] * orig.m[2][1] * orig.m[3][0] -
-	 orig.m[0][1] * orig.m[2][3] * orig.m[3][0] -
-	 orig.m[0][3] * orig.m[2][0] * orig.m[3][1] +
-	 orig.m[0][0] * orig.m[2][3] * orig.m[3][1] +
-	 orig.m[0][1] * orig.m[2][0] * orig.m[3][3] -
-	 orig.m[0][0] * orig.m[2][1] * orig.m[3][3]) / det;
-      fmat4->m[2][2] =
-	(orig.m[0][1] * orig.m[1][3] * orig.m[3][0] -
-	 orig.m[0][3] * orig.m[1][1] * orig.m[3][0] +
-	 orig.m[0][3] * orig.m[1][0] * orig.m[3][1] -
-	 orig.m[0][0] * orig.m[1][3] * orig.m[3][1] -
-	 orig.m[0][1] * orig.m[1][0] * orig.m[3][3] +
-	 orig.m[0][0] * orig.m[1][1] * orig.m[3][3]) / det;
-      fmat4->m[2][3] =
-	(orig.m[0][3] * orig.m[1][1] * orig.m[2][0] -
-	 orig.m[0][1] * orig.m[1][3] * orig.m[2][0] -
-	 orig.m[0][3] * orig.m[1][0] * orig.m[2][1] +
-	 orig.m[0][0] * orig.m[1][3] * orig.m[2][1] +
-	 orig.m[0][1] * orig.m[1][0] * orig.m[2][3] -
-	 orig.m[0][0] * orig.m[1][1] * orig.m[2][3]) / det;
-      fmat4->m[3][0] =
-	(orig.m[1][2] * orig.m[2][1] * orig.m[3][0] -
-	 orig.m[1][1] * orig.m[2][2] * orig.m[3][0] -
-	 orig.m[1][2] * orig.m[2][0] * orig.m[3][1] +
-	 orig.m[1][0] * orig.m[2][2] * orig.m[3][1] +
-	 orig.m[1][1] * orig.m[2][0] * orig.m[3][2] -
-	 orig.m[1][0] * orig.m[2][1] * orig.m[3][2]) / det;
-      fmat4->m[3][1] =
-	(orig.m[0][1] * orig.m[2][2] * orig.m[3][0] -
-	 orig.m[0][2] * orig.m[2][1] * orig.m[3][0] +
-	 orig.m[0][2] * orig.m[2][0] * orig.m[3][1] -
-	 orig.m[0][0] * orig.m[2][2] * orig.m[3][1] -
-	 orig.m[0][1] * orig.m[2][0] * orig.m[3][2] +
-	 orig.m[0][0] * orig.m[2][1] * orig.m[3][2]) / det;
-      fmat4->m[3][2] =
-	(orig.m[0][2] * orig.m[1][1] * orig.m[3][0] -
-	 orig.m[0][1] * orig.m[1][2] * orig.m[3][0] -
-	 orig.m[0][2] * orig.m[1][0] * orig.m[3][1] +
-	 orig.m[0][0] * orig.m[1][2] * orig.m[3][1] +
-	 orig.m[0][1] * orig.m[1][0] * orig.m[3][2] -
-	 orig.m[0][0] * orig.m[1][1] * orig.m[3][2]) / det;
-      fmat4->m[3][3] =
-	(orig.m[0][1] * orig.m[1][2] * orig.m[2][0] -
-	 orig.m[0][2] * orig.m[1][1] * orig.m[2][0] +
-	 orig.m[0][2] * orig.m[1][0] * orig.m[2][1] -
-	 orig.m[0][0] * orig.m[1][2] * orig.m[2][1] -
-	 orig.m[0][1] * orig.m[1][0] * orig.m[2][2] +
-	 orig.m[0][0] * orig.m[1][1] * orig.m[2][2]) / det;
-
-      return 1;
+      return lw6mat_fmat4_inv (fmat4_dst, &fmat4_tmp);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_INFO,
-		  _x_
-		  ("trying to invert non-invertible fmat4 matrix, determinant is 0"));
-      return 0;
+      float det = lw6mat_fmat4_det (fmat4_src);
+
+      if (det)
+	{
+	  /*
+	   * Wooo I'm so lazy, got this one from :
+	   * http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
+	   */
+
+	  fmat4_dst->m[0][0] =
+	    (fmat4_src->m[1][2] * fmat4_src->m[2][3] * fmat4_src->m[3][1] -
+	     fmat4_src->m[1][3] * fmat4_src->m[2][2] * fmat4_src->m[3][1] +
+	     fmat4_src->m[1][3] * fmat4_src->m[2][1] * fmat4_src->m[3][2] -
+	     fmat4_src->m[1][1] * fmat4_src->m[2][3] * fmat4_src->m[3][2] -
+	     fmat4_src->m[1][2] * fmat4_src->m[2][1] * fmat4_src->m[3][3] +
+	     fmat4_src->m[1][1] * fmat4_src->m[2][2] * fmat4_src->m[3][3]) /
+	    det;
+	  fmat4_dst->m[0][1] =
+	    (fmat4_src->m[0][3] * fmat4_src->m[2][2] * fmat4_src->m[3][1] -
+	     fmat4_src->m[0][2] * fmat4_src->m[2][3] * fmat4_src->m[3][1] -
+	     fmat4_src->m[0][3] * fmat4_src->m[2][1] * fmat4_src->m[3][2] +
+	     fmat4_src->m[0][1] * fmat4_src->m[2][3] * fmat4_src->m[3][2] +
+	     fmat4_src->m[0][2] * fmat4_src->m[2][1] * fmat4_src->m[3][3] -
+	     fmat4_src->m[0][1] * fmat4_src->m[2][2] * fmat4_src->m[3][3]) /
+	    det;
+	  fmat4_dst->m[0][2] =
+	    (fmat4_src->m[0][2] * fmat4_src->m[1][3] * fmat4_src->m[3][1] -
+	     fmat4_src->m[0][3] * fmat4_src->m[1][2] * fmat4_src->m[3][1] +
+	     fmat4_src->m[0][3] * fmat4_src->m[1][1] * fmat4_src->m[3][2] -
+	     fmat4_src->m[0][1] * fmat4_src->m[1][3] * fmat4_src->m[3][2] -
+	     fmat4_src->m[0][2] * fmat4_src->m[1][1] * fmat4_src->m[3][3] +
+	     fmat4_src->m[0][1] * fmat4_src->m[1][2] * fmat4_src->m[3][3]) /
+	    det;
+	  fmat4_dst->m[0][3] =
+	    (fmat4_src->m[0][3] * fmat4_src->m[1][2] * fmat4_src->m[2][1] -
+	     fmat4_src->m[0][2] * fmat4_src->m[1][3] * fmat4_src->m[2][1] -
+	     fmat4_src->m[0][3] * fmat4_src->m[1][1] * fmat4_src->m[2][2] +
+	     fmat4_src->m[0][1] * fmat4_src->m[1][3] * fmat4_src->m[2][2] +
+	     fmat4_src->m[0][2] * fmat4_src->m[1][1] * fmat4_src->m[2][3] -
+	     fmat4_src->m[0][1] * fmat4_src->m[1][2] * fmat4_src->m[2][3]) /
+	    det;
+	  fmat4_dst->m[1][0] =
+	    (fmat4_src->m[1][3] * fmat4_src->m[2][2] * fmat4_src->m[3][0] -
+	     fmat4_src->m[1][2] * fmat4_src->m[2][3] * fmat4_src->m[3][0] -
+	     fmat4_src->m[1][3] * fmat4_src->m[2][0] * fmat4_src->m[3][2] +
+	     fmat4_src->m[1][0] * fmat4_src->m[2][3] * fmat4_src->m[3][2] +
+	     fmat4_src->m[1][2] * fmat4_src->m[2][0] * fmat4_src->m[3][3] -
+	     fmat4_src->m[1][0] * fmat4_src->m[2][2] * fmat4_src->m[3][3]) /
+	    det;
+	  fmat4_dst->m[1][1] =
+	    (fmat4_src->m[0][2] * fmat4_src->m[2][3] * fmat4_src->m[3][0] -
+	     fmat4_src->m[0][3] * fmat4_src->m[2][2] * fmat4_src->m[3][0] +
+	     fmat4_src->m[0][3] * fmat4_src->m[2][0] * fmat4_src->m[3][2] -
+	     fmat4_src->m[0][0] * fmat4_src->m[2][3] * fmat4_src->m[3][2] -
+	     fmat4_src->m[0][2] * fmat4_src->m[2][0] * fmat4_src->m[3][3] +
+	     fmat4_src->m[0][0] * fmat4_src->m[2][2] * fmat4_src->m[3][3]) /
+	    det;
+	  fmat4_dst->m[1][2] =
+	    (fmat4_src->m[0][3] * fmat4_src->m[1][2] * fmat4_src->m[3][0] -
+	     fmat4_src->m[0][2] * fmat4_src->m[1][3] * fmat4_src->m[3][0] -
+	     fmat4_src->m[0][3] * fmat4_src->m[1][0] * fmat4_src->m[3][2] +
+	     fmat4_src->m[0][0] * fmat4_src->m[1][3] * fmat4_src->m[3][2] +
+	     fmat4_src->m[0][2] * fmat4_src->m[1][0] * fmat4_src->m[3][3] -
+	     fmat4_src->m[0][0] * fmat4_src->m[1][2] * fmat4_src->m[3][3]) /
+	    det;
+	  fmat4_dst->m[1][3] =
+	    (fmat4_src->m[0][2] * fmat4_src->m[1][3] * fmat4_src->m[2][0] -
+	     fmat4_src->m[0][3] * fmat4_src->m[1][2] * fmat4_src->m[2][0] +
+	     fmat4_src->m[0][3] * fmat4_src->m[1][0] * fmat4_src->m[2][2] -
+	     fmat4_src->m[0][0] * fmat4_src->m[1][3] * fmat4_src->m[2][2] -
+	     fmat4_src->m[0][2] * fmat4_src->m[1][0] * fmat4_src->m[2][3] +
+	     fmat4_src->m[0][0] * fmat4_src->m[1][2] * fmat4_src->m[2][3]) /
+	    det;
+	  fmat4_dst->m[2][0] =
+	    (fmat4_src->m[1][1] * fmat4_src->m[2][3] * fmat4_src->m[3][0] -
+	     fmat4_src->m[1][3] * fmat4_src->m[2][1] * fmat4_src->m[3][0] +
+	     fmat4_src->m[1][3] * fmat4_src->m[2][0] * fmat4_src->m[3][1] -
+	     fmat4_src->m[1][0] * fmat4_src->m[2][3] * fmat4_src->m[3][1] -
+	     fmat4_src->m[1][1] * fmat4_src->m[2][0] * fmat4_src->m[3][3] +
+	     fmat4_src->m[1][0] * fmat4_src->m[2][1] * fmat4_src->m[3][3]) /
+	    det;
+	  fmat4_dst->m[2][1] =
+	    (fmat4_src->m[0][3] * fmat4_src->m[2][1] * fmat4_src->m[3][0] -
+	     fmat4_src->m[0][1] * fmat4_src->m[2][3] * fmat4_src->m[3][0] -
+	     fmat4_src->m[0][3] * fmat4_src->m[2][0] * fmat4_src->m[3][1] +
+	     fmat4_src->m[0][0] * fmat4_src->m[2][3] * fmat4_src->m[3][1] +
+	     fmat4_src->m[0][1] * fmat4_src->m[2][0] * fmat4_src->m[3][3] -
+	     fmat4_src->m[0][0] * fmat4_src->m[2][1] * fmat4_src->m[3][3]) /
+	    det;
+	  fmat4_dst->m[2][2] =
+	    (fmat4_src->m[0][1] * fmat4_src->m[1][3] * fmat4_src->m[3][0] -
+	     fmat4_src->m[0][3] * fmat4_src->m[1][1] * fmat4_src->m[3][0] +
+	     fmat4_src->m[0][3] * fmat4_src->m[1][0] * fmat4_src->m[3][1] -
+	     fmat4_src->m[0][0] * fmat4_src->m[1][3] * fmat4_src->m[3][1] -
+	     fmat4_src->m[0][1] * fmat4_src->m[1][0] * fmat4_src->m[3][3] +
+	     fmat4_src->m[0][0] * fmat4_src->m[1][1] * fmat4_src->m[3][3]) /
+	    det;
+	  fmat4_dst->m[2][3] =
+	    (fmat4_src->m[0][3] * fmat4_src->m[1][1] * fmat4_src->m[2][0] -
+	     fmat4_src->m[0][1] * fmat4_src->m[1][3] * fmat4_src->m[2][0] -
+	     fmat4_src->m[0][3] * fmat4_src->m[1][0] * fmat4_src->m[2][1] +
+	     fmat4_src->m[0][0] * fmat4_src->m[1][3] * fmat4_src->m[2][1] +
+	     fmat4_src->m[0][1] * fmat4_src->m[1][0] * fmat4_src->m[2][3] -
+	     fmat4_src->m[0][0] * fmat4_src->m[1][1] * fmat4_src->m[2][3]) /
+	    det;
+	  fmat4_dst->m[3][0] =
+	    (fmat4_src->m[1][2] * fmat4_src->m[2][1] * fmat4_src->m[3][0] -
+	     fmat4_src->m[1][1] * fmat4_src->m[2][2] * fmat4_src->m[3][0] -
+	     fmat4_src->m[1][2] * fmat4_src->m[2][0] * fmat4_src->m[3][1] +
+	     fmat4_src->m[1][0] * fmat4_src->m[2][2] * fmat4_src->m[3][1] +
+	     fmat4_src->m[1][1] * fmat4_src->m[2][0] * fmat4_src->m[3][2] -
+	     fmat4_src->m[1][0] * fmat4_src->m[2][1] * fmat4_src->m[3][2]) /
+	    det;
+	  fmat4_dst->m[3][1] =
+	    (fmat4_src->m[0][1] * fmat4_src->m[2][2] * fmat4_src->m[3][0] -
+	     fmat4_src->m[0][2] * fmat4_src->m[2][1] * fmat4_src->m[3][0] +
+	     fmat4_src->m[0][2] * fmat4_src->m[2][0] * fmat4_src->m[3][1] -
+	     fmat4_src->m[0][0] * fmat4_src->m[2][2] * fmat4_src->m[3][1] -
+	     fmat4_src->m[0][1] * fmat4_src->m[2][0] * fmat4_src->m[3][2] +
+	     fmat4_src->m[0][0] * fmat4_src->m[2][1] * fmat4_src->m[3][2]) /
+	    det;
+	  fmat4_dst->m[3][2] =
+	    (fmat4_src->m[0][2] * fmat4_src->m[1][1] * fmat4_src->m[3][0] -
+	     fmat4_src->m[0][1] * fmat4_src->m[1][2] * fmat4_src->m[3][0] -
+	     fmat4_src->m[0][2] * fmat4_src->m[1][0] * fmat4_src->m[3][1] +
+	     fmat4_src->m[0][0] * fmat4_src->m[1][2] * fmat4_src->m[3][1] +
+	     fmat4_src->m[0][1] * fmat4_src->m[1][0] * fmat4_src->m[3][2] -
+	     fmat4_src->m[0][0] * fmat4_src->m[1][1] * fmat4_src->m[3][2]) /
+	    det;
+	  fmat4_dst->m[3][3] =
+	    (fmat4_src->m[0][1] * fmat4_src->m[1][2] * fmat4_src->m[2][0] -
+	     fmat4_src->m[0][2] * fmat4_src->m[1][1] * fmat4_src->m[2][0] +
+	     fmat4_src->m[0][2] * fmat4_src->m[1][0] * fmat4_src->m[2][1] -
+	     fmat4_src->m[0][0] * fmat4_src->m[1][2] * fmat4_src->m[2][1] -
+	     fmat4_src->m[0][1] * fmat4_src->m[1][0] * fmat4_src->m[2][2] +
+	     fmat4_src->m[0][0] * fmat4_src->m[1][1] * fmat4_src->m[2][2]) /
+	    det;
+
+	  return 1;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_
+		      ("trying to invert non-invertible fmat4 matrix, determinant is 0"));
+	  /*
+	   * Putting identity in result, yes it's not optimal it's CPU
+	   * waste but in case matrix was not invertible, it the
+	   * problem will really show afterwards, and the result can
+	   * always be inverted again.
+	   */
+	  lw6mat_fmat4_id (fmat4_dst);
+
+	  return 0;
+	}
     }
 }
 

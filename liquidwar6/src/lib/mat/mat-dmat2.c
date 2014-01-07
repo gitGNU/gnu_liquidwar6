@@ -142,7 +142,8 @@ lw6mat_dmat2_scale (lw6mat_dmat2_t * dmat2, double f)
 /**
  * lw6mat_dmat2_inv
  *
- * @dmat2: the matrix to invert
+ * @dmat2_dst: the matrix inverted
+ * @dmat2_src: the matrix to invert
  *
  * Inverts a matrix. Probably not the fastest implementation, but
  * should work in all cases. Use hardware accelerated API such as
@@ -152,33 +153,52 @@ lw6mat_dmat2_scale (lw6mat_dmat2_t * dmat2, double f)
  * can not be inverted.
  */
 int
-lw6mat_dmat2_inv (lw6mat_dmat2_t * dmat2)
+lw6mat_dmat2_inv (lw6mat_dmat2_t * dmat2_dst,
+		  const lw6mat_dmat2_t * dmat2_src)
 {
-  double det = lw6mat_dmat2_det (dmat2);
-
-  if (det)
+  /*
+   * In case src and dst or the same, recursively call this
+   * with a tmp pivot to avoid wrecking source while writing
+   * destination.
+   */
+  if (dmat2_dst == dmat2_src)
     {
-      lw6mat_dmat2_t orig;
+      lw6mat_dmat2_t dmat2_tmp = *dmat2_src;
 
-      orig = (*dmat2);
-
-      /*
-       * Wooo I'm so lazy, got this one from :
-       * http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/twoD/
-       */
-      dmat2->m[0][0] = orig.m[1][1] / det;
-      dmat2->m[0][1] = -orig.m[0][1] / det;
-      dmat2->m[1][0] = -orig.m[1][0] / det;
-      dmat2->m[1][1] = orig.m[0][0] / det;
-
-      return 1;
+      return lw6mat_dmat2_inv (dmat2_dst, &dmat2_tmp);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_INFO,
-		  _x_
-		  ("trying to invert non-invertible dmat2 matrix, determinant is 0"));
-      return 0;
+      double det = lw6mat_dmat2_det (dmat2_src);
+
+      if (det)
+	{
+	  /*
+	   * Wooo I'm so lazy, got this one from :
+	   * http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/twoD/
+	   */
+	  dmat2_dst->m[0][0] = dmat2_src->m[1][1] / det;
+	  dmat2_dst->m[0][1] = -dmat2_src->m[0][1] / det;
+	  dmat2_dst->m[1][0] = -dmat2_src->m[1][0] / det;
+	  dmat2_dst->m[1][1] = dmat2_src->m[0][0] / det;
+
+	  return 1;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_
+		      ("trying to invert non-invertible dmat2 matrix, determinant is 0"));
+	  /*
+	   * Putting identity in result, yes it's not optimal it's CPU
+	   * waste but in case matrix was not invertible, it the
+	   * problem will really show afterwards, and the result can
+	   * always be inverted again.
+	   */
+	  lw6mat_dmat2_id (dmat2_dst);
+
+	  return 0;
+	}
     }
 }
 
