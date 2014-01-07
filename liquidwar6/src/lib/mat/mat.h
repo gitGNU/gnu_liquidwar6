@@ -1155,6 +1155,48 @@ extern void lw6mat_fmat4_mul_fmat4 (lw6mat_fmat4_t * fmat4,
 				    const lw6mat_fmat4_t * fmat4_b);
 extern char *lw6mat_fmat4_repr (const lw6mat_fmat4_t * fmat4);
 
+/* mat-dmat2.c */
+extern void lw6mat_dmat2_zero (lw6mat_dmat2_t * dmat2);
+extern void lw6mat_dmat2_id (lw6mat_dmat2_t * dmat2);
+extern int lw6mat_dmat2_is_same (const lw6mat_dmat2_t * dmat2_a,
+				 const lw6mat_dmat2_t * dmat2_b);
+extern void lw6mat_dmat2_trans (lw6mat_dmat2_t * dmat2);
+extern double lw6mat_dmat2_det (const lw6mat_dmat2_t * dmat2);
+extern void lw6mat_dmat2_scale (lw6mat_dmat2_t * dmat2, double f);
+extern int lw6mat_dmat2_inv (lw6mat_dmat2_t * dmat2);
+extern void lw6mat_dmat2_mul_dmat2 (lw6mat_dmat2_t * dmat2,
+				    const lw6mat_dmat2_t * dmat2_a,
+				    const lw6mat_dmat2_t * dmat2_b);
+extern char *lw6mat_dmat2_repr (const lw6mat_dmat2_t * dmat2);
+
+/* mat-dmat3.c */
+extern void lw6mat_dmat3_zero (lw6mat_dmat3_t * dmat3);
+extern void lw6mat_dmat3_id (lw6mat_dmat3_t * dmat3);
+extern int lw6mat_dmat3_is_same (const lw6mat_dmat3_t * dmat3_a,
+				 const lw6mat_dmat3_t * dmat3_b);
+extern void lw6mat_dmat3_trans (lw6mat_dmat3_t * dmat3);
+extern double lw6mat_dmat3_det (const lw6mat_dmat3_t * dmat3);
+extern void lw6mat_dmat3_scale (lw6mat_dmat3_t * dmat3, double f);
+extern int lw6mat_dmat3_inv (lw6mat_dmat3_t * dmat3);
+extern void lw6mat_dmat3_mul_dmat3 (lw6mat_dmat3_t * dmat3,
+				    const lw6mat_dmat3_t * dmat3_a,
+				    const lw6mat_dmat3_t * dmat3_b);
+extern char *lw6mat_dmat3_repr (const lw6mat_dmat3_t * dmat3);
+
+/* mat-dmat4.c */
+extern void lw6mat_dmat4_zero (lw6mat_dmat4_t * dmat4);
+extern void lw6mat_dmat4_id (lw6mat_dmat4_t * dmat4);
+extern int lw6mat_dmat4_is_same (const lw6mat_dmat4_t * dmat4_a,
+				 const lw6mat_dmat4_t * dmat4_b);
+extern void lw6mat_dmat4_trans (lw6mat_dmat4_t * dmat4);
+extern double lw6mat_dmat4_det (const lw6mat_dmat4_t * dmat4);
+extern void lw6mat_dmat4_scale (lw6mat_dmat4_t * dmat4, double f);
+extern int lw6mat_dmat4_inv (lw6mat_dmat4_t * dmat4);
+extern void lw6mat_dmat4_mul_dmat4 (lw6mat_dmat4_t * dmat4,
+				    const lw6mat_dmat4_t * dmat4_a,
+				    const lw6mat_dmat4_t * dmat4_b);
+extern char *lw6mat_dmat4_repr (const lw6mat_dmat4_t * dmat4);
+
 /* mat-test.c */
 extern int lw6mat_test_register (int mode);
 extern int lw6mat_test_run (int mode);

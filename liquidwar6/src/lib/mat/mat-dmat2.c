@@ -26,5 +26,210 @@
 
 #include "mat.h"
 
-// todo...
-int lw6mat_dmat2_todo = 0;
+/**
+ * lw6mat_dmat2_zero
+ *
+ * @dmat2: the matrix to initialize.
+ *
+ * Fills the matrix with zeros, regardless of what was there before.
+ * Internally, does a memset the only advantage is that this function
+ * should use the right sizeof and therefore avoids typo errors.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_dmat2_zero (lw6mat_dmat2_t * dmat2)
+{
+  memset (dmat2, 0, sizeof (lw6mat_dmat2_t));
+}
+
+/**
+ * lw6mat_dmat2_id
+ *
+ * @dmat2: the matrix to initialize.
+ *
+ * Loads the matrix with the identity matrix, that is, zero everywhere
+ * but one on the main diag.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_dmat2_id (lw6mat_dmat2_t * dmat2)
+{
+  dmat2->m[0][0] = LW6MAT_F_1;
+  dmat2->m[0][1] = LW6MAT_F_0;
+  dmat2->m[1][0] = LW6MAT_F_0;
+  dmat2->m[1][1] = LW6MAT_F_1;
+}
+
+/**
+ * lw6mat_dmat2_is_same
+ *
+ * @dmat2_a: 1st matrix to compare
+ * @dmat2_b: 2nd matrix to compare
+ *
+ * Compares two matrix, returns true if they are equal.
+ *
+ * Return value: 1 if equal, 0 if different.
+ */
+int
+lw6mat_dmat2_is_same (const lw6mat_dmat2_t * dmat2_a,
+		      const lw6mat_dmat2_t * dmat2_b)
+{
+  return (!memcmp
+	  ((void *) dmat2_a, (void *) dmat2_b, sizeof (lw6mat_dmat2_t)));
+}
+
+/**
+ * lw6mat_dmat2_trans
+ *
+ * @dmat2: the matrix to transpose
+ *
+ * Transposes the matrix, that is, inverts rows and columns.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_dmat2_trans (lw6mat_dmat2_t * dmat2)
+{
+  double tmp;
+
+  tmp = dmat2->m[1][0];
+  dmat2->m[1][0] = dmat2->m[0][1];
+  dmat2->m[0][1] = tmp;
+}
+
+/**
+ * lw6mat_dmat2_det
+ *
+ * @dmat2: the matrix used to calculate the determinant
+ *
+ * Calulates the determinant of the matrix.
+ *
+ * Return value: the determinant.
+ */
+double
+lw6mat_dmat2_det (const lw6mat_dmat2_t * dmat2)
+{
+  /*
+   * Wooo I'm so lazy, got this one from :
+   * http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/twoD/
+   */
+  return dmat2->m[0][0] * dmat2->m[1][1] - dmat2->m[0][1] * dmat2->m[1][0];
+}
+
+/**
+ * lw6mat_dmat2_scale
+ *
+ * @dmat2: matrix to modify
+ * @f: scale factor
+ *
+ * Scales the matrix by multiplying all its members by a scalar value.
+ *
+ * Return value: none
+ */
+void
+lw6mat_dmat2_scale (lw6mat_dmat2_t * dmat2, double f)
+{
+  int i;
+
+  for (i = 0; i < LW6MAT_MAT2_V_SIZE_4; ++i)
+    {
+      dmat2->v[i] *= f;
+    }
+}
+
+/**
+ * lw6mat_dmat2_inv
+ *
+ * @dmat2: the matrix to invert
+ *
+ * Inverts a matrix. Probably not the fastest implementation, but
+ * should work in all cases. Use hardware accelerated API such as
+ * OpenGL on dedicated hardware if you want power.
+ *
+ * Return value: 1 if inverted, 0 if error, typically if determinant was 0, matrix
+ * can not be inverted.
+ */
+int
+lw6mat_dmat2_inv (lw6mat_dmat2_t * dmat2)
+{
+  double det = lw6mat_dmat2_det (dmat2);
+
+  if (det)
+    {
+      lw6mat_dmat2_t orig;
+
+      orig = (*dmat2);
+
+      /*
+       * Wooo I'm so lazy, got this one from :
+       * http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/twoD/
+       */
+      dmat2->m[0][0] = orig.m[1][1] / det;
+      dmat2->m[0][1] = -orig.m[0][1] / det;
+      dmat2->m[1][0] = -orig.m[1][0] / det;
+      dmat2->m[1][1] = orig.m[0][0] / det;
+
+      return 1;
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_INFO,
+		  _x_
+		  ("trying to invert non-invertible dmat2 matrix, determinant is 0"));
+      return 0;
+    }
+}
+
+/**
+ * lw6mat_dmat2_mul_dmat2
+ *
+ * @dmat2: the result matrix
+ * @dmat2_a: the 1st matrix to multiply, on the left
+ * @dmat2_b: the 2nd matrix to multiply, on the right
+ *
+ * Classic matrix multiplication.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_dmat2_mul_dmat2 (lw6mat_dmat2_t * dmat2,
+			const lw6mat_dmat2_t * dmat2_a,
+			const lw6mat_dmat2_t * dmat2_b)
+{
+  int i, j;
+
+  for (i = 0; i < LW6MAT_MAT2_M_SIZE_2; ++i)
+    {
+      for (j = 0; j < LW6MAT_MAT2_M_SIZE_2; ++j)
+	{
+	  dmat2->m[i][j] = dmat2_a->m[0][j] * dmat2_b->m[i][0]
+	    + dmat2_a->m[1][j] * dmat2_b->m[i][1];
+	}
+    }
+}
+
+/**
+ * lw6mat_dmat2_repr
+ *
+ * @dmat: matrix to represent
+ * 
+ * Gives a readable version of the matrix, the representation
+ * uses newlines, with a different line for each row
+ *
+ * Return value: newly allocated string
+ */
+char *
+lw6mat_dmat2_repr (const lw6mat_dmat2_t * dmat2)
+{
+  char *repr = NULL;
+
+  repr =
+    lw6sys_new_sprintf ("%s %s %dx%d\n[ \t%f\t%f\n\t%f\t%f ]", LW6MAT_REPR_F,
+			LW6MAT_REPR_MAT, LW6MAT_MAT2_M_SIZE_2,
+			LW6MAT_MAT2_M_SIZE_2, dmat2->m[0][0], dmat2->m[1][0],
+			dmat2->m[0][1], dmat2->m[1][1]);
+
+  return repr;
+}
