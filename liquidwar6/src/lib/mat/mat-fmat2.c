@@ -58,10 +58,14 @@ lw6mat_fmat2_zero (lw6mat_fmat2_t * fmat2)
 void
 lw6mat_fmat2_id (lw6mat_fmat2_t * fmat2)
 {
+  int i;
+
   lw6mat_fmat2_zero (fmat2);
-  fmat2->m[0][0] = LW6MAT_F_1;
-  fmat2->m[1][1] = LW6MAT_F_1;
-  fmat2->m[2][2] = LW6MAT_F_1;
+
+  for (i = 0; i < LW6MAT_MAT2_M_SIZE_2; ++i)
+    {
+      fmat2->m[i][i] = LW6MAT_F_1;
+    }
 }
 
 /**
@@ -133,10 +137,12 @@ lw6mat_fmat2_det (const lw6mat_fmat2_t * fmat2)
 void
 lw6mat_fmat2_scale (lw6mat_fmat2_t * fmat2, float f)
 {
-  fmat2->m[0][0] *= f;
-  fmat2->m[0][1] *= f;
-  fmat2->m[1][0] *= f;
-  fmat2->m[1][1] *= f;
+  int i;
+
+  for (i = 0; i < LW6MAT_MAT2_V_SIZE_4; ++i)
+    {
+      fmat2->v[i] *= f;
+    }
 }
 
 /**
@@ -179,5 +185,34 @@ lw6mat_fmat2_inv (lw6mat_fmat2_t * fmat2)
 		  _x_
 		  ("trying to invert non-invertible fmat2 matrix, determinant is 0"));
       return 0;
+    }
+}
+
+/**
+ * lw6mat_fmat2_mul_fmat2
+ *
+ * @fmat2: the result matrix
+ * @fmat2_a: the 1st matrix to multiply, on the left
+ * @fmat2_b: the 2nd matrix to multiply, on the right
+ *
+ * Classic matrix multiplication.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_fmat2_mul_fmat2 (lw6mat_fmat2_t * fmat2,
+			const lw6mat_fmat2_t * fmat2_a,
+			const lw6mat_fmat2_t * fmat2_b)
+{
+  int i, j;
+
+  for (i = 0; i < LW6MAT_MAT2_M_SIZE_2; ++i)
+    {
+      for (j = 0; j < LW6MAT_MAT2_M_SIZE_2; ++j)
+	{
+	  fmat2->m[i][j] = fmat2_a->m[0][j] * fmat2_b->m[i][0]
+	    + fmat2_a->m[1][j] * fmat2_b->m[i][1]
+	    + fmat2_a->m[2][j] * fmat2_b->m[i][2];
+	}
     }
 }

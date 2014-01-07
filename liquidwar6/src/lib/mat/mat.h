@@ -42,6 +42,17 @@
 #define LW6MAT_D_1 1.0d
 #define LW6MAT_X_1 65536
 
+#define LW6MAT_VEC2_V_SIZE_2 2
+#define LW6MAT_VEC3_V_SIZE_3 3
+#define LW6MAT_VEC4_V_SIZE_4 4
+
+#define LW6MAT_MAT2_M_SIZE_2 2
+#define LW6MAT_MAT2_V_SIZE_4 4
+#define LW6MAT_MAT3_M_SIZE_3 3
+#define LW6MAT_MAT3_V_SIZE_9 9
+#define LW6MAT_MAT4_M_SIZE_4 4
+#define LW6MAT_MAT4_V_SIZE_16 16
+
 /*
  * Float API.
  */
@@ -64,7 +75,7 @@ typedef union
     float t;
   } t;
   /// Accessor with array index.
-  float v[2];
+  float v[LW6MAT_VEC2_V_SIZE_2];
 } lw6mat_fvec2_t;
 
 /**
@@ -94,7 +105,7 @@ typedef union
     float p;
   } t;
   /// Accessor with array index.
-  float v[3];
+  float v[LW6MAT_VEC3_V_SIZE_3];
   /// Accessor with smaller-sized vector, only 2 dimensions
   lw6mat_fvec2_t v2;
 } lw6mat_fvec3_t;
@@ -129,7 +140,7 @@ typedef union
     float q;
   } t;
   /// Accessor with array index.
-  float v[4];
+  float v[LW6MAT_VEC4_V_SIZE_4];
   /// Accessor with smaller-sized vector, only 2 dimensions
   lw6mat_fvec2_t v2;
   /// Accessor with smaller-sized vector, only 3 dimensions
@@ -141,8 +152,19 @@ typedef union
  */
 typedef union
 {
-  /// Accessor with array index.
-  float m[2][2];
+  /**
+   * Accessor with 2 dimensions array index.
+   * The convention is column-major mode as done in OpenGL
+   * so that m[i][j] is element at column i and row j.
+   * Beware, this is not the most natural order for a
+   * C programmer.
+   */
+  float m[LW6MAT_MAT2_M_SIZE_2][LW6MAT_MAT2_M_SIZE_2];
+  /**
+   * Accessor with flat array index. To access element
+   * a column i and row j, use i*4+j.
+   */
+  float v[LW6MAT_MAT2_V_SIZE_4];
 } lw6mat_fmat2_t;
 
 /**
@@ -150,8 +172,19 @@ typedef union
  */
 typedef union
 {
-  /// Accessor with array index.
-  float m[3][3];
+  /**
+   * Accessor with 2 dimensions array index.
+   * The convention is column-major mode as done in OpenGL
+   * so that m[i][j] is element at column i and row j.
+   * Beware, this is not the most natural order for a
+   * C programmer.
+   */
+  float m[LW6MAT_MAT3_M_SIZE_3][LW6MAT_MAT3_M_SIZE_3];
+  /**
+   * Accessor with flat array index. To access element
+   * a column i and row j, use i*3+j.
+   */
+  float v[LW6MAT_MAT3_V_SIZE_9];
 } lw6mat_fmat3_t;
 
 /**
@@ -159,8 +192,19 @@ typedef union
  */
 typedef union
 {
-  /// Accessor with array index.
-  float m[4][4];
+  /**
+   * Accessor with 2 dimensions array index.
+   * The convention is column-major mode as done in OpenGL
+   * so that m[i][j] is element at column i and row j.
+   * Beware, this is not the most natural order for a
+   * C programmer.
+   */
+  float m[LW6MAT_MAT4_M_SIZE_4][LW6MAT_MAT4_M_SIZE_4];
+  /**
+   * Accessor with flat array index. To access element
+   * a column i and row j, use i*4+j.
+   */
+  float v[LW6MAT_MAT4_V_SIZE_16];
 } lw6mat_fmat4_t;
 
 /*
@@ -185,7 +229,7 @@ typedef union
     int32_t t;
   } t;
   /// Accessor with array index.
-  int32_t v[2];
+  int32_t v[LW6MAT_VEC2_V_SIZE_2];
 } lw6mat_ivec2_t;
 
 /**
@@ -215,7 +259,7 @@ typedef union
     int32_t p;
   } t;
   /// Accessor with array index.
-  int32_t v[3];
+  int32_t v[LW6MAT_VEC3_V_SIZE_3];
 } lw6mat_ivec3_t;
 
 /**
@@ -248,7 +292,7 @@ typedef union
     int32_t q;
   } t;
   /// Accessor with array index.
-  int32_t v[4];
+  int32_t v[LW6MAT_VEC4_V_SIZE_4];
 } lw6mat_ivec4_t;
 
 /**
@@ -256,8 +300,19 @@ typedef union
  */
 typedef union
 {
-  /// Accessor with array index.
-  int32_t m[2][2];
+  /**
+   * Accessor with 2 dimensions array index.
+   * The convention is column-major mode as done in OpenGL
+   * so that m[i][j] is element at column i and row j.
+   * Beware, this is not the most natural order for a
+   * C programmer.
+   */
+  int32_t m[LW6MAT_MAT2_M_SIZE_2][LW6MAT_MAT2_M_SIZE_2];
+  /**
+   * Accessor with flat array index. To access element
+   * a column i and row j, use i*2+j.
+   */
+  int32_t v[LW6MAT_MAT2_V_SIZE_4];
 } lw6mat_imat2_t;
 
 /**
@@ -265,8 +320,19 @@ typedef union
  */
 typedef union
 {
-  /// Accessor with array index.
-  int32_t m[3][3];
+  /**
+   * Accessor with 2 dimensions array index.
+   * The convention is column-major mode as done in OpenGL
+   * so that m[i][j] is element at column i and row j.
+   * Beware, this is not the most natural order for a
+   * C programmer.
+   */
+  int32_t m[LW6MAT_MAT3_M_SIZE_3][LW6MAT_MAT3_M_SIZE_3];
+  /**
+   * Accessor with flat array index. To access element
+   * a column i and row j, use i*3+j.
+   */
+  int32_t v[LW6MAT_MAT3_V_SIZE_9];
 } lw6mat_imat3_t;
 
 /**
@@ -274,8 +340,19 @@ typedef union
  */
 typedef union
 {
-  /// Accessor with array index.
-  int32_t m[4][4];
+  /**
+   * Accessor with 2 dimensions array index.
+   * The convention is column-major mode as done in OpenGL
+   * so that m[i][j] is element at column i and row j.
+   * Beware, this is not the most natural order for a
+   * C programmer.
+   */
+  int32_t m[LW6MAT_MAT4_M_SIZE_4][LW6MAT_MAT4_M_SIZE_4];
+  /**
+   * Accessor with flat array index. To access element
+   * a column i and row j, use i*4+j.
+   */
+  int32_t v[LW6MAT_MAT4_V_SIZE_16];
 } lw6mat_imat4_t;
 
 /*
@@ -300,7 +377,7 @@ typedef union
     double t;
   } t;
   /// Accessor with array index.
-  double v[2];
+  double v[LW6MAT_VEC2_V_SIZE_2];
 } lw6mat_dvec2_t;
 
 /**
@@ -330,7 +407,7 @@ typedef union
     double p;
   } t;
   /// Accessor with array index.
-  double v[3];
+  double v[LW6MAT_VEC3_V_SIZE_3];
   /// Accessor with smaller-sized vector, only 2 dimensions
   lw6mat_dvec2_t v2;
 } lw6mat_dvec3_t;
@@ -365,7 +442,7 @@ typedef union
     double q;
   } t;
   /// Accessor with array index.
-  double v[4];
+  double v[LW6MAT_VEC4_V_SIZE_4];
   /// Accessor with smaller-sized vector, only 2 dimensions
   lw6mat_dvec2_t v2;
   /// Accessor with smaller-sized vector, only 3 dimensions
@@ -377,8 +454,19 @@ typedef union
  */
 typedef union
 {
-  /// Accessor with array index.
-  double m[2][2];
+  /**
+   * Accessor with 2 dimensions array index.
+   * The convention is column-major mode as done in OpenGL
+   * so that m[i][j] is element at column i and row j.
+   * Beware, this is not the most natural order for a
+   * C programmer.
+   */
+  double m[LW6MAT_MAT2_M_SIZE_2][LW6MAT_MAT2_M_SIZE_2];
+  /**
+   * Accessor with flat array index. To access element
+   * a column i and row j, use i*2+j.
+   */
+  double v[LW6MAT_MAT2_V_SIZE_4];
 } lw6mat_dmat2_t;
 
 /**
@@ -386,8 +474,19 @@ typedef union
  */
 typedef union
 {
-  /// Accessor with array index.
-  double m[3][3];
+  /**
+   * Accessor with 2 dimensions array index.
+   * The convention is column-major mode as done in OpenGL
+   * so that m[i][j] is element at column i and row j.
+   * Beware, this is not the most natural order for a
+   * C programmer.
+   */
+  double m[LW6MAT_MAT3_M_SIZE_3][LW6MAT_MAT3_M_SIZE_3];
+  /**
+   * Accessor with flat array index. To access element
+   * a column i and row j, use i*3+j.
+   */
+  double v[LW6MAT_MAT3_V_SIZE_9];
 } lw6mat_dmat3_t;
 
 /**
@@ -395,8 +494,19 @@ typedef union
  */
 typedef union
 {
-  /// Accessor with array index.
-  double m[4][4];
+  /**
+   * Accessor with 2 dimensions array index.
+   * The convention is column-major mode as done in OpenGL
+   * so that m[i][j] is element at column i and row j.
+   * Beware, this is not the most natural order for a
+   * C programmer.
+   */
+  double m[LW6MAT_MAT4_M_SIZE_4][LW6MAT_MAT4_M_SIZE_4];
+  /**
+   * Accessor with flat array index. To access element
+   * a column i and row j, use i*4+j.
+   */
+  double v[LW6MAT_MAT4_V_SIZE_16];
 } lw6mat_dmat4_t;
 
 /*
@@ -421,7 +531,7 @@ typedef union
     int32_t t;
   } t;
   /// Accessor with array index.
-  int32_t v[2];
+  int32_t v[LW6MAT_VEC2_V_SIZE_2];
 } lw6mat_xvec2_t;
 
 /**
@@ -451,7 +561,7 @@ typedef union
     int32_t p;
   } t;
   /// Accessor with array index.
-  int32_t v[3];
+  int32_t v[LW6MAT_VEC3_V_SIZE_3];
 } lw6mat_xvec3_t;
 
 /**
@@ -484,7 +594,7 @@ typedef union
     int32_t q;
   } t;
   /// Accessor with array index.
-  int32_t v[4];
+  int32_t v[LW6MAT_VEC4_V_SIZE_4];
 } lw6mat_xvec4_t;
 
 /**
@@ -492,8 +602,19 @@ typedef union
  */
 typedef union
 {
-  /// Accessor with array index.
-  int32_t m[2][2];
+  /**
+   * Accessor with 2 dimensions array index.
+   * The convention is column-major mode as done in OpenGL
+   * so that m[i][j] is element at column i and row j.
+   * Beware, this is not the most natural order for a
+   * C programmer.
+   */
+  int32_t m[LW6MAT_MAT2_M_SIZE_2][LW6MAT_MAT2_M_SIZE_2];
+  /**
+   * Accessor with flat array index. To access element
+   * a column i and row j, use i*2+j.
+   */
+  int32_t v[LW6MAT_MAT2_V_SIZE_4];
 } lw6mat_xmat2_t;
 
 /**
@@ -501,8 +622,19 @@ typedef union
  */
 typedef union
 {
-  /// Accessor with array index.
-  int32_t m[3][3];
+  /**
+   * Accessor with 2 dimensions array index.
+   * The convention is column-major mode as done in OpenGL
+   * so that m[i][j] is element at column i and row j.
+   * Beware, this is not the most natural order for a
+   * C programmer.
+   */
+  int32_t m[LW6MAT_MAT3_M_SIZE_3][LW6MAT_MAT3_M_SIZE_3];
+  /**
+   * Accessor with flat array index. To access element
+   * a column i and row j, use i*3+j.
+   */
+  int32_t v[LW6MAT_MAT3_V_SIZE_9];
 } lw6mat_xmat3_t;
 
 /**
@@ -510,9 +642,43 @@ typedef union
  */
 typedef union
 {
-  /// Accessor with array index.
-  int32_t m[4][4];
+  /**
+   * Accessor with 2 dimensions array index.
+   * The convention is column-major mode as done in OpenGL
+   * so that m[i][j] is element at column i and row j.
+   * Beware, this is not the most natural order for a
+   * C programmer.
+   */
+  int32_t m[LW6MAT_MAT4_M_SIZE_4][LW6MAT_MAT4_M_SIZE_4];
+  /**
+   * Accessor with flat array index. To access element
+   * a column i and row j, use i*4+j.
+   */
+  int32_t v[LW6MAT_MAT4_V_SIZE_16];
 } lw6mat_xmat4_t;
+
+/*
+ * Matrix index calculus. While you should probably
+ * not use this (use the built-in m[][] accessor instead
+ * they are provided to explicitly show memory layout.
+ */
+static inline int
+lw6mat_mat2_v_index (int i_row, int j_column)
+{
+  return i_row * 2 + j_column;
+}
+
+static inline int
+lw6mat_mat3_v_index (int i_row, int j_column)
+{
+  return i_row * 3 + j_column;
+}
+
+static inline int
+lw6mat_mat4_v_index (int i_row, int j_column)
+{
+  return i_row * 4 + j_column;
+}
 
 /*
  * Conversions.
@@ -939,6 +1105,45 @@ extern void lw6mat_xvec4_cross (lw6mat_xvec3_t * xvec3,
 				const lw6mat_xvec4_t * xvec4_a,
 				const lw6mat_xvec4_t * xvec4_b);
 extern void lw6mat_xvec4_scale (lw6mat_xvec4_t * xvec4, int32_t f);
+
+/* mat-fmat2.c */
+extern void lw6mat_fmat2_zero (lw6mat_fmat2_t * fmat2);
+extern void lw6mat_fmat2_id (lw6mat_fmat2_t * fmat2);
+extern int lw6mat_fmat2_is_same (const lw6mat_fmat2_t * fmat2_a,
+				 const lw6mat_fmat2_t * fmat2_b);
+extern void lw6mat_fmat2_trans (lw6mat_fmat2_t * fmat2);
+extern float lw6mat_fmat2_det (const lw6mat_fmat2_t * fmat2);
+extern void lw6mat_fmat2_scale (lw6mat_fmat2_t * fmat2, float f);
+extern int lw6mat_fmat2_inv (lw6mat_fmat2_t * fmat2);
+extern void lw6mat_fmat2_mul_fmat2 (lw6mat_fmat2_t * fmat2,
+				    const lw6mat_fmat2_t * fmat2_a,
+				    const lw6mat_fmat2_t * fmat2_b);
+
+/* mat-fmat3.c */
+extern void lw6mat_fmat3_zero (lw6mat_fmat3_t * fmat3);
+extern void lw6mat_fmat3_id (lw6mat_fmat3_t * fmat3);
+extern int lw6mat_fmat3_is_same (const lw6mat_fmat3_t * fmat3_a,
+				 const lw6mat_fmat3_t * fmat3_b);
+extern void lw6mat_fmat3_trans (lw6mat_fmat3_t * fmat3);
+extern float lw6mat_fmat3_det (const lw6mat_fmat3_t * fmat3);
+extern void lw6mat_fmat3_scale (lw6mat_fmat3_t * fmat3, float f);
+extern int lw6mat_fmat3_inv (lw6mat_fmat3_t * fmat3);
+extern void lw6mat_fmat3_mul_fmat3 (lw6mat_fmat3_t * fmat3,
+				    const lw6mat_fmat3_t * fmat3_a,
+				    const lw6mat_fmat3_t * fmat3_b);
+
+/* mat-fmat4.c */
+extern void lw6mat_fmat4_zero (lw6mat_fmat4_t * fmat4);
+extern void lw6mat_fmat4_id (lw6mat_fmat4_t * fmat4);
+extern int lw6mat_fmat4_is_same (const lw6mat_fmat4_t * fmat4_a,
+				 const lw6mat_fmat4_t * fmat4_b);
+extern void lw6mat_fmat4_trans (lw6mat_fmat4_t * fmat4);
+extern float lw6mat_fmat4_det (const lw6mat_fmat4_t * fmat4);
+extern void lw6mat_fmat4_scale (lw6mat_fmat4_t * fmat4, float f);
+extern int lw6mat_fmat4_inv (lw6mat_fmat4_t * fmat4);
+extern void lw6mat_fmat4_mul_fmat4 (lw6mat_fmat4_t * fmat4,
+				    const lw6mat_fmat4_t * fmat4_a,
+				    const lw6mat_fmat4_t * fmat4_b);
 
 /* mat-test.c */
 extern int lw6mat_test_register (int mode);
