@@ -137,6 +137,7 @@
 
 #define _TEST_FMAT_RANDOM_RANGE 1.5f
 #define _TEST_FMAT_RANDOM_ROUND 0.01f
+#define _TEST_FMAT_FILL_TOLERANCE 0.00001f
 #define _TEST_FMAT_DET_LIMIT 100.0f
 #define _TEST_FMAT_INVMUL_TOLERANCE 0.001f
 #define _TEST_FMAT_SCALE 4.0f
@@ -144,6 +145,7 @@
 
 #define _TEST_DMAT_RANDOM_RANGE 2.0f
 #define _TEST_DMAT_RANDOM_ROUND 0.01f
+#define _TEST_DMAT_FILL_TOLERANCE 0.000001f
 #define _TEST_DMAT_DET_LIMIT 100.0f
 #define _TEST_DMAT_INVMUL_TOLERANCE 0.0001f
 #define _TEST_DMAT_SCALE 4.0f
@@ -2054,7 +2056,8 @@ _test_fmat2 ()
 			  _TEST_FMAT_RANDOM_RANGE) /
 			 _TEST_FMAT_RANDOM_ROUND) * _TEST_FMAT_RANDOM_ROUND;
 		k = lw6mat_mat2_v_index (i, j);
-		if (fmat2.m[i][j] == fmat2.v[k])
+		if (fabs (fmat2.m[i][j] - fmat2.v[k]) <
+		    _TEST_FMAT_FILL_TOLERANCE)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -2290,7 +2293,8 @@ _test_fmat3 ()
 			  _TEST_FMAT_RANDOM_RANGE) /
 			 _TEST_FMAT_RANDOM_ROUND) * _TEST_FMAT_RANDOM_ROUND;
 		k = lw6mat_mat3_v_index (i, j);
-		if (fmat3.m[i][j] == fmat3.v[k])
+		if (fabs (fmat3.m[i][j] - fmat3.v[k]) <
+		    _TEST_FMAT_FILL_TOLERANCE)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -2527,7 +2531,8 @@ _test_fmat4 ()
 			  _TEST_FMAT_RANDOM_RANGE) /
 			 _TEST_FMAT_RANDOM_ROUND) * _TEST_FMAT_RANDOM_ROUND;
 		k = lw6mat_mat4_v_index (i, j);
-		if (fmat4.m[i][j] == fmat4.v[k])
+		if (fabs (fmat4.m[i][j] - fmat4.v[k]) <
+		    _TEST_FMAT_FILL_TOLERANCE)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -2765,7 +2770,8 @@ _test_dmat2 ()
 			  _TEST_DMAT_RANDOM_RANGE) /
 			 _TEST_DMAT_RANDOM_ROUND) * _TEST_DMAT_RANDOM_ROUND;
 		k = lw6mat_mat2_v_index (i, j);
-		if (dmat2.m[i][j] == dmat2.v[k])
+		if (fabs (dmat2.m[i][j] - dmat2.v[k]) <
+		    _TEST_DMAT_FILL_TOLERANCE)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -3001,7 +3007,8 @@ _test_dmat3 ()
 			  _TEST_DMAT_RANDOM_RANGE) /
 			 _TEST_DMAT_RANDOM_ROUND) * _TEST_DMAT_RANDOM_ROUND;
 		k = lw6mat_mat3_v_index (i, j);
-		if (dmat3.m[i][j] == dmat3.v[k])
+		if (fabs (dmat3.m[i][j] - dmat3.v[k]) <
+		    _TEST_DMAT_FILL_TOLERANCE)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -3238,7 +3245,8 @@ _test_dmat4 ()
 			  _TEST_DMAT_RANDOM_RANGE) /
 			 _TEST_DMAT_RANDOM_ROUND) * _TEST_DMAT_RANDOM_ROUND;
 		k = lw6mat_mat4_v_index (i, j);
-		if (dmat4.m[i][j] == dmat4.v[k])
+		if (fabs (dmat4.m[i][j] - dmat4.v[k]) <
+		    _TEST_DMAT_FILL_TOLERANCE)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
