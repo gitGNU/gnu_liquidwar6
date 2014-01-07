@@ -43,8 +43,6 @@ lw6mat_fmat3_zero (lw6mat_fmat3_t * fmat3)
   memset (fmat3, 0, sizeof (lw6mat_fmat3_t));
 }
 
-
-
 /**
  * lw6mat_fmat3_id
  *
@@ -98,11 +96,12 @@ lw6mat_fmat3_is_same (const lw6mat_fmat3_t * fmat3_a,
 void
 lw6mat_fmat3_trans (lw6mat_fmat3_t * fmat3)
 {
-  int i, j, tmp;
+  int i, j;
+  float tmp;
 
-  for (i = 1; i < 3; ++i)
+  for (i = 1; i < LW6MAT_MAT3_M_SIZE_3; ++i)
     {
-      for (j = 0; j < i - 1; ++j)
+      for (j = 0; j < i; ++j)
 	{
 	  tmp = fmat3->m[i][j];
 	  fmat3->m[i][j] = fmat3->m[j][i];
@@ -240,4 +239,30 @@ lw6mat_fmat3_mul_fmat3 (lw6mat_fmat3_t * fmat3,
 	    + fmat3_a->m[2][j] * fmat3_b->m[i][2];
 	}
     }
+}
+
+/**
+ * lw6mat_fmat3_repr
+ *
+ * @fmat: matrix to represent
+ * 
+ * Gives a readable version of the matrix, the representation
+ * uses newlines, with a different line for each row
+ *
+ * Return value: newly allocated string
+ */
+char *
+lw6mat_fmat3_repr (const lw6mat_fmat3_t * fmat3)
+{
+  char *repr = NULL;
+
+  repr =
+    lw6sys_new_sprintf
+    ("%s %s %dx%d\n[ \t%f\t%f\t%f\n\t%f\t%f\t%f\n\t%f\t%f\t%f ]",
+     LW6MAT_REPR_F, LW6MAT_REPR_MAT, LW6MAT_MAT3_M_SIZE_3,
+     LW6MAT_MAT3_M_SIZE_3, fmat3->m[0][0], fmat3->m[1][0], fmat3->m[2][0],
+     fmat3->m[0][1], fmat3->m[1][1], fmat3->m[2][1], fmat3->m[0][2],
+     fmat3->m[1][2], fmat3->m[2][2]);
+
+  return repr;
 }

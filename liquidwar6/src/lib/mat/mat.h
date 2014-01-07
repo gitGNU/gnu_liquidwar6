@@ -53,6 +53,13 @@
 #define LW6MAT_MAT4_M_SIZE_4 4
 #define LW6MAT_MAT4_V_SIZE_16 16
 
+#define LW6MAT_REPR_VEC "vector"
+#define LW6MAT_REPR_MAT "matrix"
+#define LW6MAT_REPR_F "float"
+#define LW6MAT_REPR_I "integer"
+#define LW6MAT_REPR_D "double"
+#define LW6MAT_REPR_X "fixed point"
+
 /*
  * Float API.
  */
@@ -612,7 +619,7 @@ typedef union
   int32_t m[LW6MAT_MAT2_M_SIZE_2][LW6MAT_MAT2_M_SIZE_2];
   /**
    * Accessor with flat array index. To access element
-   * a column i and row j, use i*2+j.
+   * a column i and row j, use i*3+j.
    */
   int32_t v[LW6MAT_MAT2_V_SIZE_4];
 } lw6mat_xmat2_t;
@@ -663,21 +670,21 @@ typedef union
  * they are provided to explicitly show memory layout.
  */
 static inline int
-lw6mat_mat2_v_index (int i_row, int j_column)
+lw6mat_mat2_v_index (int i_column, int j_row)
 {
-  return i_row * 2 + j_column;
+  return i_column * LW6MAT_MAT2_M_SIZE_2 + j_row;
 }
 
 static inline int
-lw6mat_mat3_v_index (int i_row, int j_column)
+lw6mat_mat3_v_index (int i_column, int j_row)
 {
-  return i_row * 3 + j_column;
+  return i_column * LW6MAT_MAT3_M_SIZE_3 + j_row;
 }
 
 static inline int
-lw6mat_mat4_v_index (int i_row, int j_column)
+lw6mat_mat4_v_index (int i_column, int j_row)
 {
-  return i_row * 4 + j_column;
+  return i_column * LW6MAT_MAT4_M_SIZE_4 + j_row;
 }
 
 /*
@@ -1118,6 +1125,7 @@ extern int lw6mat_fmat2_inv (lw6mat_fmat2_t * fmat2);
 extern void lw6mat_fmat2_mul_fmat2 (lw6mat_fmat2_t * fmat2,
 				    const lw6mat_fmat2_t * fmat2_a,
 				    const lw6mat_fmat2_t * fmat2_b);
+extern char *lw6mat_fmat2_repr (const lw6mat_fmat2_t * fmat2);
 
 /* mat-fmat3.c */
 extern void lw6mat_fmat3_zero (lw6mat_fmat3_t * fmat3);
@@ -1131,6 +1139,7 @@ extern int lw6mat_fmat3_inv (lw6mat_fmat3_t * fmat3);
 extern void lw6mat_fmat3_mul_fmat3 (lw6mat_fmat3_t * fmat3,
 				    const lw6mat_fmat3_t * fmat3_a,
 				    const lw6mat_fmat3_t * fmat3_b);
+extern char *lw6mat_fmat3_repr (const lw6mat_fmat3_t * fmat3);
 
 /* mat-fmat4.c */
 extern void lw6mat_fmat4_zero (lw6mat_fmat4_t * fmat4);
@@ -1144,6 +1153,7 @@ extern int lw6mat_fmat4_inv (lw6mat_fmat4_t * fmat4);
 extern void lw6mat_fmat4_mul_fmat4 (lw6mat_fmat4_t * fmat4,
 				    const lw6mat_fmat4_t * fmat4_a,
 				    const lw6mat_fmat4_t * fmat4_b);
+extern char *lw6mat_fmat4_repr (const lw6mat_fmat4_t * fmat4);
 
 /* mat-test.c */
 extern int lw6mat_test_register (int mode);

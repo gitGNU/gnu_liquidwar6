@@ -123,7 +123,7 @@ lw6sys_random_float (float min, float max)
   float ret = 0.0f;
 
   ret =
-    (((lw6sys_random (RANDOM_FLOAT_PRECISION) * (max - min))) /
+    ((((float) (lw6sys_random (RANDOM_FLOAT_PRECISION)) * (max - min))) /
      (float) RANDOM_FLOAT_PRECISION) + min;
 
   return ret;

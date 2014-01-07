@@ -135,6 +135,18 @@
 #define _TEST_DVEC4_CROSS_Y -1966080
 #define _TEST_DVEC4_CROSS_Z 1966080
 
+#define _TEST_FMAT_I_FACTOR 1.5f
+#define _TEST_FMAT_J_FACTOR -0.9f
+
+#define _TEST_FMAT_RANDOM_RANGE 1.5f
+#define _TEST_FMAT_RANDOM_ROUND 0.01f
+#define _TEST_FMAT_DET_LIMIT 100.0f
+#define _TEST_FMAT_INVMUL_TOLERANCE 0.001f
+#define _TEST_FMAT_SCALE 4.0f
+#define _TEST_FMAT_SCALE_TOLERANCE 1.0f
+
+#define _TEST_MAT_DET_0_NB_TRIES 100
+
 typedef struct _lw6mat_test_data_s
 {
   int ret;
@@ -376,7 +388,7 @@ _test_convert ()
 }
 
 static int
-_x_f_is_within_limit (float f, float limit_f)
+_f_is_within_limit (float f, float limit_f)
 {
   return (((f > -limit_f) && (f < -1.0 / limit_f))
 	  || ((f > 1.0f / limit_f) && (f < limit_f)));
@@ -409,12 +421,12 @@ _test_x ()
 	for (j = 0; j < _TEST_X_IN_N; ++j)
 	  {
 	    f = lw6mat_xtof (x_in[i]) * lw6mat_xtof (x_in[j]);
-	    if (_x_f_is_within_limit (f, _TEST_X_LIMIT_OUT_F))
+	    if (_f_is_within_limit (f, _TEST_X_LIMIT_OUT_F))
 	      {
-		if (_x_f_is_within_limit
+		if (_f_is_within_limit
 		    (lw6mat_xtof (x_in[i]), _TEST_X_LIMIT_IN_F)
-		    && _x_f_is_within_limit (lw6mat_xtof (x_in[j]),
-					     _TEST_X_LIMIT_IN_F))
+		    && _f_is_within_limit (lw6mat_xtof (x_in[j]),
+					   _TEST_X_LIMIT_IN_F))
 		  {
 		    x = lw6mat_x_mul_32 (x_in[i], x_in[j]);
 		    if (abs (x - lw6mat_ftox (f)) <=
@@ -472,12 +484,12 @@ _test_x ()
 			    lw6mat_xtof (x_in[i]), lw6mat_xtof (x_in[j]));
 	      }
 	    f = lw6mat_xtof (x_in[i]) / lw6mat_xtof (x_in[j]);
-	    if (_x_f_is_within_limit (f, _TEST_X_LIMIT_OUT_F))
+	    if (_f_is_within_limit (f, _TEST_X_LIMIT_OUT_F))
 	      {
-		if (_x_f_is_within_limit
+		if (_f_is_within_limit
 		    (lw6mat_xtof (x_in[i]), _TEST_X_LIMIT_IN_F)
-		    && _x_f_is_within_limit (lw6mat_xtof (x_in[j]),
-					     _TEST_X_LIMIT_IN_F))
+		    && _f_is_within_limit (lw6mat_xtof (x_in[j]),
+					   _TEST_X_LIMIT_IN_F))
 		  {
 		    x = lw6mat_x_div_32 (x_in[i], x_in[j]);
 		    if (abs (x - lw6mat_ftox (f)) <=
@@ -536,9 +548,9 @@ _test_x ()
 	      }
 	  }
 	f = LW6MAT_F_1 / lw6mat_xtof (x_in[i]);
-	if (_x_f_is_within_limit (f, _TEST_X_LIMIT_OUT_F))
+	if (_f_is_within_limit (f, _TEST_X_LIMIT_OUT_F))
 	  {
-	    if (_x_f_is_within_limit
+	    if (_f_is_within_limit
 		(lw6mat_xtof (x_in[i]), _TEST_X_LIMIT_IN_F))
 	      {
 		x = lw6mat_x_inv_32 (x_in[i]);
@@ -620,7 +632,7 @@ _test_fvec2 ()
     lw6mat_fvec2_zero (&fvec2);
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
-		("will try to normalize vector zero, following line should be a warning"));
+		("will try to normalize vector zero, following line should leave a trace in the log file"));
     if (lw6mat_fvec2_norm (&fvec2))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
@@ -820,7 +832,7 @@ _test_fvec3 ()
     lw6mat_fvec3_zero (&fvec3);
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
-		("will try to normalize vector zero, following line should be a warning"));
+		("will try to normalize vector zero, following line should leave a trace in the log file"));
     if (lw6mat_fvec3_norm (&fvec3))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
@@ -1024,7 +1036,7 @@ _test_fvec4 ()
     lw6mat_fvec4_zero (&fvec4);
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
-		("will try to normalize vector zero, following line should be a warning"));
+		("will try to normalize vector zero, following line should leave a trace in the log file"));
     if (lw6mat_fvec4_norm (&fvec4))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
@@ -1232,7 +1244,7 @@ _test_dvec2 ()
     lw6mat_dvec2_zero (&dvec2);
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
-		("will try to normalize vector zero, following line should be a warning"));
+		("will try to normalize vector zero, following line should leave a trace in the log file"));
     if (lw6mat_dvec2_norm (&dvec2))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
@@ -1432,7 +1444,7 @@ _test_dvec3 ()
     lw6mat_dvec3_zero (&dvec3);
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
-		("will try to normalize vector zero, following line should be a warning"));
+		("will try to normalize vector zero, following line should leave a trace in the log file"));
     if (lw6mat_dvec3_norm (&dvec3))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
@@ -1636,7 +1648,7 @@ _test_dvec4 ()
     lw6mat_dvec4_zero (&dvec4);
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
-		("will try to normalize vector zero, following line should be a warning"));
+		("will try to normalize vector zero, following line should leave a trace in the log file"));
     if (lw6mat_dvec4_norm (&dvec4))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
@@ -1824,6 +1836,243 @@ _test_dvec4 ()
 }
 
 static int
+_print_fmat4 (const lw6mat_fmat4_t * fmat4, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_fmat4_repr (fmat4);
+  if (repr)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat4 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate fmat4 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/*
+ * Testing functions in fmat4.c
+ */
+static void
+_test_fmat4 ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6mat_fmat4_t fmat4;
+    lw6mat_fmat4_t fmat4_inv;
+    lw6mat_fmat4_t fmat4_mul;
+    lw6mat_fmat4_t fmat4_id;
+    lw6mat_fmat4_t fmat4_trans;
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    float det = LW6MAT_F_0;
+    float det_scaled = LW6MAT_F_0;
+    float det_scaled_expected = LW6MAT_F_0;
+    int n = _TEST_MAT_DET_0_NB_TRIES;
+    int transposed = 0;
+
+    while ((!_f_is_within_limit (det, _TEST_FMAT_DET_LIMIT)) && n > 0)
+      {
+	lw6mat_fmat4_zero (&fmat4);
+	for (i = 0; i < LW6MAT_MAT4_M_SIZE_4; ++i)
+	  {
+	    for (j = 0; j < LW6MAT_MAT4_M_SIZE_4; ++j)
+	      {
+		fmat4.m[i][j] =
+		  round (lw6sys_random_float
+			 (-_TEST_FMAT_RANDOM_RANGE,
+			  _TEST_FMAT_RANDOM_RANGE) /
+			 _TEST_FMAT_RANDOM_ROUND) * _TEST_FMAT_RANDOM_ROUND;
+		k = lw6mat_mat4_v_index (i, j);
+		if (fmat4.m[i][j] == fmat4.v[k])
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("filled matrix fmat4 [column=%d][row=%d] (element %d) with %f"),
+				i, j, k, fmat4.m[i][j]);
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("problem filling matrix fmat4 [column=%d][row=%d]=%f but element %d is %f"),
+				i, j, fmat4.m[i][j], k, fmat4.v[k]);
+		    ret = 0;
+		  }
+	      }
+	  }
+	ret = _print_fmat4 (&fmat4, "init") && ret;
+	det = lw6mat_fmat4_det (&fmat4);
+	if (det)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat4 det=%f"), det);
+	  }
+	n--;
+      }
+
+    if (_f_is_within_limit (det, _TEST_FMAT_DET_LIMIT))
+      {
+	memset (&fmat4_inv, 0xff, sizeof (lw6mat_fmat4_t));
+	for (k = 0; k < LW6MAT_MAT4_V_SIZE_16; ++k)
+	  {
+	    fmat4_inv.v[k] = fmat4.v[k];
+	  }
+
+	if (lw6mat_fmat4_is_same (&fmat4, &fmat4_inv))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("fmat4 comparison works when equal"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("fmat4 comparison broken when equal"));
+	    ret = 0;
+	  }
+
+	fmat4_inv = fmat4;
+	if (lw6mat_fmat4_inv (&fmat4_inv))
+	  {
+	    ret = _print_fmat4 (&fmat4_inv, "inv") && ret;
+
+	    if (!lw6mat_fmat4_is_same (&fmat4, &fmat4_inv))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("fmat4 comparison works when different"));
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("fmat4 comparison broken when different"));
+		ret = 0;
+	      }
+
+	    lw6mat_fmat4_mul_fmat4 (&fmat4_mul, &fmat4_inv, &fmat4);
+	    ret = _print_fmat4 (&fmat4_mul, "mul") && ret;
+	    lw6mat_fmat4_id (&fmat4_id);
+	    for (k = 0; k < LW6MAT_MAT4_V_SIZE_16; ++k)
+	      {
+		if (fabs (fmat4_mul.v[k] - fmat4_id.v[k]) <
+		    _TEST_FMAT_INVMUL_TOLERANCE)
+		  {
+		    /*
+		     * OK, similar enough, we don't require exactness here, there
+		     * always rounding errors, and we're working on random tests sets
+		     */
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("fmat4_mul failed, element k is %f and should be %f"),
+				fmat4_mul.v[k], fmat4_id.v[k]);
+		    ret = 0;
+		  }
+	      }
+	    lw6mat_fmat4_scale (&fmat4, _TEST_FMAT_SCALE);
+	    ret = _print_fmat4 (&fmat4, "scale") && ret;
+	    det_scaled = lw6mat_fmat4_det (&fmat4);
+	    det_scaled_expected =
+	      det * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE *
+	      _TEST_FMAT_SCALE;
+	    if (fabs (det_scaled - det_scaled_expected) <
+		_TEST_FMAT_SCALE_TOLERANCE)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("determinant of scaled matrix (scale %f) is %f, orig was %f"),
+			    _TEST_FMAT_SCALE, det_scaled, det);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("determinant of scaled matrix (scale %f) is %f, orig was %f, this is not consistent, was expecting %f"),
+			    _TEST_FMAT_SCALE, det_scaled, det,
+			    det_scaled_expected);
+		ret = 0;
+	      }
+	    fmat4_trans = fmat4;
+	    lw6mat_fmat4_trans (&fmat4_trans);
+	    ret = _print_fmat4 (&fmat4_trans, "trans 1X") && ret;
+	    transposed = 1;
+	    for (i = 0; i < LW6MAT_MAT4_M_SIZE_4; ++i)
+	      {
+		for (j = 0; j < LW6MAT_MAT4_M_SIZE_4; ++j)
+		  {
+		    if (fmat4.m[i][j] == fmat4_trans.m[j][i])
+		      {
+			// OK
+		      }
+		    else
+		      {
+			lw6sys_log (LW6SYS_LOG_WARNING,
+				    _x_
+				    ("transposition mismatch for fmat4 orig:%d,%d=%f trans:%d,%d=%f"),
+				    i, j, fmat4.m[i][j], j, i,
+				    fmat4_trans.m[j][i]);
+			transposed = 0;
+			ret = 0;
+		      }
+		  }
+	      }
+	    if (transposed)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("orig and trans fmat4 correspond, OK"));
+		lw6mat_fmat4_trans (&fmat4_trans);
+		ret = _print_fmat4 (&fmat4_trans, "trans 2X") && ret;
+		if (lw6mat_fmat4_is_same (&fmat4, &fmat4_trans))
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("orig and double-trans fmat4 look the same, OK"));
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("orig and double-trans fmat4 look different"));
+		    ret = 0;
+		  }
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("transposed fmat4 is broken"));
+		ret = 0;
+	      }
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to inverse fmat4"));
+	    ret = 0;
+	  }
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("unable to produce an fmat4 matrix with a non-zero det"));
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
+static int
 _setup_init ()
 {
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libmat CUnit test suite"));
@@ -1872,6 +2121,9 @@ lw6mat_test_register (int mode)
       LW6SYS_CUNIT_ADD_TEST (suite, _test_dvec2);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_dvec3);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_dvec4);
+      //LW6SYS_CUNIT_ADD_TEST (suite, _test_fmat2);
+      //LW6SYS_CUNIT_ADD_TEST (suite, _test_fmat3);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_fmat4);
     }
   else
     {
