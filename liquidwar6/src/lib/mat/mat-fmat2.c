@@ -56,14 +56,10 @@ lw6mat_fmat2_zero (lw6mat_fmat2_t * fmat2)
 void
 lw6mat_fmat2_id (lw6mat_fmat2_t * fmat2)
 {
-  int i;
-
-  lw6mat_fmat2_zero (fmat2);
-
-  for (i = 0; i < LW6MAT_MAT2_M_SIZE_2; ++i)
-    {
-      fmat2->m[i][i] = LW6MAT_F_1;
-    }
+  fmat2->m[0][0] = LW6MAT_F_1;
+  fmat2->m[0][1] = LW6MAT_F_0;
+  fmat2->m[1][0] = LW6MAT_F_0;
+  fmat2->m[1][1] = LW6MAT_F_1;
 }
 
 /**
@@ -171,8 +167,8 @@ lw6mat_fmat2_inv (lw6mat_fmat2_t * fmat2)
        * http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/twoD/
        */
       fmat2->m[0][0] = orig.m[1][1] / det;
-      fmat2->m[0][1] = -orig.m[1][0] / det;
-      fmat2->m[1][0] = -orig.m[0][1] / det;
+      fmat2->m[0][1] = -orig.m[0][1] / det;
+      fmat2->m[1][0] = -orig.m[1][0] / det;
       fmat2->m[1][1] = orig.m[0][0] / det;
 
       return 1;
@@ -209,8 +205,7 @@ lw6mat_fmat2_mul_fmat2 (lw6mat_fmat2_t * fmat2,
       for (j = 0; j < LW6MAT_MAT2_M_SIZE_2; ++j)
 	{
 	  fmat2->m[i][j] = fmat2_a->m[0][j] * fmat2_b->m[i][0]
-	    + fmat2_a->m[1][j] * fmat2_b->m[i][1]
-	    + fmat2_a->m[2][j] * fmat2_b->m[i][2];
+	    + fmat2_a->m[1][j] * fmat2_b->m[i][1];
 	}
     }
 }
