@@ -881,6 +881,7 @@ extern void lw6mat_fvec2_cross (lw6mat_fvec3_t * fvec3,
 				const lw6mat_fvec2_t * fvec2_a,
 				const lw6mat_fvec2_t * fvec2_b);
 extern void lw6mat_fvec2_scale (lw6mat_fvec2_t * fvec2, float f);
+extern char *lw6mat_fvec2_repr (const lw6mat_fvec2_t * fvec2);
 
 /* mat-fvec3.c */
 extern void lw6mat_fvec3_zero (lw6mat_fvec3_t * fvec3);
@@ -902,6 +903,7 @@ extern void lw6mat_fvec3_cross (lw6mat_fvec3_t * fvec3,
 				const lw6mat_fvec3_t * fvec3_a,
 				const lw6mat_fvec3_t * fvec3_b);
 extern void lw6mat_fvec3_scale (lw6mat_fvec3_t * fvec3, float f);
+extern char *lw6mat_fvec3_repr (const lw6mat_fvec3_t * fvec3);
 
 /* mat-fvec4.c */
 extern void lw6mat_fvec4_zero (lw6mat_fvec4_t * fvec4);
@@ -923,6 +925,7 @@ extern void lw6mat_fvec4_cross (lw6mat_fvec3_t * fvec3,
 				const lw6mat_fvec4_t * fvec4_a,
 				const lw6mat_fvec4_t * fvec4_b);
 extern void lw6mat_fvec4_scale (lw6mat_fvec4_t * fvec4, float f);
+extern char *lw6mat_fvec4_repr (const lw6mat_fvec4_t * fvec4);
 
 /* mat-ivec2.c */
 extern void lw6mat_ivec2_zero (lw6mat_ivec2_t * ivec2);
@@ -944,6 +947,7 @@ extern void lw6mat_ivec2_cross (lw6mat_ivec3_t * ivec3,
 				const lw6mat_ivec2_t * ivec2_a,
 				const lw6mat_ivec2_t * ivec2_b);
 extern void lw6mat_ivec2_scale (lw6mat_ivec2_t * ivec2, int32_t f);
+extern char *lw6mat_ivec2_repr (const lw6mat_ivec2_t * ivec2);
 
 /* mat-ivec3.c */
 extern void lw6mat_ivec3_zero (lw6mat_ivec3_t * ivec3);
@@ -965,6 +969,7 @@ extern void lw6mat_ivec3_cross (lw6mat_ivec3_t * ivec3,
 				const lw6mat_ivec3_t * ivec3_a,
 				const lw6mat_ivec3_t * ivec3_b);
 extern void lw6mat_ivec3_scale (lw6mat_ivec3_t * ivec3, int32_t f);
+extern char *lw6mat_ivec3_repr (const lw6mat_ivec3_t * ivec3);
 
 /* mat-ivec4.c */
 extern void lw6mat_ivec4_zero (lw6mat_ivec4_t * ivec4);
@@ -986,6 +991,7 @@ extern void lw6mat_ivec4_cross (lw6mat_ivec3_t * ivec3,
 				const lw6mat_ivec4_t * ivec4_a,
 				const lw6mat_ivec4_t * ivec4_b);
 extern void lw6mat_ivec4_scale (lw6mat_ivec4_t * ivec4, int32_t f);
+extern char *lw6mat_ivec4_repr (const lw6mat_ivec3_t * ivec4);
 
 /* mat-dvec2.c */
 extern void lw6mat_dvec2_zero (lw6mat_dvec2_t * dvec2);
@@ -1007,6 +1013,7 @@ extern void lw6mat_dvec2_cross (lw6mat_dvec3_t * dvec3,
 				const lw6mat_dvec2_t * dvec2_a,
 				const lw6mat_dvec2_t * dvec2_b);
 extern void lw6mat_dvec2_scale (lw6mat_dvec2_t * dvec2, double f);
+extern char *lw6mat_dvec2_repr (const lw6mat_dvec2_t * dvec2);
 
 /* mat-dvec3.c */
 extern void lw6mat_dvec3_zero (lw6mat_dvec3_t * dvec3);
@@ -1028,6 +1035,7 @@ extern void lw6mat_dvec3_cross (lw6mat_dvec3_t * dvec3,
 				const lw6mat_dvec3_t * dvec3_a,
 				const lw6mat_dvec3_t * dvec3_b);
 extern void lw6mat_dvec3_scale (lw6mat_dvec3_t * dvec3, double f);
+extern char *lw6mat_dvec3_repr (const lw6mat_dvec3_t * dvec3);
 
 /* mat-dvec4.c */
 extern void lw6mat_dvec4_zero (lw6mat_dvec4_t * dvec4);
@@ -1049,6 +1057,7 @@ extern void lw6mat_dvec4_cross (lw6mat_dvec3_t * dvec3,
 				const lw6mat_dvec4_t * dvec4_a,
 				const lw6mat_dvec4_t * dvec4_b);
 extern void lw6mat_dvec4_scale (lw6mat_dvec4_t * dvec4, double f);
+extern char *lw6mat_dvec4_repr (const lw6mat_dvec4_t * dvec4);
 
 /* mat-xvec2.c */
 extern void lw6mat_xvec2_zero (lw6mat_xvec2_t * xvec2);
@@ -1070,6 +1079,7 @@ extern void lw6mat_xvec2_cross (lw6mat_xvec3_t * xvec3,
 				const lw6mat_xvec2_t * xvec2_a,
 				const lw6mat_xvec2_t * xvec2_b);
 extern void lw6mat_xvec2_scale (lw6mat_xvec2_t * xvec2, int32_t f);
+extern char *lw6mat_xvec2_repr (const lw6mat_xvec2_t * xvec2);
 
 /* mat-xvec3.c */
 extern void lw6mat_xvec3_zero (lw6mat_xvec3_t * xvec3);
@@ -1091,6 +1101,7 @@ extern void lw6mat_xvec3_cross (lw6mat_xvec3_t * xvec3,
 				const lw6mat_xvec3_t * xvec3_a,
 				const lw6mat_xvec3_t * xvec3_b);
 extern void lw6mat_xvec3_scale (lw6mat_xvec3_t * xvec3, int32_t f);
+extern char *lw6mat_xvec3_repr (const lw6mat_xvec3_t * xvec3);
 
 /* mat-xvec4.c */
 extern void lw6mat_xvec4_zero (lw6mat_xvec4_t * xvec4);
@@ -1112,6 +1123,7 @@ extern void lw6mat_xvec4_cross (lw6mat_xvec3_t * xvec3,
 				const lw6mat_xvec4_t * xvec4_a,
 				const lw6mat_xvec4_t * xvec4_b);
 extern void lw6mat_xvec4_scale (lw6mat_xvec4_t * xvec4, int32_t f);
+extern char *lw6mat_xvec4_repr (const lw6mat_xvec4_t * xvec4);
 
 /* mat-fmat2.c */
 extern void lw6mat_fmat2_zero (lw6mat_fmat2_t * fmat2);

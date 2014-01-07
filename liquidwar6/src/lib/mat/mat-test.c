@@ -615,6 +615,30 @@ _test_x ()
   LW6SYS_TEST_FUNCTION_END;
 }
 
+// utility to print a fvec2
+static int
+_print_fvec2 (const lw6mat_fvec2_t * fvec2, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_fvec2_repr (fvec2);
+  if (repr)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec2 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate fvec2 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
+}
+
 /*
  * Testing functions in fvec2.c
  */
@@ -655,6 +679,7 @@ _test_fvec2 ()
       }
     fvec2.p.x = _TEST_FVEC_X1;
     fvec2.p.y = _TEST_FVEC_Y1;
+    _print_fvec2 (&fvec2, "init");
     len_sq = lw6mat_fvec2_len_sq (&fvec2);
     if (lw6mat_ftox (len_sq) == _TEST_FVEC2_LEN_SQ)
       {
@@ -684,12 +709,12 @@ _test_fvec2 ()
 		    lw6mat_ftoi (len), lw6mat_ftox (len), _TEST_FVEC2_LEN);
 	ret = 0;
       }
-    lw6mat_fvec2_norm (&fvec2);
     if (!lw6mat_fvec2_norm (&fvec2))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 1;
       }
+    _print_fvec2 (&fvec2, "norm");
     len = lw6mat_fvec2_len (&fvec2);
     if (lw6mat_ftox (len) == LW6MAT_X_1)
       {
@@ -801,7 +826,7 @@ _test_fvec2 ()
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_
 		    ("cross product for fvec2 is (%d,%d,%d) -> bad, fixed point value is (%d,%d,%d) and shoud be (%d,%d,%d)"),
 		    lw6mat_ftoi (fvec3.p.x), lw6mat_ftoi (fvec3.p.y),
@@ -814,6 +839,30 @@ _test_fvec2 ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
+
+// utility to print a fvec3
+static int
+_print_fvec3 (const lw6mat_fvec3_t * fvec3, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_fvec3_repr (fvec3);
+  if (repr)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec3 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate fvec3 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
 }
 
 /*
@@ -856,6 +905,7 @@ _test_fvec3 ()
     fvec3.p.x = _TEST_FVEC_X1;
     fvec3.p.y = _TEST_FVEC_Y1;
     fvec3.p.z = _TEST_FVEC_Z1;
+    _print_fvec3 (&fvec3, "init");
     len_sq = lw6mat_fvec3_len_sq (&fvec3);
     if (lw6mat_ftox (len_sq) == _TEST_FVEC3_LEN_SQ)
       {
@@ -890,6 +940,7 @@ _test_fvec3 ()
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 1;
       }
+    _print_fvec3 (&fvec3, "norm");
     len = lw6mat_fvec3_len (&fvec3);
     if (lw6mat_ftox (len) == LW6MAT_X_1)
       {
@@ -1004,7 +1055,7 @@ _test_fvec3 ()
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_
 		    ("cross product for fvec3 is (%d,%d,%d) -> bad, fixed point value is (%d,%d,%d) and shoud be (%d,%d,%d)"),
 		    lw6mat_ftoi (fvec3.p.x), lw6mat_ftoi (fvec3.p.y),
@@ -1017,6 +1068,30 @@ _test_fvec3 ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
+
+// utility to print a fvec4
+static int
+_print_fvec4 (const lw6mat_fvec4_t * fvec4, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_fvec4_repr (fvec4);
+  if (repr)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec4 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate fvec4 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
 }
 
 /*
@@ -1061,6 +1136,7 @@ _test_fvec4 ()
     fvec4.p.y = _TEST_FVEC_Y1;
     fvec4.p.z = _TEST_FVEC_Z1;
     fvec4.p.w = _TEST_FVEC_W1;
+    _print_fvec4 (&fvec4, "init");
     len_sq = lw6mat_fvec4_len_sq (&fvec4);
     if (lw6mat_ftox (len_sq) == _TEST_FVEC4_LEN_SQ)
       {
@@ -1095,6 +1171,7 @@ _test_fvec4 ()
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 1;
       }
+    _print_fvec4 (&fvec4, "norm");
     len = lw6mat_fvec4_len (&fvec4);
     if (lw6mat_ftox (len) == LW6MAT_X_1)
       {
@@ -1212,7 +1289,7 @@ _test_fvec4 ()
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_
 		    ("cross product for fvec4 is (%d,%d,%d) -> bad, fixed point value is (%d,%d,%d) and shoud be (%d,%d,%d)"),
 		    lw6mat_ftoi (fvec3.p.x), lw6mat_ftoi (fvec3.p.y),
@@ -1225,6 +1302,30 @@ _test_fvec4 ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
+
+// utility to print a dvec2
+static int
+_print_dvec2 (const lw6mat_dvec2_t * dvec2, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_dvec2_repr (dvec2);
+  if (repr)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec2 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate dvec2 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
 }
 
 /*
@@ -1267,6 +1368,7 @@ _test_dvec2 ()
       }
     dvec2.p.x = _TEST_DVEC_X1;
     dvec2.p.y = _TEST_DVEC_Y1;
+    _print_dvec2 (&dvec2, "init");
     len_sq = lw6mat_dvec2_len_sq (&dvec2);
     if (lw6mat_dtox (len_sq) == _TEST_DVEC2_LEN_SQ)
       {
@@ -1296,12 +1398,12 @@ _test_dvec2 ()
 		    lw6mat_dtoi (len), lw6mat_dtox (len), _TEST_DVEC2_LEN);
 	ret = 0;
       }
-    lw6mat_dvec2_norm (&dvec2);
     if (!lw6mat_dvec2_norm (&dvec2))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 1;
       }
+    _print_dvec2 (&dvec2, "norm");
     len = lw6mat_dvec2_len (&dvec2);
     if (lw6mat_dtox (len) == LW6MAT_X_1)
       {
@@ -1413,19 +1515,43 @@ _test_dvec2 ()
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_
 		    ("cross product for dvec2 is (%d,%d,%d) -> bad, fixed point value is (%d,%d,%d) and shoud be (%d,%d,%d)"),
 		    lw6mat_dtoi (dvec3.p.x), lw6mat_dtoi (dvec3.p.y),
 		    lw6mat_dtoi (dvec3.p.z), lw6mat_dtox (dvec3.p.x),
 		    lw6mat_dtox (dvec3.p.y), lw6mat_dtox (dvec3.p.z),
-		    _TEST_FVEC2_CROSS_X, _TEST_FVEC2_CROSS_Y,
-		    _TEST_FVEC2_CROSS_Z);
+		    _TEST_DVEC2_CROSS_X, _TEST_DVEC2_CROSS_Y,
+		    _TEST_DVEC2_CROSS_Z);
 	ret = 0;
       }
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
+
+// utility to print a dvec3
+static int
+_print_dvec3 (const lw6mat_dvec3_t * dvec3, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_dvec3_repr (dvec3);
+  if (repr)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec3 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate dvec3 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
 }
 
 /*
@@ -1468,6 +1594,7 @@ _test_dvec3 ()
     dvec3.p.x = _TEST_DVEC_X1;
     dvec3.p.y = _TEST_DVEC_Y1;
     dvec3.p.z = _TEST_DVEC_Z1;
+    _print_dvec3 (&dvec3, "init");
     len_sq = lw6mat_dvec3_len_sq (&dvec3);
     if (lw6mat_dtox (len_sq) == _TEST_DVEC3_LEN_SQ)
       {
@@ -1502,6 +1629,7 @@ _test_dvec3 ()
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 1;
       }
+    _print_dvec3 (&dvec3, "norm");
     len = lw6mat_dvec3_len (&dvec3);
     if (lw6mat_dtox (len) == LW6MAT_X_1)
       {
@@ -1616,7 +1744,7 @@ _test_dvec3 ()
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_
 		    ("cross product for dvec3 is (%d,%d,%d) -> bad, fixed point value is (%d,%d,%d) and shoud be (%d,%d,%d)"),
 		    lw6mat_dtoi (dvec3.p.x), lw6mat_dtoi (dvec3.p.y),
@@ -1629,6 +1757,30 @@ _test_dvec3 ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
+}
+
+// utility to print a dvec4
+static int
+_print_dvec4 (const lw6mat_dvec4_t * dvec4, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_dvec4_repr (dvec4);
+  if (repr)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec4 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate dvec4 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
 }
 
 /*
@@ -1673,6 +1825,7 @@ _test_dvec4 ()
     dvec4.p.y = _TEST_DVEC_Y1;
     dvec4.p.z = _TEST_DVEC_Z1;
     dvec4.p.w = _TEST_DVEC_W1;
+    _print_dvec4 (&dvec4, "init");
     len_sq = lw6mat_dvec4_len_sq (&dvec4);
     if (lw6mat_dtox (len_sq) == _TEST_DVEC4_LEN_SQ)
       {
@@ -1707,6 +1860,7 @@ _test_dvec4 ()
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 1;
       }
+    _print_dvec4 (&dvec4, "norm");
     len = lw6mat_dvec4_len (&dvec4);
     if (lw6mat_dtox (len) == LW6MAT_X_1)
       {
@@ -1824,7 +1978,7 @@ _test_dvec4 ()
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_
 		    ("cross product for dvec4 is (%d,%d,%d) -> bad, fixed point value is (%d,%d,%d) and shoud be (%d,%d,%d)"),
 		    lw6mat_dtoi (dvec3.p.x), lw6mat_dtoi (dvec3.p.y),

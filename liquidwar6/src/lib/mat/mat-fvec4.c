@@ -248,3 +248,25 @@ lw6mat_fvec4_scale (lw6mat_fvec4_t * fvec4, float f)
   fvec4->p.z *= f;
   fvec4->p.w *= f;
 }
+
+/**
+ * lw6mat_fvec4_repr
+ *
+ * @fvec: vector to represent
+ * 
+ * Gives a readable version of the vector
+ *
+ * Return value: newly allocated string
+ */
+char *
+lw6mat_fvec4_repr (const lw6mat_fvec4_t * fvec4)
+{
+  char *repr = NULL;
+
+  repr =
+    lw6sys_new_sprintf ("%s %s %d [ %f %f %f %f ]", LW6MAT_REPR_F,
+			LW6MAT_REPR_VEC, LW6MAT_VEC4_V_SIZE, fvec4->v[0],
+			fvec4->v[1], fvec4->v[2], fvec4->v[3]);
+
+  return repr;
+}

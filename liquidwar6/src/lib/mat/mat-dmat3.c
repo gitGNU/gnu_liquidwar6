@@ -62,7 +62,7 @@ lw6mat_dmat3_id (lw6mat_dmat3_t * dmat3)
 
   for (i = 0; i < LW6MAT_MAT3_M_SIZE; ++i)
     {
-      dmat3->m[i][i] = LW6MAT_F_1;
+      dmat3->m[i][i] = LW6MAT_D_1;
     }
 }
 
@@ -259,7 +259,7 @@ lw6mat_dmat3_repr (const lw6mat_dmat3_t * dmat3)
   repr =
     lw6sys_new_sprintf
     ("%s %s %dx%d\n[ \t%f\t%f\t%f\n\t%f\t%f\t%f\n\t%f\t%f\t%f ]",
-     LW6MAT_REPR_F, LW6MAT_REPR_MAT, LW6MAT_MAT3_M_SIZE,
+     LW6MAT_REPR_D, LW6MAT_REPR_MAT, LW6MAT_MAT3_M_SIZE,
      LW6MAT_MAT3_M_SIZE, dmat3->m[0][0], dmat3->m[1][0], dmat3->m[2][0],
      dmat3->m[0][1], dmat3->m[1][1], dmat3->m[2][1], dmat3->m[0][2],
      dmat3->m[1][2], dmat3->m[2][2]);

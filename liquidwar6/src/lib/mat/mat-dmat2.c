@@ -56,10 +56,10 @@ lw6mat_dmat2_zero (lw6mat_dmat2_t * dmat2)
 void
 lw6mat_dmat2_id (lw6mat_dmat2_t * dmat2)
 {
-  dmat2->m[0][0] = LW6MAT_F_1;
-  dmat2->m[0][1] = LW6MAT_F_0;
-  dmat2->m[1][0] = LW6MAT_F_0;
-  dmat2->m[1][1] = LW6MAT_F_1;
+  dmat2->m[0][0] = LW6MAT_D_1;
+  dmat2->m[0][1] = LW6MAT_D_0;
+  dmat2->m[1][0] = LW6MAT_D_0;
+  dmat2->m[1][1] = LW6MAT_D_1;
 }
 
 /**
@@ -226,7 +226,7 @@ lw6mat_dmat2_repr (const lw6mat_dmat2_t * dmat2)
   char *repr = NULL;
 
   repr =
-    lw6sys_new_sprintf ("%s %s %dx%d\n[ \t%f\t%f\n\t%f\t%f ]", LW6MAT_REPR_F,
+    lw6sys_new_sprintf ("%s %s %dx%d\n[ \t%f\t%f\n\t%f\t%f ]", LW6MAT_REPR_D,
 			LW6MAT_REPR_MAT, LW6MAT_MAT2_M_SIZE,
 			LW6MAT_MAT2_M_SIZE, dmat2->m[0][0], dmat2->m[1][0],
 			dmat2->m[0][1], dmat2->m[1][1]);
