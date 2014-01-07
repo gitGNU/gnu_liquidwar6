@@ -42,16 +42,16 @@
 #define LW6MAT_D_1 1.0d
 #define LW6MAT_X_1 65536
 
-#define LW6MAT_VEC2_V_SIZE_2 2
-#define LW6MAT_VEC3_V_SIZE_3 3
-#define LW6MAT_VEC4_V_SIZE_4 4
+#define LW6MAT_VEC2_V_SIZE 2
+#define LW6MAT_VEC3_V_SIZE 3
+#define LW6MAT_VEC4_V_SIZE 4
 
-#define LW6MAT_MAT2_M_SIZE_2 2
-#define LW6MAT_MAT2_V_SIZE_4 4
-#define LW6MAT_MAT3_M_SIZE_3 3
-#define LW6MAT_MAT3_V_SIZE_9 9
-#define LW6MAT_MAT4_M_SIZE_4 4
-#define LW6MAT_MAT4_V_SIZE_16 16
+#define LW6MAT_MAT2_M_SIZE 2
+#define LW6MAT_MAT2_V_SIZE_X_SIZE 4
+#define LW6MAT_MAT3_M_SIZE 3
+#define LW6MAT_MAT3_V_SIZE_X_SIZE 9
+#define LW6MAT_MAT4_M_SIZE 4
+#define LW6MAT_MAT4_V_SIZE_X_SIZE 16
 
 #define LW6MAT_REPR_VEC "vector"
 #define LW6MAT_REPR_MAT "matrix"
@@ -82,7 +82,7 @@ typedef union
     float t;
   } t;
   /// Accessor with array index.
-  float v[LW6MAT_VEC2_V_SIZE_2];
+  float v[LW6MAT_VEC2_V_SIZE];
 } lw6mat_fvec2_t;
 
 /**
@@ -112,7 +112,7 @@ typedef union
     float p;
   } t;
   /// Accessor with array index.
-  float v[LW6MAT_VEC3_V_SIZE_3];
+  float v[LW6MAT_VEC3_V_SIZE];
   /// Accessor with smaller-sized vector, only 2 dimensions
   lw6mat_fvec2_t v2;
 } lw6mat_fvec3_t;
@@ -147,7 +147,7 @@ typedef union
     float q;
   } t;
   /// Accessor with array index.
-  float v[LW6MAT_VEC4_V_SIZE_4];
+  float v[LW6MAT_VEC4_V_SIZE];
   /// Accessor with smaller-sized vector, only 2 dimensions
   lw6mat_fvec2_t v2;
   /// Accessor with smaller-sized vector, only 3 dimensions
@@ -166,12 +166,12 @@ typedef union
    * Beware, this is not the most natural order for a
    * C programmer.
    */
-  float m[LW6MAT_MAT2_M_SIZE_2][LW6MAT_MAT2_M_SIZE_2];
+  float m[LW6MAT_MAT2_M_SIZE][LW6MAT_MAT2_M_SIZE];
   /**
    * Accessor with flat array index. To access element
    * a column i and row j, use i*4+j.
    */
-  float v[LW6MAT_MAT2_V_SIZE_4];
+  float v[LW6MAT_MAT2_V_SIZE_X_SIZE];
 } lw6mat_fmat2_t;
 
 /**
@@ -186,12 +186,12 @@ typedef union
    * Beware, this is not the most natural order for a
    * C programmer.
    */
-  float m[LW6MAT_MAT3_M_SIZE_3][LW6MAT_MAT3_M_SIZE_3];
+  float m[LW6MAT_MAT3_M_SIZE][LW6MAT_MAT3_M_SIZE];
   /**
    * Accessor with flat array index. To access element
    * a column i and row j, use i*3+j.
    */
-  float v[LW6MAT_MAT3_V_SIZE_9];
+  float v[LW6MAT_MAT3_V_SIZE_X_SIZE];
 } lw6mat_fmat3_t;
 
 /**
@@ -206,12 +206,12 @@ typedef union
    * Beware, this is not the most natural order for a
    * C programmer.
    */
-  float m[LW6MAT_MAT4_M_SIZE_4][LW6MAT_MAT4_M_SIZE_4];
+  float m[LW6MAT_MAT4_M_SIZE][LW6MAT_MAT4_M_SIZE];
   /**
    * Accessor with flat array index. To access element
    * a column i and row j, use i*4+j.
    */
-  float v[LW6MAT_MAT4_V_SIZE_16];
+  float v[LW6MAT_MAT4_V_SIZE_X_SIZE];
 } lw6mat_fmat4_t;
 
 /*
@@ -236,7 +236,7 @@ typedef union
     int32_t t;
   } t;
   /// Accessor with array index.
-  int32_t v[LW6MAT_VEC2_V_SIZE_2];
+  int32_t v[LW6MAT_VEC2_V_SIZE];
 } lw6mat_ivec2_t;
 
 /**
@@ -266,7 +266,7 @@ typedef union
     int32_t p;
   } t;
   /// Accessor with array index.
-  int32_t v[LW6MAT_VEC3_V_SIZE_3];
+  int32_t v[LW6MAT_VEC3_V_SIZE];
 } lw6mat_ivec3_t;
 
 /**
@@ -299,7 +299,7 @@ typedef union
     int32_t q;
   } t;
   /// Accessor with array index.
-  int32_t v[LW6MAT_VEC4_V_SIZE_4];
+  int32_t v[LW6MAT_VEC4_V_SIZE];
 } lw6mat_ivec4_t;
 
 /**
@@ -314,12 +314,12 @@ typedef union
    * Beware, this is not the most natural order for a
    * C programmer.
    */
-  int32_t m[LW6MAT_MAT2_M_SIZE_2][LW6MAT_MAT2_M_SIZE_2];
+  int32_t m[LW6MAT_MAT2_M_SIZE][LW6MAT_MAT2_M_SIZE];
   /**
    * Accessor with flat array index. To access element
    * a column i and row j, use i*2+j.
    */
-  int32_t v[LW6MAT_MAT2_V_SIZE_4];
+  int32_t v[LW6MAT_MAT2_V_SIZE_X_SIZE];
 } lw6mat_imat2_t;
 
 /**
@@ -334,12 +334,12 @@ typedef union
    * Beware, this is not the most natural order for a
    * C programmer.
    */
-  int32_t m[LW6MAT_MAT3_M_SIZE_3][LW6MAT_MAT3_M_SIZE_3];
+  int32_t m[LW6MAT_MAT3_M_SIZE][LW6MAT_MAT3_M_SIZE];
   /**
    * Accessor with flat array index. To access element
    * a column i and row j, use i*3+j.
    */
-  int32_t v[LW6MAT_MAT3_V_SIZE_9];
+  int32_t v[LW6MAT_MAT3_V_SIZE_X_SIZE];
 } lw6mat_imat3_t;
 
 /**
@@ -354,12 +354,12 @@ typedef union
    * Beware, this is not the most natural order for a
    * C programmer.
    */
-  int32_t m[LW6MAT_MAT4_M_SIZE_4][LW6MAT_MAT4_M_SIZE_4];
+  int32_t m[LW6MAT_MAT4_M_SIZE][LW6MAT_MAT4_M_SIZE];
   /**
    * Accessor with flat array index. To access element
    * a column i and row j, use i*4+j.
    */
-  int32_t v[LW6MAT_MAT4_V_SIZE_16];
+  int32_t v[LW6MAT_MAT4_V_SIZE_X_SIZE];
 } lw6mat_imat4_t;
 
 /*
@@ -384,7 +384,7 @@ typedef union
     double t;
   } t;
   /// Accessor with array index.
-  double v[LW6MAT_VEC2_V_SIZE_2];
+  double v[LW6MAT_VEC2_V_SIZE];
 } lw6mat_dvec2_t;
 
 /**
@@ -414,7 +414,7 @@ typedef union
     double p;
   } t;
   /// Accessor with array index.
-  double v[LW6MAT_VEC3_V_SIZE_3];
+  double v[LW6MAT_VEC3_V_SIZE];
   /// Accessor with smaller-sized vector, only 2 dimensions
   lw6mat_dvec2_t v2;
 } lw6mat_dvec3_t;
@@ -449,7 +449,7 @@ typedef union
     double q;
   } t;
   /// Accessor with array index.
-  double v[LW6MAT_VEC4_V_SIZE_4];
+  double v[LW6MAT_VEC4_V_SIZE];
   /// Accessor with smaller-sized vector, only 2 dimensions
   lw6mat_dvec2_t v2;
   /// Accessor with smaller-sized vector, only 3 dimensions
@@ -468,12 +468,12 @@ typedef union
    * Beware, this is not the most natural order for a
    * C programmer.
    */
-  double m[LW6MAT_MAT2_M_SIZE_2][LW6MAT_MAT2_M_SIZE_2];
+  double m[LW6MAT_MAT2_M_SIZE][LW6MAT_MAT2_M_SIZE];
   /**
    * Accessor with flat array index. To access element
    * a column i and row j, use i*2+j.
    */
-  double v[LW6MAT_MAT2_V_SIZE_4];
+  double v[LW6MAT_MAT2_V_SIZE_X_SIZE];
 } lw6mat_dmat2_t;
 
 /**
@@ -488,12 +488,12 @@ typedef union
    * Beware, this is not the most natural order for a
    * C programmer.
    */
-  double m[LW6MAT_MAT3_M_SIZE_3][LW6MAT_MAT3_M_SIZE_3];
+  double m[LW6MAT_MAT3_M_SIZE][LW6MAT_MAT3_M_SIZE];
   /**
    * Accessor with flat array index. To access element
    * a column i and row j, use i*3+j.
    */
-  double v[LW6MAT_MAT3_V_SIZE_9];
+  double v[LW6MAT_MAT3_V_SIZE_X_SIZE];
 } lw6mat_dmat3_t;
 
 /**
@@ -508,12 +508,12 @@ typedef union
    * Beware, this is not the most natural order for a
    * C programmer.
    */
-  double m[LW6MAT_MAT4_M_SIZE_4][LW6MAT_MAT4_M_SIZE_4];
+  double m[LW6MAT_MAT4_M_SIZE][LW6MAT_MAT4_M_SIZE];
   /**
    * Accessor with flat array index. To access element
    * a column i and row j, use i*4+j.
    */
-  double v[LW6MAT_MAT4_V_SIZE_16];
+  double v[LW6MAT_MAT4_V_SIZE_X_SIZE];
 } lw6mat_dmat4_t;
 
 /*
@@ -538,7 +538,7 @@ typedef union
     int32_t t;
   } t;
   /// Accessor with array index.
-  int32_t v[LW6MAT_VEC2_V_SIZE_2];
+  int32_t v[LW6MAT_VEC2_V_SIZE];
 } lw6mat_xvec2_t;
 
 /**
@@ -568,7 +568,7 @@ typedef union
     int32_t p;
   } t;
   /// Accessor with array index.
-  int32_t v[LW6MAT_VEC3_V_SIZE_3];
+  int32_t v[LW6MAT_VEC3_V_SIZE];
 } lw6mat_xvec3_t;
 
 /**
@@ -601,7 +601,7 @@ typedef union
     int32_t q;
   } t;
   /// Accessor with array index.
-  int32_t v[LW6MAT_VEC4_V_SIZE_4];
+  int32_t v[LW6MAT_VEC4_V_SIZE];
 } lw6mat_xvec4_t;
 
 /**
@@ -616,12 +616,12 @@ typedef union
    * Beware, this is not the most natural order for a
    * C programmer.
    */
-  int32_t m[LW6MAT_MAT2_M_SIZE_2][LW6MAT_MAT2_M_SIZE_2];
+  int32_t m[LW6MAT_MAT2_M_SIZE][LW6MAT_MAT2_M_SIZE];
   /**
    * Accessor with flat array index. To access element
    * a column i and row j, use i*3+j.
    */
-  int32_t v[LW6MAT_MAT2_V_SIZE_4];
+  int32_t v[LW6MAT_MAT2_V_SIZE_X_SIZE];
 } lw6mat_xmat2_t;
 
 /**
@@ -636,12 +636,12 @@ typedef union
    * Beware, this is not the most natural order for a
    * C programmer.
    */
-  int32_t m[LW6MAT_MAT3_M_SIZE_3][LW6MAT_MAT3_M_SIZE_3];
+  int32_t m[LW6MAT_MAT3_M_SIZE][LW6MAT_MAT3_M_SIZE];
   /**
    * Accessor with flat array index. To access element
    * a column i and row j, use i*3+j.
    */
-  int32_t v[LW6MAT_MAT3_V_SIZE_9];
+  int32_t v[LW6MAT_MAT3_V_SIZE_X_SIZE];
 } lw6mat_xmat3_t;
 
 /**
@@ -656,12 +656,12 @@ typedef union
    * Beware, this is not the most natural order for a
    * C programmer.
    */
-  int32_t m[LW6MAT_MAT4_M_SIZE_4][LW6MAT_MAT4_M_SIZE_4];
+  int32_t m[LW6MAT_MAT4_M_SIZE][LW6MAT_MAT4_M_SIZE];
   /**
    * Accessor with flat array index. To access element
    * a column i and row j, use i*4+j.
    */
-  int32_t v[LW6MAT_MAT4_V_SIZE_16];
+  int32_t v[LW6MAT_MAT4_V_SIZE_X_SIZE];
 } lw6mat_xmat4_t;
 
 /*
@@ -672,19 +672,19 @@ typedef union
 static inline int
 lw6mat_mat2_v_index (int i_column, int j_row)
 {
-  return i_column * LW6MAT_MAT2_M_SIZE_2 + j_row;
+  return i_column * LW6MAT_MAT2_M_SIZE + j_row;
 }
 
 static inline int
 lw6mat_mat3_v_index (int i_column, int j_row)
 {
-  return i_column * LW6MAT_MAT3_M_SIZE_3 + j_row;
+  return i_column * LW6MAT_MAT3_M_SIZE + j_row;
 }
 
 static inline int
 lw6mat_mat4_v_index (int i_column, int j_row)
 {
-  return i_column * LW6MAT_MAT4_M_SIZE_4 + j_row;
+  return i_column * LW6MAT_MAT4_M_SIZE + j_row;
 }
 
 /*

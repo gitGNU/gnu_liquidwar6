@@ -133,7 +133,7 @@ lw6mat_dmat2_scale (lw6mat_dmat2_t * dmat2, double f)
 {
   int i;
 
-  for (i = 0; i < LW6MAT_MAT2_V_SIZE_4; ++i)
+  for (i = 0; i < LW6MAT_MAT2_V_SIZE_X_SIZE; ++i)
     {
       dmat2->v[i] *= f;
     }
@@ -200,9 +200,9 @@ lw6mat_dmat2_mul_dmat2 (lw6mat_dmat2_t * dmat2,
 {
   int i, j;
 
-  for (i = 0; i < LW6MAT_MAT2_M_SIZE_2; ++i)
+  for (i = 0; i < LW6MAT_MAT2_M_SIZE; ++i)
     {
-      for (j = 0; j < LW6MAT_MAT2_M_SIZE_2; ++j)
+      for (j = 0; j < LW6MAT_MAT2_M_SIZE; ++j)
 	{
 	  dmat2->m[i][j] = dmat2_a->m[0][j] * dmat2_b->m[i][0]
 	    + dmat2_a->m[1][j] * dmat2_b->m[i][1];
@@ -227,8 +227,8 @@ lw6mat_dmat2_repr (const lw6mat_dmat2_t * dmat2)
 
   repr =
     lw6sys_new_sprintf ("%s %s %dx%d\n[ \t%f\t%f\n\t%f\t%f ]", LW6MAT_REPR_F,
-			LW6MAT_REPR_MAT, LW6MAT_MAT2_M_SIZE_2,
-			LW6MAT_MAT2_M_SIZE_2, dmat2->m[0][0], dmat2->m[1][0],
+			LW6MAT_REPR_MAT, LW6MAT_MAT2_M_SIZE,
+			LW6MAT_MAT2_M_SIZE, dmat2->m[0][0], dmat2->m[1][0],
 			dmat2->m[0][1], dmat2->m[1][1]);
 
   return repr;

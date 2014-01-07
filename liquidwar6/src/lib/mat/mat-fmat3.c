@@ -60,7 +60,7 @@ lw6mat_fmat3_id (lw6mat_fmat3_t * fmat3)
 
   lw6mat_fmat3_zero (fmat3);
 
-  for (i = 0; i < LW6MAT_MAT3_M_SIZE_3; ++i)
+  for (i = 0; i < LW6MAT_MAT3_M_SIZE; ++i)
     {
       fmat3->m[i][i] = LW6MAT_F_1;
     }
@@ -99,7 +99,7 @@ lw6mat_fmat3_trans (lw6mat_fmat3_t * fmat3)
   int i, j;
   float tmp;
 
-  for (i = 1; i < LW6MAT_MAT3_M_SIZE_3; ++i)
+  for (i = 1; i < LW6MAT_MAT3_M_SIZE; ++i)
     {
       for (j = 0; j < i; ++j)
 	{
@@ -149,7 +149,7 @@ lw6mat_fmat3_scale (lw6mat_fmat3_t * fmat3, float f)
 {
   int i;
 
-  for (i = 0; i < LW6MAT_MAT3_V_SIZE_9; ++i)
+  for (i = 0; i < LW6MAT_MAT3_V_SIZE_X_SIZE; ++i)
     {
       fmat3->v[i] *= f;
     }
@@ -230,9 +230,9 @@ lw6mat_fmat3_mul_fmat3 (lw6mat_fmat3_t * fmat3,
 {
   int i, j;
 
-  for (i = 0; i < LW6MAT_MAT3_M_SIZE_3; ++i)
+  for (i = 0; i < LW6MAT_MAT3_M_SIZE; ++i)
     {
-      for (j = 0; j < LW6MAT_MAT3_M_SIZE_3; ++j)
+      for (j = 0; j < LW6MAT_MAT3_M_SIZE; ++j)
 	{
 	  fmat3->m[i][j] = fmat3_a->m[0][j] * fmat3_b->m[i][0]
 	    + fmat3_a->m[1][j] * fmat3_b->m[i][1]
@@ -259,8 +259,8 @@ lw6mat_fmat3_repr (const lw6mat_fmat3_t * fmat3)
   repr =
     lw6sys_new_sprintf
     ("%s %s %dx%d\n[ \t%f\t%f\t%f\n\t%f\t%f\t%f\n\t%f\t%f\t%f ]",
-     LW6MAT_REPR_F, LW6MAT_REPR_MAT, LW6MAT_MAT3_M_SIZE_3,
-     LW6MAT_MAT3_M_SIZE_3, fmat3->m[0][0], fmat3->m[1][0], fmat3->m[2][0],
+     LW6MAT_REPR_F, LW6MAT_REPR_MAT, LW6MAT_MAT3_M_SIZE,
+     LW6MAT_MAT3_M_SIZE, fmat3->m[0][0], fmat3->m[1][0], fmat3->m[2][0],
      fmat3->m[0][1], fmat3->m[1][1], fmat3->m[2][1], fmat3->m[0][2],
      fmat3->m[1][2], fmat3->m[2][2]);
 

@@ -1890,9 +1890,9 @@ _test_fmat2 ()
     while ((!_f_is_within_limit (det, _TEST_FMAT_DET_LIMIT)) && n > 0)
       {
 	lw6mat_fmat2_zero (&fmat2);
-	for (i = 0; i < LW6MAT_MAT2_M_SIZE_2; ++i)
+	for (i = 0; i < LW6MAT_MAT2_M_SIZE; ++i)
 	  {
-	    for (j = 0; j < LW6MAT_MAT2_M_SIZE_2; ++j)
+	    for (j = 0; j < LW6MAT_MAT2_M_SIZE; ++j)
 	      {
 		fmat2.m[i][j] =
 		  round (lw6sys_random_float
@@ -1929,7 +1929,7 @@ _test_fmat2 ()
     if (_f_is_within_limit (det, _TEST_FMAT_DET_LIMIT))
       {
 	memset (&fmat2_inv, 0xff, sizeof (lw6mat_fmat2_t));
-	for (k = 0; k < LW6MAT_MAT2_V_SIZE_4; ++k)
+	for (k = 0; k < LW6MAT_MAT2_V_SIZE_X_SIZE; ++k)
 	  {
 	    fmat2_inv.v[k] = fmat2.v[k];
 	  }
@@ -1966,7 +1966,7 @@ _test_fmat2 ()
 	    lw6mat_fmat2_mul_fmat2 (&fmat2_mul, &fmat2_inv, &fmat2);
 	    ret = _print_fmat2 (&fmat2_mul, "mul") && ret;
 	    lw6mat_fmat2_id (&fmat2_id);
-	    for (k = 0; k < LW6MAT_MAT2_V_SIZE_4; ++k)
+	    for (k = 0; k < LW6MAT_MAT2_V_SIZE_X_SIZE; ++k)
 	      {
 		if (fabs (fmat2_mul.v[k] - fmat2_id.v[k]) <
 		    _TEST_FMAT_INVMUL_TOLERANCE)
@@ -2010,9 +2010,9 @@ _test_fmat2 ()
 	    lw6mat_fmat2_trans (&fmat2_trans);
 	    ret = _print_fmat2 (&fmat2_trans, "trans 1X") && ret;
 	    transposed = 1;
-	    for (i = 0; i < LW6MAT_MAT2_M_SIZE_2; ++i)
+	    for (i = 0; i < LW6MAT_MAT2_M_SIZE; ++i)
 	      {
-		for (j = 0; j < LW6MAT_MAT2_M_SIZE_2; ++j)
+		for (j = 0; j < LW6MAT_MAT2_M_SIZE; ++j)
 		  {
 		    if (fmat2.m[i][j] == fmat2_trans.m[j][i])
 		      {
@@ -2126,9 +2126,9 @@ _test_fmat3 ()
     while ((!_f_is_within_limit (det, _TEST_FMAT_DET_LIMIT)) && n > 0)
       {
 	lw6mat_fmat3_zero (&fmat3);
-	for (i = 0; i < LW6MAT_MAT3_M_SIZE_3; ++i)
+	for (i = 0; i < LW6MAT_MAT3_M_SIZE; ++i)
 	  {
-	    for (j = 0; j < LW6MAT_MAT3_M_SIZE_3; ++j)
+	    for (j = 0; j < LW6MAT_MAT3_M_SIZE; ++j)
 	      {
 		fmat3.m[i][j] =
 		  round (lw6sys_random_float
@@ -2165,7 +2165,7 @@ _test_fmat3 ()
     if (_f_is_within_limit (det, _TEST_FMAT_DET_LIMIT))
       {
 	memset (&fmat3_inv, 0xff, sizeof (lw6mat_fmat3_t));
-	for (k = 0; k < LW6MAT_MAT3_V_SIZE_9; ++k)
+	for (k = 0; k < LW6MAT_MAT3_V_SIZE_X_SIZE; ++k)
 	  {
 	    fmat3_inv.v[k] = fmat3.v[k];
 	  }
@@ -2202,7 +2202,7 @@ _test_fmat3 ()
 	    lw6mat_fmat3_mul_fmat3 (&fmat3_mul, &fmat3_inv, &fmat3);
 	    ret = _print_fmat3 (&fmat3_mul, "mul") && ret;
 	    lw6mat_fmat3_id (&fmat3_id);
-	    for (k = 0; k < LW6MAT_MAT3_V_SIZE_9; ++k)
+	    for (k = 0; k < LW6MAT_MAT3_V_SIZE_X_SIZE; ++k)
 	      {
 		if (fabs (fmat3_mul.v[k] - fmat3_id.v[k]) <
 		    _TEST_FMAT_INVMUL_TOLERANCE)
@@ -2247,9 +2247,9 @@ _test_fmat3 ()
 	    lw6mat_fmat3_trans (&fmat3_trans);
 	    ret = _print_fmat3 (&fmat3_trans, "trans 1X") && ret;
 	    transposed = 1;
-	    for (i = 0; i < LW6MAT_MAT3_M_SIZE_3; ++i)
+	    for (i = 0; i < LW6MAT_MAT3_M_SIZE; ++i)
 	      {
-		for (j = 0; j < LW6MAT_MAT3_M_SIZE_3; ++j)
+		for (j = 0; j < LW6MAT_MAT3_M_SIZE; ++j)
 		  {
 		    if (fmat3.m[i][j] == fmat3_trans.m[j][i])
 		      {
@@ -2363,9 +2363,9 @@ _test_fmat4 ()
     while ((!_f_is_within_limit (det, _TEST_FMAT_DET_LIMIT)) && n > 0)
       {
 	lw6mat_fmat4_zero (&fmat4);
-	for (i = 0; i < LW6MAT_MAT4_M_SIZE_4; ++i)
+	for (i = 0; i < LW6MAT_MAT4_M_SIZE; ++i)
 	  {
-	    for (j = 0; j < LW6MAT_MAT4_M_SIZE_4; ++j)
+	    for (j = 0; j < LW6MAT_MAT4_M_SIZE; ++j)
 	      {
 		fmat4.m[i][j] =
 		  round (lw6sys_random_float
@@ -2402,7 +2402,7 @@ _test_fmat4 ()
     if (_f_is_within_limit (det, _TEST_FMAT_DET_LIMIT))
       {
 	memset (&fmat4_inv, 0xff, sizeof (lw6mat_fmat4_t));
-	for (k = 0; k < LW6MAT_MAT4_V_SIZE_16; ++k)
+	for (k = 0; k < LW6MAT_MAT4_V_SIZE_X_SIZE; ++k)
 	  {
 	    fmat4_inv.v[k] = fmat4.v[k];
 	  }
@@ -2439,7 +2439,7 @@ _test_fmat4 ()
 	    lw6mat_fmat4_mul_fmat4 (&fmat4_mul, &fmat4_inv, &fmat4);
 	    ret = _print_fmat4 (&fmat4_mul, "mul") && ret;
 	    lw6mat_fmat4_id (&fmat4_id);
-	    for (k = 0; k < LW6MAT_MAT4_V_SIZE_16; ++k)
+	    for (k = 0; k < LW6MAT_MAT4_V_SIZE_X_SIZE; ++k)
 	      {
 		if (fabs (fmat4_mul.v[k] - fmat4_id.v[k]) <
 		    _TEST_FMAT_INVMUL_TOLERANCE)
@@ -2485,9 +2485,9 @@ _test_fmat4 ()
 	    lw6mat_fmat4_trans (&fmat4_trans);
 	    ret = _print_fmat4 (&fmat4_trans, "trans 1X") && ret;
 	    transposed = 1;
-	    for (i = 0; i < LW6MAT_MAT4_M_SIZE_4; ++i)
+	    for (i = 0; i < LW6MAT_MAT4_M_SIZE; ++i)
 	      {
-		for (j = 0; j < LW6MAT_MAT4_M_SIZE_4; ++j)
+		for (j = 0; j < LW6MAT_MAT4_M_SIZE; ++j)
 		  {
 		    if (fmat4.m[i][j] == fmat4_trans.m[j][i])
 		      {
@@ -2601,9 +2601,9 @@ _test_dmat2 ()
     while ((!_f_is_within_limit (det, _TEST_DMAT_DET_LIMIT)) && n > 0)
       {
 	lw6mat_dmat2_zero (&dmat2);
-	for (i = 0; i < LW6MAT_MAT2_M_SIZE_2; ++i)
+	for (i = 0; i < LW6MAT_MAT2_M_SIZE; ++i)
 	  {
-	    for (j = 0; j < LW6MAT_MAT2_M_SIZE_2; ++j)
+	    for (j = 0; j < LW6MAT_MAT2_M_SIZE; ++j)
 	      {
 		dmat2.m[i][j] =
 		  round (lw6sys_random_float
@@ -2640,7 +2640,7 @@ _test_dmat2 ()
     if (_f_is_within_limit (det, _TEST_DMAT_DET_LIMIT))
       {
 	memset (&dmat2_inv, 0xff, sizeof (lw6mat_dmat2_t));
-	for (k = 0; k < LW6MAT_MAT2_V_SIZE_4; ++k)
+	for (k = 0; k < LW6MAT_MAT2_V_SIZE_X_SIZE; ++k)
 	  {
 	    dmat2_inv.v[k] = dmat2.v[k];
 	  }
@@ -2677,7 +2677,7 @@ _test_dmat2 ()
 	    lw6mat_dmat2_mul_dmat2 (&dmat2_mul, &dmat2_inv, &dmat2);
 	    ret = _print_dmat2 (&dmat2_mul, "mul") && ret;
 	    lw6mat_dmat2_id (&dmat2_id);
-	    for (k = 0; k < LW6MAT_MAT2_V_SIZE_4; ++k)
+	    for (k = 0; k < LW6MAT_MAT2_V_SIZE_X_SIZE; ++k)
 	      {
 		if (fabs (dmat2_mul.v[k] - dmat2_id.v[k]) <
 		    _TEST_DMAT_INVMUL_TOLERANCE)
@@ -2721,9 +2721,9 @@ _test_dmat2 ()
 	    lw6mat_dmat2_trans (&dmat2_trans);
 	    ret = _print_dmat2 (&dmat2_trans, "trans 1X") && ret;
 	    transposed = 1;
-	    for (i = 0; i < LW6MAT_MAT2_M_SIZE_2; ++i)
+	    for (i = 0; i < LW6MAT_MAT2_M_SIZE; ++i)
 	      {
-		for (j = 0; j < LW6MAT_MAT2_M_SIZE_2; ++j)
+		for (j = 0; j < LW6MAT_MAT2_M_SIZE; ++j)
 		  {
 		    if (dmat2.m[i][j] == dmat2_trans.m[j][i])
 		      {
@@ -2837,9 +2837,9 @@ _test_dmat3 ()
     while ((!_f_is_within_limit (det, _TEST_DMAT_DET_LIMIT)) && n > 0)
       {
 	lw6mat_dmat3_zero (&dmat3);
-	for (i = 0; i < LW6MAT_MAT3_M_SIZE_3; ++i)
+	for (i = 0; i < LW6MAT_MAT3_M_SIZE; ++i)
 	  {
-	    for (j = 0; j < LW6MAT_MAT3_M_SIZE_3; ++j)
+	    for (j = 0; j < LW6MAT_MAT3_M_SIZE; ++j)
 	      {
 		dmat3.m[i][j] =
 		  round (lw6sys_random_float
@@ -2876,7 +2876,7 @@ _test_dmat3 ()
     if (_f_is_within_limit (det, _TEST_DMAT_DET_LIMIT))
       {
 	memset (&dmat3_inv, 0xff, sizeof (lw6mat_dmat3_t));
-	for (k = 0; k < LW6MAT_MAT3_V_SIZE_9; ++k)
+	for (k = 0; k < LW6MAT_MAT3_V_SIZE_X_SIZE; ++k)
 	  {
 	    dmat3_inv.v[k] = dmat3.v[k];
 	  }
@@ -2913,7 +2913,7 @@ _test_dmat3 ()
 	    lw6mat_dmat3_mul_dmat3 (&dmat3_mul, &dmat3_inv, &dmat3);
 	    ret = _print_dmat3 (&dmat3_mul, "mul") && ret;
 	    lw6mat_dmat3_id (&dmat3_id);
-	    for (k = 0; k < LW6MAT_MAT3_V_SIZE_9; ++k)
+	    for (k = 0; k < LW6MAT_MAT3_V_SIZE_X_SIZE; ++k)
 	      {
 		if (fabs (dmat3_mul.v[k] - dmat3_id.v[k]) <
 		    _TEST_DMAT_INVMUL_TOLERANCE)
@@ -2958,9 +2958,9 @@ _test_dmat3 ()
 	    lw6mat_dmat3_trans (&dmat3_trans);
 	    ret = _print_dmat3 (&dmat3_trans, "trans 1X") && ret;
 	    transposed = 1;
-	    for (i = 0; i < LW6MAT_MAT3_M_SIZE_3; ++i)
+	    for (i = 0; i < LW6MAT_MAT3_M_SIZE; ++i)
 	      {
-		for (j = 0; j < LW6MAT_MAT3_M_SIZE_3; ++j)
+		for (j = 0; j < LW6MAT_MAT3_M_SIZE; ++j)
 		  {
 		    if (dmat3.m[i][j] == dmat3_trans.m[j][i])
 		      {
@@ -3074,9 +3074,9 @@ _test_dmat4 ()
     while ((!_f_is_within_limit (det, _TEST_DMAT_DET_LIMIT)) && n > 0)
       {
 	lw6mat_dmat4_zero (&dmat4);
-	for (i = 0; i < LW6MAT_MAT4_M_SIZE_4; ++i)
+	for (i = 0; i < LW6MAT_MAT4_M_SIZE; ++i)
 	  {
-	    for (j = 0; j < LW6MAT_MAT4_M_SIZE_4; ++j)
+	    for (j = 0; j < LW6MAT_MAT4_M_SIZE; ++j)
 	      {
 		dmat4.m[i][j] =
 		  round (lw6sys_random_float
@@ -3113,7 +3113,7 @@ _test_dmat4 ()
     if (_f_is_within_limit (det, _TEST_DMAT_DET_LIMIT))
       {
 	memset (&dmat4_inv, 0xff, sizeof (lw6mat_dmat4_t));
-	for (k = 0; k < LW6MAT_MAT4_V_SIZE_16; ++k)
+	for (k = 0; k < LW6MAT_MAT4_V_SIZE_X_SIZE; ++k)
 	  {
 	    dmat4_inv.v[k] = dmat4.v[k];
 	  }
@@ -3150,7 +3150,7 @@ _test_dmat4 ()
 	    lw6mat_dmat4_mul_dmat4 (&dmat4_mul, &dmat4_inv, &dmat4);
 	    ret = _print_dmat4 (&dmat4_mul, "mul") && ret;
 	    lw6mat_dmat4_id (&dmat4_id);
-	    for (k = 0; k < LW6MAT_MAT4_V_SIZE_16; ++k)
+	    for (k = 0; k < LW6MAT_MAT4_V_SIZE_X_SIZE; ++k)
 	      {
 		if (fabs (dmat4_mul.v[k] - dmat4_id.v[k]) <
 		    _TEST_DMAT_INVMUL_TOLERANCE)
@@ -3196,9 +3196,9 @@ _test_dmat4 ()
 	    lw6mat_dmat4_trans (&dmat4_trans);
 	    ret = _print_dmat4 (&dmat4_trans, "trans 1X") && ret;
 	    transposed = 1;
-	    for (i = 0; i < LW6MAT_MAT4_M_SIZE_4; ++i)
+	    for (i = 0; i < LW6MAT_MAT4_M_SIZE; ++i)
 	      {
-		for (j = 0; j < LW6MAT_MAT4_M_SIZE_4; ++j)
+		for (j = 0; j < LW6MAT_MAT4_M_SIZE; ++j)
 		  {
 		    if (dmat4.m[i][j] == dmat4_trans.m[j][i])
 		      {
