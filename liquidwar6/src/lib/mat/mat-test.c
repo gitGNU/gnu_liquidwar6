@@ -57,6 +57,26 @@
 #define _TEST_XTOD_IN -32768
 #define _TEST_XTOD_OUT -0.5f
 
+#define _TEST_SIMILAR_F_A_Y 1.0001f
+#define _TEST_SIMILAR_F_B_Y 0.9999f
+#define _TEST_SIMILAR_F_A_N 1.0001f
+#define _TEST_SIMILAR_F_B_N -0.9999f
+
+#define _TEST_SIMILAR_I_A_Y 42
+#define _TEST_SIMILAR_I_B_Y 42
+#define _TEST_SIMILAR_I_A_N 1000000001
+#define _TEST_SIMILAR_I_B_N 1000000002
+
+#define _TEST_SIMILAR_D_A_Y 0.0000000001f
+#define _TEST_SIMILAR_D_B_Y -0.0000000009f
+#define _TEST_SIMILAR_D_A_N 1.1f
+#define _TEST_SIMILAR_D_B_N 0.9f
+
+#define _TEST_SIMILAR_X_A_Y -50
+#define _TEST_SIMILAR_X_B_Y 100
+#define _TEST_SIMILAR_X_A_N 50000
+#define _TEST_SIMILAR_X_B_N 55000
+
 #define _TEST_X_IN_N 8
 #define _TEST_X_IN_1 2
 #define _TEST_X_IN_2 1000
@@ -386,6 +406,112 @@ _test_convert ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("xtod failed, output is %f, expecting %f"),
 		    (float) d, _TEST_XTOD_OUT);
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
+/*
+ * Testing functions in similar.c
+ */
+static void
+_test_similar ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    if (lw6mat_is_similar_f (_TEST_SIMILAR_F_A_Y, _TEST_SIMILAR_F_B_Y))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_f %f =~ %f OK"),
+		    _TEST_SIMILAR_F_A_Y, _TEST_SIMILAR_F_B_Y);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("similar_f %f != %f"),
+		    _TEST_SIMILAR_F_A_Y, _TEST_SIMILAR_F_B_Y);
+	ret = 0;
+      }
+    if (!lw6mat_is_similar_f (_TEST_SIMILAR_F_A_N, _TEST_SIMILAR_F_B_N))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_f %f != %f OK"),
+		    _TEST_SIMILAR_F_A_N, _TEST_SIMILAR_F_B_N);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("similar_f %f =~ %f"),
+		    _TEST_SIMILAR_F_A_N, _TEST_SIMILAR_F_B_N);
+	ret = 0;
+      }
+
+    if (lw6mat_is_similar_i (_TEST_SIMILAR_I_A_Y, _TEST_SIMILAR_I_B_Y))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_i %d =~ %d OK"),
+		    _TEST_SIMILAR_I_A_Y, _TEST_SIMILAR_I_B_Y);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("similar_i %d != %d"),
+		    _TEST_SIMILAR_I_A_Y, _TEST_SIMILAR_I_B_Y);
+	ret = 0;
+      }
+    if (!lw6mat_is_similar_i (_TEST_SIMILAR_I_A_N, _TEST_SIMILAR_I_B_N))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_i %d != %d OK"),
+		    _TEST_SIMILAR_I_A_N, _TEST_SIMILAR_I_B_N);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("similar_i %d =~ %d"),
+		    _TEST_SIMILAR_I_A_N, _TEST_SIMILAR_I_B_N);
+	ret = 0;
+      }
+
+    if (lw6mat_is_similar_d (_TEST_SIMILAR_D_A_Y, _TEST_SIMILAR_D_B_Y))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_d %f =~ %f OK"),
+		    _TEST_SIMILAR_D_A_Y, _TEST_SIMILAR_D_B_Y);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("similar_d %f != %f"),
+		    _TEST_SIMILAR_D_A_Y, _TEST_SIMILAR_D_B_Y);
+	ret = 0;
+      }
+    if (!lw6mat_is_similar_d (_TEST_SIMILAR_D_A_N, _TEST_SIMILAR_D_B_N))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_d %f != %f OK"),
+		    _TEST_SIMILAR_D_A_N, _TEST_SIMILAR_D_B_N);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("similar_d %f =~ %f"),
+		    _TEST_SIMILAR_D_A_N, _TEST_SIMILAR_D_B_N);
+	ret = 0;
+      }
+
+    if (lw6mat_is_similar_x (_TEST_SIMILAR_X_A_Y, _TEST_SIMILAR_X_B_Y))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_x %d =~ %d OK"),
+		    _TEST_SIMILAR_X_A_Y, _TEST_SIMILAR_X_B_Y);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("similar_x %d != %d"),
+		    _TEST_SIMILAR_X_A_Y, _TEST_SIMILAR_X_B_Y);
+	ret = 0;
+      }
+    if (!lw6mat_is_similar_x (_TEST_SIMILAR_X_A_N, _TEST_SIMILAR_X_B_N))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_x %d != %d OK"),
+		    _TEST_SIMILAR_X_A_N, _TEST_SIMILAR_X_B_N);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("similar_x %d =~ %d"),
+		    _TEST_SIMILAR_X_A_N, _TEST_SIMILAR_X_B_N);
 	ret = 0;
       }
   }
@@ -3555,6 +3681,7 @@ lw6mat_test_register (int mode)
     {
       LW6SYS_CUNIT_ADD_TEST (suite, _test_sizeof);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_convert);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_similar);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_x);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_fvec2);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_fvec3);

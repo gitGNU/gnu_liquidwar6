@@ -383,6 +383,7 @@ src/lib/mat/mat-imat4.c
 src/lib/mat/mat-ivec2.c
 src/lib/mat/mat-ivec3.c
 src/lib/mat/mat-ivec4.c
+src/lib/mat/mat-similar.c
 src/lib/mat/mat-test.c
 src/lib/mat/mat-testmain.c
 src/lib/mat/mat-xmat2.c

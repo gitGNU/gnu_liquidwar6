@@ -42,6 +42,15 @@
 #define LW6MAT_D_1 1.0d
 #define LW6MAT_X_1 65536
 
+#define LW6MAT_SIMILAR_F_DIFF 0.001f
+#define LW6MAT_SIMILAR_I_DIFF 0
+#define LW6MAT_SIMILAR_D_DIFF 0.000001f
+#define LW6MAT_SIMILAR_X_DIFF 4096
+#define LW6MAT_SIMILAR_F_SCALE 0.000001f
+#define LW6MAT_SIMILAR_I_SCALE 0
+#define LW6MAT_SIMILAR_D_SCALE 0.000000001f
+#define LW6MAT_SIMILAR_X_SCALE 256
+
 #define LW6MAT_VEC2_V_SIZE 2
 #define LW6MAT_VEC3_V_SIZE 3
 #define LW6MAT_VEC4_V_SIZE 4
@@ -1232,6 +1241,12 @@ extern void lw6mat_dmat4_mul_dvec4 (lw6mat_dvec4_t * dvec4_dst,
 				    const lw6mat_dmat4_t * dmat4,
 				    const lw6mat_dvec4_t * dvec4_src);
 extern char *lw6mat_dmat4_repr (const lw6mat_dmat4_t * dmat4);
+
+/* mat-similar.c */
+extern int lw6mat_is_similar_f (float f_a, float f_b);
+extern int lw6mat_is_similar_i (int32_t i_a, int32_t i_b);
+extern int lw6mat_is_similar_d (double d_a, double d_b);
+extern int lw6mat_is_similar_x (int32_t x_a, int32_t x_b);
 
 /* mat-test.c */
 extern int lw6mat_test_register (int mode);
