@@ -2034,6 +2034,7 @@ _test_fmat2 ()
     lw6mat_fmat2_t fmat2_mul;
     lw6mat_fmat2_t fmat2_id;
     lw6mat_fmat2_t fmat2_trans;
+    lw6mat_fvec2_t fvec2;
     int i = 0;
     int j = 0;
     int k = 0;
@@ -2219,6 +2220,19 @@ _test_fmat2 ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to inverse fmat2"));
 	    ret = 0;
 	  }
+	lw6sys_log(LW6SYS_LOG_NOTICE,_x_("testing fmat2 * fvec2 multiplication"));
+	for (i = 0; i < LW6MAT_MAT2_V_SIZE_X_SIZE; ++i)
+	  {
+	    fmat2.v[i]=lw6mat_itof(i * ((((i+1)%2)<<1)-1));
+	  }
+	for (i = 0; i < LW6MAT_VEC2_V_SIZE; ++i)
+	  {
+	    fvec2.v[i]=lw6mat_itof(i * ((((i+1)%2)<<1)-1));
+	  }
+	ret = _print_fmat2 (&fmat2, "left arg fmat2") && ret;
+	ret = _print_fvec2 (&fvec2, "right arg column fvec2") && ret;
+	lw6mat_fmat2_mul_fvec2(&fvec2,&fmat2,&fvec2);
+	ret = _print_fvec2 (&fvec2, "result fvec2") && ret;
       }
     else
       {
@@ -2271,6 +2285,7 @@ _test_fmat3 ()
     lw6mat_fmat3_t fmat3_mul;
     lw6mat_fmat3_t fmat3_id;
     lw6mat_fmat3_t fmat3_trans;
+    lw6mat_fvec3_t fvec3;
     int i = 0;
     int j = 0;
     int k = 0;
@@ -2457,6 +2472,19 @@ _test_fmat3 ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to inverse fmat3"));
 	    ret = 0;
 	  }
+	lw6sys_log(LW6SYS_LOG_NOTICE,_x_("testing fmat3 * fvec3 multiplication"));
+	for (i = 0; i < LW6MAT_MAT3_V_SIZE_X_SIZE; ++i)
+	  {
+	    fmat3.v[i]=lw6mat_itof(i * ((((i+1)%3)<<1)-1));
+	  }
+	for (i = 0; i < LW6MAT_VEC3_V_SIZE; ++i)
+	  {
+	    fvec3.v[i]=lw6mat_itof(i * ((((i+1)%3)<<1)-1));
+	  }
+	ret = _print_fmat3 (&fmat3, "left arg fmat3") && ret;
+	ret = _print_fvec3 (&fvec3, "right arg column fvec3") && ret;
+	lw6mat_fmat3_mul_fvec3(&fvec3,&fmat3,&fvec3);
+	ret = _print_fvec3 (&fvec3, "result fvec3") && ret;
       }
     else
       {
@@ -2509,6 +2537,7 @@ _test_fmat4 ()
     lw6mat_fmat4_t fmat4_mul;
     lw6mat_fmat4_t fmat4_id;
     lw6mat_fmat4_t fmat4_trans;
+    lw6mat_fvec4_t fvec4;
     int i = 0;
     int j = 0;
     int k = 0;
@@ -2696,6 +2725,19 @@ _test_fmat4 ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to inverse fmat4"));
 	    ret = 0;
 	  }
+	lw6sys_log(LW6SYS_LOG_NOTICE,_x_("testing fmat4 * fvec4 multiplication"));
+	for (i = 0; i < LW6MAT_MAT4_V_SIZE_X_SIZE; ++i)
+	  {
+	    fmat4.v[i]=lw6mat_itof(i * ((((i+1)%4)<<1)-1));
+	  }
+	for (i = 0; i < LW6MAT_VEC4_V_SIZE; ++i)
+	  {
+	    fvec4.v[i]=lw6mat_itof(i * ((((i+1)%4)<<1)-1));
+	  }
+	ret = _print_fmat4 (&fmat4, "left arg fmat4") && ret;
+	ret = _print_fvec4 (&fvec4, "right arg column fvec4") && ret;
+	lw6mat_fmat4_mul_fvec4(&fvec4,&fmat4,&fvec4);
+	ret = _print_fvec4 (&fvec4, "result fvec4") && ret;
       }
     else
       {
@@ -2748,6 +2790,7 @@ _test_dmat2 ()
     lw6mat_dmat2_t dmat2_mul;
     lw6mat_dmat2_t dmat2_id;
     lw6mat_dmat2_t dmat2_trans;
+    lw6mat_dvec2_t dvec2;
     int i = 0;
     int j = 0;
     int k = 0;
@@ -2933,6 +2976,19 @@ _test_dmat2 ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to inverse dmat2"));
 	    ret = 0;
 	  }
+	lw6sys_log(LW6SYS_LOG_NOTICE,_x_("testing dmat2 * dvec2 multiplication"));
+	for (i = 0; i < LW6MAT_MAT2_V_SIZE_X_SIZE; ++i)
+	  {
+	    dmat2.v[i]=lw6mat_itod(i * ((((i+1)%2)<<1)-1));
+	  }
+	for (i = 0; i < LW6MAT_VEC2_V_SIZE; ++i)
+	  {
+	    dvec2.v[i]=lw6mat_itod(i * ((((i+1)%2)<<1)-1));
+	  }
+	ret = _print_dmat2 (&dmat2, "left arg dmat2") && ret;
+	ret = _print_dvec2 (&dvec2, "right arg column dvec2") && ret;
+	lw6mat_dmat2_mul_dvec2(&dvec2,&dmat2,&dvec2);
+	ret = _print_dvec2 (&dvec2, "result dvec2") && ret;
       }
     else
       {
@@ -2985,6 +3041,7 @@ _test_dmat3 ()
     lw6mat_dmat3_t dmat3_mul;
     lw6mat_dmat3_t dmat3_id;
     lw6mat_dmat3_t dmat3_trans;
+    lw6mat_dvec3_t dvec3;
     int i = 0;
     int j = 0;
     int k = 0;
@@ -3171,6 +3228,19 @@ _test_dmat3 ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to inverse dmat3"));
 	    ret = 0;
 	  }
+	lw6sys_log(LW6SYS_LOG_NOTICE,_x_("testing dmat3 * dvec3 multiplication"));
+	for (i = 0; i < LW6MAT_MAT3_V_SIZE_X_SIZE; ++i)
+	  {
+	    dmat3.v[i]=lw6mat_itod(i * ((((i+1)%3)<<1)-1));
+	  }
+	for (i = 0; i < LW6MAT_VEC3_V_SIZE; ++i)
+	  {
+	    dvec3.v[i]=lw6mat_itod(i * ((((i+1)%3)<<1)-1));
+	  }
+	ret = _print_dmat3 (&dmat3, "left arg dmat3") && ret;
+	ret = _print_dvec3 (&dvec3, "right arg column dvec3") && ret;
+	lw6mat_dmat3_mul_dvec3(&dvec3,&dmat3,&dvec3);
+	ret = _print_dvec3 (&dvec3, "result dvec3") && ret;
       }
     else
       {
@@ -3223,6 +3293,7 @@ _test_dmat4 ()
     lw6mat_dmat4_t dmat4_mul;
     lw6mat_dmat4_t dmat4_id;
     lw6mat_dmat4_t dmat4_trans;
+    lw6mat_dvec4_t dvec4;
     int i = 0;
     int j = 0;
     int k = 0;
@@ -3410,6 +3481,19 @@ _test_dmat4 ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to inverse dmat4"));
 	    ret = 0;
 	  }
+	lw6sys_log(LW6SYS_LOG_NOTICE,_x_("testing dmat4 * dvec4 multiplication"));
+	for (i = 0; i < LW6MAT_MAT4_V_SIZE_X_SIZE; ++i)
+	  {
+	    dmat4.v[i]=lw6mat_itod(i * ((((i+1)%4)<<1)-1));
+	  }
+	for (i = 0; i < LW6MAT_VEC4_V_SIZE; ++i)
+	  {
+	    dvec4.v[i]=lw6mat_itod(i * ((((i+1)%4)<<1)-1));
+	  }
+	ret = _print_dmat4 (&dmat4, "left arg dmat4") && ret;
+	ret = _print_dvec4 (&dvec4, "right arg column dvec4") && ret;
+	lw6mat_dmat4_mul_dvec4(&dvec4,&dmat4,&dvec4);
+	ret = _print_dvec4 (&dvec4, "result dvec4") && ret;
       }
     else
       {
