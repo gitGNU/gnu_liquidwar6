@@ -218,14 +218,34 @@ lw6mat_fmat2_mul_fmat2 (lw6mat_fmat2_t * fmat2,
 			const lw6mat_fmat2_t * fmat2_a,
 			const lw6mat_fmat2_t * fmat2_b)
 {
-  int i, j;
-
-  for (i = 0; i < LW6MAT_MAT2_M_SIZE; ++i)
+  /*
+   * In case src(s) and dst or the same, recursively call this
+   * with a tmp pivot to avoid wrecking source while writing
+   * destination.
+   */
+  if (fmat2 == fmat2_a)
     {
-      for (j = 0; j < LW6MAT_MAT2_M_SIZE; ++j)
+      lw6mat_fmat2_t fmat2_tmp = *fmat2_a;
+
+      lw6mat_fmat2_mul_fmat2 (fmat2, &fmat2_tmp, fmat2_b);
+    }
+  else if (fmat2 == fmat2_b)
+    {
+      lw6mat_fmat2_t fmat2_tmp = *fmat2_b;
+
+      lw6mat_fmat2_mul_fmat2 (fmat2, fmat2_a, &fmat2_tmp);
+    }
+  else
+    {
+      int i, j;
+
+      for (i = 0; i < LW6MAT_MAT2_M_SIZE; ++i)
 	{
-	  fmat2->m[i][j] = fmat2_a->m[0][j] * fmat2_b->m[i][0]
-	    + fmat2_a->m[1][j] * fmat2_b->m[i][1];
+	  for (j = 0; j < LW6MAT_MAT2_M_SIZE; ++j)
+	    {
+	      fmat2->m[i][j] = fmat2_a->m[0][j] * fmat2_b->m[i][0]
+		+ fmat2_a->m[1][j] * fmat2_b->m[i][1];
+	    }
 	}
     }
 }
@@ -251,10 +271,24 @@ lw6mat_fmat2_mul_fvec2 (lw6mat_fvec2_t * fvec2_dst,
 			const lw6mat_fmat2_t * fmat2,
 			const lw6mat_fvec2_t * fvec2_src)
 {
-  fvec2_dst->v[0] =
-    fmat2->m[0][0] * fvec2_src->v[0] + fmat2->m[1][0] * fvec2_src->v[0];
-  fvec2_dst->v[1] =
-    fmat2->m[0][1] * fvec2_src->v[1] + fmat2->m[1][1] * fvec2_src->v[1];
+  /*
+   * In case src and dst or the same, recursively call this
+   * with a tmp pivot to avoid wrecking source while writing
+   * destination.
+   */
+  if (fvec2_dst == fvec2_src)
+    {
+      lw6mat_fvec2_t fvec2_tmp = *fvec2_src;
+
+      lw6mat_fmat2_mul_fvec2 (fvec2_dst, fmat2, &fvec2_tmp);
+    }
+  else
+    {
+      fvec2_dst->v[0] =
+	fmat2->m[0][0] * fvec2_src->v[0] + fmat2->m[1][0] * fvec2_src->v[1];
+      fvec2_dst->v[1] =
+	fmat2->m[0][1] * fvec2_src->v[0] + fmat2->m[1][1] * fvec2_src->v[1];
+    }
 }
 
 /**

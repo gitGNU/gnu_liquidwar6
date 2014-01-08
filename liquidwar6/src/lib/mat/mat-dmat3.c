@@ -257,15 +257,35 @@ lw6mat_dmat3_mul_dmat3 (lw6mat_dmat3_t * dmat3,
 			const lw6mat_dmat3_t * dmat3_a,
 			const lw6mat_dmat3_t * dmat3_b)
 {
-  int i, j;
-
-  for (i = 0; i < LW6MAT_MAT3_M_SIZE; ++i)
+  /*
+   * In case src(s) and dst or the same, recursively call this
+   * with a tmp pivot to avoid wrecking source while writing
+   * destination.
+   */
+  if (dmat3 == dmat3_a)
     {
-      for (j = 0; j < LW6MAT_MAT3_M_SIZE; ++j)
+      lw6mat_dmat3_t dmat3_tmp = *dmat3_a;
+
+      lw6mat_dmat3_mul_dmat3 (dmat3, &dmat3_tmp, dmat3_b);
+    }
+  else if (dmat3 == dmat3_b)
+    {
+      lw6mat_dmat3_t dmat3_tmp = *dmat3_b;
+
+      lw6mat_dmat3_mul_dmat3 (dmat3, dmat3_a, &dmat3_tmp);
+    }
+  else
+    {
+      int i, j;
+
+      for (i = 0; i < LW6MAT_MAT3_M_SIZE; ++i)
 	{
-	  dmat3->m[i][j] = dmat3_a->m[0][j] * dmat3_b->m[i][0]
-	    + dmat3_a->m[1][j] * dmat3_b->m[i][1]
-	    + dmat3_a->m[2][j] * dmat3_b->m[i][2];
+	  for (j = 0; j < LW6MAT_MAT3_M_SIZE; ++j)
+	    {
+	      dmat3->m[i][j] = dmat3_a->m[0][j] * dmat3_b->m[i][0]
+		+ dmat3_a->m[1][j] * dmat3_b->m[i][1]
+		+ dmat3_a->m[2][j] * dmat3_b->m[i][2];
+	    }
 	}
     }
 }
@@ -291,15 +311,29 @@ lw6mat_dmat3_mul_dvec3 (lw6mat_dvec3_t * dvec3_dst,
 			const lw6mat_dmat3_t * dmat3,
 			const lw6mat_dvec3_t * dvec3_src)
 {
-  dvec3_dst->v[0] =
-    dmat3->m[0][0] * dvec3_src->v[0] + dmat3->m[1][0] * dvec3_src->v[0] +
-    dmat3->m[2][0] * dvec3_src->v[0];
-  dvec3_dst->v[1] =
-    dmat3->m[0][1] * dvec3_src->v[1] + dmat3->m[1][1] * dvec3_src->v[1] +
-    dmat3->m[2][1] * dvec3_src->v[1];
-  dvec3_dst->v[2] =
-    dmat3->m[0][2] * dvec3_src->v[1] + dmat3->m[1][2] * dvec3_src->v[2] +
-    dmat3->m[2][2] * dvec3_src->v[2];
+  /*
+   * In case src and dst or the same, recursively call this
+   * with a tmp pivot to avoid wrecking source while writing
+   * destination.
+   */
+  if (dvec3_dst == dvec3_src)
+    {
+      lw6mat_dvec3_t dvec3_tmp = *dvec3_src;
+
+      lw6mat_dmat3_mul_dvec3 (dvec3_dst, dmat3, &dvec3_tmp);
+    }
+  else
+    {
+      dvec3_dst->v[0] =
+	dmat3->m[0][0] * dvec3_src->v[0] + dmat3->m[1][0] * dvec3_src->v[1] +
+	dmat3->m[2][0] * dvec3_src->v[2];
+      dvec3_dst->v[1] =
+	dmat3->m[0][1] * dvec3_src->v[0] + dmat3->m[1][1] * dvec3_src->v[1] +
+	dmat3->m[2][1] * dvec3_src->v[2];
+      dvec3_dst->v[2] =
+	dmat3->m[0][2] * dvec3_src->v[0] + dmat3->m[1][2] * dvec3_src->v[1] +
+	dmat3->m[2][2] * dvec3_src->v[2];
+    }
 }
 
 /**

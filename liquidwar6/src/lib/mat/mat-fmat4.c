@@ -377,16 +377,36 @@ lw6mat_fmat4_mul_fmat4 (lw6mat_fmat4_t * fmat4,
 			const lw6mat_fmat4_t * fmat4_a,
 			const lw6mat_fmat4_t * fmat4_b)
 {
-  int i, j;
-
-  for (i = 0; i < LW6MAT_MAT4_M_SIZE; ++i)
+  /*
+   * In case src(s) and dst or the same, recursively call this
+   * with a tmp pivot to avoid wrecking source while writing
+   * destination.
+   */
+  if (fmat4 == fmat4_a)
     {
-      for (j = 0; j < LW6MAT_MAT4_M_SIZE; ++j)
+      lw6mat_fmat4_t fmat4_tmp = *fmat4_a;
+
+      lw6mat_fmat4_mul_fmat4 (fmat4, &fmat4_tmp, fmat4_b);
+    }
+  else if (fmat4 == fmat4_b)
+    {
+      lw6mat_fmat4_t fmat4_tmp = *fmat4_b;
+
+      lw6mat_fmat4_mul_fmat4 (fmat4, fmat4_a, &fmat4_tmp);
+    }
+  else
+    {
+      int i, j;
+
+      for (i = 0; i < LW6MAT_MAT4_M_SIZE; ++i)
 	{
-	  fmat4->m[i][j] = fmat4_a->m[0][j] * fmat4_b->m[i][0]
-	    + fmat4_a->m[1][j] * fmat4_b->m[i][1]
-	    + fmat4_a->m[2][j] * fmat4_b->m[i][2]
-	    + fmat4_a->m[3][j] * fmat4_b->m[i][3];
+	  for (j = 0; j < LW6MAT_MAT4_M_SIZE; ++j)
+	    {
+	      fmat4->m[i][j] = fmat4_a->m[0][j] * fmat4_b->m[i][0]
+		+ fmat4_a->m[1][j] * fmat4_b->m[i][1]
+		+ fmat4_a->m[2][j] * fmat4_b->m[i][2]
+		+ fmat4_a->m[3][j] * fmat4_b->m[i][3];
+	    }
 	}
     }
 }
@@ -412,18 +432,32 @@ lw6mat_fmat4_mul_fvec4 (lw6mat_fvec4_t * fvec4_dst,
 			const lw6mat_fmat4_t * fmat4,
 			const lw6mat_fvec4_t * fvec4_src)
 {
-  fvec4_dst->v[0] =
-    fmat4->m[0][0] * fvec4_src->v[0] + fmat4->m[1][0] * fvec4_src->v[0] +
-    fmat4->m[2][0] * fvec4_src->v[0] + fmat4->m[2][0] * fvec4_src->v[0];
-  fvec4_dst->v[1] =
-    fmat4->m[0][1] * fvec4_src->v[1] + fmat4->m[1][1] * fvec4_src->v[1] +
-    fmat4->m[2][1] * fvec4_src->v[1] + fmat4->m[3][1] * fvec4_src->v[1];
-  fvec4_dst->v[2] =
-    fmat4->m[0][2] * fvec4_src->v[1] + fmat4->m[1][2] * fvec4_src->v[2] +
-    fmat4->m[2][2] * fvec4_src->v[2] + fmat4->m[3][2] * fvec4_src->v[2];
-  fvec4_dst->v[3] =
-    fmat4->m[0][3] * fvec4_src->v[1] + fmat4->m[1][3] * fvec4_src->v[3] +
-    fmat4->m[2][3] * fvec4_src->v[3] + fmat4->m[3][3] * fvec4_src->v[3];
+  /*
+   * In case src and dst or the same, recursively call this
+   * with a tmp pivot to avoid wrecking source while writing
+   * destination.
+   */
+  if (fvec4_dst == fvec4_src)
+    {
+      lw6mat_fvec4_t fvec4_tmp = *fvec4_src;
+
+      lw6mat_fmat4_mul_fvec4 (fvec4_dst, fmat4, &fvec4_tmp);
+    }
+  else
+    {
+      fvec4_dst->v[0] =
+	fmat4->m[0][0] * fvec4_src->v[0] + fmat4->m[1][0] * fvec4_src->v[1] +
+	fmat4->m[2][0] * fvec4_src->v[2] + fmat4->m[3][0] * fvec4_src->v[3];
+      fvec4_dst->v[1] =
+	fmat4->m[0][1] * fvec4_src->v[0] + fmat4->m[1][1] * fvec4_src->v[1] +
+	fmat4->m[2][1] * fvec4_src->v[2] + fmat4->m[3][1] * fvec4_src->v[3];
+      fvec4_dst->v[2] =
+	fmat4->m[0][2] * fvec4_src->v[0] + fmat4->m[1][2] * fvec4_src->v[1] +
+	fmat4->m[2][2] * fvec4_src->v[2] + fmat4->m[3][2] * fvec4_src->v[3];
+      fvec4_dst->v[3] =
+	fmat4->m[0][3] * fvec4_src->v[0] + fmat4->m[1][3] * fvec4_src->v[1] +
+	fmat4->m[2][3] * fvec4_src->v[2] + fmat4->m[3][3] * fvec4_src->v[3];
+    }
 }
 
 /**
