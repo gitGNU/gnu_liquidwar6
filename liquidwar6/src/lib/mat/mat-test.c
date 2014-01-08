@@ -57,8 +57,8 @@
 #define _TEST_XTOD_IN -32768
 #define _TEST_XTOD_OUT -0.5f
 
-#define _TEST_SIMILAR_F_A_Y 1.0001f
-#define _TEST_SIMILAR_F_B_Y 0.9999f
+#define _TEST_SIMILAR_F_A_Y 0.0001f
+#define _TEST_SIMILAR_F_B_Y 0.0f
 #define _TEST_SIMILAR_F_A_N 1.0001f
 #define _TEST_SIMILAR_F_B_N -0.9999f
 
@@ -67,8 +67,8 @@
 #define _TEST_SIMILAR_I_A_N 1000000001
 #define _TEST_SIMILAR_I_B_N 1000000002
 
-#define _TEST_SIMILAR_D_A_Y 0.0000000001f
-#define _TEST_SIMILAR_D_B_Y -0.0000000009f
+#define _TEST_SIMILAR_D_A_Y 1.0000001f
+#define _TEST_SIMILAR_D_B_Y 0.9999999f
 #define _TEST_SIMILAR_D_A_N 1.1f
 #define _TEST_SIMILAR_D_B_N 0.9f
 
@@ -157,21 +157,39 @@
 
 #define _TEST_FMAT_RANDOM_RANGE 1.5f
 #define _TEST_FMAT_RANDOM_ROUND 0.01f
-#define _TEST_FMAT_FILL_TOLERANCE 0.00001f
 #define _TEST_FMAT_DET_LIMIT 100.0f
-#define _TEST_FMAT_INVMUL_TOLERANCE 0.001f
 #define _TEST_FMAT_SCALE 4.0f
-#define _TEST_FMAT_SCALE_TOLERANCE 1.0f
 
 #define _TEST_DMAT_RANDOM_RANGE 2.0f
 #define _TEST_DMAT_RANDOM_ROUND 0.01f
-#define _TEST_DMAT_FILL_TOLERANCE 0.000001f
 #define _TEST_DMAT_DET_LIMIT 100.0f
-#define _TEST_DMAT_INVMUL_TOLERANCE 0.0001f
 #define _TEST_DMAT_SCALE 4.0f
-#define _TEST_DMAT_SCALE_TOLERANCE 1.0f
 
 #define _TEST_MAT_DET_0_NB_TRIES 100
+
+#define _TEST_FMAT2_MUL_FVEC2_X -5.0f
+#define _TEST_FMAT2_MUL_FVEC2_Y 6.0f
+
+#define _TEST_FMAT3_MUL_FVEC3_X 4.0f
+#define _TEST_FMAT3_MUL_FVEC3_Y 24.0f
+#define _TEST_FMAT3_MUL_FVEC3_Z -12.0f
+
+#define _TEST_FMAT4_MUL_FVEC4_X 114.0f
+#define _TEST_FMAT4_MUL_FVEC4_Y 396.0f
+#define _TEST_FMAT4_MUL_FVEC4_Z 750.0f
+#define _TEST_FMAT4_MUL_FVEC4_W -168.0f
+
+#define _TEST_DMAT2_MUL_DVEC2_X -5.0f
+#define _TEST_DMAT2_MUL_DVEC2_Y 6.0f
+
+#define _TEST_DMAT3_MUL_DVEC3_X 4.0f
+#define _TEST_DMAT3_MUL_DVEC3_Y 24.0f
+#define _TEST_DMAT3_MUL_DVEC3_Z -12.0f
+
+#define _TEST_DMAT4_MUL_DVEC4_X 114.0f
+#define _TEST_DMAT4_MUL_DVEC4_Y 396.0f
+#define _TEST_DMAT4_MUL_DVEC4_Z 750.0f
+#define _TEST_DMAT4_MUL_DVEC4_W -168.0f
 
 typedef struct _lw6mat_test_data_s
 {
@@ -2183,8 +2201,7 @@ _test_fmat2 ()
 			  _TEST_FMAT_RANDOM_RANGE) /
 			 _TEST_FMAT_RANDOM_ROUND) * _TEST_FMAT_RANDOM_ROUND;
 		k = lw6mat_mat2_v_index (i, j);
-		if (fabs (fmat2.m[i][j] - fmat2.v[k]) <
-		    _TEST_FMAT_FILL_TOLERANCE)
+		if (lw6mat_is_similar_f (fmat2.m[i][j], fmat2.v[k]))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -2252,8 +2269,7 @@ _test_fmat2 ()
 	    lw6mat_fmat2_id (&fmat2_id);
 	    for (k = 0; k < LW6MAT_MAT2_V_SIZE_X_SIZE; ++k)
 	      {
-		if (fabs (fmat2_mul.v[k] - fmat2_id.v[k]) <
-		    _TEST_FMAT_INVMUL_TOLERANCE)
+		if (lw6mat_is_similar_f (fmat2_mul.v[k], fmat2_id.v[k]))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -2273,8 +2289,7 @@ _test_fmat2 ()
 	    ret = _print_fmat2 (&fmat2, "scale") && ret;
 	    det_scaled = lw6mat_fmat2_det (&fmat2);
 	    det_scaled_expected = det * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE;
-	    if (fabs (det_scaled - det_scaled_expected) <
-		_TEST_FMAT_SCALE_TOLERANCE)
+	    if (lw6mat_is_similar_f (det_scaled, det_scaled_expected))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -2360,6 +2375,17 @@ _test_fmat2 ()
 	ret = _print_fvec2 (&fvec2, "right arg column fvec2") && ret;
 	lw6mat_fmat2_mul_fvec2 (&fvec2, &fmat2, &fvec2);
 	ret = _print_fvec2 (&fvec2, "result fvec2") && ret;
+	if (lw6mat_is_similar_f (fvec2.p.x, _TEST_FMAT2_MUL_FVEC2_X) &&
+	    lw6mat_is_similar_f (fvec2.p.y, _TEST_FMAT2_MUL_FVEC2_Y))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("was expecting %f %f"),
+			_TEST_FMAT2_MUL_FVEC2_X, _TEST_FMAT2_MUL_FVEC2_Y);
+	    ret = 0;
+	  }
       }
     else
       {
@@ -2435,8 +2461,7 @@ _test_fmat3 ()
 			  _TEST_FMAT_RANDOM_RANGE) /
 			 _TEST_FMAT_RANDOM_ROUND) * _TEST_FMAT_RANDOM_ROUND;
 		k = lw6mat_mat3_v_index (i, j);
-		if (fabs (fmat3.m[i][j] - fmat3.v[k]) <
-		    _TEST_FMAT_FILL_TOLERANCE)
+		if (lw6mat_is_similar_f (fmat3.m[i][j], fmat3.v[k]))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -2504,8 +2529,7 @@ _test_fmat3 ()
 	    lw6mat_fmat3_id (&fmat3_id);
 	    for (k = 0; k < LW6MAT_MAT3_V_SIZE_X_SIZE; ++k)
 	      {
-		if (fabs (fmat3_mul.v[k] - fmat3_id.v[k]) <
-		    _TEST_FMAT_INVMUL_TOLERANCE)
+		if (lw6mat_is_similar_f (fmat3_mul.v[k], fmat3_id.v[k]))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -2526,8 +2550,7 @@ _test_fmat3 ()
 	    det_scaled = lw6mat_fmat3_det (&fmat3);
 	    det_scaled_expected =
 	      det * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE;
-	    if (fabs (det_scaled - det_scaled_expected) <
-		_TEST_FMAT_SCALE_TOLERANCE)
+	    if (lw6mat_is_similar_f (det_scaled, det_scaled_expected))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -2613,6 +2636,19 @@ _test_fmat3 ()
 	ret = _print_fvec3 (&fvec3, "right arg column fvec3") && ret;
 	lw6mat_fmat3_mul_fvec3 (&fvec3, &fmat3, &fvec3);
 	ret = _print_fvec3 (&fvec3, "result fvec3") && ret;
+	if (lw6mat_is_similar_f (fvec3.p.x, _TEST_FMAT3_MUL_FVEC3_X) &&
+	    lw6mat_is_similar_f (fvec3.p.y, _TEST_FMAT3_MUL_FVEC3_Y) &&
+	    lw6mat_is_similar_f (fvec3.p.z, _TEST_FMAT3_MUL_FVEC3_Z))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("was expecting %f %f %f"),
+			_TEST_FMAT3_MUL_FVEC3_X, _TEST_FMAT3_MUL_FVEC3_Y,
+			_TEST_FMAT3_MUL_FVEC3_Z);
+	    ret = 0;
+	  }
       }
     else
       {
@@ -2688,8 +2724,7 @@ _test_fmat4 ()
 			  _TEST_FMAT_RANDOM_RANGE) /
 			 _TEST_FMAT_RANDOM_ROUND) * _TEST_FMAT_RANDOM_ROUND;
 		k = lw6mat_mat4_v_index (i, j);
-		if (fabs (fmat4.m[i][j] - fmat4.v[k]) <
-		    _TEST_FMAT_FILL_TOLERANCE)
+		if (lw6mat_is_similar_f (fmat4.m[i][j], fmat4.v[k]))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -2757,8 +2792,7 @@ _test_fmat4 ()
 	    lw6mat_fmat4_id (&fmat4_id);
 	    for (k = 0; k < LW6MAT_MAT4_V_SIZE_X_SIZE; ++k)
 	      {
-		if (fabs (fmat4_mul.v[k] - fmat4_id.v[k]) <
-		    _TEST_FMAT_INVMUL_TOLERANCE)
+		if (lw6mat_is_similar_f (fmat4_mul.v[k], fmat4_id.v[k]))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -2780,8 +2814,7 @@ _test_fmat4 ()
 	    det_scaled_expected =
 	      det * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE *
 	      _TEST_FMAT_SCALE;
-	    if (fabs (det_scaled - det_scaled_expected) <
-		_TEST_FMAT_SCALE_TOLERANCE)
+	    if (lw6mat_is_similar_f (det_scaled, det_scaled_expected))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -2867,6 +2900,20 @@ _test_fmat4 ()
 	ret = _print_fvec4 (&fvec4, "right arg column fvec4") && ret;
 	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4, &fvec4);
 	ret = _print_fvec4 (&fvec4, "result fvec4") && ret;
+	if (lw6mat_is_similar_f (fvec4.p.x, _TEST_FMAT4_MUL_FVEC4_X) &&
+	    lw6mat_is_similar_f (fvec4.p.y, _TEST_FMAT4_MUL_FVEC4_Y) &&
+	    lw6mat_is_similar_f (fvec4.p.z, _TEST_FMAT4_MUL_FVEC4_Z) &&
+	    lw6mat_is_similar_f (fvec4.p.w, _TEST_FMAT4_MUL_FVEC4_W))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("was expecting %f %f %f %f"),
+			_TEST_FMAT4_MUL_FVEC4_X, _TEST_FMAT4_MUL_FVEC4_Y,
+			_TEST_FMAT4_MUL_FVEC4_Z, _TEST_FMAT4_MUL_FVEC4_W);
+	    ret = 0;
+	  }
       }
     else
       {
@@ -2942,8 +2989,7 @@ _test_dmat2 ()
 			  _TEST_DMAT_RANDOM_RANGE) /
 			 _TEST_DMAT_RANDOM_ROUND) * _TEST_DMAT_RANDOM_ROUND;
 		k = lw6mat_mat2_v_index (i, j);
-		if (fabs (dmat2.m[i][j] - dmat2.v[k]) <
-		    _TEST_DMAT_FILL_TOLERANCE)
+		if (lw6mat_is_similar_d (dmat2.m[i][j], dmat2.v[k]))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -3011,8 +3057,7 @@ _test_dmat2 ()
 	    lw6mat_dmat2_id (&dmat2_id);
 	    for (k = 0; k < LW6MAT_MAT2_V_SIZE_X_SIZE; ++k)
 	      {
-		if (fabs (dmat2_mul.v[k] - dmat2_id.v[k]) <
-		    _TEST_DMAT_INVMUL_TOLERANCE)
+		if (lw6mat_is_similar_d (dmat2_mul.v[k], dmat2_id.v[k]))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -3032,8 +3077,7 @@ _test_dmat2 ()
 	    ret = _print_dmat2 (&dmat2, "scale") && ret;
 	    det_scaled = lw6mat_dmat2_det (&dmat2);
 	    det_scaled_expected = det * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE;
-	    if (fabs (det_scaled - det_scaled_expected) <
-		_TEST_DMAT_SCALE_TOLERANCE)
+	    if (lw6mat_is_similar_d (det_scaled, det_scaled_expected))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -3119,6 +3163,17 @@ _test_dmat2 ()
 	ret = _print_dvec2 (&dvec2, "right arg column dvec2") && ret;
 	lw6mat_dmat2_mul_dvec2 (&dvec2, &dmat2, &dvec2);
 	ret = _print_dvec2 (&dvec2, "result dvec2") && ret;
+	if (lw6mat_is_similar_f (dvec2.p.x, _TEST_DMAT2_MUL_DVEC2_X) &&
+	    lw6mat_is_similar_f (dvec2.p.y, _TEST_DMAT2_MUL_DVEC2_Y))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("was expecting %f %f"),
+			_TEST_DMAT2_MUL_DVEC2_X, _TEST_DMAT2_MUL_DVEC2_Y);
+	    ret = 0;
+	  }
       }
     else
       {
@@ -3194,8 +3249,7 @@ _test_dmat3 ()
 			  _TEST_DMAT_RANDOM_RANGE) /
 			 _TEST_DMAT_RANDOM_ROUND) * _TEST_DMAT_RANDOM_ROUND;
 		k = lw6mat_mat3_v_index (i, j);
-		if (fabs (dmat3.m[i][j] - dmat3.v[k]) <
-		    _TEST_DMAT_FILL_TOLERANCE)
+		if (lw6mat_is_similar_d (dmat3.m[i][j], dmat3.v[k]))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -3263,8 +3317,7 @@ _test_dmat3 ()
 	    lw6mat_dmat3_id (&dmat3_id);
 	    for (k = 0; k < LW6MAT_MAT3_V_SIZE_X_SIZE; ++k)
 	      {
-		if (fabs (dmat3_mul.v[k] - dmat3_id.v[k]) <
-		    _TEST_DMAT_INVMUL_TOLERANCE)
+		if (lw6mat_is_similar_d (dmat3_mul.v[k], dmat3_id.v[k]))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -3285,8 +3338,7 @@ _test_dmat3 ()
 	    det_scaled = lw6mat_dmat3_det (&dmat3);
 	    det_scaled_expected =
 	      det * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE;
-	    if (fabs (det_scaled - det_scaled_expected) <
-		_TEST_DMAT_SCALE_TOLERANCE)
+	    if (lw6mat_is_similar_d (det_scaled, det_scaled_expected))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -3372,6 +3424,19 @@ _test_dmat3 ()
 	ret = _print_dvec3 (&dvec3, "right arg column dvec3") && ret;
 	lw6mat_dmat3_mul_dvec3 (&dvec3, &dmat3, &dvec3);
 	ret = _print_dvec3 (&dvec3, "result dvec3") && ret;
+	if (lw6mat_is_similar_f (dvec3.p.x, _TEST_DMAT3_MUL_DVEC3_X) &&
+	    lw6mat_is_similar_f (dvec3.p.y, _TEST_DMAT3_MUL_DVEC3_Y) &&
+	    lw6mat_is_similar_f (dvec3.p.z, _TEST_DMAT3_MUL_DVEC3_Z))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("was expecting %f %f %f"),
+			_TEST_DMAT3_MUL_DVEC3_X, _TEST_DMAT3_MUL_DVEC3_Y,
+			_TEST_DMAT3_MUL_DVEC3_Z);
+	    ret = 0;
+	  }
       }
     else
       {
@@ -3447,8 +3512,7 @@ _test_dmat4 ()
 			  _TEST_DMAT_RANDOM_RANGE) /
 			 _TEST_DMAT_RANDOM_ROUND) * _TEST_DMAT_RANDOM_ROUND;
 		k = lw6mat_mat4_v_index (i, j);
-		if (fabs (dmat4.m[i][j] - dmat4.v[k]) <
-		    _TEST_DMAT_FILL_TOLERANCE)
+		if (lw6mat_is_similar_d (dmat4.m[i][j], dmat4.v[k]))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -3516,8 +3580,7 @@ _test_dmat4 ()
 	    lw6mat_dmat4_id (&dmat4_id);
 	    for (k = 0; k < LW6MAT_MAT4_V_SIZE_X_SIZE; ++k)
 	      {
-		if (fabs (dmat4_mul.v[k] - dmat4_id.v[k]) <
-		    _TEST_DMAT_INVMUL_TOLERANCE)
+		if (lw6mat_is_similar_d (dmat4_mul.v[k], dmat4_id.v[k]))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -3539,8 +3602,7 @@ _test_dmat4 ()
 	    det_scaled_expected =
 	      det * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE *
 	      _TEST_DMAT_SCALE;
-	    if (fabs (det_scaled - det_scaled_expected) <
-		_TEST_DMAT_SCALE_TOLERANCE)
+	    if (lw6mat_is_similar_d (det_scaled, det_scaled_expected))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -3626,6 +3688,20 @@ _test_dmat4 ()
 	ret = _print_dvec4 (&dvec4, "right arg column dvec4") && ret;
 	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4, &dvec4);
 	ret = _print_dvec4 (&dvec4, "result dvec4") && ret;
+	if (lw6mat_is_similar_f (dvec4.p.x, _TEST_DMAT4_MUL_DVEC4_X) &&
+	    lw6mat_is_similar_f (dvec4.p.y, _TEST_DMAT4_MUL_DVEC4_Y) &&
+	    lw6mat_is_similar_f (dvec4.p.z, _TEST_DMAT4_MUL_DVEC4_Z) &&
+	    lw6mat_is_similar_f (dvec4.p.w, _TEST_DMAT4_MUL_DVEC4_W))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("was expecting %f %f %f %f"),
+			_TEST_DMAT4_MUL_DVEC4_X, _TEST_DMAT4_MUL_DVEC4_Y,
+			_TEST_DMAT4_MUL_DVEC4_Z, _TEST_DMAT4_MUL_DVEC4_W);
+	    ret = 0;
+	  }
       }
     else
       {
