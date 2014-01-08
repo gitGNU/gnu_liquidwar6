@@ -231,6 +231,33 @@ lw6mat_fmat2_mul_fmat2 (lw6mat_fmat2_t * fmat2,
 }
 
 /**
+ * lw6mat_fmat2_mul_fvec2
+ *
+ * @fmat2: the result matrix
+ * @fmat2_a: the 1st matrix to multiply, on the left
+ * @fmat2_b: the 2nd matrix to multiply, on the right
+ *
+ * Multiplication of matrix by vector. The result is a
+ * vector, the convention used is that of OpenGL, matrix are
+ * column major and vector are columns, that is, should you
+ * do it on a paper, vector is placed vertically, on the right of
+ * matrix. The other multiplication is not implemented, transposing
+ * the matrix will do it the other way if you wish.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_fmat2_mul_fvec2 (lw6mat_fvec2_t * fvec2_dst,
+			const lw6mat_fmat2_t * fmat2,
+			const lw6mat_fvec2_t * fvec2_src)
+{
+  fvec2_dst->v[0] =
+    fmat2->m[0][0] * fvec2_src->v[0] + fmat2->m[1][0] * fvec2_src->v[0];
+  fvec2_dst->v[1] =
+    fmat2->m[0][1] * fvec2_src->v[1] + fmat2->m[1][1] * fvec2_src->v[1];
+}
+
+/**
  * lw6mat_fmat2_repr
  *
  * @fmat: matrix to represent

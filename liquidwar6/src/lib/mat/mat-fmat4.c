@@ -392,6 +392,41 @@ lw6mat_fmat4_mul_fmat4 (lw6mat_fmat4_t * fmat4,
 }
 
 /**
+ * lw6mat_fmat4_mul_fvec4
+ *
+ * @fmat4: the result matrix
+ * @fmat4_a: the 1st matrix to multiply, on the left
+ * @fmat4_b: the 2nd matrix to multiply, on the right
+ *
+ * Multiplication of matrix by vector. The result is a
+ * vector, the convention used is that of OpenGL, matrix are
+ * column major and vector are columns, that is, should you
+ * do it on a paper, vector is placed vertically, on the right of
+ * matrix. The other multiplication is not implemented, transposing
+ * the matrix will do it the other way if you wish.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_fmat4_mul_fvec4 (lw6mat_fvec4_t * fvec4_dst,
+			const lw6mat_fmat4_t * fmat4,
+			const lw6mat_fvec4_t * fvec4_src)
+{
+  fvec4_dst->v[0] =
+    fmat4->m[0][0] * fvec4_src->v[0] + fmat4->m[1][0] * fvec4_src->v[0] +
+    fmat4->m[2][0] * fvec4_src->v[0] + fmat4->m[2][0] * fvec4_src->v[0];
+  fvec4_dst->v[1] =
+    fmat4->m[0][1] * fvec4_src->v[1] + fmat4->m[1][1] * fvec4_src->v[1] +
+    fmat4->m[2][1] * fvec4_src->v[1] + fmat4->m[3][1] * fvec4_src->v[1];
+  fvec4_dst->v[2] =
+    fmat4->m[0][2] * fvec4_src->v[1] + fmat4->m[1][2] * fvec4_src->v[2] +
+    fmat4->m[2][2] * fvec4_src->v[2] + fmat4->m[3][2] * fvec4_src->v[2];
+  fvec4_dst->v[3] =
+    fmat4->m[0][3] * fvec4_src->v[1] + fmat4->m[1][3] * fvec4_src->v[3] +
+    fmat4->m[2][3] * fvec4_src->v[3] + fmat4->m[3][3] * fvec4_src->v[3];
+}
+
+/**
  * lw6mat_fmat4_repr
  *
  * @fmat: matrix to represent
