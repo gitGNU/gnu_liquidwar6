@@ -833,7 +833,7 @@ _test_fvec2 ()
 		    _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
       }
-    if (!lw6mat_fvec2_len (&fvec2))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec2_len (&fvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("zero fvec2 has zero size, this is fine"));
@@ -847,7 +847,7 @@ _test_fvec2 ()
     fvec2.p.y = _TEST_FVEC_Y1;
     _print_fvec2 (&fvec2, "init");
     len_sq = lw6mat_fvec2_len_sq (&fvec2);
-    if (lw6mat_ftox (len_sq) == _TEST_FVEC2_LEN_SQ)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len_sq) == _TEST_FVEC2_LEN_SQ))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for fvec2 is %d -> OK"),
 		    lw6mat_ftoi (len_sq));
@@ -862,7 +862,7 @@ _test_fvec2 ()
 	ret = 0;
       }
     len = lw6mat_fvec2_len (&fvec2);
-    if (lw6mat_ftox (len) == _TEST_FVEC2_LEN)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len) == _TEST_FVEC2_LEN))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for fvec2 is %d -> OK"),
 		    lw6mat_ftoi (len));
@@ -875,14 +875,14 @@ _test_fvec2 ()
 		    lw6mat_ftoi (len), lw6mat_ftox (len), _TEST_FVEC2_LEN);
 	ret = 0;
       }
-    if (!lw6mat_fvec2_norm (&fvec2))
+    if (!LW6SYS_TEST_PASS_THROUGH (lw6mat_fvec2_norm (&fvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
       }
     _print_fvec2 (&fvec2, "norm");
     len = lw6mat_fvec2_len (&fvec2);
-    if (lw6mat_ftox (len) == LW6MAT_X_1)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len) == LW6MAT_X_1))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("len for normalized fvec2 is 1 -> OK"));
@@ -905,7 +905,7 @@ _test_fvec2 ()
     memset (&fvec2_b, 0xff, sizeof (lw6mat_fvec2_t));
     fvec2_b.p.x = fvec2.p.x;
     fvec2_b.p.y = fvec2.p.y;
-    if (lw6mat_fvec2_is_same (&fvec2_a, &fvec2_b))
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_fvec2_is_same (&fvec2_a, &fvec2_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("fvec2 comparison works when equal"));
@@ -917,7 +917,7 @@ _test_fvec2 ()
 	ret = 0;
       }
     lw6mat_fvec2_neg (&fvec2_b);
-    if (!lw6mat_fvec2_is_same (&fvec2_a, &fvec2_b))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec2_is_same (&fvec2_a, &fvec2_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("fvec2 comparison works when different"));
@@ -929,7 +929,7 @@ _test_fvec2 ()
 	ret = 0;
       }
     lw6mat_fvec2_add (&fvec2, &fvec2_a, &fvec2_b);
-    if (!lw6mat_fvec2_len (&fvec2))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec2_len (&fvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -943,7 +943,7 @@ _test_fvec2 ()
 	ret = 0;
       }
     lw6mat_fvec2_sub (&fvec2, &fvec2_a, &fvec2_a);
-    if (!lw6mat_fvec2_len (&fvec2))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec2_len (&fvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -962,7 +962,7 @@ _test_fvec2 ()
     fvec2_b.p.x = _TEST_FVEC_X2;
     fvec2_b.p.y = _TEST_FVEC_Y2;
     dot = lw6mat_fvec2_dot (&fvec2_a, &fvec2_b);
-    if (lw6mat_ftox (dot) == _TEST_FVEC2_DOT)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (dot) == _TEST_FVEC2_DOT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for fvec2 is %d -> OK"),
 		    lw6mat_ftoi (dot));
@@ -981,9 +981,10 @@ _test_fvec2 ()
      * does not really make sense for dim 2 and 4.
      */
     lw6mat_fvec2_cross (&fvec3, &fvec2_a, &fvec2_b);
-    if (lw6mat_ftox (fvec3.p.x) == _TEST_FVEC2_CROSS_X &&
-	lw6mat_ftox (fvec3.p.y) == _TEST_FVEC2_CROSS_Y &&
-	lw6mat_ftox (fvec3.p.z) == _TEST_FVEC2_CROSS_Z)
+    if (LW6SYS_TEST_PASS_THROUGH
+	(lw6mat_ftox (fvec3.p.x) == _TEST_FVEC2_CROSS_X
+	 && lw6mat_ftox (fvec3.p.y) == _TEST_FVEC2_CROSS_Y
+	 && lw6mat_ftox (fvec3.p.z) == _TEST_FVEC2_CROSS_Z))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("cross product for fvec2 is (%d,%d,%d) -> OK"),
@@ -1015,7 +1016,7 @@ _print_fvec3 (const lw6mat_fvec3_t * fvec3, const char *about)
   char *repr;
 
   repr = lw6mat_fvec3_repr (fvec3);
-  if (repr)
+  if (LW6SYS_TEST_PASS_THROUGH (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec3 %s repr=\"%s\""), about,
 		  repr);
@@ -1052,13 +1053,13 @@ _test_fvec3 ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
 		("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (lw6mat_fvec3_norm (&fvec3))
+    if (!LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec3_norm (&fvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
       }
-    if (!lw6mat_fvec3_len (&fvec3))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec3_len (&fvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("zero fvec3 has zero size, this is fine"));
@@ -1073,7 +1074,7 @@ _test_fvec3 ()
     fvec3.p.z = _TEST_FVEC_Z1;
     _print_fvec3 (&fvec3, "init");
     len_sq = lw6mat_fvec3_len_sq (&fvec3);
-    if (lw6mat_ftox (len_sq) == _TEST_FVEC3_LEN_SQ)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len_sq) == _TEST_FVEC3_LEN_SQ))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for fvec3 is %d -> OK"),
 		    lw6mat_ftoi (len_sq));
@@ -1088,7 +1089,7 @@ _test_fvec3 ()
 	ret = 0;
       }
     len = lw6mat_fvec3_len (&fvec3);
-    if (lw6mat_ftox (len) == _TEST_FVEC3_LEN)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len) == _TEST_FVEC3_LEN))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for fvec3 is %d -> OK"),
 		    lw6mat_ftoi (len));
@@ -1101,14 +1102,14 @@ _test_fvec3 ()
 		    lw6mat_ftoi (len), lw6mat_ftox (len), _TEST_FVEC3_LEN);
 	ret = 0;
       }
-    if (!lw6mat_fvec3_norm (&fvec3))
+    if (!LW6SYS_TEST_PASS_THROUGH (lw6mat_fvec3_norm (&fvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
       }
     _print_fvec3 (&fvec3, "norm");
     len = lw6mat_fvec3_len (&fvec3);
-    if (lw6mat_ftox (len) == LW6MAT_X_1)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len) == LW6MAT_X_1))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("len for normalized fvec3 is 1 -> OK"));
@@ -1132,7 +1133,7 @@ _test_fvec3 ()
     fvec3_b.p.x = fvec3.p.x;
     fvec3_b.p.y = fvec3.p.y;
     fvec3_b.p.z = fvec3.p.z;
-    if (lw6mat_fvec3_is_same (&fvec3_a, &fvec3_b))
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_fvec3_is_same (&fvec3_a, &fvec3_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("fvec3 comparison works when equal"));
@@ -1144,7 +1145,7 @@ _test_fvec3 ()
 	ret = 0;
       }
     lw6mat_fvec3_neg (&fvec3_b);
-    if (!lw6mat_fvec3_is_same (&fvec3_a, &fvec3_b))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec3_is_same (&fvec3_a, &fvec3_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("fvec3 comparison works when different"));
@@ -1156,7 +1157,7 @@ _test_fvec3 ()
 	ret = 0;
       }
     lw6mat_fvec3_add (&fvec3, &fvec3_a, &fvec3_b);
-    if (!lw6mat_fvec3_len (&fvec3))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec3_len (&fvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1170,7 +1171,7 @@ _test_fvec3 ()
 	ret = 0;
       }
     lw6mat_fvec3_sub (&fvec3, &fvec3_a, &fvec3_a);
-    if (!lw6mat_fvec3_len (&fvec3))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec3_len (&fvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1191,7 +1192,7 @@ _test_fvec3 ()
     fvec3_b.p.y = _TEST_FVEC_Y2;
     fvec3_b.p.z = _TEST_FVEC_Z2;
     dot = lw6mat_fvec3_dot (&fvec3_a, &fvec3_b);
-    if (lw6mat_ftox (dot) == _TEST_FVEC3_DOT)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (dot) == _TEST_FVEC3_DOT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for fvec3 is %d -> OK"),
 		    lw6mat_ftoi (dot));
@@ -1210,9 +1211,10 @@ _test_fvec3 ()
      * does not really make sense for dim 2 and 4.
      */
     lw6mat_fvec3_cross (&fvec3, &fvec3_a, &fvec3_b);
-    if (lw6mat_ftox (fvec3.p.x) == _TEST_FVEC3_CROSS_X &&
-	lw6mat_ftox (fvec3.p.y) == _TEST_FVEC3_CROSS_Y &&
-	lw6mat_ftox (fvec3.p.z) == _TEST_FVEC3_CROSS_Z)
+    if (LW6SYS_TEST_PASS_THROUGH
+	(lw6mat_ftox (fvec3.p.x) == _TEST_FVEC3_CROSS_X
+	 && lw6mat_ftox (fvec3.p.y) == _TEST_FVEC3_CROSS_Y
+	 && lw6mat_ftox (fvec3.p.z) == _TEST_FVEC3_CROSS_Z))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("cross product for fvec3 is (%d,%d,%d) -> OK"),
@@ -1244,7 +1246,7 @@ _print_fvec4 (const lw6mat_fvec4_t * fvec4, const char *about)
   char *repr;
 
   repr = lw6mat_fvec4_repr (fvec4);
-  if (repr)
+  if (LW6SYS_TEST_PASS_THROUGH (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec4 %s repr=\"%s\""), about,
 		  repr);
@@ -1282,13 +1284,13 @@ _test_fvec4 ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
 		("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (lw6mat_fvec4_norm (&fvec4))
+    if (!LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec4_norm (&fvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
       }
-    if (!lw6mat_fvec4_len (&fvec4))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec4_len (&fvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("zero fvec4 has zero size, this is fine"));
@@ -1304,7 +1306,7 @@ _test_fvec4 ()
     fvec4.p.w = _TEST_FVEC_W1;
     _print_fvec4 (&fvec4, "init");
     len_sq = lw6mat_fvec4_len_sq (&fvec4);
-    if (lw6mat_ftox (len_sq) == _TEST_FVEC4_LEN_SQ)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len_sq) == _TEST_FVEC4_LEN_SQ))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for fvec4 is %d -> OK"),
 		    lw6mat_ftoi (len_sq));
@@ -1319,7 +1321,7 @@ _test_fvec4 ()
 	ret = 0;
       }
     len = lw6mat_fvec4_len (&fvec4);
-    if (lw6mat_ftox (len) == _TEST_FVEC4_LEN)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len) == _TEST_FVEC4_LEN))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for fvec4 is %d -> OK"),
 		    lw6mat_ftoi (len));
@@ -1332,14 +1334,14 @@ _test_fvec4 ()
 		    lw6mat_ftoi (len), lw6mat_ftox (len), _TEST_FVEC4_LEN);
 	ret = 0;
       }
-    if (!lw6mat_fvec4_norm (&fvec4))
+    if (!LW6SYS_TEST_PASS_THROUGH (lw6mat_fvec4_norm (&fvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
       }
     _print_fvec4 (&fvec4, "norm");
     len = lw6mat_fvec4_len (&fvec4);
-    if (lw6mat_ftox (len) == LW6MAT_X_1)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len) == LW6MAT_X_1))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("len for normalized fvec4 is 1 -> OK"));
@@ -1364,7 +1366,7 @@ _test_fvec4 ()
     fvec4_b.p.y = fvec4.p.y;
     fvec4_b.p.z = fvec4.p.z;
     fvec4_b.p.w = fvec4.p.w;
-    if (lw6mat_fvec4_is_same (&fvec4_a, &fvec4_b))
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_fvec4_is_same (&fvec4_a, &fvec4_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("fvec4 comparison works when equal"));
@@ -1376,7 +1378,7 @@ _test_fvec4 ()
 	ret = 0;
       }
     lw6mat_fvec4_neg (&fvec4_b);
-    if (!lw6mat_fvec4_is_same (&fvec4_a, &fvec4_b))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec4_is_same (&fvec4_a, &fvec4_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("fvec4 comparison works when different"));
@@ -1388,7 +1390,7 @@ _test_fvec4 ()
 	ret = 0;
       }
     lw6mat_fvec4_add (&fvec4, &fvec4_a, &fvec4_b);
-    if (!lw6mat_fvec4_len (&fvec4))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec4_len (&fvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1402,7 +1404,7 @@ _test_fvec4 ()
 	ret = 0;
       }
     lw6mat_fvec4_sub (&fvec4, &fvec4_a, &fvec4_a);
-    if (!lw6mat_fvec4_len (&fvec4))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec4_len (&fvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1425,7 +1427,7 @@ _test_fvec4 ()
     fvec4_b.p.z = _TEST_FVEC_Z2;
     fvec4_b.p.w = _TEST_FVEC_W2;
     dot = lw6mat_fvec4_dot (&fvec4_a, &fvec4_b);
-    if (lw6mat_ftox (dot) == _TEST_FVEC4_DOT)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (dot) == _TEST_FVEC4_DOT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for fvec4 is %d -> OK"),
 		    lw6mat_ftoi (dot));
@@ -1444,9 +1446,10 @@ _test_fvec4 ()
      * does not really make sense for dim 2 and 4.
      */
     lw6mat_fvec4_cross (&fvec3, &fvec4_a, &fvec4_b);
-    if (lw6mat_ftox (fvec3.p.x) == _TEST_FVEC4_CROSS_X &&
-	lw6mat_ftox (fvec3.p.y) == _TEST_FVEC4_CROSS_Y &&
-	lw6mat_ftox (fvec3.p.z) == _TEST_FVEC4_CROSS_Z)
+    if (LW6SYS_TEST_PASS_THROUGH
+	(lw6mat_ftox (fvec3.p.x) == _TEST_FVEC4_CROSS_X
+	 && lw6mat_ftox (fvec3.p.y) == _TEST_FVEC4_CROSS_Y
+	 && lw6mat_ftox (fvec3.p.z) == _TEST_FVEC4_CROSS_Z))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("cross product for fvec4 is (%d,%d,%d) -> OK"),
@@ -1478,7 +1481,7 @@ _print_dvec2 (const lw6mat_dvec2_t * dvec2, const char *about)
   char *repr;
 
   repr = lw6mat_dvec2_repr (dvec2);
-  if (repr)
+  if (LW6SYS_TEST_PASS_THROUGH (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec2 %s repr=\"%s\""), about,
 		  repr);
@@ -1516,13 +1519,13 @@ _test_dvec2 ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
 		("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (lw6mat_dvec2_norm (&dvec2))
+    if (!LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec2_norm (&dvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
       }
-    if (!lw6mat_dvec2_len (&dvec2))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec2_len (&dvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("zero dvec2 has zero size, this is fine"));
@@ -1536,7 +1539,7 @@ _test_dvec2 ()
     dvec2.p.y = _TEST_DVEC_Y1;
     _print_dvec2 (&dvec2, "init");
     len_sq = lw6mat_dvec2_len_sq (&dvec2);
-    if (lw6mat_dtox (len_sq) == _TEST_DVEC2_LEN_SQ)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len_sq) == _TEST_DVEC2_LEN_SQ))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for dvec2 is %d -> OK"),
 		    lw6mat_dtoi (len_sq));
@@ -1551,7 +1554,7 @@ _test_dvec2 ()
 	ret = 0;
       }
     len = lw6mat_dvec2_len (&dvec2);
-    if (lw6mat_dtox (len) == _TEST_DVEC2_LEN)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len) == _TEST_DVEC2_LEN))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for dvec2 is %d -> OK"),
 		    lw6mat_dtoi (len));
@@ -1564,14 +1567,14 @@ _test_dvec2 ()
 		    lw6mat_dtoi (len), lw6mat_dtox (len), _TEST_DVEC2_LEN);
 	ret = 0;
       }
-    if (!lw6mat_dvec2_norm (&dvec2))
+    if (!LW6SYS_TEST_PASS_THROUGH (lw6mat_dvec2_norm (&dvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
       }
     _print_dvec2 (&dvec2, "norm");
     len = lw6mat_dvec2_len (&dvec2);
-    if (lw6mat_dtox (len) == LW6MAT_X_1)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len) == LW6MAT_X_1))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("len for normalized dvec2 is 1 -> OK"));
@@ -1594,7 +1597,7 @@ _test_dvec2 ()
     memset (&dvec2_b, 0xff, sizeof (lw6mat_dvec2_t));
     dvec2_b.p.x = dvec2.p.x;
     dvec2_b.p.y = dvec2.p.y;
-    if (lw6mat_dvec2_is_same (&dvec2_a, &dvec2_b))
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dvec2_is_same (&dvec2_a, &dvec2_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("dvec2 comparison works when equal"));
@@ -1606,7 +1609,7 @@ _test_dvec2 ()
 	ret = 0;
       }
     lw6mat_dvec2_neg (&dvec2_b);
-    if (!lw6mat_dvec2_is_same (&dvec2_a, &dvec2_b))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec2_is_same (&dvec2_a, &dvec2_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("dvec2 comparison works when different"));
@@ -1618,7 +1621,7 @@ _test_dvec2 ()
 	ret = 0;
       }
     lw6mat_dvec2_add (&dvec2, &dvec2_a, &dvec2_b);
-    if (!lw6mat_dvec2_len (&dvec2))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec2_len (&dvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1632,7 +1635,7 @@ _test_dvec2 ()
 	ret = 0;
       }
     lw6mat_dvec2_sub (&dvec2, &dvec2_a, &dvec2_a);
-    if (!lw6mat_dvec2_len (&dvec2))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec2_len (&dvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1651,7 +1654,7 @@ _test_dvec2 ()
     dvec2_b.p.x = _TEST_DVEC_X2;
     dvec2_b.p.y = _TEST_DVEC_Y2;
     dot = lw6mat_dvec2_dot (&dvec2_a, &dvec2_b);
-    if (lw6mat_dtox (dot) == _TEST_DVEC2_DOT)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (dot) == _TEST_DVEC2_DOT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for dvec2 is %d -> OK"),
 		    lw6mat_dtoi (dot));
@@ -1670,9 +1673,10 @@ _test_dvec2 ()
      * does not really make sense for dim 2 and 4.
      */
     lw6mat_dvec2_cross (&dvec3, &dvec2_a, &dvec2_b);
-    if (lw6mat_dtox (dvec3.p.x) == _TEST_DVEC2_CROSS_X &&
-	lw6mat_dtox (dvec3.p.y) == _TEST_DVEC2_CROSS_Y &&
-	lw6mat_dtox (dvec3.p.z) == _TEST_DVEC2_CROSS_Z)
+    if (LW6SYS_TEST_PASS_THROUGH
+	(lw6mat_dtox (dvec3.p.x) == _TEST_DVEC2_CROSS_X
+	 && lw6mat_dtox (dvec3.p.y) == _TEST_DVEC2_CROSS_Y
+	 && lw6mat_dtox (dvec3.p.z) == _TEST_DVEC2_CROSS_Z))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("cross product for dvec2 is (%d,%d,%d) -> OK"),
@@ -1704,7 +1708,7 @@ _print_dvec3 (const lw6mat_dvec3_t * dvec3, const char *about)
   char *repr;
 
   repr = lw6mat_dvec3_repr (dvec3);
-  if (repr)
+  if (LW6SYS_TEST_PASS_THROUGH (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec3 %s repr=\"%s\""), about,
 		  repr);
@@ -1741,13 +1745,13 @@ _test_dvec3 ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
 		("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (lw6mat_dvec3_norm (&dvec3))
+    if (!LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec3_norm (&dvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
       }
-    if (!lw6mat_dvec3_len (&dvec3))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec3_len (&dvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("zero dvec3 has zero size, this is fine"));
@@ -1762,7 +1766,7 @@ _test_dvec3 ()
     dvec3.p.z = _TEST_DVEC_Z1;
     _print_dvec3 (&dvec3, "init");
     len_sq = lw6mat_dvec3_len_sq (&dvec3);
-    if (lw6mat_dtox (len_sq) == _TEST_DVEC3_LEN_SQ)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len_sq) == _TEST_DVEC3_LEN_SQ))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for dvec3 is %d -> OK"),
 		    lw6mat_dtoi (len_sq));
@@ -1777,7 +1781,7 @@ _test_dvec3 ()
 	ret = 0;
       }
     len = lw6mat_dvec3_len (&dvec3);
-    if (lw6mat_dtox (len) == _TEST_DVEC3_LEN)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len) == _TEST_DVEC3_LEN))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for dvec3 is %d -> OK"),
 		    lw6mat_dtoi (len));
@@ -1790,14 +1794,14 @@ _test_dvec3 ()
 		    lw6mat_dtoi (len), lw6mat_dtox (len), _TEST_DVEC3_LEN);
 	ret = 0;
       }
-    if (!lw6mat_dvec3_norm (&dvec3))
+    if (!LW6SYS_TEST_PASS_THROUGH (lw6mat_dvec3_norm (&dvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
       }
     _print_dvec3 (&dvec3, "norm");
     len = lw6mat_dvec3_len (&dvec3);
-    if (lw6mat_dtox (len) == LW6MAT_X_1)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len) == LW6MAT_X_1))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("len for normalized dvec3 is 1 -> OK"));
@@ -1821,7 +1825,7 @@ _test_dvec3 ()
     dvec3_b.p.x = dvec3.p.x;
     dvec3_b.p.y = dvec3.p.y;
     dvec3_b.p.z = dvec3.p.z;
-    if (lw6mat_dvec3_is_same (&dvec3_a, &dvec3_b))
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dvec3_is_same (&dvec3_a, &dvec3_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("dvec3 comparison works when equal"));
@@ -1833,7 +1837,7 @@ _test_dvec3 ()
 	ret = 0;
       }
     lw6mat_dvec3_neg (&dvec3_b);
-    if (!lw6mat_dvec3_is_same (&dvec3_a, &dvec3_b))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec3_is_same (&dvec3_a, &dvec3_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("dvec3 comparison works when different"));
@@ -1845,7 +1849,7 @@ _test_dvec3 ()
 	ret = 0;
       }
     lw6mat_dvec3_add (&dvec3, &dvec3_a, &dvec3_b);
-    if (!lw6mat_dvec3_len (&dvec3))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec3_len (&dvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1859,7 +1863,7 @@ _test_dvec3 ()
 	ret = 0;
       }
     lw6mat_dvec3_sub (&dvec3, &dvec3_a, &dvec3_a);
-    if (!lw6mat_dvec3_len (&dvec3))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec3_len (&dvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1880,7 +1884,7 @@ _test_dvec3 ()
     dvec3_b.p.y = _TEST_DVEC_Y2;
     dvec3_b.p.z = _TEST_DVEC_Z2;
     dot = lw6mat_dvec3_dot (&dvec3_a, &dvec3_b);
-    if (lw6mat_dtox (dot) == _TEST_DVEC3_DOT)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (dot) == _TEST_DVEC3_DOT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for dvec3 is %d -> OK"),
 		    lw6mat_dtoi (dot));
@@ -1899,9 +1903,10 @@ _test_dvec3 ()
      * does not really make sense for dim 2 and 4.
      */
     lw6mat_dvec3_cross (&dvec3, &dvec3_a, &dvec3_b);
-    if (lw6mat_dtox (dvec3.p.x) == _TEST_DVEC3_CROSS_X &&
-	lw6mat_dtox (dvec3.p.y) == _TEST_DVEC3_CROSS_Y &&
-	lw6mat_dtox (dvec3.p.z) == _TEST_DVEC3_CROSS_Z)
+    if (LW6SYS_TEST_PASS_THROUGH
+	(lw6mat_dtox (dvec3.p.x) == _TEST_DVEC3_CROSS_X
+	 && lw6mat_dtox (dvec3.p.y) == _TEST_DVEC3_CROSS_Y
+	 && lw6mat_dtox (dvec3.p.z) == _TEST_DVEC3_CROSS_Z))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("cross product for dvec3 is (%d,%d,%d) -> OK"),
@@ -1933,7 +1938,7 @@ _print_dvec4 (const lw6mat_dvec4_t * dvec4, const char *about)
   char *repr;
 
   repr = lw6mat_dvec4_repr (dvec4);
-  if (repr)
+  if (LW6SYS_TEST_PASS_THROUGH (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec4 %s repr=\"%s\""), about,
 		  repr);
@@ -1971,13 +1976,13 @@ _test_dvec4 ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
 		("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (lw6mat_dvec4_norm (&dvec4))
+    if (!LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec4_norm (&dvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
       }
-    if (!lw6mat_dvec4_len (&dvec4))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec4_len (&dvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("zero dvec4 has zero size, this is fine"));
@@ -1993,7 +1998,7 @@ _test_dvec4 ()
     dvec4.p.w = _TEST_DVEC_W1;
     _print_dvec4 (&dvec4, "init");
     len_sq = lw6mat_dvec4_len_sq (&dvec4);
-    if (lw6mat_dtox (len_sq) == _TEST_DVEC4_LEN_SQ)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len_sq) == _TEST_DVEC4_LEN_SQ))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for dvec4 is %d -> OK"),
 		    lw6mat_dtoi (len_sq));
@@ -2008,7 +2013,7 @@ _test_dvec4 ()
 	ret = 0;
       }
     len = lw6mat_dvec4_len (&dvec4);
-    if (lw6mat_dtox (len) == _TEST_DVEC4_LEN)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len) == _TEST_DVEC4_LEN))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for dvec4 is %d -> OK"),
 		    lw6mat_dtoi (len));
@@ -2021,14 +2026,14 @@ _test_dvec4 ()
 		    lw6mat_dtoi (len), lw6mat_dtox (len), _TEST_DVEC4_LEN);
 	ret = 0;
       }
-    if (!lw6mat_dvec4_norm (&dvec4))
+    if (!LW6SYS_TEST_PASS_THROUGH (lw6mat_dvec4_norm (&dvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
       }
     _print_dvec4 (&dvec4, "norm");
     len = lw6mat_dvec4_len (&dvec4);
-    if (lw6mat_dtox (len) == LW6MAT_X_1)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len) == LW6MAT_X_1))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("len for normalized dvec4 is 1 -> OK"));
@@ -2053,7 +2058,7 @@ _test_dvec4 ()
     dvec4_b.p.y = dvec4.p.y;
     dvec4_b.p.z = dvec4.p.z;
     dvec4_b.p.w = dvec4.p.w;
-    if (lw6mat_dvec4_is_same (&dvec4_a, &dvec4_b))
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dvec4_is_same (&dvec4_a, &dvec4_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("dvec4 comparison works when equal"));
@@ -2065,7 +2070,7 @@ _test_dvec4 ()
 	ret = 0;
       }
     lw6mat_dvec4_neg (&dvec4_b);
-    if (!lw6mat_dvec4_is_same (&dvec4_a, &dvec4_b))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec4_is_same (&dvec4_a, &dvec4_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("dvec4 comparison works when different"));
@@ -2077,7 +2082,7 @@ _test_dvec4 ()
 	ret = 0;
       }
     lw6mat_dvec4_add (&dvec4, &dvec4_a, &dvec4_b);
-    if (!lw6mat_dvec4_len (&dvec4))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec4_len (&dvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -2091,7 +2096,7 @@ _test_dvec4 ()
 	ret = 0;
       }
     lw6mat_dvec4_sub (&dvec4, &dvec4_a, &dvec4_a);
-    if (!lw6mat_dvec4_len (&dvec4))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec4_len (&dvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -2114,7 +2119,7 @@ _test_dvec4 ()
     dvec4_b.p.z = _TEST_DVEC_Z2;
     dvec4_b.p.w = _TEST_DVEC_W2;
     dot = lw6mat_dvec4_dot (&dvec4_a, &dvec4_b);
-    if (lw6mat_dtox (dot) == _TEST_DVEC4_DOT)
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (dot) == _TEST_DVEC4_DOT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for dvec4 is %d -> OK"),
 		    lw6mat_dtoi (dot));
@@ -2133,9 +2138,10 @@ _test_dvec4 ()
      * does not really make sense for dim 2 and 4.
      */
     lw6mat_dvec4_cross (&dvec3, &dvec4_a, &dvec4_b);
-    if (lw6mat_dtox (dvec3.p.x) == _TEST_DVEC4_CROSS_X &&
-	lw6mat_dtox (dvec3.p.y) == _TEST_DVEC4_CROSS_Y &&
-	lw6mat_dtox (dvec3.p.z) == _TEST_DVEC4_CROSS_Z)
+    if (LW6SYS_TEST_PASS_THROUGH
+	(lw6mat_dtox (dvec3.p.x) == _TEST_DVEC4_CROSS_X
+	 && lw6mat_dtox (dvec3.p.y) == _TEST_DVEC4_CROSS_Y
+	 && lw6mat_dtox (dvec3.p.z) == _TEST_DVEC4_CROSS_Z))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("cross product for dvec4 is (%d,%d,%d) -> OK"),
