@@ -112,7 +112,7 @@ lw6mat_fvec4_norm (lw6mat_fvec4_t * fvec4)
 {
   float len = lw6mat_fvec4_len (fvec4);
 
-  if (len)
+  if (!lw6mat_is_similar_f (len, LW6MAT_F_0))
     {
       fvec4->p.x /= len;
       fvec4->p.y /= len;

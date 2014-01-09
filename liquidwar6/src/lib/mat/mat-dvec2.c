@@ -111,7 +111,7 @@ lw6mat_dvec2_norm (lw6mat_dvec2_t * dvec2)
 {
   double len = lw6mat_dvec2_len (dvec2);
 
-  if (len)
+  if (!lw6mat_is_similar_d (len, LW6MAT_D_0))
     {
       dvec2->p.x /= len;
       dvec2->p.y /= len;

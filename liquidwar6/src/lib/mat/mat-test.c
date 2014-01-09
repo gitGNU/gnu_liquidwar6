@@ -222,37 +222,37 @@ _test_sizeof ()
     int s = 0;
 
     s = sizeof (int32_t);
-    if (s == _TEST_SIZEOF_INT32)
+    if (LW6SYS_TEST_PASS_THROUGH (s == _TEST_SIZEOF_INT32))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("sizeof(int32_t) is %d, OK"), s);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("sizeof(int32_t) is %d, what the hell is going on?"),
 		    s);
 	ret = 0;
       }
     s = sizeof (float);
-    if (s == _TEST_SIZEOF_FLOAT)
+    if (LW6SYS_TEST_PASS_THROUGH (s == _TEST_SIZEOF_FLOAT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("sizeof(float) is %d, OK"), s);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("sizeof(float) is %d, what the hell is going on?"),
 		    s);
 	ret = 0;
       }
     s = sizeof (double);
-    if (s == _TEST_SIZEOF_DOUBLE)
+    if (LW6SYS_TEST_PASS_THROUGH (s == _TEST_SIZEOF_DOUBLE))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("sizeof(double) is %d, OK"), s);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("sizeof(double) is %d, what the hell is going on?"),
 		    s);
 	ret = 0;
@@ -280,159 +280,159 @@ _test_convert ()
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("Verifying conversions"));
 
     i = lw6mat_ftoi (_TEST_FTOI_IN);
-    if (i == _TEST_FTOI_OUT)
+    if (LW6SYS_TEST_PASS_THROUGH (i == _TEST_FTOI_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ftoi OK, output is %d"), i);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("ftoi failed, output is %d, expecting %d"), i,
 		    _TEST_FTOI_OUT);
 	ret = 0;
       }
 
     d = lw6mat_ftod (_TEST_FTOD_IN);
-    if (d == _TEST_FTOD_OUT)
+    if (LW6SYS_TEST_PASS_THROUGH (d == _TEST_FTOD_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ftod OK, output is %f"),
 		    (float) d);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("ftod failed, output is %f, expecting %f"),
 		    (float) d, _TEST_FTOD_OUT);
 	ret = 0;
       }
 
     x = lw6mat_ftox (_TEST_FTOX_IN);
-    if (x == _TEST_FTOX_OUT)
+    if (LW6SYS_TEST_PASS_THROUGH (x == _TEST_FTOX_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ftox OK, output is %d"), x);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("ftox failed, output is %d, expecting %d"), x,
 		    _TEST_FTOX_OUT);
 	ret = 0;
       }
 
     f = lw6mat_itof (_TEST_ITOF_IN);
-    if (f == _TEST_ITOF_OUT)
+    if (LW6SYS_TEST_PASS_THROUGH (f == _TEST_ITOF_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("itof OK, output is %f"), f);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("itof failed, output is %f, expecting %f"), f,
 		    _TEST_ITOF_OUT);
 	ret = 0;
       }
 
     d = lw6mat_itod (_TEST_ITOD_IN);
-    if (d == _TEST_ITOD_OUT)
+    if (LW6SYS_TEST_PASS_THROUGH (d == _TEST_ITOD_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("itod OK, output is %f"),
 		    (float) d);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("itod failed, output is %f, expecting %f"),
 		    (float) d, _TEST_ITOD_OUT);
 	ret = 0;
       }
 
     x = lw6mat_itox (_TEST_ITOX_IN);
-    if (x == _TEST_ITOX_OUT)
+    if (LW6SYS_TEST_PASS_THROUGH (x == _TEST_ITOX_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("itox OK, output is %d"), x);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("itox failed, output is %d, expecting %d"), x,
 		    _TEST_ITOX_OUT);
 	ret = 0;
       }
 
     f = lw6mat_dtof (_TEST_DTOF_IN);
-    if (f == _TEST_DTOF_OUT)
+    if (LW6SYS_TEST_PASS_THROUGH (f == _TEST_DTOF_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dtof OK, output is %f"), f);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("dtof failed, output is %f, expecting %f"), f,
 		    _TEST_DTOF_OUT);
 	ret = 0;
       }
 
     i = lw6mat_dtoi (_TEST_DTOI_IN);
-    if (i == _TEST_DTOI_OUT)
+    if (LW6SYS_TEST_PASS_THROUGH (i == _TEST_DTOI_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dtoi OK, output is %d"), i);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("dtoi failed, output is %d, expecting %d"), i,
 		    _TEST_DTOI_OUT);
 	ret = 0;
       }
 
     x = lw6mat_dtox (_TEST_DTOX_IN);
-    if (x == _TEST_DTOX_OUT)
+    if (LW6SYS_TEST_PASS_THROUGH (x == _TEST_DTOX_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dtox OK, output is %d"), x);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("dtox failed, output is %d, expecting %d"), x,
 		    _TEST_DTOX_OUT);
 	ret = 0;
       }
 
     f = lw6mat_xtof (_TEST_XTOF_IN);
-    if (f == _TEST_XTOF_OUT)
+    if (LW6SYS_TEST_PASS_THROUGH (f == _TEST_XTOF_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("xtof OK, output is %f"), f);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("xtof failed, output is %f, expecting %f"), f,
 		    _TEST_XTOF_OUT);
 	ret = 0;
       }
 
     i = lw6mat_xtoi (_TEST_XTOI_IN);
-    if (i == _TEST_XTOI_OUT)
+    if (LW6SYS_TEST_PASS_THROUGH (i == _TEST_XTOI_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("xtoi OK, output is %d"), i);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("xtoi failed, output is %d, expecting %d"), i,
 		    _TEST_XTOI_OUT);
 	ret = 0;
       }
 
     d = lw6mat_xtod (_TEST_XTOD_IN);
-    if (d == _TEST_XTOD_OUT)
+    if (LW6SYS_TEST_PASS_THROUGH (d == _TEST_XTOD_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("xtod OK, output is %f"),
 		    (float) d);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("xtod failed, output is %f, expecting %f"),
 		    (float) d, _TEST_XTOD_OUT);
 	ret = 0;
@@ -452,7 +452,8 @@ _test_similar ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    if (lw6mat_is_similar_f (_TEST_SIMILAR_F_A_Y, _TEST_SIMILAR_F_B_Y))
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_is_similar_f
+				  (_TEST_SIMILAR_F_A_Y, _TEST_SIMILAR_F_B_Y)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_f %f =~ %f OK"),
 		    _TEST_SIMILAR_F_A_Y, _TEST_SIMILAR_F_B_Y);
@@ -463,7 +464,8 @@ _test_similar ()
 		    _TEST_SIMILAR_F_A_Y, _TEST_SIMILAR_F_B_Y);
 	ret = 0;
       }
-    if (!lw6mat_is_similar_f (_TEST_SIMILAR_F_A_N, _TEST_SIMILAR_F_B_N))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_is_similar_f
+				  (_TEST_SIMILAR_F_A_N, _TEST_SIMILAR_F_B_N)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_f %f != %f OK"),
 		    _TEST_SIMILAR_F_A_N, _TEST_SIMILAR_F_B_N);
@@ -475,7 +477,8 @@ _test_similar ()
 	ret = 0;
       }
 
-    if (lw6mat_is_similar_i (_TEST_SIMILAR_I_A_Y, _TEST_SIMILAR_I_B_Y))
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_is_similar_i
+				  (_TEST_SIMILAR_I_A_Y, _TEST_SIMILAR_I_B_Y)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_i %d =~ %d OK"),
 		    _TEST_SIMILAR_I_A_Y, _TEST_SIMILAR_I_B_Y);
@@ -486,7 +489,8 @@ _test_similar ()
 		    _TEST_SIMILAR_I_A_Y, _TEST_SIMILAR_I_B_Y);
 	ret = 0;
       }
-    if (!lw6mat_is_similar_i (_TEST_SIMILAR_I_A_N, _TEST_SIMILAR_I_B_N))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_is_similar_i
+				  (_TEST_SIMILAR_I_A_N, _TEST_SIMILAR_I_B_N)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_i %d != %d OK"),
 		    _TEST_SIMILAR_I_A_N, _TEST_SIMILAR_I_B_N);
@@ -498,7 +502,8 @@ _test_similar ()
 	ret = 0;
       }
 
-    if (lw6mat_is_similar_d (_TEST_SIMILAR_D_A_Y, _TEST_SIMILAR_D_B_Y))
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_is_similar_d
+				  (_TEST_SIMILAR_D_A_Y, _TEST_SIMILAR_D_B_Y)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_d %f =~ %f OK"),
 		    _TEST_SIMILAR_D_A_Y, _TEST_SIMILAR_D_B_Y);
@@ -509,7 +514,8 @@ _test_similar ()
 		    _TEST_SIMILAR_D_A_Y, _TEST_SIMILAR_D_B_Y);
 	ret = 0;
       }
-    if (!lw6mat_is_similar_d (_TEST_SIMILAR_D_A_N, _TEST_SIMILAR_D_B_N))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_is_similar_d
+				  (_TEST_SIMILAR_D_A_N, _TEST_SIMILAR_D_B_N)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_d %f != %f OK"),
 		    _TEST_SIMILAR_D_A_N, _TEST_SIMILAR_D_B_N);
@@ -521,7 +527,8 @@ _test_similar ()
 	ret = 0;
       }
 
-    if (lw6mat_is_similar_x (_TEST_SIMILAR_X_A_Y, _TEST_SIMILAR_X_B_Y))
+    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_is_similar_x
+				  (_TEST_SIMILAR_X_A_Y, _TEST_SIMILAR_X_B_Y)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_x %d =~ %d OK"),
 		    _TEST_SIMILAR_X_A_Y, _TEST_SIMILAR_X_B_Y);
@@ -532,7 +539,8 @@ _test_similar ()
 		    _TEST_SIMILAR_X_A_Y, _TEST_SIMILAR_X_B_Y);
 	ret = 0;
       }
-    if (!lw6mat_is_similar_x (_TEST_SIMILAR_X_A_N, _TEST_SIMILAR_X_B_N))
+    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_is_similar_x
+				  (_TEST_SIMILAR_X_A_N, _TEST_SIMILAR_X_B_N)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_x %d != %d OK"),
 		    _TEST_SIMILAR_X_A_N, _TEST_SIMILAR_X_B_N);
@@ -590,8 +598,8 @@ _test_x ()
 					   _TEST_X_LIMIT_IN_F))
 		  {
 		    x = lw6mat_x_mul_32 (x_in[i], x_in[j]);
-		    if (abs (x - lw6mat_ftox (f)) <=
-			_TEST_X_EQUAL_MUL_32_THRESHOLD)
+		    if (LW6SYS_TEST_PASS_THROUGH (abs (x - lw6mat_ftox (f)) <=
+						  _TEST_X_EQUAL_MUL_32_THRESHOLD))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_
@@ -619,8 +627,8 @@ _test_x ()
 				lw6mat_xtof (x_in[i]), lw6mat_xtof (x_in[j]));
 		  }
 		x = lw6mat_x_mul_64 (x_in[i], x_in[j]);
-		if (abs (x - lw6mat_ftox (f)) <=
-		    _TEST_X_EQUAL_MUL_64_THRESHOLD)
+		if (LW6SYS_TEST_PASS_THROUGH (abs (x - lw6mat_ftox (f)) <=
+					      _TEST_X_EQUAL_MUL_64_THRESHOLD))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -653,8 +661,8 @@ _test_x ()
 					   _TEST_X_LIMIT_IN_F))
 		  {
 		    x = lw6mat_x_div_32 (x_in[i], x_in[j]);
-		    if (abs (x - lw6mat_ftox (f)) <=
-			_TEST_X_EQUAL_DIV_32_THRESHOLD)
+		    if (LW6SYS_TEST_PASS_THROUGH (abs (x - lw6mat_ftox (f)) <=
+						  _TEST_X_EQUAL_DIV_32_THRESHOLD))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_
@@ -682,8 +690,8 @@ _test_x ()
 				lw6mat_xtof (x_in[i]), lw6mat_xtof (x_in[j]));
 		  }
 		x = lw6mat_x_div_64 (x_in[i], x_in[j]);
-		if (abs (x - lw6mat_ftox (f)) <=
-		    _TEST_X_EQUAL_DIV_64_THRESHOLD)
+		if (LW6SYS_TEST_PASS_THROUGH (abs (x - lw6mat_ftox (f)) <=
+					      _TEST_X_EQUAL_DIV_64_THRESHOLD))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -715,8 +723,8 @@ _test_x ()
 		(lw6mat_xtof (x_in[i]), _TEST_X_LIMIT_IN_F))
 	      {
 		x = lw6mat_x_inv_32 (x_in[i]);
-		if (abs (x - lw6mat_ftox (f)) <=
-		    _TEST_X_EQUAL_INV_32_THRESHOLD)
+		if (LW6SYS_TEST_PASS_THROUGH (abs (x - lw6mat_ftox (f)) <=
+					      _TEST_X_EQUAL_INV_32_THRESHOLD))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -741,7 +749,8 @@ _test_x ()
 			    lw6mat_xtof (x_in[i]));
 	      }
 	    x = lw6mat_x_inv_64 (x_in[i]);
-	    if (abs (x - lw6mat_ftox (f)) <= _TEST_X_EQUAL_INV_64_THRESHOLD)
+	    if (LW6SYS_TEST_PASS_THROUGH (abs (x - lw6mat_ftox (f)) <=
+					  _TEST_X_EQUAL_INV_64_THRESHOLD))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -780,7 +789,7 @@ _print_fvec2 (const lw6mat_fvec2_t * fvec2, const char *about)
   char *repr;
 
   repr = lw6mat_fvec2_repr (fvec2);
-  if (repr)
+  if (LW6SYS_TEST_PASS_THROUGH (repr != NULL))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec2 %s repr=\"%s\""), about,
 		  repr);
@@ -818,11 +827,11 @@ _test_fvec2 ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
 		("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (lw6mat_fvec2_norm (&fvec2))
+    if (!LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec2_norm (&fvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
-	ret = 1;
+	ret = 0;
       }
     if (!lw6mat_fvec2_len (&fvec2))
       {
@@ -869,7 +878,7 @@ _test_fvec2 ()
     if (!lw6mat_fvec2_norm (&fvec2))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
-	ret = 1;
+	ret = 0;
       }
     _print_fvec2 (&fvec2, "norm");
     len = lw6mat_fvec2_len (&fvec2);
@@ -1047,7 +1056,7 @@ _test_fvec3 ()
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
-	ret = 1;
+	ret = 0;
       }
     if (!lw6mat_fvec3_len (&fvec3))
       {
@@ -1095,7 +1104,7 @@ _test_fvec3 ()
     if (!lw6mat_fvec3_norm (&fvec3))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
-	ret = 1;
+	ret = 0;
       }
     _print_fvec3 (&fvec3, "norm");
     len = lw6mat_fvec3_len (&fvec3);
@@ -1277,7 +1286,7 @@ _test_fvec4 ()
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
-	ret = 1;
+	ret = 0;
       }
     if (!lw6mat_fvec4_len (&fvec4))
       {
@@ -1326,7 +1335,7 @@ _test_fvec4 ()
     if (!lw6mat_fvec4_norm (&fvec4))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
-	ret = 1;
+	ret = 0;
       }
     _print_fvec4 (&fvec4, "norm");
     len = lw6mat_fvec4_len (&fvec4);
@@ -1511,7 +1520,7 @@ _test_dvec2 ()
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
-	ret = 1;
+	ret = 0;
       }
     if (!lw6mat_dvec2_len (&dvec2))
       {
@@ -1558,7 +1567,7 @@ _test_dvec2 ()
     if (!lw6mat_dvec2_norm (&dvec2))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
-	ret = 1;
+	ret = 0;
       }
     _print_dvec2 (&dvec2, "norm");
     len = lw6mat_dvec2_len (&dvec2);
@@ -1736,7 +1745,7 @@ _test_dvec3 ()
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
-	ret = 1;
+	ret = 0;
       }
     if (!lw6mat_dvec3_len (&dvec3))
       {
@@ -1784,7 +1793,7 @@ _test_dvec3 ()
     if (!lw6mat_dvec3_norm (&dvec3))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
-	ret = 1;
+	ret = 0;
       }
     _print_dvec3 (&dvec3, "norm");
     len = lw6mat_dvec3_len (&dvec3);
@@ -1966,7 +1975,7 @@ _test_dvec4 ()
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
-	ret = 1;
+	ret = 0;
       }
     if (!lw6mat_dvec4_len (&dvec4))
       {
@@ -2015,7 +2024,7 @@ _test_dvec4 ()
     if (!lw6mat_dvec4_norm (&dvec4))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
-	ret = 1;
+	ret = 0;
       }
     _print_dvec4 (&dvec4, "norm");
     len = lw6mat_dvec4_len (&dvec4);

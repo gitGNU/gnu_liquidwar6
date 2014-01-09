@@ -135,6 +135,7 @@ typedef char *char_ptr_t;
 #define LW6SYS_TEST_FUNCTION_BEGIN { lw6sys_log(LW6SYS_LOG_NOTICE,_("running tests in function \"%s\""),__FUNCTION__); }
 #define LW6SYS_TEST_FUNCTION_END_NO_CUNIT { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("tests OK in function \"%s\""),__FUNCTION__); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("tests FAILED in function \"%s\""),__FUNCTION__); } }
 #define LW6SYS_TEST_FUNCTION_END { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("tests OK in function \"%s\""),__FUNCTION__); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("tests FAILED in function \"%s\""),__FUNCTION__); } _test_data.ret=_test_data.ret && ret; CU_ASSERT_EQUAL(ret, 1); }
+#define LW6SYS_TEST_PASS_THROUGH(value) ( CU_assertImplementation(!!(value), __LINE__, #value, __FILE__, "", CU_FALSE) )
 #define LW6SYS_BACKEND_FUNCTION_BEGIN { lw6sys_log(LW6SYS_LOG_DEBUG,_("begin backend function \"%s\""),__FUNCTION__); }
 #define LW6SYS_BACKEND_FUNCTION_END { lw6sys_log(LW6SYS_LOG_DEBUG,_("end backend function \"%s\""),__FUNCTION__); }
 

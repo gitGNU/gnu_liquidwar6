@@ -112,7 +112,7 @@ lw6mat_dvec3_norm (lw6mat_dvec3_t * dvec3)
 {
   double len = lw6mat_dvec3_len (dvec3);
 
-  if (len)
+  if (!lw6mat_is_similar_d (len, LW6MAT_D_0))
     {
       dvec3->p.x /= len;
       dvec3->p.y /= len;

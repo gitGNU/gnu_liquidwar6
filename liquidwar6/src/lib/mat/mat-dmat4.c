@@ -205,7 +205,7 @@ lw6mat_dmat4_inv (lw6mat_dmat4_t * dmat4_dst,
     {
       double det = lw6mat_dmat4_det (dmat4_src);
 
-      if (det)
+      if (!lw6mat_is_similar_d (det, LW6MAT_D_0))
 	{
 	  /*
 	   * Wooo I'm so lazy, got this one from :
@@ -348,13 +348,6 @@ lw6mat_dmat4_inv (lw6mat_dmat4_t * dmat4_dst,
 	  lw6sys_log (LW6SYS_LOG_INFO,
 		      _x_
 		      ("trying to invert non-invertible dmat4 matrix, determinant is 0"));
-	  /*
-	   * Putting identity in result, yes it's not optimal it's CPU
-	   * waste but in case matrix was not invertible, it the
-	   * problem will really show afterwards, and the result can
-	   * always be inverted again.
-	   */
-	  lw6mat_dmat4_id (dmat4_dst);
 
 	  return 0;
 	}
