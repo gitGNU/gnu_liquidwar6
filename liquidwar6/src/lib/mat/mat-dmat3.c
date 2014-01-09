@@ -293,9 +293,9 @@ lw6mat_dmat3_mul_dmat3 (lw6mat_dmat3_t * dmat3,
 /**
  * lw6mat_dmat3_mul_dvec3
  *
- * @dmat3: the result matrix
- * @dmat3_a: the 1st matrix to multiply, on the left
- * @dmat3_b: the 2nd matrix to multiply, on the right
+ * @dvec3_dst: the result vector
+ * @dmat3_a: the matrix to use
+ * @dvec3_src: the source vector
  *
  * Multiplication of matrix by vector. The result is a
  * vector, the convention used is that of OpenGL, matrix are
@@ -333,6 +333,52 @@ lw6mat_dmat3_mul_dvec3 (lw6mat_dvec3_t * dvec3_dst,
       dvec3_dst->v[2] =
 	dmat3->m[0][2] * dvec3_src->v[0] + dmat3->m[1][2] * dvec3_src->v[1] +
 	dmat3->m[2][2] * dvec3_src->v[2];
+    }
+}
+
+/**
+ * lw6mat_dmat3_mul_dvec2
+ *
+ * @dvec2_dst: the result vector
+ * @dmat3_a: the matrix to use
+ * @dmat2_src: the source vector
+ *
+ * Multiplication of matrix by vector. The result is a
+ * vector, the convention used is that of OpenGL, matrix are
+ * column major and vector are columns, that is, should you
+ * do it on a paper, vector is placed vertically, on the right of
+ * matrix. The other multiplication is not implemented, transposing
+ * the matrix will do it the other way if you wish.
+ * The vector, here, is smaller than the matrix, the last element
+ * is supposed to be 1, this is how one implements translation through
+ * multiplication.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_dmat3_mul_dvec2 (lw6mat_dvec2_t * dvec2_dst,
+			const lw6mat_dmat3_t * dmat3,
+			const lw6mat_dvec2_t * dvec2_src)
+{
+  /*
+   * In case src and dst or the same, recursively call this
+   * with a tmp pivot to avoid wrecking source while writing
+   * destination.
+   */
+  if (dvec2_dst == dvec2_src)
+    {
+      lw6mat_dvec2_t dvec2_tmp = *dvec2_src;
+
+      lw6mat_dmat3_mul_dvec2 (dvec2_dst, dmat3, &dvec2_tmp);
+    }
+  else
+    {
+      dvec2_dst->v[0] =
+	dmat3->m[0][0] * dvec2_src->v[0] + dmat3->m[1][0] * dvec2_src->v[1] +
+	dmat3->m[2][0];
+      dvec2_dst->v[1] =
+	dmat3->m[0][1] * dvec2_src->v[0] + dmat3->m[1][1] * dvec2_src->v[1] +
+	dmat3->m[2][1];
     }
 }
 

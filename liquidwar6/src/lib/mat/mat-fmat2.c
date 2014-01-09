@@ -253,9 +253,9 @@ lw6mat_fmat2_mul_fmat2 (lw6mat_fmat2_t * fmat2,
 /**
  * lw6mat_fmat2_mul_fvec2
  *
- * @fmat2: the result matrix
- * @fmat2_a: the 1st matrix to multiply, on the left
- * @fmat2_b: the 2nd matrix to multiply, on the right
+ * @fvec2_dst: the result vector
+ * @fmat2_a: the matrix to use
+ * @fvec2_src: the source vector
  *
  * Multiplication of matrix by vector. The result is a
  * vector, the convention used is that of OpenGL, matrix are

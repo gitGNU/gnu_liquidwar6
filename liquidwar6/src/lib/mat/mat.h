@@ -1168,6 +1168,9 @@ extern void lw6mat_fmat3_mul_fmat3 (lw6mat_fmat3_t * fmat3,
 extern void lw6mat_fmat3_mul_fvec3 (lw6mat_fvec3_t * fvec3_dst,
 				    const lw6mat_fmat3_t * fmat3,
 				    const lw6mat_fvec3_t * fvec3_src);
+extern void lw6mat_fmat3_mul_fvec2 (lw6mat_fvec2_t * fvec2_dst,
+				    const lw6mat_fmat3_t * fmat3,
+				    const lw6mat_fvec2_t * fvec2_src);
 extern char *lw6mat_fmat3_repr (const lw6mat_fmat3_t * fmat3);
 
 /* mat-fmat4.c */
@@ -1186,6 +1189,9 @@ extern void lw6mat_fmat4_mul_fmat4 (lw6mat_fmat4_t * fmat4,
 extern void lw6mat_fmat4_mul_fvec4 (lw6mat_fvec4_t * fvec4_dst,
 				    const lw6mat_fmat4_t * fmat4,
 				    const lw6mat_fvec4_t * fvec4_src);
+extern void lw6mat_fmat4_mul_fvec3 (lw6mat_fvec3_t * fvec3_dst,
+				    const lw6mat_fmat4_t * fmat4,
+				    const lw6mat_fvec3_t * fvec3_src);
 extern char *lw6mat_fmat4_repr (const lw6mat_fmat4_t * fmat4);
 
 /* mat-dmat2.c */
@@ -1222,6 +1228,9 @@ extern void lw6mat_dmat3_mul_dmat3 (lw6mat_dmat3_t * dmat3,
 extern void lw6mat_dmat3_mul_dvec3 (lw6mat_dvec3_t * dvec3_dst,
 				    const lw6mat_dmat3_t * dmat3,
 				    const lw6mat_dvec3_t * dvec3_src);
+extern void lw6mat_dmat3_mul_dvec2 (lw6mat_dvec2_t * dvec2_dst,
+				    const lw6mat_dmat3_t * fmat3,
+				    const lw6mat_dvec2_t * dvec2_src);
 extern char *lw6mat_dmat3_repr (const lw6mat_dmat3_t * dmat3);
 
 /* mat-dmat4.c */
@@ -1240,6 +1249,9 @@ extern void lw6mat_dmat4_mul_dmat4 (lw6mat_dmat4_t * dmat4,
 extern void lw6mat_dmat4_mul_dvec4 (lw6mat_dvec4_t * dvec4_dst,
 				    const lw6mat_dmat4_t * dmat4,
 				    const lw6mat_dvec4_t * dvec4_src);
+extern void lw6mat_dmat4_mul_dvec3 (lw6mat_dvec3_t * dvec3_dst,
+				    const lw6mat_dmat4_t * dmat4,
+				    const lw6mat_dvec3_t * dvec3_src);
 extern char *lw6mat_dmat4_repr (const lw6mat_dmat4_t * dmat4);
 
 /* mat-similar.c */

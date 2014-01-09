@@ -253,9 +253,9 @@ lw6mat_dmat2_mul_dmat2 (lw6mat_dmat2_t * dmat2,
 /**
  * lw6mat_dmat2_mul_dvec2
  *
- * @dmat2: the result matrix
- * @dmat2_a: the 1st matrix to multiply, on the left
- * @dmat2_b: the 2nd matrix to multiply, on the right
+ * @dvec2_dst: the result vector
+ * @dmat2_a: the matrix to use
+ * @dvec2_src: the source vector
  *
  * Multiplication of matrix by vector. The result is a
  * vector, the convention used is that of OpenGL, matrix are

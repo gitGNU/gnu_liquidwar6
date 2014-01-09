@@ -414,9 +414,9 @@ lw6mat_fmat4_mul_fmat4 (lw6mat_fmat4_t * fmat4,
 /**
  * lw6mat_fmat4_mul_fvec4
  *
- * @fmat4: the result matrix
- * @fmat4_a: the 1st matrix to multiply, on the left
- * @fmat4_b: the 2nd matrix to multiply, on the right
+ * @fvec4_dst: the result vector
+ * @fmat4: the matrix to use
+ * @fvec4_src: the source vector
  *
  * Multiplication of matrix by vector. The result is a
  * vector, the convention used is that of OpenGL, matrix are
@@ -457,6 +457,55 @@ lw6mat_fmat4_mul_fvec4 (lw6mat_fvec4_t * fvec4_dst,
       fvec4_dst->v[3] =
 	fmat4->m[0][3] * fvec4_src->v[0] + fmat4->m[1][3] * fvec4_src->v[1] +
 	fmat4->m[2][3] * fvec4_src->v[2] + fmat4->m[3][3] * fvec4_src->v[3];
+    }
+}
+
+/**
+ * lw6mat_fmat4_mul_fvec3
+ *
+ * @fvec3_dst: the result vector
+ * @fmat4: the matrix to use
+ * @fvec3_src: the source vector
+ *
+ * Multiplication of matrix by vector. The result is a
+ * vector, the convention used is that of OpenGL, matrix are
+ * column major and vector are columns, that is, should you
+ * do it on a paper, vector is placed vertically, on the right of
+ * matrix. The other multiplication is not implemented, transposing
+ * the matrix will do it the other way if you wish.
+ * The vector, here, is smaller than the matrix, the last element
+ * is supposed to be 1, this is how one implements translation through
+ * multiplication.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_fmat4_mul_fvec3 (lw6mat_fvec3_t * fvec3_dst,
+			const lw6mat_fmat4_t * fmat4,
+			const lw6mat_fvec3_t * fvec3_src)
+{
+  /*
+   * In case src and dst or the same, recursively call this
+   * with a tmp pivot to avoid wrecking source while writing
+   * destination.
+   */
+  if (fvec3_dst == fvec3_src)
+    {
+      lw6mat_fvec3_t fvec3_tmp = *fvec3_src;
+
+      lw6mat_fmat4_mul_fvec3 (fvec3_dst, fmat4, &fvec3_tmp);
+    }
+  else
+    {
+      fvec3_dst->v[0] =
+	fmat4->m[0][0] * fvec3_src->v[0] + fmat4->m[1][0] * fvec3_src->v[1] +
+	fmat4->m[2][0] * fvec3_src->v[2] + fmat4->m[3][0];
+      fvec3_dst->v[1] =
+	fmat4->m[0][1] * fvec3_src->v[0] + fmat4->m[1][1] * fvec3_src->v[1] +
+	fmat4->m[2][1] * fvec3_src->v[2] + fmat4->m[3][1];
+      fvec3_dst->v[2] =
+	fmat4->m[0][2] * fvec3_src->v[0] + fmat4->m[1][2] * fvec3_src->v[1] +
+	fmat4->m[2][2] * fvec3_src->v[2] + fmat4->m[3][2];
     }
 }
 
