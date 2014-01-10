@@ -56,7 +56,7 @@
  * to avoid the rather common bug: LW is actually running,
  * and test fails...
  */
-#define _TEST_PORT (LW6NET_DEFAULT_PORT+1)
+#define _TEST_PORT (LW6NET_DEFAULT_PORT+2)
 
 typedef struct _lw6net_test_data_s
 {

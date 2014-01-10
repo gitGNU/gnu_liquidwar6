@@ -52,15 +52,15 @@
 	       (node (c-lw6p2p-node-new db (list (cons "client-backends" "tcp,udp")
 						 (cons "server-backends" "tcpd,udpd,httpd")
 						 (cons "bind-ip" "0.0.0.0")
-						 (cons "bind-port" 8058)
+						 (cons "bind-port" 8059)
 						 (cons "node-id" id)
-						 (cons "public-url" "http://localhost:8058/")
+						 (cons "public-url" "http://localhost:8059/")
 						 (cons "password" "")
 						 (cons "title" "")
 						 (cons "description" (_ "Dummy test node B"))
 						 (cons "bench" 10)
 						 (cons "open-relay" #f)
-						 (cons "known-nodes" "http://localhost:8057/")
+						 (cons "known-nodes" "http://localhost:8058/")
 						 (cons "network-reliability" 100)
 						 (cons "trojan" #f)
 						 )))
@@ -92,7 +92,7 @@
 			 )
 		     (begin
 		       (set! timestamp (c-lw6sys-get-timestamp))
-		       (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8057/")
+		       (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8058/")
 						(assoc-ref x "id"))
 					   (begin
 					     (lw6-log-notice (format #f "discovered \"~a\"" x))
@@ -116,7 +116,7 @@
 			     )
 			 (begin
 			   (set! timestamp (c-lw6sys-get-timestamp))
-			   (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8057/")
+			   (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8058/")
 						    (assoc-ref x "id"))
 					       (begin
 						 (c-lw6sys-idle)
@@ -272,7 +272,7 @@
 				 (= stage 40)
 				 (if (lw6-test-check-nodes pilot node
 							   (list 0 1)
-							   (list "http://localhost:8057/"  "http://localhost:8058/")
+							   (list "http://localhost:8058/"  "http://localhost:8059/")
 							   2)
 				     (set! stage 50))
 				 )
@@ -326,7 +326,7 @@
 				 (= stage 70)
 				 (if (lw6-test-check-nodes pilot node
 							   (list 0 1 2)
-							   (list "http://localhost:8057/"  "http://localhost:8058/"  "http://localhost:8059/")
+							   (list "http://localhost:8058/"  "http://localhost:8059/"  "http://localhost:8060/")
 							   4)
 				     (begin
 				       (set! stage 80)

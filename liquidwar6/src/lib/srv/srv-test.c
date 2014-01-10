@@ -49,6 +49,8 @@
 #define _TEST_OOB_REMOTE_PORT 6789
 #define _TEST_OOB_INVALID_SOCK -1
 
+#define _TEST_PORT (LW6NET_DEFAULT_PORT+2)
+
 typedef struct _lw6srv_test_data_s
 {
   int ret;
@@ -98,7 +100,7 @@ _test_tcp_accepter ()
     if (ip)
       {
 	tcp_accepter =
-	  lw6srv_tcp_accepter_new (ip, LW6NET_DEFAULT_PORT, _TEST_FAKE_SOCK);
+	  lw6srv_tcp_accepter_new (ip, _TEST_PORT, _TEST_FAKE_SOCK);
 	if (tcp_accepter)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("tcp_accepter %s:%d"),
@@ -136,8 +138,7 @@ _test_udp_buffer ()
 	line = lw6sys_str_copy (_TEST_LINE);
 	if (line)
 	  {
-	    udp_buffer =
-	      lw6srv_udp_buffer_new (ip, LW6NET_DEFAULT_PORT, line);
+	    udp_buffer = lw6srv_udp_buffer_new (ip, _TEST_PORT, line);
 	    if (udp_buffer)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("udp_buffer %s:%d"),
@@ -217,8 +218,7 @@ _setup_init_listener ()
       if (_test_data.backend[0] && _test_data.backend[1]
 	  && _test_data.backend[2])
 	{
-	  _test_data.listener =
-	    lw6srv_start (LW6NET_ADDRESS_ANY, LW6NET_DEFAULT_PORT);
+	  _test_data.listener = lw6srv_start (LW6NET_ADDRESS_ANY, _TEST_PORT);
 	  if (_test_data.listener)
 	    {
 	      for (i = 0; i < _TEST_NB_BACKENDS; ++i)
