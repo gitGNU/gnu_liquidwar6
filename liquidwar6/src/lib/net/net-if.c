@@ -112,7 +112,7 @@ lw6net_if_guess_local ()
    * http://www.kernel.org/doc/man-pages/online/pages/man3/getifaddrs.3.html#EXAMPLE
    */
   struct ifaddrs *ifaddr, *ifa;
-  int family, s;
+  int s;
   char host[NI_MAXHOST];
 
   if (!getifaddrs (&ifaddr))
@@ -121,9 +121,8 @@ lw6net_if_guess_local ()
          can free list later */
       for (ifa = ifaddr; ifa != NULL && !ret; ifa = ifa->ifa_next)
 	{
-	  family = ifa->ifa_addr->sa_family;
-
-	  if (family == AF_INET)
+	  // https://savannah.gnu.org/bugs/?41184
+	  if (ifa->ifa_addr != NULL && ifa->ifa_addr->sa_family == AF_INET)
 	    {
 	      if (!(s = getnameinfo (ifa->ifa_addr,
 				     sizeof (struct sockaddr_in),
