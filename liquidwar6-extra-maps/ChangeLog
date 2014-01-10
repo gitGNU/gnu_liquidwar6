@@ -1,5 +1,25 @@
 2014-01-10  Christian Mauduit <ufoot@ufoot.org>
 
+	* liquidwar6-extra-maps/ChangeLog,
+	liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/ChangeLog,
+	liquidwar6/configure.ac, liquidwar6/debian/changelog,
+	liquidwar6/src/lib/hlp/hlp-reference.c,
+	liquidwar6/src/lib/ldr/ldr-resampler.c,
+	liquidwar6/src/lib/lw6-funcspil.c,
+	liquidwar6/src/lib/lw6-options.c, liquidwar6/src/lib/map/map.h,
+	liquidwar6/src/lib/pil/pil-bench.c,
+	liquidwar6/src/lib/pil/pil-internal.h,
+	liquidwar6/src/lib/pil/pil-test.c, liquidwar6/src/lib/pil/pil.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-math.c,
+	liquidwar6/src/lib/sys/sys-test.c, liquidwar6/src/lib/sys/sys.h: 
+	Using a logarithmic scale for bench, and writing in to
+	user_dir/bench.txt
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
 	* liquidwar6-extra-maps/ChangeLog, liquidwar6/ChangeLog,
 	liquidwar6/script/Makefile.am: Oooops, forgot a file in Makefile
 

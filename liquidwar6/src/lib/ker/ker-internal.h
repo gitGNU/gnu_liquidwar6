@@ -259,6 +259,7 @@ typedef struct _lw6ker_game_state_s
   u_int32_t moves;
   u_int32_t spreads;
   u_int32_t rounds;
+  u_int32_t total_rounds;
   int max_reached_teams;
   int over;
   /*

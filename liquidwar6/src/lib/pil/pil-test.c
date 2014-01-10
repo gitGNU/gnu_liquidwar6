@@ -35,8 +35,8 @@
  * checksum differ because one uses the spread_thread algorithm
  * and the other one does not.
  */
-#define _TEST_BACKUP_CHECKSUM 0x0a1d1d95
-#define _TEST_DUMP_BACKUP_CHECKSUM 0x26b19934
+#define _TEST_BACKUP_CHECKSUM 0x997f1b7b
+#define _TEST_DUMP_BACKUP_CHECKSUM 0x1a2b3e49
 /*
  * At some point a checksum on command was implemented but
  * this is not a very good idea, a map can have (int its dump)
@@ -137,7 +137,7 @@ _test_bench ()
     const int argc = _TEST_ARGC;
     const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-    if (lw6pil_bench (argc, argv, &bench_result, NULL))
+    if (LW6SYS_TEST_ACK (lw6pil_bench (argc, argv, &bench_result, NULL)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("bench=%0.1f"), bench_result);
       }
@@ -159,7 +159,7 @@ command_map_func (void *func_data, void *data)
   char *repr;
 
   repr = lw6pil_command_repr (command);
-  if (repr)
+  if (LW6SYS_TEST_ACK (repr))
     {
       (*ret) = 1;
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("command=\"%s\""), repr);
@@ -183,7 +183,7 @@ _test_command ()
     lw6sys_list_t *commands;
 
     commands = lw6sys_list_new ((lw6sys_free_func_t) lw6pil_command_free);
-    if (commands)
+    if (LW6SYS_TEST_ACK (commands))
       {
 	for (i = 0; _test_commands[i] && commands; ++i)
 	  {
@@ -193,7 +193,7 @@ _test_command ()
 	    if (command)
 	      {
 		repr = lw6pil_command_repr (command);
-		if (repr)
+		if (LW6SYS_TEST_ACK (repr))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("command \"%s\" interpreted as \"%s\""),
@@ -204,15 +204,15 @@ _test_command ()
 		lw6sys_list_push_front (&commands, command);
 	      }
 	  }
-	if (commands)
+	if (LW6SYS_TEST_ACK (commands))
 	  {
-	    if (ret)
+	    if (LW6SYS_TEST_ACK (ret))
 	      {
 		ret = 0;
 		lw6sys_sort (&commands, _lw6pil_command_sort_callback);
 		lw6sys_list_map (commands, command_map_func, &ret);
 	      }
-	    if (commands)
+	    if (LW6SYS_TEST_ACK (commands))
 	      {
 		lw6sys_list_free (commands);
 	      }
@@ -285,7 +285,7 @@ _print_game_state (lw6ker_game_state_t * game_state, char *text)
   char *capture_str;
 
   capture_str = lw6ker_capture_str (game_state);
-  if (capture_str)
+  if (LW6SYS_TEST_ACK (capture_str))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s round=%d"), text,
 		  lw6ker_game_state_get_rounds (game_state));
@@ -316,43 +316,50 @@ _test_local_cursors ()
 
     ret = 0;
     lw6pil_local_cursors_reset (&local_cursors);
-    if (lw6pil_local_cursors_set_xy
-	(&local_cursors, _TEST_LOCAL_CURSORS_ID1, _TEST_LOCAL_CURSORS_X1,
-	 _TEST_LOCAL_CURSORS_Y1))
+    if (LW6SYS_TEST_ACK (lw6pil_local_cursors_set_xy
+			 (&local_cursors, _TEST_LOCAL_CURSORS_ID1,
+			  _TEST_LOCAL_CURSORS_X1, _TEST_LOCAL_CURSORS_Y1)))
       {
-	if (lw6pil_local_cursors_set_xy
-	    (&local_cursors, _TEST_LOCAL_CURSORS_ID2, _TEST_LOCAL_CURSORS_X2,
-	     _TEST_LOCAL_CURSORS_Y2))
+	if (LW6SYS_TEST_ACK (lw6pil_local_cursors_set_xy
+			     (&local_cursors, _TEST_LOCAL_CURSORS_ID2,
+			      _TEST_LOCAL_CURSORS_X2,
+			      _TEST_LOCAL_CURSORS_Y2)))
 	  {
-	    if (lw6pil_local_cursors_set_mouse_controlled
-		(&local_cursors, _TEST_LOCAL_CURSORS_ID1,
-		 _TEST_LOCAL_CURSORS_MOUSE_CONTROLLED1))
+	    if (LW6SYS_TEST_ACK (lw6pil_local_cursors_set_mouse_controlled
+				 (&local_cursors, _TEST_LOCAL_CURSORS_ID1,
+				  _TEST_LOCAL_CURSORS_MOUSE_CONTROLLED1)))
 	      {
-		if (lw6pil_local_cursors_set_mouse_controlled
-		    (&local_cursors, _TEST_LOCAL_CURSORS_ID2,
-		     _TEST_LOCAL_CURSORS_MOUSE_CONTROLLED2))
+		if (LW6SYS_TEST_ACK (lw6pil_local_cursors_set_mouse_controlled
+				     (&local_cursors, _TEST_LOCAL_CURSORS_ID2,
+				      _TEST_LOCAL_CURSORS_MOUSE_CONTROLLED2)))
 		  {
-		    if (lw6pil_local_cursors_get_info
-			(&local_cursors, &x, &y, &mouse_controlled,
-			 _TEST_LOCAL_CURSORS_ID1))
-		      lw6sys_log (LW6SYS_LOG_NOTICE,
-				  _x_
-				  ("cursor %x is at %d,%d mouse_controlled=%d"),
-				  _TEST_LOCAL_CURSORS_ID1, x, y,
-				  mouse_controlled);
-		    if (lw6pil_local_cursors_set_main
-			(&local_cursors, _TEST_LOCAL_CURSORS_ID2))
+		    if (LW6SYS_TEST_ACK (lw6pil_local_cursors_get_info
+					 (&local_cursors, &x, &y,
+					  &mouse_controlled,
+					  _TEST_LOCAL_CURSORS_ID1)))
 		      {
-			if (lw6pil_local_cursors_get_main_info
-			    (&local_cursors, &cursor_id, &x, &y,
-			     &mouse_controlled))
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_
+				    ("cursor %x is at %d,%d mouse_controlled=%d"),
+				    _TEST_LOCAL_CURSORS_ID1, x, y,
+				    mouse_controlled);
+		      }
+		    if (LW6SYS_TEST_ACK (lw6pil_local_cursors_set_main
+					 (&local_cursors,
+					  _TEST_LOCAL_CURSORS_ID2)))
+		      {
+			if (LW6SYS_TEST_ACK
+			    (lw6pil_local_cursors_get_main_info
+			     (&local_cursors, &cursor_id, &x, &y,
+			      &mouse_controlled)))
 			  {
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
 					_x_
 					("main cursor %x is at %d,%d mouse_controlled=%d"),
 					cursor_id, x, y, mouse_controlled);
-			    if (lw6pil_local_cursors_get_cursor
-				(&local_cursors, cursor_id))
+			    if (LW6SYS_TEST_ACK
+				(lw6pil_local_cursors_get_cursor
+				 (&local_cursors, cursor_id)))
 			      {
 				ret = 1;
 			      }
@@ -398,7 +405,7 @@ _test_dump ()
     level =
       lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
-    if (level)
+    if (LW6SYS_TEST_ACK (level))
       {
 	/*
 	 * Here we do not fiddle with the spread_thread parameter, so the checksum
@@ -406,17 +413,17 @@ _test_dump ()
 	 * a way to test both algorithms, including the standard one (this case).
 	 */
 	game_struct = lw6ker_game_struct_new (level, NULL);
-	if (game_struct)
+	if (LW6SYS_TEST_ACK (game_struct))
 	  {
 	    game_state = lw6ker_game_state_new (game_struct, NULL);
-	    if (game_state)
+	    if (LW6SYS_TEST_ACK (game_state))
 	      {
 		pilot =
 		  lw6pil_pilot_new (game_state, _LW6PIL_MIN_SEQ_0, 0, NULL);
-		if (pilot)
+		if (LW6SYS_TEST_ACK (pilot))
 		  {
 		    repr = lw6pil_pilot_repr (pilot);
-		    if (repr)
+		    if (LW6SYS_TEST_ACK (repr))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("pilot \"%s\" created"), repr);
@@ -428,7 +435,7 @@ _test_dump ()
 		      lw6pil_dump_command_generate (pilot, _TEST_DUMP_ID,
 						    lw6pil_pilot_get_last_commit_seq
 						    (pilot) + 1);
-		    if (dump_command)
+		    if (LW6SYS_TEST_ACK (dump_command))
 		      {
 			dump_len = strlen (dump_command);
 			memset (dump_preview, 0, _TEST_DUMP_PREVIEW_LEN + 1);
@@ -441,15 +448,16 @@ _test_dump ()
 				    dump_preview);
 
 			commands_ok = 1;
-			if (lw6pil_pilot_send_command
-			    (pilot, dump_command, 1))
+			if (LW6SYS_TEST_ACK (lw6pil_pilot_send_command
+					     (pilot, dump_command, 1)))
 			  {
 			    for (i = 0;
 				 i < _TEST_DUMP_NB_COMMANDS
 				 && _test_commands[i]; ++i)
 			      {
-				if (lw6pil_pilot_send_command
-				    (pilot, _test_commands[i], 1))
+				if (LW6SYS_TEST_ACK (lw6pil_pilot_send_command
+						     (pilot,
+						      _test_commands[i], 1)))
 				  {
 				    lw6sys_log (LW6SYS_LOG_NOTICE,
 						_x_
@@ -466,7 +474,9 @@ _test_dump ()
 			  {
 			    commands_ok = 0;
 			  }
-			if (commands_ok && lw6pil_pilot_commit (NULL, pilot))
+			if (LW6SYS_TEST_ACK
+			    (commands_ok
+			     && lw6pil_pilot_commit (NULL, pilot)))
 			  {
 			    for (i = 0;
 				 i < _TEST_DUMP_NB_TRIES
@@ -476,14 +486,15 @@ _test_dump ()
 				lw6pil_pilot_commit (&dump, pilot);
 			      }
 			  }
-			if (lw6pil_dump_exists (&dump))
+			if (LW6SYS_TEST_ACK (lw6pil_dump_exists (&dump)))
 			  {
 			    lw6pil_pilot_checksum_log_set_interval
 			      (dump.pilot, _TEST_CHECKSUM_LOG_INTERVAL);
 			    lw6pil_pilot_commit (NULL, dump.pilot);
 			    seq =
 			      lw6pil_pilot_get_last_commit_seq (dump.pilot);
-			    if (seq == _TEST_DUMP_LAST_COMMIT_SEQ)
+			    if (LW6SYS_TEST_ACK
+				(seq == _TEST_DUMP_LAST_COMMIT_SEQ))
 			      {
 				lw6sys_log (LW6SYS_LOG_NOTICE,
 					    _x_
@@ -565,8 +576,9 @@ _test_dump ()
 				  (game_state);
 				dump_rounds = lw6ker_game_state_get_rounds
 				  (dump.game_state);
-				if (rounds == _TEST_BACKUP_ROUND
-				    && dump_rounds == _TEST_BACKUP_ROUND)
+				if (LW6SYS_TEST_ACK
+				    (rounds == _TEST_BACKUP_ROUND
+				     && dump_rounds == _TEST_BACKUP_ROUND))
 				  {
 				    checksum =
 				      lw6ker_game_state_checksum (game_state);
@@ -576,16 +588,16 @@ _test_dump ()
 				  }
 				else
 				  {
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
+				    lw6sys_log (LW6SYS_LOG_WARNING,
 						_x_
 						("rounds mismatch, should be %d but rounds for game_state is %d and and rounds for dump.game_state is %d"),
 						_TEST_BACKUP_ROUND,
 						rounds, dump_rounds);
 				  }
-				if (checksum ==
-				    _TEST_DUMP_BACKUP_CHECKSUM
-				    && dump_checksum ==
-				    _TEST_DUMP_BACKUP_CHECKSUM)
+				if (LW6SYS_TEST_ACK (checksum ==
+						     _TEST_DUMP_BACKUP_CHECKSUM
+						     && dump_checksum ==
+						     _TEST_DUMP_BACKUP_CHECKSUM))
 				  {
 				    lw6sys_log (LW6SYS_LOG_NOTICE,
 						_x_
@@ -596,7 +608,7 @@ _test_dump ()
 				  }
 				else
 				  {
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
+				    lw6sys_log (LW6SYS_LOG_WARNING,
 						_x_
 						("checksum of game_state and dump.game_state at round %d should be %x but got %x for game_state and %x for dump.game_state"),
 						_TEST_BACKUP_ROUND,
@@ -677,7 +689,7 @@ _test_nopilot ()
     level =
       lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
-    if (level)
+    if (LW6SYS_TEST_ACK (level))
       {
 	/*
 	 * Here we do not fiddle with the spread_thread parameter, so the checksum
@@ -685,17 +697,17 @@ _test_nopilot ()
 	 * a way to test both algorithms, including the standard one (this case).
 	 */
 	game_struct = lw6ker_game_struct_new (level, NULL);
-	if (game_struct)
+	if (LW6SYS_TEST_ACK (game_struct))
 	  {
 	    game_state = lw6ker_game_state_new (game_struct, NULL);
-	    if (game_state)
+	    if (LW6SYS_TEST_ACK (game_state))
 	      {
 		pilot =
 		  lw6pil_pilot_new (game_state, _LW6PIL_MIN_SEQ_0, 0, NULL);
-		if (pilot)
+		if (LW6SYS_TEST_ACK (pilot))
 		  {
 		    repr = lw6pil_pilot_repr (pilot);
-		    if (repr)
+		    if (LW6SYS_TEST_ACK (repr))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("pilot \"%s\" created"), repr);
@@ -707,7 +719,7 @@ _test_nopilot ()
 		      lw6pil_dump_command_generate (pilot, _TEST_DUMP_ID,
 						    lw6pil_pilot_get_last_commit_seq
 						    (pilot) + 1);
-		    if (dump_command)
+		    if (LW6SYS_TEST_ACK (dump_command))
 		      {
 			dump_len = strlen (dump_command);
 			memset (dump_preview, 0, _TEST_DUMP_PREVIEW_LEN + 1);
@@ -718,10 +730,11 @@ _test_nopilot ()
 				    ("dump command with length=%d, %d first chars are \"%s\""),
 				    dump_len, _TEST_DUMP_PREVIEW_LEN,
 				    dump_preview);
-			if (lw6pil_nopilot_poll_dump
-			    (&dump, dump_command, lw6sys_get_timestamp ()))
+			if (LW6SYS_TEST_ACK (lw6pil_nopilot_poll_dump
+					     (&dump, dump_command,
+					      lw6sys_get_timestamp ())))
 			  {
-			    if (lw6pil_dump_exists (&dump))
+			    if (LW6SYS_TEST_ACK (lw6pil_dump_exists (&dump)))
 			      {
 				lw6sys_log (LW6SYS_LOG_NOTICE,
 					    _x_ ("dump exists"));
@@ -779,7 +792,7 @@ _test_pilot ()
     level =
       lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
-    if (level)
+    if (LW6SYS_TEST_ACK (level))
       {
 	/*
 	 * We do the test with spread_thread switched on, this
@@ -787,17 +800,17 @@ _test_pilot ()
 	 */
 	level->param.rules.spread_thread = 1;
 	game_struct = lw6ker_game_struct_new (level, NULL);
-	if (game_struct)
+	if (LW6SYS_TEST_ACK (game_struct))
 	  {
 	    game_state = lw6ker_game_state_new (game_struct, NULL);
-	    if (game_state)
+	    if (LW6SYS_TEST_ACK (game_state))
 	      {
 		pilot =
 		  lw6pil_pilot_new (game_state, _LW6PIL_MIN_SEQ_0, 0, NULL);
-		if (pilot)
+		if (LW6SYS_TEST_ACK (pilot))
 		  {
 		    repr = lw6pil_pilot_repr (pilot);
-		    if (repr)
+		    if (LW6SYS_TEST_ACK (repr))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("pilot \"%s\" start"), repr);
@@ -942,14 +955,22 @@ _test_pilot ()
 				    lw6pil_pilot_get_winner (pilot));
 			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("looser=%d"),
 				    lw6pil_pilot_get_looser (pilot));
-			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_
-				    ("checksum at round %d is %x and should be %x"),
-				    _TEST_BACKUP_ROUND, checksum,
-				    _TEST_BACKUP_CHECKSUM);
-			if (checksum == _TEST_BACKUP_CHECKSUM)
+			if (LW6SYS_TEST_ACK
+			    (checksum == _TEST_BACKUP_CHECKSUM))
 			  {
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_
+					("checksum at round %d is %x, OK"),
+					_TEST_BACKUP_ROUND, checksum);
 			    ret = 1;
+			  }
+			else
+			  {
+			    lw6sys_log (LW6SYS_LOG_WARNING,
+					_x_
+					("checksum at round %d is %x and should be %x"),
+					_TEST_BACKUP_ROUND, checksum,
+					_TEST_BACKUP_CHECKSUM);
 			  }
 			LW6SYS_FREE (repr);
 		      }
@@ -1063,7 +1084,7 @@ _test_suite ()
       }
 
 
-    if (lw6pil_suite_init (&dump, lw6sys_get_timestamp ()))
+    if (LW6SYS_TEST_ACK (lw6pil_suite_init (&dump, lw6sys_get_timestamp ())))
       {
 	ret = 1;
 
@@ -1099,7 +1120,9 @@ _test_suite ()
 	    lw6pil_pilot_sync_from_reference (dump.game_state, dump.pilot);
 	    round = lw6ker_game_state_get_rounds (dump.game_state);
 	    checksum = lw6ker_game_state_checksum (dump.game_state);
-	    if (round == checkpoint_round && checksum == checkpoint_checksum)
+	    if (LW6SYS_TEST_ACK
+		(round == checkpoint_round
+		 && checksum == checkpoint_checksum))
 	      {
 		_print_game_state (dump.game_state, _x_ ("checkpoint"));
 		lw6sys_log (LW6SYS_LOG_NOTICE,

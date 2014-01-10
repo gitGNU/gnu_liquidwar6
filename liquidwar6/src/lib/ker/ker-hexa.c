@@ -754,6 +754,9 @@ _lw6ker_game_state_to_hexa (_lw6ker_game_state_t * game_state)
 	&& lw6sys_hexa_serializer_push_int32 (hexa_serializer,
 					      game_state->rounds);
       ok = ok
+	&& lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					      game_state->total_rounds);
+      ok = ok
 	&& lw6sys_hexa_serializer_push_int8 (hexa_serializer,
 					     game_state->max_reached_teams);
       ok = ok
@@ -1207,6 +1210,9 @@ _lw6ker_game_state_from_hexa (const char *hexa,
 	  ok = ok
 	    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &tmp32);
 	  game_state->rounds = tmp32;
+	  ok = ok
+	    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &tmp32);
+	  game_state->total_rounds = tmp32;
 	  ok = ok && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &tmp8);
 	  game_state->max_reached_teams = tmp8;
 	  ok = ok && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &tmp8);

@@ -67,7 +67,14 @@ _lw6ker_game_state_new (_lw6ker_game_struct_t * game_struct,
     {
       _lw6ker_game_state_set_id (ret);
       ret->game_struct = game_struct;
-      ret->rounds = 0;
+
+      /*
+       * We initialize total_rounds now, we will possibly increment
+       * it later if we need to make the game longer because
+       * there's only one team present.
+       */
+      ret->total_rounds = game_struct->rules.rounds_per_sec *
+	game_struct->rules.total_time;
 
       _lw6ker_map_state_init (&(ret->map_state),
 			      &(ret->game_struct->map_struct),
@@ -326,6 +333,7 @@ _lw6ker_game_state_sync (_lw6ker_game_state_t * dst,
 	  dst->moves = src->moves;
 	  dst->spreads = src->spreads;
 	  dst->rounds = src->rounds;
+	  dst->total_rounds = src->total_rounds;
 	  dst->max_reached_teams = src->max_reached_teams;
 	  dst->over = src->over;
 	}
@@ -433,6 +441,7 @@ _lw6ker_game_state_update_checksum (_lw6ker_game_state_t *
   lw6sys_checksum_update_int32 (checksum, game_state->moves);
   lw6sys_checksum_update_int32 (checksum, game_state->spreads);
   lw6sys_checksum_update_int32 (checksum, game_state->rounds);
+  lw6sys_checksum_update_int32 (checksum, game_state->total_rounds);
   lw6sys_checksum_update_int32 (checksum, game_state->max_reached_teams);
   lw6sys_checksum_update_int32 (checksum, game_state->over);
 }
@@ -1657,6 +1666,16 @@ _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
       game_state->moves += game_state->game_struct->rules.moves_per_round;
       game_state->spreads += game_state->game_struct->rules.spreads_per_round;
       game_state->rounds++;
+      /*
+       * If we're alone on the battlefield, there's no fight,
+       * no point in having the clock ticking, so we make the
+       * game longer until some other team comes. Technically,
+       * this cause the "time left" to remain constant.
+       */
+      if (nb_teams <= 1)
+	{
+	  game_state->total_rounds++;
+	}
 
       _lw6ker_game_state_checksum_log_if_needed (game_state);
     }
@@ -1780,8 +1799,7 @@ lw6ker_game_state_get_rounds (lw6ker_game_state_t * game_state)
 u_int32_t
 _lw6ker_game_state_get_total_rounds (_lw6ker_game_state_t * game_state)
 {
-  return (game_state->game_struct->rules.rounds_per_sec *
-	  game_state->game_struct->rules.total_time);
+  return (game_state->total_rounds);
 }
 
 /**
@@ -2046,8 +2064,9 @@ _lw6ker_game_state_get_time_left (_lw6ker_game_state_t * game_state)
   int32_t ret = 0;
 
   ret =
-    game_state->game_struct->rules.total_time -
-    _lw6ker_game_state_get_time_elapsed (game_state);
+    (_lw6ker_game_state_get_total_rounds (game_state) -
+     _lw6ker_game_state_get_rounds (game_state)) /
+    (u_int32_t) game_state->game_struct->rules.rounds_per_sec;
 
   return ret;
 }

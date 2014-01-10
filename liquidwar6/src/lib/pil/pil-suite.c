@@ -27,12 +27,12 @@
 #include "pil.h"
 #include "pil-internal.h"
 
-#define _STAGE_1_GAME_STATE_CHECKSUM 0xd66e8d2c
-#define _STAGE_2_GAME_STATE_CHECKSUM 0x38c40272
-#define _STAGE_3_GAME_STATE_CHECKSUM 0xee38585d
-#define _STAGE_4_GAME_STATE_CHECKSUM 0x09185ebd
-#define _STAGE_5_GAME_STATE_CHECKSUM 0x6b1d927f
-#define _STAGE_6_GAME_STATE_CHECKSUM 0x30bd683c
+#define _STAGE_1_GAME_STATE_CHECKSUM 0x3ce791b2
+#define _STAGE_2_GAME_STATE_CHECKSUM 0x39db8636
+#define _STAGE_3_GAME_STATE_CHECKSUM 0x94fae0bd
+#define _STAGE_4_GAME_STATE_CHECKSUM 0x0e0efc50
+#define _STAGE_5_GAME_STATE_CHECKSUM 0x6363d4eb
+#define _STAGE_6_GAME_STATE_CHECKSUM 0xebfd020b
 
 /*
  * There are 6 numbered stages, but they correspond, basically,

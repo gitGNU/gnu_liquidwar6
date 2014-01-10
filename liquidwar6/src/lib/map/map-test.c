@@ -99,10 +99,10 @@ _test_new ()
     char *repr = NULL;
 
     level = lw6map_new ();
-    if (level)
+    if (LW6SYS_TEST_ACK (level))
       {
 	repr = lw6map_repr (level);
-	if (repr)
+	if (LW6SYS_TEST_ACK (repr))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("empty map \"%s\" constructed"), repr);
@@ -145,7 +145,8 @@ _test_color ()
     color_couple.fg = LW6SYS_COLOR_8_BLACK;
 
     lw6map_color_invert (&color_couple);
-    if (!lw6map_color_is_same (&color_couple, &color_couple))
+    if (!LW6SYS_TEST_ACK
+	(lw6map_color_is_same (&color_couple, &color_couple)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_
@@ -156,13 +157,13 @@ _test_color ()
     for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
       {
 	key = lw6map_team_color_index_to_key (i);
-	if (key)
+	if (LW6SYS_TEST_ACK (key))
 	  {
 	    label = lw6map_team_color_index_to_label (i);
-	    if (label)
+	    if (LW6SYS_TEST_ACK (label))
 	      {
 		j = lw6map_team_color_key_to_index (key);
-		if (i == j)
+		if (LW6SYS_TEST_ACK (i == j))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -359,10 +360,10 @@ _test_builtin ()
     int has_alpha = 0;
 
     level = lw6map_builtin_defaults ();
-    if (level)
+    if (LW6SYS_TEST_ACK (level))
       {
 	repr = lw6map_repr (level);
-	if (repr)
+	if (LW6SYS_TEST_ACK (repr))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("default map \"%s\" constructed"), repr);
@@ -387,10 +388,10 @@ _test_builtin ()
       lw6map_builtin_custom (_TEST_BUILTIN_WIDTH, _TEST_BUILTIN_HEIGHT,
 			     _TEST_BUILTIN_DEPTH,
 			     _TEST_BUILTIN_NOISE_PERCENT);
-    if (level)
+    if (LW6SYS_TEST_ACK (level))
       {
 	repr = lw6map_repr (level);
-	if (repr)
+	if (LW6SYS_TEST_ACK (repr))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("default map \"%s\" constructed"), repr);
@@ -412,10 +413,10 @@ _test_builtin ()
       }
 
     level = lw6map_builtin_scale (_TEST_BUILTIN_SCALE);
-    if (level)
+    if (LW6SYS_TEST_ACK (level))
       {
 	repr = lw6map_repr (level);
-	if (repr)
+	if (LW6SYS_TEST_ACK (repr))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("default map \"%s\" constructed"), repr);
@@ -458,21 +459,21 @@ _test_dup ()
     level1 =
       lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
-    if (level1)
+    if (LW6SYS_TEST_ACK (level1))
       {
 	repr1 = lw6map_repr (level1);
-	if (repr1)
+	if (LW6SYS_TEST_ACK (repr1))
 	  {
 	    level2 = lw6map_dup (level1, NULL);
-	    if (level2)
+	    if (LW6SYS_TEST_ACK (level2))
 	      {
 		repr2 = lw6map_repr (level2);
-		if (repr2)
+		if (LW6SYS_TEST_ACK (repr2))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("map \"%s\" copied to \"%s\""), repr1,
 				repr2);
-		    if (lw6map_is_same (level1, level2))
+		    if (LW6SYS_TEST_ACK (lw6map_is_same (level1, level2)))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_
@@ -569,10 +570,10 @@ _test_hexa ()
     level =
       lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
-    if (level)
+    if (LW6SYS_TEST_ACK (level))
       {
 	repr = lw6map_repr (level);
-	if (repr)
+	if (LW6SYS_TEST_ACK (repr))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("map \"%s\" constructed"),
 			repr);
@@ -585,15 +586,15 @@ _test_hexa ()
 	hexa = lw6map_to_hexa (level);
 	lw6map_free (level);
 	level = NULL;
-	if (hexa)
+	if (LW6SYS_TEST_ACK (hexa))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("hexa is \"%s\""), hexa);
 
 	    level = lw6map_from_hexa (hexa);
-	    if (level)
+	    if (LW6SYS_TEST_ACK (level))
 	      {
 		repr = lw6map_repr (level);
-		if (repr)
+		if (LW6SYS_TEST_ACK (repr))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -611,14 +612,14 @@ _test_hexa ()
 		 * will be tracked...
 		 */
 		dup_level = lw6map_dup (level, NULL);
-		if (dup_level)
+		if (LW6SYS_TEST_ACK (dup_level))
 		  {
 		    hexa_check = lw6map_to_hexa (dup_level);
 		    lw6map_free (dup_level);
 		    dup_level = NULL;
-		    if (hexa_check)
+		    if (LW6SYS_TEST_ACK (hexa_check))
 		      {
-			if (!strcmp (hexa, hexa_check))
+			if (LW6SYS_TEST_ACK (!strcmp (hexa, hexa_check)))
 			  {
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
 					_x_
@@ -680,16 +681,17 @@ _test_param ()
     char *value = NULL;
 
     param = (lw6map_param_t *) LW6SYS_CALLOC (sizeof (lw6map_param_t));
-    if (param)
+    if (LW6SYS_TEST_ACK (param))
       {
 	lw6map_param_zero (param);
 	lw6map_param_defaults (param);
 
 	lw6map_param_set (param, _TEST_PARAM_KEY, _TEST_PARAM_VALUE);
 	value = lw6map_param_get (param, _TEST_PARAM_KEY);
-	if (value)
+	if (LW6SYS_TEST_ACK (value))
 	  {
-	    if (lw6sys_str_is_same (value, _TEST_PARAM_VALUE))
+	    if (LW6SYS_TEST_ACK
+		(lw6sys_str_is_same (value, _TEST_PARAM_VALUE)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -713,7 +715,7 @@ _test_param ()
 	    ret = 0;
 	  }
 	lw6map_param_zero (&param2);
-	if (lw6map_param_is_same (param, &param2))
+	if (!LW6SYS_TEST_ACK (!lw6map_param_is_same (param, &param2)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_
@@ -721,7 +723,7 @@ _test_param ()
 	    ret = 0;
 	  }
 	lw6map_param_copy (&param2, param);
-	if (!lw6map_param_is_same (param, &param2))
+	if (!LW6SYS_TEST_ACK (lw6map_param_is_same (param, &param2)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_
@@ -754,7 +756,7 @@ _test_rules ()
     unsigned int checksum = 0;
 
     rules = (lw6map_rules_t *) LW6SYS_CALLOC (sizeof (lw6map_rules_t));
-    if (rules)
+    if (LW6SYS_TEST_ACK (rules))
       {
 	lw6map_rules_zero (rules);
 	lw6map_rules_set_int (rules, _TEST_RULES_KEY, _TEST_RULES_VALUE);
@@ -772,7 +774,7 @@ _test_rules ()
 		    ("rules checksum is %08x and should be %08x"),
 		    checksum, _TEST_RULES_CHECKSUM);
 	ret = ret && (checksum == _TEST_RULES_CHECKSUM);
-	if (lw6map_rules_sanity_check (rules))
+	if (LW6SYS_TEST_ACK (lw6map_rules_sanity_check (rules)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("rules are valid, as sanity_check says"));
@@ -784,7 +786,7 @@ _test_rules ()
 	  }
 	rules->total_time = LW6MAP_RULES_MAX_TOTAL_TIME + 1;
 	rules->moves_per_round = LW6MAP_RULES_MIN_MOVES_PER_ROUND - 1;
-	if (!lw6map_rules_sanity_check (rules))
+	if (LW6SYS_TEST_ACK (!lw6map_rules_sanity_check (rules)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_
@@ -818,12 +820,12 @@ _test_style ()
     char *value;
 
     style = (lw6map_style_t *) LW6SYS_CALLOC (sizeof (lw6map_style_t));
-    if (style)
+    if (LW6SYS_TEST_ACK (style))
       {
 	lw6map_style_zero (style);
 	lw6map_style_set (style, _TEST_STYLE_KEY, _TEST_STYLE_VALUE);
 	value = lw6map_style_get (style, _TEST_STYLE_KEY);
-	if (value)
+	if (LW6SYS_TEST_ACK (value))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("map style for key \"%s\" is \"%s\""),
@@ -836,7 +838,7 @@ _test_style ()
 			_x_ ("can't find style key \"%s\""), _TEST_STYLE_KEY);
 	    ret = 0;
 	  }
-	if (!lw6map_style_is_same (style, style))
+	if (!LW6SYS_TEST_ACK (lw6map_style_is_same (style, style)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("map style comparison failed"));
@@ -865,12 +867,12 @@ _test_teams ()
     char *value;
 
     teams = (lw6map_teams_t *) LW6SYS_CALLOC (sizeof (lw6map_teams_t));
-    if (teams)
+    if (LW6SYS_TEST_ACK (teams))
       {
 	lw6map_teams_zero (teams);
 	lw6map_teams_set (teams, _TEST_TEAMS_KEY, _TEST_TEAMS_VALUE);
 	value = lw6map_teams_get (teams, _TEST_TEAMS_KEY);
-	if (value)
+	if (LW6SYS_TEST_ACK (value))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("map teams for key \"%s\" is \"%s\""),
@@ -883,7 +885,7 @@ _test_teams ()
 			_x_ ("can't find teams key \"%s\""), _TEST_TEAMS_KEY);
 	    ret = 0;
 	  }
-	if (!lw6map_teams_is_same (teams, teams))
+	if (!LW6SYS_TEST_ACK (lw6map_teams_is_same (teams, teams)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("map teams comparison failed"));
@@ -934,9 +936,9 @@ _test_meta_layer ()
 
     memset (&meta_layer, 0, sizeof (lw6map_meta_layer_t));
     lw6map_meta_layer_clear (&meta_layer);
-    if (lw6map_meta_layer_builtin_custom
-	(&meta_layer, _TEST_MAP_WIDTH, _TEST_MAP_WIDTH, 0,
-	 _TEST_MAP_NOISE_PERCENT, 0))
+    if (LW6SYS_TEST_ACK (lw6map_meta_layer_builtin_custom
+			 (&meta_layer, _TEST_MAP_WIDTH, _TEST_MAP_WIDTH, 0,
+			  _TEST_MAP_NOISE_PERCENT, 0)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("custom boolean meta-layer initialized"));
@@ -946,9 +948,9 @@ _test_meta_layer ()
       {
 	ret = 0;
       }
-    if (lw6map_meta_layer_builtin_custom
-	(&meta_layer, _TEST_MAP_WIDTH, _TEST_MAP_WIDTH, 1,
-	 _TEST_MAP_NOISE_PERCENT, 0))
+    if (LW6SYS_TEST_ACK (lw6map_meta_layer_builtin_custom
+			 (&meta_layer, _TEST_MAP_WIDTH, _TEST_MAP_WIDTH, 1,
+			  _TEST_MAP_NOISE_PERCENT, 0)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("custom boolean meta-layer initialized"));
@@ -978,13 +980,13 @@ _test_weapon ()
     for (i = 0; i <= LW6MAP_MAX_WEAPON_ID; ++i)
       {
 	key = lw6map_weapon_index_to_key (i);
-	if (key)
+	if (LW6SYS_TEST_ACK (key))
 	  {
 	    label = lw6map_weapon_index_to_label (i);
-	    if (label)
+	    if (LW6SYS_TEST_ACK (label))
 	      {
 		j = lw6map_weapon_key_to_index (key);
-		if (i == j)
+		if (LW6SYS_TEST_ACK (i == j))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_

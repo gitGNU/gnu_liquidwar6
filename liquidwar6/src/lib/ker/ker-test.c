@@ -34,10 +34,10 @@
  */
 #define _TEST_GAME_STRUCT_CHECKSUM 0x7c3cf9f5
 #define _TEST_GAME_STRUCT_HEXA_CHECKSUM 0xd9561e32
-#define _TEST_GAME_STATE_CHECKSUM 0x7a55ea58
-#define _TEST_GAME_STATE_HEXA_CHECKSUM 0x54b245da
-#define _TEST_GAME_STATE_POPULATE_CHECKSUM 0x741743c8
-#define _TEST_GAME_STATE_ALGORITHM_CHECKSUM 0x5794404c
+#define _TEST_GAME_STATE_CHECKSUM 0xe5d5b129
+#define _TEST_GAME_STATE_HEXA_CHECKSUM 0x26e1cf90
+#define _TEST_GAME_STATE_POPULATE_CHECKSUM 0x7629629f
+#define _TEST_GAME_STATE_ALGORITHM_CHECKSUM 0xd3bca262
 
 #define _TEST_MAP_WIDTH 72
 #define _TEST_MAP_HEIGHT 24
@@ -256,12 +256,21 @@ _test_struct ()
 	  {
 	    _print_game_struct_repr (game_struct);
 	    checksum = lw6ker_game_struct_checksum (game_struct);
-	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_x_
-			("game struct checksum is %08x and should be %08x"),
-			checksum, _TEST_GAME_STRUCT_CHECKSUM);
+	    if (LW6SYS_TEST_ACK (checksum == _TEST_GAME_STRUCT_CHECKSUM))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("game struct checksum is %08x, OK"), checksum);
+		ret = 1;
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("game struct checksum is %08x and should be %08x"),
+			    checksum, _TEST_GAME_STRUCT_CHECKSUM);
+	      }
 	    lw6ker_game_struct_free (game_struct);
-	    ret = (checksum == _TEST_GAME_STRUCT_CHECKSUM);
 	  }
 	lw6map_free (level);
       }
@@ -299,11 +308,21 @@ _test_state ()
 			    lw6ker_game_state_is_over (game_state));
 		_print_game_state_repr (game_state);
 		checksum = lw6ker_game_state_checksum (game_state);
-		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("game state checksum is %08x and should be %08x"),
-			    checksum, _TEST_GAME_STATE_CHECKSUM);
-		ret = (checksum == _TEST_GAME_STATE_CHECKSUM);
+		if (LW6SYS_TEST_ACK (checksum == _TEST_GAME_STATE_CHECKSUM))
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("game state checksum is %08x, OK"),
+				checksum);
+		    ret = 1;
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("game state checksum is %08x and should be %08x"),
+				checksum, _TEST_GAME_STATE_CHECKSUM);
+		  }
 		lw6ker_game_state_free (game_state);
 	      }
 	    lw6ker_game_struct_free (game_struct);
@@ -356,11 +375,22 @@ _test_population ()
 						 _TEST_CURSOR2_ID);
 		_print_game_state_repr (game_state);
 		checksum = lw6ker_game_state_checksum (game_state);
-		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("game state checksum is %08x and should be %08x"),
-			    checksum, _TEST_GAME_STATE_POPULATE_CHECKSUM);
-		ret = (checksum == _TEST_GAME_STATE_POPULATE_CHECKSUM);
+		if (LW6SYS_TEST_ACK
+		    (checksum == _TEST_GAME_STATE_POPULATE_CHECKSUM))
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("game state checksum is %08x, OK"),
+				checksum);
+		    ret = 1;
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("game state checksum is %08x and should be %08x"),
+				checksum, _TEST_GAME_STATE_POPULATE_CHECKSUM);
+		  }
 		lw6ker_game_state_free (game_state);
 	      }
 	    lw6ker_game_struct_free (game_struct);
@@ -468,11 +498,23 @@ _test_algorithm ()
 			    (game_state));
 		_print_game_state_repr (game_state);
 		checksum = lw6ker_game_state_checksum (game_state);
-		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("game state checksum is %08x and should be %08x"),
-			    checksum, _TEST_GAME_STATE_ALGORITHM_CHECKSUM);
-		ret = (checksum == _TEST_GAME_STATE_ALGORITHM_CHECKSUM);
+		if (LW6SYS_TEST_ACK
+		    (checksum == _TEST_GAME_STATE_ALGORITHM_CHECKSUM))
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("game state checksum is %08x, OK"),
+				checksum);
+		    ret = 1;
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("game state checksum is %08x and should be %08x"),
+				checksum,
+				_TEST_GAME_STATE_ALGORITHM_CHECKSUM);
+		  }
 		lw6ker_game_state_free (game_state);
 	      }
 	    lw6ker_game_struct_free (game_struct);
