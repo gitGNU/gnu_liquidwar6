@@ -48,6 +48,8 @@
 
 #define _TEST_RUN_RANDOM_RANGE 2
 
+#define _TEST_NET_SLEEP 3.0f
+
 typedef struct _lw6_test_param_s
 {
   int ret;
@@ -295,6 +297,13 @@ _test_node_abc ()
   u_int64_t pid_c = 0LL;
 
   /*
+   * Sleeping/waiting for a while to make sure everyone has
+   * closed sockets, make double-sure a previous node won't
+   * be left and used by next set of nodes.
+   */
+  lw6sys_sleep (_TEST_NET_SLEEP);
+
+  /*
    * First network test, we launch node_a in the main thread,
    * and fire node_b and node_c in separate threads.
    * We won't get the result from the node_b and node_c but
@@ -328,6 +337,13 @@ _test_node_bca ()
   u_int64_t pid_a = 0LL;
 
   /*
+   * Sleeping/waiting for a while to make sure everyone has
+   * closed sockets, make double-sure a previous node won't
+   * be left and used by next set of nodes.
+   */
+  lw6sys_sleep (_TEST_NET_SLEEP);
+
+  /*
    * Second network test, we launch node_b in the main thread,
    * and fire node_c and node_a in separate threads.
    * We won't get the result from the node_c and node_a but
@@ -359,6 +375,13 @@ _test_node_cab ()
 {
   u_int64_t pid_a = 0LL;
   u_int64_t pid_b = 0LL;
+
+  /*
+   * Sleeping/waiting for a while to make sure everyone has
+   * closed sockets, make double-sure a previous node won't
+   * be left and used by next set of nodes.
+   */
+  lw6sys_sleep (_TEST_NET_SLEEP);
 
   /*
    * Third network test, we launch node_c in the main thread,

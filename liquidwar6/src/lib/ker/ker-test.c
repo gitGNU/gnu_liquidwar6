@@ -100,7 +100,7 @@ _print_game_struct_repr (lw6ker_game_struct_t * game_struct)
   lw6ker_game_struct_find_free_slot_near (game_struct, &there, here);
 
   repr = lw6ker_game_struct_repr (game_struct);
-  if (repr)
+  if (LW6SYS_TEST_ACK (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("game_struct repr is \"%s\""),
 		  repr);
@@ -133,7 +133,7 @@ _print_game_state_repr (lw6ker_game_state_t * game_state)
   int per1000_left = 0;
 
   repr = lw6ker_game_state_repr (game_state);
-  if (repr)
+  if (LW6SYS_TEST_ACK (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("game_state repr is \"%s\""), repr);
       LW6SYS_FREE (repr);
@@ -176,7 +176,8 @@ _print_game_state_repr (lw6ker_game_state_t * game_state)
 		lw6ker_game_state_get_fighter_safe (game_state, x, y, z);
 	      fighter3 =
 		lw6ker_game_state_get_fighter_unsafe (game_state, x, y, z);
-	      if (fighter1 == fighter2 && fighter2 == fighter3)
+	      if (LW6SYS_TEST_ACK
+		  (fighter1 == fighter2 && fighter2 == fighter3))
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("%d,%d,%d fighter has id %d"), x, y, z,
@@ -214,7 +215,7 @@ _print_game_state_repr (lw6ker_game_state_t * game_state)
     }
 
   capture = lw6ker_capture_str (game_state);
-  if (capture)
+  if (LW6SYS_TEST_ACK (capture))
     {
       if (lw6sys_log_get_console_state ())
 	{
@@ -248,10 +249,10 @@ _test_struct ()
     level =
       lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
-    if (level)
+    if (LW6SYS_TEST_ACK (level))
       {
 	game_struct = lw6ker_game_struct_new (level, NULL);
-	if (game_struct)
+	if (LW6SYS_TEST_ACK (game_struct))
 	  {
 	    _print_game_struct_repr (game_struct);
 	    checksum = lw6ker_game_struct_checksum (game_struct);
@@ -285,14 +286,14 @@ _test_state ()
     level =
       lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
-    if (level)
+    if (LW6SYS_TEST_ACK (level))
       {
 	game_struct = lw6ker_game_struct_new (level, NULL);
-	if (game_struct)
+	if (LW6SYS_TEST_ACK (game_struct))
 	  {
 	    _print_game_struct_repr (game_struct);
 	    game_state = lw6ker_game_state_new (game_struct, NULL);
-	    if (game_state)
+	    if (LW6SYS_TEST_ACK (game_state))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("is_over returns %d"),
 			    lw6ker_game_state_is_over (game_state));
@@ -331,14 +332,14 @@ _test_population ()
     level =
       lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
-    if (level)
+    if (LW6SYS_TEST_ACK (level))
       {
 	game_struct = lw6ker_game_struct_new (level, NULL);
-	if (game_struct)
+	if (LW6SYS_TEST_ACK (game_struct))
 	  {
 	    _print_game_struct_repr (game_struct);
 	    game_state = lw6ker_game_state_new (game_struct, NULL);
-	    if (game_state)
+	    if (LW6SYS_TEST_ACK (game_state))
 	      {
 		_print_game_state_repr (game_state);
 		lw6ker_game_state_register_node (game_state, _TEST_NODE_ID);
@@ -390,14 +391,14 @@ _test_algorithm ()
     level =
       lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
-    if (level)
+    if (LW6SYS_TEST_ACK (level))
       {
 	game_struct = lw6ker_game_struct_new (level, NULL);
-	if (game_struct)
+	if (LW6SYS_TEST_ACK (game_struct))
 	  {
 	    _print_game_struct_repr (game_struct);
 	    game_state = lw6ker_game_state_new (game_struct, NULL);
-	    if (game_state)
+	    if (LW6SYS_TEST_ACK (game_state))
 	      {
 		_print_game_state_repr (game_state);
 		lw6ker_game_state_register_node (game_state, _TEST_NODE_ID);
@@ -435,7 +436,8 @@ _test_algorithm ()
 		lw6ker_score_array_update (&score_array, game_state);
 		for (i = 0; i < score_array.nb_scores; ++i)
 		  {
-		    if (score_array.scores[i].fighters_absolute > 0)
+		    if (LW6SYS_TEST_ACK
+			(score_array.scores[i].fighters_absolute > 0))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_
@@ -499,10 +501,10 @@ _test_dup ()
     level =
       lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
-    if (level)
+    if (LW6SYS_TEST_ACK (level))
       {
 	game_struct = lw6ker_game_struct_new (level, NULL);
-	if (game_struct)
+	if (LW6SYS_TEST_ACK (game_struct))
 	  {
 	    _print_game_struct_repr (game_struct);
 	    game_struct2 = lw6ker_game_struct_dup (game_struct, NULL);
@@ -510,7 +512,7 @@ _test_dup ()
 	    game_struct = NULL;
 	    _print_game_struct_repr (game_struct2);
 	    game_state = lw6ker_game_state_new (game_struct2, NULL);
-	    if (game_state)
+	    if (LW6SYS_TEST_ACK (game_state))
 	      {
 		_print_game_state_repr (game_state);
 		game_state2 = lw6ker_game_state_dup (game_state, NULL);
@@ -598,24 +600,25 @@ _test_hexa ()
     level =
       lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
-    if (level)
+    if (LW6SYS_TEST_ACK (level))
       {
 	game_struct = lw6ker_game_struct_new (level, NULL);
-	if (game_struct)
+	if (LW6SYS_TEST_ACK (game_struct))
 	  {
 	    _print_game_struct_repr (game_struct);
 	    checksum_struct = lw6ker_game_struct_checksum (game_struct);
 	    hexa_struct = lw6ker_game_struct_to_hexa (game_struct);
 	    lw6ker_game_struct_free (game_struct);
 	    game_struct = NULL;
-	    if (hexa_struct)
+	    if (LW6SYS_TEST_ACK (hexa_struct))
 	      {
 		checksum_hexa_struct = lw6sys_checksum_str (hexa_struct);
-		if (checksum_hexa_struct == _TEST_GAME_STRUCT_HEXA_CHECKSUM)
+		if (LW6SYS_TEST_ACK
+		    (checksum_hexa_struct == _TEST_GAME_STRUCT_HEXA_CHECKSUM))
 		  {
 		    game_struct2 =
 		      lw6ker_game_struct_from_hexa (hexa_struct, level);
-		    if (game_struct2)
+		    if (LW6SYS_TEST_ACK (game_struct2))
 		      {
 			/*
 			 * Duplicate so that hexa dumps are calculated
@@ -624,7 +627,7 @@ _test_hexa ()
 			 */
 			dup_game_struct =
 			  lw6ker_game_struct_dup (game_struct2, NULL);
-			if (dup_game_struct)
+			if (LW6SYS_TEST_ACK (dup_game_struct))
 			  {
 			    checksum_struct2 =
 			      lw6ker_game_struct_checksum (dup_game_struct);
@@ -633,7 +636,7 @@ _test_hexa ()
 			    lw6ker_game_struct_free (dup_game_struct);
 			    dup_game_struct = NULL;
 			  }
-			if (hexa_struct2)
+			if (LW6SYS_TEST_ACK (hexa_struct2))
 			  {
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
 					_x_
@@ -641,13 +644,14 @@ _test_hexa ()
 					(int) strlen (hexa_struct),
 					(int) strlen (hexa_struct2),
 					checksum_struct, checksum_struct2);
-			    if (checksum_struct == checksum_struct2
-				&& lw6sys_str_is_same (hexa_struct,
-						       hexa_struct2))
+			    if (LW6SYS_TEST_ACK
+				(checksum_struct == checksum_struct2
+				 && lw6sys_str_is_same (hexa_struct,
+							hexa_struct2)))
 			      {
 				game_state =
 				  lw6ker_game_state_new (game_struct2, NULL);
-				if (game_state)
+				if (LW6SYS_TEST_ACK (game_state))
 				  {
 				    lw6ker_game_state_checksum_log_set_interval
 				      (game_state,
@@ -674,17 +678,18 @@ _test_hexa ()
 				      lw6ker_game_state_to_hexa (game_state);
 				    lw6ker_game_state_free (game_state);
 
-				    if (hexa_state)
+				    if (LW6SYS_TEST_ACK (hexa_state))
 				      {
 					checksum_hexa_state =
 					  lw6sys_checksum_str (hexa_state);
-					if (checksum_hexa_state ==
-					    _TEST_GAME_STATE_HEXA_CHECKSUM)
+					if (LW6SYS_TEST_ACK
+					    (checksum_hexa_state ==
+					     _TEST_GAME_STATE_HEXA_CHECKSUM))
 					  {
 					    game_state2 =
 					      lw6ker_game_state_from_hexa
 					      (hexa_state, game_struct2);
-					    if (game_state2)
+					    if (LW6SYS_TEST_ACK (game_state2))
 					      {
 						/*
 						 * Duplicate so that hexa dumps are calculated
@@ -694,7 +699,8 @@ _test_hexa ()
 						dup_game_state =
 						  lw6ker_game_state_dup
 						  (game_state2, NULL);
-						if (dup_game_state)
+						if (LW6SYS_TEST_ACK
+						    (dup_game_state))
 						  {
 						    checksum_state2 =
 						      lw6ker_game_state_checksum
@@ -706,7 +712,8 @@ _test_hexa ()
 						      (dup_game_state);
 						    dup_game_state = NULL;
 						  }
-						if (hexa_state2)
+						if (LW6SYS_TEST_ACK
+						    (hexa_state2))
 						  {
 						    lw6sys_log
 						      (LW6SYS_LOG_NOTICE,
@@ -718,26 +725,31 @@ _test_hexa ()
 						       strlen (hexa_state2),
 						       checksum_state,
 						       checksum_state2);
-						    if (checksum_state ==
-							checksum_state2
-							&&
-							lw6sys_str_is_same
-							(hexa_state,
-							 hexa_state2))
+						    if (LW6SYS_TEST_ACK
+							(checksum_state ==
+							 checksum_state2
+							 &&
+							 lw6sys_str_is_same
+							 (hexa_state,
+							  hexa_state2)))
 						      {
 							ret = 1;
 						      }
 						    else
 						      {
-							if (checksum_state !=
-							    checksum_state2)
+							if (!LW6SYS_TEST_ACK
+							    (checksum_state ==
+							     checksum_state2))
 							  {
 							    lw6sys_log
 							      (LW6SYS_LOG_WARNING,
 							       _x_
 							       ("game_state checksums differ"));
 							  }
-							if (!lw6sys_str_is_same (hexa_state, hexa_state2))
+							if (!LW6SYS_TEST_ACK
+							    (lw6sys_str_is_same
+							     (hexa_state,
+							      hexa_state2)))
 							  {
 							    lw6sys_log
 							      (LW6SYS_LOG_WARNING,
@@ -767,14 +779,16 @@ _test_hexa ()
 			      }
 			    else
 			      {
-				if (checksum_struct != checksum_struct2)
+				if (!LW6SYS_TEST_ACK
+				    (checksum_struct == checksum_struct2))
 				  {
 				    lw6sys_log (LW6SYS_LOG_WARNING,
 						_x_
 						("game_struct checksums differ"));
 				  }
-				if (!lw6sys_str_is_same
-				    (hexa_struct, hexa_struct2))
+				if (!LW6SYS_TEST_ACK (lw6sys_str_is_same
+						      (hexa_struct,
+						       hexa_struct2)))
 				  {
 				    lw6sys_log (LW6SYS_LOG_WARNING,
 						_x_
