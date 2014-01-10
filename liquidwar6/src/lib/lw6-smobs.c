@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -197,7 +197,7 @@ lw6_scm_to_dsp (SCM dsp)
  * Frees a dsp smob, we need a special function to do
  * that as structures like assoc hold pointers to these
  * objects and therefore need a proper callback when being
- * destroyed. 
+ * destroyed.
  *
  * Return value: none
  */
@@ -354,7 +354,7 @@ lw6_scm_to_snd (SCM snd)
  * Frees a snd smob, we need a special function to do
  * that as structures like assoc hold pointers to these
  * objects and therefore need a proper callback when being
- * destroyed. 
+ * destroyed.
  *
  * Return value: none
  */
@@ -519,7 +519,7 @@ lw6_scm_to_map (SCM map)
  * Frees a map smob, we need a special function to do
  * that as structures like assoc hold pointers to these
  * objects and therefore need a proper callback when being
- * destroyed. 
+ * destroyed.
  *
  * Return value: none
  */
@@ -675,7 +675,7 @@ lw6_scm_to_menu (SCM menu)
  * Frees a menu smob, we need a special function to do
  * that as structures like assoc hold pointers to these
  * objects and therefore need a proper callback when being
- * destroyed. 
+ * destroyed.
  *
  * Return value: none
  */
@@ -845,7 +845,7 @@ lw6_scm_to_game_struct (SCM game_struct)
  * Frees a game_struct smob, we need a special function to do
  * that as structures like assoc hold pointers to these
  * objects and therefore need a proper callback when being
- * destroyed. 
+ * destroyed.
  *
  * Return value: none
  */
@@ -1015,7 +1015,7 @@ lw6_scm_to_game_state (SCM game_state)
  * Frees a game_state smob, we need a special function to do
  * that as structures like assoc hold pointers to these
  * objects and therefore need a proper callback when being
- * destroyed. 
+ * destroyed.
  *
  * Return value: none
  */
@@ -1173,7 +1173,7 @@ lw6_scm_to_pilot (SCM pilot)
  * Frees a pilot smob, we need a special function to do
  * that as structures like assoc hold pointers to these
  * objects and therefore need a proper callback when being
- * destroyed. 
+ * destroyed.
  *
  * Return value: none
  */
@@ -1340,7 +1340,7 @@ lw6_scm_to_bot (SCM bot)
  * Frees a bot smob, we need a special function to do
  * that as structures like assoc hold pointers to these
  * objects and therefore need a proper callback when being
- * destroyed. 
+ * destroyed.
  *
  * Return value: none
  */
@@ -1497,7 +1497,7 @@ lw6_scm_to_look (SCM look)
  * Frees a look smob, we need a special function to do
  * that as structures like assoc hold pointers to these
  * objects and therefore need a proper callback when being
- * destroyed. 
+ * destroyed.
  *
  * Return value: none
  */
@@ -1656,7 +1656,7 @@ lw6_scm_to_loader (SCM loader)
  * Frees a loader smob, we need a special function to do
  * that as structures like assoc hold pointers to these
  * objects and therefore need a proper callback when being
- * destroyed. 
+ * destroyed.
  *
  * Return value: none
  */
@@ -1811,7 +1811,7 @@ lw6_scm_to_db (SCM db)
  * Frees a db smob, we need a special function to do
  * that as structures like assoc hold pointers to these
  * objects and therefore need a proper callback when being
- * destroyed. 
+ * destroyed.
  *
  * Return value: none
  */
@@ -1976,7 +1976,7 @@ lw6_scm_to_node (SCM node)
  * Frees a node smob, we need a special function to do
  * that as structures like assoc hold pointers to these
  * objects and therefore need a proper callback when being
- * destroyed. 
+ * destroyed.
  *
  * Return value: none
  */
@@ -2132,7 +2132,7 @@ lw6_scm_to_jpeg (SCM jpeg)
  * Frees a jpeg smob, we need a special function to do
  * that as structures like assoc hold pointers to these
  * objects and therefore need a proper callback when being
- * destroyed. 
+ * destroyed.
  *
  * Return value: none
  */

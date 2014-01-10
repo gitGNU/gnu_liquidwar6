@@ -75,16 +75,16 @@
 	(begin
 	  (hash-set! cursor "fire" fire)
 	  (hash-set! cursor "fire2" fire2)
-	  (if up 
+	  (if up
 	      (if down
-		  #t		  
+		  #t
 		  (lw6-mover-minus cursor sensitivity max-cursor-speed "vy"))
 	      (if down
 		  (lw6-mover-plus cursor sensitivity max-cursor-speed "vy")
 		  (lw6-mover-slow-down cursor sensitivity "vy")))
 	  (if left
 	      (if right
-		  #t		  
+		  #t
 		  (lw6-mover-minus cursor sensitivity max-cursor-speed "vx"))
 	      (if right
 		  (lw6-mover-plus cursor sensitivity max-cursor-speed "vx")
@@ -106,8 +106,8 @@
 	(
 	 (dsp (lw6-get-game-global "dsp"))
 	 (mouse-state (c-lw6gui-mouse-poll-move dsp))
-	 ;; Default binding is to map left simple on fire, and right 
-	 ;; on alternate fire, but on a tablet PC and/or tactile screen 
+	 ;; Default binding is to map left simple on fire, and right
+	 ;; on alternate fire, but on a tablet PC and/or tactile screen
 	 ;; we use simple/double-clicks instead
 	 (use-double-click (lw6-config-is-true? lw6def-use-double-click))
 	 (fire (or (if use-double-click
@@ -199,14 +199,14 @@
 (define lw6-mover-universal-func
   (lambda (cursor)
     (begin
-      ((lw6-mover-generic (lambda () 
+      ((lw6-mover-generic (lambda ()
 			    (let* (
 				   (dsp (lw6-get-game-global "dsp"))
 				   (keyboard-state (c-lw6gui-keyboard-get-move-pad dsp))
 				   (joystick1-state (c-lw6gui-joystick1-get-move-pad dsp))
 				   (joystick2-state (c-lw6gui-joystick2-get-move-pad dsp))
 				   )
-			      (map (lambda (dir) 
+			      (map (lambda (dir)
 				     (cons dir (or (assoc-ref keyboard-state dir)
 						   (assoc-ref joystick1-state dir)
 						   (assoc-ref joystick2-state dir))))
@@ -233,13 +233,13 @@
 
 (define lw6-mover-semi-universal-2-func
   (lambda (cursor)
-    ((lw6-mover-generic (lambda () 
+    ((lw6-mover-generic (lambda ()
 			  (let* (
 				 (dsp (lw6-get-game-global "dsp"))
 				 (keyboard-state (c-lw6gui-keyboard-get-move-pad dsp))
 				 (joystick2-state (c-lw6gui-joystick2-get-move-pad dsp))
 				 )
-			    (map (lambda (dir) 
+			    (map (lambda (dir)
 				   (cons dir (or (assoc-ref keyboard-state dir)
 						 (assoc-ref joystick2-state dir))))
 				 (list "up" "down" "left" "right"))
@@ -263,7 +263,7 @@
 				(if (and game-state mover cursor (hash-ref cursor "x") (hash-ref cursor "y"))
 				    (begin
 				      (mover cursor)
-				      (let* (					    
+				      (let* (
 					     (coords (c-lw6pil-fix-coords-x10 game-state (hash-ref cursor "x") (hash-ref cursor "y") 0.0))
 					     ;; (coords (list (cons "x" (hash-ref cursor "x")) (cons "y" (hash-ref cursor "y")) 0.0))
 					     (x (assoc-ref coords "x"))

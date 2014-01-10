@@ -72,7 +72,7 @@ lw6map_new ()
  * Creates a map, set to defaults. This is usefull mostly for testing.
  * This builtin map has walls, paths, it's playable.
  *
- * Return value: a newly allocated map. 
+ * Return value: a newly allocated map.
  */
 lw6map_level_t *
 lw6map_builtin_defaults ()
@@ -93,7 +93,7 @@ lw6map_builtin_defaults ()
  *
  * @percent_factor: how big the map should be, 100 is defaults 200 is double.
  *
- * Return value: a newly allocated map. 
+ * Return value: a newly allocated map.
  */
 lw6map_level_t *
 lw6map_builtin_scale (int percent_factor)
@@ -134,7 +134,7 @@ lw6map_builtin_scale (int percent_factor)
  * This one, unlike @lw6map_builtin_defaults  will let you give a width,
  * height and a depth.
  *
- * Return value: a newly allocated map. 
+ * Return value: a newly allocated map.
  */
 lw6map_level_t *
 lw6map_builtin_custom (int w, int h, int d, int noise_percent)
@@ -303,7 +303,7 @@ lw6map_is_same (const lw6map_level_t * level_a,
   if (level_a && level_b)
     {
       /*
-       * We don't compare the whole map (performance...) but assume if 
+       * We don't compare the whole map (performance...) but assume if
        * the metadata is the same, all the parameters are the same,
        * the shape is the same, and the body checksum is the same ->
        * it's the same map

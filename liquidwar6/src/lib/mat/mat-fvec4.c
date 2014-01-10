@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -253,7 +253,7 @@ lw6mat_fvec4_scale (lw6mat_fvec4_t * fvec4, float f)
  * lw6mat_fvec4_repr
  *
  * @fvec: vector to represent
- * 
+ *
  * Gives a readable version of the vector
  *
  * Return value: newly allocated string

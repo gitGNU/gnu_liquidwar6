@@ -32,7 +32,7 @@
  * Function which returns always true, that is, something different
  * than 0.
  *
- * @Return value: 1 
+ * @Return value: 1
  */
 int
 lw6sys_true ()
@@ -50,7 +50,7 @@ lw6sys_true ()
  * in the main binary some functions which would otherwise be stripped
  * during the final link.
  *
- * @Return value: 0 
+ * @Return value: 0
  */
 int
 lw6sys_false ()

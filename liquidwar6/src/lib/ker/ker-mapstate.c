@@ -144,7 +144,7 @@ _lw6ker_map_state_update_checksum (_lw6ker_map_state_t * map_state,
   int i;
   /*
    * No need to compute map_struct checksum again, it's done
-   * within game_state_update_checksum which itself calls 
+   * within game_state_update_checksum which itself calls
    * game_struct_update_checksum.
    */
   lw6sys_checksum_update_whd (checksum, &(map_state->shape));

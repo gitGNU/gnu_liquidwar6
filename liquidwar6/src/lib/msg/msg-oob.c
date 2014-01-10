@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -211,7 +211,7 @@ lw6msg_oob_generate_pong (lw6nod_info_t * info)
 
 /**
  * lw6msg_oob_generate_request
- * 
+ *
  * @command: the command to send (PING, INFO, LIST)
  * @remote_url: the remote URL (used to seed password)
  * @password: the password, can be NULL or ""
@@ -266,16 +266,16 @@ lw6msg_oob_generate_request (const char *command, const char *remote_url,
  * lw6msg_oob_analyse_request
  *
  * @syntax_ok: will contain 1 if syntax is OK, 0 if not
- * @command: the command (out param, needs *not* to be freed) 
+ * @command: the command (out param, needs *not* to be freed)
  * @password_ok: will contain 1 if password is OK, 0 if not
  * @remote_url: the URL detected, if provided (out param, does needs to be freed)
  * @request: the request to analyse
  * @local_url: the local url (used to seed password)
  * @password: the password to check against
  *
- * Analyses a simple OOB message of the form COMMAND <passwd> <url>. 
+ * Analyses a simple OOB message of the form COMMAND <passwd> <url>.
  *
- * Return value: 1 if OK, 0 if not. If 0, check the value of password_ok. 
+ * Return value: 1 if OK, 0 if not. If 0, check the value of password_ok.
  */
 int
 lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,

@@ -218,7 +218,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 		   * It's important to keep a track of the previous dump,
 		   * to avoid putting messages twice in it. In practice it should
 		   * be rare. Note that we srt these old_worker values *after*
-		   * pumping the data if needed, this way if there's already a 
+		   * pumping the data if needed, this way if there's already a
 		   * dump from previous compute, data will be appended the right way.
 		   */
 		  old_worker_dump_pilot_ptr = worker->dump.pilot;
@@ -231,7 +231,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 	      else
 		{
 		  /*
-		   * Not in verified mode, we ignore all that dump stuff, if there's a 
+		   * Not in verified mode, we ignore all that dump stuff, if there's a
 		   * dump we ignore it, the cost of processing it is too expensive
 		   * compared to the gain it would introduce, we'll treat it when
 		   * it's verified, meanwhile, keep working on old map.

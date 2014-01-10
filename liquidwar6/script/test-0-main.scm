@@ -84,7 +84,7 @@
 		 lw6def-c-lw6sys-build-get-enable-profiler
 		 lw6def-c-lw6sys-build-get-enable-gcov
 		 lw6def-c-lw6sys-build-get-enable-valgrind
-		 lw6def-c-lw6sys-build-get-bin-id	       
+		 lw6def-c-lw6sys-build-get-bin-id
 		 ))
       #t
       )))
@@ -144,14 +144,14 @@
   (lambda ()
     (begin
       ;; double bazooka size
-      (c-lw6sys-set-memory-bazooka-size 
+      (c-lw6sys-set-memory-bazooka-size
        (* 2 (c-lw6sys-get-memory-bazooka-size)))
-      (c-lw6sys-set-memory-bazooka-eraser 
+      (c-lw6sys-set-memory-bazooka-eraser
        (not (c-lw6sys-get-memory-bazooka-eraser)))
       (lw6-log-notice (format #f "bazooka-eraser=~a"
 			      (c-lw6sys-get-memory-bazooka-eraser)))
       ;; run it again to get back to previous mode
-      (c-lw6sys-set-memory-bazooka-eraser 
+      (c-lw6sys-set-memory-bazooka-eraser
        (not (c-lw6sys-get-memory-bazooka-eraser)))
       (lw6-log-notice (format #f "bazooka-size=~a"
 			      (c-lw6sys-get-memory-bazooka-size)))
@@ -266,7 +266,7 @@
 	   (url-check "http://foo.bar/dir/file.ext/")
 	   )
       (if (equal? url-dst url-check)
-	  (begin	    
+	  (begin
 	    (lw6-log-notice (format #f "canonized URL \"~a\" -> \"~a\"" url-src url-dst))
 	    #t
 	    )
@@ -274,7 +274,7 @@
 	    (lw6-log-warning (format #f "canonized URL failed \"~a\" != \"~a\"" url-dst url-check))
 	    #f
 	    )
-	  ))))	    
+	  ))))
 
 (define lw6-test-hlp-about
   (lambda ()
@@ -337,7 +337,7 @@
 		(c-lw6cfg-set-option magic-number-value magic-number-value)
 		(lw6-log-notice (format #f "(c-lw6cfg-unified-get-user-dir) -> ~a" (c-lw6cfg-unified-get-user-dir)))
 		(lw6-log-notice (format #f "(c-lw6cfg-unified-get-log-file) -> ~a" (c-lw6cfg-unified-get-log-file)))
-		(lw6-log-notice (format #f "(c-lw6cfg-unified-get-music-path) -> ~a" (c-lw6cfg-unified-get-music-path)))		 
+		(lw6-log-notice (format #f "(c-lw6cfg-unified-get-music-path) -> ~a" (c-lw6cfg-unified-get-music-path)))
 		)))
 	(c-lw6cfg-save (c-lw6sys-get-config-file))
 	(c-lw6cfg-quit)
@@ -443,7 +443,7 @@
 	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))
 	   (game-struct (c-lw6ker-build-game-struct the-map))
 	   (game-state (c-lw6ker-build-game-state game-struct))
-	   (pilot (c-lw6pil-build-pilot game-state					   
+	   (pilot (c-lw6pil-build-pilot game-state
 					(c-lw6pil-seq-random-0)
 					0))
 	   (round-0 (c-lw6pil-get-round-0 pilot))
@@ -466,8 +466,8 @@
 	   (dump (c-lw6pil-suite-init (c-lw6sys-get-timestamp)))
 	   (seq-0 (c-lw6pil-suite-get-seq-0))
 	   (node-ids (map c-lw6pil-suite-get-node-id (list 0 1 2)))
-	   (commands-by-node-index (map (lambda (node-index) 
-					  (map (lambda (stage) 
+	   (commands-by-node-index (map (lambda (node-index)
+					  (map (lambda (stage)
 						 (c-lw6pil-suite-get-commands-by-node-index node-index stage))
 					       (list 0 1 2)))
 					(list 0 1 2)))
@@ -492,7 +492,7 @@
 	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))
 	   (game-struct (c-lw6ker-build-game-struct the-map))
 	   (game-state (c-lw6ker-build-game-state game-struct))
-	   (pilot (c-lw6pil-build-pilot game-state					   
+	   (pilot (c-lw6pil-build-pilot game-state
 					(c-lw6pil-seq-random-0)
 					0))
 	   )
@@ -530,8 +530,8 @@
   (lambda ()
     (let (
 	  (menu (c-lw6gui-menu-new "Test" "This is the (usefull) help" "Pop... UP" "Esc" #t))
-	  (game-state (c-lw6ker-build-game-state 
-		       (c-lw6ker-build-game-struct 
+	  (game-state (c-lw6ker-build-game-state
+		       (c-lw6ker-build-game-struct
 			(c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))))
 	  (game-look (c-lw6gui-default-look))
 	  (loader (c-lw6tsk-loader-new 1.5))

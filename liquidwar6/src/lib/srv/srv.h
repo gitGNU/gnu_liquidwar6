@@ -53,7 +53,7 @@ typedef struct lw6srv_client_id_s
 lw6srv_client_id_t;
 
 /**
- * A TCP accepter is an object which is created after a listening 
+ * A TCP accepter is an object which is created after a listening
  * socket received some random information
  * (in TCP mode, hence its name). Itprovides
  * basic support to accept/reject requests and choose the
@@ -113,14 +113,14 @@ typedef struct lw6srv_listener_s
   int port;
   /// TCP socket, binded in listening mode.
   int tcp_sock;
-  /** 
+  /**
    * List of lw6srv_tcp_accepter_t objects, created
    * when data is received.
    */
   lw6sys_list_t *tcp_accepters;
-  /// UDP socket, binded.       
+  /// UDP socket, binded.
   int udp_sock;
-  /** 
+  /**
    * List of lw6srv_udp_buffer_t objects, created
    * when data is received.
    */
@@ -169,7 +169,7 @@ lw6srv_oob_t;
 /**
  * The srv backend is the first argument passed to any srv function,
  * it contains reference to all the functions which can be used
- * as well as a pointer on associated data. In OO, this would just 
+ * as well as a pointer on associated data. In OO, this would just
  * be an object, with members and methods, using polymorphism through
  * opaque pointers.
  */

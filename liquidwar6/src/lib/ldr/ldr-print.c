@@ -64,7 +64,7 @@
  * @f: file to output content to
  *
  * Print to a file a typical map rules.xml file.
- * 
+ *
  * Return value: none.
  */
 void
@@ -96,7 +96,7 @@ lw6ldr_print_example_rules_xml (FILE * f)
  * @f: file to output content to
  *
  * Print to a file a typical map hints.xml file.
- * 
+ *
  * Return value: none.
  */
 void
@@ -124,7 +124,7 @@ lw6ldr_print_example_hints_xml (FILE * f)
  * @f: file to output content to
  *
  * Print to a file a typical map style.xml file.
- * 
+ *
  * Return value: none.
  */
 void
@@ -156,7 +156,7 @@ lw6ldr_print_example_style_xml (FILE * f)
  * @f: file to output content to
  *
  * Print to a file a typical map teams.xml file.
- * 
+ *
  * Return value: none.
  */
 void

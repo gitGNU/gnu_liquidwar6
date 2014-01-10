@@ -21,7 +21,7 @@
 (define lw6-rules-options-menu-respawn-team-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-list-number-template 
+	  (item (lw6-menu-item-list-number-template
 				    lw6def-respawn-team
 				    (list
 				     (_ "One life (last wins)")
@@ -35,7 +35,7 @@
 (define lw6-rules-options-menu-use-team-profiles-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-list-number-template 
+	  (item (lw6-menu-item-list-number-template
 				    lw6def-use-team-profiles
 				    (list
 				     (_ "All teams are equal")
@@ -61,7 +61,7 @@
 
 (define lw6-rules-options-menu-armies-size-item-label-func
   (lambda (menuitem)
-      (format #f 
+      (format #f
 	      (_ "Armies ~a% - ~a%")
 	      (lw6-rules-options-menu-per-100-2-label
 	       (lw6-config-get-number lw6def-single-army-size))

@@ -49,8 +49,8 @@
 	   (seconds1 (modulo (quotient total-time 10) 6))
 	   (seconds2 (modulo total-time 10))
 	  )
-      (format #f 
-	      (_ "Time ~a:~a~a:~a~a") 
+      (format #f
+	      (_ "Time ~a:~a~a:~a~a")
 	      hours minutes1 minutes2 seconds1 seconds2)
       )))
 

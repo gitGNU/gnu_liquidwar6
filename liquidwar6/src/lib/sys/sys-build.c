@@ -144,7 +144,7 @@ lw6sys_build_get_codename ()
 /**
  * lw6sys_build_get_version_base:
  *
- * Returns the program base version number. 
+ * Returns the program base version number.
  * If version is X.Y.Z, this is X.Y, think of it as MAJOR.MINOR
  * and globally determines the level of compatibility of the program.
  * Two program exposing the same version should be network compatible
@@ -164,7 +164,7 @@ lw6sys_build_get_version_base ()
 /**
  * lw6sys_build_get_version_major:
  *
- * Returns the program major version number. 
+ * Returns the program major version number.
  * If version is X.Y.Z, this is X. It's mainly used to make the difference
  * between alpha/beta releases (with "0" here) and stable releases using
  * "6" as we are talking about LW6, after all.
@@ -181,7 +181,7 @@ lw6sys_build_get_version_major ()
 /**
  * lw6sys_build_get_version_minor:
  *
- * Returns the program minor version number. 
+ * Returns the program minor version number.
  * If version is X.Y.Z, this is Y. This one should increase manually at each
  * significant/public release of the game.
  *
@@ -242,9 +242,9 @@ lw6sys_build_get_md5sum ()
 /**
  * lw6sys_build_get_copyright:
  *
- * Returns a (very) short copyright information about the program. 
+ * Returns a (very) short copyright information about the program.
  *
- * Return value: a non-NULL string, single line whithout '\n' at the end. 
+ * Return value: a non-NULL string, single line whithout '\n' at the end.
  *   Must not be freed.
  */
 char *
@@ -258,7 +258,7 @@ lw6sys_build_get_copyright ()
  *
  * Returns the license for the program (GNU GPL v3 or later).
  *
- * Return value: a non-NULL string, single line whithout '\n' at the end. 
+ * Return value: a non-NULL string, single line whithout '\n' at the end.
  *   Must not be freed.
  */
 char *
@@ -272,7 +272,7 @@ lw6sys_build_get_license ()
  *
  * Returns the URL of the game, its homepage.
  *
- * Return value: a non-NULL string, single line whithout '\n' at the end. 
+ * Return value: a non-NULL string, single line whithout '\n' at the end.
  *   Must not be freed.
  */
 char *
@@ -286,7 +286,7 @@ lw6sys_build_get_home_url ()
  *
  * Returns the URL for bugs, the bug reports page.
  *
- * Return value: a non-NULL string, single line whithout '\n' at the end. 
+ * Return value: a non-NULL string, single line whithout '\n' at the end.
  *   Must not be freed.
  */
 char *
@@ -644,7 +644,7 @@ lw6sys_build_get_abs_srcdir ()
  * Returns the @prefix value as given to the GNU Autoconf ./configure script.
  * Used to deduce the path to other directories and files.
  *
- * Return value: a non-NULL string, "/usr/local" by default. 
+ * Return value: a non-NULL string, "/usr/local" by default.
  *   Must not be freed.
  */
 char *
@@ -1201,7 +1201,7 @@ lw6sys_build_get_bin_id ()
  * lw6sys_build_log_all
  *
  * Dumps in the log file the whole program pedigree, host, modules,
- * that is, what are the values of all the build options. 
+ * that is, what are the values of all the build options.
  * Usefull for bug reports.
  *
  * Return value: none.

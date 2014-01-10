@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -67,12 +67,12 @@ _next_dir (int32_t dir)
    * Arbitrary hard-coded order for directions. (diags = 1 4 7 10)
    * For incr spread, use 0 to 5 (ENE to SW) and 12 (DOWN)
    * For decr spread, use 6 to 11 (WSW to NE) and 13 (UP)
-   * 0 6 
+   * 0 6
    * 3 9
    * 1 7
    * 12
    * 10 4
-   * 8 2 
+   * 8 2
    * 11 5
    * 13
    */

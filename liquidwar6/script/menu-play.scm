@@ -21,7 +21,7 @@
 (define lw6-play-menu-solo-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Solo game") 
+	  (item (lw6-menu-item-template (_ "Solo game")
 					(_ "Play alone against the computer, try and win levels to get access to new colors and weapons")))
 	  )
       (begin
@@ -33,7 +33,7 @@
 (define lw6-play-menu-1on1-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "1 on 1") 
+	  (item (lw6-menu-item-template (_ "1 on 1")
 					(_ "Play with a friend locally on this computer")))
 	  )
       (begin

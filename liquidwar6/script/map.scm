@@ -27,12 +27,12 @@
     (append map-source (list
 			(cons "game-struct" game-struct)
 			(cons "game-state" game-state)
-			(cons "moves-per-tick" 
-			      (/ (* (c-lw6map-options-get-int 
-				     game-struct 
+			(cons "moves-per-tick"
+			      (/ (* (c-lw6map-options-get-int
+				     game-struct
 				     lw6def-moves-per-round)
-				    (c-lw6map-options-get-int 
-				     game-struct 
+				    (c-lw6map-options-get-int
+				     game-struct
 				     lw6def-rounds-per-sec)
 				    ) 1000))
 			)

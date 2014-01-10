@@ -151,7 +151,7 @@ lw6sys_arg_exists (int argc, const char *argv[], const char *keyword)
  * Parses all command-line arguments, searching for one
  * precise "--key=value" pair, and returns the value.
  *
- * Return value: a pointer to the value. May be NULL. Must be freed. 
+ * Return value: a pointer to the value. May be NULL. Must be freed.
  */
 char *
 lw6sys_arg_get_value (int argc, const char *argv[], const char *keyword)
@@ -195,7 +195,7 @@ lw6sys_arg_get_value (int argc, const char *argv[], const char *keyword)
  * environment variable will be overriden if the command-line
  * parameter is present.
  *
- * Return value: a pointer to the value. May be NULL. Must be freed. 
+ * Return value: a pointer to the value. May be NULL. Must be freed.
  */
 char *
 lw6sys_arg_get_value_with_env (int argc, const char *argv[],

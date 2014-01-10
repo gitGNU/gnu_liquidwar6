@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -212,7 +212,7 @@ lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t * connection,
  * lw6cnx_connection_lock_send
  *
  * @connection: the connexion to lock
- * 
+ *
  * Acquires a "send" lock on the connexion, the idea is to avoid
  * too threads sending data using the same socket at the same time.
  * Note that each backend must call this when accessing the socket,
@@ -230,7 +230,7 @@ lw6cnx_connection_lock_send (lw6cnx_connection_t * connection)
  * lw6cnx_connection_unlock_send
  *
  * @connection: the connexion to lock
- * 
+ *
  * Releases a "send" lock on the connexion, the idea is to avoid
  * too threads sending data using the same socket at the same time.
  * Note that each backend must call this when accessing the socket,
@@ -248,7 +248,7 @@ lw6cnx_connection_unlock_send (lw6cnx_connection_t * connection)
  * lw6cnx_connection_reliability_filter
  *
  * @connection: the connexion concerned
- * 
+ *
  * Will filter and return true only in "rare" cases when packets
  * must be artificially dropped for testing purpose.
  *

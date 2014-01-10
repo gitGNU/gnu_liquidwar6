@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -103,7 +103,7 @@ lw6gui_coords_fix_xy_float (float *x, float *y, int *x_flip, int *y_flip,
 			    float w, float h, int x_polarity, int y_polarity)
 {
   /*
-   * The algorithm is copied/pasted from map code, only here it 
+   * The algorithm is copied/pasted from map code, only here it
    * operates with floats, not integers.
    */
   (*x_flip) = 1;

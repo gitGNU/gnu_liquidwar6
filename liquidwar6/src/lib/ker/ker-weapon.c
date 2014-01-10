@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -517,7 +517,7 @@ _lw6ker_weapon_fire_fix (_lw6ker_map_state_t * map_state,
 {
   int ret = 0;
 
-  /* 
+  /*
    * FIX is an exclusive weapon, as such, when someone is using
    * it, no one else can. So we disable it for everyone before triggering
    * it for a given team.
@@ -548,7 +548,7 @@ _lw6ker_weapon_fire_control (_lw6ker_map_state_t * map_state,
 {
   int ret = 0;
 
-  /* 
+  /*
    * CONTROL is an exclusive weapon, as such, when someone is using
    * it, no one else can. So we disable it for everyone before triggering
    * it for a given team.

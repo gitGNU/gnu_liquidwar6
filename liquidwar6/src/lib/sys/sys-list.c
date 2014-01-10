@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -99,7 +99,7 @@ lw6sys_list_free (lw6sys_list_t * list)
 	{
 	  /*
 	   * This should be the last call of the function.
-	   * Hopefully the compiler will find this out and 
+	   * Hopefully the compiler will find this out and
 	   * optimize and *not* generate hudge stacks with
 	   * return addresses which are of no use. At least
 	   * the compiler *could* do it 8-) Recursion recursion...
@@ -252,7 +252,7 @@ lw6sys_list_map (lw6sys_list_t * list,
  * The @func_data parameter allows you to pass extra values to
  * the function, such as a file handler or any variable which
  * can not be inferred from list item values, and you of course
- * do not want to make global... 
+ * do not want to make global...
  *
  * Return value: none.
  */
@@ -317,7 +317,7 @@ lw6sys_list_filter (lw6sys_list_t ** list,
  * from the previous element. The pointer on the list is
  * changed "in place" (in/out). Note that if there's a @malloc
  * problem it might end-up being NULL... This should be rare
- * but it *can* happen. You cannot push something else than a 
+ * but it *can* happen. You cannot push something else than a
  * pointer, pushing an int is a very bad idea. Push a pointer
  * on the integer, and ensure it's always there, or @malloc it
  * and pass @lw6sys_free_callback when creating the list.
@@ -409,7 +409,7 @@ lw6sys_list_pop_front (lw6sys_list_t ** list)
  * from the previous element. The pointer on the list is
  * changed "in place" (in/out). Note that if there's a @malloc
  * problem it might end-up being NULL... This should be rare
- * but it *can* happen. You cannot push something else than a 
+ * but it *can* happen. You cannot push something else than a
  * pointer, pushing an int is a very bad idea. Push a pointer
  * on the integer, and ensure it's always there, or @malloc it
  * and pass @lw6sys_free_callback when creating the list.

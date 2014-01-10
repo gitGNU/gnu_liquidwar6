@@ -21,7 +21,7 @@
 (define lw6-bench-need-update
   (lambda (force-bench)
     (or force-bench
-	    (not (equal? 
+	    (not (equal?
 		  (lw6-config-get-number lw6def-bin-id)
 		  (c-lw6sys-build-get-bin-id))))
     ))

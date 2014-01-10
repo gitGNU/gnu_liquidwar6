@@ -150,7 +150,7 @@ typedef struct lw6nod_dyn_info_s
 /**
  * Informations about a node. Note that in practice
  * this structure is just used to describe our current node,
- * there might be several instances of this if a program 
+ * there might be several instances of this if a program
  * instanciates several nodes, but another data structure is
  * used to store information about peers.typedef struct lw6nod_info_s
  */

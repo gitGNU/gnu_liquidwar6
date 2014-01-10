@@ -72,7 +72,7 @@ lw6sys_daemon_pid_file (int argc, const char *argv[])
  *
  * @pid_file: the pid file used for the daemon
  *
- * Calls @fork internally to put the process in the program, 
+ * Calls @fork internally to put the process in the program,
  * make it a daemon. Note this won't work on all platforms,
  * for instance it won't work on MS-Windows but this is rarely
  * an issue as MS-Windows users are rarely concerned with

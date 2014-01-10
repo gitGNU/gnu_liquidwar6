@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -47,7 +47,7 @@ _lw6net_delay_msec_to_timeval (struct timeval *tv, int delay_msec)
  * @ip: IP address to bind to
  * @port: IP port to listen on
  *
- * Listens in TCP on a given port. 
+ * Listens in TCP on a given port.
  *
  * Return value: >=0 on success, -1 on failure.
  */
@@ -703,7 +703,7 @@ lw6net_tcp_send (int *sock, const char *buf, int len, int delay_msec,
 
 /**
  * lw6net_tcp_peek
- * 
+ *
  * @sock: socket to use
  * @buf: data buffer
  * @len: data buffer length
@@ -842,7 +842,7 @@ lw6net_tcp_peek (int *sock, char *buf, int len, int delay_msec)
 
 /**
  * lw6net_tcp_recv
- * 
+ *
  * @sock: socket to use
  * @buf: data buffer
  * @len: data buffer length

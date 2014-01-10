@@ -18,8 +18,8 @@
 ;; Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;; Contact author        : ufoot@ufoot.org
 
-(define lw6-load 
-  (lambda () 
+(define lw6-load
+  (lambda ()
     (begin
       (load "def.scm")
       (load "backend.scm")

@@ -87,7 +87,7 @@
 	(lw6-menu-action menu "on-display")
 	(hash-set! display-param "menu" menu-smob)
 	(if look
-	    (c-lw6gui-look-set look lw6def-gfx-quality 
+	    (c-lw6gui-look-set look lw6def-gfx-quality
 			       (lw6-config-get-string lw6def-gfx-quality)))
 	(if (and game-state pilot node-id)
 	    (let* (
@@ -108,8 +108,8 @@
 					(cursor-id (if cursor (hash-ref cursor "id") #f))
 					)
 				   (if (and cursor cursor-id)
-				       (c-lw6pil-local-cursors-set-mouse-controlled 
-					pilot cursor-id 
+				       (c-lw6pil-local-cursors-set-mouse-controlled
+					pilot cursor-id
 					(hash-ref cursor "mouse-controlled")))))
 		     lw6-cursor-keys)
 		(c-lw6pil-local-cursors-set-main pilot main-cursor-id)

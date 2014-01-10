@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -121,7 +121,7 @@ lw6sys_hash_new (lw6sys_free_func_t free_func, int size)
  *
  * The function will cascade  delete all elements, using (if not NULL...)
  * the callback passed when first creating the hash.
- * 
+ *
  * Return value: void
  */
 void
@@ -156,7 +156,7 @@ lw6sys_hash_free (lw6sys_hash_t * hash)
  * Tells wether the key is present or not.
  *
  * Return value: non-zero if there's an entry with the
- *   corresponding key. 
+ *   corresponding key.
  */
 int
 lw6sys_hash_has_key (lw6sys_hash_t * hash, const char *key)
@@ -250,7 +250,7 @@ lw6sys_hash_set (lw6sys_hash_t * hash, const char *key, void *value)
  *
  * @hash: the hash concerned
  * @key: the key to unset
- * 
+ *
  * Clears an entry in a hash table. The callback passed when
  * creating the hash will be called if needed, to free the data
  * automatically.

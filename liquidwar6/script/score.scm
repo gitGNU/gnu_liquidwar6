@@ -48,17 +48,17 @@
 	   (dsp (lw6-get-game-global "dsp"))
 	   (won #f)
 	   )
-      (if (and pilot 
+      (if (and pilot
 	       (c-lw6pil-is-over pilot)
 	       (not (lw6-display-param-get lw6def-display-score)))
 	  (begin
-	    (c-lw6gui-input-reset dsp)					  
+	    (c-lw6gui-input-reset dsp)
 	    (lw6-display-score-setup)
 	    (lw6-pop-menu (lw6-current-menu))
 	    ;;(lw6-pop-menu-raw)
 	    (if (lw6-get-game-global "solo")
 		(begin
-		  (set! won (and cursor-id 
+		  (set! won (and cursor-id
 				 (c-lw6pil-did-cursor-win pilot cursor-id)
 				 level
 				 (c-lw6ldr-exp-validate level)))

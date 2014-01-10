@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -175,7 +175,7 @@ typedef struct lw6ker_score_s
   int has_been_active;
   /// The color of the team this score is about.
   int team_color;
-  /** 
+  /**
    * Percentage of fighters for this team. The global score
    * array object will take care of making the sum of
    * fighters_percent be exactly 100, regardless of exactitude,

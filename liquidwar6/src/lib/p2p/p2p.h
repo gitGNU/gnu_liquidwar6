@@ -142,7 +142,7 @@ typedef struct lw6p2p_entry_s
   int nb_nodes;
   /// Maximum number of nodes playing.
   int max_nb_nodes;
-  /* 
+  /*
    * additionnal data
    */
   /// IP addess of node.

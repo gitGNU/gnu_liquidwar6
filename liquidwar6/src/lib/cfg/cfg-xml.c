@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -37,7 +37,7 @@
  *
  * Returns the string corresponding to a given type, suitable for
  * use in XML files. For instance if you pass @LW6HLP_TYPE_INT then
- * you will obtain the string int (string of 3 chars containing i, n 
+ * you will obtain the string int (string of 3 chars containing i, n
  * and t.
  *
  * Return value: string, must not be freed.

@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -40,7 +40,7 @@
  * @key_size
  * @buf: the data to analyse
  * @buf_size: the size of data to analyse
- * 
+ *
  * Calculates an SHA-1 sum of buffer, using key to seed calc.
  *
  * Return value: newly allocated string, containing 20 chars checksum.
@@ -74,8 +74,8 @@ lw6glb_sha1_hmac_80_bin (const char *key, int key_size, const char *buf,
  * lw6glb_sha1_hmac_80_str
  *
  * @key: a key (string)
- * @str: the string to calculate the checksum for 
- * 
+ * @str: the string to calculate the checksum for
+ *
  * Calculates an SHA-1 sum of a string, using key to seed calc.
  *
  * Return value: newly allocated string, containing 20 chars checksum.
@@ -105,7 +105,7 @@ lw6glb_sha1_hmac_80_str (const char *key, const char *str)
  * @key_size
  * @buf: the data to analyse
  * @buf_size: the size of data to analyse
- * 
+ *
  * Calculates an SHA-1 sum of buffer, using key to seed calc.
  *
  * Return value: a 32-bit unsigned integer
@@ -139,8 +139,8 @@ lw6glb_sha1_hmac_32_bin (const char *key, int key_size, const char *buf,
  * lw6glb_sha1_hmac_32_str
  *
  * @key: a key (string)
- * @str: the string to calculate the checksum for 
- * 
+ * @str: the string to calculate the checksum for
+ *
  * Calculates an SHA-1 sum of a string, using key to seed calc.
  *
  * Return value: a 32-bit unsigned integer

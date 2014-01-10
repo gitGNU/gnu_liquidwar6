@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -190,7 +190,7 @@ lw6srv_analyse_udp (lw6srv_backend_t * backend,
  * @oob_data: OOB data received
  *
  * Processes an OOB message sent from a client.
- * 
+ *
  * Return value: 1 if OK, 0 if not.
  */
 int
@@ -390,7 +390,7 @@ lw6srv_close (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
  * @logical_from_id: logical id of sender
  * @logical_to_id: logical id of receiver
  * @message: string with the message to send
- * 
+ *
  * Sends a message. The added value with a plain send is that it handles
  * all the special ticket fields.
  *
@@ -443,7 +443,7 @@ lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
  *
  * @backend: server backend to use
  * @connection: connection to use
- * 
+ *
  * Polling function, to be called on a regular basis.
  *
  * Return value: none.

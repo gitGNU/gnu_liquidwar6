@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -33,11 +33,11 @@
  * @from_id: the sender/creator
  * @to_id: the receiver/target
  * @msg: the message to sign
- * 
+ *
  * Produces a little signature, which is clearly
  * vulnerable to brute-force attacks but makes it
  * possible to be 100% sure if it's wrong, someone
- * is trying to do something nasty (or there's a 
+ * is trying to do something nasty (or there's a
  * serious bug!).
  *
  * Return value: the sig, always non-zero
@@ -91,7 +91,7 @@ lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
  * @to_id: the receiver/target
  * @msg: the message to sign
  * @ticket_sig: the signature to check against
- * 
+ *
  * Checks a sig is OK.
  *
  * Return value: 1 if they are the same, 0 if not.

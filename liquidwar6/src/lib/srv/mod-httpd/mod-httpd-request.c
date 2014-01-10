@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -220,7 +220,7 @@ _mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context,
 	  if ((!request->first_line) || (request->get_head_post == 0)
 	      || (!request->uri))
 	    {
-	      /* 
+	      /*
 	       * Not parseable, user entered garbage but did enter something,
 	       * we put dummy (empty) values in all fields to
 	       * avoid suspicious NULL-string bugs, and let the following code

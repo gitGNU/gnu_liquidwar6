@@ -74,7 +74,7 @@ _lw6ker_slot_struct_t;
 
 /*
  * To some extent, this structure is very similar to lw6map_level_t.
- * Let's explain why it exists separately: 
+ * Let's explain why it exists separately:
  * - this structure is not only used to store the information, but
  *   also to present it in a form which is adapted to (fast) treatments.
  *   This means it can be redundant, akward, whereas lw6map_level_t is meant

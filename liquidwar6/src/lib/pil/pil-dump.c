@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -231,7 +231,7 @@ lw6pil_dump_command_generate (lw6pil_pilot_t * pilot, u_int64_t server_id,
  *
  * Interprets a DUMP command. A new pilot will be returned, along with game state, game struct and
  * level. Old objects won't be deleted, but you could (should) get rid of them at they are useless now.
- * 
+ *
  * @dump: will contain the dump data, pilot and game state, struct, and level
  * @timestamp: current timestamp
  * @command: the command to execute

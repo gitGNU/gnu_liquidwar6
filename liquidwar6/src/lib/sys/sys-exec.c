@@ -70,7 +70,7 @@ lw6sys_exec_find_myself (int argc, const char *argv[])
  * @argc: number of args as passed to main
  * @argv: array of args as passed to main
  *
- * Tells wether the program is already executed by itself by 
+ * Tells wether the program is already executed by itself by
  * @lw6sys_exec_again function. Based on environment and command switches.
  *
  * Return value: 1 if executed again, 0 if not.
@@ -168,7 +168,7 @@ lw6sys_exec_again (int argc, const char *argv[])
  * @argv: array of args as passed to main
  *
  * Restart the program with exactly the same arguments it was given
- * the first time. 
+ * the first time.
  *
  * Return value: 1 on success, 0 on failure (always fail)
  */

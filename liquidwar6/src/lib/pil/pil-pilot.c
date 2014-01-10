@@ -791,8 +791,8 @@ _lw6pil_pilot_sync_from_draft (lw6ker_game_state_t * target,
  * It might even be in an inconsistent state, the position could reflect
  * a position which will never exist. Still, the data returned will not
  * correspond to a half-spread or half-moved game_state if dirty_read
- * is set to 0. In this case the data has at least some basic consistency 
- * and getting this does require some mutex lock, however wait time should 
+ * is set to 0. In this case the data has at least some basic consistency
+ * and getting this does require some mutex lock, however wait time should
  * be fairly small (max. a round). But, in a general manner, this function
  * is only used for display, and we do not care much if there's a small
  * glitch, we prefer fast & smooth display.
@@ -978,7 +978,7 @@ _lw6pil_pilot_get_round_0 (_lw6pil_pilot_t * pilot)
  * lw6pil_pilot_get_round_0
  *
  * @pilot: pilot object to query
- * 
+ *
  * Get the initial round (the one passed at object construction) which
  * says what the round was at object creation, it's just an offset.
  *
@@ -1000,7 +1000,7 @@ _lw6pil_pilot_get_seq_0 (_lw6pil_pilot_t * pilot)
  * lw6pil_pilot_get_seq_0
  *
  * @pilot: pilot object to query
- * 
+ *
  * Get the initial seq (the one passed at object construction) which
  * says what the seq was at round=0, it's just an offset.
  *
@@ -1025,7 +1025,7 @@ _lw6pil_pilot_seq2round (_lw6pil_pilot_t * pilot, int64_t seq)
  *
  * @pilot: pilot object to work on
  * @seq: the seq to convert
- * 
+ *
  * Converts a seq (64-bit) to a round (32-bit). 64-bit seqs are used
  * to avoid out-of-range errors on very long games, OTOH a round is 32-bit
  * to garantee the atomicity of its affection, even on platforms which
@@ -1051,7 +1051,7 @@ _lw6pil_pilot_round2seq (_lw6pil_pilot_t * pilot, int round)
  *
  * @pilot: pilot object to work on
  * @round: the round to convert
- * 
+ *
  * Converts a round (32-bit) to a seq (64-bit). 64-bit seqs are used
  * to avoid out-of-range errors on very long games, OTOH a round is 32-bit
  * to garantee the atomicity of its affection, even on platforms which

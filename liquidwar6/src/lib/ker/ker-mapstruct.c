@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -863,7 +863,7 @@ init_places (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 				 (map_struct, x, y)].act_incr =
 		_LW6KER_ACT_LIMIT;
 	      /*
-	       * no need to set health_correction to 0, was done 
+	       * no need to set health_correction to 0, was done
 	       * by the CALLOC
 	       */
 	    }

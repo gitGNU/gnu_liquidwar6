@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -35,10 +35,10 @@
 /*
  * This is traditionnally a prime number, just for fun
  * http://en.wikipedia.org/wiki/List_of_prime_numbers
- * 
+ *
  * The higher the number is, the more optimistic we
  * are about core algorithm performance. 43261 has
- * been used for some time but proves too high 
+ * been used for some time but proves too high
  * on too fast maps.
  */
 #define LW6LDR_DEFAULT_MAGIC_NUMBER 14741

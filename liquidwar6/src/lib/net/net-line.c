@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -251,7 +251,7 @@ lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
  * By-value parameters allow the caller to know where the
  * data come from. This variant of @lw6net_recv_line_tcp will
  * return a list of lines, this is mandatory since in UDP
- * we can't call recv several times. 
+ * we can't call recv several times.
  *
  * Return value: a list of dynamically allocated strings.
  *   The tailing (CR)/LF is stripped from strings.

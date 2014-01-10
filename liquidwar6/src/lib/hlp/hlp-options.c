@@ -55,7 +55,7 @@ _check_arg (const char *arg)
  * @argc: the number of command-line args, as passed to main
  * @argv: an array of strings containing command-line args, as passed to main
  * @run_game: a pointer to a boolean which will contain true (1) if the
- *   game must be launched, or false (0) if the option is such that game 
+ *   game must be launched, or false (0) if the option is such that game
  *   must be skipped. Example: --copyright, --help, ...
  *
  * Will interpret the command-line arguments, and trap those who are

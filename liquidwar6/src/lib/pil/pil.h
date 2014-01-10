@@ -72,7 +72,7 @@ typedef enum lw6pil_command_code_e
    * It's important that DUMP is the last one, so that it's sorted
    * at the end as far as messages with the same ID are concerned.
    * This might be superfluous as anyway, all messages should be
-   * here and sorted before they get into the pipe, but well, 
+   * here and sorted before they get into the pipe, but well,
    * DUMP is generated out of the flow, and will generally come
    * after the rest of the battle, so it's safer to put it at
    * the end.

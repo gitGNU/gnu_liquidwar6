@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -381,9 +381,9 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 								  if (!(*msg))
 								    {
 								      /*
-								       * message isn't base64 but 
-								       * we still return it as is, probably 
-								       * it's truncated, but we must return 
+								       * message isn't base64 but
+								       * we still return it as is, probably
+								       * it's truncated, but we must return
 								       * it anyway in case this function would
 								       *  be called just to check the protocol
 								       */

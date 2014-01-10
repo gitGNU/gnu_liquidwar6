@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -72,7 +72,7 @@ lw6snd_play_fx (lw6snd_backend_t * backend, int fx_id)
  * @music_path: config entry containing multiple paths
  * @music_file: relative/local name of a music file
  *
- * Tells wether a file is a valid music file, typicallly based on file 
+ * Tells wether a file is a valid music file, typicallly based on file
  * existence and extension. Not bullet proof, file might actually not
  * be loadable, but chances are 99%.
  *
@@ -268,7 +268,7 @@ lw6snd_init (lw6snd_backend_t * backend, float fx_volume, float water_volume,
  *
  * @backend: sound backend to use
  * @volume: sound fx volume
- * 
+ *
  * Changes sound fx volume.
  *
  * Return value: none.
@@ -295,7 +295,7 @@ lw6snd_set_fx_volume (lw6snd_backend_t * backend, float volume)
  *
  * @backend: sound backend to use
  * @volume: water sounds volume
- * 
+ *
  * Changes water sounds volume.
  *
  * Return value: none.
@@ -322,7 +322,7 @@ lw6snd_set_water_volume (lw6snd_backend_t * backend, float volume)
  *
  * @backend: sound backend to use
  * @volume: music volume
- * 
+ *
  * Changes music volume.
  *
  * Return value: none.
@@ -348,7 +348,7 @@ lw6snd_set_music_volume (lw6snd_backend_t * backend, float volume)
  * lw6snd_poll
  *
  * @backend: sound backend to use
- * 
+ *
  * Polling function, must be called on a regular basis.
  *
  * Return value: none.

@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -38,7 +38,7 @@ static u_int32_t seq_id = 0;
 
 /**
  * lw6dsp_create_backend
- * 
+ *
  * @argc: argc as passed to @main
  * @argv: argv as passed to @main
  * @gfx_backend_name: the id/name of the gfx backend to use
@@ -110,7 +110,7 @@ lw6dsp_create_backend (int argc, const char *argv[],
 
 /**
  * lw6dsp_destroy_backend
- * 
+ *
  * @dsp_backend: the dsp_backend object to free
  *
  * Frees all ressources used by a dsp_backend object. Note that you must
@@ -375,7 +375,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, lw6dsp_param_t * param)
 			  _x_
 			  ("calling display_update too often, no frame drawn between two calls"));
 	      /*
-	       * We go idle for a very short time, this will just avoid the 
+	       * We go idle for a very short time, this will just avoid the
 	       * caller to get stuck in 100% CPU greedy loops.
 	       */
 	      lw6sys_idle ();

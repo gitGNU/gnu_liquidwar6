@@ -46,7 +46,7 @@ typedef struct lw6bot_param_s
    * IQ is supposed to reflect the cleverness of the bot.
    * The default is 100 (this value is basically a percentage),
    * 0 means just so stupid, and a high value, for instance
-   * 200, means very clever. 
+   * 200, means very clever.
    */
   int iq;
   /// The cursor ID, which is a 16-bit non-null integer.
@@ -97,7 +97,7 @@ typedef struct lw6bot_seed_s
 /**
  * The bot backend is the first argument passed to any bot function,
  * it contains reference to all the functions which can be used
- * as well as a pointer on associated data. In OO, this would just 
+ * as well as a pointer on associated data. In OO, this would just
  * be an object, with members and methods, using polymorphism through
  * opaque pointers.
  */

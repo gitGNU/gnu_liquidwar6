@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -119,7 +119,7 @@ lw6sys_locale_to_utf8 (const char *string)
 		  if (iconv (cd, &iptr, &ileft, &optr, &oleft) ==
 		      (size_t) - 1)
 		    {
-		      /* 
+		      /*
 		       * The message below is not translated, not
 		       * even _x_-ed because well, we certainly
 		       * do not want this function to be called

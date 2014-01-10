@@ -58,7 +58,7 @@
 /*
  * OpenGL should handle at least this texture size. Theorically
  * we should support any MAX_TEXTURE_SIZE value, but in practise,
- * most recent drivers support 512x512, and the "liquidwarish" 
+ * most recent drivers support 512x512, and the "liquidwarish"
  * answer to this problem is -> use another backend.
  */
 #define MOD_GL1_UTILS_REQUIRED_TEXTURE_SIZE 512

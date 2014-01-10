@@ -200,7 +200,7 @@ _lw6ker_game_struct_repr (_lw6ker_game_struct_t * game_struct)
 
 /**
  * lw6ker_game_struct_repr
- * 
+ *
  * @game_struct: the game_struct to query
  *
  * Gives a readable representation of the object.
@@ -522,7 +522,7 @@ lw6ker_game_struct_get_zone_info (lw6ker_game_struct_t * game_struct,
 
 /**
  * lw6ker_game_struct_get_zone_id
- * 
+ *
  * @game_struct: the game_struct to query
  * @x: x pos
  * @y: y pos

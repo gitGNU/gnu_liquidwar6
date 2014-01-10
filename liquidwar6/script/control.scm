@@ -19,7 +19,7 @@
 ;; Contact author        : ufoot@ufoot.org
 
 (define lw6-control-list
-  (list 
+  (list
    (_ "Mouse")
    (_ "Keyboard")
    (_ "Joystick 1")
@@ -40,10 +40,10 @@
       (_ "~a (joy2)"))
      ((equal? key "custom")
       (_ "~a (custom)"))
-     (#t 
+     (#t
       (_ "~a (mouse)"))
      )))
-      
+
 (define lw6-control-key-to-index
   (lambda (key)
     (cond
@@ -59,7 +59,7 @@
       4)
      (#t 0)
      )))
-      
+
 (define lw6-control-index-to-key
   (lambda (index)
     (list-ref
@@ -83,5 +83,5 @@
       )
      index)))
 
-   
+
 

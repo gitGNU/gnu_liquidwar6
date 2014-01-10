@@ -68,7 +68,7 @@
 	  (default-gfx-backend (lw6-get-default-gfx-backend))
 	  (default-snd-backend (lw6-get-default-snd-backend))
 	  )
-      (begin 
+      (begin
 	(c-lw6cfg-defaults)
 	(if default-gfx-backend
 	    (lw6-config-set-string! lw6def-gfx-backend default-gfx-backend))
@@ -81,23 +81,23 @@
 
 (define lw6-config-fix
   (lambda ()
-    (begin 
-      ;;      (lw6-config-set-string! lw6def-public-url 
-      ;;			      (c-lw6sys-url-canonize 
-      ;;			       (lw6-config-get-string 
+    (begin
+      ;;      (lw6-config-set-string! lw6def-public-url
+      ;;			      (c-lw6sys-url-canonize
+      ;;			       (lw6-config-get-string
       ;;				lw6def-public-url)))
       #f
       )
     )
   )
 
-(define lw6-load-config 
-  (lambda () 
+(define lw6-load-config
+  (lambda ()
     (begin
       (lw6-config-defaults)
       (c-lw6cfg-load (c-lw6sys-get-config-file))
       (c-lw6cfg-save (c-lw6sys-get-config-file))
-      (c-lw6cfg-load (c-lw6sys-get-config-file))      
+      (c-lw6cfg-load (c-lw6sys-get-config-file))
       (lw6-config-fix)
       )
     )
@@ -111,8 +111,8 @@
 				(cons lw6def-height height)
 				(cons lw6def-fullscreen fullscreen)))
 	   (fullscreen-modes (c-lw6dsp-get-fullscreen-modes dsp))
-	   (low-res (assoc-ref fullscreen-modes "low"))	
-	   (standard-res (assoc-ref fullscreen-modes "standard"))	
+	   (low-res (assoc-ref fullscreen-modes "low"))
+	   (standard-res (assoc-ref fullscreen-modes "standard"))
 	   (high-res (assoc-ref fullscreen-modes "high"))
 	   )
       (begin
@@ -143,8 +143,8 @@
 	   (dsp (lw6-get-game-global "dsp"))
 	   (res (c-lw6dsp-get-video-mode dsp))
 	   (fullscreen-modes (c-lw6dsp-get-fullscreen-modes dsp))
-	   (low-res (assoc-ref fullscreen-modes "low"))	
-	   (high-res (assoc-ref fullscreen-modes "high"))	
+	   (low-res (assoc-ref fullscreen-modes "low"))
+	   (high-res (assoc-ref fullscreen-modes "high"))
 	   )
       (begin
 	(lw6-config-set-number! lw6def-width (assoc-ref res lw6def-width))
@@ -152,18 +152,18 @@
 	(lw6-config-set-boolean! lw6def-fullscreen (assoc-ref res lw6def-fullscreen))
 	))))
 
-(define lw6-save-config 
-  (lambda () 
-    (c-lw6cfg-save (c-lw6sys-get-config-file))      
+(define lw6-save-config
+  (lambda ()
+    (c-lw6cfg-save (c-lw6sys-get-config-file))
     ))
 
 (define lw6-config-subset
   (lambda (key-list)
     (let* ((target (list)))
 	  (begin
-	    (map (lambda (key) (set! target (assoc-set! target key (lw6-config-get-string key)))) key-list)	    
+	    (map (lambda (key) (set! target (assoc-set! target key (lw6-config-get-string key)))) key-list)
 	    target))))
-      
+
 (define lw6-default-map
   (lambda ()
     (lw6-config-subset (list lw6def-use-texture

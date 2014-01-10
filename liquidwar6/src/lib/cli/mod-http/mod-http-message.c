@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -46,7 +46,7 @@ _mod_http_send (_mod_http_context_t * http_context,
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_http send \"%s\""), message);
   /*
    * We don't even try to use http protocol if there's a DNS problem,
-   * no use to query a 192.168.X.X address (case of peer behind a 
+   * no use to query a 192.168.X.X address (case of peer behind a
    * NAT firewall). URL needs to be *correct* for http to work.
    */
   if (connection->dns_ok)
@@ -70,7 +70,7 @@ _mod_http_send (_mod_http_context_t * http_context,
 	       * lock, multiple URLs can be fetched in any order after
 	       * all, it's not like we would be using a socket. Still
 	       * there will be another lock later (over libcurl calls)
-	       * because of non-reentrant gethostbyname, but this is 
+	       * because of non-reentrant gethostbyname, but this is
 	       * another question. So another lock. And, even, given that,
 	       * all we do here is fire another thread!
 	       */

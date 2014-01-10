@@ -205,7 +205,7 @@ typedef struct _lw6p2p_test_data_s
 
 static _lw6p2p_test_data_t _test_data = { 0 };
 
-/* 
+/*
  * Testing db
  */
 static void
@@ -256,7 +256,7 @@ _test_db ()
   LW6SYS_TEST_FUNCTION_END;
 }
 
-/* 
+/*
  * Testing entry
  */
 static void
@@ -317,7 +317,7 @@ _test_entry ()
   LW6SYS_TEST_FUNCTION_END;
 }
 
-/* 
+/*
  * Testing node initialisation
  */
 static void
@@ -417,7 +417,7 @@ _test_node_init ()
   LW6SYS_TEST_FUNCTION_END;
 }
 
-/* 
+/*
  * Initializes up to 6 nodes
  */
 static int
@@ -822,7 +822,7 @@ _print_entry_callback (void *func_data, void *data)
     }
 }
 
-/* 
+/*
  * Testing node connection
  */
 static int
@@ -909,7 +909,7 @@ _cmd_with_backends (char *cli_backends, char *srv_backends)
   return ret;
 }
 
-/* 
+/*
  * Testing node connection
  */
 static void
@@ -971,7 +971,7 @@ _oob_with_backends (char *cli_backends, char *srv_backends)
   return ret;
 }
 
-/* 
+/*
  * Testing node connection
  */
 static void
@@ -993,7 +993,7 @@ _test_node_oob ()
   LW6SYS_TEST_FUNCTION_END;
 }
 
-/* 
+/*
  * Testing node msg
  */
 static void
@@ -1564,7 +1564,7 @@ _test_node_api_node6_callback (void *api_data)
     }
 }
 
-/* 
+/*
  * Testing node api
  */
 static void

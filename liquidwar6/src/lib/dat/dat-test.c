@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -109,7 +109,7 @@
  * On node A, there is 3 * a sequence of 1+4+1 = 6 messages
  * On node B, there is 3 * a sequence of 1+4+1+4+1 = 11 messages
  * On node C, there is 3 * a sequence of 1+4+1+4+1+4+1 = 16 messages
- * 
+ *
  * On node A, everyone comes at its lower start, on node B the second
  * or later stage, on node C the last one.
  */
@@ -144,7 +144,7 @@
  * time.
  *
  * Note that 5 messages (3 short ones, 2 long ones) give a result
- * of 11 atomes (3+2*4) since long messages, after compression, 
+ * of 11 atomes (3+2*4) since long messages, after compression,
  * still give 4 atoms. One of the aspects of the test is to check
  * that messages spanned on several atoms behave well.
  */

@@ -233,10 +233,10 @@ lw6gui_menu_repr (lw6gui_menu_t * menu)
  *
  * @menu: a pointer to the menu.
  * @title: the new title, you can free it after calling the function,
- *   an internal copy will be made. 
+ *   an internal copy will be made.
  *
  * Change the title of the menu.
- * Use this function to change the title, don't try to access the 
+ * Use this function to change the title, don't try to access the
  * struct directly. The idea is to have safe memory management.
  *
  * Return value: none
@@ -258,10 +258,10 @@ lw6gui_menu_set_title (lw6gui_menu_t * menu, char *title)
  *
  * @menu: a pointer to the menu.
  * @help: the new help, you can free it after calling the function,
- *   an internal copy will be made. 
+ *   an internal copy will be made.
  *
  * Change the help of the menu.
- * Use this function to change the help, don't try to access the 
+ * Use this function to change the help, don't try to access the
  * struct directly. The idea is to have safe memory management.
  *
  * Return value: none
@@ -283,10 +283,10 @@ lw6gui_menu_set_help (lw6gui_menu_t * menu, char *help)
  *
  * @menu: a pointer to the menu.
  * @popup: the new popup, you can free it after calling the function,
- *   an internal copy will be made. 
+ *   an internal copy will be made.
  *
  * Change the popup of the menu. That is to say, its popup.
- * Use this function to change the popup, don't try to access the 
+ * Use this function to change the popup, don't try to access the
  * struct directly. The idea is to have safe memory management.
  *
  * Return value: none
@@ -769,7 +769,7 @@ lw6gui_menu_update_display_range (lw6gui_menu_t * menu,
 
       /*
        * Here there are more items in the menu than the max
-       * displayable number. 
+       * displayable number.
        */
       menu->nb_items_displayed = max_displayed_items;
 
@@ -1141,7 +1141,7 @@ lw6gui_menu_dup (lw6gui_menu_t * menu)
  * @src: the source menu
  *
  * Synchronizes two menus, this supposes that they represent the same menu, but
- * simply in a different state. This function does not really copy src to dst, it 
+ * simply in a different state. This function does not really copy src to dst, it
  * has a special behavior, indeed everything is copied from src to dst, except
  * the @first_item_displayed and @nb_items_displayed which are taken from dst
  * and copied to src. This is because in practise, those values are updated

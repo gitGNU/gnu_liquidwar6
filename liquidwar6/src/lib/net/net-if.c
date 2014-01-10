@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -161,7 +161,7 @@ lw6net_if_guess_local ()
  * @bind_ip: the IP address used to bind on
  * @bind_port: the IP port used to bind on
  *
- * Guess the server public url, based 
+ * Guess the server public url, based
  * on @lw6net_if_guess_local which tries to find a
  * valid local IP address which is not loopback. This is only
  * in case @bind_ip is 0.0.0.0 (listen on all addresses) else

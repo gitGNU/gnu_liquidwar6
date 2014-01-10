@@ -151,7 +151,7 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results,
  * different team settings. Will test teams up to the given number,
  * for instance if you give 3 as an argument, will run tests with teams
  * 0, 1 and 2 (that's to say a total of 3 teams).
- * 
+ *
  * Return value: 1 on success, 0 on failure.
  */
 int
@@ -215,7 +215,7 @@ lw6sim_simulate (int argc, const char *argv[], lw6sim_results_t * results,
  * Runs a simulation of several battle/games on the default map using
  * different team settings. Will test the most common colors only,
  * with the most popular bot.
- * 
+ *
  * Return value: 1 on success, 0 on failure.
  */
 int
@@ -236,7 +236,7 @@ lw6sim_simulate_basic (int argc, const char *argv[],
  * Runs a simulation of several battle/games on the default map using
  * different team settings. Will test all colors,
  * with the most popular bot.
- * 
+ *
  * Return value: 1 on success, 0 on failure.
  */
 int

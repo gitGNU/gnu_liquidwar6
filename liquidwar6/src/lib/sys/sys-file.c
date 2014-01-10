@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -177,7 +177,7 @@ lw6sys_read_file_content (const char *filename)
  * is not included in @filesize so if there are 4 bytes in the
  * file the 5 bytes will be allocated, this is just for string
  * functions not to explode if called by accident. The @filesize
- * can be NULL, in that case function is just like 
+ * can be NULL, in that case function is just like
  * the @lw6sys_read_file_content function.
  *
  * Return value: a newly allocated pointer, must be freed.

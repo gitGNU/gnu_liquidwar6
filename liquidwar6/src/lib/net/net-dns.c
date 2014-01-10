@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -118,7 +118,7 @@ lw6net_dns_is_ip (const char *ip)
  * @name: name of the host
  *
  * A wrapper over the standard gethostbyname function, will even accept
- * an IP as an input (in this case, will copy it...) and 
+ * an IP as an input (in this case, will copy it...) and
  * allocate a new string for the result.
  *
  * Return value: an IP if success, NULL on error.
@@ -215,7 +215,7 @@ lw6net_dns_gethostbyname (const char *name)
  * if we didn't use it but its multithreadable equivalent
  * (which is however not standard and always available)
  * other libs (such as @libcurl not to name it) might use
- * this function too so in a general manner it's a good 
+ * this function too so in a general manner it's a good
  * idea to use a mutex to protect multiple accesses to this.
  *
  * Return value: an IP if success, 0 on error.

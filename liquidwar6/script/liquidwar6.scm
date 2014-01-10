@@ -34,10 +34,10 @@
 	  (stack (make-stack #t))
 	  )
       (begin
-	(display-backtrace stack backtrace-port 
+	(display-backtrace stack backtrace-port
 			   (- (stack-length stack) 5)
 			   (- (stack-length stack) 8))
-	(c-lw6sys-dump 
+	(c-lw6sys-dump
 	 (format #f
 		 "~a\n~a"
 		 (apply format (cons #f (cons (cadr args) (caddr args))))
@@ -48,7 +48,7 @@
 			      (_ "scheme error")
 			      (apply format (cons #f (cons (cadr args) (caddr args))))
 			      ))
-	(close-output-port backtrace-port)	       
+	(close-output-port backtrace-port)
 	(c-lw6-release)
 	)
       )
@@ -57,12 +57,12 @@
   )
 
 (catch #t
-       (lambda () 
+       (lambda ()
 	 (lazy-catch #t
-		     (lambda () 
+		     (lambda ()
 		       (begin
 			 (c-lw6sys-log 3 (_ "running scheme code with Guile"))
-			 (load "main.scm")		   
+			 (load "main.scm")
 			 (lw6-main)
 			 (c-lw6sys-log 3 (_ "leaving Guile"))
 			 )

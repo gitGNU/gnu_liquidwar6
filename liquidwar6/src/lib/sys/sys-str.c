@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -57,7 +57,7 @@ typedef struct _join_callback_data_s
  *
  * @src: the string to copy
  *
- * Duplicate a string, creating a new pointer on it, which 
+ * Duplicate a string, creating a new pointer on it, which
  * must be freed afterwards. The main difference with @strdup
  * is that here we use the LW6SYS_MALLOC macro to track down
  * possible memory leaks.
@@ -442,7 +442,7 @@ lw6sys_str_starts_with_no_case (const char *str, const char *beginning)
  * lw6sys_skip_blanks
  *
  * @str_ptr: a pointer to a string pointer (read/write parameter).
- * 
+ *
  * Skips blanks at the beginning of a string. The passed parameter
  * is modifed in place. Usefull for parsing.
  *
@@ -474,7 +474,7 @@ lw6sys_skip_blanks (char **str_ptr)
  * all system characters. This way, there won't be any tab,
  * linefeed, or any of such characters left.
  *
- * Return value: none. 
+ * Return value: none.
  */
 void
 lw6sys_str_cleanup (char *str)
@@ -509,7 +509,7 @@ lw6sys_str_cleanup (char *str)
  * linefeed, or any of such characters left. This function
  * will even remove any character above ASCII 127.
  *
- * Return value: none. 
+ * Return value: none.
  */
 void
 lw6sys_str_cleanup_ascii7 (char *str)
@@ -770,7 +770,7 @@ lw6sys_str_split (const char *str, char c)
  * @str: a string
  * @c: the delimiter to split with
  *
- * Splits a string, ignoring empty '0-length' members. For instance 
+ * Splits a string, ignoring empty '0-length' members. For instance
  * 'foo,bar' splited with 'o' will return 'f' and ',bar'.
  *
  * Return value: a list containing 0-terminated strings.

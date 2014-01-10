@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -37,7 +37,7 @@ _lw6net_context_t *_lw6net_global_context = NULL;
  * @argc: argc as passed to @main
  * @argv: argv as passed to @main
  * @net_log: 1 if you want to enable net log, 0 if not
- * 
+ *
  * Initializes the low-level network API, you must call this before
  * calling any other network related function, for it allocates a dynamic
  * context which is in turn used by every function.
@@ -81,7 +81,7 @@ lw6net_init (int argc, const char *argv[], int net_log)
        * just trap it and do nothing. Normally, the socket functions
        * should return an error anyway...
        */
-      /* 
+      /*
        * Update: actually, using SO_NOSIGPIPE on socket creation
        * and/or MSG_NOSIGNAL on send/recv operations does seem
        * to work much (much) better, as this signal handling is

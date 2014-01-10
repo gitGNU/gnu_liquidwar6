@@ -19,7 +19,7 @@
 ;; Contact author        : ufoot@ufoot.org
 
 (define lw6-clear
-  (lambda () 
+  (lambda ()
     (begin
       (lw6-purge-menu-stack)
       (lw6-purge-game-globals)

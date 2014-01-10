@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -48,7 +48,7 @@ _vthread_callback ()
     {
       _main_handler->callback_func (_main_handler->callback_data);
     }
-  /* 
+  /*
    * callback is over, we signal it to the caller, if needed
    */
   _main_handler->flag_callback_done = 1;
@@ -98,7 +98,7 @@ _vthread_callback ()
     {
       lw6sys_log (LW6SYS_LOG_INFO, _x_ ("end vthread (fast mode, no join)"));
     }
-  /* 
+  /*
    * callback is over, we signal it to the caller, if needed
    */
   tmp_handler = _main_handler;
@@ -122,7 +122,7 @@ _vthread_callback ()
 }
 
 /**
- * lw6sys_vthread_run 
+ * lw6sys_vthread_run
  *
  * @callback_func: the main callback, the function that will run the thread
  * @callback_join: function which will be called when joining, at the end
@@ -303,7 +303,7 @@ lw6sys_vthread_create (lw6sys_thread_callback_func_t callback_func,
 
 
 	  /*
-	   * It's important to only affect in now that 
+	   * It's important to only affect in now that
 	   * all fields are correctly filled.
 	   */
 	  _main_handler = tmp_handler;

@@ -25,8 +25,8 @@
 					    (_ "Yes, quit Liquid War 6")))
 	  )
       (begin
-	(assoc-set! menuitem "on-valid" 
-		    (lambda (mi) 
+	(assoc-set! menuitem "on-valid"
+		    (lambda (mi)
 		      (c-lw6sys-signal-send-quit)))
 	menuitem
 	))))

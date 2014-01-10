@@ -24,7 +24,7 @@
 	   (player-status-key (string-concatenate (list player-prefix "-status")))
 	   (player-name-key (string-concatenate (list player-prefix "-name")))
 	   (player-name (lw6-config-get-string player-name-key))
-	   (item (lw6-menu-item-list-boolean-template 
+	   (item (lw6-menu-item-list-boolean-template
 		  player-status-key
 		  player-name
 		  (_ "Not playing")
@@ -68,7 +68,7 @@
       (begin
 	(set! item (lw6-menu-item-list-template-update
 		    item
-		    lw6-menu-item-list-label-func 
+		    lw6-menu-item-list-label-func
 		    lw6-player-detail-menu-color-item-update-func
 		    lw6-player-detail-menu-color-item-index-func
 		    (c-lw6map-team-color-list)
@@ -109,7 +109,7 @@
       (begin
 	(set! item (lw6-menu-item-list-template-update
 	 item
-	 lw6-menu-item-list-label-func 
+	 lw6-menu-item-list-label-func
 	 lw6-player-detail-menu-control-item-update-func
 	 lw6-player-detail-menu-control-item-index-func
 	 lw6-control-list
@@ -129,9 +129,9 @@
 				    #f))
 	  )
       (begin
-	(lw6-append-menuitem! menu (lw6-player-detail-menu-name-item player-prefix))	
-	(lw6-append-menuitem! menu (lw6-player-detail-menu-color-item player-prefix))	
-	(lw6-append-menuitem! menu (lw6-player-detail-menu-control-item player-prefix))	
+	(lw6-append-menuitem! menu (lw6-player-detail-menu-name-item player-prefix))
+	(lw6-append-menuitem! menu (lw6-player-detail-menu-color-item player-prefix))
+	(lw6-append-menuitem! menu (lw6-player-detail-menu-control-item player-prefix))
 	(set! menu (assoc-set! menu "on-push" (lambda (m) (begin (lw6-game-preview) (lw6-loader-push-ldr-if-needed (lw6-config-get-string lw6def-chosen-map))))))
 	(set! menu (assoc-set! menu "on-pop" (lambda (m) (begin (lw6-game-idle)))))
 	menu

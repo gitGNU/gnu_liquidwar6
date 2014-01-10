@@ -579,7 +579,7 @@ lw6map_style_set (lw6map_style_t * style, const char *key, const char *value)
  *
  * Get a style entry, takes a string key and will
  * identify the struct offset. The return value is
- * converted to string, typically the cannonical 
+ * converted to string, typically the cannonical
  * representation suitable to write in an XML config file.
  *
  * Return value: dynamically allocated string.

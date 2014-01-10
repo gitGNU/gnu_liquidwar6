@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -181,7 +181,7 @@ lw6sys_checksum_xyz (lw6sys_xyz_t * xyz)
  * checksum, thus enabling the programmer to call it sequentially
  * and get a global checksum on different sources.
  *
- * Return value: none. 
+ * Return value: none.
  */
 void
 lw6sys_checksum_update (u_int32_t * checksum, unsigned char *data, int len)
@@ -216,7 +216,7 @@ lw6sys_checksum_update (u_int32_t * checksum, unsigned char *data, int len)
  * checksum, thus enabling the programmer to call it sequentially
  * and get a global checksum on different sources.
  *
- * Return value: none. 
+ * Return value: none.
  */
 void
 lw6sys_checksum_update_str (u_int32_t * checksum, const char *value)
@@ -241,7 +241,7 @@ lw6sys_checksum_update_str (u_int32_t * checksum, const char *value)
  * checksum, thus enabling the programmer to call it sequentially
  * and get a global checksum on different sources.
  *
- * Return value: none. 
+ * Return value: none.
  */
 void
 lw6sys_checksum_update_int32 (u_int32_t * checksum, int32_t value)
@@ -263,7 +263,7 @@ lw6sys_checksum_update_int32 (u_int32_t * checksum, int32_t value)
  * checksum, thus enabling the programmer to call it sequentially
  * and get a global checksum on different sources.
  *
- * Return value: none. 
+ * Return value: none.
  */
 void
 lw6sys_checksum_update_int64 (u_int32_t * checksum, int64_t value)
@@ -285,7 +285,7 @@ lw6sys_checksum_update_int64 (u_int32_t * checksum, int64_t value)
  * checksum, thus enabling the programmer to call it sequentially
  * and get a global checksum on different sources.
  *
- * Return value: none. 
+ * Return value: none.
  */
 void
 lw6sys_checksum_update_whd (u_int32_t * checksum, lw6sys_whd_t * whd)
@@ -306,7 +306,7 @@ lw6sys_checksum_update_whd (u_int32_t * checksum, lw6sys_whd_t * whd)
  * checksum, thus enabling the programmer to call it sequentially
  * and get a global checksum on different sources.
  *
- * Return value: none. 
+ * Return value: none.
  */
 void
 lw6sys_checksum_update_xyz (u_int32_t * checksum, lw6sys_xyz_t * xyz)

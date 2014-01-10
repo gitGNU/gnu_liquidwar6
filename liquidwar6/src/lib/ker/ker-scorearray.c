@@ -62,7 +62,7 @@ _lw6ker_score_array_update (lw6ker_score_array_t * score_array,
   if (active_fighters > 0)
     {
       score_array->active_fighters = active_fighters;
-      // LW6MAP_MAX_NB_TEAMS and LW6MAP_NB_TEAM_COLORS should be the same 
+      // LW6MAP_MAX_NB_TEAMS and LW6MAP_NB_TEAM_COLORS should be the same
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS && i < LW6MAP_NB_TEAM_COLORS; ++i)
 	{
 	  fighters_per_team =

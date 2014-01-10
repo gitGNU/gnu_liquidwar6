@@ -28,7 +28,7 @@
 	(if (> value 0.0)
 	    (format #f label-format (inexact->exact (* 100 value)))
 	    label-0)))))
- 
+
 (define lw6-audio-options-menu-volume-item-minus
   (lambda (config-key setter)
     (lambda (menuitem)
@@ -68,21 +68,21 @@
    (_ "Sound FX ~a%")))
 
 (define lw6-audio-options-menu-fx-volume-item-minus
-  (lw6-audio-options-menu-volume-item-minus 
+  (lw6-audio-options-menu-volume-item-minus
    lw6def-fx-volume
    c-lw6snd-set-fx-volume))
 
 (define lw6-audio-options-menu-fx-volume-item-plus
-  (lw6-audio-options-menu-volume-item-plus 
+  (lw6-audio-options-menu-volume-item-plus
    lw6def-fx-volume
    c-lw6snd-set-fx-volume))
 
 (define lw6-audio-options-menu-fx-volume-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template-switch 
-		 lw6-audio-options-menu-fx-volume-item-label 
-		 lw6-audio-options-menu-fx-volume-item-plus 
+	  (item (lw6-menu-item-template-switch
+		 lw6-audio-options-menu-fx-volume-item-label
+		 lw6-audio-options-menu-fx-volume-item-plus
 		 lw6-audio-options-menu-fx-volume-item-minus
 		 (_ "Change volume for sound FX, this includes all sounds but music and background water sound")
 		 ))
@@ -98,24 +98,24 @@
    (_ "Water sounds ~a%")))
 
 (define lw6-audio-options-menu-water-volume-item-minus
-  (lw6-audio-options-menu-volume-item-minus 
+  (lw6-audio-options-menu-volume-item-minus
    lw6def-water-volume
    c-lw6snd-set-water-volume))
 
 (define lw6-audio-options-menu-water-volume-item-plus
-  (lw6-audio-options-menu-volume-item-plus 
+  (lw6-audio-options-menu-volume-item-plus
    lw6def-water-volume
    c-lw6snd-set-water-volume))
 
 (define lw6-audio-options-menu-water-volume-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template-switch 
-		 lw6-audio-options-menu-water-volume-item-label 
-		 lw6-audio-options-menu-water-volume-item-plus 
-		 lw6-audio-options-menu-water-volume-item-minus 
+	  (item (lw6-menu-item-template-switch
+		 lw6-audio-options-menu-water-volume-item-label
+		 lw6-audio-options-menu-water-volume-item-plus
+		 lw6-audio-options-menu-water-volume-item-minus
 		 (_ "Change volume for water sound, the bubbling sound you can here in the background")
-		 
+
 		 ))
 	  )
       (begin
@@ -129,22 +129,22 @@
    (_ "Music ~a%")))
 
 (define lw6-audio-options-menu-music-volume-item-minus
-  (lw6-audio-options-menu-volume-item-minus 
+  (lw6-audio-options-menu-volume-item-minus
    lw6def-music-volume
    c-lw6snd-set-music-volume))
 
 (define lw6-audio-options-menu-music-volume-item-plus
-  (lw6-audio-options-menu-volume-item-plus 
+  (lw6-audio-options-menu-volume-item-plus
    lw6def-music-volume
    c-lw6snd-set-music-volume))
 
 (define lw6-audio-options-menu-music-volume-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template-switch 
-		 lw6-audio-options-menu-music-volume-item-label 
-		 lw6-audio-options-menu-music-volume-item-plus 
-		 lw6-audio-options-menu-music-volume-item-minus 
+	  (item (lw6-menu-item-template-switch
+		 lw6-audio-options-menu-music-volume-item-label
+		 lw6-audio-options-menu-music-volume-item-plus
+		 lw6-audio-options-menu-music-volume-item-minus
 		 (_ "Change music volume")
 		 ))
 	  )
@@ -180,8 +180,8 @@
 	    (c-lw6snd-release snd))
 	    (set! snd
 		  (c-lw6snd-new snd-backend
-				(lw6-config-get-number lw6def-fx-volume) 
-				(lw6-config-get-number lw6def-water-volume) 
+				(lw6-config-get-number lw6def-fx-volume)
+				(lw6-config-get-number lw6def-water-volume)
 				(lw6-config-get-number lw6def-music-volume)))
 	    (lw6-set-game-global! "snd" snd)
 	)))))
@@ -195,7 +195,7 @@
 	   (backend-list (lw6-audio-options-menu-backend-item-list))
 	  )
       (begin
-	(map (lambda (v) (if (equal? snd-backend (car v)) 
+	(map (lambda (v) (if (equal? snd-backend (car v))
 			     (set! index t)
 			     (set! t (+ 1 t))
 			     ))
@@ -212,7 +212,7 @@
      lw6-audio-options-menu-backend-item-update-func
      lw6-audio-options-menu-backend-item-index-func
      (lw6-audio-options-menu-backend-item-list)
-     (_ "The sound backend is the library used to play sounds, if in doubt, don't touch")     
+     (_ "The sound backend is the library used to play sounds, if in doubt, don't touch")
      )
     ))
 

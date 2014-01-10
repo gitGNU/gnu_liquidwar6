@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -63,7 +63,7 @@ _lw6dat_warehouse_init (_lw6dat_warehouse_t * warehouse,
  * Initializes a warehouse object. Won't free anything, will just
  * erase values if they're here
  *
- * @warehouse: object to initialize 
+ * @warehouse: object to initialize
  * @local_node_id: id of local node, used to handle local messages
  * @seq_0: initial seq number
  *
@@ -479,7 +479,7 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
  *
  * @warehouse: object to update
  * @node_id: id of node to register
- * @serial_0: serial number of first message 
+ * @serial_0: serial number of first message
  * @seq_0: initial seq number
  *
  * Registers a node, in practice this is automatically done when receiving
@@ -596,7 +596,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 	   * about this dat-warehouse, it allows messages issued
 	   * by B to be forwarded to C by A.
 	   *
-	   * One option would be to consider that messages 
+	   * One option would be to consider that messages
 	   * that have the same logical_from and logical_from2
 	   * are condidered "safer" than other messages as
 	   * they are issued by the real owner. One could
@@ -681,7 +681,7 @@ _lw6dat_warehouse_calc_serial_draft_and_reference (_lw6dat_warehouse_t *
  *
  * @warehouse: object to work on
  *
- * The various @get_seq functions can perform slowly if 
+ * The various @get_seq functions can perform slowly if
  * we don't pre-calculate the serial number of draft and reference
  * atoms. So this calculation is not within the functions themselves
  * but can be cached by using this function. Just call it and
@@ -895,7 +895,7 @@ _lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t * warehouse)
 	       * stack, then consider seq_0 and substract 1, this way we still
 	       * report some value which makes sense, while not jeopardizing the
 	       * rest of the process (we could possibly return seqs as being
-	       * completed while they aren't). This usually happens when a 
+	       * completed while they aren't). This usually happens when a
 	       * peer connects, at some point it has no messages yet, but
 	       * we do know about its seq_0.
 	       */
@@ -1030,10 +1030,10 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
  * @seq_max: highest sequence number (round or chat index)
  * @for_reference: set to 1 if this is for reference building else 0 for draft
  * @progress: progress indicator (read/write).
- * 
+ *
  * Gets the list of messages for a given sequence (round or chat index),
  * polling all the nodes. The from and to boundaries are included.
- * 
+ *
  * Return value: a list of strings.
  */
 lw6sys_list_t *

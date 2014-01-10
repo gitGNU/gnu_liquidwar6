@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -42,7 +42,7 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, const char *png_file,
   png_structp png_ptr = NULL;
   png_infop info_ptr = NULL;
   png_infop end_info = NULL;
-  /* 
+  /*
    * no need to use end_info for we use the high level interface
    * with png_read_png.
    */

@@ -173,7 +173,7 @@
 	    (lw6-display-param-set! "game-state" game-state-display)
 	    (lw6-set-game-global! "loaded-func" lw6-loaded-func-idle)
 	    (step2-func)
-	    )	  
+	    )
 	  (begin
 	    (lw6-push-menu (lw6-wait-menu
 			    (_ "Preparing map, this can take some time")))
@@ -347,7 +347,7 @@
       (lw6-set-game-global! "network" #f)
       )))
 
-(define lw6-game-start-quick-step2 
+(define lw6-game-start-quick-step2
   (lambda ()
     (begin
       (lw6-game-start-solo-step2)
@@ -355,7 +355,7 @@
       (lw6-set-game-global! "network" #f)
       )))
 
-(define lw6-game-start-server-step2 
+(define lw6-game-start-server-step2
   (lambda ()
     (begin
       (lw6-game-start-local-step2)

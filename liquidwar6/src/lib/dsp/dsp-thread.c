@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -393,7 +393,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 	  if (frames_counter < nb_ticks)
 	    {
 	      /*
-	       * The following is more efficient than a plain += 
+	       * The following is more efficient than a plain +=
 	       * it will avoid going too fast after a slowdown
 	       */
 	      frames_counter =

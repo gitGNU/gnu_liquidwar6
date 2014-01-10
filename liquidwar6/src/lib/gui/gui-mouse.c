@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -36,7 +36,7 @@
  *
  * Registers a mouse move event.
  *
- * Return value: note. 
+ * Return value: note.
  */
 void
 lw6gui_mouse_register_move (lw6gui_mouse_t * mouse, int screen_pos_x,
@@ -82,7 +82,7 @@ lw6gui_mouse_register_move (lw6gui_mouse_t * mouse, int screen_pos_x,
  *
  * Asks wether the mouse has moved or not.
  *
- * Return value: 1 if mouse was moved since last call, 0 if not. 
+ * Return value: 1 if mouse was moved since last call, 0 if not.
  */
 int
 lw6gui_mouse_poll_move (lw6gui_mouse_t * mouse, int *screen_pos_x,

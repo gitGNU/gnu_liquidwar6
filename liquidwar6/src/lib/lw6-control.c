@@ -132,7 +132,7 @@ lw6_exit ()
  * lw6_set_ret
  *
  * @ret: return value to set, 1 for success, 0 for failure
- * 
+ *
  * Sets the ret value for the script.
  *
  * Return value: none

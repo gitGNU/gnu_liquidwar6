@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -36,11 +36,11 @@
  * Will read file/stream and return it as a string. This is not
  * for serious stream operation since it will return only when
  * stream is closed, and read all file into memory before doing anything.
- * It's also limited in size since it uses a fixed length buffer, 
- * so this is just for quick testing, typically used by command line switches 
+ * It's also limited in size since it uses a fixed length buffer,
+ * so this is just for quick testing, typically used by command line switches
  * which are used to test encoding/decoding functions. Do not use it
  * to read a filesystem file, @lw6sys_read_file_content is much better.
- * 
+ *
  * Return value: newly allocated string.
  */
 char *
@@ -87,7 +87,7 @@ lw6sys_stream_file_to_str (FILE * f)
  *
  * Here only for API consistency, will just put string to
  * file (just a simple fprint).
- * 
+ *
  * Return value: none.
  */
 void

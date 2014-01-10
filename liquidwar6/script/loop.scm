@@ -20,8 +20,8 @@
 
 (define %lw6-frames-per-sec 0)
 
-(define lw6-game-loop 
-  (lambda () 
+(define lw6-game-loop
+  (lambda ()
     (begin
       (lw6-log-info (_ "begin main game loop"))
       (let* (
@@ -36,7 +36,7 @@
 		     (command-incr (quotient 1000 (lw6-config-get-number lw6def-commands-per-sec)))
 		     (io-incr (quotient 1000 (lw6-config-get-number lw6def-io-per-sec)))
 		     )
-		 (begin 
+		 (begin
 					; First step, process basic I/O
 					; this does not happen so often,
 					; to avoid wasting events (which
@@ -46,17 +46,17 @@
 		   (if (< io-count ticks)
 		       (begin
 			 (lw6-io)
-			 (set! io-count (max (+ io-count io-incr) 
+			 (set! io-count (max (+ io-count io-incr)
 					     (- ticks io-incr)))
 			 )
 		       )
-			 
+
 					; generate commands
-		   (if (< command-count ticks) 
+		   (if (< command-count ticks)
 		       (begin
 			 (lw6-command #t)
 					;(lw6-log-notice (format #f "~a/~a" command-count ticks))
-			 (set! command-count (max (+ command-count command-incr) 
+			 (set! command-count (max (+ command-count command-incr)
 						  (- ticks command-incr)))
 			 )
 		       (begin
@@ -70,6 +70,6 @@
 		   )
 		 )))
       )))
-    
+
 
 

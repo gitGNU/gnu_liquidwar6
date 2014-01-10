@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -34,7 +34,7 @@
  *
  * @buf: the data to encode
  * @size: the size of data to encode
- * 
+ *
  * Encodes data into base64. Memory allocation is done
  * automatically.
  *
@@ -55,7 +55,7 @@ lw6glb_base64_encode_bin (const char *buf, int size)
  *
  * @size: the size of the decoded data
  * @base64_str: the string to decode
- * 
+ *
  * Decodes data from base64. Memory allocation is done
  * automatically. Note that this function only works for
  * strings, other data might not be handled correctly.
@@ -116,7 +116,7 @@ lw6glb_base64_decode_str (const char *str)
  * @buf: the data to encode
  * @size: the size of data to encode
  * @prefix: a prefix string
- * 
+ *
  * Encodes data into base64. Memory allocation is done
  * automatically.  The encoded string will
  * be prefixed with @prefix.
@@ -157,7 +157,7 @@ lw6glb_base64_encode_bin_prefix (const char *buf, int size,
  * @size: the size of the decoded data
  * @base64_str: the string to decode
  * @prefix: a prefix string
- * 
+ *
  * Decodes data from base64. Memory allocation is done
  * automatically. Note that this function only works for
  * strings, other data might not be handled correctly.

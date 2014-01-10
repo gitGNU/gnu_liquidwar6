@@ -123,7 +123,7 @@ typedef struct lw6dsp_param_s
 /**
  * The dsp backend is the first argument passed to any dsp function,
  * it contains reference to all the functions which can be used
- * as well as a pointer on associated data. In OO, this would just 
+ * as well as a pointer on associated data. In OO, this would just
  * be an object, with members and methods, using polymorphism through
  * opaque pointers.
  */

@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -132,7 +132,7 @@ lw6nod_info_free (lw6nod_info_t * info)
  * @info: the node info to lock
  *
  * Locks a node info object, this is usefull for some members, typically
- * list of servers, can be accessed by separated threads, one reading, 
+ * list of servers, can be accessed by separated threads, one reading,
  * many writing, and these objects (chained lists) certainly do not
  * want to be modified while being read.
  *
@@ -332,7 +332,7 @@ lw6nod_info_new_discovered_nodes ()
  *
  * Registers a new server, and queues it as something that should
  * be checked later because it's interesting. We can't insert in the
- * database all the servers we suspect to exist so network threads 
+ * database all the servers we suspect to exist so network threads
  * should use this, then main thread will process discovered servers
  * afterwards. This is also a good way to avoid trivial DOS attacks.
  *

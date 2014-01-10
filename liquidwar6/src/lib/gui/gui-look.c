@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -312,9 +312,9 @@ lw6gui_look_dup (lw6gui_look_t * look)
 
 /**
  * lw6gui_look_fix
- * 
+ *
  * @look: look object to modify
- * 
+ *
  * Peforms sanity checks and modifies the look if needed,
  * to make all values fit within acceptable ranges, among
  * other things.
@@ -329,7 +329,7 @@ lw6gui_look_fix (lw6gui_look_t * look)
 
 /**
  * lw6gui_look_zoom_in
- * 
+ *
  * @look: look object to act upon
  * @zoom_step: how much we should zoom, 2.0 means 2 times bigger
  *
@@ -369,7 +369,7 @@ lw6gui_look_zoom_in (lw6gui_look_t * look, float zoom_step)
 
 /**
  * lw6gui_look_zoom_out
- * 
+ *
  * @look: look object to act upon
  * @zoom_step: how much we should zoom, 2.0 means 2 times smaller
  *

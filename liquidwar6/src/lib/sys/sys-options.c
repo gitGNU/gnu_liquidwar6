@@ -1404,7 +1404,7 @@ lw6sys_get_prefix (int argc, const char *argv[])
  * @argc: argc, number of arguments, as given to @main
  * @argv: argv, pointer to arguments, as given to @main
  *
- * Returns the mod dir (modules, shared .so), 
+ * Returns the mod dir (modules, shared .so),
  * taking in account command-line and
  * environment variables. However config file content has no impact
  * on the result.

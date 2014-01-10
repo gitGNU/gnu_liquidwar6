@@ -33,7 +33,7 @@
  * @results: out param, will be cleared
  *
  * Fills the struct with zeroes.
- * 
+ *
  * Return value: none.
  */
 void
@@ -49,7 +49,7 @@ lw6sim_results_zero (lw6sim_results_t * results)
  *
  * Updates the structure so that the percent members
  * are up to date.
- * 
+ *
  * Return value: 1 on success, 0 on failure.
  */
 int

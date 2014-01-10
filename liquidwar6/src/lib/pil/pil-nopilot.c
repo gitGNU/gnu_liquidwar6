@@ -49,7 +49,7 @@ lw6pil_nopilot_poll_dump (lw6pil_dump_t * dump, const char *command_text,
   int ret = 0;
 
   /*
-   * Yes, we need to set dump to zero, else we might return 
+   * Yes, we need to set dump to zero, else we might return
    * false positives...
    */
   lw6pil_dump_zero (dump);

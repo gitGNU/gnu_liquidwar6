@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -121,7 +121,7 @@ lw6sys_get_uptime ()
  * zero again. Besides, those values are often used for their "rest"
  * in a module operation, to translate textures for instance, and
  * having too big numbers causes floating point imprecisions. In fact
- * those values or even only 20-bit. The function is based 
+ * those values or even only 20-bit. The function is based
  * on @lw6sys_get_uptime so it will return 0 at game startup.
  *
  * Return value: the cycle value, a 20-bit integer.
@@ -189,7 +189,7 @@ lw6sys_sleep (float seconds)
  * @msec: the number of milliseconds (ticks) to wait
  *
  * Will sleep for the given amount of seconds. Provides accurate timing
- * and has "about-millisecond" precision, since it 
+ * and has "about-millisecond" precision, since it
  * uses @usleep or @select internally.
  * Might however be interrupted in some cases, so consider function can
  * always return quicker than specified. A common usage of this function
@@ -257,7 +257,7 @@ lw6sys_snooze ()
 /**
  * lw6sys_time_init
  *
- * Global initializations required to handle time properly. 
+ * Global initializations required to handle time properly.
  */
 void
 lw6sys_time_init ()

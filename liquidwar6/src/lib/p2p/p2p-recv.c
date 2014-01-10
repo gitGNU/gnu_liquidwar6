@@ -554,7 +554,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	  /*
 	   * While META messages are not returned to the game logical
 	   * state handler, they still need to be passed to the
-	   * warehouse, at least to maintain message order consistency 
+	   * warehouse, at least to maintain message order consistency
 	   * and to be able to re-send them if needed.
 	   */
 	  if (lw6dat_warehouse_put_atom_str
@@ -726,7 +726,7 @@ _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
       else
 	{
 	  /*
-	   * Peer probably never got the ticket, so for now we 
+	   * Peer probably never got the ticket, so for now we
 	   * ignore signatures.
 	   */
 	  lw6sys_log (LW6SYS_LOG_DEBUG,

@@ -330,7 +330,7 @@ mod_gl1_utils_bitmap_set_filter (mod_gl1_utils_context_t *
 	   * bitmap that would be displayed in the same frame with
 	   * 2 different filters, we would create 2 bitmaps.
 	   * Here the idea is that when one switches from GL_LINEAR
-	   * to say GL_LINEAR_MIMAP_LINEAR one has to activate 
+	   * to say GL_LINEAR_MIMAP_LINEAR one has to activate
 	   * mimapping, and that is done at texture creation.
 	   */
 	  mod_gl1_utils_bitmap_clear_texture (utils_context, bitmap);

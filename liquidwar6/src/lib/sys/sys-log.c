@@ -710,7 +710,7 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
 
   _lw6sys_buf_vsnprintf (message_raw, _MSGBOX_LENGTH, fmt, ap);
   lw6sys_str_reformat_this (message_raw, _MSGBOX_WIDTH);
-  bt = lw6sys_backtrace (2, 1);	// skip this function & caller  
+  bt = lw6sys_backtrace (2, 1);	// skip this function & caller
   if (bt)
     {
       bt_width = lw6sys_imax (_MSGBOX_WIDTH, sqrt (strlen (bt)) * _BT_FACTOR);
@@ -807,7 +807,7 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
 	   */
 	  gtk_dialog_run (GTK_DIALOG (dlg));
 	  /*
-	   * It's important to set dlg_timeout to NULL so that 
+	   * It's important to set dlg_timeout to NULL so that
 	   * timeout thread does finish when we click on OK.
 	   */
 	  dlg_timeout = NULL;
@@ -835,10 +835,10 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
 /**
  * lw6sys_log:
  *
- * @level_id: the log level to use. Possible values are, by order, 
- *   LW6SYS_LOG_ERROR_ID (0), 
- *   LW6SYS_LOG_WARNING_ID (1), 
- *   LW6SYS_LOG_NOTICE_ID (2), 
+ * @level_id: the log level to use. Possible values are, by order,
+ *   LW6SYS_LOG_ERROR_ID (0),
+ *   LW6SYS_LOG_WARNING_ID (1),
+ *   LW6SYS_LOG_NOTICE_ID (2),
  *   LW6SYS_LOG_INFO_ID (3),
  *   LW6SYS_LOG_DEBUG_ID (4) and
  *   LW6SYS_LOG_TMP_ID (5).

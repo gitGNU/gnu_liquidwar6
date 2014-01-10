@@ -26,7 +26,7 @@
 	  )
       (begin
 	(assoc-set! item "selected" #t)
-	(assoc-set! item "on-valid" (lambda (mi) 
+	(assoc-set! item "on-valid" (lambda (mi)
 				      (lw6-pop-menu (lw6-current-menu))
 				      (lw6-pop-menu (lw6-current-menu))
 				      (lw6-game-idle)
@@ -47,7 +47,7 @@
 	  )
       (begin
 	(assoc-set! item "selected" #t)
-	(assoc-set! item "on-valid" (lambda (mi) 
+	(assoc-set! item "on-valid" (lambda (mi)
 				      (lw6-pop-menu (lw6-current-menu))
 				      (lw6-pop-menu (lw6-current-menu))
 				      (lw6-game-idle)
@@ -92,7 +92,7 @@
 	   (menu (lw6-menu-template (_ "Next")
 				    (_ "And now?")
 				    (if (and won unlocked-team-color)
-					(format #f 
+					(format #f
 						"~a~%~a: ~a"
 						(_ "New color available")
 						(c-lw6map-team-color-index-to-label unlocked-team-color)
@@ -115,10 +115,10 @@
 	  )
       (begin
 	;; no items here!
-	(assoc-set! menu "on-cancel" (lambda (m) 
+	(assoc-set! menu "on-cancel" (lambda (m)
 				       (let ((dsp (lw6-get-game-global "dsp")))
 					 (begin
-					   (c-lw6gui-input-reset dsp)					  
+					   (c-lw6gui-input-reset dsp)
 					   (lw6-push-menu (lw6-score-menu-next))))))
 	menu
 	))))
@@ -135,10 +135,10 @@
 	   )
       (begin
 	;; no items here!
-	(assoc-set! menu "on-cancel" (lambda (m) 
+	(assoc-set! menu "on-cancel" (lambda (m)
 				       (let ((dsp (lw6-get-game-global "dsp")))
 					 (begin
-					   (c-lw6gui-input-reset dsp)					  
+					   (c-lw6gui-input-reset dsp)
 					   (lw6-push-menu (lw6-score-solo-menu-next won))))))
 	menu
 	))))

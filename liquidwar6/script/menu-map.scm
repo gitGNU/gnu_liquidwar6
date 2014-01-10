@@ -38,7 +38,7 @@
 	  )
       (begin
 	(assoc-set! menuitem "on-valid" (lambda (mi)
-					  (begin (lw6-game-preview) 
+					  (begin (lw6-game-preview)
 						 (lw6-loader-push-gen (c-lw6gen-seed-new)))))
 	menuitem
 	))))

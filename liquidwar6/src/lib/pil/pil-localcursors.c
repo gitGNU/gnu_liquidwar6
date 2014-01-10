@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -173,7 +173,7 @@ lw6pil_local_cursors_set_xy (lw6pil_local_cursors_t * local_cursors,
  * @mouse_controlled: the mouse_controlled attribute
  *
  * Sets which cursor is mouse controlled. If mouse_controlled is 1,
- * the flag is set for this cursor and cleared for all others. If set 
+ * the flag is set for this cursor and cleared for all others. If set
  * to 0, only this cursor's flag is cleared.
  *
  * Return value: 1 on success (cursor exists), 0 on failure (no such cursor).

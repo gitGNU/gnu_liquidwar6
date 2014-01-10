@@ -118,7 +118,7 @@ lw6sys_shape_is_same_xy (const lw6sys_whd_t * shape_a,
 
 /**
  * lw6sys_shape_volume_whd
- * 
+ *
  * Gives the volume (w * h * d) for a given shape.
  *
  * Return value: the volume.
@@ -131,7 +131,7 @@ lw6sys_shape_volume_whd (const lw6sys_whd_t * shape)
 
 /**
  * lw6sys_shape_surface_wh
- * 
+ *
  * Gives the surface (w * h) for a given shape.
  *
  * Return value: the surface.

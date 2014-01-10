@@ -34,10 +34,10 @@ static int registered_use = 0;
  * Function used to avoid initializing SDL several times in a program.
  * AFAIK Allegro has a @was_init function, but SDL doesn't. With this
  * function - which every LW6 sub-module should use - one can know
- * globally, for the whole program, wether SDL has been initialized 
+ * globally, for the whole program, wether SDL has been initialized
  * or not.
  *
- * @Return value: 1 if SDL has never been initialized, 0 if it has 
+ * @Return value: 1 if SDL has never been initialized, 0 if it has
  *   already been set up.
  */
 int

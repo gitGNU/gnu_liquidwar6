@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -506,7 +506,7 @@ lw6mat_dmat4_mul_dvec3 (lw6mat_dvec3_t * dvec3_dst,
  * lw6mat_dmat4_repr
  *
  * @dmat: matrix to represent
- * 
+ *
  * Gives a readable version of the matrix, the representation
  * uses newlines, with a different line for each row
  *

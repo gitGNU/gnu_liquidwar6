@@ -82,7 +82,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
   JSAMPLE *tmp_buffer = NULL;
   /*
    * Immortalized because this is probably my (ufoot@ufoot.org) worst
-   * bug ever https://savannah.gnu.org/bugs/?35349 
+   * bug ever https://savannah.gnu.org/bugs/?35349
    * Look, I mispelled int i=0 into int i=9, just because the 0 and the 9
    * keys are so close. Then compiler does not raise warning about value
    * not being initialized. But it's nonetheless wrong. And at end

@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -74,7 +74,7 @@ lw6sys_cache_new (lw6sys_free_func_t free_func, int size, int delay_msec)
  *
  * The function will cascade  delete all elements, using (if not NULL...)
  * the callback passed when first creating the cache.
- * 
+ *
  * Return value: void
  */
 void
@@ -102,7 +102,7 @@ lw6sys_cache_free (lw6sys_cache_t * cache)
  * user) on the member value. This indirection is required
  * since we use the intermediate item object to store
  * the timestamp along with the key and data.
- * 
+ *
  * Return value: none.
  */
 void
@@ -131,7 +131,7 @@ lw6sys_cache_free_callback (void *data)
  * on the fly.
  *
  * Return value: non-zero if there's an entry with the
- *   corresponding key. 
+ *   corresponding key.
  */
 int
 lw6sys_cache_has_key (lw6sys_cache_t * cache, const char *key)
@@ -248,7 +248,7 @@ lw6sys_cache_set (lw6sys_cache_t * cache, const char *key, void *value)
  *
  * @cache: the cache concerned
  * @key: the key to unset
- * 
+ *
  * Clears an entry in a cache table. The callback passed when
  * creating the cache will be called if needed, to free the data
  * automatically.

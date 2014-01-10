@@ -100,7 +100,7 @@ load_callback (void *callback_data, const char *element, const char *key,
  *
  * @user_dir: the user directory
  * @exp: the exp (out param)
- * 
+ *
  * Gets exp from file.
  *
  * Return value: 1 on success, 0 on failure
@@ -156,7 +156,7 @@ lw6cfg_load_exp (const char *user_dir, int *exp)
  *
  * @user_dir: the user directory
  * @exp: the exp
- * 
+ *
  * Saves exp to file.
  *
  * Return value: 1 on success, 0 on failure

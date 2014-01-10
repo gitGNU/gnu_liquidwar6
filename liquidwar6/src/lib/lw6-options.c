@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -90,7 +90,7 @@ _register_and_run_tests (int argc, const char **argv, int mode)
  * @argc: the number of command-line args, as passed to main
  * @argv: an array of strings containing command-line args, as passed to main
  * @run_game: a pointer to a boolean which will contain true (1) if the
- *   game must be launched, or false (0) if the option is such that game 
+ *   game must be launched, or false (0) if the option is such that game
  *   must be skipped. Example: --copyright, --help, ...
  *
  * Return value: non-zero if success, 0 if error. The error can be, for

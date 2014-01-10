@@ -288,28 +288,28 @@ typedef struct lw6gui_keyboard_s
   /**
    * State of keyboard up arrow.
    * This can be the combination of several keys,
-   * for instance the numeric pad up arrow, 
+   * for instance the numeric pad up arrow,
    * and the corresponding arrow pad key.
    */
   lw6gui_button_t arrow_up;
   /**
    * State of keyboard down arrow.
    * This can be the combination of several keys,
-   * for instance the numeric pad down arrow, 
+   * for instance the numeric pad down arrow,
    * and the corresponding arrow pad key.
    */
   lw6gui_button_t arrow_down;
   /**
    * State of keyboard left arrow.
    * This can be the combination of several keys,
-   * for instance the numeric pad left arrow, 
+   * for instance the numeric pad left arrow,
    * and the corresponding arrow pad key.
    */
   lw6gui_button_t arrow_left;
   /**
    * State of keyboard right arrow.
    * This can be the combination of several keys,
-   * for instance the numeric pad right arrow, 
+   * for instance the numeric pad right arrow,
    * and the corresponding arrow pad key.
    */
   lw6gui_button_t arrow_right;
@@ -403,12 +403,12 @@ typedef struct lw6gui_mouse_s
   int moved;
   /// Timestamp of last move.
   int64_t last_moved;
-  /** 
+  /**
    * Information about the mouse pointer, using screen
    * coordinates, the unit being pixels.
    */
   lw6gui_mouse_pointer_t screen_pointer;
-  /** 
+  /**
    * Information about the mouse pointer, using map
    * coordinates, the unit being the map slot.
    * This is possibly very different from screen coordinates,
@@ -425,7 +425,7 @@ typedef struct lw6gui_mouse_s
   /// The current drag state.
   lw6gui_drag_mode_t drag_mode;
   /**
-   * The index of the menu item the mouse is on. 
+   * The index of the menu item the mouse is on.
    * This is the only was to know when to select an item,
    * one should not use mouse coords outside the gfx renderer
    * code for this purpose, it's the renderer which has
@@ -447,7 +447,7 @@ typedef struct lw6gui_mouse_s
   lw6gui_button_t button_right;
   /// Mouse middle button state.
   lw6gui_button_t button_middle;
-  /// Mouse wheel up state. 
+  /// Mouse wheel up state.
   lw6gui_button_t wheel_up;
   /// Mouse wheel down state.
   lw6gui_button_t wheel_down;
@@ -458,7 +458,7 @@ lw6gui_mouse_t;
  * Joystick information, contains detailed joystick state.
  * This structure uses a pad-like interface, there's no
  * knowledge of analog interfaces, it transforms everything
- * to a binary "up or down" and "left or right". This 
+ * to a binary "up or down" and "left or right". This
  * interface only knows about 6 buttons, this is done on
  * purpose, the logic behind it is that more than 6 buttons
  * makes the control way too complicated. Actually, most
@@ -572,7 +572,7 @@ typedef struct lw6gui_menu_s
   char *title;
   /// Additionnal help text, explaining what the menu is about.
   char *help;
-  /** 
+  /**
    * Popup text, will be displayed when the menu is first
    * displayed, and then disappear.
    */
@@ -789,7 +789,7 @@ typedef struct lw6gui_zone_s
  * Macro object used to store viewport information.
  * Viewport here means "what part of the map should
  * we display, on which part of the screen, and with
- * which parameters". 
+ * which parameters".
  */
 typedef struct lw6gui_viewport_s
 {

@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -292,7 +292,7 @@ lw6sys_clear_memory_bazooka ()
  *
  * @size: number of items (calls to malloc) to keep
  *
- * Resizes, the memory bazooka. What's this? It's an inelegant yet 
+ * Resizes, the memory bazooka. What's this? It's an inelegant yet
  * efficient tool to track down memory leak. Memory bazooka will keep
  * track of every call to malloc, keeping a trace of what has been
  * malloced, where it has been called (from which file, which line), how
@@ -547,7 +547,7 @@ _lw6sys_bazooka_register_realloc_2 (char *ptr, char *ptr2, int size,
 		  bazooka_data[i].line = line;
 		  bazooka_data[i].timestamp = lw6sys_get_timestamp ();
 		}
-	      break;		// important to leave loop, else serious perfomance problem           
+	      break;		// important to leave loop, else serious perfomance problem
 	    }
 	}
       if (bazooka_trustable && i == bazooka_size)
@@ -675,8 +675,8 @@ _lw6sys_bazooka_register_free (char *ptr)
 /**
  * lw6sys_get_memory_bazooka_malloc_count
  *
- * Provided you have always called the @LW6SYS_MALLOC an @LW6SYS_CALLOC to 
- * allocate memory, this function will tell you how many times @malloc 
+ * Provided you have always called the @LW6SYS_MALLOC an @LW6SYS_CALLOC to
+ * allocate memory, this function will tell you how many times @malloc
  * has been called.
  *
  * Return value: the number of calls to @lw6sys_malloc or @lw6sys_calloc since
@@ -718,7 +718,7 @@ lw6sys_get_memory_bazooka_free_count ()
 /**
  * lw6sys_get_memory_bazooka_malloc_current_count
  *
- * Provided you have always called the @LW6SYS_MALLOC an @LW6SYS_CALLOC to 
+ * Provided you have always called the @LW6SYS_MALLOC an @LW6SYS_CALLOC to
  * allocate memory, this function will tell you the current number of
  * pointer returned by @LW6SYS_MALLOC an @LW6SYS_CALLOC, currently
  * alive on the heap.
@@ -741,7 +741,7 @@ lw6sys_get_memory_bazooka_malloc_current_count ()
 /**
  * lw6sys_get_memory_bazooka_malloc_max_count
  *
- * Provided you have always called the @LW6SYS_MALLOC an @LW6SYS_CALLOC to 
+ * Provided you have always called the @LW6SYS_MALLOC an @LW6SYS_CALLOC to
  * allocate memory, this function will tell you the maximum of pointers
  * returned by @malloc that were present at the same time on the heap.
  *
@@ -763,8 +763,8 @@ lw6sys_get_memory_bazooka_malloc_max_count ()
 /**
  * lw6sys_get_memory_bazooka_malloc_megabytes
  *
- * Provided you have always called the @LW6SYS_MALLOC an @LW6SYS_CALLOC to 
- * allocate memory, this function will tell you how many bytes @malloc 
+ * Provided you have always called the @LW6SYS_MALLOC an @LW6SYS_CALLOC to
+ * allocate memory, this function will tell you how many bytes @malloc
  * has reserved.
  *
  * Return value: the number of calls to @lw6sys_malloc or @lw6sys_calloc since
@@ -806,7 +806,7 @@ lw6sys_get_memory_bazooka_free_megabytes ()
 /**
  * lw6sys_get_memory_bazooka_malloc_current_bytes
  *
- * Provided you have always called the @LW6SYS_MALLOC an @LW6SYS_CALLOC to 
+ * Provided you have always called the @LW6SYS_MALLOC an @LW6SYS_CALLOC to
  * allocate memory, this function will tell you the current number of
  * bytes returned by @LW6SYS_MALLOC an @LW6SYS_CALLOC, currently
  * alive on the heap.
@@ -829,7 +829,7 @@ lw6sys_get_memory_bazooka_malloc_current_bytes ()
 /**
  * lw6sys_get_memory_bazooka_malloc_max_bytes
  *
- * Provided you have always called the @LW6SYS_MALLOC an @LW6SYS_CALLOC to 
+ * Provided you have always called the @LW6SYS_MALLOC an @LW6SYS_CALLOC to
  * allocate memory, this function will tell you the maximum bytes
  * returned by @malloc that were present at the same time on the heap.
  *

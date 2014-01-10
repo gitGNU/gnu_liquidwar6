@@ -52,8 +52,8 @@
 	(set! menuitem (assoc-set! menuitem "value" (c-lw6map-team-color-key-to-index player-color)))
 	(set! menuitem (assoc-set! menuitem "colored" player-status))
 	menuitem
-	))))    
-    
+	))))
+
 (define lw6-players-menu-player-item
   (lambda (player-prefix)
     (let* (
@@ -82,7 +82,7 @@
 (define lw6-players-menu-bots-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-list-number-template 
+	  (item (lw6-menu-item-list-number-template
 				    lw6def-nb-bots
 				    (append
 				     (list
@@ -108,7 +108,7 @@
 				   #f))
 	  )
       (begin
-	(lw6-append-menuitem! menu (lw6-players-menu-player-item "player1"))	
+	(lw6-append-menuitem! menu (lw6-players-menu-player-item "player1"))
 	(lw6-append-menuitem! menu (lw6-players-menu-player-item "player2"))
 	(lw6-append-menuitem! menu (lw6-players-menu-player-item "player3"))
 	(lw6-append-menuitem! menu (lw6-players-menu-player-item "player4"))

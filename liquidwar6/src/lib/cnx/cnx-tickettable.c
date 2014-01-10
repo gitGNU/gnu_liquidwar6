@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -49,7 +49,7 @@ lw6cnx_ticket_table_zero (lw6cnx_ticket_table_t * ticket_table)
  *
  * Initialize a ticket table, that is, set it up with two
  * empty hashs. Recv hash is filled automatically as it's queried
- * for tickets, send hash must be filled explicitely with info 
+ * for tickets, send hash must be filled explicitely with info
  * from the network.
  *
  * Return value: none.

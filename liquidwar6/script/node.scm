@@ -43,7 +43,7 @@
 		   )
 	      (if db
 		  (begin
-		    (lw6-set-game-global! "db" db)			 
+		    (lw6-set-game-global! "db" db)
 		    (let (
 			  (node (c-lw6p2p-node-new db (list (cons "client-backends" cli-backends)
 							    (cons "server-backends" srv-backends)

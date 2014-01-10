@@ -19,7 +19,7 @@
 ;; Contact author        : ufoot@ufoot.org
 
 
-(define (lw6-console-catch-handler key . args) 
+(define (lw6-console-catch-handler key . args)
   (if (eq? key 'quit)
       (c-lw6sys-signal-send-quit)
       (begin
@@ -28,8 +28,8 @@
 	)))
 
 (define (lw6-console-try-catch command)
-  (catch #t 
-	 (lambda() 
+  (catch #t
+	 (lambda()
 	   (let (
 		 (ret-val (eval-string command))
 		 (undefined (display ""))

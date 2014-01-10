@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -175,7 +175,7 @@ _do_grease (lw6map_layer_t * layer, lw6map_rules_t * rules,
 
 /**
  * lw6ldr_grease_apply
- * 
+ *
  * @layer: the layer on which to apply the grease
  * @rules: map rules
  * @hints: map hints

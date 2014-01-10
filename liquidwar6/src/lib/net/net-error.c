@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -531,7 +531,7 @@ _lw6net_wsa_str (int wsa_int)
 
 /**
  * lw6net_last_error:
- * 
+ *
  * Reports the last network error. This is basically a debug function,
  * designed mostly for Microsoft Winsock API, but can be safely called
  * on any platform.

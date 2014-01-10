@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -884,7 +884,7 @@ lw6sys_color_hsv_invert (lw6sys_color_hsv_t * color_hsv, int invert_h,
 
 /**
  * lw6sys_color_is_grey
- * 
+ *
  * @color: the color to test
  *
  * Tells wether a color is pure grey or not. This is interesting

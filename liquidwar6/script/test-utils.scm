@@ -46,7 +46,7 @@
     (let (
 	  (len (string-length msg))
 	  )
-      (if (>  len 100) 
+      (if (>  len 100)
 	  (lw6-log-notice (format #f "received ~a bytes ~a message" len type))
 	  (lw6-log-notice (format #f "received ~a message \"~a\"" type msg))
 	  )
@@ -88,10 +88,10 @@
 (define lw6-test-nop
   (lambda (node stage)
     (let (
-	  (nop-command (lw6-command-nop (c-lw6p2p-node-get-local-seq-last node) 
+	  (nop-command (lw6-command-nop (c-lw6p2p-node-get-local-seq-last node)
 					(c-lw6p2p-node-get-id node)))
 	  )
-      (begin	
+      (begin
 	(lw6-log-notice (format #f "nop-command -> ~a" nop-command))
 	(lw6-log-notice (format #f "current state stage=~a \"~a\"" stage node))
 	nop-command
@@ -106,7 +106,7 @@
   (lambda (game-state pilot stage)
     (begin
       (c-lw6pil-sync-from-reference game-state pilot)
-      (let ( 
+      (let (
 	    (ref-checkpoint (c-lw6pil-suite-get-checkpoint stage))
 	    (this-checkpoint (lw6-test-checkpoint game-state pilot))
 	    )
@@ -133,12 +133,12 @@
 	  (timestamp #f)
 	  (ret #f)
 	  )
-      (if (or (not pilot) 
+      (if (or (not pilot)
 	      (and (>= (c-lw6pil-get-reference-current-seq pilot)
 		       (assoc-ref (c-lw6pil-suite-get-checkpoint checkpoint) "seq"))
 		   . (map (lambda (x) (c-lw6p2p-node-is-peer-registered node (c-lw6pil-suite-get-node-id x))) suite-node-ids)
-	       ))	     
-	  (begin		     
+	       ))
+	  (begin
 	    (set! timestamp (c-lw6sys-get-timestamp))
 	    (set! ret #t)
 	    (map (lambda(x) (if (and (member (assoc-ref x "url") node-urls)
@@ -150,19 +150,19 @@
 					 (assoc-ref (c-lw6pil-suite-get-checkpoint checkpoint) "round"))
 				     )
 				    (begin
-				      (lw6-log-notice (format #f "checked entry id=~a url=\"~a\" round=~a" 
-							      (assoc-ref x "id") 
-							      (assoc-ref x "url") 
+				      (lw6-log-notice (format #f "checked entry id=~a url=\"~a\" round=~a"
+							      (assoc-ref x "id")
+							      (assoc-ref x "url")
 							      (assoc-ref x "round")
 							      ))
 				      (c-lw6sys-idle)
 				      (c-lw6p2p-node-poll node)
 				      )
 				    (begin
-				      (lw6-log-notice (format #f "waiting for entry id=~a url=\"~a\" round=~a to be at least at round ~a" 
-							      (assoc-ref x "id") 
-							      (assoc-ref x "url") 
-							      (assoc-ref x "round") 
+				      (lw6-log-notice (format #f "waiting for entry id=~a url=\"~a\" round=~a to be at least at round ~a"
+							      (assoc-ref x "id")
+							      (assoc-ref x "url")
+							      (assoc-ref x "round")
 							      (assoc-ref (c-lw6pil-suite-get-checkpoint checkpoint) "round")
 							      ))
 				      (set! ret #f)
@@ -170,7 +170,7 @@
 				      )
 				    )
 				))
-		 entries)	 
+		 entries)
 	    (c-lw6sys-idle)
 	    (c-lw6p2p-node-poll node)
 	    ret)

@@ -44,7 +44,7 @@
  * lw6sys_cunit_run_tests
  *
  * @mode: mode passed to program (bit mask)
- * 
+ *
  * Run all registered suites and their tests, will interpret mode
  * and call the right CUnit function (Batch, Console, NCurses...).
  *

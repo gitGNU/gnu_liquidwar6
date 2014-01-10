@@ -54,17 +54,17 @@
 	      )
 	  ;; weird, dunno why, but sometimes old-zoom (or nez?) isn't defined
 	  (if (and new-zoom old-zoom)
-	      (if (or (= old-zoom 1.0) 
+	      (if (or (= old-zoom 1.0)
 		      (> (* (- old-zoom 1.0) (- new-zoom 1.0)) 0.0))
 		  #t ; both greater than 1 or lower than 1
 		  (begin
 		    (c-lw6gui-look-set look "dynamic-zoom" "1.0")
 		    (if (> old-zoom 1.0)
-			(lw6-set-game-global! "zoom-next-out" 
-					      (+ timestamp 
+			(lw6-set-game-global! "zoom-next-out"
+					      (+ timestamp
 						 (lw6-config-get-number lw6def-zoom-stick-delay)))
-			(lw6-set-game-global! "zoom-next-in" 
-					      (+ timestamp 
+			(lw6-set-game-global! "zoom-next-in"
+					      (+ timestamp
 						 (lw6-config-get-number lw6def-zoom-stick-delay)))
 			))
 		  )))))))

@@ -192,13 +192,13 @@ lw6gui_menuitem_repr (lw6gui_menuitem_t * menuitem)
  *
  * @menuitem: a pointer to the menuitem.
  * @label: the new label, you can free it after calling the function,
- *   an internal copy will be made. 
+ *   an internal copy will be made.
  * @now: the current time, as a timestamp.
  *
  * Change the label of the menu item. That is to say, what the user sees.
- * Use this function to change the menuitem 
- * value, don't try to access the struct directly. The idea is 1) to have safe 
- * memory management and 2) to keep the @last_change member up to date. 
+ * Use this function to change the menuitem
+ * value, don't try to access the struct directly. The idea is 1) to have safe
+ * memory management and 2) to keep the @last_change member up to date.
  * It can be later used for eye-candy effects.
  *
  * Return value: none
@@ -225,13 +225,13 @@ lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem, char *label,
  *
  * @menuitem: a pointer to the menuitem.
  * @tooltip: the new tooltip, you can free it after calling the function,
- *   an internal copy will be made. 
+ *   an internal copy will be made.
  * @now: the current time, as a timestamp.
  *
  * Change the tooltip of the menu item (the explanation of what the item is about)
- * Use this function to change the menuitem 
- * value, don't try to access the struct directly. The idea is 1) to have safe 
- * memory management and 2) to keep the @last_change member up to date. 
+ * Use this function to change the menuitem
+ * value, don't try to access the struct directly. The idea is 1) to have safe
+ * memory management and 2) to keep the @last_change member up to date.
  * It can be later used for eye-candy effects.
  *
  * Return value: none
@@ -259,11 +259,11 @@ lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t * menuitem, char *tooltip,
  * @menuitem: a pointer to the menuitem.
  * @value: the new value.
  * @now: the current time, as a timestamp.
- * 
+ *
  * Changes the value of a menuitem. This is the internal value, not what
- * the user sees. Use this function to change the menuitem 
- * value, don't try to access the struct directly. The idea is to keep 
- * the @last_change member up to date. 
+ * the user sees. Use this function to change the menuitem
+ * value, don't try to access the struct directly. The idea is to keep
+ * the @last_change member up to date.
  * It can be later used for eye-candy effects.
  *
  * Return value: none
@@ -285,7 +285,7 @@ lw6gui_menuitem_set_value (lw6gui_menuitem_t * menuitem, int value,
  * @menuitem: a pointer to the menuitem.
  * @state: 1 to select, 0 to unselect
  * @now: the current time, as a timestamp.
- * 
+ *
  * Switches the menuitem to (un)selected state. Use this function, don't try
  * to modify the struct members directly. The idea is to have
  * the @last_select parameter up to date.
@@ -314,7 +314,7 @@ lw6gui_menuitem_select (lw6gui_menuitem_t * menuitem, int state, int64_t now)
  * @menuitem: a pointer to the menuitem.
  * @state: 1 to enable, 0 to disable
  * @now: the current time, as a timestamp.
- * 
+ *
  * Switches the menuitem to enabled/disabled state. Use this function, don't try
  * to modify the struct members directly. The idea is to have
  * the @last_select parameter up to date.
@@ -449,7 +449,7 @@ lw6gui_menuitem_dup (lw6gui_menuitem_t * menuitem)
  * @src: the source menuitem
  *
  * Synchronizes two menuitems, this supposes that they represent the same item, but
- * simply in a different state. 
+ * simply in a different state.
  *
  * Return value: 1 if success, 0 if failure
  */

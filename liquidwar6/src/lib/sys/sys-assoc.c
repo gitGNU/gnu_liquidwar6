@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -72,7 +72,7 @@ lw6sys_assoc_new (lw6sys_free_func_t free_func)
  *
  * The function will cascade  delete all elements, using (if not NULL...)
  * the callback passed when first creating the assoc.
- * 
+ *
  * Return value: void
  */
 void
@@ -108,7 +108,7 @@ lw6sys_assoc_free (lw6sys_assoc_t * assoc)
 	{
 	  /*
 	   * This should be the last call of the function.
-	   * Hopefully the compiler will find this out and 
+	   * Hopefully the compiler will find this out and
 	   * optimize and *not* generate hudge stacks with
 	   * return addresses which are of no use. At least
 	   * the compiler *could* do it 8-) Recursion recursion...
@@ -132,7 +132,7 @@ lw6sys_assoc_free (lw6sys_assoc_t * assoc)
  * called internally until the key is found.
  *
  * Return value: non-zero if there's an entry with the
- *   corresponding key. 
+ *   corresponding key.
  */
 int
 lw6sys_assoc_has_key (lw6sys_assoc_t * assoc, const char *key)
@@ -259,7 +259,7 @@ lw6sys_assoc_set (lw6sys_assoc_t ** assoc, const char *key, void *value)
  *
  * @assoc: the assoc concerned
  * @key: the key to unset
- * 
+ *
  * Clears an entry in an associative array. The callback passed when
  * creating the assoc will be called if needed, to free the data
  * automatically.

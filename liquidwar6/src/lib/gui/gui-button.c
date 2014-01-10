@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -223,7 +223,7 @@ lw6gui_button_update_repeat (lw6gui_button_t * button,
     {
       /*
        * Before anything else, register a fake button_up if we're
-       * in auto_release mode and it's relevant. 
+       * in auto_release mode and it's relevant.
        */
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("button auto release button->last_press=%"

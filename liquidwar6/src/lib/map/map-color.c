@@ -53,7 +53,7 @@ lw6map_color_invert (lw6map_color_couple_t * color)
  * @color1: 1st color to compare
  * @color2: 2nd color to compare
  *
- * Compares two colors. 
+ * Compares two colors.
  *
  * Return value: 1 if equal, 0 if not.
  */

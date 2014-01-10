@@ -202,13 +202,13 @@ typedef struct lw6sys_xyz_s
 lw6sys_xyz_t;
 
 /**
- * Contains the shape of a 3D box. There are 3 differences with its 
+ * Contains the shape of a 3D box. There are 3 differences with its
  * "XYZ" equivalent. First, sometimes w*h*d reads better than x,y,z.
  * Then, xyz is signed, whd is unsigned. Finally, these are real
- * int32 values, they are not 14-bit limited. 
- * It does not really cost any memory for it's usually used as 
- * a single "shape" attribute for a whole map. At the same time, 
- * it's very often used as a test value in loops, so it's interesting 
+ * int32 values, they are not 14-bit limited.
+ * It does not really cost any memory for it's usually used as
+ * a single "shape" attribute for a whole map. At the same time,
+ * it's very often used as a test value in loops, so it's interesting
  * to have it in a value that's easy to optimize for the compiler
  * (exactly one register...)
  */
@@ -367,7 +367,7 @@ typedef struct lw6sys_assoc_s
    * will be called on deletion.
    */
   lw6sys_free_func_t free_func;
-  /** 
+  /**
    * Pointer on the next item, will be NULL on last element,
    * there's a difference between a NULL pointer and a valid
    * assoc with only one item being EOL.
@@ -467,7 +467,7 @@ typedef struct lw6sys_list_s
    * will be called on deletion.
    */
   lw6sys_free_func_t free_func;
-  /** 
+  /**
    * Pointer on the next item, will be NULL on last element,
    * there's a difference between a NULL pointer and a valid
    * list with only one item being EOL. Other way to state it:

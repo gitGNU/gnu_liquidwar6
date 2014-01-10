@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -30,14 +30,14 @@
 
 /**
  * lw6sys_sort_int_callback
- * 
+ *
  * @list_a: pointer to a list of int item
  * @list_b: pointer to a list of int item
  *
  * A typicall sort callback function, can be passed to @lw6sys_sort
  * to sort a list of integers.
  *
- * Return value: -1 if @list_a < @list_b , 0 if @list_a == @list_b, 
+ * Return value: -1 if @list_a < @list_b , 0 if @list_a == @list_b,
  *   1 if @list_a > @list_b
  */
 int
@@ -63,14 +63,14 @@ lw6sys_sort_int_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
 
 /**
  * lw6sys_sort_int_desc_callback
- * 
+ *
  * @list_a: pointer to a list of int item
  * @list_b: pointer to a list of int item
  *
  * A typicall sort callback function, can be passed to @lw6sys_sort
  * to sort a list of integers. This one will sort in reverse mode.
  *
- * Return value: 1 if @list_a < @list_b , 0 if @list_a == @list_b, 
+ * Return value: 1 if @list_a < @list_b , 0 if @list_a == @list_b,
  *   -1 if @list_a > @list_b
  */
 int
@@ -97,14 +97,14 @@ lw6sys_sort_int_desc_callback (lw6sys_list_t ** list_a,
 
 /**
  * lw6sys_sort_float_callback
- * 
+ *
  * @list_a: pointer to a list of float item
  * @list_b: pointer to a list of float item
  *
  * A typicall sort callback function, can be passed to @lw6sys_sort
  * to sort a list of floating point numbers.
  *
- * Return value: -1 if @list_a < @list_b , 0 if @list_a == @list_b, 
+ * Return value: -1 if @list_a < @list_b , 0 if @list_a == @list_b,
  *   1 if @list_a > @list_b
  */
 int
@@ -130,7 +130,7 @@ lw6sys_sort_float_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
 
 /**
  * lw6sys_sort_float_desc_callback
- * 
+ *
  * @list_a: pointer to a list of float item
  * @list_b: pointer to a list of float item
  *
@@ -138,7 +138,7 @@ lw6sys_sort_float_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
  * to sort a list of floating point numbers. This one will
  * sort in reverse mode.
  *
- * Return value: 1 if @list_a < @list_b , 0 if @list_a == @list_b, 
+ * Return value: 1 if @list_a < @list_b , 0 if @list_a == @list_b,
  *   -1 if @list_a > @list_b
  */
 int
@@ -165,14 +165,14 @@ lw6sys_sort_float_desc_callback (lw6sys_list_t ** list_a,
 
 /**
  * lw6sys_sort_str_callback
- * 
+ *
  * @list_a: pointer to a list of string item
  * @list_b: pointer to a list of string item
  *
  * A typicall sort callback function, can be passed to @lw6sys_sort
  * to sort a list of 0-terminated strings.
  *
- * Return value: -1 if @list_a < @list_b , 0 if @list_a == @list_b, 
+ * Return value: -1 if @list_a < @list_b , 0 if @list_a == @list_b,
  *   1 if @list_a > @list_b
  */
 int
@@ -187,7 +187,7 @@ lw6sys_sort_str_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
 
 /**
  * lw6sys_sort_str_desc_callback
- * 
+ *
  * @list_a: pointer to a list of string item
  * @list_b: pointer to a list of string item
  *
@@ -195,7 +195,7 @@ lw6sys_sort_str_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
  * to sort a list of 0-terminated strings. This one will sort
  * in reverse mode.
  *
- * Return value: 1 if @list_a < @list_b , 0 if @list_a == @list_b, 
+ * Return value: 1 if @list_a < @list_b , 0 if @list_a == @list_b,
  *   -1 if @list_a > @list_b
  */
 int
@@ -211,7 +211,7 @@ lw6sys_sort_str_desc_callback (lw6sys_list_t ** list_a,
 
 /**
  * lw6sys_sort
- * 
+ *
  * @list: the list to sort, might be modified by the function
  * @sort_func: the callback function used to sort
  *

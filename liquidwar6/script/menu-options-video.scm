@@ -57,9 +57,9 @@
 (define lw6-video-options-menu-fullscreen-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template-switch 
-		 lw6-video-options-menu-fullscreen-item-label 
-		 lw6-video-options-menu-fullscreen-item-toggle 
+	  (item (lw6-menu-item-template-switch
+		 lw6-video-options-menu-fullscreen-item-label
+		 lw6-video-options-menu-fullscreen-item-toggle
 		 lw6-video-options-menu-fullscreen-item-toggle
 		 (_ "Use this to toggle between windowed and fullscreen mode")))
 	  )
@@ -98,9 +98,9 @@
 	    (begin
 	      (set! width (min limited-width width))
 	      (set! height (min limited-height height))
-	      ))	    
+	      ))
 	(lw6-config-set-video! width height fullscreen)))))
-    
+
 (define lw6-video-set-low
   (lambda ()
     (lw6-video-set "low")))
@@ -144,7 +144,7 @@
       (format #f "~a ~ax~a"
 	      label-prefix
 	      (assoc-ref current-res lw6def-width)
-	      (assoc-ref current-res lw6def-height))	            
+	      (assoc-ref current-res lw6def-height))
       )))
 
 (define lw6-video-options-menu-resolution-item-plus
@@ -154,18 +154,18 @@
 	     (dsp (lw6-get-game-global "dsp"))
 	     (current-res (c-lw6dsp-get-video-mode dsp))
 	     (fullscreen-modes (c-lw6dsp-get-fullscreen-modes dsp))
-	     (low-res (assoc-ref fullscreen-modes "low"))	
-	     (standard-res (assoc-ref fullscreen-modes "standard"))	
+	     (low-res (assoc-ref fullscreen-modes "low"))
+	     (standard-res (assoc-ref fullscreen-modes "standard"))
 	     (high-res (assoc-ref fullscreen-modes "high"))
 	    )
 	(cond
 	 (
 	  (< (lw6-res-surface current-res) (lw6-res-surface standard-res))
-	  (lw6-video-set-standard)	  
+	  (lw6-video-set-standard)
 	  )
 	 (
 	  (> (lw6-res-surface current-res) (lw6-res-surface standard-res))
-	  (lw6-video-set-low)	  
+	  (lw6-video-set-low)
 	  )
 	 (
 	  #t
@@ -180,18 +180,18 @@
 	     (dsp (lw6-get-game-global "dsp"))
 	     (current-res (c-lw6dsp-get-video-mode dsp))
 	     (fullscreen-modes (c-lw6dsp-get-fullscreen-modes dsp))
-	     (low-res (assoc-ref fullscreen-modes "low"))	
-	     (standard-res (assoc-ref fullscreen-modes "standard"))	
+	     (low-res (assoc-ref fullscreen-modes "low"))
+	     (standard-res (assoc-ref fullscreen-modes "standard"))
 	     (high-res (assoc-ref fullscreen-modes "high"))
 	    )
 	(cond
 	 (
 	  (< (lw6-res-surface current-res) (lw6-res-surface standard-res))
-	  (lw6-video-set-high)	  
+	  (lw6-video-set-high)
 	  )
 	 (
 	  (> (lw6-res-surface current-res) (lw6-res-surface standard-res))
-	  (lw6-video-set-standard)	  
+	  (lw6-video-set-standard)
 	  )
 	 (
 	  #t
@@ -202,9 +202,9 @@
 (define lw6-video-options-menu-resolution-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template-switch 
-		 lw6-video-options-menu-resolution-item-label 
-		 lw6-video-options-menu-resolution-item-plus 
+	  (item (lw6-menu-item-template-switch
+		 lw6-video-options-menu-resolution-item-label
+		 lw6-video-options-menu-resolution-item-plus
 		 lw6-video-options-menu-resolution-item-minus
 		 (_ "Change the window size, in windowed mode you could just resize it with the mouse")
 		 ))
@@ -237,7 +237,7 @@
 	  (begin
 	    (lw6-config-set-string! lw6def-gfx-backend gfx-backend)
 	    (c-lw6dsp-release dsp)
-	    (set! dsp 
+	    (set! dsp
 		  (c-lw6dsp-new gfx-backend
 			    (lw6-get-game-global "display-param")))
 	    (lw6-set-game-global! "dsp" dsp)
@@ -252,7 +252,7 @@
 	   (backend-list (lw6-video-options-menu-backend-item-list))
 	  )
       (begin
-	(map (lambda (v) (if (equal? gfx-backend (car v)) 
+	(map (lambda (v) (if (equal? gfx-backend (car v))
 			     (set! index temp)
 			     (set! temp (+ 1 temp))
 			     ))
@@ -281,7 +281,7 @@
 	    )
       (begin
 	(lw6-config-update-video)
-	(assoc-set! fullscreen-item "label" (lw6-video-options-menu-fullscreen-item-label)) 
+	(assoc-set! fullscreen-item "label" (lw6-video-options-menu-fullscreen-item-label))
 	(c-lw6gui-menu-sync menu-smob fullscreen-item)
 	(assoc-set! resolution-item "label" (lw6-video-options-menu-resolution-item-label))
 	(c-lw6gui-menu-sync menu-smob resolution-item)

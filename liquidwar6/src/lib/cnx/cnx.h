@@ -151,7 +151,7 @@ typedef struct lw6cnx_connection_s
   lw6cnx_recv_callback_t recv_callback_func;
   /// Data passed to recv_callback_func.
   void *recv_callback_data;
-  /** 
+  /**
    * Send mutex, this will be used so that sending operations
    * are properly serialized. Indeed, threads that respond on the
    * fly could be likely to call this concurrently.

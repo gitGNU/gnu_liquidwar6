@@ -38,7 +38,7 @@
  */
 #define _LW6DAT_ATOM_MAX_SIZE 1199
 /*
- * This must be able to store the "serial i n seq from" 
+ * This must be able to store the "serial i n seq from"
  * header.
  */
 #define _LW6DAT_HEADER_MAX_SIZE 119

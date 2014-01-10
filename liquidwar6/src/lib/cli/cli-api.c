@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -134,7 +134,7 @@ lw6cli_process_oob (lw6cli_backend_t * backend,
 
 /**
  * lw6cli_open
- * 
+ *
  * @backend: backend to use
  * @local_url: our local public url
  * @remote_url: the remote url we want to connect to

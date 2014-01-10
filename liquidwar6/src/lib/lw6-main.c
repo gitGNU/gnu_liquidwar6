@@ -71,7 +71,7 @@ guile_main (void *data)
   scm_gc ();
   /*
    * In older versions there was a lw6_quit_global_1 function to
-   * cleanup the dsp/gfx module in the same thread than the caller 
+   * cleanup the dsp/gfx module in the same thread than the caller
    * (SDL limitation on Mac OS X). Now this is done before by the
    * script using a call to lw6_release (c-lw6-release).
    */
@@ -94,7 +94,7 @@ _end (void *data)
 
 /**
  * lw6_main:
- * 
+ *
  * @argc: the argc parameter of the @main function, that is, the number
  *   of command-line args.
  * @argv: the argv parameter of the @main function, that is, an array

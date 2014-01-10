@@ -130,10 +130,10 @@ lw6sys_signal_default ()
  *
  * @signum: SIGTERM
  *
- * The own TERM signal handler, will basically call 
+ * The own TERM signal handler, will basically call
  * the @lw6sys_signal_send_quit function, which will
  * set a flag used later by @lw6sys_signal_poll_quit.
- * 
+ *
  * Return value: none.
  */
 void
@@ -148,10 +148,10 @@ lw6sys_signal_term_handler (int signum)
  *
  * @signum: SIGINT
  *
- * The own INT signal handler, will basically call 
+ * The own INT signal handler, will basically call
  * the @lw6sys_signal_send_quit function, which will
  * set a flag used later by @lw6sys_signal_poll_quit.
- * 
+ *
  * Return value: none.
  */
 void
@@ -169,7 +169,7 @@ lw6sys_signal_int_handler (int signum)
  * The own HUP signal handler, will basically do
  * something that shows the program is alive, typically
  * display a NOTICE message.
- * 
+ *
  * Return value: none.
  */
 void
@@ -196,7 +196,7 @@ lw6sys_signal_hup_handler (int signum)
  * @signum: SIGTERM
  *
  * The own SEGV signal handler, will display a backtrace and exit.
- * 
+ *
  * Return value: none.
  */
 void
@@ -236,7 +236,7 @@ lw6sys_signal_segv_handler (int signum)
  * @signum: SIGTERM
  *
  * The own FPE signal handler, will display a backtrace and exit.
- * 
+ *
  * Return value: none.
  */
 void
@@ -275,7 +275,7 @@ lw6sys_signal_fpe_handler (int signum)
  *
  * Sets the quit flag to 1, so that @lw6sys_signal_poll_quit returns
  * true, that is, tells the polling loop to stop.
- * 
+ *
  * Return value: none.
  */
 void
@@ -289,7 +289,7 @@ lw6sys_signal_send_quit ()
  * lw6sys_signal_poll_quit
  *
  * Tests wether we need to stop right now.
- * 
+ *
  * Return value: 1 if we need to stop now, 0 if program can continue.
  */
 int

@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -54,7 +54,7 @@ lw6sys_progress_bind (lw6sys_progress_t * progress, float *value)
  * @value: the value to point to
  *
  * Sets a progress struct to default values, that is, ranging from 0.0f to 1.0f.
- * This function won't touch the value, one needs to call begin or update 
+ * This function won't touch the value, one needs to call begin or update
  * or end to do that.
  *
  * Return value: none.
@@ -469,7 +469,7 @@ lw6sys_progress_begin (lw6sys_progress_t * progress)
  *
  * progress: the progress to update
  *
- * Sets the progress to the average between min and max, 
+ * Sets the progress to the average between min and max,
  * NULL values correctly handled.
  *
  * Return value: none

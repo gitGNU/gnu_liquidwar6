@@ -85,12 +85,12 @@
 	  (begin
 	    (lw6-log-notice node)
 	    ;; First, we try to establish a link to the server (OOB only)
-	    (while (and (< timestamp connect-time) 
+	    (while (and (< timestamp connect-time)
 			(not server-entry))
 		   (let (
 			 (entries (c-lw6p2p-node-get-entries node #f))
 			 )
-		     (begin		     
+		     (begin
 		       (set! timestamp (c-lw6sys-get-timestamp))
 		       (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8057/")
 						(assoc-ref x "id"))
@@ -103,18 +103,18 @@
 								     (assoc-ref server-entry "round")
 								     connect-round))
 					     )))
-			    entries)	 
+			    entries)
 		       (c-lw6sys-idle)
 		       (c-lw6p2p-node-poll node)
 		       )))
 	    ;; Then, we wait until the server (node-a) is up-to-date enough
 	    (if server-entry
-		(while (and (< timestamp connect-time) 
-			    (< (assoc-ref server-entry "round") connect-round))		       
+		(while (and (< timestamp connect-time)
+			    (< (assoc-ref server-entry "round") connect-round))
 		       (let (
 			     (entries (c-lw6p2p-node-get-entries node #f))
 			     )
-			 (begin		     
+			 (begin
 			   (set! timestamp (c-lw6sys-get-timestamp))
 			   (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8057/")
 						    (assoc-ref x "id"))
@@ -123,12 +123,12 @@
 						 (c-lw6p2p-node-poll node)
 						 (set! server-entry x)
 						 )))
-				entries)	 
+				entries)
 			   (c-lw6sys-idle)
 			   (c-lw6p2p-node-poll node)
 			   ))))
 	    (if (and server-entry (>= (assoc-ref server-entry "round") connect-round))
-		(if (c-lw6p2p-node-client-join 
+		(if (c-lw6p2p-node-client-join
 		     node
 		     (assoc-ref server-entry "id")
 		     (assoc-ref server-entry "url"))
@@ -251,7 +251,7 @@
 						   )
 						 )
 					     )))))
-			       (cond 
+			       (cond
 				(
 				 (= stage 10)
 				 (begin
@@ -268,7 +268,7 @@
 				   )
 				 )
 				(
-				 ;; Wait for peer to be at least the right round 
+				 ;; Wait for peer to be at least the right round
 				 (= stage 40)
 				 (if (lw6-test-check-nodes pilot node
 							   (list 0 1)
@@ -279,13 +279,13 @@
 				(
 				 (= stage 50)
 				 (begin
-				   ;; Now verifying that at this stage the game-state 
+				   ;; Now verifying that at this stage the game-state
 				   ;; is correct, will validate the whole test suite at
 				   ;; this point, it could fail later, but in that case
 				   ;; other nodes would receive garbage and *they* would
-				   ;; fail. 
+				   ;; fail.
 				   (c-lw6pil-sync-from-reference game-state pilot)
-				   (let ( 
+				   (let (
 					 (ref-checkpoint (c-lw6pil-suite-get-checkpoint 2))
 					 (this-checkpoint (lw6-test-checkpoint game-state pilot))
 					 )
@@ -340,18 +340,18 @@
 				   (if (> timestamp exit-timestamp)
 				       (set! stage 100))
 				   )
-				 )				
+				 )
 				)
 			       )
 			     ))))
 	    ;; Condition of success is: all checkpoints are OK
-	    (lw6-log-notice (format #f "test summary checkpoint-2-ok=~a checkpoint-4-ok=~a" 
+	    (lw6-log-notice (format #f "test summary checkpoint-2-ok=~a checkpoint-4-ok=~a"
 				    checkpoint-2-ok checkpoint-4-ok))
 	    (set! ret (and checkpoint-2-ok checkpoint-4-ok))
 	    (c-lw6p2p-node-close node)
 	    ))
 	(c-lw6net-quit)
-	(gc)     
+	(gc)
 	ret))))
 
 (c-lw6-set-ret (and

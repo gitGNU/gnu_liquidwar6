@@ -590,7 +590,7 @@ lw6p2p_db_default_name ()
  * @timestamp: the timestamp as returned by lw6sys_get_timestamp
  *
  * Returns a timestamp suitable for db usage (seconds since object
- * creation), set to the timestamp passed as an argument (milliseconds). 
+ * creation), set to the timestamp passed as an argument (milliseconds).
  * The reason we don't use
  * regular timestamps is that they are 1) too accurate (msec is useless
  * for what's involved here) and 2) too big and likely to be negative

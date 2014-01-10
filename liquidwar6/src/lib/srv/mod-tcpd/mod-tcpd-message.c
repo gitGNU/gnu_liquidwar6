@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -61,7 +61,7 @@ _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
 	    }
 	  else
 	    {
-	      /* 
+	      /*
 	       * Testing is_valid is enough here, is_alive makes no sense,
 	       * we have the result from the previous send, should it fail,
 	       * sock would have been set to an invalid value already.

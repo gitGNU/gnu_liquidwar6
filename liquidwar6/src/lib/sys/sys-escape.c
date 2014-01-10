@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -46,7 +46,7 @@
 
 /**
  * lw6sys_escape_http_uri
- * 
+ *
  * @src: the string to escape
  *
  * Transforms a string so that it does not contain any non-valid
@@ -130,10 +130,10 @@ lw6sys_escape_http_uri (const char *src)
 
 /**
  * lw6sys_escape_html_attribute
- * 
+ *
  * @src: the string to escape
  *
- * Transforms a string so that it can fit in a html field, 
+ * Transforms a string so that it can fit in a html field,
  * this is typically for alt="" or title="" fields so it
  * will convert a double quote into its equivalent escaped char.
  *
@@ -210,12 +210,12 @@ lw6sys_escape_html_attribute (const char *src)
 
 /**
  * lw6sys_escape_sql_value
- * 
+ *
  * @src: the string to escape
  *
  * Transforms a string so that it can fit as an SQL parameter,
  * it will get rid
- * URL chars, it will mostly convert chars over 128 into an 
+ * URL chars, it will mostly convert chars over 128 into an
  * hexadecimal form which replaces them in URLs.
  *
  * Return value: newly allocated string.

@@ -19,7 +19,7 @@
 ;; Contact author        : ufoot@ufoot.org
 
 (define lw6-get-default-backend
-  (lambda (get-backends-proc best-backend warning-msg) 
+  (lambda (get-backends-proc best-backend warning-msg)
     (let (
 	  (backends (get-backends-proc))
 	  )
@@ -34,15 +34,15 @@
        )))
 
 (define lw6-get-default-gfx-backend
-  (lambda () 
-    (lw6-get-default-backend c-lw6gfx-get-backends 
+  (lambda ()
+    (lw6-get-default-backend c-lw6gfx-get-backends
 			     "gl1"
 			     (_ "no gfx backend found"))
     ))
 
 (define lw6-get-default-snd-backend
-  (lambda () 
-    (lw6-get-default-backend c-lw6snd-get-backends 
+  (lambda ()
+    (lw6-get-default-backend c-lw6snd-get-backends
 			     "ogg"
 			     (_ "no snd backend found"))
     ))

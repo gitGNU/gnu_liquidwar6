@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -85,7 +85,7 @@ _lw6cfg_load (_lw6cfg_context_t * cfg_context, const char *filename)
  * @cfg_context: a context returned by @lw6cfg_init
  * @filename: a file path, absolute or relative
  *
- * Loads the given config file, and stores its values into the current 
+ * Loads the given config file, and stores its values into the current
  * context. Parameters which are both in the config file and given
  * as command line parameters, will be taken from the command-line.
  *

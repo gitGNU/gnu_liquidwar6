@@ -565,7 +565,7 @@ lw6sys_path_is_cwd (const char *path)
  * @path: a path
  *
  * Returns the parent path. That will return /foo when given
- * /foo/bar in input. 
+ * /foo/bar in input.
  *
  * Return value: a newly allocated string, must be freed.
  */
@@ -587,7 +587,7 @@ lw6sys_path_parent (const char *path)
 	      if (strcmp (pos + 1, "..") == 0)
 		{
 		  /*
-		   * Path ends with "..", so we just append ".." 
+		   * Path ends with "..", so we just append ".."
 		   * again on it.
 		   */
 		  parent = lw6sys_path_concat (stripped_path, "..");
@@ -595,7 +595,7 @@ lw6sys_path_parent (const char *path)
 	      else
 		{
 		  /*
-		   * Path has a slash (or whatever dir sep is 
+		   * Path has a slash (or whatever dir sep is
 		   * so we just get rid of that item
 		   */
 		  (*pos) = '\0';
@@ -625,7 +625,7 @@ lw6sys_path_parent (const char *path)
 		    }
 		  else
 		    {
-		      /* 
+		      /*
 		       * Path is just a file name, with no / no nothing,
 		       * we consider parent is "." since an unqualified
 		       * filename is by default taken from cwd

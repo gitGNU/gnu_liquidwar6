@@ -63,7 +63,7 @@ typedef struct lw6dyn_dl_handle_s
    * behave well when unloaded on the fly, even if we stop threads
    * using them and don't use them anymore. The workarround
    * is to have this flag defined, to skip the internal close
-   * to dlclose. LW will still free the memory, but won't call 
+   * to dlclose. LW will still free the memory, but won't call
    * libtool dlclose for real. Libtool keeps track of this internally
    * and won't reload it on next call, maintain reference counts etc.
    * so there's no real harm. Except it just looks ugly not to be

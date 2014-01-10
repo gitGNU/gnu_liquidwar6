@@ -298,7 +298,7 @@ lw6sys_setenv (const char *keyword, const char *value)
  * by underscores "_" characters. Characters will be changed to
  * uppercase. Any non alphanumeric character will be replaced
  * by "_". Finally, an "LW6_" prefix will be added. That is to say,
- * calling this function with "my-param" will set 
+ * calling this function with "my-param" will set
  * the "LW6_MY_PARAM" environment variable.
  *
  * Return value: 1 if success, 0 if failure

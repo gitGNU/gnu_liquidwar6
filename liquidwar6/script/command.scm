@@ -55,14 +55,14 @@
       (begin
 	(map (lambda (cursor-key)
 	       (let (
-		     (cursor (lw6-get-cursor cursor-key))		      
+		     (cursor (lw6-get-cursor cursor-key))
 		     )
 		     ;;;)
 		 #t))
 	     lw6-cursor-keys)
 	(map (lambda (cursor-key)
 	       (let (
-		      (cursor (lw6-get-cursor cursor-key))		      
+		      (cursor (lw6-get-cursor cursor-key))
 		     )
 		 (begin
 		   (if (hash-ref cursor "status")
@@ -90,7 +90,7 @@
     #f))
 
 (define lw6-command-func-local
-  (lambda (for-real) 
+  (lambda (for-real)
     (let (
 	  (pilot (lw6-get-game-global "pilot"))
 	  (node-id (lw6-get-game-global "node-id"))
@@ -106,7 +106,7 @@
 		       (next-seq (c-lw6pil-get-next-seq pilot timestamp))
 		       (delta-seq (- next-seq last-commit-seq))
 		       )
-		  (if (or (>= delta-seq 2) 
+		  (if (or (>= delta-seq 2)
 			  (and (>= delta-seq 1) for-real))
 		      (let (
 			(commands (if for-real
@@ -119,8 +119,8 @@
 			  (if for-real
 			      (map (lambda (cursor-key)
 				     (let (
-					   (cursor (lw6-get-cursor cursor-key))		      
-					   )		
+					   (cursor (lw6-get-cursor cursor-key))
+					   )
 				       (begin
 					 (hash-set! cursor "fire" #f)
 					 (hash-set! cursor "fire2" #f)
@@ -131,7 +131,7 @@
     ))
 
 (define lw6-command-func-network
-  (lambda (for-real) 
+  (lambda (for-real)
     #f
     ;todo
     ))

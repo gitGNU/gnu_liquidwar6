@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -75,7 +75,7 @@ _mod_udpd_poll (_mod_udpd_context_t * udpd_context,
 {
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_udpd poll"));
   /*
-   * No real polling here, polling is done in the main loop, 
+   * No real polling here, polling is done in the main loop,
    * at the listener level.
    */
 }

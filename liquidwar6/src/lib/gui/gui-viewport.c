@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -445,8 +445,8 @@ lw6gui_viewport_screen_to_map (lw6gui_viewport_t * viewport, float *map_x,
  * @viewport: viewport to work on
  * @map_dst_x: map det x coord (out param)
  * @map_dst_y: map dst y coord (out param)
- * @map_src_x: map src x coord 
- * @map_src_y: map src y coord 
+ * @map_src_x: map src x coord
+ * @map_src_y: map src y coord
  * @screen_dx: drag x (on screen)
  * @screen_dy: drag y (on screen)
  *

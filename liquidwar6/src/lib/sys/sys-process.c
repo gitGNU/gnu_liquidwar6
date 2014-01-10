@@ -112,7 +112,7 @@ lw6sys_process_fork_and_call (lw6sys_fork_func_t func, void *data)
       lw6sys_sleep (_SLEEP_WHEN_DONE);
 
       /*
-       * Here we exit in "dirty" mode without continuing, freeing 
+       * Here we exit in "dirty" mode without continuing, freeing
        * memory etc etc, the idea is that anyway, this would be very
        * complex to track and the fork facility is mostly used for
        * testing, so there's no point in being pedantic here
@@ -176,7 +176,7 @@ lw6sys_process_kill_1_9 (u_int64_t pid)
   if (!kill (pid, SIGKILL))
     {
       /*
-       * Still wait, just to make sure the call has made 
+       * Still wait, just to make sure the call has made
        * its way to the program, now there's nothing else
        * we can do to stop the child.
        */

@@ -18,29 +18,29 @@
 ;; Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;; Contact author        : ufoot@ufoot.org
 
-(define lw6-main 
-  (lambda () 
+(define lw6-main
+  (lambda ()
     (begin
       (load "load.scm")
       (lw6-load)
       ; Show the binary pedigree
-      (lw6-log-notice (format #f (_ "running \"~a\"") 
+      (lw6-log-notice (format #f (_ "running \"~a\"")
 			      (c-lw6sys-get-script-file)))
-      (lw6-log-notice (format #f (_ "log file \"~a\"") 
+      (lw6-log-notice (format #f (_ "log file \"~a\"")
 			      (c-lw6sys-get-log-file)))
       (if (or (c-lw6sys-build-is-mac-os-x) (c-lw6sys-build-is-ms-windows))
-	  (lw6-log-info (format #f 
-				(_ "environment \"~a\" is \"~a\"") 
-				"GUILE_LOAD_PATH" 
+	  (lw6-log-info (format #f
+				(_ "environment \"~a\" is \"~a\"")
+				"GUILE_LOAD_PATH"
 				(c-lw6sys-getenv "GUILE_LOAD_PATH"))))
       (if (c-lw6sys-build-is-mac-os-x)
-	  (lw6-log-info (format #f 
-				(_ "environment \"~a\" is \"~a\"") 
-				"DYLD_FALLBACK_LIBRARY_PATH" 
+	  (lw6-log-info (format #f
+				(_ "environment \"~a\" is \"~a\"")
+				"DYLD_FALLBACK_LIBRARY_PATH"
 				(c-lw6sys-getenv "DYLD_FALLBACK_LIBRARY_PATH"))))
       (c-lw6cfg-init)
       (lw6-load-config)
-      (if (not (equal? 
+      (if (not (equal?
 		(lw6-config-get-number lw6def-bin-id)
 		(c-lw6sys-build-get-bin-id)))
 	  (if (lw6-config-is-true? lw6def-reset-config-on-upgrade)
@@ -74,14 +74,14 @@
 		  (if dsp
 		      (begin
 			(lw6-set-game-global! "dsp" dsp)
-			(lw6-config-set-string! lw6def-gfx-backend gfx-backend)		    
+			(lw6-config-set-string! lw6def-gfx-backend gfx-backend)
 			(lw6-config-update-video)
 			(if snd-backend
 			    (let (
-				  (snd (c-lw6snd-new 
+				  (snd (c-lw6snd-new
 					snd-backend
-					(lw6-config-get-number lw6def-fx-volume) 
-					(lw6-config-get-number lw6def-water-volume) 
+					(lw6-config-get-number lw6def-fx-volume)
+					(lw6-config-get-number lw6def-water-volume)
 					(lw6-config-get-number lw6def-music-volume)))
 				  )
 			      (if snd

@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -141,7 +141,7 @@ lw6scm_with_guile (lw6scm_callback_t func, void *data)
    * ==32242==    by 0x4F0980F: ??? (in /usr/lib/libguile-2.0.so.22.4.0)
    * ==32242==    by 0x4F09846: ??? (in /usr/lib/libguile-2.0.so.22.4.0)
    * ==32242==    by 0x51CFCC7: GC_call_with_stack_base (in /usr/lib/libgc.so.1.0.3)
-   * ==32242== 
+   * ==32242==
    * ==32242== Use of uninitialised value of size 8
    * ==32242==    at 0x51CD52D: GC_mark_and_push_stack (in /usr/lib/libgc.so.1.0.3)
    * ==32242==    by 0x51CD74E: GC_push_all_eager (in /usr/lib/libgc.so.1.0.3)
@@ -162,7 +162,7 @@ lw6scm_with_guile (lw6scm_callback_t func, void *data)
    * So my for now, we just do nothing, maybe it's just the Valgrind context
    * that is broken, since Valgrind itself fiddles with threads.
    *
-   * See http://thread.gmane.org/gmane.lisp.guile.bugs/5340 
+   * See http://thread.gmane.org/gmane.lisp.guile.bugs/5340
    */
 #endif // LW6_GUILE2
   return scm_with_guile (func, data);

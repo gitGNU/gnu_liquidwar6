@@ -84,12 +84,12 @@
 	  (begin
 	    (lw6-log-notice node)
 	    ;; First, we try to establish a link to the server (OOB only)
-	    (while (and (< timestamp connect-time) 
+	    (while (and (< timestamp connect-time)
 			(not server-entry))
 		   (let (
 			 (entries (c-lw6p2p-node-get-entries node #f))
 			 )
-		     (begin		     
+		     (begin
 		       (set! timestamp (c-lw6sys-get-timestamp))
 		       (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8058/")
 						(assoc-ref x "id"))
@@ -97,23 +97,23 @@
 					     (lw6-log-notice (format #f "discovered \"~a\"" x))
 					     (c-lw6sys-idle)
 					     (c-lw6p2p-node-poll node)
-					     (set! server-entry x)					     
+					     (set! server-entry x)
 					     (lw6-log-notice (format #f "current round is ~a, will wait ~a to connect"
 								     (assoc-ref server-entry "round")
 								     connect-round))
 					     )))
-			    entries)	 
+			    entries)
 		       (c-lw6sys-idle)
 		       (c-lw6p2p-node-poll node)
 		       )))
 	    ;; Then, we wait until the server (node-a) is up-to-date enough
 	    (if server-entry
-		(while (and (< timestamp connect-time) 
-			    (< (assoc-ref server-entry "round") connect-round))		       
+		(while (and (< timestamp connect-time)
+			    (< (assoc-ref server-entry "round") connect-round))
 		       (let (
 			     (entries (c-lw6p2p-node-get-entries node #f))
 			     )
-			 (begin		     
+			 (begin
 			   (set! timestamp (c-lw6sys-get-timestamp))
 			   (map (lambda(x) (if (and (equal? (assoc-ref x "url") "http://localhost:8058/")
 						    (assoc-ref x "id"))
@@ -122,12 +122,12 @@
 						 (c-lw6p2p-node-poll node)
 						 (set! server-entry x)
 						 )))
-				entries)	 
+				entries)
 			   (c-lw6sys-idle)
 			   (c-lw6p2p-node-poll node)
 			   ))))
 	    (if (and server-entry (>= (assoc-ref server-entry "round") connect-round))
-		(if (c-lw6p2p-node-client-join 
+		(if (c-lw6p2p-node-client-join
 		     node
 		     (assoc-ref server-entry "id")
 		     (assoc-ref server-entry "url"))
@@ -250,9 +250,9 @@
 						   )
 						 )
 					     )))))
-			       (cond 
+			       (cond
 				(
-				 ;; Wait for peer to be at least the right round 
+				 ;; Wait for peer to be at least the right round
 				 (= stage 0)
 				 (if (lw6-test-check-nodes pilot node
 							   (list 0 1)
@@ -312,7 +312,7 @@
 			       ))
 		      )))
 	    ;; Condition of success is: all checkpoints are OK
-	    (lw6-log-notice (format #f "test summary checkpoint-4-ok=~a" 
+	    (lw6-log-notice (format #f "test summary checkpoint-4-ok=~a"
 				    checkpoint-4-ok))
 	    (set! ret (and checkpoint-4-ok))
 	    (c-lw6p2p-node-close node)

@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -361,7 +361,7 @@ lw6sys_is_little_endian ()
  * lw6sys_check_types_size
  *
  * Checks of common types and usefull structures, this is a debugging
- * function which helps finding compiler strange behaviors and 
+ * function which helps finding compiler strange behaviors and
  * programmer's bad intuitions.
  *
  * Return value: 1 if everything is OK, 0 if error.

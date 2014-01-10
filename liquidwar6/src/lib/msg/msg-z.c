@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -39,7 +39,7 @@ _encode_buffer_len (int in_len)
 {
   int out_len = 0;
   /*
-   * "the destination buffer, which must be at least 0.1% larger 
+   * "the destination buffer, which must be at least 0.1% larger
    * than sourceLen plus 12 bytes"
    *
    * By security, we use 1% and 24 bytes...
@@ -266,7 +266,7 @@ lw6msg_z_decode (const char *msg)
 		  break;
 		}
 /*
-* We don't log "very" long messages, this would 
+* We don't log "very" long messages, this would
 * make log file unusable in case of map dumps
 */
 	      if (strlen (msg) < _MSG_LEN_DUMP_MAX)

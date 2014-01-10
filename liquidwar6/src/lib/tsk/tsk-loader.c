@@ -476,7 +476,7 @@ _lw6tsk_loader_poll (_lw6tsk_loader_data_t * loader_data)
 
 /**
  * lw6tsk_loader_push_ldr
- * 
+ *
  * @loader: loader object
  * @map_path: map-path config entry
  * @relative_path: relative map path
@@ -525,7 +525,7 @@ lw6tsk_loader_push_ldr (lw6tsk_loader_t * loader, const char *map_path,
 
 /**
  * lw6tsk_loader_push_gen
- * 
+ *
  * @loader: loader object
  * @seed: seed string used to create the map
  * @display_w: display width
@@ -534,7 +534,7 @@ lw6tsk_loader_push_ldr (lw6tsk_loader_t * loader, const char *map_path,
  * @magic_number: used to calibrate speed
  *
  * Pushes a load request to the loader. Will stop the current
- * load and push a new one. The request is forwarded to the 
+ * load and push a new one. The request is forwarded to the
  * pseudo-random map generation module.
  *
  * Return value: none.
@@ -578,7 +578,7 @@ lw6tsk_loader_push_gen (lw6tsk_loader_t * loader, const char *seed,
  * game state (3 of them together). It's safe to use the received
  * level, display it right away, then wait for the rest. If things
  * are loaded fast enough, you just receive everything at once.
- * 
+ *
  * Return value: 1 if some data, 0 if none.
  */
 int

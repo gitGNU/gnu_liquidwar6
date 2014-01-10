@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -891,10 +891,10 @@ extern const char *LW6MAP_RULES_LIST[];
 #define LW6MAP_MIN_BODY_HEIGHT 6
 /*
  * Serious limit here, must be < 8191 because of possible
- * oververflow, but recent (!) optimizations even forces 
+ * oververflow, but recent (!) optimizations even forces
  * to be below 1500x1000. The idea is that too big maps
  * simply put computers to death and prevent smart
- * optimizations such as (but not limited to) putting 
+ * optimizations such as (but not limited to) putting
  * everything on one big texture in GL mode. I (ufoot) believe
  * if you can't have fun on a 1000x1000 map
  * then your map design is just broken...
@@ -1141,7 +1141,7 @@ typedef struct lw6map_layer_s
 
 /**
  * A meta layer is a special layer which contains,
- * for instance, informations such as where there's a 
+ * for instance, informations such as where there's a
  * special trick like glue.
  */
 typedef struct lw6map_meta_layer_s

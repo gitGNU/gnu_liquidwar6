@@ -1,20 +1,20 @@
 ;; Liquid War 6 is a unique multiplayer wargame.
 ;; Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014  Christian Mauduit <ufoot@ufoot.org>
-;; 
+;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
 ;; (at your option) any later version.
-;; 
+;;
 ;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
-;; 
+;;
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
-;; 
-;; 
+;;
+;;
 ;; Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;; Contact author        : ufoot@ufoot.org
 
@@ -39,7 +39,7 @@
 	  (last-selected 0)
 	  )
       (begin
-	(map (lambda (mi) 
+	(map (lambda (mi)
 	       (begin
 		 (if (assoc-ref mi "selected")
 		     (set! last-selected counter))
@@ -48,7 +48,7 @@
 	     (assoc-ref m "items"))
 	(set! m (assoc-set! m "selected-item" last-selected))
 	(set! counter 0)
-	(map (lambda (mi) 
+	(map (lambda (mi)
 	       (begin
 		 (assoc-set! mi "selected" (equal? counter last-selected))
 		 (set! counter (+ counter 1))
@@ -59,10 +59,10 @@
 
 (define lw6-push-menu-nowarp
   (lambda (menu)
-    (begin 
+    (begin
       (lw6-menu-action (lw6-current-menu) "on-push-child")
       (set! %lw6-menu-stack (cons menu %lw6-menu-stack))
-      (lw6-menu-action menu "on-push") 
+      (lw6-menu-action menu "on-push")
       (lw6-menu-update-selected-item menu)
       (lw6-menu-sync menu)
       (c-lw6gui-menu-set-breadcrumbs (assoc-ref menu "smob") (lw6-menu-breadcrumbs))
@@ -76,14 +76,14 @@
       ;;(lw6-menu-center)
       )))
 
-(define lw6-push-menu 
+(define lw6-push-menu
   (lambda (menu)
-    (begin 
+    (begin
       (lw6-push-menu-nowarp menu)
       ;;(lw6-menu-warp-mouse)
       )))
 
-(define lw6-pop-menu 
+(define lw6-pop-menu
   (lambda (menu)
     (begin
       (lw6-menu-action menu "on-pop")
@@ -104,7 +104,7 @@
   (lambda ()
     (set! %lw6-menu-stack (cdr %lw6-menu-stack))))
 
-(define lw6-current-menu 
+(define lw6-current-menu
   (lambda ()
     (if (lw6-empty-menu-stack?)
 	#f
@@ -133,9 +133,9 @@
 	   (menu (lw6-current-menu))
 	   (menu-smob (if menu (assoc-ref menu "smob") #f))
 	   )
-      (if menu 
+      (if menu
 	  (c-lw6gui-menu-has-popup menu-smob)
-	  #f))))	  
+	  #f))))
 
 (define lw6-menu-close-popup
   (lambda ()
@@ -143,7 +143,7 @@
 	   (menu (lw6-current-menu))
 	   (menu-smob (if menu (assoc-ref menu "smob") #f))
 	   )
-      (if menu 
+      (if menu
 	  (c-lw6gui-menu-close-popup menu-smob)))))
 
 (define lw6-current-menuitem
@@ -224,10 +224,10 @@
 (define lw6-menu-template
   (lambda (title help popup)
     (list
-     (cons "smob" (c-lw6gui-menu-new title 
+     (cons "smob" (c-lw6gui-menu-new title
 				     help
 				     popup
-				     (_ "Esc") 
+				     (_ "Esc")
 				     (lw6-config-is-true? lw6def-use-esc-button)))
      (cons "title" title)
      (cons "selected-item" 0)
@@ -244,7 +244,7 @@
 (define lw6-menu-item-template
   (lambda (label tooltip)
     (let (
-	  (menuitem (list (cons "label" label) 
+	  (menuitem (list (cons "label" label)
 			  (cons "tooltip" tooltip)))
 	  )
       (begin
@@ -332,8 +332,8 @@
       (set! item (assoc-set! item "values-list" values-list))
       (set! item (assoc-set! item "value" (index-func item)))
       (set! item (assoc-set! item "label" (label-func item)))
-      (set! item (assoc-set! item "on-plus" 
-			     (lambda (mi)		      
+      (set! item (assoc-set! item "on-plus"
+			     (lambda (mi)
 			       (let* (
 				      (menu-smob (assoc-ref (lw6-current-menu) "smob"))
 				      (value (assoc-ref mi "value"))
@@ -347,8 +347,8 @@
 				   (assoc-set! mi "label" (label-func mi))
 				   (c-lw6gui-menu-sync menu-smob mi)
 				   )))))
-      (set! item (assoc-set! item "on-minus" 
-			     (lambda (mi)		      
+      (set! item (assoc-set! item "on-minus"
+			     (lambda (mi)
 			       (let* (
 				      (menu-smob (assoc-ref (lw6-current-menu) "smob"))
 				      (value (assoc-ref mi "value"))
@@ -379,7 +379,7 @@
 
 (define lw6-menu-item-list-number-template
   (lambda (config-key labels tooltip)
-    (lw6-menu-item-list-template 
+    (lw6-menu-item-list-template
      lw6-menu-item-list-label-func
      (lw6-menu-item-list-number-update-func config-key)
      (lw6-menu-item-list-number-index-func config-key)
@@ -389,7 +389,7 @@
 
 (define lw6-menu-item-list-boolean-template
   (lambda (config-key label-true label-false tooltip)
-    (lw6-menu-item-list-template 
+    (lw6-menu-item-list-template
      lw6-menu-item-list-label-func
      (lw6-menu-item-list-boolean-update-func config-key)
      (lw6-menu-item-list-boolean-index-func config-key)
@@ -403,20 +403,20 @@
 	  (item (lw6-menu-item-template (label-func) tooltip))
 	  )
       (begin
-	(assoc-set! item "on-valid" 
-		    (lambda (mi)		      
+	(assoc-set! item "on-valid"
+		    (lambda (mi)
 		      (begin
 			(on-plus mi)
 			(assoc-set! mi "label" (label-func))
 			(c-lw6gui-menu-sync (assoc-ref (lw6-current-menu) "smob") mi))))
-	(assoc-set! item "on-plus" 
-		    (lambda (mi)		      
+	(assoc-set! item "on-plus"
+		    (lambda (mi)
 		      (begin
 			(on-plus mi)
 			(assoc-set! mi "label" (label-func))
 			(c-lw6gui-menu-sync (assoc-ref (lw6-current-menu) "smob") mi))))
-	(assoc-set! item "on-minus" 
-		    (lambda (mi)		      
+	(assoc-set! item "on-minus"
+		    (lambda (mi)
 		      (begin
 			(on-minus mi)
 			(assoc-set! mi "label" (label-func))
@@ -433,7 +433,7 @@
 
 (define lw6-menu-sync
   (lambda (menu)
-    (c-lw6gui-menu-select (assoc-ref menu "smob") 
+    (c-lw6gui-menu-select (assoc-ref menu "smob")
 			  (assoc-ref menu "selected-item")
 			  (assoc-ref menu "allow-scroll"))
     ))
@@ -462,7 +462,7 @@
 		 (c-lw6gui-mouse-pop-simple-click dsp)
 		 (c-lw6gui-mouse-pop-double-click dsp)
 		 (c-lw6gui-mouse-pop-triple-click dsp)
-		 (cond 
+		 (cond
 		  ((or
 		    (c-lw6gui-keyboard-pop-arrow-up dsp)
 		    (c-lw6gui-joystick1-pop-pad-up dsp)
@@ -505,7 +505,7 @@
 		    (c-lw6gui-keyboard-pop-arrow-left dsp)
 		    (c-lw6gui-joystick1-pop-pad-left dsp)
 		    (c-lw6gui-joystick2-pop-pad-left dsp))
-		   (if enabled 
+		   (if enabled
 		       (if
 			(lw6-menuitem-action menuitem "on-minus")
 			(lw6-play-fx-beep-valid)
@@ -574,7 +574,7 @@
 		   (begin
 		     (lw6-set-menuitem! menu menu-position #f)
 		     (set! menuitem (lw6-current-menuitem))
-		     (if (assoc-ref menuitem "enabled") 
+		     (if (assoc-ref menuitem "enabled")
 			 (if
 			  (lw6-menuitem-action menuitem "on-valid")
 			  (lw6-play-fx-beep-valid)
@@ -588,8 +588,8 @@
 			     )
 			     ))
 		     ))
-	       )	     
-	     )	    
+	       )
+	     )
 	    ((> menu-scroll 0)
 	     (begin
 	       (c-lw6gui-mouse-pop-simple-click dsp)
@@ -659,7 +659,7 @@
 	       (menu-esc (assoc-ref mouse-state "menu-esc"))
 	       )
 	    (if menu-smob
-		(c-lw6gui-menu-select-esc menu-smob menu-esc)))	       
+		(c-lw6gui-menu-select-esc menu-smob menu-esc)))
 	  ))))
 
 (define lw6-menu-breadcrumbs
@@ -668,8 +668,8 @@
 	  (menu-stack %lw6-menu-stack)
 	  )
       (reverse
-       (map (lambda (menuitem) 
-	      (assoc-ref menuitem "title")) 
+       (map (lambda (menuitem)
+	      (assoc-ref menuitem "title"))
 	    menu-stack)
        ))))
 
@@ -690,8 +690,8 @@
 	  ))))
 
 (define lw6-menu
-  (lambda () 
-    (begin 
+  (lambda ()
+    (begin
       (if (lw6-empty-menu-stack?)
 	  (c-lw6sys-signal-send-quit)
 	  )

@@ -98,7 +98,7 @@ lw6gen_seed_normalize (const char *seed)
 
 /**
  * lw6gen_seed_char
- * 
+ *
  * Returns a random char suitable for seed (letter or digit).
  *
  * Return value: a single char

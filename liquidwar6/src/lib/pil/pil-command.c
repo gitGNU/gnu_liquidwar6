@@ -799,7 +799,7 @@ lw6pil_command_execute_text (lw6pil_dump_t * dump,
  *
  * @local_cursors: local cursors information
  * @command: command to execute
- * 
+ *
  * Executes a local command, typically a cursor move, on the
  * local_cursor struct, without changing any game state.
  *
@@ -845,7 +845,7 @@ lw6pil_command_execute_local (lw6pil_local_cursors_t * local_cursors,
  *
  * @local_cursors: local cursors information
  * @command_text: command text to execute
- * 
+ *
  * Executes a local command text, typically a cursor move, on the
  * local_cursor struct, without changing any game state.
  *

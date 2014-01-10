@@ -173,7 +173,7 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 			      consts.connect_registered_nodes_delay)
 			    {
 			      /*
-			       * Go ahead, establishing the tentacle should not be 
+			       * Go ahead, establishing the tentacle should not be
 			       * long as we already have a "correct" ping.
 			       */
 			      lw6sys_log (LW6SYS_LOG_INFO,
@@ -214,7 +214,7 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 			  else
 			    {
 			      /*
-			       * Note : what we could do here is to schedule 
+			       * Note : what we could do here is to schedule
 			       * a check for this host, see if ping gets better...
 			       * Could be a problem if there are many many hosts and
 			       * automatic ping check takes time to cycle through all the list.

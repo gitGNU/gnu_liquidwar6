@@ -148,7 +148,7 @@ lw6cns_handler_poll ()
 
 /**
  * lw6cns_handler_remove
- * 
+ *
  * Remove console handler.
  *
  * Return value: none.

@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -171,7 +171,7 @@ mod_gl1_utils_set_video_mode (mod_gl1_utils_context_t * utils_context,
        */
       if (SDL_SetVideoMode (width, height, bpp, flags) == 0)
 	{
-	  /* 
+	  /*
 	   * This could happen for a variety of reasons,
 	   * including DISPLAY not being set, the specified
 	   * resolution not being available, etc.

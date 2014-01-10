@@ -28,8 +28,8 @@
 	   (has-subdirs (assoc-ref entry "has-subdirs"))
 	   (nb-submaps (assoc-ref entry "nb-submaps"))
 	   (forbidden (assoc-ref entry "forbidden"))
-	   (menuitem (lw6-menu-item-template title 
-					     (if has-subdirs 
+	   (menuitem (lw6-menu-item-template title
+					     (if has-subdirs
 						 (format #f
 							 (_ "Subfolder with ~a maps")
 							 nb-submaps)
@@ -102,7 +102,7 @@
 	   (relative-path "")
 	  )
       (begin
-	(map (lambda (path-elem) (begin 
+	(map (lambda (path-elem) (begin
 				   (set! relative-path (c-lw6sys-path-concat relative-path path-elem))
 				   (lw6-push-menu-nowarp (lw6-map-browse-menurelative relative-path))
 				   ))

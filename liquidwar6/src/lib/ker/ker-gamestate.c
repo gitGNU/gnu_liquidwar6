@@ -229,7 +229,7 @@ _lw6ker_game_state_repr (_lw6ker_game_state_t * game_state)
 
 /**
  * lw6ker_game_state_repr
- * 
+ *
  * @game_state: the game_state to query
  *
  * Gives a readable representation of the object.
@@ -804,7 +804,7 @@ _lw6ker_game_state_add_cursor (_lw6ker_game_state_t * game_state,
  * @team_color: the color we wish
  *
  * Adds a cursor in a game. Note that if there's already a cursor with
- * that id, it will fail, and the color is only the color we wish, 
+ * that id, it will fail, and the color is only the color we wish,
  * we might indeed be attributed another color on a successfull call.
  *
  * Return value: 1 on success, 0 on error.
@@ -1380,7 +1380,7 @@ _lw6ker_game_state_get_team_info (_lw6ker_game_state_t *
  * @team_color: the color to get informations about
  * @nb_cursors: number of cursors with this color (out param)
  * @nb_fighters: number of fighters with this color (out param)
- * 
+ *
  * Gets informations about a given color. Indeed, a color can have several
  * cursors, and knowing how many fighters there are with a given color
  * is probably the most important things about a color.
@@ -1409,7 +1409,7 @@ _lw6ker_game_state_get_nb_teams (_lw6ker_game_state_t * game_state)
 
 /**
  * lw6ker_game_state_get_nb_teams
- * 
+ *
  * @game_state: the game_state to query
  *
  * Tells how many teams there are in a game. This is different from the
@@ -2081,7 +2081,7 @@ _lw6ker_game_state_get_global_history (_lw6ker_game_state_t * game_state,
 }
 
 /**
- * lw6ker_game_state_get_global_history 
+ * lw6ker_game_state_get_global_history
  *
  * @game_state: the game_state to query
  * @i: the index of the history point
@@ -2111,7 +2111,7 @@ _lw6ker_game_state_get_latest_history (_lw6ker_game_state_t * game_state,
 }
 
 /**
- * lw6ker_game_state_get_latest_history 
+ * lw6ker_game_state_get_latest_history
  *
  * @game_state: the game_state to query
  * @i: the index of the history point
@@ -2196,7 +2196,7 @@ lw6ker_game_state_get_latest_history_max (lw6ker_game_state_t * game_state)
  * called often when one wants to know what's happening on the battlefield,
  * to draw it, for instance. If there's no fighter, the id is negative,
  * any id equal or greater than 0 (returned by this function) is valid.
- * 
+ *
  * Return value: the id of the fighter at that position.
  */
 int32_t
@@ -2219,7 +2219,7 @@ lw6ker_game_state_get_fighter_id (lw6ker_game_state_t * game_state,
  * so it could be "safe" to get fighter with id 0 then walk the array.
  * Previous versions of the game used to have this public (the array),
  * it has been hidden since.
- * 
+ *
  * Return value: pointer to the fighter with the given id.
  */
 lw6ker_fighter_t *
@@ -2243,7 +2243,7 @@ lw6ker_game_state_get_fighter_by_id (lw6ker_game_state_t * game_state,
  * no fighter in this place, it will return NULL, but nothing worse can happen. More
  * precisely, if the place is in a wall, it won't bug, unlike the non-bullet-proof
  * equivalent of this function.
- * 
+ *
  * Return value: pointer to the fighter at this position, or NULL if none.
  */
 lw6ker_fighter_t *
@@ -2282,7 +2282,7 @@ lw6ker_game_state_get_fighter_safe (lw6ker_game_state_t * game_state,
  * no fighter in this place, not only will it probably not return a valid value, but it will also
  * even segfault before that, trying to access non-existing structures in menory. So only
  * call this if you're sure there's a fighter here.
- * 
+ *
  * Return value: pointer to the fighter at this position, or NULL if none.
  */
 lw6ker_fighter_t *

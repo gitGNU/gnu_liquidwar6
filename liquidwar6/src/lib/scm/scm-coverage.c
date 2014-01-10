@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -64,12 +64,12 @@ lw6scm_coverage_new (lw6sys_list_t * funcs)
 
 /**
  * lw6scm_coverage_call
- * 
+ *
  * Registers a call on a given function.
  *
  * @coverage: the hash to use to store the update
  * @func: the name of the function (its callable scheme name)
- * 
+ *
  * Return value: none.
  */
 void

@@ -49,7 +49,7 @@ static u_int32_t seq_id = 0;
  * @open_relay: act as an open relay or not
  * @known_nodes: list of already known nodes
  * @network_reliability: drop 1 packet out of X
- * @trojan: act as a stupid trojan to test out automatic kick-off 
+ * @trojan: act as a stupid trojan to test out automatic kick-off
  *
  * Creates a new "pear to pear" node. This will fire the server
  * and allow client access, on demand. A lot of stuff can be done
@@ -489,7 +489,7 @@ lw6p2p_node_poll (lw6p2p_node_t * node, lw6sys_progress_t * progress)
   int ret = 0;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -747,7 +747,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 		       * to save time, since protocol analysis must
 		       * really remain simple. Besides this "double"
 		       * anlysis is rare since it only concerns one
-		       * message at the beginning of each incoming 
+		       * message at the beginning of each incoming
 		       * connection.
 		       */
 		      analyse_tcp_ret =
@@ -865,7 +865,7 @@ _udp_buffer_reply (void *func_data, void *data)
 		       * to save time, since protocol analysis must
 		       * really remain simple. Besides this "double"
 		       * anlysis is rare since it only concerns one
-		       * message at the beginning of each incoming 
+		       * message at the beginning of each incoming
 		       * connection.
 		       */
 		      analyse_udp_ret =
@@ -1266,7 +1266,7 @@ void
 lw6p2p_node_close (lw6p2p_node_t * node)
 {
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -1870,7 +1870,7 @@ lw6p2p_node_get_entries (lw6p2p_node_t * node, int skip_local)
   lw6sys_list_t *ret = NULL;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -1917,7 +1917,7 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node, int64_t seq_0)
  *
  * @node: node to start
  * @seq_0: seq when starting the server
- * 
+ *
  * Starts a node in server mode, if node was previously connected to other
  * nodes, disconnect it from any peer.
  *
@@ -1929,7 +1929,7 @@ lw6p2p_node_server_start (lw6p2p_node_t * node, int64_t seq_0)
   int ret = 0;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2132,8 +2132,8 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
  * @remote_id: id of remote node to join
  * @remote_url: url of remote node to join
  * @progress: progress indicator to show end-user the advancement of process
- * 
- * Starts a node in client mode, joins the given node, 
+ *
+ * Starts a node in client mode, joins the given node,
  * if node was previously connected to other
  * nodes, disconnect it from any peer.
  *
@@ -2146,7 +2146,7 @@ lw6p2p_node_client_join (lw6p2p_node_t * node, u_int64_t remote_id,
   int ret = 0;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2200,7 +2200,7 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
  * lw6p2p_node_disconnect
  *
  * @node: node to disconnect
- * 
+ *
  * Disconnects a node, if node was previously connected to other
  * nodes, disconnect it from any peer. Note that this does not
  * affect out-of-band connections, only real game-related links.
@@ -2211,7 +2211,7 @@ void
 lw6p2p_node_disconnect (lw6p2p_node_t * node)
 {
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2275,7 +2275,7 @@ lw6p2p_node_update_info (lw6p2p_node_t * node,
 {
   int ret = 0;
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2317,7 +2317,7 @@ void
 lw6p2p_node_calibrate (lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
 {
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2355,7 +2355,7 @@ lw6p2p_node_get_local_seq_0 (lw6p2p_node_t * node)
   int64_t ret = 0LL;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2397,7 +2397,7 @@ lw6p2p_node_get_local_seq_last (lw6p2p_node_t * node)
   int64_t ret = 0LL;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2438,7 +2438,7 @@ lw6p2p_node_get_seq_min (lw6p2p_node_t * node)
   int64_t ret = 0LL;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2479,7 +2479,7 @@ lw6p2p_node_get_seq_max (lw6p2p_node_t * node)
   int64_t ret = 0LL;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2521,7 +2521,7 @@ lw6p2p_node_get_seq_draft (lw6p2p_node_t * node)
   int64_t ret = 0LL;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2564,7 +2564,7 @@ lw6p2p_node_get_seq_reference (lw6p2p_node_t * node)
   int64_t ret = 0LL;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2607,7 +2607,7 @@ lw6p2p_node_is_peer_connected (lw6p2p_node_t * node, u_int64_t peer_id)
   int64_t ret = 0LL;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2652,7 +2652,7 @@ lw6p2p_node_is_peer_registered (lw6p2p_node_t * node, u_int64_t peer_id)
   int64_t ret = 0LL;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2700,7 +2700,7 @@ lw6p2p_node_is_seed_needed (lw6p2p_node_t * node)
   int ret = 0;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2747,7 +2747,7 @@ lw6p2p_node_is_dump_needed (lw6p2p_node_t * node)
   int ret = 0;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2790,7 +2790,7 @@ lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg)
   int ret = 0;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2853,7 +2853,7 @@ lw6p2p_node_get_next_reference_msg (lw6p2p_node_t * node,
   char *ret = NULL;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
@@ -2896,7 +2896,7 @@ _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node,
 	  /*
 	   * Special case, we do not even have *one* full message in stock
 	   * so we just get any seq available (the last one for that matter) and
-	   * call blindly the get_msg function, not to really get the message 
+	   * call blindly the get_msg function, not to really get the message
 	   * (there is none) but to trigger the code that will update MISS ranges
 	   */
 	  seq_min = lw6dat_warehouse_get_seq_min (node->warehouse);
@@ -2949,7 +2949,7 @@ lw6p2p_node_get_next_draft_msg (lw6p2p_node_t * node,
   char *ret = NULL;
 
   /*
-   * We lock in public function, the private one does not use 
+   * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */

@@ -62,7 +62,7 @@ lw6cns_term_support ()
   int ret = 0;
   char *env_term = NULL;
 
-  /* 
+  /*
    * We're sort of paranoid, if TERM is not a well-known proven-to-work
    * entry, then simply disable console support.
    */

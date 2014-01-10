@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -157,7 +157,7 @@ _mod_caca_init (int argc, const char *argv[],
 
   /*
    * Depending on global success, might be interesting to
-   * re-enable console output, should have been done by _mod_caca_quit, 
+   * re-enable console output, should have been done by _mod_caca_quit,
    * but, just in case...
    */
   if (caca_context == NULL)

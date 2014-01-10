@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -28,14 +28,14 @@
 
 /**
  * lw6msg_sort_str_by_seq_callback
- * 
+ *
  * @list_a: pointer to a list of int item
  * @list_b: pointer to a list of int item
  *
  * Sort callback for a list containing strings which begin by a seq number,
  * will sort with lower seq number first.
  *
- * Return value: -1 if @list_a < @list_b , 0 if @list_a == @list_b, 
+ * Return value: -1 if @list_a < @list_b , 0 if @list_a == @list_b,
  *   1 if @list_a > @list_b
  */
 int

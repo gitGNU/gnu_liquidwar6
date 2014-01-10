@@ -134,7 +134,7 @@ read_callback (void *callback_data, const char *element, const char *key,
 
 /**
  * lw6ldr_metadata_read
- * 
+ *
  * @metadata: structure containting read data (out param)
  * @dirname: map dirname (absolute path)
  *

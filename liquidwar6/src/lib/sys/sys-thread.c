@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -68,7 +68,7 @@ thread_callback (void *thread_handler)
 	{
 	  th->callback_func (th->callback_data);
 	}
-      /* 
+      /*
        * callback is over, we signal it to the caller, if needed
        */
       th->flag_callback_done = 1;
@@ -126,7 +126,7 @@ thread_callback (void *thread_handler)
 }
 
 /**
- * lw6sys_thread_create 
+ * lw6sys_thread_create
  *
  * @callback_func: the main callback, the function that will run the thread
  * @callback_join: function which will be called when joining, at the end

@@ -43,7 +43,7 @@ lw6_global_t lw6_global;
 
 /**
  * lw6_init_global
- * 
+ *
  * @argc: number of args as passed to main
  * @argv: array of strings as passed to main
  *
@@ -155,7 +155,7 @@ quit_net ()
 
 /**
  * lw6_quit_global
- * 
+ *
  * Frees global values. Will also garbage collect objects
  * in case Guile failed to do it perfectly (or we failed to
  * tell Guile how to do it). Important note: this function

@@ -154,7 +154,7 @@
 			      ))
 		     ;; commit now, even if there are no messages, won't harm
 		     (c-lw6pil-commit pilot)
-		     (cond 
+		     (cond
 		      (
 		       (= stage 0)
 		       (begin
@@ -175,11 +175,11 @@
 		       (if (>= (c-lw6pil-get-reference-current-seq pilot)
 			       (assoc-ref (c-lw6pil-suite-get-checkpoint 0) "seq"))
 			   (begin
-			     ;; Now verifying that at this stage the game-state 
+			     ;; Now verifying that at this stage the game-state
 			     ;; is correct, will validate the whole test suite at
 			     ;; this point, it could fail later, but in that case
 			     ;; other nodes would receive garbage and *they* would
-			     ;; fail. 
+			     ;; fail.
 			     (set! checkpoint-0-ok (lw6-test-verify-checksum game-state pilot 0))
 			     ;; Now proceed, putting the messages in the queue for good
 			     (lw6-log-notice "stage 30 & 4, putting messages in queue")
@@ -194,7 +194,7 @@
 			     ))
 		       )
 		      (
-		       ;; Wait for peer to be at least the right round 
+		       ;; Wait for peer to be at least the right round
 		       (= stage 30)
 		       (if (lw6-test-check-nodes pilot node
 						 (list 0 1 2)
@@ -205,11 +205,11 @@
 		      (
 		       (= stage 50)
 		       (begin
-			 ;; Now verifying that at this stage the game-state 
+			 ;; Now verifying that at this stage the game-state
 			 ;; is correct, will validate the whole test suite at
 			 ;; this point, it could fail later, but in that case
 			 ;; other nodes would receive garbage and *they* would
-			 ;; fail. 
+			 ;; fail.
 			 (set! checkpoint-2-ok (lw6-test-verify-checksum game-state pilot 2))
 			 ;; Now proceed, putting the messages in the queue for good
 			 (lw6-log-notice "stage 60 & 6, putting messages in queue")
@@ -257,7 +257,7 @@
 		       )
 		      )))
 	    ;; Condition of success is: all checkpoints are OK
-	    (lw6-log-notice (format #f "test summary checkpoint-0-ok=~a checkpoint-2-ok=~a checkpoint-4-ok=~a" 
+	    (lw6-log-notice (format #f "test summary checkpoint-0-ok=~a checkpoint-2-ok=~a checkpoint-4-ok=~a"
 				    checkpoint-0-ok checkpoint-2-ok checkpoint-4-ok))
 	    (set! ret (and checkpoint-0-ok checkpoint-2-ok checkpoint-4-ok))
 	    (c-lw6p2p-node-close node)

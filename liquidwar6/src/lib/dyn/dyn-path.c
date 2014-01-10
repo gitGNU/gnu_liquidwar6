@@ -210,7 +210,7 @@ lw6dyn_path_find_backend (int argc, const char *argv[],
  * finding the .so files in hidden .libs subdirectories.
  * This is different from the standard module loader, since it will search
  * for .so files with a slightly different name. The idea is to distinguish
- * modules that are truely loadable and shared code that can't be used 
+ * modules that are truely loadable and shared code that can't be used
  * standalone and can't either be stuffed in the main binary since it refers
  * to external dynamic library which will only be loaded at runtime.
  *

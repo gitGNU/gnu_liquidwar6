@@ -265,7 +265,7 @@ mod_gl1_utils_bitmap_array_clear (mod_gl1_utils_context_t * utils_context,
     }
 }
 
-/* 
+/*
  * This will actually delete the structure immediately and
  * not pospone its deletion as the name "schedule_delete"
  * could suggest. Still, the bitmaps themselves will remain

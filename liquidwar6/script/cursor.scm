@@ -66,7 +66,7 @@
 	  (cursors (lw6-get-game-global "cursors"))
 	  )
       (begin
-	(hash-set! cursors 
+	(hash-set! cursors
 		   (string-concatenate (list "cursor-" cursor-key))
 		   (lw6-make-cursor cursor-key))))))
 
@@ -90,7 +90,7 @@
 	   (player-color (lw6-config-get-string player-color-key))
 	   (player-control (lw6-config-get-string player-control-key))
 	   )
-      (if player-status 
+      (if player-status
 	  (let* (
 		 (cursor (lw6-enable-cursor cursor-key))
 		 (cursor-id (hash-ref cursor "id"))
@@ -112,7 +112,7 @@
 	   (player-color (lw6-config-get-string player-color-key))
 	   (player-control (lw6-config-get-string player-control-key))
 	   )
-      (if player-status 
+      (if player-status
 	  (let* (
 		 (cursor (lw6-enable-cursor cursor-key))
 		 (cursor-id (lw6-get-cursor-id-not-in-game-state game-state))
@@ -127,7 +127,7 @@
 (define lw6-cursor-prepare-map-defined-player-command
   (lambda (level game-state seq-0 cursor-key node-id)
     (let* (
-	   (player-color (c-lw6map-param-get level 
+	   (player-color (c-lw6map-param-get level
 					     (if (equal? cursor-key "1")
 						 lw6def-player1-color
 						 lw6def-player2-color)))
@@ -201,7 +201,7 @@
 	   (player-control (lw6-config-get-string player-control-key))
 	   )
       (if player-status
-	  (hash-set! cursor "mover" (cond 
+	  (hash-set! cursor "mover" (cond
 				     ((equal? player-control "mouse")
 				      lw6-mover-mouse-func)
 				     ((equal? player-control "keyboard")
@@ -239,7 +239,7 @@
 	   (bot-ai (c-lw6map-param-get level (string-concatenate (list cursor-key "-ai"))))
 	   (bot-speed (string->number (c-lw6map-param-get level lw6def-bot-speed)))
 	   (bot-iq (string->number (c-lw6map-param-get level lw6def-bot-iq)))
-	   (bot (c-lw6bot-new 
+	   (bot (c-lw6bot-new
 		 bot-ai
 		 game-state
 		 pilot
@@ -258,8 +258,8 @@
     (let* (
 	   (cursor (lw6-get-cursor cursor-key))
 	   )
-      (let ( 
-	    (bot (c-lw6bot-new 
+      (let (
+	    (bot (c-lw6bot-new
 		  bot-engine
 		  (lw6-get-game-global "game-state")
 		  (lw6-get-game-global "pilot")
@@ -309,4 +309,4 @@
 	       )
 	  (hash-set! cursor "mover" lw6-mover-universal-func)))
     ))
-	
+

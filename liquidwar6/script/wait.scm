@@ -76,6 +76,6 @@
 		       (lw6-node-poll)
 		       (lw6-console-poll)
 		       (lw6-sound-poll)
-		       (lw6-net)))	      
+		       (lw6-net)))
 	      (c-lw6gui-input-reset dsp)))))
     ))

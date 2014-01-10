@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -288,7 +288,7 @@ lw6gfx_pump_events (lw6gfx_backend_t * backend)
  * @debug_team_id: for debug display, team to display informations about
  * @debug_layer_id: for debug display, layer to display
  *
- * This is the major drawing function, the one that encapsulates all others. As 
+ * This is the major drawing function, the one that encapsulates all others. As
  * the program uses a separate thread to display things, we just pass this function
  * many parameters, and let it do its job alone. So many parameters might sometimes
  * be useless. It also allows the graphics backend decide wether menus and hud

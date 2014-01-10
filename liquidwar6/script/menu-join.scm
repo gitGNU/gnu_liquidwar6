@@ -32,10 +32,10 @@
 					 (format #f
 						 "~a: ~a~%~a: ~a~%~a: ~a~%~a: ~a~%~a: ~a~%~a: ~a"
 						 (_ "Version") version
-						 (_ "Id") id 
-						 (_ "URL") url 
-						 (_ "Description") description 
-						 (_ "Password") password 
+						 (_ "Id") id
+						 (_ "URL") url
+						 (_ "Description") description
+						 (_ "Password") password
 						 (_ "Map") level)))
 	   )
       (begin
@@ -76,8 +76,8 @@
 	    (if entries
 		(map (lambda (entry)
 		       (let* (
-			      (menuitem (lw6-join-menu-item m entry)) 
-			      (node-id (if menuitem (assoc-ref menuitem "node-id") #f)) 
+			      (menuitem (lw6-join-menu-item m entry))
+			      (node-id (if menuitem (assoc-ref menuitem "node-id") #f))
 			      )
 			 (begin
 			   ;;(lw6-log-notice (format #f "~a ~a ~a" node-id current-node-id tmp-item))
@@ -90,7 +90,7 @@
 		     entries)
 		(lw6-append-menuitem! m (lw6-join-menu-none-item))
 		)
-	    (if current-node-id 
+	    (if current-node-id
 		(begin
 		  ;;(lw6-log-notice selected-item)
 		  (set! m (assoc-set! m "selected-item" selected-item))

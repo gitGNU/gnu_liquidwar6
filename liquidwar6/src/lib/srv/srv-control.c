@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -79,7 +79,7 @@ _accepter_close_callback (void *func_data, void *data)
 
 /**
  * lw6srv_stop
- * 
+ *
  * @listener: listener to stop
  *
  * Stops a listener object, and frees it.

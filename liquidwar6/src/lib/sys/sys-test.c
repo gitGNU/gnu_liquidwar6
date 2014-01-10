@@ -4528,7 +4528,7 @@ lw6sys_test_register (int mode)
       if (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
 	{
 	  /*
-	   * For some reason, forking can wreck the output, 
+	   * For some reason, forking can wreck the output,
 	   * and NCurses gets lost.
 	   */
 	  LW6SYS_CUNIT_ADD_TEST (suite, _test_process);

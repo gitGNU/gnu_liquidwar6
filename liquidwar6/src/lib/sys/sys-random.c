@@ -31,9 +31,9 @@
 /**
  * lw6sys_random:
  *
- * @range: the high limit for random generated numbers. If you want 
+ * @range: the high limit for random generated numbers. If you want
  *         random numbers between 0 and 5, set this to 6.
- * 
+ *
  * Wrapper over standard random function. This one is thread safe.
  * This idea is not to provide cryptographic-proof random numbers,
  * rather generate sequences which are random enough to generate
@@ -41,7 +41,7 @@
  * on its first call, and results depend on timestamp, host name,
  * user name, and memory available.
  *
- * @Return value: a pseudo-random number 
+ * @Return value: a pseudo-random number
  */
 u_int32_t
 lw6sys_random (u_int32_t range)
@@ -111,11 +111,11 @@ lw6sys_random (u_int32_t range)
  *
  * @min: the min value, as a float
  * @max: the max value, as a float
- * 
+ *
  * Returns a random float number between min & max. Can be equal to
  * min or max.
  *
- * @Return value: a pseudo-random number 
+ * @Return value: a pseudo-random number
  */
 float
 lw6sys_random_float (float min, float max)

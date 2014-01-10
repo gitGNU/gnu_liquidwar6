@@ -34,9 +34,9 @@
 
 (define lw6-system-options-menu-display-fps-item
   (lambda ()
-    (lw6-menu-item-template-switch 
-     lw6-system-options-menu-display-fps-item-label 
-     lw6-system-options-menu-display-fps-item-toggle 
+    (lw6-menu-item-template-switch
+     lw6-system-options-menu-display-fps-item-label
+     lw6-system-options-menu-display-fps-item-toggle
      lw6-system-options-menu-display-fps-item-toggle
      (_ "Use this to check how fast your display is"))))
 
@@ -56,9 +56,9 @@
 
 (define lw6-system-options-menu-display-mps-item
   (lambda ()
-    (lw6-menu-item-template-switch 
-     lw6-system-options-menu-display-mps-item-label 
-     lw6-system-options-menu-display-mps-item-toggle 
+    (lw6-menu-item-template-switch
+     lw6-system-options-menu-display-mps-item-label
+     lw6-system-options-menu-display-mps-item-toggle
      lw6-system-options-menu-display-mps-item-toggle
      (_ "MPS stands for Moves Per Second, displaying this might reveal some slowing down in gameplay"))))
 
@@ -78,9 +78,9 @@
 
 (define lw6-system-options-menu-display-meta-item
   (lambda ()
-    (lw6-menu-item-template-switch 
-     lw6-system-options-menu-display-meta-item-label 
-     lw6-system-options-menu-display-meta-item-toggle 
+    (lw6-menu-item-template-switch
+     lw6-system-options-menu-display-meta-item-label
+     lw6-system-options-menu-display-meta-item-toggle
      lw6-system-options-menu-display-meta-item-toggle
      (_ "Do you want breadcrumbs, help and tooltips to be displayed?"))))
 
@@ -102,9 +102,9 @@
 
 (define lw6-system-options-menu-display-console-item
   (lambda ()
-    (lw6-menu-item-template-switch 
-     lw6-system-options-menu-display-console-item-label 
-     lw6-system-options-menu-display-console-item-toggle 
+    (lw6-menu-item-template-switch
+     lw6-system-options-menu-display-console-item-label
+     lw6-system-options-menu-display-console-item-toggle
      lw6-system-options-menu-display-console-item-toggle
      (_ "Console is a Guile interpreter which will allow you to type any command interactively, use at your own risk"))))
 
