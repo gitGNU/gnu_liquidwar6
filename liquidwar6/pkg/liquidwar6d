@@ -12,6 +12,8 @@
 # Provides: liquidwar6d
 # Required-Start: $local_fs $remote_fs $network
 # Required-Stop: $local_fs $remote_fs $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
 # Short-Description: start and stop Liquid War 6 Server
 # Description: Liquid War 6 is a unique multiplayer wargame.
 ### END INIT INFO
@@ -79,7 +81,7 @@ liquidwar6=/usr/local/bin/liquidwar6
 prog=liquidwar6
 userdir=/var/local/games/liquidwar6d
 pidfile=${userdir}/daemon.pid
-user=liquidwar6
+user=games
 
 # Following parameters might need to be changed
 title="public server"
