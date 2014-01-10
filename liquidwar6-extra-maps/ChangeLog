@@ -1,5 +1,10 @@
 2014-01-10  Christian Mauduit <ufoot@ufoot.org>
 
+	* liquidwar6-extra-maps/ChangeLog, liquidwar6/ChangeLog,
+	liquidwar6/script/Makefile.am: Oooops, forgot a file in Makefile
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
 	* liquidwar6-extra-maps/ChangeLog,
 	liquidwar6-extra-maps/configure.ac,
 	liquidwar6-extra-maps/debian/changelog, liquidwar6/ChangeLog,

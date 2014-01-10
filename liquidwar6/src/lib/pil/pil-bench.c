@@ -27,6 +27,8 @@
 #include "pil.h"
 #include "pil-internal.h"
 
+#include <math.h>
+
 #define BENCH_DURATION 10000L
 #define DUMMY_INIT 0LL
 #define DUMMY_INC 1LL
@@ -184,13 +186,66 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
    */
 
   (*value) =
-    ((float) (computed_reference_delta *
-	      LW6SYS_TICKS_PER_SEC)) / BENCH_DURATION;
+    lw6sys_math_lin2log (((float) (computed_reference_delta *
+				   LW6SYS_TICKS_PER_SEC)) / BENCH_DURATION,
+			 LW6MAP_LOG2LIN_BASE);
+}
+
+static int
+_write_bench (int argc, const char *argv[], float value)
+{
+  int ret = 0;
+  char *user_dir = NULL;
+  char *bench_txt_path = NULL;
+  char *bench_txt_content = NULL;
+  char *locale;
+  char *old_locale;
+
+  user_dir = lw6sys_get_user_dir (argc, argv);
+  if (user_dir)
+    {
+      bench_txt_path = lw6sys_path_concat (user_dir, _LW6PIL_BENCH_TXT);
+      if (bench_txt_path)
+	{
+	  locale = setlocale (LC_ALL, NULL);
+	  if (locale)
+	    {
+	      /*
+	       * We do need to make a copy in a separate buffer,
+	       * otherwise the content pointed by *locale
+	       * might change dynamically when calling setlocale
+	       */
+	      old_locale = lw6sys_str_copy (locale);
+
+	      setlocale (LC_ALL, "C");
+
+	      bench_txt_content = lw6sys_new_sprintf ("%0.2f\n", value);
+
+	      setlocale (LC_ALL, old_locale);
+	      if (old_locale)
+		{
+		  LW6SYS_FREE (old_locale);
+		}
+	    }
+	  if (bench_txt_content)
+	    {
+	      ret =
+		lw6sys_write_file_content (bench_txt_path, bench_txt_content);
+	      LW6SYS_FREE (bench_txt_content);
+	    }
+	  LW6SYS_FREE (bench_txt_path);
+	}
+      LW6SYS_FREE (user_dir);
+    }
+
+  return ret;
 }
 
 /**
  * lw6pil_bench
  *
+ * @argc: number of args as passed to main
+ * @argv: args passed to main
  * @bench_result: pointer to float, will contain the bench result
  * @progress: to inform the caller of the process advancement
  *
@@ -200,7 +255,8 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
  * Return value: 1 on success, 0 if failure
  */
 int
-lw6pil_bench (float *bench_result, lw6sys_progress_t * progress)
+lw6pil_bench (int argc, const char *argv[], float *bench_result,
+	      lw6sys_progress_t * progress)
 {
   int ret = 0;
 
@@ -258,6 +314,9 @@ lw6pil_bench (float *bench_result, lw6sys_progress_t * progress)
 		    {
 		      (*bench_result) = value;
 		    }
+
+		  _write_bench (argc, argv, value);
+
 		  ret = 1;
 		  _lw6pil_pilot_free (pilot);
 		}

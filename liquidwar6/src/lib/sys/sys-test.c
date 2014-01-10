@@ -216,6 +216,9 @@
 #define _TEST_MATH_HEARTBEAT_Y2 1.5f
 #define _TEST_MATH_BLINK_N 10
 #define _TEST_MATH_BLINK_PERIOD 3
+#define _TEST_MATH_LIN2LOG_LIN 10000
+#define _TEST_MATH_LIN2LOG_LOG 200.0f
+#define _TEST_MATH_LIN2LOG_BASE 100.0f
 #define _TEST_URL_IP_1 "127.0.0.1"
 #define _TEST_URL_PORT_1 1234
 #define _TEST_URL_IP_2 "5.6.7.8"
@@ -2300,6 +2303,8 @@ _test_math ()
     int ix, iy;
     float angle = 0.0f;
     int t, b;
+    int lin_lin2log = 0;
+    float log_lin2log = 0.0f;
 
     for (v1 = _TEST_MATH_POLY_WY1Y2S1_V1_MIN;
 	 v1 <= _TEST_MATH_POLY_WY1Y2S1_V1_MAX;
@@ -2348,6 +2353,44 @@ _test_math ()
       {
 	b = lw6sys_math_blink (t, _TEST_MATH_BLINK_PERIOD);
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("blink t=%d b=%d"), t, b);
+      }
+
+    lin_lin2log =
+      lw6sys_math_log2lin (_TEST_MATH_LIN2LOG_LOG, _TEST_MATH_LIN2LOG_BASE);
+    if (LW6SYS_TEST_ACK (lin_lin2log == _TEST_MATH_LIN2LOG_LIN))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("OK, logarithmic to linear conversion gives %f -> %d"),
+		    _TEST_MATH_LIN2LOG_LOG, lin_lin2log);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("logarithmic to linear conversion gives %f -> %d, expected %d"),
+		    _TEST_MATH_LIN2LOG_LOG, lin_lin2log,
+		    _TEST_MATH_LIN2LOG_LIN);
+	ret = 0;
+      }
+    log_lin2log =
+      lw6sys_math_lin2log (_TEST_MATH_LIN2LOG_LIN, _TEST_MATH_LIN2LOG_BASE);
+    if (LW6SYS_TEST_ACK
+	(roundf (log_lin2log) == roundf (_TEST_MATH_LIN2LOG_LOG)))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("OK, logarithmic to linear conversion gives %d -> %f"),
+		    _TEST_MATH_LIN2LOG_LIN, log_lin2log);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_
+		    ("logarithmic to linear conversion gives %d -> %f, expected %f"),
+		    _TEST_MATH_LIN2LOG_LIN, log_lin2log,
+		    _TEST_MATH_LIN2LOG_LOG);
+	ret = 0;
       }
   }
 

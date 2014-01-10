@@ -882,7 +882,7 @@ populate_references ()
 		 ("Start the game in demo mode. 2 bots play against each other forever."));
   POPULATE_VOID (LW6DEF_BENCH,
 		 _x_
-		 ("Runs a benchmarking test which will report an approximative performance estimation of the game on your computer."));
+		 ("Runs a benchmarking test which will report an approximative performance estimation of the game on your computer. The result is in an arbitrary unit, but it is logarithmic, and works the way the audio decibels do. That is, 30 is 10 times greater than 20. 10 is supposed to be a reference of a computer that can reasonnably run the game. So if you get 40, you are 1000 times powerfull enough. Negative values can technically show up on very slow computers."));
   POPULATE_INT (LW6DEF_BENCH_VALUE,
 		_x_
 		("Contains the current bench value of the computer running the game. This is used internally to choose the right map settings. You can override this value and use your own but... use at your own risk. Pretending you have a faster computer than what you really have can lead to confusion."),

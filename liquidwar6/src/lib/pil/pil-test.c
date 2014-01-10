@@ -47,6 +47,8 @@
  */
 //#define _TEST_DUMP_COMMAND_CHECKSUM 0x3ce57a70
 
+#define _TEST_ARGC 1
+#define _TEST_ARGV0 "toto"
 #define _TEST_MAP_WIDTH 45
 #define _TEST_MAP_HEIGHT 15
 #define _TEST_MAP_NB_LAYERS 7
@@ -127,20 +129,22 @@ static char *_test_commands[] = {
 static void
 _test_bench ()
 {
-  int ret = 0;
+  int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
     float bench_result = 0.0f;
+    const int argc = _TEST_ARGC;
+    const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-    if (lw6pil_bench (&bench_result, NULL))
+    if (lw6pil_bench (argc, argv, &bench_result, NULL))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("bench=%0.1f"), bench_result);
-	ret = 1;
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bench failed"));
+	ret = 0;
       }
   }
 

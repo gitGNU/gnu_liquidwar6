@@ -276,3 +276,47 @@ lw6sys_math_blink (int64_t x, int period)
 
   return ret;
 }
+
+
+/**
+ * lw6sys_math_lin2log
+ *
+ * @lin_value: value on a linear scale
+ * @base: the base to use, 10 for decibel-like scale
+ *
+ * Converts a linar-scale value to a logarithmic one. The scale is done
+ * so that base in linear mode is base in scaled mode, and it uses a
+ * log-base conversion, so that with a base 10 it behaves the way
+ * the decibel sound-volume unit works.
+ *
+ * Return value: value on a logarithmic scale.
+ */
+float
+lw6sys_math_lin2log (int lin_value, int base)
+{
+  base = lw6sys_fmax (2.0f, base);
+
+  return base * logf (lw6sys_imax (1, lin_value)) / logf (base);
+}
+
+/**
+ * lw6sys_math_log2lin
+ *
+ * @lin_value: value on a linear scale
+ * @base: the base to use, 10 for decibel-like scale
+ *
+ * Converts a linar-scale value to a logarithmic one. The scale is done
+ * so that 10 in linear mode is 10 in scaled mode, and it uses a
+ * log-base conversion, so that with a base 10 it behaves the way
+ * the decibel sound-volume unit works.
+ *
+ * Return value: value on a linear scale.
+ */
+int
+lw6sys_math_log2lin (float log_value, int base)
+{
+  base = lw6sys_fmax (2.0f, base);
+
+  return lw6sys_imax (1,
+		      (int) roundf (expf (log_value * logf (base) / base)));
+}

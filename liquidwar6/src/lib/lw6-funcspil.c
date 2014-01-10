@@ -45,7 +45,7 @@ _scm_lw6pil_bench ()
   lw6sys_progress_default (&progress, &(lw6_global.progress));
   lw6sys_progress_begin (&progress);
 
-  if (lw6pil_bench (&c_ret, &progress))
+  if (lw6pil_bench (lw6_global.argc, lw6_global.argv, &c_ret, &progress))
     {
       ret = scm_from_int (ceil (c_ret));
     }

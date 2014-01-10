@@ -30,6 +30,7 @@
 #define _LW6PIL_RANGE_SEQ_0 1000000000
 #define _LW6PIL_YIELD_LIMIT_MSEC 3000
 #define _LW6PIL_YIELD_PERIOD_MSEC 500
+#define _LW6PIL_BENCH_TXT "bench.txt"
 
 typedef struct _lw6pil_pilot_s
 {

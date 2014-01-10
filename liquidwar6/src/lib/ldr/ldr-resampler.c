@@ -114,8 +114,7 @@ _check_limits (lw6ldr_hints_t * hints, int *w, int *h)
 
 static float
 _estimate_capacity (lw6map_rules_t * rules, lw6ldr_hints_t * hints, int w,
-		    int h, int bench_value, int magic_number,
-		    int expected_depth, float gray_level)
+		    int h, int expected_depth, float gray_level)
 {
   float ret = 0.0f;
   int surface;
@@ -236,6 +235,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
   float required;
   float capacity;
   float capacity_orig;
+  int lin_bench_value;
 
   memset (resampler, 0, sizeof (lw6ldr_resampler_t));
 
@@ -309,12 +309,13 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 	  /*
 	   * Step 3, take bench in account
 	   */
-	  capacity_orig = ((float) bench_value) * ((float) magic_number);
+	  lin_bench_value =
+	    lw6sys_math_log2lin (bench_value, LW6MAP_LOG2LIN_BASE);
+	  capacity_orig = ((float) lin_bench_value) * ((float) magic_number);
 	  capacity = capacity_orig;
 	  required =
 	    _estimate_capacity (&param->rules, hints, target_w, target_h,
-				bench_value, magic_number, expected_depth,
-				gray_level);
+				expected_depth, gray_level);
 	  if (required > 0.0f)
 	    {
 	      f = 1.0f;
@@ -328,16 +329,17 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 		      tmp_h = target_h * f;
 		      required =
 			_estimate_capacity (&param->rules, hints, tmp_w,
-					    tmp_h, bench_value, magic_number,
+					    tmp_h,
 					    expected_depth, gray_level);
 		    }
 		  if (tmp_w != target_w || tmp_h != target_h)
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
 				  _x_
-				  ("required=%f capacity=%f bench_value=%d -> downsizing from %dx%d to %dx%d"),
+				  ("required=%f capacity=%f bench_value=%d lin_bench_value=%d -> downsizing from %dx%d to %dx%d"),
 				  required, capacity_orig, bench_value,
-				  target_w, target_h, tmp_w, tmp_h);
+				  lin_bench_value, target_w, target_h, tmp_w,
+				  tmp_h);
 		      target_w = tmp_w;
 		      target_h = tmp_h;
 		    }
@@ -352,7 +354,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 		      tmp_h = target_h * f;
 		      required =
 			_estimate_capacity (&param->rules, hints, tmp_w,
-					    tmp_h, bench_value, magic_number,
+					    tmp_h,
 					    expected_depth, gray_level);
 		    }
 		  if (tmp_w != target_w || tmp_h != target_h)

@@ -301,7 +301,8 @@ typedef struct lw6pil_pilot_s
 } lw6pil_pilot_t;
 
 /* pil-bench.c */
-extern int lw6pil_bench (float *bench_result, lw6sys_progress_t * progress);
+extern int lw6pil_bench (int argc, const char *argv[], float *bench_result,
+			 lw6sys_progress_t * progress);
 
 /* pil-command.c */
 extern lw6pil_command_t *lw6pil_command_new (const char *command_text,

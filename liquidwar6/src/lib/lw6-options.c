@@ -205,7 +205,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	      float bench_result = 0.0f;
 
 	      lw6sys_log_clear (NULL);
-	      ret = lw6pil_bench (&bench_result, NULL);
+	      ret = lw6pil_bench (argc, argv, &bench_result, NULL);
 	      lw6hlp_print_bench (bench_result, stdout);
 
 	      (*run_game) = 0;

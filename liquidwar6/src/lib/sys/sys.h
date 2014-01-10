@@ -1072,6 +1072,8 @@ extern float lw6sys_math_angle_360 (int x, int y);
 extern float lw6sys_math_heartbeat (int64_t x, int period, float y1,
 				    float y2);
 extern int lw6sys_math_blink (int64_t x, int period);
+extern float lw6sys_math_lin2log (int lin_value, int base);
+extern int lw6sys_math_log2lin (float log_value, int base);
 
 /* sys-mem.c */
 #ifdef LW6_OPTIMIZE

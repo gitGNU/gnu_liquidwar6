@@ -1397,6 +1397,14 @@ typedef struct lw6map_level_s
   lw6map_param_t param;
 } lw6map_level_t;
 
+
+/*
+ * Base used to make conversions between logarithmic
+ * and linear scales. Initially used to handle bench
+ * which is set by pil and read by ldr.
+ */
+#define LW6MAP_LOG2LIN_BASE 10
+
 /*
  * Commodity inline setters/getters
  */
