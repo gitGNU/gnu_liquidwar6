@@ -655,10 +655,26 @@ _log_to_console (FILE * f, const char *level_str, const char *fmt, va_list ap)
 {
   if (_console_enable_state)
     {
-      fprintf (f, "%s: %s", lw6sys_build_get_package_tarname (), level_str);
-      vfprintf (f, fmt, ap);
-      fprintf (f, "\n");
-      fflush (f);
+      time_t t_now;
+      struct tm tm_now;
+      struct tm *tm_ret = NULL;
+      struct timeval timeval_now;
+
+      memset (&t_now, 0, sizeof (time_t));
+      memset (&tm_now, 0, sizeof (struct tm));
+      memset (&timeval_now, 0, sizeof (struct timeval));
+      gettimeofday (&timeval_now, NULL);
+      t_now = timeval_now.tv_sec;
+      tm_ret = localtime_r (&t_now, &tm_now);
+      if (tm_ret == &tm_now)
+	{
+	  fprintf (f, "%s: (%02d:%02d:%02d) %s",
+		   lw6sys_build_get_package_tarname (), (int) tm_now.tm_hour,
+		   (int) tm_now.tm_min, (int) tm_now.tm_sec, level_str);
+	  vfprintf (f, fmt, ap);
+	  fprintf (f, "\n");
+	  fflush (f);
+	}
     }
 }
 

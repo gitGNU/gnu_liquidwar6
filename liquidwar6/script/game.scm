@@ -357,8 +357,24 @@
 
 (define lw6-game-start-server-step2
   (lambda ()
+    (let (
+	  (node (lw6-get-game-global "node"))
+	  )
+      (if node
+	  (begin
+	    (c-lw6p2p-node-server-start node 1)
+	    (lw6-game-start-local-step2)
+	    (lw6-set-game-global! "solo" #f)
+	    (lw6-set-game-global! "network" #t)
+	    )
+	  )
+      )))
+
+(define lw6-game-start-join-step2
+  (lambda ()
     (begin
-      (lw6-game-start-local-step2)
+      ;;(lw6-game-start-local-step2)
+      (lw6-log-notice "TODO join")
       (lw6-set-game-global! "solo" #f)
       (lw6-set-game-global! "network" #t)
       )))
