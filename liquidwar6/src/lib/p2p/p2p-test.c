@@ -145,6 +145,7 @@
 #define _TEST_NODE_PUBLIC_URL4 "http://localhost:8070/"
 #define _TEST_NODE_PUBLIC_URL5 "http://localhost:8071/"
 #define _TEST_NODE_PUBLIC_URL6 "http://localhost:8072/"
+#define _TEST_NODE_UNREACHABLE_URL "http://ufoot.org:9000/"
 #define _TEST_NODE_IP1 NULL
 #define _TEST_NODE_IP2 NULL
 #define _TEST_NODE_IP3 LW6NET_ADDRESS_LOOPBACK
@@ -169,6 +170,7 @@
 #define _TEST_BOGUS_BACKEND "bogus"
 
 #define _TEST_NODE_ACK_DELAY_MSEC 7500
+#define _TEST_NODE_REFRESH_DURATION 3000
 #define _TEST_NODE_OOB_DURATION 9000
 #define _TEST_NODE_CMD_DURATION (9000+_TEST_NODE_ACK_DELAY_MSEC)
 #define _TEST_NODE_API_DURATION_JOIN 500
@@ -946,23 +948,47 @@ _oob_with_backends (char *cli_backends, char *srv_backends)
   lw6p2p_node_t *node5 = NULL;
   lw6p2p_node_t *node6 = NULL;
   int64_t end_timestamp = 0LL;
+  int64_t refresh_timestamp = 0LL;
 
   lw6sys_log (LW6SYS_LOG_NOTICE,
 	      _x_ ("testing oob with backends \"%s\" and \"%s\""),
 	      cli_backends, srv_backends);
 
   ret = 0;
+  refresh_timestamp = lw6sys_get_timestamp () + _TEST_NODE_REFRESH_DURATION;
   end_timestamp = lw6sys_get_timestamp () + _TEST_NODE_OOB_DURATION;
   if (_init_nodes
       (cli_backends, srv_backends, &db12, &db34, &db56, &node1, &node2,
        &node3, &node4, &node5, &node6))
     {
+      ret = 1;
+
+      while (lw6sys_get_timestamp () < refresh_timestamp)
+	{
+	  _poll_nodes (node1, node2, node3, node4, node5, node6);
+	}
+      ret =
+	lw6p2p_node_refresh (node1, lw6p2p_node_get_id (node2),
+			     _TEST_NODE_UNREACHABLE_URL) && ret;
+      ret =
+	lw6p2p_node_refresh (node2, lw6p2p_node_get_id (node3),
+			     _TEST_NODE_UNREACHABLE_URL) && ret;
+      ret =
+	lw6p2p_node_refresh (node3, lw6p2p_node_get_id (node4),
+			     _TEST_NODE_UNREACHABLE_URL) && ret;
+      ret =
+	lw6p2p_node_refresh (node4, lw6p2p_node_get_id (node5),
+			     _TEST_NODE_UNREACHABLE_URL) && ret;
+      ret =
+	lw6p2p_node_refresh (node5, lw6p2p_node_get_id (node6),
+			     _TEST_NODE_UNREACHABLE_URL) && ret;
+      ret =
+	lw6p2p_node_refresh (node6, lw6p2p_node_get_id (node1),
+			     _TEST_NODE_UNREACHABLE_URL) && ret;
       while (lw6sys_get_timestamp () < end_timestamp)
 	{
 	  _poll_nodes (node1, node2, node3, node4, node5, node6);
 	}
-
-      ret = 1;
 
       _quit_nodes (db12, db34, db56, node1, node2, node3, node4, node5,
 		   node6);

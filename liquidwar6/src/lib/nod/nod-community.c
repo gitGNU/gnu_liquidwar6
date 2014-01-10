@@ -205,6 +205,56 @@ lw6nod_info_community_has_url (lw6nod_info_t * info, const char *url)
 }
 
 /**
+ * lw6nod_info_community_get_id_from_url
+ *
+ * @info: node info object to test
+ * @url: URL of the member we want to check
+ *
+ * Returns the id of the node with this URL, if it's known to us.
+ *
+ * Return value: id if it's the community, else 0
+ */
+int64_t
+lw6nod_info_community_get_id_from_url (lw6nod_info_t * info, const char *url)
+{
+  int64_t ret = 0LL;
+  lw6nod_ref_info_t *ref_info = NULL;
+
+  ref_info = _lw6nod_node_info_community_get_by_url (info, url);
+  if (ref_info)
+    {
+      ret = ref_info->id_int;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6nod_info_community_get_url_from_id
+ *
+ * @info: node info object to test
+ * @id: ID of the member we want to check
+ *
+ * Returns the id of the node with this URL, if it's known to us.
+ *
+ * Return value: url if it's the community else NULL, must be freed
+ */
+char *
+lw6nod_info_community_get_url_from_id (lw6nod_info_t * info, int64_t id)
+{
+  char *ret = NULL;
+  lw6nod_ref_info_t *ref_info = NULL;
+
+  ref_info = _lw6nod_node_info_community_get_by_id (info, id);
+  if (ref_info && ref_info->url)
+    {
+      ret = lw6sys_str_copy (ref_info->url);
+    }
+
+  return ret;
+}
+
+/**
  * lw6nod_info_community_remove_by_id
  *
  * @info: node info object to modify

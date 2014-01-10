@@ -154,31 +154,9 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
   return ret;
 }
 
-int
-_lw6p2p_explore_verify_nodes_if_needed (_lw6p2p_node_t * node)
-{
-  int ret = 0;
-  int64_t now = 0;
-  int delay = node->db->data.consts.explore_verify_nodes_delay;
-
-  now = lw6sys_get_timestamp ();
-  if (node->explore.next_verify_nodes_timestamp < now)
-    {
-      node->explore.next_verify_nodes_timestamp =
-	now + delay / 2 + lw6sys_random (delay);
-      ret = _lw6p2p_explore_verify_nodes (node);
-    }
-  else
-    {
-      // OK, up to date
-      ret = 1;
-    }
-
-  return ret;
-}
-
-static void
-_start_verify_node (_lw6p2p_node_t * node, char *public_url)
+void
+_lw6p2p_explore_start_verify_node (_lw6p2p_node_t * node,
+				   const char *public_url)
 {
   _lw6p2p_cli_oob_callback_data_t *cli_oob = NULL;
   int i;
@@ -212,6 +190,29 @@ _start_verify_node (_lw6p2p_node_t * node, char *public_url)
 }
 
 int
+_lw6p2p_explore_verify_nodes_if_needed (_lw6p2p_node_t * node)
+{
+  int ret = 0;
+  int64_t now = 0;
+  int delay = node->db->data.consts.explore_verify_nodes_delay;
+
+  now = lw6sys_get_timestamp ();
+  if (node->explore.next_verify_nodes_timestamp < now)
+    {
+      node->explore.next_verify_nodes_timestamp =
+	now + delay / 2 + lw6sys_random (delay);
+      ret = _lw6p2p_explore_verify_nodes (node);
+    }
+  else
+    {
+      // OK, up to date
+      ret = 1;
+    }
+
+  return ret;
+}
+
+int
 _select_unverified_node_callback (void *func_data, int nb_fields,
 				  char **fields_values, char **fields_names)
 {
@@ -225,7 +226,7 @@ _select_unverified_node_callback (void *func_data, int nb_fields,
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("node with NULL id found url=\"%s\""),
 		      fields_values[0]);
-	  _start_verify_node (node, fields_values[0]);
+	  _lw6p2p_explore_start_verify_node (node, fields_values[0]);
 	}
       else
 	{

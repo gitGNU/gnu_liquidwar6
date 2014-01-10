@@ -2160,6 +2160,64 @@ lw6p2p_node_client_join (lw6p2p_node_t * node, u_int64_t remote_id,
   return ret;
 }
 
+/*
+ * This function *must* be called in locked mode
+ */
+int
+_lw6p2p_node_refresh (_lw6p2p_node_t * node, u_int64_t remote_id,
+		      const char *remote_url)
+{
+  int ret = 1;
+  char *url_from_id = NULL;
+
+  url_from_id =
+    lw6nod_info_community_get_url_from_id (node->node_info, remote_id);
+  if (url_from_id)
+    {
+      if (!lw6sys_str_is_same (remote_url, url_from_id))
+	{
+	  _lw6p2p_explore_start_verify_node (node, url_from_id);
+	}
+      LW6SYS_FREE (url_from_id);
+    }
+  _lw6p2p_explore_start_verify_node (node, remote_url);
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_refresh
+ *
+ * @node: node to use
+ * @remote_id: id of remote node to refresh
+ * @remote_url: url of remote node to refresh
+ *
+ * Forces a refresh of a remote node, that is, try and get more up-to-date
+ * informations from it, not waiting for the standard update schedule.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6p2p_node_refresh (lw6p2p_node_t * node, u_int64_t remote_id,
+		     const char *remote_url)
+{
+  int ret = 0;
+
+  /*
+   * We lock in public function, the private one does not use
+   * the lock, because it could be used in other functions
+   * that are themselves locked...
+   */
+  if (_node_lock (node))
+    {
+      ret = _lw6p2p_node_refresh ((_lw6p2p_node_t *) node, remote_id,
+				  remote_url);
+      _node_unlock (node);
+    }
+
+  return ret;
+}
+
 void
 _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
 {

@@ -357,7 +357,7 @@ _test_node ()
 		       _TEST_OPEN_RELAY, _TEST_UPTIME,
 		       _TEST_IDLE_SCREENSHOT_SIZE,
 		       _TEST_IDLE_SCREENSHOT_DATA);
-    if (info)
+    if (LW6SYS_TEST_ACK (info))
       {
 	lw6nod_info_update (info, _TEST_COMMUNITY, _TEST_ROUND, _TEST_LEVEL,
 			    _TEST_REQUIRED_BENCH, _TEST_NB_COLORS,
@@ -375,20 +375,21 @@ _test_node ()
 			    _TEST_GAME_SCREENSHOT_SIZE,
 			    _TEST_GAME_SCREENSHOT_DATA);
 
-	if (lw6nod_info_add_discovered_node (info, _TEST_URL))
+	if (LW6SYS_TEST_ACK
+	    (lw6nod_info_add_discovered_node (info, _TEST_URL)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("add \"%s\""), _TEST_URL);
 	    list = lw6nod_info_pop_discovered_nodes (info);
-	    if (list && !lw6sys_list_is_empty (list))
+	    if (LW6SYS_TEST_ACK (list && !lw6sys_list_is_empty (list)))
 	      {
 		url = lw6sys_list_pop_front (&list);
-		if (url)
+		if (LW6SYS_TEST_ACK (url))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop \"%s\""), url);
 		    LW6SYS_FREE (url);
 		  }
 	      }
-	    if (list)
+	    if (LW6SYS_TEST_ACK (list))
 	      {
 		lw6sys_list_free (list);
 	      }
@@ -400,33 +401,33 @@ _test_node ()
 	 */
 	thread_map_verified =
 	  lw6sys_thread_create (_node_map_verified_callback, NULL, info);
-	if (thread_map_verified)
+	if (LW6SYS_TEST_ACK (thread_map_verified))
 	  {
 	    thread_set_verified =
 	      lw6sys_thread_create (_node_set_verified_callback, NULL, info);
-	    if (thread_set_verified)
+	    if (LW6SYS_TEST_ACK (thread_set_verified))
 	      {
 		thread_pop_discovered =
 		  lw6sys_thread_create (_node_pop_discovered_callback, NULL,
 					info);
-		if (thread_pop_discovered)
+		if (LW6SYS_TEST_ACK (thread_pop_discovered))
 		  {
 		    thread_add_discovered =
 		      lw6sys_thread_create (_node_add_discovered_callback,
 					    NULL, info);
-		    if (thread_add_discovered)
+		    if (LW6SYS_TEST_ACK (thread_add_discovered))
 		      {
 
 			thread_update =
 			  lw6sys_thread_create (_node_update_callback,
 						NULL, info);
-			if (thread_update)
+			if (LW6SYS_TEST_ACK (thread_update))
 			  {
 
 			    thread_dup_dyn =
 			      lw6sys_thread_create (_node_dup_dyn_callback,
 						    NULL, info);
-			    if (thread_dup_dyn)
+			    if (LW6SYS_TEST_ACK (thread_dup_dyn))
 			      {
 
 
@@ -482,6 +483,8 @@ _test_community ()
     int count = 0;
     char *peer_id_list_str = NULL;
     int nb_ids_without_url = 0;
+    int64_t id_from_url = 0LL;
+    char *url_from_id = NULL;
 
     info =
       lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
@@ -490,10 +493,10 @@ _test_community ()
 		       _TEST_OPEN_RELAY, _TEST_UPTIME,
 		       _TEST_IDLE_SCREENSHOT_SIZE,
 		       _TEST_IDLE_SCREENSHOT_DATA);
-    if (info)
+    if (LW6SYS_TEST_ACK (info))
       {
 	count = lw6nod_info_community_count (info);
-	if (count == 1)
+	if (LW6SYS_TEST_ACK (count == 1))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("right count=%d"), count);
 	  }
@@ -503,7 +506,8 @@ _test_community ()
 	    ret = 0;
 	  }
 
-	if (!lw6nod_info_community_add (info, _TEST_ID_1, _TEST_URL_1))
+	if (LW6SYS_TEST_ACK
+	    (!lw6nod_info_community_add (info, _TEST_ID_1, _TEST_URL_1)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("couldn't add ourselves, that's fine"));
@@ -515,7 +519,8 @@ _test_community ()
 			("could add ourselves, should have returned an error"));
 	    ret = 0;
 	  }
-	if (lw6nod_info_community_add (info, _TEST_ID_2, _TEST_URL_2))
+	if (LW6SYS_TEST_ACK
+	    (lw6nod_info_community_add (info, _TEST_ID_2, _TEST_URL_2)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("could add peer, that's fine"));
@@ -526,7 +531,7 @@ _test_community ()
 	    ret = 0;
 	  }
 	count = lw6nod_info_community_count (info);
-	if (count == 2)
+	if (LW6SYS_TEST_ACK (count == 2))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("right count=%d"), count);
 	  }
@@ -535,7 +540,8 @@ _test_community ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("wrong count=%d"), count);
 	    ret = 0;
 	  }
-	if (!lw6nod_info_community_add (info, _TEST_ID_2, _TEST_URL_2))
+	if (LW6SYS_TEST_ACK
+	    (!lw6nod_info_community_add (info, _TEST_ID_2, _TEST_URL_2)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("couldn't node twice, that's fine"));
@@ -547,9 +553,11 @@ _test_community ()
 			("could add node twice, should have returned an error"));
 	    ret = 0;
 	  }
-	if (lw6nod_info_community_has_id (info, _TEST_ID_1)
-	    && lw6nod_info_community_has_id (info, _TEST_ID_2)
-	    && !lw6nod_info_community_has_id (info, _TEST_ID_3))
+	if (LW6SYS_TEST_ACK (lw6nod_info_community_has_id (info, _TEST_ID_1)
+			     && lw6nod_info_community_has_id (info,
+							      _TEST_ID_2)
+			     && !lw6nod_info_community_has_id (info,
+							       _TEST_ID_3)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("has_id works"));
 	  }
@@ -558,9 +566,11 @@ _test_community ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("has_id problem"));
 	    ret = 0;
 	  }
-	if (lw6nod_info_community_has_url (info, _TEST_URL_1)
-	    && lw6nod_info_community_has_url (info, _TEST_URL_2)
-	    && !lw6nod_info_community_has_url (info, _TEST_URL_3))
+	if (LW6SYS_TEST_ACK (lw6nod_info_community_has_url (info, _TEST_URL_1)
+			     && lw6nod_info_community_has_url (info,
+							       _TEST_URL_2)
+			     && !lw6nod_info_community_has_url (info,
+								_TEST_URL_3)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("has_url works"));
 	  }
@@ -569,20 +579,56 @@ _test_community ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("has_url problem"));
 	    ret = 0;
 	  }
-	if (lw6nod_info_community_is_member (info, _TEST_ID_2, _TEST_URL_3)
-	    && lw6nod_info_community_is_member (info, _TEST_ID_3, _TEST_URL_2)
-	    && lw6nod_info_community_is_member (info, _TEST_ID_1, _TEST_URL_1)
-	    && !lw6nod_info_community_is_member (info, _TEST_ID_3,
-						 _TEST_URL_3))
+	if (LW6SYS_TEST_ACK
+	    (lw6nod_info_community_is_member (info, _TEST_ID_2, _TEST_URL_3)
+	     && lw6nod_info_community_is_member (info, _TEST_ID_3,
+						 _TEST_URL_2)
+	     && lw6nod_info_community_is_member (info, _TEST_ID_1,
+						 _TEST_URL_1)
+	     && !lw6nod_info_community_is_member (info, _TEST_ID_3,
+						  _TEST_URL_3)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("is_member works"));
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("is_memebr problem"));
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("is_member problem"));
 	    ret = 0;
 	  }
-	if (lw6nod_info_community_add (info, _TEST_ID_3, _TEST_URL_3))
+	id_from_url =
+	  lw6nod_info_community_get_id_from_url (info, _TEST_URL_3);
+	if (LW6SYS_TEST_ACK (!id_from_url))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("no id for url\"%s\", OK"),
+			_TEST_URL_3);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("returned id %" LW6SYS_PRINTF_LL
+			     "d for url\"%s\", should not be here"),
+			(long long) id_from_url, _TEST_URL_3);
+	    ret = 0;
+	  }
+	url_from_id =
+	  lw6nod_info_community_get_url_from_id (info, _TEST_ID_3);
+	if (LW6SYS_TEST_ACK (!url_from_id))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("no url for id %" LW6SYS_PRINTF_LL "d, OK"),
+			_TEST_ID_3);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("returned url \"%s\" for id %" LW6SYS_PRINTF_LL
+			     "d, should not be here"), url_from_id,
+			(long long) _TEST_ID_3);
+	    LW6SYS_FREE (url_from_id);
+	    ret = 0;
+	  }
+	if (LW6SYS_TEST_ACK
+	    (lw6nod_info_community_add (info, _TEST_ID_3, _TEST_URL_3)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("could add peer, that's fine"));
@@ -592,8 +638,40 @@ _test_community ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("couldn't add peer"));
 	    ret = 0;
 	  }
+	id_from_url =
+	  lw6nod_info_community_get_id_from_url (info, _TEST_URL_3);
+	if (LW6SYS_TEST_ACK (id_from_url))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("returned id %" LW6SYS_PRINTF_LL
+			     "d for url\"%s\", OK"), (long long) id_from_url,
+			_TEST_URL_3);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("no id for url\"%s\", should be here"),
+			_TEST_URL_3);
+	    ret = 0;
+	  }
+	url_from_id =
+	  lw6nod_info_community_get_url_from_id (info, _TEST_ID_3);
+	if (LW6SYS_TEST_ACK (url_from_id))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("returned url \"%s\" for id %" LW6SYS_PRINTF_LL
+			     "d, OK"), url_from_id, (long long) _TEST_ID_3);
+	    LW6SYS_FREE (url_from_id);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("no url for id %" LW6SYS_PRINTF_LL
+			     "d, should be here"), _TEST_ID_3);
+	    ret = 0;
+	  }
 	count = lw6nod_info_community_count (info);
-	if (count == 3)
+	if (LW6SYS_TEST_ACK (count == 3))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("right count=%d"), count);
 	  }
@@ -603,9 +681,11 @@ _test_community ()
 	    ret = 0;
 	  }
 	peer_id_list_str = lw6nod_info_community_get_peer_id_list_str (info);
-	if (peer_id_list_str)
+	if (LW6SYS_TEST_ACK (peer_id_list_str))
 	  {
-	    if (lw6sys_str_is_same (_TEST_PEER_ID_LIST_STR, peer_id_list_str))
+	    if (LW6SYS_TEST_ACK
+		(lw6sys_str_is_same
+		 (_TEST_PEER_ID_LIST_STR, peer_id_list_str)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("peer_id_list_str = \"%s\""),
@@ -627,7 +707,8 @@ _test_community ()
 			_x_ ("unable to create peer_id_list_str"));
 	    ret = 0;
 	  }
-	if (lw6nod_info_community_remove_by_id (info, _TEST_ID_2))
+	if (LW6SYS_TEST_ACK
+	    (lw6nod_info_community_remove_by_id (info, _TEST_ID_2)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("could remove peer, that's fine"));
@@ -637,7 +718,8 @@ _test_community ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("couldn't remove peer"));
 	    ret = 0;
 	  }
-	if (!lw6nod_info_community_remove_by_id (info, _TEST_ID_2))
+	if (LW6SYS_TEST_ACK
+	    (!lw6nod_info_community_remove_by_id (info, _TEST_ID_2)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("couldn't remove peer, that's fine"));
@@ -649,7 +731,7 @@ _test_community ()
 	    ret = 0;
 	  }
 	count = lw6nod_info_community_count (info);
-	if (count == 2)
+	if (LW6SYS_TEST_ACK (count == 2))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("right count=%d"), count);
 	  }
@@ -658,7 +740,8 @@ _test_community ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("wrong count=%d"), count);
 	    ret = 0;
 	  }
-	if (lw6nod_info_community_remove_by_url (info, _TEST_URL_3))
+	if (LW6SYS_TEST_ACK
+	    (lw6nod_info_community_remove_by_url (info, _TEST_URL_3)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("could remove peer, that's fine"));
@@ -668,7 +751,8 @@ _test_community ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("couldn't remove peer"));
 	    ret = 0;
 	  }
-	if (!lw6nod_info_community_remove_by_url (info, _TEST_URL_3))
+	if (LW6SYS_TEST_ACK
+	    (!lw6nod_info_community_remove_by_url (info, _TEST_URL_3)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("couldn't remove peer, that's fine"));
@@ -680,7 +764,7 @@ _test_community ()
 	    ret = 0;
 	  }
 	count = lw6nod_info_community_count (info);
-	if (count == 1)
+	if (LW6SYS_TEST_ACK (count == 1))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("right count=%d"), count);
 	  }
@@ -690,7 +774,8 @@ _test_community ()
 	    ret = 0;
 	  }
 	lw6nod_info_community_reset (info);
-	if (!lw6nod_info_community_remove_by_url (info, _TEST_URL_1))
+	if (LW6SYS_TEST_ACK
+	    (!lw6nod_info_community_remove_by_url (info, _TEST_URL_1)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("couldn't ourselves, that's fine"));
@@ -710,7 +795,8 @@ _test_community ()
 						  _community_id_without_url_callback,
 						  (void *)
 						  &nb_ids_without_url);
-	if (nb_ids_without_url == _TEST_COMMUNITY_NB_IDS_WITHOUT_URL)
+	if (LW6SYS_TEST_ACK
+	    (nb_ids_without_url == _TEST_COMMUNITY_NB_IDS_WITHOUT_URL))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("got the right number of ids without url %d"),
@@ -725,7 +811,8 @@ _test_community ()
 			_TEST_COMMUNITY_NB_IDS_WITHOUT_URL);
 	    ret = 0;
 	  }
-	if (lw6nod_info_community_has_id_without_url (info, _TEST_ID_2))
+	if (LW6SYS_TEST_ACK
+	    (lw6nod_info_community_has_id_without_url (info, _TEST_ID_2)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("node %" LW6SYS_PRINTF_LL

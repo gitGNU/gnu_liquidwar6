@@ -314,6 +314,8 @@ extern int _lw6p2p_db_now (_lw6p2p_db_t * db);
 /* p2p-explore.c */
 extern int _lw6p2p_explore_discover_nodes_if_needed (_lw6p2p_node_t * node);
 extern int _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node);
+extern void _lw6p2p_explore_start_verify_node (_lw6p2p_node_t * node,
+					       const char *public_url);
 extern int _lw6p2p_explore_verify_nodes_if_needed (_lw6p2p_node_t * node);
 extern int _lw6p2p_explore_verify_nodes (_lw6p2p_node_t * node);
 
@@ -384,6 +386,8 @@ extern int _lw6p2p_node_client_join (_lw6p2p_node_t * node,
 				     u_int64_t remote_id,
 				     const char *remote_url,
 				     lw6sys_progress_t * progress);
+extern int _lw6p2p_node_refresh (_lw6p2p_node_t * node, u_int64_t remote_id,
+				 const char *remote_url);
 extern void _lw6p2p_node_disconnect (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_update_info (_lw6p2p_node_t * node,
 				     int round, const char *level,

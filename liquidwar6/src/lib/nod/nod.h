@@ -192,6 +192,10 @@ extern int lw6nod_info_community_has_id_without_url (lw6nod_info_t * info,
 						     u_int64_t id);
 extern int lw6nod_info_community_has_url (lw6nod_info_t * info,
 					  const char *url);
+extern int64_t lw6nod_info_community_get_id_from_url (lw6nod_info_t * info,
+						      const char *url);
+extern char *lw6nod_info_community_get_url_from_id (lw6nod_info_t * info,
+						    int64_t id);
 extern int lw6nod_info_community_remove_by_id (lw6nod_info_t * info,
 					       u_int64_t id);
 extern int lw6nod_info_community_remove_by_url (lw6nod_info_t * info,
