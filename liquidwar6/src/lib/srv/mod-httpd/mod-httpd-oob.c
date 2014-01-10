@@ -187,7 +187,6 @@ _response_index_html (_mod_httpd_context_t * httpd_context,
 						 */
 						lw6sys_build_get_version (),
 						lw6sys_build_get_codename (),
-						lw6sys_build_get_stamp (),
 						/*
 						 * Info
 						 */
