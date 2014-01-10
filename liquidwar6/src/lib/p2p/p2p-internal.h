@@ -386,8 +386,9 @@ extern int _lw6p2p_node_client_join (_lw6p2p_node_t * node,
 				     u_int64_t remote_id,
 				     const char *remote_url,
 				     lw6sys_progress_t * progress);
-extern int _lw6p2p_node_refresh (_lw6p2p_node_t * node, u_int64_t remote_id,
-				 const char *remote_url);
+extern int _lw6p2p_node_refresh_peer (_lw6p2p_node_t * node,
+				      u_int64_t remote_id,
+				      const char *remote_url);
 extern void _lw6p2p_node_disconnect (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_update_info (_lw6p2p_node_t * node,
 				     int round, const char *level,

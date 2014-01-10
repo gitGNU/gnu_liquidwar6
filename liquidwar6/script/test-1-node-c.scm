@@ -303,7 +303,7 @@
 				(
 				 (= stage 80)
 				 (begin
-				   (lw6-log-notice "done with test, waiting for some time to give peers a chance to finish their process")
+				   (lw6-log-info "done with test, waiting for some time to give peers a chance to finish their process")
 				   (if (> timestamp exit-timestamp)
 				       (set! stage 100))
 				   )

@@ -260,6 +260,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6NET_QUIT "c-lw6net-quit"
 #define LW6DEF_C_LW6P2P_DB_DEFAULT_NAME "c-lw6p2p-db-default-name"
 #define LW6DEF_C_LW6P2P_DB_NEW "c-lw6p2p-db-new"
+#define LW6DEF_C_LW6P2P_NODE_REFRESH_PEER "c-lw6p2p-node-refresh-peer"
 #define LW6DEF_C_LW6P2P_DB_RESET "c-lw6p2p-db-reset"
 #define LW6DEF_C_LW6P2P_NODE_CALIBRATE "c-lw6p2p-node-calibrate"
 #define LW6DEF_C_LW6P2P_NODE_CLIENT_JOIN "c-lw6p2p-node-client-join"

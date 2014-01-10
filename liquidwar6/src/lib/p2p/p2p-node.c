@@ -2164,8 +2164,8 @@ lw6p2p_node_client_join (lw6p2p_node_t * node, u_int64_t remote_id,
  * This function *must* be called in locked mode
  */
 int
-_lw6p2p_node_refresh (_lw6p2p_node_t * node, u_int64_t remote_id,
-		      const char *remote_url)
+_lw6p2p_node_refresh_peer (_lw6p2p_node_t * node, u_int64_t remote_id,
+			   const char *remote_url)
 {
   int ret = 1;
   char *url_from_id = NULL;
@@ -2186,7 +2186,7 @@ _lw6p2p_node_refresh (_lw6p2p_node_t * node, u_int64_t remote_id,
 }
 
 /**
- * lw6p2p_node_refresh
+ * lw6p2p_node_refresh_peer
  *
  * @node: node to use
  * @remote_id: id of remote node to refresh
@@ -2198,8 +2198,8 @@ _lw6p2p_node_refresh (_lw6p2p_node_t * node, u_int64_t remote_id,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6p2p_node_refresh (lw6p2p_node_t * node, u_int64_t remote_id,
-		     const char *remote_url)
+lw6p2p_node_refresh_peer (lw6p2p_node_t * node, u_int64_t remote_id,
+			  const char *remote_url)
 {
   int ret = 0;
 
@@ -2210,8 +2210,8 @@ lw6p2p_node_refresh (lw6p2p_node_t * node, u_int64_t remote_id,
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_refresh ((_lw6p2p_node_t *) node, remote_id,
-				  remote_url);
+      ret = _lw6p2p_node_refresh_peer ((_lw6p2p_node_t *) node, remote_id,
+				       remote_url);
       _node_unlock (node);
     }
 

@@ -1249,6 +1249,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_GET_ENTRIES);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_SERVER_START);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_CLIENT_JOIN);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_REFRESH_PEER);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_DISCONNECT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_UPDATE_INFO);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_CALIBRATE);

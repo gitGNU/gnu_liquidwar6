@@ -3019,6 +3019,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6p2p_node_server_start."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_CLIENT_JOIN,
 		 _x_ ("Wrapper on lw6p2p_node_client_join."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_REFRESH_PEER,
+		 _x_ ("Wrapper on lw6p2p_node_refresh_peer."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_DISCONNECT,
 		 _x_ ("Wrapper on lw6p2p_node_disconnect."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_UPDATE_INFO,

@@ -255,6 +255,7 @@ c-lw6p2p-node-is-seed-needed
 c-lw6p2p-node-new
 c-lw6p2p-node-poll
 c-lw6p2p-node-put-local-msg
+c-lw6p2p-node-refresh-peer
 c-lw6p2p-node-server-start
 c-lw6p2p-node-update-info
 c-lw6pil-bench

@@ -968,23 +968,23 @@ _oob_with_backends (char *cli_backends, char *srv_backends)
 	  _poll_nodes (node1, node2, node3, node4, node5, node6);
 	}
       ret =
-	lw6p2p_node_refresh (node1, lw6p2p_node_get_id (node2),
-			     _TEST_NODE_UNREACHABLE_URL) && ret;
+	lw6p2p_node_refresh_peer (node1, lw6p2p_node_get_id (node2),
+				  _TEST_NODE_UNREACHABLE_URL) && ret;
       ret =
-	lw6p2p_node_refresh (node2, lw6p2p_node_get_id (node3),
-			     _TEST_NODE_UNREACHABLE_URL) && ret;
+	lw6p2p_node_refresh_peer (node2, lw6p2p_node_get_id (node3),
+				  _TEST_NODE_UNREACHABLE_URL) && ret;
       ret =
-	lw6p2p_node_refresh (node3, lw6p2p_node_get_id (node4),
-			     _TEST_NODE_UNREACHABLE_URL) && ret;
+	lw6p2p_node_refresh_peer (node3, lw6p2p_node_get_id (node4),
+				  _TEST_NODE_UNREACHABLE_URL) && ret;
       ret =
-	lw6p2p_node_refresh (node4, lw6p2p_node_get_id (node5),
-			     _TEST_NODE_UNREACHABLE_URL) && ret;
+	lw6p2p_node_refresh_peer (node4, lw6p2p_node_get_id (node5),
+				  _TEST_NODE_UNREACHABLE_URL) && ret;
       ret =
-	lw6p2p_node_refresh (node5, lw6p2p_node_get_id (node6),
-			     _TEST_NODE_UNREACHABLE_URL) && ret;
+	lw6p2p_node_refresh_peer (node5, lw6p2p_node_get_id (node6),
+				  _TEST_NODE_UNREACHABLE_URL) && ret;
       ret =
-	lw6p2p_node_refresh (node6, lw6p2p_node_get_id (node1),
-			     _TEST_NODE_UNREACHABLE_URL) && ret;
+	lw6p2p_node_refresh_peer (node6, lw6p2p_node_get_id (node1),
+				  _TEST_NODE_UNREACHABLE_URL) && ret;
       while (lw6sys_get_timestamp () < end_timestamp)
 	{
 	  _poll_nodes (node1, node2, node3, node4, node5, node6);

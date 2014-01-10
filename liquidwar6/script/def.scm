@@ -253,6 +253,7 @@
 (define lw6def-c-lw6net-quit "c-lw6net-quit")
 (define lw6def-c-lw6p2p-db-default-name "c-lw6p2p-db-default-name")
 (define lw6def-c-lw6p2p-db-new "c-lw6p2p-db-new")
+(define lw6def-c-lw6p2p-node-refresh-peer "c-lw6p2p-node-refresh-peer")
 (define lw6def-c-lw6p2p-db-reset "c-lw6p2p-db-reset")
 (define lw6def-c-lw6p2p-node-calibrate "c-lw6p2p-node-calibrate")
 (define lw6def-c-lw6p2p-node-client-join "c-lw6p2p-node-client-join")

@@ -601,6 +601,52 @@ _scm_lw6p2p_node_client_join (SCM node, SCM remote_id, SCM remote_url)
 }
 
 static SCM
+_scm_lw6p2p_node_refresh_peer (SCM node, SCM remote_id, SCM remote_url)
+{
+  lw6p2p_node_t *c_node;
+  char *c_remote_id_str = NULL;
+  u_int64_t c_remote_id_int = 0LL;
+  char *c_remote_url = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (remote_id), remote_id, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (remote_url), remote_url, SCM_ARG3, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_remote_id_str = lw6scm_utils_to_0str (remote_id);
+      if (c_remote_id_str)
+	{
+	  c_remote_id_int = lw6sys_id_atol (c_remote_id_str);
+	  if (c_remote_id_int > 0)
+	    {
+	      c_remote_url = lw6scm_utils_to_0str (remote_url);
+	      if (c_remote_url)
+		{
+		  ret =
+		    lw6p2p_node_refresh_peer (c_node, c_remote_id_int,
+					      c_remote_url)
+		    ? SCM_BOOL_T : SCM_BOOL_F;
+		  LW6SYS_FREE (c_remote_url);
+		}
+	    }
+	  LW6SYS_FREE (c_remote_id_str);
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6p2p_node_disconnect (SCM node)
 {
   lw6p2p_node_t *c_node;
@@ -1184,6 +1230,9 @@ lw6_register_funcs_p2p ()
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_CLIENT_JOIN, 3, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_client_join);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_REFRESH_PEER, 3, 0, 0,
+			      (SCM (*)())_scm_lw6p2p_node_refresh_peer);
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_DISCONNECT, 1, 0, 0,
 			      (SCM (*)())_scm_lw6p2p_node_disconnect);
