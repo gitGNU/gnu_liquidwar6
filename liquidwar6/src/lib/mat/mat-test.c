@@ -222,7 +222,7 @@ _test_sizeof ()
     int s = 0;
 
     s = sizeof (int32_t);
-    if (LW6SYS_TEST_PASS_THROUGH (s == _TEST_SIZEOF_INT32))
+    if (LW6SYS_TEST_ACK (s == _TEST_SIZEOF_INT32))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("sizeof(int32_t) is %d, OK"), s);
       }
@@ -234,7 +234,7 @@ _test_sizeof ()
 	ret = 0;
       }
     s = sizeof (float);
-    if (LW6SYS_TEST_PASS_THROUGH (s == _TEST_SIZEOF_FLOAT))
+    if (LW6SYS_TEST_ACK (s == _TEST_SIZEOF_FLOAT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("sizeof(float) is %d, OK"), s);
       }
@@ -246,7 +246,7 @@ _test_sizeof ()
 	ret = 0;
       }
     s = sizeof (double);
-    if (LW6SYS_TEST_PASS_THROUGH (s == _TEST_SIZEOF_DOUBLE))
+    if (LW6SYS_TEST_ACK (s == _TEST_SIZEOF_DOUBLE))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("sizeof(double) is %d, OK"), s);
       }
@@ -280,7 +280,7 @@ _test_convert ()
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("Verifying conversions"));
 
     i = lw6mat_ftoi (_TEST_FTOI_IN);
-    if (LW6SYS_TEST_PASS_THROUGH (i == _TEST_FTOI_OUT))
+    if (LW6SYS_TEST_ACK (i == _TEST_FTOI_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ftoi OK, output is %d"), i);
       }
@@ -293,7 +293,7 @@ _test_convert ()
       }
 
     d = lw6mat_ftod (_TEST_FTOD_IN);
-    if (LW6SYS_TEST_PASS_THROUGH (d == _TEST_FTOD_OUT))
+    if (LW6SYS_TEST_ACK (d == _TEST_FTOD_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ftod OK, output is %f"),
 		    (float) d);
@@ -307,7 +307,7 @@ _test_convert ()
       }
 
     x = lw6mat_ftox (_TEST_FTOX_IN);
-    if (LW6SYS_TEST_PASS_THROUGH (x == _TEST_FTOX_OUT))
+    if (LW6SYS_TEST_ACK (x == _TEST_FTOX_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ftox OK, output is %d"), x);
       }
@@ -320,7 +320,7 @@ _test_convert ()
       }
 
     f = lw6mat_itof (_TEST_ITOF_IN);
-    if (LW6SYS_TEST_PASS_THROUGH (f == _TEST_ITOF_OUT))
+    if (LW6SYS_TEST_ACK (f == _TEST_ITOF_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("itof OK, output is %f"), f);
       }
@@ -333,7 +333,7 @@ _test_convert ()
       }
 
     d = lw6mat_itod (_TEST_ITOD_IN);
-    if (LW6SYS_TEST_PASS_THROUGH (d == _TEST_ITOD_OUT))
+    if (LW6SYS_TEST_ACK (d == _TEST_ITOD_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("itod OK, output is %f"),
 		    (float) d);
@@ -347,7 +347,7 @@ _test_convert ()
       }
 
     x = lw6mat_itox (_TEST_ITOX_IN);
-    if (LW6SYS_TEST_PASS_THROUGH (x == _TEST_ITOX_OUT))
+    if (LW6SYS_TEST_ACK (x == _TEST_ITOX_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("itox OK, output is %d"), x);
       }
@@ -360,7 +360,7 @@ _test_convert ()
       }
 
     f = lw6mat_dtof (_TEST_DTOF_IN);
-    if (LW6SYS_TEST_PASS_THROUGH (f == _TEST_DTOF_OUT))
+    if (LW6SYS_TEST_ACK (f == _TEST_DTOF_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dtof OK, output is %f"), f);
       }
@@ -373,7 +373,7 @@ _test_convert ()
       }
 
     i = lw6mat_dtoi (_TEST_DTOI_IN);
-    if (LW6SYS_TEST_PASS_THROUGH (i == _TEST_DTOI_OUT))
+    if (LW6SYS_TEST_ACK (i == _TEST_DTOI_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dtoi OK, output is %d"), i);
       }
@@ -386,7 +386,7 @@ _test_convert ()
       }
 
     x = lw6mat_dtox (_TEST_DTOX_IN);
-    if (LW6SYS_TEST_PASS_THROUGH (x == _TEST_DTOX_OUT))
+    if (LW6SYS_TEST_ACK (x == _TEST_DTOX_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dtox OK, output is %d"), x);
       }
@@ -399,7 +399,7 @@ _test_convert ()
       }
 
     f = lw6mat_xtof (_TEST_XTOF_IN);
-    if (LW6SYS_TEST_PASS_THROUGH (f == _TEST_XTOF_OUT))
+    if (LW6SYS_TEST_ACK (f == _TEST_XTOF_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("xtof OK, output is %f"), f);
       }
@@ -412,7 +412,7 @@ _test_convert ()
       }
 
     i = lw6mat_xtoi (_TEST_XTOI_IN);
-    if (LW6SYS_TEST_PASS_THROUGH (i == _TEST_XTOI_OUT))
+    if (LW6SYS_TEST_ACK (i == _TEST_XTOI_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("xtoi OK, output is %d"), i);
       }
@@ -425,7 +425,7 @@ _test_convert ()
       }
 
     d = lw6mat_xtod (_TEST_XTOD_IN);
-    if (LW6SYS_TEST_PASS_THROUGH (d == _TEST_XTOD_OUT))
+    if (LW6SYS_TEST_ACK (d == _TEST_XTOD_OUT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("xtod OK, output is %f"),
 		    (float) d);
@@ -452,8 +452,8 @@ _test_similar ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_is_similar_f
-				  (_TEST_SIMILAR_F_A_Y, _TEST_SIMILAR_F_B_Y)))
+    if (LW6SYS_TEST_ACK (lw6mat_is_similar_f
+			 (_TEST_SIMILAR_F_A_Y, _TEST_SIMILAR_F_B_Y)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_f %f =~ %f OK"),
 		    _TEST_SIMILAR_F_A_Y, _TEST_SIMILAR_F_B_Y);
@@ -464,8 +464,8 @@ _test_similar ()
 		    _TEST_SIMILAR_F_A_Y, _TEST_SIMILAR_F_B_Y);
 	ret = 0;
       }
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_is_similar_f
-				  (_TEST_SIMILAR_F_A_N, _TEST_SIMILAR_F_B_N)))
+    if (LW6SYS_TEST_ACK (!lw6mat_is_similar_f
+			 (_TEST_SIMILAR_F_A_N, _TEST_SIMILAR_F_B_N)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_f %f != %f OK"),
 		    _TEST_SIMILAR_F_A_N, _TEST_SIMILAR_F_B_N);
@@ -477,8 +477,8 @@ _test_similar ()
 	ret = 0;
       }
 
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_is_similar_i
-				  (_TEST_SIMILAR_I_A_Y, _TEST_SIMILAR_I_B_Y)))
+    if (LW6SYS_TEST_ACK (lw6mat_is_similar_i
+			 (_TEST_SIMILAR_I_A_Y, _TEST_SIMILAR_I_B_Y)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_i %d =~ %d OK"),
 		    _TEST_SIMILAR_I_A_Y, _TEST_SIMILAR_I_B_Y);
@@ -489,8 +489,8 @@ _test_similar ()
 		    _TEST_SIMILAR_I_A_Y, _TEST_SIMILAR_I_B_Y);
 	ret = 0;
       }
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_is_similar_i
-				  (_TEST_SIMILAR_I_A_N, _TEST_SIMILAR_I_B_N)))
+    if (LW6SYS_TEST_ACK (!lw6mat_is_similar_i
+			 (_TEST_SIMILAR_I_A_N, _TEST_SIMILAR_I_B_N)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_i %d != %d OK"),
 		    _TEST_SIMILAR_I_A_N, _TEST_SIMILAR_I_B_N);
@@ -502,8 +502,8 @@ _test_similar ()
 	ret = 0;
       }
 
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_is_similar_d
-				  (_TEST_SIMILAR_D_A_Y, _TEST_SIMILAR_D_B_Y)))
+    if (LW6SYS_TEST_ACK (lw6mat_is_similar_d
+			 (_TEST_SIMILAR_D_A_Y, _TEST_SIMILAR_D_B_Y)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_d %f =~ %f OK"),
 		    _TEST_SIMILAR_D_A_Y, _TEST_SIMILAR_D_B_Y);
@@ -514,8 +514,8 @@ _test_similar ()
 		    _TEST_SIMILAR_D_A_Y, _TEST_SIMILAR_D_B_Y);
 	ret = 0;
       }
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_is_similar_d
-				  (_TEST_SIMILAR_D_A_N, _TEST_SIMILAR_D_B_N)))
+    if (LW6SYS_TEST_ACK (!lw6mat_is_similar_d
+			 (_TEST_SIMILAR_D_A_N, _TEST_SIMILAR_D_B_N)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_d %f != %f OK"),
 		    _TEST_SIMILAR_D_A_N, _TEST_SIMILAR_D_B_N);
@@ -527,8 +527,8 @@ _test_similar ()
 	ret = 0;
       }
 
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_is_similar_x
-				  (_TEST_SIMILAR_X_A_Y, _TEST_SIMILAR_X_B_Y)))
+    if (LW6SYS_TEST_ACK (lw6mat_is_similar_x
+			 (_TEST_SIMILAR_X_A_Y, _TEST_SIMILAR_X_B_Y)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_x %d =~ %d OK"),
 		    _TEST_SIMILAR_X_A_Y, _TEST_SIMILAR_X_B_Y);
@@ -539,8 +539,8 @@ _test_similar ()
 		    _TEST_SIMILAR_X_A_Y, _TEST_SIMILAR_X_B_Y);
 	ret = 0;
       }
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_is_similar_x
-				  (_TEST_SIMILAR_X_A_N, _TEST_SIMILAR_X_B_N)))
+    if (LW6SYS_TEST_ACK (!lw6mat_is_similar_x
+			 (_TEST_SIMILAR_X_A_N, _TEST_SIMILAR_X_B_N)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("similar_x %d != %d OK"),
 		    _TEST_SIMILAR_X_A_N, _TEST_SIMILAR_X_B_N);
@@ -598,8 +598,8 @@ _test_x ()
 					   _TEST_X_LIMIT_IN_F))
 		  {
 		    x = lw6mat_x_mul_32 (x_in[i], x_in[j]);
-		    if (LW6SYS_TEST_PASS_THROUGH (abs (x - lw6mat_ftox (f)) <=
-						  _TEST_X_EQUAL_MUL_32_THRESHOLD))
+		    if (LW6SYS_TEST_ACK (abs (x - lw6mat_ftox (f)) <=
+					 _TEST_X_EQUAL_MUL_32_THRESHOLD))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_
@@ -627,8 +627,8 @@ _test_x ()
 				lw6mat_xtof (x_in[i]), lw6mat_xtof (x_in[j]));
 		  }
 		x = lw6mat_x_mul_64 (x_in[i], x_in[j]);
-		if (LW6SYS_TEST_PASS_THROUGH (abs (x - lw6mat_ftox (f)) <=
-					      _TEST_X_EQUAL_MUL_64_THRESHOLD))
+		if (LW6SYS_TEST_ACK (abs (x - lw6mat_ftox (f)) <=
+				     _TEST_X_EQUAL_MUL_64_THRESHOLD))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -661,8 +661,8 @@ _test_x ()
 					   _TEST_X_LIMIT_IN_F))
 		  {
 		    x = lw6mat_x_div_32 (x_in[i], x_in[j]);
-		    if (LW6SYS_TEST_PASS_THROUGH (abs (x - lw6mat_ftox (f)) <=
-						  _TEST_X_EQUAL_DIV_32_THRESHOLD))
+		    if (LW6SYS_TEST_ACK (abs (x - lw6mat_ftox (f)) <=
+					 _TEST_X_EQUAL_DIV_32_THRESHOLD))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_
@@ -690,8 +690,8 @@ _test_x ()
 				lw6mat_xtof (x_in[i]), lw6mat_xtof (x_in[j]));
 		  }
 		x = lw6mat_x_div_64 (x_in[i], x_in[j]);
-		if (LW6SYS_TEST_PASS_THROUGH (abs (x - lw6mat_ftox (f)) <=
-					      _TEST_X_EQUAL_DIV_64_THRESHOLD))
+		if (LW6SYS_TEST_ACK (abs (x - lw6mat_ftox (f)) <=
+				     _TEST_X_EQUAL_DIV_64_THRESHOLD))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -723,8 +723,8 @@ _test_x ()
 		(lw6mat_xtof (x_in[i]), _TEST_X_LIMIT_IN_F))
 	      {
 		x = lw6mat_x_inv_32 (x_in[i]);
-		if (LW6SYS_TEST_PASS_THROUGH (abs (x - lw6mat_ftox (f)) <=
-					      _TEST_X_EQUAL_INV_32_THRESHOLD))
+		if (LW6SYS_TEST_ACK (abs (x - lw6mat_ftox (f)) <=
+				     _TEST_X_EQUAL_INV_32_THRESHOLD))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -749,8 +749,8 @@ _test_x ()
 			    lw6mat_xtof (x_in[i]));
 	      }
 	    x = lw6mat_x_inv_64 (x_in[i]);
-	    if (LW6SYS_TEST_PASS_THROUGH (abs (x - lw6mat_ftox (f)) <=
-					  _TEST_X_EQUAL_INV_64_THRESHOLD))
+	    if (LW6SYS_TEST_ACK (abs (x - lw6mat_ftox (f)) <=
+				 _TEST_X_EQUAL_INV_64_THRESHOLD))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -789,7 +789,7 @@ _print_fvec2 (const lw6mat_fvec2_t * fvec2, const char *about)
   char *repr;
 
   repr = lw6mat_fvec2_repr (fvec2);
-  if (LW6SYS_TEST_PASS_THROUGH (repr != NULL))
+  if (LW6SYS_TEST_ACK (repr != NULL))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec2 %s repr=\"%s\""), about,
 		  repr);
@@ -827,13 +827,13 @@ _test_fvec2 ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
 		("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (!LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec2_norm (&fvec2)))
+    if (!LW6SYS_TEST_ACK (!lw6mat_fvec2_norm (&fvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
       }
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec2_len (&fvec2)))
+    if (LW6SYS_TEST_ACK (!lw6mat_fvec2_len (&fvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("zero fvec2 has zero size, this is fine"));
@@ -847,7 +847,7 @@ _test_fvec2 ()
     fvec2.p.y = _TEST_FVEC_Y1;
     _print_fvec2 (&fvec2, "init");
     len_sq = lw6mat_fvec2_len_sq (&fvec2);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len_sq) == _TEST_FVEC2_LEN_SQ))
+    if (LW6SYS_TEST_ACK (lw6mat_ftox (len_sq) == _TEST_FVEC2_LEN_SQ))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for fvec2 is %d -> OK"),
 		    lw6mat_ftoi (len_sq));
@@ -862,7 +862,7 @@ _test_fvec2 ()
 	ret = 0;
       }
     len = lw6mat_fvec2_len (&fvec2);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len) == _TEST_FVEC2_LEN))
+    if (LW6SYS_TEST_ACK (lw6mat_ftox (len) == _TEST_FVEC2_LEN))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for fvec2 is %d -> OK"),
 		    lw6mat_ftoi (len));
@@ -875,14 +875,14 @@ _test_fvec2 ()
 		    lw6mat_ftoi (len), lw6mat_ftox (len), _TEST_FVEC2_LEN);
 	ret = 0;
       }
-    if (!LW6SYS_TEST_PASS_THROUGH (lw6mat_fvec2_norm (&fvec2)))
+    if (!LW6SYS_TEST_ACK (lw6mat_fvec2_norm (&fvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
       }
     _print_fvec2 (&fvec2, "norm");
     len = lw6mat_fvec2_len (&fvec2);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len) == LW6MAT_X_1))
+    if (LW6SYS_TEST_ACK (lw6mat_ftox (len) == LW6MAT_X_1))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("len for normalized fvec2 is 1 -> OK"));
@@ -905,7 +905,7 @@ _test_fvec2 ()
     memset (&fvec2_b, 0xff, sizeof (lw6mat_fvec2_t));
     fvec2_b.p.x = fvec2.p.x;
     fvec2_b.p.y = fvec2.p.y;
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_fvec2_is_same (&fvec2_a, &fvec2_b)))
+    if (LW6SYS_TEST_ACK (lw6mat_fvec2_is_same (&fvec2_a, &fvec2_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("fvec2 comparison works when equal"));
@@ -917,7 +917,7 @@ _test_fvec2 ()
 	ret = 0;
       }
     lw6mat_fvec2_neg (&fvec2_b);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec2_is_same (&fvec2_a, &fvec2_b)))
+    if (LW6SYS_TEST_ACK (!lw6mat_fvec2_is_same (&fvec2_a, &fvec2_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("fvec2 comparison works when different"));
@@ -929,7 +929,7 @@ _test_fvec2 ()
 	ret = 0;
       }
     lw6mat_fvec2_add (&fvec2, &fvec2_a, &fvec2_b);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec2_len (&fvec2)))
+    if (LW6SYS_TEST_ACK (!lw6mat_fvec2_len (&fvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -943,7 +943,7 @@ _test_fvec2 ()
 	ret = 0;
       }
     lw6mat_fvec2_sub (&fvec2, &fvec2_a, &fvec2_a);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec2_len (&fvec2)))
+    if (LW6SYS_TEST_ACK (!lw6mat_fvec2_len (&fvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -962,7 +962,7 @@ _test_fvec2 ()
     fvec2_b.p.x = _TEST_FVEC_X2;
     fvec2_b.p.y = _TEST_FVEC_Y2;
     dot = lw6mat_fvec2_dot (&fvec2_a, &fvec2_b);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (dot) == _TEST_FVEC2_DOT))
+    if (LW6SYS_TEST_ACK (lw6mat_ftox (dot) == _TEST_FVEC2_DOT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for fvec2 is %d -> OK"),
 		    lw6mat_ftoi (dot));
@@ -981,7 +981,7 @@ _test_fvec2 ()
      * does not really make sense for dim 2 and 4.
      */
     lw6mat_fvec2_cross (&fvec3, &fvec2_a, &fvec2_b);
-    if (LW6SYS_TEST_PASS_THROUGH
+    if (LW6SYS_TEST_ACK
 	(lw6mat_ftox (fvec3.p.x) == _TEST_FVEC2_CROSS_X
 	 && lw6mat_ftox (fvec3.p.y) == _TEST_FVEC2_CROSS_Y
 	 && lw6mat_ftox (fvec3.p.z) == _TEST_FVEC2_CROSS_Z))
@@ -1016,7 +1016,7 @@ _print_fvec3 (const lw6mat_fvec3_t * fvec3, const char *about)
   char *repr;
 
   repr = lw6mat_fvec3_repr (fvec3);
-  if (LW6SYS_TEST_PASS_THROUGH (repr))
+  if (LW6SYS_TEST_ACK (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec3 %s repr=\"%s\""), about,
 		  repr);
@@ -1053,13 +1053,13 @@ _test_fvec3 ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
 		("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (!LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec3_norm (&fvec3)))
+    if (!LW6SYS_TEST_ACK (!lw6mat_fvec3_norm (&fvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
       }
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec3_len (&fvec3)))
+    if (LW6SYS_TEST_ACK (!lw6mat_fvec3_len (&fvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("zero fvec3 has zero size, this is fine"));
@@ -1074,7 +1074,7 @@ _test_fvec3 ()
     fvec3.p.z = _TEST_FVEC_Z1;
     _print_fvec3 (&fvec3, "init");
     len_sq = lw6mat_fvec3_len_sq (&fvec3);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len_sq) == _TEST_FVEC3_LEN_SQ))
+    if (LW6SYS_TEST_ACK (lw6mat_ftox (len_sq) == _TEST_FVEC3_LEN_SQ))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for fvec3 is %d -> OK"),
 		    lw6mat_ftoi (len_sq));
@@ -1089,7 +1089,7 @@ _test_fvec3 ()
 	ret = 0;
       }
     len = lw6mat_fvec3_len (&fvec3);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len) == _TEST_FVEC3_LEN))
+    if (LW6SYS_TEST_ACK (lw6mat_ftox (len) == _TEST_FVEC3_LEN))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for fvec3 is %d -> OK"),
 		    lw6mat_ftoi (len));
@@ -1102,14 +1102,14 @@ _test_fvec3 ()
 		    lw6mat_ftoi (len), lw6mat_ftox (len), _TEST_FVEC3_LEN);
 	ret = 0;
       }
-    if (!LW6SYS_TEST_PASS_THROUGH (lw6mat_fvec3_norm (&fvec3)))
+    if (!LW6SYS_TEST_ACK (lw6mat_fvec3_norm (&fvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
       }
     _print_fvec3 (&fvec3, "norm");
     len = lw6mat_fvec3_len (&fvec3);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len) == LW6MAT_X_1))
+    if (LW6SYS_TEST_ACK (lw6mat_ftox (len) == LW6MAT_X_1))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("len for normalized fvec3 is 1 -> OK"));
@@ -1133,7 +1133,7 @@ _test_fvec3 ()
     fvec3_b.p.x = fvec3.p.x;
     fvec3_b.p.y = fvec3.p.y;
     fvec3_b.p.z = fvec3.p.z;
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_fvec3_is_same (&fvec3_a, &fvec3_b)))
+    if (LW6SYS_TEST_ACK (lw6mat_fvec3_is_same (&fvec3_a, &fvec3_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("fvec3 comparison works when equal"));
@@ -1145,7 +1145,7 @@ _test_fvec3 ()
 	ret = 0;
       }
     lw6mat_fvec3_neg (&fvec3_b);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec3_is_same (&fvec3_a, &fvec3_b)))
+    if (LW6SYS_TEST_ACK (!lw6mat_fvec3_is_same (&fvec3_a, &fvec3_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("fvec3 comparison works when different"));
@@ -1157,7 +1157,7 @@ _test_fvec3 ()
 	ret = 0;
       }
     lw6mat_fvec3_add (&fvec3, &fvec3_a, &fvec3_b);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec3_len (&fvec3)))
+    if (LW6SYS_TEST_ACK (!lw6mat_fvec3_len (&fvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1171,7 +1171,7 @@ _test_fvec3 ()
 	ret = 0;
       }
     lw6mat_fvec3_sub (&fvec3, &fvec3_a, &fvec3_a);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec3_len (&fvec3)))
+    if (LW6SYS_TEST_ACK (!lw6mat_fvec3_len (&fvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1192,7 +1192,7 @@ _test_fvec3 ()
     fvec3_b.p.y = _TEST_FVEC_Y2;
     fvec3_b.p.z = _TEST_FVEC_Z2;
     dot = lw6mat_fvec3_dot (&fvec3_a, &fvec3_b);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (dot) == _TEST_FVEC3_DOT))
+    if (LW6SYS_TEST_ACK (lw6mat_ftox (dot) == _TEST_FVEC3_DOT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for fvec3 is %d -> OK"),
 		    lw6mat_ftoi (dot));
@@ -1211,7 +1211,7 @@ _test_fvec3 ()
      * does not really make sense for dim 2 and 4.
      */
     lw6mat_fvec3_cross (&fvec3, &fvec3_a, &fvec3_b);
-    if (LW6SYS_TEST_PASS_THROUGH
+    if (LW6SYS_TEST_ACK
 	(lw6mat_ftox (fvec3.p.x) == _TEST_FVEC3_CROSS_X
 	 && lw6mat_ftox (fvec3.p.y) == _TEST_FVEC3_CROSS_Y
 	 && lw6mat_ftox (fvec3.p.z) == _TEST_FVEC3_CROSS_Z))
@@ -1246,7 +1246,7 @@ _print_fvec4 (const lw6mat_fvec4_t * fvec4, const char *about)
   char *repr;
 
   repr = lw6mat_fvec4_repr (fvec4);
-  if (LW6SYS_TEST_PASS_THROUGH (repr))
+  if (LW6SYS_TEST_ACK (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec4 %s repr=\"%s\""), about,
 		  repr);
@@ -1284,13 +1284,13 @@ _test_fvec4 ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
 		("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (!LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec4_norm (&fvec4)))
+    if (!LW6SYS_TEST_ACK (!lw6mat_fvec4_norm (&fvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
       }
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec4_len (&fvec4)))
+    if (LW6SYS_TEST_ACK (!lw6mat_fvec4_len (&fvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("zero fvec4 has zero size, this is fine"));
@@ -1306,7 +1306,7 @@ _test_fvec4 ()
     fvec4.p.w = _TEST_FVEC_W1;
     _print_fvec4 (&fvec4, "init");
     len_sq = lw6mat_fvec4_len_sq (&fvec4);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len_sq) == _TEST_FVEC4_LEN_SQ))
+    if (LW6SYS_TEST_ACK (lw6mat_ftox (len_sq) == _TEST_FVEC4_LEN_SQ))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for fvec4 is %d -> OK"),
 		    lw6mat_ftoi (len_sq));
@@ -1321,7 +1321,7 @@ _test_fvec4 ()
 	ret = 0;
       }
     len = lw6mat_fvec4_len (&fvec4);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len) == _TEST_FVEC4_LEN))
+    if (LW6SYS_TEST_ACK (lw6mat_ftox (len) == _TEST_FVEC4_LEN))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for fvec4 is %d -> OK"),
 		    lw6mat_ftoi (len));
@@ -1334,14 +1334,14 @@ _test_fvec4 ()
 		    lw6mat_ftoi (len), lw6mat_ftox (len), _TEST_FVEC4_LEN);
 	ret = 0;
       }
-    if (!LW6SYS_TEST_PASS_THROUGH (lw6mat_fvec4_norm (&fvec4)))
+    if (!LW6SYS_TEST_ACK (lw6mat_fvec4_norm (&fvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
       }
     _print_fvec4 (&fvec4, "norm");
     len = lw6mat_fvec4_len (&fvec4);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (len) == LW6MAT_X_1))
+    if (LW6SYS_TEST_ACK (lw6mat_ftox (len) == LW6MAT_X_1))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("len for normalized fvec4 is 1 -> OK"));
@@ -1366,7 +1366,7 @@ _test_fvec4 ()
     fvec4_b.p.y = fvec4.p.y;
     fvec4_b.p.z = fvec4.p.z;
     fvec4_b.p.w = fvec4.p.w;
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_fvec4_is_same (&fvec4_a, &fvec4_b)))
+    if (LW6SYS_TEST_ACK (lw6mat_fvec4_is_same (&fvec4_a, &fvec4_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("fvec4 comparison works when equal"));
@@ -1378,7 +1378,7 @@ _test_fvec4 ()
 	ret = 0;
       }
     lw6mat_fvec4_neg (&fvec4_b);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec4_is_same (&fvec4_a, &fvec4_b)))
+    if (LW6SYS_TEST_ACK (!lw6mat_fvec4_is_same (&fvec4_a, &fvec4_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("fvec4 comparison works when different"));
@@ -1390,7 +1390,7 @@ _test_fvec4 ()
 	ret = 0;
       }
     lw6mat_fvec4_add (&fvec4, &fvec4_a, &fvec4_b);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec4_len (&fvec4)))
+    if (LW6SYS_TEST_ACK (!lw6mat_fvec4_len (&fvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1404,7 +1404,7 @@ _test_fvec4 ()
 	ret = 0;
       }
     lw6mat_fvec4_sub (&fvec4, &fvec4_a, &fvec4_a);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_fvec4_len (&fvec4)))
+    if (LW6SYS_TEST_ACK (!lw6mat_fvec4_len (&fvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1427,7 +1427,7 @@ _test_fvec4 ()
     fvec4_b.p.z = _TEST_FVEC_Z2;
     fvec4_b.p.w = _TEST_FVEC_W2;
     dot = lw6mat_fvec4_dot (&fvec4_a, &fvec4_b);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_ftox (dot) == _TEST_FVEC4_DOT))
+    if (LW6SYS_TEST_ACK (lw6mat_ftox (dot) == _TEST_FVEC4_DOT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for fvec4 is %d -> OK"),
 		    lw6mat_ftoi (dot));
@@ -1446,7 +1446,7 @@ _test_fvec4 ()
      * does not really make sense for dim 2 and 4.
      */
     lw6mat_fvec4_cross (&fvec3, &fvec4_a, &fvec4_b);
-    if (LW6SYS_TEST_PASS_THROUGH
+    if (LW6SYS_TEST_ACK
 	(lw6mat_ftox (fvec3.p.x) == _TEST_FVEC4_CROSS_X
 	 && lw6mat_ftox (fvec3.p.y) == _TEST_FVEC4_CROSS_Y
 	 && lw6mat_ftox (fvec3.p.z) == _TEST_FVEC4_CROSS_Z))
@@ -1481,7 +1481,7 @@ _print_dvec2 (const lw6mat_dvec2_t * dvec2, const char *about)
   char *repr;
 
   repr = lw6mat_dvec2_repr (dvec2);
-  if (LW6SYS_TEST_PASS_THROUGH (repr))
+  if (LW6SYS_TEST_ACK (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec2 %s repr=\"%s\""), about,
 		  repr);
@@ -1519,13 +1519,13 @@ _test_dvec2 ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
 		("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (!LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec2_norm (&dvec2)))
+    if (!LW6SYS_TEST_ACK (!lw6mat_dvec2_norm (&dvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
       }
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec2_len (&dvec2)))
+    if (LW6SYS_TEST_ACK (!lw6mat_dvec2_len (&dvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("zero dvec2 has zero size, this is fine"));
@@ -1539,7 +1539,7 @@ _test_dvec2 ()
     dvec2.p.y = _TEST_DVEC_Y1;
     _print_dvec2 (&dvec2, "init");
     len_sq = lw6mat_dvec2_len_sq (&dvec2);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len_sq) == _TEST_DVEC2_LEN_SQ))
+    if (LW6SYS_TEST_ACK (lw6mat_dtox (len_sq) == _TEST_DVEC2_LEN_SQ))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for dvec2 is %d -> OK"),
 		    lw6mat_dtoi (len_sq));
@@ -1554,7 +1554,7 @@ _test_dvec2 ()
 	ret = 0;
       }
     len = lw6mat_dvec2_len (&dvec2);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len) == _TEST_DVEC2_LEN))
+    if (LW6SYS_TEST_ACK (lw6mat_dtox (len) == _TEST_DVEC2_LEN))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for dvec2 is %d -> OK"),
 		    lw6mat_dtoi (len));
@@ -1567,14 +1567,14 @@ _test_dvec2 ()
 		    lw6mat_dtoi (len), lw6mat_dtox (len), _TEST_DVEC2_LEN);
 	ret = 0;
       }
-    if (!LW6SYS_TEST_PASS_THROUGH (lw6mat_dvec2_norm (&dvec2)))
+    if (!LW6SYS_TEST_ACK (lw6mat_dvec2_norm (&dvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
       }
     _print_dvec2 (&dvec2, "norm");
     len = lw6mat_dvec2_len (&dvec2);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len) == LW6MAT_X_1))
+    if (LW6SYS_TEST_ACK (lw6mat_dtox (len) == LW6MAT_X_1))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("len for normalized dvec2 is 1 -> OK"));
@@ -1597,7 +1597,7 @@ _test_dvec2 ()
     memset (&dvec2_b, 0xff, sizeof (lw6mat_dvec2_t));
     dvec2_b.p.x = dvec2.p.x;
     dvec2_b.p.y = dvec2.p.y;
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dvec2_is_same (&dvec2_a, &dvec2_b)))
+    if (LW6SYS_TEST_ACK (lw6mat_dvec2_is_same (&dvec2_a, &dvec2_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("dvec2 comparison works when equal"));
@@ -1609,7 +1609,7 @@ _test_dvec2 ()
 	ret = 0;
       }
     lw6mat_dvec2_neg (&dvec2_b);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec2_is_same (&dvec2_a, &dvec2_b)))
+    if (LW6SYS_TEST_ACK (!lw6mat_dvec2_is_same (&dvec2_a, &dvec2_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("dvec2 comparison works when different"));
@@ -1621,7 +1621,7 @@ _test_dvec2 ()
 	ret = 0;
       }
     lw6mat_dvec2_add (&dvec2, &dvec2_a, &dvec2_b);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec2_len (&dvec2)))
+    if (LW6SYS_TEST_ACK (!lw6mat_dvec2_len (&dvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1635,7 +1635,7 @@ _test_dvec2 ()
 	ret = 0;
       }
     lw6mat_dvec2_sub (&dvec2, &dvec2_a, &dvec2_a);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec2_len (&dvec2)))
+    if (LW6SYS_TEST_ACK (!lw6mat_dvec2_len (&dvec2)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1654,7 +1654,7 @@ _test_dvec2 ()
     dvec2_b.p.x = _TEST_DVEC_X2;
     dvec2_b.p.y = _TEST_DVEC_Y2;
     dot = lw6mat_dvec2_dot (&dvec2_a, &dvec2_b);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (dot) == _TEST_DVEC2_DOT))
+    if (LW6SYS_TEST_ACK (lw6mat_dtox (dot) == _TEST_DVEC2_DOT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for dvec2 is %d -> OK"),
 		    lw6mat_dtoi (dot));
@@ -1673,7 +1673,7 @@ _test_dvec2 ()
      * does not really make sense for dim 2 and 4.
      */
     lw6mat_dvec2_cross (&dvec3, &dvec2_a, &dvec2_b);
-    if (LW6SYS_TEST_PASS_THROUGH
+    if (LW6SYS_TEST_ACK
 	(lw6mat_dtox (dvec3.p.x) == _TEST_DVEC2_CROSS_X
 	 && lw6mat_dtox (dvec3.p.y) == _TEST_DVEC2_CROSS_Y
 	 && lw6mat_dtox (dvec3.p.z) == _TEST_DVEC2_CROSS_Z))
@@ -1708,7 +1708,7 @@ _print_dvec3 (const lw6mat_dvec3_t * dvec3, const char *about)
   char *repr;
 
   repr = lw6mat_dvec3_repr (dvec3);
-  if (LW6SYS_TEST_PASS_THROUGH (repr))
+  if (LW6SYS_TEST_ACK (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec3 %s repr=\"%s\""), about,
 		  repr);
@@ -1745,13 +1745,13 @@ _test_dvec3 ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
 		("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (!LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec3_norm (&dvec3)))
+    if (!LW6SYS_TEST_ACK (!lw6mat_dvec3_norm (&dvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
       }
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec3_len (&dvec3)))
+    if (LW6SYS_TEST_ACK (!lw6mat_dvec3_len (&dvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("zero dvec3 has zero size, this is fine"));
@@ -1766,7 +1766,7 @@ _test_dvec3 ()
     dvec3.p.z = _TEST_DVEC_Z1;
     _print_dvec3 (&dvec3, "init");
     len_sq = lw6mat_dvec3_len_sq (&dvec3);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len_sq) == _TEST_DVEC3_LEN_SQ))
+    if (LW6SYS_TEST_ACK (lw6mat_dtox (len_sq) == _TEST_DVEC3_LEN_SQ))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for dvec3 is %d -> OK"),
 		    lw6mat_dtoi (len_sq));
@@ -1781,7 +1781,7 @@ _test_dvec3 ()
 	ret = 0;
       }
     len = lw6mat_dvec3_len (&dvec3);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len) == _TEST_DVEC3_LEN))
+    if (LW6SYS_TEST_ACK (lw6mat_dtox (len) == _TEST_DVEC3_LEN))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for dvec3 is %d -> OK"),
 		    lw6mat_dtoi (len));
@@ -1794,14 +1794,14 @@ _test_dvec3 ()
 		    lw6mat_dtoi (len), lw6mat_dtox (len), _TEST_DVEC3_LEN);
 	ret = 0;
       }
-    if (!LW6SYS_TEST_PASS_THROUGH (lw6mat_dvec3_norm (&dvec3)))
+    if (!LW6SYS_TEST_ACK (lw6mat_dvec3_norm (&dvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
       }
     _print_dvec3 (&dvec3, "norm");
     len = lw6mat_dvec3_len (&dvec3);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len) == LW6MAT_X_1))
+    if (LW6SYS_TEST_ACK (lw6mat_dtox (len) == LW6MAT_X_1))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("len for normalized dvec3 is 1 -> OK"));
@@ -1825,7 +1825,7 @@ _test_dvec3 ()
     dvec3_b.p.x = dvec3.p.x;
     dvec3_b.p.y = dvec3.p.y;
     dvec3_b.p.z = dvec3.p.z;
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dvec3_is_same (&dvec3_a, &dvec3_b)))
+    if (LW6SYS_TEST_ACK (lw6mat_dvec3_is_same (&dvec3_a, &dvec3_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("dvec3 comparison works when equal"));
@@ -1837,7 +1837,7 @@ _test_dvec3 ()
 	ret = 0;
       }
     lw6mat_dvec3_neg (&dvec3_b);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec3_is_same (&dvec3_a, &dvec3_b)))
+    if (LW6SYS_TEST_ACK (!lw6mat_dvec3_is_same (&dvec3_a, &dvec3_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("dvec3 comparison works when different"));
@@ -1849,7 +1849,7 @@ _test_dvec3 ()
 	ret = 0;
       }
     lw6mat_dvec3_add (&dvec3, &dvec3_a, &dvec3_b);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec3_len (&dvec3)))
+    if (LW6SYS_TEST_ACK (!lw6mat_dvec3_len (&dvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1863,7 +1863,7 @@ _test_dvec3 ()
 	ret = 0;
       }
     lw6mat_dvec3_sub (&dvec3, &dvec3_a, &dvec3_a);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec3_len (&dvec3)))
+    if (LW6SYS_TEST_ACK (!lw6mat_dvec3_len (&dvec3)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -1884,7 +1884,7 @@ _test_dvec3 ()
     dvec3_b.p.y = _TEST_DVEC_Y2;
     dvec3_b.p.z = _TEST_DVEC_Z2;
     dot = lw6mat_dvec3_dot (&dvec3_a, &dvec3_b);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (dot) == _TEST_DVEC3_DOT))
+    if (LW6SYS_TEST_ACK (lw6mat_dtox (dot) == _TEST_DVEC3_DOT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for dvec3 is %d -> OK"),
 		    lw6mat_dtoi (dot));
@@ -1903,7 +1903,7 @@ _test_dvec3 ()
      * does not really make sense for dim 2 and 4.
      */
     lw6mat_dvec3_cross (&dvec3, &dvec3_a, &dvec3_b);
-    if (LW6SYS_TEST_PASS_THROUGH
+    if (LW6SYS_TEST_ACK
 	(lw6mat_dtox (dvec3.p.x) == _TEST_DVEC3_CROSS_X
 	 && lw6mat_dtox (dvec3.p.y) == _TEST_DVEC3_CROSS_Y
 	 && lw6mat_dtox (dvec3.p.z) == _TEST_DVEC3_CROSS_Z))
@@ -1938,7 +1938,7 @@ _print_dvec4 (const lw6mat_dvec4_t * dvec4, const char *about)
   char *repr;
 
   repr = lw6mat_dvec4_repr (dvec4);
-  if (LW6SYS_TEST_PASS_THROUGH (repr))
+  if (LW6SYS_TEST_ACK (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec4 %s repr=\"%s\""), about,
 		  repr);
@@ -1976,13 +1976,13 @@ _test_dvec4 ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
 		("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (!LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec4_norm (&dvec4)))
+    if (!LW6SYS_TEST_ACK (!lw6mat_dvec4_norm (&dvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
       }
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec4_len (&dvec4)))
+    if (LW6SYS_TEST_ACK (!lw6mat_dvec4_len (&dvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("zero dvec4 has zero size, this is fine"));
@@ -1998,7 +1998,7 @@ _test_dvec4 ()
     dvec4.p.w = _TEST_DVEC_W1;
     _print_dvec4 (&dvec4, "init");
     len_sq = lw6mat_dvec4_len_sq (&dvec4);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len_sq) == _TEST_DVEC4_LEN_SQ))
+    if (LW6SYS_TEST_ACK (lw6mat_dtox (len_sq) == _TEST_DVEC4_LEN_SQ))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len_sq for dvec4 is %d -> OK"),
 		    lw6mat_dtoi (len_sq));
@@ -2013,7 +2013,7 @@ _test_dvec4 ()
 	ret = 0;
       }
     len = lw6mat_dvec4_len (&dvec4);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len) == _TEST_DVEC4_LEN))
+    if (LW6SYS_TEST_ACK (lw6mat_dtox (len) == _TEST_DVEC4_LEN))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("len for dvec4 is %d -> OK"),
 		    lw6mat_dtoi (len));
@@ -2026,14 +2026,14 @@ _test_dvec4 ()
 		    lw6mat_dtoi (len), lw6mat_dtox (len), _TEST_DVEC4_LEN);
 	ret = 0;
       }
-    if (!LW6SYS_TEST_PASS_THROUGH (lw6mat_dvec4_norm (&dvec4)))
+    if (!LW6SYS_TEST_ACK (lw6mat_dvec4_norm (&dvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
       }
     _print_dvec4 (&dvec4, "norm");
     len = lw6mat_dvec4_len (&dvec4);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (len) == LW6MAT_X_1))
+    if (LW6SYS_TEST_ACK (lw6mat_dtox (len) == LW6MAT_X_1))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("len for normalized dvec4 is 1 -> OK"));
@@ -2058,7 +2058,7 @@ _test_dvec4 ()
     dvec4_b.p.y = dvec4.p.y;
     dvec4_b.p.z = dvec4.p.z;
     dvec4_b.p.w = dvec4.p.w;
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dvec4_is_same (&dvec4_a, &dvec4_b)))
+    if (LW6SYS_TEST_ACK (lw6mat_dvec4_is_same (&dvec4_a, &dvec4_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("dvec4 comparison works when equal"));
@@ -2070,7 +2070,7 @@ _test_dvec4 ()
 	ret = 0;
       }
     lw6mat_dvec4_neg (&dvec4_b);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec4_is_same (&dvec4_a, &dvec4_b)))
+    if (LW6SYS_TEST_ACK (!lw6mat_dvec4_is_same (&dvec4_a, &dvec4_b)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("dvec4 comparison works when different"));
@@ -2082,7 +2082,7 @@ _test_dvec4 ()
 	ret = 0;
       }
     lw6mat_dvec4_add (&dvec4, &dvec4_a, &dvec4_b);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec4_len (&dvec4)))
+    if (LW6SYS_TEST_ACK (!lw6mat_dvec4_len (&dvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -2096,7 +2096,7 @@ _test_dvec4 ()
 	ret = 0;
       }
     lw6mat_dvec4_sub (&dvec4, &dvec4_a, &dvec4_a);
-    if (LW6SYS_TEST_PASS_THROUGH (!lw6mat_dvec4_len (&dvec4)))
+    if (LW6SYS_TEST_ACK (!lw6mat_dvec4_len (&dvec4)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -2119,7 +2119,7 @@ _test_dvec4 ()
     dvec4_b.p.z = _TEST_DVEC_Z2;
     dvec4_b.p.w = _TEST_DVEC_W2;
     dot = lw6mat_dvec4_dot (&dvec4_a, &dvec4_b);
-    if (LW6SYS_TEST_PASS_THROUGH (lw6mat_dtox (dot) == _TEST_DVEC4_DOT))
+    if (LW6SYS_TEST_ACK (lw6mat_dtox (dot) == _TEST_DVEC4_DOT))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dot for dvec4 is %d -> OK"),
 		    lw6mat_dtoi (dot));
@@ -2138,7 +2138,7 @@ _test_dvec4 ()
      * does not really make sense for dim 2 and 4.
      */
     lw6mat_dvec4_cross (&dvec3, &dvec4_a, &dvec4_b);
-    if (LW6SYS_TEST_PASS_THROUGH
+    if (LW6SYS_TEST_ACK
 	(lw6mat_dtox (dvec3.p.x) == _TEST_DVEC4_CROSS_X
 	 && lw6mat_dtox (dvec3.p.y) == _TEST_DVEC4_CROSS_Y
 	 && lw6mat_dtox (dvec3.p.z) == _TEST_DVEC4_CROSS_Z))
@@ -2173,7 +2173,7 @@ _print_fmat2 (const lw6mat_fmat2_t * fmat2, const char *about)
   char *repr;
 
   repr = lw6mat_fmat2_repr (fmat2);
-  if (repr)
+  if (LW6SYS_TEST_ACK (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat2 %s repr=\"%s\""), about,
 		  repr);
@@ -2227,7 +2227,8 @@ _test_fmat2 ()
 			  _TEST_FMAT_RANDOM_RANGE) /
 			 _TEST_FMAT_RANDOM_ROUND) * _TEST_FMAT_RANDOM_ROUND;
 		k = lw6mat_mat2_v_index (i, j);
-		if (lw6mat_is_similar_f (fmat2.m[i][j], fmat2.v[k]))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_is_similar_f (fmat2.m[i][j], fmat2.v[k])))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -2246,14 +2247,11 @@ _test_fmat2 ()
 	  }
 	ret = _print_fmat2 (&fmat2, "init") && ret;
 	det = lw6mat_fmat2_det (&fmat2);
-	if (det)
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat2 det=%f"), det);
-	  }
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat2 det=%f"), det);
 	n--;
       }
 
-    if (_f_is_within_limit (det, _TEST_FMAT_DET_LIMIT))
+    if (LW6SYS_TEST_ACK (_f_is_within_limit (det, _TEST_FMAT_DET_LIMIT)))
       {
 	memset (&fmat2_inv, 0xff, sizeof (lw6mat_fmat2_t));
 	for (k = 0; k < LW6MAT_MAT2_V_SIZE_X_SIZE; ++k)
@@ -2261,7 +2259,7 @@ _test_fmat2 ()
 	    fmat2_inv.v[k] = fmat2.v[k];
 	  }
 
-	if (lw6mat_fmat2_is_same (&fmat2, &fmat2_inv))
+	if (LW6SYS_TEST_ACK (lw6mat_fmat2_is_same (&fmat2, &fmat2_inv)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("fmat2 comparison works when equal"));
@@ -2274,11 +2272,11 @@ _test_fmat2 ()
 	  }
 
 	fmat2_inv = fmat2;
-	if (lw6mat_fmat2_inv (&fmat2_inv, &fmat2_inv))
+	if (LW6SYS_TEST_ACK (lw6mat_fmat2_inv (&fmat2_inv, &fmat2_inv)))
 	  {
 	    ret = _print_fmat2 (&fmat2_inv, "inv") && ret;
 
-	    if (!lw6mat_fmat2_is_same (&fmat2, &fmat2_inv))
+	    if (LW6SYS_TEST_ACK (!lw6mat_fmat2_is_same (&fmat2, &fmat2_inv)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("fmat2 comparison works when different"));
@@ -2295,7 +2293,8 @@ _test_fmat2 ()
 	    lw6mat_fmat2_id (&fmat2_id);
 	    for (k = 0; k < LW6MAT_MAT2_V_SIZE_X_SIZE; ++k)
 	      {
-		if (lw6mat_is_similar_f (fmat2_mul.v[k], fmat2_id.v[k]))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_is_similar_f (fmat2_mul.v[k], fmat2_id.v[k])))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -2315,7 +2314,8 @@ _test_fmat2 ()
 	    ret = _print_fmat2 (&fmat2, "scale") && ret;
 	    det_scaled = lw6mat_fmat2_det (&fmat2);
 	    det_scaled_expected = det * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE;
-	    if (lw6mat_is_similar_f (det_scaled, det_scaled_expected))
+	    if (LW6SYS_TEST_ACK
+		(lw6mat_is_similar_f (det_scaled, det_scaled_expected)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -2339,7 +2339,8 @@ _test_fmat2 ()
 	      {
 		for (j = 0; j < LW6MAT_MAT2_M_SIZE; ++j)
 		  {
-		    if (fmat2.m[i][j] == fmat2_trans.m[j][i])
+		    if (LW6SYS_TEST_ACK
+			(fmat2.m[i][j] == fmat2_trans.m[j][i]))
 		      {
 			// OK
 		      }
@@ -2355,13 +2356,14 @@ _test_fmat2 ()
 		      }
 		  }
 	      }
-	    if (transposed)
+	    if (LW6SYS_TEST_ACK (transposed))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("orig and trans fmat2 correspond, OK"));
 		lw6mat_fmat2_trans (&fmat2_trans);
 		ret = _print_fmat2 (&fmat2_trans, "trans 2X") && ret;
-		if (lw6mat_fmat2_is_same (&fmat2, &fmat2_trans))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_fmat2_is_same (&fmat2, &fmat2_trans)))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -2401,8 +2403,9 @@ _test_fmat2 ()
 	ret = _print_fvec2 (&fvec2, "right arg column fvec2") && ret;
 	lw6mat_fmat2_mul_fvec2 (&fvec2, &fmat2, &fvec2);
 	ret = _print_fvec2 (&fvec2, "result fvec2") && ret;
-	if (lw6mat_is_similar_f (fvec2.p.x, _TEST_FMAT2_MUL_FVEC2_X) &&
-	    lw6mat_is_similar_f (fvec2.p.y, _TEST_FMAT2_MUL_FVEC2_Y))
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fvec2.p.x, _TEST_FMAT2_MUL_FVEC2_X)
+	     && lw6mat_is_similar_f (fvec2.p.y, _TEST_FMAT2_MUL_FVEC2_Y)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
@@ -2433,7 +2436,7 @@ _print_fmat3 (const lw6mat_fmat3_t * fmat3, const char *about)
   char *repr;
 
   repr = lw6mat_fmat3_repr (fmat3);
-  if (repr)
+  if (LW6SYS_TEST_ACK (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat3 %s repr=\"%s\""), about,
 		  repr);
@@ -2488,7 +2491,8 @@ _test_fmat3 ()
 			  _TEST_FMAT_RANDOM_RANGE) /
 			 _TEST_FMAT_RANDOM_ROUND) * _TEST_FMAT_RANDOM_ROUND;
 		k = lw6mat_mat3_v_index (i, j);
-		if (lw6mat_is_similar_f (fmat3.m[i][j], fmat3.v[k]))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_is_similar_f (fmat3.m[i][j], fmat3.v[k])))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -2507,14 +2511,11 @@ _test_fmat3 ()
 	  }
 	ret = _print_fmat3 (&fmat3, "init") && ret;
 	det = lw6mat_fmat3_det (&fmat3);
-	if (det)
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat3 det=%f"), det);
-	  }
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat3 det=%f"), det);
 	n--;
       }
 
-    if (_f_is_within_limit (det, _TEST_FMAT_DET_LIMIT))
+    if (LW6SYS_TEST_ACK (_f_is_within_limit (det, _TEST_FMAT_DET_LIMIT)))
       {
 	memset (&fmat3_inv, 0xff, sizeof (lw6mat_fmat3_t));
 	for (k = 0; k < LW6MAT_MAT3_V_SIZE_X_SIZE; ++k)
@@ -2522,7 +2523,7 @@ _test_fmat3 ()
 	    fmat3_inv.v[k] = fmat3.v[k];
 	  }
 
-	if (lw6mat_fmat3_is_same (&fmat3, &fmat3_inv))
+	if (LW6SYS_TEST_ACK (lw6mat_fmat3_is_same (&fmat3, &fmat3_inv)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("fmat3 comparison works when equal"));
@@ -2535,11 +2536,11 @@ _test_fmat3 ()
 	  }
 
 	fmat3_inv = fmat3;
-	if (lw6mat_fmat3_inv (&fmat3_inv, &fmat3_inv))
+	if (LW6SYS_TEST_ACK (lw6mat_fmat3_inv (&fmat3_inv, &fmat3_inv)))
 	  {
 	    ret = _print_fmat3 (&fmat3_inv, "inv") && ret;
 
-	    if (!lw6mat_fmat3_is_same (&fmat3, &fmat3_inv))
+	    if (LW6SYS_TEST_ACK (!lw6mat_fmat3_is_same (&fmat3, &fmat3_inv)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("fmat3 comparison works when different"));
@@ -2556,7 +2557,8 @@ _test_fmat3 ()
 	    lw6mat_fmat3_id (&fmat3_id);
 	    for (k = 0; k < LW6MAT_MAT3_V_SIZE_X_SIZE; ++k)
 	      {
-		if (lw6mat_is_similar_f (fmat3_mul.v[k], fmat3_id.v[k]))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_is_similar_f (fmat3_mul.v[k], fmat3_id.v[k])))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -2577,7 +2579,8 @@ _test_fmat3 ()
 	    det_scaled = lw6mat_fmat3_det (&fmat3);
 	    det_scaled_expected =
 	      det * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE;
-	    if (lw6mat_is_similar_f (det_scaled, det_scaled_expected))
+	    if (LW6SYS_TEST_ACK
+		(lw6mat_is_similar_f (det_scaled, det_scaled_expected)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -2601,7 +2604,8 @@ _test_fmat3 ()
 	      {
 		for (j = 0; j < LW6MAT_MAT3_M_SIZE; ++j)
 		  {
-		    if (fmat3.m[i][j] == fmat3_trans.m[j][i])
+		    if (LW6SYS_TEST_ACK
+			(fmat3.m[i][j] == fmat3_trans.m[j][i]))
 		      {
 			// OK
 		      }
@@ -2617,13 +2621,14 @@ _test_fmat3 ()
 		      }
 		  }
 	      }
-	    if (transposed)
+	    if (LW6SYS_TEST_ACK (transposed))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("orig and trans fmat3 correspond, OK"));
 		lw6mat_fmat3_trans (&fmat3_trans);
 		ret = _print_fmat3 (&fmat3_trans, "trans 2X") && ret;
-		if (lw6mat_fmat3_is_same (&fmat3, &fmat3_trans))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_fmat3_is_same (&fmat3, &fmat3_trans)))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -2667,9 +2672,10 @@ _test_fmat3 ()
 	ret = _print_fvec3 (&fvec3, "right arg column fvec3") && ret;
 	lw6mat_fmat3_mul_fvec3 (&fvec3, &fmat3, &fvec3);
 	ret = _print_fvec3 (&fvec3, "result fvec3") && ret;
-	if (lw6mat_is_similar_f (fvec3.p.x, _TEST_FMAT3_MUL_FVEC3_X) &&
-	    lw6mat_is_similar_f (fvec3.p.y, _TEST_FMAT3_MUL_FVEC3_Y) &&
-	    lw6mat_is_similar_f (fvec3.p.z, _TEST_FMAT3_MUL_FVEC3_Z))
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fvec3.p.x, _TEST_FMAT3_MUL_FVEC3_X)
+	     && lw6mat_is_similar_f (fvec3.p.y, _TEST_FMAT3_MUL_FVEC3_Y)
+	     && lw6mat_is_similar_f (fvec3.p.z, _TEST_FMAT3_MUL_FVEC3_Z)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
@@ -2682,8 +2688,9 @@ _test_fmat3 ()
 	  }
 	lw6mat_fmat3_mul_fvec2 (&fvec2, &fmat3, &fvec2);
 	ret = _print_fvec2 (&fvec2, "result fvec2") && ret;
-	if (lw6mat_is_similar_f (fvec2.p.x, _TEST_FMAT3_MUL_FVEC2_X) &&
-	    lw6mat_is_similar_f (fvec2.p.y, _TEST_FMAT3_MUL_FVEC2_Y))
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fvec2.p.x, _TEST_FMAT3_MUL_FVEC2_X)
+	     && lw6mat_is_similar_f (fvec2.p.y, _TEST_FMAT3_MUL_FVEC2_Y)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
@@ -2714,7 +2721,7 @@ _print_fmat4 (const lw6mat_fmat4_t * fmat4, const char *about)
   char *repr;
 
   repr = lw6mat_fmat4_repr (fmat4);
-  if (repr)
+  if (LW6SYS_TEST_ACK (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat4 %s repr=\"%s\""), about,
 		  repr);
@@ -2769,7 +2776,8 @@ _test_fmat4 ()
 			  _TEST_FMAT_RANDOM_RANGE) /
 			 _TEST_FMAT_RANDOM_ROUND) * _TEST_FMAT_RANDOM_ROUND;
 		k = lw6mat_mat4_v_index (i, j);
-		if (lw6mat_is_similar_f (fmat4.m[i][j], fmat4.v[k]))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_is_similar_f (fmat4.m[i][j], fmat4.v[k])))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -2788,14 +2796,11 @@ _test_fmat4 ()
 	  }
 	ret = _print_fmat4 (&fmat4, "init") && ret;
 	det = lw6mat_fmat4_det (&fmat4);
-	if (det)
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat4 det=%f"), det);
-	  }
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat4 det=%f"), det);
 	n--;
       }
 
-    if (_f_is_within_limit (det, _TEST_FMAT_DET_LIMIT))
+    if (LW6SYS_TEST_ACK (_f_is_within_limit (det, _TEST_FMAT_DET_LIMIT)))
       {
 	memset (&fmat4_inv, 0xff, sizeof (lw6mat_fmat4_t));
 	for (k = 0; k < LW6MAT_MAT4_V_SIZE_X_SIZE; ++k)
@@ -2803,7 +2808,7 @@ _test_fmat4 ()
 	    fmat4_inv.v[k] = fmat4.v[k];
 	  }
 
-	if (lw6mat_fmat4_is_same (&fmat4, &fmat4_inv))
+	if (LW6SYS_TEST_ACK (lw6mat_fmat4_is_same (&fmat4, &fmat4_inv)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("fmat4 comparison works when equal"));
@@ -2816,11 +2821,11 @@ _test_fmat4 ()
 	  }
 
 	fmat4_inv = fmat4;
-	if (lw6mat_fmat4_inv (&fmat4_inv, &fmat4_inv))
+	if (LW6SYS_TEST_ACK (lw6mat_fmat4_inv (&fmat4_inv, &fmat4_inv)))
 	  {
 	    ret = _print_fmat4 (&fmat4_inv, "inv") && ret;
 
-	    if (!lw6mat_fmat4_is_same (&fmat4, &fmat4_inv))
+	    if (LW6SYS_TEST_ACK (!lw6mat_fmat4_is_same (&fmat4, &fmat4_inv)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("fmat4 comparison works when different"));
@@ -2837,7 +2842,8 @@ _test_fmat4 ()
 	    lw6mat_fmat4_id (&fmat4_id);
 	    for (k = 0; k < LW6MAT_MAT4_V_SIZE_X_SIZE; ++k)
 	      {
-		if (lw6mat_is_similar_f (fmat4_mul.v[k], fmat4_id.v[k]))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_is_similar_f (fmat4_mul.v[k], fmat4_id.v[k])))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -2859,7 +2865,8 @@ _test_fmat4 ()
 	    det_scaled_expected =
 	      det * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE *
 	      _TEST_FMAT_SCALE;
-	    if (lw6mat_is_similar_f (det_scaled, det_scaled_expected))
+	    if (LW6SYS_TEST_ACK
+		(lw6mat_is_similar_f (det_scaled, det_scaled_expected)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -2883,7 +2890,8 @@ _test_fmat4 ()
 	      {
 		for (j = 0; j < LW6MAT_MAT4_M_SIZE; ++j)
 		  {
-		    if (fmat4.m[i][j] == fmat4_trans.m[j][i])
+		    if (LW6SYS_TEST_ACK
+			(fmat4.m[i][j] == fmat4_trans.m[j][i]))
 		      {
 			// OK
 		      }
@@ -2899,13 +2907,14 @@ _test_fmat4 ()
 		      }
 		  }
 	      }
-	    if (transposed)
+	    if (LW6SYS_TEST_ACK (transposed))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("orig and trans fmat4 correspond, OK"));
 		lw6mat_fmat4_trans (&fmat4_trans);
 		ret = _print_fmat4 (&fmat4_trans, "trans 2X") && ret;
-		if (lw6mat_fmat4_is_same (&fmat4, &fmat4_trans))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_fmat4_is_same (&fmat4, &fmat4_trans)))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -2949,10 +2958,11 @@ _test_fmat4 ()
 	ret = _print_fvec4 (&fvec4, "right arg column fvec4") && ret;
 	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4, &fvec4);
 	ret = _print_fvec4 (&fvec4, "result fvec4") && ret;
-	if (lw6mat_is_similar_f (fvec4.p.x, _TEST_FMAT4_MUL_FVEC4_X) &&
-	    lw6mat_is_similar_f (fvec4.p.y, _TEST_FMAT4_MUL_FVEC4_Y) &&
-	    lw6mat_is_similar_f (fvec4.p.z, _TEST_FMAT4_MUL_FVEC4_Z) &&
-	    lw6mat_is_similar_f (fvec4.p.w, _TEST_FMAT4_MUL_FVEC4_W))
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fvec4.p.x, _TEST_FMAT4_MUL_FVEC4_X)
+	     && lw6mat_is_similar_f (fvec4.p.y, _TEST_FMAT4_MUL_FVEC4_Y)
+	     && lw6mat_is_similar_f (fvec4.p.z, _TEST_FMAT4_MUL_FVEC4_Z)
+	     && lw6mat_is_similar_f (fvec4.p.w, _TEST_FMAT4_MUL_FVEC4_W)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
@@ -2965,9 +2975,10 @@ _test_fmat4 ()
 	  }
 	lw6mat_fmat4_mul_fvec3 (&fvec3, &fmat4, &fvec3);
 	ret = _print_fvec3 (&fvec3, "result fvec3") && ret;
-	if (lw6mat_is_similar_f (fvec3.p.x, _TEST_FMAT4_MUL_FVEC3_X) &&
-	    lw6mat_is_similar_f (fvec3.p.y, _TEST_FMAT4_MUL_FVEC3_Y) &&
-	    lw6mat_is_similar_f (fvec3.p.z, _TEST_FMAT4_MUL_FVEC3_Z))
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fvec3.p.x, _TEST_FMAT4_MUL_FVEC3_X)
+	     && lw6mat_is_similar_f (fvec3.p.y, _TEST_FMAT4_MUL_FVEC3_Y)
+	     && lw6mat_is_similar_f (fvec3.p.z, _TEST_FMAT4_MUL_FVEC3_Z)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
@@ -2999,7 +3010,7 @@ _print_dmat2 (const lw6mat_dmat2_t * dmat2, const char *about)
   char *repr;
 
   repr = lw6mat_dmat2_repr (dmat2);
-  if (repr)
+  if (LW6SYS_TEST_ACK (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat2 %s repr=\"%s\""), about,
 		  repr);
@@ -3053,7 +3064,8 @@ _test_dmat2 ()
 			  _TEST_DMAT_RANDOM_RANGE) /
 			 _TEST_DMAT_RANDOM_ROUND) * _TEST_DMAT_RANDOM_ROUND;
 		k = lw6mat_mat2_v_index (i, j);
-		if (lw6mat_is_similar_d (dmat2.m[i][j], dmat2.v[k]))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_is_similar_d (dmat2.m[i][j], dmat2.v[k])))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -3072,14 +3084,11 @@ _test_dmat2 ()
 	  }
 	ret = _print_dmat2 (&dmat2, "init") && ret;
 	det = lw6mat_dmat2_det (&dmat2);
-	if (det)
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat2 det=%f"), det);
-	  }
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat2 det=%f"), det);
 	n--;
       }
 
-    if (_f_is_within_limit (det, _TEST_DMAT_DET_LIMIT))
+    if (LW6SYS_TEST_ACK (_f_is_within_limit (det, _TEST_DMAT_DET_LIMIT)))
       {
 	memset (&dmat2_inv, 0xff, sizeof (lw6mat_dmat2_t));
 	for (k = 0; k < LW6MAT_MAT2_V_SIZE_X_SIZE; ++k)
@@ -3087,7 +3096,7 @@ _test_dmat2 ()
 	    dmat2_inv.v[k] = dmat2.v[k];
 	  }
 
-	if (lw6mat_dmat2_is_same (&dmat2, &dmat2_inv))
+	if (LW6SYS_TEST_ACK (lw6mat_dmat2_is_same (&dmat2, &dmat2_inv)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("dmat2 comparison works when equal"));
@@ -3100,11 +3109,11 @@ _test_dmat2 ()
 	  }
 
 	dmat2_inv = dmat2;
-	if (lw6mat_dmat2_inv (&dmat2_inv, &dmat2_inv))
+	if (LW6SYS_TEST_ACK (lw6mat_dmat2_inv (&dmat2_inv, &dmat2_inv)))
 	  {
 	    ret = _print_dmat2 (&dmat2_inv, "inv") && ret;
 
-	    if (!lw6mat_dmat2_is_same (&dmat2, &dmat2_inv))
+	    if (LW6SYS_TEST_ACK (!lw6mat_dmat2_is_same (&dmat2, &dmat2_inv)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("dmat2 comparison works when different"));
@@ -3121,7 +3130,8 @@ _test_dmat2 ()
 	    lw6mat_dmat2_id (&dmat2_id);
 	    for (k = 0; k < LW6MAT_MAT2_V_SIZE_X_SIZE; ++k)
 	      {
-		if (lw6mat_is_similar_d (dmat2_mul.v[k], dmat2_id.v[k]))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_is_similar_d (dmat2_mul.v[k], dmat2_id.v[k])))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -3141,7 +3151,8 @@ _test_dmat2 ()
 	    ret = _print_dmat2 (&dmat2, "scale") && ret;
 	    det_scaled = lw6mat_dmat2_det (&dmat2);
 	    det_scaled_expected = det * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE;
-	    if (lw6mat_is_similar_d (det_scaled, det_scaled_expected))
+	    if (LW6SYS_TEST_ACK
+		(lw6mat_is_similar_d (det_scaled, det_scaled_expected)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -3165,7 +3176,8 @@ _test_dmat2 ()
 	      {
 		for (j = 0; j < LW6MAT_MAT2_M_SIZE; ++j)
 		  {
-		    if (dmat2.m[i][j] == dmat2_trans.m[j][i])
+		    if (LW6SYS_TEST_ACK
+			(dmat2.m[i][j] == dmat2_trans.m[j][i]))
 		      {
 			// OK
 		      }
@@ -3181,13 +3193,14 @@ _test_dmat2 ()
 		      }
 		  }
 	      }
-	    if (transposed)
+	    if (LW6SYS_TEST_ACK (transposed))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("orig and trans dmat2 correspond, OK"));
 		lw6mat_dmat2_trans (&dmat2_trans);
 		ret = _print_dmat2 (&dmat2_trans, "trans 2X") && ret;
-		if (lw6mat_dmat2_is_same (&dmat2, &dmat2_trans))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_dmat2_is_same (&dmat2, &dmat2_trans)))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -3227,8 +3240,9 @@ _test_dmat2 ()
 	ret = _print_dvec2 (&dvec2, "right arg column dvec2") && ret;
 	lw6mat_dmat2_mul_dvec2 (&dvec2, &dmat2, &dvec2);
 	ret = _print_dvec2 (&dvec2, "result dvec2") && ret;
-	if (lw6mat_is_similar_f (dvec2.p.x, _TEST_DMAT2_MUL_DVEC2_X) &&
-	    lw6mat_is_similar_f (dvec2.p.y, _TEST_DMAT2_MUL_DVEC2_Y))
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (dvec2.p.x, _TEST_DMAT2_MUL_DVEC2_X)
+	     && lw6mat_is_similar_f (dvec2.p.y, _TEST_DMAT2_MUL_DVEC2_Y)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
@@ -3259,7 +3273,7 @@ _print_dmat3 (const lw6mat_dmat3_t * dmat3, const char *about)
   char *repr;
 
   repr = lw6mat_dmat3_repr (dmat3);
-  if (repr)
+  if (LW6SYS_TEST_ACK (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat3 %s repr=\"%s\""), about,
 		  repr);
@@ -3314,7 +3328,8 @@ _test_dmat3 ()
 			  _TEST_DMAT_RANDOM_RANGE) /
 			 _TEST_DMAT_RANDOM_ROUND) * _TEST_DMAT_RANDOM_ROUND;
 		k = lw6mat_mat3_v_index (i, j);
-		if (lw6mat_is_similar_d (dmat3.m[i][j], dmat3.v[k]))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_is_similar_d (dmat3.m[i][j], dmat3.v[k])))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -3333,14 +3348,11 @@ _test_dmat3 ()
 	  }
 	ret = _print_dmat3 (&dmat3, "init") && ret;
 	det = lw6mat_dmat3_det (&dmat3);
-	if (det)
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat3 det=%f"), det);
-	  }
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat3 det=%f"), det);
 	n--;
       }
 
-    if (_f_is_within_limit (det, _TEST_DMAT_DET_LIMIT))
+    if (LW6SYS_TEST_ACK (_f_is_within_limit (det, _TEST_DMAT_DET_LIMIT)))
       {
 	memset (&dmat3_inv, 0xff, sizeof (lw6mat_dmat3_t));
 	for (k = 0; k < LW6MAT_MAT3_V_SIZE_X_SIZE; ++k)
@@ -3348,7 +3360,7 @@ _test_dmat3 ()
 	    dmat3_inv.v[k] = dmat3.v[k];
 	  }
 
-	if (lw6mat_dmat3_is_same (&dmat3, &dmat3_inv))
+	if (LW6SYS_TEST_ACK (lw6mat_dmat3_is_same (&dmat3, &dmat3_inv)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("dmat3 comparison works when equal"));
@@ -3361,11 +3373,11 @@ _test_dmat3 ()
 	  }
 
 	dmat3_inv = dmat3;
-	if (lw6mat_dmat3_inv (&dmat3_inv, &dmat3_inv))
+	if (LW6SYS_TEST_ACK (lw6mat_dmat3_inv (&dmat3_inv, &dmat3_inv)))
 	  {
 	    ret = _print_dmat3 (&dmat3_inv, "inv") && ret;
 
-	    if (!lw6mat_dmat3_is_same (&dmat3, &dmat3_inv))
+	    if (LW6SYS_TEST_ACK (!lw6mat_dmat3_is_same (&dmat3, &dmat3_inv)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("dmat3 comparison works when different"));
@@ -3382,7 +3394,8 @@ _test_dmat3 ()
 	    lw6mat_dmat3_id (&dmat3_id);
 	    for (k = 0; k < LW6MAT_MAT3_V_SIZE_X_SIZE; ++k)
 	      {
-		if (lw6mat_is_similar_d (dmat3_mul.v[k], dmat3_id.v[k]))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_is_similar_d (dmat3_mul.v[k], dmat3_id.v[k])))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -3403,7 +3416,8 @@ _test_dmat3 ()
 	    det_scaled = lw6mat_dmat3_det (&dmat3);
 	    det_scaled_expected =
 	      det * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE;
-	    if (lw6mat_is_similar_d (det_scaled, det_scaled_expected))
+	    if (LW6SYS_TEST_ACK
+		(lw6mat_is_similar_d (det_scaled, det_scaled_expected)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -3427,7 +3441,8 @@ _test_dmat3 ()
 	      {
 		for (j = 0; j < LW6MAT_MAT3_M_SIZE; ++j)
 		  {
-		    if (dmat3.m[i][j] == dmat3_trans.m[j][i])
+		    if (LW6SYS_TEST_ACK
+			(dmat3.m[i][j] == dmat3_trans.m[j][i]))
 		      {
 			// OK
 		      }
@@ -3443,13 +3458,14 @@ _test_dmat3 ()
 		      }
 		  }
 	      }
-	    if (transposed)
+	    if (LW6SYS_TEST_ACK (transposed))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("orig and trans dmat3 correspond, OK"));
 		lw6mat_dmat3_trans (&dmat3_trans);
 		ret = _print_dmat3 (&dmat3_trans, "trans 2X") && ret;
-		if (lw6mat_dmat3_is_same (&dmat3, &dmat3_trans))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_dmat3_is_same (&dmat3, &dmat3_trans)))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -3493,9 +3509,10 @@ _test_dmat3 ()
 	ret = _print_dvec3 (&dvec3, "right arg column dvec3") && ret;
 	lw6mat_dmat3_mul_dvec3 (&dvec3, &dmat3, &dvec3);
 	ret = _print_dvec3 (&dvec3, "result dvec3") && ret;
-	if (lw6mat_is_similar_f (dvec3.p.x, _TEST_DMAT3_MUL_DVEC3_X) &&
-	    lw6mat_is_similar_f (dvec3.p.y, _TEST_DMAT3_MUL_DVEC3_Y) &&
-	    lw6mat_is_similar_f (dvec3.p.z, _TEST_DMAT3_MUL_DVEC3_Z))
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (dvec3.p.x, _TEST_DMAT3_MUL_DVEC3_X)
+	     && lw6mat_is_similar_f (dvec3.p.y, _TEST_DMAT3_MUL_DVEC3_Y)
+	     && lw6mat_is_similar_f (dvec3.p.z, _TEST_DMAT3_MUL_DVEC3_Z)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
@@ -3508,8 +3525,9 @@ _test_dmat3 ()
 	  }
 	lw6mat_dmat3_mul_dvec2 (&dvec2, &dmat3, &dvec2);
 	ret = _print_dvec2 (&dvec2, "result dvec2") && ret;
-	if (lw6mat_is_similar_f (dvec2.p.x, _TEST_DMAT3_MUL_DVEC2_X) &&
-	    lw6mat_is_similar_f (dvec2.p.y, _TEST_DMAT3_MUL_DVEC2_Y))
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (dvec2.p.x, _TEST_DMAT3_MUL_DVEC2_X)
+	     && lw6mat_is_similar_f (dvec2.p.y, _TEST_DMAT3_MUL_DVEC2_Y)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
@@ -3540,7 +3558,7 @@ _print_dmat4 (const lw6mat_dmat4_t * dmat4, const char *about)
   char *repr;
 
   repr = lw6mat_dmat4_repr (dmat4);
-  if (repr)
+  if (LW6SYS_TEST_ACK (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat4 %s repr=\"%s\""), about,
 		  repr);
@@ -3595,7 +3613,8 @@ _test_dmat4 ()
 			  _TEST_DMAT_RANDOM_RANGE) /
 			 _TEST_DMAT_RANDOM_ROUND) * _TEST_DMAT_RANDOM_ROUND;
 		k = lw6mat_mat4_v_index (i, j);
-		if (lw6mat_is_similar_d (dmat4.m[i][j], dmat4.v[k]))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_is_similar_d (dmat4.m[i][j], dmat4.v[k])))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -3614,14 +3633,11 @@ _test_dmat4 ()
 	  }
 	ret = _print_dmat4 (&dmat4, "init") && ret;
 	det = lw6mat_dmat4_det (&dmat4);
-	if (det)
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat4 det=%f"), det);
-	  }
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat4 det=%f"), det);
 	n--;
       }
 
-    if (_f_is_within_limit (det, _TEST_DMAT_DET_LIMIT))
+    if (LW6SYS_TEST_ACK (_f_is_within_limit (det, _TEST_DMAT_DET_LIMIT)))
       {
 	memset (&dmat4_inv, 0xff, sizeof (lw6mat_dmat4_t));
 	for (k = 0; k < LW6MAT_MAT4_V_SIZE_X_SIZE; ++k)
@@ -3629,7 +3645,7 @@ _test_dmat4 ()
 	    dmat4_inv.v[k] = dmat4.v[k];
 	  }
 
-	if (lw6mat_dmat4_is_same (&dmat4, &dmat4_inv))
+	if (LW6SYS_TEST_ACK (lw6mat_dmat4_is_same (&dmat4, &dmat4_inv)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("dmat4 comparison works when equal"));
@@ -3642,11 +3658,11 @@ _test_dmat4 ()
 	  }
 
 	dmat4_inv = dmat4;
-	if (lw6mat_dmat4_inv (&dmat4_inv, &dmat4_inv))
+	if (LW6SYS_TEST_ACK (lw6mat_dmat4_inv (&dmat4_inv, &dmat4_inv)))
 	  {
 	    ret = _print_dmat4 (&dmat4_inv, "inv") && ret;
 
-	    if (!lw6mat_dmat4_is_same (&dmat4, &dmat4_inv))
+	    if (LW6SYS_TEST_ACK (!lw6mat_dmat4_is_same (&dmat4, &dmat4_inv)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("dmat4 comparison works when different"));
@@ -3663,7 +3679,8 @@ _test_dmat4 ()
 	    lw6mat_dmat4_id (&dmat4_id);
 	    for (k = 0; k < LW6MAT_MAT4_V_SIZE_X_SIZE; ++k)
 	      {
-		if (lw6mat_is_similar_d (dmat4_mul.v[k], dmat4_id.v[k]))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_is_similar_d (dmat4_mul.v[k], dmat4_id.v[k])))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -3685,7 +3702,8 @@ _test_dmat4 ()
 	    det_scaled_expected =
 	      det * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE *
 	      _TEST_DMAT_SCALE;
-	    if (lw6mat_is_similar_d (det_scaled, det_scaled_expected))
+	    if (LW6SYS_TEST_ACK
+		(lw6mat_is_similar_d (det_scaled, det_scaled_expected)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -3709,7 +3727,8 @@ _test_dmat4 ()
 	      {
 		for (j = 0; j < LW6MAT_MAT4_M_SIZE; ++j)
 		  {
-		    if (dmat4.m[i][j] == dmat4_trans.m[j][i])
+		    if (LW6SYS_TEST_ACK
+			(dmat4.m[i][j] == dmat4_trans.m[j][i]))
 		      {
 			// OK
 		      }
@@ -3725,13 +3744,14 @@ _test_dmat4 ()
 		      }
 		  }
 	      }
-	    if (transposed)
+	    if (LW6SYS_TEST_ACK (transposed))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("orig and trans dmat4 correspond, OK"));
 		lw6mat_dmat4_trans (&dmat4_trans);
 		ret = _print_dmat4 (&dmat4_trans, "trans 2X") && ret;
-		if (lw6mat_dmat4_is_same (&dmat4, &dmat4_trans))
+		if (LW6SYS_TEST_ACK
+		    (lw6mat_dmat4_is_same (&dmat4, &dmat4_trans)))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_
@@ -3775,10 +3795,11 @@ _test_dmat4 ()
 	ret = _print_dvec4 (&dvec4, "right arg column dvec4") && ret;
 	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4, &dvec4);
 	ret = _print_dvec4 (&dvec4, "result dvec4") && ret;
-	if (lw6mat_is_similar_f (dvec4.p.x, _TEST_DMAT4_MUL_DVEC4_X) &&
-	    lw6mat_is_similar_f (dvec4.p.y, _TEST_DMAT4_MUL_DVEC4_Y) &&
-	    lw6mat_is_similar_f (dvec4.p.z, _TEST_DMAT4_MUL_DVEC4_Z) &&
-	    lw6mat_is_similar_f (dvec4.p.w, _TEST_DMAT4_MUL_DVEC4_W))
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (dvec4.p.x, _TEST_DMAT4_MUL_DVEC4_X)
+	     && lw6mat_is_similar_f (dvec4.p.y, _TEST_DMAT4_MUL_DVEC4_Y)
+	     && lw6mat_is_similar_f (dvec4.p.z, _TEST_DMAT4_MUL_DVEC4_Z)
+	     && lw6mat_is_similar_f (dvec4.p.w, _TEST_DMAT4_MUL_DVEC4_W)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
@@ -3791,9 +3812,10 @@ _test_dmat4 ()
 	  }
 	lw6mat_dmat4_mul_dvec3 (&dvec3, &dmat4, &dvec3);
 	ret = _print_dvec3 (&dvec3, "result dvec3") && ret;
-	if (lw6mat_is_similar_f (dvec3.p.x, _TEST_DMAT4_MUL_DVEC3_X) &&
-	    lw6mat_is_similar_f (dvec3.p.y, _TEST_DMAT4_MUL_DVEC3_Y) &&
-	    lw6mat_is_similar_f (dvec3.p.z, _TEST_DMAT4_MUL_DVEC3_Z))
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (dvec3.p.x, _TEST_DMAT4_MUL_DVEC3_X)
+	     && lw6mat_is_similar_f (dvec3.p.y, _TEST_DMAT4_MUL_DVEC3_Y)
+	     && lw6mat_is_similar_f (dvec3.p.z, _TEST_DMAT4_MUL_DVEC3_Z)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
