@@ -357,13 +357,44 @@
 
 (define lw6-game-start-server-step2
   (lambda ()
-    (let (
-	  (node (lw6-get-game-global "node"))
-	  )
+    (let* (
+	   (level (lw6-get-game-global "level"))
+	   (game-state (lw6-get-game-global "game-state"))
+	   (node-id (lw6-get-game-global "node-id"))
+	   (rounds (c-lw6ker-get-rounds game-state))
+	   (seq-0 (c-lw6pil-seq-random-0))
+	   (node (lw6-get-game-global "node"))
+	   )
       (if node
 	  (begin
+	    (lw6-log-notice "TODO server")
 	    (c-lw6p2p-node-server-start node 1)
-	    (lw6-game-start-local-step2)
+	    (c-lw6pil-execute-command game-state (lw6-command-register (+ seq-0 rounds) node-id) seq-0)
+	    (map (lambda (player-key)
+	       (let (
+		     (command (lw6-cursor-prepare-configured-player-command
+			       game-state seq-0 player-key node-id))
+		     )
+		 (if command (c-lw6pil-execute-command game-state command seq-0))))
+		 (list "1"))
+	    (let (
+		  (pilot (c-lw6pil-build-pilot game-state
+					       seq-0
+					       (c-lw6sys-get-timestamp)))
+		  )
+	      (begin
+		(lw6-set-game-global! "pilot" pilot)
+		(lw6-display-param-set! "pilot" pilot)
+		(map (lambda (player-key)
+		       (begin
+			 (lw6-cursor-init-pos game-state player-key)
+			 (lw6-cursor-init-configured-mover player-key)
+			 ))
+		     lw6-cursor-player-keys)
+		(lw6-cursor-set-universal-if-needed)
+		(lw6-push-menu (lw6-ingame-menu))
+		(lw6-game-running)
+		(lw6-set-game-global! "command-func" lw6-command-func-local)))
 	    (lw6-set-game-global! "solo" #f)
 	    (lw6-set-game-global! "network" #t)
 	    )
