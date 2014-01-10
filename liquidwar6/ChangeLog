@@ -1,5 +1,22 @@
 2014-01-10  Christian Mauduit <ufoot@ufoot.org>
 
+	* liquidwar6-extra-maps/ChangeLog,
+	liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/ChangeLog,
+	liquidwar6/configure.ac, liquidwar6/debian/changelog,
+	liquidwar6/script/command.scm, liquidwar6/script/cursor.scm,
+	liquidwar6/script/def.scm, liquidwar6/script/game.scm,
+	liquidwar6/script/load.scm, liquidwar6/script/loop.scm,
+	liquidwar6/script/screenshot.scm,
+	liquidwar6/src/lib/def/def-list.txt, liquidwar6/src/lib/def/def.h,
+	liquidwar6/src/lib/hlp/hlp-list.c,
+	liquidwar6/src/lib/hlp/hlp-reference.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Server mode now correctly
+	exposes updates and screenshot
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
 	* liquidwar6-extra-maps/ChangeLog, liquidwar6/ChangeLog: ChangeLog
 	sync
 

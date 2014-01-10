@@ -68,6 +68,7 @@ node.scm \
 preview.scm \
 quick-start.scm \
 score.scm \
+screenshot.scm \
 server.scm \
 sound.scm \
 speed.scm \
