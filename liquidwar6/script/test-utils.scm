@@ -18,9 +18,9 @@
 ;; Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;; Contact author	 : ufoot@ufoot.org
 
-(define lw6-test-network-global-delay 180000)
-(define lw6-test-network-connect-delay 60000)
-(define lw6-test-network-shift-delay 5000)
+(define lw6-test-network-global-delay 300000)
+(define lw6-test-network-connect-delay 90000)
+(define lw6-test-network-shift-delay 10000)
 (define lw6-test-network-update-delay 3000)
 (define lw6-test-network-exit-delay 7000)
 
