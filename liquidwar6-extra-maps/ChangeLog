@@ -1,3 +1,845 @@
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/script/game.scm: Implementing server mode in scripts
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/script/def.scm,
+	liquidwar6/script/test-1-node-a.scm,
+	liquidwar6/script/test-1-node-b.scm,
+	liquidwar6/script/test-1-node-c.scm,
+	liquidwar6/src/lib/def/def-list.txt, liquidwar6/src/lib/def/def.h,
+	liquidwar6/src/lib/hlp/hlp-list.c,
+	liquidwar6/src/lib/hlp/hlp-reference.c,
+	liquidwar6/src/lib/lw6-funcsp2p.c,
+	liquidwar6/src/lib/p2p/p2p-internal.h,
+	liquidwar6/src/lib/p2p/p2p-node.c,
+	liquidwar6/src/lib/p2p/p2p-test.c, liquidwar6/src/lib/p2p/p2p.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Exported node_refresh_peer
+	to script world
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/nod/nod-community.c,
+	liquidwar6/src/lib/nod/nod-test.c, liquidwar6/src/lib/nod/nod.h,
+	liquidwar6/src/lib/p2p/p2p-explore.c,
+	liquidwar6/src/lib/p2p/p2p-internal.h,
+	liquidwar6/src/lib/p2p/p2p-node.c,
+	liquidwar6/src/lib/p2p/p2p-test.c, liquidwar6/src/lib/p2p/p2p.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Introduced force refresh
+	on a client functionnality
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/script/game.scm,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-log.c: Added time in console log, could
+	help tracking Jenkins/tests bugs
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/net/net-if.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Fixed
+	https://savannah.gnu.org/bugs/?41184
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/data/srv/httpd/htdocs/index.html,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-oob.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Removed explicit stamp
+	from index page, not required any more with new numbering scheme
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/script/test-utils.scm: Trying to make timeouts longer,
+	hoping this could fix test issues
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/pkg/liquidwar6d: Fixed /etc/init.d/liquidwar6 defaults
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/script/test-0-main.scm,
+	liquidwar6/script/test-1-node-a.scm,
+	liquidwar6/script/test-1-node-b.scm,
+	liquidwar6/script/test-1-node-c.scm,
+	liquidwar6/src/lib/net/net-test.c,
+	liquidwar6/src/lib/srv/srv-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Freeing port 8057 in test
+	suites, using only 8058 and higher
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/ker/ker-test.c,
+	liquidwar6/src/lib/lw6-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Test fixes
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-test.c: Rewrote libsys tests to
+	acknowledge/register tests through CUnit
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/script/backend.scm, liquidwar6/script/bench.scm,
+	liquidwar6/script/clear.scm, liquidwar6/script/command.scm,
+	liquidwar6/script/config.scm, liquidwar6/script/console.scm,
+	liquidwar6/script/control.scm, liquidwar6/script/cursor.scm,
+	liquidwar6/script/display.scm, liquidwar6/script/game.scm,
+	liquidwar6/script/liquidwar6.scm, liquidwar6/script/load.scm,
+	liquidwar6/script/loader.scm, liquidwar6/script/loop.scm,
+	liquidwar6/script/main.scm, liquidwar6/script/map.scm,
+	liquidwar6/script/menu-engine.scm, liquidwar6/script/menu-exit.scm,
+	liquidwar6/script/menu-ingame.scm, liquidwar6/script/menu-join.scm,
+	liquidwar6/script/menu-map-browse.scm,
+	liquidwar6/script/menu-map.scm,
+	liquidwar6/script/menu-options-audio.scm,
+	liquidwar6/script/menu-options-rules.scm,
+	liquidwar6/script/menu-options-system.scm,
+	liquidwar6/script/menu-options-time.scm,
+	liquidwar6/script/menu-options-video.scm,
+	liquidwar6/script/menu-play.scm,
+	liquidwar6/script/menu-player-detail.scm,
+	liquidwar6/script/menu-players.scm,
+	liquidwar6/script/menu-score.scm, liquidwar6/script/mover.scm,
+	liquidwar6/script/node.scm, liquidwar6/script/score.scm,
+	liquidwar6/script/test-0-main.scm,
+	liquidwar6/script/test-1-node-a.scm,
+	liquidwar6/script/test-1-node-b.scm,
+	liquidwar6/script/test-1-node-c.scm,
+	liquidwar6/script/test-utils.scm, liquidwar6/script/wait.scm,
+	liquidwar6/script/zoom.scm, liquidwar6/src/lib/bot/bot-api.c,
+	liquidwar6/src/lib/bot/bot-register.c,
+	liquidwar6/src/lib/bot/bot.h,
+	liquidwar6/src/lib/bot/mod-brute/mod-brute-move.c,
+	liquidwar6/src/lib/bot/mod-brute/mod-brute-repr.c,
+	liquidwar6/src/lib/bot/mod-brute/mod-brute-setup.c,
+	liquidwar6/src/lib/bot/mod-follow/mod-follow-move.c,
+	liquidwar6/src/lib/bot/mod-follow/mod-follow-repr.c,
+	liquidwar6/src/lib/bot/mod-follow/mod-follow-setup.c,
+	liquidwar6/src/lib/bot/mod-idiot/mod-idiot-move.c,
+	liquidwar6/src/lib/bot/mod-idiot/mod-idiot-repr.c,
+	liquidwar6/src/lib/bot/mod-idiot/mod-idiot-setup.c,
+	liquidwar6/src/lib/bot/mod-random/mod-random-move.c,
+	liquidwar6/src/lib/bot/mod-random/mod-random-repr.c,
+	liquidwar6/src/lib/bot/mod-random/mod-random-setup.c,
+	liquidwar6/src/lib/cfg/cfg-env.c, liquidwar6/src/lib/cfg/cfg-exp.c,
+	liquidwar6/src/lib/cfg/cfg-format.c,
+	liquidwar6/src/lib/cfg/cfg-load.c,
+	liquidwar6/src/lib/cfg/cfg-unified.c,
+	liquidwar6/src/lib/cfg/cfg-xml.c, liquidwar6/src/lib/cli/cli-api.c,
+	liquidwar6/src/lib/cli/cli-oob.c,
+	liquidwar6/src/lib/cli/cli-register.c,
+	liquidwar6/src/lib/cli/cli.h,
+	liquidwar6/src/lib/cli/mod-http/mod-http-data.c,
+	liquidwar6/src/lib/cli/mod-http/mod-http-get.c,
+	liquidwar6/src/lib/cli/mod-http/mod-http-info.c,
+	liquidwar6/src/lib/cli/mod-http/mod-http-message.c,
+	liquidwar6/src/lib/cli/mod-http/mod-http-oob.c,
+	liquidwar6/src/lib/cli/mod-http/mod-http-querythread.c,
+	liquidwar6/src/lib/cli/mod-http/mod-http-setup.c,
+	liquidwar6/src/lib/cli/mod-http/mod-http-state.c,
+	liquidwar6/src/lib/cli/mod-tcp/mod-tcp-data.c,
+	liquidwar6/src/lib/cli/mod-tcp/mod-tcp-info.c,
+	liquidwar6/src/lib/cli/mod-tcp/mod-tcp-message.c,
+	liquidwar6/src/lib/cli/mod-tcp/mod-tcp-oob.c,
+	liquidwar6/src/lib/cli/mod-tcp/mod-tcp-setup.c,
+	liquidwar6/src/lib/cli/mod-tcp/mod-tcp-state.c,
+	liquidwar6/src/lib/cli/mod-udp/mod-udp-data.c,
+	liquidwar6/src/lib/cli/mod-udp/mod-udp-info.c,
+	liquidwar6/src/lib/cli/mod-udp/mod-udp-message.c,
+	liquidwar6/src/lib/cli/mod-udp/mod-udp-oob.c,
+	liquidwar6/src/lib/cli/mod-udp/mod-udp-setup.c,
+	liquidwar6/src/lib/cli/mod-udp/mod-udp-state.c,
+	liquidwar6/src/lib/cns/cns-handler.c,
+	liquidwar6/src/lib/cns/cns-support.c,
+	liquidwar6/src/lib/cnx/cnx-backlog.c,
+	liquidwar6/src/lib/cnx/cnx-connection.c,
+	liquidwar6/src/lib/cnx/cnx-password.c,
+	liquidwar6/src/lib/cnx/cnx-test.c,
+	liquidwar6/src/lib/cnx/cnx-tickettable.c,
+	liquidwar6/src/lib/cnx/cnx.h, liquidwar6/src/lib/dat/dat-atom.c,
+	liquidwar6/src/lib/dat/dat-block.c,
+	liquidwar6/src/lib/dat/dat-internal.h,
+	liquidwar6/src/lib/dat/dat-miss.c,
+	liquidwar6/src/lib/dat/dat-stack.c,
+	liquidwar6/src/lib/dat/dat-test.c,
+	liquidwar6/src/lib/dat/dat-warehouse.c,
+	liquidwar6/src/lib/def/def-dummy.c,
+	liquidwar6/src/lib/dsp/dsp-data.c,
+	liquidwar6/src/lib/dsp/dsp-display.c,
+	liquidwar6/src/lib/dsp/dsp-param.c,
+	liquidwar6/src/lib/dsp/dsp-thread.c, liquidwar6/src/lib/dsp/dsp.h,
+	liquidwar6/src/lib/dyn/dyn-path.c, liquidwar6/src/lib/dyn/dyn.h,
+	liquidwar6/src/lib/gen/gen-seed.c,
+	liquidwar6/src/lib/gen/gen-test.c, liquidwar6/src/lib/gen/gen.h,
+	liquidwar6/src/lib/gfx/gfx-api.c,
+	liquidwar6/src/lib/gfx/gfx-register.c,
+	liquidwar6/src/lib/gfx/gfx-sdl.c, liquidwar6/src/lib/gfx/gfx.h,
+	liquidwar6/src/lib/gfx/mod-caca/mod-caca-const.c,
+	liquidwar6/src/lib/gfx/mod-caca/mod-caca-mode.c,
+	liquidwar6/src/lib/gfx/mod-caca/mod-caca-path.c,
+	liquidwar6/src/lib/gfx/mod-caca/mod-caca-repr.c,
+	liquidwar6/src/lib/gfx/mod-caca/mod-caca-resolution.c,
+	liquidwar6/src/lib/gfx/mod-caca/mod-caca-setup.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-background/gl1-background-api.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-background/gl1-background-regist
+	er.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-background/gl1-bubbles/gl1-bubbl
+	es-data.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-hud/gl1-floating/gl1-floating-da
+	ta.c, liquidwar6/src/lib/gfx/mod-gl1/gl1-hud/gl1-hud-api.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-hud/gl1-hud-register.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-hud/gl1-tactical/gl1-tactical-da
+	ta.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-cylinder/gl1-cylinder-c
+	enter.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-cylinder/gl1-cylinder-d
+	ata.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-cylinder/gl1-cylinder-d
+	isplay.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-cylinder/gl1-cylinder-d
+	raw.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-cylinder/gl1-cylinder-p
+	ick.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-cylinder/gl1-cylinder-p
+	rogress.c, liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-menu-api.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-menu-register.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-splash/gl1-splash-data.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-splash/gl1-splash-display.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-splash/gl1-splash-setup.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-bitmap.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-bitmaparray.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-const.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-data.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-font.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-game.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-gradient.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-icon.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-info.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-joystick.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-mode.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-path.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-resolution.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-viewport.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-zones.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-flat/gl1-flat-cursorcon
+	text.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-flat/gl1-flat-data.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-flat/gl1-flat-display.c
+	,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-flat/gl1-flat-gameconte
+	xt.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-flat/gl1-flat-viewport.
+	c, liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-view-api.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-view-register.c,
+	liquidwar6/src/lib/gfx/mod-gl1/mod-gl1-repr.c,
+	liquidwar6/src/lib/gfx/mod-gl1/mod-gl1-setup.c,
+	liquidwar6/src/lib/gfx/mod-gles2/mod-gles2-const.c,
+	liquidwar6/src/lib/gfx/mod-gles2/mod-gles2-mode.c,
+	liquidwar6/src/lib/gfx/mod-gles2/mod-gles2-path.c,
+	liquidwar6/src/lib/gfx/mod-gles2/mod-gles2-repr.c,
+	liquidwar6/src/lib/gfx/mod-gles2/mod-gles2-resolution.c,
+	liquidwar6/src/lib/gfx/mod-gles2/mod-gles2-setup.c,
+	liquidwar6/src/lib/gfx/mod-gles2/mod-gles2-viewport.c,
+	liquidwar6/src/lib/gfx/mod-soft/mod-soft-const.c,
+	liquidwar6/src/lib/gfx/mod-soft/mod-soft-mode.c,
+	liquidwar6/src/lib/gfx/mod-soft/mod-soft-path.c,
+	liquidwar6/src/lib/gfx/mod-soft/mod-soft-repr.c,
+	liquidwar6/src/lib/gfx/mod-soft/mod-soft-resolution.c,
+	liquidwar6/src/lib/gfx/mod-soft/mod-soft-setup.c,
+	liquidwar6/src/lib/gfx/mod-soft/mod-soft-viewport.c,
+	liquidwar6/src/lib/gfx/shared-sdl/shared-sdl-const.c,
+	liquidwar6/src/lib/gfx/shared-sdl/shared-sdl-path.c,
+	liquidwar6/src/lib/glb/glb-base64.c,
+	liquidwar6/src/lib/glb/glb-sha1.c,
+	liquidwar6/src/lib/glb/glb-test.c,
+	liquidwar6/src/lib/gui/gui-button.c,
+	liquidwar6/src/lib/gui/gui-coord.c,
+	liquidwar6/src/lib/gui/gui-input.c,
+	liquidwar6/src/lib/gui/gui-joystick.c,
+	liquidwar6/src/lib/gui/gui-keyboard.c,
+	liquidwar6/src/lib/gui/gui-keypress.c,
+	liquidwar6/src/lib/gui/gui-look.c,
+	liquidwar6/src/lib/gui/gui-menu.c,
+	liquidwar6/src/lib/gui/gui-menuitem.c,
+	liquidwar6/src/lib/gui/gui-mouse.c,
+	liquidwar6/src/lib/gui/gui-point.c,
+	liquidwar6/src/lib/gui/gui-poweroftwo.c,
+	liquidwar6/src/lib/gui/gui-quad.c,
+	liquidwar6/src/lib/gui/gui-rect.c,
+	liquidwar6/src/lib/gui/gui-rectarray.c,
+	liquidwar6/src/lib/gui/gui-segment.c,
+	liquidwar6/src/lib/gui/gui-smoother.c,
+	liquidwar6/src/lib/gui/gui-triangle.c,
+	liquidwar6/src/lib/gui/gui-viewport.c,
+	liquidwar6/src/lib/gui/gui-zone.c, liquidwar6/src/lib/gui/gui.h,
+	liquidwar6/src/lib/hlp/hlp-about.c,
+	liquidwar6/src/lib/hlp/hlp-credits.c,
+	liquidwar6/src/lib/hlp/hlp-keyword.c,
+	liquidwar6/src/lib/hlp/hlp-list.c,
+	liquidwar6/src/lib/hlp/hlp-options.c,
+	liquidwar6/src/lib/hlp/hlp-print.c,
+	liquidwar6/src/lib/hlp/hlp-reference.c,
+	liquidwar6/src/lib/img/img-screenshot.c,
+	liquidwar6/src/lib/ker/ker-gamestate.c,
+	liquidwar6/src/lib/ker/ker-gamestruct.c,
+	liquidwar6/src/lib/ker/ker-internal.h,
+	liquidwar6/src/lib/ker/ker-mapstate.c,
+	liquidwar6/src/lib/ker/ker-mapstruct.c,
+	liquidwar6/src/lib/ker/ker-scorearray.c,
+	liquidwar6/src/lib/ker/ker-spread.c,
+	liquidwar6/src/lib/ker/ker-team.c,
+	liquidwar6/src/lib/ker/ker-teammask.c,
+	liquidwar6/src/lib/ker/ker-weapon.c, liquidwar6/src/lib/ker/ker.h,
+	liquidwar6/src/lib/ldr/ldr-body.c, liquidwar6/src/lib/ldr/ldr-bw.c,
+	liquidwar6/src/lib/ldr/ldr-cursortexture.c,
+	liquidwar6/src/lib/ldr/ldr-cursortexturelayer.c,
+	liquidwar6/src/lib/ldr/ldr-dir.c, liquidwar6/src/lib/ldr/ldr-exp.c,
+	liquidwar6/src/lib/ldr/ldr-grease.c,
+	liquidwar6/src/lib/ldr/ldr-hints.c,
+	liquidwar6/src/lib/ldr/ldr-layer.c,
+	liquidwar6/src/lib/ldr/ldr-metadata.c,
+	liquidwar6/src/lib/ldr/ldr-metalayer.c,
+	liquidwar6/src/lib/ldr/ldr-options.c,
+	liquidwar6/src/lib/ldr/ldr-print.c,
+	liquidwar6/src/lib/ldr/ldr-rgba.c,
+	liquidwar6/src/lib/ldr/ldr-teams.c,
+	liquidwar6/src/lib/ldr/ldr-test.c,
+	liquidwar6/src/lib/ldr/ldr-use.c, liquidwar6/src/lib/ldr/ldr.h,
+	liquidwar6/src/lib/lw6-control.c, liquidwar6/src/lib/lw6-funcs.c,
+	liquidwar6/src/lib/lw6-funcsbot.c,
+	liquidwar6/src/lib/lw6-funcscfg.c,
+	liquidwar6/src/lib/lw6-funcscli.c,
+	liquidwar6/src/lib/lw6-funcscns.c,
+	liquidwar6/src/lib/lw6-funcsdsp.c,
+	liquidwar6/src/lib/lw6-funcsgen.c,
+	liquidwar6/src/lib/lw6-funcsgfx.c,
+	liquidwar6/src/lib/lw6-funcsgui.c,
+	liquidwar6/src/lib/lw6-funcshlp.c,
+	liquidwar6/src/lib/lw6-funcsimg.c,
+	liquidwar6/src/lib/lw6-funcsker.c,
+	liquidwar6/src/lib/lw6-funcsldr.c,
+	liquidwar6/src/lib/lw6-funcsmap.c,
+	liquidwar6/src/lib/lw6-funcsnet.c,
+	liquidwar6/src/lib/lw6-funcsp2p.c,
+	liquidwar6/src/lib/lw6-funcspil.c,
+	liquidwar6/src/lib/lw6-funcssnd.c,
+	liquidwar6/src/lib/lw6-funcssrv.c,
+	liquidwar6/src/lib/lw6-funcssys.c,
+	liquidwar6/src/lib/lw6-funcstsk.c, liquidwar6/src/lib/lw6-global.c,
+	liquidwar6/src/lib/lw6-main.c, liquidwar6/src/lib/lw6-options.c,
+	liquidwar6/src/lib/lw6-smobs.c, liquidwar6/src/lib/map/map-color.c,
+	liquidwar6/src/lib/map/map-coords.c,
+	liquidwar6/src/lib/map/map-level.c,
+	liquidwar6/src/lib/map/map-style.c,
+	liquidwar6/src/lib/map/map-test.c, liquidwar6/src/lib/map/map.h,
+	liquidwar6/src/lib/mat/mat-dmat2.c,
+	liquidwar6/src/lib/mat/mat-dmat3.c,
+	liquidwar6/src/lib/mat/mat-dmat4.c,
+	liquidwar6/src/lib/mat/mat-dvec2.c,
+	liquidwar6/src/lib/mat/mat-dvec3.c,
+	liquidwar6/src/lib/mat/mat-dvec4.c,
+	liquidwar6/src/lib/mat/mat-fmat2.c,
+	liquidwar6/src/lib/mat/mat-fmat3.c,
+	liquidwar6/src/lib/mat/mat-fmat4.c,
+	liquidwar6/src/lib/mat/mat-fvec2.c,
+	liquidwar6/src/lib/mat/mat-fvec3.c,
+	liquidwar6/src/lib/mat/mat-fvec4.c,
+	liquidwar6/src/lib/mat/mat-imat2.c,
+	liquidwar6/src/lib/mat/mat-imat3.c,
+	liquidwar6/src/lib/mat/mat-imat4.c,
+	liquidwar6/src/lib/mat/mat-ivec2.c,
+	liquidwar6/src/lib/mat/mat-ivec3.c,
+	liquidwar6/src/lib/mat/mat-ivec4.c,
+	liquidwar6/src/lib/mat/mat-similar.c,
+	liquidwar6/src/lib/mat/mat-test.c,
+	liquidwar6/src/lib/mat/mat-xmat2.c,
+	liquidwar6/src/lib/mat/mat-xmat3.c,
+	liquidwar6/src/lib/mat/mat-xmat4.c,
+	liquidwar6/src/lib/mat/mat-xvec2.c,
+	liquidwar6/src/lib/mat/mat-xvec3.c,
+	liquidwar6/src/lib/mat/mat-xvec4.c,
+	liquidwar6/src/lib/msg/msg-cmd.c,
+	liquidwar6/src/lib/msg/msg-envelope.c,
+	liquidwar6/src/lib/msg/msg-meta.c,
+	liquidwar6/src/lib/msg/msg-oob.c,
+	liquidwar6/src/lib/msg/msg-sort.c,
+	liquidwar6/src/lib/msg/msg-ticket.c,
+	liquidwar6/src/lib/msg/msg-utils.c,
+	liquidwar6/src/lib/msg/msg-word.c, liquidwar6/src/lib/msg/msg-z.c,
+	liquidwar6/src/lib/net/net-address.c,
+	liquidwar6/src/lib/net/net-connectable.c,
+	liquidwar6/src/lib/net/net-const.c,
+	liquidwar6/src/lib/net/net-counters.c,
+	liquidwar6/src/lib/net/net-dns.c,
+	liquidwar6/src/lib/net/net-error.c,
+	liquidwar6/src/lib/net/net-if.c, liquidwar6/src/lib/net/net-line.c,
+	liquidwar6/src/lib/net/net-log.c,
+	liquidwar6/src/lib/net/net-setup.c,
+	liquidwar6/src/lib/net/net-socket.c,
+	liquidwar6/src/lib/net/net-tcp.c,
+	liquidwar6/src/lib/net/net-test.c,
+	liquidwar6/src/lib/net/net-udp.c,
+	liquidwar6/src/lib/nod/nod-community.c,
+	liquidwar6/src/lib/nod/nod-constinfo.c,
+	liquidwar6/src/lib/nod/nod-dyninfo.c,
+	liquidwar6/src/lib/nod/nod-info.c,
+	liquidwar6/src/lib/nod/nod-refinfo.c,
+	liquidwar6/src/lib/nod/nod-test.c, liquidwar6/src/lib/nod/nod.h,
+	liquidwar6/src/lib/p2p/p2p-connectregistered.c,
+	liquidwar6/src/lib/p2p/p2p-db.c, liquidwar6/src/lib/p2p/p2p-node.c,
+	liquidwar6/src/lib/p2p/p2p-recv.c,
+	liquidwar6/src/lib/p2p/p2p-test.c, liquidwar6/src/lib/p2p/p2p.h,
+	liquidwar6/src/lib/pil/pil-command.c,
+	liquidwar6/src/lib/pil/pil-compute.c,
+	liquidwar6/src/lib/pil/pil-dump.c,
+	liquidwar6/src/lib/pil/pil-localcursors.c,
+	liquidwar6/src/lib/pil/pil-nopilot.c,
+	liquidwar6/src/lib/pil/pil-pilot.c,
+	liquidwar6/src/lib/pil/pil-seed.c, liquidwar6/src/lib/pil/pil.h,
+	liquidwar6/src/lib/scm/scm-coverage.c,
+	liquidwar6/src/lib/scm/scm-funcname.c,
+	liquidwar6/src/lib/scm/scm-test.c,
+	liquidwar6/src/lib/scm/scm-utils.c,
+	liquidwar6/src/lib/scm/scm-wrapper.c,
+	liquidwar6/src/lib/sim/sim-results.c,
+	liquidwar6/src/lib/sim/sim-simulate.c,
+	liquidwar6/src/lib/snd/mod-csound/mod-csound-fx.c,
+	liquidwar6/src/lib/snd/mod-csound/mod-csound-music.c,
+	liquidwar6/src/lib/snd/mod-csound/mod-csound-path.c,
+	liquidwar6/src/lib/snd/mod-csound/mod-csound-repr.c,
+	liquidwar6/src/lib/snd/mod-csound/mod-csound-setup.c,
+	liquidwar6/src/lib/snd/mod-csound/mod-csound-volume.c,
+	liquidwar6/src/lib/snd/mod-csound/mod-csound-water.c,
+	liquidwar6/src/lib/snd/mod-ogg/mod-ogg-const.c,
+	liquidwar6/src/lib/snd/mod-ogg/mod-ogg-fx.c,
+	liquidwar6/src/lib/snd/mod-ogg/mod-ogg-music.c,
+	liquidwar6/src/lib/snd/mod-ogg/mod-ogg-path.c,
+	liquidwar6/src/lib/snd/mod-ogg/mod-ogg-repr.c,
+	liquidwar6/src/lib/snd/mod-ogg/mod-ogg-setup.c,
+	liquidwar6/src/lib/snd/mod-ogg/mod-ogg-volume.c,
+	liquidwar6/src/lib/snd/mod-ogg/mod-ogg-water.c,
+	liquidwar6/src/lib/snd/snd-api.c,
+	liquidwar6/src/lib/snd/snd-register.c,
+	liquidwar6/src/lib/snd/snd.h,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-data.c,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-error.c,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-handshake.c,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-info.c,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-log.c,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-message.c,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-oob.c,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-replythread.c,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-request.c,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-response.c,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-setup.c,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-state.c,
+	liquidwar6/src/lib/srv/mod-tcpd/mod-tcpd-data.c,
+	liquidwar6/src/lib/srv/mod-tcpd/mod-tcpd-handshake.c,
+	liquidwar6/src/lib/srv/mod-tcpd/mod-tcpd-info.c,
+	liquidwar6/src/lib/srv/mod-tcpd/mod-tcpd-message.c,
+	liquidwar6/src/lib/srv/mod-tcpd/mod-tcpd-oob.c,
+	liquidwar6/src/lib/srv/mod-tcpd/mod-tcpd-setup.c,
+	liquidwar6/src/lib/srv/mod-tcpd/mod-tcpd-state.c,
+	liquidwar6/src/lib/srv/mod-udpd/mod-udpd-data.c,
+	liquidwar6/src/lib/srv/mod-udpd/mod-udpd-handshake.c,
+	liquidwar6/src/lib/srv/mod-udpd/mod-udpd-info.c,
+	liquidwar6/src/lib/srv/mod-udpd/mod-udpd-message.c,
+	liquidwar6/src/lib/srv/mod-udpd/mod-udpd-oob.c,
+	liquidwar6/src/lib/srv/mod-udpd/mod-udpd-setup.c,
+	liquidwar6/src/lib/srv/mod-udpd/mod-udpd-state.c,
+	liquidwar6/src/lib/srv/srv-api.c,
+	liquidwar6/src/lib/srv/srv-control.c,
+	liquidwar6/src/lib/srv/srv-oob.c,
+	liquidwar6/src/lib/srv/srv-register.c,
+	liquidwar6/src/lib/srv/srv-tcpaccepter.c,
+	liquidwar6/src/lib/srv/srv-udpbuffer.c,
+	liquidwar6/src/lib/srv/srv.h, liquidwar6/src/lib/sys/sys-arg.c,
+	liquidwar6/src/lib/sys/sys-assoc.c,
+	liquidwar6/src/lib/sys/sys-backtrace.c,
+	liquidwar6/src/lib/sys/sys-bazooka.c,
+	liquidwar6/src/lib/sys/sys-build.c,
+	liquidwar6/src/lib/sys/sys-cache.c,
+	liquidwar6/src/lib/sys/sys-checksum.c,
+	liquidwar6/src/lib/sys/sys-color.c,
+	liquidwar6/src/lib/sys/sys-convert.c,
+	liquidwar6/src/lib/sys/sys-cunit.c,
+	liquidwar6/src/lib/sys/sys-daemon.c,
+	liquidwar6/src/lib/sys/sys-debug.c,
+	liquidwar6/src/lib/sys/sys-env.c,
+	liquidwar6/src/lib/sys/sys-escape.c,
+	liquidwar6/src/lib/sys/sys-exec.c,
+	liquidwar6/src/lib/sys/sys-file.c,
+	liquidwar6/src/lib/sys/sys-global.c,
+	liquidwar6/src/lib/sys/sys-hash.c,
+	liquidwar6/src/lib/sys/sys-hexa.c,
+	liquidwar6/src/lib/sys/sys-i18n.c,
+	liquidwar6/src/lib/sys/sys-list.c,
+	liquidwar6/src/lib/sys/sys-log.c,
+	liquidwar6/src/lib/sys/sys-math.c,
+	liquidwar6/src/lib/sys/sys-mem.c,
+	liquidwar6/src/lib/sys/sys-mutex.c,
+	liquidwar6/src/lib/sys/sys-nop.c,
+	liquidwar6/src/lib/sys/sys-openmp.c,
+	liquidwar6/src/lib/sys/sys-options.c,
+	liquidwar6/src/lib/sys/sys-path.c,
+	liquidwar6/src/lib/sys/sys-process.c,
+	liquidwar6/src/lib/sys/sys-profiler.c,
+	liquidwar6/src/lib/sys/sys-progress.c,
+	liquidwar6/src/lib/sys/sys-random.c,
+	liquidwar6/src/lib/sys/sys-sdl.c,
+	liquidwar6/src/lib/sys/sys-serial.c,
+	liquidwar6/src/lib/sys/sys-shape.c,
+	liquidwar6/src/lib/sys/sys-signal.c,
+	liquidwar6/src/lib/sys/sys-sort.c,
+	liquidwar6/src/lib/sys/sys-spinlock.c,
+	liquidwar6/src/lib/sys/sys-str.c,
+	liquidwar6/src/lib/sys/sys-stream.c,
+	liquidwar6/src/lib/sys/sys-test.c,
+	liquidwar6/src/lib/sys/sys-thread.c,
+	liquidwar6/src/lib/sys/sys-time.c,
+	liquidwar6/src/lib/sys/sys-url.c,
+	liquidwar6/src/lib/sys/sys-vthread.c, liquidwar6/src/lib/sys/sys.h,
+	liquidwar6/src/lib/tsk/tsk-internal.h,
+	liquidwar6/src/lib/tsk/tsk-loader.c,
+	liquidwar6/src/lib/tsk/tsk-test.c, liquidwar6/src/lib/tsk/tsk.h: 
+	Fixed spaces issues source files
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/script/test-1-node-a.scm,
+	liquidwar6/script/test-1-node-b.scm,
+	liquidwar6/script/test-1-node-c.scm,
+	liquidwar6/script/test-utils.scm: Giving time at end of net script
+	tests for other nodes to finish
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/mat/mat-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys.h: Fixed CUnit asserts in libmat tests
+
+2014-01-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/mat/mat-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: More CUnit registered
+	tests in libmat
+
+2014-01-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/mat/mat-dmat2.c,
+	liquidwar6/src/lib/mat/mat-dmat3.c,
+	liquidwar6/src/lib/mat/mat-dmat4.c,
+	liquidwar6/src/lib/mat/mat-dvec2.c,
+	liquidwar6/src/lib/mat/mat-dvec3.c,
+	liquidwar6/src/lib/mat/mat-dvec4.c,
+	liquidwar6/src/lib/mat/mat-fmat2.c,
+	liquidwar6/src/lib/mat/mat-fmat3.c,
+	liquidwar6/src/lib/mat/mat-fmat4.c,
+	liquidwar6/src/lib/mat/mat-fvec2.c,
+	liquidwar6/src/lib/mat/mat-fvec3.c,
+	liquidwar6/src/lib/mat/mat-fvec4.c,
+	liquidwar6/src/lib/mat/mat-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys.h: Fixed some tests and mat corner cases,
+	introduced assertien checking within tests
+
+2014-01-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/mat/mat-dmat2.c,
+	liquidwar6/src/lib/mat/mat-dmat3.c,
+	liquidwar6/src/lib/mat/mat-dmat4.c,
+	liquidwar6/src/lib/mat/mat-fmat2.c,
+	liquidwar6/src/lib/mat/mat-fmat3.c,
+	liquidwar6/src/lib/mat/mat-fmat4.c,
+	liquidwar6/src/lib/mat/mat-test.c, liquidwar6/src/lib/mat/mat.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Implemented 2D and 3D
+	transformation (including translation) using N+1 size matrices
+
+2014-01-09  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/mat/mat-test.c,
+	liquidwar6/src/lib/mat/mat.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Added regression tests on
+	matxvec operations
+
+2014-01-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/po/POTFILES.in,
+	liquidwar6/src/lib/mat/Makefile.am,
+	liquidwar6/src/lib/mat/mat-similar.c,
+	liquidwar6/src/lib/mat/mat-test.c, liquidwar6/src/lib/mat/mat.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Implemented similarity
+	functions in libmat
+
+2014-01-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/po/fr.po,
+	liquidwar6/po/nn.po, liquidwar6/po/ru.po,
+	liquidwar6/src/lib/mat/mat-dmat2.c,
+	liquidwar6/src/lib/mat/mat-dmat3.c,
+	liquidwar6/src/lib/mat/mat-dmat4.c,
+	liquidwar6/src/lib/mat/mat-fmat2.c,
+	liquidwar6/src/lib/mat/mat-fmat3.c,
+	liquidwar6/src/lib/mat/mat-fmat4.c,
+	liquidwar6/src/lib/mat/mat-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Fixed mat multiplication
+	funcs and added tests
+
+2014-01-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/src/lib/mat/mat-test.c: Added mat * vec test
+
+2014-01-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/mat/mat-dmat2.c,
+	liquidwar6/src/lib/mat/mat-dmat3.c,
+	liquidwar6/src/lib/mat/mat-dmat4.c,
+	liquidwar6/src/lib/mat/mat-fmat2.c,
+	liquidwar6/src/lib/mat/mat-fmat3.c,
+	liquidwar6/src/lib/mat/mat-fmat4.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Implemented matrix by
+	vector multiplication
+
+2014-01-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/mat/mat-dmat2.c,
+	liquidwar6/src/lib/mat/mat-dmat3.c,
+	liquidwar6/src/lib/mat/mat-dmat4.c,
+	liquidwar6/src/lib/mat/mat-fmat2.c,
+	liquidwar6/src/lib/mat/mat-fmat3.c,
+	liquidwar6/src/lib/mat/mat-fmat4.c,
+	liquidwar6/src/lib/mat/mat-test.c, liquidwar6/src/lib/mat/mat.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: libmat API change,
+	inversion not done in-place anymore
+
+2014-01-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/mat/mat-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Fixed test, relaxed check
+	which was broken on i386
+
+2014-01-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/mat/mat-dmat2.c,
+	liquidwar6/src/lib/mat/mat-dmat3.c,
+	liquidwar6/src/lib/mat/mat-dmat4.c,
+	liquidwar6/src/lib/mat/mat-dvec2.c,
+	liquidwar6/src/lib/mat/mat-dvec3.c,
+	liquidwar6/src/lib/mat/mat-dvec4.c,
+	liquidwar6/src/lib/mat/mat-fvec2.c,
+	liquidwar6/src/lib/mat/mat-fvec3.c,
+	liquidwar6/src/lib/mat/mat-fvec4.c,
+	liquidwar6/src/lib/mat/mat-test.c, liquidwar6/src/lib/mat/mat.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Added repr funcs for fvec
+	and dvec, plus libmat fixes
+
+2014-01-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/mat/mat-dmat2.c,
+	liquidwar6/src/lib/mat/mat-dmat3.c,
+	liquidwar6/src/lib/mat/mat-dmat4.c,
+	liquidwar6/src/lib/mat/mat-fmat2.c,
+	liquidwar6/src/lib/mat/mat-fmat3.c,
+	liquidwar6/src/lib/mat/mat-fmat4.c,
+	liquidwar6/src/lib/mat/mat-test.c, liquidwar6/src/lib/mat/mat.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Const renaming in libmat
+	module
+
+2014-01-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/doc/liquidwar6.texi: Referenced generated docs on my
+	personnal server, at least they are up-to-date, plus CVS on Savannah
+	is too slow on so many docs
+
+2014-01-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/mat/mat-dmat2.c,
+	liquidwar6/src/lib/mat/mat-dmat3.c,
+	liquidwar6/src/lib/mat/mat-dmat4.c,
+	liquidwar6/src/lib/mat/mat-test.c, liquidwar6/src/lib/mat/mat.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Added dmat funcs and
+	tests, copied from fmat, only type changes
+
+2014-01-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/mat/mat-fmat2.c,
+	liquidwar6/src/lib/mat/mat-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Fixed and added test funcs
+	for fmat2 and fmat3
+
+2014-01-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/mat/mat-dvec2.c,
+	liquidwar6/src/lib/mat/mat-dvec3.c,
+	liquidwar6/src/lib/mat/mat-dvec4.c,
+	liquidwar6/src/lib/mat/mat-fmat2.c,
+	liquidwar6/src/lib/mat/mat-fmat3.c,
+	liquidwar6/src/lib/mat/mat-fmat4.c,
+	liquidwar6/src/lib/mat/mat-fvec2.c,
+	liquidwar6/src/lib/mat/mat-fvec3.c,
+	liquidwar6/src/lib/mat/mat-fvec4.c,
+	liquidwar6/src/lib/mat/mat-test.c, liquidwar6/src/lib/mat/mat.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-random.c: Testing fmat4 funcs
+
+2014-01-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/po/fr.po,
+	liquidwar6/po/nn.po, liquidwar6/po/ru.po,
+	liquidwar6/src/lib/mat/mat-fmat2.c,
+	liquidwar6/src/lib/mat/mat-fmat3.c,
+	liquidwar6/src/lib/mat/mat-fmat4.c, liquidwar6/src/lib/mat/mat.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Implemented basic matrix
+	multiplication, still no tests
+
+2014-01-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/po/fr.po,
+	liquidwar6/po/nn.po, liquidwar6/po/ru.po,
+	liquidwar6/src/lib/mat/mat-fmat2.c,
+	liquidwar6/src/lib/mat/mat-fmat3.c,
+	liquidwar6/src/lib/mat/mat-fmat4.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Added rough matrix code,
+	untested
+
+2014-01-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/po/fr.po,
+	liquidwar6/po/nn.po, liquidwar6/po/ru.po,
+	liquidwar6/src/lib/pil/pil-compute.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Fixed possible division by
+	zero issue
+
+2014-01-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/misc/jenkins/liquidwar6-extra-maps.sh: Generating ZIP
+	for extra-maps on Jenkins
+
+2014-01-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/pil/pil-compute.c,
+	liquidwar6/src/lib/pil/pil-internal.h,
+	liquidwar6/src/lib/pil/pil-pilot.c, liquidwar6/src/lib/pil/pil.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-internal.h: Fixed bug #41113, threading
+	issue that cause the game to hand at startup
+
+2014-01-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-internal.h,
+	liquidwar6/src/lib/sys/sys-test.c,
+	liquidwar6/src/lib/sys/sys-thread.c,
+	liquidwar6/src/lib/sys/sys-vthread.c, liquidwar6/src/lib/sys/sys.h: 
+	Using pthread_cond_wait instead of idle/snooze in thread code
+
+2014-01-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/doc/liquidwar6.texi: Removed obsolete items from doc
+
+2014-01-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/liquidwar6-extra-maps.spec.in: Set
+	extra-maps default package revision to 0vendor instead of 1vendor
+
+2014-01-05  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/ChangeLog, liquidwar6/ChangeLog: Updated
+	ChangeLog
+
 2014-01-05  Christian Mauduit <ufoot@ufoot.org>
 
 	* liquidwar6-extra-maps/configure.ac,
