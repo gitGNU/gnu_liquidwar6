@@ -27,6 +27,9 @@
 (define lw6-cursor-bot-keys
   (list "bot1" "bot2" "bot3" "bot4" "bot5" "bot6" "bot7" "bot8" "bot9"))
 
+(define lw6-cursor-network-keys
+  (list "1"))
+
 (define lw6-make-cursor
   (lambda (cursor-key)
     (let (

@@ -673,6 +673,7 @@ rewind
 round-delta
 rounds-per-sec
 scatter
+screenshots-per-min
 script-file
 server
 show-build-abs-srcdir

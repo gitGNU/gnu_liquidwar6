@@ -67,6 +67,7 @@
       (load "preview.scm")
       (load "quick-start.scm")
       (load "score.scm")
+      (load "screenshot.scm")
       (load "server.scm")
       (load "sound.scm")
       (load "splash.scm")

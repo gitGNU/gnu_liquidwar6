@@ -773,6 +773,10 @@ populate_references ()
 		_x_
 		("Defines the number of commands per second. When a command is generated, orders are actually sent to the game engine, for instance, 'this cursor moved there'. So this option will affect game responsiveness, setting this to a high value will make the game more responsive but consume bandwidth on network games."),
 		10, 0, 0);
+  POPULATE_INT (LW6DEF_SCREENSHOTS_PER_MIN,
+		_x_
+		("Defines the number of screenshots / node info per minute. This can a quite costly operation, but still it must not be too low else screenshots are too outdated."),
+		12, 0, 0);
   POPULATE_FLOAT (LW6DEF_LOADER_SLEEP,
 		  _x_
 		  ("Defines how long the loader thread should wait between two polls. Default value should fit in most cases."),

@@ -85,6 +85,15 @@
 	commands
     ))))
 
+(define lw6-command-all-network
+  (lambda (seq node-id)
+    (let (
+	  (commands (list))
+	  )
+      (begin
+	commands
+	))))
+
 (define lw6-command-func-idle
   (lambda (for-real)
     #f))
@@ -132,8 +141,54 @@
 
 (define lw6-command-func-network
   (lambda (for-real)
-    #f
-    ;todo
+    (let (
+	  (pilot (lw6-get-game-global "pilot"))
+	  (node-id (lw6-get-game-global "node-id"))
+	  (node (lw6-get-game-global "node"))
+	  (timestamp (c-lw6sys-get-timestamp))
+	  )
+      (if (and pilot node-id timestamp)
+	  (begin
+	    (lw6-speed-calibrate-local-pilot pilot)
+	    (if (c-lw6pil-is-over pilot)
+		#f ;; game over
+		(let* (
+		       (last-commit-seq (c-lw6pil-get-last-commit-seq pilot))
+		       (next-seq (c-lw6pil-get-next-seq pilot timestamp))
+		       (delta-seq (- next-seq last-commit-seq))
+		       )
+		  (if (or (>= delta-seq 2)
+			  (and (>= delta-seq 1) for-real))
+		      (let (
+			(commands (if for-real
+				      (lw6-command-all-local next-seq node-id)
+				      (list (lw6-command-nop (- next-seq 1) node-id))))
+			)
+			(begin
+			  ;;(tmp commands)
+			  (map (lambda (command) (c-lw6pil-send-command pilot command #f)) commands)
+			  (map (lambda (command) (c-lw6p2p-node-put-local-msg node command)) commands)
+			  (if for-real
+			      (map (lambda (cursor-key)
+				     (let (
+					   (cursor (lw6-get-cursor cursor-key))
+					   )
+				       (begin
+					 (hash-set! cursor "fire" #f)
+					 (hash-set! cursor "fire2" #f)
+					 )))
+				   lw6-cursor-network-keys))
+			  (let* (
+				 (msg (c-lw6p2p-node-get-next-reference-msg node))
+				 )
+			    (while msg
+				   (begin
+				     (c-lw6pil-send-command pilot msg #t)
+				     (set! msg (c-lw6p2p-node-get-next-reference-msg node))
+				     )
+				   ))
+			  (c-lw6pil-commit pilot)
+			  ))))))))
     ))
 
 (define lw6-command

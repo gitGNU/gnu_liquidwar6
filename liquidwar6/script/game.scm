@@ -376,7 +376,7 @@
 			       game-state seq-0 player-key node-id))
 		     )
 		 (if command (c-lw6pil-execute-command game-state command seq-0))))
-		 (list "1"))
+		 lw6-cursor-network-keys)
 	    (let (
 		  (pilot (c-lw6pil-build-pilot game-state
 					       seq-0
@@ -394,7 +394,7 @@
 		(lw6-cursor-set-universal-if-needed)
 		(lw6-push-menu (lw6-ingame-menu))
 		(lw6-game-running)
-		(lw6-set-game-global! "command-func" lw6-command-func-local)))
+		(lw6-set-game-global! "command-func" lw6-command-func-network)))
 	    (lw6-set-game-global! "solo" #f)
 	    (lw6-set-game-global! "network" #t)
 	    )

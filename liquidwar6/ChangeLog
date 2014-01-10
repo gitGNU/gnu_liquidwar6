@@ -1,5 +1,10 @@
 2014-01-10  Christian Mauduit <ufoot@ufoot.org>
 
+	* liquidwar6-extra-maps/ChangeLog, liquidwar6/ChangeLog: ChangeLog
+	sync
+
+2014-01-10  Christian Mauduit <ufoot@ufoot.org>
+
 	* liquidwar6/script/game.scm: Implementing server mode in scripts
 
 2014-01-10  Christian Mauduit <ufoot@ufoot.org>

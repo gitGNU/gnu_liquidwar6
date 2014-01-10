@@ -29,20 +29,22 @@
 	     (uptime-0 (c-lw6sys-get-uptime))
 	     (command-count 0)
 	     (io-count 0)
-	    )
+	     (screenshot-count 0)
+	     )
 	(while (not (c-lw6sys-signal-poll-quit))
 	       (let* (
-		     (ticks (- (c-lw6sys-get-uptime) uptime-0))
-		     (command-incr (quotient 1000 (lw6-config-get-number lw6def-commands-per-sec)))
-		     (io-incr (quotient 1000 (lw6-config-get-number lw6def-io-per-sec)))
-		     )
+		      (ticks (- (c-lw6sys-get-uptime) uptime-0))
+		      (command-incr (quotient 1000 (lw6-config-get-number lw6def-commands-per-sec)))
+		      (io-incr (quotient 1000 (lw6-config-get-number lw6def-io-per-sec)))
+		      (screenshot-incr (quotient 60000 (lw6-config-get-number lw6def-screenshots-per-min)))
+		      )
 		 (begin
-					; First step, process basic I/O
-					; this does not happen so often,
-					; to avoid wasting events (which
-					; can be expensive over the network)
-					; and prevent the user interface
-					; from being "too fast"
+		   ;; First step, process basic I/O
+		   ;; this does not happen so often,
+		   ;; to avoid wasting events (which
+		   ;; can be expensive over the network)
+		   ;; and prevent the user interface
+		   ;; from being "too fast"
 		   (if (< io-count ticks)
 		       (begin
 			 (lw6-io)
@@ -51,11 +53,11 @@
 			 )
 		       )
 
-					; generate commands
+		   ;; generate commands
 		   (if (< command-count ticks)
 		       (begin
 			 (lw6-command #t)
-					;(lw6-log-notice (format #f "~a/~a" command-count ticks))
+			 ;;(lw6-log-notice (format #f "~a/~a" command-count ticks))
 			 (set! command-count (max (+ command-count command-incr)
 						  (- ticks command-incr)))
 			 )
@@ -63,9 +65,18 @@
 			 (lw6-command #f)
 			 )
 		       )
-					; note : display-update will automatically
-					; and go idle if needed, to avoid this
-					; main thread to eat up 100% of ressources.
+
+		   (if (< screenshot-count ticks)
+		       (begin
+			 (lw6-screenshot)
+			 (set! screenshot-count (max (+ screenshot-count screenshot-incr)
+						     (- ticks screenshot-incr)))
+			 )
+		       )
+
+		   ;; note : display-update will automatically
+		   ;; and go idle if needed, to avoid this
+		   ;; main thread to eat up 100% of ressources.
 		   (lw6-display-update)
 		   )
 		 )))
