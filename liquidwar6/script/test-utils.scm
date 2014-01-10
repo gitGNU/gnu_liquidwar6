@@ -22,6 +22,7 @@
 (define lw6-test-network-connect-delay 60000)
 (define lw6-test-network-shift-delay 5000)
 (define lw6-test-network-update-delay 3000)
+(define lw6-test-network-exit-delay 7000)
 
 (define lw6-test-run
   (lambda (proc)

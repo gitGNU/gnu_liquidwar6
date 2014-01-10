@@ -65,6 +65,7 @@
 	       (time-limit (+ lw6-test-network-global-delay timestamp-0))
 	       (stage 0)
 	       (next-update-info 0)
+	       (exit-timestamp 0)
 	       (seed-sent #f)
 	       (dump-sent #f)
 	       (checkpoint-0-ok #f)
@@ -76,7 +77,7 @@
 	    (c-lw6p2p-node-poll node)
 	    (c-lw6pil-commit pilot)
 	    (c-lw6p2p-node-server-start node seq-0)
-	    (while (and (< timestamp time-limit) (< stage 80))
+	    (while (and (< timestamp time-limit) (< stage 100))
 		   (begin
 		     (set! timestamp (c-lw6sys-get-timestamp))
 		     (c-lw6sys-idle)
@@ -241,7 +242,18 @@
 						 (list 0 1 2)
 						 (list "http://localhost:8057/"  "http://localhost:8058/"  "http://localhost:8059/")
 						 4)
-			   (set! stage 80))
+			   (begin
+			     (set! stage 80)
+			     (set! exit-timestamp (+ timestamp lw6-test-network-exit-delay))
+			     ))
+		       )
+		      (
+		       (= stage 80)
+		       (begin
+			 (lw6-log-notice "done with test, waiting for some time to give peers a chance to finish their process")
+			 (if (> timestamp exit-timestamp)
+			     (set! stage 100))
+			 )
 		       )
 		      )))
 	    ;; Condition of success is: all checkpoints are OK

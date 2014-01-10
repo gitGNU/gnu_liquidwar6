@@ -76,6 +76,7 @@
 	       (connect-round (assoc-ref (c-lw6pil-suite-get-checkpoint 0) "round"))
 	       (stage 10)
 	       (next-update-info 0)
+	       (exit-timestamp 0)
 	       (seed-sent #f)
 	       (dump-sent #f)
 	       (checkpoint-2-ok #f)
@@ -137,7 +138,7 @@
 		      ;; it could cause problems if all nodes can't communicate
 		      (c-lw6p2p-node-put-local-msg node (lw6-test-nop node stage))
 		      ;; Now, loop for the rest of the test
-		      (while (and (< timestamp time-limit) (< stage 80))
+		      (while (and (< timestamp time-limit) (< stage 100))
 			     (begin
 			       (set! timestamp (c-lw6sys-get-timestamp))
 			       (c-lw6sys-idle)
@@ -327,8 +328,19 @@
 							   (list 0 1 2)
 							   (list "http://localhost:8057/"  "http://localhost:8058/"  "http://localhost:8059/")
 							   4)
-				     (set! stage 80))
+				     (begin
+				       (set! stage 80)
+				       (set! exit-timestamp (+ timestamp lw6-test-network-exit-delay))
+				       ))
 				 )
+				(
+				 (= stage 80)
+				 (begin
+				   (lw6-log-notice "done with test, waiting for some time to give peers a chance to finish their process")
+				   (if (> timestamp exit-timestamp)
+				       (set! stage 100))
+				   )
+				 )				
 				)
 			       )
 			     ))))
