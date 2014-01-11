@@ -975,7 +975,7 @@ populate_references ()
   POPULATE_BOOL (LW6DEF_TRAP_ERRORS,
 		 _x_
 		 ("If set to true, will trap segmentation fault and floating point errors, and display messages about those in a custom box instead of the default one"),
-		 1);
+		 LW6SYS_TRAP_ERRORS_DEFAULT);
   POPULATE_INT (LW6DEF_JPEG_QUALITY,
 		_x_
 		("Quality used by libjpeg when creating screenshot images. The same value you would give to Gimp before exporting an image as a JPEG."),

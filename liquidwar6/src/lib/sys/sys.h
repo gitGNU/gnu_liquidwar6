@@ -111,6 +111,12 @@ typedef char *char_ptr_t;
 #define LW6SYS_EXIT_ERROR 1
 #define LW6SYS_EXIT_CRITICAL 2
 
+#ifdef LW6_UNIX
+#define LW6SYS_TRAP_ERRORS_DEFAULT 0
+#else // LW6_UNIX
+#define LW6SYS_TRAP_ERRORS_DEFAULT 1
+#endif // LW6_UNIX
+
 /*
  * Yet another MS-windows hack, printf %ll doesn't work
  * one needs to use a special "%I64" instead...
