@@ -367,8 +367,7 @@
 	   )
       (if node
 	  (begin
-	    (lw6-log-notice "TODO server")
-	    (c-lw6p2p-node-server-start node 1)
+	    (c-lw6p2p-node-server-start node seq-0)
 	    (c-lw6pil-execute-command game-state (lw6-command-register (+ seq-0 rounds) node-id) seq-0)
 	    (map (lambda (player-key)
 	       (let (
@@ -403,10 +402,18 @@
 
 (define lw6-game-start-join-step2
   (lambda ()
-    (begin
-      ;;(lw6-game-start-local-step2)
-      (lw6-log-notice "TODO join")
-      (lw6-set-game-global! "solo" #f)
-      (lw6-set-game-global! "network" #t)
+    (let* (
+	   (level (lw6-get-game-global "level"))
+	   (game-state (lw6-get-game-global "game-state"))
+	   (node-id (lw6-get-game-global "node-id"))
+	   (rounds (c-lw6ker-get-rounds game-state))
+	   (seq-0 (c-lw6pil-seq-random-0))
+	   (node (lw6-get-game-global "node"))
+	   )
+      (begin
+	(lw6-log-notice "join TODO")
+	(lw6-set-game-global! "solo" #f)
+	(lw6-set-game-global! "network" #t)
+	)
       )))
 

@@ -42,6 +42,7 @@ log.scm \
 loop.scm \
 main.scm \
 map.scm \
+menu-connecting.scm \
 menu-engine.scm \
 menu-exit.scm \
 menu-ingame.scm \

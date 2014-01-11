@@ -40,6 +40,7 @@
 	   )
       (begin
 	(set! item (assoc-set! item "node-id" id))
+	(set! item (assoc-set! item "on-valid" (lambda (mi) (lw6-push-menu (lw6-connecting-menu id url title)))))
 	(lw6-append-menuitem! menu item)
 	item
 	))))

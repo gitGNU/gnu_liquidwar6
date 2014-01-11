@@ -41,6 +41,7 @@
       (load "log.scm")
       (load "loop.scm")
       (load "map.scm")
+      (load "menu-connecting.scm")
       (load "menu-engine.scm")
       (load "menu.scm")
       (load "menu-exit.scm")
