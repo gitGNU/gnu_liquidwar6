@@ -119,7 +119,8 @@ lw6sys_cunit_run_tests (int mode)
     {
       if (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("test results in \"%s-Results.xml\""),
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _x_ ("test results in \"%s-Results.xml\""),
 		      cunit_basename);
 	}
       LW6SYS_FREE (cunit_basename);

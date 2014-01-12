@@ -279,7 +279,7 @@ dir_if_not_found (char **dir, const char *sub, int check_readme)
   char *tmp = NULL;
   char *parent = NULL;
   int dir_exists = 0;
-  int i=0;
+  int i = 0;
 
   if (dir && *dir)
     {
@@ -291,35 +291,37 @@ dir_if_not_found (char **dir, const char *sub, int check_readme)
       if (!dir_exists)
 	{
 	  parent = lw6sys_path_parent (".");
-	  for (i=_DIR_IF_NOT_FOUND_NB_PARENTS;i>0;--i) {
-	    if (parent)
-	      {
-		tmp = lw6sys_path_concat (parent, sub);
-		dir_exists =
-		  check_readme ?
-		  lw6sys_dir_exists_with_readme_containing_text (tmp,
-								 lw6sys_build_get_home_url
-								 ()) :
-		  lw6sys_dir_exists (tmp);
-		if (dir_exists)
-		  {
-		    LW6SYS_FREE (*dir);
-		    (*dir) = tmp;
-		    i=0;
-		  }
-		else
-		  {
-		    LW6SYS_FREE(tmp);
-		  }
-		tmp=lw6sys_path_parent(parent);
-		LW6SYS_FREE(parent);
-		parent=tmp;
-	      }
-	  }
-	    if (parent) {
-	      LW6SYS_FREE(parent);
-	      parent=NULL;
-	  }
+	  for (i = _DIR_IF_NOT_FOUND_NB_PARENTS; i > 0; --i)
+	    {
+	      if (parent)
+		{
+		  tmp = lw6sys_path_concat (parent, sub);
+		  dir_exists =
+		    check_readme ?
+		    lw6sys_dir_exists_with_readme_containing_text (tmp,
+								   lw6sys_build_get_home_url
+								   ()) :
+		    lw6sys_dir_exists (tmp);
+		  if (dir_exists)
+		    {
+		      LW6SYS_FREE (*dir);
+		      (*dir) = tmp;
+		      i = 0;
+		    }
+		  else
+		    {
+		      LW6SYS_FREE (tmp);
+		    }
+		  tmp = lw6sys_path_parent (parent);
+		  LW6SYS_FREE (parent);
+		  parent = tmp;
+		}
+	    }
+	  if (parent)
+	    {
+	      LW6SYS_FREE (parent);
+	      parent = NULL;
+	    }
 
 	  if (!lw6sys_dir_exists (*dir))
 	    {
@@ -576,34 +578,36 @@ file_if_not_found (char **file, const char *sub)
 {
   char *tmp = NULL;
   char *parent = NULL;
-  int i=0;
+  int i = 0;
 
   if (file && *file && !lw6sys_file_exists (*file))
     {
       parent = lw6sys_path_parent (".");
-      for (i=_FILE_IF_NOT_FOUND_NB_PARENTS;i>0;--i) {
+      for (i = _FILE_IF_NOT_FOUND_NB_PARENTS; i > 0; --i)
+	{
+	  if (parent)
+	    {
+	      tmp = lw6sys_path_concat (parent, sub);
+	      if (lw6sys_file_exists (tmp))
+		{
+		  LW6SYS_FREE (*file);
+		  (*file) = tmp;
+		  i = 0;
+		}
+	      else
+		{
+		  LW6SYS_FREE (tmp);
+		}
+	      tmp = lw6sys_path_parent (parent);
+	      LW6SYS_FREE (parent);
+	      parent = tmp;
+	    }
+	}
       if (parent)
 	{
-	  tmp = lw6sys_path_concat (parent, sub);
-	  if (lw6sys_file_exists (tmp))
-	    {
-	      LW6SYS_FREE (*file);
-	      (*file) = tmp;
-	      i=0;
-	    }
-	  else
-	    {
-	      LW6SYS_FREE (tmp);
-	    }
-	  tmp=lw6sys_path_parent(parent);
-	  LW6SYS_FREE(parent);
-	  parent=tmp;
+	  LW6SYS_FREE (parent);
+	  parent = NULL;
 	}
-      }
-      if (parent) {
-	LW6SYS_FREE(parent);
-	parent=NULL;
-      }
       if (!lw6sys_file_exists (*file))
 	{
 	  tmp = lw6sys_path_concat (lw6sys_build_get_package_id (), sub);
