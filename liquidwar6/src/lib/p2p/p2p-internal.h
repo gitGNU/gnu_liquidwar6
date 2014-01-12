@@ -47,7 +47,8 @@
 #define _LW6P2P_SELECT_OTHER_NODE_SQL "select-other-node.sql"
 #define _LW6P2P_SELECT_AVAILABLE_NODE_SQL "select-available-node.sql"
 #define _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL "select-unavailable-node.sql"
-#define _LW6P2P_UPDATE_NODE_SQL "update-node.sql"
+#define _LW6P2P_UPDATE_NODE_INFO_SQL "update-node-info.sql"
+#define _LW6P2P_UPDATE_NODE_NET_SQL "update-node-net.sql"
 
 #define _LW6P2P_DB_NODE_NB_FIELDS 26
 #define _LW6P2P_DB_NODE_ORDER_CREATION_TIMESTAMP 0

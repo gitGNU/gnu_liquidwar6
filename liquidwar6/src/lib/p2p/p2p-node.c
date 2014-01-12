@@ -1542,7 +1542,7 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, const char *version,
 
   query = lw6sys_new_sprintf (_lw6p2p_db_get_query
 			      (node->db,
-			       _LW6P2P_UPDATE_NODE_SQL),
+			       _LW6P2P_UPDATE_NODE_INFO_SQL),
 			      creation_timestamp, escaped_version,
 			      escaped_codename, stamp,
 			      escaped_id, escaped_title,
@@ -1550,8 +1550,22 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, const char *version,
 			      bench, open_relay, escaped_community_id, round,
 			      escaped_level, required_bench, nb_colors,
 			      max_nb_colors, nb_cursors, max_nb_cursors,
-			      nb_nodes, max_nb_nodes, ip, port,
-			      last_ping_timestamp, ping_delay_msec, available,
+			      nb_nodes, max_nb_nodes, available, escaped_url);
+  if (query)
+    {
+      if (_lw6p2p_db_lock (node->db))
+	{
+	  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
+	  _lw6p2p_db_unlock (node->db);
+	}
+      LW6SYS_FREE (query);
+    }
+
+  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+			      (node->db,
+			       _LW6P2P_UPDATE_NODE_NET_SQL),
+			      ip, port,
+			      last_ping_timestamp, ping_delay_msec,
 			      escaped_url);
   if (query)
     {

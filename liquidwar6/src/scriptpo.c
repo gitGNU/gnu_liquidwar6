@@ -32,6 +32,9 @@ _("environment \"~a\" is \"~a\"");	// extracted by scriptpo-update.sh
 _("upgrading to version ~a");	// extracted by scriptpo-update.sh
 _("no graphical backend found, game can only run in server mode");	// extracted by scriptpo-update.sh
 _("running in server mode");	// extracted by scriptpo-update.sh
+_("Connect \"~a\"");		// extracted by scriptpo-update.sh
+_("Connecting");		// extracted by scriptpo-update.sh
+_("Please wait, connecting to remote server \"~a\" (~a)");	// extracted by scriptpo-update.sh
 _("Esc");			// extracted by scriptpo-update.sh
 _("Quit");			// extracted by scriptpo-update.sh
 _("Yes, quit Liquid War 6");	// extracted by scriptpo-update.sh
