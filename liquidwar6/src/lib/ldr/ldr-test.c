@@ -191,13 +191,15 @@ _test_data_callback_deep (void *func_data, void *data)
   int *ret = (int *) func_data;
   int ok = 0;
 
-  if (LW6SYS_TEST_ACK (entry && (!entry->forbidden)))
+  if (LW6SYS_TEST_ACK (entry))
     {
+      if (!entry->forbidden) {
       ok = check_map_with_absolute_path (entry->absolute_path);
       if (LW6SYS_TEST_ACK (ret))
 	{
 	  (*ret) = (*ret) && ok;
 	}
+      }
     }
 }
 
@@ -316,7 +318,6 @@ _test_dir ()
 	      {
 		ret = 0;
 	      }
-	    LW6SYS_FREE (user_dir);
 	  }
 	else
 	  {
@@ -334,13 +335,18 @@ _test_dir ()
 	  {
 	    ret = 0;
 	  }
+
+	if (user_dir) {
+	  LW6SYS_FREE (user_dir);
+	}
+
 	LW6SYS_FREE (map_path);
       }
     else
       {
 	ret = 0;
       }
-    if (LW6SYS_TEST_ACK (!entry_found))
+    if (!LW6SYS_TEST_ACK (entry_found))
       {
 	ret = 0;
       }

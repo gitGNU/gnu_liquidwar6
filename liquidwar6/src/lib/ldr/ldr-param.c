@@ -69,7 +69,7 @@ lw6ldr_param_read (lw6map_param_t * param, const char *dirname)
 int
 lw6ldr_param_update (lw6map_param_t * param, lw6sys_assoc_t * values)
 {
-  int ret = 0;
+  int ret = 1;
 
   if (!lw6ldr_rules_update (&(param->rules), values))
     {
