@@ -80,6 +80,8 @@ else
     exit 5
 fi
 
+UNAME=$(uname)
+
 if [ -f /etc/debian_version ] ; then
     echo "******** $0 $(date) ********"
     if cp *.gz pkg/ && make -C pkg deb ; then
@@ -189,6 +191,24 @@ if [ -f /etc/redhat-release ] ; then
     else
 	echo "scp extra failed"
 	exit 18
+    fi
+fi
+
+if [ echo $(UNAME) | grep Darwin ] ; then
+    echo "******** $0 $(date) ********"
+    if cd $WORKSPACE/liquidwar6 && cp *.gz pkg/ && cp ../liquidwar6-extra-maps/*.gz pkg/ && make -C pkg dmg ; then
+        echo "make dmg OK"
+    else
+        echo "make dmg failed"
+        exit 8
+    fi
+
+    echo "******** $0 $(date) ********"
+    if scp -P 9221 pkg/*.dmg jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/macosx/ ; then
+	echo "scp OK"
+    else
+	echo "scp failed"
+	exit 9
     fi
 fi
 
