@@ -35,6 +35,10 @@ if test x$WORKSPACE = x ; then
     fi
 fi      
 
+if uname | grep Darwin ; then
+    MAC_OS_X=yes
+fi
+
 # This will build and check the program, it runs it a quite
 # paranoid mode, running a check then a dist then a distcheck.
 # If this passes, one can be confident program is OK.
@@ -64,6 +68,14 @@ else
     exit 3
 fi
 
+if test x$MAC_OS_X = xyes ; then
+    # for some-reason, on an old Mac OS X 10.5 one
+    # needs to regenerate po file this way to avoid
+    # compilation error :
+    # /opt/local/bin/msgmerge: `fr.po': No such file or directory
+    make -C po update-po
+fi
+
 echo "******** $0 $(date) ********"
 if make clean && make ; then
     echo "make OK"
@@ -79,8 +91,6 @@ else
     echo "make distcheck failed"
     exit 5
 fi
-
-UNAME=$(uname)
 
 if [ -f /etc/debian_version ] ; then
     echo "******** $0 $(date) ********"
@@ -194,7 +204,7 @@ if [ -f /etc/redhat-release ] ; then
     fi
 fi
 
-if [ echo $(UNAME) | grep Darwin ] ; then
+if test x$MAC_OS_X = xyes ; then
     echo "******** $0 $(date) ********"
     if cd $WORKSPACE/liquidwar6 && cp *.gz pkg/ && cp ../liquidwar6-extra-maps/*.gz pkg/ && make -C pkg dmg ; then
         echo "make dmg OK"
