@@ -214,7 +214,7 @@ if test x$MAC_OS_X = xyes ; then
     fi
 
     echo "******** $0 $(date) ********"
-    if scp -P 9221 pkg/*.dmg jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/macosx/ ; then
+    if scp -P 9221 pkg/*.dmg jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/mac-os-x/ ; then
 	echo "scp OK"
     else
 	echo "scp failed"

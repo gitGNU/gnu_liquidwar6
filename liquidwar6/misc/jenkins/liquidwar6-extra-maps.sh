@@ -96,7 +96,7 @@ else
 fi
 
 echo "******** $0 $(date) ********"
-if cp -f liquidwar6-extra-maps*.tar.gz /var/lib/jenkins/pub/snapshots/source/ ; then
+if cp -f liquidwar6-extra-maps*.tar.gz liquidwar6-extra-maps*.zip /var/lib/jenkins/pub/snapshots/source/ ; then
     echo "scp OK"
 else
     echo "scp failed"
