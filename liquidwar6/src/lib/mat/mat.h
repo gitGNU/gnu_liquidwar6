@@ -35,11 +35,11 @@
 
 #define LW6MAT_F_0 0.0f
 #define LW6MAT_I_0 0
-#define LW6MAT_D_0 0.0d
+#define LW6MAT_D_0 0.0f
 #define LW6MAT_X_0 0
 #define LW6MAT_F_1 1.0f
 #define LW6MAT_I_1 1
-#define LW6MAT_D_1 1.0d
+#define LW6MAT_D_1 1.0f
 #define LW6MAT_X_1 65536
 
 #define LW6MAT_SIMILAR_F_DIFF 0.001f
