@@ -54,7 +54,7 @@ main (int argc, const char *argv[])
   LW6HLP_MAIN_BEGIN;
 
   lw6sys_log_clear (NULL);
-  mode = lw6sys_arg_test_mode (argc, argv);
+  mode = lw6sys_arg_test_mode (argc, (const char **) argv);
 
   /*
    * We need to call fix_env now and can't call it later since
@@ -64,7 +64,7 @@ main (int argc, const char *argv[])
    * calling fix_env twice when running from LW6 context, and we
    * don't want that.
    */
-  lw6_fix_env (argc, argv);
+  lw6_fix_env (argc, (const char **) argv);
 
   if (CU_initialize_registry () == CUE_SUCCESS)
     {

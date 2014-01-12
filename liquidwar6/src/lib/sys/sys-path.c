@@ -44,6 +44,8 @@
 #define DIR_SEP_STR DIR_SEP_STR_UNIX
 #endif // LW6_MS_WINDOWS
 
+#define _CREATE_DIR_NB_PARENTS 3
+
 static int
 is_dir_sep (char c)
 {
@@ -254,7 +256,7 @@ lw6sys_dir_exists_with_readme_containing_text (const char *dirname,
 }
 
 static int
-create_dir (const char *dirname, int verbose)
+create_dir (const char *dirname, int verbose, int nb_parents)
 {
   int ret = 0;
 
@@ -272,10 +274,24 @@ create_dir (const char *dirname, int verbose)
     }
   else
     {
-      if (verbose)
+      if (nb_parents > 0)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create dir \"%s\""),
-		      dirname);
+	  char *parent = lw6sys_path_parent (dirname);
+
+	  if (parent)
+	    {
+	      ret = create_dir (parent, verbose, nb_parents - 1)
+		&& create_dir (dirname, verbose, 0);
+	      LW6SYS_FREE (parent);
+	    }
+	}
+      else
+	{
+	  if (verbose)
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("unable to create dir \"%s\""), dirname);
+	    }
 	}
     }
 
@@ -295,7 +311,7 @@ create_dir (const char *dirname, int verbose)
 int
 lw6sys_create_dir (const char *dirname)
 {
-  return create_dir (dirname, 1);
+  return create_dir (dirname, 1, _CREATE_DIR_NB_PARENTS);
 }
 
 /**
@@ -313,7 +329,7 @@ lw6sys_create_dir (const char *dirname)
 int
 lw6sys_create_dir_silent (const char *dirname)
 {
-  return create_dir (dirname, 0);
+  return create_dir (dirname, 0, _CREATE_DIR_NB_PARENTS);
 }
 
 /**
