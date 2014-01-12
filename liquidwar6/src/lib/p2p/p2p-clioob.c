@@ -245,20 +245,30 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, const char *url,
 
 
 		      ret =
-			_lw6p2p_node_update_peer (node, remote_version,
-						  remote_codename,
-						  remote_stamp_int, remote_id,
-						  remote_url, remote_title,
-						  remote_description,
-						  has_password_int, bench,
-						  open_relay_int,
-						  now - uptime, community_id,
-						  round, level,
-						  required_bench, nb_colors,
-						  max_nb_colors, nb_cursors,
-						  max_nb_cursors, nb_nodes,
-						  max_nb_nodes, ip, port, now,
-						  ping_delay_msec);
+			_lw6p2p_node_update_peer_info_x (node, remote_version,
+							 remote_codename,
+							 remote_stamp_int,
+							 remote_id,
+							 remote_url,
+							 remote_title,
+							 remote_description,
+							 has_password_int,
+							 bench,
+							 open_relay_int,
+							 now - uptime,
+							 community_id, round,
+							 level,
+							 required_bench,
+							 nb_colors,
+							 max_nb_colors,
+							 nb_cursors,
+							 max_nb_cursors,
+							 nb_nodes,
+							 max_nb_nodes);
+		      ret =
+			_lw6p2p_node_update_peer_net (node, remote_id,
+						      remote_url, ip, port,
+						      now, ping_delay_msec);
 		    }
 		  else
 		    {

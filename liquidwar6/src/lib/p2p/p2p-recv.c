@@ -108,6 +108,12 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	  lw6dat_warehouse_update_serial_miss_max (node->warehouse,
 						   cnx->remote_id_int,
 						   serial);
+	  now = _lw6p2p_db_now (node->db);
+	  uptime =
+	    (lw6sys_get_timestamp () -
+	     remote_node_info->const_info.creation_timestamp) / 1000;
+	  remote_node_info->const_info.creation_timestamp = now - uptime;
+	  _lw6p2p_node_update_peer_info (node, remote_node_info);
 	  reply_msg =
 	    lw6msg_cmd_generate_bar (node->node_info, foo_bar_key,
 				     lw6dat_warehouse_get_local_serial
@@ -162,6 +168,12 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	  lw6dat_warehouse_update_serial_miss_max (node->warehouse,
 						   cnx->remote_id_int,
 						   serial);
+	  now = _lw6p2p_db_now (node->db);
+	  uptime =
+	    (lw6sys_get_timestamp () -
+	     remote_node_info->const_info.creation_timestamp) / 1000;
+	  remote_node_info->const_info.creation_timestamp = now - uptime;
+	  _lw6p2p_node_update_peer_info (node, remote_node_info);
 	  tentacle_i = _lw6p2p_node_find_tentacle (node, cnx->remote_id_int);
 	  if (tentacle_i >= 0)
 	    {
@@ -225,57 +237,14 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 					  cnx->local_url, cnx->remote_url,
 					  cnx->remote_ip, cnx->remote_port);
 			    }
-			  now = _lw6p2p_db_now (node->db);
-			  uptime =
-			    (lw6sys_get_timestamp () -
-			     remote_node_info->
-			     const_info.creation_timestamp) / 1000;
-			  _lw6p2p_node_update_peer (node,
-						    remote_node_info->
-						    const_info.version,
-						    remote_node_info->
-						    const_info.codename,
-						    remote_node_info->
-						    const_info.stamp,
-						    remote_node_info->
-						    const_info.ref_info.
-						    id_str,
-						    remote_node_info->
-						    const_info.ref_info.url,
-						    remote_node_info->
-						    const_info.title,
-						    remote_node_info->
-						    const_info.description,
-						    remote_node_info->
-						    const_info.has_password,
-						    remote_node_info->
-						    const_info.bench,
-						    remote_node_info->
-						    const_info.open_relay,
-						    now - uptime,
-						    remote_node_info->
-						    dyn_info.community_id_str,
-						    remote_node_info->
-						    dyn_info.round,
-						    remote_node_info->
-						    dyn_info.level,
-						    remote_node_info->
-						    dyn_info.required_bench,
-						    remote_node_info->
-						    dyn_info.nb_colors,
-						    remote_node_info->
-						    dyn_info.max_nb_colors,
-						    remote_node_info->
-						    dyn_info.nb_cursors,
-						    remote_node_info->
-						    dyn_info.max_nb_cursors,
-						    remote_node_info->
-						    dyn_info.nb_nodes,
-						    remote_node_info->
-						    dyn_info.max_nb_nodes,
-						    cnx->remote_ip,
-						    cnx->remote_port, now,
-						    fastest_cnx->ping_msec);
+			  _lw6p2p_node_update_peer_net (node,
+							remote_node_info->const_info.
+							ref_info.id_str,
+							remote_node_info->const_info.
+							ref_info.url,
+							cnx->remote_ip,
+							cnx->remote_port, now,
+							fastest_cnx->ping_msec);
 			}
 		      else
 			{

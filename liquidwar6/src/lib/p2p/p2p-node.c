@@ -1497,17 +1497,17 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
 }
 
 int
-_lw6p2p_node_update_peer (_lw6p2p_node_t * node, const char *version,
-			  const char *codename, int stamp, const char *id,
-			  const char *url, const char *title,
-			  const char *description, int has_password,
-			  int bench, int open_relay, int creation_timestamp,
-			  const char *community_id, int round,
-			  const char *level, int required_bench,
-			  int nb_colors, int max_nb_colors, int nb_cursors,
-			  int max_nb_cursors, int nb_nodes, int max_nb_nodes,
-			  const char *ip, int port, int last_ping_timestamp,
-			  int ping_delay_msec)
+_lw6p2p_node_update_peer_info_x (_lw6p2p_node_t * node, const char *version,
+				 const char *codename, int stamp,
+				 const char *id, const char *url,
+				 const char *title, const char *description,
+				 int has_password, int bench, int open_relay,
+				 int creation_timestamp,
+				 const char *community_id, int round,
+				 const char *level, int required_bench,
+				 int nb_colors, int max_nb_colors,
+				 int nb_cursors, int max_nb_cursors,
+				 int nb_nodes, int max_nb_nodes)
 {
   int ret = 1;
   char *query = NULL;
@@ -1561,22 +1561,6 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, const char *version,
       LW6SYS_FREE (query);
     }
 
-  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
-			      (node->db,
-			       _LW6P2P_UPDATE_NODE_NET_SQL),
-			      ip, port,
-			      last_ping_timestamp, ping_delay_msec,
-			      escaped_url);
-  if (query)
-    {
-      if (_lw6p2p_db_lock (node->db))
-	{
-	  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
-	  _lw6p2p_db_unlock (node->db);
-	}
-      LW6SYS_FREE (query);
-    }
-
   if (escaped_version)
     {
       LW6SYS_FREE (escaped_version);
@@ -1614,6 +1598,87 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, const char *version,
 }
 
 int
+_lw6p2p_node_update_peer_info (_lw6p2p_node_t * node,
+			       lw6nod_info_t * peer_info)
+{
+  int ret = 1;
+
+  ret =
+    _lw6p2p_node_update_peer_info_x (node, peer_info->const_info.version,
+				     peer_info->const_info.codename,
+				     peer_info->const_info.stamp,
+				     peer_info->const_info.ref_info.id_str,
+				     peer_info->const_info.ref_info.url,
+				     peer_info->const_info.title,
+				     peer_info->const_info.description,
+				     peer_info->const_info.has_password,
+				     peer_info->const_info.bench,
+				     peer_info->const_info.open_relay,
+				     _lw6p2p_db_timestamp (node->db,
+							   peer_info->
+							   const_info.creation_timestamp),
+				     lw6sys_str_empty_if_null (peer_info->
+							       dyn_info.
+							       community_id_str),
+				     peer_info->dyn_info.round,
+				     lw6sys_str_empty_if_null (peer_info->
+							       dyn_info.
+							       level),
+				     peer_info->dyn_info.required_bench,
+				     peer_info->dyn_info.nb_colors,
+				     peer_info->dyn_info.max_nb_colors,
+				     peer_info->dyn_info.nb_cursors,
+				     peer_info->dyn_info.max_nb_cursors,
+				     peer_info->dyn_info.nb_nodes,
+				     peer_info->dyn_info.max_nb_nodes);
+
+  return ret;
+}
+
+int
+_lw6p2p_node_update_peer_net (_lw6p2p_node_t * node,
+			      const char *id,
+			      const char *url,
+			      const char *ip, int port,
+			      int last_ping_timestamp, int ping_delay_msec)
+{
+  int ret = 1;
+  char *query = NULL;
+  char *escaped_id = NULL;
+  char *escaped_url = NULL;
+
+  escaped_id = lw6sys_escape_sql_value (id);
+  escaped_url = lw6sys_escape_sql_value (url);
+
+  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+			      (node->db,
+			       _LW6P2P_UPDATE_NODE_NET_SQL),
+			      ip, port,
+			      last_ping_timestamp, ping_delay_msec,
+			      escaped_url);
+  if (query)
+    {
+      if (_lw6p2p_db_lock (node->db))
+	{
+	  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
+	  _lw6p2p_db_unlock (node->db);
+	}
+      LW6SYS_FREE (query);
+    }
+
+  if (escaped_id)
+    {
+      LW6SYS_FREE (escaped_id);
+    }
+  if (escaped_url)
+    {
+      LW6SYS_FREE (escaped_url);
+    }
+
+  return ret;
+}
+
+int
 _lw6p2p_node_update_local (_lw6p2p_node_t * node, lw6nod_info_t * node_info)
 {
   int ret = 1;
@@ -1622,33 +1687,13 @@ _lw6p2p_node_update_local (_lw6p2p_node_t * node, lw6nod_info_t * node_info)
    * Call the generic update_peer function for that matter, in fact
    * the update is pretty much the same except for the IP/port & timeout
    */
+  ret = _lw6p2p_node_update_peer_info (node, node_info) && ret;
+
   ret =
-    _lw6p2p_node_update_peer (node, node_info->const_info.version,
-			      node_info->const_info.codename,
-			      node_info->const_info.stamp,
-			      node_info->const_info.ref_info.id_str,
-			      node_info->const_info.ref_info.url,
-			      node_info->const_info.title,
-			      node_info->const_info.description,
-			      node_info->const_info.has_password,
-			      node_info->const_info.bench,
-			      node_info->const_info.open_relay,
-			      _lw6p2p_db_timestamp (node->db,
-						    node_info->
-						    const_info.creation_timestamp),
-			      lw6sys_str_empty_if_null (node_info->
-							dyn_info.community_id_str),
-			      node_info->dyn_info.round,
-			      lw6sys_str_empty_if_null (node_info->
-							dyn_info.level),
-			      node_info->dyn_info.required_bench,
-			      node_info->dyn_info.nb_colors,
-			      node_info->dyn_info.max_nb_colors,
-			      node_info->dyn_info.nb_cursors,
-			      node_info->dyn_info.max_nb_cursors,
-			      node_info->dyn_info.nb_nodes,
-			      node_info->dyn_info.max_nb_nodes, node->bind_ip,
-			      node->bind_port, 0, 0);
+    _lw6p2p_node_update_peer_net (node, node_info->const_info.ref_info.id_str,
+				  node_info->const_info.ref_info.url,
+				  node->bind_ip, node->bind_port, 0, 0)
+    && ret;
 
   return ret;
 }

@@ -351,24 +351,30 @@ extern void _lw6p2p_node_close (_lw6p2p_node_t * node);
 extern u_int64_t _lw6p2p_node_get_id (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node,
 					   char *public_url);
-extern int _lw6p2p_node_update_peer (_lw6p2p_node_t * node,
-				     const char *version,
-				     const char *codename,
-				     int stamp,
-				     const char *id,
-				     const char *url,
-				     const char *title,
-				     const char *description, int password,
-				     int bench, int open_relay,
-				     int creation_timestamp,
-				     const char *community_id, int round,
-				     const char *level, int required_bench,
-				     int nb_colors, int max_nb_colors,
-				     int nb_cursors, int max_nb_cursors,
-				     int nb_nodes, int max_nb_nodes,
-				     const char *ip, int port,
-				     int last_ping_timestamp,
-				     int ping_delay_msec);
+extern int _lw6p2p_node_update_peer_info_x (_lw6p2p_node_t * node,
+					    const char *version,
+					    const char *codename,
+					    int stamp,
+					    const char *id,
+					    const char *url,
+					    const char *title,
+					    const char *description,
+					    int password, int bench,
+					    int open_relay,
+					    int creation_timestamp,
+					    const char *community_id,
+					    int round, const char *level,
+					    int required_bench, int nb_colors,
+					    int max_nb_colors, int nb_cursors,
+					    int max_nb_cursors, int nb_nodes,
+					    int max_nb_nodes);
+extern int _lw6p2p_node_update_peer_info (_lw6p2p_node_t * node,
+					  lw6nod_info_t * peer_info);
+extern int _lw6p2p_node_update_peer_net (_lw6p2p_node_t * node,
+					 const char *id, const char *url,
+					 const char *ip, int port,
+					 int last_ping_timestamp,
+					 int ping_delay_msec);
 extern int _lw6p2p_node_update_local (_lw6p2p_node_t * node,
 				      lw6nod_info_t * node_info);
 extern int _lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node);
