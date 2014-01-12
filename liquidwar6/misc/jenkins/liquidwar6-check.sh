@@ -103,10 +103,10 @@ if [ -f /etc/debian_version ] ; then
 
     echo "******** $0 $(date) ********"
     if scp -P 9221 pkg/*.deb jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/debian/ ; then
-	echo "scp OK"
+        echo "scp OK"
     else
-	echo "scp failed"
-	exit 7
+        echo "scp failed"
+        exit 7
     fi
 fi
 
@@ -121,10 +121,10 @@ if [ -f /etc/redhat-release ] ; then
 
     echo "******** $0 $(date) ********"
     if scp -P 9221 pkg/*.rpm jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/redhat/ ; then
-	echo "scp OK"
+        echo "scp OK"
     else
-	echo "scp failed"
-	exit 9
+        echo "scp failed"
+        exit 9
     fi
 fi
 
@@ -179,10 +179,10 @@ if [ -f /etc/debian_version ] ; then
 
     echo "******** $0 $(date) ********"
     if scp -P 9221 *.deb jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/debian/ ; then
-	echo "scp extra OK"
+        echo "scp extra OK"
     else
-	echo "scp extra failed"
-	exit 16
+        echo "scp extra failed"
+        exit 16
     fi
 fi
 
@@ -197,10 +197,10 @@ if [ -f /etc/redhat-release ] ; then
 
     echo "******** $0 $(date) ********"
     if scp -P 9221 *.rpm jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/redhat/ ; then
-	echo "scp extra OK"
+        echo "scp extra OK"
     else
-	echo "scp extra failed"
-	exit 18
+        echo "scp extra failed"
+        exit 18
     fi
 fi
 
@@ -213,13 +213,13 @@ if test x$MAC_OS_X = xyes ; then
         exit 8
     fi
 
-    echo "******** $0 $(date) ********"
-    if scp -P 9221 pkg/*.dmg jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/mac-os-x/ ; then
-	echo "scp OK"
-    else
-	echo "scp failed"
-	exit 9
-    fi
+    #echo "******** $0 $(date) ********"
+    #if scp -P 9221 pkg/*.dmg jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/mac-os-x/ ; then
+    #   echo "scp OK"
+    #else
+    #   echo "scp failed"
+    #   exit 9
+    #fi
 fi
 
 echo "******** $0 $(date) ********"
