@@ -292,9 +292,11 @@ _test_dir ()
     map_path = lw6cfg_unified_get_map_path (argc, argv);
     if (LW6SYS_TEST_ACK (map_path))
       {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("map_path=\"%s\""), map_path);
 	user_dir = lw6sys_get_user_dir (argc, argv);
 	if (LW6SYS_TEST_ACK (user_dir))
 	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("user_dir=\"%s\""), user_dir);
 	    entries =
 	      lw6ldr_get_entries (map_path, _TEST_DIR_RELATIVE_PATH,
 				  user_dir);
