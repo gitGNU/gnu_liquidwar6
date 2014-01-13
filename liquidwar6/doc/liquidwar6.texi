@@ -990,7 +990,9 @@ texinfo texlive-base texlive-generic-extra \
 texlive-fonts-recommended texlive-latex-extra \
 indent emacs doxygen xsltproc pmccabe \
 libcunit1-ncurses libcunit1-ncurses-dev \
+google-perftools libgoogle-perftools-dev \
 git git2cl \
+zip nsis \
 debhelper devscripts
 @end example
 

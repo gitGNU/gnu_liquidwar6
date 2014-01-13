@@ -32,6 +32,19 @@
 #define CPUPROFILE "CPUPROFILE"
 #define HEAPPROFILE "HEAPPROFILE"
 
+static void
+_cleanup_first_char (char *env)
+{
+  /*
+   * For some reason google-perftools fiddle
+   * with env vars and sign bit is set, wrecking
+   * log information. So we set in to 0 to clean
+   * the log, letting Google use whatever they
+   * want, here we use a copy of the value.
+   */
+  (*env) = (*env) & 0x7f;
+}
+
 static int
 _cpu_profiler_check (int verbose)
 {
@@ -41,6 +54,7 @@ _cpu_profiler_check (int verbose)
   cpuprofile = lw6sys_getenv (CPUPROFILE);
   if (cpuprofile)
     {
+      _cleanup_first_char (cpuprofile);
 #ifdef LW6_PROFILER
       if (verbose)
 	{
@@ -90,6 +104,7 @@ _heap_profiler_check (int verbose)
   heapprofile = lw6sys_getenv (HEAPPROFILE);
   if (heapprofile)
     {
+      _cleanup_first_char (heapprofile);
 #ifdef LW6_PROFILER
       if (verbose)
 	{
