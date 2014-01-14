@@ -110,6 +110,10 @@
 #define _TEST_FVEC2_CROSS_X 0
 #define _TEST_FVEC2_CROSS_Y 0
 #define _TEST_FVEC2_CROSS_Z 1966080
+#define _TEST_FVEC2_MUL_FVEC2_00 5.0f
+#define _TEST_FVEC2_MUL_FVEC2_01 20.0f
+#define _TEST_FVEC2_MUL_FVEC2_10 -10.0f
+#define _TEST_FVEC2_MUL_FVEC2_11 -40.0f
 
 #define _TEST_FVEC3_LEN_SQ 22937600
 #define _TEST_FVEC3_LEN 1226066
@@ -117,6 +121,15 @@
 #define _TEST_FVEC3_CROSS_X -9830400
 #define _TEST_FVEC3_CROSS_Y -1966080
 #define _TEST_FVEC3_CROSS_Z 1966080
+#define _TEST_FVEC3_MUL_FVEC3_00 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_01 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_02 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_10 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_11 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_12 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_20 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_21 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_22 0.0f
 
 #define _TEST_FVEC4_LEN_SQ 49152000
 #define _TEST_FVEC4_LEN 1794777
@@ -124,6 +137,22 @@
 #define _TEST_FVEC4_CROSS_X -9830400
 #define _TEST_FVEC4_CROSS_Y -1966080
 #define _TEST_FVEC4_CROSS_Z 1966080
+#define _TEST_FVEC3_MUL_FVEC3_00 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_01 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_02 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_03 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_10 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_11 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_12 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_13 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_20 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_21 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_22 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_23 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_30 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_31 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_32 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_33 0.0f
 
 #define _TEST_DVEC_X1 5.0f
 #define _TEST_DVEC_Y1 -10.0f
@@ -140,6 +169,10 @@
 #define _TEST_DVEC2_CROSS_X 0
 #define _TEST_DVEC2_CROSS_Y 0
 #define _TEST_DVEC2_CROSS_Z 1966080
+#define _TEST_DVEC2_MUL_DVEC2_00 5.0f
+#define _TEST_DVEC2_MUL_DVEC2_01 20.0f
+#define _TEST_DVEC2_MUL_DVEC2_10 -10.0f
+#define _TEST_DVEC2_MUL_DVEC2_11 -40.0f
 
 #define _TEST_DVEC3_LEN_SQ 22937600
 #define _TEST_DVEC3_LEN 1226066
@@ -805,6 +838,270 @@ _print_fvec2 (const lw6mat_fvec2_t * fvec2, const char *about)
   return ret;
 }
 
+// utility to print a fvec3
+static int
+_print_fvec3 (const lw6mat_fvec3_t * fvec3, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_fvec3_repr (fvec3);
+  if (LW6SYS_TEST_ACK (repr))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec3 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate fvec3 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
+}
+
+// utility to print a fvec4
+static int
+_print_fvec4 (const lw6mat_fvec4_t * fvec4, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_fvec4_repr (fvec4);
+  if (LW6SYS_TEST_ACK (repr))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec4 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate fvec4 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
+}
+
+// utility to print a dvec2
+static int
+_print_dvec2 (const lw6mat_dvec2_t * dvec2, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_dvec2_repr (dvec2);
+  if (LW6SYS_TEST_ACK (repr))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec2 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate dvec2 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
+}
+
+// utility to print a dvec3
+static int
+_print_dvec3 (const lw6mat_dvec3_t * dvec3, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_dvec3_repr (dvec3);
+  if (LW6SYS_TEST_ACK (repr))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec3 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate dvec3 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
+}
+
+// utility to print a dvec4
+static int
+_print_dvec4 (const lw6mat_dvec4_t * dvec4, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_dvec4_repr (dvec4);
+  if (LW6SYS_TEST_ACK (repr))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec4 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate dvec4 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
+}
+
+// utility to print a fmat2
+static int
+_print_fmat2 (const lw6mat_fmat2_t * fmat2, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_fmat2_repr (fmat2);
+  if (LW6SYS_TEST_ACK (repr))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat2 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate fmat2 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
+}
+
+// utility to print a fmat3
+static int
+_print_fmat3 (const lw6mat_fmat3_t * fmat3, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_fmat3_repr (fmat3);
+  if (LW6SYS_TEST_ACK (repr))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat3 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate fmat3 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
+}
+
+// utility to print a fmat4
+static int
+_print_fmat4 (const lw6mat_fmat4_t * fmat4, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_fmat4_repr (fmat4);
+  if (LW6SYS_TEST_ACK (repr))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat4 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate fmat4 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
+}
+
+// utility to print a dmat2
+static int
+_print_dmat2 (const lw6mat_dmat2_t * dmat2, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_dmat2_repr (dmat2);
+  if (LW6SYS_TEST_ACK (repr))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat2 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate dmat2 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
+}
+
+// utility to print a dmat3
+static int
+_print_dmat3 (const lw6mat_dmat3_t * dmat3, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_dmat3_repr (dmat3);
+  if (LW6SYS_TEST_ACK (repr))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat3 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate dmat3 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
+}
+
+// utility to print a dmat4
+static int
+_print_dmat4 (const lw6mat_dmat4_t * dmat4, const char *about)
+{
+  int ret = 1;
+  char *repr;
+
+  repr = lw6mat_dmat4_repr (dmat4);
+  if (LW6SYS_TEST_ACK (repr))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat4 %s repr=\"%s\""), about,
+		  repr);
+      LW6SYS_FREE (repr);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to generate dmat4 %s repr"), about);
+      ret = 0;
+    }
+
+  return ret;
+}
+
 /*
  * Testing functions in fvec2.c
  */
@@ -822,6 +1119,9 @@ _test_fvec2 ()
     float len = 0.0f;
     float dot = 0.0f;
     lw6mat_fvec3_t fvec3;	// needed for cross-product
+    lw6mat_fmat2_t fmat2;
+    lw6mat_fmat2_t fmat2_check;
+    int i;
 
     lw6mat_fvec2_zero (&fvec2);
     lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -1003,33 +1303,38 @@ _test_fvec2 ()
 		    _TEST_FVEC2_CROSS_Z);
 	ret = 0;
       }
+
+    lw6mat_fvec2_mul_fvec2 (&fmat2, &fvec2_a, &fvec2_b);
+    fmat2_check.m[0][0] = _TEST_FVEC2_MUL_FVEC2_00;
+    fmat2_check.m[0][1] = _TEST_FVEC2_MUL_FVEC2_01;
+    fmat2_check.m[1][0] = _TEST_FVEC2_MUL_FVEC2_10;
+    fmat2_check.m[1][1] = _TEST_FVEC2_MUL_FVEC2_11;
+    _print_fvec2 (&fvec2_a, "fvec2_a (row)");
+    _print_fvec2 (&fvec2_b, "fvec2_b (column)");
+    _print_fmat2 (&fmat2, "fmat2 = fvec2_a * fvec2_b");
+    _print_fmat2 (&fmat2_check, "fmat2_check");
+    for (i = 0; i < LW6MAT_MAT2_V_SIZE_X_SIZE; ++i)
+      {
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fmat2.v[i], fmat2_check.v[i])))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("element %d of fmat2 = fvec2_a x fvec2_b is %f -> OK"),
+			i, fmat2.v[i]);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("element %d of fmat2 = fvec2_a x fvec2_b is %f, expected %f"),
+			i, fmat2.v[i], fmat2_check.v[i]);
+	    ret = 0;
+	  }
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
-}
-
-// utility to print a fvec3
-static int
-_print_fvec3 (const lw6mat_fvec3_t * fvec3, const char *about)
-{
-  int ret = 1;
-  char *repr;
-
-  repr = lw6mat_fvec3_repr (fvec3);
-  if (LW6SYS_TEST_ACK (repr))
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec3 %s repr=\"%s\""), about,
-		  repr);
-      LW6SYS_FREE (repr);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to generate fvec3 %s repr"), about);
-      ret = 0;
-    }
-
-  return ret;
 }
 
 /*
@@ -1236,30 +1541,6 @@ _test_fvec3 ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-}
-
-// utility to print a fvec4
-static int
-_print_fvec4 (const lw6mat_fvec4_t * fvec4, const char *about)
-{
-  int ret = 1;
-  char *repr;
-
-  repr = lw6mat_fvec4_repr (fvec4);
-  if (LW6SYS_TEST_ACK (repr))
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec4 %s repr=\"%s\""), about,
-		  repr);
-      LW6SYS_FREE (repr);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to generate fvec4 %s repr"), about);
-      ret = 0;
-    }
-
-  return ret;
 }
 
 /*
@@ -1473,30 +1754,6 @@ _test_fvec4 ()
   LW6SYS_TEST_FUNCTION_END;
 }
 
-// utility to print a dvec2
-static int
-_print_dvec2 (const lw6mat_dvec2_t * dvec2, const char *about)
-{
-  int ret = 1;
-  char *repr;
-
-  repr = lw6mat_dvec2_repr (dvec2);
-  if (LW6SYS_TEST_ACK (repr))
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec2 %s repr=\"%s\""), about,
-		  repr);
-      LW6SYS_FREE (repr);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to generate dvec2 %s repr"), about);
-      ret = 0;
-    }
-
-  return ret;
-}
-
 /*
  * Testing functions in dvec2.c
  */
@@ -1514,6 +1771,9 @@ _test_dvec2 ()
     double len = 0.0f;
     double dot = 0.0f;
     lw6mat_dvec3_t dvec3;	// needed for cross-product
+    lw6mat_dmat2_t dmat2;
+    lw6mat_dmat2_t dmat2_check;
+    int i;
 
     lw6mat_dvec2_zero (&dvec2);
     lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -1695,33 +1955,38 @@ _test_dvec2 ()
 		    _TEST_DVEC2_CROSS_Z);
 	ret = 0;
       }
+
+    lw6mat_dvec2_mul_dvec2 (&dmat2, &dvec2_a, &dvec2_b);
+    dmat2_check.m[0][0] = _TEST_DVEC2_MUL_DVEC2_00;
+    dmat2_check.m[0][1] = _TEST_DVEC2_MUL_DVEC2_01;
+    dmat2_check.m[1][0] = _TEST_DVEC2_MUL_DVEC2_10;
+    dmat2_check.m[1][1] = _TEST_DVEC2_MUL_DVEC2_11;
+    _print_dvec2 (&dvec2_a, "dvec2_a (row)");
+    _print_dvec2 (&dvec2_b, "dvec2_b (column)");
+    _print_dmat2 (&dmat2, "dmat2 = dvec2_a * dvec2_b");
+    _print_dmat2 (&dmat2_check, "dmat2_check");
+    for (i = 0; i < LW6MAT_MAT2_V_SIZE_X_SIZE; ++i)
+      {
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (dmat2.v[i], dmat2_check.v[i])))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("element %d of dmat2 = dvec2_a x dvec2_b is %f -> OK"),
+			i, dmat2.v[i]);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("element %d of dmat2 = dvec2_a x dvec2_b is %f, expected %f"),
+			i, dmat2.v[i], dmat2_check.v[i]);
+	    ret = 0;
+	  }
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
-}
-
-// utility to print a dvec3
-static int
-_print_dvec3 (const lw6mat_dvec3_t * dvec3, const char *about)
-{
-  int ret = 1;
-  char *repr;
-
-  repr = lw6mat_dvec3_repr (dvec3);
-  if (LW6SYS_TEST_ACK (repr))
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec3 %s repr=\"%s\""), about,
-		  repr);
-      LW6SYS_FREE (repr);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to generate dvec3 %s repr"), about);
-      ret = 0;
-    }
-
-  return ret;
 }
 
 /*
@@ -1928,30 +2193,6 @@ _test_dvec3 ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-}
-
-// utility to print a dvec4
-static int
-_print_dvec4 (const lw6mat_dvec4_t * dvec4, const char *about)
-{
-  int ret = 1;
-  char *repr;
-
-  repr = lw6mat_dvec4_repr (dvec4);
-  if (LW6SYS_TEST_ACK (repr))
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec4 %s repr=\"%s\""), about,
-		  repr);
-      LW6SYS_FREE (repr);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to generate dvec4 %s repr"), about);
-      ret = 0;
-    }
-
-  return ret;
 }
 
 /*
@@ -2163,30 +2404,6 @@ _test_dvec4 ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-}
-
-// utility to print a fmat2
-static int
-_print_fmat2 (const lw6mat_fmat2_t * fmat2, const char *about)
-{
-  int ret = 1;
-  char *repr;
-
-  repr = lw6mat_fmat2_repr (fmat2);
-  if (LW6SYS_TEST_ACK (repr))
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat2 %s repr=\"%s\""), about,
-		  repr);
-      LW6SYS_FREE (repr);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to generate fmat2 %s repr"), about);
-      ret = 0;
-    }
-
-  return ret;
 }
 
 /*
@@ -2426,30 +2643,6 @@ _test_fmat2 ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-}
-
-// utility to print a fmat3
-static int
-_print_fmat3 (const lw6mat_fmat3_t * fmat3, const char *about)
-{
-  int ret = 1;
-  char *repr;
-
-  repr = lw6mat_fmat3_repr (fmat3);
-  if (LW6SYS_TEST_ACK (repr))
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat3 %s repr=\"%s\""), about,
-		  repr);
-      LW6SYS_FREE (repr);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to generate fmat3 %s repr"), about);
-      ret = 0;
-    }
-
-  return ret;
 }
 
 /*
@@ -2711,30 +2904,6 @@ _test_fmat3 ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-}
-
-// utility to print a fmat4
-static int
-_print_fmat4 (const lw6mat_fmat4_t * fmat4, const char *about)
-{
-  int ret = 1;
-  char *repr;
-
-  repr = lw6mat_fmat4_repr (fmat4);
-  if (LW6SYS_TEST_ACK (repr))
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat4 %s repr=\"%s\""), about,
-		  repr);
-      LW6SYS_FREE (repr);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to generate fmat4 %s repr"), about);
-      ret = 0;
-    }
-
-  return ret;
 }
 
 /*
@@ -3002,30 +3171,6 @@ _test_fmat4 ()
   LW6SYS_TEST_FUNCTION_END;
 }
 
-// utility to print a dmat2
-static int
-_print_dmat2 (const lw6mat_dmat2_t * dmat2, const char *about)
-{
-  int ret = 1;
-  char *repr;
-
-  repr = lw6mat_dmat2_repr (dmat2);
-  if (LW6SYS_TEST_ACK (repr))
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat2 %s repr=\"%s\""), about,
-		  repr);
-      LW6SYS_FREE (repr);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to generate dmat2 %s repr"), about);
-      ret = 0;
-    }
-
-  return ret;
-}
-
 /*
  * Testing functions in dmat2.c
  */
@@ -3263,30 +3408,6 @@ _test_dmat2 ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-}
-
-// utility to print a dmat3
-static int
-_print_dmat3 (const lw6mat_dmat3_t * dmat3, const char *about)
-{
-  int ret = 1;
-  char *repr;
-
-  repr = lw6mat_dmat3_repr (dmat3);
-  if (LW6SYS_TEST_ACK (repr))
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat3 %s repr=\"%s\""), about,
-		  repr);
-      LW6SYS_FREE (repr);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to generate dmat3 %s repr"), about);
-      ret = 0;
-    }
-
-  return ret;
 }
 
 /*
@@ -3548,30 +3669,6 @@ _test_dmat3 ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
-}
-
-// utility to print a dmat4
-static int
-_print_dmat4 (const lw6mat_dmat4_t * dmat4, const char *about)
-{
-  int ret = 1;
-  char *repr;
-
-  repr = lw6mat_dmat4_repr (dmat4);
-  if (LW6SYS_TEST_ACK (repr))
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat4 %s repr=\"%s\""), about,
-		  repr);
-      LW6SYS_FREE (repr);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to generate dmat4 %s repr"), about);
-      ret = 0;
-    }
-
-  return ret;
 }
 
 /*

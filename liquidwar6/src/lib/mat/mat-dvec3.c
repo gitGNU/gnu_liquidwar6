@@ -242,6 +242,33 @@ lw6mat_dvec3_scale (lw6mat_dvec3_t * dvec3, double f)
 }
 
 /**
+ * lw6mat_dvec3_mul_dvec3
+ *
+ * @dmat3: result matrix
+ * @dvec3_a: 1st row vector
+ * @dvec3_b: 3nd column vector
+ *
+ * Multiplication of a row vector by a column vector to give a matrix.
+ *
+ * Return value: none
+ */
+void
+lw6mat_dvec3_mul_dvec3 (lw6mat_dmat3_t * dmat3,
+			const lw6mat_dvec3_t * dvec3_a,
+			const lw6mat_dvec3_t * dvec3_b)
+{
+  int i, j;
+
+  for (i = 0; i < LW6MAT_VEC3_V_SIZE; ++i)
+    {
+      for (j = 0; j < LW6MAT_VEC3_V_SIZE; ++j)
+	{
+	  dmat3->m[i][j] = dvec3_a->v[i] * dvec3_b->v[j];
+	}
+    }
+}
+
+/**
  * lw6mat_dvec3_repr
  *
  * @dvec: vector to represent

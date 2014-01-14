@@ -238,6 +238,33 @@ lw6mat_fvec2_scale (lw6mat_fvec2_t * fvec2, float f)
 }
 
 /**
+ * lw6mat_fvec2_mul_fvec2
+ *
+ * @fmat2: result matrix
+ * @fvec2_a: 1st row vector
+ * @fvec2_b: 2nd column vector
+ *
+ * Multiplication of a row vector by a column vector to give a matrix.
+ *
+ * Return value: none
+ */
+void
+lw6mat_fvec2_mul_fvec2 (lw6mat_fmat2_t * fmat2,
+			const lw6mat_fvec2_t * fvec2_a,
+			const lw6mat_fvec2_t * fvec2_b)
+{
+  int i, j;
+
+  for (i = 0; i < LW6MAT_VEC2_V_SIZE; ++i)
+    {
+      for (j = 0; j < LW6MAT_VEC2_V_SIZE; ++j)
+	{
+	  fmat2->m[i][j] = fvec2_a->v[i] * fvec2_b->v[j];
+	}
+    }
+}
+
+/**
  * lw6mat_fvec2_repr
  *
  * @fvec: vector to represent
