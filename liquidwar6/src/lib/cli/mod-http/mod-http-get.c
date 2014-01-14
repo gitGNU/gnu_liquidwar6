@@ -77,12 +77,13 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
 	       const char *password, const char *ip, int port)
 {
   char *ret = NULL;
-  CURL *curl_handle;
-  CURLcode res;
+  CURL *curl_handle = NULL;
+  CURLcode res = 0;
   _memory_struct_t chunk;
   char *authorization = NULL;
   int64_t origin = lw6sys_get_timestamp ();
   int test_sock = LW6NET_SOCKET_INVALID;
+  int http_ok = 0;
 
   chunk.memory = NULL;		/* we expect realloc(NULL, size) to work */
   chunk.size = 0;		/* no data at this point */
@@ -219,6 +220,7 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
 					      if (res == CURLE_OK)
 						{
 						  /* should be OK */
+						  http_ok = 1;
 						}
 					      else
 						{
@@ -283,8 +285,21 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
 
 	      if (chunk.memory)
 		{
-		  ret = chunk.memory;
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("response=\"%s\""), ret);
+		  if (http_ok && chunk.size > 0)
+		    {
+		      ret = chunk.memory;
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_ ("CURL HTTP response=\"%s\""), ret);
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_
+				  ("ignoring CURL HTTP response, http_ok=%d res=%d size=%d"),
+				  http_ok, (int) res, (int) chunk.size);
+		      LW6SYS_FREE (chunk.memory);
+		      chunk.memory = NULL;
+		    }
 		}
 	    }
 	  lw6net_dns_unlock ();
