@@ -1,3 +1,183 @@
+2014-01-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/po/fr.po,
+	liquidwar6/po/nn.po, liquidwar6/po/ru.po,
+	liquidwar6/src/lib/mat/mat-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Completed vector
+	multiplication test suite
+
+2014-01-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/mat/mat-dvec2.c,
+	liquidwar6/src/lib/mat/mat-dvec3.c,
+	liquidwar6/src/lib/mat/mat-dvec4.c,
+	liquidwar6/src/lib/mat/mat-fvec2.c,
+	liquidwar6/src/lib/mat/mat-fvec3.c,
+	liquidwar6/src/lib/mat/mat-fvec4.c,
+	liquidwar6/src/lib/mat/mat-test.c, liquidwar6/src/lib/mat/mat.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Implemented vec * vec ->
+	mat multiplication
+
+2014-01-14  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/cli/mod-http/mod-http-get.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: More error checks in http
+	client code
+
+2014-01-13  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/doc/liquidwar6.texi,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-profiler.c: Fixed google-perftools mode
+	log
+
+2014-01-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/ldr/ldr-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-cunit.c,
+	liquidwar6/src/lib/sys/sys-options.c: Re-indent
+
+2014-01-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/src/lib/ldr/ldr-param.c,
+	liquidwar6/src/lib/ldr/ldr-test.c,
+	liquidwar6/src/lib/sys/sys-cunit.c,
+	liquidwar6/src/lib/sys/sys-options.c: Fixed path issue on Mac OS X
+
+2014-01-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/ldr/ldr-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: More logs in ldr test to
+	track down Mac OS X test problem
+
+2014-01-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/ldr/ldr-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Added CUnit hooks in ldr
+	test suite
+
+2014-01-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/lw6-testmain.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-path.c: Added basic support to create
+	directories and its parents, can help on user_dir on Mac OS X
+
+2014-01-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/misc/jenkins/liquidwar6-check.sh: not trying to
+	automatically archive mac os x packages within Jenkins
+
+2014-01-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/misc/jenkins/liquidwar6-check.sh,
+	liquidwar6/misc/jenkins/liquidwar6-extra-maps.sh: fixed package
+	upload issue
+
+2014-01-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/p2p/p2p-clioob.c,
+	liquidwar6/src/lib/p2p/p2p-internal.h,
+	liquidwar6/src/lib/p2p/p2p-node.c,
+	liquidwar6/src/lib/p2p/p2p-recv.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Revamping node update
+	process in database
+
+2014-01-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/misc/jenkins/liquidwar6-check.sh: Fixing script for Mac
+	OS X
+
+2014-01-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/src/lib/mat/mat.h: Fixed constant suffix, does not work
+	with old compilers
+
+2014-01-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/misc/jenkins/liquidwar6-check.sh: Added Mac OS X
+	support in Jenkins scripts
+
+2014-01-12  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/data/p2p/sql/Makefile.am,
+	liquidwar6/data/p2p/sql/update-node-info.sql,
+	liquidwar6/data/p2p/sql/update-node-net.sql,
+	liquidwar6/data/p2p/sql/update-node.sql,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/p2p/p2p-data.c,
+	liquidwar6/src/lib/p2p/p2p-internal.h,
+	liquidwar6/src/lib/p2p/p2p-node.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h, liquidwar6/src/scriptpo.c: 
+	Splitted update-node SQL p2p request into 2 different requests
+
+2014-01-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/script/Makefile.am, liquidwar6/script/game.scm,
+	liquidwar6/script/load.scm, liquidwar6/script/menu-connecting.scm,
+	liquidwar6/script/menu-join.scm: Starting to implement client
+	network connection
+
+2014-01-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/hlp/hlp-reference.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys.h: Not trapping errors on UNIX-like
+	systems any more
+
+2014-01-11  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/ChangeLog,
+	liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/ChangeLog,
+	liquidwar6/configure.ac, liquidwar6/debian/changelog,
+	liquidwar6/src/lib/ker/ker-gamestate.c,
+	liquidwar6/src/lib/ker/ker-hexa.c,
+	liquidwar6/src/lib/ker/ker-internal.h,
+	liquidwar6/src/lib/ker/ker-test.c,
+	liquidwar6/src/lib/map/map-test.c,
+	liquidwar6/src/lib/pil/pil-suite.c,
+	liquidwar6/src/lib/pil/pil-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Introduced total_rounds as
+	a game_state attribute which can increase where there are no
+	opponents
+
 2014-01-10  Christian Mauduit <ufoot@ufoot.org>
 
 	* liquidwar6-extra-maps/ChangeLog,
