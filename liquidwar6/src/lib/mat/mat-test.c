@@ -121,15 +121,15 @@
 #define _TEST_FVEC3_CROSS_X -9830400
 #define _TEST_FVEC3_CROSS_Y -1966080
 #define _TEST_FVEC3_CROSS_Z 1966080
-#define _TEST_FVEC3_MUL_FVEC3_00 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_01 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_02 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_10 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_11 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_12 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_20 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_21 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_22 0.0f
+#define _TEST_FVEC3_MUL_FVEC3_00 5.0f
+#define _TEST_FVEC3_MUL_FVEC3_01 20.0f
+#define _TEST_FVEC3_MUL_FVEC3_02 45.0f
+#define _TEST_FVEC3_MUL_FVEC3_10 -10.0f
+#define _TEST_FVEC3_MUL_FVEC3_11 -40.0f
+#define _TEST_FVEC3_MUL_FVEC3_12 -90.0f
+#define _TEST_FVEC3_MUL_FVEC3_20 15.0f
+#define _TEST_FVEC3_MUL_FVEC3_21 60.0f
+#define _TEST_FVEC3_MUL_FVEC3_22 135.0f
 
 #define _TEST_FVEC4_LEN_SQ 49152000
 #define _TEST_FVEC4_LEN 1794777
@@ -137,22 +137,22 @@
 #define _TEST_FVEC4_CROSS_X -9830400
 #define _TEST_FVEC4_CROSS_Y -1966080
 #define _TEST_FVEC4_CROSS_Z 1966080
-#define _TEST_FVEC3_MUL_FVEC3_00 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_01 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_02 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_03 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_10 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_11 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_12 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_13 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_20 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_21 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_22 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_23 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_30 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_31 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_32 0.0f
-#define _TEST_FVEC3_MUL_FVEC3_33 0.0f
+#define _TEST_FVEC4_MUL_FVEC4_00 5.0f
+#define _TEST_FVEC4_MUL_FVEC4_01 20.0f
+#define _TEST_FVEC4_MUL_FVEC4_02 45.0f
+#define _TEST_FVEC4_MUL_FVEC4_03 80.0f
+#define _TEST_FVEC4_MUL_FVEC4_10 -10.0f
+#define _TEST_FVEC4_MUL_FVEC4_11 -40.0f
+#define _TEST_FVEC4_MUL_FVEC4_12 -90.0f
+#define _TEST_FVEC4_MUL_FVEC4_13 -160.0f
+#define _TEST_FVEC4_MUL_FVEC4_20 15.0f
+#define _TEST_FVEC4_MUL_FVEC4_21 60.0f
+#define _TEST_FVEC4_MUL_FVEC4_22 135.0f
+#define _TEST_FVEC4_MUL_FVEC4_23 240.0f
+#define _TEST_FVEC4_MUL_FVEC4_30 -20.0f
+#define _TEST_FVEC4_MUL_FVEC4_31 -80.0f
+#define _TEST_FVEC4_MUL_FVEC4_32 -180.0f
+#define _TEST_FVEC4_MUL_FVEC4_33 -320.0f
 
 #define _TEST_DVEC_X1 5.0f
 #define _TEST_DVEC_Y1 -10.0f
@@ -180,6 +180,15 @@
 #define _TEST_DVEC3_CROSS_X -9830400
 #define _TEST_DVEC3_CROSS_Y -1966080
 #define _TEST_DVEC3_CROSS_Z 1966080
+#define _TEST_DVEC3_MUL_DVEC3_00 5.0f
+#define _TEST_DVEC3_MUL_DVEC3_01 20.0f
+#define _TEST_DVEC3_MUL_DVEC3_02 45.0f
+#define _TEST_DVEC3_MUL_DVEC3_10 -10.0f
+#define _TEST_DVEC3_MUL_DVEC3_11 -40.0f
+#define _TEST_DVEC3_MUL_DVEC3_12 -90.0f
+#define _TEST_DVEC3_MUL_DVEC3_20 15.0f
+#define _TEST_DVEC3_MUL_DVEC3_21 60.0f
+#define _TEST_DVEC3_MUL_DVEC3_22 135.0f
 
 #define _TEST_DVEC4_LEN_SQ 49152000
 #define _TEST_DVEC4_LEN 1794777
@@ -187,6 +196,22 @@
 #define _TEST_DVEC4_CROSS_X -9830400
 #define _TEST_DVEC4_CROSS_Y -1966080
 #define _TEST_DVEC4_CROSS_Z 1966080
+#define _TEST_DVEC4_MUL_DVEC4_00 5.0f
+#define _TEST_DVEC4_MUL_DVEC4_01 20.0f
+#define _TEST_DVEC4_MUL_DVEC4_02 45.0f
+#define _TEST_DVEC4_MUL_DVEC4_03 80.0f
+#define _TEST_DVEC4_MUL_DVEC4_10 -10.0f
+#define _TEST_DVEC4_MUL_DVEC4_11 -40.0f
+#define _TEST_DVEC4_MUL_DVEC4_12 -90.0f
+#define _TEST_DVEC4_MUL_DVEC4_13 -160.0f
+#define _TEST_DVEC4_MUL_DVEC4_20 15.0f
+#define _TEST_DVEC4_MUL_DVEC4_21 60.0f
+#define _TEST_DVEC4_MUL_DVEC4_22 135.0f
+#define _TEST_DVEC4_MUL_DVEC4_23 240.0f
+#define _TEST_DVEC4_MUL_DVEC4_30 -20.0f
+#define _TEST_DVEC4_MUL_DVEC4_31 -80.0f
+#define _TEST_DVEC4_MUL_DVEC4_32 -180.0f
+#define _TEST_DVEC4_MUL_DVEC4_33 -320.0f
 
 #define _TEST_FMAT_RANDOM_RANGE 1.5f
 #define _TEST_FMAT_RANDOM_ROUND 0.01f
@@ -1325,7 +1350,7 @@ _test_fvec2 ()
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE,
+	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_
 			("element %d of fmat2 = fvec2_a x fvec2_b is %f, expected %f"),
 			i, fmat2.v[i], fmat2_check.v[i]);
@@ -1353,6 +1378,9 @@ _test_fvec3 ()
     float len_sq = 0.0f;
     float len = 0.0f;
     float dot = 0.0f;
+    lw6mat_fmat3_t fmat3;
+    lw6mat_fmat3_t fmat3_check;
+    int i;
 
     lw6mat_fvec3_zero (&fvec3);
     lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -1538,6 +1566,40 @@ _test_fvec3 ()
 		    _TEST_FVEC3_CROSS_Z);
 	ret = 0;
       }
+
+    lw6mat_fvec3_mul_fvec3 (&fmat3, &fvec3_a, &fvec3_b);
+    fmat3_check.m[0][0] = _TEST_FVEC3_MUL_FVEC3_00;
+    fmat3_check.m[0][1] = _TEST_FVEC3_MUL_FVEC3_01;
+    fmat3_check.m[0][2] = _TEST_FVEC3_MUL_FVEC3_02;
+    fmat3_check.m[1][0] = _TEST_FVEC3_MUL_FVEC3_10;
+    fmat3_check.m[1][1] = _TEST_FVEC3_MUL_FVEC3_11;
+    fmat3_check.m[1][2] = _TEST_FVEC3_MUL_FVEC3_12;
+    fmat3_check.m[2][0] = _TEST_FVEC3_MUL_FVEC3_20;
+    fmat3_check.m[2][1] = _TEST_FVEC3_MUL_FVEC3_21;
+    fmat3_check.m[2][2] = _TEST_FVEC3_MUL_FVEC3_22;
+    _print_fvec3 (&fvec3_a, "fvec3_a (row)");
+    _print_fvec3 (&fvec3_b, "fvec3_b (column)");
+    _print_fmat3 (&fmat3, "fmat3 = fvec3_a * fvec3_b");
+    _print_fmat3 (&fmat3_check, "fmat3_check");
+    for (i = 0; i < LW6MAT_MAT3_V_SIZE_X_SIZE; ++i)
+      {
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fmat3.v[i], fmat3_check.v[i])))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("element %d of fmat3 = fvec3_a x fvec3_b is %f -> OK"),
+			i, fmat3.v[i]);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("element %d of fmat3 = fvec3_a x fvec3_b is %f, expected %f"),
+			i, fmat3.v[i], fmat3_check.v[i]);
+	    ret = 0;
+	  }
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -1560,6 +1622,9 @@ _test_fvec4 ()
     float len = 0.0f;
     float dot = 0.0f;
     lw6mat_fvec3_t fvec3;	// needed for cross-product
+    lw6mat_fmat4_t fmat4;
+    lw6mat_fmat4_t fmat4_check;
+    int i;
 
     lw6mat_fvec4_zero (&fvec4);
     lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -1748,6 +1813,47 @@ _test_fvec4 ()
 		    _TEST_FVEC4_CROSS_X, _TEST_FVEC4_CROSS_Y,
 		    _TEST_FVEC4_CROSS_Z);
 	ret = 0;
+      }
+
+    lw6mat_fvec4_mul_fvec4 (&fmat4, &fvec4_a, &fvec4_b);
+    fmat4_check.m[0][0] = _TEST_FVEC4_MUL_FVEC4_00;
+    fmat4_check.m[0][1] = _TEST_FVEC4_MUL_FVEC4_01;
+    fmat4_check.m[0][2] = _TEST_FVEC4_MUL_FVEC4_02;
+    fmat4_check.m[0][3] = _TEST_FVEC4_MUL_FVEC4_03;
+    fmat4_check.m[1][0] = _TEST_FVEC4_MUL_FVEC4_10;
+    fmat4_check.m[1][1] = _TEST_FVEC4_MUL_FVEC4_11;
+    fmat4_check.m[1][2] = _TEST_FVEC4_MUL_FVEC4_12;
+    fmat4_check.m[1][3] = _TEST_FVEC4_MUL_FVEC4_13;
+    fmat4_check.m[2][0] = _TEST_FVEC4_MUL_FVEC4_20;
+    fmat4_check.m[2][1] = _TEST_FVEC4_MUL_FVEC4_21;
+    fmat4_check.m[2][2] = _TEST_FVEC4_MUL_FVEC4_22;
+    fmat4_check.m[2][3] = _TEST_FVEC4_MUL_FVEC4_23;
+    fmat4_check.m[3][0] = _TEST_FVEC4_MUL_FVEC4_30;
+    fmat4_check.m[3][1] = _TEST_FVEC4_MUL_FVEC4_31;
+    fmat4_check.m[3][2] = _TEST_FVEC4_MUL_FVEC4_32;
+    fmat4_check.m[3][3] = _TEST_FVEC4_MUL_FVEC4_33;
+    _print_fvec4 (&fvec4_a, "fvec4_a (row)");
+    _print_fvec4 (&fvec4_b, "fvec4_b (column)");
+    _print_fmat4 (&fmat4, "fmat4 = fvec4_a * fvec4_b");
+    _print_fmat4 (&fmat4_check, "fmat4_check");
+    for (i = 0; i < LW6MAT_MAT4_V_SIZE_X_SIZE; ++i)
+      {
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fmat4.v[i], fmat4_check.v[i])))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("element %d of fmat4 = fvec4_a x fvec4_b is %f -> OK"),
+			i, fmat4.v[i]);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("element %d of fmat4 = fvec4_a x fvec4_b is %f, expected %f"),
+			i, fmat4.v[i], fmat4_check.v[i]);
+	    ret = 0;
+	  }
       }
   }
 
@@ -1968,7 +2074,7 @@ _test_dvec2 ()
     for (i = 0; i < LW6MAT_MAT2_V_SIZE_X_SIZE; ++i)
       {
 	if (LW6SYS_TEST_ACK
-	    (lw6mat_is_similar_f (dmat2.v[i], dmat2_check.v[i])))
+	    (lw6mat_is_similar_d (dmat2.v[i], dmat2_check.v[i])))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_
@@ -1977,7 +2083,7 @@ _test_dvec2 ()
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE,
+	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_
 			("element %d of dmat2 = dvec2_a x dvec2_b is %f, expected %f"),
 			i, dmat2.v[i], dmat2_check.v[i]);
@@ -2005,6 +2111,9 @@ _test_dvec3 ()
     double len_sq = 0.0f;
     double len = 0.0f;
     double dot = 0.0f;
+    lw6mat_dmat3_t dmat3;
+    lw6mat_dmat3_t dmat3_check;
+    int i;
 
     lw6mat_dvec3_zero (&dvec3);
     lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -2190,6 +2299,40 @@ _test_dvec3 ()
 		    _TEST_DVEC3_CROSS_Z);
 	ret = 0;
       }
+
+    lw6mat_dvec3_mul_dvec3 (&dmat3, &dvec3_a, &dvec3_b);
+    dmat3_check.m[0][0] = _TEST_DVEC3_MUL_DVEC3_00;
+    dmat3_check.m[0][1] = _TEST_DVEC3_MUL_DVEC3_01;
+    dmat3_check.m[0][2] = _TEST_DVEC3_MUL_DVEC3_02;
+    dmat3_check.m[1][0] = _TEST_DVEC3_MUL_DVEC3_10;
+    dmat3_check.m[1][1] = _TEST_DVEC3_MUL_DVEC3_11;
+    dmat3_check.m[1][2] = _TEST_DVEC3_MUL_DVEC3_12;
+    dmat3_check.m[2][0] = _TEST_DVEC3_MUL_DVEC3_20;
+    dmat3_check.m[2][1] = _TEST_DVEC3_MUL_DVEC3_21;
+    dmat3_check.m[2][2] = _TEST_DVEC3_MUL_DVEC3_22;
+    _print_dvec3 (&dvec3_a, "dvec3_a (row)");
+    _print_dvec3 (&dvec3_b, "dvec3_b (column)");
+    _print_dmat3 (&dmat3, "dmat3 = dvec3_a * dvec3_b");
+    _print_dmat3 (&dmat3_check, "dmat3_check");
+    for (i = 0; i < LW6MAT_MAT3_V_SIZE_X_SIZE; ++i)
+      {
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_d (dmat3.v[i], dmat3_check.v[i])))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("element %d of dmat3 = dvec3_a x dvec3_b is %f -> OK"),
+			i, dmat3.v[i]);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("element %d of dmat3 = dvec3_a x dvec3_b is %f, expected %f"),
+			i, dmat3.v[i], dmat3_check.v[i]);
+	    ret = 0;
+	  }
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -2212,6 +2355,9 @@ _test_dvec4 ()
     double len = 0.0f;
     double dot = 0.0f;
     lw6mat_dvec3_t dvec3;	// needed for cross-product
+    lw6mat_dmat4_t dmat4;
+    lw6mat_dmat4_t dmat4_check;
+    int i;
 
     lw6mat_dvec4_zero (&dvec4);
     lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -2400,6 +2546,47 @@ _test_dvec4 ()
 		    _TEST_DVEC4_CROSS_X, _TEST_DVEC4_CROSS_Y,
 		    _TEST_DVEC4_CROSS_Z);
 	ret = 0;
+      }
+
+    lw6mat_dvec4_mul_dvec4 (&dmat4, &dvec4_a, &dvec4_b);
+    dmat4_check.m[0][0] = _TEST_DVEC4_MUL_DVEC4_00;
+    dmat4_check.m[0][1] = _TEST_DVEC4_MUL_DVEC4_01;
+    dmat4_check.m[0][2] = _TEST_DVEC4_MUL_DVEC4_02;
+    dmat4_check.m[0][3] = _TEST_DVEC4_MUL_DVEC4_03;
+    dmat4_check.m[1][0] = _TEST_DVEC4_MUL_DVEC4_10;
+    dmat4_check.m[1][1] = _TEST_DVEC4_MUL_DVEC4_11;
+    dmat4_check.m[1][2] = _TEST_DVEC4_MUL_DVEC4_12;
+    dmat4_check.m[1][3] = _TEST_DVEC4_MUL_DVEC4_13;
+    dmat4_check.m[2][0] = _TEST_DVEC4_MUL_DVEC4_20;
+    dmat4_check.m[2][1] = _TEST_DVEC4_MUL_DVEC4_21;
+    dmat4_check.m[2][2] = _TEST_DVEC4_MUL_DVEC4_22;
+    dmat4_check.m[2][3] = _TEST_DVEC4_MUL_DVEC4_23;
+    dmat4_check.m[3][0] = _TEST_DVEC4_MUL_DVEC4_30;
+    dmat4_check.m[3][1] = _TEST_DVEC4_MUL_DVEC4_31;
+    dmat4_check.m[3][2] = _TEST_DVEC4_MUL_DVEC4_32;
+    dmat4_check.m[3][3] = _TEST_DVEC4_MUL_DVEC4_33;
+    _print_dvec4 (&dvec4_a, "dvec4_a (row)");
+    _print_dvec4 (&dvec4_b, "dvec4_b (column)");
+    _print_dmat4 (&dmat4, "dmat4 = dvec4_a * dvec4_b");
+    _print_dmat4 (&dmat4_check, "dmat4_check");
+    for (i = 0; i < LW6MAT_MAT4_V_SIZE_X_SIZE; ++i)
+      {
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_d (dmat4.v[i], dmat4_check.v[i])))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("element %d of dmat4 = dvec4_a x dvec4_b is %f -> OK"),
+			i, dmat4.v[i]);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("element %d of dmat4 = dvec4_a x dvec4_b is %f, expected %f"),
+			i, dmat4.v[i], dmat4_check.v[i]);
+	    ret = 0;
+	  }
       }
   }
 
@@ -3386,8 +3573,8 @@ _test_dmat2 ()
 	lw6mat_dmat2_mul_dvec2 (&dvec2, &dmat2, &dvec2);
 	ret = _print_dvec2 (&dvec2, "result dvec2") && ret;
 	if (LW6SYS_TEST_ACK
-	    (lw6mat_is_similar_f (dvec2.p.x, _TEST_DMAT2_MUL_DVEC2_X)
-	     && lw6mat_is_similar_f (dvec2.p.y, _TEST_DMAT2_MUL_DVEC2_Y)))
+	    (lw6mat_is_similar_d (dvec2.p.x, _TEST_DMAT2_MUL_DVEC2_X)
+	     && lw6mat_is_similar_d (dvec2.p.y, _TEST_DMAT2_MUL_DVEC2_Y)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
@@ -3631,9 +3818,9 @@ _test_dmat3 ()
 	lw6mat_dmat3_mul_dvec3 (&dvec3, &dmat3, &dvec3);
 	ret = _print_dvec3 (&dvec3, "result dvec3") && ret;
 	if (LW6SYS_TEST_ACK
-	    (lw6mat_is_similar_f (dvec3.p.x, _TEST_DMAT3_MUL_DVEC3_X)
-	     && lw6mat_is_similar_f (dvec3.p.y, _TEST_DMAT3_MUL_DVEC3_Y)
-	     && lw6mat_is_similar_f (dvec3.p.z, _TEST_DMAT3_MUL_DVEC3_Z)))
+	    (lw6mat_is_similar_d (dvec3.p.x, _TEST_DMAT3_MUL_DVEC3_X)
+	     && lw6mat_is_similar_d (dvec3.p.y, _TEST_DMAT3_MUL_DVEC3_Y)
+	     && lw6mat_is_similar_d (dvec3.p.z, _TEST_DMAT3_MUL_DVEC3_Z)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
@@ -3647,8 +3834,8 @@ _test_dmat3 ()
 	lw6mat_dmat3_mul_dvec2 (&dvec2, &dmat3, &dvec2);
 	ret = _print_dvec2 (&dvec2, "result dvec2") && ret;
 	if (LW6SYS_TEST_ACK
-	    (lw6mat_is_similar_f (dvec2.p.x, _TEST_DMAT3_MUL_DVEC2_X)
-	     && lw6mat_is_similar_f (dvec2.p.y, _TEST_DMAT3_MUL_DVEC2_Y)))
+	    (lw6mat_is_similar_d (dvec2.p.x, _TEST_DMAT3_MUL_DVEC2_X)
+	     && lw6mat_is_similar_d (dvec2.p.y, _TEST_DMAT3_MUL_DVEC2_Y)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
@@ -3893,10 +4080,10 @@ _test_dmat4 ()
 	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4, &dvec4);
 	ret = _print_dvec4 (&dvec4, "result dvec4") && ret;
 	if (LW6SYS_TEST_ACK
-	    (lw6mat_is_similar_f (dvec4.p.x, _TEST_DMAT4_MUL_DVEC4_X)
-	     && lw6mat_is_similar_f (dvec4.p.y, _TEST_DMAT4_MUL_DVEC4_Y)
-	     && lw6mat_is_similar_f (dvec4.p.z, _TEST_DMAT4_MUL_DVEC4_Z)
-	     && lw6mat_is_similar_f (dvec4.p.w, _TEST_DMAT4_MUL_DVEC4_W)))
+	    (lw6mat_is_similar_d (dvec4.p.x, _TEST_DMAT4_MUL_DVEC4_X)
+	     && lw6mat_is_similar_d (dvec4.p.y, _TEST_DMAT4_MUL_DVEC4_Y)
+	     && lw6mat_is_similar_d (dvec4.p.z, _TEST_DMAT4_MUL_DVEC4_Z)
+	     && lw6mat_is_similar_d (dvec4.p.w, _TEST_DMAT4_MUL_DVEC4_W)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
@@ -3910,9 +4097,9 @@ _test_dmat4 ()
 	lw6mat_dmat4_mul_dvec3 (&dvec3, &dmat4, &dvec3);
 	ret = _print_dvec3 (&dvec3, "result dvec3") && ret;
 	if (LW6SYS_TEST_ACK
-	    (lw6mat_is_similar_f (dvec3.p.x, _TEST_DMAT4_MUL_DVEC3_X)
-	     && lw6mat_is_similar_f (dvec3.p.y, _TEST_DMAT4_MUL_DVEC3_Y)
-	     && lw6mat_is_similar_f (dvec3.p.z, _TEST_DMAT4_MUL_DVEC3_Z)))
+	    (lw6mat_is_similar_d (dvec3.p.x, _TEST_DMAT4_MUL_DVEC3_X)
+	     && lw6mat_is_similar_d (dvec3.p.y, _TEST_DMAT4_MUL_DVEC3_Y)
+	     && lw6mat_is_similar_d (dvec3.p.z, _TEST_DMAT4_MUL_DVEC3_Z)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got expected result"));
 	  }
