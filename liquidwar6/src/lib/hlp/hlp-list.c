@@ -1364,6 +1364,8 @@ update_advanced (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_DEMO);
   lw6sys_list_push_back (list, LW6DEF_BENCH);
   lw6sys_list_push_back (list, LW6DEF_BENCH_VALUE);
+  lw6sys_list_push_back (list, LW6DEF_LOCAL_BENCH_DELTA);
+  lw6sys_list_push_back (list, LW6DEF_NETWORK_BENCH_DELTA);
   lw6sys_list_push_back (list, LW6DEF_MAX_LOCAL_BENCH_VALUE);
   lw6sys_list_push_back (list, LW6DEF_MAX_NETWORK_BENCH_VALUE);
   lw6sys_list_push_back (list, LW6DEF_MAGIC_NUMBER);

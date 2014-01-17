@@ -887,6 +887,14 @@ populate_references ()
 		_x_
 		("Contains the current bench value of the computer running the game. This is used internally to choose the right map settings. You can override this value and use your own but... use at your own risk. Pretending you have a faster computer than what you really have can lead to confusion."),
 		LW6LDR_DEFAULT_BENCH_VALUE, 0, 0);
+  POPULATE_INT (LW6DEF_LOCAL_BENCH_DELTA,
+		_x_
+		("A value which is added to bench before starting a local game. This is typically zero or negative, as adding to bench is like pretending your computer is faster than it really is."),
+		0, -70, 20);
+  POPULATE_INT (LW6DEF_NETWORK_BENCH_DELTA,
+		_x_
+		("A value which is added to bench before starting a network game. This is typically a negative value, lower than the one added to local game. This is because network games can be more CPU greedy."),
+		-5, -70, 20);
   POPULATE_INT (LW6DEF_MAX_LOCAL_BENCH_VALUE,
 		_x_
 		("Even if your computer is very fast, this parameter will be used to tame the optimism of the test, and do not load maps in very high detail. It's believed at some point, it's best to keep your extra power to deal with unordinary situations rather than waste it on useless details. Game should be fun with that setting, but if you really want to use your shiny CPU at its maximum, raise this."),

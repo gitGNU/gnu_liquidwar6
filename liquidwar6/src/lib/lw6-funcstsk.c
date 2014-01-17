@@ -198,6 +198,7 @@ _scm_lw6tsk_loader_pop (SCM loader)
   lw6map_level_t *c_level = NULL;
   lw6ker_game_struct_t *c_game_struct = NULL;
   lw6ker_game_state_t *c_game_state = NULL;
+  int c_bench_value = 0;
   SCM level = SCM_BOOL_F;
   SCM game_struct = SCM_BOOL_F;
   SCM game_state = SCM_BOOL_F;
@@ -214,7 +215,7 @@ _scm_lw6tsk_loader_pop (SCM loader)
   if (c_loader)
     {
       if (lw6tsk_loader_pop
-	  (&c_level, &c_game_struct, &c_game_state, c_loader))
+	  (&c_level, &c_game_struct, &c_game_state, &c_bench_value, c_loader))
 	{
 	  if (c_level)
 	    {
@@ -231,12 +232,14 @@ _scm_lw6tsk_loader_pop (SCM loader)
 		}
 	    }
 	  ret =
-	    scm_list_3 (scm_cons
+	    scm_list_4 (scm_cons
 			(scm_from_locale_string ("level"), level),
 			scm_cons
 			(scm_from_locale_string ("game-struct"), game_struct),
 			scm_cons (scm_from_locale_string ("game-state"),
-				  game_state));
+				  game_state),
+			scm_cons (scm_from_locale_string ("bench-value"),
+				  scm_from_int (c_bench_value)));
 	}
     }
 

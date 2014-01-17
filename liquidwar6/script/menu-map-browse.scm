@@ -43,6 +43,7 @@
 							     (_ "License")
 							     license)))))
 	   (relative-path (assoc-ref entry "relative-path"))
+	   (network (lw6-get-game-global "network"))
 	   )
       (if has-subdirs
 	  (begin
@@ -55,7 +56,7 @@
 	    )
 	  (begin
 	    (set! menuitem (assoc-set! menuitem "selected" (equal? relative-path (lw6-config-get-string lw6def-chosen-map))))
-	    (set! menuitem (assoc-set! menuitem "on-select" (lambda (mi) (begin (lw6-game-preview) (lw6-loader-push-ldr-if-needed relative-path) (lw6-config-set-string! lw6def-chosen-map relative-path)))))
+	    (set! menuitem (assoc-set! menuitem "on-select" (lambda (mi) (begin (lw6-game-preview) (lw6-loader-push-ldr-if-needed relative-path network) (lw6-config-set-string! lw6def-chosen-map relative-path)))))
 	    (set! menuitem (assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-menu (lw6-play-menu-map)))))
 	    (set! menuitem (assoc-set! menuitem "enabled" (not forbidden)))
 	    menuitem

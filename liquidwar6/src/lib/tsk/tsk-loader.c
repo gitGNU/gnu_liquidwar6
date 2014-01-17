@@ -571,6 +571,7 @@ lw6tsk_loader_push_gen (lw6tsk_loader_t * loader, const char *seed,
  * @level: loaded level (out param)
  * @game_struct: loaded struct (out param)
  * @game_state: loaded state (out param)
+ * @bench_value: the bench_value used (out param)
  * @loader: loader object
  *
  * Pops data from the loader, will allocate everything dynamically.
@@ -585,7 +586,7 @@ int
 lw6tsk_loader_pop (lw6map_level_t ** level,
 		   lw6ker_game_struct_t ** game_struct,
 		   lw6ker_game_state_t ** game_state,
-		   lw6tsk_loader_t * loader)
+		   int *bench_value, lw6tsk_loader_t * loader)
 {
   int ret = 0;
   _lw6tsk_loader_data_t *loader_data;
@@ -605,6 +606,10 @@ lw6tsk_loader_pop (lw6map_level_t ** level,
   if (game_state)
     {
       (*game_state) = NULL;
+    }
+  if (bench_value)
+    {
+      (*bench_value) = 0;
     }
 
   if (level)
@@ -627,6 +632,10 @@ lw6tsk_loader_pop (lw6map_level_t ** level,
 	  loader_data->stage2.level = NULL;	// do not free!
 	  loader_data->stage2.game_struct = NULL;	// do not free!
 	  loader_data->stage2.game_state = NULL;	// do not free!
+	  if (bench_value)
+	    {
+	      (*bench_value) = loader_data->stage1.bench_value;
+	    }
 	  ret = 1;
 	}
     }

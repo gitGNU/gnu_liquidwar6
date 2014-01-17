@@ -67,6 +67,7 @@ _test_manager_ldr ()
     lw6map_level_t *level = NULL;
     lw6ker_game_struct_t *game_struct = NULL;
     lw6ker_game_state_t *game_state = NULL;
+    int bench_value = 0;
     int done = 0;
     float progress = 0.0f;
     char *user_dir;
@@ -114,7 +115,8 @@ _test_manager_ldr ()
 			    LW6SYS_FREE (repr);
 			  }
 			if (lw6tsk_loader_pop
-			    (&level, &game_struct, &game_state, manager))
+			    (&level, &game_struct, &game_state, &bench_value,
+			     manager))
 			  {
 			    if (level && game_struct && game_state)
 			      {
@@ -133,8 +135,8 @@ _test_manager_ldr ()
 				  {
 				    lw6sys_log (LW6SYS_LOG_NOTICE,
 						_x_
-						("loaded game_state \"%s\""),
-						repr);
+						("loaded game_state \"%s\" bench_value=%d"),
+						repr, bench_value);
 				    LW6SYS_FREE (repr);
 				  }
 				lw6ker_game_state_free (game_state);
@@ -198,6 +200,7 @@ _test_manager_gen ()
     lw6map_level_t *level = NULL;
     lw6ker_game_struct_t *game_struct = NULL;
     lw6ker_game_state_t *game_state = NULL;
+    int bench_value = 0;
     int done = 0;
     float progress = 0.0f;
     char *user_dir;
@@ -231,7 +234,8 @@ _test_manager_gen ()
 		    LW6SYS_FREE (repr);
 		  }
 		if (lw6tsk_loader_pop
-		    (&level, &game_struct, &game_state, manager))
+		    (&level, &game_struct, &game_state, &bench_value,
+		     manager))
 		  {
 		    if (level && game_struct && game_state)
 		      {
@@ -250,8 +254,8 @@ _test_manager_gen ()
 			  {
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
 					_x_
-					("generated game_state \"%s\""),
-					repr);
+					("generated game_state \"%s\" bench_value=%d"),
+					repr, bench_value);
 			    LW6SYS_FREE (repr);
 			  }
 			lw6ker_game_state_free (game_state);

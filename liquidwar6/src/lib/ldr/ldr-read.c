@@ -73,7 +73,9 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
   int player_exp = LW6MAP_RULES_DEFAULT_EXP;
   int map_exp = LW6MAP_RULES_DEFAULT_EXP;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading map \"%s\""), dirname);
+  lw6sys_log (LW6SYS_LOG_INFO,
+	      _x_ ("loading map \"%s\" display=%dx%d bench=%d"), dirname,
+	      display_w, display_h, bench_value);
 
   lw6sys_progress_split3 (&progress_texture, &progress_body, &progress_color,
 			  progress);

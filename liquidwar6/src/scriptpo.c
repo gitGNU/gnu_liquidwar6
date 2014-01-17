@@ -20,6 +20,7 @@ _("Move cursor: pad/stick~%Menu: A and B buttons~%Primary fire: C button~%Altern
 _("Move cursor: pad/stick~%Menu: A and B buttons~%Primary fire: C button~%Alternate fire: D button~%Zoom: E and F buttons");	// extracted by scriptpo-update.sh
 _("Not working yet");		// extracted by scriptpo-update.sh
 _("Preparing map, this can take some time");	// extracted by scriptpo-update.sh
+_("Preparing map, this can take some time");	// extracted by scriptpo-update.sh
 _("scheme error");		// extracted by scriptpo-update.sh
 _("running scheme code with Guile");	// extracted by scriptpo-update.sh
 _("leaving Guile");		// extracted by scriptpo-update.sh

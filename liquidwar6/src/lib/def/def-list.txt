@@ -577,6 +577,7 @@ list-sound
 list-team-colors
 list-weapons
 loader-sleep
+local-bench-delta
 log-file
 log-level
 log-timeout
@@ -627,6 +628,7 @@ nb-bots
 nb-defense-tries
 nb-move-tries
 net-log
+network-bench-delta
 network-reliability
 node-description
 node-title

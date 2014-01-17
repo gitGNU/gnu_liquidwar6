@@ -65,8 +65,8 @@
 	    )
 	(if dsp (c-lw6gui-input-reset dsp))
 	)
-      (lw6-set-game-global! "solo" #f)
-      (lw6-set-game-global! "network" #f)
+      (lw6-set-game-global! "solo" (if (lw6-get-game-global "solo") #t #f))
+      (lw6-set-game-global! "network" (if (lw6-get-game-global "network") #t #f))
       (lw6-game-param-update)
       )))
 
@@ -160,7 +160,10 @@
 	   (level (assoc-ref loaded "level"))
 	   (game-struct (assoc-ref loaded "game-struct"))
 	   (game-state-loaded (assoc-ref loaded "game-state"))
-	   (game-state-display (if (and game-struct game-state-loaded) (c-lw6ker-dup-game-state game-struct game-state-loaded) #f))
+	   (bench-value-loaded (assoc-ref loaded "bench-value"))
+	   (game-state-display (if (and game-struct game-state-loaded
+					(equal? (lw6-loader-local-bench-value) bench-value-loaded))
+				   (c-lw6ker-dup-game-state game-struct game-state-loaded) #f))
 	   (node-id (lw6-get-game-global "node-id"))
 	  )
       (if game-state-display
@@ -177,16 +180,42 @@
 	  (begin
 	    (lw6-push-menu (lw6-wait-menu
 			    (_ "Preparing map, this can take some time")))
-	    (lw6-loader-push-ldr-if-needed (lw6-config-get-string lw6def-chosen-map))
+	    (lw6-loader-push-ldr-if-needed (lw6-config-get-string lw6def-chosen-map) #f)
 	    (lw6-set-game-global! "loaded-func" (lw6-loaded-func-local-game step2-func))
 	    )
 	  ))))
 
 (define lw6-game-start-network-step1
   (lambda (step2-func)
-    (begin
-      (lw6-game-start-local-step1 step2-func)
-      )))
+    (let* (
+	   (loaded (lw6-get-game-global "loaded"))
+	   (level (assoc-ref loaded "level"))
+	   (game-struct (assoc-ref loaded "game-struct"))
+	   (game-state-loaded (assoc-ref loaded "game-state"))
+	   (bench-value-loaded (assoc-ref loaded "bench-value"))
+	   (game-state-display (if (and game-struct game-state-loaded
+					(equal? (lw6-loader-network-bench-value) bench-value-loaded))
+				   (c-lw6ker-dup-game-state game-struct game-state-loaded) #f))
+	   (node-id (lw6-get-game-global "node-id"))
+	   )
+      (if game-state-display
+	  (begin
+	    (lw6-set-game-global! "level" level)
+	    (lw6-set-game-global! "game-struct" game-struct)
+	    (lw6-set-game-global! "game-state" game-state-display)
+	    (lw6-display-param-set! "level" level)
+	    (lw6-display-param-set! "game-struct" game-struct)
+	    (lw6-display-param-set! "game-state" game-state-display)
+	    (lw6-set-game-global! "loaded-func" lw6-loaded-func-idle)
+	    (step2-func)
+	    )
+	  (begin
+	    (lw6-push-menu (lw6-wait-menu
+			    (_ "Preparing map, this can take some time")))
+	    (lw6-loader-push-ldr-if-needed (lw6-config-get-string lw6def-chosen-map) #t)
+	    (lw6-set-game-global! "loaded-func" (lw6-loaded-func-network-game step2-func))
+	    )
+	  ))))
 
 (define lw6-game-start-solo-step2
   (lambda ()

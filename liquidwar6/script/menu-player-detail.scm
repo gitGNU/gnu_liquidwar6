@@ -132,7 +132,7 @@
 	(lw6-append-menuitem! menu (lw6-player-detail-menu-name-item player-prefix))
 	(lw6-append-menuitem! menu (lw6-player-detail-menu-color-item player-prefix))
 	(lw6-append-menuitem! menu (lw6-player-detail-menu-control-item player-prefix))
-	(set! menu (assoc-set! menu "on-push" (lambda (m) (begin (lw6-game-preview) (lw6-loader-push-ldr-if-needed (lw6-config-get-string lw6def-chosen-map))))))
+	(set! menu (assoc-set! menu "on-push" (lambda (m) (begin (lw6-game-preview) (lw6-loader-push-ldr-if-needed (lw6-config-get-string lw6def-chosen-map) (lw6-get-game-global "network"))))))
 	(set! menu (assoc-set! menu "on-pop" (lambda (m) (begin (lw6-game-idle)))))
 	menu
 	))))

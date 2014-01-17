@@ -40,6 +40,8 @@
 (define lw6def-base64-encode "base64-encode")
 (define lw6def-bench "bench")
 (define lw6def-bench-value "bench-value")
+(define lw6def-network-bench-delta "network-bench-delta")
+(define lw6def-local-bench-delta "local-bench-delta")
 (define lw6def-berzerk "berzerk")
 (define lw6def-bin-id "bin-id")
 (define lw6def-bind-ip "bind-ip")

@@ -47,6 +47,8 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_BASE64_ENCODE "base64-encode"
 #define LW6DEF_BENCH "bench"
 #define LW6DEF_BENCH_VALUE "bench-value"
+#define LW6DEF_NETWORK_BENCH_DELTA "network-bench-delta"
+#define LW6DEF_LOCAL_BENCH_DELTA "local-bench-delta"
 #define LW6DEF_BERZERK "berzerk"
 #define LW6DEF_BIN_ID "bin-id"
 #define LW6DEF_BIND_IP "bind-ip"
