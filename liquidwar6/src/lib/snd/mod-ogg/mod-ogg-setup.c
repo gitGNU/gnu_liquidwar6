@@ -79,100 +79,91 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume,
 
 	  if (sdl_ok)
 	    {
-	      flags_init = 0;
+	      if (!Mix_OpenAudio
+		  (snd_context->const_data.frequency,
+		   (snd_context->const_data.bits ==
+		    8) ? AUDIO_U8 : AUDIO_S16SYS,
+		   snd_context->const_data.channels,
+		   snd_context->const_data.chunksize))
+		{
+		  flags_init = 0;
 #ifdef MIX_INIT_MP3
-	      flags_init |= MIX_INIT_MP3;
+		  flags_init |= MIX_INIT_MP3;
 #endif // MIX_INIT_MP3
 #ifdef MIX_INIT_OGG
-	      flags_init |= MIX_INIT_OGG;
+		  flags_init |= MIX_INIT_OGG;
 #endif // MIX_INIT_OGG
 #ifdef MIX_INIT_MOD
-	      flags_init |= MIX_INIT_MOD;
+		  flags_init |= MIX_INIT_MOD;
 #endif // MIX_INIT_MOD
 #ifdef MIX_INIT_FLUIDSYNTH
-	      flags_init |= MIX_INIT_FLUIDSYNTH;
+		  flags_init |= MIX_INIT_FLUIDSYNTH;
 #endif // MIX_INIT_FLUIDSYNTH
-	      flags_ret = Mix_Init (flags_init);
-	      if (flags_ret)
-		{
+		  flags_ret = Mix_Init (flags_init);
 		  if (flags_ret != flags_init)
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
 				  _x_ ("Mix_Init returned %d, expected %d"),
 				  flags_ret, flags_init);
 		    }
-		  if (!Mix_OpenAudio
-		      (snd_context->const_data.frequency,
-		       (snd_context->const_data.bits ==
-			8) ? AUDIO_U8 : AUDIO_S16SYS,
-		       snd_context->const_data.channels,
-		       snd_context->const_data.chunksize))
-		    {
-		      snd_context->mixer.nb_channels =
-			Mix_AllocateChannels (-1);
-		      if (snd_context->mixer.nb_channels >
-			  _MOD_OGG_CHANNEL_FX0)
-			{
-			  Mix_GroupChannel (_MOD_OGG_CHANNEL_WATER1,
-					    _MOD_OGG_CHANNEL_GROUP_WATER);
-			  Mix_GroupChannel (_MOD_OGG_CHANNEL_WATER2,
-					    _MOD_OGG_CHANNEL_GROUP_WATER);
-			  Mix_GroupChannels (_MOD_OGG_CHANNEL_FX0,
-					     snd_context->mixer.nb_channels -
-					     1, _MOD_OGG_CHANNEL_GROUP_FX);
-			  /*
-			   * For some reason panning does not use MIX_MAX_VOLUME
-			   */
-			  pan1 = snd_context->const_data.water_pan1 * 255.0f;
-			  pan2 = snd_context->const_data.water_pan2 * 255.0f;
 
-			  if (!Mix_SetPanning
-			      (_MOD_OGG_CHANNEL_WATER1, pan1, pan2))
-			    {
-			      lw6sys_log (LW6SYS_LOG_WARNING,
-					  _x_
-					  ("unable to set panning on channel %d (%s)"),
-					  _MOD_OGG_CHANNEL_WATER1,
-					  Mix_GetError ());
-			    }
-			  if (!Mix_SetPanning
-			      (_MOD_OGG_CHANNEL_WATER2, pan2, pan1))
-			    {
-			      lw6sys_log (LW6SYS_LOG_WARNING,
-					  _x_
-					  ("unable to set panning on channel %d (%s)"),
-					  _MOD_OGG_CHANNEL_WATER2,
-					  Mix_GetError ());
-			    }
-			}
-		      else
+		  snd_context->mixer.nb_channels = Mix_AllocateChannels (-1);
+		  if (snd_context->mixer.nb_channels > _MOD_OGG_CHANNEL_FX0)
+		    {
+		      Mix_GroupChannel (_MOD_OGG_CHANNEL_WATER1,
+					_MOD_OGG_CHANNEL_GROUP_WATER);
+		      Mix_GroupChannel (_MOD_OGG_CHANNEL_WATER2,
+					_MOD_OGG_CHANNEL_GROUP_WATER);
+		      Mix_GroupChannels (_MOD_OGG_CHANNEL_FX0,
+					 snd_context->mixer.nb_channels -
+					 1, _MOD_OGG_CHANNEL_GROUP_FX);
+		      /*
+		       * For some reason panning does not use MIX_MAX_VOLUME
+		       */
+		      pan1 = snd_context->const_data.water_pan1 * 255.0f;
+		      pan2 = snd_context->const_data.water_pan2 * 255.0f;
+
+		      if (!Mix_SetPanning
+			  (_MOD_OGG_CHANNEL_WATER1, pan1, pan2))
 			{
 			  lw6sys_log (LW6SYS_LOG_WARNING,
 				      _x_
-				      ("not enough channels (%d) to handle both water and sound fx"),
-				      snd_context->mixer.nb_channels);
+				      ("unable to set panning on channel %d (%s)"),
+				      _MOD_OGG_CHANNEL_WATER1,
+				      Mix_GetError ());
 			}
-
-		      _mod_ogg_set_fx_volume (snd_context, fx_volume);
-		      _mod_ogg_set_water_volume (snd_context, water_volume);
-		      _mod_ogg_set_music_volume (snd_context, music_volume);
-		      if (_mod_ogg_load_fx (snd_context)
-			  && _mod_ogg_load_water (snd_context))
+		      if (!Mix_SetPanning
+			  (_MOD_OGG_CHANNEL_WATER2, pan2, pan1))
 			{
-			  ok = 1;
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("unable to set panning on channel %d (%s)"),
+				      _MOD_OGG_CHANNEL_WATER2,
+				      Mix_GetError ());
 			}
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _x_ ("SDL_mixer init error: \"%s\""),
-				  Mix_GetError ());
+				  _x_
+				  ("not enough channels (%d) to handle both water and sound fx"),
+				  snd_context->mixer.nb_channels);
+		    }
+
+		  _mod_ogg_set_fx_volume (snd_context, fx_volume);
+		  _mod_ogg_set_water_volume (snd_context, water_volume);
+		  _mod_ogg_set_music_volume (snd_context, music_volume);
+		  if (_mod_ogg_load_fx (snd_context)
+		      && _mod_ogg_load_water (snd_context))
+		    {
+		      ok = 1;
 		    }
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _x_ ("Mix_Init returned 0"));
+			      _x_ ("SDL_mixer init error: \"%s\""),
+			      Mix_GetError ());
 		}
 	    }
 	  else
@@ -208,8 +199,11 @@ _mod_ogg_quit (_mod_ogg_context_t * snd_context)
 
   _mod_ogg_stop_music (snd_context);
 
-  Mix_CloseAudio ();
+  lw6sys_idle ();
   Mix_Quit ();
+  lw6sys_idle ();
+  Mix_CloseAudio ();
+  lw6sys_idle ();
 
   _mod_ogg_unload_fx (snd_context);
   _mod_ogg_unload_water (snd_context);
