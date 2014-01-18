@@ -20,8 +20,37 @@
 
 (define lw6-net
   (lambda ()
-    (begin
-      (lw6-node-poll)
-      )
-    )
-  )
+    (let (
+	  (node (lw6-get-game-global "node"))
+	  (pilot (lw6-get-game-global "pilot"))
+	  )
+      (if node
+	  (begin
+	    (lw6-node-poll)
+	    (if pilot
+		(cond
+		 (
+		  (c-lw6p2p-node-is-seed-needed node)
+		  (let (
+			(seed-command (c-lw6pil-seed-command-generate pilot id next-seq))
+			)
+		    (begin
+		      (lw6-log-notice (format #f "seed-command -> ~a" seed-command))
+		      (c-lw6p2p-node-put-local-msg node seed-command)
+		      (c-lw6sys-idle)
+		      ))
+		  (
+		   (c-lw6p2p-node-is-dump-needed node)
+		   (let (
+			 (dump-command (c-lw6pil-dump-command-generate pilot id next-seq))
+			 )
+		     (begin
+		       (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
+		       (c-lw6p2p-node-put-local-msg node dump-command)
+		       (c-lw6sys-idle)
+		       ))
+		   )
+		  )
+		 )
+		)))
+      )))
