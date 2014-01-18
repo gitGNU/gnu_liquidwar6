@@ -29,10 +29,10 @@
 	  (begin
 	    (lw6-node-poll)
 	    (if pilot
-		(let*     (
-			   (timestamp (c-lw6sys-get-timestamp))
-			   (next-seq (c-lw6pil-get-next-seq pilot timestamp))
-			   )
+		(let* (
+		       (timestamp (c-lw6sys-get-timestamp))
+		       (next-seq (c-lw6pil-get-next-seq pilot timestamp))
+		       )
 		  (cond
 		   (
 		    (c-lw6p2p-node-is-seed-needed node)
