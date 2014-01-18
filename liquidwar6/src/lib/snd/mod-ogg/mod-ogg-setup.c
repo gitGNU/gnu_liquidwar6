@@ -33,8 +33,6 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume,
 {
   _mod_ogg_context_t *snd_context = NULL;
   int sdl_ok = 1;
-  int flags_init = 0;
-  int flags_ret = 0;
   int ok = 0;
   SDL_version version;
   int pan1 = 0;
@@ -86,27 +84,6 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume,
 		   snd_context->const_data.channels,
 		   snd_context->const_data.chunksize))
 		{
-		  flags_init = 0;
-#ifdef MIX_INIT_MP3
-		  flags_init |= MIX_INIT_MP3;
-#endif // MIX_INIT_MP3
-#ifdef MIX_INIT_OGG
-		  flags_init |= MIX_INIT_OGG;
-#endif // MIX_INIT_OGG
-#ifdef MIX_INIT_MOD
-		  flags_init |= MIX_INIT_MOD;
-#endif // MIX_INIT_MOD
-#ifdef MIX_INIT_FLUIDSYNTH
-		  flags_init |= MIX_INIT_FLUIDSYNTH;
-#endif // MIX_INIT_FLUIDSYNTH
-		  flags_ret = Mix_Init (flags_init);
-		  if (flags_ret != flags_init)
-		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _x_ ("Mix_Init returned %d, expected %d"),
-				  flags_ret, flags_init);
-		    }
-
 		  snd_context->mixer.nb_channels = Mix_AllocateChannels (-1);
 		  if (snd_context->mixer.nb_channels > _MOD_OGG_CHANNEL_FX0)
 		    {
@@ -200,14 +177,19 @@ _mod_ogg_quit (_mod_ogg_context_t * snd_context)
   _mod_ogg_stop_music (snd_context);
 
   lw6sys_idle ();
-  Mix_Quit ();
-  lw6sys_idle ();
-  Mix_CloseAudio ();
-  lw6sys_idle ();
 
   _mod_ogg_unload_fx (snd_context);
   _mod_ogg_unload_water (snd_context);
   _mod_ogg_unload_consts (snd_context);
+
+  lw6sys_idle ();
+  Mix_CloseAudio ();
+  lw6sys_idle ();
+
+#ifndef LW6_MAC_OS_X
+  Mix_Quit ();
+  lw6sys_idle ();
+#endif
 
   SDL_QuitSubSystem (SDL_INIT_AUDIO);
 

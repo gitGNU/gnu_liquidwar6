@@ -39,10 +39,6 @@ if uname | grep Darwin ; then
     MAC_OS_X=yes
 fi
 
-# This will build and check the program, it runs it a quite
-# paranoid mode, running a check then a dist then a distcheck.
-# If this passes, one can be confident program is OK.
-
 echo "******** $0 $(date) ********"
 git clean -d -f -x
 if cd liquidwar6 && rm -f *.gz doc/*.gz pkg/*.gz pkg/*vendor* pkg/*.zip pkg/*.exe pkg/*.dmg ; then
@@ -68,6 +64,14 @@ else
     exit 3
 fi
 
+if test x$MAC_OS_X = xyes ; then
+    # for some-reason, on an old Mac OS X 10.5 one
+    # needs to regenerate po file this way to avoid
+    # compilation error :
+    # /opt/local/bin/msgmerge: `fr.po': No such file or directory
+    make -C po update-po
+fi
+
 echo "******** $0 $(date) ********"
 if make clean && make ; then
     echo "make OK"
@@ -77,10 +81,10 @@ else
 fi
 
 echo "******** $0 $(date) ********"
-if make distcheck ; then
-    echo "make distcheck OK"
+if make dist ; then
+    echo "make dist OK"
 else
-    echo "make distcheck failed"
+    echo "make dist failed"
     exit 5
 fi
 
@@ -194,6 +198,24 @@ if [ -f /etc/redhat-release ] ; then
         echo "scp extra failed"
         exit 18
     fi
+fi
+
+if test x$MAC_OS_X = xyes ; then
+    echo "******** $0 $(date) ********"
+    if cd $WORKSPACE/liquidwar6 && cp *.gz pkg/ && cp ../liquidwar6-extra-maps/*.gz pkg/ && make -C pkg dmg ; then
+        echo "make dmg OK"
+    else
+        echo "make dmg failed"
+        exit 8
+    fi
+
+    #echo "******** $0 $(date) ********"
+    #if scp -P 9221 pkg/*.dmg jenkins@10.0.2.2:/var/lib/jenkins/pub/snapshots/mac-os-x/ ; then
+    #   echo "scp OK"
+    #else
+    #   echo "scp failed"
+    #   exit 9
+    #fi
 fi
 
 echo "******** $0 $(date) ********"
