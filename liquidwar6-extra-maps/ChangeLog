@@ -1,3 +1,62 @@
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/snd/mod-ogg/mod-ogg-setup.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Added calls to Mix_Init
+	Mix_Quit
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-log.c, liquidwar6/src/lib/sys/sys-str.c,
+	liquidwar6/src/lib/sys/sys-test.c, liquidwar6/src/lib/sys/sys.h: 
+	Truncating error alerts so that they fit on one screen
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/script/net.scm: Reindent
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/script/net.scm: Fixed net script
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/script/net.scm: Now able to send dumps
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/script/def.scm,
+	liquidwar6/script/game.scm, liquidwar6/script/loader.scm,
+	liquidwar6/script/menu-map-browse.scm,
+	liquidwar6/script/menu-map.scm,
+	liquidwar6/script/menu-player-detail.scm,
+	liquidwar6/src/lib/def/def-list.txt, liquidwar6/src/lib/def/def.h,
+	liquidwar6/src/lib/hlp/hlp-list.c,
+	liquidwar6/src/lib/hlp/hlp-reference.c,
+	liquidwar6/src/lib/ldr/ldr-read.c,
+	liquidwar6/src/lib/lw6-funcstsk.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/tsk/tsk-loader.c,
+	liquidwar6/src/lib/tsk/tsk-test.c, liquidwar6/src/lib/tsk/tsk.h,
+	liquidwar6/src/scriptpo.c: Maps now use correct reduced bench-value
+	when loaded for network games
+
+2014-01-15  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/ChangeLog, liquidwar6/ChangeLog: Updated
+	ChangeLog
+
 2014-01-15  Christian Mauduit <ufoot@ufoot.org>
 
 	* liquidwar6-extra-maps/configure.ac,

@@ -41,9 +41,9 @@
 
 #define _HISTORY_LENGTH 256
 #define _LEVEL_LENGTH 80
-#define _MSGBOX_BUF_LENGTH 10000
-#define _MSGBOX_BT_LENGTH 1000
-#define _MSGBOX_BT_MIDDLE " [...] "
+#define _MSGBOX_BUF_LENGTH 8192
+#define _MSGBOX_BT_LENGTH 640
+#define _MSGBOX_BT_MIDDLE " ... "
 /*
  * For some reason seams on GNU/Linux (gtk2/xorg) systems
  * the message box is trimmed at 64 chars width. 128 makes
