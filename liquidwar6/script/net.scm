@@ -31,55 +31,59 @@
 	  (begin
 	    (lw6-node-poll)
 	    (if network
-		(if pilot
-		    ;; pilot defined
-		    (let* (
-			   (next-seq (c-lw6pil-get-next-seq pilot timestamp))
-			   )
-		      (cond
-		       (
-			(c-lw6p2p-node-is-seed-needed node)
-			(let (
-			      (seed-command (c-lw6pil-seed-command-generate pilot node-id next-seq))
-			  )
-			  (begin
-			    (lw6-log-info (format #f "seed-command -> ~a" seed-command))
-			    (c-lw6p2p-node-put-local-msg node seed-command)
-			    (c-lw6sys-idle)
-			    ))
-			)
-		       (
-			(c-lw6p2p-node-is-dump-needed node)
-			(let (
-			      (dump-command (c-lw6pil-dump-command-generate pilot node-id next-seq))
-			  )
-			  (begin
-			    (lw6-log-info (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
-			    (c-lw6p2p-node-put-local-msg node dump-command)
-			    (c-lw6sys-idle)
-			    ))
-			)
-		       )
-		      )
-		    ;; no pilot defined
-		    (begin
-		      ;; pump all draft messages
-		      (while (c-lw6p2p-node-get-next-draft-msg node)
-			     #t)
-		      ;; pump reference messages until we find a dump
+		(begin
+		  (c-lw6p2p-node-put-local-msg node
+					       (lw6-command-nop (c-lw6p2p-node-get-local-seq-last node)
+								node-id))
+		  (if pilot
+		      ;; pilot defined
 		      (let* (
-			     (msg (c-lw6p2p-node-get-next-reference-msg node))
-			     (dump (if msg (c-lw6pil-poll-dump msg timestamp) #f))
+			     (next-seq (c-lw6pil-get-next-seq pilot timestamp))
 			     )
-			(if dump
+			(cond
+			 (
+			  (c-lw6p2p-node-is-seed-needed node)
+			  (let (
+				(seed-command (c-lw6pil-seed-command-generate pilot node-id next-seq))
+				)
 			    (begin
-			      (map (lambda (key) (lw6-set-game-global! key (assoc-ref dump key)))
-				   (list "level" "game-struct" "game-state" "pilot"))
-			      (lw6-log-notice (format #f "got dump ~a" dump))
+			      (lw6-log-info (format #f "seed-command -> ~a" seed-command))
+			      (c-lw6p2p-node-put-local-msg node seed-command)
+			      (c-lw6sys-idle)
+			      ))
+			  )
+			 (
+			  (c-lw6p2p-node-is-dump-needed node)
+			  (let (
+				(dump-command (c-lw6pil-dump-command-generate pilot node-id next-seq))
+				)
+			    (begin
+			      (lw6-log-info (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
+			      (c-lw6p2p-node-put-local-msg node dump-command)
+			      (c-lw6sys-idle)
+			      ))
+			  )
+			 )
+			)
+		      ;; no pilot defined
+		      (begin
+			;; pump all draft messages
+			(while (c-lw6p2p-node-get-next-draft-msg node)
+			       #t)
+			;; pump reference messages until we find a dump
+			(let* (
+			       (msg (c-lw6p2p-node-get-next-reference-msg node))
+			       (dump (if msg (c-lw6pil-poll-dump msg timestamp) #f))
+			       )
+			  (if dump
+			      (begin
+				(map (lambda (key) (lw6-set-game-global! key (assoc-ref dump key)))
+				     (list "level" "game-struct" "game-state" "pilot"))
+				(lw6-log-notice (format #f "got dump ~a" dump))
+				)
 			      )
-			    )
+			  )
 			)
 		      )
-		    )
-		)
-	    )))))
+		  )
+		))))))
