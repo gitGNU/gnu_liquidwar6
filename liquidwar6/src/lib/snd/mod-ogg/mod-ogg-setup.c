@@ -186,10 +186,12 @@ _mod_ogg_quit (_mod_ogg_context_t * snd_context)
   Mix_CloseAudio ();
   lw6sys_idle ();
 
+/*
 #ifndef LW6_MAC_OS_X
   Mix_Quit ();
   lw6sys_idle ();
 #endif
+*/
 
   SDL_QuitSubSystem (SDL_INIT_AUDIO);
 
