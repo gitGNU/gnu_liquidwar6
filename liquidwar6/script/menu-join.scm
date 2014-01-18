@@ -112,6 +112,8 @@
 	  (entries (if node (c-lw6p2p-node-get-entries node #t) #f))
 	  )
       (begin
+	(lw6-set-game-global! "solo" #f)
+	(lw6-set-game-global! "network" #t)
 	(assoc-set! menu "update" lw6-join-menu-update)
 	(set! menu (lw6-join-menu-update menu))
 	menu

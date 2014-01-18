@@ -77,7 +77,6 @@
 				   (list "level" "game-struct" "game-state" "pilot"))
 			      (lw6-log-notice (format #f "got dump ~a" dump))
 			      )
-			    (lw6-log-notice "no dump yet")
 			    )
 			)
 		      )
