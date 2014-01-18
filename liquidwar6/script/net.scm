@@ -44,18 +44,19 @@
 			(c-lw6p2p-node-put-local-msg node seed-command)
 			(c-lw6sys-idle)
 			))
-		    (
-		     (c-lw6p2p-node-is-dump-needed node)
-		     (let (
-			   (dump-command (c-lw6pil-dump-command-generate pilot node-id next-seq))
-			   )
-		       (begin
-			 (lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
-			 (c-lw6p2p-node-put-local-msg node dump-command)
-			 (c-lw6sys-idle)
-			 ))
-		     )
+		    )
+		   (
+		    (c-lw6p2p-node-is-dump-needed node)
+		    (let (
+			  (dump-command (c-lw6pil-dump-command-generate pilot node-id next-seq))
+			  )
+		      (begin
+			(lw6-log-notice (format #f "(string-length dump-command) -> ~a" (string-length dump-command)))
+			(c-lw6p2p-node-put-local-msg node dump-command)
+			(c-lw6sys-idle)
+			))
 		    )
 		   )
-		  ))))
+		  )
+		)))
       )))
