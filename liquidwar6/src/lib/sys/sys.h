@@ -1308,6 +1308,8 @@ extern char *lw6sys_str_join (lw6sys_list_t * list, const char *glue);
 extern void lw6sys_str_toupper (char *str);
 extern void lw6sys_str_tolower (char *str);
 extern void lw6sys_str_truncate (char *str, int len);
+extern void lw6sys_str_truncate_middle (char *str, int len,
+					const char *middle);
 extern char *lw6sys_str_random (int len);
 extern char *lw6sys_str_random_words (int len);
 extern char *lw6sys_str_random_word (int len);

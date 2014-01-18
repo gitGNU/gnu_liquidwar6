@@ -156,6 +156,12 @@
 #define _TEST_STR_GLUE "-+-"
 #define _TEST_STR_LOWER_UPPER "foObaR!"
 #define _TEST_STR_TRUNCATE 5
+#define _TEST_STR_TRUNCATE_MIDDLE_LEN 4
+#define _TEST_STR_TRUNCATE_MIDDLE_STR "*"
+#define _TEST_STR_LOWERED "foobar!"
+#define _TEST_STR_UPPERED "FOOBAR!"
+#define _TEST_STR_TRUNCATED "FOOBA"
+#define _TEST_STR_MIDDLE_TRUNCATED "F*BA"
 #define _TEST_STR_RANDOM_LEN 1000
 #define _TEST_SERIALIZE 12345
 #define _TEST_SORT_LENGTH 10
@@ -3502,11 +3508,35 @@ _test_str ()
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("original string=\"%s\""), str);
 	lw6sys_str_tolower (str);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lowered string=\"%s\""), str);
-	lw6sys_str_toupper (str);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("uppered string=\"%s\""), str);
-	lw6sys_str_truncate (str, _TEST_STR_TRUNCATE);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("truncated string=\"%s\""), str);
+	if (LW6SYS_TEST_ACK (lw6sys_str_is_same (str, _TEST_STR_LOWERED)))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lowered string=\"%s\""),
+			str);
+	    lw6sys_str_toupper (str);
+	    if (LW6SYS_TEST_ACK (lw6sys_str_is_same (str, _TEST_STR_UPPERED)))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("uppered string=\"%s\""),
+			    str);
+		lw6sys_str_truncate (str, _TEST_STR_TRUNCATE);
+		if (LW6SYS_TEST_ACK
+		    (lw6sys_str_is_same (str, _TEST_STR_TRUNCATED)))
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("truncated string=\"%s\""), str);
+		    lw6sys_str_truncate_middle (str,
+						_TEST_STR_TRUNCATE_MIDDLE_LEN,
+						_TEST_STR_TRUNCATE_MIDDLE_STR);
+		    if (LW6SYS_TEST_ACK
+			(lw6sys_str_is_same
+			 (str, _TEST_STR_MIDDLE_TRUNCATED)))
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_ ("middle truncated string=\"%s\""),
+				    str);
+		      }
+		  }
+	      }
+	  }
 	LW6SYS_FREE (str);
       }
 

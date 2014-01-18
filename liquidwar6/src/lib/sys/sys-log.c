@@ -41,8 +41,9 @@
 
 #define _HISTORY_LENGTH 256
 #define _LEVEL_LENGTH 80
-#define _MSGBOX_LENGTH 4096
-#define _BT_FACTOR 2
+#define _MSGBOX_BUF_LENGTH 10000
+#define _MSGBOX_BT_LENGTH 1000
+#define _MSGBOX_BT_MIDDLE " [...] "
 /*
  * For some reason seams on GNU/Linux (gtk2/xorg) systems
  * the message box is trimmed at 64 chars width. 128 makes
@@ -718,26 +719,25 @@ void
 _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
 		      const char *fmt, va_list ap)
 {
-  char message_raw[_MSGBOX_LENGTH + 1];
-  char message_full[_MSGBOX_LENGTH + 1];
+  char message_raw[_MSGBOX_BUF_LENGTH + 1];
+  char message_full[_MSGBOX_BUF_LENGTH + 1];
   char *bt = NULL;
-  int bt_width = 0;
   int free_bt = 0;
 
-  _lw6sys_buf_vsnprintf (message_raw, _MSGBOX_LENGTH, fmt, ap);
+  _lw6sys_buf_vsnprintf (message_raw, _MSGBOX_BUF_LENGTH, fmt, ap);
   lw6sys_str_reformat_this (message_raw, _MSGBOX_WIDTH);
   bt = lw6sys_backtrace (2, 1);	// skip this function & caller
   if (bt)
     {
-      bt_width = lw6sys_imax (_MSGBOX_WIDTH, sqrt (strlen (bt)) * _BT_FACTOR);
-      lw6sys_str_reformat_this (bt, bt_width);
+      lw6sys_str_truncate_middle (bt, _MSGBOX_BT_LENGTH, _MSGBOX_BT_MIDDLE);
+      lw6sys_str_reformat_this (bt, _MSGBOX_WIDTH);
       free_bt = 1;
     }
   else
     {
       bt = "";
     }
-  lw6sys_buf_sprintf (message_full, _MSGBOX_LENGTH,
+  lw6sys_buf_sprintf (message_full, _MSGBOX_BUF_LENGTH,
 		      "%s (%s:%d)\n\n%s\n\n%s: %s\n\n%s: %s", level_str, file,
 		      line, message_raw, _("Backtrace"), bt, _("Report bugs"),
 		      lw6sys_build_get_bugs_url ());

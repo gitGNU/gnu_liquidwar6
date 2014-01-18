@@ -961,6 +961,51 @@ lw6sys_str_truncate (char *str, int len)
 }
 
 /**
+ * lw6sys_str_truncate_middle
+ *
+ * @str: the string to truncate
+ * @len: the new length
+ * @middle: the string to add in the middle
+ *
+ * Truncates a string to the max given length, by truncating
+ * the middle of the string, and putting the string middle
+ * at this place. Calling it with "abcdefghijk",5,"X" will give
+ * "abXjk".
+ *
+ * Return value: none, @str pointed data modified in-place
+ */
+void
+lw6sys_str_truncate_middle (char *str, int len, const char *middle)
+{
+  int orig_len = strlen (str);
+
+  if (orig_len > len)
+    {
+      int middle_len = 0;
+      int middle_pos = 0;
+      int tail_len = 0;
+      int tail_pos = 0;
+
+      if (middle)
+	{
+	  middle_len = lw6sys_imin (len, strlen (middle));
+	}
+      middle_pos = (len - middle_len) / 2;
+      if (middle && middle_len > 0)
+	{
+	  memcpy (str + middle_pos, middle, middle_len);
+	}
+      tail_pos = middle_pos + middle_len;
+      tail_len = lw6sys_imax (0, len - tail_pos);
+      if (tail_len > 0)
+	{
+	  memcpy (str + tail_pos, str + (orig_len - tail_len), tail_len);
+	}
+      str[len] = '\0';
+    }
+}
+
+/**
  * lw6sys_str_random
  *
  * @len: the length of the random string to generate.
