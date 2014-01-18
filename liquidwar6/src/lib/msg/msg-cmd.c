@@ -33,42 +33,56 @@ _generate_info (const char *cmd, lw6nod_info_t * info)
   char sep = LW6MSG_TELNET_SEP;
   char *base64_title;
   char *base64_description;
+  char *base64_level;
   char *peer_id_list;
   int uptime = 0;
 
-  base64_title = lw6glb_base64_encode_str (info->const_info.title);
+  base64_title =
+    lw6glb_base64_encode_str (lw6sys_str_empty_if_null
+			      (info->const_info.title));
   if (base64_title)
     {
       base64_description =
-	lw6glb_base64_encode_str (info->const_info.description);
+	lw6glb_base64_encode_str (lw6sys_str_empty_if_null
+				  (info->const_info.description));
       if (base64_description)
 	{
-	  peer_id_list = lw6nod_info_community_get_peer_id_list_str (info);
-	  if (peer_id_list)
+	  base64_level =
+	    lw6glb_base64_encode_str (lw6sys_str_empty_if_null
+				      (info->dyn_info.level));
+	  if (base64_level)
 	    {
-	      uptime =
-		(lw6sys_get_timestamp () -
-		 info->const_info.creation_timestamp) / 1000;
-	      ret =
-		lw6sys_new_sprintf
-		("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d%c%d%c%d%c%s%c%d%c\"%s\"%c%d%c%d%c%d%c%d%c%d%c%d%c%d%c\"%s\"",
-		 cmd, sep, info->const_info.program, sep,
-		 info->const_info.version, sep, info->const_info.codename,
-		 sep, info->const_info.stamp, sep,
-		 info->const_info.ref_info.id_str, sep,
-		 info->const_info.ref_info.url, sep, base64_title, sep,
-		 base64_description, sep, info->const_info.has_password, sep,
-		 info->const_info.bench, sep, info->const_info.open_relay,
-		 sep, uptime, sep,
-		 lw6sys_str_empty_if_null (info->dyn_info.community_id_str),
-		 sep, info->dyn_info.round, sep,
-		 lw6sys_str_empty_if_null (info->dyn_info.level), sep,
-		 info->dyn_info.required_bench, sep, info->dyn_info.nb_colors,
-		 sep, info->dyn_info.max_nb_colors, sep,
-		 info->dyn_info.nb_cursors, sep,
-		 info->dyn_info.max_nb_cursors, sep, info->dyn_info.nb_nodes,
-		 sep, info->dyn_info.max_nb_nodes, sep, peer_id_list);
-	      LW6SYS_FREE (peer_id_list);
+	      peer_id_list =
+		lw6nod_info_community_get_peer_id_list_str (info);
+	      if (peer_id_list)
+		{
+		  uptime =
+		    (lw6sys_get_timestamp () -
+		     info->const_info.creation_timestamp) / 1000;
+		  ret =
+		    lw6sys_new_sprintf
+		    ("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d%c%d%c%d%c%s%c%d%c\"%s\"%c%d%c%d%c%d%c%d%c%d%c%d%c%d%c\"%s\"",
+		     cmd, sep, info->const_info.program, sep,
+		     info->const_info.version, sep, info->const_info.codename,
+		     sep, info->const_info.stamp, sep,
+		     info->const_info.ref_info.id_str, sep,
+		     info->const_info.ref_info.url, sep, base64_title, sep,
+		     base64_description, sep, info->const_info.has_password,
+		     sep, info->const_info.bench, sep,
+		     info->const_info.open_relay, sep, uptime, sep,
+		     lw6sys_str_empty_if_null (info->
+					       dyn_info.community_id_str),
+		     sep, info->dyn_info.round, sep, base64_level, sep,
+		     info->dyn_info.required_bench, sep,
+		     info->dyn_info.nb_colors, sep,
+		     info->dyn_info.max_nb_colors, sep,
+		     info->dyn_info.nb_cursors, sep,
+		     info->dyn_info.max_nb_cursors, sep,
+		     info->dyn_info.nb_nodes, sep,
+		     info->dyn_info.max_nb_nodes, sep, peer_id_list);
+		  LW6SYS_FREE (peer_id_list);
+		}
+	      LW6SYS_FREE (base64_level);
 	    }
 	  LW6SYS_FREE (base64_description);
 	}
@@ -769,6 +783,11 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
 		  (*next) = (char *) pos;
 		}
 	      ret = 1;
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("unable to update nod info"));
 	    }
 	}
       else
