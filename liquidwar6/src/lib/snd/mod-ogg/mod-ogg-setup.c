@@ -177,21 +177,16 @@ _mod_ogg_quit (_mod_ogg_context_t * snd_context)
   _mod_ogg_stop_music (snd_context);
 
   lw6sys_idle ();
-
-  _mod_ogg_unload_fx (snd_context);
-  _mod_ogg_unload_water (snd_context);
-  _mod_ogg_unload_consts (snd_context);
+  Mix_HaltChannel (-1);
+  lw6sys_idle ();
 
   lw6sys_idle ();
   Mix_CloseAudio ();
   lw6sys_idle ();
 
-/*
-#ifndef LW6_MAC_OS_X
-  Mix_Quit ();
-  lw6sys_idle ();
-#endif
-*/
+  _mod_ogg_unload_fx (snd_context);
+  _mod_ogg_unload_water (snd_context);
+  _mod_ogg_unload_consts (snd_context);
 
   SDL_QuitSubSystem (SDL_INIT_AUDIO);
 
