@@ -1,3 +1,98 @@
+2014-01-21  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/script/def.scm,
+	liquidwar6/src/lib/def/def.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-internal.h,
+	liquidwar6/src/lib/sys/sys-thread.c,
+	liquidwar6/src/lib/sys/sys-vthread.c: Trying to fix blocking thread
+	problem
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/script/net.scm: Added nop messages
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/script/menu-join.scm, liquidwar6/script/net.scm: 
+	Hacking network support, closer and closer...
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/script/net.scm,
+	liquidwar6/src/lib/snd/mod-ogg/mod-ogg-setup.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Trying to fix mutex
+	problem on sound close
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/msg/msg-cmd.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Fixed level transmission
+	in network messages
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/script/net.scm: Fixed Scheme parenthesis error
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/snd/mod-ogg/mod-ogg-setup.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Removing Mix_Quit call
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Re-indented
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/misc/jenkins/liquidwar6-check.sh,
+	liquidwar6/misc/jenkins/liquidwar6-pkg.sh,
+	liquidwar6/src/lib/snd/mod-ogg/mod-ogg-setup.c: Added new pkg only
+	jenkins script, does not try do distcheck
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Bump version
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/snd/mod-ogg/mod-ogg-setup.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Snd init/quit fixes
+
+2014-01-18  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/ChangeLog,
+	liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/ChangeLog,
+	liquidwar6/configure.ac, liquidwar6/debian/changelog,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-log.c: Reduced alert box size
+
 2014-01-18  Christian Mauduit <ufoot@ufoot.org>
 
 	* liquidwar6-extra-maps/configure.ac,
