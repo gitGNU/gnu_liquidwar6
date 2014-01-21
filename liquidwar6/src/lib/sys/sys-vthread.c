@@ -34,6 +34,10 @@ static void
 _vthread_callback ()
 {
   _lw6sys_thread_handler_t *tmp_handler = NULL;
+  struct timespec ts;
+
+  ts.tv_sec = _LW6SYS_PTHREAD_COND_TIMEDWAIT_SEC;
+  ts.tv_nsec = _LW6SYS_PTHREAD_COND_TIMEDWAIT_NSEC;
 
   if (_main_handler->callback_join)
     {
@@ -52,7 +56,7 @@ _vthread_callback ()
    * callback is over, we signal it to the caller, if needed
    */
   _main_handler->flag_callback_done = 1;
-  pthread_cond_broadcast (&(_main_handler->cond_callback_done));
+  pthread_cond_signal (&(_main_handler->cond_callback_done));
   /*
    * If callback_join is defined, we wait until the caller
    * has called "join" before freeing the ressources. If it's
@@ -73,8 +77,8 @@ _vthread_callback ()
 		      _x_ ("waiting for can_join to be 1 (vhtread)"));
 	  if (!pthread_mutex_lock (&(_main_handler->mutex)))
 	    {
-	      pthread_cond_wait (&(_main_handler->cond_can_join),
-				 &(_main_handler->mutex));
+	      pthread_cond_timedwait (&(_main_handler->cond_can_join),
+				      &(_main_handler->mutex), &ts);
 	      pthread_mutex_unlock (&(_main_handler->mutex));
 	    }
 	  else
@@ -365,7 +369,7 @@ lw6sys_vthread_join ()
 	}
 
       _main_handler->flag_can_join = 1;
-      pthread_cond_broadcast (&(_main_handler->cond_can_join));
+      pthread_cond_signal (&(_main_handler->cond_can_join));
 
       while (_main_handler)
 	{

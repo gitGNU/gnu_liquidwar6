@@ -51,6 +51,8 @@
 // ticks limit set to 15 minutes
 #define _LW6SYS_TICKS_LIMIT 900000
 
+#define _LW6SYS_PTHREAD_COND_TIMEDWAIT_SEC 0
+#define _LW6SYS_PTHREAD_COND_TIMEDWAIT_NSEC 1000000000
 #define _LW6SYS_VTHREAD_ID -1
 
 typedef struct _lw6sys_bazooka_s

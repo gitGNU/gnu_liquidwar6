@@ -36,6 +36,10 @@ thread_callback (void *thread_handler)
 {
   _lw6sys_thread_handler_t *th;
   th = (_lw6sys_thread_handler_t *) thread_handler;
+  struct timespec ts;
+
+  ts.tv_sec = _LW6SYS_PTHREAD_COND_TIMEDWAIT_SEC;
+  ts.tv_nsec = _LW6SYS_PTHREAD_COND_TIMEDWAIT_NSEC;
 
   if (th)
     {
@@ -72,7 +76,7 @@ thread_callback (void *thread_handler)
        * callback is over, we signal it to the caller, if needed
        */
       th->flag_callback_done = 1;
-      pthread_cond_broadcast (&(th->cond_callback_done));
+      pthread_cond_signal (&(th->cond_callback_done));
       /*
        * If callback_join is defined, we wait until the caller
        * has called "join" before freeing the ressources. If it's
@@ -94,7 +98,8 @@ thread_callback (void *thread_handler)
 			  th->id);
 	      if (!pthread_mutex_lock (&(th->mutex)))
 		{
-		  pthread_cond_wait (&(th->cond_can_join), &(th->mutex));
+		  pthread_cond_timedwait (&(th->cond_can_join), &(th->mutex),
+					  &ts);
 		  pthread_mutex_unlock (&(th->mutex));
 		}
 	      else
@@ -294,6 +299,10 @@ int
 lw6sys_thread_wait_callback_done (lw6sys_thread_handler_t * thread_handler)
 {
   int ret = 0;
+  struct timespec ts;
+
+  ts.tv_sec = _LW6SYS_PTHREAD_COND_TIMEDWAIT_SEC;
+  ts.tv_nsec = _LW6SYS_PTHREAD_COND_TIMEDWAIT_NSEC;
 
   if (thread_handler)
     {
@@ -304,7 +313,8 @@ lw6sys_thread_wait_callback_done (lw6sys_thread_handler_t * thread_handler)
 	{
 	  if (!pthread_mutex_lock (&(th->mutex)))
 	    {
-	      pthread_cond_wait (&(th->cond_callback_done), &(th->mutex));
+	      pthread_cond_timedwait (&(th->cond_callback_done), &(th->mutex),
+				      &ts);
 	      pthread_mutex_unlock (&(th->mutex));
 	    }
 	  else
@@ -422,7 +432,7 @@ lw6sys_thread_join (lw6sys_thread_handler_t * thread_handler)
 	}
 
       th->flag_can_join = 1;
-      pthread_cond_broadcast (&(th->cond_can_join));
+      pthread_cond_signal (&(th->cond_can_join));
 
       if (!pthread_join (th->thread, NULL))
 	{
