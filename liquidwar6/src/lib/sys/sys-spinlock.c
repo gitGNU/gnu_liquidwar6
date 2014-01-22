@@ -54,7 +54,7 @@ lw6sys_spinlock_create ()
   if (spinlock)
     {
       spinlock->id = 0;
-      while (spinlock->id)
+      while (!(spinlock->id))
 	{
 	  spinlock->id = ++seq_id;
 	}
@@ -82,7 +82,7 @@ lw6sys_spinlock_create ()
   if (spinlock)
     {
       spinlock->id = 0;
-      while (spinlock->id)
+      while (!(spinlock->id))
 	{
 	  spinlock->id = ++seq_id;
 	}

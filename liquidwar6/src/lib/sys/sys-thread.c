@@ -166,7 +166,7 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
       // callback_done & the rest already set to 0, CALLOC is important
       ++thread_create_counter;
       thread_handler->id = 0;
-      while (thread_handler->id)
+      while (!(thread_handler->id))
 	{
 	  thread_handler->id = ++seq_id;
 	}

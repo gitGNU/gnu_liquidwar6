@@ -51,7 +51,7 @@ lw6sys_mutex_create ()
   if (mutex)
     {
       mutex->id = 0;
-      while (mutex->id)
+      while (!(mutex->id))
 	{
 	  mutex->id = ++seq_id;
 	}
