@@ -90,6 +90,11 @@
 #define _LW6DAT_ATOM_TYPE_DATA 1
 #define _LW6DAT_ATOM_TYPE_META 2
 
+/*
+ * Consider above this limit, it's a long message
+ */
+#define _LW6DAT_STACK_MANY_ATOMS 100
+
 typedef struct _lw6dat_atom_s
 {
   int not_null;

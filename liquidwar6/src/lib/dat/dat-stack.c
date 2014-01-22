@@ -1510,6 +1510,7 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
   int serial_max = 0;
   int send_mask = 0;
   int no_hole = 1;
+  int nb = 0;
 
   send_mask = _lw6dat_flag (target_index);
   /*
@@ -1539,6 +1540,7 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 		  atom->sent_status |= send_mask;
 		  lw6sys_list_push_back (msg_list,
 					 lw6sys_str_copy (atom_str));
+		  ++nb;
 		  ret = 1;
 		}
 	    }
@@ -1547,6 +1549,15 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 	{
 	  no_hole = 0;
 	}
+    }
+
+  if (nb > _LW6DAT_STACK_MANY_ATOMS)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("put %d messages in stack"), nb);
+    }
+  else if (nb > 0)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("put %d messages in stack"), nb);
     }
 
   return ret;
