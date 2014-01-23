@@ -352,7 +352,7 @@ mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
        */
 #ifdef LW6_OPENMP
 #pragma omp parallel for
-#endif
+#endif // LW6_OPENMP
       for (i = 0; i < bitmap_array->layout.nb_tiles; ++i)
 	{
 	  /*
