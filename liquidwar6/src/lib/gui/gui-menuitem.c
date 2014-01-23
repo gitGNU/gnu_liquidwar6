@@ -33,7 +33,7 @@
  * Theorically, there could be a race condition if several threads used
  * this, in practice, very rare, and, moreover, few consequences.
  */
-static u_int32_t seq_id = 0;
+static volatile u_int32_t seq_id = 0;
 
 /**
  * lw6gui_menuitem_new

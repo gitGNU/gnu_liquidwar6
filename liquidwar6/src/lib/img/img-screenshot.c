@@ -46,7 +46,7 @@
  * try and identify the objects in their on per-process lists,
  * structures, Guile object, whatever they use.
  */
-static u_int32_t seq_id = 0;
+static volatile u_int32_t seq_id = 0;
 
 /**
  * lw6img_screenshot_new

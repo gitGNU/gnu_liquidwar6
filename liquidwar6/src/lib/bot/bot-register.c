@@ -187,7 +187,7 @@ lw6bot_create_backend (int argc, const char *argv[], const char *name)
 
   if (backend)
     {
-      static u_int32_t seq_id = 0;
+      static volatile u_int32_t seq_id = 0;
 
       backend->id = 0;
       while (!(backend->id))

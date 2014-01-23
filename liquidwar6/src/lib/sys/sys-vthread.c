@@ -55,8 +55,19 @@ _vthread_callback ()
   /*
    * callback is over, we signal it to the caller, if needed
    */
-  _main_handler->flag_callback_done = 1;
-  pthread_cond_signal (&(_main_handler->cond_callback_done));
+  if (!pthread_mutex_lock (&(_main_handler->mutex)))
+    {
+      _main_handler->flag_callback_done = 1;
+      pthread_cond_signal (&(_main_handler->cond_callback_done));
+      pthread_mutex_unlock (&(_main_handler->mutex));
+    }
+  else
+    {
+      _main_handler->flag_callback_done = 1;
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
+		  ("unable to lock internal thread mutex thread (vthread)"));
+    }
   /*
    * If callback_join is defined, we wait until the caller
    * has called "join" before freeing the ressources. If it's
@@ -368,8 +379,19 @@ lw6sys_vthread_join ()
 		      _x_ ("joining vthread (fast mode, no join)"));
 	}
 
-      _main_handler->flag_can_join = 1;
-      pthread_cond_signal (&(_main_handler->cond_can_join));
+      if (!pthread_mutex_lock (&(_main_handler->mutex)))
+	{
+	  _main_handler->flag_can_join = 1;
+	  pthread_cond_signal (&(_main_handler->cond_can_join));
+	  pthread_mutex_unlock (&(_main_handler->mutex));
+	}
+      else
+	{
+	  _main_handler->flag_can_join = 1;
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("unable to lock internal thread mutex thread (vthread)"));
+	}
 
       while (_main_handler)
 	{

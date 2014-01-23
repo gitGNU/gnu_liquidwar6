@@ -29,7 +29,7 @@
 #define _TEST_PNG1 ".png"
 #define _TEST_PNG2 ".PNG"
 
-static u_int32_t seq_id = 0;
+static volatile u_int32_t seq_id = 0;
 
 static void
 _set_defaults (mod_gl1_utils_context_t * utils_context,

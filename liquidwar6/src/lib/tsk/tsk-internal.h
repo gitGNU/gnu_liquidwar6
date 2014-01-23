@@ -66,12 +66,12 @@ _lw6tsk_loader_stage2_t;
 
 typedef struct _lw6tsk_loader_data_s
 {
-  int stop;
+  volatile int stop;
   float sleep;
   char *user_dir;
   lw6sys_mutex_t *mutex;
-  int stage;
-  int request_number;
+  volatile int stage;
+  volatile int request_number;
   volatile float *progress;
   _lw6tsk_loader_stage1_t stage1;
   _lw6tsk_loader_stage2_t stage2;

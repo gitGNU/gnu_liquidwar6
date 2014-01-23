@@ -31,9 +31,9 @@
 
 #define THREAD_JOIN_SLEEP 0.1f
 
-static u_int32_t seq_id = 0;
-static int mutex_lock_counter = 0;
-static int mutex_unlock_counter = 0;
+static volatile u_int32_t seq_id = 0;
+static volatile int mutex_lock_counter = 0;
+static volatile int mutex_unlock_counter = 0;
 
 /**
  * lw6sys_mutex_create

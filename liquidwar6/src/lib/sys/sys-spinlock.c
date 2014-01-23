@@ -30,10 +30,10 @@
 #include "sys-internal.h"
 
 #if ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
-static u_int32_t seq_id = 0;
+static volatile u_int32_t seq_id = 0;
 #else // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 #ifdef LW6_X86
-static u_int32_t seq_id = 0;
+static volatile u_int32_t seq_id = 0;
 #endif // LW6_X86
 #endif // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 

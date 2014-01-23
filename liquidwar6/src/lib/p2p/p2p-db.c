@@ -32,7 +32,7 @@
 #define _DB_FILENAME "db.sqlite3"
 #define _LOG_FILENAME "query_log.txt"
 
-static u_int32_t seq_id = 0;
+static volatile u_int32_t seq_id = 0;
 
 /**
  * lw6p2p_db_open

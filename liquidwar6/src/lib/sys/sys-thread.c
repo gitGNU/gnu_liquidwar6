@@ -27,9 +27,9 @@
 #include "sys.h"
 #include "sys-internal.h"
 
-static int thread_create_counter = 0;
-static int thread_join_counter = 0;
-static u_int32_t seq_id = 0;
+static volatile int thread_create_counter = 0;
+static volatile int thread_join_counter = 0;
+static volatile u_int32_t seq_id = 0;
 
 static void
 thread_callback (void *thread_handler)
@@ -75,8 +75,20 @@ thread_callback (void *thread_handler)
       /*
        * callback is over, we signal it to the caller, if needed
        */
-      th->flag_callback_done = 1;
-      pthread_cond_signal (&(th->cond_callback_done));
+      if (!pthread_mutex_lock (&(th->mutex)))
+	{
+	  th->flag_callback_done = 1;
+	  pthread_cond_signal (&(th->cond_callback_done));
+	  pthread_mutex_unlock (&(th->mutex));
+	}
+      else
+	{
+	  th->flag_callback_done = 1;
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("unable to lock internal thread mutex thread id=%u"),
+		      th->id);
+	}
       /*
        * If callback_join is defined, we wait until the caller
        * has called "join" before freeing the ressources. If it's
@@ -431,8 +443,20 @@ lw6sys_thread_join (lw6sys_thread_handler_t * thread_handler)
 		      th->id);
 	}
 
-      th->flag_can_join = 1;
-      pthread_cond_signal (&(th->cond_can_join));
+      if (!pthread_mutex_lock (&(th->mutex)))
+	{
+	  th->flag_can_join = 1;
+	  pthread_cond_signal (&(th->cond_can_join));
+	  pthread_mutex_unlock (&(th->mutex));
+	}
+      else
+	{
+	  th->flag_can_join = 1;
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("unable to lock internal thread mutex thread id=%u"),
+		      th->id);
+	}
 
       if (!pthread_join (th->thread, NULL))
 	{

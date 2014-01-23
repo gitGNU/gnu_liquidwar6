@@ -27,7 +27,7 @@
 #include "p2p.h"
 #include "p2p-internal.h"
 
-static u_int32_t seq_id = 0;
+static volatile u_int32_t seq_id = 0;
 
 /**
  * lw6p2p_node_new
