@@ -90,12 +90,17 @@ _mod_udp_timeout_ok (_udp_context_t * udp_context, int64_t origin_timestamp,
   int ret = 0;
   int d = 0;
 
-  d =
-    origin_timestamp +
-    ((broadcast ? udp_context->data.consts.
-      broadcast_timeout : udp_context->data.consts.global_timeout) * 1000) -
-    lw6sys_get_timestamp ();
-  ret = (d > 0);
+  /*
+   * We check the time difference against the absolute delta, this
+   * way should we have any inconsistency, time difference in the
+   * wrong way because origin_timestamp is wrecked, then after
+   * some time assumed to be reasonnable (depends on settings)
+   * it will be over.
+   */
+  d = abs (lw6sys_get_timestamp () - origin_timestamp);
+  ret =
+    (broadcast ? (d < udp_context->data.consts.broadcast_timeout * 1000)
+     : (d < udp_context->data.consts.global_timeout * 1000));
 
   return ret;
 }

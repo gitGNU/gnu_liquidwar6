@@ -56,7 +56,7 @@ typedef struct lw6cli_oob_data_s
    * delete the object quickly and do not want to wait until
    * a long polling-based network operation finishes completely.
    */
-  int do_not_finish;
+  volatile int do_not_finish;
   /**
    * Public URL of the node, we need this at hand to serve
    * it quickly to peers, and be able to perform basic checks.

@@ -89,10 +89,15 @@ _mod_udpd_timeout_ok (_mod_udpd_context_t * udpd_context,
   int ret = 0;
   int d = 0;
 
-  d =
-    origin_timestamp + (udpd_context->data.consts.error_timeout * 1000) -
-    lw6sys_get_timestamp ();
-  ret = (d > 0);
+  /*
+   * We check the time difference against the absolute delta, this
+   * way should we have any inconsistency, time difference in the
+   * wrong way because origin_timestamp is wrecked, then after
+   * some time assumed to be reasonnable (depends on settings)
+   * it will be over.
+   */
+  d = abs (lw6sys_get_timestamp () - origin_timestamp);
+  ret = (d < (udpd_context->data.consts.error_timeout * 1000));
 
   return ret;
 }

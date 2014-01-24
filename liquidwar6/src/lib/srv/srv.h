@@ -141,7 +141,7 @@ typedef struct lw6srv_oob_data_s
   /// Date of the request.
   int64_t creation_timestamp;
   /// Used to interrupt the OOB process before it's over.
-  int do_not_finish;
+  volatile int do_not_finish;
   /// IP address of peer.
   char *remote_ip;
   /// IP port of peer.

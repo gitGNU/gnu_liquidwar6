@@ -1,5 +1,36 @@
 2014-01-23  Christian Mauduit <ufoot@ufoot.org>
 
+	* liquidwar6-extra-maps/ChangeLog,
+	liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/ChangeLog,
+	liquidwar6/configure.ac, liquidwar6/debian/changelog,
+	liquidwar6/src/lib/bot/bot-register.c,
+	liquidwar6/src/lib/cli/cli-register.c,
+	liquidwar6/src/lib/dsp/dsp-display.c,
+	liquidwar6/src/lib/gfx/gfx-register.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-bitmap.c,
+	liquidwar6/src/lib/gui/gui-look.c,
+	liquidwar6/src/lib/gui/gui-menu.c,
+	liquidwar6/src/lib/gui/gui-menuitem.c,
+	liquidwar6/src/lib/img/img-screenshot.c,
+	liquidwar6/src/lib/ker/ker-gamestate.c,
+	liquidwar6/src/lib/ker/ker-gamestruct.c,
+	liquidwar6/src/lib/map/map-level.c,
+	liquidwar6/src/lib/p2p/p2p-db.c, liquidwar6/src/lib/p2p/p2p-node.c,
+	liquidwar6/src/lib/pil/pil-pilot.c,
+	liquidwar6/src/lib/snd/snd-register.c,
+	liquidwar6/src/lib/srv/srv-register.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-mutex.c,
+	liquidwar6/src/lib/sys/sys-spinlock.c,
+	liquidwar6/src/lib/sys/sys-thread.c,
+	liquidwar6/src/lib/sys/sys-vthread.c,
+	liquidwar6/src/lib/tsk/tsk-internal.h,
+	liquidwar6/src/lib/tsk/tsk-loader.c: Fixed thread/mutex problems
+
+2014-01-23  Christian Mauduit <ufoot@ufoot.org>
+
 	* liquidwar6-extra-maps/configure.ac,
 	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
 	liquidwar6/debian/changelog,
