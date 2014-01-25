@@ -48,6 +48,7 @@ typedef struct _mod_http_consts_s
   int ping_alter_base;
   int ping_alter_percent;
   int tcp_connect_before_http_get;
+  int max_concurrent_requests;
 }
 _mod_http_consts_t;
 

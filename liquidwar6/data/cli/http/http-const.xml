@@ -5,4 +5,5 @@
   <int key="ping-alter-base" value="4" />
   <int key="ping-alter-percent" value="120" />
   <bool key="tcp-connect-before-http-get" value="true" />
+  <int key="max-concurrent-requests" value="10" />
 </liquidwar6>

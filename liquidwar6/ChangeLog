@@ -1,3 +1,21 @@
+2014-01-24  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/ChangeLog,
+	liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/ChangeLog,
+	liquidwar6/configure.ac, liquidwar6/debian/changelog,
+	liquidwar6/src/lib/cli/cli.h,
+	liquidwar6/src/lib/cli/mod-http/mod-http-state.c,
+	liquidwar6/src/lib/cli/mod-tcp/mod-tcp-state.c,
+	liquidwar6/src/lib/cli/mod-udp/mod-udp-state.c,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-state.c,
+	liquidwar6/src/lib/srv/mod-tcpd/mod-tcpd-state.c,
+	liquidwar6/src/lib/srv/mod-udpd/mod-udpd-state.c,
+	liquidwar6/src/lib/srv/srv.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Trying to fix threading
+	issue, some client OOB requests lasted forever
+
 2014-01-23  Christian Mauduit <ufoot@ufoot.org>
 
 	* liquidwar6-extra-maps/ChangeLog,

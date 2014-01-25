@@ -51,61 +51,73 @@ _mod_http_send (_mod_http_context_t * http_context,
    */
   if (connection->dns_ok)
     {
-      line = lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_URL,
-				       lw6sys_build_get_version (),
-				       connection->password_send_checksum,
-				       physical_ticket_sig,
-				       logical_ticket_sig,
-				       connection->local_id_int,
-				       connection->remote_id_int,
-				       logical_from_id, logical_to_id,
-				       message);
-      if (line)
+      if (lw6sys_list_length (specific_data->query_threads) <
+	  http_context->data.consts.max_concurrent_requests)
 	{
-	  url = lw6sys_str_concat (connection->remote_url, line);
-	  if (url)
+	  line = lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_URL,
+					   lw6sys_build_get_version (),
+					   connection->password_send_checksum,
+					   physical_ticket_sig,
+					   logical_ticket_sig,
+					   connection->local_id_int,
+					   connection->remote_id_int,
+					   logical_from_id, logical_to_id,
+					   message);
+	  if (line)
 	    {
-	      /*
-	       * Note: here, we don't bother to acquire a connection
-	       * lock, multiple URLs can be fetched in any order after
-	       * all, it's not like we would be using a socket. Still
-	       * there will be another lock later (over libcurl calls)
-	       * because of non-reentrant gethostbyname, but this is
-	       * another question. So another lock. And, even, given that,
-	       * all we do here is fire another thread!
-	       */
-	      query_thread_data =
-		(_mod_http_query_thread_data_t *)
-		LW6SYS_MALLOC (sizeof (_mod_http_query_thread_data_t));
-	      if (query_thread_data)
+	      url = lw6sys_str_concat (connection->remote_url, line);
+	      if (url)
 		{
-		  query_thread_data->http_context = http_context;
-		  query_thread_data->cnx = connection;
-		  query_thread_data->url = url;
-		  thread_handler =
-		    lw6sys_thread_create (_mod_http_query_thread_func,
-					  _mod_http_query_thread_join,
-					  (void *) query_thread_data);
-		  if (thread_handler)
+		  /*
+		   * Note: here, we don't bother to acquire a connection
+		   * lock, multiple URLs can be fetched in any order after
+		   * all, it's not like we would be using a socket. Still
+		   * there will be another lock later (over libcurl calls)
+		   * because of non-reentrant gethostbyname, but this is
+		   * another question. So another lock. And, even, given that,
+		   * all we do here is fire another thread!
+		   */
+		  query_thread_data =
+		    (_mod_http_query_thread_data_t *)
+		    LW6SYS_MALLOC (sizeof (_mod_http_query_thread_data_t));
+		  if (query_thread_data)
 		    {
-		      lw6sys_list_push_back (&(specific_data->query_threads),
-					     thread_handler);
-		      ret = 1;
+		      query_thread_data->http_context = http_context;
+		      query_thread_data->cnx = connection;
+		      query_thread_data->url = url;
+		      thread_handler =
+			lw6sys_thread_create (_mod_http_query_thread_func,
+					      _mod_http_query_thread_join,
+					      (void *) query_thread_data);
+		      if (thread_handler)
+			{
+			  lw6sys_list_push_back (&
+						 (specific_data->query_threads),
+						 thread_handler);
+			  ret = 1;
+			}
 		    }
 		}
+	      LW6SYS_FREE (line);
 	    }
-	  LW6SYS_FREE (line);
+	  if (!ret)
+	    {
+	      if (url)
+		{
+		  LW6SYS_FREE (url);
+		}
+	      if (query_thread_data)
+		{
+		  LW6SYS_FREE (query_thread_data);
+		}
+	    }
 	}
-      if (!ret)
+      else
 	{
-	  if (url)
-	    {
-	      LW6SYS_FREE (url);
-	    }
-	  if (query_thread_data)
-	    {
-	      LW6SYS_FREE (query_thread_data);
-	    }
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_
+		      ("too many client send in query_threads (max_concurrent_requests=%d), discarding"),
+		      http_context->data.consts.max_concurrent_requests);
 	}
     }
   else

@@ -48,6 +48,8 @@ _read_callback (void *callback_data, const char *element, const char *key,
 			   &(consts->ping_alter_base));
       lw6cfg_read_xml_int (key, value, "ping-alter-percent",
 			   &(consts->ping_alter_percent));
+      lw6cfg_read_xml_int (key, value, "max-concurrent-requests",
+			   &(consts->max_concurrent_requests));
     }
 
   if (!strcmp (element, "bool"))
