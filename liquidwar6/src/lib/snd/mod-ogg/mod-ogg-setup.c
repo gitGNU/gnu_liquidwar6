@@ -181,6 +181,8 @@ _mod_ogg_quit (_mod_ogg_context_t * snd_context)
   lw6sys_idle ();
 
   lw6sys_idle ();
+  SDL_PauseAudio (1);
+  lw6sys_idle ();
   Mix_CloseAudio ();
   lw6sys_idle ();
 
