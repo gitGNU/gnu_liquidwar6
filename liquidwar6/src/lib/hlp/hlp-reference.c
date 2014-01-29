@@ -764,15 +764,19 @@ populate_references ()
   POPULATE_INT (LW6DEF_TARGET_FPS,
 		_x_
 		("Defines how many frames will be displayed per second. Of course this is a maximum value, if your hardware can't keep up with this value, display will just be slow, no matter what value you define here. Note that you might really wish to have something rather low here, to keep network and 'logic' function responsiveness. Passed 60 frames per second, speed is really only for visual comfort, as Liquid War 6 is now so fast-paced that it requires 200 frames/sec to outperform opponents."),
-		60, 0, 0);
+		60, 1, 1000);
   POPULATE_INT (LW6DEF_IO_PER_SEC,
 		_x_
 		("Defines the number of calls to input/output functions per second. This can affect speed of menus but also cursors, but won't change the speed of the game itself. It's a cosmectic, comfort option."),
-		20, 0, 0);
+		20, 1, 1000);
+  POPULATE_INT (LW6DEF_NET_PER_SEC,
+		_x_
+		("Defines the number of calls to network functions per second. This can technically change the network transfers speed, the higher the number, the faster it should be, but at the same time it can technically be more CPU greedy."),
+		500, 1, 1000);
   POPULATE_INT (LW6DEF_COMMANDS_PER_SEC,
 		_x_
 		("Defines the number of commands per second. When a command is generated, orders are actually sent to the game engine, for instance, 'this cursor moved there'. So this option will affect game responsiveness, setting this to a high value will make the game more responsive but consume bandwidth on network games."),
-		10, 0, 0);
+		10, 1, 1000);
   POPULATE_INT (LW6DEF_SCREENSHOTS_PER_MIN,
 		_x_
 		("Defines the number of screenshots / node info per minute. This can a quite costly operation, but still it must not be too low else screenshots are too outdated."),

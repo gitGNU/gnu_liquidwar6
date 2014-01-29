@@ -654,6 +654,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_NB_DEFENSE_TRIES "nb-defense-tries"
 #define LW6DEF_NB_MOVE_TRIES "nb-move-tries"
 #define LW6DEF_NET_LOG "net-log"
+#define LW6DEF_NET_PER_SEC "net-per-sec"
 #define LW6DEF_NETWORK_BENCH_DELTA "network-bench-delta"
 #define LW6DEF_NETWORK_RELIABILITY "network-reliability"
 #define LW6DEF_NODE_DESCRIPTION "node-description"

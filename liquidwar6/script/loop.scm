@@ -29,27 +29,33 @@
 	     (uptime-0 (c-lw6sys-get-uptime))
 	     (command-count 0)
 	     (io-count 0)
+	     (net-count 0)
 	     (screenshot-count 0)
 	     )
 	(while (not (c-lw6sys-signal-poll-quit))
 	       (let* (
 		      (ticks (- (c-lw6sys-get-uptime) uptime-0))
-		      (command-incr (quotient 1000 (lw6-config-get-number lw6def-commands-per-sec)))
-		      (io-incr (quotient 1000 (lw6-config-get-number lw6def-io-per-sec)))
-		      (screenshot-incr (quotient 60000 (lw6-config-get-number lw6def-screenshots-per-min)))
+		      (command-incr (max 1 (quotient 1000 (lw6-config-get-number lw6def-commands-per-sec))))
+		      (io-incr (max 1 (quotient 1000 (lw6-config-get-number lw6def-io-per-sec))))
+		      (net-incr (max 1 (quotient 1000 (lw6-config-get-number lw6def-net-per-sec))))
+		      (screenshot-incr (max 1 (quotient 60000 (lw6-config-get-number lw6def-screenshots-per-min))))
 		      )
 		 (begin
-		   ;; First step, process basic I/O
-		   ;; this does not happen so often,
-		   ;; to avoid wasting events (which
-		   ;; can be expensive over the network)
-		   ;; and prevent the user interface
-		   ;; from being "too fast"
+		   ;; io ops are not processed to often
 		   (if (< io-count ticks)
 		       (begin
 			 (lw6-io)
 			 (set! io-count (max (+ io-count io-incr)
 					     (- ticks io-incr)))
+			 )
+		       )
+
+		   ;; net ops are not processed to often
+		   (if (< net-count ticks)
+		       (begin
+			 (lw6-net)
+			 (set! net-count (max (+ net-count net-incr)
+					     (- ticks net-incr)))
 			 )
 		       )
 

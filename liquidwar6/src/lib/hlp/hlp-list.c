@@ -1333,6 +1333,7 @@ update_advanced (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_LOG_LEVEL);
   lw6sys_list_push_back (list, LW6DEF_TARGET_FPS);
   lw6sys_list_push_back (list, LW6DEF_IO_PER_SEC);
+  lw6sys_list_push_back (list, LW6DEF_NET_PER_SEC);
   lw6sys_list_push_back (list, LW6DEF_COMMANDS_PER_SEC);
   lw6sys_list_push_back (list, LW6DEF_SCREENSHOTS_PER_MIN);
   lw6sys_list_push_back (list, LW6DEF_LOADER_SLEEP);

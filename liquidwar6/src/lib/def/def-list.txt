@@ -628,6 +628,7 @@ nb-bots
 nb-defense-tries
 nb-move-tries
 net-log
+net-per-sec
 network-bench-delta
 network-reliability
 node-description

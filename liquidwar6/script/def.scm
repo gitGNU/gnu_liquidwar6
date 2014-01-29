@@ -647,6 +647,7 @@
 (define lw6def-nb-defense-tries "nb-defense-tries")
 (define lw6def-nb-move-tries "nb-move-tries")
 (define lw6def-net-log "net-log")
+(define lw6def-net-per-sec "net-per-sec")
 (define lw6def-network-bench-delta "network-bench-delta")
 (define lw6def-network-reliability "network-reliability")
 (define lw6def-node-description "node-description")
