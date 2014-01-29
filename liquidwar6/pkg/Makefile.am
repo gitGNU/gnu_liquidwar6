@@ -127,6 +127,8 @@ rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6.spec
 	cp $$HOME/rpmbuild/SRPMS/@PACKAGE_TARNAME@*@PACKAGE_VERSION@*vendor*.src.rpm .
 	cp $$HOME/rpmbuild/RPMS/*/@PACKAGE_TARNAME@*@PACKAGE_VERSION@*vendor*.rpm .
 	rm -rf ${TMP}
+	rm -f $$HOME/rpmbuild/SRPMS/@PACKAGE_TARNAME@*@PACKAGE_VERSION@*vendor*.src.rpm
+	rm -f $$HOME/rpmbuild/RPMS/*/@PACKAGE_TARNAME@*@PACKAGE_VERSION@*vendor*.rpm
 
 dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 
