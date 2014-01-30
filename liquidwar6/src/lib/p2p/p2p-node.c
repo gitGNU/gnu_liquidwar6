@@ -1156,7 +1156,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now,
 		{
 		  if (lw6dat_miss_is_same
 		      (&(node->tentacles[tentacle_i].last_miss), miss)
-		      && now - node->db->data.consts.miss_duplicate_delay >
+		      && now - node->db->data.consts.miss_duplicate_delay <
 		      node->tentacles[tentacle_i].last_miss_timestamp)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
