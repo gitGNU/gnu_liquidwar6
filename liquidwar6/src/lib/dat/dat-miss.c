@@ -75,3 +75,55 @@ lw6dat_miss_free (lw6dat_miss_t * miss)
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL miss"));
     }
 }
+
+/**
+ * lw6dat_miss_sync
+ *
+ * @dst: target object
+ * @src: source object
+ *
+ * Writes the contents of src to dst
+ *
+ * Return value: none.
+ */
+void
+lw6dat_miss_sync (lw6dat_miss_t * dst, lw6dat_miss_t * src)
+{
+  if (dst && src)
+    {
+      memcpy (dst, src, sizeof (lw6dat_miss_t));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("trying to sync NULL miss dst=%p src=%p"), dst, src);
+    }
+}
+
+/**
+ * lw6dat_miss_is_same
+ *
+ * @a: first element to compare 
+ * @b: second element to compare
+ *
+ * Compares two miss objects, returning true if they are the same.
+ *
+ * Return value: 1 if same, else 0.
+ */
+int
+lw6dat_miss_is_same (lw6dat_miss_t * a, lw6dat_miss_t * b)
+{
+  int ret = 0;
+
+  if (a && b)
+    {
+      ret = !memcmp (a, b, sizeof (lw6dat_miss_t));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("trying to sync NULL miss a=%p b=%p"), a, b);
+    }
+
+  return ret;
+}

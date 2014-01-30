@@ -12,11 +12,13 @@
   <int key="node-verify-max-at-once" value="100" />
   <int key="foo-delay" value="9000" />
   <int key="join-delay" value="12000" />
-  <int key="miss-delay" value="333" />
+  <int key="miss-get-delay" value="66" />
+  <int key="miss-duplicate-delay" value="500" />
   <int key="miss-wake-up-interval" value="1000" />
   <int key="miss-max-range" value="100" />
   <int key="ticket-table-hash-size" value="257" />
-  <int key="send-best-reliable-limit-n" value="100" />
-  <int key="received-atom-parts-per-poll-to-disable-miss" value="10" />
+  <int key="send-best-reliable-limit-n" value="33" />
+  <int key="send-per-poll-limit-n" value="50" />
+  <int key="received-atom-parts-per-poll-to-disable-miss" value="200" />
   <int key="meta-nb-duplicates" value="5" />
 </liquidwar6>

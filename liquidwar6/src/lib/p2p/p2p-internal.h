@@ -98,11 +98,13 @@ typedef struct _lw6p2p_consts_s
   int node_verify_max_at_once;
   int foo_delay;
   int join_delay;
-  int miss_delay;
+  int miss_get_delay;
+  int miss_duplicate_delay;
   int miss_wake_up_interval;
   int miss_max_range;
   int ticket_table_hash_size;
   int send_best_reliable_limit_n;
+  int send_per_poll_limit_n;
   int received_atom_parts_per_poll_to_disable_miss;
   int meta_nb_duplicates;
 }
@@ -191,6 +193,8 @@ typedef struct _lw6p2p_tentacle_s
   lw6cnx_connection_t **srv_connections;
   lw6sys_list_t *unsent_queue;
   int last_poll_received_messages;
+  lw6dat_miss_t last_miss;
+  int64_t last_miss_timestamp;
 } _lw6p2p_tentacle_t;
 
 typedef struct _lw6p2p_node_s

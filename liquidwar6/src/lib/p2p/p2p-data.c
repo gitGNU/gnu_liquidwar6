@@ -65,7 +65,10 @@ _read_callback (void *callback_data, const char *element, const char *key,
 			   &consts->node_verify_max_at_once);
       lw6cfg_read_xml_int (key, value, "foo-delay", &consts->foo_delay);
       lw6cfg_read_xml_int (key, value, "join-delay", &consts->join_delay);
-      lw6cfg_read_xml_int (key, value, "miss-delay", &consts->miss_delay);
+      lw6cfg_read_xml_int (key, value, "miss-get-delay",
+			   &consts->miss_get_delay);
+      lw6cfg_read_xml_int (key, value, "miss-duplicate-delay",
+			   &consts->miss_duplicate_delay);
       lw6cfg_read_xml_int (key, value, "miss-wake-up-interval",
 			   &consts->miss_wake_up_interval);
       lw6cfg_read_xml_int (key, value, "miss-max-range",
@@ -74,6 +77,8 @@ _read_callback (void *callback_data, const char *element, const char *key,
 			   &consts->ticket_table_hash_size);
       lw6cfg_read_xml_int (key, value, "send-best-reliable-limit-n",
 			   &consts->send_best_reliable_limit_n);
+      lw6cfg_read_xml_int (key, value, "send-per-poll-limit-n",
+			   &consts->send_per_poll_limit_n);
       lw6cfg_read_xml_int (key, value,
 			   "received-atom-parts-per-poll-to-disable-miss",
 			   &consts->received_atom_parts_per_poll_to_disable_miss);

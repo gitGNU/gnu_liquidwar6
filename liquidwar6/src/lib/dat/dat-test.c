@@ -408,6 +408,7 @@ _test_miss ()
 
   {
     lw6dat_miss_t *miss = NULL;
+    lw6dat_miss_t miss2;
 
     miss =
       lw6dat_miss_new (_TEST_MISS_FROM_ID, _TEST_MISS_SERIAL_MIN,
@@ -419,10 +420,36 @@ _test_miss ()
 			 "x serial_min=%d serial_%d"),
 		    (long long) miss->from_id, miss->serial_min,
 		    miss->serial_max);
+
+	memset (&miss2, 0xff, sizeof (lw6dat_miss_t));
+	if (!lw6dat_miss_is_same (miss, &miss2))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("miss is_same works when different"));
+	    lw6dat_miss_sync (&miss2, miss);
+	    if (lw6dat_miss_is_same (miss, &miss2))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("miss is_same works when equal"));
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("miss is_same does not work when equal"));
+		ret = 0;
+	      }
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("miss is_same does not work when different"));
+	    ret = 0;
+	  }
 	lw6dat_miss_free (miss);
       }
     else
       {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("miss creation problem"));
 	ret = 0;
       }
   }

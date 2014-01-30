@@ -1129,8 +1129,9 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now,
   const char *msg = NULL;
   int nb_atom_parts_since_last_poll = 0;
   int disable_miss = 0;
+  int tentacle_i;
 
-  if (now - node->db->data.consts.miss_delay >=
+  if (now - node->db->data.consts.miss_get_delay >=
       node->last_poll_miss_timestamp)
     {
       node->last_poll_miss_timestamp = now;
@@ -1150,6 +1151,31 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now,
 		(nb_atom_parts_since_last_poll >
 		 node->db->data.
 		 consts.received_atom_parts_per_poll_to_disable_miss) ? 1 : 0;
+	      tentacle_i = _lw6p2p_node_find_tentacle (node, miss->from_id);
+	      if (tentacle_i >= 0)
+		{
+		  if (lw6dat_miss_is_same
+		      (&(node->tentacles[tentacle_i].last_miss), miss)
+		      && now - node->db->data.consts.miss_duplicate_delay >
+		      node->tentacles[tentacle_i].last_miss_timestamp)
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_ ("not sending MISS from_id=%"
+				       LW6SYS_PRINTF_LL
+				       "x serial_min=%d serial_max=%d as it would be a duplicate"),
+				  (long long) miss->from_id, miss->serial_min,
+				  miss->serial_max);
+		      disable_miss = 1;
+		    }
+		  else
+		    {
+		      lw6dat_miss_sync (&
+					(node->
+					 tentacles[tentacle_i].last_miss),
+					miss);
+		      node->tentacles[tentacle_i].last_miss_timestamp = now;
+		    }
+		}
 	      if (!disable_miss)
 		{
 		  msg =

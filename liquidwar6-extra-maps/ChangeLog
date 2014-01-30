@@ -1,3 +1,46 @@
+2014-01-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/snd/mod-ogg/mod-ogg-setup.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Trying to fix sound
+	release threading bug
+
+2014-01-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/script/def.scm,
+	liquidwar6/script/io.scm, liquidwar6/script/loop.scm,
+	liquidwar6/src/lib/def/def-list.txt, liquidwar6/src/lib/def/def.h,
+	liquidwar6/src/lib/hlp/hlp-list.c,
+	liquidwar6/src/lib/hlp/hlp-reference.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Accelerated rate of net
+	polls
+
+2014-01-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/pkg/Makefile.am: Cleaning up RPM files after they've
+	been built
+
+2014-01-25  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/ChangeLog,
+	liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/ChangeLog,
+	liquidwar6/configure.ac, liquidwar6/data/cli/http/http-const.xml,
+	liquidwar6/debian/changelog, liquidwar6/po/fr.po,
+	liquidwar6/po/nn.po, liquidwar6/po/ru.po,
+	liquidwar6/src/lib/cli/mod-http/mod-http-data.c,
+	liquidwar6/src/lib/cli/mod-http/mod-http-internal.h,
+	liquidwar6/src/lib/cli/mod-http/mod-http-message.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Added a limit to
+	concurrent http client threads in data send mode
+
 2014-01-24  Christian Mauduit <ufoot@ufoot.org>
 
 	* liquidwar6-extra-maps/ChangeLog,
