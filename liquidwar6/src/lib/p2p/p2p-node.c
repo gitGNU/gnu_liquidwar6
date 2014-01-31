@@ -1154,8 +1154,14 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now,
 	      tentacle_i = _lw6p2p_node_find_tentacle (node, miss->from_id);
 	      if (tentacle_i >= 0)
 		{
-		  if (lw6dat_miss_is_same
-		      (&(node->tentacles[tentacle_i].last_miss), miss)
+		  /*
+		   * If the new miss is included in previous MISS message,
+		   * and "not enough time" has elapsed then do not send it
+		   * again as we suspect it's better to wait for a while before
+		   * firing it again, this avoids spamming too many MISS messages.
+		   */
+		  if (lw6dat_miss_is_included
+		      (miss, &(node->tentacles[tentacle_i].last_miss))
 		      && now - node->db->data.consts.miss_duplicate_delay <
 		      node->tentacles[tentacle_i].last_miss_timestamp)
 		    {

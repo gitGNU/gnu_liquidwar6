@@ -1,3 +1,29 @@
+2014-01-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/p2p/p2p-node.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Fixed time comparison bug
+	in MISS message handling
+
+2014-01-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/ChangeLog,
+	liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/ChangeLog,
+	liquidwar6/configure.ac, liquidwar6/data/p2p/p2p-const.xml,
+	liquidwar6/debian/changelog, liquidwar6/po/fr.po,
+	liquidwar6/po/nn.po, liquidwar6/po/ru.po,
+	liquidwar6/src/lib/dat/dat-miss.c,
+	liquidwar6/src/lib/dat/dat-test.c, liquidwar6/src/lib/dat/dat.h,
+	liquidwar6/src/lib/p2p/p2p-data.c,
+	liquidwar6/src/lib/p2p/p2p-internal.h,
+	liquidwar6/src/lib/p2p/p2p-node.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Trying to fix MISS
+	protocol
+
 2014-01-29  Christian Mauduit <ufoot@ufoot.org>
 
 	* liquidwar6-extra-maps/configure.ac,
