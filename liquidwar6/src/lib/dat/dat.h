@@ -80,6 +80,7 @@ extern void lw6dat_miss_free (lw6dat_miss_t * miss);
 extern void lw6dat_miss_sync (lw6dat_miss_t * dst, lw6dat_miss_t * src);
 extern int lw6dat_miss_is_same (lw6dat_miss_t * a, lw6dat_miss_t * b);
 extern int lw6dat_miss_is_included (lw6dat_miss_t * a, lw6dat_miss_t * b);
+extern int lw6dat_miss_overlaps (lw6dat_miss_t * a, lw6dat_miss_t * b);
 
 /* dat-warehouse.c */
 extern int lw6dat_warehouse_init (lw6dat_warehouse_t * warehouse,

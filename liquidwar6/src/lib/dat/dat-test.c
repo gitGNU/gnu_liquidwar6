@@ -446,19 +446,45 @@ _test_miss ()
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("miss is_included works when equal"));
-		    miss->serial_max++;
-		    if (LW6SYS_TEST_ACK
-			(!lw6dat_miss_is_included (miss, &miss2)))
+		    if (LW6SYS_TEST_ACK (lw6dat_miss_overlaps (miss, &miss2)))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_
-				    ("miss is_included works when different"));
+				    _x_ ("miss overlaps works when equal"));
+			miss->serial_max++;
+			if (LW6SYS_TEST_ACK
+			    (!lw6dat_miss_is_included (miss, &miss2)))
+			  {
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_
+					("miss is_included works when different"));
+			    if (LW6SYS_TEST_ACK
+				(lw6dat_miss_overlaps (miss, &miss2)))
+			      {
+				lw6sys_log (LW6SYS_LOG_NOTICE,
+					    _x_
+					    ("miss overlaps works when different"));
+			      }
+			    else
+			      {
+				lw6sys_log (LW6SYS_LOG_WARNING,
+					    _x_
+					    ("miss overlaps does not work when different"));
+				ret = 0;
+			      }
+			  }
+			else
+			  {
+			    lw6sys_log (LW6SYS_LOG_WARNING,
+					_x_
+					("miss is_included does not work when different"));
+			    ret = 0;
+			  }
 		      }
 		    else
 		      {
 			lw6sys_log (LW6SYS_LOG_WARNING,
 				    _x_
-				    ("miss is_same does not work when different"));
+				    ("miss overlaps does not work when equal"));
 			ret = 0;
 		      }
 		  }
@@ -466,7 +492,7 @@ _test_miss ()
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
 				_x_
-				("miss is_same does not work when equal"));
+				("miss is_included does not work when equal"));
 		    ret = 0;
 		  }
 	      }

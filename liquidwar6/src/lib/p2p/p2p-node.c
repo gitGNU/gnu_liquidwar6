@@ -1160,20 +1160,53 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now,
 		   * again as we suspect it's better to wait for a while before
 		   * firing it again, this avoids spamming too many MISS messages.
 		   */
-		  if (lw6dat_miss_is_included
-		      (miss, &(node->tentacles[tentacle_i].last_miss))
-		      && now - node->db->data.consts.miss_duplicate_delay <
-		      node->tentacles[tentacle_i].last_miss_timestamp)
+		  disable_miss = 0;
+		  if (lw6dat_miss_overlaps
+		      (miss, &(node->tentacles[tentacle_i].last_miss)))
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _x_ ("not sending MISS from_id=%"
-				       LW6SYS_PRINTF_LL
-				       "x serial_min=%d serial_max=%d as it would be a duplicate"),
-				  (long long) miss->from_id, miss->serial_min,
-				  miss->serial_max);
-		      disable_miss = 1;
+		      if (now - node->db->data.consts.miss_duplicate_delay <
+			  node->tentacles[tentacle_i].last_miss_timestamp)
+			{
+			  lw6sys_log (LW6SYS_LOG_DEBUG,
+				      _x_ ("not sending MISS from_id=%"
+					   LW6SYS_PRINTF_LL
+					   "x serial_min=%d serial_max=%d as it overlaps with previous serial_min=%d serial_max=%d"),
+				      (long long) miss->from_id,
+				      miss->serial_min, miss->serial_max,
+				      node->tentacles[tentacle_i].
+				      last_miss.serial_min,
+				      node->tentacles[tentacle_i].
+				      last_miss.serial_max);
+			  disable_miss = 1;
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_DEBUG,
+				      _x_ ("sending MISS from_id=%"
+					   LW6SYS_PRINTF_LL
+					   "x serial_min=%d serial_max=%d, it overlaps with previous serial_min=%d serial_max=%d but we've waited for too long"),
+				      (long long) miss->from_id,
+				      miss->serial_min, miss->serial_max,
+				      node->tentacles[tentacle_i].
+				      last_miss.serial_min,
+				      node->tentacles[tentacle_i].
+				      last_miss.serial_max);
+			}
 		    }
 		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_ ("sending MISS from_id=%"
+				       LW6SYS_PRINTF_LL
+				       "x serial_min=%d serial_max=%d, it does not overlap with previous serial_min=%d serial_max=%d"),
+				  (long long) miss->from_id, miss->serial_min,
+				  miss->serial_max,
+				  node->tentacles[tentacle_i].
+				  last_miss.serial_min,
+				  node->tentacles[tentacle_i].
+				  last_miss.serial_max);
+		    }
+		  if (!disable_miss)
 		    {
 		      lw6dat_miss_sync (&
 					(node->

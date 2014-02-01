@@ -157,3 +157,34 @@ lw6dat_miss_is_included (lw6dat_miss_t * a, lw6dat_miss_t * b)
 
   return ret;
 }
+
+/**
+ * lw6dat_miss_overlaps
+ *
+ * @a: first element to compare 
+ * @b: second element to compare
+ *
+ * Compares two miss objects, returning true if a overlaps with b.
+ *
+ * Return value: 1 if included, else 0.
+ */
+int
+lw6dat_miss_overlaps (lw6dat_miss_t * a, lw6dat_miss_t * b)
+{
+  int ret = 0;
+
+  if (a && b)
+    {
+      ret = (a->from_id == b->from_id) && (a->serial_min <= a->serial_max)
+	&& (b->serial_min <= b->serial_max)
+	&& ((a->serial_max >= b->serial_min)
+	    || (a->serial_min <= b->serial_max));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("trying to compare NULL miss a=%p b=%p"), a, b);
+    }
+
+  return ret;
+}
