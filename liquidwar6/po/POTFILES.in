@@ -436,7 +436,6 @@ src/lib/p2p/p2p-flush.c
 src/lib/p2p/p2p-node.c
 src/lib/p2p/p2p-packet.c
 src/lib/p2p/p2p-peeridlist.c
-src/lib/p2p/p2p-queueitem.c
 src/lib/p2p/p2p-recv.c
 src/lib/p2p/p2p-srvoob.c
 src/lib/p2p/p2p-tentacle.c

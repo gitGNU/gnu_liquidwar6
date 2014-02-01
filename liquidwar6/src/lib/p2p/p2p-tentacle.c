@@ -236,9 +236,13 @@ _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle)
 {
   int i = 0;
 
-  if (tentacle->unsent_queue)
+  if (tentacle->unsent_reliable_queue)
     {
-      lw6sys_list_free (tentacle->unsent_queue);
+      lw6sys_list_free (tentacle->unsent_reliable_queue);
+    }
+  if (tentacle->unsent_unreliable_queue)
+    {
+      lw6sys_list_free (tentacle->unsent_unreliable_queue);
     }
   if (tentacle->nb_srv_connections > 0 && tentacle->srv_connections)
     {
@@ -301,6 +305,102 @@ _lw6p2p_tentacle_enabled (_lw6p2p_tentacle_t * tentacle)
   return ret;
 }
 
+typedef struct _send_best_data_s
+{
+  _lw6p2p_tentacle_t *tentacle;
+  int64_t now;
+  lw6cnx_ticket_table_t *ticket_table;
+  lw6cnx_connection_t *best_cnx;
+}
+_send_best_data_t;
+
+static int
+_send_best_filter (void *func_data, void *data)
+{
+  int keep = 1;
+  int i = 0;
+  int ping_msec = 0;
+  _send_best_data_t *send_best_data = (_send_best_data_t *) func_data;
+  _lw6p2p_packet_t *packet = (_lw6p2p_packet_t *) data;
+  _lw6p2p_tentacle_t *tentacle = send_best_data->tentacle;
+  lw6cnx_connection_t *best_cnx = send_best_data->best_cnx;
+  int64_t now = send_best_data->now;
+  lw6cnx_ticket_table_t *ticket_table = send_best_data->ticket_table;
+  u_int32_t logical_ticket_sig = packet->logical_ticket_sig;
+  u_int32_t physical_ticket_sig = packet->physical_ticket_sig;
+  u_int64_t logical_from_id = packet->logical_from_id;
+  u_int64_t logical_to_id = packet->logical_to_id;
+  char *msg = packet->msg;
+
+  /*
+   * We store the cnx ping into a local variable since it might
+   * be altered if the send fails, and we want the original
+   * ping to be used/shown in logs.
+   */
+  ping_msec = best_cnx->ping_msec;
+  if (ping_msec > 0)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("send of \"%s\" on fastest connection"), msg);
+      /*
+       * Now we have the cnx, we must figure out its type (cnx/srv)
+       * and index to fire the right code on it.
+       */
+      for (i = 0; i < tentacle->nb_cli_connections; ++i)
+	{
+	  if (best_cnx && (best_cnx == tentacle->cli_connections[i]))
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_
+			  ("found fastest connection to \"%s\", it's a client connection, backend name=\"%s\""),
+			  tentacle->remote_url,
+			  tentacle->backends->cli_backends[i]->name);
+	      if (lw6cli_send (tentacle->backends->cli_backends[i], best_cnx,
+			       now, physical_ticket_sig, logical_ticket_sig,
+			       logical_from_id, logical_to_id, msg))
+		{
+		  keep = 0;
+		}
+	    }
+	}
+      for (i = 0; i < tentacle->nb_srv_connections; ++i)
+	{
+	  if (best_cnx && (best_cnx == tentacle->srv_connections[i]))
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_
+			  ("found fastest connection to \"%s\", it's a server connection, backend name=\"%s\""),
+			  tentacle->remote_url,
+			  tentacle->backends->srv_backends[i]->name);
+	      if (lw6srv_send (tentacle->backends->srv_backends[i], best_cnx,
+			       now, physical_ticket_sig, logical_ticket_sig,
+			       logical_from_id, logical_to_id, msg))
+		{
+		  keep = 0;
+		}
+	    }
+	}
+    }
+  else
+    {
+      /*
+       * OK, we did not really find a "best connection" since it pretends
+       * to have a zero ping, and ping zero is just a plain imaginary stuff,
+       * and actually, we always force real pings to be at least one.
+       * Well, anyway, just means we did not really find it, so meanwhile,
+       * until we get a real "best" one, we go redundant.
+       */
+      lw6sys_log (LW6SYS_LOG_INFO,
+		  _x_
+		  ("couldn't really find a \"best\" connection for now, fallback on redundant mode"));
+      _lw6p2p_tentacle_send_redundant (tentacle, now, ticket_table,
+				       logical_ticket_sig,
+				       logical_from_id, logical_to_id, msg);
+    }
+
+  return keep;
+}
+
 void
 _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 		       lw6nod_info_t * node_info,
@@ -312,9 +412,7 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
   int64_t now;
   lw6cnx_connection_t *cnx = NULL;
   u_int32_t ticket_sig = 0;
-  _lw6p2p_queue_item_t *queue_item = NULL;
-  lw6sys_list_t *unsent_queue = NULL;
-  int queue_i = 0;
+  _send_best_data_t send_best_data;
 
   /*
    * IMPORTANT -> this function is called in unlock mode, it can
@@ -322,6 +420,8 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
    * should not be a problem.
    */
   now = lw6sys_get_timestamp ();
+  memset (&send_best_data, 0, sizeof (_send_best_data_t));
+
   if (!tentacle->hello_sent)
     {
       msg = lw6msg_cmd_generate_hello (node_info);
@@ -440,44 +540,62 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
       lw6srv_poll (tentacle->backends->srv_backends[i], cnx);
     }
 
-  if (tentacle->unsent_queue)
+  if (tentacle->unsent_reliable_queue)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("flushing unsent_queue"));
-      /*
-       * Empty the queue associated to the tentacle, push data
-       * in our own queue, and flush it with send.
-       */
-      unsent_queue = tentacle->unsent_queue;
-      tentacle->unsent_queue = NULL;
-
-      while ((queue_item =
-	      (_lw6p2p_queue_item_t *) lw6sys_lifo_pop (&unsent_queue)) !=
-	     NULL)
+      send_best_data.tentacle = tentacle;
+      send_best_data.now = now;
+      send_best_data.ticket_table = ticket_table;
+      send_best_data.best_cnx =
+	_lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle, 1);
+      if (send_best_data.best_cnx)
 	{
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_ ("flushing unsent_reliable_queue"));
+
 	  /*
-	   * Some of the data we use here could be in some cases
-	   * deduced from context but we prefer to use the
-	   * data stored in the queue_item, in case we want
-	   * to resend forwareded messages, you never know
+	   * Sort messages in a pseudo-random order on purpose,
+	   * to make sure they arrive totally not in the right
+	   * order.
 	   */
-	  /*
-	   * Send them in reliable mode, if it's in the queue, it means
-	   * we're probably sending lots of data, we'd like TCP and/or
-	   * other reliable protocol to help us to the tiring job of
-	   * checking everything...
-	   */
-	  _lw6p2p_tentacle_send_best (tentacle,
-				      now,
-				      ticket_table,
-				      queue_item->logical_ticket_sig,
-				      queue_item->logical_from_id,
-				      queue_item->logical_to_id,
-				      queue_item->msg, 1);
-	  _lw6p2p_queue_item_free (queue_item);
-	  ++queue_i;
+	  lw6sys_sort (&(tentacle->unsent_reliable_queue),
+		       _lw6p2p_packet_sort_callback);
+	  lw6sys_list_filter (&(tentacle->unsent_reliable_queue),
+			      _send_best_filter, &send_best_data);
 	}
-      lw6sys_log (LW6SYS_LOG_INFO,
-		  _x_ ("there were %d messages in unsent_queue"), queue_i);
+      else
+	{
+	  lw6sys_list_free (tentacle->unsent_reliable_queue);
+	  tentacle->unsent_reliable_queue = NULL;
+	}
+    }
+
+  if (tentacle->unsent_unreliable_queue)
+    {
+      send_best_data.tentacle = tentacle;
+      send_best_data.now = now;
+      send_best_data.ticket_table = ticket_table;
+      send_best_data.best_cnx =
+	_lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle, 0);
+      if (send_best_data.best_cnx)
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_ ("flushing unsent_unreliable_queue"));
+
+	  /*
+	   * Sort messages in a pseudo-random order on purpose,
+	   * to make sure they arrive totally not in the right
+	   * order.
+	   */
+	  lw6sys_sort (&(tentacle->unsent_unreliable_queue),
+		       _lw6p2p_packet_sort_callback);
+	  lw6sys_list_filter (&(tentacle->unsent_unreliable_queue),
+			      _send_best_filter, &send_best_data);
+	}
+      else
+	{
+	  lw6sys_list_free (tentacle->unsent_unreliable_queue);
+	  tentacle->unsent_unreliable_queue = NULL;
+	}
     }
 }
 
@@ -491,11 +609,8 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 			    int reliable)
 {
   int ret = 0;
-  lw6cnx_connection_t *cnx = NULL;
   u_int32_t physical_ticket_sig = 0;
-  int i = 0;
-  int ping_msec = 0;
-  _lw6p2p_queue_item_t *queue_item = NULL;
+  _lw6p2p_packet_t *packet = NULL;
 
   physical_ticket_sig =
     lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
@@ -503,111 +618,24 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 			    tentacle->local_id_int,
 			    tentacle->remote_id_int, msg);
 
-  cnx =
-    _lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle, reliable);
-  if (cnx)
+  if (reliable)
     {
-      /*
-       * We store the cnx ping into a local variable since it might
-       * be altered if the send fails, and we want the original
-       * ping to be used/shown in logs.
-       */
-      ping_msec = cnx->ping_msec;
-      if (ping_msec > 0)
+      if (!tentacle->unsent_reliable_queue)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_ ("send of \"%s\" on fastest connection"), msg);
-	  /*
-	   * Now we have the cnx, we must figure out its type (cnx/srv)
-	   * and index to fire the right code on it.
-	   */
-	  for (i = 0; i < tentacle->nb_cli_connections; ++i)
-	    {
-	      if (cnx == tentacle->cli_connections[i])
-		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _x_
-			      ("found fastest connection to \"%s\", it's a client connection, backend name=\"%s\""),
-			      tentacle->remote_url,
-			      tentacle->backends->cli_backends[i]->name);
-		  ret =
-		    lw6cli_send (tentacle->backends->cli_backends[i], cnx,
-				 now, physical_ticket_sig, logical_ticket_sig,
-				 logical_from_id, logical_to_id, msg) || ret;
-		}
-	    }
-	  for (i = 0; i < tentacle->nb_srv_connections; ++i)
-	    {
-	      if (cnx == tentacle->srv_connections[i])
-		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _x_
-			      ("found fastest connection to \"%s\", it's a server connection, backend name=\"%s\""),
-			      tentacle->remote_url,
-			      tentacle->backends->srv_backends[i]->name);
-		  ret =
-		    lw6srv_send (tentacle->backends->srv_backends[i], cnx,
-				 now, physical_ticket_sig, logical_ticket_sig,
-				 logical_from_id, logical_to_id, msg) || ret;
-		}
-	    }
+	  tentacle->unsent_reliable_queue =
+	    lw6sys_list_new ((lw6sys_free_func_t) _lw6p2p_packet_free);
 	}
-      else
+      if (tentacle->unsent_reliable_queue)
 	{
-	  /*
-	   * OK, we did not really find a "best connection" since it pretends
-	   * to have a zero ping, and ping zero is just a plain imaginary stuff,
-	   * and actually, we always force real pings to be at least one.
-	   * Well, anyway, just means we did not really find it, so meanwhile,
-	   * until we get a real "best" one, we go redundant.
-	   */
-	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _x_
-		      ("couldn't really find a \"best\" connection for now, fallback on redundant mode"));
-	  ret =
-	    _lw6p2p_tentacle_send_redundant (tentacle, now, ticket_table,
-					     logical_ticket_sig,
-					     logical_from_id, logical_to_id,
-					     msg);
-	}
-    }
-
-  if (ret)
-    {
-      if (cnx->properties.backend_id)
-	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_
-		      ("successfully send on connexion with backend_id=\"%s\""),
-		      cnx->properties.backend_id);
-	}
-    }
-  else
-    {
-      if (cnx && cnx->properties.backend_id)
-	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _x_
-		      ("failed send on \"best\" connexion with backend_id=\"%s\" current ping=%d msec"),
-		      cnx->properties.backend_id, ping_msec);
-	}
-
-      if (!tentacle->unsent_queue)
-	{
-	  tentacle->unsent_queue =
-	    lw6sys_list_new ((lw6sys_free_func_t) _lw6p2p_queue_item_free);
-	}
-      if (tentacle->unsent_queue)
-	{
-	  queue_item =
-	    _lw6p2p_queue_item_new (logical_ticket_sig, logical_from_id,
-				    logical_to_id, msg);
-	  if (queue_item)
+	  packet =
+	    _lw6p2p_packet_new (logical_ticket_sig, physical_ticket_sig,
+				logical_from_id, logical_to_id, msg);
+	  if (packet)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_
-			  ("message \"%s\" not sent, pushing it to unsent_queue"),
-			  queue_item->msg);
+			  ("message \"%s\" not sent, pushing it to unsent_reliable_queue"),
+			  packet->msg);
 	      /*
 	       * Use a lifo, a fifo would be cleaner but is more expensive
 	       * on big lists, this is a fallback action anyway, packets
@@ -615,8 +643,35 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 	       * very likely sending a big hudge message splitted into
 	       * many atoms so order is irrelevant.
 	       */
-	      lw6sys_lifo_push (&(tentacle->unsent_queue), queue_item);
+	      lw6sys_lifo_push (&(tentacle->unsent_reliable_queue), packet);
 	    }
+	}
+    }
+
+  if (!tentacle->unsent_unreliable_queue)
+    {
+      tentacle->unsent_unreliable_queue =
+	lw6sys_list_new ((lw6sys_free_func_t) _lw6p2p_packet_free);
+    }
+  if (tentacle->unsent_unreliable_queue)
+    {
+      packet =
+	_lw6p2p_packet_new (logical_ticket_sig, physical_ticket_sig,
+			    logical_from_id, logical_to_id, msg);
+      if (packet)
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_
+		      ("message \"%s\" not sent, pushing it to unsent_unreliable_queue"),
+		      packet->msg);
+	  /*
+	   * Use a lifo, a fifo would be cleaner but is more expensive
+	   * on big lists, this is a fallback action anyway, packets
+	   * will probably be in the wrong order anyway and we are
+	   * very likely sending a big hudge message splitted into
+	   * many atoms so order is irrelevant.
+	   */
+	  lw6sys_lifo_push (&(tentacle->unsent_unreliable_queue), packet);
 	}
     }
 

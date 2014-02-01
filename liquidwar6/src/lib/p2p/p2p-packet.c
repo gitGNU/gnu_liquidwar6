@@ -29,7 +29,7 @@
 
 _lw6p2p_packet_t *
 _lw6p2p_packet_new (u_int32_t logical_ticket_sig,
-		    u_int64_t logical_from_id,
+		    u_int32_t physical_ticket_sig, u_int64_t logical_from_id,
 		    u_int64_t logical_to_id, const char *msg)
 {
   _lw6p2p_packet_t *ret = NULL;
@@ -38,6 +38,7 @@ _lw6p2p_packet_new (u_int32_t logical_ticket_sig,
   if (ret)
     {
       ret->logical_ticket_sig = logical_ticket_sig;
+      ret->physical_ticket_sig = physical_ticket_sig;
       ret->logical_from_id = logical_from_id;
       ret->logical_to_id = logical_to_id;
       ret->msg = lw6sys_str_copy (msg);
@@ -79,6 +80,7 @@ _lw6p2p_packet_checksum (const _lw6p2p_packet_t * packet)
   u_int32_t ret = 0;
 
   lw6sys_checksum_update_int32 (&ret, packet->logical_ticket_sig);
+  lw6sys_checksum_update_int32 (&ret, packet->physical_ticket_sig);
   lw6sys_checksum_update_int64 (&ret, packet->logical_from_id);
   lw6sys_checksum_update_int64 (&ret, packet->logical_to_id);
   lw6sys_checksum_update_str (&ret, packet->msg);
@@ -96,6 +98,19 @@ _lw6p2p_packet_compare (const _lw6p2p_packet_t * a,
 
   ret =
     (checksum_a == checksum_b) ? 0 : ((checksum_a < checksum_b) ? -1 : +1);
+
+  return ret;
+}
+
+int
+_lw6p2p_packet_sort_callback (lw6sys_list_t ** list_a,
+			      lw6sys_list_t ** list_b)
+{
+  int ret = 0;
+
+  ret =
+    _lw6p2p_packet_compare ((_lw6p2p_packet_t *) ((*list_a)->data),
+			    (_lw6p2p_packet_t *) ((*list_b)->data));
 
   return ret;
 }

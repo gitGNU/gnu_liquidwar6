@@ -174,6 +174,7 @@ typedef struct _lw6p2p_backends_s
 typedef struct _lw6p2p_packet_s
 {
   u_int32_t logical_ticket_sig;
+  u_int32_t physical_ticket_sig;
   u_int64_t logical_from_id;
   u_int64_t logical_to_id;
   char *msg;
@@ -199,7 +200,8 @@ typedef struct _lw6p2p_tentacle_s
   lw6cnx_connection_t **cli_connections;
   int nb_srv_connections;
   lw6cnx_connection_t **srv_connections;
-  lw6sys_list_t *unsent_queue;
+  lw6sys_list_t *unsent_reliable_queue;
+  lw6sys_list_t *unsent_unreliable_queue;
   int last_poll_received_messages;
   lw6dat_miss_t last_miss;
   int64_t last_miss_timestamp;
@@ -261,15 +263,6 @@ typedef struct _lw6p2p_cli_oob_callback_data_s
   lw6nod_info_t *node_info;
   lw6cli_oob_t *cli_oob;
 } _lw6p2p_cli_oob_callback_data_t;
-
-typedef struct _lw6p2p_queue_item_s
-{
-  u_int32_t logical_ticket_sig;
-  u_int64_t logical_from_id;
-  u_int64_t logical_to_id;
-  char *msg;
-}
-_lw6p2p_queue_item_t;
 
 /* p2p-backends.c */
 extern int _lw6p2p_backends_init_cli (int argc, const char *argv[],
@@ -441,6 +434,7 @@ extern char *_lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node,
 
 /* p2p-packet.c */
 extern _lw6p2p_packet_t *_lw6p2p_packet_new (u_int32_t logical_ticket_sig,
+					     u_int32_t physical_ticket_sig,
 					     u_int64_t logical_from_id,
 					     u_int64_t logical_to_id,
 					     const char *msg);
@@ -448,20 +442,13 @@ extern void _lw6p2p_packet_free (_lw6p2p_packet_t * packet);
 extern u_int32_t _lw6p2p_packet_checksum (const _lw6p2p_packet_t * packet);
 extern int _lw6p2p_packet_compare (const _lw6p2p_packet_t * a,
 				   const _lw6p2p_packet_t * b);
+extern int _lw6p2p_packet_sort_callback (lw6sys_list_t ** list_a,
+					 lw6sys_list_t ** list_b);
 
 /* p2p-peeridlist.c */
 extern void _lw6p2p_peer_id_list_process_join (_lw6p2p_node_t * node,
 					       lw6nod_info_t *
 					       remote_node_info);
-
-/* p2p-queueitem.c */
-extern _lw6p2p_queue_item_t *_lw6p2p_queue_item_new (u_int32_t
-						     logical_ticket_sig,
-						     u_int64_t
-						     logical_from_id,
-						     u_int64_t logical_to_id,
-						     const char *msg);
-extern void _lw6p2p_queue_item_free (_lw6p2p_queue_item_t * queue_item);
 
 /* p2p-recv.c */
 extern void _lw6p2p_recv_process (_lw6p2p_node_t * node,
