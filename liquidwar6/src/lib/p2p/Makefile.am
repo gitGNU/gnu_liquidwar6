@@ -33,7 +33,7 @@ TEST_SRC_FILE = p2p-test.c
 else
 TEST_SRC_FILE =
 endif
-libp2p_la_SOURCES = p2p-backends.c p2p-clioob.c p2p-connectregistered.c p2p-data.c p2p-db.c p2p-entry.c p2p-explore.c p2p-flush.c p2p-node.c p2p-peeridlist.c p2p-queueitem.c p2p-recv.c p2p-srvoob.c p2p-tentacle.c $(TEST_SRC_FILE)
+libp2p_la_SOURCES = p2p-backends.c p2p-clioob.c p2p-connectregistered.c p2p-data.c p2p-db.c p2p-entry.c p2p-explore.c p2p-flush.c p2p-node.c p2p-packet.c p2p-peeridlist.c p2p-queueitem.c p2p-recv.c p2p-srvoob.c p2p-tentacle.c $(TEST_SRC_FILE)
 libp2pdir= $(includedir)/@PACKAGE_TARNAME@/p2p
 libp2p_HEADERS = p2p.h
 

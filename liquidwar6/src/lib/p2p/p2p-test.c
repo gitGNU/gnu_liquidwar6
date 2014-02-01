@@ -63,6 +63,18 @@
 #define _TEST_ENTRY_PING_DELAY_MSEC 500
 #define _TEST_ENTRY_AVAILABLE 1
 
+#define _TEST_PACKET_LOGICAL_TICKET_SIG_1 0x12341234
+#define _TEST_PACKET_LOGICAL_FROM_ID_1 0x2345234523452345LL
+#define _TEST_PACKET_LOGICAL_TO_ID_1 0x3456345634563456LL
+#define _TEST_PACKET_MSG_1 "toto"
+#define _TEST_PACKET_CHECKSUM_1 0x2ab8bcbe
+#define _TEST_PACKET_LOGICAL_TICKET_SIG_2 0x12341234
+#define _TEST_PACKET_LOGICAL_FROM_ID_2 0x2345234523452345LL
+#define _TEST_PACKET_LOGICAL_TO_ID_2 0x3456345634563456LL
+#define _TEST_PACKET_MSG_2 "titi"
+#define _TEST_PACKET_CHECKSUM_2 0x34ed1a1e
+#define _TEST_PACKET_COMPARE -1
+
 #define _TEST_NODE_BIND_IP LW6NET_ADDRESS_LOOPBACK
 #define _TEST_NODE_BIND_PORT1 (LW6NET_DEFAULT_PORT + 11)
 #define _TEST_NODE_BIND_PORT2 (LW6NET_DEFAULT_PORT + 12)
@@ -228,10 +240,10 @@ _test_db ()
 		lw6p2p_db_default_name (), _TEST_DB_NAME12);
 
     db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
-    if (db)
+    if (LW6SYS_TEST_ACK (db))
       {
 	repr = lw6p2p_db_repr (db);
-	if (repr)
+	if (LW6SYS_TEST_ACK (repr))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created db \"%s\""), repr);
 	    LW6SYS_FREE (repr);
@@ -244,7 +256,7 @@ _test_db ()
 	ret = 0;
       }
 
-    if (lw6p2p_db_reset (argc, argv, _TEST_DB_NAME12))
+    if (LW6SYS_TEST_ACK (lw6p2p_db_reset (argc, argv, _TEST_DB_NAME12)))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("deleted db"));
       }
@@ -297,10 +309,10 @@ _test_entry ()
 			      _TEST_ENTRY_LAST_PING_TIMESTAMP,
 			      _TEST_ENTRY_PING_DELAY_MSEC,
 			      _TEST_ENTRY_AVAILABLE);
-    if (entry)
+    if (LW6SYS_TEST_ACK (entry))
       {
 	repr = lw6p2p_entry_repr (entry);
-	if (repr)
+	if (LW6SYS_TEST_ACK (repr))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("entry created: \"%s\""),
 			repr);
@@ -312,6 +324,83 @@ _test_entry ()
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create entry"));
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
+/*
+ * Testing packet
+ */
+static void
+_test_packet ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    _lw6p2p_packet_t *packet_1 = NULL;
+    _lw6p2p_packet_t *packet_2 = NULL;
+    u_int32_t checksum_1 = 0;
+    u_int32_t checksum_2 = 0;
+
+    packet_1 =
+      _lw6p2p_packet_new (_TEST_PACKET_LOGICAL_TICKET_SIG_1,
+			  _TEST_PACKET_LOGICAL_FROM_ID_1,
+			  _TEST_PACKET_LOGICAL_TO_ID_1, _TEST_PACKET_MSG_1);
+    if (LW6SYS_TEST_ACK (packet_1))
+      {
+	packet_2 =
+	  _lw6p2p_packet_new (_TEST_PACKET_LOGICAL_TICKET_SIG_2,
+			      _TEST_PACKET_LOGICAL_FROM_ID_2,
+			      _TEST_PACKET_LOGICAL_TO_ID_2,
+			      _TEST_PACKET_MSG_2);
+	if (LW6SYS_TEST_ACK (packet_2))
+	  {
+	    checksum_1 = _lw6p2p_packet_checksum (packet_1);
+	    checksum_2 = _lw6p2p_packet_checksum (packet_2);
+	    if (LW6SYS_TEST_ACK
+		(checksum_1 == _TEST_PACKET_CHECKSUM_1
+		 && checksum_2 == _TEST_PACKET_CHECKSUM_2))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("packet checksums OK (%08x,%08x)"),
+			    checksum_1, checksum_2);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("packet checksums mismatch (%08x,%08x) vs (%08x,%08x)"),
+			    checksum_1, checksum_2, _TEST_PACKET_CHECKSUM_1,
+			    _TEST_PACKET_CHECKSUM_2);
+		ret = 0;
+	      }
+	    if (LW6SYS_TEST_ACK
+		(_lw6p2p_packet_compare (packet_1, packet_2) ==
+		 _TEST_PACKET_COMPARE))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("packet compare works as expected"));
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("packet compare does not work as expected"));
+		ret = 0;
+	      }
+	    _lw6p2p_packet_free (packet_2);
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	_lw6p2p_packet_free (packet_1);
+      }
+    else
+      {
 	ret = 0;
       }
   }
@@ -343,7 +432,7 @@ _test_node_init ()
     int64_t seq_reference = 0LL;
 
     db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
-    if (db)
+    if (LW6SYS_TEST_ACK (db))
       {
 	/*
 	 * Passing 0LL as a node id will cause automatic generation of an id
@@ -358,17 +447,17 @@ _test_node_init ()
 			   _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY,
 			   _TEST_NODE_KNOWN_NODES1,
 			   _TEST_NODE_NETWORK_RELIABILITY, _TEST_NODE_TROJAN);
-	if (node)
+	if (LW6SYS_TEST_ACK (node))
 	  {
 	    repr = lw6p2p_node_repr (node);
-	    if (repr)
+	    if (LW6SYS_TEST_ACK (repr))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node \"%s\""),
 			    repr);
 		LW6SYS_FREE (repr);
 	      }
 	    id_str = lw6sys_id_ltoa (lw6p2p_node_get_id (node));
-	    if (id_str)
+	    if (LW6SYS_TEST_ACK (id_str))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("get_id returns %s"),
 			    id_str);
@@ -449,7 +538,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
       if (*db12)
 	{
 	  repr = lw6p2p_db_repr (*db12);
-	  if (repr)
+	  if (LW6SYS_TEST_ACK (repr))
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created db \"%s\""), repr);
 	      LW6SYS_FREE (repr);
@@ -471,7 +560,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
       if (*db34)
 	{
 	  repr = lw6p2p_db_repr (*db34);
-	  if (repr)
+	  if (LW6SYS_TEST_ACK (repr))
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created db \"%s\""), repr);
 	      LW6SYS_FREE (repr);
@@ -493,7 +582,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
       if (*db56)
 	{
 	  repr = lw6p2p_db_repr (*db56);
-	  if (repr)
+	  if (LW6SYS_TEST_ACK (repr))
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created db \"%s\""), repr);
 	      LW6SYS_FREE (repr);
@@ -519,7 +608,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	  if (*node1)
 	    {
 	      repr = lw6p2p_node_repr (*node1);
-	      if (repr)
+	      if (LW6SYS_TEST_ACK (repr))
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node1 \"%s\""),
 			      repr);
@@ -544,7 +633,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	  if (*node2)
 	    {
 	      repr = lw6p2p_node_repr (*node2);
-	      if (repr)
+	      if (LW6SYS_TEST_ACK (repr))
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node2 \"%s\""),
 			      repr);
@@ -572,7 +661,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	  if (*node3)
 	    {
 	      repr = lw6p2p_node_repr (*node3);
-	      if (repr)
+	      if (LW6SYS_TEST_ACK (repr))
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node3 \"%s\""),
 			      repr);
@@ -597,7 +686,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	  if (*node4)
 	    {
 	      repr = lw6p2p_node_repr (*node4);
-	      if (repr)
+	      if (LW6SYS_TEST_ACK (repr))
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node4 \"%s\""),
 			      repr);
@@ -626,7 +715,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	  if (*node5)
 	    {
 	      repr = lw6p2p_node_repr (*node5);
-	      if (repr)
+	      if (LW6SYS_TEST_ACK (repr))
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node5 \"%s\""),
 			      repr);
@@ -651,7 +740,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	  if (*node6)
 	    {
 	      repr = lw6p2p_node_repr (*node6);
-	      if (repr)
+	      if (LW6SYS_TEST_ACK (repr))
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node6 \"%s\""),
 			      repr);
@@ -853,41 +942,65 @@ _cmd_with_backends (char *cli_backends, char *srv_backends)
       (cli_backends, srv_backends, &db12, &db34, &db56, &node1, &node2,
        &node3, &node4, &node5, &node6))
     {
-      if (_lw6p2p_node_register_tentacle
-	  ((_lw6p2p_node_t *) node1, _TEST_NODE_PUBLIC_URL2, _TEST_NODE_IP2,
-	   lw6p2p_node_get_id (node2))
-	  && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node2,
-					     _TEST_NODE_PUBLIC_URL1,
-					     _TEST_NODE_IP1,
-					     lw6p2p_node_get_id (node1))
-	  && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node1,
-					     _TEST_NODE_PUBLIC_URL3,
-					     _TEST_NODE_IP3,
-					     lw6p2p_node_get_id (node3))
-	  && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node3,
-					     _TEST_NODE_PUBLIC_URL1,
-					     _TEST_NODE_IP1,
-					     lw6p2p_node_get_id (node1))
-	  && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node1,
-					     _TEST_NODE_PUBLIC_URL4,
-					     _TEST_NODE_IP4,
-					     lw6p2p_node_get_id (node4))
-	  && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node4,
-					     _TEST_NODE_PUBLIC_URL1,
-					     _TEST_NODE_IP1,
-					     lw6p2p_node_get_id (node1))
-	  && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node4,
-					     _TEST_NODE_PUBLIC_URL2,
-					     _TEST_NODE_IP2,
-					     lw6p2p_node_get_id (node2))
-	  && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node6,
-					     _TEST_NODE_PUBLIC_URL2,
-					     _TEST_NODE_IP2,
-					     lw6p2p_node_get_id (node2))
-	  && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node5,
-					     _TEST_NODE_PUBLIC_URL1,
-					     _TEST_NODE_IP1,
-					     lw6p2p_node_get_id (node1)))
+      if (LW6SYS_TEST_ACK (_lw6p2p_node_register_tentacle
+			   ((_lw6p2p_node_t *) node1, _TEST_NODE_PUBLIC_URL2,
+			    _TEST_NODE_IP2, lw6p2p_node_get_id (node2))
+			   &&
+			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+							   node2,
+							   _TEST_NODE_PUBLIC_URL1,
+							   _TEST_NODE_IP1,
+							   lw6p2p_node_get_id
+							   (node1))
+			   &&
+			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+							   node1,
+							   _TEST_NODE_PUBLIC_URL3,
+							   _TEST_NODE_IP3,
+							   lw6p2p_node_get_id
+							   (node3))
+			   &&
+			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+							   node3,
+							   _TEST_NODE_PUBLIC_URL1,
+							   _TEST_NODE_IP1,
+							   lw6p2p_node_get_id
+							   (node1))
+			   &&
+			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+							   node1,
+							   _TEST_NODE_PUBLIC_URL4,
+							   _TEST_NODE_IP4,
+							   lw6p2p_node_get_id
+							   (node4))
+			   &&
+			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+							   node4,
+							   _TEST_NODE_PUBLIC_URL1,
+							   _TEST_NODE_IP1,
+							   lw6p2p_node_get_id
+							   (node1))
+			   &&
+			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+							   node4,
+							   _TEST_NODE_PUBLIC_URL2,
+							   _TEST_NODE_IP2,
+							   lw6p2p_node_get_id
+							   (node2))
+			   &&
+			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+							   node6,
+							   _TEST_NODE_PUBLIC_URL2,
+							   _TEST_NODE_IP2,
+							   lw6p2p_node_get_id
+							   (node2))
+			   &&
+			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+							   node5,
+							   _TEST_NODE_PUBLIC_URL1,
+							   _TEST_NODE_IP1,
+							   lw6p2p_node_get_id
+							   (node1))))
 	{
 	  while (lw6sys_get_timestamp () < end_timestamp)
 	    {
@@ -1051,7 +1164,7 @@ _test_node_msg ()
     lw6sys_progress_default (&progress, &progress_value);
 
     db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
-    if (db)
+    if (LW6SYS_TEST_ACK (db))
       {
 	/*
 	 * Passing 0LL as a node id will cause automatic generation of an id
@@ -1066,7 +1179,7 @@ _test_node_msg ()
 			   _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY,
 			   _TEST_NODE_KNOWN_NODES1,
 			   _TEST_NODE_NETWORK_RELIABILITY, _TEST_NODE_TROJAN);
-	if (node)
+	if (LW6SYS_TEST_ACK (node))
 	  {
 	    node_id = lw6p2p_node_get_id (node);
 	    seq = _TEST_NODE_MSG_SEQ_0;
@@ -1082,7 +1195,7 @@ _test_node_msg ()
 		      lw6sys_str_random_words (lw6sys_random
 					       (_TEST_NODE_MSG_RANDOM_STR_SIZE)
 					       + 1);
-		    if (random_str)
+		    if (LW6SYS_TEST_ACK (random_str))
 		      {
 			msg =
 			  lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
@@ -1090,7 +1203,7 @@ _test_node_msg ()
 					      (long long) seq,
 					      (long long) node_id,
 					      k, random_str);
-			if (msg)
+			if (LW6SYS_TEST_ACK (msg))
 			  {
 			    checksums[k] = lw6sys_checksum_str (msg);
 			    msgs[k] = msg;
@@ -1125,7 +1238,7 @@ _test_node_msg ()
 			found = 1;
 		      }
 		  }
-		if (!found)
+		if (!LW6SYS_TEST_ACK (found))
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
 				_x_
@@ -1136,7 +1249,8 @@ _test_node_msg ()
 		LW6SYS_FREE (msg);
 		++k;
 	      }
-	    if (k == _TEST_NODE_MSG_NB_SEQS * _TEST_NODE_MSG_NB_PER_SEQ)
+	    if (LW6SYS_TEST_ACK
+		(k == _TEST_NODE_MSG_NB_SEQS * _TEST_NODE_MSG_NB_PER_SEQ))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got %d draft messages"),
 			    k);
@@ -1631,10 +1745,10 @@ _test_node_api ()
     memset (&api_data5, 0, sizeof (_test_node_api_data_t));
     memset (&api_data6, 0, sizeof (_test_node_api_data_t));
 
-    if (_init_nodes
-	(lw6cli_default_backends (),
-	 lw6srv_default_backends (), &db12, &db34, &db56, &node1, &node2,
-	 &node3, &node4, &node5, &node6))
+    if (LW6SYS_TEST_ACK (_init_nodes
+			 (lw6cli_default_backends (),
+			  lw6srv_default_backends (), &db12, &db34, &db56,
+			  &node1, &node2, &node3, &node4, &node5, &node6)))
       {
 	api_data1.node = node1;
 	api_data2.node = node2;
@@ -1688,7 +1802,8 @@ _test_node_api ()
 	  lw6sys_thread_create (_test_node_api_node6_callback, NULL,
 				(void *) &api_data6);
 
-	if (thread1 && thread2 && thread3 && thread4 && thread5 && thread6)
+	if (LW6SYS_TEST_ACK
+	    (thread1 && thread2 && thread3 && thread4 && thread5 && thread6))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("each node running in its own thread"));
@@ -1737,7 +1852,7 @@ _test_node_api ()
 
 	ret = ret && api_data1.ret && api_data2.ret && api_data3.ret
 	  && api_data4.ret && api_data5.ret && api_data6.ret;
-	if (ret)
+	if (LW6SYS_TEST_ACK (ret))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("all nodes completed their tests successfully"));
@@ -1823,6 +1938,7 @@ lw6p2p_test_register (int mode)
     {
       LW6SYS_CUNIT_ADD_TEST (suite, _test_db);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_entry);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_packet);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_node_init);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_node_oob);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_node_cmd);

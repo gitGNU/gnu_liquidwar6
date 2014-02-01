@@ -171,6 +171,14 @@ typedef struct _lw6p2p_backends_s
   lw6srv_backend_t **srv_backends;
 } _lw6p2p_backends_t;
 
+typedef struct _lw6p2p_packet_s
+{
+  u_int32_t logical_ticket_sig;
+  u_int64_t logical_from_id;
+  u_int64_t logical_to_id;
+  char *msg;
+} _lw6p2p_packet_t;
+
 typedef struct _lw6p2p_tentacle_s
 {
   _lw6p2p_backends_t *backends;
@@ -430,6 +438,16 @@ extern char *_lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node,
 						  progress);
 extern char *_lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node,
 					      lw6sys_progress_t * progress);
+
+/* p2p-packet.c */
+extern _lw6p2p_packet_t *_lw6p2p_packet_new (u_int32_t logical_ticket_sig,
+					     u_int64_t logical_from_id,
+					     u_int64_t logical_to_id,
+					     const char *msg);
+extern void _lw6p2p_packet_free (_lw6p2p_packet_t * packet);
+extern u_int32_t _lw6p2p_packet_checksum (const _lw6p2p_packet_t * packet);
+extern int _lw6p2p_packet_compare (const _lw6p2p_packet_t * a,
+				   const _lw6p2p_packet_t * b);
 
 /* p2p-peeridlist.c */
 extern void _lw6p2p_peer_id_list_process_join (_lw6p2p_node_t * node,
