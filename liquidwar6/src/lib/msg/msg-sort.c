@@ -39,17 +39,18 @@
  *   1 if @list_a > @list_b
  */
 int
-lw6msg_sort_str_by_seq_callback (lw6sys_list_t ** list_a,
-				 lw6sys_list_t ** list_b)
+lw6msg_sort_str_by_seq_callback (const lw6sys_list_t ** list_a,
+				 const lw6sys_list_t ** list_b)
 {
   int ret = 0;
-  char *str_a = NULL, *str_b = NULL;
+  const char *str_a = NULL;
+  const char *str_b = NULL;
   int64_t seq_a = 00L, seq_b = 00L;
   int parse_error = 0;
   char *next_a = NULL, *next_b = NULL;
 
-  str_a = (char *) ((*list_a)->data);
-  str_b = (char *) ((*list_b)->data);
+  str_a = (const char *) ((*list_a)->data);
+  str_b = (const char *) ((*list_b)->data);
 
   if (!(str_a && lw6msg_word_first_int_64 (&seq_a, &next_a, str_a)))
     {

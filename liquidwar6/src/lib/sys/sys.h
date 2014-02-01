@@ -483,8 +483,8 @@ typedef struct lw6sys_list_s
 }
 lw6sys_list_t;
 
-typedef int (*lw6sys_sort_callback_func_t) (lw6sys_list_t ** list_a,
-					    lw6sys_list_t ** list_b);
+typedef int (*lw6sys_sort_callback_func_t) (const lw6sys_list_t ** list_a,
+					    const lw6sys_list_t ** list_b);
 
 /**
  * The hexa (for hexadecimal) serializer is a tool used
@@ -1257,18 +1257,18 @@ extern void lw6sys_signal_send_quit ();
 extern int lw6sys_signal_poll_quit ();
 
 /* sys-sort.c */
-extern int lw6sys_sort_int_callback (lw6sys_list_t ** list_a,
-				     lw6sys_list_t ** list_b);
-extern int lw6sys_sort_int_desc_callback (lw6sys_list_t ** list_a,
-					  lw6sys_list_t ** list_b);
-extern int lw6sys_sort_float_callback (lw6sys_list_t ** list_a,
-				       lw6sys_list_t ** list_b);
-extern int lw6sys_sort_float_desc_callback (lw6sys_list_t ** list_a,
-					    lw6sys_list_t ** list_b);
-extern int lw6sys_sort_str_callback (lw6sys_list_t ** list_a,
-				     lw6sys_list_t ** list_b);
-extern int lw6sys_sort_str_desc_callback (lw6sys_list_t ** list_a,
-					  lw6sys_list_t ** list_b);
+extern int lw6sys_sort_int_callback (const lw6sys_list_t ** list_a,
+				     const lw6sys_list_t ** list_b);
+extern int lw6sys_sort_int_desc_callback (const lw6sys_list_t ** list_a,
+					  const lw6sys_list_t ** list_b);
+extern int lw6sys_sort_float_callback (const lw6sys_list_t ** list_a,
+				       const lw6sys_list_t ** list_b);
+extern int lw6sys_sort_float_desc_callback (const lw6sys_list_t ** list_a,
+					    const lw6sys_list_t ** list_b);
+extern int lw6sys_sort_str_callback (const lw6sys_list_t ** list_a,
+				     const lw6sys_list_t ** list_b);
+extern int lw6sys_sort_str_desc_callback (const lw6sys_list_t ** list_a,
+					  const lw6sys_list_t ** list_b);
 extern void lw6sys_sort (lw6sys_list_t ** list,
 			 lw6sys_sort_callback_func_t sort_func);
 

@@ -524,12 +524,14 @@ lw6pil_command_free (lw6pil_command_t * command)
 }
 
 int
-_lw6pil_command_sort_callback (lw6sys_list_t ** list_a,
-			       lw6sys_list_t ** list_b)
+_lw6pil_command_sort_callback (const lw6sys_list_t ** list_a,
+			       const lw6sys_list_t ** list_b)
 {
   int ret = 0;
-  lw6pil_command_t *command_a = (lw6pil_command_t *) ((*list_a)->data);
-  lw6pil_command_t *command_b = (lw6pil_command_t *) ((*list_b)->data);
+  const lw6pil_command_t *command_a =
+    (const lw6pil_command_t *) ((*list_a)->data);
+  const lw6pil_command_t *command_b =
+    (const lw6pil_command_t *) ((*list_b)->data);
 
   if (command_a->seq < command_b->seq)
     {
@@ -573,7 +575,7 @@ _lw6pil_command_sort_callback (lw6sys_list_t ** list_a,
  * Return value: dynamically allocated string.
  */
 char *
-lw6pil_command_repr (lw6pil_command_t * command)
+lw6pil_command_repr (const lw6pil_command_t * command)
 {
   char *ret = NULL;
 

@@ -103,8 +103,8 @@ _lw6p2p_packet_compare (const _lw6p2p_packet_t * a,
 }
 
 int
-_lw6p2p_packet_sort_callback (lw6sys_list_t ** list_a,
-			      lw6sys_list_t ** list_b)
+_lw6p2p_packet_sort_callback (const lw6sys_list_t ** list_a,
+			      const lw6sys_list_t ** list_b)
 {
   int ret = 0;
 

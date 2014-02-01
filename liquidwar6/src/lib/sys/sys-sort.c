@@ -41,7 +41,8 @@
  *   1 if @list_a > @list_b
  */
 int
-lw6sys_sort_int_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
+lw6sys_sort_int_callback (const lw6sys_list_t ** list_a,
+			  const lw6sys_list_t ** list_b)
 {
   int ret = 0;
   int a, b;
@@ -74,8 +75,8 @@ lw6sys_sort_int_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
  *   -1 if @list_a > @list_b
  */
 int
-lw6sys_sort_int_desc_callback (lw6sys_list_t ** list_a,
-			       lw6sys_list_t ** list_b)
+lw6sys_sort_int_desc_callback (const lw6sys_list_t ** list_a,
+			       const lw6sys_list_t ** list_b)
 {
   int ret = 0;
   int a, b;
@@ -108,7 +109,8 @@ lw6sys_sort_int_desc_callback (lw6sys_list_t ** list_a,
  *   1 if @list_a > @list_b
  */
 int
-lw6sys_sort_float_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
+lw6sys_sort_float_callback (const lw6sys_list_t ** list_a,
+			    const lw6sys_list_t ** list_b)
 {
   int ret = 0;
   float a, b;
@@ -142,8 +144,8 @@ lw6sys_sort_float_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
  *   -1 if @list_a > @list_b
  */
 int
-lw6sys_sort_float_desc_callback (lw6sys_list_t ** list_a,
-				 lw6sys_list_t ** list_b)
+lw6sys_sort_float_desc_callback (const lw6sys_list_t ** list_a,
+				 const lw6sys_list_t ** list_b)
 {
   int ret = 0;
   float a, b;
@@ -176,7 +178,8 @@ lw6sys_sort_float_desc_callback (lw6sys_list_t ** list_a,
  *   1 if @list_a > @list_b
  */
 int
-lw6sys_sort_str_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
+lw6sys_sort_str_callback (const lw6sys_list_t ** list_a,
+			  const lw6sys_list_t ** list_b)
 {
   int ret = 0;
 
@@ -199,8 +202,8 @@ lw6sys_sort_str_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
  *   -1 if @list_a > @list_b
  */
 int
-lw6sys_sort_str_desc_callback (lw6sys_list_t ** list_a,
-			       lw6sys_list_t ** list_b)
+lw6sys_sort_str_desc_callback (const lw6sys_list_t ** list_a,
+			       const lw6sys_list_t ** list_b)
 {
   int ret = 0;
 

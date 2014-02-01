@@ -348,14 +348,15 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
 }
 
 static int
-entries_sort_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
+entries_sort_callback (const lw6sys_list_t ** list_a,
+		       const lw6sys_list_t ** list_b)
 {
   int ret = 0;
-  lw6ldr_entry_t *entry_a;
-  lw6ldr_entry_t *entry_b;
+  const lw6ldr_entry_t *entry_a;
+  const lw6ldr_entry_t *entry_b;
 
-  entry_a = (lw6ldr_entry_t *) ((*list_a)->data);
-  entry_b = (lw6ldr_entry_t *) ((*list_b)->data);
+  entry_a = (const lw6ldr_entry_t *) ((*list_a)->data);
+  entry_b = (const lw6ldr_entry_t *) ((*list_b)->data);
 
   if (entry_a->has_subdirs && (!entry_b->has_subdirs))
     {

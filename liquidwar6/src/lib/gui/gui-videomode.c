@@ -36,10 +36,12 @@ typedef struct video_mode_sort_s
 } video_mode_sort_t;
 
 static int
-video_mode_sort_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
+video_mode_sort_callback (const lw6sys_list_t ** list_a,
+			  const lw6sys_list_t ** list_b)
 {
   int ret = 0;
-  video_mode_sort_t *a, *b;
+  const video_mode_sort_t *a;
+  const video_mode_sort_t *b;
 
   a = (video_mode_sort_t *) ((*list_a)->data);
   b = (video_mode_sort_t *) ((*list_b)->data);

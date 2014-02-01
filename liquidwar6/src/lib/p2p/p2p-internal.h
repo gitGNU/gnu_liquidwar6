@@ -442,8 +442,8 @@ extern void _lw6p2p_packet_free (_lw6p2p_packet_t * packet);
 extern u_int32_t _lw6p2p_packet_checksum (const _lw6p2p_packet_t * packet);
 extern int _lw6p2p_packet_compare (const _lw6p2p_packet_t * a,
 				   const _lw6p2p_packet_t * b);
-extern int _lw6p2p_packet_sort_callback (lw6sys_list_t ** list_a,
-					 lw6sys_list_t ** list_b);
+extern int _lw6p2p_packet_sort_callback (const lw6sys_list_t ** list_a,
+					 const lw6sys_list_t ** list_b);
 
 /* p2p-peeridlist.c */
 extern void _lw6p2p_peer_id_list_process_join (_lw6p2p_node_t * node,

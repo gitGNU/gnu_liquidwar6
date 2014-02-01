@@ -427,14 +427,15 @@ lw6nod_info_new_verified_nodes ()
 }
 
 static int
-_verified_sort_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
+_verified_sort_callback (const lw6sys_list_t ** list_a,
+			 const lw6sys_list_t ** list_b)
 {
   int ret = 0;
-  lw6nod_info_t *a;
-  lw6nod_info_t *b;
+  const lw6nod_info_t *a;
+  const lw6nod_info_t *b;
 
-  a = (lw6nod_info_t *) ((*list_a)->data);
-  b = (lw6nod_info_t *) ((*list_b)->data);
+  a = (const lw6nod_info_t *) ((*list_a)->data);
+  b = (const lw6nod_info_t *) ((*list_b)->data);
 
   if (a->const_info.title && b->const_info.title)
     {

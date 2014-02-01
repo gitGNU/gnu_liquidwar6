@@ -309,7 +309,7 @@ extern lw6pil_command_t *lw6pil_command_new (const char *command_text,
 					     int64_t seq_0, int round_0);
 extern lw6pil_command_t *lw6pil_command_dup (lw6pil_command_t * command);
 extern void lw6pil_command_free (lw6pil_command_t * command);
-extern char *lw6pil_command_repr (lw6pil_command_t * command);
+extern char *lw6pil_command_repr (const lw6pil_command_t * command);
 extern int lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
 				   lw6ker_game_state_t * game_state,
 				   lw6pil_command_t * command);
