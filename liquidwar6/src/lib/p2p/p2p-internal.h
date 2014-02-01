@@ -303,7 +303,7 @@ extern int _lw6p2p_data_unload (_lw6p2p_data_t * data);
 extern _lw6p2p_db_t *_lw6p2p_db_open (int argc, const char *argv[],
 				      char *name);
 extern void _lw6p2p_db_close (_lw6p2p_db_t * db);
-extern char *_lw6p2p_db_repr (_lw6p2p_db_t * db);
+extern char *_lw6p2p_db_repr (const _lw6p2p_db_t * db);
 extern char *_lw6p2p_db_get_query (_lw6p2p_db_t * db, char *key);
 extern void _lw6p2p_db_log (_lw6p2p_db_t * db, char *message);
 extern int _lw6p2p_db_lock (_lw6p2p_db_t * db);
@@ -346,7 +346,7 @@ extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, const char *argv[],
 					 char *known_nodes,
 					 int network_reliability, int trojan);
 extern void _lw6p2p_node_free (_lw6p2p_node_t * node);
-extern char *_lw6p2p_node_repr (_lw6p2p_node_t * node);
+extern char *_lw6p2p_node_repr (const _lw6p2p_node_t * node);
 extern int _lw6p2p_node_lock (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_unlock (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_trylock (_lw6p2p_node_t * node);

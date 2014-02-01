@@ -853,7 +853,7 @@ lw6pil_pilot_dirty_read (lw6pil_pilot_t * pilot)
 }
 
 char *
-_lw6pil_pilot_repr (_lw6pil_pilot_t * pilot)
+_lw6pil_pilot_repr (const _lw6pil_pilot_t * pilot)
 {
   char *ret = NULL;
 
@@ -890,7 +890,7 @@ _lw6pil_pilot_repr (_lw6pil_pilot_t * pilot)
  * Return value: a dynamically allocated string.
  */
 char *
-lw6pil_pilot_repr (lw6pil_pilot_t * pilot)
+lw6pil_pilot_repr (const lw6pil_pilot_t * pilot)
 {
   return _lw6pil_pilot_repr ((_lw6pil_pilot_t *) pilot);
 }

@@ -61,7 +61,7 @@ typedef struct draft_zones_s
 draft_zones_t;
 
 void
-_lw6ker_map_struct_update_checksum (_lw6ker_map_struct_t *
+_lw6ker_map_struct_update_checksum (const _lw6ker_map_struct_t *
 				    map_struct, u_int32_t * checksum)
 {
   int i;
@@ -88,8 +88,8 @@ _lw6ker_map_struct_update_checksum (_lw6ker_map_struct_t *
 }
 
 int
-_lw6ker_map_struct_lazy_compare (_lw6ker_map_struct_t *
-				 map_struct_a, _lw6ker_map_struct_t *
+_lw6ker_map_struct_lazy_compare (const _lw6ker_map_struct_t *
+				 map_struct_a, const _lw6ker_map_struct_t *
 				 map_struct_b)
 {
   int ret = 0;
@@ -1066,7 +1066,7 @@ init_slots (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
  * of wether it's usefull to implement this. Debugging tool.
  */
 float
-_lw6ker_map_struct_get_compression (_lw6ker_map_struct_t * map_struct)
+_lw6ker_map_struct_get_compression (const _lw6ker_map_struct_t * map_struct)
 {
   float ret = 0.0f;
 

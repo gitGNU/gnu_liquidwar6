@@ -113,7 +113,7 @@ lw6gfx_quit (lw6gfx_backend_t * backend)
  * Return value: a newly allocated pointer.
  */
 char *
-lw6gfx_repr (lw6gfx_backend_t * backend)
+lw6gfx_repr (const lw6gfx_backend_t * backend)
 {
   char *ret = NULL;
 

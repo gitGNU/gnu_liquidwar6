@@ -97,7 +97,7 @@ extern int lw6gfx_init (lw6gfx_backend_t * backend,
 			lw6gui_video_mode_t * video_mode,
 			lw6gui_resize_callback_func_t resize_callback);
 extern void lw6gfx_quit (lw6gfx_backend_t * backend);
-extern char *lw6gfx_repr (lw6gfx_backend_t * backend);
+extern char *lw6gfx_repr (const lw6gfx_backend_t * backend);
 extern int lw6gfx_set_video_mode (lw6gfx_backend_t * backend,
 				  lw6gui_video_mode_t * video_mode);
 extern int lw6gfx_get_video_mode (lw6gfx_backend_t * backend,

@@ -63,7 +63,7 @@ typedef struct _lw6ker_test_data_s
 static _lw6ker_test_data_t _test_data = { 0 };
 
 static void
-_print_game_struct_repr (lw6ker_game_struct_t * game_struct)
+_print_game_struct_repr (const lw6ker_game_struct_t * game_struct)
 {
   char *repr = NULL;
   lw6sys_whd_t shape;
@@ -109,7 +109,7 @@ _print_game_struct_repr (lw6ker_game_struct_t * game_struct)
 }
 
 static void
-_print_game_state_repr (lw6ker_game_state_t * game_state)
+_print_game_state_repr (const lw6ker_game_state_t * game_state)
 {
   char *repr = NULL;
   char *capture = NULL;

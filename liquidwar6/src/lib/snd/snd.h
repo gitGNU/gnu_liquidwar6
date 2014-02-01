@@ -111,7 +111,7 @@ extern int lw6snd_play_music_random (lw6snd_backend_t * backend,
 				     char *music_path, char *music_filter,
 				     char *music_exclude);
 extern void lw6snd_stop_music (lw6snd_backend_t * backend);
-extern char *lw6snd_repr (lw6snd_backend_t * snd_backend);
+extern char *lw6snd_repr (const lw6snd_backend_t * snd_backend);
 extern int lw6snd_init (lw6snd_backend_t * backend, float fx_volume,
 			float water_volume, float music_volume);
 extern void lw6snd_set_fx_volume (lw6snd_backend_t * backend, float volume);
@@ -121,7 +121,7 @@ extern void lw6snd_set_music_volume (lw6snd_backend_t * backend,
 				     float volume);
 extern void lw6snd_poll (lw6snd_backend_t * backend);
 extern void lw6snd_quit (lw6snd_backend_t * backend);
-extern char *lw6snd_repr (lw6snd_backend_t * backend);
+extern char *lw6snd_repr (const lw6snd_backend_t * backend);
 
 /* snd-register.c */
 extern lw6sys_assoc_t *lw6snd_get_backends (int argc, const char *argv[]);

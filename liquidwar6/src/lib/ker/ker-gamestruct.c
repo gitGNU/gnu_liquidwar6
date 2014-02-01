@@ -168,7 +168,7 @@ lw6ker_game_struct_memory_footprint (lw6ker_game_struct_t * game_struct)
 }
 
 char *
-_lw6ker_game_struct_repr (_lw6ker_game_struct_t * game_struct)
+_lw6ker_game_struct_repr (const _lw6ker_game_struct_t * game_struct)
 {
   char *ret = NULL;
   float compression = 0.0f;
@@ -208,7 +208,7 @@ _lw6ker_game_struct_repr (_lw6ker_game_struct_t * game_struct)
  * Return value: newly allocated string, must be freed
  */
 char *
-lw6ker_game_struct_repr (lw6ker_game_struct_t * game_struct)
+lw6ker_game_struct_repr (const lw6ker_game_struct_t * game_struct)
 {
   return _lw6ker_game_struct_repr ((_lw6ker_game_struct_t *) game_struct);
 }

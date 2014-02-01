@@ -52,7 +52,7 @@ typedef struct lw6img_jpeg_s
 lw6img_jpeg_t;
 
 /* img-repr.c */
-extern char *lw6img_repr (lw6img_jpeg_t * jpeg);
+extern char *lw6img_repr (const lw6img_jpeg_t * jpeg);
 
 /* img-screenshot.c */
 extern lw6img_jpeg_t *lw6img_screenshot_new (lw6ker_game_state_t * game_state,

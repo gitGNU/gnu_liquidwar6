@@ -417,7 +417,7 @@ lw6snd_quit (lw6snd_backend_t * backend)
  * Return value: a newly allocated pointer.
  */
 char *
-lw6snd_repr (lw6snd_backend_t * backend)
+lw6snd_repr (const lw6snd_backend_t * backend)
 {
   char *ret = NULL;
 

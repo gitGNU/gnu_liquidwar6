@@ -99,7 +99,7 @@ extern int _lw6pil_pilot_sync_from_draft (lw6ker_game_state_t * target,
 					  int dirty_read);
 extern lw6ker_game_state_t *_lw6pil_pilot_dirty_read (_lw6pil_pilot_t *
 						      pilot);
-extern char *_lw6pil_pilot_repr (_lw6pil_pilot_t * pilot);
+extern char *_lw6pil_pilot_repr (const _lw6pil_pilot_t * pilot);
 extern void _lw6pil_pilot_calibrate (_lw6pil_pilot_t * pilot,
 				     int64_t timestamp, int64_t seq);
 extern void _lw6pil_pilot_speed_up (_lw6pil_pilot_t * pilot, int seq_inc);

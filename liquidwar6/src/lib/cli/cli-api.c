@@ -313,7 +313,8 @@ lw6cli_poll (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
  * Return value: dynamically allocated string.
  */
 char *
-lw6cli_repr (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
+lw6cli_repr (const lw6cli_backend_t * backend,
+	     lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 

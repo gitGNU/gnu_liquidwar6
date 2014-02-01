@@ -200,7 +200,7 @@ lw6bot_next_move (lw6bot_backend_t * backend, int *x, int *y)
  * Return value: dynamically allocated string.
  */
 char *
-lw6bot_repr (lw6bot_backend_t * backend)
+lw6bot_repr (const lw6bot_backend_t * backend)
 {
   char *ret = NULL;
 

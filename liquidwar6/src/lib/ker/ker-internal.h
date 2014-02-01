@@ -433,7 +433,8 @@ extern void _lw6ker_game_state_point_to (_lw6ker_game_state_t * game_state,
 					 _lw6ker_game_struct_t * game_struct);
 extern int _lw6ker_game_state_memory_footprint (_lw6ker_game_state_t *
 						game_state);
-extern char *_lw6ker_game_state_repr (_lw6ker_game_state_t * game_state);
+extern char *_lw6ker_game_state_repr (const _lw6ker_game_state_t *
+				      game_state);
 extern int _lw6ker_game_state_can_sync (_lw6ker_game_state_t * dst,
 					_lw6ker_game_state_t * src);
 extern int _lw6ker_game_state_sync (_lw6ker_game_state_t * dst,
@@ -465,12 +466,12 @@ extern int _lw6ker_game_state_remove_cursor (_lw6ker_game_state_t *
 					     u_int16_t cursor_id);
 extern int _lw6ker_game_state_cursor_exists (_lw6ker_game_state_t *
 					     game_state, u_int16_t cursor_id);
-extern int _lw6ker_game_state_get_cursor (_lw6ker_game_state_t *
+extern int _lw6ker_game_state_get_cursor (const _lw6ker_game_state_t *
 					  game_state,
 					  lw6ker_cursor_t * cursor,
 					  u_int16_t cursor_id);
-extern void _lw6ker_game_state_get_cursor_by_index (_lw6ker_game_state_t *
-						    game_state,
+extern void _lw6ker_game_state_get_cursor_by_index (const _lw6ker_game_state_t
+						    * game_state,
 						    lw6ker_cursor_t * cursor,
 						    int i);
 extern int _lw6ker_game_state_set_cursor (_lw6ker_game_state_t * game_state,
@@ -500,27 +501,30 @@ extern void _lw6ker_game_state_do_move (_lw6ker_game_state_t * game_state,
 extern void _lw6ker_game_state_finish_round (_lw6ker_game_state_t *
 					     game_state);
 extern void _lw6ker_game_state_do_round (_lw6ker_game_state_t * game_state);
-extern u_int32_t _lw6ker_game_state_get_moves (_lw6ker_game_state_t *
+extern u_int32_t _lw6ker_game_state_get_moves (const _lw6ker_game_state_t *
 					       game_state);
-extern u_int32_t _lw6ker_game_state_get_spreads (_lw6ker_game_state_t *
+extern u_int32_t _lw6ker_game_state_get_spreads (const _lw6ker_game_state_t *
 						 game_state);
-extern u_int32_t _lw6ker_game_state_get_rounds (_lw6ker_game_state_t *
+extern u_int32_t _lw6ker_game_state_get_rounds (const _lw6ker_game_state_t *
 						game_state);
-extern u_int32_t _lw6ker_game_state_get_total_rounds (_lw6ker_game_state_t *
+extern u_int32_t _lw6ker_game_state_get_total_rounds (const
+						      _lw6ker_game_state_t *
 						      game_state);
-extern int _lw6ker_game_state_is_over (_lw6ker_game_state_t * game_state);
-extern int _lw6ker_game_state_did_cursor_win (_lw6ker_game_state_t *
+extern int _lw6ker_game_state_is_over (const _lw6ker_game_state_t *
+				       game_state);
+extern int _lw6ker_game_state_did_cursor_win (const _lw6ker_game_state_t *
 					      game_state,
 					      u_int16_t cursor_id);
-extern int _lw6ker_game_state_get_winner (_lw6ker_game_state_t * game_state,
-					  int excluded_team);
-extern int _lw6ker_game_state_get_looser (_lw6ker_game_state_t * game_state,
-					  int excluded_team);
-extern int32_t _lw6ker_game_state_get_nb_active_fighters (_lw6ker_game_state_t
+extern int _lw6ker_game_state_get_winner (const _lw6ker_game_state_t *
+					  game_state, int excluded_team);
+extern int _lw6ker_game_state_get_looser (const _lw6ker_game_state_t *
+					  game_state, int excluded_team);
+extern int32_t _lw6ker_game_state_get_nb_active_fighters (const
+							  _lw6ker_game_state_t
 							  * game_state);
-extern int32_t _lw6ker_game_state_get_time_elapsed (_lw6ker_game_state_t *
-						    game_state);
-extern int32_t _lw6ker_game_state_get_time_left (_lw6ker_game_state_t *
+extern int32_t _lw6ker_game_state_get_time_elapsed (const _lw6ker_game_state_t
+						    * game_state);
+extern int32_t _lw6ker_game_state_get_time_left (const _lw6ker_game_state_t *
 						 game_state);
 extern int32_t _lw6ker_game_state_get_global_history (_lw6ker_game_state_t *
 						      game_state, int i,
@@ -543,7 +547,8 @@ extern void _lw6ker_game_struct_point_to (_lw6ker_game_struct_t * game_struct,
 					  lw6map_level_t * level);
 extern int _lw6ker_game_struct_memory_footprint (_lw6ker_game_struct_t *
 						 game_struct);
-extern char *_lw6ker_game_struct_repr (_lw6ker_game_struct_t * game_struct);
+extern char *_lw6ker_game_struct_repr (const _lw6ker_game_struct_t *
+				       game_struct);
 extern _lw6ker_game_struct_t *_lw6ker_game_struct_dup (_lw6ker_game_struct_t *
 						       game_struct,
 						       lw6sys_progress_t *
@@ -693,14 +698,14 @@ extern int _lw6ker_map_struct_init (_lw6ker_map_struct_t * map_struct,
 				    lw6map_level_t * level,
 				    lw6sys_progress_t * progress);
 extern void _lw6ker_map_struct_clear (_lw6ker_map_struct_t * map_struct);
-extern float _lw6ker_map_struct_get_compression (_lw6ker_map_struct_t *
+extern float _lw6ker_map_struct_get_compression (const _lw6ker_map_struct_t *
 						 map_struct);
-extern void _lw6ker_map_struct_update_checksum (_lw6ker_map_struct_t *
+extern void _lw6ker_map_struct_update_checksum (const _lw6ker_map_struct_t *
 						map_struct,
 						u_int32_t * checksum);
-extern int _lw6ker_map_struct_lazy_compare (_lw6ker_map_struct_t *
+extern int _lw6ker_map_struct_lazy_compare (const _lw6ker_map_struct_t *
 					    map_struct_a,
-					    _lw6ker_map_struct_t *
+					    const _lw6ker_map_struct_t *
 					    map_struct_b);
 static inline int
 _lw6ker_map_struct_slot_index (_lw6ker_map_struct_t * map_struct, int32_t x,

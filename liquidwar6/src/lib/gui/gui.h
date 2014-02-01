@@ -946,13 +946,13 @@ extern void lw6gui_keyboard_get_move_pad (lw6gui_keyboard_t * keyboard,
 extern lw6gui_keypress_t *lw6gui_keypress_new (int keysym, int unicode,
 					       char *label);
 extern void lw6gui_keypress_free (lw6gui_keypress_t * keypress);
-extern char *lw6gui_keypress_repr (lw6gui_keypress_t * keypress);
+extern char *lw6gui_keypress_repr (const lw6gui_keypress_t * keypress);
 
 /* gui-look.c */
 extern lw6gui_look_t *lw6gui_look_new (lw6map_style_t * map_style);
 extern void lw6gui_look_free (lw6gui_look_t * look);
 extern int lw6gui_look_memory_footprint (lw6gui_look_t * look);
-extern char *lw6gui_look_repr (lw6gui_look_t * look);
+extern char *lw6gui_look_repr (const lw6gui_look_t * look);
 extern int lw6gui_look_set (lw6gui_look_t * look, char *key, char *value);
 extern char *lw6gui_look_get (lw6gui_look_t * look, char *key);
 extern int lw6gui_look_is_same (const lw6gui_look_t * look_a,
@@ -969,7 +969,7 @@ extern lw6gui_menuitem_t *lw6gui_menuitem_new (char *label, char *tooltip,
 extern void lw6gui_menuitem_free (lw6gui_menuitem_t * menuitem);
 
 extern int lw6gui_menuitem_memory_footprint (lw6gui_menuitem_t * menuitem);
-extern char *lw6gui_menuitem_repr (lw6gui_menuitem_t * menuitem);
+extern char *lw6gui_menuitem_repr (const lw6gui_menuitem_t * menuitem);
 extern void lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem,
 				       char *label, int64_t now);
 extern void lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t * menuitem,
@@ -993,7 +993,7 @@ extern lw6gui_menu_t *lw6gui_menu_new (char *title, char *help, char *popup,
 				       char *esc, int enable_esc);
 extern void lw6gui_menu_free (lw6gui_menu_t * menu);
 extern int lw6gui_menu_memory_footprint (lw6gui_menu_t * menu);
-extern char *lw6gui_menu_repr (lw6gui_menu_t * menu);
+extern char *lw6gui_menu_repr (const lw6gui_menu_t * menu);
 extern void lw6gui_menu_set_title (lw6gui_menu_t * menu, char *title);
 extern void lw6gui_menu_set_help (lw6gui_menu_t * menu, char *help);
 extern void lw6gui_menu_set_popup (lw6gui_menu_t * menu, char *popup);

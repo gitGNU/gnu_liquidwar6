@@ -160,7 +160,7 @@ typedef struct lw6p2p_entry_s
 /* p2p-db.c */
 extern lw6p2p_db_t *lw6p2p_db_open (int argc, const char *argv[], char *name);
 extern void lw6p2p_db_close (lw6p2p_db_t * db);
-extern char *lw6p2p_db_repr (lw6p2p_db_t * db);
+extern char *lw6p2p_db_repr (const lw6p2p_db_t * db);
 extern int lw6p2p_db_reset (int argc, const char *argv[], char *name);
 extern char *lw6p2p_db_default_name ();
 
@@ -178,7 +178,7 @@ lw6p2p_entry_t *lw6p2p_entry_new (int creation_timestamp, char *version,
 				  int last_ping_timestamp,
 				  int ping_delay_msec, int available);
 void lw6p2p_entry_free (lw6p2p_entry_t * entry);
-char *lw6p2p_entry_repr (lw6p2p_entry_t * entry);
+char *lw6p2p_entry_repr (const lw6p2p_entry_t * entry);
 
 /* p2p-node.c */
 extern lw6p2p_node_t *lw6p2p_node_new (int argc, const char *argv[],
@@ -195,7 +195,7 @@ extern lw6p2p_node_t *lw6p2p_node_new (int argc, const char *argv[],
 				       char *known_nodes,
 				       int network_reliability, int trojan);
 extern void lw6p2p_node_free (lw6p2p_node_t * node);
-extern char *lw6p2p_node_repr (lw6p2p_node_t * node);
+extern char *lw6p2p_node_repr (const lw6p2p_node_t * node);
 extern int lw6p2p_node_poll (lw6p2p_node_t * node,
 			     lw6sys_progress_t * progress);
 extern void lw6p2p_node_close (lw6p2p_node_t * node);

@@ -811,7 +811,7 @@ lw6tsk_loader_free (lw6tsk_loader_t * loader)
  * Return value: a dynamically allocated pointer, must be freed.
  */
 char *
-lw6tsk_loader_repr (lw6tsk_loader_t * loader)
+lw6tsk_loader_repr (const lw6tsk_loader_t * loader)
 {
   char *ret = NULL;
   _lw6tsk_loader_data_t *loader_data;

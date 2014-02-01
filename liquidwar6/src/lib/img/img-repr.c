@@ -38,7 +38,7 @@
  * Return value: a dynamically allocated string.
  */
 char *
-lw6img_repr (lw6img_jpeg_t * jpeg)
+lw6img_repr (const lw6img_jpeg_t * jpeg)
 {
   char *ret = NULL;
 

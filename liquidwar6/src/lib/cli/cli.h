@@ -186,7 +186,7 @@ extern int lw6cli_send (lw6cli_backend_t * backend,
 			const char *message);
 extern void lw6cli_poll (lw6cli_backend_t * backend,
 			 lw6cnx_connection_t * connection);
-extern char *lw6cli_repr (lw6cli_backend_t * backend,
+extern char *lw6cli_repr (const lw6cli_backend_t * backend,
 			  lw6cnx_connection_t * connection);
 
 /* cli-oob.c */

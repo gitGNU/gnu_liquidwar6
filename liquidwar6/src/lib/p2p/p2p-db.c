@@ -278,13 +278,13 @@ _lw6p2p_db_close (_lw6p2p_db_t * db)
  * Return value: a dynamically allocated string
  */
 char *
-lw6p2p_db_repr (lw6p2p_db_t * db)
+lw6p2p_db_repr (const lw6p2p_db_t * db)
 {
   return _lw6p2p_db_repr ((_lw6p2p_db_t *) db);
 }
 
 char *
-_lw6p2p_db_repr (_lw6p2p_db_t * db)
+_lw6p2p_db_repr (const _lw6p2p_db_t * db)
 {
   char *repr = NULL;
 

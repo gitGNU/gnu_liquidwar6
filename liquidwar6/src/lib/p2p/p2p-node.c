@@ -364,13 +364,13 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
  * Return value: a dynamically allocated string
  */
 char *
-lw6p2p_node_repr (lw6p2p_node_t * node)
+lw6p2p_node_repr (const lw6p2p_node_t * node)
 {
   return _lw6p2p_node_repr ((_lw6p2p_node_t *) node);
 }
 
 char *
-_lw6p2p_node_repr (_lw6p2p_node_t * node)
+_lw6p2p_node_repr (const _lw6p2p_node_t * node)
 {
   char *repr = NULL;
   int nb_nodes = 0;

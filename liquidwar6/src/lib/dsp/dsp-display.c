@@ -164,7 +164,7 @@ lw6dsp_destroy_backend (lw6dsp_backend_t * dsp_backend)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6dsp_repr (lw6dsp_backend_t * dsp_backend)
+lw6dsp_repr (const lw6dsp_backend_t * dsp_backend)
 {
   char *ret = NULL;
   _lw6dsp_data_t *data = NULL;

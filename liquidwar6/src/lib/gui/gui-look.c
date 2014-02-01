@@ -158,7 +158,7 @@ lw6gui_look_memory_footprint (lw6gui_look_t * look)
  * Return value: newly allocated string.
  */
 char *
-lw6gui_look_repr (lw6gui_look_t * look)
+lw6gui_look_repr (const lw6gui_look_t * look)
 {
   char *ret = NULL;
 

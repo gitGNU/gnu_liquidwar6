@@ -256,7 +256,7 @@ lw6map_memory_footprint (lw6map_level_t * level)
  * Return value: a dynamically allocated string.
  */
 char *
-lw6map_repr (lw6map_level_t * level)
+lw6map_repr (const lw6map_level_t * level)
 {
   char *ret = NULL;
 
@@ -334,7 +334,7 @@ lw6map_is_same (const lw6map_level_t * level_a,
  * Return value: static string, must not be freed, can't be NULL
  */
 const char *
-lw6map_get_title (lw6map_level_t * level)
+lw6map_get_title (const lw6map_level_t * level)
 {
   const char *ret = NULL;
 

@@ -217,7 +217,7 @@ lw6gui_menu_memory_footprint (lw6gui_menu_t * menu)
  * Return value: a string describing the object, must be freed.
  */
 char *
-lw6gui_menu_repr (lw6gui_menu_t * menu)
+lw6gui_menu_repr (const lw6gui_menu_t * menu)
 {
   char *repr;
 

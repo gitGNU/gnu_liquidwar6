@@ -163,7 +163,7 @@ lw6p2p_entry_free (lw6p2p_entry_t * entry)
  * Return value: dynamically allocated string
  */
 char *
-lw6p2p_entry_repr (lw6p2p_entry_t * entry)
+lw6p2p_entry_repr (const lw6p2p_entry_t * entry)
 {
   char *repr = NULL;
 

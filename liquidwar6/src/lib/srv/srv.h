@@ -292,7 +292,7 @@ extern int lw6srv_send (lw6srv_backend_t * backend,
 			const char *message);
 extern void lw6srv_poll (lw6srv_backend_t * backend,
 			 lw6cnx_connection_t * connection);
-extern char *lw6srv_repr (lw6srv_backend_t * backend,
+extern char *lw6srv_repr (const lw6srv_backend_t * backend,
 			  lw6cnx_connection_t * connection);
 
 /* srv-control.c */

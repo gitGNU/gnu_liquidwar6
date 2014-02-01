@@ -97,7 +97,7 @@ lw6gui_keypress_free (lw6gui_keypress_t * keypress)
  * Return value: a newly allocated string
  */
 char *
-lw6gui_keypress_repr (lw6gui_keypress_t * keypress)
+lw6gui_keypress_repr (const lw6gui_keypress_t * keypress)
 {
   char *ret = NULL;
 

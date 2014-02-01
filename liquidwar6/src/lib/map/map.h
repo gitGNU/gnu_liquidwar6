@@ -1524,10 +1524,10 @@ extern lw6map_level_t *lw6map_builtin_custom (int w, int h, int d,
 					      int noise_percent);
 extern void lw6map_free (lw6map_level_t * level);
 extern int lw6map_memory_footprint (lw6map_level_t * level);
-extern char *lw6map_repr (lw6map_level_t * level);
+extern char *lw6map_repr (const lw6map_level_t * level);
 extern int lw6map_is_same (const lw6map_level_t * level_a,
 			   const lw6map_level_t * level_b);
-extern const char *lw6map_get_title (lw6map_level_t * level);
+extern const char *lw6map_get_title (const lw6map_level_t * level);
 extern int lw6map_get_max_nb_colors (const lw6map_level_t * level);
 extern int lw6map_get_max_nb_cursors (const lw6map_level_t * level);
 extern int lw6map_get_max_nb_nodes (const lw6map_level_t * level);
