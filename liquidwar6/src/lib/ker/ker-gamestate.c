@@ -56,7 +56,7 @@ _lw6ker_game_state_set_id (_lw6ker_game_state_t * game_state)
 }
 
 _lw6ker_game_state_t *
-_lw6ker_game_state_new (_lw6ker_game_struct_t * game_struct,
+_lw6ker_game_state_new (const _lw6ker_game_struct_t * game_struct,
 			lw6sys_progress_t * progress)
 {
   _lw6ker_game_state_t *ret = NULL;
@@ -97,11 +97,12 @@ _lw6ker_game_state_new (_lw6ker_game_struct_t * game_struct,
  * Return value: newly created object.
  */
 lw6ker_game_state_t *
-lw6ker_game_state_new (lw6ker_game_struct_t * game_struct,
+lw6ker_game_state_new (const lw6ker_game_struct_t * game_struct,
 		       lw6sys_progress_t * progress)
 {
   return (lw6ker_game_state_t *)
-    _lw6ker_game_state_new ((_lw6ker_game_struct_t *) game_struct, progress);
+    _lw6ker_game_state_new ((const _lw6ker_game_struct_t *) game_struct,
+			    progress);
 }
 
 void
@@ -143,7 +144,7 @@ lw6ker_game_state_free (lw6ker_game_state_t * game_state)
 
 void
 _lw6ker_game_state_point_to (_lw6ker_game_state_t * game_state,
-			     _lw6ker_game_struct_t * game_struct)
+			     const _lw6ker_game_struct_t * game_struct)
 {
   int i;
 
@@ -172,10 +173,10 @@ _lw6ker_game_state_point_to (_lw6ker_game_state_t * game_state,
  */
 void
 lw6ker_game_state_point_to (lw6ker_game_state_t * game_state,
-			    lw6ker_game_struct_t * game_struct)
+			    const lw6ker_game_struct_t * game_struct)
 {
   _lw6ker_game_state_point_to ((_lw6ker_game_state_t *) game_state,
-			       (_lw6ker_game_struct_t *) game_struct);
+			       (const _lw6ker_game_struct_t *) game_struct);
 }
 
 int
@@ -720,7 +721,7 @@ _lw6ker_game_state_add_cursor (_lw6ker_game_state_t * game_state,
 			       u_int16_t cursor_id, int team_color)
 {
   int ret = 0;
-  lw6map_rules_t *rules = NULL;
+  const lw6map_rules_t *rules = NULL;
   int team_exists = 0;
   int real_team_color = LW6MAP_TEAM_COLOR_INVALID;
   int32_t x = 0;
@@ -1057,7 +1058,7 @@ _lw6ker_game_state_add_team_internal (_lw6ker_game_state_t * game_state,
    */
   int64_t total_fighters;
   int64_t total_fighters_to_remove;
-  lw6map_rules_t *rules = NULL;
+  const lw6map_rules_t *rules = NULL;
 
   rules = &(game_state->game_struct->rules);
   if (!_lw6ker_game_state_team_exists (game_state, team_color))

@@ -54,7 +54,8 @@ _lw6ker_game_struct_set_id (_lw6ker_game_struct_t * game_struct)
 }
 
 _lw6ker_game_struct_t *
-_lw6ker_game_struct_new (lw6map_level_t * level, lw6sys_progress_t * progress)
+_lw6ker_game_struct_new (const lw6map_level_t * level,
+			 lw6sys_progress_t * progress)
 {
   _lw6ker_game_struct_t *ret = NULL;
 
@@ -85,7 +86,8 @@ _lw6ker_game_struct_new (lw6map_level_t * level, lw6sys_progress_t * progress)
  * Return value: newly allocated object
  */
 lw6ker_game_struct_t *
-lw6ker_game_struct_new (lw6map_level_t * level, lw6sys_progress_t * progress)
+lw6ker_game_struct_new (const lw6map_level_t * level,
+			lw6sys_progress_t * progress)
 {
   return (lw6ker_game_struct_t *) _lw6ker_game_struct_new (level, progress);
 }
@@ -115,7 +117,7 @@ lw6ker_game_struct_free (lw6ker_game_struct_t * game_struct)
 
 void
 _lw6ker_game_struct_point_to (_lw6ker_game_struct_t * game_struct,
-			      lw6map_level_t * level)
+			      const lw6map_level_t * level)
 {
   game_struct->level = level;
 }
@@ -136,7 +138,7 @@ _lw6ker_game_struct_point_to (_lw6ker_game_struct_t * game_struct,
  */
 void
 lw6ker_game_struct_point_to (lw6ker_game_struct_t * game_struct,
-			     lw6map_level_t * level)
+			     const lw6map_level_t * level)
 {
   _lw6ker_game_struct_point_to ((_lw6ker_game_struct_t *) game_struct, level);
 }

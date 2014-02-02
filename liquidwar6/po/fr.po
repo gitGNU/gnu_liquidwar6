@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2014-02-02 09:05+0100\n"
+"POT-Creation-Date: 2014-02-02 16:21+0100\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -71,7 +71,7 @@ msgid "libcaca"
 msgstr ""
 
 #: src/lib/gfx/mod-caca/mod-caca-setup.c:118
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:401
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:402
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:153
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:152
 msgid "unable to set video mode"
@@ -88,7 +88,7 @@ msgid "unable to set resize callback"
 msgstr "impossible de régler le mode vidéo"
 
 #: src/lib/gfx/mod-caca/mod-caca-setup.c:145
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:408
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:409
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:161
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:160
 msgid "unable to load consts"
@@ -123,26 +123,26 @@ msgstr "SDL GetVideoInfo a échoué: \"%s\""
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
 msgstr "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d a échoué: \"%s\""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-backend.c:350
+#: src/lib/gfx/mod-gl1/mod-gl1-backend.c:361
 #, fuzzy
 msgid "OpenGL v1 / SDL"
 msgstr "OpenGL/SDL"
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:303
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:304
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:99
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:99
 #, c-format
 msgid "SDL init error: \"%s\""
 msgstr "SDL erreur d'initialisation: \"%s\""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:330
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:331
 #: src/lib/gfx/mod-gles2/mod-gles2-setup.c:124
 #: src/lib/gfx/mod-soft/mod-soft-setup.c:124
 #, c-format
 msgid "SDL_ttf init error: \"%s\""
 msgstr "SDL_ttf erreur d'initialisation: \"%s\""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:393
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:394
 msgid "unable to load data"
 msgstr "impossible de charger les données"
 

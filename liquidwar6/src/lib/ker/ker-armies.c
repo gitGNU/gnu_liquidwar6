@@ -29,7 +29,7 @@
 
 int
 _lw6ker_armies_init (_lw6ker_armies_t * armies,
-		     _lw6ker_map_struct_t * map_struct,
+		     const _lw6ker_map_struct_t * map_struct,
 		     const lw6map_rules_t * options)
 {
   int ret = 0;

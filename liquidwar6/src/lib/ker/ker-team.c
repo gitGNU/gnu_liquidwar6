@@ -30,8 +30,9 @@
 #include "ker-internal.h"
 
 int
-_lw6ker_team_init (_lw6ker_team_t * team, _lw6ker_map_struct_t * map_struct,
-		   lw6map_rules_t * rules)
+_lw6ker_team_init (_lw6ker_team_t * team,
+		   const _lw6ker_map_struct_t * map_struct,
+		   const lw6map_rules_t * rules)
 {
   int ret = 0;
   int i;
@@ -163,7 +164,8 @@ _lw6ker_team_unactivate (_lw6ker_team_t * team)
 }
 
 void
-_lw6ker_team_normalize_pot (_lw6ker_team_t * team, lw6map_rules_t * rules)
+_lw6ker_team_normalize_pot (_lw6ker_team_t * team,
+			    const lw6map_rules_t * rules)
 {
   int32_t i;
   int32_t n;

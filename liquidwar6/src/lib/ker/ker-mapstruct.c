@@ -123,7 +123,7 @@ _lw6ker_map_struct_lazy_compare (const _lw6ker_map_struct_t *
 }
 
 static int32_t
-relative_index_no_check (lw6map_level_t * level, int32_t x, int32_t y,
+relative_index_no_check (const lw6map_level_t * level, int32_t x, int32_t y,
 			 int32_t z)
 {
   return z * level->body.shape.w * level->body.shape.h +
@@ -131,7 +131,7 @@ relative_index_no_check (lw6map_level_t * level, int32_t x, int32_t y,
 }
 
 static int32_t
-relative_index (lw6map_level_t * level, int32_t x, int32_t y, int32_t z)
+relative_index (const lw6map_level_t * level, int32_t x, int32_t y, int32_t z)
 {
   lw6map_coords_fix_xy (&(level->param.rules), &(level->body.shape), &x, &y);
   lw6map_coords_fix_z (&(level->param.rules), &(level->body.shape), &z);
@@ -148,7 +148,7 @@ relative_index (lw6map_level_t * level, int32_t x, int32_t y, int32_t z)
  * optimized afterwards.
  */
 static draft_zones_t *
-draft_zones_new (lw6map_level_t * level, lw6sys_progress_t * progress)
+draft_zones_new (const lw6map_level_t * level, lw6sys_progress_t * progress)
 {
   draft_zones_t *ret;
 
@@ -314,7 +314,7 @@ draft_zones_free (draft_zones_t * draft_zones)
  * we suppress.
  */
 static int32_t
-draft_zones_group (lw6map_level_t * level, draft_zones_t * draft_zones,
+draft_zones_group (const lw6map_level_t * level, draft_zones_t * draft_zones,
 		   int32_t step)
 {
   int32_t found = 0;
@@ -546,7 +546,7 @@ draft_zones_group (lw6map_level_t * level, draft_zones_t * draft_zones,
 }
 
 static int
-_fix_one_way (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level)
+_fix_one_way (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level)
 {
   int ret = 0;
   int x, y;
@@ -826,7 +826,7 @@ draft_zones_to_map_struct (_lw6ker_map_struct_t * map_struct,
  * Init places, that is, mostly read and aggregate meta-layer info
  */
 static int
-init_places (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
+init_places (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
 	     lw6sys_progress_t * progress)
 {
   int ret = 0;
@@ -992,7 +992,7 @@ init_places (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
  * have a quick way to get the right zone for a given (x,y).
  */
 static int
-init_slots (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
+init_slots (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
 	    lw6sys_progress_t * progress)
 {
   int ret = 0;
@@ -1085,7 +1085,8 @@ _lw6ker_map_struct_get_compression (const _lw6ker_map_struct_t * map_struct)
  */
 int
 _lw6ker_map_struct_init (_lw6ker_map_struct_t * map_struct,
-			 lw6map_level_t * level, lw6sys_progress_t * progress)
+			 const lw6map_level_t * level,
+			 lw6sys_progress_t * progress)
 {
   int ret = 0;
   draft_zones_t *draft_zones;

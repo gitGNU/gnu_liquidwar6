@@ -482,8 +482,8 @@ extern int mod_gl1_utils_bitmap_array_set (mod_gl1_utils_bitmap_array_t *
 					   bitmap_array, int i,
 					   mod_gl1_utils_bitmap_t * bitmap);
 extern mod_gl1_utils_bitmap_t
-  *mod_gl1_utils_bitmap_array_get (mod_gl1_utils_bitmap_array_t *
-				   bitmap_array, int i);
+  * mod_gl1_utils_bitmap_array_get (mod_gl1_utils_bitmap_array_t *
+				    bitmap_array, int i);
 
 /*
  * In bitmaphash.c
@@ -570,10 +570,11 @@ extern mod_gl1_utils_bitmap_t
 				       const lw6gui_look_t * look,
 				       const lw6map_level_t * level);
 extern mod_gl1_utils_bitmap_t
-  *mod_gl1_utils_cursor_create_color (mod_gl1_utils_context_t * utils_context,
-				      const lw6gui_look_t * look,
-				      const lw6map_level_t * level,
-				      const lw6ker_cursor_t * cursor);
+  * mod_gl1_utils_cursor_create_color (mod_gl1_utils_context_t *
+				       utils_context,
+				       const lw6gui_look_t * look,
+				       const lw6map_level_t * level,
+				       const lw6ker_cursor_t * cursor);
 
 /*
  * In data.c
@@ -793,10 +794,11 @@ extern int mod_gl1_utils_store_button_in_menucache (mod_gl1_utils_context_t *
 						    mod_gl1_utils_bitmap_t *
 						    bitmap);
 extern mod_gl1_utils_bitmap_t
-  *mod_gl1_utils_get_button_from_menucache (mod_gl1_utils_context_t * context,
-					    const lw6gui_look_t * look,
-					    const lw6gui_menuitem_t *
-					    menuitem);
+  * mod_gl1_utils_get_button_from_menucache (mod_gl1_utils_context_t *
+					     context,
+					     const lw6gui_look_t * look,
+					     const lw6gui_menuitem_t *
+					     menuitem);
 extern void mod_gl1_utils_clear_menucache (mod_gl1_utils_context_t *
 					   utils_context);
 

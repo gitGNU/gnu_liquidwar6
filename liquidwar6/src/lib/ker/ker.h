@@ -306,13 +306,14 @@ extern void lw6ker_game_state_checksum_log_set_interval (lw6ker_game_state_t *
 extern void lw6ker_cursor_reset (lw6ker_cursor_t * cursor);
 
 /* ker-gamestate.c */
-extern lw6ker_game_state_t *lw6ker_game_state_new (lw6ker_game_struct_t *
-						   game_struct,
+extern lw6ker_game_state_t *lw6ker_game_state_new (const lw6ker_game_struct_t
+						   * game_struct,
 						   lw6sys_progress_t *
 						   progress);
 extern void lw6ker_game_state_free (lw6ker_game_state_t * game_state);
 extern void lw6ker_game_state_point_to (lw6ker_game_state_t * game_state,
-					lw6ker_game_struct_t * game_struct);
+					const lw6ker_game_struct_t *
+					game_struct);
 extern int lw6ker_game_state_memory_footprint (lw6ker_game_state_t *
 					       game_state);
 extern char *lw6ker_game_state_repr (const lw6ker_game_state_t * game_state);
@@ -459,12 +460,13 @@ extern int lw6ker_game_state_get_nb_nodes (const lw6ker_game_state_t *
 					   game_state);
 
 /* ker-gamestruct.c */
-extern lw6ker_game_struct_t *lw6ker_game_struct_new (lw6map_level_t * level,
+extern lw6ker_game_struct_t *lw6ker_game_struct_new (const lw6map_level_t *
+						     level,
 						     lw6sys_progress_t *
 						     progress);
 extern void lw6ker_game_struct_free (lw6ker_game_struct_t * game_struct);
 extern void lw6ker_game_struct_point_to (lw6ker_game_struct_t * game_struct,
-					 lw6map_level_t * level);
+					 const lw6map_level_t * level);
 extern int lw6ker_game_struct_memory_footprint (const lw6ker_game_struct_t *
 						game_struct);
 extern char *lw6ker_game_struct_repr (const lw6ker_game_struct_t *
@@ -504,12 +506,16 @@ extern void lw6ker_game_struct_find_free_slot_near (const lw6ker_game_struct_t
 						    lw6sys_xyz_t here);
 
 /* ker-hexa.c */
-extern char *lw6ker_game_struct_to_hexa (lw6ker_game_struct_t * game_struct);
+extern char *lw6ker_game_struct_to_hexa (const lw6ker_game_struct_t *
+					 game_struct);
 extern lw6ker_game_struct_t *lw6ker_game_struct_from_hexa (const char *hexa,
+							   const
 							   lw6map_level_t *
 							   level);
-extern char *lw6ker_game_state_to_hexa (lw6ker_game_state_t * game_state);
+extern char *lw6ker_game_state_to_hexa (const lw6ker_game_state_t *
+					game_state);
 extern lw6ker_game_state_t *lw6ker_game_state_from_hexa (const char *hexa,
+							 const
 							 lw6ker_game_struct_t
 							 * game_struct);
 

@@ -126,7 +126,7 @@ _lw6ker_cursor_get_start_xy (int32_t * x, int32_t * y, int team_color,
 
 void
 _lw6ker_cursor_update_apply_pos (lw6ker_cursor_t * cursor,
-				 _lw6ker_map_struct_t * map_struct)
+				 const _lw6ker_map_struct_t * map_struct)
 {
   if (map_struct)
     {
@@ -217,7 +217,8 @@ _lw6ker_cursor_disable (lw6ker_cursor_t * cursor)
 int
 _lw6ker_cursor_update (lw6ker_cursor_t * cursor, int32_t x,
 		       int32_t y, int fire, int fire2, int32_t pot_offset,
-		       lw6sys_whd_t * shape, lw6map_rules_t * rules)
+		       const lw6sys_whd_t * shape,
+		       const lw6map_rules_t * rules)
 {
   int ret = 1;
 

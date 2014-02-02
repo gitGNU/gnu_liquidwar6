@@ -29,7 +29,7 @@
 
 static int
 push_place_struct (lw6sys_hexa_serializer_t * hexa_serializer,
-		   _lw6ker_place_struct_t * place_struct)
+		   const _lw6ker_place_struct_t * place_struct)
 {
   int ret = 1;
 
@@ -45,7 +45,7 @@ push_place_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 
 static int
 push_zone_struct (lw6sys_hexa_serializer_t * hexa_serializer,
-		  _lw6ker_zone_struct_t * zone_struct)
+		  const _lw6ker_zone_struct_t * zone_struct)
 {
   int ret = 1;
   int i = 0;
@@ -72,7 +72,7 @@ push_zone_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 
 static int
 push_slot_struct (lw6sys_hexa_serializer_t * hexa_serializer,
-		  _lw6ker_slot_struct_t * slot_struct)
+		  const _lw6ker_slot_struct_t * slot_struct)
 {
   int ret = 1;
 
@@ -85,7 +85,7 @@ push_slot_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 
 static int
 push_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
-		 _lw6ker_map_struct_t * map_struct)
+		 const _lw6ker_map_struct_t * map_struct)
 {
   int ret = 1;
   int i = 0;
@@ -128,7 +128,7 @@ push_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 char *
-_lw6ker_game_struct_to_hexa (_lw6ker_game_struct_t * game_struct)
+_lw6ker_game_struct_to_hexa (const _lw6ker_game_struct_t * game_struct)
 {
   char *ret = NULL;
   lw6sys_hexa_serializer_t *hexa_serializer = NULL;
@@ -160,11 +160,12 @@ _lw6ker_game_struct_to_hexa (_lw6ker_game_struct_t * game_struct)
  * Return value: a newly allocated pointer, NULL if conversion failed.
  */
 char *
-lw6ker_game_struct_to_hexa (lw6ker_game_struct_t * game_struct)
+lw6ker_game_struct_to_hexa (const lw6ker_game_struct_t * game_struct)
 {
   char *ret = NULL;
 
-  ret = _lw6ker_game_struct_to_hexa ((_lw6ker_game_struct_t *) game_struct);
+  ret =
+    _lw6ker_game_struct_to_hexa ((const _lw6ker_game_struct_t *) game_struct);
 
   return ret;
 }
@@ -380,7 +381,7 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 _lw6ker_game_struct_t *
-_lw6ker_game_struct_from_hexa (const char *hexa, lw6map_level_t * level)
+_lw6ker_game_struct_from_hexa (const char *hexa, const lw6map_level_t * level)
 {
   _lw6ker_game_struct_t *game_struct = NULL;
   lw6sys_hexa_serializer_t *hexa_serializer;
@@ -454,7 +455,7 @@ _lw6ker_game_struct_from_hexa (const char *hexa, lw6map_level_t * level)
  * Return value: a new map, might be NULL if string isn't correct.
  */
 lw6ker_game_struct_t *
-lw6ker_game_struct_from_hexa (const char *hexa, lw6map_level_t * level)
+lw6ker_game_struct_from_hexa (const char *hexa, const lw6map_level_t * level)
 {
   lw6ker_game_struct_t *game_struct = NULL;
 
@@ -466,7 +467,7 @@ lw6ker_game_struct_from_hexa (const char *hexa, lw6map_level_t * level)
 
 static int
 push_fighter (lw6sys_hexa_serializer_t * hexa_serializer,
-	      lw6ker_fighter_t * fighter)
+	      const lw6ker_fighter_t * fighter)
 {
   int ret = 1;
 
@@ -489,7 +490,7 @@ push_fighter (lw6sys_hexa_serializer_t * hexa_serializer,
 
 static int
 push_armies (lw6sys_hexa_serializer_t * hexa_serializer,
-	     _lw6ker_armies_t * armies)
+	     const _lw6ker_armies_t * armies)
 {
   int ret = 1;
   int i = 0;
@@ -522,7 +523,7 @@ push_armies (lw6sys_hexa_serializer_t * hexa_serializer,
 
 static int
 push_zone_state (lw6sys_hexa_serializer_t * hexa_serializer,
-		 _lw6ker_zone_state_t * zone)
+		 const _lw6ker_zone_state_t * zone)
 {
   int ret = 1;
 
@@ -539,7 +540,8 @@ push_zone_state (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
-push_team (lw6sys_hexa_serializer_t * hexa_serializer, _lw6ker_team_t * team)
+push_team (lw6sys_hexa_serializer_t * hexa_serializer,
+	   const _lw6ker_team_t * team)
 {
   int ret = 1;
   int i = 0;
@@ -580,7 +582,7 @@ push_team (lw6sys_hexa_serializer_t * hexa_serializer, _lw6ker_team_t * team)
 
 static int
 push_cursor (lw6sys_hexa_serializer_t * hexa_serializer,
-	     lw6ker_cursor_t * cursor)
+	     const lw6ker_cursor_t * cursor)
 {
   int ret = 1;
 
@@ -612,7 +614,7 @@ push_cursor (lw6sys_hexa_serializer_t * hexa_serializer,
 
 static int
 push_cursor_array (lw6sys_hexa_serializer_t * hexa_serializer,
-		   _lw6ker_cursor_array_t * cursor_array)
+		   const _lw6ker_cursor_array_t * cursor_array)
 {
   int ret = 1;
   int i = 0;
@@ -630,7 +632,7 @@ push_cursor_array (lw6sys_hexa_serializer_t * hexa_serializer,
 
 static int
 push_slot_state (lw6sys_hexa_serializer_t * hexa_serializer,
-		 _lw6ker_slot_state_t * slot)
+		 const _lw6ker_slot_state_t * slot)
 {
   int ret = 1;
 
@@ -642,7 +644,7 @@ push_slot_state (lw6sys_hexa_serializer_t * hexa_serializer,
 
 static int
 push_map_state (lw6sys_hexa_serializer_t * hexa_serializer,
-		_lw6ker_map_state_t * map_state)
+		const _lw6ker_map_state_t * map_state)
 {
   int ret = 1;
   int i = 0;
@@ -671,7 +673,8 @@ push_map_state (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
-push_node (lw6sys_hexa_serializer_t * hexa_serializer, _lw6ker_node_t * node)
+push_node (lw6sys_hexa_serializer_t * hexa_serializer,
+	   const _lw6ker_node_t * node)
 {
   int ret = 1;
 
@@ -689,7 +692,7 @@ push_node (lw6sys_hexa_serializer_t * hexa_serializer, _lw6ker_node_t * node)
 
 static int
 push_node_array (lw6sys_hexa_serializer_t * hexa_serializer,
-		 _lw6ker_node_array_t * node_array)
+		 const _lw6ker_node_array_t * node_array)
 {
   int ret = 1;
   int i = 0;
@@ -707,7 +710,7 @@ push_node_array (lw6sys_hexa_serializer_t * hexa_serializer,
 
 static int
 push_history (lw6sys_hexa_serializer_t * hexa_serializer,
-	      _lw6ker_history_t * history)
+	      const _lw6ker_history_t * history)
 {
   int ret = 1;
   int i = 0, j = 0;
@@ -729,7 +732,7 @@ push_history (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 char *
-_lw6ker_game_state_to_hexa (_lw6ker_game_state_t * game_state)
+_lw6ker_game_state_to_hexa (const _lw6ker_game_state_t * game_state)
 {
   char *ret = NULL;
   lw6sys_hexa_serializer_t *hexa_serializer = NULL;
@@ -784,11 +787,12 @@ _lw6ker_game_state_to_hexa (_lw6ker_game_state_t * game_state)
  * Return value: a newly allocated pointer, NULL if conversion failed.
  */
 char *
-lw6ker_game_state_to_hexa (lw6ker_game_state_t * game_state)
+lw6ker_game_state_to_hexa (const lw6ker_game_state_t * game_state)
 {
   char *ret = NULL;
 
-  ret = _lw6ker_game_state_to_hexa ((_lw6ker_game_state_t *) game_state);
+  ret =
+    _lw6ker_game_state_to_hexa ((const _lw6ker_game_state_t *) game_state);
 
   return ret;
 }
@@ -1171,7 +1175,7 @@ pop_history (lw6sys_hexa_serializer_t * hexa_serializer,
 
 _lw6ker_game_state_t *
 _lw6ker_game_state_from_hexa (const char *hexa,
-			      _lw6ker_game_struct_t * game_struct)
+			      const _lw6ker_game_struct_t * game_struct)
 {
   _lw6ker_game_state_t *game_state = NULL;
   lw6sys_hexa_serializer_t *hexa_serializer;
@@ -1271,7 +1275,7 @@ _lw6ker_game_state_from_hexa (const char *hexa,
  */
 lw6ker_game_state_t *
 lw6ker_game_state_from_hexa (const char *hexa,
-			     lw6ker_game_struct_t * game_struct)
+			     const lw6ker_game_struct_t * game_struct)
 {
   lw6ker_game_state_t *game_state = NULL;
 

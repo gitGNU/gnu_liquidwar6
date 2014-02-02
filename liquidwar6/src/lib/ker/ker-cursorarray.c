@@ -212,8 +212,8 @@ _lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
 			     u_int64_t node_id,
 			     u_int16_t cursor_id, int32_t x,
 			     int32_t y, int fire, int fire2,
-			     int32_t pot_offset, lw6sys_whd_t * shape,
-			     lw6map_rules_t * rules)
+			     int32_t pot_offset, const lw6sys_whd_t * shape,
+			     const lw6map_rules_t * rules)
 {
   int ret = 0;
   lw6ker_cursor_t *cursor;

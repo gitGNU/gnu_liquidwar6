@@ -1,3 +1,265 @@
+2014-02-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/dsp/dsp-thread.c,
+	liquidwar6/src/lib/gfx/gfx-api.c, liquidwar6/src/lib/gfx/gfx.h,
+	liquidwar6/src/lib/gfx/mod-caca/mod-caca-backend.c,
+	liquidwar6/src/lib/gfx/mod-caca/mod-caca-display.c,
+	liquidwar6/src/lib/gfx/mod-caca/mod-caca-game.c,
+	liquidwar6/src/lib/gfx/mod-caca/mod-caca-internal.h,
+	liquidwar6/src/lib/gfx/mod-caca/mod-caca-menu.c,
+	liquidwar6/src/lib/gfx/mod-caca/mod-caca-utils.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-background/gl1-background-api.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-background/gl1-background-regist
+	er.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-background/gl1-background.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-background/gl1-bubbles/gl1-bubbl
+	es-display.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-background/gl1-bubbles/gl1-bubbl
+	es-internal.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-background/gl1-bubbles/gl1-bubbl
+	es.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-background/gl1-void/gl1-void-dis
+	play.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-background/gl1-void/gl1-void-int
+	ernal.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-background/gl1-void/gl1-void.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-hud/gl1-floating/gl1-floating-co
+	ntext.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-hud/gl1-floating/gl1-floating-di
+	splay.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-hud/gl1-floating/gl1-floating-in
+	ternal.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-hud/gl1-floating/gl1-floating.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-hud/gl1-hud-api.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-hud/gl1-hud-register.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-hud/gl1-hud.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-hud/gl1-tactical/gl1-tactical-di
+	splay.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-hud/gl1-tactical/gl1-tactical-in
+	ternal.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-hud/gl1-tactical/gl1-tactical.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-cylinder/gl1-cylinder-c
+	enter.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-cylinder/gl1-cylinder-d
+	isplay.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-cylinder/gl1-cylinder-i
+	nternal.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-cylinder/gl1-cylinder-p
+	ick.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-cylinder/gl1-cylinder-p
+	rogress.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-cylinder/gl1-cylinder.h
+	, liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-menu-api.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-menu-register.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-menu/gl1-menu.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-bitmap.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-bitmaparray.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-cache.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-color.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-colorize.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-cursor.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-debug.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-font.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-game.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-gradient.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-info.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-menucache.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-render.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-shadedtext.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-surface.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-texture.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-texture1x1.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-zones.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-flat/gl1-flat-cursorcon
+	text.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-flat/gl1-flat-display.c
+	,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-flat/gl1-flat-gameconte
+	xt.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-flat/gl1-flat-internal.
+	h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-flat/gl1-flat-viewport.
+	c, liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-flat/gl1-flat.h,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-view-api.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-view-register.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-view/gl1-view.h,
+	liquidwar6/src/lib/gfx/mod-gl1/mod-gl1-backend.c,
+	liquidwar6/src/lib/gfx/mod-gl1/mod-gl1-internal.h,
+	liquidwar6/src/lib/gfx/mod-gl1/mod-gl1-setup.c,
+	liquidwar6/src/lib/gui/gui-look.c, liquidwar6/src/lib/gui/gui.h,
+	liquidwar6/src/lib/ker/ker-scorearray.c,
+	liquidwar6/src/lib/ker/ker.h, liquidwar6/src/lib/map/map-body.c,
+	liquidwar6/src/lib/map/map-cursortexturelayer.c,
+	liquidwar6/src/lib/map/map-hexa.c,
+	liquidwar6/src/lib/map/map-level.c,
+	liquidwar6/src/lib/map/map-metalayer.c,
+	liquidwar6/src/lib/map/map-param.c,
+	liquidwar6/src/lib/map/map-style.c,
+	liquidwar6/src/lib/map/map-teams.c,
+	liquidwar6/src/lib/map/map-texture.c, liquidwar6/src/lib/map/map.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Using const for game and
+	look in display callbacks
+
+2014-02-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6/po/fr.po, liquidwar6/po/nn.po, liquidwar6/po/ru.po: 
+	Lang update
+
+2014-02-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/bot/mod-brute/mod-brute-move.c,
+	liquidwar6/src/lib/bot/mod-idiot/mod-idiot-move.c,
+	liquidwar6/src/lib/gfx/mod-caca/mod-caca-game.c,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-game.c,
+	liquidwar6/src/lib/img/img-screenshot.c,
+	liquidwar6/src/lib/ker/ker-armies.c,
+	liquidwar6/src/lib/ker/ker-capture.c,
+	liquidwar6/src/lib/ker/ker-checksumlog.c,
+	liquidwar6/src/lib/ker/ker-cursor.c,
+	liquidwar6/src/lib/ker/ker-cursorarray.c,
+	liquidwar6/src/lib/ker/ker-fighter.c,
+	liquidwar6/src/lib/ker/ker-gamestate.c,
+	liquidwar6/src/lib/ker/ker-gamestruct.c,
+	liquidwar6/src/lib/ker/ker-history.c,
+	liquidwar6/src/lib/ker/ker-internal.h,
+	liquidwar6/src/lib/ker/ker-mapstate.c,
+	liquidwar6/src/lib/ker/ker-mapstruct.c,
+	liquidwar6/src/lib/ker/ker-move.c,
+	liquidwar6/src/lib/ker/ker-node.c,
+	liquidwar6/src/lib/ker/ker-nodearray.c,
+	liquidwar6/src/lib/ker/ker-placestruct.c,
+	liquidwar6/src/lib/ker/ker-scorearray.c,
+	liquidwar6/src/lib/ker/ker-slotstate.c,
+	liquidwar6/src/lib/ker/ker-slotstruct.c,
+	liquidwar6/src/lib/ker/ker-team.c,
+	liquidwar6/src/lib/ker/ker-test.c,
+	liquidwar6/src/lib/ker/ker-weapon.c,
+	liquidwar6/src/lib/ker/ker-zonestate.c,
+	liquidwar6/src/lib/ker/ker-zonestruct.c,
+	liquidwar6/src/lib/ker/ker.h,
+	liquidwar6/src/lib/pil/pil-internal.h,
+	liquidwar6/src/lib/pil/pil-pilot.c, liquidwar6/src/lib/pil/pil.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-checksum.c,
+	liquidwar6/src/lib/sys/sys-shape.c, liquidwar6/src/lib/sys/sys.h: 
+	Added const declaration when (hopefully) needed
+
+2014-02-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/bot/bot-api.c,
+	liquidwar6/src/lib/bot/bot.h, liquidwar6/src/lib/cli/cli-api.c,
+	liquidwar6/src/lib/cli/cli.h, liquidwar6/src/lib/dsp/dsp-display.c,
+	liquidwar6/src/lib/dsp/dsp.h, liquidwar6/src/lib/gfx/gfx-api.c,
+	liquidwar6/src/lib/gfx/gfx.h,
+	liquidwar6/src/lib/gui/gui-keypress.c,
+	liquidwar6/src/lib/gui/gui-look.c,
+	liquidwar6/src/lib/gui/gui-menu.c,
+	liquidwar6/src/lib/gui/gui-menuitem.c,
+	liquidwar6/src/lib/gui/gui.h, liquidwar6/src/lib/img/img-repr.c,
+	liquidwar6/src/lib/img/img.h,
+	liquidwar6/src/lib/ker/ker-gamestate.c,
+	liquidwar6/src/lib/ker/ker-gamestruct.c,
+	liquidwar6/src/lib/ker/ker-internal.h,
+	liquidwar6/src/lib/ker/ker-mapstruct.c,
+	liquidwar6/src/lib/ker/ker-test.c, liquidwar6/src/lib/ker/ker.h,
+	liquidwar6/src/lib/map/map-level.c, liquidwar6/src/lib/map/map.h,
+	liquidwar6/src/lib/p2p/p2p-db.c,
+	liquidwar6/src/lib/p2p/p2p-entry.c,
+	liquidwar6/src/lib/p2p/p2p-internal.h,
+	liquidwar6/src/lib/p2p/p2p-node.c, liquidwar6/src/lib/p2p/p2p.h,
+	liquidwar6/src/lib/pil/pil-internal.h,
+	liquidwar6/src/lib/pil/pil-pilot.c, liquidwar6/src/lib/pil/pil.h,
+	liquidwar6/src/lib/snd/snd-api.c, liquidwar6/src/lib/snd/snd.h,
+	liquidwar6/src/lib/srv/srv-api.c, liquidwar6/src/lib/srv/srv.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/tsk/tsk-loader.c, liquidwar6/src/lib/tsk/tsk.h: 
+	const refactoring in progress
+
+2014-02-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/gui/gui-videomode.c,
+	liquidwar6/src/lib/ldr/ldr-dir.c,
+	liquidwar6/src/lib/msg/msg-sort.c, liquidwar6/src/lib/msg/msg.h,
+	liquidwar6/src/lib/nod/nod-info.c,
+	liquidwar6/src/lib/p2p/p2p-internal.h,
+	liquidwar6/src/lib/p2p/p2p-packet.c,
+	liquidwar6/src/lib/pil/pil-command.c,
+	liquidwar6/src/lib/pil/pil-internal.h,
+	liquidwar6/src/lib/pil/pil.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-sort.c, liquidwar6/src/lib/sys/sys.h: 
+	Using const args in sort callbacks
+
+2014-02-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/doc/Makefile.gdoc,
+	liquidwar6/po/POTFILES.in, liquidwar6/po/fr.po,
+	liquidwar6/po/nn.po, liquidwar6/po/ru.po,
+	liquidwar6/src/lib/p2p/Makefile.am,
+	liquidwar6/src/lib/p2p/p2p-internal.h,
+	liquidwar6/src/lib/p2p/p2p-packet.c,
+	liquidwar6/src/lib/p2p/p2p-queueitem.c,
+	liquidwar6/src/lib/p2p/p2p-tentacle.c,
+	liquidwar6/src/lib/p2p/p2p-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Buffering tentacle
+	send_best messages
+
+2014-02-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/po/POTFILES.in,
+	liquidwar6/src/lib/p2p/Makefile.am,
+	liquidwar6/src/lib/p2p/p2p-internal.h,
+	liquidwar6/src/lib/p2p/p2p-packet.c,
+	liquidwar6/src/lib/p2p/p2p-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Introduced new packet p2p
+	object
+
+2014-02-01  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/dat/dat-miss.c,
+	liquidwar6/src/lib/dat/dat-test.c, liquidwar6/src/lib/dat/dat.h,
+	liquidwar6/src/lib/p2p/p2p-node.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Yet more MISS patches
+
+2014-01-31  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/ChangeLog,
+	liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/ChangeLog,
+	liquidwar6/configure.ac, liquidwar6/debian/changelog,
+	liquidwar6/doc/Makefile.gdoc, liquidwar6/po/fr.po,
+	liquidwar6/po/nn.po, liquidwar6/po/ru.po,
+	liquidwar6/src/lib/dat/dat-miss.c,
+	liquidwar6/src/lib/dat/dat-test.c, liquidwar6/src/lib/dat/dat.h,
+	liquidwar6/src/lib/p2p/p2p-node.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Trying to optimize MISS
+	messages handling
+
 2014-01-30  Christian Mauduit <ufoot@ufoot.org>
 
 	* liquidwar6-extra-maps/configure.ac,

@@ -92,7 +92,7 @@ _lw6ker_node_disable (_lw6ker_node_t * node)
 
 int
 _lw6ker_node_sanity_check (const _lw6ker_node_t * node,
-			   lw6map_rules_t * rules)
+			   const lw6map_rules_t * rules)
 {
   int ret = 1;
 

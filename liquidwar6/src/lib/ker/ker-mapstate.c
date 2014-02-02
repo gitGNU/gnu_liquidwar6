@@ -32,8 +32,9 @@
 
 int
 _lw6ker_map_state_init (_lw6ker_map_state_t * map_state,
-			_lw6ker_map_struct_t * map_struct,
-			lw6map_rules_t * rules, lw6sys_progress_t * progress)
+			const _lw6ker_map_struct_t * map_struct,
+			const lw6map_rules_t * rules,
+			lw6sys_progress_t * progress)
 {
   int ret = 0;
   int32_t i;
@@ -186,7 +187,7 @@ _lw6ker_map_state_populate_team (_lw6ker_map_state_t * map_state,
 				 int32_t team_color,
 				 int32_t nb_fighters,
 				 lw6sys_xyz_t desired_center,
-				 lw6map_rules_t * rules)
+				 const lw6map_rules_t * rules)
 {
   lw6sys_xyz_t real_center;
   int32_t angle, radius;
@@ -260,7 +261,7 @@ _lw6ker_map_state_redistribute_team (_lw6ker_map_state_t * map_state,
 				     int32_t dst_team_color,
 				     int32_t src_team_color,
 				     int32_t nb_fighters,
-				     lw6map_rules_t * rules)
+				     const lw6map_rules_t * rules)
 {
   int ret = 0;
   int32_t i, j;
@@ -613,8 +614,8 @@ _lw6ker_map_state_sanity_check (const _lw6ker_map_state_t * map_state)
  */
 void
 _lw6ker_map_state_spread_gradient (_lw6ker_map_state_t * map_state,
-				   lw6map_rules_t * rules, int32_t nb_spreads,
-				   u_int32_t team_mask)
+				   const lw6map_rules_t * rules,
+				   int32_t nb_spreads, u_int32_t team_mask)
 {
   int i;
   int teams_concerned[LW6MAP_MAX_NB_TEAMS];
@@ -683,7 +684,7 @@ _lw6ker_map_state_get_nb_teams (const _lw6ker_map_state_t * map_state)
 
 void
 _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
-				 int parity, lw6map_rules_t * rules,
+				 int parity, const lw6map_rules_t * rules,
 				 int32_t nb_moves, u_int32_t team_mask)
 {
   _lw6ker_move_context_t context;
@@ -927,7 +928,8 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 
 void
 _lw6ker_map_state_apply_cursors (_lw6ker_map_state_t * map_state,
-				 lw6map_rules_t * rules, u_int32_t team_mask)
+				 const lw6map_rules_t * rules,
+				 u_int32_t team_mask)
 {
   int32_t i, team_color;
   int32_t zone_id = -1;
@@ -1063,7 +1065,7 @@ _lw6ker_map_state_apply_cursors (_lw6ker_map_state_t * map_state,
 
 void
 _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
-				lw6map_rules_t * rules, int round)
+				const lw6map_rules_t * rules, int round)
 {
   int32_t i, team_color;
   int charge_percent;
@@ -1319,7 +1321,7 @@ _lw6ker_map_state_frag (_lw6ker_map_state_t * map_state, int team_color,
 
 void
 _lw6ker_map_state_charge (_lw6ker_map_state_t * map_state,
-			  lw6map_rules_t * rules, int round)
+			  const lw6map_rules_t * rules, int round)
 {
   int32_t team_color;
   int charge_incr = 0;

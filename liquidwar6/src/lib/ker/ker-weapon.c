@@ -145,7 +145,7 @@ _lw6ker_weapon_get_latest_weapon (const _lw6ker_map_state_t * map_state,
 
 static int
 _do_fire (_lw6ker_map_state_t * map_state,
-	  lw6map_rules_t * rules, int round, int team_color,
+	  const lw6map_rules_t * rules, int round, int team_color,
 	  int charge_percent, int weapon_id)
 {
   int ret = 0;
@@ -261,8 +261,8 @@ _do_fire (_lw6ker_map_state_t * map_state,
 
 static void
 _register_weapon_duration (_lw6ker_map_state_t * map_state,
-			   lw6map_rules_t * rules, int round, int team_color,
-			   int charge_percent, int weapon_id)
+			   const lw6map_rules_t * rules, int round,
+			   int team_color, int charge_percent, int weapon_id)
 {
   map_state->teams[team_color].weapon_id = weapon_id;
   map_state->teams[team_color].weapon_first_round = round;
@@ -273,8 +273,8 @@ _register_weapon_duration (_lw6ker_map_state_t * map_state,
 
 static void
 _register_weapon_instant (_lw6ker_map_state_t * map_state,
-			  lw6map_rules_t * rules, int round, int team_color,
-			  int charge_percent, int weapon_id)
+			  const lw6map_rules_t * rules, int round,
+			  int team_color, int charge_percent, int weapon_id)
 {
   map_state->teams[team_color].weapon_id = weapon_id;
   map_state->teams[team_color].weapon_first_round = round;
@@ -287,7 +287,7 @@ _register_weapon_instant (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
-		     lw6map_rules_t * rules, int round, int team_color,
+		     const lw6map_rules_t * rules, int round, int team_color,
 		     int charge_percent)
 {
   int weapon_id = -1;
@@ -318,7 +318,7 @@ _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire2 (_lw6ker_map_state_t * map_state,
-		      lw6map_rules_t * rules, int round, int team_color,
+		      const lw6map_rules_t * rules, int round, int team_color,
 		      int charge_percent)
 {
   int weapon_id = -1;
@@ -351,7 +351,7 @@ _lw6ker_weapon_fire2 (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_berzerk (_lw6ker_map_state_t * map_state,
-			     lw6map_rules_t * rules, int round,
+			     const lw6map_rules_t * rules, int round,
 			     int team_color, int charge_percent)
 {
   int ret = 1;
@@ -368,7 +368,7 @@ _lw6ker_weapon_fire_berzerk (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_invincible (_lw6ker_map_state_t * map_state,
-				lw6map_rules_t * rules, int round,
+				const lw6map_rules_t * rules, int round,
 				int team_color, int charge_percent)
 {
   int ret = 1;
@@ -385,8 +385,8 @@ _lw6ker_weapon_fire_invincible (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_escape (_lw6ker_map_state_t * map_state,
-			    lw6map_rules_t * rules, int round, int team_color,
-			    int charge_percent)
+			    const lw6map_rules_t * rules, int round,
+			    int team_color, int charge_percent)
 {
   int ret = 1;
   int i = 0, x = 0, y = 0, z = 0;
@@ -471,8 +471,8 @@ _lw6ker_weapon_fire_escape (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_turbo (_lw6ker_map_state_t * map_state,
-			   lw6map_rules_t * rules, int round, int team_color,
-			   int charge_percent)
+			   const lw6map_rules_t * rules, int round,
+			   int team_color, int charge_percent)
 {
   int ret = 1;
 
@@ -488,7 +488,7 @@ _lw6ker_weapon_fire_turbo (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_teleport (_lw6ker_map_state_t * map_state,
-			      lw6map_rules_t * rules, int round,
+			      const lw6map_rules_t * rules, int round,
 			      int team_color, int charge_percent)
 {
   int ret = 0;
@@ -500,7 +500,7 @@ _lw6ker_weapon_fire_teleport (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_scatter (_lw6ker_map_state_t * map_state,
-			     lw6map_rules_t * rules, int round,
+			     const lw6map_rules_t * rules, int round,
 			     int team_color, int charge_percent)
 {
   int ret = 0;
@@ -512,8 +512,8 @@ _lw6ker_weapon_fire_scatter (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_fix (_lw6ker_map_state_t * map_state,
-			 lw6map_rules_t * rules, int round, int team_color,
-			 int charge_percent)
+			 const lw6map_rules_t * rules, int round,
+			 int team_color, int charge_percent)
 {
   int ret = 0;
 
@@ -531,8 +531,8 @@ _lw6ker_weapon_fire_fix (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_mix (_lw6ker_map_state_t * map_state,
-			 lw6map_rules_t * rules, int round, int team_color,
-			 int charge_percent)
+			 const lw6map_rules_t * rules, int round,
+			 int team_color, int charge_percent)
 {
   int ret = 0;
 
@@ -543,7 +543,7 @@ _lw6ker_weapon_fire_mix (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_control (_lw6ker_map_state_t * map_state,
-			     lw6map_rules_t * rules, int round,
+			     const lw6map_rules_t * rules, int round,
 			     int team_color, int charge_percent)
 {
   int ret = 0;
@@ -562,7 +562,7 @@ _lw6ker_weapon_fire_control (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_permutation (_lw6ker_map_state_t * map_state,
-				 lw6map_rules_t * rules, int round,
+				 const lw6map_rules_t * rules, int round,
 				 int team_color, int charge_percent)
 {
   int ret = 0;
@@ -574,7 +574,7 @@ _lw6ker_weapon_fire_permutation (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_steal (_lw6ker_map_state_t * map_state,
-			   lw6map_rules_t * rules, int round,
+			   const lw6map_rules_t * rules, int round,
 			   int team_color, int charge_percent)
 {
   int ret = 0;
@@ -586,7 +586,7 @@ _lw6ker_weapon_fire_steal (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_atomic (_lw6ker_map_state_t * map_state,
-			    lw6map_rules_t * rules, int round,
+			    const lw6map_rules_t * rules, int round,
 			    int team_color, int charge_percent)
 {
   int ret = 0;
@@ -598,7 +598,7 @@ _lw6ker_weapon_fire_atomic (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_reverse (_lw6ker_map_state_t * map_state,
-			     lw6map_rules_t * rules, int round,
+			     const lw6map_rules_t * rules, int round,
 			     int team_color, int charge_percent)
 {
   int ret = 0;
@@ -610,7 +610,7 @@ _lw6ker_weapon_fire_reverse (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_crazy (_lw6ker_map_state_t * map_state,
-			   lw6map_rules_t * rules, int round,
+			   const lw6map_rules_t * rules, int round,
 			   int team_color, int charge_percent)
 {
   int ret = 0;
@@ -622,7 +622,7 @@ _lw6ker_weapon_fire_crazy (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_rewind (_lw6ker_map_state_t * map_state,
-			    lw6map_rules_t * rules, int round,
+			    const lw6map_rules_t * rules, int round,
 			    int team_color, int charge_percent)
 {
   int ret = 0;
@@ -634,7 +634,7 @@ _lw6ker_weapon_fire_rewind (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_attract (_lw6ker_map_state_t * map_state,
-			     lw6map_rules_t * rules, int round,
+			     const lw6map_rules_t * rules, int round,
 			     int team_color, int charge_percent)
 {
   int ret = 0;
@@ -646,7 +646,7 @@ _lw6ker_weapon_fire_attract (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_shrink (_lw6ker_map_state_t * map_state,
-			    lw6map_rules_t * rules, int round,
+			    const lw6map_rules_t * rules, int round,
 			    int team_color, int charge_percent)
 {
   int ret = 0;
@@ -658,7 +658,7 @@ _lw6ker_weapon_fire_shrink (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_kamikaze (_lw6ker_map_state_t * map_state,
-			      lw6map_rules_t * rules, int round,
+			      const lw6map_rules_t * rules, int round,
 			      int team_color, int charge_percent)
 {
   int ret = 0;
@@ -670,7 +670,7 @@ _lw6ker_weapon_fire_kamikaze (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_disappear (_lw6ker_map_state_t * map_state,
-			       lw6map_rules_t * rules, int round,
+			       const lw6map_rules_t * rules, int round,
 			       int team_color, int charge_percent)
 {
   int ret = 0;
@@ -682,7 +682,7 @@ _lw6ker_weapon_fire_disappear (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_weapon_fire_plague (_lw6ker_map_state_t * map_state,
-			    lw6map_rules_t * rules, int round,
+			    const lw6map_rules_t * rules, int round,
 			    int team_color, int charge_percent)
 {
   int ret = 0;
