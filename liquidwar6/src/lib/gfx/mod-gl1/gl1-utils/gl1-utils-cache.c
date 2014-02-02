@@ -30,7 +30,7 @@
 
 int
 mod_gl1_utils_cache_update (mod_gl1_utils_context_t * utils_context,
-			    lw6gui_look_t * look)
+			    const lw6gui_look_t * look)
 {
   int ret = 1;
 

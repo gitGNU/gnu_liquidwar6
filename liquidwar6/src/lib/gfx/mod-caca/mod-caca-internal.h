@@ -104,14 +104,14 @@ extern void _mod_caca_unload_consts (_mod_caca_context_t * context);
 
 /* mod-caca-game.c */
 extern int _mod_caca_display_map (_mod_caca_context_t * caca_context,
-				  lw6gui_look_t * look,
-				  lw6ker_game_state_t * game_state,
-				  lw6ker_game_struct_t * game_struct,
+				  const lw6gui_look_t * look,
+				  const lw6ker_game_state_t * game_state,
+				  const lw6ker_game_struct_t * game_struct,
 				  lw6pil_local_cursors_t * local_cursors);
 
 /* mod-caca-menu.c */
 extern int _mod_caca_display_menu (_mod_caca_context_t * caca_context,
-				   lw6gui_look_t * look,
+				   const lw6gui_look_t * look,
 				   lw6gui_menu_t * menu);
 
 /* mod-caca-splash.c */
@@ -121,22 +121,23 @@ extern void splash_free (_mod_caca_context_t * caca_context, caca_font_t * fo,
 
 /* mod-caca-utils.c */
 extern int _mod_caca_display_hud (_mod_caca_context_t * caca_context,
-				  lw6gui_look_t * look,
-				  lw6ker_game_state_t * game_state,
-				  lw6ker_game_struct_t * game_struct);
+				  const lw6gui_look_t * look,
+				  const lw6ker_game_state_t * game_state,
+				  const lw6ker_game_struct_t * game_struct);
 extern int _mod_caca_display_score (_mod_caca_context_t * caca_context,
-				    lw6gui_look_t * look,
-				    lw6ker_game_state_t * game_state,
-				    lw6ker_game_struct_t * game_struct);
+				    const lw6gui_look_t * look,
+				    const lw6ker_game_state_t * game_state,
+				    const lw6ker_game_struct_t * game_struct);
 
 /* mod-caca-display.c */
 extern int _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
-			      lw6gui_look_t * look, lw6map_level_t * level,
-			      lw6ker_game_struct_t * game_struct,
-			      lw6ker_game_state_t * game_state,
+			      const lw6gui_look_t * look,
+			      const lw6map_level_t * level,
+			      const lw6ker_game_struct_t * game_struct,
+			      const lw6ker_game_state_t * game_state,
 			      lw6pil_local_cursors_t * local_cursors,
 			      lw6gui_menu_t * menu, float progress, float fps,
-			      float mps, char **log_list, int capture,
+			      float mps, const char **log_list, int capture,
 			      int gfx_debug, int debug_team_id,
 			      int debug_layer_id);
 

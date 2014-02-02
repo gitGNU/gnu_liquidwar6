@@ -101,7 +101,7 @@ lw6map_param_clear (lw6map_param_t * param)
  * Return value: none
  */
 void
-lw6map_param_copy (lw6map_param_t * dst, lw6map_param_t * src)
+lw6map_param_copy (lw6map_param_t * dst, const lw6map_param_t * src)
 {
   lw6map_rules_copy (&(dst->rules), &(src->rules));
   lw6map_style_copy (&(dst->style), &(src->style));
@@ -159,7 +159,7 @@ lw6map_param_set (lw6map_param_t * param, const char *key, const char *value)
  *   might return a string containing 0 on bad keys.
  */
 char *
-lw6map_param_get (lw6map_param_t * param, const char *key)
+lw6map_param_get (const lw6map_param_t * param, const char *key)
 {
   char *ret = NULL;
 

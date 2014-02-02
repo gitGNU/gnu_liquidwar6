@@ -30,12 +30,12 @@
 
 extern int
 _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
-		   lw6gui_look_t * look, lw6map_level_t * level,
-		   lw6ker_game_struct_t * game_struct,
-		   lw6ker_game_state_t * game_state,
+		   const lw6gui_look_t * look, const lw6map_level_t * level,
+		   const lw6ker_game_struct_t * game_struct,
+		   const lw6ker_game_state_t * game_state,
 		   lw6pil_local_cursors_t * local_cursors,
 		   lw6gui_menu_t * menu, float progress, float fps, float mps,
-		   char **log_list, int capture, int gfx_debug,
+		   const char **log_list, int capture, int gfx_debug,
 		   int debug_team_id, int debug_layer_id)
 {
   int ret = 1;

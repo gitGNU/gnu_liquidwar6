@@ -140,7 +140,7 @@ lw6map_teams_clear (lw6map_teams_t * teams)
  * Return value: none.
  */
 void
-lw6map_teams_copy (lw6map_teams_t * dst, lw6map_teams_t * src)
+lw6map_teams_copy (lw6map_teams_t * dst, const lw6map_teams_t * src)
 {
   int i;
 
@@ -350,7 +350,7 @@ lw6map_teams_set (lw6map_teams_t * teams, const char *key, const char *value)
 }
 
 static char *
-_get_bot_color (lw6map_bot_info_t * bot_info)
+_get_bot_color (const lw6map_bot_info_t * bot_info)
 {
   char *ret = NULL;
 
@@ -364,7 +364,7 @@ _get_bot_color (lw6map_bot_info_t * bot_info)
 }
 
 static char *
-_get_bot_ai (lw6map_bot_info_t * bot_info)
+_get_bot_ai (const lw6map_bot_info_t * bot_info)
 {
   char *ret = NULL;
 
@@ -388,7 +388,7 @@ _get_bot_ai (lw6map_bot_info_t * bot_info)
  * Return value: dynamically allocated string, NULL on error.
  */
 char *
-lw6map_teams_get (lw6map_teams_t * teams, const char *key)
+lw6map_teams_get (const lw6map_teams_t * teams, const char *key)
 {
   char *ret = NULL;
   char *formatted_key = NULL;

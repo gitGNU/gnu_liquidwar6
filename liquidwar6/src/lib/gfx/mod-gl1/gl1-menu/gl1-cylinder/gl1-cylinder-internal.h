@@ -98,7 +98,7 @@ _mod_gl1_menu_cylinder_center_on_menuitem (mod_gl1_utils_context_t *
 					   utils_context,
 					   _mod_gl1_menu_cylinder_context_t
 					   * cylinder_context,
-					   lw6gui_look_t * look,
+					   const lw6gui_look_t * look,
 					   lw6gui_menu_t * menu,
 					   int position);
 /*
@@ -108,19 +108,19 @@ extern void _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t *
 						 utils_context,
 						 _mod_gl1_menu_cylinder_context_t
 						 * cylinder_context,
-						 lw6gui_look_t * look,
+						 const lw6gui_look_t * look,
 						 lw6gui_menu_t * menu);
 extern void _mod_gl1_menu_cylinder_display_progress (mod_gl1_utils_context_t *
 						     utils_context,
 						     _mod_gl1_menu_cylinder_context_t
 						     * cylinder_context,
-						     lw6gui_look_t * look,
-						     float progress);
+						     const lw6gui_look_t *
+						     look, float progress);
 extern void _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t *
 						 utils_context,
 						 _mod_gl1_menu_cylinder_context_t
 						 * cylinder_context,
-						 lw6gui_look_t * look,
+						 const lw6gui_look_t * look,
 						 lw6gui_menu_t * menu);
 
 /*
@@ -198,10 +198,10 @@ _mod_gl1_menu_cylinder_draw_fixed_cylinder_corners (mod_gl1_utils_context_t *
 extern void
 _mod_gl1_menu_cylinder_pick_item (mod_gl1_utils_context_t * utils_context,
 				  _mod_gl1_menu_cylinder_context_t *
-				  cylinder_context, lw6gui_look_t * look,
-				  int *position, int *scroll, int *esc,
-				  lw6gui_menu_t * menu, int screen_x,
-				  int screen_y);
+				  cylinder_context,
+				  const lw6gui_look_t * look, int *position,
+				  int *scroll, int *esc, lw6gui_menu_t * menu,
+				  int screen_x, int screen_y);
 extern void
 _mod_gl1_menu_cylinder_get_cylinder_right_point (mod_gl1_utils_context_t *
 						 utils_context,
@@ -219,7 +219,7 @@ extern void _mod_gl1_menu_cylinder_draw_progress (mod_gl1_utils_context_t *
 						  utils_context,
 						  _mod_gl1_menu_cylinder_context_t
 						  * cylinder_context,
-						  lw6gui_look_t * look,
+						  const lw6gui_look_t * look,
 						  float progress);
 
 /*
@@ -240,7 +240,7 @@ _mod_gl1_menu_cylinder_warp_mouse_on_menuitem (mod_gl1_utils_context_t *
 					       utils_context,
 					       _mod_gl1_menu_cylinder_context_t
 					       * cylinder_context,
-					       lw6gui_look_t * look,
+					       const lw6gui_look_t * look,
 					       lw6gui_menu_t * menu,
 					       int position);
 

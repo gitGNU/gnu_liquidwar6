@@ -34,7 +34,8 @@
  * Pointer must be freed.
  */
 static char *
-create_button_key (lw6gui_look_t * look, lw6gui_menuitem_t * menuitem)
+create_button_key (const lw6gui_look_t * look,
+		   const lw6gui_menuitem_t * menuitem)
 {
   char *key;
   int c1, c2;
@@ -52,8 +53,8 @@ create_button_key (lw6gui_look_t * look, lw6gui_menuitem_t * menuitem)
  */
 int
 mod_gl1_utils_store_button_in_menucache (mod_gl1_utils_context_t * context,
-					 lw6gui_look_t * look,
-					 lw6gui_menuitem_t * menuitem,
+					 const lw6gui_look_t * look,
+					 const lw6gui_menuitem_t * menuitem,
 					 mod_gl1_utils_bitmap_t * bitmap)
 {
   mod_gl1_utils_menucache_array_t *menucache_array;
@@ -96,8 +97,8 @@ mod_gl1_utils_store_button_in_menucache (mod_gl1_utils_context_t * context,
  */
 mod_gl1_utils_bitmap_t *
 mod_gl1_utils_get_button_from_menucache (mod_gl1_utils_context_t * context,
-					 lw6gui_look_t * look,
-					 lw6gui_menuitem_t * menuitem)
+					 const lw6gui_look_t * look,
+					 const lw6gui_menuitem_t * menuitem)
 {
   mod_gl1_utils_menucache_array_t *menucache_array;
   mod_gl1_utils_bitmap_t *bitmap = NULL;

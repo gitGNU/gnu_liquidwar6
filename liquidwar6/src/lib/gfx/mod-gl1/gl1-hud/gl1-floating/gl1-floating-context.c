@@ -216,8 +216,9 @@ _mod_gl1_hud_floating_context_update_hud (mod_gl1_utils_context_t *
 					  utils_context,
 					  _mod_gl1_hud_floating_context_t
 					  * floating_context,
-					  lw6gui_look_t * look,
-					  lw6ker_game_state_t * game_state,
+					  const lw6gui_look_t * look,
+					  const lw6ker_game_state_t *
+					  game_state,
 					  lw6pil_local_cursors_t *
 					  local_cursors)
 {
@@ -346,8 +347,9 @@ _mod_gl1_hud_floating_context_update_score (mod_gl1_utils_context_t *
 					    utils_context,
 					    _mod_gl1_hud_floating_context_t
 					    * floating_context,
-					    lw6gui_look_t * look,
-					    lw6ker_game_state_t * game_state,
+					    const lw6gui_look_t * look,
+					    const lw6ker_game_state_t *
+					    game_state,
 					    lw6pil_local_cursors_t *
 					    local_cursors)
 {

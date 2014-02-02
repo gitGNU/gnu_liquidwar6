@@ -28,7 +28,7 @@
 
 static int
 push_metadata (lw6sys_hexa_serializer_t * hexa_serializer,
-	       lw6map_metadata_t * metadata)
+	       const lw6map_metadata_t * metadata)
 {
   int ret = 1;
 
@@ -50,7 +50,7 @@ push_metadata (lw6sys_hexa_serializer_t * hexa_serializer,
 
 static int
 push_layer (lw6sys_hexa_serializer_t * hexa_serializer,
-	    lw6map_layer_t * layer)
+	    const lw6map_layer_t * layer)
 {
   int ret = 1;
   int x, y;
@@ -73,7 +73,7 @@ push_layer (lw6sys_hexa_serializer_t * hexa_serializer,
 
 static int
 push_meta_layer (lw6sys_hexa_serializer_t * hexa_serializer,
-		 lw6map_meta_layer_t * meta_layer)
+		 const lw6map_meta_layer_t * meta_layer)
 {
   int ret = 1;
   int x, y;
@@ -95,7 +95,8 @@ push_meta_layer (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
-push_body (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_body_t * body)
+push_body (lw6sys_hexa_serializer_t * hexa_serializer,
+	   const lw6map_body_t * body)
 {
   int ret = 1;
   int layer;
@@ -121,7 +122,7 @@ push_body (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_body_t * body)
 
 static int
 push_texture (lw6sys_hexa_serializer_t * hexa_serializer,
-	      lw6map_texture_t * texture)
+	      const lw6map_texture_t * texture)
 {
   int ret = 1;
   int x, y;
@@ -163,7 +164,7 @@ push_texture (lw6sys_hexa_serializer_t * hexa_serializer,
 
 static int
 push_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
-		     lw6map_cursor_texture_t * cursor_texture)
+		     const lw6map_cursor_texture_t * cursor_texture)
 {
   int ret = 1;
   int x, y;
@@ -198,7 +199,7 @@ push_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
 
 static int
 push_param (lw6sys_hexa_serializer_t * hexa_serializer,
-	    lw6map_param_t * param)
+	    const lw6map_param_t * param)
 {
   int ret = 1;
   int i, value;
@@ -397,7 +398,7 @@ push_param (lw6sys_hexa_serializer_t * hexa_serializer,
  * Return value: a newly allocated pointer, NULL if conversion failed.
  */
 char *
-lw6map_to_hexa (lw6map_level_t * level)
+lw6map_to_hexa (const lw6map_level_t * level)
 {
   char *ret = NULL;
   lw6sys_hexa_serializer_t *hexa_serializer = NULL;

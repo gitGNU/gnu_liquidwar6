@@ -224,7 +224,7 @@ lw6map_style_clear (lw6map_style_t * style)
  * Return value: none.
  */
 void
-lw6map_style_copy (lw6map_style_t * dst, lw6map_style_t * src)
+lw6map_style_copy (lw6map_style_t * dst, const lw6map_style_t * src)
 {
   lw6map_style_clear (dst);
   memcpy (dst, src, sizeof (lw6map_style_t));
@@ -585,7 +585,7 @@ lw6map_style_set (lw6map_style_t * style, const char *key, const char *value)
  * Return value: dynamically allocated string.
  */
 char *
-lw6map_style_get (lw6map_style_t * style, const char *key)
+lw6map_style_get (const lw6map_style_t * style, const char *key)
 {
   char *ret = NULL;
   char *formatted_key = NULL;

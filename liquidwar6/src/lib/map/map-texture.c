@@ -43,8 +43,9 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6map_texture_from_body (lw6map_texture_t * texture, lw6map_body_t * body,
-			  lw6map_color_couple_t * color)
+lw6map_texture_from_body (lw6map_texture_t * texture,
+			  const lw6map_body_t * body,
+			  const lw6map_color_couple_t * color)
 {
   int ret = 0;
   int x, y;
@@ -119,7 +120,7 @@ lw6map_texture_clear (lw6map_texture_t * texture)
  * Return value: 1 on success, 0 if failure.
  */
 int
-lw6map_texture_coord_from_body (lw6map_level_t * level, int *texture_x,
+lw6map_texture_coord_from_body (const lw6map_level_t * level, int *texture_x,
 				int *texture_y, int body_x, int body_y)
 {
   int ret = 0;
@@ -156,7 +157,7 @@ lw6map_texture_coord_from_body (lw6map_level_t * level, int *texture_x,
  * Return value: RGBA 8-bit color.
  */
 lw6sys_color_8_t
-lw6map_texture_get_with_body_coord (lw6map_level_t * level, int body_x,
+lw6map_texture_get_with_body_coord (const lw6map_level_t * level, int body_x,
 				    int body_y)
 {
   lw6sys_color_8_t ret = LW6SYS_COLOR_8_BLACK;

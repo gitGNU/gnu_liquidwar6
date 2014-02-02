@@ -225,7 +225,7 @@ mod_gl1_utils_surface2texture (mod_gl1_utils_context_t * gfx_context,
  */
 static GLuint
 _map2texture_xywh (mod_gl1_utils_context_t * gfx_context,
-		   lw6map_level_t * level, int x, int y, int w, int h)
+		   const lw6map_level_t * level, int x, int y, int w, int h)
 {
   GLuint texture = 0;
   SDL_Surface *image;
@@ -285,13 +285,14 @@ _map2texture_xywh (mod_gl1_utils_context_t * gfx_context,
 
 static GLuint
 _map2texture_wh (mod_gl1_utils_context_t * gfx_context,
-		 lw6map_level_t * level, int w, int h)
+		 const lw6map_level_t * level, int w, int h)
 {
   return _map2texture_xywh (gfx_context, level, 0, 0, w, h);
 }
 
 static GLuint
-_map2texture (mod_gl1_utils_context_t * gfx_context, lw6map_level_t * level)
+_map2texture (mod_gl1_utils_context_t * gfx_context,
+	      const lw6map_level_t * level)
 {
   int w, h;
 
@@ -304,8 +305,8 @@ _map2texture (mod_gl1_utils_context_t * gfx_context, lw6map_level_t * level)
 
 GLuint
 mod_gl1_utils_map2texture_xywh (mod_gl1_utils_context_t * gfx_context,
-				lw6map_level_t * level, int x, int y, int w,
-				int h)
+				const lw6map_level_t * level, int x, int y,
+				int w, int h)
 {
   GLuint texture;
 
@@ -316,7 +317,7 @@ mod_gl1_utils_map2texture_xywh (mod_gl1_utils_context_t * gfx_context,
 
 GLuint
 mod_gl1_utils_map2texture_wh (mod_gl1_utils_context_t * gfx_context,
-			      lw6map_level_t * level, int w, int h)
+			      const lw6map_level_t * level, int w, int h)
 {
   GLuint texture;
 
@@ -327,7 +328,7 @@ mod_gl1_utils_map2texture_wh (mod_gl1_utils_context_t * gfx_context,
 
 GLuint
 mod_gl1_utils_map2texture (mod_gl1_utils_context_t * gfx_context,
-			   lw6map_level_t * level)
+			   const lw6map_level_t * level)
 {
   GLuint texture;
 

@@ -32,7 +32,7 @@ _mod_gl1_menu_cylinder_center_on_menuitem (mod_gl1_utils_context_t *
 					   utils_context,
 					   _mod_gl1_menu_cylinder_context_t
 					   * cylinder_context,
-					   lw6gui_look_t * look,
+					   const lw6gui_look_t * look,
 					   lw6gui_menu_t * menu, int position)
 {
   lw6gui_menu_center (menu, position,
@@ -43,7 +43,7 @@ void
 mod_gl1_menu_cylinder_center (mod_gl1_utils_context_t *
 			      utils_context,
 			      void *cylinder_context,
-			      lw6gui_look_t * look,
+			      const lw6gui_look_t * look,
 			      lw6gui_menu_t * menu, int position)
 {
   _mod_gl1_menu_cylinder_center_on_menuitem (utils_context,

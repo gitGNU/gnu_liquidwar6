@@ -949,15 +949,15 @@ extern void lw6gui_keypress_free (lw6gui_keypress_t * keypress);
 extern char *lw6gui_keypress_repr (const lw6gui_keypress_t * keypress);
 
 /* gui-look.c */
-extern lw6gui_look_t *lw6gui_look_new (lw6map_style_t * map_style);
+extern lw6gui_look_t *lw6gui_look_new (const lw6map_style_t * map_style);
 extern void lw6gui_look_free (lw6gui_look_t * look);
-extern int lw6gui_look_memory_footprint (lw6gui_look_t * look);
+extern int lw6gui_look_memory_footprint (const lw6gui_look_t * look);
 extern char *lw6gui_look_repr (const lw6gui_look_t * look);
 extern int lw6gui_look_set (lw6gui_look_t * look, char *key, char *value);
-extern char *lw6gui_look_get (lw6gui_look_t * look, char *key);
+extern char *lw6gui_look_get (const lw6gui_look_t * look, char *key);
 extern int lw6gui_look_is_same (const lw6gui_look_t * look_a,
 				const lw6gui_look_t * look_b);
-extern lw6gui_look_t *lw6gui_look_dup (lw6gui_look_t * look);
+extern lw6gui_look_t *lw6gui_look_dup (const lw6gui_look_t * look);
 extern void lw6gui_look_fix (lw6gui_look_t * look);
 extern int lw6gui_look_zoom_in (lw6gui_look_t * look, float zoom_step);
 extern int lw6gui_look_zoom_out (lw6gui_look_t * look, float zoom_step);

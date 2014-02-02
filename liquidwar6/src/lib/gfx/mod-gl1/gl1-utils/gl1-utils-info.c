@@ -31,16 +31,16 @@
 
 void
 mod_gl1_utils_display_log (mod_gl1_utils_context_t * context,
-			   lw6gui_look_t * look, char **log_list)
+			   const lw6gui_look_t * look, const char **log_list)
 {
   mod_gl1_utils_draw_system_text_bottom_left (context, look, log_list);
 }
 
 void
 mod_gl1_utils_display_fps (mod_gl1_utils_context_t * context,
-			   lw6gui_look_t * look, float fps)
+			   const lw6gui_look_t * look, float fps)
 {
-  char *list_fps[2];
+  const char *list_fps[2];
 
   if (fps >= 0)
     {
@@ -57,9 +57,10 @@ mod_gl1_utils_display_fps (mod_gl1_utils_context_t * context,
 
 void
 mod_gl1_utils_display_mps (mod_gl1_utils_context_t * context,
-			   lw6gui_look_t * look, float mps, int target_mps)
+			   const lw6gui_look_t * look, float mps,
+			   int target_mps)
 {
-  char *list_mps[3];
+  const char *list_mps[3];
 
   if (mps >= 0.0f)
     {
@@ -77,9 +78,9 @@ mod_gl1_utils_display_mps (mod_gl1_utils_context_t * context,
 
 void
 mod_gl1_utils_display_url (mod_gl1_utils_context_t * context,
-			   lw6gui_look_t * look, const char *url)
+			   const lw6gui_look_t * look, const char *url)
 {
-  char *list_url[2];
+  const char *list_url[2];
 
   if (url)
     {

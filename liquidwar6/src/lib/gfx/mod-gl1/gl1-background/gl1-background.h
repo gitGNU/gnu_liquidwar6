@@ -39,7 +39,8 @@ typedef struct mod_gl1_background_backend_s
   void (*quit) (mod_gl1_utils_context_t * utils_context,
 		void *background_context);
   void (*display_background) (mod_gl1_utils_context_t * utils_context,
-			      void *background_context, lw6gui_look_t * look);
+			      void *background_context,
+			      const lw6gui_look_t * look);
 }
 mod_gl1_background_backend_t;
 
@@ -50,7 +51,8 @@ extern void mod_gl1_background_display_background (mod_gl1_utils_context_t *
 						   utils_context,
 						   mod_gl1_background_backend_t
 						   * backend,
-						   lw6gui_look_t * look);
+						   const lw6gui_look_t *
+						   look);
 extern int mod_gl1_background_init (mod_gl1_utils_context_t * utils_context,
 				    mod_gl1_background_backend_t * backend);
 extern void mod_gl1_background_quit (mod_gl1_utils_context_t * utils_context,
@@ -61,7 +63,7 @@ extern void mod_gl1_background_quit (mod_gl1_utils_context_t * utils_context,
  */
 extern mod_gl1_background_backend_t
   * mod_gl1_background_create_backend (mod_gl1_utils_context_t *
-				       utils_context, char *name);
+				       utils_context, const char *name);
 extern void mod_gl1_background_destroy_backend (mod_gl1_utils_context_t *
 						utils_context,
 						mod_gl1_background_backend_t *

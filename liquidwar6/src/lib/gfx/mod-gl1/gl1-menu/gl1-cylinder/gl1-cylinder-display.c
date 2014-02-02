@@ -62,7 +62,7 @@ draw_sphere (mod_gl1_utils_context_t * utils_context,
 }
 
 static SDL_Color
-get_fg_color (lw6gui_look_t * look, lw6gui_menuitem_t * menuitem)
+get_fg_color (const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
 {
   SDL_Color color;
 
@@ -92,7 +92,7 @@ get_fg_color (lw6gui_look_t * look, lw6gui_menuitem_t * menuitem)
 }
 
 static SDL_Color
-get_bg_color (lw6gui_look_t * look, lw6gui_menuitem_t * menuitem)
+get_bg_color (const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
 {
   SDL_Color color;
 
@@ -149,7 +149,8 @@ get_bg_color (lw6gui_look_t * look, lw6gui_menuitem_t * menuitem)
 static void
 draw_button (mod_gl1_utils_context_t * utils_context,
 	     _mod_gl1_menu_cylinder_context_t * cylinder_context,
-	     lw6gui_look_t * look, lw6gui_menuitem_t * menuitem, int i, int n)
+	     const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem,
+	     int i, int n)
 {
   SDL_Surface *text_surface = NULL;
   mod_gl1_utils_bitmap_t *bitmap = NULL;
@@ -327,7 +328,8 @@ draw_spheres (mod_gl1_utils_context_t * utils_context,
 void
 _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
 				     _mod_gl1_menu_cylinder_context_t *
-				     cylinder_context, lw6gui_look_t * look,
+				     cylinder_context,
+				     const lw6gui_look_t * look,
 				     lw6gui_menu_t * menu)
 {
   int i, j, n;
@@ -450,7 +452,7 @@ _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
 				    void *cylinder_context,
-				    lw6gui_look_t * look,
+				    const lw6gui_look_t * look,
 				    lw6gui_menu_t * menu)
 {
   _mod_gl1_menu_cylinder_display_menu (utils_context,
@@ -482,7 +484,8 @@ _mod_gl1_menu_cylinder_display_progress (mod_gl1_utils_context_t *
 					 utils_context,
 					 _mod_gl1_menu_cylinder_context_t *
 					 cylinder_context,
-					 lw6gui_look_t * look, float progress)
+					 const lw6gui_look_t * look,
+					 float progress)
 {
   mod_gl1_utils_set_render_mode_3d_menu (utils_context);
 
@@ -498,7 +501,8 @@ _mod_gl1_menu_cylinder_display_progress (mod_gl1_utils_context_t *
 void
 mod_gl1_menu_cylinder_display_progress (mod_gl1_utils_context_t *
 					utils_context, void *cylinder_context,
-					lw6gui_look_t * look, float progress)
+					const lw6gui_look_t * look,
+					float progress)
 {
   _mod_gl1_menu_cylinder_display_progress (utils_context,
 					   (_mod_gl1_menu_cylinder_context_t
@@ -512,7 +516,8 @@ mod_gl1_menu_cylinder_display_progress (mod_gl1_utils_context_t *
 void
 _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 				     _mod_gl1_menu_cylinder_context_t *
-				     cylinder_context, lw6gui_look_t * look,
+				     cylinder_context,
+				     const lw6gui_look_t * look,
 				     lw6gui_menu_t * menu)
 {
   int n;
@@ -755,7 +760,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 				    void *cylinder_context,
-				    lw6gui_look_t * look,
+				    const lw6gui_look_t * look,
 				    lw6gui_menu_t * menu)
 {
   _mod_gl1_menu_cylinder_display_meta (utils_context,

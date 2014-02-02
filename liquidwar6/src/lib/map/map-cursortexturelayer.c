@@ -60,7 +60,7 @@ lw6map_cursor_texture_layer_set (lw6map_cursor_texture_layer_t *
  * Return value: the color
  */
 lw6sys_color_8_t
-lw6map_cursor_texture_layer_get (lw6map_cursor_texture_layer_t *
+lw6map_cursor_texture_layer_get (const lw6map_cursor_texture_layer_t *
 				 cursor_texture_layer, int x, int y)
 {
   return cursor_texture_layer->data[y][x];

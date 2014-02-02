@@ -32,8 +32,8 @@
 
 mod_gl1_utils_bitmap_t *
 mod_gl1_utils_cursor_create_fg_bg (mod_gl1_utils_context_t * utils_context,
-				   lw6gui_look_t * look,
-				   lw6map_level_t * level)
+				   const lw6gui_look_t * look,
+				   const lw6map_level_t * level)
 {
   mod_gl1_utils_bitmap_t *bitmap = NULL;
   SDL_Surface *surface = NULL;
@@ -77,9 +77,10 @@ mod_gl1_utils_cursor_create_fg_bg (mod_gl1_utils_context_t * utils_context,
 
 mod_gl1_utils_bitmap_t
   * mod_gl1_utils_cursor_create_color (mod_gl1_utils_context_t *
-				       utils_context, lw6gui_look_t * look,
-				       lw6map_level_t * level,
-				       lw6ker_cursor_t * cursor)
+				       utils_context,
+				       const lw6gui_look_t * look,
+				       const lw6map_level_t * level,
+				       const lw6ker_cursor_t * cursor)
 {
   mod_gl1_utils_bitmap_t *bitmap = NULL;
   SDL_Surface *surface = NULL;

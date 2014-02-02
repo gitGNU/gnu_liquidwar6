@@ -520,7 +520,7 @@ extern int lw6ker_move_get_best_next_pos (const lw6ker_game_state_t *
 					  int team_color);
 /* ker-scorearray.c */
 extern int lw6ker_score_array_update (lw6ker_score_array_t * score_array,
-				      lw6ker_game_state_t * game_state);
+				      const lw6ker_game_state_t * game_state);
 
 /* ker-teammask.c */
 extern void lw6ker_team_mask_get (u_int32_t * even, u_int32_t * odd,

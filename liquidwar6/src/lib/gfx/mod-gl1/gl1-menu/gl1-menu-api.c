@@ -66,7 +66,7 @@ mod_gl1_menu_quit (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_menu_display_menu (mod_gl1_utils_context_t * utils_context,
 			   mod_gl1_menu_backend_t * backend,
-			   lw6gui_look_t * look, lw6gui_menu_t * menu)
+			   const lw6gui_look_t * look, lw6gui_menu_t * menu)
 {
   if (backend->display_menu)
     {
@@ -82,7 +82,7 @@ mod_gl1_menu_display_menu (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_menu_display_progress (mod_gl1_utils_context_t * utils_context,
 			       mod_gl1_menu_backend_t * backend,
-			       lw6gui_look_t * look, float progress)
+			       const lw6gui_look_t * look, float progress)
 {
   if (backend->display_progress)
     {
@@ -98,7 +98,7 @@ mod_gl1_menu_display_progress (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_menu_display_meta (mod_gl1_utils_context_t * utils_context,
 			   mod_gl1_menu_backend_t * backend,
-			   lw6gui_look_t * look, lw6gui_menu_t * menu)
+			   const lw6gui_look_t * look, lw6gui_menu_t * menu)
 {
   if (backend->display_meta)
     {

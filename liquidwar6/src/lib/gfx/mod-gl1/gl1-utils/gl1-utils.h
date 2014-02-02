@@ -397,7 +397,8 @@ extern int mod_gl1_utils_bitmap_colorize (mod_gl1_utils_context_t *
 					  utils_context,
 					  mod_gl1_utils_bitmap_t * bitmap,
 					  int colorize,
-					  lw6map_color_couple_t * color);
+					  const lw6map_color_couple_t *
+					  color);
 extern int mod_gl1_utils_bitmap_set_wrap (mod_gl1_utils_context_t *
 					  utils_context,
 					  mod_gl1_utils_bitmap_t * bitmap,
@@ -463,8 +464,8 @@ extern int mod_gl1_utils_bitmap_array_init_from_map (mod_gl1_utils_context_t *
 						     utils_context,
 						     mod_gl1_utils_bitmap_array_t
 						     * bitmap_array,
-						     lw6map_level_t * level,
-						     int tile_size,
+						     const lw6map_level_t *
+						     level, int tile_size,
 						     int border_size,
 						     int x_polarity,
 						     int y_polarity);
@@ -481,8 +482,8 @@ extern int mod_gl1_utils_bitmap_array_set (mod_gl1_utils_bitmap_array_t *
 					   bitmap_array, int i,
 					   mod_gl1_utils_bitmap_t * bitmap);
 extern mod_gl1_utils_bitmap_t
-  * mod_gl1_utils_bitmap_array_get (mod_gl1_utils_bitmap_array_t *
-				    bitmap_array, int i);
+  *mod_gl1_utils_bitmap_array_get (mod_gl1_utils_bitmap_array_t *
+				   bitmap_array, int i);
 
 /*
  * In bitmaphash.c
@@ -504,7 +505,7 @@ extern int mod_gl1_utils_bitmap_hash_dump2disk (mod_gl1_utils_context_t *
 
 /* gl1-utils-cache.c */
 int mod_gl1_utils_cache_update (mod_gl1_utils_context_t * utils_context,
-				lw6gui_look_t * look);
+				const lw6gui_look_t * look);
 
 /*
  * In capture.c
@@ -518,16 +519,18 @@ extern int mod_gl1_utils_capture2disk (mod_gl1_utils_context_t *
  * In color.c
  */
 extern SDL_Color mod_gl1_utils_color_8_to_sdl (lw6sys_color_8_t color_8);
-extern SDL_Color mod_gl1_utils_color_f_to_sdl (lw6sys_color_f_t * color_f);
+extern SDL_Color mod_gl1_utils_color_f_to_sdl (const lw6sys_color_f_t *
+					       color_f);
 extern void
 mod_gl1_utils_update_team_color_map (mod_gl1_utils_team_color_map_t *
 				     team_color_map,
-				     lw6map_style_t * map_style);
-extern int
-mod_gl1_utils_team_color_map_is_same (mod_gl1_utils_team_color_map_t *
-				      team_color_map_a,
-				      mod_gl1_utils_team_color_map_t *
-				      team_color_map_b);
+				     const lw6map_style_t * map_style);
+extern int mod_gl1_utils_team_color_map_is_same (const
+						 mod_gl1_utils_team_color_map_t
+						 * team_color_map_a,
+						 const
+						 mod_gl1_utils_team_color_map_t
+						 * team_color_map_b);
 extern void mod_gl1_utils_force_color32_alpha (Uint32 * color, float alpha);
 extern Uint32
 mod_gl1_utils_get_shaded_color_for_fighter_f (mod_gl1_utils_context_t *
@@ -548,6 +551,7 @@ mod_gl1_utils_get_shaded_color_for_fighter (mod_gl1_utils_context_t *
 extern SDL_Surface *mod_gl1_utils_colorize_surface (mod_gl1_utils_context_t *
 						    utils_context,
 						    SDL_Surface * surface,
+						    const
 						    lw6map_color_couple_t *
 						    color, int has_alpha);
 
@@ -562,13 +566,14 @@ extern void mod_gl1_utils_unload_consts (mod_gl1_utils_context_t * context);
  */
 extern mod_gl1_utils_bitmap_t
   * mod_gl1_utils_cursor_create_fg_bg (mod_gl1_utils_context_t *
-				       utils_context, lw6gui_look_t * look,
-				       lw6map_level_t * level);
+				       utils_context,
+				       const lw6gui_look_t * look,
+				       const lw6map_level_t * level);
 extern mod_gl1_utils_bitmap_t
-  * mod_gl1_utils_cursor_create_color (mod_gl1_utils_context_t *
-				       utils_context, lw6gui_look_t * look,
-				       lw6map_level_t * level,
-				       lw6ker_cursor_t * cursor);
+  *mod_gl1_utils_cursor_create_color (mod_gl1_utils_context_t * utils_context,
+				      const lw6gui_look_t * look,
+				      const lw6map_level_t * level,
+				      const lw6ker_cursor_t * cursor);
 
 /*
  * In data.c
@@ -592,13 +597,16 @@ extern void mod_gl1_utils_unload_data (mod_gl1_utils_context_t *
  * In debug.c
  */
 extern void mod_gl1_utils_display_zones (mod_gl1_utils_context_t *
-					 utils_context, lw6gui_look_t * look,
-					 lw6ker_game_struct_t * game_struct);
+					 utils_context,
+					 const lw6gui_look_t * look,
+					 const lw6ker_game_struct_t *
+					 game_struct);
 extern void mod_gl1_utils_display_gradient (mod_gl1_utils_context_t *
 					    utils_context,
-					    lw6gui_look_t * look,
-					    lw6ker_game_state_t * game_state,
-					    int team_id, int layer_id);
+					    const lw6gui_look_t * look,
+					    const lw6ker_game_state_t *
+					    game_state, int team_id,
+					    int layer_id);
 
 /*
  * In display.c
@@ -663,7 +671,7 @@ extern mod_gl1_utils_bitmap_t
   * mod_gl1_utils_multiline_text_write (mod_gl1_utils_context_t *
 					utils_context, TTF_Font * font,
 					const char *text,
-					lw6map_color_couple_t * color,
+					const lw6map_color_couple_t * color,
 					float alpha_bg, int max_width,
 					int max_height, int border_size,
 					int margin_size, int reformat_width);
@@ -673,26 +681,28 @@ extern SDL_Surface
 					const char *text);
 extern void mod_gl1_utils_draw_system_text (mod_gl1_utils_context_t *
 					    utils_context,
-					    lw6gui_look_t * look,
+					    const lw6gui_look_t * look,
 					    const char *text, int x, int y);
 extern void mod_gl1_utils_draw_system_text_top_left (mod_gl1_utils_context_t *
 						     utils_context,
-						     lw6gui_look_t * look,
-						     char **text_list);
+						     const lw6gui_look_t *
+						     look,
+						     const char **text_list);
 extern void mod_gl1_utils_draw_system_text_top_right (mod_gl1_utils_context_t
 						      * utils_context,
-						      lw6gui_look_t * look,
-						      char **text_list);
+						      const lw6gui_look_t *
+						      look,
+						      const char **text_list);
 extern void
 mod_gl1_utils_draw_system_text_bottom_left (mod_gl1_utils_context_t *
 					    utils_context,
-					    lw6gui_look_t * look,
-					    char **text_list);
+					    const lw6gui_look_t * look,
+					    const char **text_list);
 extern void
 mod_gl1_utils_draw_system_text_bottom_right (mod_gl1_utils_context_t *
 					     utils_context,
-					     lw6gui_look_t * look,
-					     char **text_list);
+					     const lw6gui_look_t * look,
+					     const char **text_list);
 
 
 /*
@@ -702,23 +712,24 @@ extern void mod_gl1_utils_update_game_bitmap_raw (mod_gl1_utils_context_t *
 						  utils_context,
 						  mod_gl1_utils_bitmap_t *
 						  bitmap,
-						  lw6ker_game_state_t *
+						  const lw6ker_game_state_t *
 						  game_state,
-						  lw6map_color_couple_t *
-						  map_color, int invert_y);
+						  const lw6map_color_couple_t
+						  * map_color, int invert_y);
 extern void mod_gl1_utils_update_game_bitmap (mod_gl1_utils_context_t *
 					      utils_context,
 					      mod_gl1_utils_bitmap_t * bitmap,
-					      lw6ker_game_state_t *
+					      const lw6ker_game_state_t *
 					      game_state,
-					      lw6gui_look_t * look);
+					      const lw6gui_look_t * look);
 extern void mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
 						    utils_context,
 						    mod_gl1_utils_bitmap_array_t
 						    * bitmap_array,
-						    lw6ker_game_state_t *
-						    game_state,
-						    lw6gui_look_t * look);
+						    const lw6ker_game_state_t
+						    * game_state,
+						    const lw6gui_look_t *
+						    look);
 
 /*
  * In gradient.c
@@ -726,8 +737,9 @@ extern void mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
 extern SDL_Surface
   * mod_gl1_utils_create_gradient_surface (mod_gl1_utils_context_t *
 					   utils_context,
-					   lw6ker_game_state_t * game_state,
-					   int team_id, int layer_id);
+					   const lw6ker_game_state_t *
+					   game_state, int team_id,
+					   int layer_id);
 
 /*
  * In icon.c
@@ -740,16 +752,19 @@ extern void mod_gl1_utils_icon_unset (mod_gl1_utils_context_t *
  * In info.c
  */
 extern void mod_gl1_utils_display_log (mod_gl1_utils_context_t *
-				       utils_context, lw6gui_look_t * look,
-				       char **log_list);
+				       utils_context,
+				       const lw6gui_look_t * look,
+				       const char **log_list);
 extern void mod_gl1_utils_display_fps (mod_gl1_utils_context_t *
-				       utils_context, lw6gui_look_t * look,
-				       float fps);
+				       utils_context,
+				       const lw6gui_look_t * look, float fps);
 extern void mod_gl1_utils_display_mps (mod_gl1_utils_context_t *
-				       utils_context, lw6gui_look_t * look,
-				       float mps, int target_mps);
+				       utils_context,
+				       const lw6gui_look_t * look, float mps,
+				       int target_mps);
 extern void mod_gl1_utils_display_url (mod_gl1_utils_context_t *
-				       utils_context, lw6gui_look_t * look,
+				       utils_context,
+				       const lw6gui_look_t * look,
 				       const char *url);
 
 /*
@@ -771,15 +786,17 @@ extern void mod_gl1_utils_main_light (mod_gl1_utils_context_t *
  */
 extern int mod_gl1_utils_store_button_in_menucache (mod_gl1_utils_context_t *
 						    utils_context,
-						    lw6gui_look_t * look,
-						    lw6gui_menuitem_t *
+						    const lw6gui_look_t *
+						    look,
+						    const lw6gui_menuitem_t *
 						    menuitem,
 						    mod_gl1_utils_bitmap_t *
 						    bitmap);
 extern mod_gl1_utils_bitmap_t
-  * mod_gl1_utils_get_button_from_menucache (mod_gl1_utils_context_t *
-					     context, lw6gui_look_t * look,
-					     lw6gui_menuitem_t * menuitem);
+  *mod_gl1_utils_get_button_from_menucache (mod_gl1_utils_context_t * context,
+					    const lw6gui_look_t * look,
+					    const lw6gui_menuitem_t *
+					    menuitem);
 extern void mod_gl1_utils_clear_menucache (mod_gl1_utils_context_t *
 					   utils_context);
 
@@ -841,7 +858,7 @@ mod_gl1_utils_putpixel_4_bytes_per_pixel (SDL_Surface * surface, int x, int y,
  */
 extern void mod_gl1_utils_prepare_buffer (mod_gl1_utils_context_t *
 					  utils_context,
-					  lw6gui_look_t * look);
+					  const lw6gui_look_t * look);
 extern void mod_gl1_utils_swap_buffers (mod_gl1_utils_context_t *
 					utils_context);
 extern void mod_gl1_utils_set_render_mode_2d (mod_gl1_utils_context_t *
@@ -878,12 +895,13 @@ extern void mod_gl1_utils_find_closest_resolution (mod_gl1_utils_context_t *
 extern mod_gl1_utils_shaded_text_t
   * mod_gl1_utils_shaded_text_new (mod_gl1_utils_context_t * utils_context,
 				   TTF_Font * font, const char *text,
-				   lw6map_color_couple_t * color);
+				   const lw6map_color_couple_t * color);
 extern int mod_gl1_utils_shaded_text_update (mod_gl1_utils_context_t *
 					     utils_context,
 					     mod_gl1_utils_shaded_text_t *
 					     shaded_text, const char *text,
-					     lw6map_color_couple_t * color);
+					     const lw6map_color_couple_t *
+					     color);
 extern int mod_gl1_utils_shaded_text_display (mod_gl1_utils_context_t *
 					      utils_context,
 					      mod_gl1_utils_shaded_text_t *
@@ -919,16 +937,16 @@ extern void mod_gl1_utils_clear_surface_with_color (SDL_Surface * surface,
 extern void mod_gl1_utils_clear_surface (SDL_Surface * surface);
 extern SDL_Surface *mod_gl1_utils_map2surface_xywh (mod_gl1_utils_context_t *
 						    utils_context,
-						    lw6map_level_t * level,
-						    int x, int y, int w,
-						    int h);
+						    const lw6map_level_t *
+						    level, int x, int y,
+						    int w, int h);
 extern SDL_Surface *mod_gl1_utils_map2surface_wh (mod_gl1_utils_context_t *
 						  utils_context,
-						  lw6map_level_t * level,
-						  int w, int h);
+						  const lw6map_level_t *
+						  level, int w, int h);
 extern SDL_Surface *mod_gl1_utils_map2surface (mod_gl1_utils_context_t *
 					       utils_context,
-					       lw6map_level_t * level);
+					       const lw6map_level_t * level);
 
 /*
  * In texture.c
@@ -949,15 +967,15 @@ extern GLuint mod_gl1_utils_surface2texture (mod_gl1_utils_context_t *
 					     int mipmap);
 extern GLuint mod_gl1_utils_map2texture_xywh (mod_gl1_utils_context_t *
 					      utils_context,
-					      lw6map_level_t * level, int x,
-					      int y, int w, int h);
+					      const lw6map_level_t * level,
+					      int x, int y, int w, int h);
 extern GLuint mod_gl1_utils_map2texture_wh (mod_gl1_utils_context_t *
 					    utils_context,
-					    lw6map_level_t * level, int w,
-					    int h);
+					    const lw6map_level_t * level,
+					    int w, int h);
 extern GLuint mod_gl1_utils_map2texture (mod_gl1_utils_context_t *
 					 utils_context,
-					 lw6map_level_t * level);
+					 const lw6map_level_t * level);
 extern void mod_gl1_utils_delete_texture (mod_gl1_utils_context_t *
 					  utils_context, GLuint texture);
 extern void mod_gl1_utils_schedule_delete_texture (mod_gl1_utils_context_t *
@@ -978,7 +996,7 @@ extern mod_gl1_utils_bitmap_t
 					    lw6sys_color_8_t color_8);
 extern int mod_gl1_utils_texture_1x1_update (mod_gl1_utils_context_t *
 					     utils_context,
-					     lw6gui_look_t * look);
+					     const lw6gui_look_t * look);
 extern void mod_gl1_utils_texture_1x1_clear (mod_gl1_utils_context_t *
 					     utils_context);
 
@@ -1002,6 +1020,7 @@ extern void mod_gl1_utils_viewport_drawable_max (mod_gl1_utils_context_t *
 extern SDL_Surface
   * mod_gl1_utils_create_zones_surface (mod_gl1_utils_context_t *
 					utils_context,
-					lw6ker_game_struct_t * map_struct);
+					const lw6ker_game_struct_t *
+					map_struct);
 
 #endif

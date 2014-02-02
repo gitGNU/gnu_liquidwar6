@@ -281,8 +281,9 @@ _lw6ker_score_array_update (lw6ker_score_array_t * score_array,
  */
 int
 lw6ker_score_array_update (lw6ker_score_array_t * score_array,
-			   lw6ker_game_state_t * game_state)
+			   const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_score_array_update (score_array,
-				     (_lw6ker_game_state_t *) game_state);
+				     (const _lw6ker_game_state_t *)
+				     game_state);
 }

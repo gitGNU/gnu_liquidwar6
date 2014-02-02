@@ -95,8 +95,8 @@ _mod_gl1_hud_floating_score_pie_t;
 typedef struct _mod_gl1_hud_floating_context_s
 {
   _mod_gl1_hud_floating_const_data_t const_data;
-  lw6gui_look_t *look;
-  lw6ker_game_state_t *game_state;
+  const lw6gui_look_t *look;
+  const lw6ker_game_state_t *game_state;
   lw6pil_local_cursors_t *local_cursors;
   lw6ker_score_array_t score_array;
   _mod_gl1_hud_floating_clock_t clock;
@@ -112,8 +112,8 @@ extern void _mod_gl1_hud_floating_display_hud (mod_gl1_utils_context_t *
 					       utils_context,
 					       _mod_gl1_hud_floating_context_t
 					       * floating_context,
-					       lw6gui_look_t * look,
-					       lw6ker_game_state_t *
+					       const lw6gui_look_t * look,
+					       const lw6ker_game_state_t *
 					       game_state,
 					       lw6pil_local_cursors_t *
 					       local_cursors);
@@ -121,8 +121,8 @@ extern void _mod_gl1_hud_floating_display_score (mod_gl1_utils_context_t *
 						 utils_context,
 						 _mod_gl1_hud_floating_context_t
 						 * floating_context,
-						 lw6gui_look_t * look,
-						 lw6ker_game_state_t *
+						 const lw6gui_look_t * look,
+						 const lw6ker_game_state_t *
 						 game_state,
 						 lw6pil_local_cursors_t *
 						 local_cursors);
@@ -145,9 +145,10 @@ extern int _mod_gl1_hud_floating_context_update_hud (mod_gl1_utils_context_t *
 						     utils_context,
 						     _mod_gl1_hud_floating_context_t
 						     * floating_context,
-						     lw6gui_look_t * look,
-						     lw6ker_game_state_t *
-						     game_state,
+						     const lw6gui_look_t *
+						     look,
+						     const lw6ker_game_state_t
+						     * game_state,
 						     lw6pil_local_cursors_t *
 						     local_cursors);
 extern int _mod_gl1_hud_floating_context_begin_score (mod_gl1_utils_context_t
@@ -162,7 +163,9 @@ extern int _mod_gl1_hud_floating_context_update_score (mod_gl1_utils_context_t
 						       * utils_context,
 						       _mod_gl1_hud_floating_context_t
 						       * floating_context,
-						       lw6gui_look_t * look,
+						       const lw6gui_look_t *
+						       look,
+						       const
 						       lw6ker_game_state_t *
 						       game_state,
 						       lw6pil_local_cursors_t

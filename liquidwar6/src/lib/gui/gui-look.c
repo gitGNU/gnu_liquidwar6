@@ -79,7 +79,7 @@ static volatile u_int32_t seq_id = 0;
  * Return value: newly created object.
  */
 lw6gui_look_t *
-lw6gui_look_new (lw6map_style_t * map_style)
+lw6gui_look_new (const lw6map_style_t * map_style)
 {
   lw6gui_look_t *look = NULL;
 
@@ -142,7 +142,7 @@ lw6gui_look_free (lw6gui_look_t * look)
  * Return value: number of bytes.
  */
 int
-lw6gui_look_memory_footprint (lw6gui_look_t * look)
+lw6gui_look_memory_footprint (const lw6gui_look_t * look)
 {
   //todo
   return sizeof (lw6gui_look_t);
@@ -225,7 +225,7 @@ lw6gui_look_set (lw6gui_look_t * look, char *key, char *value)
  * Return value: dynamically allocated string.
  */
 char *
-lw6gui_look_get (lw6gui_look_t * look, char *key)
+lw6gui_look_get (const lw6gui_look_t * look, char *key)
 {
   char *ret = NULL;
 
@@ -289,7 +289,7 @@ lw6gui_look_is_same (const lw6gui_look_t * look_a,
  * Return value: newly allocated object.
  */
 lw6gui_look_t *
-lw6gui_look_dup (lw6gui_look_t * look)
+lw6gui_look_dup (const lw6gui_look_t * look)
 {
   lw6gui_look_t *ret = NULL;
 

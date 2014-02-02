@@ -30,7 +30,8 @@
 SDL_Surface *
 mod_gl1_utils_colorize_surface (mod_gl1_utils_context_t *
 				utils_context, SDL_Surface * surface,
-				lw6map_color_couple_t * color, int has_alpha)
+				const lw6map_color_couple_t * color,
+				int has_alpha)
 {
   SDL_Surface *colorized_surface = NULL;
   int x, y;

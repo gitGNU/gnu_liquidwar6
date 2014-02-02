@@ -297,16 +297,14 @@ lw6gfx_pump_events (lw6gfx_backend_t * backend)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6gfx_display (lw6gfx_backend_t * backend, int mask, lw6gui_look_t * look,
-		lw6map_level_t * level,
-		lw6ker_game_struct_t * game_struct,
-		lw6ker_game_state_t * game_state,
-		lw6pil_local_cursors_t * local_cursors,
-		lw6gui_menu_t * menu,
-		float progress,
-		float fps, float mps,
-		char **log_list, int capture, int gfx_debug,
-		int debug_team_id, int debug_layer_id)
+lw6gfx_display (lw6gfx_backend_t * backend, int mask,
+		const lw6gui_look_t * look, const lw6map_level_t * level,
+		const lw6ker_game_struct_t * game_struct,
+		const lw6ker_game_state_t * game_state,
+		lw6pil_local_cursors_t * local_cursors, lw6gui_menu_t * menu,
+		float progress, float fps, float mps, const char **log_list,
+		int capture, int gfx_debug, int debug_team_id,
+		int debug_layer_id)
 {
   int ret = 0;
 

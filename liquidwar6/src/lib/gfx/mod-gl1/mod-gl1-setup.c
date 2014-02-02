@@ -30,7 +30,8 @@
 #include "mod-gl1-internal.h"
 
 int
-_mod_gl1_set_backends (_mod_gl1_context_t * gl_context, lw6gui_look_t * look)
+_mod_gl1_set_backends (_mod_gl1_context_t * gl_context,
+		       const lw6gui_look_t * look)
 {
   int ret = 1;
 

@@ -34,7 +34,7 @@
  */
 SDL_Surface *
 mod_gl1_utils_create_zones_surface (mod_gl1_utils_context_t * utils_context,
-				    lw6ker_game_struct_t * game_struct)
+				    const lw6ker_game_struct_t * game_struct)
 {
   SDL_Surface *zones_surface;
   lw6sys_color_f_t color;

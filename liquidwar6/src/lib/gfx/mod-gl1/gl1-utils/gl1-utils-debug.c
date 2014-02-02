@@ -43,8 +43,8 @@ _display_bitmap (mod_gl1_utils_context_t * utils_context,
 
 static void
 display_map_zones (mod_gl1_utils_context_t * utils_context,
-		   lw6gui_look_t * look, lw6map_level_t * level,
-		   lw6ker_game_struct_t * game_struct)
+		   const lw6gui_look_t * look, const lw6map_level_t * level,
+		   const lw6ker_game_struct_t * game_struct)
 {
   mod_gl1_utils_bitmap_t *bitmap = NULL;
   SDL_Surface *surface = NULL;
@@ -70,8 +70,8 @@ display_map_zones (mod_gl1_utils_context_t * utils_context,
 
 void
 mod_gl1_utils_display_zones (mod_gl1_utils_context_t * utils_context,
-			     lw6gui_look_t * look,
-			     lw6ker_game_struct_t * game_struct)
+			     const lw6gui_look_t * look,
+			     const lw6ker_game_struct_t * game_struct)
 {
   if (utils_context && look && game_struct)
     {
@@ -88,9 +88,9 @@ mod_gl1_utils_display_zones (mod_gl1_utils_context_t * utils_context,
 
 static void
 display_map_gradient (mod_gl1_utils_context_t * utils_context,
-		      lw6gui_look_t * look,
-		      lw6map_level_t * level,
-		      lw6ker_game_state_t * game_state, int team_id,
+		      const lw6gui_look_t * look,
+		      const lw6map_level_t * level,
+		      const lw6ker_game_state_t * game_state, int team_id,
 		      int layer_id)
 {
   mod_gl1_utils_bitmap_t *bitmap = NULL;
@@ -119,8 +119,8 @@ display_map_gradient (mod_gl1_utils_context_t * utils_context,
 
 void
 mod_gl1_utils_display_gradient (mod_gl1_utils_context_t * utils_context,
-				lw6gui_look_t * look,
-				lw6ker_game_state_t * game_state,
+				const lw6gui_look_t * look,
+				const lw6ker_game_state_t * game_state,
 				int team_id, int layer_id)
 {
   if (utils_context && game_state)

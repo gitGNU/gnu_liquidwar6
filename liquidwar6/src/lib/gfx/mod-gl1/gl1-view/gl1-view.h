@@ -39,19 +39,19 @@ typedef struct mod_gl1_view_backend_s
   void *(*init) (mod_gl1_utils_context_t * utils_context);
   void (*quit) (mod_gl1_utils_context_t * utils_context, void *view_context);
   void (*display_preview) (mod_gl1_utils_context_t * utils_context,
-			   void *view_context, lw6gui_look_t * look,
-			   lw6map_level_t * level);
+			   void *view_context, const lw6gui_look_t * look,
+			   const lw6map_level_t * level);
   void (*display_map) (mod_gl1_utils_context_t * utils_context,
-		       void *view_context, lw6gui_look_t * look,
-		       lw6ker_game_state_t * game_state,
+		       void *view_context, const lw6gui_look_t * look,
+		       const lw6ker_game_state_t * game_state,
 		       lw6pil_local_cursors_t * local_cursors);
   void (*display_fighters) (mod_gl1_utils_context_t * utils_context,
-			    void *view_context, lw6gui_look_t * look,
-			    lw6ker_game_state_t * game_state,
+			    void *view_context, const lw6gui_look_t * look,
+			    const lw6ker_game_state_t * game_state,
 			    lw6pil_local_cursors_t * local_cursors);
   void (*display_cursors) (mod_gl1_utils_context_t * utils_context,
-			   void *view_context, lw6gui_look_t * look,
-			   lw6ker_game_state_t * game_state,
+			   void *view_context, const lw6gui_look_t * look,
+			   const lw6ker_game_state_t * game_state,
 			   lw6pil_local_cursors_t * local_cursors);
 }
 mod_gl1_view_backend_t;
@@ -66,25 +66,27 @@ extern void mod_gl1_view_quit (mod_gl1_utils_context_t * utils_context,
 extern void mod_gl1_view_display_preview (mod_gl1_utils_context_t *
 					  utils_context,
 					  mod_gl1_view_backend_t * backend,
-					  lw6gui_look_t * look,
-					  lw6map_level_t * level);
+					  const lw6gui_look_t * look,
+					  const lw6map_level_t * level);
 extern void mod_gl1_view_display_map (mod_gl1_utils_context_t * utils_context,
 				      mod_gl1_view_backend_t * backend,
-				      lw6gui_look_t * look,
-				      lw6ker_game_state_t * game_state,
+				      const lw6gui_look_t * look,
+				      const lw6ker_game_state_t * game_state,
 				      lw6pil_local_cursors_t * local_cursors);
 extern void mod_gl1_view_display_fighters (mod_gl1_utils_context_t *
 					   utils_context,
 					   mod_gl1_view_backend_t * backend,
-					   lw6gui_look_t * look,
-					   lw6ker_game_state_t * game_state,
+					   const lw6gui_look_t * look,
+					   const lw6ker_game_state_t *
+					   game_state,
 					   lw6pil_local_cursors_t *
 					   local_cursors);
 extern void mod_gl1_view_display_cursors (mod_gl1_utils_context_t *
 					  utils_context,
 					  mod_gl1_view_backend_t * backend,
-					  lw6gui_look_t * look,
-					  lw6ker_game_state_t * game_state,
+					  const lw6gui_look_t * look,
+					  const lw6ker_game_state_t *
+					  game_state,
 					  lw6pil_local_cursors_t *
 					  local_cursors);
 
@@ -93,7 +95,7 @@ extern void mod_gl1_view_display_cursors (mod_gl1_utils_context_t *
  */
 extern mod_gl1_view_backend_t
   * mod_gl1_view_create_backend (mod_gl1_utils_context_t * utils_context,
-				 char *name);
+				 const char *name);
 extern void mod_gl1_view_destroy_backend (mod_gl1_utils_context_t *
 					  utils_context,
 					  mod_gl1_view_backend_t * backend);

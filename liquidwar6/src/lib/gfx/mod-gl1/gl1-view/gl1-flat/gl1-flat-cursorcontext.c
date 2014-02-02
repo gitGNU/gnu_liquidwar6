@@ -138,9 +138,9 @@ _mod_gl1_view_flat_cursor_context_init (mod_gl1_utils_context_t *
 					* cursor_context,
 					_mod_gl1_view_flat_const_data_t
 					* const_data,
-					lw6gui_look_t * look,
-					lw6map_level_t * level,
-					lw6ker_cursor_t * cursor)
+					const lw6gui_look_t * look,
+					const lw6map_level_t * level,
+					const lw6ker_cursor_t * cursor)
 {
   int ret = 0;
   lw6map_color_couple_t color_couple;
@@ -194,9 +194,9 @@ _mod_gl1_view_flat_cursor_context_update (mod_gl1_utils_context_t *
 					  * cursor_context,
 					  _mod_gl1_view_flat_const_data_t
 					  * const_data,
-					  lw6gui_look_t * look,
-					  lw6map_level_t * level,
-					  lw6ker_cursor_t * cursor)
+					  const lw6gui_look_t * look,
+					  const lw6map_level_t * level,
+					  const lw6ker_cursor_t * cursor)
 {
   int ret = 0;
 
@@ -249,8 +249,9 @@ _mod_gl1_view_flat_cursors_context_init (mod_gl1_utils_context_t *
 					 * cursors_context,
 					 _mod_gl1_view_flat_const_data_t
 					 * const_data,
-					 lw6gui_look_t * look,
-					 lw6ker_game_state_t * game_state)
+					 const lw6gui_look_t * look,
+					 const lw6ker_game_state_t *
+					 game_state)
 {
   int ret = 1;
   int i;
@@ -283,8 +284,9 @@ _mod_gl1_view_flat_cursors_context_update (mod_gl1_utils_context_t *
 					   * cursors_context,
 					   _mod_gl1_view_flat_const_data_t
 					   * const_data,
-					   lw6gui_look_t * look,
-					   lw6ker_game_state_t * game_state)
+					   const lw6gui_look_t * look,
+					   const lw6ker_game_state_t *
+					   game_state)
 {
   int ret = 1;
   int i;

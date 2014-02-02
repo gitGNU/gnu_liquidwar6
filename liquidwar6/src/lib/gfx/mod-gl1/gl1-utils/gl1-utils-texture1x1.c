@@ -60,7 +60,7 @@ mod_gl1_utils_texture_1x1_color2bitmap (mod_gl1_utils_context_t *
 
 int
 mod_gl1_utils_texture_1x1_update (mod_gl1_utils_context_t * utils_context,
-				  lw6gui_look_t * look)
+				  const lw6gui_look_t * look)
 {
   int ret = 1;
   int i, j;

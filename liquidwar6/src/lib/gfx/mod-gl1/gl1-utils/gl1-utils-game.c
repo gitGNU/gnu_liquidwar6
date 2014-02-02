@@ -34,9 +34,9 @@
 static void
 _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 			  SDL_Surface * surface,
-			  lw6ker_game_state_t * game_state,
-			  lw6map_color_couple_t * map_color, int invert_y,
-			  int x0, int y0, int w, int h)
+			  const lw6ker_game_state_t * game_state,
+			  const lw6map_color_couple_t * map_color,
+			  int invert_y, int x0, int y0, int w, int h)
 {
   int x, y, x1, y1, ry;
   int fighter_id;
@@ -124,9 +124,9 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 static void
 _update_game_bitmap_raw (mod_gl1_utils_context_t * utils_context,
 			 mod_gl1_utils_bitmap_t * bitmap,
-			 lw6ker_game_state_t * game_state,
-			 lw6map_color_couple_t * map_color, int invert_y,
-			 int x0, int y0, int w, int h)
+			 const lw6ker_game_state_t * game_state,
+			 const lw6map_color_couple_t * map_color,
+			 int invert_y, int x0, int y0, int w, int h)
 {
   _update_game_surface_raw (utils_context, bitmap->surface, game_state,
 			    map_color, invert_y, x0, y0, w, h);
@@ -135,8 +135,8 @@ _update_game_bitmap_raw (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_utils_update_game_bitmap_raw (mod_gl1_utils_context_t * utils_context,
 				      mod_gl1_utils_bitmap_t * bitmap,
-				      lw6ker_game_state_t * game_state,
-				      lw6map_color_couple_t * map_color,
+				      const lw6ker_game_state_t * game_state,
+				      const lw6map_color_couple_t * map_color,
 				      int invert_y)
 {
   if (bitmap->surface)
@@ -167,8 +167,9 @@ mod_gl1_utils_update_game_bitmap_raw (mod_gl1_utils_context_t * utils_context,
 static void
 _update_game_surface (mod_gl1_utils_context_t * utils_context,
 		      SDL_Surface * surface,
-		      lw6ker_game_state_t * game_state,
-		      lw6gui_look_t * look, int x0, int y0, int w, int h)
+		      const lw6ker_game_state_t * game_state,
+		      const lw6gui_look_t * look, int x0, int y0, int w,
+		      int h)
 {
   int x, y, z, x1, y1, d;
   int safe_x = 0, safe_y = 0;
@@ -279,8 +280,8 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 static void
 _update_game_bitmap (mod_gl1_utils_context_t * utils_context,
 		     mod_gl1_utils_bitmap_t * bitmap,
-		     lw6ker_game_state_t * game_state,
-		     lw6gui_look_t * look, int x0, int y0, int w, int h)
+		     const lw6ker_game_state_t * game_state,
+		     const lw6gui_look_t * look, int x0, int y0, int w, int h)
 {
   _update_game_surface (utils_context, bitmap->surface, game_state, look, x0,
 			y0, w, h);
@@ -289,8 +290,8 @@ _update_game_bitmap (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_utils_update_game_bitmap (mod_gl1_utils_context_t * utils_context,
 				  mod_gl1_utils_bitmap_t * bitmap,
-				  lw6ker_game_state_t * game_state,
-				  lw6gui_look_t * look)
+				  const lw6ker_game_state_t * game_state,
+				  const lw6gui_look_t * look)
 {
   if (bitmap->surface)
     {
@@ -317,8 +318,9 @@ mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
 					utils_context,
 					mod_gl1_utils_bitmap_array_t *
 					bitmap_array,
-					lw6ker_game_state_t * game_state,
-					lw6gui_look_t * look)
+					const lw6ker_game_state_t *
+					game_state,
+					const lw6gui_look_t * look)
 {
   int i;
   GLint wrap = 0;

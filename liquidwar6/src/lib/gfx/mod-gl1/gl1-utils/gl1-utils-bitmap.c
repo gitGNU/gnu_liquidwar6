@@ -220,7 +220,8 @@ mod_gl1_utils_bitmap_free (mod_gl1_utils_context_t *
 int
 mod_gl1_utils_bitmap_colorize (mod_gl1_utils_context_t *
 			       utils_context, mod_gl1_utils_bitmap_t * bitmap,
-			       int colorize, lw6map_color_couple_t * color)
+			       int colorize,
+			       const lw6map_color_couple_t * color)
 {
   int ret = 0;
 

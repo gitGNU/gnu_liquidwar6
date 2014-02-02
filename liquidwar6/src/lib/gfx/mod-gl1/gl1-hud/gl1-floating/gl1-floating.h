@@ -37,16 +37,16 @@ extern mod_gl1_hud_backend_t
 extern void mod_gl1_hud_floating_display_hud (mod_gl1_utils_context_t *
 					      utils_context,
 					      void *hud_context,
-					      lw6gui_look_t * look,
-					      lw6ker_game_state_t *
+					      const lw6gui_look_t * look,
+					      const lw6ker_game_state_t *
 					      game_state,
 					      lw6pil_local_cursors_t *
 					      local_cursors);
 extern void mod_gl1_hud_floating_display_score (mod_gl1_utils_context_t *
 						utils_context,
 						void *hud_context,
-						lw6gui_look_t * look,
-						lw6ker_game_state_t *
+						const lw6gui_look_t * look,
+						const lw6ker_game_state_t *
 						game_state,
 						lw6pil_local_cursors_t *
 						local_cursors);

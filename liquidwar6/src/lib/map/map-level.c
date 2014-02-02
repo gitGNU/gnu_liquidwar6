@@ -217,7 +217,7 @@ lw6map_free (lw6map_level_t * level)
  * much more...
  */
 int
-lw6map_memory_footprint (lw6map_level_t * level)
+lw6map_memory_footprint (const lw6map_level_t * level)
 {
   int memory_footprint = 0;
 

@@ -79,15 +79,15 @@ typedef struct lw6gfx_backend_s
   /// Pointer on lw6gfx_pump_events code.
   lw6gui_input_t *(*pump_events) (void *gfx_context);
   /// Pointer on lw6gfx_display code.
-  int (*display) (void *gfx_context, int mask, lw6gui_look_t * look,
-		  lw6map_level_t * level,
-		  lw6ker_game_struct_t * game_struct,
-		  lw6ker_game_state_t * game_state,
+  int (*display) (void *gfx_context, int mask, const lw6gui_look_t * look,
+		  const lw6map_level_t * level,
+		  const lw6ker_game_struct_t * game_struct,
+		  const lw6ker_game_state_t * game_state,
 		  lw6pil_local_cursors_t * local_cursors,
 		  lw6gui_menu_t * menu,
 		  float progress,
 		  float fps, float mps,
-		  char **log_list, int capture, int gfx_debug,
+		  const char **log_list, int capture, int gfx_debug,
 		  int debug_team_id, int debug_layer_id);
 }
 lw6gfx_backend_t;
@@ -106,12 +106,13 @@ extern int lw6gfx_get_fullscreen_modes (lw6gfx_backend_t * backend,
 					lw6gui_fullscreen_modes_t * modes);
 extern lw6gui_input_t *lw6gfx_pump_events (lw6gfx_backend_t * backend);
 extern int lw6gfx_display (lw6gfx_backend_t * backend, int mask,
-			   lw6gui_look_t * look, lw6map_level_t * level,
-			   lw6ker_game_struct_t * game_struct,
-			   lw6ker_game_state_t * game_state,
+			   const lw6gui_look_t * look,
+			   const lw6map_level_t * level,
+			   const lw6ker_game_struct_t * game_struct,
+			   const lw6ker_game_state_t * game_state,
 			   lw6pil_local_cursors_t * local_cursors,
 			   lw6gui_menu_t * menu, float progress, float fps,
-			   float mps, char **log_list, int capture,
+			   float mps, const char **log_list, int capture,
 			   int gfx_debug, int debug_team_id,
 			   int debug_layer_id);
 

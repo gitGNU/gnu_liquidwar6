@@ -42,7 +42,7 @@ basic_cleanup ()
  */
 void
 mod_gl1_utils_prepare_buffer (mod_gl1_utils_context_t * utils_context,
-			      lw6gui_look_t * look)
+			      const lw6gui_look_t * look)
 {
   lw6sys_color_f_t bg_color;
 

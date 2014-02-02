@@ -28,7 +28,7 @@
 typedef struct _mod_gl1_view_flat_game_context_map_s
 {
   int level_id;
-  lw6map_level_t *level;
+  const lw6map_level_t *level;
   mod_gl1_utils_bitmap_array_t map_bitmap_array;
 }
 _mod_gl1_view_flat_game_context_map_t;
@@ -36,7 +36,7 @@ _mod_gl1_view_flat_game_context_map_t;
 typedef struct _mod_gl1_view_flat_game_context_armies_s
 {
   int game_struct_id;
-  lw6ker_game_state_t *game_state;
+  const lw6ker_game_state_t *game_state;
   mod_gl1_utils_bitmap_array_t armies_bitmap_array;
 }
 _mod_gl1_view_flat_game_context_armies_t;
@@ -110,18 +110,22 @@ extern int _mod_gl1_view_flat_cursor_context_init (mod_gl1_utils_context_t *
 						   * cursor_context,
 						   _mod_gl1_view_flat_const_data_t
 						   * const_data,
-						   lw6gui_look_t * look,
-						   lw6map_level_t * level,
-						   lw6ker_cursor_t * cursor);
+						   const lw6gui_look_t * look,
+						   const lw6map_level_t *
+						   level,
+						   const lw6ker_cursor_t *
+						   cursor);
 extern int _mod_gl1_view_flat_cursor_context_update (mod_gl1_utils_context_t *
 						     utils_context,
 						     _mod_gl1_view_flat_cursor_context_t
 						     * cursor_context,
 						     _mod_gl1_view_flat_const_data_t
 						     * const_data,
-						     lw6gui_look_t * look,
-						     lw6map_level_t * level,
-						     lw6ker_cursor_t *
+						     const lw6gui_look_t *
+						     look,
+						     const lw6map_level_t *
+						     level,
+						     const lw6ker_cursor_t *
 						     cursor);
 extern int _mod_gl1_view_flat_cursor_context_clear (mod_gl1_utils_context_t *
 						    utils_context,
@@ -133,16 +137,19 @@ extern int _mod_gl1_view_flat_cursors_context_init (mod_gl1_utils_context_t *
 						    * cursors_context,
 						    _mod_gl1_view_flat_const_data_t
 						    * const_data,
-						    lw6gui_look_t * look,
-						    lw6ker_game_state_t *
-						    game_state);
+						    const lw6gui_look_t *
+						    look,
+						    const lw6ker_game_state_t
+						    * game_state);
 extern int _mod_gl1_view_flat_cursors_context_update (mod_gl1_utils_context_t
 						      * utils_context,
 						      _mod_gl1_view_flat_cursors_context_t
 						      * cursors_context,
 						      _mod_gl1_view_flat_const_data_t
 						      * const_data,
-						      lw6gui_look_t * look,
+						      const lw6gui_look_t *
+						      look,
+						      const
 						      lw6ker_game_state_t *
 						      game_state);
 extern int _mod_gl1_view_flat_cursors_context_clear (mod_gl1_utils_context_t *
@@ -169,22 +176,23 @@ extern void _mod_gl1_view_flat_display_preview (mod_gl1_utils_context_t *
 						utils_context,
 						_mod_gl1_view_flat_context_t *
 						flat_context,
-						lw6gui_look_t * look,
-						lw6map_level_t * level);
+						const lw6gui_look_t * look,
+						const lw6map_level_t * level);
 extern void _mod_gl1_view_flat_display_map (mod_gl1_utils_context_t *
 					    utils_context,
 					    _mod_gl1_view_flat_context_t *
 					    flat_context,
-					    lw6gui_look_t * look,
-					    lw6ker_game_state_t * game_state,
+					    const lw6gui_look_t * look,
+					    const lw6ker_game_state_t *
+					    game_state,
 					    lw6pil_local_cursors_t *
 					    local_cursors);
 extern void _mod_gl1_view_flat_display_fighters (mod_gl1_utils_context_t *
 						 utils_context,
 						 _mod_gl1_view_flat_context_t
 						 * flat_context,
-						 lw6gui_look_t * look,
-						 lw6ker_game_state_t *
+						 const lw6gui_look_t * look,
+						 const lw6ker_game_state_t *
 						 game_state,
 						 lw6pil_local_cursors_t *
 						 local_cursors);
@@ -192,8 +200,8 @@ extern void _mod_gl1_view_flat_display_cursors (mod_gl1_utils_context_t *
 						utils_context,
 						_mod_gl1_view_flat_context_t *
 						flat_context,
-						lw6gui_look_t * look,
-						lw6ker_game_state_t *
+						const lw6gui_look_t * look,
+						const lw6ker_game_state_t *
 						game_state,
 						lw6pil_local_cursors_t *
 						local_cursors);
@@ -207,9 +215,9 @@ extern int _mod_gl1_view_flat_game_context_init (mod_gl1_utils_context_t *
 						 * flat_context,
 						 _mod_gl1_view_flat_game_context_t
 						 * game_context,
-						 lw6gui_look_t * look,
-						 lw6map_level_t * level,
-						 lw6ker_game_state_t *
+						 const lw6gui_look_t * look,
+						 const lw6map_level_t * level,
+						 const lw6ker_game_state_t *
 						 game_state);
 extern int _mod_gl1_view_flat_game_context_init_map (mod_gl1_utils_context_t *
 						     utils_context,
@@ -217,8 +225,10 @@ extern int _mod_gl1_view_flat_game_context_init_map (mod_gl1_utils_context_t *
 						     * flat_context,
 						     _mod_gl1_view_flat_game_context_map_t
 						     * game_context_map,
-						     lw6gui_look_t * look,
-						     lw6map_level_t * level);
+						     const lw6gui_look_t *
+						     look,
+						     const lw6map_level_t *
+						     level);
 extern int
 _mod_gl1_view_flat_game_context_init_armies (mod_gl1_utils_context_t *
 					     utils_context,
@@ -226,8 +236,8 @@ _mod_gl1_view_flat_game_context_init_armies (mod_gl1_utils_context_t *
 					     flat_context,
 					     _mod_gl1_view_flat_game_context_armies_t
 					     * game_context_armies,
-					     lw6gui_look_t * look,
-					     lw6ker_game_state_t *
+					     const lw6gui_look_t * look,
+					     const lw6ker_game_state_t *
 					     game_state);
 extern void _mod_gl1_view_flat_game_context_clear (mod_gl1_utils_context_t *
 						   utils_context,
@@ -254,9 +264,10 @@ extern int _mod_gl1_view_flat_game_context_update (mod_gl1_utils_context_t *
 						   * flat_context,
 						   _mod_gl1_view_flat_game_context_t
 						   * game_context,
-						   lw6gui_look_t * look,
-						   lw6map_level_t * level,
-						   lw6ker_game_state_t *
+						   const lw6gui_look_t * look,
+						   const lw6map_level_t *
+						   level,
+						   const lw6ker_game_state_t *
 						   game_state);
 extern int _mod_gl1_view_flat_game_context_update_map (mod_gl1_utils_context_t
 						       * utils_context,
@@ -264,8 +275,9 @@ extern int _mod_gl1_view_flat_game_context_update_map (mod_gl1_utils_context_t
 						       * flat_context,
 						       _mod_gl1_view_flat_game_context_map_t
 						       * game_context_map,
-						       lw6gui_look_t * look,
-						       lw6map_level_t *
+						       const lw6gui_look_t *
+						       look,
+						       const lw6map_level_t *
 						       level);
 extern int
 _mod_gl1_view_flat_game_context_update_armies (mod_gl1_utils_context_t *
@@ -274,8 +286,8 @@ _mod_gl1_view_flat_game_context_update_armies (mod_gl1_utils_context_t *
 					       flat_context,
 					       _mod_gl1_view_flat_game_context_armies_t
 					       * game_context_armies,
-					       lw6gui_look_t * look,
-					       lw6ker_game_state_t *
+					       const lw6gui_look_t * look,
+					       const lw6ker_game_state_t *
 					       game_state);
 
 /*
@@ -295,14 +307,14 @@ _mod_gl1_view_flat_viewport_update_preview (mod_gl1_utils_context_t *
 					    utils_context,
 					    _mod_gl1_view_flat_context_t *
 					    flat_context,
-					    lw6gui_look_t * look,
-					    lw6map_level_t * level);
+					    const lw6gui_look_t * look,
+					    const lw6map_level_t * level);
 extern void _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
 						utils_context,
 						_mod_gl1_view_flat_context_t *
 						flat_context,
-						lw6gui_look_t * look,
-						lw6ker_game_state_t *
+						const lw6gui_look_t * look,
+						const lw6ker_game_state_t *
 						game_state,
 						lw6pil_local_cursors_t *
 						local_cursors);

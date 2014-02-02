@@ -149,18 +149,19 @@ _pump_events (void *gfx_context)
 }
 
 static int
-_display (void *gfx_context, int mask, lw6gui_look_t * look,
-	  lw6map_level_t * level,
-	  lw6ker_game_struct_t * game_struct,
-	  lw6ker_game_state_t * game_state,
+_display (void *gfx_context, int mask, const lw6gui_look_t * look,
+	  const lw6map_level_t * level,
+	  const lw6ker_game_struct_t * game_struct,
+	  const lw6ker_game_state_t * game_state,
 	  lw6pil_local_cursors_t * local_cursors,
 	  lw6gui_menu_t * menu,
 	  float progress,
-	  float fps, float mps, char **log_list, int capture, int gfx_debug,
-	  int debug_team_id, int debug_layer_id)
+	  float fps, float mps, const char **log_list, int capture,
+	  int gfx_debug, int debug_team_id, int debug_layer_id)
 {
   int ret = 0;
   _mod_gl1_context_t *mod_gl1_context = (_mod_gl1_context_t *) gfx_context;
+  lw6gui_look_t *look2 = NULL;
 
   if (mod_gl1_context)
     {
@@ -184,11 +185,15 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=splash"));
 	  mod_gl1_splash_display (&(mod_gl1_context->utils_context),
 				  mod_gl1_context->splash_context);
-	  mod_gl1_splash_patch_system_color (&
-					     (mod_gl1_context->utils_context),
-					     mod_gl1_context->splash_context,
-					     &(look->style.color_set.
-					       system_color));
+	  look2 = lw6gui_look_dup (look);
+	  if (look2)
+	    {
+	      mod_gl1_splash_patch_system_color (&
+						 (mod_gl1_context->utils_context),
+						 mod_gl1_context->splash_context,
+						 &(look2->style.color_set.
+						   system_color));
+	    }
 	}
       else
 	{
@@ -289,20 +294,20 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
       if ((mask & LW6GUI_DISPLAY_LOG) && log_list)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=log"));
-	  mod_gl1_utils_display_log (&(mod_gl1_context->utils_context), look,
-				     log_list);
+	  mod_gl1_utils_display_log (&(mod_gl1_context->utils_context),
+				     look2 ? look2 : look, log_list);
 	}
       if (mask & LW6GUI_DISPLAY_FPS)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=fps"));
-	  mod_gl1_utils_display_fps (&(mod_gl1_context->utils_context), look,
-				     fps);
+	  mod_gl1_utils_display_fps (&(mod_gl1_context->utils_context),
+				     look2 ? look2 : look, fps);
 	}
       if ((mask & LW6GUI_DISPLAY_MPS) && game_struct)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=mps"));
-	  mod_gl1_utils_display_mps (&(mod_gl1_context->utils_context), look,
-				     mps,
+	  mod_gl1_utils_display_mps (&(mod_gl1_context->utils_context),
+				     look2 ? look2 : look, mps,
 				     game_struct->rules.rounds_per_sec *
 				     game_struct->rules.moves_per_round);
 	}
@@ -310,7 +315,8 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=url"));
 	  mod_gl1_utils_display_url (&(mod_gl1_context->utils_context),
-				     look, lw6sys_build_get_home_url ());
+				     look2 ? look2 : look,
+				     lw6sys_build_get_home_url ());
 	}
       mod_gl1_utils_show_mouse (&(mod_gl1_context->utils_context),
 				mask & LW6GUI_DISPLAY_MOUSE, 0);
@@ -329,6 +335,11 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
 	}
       mod_gl1_utils_swap_buffers (&(mod_gl1_context->utils_context));
 
+      if (look2)
+	{
+	  lw6gui_look_free (look2);
+	  look2 = NULL;
+	}
       ret = 1;
     }
 

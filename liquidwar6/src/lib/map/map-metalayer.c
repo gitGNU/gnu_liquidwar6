@@ -60,7 +60,7 @@ lw6map_meta_layer_set (lw6map_meta_layer_t * meta_layer, int x, int y,
  * Return value: the value at this place
  */
 u_int8_t
-lw6map_meta_layer_get (lw6map_meta_layer_t * meta_layer, int x, int y)
+lw6map_meta_layer_get (const lw6map_meta_layer_t * meta_layer, int x, int y)
 {
   int ret = 0;
 

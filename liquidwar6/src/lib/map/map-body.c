@@ -377,7 +377,7 @@ lw6map_body_check_and_fix_holes (lw6map_body_t * body,
  * Return value: 1 on success, 0 on failure (out of bounds)
  */
 int
-lw6map_body_coord_from_texture (lw6map_level_t * level, int *body_x,
+lw6map_body_coord_from_texture (const lw6map_level_t * level, int *body_x,
 				int *body_y, int texture_x, int texture_y)
 {
   int ret = 0;
@@ -415,7 +415,7 @@ lw6map_body_coord_from_texture (lw6map_level_t * level, int *body_x,
  * Return value: 1 if position is playable, 0 if not (wall)
  */
 u_int8_t
-lw6map_body_get_with_texture_coord (lw6map_level_t * level,
+lw6map_body_get_with_texture_coord (const lw6map_level_t * level,
 				    int texture_x, int texture_y, int z)
 {
   unsigned char ret = 0;

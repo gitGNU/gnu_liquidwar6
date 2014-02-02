@@ -33,7 +33,7 @@
 
 mod_gl1_hud_backend_t *
 mod_gl1_hud_create_backend (mod_gl1_utils_context_t * utils_context,
-			    char *name)
+			    const char *name)
 {
   mod_gl1_hud_backend_t *(*init_func) (mod_gl1_utils_context_t *
 				       utils_context) = NULL;

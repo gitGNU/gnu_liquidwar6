@@ -68,7 +68,8 @@ static void
 _display_bitmap_array (mod_gl1_utils_context_t * utils_context,
 		       _mod_gl1_view_flat_context_t * flat_context,
 		       mod_gl1_utils_bitmap_array_t * bitmap_array,
-		       lw6gui_look_t * look, int x_polarity, int y_polarity)
+		       const lw6gui_look_t * look, int x_polarity,
+		       int y_polarity)
 {
   float wave_length;
   float step_for_waves;
@@ -262,7 +263,8 @@ _display_bitmap_array (mod_gl1_utils_context_t * utils_context,
 static void
 _display_map_preview (mod_gl1_utils_context_t * utils_context,
 		      _mod_gl1_view_flat_context_t * flat_context,
-		      lw6gui_look_t * look, lw6map_level_t * level)
+		      const lw6gui_look_t * look,
+		      const lw6map_level_t * level)
 {
   _set_map_rules (utils_context, flat_context);
   _display_bitmap_array (utils_context, flat_context,
@@ -274,8 +276,8 @@ _display_map_preview (mod_gl1_utils_context_t * utils_context,
 void
 _mod_gl1_view_flat_display_preview (mod_gl1_utils_context_t * utils_context,
 				    _mod_gl1_view_flat_context_t *
-				    flat_context, lw6gui_look_t * look,
-				    lw6map_level_t * level)
+				    flat_context, const lw6gui_look_t * look,
+				    const lw6map_level_t * level)
 {
   if (utils_context && flat_context && level && level->texture.data)
     {
@@ -306,8 +308,9 @@ _mod_gl1_view_flat_display_preview (mod_gl1_utils_context_t * utils_context,
 
 void
 mod_gl1_view_flat_display_preview (mod_gl1_utils_context_t * utils_context,
-				   void *flat_context, lw6gui_look_t * look,
-				   lw6map_level_t * level)
+				   void *flat_context,
+				   const lw6gui_look_t * look,
+				   const lw6map_level_t * level)
 {
   _mod_gl1_view_flat_display_preview (utils_context,
 				      (_mod_gl1_view_flat_context_t *)
@@ -323,10 +326,10 @@ mod_gl1_view_flat_display_preview (mod_gl1_utils_context_t * utils_context,
 static void
 _display_armies (mod_gl1_utils_context_t * utils_context,
 		 _mod_gl1_view_flat_context_t *
-		 flat_context, lw6gui_look_t * look)
+		 flat_context, const lw6gui_look_t * look)
 {
   lw6sys_whd_t shape;
-  lw6ker_game_state_t *game_state;
+  const lw6ker_game_state_t *game_state;
 
   game_state = flat_context->game_context.armies.game_state;
   lw6ker_game_state_get_shape (game_state, &shape);
@@ -352,8 +355,8 @@ _display_armies (mod_gl1_utils_context_t * utils_context,
 static void
 _display_map (mod_gl1_utils_context_t * utils_context,
 	      _mod_gl1_view_flat_context_t *
-	      flat_context, lw6gui_look_t * look,
-	      lw6ker_game_state_t * game_state,
+	      flat_context, const lw6gui_look_t * look,
+	      const lw6ker_game_state_t * game_state,
 	      lw6pil_local_cursors_t * local_cursors)
 {
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display map"));
@@ -365,8 +368,8 @@ void
 _mod_gl1_view_flat_display_map (mod_gl1_utils_context_t * utils_context,
 				_mod_gl1_view_flat_context_t *
 				flat_context,
-				lw6gui_look_t * look,
-				lw6ker_game_state_t * game_state,
+				const lw6gui_look_t * look,
+				const lw6ker_game_state_t * game_state,
 				lw6pil_local_cursors_t * local_cursors)
 {
   if (utils_context && flat_context && game_state)
@@ -404,8 +407,8 @@ _mod_gl1_view_flat_display_map (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_view_flat_display_map (mod_gl1_utils_context_t * utils_context,
 			       void *flat_context,
-			       lw6gui_look_t * look,
-			       lw6ker_game_state_t * game_state,
+			       const lw6gui_look_t * look,
+			       const lw6ker_game_state_t * game_state,
 			       lw6pil_local_cursors_t * local_cursors)
 {
   _mod_gl1_view_flat_display_map (utils_context,
@@ -423,8 +426,8 @@ mod_gl1_view_flat_display_map (mod_gl1_utils_context_t * utils_context,
 static void
 _display_fighters (mod_gl1_utils_context_t * utils_context,
 		   _mod_gl1_view_flat_context_t *
-		   flat_context, lw6gui_look_t * look,
-		   lw6ker_game_state_t * game_state,
+		   flat_context, const lw6gui_look_t * look,
+		   const lw6ker_game_state_t * game_state,
 		   lw6pil_local_cursors_t * local_cursors)
 {
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display fighters"));
@@ -435,8 +438,8 @@ void
 _mod_gl1_view_flat_display_fighters (mod_gl1_utils_context_t * utils_context,
 				     _mod_gl1_view_flat_context_t *
 				     flat_context,
-				     lw6gui_look_t * look,
-				     lw6ker_game_state_t * game_state,
+				     const lw6gui_look_t * look,
+				     const lw6ker_game_state_t * game_state,
 				     lw6pil_local_cursors_t * local_cursors)
 {
   if (utils_context && flat_context && game_state)
@@ -466,8 +469,8 @@ _mod_gl1_view_flat_display_fighters (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_view_flat_display_fighters (mod_gl1_utils_context_t * utils_context,
 				    void *flat_context,
-				    lw6gui_look_t * look,
-				    lw6ker_game_state_t * game_state,
+				    const lw6gui_look_t * look,
+				    const lw6ker_game_state_t * game_state,
 				    lw6pil_local_cursors_t * local_cursors)
 {
   _mod_gl1_view_flat_display_fighters (utils_context,
@@ -491,7 +494,8 @@ _display_cursor_bitmap (mod_gl1_utils_context_t * utils_context,
 static void
 _display_cursor (mod_gl1_utils_context_t * utils_context,
 		 _mod_gl1_view_flat_context_t * flat_context,
-		 lw6gui_look_t * look, lw6ker_game_state_t * game_state,
+		 const lw6gui_look_t * look,
+		 const lw6ker_game_state_t * game_state,
 		 lw6pil_local_cursor_t * local_cursor, int i, int x, int y,
 		 int even_odd)
 {
@@ -631,7 +635,8 @@ static void
 _display_cursors (mod_gl1_utils_context_t * utils_context,
 		  _mod_gl1_view_flat_context_t *
 		  flat_context,
-		  lw6gui_look_t * look, lw6ker_game_state_t * game_state,
+		  const lw6gui_look_t * look,
+		  const lw6ker_game_state_t * game_state,
 		  lw6pil_local_cursors_t * local_cursors)
 {
   int i;
@@ -662,8 +667,8 @@ void
 _mod_gl1_view_flat_display_cursors (mod_gl1_utils_context_t * utils_context,
 				    _mod_gl1_view_flat_context_t *
 				    flat_context,
-				    lw6gui_look_t * look,
-				    lw6ker_game_state_t * game_state,
+				    const lw6gui_look_t * look,
+				    const lw6ker_game_state_t * game_state,
 				    lw6pil_local_cursors_t * local_cursors)
 {
   if (utils_context && flat_context && game_state)
@@ -692,8 +697,8 @@ void
 mod_gl1_view_flat_display_cursors (mod_gl1_utils_context_t *
 				   utils_context,
 				   void *flat_context,
-				   lw6gui_look_t * look,
-				   lw6ker_game_state_t * game_state,
+				   const lw6gui_look_t * look,
+				   const lw6ker_game_state_t * game_state,
 				   lw6pil_local_cursors_t * local_cursors)
 {
   _mod_gl1_view_flat_display_cursors (utils_context,

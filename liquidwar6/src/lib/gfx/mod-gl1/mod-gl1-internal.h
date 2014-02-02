@@ -60,7 +60,7 @@ extern _mod_gl1_context_t *_mod_gl1_init (int argc, const char *argv[],
 					  resize_callback);
 extern void _mod_gl1_quit (_mod_gl1_context_t * gl_context);
 extern int _mod_gl1_set_backends (_mod_gl1_context_t * gl_context,
-				  lw6gui_look_t * look);
+				  const lw6gui_look_t * look);
 extern void _mod_gl1_clear_background_backend (_mod_gl1_context_t *
 					       gl_context);
 extern void _mod_gl1_clear_hud_backend (_mod_gl1_context_t * gl_context);

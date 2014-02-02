@@ -41,7 +41,7 @@ mod_gl1_utils_color_8_to_sdl (lw6sys_color_8_t color_8)
 }
 
 SDL_Color
-mod_gl1_utils_color_f_to_sdl (lw6sys_color_f_t * color_f)
+mod_gl1_utils_color_f_to_sdl (const lw6sys_color_f_t * color_f)
 {
   lw6sys_color_8_t color_8;
   SDL_Color ret;
@@ -72,7 +72,7 @@ _prepare_shaded_color_for_fighter (lw6sys_color_8_t dead_color,
 void
 mod_gl1_utils_update_team_color_map (mod_gl1_utils_team_color_map_t *
 				     team_color_map,
-				     lw6map_style_t * map_style)
+				     const lw6map_style_t * map_style)
 {
   int i, j;
   Uint32 test;
@@ -101,9 +101,9 @@ mod_gl1_utils_update_team_color_map (mod_gl1_utils_team_color_map_t *
 }
 
 int
-mod_gl1_utils_team_color_map_is_same (mod_gl1_utils_team_color_map_t
+mod_gl1_utils_team_color_map_is_same (const mod_gl1_utils_team_color_map_t
 				      * team_color_map_a,
-				      mod_gl1_utils_team_color_map_t *
+				      const mod_gl1_utils_team_color_map_t *
 				      team_color_map_b)
 {
   int ret = 0;

@@ -30,7 +30,7 @@
 
 extern int
 _mod_caca_display_menu (_mod_caca_context_t * caca_context,
-			lw6gui_look_t * look, lw6gui_menu_t * menu)
+			const lw6gui_look_t * look, lw6gui_menu_t * menu)
 {
   int ret = 1;
   int i, j, wc;

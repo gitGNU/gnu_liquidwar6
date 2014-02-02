@@ -38,7 +38,7 @@ extern void
 mod_gl1_background_void_display_background (mod_gl1_utils_context_t *
 					    utils_context,
 					    void *background_context,
-					    lw6gui_look_t * look);
+					    const lw6gui_look_t * look);
 
 /*
  * In setup.c

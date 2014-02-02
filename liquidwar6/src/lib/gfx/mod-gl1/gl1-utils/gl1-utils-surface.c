@@ -92,7 +92,7 @@ mod_gl1_utils_clear_surface (SDL_Surface * surface)
 
 static SDL_Surface *
 map2surface_xywh (mod_gl1_utils_context_t * gfx_context,
-		  lw6map_level_t * level, int x, int y, int w, int h)
+		  const lw6map_level_t * level, int x, int y, int w, int h)
 {
   SDL_Surface *ret;
   int i, j;
@@ -121,14 +121,15 @@ map2surface_xywh (mod_gl1_utils_context_t * gfx_context,
 }
 
 static SDL_Surface *
-map2surface_wh (mod_gl1_utils_context_t * gfx_context, lw6map_level_t * level,
-		int w, int h)
+map2surface_wh (mod_gl1_utils_context_t * gfx_context,
+		const lw6map_level_t * level, int w, int h)
 {
   return map2surface_xywh (gfx_context, level, 0, 0, w, h);
 }
 
 static SDL_Surface *
-map2surface (mod_gl1_utils_context_t * gfx_context, lw6map_level_t * level)
+map2surface (mod_gl1_utils_context_t * gfx_context,
+	     const lw6map_level_t * level)
 {
   /*
    * No need to use the closest power of 2 here, it does not
@@ -140,8 +141,8 @@ map2surface (mod_gl1_utils_context_t * gfx_context, lw6map_level_t * level)
 
 SDL_Surface *
 mod_gl1_utils_map2surface_xywh (mod_gl1_utils_context_t * gfx_context,
-				lw6map_level_t * level, int x, int y, int w,
-				int h)
+				const lw6map_level_t * level, int x, int y,
+				int w, int h)
 {
   SDL_Surface *surface;
 
@@ -152,7 +153,7 @@ mod_gl1_utils_map2surface_xywh (mod_gl1_utils_context_t * gfx_context,
 
 SDL_Surface *
 mod_gl1_utils_map2surface_wh (mod_gl1_utils_context_t * gfx_context,
-			      lw6map_level_t * level, int w, int h)
+			      const lw6map_level_t * level, int w, int h)
 {
   SDL_Surface *surface;
 
@@ -163,7 +164,7 @@ mod_gl1_utils_map2surface_wh (mod_gl1_utils_context_t * gfx_context,
 
 SDL_Surface *
 mod_gl1_utils_map2surface (mod_gl1_utils_context_t * gfx_context,
-			   lw6map_level_t * level)
+			   const lw6map_level_t * level)
 {
   SDL_Surface *surface;
 

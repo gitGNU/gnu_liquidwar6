@@ -40,19 +40,19 @@ extern mod_gl1_menu_backend_t
 extern void mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t *
 						utils_context,
 						void *menu_context,
-						lw6gui_look_t * look,
+						const lw6gui_look_t * look,
 						lw6gui_menu_t * menu);
 
 extern void mod_gl1_menu_cylinder_display_progress (mod_gl1_utils_context_t *
 						    utils_context,
 						    void *menu_context,
-						    lw6gui_look_t * look,
-						    float progress);
+						    const lw6gui_look_t *
+						    look, float progress);
 
 extern void mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t *
 						utils_context,
 						void *menu_context,
-						lw6gui_look_t * look,
+						const lw6gui_look_t * look,
 						lw6gui_menu_t * menu);
 
 /*

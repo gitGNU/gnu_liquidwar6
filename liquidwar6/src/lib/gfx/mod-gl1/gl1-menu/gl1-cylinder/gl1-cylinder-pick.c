@@ -102,10 +102,10 @@ draw_spheres_corners (mod_gl1_utils_context_t * utils_context,
 void
 _mod_gl1_menu_cylinder_pick_item (mod_gl1_utils_context_t * utils_context,
 				  _mod_gl1_menu_cylinder_context_t *
-				  cylinder_context, lw6gui_look_t * look,
-				  int *position, int *scroll, int *esc,
-				  lw6gui_menu_t * menu, int screen_x,
-				  int screen_y)
+				  cylinder_context,
+				  const lw6gui_look_t * look, int *position,
+				  int *scroll, int *esc, lw6gui_menu_t * menu,
+				  int screen_x, int screen_y)
 {
   //  http://users.polytech.unice.fr/~buffa/cours/synthese_image/DOCS/Tutoriaux/glGameDeveloppers/view.cgi-V=tutorial_glfeedback&S=3.htm
 

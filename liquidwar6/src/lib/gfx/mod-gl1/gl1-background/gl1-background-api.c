@@ -68,7 +68,7 @@ void
 mod_gl1_background_display_background (mod_gl1_utils_context_t *
 				       utils_context,
 				       mod_gl1_background_backend_t * backend,
-				       lw6gui_look_t * look)
+				       const lw6gui_look_t * look)
 {
   if (backend->display_background)
     {

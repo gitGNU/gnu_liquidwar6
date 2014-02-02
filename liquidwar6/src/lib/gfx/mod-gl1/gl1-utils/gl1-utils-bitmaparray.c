@@ -192,7 +192,7 @@ mod_gl1_utils_bitmap_array_init_from_map (mod_gl1_utils_context_t *
 					  utils_context,
 					  mod_gl1_utils_bitmap_array_t *
 					  bitmap_array,
-					  lw6map_level_t * level,
+					  const lw6map_level_t * level,
 					  int tile_size, int border_size,
 					  int x_polarity, int y_polarity)
 {

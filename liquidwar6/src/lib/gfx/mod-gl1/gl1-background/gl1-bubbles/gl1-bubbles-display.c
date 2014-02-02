@@ -30,7 +30,7 @@
 static void
 _display_background (mod_gl1_utils_context_t * utils_context,
 		     _mod_gl1_background_bubbles_context_t * bubbles_context,
-		     lw6gui_look_t * look)
+		     const lw6gui_look_t * look)
 {
   mod_gl1_utils_set_render_mode_2d (utils_context);
 
@@ -71,7 +71,7 @@ _display_bubble (mod_gl1_utils_context_t * utils_context,
 		 _mod_gl1_background_bubbles_context_t *
 		 bubbles_context,
 		 _mod_gl1_background_bubbles_bubble_t * bubble,
-		 lw6gui_look_t * look)
+		 const lw6gui_look_t * look)
 {
   int dt;
   float y;
@@ -124,7 +124,7 @@ _display_bubble (mod_gl1_utils_context_t * utils_context,
 static void
 _display_bubbles (mod_gl1_utils_context_t * utils_context,
 		  _mod_gl1_background_bubbles_context_t *
-		  bubbles_context, lw6gui_look_t * look)
+		  bubbles_context, const lw6gui_look_t * look)
 {
   int i;
   int nb_bubbles;
@@ -159,7 +159,7 @@ _mod_gl1_background_bubbles_display_background (mod_gl1_utils_context_t *
 						utils_context,
 						_mod_gl1_background_bubbles_context_t
 						* bubbles_context,
-						lw6gui_look_t * look)
+						const lw6gui_look_t * look)
 {
   _display_background (utils_context, bubbles_context, look);
   _display_bubbles (utils_context, bubbles_context, look);
@@ -169,7 +169,7 @@ void
 mod_gl1_background_bubbles_display_background (mod_gl1_utils_context_t *
 					       utils_context,
 					       void *bubbles_context,
-					       lw6gui_look_t * look)
+					       const lw6gui_look_t * look)
 {
   _mod_gl1_background_bubbles_display_background (utils_context,
 						  bubbles_context, look);

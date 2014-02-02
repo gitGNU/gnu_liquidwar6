@@ -1454,10 +1454,10 @@ extern void lw6map_body_clear (lw6map_body_t * body);
 extern void lw6map_body_fix_checksum (lw6map_body_t * body);
 extern int lw6map_body_check_and_fix_holes (lw6map_body_t * body,
 					    const lw6map_rules_t * rules);
-extern int lw6map_body_coord_from_texture (lw6map_level_t * level,
+extern int lw6map_body_coord_from_texture (const lw6map_level_t * level,
 					   int *body_x, int *body_y,
 					   int texture_x, int texture_y);
-extern u_int8_t lw6map_body_get_with_texture_coord (lw6map_level_t *
+extern u_int8_t lw6map_body_get_with_texture_coord (const lw6map_level_t *
 						    level,
 						    int texture_x,
 						    int texture_y, int z);
@@ -1486,7 +1486,7 @@ extern void lw6map_cursor_texture_layer_set (lw6map_cursor_texture_layer_t *
 					     cursor_texture, int x, int y,
 					     lw6sys_color_8_t color);
 extern lw6sys_color_8_t
-lw6map_cursor_texture_layer_get (lw6map_cursor_texture_layer_t *
+lw6map_cursor_texture_layer_get (const lw6map_cursor_texture_layer_t *
 				 cursor_texture, int x, int y);
 extern void lw6map_cursor_texture_clear (lw6map_cursor_texture_t *
 					 cursor_texture);
@@ -1508,7 +1508,7 @@ extern int lw6map_exp_get_unlocked_team_color (int exp);
 extern int lw6map_exp_get_unlocked_weapon (int exp);
 
 /* map-hexa.c */
-extern char *lw6map_to_hexa (lw6map_level_t * level);
+extern char *lw6map_to_hexa (const lw6map_level_t * level);
 extern lw6map_level_t *lw6map_from_hexa (const char *hexa);
 
 /* map-layer.c */
@@ -1523,7 +1523,7 @@ extern lw6map_level_t *lw6map_builtin_scale (int percent_factor);
 extern lw6map_level_t *lw6map_builtin_custom (int w, int h, int d,
 					      int noise_percent);
 extern void lw6map_free (lw6map_level_t * level);
-extern int lw6map_memory_footprint (lw6map_level_t * level);
+extern int lw6map_memory_footprint (const lw6map_level_t * level);
 extern char *lw6map_repr (const lw6map_level_t * level);
 extern int lw6map_is_same (const lw6map_level_t * level_a,
 			   const lw6map_level_t * level_b);
@@ -1547,7 +1547,7 @@ extern int lw6map_metadata_is_same (const lw6map_metadata_t * metadata_a,
 /* map-metalayer.c */
 extern void lw6map_meta_layer_set (lw6map_meta_layer_t * meta_layer, int x,
 				   int y, u_int8_t value);
-extern u_int8_t lw6map_meta_layer_get (lw6map_meta_layer_t * meta_layer,
+extern u_int8_t lw6map_meta_layer_get (const lw6map_meta_layer_t * meta_layer,
 				       int x, int y);
 extern void lw6map_meta_layer_clear (lw6map_meta_layer_t * meta_layer);
 extern int lw6map_meta_layer_builtin_custom (lw6map_meta_layer_t * meta_layer,
@@ -1581,10 +1581,11 @@ extern int lw6map_rules_sanity_check (const lw6map_rules_t * rules);
 extern void lw6map_param_zero (lw6map_param_t * param);
 extern void lw6map_param_defaults (lw6map_param_t * param);
 extern void lw6map_param_clear (lw6map_param_t * param);
-extern void lw6map_param_copy (lw6map_param_t * dst, lw6map_param_t * src);
+extern void lw6map_param_copy (lw6map_param_t * dst,
+			       const lw6map_param_t * src);
 extern int lw6map_param_set (lw6map_param_t * param, const char *key,
 			     const char *value);
-extern char *lw6map_param_get (lw6map_param_t * param, const char *key);
+extern char *lw6map_param_get (const lw6map_param_t * param, const char *key);
 extern int lw6map_param_is_same (const lw6map_param_t * param_a,
 				 const lw6map_param_t * param_b);
 
@@ -1592,10 +1593,11 @@ extern int lw6map_param_is_same (const lw6map_param_t * param_a,
 extern void lw6map_style_zero (lw6map_style_t * style);
 extern void lw6map_style_defaults (lw6map_style_t * style);
 extern void lw6map_style_clear (lw6map_style_t * style);
-extern void lw6map_style_copy (lw6map_style_t * dst, lw6map_style_t * src);
+extern void lw6map_style_copy (lw6map_style_t * dst,
+			       const lw6map_style_t * src);
 extern int lw6map_style_set (lw6map_style_t * style, const char *key,
 			     const char *value);
-extern char *lw6map_style_get (lw6map_style_t * style, const char *key);
+extern char *lw6map_style_get (const lw6map_style_t * style, const char *key);
 extern char *lw6map_style_get_default (const char *key);
 extern int lw6map_color_set_is_same (const lw6map_color_set_t * color_set_a,
 				     const lw6map_color_set_t * color_set_b);
@@ -1606,10 +1608,11 @@ extern int lw6map_style_is_same (const lw6map_style_t * style_a,
 extern void lw6map_teams_zero (lw6map_teams_t * teams);
 extern void lw6map_teams_defaults (lw6map_teams_t * teams);
 extern void lw6map_teams_clear (lw6map_teams_t * teams);
-extern void lw6map_teams_copy (lw6map_teams_t * dst, lw6map_teams_t * src);
+extern void lw6map_teams_copy (lw6map_teams_t * dst,
+			       const lw6map_teams_t * src);
 extern int lw6map_teams_set (lw6map_teams_t * teams, const char *key,
 			     const char *value);
-extern char *lw6map_teams_get (lw6map_teams_t * teams, const char *key);
+extern char *lw6map_teams_get (const lw6map_teams_t * teams, const char *key);
 extern char *lw6map_teams_get_default (const char *key);
 extern int lw6map_teams_is_same (const lw6map_teams_t * teams_a,
 				 const lw6map_teams_t * teams_b);
@@ -1620,15 +1623,15 @@ extern int lw6map_test_run (int mode);
 
 /* map-texture.c */
 extern int lw6map_texture_from_body (lw6map_texture_t * texture,
-				     lw6map_body_t * body,
-				     lw6map_color_couple_t * color);
+				     const lw6map_body_t * body,
+				     const lw6map_color_couple_t * color);
 extern void lw6map_texture_clear (lw6map_texture_t * texture);
-extern int lw6map_texture_coord_from_body (lw6map_level_t * level,
+extern int lw6map_texture_coord_from_body (const lw6map_level_t * level,
 					   int *texture_x, int *texture_y,
 					   int body_x, int body_y);
-extern lw6sys_color_8_t lw6map_texture_get_with_body_coord (lw6map_level_t *
-							    level,
-							    int body_x,
+extern lw6sys_color_8_t lw6map_texture_get_with_body_coord (const
+							    lw6map_level_t *
+							    level, int body_x,
 							    int body_y);
 extern int lw6map_texture_has_alpha (lw6map_texture_t * texture);
 

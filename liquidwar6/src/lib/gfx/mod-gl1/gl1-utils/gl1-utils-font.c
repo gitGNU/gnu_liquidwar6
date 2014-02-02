@@ -189,7 +189,7 @@ mod_gl1_utils_bitmap_t *
 mod_gl1_utils_multiline_text_write (mod_gl1_utils_context_t *
 				    utils_context, TTF_Font * font,
 				    const char *text,
-				    lw6map_color_couple_t * color,
+				    const lw6map_color_couple_t * color,
 				    float alpha_bg,
 				    int max_width, int max_height,
 				    int border_size, int margin_size,
@@ -269,8 +269,9 @@ mod_gl1_utils_multiline_text_write (mod_gl1_utils_context_t *
  */
 static void
 _draw_text (mod_gl1_utils_context_t * utils_context,
-	    TTF_Font * font, const char *text, lw6map_color_couple_t * color,
-	    float x, float y, float dw, float dh)
+	    TTF_Font * font, const char *text,
+	    const lw6map_color_couple_t * color, float x, float y, float dw,
+	    float dh)
 {
   mod_gl1_utils_shaded_text_t *shaded_text;
   int ret = 0;
@@ -298,8 +299,8 @@ _draw_text (mod_gl1_utils_context_t * utils_context,
  */
 void
 mod_gl1_utils_draw_system_text (mod_gl1_utils_context_t * utils_context,
-				lw6gui_look_t * look, const char *text, int x,
-				int y)
+				const lw6gui_look_t * look, const char *text,
+				int x, int y)
 {
   mod_gl1_utils_set_render_mode_2d_blend (utils_context);
 
@@ -311,8 +312,9 @@ mod_gl1_utils_draw_system_text (mod_gl1_utils_context_t * utils_context,
 
 void
 mod_gl1_utils_draw_system_text_top_left (mod_gl1_utils_context_t *
-					 utils_context, lw6gui_look_t * look,
-					 char **text_list)
+					 utils_context,
+					 const lw6gui_look_t * look,
+					 const char **text_list)
 {
   int y;
   int w;
@@ -337,8 +339,9 @@ mod_gl1_utils_draw_system_text_top_left (mod_gl1_utils_context_t *
 
 void
 mod_gl1_utils_draw_system_text_top_right (mod_gl1_utils_context_t *
-					  utils_context, lw6gui_look_t * look,
-					  char **text_list)
+					  utils_context,
+					  const lw6gui_look_t * look,
+					  const char **text_list)
 {
   int x;
   int y;
@@ -366,15 +369,15 @@ mod_gl1_utils_draw_system_text_top_right (mod_gl1_utils_context_t *
 void
 mod_gl1_utils_draw_system_text_bottom_left (mod_gl1_utils_context_t *
 					    utils_context,
-					    lw6gui_look_t * look,
-					    char **text_list)
+					    const lw6gui_look_t * look,
+					    const char **text_list)
 {
   int y;
   int w;
   int h;
   float hcoef = 1.0f;
-  char **tmp_list;
-  char **list_end;
+  const char **tmp_list;
+  const char **list_end;
 
   mod_gl1_utils_set_render_mode_2d_blend (utils_context);
 
@@ -403,16 +406,16 @@ mod_gl1_utils_draw_system_text_bottom_left (mod_gl1_utils_context_t *
 void
 mod_gl1_utils_draw_system_text_bottom_right (mod_gl1_utils_context_t *
 					     utils_context,
-					     lw6gui_look_t * look,
-					     char **text_list)
+					     const lw6gui_look_t * look,
+					     const char **text_list)
 {
   int x;
   int y;
   int w;
   int h;
   float hcoef = 1.0f;
-  char **tmp_list;
-  char **list_end;
+  const char **tmp_list;
+  const char **list_end;
 
   mod_gl1_utils_set_render_mode_2d_blend (utils_context);
 

@@ -37,9 +37,9 @@ _mod_gl1_view_flat_game_context_init (mod_gl1_utils_context_t *
 				      flat_context,
 				      _mod_gl1_view_flat_game_context_t *
 				      game_context,
-				      lw6gui_look_t * look,
-				      lw6map_level_t * level,
-				      lw6ker_game_state_t * game_state)
+				      const lw6gui_look_t * look,
+				      const lw6map_level_t * level,
+				      const lw6ker_game_state_t * game_state)
 {
   int ret = 0;
 
@@ -62,8 +62,8 @@ _mod_gl1_view_flat_game_context_init_map (mod_gl1_utils_context_t *
 					  flat_context,
 					  _mod_gl1_view_flat_game_context_map_t
 					  * game_context_map,
-					  lw6gui_look_t * look,
-					  lw6map_level_t * level)
+					  const lw6gui_look_t * look,
+					  const lw6map_level_t * level)
 {
   int ret = 0;
   GLint wrap = 0;
@@ -129,8 +129,9 @@ _mod_gl1_view_flat_game_context_init_armies (mod_gl1_utils_context_t *
 					     flat_context,
 					     _mod_gl1_view_flat_game_context_armies_t
 					     * game_context_armies,
-					     lw6gui_look_t * look,
-					     lw6ker_game_state_t * game_state)
+					     const lw6gui_look_t * look,
+					     const lw6ker_game_state_t *
+					     game_state)
 {
   int ret = 0;
   lw6ker_game_struct_t *game_struct = NULL;
@@ -220,9 +221,10 @@ _mod_gl1_view_flat_game_context_update (mod_gl1_utils_context_t *
 					flat_context,
 					_mod_gl1_view_flat_game_context_t *
 					game_context,
-					lw6gui_look_t * look,
-					lw6map_level_t * level,
-					lw6ker_game_state_t * game_state)
+					const lw6gui_look_t * look,
+					const lw6map_level_t * level,
+					const lw6ker_game_state_t *
+					game_state)
 {
   int ret = 0;
 
@@ -245,8 +247,8 @@ _mod_gl1_view_flat_game_context_update_map (mod_gl1_utils_context_t *
 					    flat_context,
 					    _mod_gl1_view_flat_game_context_map_t
 					    * game_context_map,
-					    lw6gui_look_t * look,
-					    lw6map_level_t * level)
+					    const lw6gui_look_t * look,
+					    const lw6map_level_t * level)
 {
   int ret = 0;
 
@@ -276,8 +278,8 @@ _mod_gl1_view_flat_game_context_update_armies (mod_gl1_utils_context_t *
 					       flat_context,
 					       _mod_gl1_view_flat_game_context_armies_t
 					       * game_context_armies,
-					       lw6gui_look_t * look,
-					       lw6ker_game_state_t *
+					       const lw6gui_look_t * look,
+					       const lw6ker_game_state_t *
 					       game_state)
 {
   int ret = 0;

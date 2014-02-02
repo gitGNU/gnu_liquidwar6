@@ -33,8 +33,8 @@ _mod_gl1_view_flat_viewport_update_preview (mod_gl1_utils_context_t *
 					    utils_context,
 					    _mod_gl1_view_flat_context_t *
 					    flat_context,
-					    lw6gui_look_t * look,
-					    lw6map_level_t * level)
+					    const lw6gui_look_t * look,
+					    const lw6map_level_t * level)
 {
   int center_x = 0;
   int center_y = 0;
@@ -81,8 +81,8 @@ _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
 				    utils_context,
 				    _mod_gl1_view_flat_context_t *
 				    flat_context,
-				    lw6gui_look_t * look,
-				    lw6ker_game_state_t *
+				    const lw6gui_look_t * look,
+				    const lw6ker_game_state_t *
 				    game_state,
 				    lw6pil_local_cursors_t * local_cursors)
 {

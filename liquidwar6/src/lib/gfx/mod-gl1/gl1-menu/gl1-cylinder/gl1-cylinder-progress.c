@@ -43,7 +43,7 @@ prepare_view (mod_gl1_utils_context_t * utils_context,
 static void
 draw_cylinder_with_color (mod_gl1_utils_context_t * utils_context,
 			  _mod_gl1_menu_cylinder_context_t *
-			  cylinder_context, lw6gui_look_t * look,
+			  cylinder_context, const lw6gui_look_t * look,
 			  float progress)
 {
   lw6sys_color_8_t done;
@@ -119,7 +119,8 @@ draw_cylinder_with_color (mod_gl1_utils_context_t * utils_context,
 void
 _mod_gl1_menu_cylinder_draw_progress (mod_gl1_utils_context_t * utils_context,
 				      _mod_gl1_menu_cylinder_context_t *
-				      cylinder_context, lw6gui_look_t * look,
+				      cylinder_context,
+				      const lw6gui_look_t * look,
 				      float progress)
 {
   mod_gl1_utils_set_render_mode_3d_menu (utils_context);

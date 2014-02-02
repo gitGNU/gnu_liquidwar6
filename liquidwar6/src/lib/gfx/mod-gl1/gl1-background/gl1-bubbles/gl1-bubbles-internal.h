@@ -85,7 +85,7 @@ _mod_gl1_background_bubbles_display_background (mod_gl1_utils_context_t *
 						utils_context,
 						_mod_gl1_background_bubbles_context_t
 						* bubbles_context,
-						lw6gui_look_t * look);
+						const lw6gui_look_t * look);
 
 /*
  * In data.c

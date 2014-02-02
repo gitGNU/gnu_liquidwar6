@@ -66,8 +66,8 @@ mod_gl1_hud_quit (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_hud_display_hud (mod_gl1_utils_context_t * utils_context,
 			 mod_gl1_hud_backend_t * backend,
-			 lw6gui_look_t * look,
-			 lw6ker_game_state_t * game_state,
+			 const lw6gui_look_t * look,
+			 const lw6ker_game_state_t * game_state,
 			 lw6pil_local_cursors_t * local_cursors)
 {
   if (backend->display_hud)
@@ -84,8 +84,8 @@ mod_gl1_hud_display_hud (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_hud_display_score (mod_gl1_utils_context_t * utils_context,
 			   mod_gl1_hud_backend_t * backend,
-			   lw6gui_look_t * look,
-			   lw6ker_game_state_t * game_state,
+			   const lw6gui_look_t * look,
+			   const lw6ker_game_state_t * game_state,
 			   lw6pil_local_cursors_t * local_cursors)
 {
   if (backend->display_score)
