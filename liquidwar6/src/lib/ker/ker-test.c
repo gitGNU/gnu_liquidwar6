@@ -118,9 +118,9 @@ _print_game_state_repr (const lw6ker_game_state_t * game_state)
   int32_t nb_fighters;
   int total_fighters;
   int fighter_id;
-  lw6ker_fighter_t *fighter1;
-  lw6ker_fighter_t *fighter2;
-  lw6ker_fighter_t *fighter3;
+  const lw6ker_fighter_t *fighter1;
+  const lw6ker_fighter_t *fighter2;
+  const lw6ker_fighter_t *fighter3;
   lw6sys_whd_t shape;
   int x, y, z;
   lw6ker_cursor_t cursor;
@@ -171,11 +171,12 @@ _print_game_state_repr (const lw6ker_game_state_t * game_state)
 	  if (fighter_id >= 0)
 	    {
 	      fighter1 =
-		lw6ker_game_state_get_fighter_by_id (game_state, fighter_id);
+		lw6ker_game_state_get_fighter_ro_by_id (game_state,
+							fighter_id);
 	      fighter2 =
-		lw6ker_game_state_get_fighter_safe (game_state, x, y, z);
+		lw6ker_game_state_get_fighter_ro_safe (game_state, x, y, z);
 	      fighter3 =
-		lw6ker_game_state_get_fighter_unsafe (game_state, x, y, z);
+		lw6ker_game_state_get_fighter_ro_unsafe (game_state, x, y, z);
 	      if (LW6SYS_TEST_ACK
 		  (fighter1 == fighter2 && fighter2 == fighter3))
 		{

@@ -34,7 +34,8 @@ _lw6ker_node_init (_lw6ker_node_t * node)
 }
 
 void
-_lw6ker_node_update_checksum (_lw6ker_node_t * node, u_int32_t * checksum)
+_lw6ker_node_update_checksum (const _lw6ker_node_t * node,
+			      u_int32_t * checksum)
 {
   lw6sys_checksum_update_int64 (checksum, node->node_id);
   lw6sys_checksum_update_int32 (checksum, node->enabled);
@@ -90,7 +91,8 @@ _lw6ker_node_disable (_lw6ker_node_t * node)
 }
 
 int
-_lw6ker_node_sanity_check (_lw6ker_node_t * node, lw6map_rules_t * rules)
+_lw6ker_node_sanity_check (const _lw6ker_node_t * node,
+			   lw6map_rules_t * rules)
 {
   int ret = 1;
 

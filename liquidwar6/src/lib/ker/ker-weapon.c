@@ -63,7 +63,7 @@ _lw6ker_weapon_unset_all (_lw6ker_map_state_t * map_state)
 }
 
 int
-_lw6ker_weapon_find_team_by_weapon_id (_lw6ker_map_state_t * map_state,
+_lw6ker_weapon_find_team_by_weapon_id (const _lw6ker_map_state_t * map_state,
 				       int round, int weapon_id)
 {
   int i;
@@ -83,7 +83,7 @@ _lw6ker_weapon_find_team_by_weapon_id (_lw6ker_map_state_t * map_state,
 }
 
 int
-_lw6ker_weapon_get_latest_weapon (_lw6ker_map_state_t * map_state,
+_lw6ker_weapon_get_latest_weapon (const _lw6ker_map_state_t * map_state,
 				  int round, int *team_color, int *weapon_id,
 				  int *per1000_left)
 {

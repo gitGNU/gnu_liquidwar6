@@ -120,7 +120,7 @@ _lw6ker_history_get_max (_lw6ker_history_t * history)
 }
 
 void
-_lw6ker_history_update_checksum (_lw6ker_history_t * history,
+_lw6ker_history_update_checksum (const _lw6ker_history_t * history,
 				 u_int32_t * checksum)
 {
   int i, j;

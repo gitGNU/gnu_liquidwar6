@@ -35,7 +35,7 @@ _mod_caca_display_map (_mod_caca_context_t * caca_context,
 		       lw6pil_local_cursors_t * local_cursors)
 {
   int fighter_id;
-  lw6ker_fighter_t *fighter;
+  const lw6ker_fighter_t *fighter;
   int team_color;
   int ret = 1, width, height, y, x;
   lw6sys_whd_t shape = { 0, 0, 0 };
@@ -71,7 +71,8 @@ _mod_caca_display_map (_mod_caca_context_t * caca_context,
 	  if (fighter_id >= 0)
 	    {
 	      fighter =
-		lw6ker_game_state_get_fighter_by_id (game_state, fighter_id);
+		lw6ker_game_state_get_fighter_ro_by_id (game_state,
+							fighter_id);
 	      team_color = fighter->team_color;
 	      if (team_color >= 0 && team_color < 10)
 		{

@@ -808,9 +808,9 @@ extern void lw6sys_checksum_update_int32 (u_int32_t * checksum,
 extern void lw6sys_checksum_update_int64 (u_int32_t * checksum,
 					  int64_t value);
 extern void lw6sys_checksum_update_whd (u_int32_t * checksum,
-					lw6sys_whd_t * whd);
+					const lw6sys_whd_t * whd);
 extern void lw6sys_checksum_update_xyz (u_int32_t * checksum,
-					lw6sys_xyz_t * xyz);
+					const lw6sys_xyz_t * xyz);
 
 /* sys-color.c */
 extern u_int8_t lw6sys_color_float2char (float f);
@@ -1234,10 +1234,11 @@ extern void lw6sys_serialize_int16 (unsigned char *data, int16_t value);
 extern int16_t lw6sys_unserialize_int16 (unsigned char *data);
 
 /* sys-shape.c */
-extern int lw6sys_shape_check_min_max_whd (lw6sys_whd_t * shape,
-					   lw6sys_whd_t * min,
-					   lw6sys_whd_t * max);
-extern int lw6sys_shape_check_pos (lw6sys_whd_t * shape, lw6sys_xyz_t * pos);
+extern int lw6sys_shape_check_min_max_whd (const lw6sys_whd_t * shape,
+					   const lw6sys_whd_t * min,
+					   const lw6sys_whd_t * max);
+extern int lw6sys_shape_check_pos (const lw6sys_whd_t * shape,
+				   const lw6sys_xyz_t * pos);
 extern int lw6sys_shape_is_same (const lw6sys_whd_t * shape_a,
 				 const lw6sys_whd_t * shape_b);
 extern int lw6sys_shape_is_same_xy (const lw6sys_whd_t * shape_a,

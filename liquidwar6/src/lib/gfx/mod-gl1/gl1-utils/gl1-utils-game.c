@@ -40,7 +40,7 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 {
   int x, y, x1, y1, ry;
   int fighter_id;
-  lw6ker_fighter_t *fighter;
+  const lw6ker_fighter_t *fighter;
   Uint32 color;
   Uint32 bg;
   Uint32 fg;
@@ -74,8 +74,8 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 	      if (fighter_id >= 0)
 		{
 		  fighter =
-		    lw6ker_game_state_get_fighter_by_id (game_state,
-							 fighter_id);
+		    lw6ker_game_state_get_fighter_ro_by_id (game_state,
+							    fighter_id);
 		  team_color = fighter->team_color;
 		  if (team_color >= 0)
 		    {
@@ -173,7 +173,7 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
   int x, y, z, x1, y1, d;
   int safe_x = 0, safe_y = 0;
   int fighter_id, hidden;
-  lw6ker_fighter_t *fighter;
+  const lw6ker_fighter_t *fighter;
   Uint32 color;
   float hidden_layer_alpha;
   int team_color;
@@ -221,8 +221,8 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 	      if (fighter_id >= 0)
 		{
 		  fighter =
-		    lw6ker_game_state_get_fighter_by_id (game_state,
-							 fighter_id);
+		    lw6ker_game_state_get_fighter_ro_by_id (game_state,
+							    fighter_id);
 		  team_color = fighter->team_color;
 		  if (team_color >= 0)
 		    {

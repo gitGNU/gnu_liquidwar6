@@ -42,7 +42,7 @@ _lw6ker_node_array_init (_lw6ker_node_array_t * node_array)
 }
 
 void
-_lw6ker_node_array_update_checksum (_lw6ker_node_array_t *
+_lw6ker_node_array_update_checksum (const _lw6ker_node_array_t *
 				    node_array, u_int32_t * checksum)
 {
   int i = 0;
@@ -160,7 +160,7 @@ _lw6ker_node_array_disable (_lw6ker_node_array_t * node_array,
 }
 
 int
-_lw6ker_node_array_sanity_check (_lw6ker_node_array_t * node_array,
+_lw6ker_node_array_sanity_check (const _lw6ker_node_array_t * node_array,
 				 lw6map_rules_t * rules)
 {
   int ret = 1;

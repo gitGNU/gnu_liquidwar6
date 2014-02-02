@@ -1180,8 +1180,8 @@ _lw6ker_map_struct_clear (_lw6ker_map_struct_t * map_struct)
 }
 
 void
-_lw6ker_map_struct_find_free_slot_near (_lw6ker_map_struct_t * map_struct,
-					lw6sys_xyz_t * there,
+_lw6ker_map_struct_find_free_slot_near (const _lw6ker_map_struct_t *
+					map_struct, lw6sys_xyz_t * there,
 					lw6sys_xyz_t here)
 {
   int found = 0;
@@ -1244,7 +1244,7 @@ _lw6ker_map_struct_find_free_slot_near (_lw6ker_map_struct_t * map_struct,
 }
 
 int
-_lw6ker_map_struct_sanity_check (_lw6ker_map_struct_t * map_struct)
+_lw6ker_map_struct_sanity_check (const _lw6ker_map_struct_t * map_struct)
 {
   int ret = 1;
   int x, y, z, w, h, d;

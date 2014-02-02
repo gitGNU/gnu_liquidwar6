@@ -288,7 +288,7 @@ lw6sys_checksum_update_int64 (u_int32_t * checksum, int64_t value)
  * Return value: none.
  */
 void
-lw6sys_checksum_update_whd (u_int32_t * checksum, lw6sys_whd_t * whd)
+lw6sys_checksum_update_whd (u_int32_t * checksum, const lw6sys_whd_t * whd)
 {
   lw6sys_checksum_update_int32 (checksum, whd->w);
   lw6sys_checksum_update_int32 (checksum, whd->h);
@@ -309,7 +309,7 @@ lw6sys_checksum_update_whd (u_int32_t * checksum, lw6sys_whd_t * whd)
  * Return value: none.
  */
 void
-lw6sys_checksum_update_xyz (u_int32_t * checksum, lw6sys_xyz_t * xyz)
+lw6sys_checksum_update_xyz (u_int32_t * checksum, const lw6sys_xyz_t * xyz)
 {
   lw6sys_checksum_update_int32 (checksum, xyz->x);
   lw6sys_checksum_update_int32 (checksum, xyz->y);

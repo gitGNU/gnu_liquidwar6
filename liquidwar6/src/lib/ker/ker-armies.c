@@ -30,7 +30,7 @@
 int
 _lw6ker_armies_init (_lw6ker_armies_t * armies,
 		     _lw6ker_map_struct_t * map_struct,
-		     lw6map_rules_t * options)
+		     const lw6map_rules_t * options)
 {
   int ret = 0;
 
@@ -70,7 +70,7 @@ _lw6ker_armies_clear (_lw6ker_armies_t * armies)
 }
 
 int
-_lw6ker_armies_sync (_lw6ker_armies_t * dst, _lw6ker_armies_t * src)
+_lw6ker_armies_sync (_lw6ker_armies_t * dst, const _lw6ker_armies_t * src)
 {
   int ret = 0;
 
@@ -101,7 +101,7 @@ _lw6ker_armies_sync (_lw6ker_armies_t * dst, _lw6ker_armies_t * src)
 }
 
 void
-_lw6ker_armies_update_checksum (_lw6ker_armies_t * armies,
+_lw6ker_armies_update_checksum (const _lw6ker_armies_t * armies,
 				u_int32_t * checksum)
 {
   int i;

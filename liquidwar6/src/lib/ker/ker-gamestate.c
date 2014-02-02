@@ -251,7 +251,7 @@ lw6ker_game_state_repr (const lw6ker_game_state_t * game_state)
 
 int
 _lw6ker_game_state_can_sync (_lw6ker_game_state_t * dst,
-			     _lw6ker_game_state_t * src)
+			     const _lw6ker_game_state_t * src)
 {
   int ret = 0;
 
@@ -292,15 +292,15 @@ _lw6ker_game_state_can_sync (_lw6ker_game_state_t * dst,
  */
 int
 lw6ker_game_state_can_sync (lw6ker_game_state_t * dst,
-			    lw6ker_game_state_t * src)
+			    const lw6ker_game_state_t * src)
 {
   return _lw6ker_game_state_can_sync ((_lw6ker_game_state_t *) dst,
-				      (_lw6ker_game_state_t *) src);
+				      (const _lw6ker_game_state_t *) src);
 }
 
 int
 _lw6ker_game_state_sync (_lw6ker_game_state_t * dst,
-			 _lw6ker_game_state_t * src)
+			 const _lw6ker_game_state_t * src)
 {
   int ret = 0;
 
@@ -364,14 +364,15 @@ _lw6ker_game_state_sync (_lw6ker_game_state_t * dst,
  * Return value: 1 on success, 0 on error
  */
 int
-lw6ker_game_state_sync (lw6ker_game_state_t * dst, lw6ker_game_state_t * src)
+lw6ker_game_state_sync (lw6ker_game_state_t * dst,
+			const lw6ker_game_state_t * src)
 {
   return _lw6ker_game_state_sync ((_lw6ker_game_state_t *) dst,
-				  (_lw6ker_game_state_t *) src);
+				  (const _lw6ker_game_state_t *) src);
 }
 
 _lw6ker_game_state_t *
-_lw6ker_game_state_dup (_lw6ker_game_state_t * game_state,
+_lw6ker_game_state_dup (const _lw6ker_game_state_t * game_state,
 			lw6sys_progress_t * progress)
 {
   _lw6ker_game_state_t *ret;
@@ -422,15 +423,16 @@ _lw6ker_game_state_dup (_lw6ker_game_state_t * game_state,
  * Return value: newly created object
  */
 lw6ker_game_state_t *
-lw6ker_game_state_dup (lw6ker_game_state_t * game_state,
+lw6ker_game_state_dup (const lw6ker_game_state_t * game_state,
 		       lw6sys_progress_t * progress)
 {
   return (lw6ker_game_state_t *)
-    _lw6ker_game_state_dup ((_lw6ker_game_state_t *) game_state, progress);
+    _lw6ker_game_state_dup ((const _lw6ker_game_state_t *) game_state,
+			    progress);
 }
 
 void
-_lw6ker_game_state_update_checksum (_lw6ker_game_state_t *
+_lw6ker_game_state_update_checksum (const _lw6ker_game_state_t *
 				    game_state, u_int32_t * checksum)
 {
   _lw6ker_game_struct_update_checksum (game_state->game_struct, checksum);
@@ -447,7 +449,7 @@ _lw6ker_game_state_update_checksum (_lw6ker_game_state_t *
 }
 
 u_int32_t
-_lw6ker_game_state_checksum (_lw6ker_game_state_t * game_state)
+_lw6ker_game_state_checksum (const _lw6ker_game_state_t * game_state)
 {
   u_int32_t ret = 0;
 
@@ -468,9 +470,10 @@ _lw6ker_game_state_checksum (_lw6ker_game_state_t * game_state)
  * Return value: 32-bit checksum
  */
 u_int32_t
-lw6ker_game_state_checksum (lw6ker_game_state_t * game_state)
+lw6ker_game_state_checksum (const lw6ker_game_state_t * game_state)
 {
-  return _lw6ker_game_state_checksum ((_lw6ker_game_state_t *) game_state);
+  return _lw6ker_game_state_checksum ((const _lw6ker_game_state_t *)
+				      game_state);
 }
 
 /**
@@ -484,7 +487,7 @@ lw6ker_game_state_checksum (lw6ker_game_state_t * game_state)
  * Return value: none.
  */
 void
-lw6ker_game_state_get_shape (lw6ker_game_state_t * game_state,
+lw6ker_game_state_get_shape (const lw6ker_game_state_t * game_state,
 			     lw6sys_whd_t * shape)
 {
   (*shape) = ((_lw6ker_game_state_t *) game_state)->map_state.shape;
@@ -500,7 +503,7 @@ lw6ker_game_state_get_shape (lw6ker_game_state_t * game_state,
  * Return value: the width.
  */
 int
-lw6ker_game_state_get_w (lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_w (const lw6ker_game_state_t * game_state)
 {
   return ((_lw6ker_game_state_t *) game_state)->map_state.shape.w;
 }
@@ -515,7 +518,7 @@ lw6ker_game_state_get_w (lw6ker_game_state_t * game_state)
  * Return value: the height.
  */
 int
-lw6ker_game_state_get_h (lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_h (const lw6ker_game_state_t * game_state)
 {
   return ((_lw6ker_game_state_t *) game_state)->map_state.shape.h;
 }
@@ -530,7 +533,7 @@ lw6ker_game_state_get_h (lw6ker_game_state_t * game_state)
  * Return value: the depth.
  */
 int
-lw6ker_game_state_get_d (lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_d (const lw6ker_game_state_t * game_state)
 {
   return ((_lw6ker_game_state_t *) game_state)->map_state.shape.d;
 }
@@ -887,10 +890,10 @@ _lw6ker_game_state_cursor_exists (_lw6ker_game_state_t * game_state,
 				  u_int16_t cursor_id)
 {
   int ret = 0;
-  lw6ker_cursor_t *cursor = NULL;
+  const lw6ker_cursor_t *cursor = NULL;
   cursor =
-    _lw6ker_cursor_array_get (&(game_state->map_state.cursor_array),
-			      cursor_id);
+    _lw6ker_cursor_array_get_ro (&(game_state->map_state.cursor_array),
+				 cursor_id);
   if (cursor)
     {
       ret = 1;
@@ -923,11 +926,11 @@ _lw6ker_game_state_get_cursor (const _lw6ker_game_state_t *
 			       lw6ker_cursor_t * cursor, u_int16_t cursor_id)
 {
   int ret = 0;
-  lw6ker_cursor_t *found_cursor = NULL;
+  const lw6ker_cursor_t *found_cursor = NULL;
 
   found_cursor =
-    _lw6ker_cursor_array_get (&(game_state->map_state.cursor_array),
-			      cursor_id);
+    _lw6ker_cursor_array_get_ro (&(game_state->map_state.cursor_array),
+				 cursor_id);
   if (cursor)
     {
       lw6ker_cursor_reset (cursor);
@@ -950,6 +953,8 @@ _lw6ker_game_state_get_cursor (const _lw6ker_game_state_t *
  * @game_state: the game_state to query
  * @cursor: the cursor data (out param)
  * @cursor_id: the cursor to query
+ *
+ * Get a pointer on a given cursor, pointer is read-only.
  *
  * Return value: 1 on success, 0 on failure.
  */
@@ -978,7 +983,7 @@ _lw6ker_game_state_get_cursor_by_index (const _lw6ker_game_state_t *
  * @i: the index
  *
  * Gets the cursor information, using its index. This is usefull to walk
- * the whole cursor without knowing their ids.
+ * the whole cursor without knowing their ids. Pointer is read-only.
  *
  * Return value: none.
  */
@@ -987,8 +992,8 @@ lw6ker_game_state_get_cursor_by_index (const lw6ker_game_state_t *
 				       game_state,
 				       lw6ker_cursor_t * cursor, int i)
 {
-  _lw6ker_game_state_get_cursor_by_index ((_lw6ker_game_state_t *) game_state,
-					  cursor, i);
+  _lw6ker_game_state_get_cursor_by_index ((const _lw6ker_game_state_t *)
+					  game_state, cursor, i);
 }
 
 int
@@ -1299,7 +1304,7 @@ _lw6ker_game_state_remove_team (_lw6ker_game_state_t * game_state,
 }
 
 int
-_lw6ker_game_state_team_exists (_lw6ker_game_state_t * game_state,
+_lw6ker_game_state_team_exists (const _lw6ker_game_state_t * game_state,
 				int team_color)
 {
   int ret = 0;
@@ -1324,21 +1329,21 @@ _lw6ker_game_state_team_exists (_lw6ker_game_state_t * game_state,
  * Return value: 1 if team exists, 0 if not.
  */
 int
-lw6ker_game_state_team_exists (lw6ker_game_state_t * game_state,
+lw6ker_game_state_team_exists (const lw6ker_game_state_t * game_state,
 			       int team_color)
 {
-  return _lw6ker_game_state_team_exists ((_lw6ker_game_state_t *) game_state,
-					 team_color);
+  return _lw6ker_game_state_team_exists ((const _lw6ker_game_state_t *)
+					 game_state, team_color);
 }
 
 int
-_lw6ker_game_state_get_team_info (_lw6ker_game_state_t *
+_lw6ker_game_state_get_team_info (const _lw6ker_game_state_t *
 				  game_state, int team_color,
 				  int32_t * nb_cursors, int32_t * nb_fighters)
 {
   int ret = 0;
-  _lw6ker_team_t *team;
-  _lw6ker_cursor_array_t *cursor_array;
+  const _lw6ker_team_t *team;
+  const _lw6ker_cursor_array_t *cursor_array;
   int i = 0;
 
   if (team_color >= 0 && team_color < LW6MAP_MAX_NB_TEAMS)
@@ -1398,17 +1403,17 @@ _lw6ker_game_state_get_team_info (_lw6ker_game_state_t *
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ker_game_state_get_team_info (lw6ker_game_state_t *
+lw6ker_game_state_get_team_info (const lw6ker_game_state_t *
 				 game_state, int team_color,
 				 int32_t * nb_cursors, int32_t * nb_fighters)
 {
-  return _lw6ker_game_state_get_team_info ((_lw6ker_game_state_t *)
+  return _lw6ker_game_state_get_team_info ((const _lw6ker_game_state_t *)
 					   game_state, team_color, nb_cursors,
 					   nb_fighters);
 }
 
 int
-_lw6ker_game_state_get_nb_teams (_lw6ker_game_state_t * game_state)
+_lw6ker_game_state_get_nb_teams (const _lw6ker_game_state_t * game_state)
 {
   int ret = 0;
 
@@ -1429,9 +1434,9 @@ _lw6ker_game_state_get_nb_teams (_lw6ker_game_state_t * game_state)
  * Return value: the number of teams.
  */
 int
-lw6ker_game_state_get_nb_teams (lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_nb_teams (const lw6ker_game_state_t * game_state)
 {
-  return _lw6ker_game_state_get_nb_teams ((_lw6ker_game_state_t *)
+  return _lw6ker_game_state_get_nb_teams ((const _lw6ker_game_state_t *)
 					  game_state);
 }
 
@@ -2036,7 +2041,7 @@ lw6ker_game_state_get_nb_active_fighters (const lw6ker_game_state_t *
 }
 
 int32_t
-_lw6ker_game_state_get_time_elapsed (_lw6ker_game_state_t * game_state)
+_lw6ker_game_state_get_time_elapsed (const _lw6ker_game_state_t * game_state)
 {
   int32_t ret = 0;
   u_int32_t rounds = 0;
@@ -2227,17 +2232,17 @@ lw6ker_game_state_get_latest_history_max (lw6ker_game_state_t * game_state)
  * Return value: the id of the fighter at that position.
  */
 int32_t
-lw6ker_game_state_get_fighter_id (lw6ker_game_state_t * game_state,
+lw6ker_game_state_get_fighter_id (const lw6ker_game_state_t * game_state,
 				  int32_t x, int32_t y, int32_t z)
 {
   return
     _lw6ker_map_state_get_fighter_id (&
-				      (((_lw6ker_game_state_t *)
+				      (((const _lw6ker_game_state_t *)
 					game_state)->map_state), x, y, z);
 }
 
 /**
- * lw6ker_game_state_get_fighter_by_id
+ * lw6ker_game_state_get_fighter_rw_by_id
  *
  * @game_state: game_state to query
  * @fighter_id: the id of the fighter
@@ -2245,13 +2250,14 @@ lw6ker_game_state_get_fighter_id (lw6ker_game_state_t * game_state,
  * Gets a fighter by its id. Internally, all fighters are stored in an array
  * so it could be "safe" to get fighter with id 0 then walk the array.
  * Previous versions of the game used to have this public (the array),
- * it has been hidden since.
+ * it has been hidden since. Pointer is read/write.
+ * Pointer is read/write.
  *
  * Return value: pointer to the fighter with the given id.
  */
 lw6ker_fighter_t *
-lw6ker_game_state_get_fighter_by_id (lw6ker_game_state_t * game_state,
-				     int32_t fighter_id)
+lw6ker_game_state_get_fighter_rw_by_id (lw6ker_game_state_t * game_state,
+					int32_t fighter_id)
 {
   return (&
 	  (((_lw6ker_game_state_t *) game_state)->map_state.
@@ -2259,7 +2265,7 @@ lw6ker_game_state_get_fighter_by_id (lw6ker_game_state_t * game_state,
 }
 
 /**
- * lw6ker_game_state_get_fighter_safe
+ * lw6ker_game_state_get_fighter_rw_safe
  *
  * @game_state: game_state to query
  * @x: x position
@@ -2270,12 +2276,13 @@ lw6ker_game_state_get_fighter_by_id (lw6ker_game_state_t * game_state,
  * no fighter in this place, it will return NULL, but nothing worse can happen. More
  * precisely, if the place is in a wall, it won't bug, unlike the non-bullet-proof
  * equivalent of this function.
+ * Pointer is read/write.
  *
  * Return value: pointer to the fighter at this position, or NULL if none.
  */
 lw6ker_fighter_t *
-lw6ker_game_state_get_fighter_safe (lw6ker_game_state_t * game_state,
-				    int32_t x, int32_t y, int32_t z)
+lw6ker_game_state_get_fighter_rw_safe (lw6ker_game_state_t * game_state,
+				       int32_t x, int32_t y, int32_t z)
 {
   lw6ker_fighter_t *ret = NULL;
   int fighter_id;
@@ -2290,7 +2297,8 @@ lw6ker_game_state_get_fighter_safe (lw6ker_game_state_t * game_state,
       fighter_id = lw6ker_game_state_get_fighter_id (game_state, x, y, z);
       if (fighter_id >= 0)
 	{
-	  ret = lw6ker_game_state_get_fighter_by_id (game_state, fighter_id);
+	  ret =
+	    lw6ker_game_state_get_fighter_rw_by_id (game_state, fighter_id);
 	}
     }
 
@@ -2298,7 +2306,7 @@ lw6ker_game_state_get_fighter_safe (lw6ker_game_state_t * game_state,
 };
 
 /**
- * lw6ker_game_state_get_fighter_unsafe
+ * lw6ker_game_state_get_fighter_rw_unsafe
  *
  * @game_state: game_state to query
  * @x: x position
@@ -2309,17 +2317,111 @@ lw6ker_game_state_get_fighter_safe (lw6ker_game_state_t * game_state,
  * no fighter in this place, not only will it probably not return a valid value, but it will also
  * even segfault before that, trying to access non-existing structures in menory. So only
  * call this if you're sure there's a fighter here.
+ * Pointer is read/write.
  *
  * Return value: pointer to the fighter at this position, or NULL if none.
  */
 lw6ker_fighter_t *
-lw6ker_game_state_get_fighter_unsafe (lw6ker_game_state_t * game_state,
-				      int32_t x, int32_t y, int32_t z)
+lw6ker_game_state_get_fighter_rw_unsafe (lw6ker_game_state_t * game_state,
+					 int32_t x, int32_t y, int32_t z)
 {
   return
-    _lw6ker_map_state_get_fighter_unsafe (&
-					  (((_lw6ker_game_state_t *)
-					    game_state)->map_state), x, y, z);
+    _lw6ker_map_state_get_fighter_rw_unsafe (&
+					     (((_lw6ker_game_state_t *)
+					       game_state)->map_state), x, y,
+					     z);
+}
+
+/**
+ * lw6ker_game_state_get_fighter_ro_by_id
+ *
+ * @game_state: game_state to query
+ * @fighter_id: the id of the fighter
+ *
+ * Gets a fighter by its id. Internally, all fighters are stored in an array
+ * so it could be "safe" to get fighter with id 0 then walk the array.
+ * Previous versions of the game used to have this public (the array),
+ * it has been hidden since. Pointer is read-only.
+ * Pointer is read-only.
+ *
+ * Return value: pointer to the fighter with the given id.
+ */
+const lw6ker_fighter_t *
+lw6ker_game_state_get_fighter_ro_by_id (const lw6ker_game_state_t *
+					game_state, int32_t fighter_id)
+{
+  return (&
+	  (((const _lw6ker_game_state_t *) game_state)->map_state.
+	   armies.fighters[fighter_id]));
+}
+
+/**
+ * lw6ker_game_state_get_fighter_ro_safe
+ *
+ * @game_state: game_state to query
+ * @x: x position
+ * @y: y position
+ * @z: z position
+ *
+ * Gets a fighter by its position. This function will check for boundaries, if there's
+ * no fighter in this place, it will return NULL, but nothing worse can happen. More
+ * precisely, if the place is in a wall, it won't bug, unlike the non-bullet-proof
+ * equivalent of this function.
+ * Pointer is read-only.
+ *
+ * Return value: pointer to the fighter at this position, or NULL if none.
+ */
+const lw6ker_fighter_t *
+lw6ker_game_state_get_fighter_ro_safe (const lw6ker_game_state_t * game_state,
+				       int32_t x, int32_t y, int32_t z)
+{
+  const lw6ker_fighter_t *ret = NULL;
+  int fighter_id;
+
+  if (x >= 0
+      && x < ((_lw6ker_game_state_t *) game_state)->map_state.shape.w
+      && y >= 0 &&
+      y < ((_lw6ker_game_state_t *) game_state)->map_state.shape.h
+      && z >= 0
+      && z < ((_lw6ker_game_state_t *) game_state)->map_state.shape.d)
+    {
+      fighter_id = lw6ker_game_state_get_fighter_id (game_state, x, y, z);
+      if (fighter_id >= 0)
+	{
+	  ret =
+	    lw6ker_game_state_get_fighter_ro_by_id (game_state, fighter_id);
+	}
+    }
+
+  return ret;
+};
+
+/**
+ * lw6ker_game_state_get_fighter_ro_unsafe
+ *
+ * @game_state: game_state to query
+ * @x: x position
+ * @y: y position
+ * @z: z position
+ *
+ * Gets a fighter by its position. This function will not check for boundaries, if there's
+ * no fighter in this place, not only will it probably not return a valid value, but it will also
+ * even segfault before that, trying to access non-existing structures in menory. So only
+ * call this if you're sure there's a fighter here.
+ * Pointer is read-only.
+ *
+ * Return value: pointer to the fighter at this position, or NULL if none.
+ */
+const lw6ker_fighter_t *
+lw6ker_game_state_get_fighter_ro_unsafe (const lw6ker_game_state_t *
+					 game_state, int32_t x, int32_t y,
+					 int32_t z)
+{
+  return
+    _lw6ker_map_state_get_fighter_ro_unsafe (&
+					     (((const _lw6ker_game_state_t *)
+					       game_state)->map_state), x, y,
+					     z);
 }
 
 /**
@@ -2336,7 +2438,7 @@ lw6ker_game_state_get_fighter_unsafe (lw6ker_game_state_t * game_state,
  * Return value: the potential
  */
 int
-lw6ker_game_state_get_zone_potential (lw6ker_game_state_t * game_state,
+lw6ker_game_state_get_zone_potential (const lw6ker_game_state_t * game_state,
 				      int i, int team_id)
 {
   return ((_lw6ker_game_state_t *) game_state)->map_state.
@@ -2356,12 +2458,12 @@ lw6ker_game_state_get_zone_potential (lw6ker_game_state_t * game_state,
  * Return value: integer value.
  */
 int
-lw6ker_game_state_get_charge_per1000 (lw6ker_game_state_t * game_state,
+lw6ker_game_state_get_charge_per1000 (const lw6ker_game_state_t * game_state,
 				      int team_color)
 {
   return
     _lw6ker_team_get_charge_per1000 (&
-				     (((_lw6ker_game_state_t *)
+				     (((const _lw6ker_game_state_t *)
 				       game_state)->map_state.
 				      teams[team_color]));
 }
@@ -2379,13 +2481,13 @@ lw6ker_game_state_get_charge_per1000 (lw6ker_game_state_t * game_state,
  * Return value: integer value.
  */
 int
-lw6ker_game_state_get_weapon_per1000_left (lw6ker_game_state_t * game_state,
-					   int team_color)
+lw6ker_game_state_get_weapon_per1000_left (const lw6ker_game_state_t *
+					   game_state, int team_color)
 {
   return
     _lw6ker_map_state_get_weapon_per1000_left (&
-					       (((_lw6ker_game_state_t *)
-						 game_state)->map_state),
+					       (((const _lw6ker_game_state_t
+						  *) game_state)->map_state),
 					       lw6ker_game_state_get_rounds
 					       (game_state), team_color);
 }
@@ -2407,14 +2509,14 @@ lw6ker_game_state_get_weapon_per1000_left (lw6ker_game_state_t * game_state,
  * Return value: 1 if found, 0 if not.
  */
 int
-lw6ker_game_state_get_latest_weapon (lw6ker_game_state_t *
+lw6ker_game_state_get_latest_weapon (const lw6ker_game_state_t *
 				     game_state,
 				     int *team_color,
 				     int *weapon_id, int *per1000_left)
 {
   return
     _lw6ker_weapon_get_latest_weapon (&
-				      (((_lw6ker_game_state_t *)
+				      (((const _lw6ker_game_state_t *)
 					game_state)->map_state),
 				      lw6ker_game_state_get_rounds
 				      (game_state), team_color, weapon_id,

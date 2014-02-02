@@ -399,22 +399,25 @@ extern void lw6pil_pilot_calibrate (lw6pil_pilot_t * pilot, int64_t timestamp,
 				    int64_t seq);
 extern void lw6pil_pilot_speed_up (lw6pil_pilot_t * pilot, int seq_inc);
 extern void lw6pil_pilot_slow_down (lw6pil_pilot_t * pilot, int seq_dec);
-extern int lw6pil_pilot_get_round_0 (lw6pil_pilot_t * pilot);
-extern int64_t lw6pil_pilot_get_seq_0 (lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_seq2round (lw6pil_pilot_t * pilot, int64_t seq);
-extern int64_t lw6pil_pilot_round2seq (lw6pil_pilot_t * pilot, int round);
-extern int64_t lw6pil_pilot_get_next_seq (lw6pil_pilot_t * pilot,
+extern int lw6pil_pilot_get_round_0 (const lw6pil_pilot_t * pilot);
+extern int64_t lw6pil_pilot_get_seq_0 (const lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_seq2round (const lw6pil_pilot_t * pilot, int64_t seq);
+extern int64_t lw6pil_pilot_round2seq (const lw6pil_pilot_t * pilot,
+				       int round);
+extern int64_t lw6pil_pilot_get_next_seq (const lw6pil_pilot_t * pilot,
 					  int64_t timestamp);
-extern int64_t lw6pil_pilot_get_last_commit_seq (lw6pil_pilot_t * pilot);
-extern int64_t lw6pil_pilot_get_reference_target_seq (lw6pil_pilot_t * pilot);
-extern int64_t lw6pil_pilot_get_reference_current_seq (lw6pil_pilot_t *
+extern int64_t lw6pil_pilot_get_last_commit_seq (const lw6pil_pilot_t *
+						 pilot);
+extern int64_t lw6pil_pilot_get_reference_target_seq (const lw6pil_pilot_t *
+						      pilot);
+extern int64_t lw6pil_pilot_get_reference_current_seq (const lw6pil_pilot_t *
 						       pilot);
-extern int64_t lw6pil_pilot_get_max_seq (lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_is_over (lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_did_cursor_win (lw6pil_pilot_t * pilot,
+extern int64_t lw6pil_pilot_get_max_seq (const lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_is_over (const lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_did_cursor_win (const lw6pil_pilot_t * pilot,
 					u_int16_t cursor_id);
-extern int lw6pil_pilot_get_winner (lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_get_looser (lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_get_winner (const lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_get_looser (const lw6pil_pilot_t * pilot);
 extern lw6pil_local_cursors_t *lw6pil_pilot_get_local_cursors (lw6pil_pilot_t
 							       * pilot);
 extern void lw6pil_pilot_checksum_log_set_interval (lw6pil_pilot_t * pilot,

@@ -61,7 +61,8 @@ lw6ker_game_state_checksum_log_set_interval (lw6ker_game_state_t * game_state,
 }
 
 void
-_lw6ker_game_state_checksum_log_if_needed (_lw6ker_game_state_t * game_state)
+_lw6ker_game_state_checksum_log_if_needed (const _lw6ker_game_state_t *
+					   game_state)
 {
   u_int32_t checksum = 0;
   char *repr = NULL;

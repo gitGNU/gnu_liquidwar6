@@ -256,10 +256,10 @@ typedef struct _lw6ker_game_state_s
   _lw6ker_node_array_t node_array;
   _lw6ker_history_t global_history;
   _lw6ker_history_t latest_history;
-  u_int32_t moves;
-  u_int32_t spreads;
-  u_int32_t rounds;
-  u_int32_t total_rounds;
+  volatile u_int32_t moves;
+  volatile u_int32_t spreads;
+  volatile u_int32_t rounds;
+  volatile u_int32_t total_rounds;
   int max_reached_teams;
   int over;
   /*
@@ -316,37 +316,38 @@ typedef struct _lw6ker_move_context_s
 /* ker-armies.c */
 extern int _lw6ker_armies_init (_lw6ker_armies_t * armies,
 				_lw6ker_map_struct_t * map_struct,
-				lw6map_rules_t * options);
+				const lw6map_rules_t * options);
 extern void _lw6ker_armies_clear (_lw6ker_armies_t * armies);
 extern int _lw6ker_armies_sync (_lw6ker_armies_t * dst,
-				_lw6ker_armies_t * src);
-extern void _lw6ker_armies_update_checksum (_lw6ker_armies_t * armies,
+				const _lw6ker_armies_t * src);
+extern void _lw6ker_armies_update_checksum (const _lw6ker_armies_t * armies,
 					    u_int32_t * checksum);
 extern int32_t _lw6ker_armies_add_fighter (_lw6ker_armies_t * armies,
 					   lw6ker_fighter_t fighter);
 extern int _lw6ker_armies_remove_fighter (_lw6ker_armies_t * armies);
 
 /* ker-capture.c */
-extern char *_lw6ker_capture_str (_lw6ker_game_state_t * game_state);
+extern char *_lw6ker_capture_str (const _lw6ker_game_state_t * game_state);
 
 /* ker-checksumlog.c */
 extern void _lw6ker_game_state_checksum_log_set_interval (_lw6ker_game_state_t
 							  * game_state,
 							  int
 							  checksum_log_interval);
-extern void _lw6ker_game_state_checksum_log_if_needed (_lw6ker_game_state_t *
+extern void _lw6ker_game_state_checksum_log_if_needed (const
+						       _lw6ker_game_state_t *
 						       game_state);
 
 /* ker-cursor.c */
 extern void _lw6ker_cursor_init (lw6ker_cursor_t * cursor, char letter);
-extern void _lw6ker_cursor_update_checksum (lw6ker_cursor_t * cursor,
+extern void _lw6ker_cursor_update_checksum (const lw6ker_cursor_t * cursor,
 					    u_int32_t * checksum);
-extern int _lw6ker_cursor_check_node_id (lw6ker_cursor_t * cursor,
+extern int _lw6ker_cursor_check_node_id (const lw6ker_cursor_t * cursor,
 					 u_int64_t node_id);
 extern int _lw6ker_cursor_get_start_xy (int32_t * x, int32_t * y,
 					int team_color, int position_mode,
 					int random_seed, lw6sys_whd_t * shape,
-					lw6map_rules_t * rules);
+					const lw6map_rules_t * rules);
 extern void _lw6ker_cursor_update_apply_pos (lw6ker_cursor_t * cursor,
 					     _lw6ker_map_struct_t *
 					     map_struct);
@@ -359,26 +360,32 @@ extern int _lw6ker_cursor_update (lw6ker_cursor_t * cursor, int32_t x,
 				  int32_t y, int fire, int fire2,
 				  int32_t pot_offset, lw6sys_whd_t * shape,
 				  lw6map_rules_t * rules);
-extern int _lw6ker_cursor_sanity_check (lw6ker_cursor_t * cursor,
-					lw6sys_whd_t * shape,
-					lw6map_rules_t * rules);
+extern int _lw6ker_cursor_sanity_check (const lw6ker_cursor_t * cursor,
+					const lw6sys_whd_t * shape,
+					const lw6map_rules_t * rules);
 
 /* ker-cursorarray.c */
 extern void _lw6ker_cursor_array_reset (_lw6ker_cursor_array_t *
 					cursor_array);
 extern void _lw6ker_cursor_array_init (_lw6ker_cursor_array_t * cursor_array);
-extern void _lw6ker_cursor_array_update_checksum (_lw6ker_cursor_array_t *
-						  cursor_array,
+extern void _lw6ker_cursor_array_update_checksum (const _lw6ker_cursor_array_t
+						  * cursor_array,
 						  u_int32_t * checksum);
 extern lw6ker_cursor_t *_lw6ker_cursor_array_find_free (_lw6ker_cursor_array_t
 							* cursor_array);
-extern int _lw6ker_cursor_array_is_color_owned_by (_lw6ker_cursor_array_t *
+extern int _lw6ker_cursor_array_is_color_owned_by (const
+						   _lw6ker_cursor_array_t *
 						   cursor_array,
 						   u_int64_t node_id,
 						   int team_color);
-extern lw6ker_cursor_t *_lw6ker_cursor_array_get (_lw6ker_cursor_array_t *
-						  cursor_array,
-						  u_int16_t cursor_id);
+extern lw6ker_cursor_t *_lw6ker_cursor_array_get_rw (_lw6ker_cursor_array_t *
+						     cursor_array,
+						     u_int16_t cursor_id);
+extern const lw6ker_cursor_t *_lw6ker_cursor_array_get_ro (const
+							   _lw6ker_cursor_array_t
+							   * cursor_array,
+							   u_int16_t
+							   cursor_id);
 extern int _lw6ker_cursor_array_enable (_lw6ker_cursor_array_t * cursor_array,
 					u_int64_t node_id,
 					u_int16_t cursor_id, int team_color,
@@ -393,15 +400,15 @@ extern int _lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
 					int32_t pot_offset,
 					lw6sys_whd_t * shape,
 					lw6map_rules_t * rules);
-extern int _lw6ker_cursor_array_sanity_check (_lw6ker_cursor_array_t *
+extern int _lw6ker_cursor_array_sanity_check (const _lw6ker_cursor_array_t *
 					      cursor_array,
-					      lw6sys_whd_t * shape,
-					      lw6map_rules_t * rules);
+					      const lw6sys_whd_t * shape,
+					      const lw6map_rules_t * rules);
 
 
 /* ker-fighter.c */
 extern void _lw6ker_fighter_clear (lw6ker_fighter_t * fighter);
-extern void _lw6ker_fighter_update_checksum (lw6ker_fighter_t * fighter,
+extern void _lw6ker_fighter_update_checksum (const lw6ker_fighter_t * fighter,
 					     u_int32_t * checksum);
 extern void _lw6ker_fighter_print_debug (lw6ker_fighter_t * fighter);
 extern void _lw6ker_fighter_move (lw6ker_fighter_t * fighter,
@@ -436,17 +443,18 @@ extern int _lw6ker_game_state_memory_footprint (_lw6ker_game_state_t *
 extern char *_lw6ker_game_state_repr (const _lw6ker_game_state_t *
 				      game_state);
 extern int _lw6ker_game_state_can_sync (_lw6ker_game_state_t * dst,
-					_lw6ker_game_state_t * src);
+					const _lw6ker_game_state_t * src);
 extern int _lw6ker_game_state_sync (_lw6ker_game_state_t * dst,
-				    _lw6ker_game_state_t * src);
-extern _lw6ker_game_state_t *_lw6ker_game_state_dup (_lw6ker_game_state_t *
+				    const _lw6ker_game_state_t * src);
+extern _lw6ker_game_state_t *_lw6ker_game_state_dup (const
+						     _lw6ker_game_state_t *
 						     game_state,
 						     lw6sys_progress_t *
 						     progress);
-extern void _lw6ker_game_state_update_checksum (_lw6ker_game_state_t *
+extern void _lw6ker_game_state_update_checksum (const _lw6ker_game_state_t *
 						game_state,
 						u_int32_t * checksum);
-extern u_int32_t _lw6ker_game_state_checksum (_lw6ker_game_state_t *
+extern u_int32_t _lw6ker_game_state_checksum (const _lw6ker_game_state_t *
 					      game_state);
 extern int _lw6ker_game_state_register_node (_lw6ker_game_state_t *
 					     game_state, u_int64_t node_id);
@@ -486,13 +494,13 @@ extern int _lw6ker_game_state_remove_team_internal (_lw6ker_game_state_t *
 						    int team_color);
 extern int _lw6ker_game_state_remove_team (_lw6ker_game_state_t * game_state,
 					   u_int64_t node_id, int team_color);
-extern int _lw6ker_game_state_team_exists (_lw6ker_game_state_t * game_state,
-					   int team_color);
-extern int _lw6ker_game_state_get_team_info (_lw6ker_game_state_t *
+extern int _lw6ker_game_state_team_exists (const _lw6ker_game_state_t *
+					   game_state, int team_color);
+extern int _lw6ker_game_state_get_team_info (const _lw6ker_game_state_t *
 					     game_state, int team_color,
 					     int32_t * nb_cursors,
 					     int32_t * nb_fighters);
-extern int _lw6ker_game_state_get_nb_teams (_lw6ker_game_state_t *
+extern int _lw6ker_game_state_get_nb_teams (const _lw6ker_game_state_t *
 					    game_state);
 extern void _lw6ker_game_state_do_spread (_lw6ker_game_state_t * game_state,
 					  u_int32_t team_mask);
@@ -545,18 +553,19 @@ extern _lw6ker_game_struct_t *_lw6ker_game_struct_new (lw6map_level_t * level,
 extern void _lw6ker_game_struct_free (_lw6ker_game_struct_t * game_struct);
 extern void _lw6ker_game_struct_point_to (_lw6ker_game_struct_t * game_struct,
 					  lw6map_level_t * level);
-extern int _lw6ker_game_struct_memory_footprint (_lw6ker_game_struct_t *
+extern int _lw6ker_game_struct_memory_footprint (const _lw6ker_game_struct_t *
 						 game_struct);
 extern char *_lw6ker_game_struct_repr (const _lw6ker_game_struct_t *
 				       game_struct);
-extern _lw6ker_game_struct_t *_lw6ker_game_struct_dup (_lw6ker_game_struct_t *
+extern _lw6ker_game_struct_t *_lw6ker_game_struct_dup (const
+						       _lw6ker_game_struct_t *
 						       game_struct,
 						       lw6sys_progress_t *
 						       progress);
-extern void _lw6ker_game_struct_update_checksum (_lw6ker_game_struct_t *
+extern void _lw6ker_game_struct_update_checksum (const _lw6ker_game_struct_t *
 						 game_struct,
 						 u_int32_t * checksum);
-extern u_int32_t _lw6ker_game_struct_checksum (_lw6ker_game_struct_t *
+extern u_int32_t _lw6ker_game_struct_checksum (const _lw6ker_game_struct_t *
 					       game_struct);
 extern int _lw6ker_game_state_get_nb_colors (const _lw6ker_game_state_t *
 					     game_state);
@@ -584,8 +593,8 @@ extern void _lw6ker_history_add (_lw6ker_history_t * history,
 extern int32_t _lw6ker_history_get (_lw6ker_history_t * history,
 				    int i, int team_id);
 extern int32_t _lw6ker_history_get_max (_lw6ker_history_t * history);
-extern void _lw6ker_history_update_checksum (_lw6ker_history_t * history,
-					     u_int32_t * checksum);
+extern void _lw6ker_history_update_checksum (const _lw6ker_history_t *
+					     history, u_int32_t * checksum);
 
 /* ker-mapstate.c */
 extern int _lw6ker_map_state_init (_lw6ker_map_state_t * map_state,
@@ -594,8 +603,8 @@ extern int _lw6ker_map_state_init (_lw6ker_map_state_t * map_state,
 				   lw6sys_progress_t * progress);
 extern void _lw6ker_map_state_clear (_lw6ker_map_state_t * map_state);
 extern int _lw6ker_map_state_sync (_lw6ker_map_state_t * dst,
-				   _lw6ker_map_state_t * src);
-extern void _lw6ker_map_state_update_checksum (_lw6ker_map_state_t *
+				   const _lw6ker_map_state_t * src);
+extern void _lw6ker_map_state_update_checksum (const _lw6ker_map_state_t *
 					       map_state,
 					       u_int32_t * checksum);
 extern int _lw6ker_map_state_get_nb_teams (const _lw6ker_map_state_t *
@@ -605,13 +614,13 @@ extern void _lw6ker_map_state_frag (_lw6ker_map_state_t * map_state,
 				    int frags_to_distribute,
 				    int frags_fade_out);
 static inline int
-_lw6ker_map_state_slot_index (_lw6ker_map_state_t * map_state, int32_t x,
-			      int32_t y, int32_t z)
+_lw6ker_map_state_slot_index (const _lw6ker_map_state_t * map_state,
+			      int32_t x, int32_t y, int32_t z)
 {
   return (map_state->shape_surface * z + map_state->shape.w * y + x);
 }
 
-extern int _lw6ker_map_state_get_free_team_color (_lw6ker_map_state_t *
+extern int _lw6ker_map_state_get_free_team_color (const _lw6ker_map_state_t *
 						  map_state);
 extern int32_t _lw6ker_map_state_populate_team (_lw6ker_map_state_t *
 						map_state, int32_t team_color,
@@ -644,7 +653,7 @@ _lw6ker_map_state_set_fighter_id (_lw6ker_map_state_t * map_state,
 };
 
 static inline int32_t
-_lw6ker_map_state_get_fighter_id (_lw6ker_map_state_t * map_state,
+_lw6ker_map_state_get_fighter_id (const _lw6ker_map_state_t * map_state,
 				  int32_t x, int32_t y, int32_t z)
 {
   return (map_state->slots[_lw6ker_map_state_slot_index
@@ -656,8 +665,8 @@ _lw6ker_map_state_get_fighter_id (_lw6ker_map_state_t * map_state,
  * or it segfaults directly.
  */
 static inline lw6ker_fighter_t *
-_lw6ker_map_state_get_fighter_unsafe (_lw6ker_map_state_t * map_state,
-				      int32_t x, int32_t y, int32_t z)
+_lw6ker_map_state_get_fighter_rw_unsafe (_lw6ker_map_state_t * map_state,
+					 int32_t x, int32_t y, int32_t z)
 {
   return (&
 	  (map_state->armies.fighters[map_state->slots
@@ -665,7 +674,19 @@ _lw6ker_map_state_get_fighter_unsafe (_lw6ker_map_state_t * map_state,
 				       (map_state, x, y, z)].fighter_id]));
 };
 
-extern int _lw6ker_map_state_sanity_check (_lw6ker_map_state_t * map_state);
+static inline const lw6ker_fighter_t *
+_lw6ker_map_state_get_fighter_ro_unsafe (const _lw6ker_map_state_t *
+					 map_state, int32_t x, int32_t y,
+					 int32_t z)
+{
+  return (&
+	  (map_state->armies.fighters[map_state->slots
+				      [_lw6ker_map_state_slot_index
+				       (map_state, x, y, z)].fighter_id]));
+};
+
+extern int _lw6ker_map_state_sanity_check (const _lw6ker_map_state_t *
+					   map_state);
 extern void _lw6ker_map_state_spread_gradient (_lw6ker_map_state_t *
 					       map_state,
 					       lw6map_rules_t * rules,
@@ -684,13 +705,13 @@ extern void _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
 					    int round);
 extern void _lw6ker_map_state_charge (_lw6ker_map_state_t * map_state,
 				      lw6map_rules_t * rules, int round);
-extern int _lw6ker_map_state_is_this_weapon_active (_lw6ker_map_state_t *
-						    map_state, int round,
+extern int _lw6ker_map_state_is_this_weapon_active (const _lw6ker_map_state_t
+						    * map_state, int round,
 						    int weapon_id,
 						    int team_color);
-extern int _lw6ker_map_state_get_weapon_per1000_left (_lw6ker_map_state_t *
-						      map_state,
-						      int round,
+extern int _lw6ker_map_state_get_weapon_per1000_left (const
+						      _lw6ker_map_state_t *
+						      map_state, int round,
 						      int team_color);
 
 /* ker-mapstruct.c */
@@ -708,8 +729,8 @@ extern int _lw6ker_map_struct_lazy_compare (const _lw6ker_map_struct_t *
 					    const _lw6ker_map_struct_t *
 					    map_struct_b);
 static inline int
-_lw6ker_map_struct_slot_index (_lw6ker_map_struct_t * map_struct, int32_t x,
-			       int32_t y, int32_t z)
+_lw6ker_map_struct_slot_index (const _lw6ker_map_struct_t * map_struct,
+			       int32_t x, int32_t y, int32_t z)
 {
   return (map_struct->nb_places * z + map_struct->shape.w * y + x);
 }
@@ -724,67 +745,72 @@ _lw6ker_map_struct_set_zone_id (_lw6ker_map_struct_t * map_struct,
 };
 
 static inline int32_t
-_lw6ker_map_struct_get_zone_id (_lw6ker_map_struct_t * map_struct,
+_lw6ker_map_struct_get_zone_id (const _lw6ker_map_struct_t * map_struct,
 				int32_t x, int32_t y, int32_t z)
 {
   return (map_struct->slots
 	  [_lw6ker_map_struct_slot_index (map_struct, x, y, z)].zone_id);
 };
 
-extern void _lw6ker_map_struct_find_free_slot_near (_lw6ker_map_struct_t *
-						    map_struct,
+extern void _lw6ker_map_struct_find_free_slot_near (const _lw6ker_map_struct_t
+						    * map_struct,
 						    lw6sys_xyz_t * there,
 						    lw6sys_xyz_t here);
-extern int _lw6ker_map_struct_sanity_check (_lw6ker_map_struct_t *
+extern int _lw6ker_map_struct_sanity_check (const _lw6ker_map_struct_t *
 					    map_struct);
 
 
 /* ker-move.c */
-extern int _lw6ker_move_is_slot_free (_lw6ker_map_struct_t * map_struct,
-				      _lw6ker_map_state_t * map_state,
+extern int _lw6ker_move_is_slot_free (const _lw6ker_map_struct_t * map_struct,
+				      const _lw6ker_map_state_t * map_state,
 				      int32_t x, int32_t y, int32_t z);
-extern int _lw6ker_move_is_enemy_there (_lw6ker_map_struct_t * map_struct,
-					_lw6ker_map_state_t * map_state,
+extern int _lw6ker_move_is_enemy_there (const _lw6ker_map_struct_t *
+					map_struct,
+					const _lw6ker_map_state_t * map_state,
 					int32_t team_color, int32_t x,
 					int32_t y, int32_t z,
 					int32_t * enemy_id,
 					int32_t * enemy_color);
-extern int _lw6ker_move_is_ally_there (_lw6ker_map_struct_t * map_struct,
-				       _lw6ker_map_state_t * map_state,
+extern int _lw6ker_move_is_ally_there (const _lw6ker_map_struct_t *
+				       map_struct,
+				       const _lw6ker_map_state_t * map_state,
 				       int32_t team_color, int32_t x,
 				       int32_t y, int32_t z);
 extern int32_t _lw6ker_move_find_straight_dir (int from_x, int from_y,
 					       lw6sys_xyz_t to, int parity);
-extern int32_t _lw6ker_move_find_best_dir (_lw6ker_map_state_t * map_state,
-					   lw6ker_fighter_t * fighter,
+extern int32_t _lw6ker_move_find_best_dir (const _lw6ker_map_state_t *
+					   map_state,
+					   const lw6ker_fighter_t * fighter,
 					   int parity);
-extern void _lw6ker_move_goto_with_dir_xy (lw6map_rules_t * rules,
-					   lw6sys_whd_t * shape,
+extern void _lw6ker_move_goto_with_dir_xy (const lw6map_rules_t * rules,
+					   const lw6sys_whd_t * shape,
 					   int32_t * dst_x, int32_t * dst_y,
 					   int32_t src_x, int32_t src_y,
 					   int32_t move_dir);
-extern void _lw6ker_move_goto_with_dir_z (lw6map_rules_t * rules,
-					  lw6sys_whd_t * shape,
+extern void _lw6ker_move_goto_with_dir_z (const lw6map_rules_t * rules,
+					  const lw6sys_whd_t * shape,
 					  int32_t * dst_z, int32_t src_z,
 					  int32_t move_dir);
-extern void _lw6ker_move_goto_with_dir (lw6map_rules_t * rules,
-					lw6sys_whd_t * shape, int32_t * dst_x,
-					int32_t * dst_y, int32_t * dst_z,
-					int32_t src_x, int32_t src_y,
-					int32_t src_z, int32_t move_dir);
+extern void _lw6ker_move_goto_with_dir (const lw6map_rules_t * rules,
+					const lw6sys_whd_t * shape,
+					int32_t * dst_x, int32_t * dst_y,
+					int32_t * dst_z, int32_t src_x,
+					int32_t src_y, int32_t src_z,
+					int32_t move_dir);
 extern void _lw6ker_move_adjust_health (lw6ker_fighter_t * fighter,
 					int32_t health_correction);
 extern void _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t *
 						    context);
-extern int
-_lw6ker_move_get_best_next_pos (_lw6ker_game_state_t * game_state,
-				lw6sys_xyz_t * next_pos,
-				lw6sys_xyz_t * current_pos, int team_color);
+extern int _lw6ker_move_get_best_next_pos (const _lw6ker_game_state_t *
+					   game_state,
+					   lw6sys_xyz_t * next_pos,
+					   lw6sys_xyz_t * current_pos,
+					   int team_color);
 
 
 /* ker-placestruct.c */
-extern void _lw6ker_place_struct_update_checksum (_lw6ker_place_struct_t *
-						  place_struct,
+extern void _lw6ker_place_struct_update_checksum (const _lw6ker_place_struct_t
+						  * place_struct,
 						  u_int32_t * checksum);
 static inline int
 _lw6ker_map_struct_place_index (_lw6ker_map_struct_t * map_struct, int32_t x,
@@ -807,22 +833,23 @@ extern int _lw6ker_score_sort_frags_callback_desc (lw6ker_score_t * score_a,
 
 /* ker-scorearray.c */
 extern int _lw6ker_score_array_update (lw6ker_score_array_t * score_array,
-				       _lw6ker_game_state_t * game_state);
+				       const _lw6ker_game_state_t *
+				       game_state);
 
 /* ker-node.c */
 extern void _lw6ker_node_reset (_lw6ker_node_t * node);
 extern void _lw6ker_node_init (_lw6ker_node_t * node);
-extern void _lw6ker_node_update_checksum (_lw6ker_node_t * node,
+extern void _lw6ker_node_update_checksum (const _lw6ker_node_t * node,
 					  u_int32_t * checksum);
 extern int _lw6ker_node_enable (_lw6ker_node_t * node, u_int64_t node_id);
 extern int _lw6ker_node_disable (_lw6ker_node_t * node);
-extern int _lw6ker_node_sanity_check (_lw6ker_node_t * node,
+extern int _lw6ker_node_sanity_check (const _lw6ker_node_t * node,
 				      lw6map_rules_t * rules);
 
 /* ker-nodearray.c */
 extern void _lw6ker_node_array_reset (_lw6ker_node_array_t * node_array);
 extern void _lw6ker_node_array_init (_lw6ker_node_array_t * node_array);
-extern void _lw6ker_node_array_update_checksum (_lw6ker_node_array_t *
+extern void _lw6ker_node_array_update_checksum (const _lw6ker_node_array_t *
 						node_array,
 						u_int32_t * checksum);
 extern _lw6ker_node_t *_lw6ker_node_array_find_free (_lw6ker_node_array_t
@@ -833,13 +860,13 @@ extern int _lw6ker_node_array_enable (_lw6ker_node_array_t * node_array,
 				      u_int64_t node_id);
 extern int _lw6ker_node_array_disable (_lw6ker_node_array_t * node_array,
 				       u_int64_t node_id);
-extern int _lw6ker_node_array_sanity_check (_lw6ker_node_array_t *
+extern int _lw6ker_node_array_sanity_check (const _lw6ker_node_array_t *
 					    node_array,
 					    lw6map_rules_t * rules);
 
 
 /* ker-slotstruct.c */
-extern void _lw6ker_slot_struct_update_checksum (_lw6ker_slot_struct_t *
+extern void _lw6ker_slot_struct_update_checksum (const _lw6ker_slot_struct_t *
 						 slot_struct,
 						 u_int32_t * checksum);
 
@@ -848,27 +875,28 @@ extern int _lw6ker_team_init (_lw6ker_team_t * team,
 			      _lw6ker_map_struct_t * map_struct,
 			      lw6map_rules_t * options);
 extern void _lw6ker_team_clear (_lw6ker_team_t * team);
-extern int _lw6ker_team_sync (_lw6ker_team_t * dst, _lw6ker_team_t * src);
-extern void _lw6ker_team_update_checksum (_lw6ker_team_t * team,
+extern int _lw6ker_team_sync (_lw6ker_team_t * dst,
+			      const _lw6ker_team_t * src);
+extern void _lw6ker_team_update_checksum (const _lw6ker_team_t * team,
 					  u_int32_t * checksum);
 extern void _lw6ker_team_activate (_lw6ker_team_t * team, lw6sys_xyz_t pos);
 extern void _lw6ker_team_unactivate (_lw6ker_team_t * team);
 extern void _lw6ker_team_normalize_pot (_lw6ker_team_t * team,
 					lw6map_rules_t * rules);
-extern int _lw6ker_team_get_charge_per1000 (_lw6ker_team_t * team);
+extern int _lw6ker_team_get_charge_per1000 (const _lw6ker_team_t * team);
 extern void _lw6ker_team_reset_charge (_lw6ker_team_t * team);
-extern int _lw6ker_team_is_this_weapon_active (_lw6ker_team_t * team,
+extern int _lw6ker_team_is_this_weapon_active (const _lw6ker_team_t * team,
 					       int round, int weapon_id);
-extern int _lw6ker_team_get_weapon_per1000_left (_lw6ker_team_t * team,
+extern int _lw6ker_team_get_weapon_per1000_left (const _lw6ker_team_t * team,
 						 int round);
 
 /* ker-slotstate.c */
-extern void _lw6ker_slot_state_update_checksum (_lw6ker_slot_state_t *
+extern void _lw6ker_slot_state_update_checksum (const _lw6ker_slot_state_t *
 						slot_state,
 						u_int32_t * checksum);
 
 /* ker-slotstruct.c */
-extern void _lw6ker_slot_struct_update_checksum (_lw6ker_slot_struct_t *
+extern void _lw6ker_slot_struct_update_checksum (const _lw6ker_slot_struct_t *
 						 slot_struct,
 						 u_int32_t * checksum);
 
@@ -911,12 +939,12 @@ extern void _lw6ker_spread_update_gradient (_lw6ker_team_t * team,
 extern void _lw6ker_weapon_unset_by_weapon_id (_lw6ker_map_state_t *
 					       map_state, int weapon_id);
 extern void _lw6ker_weapon_unset_all (_lw6ker_map_state_t * map_state);
-extern int _lw6ker_weapon_find_team_by_weapon_id (_lw6ker_map_state_t *
+extern int _lw6ker_weapon_find_team_by_weapon_id (const _lw6ker_map_state_t *
 						  map_state, int round,
 						  int weapon_id);
-extern int _lw6ker_weapon_get_latest_weapon (_lw6ker_map_state_t * map_state,
-					     int round, int *team_color,
-					     int *weapon_id,
+extern int _lw6ker_weapon_get_latest_weapon (const _lw6ker_map_state_t *
+					     map_state, int round,
+					     int *team_color, int *weapon_id,
 					     int *per1000_left);
 extern int _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
 				lw6map_rules_t * rules, int round,
@@ -988,12 +1016,12 @@ extern int _lw6ker_weapon_fire_plague (_lw6ker_map_state_t * map_state,
 				       int team_color, int charge_percent);
 
 /* ker-zonestate.c */
-extern void _lw6ker_zone_state_update_checksum (_lw6ker_zone_state_t *
+extern void _lw6ker_zone_state_update_checksum (const _lw6ker_zone_state_t *
 						zone_state,
 						u_int32_t * checksum);
 
 /* ker-zonestruct.c */
-extern void _lw6ker_zone_struct_update_checksum (_lw6ker_zone_struct_t *
+extern void _lw6ker_zone_struct_update_checksum (const _lw6ker_zone_struct_t *
 						 zone_struct,
 						 u_int32_t * checksum);
 

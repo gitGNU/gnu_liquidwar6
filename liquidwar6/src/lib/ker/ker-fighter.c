@@ -45,7 +45,7 @@ _lw6ker_fighter_clear (lw6ker_fighter_t * fighter)
 }
 
 void
-_lw6ker_fighter_update_checksum (lw6ker_fighter_t * fighter,
+_lw6ker_fighter_update_checksum (const lw6ker_fighter_t * fighter,
 				 u_int32_t * checksum)
 {
   lw6sys_checksum_update_int32 (checksum, fighter->team_color);
@@ -91,7 +91,7 @@ _lw6ker_fighter_attack (lw6ker_fighter_t * fighter,
 {
   lw6ker_fighter_t *enemy;
 
-  enemy = _lw6ker_map_state_get_fighter_unsafe (map_state, x, y, z);
+  enemy = _lw6ker_map_state_get_fighter_rw_unsafe (map_state, x, y, z);
   enemy->health -= fighter_attack;
   if (enemy->health <= 0)
     {
@@ -121,7 +121,7 @@ _lw6ker_fighter_defend (lw6ker_fighter_t * fighter,
 {
   lw6ker_fighter_t *ally;
 
-  ally = _lw6ker_map_state_get_fighter_unsafe (map_state, x, y, z);
+  ally = _lw6ker_map_state_get_fighter_rw_unsafe (map_state, x, y, z);
   ally->health += fighter_defense;
   if (ally->health > LW6MAP_MAX_FIGHTER_HEALTH)
     {

@@ -75,7 +75,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
   lw6sys_whd_t shape = { 0, 0, 0 };
   int x, y, z;
   int fighter_id = -1;
-  lw6ker_fighter_t *fighter = NULL;
+  const lw6ker_fighter_t *fighter = NULL;
   int team_color = LW6MAP_TEAM_COLOR_INVALID;
   lw6sys_color_8_t pixel_color;
   int surface = 0;
@@ -130,8 +130,8 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 		      if (fighter_id >= 0)
 			{
 			  fighter =
-			    lw6ker_game_state_get_fighter_by_id (game_state,
-								 fighter_id);
+			    lw6ker_game_state_get_fighter_ro_by_id
+			    (game_state, fighter_id);
 			  team_color = fighter->team_color;
 			  if (lw6map_team_color_is_valid (team_color))
 			    {

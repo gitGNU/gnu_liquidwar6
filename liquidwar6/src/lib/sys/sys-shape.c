@@ -40,8 +40,9 @@
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6sys_shape_check_min_max_whd (lw6sys_whd_t * shape, lw6sys_whd_t * min,
-				lw6sys_whd_t * max)
+lw6sys_shape_check_min_max_whd (const lw6sys_whd_t * shape,
+				const lw6sys_whd_t * min,
+				const lw6sys_whd_t * max)
 {
   int ret = 0;
 
@@ -62,7 +63,7 @@ lw6sys_shape_check_min_max_whd (lw6sys_whd_t * shape, lw6sys_whd_t * min,
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6sys_shape_check_pos (lw6sys_whd_t * shape, lw6sys_xyz_t * pos)
+lw6sys_shape_check_pos (const lw6sys_whd_t * shape, const lw6sys_xyz_t * pos)
 {
   int ret = 0;
 

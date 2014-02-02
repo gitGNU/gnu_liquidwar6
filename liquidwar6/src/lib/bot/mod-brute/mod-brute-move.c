@@ -39,7 +39,7 @@ _mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y,
   lw6ker_cursor_t cursor;
   lw6sys_whd_t shape = { 0, 0, 0 };
   int found = 0;
-  lw6ker_fighter_t *fighter;
+  const lw6ker_fighter_t *fighter;
   int nb_retries;
 
   lw6ker_game_struct_get_shape (data->game_state->game_struct, &shape);
@@ -94,7 +94,7 @@ _mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y,
 		      for (z = 0; z < shape.d && !found; ++z)
 			{
 			  fighter =
-			    lw6ker_game_state_get_fighter_safe
+			    lw6ker_game_state_get_fighter_ro_safe
 			    (brute_context->game_sandbox, cursor.pos.x,
 			     cursor.pos.y, z);
 			  if (fighter

@@ -28,8 +28,8 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_zone_struct_update_checksum (_lw6ker_zone_struct_t * zone_struct,
-				     u_int32_t * checksum)
+_lw6ker_zone_struct_update_checksum (const _lw6ker_zone_struct_t *
+				     zone_struct, u_int32_t * checksum)
 {
   int i;
 

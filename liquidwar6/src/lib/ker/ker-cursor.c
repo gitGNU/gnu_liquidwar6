@@ -36,7 +36,7 @@ _lw6ker_cursor_init (lw6ker_cursor_t * cursor, char letter)
 }
 
 void
-_lw6ker_cursor_update_checksum (lw6ker_cursor_t * cursor,
+_lw6ker_cursor_update_checksum (const lw6ker_cursor_t * cursor,
 				u_int32_t * checksum)
 {
   lw6sys_checksum_update_int64 (checksum, cursor->node_id);
@@ -52,7 +52,8 @@ _lw6ker_cursor_update_checksum (lw6ker_cursor_t * cursor,
 }
 
 int
-_lw6ker_cursor_check_node_id (lw6ker_cursor_t * cursor, u_int64_t node_id)
+_lw6ker_cursor_check_node_id (const lw6ker_cursor_t * cursor,
+			      u_int64_t node_id)
 {
   int ret = 0;
 
@@ -72,7 +73,8 @@ _lw6ker_cursor_check_node_id (lw6ker_cursor_t * cursor, u_int64_t node_id)
 int
 _lw6ker_cursor_get_start_xy (int32_t * x, int32_t * y, int team_color,
 			     int position_mode, int random_seed,
-			     lw6sys_whd_t * shape, lw6map_rules_t * rules)
+			     lw6sys_whd_t * shape,
+			     const lw6map_rules_t * rules)
 {
   int ret = 1;
   int32_t px = 50;
@@ -235,8 +237,9 @@ _lw6ker_cursor_update (lw6ker_cursor_t * cursor, int32_t x,
 }
 
 int
-_lw6ker_cursor_sanity_check (lw6ker_cursor_t * cursor,
-			     lw6sys_whd_t * shape, lw6map_rules_t * rules)
+_lw6ker_cursor_sanity_check (const lw6ker_cursor_t * cursor,
+			     const lw6sys_whd_t * shape,
+			     const lw6map_rules_t * rules)
 {
   int ret = 1;
 

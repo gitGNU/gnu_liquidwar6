@@ -969,7 +969,7 @@ lw6pil_pilot_slow_down (lw6pil_pilot_t * pilot, int seq_dec)
 }
 
 int
-_lw6pil_pilot_get_round_0 (_lw6pil_pilot_t * pilot)
+_lw6pil_pilot_get_round_0 (const _lw6pil_pilot_t * pilot)
 {
   return pilot->round_0;
 }
@@ -985,13 +985,13 @@ _lw6pil_pilot_get_round_0 (_lw6pil_pilot_t * pilot)
  * Return value: 64-bit integer
  */
 int
-lw6pil_pilot_get_round_0 (lw6pil_pilot_t * pilot)
+lw6pil_pilot_get_round_0 (const lw6pil_pilot_t * pilot)
 {
-  return _lw6pil_pilot_get_round_0 ((_lw6pil_pilot_t *) pilot);
+  return _lw6pil_pilot_get_round_0 ((const _lw6pil_pilot_t *) pilot);
 }
 
 int64_t
-_lw6pil_pilot_get_seq_0 (_lw6pil_pilot_t * pilot)
+_lw6pil_pilot_get_seq_0 (const _lw6pil_pilot_t * pilot)
 {
   return pilot->seq_0;
 }
@@ -1007,13 +1007,13 @@ _lw6pil_pilot_get_seq_0 (_lw6pil_pilot_t * pilot)
  * Return value: 64-bit integer
  */
 int64_t
-lw6pil_pilot_get_seq_0 (lw6pil_pilot_t * pilot)
+lw6pil_pilot_get_seq_0 (const lw6pil_pilot_t * pilot)
 {
-  return _lw6pil_pilot_get_seq_0 ((_lw6pil_pilot_t *) pilot);
+  return _lw6pil_pilot_get_seq_0 ((const _lw6pil_pilot_t *) pilot);
 }
 
 int
-_lw6pil_pilot_seq2round (_lw6pil_pilot_t * pilot, int64_t seq)
+_lw6pil_pilot_seq2round (const _lw6pil_pilot_t * pilot, int64_t seq)
 {
   return (seq >=
 	  _LW6PIL_MIN_SEQ_0 ? ((seq - _lw6pil_pilot_get_seq_0 (pilot)) +
@@ -1034,13 +1034,13 @@ _lw6pil_pilot_seq2round (_lw6pil_pilot_t * pilot, int64_t seq)
  * Return value: the round (32-bit integer)
  */
 int
-lw6pil_pilot_seq2round (lw6pil_pilot_t * pilot, int64_t seq)
+lw6pil_pilot_seq2round (const lw6pil_pilot_t * pilot, int64_t seq)
 {
-  return _lw6pil_pilot_seq2round ((_lw6pil_pilot_t *) pilot, seq);
+  return _lw6pil_pilot_seq2round ((const _lw6pil_pilot_t *) pilot, seq);
 }
 
 int64_t
-_lw6pil_pilot_round2seq (_lw6pil_pilot_t * pilot, int round)
+_lw6pil_pilot_round2seq (const _lw6pil_pilot_t * pilot, int round)
 {
   return round + _lw6pil_pilot_get_seq_0 (pilot) -
     _lw6pil_pilot_get_round_0 (pilot);
@@ -1060,13 +1060,13 @@ _lw6pil_pilot_round2seq (_lw6pil_pilot_t * pilot, int round)
  * Return value: the seq (64-bit integer)
  */
 int64_t
-lw6pil_pilot_round2seq (lw6pil_pilot_t * pilot, int round)
+lw6pil_pilot_round2seq (const lw6pil_pilot_t * pilot, int round)
 {
   return _lw6pil_pilot_round2seq ((_lw6pil_pilot_t *) pilot, round);
 }
 
 int64_t
-_lw6pil_pilot_get_next_seq (_lw6pil_pilot_t * pilot, int64_t timestamp)
+_lw6pil_pilot_get_next_seq (const _lw6pil_pilot_t * pilot, int64_t timestamp)
 {
   int64_t next_seq = 0LL;
   int64_t last_commit_seq = 0LL;
@@ -1109,13 +1109,14 @@ _lw6pil_pilot_get_next_seq (_lw6pil_pilot_t * pilot, int64_t timestamp)
  * Return value: none.
  */
 int64_t
-lw6pil_pilot_get_next_seq (lw6pil_pilot_t * pilot, int64_t timestamp)
+lw6pil_pilot_get_next_seq (const lw6pil_pilot_t * pilot, int64_t timestamp)
 {
-  return _lw6pil_pilot_get_next_seq ((_lw6pil_pilot_t *) pilot, timestamp);
+  return _lw6pil_pilot_get_next_seq ((const _lw6pil_pilot_t *) pilot,
+				     timestamp);
 }
 
 int64_t
-_lw6pil_pilot_get_last_commit_seq (_lw6pil_pilot_t * pilot)
+_lw6pil_pilot_get_last_commit_seq (const _lw6pil_pilot_t * pilot)
 {
   int64_t ret = 0;
 
@@ -1135,13 +1136,13 @@ _lw6pil_pilot_get_last_commit_seq (_lw6pil_pilot_t * pilot)
  * Return value: the commit seq (reference object)
  */
 int64_t
-lw6pil_pilot_get_last_commit_seq (lw6pil_pilot_t * pilot)
+lw6pil_pilot_get_last_commit_seq (const lw6pil_pilot_t * pilot)
 {
-  return _lw6pil_pilot_get_last_commit_seq ((_lw6pil_pilot_t *) pilot);
+  return _lw6pil_pilot_get_last_commit_seq ((const _lw6pil_pilot_t *) pilot);
 }
 
 int64_t
-_lw6pil_pilot_get_reference_target_seq (_lw6pil_pilot_t * pilot)
+_lw6pil_pilot_get_reference_target_seq (const _lw6pil_pilot_t * pilot)
 {
   int64_t ret = 0;
 
@@ -1165,13 +1166,14 @@ _lw6pil_pilot_get_reference_target_seq (_lw6pil_pilot_t * pilot)
  * Return value: the target seq (reference object)
  */
 int64_t
-lw6pil_pilot_get_reference_target_seq (lw6pil_pilot_t * pilot)
+lw6pil_pilot_get_reference_target_seq (const lw6pil_pilot_t * pilot)
 {
-  return _lw6pil_pilot_get_reference_target_seq ((_lw6pil_pilot_t *) pilot);
+  return _lw6pil_pilot_get_reference_target_seq ((const _lw6pil_pilot_t *)
+						 pilot);
 }
 
 int64_t
-_lw6pil_pilot_get_reference_current_seq (_lw6pil_pilot_t * pilot)
+_lw6pil_pilot_get_reference_current_seq (const _lw6pil_pilot_t * pilot)
 {
   int64_t ret = 0;
 
@@ -1193,13 +1195,14 @@ _lw6pil_pilot_get_reference_current_seq (_lw6pil_pilot_t * pilot)
  * Return value: the current seq (reference object)
  */
 int64_t
-lw6pil_pilot_get_reference_current_seq (lw6pil_pilot_t * pilot)
+lw6pil_pilot_get_reference_current_seq (const lw6pil_pilot_t * pilot)
 {
-  return _lw6pil_pilot_get_reference_current_seq ((_lw6pil_pilot_t *) pilot);
+  return _lw6pil_pilot_get_reference_current_seq ((const _lw6pil_pilot_t *)
+						  pilot);
 }
 
 int64_t
-_lw6pil_pilot_get_max_seq (_lw6pil_pilot_t * pilot)
+_lw6pil_pilot_get_max_seq (const _lw6pil_pilot_t * pilot)
 {
   int64_t ret = 0;
 
@@ -1223,13 +1226,13 @@ _lw6pil_pilot_get_max_seq (_lw6pil_pilot_t * pilot)
  * Return value: the current seq (reference object)
  */
 int64_t
-lw6pil_pilot_get_max_seq (lw6pil_pilot_t * pilot)
+lw6pil_pilot_get_max_seq (const lw6pil_pilot_t * pilot)
 {
-  return _lw6pil_pilot_get_max_seq ((_lw6pil_pilot_t *) pilot);
+  return _lw6pil_pilot_get_max_seq ((const _lw6pil_pilot_t *) pilot);
 }
 
 int
-_lw6pil_pilot_is_over (_lw6pil_pilot_t * pilot)
+_lw6pil_pilot_is_over (const _lw6pil_pilot_t * pilot)
 {
   int ret = 0;
 
@@ -1248,13 +1251,14 @@ _lw6pil_pilot_is_over (_lw6pil_pilot_t * pilot)
  * Return value: 1 if over, 0 if not
  */
 int
-lw6pil_pilot_is_over (lw6pil_pilot_t * pilot)
+lw6pil_pilot_is_over (const lw6pil_pilot_t * pilot)
 {
-  return _lw6pil_pilot_is_over ((_lw6pil_pilot_t *) pilot);
+  return _lw6pil_pilot_is_over ((const _lw6pil_pilot_t *) pilot);
 }
 
 int
-_lw6pil_pilot_did_cursor_win (_lw6pil_pilot_t * pilot, u_int16_t cursor_id)
+_lw6pil_pilot_did_cursor_win (const _lw6pil_pilot_t * pilot,
+			      u_int16_t cursor_id)
 {
   int ret = 0;
 
@@ -1279,13 +1283,15 @@ _lw6pil_pilot_did_cursor_win (_lw6pil_pilot_t * pilot, u_int16_t cursor_id)
  * Return value: 1 if over, 0 if not
  */
 int
-lw6pil_pilot_did_cursor_win (lw6pil_pilot_t * pilot, u_int16_t cursor_id)
+lw6pil_pilot_did_cursor_win (const lw6pil_pilot_t * pilot,
+			     u_int16_t cursor_id)
 {
-  return _lw6pil_pilot_did_cursor_win ((_lw6pil_pilot_t *) pilot, cursor_id);
+  return _lw6pil_pilot_did_cursor_win ((const _lw6pil_pilot_t *) pilot,
+				       cursor_id);
 }
 
 int
-_lw6pil_pilot_get_winner (_lw6pil_pilot_t * pilot)
+_lw6pil_pilot_get_winner (const _lw6pil_pilot_t * pilot)
 {
   int ret = 0;
 
@@ -1309,13 +1315,13 @@ _lw6pil_pilot_get_winner (_lw6pil_pilot_t * pilot)
  * Return value: a team color, -1 if no winner and/or error.
  */
 int
-lw6pil_pilot_get_winner (lw6pil_pilot_t * pilot)
+lw6pil_pilot_get_winner (const lw6pil_pilot_t * pilot)
 {
-  return _lw6pil_pilot_get_winner ((_lw6pil_pilot_t *) pilot);
+  return _lw6pil_pilot_get_winner ((const _lw6pil_pilot_t *) pilot);
 }
 
 int
-_lw6pil_pilot_get_looser (_lw6pil_pilot_t * pilot)
+_lw6pil_pilot_get_looser (const _lw6pil_pilot_t * pilot)
 {
   int ret = 0;
 
@@ -1339,9 +1345,9 @@ _lw6pil_pilot_get_looser (_lw6pil_pilot_t * pilot)
  * Return value: a team color, -1 if no looser and/or error.
  */
 int
-lw6pil_pilot_get_looser (lw6pil_pilot_t * pilot)
+lw6pil_pilot_get_looser (const lw6pil_pilot_t * pilot)
 {
-  return _lw6pil_pilot_get_looser ((_lw6pil_pilot_t *) pilot);
+  return _lw6pil_pilot_get_looser ((const _lw6pil_pilot_t *) pilot);
 }
 
 lw6pil_local_cursors_t *

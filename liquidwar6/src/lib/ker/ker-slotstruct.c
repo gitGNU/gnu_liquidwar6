@@ -28,8 +28,8 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_slot_struct_update_checksum (_lw6ker_slot_struct_t * slot_struct,
-				     u_int32_t * checksum)
+_lw6ker_slot_struct_update_checksum (const _lw6ker_slot_struct_t *
+				     slot_struct, u_int32_t * checksum)
 {
   lw6sys_checksum_update_int32 (checksum, slot_struct->zone_id);
 }

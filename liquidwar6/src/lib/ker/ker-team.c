@@ -88,7 +88,7 @@ _lw6ker_team_clear (_lw6ker_team_t * team)
 }
 
 int
-_lw6ker_team_sync (_lw6ker_team_t * dst, _lw6ker_team_t * src)
+_lw6ker_team_sync (_lw6ker_team_t * dst, const _lw6ker_team_t * src)
 {
   int ret = 0;
 
@@ -120,7 +120,8 @@ _lw6ker_team_sync (_lw6ker_team_t * dst, _lw6ker_team_t * src)
 }
 
 void
-_lw6ker_team_update_checksum (_lw6ker_team_t * team, u_int32_t * checksum)
+_lw6ker_team_update_checksum (const _lw6ker_team_t * team,
+			      u_int32_t * checksum)
 {
   int i;
 
@@ -210,7 +211,7 @@ _lw6ker_team_normalize_pot (_lw6ker_team_t * team, lw6map_rules_t * rules)
 }
 
 int
-_lw6ker_team_get_charge_per1000 (_lw6ker_team_t * team)
+_lw6ker_team_get_charge_per1000 (const _lw6ker_team_t * team)
 {
   int ret = 0;
 
@@ -229,7 +230,7 @@ _lw6ker_team_reset_charge (_lw6ker_team_t * team)
 }
 
 int
-_lw6ker_team_is_this_weapon_active (_lw6ker_team_t * team, int round,
+_lw6ker_team_is_this_weapon_active (const _lw6ker_team_t * team, int round,
 				    int weapon_id)
 {
   return (team->weapon_id == weapon_id && team->weapon_first_round <= round
@@ -237,7 +238,7 @@ _lw6ker_team_is_this_weapon_active (_lw6ker_team_t * team, int round,
 }
 
 int
-_lw6ker_team_get_weapon_per1000_left (_lw6ker_team_t * team, int round)
+_lw6ker_team_get_weapon_per1000_left (const _lw6ker_team_t * team, int round)
 {
   int ret = 0;
   int rounds_done = 0;

@@ -38,7 +38,7 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
   int i = 0;
   int found = 0;
   int fighter_id = -1;
-  lw6ker_fighter_t *fighter = NULL;
+  const lw6ker_fighter_t *fighter = NULL;
   lw6sys_whd_t shape = { 0, 0, 0 };
   lw6ker_cursor_t cursor;
 
@@ -79,8 +79,8 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 		  if (fighter_id >= 0)
 		    {
 		      fighter =
-			lw6ker_game_state_get_fighter_by_id (data->game_state,
-							     fighter_id);
+			lw6ker_game_state_get_fighter_ro_by_id
+			(data->game_state, fighter_id);
 		      if (fighter != NULL)
 			{
 			  if (data->param.iq >= _MOD_IDIOT_IQ_LIMIT2

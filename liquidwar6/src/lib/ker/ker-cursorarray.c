@@ -42,7 +42,7 @@ _lw6ker_cursor_array_init (_lw6ker_cursor_array_t * cursor_array)
 }
 
 void
-_lw6ker_cursor_array_update_checksum (_lw6ker_cursor_array_t *
+_lw6ker_cursor_array_update_checksum (const _lw6ker_cursor_array_t *
 				      cursor_array, u_int32_t * checksum)
 {
   int i = 0;
@@ -64,7 +64,7 @@ _lw6ker_cursor_array_find_free (_lw6ker_cursor_array_t * cursor_array)
     {
       if (!cursor_array->cursors[i].enabled)
 	{
-	  ret = &(cursor_array->cursors[i]);
+	  ret = (lw6ker_cursor_t *) & (cursor_array->cursors[i]);
 	}
     }
 
@@ -77,8 +77,9 @@ _lw6ker_cursor_array_find_free (_lw6ker_cursor_array_t * cursor_array)
 }
 
 int
-_lw6ker_cursor_array_is_color_owned_by (_lw6ker_cursor_array_t * cursor_array,
-					u_int64_t node_id, int team_color)
+_lw6ker_cursor_array_is_color_owned_by (const _lw6ker_cursor_array_t *
+					cursor_array, u_int64_t node_id,
+					int team_color)
 {
   int ret = 1;
   int i;
@@ -113,10 +114,28 @@ _lw6ker_cursor_array_reset (_lw6ker_cursor_array_t * cursor_array)
 }
 
 lw6ker_cursor_t *
-_lw6ker_cursor_array_get (_lw6ker_cursor_array_t *
-			  cursor_array, u_int16_t cursor_id)
+_lw6ker_cursor_array_get_rw (_lw6ker_cursor_array_t *
+			     cursor_array, u_int16_t cursor_id)
 {
   lw6ker_cursor_t *ret = NULL;
+  int i;
+
+  for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
+    {
+      if (cursor_array->cursors[i].cursor_id == cursor_id)
+	{
+	  ret = &(cursor_array->cursors[i]);
+	}
+    }
+
+  return ret;
+}
+
+const lw6ker_cursor_t *
+_lw6ker_cursor_array_get_ro (const _lw6ker_cursor_array_t *
+			     cursor_array, u_int16_t cursor_id)
+{
+  const lw6ker_cursor_t *ret = NULL;
   int i;
 
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
@@ -139,7 +158,7 @@ _lw6ker_cursor_array_enable (_lw6ker_cursor_array_t * cursor_array,
   int ret = 0;
   lw6ker_cursor_t *cursor;
 
-  cursor = _lw6ker_cursor_array_get (cursor_array, cursor_id);
+  cursor = _lw6ker_cursor_array_get_rw (cursor_array, cursor_id);
   if (!cursor)
     {
       cursor = _lw6ker_cursor_array_find_free (cursor_array);
@@ -168,7 +187,7 @@ _lw6ker_cursor_array_disable (_lw6ker_cursor_array_t * cursor_array,
   int ret = 0;
   lw6ker_cursor_t *cursor;
 
-  cursor = _lw6ker_cursor_array_get (cursor_array, cursor_id);
+  cursor = _lw6ker_cursor_array_get_rw (cursor_array, cursor_id);
   if (cursor)
     {
       if (_lw6ker_cursor_check_node_id (cursor, node_id))
@@ -202,7 +221,7 @@ _lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
   lw6sys_log (LW6SYS_LOG_DEBUG,
 	      _x_ ("cursor array update %" LW6SYS_PRINTF_LL "x %x %d %d %d"),
 	      (long long) node_id, cursor_id, x, y, pot_offset);
-  cursor = _lw6ker_cursor_array_get (cursor_array, cursor_id);
+  cursor = _lw6ker_cursor_array_get_rw (cursor_array, cursor_id);
   if (cursor)
     {
       if (_lw6ker_cursor_check_node_id (cursor, node_id))
@@ -223,9 +242,9 @@ _lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
 }
 
 int
-_lw6ker_cursor_array_sanity_check (_lw6ker_cursor_array_t * cursor_array,
-				   lw6sys_whd_t * shape,
-				   lw6map_rules_t * rules)
+_lw6ker_cursor_array_sanity_check (const _lw6ker_cursor_array_t *
+				   cursor_array, const lw6sys_whd_t * shape,
+				   const lw6map_rules_t * rules)
 {
   int ret = 1;
   int i;
