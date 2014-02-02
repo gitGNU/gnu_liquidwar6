@@ -301,7 +301,7 @@ extern int _lw6p2p_data_unload (_lw6p2p_data_t * data);
 
 /* p2p-db.c */
 extern _lw6p2p_db_t *_lw6p2p_db_open (int argc, const char *argv[],
-				      char *name);
+				      const char *name);
 extern void _lw6p2p_db_close (_lw6p2p_db_t * db);
 extern char *_lw6p2p_db_repr (const _lw6p2p_db_t * db);
 extern char *_lw6p2p_db_get_query (_lw6p2p_db_t * db, char *key);

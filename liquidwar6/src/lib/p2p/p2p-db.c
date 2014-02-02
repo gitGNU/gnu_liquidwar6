@@ -49,13 +49,13 @@ static volatile u_int32_t seq_id = 0;
  * Return value: a pointer on the newly created object.
  */
 lw6p2p_db_t *
-lw6p2p_db_open (int argc, const char *argv[], char *name)
+lw6p2p_db_open (int argc, const char *argv[], const char *name)
 {
   return (lw6p2p_db_t *) _lw6p2p_db_open (argc, argv, name);
 }
 
 _lw6p2p_db_t *
-_lw6p2p_db_open (int argc, const char *argv[], char *name)
+_lw6p2p_db_open (int argc, const char *argv[], const char *name)
 {
   _lw6p2p_db_t *db = NULL;
   int ret = 0;
@@ -495,7 +495,7 @@ _lw6p2p_db_clean_database (_lw6p2p_db_t * db)
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6p2p_db_reset (int argc, const char *argv[], char *name)
+lw6p2p_db_reset (int argc, const char *argv[], const char *name)
 {
   int ret = 1;
   char *user_dir = NULL;
