@@ -38,8 +38,8 @@
  * Return value: 1 if OK, 0 if outside
  */
 int
-lw6gui_segment_is_inside_rect (lw6gui_segment_t * segment,
-			       lw6gui_rect_t * rect)
+lw6gui_segment_is_inside_rect (const lw6gui_segment_t * segment,
+			       const lw6gui_rect_t * rect)
 {
   return (lw6gui_point_is_inside_rect (segment->p1, rect)
 	  && lw6gui_point_is_inside_rect (segment->p2, rect));

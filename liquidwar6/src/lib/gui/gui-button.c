@@ -87,7 +87,7 @@ lw6gui_button_register_up (lw6gui_button_t * button)
  * Return value: 1 if pressed, 0 if not.
  */
 int
-lw6gui_button_is_pressed (lw6gui_button_t * button)
+lw6gui_button_is_pressed (const lw6gui_button_t * button)
 {
   int ret = 0;
 

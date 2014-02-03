@@ -347,8 +347,8 @@ extern int lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
 extern int lw6ker_game_state_remove_cursor (lw6ker_game_state_t * game_state,
 					    u_int64_t node_id,
 					    u_int16_t cursor_id);
-extern int lw6ker_game_state_cursor_exists (lw6ker_game_state_t * game_state,
-					    u_int16_t cursor_id);
+extern int lw6ker_game_state_cursor_exists (const lw6ker_game_state_t *
+					    game_state, u_int16_t cursor_id);
 extern int lw6ker_game_state_get_cursor (const lw6ker_game_state_t *
 					 game_state, lw6ker_cursor_t * cursor,
 					 u_int16_t cursor_id);
@@ -394,15 +394,17 @@ extern int32_t lw6ker_game_state_get_time_elapsed (const lw6ker_game_state_t *
 						   game_state);
 extern int32_t lw6ker_game_state_get_time_left (const lw6ker_game_state_t *
 						game_state);
-extern int32_t lw6ker_game_state_get_global_history (lw6ker_game_state_t *
-						     game_state, int i,
+extern int32_t lw6ker_game_state_get_global_history (const lw6ker_game_state_t
+						     * game_state, int i,
 						     int team_id);
-extern int32_t lw6ker_game_state_get_latest_history (lw6ker_game_state_t *
-						     game_state, int i,
+extern int32_t lw6ker_game_state_get_latest_history (const lw6ker_game_state_t
+						     * game_state, int i,
 						     int team_id);
-extern int32_t lw6ker_game_state_get_global_history_max (lw6ker_game_state_t *
+extern int32_t lw6ker_game_state_get_global_history_max (const
+							 lw6ker_game_state_t *
 							 game_state);
-extern int32_t lw6ker_game_state_get_latest_history_max (lw6ker_game_state_t *
+extern int32_t lw6ker_game_state_get_latest_history_max (const
+							 lw6ker_game_state_t *
 							 game_state);
 extern int32_t lw6ker_game_state_get_fighter_id (const lw6ker_game_state_t *
 						 game_state, int32_t x,
@@ -416,9 +418,12 @@ extern lw6ker_fighter_t
 extern lw6ker_fighter_t
   * lw6ker_game_state_get_fighter_rw_unsafe (lw6ker_game_state_t * game_state,
 					     int32_t x, int32_t y, int32_t z);
-extern const lw6ker_fighter_t
-  * lw6ker_game_state_get_fighter_ro_by_id (const lw6ker_game_state_t *
-					    game_state, int32_t fighter_id);
+extern const lw6ker_fighter_t *lw6ker_game_state_get_fighter_ro_by_id (const
+								       lw6ker_game_state_t
+								       *
+								       game_state,
+								       int32_t
+								       fighter_id);
 extern const lw6ker_fighter_t *lw6ker_game_state_get_fighter_ro_safe (const
 								      lw6ker_game_state_t
 								      *

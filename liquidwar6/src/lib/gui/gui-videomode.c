@@ -78,7 +78,7 @@ video_mode_copy_callback (void *func_data, void *data)
 static void
 video_mode_distance_callback (void *func_data, void *data)
 {
-  lw6gui_video_mode_t *wished = (lw6gui_video_mode_t *) func_data;
+  const lw6gui_video_mode_t *wished = (const lw6gui_video_mode_t *) func_data;
   video_mode_sort_t *video_mode_sort = (video_mode_sort_t *) data;
 
   video_mode_sort->distance =
@@ -108,7 +108,7 @@ video_mode_distance_callback (void *func_data, void *data)
  */
 int
 lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest,
-				lw6gui_video_mode_t * wished,
+				const lw6gui_video_mode_t * wished,
 				lw6sys_list_t * available)
 {
   int ret = 0;
@@ -122,7 +122,8 @@ lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest,
       if (available)
 	{
 	  lw6sys_list_map (available, &video_mode_copy_callback, &sorted);
-	  lw6sys_list_map (sorted, &video_mode_distance_callback, wished);
+	  lw6sys_list_map (sorted, &video_mode_distance_callback,
+			   (void *) wished);
 	  lw6sys_sort (&sorted, video_mode_sort_callback);
 
 	  if (sorted->data)
@@ -176,7 +177,7 @@ lw6gui_video_mode_is_same (const lw6gui_video_mode_t * mode_a,
  */
 int
 lw6gui_video_mode_sync_ratio (lw6gui_video_mode_t * dst,
-			      lw6gui_video_mode_t * src)
+			      const lw6gui_video_mode_t * src)
 {
   int ret = 0;
   float coeff = 0.0f;

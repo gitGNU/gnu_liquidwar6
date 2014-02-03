@@ -346,15 +346,15 @@ extern int _lw6ker_cursor_check_node_id (const lw6ker_cursor_t * cursor,
 					 u_int64_t node_id);
 extern int _lw6ker_cursor_get_start_xy (int32_t * x, int32_t * y,
 					int team_color, int position_mode,
-					int random_seed, lw6sys_whd_t * shape,
+					int random_seed,
+					const lw6sys_whd_t * shape,
 					const lw6map_rules_t * rules);
 extern void _lw6ker_cursor_update_apply_pos (lw6ker_cursor_t * cursor,
 					     const _lw6ker_map_struct_t *
 					     map_struct);
-extern int _lw6ker_cursor_enable (lw6ker_cursor_t * cursor,
-				  u_int64_t node_id,
-				  u_int16_t cursor_id,
-				  int team_color, int32_t x, int32_t y);
+extern int _lw6ker_cursor_enable (lw6ker_cursor_t * cursor, u_int64_t node_id,
+				  u_int16_t cursor_id, int team_color,
+				  int32_t x, int32_t y);
 extern int _lw6ker_cursor_disable (lw6ker_cursor_t * cursor);
 extern int _lw6ker_cursor_update (lw6ker_cursor_t * cursor, int32_t x,
 				  int32_t y, int fire, int fire2,
@@ -463,9 +463,9 @@ extern int _lw6ker_game_state_register_node (_lw6ker_game_state_t *
 					     game_state, u_int64_t node_id);
 extern int _lw6ker_game_state_unregister_node (_lw6ker_game_state_t *
 					       game_state, u_int64_t node_id);
-extern int _lw6ker_game_state_node_exists (_lw6ker_game_state_t * game_state,
-					   u_int64_t node_id);
-extern int _lw6ker_game_state_get_node_info (_lw6ker_game_state_t *
+extern int _lw6ker_game_state_node_exists (const _lw6ker_game_state_t *
+					   game_state, u_int64_t node_id);
+extern int _lw6ker_game_state_get_node_info (const _lw6ker_game_state_t *
 					     game_state, u_int16_t node_id,
 					     u_int32_t * last_command_round);
 extern int _lw6ker_game_state_add_cursor (_lw6ker_game_state_t * game_state,
@@ -475,7 +475,7 @@ extern int _lw6ker_game_state_add_cursor (_lw6ker_game_state_t * game_state,
 extern int _lw6ker_game_state_remove_cursor (_lw6ker_game_state_t *
 					     game_state, u_int64_t node_id,
 					     u_int16_t cursor_id);
-extern int _lw6ker_game_state_cursor_exists (_lw6ker_game_state_t *
+extern int _lw6ker_game_state_cursor_exists (const _lw6ker_game_state_t *
 					     game_state, u_int16_t cursor_id);
 extern int _lw6ker_game_state_get_cursor (const _lw6ker_game_state_t *
 					  game_state,
@@ -537,15 +537,19 @@ extern int32_t _lw6ker_game_state_get_time_elapsed (const _lw6ker_game_state_t
 						    * game_state);
 extern int32_t _lw6ker_game_state_get_time_left (const _lw6ker_game_state_t *
 						 game_state);
-extern int32_t _lw6ker_game_state_get_global_history (_lw6ker_game_state_t *
+extern int32_t _lw6ker_game_state_get_global_history (const
+						      _lw6ker_game_state_t *
 						      game_state, int i,
 						      int team_id);
-extern int32_t _lw6ker_game_state_get_latest_history (_lw6ker_game_state_t *
+extern int32_t _lw6ker_game_state_get_latest_history (const
+						      _lw6ker_game_state_t *
 						      game_state, int i,
 						      int team_id);
-extern int32_t _lw6ker_game_state_get_global_history_max (_lw6ker_game_state_t
+extern int32_t _lw6ker_game_state_get_global_history_max (const
+							  _lw6ker_game_state_t
 							  * game_state);
-extern int32_t _lw6ker_game_state_get_latest_history_max (_lw6ker_game_state_t
+extern int32_t _lw6ker_game_state_get_latest_history_max (const
+							  _lw6ker_game_state_t
 							  * game_state);
 
 /* ker-gamestruct.c */
@@ -597,9 +601,9 @@ extern void _lw6ker_history_set (_lw6ker_history_t * history,
 				 _lw6ker_armies_t * armies, int i);
 extern void _lw6ker_history_add (_lw6ker_history_t * history,
 				 _lw6ker_armies_t * armies);
-extern int32_t _lw6ker_history_get (_lw6ker_history_t * history,
+extern int32_t _lw6ker_history_get (const _lw6ker_history_t * history,
 				    int i, int team_id);
-extern int32_t _lw6ker_history_get_max (_lw6ker_history_t * history);
+extern int32_t _lw6ker_history_get_max (const _lw6ker_history_t * history);
 extern void _lw6ker_history_update_checksum (const _lw6ker_history_t *
 					     history, u_int32_t * checksum);
 
@@ -862,8 +866,13 @@ extern void _lw6ker_node_array_update_checksum (const _lw6ker_node_array_t *
 						u_int32_t * checksum);
 extern _lw6ker_node_t *_lw6ker_node_array_find_free (_lw6ker_node_array_t
 						     * node_array);
-extern _lw6ker_node_t *_lw6ker_node_array_get (_lw6ker_node_array_t *
-					       node_array, u_int64_t node_id);
+extern _lw6ker_node_t *_lw6ker_node_array_get_rw (_lw6ker_node_array_t *
+						  node_array,
+						  u_int64_t node_id);
+extern const _lw6ker_node_t *_lw6ker_node_array_get_ro (const
+							_lw6ker_node_array_t *
+							node_array,
+							u_int64_t node_id);
 extern int _lw6ker_node_array_enable (_lw6ker_node_array_t * node_array,
 				      u_int64_t node_id);
 extern int _lw6ker_node_array_disable (_lw6ker_node_array_t * node_array,

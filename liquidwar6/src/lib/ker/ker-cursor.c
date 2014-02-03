@@ -73,7 +73,7 @@ _lw6ker_cursor_check_node_id (const lw6ker_cursor_t * cursor,
 int
 _lw6ker_cursor_get_start_xy (int32_t * x, int32_t * y, int team_color,
 			     int position_mode, int random_seed,
-			     lw6sys_whd_t * shape,
+			     const lw6sys_whd_t * shape,
 			     const lw6map_rules_t * rules)
 {
   int ret = 1;

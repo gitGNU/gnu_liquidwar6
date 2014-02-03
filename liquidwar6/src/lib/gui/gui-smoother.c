@@ -118,7 +118,7 @@ lw6gui_smoother_set_target (lw6gui_smoother_t * smoother, float value,
  * Return value: a float.
  */
 float
-lw6gui_smoother_get_value (lw6gui_smoother_t * smoother, int64_t now)
+lw6gui_smoother_get_value (const lw6gui_smoother_t * smoother, int64_t now)
 {
   float ret = 0.0f;
 

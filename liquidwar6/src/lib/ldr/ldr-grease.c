@@ -66,7 +66,7 @@ static _grease_table_t _GREASE_TABLES[LW6LDR_HINTS_MAX_WALL_GREASE] =
 };
 
 static int
-_do_grease (lw6map_layer_t * layer, lw6map_rules_t * rules,
+_do_grease (lw6map_layer_t * layer, const lw6map_rules_t * rules,
 	    _grease_table_t grease_table, int mode,
 	    lw6sys_progress_t * progress)
 {
@@ -187,7 +187,8 @@ _do_grease (lw6map_layer_t * layer, lw6map_rules_t * rules,
  */
 int
 lw6ldr_grease_apply (lw6map_layer_t * layer,
-		     lw6map_rules_t * rules, lw6ldr_hints_t * hints,
+		     const lw6map_rules_t * rules,
+		     const lw6ldr_hints_t * hints,
 		     lw6sys_progress_t * progress)
 {
   int ret = 0;

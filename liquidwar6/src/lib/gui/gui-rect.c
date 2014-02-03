@@ -87,8 +87,8 @@ lw6gui_rect_init_xywh (lw6gui_rect_t * rect, int x, int y, int w, int h)
  * Return value: none.
  */
 void
-lw6gui_rect_clip (lw6gui_rect_t * dst, lw6gui_rect_t * src,
-		  lw6gui_rect_t * clip)
+lw6gui_rect_clip (lw6gui_rect_t * dst, const lw6gui_rect_t * src,
+		  const lw6gui_rect_t * clip)
 {
   int max_x1 = 0;
   int max_y1 = 0;

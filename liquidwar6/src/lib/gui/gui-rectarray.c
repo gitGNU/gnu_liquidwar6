@@ -71,9 +71,9 @@ lw6gui_rect_array_init (lw6gui_rect_array_t * rect_array, int w,
 }
 
 int
-lw6gui_rect_array_get_tile_by_source_xy (lw6gui_rect_array_t * rect_array,
-					 lw6gui_rect_t * rect, int *i,
-					 int source_x, int source_y)
+lw6gui_rect_array_get_tile_by_source_xy (const lw6gui_rect_array_t *
+					 rect_array, lw6gui_rect_t * rect,
+					 int *i, int source_x, int source_y)
 {
   int tile_x, tile_y;
   int ret = 0;
@@ -102,7 +102,7 @@ lw6gui_rect_array_get_tile_by_source_xy (lw6gui_rect_array_t * rect_array,
 }
 
 int
-lw6gui_rect_array_get_tile_by_i (lw6gui_rect_array_t * rect_array,
+lw6gui_rect_array_get_tile_by_i (const lw6gui_rect_array_t * rect_array,
 				 lw6gui_rect_t * rect, int i)
 {
   int tile_x, tile_y;
@@ -128,10 +128,10 @@ lw6gui_rect_array_get_tile_by_i (lw6gui_rect_array_t * rect_array,
 }
 
 int
-lw6gui_rect_array_get_tile_and_quad (lw6gui_rect_array_t * rect_array,
+lw6gui_rect_array_get_tile_and_quad (const lw6gui_rect_array_t * rect_array,
 				     lw6gui_rect_t * rect, int *i,
 				     lw6gui_quad_t * quad,
-				     lw6gui_quad_t * source_quad,
+				     const lw6gui_quad_t * source_quad,
 				     int x_polarity, int y_polarity)
 {
   float x_center;

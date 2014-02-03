@@ -203,10 +203,10 @@ read_alpha_jpeg (lw6map_texture_t * texture,
  */
 int
 lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
-		     lw6map_param_t * param, lw6ldr_hints_t * hints,
-		     int use_texture, int display_w, int display_h,
-		     float *ratio, int *texture_exists,
-		     lw6sys_progress_t * progress)
+		     const lw6map_param_t * param,
+		     const lw6ldr_hints_t * hints, int use_texture,
+		     int display_w, int display_h, float *ratio,
+		     int *texture_exists, lw6sys_progress_t * progress)
 {
   int ret = 0;
 

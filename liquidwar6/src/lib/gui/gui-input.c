@@ -201,7 +201,7 @@ lw6gui_input_register_change (lw6gui_input_t * input)
  * Return value: 1 if sync is need, 0 if not.
  */
 int
-lw6gui_input_need_sync (lw6gui_input_t * input)
+lw6gui_input_need_sync (const lw6gui_input_t * input)
 {
   int ret = 0;
 

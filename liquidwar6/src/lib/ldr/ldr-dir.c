@@ -203,7 +203,7 @@ lw6ldr_free_entry (lw6ldr_entry_t * entry)
  * Return value: newly allocated object.
  */
 lw6ldr_entry_t *
-lw6ldr_dup_entry (lw6ldr_entry_t * entry)
+lw6ldr_dup_entry (const lw6ldr_entry_t * entry)
 {
   lw6ldr_entry_t *ret;
 

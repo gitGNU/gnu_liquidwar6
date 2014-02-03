@@ -86,7 +86,7 @@ lw6gui_keyboard_pop_keypress (lw6gui_keyboard_t * keyboard)
  * Return value: 1 if pressed, 0 if not.
  */
 int
-lw6gui_keyboard_is_pressed (lw6gui_keyboard_t * keyboard, int keysym)
+lw6gui_keyboard_is_pressed (const lw6gui_keyboard_t * keyboard, int keysym)
 {
   int ret = 0;
 
@@ -275,7 +275,7 @@ lw6gui_keyboard_sync (lw6gui_keyboard_t * dst, lw6gui_keyboard_t * src)
  * Return value: none, the value are stored in @move_pad.
  */
 void
-lw6gui_keyboard_get_move_pad (lw6gui_keyboard_t * keyboard,
+lw6gui_keyboard_get_move_pad (const lw6gui_keyboard_t * keyboard,
 			      lw6gui_move_pad_t * move_pad)
 {
   move_pad->up = lw6gui_button_is_pressed (&(keyboard->arrow_up));

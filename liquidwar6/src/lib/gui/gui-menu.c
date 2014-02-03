@@ -53,8 +53,8 @@ static volatile u_int32_t seq_id = 0;
  * Return value: a pointer to the newly allocated object.
  */
 lw6gui_menu_t *
-lw6gui_menu_new (char *title, char *help, char *popup, char *esc,
-		 int enable_esc)
+lw6gui_menu_new (const char *title, const char *help, const char *popup,
+		 const char *esc, int enable_esc)
 {
   lw6gui_menu_t *menu = NULL;
 
@@ -242,7 +242,7 @@ lw6gui_menu_repr (const lw6gui_menu_t * menu)
  * Return value: none
  */
 void
-lw6gui_menu_set_title (lw6gui_menu_t * menu, char *title)
+lw6gui_menu_set_title (lw6gui_menu_t * menu, const char *title)
 {
   LW6SYS_FREE (menu->title);
   menu->title = lw6sys_str_copy (lw6sys_str_empty_if_null (title));
@@ -267,7 +267,7 @@ lw6gui_menu_set_title (lw6gui_menu_t * menu, char *title)
  * Return value: none
  */
 void
-lw6gui_menu_set_help (lw6gui_menu_t * menu, char *help)
+lw6gui_menu_set_help (lw6gui_menu_t * menu, const char *help)
 {
   LW6SYS_FREE (menu->help);
   menu->help = lw6sys_str_copy (lw6sys_str_empty_if_null (help));
@@ -292,7 +292,7 @@ lw6gui_menu_set_help (lw6gui_menu_t * menu, char *help)
  * Return value: none
  */
 void
-lw6gui_menu_set_popup (lw6gui_menu_t * menu, char *popup)
+lw6gui_menu_set_popup (lw6gui_menu_t * menu, const char *popup)
 {
   LW6SYS_FREE (menu->popup);
   menu->popup = lw6sys_str_copy (lw6sys_str_empty_if_null (popup));
@@ -1073,7 +1073,7 @@ lw6gui_menu_is_same (const lw6gui_menu_t * menu_a,
  * Return value: a pointer to the new menu.
  */
 lw6gui_menu_t *
-lw6gui_menu_dup (lw6gui_menu_t * menu)
+lw6gui_menu_dup (const lw6gui_menu_t * menu)
 {
   lw6gui_menu_t *ret = NULL;
   lw6gui_menuitem_t *item = NULL;

@@ -624,12 +624,13 @@ lw6ker_game_state_unregister_node (lw6ker_game_state_t * game_state,
 }
 
 int
-_lw6ker_game_state_node_exists (_lw6ker_game_state_t * game_state,
+_lw6ker_game_state_node_exists (const _lw6ker_game_state_t * game_state,
 				u_int64_t node_id)
 {
   int ret = 0;
 
-  ret = (_lw6ker_node_array_get (&(game_state->node_array), node_id) != NULL);
+  ret =
+    (_lw6ker_node_array_get_ro (&(game_state->node_array), node_id) != NULL);
 
   return ret;
 }
@@ -653,14 +654,14 @@ lw6ker_game_state_node_exists (lw6ker_game_state_t * game_state,
 }
 
 int
-_lw6ker_game_state_get_node_info (_lw6ker_game_state_t *
+_lw6ker_game_state_get_node_info (const _lw6ker_game_state_t *
 				  game_state, u_int16_t node_id,
 				  u_int32_t * last_command_round)
 {
   int ret = 0;
-  _lw6ker_node_t *node = NULL;
+  const _lw6ker_node_t *node = NULL;
 
-  node = _lw6ker_node_array_get (&(game_state->node_array), node_id);
+  node = _lw6ker_node_array_get_ro (&(game_state->node_array), node_id);
   if (node)
     {
       if (last_command_round)
@@ -887,7 +888,7 @@ lw6ker_game_state_remove_cursor (lw6ker_game_state_t * game_state,
 }
 
 int
-_lw6ker_game_state_cursor_exists (_lw6ker_game_state_t * game_state,
+_lw6ker_game_state_cursor_exists (const _lw6ker_game_state_t * game_state,
 				  u_int16_t cursor_id)
 {
   int ret = 0;
@@ -914,10 +915,10 @@ _lw6ker_game_state_cursor_exists (_lw6ker_game_state_t * game_state,
  * Return value: 1 if cursor exists, 0 if not.
  */
 int
-lw6ker_game_state_cursor_exists (lw6ker_game_state_t * game_state,
+lw6ker_game_state_cursor_exists (const lw6ker_game_state_t * game_state,
 				 u_int16_t cursor_id)
 {
-  return _lw6ker_game_state_cursor_exists ((_lw6ker_game_state_t *)
+  return _lw6ker_game_state_cursor_exists ((const _lw6ker_game_state_t *)
 					   game_state, cursor_id);
 }
 
@@ -2107,8 +2108,8 @@ lw6ker_game_state_get_time_left (const lw6ker_game_state_t * game_state)
 }
 
 int32_t
-_lw6ker_game_state_get_global_history (_lw6ker_game_state_t * game_state,
-				       int i, int team_id)
+_lw6ker_game_state_get_global_history (const _lw6ker_game_state_t *
+				       game_state, int i, int team_id)
 {
   return _lw6ker_history_get (&(game_state->global_history), i, team_id);
 }
@@ -2129,16 +2130,16 @@ _lw6ker_game_state_get_global_history (_lw6ker_game_state_t * game_state,
  * Return value: number of fighters at that time.
  */
 int32_t
-lw6ker_game_state_get_global_history (lw6ker_game_state_t * game_state, int i,
-				      int team_id)
+lw6ker_game_state_get_global_history (const lw6ker_game_state_t * game_state,
+				      int i, int team_id)
 {
-  return _lw6ker_game_state_get_global_history ((_lw6ker_game_state_t *)
+  return _lw6ker_game_state_get_global_history ((const _lw6ker_game_state_t *)
 						game_state, i, team_id);
 }
 
 int32_t
-_lw6ker_game_state_get_latest_history (_lw6ker_game_state_t * game_state,
-				       int i, int team_id)
+_lw6ker_game_state_get_latest_history (const _lw6ker_game_state_t *
+				       game_state, int i, int team_id)
 {
   return _lw6ker_history_get (&(game_state->latest_history), i, team_id);
 }
@@ -2159,15 +2160,16 @@ _lw6ker_game_state_get_latest_history (_lw6ker_game_state_t * game_state,
  * Return value: number of fighters at that time.
  */
 int32_t
-lw6ker_game_state_get_latest_history (lw6ker_game_state_t * game_state, int i,
-				      int team_id)
+lw6ker_game_state_get_latest_history (const lw6ker_game_state_t * game_state,
+				      int i, int team_id)
 {
-  return _lw6ker_game_state_get_latest_history ((_lw6ker_game_state_t *)
+  return _lw6ker_game_state_get_latest_history ((const _lw6ker_game_state_t *)
 						game_state, i, team_id);
 }
 
 int32_t
-_lw6ker_game_state_get_global_history_max (_lw6ker_game_state_t * game_state)
+_lw6ker_game_state_get_global_history_max (const _lw6ker_game_state_t *
+					   game_state)
 {
   return _lw6ker_history_get_max (&(game_state->global_history));
 }
@@ -2184,14 +2186,17 @@ _lw6ker_game_state_get_global_history_max (_lw6ker_game_state_t * game_state)
  * Return value: max number of fighters.
  */
 int32_t
-lw6ker_game_state_get_global_history_max (lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_global_history_max (const lw6ker_game_state_t *
+					  game_state)
 {
-  return _lw6ker_game_state_get_global_history_max ((_lw6ker_game_state_t *)
-						    game_state);
+  return
+    _lw6ker_game_state_get_global_history_max ((const _lw6ker_game_state_t *)
+					       game_state);
 }
 
 int32_t
-_lw6ker_game_state_get_latest_history_max (_lw6ker_game_state_t * game_state)
+_lw6ker_game_state_get_latest_history_max (const _lw6ker_game_state_t *
+					   game_state)
 {
   return _lw6ker_history_get_max (&(game_state->latest_history));
 }
@@ -2208,10 +2213,12 @@ _lw6ker_game_state_get_latest_history_max (_lw6ker_game_state_t * game_state)
  * Return value: max number of fighters.
  */
 int32_t
-lw6ker_game_state_get_latest_history_max (lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_latest_history_max (const lw6ker_game_state_t *
+					  game_state)
 {
-  return _lw6ker_game_state_get_latest_history_max ((_lw6ker_game_state_t *)
-						    game_state);
+  return
+    _lw6ker_game_state_get_latest_history_max ((const _lw6ker_game_state_t *)
+					       game_state);
 }
 
 /**

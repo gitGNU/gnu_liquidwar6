@@ -57,8 +57,8 @@ static volatile u_int32_t seq_id = 0;
  * Return value: a pointer to the newly allocated object.
  */
 lw6gui_menuitem_t *
-lw6gui_menuitem_new (char *label, char *tooltip, int value, int enabled,
-		     int selected, int colored)
+lw6gui_menuitem_new (const char *label, const char *tooltip, int value,
+		     int enabled, int selected, int colored)
 {
   lw6gui_menuitem_t *menuitem = NULL;
 
@@ -204,7 +204,7 @@ lw6gui_menuitem_repr (const lw6gui_menuitem_t * menuitem)
  * Return value: none
  */
 void
-lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem, char *label,
+lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem, const char *label,
 			   int64_t now)
 {
   if (strcmp (label, menuitem->label))
@@ -237,8 +237,8 @@ lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem, char *label,
  * Return value: none
  */
 void
-lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t * menuitem, char *tooltip,
-			     int64_t now)
+lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t * menuitem,
+			     const char *tooltip, int64_t now)
 {
   if (strcmp (tooltip, menuitem->tooltip))
     {
@@ -421,7 +421,7 @@ lw6gui_menuitem_is_same (const lw6gui_menuitem_t * menuitem_a,
  * Return value: a pointer to the duplicted menuitem.
  */
 lw6gui_menuitem_t *
-lw6gui_menuitem_dup (lw6gui_menuitem_t * menuitem)
+lw6gui_menuitem_dup (const lw6gui_menuitem_t * menuitem)
 {
   lw6gui_menuitem_t *ret = NULL;
 

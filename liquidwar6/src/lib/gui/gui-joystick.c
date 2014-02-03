@@ -221,7 +221,7 @@ lw6gui_joystick_sync (lw6gui_joystick_t * dst, lw6gui_joystick_t * src)
  * Return value: none, the value are stored in @move_pad.
  */
 void
-lw6gui_joystick_get_move_pad (lw6gui_joystick_t * joystick,
+lw6gui_joystick_get_move_pad (const lw6gui_joystick_t * joystick,
 			      lw6gui_move_pad_t * move_pad)
 {
   move_pad->up = lw6gui_button_is_pressed (&(joystick->pad_up));

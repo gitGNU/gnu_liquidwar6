@@ -72,7 +72,7 @@ _lw6ker_history_add (_lw6ker_history_t * history, _lw6ker_armies_t * armies)
 }
 
 int
-_lw6ker_history_get (_lw6ker_history_t * history, int i, int team_id)
+_lw6ker_history_get (const _lw6ker_history_t * history, int i, int team_id)
 {
   int offset = 0;
   int ret = 0;
@@ -100,7 +100,7 @@ _lw6ker_history_get (_lw6ker_history_t * history, int i, int team_id)
 }
 
 int32_t
-_lw6ker_history_get_max (_lw6ker_history_t * history)
+_lw6ker_history_get_max (const _lw6ker_history_t * history)
 {
   int32_t ret = 0;
   int32_t sub_total;

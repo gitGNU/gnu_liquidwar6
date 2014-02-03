@@ -50,7 +50,7 @@
 #define _RESAMPLER_USE_FOR_GEN_GRAY_LEVEL 0.5f
 
 static void
-_check_limits (lw6ldr_hints_t * hints, int *w, int *h)
+_check_limits (const lw6ldr_hints_t * hints, int *w, int *h)
 {
   int surface = 0;
   float coeff = 1.0f;
@@ -113,8 +113,9 @@ _check_limits (lw6ldr_hints_t * hints, int *w, int *h)
 }
 
 static float
-_estimate_capacity (lw6map_rules_t * rules, lw6ldr_hints_t * hints, int w,
-		    int h, int expected_depth, float gray_level)
+_estimate_capacity (const lw6map_rules_t * rules,
+		    const lw6ldr_hints_t * hints, int w, int h,
+		    int expected_depth, float gray_level)
 {
   float ret = 0.0f;
   int surface;
@@ -146,8 +147,8 @@ _estimate_capacity (lw6map_rules_t * rules, lw6ldr_hints_t * hints, int w,
 }
 
 static void
-_guess_moves_per_sec (lw6map_rules_t * rules, lw6ldr_hints_t * hints, int w,
-		      int h)
+_guess_moves_per_sec (lw6map_rules_t * rules, const lw6ldr_hints_t * hints,
+		      int w, int h)
 {
   int moves_per_sec;
   int i;
@@ -219,7 +220,7 @@ _guess_moves_per_sec (lw6map_rules_t * rules, lw6ldr_hints_t * hints, int w,
  */
 void
 lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
-		       lw6map_param_t * param, lw6ldr_hints_t * hints,
+		       lw6map_param_t * param, const lw6ldr_hints_t * hints,
 		       int source_w,
 		       int source_h,
 		       int display_w, int display_h, float target_ratio,
@@ -516,8 +517,9 @@ lw6ldr_resampler_force (lw6ldr_resampler_t * resampler,
  * Return value: none.
  */
 void
-lw6ldr_resampler_source2target (lw6ldr_resampler_t * resampler, int *target_x,
-				int *target_y, int source_x, int source_y)
+lw6ldr_resampler_source2target (const lw6ldr_resampler_t * resampler,
+				int *target_x, int *target_y, int source_x,
+				int source_y)
 {
   (*target_x) =
     (int) (floor ((((float) source_x) + _RESAMPLER_05) * resampler->scale_x));
@@ -544,8 +546,9 @@ lw6ldr_resampler_source2target (lw6ldr_resampler_t * resampler, int *target_x,
  * Return value: none.
  */
 void
-lw6ldr_resampler_target2source (lw6ldr_resampler_t * resampler, int *source_x,
-				int *source_y, int target_x, int target_y)
+lw6ldr_resampler_target2source (const lw6ldr_resampler_t * resampler,
+				int *source_x, int *source_y, int target_x,
+				int target_y)
 {
   (*source_x) =
     (int) (floor ((((float) target_x) + _RESAMPLER_05) / resampler->scale_x));

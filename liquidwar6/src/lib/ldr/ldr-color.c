@@ -361,7 +361,7 @@ _lw6ldr_apply_guessed_colors (lw6map_level_t * level)
  * Return value: none.
  */
 void
-lw6ldr_auto_colors (lw6map_style_t * style, lw6ldr_hints_t * hints)
+lw6ldr_auto_colors (lw6map_style_t * style, const lw6ldr_hints_t * hints)
 {
   if (hints->background_color_auto)
     {

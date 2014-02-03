@@ -296,7 +296,7 @@ lw6ldr_hints_set (lw6ldr_hints_t * hints, const char *key, const char *value)
  * Return value: dynamically allocated string, NULL on error.
  */
 char *
-lw6ldr_hints_get (lw6ldr_hints_t * hints, const char *key)
+lw6ldr_hints_get (const lw6ldr_hints_t * hints, const char *key)
 {
   char *ret = NULL;
   char *formatted_key = NULL;

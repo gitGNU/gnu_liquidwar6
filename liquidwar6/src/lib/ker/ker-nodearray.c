@@ -89,9 +89,28 @@ _lw6ker_node_array_reset (_lw6ker_node_array_t * node_array)
 }
 
 _lw6ker_node_t *
-_lw6ker_node_array_get (_lw6ker_node_array_t * node_array, u_int64_t node_id)
+_lw6ker_node_array_get_rw (_lw6ker_node_array_t * node_array,
+			   u_int64_t node_id)
 {
   _lw6ker_node_t *ret = NULL;
+  int i;
+
+  for (i = 0; i < LW6MAP_MAX_NB_NODES; ++i)
+    {
+      if (node_array->nodes[i].node_id == node_id)
+	{
+	  ret = &(node_array->nodes[i]);
+	}
+    }
+
+  return ret;
+}
+
+const _lw6ker_node_t *
+_lw6ker_node_array_get_ro (const _lw6ker_node_array_t * node_array,
+			   u_int64_t node_id)
+{
+  const _lw6ker_node_t *ret = NULL;
   int i;
 
   for (i = 0; i < LW6MAP_MAX_NB_NODES; ++i)
@@ -112,7 +131,7 @@ _lw6ker_node_array_enable (_lw6ker_node_array_t * node_array,
   int ret = 0;
   _lw6ker_node_t *node;
 
-  node = _lw6ker_node_array_get (node_array, node_id);
+  node = _lw6ker_node_array_get_rw (node_array, node_id);
   if (!node)
     {
       node = _lw6ker_node_array_find_free (node_array);
@@ -141,7 +160,7 @@ _lw6ker_node_array_disable (_lw6ker_node_array_t * node_array,
   int ret = 0;
   _lw6ker_node_t *node;
 
-  node = _lw6ker_node_array_get (node_array, node_id);
+  node = _lw6ker_node_array_get_rw (node_array, node_id);
   if (node)
     {
       _lw6ker_node_disable (node);

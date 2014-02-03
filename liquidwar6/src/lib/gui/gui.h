@@ -870,7 +870,7 @@ typedef struct lw6gui_viewport_s
 extern void lw6gui_button_register_down (lw6gui_button_t * button,
 					 int64_t timestamp);
 extern void lw6gui_button_register_up (lw6gui_button_t * button);
-extern int lw6gui_button_is_pressed (lw6gui_button_t * button);
+extern int lw6gui_button_is_pressed (const lw6gui_button_t * button);
 extern int lw6gui_button_pop_press (lw6gui_button_t * button);
 extern int lw6gui_button_pop_simple_click (lw6gui_button_t * button);
 extern int lw6gui_button_pop_double_click (lw6gui_button_t * button);
@@ -901,7 +901,7 @@ extern void lw6gui_input_update_repeat (lw6gui_input_t * input,
 					lw6gui_repeat_settings_t *
 					repeat_settings, int64_t timestamp);
 extern void lw6gui_input_register_change (lw6gui_input_t * input);
-extern int lw6gui_input_need_sync (lw6gui_input_t * input);
+extern int lw6gui_input_need_sync (const lw6gui_input_t * input);
 extern int lw6gui_input_sync (lw6gui_input_t * dst, lw6gui_input_t * src);
 extern void lw6gui_input_enable_auto_release (lw6gui_input_t * input);
 
@@ -919,14 +919,14 @@ extern void lw6gui_joystick_update_repeat (lw6gui_joystick_t * joystick,
 					   int64_t timestamp);
 extern int lw6gui_joystick_sync (lw6gui_joystick_t * dst,
 				 lw6gui_joystick_t * src);
-extern void lw6gui_joystick_get_move_pad (lw6gui_joystick_t * joystick,
+extern void lw6gui_joystick_get_move_pad (const lw6gui_joystick_t * joystick,
 					  lw6gui_move_pad_t * move_pad);
 
 /* gui-keyboard.c */
 extern int lw6gui_keyboard_check_keysym (int keysym);
 extern lw6gui_keypress_t *lw6gui_keyboard_pop_keypress (lw6gui_keyboard_t *
 							keyboard);
-extern int lw6gui_keyboard_is_pressed (lw6gui_keyboard_t * keyboard,
+extern int lw6gui_keyboard_is_pressed (const lw6gui_keyboard_t * keyboard,
 				       int keysym);
 extern int lw6gui_keyboard_register_key_down (lw6gui_keyboard_t * keyboard,
 					      int keysym, int unicode,
@@ -939,12 +939,12 @@ extern void lw6gui_keyboard_update_repeat (lw6gui_keyboard_t * keyboard,
 					   int64_t timestamp);
 extern int lw6gui_keyboard_sync (lw6gui_keyboard_t * dst,
 				 lw6gui_keyboard_t * src);
-extern void lw6gui_keyboard_get_move_pad (lw6gui_keyboard_t * keyboard,
+extern void lw6gui_keyboard_get_move_pad (const lw6gui_keyboard_t * keyboard,
 					  lw6gui_move_pad_t * move_pad);
 
 /* gui-keypress.c */
 extern lw6gui_keypress_t *lw6gui_keypress_new (int keysym, int unicode,
-					       char *label);
+					       const char *label);
 extern void lw6gui_keypress_free (lw6gui_keypress_t * keypress);
 extern char *lw6gui_keypress_repr (const lw6gui_keypress_t * keypress);
 
@@ -963,17 +963,18 @@ extern int lw6gui_look_zoom_in (lw6gui_look_t * look, float zoom_step);
 extern int lw6gui_look_zoom_out (lw6gui_look_t * look, float zoom_step);
 
 /* gui-menuitem.c */
-extern lw6gui_menuitem_t *lw6gui_menuitem_new (char *label, char *tooltip,
-					       int value, int enabled,
-					       int selected, int colored);
+extern lw6gui_menuitem_t *lw6gui_menuitem_new (const char *label,
+					       const char *tooltip, int value,
+					       int enabled, int selected,
+					       int colored);
 extern void lw6gui_menuitem_free (lw6gui_menuitem_t * menuitem);
 
 extern int lw6gui_menuitem_memory_footprint (lw6gui_menuitem_t * menuitem);
 extern char *lw6gui_menuitem_repr (const lw6gui_menuitem_t * menuitem);
 extern void lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem,
-				       char *label, int64_t now);
+				       const char *label, int64_t now);
 extern void lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t * menuitem,
-					 char *label, int64_t now);
+					 const char *tooltip, int64_t now);
 extern void lw6gui_menuitem_set_value (lw6gui_menuitem_t * menuitem,
 				       int value, int64_t now);
 extern void lw6gui_menuitem_select (lw6gui_menuitem_t * menuitem, int state,
@@ -984,19 +985,21 @@ extern u_int32_t lw6gui_menuitem_checksum (lw6gui_menuitem_t * menuitem,
 					   lw6gui_look_t * look);
 extern int lw6gui_menuitem_is_same (const lw6gui_menuitem_t * menuitem_a,
 				    const lw6gui_menuitem_t * menuitem_b);
-extern lw6gui_menuitem_t *lw6gui_menuitem_dup (lw6gui_menuitem_t * menuitem);
+extern lw6gui_menuitem_t *lw6gui_menuitem_dup (const lw6gui_menuitem_t *
+					       menuitem);
 extern int lw6gui_menuitem_sync (lw6gui_menuitem_t * dst,
 				 lw6gui_menuitem_t * src);
 
 /* gui-menu.c */
-extern lw6gui_menu_t *lw6gui_menu_new (char *title, char *help, char *popup,
-				       char *esc, int enable_esc);
+extern lw6gui_menu_t *lw6gui_menu_new (const char *title, const char *help,
+				       const char *popup, const char *esc,
+				       int enable_esc);
 extern void lw6gui_menu_free (lw6gui_menu_t * menu);
 extern int lw6gui_menu_memory_footprint (lw6gui_menu_t * menu);
 extern char *lw6gui_menu_repr (const lw6gui_menu_t * menu);
-extern void lw6gui_menu_set_title (lw6gui_menu_t * menu, char *title);
-extern void lw6gui_menu_set_help (lw6gui_menu_t * menu, char *help);
-extern void lw6gui_menu_set_popup (lw6gui_menu_t * menu, char *popup);
+extern void lw6gui_menu_set_title (lw6gui_menu_t * menu, const char *title);
+extern void lw6gui_menu_set_help (lw6gui_menu_t * menu, const char *help);
+extern void lw6gui_menu_set_popup (lw6gui_menu_t * menu, const char *popup);
 extern void lw6gui_menu_close_popup (lw6gui_menu_t * menu);
 extern int lw6gui_menu_has_popup (lw6gui_menu_t * menu);
 extern lw6gui_menuitem_t *lw6gui_menu_get_item (lw6gui_menu_t * menu,
@@ -1040,7 +1043,7 @@ extern void lw6gui_menu_sync_using_id (lw6gui_menu_t * menu, int menuitem_id,
 				       int64_t now);
 extern int lw6gui_menu_is_same (const lw6gui_menu_t * menu_a,
 				const lw6gui_menu_t * menu_b);
-extern lw6gui_menu_t *lw6gui_menu_dup (lw6gui_menu_t * menu);
+extern lw6gui_menu_t *lw6gui_menu_dup (const lw6gui_menu_t * menu);
 extern int lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src);
 
 /* gui-mouse.c */
@@ -1061,45 +1064,46 @@ extern int lw6gui_mouse_drag_pop (lw6gui_mouse_t * mouse, int *delta_x,
 
 /* gui-point.c */
 extern int lw6gui_point_is_inside_rect (lw6gui_point_t point,
-					lw6gui_rect_t * rect);
+					const lw6gui_rect_t * rect);
 
 /* gui-poweroftwo.c */
 extern int lw6gui_power_of_two_le (int size);
 extern int lw6gui_power_of_two_ge (int size);
 
 /* gui-quad.c */
-extern int lw6gui_quad_is_inside_rect (lw6gui_quad_t * quad,
-				       lw6gui_rect_t * rect);
+extern int lw6gui_quad_is_inside_rect (const lw6gui_quad_t * quad,
+				       const lw6gui_rect_t * rect);
 
 /* gui-rect.c */
 extern void lw6gui_rect_init_xywh (lw6gui_rect_t * rect, int x, int y, int w,
 				   int h);
 extern void lw6gui_rect_init_x1y1x2y2 (lw6gui_rect_t * rect, int x1, int y1,
 				       int x2, int y2);
-extern void lw6gui_rect_clip (lw6gui_rect_t * dst, lw6gui_rect_t * src,
-			      lw6gui_rect_t * clip);
+extern void lw6gui_rect_clip (lw6gui_rect_t * dst, const lw6gui_rect_t * src,
+			      const lw6gui_rect_t * clip);
 
 /* gui-rectarray.c */
 extern int lw6gui_rect_array_init (lw6gui_rect_array_t * rect_array, int w,
 				   int h, int tile_size, int border_size);
-extern int lw6gui_rect_array_get_tile_by_source_xy (lw6gui_rect_array_t *
-						    rect_array,
+extern int lw6gui_rect_array_get_tile_by_source_xy (const lw6gui_rect_array_t
+						    * rect_array,
 						    lw6gui_rect_t * rect,
 						    int *i, int source_x,
 						    int source_y);
-extern int lw6gui_rect_array_get_tile_by_i (lw6gui_rect_array_t * rect_array,
-					    lw6gui_rect_t * rect, int i);
-extern int lw6gui_rect_array_get_tile_and_quad (lw6gui_rect_array_t *
+extern int lw6gui_rect_array_get_tile_by_i (const lw6gui_rect_array_t *
+					    rect_array, lw6gui_rect_t * rect,
+					    int i);
+extern int lw6gui_rect_array_get_tile_and_quad (const lw6gui_rect_array_t *
 						rect_array,
 						lw6gui_rect_t * rect, int *i,
 						lw6gui_quad_t * quad,
-						lw6gui_quad_t * source_quad,
-						int x_polarity,
+						const lw6gui_quad_t *
+						source_quad, int x_polarity,
 						int y_polarity);
 
 /* gui-segment.c */
-extern int lw6gui_segment_is_inside_rect (lw6gui_segment_t * segment,
-					  lw6gui_rect_t * rect);
+extern int lw6gui_segment_is_inside_rect (const lw6gui_segment_t * segment,
+					  const lw6gui_rect_t * rect);
 
 /* gui-smoother.c */
 extern void lw6gui_smoother_init (lw6gui_smoother_t * smoother, float value,
@@ -1108,7 +1112,7 @@ extern void lw6gui_smoother_immediate_force (lw6gui_smoother_t * smoother,
 					     float value);
 extern void lw6gui_smoother_set_target (lw6gui_smoother_t * smoother,
 					float value, int64_t now);
-extern float lw6gui_smoother_get_value (lw6gui_smoother_t * smoother,
+extern float lw6gui_smoother_get_value (const lw6gui_smoother_t * smoother,
 					int64_t now);
 extern void lw6gui_smoother_fix_overflow (lw6gui_smoother_t * smoother,
 					  int step);
@@ -1118,17 +1122,17 @@ extern int lw6gui_test_register (int mode);
 extern int lw6gui_test_run (int mode);
 
 /* gui-triangle.c */
-extern int lw6gui_triangle_is_inside_rect (lw6gui_triangle_t * triangle,
-					   lw6gui_rect_t * rect);
+extern int lw6gui_triangle_is_inside_rect (const lw6gui_triangle_t * triangle,
+					   const lw6gui_rect_t * rect);
 
 /* gui-videomode.c */
 extern int lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest,
-					   lw6gui_video_mode_t * wished,
+					   const lw6gui_video_mode_t * wished,
 					   lw6sys_list_t * available);
 extern int lw6gui_video_mode_is_same (const lw6gui_video_mode_t * mode_a,
 				      const lw6gui_video_mode_t * mode_b);
 extern int lw6gui_video_mode_sync_ratio (lw6gui_video_mode_t * dst,
-					 lw6gui_video_mode_t * src);
+					 const lw6gui_video_mode_t * src);
 
 /* gui-viewport.c */
 extern int lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,

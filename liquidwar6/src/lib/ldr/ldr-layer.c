@@ -31,7 +31,7 @@
 
 static int
 read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image,
-	  lw6ldr_resampler_t * resampler, lw6sys_progress_t * progress)
+	  const lw6ldr_resampler_t * resampler, lw6sys_progress_t * progress)
 {
   int ret = 0;
 
@@ -104,7 +104,7 @@ read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image,
  */
 int
 lw6ldr_layer_read_first (lw6map_layer_t * layer, const char *filename,
-			 lw6map_param_t * param, lw6ldr_hints_t * hints,
+			 lw6map_param_t * param, const lw6ldr_hints_t * hints,
 			 int display_w, int display_h, float target_ratio,
 			 int bench_value, int magic_number,
 			 int expected_depth, lw6sys_progress_t * progress)

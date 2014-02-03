@@ -39,7 +39,7 @@
  * Return value: a pointer to the newly allocated object.
  */
 lw6gui_keypress_t *
-lw6gui_keypress_new (int keysym, int unicode, char *label)
+lw6gui_keypress_new (int keysym, int unicode, const char *label)
 {
   lw6gui_keypress_t *ret = NULL;
 
