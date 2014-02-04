@@ -59,7 +59,7 @@ _lw6dsp_param_clear (lw6dsp_param_t * param)
 }
 
 int
-_lw6dsp_param_diff (_lw6dsp_data_t * data, lw6dsp_param_t * param)
+_lw6dsp_param_diff (const _lw6dsp_data_t * data, const lw6dsp_param_t * param)
 {
   int ret = 0;
 

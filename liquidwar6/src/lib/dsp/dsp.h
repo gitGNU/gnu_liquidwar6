@@ -159,11 +159,11 @@ extern lw6dsp_backend_t *lw6dsp_create_backend (int argc, const char *argv[],
 extern void lw6dsp_destroy_backend (lw6dsp_backend_t * dsp_backend);
 extern char *lw6dsp_repr (const lw6dsp_backend_t * dsp_backend);
 extern int lw6dsp_init (lw6dsp_backend_t * dsp_backend,
-			lw6dsp_param_t * param,
+			const lw6dsp_param_t * param,
 			lw6gui_resize_callback_func_t resize_callback);
 extern void lw6dsp_quit (lw6dsp_backend_t * dsp_backend);
 extern int lw6dsp_update (lw6dsp_backend_t * dsp_backend,
-			  lw6dsp_param_t * param);
+			  const lw6dsp_param_t * param);
 extern int lw6dsp_get_nb_frames (lw6dsp_backend_t * dsp_backend);
 extern int lw6dsp_get_last_frame_rendering_time (lw6dsp_backend_t *
 						 dsp_backend);

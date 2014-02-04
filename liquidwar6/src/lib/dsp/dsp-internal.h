@@ -89,7 +89,8 @@ extern void _lw6dsp_macosx_thread_quit (void *ptr);
 
 /* dsp-param.c */
 extern void _lw6dsp_param_clear (lw6dsp_param_t * param);
-extern int _lw6dsp_param_diff (_lw6dsp_data_t * data, lw6dsp_param_t * param);
+extern int _lw6dsp_param_diff (const _lw6dsp_data_t * data,
+			       const lw6dsp_param_t * param);
 
 /* dsp-thread.c */
 extern void _lw6dsp_thread_func (_lw6dsp_data_t * data);

@@ -66,7 +66,7 @@ typedef struct lw6bot_data_s
    * might change, but it should always refer to the same
    * logical game, that is, at least, same struct.
    */
-  lw6ker_game_state_t *game_state;
+  const lw6ker_game_state_t *game_state;
   /// Constant parameters passed to the bot at creation.
   lw6bot_param_t param;
 } lw6bot_data_t;
@@ -81,7 +81,7 @@ typedef struct lw6bot_seed_s
    * Game state, that is, the level used, the fighters on it,
    * the other cursors positions, and so on.
    */
-  lw6ker_game_state_t *game_state;
+  const lw6ker_game_state_t *game_state;
   /**
    * This can be NULL, it's a pilot object which can be used
    * in some case, when, for instance, in dirty read mode,

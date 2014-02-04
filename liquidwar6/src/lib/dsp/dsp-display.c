@@ -207,7 +207,7 @@ lw6dsp_repr (const lw6dsp_backend_t * dsp_backend)
  * Return value: 1 if success, 0 if error.
  */
 int
-lw6dsp_init (lw6dsp_backend_t * dsp_backend, lw6dsp_param_t * param,
+lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param,
 	     lw6gui_resize_callback_func_t resize_callback)
 {
   int ret = 0;
@@ -347,7 +347,7 @@ lw6dsp_quit (lw6dsp_backend_t * dsp_backend)
  * Return value: 1 if success, 0 if error.
  */
 int
-lw6dsp_update (lw6dsp_backend_t * dsp_backend, lw6dsp_param_t * param)
+lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 {
   int ret = 1;
   _lw6dsp_data_t *data = NULL;
