@@ -45,7 +45,7 @@ typedef struct _udp_context_s
 {
   _udp_data_t data;
 }
-_udp_context_t;
+_mod_udp_context_t;
 
 typedef struct _udp_specific_data_s
 {
@@ -58,12 +58,12 @@ extern int _mod_udp_load_data (_udp_data_t * udp_data, const char *data_dir);
 extern void _mod_udp_unload_data (_udp_data_t * udp_data);
 
 /* mod-udp-setup.c */
-extern _udp_context_t *_mod_udp_init (int argc, const char *argv[],
-				      lw6cnx_properties_t * properties);
-extern void _mod_udp_quit (_udp_context_t * udp_context);
+extern _mod_udp_context_t *_mod_udp_init (int argc, const char *argv[],
+					  lw6cnx_properties_t * properties);
+extern void _mod_udp_quit (_mod_udp_context_t * udp_context);
 
 /* mod-udp-state.c */
-extern lw6cnx_connection_t *_mod_udp_open (_udp_context_t * udp_context,
+extern lw6cnx_connection_t *_mod_udp_open (_mod_udp_context_t * udp_context,
 					   const char *local_url,
 					   const char *remote_url,
 					   const char *remote_ip,
@@ -75,32 +75,34 @@ extern lw6cnx_connection_t *_mod_udp_open (_udp_context_t * udp_context,
 					   lw6cnx_recv_callback_t
 					   recv_callback_func,
 					   void *recv_callback_data);
-extern void _mod_udp_close (_udp_context_t * udp_context,
+extern void _mod_udp_close (_mod_udp_context_t * udp_context,
 			    lw6cnx_connection_t * connection);
-extern int _mod_udp_timeout_ok (_udp_context_t * udp_context,
+extern int _mod_udp_timeout_ok (_mod_udp_context_t * udp_context,
 				int64_t origin_timestamp, int broadcast);
 
 /* mod-udp-message.c */
-extern int _mod_udp_send (_udp_context_t * udp_context,
+extern int _mod_udp_send (_mod_udp_context_t * udp_context,
 			  lw6cnx_connection_t * connection,
 			  int64_t now,
 			  u_int32_t physical_ticket_sig,
 			  u_int32_t logical_ticket_sig,
 			  u_int64_t logical_from_id, u_int64_t logical_to_id,
 			  const char *message);
-extern void _mod_udp_poll (_udp_context_t * udp_context,
+extern int _mod_udp_can_send (_mod_udp_context_t * udp_context,
+			      lw6cnx_connection_t * connection);
+extern void _mod_udp_poll (_mod_udp_context_t * udp_context,
 			   lw6cnx_connection_t * connection);
 
 /* mod-udp-info.c */
-extern char *_mod_udp_repr (_udp_context_t * udp_context,
+extern char *_mod_udp_repr (_mod_udp_context_t * udp_context,
 			    lw6cnx_connection_t * connection);
 
 /* mod-udp-oob.c */
-extern int _mod_udp_process_oob (_udp_context_t * udp_context,
+extern int _mod_udp_process_oob (_mod_udp_context_t * udp_context,
 				 lw6nod_info_t * node_info,
 				 lw6cli_oob_data_t * oob_data);
 extern int
-_mod_udp_oob_should_continue (_udp_context_t *
+_mod_udp_oob_should_continue (_mod_udp_context_t *
 			      udp_context, lw6cli_oob_data_t * oob_data,
 			      int broadcast);
 

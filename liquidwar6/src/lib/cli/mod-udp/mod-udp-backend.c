@@ -62,7 +62,7 @@ mod_udp_is_dlclose_safe ()
 static void *
 _init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 {
-  _udp_context_t *udp_context = _mod_udp_init (argc, argv, properties);
+  _mod_udp_context_t *udp_context = _mod_udp_init (argc, argv, properties);
 
   return (void *) udp_context;
 }
@@ -70,7 +70,7 @@ _init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 static void
 _quit (void *cli_context)
 {
-  _udp_context_t *udp_context = (_udp_context_t *) cli_context;
+  _mod_udp_context_t *udp_context = (_mod_udp_context_t *) cli_context;
 
   if (udp_context)
     {
@@ -82,7 +82,7 @@ static int
 _process_oob (void *cli_context, lw6nod_info_t * node_info,
 	      lw6cli_oob_data_t * oob_data)
 {
-  _udp_context_t *udp_context = (_udp_context_t *) cli_context;
+  _mod_udp_context_t *udp_context = (_mod_udp_context_t *) cli_context;
   int ret = 0;
 
   if (udp_context)
@@ -100,7 +100,7 @@ _open (void *cli_context, const char *local_url, const char *remote_url,
        int network_reliability, lw6cnx_recv_callback_t recv_callback_func,
        void *recv_callback_data)
 {
-  _udp_context_t *udp_context = (_udp_context_t *) cli_context;
+  _mod_udp_context_t *udp_context = (_mod_udp_context_t *) cli_context;
   lw6cnx_connection_t *ret = NULL;
 
   if (udp_context)
@@ -118,7 +118,7 @@ _open (void *cli_context, const char *local_url, const char *remote_url,
 static void
 _close (void *cli_context, lw6cnx_connection_t * connection)
 {
-  _udp_context_t *udp_context = (_udp_context_t *) cli_context;
+  _mod_udp_context_t *udp_context = (_mod_udp_context_t *) cli_context;
 
   if (udp_context)
     {
@@ -132,7 +132,7 @@ _send (void *cli_context, lw6cnx_connection_t * connection, int64_t now,
        u_int64_t logical_from_id, u_int64_t logical_to_id,
        const char *message)
 {
-  _udp_context_t *udp_context = (_udp_context_t *) cli_context;
+  _mod_udp_context_t *udp_context = (_mod_udp_context_t *) cli_context;
   int ret = 0;
 
   if (udp_context)
@@ -146,10 +146,24 @@ _send (void *cli_context, lw6cnx_connection_t * connection, int64_t now,
   return ret;
 }
 
+static int
+_can_send (void *cli_context, lw6cnx_connection_t * connection)
+{
+  _mod_udp_context_t *udp_context = (_mod_udp_context_t *) cli_context;
+  int ret = 0;
+
+  if (udp_context)
+    {
+      ret = _mod_udp_can_send (udp_context, connection);
+    }
+
+  return ret;
+}
+
 static void
 _poll (void *cli_context, lw6cnx_connection_t * connection)
 {
-  _udp_context_t *udp_context = (_udp_context_t *) cli_context;
+  _mod_udp_context_t *udp_context = (_mod_udp_context_t *) cli_context;
 
   if (udp_context)
     {
@@ -160,7 +174,7 @@ _poll (void *cli_context, lw6cnx_connection_t * connection)
 static char *
 _repr (void *cli_context, lw6cnx_connection_t * connection)
 {
-  _udp_context_t *udp_context = (_udp_context_t *) cli_context;
+  _mod_udp_context_t *udp_context = (_mod_udp_context_t *) cli_context;
   char *ret = NULL;
 
   if (udp_context)
@@ -229,6 +243,7 @@ mod_udp_create_backend ()
       backend->open = _open;
       backend->close = _close;
       backend->send = _send;
+      backend->can_send = _can_send;
       backend->poll = _poll;
       backend->repr = _repr;
     }

@@ -1059,9 +1059,7 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node, int64_t now)
 						   logical_ticket_sig,
 						   node->node_id_int,
 						   remote_id_int, atom_str,
-						   send_i >
-						   node->db->data.
-						   consts.send_best_reliable_limit_n))
+						   1))
 		    {
 		      ret = 0;
 		    }

@@ -149,6 +149,8 @@ typedef struct lw6cli_backend_s
 	       u_int32_t logical_ticket_sig,
 	       u_int64_t logical_from_id,
 	       u_int64_t logical_to_id, const char *message);
+  /// Pointer on lw6cli_can_send callback code.
+  int (*can_send) (void *cli_context, lw6cnx_connection_t * connection);
   /// Pointer on lw6cli_poll callback code.
   void (*poll) (void *cli_context, lw6cnx_connection_t * connection);
   /// Pointer on lw6cli_repr callback code.
@@ -184,6 +186,8 @@ extern int lw6cli_send (lw6cli_backend_t * backend,
 			u_int32_t logical_ticket_sig,
 			u_int64_t logical_from_id, u_int64_t logical_to_id,
 			const char *message);
+extern int lw6cli_can_send (lw6cli_backend_t * backend,
+			    lw6cnx_connection_t * connection);
 extern void lw6cli_poll (lw6cli_backend_t * backend,
 			 lw6cnx_connection_t * connection);
 extern char *lw6cli_repr (const lw6cli_backend_t * backend,

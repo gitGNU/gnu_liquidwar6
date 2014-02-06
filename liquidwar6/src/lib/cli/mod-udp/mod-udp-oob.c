@@ -28,7 +28,7 @@
 #include "mod-udp-internal.h"
 
 static int
-_do_broadcast (_udp_context_t * udp_context, lw6nod_info_t * node_info,
+_do_broadcast (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	       lw6cli_oob_data_t * oob_data, int port)
 {
   int ret = 0;
@@ -92,7 +92,7 @@ _do_broadcast (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 }
 
 static int
-_do_ping (_udp_context_t * udp_context, lw6nod_info_t * node_info,
+_do_ping (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
 	  char *ip)
 {
@@ -196,7 +196,7 @@ _info_response_callback (void *func_data, void *data)
 }
 
 static int
-_do_info (_udp_context_t * udp_context, lw6nod_info_t * node_info,
+_do_info (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
 	  char *ip)
 {
@@ -302,7 +302,7 @@ _list_response_callback (void *func_data, void *data)
 }
 
 static int
-_do_list (_udp_context_t * udp_context, lw6nod_info_t * node_info,
+_do_list (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
 	  char *ip)
 {
@@ -358,8 +358,8 @@ _do_list (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 }
 
 int
-_mod_udp_process_oob (_udp_context_t * udp_context, lw6nod_info_t * node_info,
-		      lw6cli_oob_data_t * oob_data)
+_mod_udp_process_oob (_mod_udp_context_t * udp_context,
+		      lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
 {
   int ret = 0;
   lw6sys_url_t *parsed_url = NULL;
@@ -454,7 +454,7 @@ _mod_udp_process_oob (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 }
 
 int
-_mod_udp_oob_should_continue (_udp_context_t *
+_mod_udp_oob_should_continue (_mod_udp_context_t *
 			      udp_context, lw6cli_oob_data_t * oob_data,
 			      int broadcast)
 {

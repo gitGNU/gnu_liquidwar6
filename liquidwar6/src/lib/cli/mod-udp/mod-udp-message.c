@@ -28,12 +28,11 @@
 #include "mod-udp-internal.h"
 
 int
-_mod_udp_send (_udp_context_t * udp_context, lw6cnx_connection_t * connection,
-	       int64_t now,
-	       u_int32_t physical_ticket_sig,
-	       u_int32_t logical_ticket_sig,
-	       u_int64_t logical_from_id,
-	       u_int64_t logical_to_id, const char *message)
+_mod_udp_send (_mod_udp_context_t * udp_context,
+	       lw6cnx_connection_t * connection, int64_t now,
+	       u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
+	       u_int64_t logical_from_id, u_int64_t logical_to_id,
+	       const char *message)
 {
   int ret = 0;
   _udp_specific_data_t *specific_data =
@@ -69,8 +68,16 @@ _mod_udp_send (_udp_context_t * udp_context, lw6cnx_connection_t * connection,
   return ret;
 }
 
+int
+_mod_udp_can_send (_mod_udp_context_t * udp_context,
+		   lw6cnx_connection_t * connection)
+{
+  return 1;
+}
+
 void
-_mod_udp_poll (_udp_context_t * udp_context, lw6cnx_connection_t * connection)
+_mod_udp_poll (_mod_udp_context_t * udp_context,
+	       lw6cnx_connection_t * connection)
 {
   char buf[LW6NET_UDP_MINIMAL_BUF_SIZE + 1];
   _udp_specific_data_t *specific_data =

@@ -108,6 +108,8 @@ extern int _mod_udpd_send (_mod_udpd_context_t * udpd_context,
 			   u_int32_t logical_ticket_sig,
 			   u_int64_t logical_from_id, u_int64_t logical_to_id,
 			   const char *message);
+extern int _mod_udpd_can_send (_mod_udpd_context_t * udpd_context,
+			       lw6cnx_connection_t * connection);
 extern void _mod_udpd_poll (_mod_udpd_context_t * udpd_context,
 			    lw6cnx_connection_t * connection);
 

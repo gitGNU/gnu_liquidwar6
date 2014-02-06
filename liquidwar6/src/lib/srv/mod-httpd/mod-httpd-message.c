@@ -89,6 +89,13 @@ _mod_httpd_send (_mod_httpd_context_t * httpd_context,
   return ret;
 }
 
+int
+_mod_httpd_can_send (_mod_httpd_context_t * httpd_context,
+		     lw6cnx_connection_t * connection)
+{
+  return 1;
+}
+
 void
 _mod_httpd_poll (_mod_httpd_context_t * httpd_context,
 		 lw6cnx_connection_t * connection)

@@ -51,93 +51,75 @@ _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
 				   logical_from_id, logical_to_id, message);
   if (line)
     {
-      if (lw6cnx_connection_lock_send (connection))
+      if (lw6net_socket_is_valid (specific_data->sock))
 	{
-	  if (lw6net_send_line_tcp (&(specific_data->sock), line))
+	  if (lw6cnx_connection_lock_send (connection))
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd sent \"%s\""),
-			  line);
-	      ret = 1;
-	    }
-	  else
-	    {
-	      /*
-	       * Testing is_valid is enough here, is_alive makes no sense,
-	       * we have the result from the previous send, should it fail,
-	       * sock would have been set to an invalid value already.
-	       * Usually, when send fails but socket is still valid,
-	       * it means the buffer is full, in a general manner, try
-	       * later. That means for us -> put in backlog.
-	       */
-	      if (lw6net_socket_is_valid (specific_data->sock))
+	      if (lw6net_send_line_tcp (&(specific_data->sock), line))
 		{
-		  /*
-		   * Put stuff in backlog because the send failed
-		   */
-		  lw6cnx_backlog_push (&(specific_data->backlog), line);
-		  // don't want to free this as it's in the backlog
-		  line = NULL;
-
-		  /*
-		   * The following test is here only to
-		   * give a meaningfull message
-		   */
-		  if (now > specific_data->last_send_failed_timestamp)
-		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _x_
-				  ("mod_tcpd send put line in backlog since TCP low-level call failed"));
-		    }
-		  else
-		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _x_
-				  ("mod_tcpd send put line in backlog since TCP low-level call was not even called, because it has failed very recently"));
-		    }
-
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd sent \"%s\""),
+			      line);
+		  specific_data->last_send_success_timestamp = now;
 		  ret = 1;
 		}
-	      specific_data->last_send_failed_timestamp = now;
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("mod_tcpd did not send \"%s\""), line);
+		  specific_data->last_send_fail_timestamp = now;
+		}
+	      lw6cnx_connection_unlock_send (connection);
 	    }
-	  lw6cnx_connection_unlock_send (connection);
 	}
+      else
+	{
+	  if (specific_data->last_send_success_timestamp)
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_
+			  ("mod_tcpd send failed but has succeeded before"));
+	    }
+	  specific_data->last_send_fail_timestamp = now;
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_
+		      ("mod_tcpd can't send \"%s\", not connected sock=%d"),
+		      message, specific_data->sock);
+	}
+    }
+
+  if (!ret)
+    {
       if (line)
 	{
-	  LW6SYS_FREE (line);
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("mod_tcpd did not send \"%s\" sock=%d"), line,
+		      specific_data->sock);
 	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("mod_tcpd did not send NULL sock=%d"),
+		      specific_data->sock);
+	}
+    }
+
+  if (line)
+    {
+      LW6SYS_FREE (line);
     }
 
   return ret;
 }
 
-static int
-_backlog_filter_func (lw6cnx_backlog_filter_data_t * backlog_filter_data,
-		      char *str)
+int
+_mod_tcpd_can_send (_mod_tcpd_context_t * tcpd_context,
+		    lw6cnx_connection_t * connection)
 {
-  int ret = 1;
+  int ret = 0;
   _mod_tcpd_specific_data_t *specific_data =
-    backlog_filter_data->specific_data;
+    (_mod_tcpd_specific_data_t *) connection->backend_specific_data;
 
-  if (backlog_filter_data->now > specific_data->last_send_failed_timestamp)
-    {
-      if (lw6net_send_line_tcp (&(specific_data->sock), str))
-	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_
-		      ("mod_tcp sent \"%s\" from backlog sock=%d"),
-		      str, specific_data->sock);
-	  /*
-	   * Setting ret to 0, since sent succeeded, we want the line to
-	   * be removed.
-	   */
-	  ret = 0;
-	}
-      else
-	{
-	  specific_data->last_send_failed_timestamp =
-	    backlog_filter_data->now;
-	}
-    }
+  ret = lw6net_socket_is_valid (specific_data->sock);
 
   return ret;
 }
@@ -157,9 +139,6 @@ _mod_tcpd_poll (_mod_tcpd_context_t * tcpd_context,
   u_int64_t physical_to_id = 0;
   u_int64_t logical_from_id = 0;
   u_int64_t logical_to_id = 0;
-  lw6cnx_backlog_filter_data_t backlog_filter_data;
-
-  memset (&backlog_filter_data, 0, sizeof (lw6cnx_backlog_filter_data_t));
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd poll"));
   if (lw6net_socket_is_valid (specific_data->sock))
@@ -171,20 +150,6 @@ _mod_tcpd_poll (_mod_tcpd_context_t * tcpd_context,
        */
       if (lw6net_tcp_is_alive (&(specific_data->sock)))
 	{
-	  /*
-	   * Send
-	   */
-	  if (lw6cnx_connection_lock_send (connection))
-	    {
-	      backlog_filter_data.specific_data = specific_data;
-	      backlog_filter_data.now = lw6sys_get_timestamp ();
-	      lw6cnx_backlog_filter (&(specific_data->backlog),
-				     _backlog_filter_func,
-				     &backlog_filter_data);
-
-	      lw6cnx_connection_unlock_send (connection);
-	    }
-
 	  /*
 	   * Recv
 	   */

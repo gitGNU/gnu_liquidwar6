@@ -129,6 +129,21 @@ _mod_http_send (_mod_http_context_t * http_context,
   return ret;
 }
 
+int
+_mod_http_can_send (_mod_http_context_t * http_context,
+		    lw6cnx_connection_t * connection)
+{
+  int ret = 0;
+  _mod_http_specific_data_t *specific_data =
+    (_mod_http_specific_data_t *) connection->backend_specific_data;
+
+  ret = connection->dns_ok
+    && (lw6sys_list_length (specific_data->query_threads) <
+	http_context->data.consts.max_concurrent_requests);
+
+  return ret;
+}
+
 void
 _mod_http_poll (_mod_http_context_t * http_context,
 		lw6cnx_connection_t * connection)

@@ -146,6 +146,20 @@ _send (void *cli_context, lw6cnx_connection_t * connection, int64_t now,
   return ret;
 }
 
+static int
+_can_send (void *cli_context, lw6cnx_connection_t * connection)
+{
+  _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
+  int ret = 0;
+
+  if (tcp_context)
+    {
+      ret = _mod_tcp_can_send (tcp_context, connection);
+    }
+
+  return ret;
+}
+
 static void
 _poll (void *cli_context, lw6cnx_connection_t * connection)
 {
@@ -229,6 +243,7 @@ mod_tcp_create_backend ()
       backend->open = _open;
       backend->close = _close;
       backend->send = _send;
+      backend->can_send = _can_send;
       backend->poll = _poll;
       backend->repr = _repr;
     }

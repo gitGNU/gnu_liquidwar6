@@ -56,8 +56,8 @@ _mod_tcpd_context_t;
 typedef struct _mod_tcpd_specific_data_s
 {
   int sock;
-  lw6cnx_backlog_t backlog;
-  int64_t last_send_failed_timestamp;
+  int64_t last_send_success_timestamp;
+  int64_t last_send_fail_timestamp;
 }
 _mod_tcpd_specific_data_t;
 
@@ -116,6 +116,8 @@ extern int _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
 			   u_int32_t logical_ticket_sig,
 			   u_int64_t logical_from_id, u_int64_t logical_to_id,
 			   const char *message);
+extern int _mod_tcpd_can_send (_mod_tcpd_context_t * tcpd_context,
+			       lw6cnx_connection_t * connection);
 extern void _mod_tcpd_poll (_mod_tcpd_context_t * tcpd_context,
 			    lw6cnx_connection_t * connection);
 

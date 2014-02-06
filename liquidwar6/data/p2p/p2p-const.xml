@@ -17,7 +17,6 @@
   <int key="miss-wake-up-interval" value="1000" />
   <int key="miss-max-range" value="100" />
   <int key="ticket-table-hash-size" value="257" />
-  <int key="send-best-reliable-limit-n" value="33" />
   <int key="send-per-poll-limit-n" value="50" />
   <int key="received-atom-parts-per-poll-to-disable-miss" value="200" />
   <int key="meta-nb-duplicates" value="5" />

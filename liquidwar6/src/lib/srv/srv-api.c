@@ -439,6 +439,39 @@ lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
 }
 
 /**
+ * lw6srv_can_send
+ *
+ * @backend: server backend to use
+ * @connection: connection to use
+ *
+ * Tells wether a server connection can technically send messages.
+ * This does not garantee send will succeed, but if it's not OK
+ * at this stage, it's not even worth trying.
+ *
+ * Return value: 1 if it can be used to send messages, 0 if not ready.
+ */
+int
+lw6srv_can_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
+{
+  int ret = 0;
+
+  LW6SYS_BACKEND_FUNCTION_BEGIN;
+
+  if (backend->send)
+    {
+      ret = backend->can_send (backend->srv_context, connection);
+    }
+  else
+    {
+      _warning (__FUNCTION__);
+    }
+
+  LW6SYS_BACKEND_FUNCTION_END;
+
+  return ret;
+}
+
+/**
  * lw6srv_poll
  *
  * @backend: server backend to use

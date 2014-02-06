@@ -77,7 +77,6 @@ _mod_tcpd_close (_mod_tcpd_context_t * tcpd_context,
   if (specific_data)
     {
       lw6net_socket_close (&(specific_data->sock));
-      lw6cnx_backlog_reset (&(specific_data->backlog));
       LW6SYS_FREE (specific_data);
     }
   lw6cnx_connection_free (connection);

@@ -250,6 +250,15 @@ lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
 	    backend->send (backend->cli_context, connection, now,
 			   physical_ticket_sig, logical_ticket_sig,
 			   logical_from_id, logical_to_id, message);
+	  ++(connection->sent_nb_total);
+	  if (ret)
+	    {
+	      ++(connection->sent_nb_success);
+	    }
+	  else
+	    {
+	      ++(connection->sent_nb_fail);
+	    }
 	}
       else
 	{
@@ -262,6 +271,39 @@ lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
 	   */
 	  ret = backend->properties.reliable;
 	}
+    }
+  else
+    {
+      _warning (__FUNCTION__);
+    }
+
+  LW6SYS_BACKEND_FUNCTION_END;
+
+  return ret;
+}
+
+/**
+ * lw6cli_can_send
+ *
+ * @backend: backend to use
+ * @connection: connection to use
+ *
+ * Tells wether a client connection can technically send messages.
+ * This does not garantee send will succeed, but if it's not OK
+ * at this stage, it's not even worth trying.
+ *
+ * Return value: 1 if it can be used to send messages, 0 if not ready.
+ */
+int
+lw6cli_can_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
+{
+  int ret = 0;
+
+  LW6SYS_BACKEND_FUNCTION_BEGIN;
+
+  if (backend->send)
+    {
+      ret = backend->can_send (backend->cli_context, connection);
     }
   else
     {

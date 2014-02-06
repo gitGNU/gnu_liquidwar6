@@ -61,10 +61,8 @@ typedef struct _mod_tcp_specific_data_s
 {
   int sock;
   _mod_tcp_state_t state;
-  int send_failed_once;
-  int send_succeeded_once;
-  lw6cnx_backlog_t backlog;
-  int64_t last_send_failed_timestamp;
+  int64_t last_send_success_timestamp;
+  int64_t last_send_fail_timestamp;
   void *connect_thread;
 }
 _mod_tcp_specific_data_t;
@@ -113,6 +111,8 @@ extern int _mod_tcp_send (_mod_tcp_context_t * tcp_context,
 			  u_int32_t logical_ticket_sig,
 			  u_int64_t logical_from_id, u_int64_t logical_to_id,
 			  const char *message);
+extern int _mod_tcp_can_send (_mod_tcp_context_t * tcp_context,
+			      lw6cnx_connection_t * connection);
 extern void _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 			   lw6cnx_connection_t * connection);
 

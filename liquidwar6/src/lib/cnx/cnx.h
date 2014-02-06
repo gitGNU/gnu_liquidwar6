@@ -172,6 +172,12 @@ typedef struct lw6cnx_connection_s
   int64_t next_send_foo_timestamp;
   /// The current ping, updated when receiving BAR message.
   int ping_msec;
+  /// Number of sent messages on this cnx
+  int sent_nb_total;
+  /// Number of successfully sent messages on this cnx
+  int sent_nb_success;
+  /// Number of failed sent messages on this cnx
+  int sent_nb_fail;
   /// Last time something was received on this connection.
   int64_t last_recv_timestamp;
   /**

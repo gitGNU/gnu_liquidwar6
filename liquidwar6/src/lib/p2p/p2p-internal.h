@@ -103,7 +103,6 @@ typedef struct _lw6p2p_consts_s
   int miss_wake_up_interval;
   int miss_max_range;
   int ticket_table_hash_size;
-  int send_best_reliable_limit_n;
   int send_per_poll_limit_n;
   int received_atom_parts_per_poll_to_disable_miss;
   int meta_nb_duplicates;

@@ -28,7 +28,7 @@
 #include "mod-udp-internal.h"
 
 lw6cnx_connection_t *
-_mod_udp_open (_udp_context_t * udp_context, const char *local_url,
+_mod_udp_open (_mod_udp_context_t * udp_context, const char *local_url,
 	       const char *remote_url, const char *remote_ip, int remote_port,
 	       const char *password, u_int64_t local_id, u_int64_t remote_id,
 	       int dns_ok, int network_reliability,
@@ -66,7 +66,7 @@ _mod_udp_open (_udp_context_t * udp_context, const char *local_url,
 }
 
 void
-_mod_udp_close (_udp_context_t * udp_context,
+_mod_udp_close (_mod_udp_context_t * udp_context,
 		lw6cnx_connection_t * connection)
 {
   _udp_specific_data_t *specific_data =
@@ -84,8 +84,8 @@ _mod_udp_close (_udp_context_t * udp_context,
 }
 
 int
-_mod_udp_timeout_ok (_udp_context_t * udp_context, int64_t origin_timestamp,
-		     int broadcast)
+_mod_udp_timeout_ok (_mod_udp_context_t * udp_context,
+		     int64_t origin_timestamp, int broadcast)
 {
   int ret = 0;
   int d = 0;

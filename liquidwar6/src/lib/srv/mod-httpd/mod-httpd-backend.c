@@ -216,6 +216,20 @@ _send (void *srv_context, lw6cnx_connection_t * connection, int64_t now,
   return ret;
 }
 
+static int
+_can_send (void *srv_context, lw6cnx_connection_t * connection)
+{
+  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
+  int ret = 0;
+
+  if (httpd_context)
+    {
+      ret = _mod_httpd_can_send (httpd_context, connection);
+    }
+
+  return ret;
+}
+
 static void
 _poll (void *srv_context, lw6cnx_connection_t * connection)
 {
@@ -288,6 +302,7 @@ mod_httpd_create_backend ()
       backend->feed_with_udp = _feed_with_udp;
       backend->close = _close;
       backend->send = _send;
+      backend->can_send = _can_send;
       backend->poll = _poll;
       backend->repr = _repr;
     }

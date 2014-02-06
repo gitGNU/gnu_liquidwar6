@@ -318,6 +318,7 @@ static int
 _send_best_filter (void *func_data, void *data)
 {
   int keep = 1;
+  int found_cnx = 0;
   int i = 0;
   int ping_msec = 0;
   _send_best_data_t *send_best_data = (_send_best_data_t *) func_data;
@@ -346,10 +347,12 @@ _send_best_filter (void *func_data, void *data)
        * Now we have the cnx, we must figure out its type (cnx/srv)
        * and index to fire the right code on it.
        */
-      for (i = 0; i < tentacle->nb_cli_connections; ++i)
+      for (i = 0; i < tentacle->nb_cli_connections && !found_cnx; ++i)
 	{
-	  if (best_cnx && (best_cnx == tentacle->cli_connections[i]))
+	  if (best_cnx && (best_cnx == tentacle->cli_connections[i])
+	      && !found_cnx)
 	    {
+	      found_cnx = 1;
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("found fastest connection to \"%s\", it's a client connection, backend name=\"%s\""),
@@ -363,10 +366,12 @@ _send_best_filter (void *func_data, void *data)
 		}
 	    }
 	}
-      for (i = 0; i < tentacle->nb_srv_connections; ++i)
+      for (i = 0; i < tentacle->nb_srv_connections && !found_cnx; ++i)
 	{
-	  if (best_cnx && (best_cnx == tentacle->srv_connections[i]))
+	  if (best_cnx && (best_cnx == tentacle->srv_connections[i])
+	      && !found_cnx)
 	    {
+	      found_cnx = 1;
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("found fastest connection to \"%s\", it's a server connection, backend name=\"%s\""),
@@ -378,6 +383,24 @@ _send_best_filter (void *func_data, void *data)
 		{
 		  keep = 0;
 		}
+	    }
+	}
+      if (keep)
+	{
+	  if (found_cnx && best_cnx)
+	    {
+	      lw6sys_log (LW6SYS_LOG_NOTICE,
+			  _x_
+			  ("cnx found, but unable to send message, stats success=%d/fail=%d/total=%d"),
+			  best_cnx->sent_nb_success, best_cnx->sent_nb_fail,
+			  best_cnx->sent_nb_total);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_
+			  ("cnx not found, unable to send message \"%s\""),
+			  msg);
 	    }
 	}
     }
@@ -547,6 +570,8 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
       send_best_data.ticket_table = ticket_table;
       send_best_data.best_cnx =
 	_lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle, 1);
+      TMP1 ("reliable_queue length=%d",
+	    lw6sys_list_length (tentacle->unsent_reliable_queue));
       if (send_best_data.best_cnx)
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
@@ -562,11 +587,13 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	  lw6sys_list_filter (&(tentacle->unsent_reliable_queue),
 			      _send_best_filter, &send_best_data);
 	}
-      else
-	{
-	  lw6sys_list_free (tentacle->unsent_reliable_queue);
-	  tentacle->unsent_reliable_queue = NULL;
-	}
+      /*
+         else
+         {
+         lw6sys_list_free (tentacle->unsent_reliable_queue);
+         tentacle->unsent_reliable_queue = NULL;
+         }
+       */
     }
 
   if (tentacle->unsent_unreliable_queue)

@@ -240,6 +240,8 @@ typedef struct lw6srv_backend_s
 	       u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
 	       u_int64_t logical_from_id,
 	       u_int64_t logical_to_id, const char *message);
+  /// Pointer on lw6srv_can_send callback code.
+  int (*can_send) (void *srv_context, lw6cnx_connection_t * connection);
   /// Pointer on lw6srv_poll callback code.
   void (*poll) (void *srv_context, lw6cnx_connection_t * connection);
   /// Pointer on lw6srv_repr callback code.
@@ -290,6 +292,8 @@ extern int lw6srv_send (lw6srv_backend_t * backend,
 			u_int32_t logical_ticket_sig,
 			u_int64_t logical_from_id, u_int64_t logical_to_id,
 			const char *message);
+extern int lw6srv_can_send (lw6srv_backend_t * backend,
+			    lw6cnx_connection_t * connection);
 extern void lw6srv_poll (lw6srv_backend_t * backend,
 			 lw6cnx_connection_t * connection);
 extern char *lw6srv_repr (const lw6srv_backend_t * backend,

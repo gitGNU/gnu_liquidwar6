@@ -75,8 +75,6 @@ _read_callback (void *callback_data, const char *element, const char *key,
 			   &consts->miss_max_range);
       lw6cfg_read_xml_int (key, value, "ticket-table-hash-size",
 			   &consts->ticket_table_hash_size);
-      lw6cfg_read_xml_int (key, value, "send-best-reliable-limit-n",
-			   &consts->send_best_reliable_limit_n);
       lw6cfg_read_xml_int (key, value, "send-per-poll-limit-n",
 			   &consts->send_per_poll_limit_n);
       lw6cfg_read_xml_int (key, value,

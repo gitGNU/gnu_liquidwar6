@@ -136,6 +136,8 @@ extern int _mod_http_send (_mod_http_context_t * http_context,
 			   u_int32_t logical_ticket_sig,
 			   u_int64_t logical_from_id, u_int64_t logical_to_id,
 			   const char *message);
+extern int _mod_http_can_send (_mod_http_context_t * http_context,
+			       lw6cnx_connection_t * connection);
 extern void _mod_http_poll (_mod_http_context_t * http_context,
 			    lw6cnx_connection_t * connection);
 

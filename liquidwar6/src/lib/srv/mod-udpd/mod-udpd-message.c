@@ -69,6 +69,13 @@ _mod_udpd_send (_mod_udpd_context_t * udpd_context,
   return ret;
 }
 
+int
+_mod_udpd_can_send (_mod_udpd_context_t * udpd_context,
+		    lw6cnx_connection_t * connection)
+{
+  return 1;
+}
+
 void
 _mod_udpd_poll (_mod_udpd_context_t * udpd_context,
 		lw6cnx_connection_t * connection)
