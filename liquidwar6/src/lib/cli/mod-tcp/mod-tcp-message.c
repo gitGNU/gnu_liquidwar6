@@ -90,13 +90,13 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
     {
       if (line)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("mod_tcp did not send \"%s\" sock=%d state=%d"),
 		      line, specific_data->sock, specific_data->state);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("mod_tcp did not send NULL sock=%d state=%d"),
 		      specific_data->sock, specific_data->state);
 	}

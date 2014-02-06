@@ -1553,7 +1553,7 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 
   if (nb > _LW6DAT_STACK_MANY_ATOMS)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("put %d messages in stack"), nb);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("put %d messages in stack"), nb);
     }
   else if (nb > 0)
     {

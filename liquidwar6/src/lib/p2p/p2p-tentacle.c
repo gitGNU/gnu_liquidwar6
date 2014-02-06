@@ -389,7 +389,7 @@ _send_best_filter (void *func_data, void *data)
 	{
 	  if (found_cnx && best_cnx)
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE,
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("cnx found, but unable to send message, stats success=%d/fail=%d/total=%d"),
 			  best_cnx->sent_nb_success, best_cnx->sent_nb_fail,
@@ -570,11 +570,9 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
       send_best_data.ticket_table = ticket_table;
       send_best_data.best_cnx =
 	_lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle, 1);
-      TMP1 ("reliable_queue length=%d",
-	    lw6sys_list_length (tentacle->unsent_reliable_queue));
       if (send_best_data.best_cnx)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("flushing unsent_reliable_queue"));
 
 	  /*
@@ -605,7 +603,7 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	_lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle, 0);
       if (send_best_data.best_cnx)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("flushing unsent_unreliable_queue"));
 
 	  /*
@@ -786,16 +784,10 @@ _lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t *
   for (i = 0; i < tentacle->nb_cli_connections; ++i)
     {
       cnx = tentacle->cli_connections[i];
-      if (!ret)
-	{
-	  if (cnx->properties.reliable)
-	    {
-	      best_ping_msec = cnx->ping_msec;
-	      ret = cnx;
-	    }
-	}
-      if (cnx->ping_msec > 0 && cnx->ping_msec < best_ping_msec
-	  && (cnx->properties.reliable || !reliable))
+      if (cnx->ping_msec > 0
+	  && lw6cli_can_send (tentacle->backends->cli_backends[i], cnx)
+	  && cnx->ping_msec < best_ping_msec && (cnx->properties.reliable
+						 || !reliable))
 	{
 	  best_ping_msec = cnx->ping_msec;
 	  ret = cnx;
@@ -805,16 +797,10 @@ _lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t *
   for (i = 0; i < tentacle->nb_srv_connections; ++i)
     {
       cnx = tentacle->srv_connections[i];
-      if (!ret)
-	{
-	  if (cnx->properties.reliable)
-	    {
-	      best_ping_msec = cnx->ping_msec;
-	      ret = cnx;
-	    }
-	}
-      if (cnx->ping_msec > 0 && cnx->ping_msec < best_ping_msec
-	  && (cnx->properties.reliable || !reliable))
+      if (cnx->ping_msec > 0
+	  && lw6srv_can_send (tentacle->backends->srv_backends[i], cnx)
+	  && cnx->ping_msec < best_ping_msec && (cnx->properties.reliable
+						 || !reliable))
 	{
 	  best_ping_msec = cnx->ping_msec;
 	  ret = cnx;

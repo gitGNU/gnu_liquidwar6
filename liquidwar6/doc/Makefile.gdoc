@@ -15,8 +15,8 @@ $(srcdir)/cli-gdoc.texi: $(top_srcdir)/src/lib/cli/cli-api.c $(top_srcdir)/src/l
 $(srcdir)/cns-gdoc.texi: $(top_srcdir)/src/lib/cns/cns-handler.c $(top_srcdir)/src/lib/cns/cns-history.c $(top_srcdir)/src/lib/cns/cns-support.c $(top_srcdir)/src/lib/cns/cns-test.c $(top_srcdir)/src/lib/cns/cns-testmain.c
 	echo gdoc cns && cd $(top_srcdir)/doc && $(PERL) gdoc.pl -texinfo ../src/lib/cns/cns-handler.c ../src/lib/cns/cns-history.c ../src/lib/cns/cns-support.c ../src/lib/cns/cns-test.c ../src/lib/cns/cns-testmain.c > cns-gdoc.texi
 
-$(srcdir)/cnx-gdoc.texi: $(top_srcdir)/src/lib/cnx/cnx-backlog.c $(top_srcdir)/src/lib/cnx/cnx-connection.c $(top_srcdir)/src/lib/cnx/cnx-password.c $(top_srcdir)/src/lib/cnx/cnx-test.c $(top_srcdir)/src/lib/cnx/cnx-testmain.c $(top_srcdir)/src/lib/cnx/cnx-tickettable.c
-	echo gdoc cnx && cd $(top_srcdir)/doc && $(PERL) gdoc.pl -texinfo ../src/lib/cnx/cnx-backlog.c ../src/lib/cnx/cnx-connection.c ../src/lib/cnx/cnx-password.c ../src/lib/cnx/cnx-test.c ../src/lib/cnx/cnx-testmain.c ../src/lib/cnx/cnx-tickettable.c > cnx-gdoc.texi
+$(srcdir)/cnx-gdoc.texi: $(top_srcdir)/src/lib/cnx/cnx-connection.c $(top_srcdir)/src/lib/cnx/cnx-password.c $(top_srcdir)/src/lib/cnx/cnx-test.c $(top_srcdir)/src/lib/cnx/cnx-testmain.c $(top_srcdir)/src/lib/cnx/cnx-tickettable.c
+	echo gdoc cnx && cd $(top_srcdir)/doc && $(PERL) gdoc.pl -texinfo ../src/lib/cnx/cnx-connection.c ../src/lib/cnx/cnx-password.c ../src/lib/cnx/cnx-test.c ../src/lib/cnx/cnx-testmain.c ../src/lib/cnx/cnx-tickettable.c > cnx-gdoc.texi
 
 $(srcdir)/dat-gdoc.texi: $(top_srcdir)/src/lib/dat/dat-atom.c $(top_srcdir)/src/lib/dat/dat-block.c $(top_srcdir)/src/lib/dat/dat-miss.c $(top_srcdir)/src/lib/dat/dat-stack.c $(top_srcdir)/src/lib/dat/dat-test.c $(top_srcdir)/src/lib/dat/dat-testmain.c $(top_srcdir)/src/lib/dat/dat-warehouse.c
 	echo gdoc dat && cd $(top_srcdir)/doc && $(PERL) gdoc.pl -texinfo ../src/lib/dat/dat-atom.c ../src/lib/dat/dat-block.c ../src/lib/dat/dat-miss.c ../src/lib/dat/dat-stack.c ../src/lib/dat/dat-test.c ../src/lib/dat/dat-testmain.c ../src/lib/dat/dat-warehouse.c > dat-gdoc.texi

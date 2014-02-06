@@ -93,7 +93,7 @@
 /*
  * Consider above this limit, it's a long message
  */
-#define _LW6DAT_STACK_MANY_ATOMS 100
+#define _LW6DAT_STACK_MANY_ATOMS 1000
 
 typedef struct _lw6dat_atom_s
 {

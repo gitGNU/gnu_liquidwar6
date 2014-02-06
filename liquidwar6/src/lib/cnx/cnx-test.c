@@ -46,11 +46,6 @@
 #define _TEST_TICKET_TABLE_ID1 "1234123412341234"
 #define _TEST_TICKET_TABLE_ID2 "2345234523452345"
 #define _TEST_TICKET_ACK_DELAY_MSEC 3000
-#define _TEST_BACKLOG_STR1 "this is"
-#define _TEST_BACKLOG_STR2 "a"
-#define _TEST_BACKLOG_STR3 "test"
-#define _TEST_BACKLOG_FILTER_LEN 2
-#define _TEST_BACKLOG_SPECIFIC_DATA_STR "hello world"
 
 typedef struct _lw6cnx_test_data_s
 {
@@ -67,70 +62,6 @@ _recv_callback_func (void *recv_callback_data,
 		     u_int64_t logical_to_id, const char *message)
 {
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("received \"%s\""), message);
-}
-
-static int
-_backlog_filter_callback (lw6cnx_backlog_filter_data_t * backlog_filter_data,
-			  char *str)
-{
-  int ret = 0;
-  char *specific_str = NULL;
-
-  specific_str = (char *) backlog_filter_data->specific_data;
-  lw6sys_log (LW6SYS_LOG_NOTICE,
-	      _x_ ("filtering string \"%s\", specific_data=\"%s\""), str,
-	      specific_str);
-  if (strlen (str) <= _TEST_BACKLOG_FILTER_LEN)
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _x_ ("string is short, will be removed"));
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("string is long, will be kept"));
-      ret = 1;
-    }
-
-  return ret;
-}
-
-/*
- * Testing functions in backlog.c
- */
-static void
-_test_backlog ()
-{
-  int ret = 1;
-  LW6SYS_TEST_FUNCTION_BEGIN;
-
-  {
-    lw6cnx_backlog_t backlog;
-    lw6cnx_backlog_filter_data_t backlog_filter_data;
-    char *str = NULL;
-
-    lw6cnx_backlog_zero (&backlog);
-
-    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("putting stuff in backlog"));
-    str = lw6sys_str_copy (_TEST_BACKLOG_STR1);
-    lw6cnx_backlog_push (&backlog, str);
-    str = lw6sys_str_copy (_TEST_BACKLOG_STR2);
-    lw6cnx_backlog_push (&backlog, str);
-    str = lw6sys_str_copy (_TEST_BACKLOG_STR3);
-    lw6cnx_backlog_push (&backlog, str);
-
-    lw6sys_log (LW6SYS_LOG_NOTICE,
-		_x_ ("filtering strings shorter that %d chars"),
-		_TEST_BACKLOG_FILTER_LEN);
-    backlog_filter_data.now = lw6sys_get_timestamp ();
-    backlog_filter_data.specific_data = _TEST_BACKLOG_SPECIFIC_DATA_STR;
-    lw6cnx_backlog_filter (&backlog, _backlog_filter_callback,
-			   &backlog_filter_data);
-
-    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("freeing ressources"));
-    lw6cnx_backlog_reset (&backlog);
-  }
-
-  LW6SYS_TEST_FUNCTION_END;
 }
 
 /*
@@ -153,15 +84,16 @@ _test_connection ()
 			     _TEST_PASSWORD, _TEST_LOCAL_ID, _TEST_REMOTE_ID,
 			     _TEST_DNS_OK, _TEST_NETWORK_RELIABILITY,
 			     _recv_callback_func, NULL);
-    if (cnx)
+    if (LW6SYS_TEST_ACK (cnx))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("cnx_connection object creation works"));
-	if (lw6cnx_connection_should_send_foo (cnx, now))
+	if (LW6SYS_TEST_ACK (lw6cnx_connection_should_send_foo (cnx, now)))
 	  {
 	    lw6cnx_connection_init_foo_bar_key (cnx, now,
 						_TEST_NEXT_FOO_DELAY);
-	    if (!lw6cnx_connection_should_send_foo (cnx, now))
+	    if (LW6SYS_TEST_ACK
+		(!lw6cnx_connection_should_send_foo (cnx, now)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("cnx_connection foo scheduling works"));
@@ -182,7 +114,7 @@ _test_connection ()
 	    ret = 0;
 	  }
 
-	if (lw6cnx_connection_lock_send (cnx))
+	if (LW6SYS_TEST_ACK (lw6cnx_connection_lock_send (cnx)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("acquired send mutex"));
 	    lw6cnx_connection_unlock_send (cnx);
@@ -215,7 +147,7 @@ _test_connection ()
 			     NULL, _TEST_LOCAL_ID, _TEST_REMOTE_ID,
 			     _TEST_DNS_OK, _TEST_NETWORK_RELIABILITY, NULL,
 			     NULL);
-    if (cnx)
+    if (LW6SYS_TEST_ACK (cnx))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -246,7 +178,7 @@ _test_password ()
     char *checksum = NULL;
 
     checksum = lw6cnx_password_checksum (NULL, NULL);
-    if (checksum)
+    if (LW6SYS_TEST_ACK (checksum))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("checksum for password NULL is \"%s\""), checksum);
@@ -257,7 +189,7 @@ _test_password ()
 	ret = 0;
       }
     checksum = lw6cnx_password_checksum (NULL, "");
-    if (checksum)
+    if (LW6SYS_TEST_ACK (checksum))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("checksum for empty password is \"%s\""), checksum);
@@ -268,7 +200,7 @@ _test_password ()
 	ret = 0;
       }
     checksum = lw6cnx_password_checksum (_TEST_PASSWORD_SEED, "");
-    if (checksum)
+    if (LW6SYS_TEST_ACK (checksum))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_
@@ -282,9 +214,10 @@ _test_password ()
       }
     checksum =
       lw6cnx_password_checksum (_TEST_PASSWORD_SEED, _TEST_PASSWORD1);
-    if (checksum)
+    if (LW6SYS_TEST_ACK (checksum))
       {
-	if (lw6sys_str_is_same (checksum, _TEST_PASSWORD_CHECKSUM))
+	if (LW6SYS_TEST_ACK
+	    (lw6sys_str_is_same (checksum, _TEST_PASSWORD_CHECKSUM)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("checksum for password \"%s\" is \"%s\""),
@@ -298,8 +231,9 @@ _test_password ()
 			_TEST_PASSWORD1, checksum, _TEST_PASSWORD_CHECKSUM);
 	    ret = 0;
 	  }
-	if (lw6cnx_password_verify
-	    (_TEST_PASSWORD_SEED, _TEST_PASSWORD1, _TEST_PASSWORD1))
+	if (LW6SYS_TEST_ACK (lw6cnx_password_verify
+			     (_TEST_PASSWORD_SEED, _TEST_PASSWORD1,
+			      _TEST_PASSWORD1)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("same password test works"));
 	  }
@@ -307,8 +241,9 @@ _test_password ()
 	  {
 	    ret = 0;
 	  }
-	if (lw6cnx_password_verify
-	    (_TEST_PASSWORD_SEED, _TEST_PASSWORD1, checksum))
+	if (LW6SYS_TEST_ACK (lw6cnx_password_verify
+			     (_TEST_PASSWORD_SEED, _TEST_PASSWORD1,
+			      checksum)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("same password test works using checksum"));
@@ -317,8 +252,8 @@ _test_password ()
 	  {
 	    ret = 0;
 	  }
-	if (lw6cnx_password_verify
-	    (_TEST_PASSWORD_SEED, NULL, _TEST_PASSWORD2))
+	if (LW6SYS_TEST_ACK (lw6cnx_password_verify
+			     (_TEST_PASSWORD_SEED, NULL, _TEST_PASSWORD2)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("same password test works when it's NULL here"));
@@ -327,8 +262,9 @@ _test_password ()
 	  {
 	    ret = 0;
 	  }
-	if (!lw6cnx_password_verify
-	    (_TEST_PASSWORD_SEED, _TEST_PASSWORD1, _TEST_PASSWORD2))
+	if (LW6SYS_TEST_ACK (!lw6cnx_password_verify
+			     (_TEST_PASSWORD_SEED, _TEST_PASSWORD1,
+			      _TEST_PASSWORD2)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("same password test detects wrong passwords"));
@@ -337,7 +273,9 @@ _test_password ()
 	  {
 	    ret = 0;
 	  }
-	if (!lw6cnx_password_verify (NULL, _TEST_PASSWORD1, _TEST_PASSWORD2))
+	if (LW6SYS_TEST_ACK
+	    (!lw6cnx_password_verify
+	     (NULL, _TEST_PASSWORD1, _TEST_PASSWORD2)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("same password test detects wrong seed"));
@@ -371,8 +309,8 @@ _test_ticket_table ()
     u_int32_t ticket = 0;
 
     lw6cnx_ticket_table_zero (&ticket_table);
-    if (lw6cnx_ticket_table_init
-	(&ticket_table, _TEST_TICKET_TABLE_HASH_SIZE))
+    if (LW6SYS_TEST_ACK (lw6cnx_ticket_table_init
+			 (&ticket_table, _TEST_TICKET_TABLE_HASH_SIZE)))
       {
 	ticket =
 	  lw6cnx_ticket_table_get_recv (&ticket_table,
@@ -382,8 +320,8 @@ _test_ticket_table ()
 	  lw6cnx_ticket_table_get_recv (&ticket_table,
 					_TEST_TICKET_TABLE_ID2);
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ticket generated %08x"), ticket);
-	if (!lw6cnx_ticket_table_was_recv_exchanged
-	    (&ticket_table, _TEST_TICKET_TABLE_ID1))
+	if (LW6SYS_TEST_ACK (!lw6cnx_ticket_table_was_recv_exchanged
+			     (&ticket_table, _TEST_TICKET_TABLE_ID1)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_
@@ -392,8 +330,8 @@ _test_ticket_table ()
 					  _TEST_TICKET_TABLE_ID1,
 					  _TEST_TICKET_ACK_DELAY_MSEC);
 
-	    if (!lw6cnx_ticket_table_was_recv_exchanged
-		(&ticket_table, _TEST_TICKET_TABLE_ID1))
+	    if (LW6SYS_TEST_ACK (!lw6cnx_ticket_table_was_recv_exchanged
+				 (&ticket_table, _TEST_TICKET_TABLE_ID1)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -410,8 +348,8 @@ _test_ticket_table ()
 
 	    lw6sys_delay (_TEST_TICKET_ACK_DELAY_MSEC + 1);
 
-	    if (lw6cnx_ticket_table_was_recv_exchanged
-		(&ticket_table, _TEST_TICKET_TABLE_ID1))
+	    if (LW6SYS_TEST_ACK (lw6cnx_ticket_table_was_recv_exchanged
+				 (&ticket_table, _TEST_TICKET_TABLE_ID1)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -429,8 +367,8 @@ _test_ticket_table ()
 					  _TEST_TICKET_TABLE_ID1,
 					  _TEST_TICKET_ACK_DELAY_MSEC);
 
-	    if (lw6cnx_ticket_table_was_recv_exchanged
-		(&ticket_table, _TEST_TICKET_TABLE_ID1))
+	    if (LW6SYS_TEST_ACK (lw6cnx_ticket_table_was_recv_exchanged
+				 (&ticket_table, _TEST_TICKET_TABLE_ID1)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -452,8 +390,8 @@ _test_ticket_table ()
 	    ret = 0;
 	  }
 
-	if (!lw6cnx_ticket_table_get_send
-	    (&ticket_table, _TEST_TICKET_TABLE_ID1))
+	if (LW6SYS_TEST_ACK (!lw6cnx_ticket_table_get_send
+			     (&ticket_table, _TEST_TICKET_TABLE_ID1)))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_
@@ -461,8 +399,8 @@ _test_ticket_table ()
 	    lw6cnx_ticket_table_set_send (&ticket_table,
 					  _TEST_TICKET_TABLE_ID1,
 					  lw6sys_generate_id_32 ());
-	    if (lw6cnx_ticket_table_get_send
-		(&ticket_table, _TEST_TICKET_TABLE_ID1))
+	    if (LW6SYS_TEST_ACK (lw6cnx_ticket_table_get_send
+				 (&ticket_table, _TEST_TICKET_TABLE_ID1)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("send ticket now exists, this is right"));
@@ -528,7 +466,6 @@ lw6cnx_test_register (int mode)
   suite = CU_add_suite ("lw6cnx", _setup_init, _setup_quit);
   if (suite)
     {
-      LW6SYS_CUNIT_ADD_TEST (suite, _test_backlog);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_connection);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_password);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_ticket_table);

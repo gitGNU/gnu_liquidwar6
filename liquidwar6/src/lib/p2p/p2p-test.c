@@ -1708,6 +1708,170 @@ _test_node_api_node6_callback (void *api_data)
     }
 }
 
+static int
+_api_with_backends (char *cli_backends, char *srv_backends)
+{
+  int ret = 1;
+  lw6p2p_db_t *db12 = NULL;
+  lw6p2p_db_t *db34 = NULL;
+  lw6p2p_db_t *db56 = NULL;
+  lw6p2p_node_t *node1 = NULL;
+  lw6p2p_node_t *node2 = NULL;
+  lw6p2p_node_t *node3 = NULL;
+  lw6p2p_node_t *node4 = NULL;
+  lw6p2p_node_t *node5 = NULL;
+  lw6p2p_node_t *node6 = NULL;
+  int64_t end_timestamp = 0LL;
+  lw6sys_thread_handler_t *thread1 = NULL;
+  lw6sys_thread_handler_t *thread2 = NULL;
+  lw6sys_thread_handler_t *thread3 = NULL;
+  lw6sys_thread_handler_t *thread4 = NULL;
+  lw6sys_thread_handler_t *thread5 = NULL;
+  lw6sys_thread_handler_t *thread6 = NULL;
+  _test_node_api_data_t api_data1;
+  _test_node_api_data_t api_data2;
+  _test_node_api_data_t api_data3;
+  _test_node_api_data_t api_data4;
+  _test_node_api_data_t api_data5;
+  _test_node_api_data_t api_data6;
+  int done = 0;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _x_ ("testing api with backends \"%s\" and \"%s\""),
+	      cli_backends, srv_backends);
+
+  memset (&api_data1, 0, sizeof (_test_node_api_data_t));
+  memset (&api_data2, 0, sizeof (_test_node_api_data_t));
+  memset (&api_data3, 0, sizeof (_test_node_api_data_t));
+  memset (&api_data4, 0, sizeof (_test_node_api_data_t));
+  memset (&api_data5, 0, sizeof (_test_node_api_data_t));
+  memset (&api_data6, 0, sizeof (_test_node_api_data_t));
+
+  if (LW6SYS_TEST_ACK (_init_nodes
+		       (cli_backends,
+			srv_backends, &db12, &db34, &db56,
+			&node1, &node2, &node3, &node4, &node5, &node6)))
+    {
+      api_data1.node = node1;
+      api_data2.node = node2;
+      api_data3.node = node3;
+      api_data4.node = node4;
+      api_data5.node = node5;
+      api_data6.node = node6;
+      api_data1.done = &done;
+      api_data2.done = &done;
+      api_data3.done = &done;
+      api_data4.done = &done;
+      api_data5.done = &done;
+      api_data6.done = &done;
+      lw6sys_progress_default (&(api_data1.progress),
+			       &(api_data1.progress_value));
+      lw6sys_progress_default (&(api_data2.progress),
+			       &(api_data2.progress_value));
+      lw6sys_progress_default (&(api_data3.progress),
+			       &(api_data3.progress_value));
+      lw6sys_progress_default (&(api_data4.progress),
+			       &(api_data4.progress_value));
+      lw6sys_progress_default (&(api_data5.progress),
+			       &(api_data5.progress_value));
+      lw6sys_progress_default (&(api_data6.progress),
+			       &(api_data6.progress_value));
+      lw6sys_progress_begin (&(api_data1.progress));
+      lw6sys_progress_begin (&(api_data2.progress));
+      lw6sys_progress_begin (&(api_data3.progress));
+      lw6sys_progress_begin (&(api_data4.progress));
+      lw6sys_progress_begin (&(api_data5.progress));
+      lw6sys_progress_begin (&(api_data6.progress));
+
+      api_data4.peer_id = lw6p2p_node_get_id (node2);
+
+      thread1 =
+	lw6sys_thread_create (_test_node_api_node1_callback, NULL,
+			      (void *) &api_data1);
+      thread2 =
+	lw6sys_thread_create (_test_node_api_node2_callback, NULL,
+			      (void *) &api_data2);
+      thread3 =
+	lw6sys_thread_create (_test_node_api_node3_callback, NULL,
+			      (void *) &api_data3);
+      thread4 =
+	lw6sys_thread_create (_test_node_api_node4_callback, NULL,
+			      (void *) &api_data4);
+      thread5 =
+	lw6sys_thread_create (_test_node_api_node5_callback, NULL,
+			      (void *) &api_data5);
+      thread6 =
+	lw6sys_thread_create (_test_node_api_node6_callback, NULL,
+			      (void *) &api_data6);
+
+      if (LW6SYS_TEST_ACK
+	  (thread1 && thread2 && thread3 && thread4 && thread5 && thread6))
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _x_ ("each node running in its own thread"));
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("unable to start all threads"));
+	  ret = 0;
+	}
+      if (thread1)
+	{
+	  lw6sys_thread_join (thread1);
+	}
+      if (thread2)
+	{
+	  lw6sys_thread_join (thread2);
+	}
+      if (thread3)
+	{
+	  lw6sys_thread_join (thread3);
+	}
+      if (thread4)
+	{
+	  lw6sys_thread_join (thread4);
+	}
+      if (thread5)
+	{
+	  lw6sys_thread_join (thread5);
+	}
+      if (thread6)
+	{
+	  lw6sys_thread_join (thread6);
+	}
+      lw6sys_log (LW6SYS_LOG_NOTICE,
+		  _x_
+		  ("waiting for some time to let nodes handle disconnection"));
+      end_timestamp = lw6sys_get_timestamp () + _TEST_NODE_API_DURATION_END;
+      while (lw6sys_get_timestamp () < end_timestamp)
+	{
+	  _poll_nodes (node1, node2, node3, node4, node5, node6);
+	}
+
+      _quit_nodes (db12, db34, db56, node1, node2, node3, node4, node5,
+		   node6);
+
+      ret = ret && api_data1.ret && api_data2.ret && api_data3.ret
+	&& api_data4.ret && api_data5.ret && api_data6.ret;
+      if (LW6SYS_TEST_ACK (ret))
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _x_ ("all nodes completed their tests successfully"));
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("at least one node failed to complete its test, results are api_data1.ret=%d, api_data2.ret=%d, api_data3.ret=%d, api_data4.ret=%d, api_data5.ret=%d, api_data6.ret=%d"),
+		      api_data1.ret, api_data2.ret, api_data3.ret,
+		      api_data4.ret, api_data5.ret, api_data6.ret);
+	}
+    }
+
+  return ret;
+}
+
 /*
  * Testing node api
  */
@@ -1718,158 +1882,12 @@ _test_node_api ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6p2p_db_t *db12 = NULL;
-    lw6p2p_db_t *db34 = NULL;
-    lw6p2p_db_t *db56 = NULL;
-    lw6p2p_node_t *node1 = NULL;
-    lw6p2p_node_t *node2 = NULL;
-    lw6p2p_node_t *node3 = NULL;
-    lw6p2p_node_t *node4 = NULL;
-    lw6p2p_node_t *node5 = NULL;
-    lw6p2p_node_t *node6 = NULL;
-    int64_t end_timestamp = 0LL;
-    lw6sys_thread_handler_t *thread1 = NULL;
-    lw6sys_thread_handler_t *thread2 = NULL;
-    lw6sys_thread_handler_t *thread3 = NULL;
-    lw6sys_thread_handler_t *thread4 = NULL;
-    lw6sys_thread_handler_t *thread5 = NULL;
-    lw6sys_thread_handler_t *thread6 = NULL;
-    _test_node_api_data_t api_data1;
-    _test_node_api_data_t api_data2;
-    _test_node_api_data_t api_data3;
-    _test_node_api_data_t api_data4;
-    _test_node_api_data_t api_data5;
-    _test_node_api_data_t api_data6;
-    int done = 0;
-
-    memset (&api_data1, 0, sizeof (_test_node_api_data_t));
-    memset (&api_data2, 0, sizeof (_test_node_api_data_t));
-    memset (&api_data3, 0, sizeof (_test_node_api_data_t));
-    memset (&api_data4, 0, sizeof (_test_node_api_data_t));
-    memset (&api_data5, 0, sizeof (_test_node_api_data_t));
-    memset (&api_data6, 0, sizeof (_test_node_api_data_t));
-
-    if (LW6SYS_TEST_ACK (_init_nodes
-			 (lw6cli_default_backends (),
-			  lw6srv_default_backends (), &db12, &db34, &db56,
-			  &node1, &node2, &node3, &node4, &node5, &node6)))
-      {
-	api_data1.node = node1;
-	api_data2.node = node2;
-	api_data3.node = node3;
-	api_data4.node = node4;
-	api_data5.node = node5;
-	api_data6.node = node6;
-	api_data1.done = &done;
-	api_data2.done = &done;
-	api_data3.done = &done;
-	api_data4.done = &done;
-	api_data5.done = &done;
-	api_data6.done = &done;
-	lw6sys_progress_default (&(api_data1.progress),
-				 &(api_data1.progress_value));
-	lw6sys_progress_default (&(api_data2.progress),
-				 &(api_data2.progress_value));
-	lw6sys_progress_default (&(api_data3.progress),
-				 &(api_data3.progress_value));
-	lw6sys_progress_default (&(api_data4.progress),
-				 &(api_data4.progress_value));
-	lw6sys_progress_default (&(api_data5.progress),
-				 &(api_data5.progress_value));
-	lw6sys_progress_default (&(api_data6.progress),
-				 &(api_data6.progress_value));
-	lw6sys_progress_begin (&(api_data1.progress));
-	lw6sys_progress_begin (&(api_data2.progress));
-	lw6sys_progress_begin (&(api_data3.progress));
-	lw6sys_progress_begin (&(api_data4.progress));
-	lw6sys_progress_begin (&(api_data5.progress));
-	lw6sys_progress_begin (&(api_data6.progress));
-
-	api_data4.peer_id = lw6p2p_node_get_id (node2);
-
-	thread1 =
-	  lw6sys_thread_create (_test_node_api_node1_callback, NULL,
-				(void *) &api_data1);
-	thread2 =
-	  lw6sys_thread_create (_test_node_api_node2_callback, NULL,
-				(void *) &api_data2);
-	thread3 =
-	  lw6sys_thread_create (_test_node_api_node3_callback, NULL,
-				(void *) &api_data3);
-	thread4 =
-	  lw6sys_thread_create (_test_node_api_node4_callback, NULL,
-				(void *) &api_data4);
-	thread5 =
-	  lw6sys_thread_create (_test_node_api_node5_callback, NULL,
-				(void *) &api_data5);
-	thread6 =
-	  lw6sys_thread_create (_test_node_api_node6_callback, NULL,
-				(void *) &api_data6);
-
-	if (LW6SYS_TEST_ACK
-	    (thread1 && thread2 && thread3 && thread4 && thread5 && thread6))
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_x_ ("each node running in its own thread"));
-	  }
-	else
-	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_x_ ("unable to start all threads"));
-	    ret = 0;
-	  }
-	if (thread1)
-	  {
-	    lw6sys_thread_join (thread1);
-	  }
-	if (thread2)
-	  {
-	    lw6sys_thread_join (thread2);
-	  }
-	if (thread3)
-	  {
-	    lw6sys_thread_join (thread3);
-	  }
-	if (thread4)
-	  {
-	    lw6sys_thread_join (thread4);
-	  }
-	if (thread5)
-	  {
-	    lw6sys_thread_join (thread5);
-	  }
-	if (thread6)
-	  {
-	    lw6sys_thread_join (thread6);
-	  }
-	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _x_
-		    ("waiting for some time to let nodes handle disconnection"));
-	end_timestamp = lw6sys_get_timestamp () + _TEST_NODE_API_DURATION_END;
-	while (lw6sys_get_timestamp () < end_timestamp)
-	  {
-	    _poll_nodes (node1, node2, node3, node4, node5, node6);
-	  }
-
-	_quit_nodes (db12, db34, db56, node1, node2, node3, node4, node5,
-		     node6);
-
-	ret = ret && api_data1.ret && api_data2.ret && api_data3.ret
-	  && api_data4.ret && api_data5.ret && api_data6.ret;
-	if (LW6SYS_TEST_ACK (ret))
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_x_ ("all nodes completed their tests successfully"));
-	  }
-	else
-	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_x_
-			("at least one node failed to complete its test, results are api_data1.ret=%d, api_data2.ret=%d, api_data3.ret=%d, api_data4.ret=%d, api_data5.ret=%d, api_data6.ret=%d"),
-			api_data1.ret, api_data2.ret, api_data3.ret,
-			api_data4.ret, api_data5.ret, api_data6.ret);
-	  }
-      }
+    ret = ret && _api_with_backends ("tcp", "tcpd");
+    ret = ret && _api_with_backends ("udp", "udpd");
+    _api_with_backends ("http", "httpd");	// even if fails, keep going since http is optional
+    ret = ret
+      && _api_with_backends (lw6cli_default_backends (),
+			     lw6srv_default_backends ());
   }
 
   LW6SYS_TEST_FUNCTION_END;

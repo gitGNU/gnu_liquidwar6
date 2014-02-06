@@ -62,12 +62,6 @@ _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
 		  specific_data->last_send_success_timestamp = now;
 		  ret = 1;
 		}
-	      else
-		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _x_ ("mod_tcpd did not send \"%s\""), line);
-		  specific_data->last_send_fail_timestamp = now;
-		}
 	      lw6cnx_connection_unlock_send (connection);
 	    }
 	}
@@ -91,13 +85,13 @@ _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
     {
       if (line)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("mod_tcpd did not send \"%s\" sock=%d"), line,
 		      specific_data->sock);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("mod_tcpd did not send NULL sock=%d"),
 		      specific_data->sock);
 	}
