@@ -63,6 +63,8 @@
 #define _TEST_ENTRY_PING_DELAY_MSEC 500
 #define _TEST_ENTRY_AVAILABLE 1
 
+#define _TEST_TENTACLE_DURATION_THREAD 10000
+
 #define _TEST_PACKET_LOGICAL_TICKET_SIG_1 0x12341234
 #define _TEST_PACKET_PHYSICAL_TICKET_SIG_1 0x23452345
 #define _TEST_PACKET_LOGICAL_FROM_ID_1 0x2345234523452345LL
@@ -328,6 +330,145 @@ _test_entry ()
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create entry"));
 	ret = 0;
       }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
+typedef struct _test_tentacle_data_s
+{
+  _lw6p2p_tentacle_t *tentacle;
+  float progress_value;
+  lw6sys_progress_t progress;
+  int *done;
+  int ret;
+} _test_tentacle_data_t;
+
+static void
+_test_tentacle1_callback (void *tentacle_data)
+{
+  _test_tentacle_data_t *data = (_test_tentacle_data_t *) tentacle_data;
+  int64_t end_timestamp = 0LL;
+
+  end_timestamp = lw6sys_get_timestamp () + _TEST_TENTACLE_DURATION_THREAD;
+
+  data->ret = 1;
+
+  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
+    {
+      lw6sys_idle ();
+      // todo...
+    }
+}
+
+static void
+_test_tentacle2_callback (void *tentacle_data)
+{
+  _test_tentacle_data_t *data = (_test_tentacle_data_t *) tentacle_data;
+  int64_t end_timestamp = 0LL;
+
+  end_timestamp = lw6sys_get_timestamp () + _TEST_TENTACLE_DURATION_THREAD;
+
+  data->ret = 1;
+
+  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
+    {
+      lw6sys_idle ();
+      // todo...
+    }
+}
+
+static int
+_tentacle_with_backends (char *cli_backends, char *srv_backends)
+{
+  int ret = 1;
+  _lw6p2p_tentacle_t *tentacle1 = NULL;
+  _lw6p2p_tentacle_t *tentacle2 = NULL;
+  lw6sys_thread_handler_t *thread1 = NULL;
+  lw6sys_thread_handler_t *thread2 = NULL;
+  _test_tentacle_data_t tentacle_data1;
+  _test_tentacle_data_t tentacle_data2;
+  int done = 0;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _x_ ("testing tentacle with backends \"%s\" and \"%s\""),
+	      cli_backends, srv_backends);
+
+  memset (&tentacle_data1, 0, sizeof (_test_tentacle_data_t));
+  memset (&tentacle_data2, 0, sizeof (_test_tentacle_data_t));
+
+  thread1 =
+    lw6sys_thread_create (_test_tentacle1_callback, NULL,
+			  (void *) &tentacle_data1);
+  thread2 =
+    lw6sys_thread_create (_test_tentacle2_callback, NULL,
+			  (void *) &tentacle_data2);
+
+  tentacle_data1.tentacle = tentacle1;
+  tentacle_data2.tentacle = tentacle2;
+  tentacle_data1.done = &done;
+  tentacle_data2.done = &done;
+
+  lw6sys_progress_default (&(tentacle_data1.progress),
+			   &(tentacle_data1.progress_value));
+  lw6sys_progress_default (&(tentacle_data2.progress),
+			   &(tentacle_data2.progress_value));
+  lw6sys_progress_begin (&(tentacle_data1.progress));
+  lw6sys_progress_begin (&(tentacle_data2.progress));
+
+  if (LW6SYS_TEST_ACK (thread1 && thread2))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE,
+		  _x_ ("each tentacle running in its own thread"));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to start all threads"));
+      ret = 0;
+    }
+
+  if (thread1)
+    {
+      lw6sys_thread_join (thread1);
+    }
+  if (thread2)
+    {
+      lw6sys_thread_join (thread2);
+    }
+
+  ret = ret && tentacle_data1.ret && tentacle_data2.ret;
+  if (LW6SYS_TEST_ACK (ret))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE,
+		  _x_ ("all tentacles completed their tests successfully"));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
+		  ("at least one tentacle failed to complete its test, results are tentacle_data1.ret=%d, tentacle_data2.ret=%d"),
+		  tentacle_data1.ret, tentacle_data2.ret);
+    }
+
+  return ret;
+}
+
+/*
+ * Testing tentacle
+ */
+static void
+_test_tentacle ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    ret = ret && _tentacle_with_backends ("tcp", "tcpd");
+    ret = ret && _tentacle_with_backends ("udp", "udpd");
+    _tentacle_with_backends ("http", "httpd");	// even if fails, keep going since http is optional
+    ret = ret
+      && _tentacle_with_backends (lw6cli_default_backends (),
+				  lw6srv_default_backends ());
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -1961,6 +2102,7 @@ lw6p2p_test_register (int mode)
       LW6SYS_CUNIT_ADD_TEST (suite, _test_db);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_entry);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_packet);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_tentacle);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_node_init);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_node_oob);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_node_cmd);
