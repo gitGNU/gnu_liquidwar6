@@ -64,6 +64,10 @@
 #define _TEST_ENTRY_AVAILABLE 1
 
 #define _TEST_TENTACLE_DURATION_THREAD 10000
+#define _TEST_TENTACLE_BIND_IP1 "127.0.0.1"
+#define _TEST_TENTACLE_BIND_PORT1 8058
+#define _TEST_TENTACLE_BIND_IP2 "127.0.0.1"
+#define _TEST_TENTACLE_BIND_PORT2 8059
 
 #define _TEST_PACKET_LOGICAL_TICKET_SIG_1 0x12341234
 #define _TEST_PACKET_PHYSICAL_TICKET_SIG_1 0x23452345
@@ -388,7 +392,13 @@ _tentacle_with_backends (char *cli_backends, char *srv_backends)
   lw6sys_thread_handler_t *thread2 = NULL;
   _test_tentacle_data_t tentacle_data1;
   _test_tentacle_data_t tentacle_data2;
+  _lw6p2p_backends_t backends1;
+  _lw6p2p_backends_t backends2;
+  lw6srv_listener_t *listener1 = NULL;
+  lw6srv_listener_t *listener2 = NULL;
   int done = 0;
+  const int argc = _TEST_ARGC;
+  const char *argv[] = { _TEST_ARGV0 };
 
   lw6sys_log (LW6SYS_LOG_NOTICE,
 	      _x_ ("testing tentacle with backends \"%s\" and \"%s\""),
@@ -396,46 +406,152 @@ _tentacle_with_backends (char *cli_backends, char *srv_backends)
 
   memset (&tentacle_data1, 0, sizeof (_test_tentacle_data_t));
   memset (&tentacle_data2, 0, sizeof (_test_tentacle_data_t));
+  memset (&backends1, 0, sizeof (_lw6p2p_backends_t));
+  memset (&backends2, 0, sizeof (_lw6p2p_backends_t));
 
-  thread1 =
-    lw6sys_thread_create (_test_tentacle1_callback, NULL,
-			  (void *) &tentacle_data1);
-  thread2 =
-    lw6sys_thread_create (_test_tentacle2_callback, NULL,
-			  (void *) &tentacle_data2);
-
-  tentacle_data1.tentacle = tentacle1;
-  tentacle_data2.tentacle = tentacle2;
-  tentacle_data1.done = &done;
-  tentacle_data2.done = &done;
-
-  lw6sys_progress_default (&(tentacle_data1.progress),
-			   &(tentacle_data1.progress_value));
-  lw6sys_progress_default (&(tentacle_data2.progress),
-			   &(tentacle_data2.progress_value));
-  lw6sys_progress_begin (&(tentacle_data1.progress));
-  lw6sys_progress_begin (&(tentacle_data2.progress));
-
-  if (LW6SYS_TEST_ACK (thread1 && thread2))
+  if (ret)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _x_ ("each tentacle running in its own thread"));
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to start all threads"));
-      ret = 0;
+      listener1 =
+	lw6srv_start (_TEST_TENTACLE_BIND_IP1, _TEST_TENTACLE_BIND_PORT1);
+      if (LW6SYS_TEST_ACK (listener1))
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _x_ ("listener1 listening on ip=%s port=%d"),
+		      _TEST_TENTACLE_BIND_IP1, _TEST_TENTACLE_BIND_PORT1);
+	  if (LW6SYS_TEST_ACK
+	      (_lw6p2p_backends_init_cli
+	       (argc, argv, &backends1, cli_backends)))
+	    {
+	      if (LW6SYS_TEST_ACK
+		  (_lw6p2p_backends_init_srv
+		   (argc, argv, &backends1, srv_backends, listener1)))
+		{
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("unable to open srv backends1 \"%s\""),
+			      srv_backends);
+		  ret = 0;
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("unable to open cli backends1 \"%s\""),
+			  cli_backends);
+	      ret = 0;
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("unable to start listener1 on ip=%s port=%d"),
+		      _TEST_TENTACLE_BIND_IP1, _TEST_TENTACLE_BIND_PORT1);
+	  ret = 0;
+	}
     }
 
-  if (thread1)
+  if (ret)
     {
-      lw6sys_thread_join (thread1);
-    }
-  if (thread2)
-    {
-      lw6sys_thread_join (thread2);
+      listener2 =
+	lw6srv_start (_TEST_TENTACLE_BIND_IP2, _TEST_TENTACLE_BIND_PORT2);
+      if (LW6SYS_TEST_ACK (listener2))
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _x_ ("listener2 listening on ip=%s port=%d"),
+		      _TEST_TENTACLE_BIND_IP2, _TEST_TENTACLE_BIND_PORT2);
+	  if (LW6SYS_TEST_ACK
+	      (_lw6p2p_backends_init_cli
+	       (argc, argv, &backends2, cli_backends)))
+	    {
+	      if (LW6SYS_TEST_ACK
+		  (_lw6p2p_backends_init_srv
+		   (argc, argv, &backends2, srv_backends, listener2)))
+		{
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("unable to open srv backends2 \"%s\""),
+			      srv_backends);
+		  ret = 0;
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("unable to open cli backends2 \"%s\""),
+			  cli_backends);
+	      ret = 0;
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("unable to start listener2 on ip=%s port=%d"),
+		      _TEST_TENTACLE_BIND_IP2, _TEST_TENTACLE_BIND_PORT2);
+	  ret = 0;
+	}
     }
 
+  if (ret)
+    {
+      thread1 =
+	lw6sys_thread_create (_test_tentacle1_callback, NULL,
+			      (void *) &tentacle_data1);
+      thread2 =
+	lw6sys_thread_create (_test_tentacle2_callback, NULL,
+			      (void *) &tentacle_data2);
+
+      tentacle_data1.tentacle = tentacle1;
+      tentacle_data2.tentacle = tentacle2;
+      tentacle_data1.done = &done;
+      tentacle_data2.done = &done;
+
+      lw6sys_progress_default (&(tentacle_data1.progress),
+			       &(tentacle_data1.progress_value));
+      lw6sys_progress_default (&(tentacle_data2.progress),
+			       &(tentacle_data2.progress_value));
+      lw6sys_progress_begin (&(tentacle_data1.progress));
+      lw6sys_progress_begin (&(tentacle_data2.progress));
+
+      if (LW6SYS_TEST_ACK (thread1 && thread2))
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _x_ ("each tentacle running in its own thread"));
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("unable to start all threads"));
+	  ret = 0;
+	}
+
+      if (thread1)
+	{
+	  lw6sys_thread_join (thread1);
+	}
+      if (thread2)
+	{
+	  lw6sys_thread_join (thread2);
+	}
+    }
+
+  _lw6p2p_backends_clear_srv (&backends2);
+  _lw6p2p_backends_clear_cli (&backends2);
+  _lw6p2p_backends_clear_srv (&backends1);
+  _lw6p2p_backends_clear_cli (&backends1);
+  if (listener2)
+    {
+      lw6srv_stop (listener2);
+      listener2 = NULL;
+    }
+  if (listener1)
+    {
+      lw6srv_stop (listener1);
+      listener1 = NULL;
+    }
   ret = ret && tentacle_data1.ret && tentacle_data2.ret;
   if (LW6SYS_TEST_ACK (ret))
     {
