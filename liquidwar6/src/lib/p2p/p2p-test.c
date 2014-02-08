@@ -66,8 +66,14 @@
 #define _TEST_TENTACLE_DURATION_THREAD 10000
 #define _TEST_TENTACLE_BIND_IP1 "127.0.0.1"
 #define _TEST_TENTACLE_BIND_PORT1 8058
+#define _TEST_TENTACLE_URL1 "127.0.0.1:8058"
+#define _TEST_TENTACLE_ID1 0x1234123412341234LL
 #define _TEST_TENTACLE_BIND_IP2 "127.0.0.1"
 #define _TEST_TENTACLE_BIND_PORT2 8059
+#define _TEST_TENTACLE_URL2 "127.0.0.1:8059"
+#define _TEST_TENTACLE_ID2 0x2345234523452345LL
+#define _TEST_TENTACLE_PASSWORD "toto"
+#define _TEST_TENTACLE_NETWORK_RELIABILITY 10
 
 #define _TEST_PACKET_LOGICAL_TICKET_SIG_1 0x12341234
 #define _TEST_PACKET_PHYSICAL_TICKET_SIG_1 0x23452345
@@ -341,7 +347,9 @@ _test_entry ()
 
 typedef struct _test_tentacle_data_s
 {
-  _lw6p2p_tentacle_t *tentacle;
+  _lw6p2p_tentacle_t tentacle;
+  _lw6p2p_backends_t backends;
+  lw6srv_listener_t *listener;
   float progress_value;
   lw6sys_progress_t progress;
   int *done;
@@ -349,7 +357,29 @@ typedef struct _test_tentacle_data_s
 } _test_tentacle_data_t;
 
 static void
-_test_tentacle1_callback (void *tentacle_data)
+_test_tentacle1_recv_callback (void *recv_callback_data,
+			       lw6cnx_connection_p connection,
+			       u_int32_t physical_ticket_sig,
+			       u_int32_t logical_ticket_sig,
+			       u_int64_t logical_from_id,
+			       u_int64_t logical_to_id, const char *message)
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("tentacle1 received \"%s\""), message);
+}
+
+static void
+_test_tentacle2_recv_callback (void *recv_callback_data,
+			       lw6cnx_connection_p connection,
+			       u_int32_t physical_ticket_sig,
+			       u_int32_t logical_ticket_sig,
+			       u_int64_t logical_from_id,
+			       u_int64_t logical_to_id, const char *message)
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("tentacle2 received \"%s\""), message);
+}
+
+static void
+_test_tentacle1_thread_callback (void *tentacle_data)
 {
   _test_tentacle_data_t *data = (_test_tentacle_data_t *) tentacle_data;
   int64_t end_timestamp = 0LL;
@@ -358,27 +388,57 @@ _test_tentacle1_callback (void *tentacle_data)
 
   data->ret = 1;
 
-  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
+  if (_lw6p2p_tentacle_init
+      (&(data->tentacle), &(data->backends), data->listener,
+       _TEST_TENTACLE_URL1, _TEST_TENTACLE_URL2, _TEST_TENTACLE_BIND_IP2,
+       _TEST_TENTACLE_PASSWORD, _TEST_TENTACLE_ID1, _TEST_TENTACLE_ID2,
+       _TEST_TENTACLE_NETWORK_RELIABILITY, _test_tentacle1_recv_callback,
+       tentacle_data))
     {
-      lw6sys_idle ();
-      // todo...
+      while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
+	{
+	  lw6sys_idle ();
+	  // todo...
+	}
+
+      _lw6p2p_tentacle_clear (&(data->tentacle));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init tentacle1"));
+      data->ret = 0;
     }
 }
 
 static void
-_test_tentacle2_callback (void *tentacle_data)
+_test_tentacle2_thread_callback (void *tentacle_data)
 {
   _test_tentacle_data_t *data = (_test_tentacle_data_t *) tentacle_data;
   int64_t end_timestamp = 0LL;
 
   end_timestamp = lw6sys_get_timestamp () + _TEST_TENTACLE_DURATION_THREAD;
 
-  data->ret = 1;
+  data->ret = 2;
 
-  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
+  if (_lw6p2p_tentacle_init
+      (&(data->tentacle), &(data->backends), data->listener,
+       _TEST_TENTACLE_URL2, _TEST_TENTACLE_URL1, _TEST_TENTACLE_BIND_IP1,
+       _TEST_TENTACLE_PASSWORD, _TEST_TENTACLE_ID2, _TEST_TENTACLE_ID1,
+       _TEST_TENTACLE_NETWORK_RELIABILITY, _test_tentacle2_recv_callback,
+       tentacle_data))
     {
-      lw6sys_idle ();
-      // todo...
+      while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
+	{
+	  lw6sys_idle ();
+	  // todo...
+	}
+
+      _lw6p2p_tentacle_clear (&(data->tentacle));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init tentacle2"));
+      data->ret = 0;
     }
 }
 
@@ -386,16 +446,10 @@ static int
 _tentacle_with_backends (char *cli_backends, char *srv_backends)
 {
   int ret = 1;
-  _lw6p2p_tentacle_t *tentacle1 = NULL;
-  _lw6p2p_tentacle_t *tentacle2 = NULL;
   lw6sys_thread_handler_t *thread1 = NULL;
   lw6sys_thread_handler_t *thread2 = NULL;
   _test_tentacle_data_t tentacle_data1;
   _test_tentacle_data_t tentacle_data2;
-  _lw6p2p_backends_t backends1;
-  _lw6p2p_backends_t backends2;
-  lw6srv_listener_t *listener1 = NULL;
-  lw6srv_listener_t *listener2 = NULL;
   int done = 0;
   const int argc = _TEST_ARGC;
   const char *argv[] = { _TEST_ARGV0 };
@@ -406,25 +460,24 @@ _tentacle_with_backends (char *cli_backends, char *srv_backends)
 
   memset (&tentacle_data1, 0, sizeof (_test_tentacle_data_t));
   memset (&tentacle_data2, 0, sizeof (_test_tentacle_data_t));
-  memset (&backends1, 0, sizeof (_lw6p2p_backends_t));
-  memset (&backends2, 0, sizeof (_lw6p2p_backends_t));
 
   if (ret)
     {
-      listener1 =
+      tentacle_data1.listener =
 	lw6srv_start (_TEST_TENTACLE_BIND_IP1, _TEST_TENTACLE_BIND_PORT1);
-      if (LW6SYS_TEST_ACK (listener1))
+      if (LW6SYS_TEST_ACK (tentacle_data1.listener))
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_ ("listener1 listening on ip=%s port=%d"),
 		      _TEST_TENTACLE_BIND_IP1, _TEST_TENTACLE_BIND_PORT1);
 	  if (LW6SYS_TEST_ACK
 	      (_lw6p2p_backends_init_cli
-	       (argc, argv, &backends1, cli_backends)))
+	       (argc, argv, &(tentacle_data1.backends), cli_backends)))
 	    {
 	      if (LW6SYS_TEST_ACK
 		  (_lw6p2p_backends_init_srv
-		   (argc, argv, &backends1, srv_backends, listener1)))
+		   (argc, argv, &(tentacle_data1.backends), srv_backends,
+		    tentacle_data1.listener)))
 		{
 		}
 	      else
@@ -454,20 +507,21 @@ _tentacle_with_backends (char *cli_backends, char *srv_backends)
 
   if (ret)
     {
-      listener2 =
+      tentacle_data2.listener =
 	lw6srv_start (_TEST_TENTACLE_BIND_IP2, _TEST_TENTACLE_BIND_PORT2);
-      if (LW6SYS_TEST_ACK (listener2))
+      if (LW6SYS_TEST_ACK (tentacle_data2.listener))
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_ ("listener2 listening on ip=%s port=%d"),
 		      _TEST_TENTACLE_BIND_IP2, _TEST_TENTACLE_BIND_PORT2);
 	  if (LW6SYS_TEST_ACK
 	      (_lw6p2p_backends_init_cli
-	       (argc, argv, &backends2, cli_backends)))
+	       (argc, argv, &(tentacle_data2.backends), cli_backends)))
 	    {
 	      if (LW6SYS_TEST_ACK
 		  (_lw6p2p_backends_init_srv
-		   (argc, argv, &backends2, srv_backends, listener2)))
+		   (argc, argv, &(tentacle_data2.backends), srv_backends,
+		    tentacle_data2.listener)))
 		{
 		}
 	      else
@@ -498,14 +552,12 @@ _tentacle_with_backends (char *cli_backends, char *srv_backends)
   if (ret)
     {
       thread1 =
-	lw6sys_thread_create (_test_tentacle1_callback, NULL,
+	lw6sys_thread_create (_test_tentacle1_thread_callback, NULL,
 			      (void *) &tentacle_data1);
       thread2 =
-	lw6sys_thread_create (_test_tentacle2_callback, NULL,
+	lw6sys_thread_create (_test_tentacle2_thread_callback, NULL,
 			      (void *) &tentacle_data2);
 
-      tentacle_data1.tentacle = tentacle1;
-      tentacle_data2.tentacle = tentacle2;
       tentacle_data1.done = &done;
       tentacle_data2.done = &done;
 
@@ -538,19 +590,19 @@ _tentacle_with_backends (char *cli_backends, char *srv_backends)
 	}
     }
 
-  _lw6p2p_backends_clear_srv (&backends2);
-  _lw6p2p_backends_clear_cli (&backends2);
-  _lw6p2p_backends_clear_srv (&backends1);
-  _lw6p2p_backends_clear_cli (&backends1);
-  if (listener2)
+  _lw6p2p_backends_clear_srv (&(tentacle_data1.backends));
+  _lw6p2p_backends_clear_cli (&(tentacle_data1.backends));
+  _lw6p2p_backends_clear_srv (&(tentacle_data2.backends));
+  _lw6p2p_backends_clear_cli (&(tentacle_data2.backends));
+  if (tentacle_data1.listener)
     {
-      lw6srv_stop (listener2);
-      listener2 = NULL;
+      lw6srv_stop (tentacle_data1.listener);
+      tentacle_data1.listener = NULL;
     }
-  if (listener1)
+  if (tentacle_data2.listener)
     {
-      lw6srv_stop (listener1);
-      listener1 = NULL;
+      lw6srv_stop (tentacle_data2.listener);
+      tentacle_data2.listener = NULL;
     }
   ret = ret && tentacle_data1.ret && tentacle_data2.ret;
   if (LW6SYS_TEST_ACK (ret))
