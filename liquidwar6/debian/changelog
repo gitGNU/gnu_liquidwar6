@@ -1,4 +1,10 @@
-liquidwar6 (0.5.3682-0vendor) unstable; urgency=medium
+liquidwar6 (0.5.3683-0vendor) unstable; urgency=medium
+
+  * Bump version
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Wed, 26 Mar 2014 11:17:36 +0100
+
+liquidwar6 (0.4.3681-0vendor) unstable; urgency=medium
 
   * Release of 0.4.3681.
 

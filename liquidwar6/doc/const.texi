@@ -1,1 +1,1 @@
-@set LW6_CODENAME Hannibal
+@set LW6_CODENAME Goliath
