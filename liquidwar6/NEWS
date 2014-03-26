@@ -1,5 +1,8 @@
 Liquid War NEWS -- history of user-visible changes.
 
+* March 2014: release of 0.4.3680. Bug-fix release, network
+  connection works at a prototype stage.
+
 * January 2014: release of 0.2.3550. Features a new libcaca
   graphical backend hacked by Epitech students, also comes
   with a load of bugfixes.

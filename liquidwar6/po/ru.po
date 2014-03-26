@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2014-02-04 00:09+0100\n"
+"POT-Creation-Date: 2014-03-26 10:53+0100\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -35,7 +35,7 @@ msgstr "Идиот"
 msgid "Random"
 msgstr "Случайно"
 
-#: src/lib/cli/mod-http/mod-http-backend.c:194
+#: src/lib/cli/mod-http/mod-http-backend.c:208
 msgid "HTTP (Curl)"
 msgstr ""
 
@@ -43,7 +43,7 @@ msgstr ""
 msgid "can't initialize mod_http"
 msgstr "ошибка инициализации mod_http"
 
-#: src/lib/cli/mod-tcp/mod-tcp-backend.c:194
+#: src/lib/cli/mod-tcp/mod-tcp-backend.c:208
 msgid "TCP"
 msgstr ""
 
@@ -51,11 +51,11 @@ msgstr ""
 msgid "can't initialize mod_tcp"
 msgstr "ошибка инициализации mod_tcp"
 
-#: src/lib/cli/mod-udp/mod-udp-backend.c:194
+#: src/lib/cli/mod-udp/mod-udp-backend.c:208
 msgid "UDP"
 msgstr ""
 
-#: src/lib/cli/mod-udp/mod-udp-setup.c:68
+#: src/lib/cli/mod-udp/mod-udp-setup.c:69
 msgid "can't initialize mod_udp"
 msgstr "ошибка инициализации mod_udp"
 
@@ -586,7 +586,7 @@ msgstr ""
 msgid "No weapon"
 msgstr ""
 
-#: src/lib/p2p/p2p-data.c:124
+#: src/lib/p2p/p2p-data.c:122
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
 msgstr ""
@@ -620,7 +620,7 @@ msgstr "Звук"
 msgid "Ogg Vorbis"
 msgstr ""
 
-#: src/lib/srv/mod-httpd/mod-httpd-backend.c:256
+#: src/lib/srv/mod-httpd/mod-httpd-backend.c:270
 msgid "HTTPD"
 msgstr ""
 
@@ -628,7 +628,7 @@ msgstr ""
 msgid "can't initialize mod_httpd"
 msgstr "ошибка инициализации mod_httpd"
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:254
+#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:268
 msgid "TCPD"
 msgstr ""
 
@@ -636,7 +636,7 @@ msgstr ""
 msgid "can't initialize mod_tcpd"
 msgstr "ошибка инициализации mod_tcpd"
 
-#: src/lib/srv/mod-udpd/mod-udpd-backend.c:255
+#: src/lib/srv/mod-udpd/mod-udpd-backend.c:269
 msgid "UDPD"
 msgstr ""
 

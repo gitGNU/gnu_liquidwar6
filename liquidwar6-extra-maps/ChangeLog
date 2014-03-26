@@ -1,3 +1,172 @@
+2014-02-08  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/p2p/p2p-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Hacking p2p tentacle test
+
+2014-02-07  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/p2p/p2p-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Preparing p2p tentacle
+	test
+
+2014-02-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/p2p/p2p-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Introducing tentacle
+	dedicated test, yet to be written
+
+2014-02-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/doc/Makefile.gdoc,
+	liquidwar6/po/POTFILES.in,
+	liquidwar6/src/lib/cli/mod-tcp/mod-tcp-message.c,
+	liquidwar6/src/lib/cnx/Makefile.am,
+	liquidwar6/src/lib/cnx/cnx-backlog.c,
+	liquidwar6/src/lib/cnx/cnx-test.c, liquidwar6/src/lib/cnx/cnx.h,
+	liquidwar6/src/lib/dat/dat-internal.h,
+	liquidwar6/src/lib/dat/dat-stack.c,
+	liquidwar6/src/lib/p2p/p2p-tentacle.c,
+	liquidwar6/src/lib/p2p/p2p-test.c,
+	liquidwar6/src/lib/srv/mod-tcpd/mod-tcpd-message.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Revamping tcp and p2p
+	code, serious bug ahead
+
+2014-02-06  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/data/p2p/p2p-const.xml, liquidwar6/debian/changelog,
+	liquidwar6/src/lib/cli/cli-api.c, liquidwar6/src/lib/cli/cli.h,
+	liquidwar6/src/lib/cli/mod-http/mod-http-backend.c,
+	liquidwar6/src/lib/cli/mod-http/mod-http-internal.h,
+	liquidwar6/src/lib/cli/mod-http/mod-http-message.c,
+	liquidwar6/src/lib/cli/mod-tcp/mod-tcp-backend.c,
+	liquidwar6/src/lib/cli/mod-tcp/mod-tcp-internal.h,
+	liquidwar6/src/lib/cli/mod-tcp/mod-tcp-message.c,
+	liquidwar6/src/lib/cli/mod-tcp/mod-tcp-state.c,
+	liquidwar6/src/lib/cli/mod-udp/mod-udp-backend.c,
+	liquidwar6/src/lib/cli/mod-udp/mod-udp-info.c,
+	liquidwar6/src/lib/cli/mod-udp/mod-udp-internal.h,
+	liquidwar6/src/lib/cli/mod-udp/mod-udp-message.c,
+	liquidwar6/src/lib/cli/mod-udp/mod-udp-oob.c,
+	liquidwar6/src/lib/cli/mod-udp/mod-udp-setup.c,
+	liquidwar6/src/lib/cli/mod-udp/mod-udp-state.c,
+	liquidwar6/src/lib/cnx/cnx.h, liquidwar6/src/lib/p2p/p2p-data.c,
+	liquidwar6/src/lib/p2p/p2p-internal.h,
+	liquidwar6/src/lib/p2p/p2p-node.c,
+	liquidwar6/src/lib/p2p/p2p-tentacle.c,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-backend.c,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-internal.h,
+	liquidwar6/src/lib/srv/mod-httpd/mod-httpd-message.c,
+	liquidwar6/src/lib/srv/mod-tcpd/mod-tcpd-backend.c,
+	liquidwar6/src/lib/srv/mod-tcpd/mod-tcpd-internal.h,
+	liquidwar6/src/lib/srv/mod-tcpd/mod-tcpd-message.c,
+	liquidwar6/src/lib/srv/mod-tcpd/mod-tcpd-state.c,
+	liquidwar6/src/lib/srv/mod-udpd/mod-udpd-backend.c,
+	liquidwar6/src/lib/srv/mod-udpd/mod-udpd-internal.h,
+	liquidwar6/src/lib/srv/mod-udpd/mod-udpd-message.c,
+	liquidwar6/src/lib/srv/srv-api.c, liquidwar6/src/lib/srv/srv.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Partial patch, trying to
+	introduce can_send function in p2p api
+
+2014-02-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/bot/bot.h,
+	liquidwar6/src/lib/dsp/dsp-display.c,
+	liquidwar6/src/lib/dsp/dsp-internal.h,
+	liquidwar6/src/lib/dsp/dsp-param.c, liquidwar6/src/lib/dsp/dsp.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Yet more const usage, in
+	dsp and bot modules
+
+2014-02-04  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/po/fr.po,
+	liquidwar6/po/nn.po, liquidwar6/po/ru.po,
+	liquidwar6/src/lib/gui/gui-button.c,
+	liquidwar6/src/lib/gui/gui-input.c,
+	liquidwar6/src/lib/gui/gui-joystick.c,
+	liquidwar6/src/lib/gui/gui-keyboard.c,
+	liquidwar6/src/lib/gui/gui-keypress.c,
+	liquidwar6/src/lib/gui/gui-menu.c,
+	liquidwar6/src/lib/gui/gui-menuitem.c,
+	liquidwar6/src/lib/gui/gui-point.c,
+	liquidwar6/src/lib/gui/gui-quad.c,
+	liquidwar6/src/lib/gui/gui-rect.c,
+	liquidwar6/src/lib/gui/gui-rectarray.c,
+	liquidwar6/src/lib/gui/gui-segment.c,
+	liquidwar6/src/lib/gui/gui-smoother.c,
+	liquidwar6/src/lib/gui/gui-triangle.c,
+	liquidwar6/src/lib/gui/gui-videomode.c,
+	liquidwar6/src/lib/gui/gui.h, liquidwar6/src/lib/ker/ker-cursor.c,
+	liquidwar6/src/lib/ker/ker-gamestate.c,
+	liquidwar6/src/lib/ker/ker-history.c,
+	liquidwar6/src/lib/ker/ker-internal.h,
+	liquidwar6/src/lib/ker/ker-nodearray.c,
+	liquidwar6/src/lib/ker/ker.h, liquidwar6/src/lib/ldr/ldr-body.c,
+	liquidwar6/src/lib/ldr/ldr-color.c,
+	liquidwar6/src/lib/ldr/ldr-dir.c, liquidwar6/src/lib/ldr/ldr-exp.c,
+	liquidwar6/src/lib/ldr/ldr-grease.c,
+	liquidwar6/src/lib/ldr/ldr-hints.c,
+	liquidwar6/src/lib/ldr/ldr-layer.c,
+	liquidwar6/src/lib/ldr/ldr-resampler.c,
+	liquidwar6/src/lib/ldr/ldr-texture.c, liquidwar6/src/lib/ldr/ldr.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Yet more (hopefully
+	proper) const usage
+
+2014-02-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/p2p/p2p-db.c,
+	liquidwar6/src/lib/p2p/p2p-internal.h,
+	liquidwar6/src/lib/p2p/p2p.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Using const char when
+	opening p2p db file
+
+2014-02-02  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/ChangeLog,
+	liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/ChangeLog,
+	liquidwar6/configure.ac, liquidwar6/debian/changelog,
+	liquidwar6/po/fr.po, liquidwar6/po/nn.po, liquidwar6/po/ru.po,
+	liquidwar6/src/lib/gfx/mod-gl1/gl1-utils/gl1-utils.h,
+	liquidwar6/src/lib/ker/ker-armies.c,
+	liquidwar6/src/lib/ker/ker-cursor.c,
+	liquidwar6/src/lib/ker/ker-cursorarray.c,
+	liquidwar6/src/lib/ker/ker-gamestate.c,
+	liquidwar6/src/lib/ker/ker-gamestruct.c,
+	liquidwar6/src/lib/ker/ker-hexa.c,
+	liquidwar6/src/lib/ker/ker-internal.h,
+	liquidwar6/src/lib/ker/ker-mapstate.c,
+	liquidwar6/src/lib/ker/ker-mapstruct.c,
+	liquidwar6/src/lib/ker/ker-node.c,
+	liquidwar6/src/lib/ker/ker-nodearray.c,
+	liquidwar6/src/lib/ker/ker-team.c,
+	liquidwar6/src/lib/ker/ker-weapon.c, liquidwar6/src/lib/ker/ker.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Yet more const usage
+
 2014-02-02  Christian Mauduit <ufoot@ufoot.org>
 
 	* liquidwar6-extra-maps/configure.ac,
