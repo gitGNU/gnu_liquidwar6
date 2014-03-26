@@ -1,3 +1,15 @@
+2014-03-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/ChangeLog, liquidwar6-extra-maps/NEWS,
+	liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/ChangeLog,
+	liquidwar6/NEWS, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/doc/liquidwar6.texi,
+	liquidwar6/misc/git/update-ChangeLog.sh, liquidwar6/po/fr.po,
+	liquidwar6/po/nn.po, liquidwar6/po/ru.po,
+	liquidwar6/src/lib/sys/sys-build-stamp.h, liquidwar6/src/stamp.sh: 
+	Preparing release 0.4
+
 2014-02-08  Christian Mauduit <ufoot@ufoot.org>
 
 	* liquidwar6-extra-maps/configure.ac,
