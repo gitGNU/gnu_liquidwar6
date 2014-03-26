@@ -74,6 +74,7 @@
 #define _TEST_TENTACLE_ID2 0x2345234523452345LL
 #define _TEST_TENTACLE_PASSWORD "toto"
 #define _TEST_TENTACLE_NETWORK_RELIABILITY 10
+#define _TEST_TENTACLE_TICKET_TABLE_HASH_SIZE 13
 
 #define _TEST_PACKET_LOGICAL_TICKET_SIG_1 0x12341234
 #define _TEST_PACKET_PHYSICAL_TICKET_SIG_1 0x23452345
@@ -383,29 +384,41 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 {
   _test_tentacle_data_t *data = (_test_tentacle_data_t *) tentacle_data;
   int64_t end_timestamp = 0LL;
+  lw6cnx_ticket_table_t ticket_table;
 
   end_timestamp = lw6sys_get_timestamp () + _TEST_TENTACLE_DURATION_THREAD;
 
   data->ret = 1;
 
-  if (_lw6p2p_tentacle_init
-      (&(data->tentacle), &(data->backends), data->listener,
-       _TEST_TENTACLE_URL1, _TEST_TENTACLE_URL2, _TEST_TENTACLE_BIND_IP2,
-       _TEST_TENTACLE_PASSWORD, _TEST_TENTACLE_ID1, _TEST_TENTACLE_ID2,
-       _TEST_TENTACLE_NETWORK_RELIABILITY, _test_tentacle1_recv_callback,
-       tentacle_data))
+  lw6cnx_ticket_table_zero (&ticket_table);
+  if (lw6cnx_ticket_table_init
+      (&ticket_table, _TEST_TENTACLE_TICKET_TABLE_HASH_SIZE))
     {
-      while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
+      if (_lw6p2p_tentacle_init
+	  (&(data->tentacle), &(data->backends), data->listener,
+	   _TEST_TENTACLE_URL1, _TEST_TENTACLE_URL2, _TEST_TENTACLE_BIND_IP2,
+	   _TEST_TENTACLE_PASSWORD, _TEST_TENTACLE_ID1, _TEST_TENTACLE_ID2,
+	   _TEST_TENTACLE_NETWORK_RELIABILITY, _test_tentacle1_recv_callback,
+	   tentacle_data))
 	{
-	  lw6sys_idle ();
-	  // todo...
-	}
+	  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
+	    {
+	      lw6sys_idle ();
+	      // todo...
+	    }
 
-      _lw6p2p_tentacle_clear (&(data->tentacle));
+	  _lw6p2p_tentacle_clear (&(data->tentacle));
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init tentacle1"));
+	  data->ret = 0;
+	}
+      lw6cnx_ticket_table_clear (&ticket_table);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init tentacle1"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init ticket table 1"));
       data->ret = 0;
     }
 }
@@ -415,29 +428,41 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 {
   _test_tentacle_data_t *data = (_test_tentacle_data_t *) tentacle_data;
   int64_t end_timestamp = 0LL;
+  lw6cnx_ticket_table_t ticket_table;
 
   end_timestamp = lw6sys_get_timestamp () + _TEST_TENTACLE_DURATION_THREAD;
 
-  data->ret = 2;
+  data->ret = 1;
 
-  if (_lw6p2p_tentacle_init
-      (&(data->tentacle), &(data->backends), data->listener,
-       _TEST_TENTACLE_URL2, _TEST_TENTACLE_URL1, _TEST_TENTACLE_BIND_IP1,
-       _TEST_TENTACLE_PASSWORD, _TEST_TENTACLE_ID2, _TEST_TENTACLE_ID1,
-       _TEST_TENTACLE_NETWORK_RELIABILITY, _test_tentacle2_recv_callback,
-       tentacle_data))
+  lw6cnx_ticket_table_zero (&ticket_table);
+  if (lw6cnx_ticket_table_init
+      (&ticket_table, _TEST_TENTACLE_TICKET_TABLE_HASH_SIZE))
     {
-      while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
+      if (_lw6p2p_tentacle_init
+	  (&(data->tentacle), &(data->backends), data->listener,
+	   _TEST_TENTACLE_URL2, _TEST_TENTACLE_URL1, _TEST_TENTACLE_BIND_IP1,
+	   _TEST_TENTACLE_PASSWORD, _TEST_TENTACLE_ID2, _TEST_TENTACLE_ID1,
+	   _TEST_TENTACLE_NETWORK_RELIABILITY, _test_tentacle2_recv_callback,
+	   tentacle_data))
 	{
-	  lw6sys_idle ();
-	  // todo...
-	}
+	  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
+	    {
+	      lw6sys_idle ();
+	      // todo...
+	    }
 
-      _lw6p2p_tentacle_clear (&(data->tentacle));
+	  _lw6p2p_tentacle_clear (&(data->tentacle));
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init tentacle2"));
+	  data->ret = 0;
+	}
+      lw6cnx_ticket_table_clear (&ticket_table);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init tentacle2"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init ticket table 2"));
       data->ret = 0;
     }
 }
