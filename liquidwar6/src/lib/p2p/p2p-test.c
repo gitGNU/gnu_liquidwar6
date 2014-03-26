@@ -68,13 +68,18 @@
 #define _TEST_TENTACLE_BIND_PORT1 8058
 #define _TEST_TENTACLE_URL1 "127.0.0.1:8058"
 #define _TEST_TENTACLE_ID1 0x1234123412341234LL
+#define _TEST_TENTACLE_ID1_STR "1234123412341234"
 #define _TEST_TENTACLE_BIND_IP2 "127.0.0.1"
 #define _TEST_TENTACLE_BIND_PORT2 8059
 #define _TEST_TENTACLE_URL2 "127.0.0.1:8059"
 #define _TEST_TENTACLE_ID2 0x2345234523452345LL
+#define _TEST_TENTACLE_ID2_STR "2345234523452345"
 #define _TEST_TENTACLE_PASSWORD "toto"
 #define _TEST_TENTACLE_NETWORK_RELIABILITY 10
 #define _TEST_TENTACLE_TICKET_TABLE_HASH_SIZE 13
+#define _TEST_TENTACLE_SEND_BEST_RELIABLE_STR "best reliable message"
+#define _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR "best unreliable message"
+#define _TEST_TENTACLE_SEND_REDUNDANT_STR "redundant message"
 
 #define _TEST_PACKET_LOGICAL_TICKET_SIG_1 0x12341234
 #define _TEST_PACKET_PHYSICAL_TICKET_SIG_1 0x23452345
@@ -385,6 +390,7 @@ _test_tentacle1_thread_callback (void *tentacle_data)
   _test_tentacle_data_t *data = (_test_tentacle_data_t *) tentacle_data;
   int64_t end_timestamp = 0LL;
   lw6cnx_ticket_table_t ticket_table;
+  u_int32_t logical_ticket_sig = 0;
 
   end_timestamp = lw6sys_get_timestamp () + _TEST_TENTACLE_DURATION_THREAD;
 
@@ -404,6 +410,53 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 	  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
 	    {
 	      lw6sys_idle ();
+	      logical_ticket_sig =
+		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+					(&ticket_table,
+					 _TEST_TENTACLE_ID2_STR),
+					_TEST_TENTACLE_ID1,
+					_TEST_TENTACLE_ID2,
+					_TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR);
+	      data->ret =
+		_lw6p2p_tentacle_send_best (&(data->tentacle),
+					    lw6sys_get_timestamp (),
+					    &ticket_table, logical_ticket_sig,
+					    _TEST_TENTACLE_ID1,
+					    _TEST_TENTACLE_ID2,
+					    _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR,
+					    0) && data->ret;
+	      logical_ticket_sig =
+		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+					(&ticket_table,
+					 _TEST_TENTACLE_ID2_STR),
+					_TEST_TENTACLE_ID1,
+					_TEST_TENTACLE_ID2,
+					_TEST_TENTACLE_SEND_BEST_RELIABLE_STR);
+	      data->ret =
+		_lw6p2p_tentacle_send_best (&(data->tentacle),
+					    lw6sys_get_timestamp (),
+					    &ticket_table, logical_ticket_sig,
+					    _TEST_TENTACLE_ID1,
+					    _TEST_TENTACLE_ID2,
+					    _TEST_TENTACLE_SEND_BEST_RELIABLE_STR,
+					    1) && data->ret;
+	      logical_ticket_sig =
+		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+					(&ticket_table,
+					 _TEST_TENTACLE_ID2_STR),
+					_TEST_TENTACLE_ID1,
+					_TEST_TENTACLE_ID2,
+					_TEST_TENTACLE_SEND_REDUNDANT_STR);
+	      data->ret =
+		_lw6p2p_tentacle_send_redundant (&(data->tentacle),
+						 lw6sys_get_timestamp (),
+						 &ticket_table,
+						 logical_ticket_sig,
+						 _TEST_TENTACLE_ID1,
+						 _TEST_TENTACLE_ID2,
+						 _TEST_TENTACLE_SEND_REDUNDANT_STR)
+		&& data->ret;
+	      _lw6p2p_tentacle_poll_queues (&data->tentacle, &ticket_table);
 	      // todo...
 	    }
 
@@ -429,6 +482,7 @@ _test_tentacle2_thread_callback (void *tentacle_data)
   _test_tentacle_data_t *data = (_test_tentacle_data_t *) tentacle_data;
   int64_t end_timestamp = 0LL;
   lw6cnx_ticket_table_t ticket_table;
+  u_int32_t logical_ticket_sig = 0;
 
   end_timestamp = lw6sys_get_timestamp () + _TEST_TENTACLE_DURATION_THREAD;
 
@@ -448,6 +502,53 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 	  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
 	    {
 	      lw6sys_idle ();
+	      logical_ticket_sig =
+		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+					(&ticket_table,
+					 _TEST_TENTACLE_ID1_STR),
+					_TEST_TENTACLE_ID2,
+					_TEST_TENTACLE_ID1,
+					_TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR);
+	      data->ret =
+		_lw6p2p_tentacle_send_best (&(data->tentacle),
+					    lw6sys_get_timestamp (),
+					    &ticket_table, logical_ticket_sig,
+					    _TEST_TENTACLE_ID2,
+					    _TEST_TENTACLE_ID1,
+					    _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR,
+					    0) && data->ret;
+	      logical_ticket_sig =
+		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+					(&ticket_table,
+					 _TEST_TENTACLE_ID1_STR),
+					_TEST_TENTACLE_ID2,
+					_TEST_TENTACLE_ID1,
+					_TEST_TENTACLE_SEND_BEST_RELIABLE_STR);
+	      data->ret =
+		_lw6p2p_tentacle_send_best (&(data->tentacle),
+					    lw6sys_get_timestamp (),
+					    &ticket_table, logical_ticket_sig,
+					    _TEST_TENTACLE_ID2,
+					    _TEST_TENTACLE_ID1,
+					    _TEST_TENTACLE_SEND_BEST_RELIABLE_STR,
+					    1) && data->ret;
+	      logical_ticket_sig =
+		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+					(&ticket_table,
+					 _TEST_TENTACLE_ID1_STR),
+					_TEST_TENTACLE_ID2,
+					_TEST_TENTACLE_ID1,
+					_TEST_TENTACLE_SEND_REDUNDANT_STR);
+	      data->ret =
+		_lw6p2p_tentacle_send_redundant (&(data->tentacle),
+						 lw6sys_get_timestamp (),
+						 &ticket_table,
+						 logical_ticket_sig,
+						 _TEST_TENTACLE_ID2,
+						 _TEST_TENTACLE_ID1,
+						 _TEST_TENTACLE_SEND_REDUNDANT_STR)
+		&& data->ret;
+	      _lw6p2p_tentacle_poll_queues (&data->tentacle, &ticket_table);
 	      // todo...
 	    }
 

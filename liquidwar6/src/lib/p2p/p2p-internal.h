@@ -494,6 +494,15 @@ extern int _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				  void *recv_callback_data);
 extern void _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle);
 extern int _lw6p2p_tentacle_enabled (_lw6p2p_tentacle_t * tentacle);
+extern void _lw6p2p_tentacle_poll_protocol (_lw6p2p_tentacle_t * tentacle,
+					    lw6nod_info_t * node_info,
+					    lw6cnx_ticket_table_t *
+					    ticket_table,
+					    const _lw6p2p_consts_t * consts,
+					    int serial);
+extern void _lw6p2p_tentacle_poll_queues (_lw6p2p_tentacle_t * tentacle,
+					  lw6cnx_ticket_table_t *
+					  ticket_table);
 extern void _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 				   lw6nod_info_t * node_info,
 				   lw6cnx_ticket_table_t * ticket_table,
@@ -515,12 +524,11 @@ extern int _lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
 					    u_int64_t logical_to_id,
 					    const char *msg);
 extern lw6cnx_connection_t
-  * _lw6p2p_tentacle_find_connection_with_foo_bar_key (_lw6p2p_tentacle_t *
-						       tentacle,
-						       u_int32_t foo_bar_key);
+  *_lw6p2p_tentacle_find_connection_with_foo_bar_key (_lw6p2p_tentacle_t *
+						      tentacle,
+						      u_int32_t foo_bar_key);
 extern lw6cnx_connection_t
-  * _lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t *
-						       tentacle,
-						       int reliable);
+  *_lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t *
+						      tentacle, int reliable);
 
 #endif // LIQUIDWAR6P2P_INTERNAL_H

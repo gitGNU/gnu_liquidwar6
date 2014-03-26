@@ -425,25 +425,18 @@ _send_best_filter (void *func_data, void *data)
 }
 
 void
-_lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
-		       lw6nod_info_t * node_info,
-		       lw6cnx_ticket_table_t * ticket_table,
-		       const _lw6p2p_consts_t * consts, int serial)
+_lw6p2p_tentacle_poll_protocol (_lw6p2p_tentacle_t * tentacle,
+				lw6nod_info_t * node_info,
+				lw6cnx_ticket_table_t * ticket_table,
+				const _lw6p2p_consts_t * consts, int serial)
 {
-  int i;
-  char *msg;
-  int64_t now;
+  int i = 0;
+  char *msg = NULL;
+  int64_t now = 0LL;
   lw6cnx_connection_t *cnx = NULL;
   u_int32_t ticket_sig = 0;
-  _send_best_data_t send_best_data;
 
-  /*
-   * IMPORTANT -> this function is called in unlock mode, it can
-   * be in conflict with code from the recv callback. Normally this
-   * should not be a problem.
-   */
   now = lw6sys_get_timestamp ();
-  memset (&send_best_data, 0, sizeof (_send_best_data_t));
 
   if (!tentacle->hello_sent)
     {
@@ -468,6 +461,7 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	  LW6SYS_FREE (msg);
 	}
     }
+
   for (i = 0; i < tentacle->nb_cli_connections; ++i)
     {
       cnx = tentacle->cli_connections[i];
@@ -513,8 +507,8 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 		}
 	    }
 	}
-      lw6cli_poll (tentacle->backends->cli_backends[i], cnx);
     }
+
   for (i = 0; i < tentacle->nb_srv_connections; ++i)
     {
       cnx = tentacle->srv_connections[i];
@@ -560,6 +554,30 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 		}
 	    }
 	}
+    }
+}
+
+void
+_lw6p2p_tentacle_poll_queues (_lw6p2p_tentacle_t * tentacle,
+			      lw6cnx_ticket_table_t * ticket_table)
+{
+  int i = 0;
+  int64_t now = 0LL;
+  lw6cnx_connection_t *cnx = NULL;
+  _send_best_data_t send_best_data;
+
+  memset (&send_best_data, 0, sizeof (_send_best_data_t));
+  now = lw6sys_get_timestamp ();
+
+  for (i = 0; i < tentacle->nb_cli_connections; ++i)
+    {
+      cnx = tentacle->cli_connections[i];
+      lw6cli_poll (tentacle->backends->cli_backends[i], cnx);
+    }
+
+  for (i = 0; i < tentacle->nb_srv_connections; ++i)
+    {
+      cnx = tentacle->srv_connections[i];
       lw6srv_poll (tentacle->backends->srv_backends[i], cnx);
     }
 
@@ -624,6 +642,23 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
     }
 }
 
+void
+_lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
+		       lw6nod_info_t * node_info,
+		       lw6cnx_ticket_table_t * ticket_table,
+		       const _lw6p2p_consts_t * consts, int serial)
+{
+  /*
+   * IMPORTANT -> this function is called in unlock mode, it can
+   * be in conflict with code from the recv callback. Normally this
+   * should not be a problem.
+   */
+  _lw6p2p_tentacle_poll_protocol (tentacle, node_info, ticket_table, consts,
+				  serial);
+  _lw6p2p_tentacle_poll_queues (tentacle, ticket_table);
+}
+
+
 int
 _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 			    int64_t now,
@@ -669,6 +704,7 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 	       * many atoms so order is irrelevant.
 	       */
 	      lw6sys_lifo_push (&(tentacle->unsent_reliable_queue), packet);
+	      ret = 1;
 	    }
 	}
     }
@@ -697,6 +733,14 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 	   * many atoms so order is irrelevant.
 	   */
 	  lw6sys_lifo_push (&(tentacle->unsent_unreliable_queue), packet);
+	  if (!reliable)
+	    {
+	      /*
+	       * If sending in reliable mode, ret should have been
+	       * set before in the reliable section.
+	       */
+	      ret = 1;
+	    }
 	}
     }
 
