@@ -417,14 +417,12 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 					_TEST_TENTACLE_ID1,
 					_TEST_TENTACLE_ID2,
 					_TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR);
-	      if (_lw6p2p_tentacle_send_best (&(data->tentacle),
-					      lw6sys_get_timestamp (),
-					      &ticket_table,
-					      logical_ticket_sig,
-					      _TEST_TENTACLE_ID1,
-					      _TEST_TENTACLE_ID2,
-					      _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR,
-					      0))
+	      if (LW6SYS_TEST_ACK
+		  (_lw6p2p_tentacle_send_best
+		   (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
+		    logical_ticket_sig, _TEST_TENTACLE_ID1,
+		    _TEST_TENTACLE_ID2,
+		    _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR, 0)))
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_
@@ -446,14 +444,12 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 					_TEST_TENTACLE_ID1,
 					_TEST_TENTACLE_ID2,
 					_TEST_TENTACLE_SEND_BEST_RELIABLE_STR);
-	      if (_lw6p2p_tentacle_send_best (&(data->tentacle),
-					      lw6sys_get_timestamp (),
-					      &ticket_table,
-					      logical_ticket_sig,
-					      _TEST_TENTACLE_ID1,
-					      _TEST_TENTACLE_ID2,
-					      _TEST_TENTACLE_SEND_BEST_RELIABLE_STR,
-					      1))
+	      if (LW6SYS_TEST_ACK
+		  (_lw6p2p_tentacle_send_best
+		   (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
+		    logical_ticket_sig, _TEST_TENTACLE_ID1,
+		    _TEST_TENTACLE_ID2, _TEST_TENTACLE_SEND_BEST_RELIABLE_STR,
+		    1)))
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("tentacle 1 sent \"%s\" (best reliable)"),
@@ -474,13 +470,11 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 					_TEST_TENTACLE_ID1,
 					_TEST_TENTACLE_ID2,
 					_TEST_TENTACLE_SEND_REDUNDANT_STR);
-	      if (_lw6p2p_tentacle_send_redundant (&(data->tentacle),
-						   lw6sys_get_timestamp (),
-						   &ticket_table,
-						   logical_ticket_sig,
-						   _TEST_TENTACLE_ID1,
-						   _TEST_TENTACLE_ID2,
-						   _TEST_TENTACLE_SEND_REDUNDANT_STR))
+	      if (LW6SYS_TEST_ACK
+		  (_lw6p2p_tentacle_send_redundant
+		   (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
+		    logical_ticket_sig, _TEST_TENTACLE_ID1,
+		    _TEST_TENTACLE_ID2, _TEST_TENTACLE_SEND_REDUNDANT_STR)))
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("tentacle 1 sent \"%s\" (redundant)"),
@@ -547,14 +541,12 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 					_TEST_TENTACLE_ID2,
 					_TEST_TENTACLE_ID1,
 					_TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR);
-	      if (_lw6p2p_tentacle_send_best (&(data->tentacle),
-					      lw6sys_get_timestamp (),
-					      &ticket_table,
-					      logical_ticket_sig,
-					      _TEST_TENTACLE_ID2,
-					      _TEST_TENTACLE_ID1,
-					      _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR,
-					      0))
+	      if (LW6SYS_TEST_ACK
+		  (_lw6p2p_tentacle_send_best
+		   (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
+		    logical_ticket_sig, _TEST_TENTACLE_ID2,
+		    _TEST_TENTACLE_ID1,
+		    _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR, 0)))
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_
@@ -576,14 +568,12 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 					_TEST_TENTACLE_ID2,
 					_TEST_TENTACLE_ID1,
 					_TEST_TENTACLE_SEND_BEST_RELIABLE_STR);
-	      if (_lw6p2p_tentacle_send_best (&(data->tentacle),
-					      lw6sys_get_timestamp (),
-					      &ticket_table,
-					      logical_ticket_sig,
-					      _TEST_TENTACLE_ID2,
-					      _TEST_TENTACLE_ID1,
-					      _TEST_TENTACLE_SEND_BEST_RELIABLE_STR,
-					      1))
+	      if (LW6SYS_TEST_ACK
+		  (_lw6p2p_tentacle_send_best
+		   (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
+		    logical_ticket_sig, _TEST_TENTACLE_ID2,
+		    _TEST_TENTACLE_ID1, _TEST_TENTACLE_SEND_BEST_RELIABLE_STR,
+		    1)))
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("tentacle 2 sent \"%s\" (best reliable)"),
@@ -604,13 +594,11 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 					_TEST_TENTACLE_ID2,
 					_TEST_TENTACLE_ID1,
 					_TEST_TENTACLE_SEND_REDUNDANT_STR);
-	      if (_lw6p2p_tentacle_send_redundant (&(data->tentacle),
-						   lw6sys_get_timestamp (),
-						   &ticket_table,
-						   logical_ticket_sig,
-						   _TEST_TENTACLE_ID2,
-						   _TEST_TENTACLE_ID1,
-						   _TEST_TENTACLE_SEND_REDUNDANT_STR))
+	      if (LW6SYS_TEST_ACK
+		  (_lw6p2p_tentacle_send_redundant
+		   (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
+		    logical_ticket_sig, _TEST_TENTACLE_ID2,
+		    _TEST_TENTACLE_ID1, _TEST_TENTACLE_SEND_REDUNDANT_STR)))
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("tentacle 2 sent \"%s\" (redundant)"),
@@ -2070,8 +2058,9 @@ _test_node_api_node4_callback (void *api_data)
    * This node acts as a client.
    */
   lw6sys_delay (_TEST_NODE_API_DURATION_JOIN);
-  if (lw6p2p_node_client_join
-      (data->node, data->peer_id, _TEST_NODE_PUBLIC_URL2, &(data->progress)))
+  if (LW6SYS_TEST_ACK (lw6p2p_node_client_join
+		       (data->node, data->peer_id, _TEST_NODE_PUBLIC_URL2,
+			&(data->progress))))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("\"%s\" joined \"%s\""),
 		  ((_lw6p2p_node_t *) data->node)->public_url,
@@ -2152,9 +2141,11 @@ _test_node_api_node4_callback (void *api_data)
        * We don't test the draft received value for its exact value since
        * some extra NOP messages might have been sent
        */
-      if (reference_received == _TEST_NODE_API_NODE4_REFERENCE_RECEIVED &&
-	  long_draft_received == _TEST_NODE_API_NODE4_LONG_DRAFT_RECEIVED &&
-	  short_draft_received >= _TEST_NODE_API_NODE4_LONG_DRAFT_RECEIVED)
+      if (LW6SYS_TEST_ACK
+	  (reference_received == _TEST_NODE_API_NODE4_REFERENCE_RECEIVED
+	   && long_draft_received == _TEST_NODE_API_NODE4_LONG_DRAFT_RECEIVED
+	   && short_draft_received >=
+	   _TEST_NODE_API_NODE4_LONG_DRAFT_RECEIVED))
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _x_
