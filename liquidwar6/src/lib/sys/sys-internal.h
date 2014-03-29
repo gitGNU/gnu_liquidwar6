@@ -52,7 +52,9 @@
 #define _LW6SYS_TICKS_LIMIT 900000
 
 #define _LW6SYS_PTHREAD_COND_TIMEDWAIT_SEC 0
-#define _LW6SYS_PTHREAD_COND_TIMEDWAIT_NSEC 1000000000
+#define _LW6SYS_PTHREAD_COND_TIMEDWAIT_NSEC 10000000
+#define _LW6SYS_VTHREAD_COND_TIMEDWAIT_SEC 0
+#define _LW6SYS_VTHREAD_COND_TIMEDWAIT_NSEC 100000000
 #define _LW6SYS_VTHREAD_ID -1
 
 typedef struct _lw6sys_bazooka_s
@@ -110,6 +112,7 @@ typedef struct _lw6sys_global_s
 {
   int debug;
   int log_level;
+  int log_backtrace_mode;
   int quit;
 } _lw6sys_global_t;
 

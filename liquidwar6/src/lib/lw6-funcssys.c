@@ -1349,6 +1349,40 @@ _scm_lw6sys_log_set_level (SCM level)
   return SCM_UNDEFINED;
 }
 
+static SCM
+_scm_lw6sys_log_get_backtrace_mode ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  ret = scm_from_int (lw6sys_log_get_backtrace_mode ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6sys_log_set_backtrace_mode (SCM backtrace_mode)
+{
+  int c_backtrace_mode;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+
+  SCM_ASSERT (scm_is_integer (backtrace_mode), backtrace_mode, SCM_ARG1,
+	      __FUNCTION__);
+
+  c_backtrace_mode = scm_to_int (backtrace_mode);
+  lw6sys_log_set_backtrace_mode (c_backtrace_mode);
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return SCM_UNDEFINED;
+}
+
 /*
  * In mem.c
  */
@@ -2545,6 +2579,12 @@ lw6_register_funcs_sys ()
   ret = ret
     && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_LEVEL, 1, 0, 0,
 			      (SCM (*)())_scm_lw6sys_log_set_level);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_GET_BACKTRACE_MODE, 0, 0, 0,
+			      (SCM (*)())_scm_lw6sys_log_get_backtrace_mode);
+  ret = ret
+    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_BACKTRACE_MODE, 1, 0, 0,
+			      (SCM (*)())_scm_lw6sys_log_set_backtrace_mode);
   /*
    * in mem.c
    */

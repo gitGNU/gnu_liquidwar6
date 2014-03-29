@@ -54,6 +54,7 @@
 
 #define _CRITICAL_FILE "sys-log.c"
 #define _CRITICAL_LINE __LINE__
+#define _CRITICAL_FUNC "?"
 
 #define _STATIC_LOG_FILENAME_SIZE 65536
 static char _static_log_filename[_STATIC_LOG_FILENAME_SIZE + 1] = { 0 };
@@ -608,7 +609,7 @@ _open_log_file ()
 
 static void
 _log_to_file (FILE * f, int level_id, const char *level_str, const char *file,
-	      int line, const char *fmt, va_list ap)
+	      int line, const char *func, const char *fmt, va_list ap)
 {
   time_t t_now;
   struct tm tm_now;
@@ -617,10 +618,21 @@ _log_to_file (FILE * f, int level_id, const char *level_str, const char *file,
   char *bt = NULL;
   int free_bt = 0;
 
-  bt = lw6sys_backtrace (1, 0);
-  if (bt)
+  switch (_lw6sys_global.log_backtrace_mode)
     {
-      free_bt = 1;
+    case LW6SYS_LOG_BACKTRACE_MODE_FUNC:
+      bt = (char *) func;
+      break;
+    case LW6SYS_LOG_BACKTRACE_MODE_FULL:
+      bt = lw6sys_backtrace (1, 0);
+      if (bt)
+	{
+	  free_bt = 1;
+	}
+      break;
+    default:
+      bt = _CRITICAL_FUNC;
+      break;
     }
 
   memset (&t_now, 0, sizeof (time_t));
@@ -717,7 +729,7 @@ _gtk_dlg_timeout_callback (void *data)
  */
 void
 _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
-		      const char *fmt, va_list ap)
+		      const char *func, const char *fmt, va_list ap)
 {
   char message_raw[_MSGBOX_BUF_LENGTH + 1];
   char message_full[_MSGBOX_BUF_LENGTH + 1];
@@ -726,20 +738,31 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
 
   _lw6sys_buf_vsnprintf (message_raw, _MSGBOX_BUF_LENGTH, fmt, ap);
   lw6sys_str_reformat_this (message_raw, _MSGBOX_WIDTH);
-  bt = lw6sys_backtrace (2, 1);	// skip this function & caller
-  if (bt)
+
+  switch (_lw6sys_global.log_backtrace_mode)
     {
-      lw6sys_str_truncate_middle (bt, _MSGBOX_BT_LENGTH, _MSGBOX_BT_MIDDLE);
-      lw6sys_str_reformat_this (bt, _MSGBOX_WIDTH);
-      free_bt = 1;
+    case LW6SYS_LOG_BACKTRACE_MODE_FUNC:
+      bt = (char *) func;
+      break;
+    case LW6SYS_LOG_BACKTRACE_MODE_FULL:
+      bt = lw6sys_backtrace (2, 1);	// skip this function & caller
+      if (bt)
+	{
+	  lw6sys_str_truncate_middle (bt, _MSGBOX_BT_LENGTH,
+				      _MSGBOX_BT_MIDDLE);
+	  lw6sys_str_reformat_this (bt, _MSGBOX_WIDTH);
+	  free_bt = 1;
+	}
+      break;
+    default:
+      bt = _CRITICAL_FUNC;
+      break;
     }
-  else
-    {
-      bt = "";
-    }
+
   lw6sys_buf_sprintf (message_full, _MSGBOX_BUF_LENGTH,
 		      "%s (%s:%d)\n\n%s\n\n%s: %s\n\n%s: %s", level_str, file,
-		      line, message_raw, _("Backtrace"), bt, _("Report bugs"),
+		      line, message_raw, _("Backtrace"),
+		      lw6sys_str_empty_if_null (bt), _("Report bugs"),
 		      lw6sys_build_get_bugs_url ());
   if (free_bt)
     {
@@ -862,6 +885,7 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
  *   one can use __FILE__
  * @line: the line in the source file where the function is called,
  *   one can use __LINE__
+ * @func: the name of the function where this log line was called
  * @fmt: a printf-like format string
  * @...: printf-like arguments, corresponding to @fmt.
  *
@@ -877,7 +901,8 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
  * @Return value: void
  */
 void
-lw6sys_log (int level_id, const char *file, int line, const char *fmt, ...)
+lw6sys_log (int level_id, const char *file, int line, const char *func,
+	    const char *fmt, ...)
 {
 #ifdef LW6_OPTIMIZE
   if ((level_id <= LW6SYS_LOG_NOTICE_ID
@@ -999,15 +1024,16 @@ lw6sys_log (int level_id, const char *file, int line, const char *fmt, ...)
 	  if (f)
 	    {
 	      va_copy (ap2, ap);
-	      _log_to_file (f, level_id, level_str, file_only, line, fmt,
-			    ap2);
+	      _log_to_file (f, level_id, level_str, file_only, line, func,
+			    fmt, ap2);
 	      va_end (ap2);
 	      fclose (f);
 	    }
 	  if (level_id <= LW6SYS_LOG_ERROR_ID)
 	    {
 	      va_copy (ap2, ap);
-	      _lw6sys_msgbox_alert (level_str, file_only, line, fmt, ap2);
+	      _lw6sys_msgbox_alert (level_str, file_only, line, func, fmt,
+				    ap2);
 	      va_end (ap2);
 	    }
 	}
@@ -1050,8 +1076,8 @@ lw6sys_log_critical (const char *fmt, ...)
   va_end (ap2);
 
   va_copy (ap2, ap);
-  _lw6sys_msgbox_alert (_("CRITICAL!"), _CRITICAL_FILE, _CRITICAL_LINE, fmt,
-			ap2);
+  _lw6sys_msgbox_alert (_("CRITICAL!"), _CRITICAL_FILE, _CRITICAL_LINE,
+			_CRITICAL_FUNC, fmt, ap2);
   va_end (ap2);
 
   exit (LW6SYS_EXIT_CRITICAL);
@@ -1084,6 +1110,40 @@ lw6sys_log_set_level (int level)
   level = lw6sys_imax (level, LW6SYS_LOG_ERROR_ID);
 
   _lw6sys_global.log_level = level;
+}
+
+/**
+ * lw6sys_log_get_backtrace_mode
+ *
+ * Gets the current backtrace mode.
+ *
+ * @Return value: the backtrace mode, LW6SYS_LOG_BACKTRACE_MODE_FULL or
+ * LW6SYS_LOG_BACKTRACE_MODE_FUNC.
+ */
+int
+lw6sys_log_get_backtrace_mode ()
+{
+  return _lw6sys_global.log_backtrace_mode;
+}
+
+/**
+ * lw6sys_log_set_backtrace_mode
+ *
+ * Sets the current backtrace mode.
+ *
+ * @backtrace_mode: the backtrace mode, LW6SYS_LOG_BACKTRACE_MODE_FULL or
+ * LW6SYS_LOG_BACKTRACE_MODE_FUNC.
+ *
+ * Return value : none
+ */
+void
+lw6sys_log_set_backtrace_mode (int backtrace_mode)
+{
+  backtrace_mode =
+    backtrace_mode ? LW6SYS_LOG_BACKTRACE_MODE_FULL :
+    LW6SYS_LOG_BACKTRACE_MODE_FUNC;
+
+  _lw6sys_global.log_backtrace_mode = backtrace_mode;
 }
 
 /**

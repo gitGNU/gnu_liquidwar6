@@ -556,14 +556,23 @@ extern lw6sys_color_hsv_t LW6SYS_COLOR_HSV_BLUE;
 #define LW6SYS_LOG_INFO_ID 3
 #define LW6SYS_LOG_DEBUG_ID 4
 #define LW6SYS_LOG_TMP_ID 5
-#define LW6SYS_LOG_ERROR LW6SYS_LOG_ERROR_ID, __FILE__, __LINE__
-#define LW6SYS_LOG_WARNING LW6SYS_LOG_WARNING_ID, __FILE__, __LINE__
-#define LW6SYS_LOG_NOTICE LW6SYS_LOG_NOTICE_ID, __FILE__, __LINE__
-#define LW6SYS_LOG_INFO LW6SYS_LOG_INFO_ID, __FILE__, __LINE__
-#define LW6SYS_LOG_DEBUG LW6SYS_LOG_DEBUG_ID, __FILE__, __LINE__
-#define LW6SYS_LOG_TMP LW6SYS_LOG_TMP_ID, __FILE__, __LINE__
+#define LW6SYS_LOG_ERROR LW6SYS_LOG_ERROR_ID, __FILE__, __LINE__,__FUNCTION__
+#define LW6SYS_LOG_WARNING LW6SYS_LOG_WARNING_ID, __FILE__, __LINE__,__FUNCTION__
+#define LW6SYS_LOG_NOTICE LW6SYS_LOG_NOTICE_ID, __FILE__, __LINE__,__FUNCTION__
+#define LW6SYS_LOG_INFO LW6SYS_LOG_INFO_ID, __FILE__, __LINE__,__FUNCTION__
+#define LW6SYS_LOG_DEBUG LW6SYS_LOG_DEBUG_ID, __FILE__, __LINE__,__FUNCTION__
+#define LW6SYS_LOG_TMP LW6SYS_LOG_TMP_ID, __FILE__, __LINE__,__FUNCTION__
 
 #define LW6SYS_LOG_DEFAULT_ID LW6SYS_LOG_INFO_ID
+
+/*
+ * Backtrace modes, to control what is displayed
+ * in the logs in the "where was this called column".
+ */
+// default mode, logs the function name only
+#define LW6SYS_LOG_BACKTRACE_MODE_FUNC 0
+// enhanced (slower) mode, logs the full run-time call stack
+#define LW6SYS_LOG_BACKTRACE_MODE_FULL 1
 
 /*
  * macro TMP defined for quick-debugging / trace
@@ -1065,12 +1074,14 @@ extern void lw6sys_log_set_file (const char *filename);
 extern int lw6sys_log_set_dialog_timeout (int timeout_sec);
 extern void lw6sys_log_clear (const char *filename);
 extern void lw6sys_log (int level_id, const char *file, int line,
-			const char *fmt, ...)
-  __attribute__ ((format (printf, 4, 5)));
+			const char *func, const char *fmt, ...)
+  __attribute__ ((format (printf, 5, 6)));
 extern void lw6sys_log_critical (const char *fmt, ...)
   __attribute__ ((format (printf, 1, 2)));
 extern int lw6sys_log_get_level ();
 extern void lw6sys_log_set_level (int level);
+extern int lw6sys_log_get_backtrace_mode ();
+extern void lw6sys_log_set_backtrace_mode (int backtrace_mode);
 extern int lw6sys_log_get_console_state ();
 extern void lw6sys_log_set_console_state (int state);
 

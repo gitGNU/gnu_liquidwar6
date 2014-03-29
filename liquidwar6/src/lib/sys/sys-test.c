@@ -2218,21 +2218,40 @@ _test_log ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
+    int old_log_level;
+    int old_log_backtrace_mode;
     int log_level;
+    int log_backtrace_mode;
 
-    log_level = lw6sys_log_get_level ();
-    lw6sys_log_set_level (log_level);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing log_notice %s=%d"),
-		"log_level=%d", log_level);
-    lw6sys_log (LW6SYS_LOG_INFO, _x_ ("testing log_info %s=%d"),
-		"log_level=%d", log_level);
-    // normally, this one does now show with defaults settings...
-    lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("testing log_debug %s=%d"),
-		"log_level=%d", log_level);
+    old_log_level = lw6sys_log_get_level ();
+    old_log_backtrace_mode = lw6sys_log_get_backtrace_mode ();
 
-    lw6sys_log (LW6SYS_LOG_NOTICE,
-		_x_
-		("now, testing console disabling, next displayed message should be about bar, not foo"));
+    for (log_level = LW6SYS_LOG_DEBUG_ID; log_level <= LW6SYS_LOG_ERROR_ID;
+	 ++log_level)
+      {
+	for (log_backtrace_mode = LW6SYS_LOG_BACKTRACE_MODE_FUNC;
+	     log_backtrace_mode <= LW6SYS_LOG_BACKTRACE_MODE_FULL;
+	     ++log_backtrace_mode)
+	  {
+	    lw6sys_log_set_level (log_level);
+	    lw6sys_log_set_backtrace_mode (log_backtrace_mode);
+
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("testing log_notice level=%d backtrace_mode=%d"),
+			log_level, log_backtrace_mode);
+	    lw6sys_log (LW6SYS_LOG_INFO,
+			_x_ ("testing log_info level=%d backtrace_mode=%d"),
+			log_level, log_backtrace_mode);
+	    // normally, this one does now show with defaults settings...
+	    lw6sys_log (LW6SYS_LOG_DEBUG,
+			_x_ ("testing log_debug level=%d backtrace_mode=%d"),
+			log_level, log_backtrace_mode);
+	  }
+      }
+
+    lw6sys_log_set_level (old_log_level);
+    lw6sys_log_set_backtrace_mode (old_log_backtrace_mode);
+
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -2275,6 +2294,9 @@ _test_log_even_more ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_ ("console state is %d"), console_state);
 
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_
+		("now, testing console disabling, next displayed message should be about bar, not foo"));
     lw6sys_log_set_console_state (0);
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_ ("message about foo, should appear in log only"));

@@ -24,6 +24,8 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <errno.h>
+
 #include "sys.h"
 #include "sys-internal.h"
 
@@ -37,6 +39,7 @@ thread_callback (void *thread_handler)
   _lw6sys_thread_handler_t *th;
   th = (_lw6sys_thread_handler_t *) thread_handler;
   struct timespec ts;
+  int yield_timeslice = 0;
 
   ts.tv_sec = _LW6SYS_PTHREAD_COND_TIMEDWAIT_SEC;
   ts.tv_nsec = _LW6SYS_PTHREAD_COND_TIMEDWAIT_NSEC;
@@ -110,9 +113,14 @@ thread_callback (void *thread_handler)
 			  th->id);
 	      if (!pthread_mutex_lock (&(th->mutex)))
 		{
-		  pthread_cond_timedwait (&(th->cond_can_join), &(th->mutex),
-					  &ts);
+		  yield_timeslice =
+		    (pthread_cond_timedwait
+		     (&(th->cond_can_join), &(th->mutex), &ts) == ETIMEDOUT);
 		  pthread_mutex_unlock (&(th->mutex));
+		  if (yield_timeslice)
+		    {
+		      lw6sys_idle ();
+		    }
 		}
 	      else
 		{

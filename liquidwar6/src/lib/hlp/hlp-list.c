@@ -962,6 +962,8 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_LOG_SET_DIALOG_TIMEOUT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_LOG_GET_LEVEL);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_LOG_SET_LEVEL);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_LOG_GET_BACKTRACE_MODE);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_LOG_SET_BACKTRACE_MODE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_MEGABYTES_AVAILABLE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_OPENMP_GET_NUM_PROCS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_GET_DEFAULT_USER_DIR);

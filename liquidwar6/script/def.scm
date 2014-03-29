@@ -437,6 +437,8 @@
 (define lw6def-c-lw6sys-log-get-level "c-lw6sys-log-get-level")
 (define lw6def-c-lw6sys-log-set-dialog-timeout "c-lw6sys-log-set-dialog-timeout")
 (define lw6def-c-lw6sys-log-set-level "c-lw6sys-log-set-level")
+(define lw6def-c-lw6sys-log-get-backtrace-mode "c-lw6sys-log-get-backtrace-mode")
+(define lw6def-c-lw6sys-log-set-backtrace-mode "c-lw6sys-log-set-backtrace-mode")
 (define lw6def-c-lw6sys-megabytes-available "c-lw6sys-megabytes-available")
 (define lw6def-c-lw6sys-openmp-get-num-procs "c-lw6sys-openmp-get-num-procs")
 (define lw6def-c-lw6sys-path-concat "c-lw6sys-path-concat")

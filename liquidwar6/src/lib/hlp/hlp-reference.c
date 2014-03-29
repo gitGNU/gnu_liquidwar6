@@ -2491,6 +2491,10 @@ populate_references ()
 		 _x_ ("Wrapper on lw6sys_log_get_level."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_LOG_SET_LEVEL,
 		 _x_ ("Wrapper on lw6sys_log_set_level."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_LOG_GET_BACKTRACE_MODE,
+		 _x_ ("Wrapper on lw6sys_log_get_backtrace_mode."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_LOG_SET_BACKTRACE_MODE,
+		 _x_ ("Wrapper on lw6sys_log_set_backtrace_mode."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_MEGABYTES_AVAILABLE,
 		 _x_ ("Wrapper on lw6sys_megabytes_available."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_OPENMP_GET_NUM_PROCS,
