@@ -3074,7 +3074,7 @@ _test_signal ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    if (!LW6SYS_TEST_ACK (_lw6sys_test_signal ()))
+    if (!_lw6sys_test_signal ())
       {
 	ret = 0;
       }

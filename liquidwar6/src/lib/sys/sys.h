@@ -141,14 +141,14 @@ typedef char *char_ptr_t;
 #define LW6SYS_TEST_FUNCTION_BEGIN { lw6sys_log(LW6SYS_LOG_NOTICE,_("running tests in function \"%s\""),__FUNCTION__); }
 #define LW6SYS_TEST_FUNCTION_END_NO_CUNIT { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("tests OK in function \"%s\""),__FUNCTION__); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("tests FAILED in function \"%s\""),__FUNCTION__); } }
 #define LW6SYS_TEST_FUNCTION_END { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("tests OK in function \"%s\""),__FUNCTION__); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("tests FAILED in function \"%s\""),__FUNCTION__); } _test_data.ret=_test_data.ret && ret; CU_ASSERT_EQUAL(ret, 1); }
-#define LW6SYS_TEST_ACK(value) ( CU_assertImplementation(!!(value), __LINE__, #value, __FILE__, "", CU_FALSE) )
+#define LW6SYS_TEST_ACK(value) (lw6sys_cunit_lock() && ( ( CU_assertImplementation(!!(value), __LINE__, #value, __FILE__, "", CU_FALSE) && lw6sys_cunit_unlock()) || (lw6sys_cunit_unlock() && lw6sys_false())))
 #define LW6SYS_BACKEND_FUNCTION_BEGIN { lw6sys_log(LW6SYS_LOG_DEBUG,_("begin backend function \"%s\""),__FUNCTION__); }
 #define LW6SYS_BACKEND_FUNCTION_END { lw6sys_log(LW6SYS_LOG_DEBUG,_("end backend function \"%s\""),__FUNCTION__); }
 
 #define LW6SYS_SCRIPT_FUNCTION_BEGIN { lw6sys_log(LW6SYS_LOG_DEBUG,_("begin script function \"%s\""),__FUNCTION__); }
 #define LW6SYS_SCRIPT_FUNCTION_END { lw6sys_log(LW6SYS_LOG_DEBUG,_("end script function \"%s\""),__FUNCTION__); }
 
-#define LW6SYS_TEST_OUTPUT { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("test suite OK!")); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("test suite FAILED...")); } }
+#define LW6SYS_TEST_OUTPUT { lw6sys_cunit_clear(); if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("test suite OK!")); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("test suite FAILED...")); } }
 
 #define LW6SYS_CUNIT_ADD_TEST(suite, test) { if (CU_add_test(suite, #test, test)) { lw6sys_log(LW6SYS_LOG_INFO,_x_("registered test \"%s\""), #test); } else { lw6sys_log(LW6SYS_LOG_WARNING,_x_("unable to register test \"%s\""), #test); ret=0; } }
 
@@ -876,6 +876,9 @@ extern char *lw6sys_ftoa (float value);
 
 /* sys-cunit.c */
 extern int lw6sys_cunit_run_tests (int mode);
+extern void lw6sys_cunit_clear ();
+extern int lw6sys_cunit_lock ();
+extern int lw6sys_cunit_unlock ();
 
 /* sys-daemon.c */
 extern char *lw6sys_daemon_pid_file (int argc, const char *argv[]);

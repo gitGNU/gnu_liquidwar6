@@ -35,6 +35,8 @@
 
 #define _LW6SYS_CUNIT_DIALOG_TIMEOUT 10
 
+static lw6sys_mutex_t *_cunit_mutex = NULL;
+
 /*
  * Base filename, -Listing.xml or -Results.xml will be appended to it
  */
@@ -124,6 +126,89 @@ lw6sys_cunit_run_tests (int mode)
 		      cunit_basename);
 	}
       LW6SYS_FREE (cunit_basename);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6sys_cunit_clear
+ *
+ * Clears the global CUnit related lock.
+ *
+ * Return value: 1 if locked, 0 on failure.
+ */
+void
+lw6sys_cunit_clear ()
+{
+  if (_cunit_mutex)
+    {
+      lw6sys_mutex_destroy (_cunit_mutex);
+      _cunit_mutex = NULL;
+    }
+}
+
+/**
+ * lw6sys_cunit_lock
+ *
+ * Locks a global CUnit related lock, this is to allow the use of
+ * test macro LW6SYS_TEST_ACK in multithreaded environment, as CUnit
+ * does not, by default garantee that concurrent accesses to its API
+ * will work. Just to be sure... we lock.
+ *
+ * Return value: 1 if locked, 0 on failure.
+ */
+int
+lw6sys_cunit_lock ()
+{
+  int ret = 1;
+
+  if (!_cunit_mutex)
+    {
+      /*
+       * Initializing global mutex on-the-fly
+       */
+      _cunit_mutex = lw6sys_mutex_create ();
+    }
+  if (_cunit_mutex)
+    {
+      ret = lw6sys_mutex_lock (_cunit_mutex);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to initialize CUnit global mutex"));
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6sys_cunit_unlock
+ *
+ * Unlocks the global CUnit related lock, this is to allow the use of
+ * test macro LW6SYS_TEST_ACK in multithreaded environment, as CUnit
+ * does not, by default garantee that concurrent accesses to its API
+ * will work. Just to be sure... we lock.
+ *
+ * Return value: 1 if unlocked, 0 on failure.
+ */
+int
+lw6sys_cunit_unlock ()
+{
+  int ret = 1;
+
+  if (_cunit_mutex)
+    {
+      ret = lw6sys_mutex_unlock (_cunit_mutex);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
+		  ("trying to unlock CUnit global mutex but it's not defined"));
+      ret = 0;
     }
 
   return ret;
