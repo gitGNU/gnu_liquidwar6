@@ -182,6 +182,18 @@
 	#t
 	))))
 
+(define lw6-test-sys-log-backtrace-mode
+  (lambda ()
+    (let (
+	  (log-backtrace-mode #f)
+	  )
+      (begin
+	(set! log-backtrace-mode (c-lw6sys-log-get-backtrace-mode))
+	(lw6-log-notice (format #f "log-backtrace-mode=~a" log-backtrace-mode))
+	(c-lw6sys-log-set-backtrace-mode log-backtrace-mode)
+	#t
+	))))
+
 (define lw6-test-sys-dump
   (lambda ()
     (begin
@@ -650,6 +662,7 @@
 		(lw6-test-run lw6-test-sys-bazooka)
 		(lw6-test-run lw6-test-sys-debug)
 		(lw6-test-run lw6-test-sys-log-level)
+		(lw6-test-run lw6-test-sys-log-backtrace-mode)
 		(lw6-test-run lw6-test-sys-dump)
 		(lw6-test-run lw6-test-sys-env)
 		(lw6-test-run lw6-test-sys-hardware)

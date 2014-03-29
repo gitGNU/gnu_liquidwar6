@@ -2226,7 +2226,7 @@ _test_log ()
     old_log_level = lw6sys_log_get_level ();
     old_log_backtrace_mode = lw6sys_log_get_backtrace_mode ();
 
-    for (log_level = LW6SYS_LOG_DEBUG_ID; log_level <= LW6SYS_LOG_ERROR_ID;
+    for (log_level = LW6SYS_LOG_ERROR_ID; log_level <= LW6SYS_LOG_DEBUG_ID;
 	 ++log_level)
       {
 	for (log_backtrace_mode = LW6SYS_LOG_BACKTRACE_MODE_FUNC;
