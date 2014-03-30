@@ -4393,7 +4393,7 @@ check the value of @code{LW6MAP_RULES_DEFAULT_EXP} and default for @code{--skip-
 @item
 in @code{./src}, run @code{./indent.sh}.
 @item
-in @code{./doc}, run @code{./gdoc-update.sh} and @code{./doxygen-update.sh}.
+in @code{./doc}, run @code{./gdoc-update.sh}, @code{./doxygen-update.sh} and @code{./perf-update.sh}.
 @item
 edit @code{NEWS} file, in both @code{liquidwar6} and @code{liquidwar6-extra-maps}. Check @code{ChangeLog} is OK.
 @item
@@ -4488,7 +4488,9 @@ edit @code{doc/doxygen-update.sh} and add the entry for @code{xyz}.
 @item
 edit @code{doc/Makefile.am} and add @code{xyz-doxygen.texi} in @code{doxygen_TEXINFOS}.
 @item
-in @code{./doc}, run @code{./gdoc-update.sh} and @code{./doxygen-update.sh}.
+edit @code{doc/perf-update.sh} and add the entry for @code{xyz}.
+@item
+in @code{./doc}, run @code{./gdoc-update.sh}, @code{./doxygen-update.sh} and @code{./perf-update.sh}.
 @item
 edit @code{doc/doxygen/Makefile.am} and add the dependency on @code{src/lib/xyz/xyz.h}.
 @item

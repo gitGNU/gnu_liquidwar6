@@ -110,7 +110,7 @@ else
 fi
 
 echo "******** $0 $(date) ********"
-if rm -rf $WORKSPACE/pub && install -d $WORKSPACE/pub && cd .. && for i in coverage global cyclo doxygen manual ; do tar -xzf $WORKSPACE/liquidwar6/doc/$i.tar.gz -C $WORKSPACE/pub ; done; then
+if rm -rf $WORKSPACE/pub && install -d $WORKSPACE/pub && cd .. && for i in coverage global cyclo doxygen perf manual ; do tar -xzf $WORKSPACE/liquidwar6/doc/$i.tar.gz -C $WORKSPACE/pub ; done; then
     echo "extract pub OK"
 else
     echo "extract pub failed"

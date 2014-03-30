@@ -29,6 +29,7 @@
 #include "../sys/sys.h"
 #include "cns.h"
 
+#define _TEST_SUPPORT_DELAY 500
 #define _TEST_CON_NB_LOOPS 100
 #define _TEST_CON_SLEEP 0.1f
 
@@ -94,6 +95,12 @@ _test_support ()
   {
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_ ("console support -> %d"), lw6cns_console_support ());
+    /*
+     * Snoozing because, well, if we don't, test does not
+     * last long enough, and, for instance, google perftools might
+     * just return error because it has no node to process.
+     */
+    lw6sys_delay (_TEST_SUPPORT_DELAY);
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_ ("term support -> %d"), lw6cns_term_support ());
   }

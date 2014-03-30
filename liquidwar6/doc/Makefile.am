@@ -28,7 +28,7 @@ liquidwar6_TEXINFOS = gpl.texi fdl.texi version.texi const.texi $(gdoc_TEXINFOS)
 
 man6_MANS = liquidwar6.man
 
-EXTRA_DIST = COPYING gdoc.pl gdoc-update.sh selfdoc.pl selfdoc-update.sh doxygen-update.sh deps.dot deps.eps deps.txt mod-gl1-layout.xcf mod-gl1-layout.ods
+EXTRA_DIST = COPYING gdoc.pl gdoc-update.sh selfdoc.pl selfdoc-update.sh doxygen-update.sh perf-update.sh deps.dot deps.eps deps.txt mod-gl1-layout.xcf mod-gl1-layout.ods
 
 deps.eps: deps.dot
 	if which dot ; then dot -Kdot -Teps -o$@ $< ; fi ; if which rsync ; then rsync $@ ${srcdir} ; fi
