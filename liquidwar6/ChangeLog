@@ -1,3 +1,125 @@
+2014-03-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/p2p/p2p-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-cunit.c,
+	liquidwar6/src/lib/sys/sys-log.c: Better test summary / log output
+
+2014-03-30  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/p2p/p2p-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Fixed tentacle test,
+	condition was too strict
+
+2014-03-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/script/def.scm,
+	liquidwar6/script/test-0-main.scm,
+	liquidwar6/src/lib/def/def-list.txt, liquidwar6/src/lib/def/def.h,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-test.c: Fixed backtrace mode test
+
+2014-03-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/script/def.scm,
+	liquidwar6/src/lib/def/def-list.txt, liquidwar6/src/lib/def/def.h,
+	liquidwar6/src/lib/hlp/hlp-list.c,
+	liquidwar6/src/lib/hlp/hlp-reference.c,
+	liquidwar6/src/lib/lw6-funcssys.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-global.c,
+	liquidwar6/src/lib/sys/sys-internal.h,
+	liquidwar6/src/lib/sys/sys-log.c,
+	liquidwar6/src/lib/sys/sys-test.c,
+	liquidwar6/src/lib/sys/sys-thread.c,
+	liquidwar6/src/lib/sys/sys-vthread.c, liquidwar6/src/lib/sys/sys.h: 
+	Added a default, simpler alternative to full backtrace mode
+
+2014-03-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/p2p/p2p-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Better feedback on p2p
+	threaded tests
+
+2014-03-29  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h,
+	liquidwar6/src/lib/sys/sys-cunit.c,
+	liquidwar6/src/lib/sys/sys-test.c, liquidwar6/src/lib/sys/sys.h: 
+	Added global CUnit lock to allow proper multithread testing
+
+2014-03-28  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/p2p/p2p-internal.h,
+	liquidwar6/src/lib/p2p/p2p-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Better log messages to
+	track down p2p test bug
+
+2014-03-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/p2p/p2p-internal.h,
+	liquidwar6/src/lib/p2p/p2p-tentacle.c,
+	liquidwar6/src/lib/p2p/p2p-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Enhancing p2p test suite
+
+2014-03-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/src/lib/p2p/p2p-test.c,
+	liquidwar6/src/lib/sys/sys-build-md5sum.h,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Added ticket_table
+	management to libp2p test
+
+2014-03-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/configure.ac,
+	liquidwar6/debian/changelog, liquidwar6/doc/const.texi,
+	liquidwar6/po/fr.po, liquidwar6/po/nn.po, liquidwar6/po/ru.po,
+	liquidwar6/src/lib/sys/sys-build-stamp.h: Fixed new develop branch
+
+2014-03-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* : commit a00dfc0187166c4dbc4e4549199bc4d15a549aab Author:
+	Christian Mauduit <ufoot@ufoot.org> Date:   Wed Mar 26 11:16:15 2014
+	+0100
+
+2014-03-26  Christian Mauduit <ufoot@ufoot.org>
+
+	* liquidwar6-extra-maps/ChangeLog,
+	liquidwar6-extra-maps/configure.ac,
+	liquidwar6-extra-maps/debian/changelog, liquidwar6/ChangeLog,
+	liquidwar6/configure.ac, liquidwar6/debian/changelog,
+	liquidwar6/doc/liquidwar6.texi,
+	liquidwar6/src/lib/sys/sys-build-stamp.h, liquidwar6/src/stamp.sh: 
+	New develop version 0.5
+
 2014-03-26  Christian Mauduit <ufoot@ufoot.org>
 
 	* liquidwar6-extra-maps/ChangeLog, liquidwar6-extra-maps/NEWS,
