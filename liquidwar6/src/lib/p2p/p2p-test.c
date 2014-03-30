@@ -80,6 +80,7 @@
 #define _TEST_TENTACLE_SEND_BEST_RELIABLE_STR "best reliable message"
 #define _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR "best unreliable message"
 #define _TEST_TENTACLE_SEND_REDUNDANT_STR "redundant message"
+#define _TEST_TENTACLE_ACCEPT_DELAY 3000
 
 #define _TEST_PACKET_LOGICAL_TICKET_SIG_1 0x12341234
 #define _TEST_PACKET_PHYSICAL_TICKET_SIG_1 0x23452345
@@ -362,6 +363,148 @@ typedef struct _test_tentacle_data_s
   int ret;
 } _test_tentacle_data_t;
 
+static int
+_test_tentacle_poll_step1_accept_tcp (lw6srv_listener_t * listener,
+				      int64_t now)
+{
+  int ret = 1;
+  char *ip = NULL;
+  int port = 0;
+  int sock = LW6NET_SOCKET_INVALID;
+  lw6srv_tcp_accepter_t *tcp_accepter = NULL;
+  char *guessed_public_url = NULL;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("polling node TCP"));
+
+  if (lw6net_socket_is_valid (listener->tcp_sock))
+    {
+      sock =
+	lw6net_tcp_accept (&ip, &port, listener->tcp_sock,
+			   _TEST_TENTACLE_ACCEPT_DELAY);
+      if (lw6net_socket_is_valid (sock) && ip != NULL && port > 0)
+	{
+	  tcp_accepter = lw6srv_tcp_accepter_new (ip, port, sock);
+	  if (tcp_accepter)
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_ ("TCP connection from %s:%d"), ip, port);
+	      lw6sys_list_push_front (&(listener->tcp_accepters),
+				      tcp_accepter);
+
+	      /*
+	       * Now we register this peer as a potential server,
+	       * it will be qualified as a real server (or not) later
+	       */
+	      guessed_public_url =
+		lw6sys_url_http_from_ip_port (ip, LW6NET_DEFAULT_PORT);
+	      if (guessed_public_url)
+		{
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _x_
+			      ("discovered node \"%s\" from guessed url"),
+			      guessed_public_url);
+		  LW6SYS_FREE (guessed_public_url);
+		}
+
+	      ip = NULL;	// tcp_accepter will free it
+	    }
+	  else
+	    {
+	      ret = 0;
+	    }
+	}
+    }
+
+  if (ip)
+    {
+      LW6SYS_FREE (ip);
+    }
+
+  return ret;
+}
+
+static int
+_test_tentacle_poll_step2_recv_udp (lw6srv_listener_t * listener, int64_t now)
+{
+  int ret = 1;
+  char buf[LW6NET_UDP_MINIMAL_BUF_SIZE + 1];
+  char *ip1 = NULL;
+  char *ip2 = NULL;
+  int port1 = 0;
+  int port2 = 0;
+  char *line = NULL;
+  lw6srv_udp_buffer_t *udp_buffer = NULL;
+  char *guessed_public_url = NULL;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("polling node UDP"));
+  memset (buf, 0, LW6NET_UDP_MINIMAL_BUF_SIZE + 1);
+  if (listener->udp_sock >= 0)
+    {
+      if (lw6net_udp_peek
+	  (listener->udp_sock, buf, LW6NET_UDP_MINIMAL_BUF_SIZE, &ip1,
+	   &port1))
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("received data from %s:%d"),
+		      ip1, port1);
+	  line = lw6net_recv_line_udp (listener->udp_sock, &ip2, &port2);
+	  if (line)
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_ ("UDP connection from %s:%d"), ip2, port2);
+	      udp_buffer = lw6srv_udp_buffer_new (ip2, port2, line);
+	      if (udp_buffer)
+		{
+		  lw6sys_list_push_front (&(listener->udp_buffers),
+					  udp_buffer);
+		  /*
+		   * Now we register this peer as a potential server,
+		   * it will be qualified as a real server (or not) later
+		   */
+		  guessed_public_url =
+		    lw6sys_url_http_from_ip_port (ip2, LW6NET_DEFAULT_PORT);
+		  if (guessed_public_url)
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_
+				  ("discovered node \"%s\" from guessed url"),
+				  guessed_public_url);
+		      LW6SYS_FREE (guessed_public_url);
+		    }
+
+		  line = NULL;	// udp_buffer will free it
+		  ip2 = NULL;	// udp_buffer will free it
+		}
+	      else
+		{
+		  ret = 0;
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_
+			  ("udp data received from %s:%d, but it's not correct"),
+			  ip1, port1);
+	    }
+	}
+    }
+
+  if (ip1)
+    {
+      LW6SYS_FREE (ip1);
+    }
+  if (ip2)
+    {
+      LW6SYS_FREE (ip2);
+    }
+  if (line)
+    {
+      LW6SYS_FREE (line);
+    }
+
+  return ret;
+}
+
 static void
 _test_tentacle1_recv_callback (void *recv_callback_data,
 			       lw6cnx_connection_p connection,
@@ -394,6 +537,7 @@ _test_tentacle1_thread_callback (void *tentacle_data)
   int nb_sent_best_reliable = 0;
   int nb_sent_best_unreliable = 0;
   int nb_sent_redundant = 0;
+  int64_t now = 0LL;
 
   end_timestamp = lw6sys_get_timestamp () + _TEST_TENTACLE_DURATION_THREAD;
 
@@ -410,7 +554,8 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 	   _TEST_TENTACLE_NETWORK_RELIABILITY, _test_tentacle1_recv_callback,
 	   tentacle_data))
 	{
-	  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
+	  while ((now = lw6sys_get_timestamp ()) < end_timestamp
+		 && !(*(data->done)))
 	    {
 	      lw6sys_idle ();
 	      logical_ticket_sig =
@@ -420,12 +565,11 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 					_TEST_TENTACLE_ID1,
 					_TEST_TENTACLE_ID2,
 					_TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR);
-	      if (LW6SYS_TEST_ACK
-		  (_lw6p2p_tentacle_send_best
-		   (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
-		    logical_ticket_sig, _TEST_TENTACLE_ID1,
-		    _TEST_TENTACLE_ID2,
-		    _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR, 0)))
+	      if (_lw6p2p_tentacle_send_best
+		  (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
+		   logical_ticket_sig, _TEST_TENTACLE_ID1,
+		   _TEST_TENTACLE_ID2,
+		   _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR, 0))
 		{
 		  nb_sent_best_unreliable++;
 		}
@@ -443,12 +587,11 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 					_TEST_TENTACLE_ID1,
 					_TEST_TENTACLE_ID2,
 					_TEST_TENTACLE_SEND_BEST_RELIABLE_STR);
-	      if (LW6SYS_TEST_ACK
-		  (_lw6p2p_tentacle_send_best
-		   (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
-		    logical_ticket_sig, _TEST_TENTACLE_ID1,
-		    _TEST_TENTACLE_ID2, _TEST_TENTACLE_SEND_BEST_RELIABLE_STR,
-		    1)))
+	      if (_lw6p2p_tentacle_send_best
+		  (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
+		   logical_ticket_sig, _TEST_TENTACLE_ID1,
+		   _TEST_TENTACLE_ID2, _TEST_TENTACLE_SEND_BEST_RELIABLE_STR,
+		   1))
 		{
 		  nb_sent_best_reliable++;
 		}
@@ -466,11 +609,10 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 					_TEST_TENTACLE_ID1,
 					_TEST_TENTACLE_ID2,
 					_TEST_TENTACLE_SEND_REDUNDANT_STR);
-	      if (LW6SYS_TEST_ACK
-		  (_lw6p2p_tentacle_send_redundant
-		   (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
-		    logical_ticket_sig, _TEST_TENTACLE_ID1,
-		    _TEST_TENTACLE_ID2, _TEST_TENTACLE_SEND_REDUNDANT_STR)))
+	      if (_lw6p2p_tentacle_send_redundant
+		  (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
+		   logical_ticket_sig, _TEST_TENTACLE_ID1,
+		   _TEST_TENTACLE_ID2, _TEST_TENTACLE_SEND_REDUNDANT_STR))
 		{
 		  nb_sent_redundant++;
 		}
@@ -481,7 +623,11 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 			      ("tentacle 1 couldn't send \"%s\" (redundant)"),
 			      _TEST_TENTACLE_SEND_REDUNDANT_STR);
 		}
+
+	      _test_tentacle_poll_step1_accept_tcp (data->listener, now);
+	      _test_tentacle_poll_step2_recv_udp (data->listener, now);
 	      _lw6p2p_tentacle_poll_queues (&data->tentacle, &ticket_table);
+
 	      /*
 	       * Snoozing a bit to avoid filling up buffers
 	       * with junk too fast, we're not testing bandwidth
@@ -492,8 +638,9 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 	      // todo...
 	    }
 
-	  if ((nb_sent_best_unreliable > 0) && (nb_sent_best_reliable > 0)
-	      && (nb_sent_redundant > 0))
+	  if (LW6SYS_TEST_ACK (nb_sent_best_unreliable > 0)
+	      && LW6SYS_TEST_ACK (nb_sent_best_reliable > 0)
+	      && LW6SYS_TEST_ACK (nb_sent_redundant > 0))
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE,
 			  _x_
@@ -537,6 +684,7 @@ _test_tentacle2_thread_callback (void *tentacle_data)
   int nb_sent_best_reliable = 0;
   int nb_sent_best_unreliable = 0;
   int nb_sent_redundant = 0;
+  int64_t now = 0LL;
 
   end_timestamp = lw6sys_get_timestamp () + _TEST_TENTACLE_DURATION_THREAD;
 
@@ -553,7 +701,8 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 	   _TEST_TENTACLE_NETWORK_RELIABILITY, _test_tentacle2_recv_callback,
 	   tentacle_data))
 	{
-	  while (lw6sys_get_timestamp () < end_timestamp && !(*(data->done)))
+	  while ((now = lw6sys_get_timestamp ()) < end_timestamp
+		 && !(*(data->done)))
 	    {
 	      lw6sys_idle ();
 	      logical_ticket_sig =
@@ -563,12 +712,11 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 					_TEST_TENTACLE_ID2,
 					_TEST_TENTACLE_ID1,
 					_TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR);
-	      if (LW6SYS_TEST_ACK
-		  (_lw6p2p_tentacle_send_best
-		   (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
-		    logical_ticket_sig, _TEST_TENTACLE_ID2,
-		    _TEST_TENTACLE_ID1,
-		    _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR, 0)))
+	      if (_lw6p2p_tentacle_send_best
+		  (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
+		   logical_ticket_sig, _TEST_TENTACLE_ID2,
+		   _TEST_TENTACLE_ID1,
+		   _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR, 0))
 		{
 		  nb_sent_best_unreliable++;
 		}
@@ -586,12 +734,11 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 					_TEST_TENTACLE_ID2,
 					_TEST_TENTACLE_ID1,
 					_TEST_TENTACLE_SEND_BEST_RELIABLE_STR);
-	      if (LW6SYS_TEST_ACK
-		  (_lw6p2p_tentacle_send_best
-		   (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
-		    logical_ticket_sig, _TEST_TENTACLE_ID2,
-		    _TEST_TENTACLE_ID1, _TEST_TENTACLE_SEND_BEST_RELIABLE_STR,
-		    1)))
+	      if (_lw6p2p_tentacle_send_best
+		  (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
+		   logical_ticket_sig, _TEST_TENTACLE_ID2,
+		   _TEST_TENTACLE_ID1, _TEST_TENTACLE_SEND_BEST_RELIABLE_STR,
+		   1))
 		{
 		  nb_sent_best_reliable++;
 		}
@@ -609,11 +756,10 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 					_TEST_TENTACLE_ID2,
 					_TEST_TENTACLE_ID1,
 					_TEST_TENTACLE_SEND_REDUNDANT_STR);
-	      if (LW6SYS_TEST_ACK
-		  (_lw6p2p_tentacle_send_redundant
-		   (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
-		    logical_ticket_sig, _TEST_TENTACLE_ID2,
-		    _TEST_TENTACLE_ID1, _TEST_TENTACLE_SEND_REDUNDANT_STR)))
+	      if (_lw6p2p_tentacle_send_redundant
+		  (&(data->tentacle), lw6sys_get_timestamp (), &ticket_table,
+		   logical_ticket_sig, _TEST_TENTACLE_ID2,
+		   _TEST_TENTACLE_ID1, _TEST_TENTACLE_SEND_REDUNDANT_STR))
 		{
 		  nb_sent_redundant++;
 		}
@@ -624,7 +770,11 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 			      ("tentacle 2 couldn't send \"%s\" (redundant)"),
 			      _TEST_TENTACLE_SEND_REDUNDANT_STR);
 		}
+
+	      _test_tentacle_poll_step1_accept_tcp (data->listener, now);
+	      _test_tentacle_poll_step2_recv_udp (data->listener, now);
 	      _lw6p2p_tentacle_poll_queues (&data->tentacle, &ticket_table);
+
 	      /*
 	       * Snoozing a bit to avoid filling up buffers
 	       * with junk too fast, we're not testing bandwidth
@@ -635,8 +785,9 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 	      // todo...
 	    }
 
-	  if ((nb_sent_best_unreliable > 0) && (nb_sent_best_reliable > 0)
-	      && (nb_sent_redundant > 0))
+	  if (LW6SYS_TEST_ACK (nb_sent_best_unreliable > 0)
+	      && LW6SYS_TEST_ACK (nb_sent_best_reliable > 0)
+	      && LW6SYS_TEST_ACK (nb_sent_redundant > 0))
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE,
 			  _x_

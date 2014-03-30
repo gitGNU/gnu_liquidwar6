@@ -42,6 +42,30 @@ static lw6sys_mutex_t *_cunit_mutex = NULL;
  */
 #define _CUNIT_BASENAME "CUnit"
 
+static void
+_cunit_summary (const char *cunit_basename)
+{
+  CU_pFailureRecord failure_record = NULL;
+  int nb_failure_records = 0;
+
+  failure_record = CU_get_failure_list ();
+  while (failure_record)
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("failure record %s:%d %s/%s \"%s\""),
+		  failure_record->strFileName, failure_record->uiLineNumber,
+		  failure_record->pSuite->pName, failure_record->pTest->pName,
+		  failure_record->strCondition);
+      failure_record = failure_record->pNext;
+      nb_failure_records++;
+    }
+
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _x_
+	      ("%d failure records, complete test results in \"%s-Results.xml\""),
+	      nb_failure_records, cunit_basename);
+}
+
 /**
  * lw6sys_cunit_run_tests
  *
@@ -121,9 +145,7 @@ lw6sys_cunit_run_tests (int mode)
     {
       if (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _x_ ("test results in \"%s-Results.xml\""),
-		      cunit_basename);
+	  _cunit_summary (cunit_basename);
 	}
       LW6SYS_FREE (cunit_basename);
     }
@@ -136,7 +158,7 @@ lw6sys_cunit_run_tests (int mode)
  *
  * Clears the global CUnit related lock.
  *
- * Return value: 1 if locked, 0 on failure.
+ * Return value: none.
  */
 void
 lw6sys_cunit_clear ()

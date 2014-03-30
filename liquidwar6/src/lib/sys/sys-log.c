@@ -643,7 +643,7 @@ _log_to_file (FILE * f, int level_id, const char *level_str, const char *file,
   tm_ret = localtime_r (&t_now, &tm_now);
   if (tm_ret == &tm_now)
     {
-      fprintf (f, "%04d-%02d-%02d %02d:%02d:%02d.%03d\t%s:%d:%s\t%d\t%s\t",
+      fprintf (f, "%04d-%02d-%02d %02d:%02d:%02d.%03d\t%s:%d/%s\t%d\t%s\t",
 	       (int) tm_now.tm_year + 1900, (int) tm_now.tm_mon + 1,
 	       (int) tm_now.tm_mday, (int) tm_now.tm_hour,
 	       (int) tm_now.tm_min, (int) tm_now.tm_sec,
