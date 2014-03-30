@@ -18,7 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-SUBDIRS = coverage global cyclo doxygen manual example dtd
+SUBDIRS = coverage global cyclo doxygen perf manual example dtd
 
 info_TEXINFOS = liquidwar6.texi
 gdoc_TEXINFOS = liquidwar6-gdoc.texi bot-gdoc.texi cfg-gdoc.texi cli-gdoc.texi cns-gdoc.texi cnx-gdoc.texi dat-gdoc.texi dsp-gdoc.texi dyn-gdoc.texi fdl.texi gen-gdoc.texi gfx-gdoc.texi glb-gdoc.texi gpl.texi gui-gdoc.texi hlp-gdoc.texi img-gdoc.texi ker-gdoc.texi ldr-gdoc.texi liquidwar6-gdoc.texi map-gdoc.texi mat-gdoc.texi mod-brute-gdoc.texi mod-caca-gdoc.texi mod-csound-gdoc.texi mod-follow-gdoc.texi mod-gl1-gdoc.texi mod-gles2-gdoc.texi mod-httpd-gdoc.texi mod-http-gdoc.texi mod-idiot-gdoc.texi mod-ogg-gdoc.texi mod-random-gdoc.texi mod-soft-gdoc.texi mod-tcpd-gdoc.texi mod-tcp-gdoc.texi mod-udpd-gdoc.texi mod-udp-gdoc.texi msg-gdoc.texi net-gdoc.texi nod-gdoc.texi p2p-gdoc.texi pil-gdoc.texi scm-gdoc.texi shared-sdl-gdoc.texi sim-gdoc.texi snd-gdoc.texi srv-gdoc.texi sys-gdoc.texi tsk-gdoc.texi vox-gdoc.texi
@@ -61,8 +61,8 @@ targz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz:
 	echo "Run make dist in parent directory and/or copy @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz here."
 
-pub: coverage-pub global-pub cyclo-pub doxygen-pub manual-pub
-	echo "Generated pub doc (coverage.tar.gz global.tar.gz cyclo.tar.gz doxygen.tar.gz manual.tar.gz)"
+pub: coverage-pub global-pub cyclo-pub doxygen-pub perf-pub manual-pub
+	echo "Generated pub doc (coverage.tar.gz global.tar.gz cyclo.tar.gz doxygen.tar.gz perf.tar.gz manual.tar.gz)"
 
 coverage-pub: coverage.tar.gz
 
@@ -84,6 +84,11 @@ doxygen-pub: doxygen.tar.gz
 doxygen.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 	rm -rf doxygen-tmp && mkdir doxygen-tmp && cd doxygen-tmp && tar -xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure && cd doc/doxygen && $(MAKE) opt && mv html doxygen && tar -czf doxygen.tar.gz doxygen && cd ../../../.. && mv doxygen-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/doc/doxygen/doxygen.tar.gz . && rm -rf doxygen-tmp
 
+perf-pub: perf.tar.gz
+
+perf.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -rf perf-tmp && mkdir perf-tmp && cd perf-tmp && tar -xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure --enable-profiler && cd doc/perf && $(MAKE) opt && install -d perf && cp *.pdf *.jpeg perf && tar -czf perf.tar.gz perf && cd ../../../.. && mv perf-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/doc/perf/perf.tar.gz . && rm -rf perf-tmp
+
 manual-pub: manual.tar.gz
 
 manual.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
@@ -94,8 +99,8 @@ manual.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 
 clean-local:
 	rm -f deps.png deps.pdf
-	rm -f coverage.tar.gz global.tar.gz cyclo.tar.gz doxygen.tar.gz manual.tar.gz
-	rm -rf coverage-tmp global-tmp cyclo-tmp doxygen-tmp manual-tmp
+	rm -f coverage.tar.gz global.tar.gz cyclo.tar.gz doxygen.tar.gz perf.tar.gz manual.tar.gz
+	rm -rf coverage-tmp global-tmp cyclo-tmp doxygen-tmp perf-tmp manual-tmp
 	rm -rf liquidwar6.t??
 
 install-data-local:

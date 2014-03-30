@@ -47,16 +47,30 @@ _cunit_summary (const char *cunit_basename)
 {
   CU_pFailureRecord failure_record = NULL;
   int nb_failure_records = 0;
+  const char *file = NULL;
+  int line = 0;
+  const char *suite = NULL;
+  const char *test = NULL;
+  const char *condition = NULL;
 
   failure_record = CU_get_failure_list ();
   while (failure_record)
     {
+      file = failure_record->strFileName;
+      line = failure_record->uiLineNumber;
+      suite = failure_record->pSuite ? failure_record->pSuite->pName : NULL;
+      test = failure_record->pTest ? failure_record->pTest->pName : NULL;
+      condition = failure_record->strCondition;
+
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("failure record %s:%d %s/%s \"%s\""),
-		  failure_record->strFileName, failure_record->uiLineNumber,
-		  failure_record->pSuite->pName, failure_record->pTest->pName,
-		  failure_record->strCondition);
-      failure_record = failure_record->pNext;
+		  lw6sys_str_empty_if_null (file), line,
+		  lw6sys_str_empty_if_null (suite),
+		  lw6sys_str_empty_if_null (test),
+		  lw6sys_str_empty_if_null (condition));
+      failure_record = (failure_record->pNext
+			&& failure_record->pNext !=
+			failure_record) ? failure_record->pNext : NULL;
       nb_failure_records++;
     }
 
