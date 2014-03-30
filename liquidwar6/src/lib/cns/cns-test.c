@@ -29,7 +29,7 @@
 #include "../sys/sys.h"
 #include "cns.h"
 
-#define _TEST_SUPPORT_DELAY 500
+#define _TEST_SUPPORT_DELAY 2000
 #define _TEST_CON_NB_LOOPS 100
 #define _TEST_CON_SLEEP 0.1f
 
