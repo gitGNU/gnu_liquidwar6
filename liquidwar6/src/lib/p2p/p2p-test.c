@@ -391,6 +391,9 @@ _test_tentacle1_thread_callback (void *tentacle_data)
   int64_t end_timestamp = 0LL;
   lw6cnx_ticket_table_t ticket_table;
   u_int32_t logical_ticket_sig = 0;
+  int nb_sent_best_reliable = 0;
+  int nb_sent_best_unreliable = 0;
+  int nb_sent_redundant = 0;
 
   end_timestamp = lw6sys_get_timestamp () + _TEST_TENTACLE_DURATION_THREAD;
 
@@ -424,10 +427,7 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 		    _TEST_TENTACLE_ID2,
 		    _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR, 0)))
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _x_
-			      ("tentacle 1 sent \"%s\" (best unreliable)"),
-			      _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR);
+		  nb_sent_best_unreliable++;
 		}
 	      else
 		{
@@ -435,7 +435,6 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 			      _x_
 			      ("tentacle 1 couldn't sent \"%s\" (best unreliable)"),
 			      _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR);
-		  data->ret = 0;
 		}
 	      logical_ticket_sig =
 		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
@@ -451,9 +450,7 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 		    _TEST_TENTACLE_ID2, _TEST_TENTACLE_SEND_BEST_RELIABLE_STR,
 		    1)))
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _x_ ("tentacle 1 sent \"%s\" (best reliable)"),
-			      _TEST_TENTACLE_SEND_BEST_RELIABLE_STR);
+		  nb_sent_best_reliable++;
 		}
 	      else
 		{
@@ -461,7 +458,6 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 			      _x_
 			      ("tentacle 1 couldn't send \"%s\" (best reliable)"),
 			      _TEST_TENTACLE_SEND_BEST_RELIABLE_STR);
-		  data->ret = 0;
 		}
 	      logical_ticket_sig =
 		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
@@ -476,9 +472,7 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 		    logical_ticket_sig, _TEST_TENTACLE_ID1,
 		    _TEST_TENTACLE_ID2, _TEST_TENTACLE_SEND_REDUNDANT_STR)))
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _x_ ("tentacle 1 sent \"%s\" (redundant)"),
-			      _TEST_TENTACLE_SEND_REDUNDANT_STR);
+		  nb_sent_redundant++;
 		}
 	      else
 		{
@@ -486,10 +480,35 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 			      _x_
 			      ("tentacle 1 couldn't send \"%s\" (redundant)"),
 			      _TEST_TENTACLE_SEND_REDUNDANT_STR);
-		  data->ret = 0;
 		}
 	      _lw6p2p_tentacle_poll_queues (&data->tentacle, &ticket_table);
+	      /*
+	       * Snoozing a bit to avoid filling up buffers
+	       * with junk too fast, we're not testing bandwidth
+	       * here, only the basic "how does data sending works
+	       * when everything looks OK".
+	       */
+	      lw6sys_snooze ();
 	      // todo...
+	    }
+
+	  if ((nb_sent_best_unreliable > 0) && (nb_sent_best_reliable > 0)
+	      && (nb_sent_redundant > 0))
+	    {
+	      lw6sys_log (LW6SYS_LOG_NOTICE,
+			  _x_
+			  ("sent data nb_sent_best_unreliable=%d nb_sent_best_reliable=%d nb_sent_redundant=%d"),
+			  nb_sent_best_unreliable, nb_sent_best_reliable,
+			  nb_sent_redundant);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("error sending data nb_sent_best_unreliable=%d nb_sent_best_reliable=%d nb_sent_redundant=%d"),
+			  nb_sent_best_unreliable, nb_sent_best_reliable,
+			  nb_sent_redundant);
+	      data->ret = 0;
 	    }
 
 	  _lw6p2p_tentacle_clear (&(data->tentacle));
@@ -515,6 +534,9 @@ _test_tentacle2_thread_callback (void *tentacle_data)
   int64_t end_timestamp = 0LL;
   lw6cnx_ticket_table_t ticket_table;
   u_int32_t logical_ticket_sig = 0;
+  int nb_sent_best_reliable = 0;
+  int nb_sent_best_unreliable = 0;
+  int nb_sent_redundant = 0;
 
   end_timestamp = lw6sys_get_timestamp () + _TEST_TENTACLE_DURATION_THREAD;
 
@@ -548,10 +570,7 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 		    _TEST_TENTACLE_ID1,
 		    _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR, 0)))
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _x_
-			      ("tentacle 2 sent \"%s\" (best unreliable)"),
-			      _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR);
+		  nb_sent_best_unreliable++;
 		}
 	      else
 		{
@@ -559,7 +578,6 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 			      _x_
 			      ("tentacle 2 couldn't send \"%s\" (best unreliable)"),
 			      _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR);
-		  data->ret = 0;
 		}
 	      logical_ticket_sig =
 		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
@@ -575,9 +593,7 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 		    _TEST_TENTACLE_ID1, _TEST_TENTACLE_SEND_BEST_RELIABLE_STR,
 		    1)))
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _x_ ("tentacle 2 sent \"%s\" (best reliable)"),
-			      _TEST_TENTACLE_SEND_BEST_RELIABLE_STR);
+		  nb_sent_best_reliable++;
 		}
 	      else
 		{
@@ -585,7 +601,6 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 			      _x_
 			      ("tentacle 2 couldn't send \"%s\" (best reliable)"),
 			      _TEST_TENTACLE_SEND_BEST_RELIABLE_STR);
-		  data->ret = 0;
 		}
 	      logical_ticket_sig =
 		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
@@ -600,9 +615,7 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 		    logical_ticket_sig, _TEST_TENTACLE_ID2,
 		    _TEST_TENTACLE_ID1, _TEST_TENTACLE_SEND_REDUNDANT_STR)))
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _x_ ("tentacle 2 sent \"%s\" (redundant)"),
-			      _TEST_TENTACLE_SEND_REDUNDANT_STR);
+		  nb_sent_redundant++;
 		}
 	      else
 		{
@@ -610,10 +623,35 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 			      _x_
 			      ("tentacle 2 couldn't send \"%s\" (redundant)"),
 			      _TEST_TENTACLE_SEND_REDUNDANT_STR);
-		  data->ret = 0;
 		}
 	      _lw6p2p_tentacle_poll_queues (&data->tentacle, &ticket_table);
+	      /*
+	       * Snoozing a bit to avoid filling up buffers
+	       * with junk too fast, we're not testing bandwidth
+	       * here, only the basic "how does data sending works
+	       * when everything looks OK".
+	       */
+	      lw6sys_snooze ();
 	      // todo...
+	    }
+
+	  if ((nb_sent_best_unreliable > 0) && (nb_sent_best_reliable > 0)
+	      && (nb_sent_redundant > 0))
+	    {
+	      lw6sys_log (LW6SYS_LOG_NOTICE,
+			  _x_
+			  ("sent data nb_sent_best_unreliable=%d nb_sent_best_reliable=%d nb_sent_redundant=%d"),
+			  nb_sent_best_unreliable, nb_sent_best_reliable,
+			  nb_sent_redundant);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("error sending data nb_sent_best_unreliable=%d nb_sent_best_reliable=%d nb_sent_redundant=%d"),
+			  nb_sent_best_unreliable, nb_sent_best_reliable,
+			  nb_sent_redundant);
+	      data->ret = 0;
 	    }
 
 	  _lw6p2p_tentacle_clear (&(data->tentacle));
