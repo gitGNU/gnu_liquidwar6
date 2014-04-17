@@ -66,6 +66,23 @@ typedef struct _lw6sys_bazooka_s
   int64_t timestamp;
 } _lw6sys_bazooka_t;
 
+typedef struct _lw6sys_bazooka_context_s
+{
+ int bazooka_size;
+ _lw6sys_bazooka_t *bazooka_data;
+  lw6sys_spinlock_t *bazooka_spinlock;
+ int bazooka_malloc_count;
+ int bazooka_free_count;
+ int bazooka_malloc_current_count;
+ int bazooka_malloc_max_count;
+ int64_t bazooka_malloc_bytes;
+ int64_t bazooka_free_bytes;
+ int bazooka_malloc_current_bytes;
+ int bazooka_malloc_max_bytes;
+ int bazooka_eraser;
+  int bazooka_trustable;
+} _lw6sys_bazooka_context_t;
+
 typedef struct _lw6sys_mutex_s
 {
   u_int32_t id;
@@ -116,23 +133,30 @@ typedef struct _lw6sys_global_s
   int quit;
 } _lw6sys_global_t;
 
-extern _lw6sys_global_t _lw6sys_global;
+typedef struct _lw6sys_context_s
+{
+  u_int32_t id;
+  _lw6sys_global_t global;
+  _lw6sys_bazooka_context_t bazooka_context;
+}
+  _lw6sys_context_t;
 
-extern int _lw6sys_bazooka_register_malloc (char *ptr, int size,
+extern void _lw6sys_bazooka_context_init(lw6sys_context_t *sys_context,_lw6sys_bazooka_context_t *bazooka_context);
+extern int _lw6sys_bazooka_register_malloc (lw6sys_context_t *sys_context,char *ptr, int size,
 					    const char *file, int line);
-extern int _lw6sys_bazooka_register_calloc (char *ptr, int size,
+extern int _lw6sys_bazooka_register_calloc (lw6sys_context_t *sys_context,char *ptr, int size,
 					    const char *file, int line);
-extern int _lw6sys_bazooka_register_realloc_1 (char *ptr, int size,
+extern int _lw6sys_bazooka_register_realloc_1 (lw6sys_context_t *sys_context,char *ptr, int size,
 					       const char *file, int line);
-extern int _lw6sys_bazooka_register_realloc_2 (char *ptr, char *ptr2,
+extern int _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t *sys_context,char *ptr, char *ptr2,
 					       int size, const char *file,
 					       int line);
-extern int _lw6sys_bazooka_register_free (char *ptr);
-extern char *_lw6sys_new_vsnprintf (int n, const char *fmt, va_list ap);
-extern int _lw6sys_buf_vsnprintf (char *buf, int len, const char *fmt,
+extern int _lw6sys_bazooka_register_free (lw6sys_context_t *sys_context,char *ptr);
+extern char *_lw6sys_new_vsnprintf (lw6sys_context_t *sys_context,int n, const char *fmt, va_list ap);
+extern int _lw6sys_buf_vsnprintf (lw6sys_context_t *sys_context,char *buf, int len, const char *fmt,
 				  va_list ap);
 #ifdef LW6_MAC_OS_X
-extern void _lw6sys_macosx_alert (char *title, char *msg);
+extern void _lw6sys_macosx_alert (lw6sys_context_t *sys_context,char *title, char *msg);
 #endif
 
 #endif

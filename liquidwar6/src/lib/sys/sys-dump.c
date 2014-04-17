@@ -95,7 +95,7 @@ lw6sys_dump (char *user_dir, char *content)
        * Send a message in log file to tell where the dump is,
        * very convenient to copy-paste then cat file.
        */
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("dump saved in file \"%s\""),
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("dump saved in file \"%s\""),
 		  dump_file);
       ret = lw6sys_write_file_content (dump_file, content);
       LW6SYS_FREE (dump_file);

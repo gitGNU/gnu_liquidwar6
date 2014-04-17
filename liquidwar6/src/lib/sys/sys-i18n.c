@@ -127,7 +127,7 @@ lw6sys_locale_to_utf8 (const char *string)
 		       * is not working, it makes to translate
 		       * anyway...
 		       */
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  "iconv error \"%s\"", string);
 		      LW6SYS_FREE (utf8);
 		      utf8 = NULL;	// important to be sure it's handled later
@@ -141,7 +141,7 @@ lw6sys_locale_to_utf8 (const char *string)
 	       * Message not translated, iconv doesn't work anyway
 	       * if we're here
 	       */
-	      lw6sys_log (LW6SYS_LOG_WARNING, "unable to open iconv");
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, "unable to open iconv");
 	    }
 	}
     }
@@ -157,7 +157,7 @@ lw6sys_locale_to_utf8 (const char *string)
        * Message not translated, iconv doesn't work anyway
        * if we're here
        */
-      lw6sys_log (LW6SYS_LOG_WARNING, "unable to translate string to utf8");
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, "unable to translate string to utf8");
     }
 
   return utf8;

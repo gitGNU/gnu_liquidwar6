@@ -599,7 +599,7 @@ lw6sys_color_a_to_8 (const char *ascii)
 	  ret.b = strtol (buf, NULL, 16);
 	  break;
 	default:
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("invalid color value \"%s\", color format must be \"#RGB\", \"#RGBA\", \"#RRGGBB\" or \"#RRGGBBAA\""),
 		      ascii);
@@ -607,7 +607,7 @@ lw6sys_color_a_to_8 (const char *ascii)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("invalid color value \"%s\", color value must start with \"#\""),
 		  ascii);

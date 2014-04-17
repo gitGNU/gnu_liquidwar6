@@ -72,7 +72,7 @@ lw6sys_url_http_from_ip_port (const char *ip, int port)
     {
       if (!lw6sys_url_is_canonized (ret))
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("generated url \"%s\" reported as not canonized"),
 		      ret);
 	}
@@ -129,7 +129,7 @@ lw6sys_url_parse (const char *url)
 	{
 	  pos = seek + strlen (_DOT_DOT_SLASH_SLASH);
 	}
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("interpreting host, remaining string is \"%s\""), pos);
       seek = pos;
       while (_is_host (*seek))
@@ -151,7 +151,7 @@ lw6sys_url_parse (const char *url)
       pos = seek;
       if ((*pos) == _DOT_DOT)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("port detected, remaining string is \"%s\""), pos);
 	  pos++;
 	  seek = pos;
@@ -167,7 +167,7 @@ lw6sys_url_parse (const char *url)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("no port detected, remaining string is \"%s\""),
 		      pos);
 	  if (ret->use_ssl)
@@ -183,7 +183,7 @@ lw6sys_url_parse (const char *url)
 	{
 	  ret->port = _HTTP_PORT;
 	}
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("interpreting URI, remaining string is \"%s\""), pos);
       if (strlen (pos) > 0 && (*pos) == _SLASH)
 	{

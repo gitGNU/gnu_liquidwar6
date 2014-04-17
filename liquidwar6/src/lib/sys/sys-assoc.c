@@ -35,6 +35,7 @@ typedef struct assoc_dup_callback_data_s
 /**
  * lw6sys_assoc_new:
  *
+ * @sys_context: global system context
  * @free_func: optional callback used to free memory when stored
  *   date is a pointer. Can be NULL when one stores non dynamically
  *   allocated data, such as an integer or a static array.
@@ -51,11 +52,11 @@ typedef struct assoc_dup_callback_data_s
  *   array. Must be freed with @lw6sys_assoc_free.
  */
 lw6sys_assoc_t *
-lw6sys_assoc_new (lw6sys_free_func_t free_func)
+lw6sys_assoc_new (lw6sys_context_t *sys_context, lw6sys_free_func_t free_func)
 {
   lw6sys_assoc_t *ret = NULL;
 
-  ret = LW6SYS_MALLOC (sizeof (lw6sys_assoc_t));
+  ret = LW6SYS_MALLOC (sys_context, sizeof (lw6sys_assoc_t));
   if (ret)
     {
       memset (ret, 0, sizeof (lw6sys_assoc_t));
@@ -68,6 +69,7 @@ lw6sys_assoc_new (lw6sys_free_func_t free_func)
 /**
  * lw6sys_assoc_free:
  *
+ * @sys_context: global system context
  * @assoc: the assoc to be freed.
  *
  * The function will cascade  delete all elements, using (if not NULL...)
@@ -76,7 +78,7 @@ lw6sys_assoc_new (lw6sys_free_func_t free_func)
  * Return value: void
  */
 void
-lw6sys_assoc_free (lw6sys_assoc_t * assoc)
+lw6sys_assoc_free (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc)
 {
   if (assoc)
     {
@@ -88,7 +90,7 @@ lw6sys_assoc_free (lw6sys_assoc_t * assoc)
 
       if (assoc->key)
 	{
-	  LW6SYS_FREE (assoc->key);
+	  LW6SYS_FREE (sys_context,assoc->key);
 	}
 
       /*
@@ -99,10 +101,10 @@ lw6sys_assoc_free (lw6sys_assoc_t * assoc)
        */
       if (assoc->free_func && assoc->value)
 	{
-	  assoc->free_func (assoc->value);
+	  assoc->free_func (sys_context,assoc->value);
 	}
 
-      LW6SYS_FREE (assoc);
+      LW6SYS_FREE (sys_context,assoc);
 
       if (next_item)
 	{
@@ -113,18 +115,19 @@ lw6sys_assoc_free (lw6sys_assoc_t * assoc)
 	   * return addresses which are of no use. At least
 	   * the compiler *could* do it 8-) Recursion recursion...
 	   */
-	  lw6sys_assoc_free ((lw6sys_assoc_t *) next_item);
+	  lw6sys_assoc_free (sys_context,(lw6sys_assoc_t *) next_item);
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL assoc"));
     }
 }
 
 /**
  * lw6sys_assoc_has_key:
  *
+ * @sys_context: global system context
  * @assoc: the assoc to test
  * @key: the key to search
  *
@@ -135,7 +138,7 @@ lw6sys_assoc_free (lw6sys_assoc_t * assoc)
  *   corresponding key.
  */
 int
-lw6sys_assoc_has_key (lw6sys_assoc_t * assoc, const char *key)
+lw6sys_assoc_has_key (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, const char *key)
 {
   int exists = 0;
 
@@ -152,7 +155,7 @@ lw6sys_assoc_has_key (lw6sys_assoc_t * assoc, const char *key)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling has_key on NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling has_key on NULL assoc"));
     }
 
   return exists;
@@ -161,6 +164,7 @@ lw6sys_assoc_has_key (lw6sys_assoc_t * assoc, const char *key)
 /**
  * lw6sys_assoc_get:
  *
+ * @sys_context: global system context
  * @assoc: the assoc to query
  * @key: the key of which we want the value
  *
@@ -171,7 +175,7 @@ lw6sys_assoc_has_key (lw6sys_assoc_t * assoc, const char *key)
  *   destroying the assoc will actually free the data if needed.
  */
 void *
-lw6sys_assoc_get (lw6sys_assoc_t * assoc, const char *key)
+lw6sys_assoc_get (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, const char *key)
 {
   void *value = NULL;
 
@@ -188,7 +192,7 @@ lw6sys_assoc_get (lw6sys_assoc_t * assoc, const char *key)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling get on NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling get on NULL assoc"));
     }
 
   return value;
@@ -197,6 +201,7 @@ lw6sys_assoc_get (lw6sys_assoc_t * assoc, const char *key)
 /**
  * lw6sys_assoc_set:
  *
+ * @sys_context: global system context
  * @assoc: the assoc to modify
  * @key: the key we want to updated
  * @value: the new value
@@ -213,7 +218,7 @@ lw6sys_assoc_get (lw6sys_assoc_t * assoc, const char *key)
  * Return value: void
  */
 void
-lw6sys_assoc_set (lw6sys_assoc_t ** assoc, const char *key, void *value)
+lw6sys_assoc_set (lw6sys_context_t *sys_context,lw6sys_assoc_t ** assoc, const char *key, void *value)
 {
   int exists = 0;
 
@@ -227,7 +232,7 @@ lw6sys_assoc_set (lw6sys_assoc_t ** assoc, const char *key, void *value)
 	      exists = 1;
 	      if (search->free_func && search->value)
 		{
-		  search->free_func (search->value);
+		  search->free_func (sys_context,search->value);
 		}
 	      search->value = value;
 	    }
@@ -237,11 +242,11 @@ lw6sys_assoc_set (lw6sys_assoc_t ** assoc, const char *key, void *value)
 	{
 	  lw6sys_assoc_t *new_assoc = NULL;
 
-	  new_assoc = LW6SYS_MALLOC (sizeof (lw6sys_assoc_t));
+	  new_assoc = LW6SYS_MALLOC (sys_context,sizeof (lw6sys_assoc_t));
 	  if (new_assoc)
 	    {
 	      new_assoc->next_item = (*assoc);
-	      new_assoc->key = lw6sys_str_copy (key);
+	      new_assoc->key = lw6sys_str_copy (sys_context,key);
 	      new_assoc->value = value;
 	      new_assoc->free_func = (*assoc)->free_func;
 	      (*assoc) = new_assoc;
@@ -250,13 +255,14 @@ lw6sys_assoc_set (lw6sys_assoc_t ** assoc, const char *key, void *value)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling set on NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling set on NULL assoc"));
     }
 }
 
 /**
  * lw6sys_assoc_unset:
  *
+ * @sys_context: global system context
  * @assoc: the assoc concerned
  * @key: the key to unset
  *
@@ -267,7 +273,7 @@ lw6sys_assoc_set (lw6sys_assoc_t ** assoc, const char *key, void *value)
  * Return value: void
  */
 void
-lw6sys_assoc_unset (lw6sys_assoc_t * assoc, const char *key)
+lw6sys_assoc_unset (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, const char *key)
 {
   if (assoc)
     {
@@ -277,11 +283,11 @@ lw6sys_assoc_unset (lw6sys_assoc_t * assoc, const char *key)
 	    {
 	      if (assoc->key)
 		{
-		  LW6SYS_FREE (assoc->key);
+		  LW6SYS_FREE (sys_context,assoc->key);
 		}
 	      if (assoc->free_func && assoc->value)
 		{
-		  assoc->free_func (assoc->value);
+		  assoc->free_func (sys_context,assoc->value);
 		}
 	      if (assoc->next_item)
 		{
@@ -289,7 +295,7 @@ lw6sys_assoc_unset (lw6sys_assoc_t * assoc, const char *key)
 
 		  to_free = assoc->next_item;
 		  memcpy (assoc, assoc->next_item, sizeof (lw6sys_assoc_t));
-		  LW6SYS_FREE (to_free);
+		  LW6SYS_FREE (sys_context,to_free);
 		}
 	      else
 		{
@@ -301,13 +307,14 @@ lw6sys_assoc_unset (lw6sys_assoc_t * assoc, const char *key)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling unset on NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling unset on NULL assoc"));
     }
 }
 
 /**
  * lw6sys_assoc_keys:
  *
+ * @sys_context: global system context
  * @assoc: the assoc to work on
  *
  * Returns a list containing all the keys of the assoc. The
@@ -320,20 +327,20 @@ lw6sys_assoc_unset (lw6sys_assoc_t * assoc, const char *key)
  * Return value: the list of keys.
  */
 lw6sys_list_t *
-lw6sys_assoc_keys (lw6sys_assoc_t * assoc)
+lw6sys_assoc_keys (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc)
 {
   lw6sys_list_t *keys = NULL;
 
   if (assoc)
     {
-      keys = lw6sys_list_new (lw6sys_free_callback);
+      keys = lw6sys_list_new (sys_context,lw6sys_free_callback);
       if (keys)
 	{
 	  while (assoc)
 	    {
 	      if (assoc->key && keys)
 		{
-		  lw6sys_lifo_push (&keys, lw6sys_str_copy (assoc->key));
+		  lw6sys_lifo_push (sys_context,&keys, lw6sys_str_copy (sys_context,assoc->key));
 		}
 	      assoc = assoc->next_item;
 	    }
@@ -341,7 +348,7 @@ lw6sys_assoc_keys (lw6sys_assoc_t * assoc)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling keys on NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling keys on NULL assoc"));
     }
 
   return keys;
@@ -350,6 +357,7 @@ lw6sys_assoc_keys (lw6sys_assoc_t * assoc)
 /**
  * lw6sys_assoc_map:
  *
+ * @sys_context: global system context
  * @assoc: the assoc to work on
  * @func: a callback to call on each entry
  * @func_data: a pointer on some data which will be passed to the callback
@@ -363,7 +371,7 @@ lw6sys_assoc_keys (lw6sys_assoc_t * assoc)
  * Return value: void
  */
 void
-lw6sys_assoc_map (lw6sys_assoc_t * assoc,
+lw6sys_assoc_map (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc,
 		  lw6sys_assoc_callback_func_t func, void *func_data)
 {
   if (assoc)
@@ -380,11 +388,11 @@ lw6sys_assoc_map (lw6sys_assoc_t * assoc,
 	    {
 	      if (assoc->key)
 		{
-		  func (func_data, assoc->key, assoc->value);
+		  func (sys_context,func_data, assoc->key, assoc->value);
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("assoc has a NULL key"));
 		}
 	    }
@@ -393,13 +401,14 @@ lw6sys_assoc_map (lw6sys_assoc_t * assoc,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling map on NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling map on NULL assoc"));
     }
 }
 
 /**
  * lw6sys_assoc_sort_and_map:
  *
+ * @sys_context: global system context
  * @assoc: the assoc to work on
  * @func: a callback to call on each entry, may be NULL
  * @func_data: a pointer on some data which will be passed to the callback
@@ -410,7 +419,7 @@ lw6sys_assoc_map (lw6sys_assoc_t * assoc,
  * Return value: void
  */
 void
-lw6sys_assoc_sort_and_map (lw6sys_assoc_t * assoc,
+lw6sys_assoc_sort_and_map (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc,
 			   lw6sys_assoc_callback_func_t func, void *func_data)
 {
   lw6sys_list_t *keys;
@@ -419,10 +428,10 @@ lw6sys_assoc_sort_and_map (lw6sys_assoc_t * assoc,
 
   if (assoc)
     {
-      keys = lw6sys_assoc_keys (assoc);
+      keys = lw6sys_assoc_keys (sys_context,assoc);
       if (keys)
 	{
-	  lw6sys_sort (&keys, lw6sys_sort_str_callback);
+	  lw6sys_sort (sys_context,&keys, lw6sys_sort_str_callback);
 	  if (keys)
 	    {
 	      current_key = keys;
@@ -433,28 +442,28 @@ lw6sys_assoc_sort_and_map (lw6sys_assoc_t * assoc,
 		    {
 		      if (func)
 			{
-			  func (func_data, str_key,
-				lw6sys_assoc_get (assoc, str_key));
+			  func (sys_context,func_data, str_key,
+				lw6sys_assoc_get (sys_context,assoc, str_key));
 			}
 		    }
-		  current_key = lw6sys_list_next (current_key);
+		  current_key = lw6sys_list_next (sys_context,current_key);
 		}
 	    }
 	}
       if (keys)
 	{
-	  lw6sys_list_free (keys);
+	  lw6sys_list_free (sys_context,keys);
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("calling sort and map on NULL assoc"));
     }
 }
 
 static void
-assoc_dup_callback (void *func_data, const char *key, void *value)
+assoc_dup_callback (lw6sys_context_t *sys_context,void *func_data, const char *key, void *value)
 {
   assoc_dup_callback_data_t *assoc_dup_callback_data =
     (assoc_dup_callback_data_t *) func_data;
@@ -462,19 +471,20 @@ assoc_dup_callback (void *func_data, const char *key, void *value)
 
   if (assoc_dup_callback_data->dup_func)
     {
-      new_value = assoc_dup_callback_data->dup_func (value);
+      new_value = assoc_dup_callback_data->dup_func (sys_context,value);
     }
   else
     {
       new_value = value;
     }
 
-  lw6sys_assoc_set (&(assoc_dup_callback_data->assoc), key, new_value);
+  lw6sys_assoc_set (sys_context,&(assoc_dup_callback_data->assoc), key, new_value);
 }
 
 /**
  * lw6sys_assoc_dup
  *
+ * @sys_context: global system context
  * @assoc: the assoc to duplicate, can be NULL
  * @dup_func: the function which will be called to duplicate data
  *
@@ -487,23 +497,23 @@ assoc_dup_callback (void *func_data, const char *key, void *value)
  * Returned value: a newly allocated assoc.
  */
 lw6sys_assoc_t *
-lw6sys_assoc_dup (lw6sys_assoc_t * assoc, lw6sys_dup_func_t dup_func)
+lw6sys_assoc_dup (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, lw6sys_dup_func_t dup_func)
 {
   assoc_dup_callback_data_t assoc_dup_callback_data;
   lw6sys_assoc_t *ret = NULL;
 
   if (assoc)
     {
-      assoc_dup_callback_data.assoc = lw6sys_assoc_new (assoc->free_func);
+      assoc_dup_callback_data.assoc = lw6sys_assoc_new (sys_context,assoc->free_func);
       assoc_dup_callback_data.dup_func = dup_func;
 
-      lw6sys_assoc_map (assoc, assoc_dup_callback, &assoc_dup_callback_data);
+      lw6sys_assoc_map (sys_context,assoc, assoc_dup_callback, &assoc_dup_callback_data);
 
       ret = assoc_dup_callback_data.assoc;
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling dup on NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling dup on NULL assoc"));
     }
 
   return ret;

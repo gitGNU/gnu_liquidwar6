@@ -96,7 +96,7 @@ lw6sys_daemon_start (char *pid_file)
    * does not seem a very common case, any sane person should use GNU/Linux
    * instead for that purpose.
    */
-  lw6sys_log (LW6SYS_LOG_WARNING,
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 	      _x_ ("daemon mode not available on platform \"%s\""),
 	      lw6sys_build_get_host_os ());
 #else
@@ -109,7 +109,7 @@ lw6sys_daemon_start (char *pid_file)
       fork_ret = fork ();
       if (fork_ret < 0)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("fork error code=%d"), fork_ret);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("fork error code=%d"), fork_ret);
 	}
       else
 	{
@@ -120,12 +120,12 @@ lw6sys_daemon_start (char *pid_file)
 	       * this supposes the function isn't called when ressources
 	       * such as graphics/sounds backends have been started.
 	       */
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("parent dies"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("parent dies"));
 	      exit (0);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("child lives"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("child lives"));
 	      /*
 	       * We consider we start the daemon even if pid file
 	       * is present and/or not lockable, but at least
@@ -137,7 +137,7 @@ lw6sys_daemon_start (char *pid_file)
 	      _pid_file_descriptor = open (pid_file, O_RDWR | O_CREAT, 0640);
 	      if (_pid_file_descriptor >= 0)
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("pid file \"%s\""),
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pid file \"%s\""),
 			      pid_file);
 		  if (lockf (_pid_file_descriptor, F_TLOCK, 0) >= 0)
 		    {
@@ -150,7 +150,7 @@ lw6sys_daemon_start (char *pid_file)
 			      (_pid_file_descriptor, pid_str,
 			       strlen (pid_str)) > 0)
 			    {
-			      lw6sys_log (LW6SYS_LOG_NOTICE,
+			      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					  _x_
 					  ("daemon started pid=%"
 					   LW6SYS_PRINTF_LL
@@ -162,7 +162,7 @@ lw6sys_daemon_start (char *pid_file)
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  _x_
 				  ("daemon pid=%" LW6SYS_PRINTF_LL
 				   "d unable to lock \"%s\""),
@@ -171,7 +171,7 @@ lw6sys_daemon_start (char *pid_file)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("daemon pid=%" LW6SYS_PRINTF_LL
 				   "d unable to open \"%s\""),
 			      (long long) pid_int, pid_file);
@@ -181,7 +181,7 @@ lw6sys_daemon_start (char *pid_file)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't start daemon twice"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't start daemon twice"));
     }
 #endif
 
@@ -204,13 +204,13 @@ lw6sys_daemon_stop (char *pid_file)
   int ret = 0;
 
 #if LW6_MS_WINDOWS || LW6_MAC_OS_X
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("no daemon on platform \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no daemon on platform \"%s\""),
 	      lw6sys_build_get_host_os ());
   ret = 1;
 #else
   if (_pid_file_descriptor >= 0)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("closing pid file \"%s\""), pid_file);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("closing pid file \"%s\""), pid_file);
       close (_pid_file_descriptor);
       _pid_file_descriptor = -1;
     }
@@ -220,13 +220,13 @@ lw6sys_daemon_stop (char *pid_file)
       unlink (pid_file);
       if (!lw6sys_file_exists (pid_file))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("removed pid file \"%s\""),
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("removed pid file \"%s\""),
 		      pid_file);
 	  ret = 1;
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("unable to remove pid file \"%s\""), pid_file);
 	}
     }

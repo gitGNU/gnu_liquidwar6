@@ -42,6 +42,7 @@
 /**
  * lw6sys_arg_match
  *
+ * @sys_context: global system context
  * @keyword: the option to match, without the prefix "-" or "--"
  * @argv_string: the argv value, for instance argv[1]
  *
@@ -61,7 +62,7 @@
  * Return value: non zero if it matches, 0 if it doesn't.
  */
 int
-lw6sys_arg_match (const char *keyword, const char *argv_string)
+lw6sys_arg_match (lw6sys_context_t *sys_context,const char *keyword, const char *argv_string)
 {
   int ret = 0;
   char *buf = NULL;
@@ -79,33 +80,33 @@ lw6sys_arg_match (const char *keyword, const char *argv_string)
     {
       for (i = 0; i < MATCH_EXACT_FORMAT_SIZE && !ret; ++i)
 	{
-	  buf = lw6sys_new_sprintf (match_exact_formats[i], keyword);
+	  buf = lw6sys_new_sprintf (sys_context,match_exact_formats[i], keyword);
 	  if (buf)
 	    {
 	      if (strcasecmp (buf, argv_string) == 0)
 		{
 		  ret = 1;
 		}
-	      LW6SYS_FREE (buf);
+	      LW6SYS_FREE (sys_context,buf);
 	    }
 	}
 
       for (i = 0; i < MATCH_LAZY_FORMAT_SIZE && !ret; ++i)
 	{
-	  buf = lw6sys_new_sprintf (match_lazy_formats[i], keyword);
+	  buf = lw6sys_new_sprintf (sys_context,match_lazy_formats[i], keyword);
 	  if (buf)
 	    {
 	      if (strncasecmp (buf, argv_string, strlen (buf)) == 0)
 		{
 		  ret = 1;
 		}
-	      LW6SYS_FREE (buf);
+	      LW6SYS_FREE (sys_context,buf);
 	    }
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to match empty command-line argument"));
     }
 
@@ -115,6 +116,7 @@ lw6sys_arg_match (const char *keyword, const char *argv_string)
 /**
  * lw6sys_arg_exists
  *
+ * @sys_context: global system context
  * @argc: the number of arguments, as passed to @main
  * @argv: an array of arguments, as passed to @main
  * @keyword: the keyword to match
@@ -125,14 +127,14 @@ lw6sys_arg_match (const char *keyword, const char *argv_string)
  * Return value: 1 if key is present, 0 if not.
  */
 int
-lw6sys_arg_exists (int argc, const char *argv[], const char *keyword)
+lw6sys_arg_exists (lw6sys_context_t *sys_context,int argc, const char *argv[], const char *keyword)
 {
   int i;
   int ret = 0;
 
   for (i = 1; i < argc; ++i)
     {
-      if (lw6sys_arg_match (keyword, argv[i]))
+      if (lw6sys_arg_match (sys_context,keyword, argv[i]))
 	{
 	  ret = 1;
 	}
@@ -154,7 +156,7 @@ lw6sys_arg_exists (int argc, const char *argv[], const char *keyword)
  * Return value: a pointer to the value. May be NULL. Must be freed.
  */
 char *
-lw6sys_arg_get_value (int argc, const char *argv[], const char *keyword)
+lw6sys_arg_get_value (lw6sys_context_t *sys_context,int argc, const char *argv[], const char *keyword)
 {
   int i;
   char *equal = NULL;
@@ -162,16 +164,12 @@ lw6sys_arg_get_value (int argc, const char *argv[], const char *keyword)
 
   for (i = 1; i < argc && !ret; ++i)
     {
-      if (!ret && lw6sys_arg_match (keyword, argv[i]))
+      if (!ret && lw6sys_arg_match (sys_context,keyword, argv[i]))
 	{
 	  equal = strchr (argv[i], '=');
 	  if (equal)
 	    {
-	      ret = lw6sys_str_copy (equal + 1);
-	    }
-	  else
-	    {
-	      ret = lw6sys_str_copy ("");
+	      ret = lw6sys_str_copy(sys_context,lw6sys_str_empty_if_null (sys_context,equal + 1));
 	    }
 	}
     }
@@ -182,6 +180,7 @@ lw6sys_arg_get_value (int argc, const char *argv[], const char *keyword)
 /**
  * lw6sys_arg_get_value_with_env
  *
+ * @sys_context: global system context
  * @argc: the number of arguments, as passed to @main
  * @argv: an array of arguments, as passed to @main
  * @keyword: the keyword to match
@@ -198,16 +197,16 @@ lw6sys_arg_get_value (int argc, const char *argv[], const char *keyword)
  * Return value: a pointer to the value. May be NULL. Must be freed.
  */
 char *
-lw6sys_arg_get_value_with_env (int argc, const char *argv[],
+lw6sys_arg_get_value_with_env (lw6sys_context_t *sys_context,int argc, const char *argv[],
 			       const char *keyword)
 {
   char *ret = NULL;
 
-  ret = lw6sys_arg_get_value (argc, argv, keyword);
+  ret = lw6sys_arg_get_value (sys_context,argc, argv, keyword);
 
   if (ret == NULL)
     {
-      ret = lw6sys_getenv_prefixed (keyword);
+      ret = lw6sys_getenv_prefixed (sys_context,keyword);
     }
 
   return ret;
@@ -216,6 +215,7 @@ lw6sys_arg_get_value_with_env (int argc, const char *argv[],
 /**
  * lw6sys_arg_test_mode
  *
+ * @sys_context: global system context
  * @argc: argc as passed to main
  * @argv: argv as passed to main
  *
@@ -227,7 +227,7 @@ lw6sys_arg_get_value_with_env (int argc, const char *argv[],
  * Return value: a bit mask one can pass to test functions
  */
 int
-lw6sys_arg_test_mode (int argc, const char *argv[])
+lw6sys_arg_test_mode (lw6sys_context_t *sys_context,int argc, const char *argv[])
 {
   int ret = 0;
   int syntax_ok = 0;
@@ -239,7 +239,7 @@ lw6sys_arg_test_mode (int argc, const char *argv[])
     }
   if (argc >= 2)
     {
-      mode = lw6sys_atoi (argv[1]);
+      mode = lw6sys_atoi (sys_context,argv[1]);
       ret =
 	mode & (LW6SYS_TEST_MODE_FULL_TEST | LW6SYS_TEST_MODE_INTERACTIVE);
       if (ret == mode)
@@ -249,7 +249,7 @@ lw6sys_arg_test_mode (int argc, const char *argv[])
     }
   if (!syntax_ok)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("wrong syntax (should be \"<program> {0|1|2|3}\"), test suite will be run anyways with mode=%d"),
 		  ret);

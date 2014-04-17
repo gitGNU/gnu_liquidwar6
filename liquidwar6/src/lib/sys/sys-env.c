@@ -180,7 +180,7 @@ lw6sys_getenv (const char *key)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("GetEnvironmentVariable failed"));
 	}
     }
@@ -271,7 +271,7 @@ lw6sys_setenv (const char *keyword, const char *value)
   ret = SetEnvironmentVariable (keyword, value) ? 1 : 0;
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("SetEnvironmentVariable failed"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("SetEnvironmentVariable failed"));
     }
 #else
   if (value)

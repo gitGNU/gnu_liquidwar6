@@ -87,7 +87,7 @@ lw6sys_cache_free (lw6sys_cache_t * cache)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL cache"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL cache"));
     }
 }
 

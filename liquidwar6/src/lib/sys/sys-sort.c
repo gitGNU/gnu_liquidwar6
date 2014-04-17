@@ -246,7 +246,7 @@ lw6sys_sort (lw6sys_list_t ** list, lw6sys_sort_callback_func_t sort_func)
 	    }
 	  if (i != length)
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("sort error, i=%d, length=%d"), i, length);
 	    }
 	  end = pos;

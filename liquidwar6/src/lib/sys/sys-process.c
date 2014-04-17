@@ -97,16 +97,16 @@ lw6sys_process_fork_and_call (lw6sys_fork_func_t func, void *data)
   pid = fork ();
   if (!pid)
     {
-      lw6sys_log (LW6SYS_LOG_INFO,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_ ("process forked, callback begin func=%p data=%p"),
 		  &func, data);
       // run the callback, this is what we're here for
       func (data);
-      lw6sys_log (LW6SYS_LOG_INFO,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_ ("process forked, callback end func=%p data=%p"), &func,
 		  data);
 
-      lw6sys_log (LW6SYS_LOG_INFO,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_ ("now naively trying to sleep for %d minutes"),
 		  _SLEEP_WHEN_DONE);
       lw6sys_sleep (_SLEEP_WHEN_DONE);
@@ -123,13 +123,13 @@ lw6sys_process_fork_and_call (lw6sys_fork_func_t func, void *data)
     {
       if (pid > 0)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("process forked, child pid=%" LW6SYS_PRINTF_LL
 			   "d"), (long long) pid);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to fork"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to fork"));
 	  pid = 0LL;
 	}
     }
@@ -159,7 +159,7 @@ lw6sys_process_kill_1_9 (u_int64_t pid)
 #ifdef LW6_GNU
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("kill pid=%" LW6SYS_PRINTF_LL "d"),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("kill pid=%" LW6SYS_PRINTF_LL "d"),
 	      (long long) pid);
 
   if (!kill (pid, SIGTERM))
@@ -196,7 +196,7 @@ lw6sys_process_kill_1_9 (u_int64_t pid)
    */
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("couldn't kill pid=%" LW6SYS_PRINTF_LL "d"),
 		  (long long) pid);
     }

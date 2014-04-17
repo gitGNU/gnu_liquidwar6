@@ -43,7 +43,7 @@
 void
 lw6sys_signal_custom (int trap_errors)
 {
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_ ("setting custom SIGTERM, SIGINT, SIGHUP handlers"));
 #ifdef SIGTERM
   if (signal (SIGTERM, lw6sys_signal_term_handler) == SIG_IGN)
@@ -90,7 +90,7 @@ lw6sys_signal_custom (int trap_errors)
 void
 lw6sys_signal_default ()
 {
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_
 	      ("setting default SIGTERM, SIGINT, SIGHUP, SIGSEGV, SIGFPE handlers"));
 #ifdef SIGTERM
@@ -139,7 +139,7 @@ lw6sys_signal_default ()
 void
 lw6sys_signal_term_handler (int signum)
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("caught SIGTERM"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("caught SIGTERM"));
   lw6sys_signal_send_quit ();
 }
 
@@ -157,7 +157,7 @@ lw6sys_signal_term_handler (int signum)
 void
 lw6sys_signal_int_handler (int signum)
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("caught SIGINT"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("caught SIGINT"));
   lw6sys_signal_send_quit ();
 }
 
@@ -180,13 +180,13 @@ lw6sys_signal_hup_handler (int signum)
   uptime = lw6sys_readable_uptime (lw6sys_get_uptime ());
   if (uptime)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("caught SIGHUP, uptime=\"%s\""),
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("caught SIGHUP, uptime=\"%s\""),
 		  uptime);
       LW6SYS_FREE (uptime);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("caught SIGHUP"));
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("caught SIGHUP"));
     }
 }
 
@@ -219,12 +219,12 @@ lw6sys_signal_segv_handler (int signum)
 	{
 	  signal (SIGSEGV, SIG_IGN);
 	}
-      lw6sys_log (LW6SYS_LOG_ERROR, _("Segmentation fault"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("Segmentation fault"));
       exit (LW6SYS_EXIT_ERROR);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_ERROR,
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 		  _x_ ("Testing segmentation fault handler"));
     }
 #endif
@@ -259,12 +259,12 @@ lw6sys_signal_fpe_handler (int signum)
 	{
 	  signal (SIGFPE, SIG_IGN);
 	}
-      lw6sys_log (LW6SYS_LOG_ERROR, _("Floating point exception"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("Floating point exception"));
       exit (LW6SYS_EXIT_ERROR);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_ERROR,
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 		  _x_ ("Testing floating point exception handler"));
     }
 #endif
@@ -281,7 +281,7 @@ lw6sys_signal_fpe_handler (int signum)
 void
 lw6sys_signal_send_quit ()
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("send QUIT"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("send QUIT"));
   _lw6sys_global.quit = 1;
 }
 
@@ -298,7 +298,7 @@ lw6sys_signal_poll_quit ()
   int ret = 0;
 
   ret = (_lw6sys_global.quit != 0);
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("poll quit ret=%d"), ret);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("poll quit ret=%d"), ret);
 
   return ret;
 }

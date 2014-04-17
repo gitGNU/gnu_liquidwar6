@@ -30,16 +30,19 @@
 /**
  * lw6sys_debug_get
  *
+ * @sys_context: global system context
+ *
  * Gets the debug mode.
  *
  * @Return value: 1 if debug mode set, 0 if not.
  */
 int
-lw6sys_debug_get ()
+lw6sys_debug_get (lw6sys_context_t *sys_context)
 {
   int ret = 0;
+  _lw6sys_context_t *_sys_context=(_lw6sys_context_t *) sys_context;
 
-  ret = _lw6sys_global.debug ? 1 : 0;
+  ret=_sys_context->global.debug ? 1 : 0;
 
   return ret;
 }
@@ -47,12 +50,15 @@ lw6sys_debug_get ()
 /**
  * lw6sys_debug_set
  *
+ * @sys_context: global system context
  * @mode: the debug mode, 1 if set, 0 if not.
  *
  * Sets the debug mode.
  */
 void
-lw6sys_debug_set (int mode)
+lw6sys_debug_set (lw6sys_context_t *sys_context,int mode)
 {
-  _lw6sys_global.debug = mode ? 1 : 0;
+  _lw6sys_context_t *_sys_context=(_lw6sys_context_t *) sys_context;
+
+  _sys_context->global.debug = mode ? 1 : 0;
 }

@@ -1066,69 +1066,69 @@ lw6sys_options_log_defaults ()
   path = lw6sys_get_default_user_dir ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default user dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default user dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_config_file ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default config file is \"%s\""),
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default config file is \"%s\""),
 		  path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_log_file ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default log file is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default log file is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_prefix ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default prefix is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default prefix is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_mod_dir ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default mod dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default mod dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_data_dir ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default data dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default data dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_music_dir ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default music dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default music dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_music_path ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default music path is \"%s\""),
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default music path is \"%s\""),
 		  path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_map_dir ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default map dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default map dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_map_path ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default map path is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default map path is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_script_file ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default script file is \"%s\""),
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default script file is \"%s\""),
 		  path);
       LW6SYS_FREE (path);
     }
@@ -1657,79 +1657,79 @@ lw6sys_options_log (int argc, const char *argv[])
   path = lw6sys_get_cwd (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("cwd is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("cwd is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_run_dir (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("run dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("run dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_user_dir (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("user dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("user dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_config_file (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("config file is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("config file is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_log_file (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("log file is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("log file is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_prefix (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("prefix is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("prefix is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_mod_dir (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("mod dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_data_dir (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("data dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("data dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_music_dir (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("music dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("music dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_music_path (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("music path is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("music path is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_map_dir (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("map dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("map dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_map_path (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("map path is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("map path is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_script_file (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("script file is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("script file is \"%s\""), path);
       LW6SYS_FREE (path);
     }
 }

@@ -101,14 +101,14 @@ lw6sys_progress_update (lw6sys_progress_t * progress, int min, int max,
 	(progress->max - progress->min) + progress->min;
       if ((*(progress->value)) < progress->min)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      "progress value too low min=%f max=%f value=%f",
 		      progress->min, progress->max, *(progress->value));
 	  (*(progress->value)) = progress->min;
 	}
       if ((*(progress->value)) > progress->max)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      "progress value too high min=%f max=%f value=%f",
 		      progress->min, progress->max, *(progress->value));
 	  (*(progress->value)) = progress->max;

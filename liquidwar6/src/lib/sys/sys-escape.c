@@ -98,7 +98,7 @@ lw6sys_escape_http_uri (const char *src)
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_
 				      ("incorrect hexa conversion for %d \"%s\""),
 				      (int) c, hexa);
@@ -109,7 +109,7 @@ lw6sys_escape_http_uri (const char *src)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("invalid character %d in uri"), (int) c);
 	    }
 	}
@@ -119,7 +119,7 @@ lw6sys_escape_http_uri (const char *src)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("http uri escape string too long %d for %d/%d"), j,
 		      _ESCAPE_HTTP_URI_LEN * len, len);
 	}
@@ -181,7 +181,7 @@ lw6sys_escape_html_attribute (const char *src)
 		  quot = _ESCAPE_HTML_ATTRIBUTE_AMP_STR;
 		  break;
 		default:
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("unable to find a substitude for char %d"),
 			      (int) c);
 		  quot = "";
@@ -198,7 +198,7 @@ lw6sys_escape_html_attribute (const char *src)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("html attribute escape string too long %d for %d/%d"),
 		      j, _ESCAPE_HTML_ATTRIBUTE_LEN * len, len);
@@ -257,7 +257,7 @@ lw6sys_escape_sql_value (const char *src)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("sql value escape string too long %d for %d/%d"),
 		      j, _ESCAPE_SQL_VALUE_LEN * len, len);
 	}

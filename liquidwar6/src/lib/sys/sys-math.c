@@ -117,7 +117,7 @@ lw6sys_math_poly_wy1y2s1 (float *y, float *s, float x, float w, float y1,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't extrapolate with x=%f and w=%f"), x, w);
       tmp_y = y2;
       tmp_s = 0.0f;
@@ -240,7 +240,7 @@ lw6sys_math_heartbeat (int64_t x, int period, float y1, float y2)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't use period %d"), period);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't use period %d"), period);
     }
 
   return ret;
@@ -271,7 +271,7 @@ lw6sys_math_blink (int64_t x, int period)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't use period %d"), period);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't use period %d"), period);
     }
 
   return ret;

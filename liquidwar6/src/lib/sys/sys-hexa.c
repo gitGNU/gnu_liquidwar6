@@ -135,7 +135,7 @@ lw6sys_hexa_serializer_eof (lw6sys_hexa_serializer_t * hexa_serializer)
     }
   else if (hexa_serializer->pos > len)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("hexa serializer pos past end (%d/%d)"),
 		  hexa_serializer->pos, len);
     }
@@ -196,7 +196,7 @@ resize (lw6sys_hexa_serializer_t * hexa_serializer, int required)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("can't resize hexa_serializer (new_size=%d), expect serious trouble"),
 		      new_size);
@@ -232,7 +232,7 @@ push_raw (lw6sys_hexa_serializer_t * hexa_serializer, u_int8_t * buf,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("inconsistent hexa_serializer after push, pos=%d, buf_size=%d"),
 		      hexa_serializer->pos, hexa_serializer->buf_size);
@@ -271,7 +271,7 @@ pop_raw (lw6sys_hexa_serializer_t * hexa_serializer, u_int8_t * buf, int size)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("inconsistent hexa_serializer after pop, pos=%d, buf_size=%d"),
 		      hexa_serializer->pos, hexa_serializer->buf_size);
@@ -520,7 +520,7 @@ lw6sys_hexa_serializer_pop_int64 (lw6sys_hexa_serializer_t * hexa_serializer,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to pop int64 from hexa_serializer"));
     }
 
@@ -554,7 +554,7 @@ lw6sys_hexa_serializer_pop_int32 (lw6sys_hexa_serializer_t * hexa_serializer,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to pop int32 from hexa_serializer"));
     }
 
@@ -588,7 +588,7 @@ lw6sys_hexa_serializer_pop_int16 (lw6sys_hexa_serializer_t * hexa_serializer,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to pop int16 from hexa_serializer"));
     }
 
@@ -620,7 +620,7 @@ lw6sys_hexa_serializer_pop_int8 (lw6sys_hexa_serializer_t * hexa_serializer,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to pop int8 from hexa_serializer"));
     }
 
@@ -717,7 +717,7 @@ lw6sys_hexa_serializer_pop_str (lw6sys_hexa_serializer_t * hexa_serializer,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to find \"%s\""), HEXA_0);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to find \"%s\""), HEXA_0);
     }
 
   if (buf && !ret)
@@ -876,7 +876,7 @@ lw6sys_hexa_str_to_buf (void *buf, int size, const char *str)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("incorrect string (bad size) \"%s\" expected %d but got %d"),
 		  str, 2 * size, (int) strlen (str));
