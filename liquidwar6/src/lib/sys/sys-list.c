@@ -109,7 +109,8 @@ lw6sys_list_free (lw6sys_list_t * list)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL list"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL list"));
     }
 }
 
@@ -134,7 +135,8 @@ lw6sys_list_next (lw6sys_list_t * list)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling next on NULL list"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling next on NULL list"));
     }
 
   return ret;
@@ -163,7 +165,8 @@ lw6sys_list_is_empty (lw6sys_list_t * list)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling is_empty on NULL list"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling is_empty on NULL list"));
     }
 
   return empty;
@@ -194,7 +197,8 @@ lw6sys_list_length (lw6sys_list_t * list)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling length on NULL list"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling length on NULL list"));
     }
 
   return ret;
@@ -236,7 +240,8 @@ lw6sys_list_map (lw6sys_list_t * list,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling map on NULL list"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling map on NULL list"));
     }
 }
 
@@ -303,7 +308,8 @@ lw6sys_list_filter (lw6sys_list_t ** list,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling filter on NULL list"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling filter on NULL list"));
     }
 }
 
@@ -393,7 +399,8 @@ lw6sys_list_pop_front (lw6sys_list_t ** list)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling pop_front on NULL list"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling pop_front on NULL list"));
     }
 
   return data;
@@ -444,12 +451,14 @@ lw6sys_list_push_back (lw6sys_list_t ** list, void *data)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("list push_back bug"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("list push_back bug"));
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling push_back on NULL list"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling push_back on NULL list"));
     }
 }
 
@@ -523,7 +532,8 @@ lw6sys_list_pop_back (lw6sys_list_t ** list)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling pop_back on NULL list"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling pop_back on NULL list"));
     }
 
   return data;
@@ -605,7 +615,8 @@ lw6sys_list_dup (lw6sys_list_t * list, lw6sys_dup_func_t dup_func)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling dup on NULL list"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling dup on NULL list"));
     }
 
   return ret;

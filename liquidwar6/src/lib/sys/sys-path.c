@@ -268,7 +268,8 @@ create_dir (const char *dirname, int verbose, int nb_parents)
     {
       if (verbose)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating dir \"%s\""), dirname);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("creating dir \"%s\""), dirname);
 	}
       ret = lw6sys_dir_exists (dirname);
     }
@@ -820,7 +821,8 @@ _dir_list_add_entries (lw6sys_list_t ** list, const char *dir,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("no files in dir \"%s\""), dir);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		  _x_ ("no files in dir \"%s\""), dir);
     }
 #else
   dir_handle = opendir (dir);
@@ -850,12 +852,14 @@ _dir_list_add_entries (lw6sys_list_t ** list, const char *dir,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't read dir \"%s\""), dir);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("couldn't read dir \"%s\""), dir);
     }
 #endif
   if (n && ((*n) == old_n))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("nothing in dir \"%s\""), dir);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("nothing in dir \"%s\""),
+		  dir);
     }
 }
 

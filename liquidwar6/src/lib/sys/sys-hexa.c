@@ -717,7 +717,8 @@ lw6sys_hexa_serializer_pop_str (lw6sys_hexa_serializer_t * hexa_serializer,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to find \"%s\""), HEXA_0);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to find \"%s\""), HEXA_0);
     }
 
   if (buf && !ret)

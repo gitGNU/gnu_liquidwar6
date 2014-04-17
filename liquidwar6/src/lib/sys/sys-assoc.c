@@ -52,7 +52,8 @@ typedef struct assoc_dup_callback_data_s
  *   array. Must be freed with @lw6sys_assoc_free.
  */
 lw6sys_assoc_t *
-lw6sys_assoc_new (lw6sys_context_t *sys_context, lw6sys_free_func_t free_func)
+lw6sys_assoc_new (lw6sys_context_t * sys_context,
+		  lw6sys_free_func_t free_func)
 {
   lw6sys_assoc_t *ret = NULL;
 
@@ -78,7 +79,7 @@ lw6sys_assoc_new (lw6sys_context_t *sys_context, lw6sys_free_func_t free_func)
  * Return value: void
  */
 void
-lw6sys_assoc_free (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc)
+lw6sys_assoc_free (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc)
 {
   if (assoc)
     {
@@ -90,7 +91,7 @@ lw6sys_assoc_free (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc)
 
       if (assoc->key)
 	{
-	  LW6SYS_FREE (sys_context,assoc->key);
+	  LW6SYS_FREE (sys_context, assoc->key);
 	}
 
       /*
@@ -101,10 +102,10 @@ lw6sys_assoc_free (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc)
        */
       if (assoc->free_func && assoc->value)
 	{
-	  assoc->free_func (sys_context,assoc->value);
+	  assoc->free_func (sys_context, assoc->value);
 	}
 
-      LW6SYS_FREE (sys_context,assoc);
+      LW6SYS_FREE (sys_context, assoc);
 
       if (next_item)
 	{
@@ -115,12 +116,13 @@ lw6sys_assoc_free (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc)
 	   * return addresses which are of no use. At least
 	   * the compiler *could* do it 8-) Recursion recursion...
 	   */
-	  lw6sys_assoc_free (sys_context,(lw6sys_assoc_t *) next_item);
+	  lw6sys_assoc_free (sys_context, (lw6sys_assoc_t *) next_item);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL assoc"));
     }
 }
 
@@ -138,7 +140,8 @@ lw6sys_assoc_free (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc)
  *   corresponding key.
  */
 int
-lw6sys_assoc_has_key (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, const char *key)
+lw6sys_assoc_has_key (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc,
+		      const char *key)
 {
   int exists = 0;
 
@@ -155,7 +158,8 @@ lw6sys_assoc_has_key (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, cons
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling has_key on NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling has_key on NULL assoc"));
     }
 
   return exists;
@@ -175,7 +179,8 @@ lw6sys_assoc_has_key (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, cons
  *   destroying the assoc will actually free the data if needed.
  */
 void *
-lw6sys_assoc_get (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, const char *key)
+lw6sys_assoc_get (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc,
+		  const char *key)
 {
   void *value = NULL;
 
@@ -192,7 +197,8 @@ lw6sys_assoc_get (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, const ch
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling get on NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling get on NULL assoc"));
     }
 
   return value;
@@ -218,7 +224,8 @@ lw6sys_assoc_get (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, const ch
  * Return value: void
  */
 void
-lw6sys_assoc_set (lw6sys_context_t *sys_context,lw6sys_assoc_t ** assoc, const char *key, void *value)
+lw6sys_assoc_set (lw6sys_context_t * sys_context, lw6sys_assoc_t ** assoc,
+		  const char *key, void *value)
 {
   int exists = 0;
 
@@ -232,7 +239,7 @@ lw6sys_assoc_set (lw6sys_context_t *sys_context,lw6sys_assoc_t ** assoc, const c
 	      exists = 1;
 	      if (search->free_func && search->value)
 		{
-		  search->free_func (sys_context,search->value);
+		  search->free_func (sys_context, search->value);
 		}
 	      search->value = value;
 	    }
@@ -242,11 +249,11 @@ lw6sys_assoc_set (lw6sys_context_t *sys_context,lw6sys_assoc_t ** assoc, const c
 	{
 	  lw6sys_assoc_t *new_assoc = NULL;
 
-	  new_assoc = LW6SYS_MALLOC (sys_context,sizeof (lw6sys_assoc_t));
+	  new_assoc = LW6SYS_MALLOC (sys_context, sizeof (lw6sys_assoc_t));
 	  if (new_assoc)
 	    {
 	      new_assoc->next_item = (*assoc);
-	      new_assoc->key = lw6sys_str_copy (sys_context,key);
+	      new_assoc->key = lw6sys_str_copy (sys_context, key);
 	      new_assoc->value = value;
 	      new_assoc->free_func = (*assoc)->free_func;
 	      (*assoc) = new_assoc;
@@ -255,7 +262,8 @@ lw6sys_assoc_set (lw6sys_context_t *sys_context,lw6sys_assoc_t ** assoc, const c
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling set on NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling set on NULL assoc"));
     }
 }
 
@@ -273,7 +281,8 @@ lw6sys_assoc_set (lw6sys_context_t *sys_context,lw6sys_assoc_t ** assoc, const c
  * Return value: void
  */
 void
-lw6sys_assoc_unset (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, const char *key)
+lw6sys_assoc_unset (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc,
+		    const char *key)
 {
   if (assoc)
     {
@@ -283,11 +292,11 @@ lw6sys_assoc_unset (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, const 
 	    {
 	      if (assoc->key)
 		{
-		  LW6SYS_FREE (sys_context,assoc->key);
+		  LW6SYS_FREE (sys_context, assoc->key);
 		}
 	      if (assoc->free_func && assoc->value)
 		{
-		  assoc->free_func (sys_context,assoc->value);
+		  assoc->free_func (sys_context, assoc->value);
 		}
 	      if (assoc->next_item)
 		{
@@ -295,7 +304,7 @@ lw6sys_assoc_unset (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, const 
 
 		  to_free = assoc->next_item;
 		  memcpy (assoc, assoc->next_item, sizeof (lw6sys_assoc_t));
-		  LW6SYS_FREE (sys_context,to_free);
+		  LW6SYS_FREE (sys_context, to_free);
 		}
 	      else
 		{
@@ -307,7 +316,8 @@ lw6sys_assoc_unset (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, const 
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling unset on NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling unset on NULL assoc"));
     }
 }
 
@@ -327,20 +337,22 @@ lw6sys_assoc_unset (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, const 
  * Return value: the list of keys.
  */
 lw6sys_list_t *
-lw6sys_assoc_keys (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc)
+lw6sys_assoc_keys (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc)
 {
   lw6sys_list_t *keys = NULL;
 
   if (assoc)
     {
-      keys = lw6sys_list_new (sys_context,lw6sys_free_callback);
+      keys = lw6sys_list_new (sys_context, lw6sys_free_callback);
       if (keys)
 	{
 	  while (assoc)
 	    {
 	      if (assoc->key && keys)
 		{
-		  lw6sys_lifo_push (sys_context,&keys, lw6sys_str_copy (sys_context,assoc->key));
+		  lw6sys_lifo_push (sys_context, &keys,
+				    lw6sys_str_copy (sys_context,
+						     assoc->key));
 		}
 	      assoc = assoc->next_item;
 	    }
@@ -348,7 +360,8 @@ lw6sys_assoc_keys (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling keys on NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling keys on NULL assoc"));
     }
 
   return keys;
@@ -371,7 +384,7 @@ lw6sys_assoc_keys (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc)
  * Return value: void
  */
 void
-lw6sys_assoc_map (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc,
+lw6sys_assoc_map (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc,
 		  lw6sys_assoc_callback_func_t func, void *func_data)
 {
   if (assoc)
@@ -388,7 +401,7 @@ lw6sys_assoc_map (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc,
 	    {
 	      if (assoc->key)
 		{
-		  func (sys_context,func_data, assoc->key, assoc->value);
+		  func (sys_context, func_data, assoc->key, assoc->value);
 		}
 	      else
 		{
@@ -401,7 +414,8 @@ lw6sys_assoc_map (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling map on NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling map on NULL assoc"));
     }
 }
 
@@ -419,7 +433,8 @@ lw6sys_assoc_map (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc,
  * Return value: void
  */
 void
-lw6sys_assoc_sort_and_map (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc,
+lw6sys_assoc_sort_and_map (lw6sys_context_t * sys_context,
+			   lw6sys_assoc_t * assoc,
 			   lw6sys_assoc_callback_func_t func, void *func_data)
 {
   lw6sys_list_t *keys;
@@ -428,10 +443,10 @@ lw6sys_assoc_sort_and_map (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc,
 
   if (assoc)
     {
-      keys = lw6sys_assoc_keys (sys_context,assoc);
+      keys = lw6sys_assoc_keys (sys_context, assoc);
       if (keys)
 	{
-	  lw6sys_sort (sys_context,&keys, lw6sys_sort_str_callback);
+	  lw6sys_sort (sys_context, &keys, lw6sys_sort_str_callback);
 	  if (keys)
 	    {
 	      current_key = keys;
@@ -442,17 +457,18 @@ lw6sys_assoc_sort_and_map (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc,
 		    {
 		      if (func)
 			{
-			  func (sys_context,func_data, str_key,
-				lw6sys_assoc_get (sys_context,assoc, str_key));
+			  func (sys_context, func_data, str_key,
+				lw6sys_assoc_get (sys_context, assoc,
+						  str_key));
 			}
 		    }
-		  current_key = lw6sys_list_next (sys_context,current_key);
+		  current_key = lw6sys_list_next (sys_context, current_key);
 		}
 	    }
 	}
       if (keys)
 	{
-	  lw6sys_list_free (sys_context,keys);
+	  lw6sys_list_free (sys_context, keys);
 	}
     }
   else
@@ -463,7 +479,8 @@ lw6sys_assoc_sort_and_map (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc,
 }
 
 static void
-assoc_dup_callback (lw6sys_context_t *sys_context,void *func_data, const char *key, void *value)
+assoc_dup_callback (lw6sys_context_t * sys_context, void *func_data,
+		    const char *key, void *value)
 {
   assoc_dup_callback_data_t *assoc_dup_callback_data =
     (assoc_dup_callback_data_t *) func_data;
@@ -471,14 +488,15 @@ assoc_dup_callback (lw6sys_context_t *sys_context,void *func_data, const char *k
 
   if (assoc_dup_callback_data->dup_func)
     {
-      new_value = assoc_dup_callback_data->dup_func (sys_context,value);
+      new_value = assoc_dup_callback_data->dup_func (sys_context, value);
     }
   else
     {
       new_value = value;
     }
 
-  lw6sys_assoc_set (sys_context,&(assoc_dup_callback_data->assoc), key, new_value);
+  lw6sys_assoc_set (sys_context, &(assoc_dup_callback_data->assoc), key,
+		    new_value);
 }
 
 /**
@@ -497,23 +515,27 @@ assoc_dup_callback (lw6sys_context_t *sys_context,void *func_data, const char *k
  * Returned value: a newly allocated assoc.
  */
 lw6sys_assoc_t *
-lw6sys_assoc_dup (lw6sys_context_t *sys_context,lw6sys_assoc_t * assoc, lw6sys_dup_func_t dup_func)
+lw6sys_assoc_dup (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc,
+		  lw6sys_dup_func_t dup_func)
 {
   assoc_dup_callback_data_t assoc_dup_callback_data;
   lw6sys_assoc_t *ret = NULL;
 
   if (assoc)
     {
-      assoc_dup_callback_data.assoc = lw6sys_assoc_new (sys_context,assoc->free_func);
+      assoc_dup_callback_data.assoc =
+	lw6sys_assoc_new (sys_context, assoc->free_func);
       assoc_dup_callback_data.dup_func = dup_func;
 
-      lw6sys_assoc_map (sys_context,assoc, assoc_dup_callback, &assoc_dup_callback_data);
+      lw6sys_assoc_map (sys_context, assoc, assoc_dup_callback,
+			&assoc_dup_callback_data);
 
       ret = assoc_dup_callback_data.assoc;
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling dup on NULL assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("calling dup on NULL assoc"));
     }
 
   return ret;

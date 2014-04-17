@@ -73,7 +73,8 @@ lw6sys_spinlock_create ()
 
   if (!spinlock)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create spinlock"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to create spinlock"));
     }
 #else // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 #ifdef LW6_X86
@@ -90,7 +91,8 @@ lw6sys_spinlock_create ()
 
   if (!spinlock)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create X86 spinlock"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to create X86 spinlock"));
     }
 #else // LW6_X86
   spinlock = (_lw6sys_spinlock_t *) lw6sys_mutex_create ();

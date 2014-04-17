@@ -633,7 +633,8 @@ lw6sys_str_reformat (const char *str, const char *prefix, int nb_columns)
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("reformat problem"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+			      _x_ ("reformat problem"));
 		  line_start += i;
 		}
 	      i = 0;

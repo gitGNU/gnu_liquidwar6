@@ -329,8 +329,8 @@ lw6sys_date_rfc1123 (int seconds_from_now)
 	strftime (ret, _RFC1123_SIZE, "%a, %d %b %Y %H:%M:%S +0000", tm_ptr);
       if (strflen >= _RFC1123_SIZE)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("buffer exceeded %d>=%d"),
-		      strflen, _RFC1123_SIZE);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("buffer exceeded %d>=%d"), strflen, _RFC1123_SIZE);
 	}
       // called with old_tz=NULL, will unset
       lw6sys_setenv ("TZ", old_tz);
@@ -397,8 +397,8 @@ lw6sys_date_clf ()
       strflen = strftime (ret, _CLF_SIZE, "%d/%b/%Y:%H:%M:%S %z", tm_ptr);
       if (strflen >= _CLF_SIZE)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("buffer exceeded %d>=%d"),
-		      strflen, _CLF_SIZE);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("buffer exceeded %d>=%d"), strflen, _CLF_SIZE);
 	}
       if (old_locale)
 	{

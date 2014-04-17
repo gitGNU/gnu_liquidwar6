@@ -129,7 +129,8 @@ lw6sys_process_fork_and_call (lw6sys_fork_func_t func, void *data)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to fork"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("unable to fork"));
 	  pid = 0LL;
 	}
     }
@@ -159,8 +160,8 @@ lw6sys_process_kill_1_9 (u_int64_t pid)
 #ifdef LW6_GNU
   int ret = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("kill pid=%" LW6SYS_PRINTF_LL "d"),
-	      (long long) pid);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("kill pid=%" LW6SYS_PRINTF_LL "d"), (long long) pid);
 
   if (!kill (pid, SIGTERM))
     {

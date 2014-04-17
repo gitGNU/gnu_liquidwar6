@@ -131,12 +131,12 @@ lw6sys_cunit_run_tests (int mode)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit suites run"),
 		  run_summary->nSuitesRun);
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit suites failed"),
-		  run_summary->nSuitesFailed);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+		  _x_ ("%d CUnit suites failed"), run_summary->nSuitesFailed);
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit tests"),
 		  run_summary->nTestsRun);
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit tests failed"),
-		  run_summary->nTestsFailed);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+		  _x_ ("%d CUnit tests failed"), run_summary->nTestsFailed);
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit asserts"),
 		  run_summary->nAsserts);
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit successes"),
@@ -148,7 +148,8 @@ lw6sys_cunit_run_tests (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("CU_get_run_summary failed"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("CU_get_run_summary failed"));
     }
 
   if (user_dir)

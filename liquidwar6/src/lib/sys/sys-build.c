@@ -428,17 +428,19 @@ lw6sys_build_get_host_cpu ()
 /**
  * lw6sys_build_get_endianness:
  *
+ * @sys_context: global system context
+ *
  * Returns the endianness of the computer.
  *
  * Return value: 'little' (x86-like) or 'big' (ppc-like), as a string.
  *   Must not be freed.
  */
 char *
-lw6sys_build_get_endianness ()
+lw6sys_build_get_endianness (lw6sys_context_t * sys_context)
 {
   char *ret = "little";		// do not translate this, could be used by another program
 
-  if (lw6sys_is_big_endian ())
+  if (lw6sys_is_big_endian (sys_context))
     {
       ret = "big";		// do not translate this, could be used by another program
     }
@@ -577,6 +579,8 @@ lw6sys_build_is_gp2x ()
 /**
  * lw6sys_build_get_top_srcdir:
  *
+ * @sys_context: global system context
+ *
  * Returns the top source directory, when the game was built. This can
  * seem useless and non relevant on the end-user's machine, but... it's
  * a must-have for developpers and packagers. Without this, binaries
@@ -593,7 +597,7 @@ lw6sys_build_is_gp2x ()
  * Return value: a non-NULL string, must not be freed.
  */
 char *
-lw6sys_build_get_top_srcdir ()
+lw6sys_build_get_top_srcdir (lw6sys_context_t * sys_context)
 {
   char *top_srcdir = NULL;
   char *test_dir = NULL;
@@ -603,16 +607,17 @@ lw6sys_build_get_top_srcdir ()
   test_dir = LW6_TOP_SRCDIR;
   while (i < TOP_SRCDIR_MAX_UNPARENT && !top_srcdir)
     {
-      test_file = lw6sys_path_concat (test_dir, TOP_SRCDIR_TEST_FILE);
+      test_file =
+	lw6sys_path_concat (sys_context, test_dir, TOP_SRCDIR_TEST_FILE);
       if (test_file)
 	{
-	  if (lw6sys_file_exists (test_file))
+	  if (lw6sys_file_exists (sys_context, test_file))
 	    {
 	      top_srcdir = test_dir;
 	    }
-	  LW6SYS_FREE (test_file);
+	  LW6SYS_FREE (sys_context, test_file);
 	}
-      test_dir = lw6sys_path_unparent_no_malloc (test_dir);
+      test_dir = lw6sys_path_unparent_no_malloc (sys_context, test_dir);
       ++i;
     }
 
@@ -1064,13 +1069,15 @@ lw6sys_build_get_enable_valgrind ()
 /**
  * lw6sys_build_get_bin_id
  *
+ * @sys_context: global system context
+ *
  * Returns the internal bin-id value, which does not mean anything
  * but changes at each build.
  *
  * Return value: an integer
  */
 int
-lw6sys_build_get_bin_id ()
+lw6sys_build_get_bin_id (lw6sys_context_t * sys_context)
 {
   int ret = 0;
   u_int32_t checksum_global = 0;
@@ -1083,102 +1090,125 @@ lw6sys_build_get_bin_id ()
    * But at least we're sure we didn't forget anything. If one
    * recompiles the game, for sure, bin-id changes.
    */
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_package_tarname ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_package_name ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_package_string ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_package_id ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_version ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_codename ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_version ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_codename ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_version_base ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_version_major ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_version_minor ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_stamp ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_md5sum ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_stamp ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_md5sum ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_copyright ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_license ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_home_url ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_bugs_url ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_license ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_home_url ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_bugs_url ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_configure_args ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_gcc_version ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_cflags ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_ldflags ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_hostname ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_date ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_time ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_host_cpu ());
-  lw6sys_checksum_update_str (&checksum_global,
-			      lw6sys_build_get_endianness ());
-  lw6sys_checksum_update_int32 (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_cflags ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_ldflags ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_hostname ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_date ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_time ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_host_cpu ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_endianness (sys_context));
+  lw6sys_checksum_update_int32 (sys_context, &checksum_global,
 				lw6sys_build_get_pointer_size ());
-  lw6sys_checksum_update_int32 (&checksum_global, lw6sys_build_is_x86 ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_host_os ());
-  lw6sys_checksum_update_int32 (&checksum_global, lw6sys_build_is_gnu ());
-  lw6sys_checksum_update_int32 (&checksum_global, lw6sys_build_is_unix ());
-  lw6sys_checksum_update_int32 (&checksum_global,
+  lw6sys_checksum_update_int32 (sys_context, &checksum_global,
+				lw6sys_build_is_x86 ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_host_os ());
+  lw6sys_checksum_update_int32 (sys_context, &checksum_global,
+				lw6sys_build_is_gnu ());
+  lw6sys_checksum_update_int32 (sys_context, &checksum_global,
+				lw6sys_build_is_unix ());
+  lw6sys_checksum_update_int32 (sys_context, &checksum_global,
 				lw6sys_build_is_ms_windows ());
-  lw6sys_checksum_update_int32 (&checksum_global,
+  lw6sys_checksum_update_int32 (sys_context, &checksum_global,
 				lw6sys_build_is_mac_os_x ());
-  lw6sys_checksum_update_int32 (&checksum_global, lw6sys_build_is_gp2x ());
-  lw6sys_checksum_update_str (&checksum_global,
-			      lw6sys_build_get_top_srcdir ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_int32 (sys_context, &checksum_global,
+				lw6sys_build_is_gp2x ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_top_srcdir (sys_context));
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_abs_srcdir ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_prefix ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_datadir ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_libdir ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_prefix ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_datadir ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_libdir ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_includedir ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_localedir ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_docdir ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
+			      lw6sys_build_get_docdir ());
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_console ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_gtk ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_mod_gl1 ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_mod_gles2 ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_mod_soft ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_mod_caca ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_mod_csound ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_mod_ogg ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_mod_http ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_optimize ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_allinone ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_fullstatic ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_paranoid ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_gprof ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_instrument ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_profiler ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_gcov ());
-  lw6sys_checksum_update_str (&checksum_global,
+  lw6sys_checksum_update_str (sys_context, &checksum_global,
 			      lw6sys_build_get_enable_valgrind ());
 
-  checksum_version = lw6sys_checksum_str (lw6sys_build_get_version ());
+  checksum_version =
+    lw6sys_checksum_str (sys_context, lw6sys_build_get_version ());
 
   /*
    * It can seem strange to include version *again* in another checksum
@@ -1200,6 +1230,8 @@ lw6sys_build_get_bin_id ()
 /**
  * lw6sys_build_log_all
  *
+ * @sys_context: global system context
+ *
  * Dumps in the log file the whole program pedigree, host, modules,
  * that is, what are the values of all the build options.
  * Usefull for bug reports.
@@ -1207,25 +1239,32 @@ lw6sys_build_get_bin_id ()
  * Return value: none.
  */
 void
-lw6sys_build_log_all ()
+lw6sys_build_log_all (lw6sys_context_t * sys_context)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build package tarname is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build package tarname is \"%s\""),
 	      lw6sys_build_get_package_tarname ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build package name is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build package name is \"%s\""),
 	      lw6sys_build_get_package_name ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build package string is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build package string is \"%s\""),
 	      lw6sys_build_get_package_string ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build package id is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build package id is \"%s\""),
 	      lw6sys_build_get_package_id ());
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build version is \"%s\""),
 	      lw6sys_build_get_version ());
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build codename is \"%s\""),
 	      lw6sys_build_get_codename ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build version_base is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build version_base is \"%s\""),
 	      lw6sys_build_get_version_base ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build version_major is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build version_major is \"%s\""),
 	      lw6sys_build_get_version_major ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build version_minor is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build version_minor is \"%s\""),
 	      lw6sys_build_get_version_minor ());
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build stamp is \"%s\""),
 	      lw6sys_build_get_stamp ());
@@ -1239,9 +1278,11 @@ lw6sys_build_log_all ()
 	      lw6sys_build_get_home_url ());
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build bug url is \"%s\""),
 	      lw6sys_build_get_bugs_url ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build configure args is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build configure args is \"%s\""),
 	      lw6sys_build_get_configure_args ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build gcc_version is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build gcc_version is \"%s\""),
 	      lw6sys_build_get_gcc_version ());
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build cflags is \"%s\""),
 	      lw6sys_build_get_cflags ());
@@ -1253,8 +1294,9 @@ lw6sys_build_log_all ()
 	      lw6sys_build_get_time ());
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build host cpu is \"%s\""),
 	      lw6sys_build_get_host_cpu ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build endianness is \"%s\""),
-	      lw6sys_build_get_endianness ());
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build endianness is \"%s\""),
+	      lw6sys_build_get_endianness (sys_context));
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build pointer size is %d"),
 	      lw6sys_build_get_pointer_size ());
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build host os is \"%s\""),
@@ -1269,9 +1311,11 @@ lw6sys_build_log_all ()
 	      lw6sys_build_is_mac_os_x ());
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build gp2x is %d"),
 	      lw6sys_build_is_gp2x ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build top_srcdir is \"%s\""),
-	      lw6sys_build_get_top_srcdir ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build abs_srcdir is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build top_srcdir is \"%s\""),
+	      lw6sys_build_get_top_srcdir (sys_context));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build abs_srcdir is \"%s\""),
 	      lw6sys_build_get_abs_srcdir ());
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build prefix is \"%s\""),
 	      lw6sys_build_get_prefix ());
@@ -1279,46 +1323,64 @@ lw6sys_build_log_all ()
 	      lw6sys_build_get_datadir ());
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build libdir is \"%s\""),
 	      lw6sys_build_get_libdir ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build includedir is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build includedir is \"%s\""),
 	      lw6sys_build_get_includedir ());
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build localedir is \"%s\""),
 	      lw6sys_build_get_localedir ());
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build docdir is \"%s\""),
 	      lw6sys_build_get_docdir ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable console is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable console is \"%s\""),
 	      lw6sys_build_get_enable_console ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable gtk is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable gtk is \"%s\""),
 	      lw6sys_build_get_enable_gtk ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable mod-gl1 is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable mod-gl1 is \"%s\""),
 	      lw6sys_build_get_enable_mod_gl1 ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable mod-gles2 is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable mod-gles2 is \"%s\""),
 	      lw6sys_build_get_enable_mod_gles2 ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable mod-soft is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable mod-soft is \"%s\""),
 	      lw6sys_build_get_enable_mod_soft ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable mod-csound is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable mod-csound is \"%s\""),
 	      lw6sys_build_get_enable_mod_csound ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable mod-ogg is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable mod-ogg is \"%s\""),
 	      lw6sys_build_get_enable_mod_ogg ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable mod-http is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable mod-http is \"%s\""),
 	      lw6sys_build_get_enable_mod_http ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable optimize is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable optimize is \"%s\""),
 	      lw6sys_build_get_enable_optimize ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable allinone is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable allinone is \"%s\""),
 	      lw6sys_build_get_enable_allinone ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable fullstatic is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable fullstatic is \"%s\""),
 	      lw6sys_build_get_enable_fullstatic ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable paranoid is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable paranoid is \"%s\""),
 	      lw6sys_build_get_enable_paranoid ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable gprof is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable gprof is \"%s\""),
 	      lw6sys_build_get_enable_gprof ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable instrument is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable instrument is \"%s\""),
 	      lw6sys_build_get_enable_instrument ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable profiler is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable profiler is \"%s\""),
 	      lw6sys_build_get_enable_profiler ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable gcov is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable gcov is \"%s\""),
 	      lw6sys_build_get_enable_gcov ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build enable valgrind is \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("build enable valgrind is \"%s\""),
 	      lw6sys_build_get_enable_valgrind ());
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("build bin-id is %d"),
-	      lw6sys_build_get_bin_id ());
+	      lw6sys_build_get_bin_id (sys_context));
 }

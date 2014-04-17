@@ -36,23 +36,26 @@
  *
  * Return value: newly allocated context
  */
-lw6sys_context_t *lw6sys_context_new()
+lw6sys_context_t *
+lw6sys_context_new ()
 {
-  _lw6sys_context_t *_sys_context=NULL;
+  _lw6sys_context_t *_sys_context = NULL;
 
-    /*
-     * Call to regular calloc and not LW6SYS_CALLOC
-     * since context is not fully available.
-     */
-  _sys_context=(_lw6sys_context_t *) calloc(sizeof(_lw6sys_context_t));
+  /*
+   * Call to regular calloc and not LW6SYS_CALLOC
+   * since context is not fully available.
+   */
+  _sys_context = (_lw6sys_context_t *) calloc (sizeof (_lw6sys_context_t));
 
-  if (_sys_context) {
-    _sys_context->global.debug=_LW6SYS_DEBUG_DEFAULT;
-    _sys_context->global.log_level=LW6SYS_LOG_DEFAULT_ID;
-    _sys_context->global.backtrace_mode=LW6SYS_LOG_BACKTRACE_MODE_FUNC;
-    _sys_context->global.quit=0; // redundant with calloc
-    _lw6sys_bazooka_context_init((lw6sys_context_t *)_sys_context,_sys_context->bazooka_context);
-  }
+  if (_sys_context)
+    {
+      _sys_context->global.debug = _LW6SYS_DEBUG_DEFAULT;
+      _sys_context->global.log_level = LW6SYS_LOG_DEFAULT_ID;
+      _sys_context->global.backtrace_mode = LW6SYS_LOG_BACKTRACE_MODE_FUNC;
+      _sys_context->global.quit = 0;	// redundant with calloc
+      _lw6sys_bazooka_context_init ((lw6sys_context_t *) _sys_context,
+				    _sys_context->bazooka_context);
+    }
 
   return (lw6sys_context_t *) _lw6sys_context_t;
 }
@@ -68,14 +71,17 @@ lw6sys_context_t *lw6sys_context_new()
  *
  * Return value: none
  */
-void lw6sys_context_free(lw6sys_context_t *sys_context){
-  if (sys_context) {
-    /*
-     * Call to regular free and not LW6SYS_FREE
-     * since context is not fully available.
-     */
-    free(sys_context);
-  }
+void
+lw6sys_context_free (lw6sys_context_t * sys_context)
+{
+  if (sys_context)
+    {
+      /*
+       * Call to regular free and not LW6SYS_FREE
+       * since context is not fully available.
+       */
+      free (sys_context);
+    }
 }
 
 /**
@@ -90,15 +96,17 @@ void lw6sys_context_free(lw6sys_context_t *sys_context){
  *
  * Return value: none
  */
-void lw6sys_context_begin(lw6sys_context_t *sys_context)
+void
+lw6sys_context_begin (lw6sys_context_t * sys_context)
 {
   setlocale (LC_ALL, "");
-  bindtextdomain (lw6sys_build_get_package_tarname (), lw6sys_build_get_localedir ()); 
-  textdomain (lw6sys_build_get_package_tarname ()); 
-  lw6sys_time_init(); 
-  lw6sys_history_init(); 
-  lw6sys_default_memory_bazooka(); 
-  lw6sys_profiler_check(1);
+  bindtextdomain (lw6sys_build_get_package_tarname (),
+		  lw6sys_build_get_localedir ());
+  textdomain (lw6sys_build_get_package_tarname ());
+  lw6sys_time_init ();
+  lw6sys_history_init ();
+  lw6sys_default_memory_bazooka ();
+  lw6sys_profiler_check (1);
 }
 
 /**
@@ -116,13 +124,14 @@ void lw6sys_context_begin(lw6sys_context_t *sys_context)
  * can reveal a problem that occured way upstream, typically
  * some memory not cleanly freed.
  */
-int lw6sys_context_end(lw6sys_context_t *sys_context)
+int
+lw6sys_context_end (lw6sys_context_t * sys_context)
 {
-  int ret=1;
+  int ret = 1;
 
-  ret = lw6sys_check_thread_count () && ret; 
-  ret = lw6sys_memory_bazooka_report() && ret; 
-  lw6sys_clear_memory_bazooka();
+  ret = lw6sys_check_thread_count () && ret;
+  ret = lw6sys_memory_bazooka_report () && ret;
+  lw6sys_clear_memory_bazooka ();
 
   return ret;
 }
@@ -135,13 +144,15 @@ int lw6sys_context_end(lw6sys_context_t *sys_context)
  *
  * Return value: newly allocated and valid context
  */
-lw6sys_context_t *lw6sys_context_init()
+lw6sys_context_t *
+lw6sys_context_init ()
 {
-  lw6sys_context_t *sys_context=NULL;
+  lw6sys_context_t *sys_context = NULL;
 
-  sys_context=lw6sys_context_new();
-  if (sys_context) {
-  }
+  sys_context = lw6sys_context_new ();
+  if (sys_context)
+    {
+    }
 
   return sys_context;
 }
@@ -158,15 +169,17 @@ lw6sys_context_t *lw6sys_context_init()
  * can reveal a problem that occured way upstream, typically
  * some memory not cleanly freed.
  */
-int lw6sys_context_quit(lw6sys_context_t *sys_context)
+int
+lw6sys_context_quit (lw6sys_context_t * sys_context)
 {
-  int ret=0;
+  int ret = 0;
 
-  if (sys_context) {
-    ret=lw6sys_context_main_end(sys_context);
-    lw6sys_context_free(sys_context);
-    sys_context=NULL;
-  }
+  if (sys_context)
+    {
+      ret = lw6sys_context_main_end (sys_context);
+      lw6sys_context_free (sys_context);
+      sys_context = NULL;
+    }
 
   return ret;
 }

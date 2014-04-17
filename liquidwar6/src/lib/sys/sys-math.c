@@ -240,7 +240,8 @@ lw6sys_math_heartbeat (int64_t x, int period, float y1, float y2)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't use period %d"), period);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("can't use period %d"), period);
     }
 
   return ret;
@@ -271,7 +272,8 @@ lw6sys_math_blink (int64_t x, int period)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't use period %d"), period);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("can't use period %d"), period);
     }
 
   return ret;

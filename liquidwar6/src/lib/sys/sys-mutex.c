@@ -70,7 +70,8 @@ lw6sys_mutex_create ()
 
   if (!mutex)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create mutex"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to create mutex"));
     }
 
   return (lw6sys_mutex_t *) mutex;

@@ -56,14 +56,16 @@ thread_callback (void *thread_handler)
        */
       if (setitimer (ITIMER_PROF, &th->itimer, NULL))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("setitimer failed"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("setitimer failed"));
 	}
 #endif
 #endif
 
       if (th->callback_join)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("begin thread id=%u"), th->id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("begin thread id=%u"), th->id);
 	}
       else
 	{
@@ -134,7 +136,8 @@ thread_callback (void *thread_handler)
 	}
       if (th->callback_join)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("end thread id=%u"), th->id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("end thread id=%u"),
+		      th->id);
 	}
       else
 	{
@@ -196,8 +199,8 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
 
       if (thread_handler->callback_join)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating thread id=%u"),
-		      thread_handler->id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("creating thread id=%u"), thread_handler->id);
 	}
       else
 	{
@@ -216,7 +219,8 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
        */
       if (getitimer (ITIMER_PROF, &thread_handler->itimer))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("getitimer failed"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("getitimer failed"));
 	}
 #endif
 #endif
@@ -243,7 +247,8 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
 
       if (!thread_ok)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't start thread"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("can't start thread"));
 	  if (mutex_ok)
 	    {
 	      pthread_mutex_destroy (&(thread_handler->mutex));
@@ -442,7 +447,8 @@ lw6sys_thread_join (lw6sys_thread_handler_t * thread_handler)
 
       if (th->callback_join)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("joining thread id=%u"), th->id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("joining thread id=%u"), th->id);
 	}
       else
 	{
@@ -487,8 +493,8 @@ lw6sys_thread_join (lw6sys_thread_handler_t * thread_handler)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't join thread id=%u"),
-		      th->id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("can't join thread id=%u"), th->id);
 	}
     }
   else

@@ -35,7 +35,7 @@
 #define _BACKTRACE_FILE "backtrace.txt"
 
 static char *
-_get_backtrace_file (lw6sys_context_t *sys_context)
+_get_backtrace_file (lw6sys_context_t * sys_context)
 {
   char *backtrace_file = NULL;
   char *user_dir = NULL;
@@ -43,8 +43,9 @@ _get_backtrace_file (lw6sys_context_t *sys_context)
   user_dir = lw6sys_get_default_user_dir (sys_context);
   if (user_dir)
     {
-      backtrace_file = lw6sys_path_concat (sys_context,user_dir, _BACKTRACE_FILE);
-      LW6SYS_FREE (sys_context,user_dir);
+      backtrace_file =
+	lw6sys_path_concat (sys_context, user_dir, _BACKTRACE_FILE);
+      LW6SYS_FREE (sys_context, user_dir);
     }
 
   return backtrace_file;
@@ -52,7 +53,8 @@ _get_backtrace_file (lw6sys_context_t *sys_context)
 
 #if LW6_UNIX && HAVE_EXECINFO_H
 static char *
-_append_symbols (lw6sys_context_t *sys_context, const char *base, const char *symbols, int detailed)
+_append_symbols (lw6sys_context_t * sys_context, const char *base,
+		 const char *symbols, int detailed)
 {
   char *begin = NULL;
   char *end = NULL;
@@ -68,7 +70,7 @@ _append_symbols (lw6sys_context_t *sys_context, const char *base, const char *sy
 	}
       if (begin && end && begin + 1 < end)
 	{
-	  func = (char *) LW6SYS_MALLOC (sys_context,end - begin);
+	  func = (char *) LW6SYS_MALLOC (sys_context, end - begin);
 	  if (func)
 	    {
 	      memcpy (func, begin + 1, end - begin - 1);
@@ -77,30 +79,30 @@ _append_symbols (lw6sys_context_t *sys_context, const char *base, const char *sy
 	}
       if (func)
 	{
-	  if (lw6sys_str_is_null_or_empty (sys_context,base))
+	  if (lw6sys_str_is_null_or_empty (sys_context, base))
 	    {
-	      ret = lw6sys_str_copy (sys_context,func);
+	      ret = lw6sys_str_copy (sys_context, func);
 	    }
 	  else
 	    {
-	      ret = lw6sys_new_sprintf (sys_context,"%s<-%s", base, func);
+	      ret = lw6sys_new_sprintf (sys_context, "%s<-%s", base, func);
 	    }
-	  LW6SYS_FREE (sys_context,func);
+	  LW6SYS_FREE (sys_context, func);
 	}
       else
 	{
-	  ret = lw6sys_str_copy (sys_context,base);
+	  ret = lw6sys_str_copy (sys_context, base);
 	}
     }
   else
     {
-      if (lw6sys_str_is_null_or_empty (sys_context,base))
+      if (lw6sys_str_is_null_or_empty (sys_context, base))
 	{
-	  ret = lw6sys_str_copy (sys_context,symbols);
+	  ret = lw6sys_str_copy (sys_context, symbols);
 	}
       else
 	{
-	  ret = lw6sys_new_sprintf (sys_context,"%s, %s", base, symbols);
+	  ret = lw6sys_new_sprintf (sys_context, "%s, %s", base, symbols);
 	}
     }
 
@@ -129,7 +131,7 @@ _append_symbols (lw6sys_context_t *sys_context, const char *base, const char *sy
  * Return value: dynamically allocated string
  */
 char *
-lw6sys_backtrace (lw6sys_context_t *sys_context, int skip, int detailed)
+lw6sys_backtrace (lw6sys_context_t * sys_context, int skip, int detailed)
 {
   char *ret = NULL;
   char *backtrace_file = NULL;
@@ -159,16 +161,19 @@ lw6sys_backtrace (lw6sys_context_t *sys_context, int skip, int detailed)
 	   */
 	  if (n > skip + 1)
 	    {
-	      ret = _append_symbols (sys_context,"", symbols[skip + 1], detailed);
+	      ret =
+		_append_symbols (sys_context, "", symbols[skip + 1],
+				 detailed);
 	    }
 	  if (ret)
 	    {
 	      for (i = skip + 2; i < n + detailed_skip; i++)
 		{
-		  tmp = _append_symbols (sys_context,ret, symbols[i], detailed);
+		  tmp =
+		    _append_symbols (sys_context, ret, symbols[i], detailed);
 		  if (tmp)
 		    {
-		      LW6SYS_FREE (sys_context,ret);
+		      LW6SYS_FREE (sys_context, ret);
 		      ret = tmp;
 		      tmp = NULL;
 		    }
@@ -190,8 +195,8 @@ lw6sys_backtrace (lw6sys_context_t *sys_context, int skip, int detailed)
 	   * On a dump, we would log stuff, but here no, we do
 	   * not want to use complex internal functions.
 	   */
-	  lw6sys_write_file_content (sys_context,backtrace_file, ret);
-	  LW6SYS_FREE (sys_context,backtrace_file);
+	  lw6sys_write_file_content (sys_context, backtrace_file, ret);
+	  LW6SYS_FREE (sys_context, backtrace_file);
 	}
     }
 

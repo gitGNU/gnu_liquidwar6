@@ -180,8 +180,8 @@ lw6sys_signal_hup_handler (int signum)
   uptime = lw6sys_readable_uptime (lw6sys_get_uptime ());
   if (uptime)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("caught SIGHUP, uptime=\"%s\""),
-		  uptime);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+		  _x_ ("caught SIGHUP, uptime=\"%s\""), uptime);
       LW6SYS_FREE (uptime);
     }
   else
@@ -259,7 +259,8 @@ lw6sys_signal_fpe_handler (int signum)
 	{
 	  signal (SIGFPE, SIG_IGN);
 	}
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("Floating point exception"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+		  _("Floating point exception"));
       exit (LW6SYS_EXIT_ERROR);
     }
   else

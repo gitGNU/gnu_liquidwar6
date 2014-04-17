@@ -39,6 +39,7 @@ clean-local:
 	rm -f *.jpeg *.pdf *.dat *.dat.*
 
 EXTRA_DIST = Makefile.main Makefile.extra
+
 liquidwar6bot-test-cpu.jpeg: liquidwar6bot-test-cpu.pdf
 	mogrify -format jpeg -density 600x600 $^
 
@@ -575,7 +576,6 @@ liquidwar6vox-test-heap.pdf: ../../src/lib/vox/liquidwar6vox-test liquidwar6vox-
 
 liquidwar6vox-test-cpu.dat: ../../src/lib/vox/liquidwar6vox-test
 	export CPUPROFILE=$$(readlink -f $@) && export HEAPPROFILE=$$(dirname $$(readlink -f $@))/liquidwar6vox-test-heap.dat && cd ${top_builddir}/src/lib/vox && ./liquidwar6vox-test
-
 
 
 
