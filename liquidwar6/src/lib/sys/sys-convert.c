@@ -29,6 +29,7 @@
 /**
  * lw6sys_atoi
  *
+ * @sys_context: global system context
  * @str: string to convert
  *
  * Just a plain wrapper on @atoi, it's here for API consistency.
@@ -37,7 +38,7 @@
  * Return value: an integer.
  */
 int
-lw6sys_atoi (const char *str)
+lw6sys_atoi (lw6sys_context_t * sys_context, const char *str)
 {
   return (str != NULL) ? atoi (str) : 0;
 }
@@ -45,6 +46,7 @@ lw6sys_atoi (const char *str)
 /**
  * lw6sys_atoll
  *
+ * @sys_context: global system context
  * @str: string to convert
  *
  * Wrapper on @atoll, it's here for API consistency.
@@ -53,7 +55,7 @@ lw6sys_atoi (const char *str)
  * Return value: a 64-bit integer.
  */
 int64_t
-lw6sys_atoll (const char *str)
+lw6sys_atoll (lw6sys_context_t * sys_context, const char *str)
 {
   return (str != NULL) ? atoll (str) : 0L;
 }
@@ -61,6 +63,7 @@ lw6sys_atoll (const char *str)
 /**
  * lw6sys_atob
  *
+ * @sys_context: global system context
  * @str: string to convert
  *
  * Transform a string into a boolean value. Accepts "0"/"1" in input,
@@ -70,7 +73,7 @@ lw6sys_atoll (const char *str)
  * Return value: an integer, 0 or 1.
  */
 int
-lw6sys_atob (const char *str)
+lw6sys_atob (lw6sys_context_t * sys_context, const char *str)
 {
   int ret = 0;
 
@@ -80,7 +83,7 @@ lw6sys_atob (const char *str)
 	     || strcasecmp (str, "y") == 0
 	     || strcasecmp (str, "yes") == 0
 	     || strcasecmp (str, "on") == 0 || strlen (str) == 0
-	     || lw6sys_atoi (str) > 0);
+	     || lw6sys_atoi (sys_context, str) > 0);
     }
 
   return ret;
@@ -89,6 +92,7 @@ lw6sys_atob (const char *str)
 /**
  * lw6sys_atof
  *
+ * @sys_context: global system context
  * @str: string to convert
  *
  * A wrapper on @atof, makes sure the locale used is C (default)
@@ -99,7 +103,7 @@ lw6sys_atob (const char *str)
  * Return value: a float.
  */
 float
-lw6sys_atof (const char *str)
+lw6sys_atof (lw6sys_context_t * sys_context, const char *str)
 {
   float ret = 0.0f;
   char *locale;
@@ -115,7 +119,7 @@ lw6sys_atof (const char *str)
 	   * otherwise the content pointed by *locale
 	   * might change dynamically when calling setlocale
 	   */
-	  old_locale = lw6sys_str_copy (locale);
+	  old_locale = lw6sys_str_copy (sys_context, locale);
 
 	  setlocale (LC_ALL, "C");
 
@@ -124,7 +128,7 @@ lw6sys_atof (const char *str)
 	  setlocale (LC_ALL, old_locale);
 	  if (old_locale)
 	    {
-	      LW6SYS_FREE (old_locale);
+	      LW6SYS_FREE (sys_context, old_locale);
 	    }
 	}
     }
@@ -135,6 +139,7 @@ lw6sys_atof (const char *str)
 /**
  * lw6sys_itoa
  *
+ * @sys_context: global system context
  * @value: the integer to convert
  *
  * Converts an integer to a string, the advantage of this function
@@ -143,9 +148,9 @@ lw6sys_atof (const char *str)
  * Return value: a newly allocated pointer, must be freed, may be NULL.
  */
 char *
-lw6sys_itoa (int value)
+lw6sys_itoa (lw6sys_context_t * sys_context, int value)
 {
-  return lw6sys_new_sprintf ("%d", value);
+  return lw6sys_new_sprintf (sys_context, "%d", value);
 }
 
 /**
@@ -159,14 +164,16 @@ lw6sys_itoa (int value)
  * Return value: a newly allocated pointer, must be freed, may be NULL.
  */
 char *
-lw6sys_lltoa (int64_t value)
+lw6sys_lltoa (lw6sys_context_t * sys_context, int64_t value)
 {
-  return lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d", (long long) value);
+  return lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "d",
+			     (long long) value);
 }
 
 /**
  * lw6sys_btoa
  *
+ * @sys_context: global system context
  * @value: the boolean to convert
  *
  * Converts a boolean to a string, the advantage of this function
@@ -175,13 +182,14 @@ lw6sys_lltoa (int64_t value)
  * Return value: a newly allocated pointer, must be freed, may be NULL.
  */
 char *
-lw6sys_btoa (int value)
+lw6sys_btoa (lw6sys_context_t * sys_context, int value)
 {
   char *ret = NULL;
 
   ret =
-    value ? lw6sys_new_sprintf ("%s", "true") : lw6sys_new_sprintf ("%s",
-								    "false");
+    value ? lw6sys_new_sprintf (sys_context, "%s",
+				"true") : lw6sys_new_sprintf (sys_context,
+							      "%s", "false");
 
   return ret;
 }
@@ -189,6 +197,7 @@ lw6sys_btoa (int value)
 /**
  * lw6sys_ftoa
  *
+ * @sys_context: global system context
  * @value: the float to convert
  *
  * Converts a float to a string, the advantage of this function
@@ -197,7 +206,7 @@ lw6sys_btoa (int value)
  * Return value: a newly allocated pointer, must be freed, may be NULL.
  */
 char *
-lw6sys_ftoa (float value)
+lw6sys_ftoa (lw6sys_context_t * sys_context, float value)
 {
   char *ret = NULL;
   char *locale;
@@ -211,16 +220,16 @@ lw6sys_ftoa (float value)
        * otherwise the content pointed by *locale
        * might change dynamically when calling setlocale
        */
-      old_locale = lw6sys_str_copy (locale);
+      old_locale = lw6sys_str_copy (sys_context, locale);
 
       setlocale (LC_ALL, "C");
 
-      ret = lw6sys_new_sprintf ("%f", value);
+      ret = lw6sys_new_sprintf (sys_context, "%f", value);
 
       setlocale (LC_ALL, old_locale);
       if (old_locale)
 	{
-	  LW6SYS_FREE (old_locale);
+	  LW6SYS_FREE (sys_context, old_locale);
 	}
     }
 
