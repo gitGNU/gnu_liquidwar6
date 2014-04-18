@@ -29,11 +29,11 @@
 #define DUMP_FILE "dump.txt"
 
 static char *
-get_dump_file (char *user_dir)
+get_dump_file (lw6sys_context_t * sys_context, char *user_dir)
 {
   char *dump_file = NULL;
 
-  dump_file = lw6sys_path_concat (user_dir, DUMP_FILE);
+  dump_file = lw6sys_path_concat (sys_context, user_dir, DUMP_FILE);
 
   return dump_file;
 }
@@ -41,6 +41,7 @@ get_dump_file (char *user_dir)
 /**
  * lw6sys_dump_clear
  *
+ * @sys_context: global system context
  * @user_dir: the user directory, where user can write data.
  *
  * Clears the dump file. That is, resets it to a "0 byte" file.
@@ -48,21 +49,22 @@ get_dump_file (char *user_dir)
  * Return value: none.
  */
 void
-lw6sys_dump_clear (char *user_dir)
+lw6sys_dump_clear (lw6sys_context_t * sys_context, char *user_dir)
 {
   char *dump_file = NULL;
 
-  dump_file = get_dump_file (user_dir);
+  dump_file = get_dump_file (sys_context, user_dir);
   if (dump_file)
     {
-      lw6sys_clear_file (dump_file);
-      LW6SYS_FREE (dump_file);
+      lw6sys_clear_file (sys_context, dump_file);
+      LW6SYS_FREE (sys_context, dump_file);
     }
 }
 
 /**
  * lw6sys_dump
  *
+ * @sys_context: global system context
  * @user_dir: the user directory, where user can write data.
  * @content: the content to be written in the dump file.
  *
@@ -74,15 +76,15 @@ lw6sys_dump_clear (char *user_dir)
  * Return value: 1 if success, 0 if failure.
  */
 int
-lw6sys_dump (char *user_dir, char *content)
+lw6sys_dump (lw6sys_context_t * sys_context, char *user_dir, char *content)
 {
   char *dump_file = NULL;
   int ret = 0;
 
-  dump_file = get_dump_file (user_dir);
+  dump_file = get_dump_file (sys_context, user_dir);
   if (dump_file)
     {
-      if (lw6sys_log_get_console_state ())
+      if (lw6sys_log_get_console_state (sys_context))
 	{
 	  /*
 	   * To log the actual content, we don't use log function, for
@@ -97,8 +99,8 @@ lw6sys_dump (char *user_dir, char *content)
        */
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("dump saved in file \"%s\""), dump_file);
-      ret = lw6sys_write_file_content (dump_file, content);
-      LW6SYS_FREE (dump_file);
+      ret = lw6sys_write_file_content (sys_context, dump_file, content);
+      LW6SYS_FREE (sys_context, dump_file);
     }
 
   return ret;
