@@ -29,20 +29,21 @@
 #include <unistd.h>
 #ifndef LW6_MS_WINDOWS
 #include <fcntl.h>
-#endif
+#endif // LW6_MS_WINDOWS
 
 #define _EXECUTED_AGAIN_TRUE "1"
 #define _PID_FILE "daemon.pid"
 
 #if LW6_MS_WINDOWS || LW6_MAC_OS_X
 // no daemon support on those platforms
-#else
+#else // LW6_MS_WINDOWS || LW6_MAC_OS_X
 static int _pid_file_descriptor = -1;
-#endif
+#endif // LW6_MS_WINDOWS || LW6_MAC_OS_X
 
 /**
  * lw6sys_daemon_pid_file
  *
+ * @sys_context: global system context
  * @argc: argc as passed to @main
  * @argv: argv as passed to @main
  *
@@ -52,16 +53,17 @@ static int _pid_file_descriptor = -1;
  * Return value: newly allocated string
  */
 char *
-lw6sys_daemon_pid_file (int argc, const char *argv[])
+lw6sys_daemon_pid_file (lw6sys_context_t * sys_context, int argc,
+			const char *argv[])
 {
   char *user_dir = NULL;
   char *pid_file = NULL;
 
-  user_dir = lw6sys_get_user_dir (argc, argv);
+  user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
   if (user_dir)
     {
-      pid_file = lw6sys_path_concat (user_dir, _PID_FILE);
-      LW6SYS_FREE (user_dir);
+      pid_file = lw6sys_path_concat (sys_context, user_dir, _PID_FILE);
+      LW6SYS_FREE (sys_context, user_dir);
     }
 
   return pid_file;
@@ -70,6 +72,7 @@ lw6sys_daemon_pid_file (int argc, const char *argv[])
 /**
  * lw6sys_daemon_start
  *
+ * @sys_context: global system context
  * @pid_file: the pid file used for the daemon
  *
  * Calls @fork internally to put the process in the program,
@@ -82,7 +85,7 @@ lw6sys_daemon_pid_file (int argc, const char *argv[])
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6sys_daemon_start (char *pid_file)
+lw6sys_daemon_start (lw6sys_context_t * sys_context, char *pid_file)
 {
   int ret = 0;
 
@@ -99,7 +102,7 @@ lw6sys_daemon_start (char *pid_file)
   lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 	      _x_ ("daemon mode not available on platform \"%s\""),
 	      lw6sys_build_get_host_os ());
-#else
+#else // LW6_MS_WINDOWS || LW6_MAC_OS_X
   pid_t fork_ret = 0;
   char *pid_str = NULL;
   pid_t pid_int = 0;
@@ -143,7 +146,8 @@ lw6sys_daemon_start (char *pid_file)
 		  if (lockf (_pid_file_descriptor, F_TLOCK, 0) >= 0)
 		    {
 		      pid_str =
-			lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d\n",
+			lw6sys_new_sprintf (sys_context,
+					    "%" LW6SYS_PRINTF_LL "d\n",
 					    (long long) pid_int);
 		      if (pid_str)
 			{
@@ -158,7 +162,7 @@ lw6sys_daemon_start (char *pid_file)
 					   "d, pid file is \"%s\""),
 					  (long long) pid_int, pid_file);
 			    }
-			  LW6SYS_FREE (pid_str);
+			  LW6SYS_FREE (sys_context, pid_str);
 			}
 		    }
 		  else
@@ -185,7 +189,7 @@ lw6sys_daemon_start (char *pid_file)
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't start daemon twice"));
     }
-#endif
+#endif // LW6_MS_WINDOWS || LW6_MAC_OS_X
 
   return ret;
 }
@@ -193,6 +197,7 @@ lw6sys_daemon_start (char *pid_file)
 /**
  * lw6sys_daemon_stop
  *
+ * @sys_context: global system context
  * @pid_file: the pid file used for the daemon
  *
  * Removes the daemon pid file. Can be called safely even
@@ -201,7 +206,7 @@ lw6sys_daemon_start (char *pid_file)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6sys_daemon_stop (char *pid_file)
+lw6sys_daemon_stop (lw6sys_context_t * sys_context, char *pid_file)
 {
   int ret = 0;
 
@@ -210,7 +215,7 @@ lw6sys_daemon_stop (char *pid_file)
 	      _x_ ("no daemon on platform \"%s\""),
 	      lw6sys_build_get_host_os ());
   ret = 1;
-#else
+#else // LW6_MS_WINDOWS || LW6_MAC_OS_X
   if (_pid_file_descriptor >= 0)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO,
@@ -219,10 +224,10 @@ lw6sys_daemon_stop (char *pid_file)
       _pid_file_descriptor = -1;
     }
 
-  if (lw6sys_file_exists (pid_file))
+  if (lw6sys_file_exists (sys_context, pid_file))
     {
       unlink (pid_file);
-      if (!lw6sys_file_exists (pid_file))
+      if (!lw6sys_file_exists (sys_context, pid_file))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("removed pid file \"%s\""), pid_file);
@@ -234,7 +239,7 @@ lw6sys_daemon_stop (char *pid_file)
 		      _x_ ("unable to remove pid file \"%s\""), pid_file);
 	}
     }
-#endif
+#endif // LW6_MS_WINDOWS || LW6_MAC_OS_X
 
   return ret;
 }
