@@ -42,22 +42,12 @@ lw6sys_context_new ()
   _lw6sys_context_t *_sys_context = NULL;
 
   /*
-   * Call to regular calloc and not LW6SYS_CALLOC
+   * Call to regular malloc and not LW6SYS_MALLOC
    * since context is not fully available.
    */
-  _sys_context = (_lw6sys_context_t *) calloc (sizeof (_lw6sys_context_t));
+  _sys_context = (_lw6sys_context_t *) malloc (sizeof (_lw6sys_context_t));
 
-  if (_sys_context)
-    {
-      _sys_context->global.debug = _LW6SYS_DEBUG_DEFAULT;
-      _sys_context->global.log_level = LW6SYS_LOG_DEFAULT_ID;
-      _sys_context->global.backtrace_mode = LW6SYS_LOG_BACKTRACE_MODE_FUNC;
-      _sys_context->global.quit = 0;	// redundant with calloc
-      _lw6sys_bazooka_context_init ((lw6sys_context_t *) _sys_context,
-				    _sys_context->bazooka_context);
-    }
-
-  return (lw6sys_context_t *) _lw6sys_context_t;
+  return (lw6sys_context_t *) _sys_context;
 }
 
 /**
@@ -99,14 +89,33 @@ lw6sys_context_free (lw6sys_context_t * sys_context)
 void
 lw6sys_context_begin (lw6sys_context_t * sys_context)
 {
+  _lw6sys_context_t *_sys_context = (_lw6sys_context_t *) sys_context;
+
+  memset (sys_context, 0, sizeof (_lw6sys_context_t));
+
+  _sys_context->global.debug = _LW6SYS_DEBUG_DEFAULT;
+  _sys_context->global.log_level = LW6SYS_LOG_DEFAULT_ID;
+  _sys_context->global.log_backtrace_mode = LW6SYS_LOG_BACKTRACE_MODE_FUNC;
+  _sys_context->global.quit = 0;	// redundant with memset
+
+  /*
+   * Initializing sub structures.
+   */
+  _lw6sys_bazooka_context_init (sys_context,
+				&(_sys_context->bazooka_context));
+
+  /*
+   * Performing global initializations, all programs
+   * should need those.
+   */
   setlocale (LC_ALL, "");
   bindtextdomain (lw6sys_build_get_package_tarname (),
 		  lw6sys_build_get_localedir ());
   textdomain (lw6sys_build_get_package_tarname ());
-  lw6sys_time_init ();
-  lw6sys_history_init ();
-  lw6sys_default_memory_bazooka ();
-  lw6sys_profiler_check (1);
+  lw6sys_time_init (sys_context);
+  lw6sys_history_init (sys_context);
+  lw6sys_default_memory_bazooka (sys_context);
+  lw6sys_profiler_check (sys_context, 1);
 }
 
 /**
@@ -127,11 +136,21 @@ lw6sys_context_begin (lw6sys_context_t * sys_context)
 int
 lw6sys_context_end (lw6sys_context_t * sys_context)
 {
-  int ret = 1;
+  int ret = 0;
 
-  ret = lw6sys_check_thread_count () && ret;
-  ret = lw6sys_memory_bazooka_report () && ret;
-  lw6sys_clear_memory_bazooka ();
+  if (sys_context)
+    {
+      ret = 1;
+      ret = lw6sys_check_thread_count (sys_context) && ret;
+      ret = lw6sys_memory_bazooka_report (sys_context) && ret;
+      lw6sys_clear_memory_bazooka (sys_context);
+
+      /*
+       * This is not 100% usefull, but just to make clear
+       * and make sure we don't use it afterwards...
+       */
+      memset (sys_context, 0, sizeof (_lw6sys_context_t));
+    }
 
   return ret;
 }
@@ -152,6 +171,7 @@ lw6sys_context_init ()
   sys_context = lw6sys_context_new ();
   if (sys_context)
     {
+      lw6sys_context_begin (sys_context);
     }
 
   return sys_context;
@@ -176,7 +196,7 @@ lw6sys_context_quit (lw6sys_context_t * sys_context)
 
   if (sys_context)
     {
-      ret = lw6sys_context_main_end (sys_context);
+      ret = lw6sys_context_end (sys_context);
       lw6sys_context_free (sys_context);
       sys_context = NULL;
     }

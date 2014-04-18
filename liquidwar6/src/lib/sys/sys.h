@@ -960,11 +960,11 @@ extern void lw6sys_color_8_solid (lw6sys_color_8_t * color);
 extern void lw6sys_color_f_solid (lw6sys_color_f_t * color);
 
 /* sys-context.c */
-extern lw6sys_context_t *lw6sys_context_new (lw6sys_context_t * sys_context);
+extern lw6sys_context_t *lw6sys_context_new ();
 extern void lw6sys_context_free (lw6sys_context_t * sys_context);
 extern void lw6sys_context_begin (lw6sys_context_t * sys_context);
 extern int lw6sys_context_end (lw6sys_context_t * sys_context);
-extern lw6sys_context_t *lw6sys_context_init (lw6sys_context_t * sys_context);
+extern lw6sys_context_t *lw6sys_context_init ();
 extern int lw6sys_context_quit (lw6sys_context_t * sys_context);
 
 /* sys-convert.c */
