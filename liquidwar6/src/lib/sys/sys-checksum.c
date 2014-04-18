@@ -33,6 +33,7 @@
 /**
  * lw6sys_checksum
  *
+ * @sys_context: global system context
  * @data: the data to process
  * @len: the length, in bytes, of the data to process
  *
@@ -50,11 +51,11 @@
  * Return value: the checksum, as an integer.
  */
 u_int32_t
-lw6sys_checksum (unsigned char *data, int len)
+lw6sys_checksum (lw6sys_context_t * sys_context, unsigned char *data, int len)
 {
   u_int32_t ret = 0;
 
-  lw6sys_checksum_update (&ret, data, len);
+  lw6sys_checksum_update (sys_context, &ret, data, len);
 
   return ret;
 }
@@ -62,6 +63,7 @@ lw6sys_checksum (unsigned char *data, int len)
 /**
  * lw6sys_checksum_str
  *
+ * @sys_context: global system context
  * @value: the string to process
  *
  * Creates a checksum from a string. This is a convenience
@@ -71,11 +73,11 @@ lw6sys_checksum (unsigned char *data, int len)
  * Return value: the checksum, as an integer.
  */
 u_int32_t
-lw6sys_checksum_str (const char *value)
+lw6sys_checksum_str (lw6sys_context_t * sys_context, const char *value)
 {
   u_int32_t ret = 0;
 
-  lw6sys_checksum_update_str (&ret, value);
+  lw6sys_checksum_update_str (sys_context, &ret, value);
 
   return ret;
 }
@@ -83,6 +85,7 @@ lw6sys_checksum_str (const char *value)
 /**
  * lw6sys_checksum_int32
  *
+ * @sys_context: global system context
  * @value: the integer to process
  *
  * Creates a checksum from an integer. This is a convenience
@@ -94,11 +97,11 @@ lw6sys_checksum_str (const char *value)
  * Return value: the checksum, as an integer.
  */
 u_int32_t
-lw6sys_checksum_int32 (u_int32_t value)
+lw6sys_checksum_int32 (lw6sys_context_t * sys_context, u_int32_t value)
 {
   u_int32_t ret = 0;
 
-  lw6sys_checksum_update_int32 (&ret, value);
+  lw6sys_checksum_update_int32 (sys_context, &ret, value);
 
   return ret;
 }
@@ -116,11 +119,11 @@ lw6sys_checksum_int32 (u_int32_t value)
  * Return value: the checksum, as an integer.
  */
 u_int32_t
-lw6sys_checksum_int64 (u_int64_t value)
+lw6sys_checksum_int64 (lw6sys_context_t * sys_context, u_int64_t value)
 {
   u_int32_t ret = 0;
 
-  lw6sys_checksum_update_int64 (&ret, value);
+  lw6sys_checksum_update_int64 (sys_context, &ret, value);
 
   return ret;
 }
@@ -128,6 +131,7 @@ lw6sys_checksum_int64 (u_int64_t value)
 /**
  * lw6sys_checksum_whd
  *
+ * @sys_context: global system context
  * @whd: a pointer to the wh struct to be processed
  *
  * Creates a checksum from the given structure. Convenience
@@ -138,11 +142,11 @@ lw6sys_checksum_int64 (u_int64_t value)
  * Return value: the checksum, as an integer.
  */
 u_int32_t
-lw6sys_checksum_whd (lw6sys_whd_t * whd)
+lw6sys_checksum_whd (lw6sys_context_t * sys_context, lw6sys_whd_t * whd)
 {
   u_int32_t ret = 0;
 
-  lw6sys_checksum_update_whd (&ret, whd);
+  lw6sys_checksum_update_whd (sys_context, &ret, whd);
 
   return ret;
 }
@@ -150,6 +154,7 @@ lw6sys_checksum_whd (lw6sys_whd_t * whd)
 /**
  * lw6sys_checksum_xyz
  *
+ * @sys_context: global system context
  * @xyz: a pointer to the xy struct to be processed
  *
  * Creates a checksum from the given structure. Convenience
@@ -160,11 +165,11 @@ lw6sys_checksum_whd (lw6sys_whd_t * whd)
  * Return value: the checksum, as an integer.
  */
 u_int32_t
-lw6sys_checksum_xyz (lw6sys_xyz_t * xyz)
+lw6sys_checksum_xyz (lw6sys_context_t * sys_context, lw6sys_xyz_t * xyz)
 {
   u_int32_t ret = 0;
 
-  lw6sys_checksum_update_xyz (&ret, xyz);
+  lw6sys_checksum_update_xyz (sys_context, &ret, xyz);
 
   return ret;
 }
@@ -172,6 +177,7 @@ lw6sys_checksum_xyz (lw6sys_xyz_t * xyz)
 /**
  * lw6sys_checksum_update
  *
+ * @sys_context: global system context
  * @checksum: a pointer to the previous checksum
  * @data: the data to process
  * @len: the length, in bytes, of the data to process
@@ -184,7 +190,8 @@ lw6sys_checksum_xyz (lw6sys_xyz_t * xyz)
  * Return value: none.
  */
 void
-lw6sys_checksum_update (u_int32_t * checksum, unsigned char *data, int len)
+lw6sys_checksum_update (lw6sys_context_t * sys_context, u_int32_t * checksum,
+			unsigned char *data, int len)
 {
   /*
    * Algorithm copied from Linux kernel source (lib/crc32.c).
@@ -208,6 +215,7 @@ lw6sys_checksum_update (u_int32_t * checksum, unsigned char *data, int len)
 /**
  * lw6sys_checksum_update_str
  *
+ * @sys_context: global system context
  * @checksum: a pointer to the previous checksum
  * @value: the string to process
  *
@@ -219,20 +227,23 @@ lw6sys_checksum_update (u_int32_t * checksum, unsigned char *data, int len)
  * Return value: none.
  */
 void
-lw6sys_checksum_update_str (u_int32_t * checksum, const char *value)
+lw6sys_checksum_update_str (lw6sys_context_t * sys_context,
+			    u_int32_t * checksum, const char *value)
 {
   int len = 0;
 
   len = strlen (value);
   if (len > 0)
     {
-      lw6sys_checksum_update (checksum, (unsigned char *) value, len);
+      lw6sys_checksum_update (sys_context, checksum, (unsigned char *) value,
+			      len);
     }
 }
 
 /**
  * lw6sys_checksum_update_int32
  *
+ * @sys_context: global system context
  * @checksum: a pointer to the previous checksum
  * @value: the integer to process
  *
@@ -244,17 +255,19 @@ lw6sys_checksum_update_str (u_int32_t * checksum, const char *value)
  * Return value: none.
  */
 void
-lw6sys_checksum_update_int32 (u_int32_t * checksum, int32_t value)
+lw6sys_checksum_update_int32 (lw6sys_context_t * sys_context,
+			      u_int32_t * checksum, int32_t value)
 {
   unsigned char buffer[LW6SYS_SIZEOF_INT32];
 
-  lw6sys_serialize_int32 (buffer, value);
-  lw6sys_checksum_update (checksum, buffer, LW6SYS_SIZEOF_INT32);
+  lw6sys_serialize_int32 (sys_context, buffer, value);
+  lw6sys_checksum_update (sys_context, checksum, buffer, LW6SYS_SIZEOF_INT32);
 }
 
 /**
  * lw6sys_checksum_update_int64
  *
+ * @sys_context: global system context
  * @checksum: a pointer to the previous checksum
  * @value: the integer to process
  *
@@ -266,17 +279,19 @@ lw6sys_checksum_update_int32 (u_int32_t * checksum, int32_t value)
  * Return value: none.
  */
 void
-lw6sys_checksum_update_int64 (u_int32_t * checksum, int64_t value)
+lw6sys_checksum_update_int64 (lw6sys_context_t * sys_context,
+			      u_int32_t * checksum, int64_t value)
 {
   unsigned char buffer[LW6SYS_SIZEOF_INT64];
 
-  lw6sys_serialize_int64 (buffer, value);
-  lw6sys_checksum_update (checksum, buffer, LW6SYS_SIZEOF_INT64);
+  lw6sys_serialize_int64 (sys_context, buffer, value);
+  lw6sys_checksum_update (sys_context, checksum, buffer, LW6SYS_SIZEOF_INT64);
 }
 
 /**
  * lw6sys_checksum_update_whd
  *
+ * @sys_context: global system context
  * @checksum: a pointer to the previous checksum
  * @whd: a pointer to the wh struct to be processed
  *
@@ -288,16 +303,18 @@ lw6sys_checksum_update_int64 (u_int32_t * checksum, int64_t value)
  * Return value: none.
  */
 void
-lw6sys_checksum_update_whd (u_int32_t * checksum, const lw6sys_whd_t * whd)
+lw6sys_checksum_update_whd (lw6sys_context_t * sys_context,
+			    u_int32_t * checksum, const lw6sys_whd_t * whd)
 {
-  lw6sys_checksum_update_int32 (checksum, whd->w);
-  lw6sys_checksum_update_int32 (checksum, whd->h);
-  lw6sys_checksum_update_int32 (checksum, whd->d);
+  lw6sys_checksum_update_int32 (sys_context, checksum, whd->w);
+  lw6sys_checksum_update_int32 (sys_context, checksum, whd->h);
+  lw6sys_checksum_update_int32 (sys_context, checksum, whd->d);
 }
 
 /**
  * lw6sys_checksum_update_xyz
  *
+ * @sys_context: global system context
  * @checksum: a pointer to the previous checksum
  * @xyz: a pointer to the xy struct to be processed
  *
@@ -309,9 +326,10 @@ lw6sys_checksum_update_whd (u_int32_t * checksum, const lw6sys_whd_t * whd)
  * Return value: none.
  */
 void
-lw6sys_checksum_update_xyz (u_int32_t * checksum, const lw6sys_xyz_t * xyz)
+lw6sys_checksum_update_xyz (lw6sys_context_t * sys_context,
+			    u_int32_t * checksum, const lw6sys_xyz_t * xyz)
 {
-  lw6sys_checksum_update_int32 (checksum, xyz->x);
-  lw6sys_checksum_update_int32 (checksum, xyz->y);
-  lw6sys_checksum_update_int32 (checksum, xyz->z);
+  lw6sys_checksum_update_int32 (sys_context, checksum, xyz->x);
+  lw6sys_checksum_update_int32 (sys_context, checksum, xyz->y);
+  lw6sys_checksum_update_int32 (sys_context, checksum, xyz->z);
 }
