@@ -29,6 +29,7 @@
 /**
  * lw6sys_cache_new:
  *
+ * @sys_context: global system context
  * @free_func: optional callback used to free memory when stored
  *   date is a pointer. Can be NULL when one stores non dynamically
  *   allocated data, such as an integer or a static array.
@@ -47,19 +48,22 @@
  * Must be freed with @lw6sys_cache_free.
  */
 lw6sys_cache_t *
-lw6sys_cache_new (lw6sys_free_func_t free_func, int size, int delay_msec)
+lw6sys_cache_new (lw6sys_context_t * sys_context,
+		  lw6sys_free_func_t free_func, int size, int delay_msec)
 {
   lw6sys_cache_t *ret = NULL;
 
-  ret = (lw6sys_cache_t *) LW6SYS_CALLOC (sizeof (lw6sys_cache_t));
+  ret =
+    (lw6sys_cache_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6sys_cache_t));
   if (ret)
     {
       ret->delay_msec = delay_msec;
       ret->real_free_func = free_func;
-      ret->data = lw6sys_hash_new (lw6sys_cache_free_callback, size);
+      ret->data =
+	lw6sys_hash_new (sys_context, lw6sys_cache_free_callback, size);
       if (!(ret->data))
 	{
-	  LW6SYS_FREE (ret);
+	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
 	}
     }
@@ -70,6 +74,7 @@ lw6sys_cache_new (lw6sys_free_func_t free_func, int size, int delay_msec)
 /**
  * lw6sys_cache_free:
  *
+ * @sys_context: global system context
  * @cache: the cache to be freed.
  *
  * The function will cascade  delete all elements, using (if not NULL...)
@@ -78,12 +83,12 @@ lw6sys_cache_new (lw6sys_free_func_t free_func, int size, int delay_msec)
  * Return value: void
  */
 void
-lw6sys_cache_free (lw6sys_cache_t * cache)
+lw6sys_cache_free (lw6sys_context_t * sys_context, lw6sys_cache_t * cache)
 {
   if (cache)
     {
-      lw6sys_hash_free (cache->data);
-      LW6SYS_FREE (cache);
+      lw6sys_hash_free (sys_context, cache->data);
+      LW6SYS_FREE (sys_context, cache);
     }
   else
     {
@@ -95,6 +100,7 @@ lw6sys_cache_free (lw6sys_cache_t * cache)
 /**
  * lw6sys_cache_free_callback:
  *
+ * @sys_context: global system context
  * @data: data to free, this is normally an cache item
  *
  * This is a wrapper, used as the actual free callback
@@ -107,7 +113,7 @@ lw6sys_cache_free (lw6sys_cache_t * cache)
  * Return value: none.
  */
 void
-lw6sys_cache_free_callback (void *data)
+lw6sys_cache_free_callback (lw6sys_context_t * sys_context, void *data)
 {
   lw6sys_cache_item_t *item = (lw6sys_cache_item_t *) data;
 
@@ -115,15 +121,16 @@ lw6sys_cache_free_callback (void *data)
     {
       if (item->real_free_func && item->value)
 	{
-	  item->real_free_func (item->value);
+	  item->real_free_func (sys_context, item->value);
 	}
-      LW6SYS_FREE (item);
+      LW6SYS_FREE (sys_context, item);
     }
 }
 
 /**
  * lw6sys_cache_has_key:
  *
+ * @sys_context: global system context
  * @cache: the cache to test
  * @key: the key to search
  *
@@ -135,12 +142,13 @@ lw6sys_cache_free_callback (void *data)
  *   corresponding key.
  */
 int
-lw6sys_cache_has_key (lw6sys_cache_t * cache, const char *key)
+lw6sys_cache_has_key (lw6sys_context_t * sys_context, lw6sys_cache_t * cache,
+		      const char *key)
 {
   int ret = 0;
   lw6sys_cache_item_t *item = NULL;
 
-  item = lw6sys_hash_get (cache->data, key);
+  item = lw6sys_hash_get (sys_context, cache->data, key);
   /*
    * Testing if item is NOT NULL is equivalent to testing wether
    * key exists as in a cache, the hash always stores real data,
@@ -149,7 +157,7 @@ lw6sys_cache_has_key (lw6sys_cache_t * cache, const char *key)
    */
   if (item)
     {
-      if (item->expiration_timestamp >= lw6sys_get_timestamp ())
+      if (item->expiration_timestamp >= lw6sys_get_timestamp (sys_context))
 	{
 	  ret = 1;
 	}
@@ -159,7 +167,7 @@ lw6sys_cache_has_key (lw6sys_cache_t * cache, const char *key)
 	   * We delete the key on the fly, it's obsolete, completely
 	   * removing it will better performance in the long run.
 	   */
-	  lw6sys_cache_unset (cache, key);
+	  lw6sys_cache_unset (sys_context, cache, key);
 	}
     }
 
@@ -169,6 +177,7 @@ lw6sys_cache_has_key (lw6sys_cache_t * cache, const char *key)
 /**
  * lw6sys_cache_get:
  *
+ * @sys_context: global system context
  * @cache: the cache to query
  * @key: the key of which we want the value
  *
@@ -184,15 +193,16 @@ lw6sys_cache_has_key (lw6sys_cache_t * cache, const char *key)
  *   destroying the cache will actually free the data if needed.
  */
 void *
-lw6sys_cache_get (lw6sys_cache_t * cache, const char *key)
+lw6sys_cache_get (lw6sys_context_t * sys_context, lw6sys_cache_t * cache,
+		  const char *key)
 {
   void *ret = NULL;
   lw6sys_cache_item_t *item = NULL;
 
-  item = lw6sys_hash_get (cache->data, key);
+  item = lw6sys_hash_get (sys_context, cache->data, key);
   if (item)
     {
-      if (item->expiration_timestamp >= lw6sys_get_timestamp ())
+      if (item->expiration_timestamp >= lw6sys_get_timestamp (sys_context))
 	{
 	  ret = item->value;
 	}
@@ -202,7 +212,7 @@ lw6sys_cache_get (lw6sys_cache_t * cache, const char *key)
 	   * We delete the key on the fly, it's obsolete, completely
 	   * removing it will better performance in the long run.
 	   */
-	  lw6sys_cache_unset (cache, key);
+	  lw6sys_cache_unset (sys_context, cache, key);
 	}
     }
 
@@ -228,25 +238,29 @@ lw6sys_cache_get (lw6sys_cache_t * cache, const char *key)
  * Return value: void
  */
 void
-lw6sys_cache_set (lw6sys_cache_t * cache, const char *key, void *value)
+lw6sys_cache_set (lw6sys_context_t * sys_context, lw6sys_cache_t * cache,
+		  const char *key, void *value)
 {
   lw6sys_cache_item_t *item = NULL;
 
-  item = (lw6sys_cache_item_t *) LW6SYS_CALLOC (sizeof (lw6sys_cache_item_t));
+  item =
+    (lw6sys_cache_item_t *) LW6SYS_CALLOC (sys_context,
+					   sizeof (lw6sys_cache_item_t));
 
   if (item)
     {
       item->expiration_timestamp =
-	lw6sys_get_timestamp () + cache->delay_msec;
+	lw6sys_get_timestamp (sys_context) + cache->delay_msec;
       item->real_free_func = cache->real_free_func;
       item->value = value;
-      lw6sys_hash_set (cache->data, key, item);
+      lw6sys_hash_set (sys_context, cache->data, key, item);
     }
 }
 
 /**
  * lw6sys_cache_unset:
  *
+ * @sys_context: global system context
  * @cache: the cache concerned
  * @key: the key to unset
  *
@@ -257,7 +271,8 @@ lw6sys_cache_set (lw6sys_cache_t * cache, const char *key, void *value)
  * Return value: void
  */
 void
-lw6sys_cache_unset (lw6sys_cache_t * cache, const char *key)
+lw6sys_cache_unset (lw6sys_context_t * sys_context, lw6sys_cache_t * cache,
+		    const char *key)
 {
-  lw6sys_hash_unset (cache->data, key);
+  lw6sys_hash_unset (sys_context, cache->data, key);
 }
