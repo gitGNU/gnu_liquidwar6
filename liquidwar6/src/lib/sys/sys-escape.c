@@ -47,6 +47,7 @@
 /**
  * lw6sys_escape_http_uri
  *
+ * @sys_context: global system context
  * @src: the string to escape
  *
  * Transforms a string so that it does not contain any non-valid
@@ -61,7 +62,7 @@
  * Return value: newly allocated string.
  */
 char *
-lw6sys_escape_http_uri (const char *src)
+lw6sys_escape_http_uri (lw6sys_context_t * sys_context, const char *src)
 {
   char *ret = NULL;
   int len = 0;
@@ -69,9 +70,9 @@ lw6sys_escape_http_uri (const char *src)
   unsigned char c;
   char *hexa;
 
-  src = lw6sys_str_empty_if_null (src);
+  src = lw6sys_str_empty_if_null (sys_context, src);
   len = lw6sys_imin (strlen (src), _ESCAPE_HTTP_URI_MAX_LEN);
-  ret = (char *) LW6SYS_CALLOC (_ESCAPE_HTTP_URI_LEN * len + 1);
+  ret = (char *) LW6SYS_CALLOC (sys_context, _ESCAPE_HTTP_URI_LEN * len + 1);
   if (ret)
     {
       for (i = 0, j = 0; i < len && j < _ESCAPE_HTTP_URI_MAX_LEN; ++i)
@@ -87,7 +88,9 @@ lw6sys_escape_http_uri (const char *src)
 		}
 	      else
 		{
-		  hexa = lw6sys_new_sprintf (_ESCAPE_HTTP_URI_MASK, (int) c);
+		  hexa =
+		    lw6sys_new_sprintf (sys_context, _ESCAPE_HTTP_URI_MASK,
+					(int) c);
 		  if (hexa)
 		    {
 		      ret[j++] = '%';
@@ -103,7 +106,7 @@ lw6sys_escape_http_uri (const char *src)
 				      ("incorrect hexa conversion for %d \"%s\""),
 				      (int) c, hexa);
 			}
-		      LW6SYS_FREE (hexa);
+		      LW6SYS_FREE (sys_context, hexa);
 		    }
 		}
 	    }
@@ -131,6 +134,7 @@ lw6sys_escape_http_uri (const char *src)
 /**
  * lw6sys_escape_html_attribute
  *
+ * @sys_context: global system context
  * @src: the string to escape
  *
  * Transforms a string so that it can fit in a html field,
@@ -140,7 +144,7 @@ lw6sys_escape_http_uri (const char *src)
  * Return value: newly allocated string.
  */
 char *
-lw6sys_escape_html_attribute (const char *src)
+lw6sys_escape_html_attribute (lw6sys_context_t * sys_context, const char *src)
 {
   char *ret = NULL;
   int len = 0;
@@ -148,9 +152,11 @@ lw6sys_escape_html_attribute (const char *src)
   unsigned char c;
   char *quot = NULL;
 
-  src = lw6sys_str_empty_if_null (src);
+  src = lw6sys_str_empty_if_null (sys_context, src);
   len = lw6sys_imin (strlen (src), _ESCAPE_HTML_ATTRIBUTE_MAX_LEN);
-  ret = (char *) LW6SYS_CALLOC (_ESCAPE_HTML_ATTRIBUTE_LEN * len + 1);
+  ret =
+    (char *) LW6SYS_CALLOC (sys_context,
+			    _ESCAPE_HTML_ATTRIBUTE_LEN * len + 1);
   if (ret)
     {
       for (i = 0, j = 0; i < len && j < _ESCAPE_HTML_ATTRIBUTE_MAX_LEN; ++i)
@@ -211,6 +217,7 @@ lw6sys_escape_html_attribute (const char *src)
 /**
  * lw6sys_escape_sql_value
  *
+ * @sys_context: global system context
  * @src: the string to escape
  *
  * Transforms a string so that it can fit as an SQL parameter,
@@ -221,7 +228,7 @@ lw6sys_escape_html_attribute (const char *src)
  * Return value: newly allocated string.
  */
 char *
-lw6sys_escape_sql_value (const char *src)
+lw6sys_escape_sql_value (lw6sys_context_t * sys_context, const char *src)
 {
   char *ret = NULL;
   int len = 0;
@@ -229,9 +236,9 @@ lw6sys_escape_sql_value (const char *src)
   unsigned char c;
   char *quot = NULL;
 
-  src = lw6sys_str_empty_if_null (src);
+  src = lw6sys_str_empty_if_null (sys_context, src);
   len = lw6sys_imin (strlen (src), _ESCAPE_SQL_VALUE_MAX_LEN);
-  ret = (char *) LW6SYS_CALLOC (_ESCAPE_SQL_VALUE_LEN * len + 1);
+  ret = (char *) LW6SYS_CALLOC (sys_context, _ESCAPE_SQL_VALUE_LEN * len + 1);
   if (ret)
     {
       for (i = 0, j = 0; i < len && j < _ESCAPE_SQL_VALUE_MAX_LEN; ++i)

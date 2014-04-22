@@ -85,6 +85,7 @@ lw6sys_env_separator_str ()
 /**
  * lw6sys_env_concat
  *
+ * @sys_context: global system context
  * @value1: the left part to be concatenated
  * @value2: the right part to be concatenated
  *
@@ -94,23 +95,24 @@ lw6sys_env_separator_str ()
  * Return value: the concatenated string, must be freed.
  */
 char *
-lw6sys_env_concat (const char *value1, const char *value2)
+lw6sys_env_concat (lw6sys_context_t * sys_context, const char *value1,
+		   const char *value2)
 {
   char *ret = NULL;
 
   if (!strlen (value1))
     {
-      ret = lw6sys_str_copy (value2);
+      ret = lw6sys_str_copy (sys_context, value2);
     }
   else if (!strlen (value2))
     {
-      ret = lw6sys_str_copy (value1);
+      ret = lw6sys_str_copy (sys_context, value1);
     }
   else
     {
       ret =
-	lw6sys_new_sprintf ("%s%s%s", value1, lw6sys_env_separator_str (),
-			    value2);
+	lw6sys_new_sprintf (sys_context, "%s%s%s", value1,
+			    lw6sys_env_separator_str (), value2);
     }
 
   return ret;
@@ -119,6 +121,7 @@ lw6sys_env_concat (const char *value1, const char *value2)
 /**
  * lw6sys_env_exists_prefixed
  *
+ * @sys_context: global system context
  * @keyword: the keyword to be searched in the environment variables.
  *
  * Searches environment variables for the given keyword. The keyword
@@ -132,16 +135,17 @@ lw6sys_env_concat (const char *value1, const char *value2)
  * Return value: 1 if the environment variable exists, 0 if not.
  */
 int
-lw6sys_env_exists_prefixed (const char *keyword)
+lw6sys_env_exists_prefixed (lw6sys_context_t * sys_context,
+			    const char *keyword)
 {
   int ret = 0;
   char *value = NULL;
 
-  value = lw6sys_getenv_prefixed (keyword);
+  value = lw6sys_getenv_prefixed (sys_context, keyword);
   if (value)
     {
       ret = 1;
-      LW6SYS_FREE (value);
+      LW6SYS_FREE (sys_context, value);
     }
 
   return ret;
@@ -150,6 +154,7 @@ lw6sys_env_exists_prefixed (const char *keyword)
 /**
  * lw6sys_getenv
  *
+ * @sys_context: global system context
  * @key: the environment variable to get.
  *
  * Searches environment variables for the given value.
@@ -161,7 +166,7 @@ lw6sys_env_exists_prefixed (const char *keyword)
  * Return value: the value for the given keyword. May be NULL. Must be freed.
  */
 char *
-lw6sys_getenv (const char *key)
+lw6sys_getenv (lw6sys_context_t * sys_context, const char *key)
 {
 #ifdef LW6_MS_WINDOWS
   char value[GETENV_SIZE + 1];
@@ -186,13 +191,13 @@ lw6sys_getenv (const char *key)
     }
   else
     {
-      ret = lw6sys_str_copy (value);
+      ret = lw6sys_str_copy (sys_context, value);
     }
 #else
   value = getenv (key);
   if (value)
     {
-      ret = lw6sys_str_copy (value);
+      ret = lw6sys_str_copy (sys_context, value);
     }
 #endif
 
@@ -202,6 +207,7 @@ lw6sys_getenv (const char *key)
 /**
  * lw6sys_getenv_prefixed
  *
+ * @sys_context: global system context
  * @keyword: the keyword to be searched in the environment variables.
  *
  * Searches environment variables for the given value. The keyword
@@ -215,16 +221,16 @@ lw6sys_getenv (const char *key)
  * Return value: the value for the given keyword. May be NULL. Must be freed.
  */
 char *
-lw6sys_getenv_prefixed (const char *keyword)
+lw6sys_getenv_prefixed (lw6sys_context_t * sys_context, const char *keyword)
 {
   char *keyword_prefixed = NULL;
   char *ret = NULL;
 
-  keyword_prefixed = lw6sys_keyword_as_env (keyword);
+  keyword_prefixed = lw6sys_keyword_as_env (sys_context, keyword);
   if (keyword_prefixed)
     {
-      ret = lw6sys_getenv (keyword_prefixed);
-      LW6SYS_FREE (keyword_prefixed);
+      ret = lw6sys_getenv (sys_context, keyword_prefixed);
+      LW6SYS_FREE (sys_context, keyword_prefixed);
     }
 
   return ret;
@@ -245,7 +251,8 @@ lw6sys_getenv_prefixed (const char *keyword)
  * Return value: 1 if success, 0 if failed
  */
 int
-lw6sys_setenv (const char *keyword, const char *value)
+lw6sys_setenv (lw6sys_context_t * sys_context, const char *keyword,
+	       const char *value)
 {
   int ret = 0;
 
@@ -265,7 +272,7 @@ lw6sys_setenv (const char *keyword, const char *value)
     if (putenv_str)
       {
 	putenv (putenv_str);
-	LW6SYS_FREE (putenv_str);
+	LW6SYS_FREE (sys_context, putenv_str);
       }
   }
   ret = SetEnvironmentVariable (keyword, value) ? 1 : 0;
@@ -291,6 +298,7 @@ lw6sys_setenv (const char *keyword, const char *value)
 /**
  * lw6sys_setenv_prefixed
  *
+ * @sys_context: global system context
  * @keyword: the keyword to be searched in the environment variables.
  * @value: the value of the environment variable to set
  *
@@ -305,16 +313,17 @@ lw6sys_setenv (const char *keyword, const char *value)
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_setenv_prefixed (const char *keyword, const char *value)
+lw6sys_setenv_prefixed (lw6sys_context_t * sys_context, const char *keyword,
+			const char *value)
 {
   char *keyword_prefixed = NULL;
   int ret = 0;
 
-  keyword_prefixed = lw6sys_keyword_as_env (keyword);
+  keyword_prefixed = lw6sys_keyword_as_env (sys_context, keyword);
   if (keyword_prefixed)
     {
-      ret = lw6sys_setenv (keyword_prefixed, value);
-      LW6SYS_FREE (keyword_prefixed);
+      ret = lw6sys_setenv (sys_context, keyword_prefixed, value);
+      LW6SYS_FREE (sys_context, keyword_prefixed);
     }
 
   return ret;
@@ -323,6 +332,7 @@ lw6sys_setenv_prefixed (const char *keyword, const char *value)
 /**
  * lw6sys_env_split
  *
+ * @sys_context: global system context
  * @value: the value, a list of item separated by... the separator
  *
  * Splits the environment value into a list of strings containing
@@ -332,7 +342,7 @@ lw6sys_setenv_prefixed (const char *keyword, const char *value)
  * Return value: a list of strings.
  */
 lw6sys_list_t *
-lw6sys_env_split (const char *value)
+lw6sys_env_split (lw6sys_context_t * sys_context, const char *value)
 {
   lw6sys_list_t *ret = NULL;
   char *copy = NULL;
@@ -340,13 +350,13 @@ lw6sys_env_split (const char *value)
   char *pos = NULL;
   char *item = NULL;
 
-  ret = lw6sys_list_new (lw6sys_free_callback);
+  ret = lw6sys_list_new (sys_context, lw6sys_free_callback);
   if (ret)
     {
       /*
        * We make a copy for we're going to modify it
        */
-      copy = lw6sys_str_copy (value);
+      copy = lw6sys_str_copy (sys_context, value);
       if (copy)
 	{
 	  pos = copy;
@@ -355,10 +365,10 @@ lw6sys_env_split (const char *value)
 	      sep[0] = '\0';
 	      if (ret)
 		{
-		  item = lw6sys_str_copy (pos);
+		  item = lw6sys_str_copy (sys_context, pos);
 		  if (item)
 		    {
-		      lw6sys_lifo_push (&ret, item);
+		      lw6sys_lifo_push (sys_context, &ret, item);
 		      // do not free, will be done when list is destroyed
 		    }
 		}
@@ -366,13 +376,13 @@ lw6sys_env_split (const char *value)
 	    }
 	  if (ret)
 	    {
-	      item = lw6sys_str_copy (pos);
+	      item = lw6sys_str_copy (sys_context, pos);
 	      if (item)
 		{
-		  lw6sys_lifo_push (&ret, item);
+		  lw6sys_lifo_push (sys_context, &ret, item);
 		}
 	    }
-	  LW6SYS_FREE (copy);
+	  LW6SYS_FREE (sys_context, copy);
 	}
     }
 
@@ -381,6 +391,8 @@ lw6sys_env_split (const char *value)
 
 /**
  * lw6sys_get_home
+ *
+ * @sys_context: global system context
  *
  * Gets the home directory of the user. Used internally to calculate
  * the @user-dir value. Note that Liquid War 6, by default, never
@@ -391,7 +403,7 @@ lw6sys_env_split (const char *value)
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_get_home ()
+lw6sys_get_home (lw6sys_context_t * sys_context)
 {
   char *ret = NULL;
   char *home = NULL;
@@ -406,13 +418,15 @@ lw6sys_get_home ()
       home = ".";
     }
 
-  ret = lw6sys_str_copy (home);
+  ret = lw6sys_str_copy (sys_context, home);
 
   return ret;
 }
 
 /**
  * lw6sys_get_username
+ *
+ * @sys_context: global system context
  *
  * Gets the name of the current user. Difference with the standard
  * function @getlogin is that this function will returned a dynamically
@@ -423,7 +437,7 @@ lw6sys_get_home ()
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_get_username ()
+lw6sys_get_username (lw6sys_context_t * sys_context)
 {
   char *ret = NULL;
 #ifdef LW6_MS_WINDOWS
@@ -443,8 +457,8 @@ lw6sys_get_username ()
 	}
       else
 	{
-	  LW6SYS_FREE (ret);
-	  ret = lw6sys_str_copy (DEFAULT_USERNAME);
+	  LW6SYS_FREE (sys_context, ret);
+	  ret = lw6sys_str_copy (sys_context, DEFAULT_USERNAME);
 	}
     }
 #else
@@ -458,7 +472,7 @@ lw6sys_get_username ()
       login = DEFAULT_USERNAME;
     }
 
-  ret = lw6sys_str_copy (login);
+  ret = lw6sys_str_copy (sys_context, login);
 #endif
 
   return ret;
@@ -467,6 +481,8 @@ lw6sys_get_username ()
 /**
  * lw6sys_get_hostname
  *
+ * @sys_context: global system context
+ *
  * Gets the name of the current host. The name of the computer.
  * Might not work perfectly, this function is just used to
  * provide default values for player names and such things.
@@ -474,7 +490,7 @@ lw6sys_get_username ()
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_get_hostname ()
+lw6sys_get_hostname (lw6sys_context_t * sys_context)
 {
   char *ret = NULL;
 #ifdef LW6_MS_WINDOWS
@@ -484,7 +500,7 @@ lw6sys_get_hostname ()
 #endif
 
 #ifdef LW6_MS_WINDOWS
-  ret = LW6SYS_CALLOC (MAX_COMPUTERNAME_LENGTH + 2);
+  ret = LW6SYS_CALLOC (sys_context, MAX_COMPUTERNAME_LENGTH + 2);
   if (ret)
     {
       size = MAX_COMPUTERNAME_LENGTH + 1;
@@ -494,19 +510,19 @@ lw6sys_get_hostname ()
 	}
       else
 	{
-	  LW6SYS_FREE (ret);
-	  ret = lw6sys_str_copy (DEFAULT_HOSTNAME);
+	  LW6SYS_FREE (sys_context, ret);
+	  ret = lw6sys_str_copy (sys_context, DEFAULT_HOSTNAME);
 	}
     }
 #else
   memset (&buf, 0, sizeof (buf));
   if ((!uname (&buf)) && strlen (buf.nodename) > 0)
     {
-      ret = lw6sys_str_copy (buf.nodename);
+      ret = lw6sys_str_copy (sys_context, buf.nodename);
     }
   else
     {
-      ret = lw6sys_str_copy (DEFAULT_HOSTNAME);
+      ret = lw6sys_str_copy (sys_context, DEFAULT_HOSTNAME);
     }
 #endif
 
