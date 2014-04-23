@@ -42,6 +42,7 @@ typedef struct hash_dup_callback_data_s
 /**
  * lw6sys_hash_new:
  *
+ * @sys_context: global system context
  * @free_func: optional callback used to free memory when stored
  *   date is a pointer. Can be NULL when one stores non dynamically
  *   allocated data, such as an integer or a static array.
@@ -59,7 +60,8 @@ typedef struct hash_dup_callback_data_s
  * Must be freed with @lw6sys_hash_free.
  */
 lw6sys_hash_t *
-lw6sys_hash_new (lw6sys_free_func_t free_func, int size)
+lw6sys_hash_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func,
+		 int size)
 {
   lw6sys_hash_t *ret = NULL;
   int i;
@@ -67,19 +69,19 @@ lw6sys_hash_new (lw6sys_free_func_t free_func, int size)
 
   if (size >= _HASH_SIZE_MIN)
     {
-      ret = LW6SYS_MALLOC (sizeof (lw6sys_hash_t));
+      ret = LW6SYS_MALLOC (sys_context, sizeof (lw6sys_hash_t));
       if (ret)
 	{
 	  ret->free_func = free_func;
 	  ret->size = size;
 	  ret->entries =
-	    (lw6sys_assoc_t **) LW6SYS_MALLOC (size *
+	    (lw6sys_assoc_t **) LW6SYS_MALLOC (sys_context, size *
 					       sizeof (lw6sys_assoc_t *));
 	  if (ret->entries)
 	    {
 	      for (i = 0; i < ret->size; ++i)
 		{
-		  ret->entries[i] = lw6sys_assoc_new (free_func);
+		  ret->entries[i] = lw6sys_assoc_new (sys_context, free_func);
 		  if (!ret->entries[i])
 		    {
 		      null_entry = 1;
@@ -91,16 +93,16 @@ lw6sys_hash_new (lw6sys_free_func_t free_func, int size)
 		    {
 		      if (ret->entries[i])
 			{
-			  lw6sys_assoc_free (ret->entries[i]);
+			  lw6sys_assoc_free (sys_context, ret->entries[i]);
 			}
 		    }
-		  LW6SYS_FREE (ret);
+		  LW6SYS_FREE (sys_context, ret);
 		  ret = NULL;
 		}
 	    }
 	  else
 	    {
-	      LW6SYS_FREE (ret);
+	      LW6SYS_FREE (sys_context, ret);
 	      ret = NULL;
 	    }
 	}
@@ -117,6 +119,7 @@ lw6sys_hash_new (lw6sys_free_func_t free_func, int size)
 /**
  * lw6sys_hash_free:
  *
+ * @sys_context: global system context
  * @hash: the hash to be freed.
  *
  * The function will cascade  delete all elements, using (if not NULL...)
@@ -125,7 +128,7 @@ lw6sys_hash_new (lw6sys_free_func_t free_func, int size)
  * Return value: void
  */
 void
-lw6sys_hash_free (lw6sys_hash_t * hash)
+lw6sys_hash_free (lw6sys_context_t * sys_context, lw6sys_hash_t * hash)
 {
   int i;
 
@@ -135,11 +138,11 @@ lw6sys_hash_free (lw6sys_hash_t * hash)
 	{
 	  for (i = 0; i < hash->size; ++i)
 	    {
-	      lw6sys_assoc_free (hash->entries[i]);
+	      lw6sys_assoc_free (sys_context, hash->entries[i]);
 	    }
-	  LW6SYS_FREE (hash->entries);
+	  LW6SYS_FREE (sys_context, hash->entries);
 	}
-      LW6SYS_FREE (hash);
+      LW6SYS_FREE (sys_context, hash);
     }
   else
     {
@@ -151,6 +154,7 @@ lw6sys_hash_free (lw6sys_hash_t * hash)
 /**
  * lw6sys_hash_has_key:
  *
+ * @sys_context: global system context
  * @hash: the hash to test
  * @key: the key to search
  *
@@ -160,15 +164,16 @@ lw6sys_hash_free (lw6sys_hash_t * hash)
  *   corresponding key.
  */
 int
-lw6sys_hash_has_key (lw6sys_hash_t * hash, const char *key)
+lw6sys_hash_has_key (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
+		     const char *key)
 {
   int exists = 0;
   int index = 0;
 
   if (hash)
     {
-      index = lw6sys_checksum_str (key) % hash->size;
-      exists = lw6sys_assoc_has_key (hash->entries[index], key);
+      index = lw6sys_checksum_str (sys_context, key) % hash->size;
+      exists = lw6sys_assoc_has_key (sys_context, hash->entries[index], key);
     }
   else
     {
@@ -182,6 +187,7 @@ lw6sys_hash_has_key (lw6sys_hash_t * hash, const char *key)
 /**
  * lw6sys_hash_get:
  *
+ * @sys_context: global system context
  * @hash: the hash to query
  * @key: the key of which we want the value
  *
@@ -195,15 +201,16 @@ lw6sys_hash_has_key (lw6sys_hash_t * hash, const char *key)
  *   destroying the hash will actually free the data if needed.
  */
 void *
-lw6sys_hash_get (lw6sys_hash_t * hash, const char *key)
+lw6sys_hash_get (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
+		 const char *key)
 {
   void *value = NULL;
   int index = 0;
 
   if (hash)
     {
-      index = lw6sys_checksum_str (key) % hash->size;
-      value = lw6sys_assoc_get (hash->entries[index], key);
+      index = lw6sys_checksum_str (sys_context, key) % hash->size;
+      value = lw6sys_assoc_get (sys_context, hash->entries[index], key);
     }
   else
     {
@@ -217,6 +224,7 @@ lw6sys_hash_get (lw6sys_hash_t * hash, const char *key)
 /**
  * lw6sys_hash_set:
  *
+ * @sys_context: global system context
  * @hash: the hash to modify
  * @key: the key we want to updated
  * @value: the new value
@@ -233,14 +241,15 @@ lw6sys_hash_get (lw6sys_hash_t * hash, const char *key)
  * Return value: void
  */
 void
-lw6sys_hash_set (lw6sys_hash_t * hash, const char *key, void *value)
+lw6sys_hash_set (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
+		 const char *key, void *value)
 {
   int index = 0;
 
   if (hash)
     {
-      index = lw6sys_checksum_str (key) % hash->size;
-      lw6sys_assoc_set (&(hash->entries[index]), key, value);
+      index = lw6sys_checksum_str (sys_context, key) % hash->size;
+      lw6sys_assoc_set (sys_context, &(hash->entries[index]), key, value);
     }
   else
     {
@@ -252,6 +261,7 @@ lw6sys_hash_set (lw6sys_hash_t * hash, const char *key, void *value)
 /**
  * lw6sys_hash_unset:
  *
+ * @sys_context: global system context
  * @hash: the hash concerned
  * @key: the key to unset
  *
@@ -262,14 +272,15 @@ lw6sys_hash_set (lw6sys_hash_t * hash, const char *key, void *value)
  * Return value: void
  */
 void
-lw6sys_hash_unset (lw6sys_hash_t * hash, const char *key)
+lw6sys_hash_unset (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
+		   const char *key)
 {
   int index = 0;
 
   if (hash)
     {
-      index = lw6sys_checksum_str (key) % hash->size;
-      lw6sys_assoc_unset (hash->entries[index], key);
+      index = lw6sys_checksum_str (sys_context, key) % hash->size;
+      lw6sys_assoc_unset (sys_context, hash->entries[index], key);
     }
   else
     {
@@ -281,6 +292,7 @@ lw6sys_hash_unset (lw6sys_hash_t * hash, const char *key)
 /**
  * lw6sys_hash_keys:
  *
+ * @sys_context: global system context
  * @hash: the hash to work on
  *
  * Returns a list containing all the keys of the hash. The
@@ -293,7 +305,7 @@ lw6sys_hash_unset (lw6sys_hash_t * hash, const char *key)
  * Return value: the list of keys.
  */
 lw6sys_list_t *
-lw6sys_hash_keys (lw6sys_hash_t * hash)
+lw6sys_hash_keys (lw6sys_context_t * sys_context, lw6sys_hash_t * hash)
 {
   lw6sys_list_t *keys = NULL;
   lw6sys_assoc_t *assoc = NULL;
@@ -301,7 +313,7 @@ lw6sys_hash_keys (lw6sys_hash_t * hash)
 
   if (hash)
     {
-      keys = lw6sys_list_new (lw6sys_free_callback);
+      keys = lw6sys_list_new (sys_context, lw6sys_free_callback);
       if (keys)
 	{
 	  for (i = 0; i < hash->size; ++i)
@@ -311,7 +323,9 @@ lw6sys_hash_keys (lw6sys_hash_t * hash)
 		{
 		  if (assoc->key)
 		    {
-		      lw6sys_lifo_push (&keys, lw6sys_str_copy (assoc->key));
+		      lw6sys_lifo_push (sys_context, &keys,
+					lw6sys_str_copy (sys_context,
+							 assoc->key));
 		    }
 		  assoc = assoc->next_item;
 		}
@@ -330,6 +344,7 @@ lw6sys_hash_keys (lw6sys_hash_t * hash)
 /**
  * lw6sys_hash_map:
  *
+ * @sys_context: global system context
  * @hash: the hash to work on
  * @func: a callback to call on each entry
  * @func_data: a pointer on some data which will be passed to the callback
@@ -343,7 +358,7 @@ lw6sys_hash_keys (lw6sys_hash_t * hash)
  * Return value: void
  */
 void
-lw6sys_hash_map (lw6sys_hash_t * hash,
+lw6sys_hash_map (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
 		 lw6sys_assoc_callback_func_t func, void *func_data)
 {
   int i;
@@ -352,7 +367,7 @@ lw6sys_hash_map (lw6sys_hash_t * hash,
     {
       for (i = 0; i < hash->size; ++i)
 	{
-	  lw6sys_assoc_map (hash->entries[i], func, func_data);
+	  lw6sys_assoc_map (sys_context, hash->entries[i], func, func_data);
 	}
     }
   else
@@ -365,6 +380,7 @@ lw6sys_hash_map (lw6sys_hash_t * hash,
 /**
  * lw6sys_hash_sort_and_map:
  *
+ * @sys_context: global system context
  * @hash: the hash to work on
  * @func: a callback to call on each entry, may be NULL
  * @func_data: a pointer on some data which will be passed to the callback
@@ -375,7 +391,8 @@ lw6sys_hash_map (lw6sys_hash_t * hash,
  * Return value: void
  */
 void
-lw6sys_hash_sort_and_map (lw6sys_hash_t * hash,
+lw6sys_hash_sort_and_map (lw6sys_context_t * sys_context,
+			  lw6sys_hash_t * hash,
 			  lw6sys_assoc_callback_func_t func, void *func_data)
 {
   lw6sys_list_t *keys = NULL;
@@ -384,10 +401,10 @@ lw6sys_hash_sort_and_map (lw6sys_hash_t * hash,
 
   if (hash)
     {
-      keys = lw6sys_hash_keys (hash);
+      keys = lw6sys_hash_keys (sys_context, hash);
       if (keys)
 	{
-	  lw6sys_sort (&keys, lw6sys_sort_str_callback);
+	  lw6sys_sort (sys_context, &keys, lw6sys_sort_str_callback);
 	  if (keys)
 	    {
 	      current_key = keys;
@@ -398,17 +415,17 @@ lw6sys_hash_sort_and_map (lw6sys_hash_t * hash,
 		    {
 		      if (func)
 			{
-			  func (func_data, str_key,
-				lw6sys_hash_get (hash, str_key));
+			  func (sys_context, func_data, str_key,
+				lw6sys_hash_get (sys_context, hash, str_key));
 			}
 		    }
-		  current_key = lw6sys_list_next (current_key);
+		  current_key = lw6sys_list_next (sys_context, current_key);
 		}
 	    }
 	}
       if (keys)
 	{
-	  lw6sys_list_free (keys);
+	  lw6sys_list_free (sys_context, keys);
 	}
     }
   else
@@ -421,6 +438,7 @@ lw6sys_hash_sort_and_map (lw6sys_hash_t * hash,
 /**
  * lw6sys_hash_dup
  *
+ * @sys_context: global system context
  * @hash: the hash to duplicate, can be NULL
  * @dup_func: the function which will be called to duplicate data
  *
@@ -433,7 +451,8 @@ lw6sys_hash_sort_and_map (lw6sys_hash_t * hash,
  * Returned value: a newly allocated hash.
  */
 lw6sys_hash_t *
-lw6sys_hash_dup (lw6sys_hash_t * hash, lw6sys_dup_func_t dup_func)
+lw6sys_hash_dup (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
+		 lw6sys_dup_func_t dup_func)
 {
   lw6sys_hash_t *ret = NULL;
   int i;
@@ -441,20 +460,22 @@ lw6sys_hash_dup (lw6sys_hash_t * hash, lw6sys_dup_func_t dup_func)
 
   if (hash)
     {
-      ret = (lw6sys_hash_t *) LW6SYS_MALLOC (sizeof (lw6sys_hash_t));
+      ret =
+	(lw6sys_hash_t *) LW6SYS_MALLOC (sys_context, sizeof (lw6sys_hash_t));
       if (ret)
 	{
 	  ret->free_func = hash->free_func;
 	  ret->size = hash->size;
 	  ret->entries =
-	    (lw6sys_assoc_t **) LW6SYS_MALLOC (hash->size *
+	    (lw6sys_assoc_t **) LW6SYS_MALLOC (sys_context, hash->size *
 					       sizeof (lw6sys_assoc_t *));
 	  if (ret->entries)
 	    {
 	      for (i = 0; i < hash->size; ++i)
 		{
 		  ret->entries[i] =
-		    lw6sys_assoc_dup (hash->entries[i], dup_func);
+		    lw6sys_assoc_dup (sys_context, hash->entries[i],
+				      dup_func);
 		  if (!ret->entries[i])
 		    {
 		      null_entry = 1;
@@ -466,16 +487,16 @@ lw6sys_hash_dup (lw6sys_hash_t * hash, lw6sys_dup_func_t dup_func)
 		    {
 		      if (ret->entries[i])
 			{
-			  lw6sys_assoc_free (ret->entries[i]);
+			  lw6sys_assoc_free (sys_context, ret->entries[i]);
 			}
 		    }
-		  LW6SYS_FREE (ret);
+		  LW6SYS_FREE (sys_context, ret);
 		  ret = NULL;
 		}
 	    }
 	  else
 	    {
-	      LW6SYS_FREE (ret);
+	      LW6SYS_FREE (sys_context, ret);
 	      ret = NULL;
 	    }
 	}

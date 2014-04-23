@@ -33,6 +33,7 @@
 /**
  * lw6sys_exec_find_myself
  *
+ * @sys_context: global system context
  * @argc: number of args as passed to main
  * @argv: array of args as passed to main
  *
@@ -42,14 +43,15 @@
  * Return value: the path (newly allocated string).
  */
 char *
-lw6sys_exec_find_myself (int argc, const char *argv[])
+lw6sys_exec_find_myself (lw6sys_context_t * sys_context, int argc,
+			 const char *argv[])
 {
   char *myself = NULL;
 
   if (argc >= 1)
     {
-      myself = lw6sys_str_copy (argv[0]);
-      if (lw6sys_file_exists (myself))
+      myself = lw6sys_str_copy (sys_context, argv[0]);
+      if (lw6sys_file_exists (sys_context, myself))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("found myself in \"%s\""), myself);
@@ -67,6 +69,7 @@ lw6sys_exec_find_myself (int argc, const char *argv[])
 /**
  * lw6sys_is_executed_again
  *
+ * @sys_context: global system context
  * @argc: number of args as passed to main
  * @argv: array of args as passed to main
  *
@@ -76,12 +79,13 @@ lw6sys_exec_find_myself (int argc, const char *argv[])
  * Return value: 1 if executed again, 0 if not.
  */
 int
-lw6sys_is_executed_again (int argc, const char *argv[])
+lw6sys_is_executed_again (lw6sys_context_t * sys_context, int argc,
+			  const char *argv[])
 {
   int ret = 0;
 
-  ret = lw6sys_env_exists_prefixed (LW6DEF_EXECUTED_AGAIN)
-    || lw6sys_arg_exists (argc, argv, LW6DEF_EXECUTED_AGAIN);
+  ret = lw6sys_env_exists_prefixed (sys_context, LW6DEF_EXECUTED_AGAIN)
+    || lw6sys_arg_exists (sys_context, argc, argv, LW6DEF_EXECUTED_AGAIN);
 
   return ret;
 }
@@ -89,6 +93,7 @@ lw6sys_is_executed_again (int argc, const char *argv[])
 /**
  * lw6sys_exec_again
  *
+ * @sys_context: global system context
  * @argc: number of args as passed to main
  * @argv: array of args as passed to main
  *
@@ -103,29 +108,31 @@ lw6sys_is_executed_again (int argc, const char *argv[])
  * Return value: 1 on success, 0 on failure (always fail)
  */
 int
-lw6sys_exec_again (int argc, const char *argv[])
+lw6sys_exec_again (lw6sys_context_t * sys_context, int argc,
+		   const char *argv[])
 {
   char *myself;
   char **new_argv;
   int i;
   int ret = 0;
 
-  if (!lw6sys_is_executed_again (argc, argv))
+  if (!lw6sys_is_executed_again (sys_context, argc, argv))
     {
       if (argc >= 1)
 	{
-	  myself = lw6sys_exec_find_myself (argc, argv);
+	  myself = lw6sys_exec_find_myself (sys_context, argc, argv);
 	  if (myself)
 	    {
 	      new_argv =
-		(char **) LW6SYS_CALLOC (sizeof (char *) * (argc + 2));
+		(char **) LW6SYS_CALLOC (sys_context,
+					 sizeof (char *) * (argc + 2));
 	      if (new_argv)
 		{
 		  for (i = 0; i < argc; ++i)
 		    {
-		      new_argv[i] = lw6sys_str_copy (argv[i]);
+		      new_argv[i] = lw6sys_str_copy (sys_context, argv[i]);
 		    }
-		  lw6sys_setenv_prefixed (LW6DEF_EXECUTED_AGAIN,
+		  lw6sys_setenv_prefixed (sys_context, LW6DEF_EXECUTED_AGAIN,
 					  _EXECUTED_AGAIN_TRUE);
 		  new_argv[argc] = "--" LW6DEF_EXECUTED_AGAIN;
 		  new_argv[argc + 1] = NULL;
@@ -136,12 +143,12 @@ lw6sys_exec_again (int argc, const char *argv[])
 		    {
 		      if (new_argv[i])
 			{
-			  LW6SYS_FREE (new_argv[i]);
+			  LW6SYS_FREE (sys_context, new_argv[i]);
 			}
 		    }
-		  LW6SYS_FREE (new_argv);
+		  LW6SYS_FREE (sys_context, new_argv);
 		}
-	      LW6SYS_FREE (myself);
+	      LW6SYS_FREE (sys_context, myself);
 	    }
 	  else
 	    {
@@ -165,6 +172,7 @@ lw6sys_exec_again (int argc, const char *argv[])
 /**
  * lw6sys_exec_restart
  *
+ * @sys_context: global system context
  * @argc: number of args as passed to main
  * @argv: array of args as passed to main
  *
@@ -174,7 +182,8 @@ lw6sys_exec_again (int argc, const char *argv[])
  * Return value: 1 on success, 0 on failure (always fail)
  */
 int
-lw6sys_exec_restart (int argc, const char *argv[])
+lw6sys_exec_restart (lw6sys_context_t * sys_context, int argc,
+		     const char *argv[])
 {
   char *myself;
   char **new_argv;
@@ -183,15 +192,17 @@ lw6sys_exec_restart (int argc, const char *argv[])
 
   if (argc >= 1)
     {
-      myself = lw6sys_exec_find_myself (argc, argv);
+      myself = lw6sys_exec_find_myself (sys_context, argc, argv);
       if (myself)
 	{
-	  new_argv = (char **) LW6SYS_CALLOC (sizeof (char *) * (argc + 1));
+	  new_argv =
+	    (char **) LW6SYS_CALLOC (sys_context,
+				     sizeof (char *) * (argc + 1));
 	  if (new_argv)
 	    {
 	      for (i = 0; i < argc; ++i)
 		{
-		  new_argv[i] = lw6sys_str_copy (argv[i]);
+		  new_argv[i] = lw6sys_str_copy (sys_context, argv[i]);
 		}
 	      new_argv[argc] = NULL;
 	      execvp (myself, (void *) new_argv);
@@ -201,12 +212,12 @@ lw6sys_exec_restart (int argc, const char *argv[])
 		{
 		  if (new_argv[i])
 		    {
-		      LW6SYS_FREE (new_argv[i]);
+		      LW6SYS_FREE (sys_context, new_argv[i]);
 		    }
 		}
-	      LW6SYS_FREE (new_argv);
+	      LW6SYS_FREE (sys_context, new_argv);
 	    }
-	  LW6SYS_FREE (myself);
+	  LW6SYS_FREE (sys_context, myself);
 	}
       else
 	{

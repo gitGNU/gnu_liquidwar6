@@ -33,7 +33,7 @@
 #define HEAPPROFILE "HEAPPROFILE"
 
 static void
-_cleanup_first_char (char *env)
+_cleanup_first_char (lw6sys_context_t * sys_context, char *env)
 {
   /*
    * For some reason google-perftools fiddle
@@ -46,15 +46,15 @@ _cleanup_first_char (char *env)
 }
 
 static int
-_cpu_profiler_check (int verbose)
+_cpu_profiler_check (lw6sys_context_t * sys_context, int verbose)
 {
   int ret = 0;
   char *cpuprofile = NULL;
 
-  cpuprofile = lw6sys_getenv (CPUPROFILE);
+  cpuprofile = lw6sys_getenv (sys_context, CPUPROFILE);
   if (cpuprofile)
     {
-      _cleanup_first_char (cpuprofile);
+      _cleanup_first_char (sys_context, cpuprofile);
 #ifdef LW6_PROFILER
       if (verbose)
 	{
@@ -73,7 +73,7 @@ _cpu_profiler_check (int verbose)
 		      cpuprofile);
 	}
 #endif
-      LW6SYS_FREE (cpuprofile);
+      LW6SYS_FREE (sys_context, cpuprofile);
     }
   else
     {
@@ -96,15 +96,15 @@ _cpu_profiler_check (int verbose)
 }
 
 static int
-_heap_profiler_check (int verbose)
+_heap_profiler_check (lw6sys_context_t * sys_context, int verbose)
 {
   int ret = 0;
   char *heapprofile = NULL;
 
-  heapprofile = lw6sys_getenv (HEAPPROFILE);
+  heapprofile = lw6sys_getenv (sys_context, HEAPPROFILE);
   if (heapprofile)
     {
-      _cleanup_first_char (heapprofile);
+      _cleanup_first_char (sys_context, heapprofile);
 #ifdef LW6_PROFILER
       if (verbose)
 	{
@@ -123,7 +123,7 @@ _heap_profiler_check (int verbose)
 		      heapprofile);
 	}
 #endif
-      LW6SYS_FREE (heapprofile);
+      LW6SYS_FREE (sys_context, heapprofile);
     }
   else
     {
@@ -148,6 +148,7 @@ _heap_profiler_check (int verbose)
 /**
  * lw6sys_check_profiler
  *
+ * @sys_context: global system context
  * @verbose: wether to display informations on the console
  *
  * Checks wether Google Profiler support has been built, and if
@@ -157,12 +158,12 @@ _heap_profiler_check (int verbose)
  * Return value: 1 if google profile enabled and activated, 0 if not
  */
 int
-lw6sys_profiler_check (int verbose)
+lw6sys_profiler_check (lw6sys_context_t * sys_context, int verbose)
 {
   int ret = 1;
 
-  ret = _cpu_profiler_check (verbose) && ret;
-  ret = _heap_profiler_check (verbose) && ret;
+  ret = _cpu_profiler_check (sys_context, verbose) && ret;
+  ret = _heap_profiler_check (sys_context, verbose) && ret;
 
   return ret;
 }

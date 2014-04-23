@@ -29,6 +29,7 @@
 /**
  * lw6sys_clear_file
  *
+ * @sys_context: global system context
  * @filename: absolute or relative filename
  *
  * Clears a file, that is, make it a 0 byte file, empty, ready
@@ -39,20 +40,20 @@
  * Return value: 1 if success, 0 if failure.
  */
 int
-lw6sys_clear_file (const char *filename)
+lw6sys_clear_file (lw6sys_context_t * sys_context, const char *filename)
 {
   int ret = 0;
   FILE *f = NULL;
   char *dir = NULL;
 
-  dir = lw6sys_path_parent (filename);
+  dir = lw6sys_path_parent (sys_context, filename);
   if (dir)
     {
-      if (!lw6sys_dir_exists (dir))
+      if (!lw6sys_dir_exists (sys_context, dir))
 	{
-	  lw6sys_create_dir_silent (dir);
+	  lw6sys_create_dir_silent (sys_context, dir);
 	}
-      LW6SYS_FREE (dir);
+      LW6SYS_FREE (sys_context, dir);
     }
 
   f = fopen (filename, "wb");
@@ -70,7 +71,8 @@ lw6sys_clear_file (const char *filename)
 }
 
 static void *
-_read_bin (int *filesize, const char *filename)
+_read_bin (lw6sys_context_t * sys_context, int *filesize,
+	   const char *filename)
 {
   char *file_content = NULL;
   FILE *f;
@@ -85,7 +87,7 @@ _read_bin (int *filesize, const char *filename)
       if (size >= 0)
 	{
 	  fseek (f, 0, SEEK_SET);
-	  file_content = LW6SYS_CALLOC (size + 1);
+	  file_content = LW6SYS_CALLOC (sys_context, size + 1);
 	  if (file_content)
 	    {
 	      clearerr (f);
@@ -143,6 +145,7 @@ _read_bin (int *filesize, const char *filename)
 /**
  * lw6sys_read_file_content
  *
+ * @sys_context: global system context
  * @filename: absolute or relative filename
  *
  * Reads the content of a file, and returns it as a string.
@@ -154,11 +157,12 @@ _read_bin (int *filesize, const char *filename)
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_read_file_content (const char *filename)
+lw6sys_read_file_content (lw6sys_context_t * sys_context,
+			  const char *filename)
 {
   char *ret = NULL;
 
-  ret = (char *) _read_bin (NULL, filename);
+  ret = (char *) _read_bin (sys_context, NULL, filename);
 
   return ret;
 }
@@ -166,6 +170,7 @@ lw6sys_read_file_content (const char *filename)
 /**
  * lw6sys_read_file_content_bin
  *
+ * @sys_context: global system context
  * @filesize: will contain the file size, in bytes
  * @filename: absolute or relative filename
  *
@@ -183,11 +188,12 @@ lw6sys_read_file_content (const char *filename)
  * Return value: a newly allocated pointer, must be freed.
  */
 void *
-lw6sys_read_file_content_bin (int *filesize, const char *filename)
+lw6sys_read_file_content_bin (lw6sys_context_t * sys_context, int *filesize,
+			      const char *filename)
 {
   void *ret = NULL;
 
-  ret = _read_bin (filesize, filename);
+  ret = _read_bin (sys_context, filesize, filename);
 
   return ret;
 }
@@ -195,6 +201,7 @@ lw6sys_read_file_content_bin (int *filesize, const char *filename)
 /**
  * lw6sys_write_file_content
  *
+ * @sys_context: global system context
  * @filename: absolute or relative filename
  * @content: the content to be written.
  *
@@ -206,7 +213,8 @@ lw6sys_read_file_content_bin (int *filesize, const char *filename)
  * and opaque binary data usage is not recommended.
  */
 int
-lw6sys_write_file_content (const char *filename, const char *content)
+lw6sys_write_file_content (lw6sys_context_t * sys_context,
+			   const char *filename, const char *content)
 {
   FILE *f = NULL;
   int ret = 0;
