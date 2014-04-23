@@ -35,6 +35,7 @@
 /**
  * lw6sys_hexa_serializer_new
  *
+ * @sys_context: global system context
  * @hexa_string: an initialization string, can be NULL.
  *
  * Creates an hexa serializer object. It can be initialized or not,
@@ -45,13 +46,14 @@
  * Return value: a newly allocated object.
  */
 lw6sys_hexa_serializer_t *
-lw6sys_hexa_serializer_new (const char *hexa_string)
+lw6sys_hexa_serializer_new (lw6sys_context_t * sys_context,
+			    const char *hexa_string)
 {
   lw6sys_hexa_serializer_t *hexa_serializer = NULL;
 
   hexa_serializer =
     (lw6sys_hexa_serializer_t *)
-    LW6SYS_CALLOC (sizeof (lw6sys_hexa_serializer_t));
+    LW6SYS_CALLOC (sys_context, sizeof (lw6sys_hexa_serializer_t));
   if (hexa_serializer)
     {
       if (!hexa_string)
@@ -60,12 +62,12 @@ lw6sys_hexa_serializer_new (const char *hexa_string)
 	}
       hexa_serializer->pos = strlen (hexa_string);
       hexa_serializer->buf_size = hexa_serializer->pos + 1;
-      hexa_serializer->buf = lw6sys_str_copy (hexa_string);
+      hexa_serializer->buf = lw6sys_str_copy (sys_context, hexa_string);
     }
 
   if (!hexa_serializer->buf)
     {
-      LW6SYS_FREE (hexa_serializer);
+      LW6SYS_FREE (sys_context, hexa_serializer);
       hexa_serializer = NULL;
     }
 
@@ -75,6 +77,7 @@ lw6sys_hexa_serializer_new (const char *hexa_string)
 /**
  * lw6sys_hexa_serializer_free
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  *
  * Frees an hexa serializer object.
@@ -82,18 +85,20 @@ lw6sys_hexa_serializer_new (const char *hexa_string)
  * Return value: none.
  */
 void
-lw6sys_hexa_serializer_free (lw6sys_hexa_serializer_t * hexa_serializer)
+lw6sys_hexa_serializer_free (lw6sys_context_t * sys_context,
+			     lw6sys_hexa_serializer_t * hexa_serializer)
 {
   if (hexa_serializer->buf)
     {
-      LW6SYS_FREE (hexa_serializer->buf);
+      LW6SYS_FREE (sys_context, hexa_serializer->buf);
     }
-  LW6SYS_FREE (hexa_serializer);
+  LW6SYS_FREE (sys_context, hexa_serializer);
 }
 
 /**
  * lw6sys_hexa_serializer_rewind
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  *
  * Rewinds the serializer pointer, that is, make it point to start.
@@ -103,7 +108,8 @@ lw6sys_hexa_serializer_free (lw6sys_hexa_serializer_t * hexa_serializer)
  * Return value: none.
  */
 void
-lw6sys_hexa_serializer_rewind (lw6sys_hexa_serializer_t * hexa_serializer)
+lw6sys_hexa_serializer_rewind (lw6sys_context_t * sys_context,
+			       lw6sys_hexa_serializer_t * hexa_serializer)
 {
   hexa_serializer->pos = 0;
 }
@@ -111,6 +117,7 @@ lw6sys_hexa_serializer_rewind (lw6sys_hexa_serializer_t * hexa_serializer)
 /**
  * lw6sys_hexa_serializer_eof
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  *
  * Tests wether we're at EOF. Usefull when one wants to know
@@ -120,7 +127,8 @@ lw6sys_hexa_serializer_rewind (lw6sys_hexa_serializer_t * hexa_serializer)
  * Return value: 1 if at end of file, 0 if not.
  */
 int
-lw6sys_hexa_serializer_eof (lw6sys_hexa_serializer_t * hexa_serializer)
+lw6sys_hexa_serializer_eof (lw6sys_context_t * sys_context,
+			    lw6sys_hexa_serializer_t * hexa_serializer)
 {
   int eof = 0;
   int len = 0;
@@ -146,6 +154,7 @@ lw6sys_hexa_serializer_eof (lw6sys_hexa_serializer_t * hexa_serializer)
 /**
  * lw6sys_hexa_serializer_as_string
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  *
  * Exports the current content of the serializer as a string.
@@ -156,17 +165,19 @@ lw6sys_hexa_serializer_eof (lw6sys_hexa_serializer_t * hexa_serializer)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6sys_hexa_serializer_as_string (lw6sys_hexa_serializer_t * hexa_serializer)
+lw6sys_hexa_serializer_as_string (lw6sys_context_t * sys_context,
+				  lw6sys_hexa_serializer_t * hexa_serializer)
 {
   char *hexa_string = NULL;
 
-  hexa_string = lw6sys_str_copy (hexa_serializer->buf);
+  hexa_string = lw6sys_str_copy (sys_context, hexa_serializer->buf);
 
   return hexa_string;
 }
 
 static int
-check_size (lw6sys_hexa_serializer_t * hexa_serializer, int required)
+check_size (lw6sys_context_t * sys_context,
+	    lw6sys_hexa_serializer_t * hexa_serializer, int required)
 {
   int ret = 0;
 
@@ -179,16 +190,18 @@ check_size (lw6sys_hexa_serializer_t * hexa_serializer, int required)
 }
 
 static int
-resize (lw6sys_hexa_serializer_t * hexa_serializer, int required)
+resize (lw6sys_context_t * sys_context,
+	lw6sys_hexa_serializer_t * hexa_serializer, int required)
 {
   int ret = 0;
   int new_size = 0;
 
-  if (!check_size (hexa_serializer, required))
+  if (!check_size (sys_context, hexa_serializer, required))
     {
       new_size =
 	(hexa_serializer->buf_size * RESIZE_FACTOR) + RESIZE_PLUS + required;
-      hexa_serializer->buf = LW6SYS_REALLOC (hexa_serializer->buf, new_size);
+      hexa_serializer->buf =
+	LW6SYS_REALLOC (sys_context, hexa_serializer->buf, new_size);
       if (hexa_serializer->buf)
 	{
 	  hexa_serializer->buf_size = new_size;
@@ -212,13 +225,14 @@ resize (lw6sys_hexa_serializer_t * hexa_serializer, int required)
 }
 
 static int
-push_raw (lw6sys_hexa_serializer_t * hexa_serializer, u_int8_t * buf,
+push_raw (lw6sys_context_t * sys_context,
+	  lw6sys_hexa_serializer_t * hexa_serializer, u_int8_t * buf,
 	  int size)
 {
   int ret = 0;
   int i;
 
-  if (resize (hexa_serializer, size * 2))
+  if (resize (sys_context, hexa_serializer, size * 2))
     {
       for (i = 0; i < size; ++i, hexa_serializer->pos += 2)
 	{
@@ -243,14 +257,15 @@ push_raw (lw6sys_hexa_serializer_t * hexa_serializer, u_int8_t * buf,
 }
 
 static int
-pop_raw (lw6sys_hexa_serializer_t * hexa_serializer, u_int8_t * buf, int size)
+pop_raw (lw6sys_context_t * sys_context,
+	 lw6sys_hexa_serializer_t * hexa_serializer, u_int8_t * buf, int size)
 {
   int ret = 0;
   int i;
   int j;
   char hexa2[3] = { 0, 0, 0 };	// third 0 is *very* important
 
-  if (check_size (hexa_serializer, size * 2))
+  if (check_size (sys_context, hexa_serializer, size * 2))
     {
       for (i = 0; i < size; ++i, hexa_serializer->pos += 2)
 	{
@@ -284,6 +299,7 @@ pop_raw (lw6sys_hexa_serializer_t * hexa_serializer, u_int8_t * buf, int size)
 /**
  * lw6sys_hexa_serializer_push_int64
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to push
  *
@@ -292,14 +308,15 @@ pop_raw (lw6sys_hexa_serializer_t * hexa_serializer, u_int8_t * buf, int size)
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_push_int64 (lw6sys_hexa_serializer_t * hexa_serializer,
+lw6sys_hexa_serializer_push_int64 (lw6sys_context_t * sys_context,
+				   lw6sys_hexa_serializer_t * hexa_serializer,
 				   int64_t value)
 {
   int ret = 0;
   u_int8_t buffer[sizeof (int64_t)];
 
-  lw6sys_serialize_int64 (buffer, value);
-  ret = push_raw (hexa_serializer, buffer, sizeof (int64_t));
+  lw6sys_serialize_int64 (sys_context, buffer, value);
+  ret = push_raw (sys_context, hexa_serializer, buffer, sizeof (int64_t));
 
   return ret;
 }
@@ -307,6 +324,7 @@ lw6sys_hexa_serializer_push_int64 (lw6sys_hexa_serializer_t * hexa_serializer,
 /**
  * lw6sys_hexa_serializer_push_int32
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to push
  *
@@ -315,14 +333,15 @@ lw6sys_hexa_serializer_push_int64 (lw6sys_hexa_serializer_t * hexa_serializer,
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_push_int32 (lw6sys_hexa_serializer_t * hexa_serializer,
+lw6sys_hexa_serializer_push_int32 (lw6sys_context_t * sys_context,
+				   lw6sys_hexa_serializer_t * hexa_serializer,
 				   int32_t value)
 {
   int ret = 0;
   u_int8_t buffer[sizeof (int32_t)];
 
-  lw6sys_serialize_int32 (buffer, value);
-  ret = push_raw (hexa_serializer, buffer, sizeof (int32_t));
+  lw6sys_serialize_int32 (sys_context, buffer, value);
+  ret = push_raw (sys_context, hexa_serializer, buffer, sizeof (int32_t));
 
   return ret;
 }
@@ -330,6 +349,7 @@ lw6sys_hexa_serializer_push_int32 (lw6sys_hexa_serializer_t * hexa_serializer,
 /**
  * lw6sys_hexa_serializer_push_int16
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to push
  *
@@ -338,14 +358,15 @@ lw6sys_hexa_serializer_push_int32 (lw6sys_hexa_serializer_t * hexa_serializer,
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_push_int16 (lw6sys_hexa_serializer_t * hexa_serializer,
+lw6sys_hexa_serializer_push_int16 (lw6sys_context_t * sys_context,
+				   lw6sys_hexa_serializer_t * hexa_serializer,
 				   int16_t value)
 {
   int ret = 0;
   u_int8_t buffer[sizeof (int16_t)];
 
-  lw6sys_serialize_int16 (buffer, value);
-  ret = push_raw (hexa_serializer, buffer, sizeof (int16_t));
+  lw6sys_serialize_int16 (sys_context, buffer, value);
+  ret = push_raw (sys_context, hexa_serializer, buffer, sizeof (int16_t));
 
   return ret;
 }
@@ -353,6 +374,7 @@ lw6sys_hexa_serializer_push_int16 (lw6sys_hexa_serializer_t * hexa_serializer,
 /**
  * lw6sys_hexa_serializer_push_int8
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to push
  *
@@ -361,12 +383,13 @@ lw6sys_hexa_serializer_push_int16 (lw6sys_hexa_serializer_t * hexa_serializer,
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_push_int8 (lw6sys_hexa_serializer_t * hexa_serializer,
+lw6sys_hexa_serializer_push_int8 (lw6sys_context_t * sys_context,
+				  lw6sys_hexa_serializer_t * hexa_serializer,
 				  int8_t value)
 {
   int ret = 0;
 
-  ret = push_raw (hexa_serializer, (u_int8_t *) & value, 1);
+  ret = push_raw (sys_context, hexa_serializer, (u_int8_t *) & value, 1);
 
   return ret;
 }
@@ -374,6 +397,7 @@ lw6sys_hexa_serializer_push_int8 (lw6sys_hexa_serializer_t * hexa_serializer,
 /**
  * lw6sys_hexa_serializer_push_float
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to push
  *
@@ -382,17 +406,19 @@ lw6sys_hexa_serializer_push_int8 (lw6sys_hexa_serializer_t * hexa_serializer,
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_push_float (lw6sys_hexa_serializer_t * hexa_serializer,
+lw6sys_hexa_serializer_push_float (lw6sys_context_t * sys_context,
+				   lw6sys_hexa_serializer_t * hexa_serializer,
 				   float value)
 {
   int ret = 0;
   char *str = NULL;
 
-  str = lw6sys_ftoa (value);
+  str = lw6sys_ftoa (sys_context, value);
   if (str)
     {
-      ret = lw6sys_hexa_serializer_push_str (hexa_serializer, str);
-      LW6SYS_FREE (str);
+      ret =
+	lw6sys_hexa_serializer_push_str (sys_context, hexa_serializer, str);
+      LW6SYS_FREE (sys_context, str);
     }
 
   return ret;
@@ -401,6 +427,7 @@ lw6sys_hexa_serializer_push_float (lw6sys_hexa_serializer_t * hexa_serializer,
 /**
  * lw6sys_hexa_serializer_push_str
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to push
  *
@@ -411,12 +438,15 @@ lw6sys_hexa_serializer_push_float (lw6sys_hexa_serializer_t * hexa_serializer,
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_push_str (lw6sys_hexa_serializer_t * hexa_serializer,
+lw6sys_hexa_serializer_push_str (lw6sys_context_t * sys_context,
+				 lw6sys_hexa_serializer_t * hexa_serializer,
 				 const char *value)
 {
   int ret = 0;
 
-  ret = push_raw (hexa_serializer, (u_int8_t *) value, strlen (value) + 1);
+  ret =
+    push_raw (sys_context, hexa_serializer, (u_int8_t *) value,
+	      strlen (value) + 1);
 
   return ret;
 }
@@ -424,6 +454,7 @@ lw6sys_hexa_serializer_push_str (lw6sys_hexa_serializer_t * hexa_serializer,
 /**
  * lw6sys_hexa_serializer_push_xyz
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to push
  *
@@ -433,14 +464,21 @@ lw6sys_hexa_serializer_push_str (lw6sys_hexa_serializer_t * hexa_serializer,
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_push_xyz (lw6sys_hexa_serializer_t *
-				 hexa_serializer, lw6sys_xyz_t value)
+lw6sys_hexa_serializer_push_xyz (lw6sys_context_t * sys_context,
+				 lw6sys_hexa_serializer_t * hexa_serializer,
+				 lw6sys_xyz_t value)
 {
   int ret = 1;
 
-  ret = ret && lw6sys_hexa_serializer_push_int16 (hexa_serializer, value.x);
-  ret = ret && lw6sys_hexa_serializer_push_int16 (hexa_serializer, value.y);
-  ret = ret && lw6sys_hexa_serializer_push_int16 (hexa_serializer, value.z);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int16 (sys_context, hexa_serializer,
+					  value.x);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int16 (sys_context, hexa_serializer,
+					  value.y);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int16 (sys_context, hexa_serializer,
+					  value.z);
 
   return ret;
 }
@@ -448,6 +486,7 @@ lw6sys_hexa_serializer_push_xyz (lw6sys_hexa_serializer_t *
 /**
  * lw6sys_hexa_serializer_push_whd
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to push
  *
@@ -457,14 +496,21 @@ lw6sys_hexa_serializer_push_xyz (lw6sys_hexa_serializer_t *
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_push_whd (lw6sys_hexa_serializer_t *
-				 hexa_serializer, lw6sys_whd_t value)
+lw6sys_hexa_serializer_push_whd (lw6sys_context_t * sys_context,
+				 lw6sys_hexa_serializer_t * hexa_serializer,
+				 lw6sys_whd_t value)
 {
   int ret = 1;
 
-  ret = ret && lw6sys_hexa_serializer_push_int16 (hexa_serializer, value.w);
-  ret = ret && lw6sys_hexa_serializer_push_int16 (hexa_serializer, value.h);
-  ret = ret && lw6sys_hexa_serializer_push_int16 (hexa_serializer, value.d);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int16 (sys_context, hexa_serializer,
+					  value.w);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int16 (sys_context, hexa_serializer,
+					  value.h);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int16 (sys_context, hexa_serializer,
+					  value.d);
 
   return ret;
 }
@@ -472,6 +518,7 @@ lw6sys_hexa_serializer_push_whd (lw6sys_hexa_serializer_t *
 /**
  * lw6sys_hexa_serializer_push_color
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to push
  *
@@ -480,15 +527,24 @@ lw6sys_hexa_serializer_push_whd (lw6sys_hexa_serializer_t *
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_push_color (lw6sys_hexa_serializer_t *
-				   hexa_serializer, lw6sys_color_8_t value)
+lw6sys_hexa_serializer_push_color (lw6sys_context_t * sys_context,
+				   lw6sys_hexa_serializer_t * hexa_serializer,
+				   lw6sys_color_8_t value)
 {
   int ret = 1;
 
-  ret = ret && lw6sys_hexa_serializer_push_int8 (hexa_serializer, value.r);
-  ret = ret && lw6sys_hexa_serializer_push_int8 (hexa_serializer, value.g);
-  ret = ret && lw6sys_hexa_serializer_push_int8 (hexa_serializer, value.b);
-  ret = ret && lw6sys_hexa_serializer_push_int8 (hexa_serializer, value.a);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int8 (sys_context, hexa_serializer,
+					 value.r);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int8 (sys_context, hexa_serializer,
+					 value.g);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int8 (sys_context, hexa_serializer,
+					 value.b);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int8 (sys_context, hexa_serializer,
+					 value.a);
 
   return ret;
 }
@@ -496,6 +552,7 @@ lw6sys_hexa_serializer_push_color (lw6sys_hexa_serializer_t *
 /**
  * lw6sys_hexa_serializer_pop_int64
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to pop (returned value)
  *
@@ -504,17 +561,18 @@ lw6sys_hexa_serializer_push_color (lw6sys_hexa_serializer_t *
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_pop_int64 (lw6sys_hexa_serializer_t * hexa_serializer,
+lw6sys_hexa_serializer_pop_int64 (lw6sys_context_t * sys_context,
+				  lw6sys_hexa_serializer_t * hexa_serializer,
 				  int64_t * value)
 {
   int ret = 0;
   u_int8_t buffer[sizeof (int64_t)];
 
-  if (check_size (hexa_serializer, sizeof (int64_t) * 2))
+  if (check_size (sys_context, hexa_serializer, sizeof (int64_t) * 2))
     {
-      if (pop_raw (hexa_serializer, buffer, sizeof (int64_t)))
+      if (pop_raw (sys_context, hexa_serializer, buffer, sizeof (int64_t)))
 	{
-	  (*value) = lw6sys_unserialize_int64 (buffer);
+	  (*value) = lw6sys_unserialize_int64 (sys_context, buffer);
 	  ret = 1;
 	}
     }
@@ -530,6 +588,7 @@ lw6sys_hexa_serializer_pop_int64 (lw6sys_hexa_serializer_t * hexa_serializer,
 /**
  * lw6sys_hexa_serializer_pop_int32
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to pop (returned value)
  *
@@ -538,17 +597,18 @@ lw6sys_hexa_serializer_pop_int64 (lw6sys_hexa_serializer_t * hexa_serializer,
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_pop_int32 (lw6sys_hexa_serializer_t * hexa_serializer,
+lw6sys_hexa_serializer_pop_int32 (lw6sys_context_t * sys_context,
+				  lw6sys_hexa_serializer_t * hexa_serializer,
 				  int32_t * value)
 {
   int ret = 0;
   u_int8_t buffer[sizeof (int32_t)];
 
-  if (check_size (hexa_serializer, sizeof (int32_t) * 2))
+  if (check_size (sys_context, hexa_serializer, sizeof (int32_t) * 2))
     {
-      if (pop_raw (hexa_serializer, buffer, sizeof (int32_t)))
+      if (pop_raw (sys_context, hexa_serializer, buffer, sizeof (int32_t)))
 	{
-	  (*value) = lw6sys_unserialize_int32 (buffer);
+	  (*value) = lw6sys_unserialize_int32 (sys_context, buffer);
 	  ret = 1;
 	}
     }
@@ -564,6 +624,7 @@ lw6sys_hexa_serializer_pop_int32 (lw6sys_hexa_serializer_t * hexa_serializer,
 /**
  * lw6sys_hexa_serializer_pop_int16
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to pop (returned value)
  *
@@ -572,17 +633,18 @@ lw6sys_hexa_serializer_pop_int32 (lw6sys_hexa_serializer_t * hexa_serializer,
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_pop_int16 (lw6sys_hexa_serializer_t * hexa_serializer,
+lw6sys_hexa_serializer_pop_int16 (lw6sys_context_t * sys_context,
+				  lw6sys_hexa_serializer_t * hexa_serializer,
 				  int16_t * value)
 {
   int ret = 0;
   u_int8_t buffer[sizeof (int16_t)];
 
-  if (check_size (hexa_serializer, sizeof (int16_t) * 2))
+  if (check_size (sys_context, hexa_serializer, sizeof (int16_t) * 2))
     {
-      if (pop_raw (hexa_serializer, buffer, sizeof (int16_t)))
+      if (pop_raw (sys_context, hexa_serializer, buffer, sizeof (int16_t)))
 	{
-	  (*value) = lw6sys_unserialize_int16 (buffer);
+	  (*value) = lw6sys_unserialize_int16 (sys_context, buffer);
 	  ret = 1;
 	}
     }
@@ -598,6 +660,7 @@ lw6sys_hexa_serializer_pop_int16 (lw6sys_hexa_serializer_t * hexa_serializer,
 /**
  * lw6sys_hexa_serializer_pop_int8
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to pop (returned value)
  *
@@ -606,14 +669,15 @@ lw6sys_hexa_serializer_pop_int16 (lw6sys_hexa_serializer_t * hexa_serializer,
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_pop_int8 (lw6sys_hexa_serializer_t * hexa_serializer,
+lw6sys_hexa_serializer_pop_int8 (lw6sys_context_t * sys_context,
+				 lw6sys_hexa_serializer_t * hexa_serializer,
 				 int8_t * value)
 {
   int ret = 0;
 
-  if (check_size (hexa_serializer, 2))
+  if (check_size (sys_context, hexa_serializer, 2))
     {
-      if (pop_raw (hexa_serializer, (u_int8_t *) value, 1))
+      if (pop_raw (sys_context, hexa_serializer, (u_int8_t *) value, 1))
 	{
 	  ret = 1;
 	}
@@ -630,6 +694,7 @@ lw6sys_hexa_serializer_pop_int8 (lw6sys_hexa_serializer_t * hexa_serializer,
 /**
  * lw6sys_hexa_serializer_pop_float
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to pop (returned value)
  *
@@ -638,18 +703,19 @@ lw6sys_hexa_serializer_pop_int8 (lw6sys_hexa_serializer_t * hexa_serializer,
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_pop_float (lw6sys_hexa_serializer_t * hexa_serializer,
+lw6sys_hexa_serializer_pop_float (lw6sys_context_t * sys_context,
+				  lw6sys_hexa_serializer_t * hexa_serializer,
 				  float *value)
 {
   int ret = 0;
   char *str = NULL;
 
-  if (lw6sys_hexa_serializer_pop_str (hexa_serializer, &str))
+  if (lw6sys_hexa_serializer_pop_str (sys_context, hexa_serializer, &str))
     {
       if (str)
 	{
-	  (*value) = lw6sys_atof (str);
-	  LW6SYS_FREE (str);
+	  (*value) = lw6sys_atof (sys_context, str);
+	  LW6SYS_FREE (sys_context, str);
 	  ret = 1;
 	}
     }
@@ -660,6 +726,7 @@ lw6sys_hexa_serializer_pop_float (lw6sys_hexa_serializer_t * hexa_serializer,
 /**
  * lw6sys_hexa_serializer_pop_str
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to pop (returned value)
  *
@@ -670,7 +737,8 @@ lw6sys_hexa_serializer_pop_float (lw6sys_hexa_serializer_t * hexa_serializer,
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_pop_str (lw6sys_hexa_serializer_t * hexa_serializer,
+lw6sys_hexa_serializer_pop_str (lw6sys_context_t * sys_context,
+				lw6sys_hexa_serializer_t * hexa_serializer,
 				char **value)
 {
   int ret = 0;
@@ -694,13 +762,13 @@ lw6sys_hexa_serializer_pop_str (lw6sys_hexa_serializer_t * hexa_serializer,
     {
       offset_zero = (end_zero - hexa_serializer->buf) - hexa_serializer->pos;
       len = offset_zero / 2;
-      buf = (u_int8_t *) LW6SYS_CALLOC (len + 1);
+      buf = (u_int8_t *) LW6SYS_CALLOC (sys_context, len + 1);
       if (buf)
 	{
 	  ret = 1;
 	  for (i = 0; i < len + 1; ++i)
 	    {
-	      ret = ret && pop_raw (hexa_serializer, buf + i, 1);
+	      ret = ret && pop_raw (sys_context, hexa_serializer, buf + i, 1);
 	    }
 	  buf[len] = '\0';	// just to be sure
 
@@ -710,7 +778,7 @@ lw6sys_hexa_serializer_pop_str (lw6sys_hexa_serializer_t * hexa_serializer,
 	    }
 	  else
 	    {
-	      LW6SYS_FREE (buf);
+	      LW6SYS_FREE (sys_context, buf);
 	    }
 	  buf = NULL;
 	}
@@ -723,7 +791,7 @@ lw6sys_hexa_serializer_pop_str (lw6sys_hexa_serializer_t * hexa_serializer,
 
   if (buf && !ret)
     {
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
       buf = NULL;
     }
 
@@ -733,6 +801,7 @@ lw6sys_hexa_serializer_pop_str (lw6sys_hexa_serializer_t * hexa_serializer,
 /**
  * lw6sys_hexa_serializer_pop_xyz
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to pop (returned value)
  *
@@ -742,23 +811,27 @@ lw6sys_hexa_serializer_pop_str (lw6sys_hexa_serializer_t * hexa_serializer,
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_pop_xyz (lw6sys_hexa_serializer_t *
-				hexa_serializer, lw6sys_xyz_t * value)
+lw6sys_hexa_serializer_pop_xyz (lw6sys_context_t * sys_context,
+				lw6sys_hexa_serializer_t * hexa_serializer,
+				lw6sys_xyz_t * value)
 {
   int ret = 1;
   int16_t s;
 
-  ret = ret && lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &s);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int16 (sys_context, hexa_serializer, &s);
   if (ret)
     {
       value->x = s;
     }
-  ret = ret && lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &s);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int16 (sys_context, hexa_serializer, &s);
   if (ret)
     {
       value->y = s;
     }
-  ret = ret && lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &s);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int16 (sys_context, hexa_serializer, &s);
   if (ret)
     {
       value->z = s;
@@ -779,23 +852,27 @@ lw6sys_hexa_serializer_pop_xyz (lw6sys_hexa_serializer_t *
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_pop_whd (lw6sys_hexa_serializer_t *
-				hexa_serializer, lw6sys_whd_t * value)
+lw6sys_hexa_serializer_pop_whd (lw6sys_context_t * sys_context,
+				lw6sys_hexa_serializer_t * hexa_serializer,
+				lw6sys_whd_t * value)
 {
   int ret = 1;
   int16_t s;
 
-  ret = ret && lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &s);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int16 (sys_context, hexa_serializer, &s);
   if (ret)
     {
       value->w = s;
     }
-  ret = ret && lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &s);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int16 (sys_context, hexa_serializer, &s);
   if (ret)
     {
       value->h = s;
     }
-  ret = ret && lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &s);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int16 (sys_context, hexa_serializer, &s);
   if (ret)
     {
       value->d = s;
@@ -807,6 +884,7 @@ lw6sys_hexa_serializer_pop_whd (lw6sys_hexa_serializer_t *
 /**
  * lw6sys_hexa_serializer_pop_color
  *
+ * @sys_context: global system context
  * @hexa_serializer: an hexa serializer object
  * @value: value to pop (returned value)
  *
@@ -815,28 +893,33 @@ lw6sys_hexa_serializer_pop_whd (lw6sys_hexa_serializer_t *
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_hexa_serializer_pop_color (lw6sys_hexa_serializer_t *
-				  hexa_serializer, lw6sys_color_8_t * value)
+lw6sys_hexa_serializer_pop_color (lw6sys_context_t * sys_context,
+				  lw6sys_hexa_serializer_t * hexa_serializer,
+				  lw6sys_color_8_t * value)
 {
   int ret = 1;
   int8_t c;
 
-  ret = ret && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &c);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int8 (sys_context, hexa_serializer, &c);
   if (ret)
     {
       value->r = c;
     }
-  ret = ret && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &c);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int8 (sys_context, hexa_serializer, &c);
   if (ret)
     {
       value->g = c;
     }
-  ret = ret && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &c);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int8 (sys_context, hexa_serializer, &c);
   if (ret)
     {
       value->b = c;
     }
-  ret = ret && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &c);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int8 (sys_context, hexa_serializer, &c);
   if (ret)
     {
       value->a = c;
@@ -848,6 +931,7 @@ lw6sys_hexa_serializer_pop_color (lw6sys_hexa_serializer_t *
 /**
  * lw6sys_hexa_str_to_buf
  *
+ * @sys_context: global system context
  * @buf: binary buffer to convert
  * @size: binary buffer length
  * @str: the source string
@@ -858,7 +942,8 @@ lw6sys_hexa_serializer_pop_color (lw6sys_hexa_serializer_t *
  * Return value: 1 on success
  */
 int
-lw6sys_hexa_str_to_buf (void *buf, int size, const char *str)
+lw6sys_hexa_str_to_buf (lw6sys_context_t * sys_context, void *buf, int size,
+			const char *str)
 {
   char *buffer = (char *) buf;
   int ret = 0;
@@ -889,6 +974,7 @@ lw6sys_hexa_str_to_buf (void *buf, int size, const char *str)
 /**
  * lw6sys_hexa_buf_to_str
  *
+ * @sys_context: global system context
  * @buf: the buffer to stringify
  * @size: the length of the buffer
  *
@@ -897,14 +983,14 @@ lw6sys_hexa_str_to_buf (void *buf, int size, const char *str)
  * Return value: newly allocated string.
  */
 char *
-lw6sys_hexa_buf_to_str (void *buf, int size)
+lw6sys_hexa_buf_to_str (lw6sys_context_t * sys_context, void *buf, int size)
 {
   char *buffer = (char *) buf;
   char *str = NULL;
   int i = 0;
   u_int8_t c = 0;
 
-  str = (char *) LW6SYS_MALLOC (2 * size + 1);
+  str = (char *) LW6SYS_MALLOC (sys_context, 2 * size + 1);
   if (str)
     {
       for (i = 0; i < size; ++i)
@@ -921,6 +1007,7 @@ lw6sys_hexa_buf_to_str (void *buf, int size)
 /**
  * lw6sys_hexa_str_to_ptr
  *
+ * @sys_context: global system context
  * @str: the string containing an hexa representation of pointer
  *
  * Transforms a string into a pointer, this is typically used
@@ -935,11 +1022,11 @@ lw6sys_hexa_buf_to_str (void *buf, int size)
  * Return value: the pointer, or NULL is str is invalid.
  */
 void *
-lw6sys_hexa_str_to_ptr (const char *str)
+lw6sys_hexa_str_to_ptr (lw6sys_context_t * sys_context, const char *str)
 {
   void *ptr = NULL;
 
-  if (!lw6sys_hexa_str_to_buf (&ptr, sizeof (void *), str))
+  if (!lw6sys_hexa_str_to_buf (sys_context, &ptr, sizeof (void *), str))
     {
       ptr = NULL;
     }
@@ -950,6 +1037,7 @@ lw6sys_hexa_str_to_ptr (const char *str)
 /**
  * lw6sys_hexa_ptr_to_str
  *
+ * @sys_context: global system context
  * @ptr: pointer to convert into string representation
  *
  * Transforms a pointer into a string, this is typically used
@@ -964,11 +1052,11 @@ lw6sys_hexa_str_to_ptr (const char *str)
  * Return value: the string, can be NULL on errror, must be freed.
  */
 char *
-lw6sys_hexa_ptr_to_str (void *ptr)
+lw6sys_hexa_ptr_to_str (lw6sys_context_t * sys_context, void *ptr)
 {
   char *str = NULL;
 
-  str = lw6sys_hexa_buf_to_str (&ptr, sizeof (void *));
+  str = lw6sys_hexa_buf_to_str (sys_context, &ptr, sizeof (void *));
 
   return str;
 }
