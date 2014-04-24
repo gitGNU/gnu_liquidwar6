@@ -48,13 +48,15 @@ static _history_t _history;
 /**
  * lw6sys_history_init
  *
+ * @sys_context: global system context
+ *
  * Initializes the history system. Not initializing won't cause
  * any segfault, but data will be inconsistent.
  *
  * Return value: none.
  */
 void
-lw6sys_history_init ()
+lw6sys_history_init (lw6sys_context_t * sys_context)
 {
   memset (&_history, 0, sizeof (_history_t));
 }
@@ -62,6 +64,7 @@ lw6sys_history_init ()
 /**
  * lw6sys_history_register
  *
+ * @sys_context: global system context
  * @msg: the message to register.
  *
  * Registers a message in the history log, that is, adds it.
@@ -69,13 +72,13 @@ lw6sys_history_init ()
  * Return value: none.
  */
 void
-lw6sys_history_register (char *msg)
+lw6sys_history_register (lw6sys_context_t * sys_context, char *msg)
 {
   int64_t timestamp;
   int current;
   int i;
 
-  timestamp = lw6sys_get_timestamp ();
+  timestamp = lw6sys_get_timestamp (sys_context);
   current = _history.current;
 
   if (current < 0 || current >= _HISTORY_NB_MESSAGES)
@@ -103,6 +106,7 @@ lw6sys_history_register (char *msg)
 /**
  * lw6sys_history_get
  *
+ * @sys_context: global system context
  * @timeout: the message age limit.
  *
  * Get all the messages that are younger than timeout (in seconds).
@@ -111,14 +115,14 @@ lw6sys_history_register (char *msg)
  *   pointer is NULL too, that's how you know the array is over.
  */
 char_ptr_t *
-lw6sys_history_get (int64_t timeout)
+lw6sys_history_get (lw6sys_context_t * sys_context, int64_t timeout)
 {
   int64_t timestamp;
   int current;
   int i, j, k;
   char **ret = NULL;
 
-  timestamp = lw6sys_get_timestamp ();
+  timestamp = lw6sys_get_timestamp (sys_context);
   current = _history.current;
 
   if (current < 0 || current >= _HISTORY_NB_MESSAGES)
@@ -126,7 +130,8 @@ lw6sys_history_get (int64_t timeout)
       current = 0;
     }
   ret =
-    (char **) LW6SYS_CALLOC ((_HISTORY_NB_MESSAGES + 1) * sizeof (char *));
+    (char **) LW6SYS_CALLOC (sys_context,
+			     (_HISTORY_NB_MESSAGES + 1) * sizeof (char *));
   if (ret)
     {
       for (i = 0, j = current, k = 0; i < _HISTORY_NB_MESSAGES; ++i, ++j)
@@ -139,7 +144,8 @@ lw6sys_history_get (int64_t timeout)
 	      && _history.messages[j].content[0] != '\0')
 	    {
 	      _history.messages[j].content[_HISTORY_MESSAGE_LENGTH] = '\0';
-	      ret[k] = lw6sys_str_copy (_history.messages[j].content);
+	      ret[k] =
+		lw6sys_str_copy (sys_context, _history.messages[j].content);
 	      k++;
 	    }
 	}
@@ -150,6 +156,7 @@ lw6sys_history_get (int64_t timeout)
 /**
  * lw6sys_history_free
  *
+ * @sys_context: global system context
  * @history: the data to free
  *
  * Frees a pointer returned by @lw6sys_history_get.
@@ -157,7 +164,7 @@ lw6sys_history_get (int64_t timeout)
  * Return value: none.
  */
 void
-lw6sys_history_free (char **history)
+lw6sys_history_free (lw6sys_context_t * sys_context, char **history)
 {
   char **i;
 
@@ -165,8 +172,8 @@ lw6sys_history_free (char **history)
     {
       for (i = history; i[0]; i++)
 	{
-	  LW6SYS_FREE (i[0]);
+	  LW6SYS_FREE (sys_context, i[0]);
 	}
-      LW6SYS_FREE (history);
+      LW6SYS_FREE (sys_context, history);
     }
 }
