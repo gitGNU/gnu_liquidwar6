@@ -36,6 +36,7 @@
 /**
  * lw6sys_locale_to_utf8
  *
+ * @sys_context: global system context
  * @string: the string to convert
  *
  * Used to force strings into UTF-8 mode, this is basically
@@ -49,7 +50,7 @@
  *   no matter what the locale is.
  */
 char *
-lw6sys_locale_to_utf8 (const char *string)
+lw6sys_locale_to_utf8 (lw6sys_context_t * sys_context, const char *string)
 {
   char *utf8 = NULL;
 
@@ -72,12 +73,12 @@ lw6sys_locale_to_utf8 (const char *string)
 
   if (codeset)
     {
-      if (lw6sys_str_is_same (codeset, _UTF8))
+      if (lw6sys_str_is_same (sys_context, codeset, _UTF8))
 	{
 	  /*
 	   * Note: we are in UTF-8 already, no need to change again...
 	   */
-	  utf8 = lw6sys_str_copy (string);
+	  utf8 = lw6sys_str_copy (sys_context, string);
 	}
       else
 	{
@@ -99,7 +100,7 @@ lw6sys_locale_to_utf8 (const char *string)
 	      ilen = strlen (string);
 	      max_olen = strlen (string) * 2;
 
-	      utf8 = LW6SYS_CALLOC (max_olen + 1);
+	      utf8 = LW6SYS_CALLOC (sys_context, max_olen + 1);
 	      if (utf8)
 		{
 		  /*
@@ -129,7 +130,7 @@ lw6sys_locale_to_utf8 (const char *string)
 		       */
 		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  "iconv error \"%s\"", string);
-		      LW6SYS_FREE (utf8);
+		      LW6SYS_FREE (sys_context, utf8);
 		      utf8 = NULL;	// important to be sure it's handled later
 		    }
 		}
@@ -149,7 +150,7 @@ lw6sys_locale_to_utf8 (const char *string)
 
   if (utf8 == NULL)
     {
-      utf8 = lw6sys_str_copy (string);
+      utf8 = lw6sys_str_copy (sys_context, string);
     }
 
   if (utf8 == NULL)

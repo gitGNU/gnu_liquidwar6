@@ -29,17 +29,19 @@
 #define RANDOM_FLOAT_PRECISION 1000000
 
 static u_int16_t
-generate_4_digit ()
+generate_4_digit (lw6sys_context_t * sys_context)
 {
   u_int16_t ret = 0;
 
-  ret = ((u_int16_t) lw6sys_random (0x6fff)) + 0x1000;
+  ret = ((u_int16_t) lw6sys_random (sys_context, 0x6fff)) + 0x1000;
 
   return ret;
 }
 
 /**
  * lw6sys_generate_id_16:
+ *
+ * @sys_context: global system context
  *
  * Long 16-bit ID generator, calls the random function internally.
  * As usual, those are not perfect random numbers, however the function
@@ -50,15 +52,15 @@ generate_4_digit ()
  * @Return value: a pseudo-random number, 16-bit long, can not be 0.
  */
 u_int16_t
-lw6sys_generate_id_16 ()
+lw6sys_generate_id_16 (lw6sys_context_t * sys_context)
 {
   u_int16_t ret;
 
-  ret = generate_4_digit ();
+  ret = generate_4_digit (sys_context);
 
   if (!ret)
     {
-      ret = lw6sys_generate_id_16 ();
+      ret = lw6sys_generate_id_16 (sys_context);
     }
 
   return ret;
@@ -66,6 +68,8 @@ lw6sys_generate_id_16 ()
 
 /**
  * lw6sys_generate_id_32:
+ *
+ * @sys_context: global system context
  *
  * Long 32-bit ID generator, calls the random function internally.
  * As usual, those are not perfect random numbers, however the function
@@ -76,17 +80,18 @@ lw6sys_generate_id_16 ()
  * @Return value: a pseudo-random number, 32-bit long, can not be 0.
  */
 u_int32_t
-lw6sys_generate_id_32 ()
+lw6sys_generate_id_32 (lw6sys_context_t * sys_context)
 {
   u_int32_t ret;
 
   ret =
-    (((u_int32_t) generate_4_digit ()) << 16) | ((u_int32_t)
-						 generate_4_digit ());
+    (((u_int32_t) generate_4_digit (sys_context)) << 16) | ((u_int32_t)
+							    generate_4_digit
+							    (sys_context));
 
   if (!ret)
     {
-      ret = lw6sys_generate_id_32 ();
+      ret = lw6sys_generate_id_32 (sys_context);
     }
 
   return ret;
@@ -94,6 +99,8 @@ lw6sys_generate_id_32 ()
 
 /**
  * lw6sys_generate_id_64:
+ *
+ * @sys_context: global system context
  *
  * Long 64-bit ID generator, calls the random function internally.
  * As usual, those are not perfect random numbers, however the function
@@ -104,19 +111,20 @@ lw6sys_generate_id_32 ()
  * @Return value: a pseudo-random number, 64-bit long, can not be 0.
  */
 u_int64_t
-lw6sys_generate_id_64 ()
+lw6sys_generate_id_64 (lw6sys_context_t * sys_context)
 {
   u_int64_t ret;
 
   ret =
-    (((u_int64_t) generate_4_digit ()) << 48) |
-    (((u_int64_t) generate_4_digit ()) << 32) |
-    (((u_int64_t) generate_4_digit ()) << 16) | ((u_int64_t)
-						 generate_4_digit ());
+    (((u_int64_t) generate_4_digit (sys_context)) << 48) |
+    (((u_int64_t) generate_4_digit (sys_context)) << 32) |
+    (((u_int64_t) generate_4_digit (sys_context)) << 16) | ((u_int64_t)
+							    generate_4_digit
+							    (sys_context));
 
   if (!ret)
     {
-      ret = lw6sys_generate_id_64 ();
+      ret = lw6sys_generate_id_64 (sys_context);
     }
 
   return ret;
@@ -125,6 +133,7 @@ lw6sys_generate_id_64 ()
 /**
  * lw6sys_check_id_16
  *
+ * @sys_context: global system context
  * @id_16: the id to check
  *
  * Checks wether the given id is a valid 16-bit id.
@@ -132,7 +141,7 @@ lw6sys_generate_id_64 ()
  * Return value: 1 if OK, 0 if not a valid id.
  */
 int
-lw6sys_check_id_16 (u_int16_t id_16)
+lw6sys_check_id_16 (lw6sys_context_t * sys_context, u_int16_t id_16)
 {
   int ret = 0;
 
@@ -145,6 +154,7 @@ lw6sys_check_id_16 (u_int16_t id_16)
 /**
  * lw6sys_check_id_32
  *
+ * @sys_context: global system context
  * @id_32: the id to check
  *
  * Checks wether the given id is a valid 32-bit id.
@@ -152,7 +162,7 @@ lw6sys_check_id_16 (u_int16_t id_16)
  * Return value: 1 if OK, 0 if not a valid id.
  */
 int
-lw6sys_check_id_32 (u_int32_t id_32)
+lw6sys_check_id_32 (lw6sys_context_t * sys_context, u_int32_t id_32)
 {
   int ret = 0;
 
@@ -165,6 +175,7 @@ lw6sys_check_id_32 (u_int32_t id_32)
 /**
  * lw6sys_check_id_64
  *
+ * @sys_context: global system context
  * @id_64: the id to check
  *
  * Checks wether the given id is a valid 64-bit id.
@@ -172,7 +183,7 @@ lw6sys_check_id_32 (u_int32_t id_32)
  * Return value: 1 if OK, 0 if not a valid id.
  */
 int
-lw6sys_check_id_64 (u_int64_t id_64)
+lw6sys_check_id_64 (lw6sys_context_t * sys_context, u_int64_t id_64)
 {
   int ret = 0;
 
@@ -185,6 +196,7 @@ lw6sys_check_id_64 (u_int64_t id_64)
 /**
  * lw6sys_check_id
  *
+ * @sys_context: global system context
  * @id: the id to check
  *
  * Checks wether the given id is a valid id (16, 32 or 64-bit).
@@ -192,12 +204,13 @@ lw6sys_check_id_64 (u_int64_t id_64)
  * Return value: 1 if OK, 0 if not a valid id.
  */
 int
-lw6sys_check_id (u_int64_t id)
+lw6sys_check_id (lw6sys_context_t * sys_context, u_int64_t id)
 {
   int ret = 0;
 
-  ret = lw6sys_check_id_16 (id) || lw6sys_check_id_32 (id)
-    || lw6sys_check_id_64 (id);
+  ret = lw6sys_check_id_16 (sys_context, id)
+    || lw6sys_check_id_32 (sys_context, id)
+    || lw6sys_check_id_64 (sys_context, id);
 
   return ret;
 }
@@ -205,7 +218,8 @@ lw6sys_check_id (u_int64_t id)
 /**
  * lw6sys_id_ltoa
  *
- * id: the id to convert
+ * @sys_context: global system context
+ * @id: the id to convert
  *
  * Transform an id into its string representation. Error checking is
  * done, if the id is invalid, returned value is NULL.
@@ -214,13 +228,15 @@ lw6sys_check_id (u_int64_t id)
  * Return value: a newly allocated string, might be NULL.
  */
 char *
-lw6sys_id_ltoa (u_int64_t id)
+lw6sys_id_ltoa (lw6sys_context_t * sys_context, u_int64_t id)
 {
   char *ret = NULL;
 
-  if (lw6sys_check_id (id))
+  if (lw6sys_check_id (sys_context, id))
     {
-      ret = lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "x", (long long) id);
+      ret =
+	lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "x",
+			    (long long) id);
     }
 
   return ret;
@@ -229,7 +245,8 @@ lw6sys_id_ltoa (u_int64_t id)
 /**
  * lw6sys_id_atol
  *
- * id: the id to convert
+ * @sys_context: global system context
+ * @id: the id to convert
  *
  * Transform an id into a long integer. Error checking is
  * done, if the id is invalid, returned value is 0.
@@ -238,7 +255,7 @@ lw6sys_id_ltoa (u_int64_t id)
  * Return value: the id as a long integer, 0 if incorrect source id.
  */
 u_int64_t
-lw6sys_id_atol (char *id)
+lw6sys_id_atol (lw6sys_context_t * sys_context, char *id)
 {
   u_int64_t ret = 0LL;
   int len = 0;
@@ -261,7 +278,7 @@ lw6sys_id_atol (char *id)
 		  _x_ ("id \"%s\" is not valid (bad length)"), id);
     }
 
-  if (!lw6sys_check_id (ret))
+  if (!lw6sys_check_id (sys_context, ret))
     {
       ret = 0;
     }

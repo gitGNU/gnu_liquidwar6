@@ -1093,6 +1093,7 @@ lw6sys_color_distance (lw6sys_context_t * sys_context,
 /**
  * lw6sys_color_is_same
  *
+ * @sys_context: global system context
  * @color1: the first color to compare
  * @color2: the second color to compare
  *
@@ -1101,7 +1102,8 @@ lw6sys_color_distance (lw6sys_context_t * sys_context,
  * Return value: 1 if they are the same, 0 if not.
  */
 int
-lw6sys_color_is_same (lw6sys_color_8_t color1, lw6sys_color_8_t color2)
+lw6sys_color_is_same (lw6sys_context_t * sys_context, lw6sys_color_8_t color1,
+		      lw6sys_color_8_t color2)
 {
   int ret = 0;
 
@@ -1113,7 +1115,7 @@ lw6sys_color_is_same (lw6sys_color_8_t color1, lw6sys_color_8_t color2)
 /**
  * lw6sys_color_8_solid
  *
- * color: the color to modify
+ * @color: the color to modify
  *
  * Make a color "solid" that is make it not transparent at all.
  *
@@ -1128,7 +1130,7 @@ lw6sys_color_8_solid (lw6sys_color_8_t * color)
 /**
  * lw6sys_color_f_solid
  *
- * color: the color to modify
+ * @color: the color to modify
  *
  * Make a color "solid" that is make it not transparent at all.
  *

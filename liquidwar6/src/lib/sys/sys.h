@@ -954,7 +954,8 @@ extern lw6sys_color_8_t lw6sys_color_ponderate (lw6sys_context_t *
 extern float lw6sys_color_distance (lw6sys_context_t * sys_context,
 				    lw6sys_color_8_t color1,
 				    lw6sys_color_8_t color2);
-extern int lw6sys_color_is_same (const lw6sys_color_8_t color1,
+extern int lw6sys_color_is_same (lw6sys_context_t * sys_context,
+				 const lw6sys_color_8_t color1,
 				 const lw6sys_color_8_t color2);
 extern void lw6sys_color_8_solid (lw6sys_color_8_t * color);
 extern void lw6sys_color_f_solid (lw6sys_color_f_t * color);
