@@ -293,7 +293,7 @@ lw6sys_date_rfc1123 (int seconds_from_now)
   struct tm *tm_ptr;
   int strflen;
 
-  ret = (char *) LW6SYS_CALLOC (_RFC1123_SIZE + 1);	// 32 should even be enough
+  ret = (char *) LW6SYS_CALLOC (sys_context, _RFC1123_SIZE + 1);	// 32 should even be enough
 
   locale = setlocale (LC_TIME, NULL);
   if (locale)
@@ -303,7 +303,7 @@ lw6sys_date_rfc1123 (int seconds_from_now)
        * otherwise the content pointed by *locale
        * might change dynamically when calling setlocale
        */
-      old_locale = lw6sys_str_copy (locale);
+      old_locale = lw6sys_str_copy (sys_context, locale);
 
       setlocale (LC_TIME, "POSIX");
 
@@ -367,7 +367,7 @@ lw6sys_date_clf ()
   struct tm *tm_ptr;
   int strflen;
 
-  ret = (char *) LW6SYS_CALLOC (_CLF_SIZE + 1);
+  ret = (char *) LW6SYS_CALLOC (sys_context, _CLF_SIZE + 1);
 
   locale = setlocale (LC_TIME, NULL);
   if (locale)
@@ -377,7 +377,7 @@ lw6sys_date_clf ()
        * otherwise the content pointed by *locale
        * might change dynamically when calling setlocale
        */
-      old_locale = lw6sys_str_copy (locale);
+      old_locale = lw6sys_str_copy (sys_context, locale);
 
       setlocale (LC_TIME, "C");
 
@@ -439,12 +439,14 @@ lw6sys_readable_uptime (int64_t timestamp_delta)
   if (days > 0)
     {
       ret =
-	lw6sys_new_sprintf ("%dd %d:%02d:%02d", days, hours, minutes,
-			    seconds);
+	lw6sys_new_sprintf (sys_context, "%dd %d:%02d:%02d", days, hours,
+			    minutes, seconds);
     }
   else
     {
-      ret = lw6sys_new_sprintf ("%d:%02d:%02d", hours, minutes, seconds);
+      ret =
+	lw6sys_new_sprintf (sys_context, "%d:%02d:%02d", hours, minutes,
+			    seconds);
     }
 
   return ret;

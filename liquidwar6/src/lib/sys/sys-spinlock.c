@@ -115,10 +115,10 @@ lw6sys_spinlock_destroy (lw6sys_spinlock_t * spinlock)
 {
 #if ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
   pthread_spin_destroy (&(((_lw6sys_spinlock_t *) spinlock)->spinlock));
-  LW6SYS_FREE ((void *) spinlock);
+  LW6SYS_FREE (sys_context, (void *) spinlock);
 #else // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 #ifdef LW6_X86
-  LW6SYS_FREE ((void *) spinlock);
+  LW6SYS_FREE (sys_context, (void *) spinlock);
 #else // LW6_X86
   lw6sys_mutex_destroy ((lw6sys_mutex_t *) spinlock);
 #endif // LW6_X86

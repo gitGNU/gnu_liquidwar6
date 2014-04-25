@@ -182,7 +182,7 @@ lw6sys_signal_hup_handler (int signum)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		  _x_ ("caught SIGHUP, uptime=\"%s\""), uptime);
-      LW6SYS_FREE (uptime);
+      LW6SYS_FREE (sys_context, uptime);
     }
   else
     {

@@ -154,7 +154,7 @@ lw6sys_cunit_run_tests (int mode)
 
   if (user_dir)
     {
-      LW6SYS_FREE (user_dir);
+      LW6SYS_FREE (sys_context, user_dir);
     }
   if (cunit_basename)
     {
@@ -162,7 +162,7 @@ lw6sys_cunit_run_tests (int mode)
 	{
 	  _cunit_summary (cunit_basename);
 	}
-      LW6SYS_FREE (cunit_basename);
+      LW6SYS_FREE (sys_context, cunit_basename);
     }
 
   return ret;

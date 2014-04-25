@@ -447,7 +447,7 @@ lw6sys_get_username (lw6sys_context_t * sys_context)
 #endif
 
 #ifdef LW6_MS_WINDOWS
-  ret = LW6SYS_CALLOC (UNLEN + 2);
+  ret = LW6SYS_CALLOC (sys_context, UNLEN + 2);
   if (ret)
     {
       size = UNLEN + 1;

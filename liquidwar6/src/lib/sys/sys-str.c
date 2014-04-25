@@ -65,13 +65,13 @@ typedef struct _join_callback_data_s
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_str_copy (const char *src)
+lw6sys_str_copy (sys_context, const char *src)
 {
   char *copy = NULL;
   int length;
 
   length = strlen (src);
-  copy = LW6SYS_MALLOC (length + 1);
+  copy = LW6SYS_MALLOC (sys_context, length + 1);
   if (copy)
     {
       strncpy (copy, src, length + 1);
@@ -100,7 +100,7 @@ lw6sys_str_concat (const char *str1, const char *str2)
   int length;
 
   length = strlen (str1) + strlen (str2);
-  concat = LW6SYS_MALLOC (length + 1);
+  concat = LW6SYS_MALLOC (sys_context, length + 1);
   if (concat)
     {
       snprintf (concat, length + 1, "%s%s", str1, str2);
@@ -128,7 +128,7 @@ _lw6sys_new_vsnprintf (int n, const char *fmt, va_list ap)
 	      /*
 	       * Problem, either error or string too long.
 	       */
-	      LW6SYS_FREE (ret);
+	      LW6SYS_FREE (sys_context, ret);
 	      ret = NULL;
 	    }
 	  else
@@ -165,7 +165,7 @@ more_mem (int n)
  * Return value: a new allocated string, must be freed.
  */
 char *
-lw6sys_new_sprintf (const char *fmt, ...)
+lw6sys_new_sprintf (sys_context, const char *fmt, ...)
 {
   char *ret = NULL;
   va_list ap;
@@ -543,7 +543,7 @@ reformat_newline (char **formatted_str, char *append, const char *prefix)
 			lw6sys_eol ());
   if (new_str)
     {
-      LW6SYS_FREE (*formatted_str);
+      LW6SYS_FREE (sys_context, *formatted_str);
       (*formatted_str) = new_str;
     }
 }
@@ -759,7 +759,7 @@ lw6sys_str_split (const char *str, char c)
 	      lw6sys_list_push_back (&ret, part);
 	    }
 	}
-      LW6SYS_FREE (copy);
+      LW6SYS_FREE (sys_context, copy);
     }
 
   return ret;
@@ -804,7 +804,7 @@ lw6sys_str_split_no_0 (const char *str, char c)
 		    }
 		  else
 		    {
-		      LW6SYS_FREE (part);
+		      LW6SYS_FREE (sys_context, part);
 		    }
 		}
 	      pos = found + 1;
@@ -818,11 +818,11 @@ lw6sys_str_split_no_0 (const char *str, char c)
 		}
 	      else
 		{
-		  LW6SYS_FREE (part);
+		  LW6SYS_FREE (sys_context, part);
 		}
 	    }
 	}
-      LW6SYS_FREE (copy);
+      LW6SYS_FREE (sys_context, copy);
     }
 
   return ret;
@@ -860,7 +860,7 @@ _join_callback (void *func_data, void *data)
       join_callback_data->ret =
 	lw6sys_new_sprintf ("%s%s%s", join_callback_data->ret,
 			    join_callback_data->glue, str);
-      LW6SYS_FREE (tmp);
+      LW6SYS_FREE (sys_context, tmp);
     }
   else
     {
@@ -1021,7 +1021,7 @@ lw6sys_str_random (int len)
   unsigned char *ret = NULL;
   int i = 0;
 
-  ret = (unsigned char *) LW6SYS_MALLOC (len + 1);
+  ret = (unsigned char *) LW6SYS_MALLOC (sys_context, len + 1);
   for (i = 0; i < len; ++i)
     {
       ret[i] = lw6sys_random (254) + 1;
@@ -1049,7 +1049,7 @@ lw6sys_str_random_words (int len)
   int i = 0;
   int cat_len = strlen (_STR_RANDOM_WORDS);
 
-  ret = (unsigned char *) LW6SYS_MALLOC (len + 1);
+  ret = (unsigned char *) LW6SYS_MALLOC (sys_context, len + 1);
   for (i = 0; i < len; ++i)
     {
       ret[i] = _STR_RANDOM_WORDS[lw6sys_random (cat_len)];
@@ -1077,7 +1077,7 @@ lw6sys_str_random_word (int len)
   int i = 0;
   int cat_len = strlen (_STR_RANDOM_WORD);
 
-  ret = (unsigned char *) LW6SYS_MALLOC (len + 1);
+  ret = (unsigned char *) LW6SYS_MALLOC (sys_context, len + 1);
   for (i = 0; i < len; ++i)
     {
       ret[i] = _STR_RANDOM_WORD[lw6sys_random (cat_len)];

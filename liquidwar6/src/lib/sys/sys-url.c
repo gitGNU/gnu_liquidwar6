@@ -61,11 +61,11 @@ lw6sys_url_http_from_ip_port (const char *ip, int port)
 
   if (port == _HTTP_PORT)
     {
-      ret = lw6sys_new_sprintf (_HTTP_URL_MASK_PORT_80, ip);
+      ret = lw6sys_new_sprintf (sys_context, _HTTP_URL_MASK_PORT_80, ip);
     }
   else
     {
-      ret = lw6sys_new_sprintf (_HTTP_URL_MASK, ip, port);
+      ret = lw6sys_new_sprintf (sys_context, _HTTP_URL_MASK, ip, port);
     }
 
   if (ret)
@@ -117,7 +117,7 @@ lw6sys_url_parse (const char *url)
   ret = (lw6sys_url_t *) LW6SYS_CALLOC (sizeof (lw6sys_url_t));
   if (ret)
     {
-      tmp = lw6sys_str_copy (url);
+      tmp = lw6sys_str_copy (sys_context, url);
       lw6sys_str_cleanup_ascii7 (tmp);
       if (lw6sys_str_starts_with (tmp, _HTTPS))
 	{
@@ -145,7 +145,7 @@ lw6sys_url_parse (const char *url)
 	}
       else
 	{
-	  ret->host = lw6sys_str_copy (_LOCALHOST);
+	  ret->host = lw6sys_str_copy (sys_context, _LOCALHOST);
 	}
       (*seek) = seek_c;
       pos = seek;
@@ -191,7 +191,7 @@ lw6sys_url_parse (const char *url)
 	}
       else
 	{
-	  ret->uri = lw6sys_new_sprintf ("%c", _SLASH);
+	  ret->uri = lw6sys_new_sprintf (sys_context, "%c", _SLASH);
 	}
       if (ret->host && ret->uri)
 	{
@@ -202,7 +202,7 @@ lw6sys_url_parse (const char *url)
 	  lw6sys_url_free (ret);
 	  ret = NULL;
 	}
-      LW6SYS_FREE (tmp);
+      LW6SYS_FREE (sys_context, tmp);
     }
 
   return ret;
@@ -224,13 +224,13 @@ lw6sys_url_free (lw6sys_url_t * url)
     {
       if (url->host)
 	{
-	  LW6SYS_FREE (url->host);
+	  LW6SYS_FREE (sys_context, url->host);
 	}
       if (url->uri)
 	{
-	  LW6SYS_FREE (url->uri);
+	  LW6SYS_FREE (sys_context, url->uri);
 	}
-      LW6SYS_FREE (url);
+      LW6SYS_FREE (sys_context, url);
     }
 }
 
@@ -328,7 +328,7 @@ lw6sys_url_is_canonized (const char *url)
 	{
 	  ret = 1;
 	}
-      LW6SYS_FREE (canonized_url);
+      LW6SYS_FREE (sys_context, canonized_url);
     }
 
   return ret;

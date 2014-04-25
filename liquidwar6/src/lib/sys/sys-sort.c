@@ -236,7 +236,8 @@ lw6sys_sort (lw6sys_list_t ** list, lw6sys_sort_callback_func_t sort_func)
   if (length > 0)
     {
       array =
-	(lw6sys_list_t **) LW6SYS_CALLOC (length * sizeof (lw6sys_list_t *));
+	(lw6sys_list_t **) LW6SYS_CALLOC (sys_context,
+					  length * sizeof (lw6sys_list_t *));
       if (array)
 	{
 	  for (pos = (*list), i = 0; pos->next_item != NULL;
@@ -262,7 +263,7 @@ lw6sys_sort (lw6sys_list_t ** list, lw6sys_sort_callback_func_t sort_func)
 
 	  (*list) = array[0];
 
-	  LW6SYS_FREE (array);
+	  LW6SYS_FREE (sys_context, array);
 	}
     }
 }

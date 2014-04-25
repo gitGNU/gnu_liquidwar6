@@ -224,7 +224,7 @@ lw6sys_vthread_run (lw6sys_thread_callback_func_t callback_func,
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("freeing _main_vhandler"));
-	      LW6SYS_FREE (_main_vhandler);
+	      LW6SYS_FREE (sys_context, _main_vhandler);
 	      _main_vhandler = NULL;
 	    }
 #endif

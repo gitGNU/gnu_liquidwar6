@@ -269,7 +269,7 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
 	   * "solutions".
 	   */
 	  thread_create_counter--;
-	  LW6SYS_FREE (thread_handler);
+	  LW6SYS_FREE (sys_context, thread_handler);
 	  thread_handler = NULL;
 	}
     }

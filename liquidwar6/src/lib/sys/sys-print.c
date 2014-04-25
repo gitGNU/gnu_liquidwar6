@@ -53,7 +53,7 @@ lw6sys_print_xml_header (FILE * f, char *comment)
       fprintf (f, "  <!--%s", lw6sys_eol ());
       fprintf (f, "%s", reformatted_comment);
       fprintf (f, "  -->%s", lw6sys_eol ());
-      LW6SYS_FREE (reformatted_comment);
+      LW6SYS_FREE (sys_context, reformatted_comment);
     }
 }
 

@@ -64,10 +64,10 @@ lw6sys_version_is_compatible (const char *version_a, const char *version_b)
   char *tmp_a = NULL;
   char *tmp_b = NULL;
 
-  tmp_a = lw6sys_str_copy (version_a);
+  tmp_a = lw6sys_str_copy (sys_context, version_a);
   if (tmp_a)
     {
-      tmp_b = lw6sys_str_copy (version_b);
+      tmp_b = lw6sys_str_copy (sys_context, version_b);
       if (tmp_b)
 	{
 	  _cut_at_2nd_version_sep (tmp_a);

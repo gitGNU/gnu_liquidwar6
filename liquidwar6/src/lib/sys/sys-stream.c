@@ -67,7 +67,7 @@ lw6sys_stream_file_to_str (FILE * f)
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("file too long, function \"%s\" can't handle it"),
 		      __FUNCTION__);
-	  LW6SYS_FREE (ret);
+	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
 	}
       if (ret)

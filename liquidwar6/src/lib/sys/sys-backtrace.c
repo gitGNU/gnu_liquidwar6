@@ -183,7 +183,7 @@ lw6sys_backtrace (lw6sys_context_t * sys_context, int skip, int detailed)
 	}
     }
 #else // LW6_UNIX && HAVE_EXECINFO_H
-  ret = lw6sys_new_sprintf (_x_ ("no backtrace"));
+  ret = lw6sys_new_sprintf (sys_context, _x_ ("no backtrace"));
 #endif // LW6_UNIX && HAVE_EXECINFO_H
 
   if (ret && detailed)
