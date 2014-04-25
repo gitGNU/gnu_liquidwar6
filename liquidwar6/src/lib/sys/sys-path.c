@@ -47,19 +47,19 @@
 #define _CREATE_DIR_NB_PARENTS 3
 
 static int
-is_dir_sep (char c)
+_is_dir_sep (lw6sys_context_t * sys_context, char c)
 {
   return ((c == DIR_SEP_CHAR_UNIX) || (c == DIR_SEP_CHAR_MS_WINDOWS));
 }
 
 static void
-normalize (char *path)
+_normalize (lw6sys_context_t * sys_context, char *path)
 {
   char *pos = NULL;
 
   for (pos = path; (*pos); pos++)
     {
-      if (is_dir_sep (*pos))
+      if (_is_dir_sep (sys_context, *pos))
 	{
 	  (*pos) = DIR_SEP_CHAR;
 	}
@@ -69,6 +69,7 @@ normalize (char *path)
 /**
  * lw6sys_file_exists
  *
+ * @sys_context: global system context
  * @filename: the file to test
  *
  * Tests the existence of a file on the filesystem. File is considered
@@ -77,7 +78,7 @@ normalize (char *path)
  * Return value: 1 if OK, 0 if file doesn't exist or can't be read.
  */
 int
-lw6sys_file_exists (const char *filename)
+lw6sys_file_exists (lw6sys_context_t * sys_context, const char *filename)
 {
   int ret = 0;
   FILE *f;
@@ -95,6 +96,7 @@ lw6sys_file_exists (const char *filename)
 /**
  * lw6sys_dir_exists
  *
+ * @sys_context: global system context
  * @dirname: the directory to test
  *
  * Tests the existence of a directory on the filesystem.
@@ -102,7 +104,7 @@ lw6sys_file_exists (const char *filename)
  * Return value: 1 if OK, 0 if directory doesn't exist.
  */
 int
-lw6sys_dir_exists (const char *dirname)
+lw6sys_dir_exists (lw6sys_context_t * sys_context, const char *dirname)
 {
   int ret = 0;
   DIR *dir = NULL;
@@ -121,6 +123,7 @@ lw6sys_dir_exists (const char *dirname)
 /**
  * lw6sys_dir_exists_with_readme
  *
+ * @sys_context: global system context
  * @dirname: the directory to test
  *
  * Tests the existence of a directory on the filesystem, will also
@@ -129,36 +132,38 @@ lw6sys_dir_exists (const char *dirname)
  * Return value: 1 if OK, 0 if directory doesn't exist.
  */
 int
-lw6sys_dir_exists_with_readme (const char *dirname)
+lw6sys_dir_exists_with_readme (lw6sys_context_t * sys_context,
+			       const char *dirname)
 {
   int ret = 0;
   char *readme_filename = NULL;
 
-  if (lw6sys_dir_exists (dirname))
+  if (lw6sys_dir_exists (sys_context, dirname))
     {
       if (!ret)
 	{
-	  readme_filename = lw6sys_path_concat (dirname, LW6SYS_FILE_README);
+	  readme_filename =
+	    lw6sys_path_concat (sys_context, dirname, LW6SYS_FILE_README);
 	  if (readme_filename)
 	    {
-	      if (lw6sys_file_exists (readme_filename))
+	      if (lw6sys_file_exists (sys_context, readme_filename))
 		{
 		  ret = 1;
 		}
-	      LW6SYS_FREE (readme_filename);
+	      LW6SYS_FREE (sys_context, readme_filename);
 	    }
 	}
       if (!ret)
 	{
 	  readme_filename =
-	    lw6sys_path_concat (dirname, LW6SYS_FILE_README_TXT);
+	    lw6sys_path_concat (sys_context, dirname, LW6SYS_FILE_README_TXT);
 	  if (readme_filename)
 	    {
-	      if (lw6sys_file_exists (readme_filename))
+	      if (lw6sys_file_exists (sys_context, readme_filename))
 		{
 		  ret = 1;
 		}
-	      LW6SYS_FREE (readme_filename);
+	      LW6SYS_FREE (sys_context, readme_filename);
 	    }
 	}
       if (!ret)
@@ -176,6 +181,7 @@ lw6sys_dir_exists_with_readme (const char *dirname)
 /**
  * lw6sys_dir_exists_with_readme_containing_text
  *
+ * @sys_context: global system context
  * @dirname: the directory to test
  * @needle: string to search, can be NULL
  *
@@ -185,59 +191,63 @@ lw6sys_dir_exists_with_readme (const char *dirname)
  * Return value: 1 if OK, 0 if directory doesn't exist.
  */
 int
-lw6sys_dir_exists_with_readme_containing_text (const char *dirname,
+lw6sys_dir_exists_with_readme_containing_text (lw6sys_context_t * sys_context,
+					       const char *dirname,
 					       const char *needle)
 {
   int ret = 0;
   char *readme_filename = NULL;
   char *readme_content = NULL;
 
-  if (lw6sys_dir_exists_with_readme (dirname))
+  if (lw6sys_dir_exists_with_readme (sys_context, dirname))
     {
       if (needle)
 	{
 	  if (!ret)
 	    {
 	      readme_filename =
-		lw6sys_path_concat (dirname, LW6SYS_FILE_README);
+		lw6sys_path_concat (sys_context, dirname, LW6SYS_FILE_README);
 	      if (readme_filename)
 		{
-		  if (lw6sys_file_exists (readme_filename))
+		  if (lw6sys_file_exists (sys_context, readme_filename))
 		    {
 		      readme_content =
-			lw6sys_read_file_content (readme_filename);
+			lw6sys_read_file_content (sys_context,
+						  readme_filename);
 		      if (readme_content)
 			{
 			  if (strstr (readme_content, needle))
 			    {
 			      ret = 1;
 			    }
-			  LW6SYS_FREE (readme_content);
+			  LW6SYS_FREE (sys_context, readme_content);
 			}
 		    }
-		  LW6SYS_FREE (readme_filename);
+		  LW6SYS_FREE (sys_context, readme_filename);
 		}
 	    }
 	  if (!ret)
 	    {
 	      readme_filename =
-		lw6sys_path_concat (dirname, LW6SYS_FILE_README_TXT);
+		lw6sys_path_concat (sys_context, dirname,
+				    LW6SYS_FILE_README_TXT);
 	      if (readme_filename)
 		{
-		  if (lw6sys_file_exists (readme_filename))
+		  if (lw6sys_file_exists (sys_context, readme_filename))
 		    {
 		      readme_content =
-			lw6sys_read_file_content (readme_filename);
+			lw6sys_read_file_content (sys_context,
+						  readme_filename);
 		      if (readme_content)
 			{
 			  if (strstr (readme_content, needle))
 			    {
 			      ret = 1;
 			    }
-			  LW6SYS_FREE (readme_content);
+			  LW6SYS_FREE (sys_context, readme_content);
 			}
 		    }
-		  LW6SYS_FREE (readme_filename);
+		  LW6SYS_FREE (sys_context, readme_filename);
 		}
 	    }
 
@@ -256,7 +266,8 @@ lw6sys_dir_exists_with_readme_containing_text (const char *dirname,
 }
 
 static int
-create_dir (const char *dirname, int verbose, int nb_parents)
+_create_dir (lw6sys_context_t * sys_context, const char *dirname, int verbose,
+	     int nb_parents)
 {
   int ret = 0;
 
@@ -271,19 +282,19 @@ create_dir (const char *dirname, int verbose, int nb_parents)
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("creating dir \"%s\""), dirname);
 	}
-      ret = lw6sys_dir_exists (dirname);
+      ret = lw6sys_dir_exists (sys_context, dirname);
     }
   else
     {
       if (nb_parents > 0)
 	{
-	  char *parent = lw6sys_path_parent (dirname);
+	  char *parent = lw6sys_path_parent (sys_context, dirname);
 
 	  if (parent)
 	    {
-	      ret = create_dir (parent, verbose, nb_parents - 1)
-		&& create_dir (dirname, verbose, 0);
-	      LW6SYS_FREE (parent);
+	      ret = _create_dir (sys_context, parent, verbose, nb_parents - 1)
+		&& _create_dir (sys_context, dirname, verbose, 0);
+	      LW6SYS_FREE (sys_context, parent);
 	    }
 	}
       else
@@ -302,6 +313,7 @@ create_dir (const char *dirname, int verbose, int nb_parents)
 /**
  * lw6sys_create_dir
  *
+ * @sys_context: global system context
  * @dirname: the directory to create
  *
  * Creates a directory, performing sanity checks such as verifying
@@ -310,14 +322,15 @@ create_dir (const char *dirname, int verbose, int nb_parents)
  * Return value: 1 if OK, 0 if error.
  */
 int
-lw6sys_create_dir (const char *dirname)
+lw6sys_create_dir (lw6sys_context_t * sys_context, const char *dirname)
 {
-  return create_dir (dirname, 1, _CREATE_DIR_NB_PARENTS);
+  return _create_dir (sys_context, dirname, 1, _CREATE_DIR_NB_PARENTS);
 }
 
 /**
  * lw6sys_create_dir_silent
  *
+ * @sys_context: global system context
  * @dirname: the directory to create
  *
  * Creates a directory like @lw6sys_create_dir but this function
@@ -328,14 +341,15 @@ lw6sys_create_dir (const char *dirname)
  * Return value: 1 if OK, 0 if error.
  */
 int
-lw6sys_create_dir_silent (const char *dirname)
+lw6sys_create_dir_silent (lw6sys_context_t * sys_context, const char *dirname)
 {
-  return create_dir (dirname, 0, _CREATE_DIR_NB_PARENTS);
+  return _create_dir (sys_context, dirname, 0, _CREATE_DIR_NB_PARENTS);
 }
 
 /**
  * lw6sys_path_add_slash
  *
+ * @sys_context: global system context
  * @path: a path
  *
  * Adds a slash, or in a general manner, a directory separator,
@@ -345,24 +359,24 @@ lw6sys_create_dir_silent (const char *dirname)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6sys_path_add_slash (const char *path)
+lw6sys_path_add_slash (lw6sys_context_t * sys_context, const char *path)
 {
   char *ret;
   int len;
 
   len = strlen (path);
-  if (len == 0 || (len > 0 && !is_dir_sep (path[len - 1])))
+  if (len == 0 || (len > 0 && !_is_dir_sep (sys_context, path[len - 1])))
     {
-      ret = lw6sys_str_concat (path, DIR_SEP_STR);
+      ret = lw6sys_str_concat (sys_context, path, DIR_SEP_STR);
     }
   else
     {
-      ret = lw6sys_str_copy (path);
+      ret = lw6sys_str_copy (sys_context, path);
     }
 
   if (ret)
     {
-      normalize (ret);
+      _normalize (sys_context, ret);
     }
 
   return ret;
@@ -371,6 +385,7 @@ lw6sys_path_add_slash (const char *path)
 /**
  * lw6sys_path_strip_slash
  *
+ * @sys_context: global system context
  * @path: a path
  *
  * Strips the slash, or in a general manner, the directory separator,
@@ -380,16 +395,16 @@ lw6sys_path_add_slash (const char *path)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6sys_path_strip_slash (const char *path)
+lw6sys_path_strip_slash (lw6sys_context_t * sys_context, const char *path)
 {
   char *ret;
   int len;
 
-  ret = lw6sys_str_copy (path);
+  ret = lw6sys_str_copy (sys_context, path);
   if (ret)
     {
       len = strlen (ret);
-      if (len > 0 && is_dir_sep (ret[len - 1]))
+      if (len > 0 && _is_dir_sep (sys_context, ret[len - 1]))
 	{
 	  ret[len - 1] = '\0';
 	}
@@ -397,7 +412,7 @@ lw6sys_path_strip_slash (const char *path)
 
   if (ret)
     {
-      normalize (ret);
+      _normalize (sys_context, ret);
     }
 
   return ret;
@@ -406,6 +421,7 @@ lw6sys_path_strip_slash (const char *path)
 /**
  * lw6sys_path_concat
  *
+ * @sys_context: global system context
  * @path1: left part of the path
  * @path2: right part of the path
  *
@@ -417,49 +433,50 @@ lw6sys_path_strip_slash (const char *path)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6sys_path_concat (const char *path1, const char *path2)
+lw6sys_path_concat (lw6sys_context_t * sys_context, const char *path1,
+		    const char *path2)
 {
   char *path1_stripped = NULL;
   char *path2_stripped = NULL;
   char *path2_start = NULL;
   char *ret = NULL;
 
-  path1_stripped = lw6sys_path_strip_slash (path1);
+  path1_stripped = lw6sys_path_strip_slash (sys_context, path1);
   if (path1_stripped)
     {
-      path2_stripped = lw6sys_path_strip_slash (path2);
+      path2_stripped = lw6sys_path_strip_slash (sys_context, path2);
       if (path2_stripped)
 	{
 	  path2_start = path2_stripped;
-	  if (is_dir_sep (path2_start[0]))
+	  if (_is_dir_sep (sys_context, path2_start[0]))
 	    {
 	      path2_start++;
 	    }
-	  if (!lw6sys_path_is_cwd (path2_start))
+	  if (!lw6sys_path_is_cwd (sys_context, path2_start))
 	    {
 	      if (strlen (path1_stripped) > 0)
 		{
 		  ret =
-		    lw6sys_new_sprintf ("%s" DIR_SEP_STR "%s", path1_stripped,
-					path2_start);
+		    lw6sys_new_sprintf (sys_context, "%s" DIR_SEP_STR "%s",
+					path1_stripped, path2_start);
 		}
 	      else
 		{
-		  ret = lw6sys_str_copy (path2_start);
+		  ret = lw6sys_str_copy (sys_context, path2_start);
 		}
 	    }
 	  else
 	    {
-	      ret = lw6sys_str_copy (path1_stripped);
+	      ret = lw6sys_str_copy (sys_context, path1_stripped);
 	    }
-	  LW6SYS_FREE (path2_stripped);
+	  LW6SYS_FREE (sys_context, path2_stripped);
 	}
-      LW6SYS_FREE (path1_stripped);
+      LW6SYS_FREE (sys_context, path1_stripped);
     }
 
   if (ret)
     {
-      normalize (ret);
+      _normalize (sys_context, ret);
     }
 
   return ret;
@@ -468,6 +485,7 @@ lw6sys_path_concat (const char *path1, const char *path2)
 /**
  * lw6sys_path_split
  *
+ * @sys_context: global system context
  * @path: a path
  *
  * Splits a path into all its parts. For instance /boo/bar/foo2/bar2
@@ -478,16 +496,16 @@ lw6sys_path_concat (const char *path1, const char *path2)
  * Return value: a list containing 0-terminated strings.
  */
 lw6sys_list_t *
-lw6sys_path_split (const char *path)
+lw6sys_path_split (lw6sys_context_t * sys_context, const char *path)
 {
   char *stripped_path = NULL;
   lw6sys_list_t *ret = NULL;
 
-  stripped_path = lw6sys_path_strip_slash (path);
+  stripped_path = lw6sys_path_strip_slash (sys_context, path);
   if (stripped_path)
     {
-      ret = lw6sys_str_split_no_0 (stripped_path, DIR_SEP_CHAR);
-      LW6SYS_FREE (stripped_path);
+      ret = lw6sys_str_split_no_0 (sys_context, stripped_path, DIR_SEP_CHAR);
+      LW6SYS_FREE (sys_context, stripped_path);
     }
 
   return ret;
@@ -496,6 +514,7 @@ lw6sys_path_split (const char *path)
 /**
  * lw6sys_path_file_only
  *
+ * @sys_context: global system context
  * @path: a path
  *
  * Returns the file name only, without heading directories.
@@ -503,7 +522,7 @@ lw6sys_path_split (const char *path)
  * Return value: file name, must be freed
  */
 char *
-lw6sys_path_file_only (const char *path)
+lw6sys_path_file_only (lw6sys_context_t * sys_context, const char *path)
 {
   char *ret = NULL;
   int i = 0;
@@ -514,13 +533,13 @@ lw6sys_path_file_only (const char *path)
    */
   i = strlen (path) - 1;
 
-  while (i >= 0 && !is_dir_sep (path[i]))
+  while (i >= 0 && !_is_dir_sep (sys_context, path[i]))
     {
       --i;
     }
   ++i;
 
-  ret = lw6sys_str_copy (path + i);
+  ret = lw6sys_str_copy (sys_context, path + i);
 
   return ret;
 }
@@ -528,6 +547,7 @@ lw6sys_path_file_only (const char *path)
 /**
  * lw6sys_path_is_relative
  *
+ * @sys_context: global system context
  * @path: a path
  *
  * Checks wether a path is relative or absolute.
@@ -535,7 +555,7 @@ lw6sys_path_file_only (const char *path)
  * Return value: 1 if relative, 0 if absolute.
  */
 int
-lw6sys_path_is_relative (const char *path)
+lw6sys_path_is_relative (lw6sys_context_t * sys_context, const char *path)
 {
   int ret = 0;
 
@@ -554,6 +574,7 @@ lw6sys_path_is_relative (const char *path)
 /**
  * lw6sys_path_is_cwd
  *
+ * @sys_context: global system context
  * @path: a path
  *
  * Checks wether a path is "." or not. Will also trap "" and "./".
@@ -561,7 +582,7 @@ lw6sys_path_is_relative (const char *path)
  * Return value: 1 if relative, 0 if absolute.
  */
 int
-lw6sys_path_is_cwd (const char *path)
+lw6sys_path_is_cwd (lw6sys_context_t * sys_context, const char *path)
 {
   int ret = 0;
 
@@ -579,6 +600,7 @@ lw6sys_path_is_cwd (const char *path)
 /**
  * lw6sys_path_parent
  *
+ * @sys_context: global system context
  * @path: a path
  *
  * Returns the parent path. That will return /foo when given
@@ -587,7 +609,7 @@ lw6sys_path_is_cwd (const char *path)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6sys_path_parent (const char *path)
+lw6sys_path_parent (lw6sys_context_t * sys_context, const char *path)
 {
   char *parent = NULL;
   char *stripped_path = NULL;
@@ -595,7 +617,7 @@ lw6sys_path_parent (const char *path)
 
   if (path)
     {
-      stripped_path = lw6sys_path_strip_slash (path);
+      stripped_path = lw6sys_path_strip_slash (sys_context, path);
       if (stripped_path)
 	{
 	  pos = strrchr (stripped_path, DIR_SEP_CHAR);
@@ -607,7 +629,8 @@ lw6sys_path_parent (const char *path)
 		   * Path ends with "..", so we just append ".."
 		   * again on it.
 		   */
-		  parent = lw6sys_path_concat (stripped_path, "..");
+		  parent =
+		    lw6sys_path_concat (sys_context, stripped_path, "..");
 		}
 	      else
 		{
@@ -616,7 +639,7 @@ lw6sys_path_parent (const char *path)
 		   * so we just get rid of that item
 		   */
 		  (*pos) = '\0';
-		  parent = lw6sys_str_copy (stripped_path);
+		  parent = lw6sys_str_copy (sys_context, stripped_path);
 		}
 	    }
 	  else
@@ -628,7 +651,7 @@ lw6sys_path_parent (const char *path)
 		   * Path is cwd, or empty, so we just return
 		   * the standard shell for parent : ..
 		   */
-		  parent = lw6sys_str_copy ("..");
+		  parent = lw6sys_str_copy (sys_context, "..");
 		}
 	      else
 		{
@@ -638,7 +661,8 @@ lw6sys_path_parent (const char *path)
 		       * Special case, if path was "..", then
 		       * return "../.."
 		       */
-		      parent = lw6sys_path_concat (stripped_path, "..");
+		      parent =
+			lw6sys_path_concat (sys_context, stripped_path, "..");
 		    }
 		  else
 		    {
@@ -647,21 +671,21 @@ lw6sys_path_parent (const char *path)
 		       * we consider parent is "." since an unqualified
 		       * filename is by default taken from cwd
 		       */
-		      parent = lw6sys_str_copy (".");
+		      parent = lw6sys_str_copy (sys_context, ".");
 		    }
 		}
 	    }
-	  LW6SYS_FREE (stripped_path);
+	  LW6SYS_FREE (sys_context, stripped_path);
 	}
     }
 
   if (!parent)
     {
-      parent = lw6sys_str_copy ("..");
+      parent = lw6sys_str_copy (sys_context, "..");
     }
   if (parent)
     {
-      normalize (parent);
+      _normalize (sys_context, parent);
     }
 
   return parent;
@@ -670,6 +694,7 @@ lw6sys_path_parent (const char *path)
 /**
  * lw6sys_path_unparent
  *
+ * @sys_context: global system context
  * @path: a path
  *
  * Given the ../foo/bar path, will return foo/bar. Usefull to
@@ -678,29 +703,29 @@ lw6sys_path_parent (const char *path)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6sys_path_unparent (const char *path)
+lw6sys_path_unparent (lw6sys_context_t * sys_context, const char *path)
 {
   char *unparent = NULL;
   char *slashed_path = NULL;
 
-  slashed_path = lw6sys_path_add_slash (path);
+  slashed_path = lw6sys_path_add_slash (sys_context, path);
   if (slashed_path)
     {
       if (strncmp (".." DIR_SEP_STR_UNIX, slashed_path, 3) == 0 ||
 	  strncmp (".." DIR_SEP_STR_MS_WINDOWS, slashed_path, 3) == 0)
 	{
-	  unparent = lw6sys_str_copy (path + 3);
+	  unparent = lw6sys_str_copy (sys_context, path + 3);
 	}
       else
 	{
-	  unparent = lw6sys_str_copy (path);
+	  unparent = lw6sys_str_copy (sys_context, path);
 	}
-      LW6SYS_FREE (slashed_path);
+      LW6SYS_FREE (sys_context, slashed_path);
     }
 
   if (unparent)
     {
-      normalize (unparent);
+      _normalize (sys_context, unparent);
     }
 
   return unparent;
@@ -709,6 +734,7 @@ lw6sys_path_unparent (const char *path)
 /**
  * lw6sys_path_unparent_no_malloc
  *
+ * @sys_context: global system context
  * @path: a path
  *
  * Given the ../foo/bar path, will return foo/bar. Usefull to
@@ -720,7 +746,7 @@ lw6sys_path_unparent (const char *path)
  *   string passed as an argument.
  */
 char *
-lw6sys_path_unparent_no_malloc (char *path)
+lw6sys_path_unparent_no_malloc (lw6sys_context_t * sys_context, char *path)
 {
   char *unparent = NULL;
 
@@ -738,19 +764,20 @@ lw6sys_path_unparent_no_malloc (char *path)
 }
 
 static void
-_dir_list_add_entry (lw6sys_list_t ** list, const char *dir, const char *item,
+_dir_list_add_entry (lw6sys_context_t * sys_context, lw6sys_list_t ** list,
+		     const char *dir, const char *item,
 		     lw6sys_dir_list_filter_func_t filter_func,
 		     void *func_data, int *n)
 {
   int ok = 0;
   char *path = NULL;
 
-  path = lw6sys_path_concat (dir, item);
+  path = lw6sys_path_concat (sys_context, dir, item);
   if (path)
     {
       if (filter_func)
 	{
-	  ok = filter_func (func_data, path);
+	  ok = filter_func (sys_context, func_data, path);
 	}
       else
 	{
@@ -758,7 +785,7 @@ _dir_list_add_entry (lw6sys_list_t ** list, const char *dir, const char *item,
 	}
       if (ok)
 	{
-	  lw6sys_list_push_front (list, path);
+	  lw6sys_list_push_front (sys_context, list, path);
 	  if (n)
 	    {
 	      (*n)++;
@@ -766,13 +793,14 @@ _dir_list_add_entry (lw6sys_list_t ** list, const char *dir, const char *item,
 	}
       else
 	{
-	  LW6SYS_FREE (path);
+	  LW6SYS_FREE (sys_context, path);
 	}
     }
 }
 
 static void
-_dir_list_add_entries (lw6sys_list_t ** list, const char *dir,
+_dir_list_add_entries (lw6sys_context_t * sys_context, lw6sys_list_t ** list,
+		       const char *dir,
 		       lw6sys_dir_list_filter_func_t filter_func,
 		       void *func_data, int *n)
 {
@@ -797,18 +825,18 @@ _dir_list_add_entries (lw6sys_list_t ** list, const char *dir,
   memset (&dir_entry, 0, sizeof (WIN32_FIND_DATA));
   if (strlen (dir) + 2 < MAX_PATH)
     {
-      dir_wildcard = lw6sys_path_concat (dir, "*");
+      dir_wildcard = lw6sys_path_concat (sys_context, dir, "*");
       if (dir_wildcard)
 	{
 	  dir_handle = FindFirstFile (dir_wildcard, &dir_entry);
-	  LW6SYS_FREE (dir_wildcard);
+	  LW6SYS_FREE (sys_context, dir_wildcard);
 	}
     }
   if (dir_handle != INVALID_HANDLE_VALUE)
     {
       while (!eod)
 	{
-	  _dir_list_add_entry (list, dir,
+	  _dir_list_add_entry (sys_context, list, dir,
 			       dir_entry.cFileName, filter_func, func_data,
 			       n);
 	  memset (&dir_entry, 0, sizeof (WIN32_FIND_DATA));
@@ -831,13 +859,14 @@ _dir_list_add_entries (lw6sys_list_t ** list, const char *dir,
       while (!eod)
 	{
 	  dir_entry_size = sizeof (struct dirent) + NAME_MAX + 1;
-	  dir_entry = (struct dirent *) LW6SYS_CALLOC (dir_entry_size);
+	  dir_entry =
+	    (struct dirent *) LW6SYS_CALLOC (sys_context, dir_entry_size);
 	  if (dir_entry)
 	    {
 	      readdir_r (dir_handle, dir_entry, &dir_entry_result);
 	      if (dir_entry_result && (dir_entry_result == dir_entry))
 		{
-		  _dir_list_add_entry (list,
+		  _dir_list_add_entry (sys_context, list,
 				       dir, dir_entry->d_name, filter_func,
 				       func_data, n);
 		}
@@ -845,7 +874,7 @@ _dir_list_add_entries (lw6sys_list_t ** list, const char *dir,
 		{
 		  eod = 1;
 		}
-	      LW6SYS_FREE (dir_entry);
+	      LW6SYS_FREE (sys_context, dir_entry);
 	    }
 	}
       closedir (dir_handle);
@@ -866,6 +895,7 @@ _dir_list_add_entries (lw6sys_list_t ** list, const char *dir,
 /**
  * lw6sys_dir_list
  *
+ * @sys_context: global system context
  * @dir: the path of the directory to list
  * @filter_func: a function which will filter entries, can be NULL
  * @func_data: additionnal data passed to filter_func
@@ -878,8 +908,9 @@ _dir_list_add_entries (lw6sys_list_t ** list, const char *dir,
  * Return value: a list containing strings (file paths).
  */
 lw6sys_list_t *
-lw6sys_dir_list (const char *dir, lw6sys_dir_list_filter_func_t filter_func,
-		 void *func_data, int *n)
+lw6sys_dir_list (lw6sys_context_t * sys_context, const char *dir,
+		 lw6sys_dir_list_filter_func_t filter_func, void *func_data,
+		 int *n)
 {
   lw6sys_list_t *ret = NULL;
 
@@ -887,12 +918,13 @@ lw6sys_dir_list (const char *dir, lw6sys_dir_list_filter_func_t filter_func,
     {
       (*n) = 0;
     }
-  ret = lw6sys_list_new (lw6sys_free_callback);
+  ret = lw6sys_list_new (sys_context, lw6sys_free_callback);
   if (ret)
     {
-      if (lw6sys_dir_exists (dir))
+      if (lw6sys_dir_exists (sys_context, dir))
 	{
-	  _dir_list_add_entries (&ret, dir, filter_func, func_data, n);
+	  _dir_list_add_entries (sys_context, &ret, dir, filter_func,
+				 func_data, n);
 	}
     }
 
@@ -902,6 +934,7 @@ lw6sys_dir_list (const char *dir, lw6sys_dir_list_filter_func_t filter_func,
 /**
  * lw6sys_path_list
  *
+ * @sys_context: global system context
  * @path: the path of the path to list
  * @filter_func: a function which will filter entries, can be NULL
  * @func_data: additionnal data passed to filter_func
@@ -917,7 +950,7 @@ lw6sys_dir_list (const char *dir, lw6sys_dir_list_filter_func_t filter_func,
  * Return value: a list containing strings (file paths).
  */
 lw6sys_list_t *
-lw6sys_path_list (const char *path,
+lw6sys_path_list (lw6sys_context_t * sys_context, const char *path,
 		  lw6sys_dir_list_filter_func_t
 		  filter_func, void *func_data, int *n)
 {
@@ -929,17 +962,21 @@ lw6sys_path_list (const char *path,
     {
       (*n) = 0;
     }
-  ret = lw6sys_list_new (lw6sys_free_callback);
+  ret = lw6sys_list_new (sys_context, lw6sys_free_callback);
   if (ret)
     {
-      dirs = lw6sys_env_split (path);
+      dirs = lw6sys_env_split (sys_context, path);
       if (dirs)
 	{
 	  while (dirs
-		 && ((dir = (char *) lw6sys_list_pop_front (&dirs)) != NULL))
+		 &&
+		 ((dir =
+		   (char *) lw6sys_list_pop_front (sys_context,
+						   &dirs)) != NULL))
 	    {
-	      _dir_list_add_entries (&ret, dir, filter_func, func_data, n);
-	      LW6SYS_FREE (dir);
+	      _dir_list_add_entries (sys_context, &ret, dir, filter_func,
+				     func_data, n);
+	      LW6SYS_FREE (sys_context, dir);
 	    }
 	  // normally dirs is already freed here
 	}
@@ -951,6 +988,7 @@ lw6sys_path_list (const char *path,
 /**
  * lw6sys_find_in_dir_and_path
  *
+ * @sys_context: global system context
  * @dir: a directory, when to search the file first
  * @path: the path to search too, a separated list of dirs
  * @file: the filename to search for
@@ -964,8 +1002,8 @@ lw6sys_path_list (const char *path,
  * Return value: the full path of the found file.
  */
 char *
-lw6sys_find_in_dir_and_path (const char *dir, const char *path,
-			     const char *file)
+lw6sys_find_in_dir_and_path (lw6sys_context_t * sys_context, const char *dir,
+			     const char *path, const char *file)
 {
   char *ret = NULL;
   int file_only_offset = 0;
@@ -987,40 +1025,43 @@ lw6sys_find_in_dir_and_path (const char *dir, const char *path,
     }
   if (dir && (!ret) && file_only_offset >= 0)
     {
-      full_path = lw6sys_path_concat (dir, file + file_only_offset);
+      full_path =
+	lw6sys_path_concat (sys_context, dir, file + file_only_offset);
       if (full_path)
 	{
-	  if ((!ret) && lw6sys_file_exists (full_path))
+	  if ((!ret) && lw6sys_file_exists (sys_context, full_path))
 	    {
 	      ret = full_path;
 	    }
 	  else
 	    {
-	      LW6SYS_FREE (full_path);
+	      LW6SYS_FREE (sys_context, full_path);
 	    }
 	}
     }
   if (path && (!ret) && file_only_offset >= 0)
     {
-      dirs = lw6sys_env_split (path);
+      dirs = lw6sys_env_split (sys_context, path);
       if (dirs)
 	{
 	  while (dirs
-		 && ((d = (char *) lw6sys_list_pop_front (&dirs)) != NULL))
+		 && ((d = (char *) lw6sys_list_pop_front (sys_context, &dirs))
+		     != NULL))
 	    {
-	      full_path = lw6sys_path_concat (d, file + file_only_offset);
+	      full_path =
+		lw6sys_path_concat (sys_context, d, file + file_only_offset);
 	      if (full_path)
 		{
-		  if ((!ret) && lw6sys_file_exists (full_path))
+		  if ((!ret) && lw6sys_file_exists (sys_context, full_path))
 		    {
 		      ret = full_path;
 		    }
 		  else
 		    {
-		      LW6SYS_FREE (full_path);
+		      LW6SYS_FREE (sys_context, full_path);
 		    }
 		}
-	      LW6SYS_FREE (d);
+	      LW6SYS_FREE (sys_context, d);
 	    }
 	  // normally dirs is already freed here
 	}
