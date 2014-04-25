@@ -30,6 +30,7 @@
 /**
  * lw6sys_progress_bind
  *
+ * @sys_context: global system context
  * @progress: the progress struct to initialize
  * @value: the value to point to
  *
@@ -39,7 +40,8 @@
  * Return value: none.
  */
 void
-lw6sys_progress_bind (lw6sys_progress_t * progress, float *value)
+lw6sys_progress_bind (lw6sys_context_t * sys_context,
+		      lw6sys_progress_t * progress, float *value)
 {
   if (progress)
     {
@@ -50,6 +52,7 @@ lw6sys_progress_bind (lw6sys_progress_t * progress, float *value)
 /**
  * lw6sys_progress_default
  *
+ * @sys_context: global system context
  * @progress: the progress struct to initialize
  * @value: the value to point to
  *
@@ -60,19 +63,21 @@ lw6sys_progress_bind (lw6sys_progress_t * progress, float *value)
  * Return value: none.
  */
 void
-lw6sys_progress_default (lw6sys_progress_t * progress, float *value)
+lw6sys_progress_default (lw6sys_context_t * sys_context,
+			 lw6sys_progress_t * progress, float *value)
 {
   if (progress)
     {
       progress->min = 0.0f;
       progress->max = 1.0f;
-      lw6sys_progress_bind (progress, value);
+      lw6sys_progress_bind (sys_context, progress, value);
     }
 }
 
 /**
  * lw6sys_progress_update
  *
+ * @sys_context: global system context
  * @progress: the progress struct to update
  * @min: the min value
  * @max: the max value
@@ -88,7 +93,8 @@ lw6sys_progress_default (lw6sys_progress_t * progress, float *value)
  * Return value: none.
  */
 void
-lw6sys_progress_update (lw6sys_progress_t * progress, int min, int max,
+lw6sys_progress_update (lw6sys_context_t * sys_context,
+			lw6sys_progress_t * progress, int min, int max,
 			int value)
 {
   if (progress && progress->value && (max > min))
@@ -119,9 +125,10 @@ lw6sys_progress_update (lw6sys_progress_t * progress, int min, int max,
 /**
  * lw6sys_progress_split
  *
- * progress1: the first part of the splitted progress
- * progress2: the second part of the splitted progress
- * progress_src: the progress to split
+ * @sys_context: global system context
+ * @progress1: the first part of the splitted progress
+ * @progress2: the second part of the splitted progress
+ * @progress_src: the progress to split
  *
  * Utility function to split a progress struct, that is, if a progress was
  * ranging from a to b, make 2 progress structs, ranging from a to c and
@@ -130,7 +137,8 @@ lw6sys_progress_update (lw6sys_progress_t * progress, int min, int max,
  * Return value: none
  */
 void
-lw6sys_progress_split (lw6sys_progress_t * progress1,
+lw6sys_progress_split (lw6sys_context_t * sys_context,
+		       lw6sys_progress_t * progress1,
 		       lw6sys_progress_t * progress2,
 		       lw6sys_progress_t * progress_src)
 {
@@ -168,10 +176,11 @@ lw6sys_progress_split (lw6sys_progress_t * progress1,
 /**
  * lw6sys_progress_split_here
  *
- * progress1: the first part of the splitted progress
- * progress2: the second part of the splitted progress
- * progress_src: the progress to split
- * here: where to split
+ * @sys_context: global system context
+ * @progress1: the first part of the splitted progress
+ * @progress2: the second part of the splitted progress
+ * @progress_src: the progress to split
+ * @here: where to split
  *
  * Utility function to split a progress struct, that is, if a progress was
  * ranging from a to b, make 2 progress structs, ranging from a to c and
@@ -181,7 +190,8 @@ lw6sys_progress_split (lw6sys_progress_t * progress1,
  * Return value: none
  */
 void
-lw6sys_progress_split_here (lw6sys_progress_t * progress1,
+lw6sys_progress_split_here (lw6sys_context_t * sys_context,
+			    lw6sys_progress_t * progress1,
 			    lw6sys_progress_t * progress2,
 			    lw6sys_progress_t * progress_src, float here)
 {
@@ -227,10 +237,11 @@ lw6sys_progress_split_here (lw6sys_progress_t * progress1,
 /**
  * lw6sys_progress_split3
  *
- * progress1: the first part of the splitted progress
- * progress2: the second part of the splitted progress
- * progress3: the third part of the splitted progress
- * progress_src: the progress to split
+ * @sys_context: global system context
+ * @progress1: the first part of the splitted progress
+ * @progress2: the second part of the splitted progress
+ * @progress3: the third part of the splitted progress
+ * @progress_src: the progress to split
  *
  * Utility function to split a progress struct, this one will split it
  * into 3 equal parts.
@@ -238,7 +249,8 @@ lw6sys_progress_split_here (lw6sys_progress_t * progress1,
  * Return value: none
  */
 void
-lw6sys_progress_split3 (lw6sys_progress_t * progress1,
+lw6sys_progress_split3 (lw6sys_context_t * sys_context,
+			lw6sys_progress_t * progress1,
 			lw6sys_progress_t * progress2,
 			lw6sys_progress_t * progress3,
 			lw6sys_progress_t * progress_src)
@@ -288,11 +300,12 @@ lw6sys_progress_split3 (lw6sys_progress_t * progress1,
 /**
  * lw6sys_progress_split4
  *
- * progress1: the first part of the splitted progress
- * progress2: the second part of the splitted progress
- * progress3: the third part of the splitted progress
- * progress4: the fourth part of the splitted progress
- * progress_src: the progress to split
+ * @sys_context: global system context
+ * @progress1: the first part of the splitted progress
+ * @progress2: the second part of the splitted progress
+ * @progress3: the third part of the splitted progress
+ * @progress4: the fourth part of the splitted progress
+ * @progress_src: the progress to split
  *
  * Utility function to split a progress struct, this one will split it
  * into 4 equal parts.
@@ -300,7 +313,8 @@ lw6sys_progress_split3 (lw6sys_progress_t * progress1,
  * Return value: none
  */
 void
-lw6sys_progress_split4 (lw6sys_progress_t * progress1,
+lw6sys_progress_split4 (lw6sys_context_t * sys_context,
+			lw6sys_progress_t * progress1,
 			lw6sys_progress_t * progress2,
 			lw6sys_progress_t * progress3,
 			lw6sys_progress_t * progress4,
@@ -362,12 +376,13 @@ lw6sys_progress_split4 (lw6sys_progress_t * progress1,
 /**
  * lw6sys_progress_split5
  *
- * progress1: the first part of the splitted progress
- * progress2: the second part of the splitted progress
- * progress3: the third part of the splitted progress
- * progress4: the fourth part of the splitted progress
- * progress5: the fourth part of the splitted progress
- * progress_src: the progress to split
+ * @sys_context: global system context
+ * @progress1: the first part of the splitted progress
+ * @progress2: the second part of the splitted progress
+ * @progress3: the third part of the splitted progress
+ * @progress4: the fourth part of the splitted progress
+ * @progress5: the fourth part of the splitted progress
+ * @progress_src: the progress to split
  *
  * Utility function to split a progress struct, this one will split it
  * into 5 equal parts.
@@ -375,7 +390,8 @@ lw6sys_progress_split4 (lw6sys_progress_t * progress1,
  * Return value: none
  */
 void
-lw6sys_progress_split5 (lw6sys_progress_t * progress1,
+lw6sys_progress_split5 (lw6sys_context_t * sys_context,
+			lw6sys_progress_t * progress1,
 			lw6sys_progress_t * progress2,
 			lw6sys_progress_t * progress3,
 			lw6sys_progress_t * progress4,
@@ -449,14 +465,16 @@ lw6sys_progress_split5 (lw6sys_progress_t * progress1,
 /**
  * lw6sys_progress_begin
  *
- * progress: the progress to update
+ * @sys_context: global system context
+ * @progress: the progress to update
  *
  * Sets the progress to its min value, NULL values correctly handled.
  *
  * Return value: none
  */
 void
-lw6sys_progress_begin (lw6sys_progress_t * progress)
+lw6sys_progress_begin (lw6sys_context_t * sys_context,
+		       lw6sys_progress_t * progress)
 {
   if (progress && progress->value)
     {
@@ -467,7 +485,8 @@ lw6sys_progress_begin (lw6sys_progress_t * progress)
 /**
  * lw6sys_progress_half
  *
- * progress: the progress to update
+ * @sys_context: global system context
+ * @progress: the progress to update
  *
  * Sets the progress to the average between min and max,
  * NULL values correctly handled.
@@ -475,7 +494,8 @@ lw6sys_progress_begin (lw6sys_progress_t * progress)
  * Return value: none
  */
 void
-lw6sys_progress_half (lw6sys_progress_t * progress)
+lw6sys_progress_half (lw6sys_context_t * sys_context,
+		      lw6sys_progress_t * progress)
 {
   if (progress && progress->value)
     {
@@ -486,14 +506,16 @@ lw6sys_progress_half (lw6sys_progress_t * progress)
 /**
  * lw6sys_progress_end
  *
- * progress: the progress to update
+ * @sys_context: global system context
+ * @progress: the progress to update
  *
  * Sets the progress to its max value, NULL values correctly handled.
  *
  * Return value: none
  */
 void
-lw6sys_progress_end (lw6sys_progress_t * progress)
+lw6sys_progress_end (lw6sys_context_t * sys_context,
+		     lw6sys_progress_t * progress)
 {
   if (progress && progress->value)
     {
