@@ -32,13 +32,13 @@
 
 #ifdef LW6_MS_WINDOWS
 #include <winbase.h>
-#else
+#else // LW6_MS_WINDOWS
 #ifdef LW6_MAC_OS_X
 #include <mach/vm_statistics.h>
 #include <mach/mach_types.h>
 #include <mach/mach_init.h>
 #include <mach/mach_host.h>
-#else
+#else // LW6_MAC_OS_X
 #ifdef HAVE_SYS_SYSINFO_H
 #include <sys/types.h>
 #include <sys/sysinfo.h>
@@ -51,6 +51,7 @@
 /**
  * lw6sys_malloc
  *
+ * @sys_context: global system context
  * @size: number of bytes to allocate.
  * @file: name of the file calling the function, use @__FILE__x_
  * @line: line in the file calling the function, use @__LINE__x_
@@ -65,21 +66,22 @@
  * Return value: the newly allocated pointer. Data is not initialized.
  */
 void *
-lw6sys_malloc (int size, const char *file, int line)
+lw6sys_malloc (lw6sys_context_t * sys_context, int size, const char *file,
+	       int line)
 {
   void *ptr;
 
 #ifdef LW6_PARANOID
   size = lw6sys_imax (size, _LW6SYS_BAZOOKA_ALLOC_MIN);
-#endif
+#endif // LW6_PARANOID
 
   ptr = malloc (size);
 
   if (ptr != NULL)
     {
 #ifndef LW6_OPTIMIZE
-      _lw6sys_bazooka_register_malloc (ptr, size, file, line);
-#endif
+      _lw6sys_bazooka_register_malloc (sys_context, ptr, size, file, line);
+#endif // LW6_OPTIMIZE
     }
   else
     {
@@ -94,6 +96,7 @@ lw6sys_malloc (int size, const char *file, int line)
 /**
  * lw6sys_calloc
  *
+ * @sys_context: global system context
  * @size: number of bytes to allocate.
  * @file: name of the file calling the function, use @__FILE__x_
  * @line: line in the file calling the function, use @__LINE__x_
@@ -108,21 +111,22 @@ lw6sys_malloc (int size, const char *file, int line)
  * Return value: the newly allocated pointer. Data is filled with zeros.
  */
 void *
-lw6sys_calloc (int size, const char *file, int line)
+lw6sys_calloc (lw6sys_context_t * sys_context, int size, const char *file,
+	       int line)
 {
   void *ptr;
 
 #ifdef LW6_PARANOID
   size = lw6sys_imax (size, _LW6SYS_BAZOOKA_ALLOC_MIN);
-#endif
+#endif // LW6_PARANOID
 
   ptr = calloc (size, sizeof (char));
 
   if (ptr != NULL)
     {
 #ifndef LW6_OPTIMIZE
-      _lw6sys_bazooka_register_calloc (ptr, size, file, line);
-#endif
+      _lw6sys_bazooka_register_calloc (sys_context, ptr, size, file, line);
+#endif // LW6_OPTIMIZE
     }
   else
     {
@@ -137,6 +141,7 @@ lw6sys_calloc (int size, const char *file, int line)
 /**
  * lw6sys_realloc
  *
+ * @sys_context: global system context
  * @ptr: the pointer to reallocate.
  * @size: number of bytes to allocate.
  * @file: name of the file calling the function, use @__FILE__x_
@@ -151,35 +156,38 @@ lw6sys_calloc (int size, const char *file, int line)
  * Return value: the newly allocated pointer.
  */
 void *
-lw6sys_realloc (void *ptr, int size, const char *file, int line)
+lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size,
+		const char *file, int line)
 {
   void *ptr2;
 
 #ifdef LW6_PARANOID
   size = lw6sys_imax (size, _LW6SYS_BAZOOKA_ALLOC_MIN);
-#endif
+#endif // LW6_PARANOID
 
 #ifndef LW6_OPTIMIZE
-  if (!_lw6sys_bazooka_register_realloc_1 (ptr, size, file, line))
+  if (!_lw6sys_bazooka_register_realloc_1
+      (sys_context, ptr, size, file, line))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("suspicious realloc (stage 1) at %s:%d"), file, line);
     }
 
-#endif
+#endif // LW6_OPTIMIZE
 
   ptr2 = realloc (ptr, size);
 
   if (ptr2)
     {
 #ifndef LW6_OPTIMIZE
-      if (!_lw6sys_bazooka_register_realloc_2 (ptr, ptr2, size, file, line))
+      if (!_lw6sys_bazooka_register_realloc_2
+	  (sys_context, ptr, ptr2, size, file, line))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("suspicious realloc (stage 2) at %s:%d"), file,
 		      line);
 	}
-#endif
+#endif // LW6_OPTIMIZE
     }
   else
     {
@@ -194,6 +202,7 @@ lw6sys_realloc (void *ptr, int size, const char *file, int line)
 /**
  * lw6sys_free
  *
+ * @sys_context: global system context
  * @ptr: the pointer to free.
  * @file: name of the file calling the function, use @__FILE__x_
  * @line: line in the file calling the function, use @__LINE__x_
@@ -208,17 +217,18 @@ lw6sys_realloc (void *ptr, int size, const char *file, int line)
  * Return value: none.
  */
 void
-lw6sys_free (void *ptr, const char *file, int line)
+lw6sys_free (lw6sys_context_t * sys_context, void *ptr, const char *file,
+	     int line)
 {
   if (ptr != NULL)
     {
 #ifndef LW6_OPTIMIZE
-      if (!_lw6sys_bazooka_register_free (ptr))
+      if (!_lw6sys_bazooka_register_free (sys_context, ptr))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("double free suspected at %s:%d"), file, line);
 	}
-#endif
+#endif // LW6_OPTIMIZE
       /*
        * It's important to free the pointer after registering, since
        * the later might overwrite memory in some cases.
@@ -235,6 +245,7 @@ lw6sys_free (void *ptr, const char *file, int line)
 /**
  * lw6sys_free_callback
  *
+ * @sys_context: global system context
  * @ptr: the pointer to free.
  *
  * This is a callback to be used when the @lw6sys_free does not fit.
@@ -251,13 +262,15 @@ lw6sys_free (void *ptr, const char *file, int line)
  * Return value: none.
  */
 void
-lw6sys_free_callback (void *ptr)
+lw6sys_free_callback (lw6sys_context_t * sys_context, void *ptr)
 {
-  LW6SYS_FREE (ptr);
+  LW6SYS_FREE (sys_context, ptr);
 }
 
 /**
  * lw6sys_megabytes_available
+ *
+ * @sys_context: global system context
  *
  * Gives a raw approximation of available memory, in megabytes.
  * Value is to be taken with distance, but it can give good hints
@@ -266,7 +279,7 @@ lw6sys_free_callback (void *ptr)
  * Return value: number of megabytes (physical memory) available.
  */
 int
-lw6sys_megabytes_available ()
+lw6sys_megabytes_available (lw6sys_context_t * sys_context)
 {
   int ret = 0;
 
@@ -278,7 +291,7 @@ lw6sys_megabytes_available ()
 
   GlobalMemoryStatus (&status);
   ret = status.dwAvailPhys / MEM_DIVIDE;
-#else
+#else // LW6_MS_WINDOWS
 #ifdef LW6_MAC_OS_X
   vm_size_t page_size;
   mach_port_t mach_port;
@@ -296,7 +309,7 @@ lw6sys_megabytes_available ()
     }
   freeram /= MEM_DIVIDE;
   ret = freeram;
-#else
+#else // LW6_MAC_OS_X
 #ifdef HAVE_SYS_SYSINFO_H
   /*
    * sys/sysinfo.h is Linux specific
@@ -310,13 +323,13 @@ lw6sys_megabytes_available ()
   freeram *= meminfo.mem_unit;
   freeram /= MEM_DIVIDE;
   ret = freeram;
-#else
+#else // HAVE_SYS_SYSINFO_H
 #ifdef _SC_AVPHYS_PAGES
   /*
    * Fallback, seems to return low values, dunno why
    */
   ret = (sysconf (_SC_PAGESIZE) * sysconf (_SC_AVPHYS_PAGES)) / MEM_DIVIDE;
-#else
+#else // _SC_AVPHYS_PAGES
   lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 	      _x_ ("unable to guess how much free memory is available"));
 #endif // _SC_AVPHYS_PAGES
@@ -330,25 +343,29 @@ lw6sys_megabytes_available ()
 /**
  * lw6sys_is_big_endian
  *
+ * @sys_context: global system context
+ *
  * Checks the endianess of the machine. PPC is big endian, for instance.
  *
  * Return value: 1 if system is big endian, 0 if little endian.
  */
 int
-lw6sys_is_big_endian ()
+lw6sys_is_big_endian (lw6sys_context_t * sys_context)
 {
-  return !lw6sys_is_little_endian ();
+  return !lw6sys_is_little_endian (sys_context);
 }
 
 /**
  * lw6sys_is_little_endian
+ *
+ * @sys_context: global system context
  *
  * Checks the endianess of the machine. x86 is little endian, for instance.
  *
  * Return value: 1 if system is little endian, 0 if big endian.
  */
 int
-lw6sys_is_little_endian ()
+lw6sys_is_little_endian (lw6sys_context_t * sys_context)
 {
   int int_test = 1;
   char *char_test = (char *) &int_test;
@@ -360,6 +377,8 @@ lw6sys_is_little_endian ()
 /**
  * lw6sys_check_types_size
  *
+ * @sys_context: global system context
+ *
  * Checks of common types and usefull structures, this is a debugging
  * function which helps finding compiler strange behaviors and
  * programmer's bad intuitions.
@@ -367,7 +386,7 @@ lw6sys_is_little_endian ()
  * Return value: 1 if everything is OK, 0 if error.
  */
 int
-lw6sys_check_types_size ()
+lw6sys_check_types_size (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

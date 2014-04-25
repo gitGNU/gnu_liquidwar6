@@ -34,6 +34,8 @@
 /**
  * lw6sys_openmp_get_num_procs
  *
+ * @sys_context: global system context
+ *
  * Wrapper on @omp_get_num_procs the advantage of this is that
  * it's always defined, wether OpenMP supported is compiled in
  * or not, will returned 1 if no OpenMP support.
@@ -41,7 +43,7 @@
  * Return value: number of procs
  */
 int
-lw6sys_openmp_get_num_procs ()
+lw6sys_openmp_get_num_procs (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

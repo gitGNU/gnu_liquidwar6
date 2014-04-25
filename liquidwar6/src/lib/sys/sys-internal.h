@@ -129,13 +129,15 @@ typedef struct _lw6sys_thread_handler_s
 
 typedef struct _lw6sys_global_s
 {
-  int debug;
-  int log_level;
-  int log_backtrace_mode;
-  int quit;
+  volatile int debug;
+  volatile int log_level;
+  volatile int log_backtrace_mode;
+  volatile int quit;
   char log_filename[_LW6SYS_LOG_FILENAME_SIZE + 1];
-  int dialog_timeout_msec;
-  int console_enable_state;
+  volatile int dialog_timeout_msec;
+  volatile int console_enable_state;
+  volatile int mutex_lock_counter;
+  volatile int mutex_unlock_counter;
 } _lw6sys_global_t;
 
 typedef struct _lw6sys_context_s

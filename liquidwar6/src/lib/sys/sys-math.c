@@ -37,6 +37,7 @@
 /**
  * lw6sys_math_poly_wy1y2s1
  *
+ * @sys_context: global system context
  * @y: the return value (position, may be NULL)
  * @s: the return value (speed, may be NULL)
  * @x: the x parameter, the value to iterate on
@@ -53,8 +54,8 @@
  *
  */
 void
-lw6sys_math_poly_wy1y2s1 (float *y, float *s, float x, float w, float y1,
-			  float y2, float s1)
+lw6sys_math_poly_wy1y2s1 (lw6sys_context_t * sys_context, float *y, float *s,
+			  float x, float w, float y1, float y2, float s1)
 {
   float a = 0.0f;
   float b = 0.0f;
@@ -135,6 +136,7 @@ lw6sys_math_poly_wy1y2s1 (float *y, float *s, float x, float w, float y1,
 /**
  * lw6sys_math_angle_360
  *
+ * @sys_context: global system context
  * @x: x coordinate
  * @y: y coordinate
  *
@@ -145,7 +147,7 @@ lw6sys_math_poly_wy1y2s1 (float *y, float *s, float x, float w, float y1,
  * Return value: the angle, in degrees
  */
 float
-lw6sys_math_angle_360 (int x, int y)
+lw6sys_math_angle_360 (lw6sys_context_t * sys_context, int x, int y)
 {
   float ret = 0.0f;
 
@@ -188,6 +190,7 @@ lw6sys_math_angle_360 (int x, int y)
 /**
  * lw6sys_math_heartbeat
  *
+ * @sys_context: global system context
  * @x: the parameter (typically a timestamp)
  * @period: the period (typically something like 1000 milliseconds)
  * @y1: the low value (heart at rest)
@@ -198,7 +201,8 @@ lw6sys_math_angle_360 (int x, int y)
  *
  */
 float
-lw6sys_math_heartbeat (int64_t x, int period, float y1, float y2)
+lw6sys_math_heartbeat (lw6sys_context_t * sys_context, int64_t x, int period,
+		       float y1, float y2)
 {
   float ret = y1;
   int t;
@@ -219,22 +223,23 @@ lw6sys_math_heartbeat (int64_t x, int period, float y1, float y2)
 
 	  if (t < high1)
 	    {
-	      lw6sys_math_poly_wy1y2s1 (&ret, NULL, t, high1, y1, y2, 0.0f);
+	      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, t, high1, y1,
+					y2, 0.0f);
 	    }
 	  else if (t < low1)
 	    {
-	      lw6sys_math_poly_wy1y2s1 (&ret, NULL, t - high1, low1 - high1,
-					y2, y1, 0.0f);
+	      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, t - high1,
+					low1 - high1, y2, y1, 0.0f);
 	    }
 	  else if (t < high2)
 	    {
-	      lw6sys_math_poly_wy1y2s1 (&ret, NULL, t - low1, high2 - low1,
-					y1, y2, 0.0f);
+	      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, t - low1,
+					high2 - low1, y1, y2, 0.0f);
 	    }
 	  else if (t < low2)
 	    {
-	      lw6sys_math_poly_wy1y2s1 (&ret, NULL, t - high2, low2 - high2,
-					y2, y1, 0.0f);
+	      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, t - high2,
+					low2 - high2, y2, y1, 0.0f);
 	    }
 	}
     }
@@ -250,6 +255,7 @@ lw6sys_math_heartbeat (int64_t x, int period, float y1, float y2)
 /**
  * lw6sys_math_blink
  *
+ * @sys_context: global system context
  * @x: the parameter (typically a timestamp)
  * @period: the period (typically something like 1000 milliseconds)
  *
@@ -259,7 +265,7 @@ lw6sys_math_heartbeat (int64_t x, int period, float y1, float y2)
  * Return value: 0 or 1
  */
 int
-lw6sys_math_blink (int64_t x, int period)
+lw6sys_math_blink (lw6sys_context_t * sys_context, int64_t x, int period)
 {
   int ret = 0;
 
@@ -283,6 +289,7 @@ lw6sys_math_blink (int64_t x, int period)
 /**
  * lw6sys_math_lin2log
  *
+ * @sys_context: global system context
  * @lin_value: value on a linear scale
  * @base: the base to use, 10 for decibel-like scale
  *
@@ -294,7 +301,7 @@ lw6sys_math_blink (int64_t x, int period)
  * Return value: value on a logarithmic scale.
  */
 float
-lw6sys_math_lin2log (int lin_value, int base)
+lw6sys_math_lin2log (lw6sys_context_t * sys_context, int lin_value, int base)
 {
   base = lw6sys_fmax (2.0f, base);
 
@@ -304,6 +311,7 @@ lw6sys_math_lin2log (int lin_value, int base)
 /**
  * lw6sys_math_log2lin
  *
+ * @sys_context: global system context
  * @lin_value: value on a linear scale
  * @base: the base to use, 10 for decibel-like scale
  *
@@ -315,7 +323,8 @@ lw6sys_math_lin2log (int lin_value, int base)
  * Return value: value on a linear scale.
  */
 int
-lw6sys_math_log2lin (float log_value, int base)
+lw6sys_math_log2lin (lw6sys_context_t * sys_context, float log_value,
+		     int base)
 {
   base = lw6sys_fmax (2.0f, base);
 
