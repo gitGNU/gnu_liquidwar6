@@ -56,6 +56,8 @@
 /**
  * lw6sys_process_is_fully_supported
  *
+ * @sys_context: global system context
+ *
  * Tells wether functions related to fork and pids are likely
  * to work allright or not. Typically, those functions will
  * return false (0) systematically if called on a platform that
@@ -66,7 +68,7 @@
  * Return value: 1 if supported, 0 if not.
  */
 int
-lw6sys_process_is_fully_supported ()
+lw6sys_process_is_fully_supported (lw6sys_context_t * sys_context)
 {
 #ifdef LW6_GNU
   return 1;
@@ -78,6 +80,7 @@ lw6sys_process_is_fully_supported ()
 /**
  * lw6sys_process_fork_and_call
  *
+ * @sys_context: global system context
  * @callback: the function to be called
  * @data: pointer on arbitrary data used by func
  *
@@ -89,7 +92,8 @@ lw6sys_process_is_fully_supported ()
  * Return value: a process ID on success, 0 on failure.
  */
 u_int64_t
-lw6sys_process_fork_and_call (lw6sys_fork_func_t func, void *data)
+lw6sys_process_fork_and_call (lw6sys_context_t * sys_context,
+			      lw6sys_fork_func_t func, void *data)
 {
 #ifdef LW6_GNU
   pid_t pid = 0;
@@ -101,7 +105,7 @@ lw6sys_process_fork_and_call (lw6sys_fork_func_t func, void *data)
 		  _x_ ("process forked, callback begin func=%p data=%p"),
 		  &func, data);
       // run the callback, this is what we're here for
-      func (data);
+      func (sys_context, data);
       lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_ ("process forked, callback end func=%p data=%p"), &func,
 		  data);
@@ -109,7 +113,7 @@ lw6sys_process_fork_and_call (lw6sys_fork_func_t func, void *data)
       lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_ ("now naively trying to sleep for %d minutes"),
 		  _SLEEP_WHEN_DONE);
-      lw6sys_sleep (_SLEEP_WHEN_DONE);
+      lw6sys_sleep (sys_context, _SLEEP_WHEN_DONE);
 
       /*
        * Here we exit in "dirty" mode without continuing, freeing
@@ -144,6 +148,7 @@ lw6sys_process_fork_and_call (lw6sys_fork_func_t func, void *data)
 /**
  * lw6sys_process_kill_1_9
  *
+ * @sys_context: global system context
  * @pid: pid to kill
  *
  * Kills a process with the given PID. The kill will first use a signal 1 SIGTERM
@@ -155,7 +160,7 @@ lw6sys_process_fork_and_call (lw6sys_fork_func_t func, void *data)
  * Return value: 1 on success, 0 if failed
  */
 int
-lw6sys_process_kill_1_9 (u_int64_t pid)
+lw6sys_process_kill_1_9 (lw6sys_context_t * sys_context, u_int64_t pid)
 {
 #ifdef LW6_GNU
   int ret = 0;
@@ -169,7 +174,7 @@ lw6sys_process_kill_1_9 (u_int64_t pid)
        * Wait a little bit to give a chance to the process to
        * stop cleanly
        */
-      lw6sys_snooze ();
+      lw6sys_snooze (sys_context);
       ret = 1;
     }
 
@@ -181,7 +186,7 @@ lw6sys_process_kill_1_9 (u_int64_t pid)
        * its way to the program, now there's nothing else
        * we can do to stop the child.
        */
-      lw6sys_snooze ();
+      lw6sys_snooze (sys_context);
       ret = 1;
     }
 
