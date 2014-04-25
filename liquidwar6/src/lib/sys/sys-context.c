@@ -97,6 +97,9 @@ lw6sys_context_begin (lw6sys_context_t * sys_context)
   _sys_context->global.log_level = LW6SYS_LOG_DEFAULT_ID;
   _sys_context->global.log_backtrace_mode = LW6SYS_LOG_BACKTRACE_MODE_FUNC;
   _sys_context->global.quit = 0;	// redundant with memset
+  _sys_context->global.log_filename[0] = '\0';	// redundant with memset
+  _sys_context->global.dialog_timeout_msec = LW6SYS_DIALOG_TIMEOUT_DEFAULT;
+  _sys_context->global.console_enable_state = 1;
 
   /*
    * Initializing sub structures.

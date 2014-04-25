@@ -34,34 +34,34 @@
 #define ARG_MASK "--%s"
 
 static int
-is_sep (char c)
+_is_sep (lw6sys_context_t * sys_context, char c)
 {
   return (lw6sys_chr_is_space (c) || c == '-' || c == '_' || c == '/');
 }
 
 static int
-is_c (char c)
+_is_c (lw6sys_context_t * sys_context, char c)
 {
   return (lw6sys_chr_is_alnum (c) || (c == '?'));
 }
 
 static int
-is_equal (char c)
+_is_equal (lw6sys_context_t * sys_context, char c)
 {
   return (c == '=');
 }
 
 static void
-skip_prefix (const char *keyword, int *pos)
+_skip_prefix (lw6sys_context_t * sys_context, const char *keyword, int *pos)
 {
   /*
    * Only 2 separators at beginning, more leads to confusion...
    */
-  if (is_sep (keyword[*pos]))
+  if (_is_sep (sys_context, keyword[*pos]))
     {
       (*pos)++;
     }
-  if (is_sep (keyword[*pos]))
+  if (_is_sep (sys_context, keyword[*pos]))
     {
       (*pos)++;
     }
@@ -76,6 +76,7 @@ skip_prefix (const char *keyword, int *pos)
 /**
  * lw6sys_keyword_as_key
  *
+ * @sys_context: global system context
  * @keyword: the keyword to transform
  *
  * Transforms a keyword into a "key", that is, removes all heading dashes,
@@ -85,35 +86,35 @@ skip_prefix (const char *keyword, int *pos)
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_keyword_as_key (const char *keyword)
+lw6sys_keyword_as_key (lw6sys_context_t * sys_context, const char *keyword)
 {
   char *ret = NULL;
   int pos_i = 0;
   char *pos_p = NULL;
 
-  skip_prefix (keyword, &pos_i);
+  _skip_prefix (sys_context, keyword, &pos_i);
 
-  ret = lw6sys_str_copy (keyword + pos_i);
+  ret = lw6sys_str_copy (sys_context, keyword + pos_i);
   if (ret)
     {
       pos_p = ret;
       while (pos_p[0])
 	{
-	  if (is_c (pos_p[0]))
+	  if (_is_c (sys_context, pos_p[0]))
 	    {
 	      pos_p[0] = tolower (pos_p[0]);
 	    }
-	  else if (is_sep (pos_p[0]))
+	  else if (_is_sep (sys_context, pos_p[0]))
 	    {
 	      pos_p[0] = '-';
 	    }
-	  else if (is_equal (pos_p[0]))
+	  else if (_is_equal (sys_context, pos_p[0]))
 	    {
 	      pos_p[0] = '\0';
 	    }
 	  else
 	    {
-	      lw6sys_log_critical (_x_
+	      lw6sys_log_critical (sys_context, _x_
 				   ("weird char '%c' in keyword \"%s\""),
 				   pos_p[0], keyword);
 	    }
@@ -127,6 +128,7 @@ lw6sys_keyword_as_key (const char *keyword)
 /**
  * lw6sys_keyword_as_arg
  *
+ * @sys_context: global system context
  * @keyword: the keyword to transform
  *
  * Transforms a keyword into a command-line parameter to be matched.
@@ -135,16 +137,16 @@ lw6sys_keyword_as_key (const char *keyword)
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_keyword_as_arg (const char *keyword)
+lw6sys_keyword_as_arg (lw6sys_context_t * sys_context, const char *keyword)
 {
   char *ret = NULL;
   char *key = NULL;
 
-  key = lw6sys_keyword_as_key (keyword);
+  key = lw6sys_keyword_as_key (sys_context, keyword);
   if (key)
     {
-      ret = lw6sys_new_sprintf (ARG_MASK, key);
-      LW6SYS_FREE (key);
+      ret = lw6sys_new_sprintf (sys_context, ARG_MASK, key);
+      LW6SYS_FREE (sys_context, key);
     }
 
   return ret;
@@ -162,35 +164,35 @@ lw6sys_keyword_as_arg (const char *keyword)
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_keyword_as_env (const char *keyword)
+lw6sys_keyword_as_env (lw6sys_context_t * sys_context, const char *keyword)
 {
   char *ret = NULL;
   int pos_i = 0;
   char *pos_p = NULL;
 
-  skip_prefix (keyword, &pos_i);
+  _skip_prefix (sys_context, keyword, &pos_i);
 
-  ret = lw6sys_new_sprintf (ENV_MASK, keyword + pos_i);
+  ret = lw6sys_new_sprintf (sys_context, ENV_MASK, keyword + pos_i);
   if (ret)
     {
       pos_p = ret;
       while (pos_p[0])
 	{
-	  if (is_c (pos_p[0]))
+	  if (_is_c (sys_context, pos_p[0]))
 	    {
 	      pos_p[0] = toupper (pos_p[0]);
 	    }
-	  else if (is_sep (pos_p[0]))
+	  else if (_is_sep (sys_context, pos_p[0]))
 	    {
 	      pos_p[0] = '_';
 	    }
-	  else if (is_equal (pos_p[0]))
+	  else if (_is_equal (sys_context, pos_p[0]))
 	    {
 	      pos_p[0] = '\0';
 	    }
 	  else
 	    {
-	      lw6sys_log_critical (_x_
+	      lw6sys_log_critical (sys_context, _x_
 				   ("weird char '%c' in keyword \"%s\""),
 				   pos_p[0], keyword);
 	    }
@@ -204,6 +206,7 @@ lw6sys_keyword_as_env (const char *keyword)
 /**
  * lw6sys_keyword_as_xml
  *
+ * @sys_context: global system context
  * @keyword: the keyword to transform
  *
  * Transforms a keyword into the corresponding config file entry.
@@ -212,11 +215,11 @@ lw6sys_keyword_as_env (const char *keyword)
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_keyword_as_xml (const char *keyword)
+lw6sys_keyword_as_xml (lw6sys_context_t * sys_context, const char *keyword)
 {
   char *ret = NULL;
 
-  ret = lw6sys_keyword_as_key (keyword);
+  ret = lw6sys_keyword_as_key (sys_context, keyword);
 
   return ret;
 }

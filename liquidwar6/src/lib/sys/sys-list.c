@@ -37,6 +37,7 @@ typedef struct list_dup_callback_data_s
 /**
  * lw6sys_list_new
  *
+ * @sys_context: global system context
  * @free_func: a callback which will be called on data when freeing the list
  *
  * Creates an empty list. There's a difference between NULL and an
@@ -47,11 +48,11 @@ typedef struct list_dup_callback_data_s
  * Return value: a pointer to the created object, may be NULL.
  */
 lw6sys_list_t *
-lw6sys_list_new (lw6sys_free_func_t free_func)
+lw6sys_list_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func)
 {
   lw6sys_list_t *ret = NULL;
 
-  ret = LW6SYS_MALLOC (sizeof (lw6sys_list_t));
+  ret = LW6SYS_MALLOC (sys_context, sizeof (lw6sys_list_t));
   if (ret)
     {
       memset (ret, 0, sizeof (lw6sys_list_t));
@@ -64,6 +65,7 @@ lw6sys_list_new (lw6sys_free_func_t free_func)
 /**
  * lw6sys_list_free
  *
+ * @sys_context: global system context
  * @list: the list to delete.
  *
  * Delete a list, this will cascade delete all the following
@@ -72,7 +74,7 @@ lw6sys_list_new (lw6sys_free_func_t free_func)
  * Return value: none.
  */
 void
-lw6sys_list_free (lw6sys_list_t * list)
+lw6sys_list_free (lw6sys_context_t * sys_context, lw6sys_list_t * list)
 {
   if (list)
     {
@@ -90,10 +92,10 @@ lw6sys_list_free (lw6sys_list_t * list)
        */
       if (list->free_func && list->data)
 	{
-	  list->free_func (list->data);
+	  list->free_func (sys_context, list->data);
 	}
 
-      LW6SYS_FREE (list);
+      LW6SYS_FREE (sys_context, list);
 
       if (next_item)
 	{
@@ -104,7 +106,7 @@ lw6sys_list_free (lw6sys_list_t * list)
 	   * return addresses which are of no use. At least
 	   * the compiler *could* do it 8-) Recursion recursion...
 	   */
-	  lw6sys_list_free ((lw6sys_list_t *) next_item);
+	  lw6sys_list_free (sys_context, (lw6sys_list_t *) next_item);
 	}
     }
   else
@@ -117,6 +119,7 @@ lw6sys_list_free (lw6sys_list_t * list)
 /**
  * lw6sys_list_next
  *
+ * @sys_context: global system context
  * @list: the current position in the list
  *
  * It's safer to call this rather than dig right into
@@ -125,7 +128,7 @@ lw6sys_list_free (lw6sys_list_t * list)
  * Return value: a new position in the list, may be NULL.
  */
 lw6sys_list_t *
-lw6sys_list_next (lw6sys_list_t * list)
+lw6sys_list_next (lw6sys_context_t * sys_context, lw6sys_list_t * list)
 {
   lw6sys_list_t *ret = NULL;
 
@@ -145,6 +148,7 @@ lw6sys_list_next (lw6sys_list_t * list)
 /**
  * lw6sys_list_is_empty
  *
+ * @sys_context: global system context
  * @list: the list we want informations about
  *
  * Checks wether the list is empty or not. Note that being empty
@@ -155,7 +159,7 @@ lw6sys_list_next (lw6sys_list_t * list)
  * Return value: 1 if empty, 0 if there is at list one item.
  */
 int
-lw6sys_list_is_empty (lw6sys_list_t * list)
+lw6sys_list_is_empty (lw6sys_context_t * sys_context, lw6sys_list_t * list)
 {
   int empty = 1;
 
@@ -175,6 +179,7 @@ lw6sys_list_is_empty (lw6sys_list_t * list)
 /**
  * lw6sys_info_length
  *
+ * @sys_context: global system context
  * @list: the list we want informations about
  *
  * Calculates the length of the list. This is a performance killer
@@ -183,7 +188,7 @@ lw6sys_list_is_empty (lw6sys_list_t * list)
  * Return value: the number of elements, 0 is none (empty list).
  */
 int
-lw6sys_list_length (lw6sys_list_t * list)
+lw6sys_list_length (lw6sys_context_t * sys_context, lw6sys_list_t * list)
 {
   int ret = 0;
 
@@ -207,6 +212,7 @@ lw6sys_list_length (lw6sys_list_t * list)
 /**
  * lw6sys_list_map
  *
+ * @sys_context: global system context
  * @list: the list where elements will be taken
  * @func: the function which will be executed
  * @func_data: additionnal data to be passed to @func
@@ -224,7 +230,7 @@ lw6sys_list_length (lw6sys_list_t * list)
  * Return value: none.
  */
 void
-lw6sys_list_map (lw6sys_list_t * list,
+lw6sys_list_map (lw6sys_context_t * sys_context, lw6sys_list_t * list,
 		 lw6sys_list_callback_func_t func, void *func_data)
 {
   if (list)
@@ -233,7 +239,7 @@ lw6sys_list_map (lw6sys_list_t * list,
 	{
 	  if (list->next_item)
 	    {
-	      func (func_data, list->data);
+	      func (sys_context, func_data, list->data);
 	    }
 	  list = list->next_item;
 	}
@@ -248,6 +254,7 @@ lw6sys_list_map (lw6sys_list_t * list,
 /**
  * lw6sys_list_filter
  *
+ * @sys_context: global system context
  * @list: the list where elements will be taken
  * @func: the function which will be executed
  * @func_data: additionnal data to be passed to @func
@@ -262,7 +269,7 @@ lw6sys_list_map (lw6sys_list_t * list,
  * Return value: none.
  */
 void
-lw6sys_list_filter (lw6sys_list_t ** list,
+lw6sys_list_filter (lw6sys_context_t * sys_context, lw6sys_list_t ** list,
 		    lw6sys_list_filter_func_t func, void *func_data)
 {
   lw6sys_list_t *tmp_item = NULL;
@@ -276,7 +283,7 @@ lw6sys_list_filter (lw6sys_list_t ** list,
 	{
 	  if (cur_item->next_item)
 	    {
-	      if (func (func_data, cur_item->data))
+	      if (func (sys_context, func_data, cur_item->data))
 		{
 		  prev_item = cur_item;
 		  cur_item = cur_item->next_item;
@@ -286,7 +293,7 @@ lw6sys_list_filter (lw6sys_list_t ** list,
 		  tmp_item = cur_item;
 		  if (cur_item->free_func && cur_item->data)
 		    {
-		      cur_item->free_func (cur_item->data);
+		      cur_item->free_func (sys_context, cur_item->data);
 		    }
 		  cur_item = cur_item->next_item;
 		  if (prev_item)
@@ -297,7 +304,7 @@ lw6sys_list_filter (lw6sys_list_t ** list,
 		    {
 		      (*list) = cur_item;
 		    }
-		  LW6SYS_FREE (tmp_item);
+		  LW6SYS_FREE (sys_context, tmp_item);
 		}
 	    }
 	  else
@@ -316,6 +323,7 @@ lw6sys_list_filter (lw6sys_list_t ** list,
 /**
  * lw6sys_list_push_front
  *
+ * @sys_context: global system context
  * @list: a pointer to the list (pointer on pointer, read/write value)
  * @data: the data to be pushed
  *
@@ -333,13 +341,14 @@ lw6sys_list_filter (lw6sys_list_t ** list,
  * Return value: none.
  */
 void
-lw6sys_list_push_front (lw6sys_list_t ** list, void *data)
+lw6sys_list_push_front (lw6sys_context_t * sys_context, lw6sys_list_t ** list,
+			void *data)
 {
   lw6sys_list_t *new_list = NULL;
 
   if (list && *list)
     {
-      new_list = LW6SYS_MALLOC (sizeof (lw6sys_list_t));
+      new_list = LW6SYS_MALLOC (sys_context, sizeof (lw6sys_list_t));
       if (new_list)
 	{
 	  new_list->next_item = (*list);
@@ -358,6 +367,7 @@ lw6sys_list_push_front (lw6sys_list_t ** list, void *data)
 /**
  * lw6sys_list_pop_front
  *
+ * @sys_context: global system context
  * @list: a pointer to the list (pointer on pointer, read/write value)
  *
  * Pops data from the list, the returned value is what
@@ -378,7 +388,7 @@ lw6sys_list_push_front (lw6sys_list_t ** list, void *data)
  * Return value: a pointer on the popped data, whatever you pushed.
  */
 void *
-lw6sys_list_pop_front (lw6sys_list_t ** list)
+lw6sys_list_pop_front (lw6sys_context_t * sys_context, lw6sys_list_t ** list)
 {
   void *data = NULL;
 
@@ -393,7 +403,7 @@ lw6sys_list_pop_front (lw6sys_list_t ** list)
        * value returned would be freed before it is even
        * returned to the caller!!!
        */
-      LW6SYS_FREE (*list);
+      LW6SYS_FREE (sys_context, *list);
 
       (*list) = new_list;
     }
@@ -409,6 +419,7 @@ lw6sys_list_pop_front (lw6sys_list_t ** list)
 /**
  * lw6sys_list_push_back
  *
+ * @sys_context: global system context
  * @list: a pointer to the list (pointer on pointer, read/write value)
  * @data: the data to be pushed
  *
@@ -426,7 +437,8 @@ lw6sys_list_pop_front (lw6sys_list_t ** list)
  * Return value: none.
  */
 void
-lw6sys_list_push_back (lw6sys_list_t ** list, void *data)
+lw6sys_list_push_back (lw6sys_context_t * sys_context, lw6sys_list_t ** list,
+		       void *data)
 {
   lw6sys_list_t *end = NULL;
   lw6sys_list_t *new_list = NULL;
@@ -441,7 +453,7 @@ lw6sys_list_push_back (lw6sys_list_t ** list, void *data)
 
       if (end && !end->next_item)
 	{
-	  new_list = LW6SYS_CALLOC (sizeof (lw6sys_list_t));
+	  new_list = LW6SYS_CALLOC (sys_context, sizeof (lw6sys_list_t));
 	  if (new_list)
 	    {
 	      end->next_item = new_list;
@@ -465,6 +477,7 @@ lw6sys_list_push_back (lw6sys_list_t ** list, void *data)
 /**
  * lw6sys_list_pop_back
  *
+ * @sys_context: global system context
  * @list: a pointer to the list (pointer on pointer, read/write value)
  *
  * Pops data from the list, the returned value is what
@@ -485,7 +498,7 @@ lw6sys_list_push_back (lw6sys_list_t ** list, void *data)
  * Return value: a pointer on the popped data, whatever you pushed.
  */
 void *
-lw6sys_list_pop_back (lw6sys_list_t ** list)
+lw6sys_list_pop_back (lw6sys_context_t * sys_context, lw6sys_list_t ** list)
 {
   void *data = NULL;
   lw6sys_list_t *end = NULL;
@@ -505,7 +518,7 @@ lw6sys_list_pop_back (lw6sys_list_t ** list)
       data = end->data;
       if (((*list)->next_item) == NULL)
 	{
-	  LW6SYS_FREE (*list);
+	  LW6SYS_FREE (sys_context, *list);
 	  (*list) = NULL;
 	}
       else
@@ -514,7 +527,7 @@ lw6sys_list_pop_back (lw6sys_list_t ** list)
 	    {
 	      tmp = (*list);
 	      (*list) = (*list)->next_item;
-	      LW6SYS_FREE (tmp);
+	      LW6SYS_FREE (sys_context, tmp);
 	    }
 	  else
 	    {
@@ -526,7 +539,7 @@ lw6sys_list_pop_back (lw6sys_list_t ** list)
 	       * value returned would be freed before it is even
 	       * returned to the caller!!!
 	       */
-	      LW6SYS_FREE (end);
+	      LW6SYS_FREE (sys_context, end);
 	    }
 	}
     }
@@ -539,32 +552,80 @@ lw6sys_list_pop_back (lw6sys_list_t ** list)
   return data;
 }
 
+/**
+ * lw6sys_lifo_push
+ *
+ * @sys_context: global system context
+ * @list: a pointer to the list (pointer on pointer, read/write value)
+ *
+ * Pops data to a list, in last-in first-out mode (AKA LIFO).
+ * This is equivalent t @lw6sys_list_push_front.
+ *
+ * Return value: none.
+ */
 void
-lw6sys_lifo_push (lw6sys_list_t ** list, void *data)
+lw6sys_lifo_push (lw6sys_context_t * sys_context, lw6sys_list_t ** list,
+		  void *data)
 {
-  lw6sys_list_push_front (list, data);
+  lw6sys_list_push_front (sys_context, list, data);
 }
 
+/**
+ * lw6sys_lifo_pop
+ *
+ * @sys_context: global system context
+ * @list: a pointer to the list (pointer on pointer, read/write value)
+ *
+ * Pops the first element of a list, in last-in first-out mode (AKA LIFO).
+ * This is equivalent to @lw6sys_list_pop_front.
+ *
+ * Return value: a pointer on the popped data, whatever you pushed.
+ */
 void *
-lw6sys_lifo_pop (lw6sys_list_t ** list)
+lw6sys_lifo_pop (lw6sys_context_t * sys_context, lw6sys_list_t ** list)
 {
-  return lw6sys_list_pop_front (list);
+  return lw6sys_list_pop_front (sys_context, list);
 }
 
+/**
+ * lw6sys_fifo_push
+ *
+ * @sys_context: global system context
+ * @list: a pointer to the list (pointer on pointer, read/write value)
+ *
+ * Pops data to a list, in first-in first-out mode (AKA FIFO).
+ * This is equivalent t @lw6sys_list_push_front.
+ *
+ * Return value: none.
+ */
 void
-lw6sys_fifo_push (lw6sys_list_t ** list, void *data)
+lw6sys_fifo_push (lw6sys_context_t * sys_context, lw6sys_list_t ** list,
+		  void *data)
 {
-  lw6sys_list_push_front (list, data);
+  lw6sys_list_push_front (sys_context, list, data);
 }
 
+/**
+ * lw6sys_fifo_pop
+ *
+ * @sys_context: global system context
+ * @list: a pointer to the list (pointer on pointer, read/write value)
+ *
+ * Pops the first element of a list, in last-in first-out mode (AKA FIFO).
+ * This is equivalent to @lw6sys_list_pop_back.
+ * It can be quite time-consuming on big lists.
+ *
+ * Return value: a pointer on the popped data, whatever you pushed.
+ */
 void *
-lw6sys_fifo_pop (lw6sys_list_t ** list)
+lw6sys_fifo_pop (lw6sys_context_t * sys_context, lw6sys_list_t ** list)
 {
-  return lw6sys_list_pop_back (list);
+  return lw6sys_list_pop_back (sys_context, list);
 }
 
 static void
-list_dup_callback (void *func_data, void *data)
+list_dup_callback (lw6sys_context_t * sys_context, void *func_data,
+		   void *data)
 {
   list_dup_callback_data_t *list_dup_callback_data =
     (list_dup_callback_data_t *) func_data;
@@ -572,7 +633,7 @@ list_dup_callback (void *func_data, void *data)
 
   if (list_dup_callback_data->dup_func)
     {
-      new_data = list_dup_callback_data->dup_func (data);
+      new_data = list_dup_callback_data->dup_func (sys_context, data);
     }
   else
     {
@@ -580,12 +641,14 @@ list_dup_callback (void *func_data, void *data)
     }
 
   // push_back is slower but this way we preserve order
-  lw6sys_list_push_back (&(list_dup_callback_data->list), new_data);
+  lw6sys_list_push_back (sys_context, &(list_dup_callback_data->list),
+			 new_data);
 }
 
 /**
  * lw6sys_list_dup
  *
+ * @sys_context: global system context
  * @list: the list to duplicate, can be NULL
  * @dup_func: the function which will be called to duplicate data
  *
@@ -599,17 +662,20 @@ list_dup_callback (void *func_data, void *data)
  * Returned value: a newly allocated list.
  */
 lw6sys_list_t *
-lw6sys_list_dup (lw6sys_list_t * list, lw6sys_dup_func_t dup_func)
+lw6sys_list_dup (lw6sys_context_t * sys_context, lw6sys_list_t * list,
+		 lw6sys_dup_func_t dup_func)
 {
   list_dup_callback_data_t list_dup_callback_data;
   lw6sys_list_t *ret = NULL;
 
   if (list)
     {
-      list_dup_callback_data.list = lw6sys_list_new (list->free_func);
+      list_dup_callback_data.list =
+	lw6sys_list_new (sys_context, list->free_func);
       list_dup_callback_data.dup_func = dup_func;
 
-      lw6sys_list_map (list, list_dup_callback, &list_dup_callback_data);
+      lw6sys_list_map (sys_context, list, list_dup_callback,
+		       &list_dup_callback_data);
 
       ret = list_dup_callback_data.list;
     }

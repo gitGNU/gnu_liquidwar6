@@ -125,12 +125,17 @@ typedef struct _lw6sys_thread_handler_s
 #endif
 } _lw6sys_thread_handler_t;
 
+#define _LW6SYS_LOG_FILENAME_SIZE 65535
+
 typedef struct _lw6sys_global_s
 {
   int debug;
   int log_level;
   int log_backtrace_mode;
   int quit;
+  char log_filename[_LW6SYS_LOG_FILENAME_SIZE + 1];
+  int dialog_timeout_msec;
+  int console_enable_state;
 } _lw6sys_global_t;
 
 typedef struct _lw6sys_context_s

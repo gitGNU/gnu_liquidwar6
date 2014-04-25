@@ -56,42 +56,31 @@
 #define _CRITICAL_LINE __LINE__
 #define _CRITICAL_FUNC "?"
 
-#define _STATIC_LOG_FILENAME_SIZE 65536
-static char _static_log_filename[_STATIC_LOG_FILENAME_SIZE + 1] = { 0 };
-
-static int _timeout_msec = LW6SYS_DIALOG_TIMEOUT_DEFAULT;
-
-/*
- * Console is enabled by default, disabling it is indeed a special
- * case, for instance when there's an interaction with a text-based
- * graphics renderer.
- */
-static int _console_enable_state = 1;
-
 #define _GTK_NB_IDLE_ITERATIONS 10
 
 static char *
-_get_log_file ()
+_get_log_file (lw6sys_context_t * sys_context)
 {
-  char *log_file;
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+  char *log_file = NULL;
 
-  if (_static_log_filename[0] != 0)
+  if (global->log_filename[0] != 0)
     {
-      log_file = _static_log_filename;
+      log_file = global->log_filename;
     }
   else
     {
-      log_file = lw6sys_get_default_log_file ();
+      log_file = lw6sys_get_default_log_file (sys_context);
       if (log_file)
 	{
-	  lw6sys_buf_sprintf (_static_log_filename, _STATIC_LOG_FILENAME_SIZE,
-			      "%s", log_file);
-	  LW6SYS_FREE (log_file);
-	  log_file = _static_log_filename;
+	  lw6sys_buf_sprintf (sys_context, global->log_filename,
+			      _LW6SYS_LOG_FILENAME_SIZE, "%s", log_file);
+	  LW6SYS_FREE (sys_context, log_file);
+	  log_file = global->log_filename;
 	}
       else
 	{
-	  lw6sys_log_critical (_("log_file is NULL"));
+	  lw6sys_log_critical (sys_context, _("log_file is NULL"));
 	}
     }
 
@@ -101,6 +90,7 @@ _get_log_file ()
 /**
  * lw6sys_log_errno_str
  *
+ * @sys_context: global system context
  * @errno_int: the error code, typically errno
  *
  * Convenience fonction which returns the "macro" corresponding
@@ -112,7 +102,7 @@ _get_log_file ()
  * Return value: static string, must not be freed
  */
 const char *
-lw6sys_log_errno_str (int errno_int)
+lw6sys_log_errno_str (lw6sys_context_t * sys_context, int errno_int)
 {
   const char *ret = "?";
 
@@ -511,6 +501,7 @@ lw6sys_log_errno_str (int errno_int)
 /**
  * lw6sys_log_set_file:
  *
+ * @sys_context: global system context
  * @filename: the name of the log file.
  *
  * Sets up the log file. Until you call this function, messages
@@ -520,16 +511,19 @@ lw6sys_log_errno_str (int errno_int)
  * Return value: void
  */
 void
-lw6sys_log_set_file (const char *filename)
+lw6sys_log_set_file (lw6sys_context_t * sys_context, const char *filename)
 {
-  memset (_static_log_filename, 0, sizeof (_static_log_filename));
-  memcpy (_static_log_filename, filename,
-	  lw6sys_imin (sizeof (_static_log_filename) - 1, strlen (filename)));
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+
+  memset (global->log_filename, 0, sizeof (global->log_filename));
+  memcpy (global->log_filename, filename,
+	  lw6sys_imin (sizeof (global->log_filename) - 1, strlen (filename)));
 }
 
 /**
  * lw6sys_log_clear:
  *
+ * @sys_context: global system context
  * @filename: the name of the log file.
  *
  * Clears the log file, this function would typically be called
@@ -539,38 +533,40 @@ lw6sys_log_set_file (const char *filename)
  * Return value: void
  */
 void
-lw6sys_log_clear (const char *filename)
+lw6sys_log_clear (lw6sys_context_t * sys_context, const char *filename)
 {
   char *default_log_file = NULL;
 
   if (filename)
     {
-      lw6sys_log_set_file (filename);
+      lw6sys_log_set_file (sys_context, filename);
     }
   else
     {
-      default_log_file = lw6sys_get_default_log_file ();
+      default_log_file = lw6sys_get_default_log_file (sys_context);
       filename = default_log_file;
     }
 
   if (filename)
     {
-      lw6sys_clear_file (filename);
-      if (!lw6sys_file_exists (filename))
+      lw6sys_clear_file (sys_context, filename);
+      if (!lw6sys_file_exists (sys_context, filename))
 	{
-	  lw6sys_log_critical (_("can't open log file \"%s\""), filename);
+	  lw6sys_log_critical (sys_context, _("can't open log file \"%s\""),
+			       filename);
 	}
     }
 
   if (default_log_file)
     {
-      LW6SYS_FREE (default_log_file);
+      LW6SYS_FREE (sys_context, default_log_file);
     }
 }
 
 /**
  * lw6sys_log_set_dialog_timeout
  *
+ * @sys_context: global system context
  * @timeout_sec: number of seconds to wait before alert dialogs disappear
  *
  * By default, alert boxes will stay out forever unless one clicks on them,
@@ -580,13 +576,15 @@ lw6sys_log_clear (const char *filename)
  * Return value: 1 if timeout is supported on platform, 0 if not
  */
 int
-lw6sys_log_set_dialog_timeout (int timeout_sec)
+lw6sys_log_set_dialog_timeout (lw6sys_context_t * sys_context,
+			       int timeout_sec)
 {
-  _timeout_msec =
-    LW6SYS_TICKS_PER_SEC * lw6sys_imax (0,
-					lw6sys_imin
-					(LW6SYS_DIALOG_TIMEOUT_MAX,
-					 timeout_sec));
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+
+  global->dialog_timeout_msec = LW6SYS_TICKS_PER_SEC * lw6sys_imax (0,
+								    lw6sys_imin
+								    (LW6SYS_DIALOG_TIMEOUT_MAX,
+								     timeout_sec));
 
 #ifdef LW6_GTK
   return 1;
@@ -596,20 +594,21 @@ lw6sys_log_set_dialog_timeout (int timeout_sec)
 }
 
 static FILE *
-_open_log_file ()
+_open_log_file (lw6sys_context_t * sys_context)
 {
   FILE *ret = NULL;
   char *name;
 
-  name = _get_log_file ();
+  name = _get_log_file (sys_context);
   ret = fopen (name, "ab");
 
   return ret;
 }
 
 static void
-_log_to_file (FILE * f, int level_id, const char *level_str, const char *file,
-	      int line, const char *func, const char *fmt, va_list ap)
+_log_to_file (lw6sys_context_t * sys_context, FILE * f, int level_id,
+	      const char *level_str, const char *file, int line,
+	      const char *func, const char *fmt, va_list ap)
 {
   time_t t_now;
   struct tm tm_now;
@@ -617,14 +616,15 @@ _log_to_file (FILE * f, int level_id, const char *level_str, const char *file,
   struct timeval timeval_now;
   char *bt = NULL;
   int free_bt = 0;
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
 
-  switch (_lw6sys_global.log_backtrace_mode)
+  switch (global->log_backtrace_mode)
     {
     case LW6SYS_LOG_BACKTRACE_MODE_FUNC:
       bt = (char *) func;
       break;
     case LW6SYS_LOG_BACKTRACE_MODE_FULL:
-      bt = lw6sys_backtrace (1, 0);
+      bt = lw6sys_backtrace (sys_context, 1, 0);
       if (bt)
 	{
 	  free_bt = 1;
@@ -649,14 +649,14 @@ _log_to_file (FILE * f, int level_id, const char *level_str, const char *file,
 	       (int) tm_now.tm_min, (int) tm_now.tm_sec,
 	       (int) timeval_now.tv_usec / (int) (1000000 /
 						  LW6SYS_TICKS_PER_SEC),
-	       file, line, lw6sys_str_empty_if_null (bt), level_id,
-	       level_str);
+	       file, line, lw6sys_str_empty_if_null (sys_context, bt),
+	       level_id, level_str);
     }
   vfprintf (f, fmt, ap);
 
   if (free_bt)
     {
-      LW6SYS_FREE (bt);
+      LW6SYS_FREE (sys_context, bt);
     }
 
   fprintf (f, "\n");
@@ -664,9 +664,12 @@ _log_to_file (FILE * f, int level_id, const char *level_str, const char *file,
 }
 
 static void
-_log_to_console (FILE * f, const char *level_str, const char *fmt, va_list ap)
+_log_to_console (lw6sys_context_t * sys_context, FILE * f,
+		 const char *level_str, const char *fmt, va_list ap)
 {
-  if (_console_enable_state)
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+
+  if (global->console_enable_state)
     {
       time_t t_now;
       struct tm tm_now;
@@ -692,27 +695,32 @@ _log_to_console (FILE * f, const char *level_str, const char *fmt, va_list ap)
 }
 
 static void
-_log_to_history (const char *level_str, const char *fmt, va_list ap)
+_log_to_history (lw6sys_context_t * sys_context, const char *level_str,
+		 const char *fmt, va_list ap)
 {
   char msg[_HISTORY_LENGTH + 1];
   char full_msg[_HISTORY_LENGTH + 1];
 
-  _lw6sys_buf_vsnprintf (msg, _HISTORY_LENGTH, fmt, ap);
-  lw6sys_buf_sprintf (full_msg, _HISTORY_LENGTH, "%s%s", level_str, msg);
-  lw6sys_history_register (full_msg);
+  _lw6sys_buf_vsnprintf (sys_context, msg, _HISTORY_LENGTH, fmt, ap);
+  lw6sys_buf_sprintf (sys_context, full_msg, _HISTORY_LENGTH, "%s%s",
+		      level_str, msg);
+  lw6sys_history_register (sys_context, full_msg);
 }
 
 #ifdef LW6_GTK
 static void
-_gtk_dlg_timeout_callback (void *data)
+_gtk_dlg_timeout_callback (lw6sys_context_t * sys_context, void *data)
 {
-  GtkDialog **dlg_timeout_ptr = (GtkDialog **) data;
-  int64_t start_time = lw6sys_get_timestamp ();
-  int64_t end_time = start_time + _timeout_msec;
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
 
-  while (((*dlg_timeout_ptr) != NULL) && lw6sys_get_timestamp () < end_time)
+  GtkDialog **dlg_timeout_ptr = (GtkDialog **) data;
+  int64_t start_time = lw6sys_get_timestamp (sys_context);
+  int64_t end_time = start_time + global->dialog_timeout_msec;
+
+  while (((*dlg_timeout_ptr) != NULL)
+	 && lw6sys_get_timestamp (sys_context) < end_time)
     {
-      lw6sys_idle ();
+      lw6sys_idle (sys_context);
     }
   if (*dlg_timeout_ptr)
     {
@@ -728,29 +736,32 @@ _gtk_dlg_timeout_callback (void *data)
  * does have the _lw6sys_ prefix to avoid name conflicts.
  */
 void
-_lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
-		      const char *func, const char *fmt, va_list ap)
+_lw6sys_msgbox_alert (lw6sys_context_t * sys_context, const char *level_str,
+		      const char *file, int line, const char *func,
+		      const char *fmt, va_list ap)
 {
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
   char message_raw[_MSGBOX_BUF_LENGTH + 1];
   char message_full[_MSGBOX_BUF_LENGTH + 1];
   char *bt = NULL;
   int free_bt = 0;
 
-  _lw6sys_buf_vsnprintf (message_raw, _MSGBOX_BUF_LENGTH, fmt, ap);
-  lw6sys_str_reformat_this (message_raw, _MSGBOX_WIDTH);
+  _lw6sys_buf_vsnprintf (sys_context, message_raw, _MSGBOX_BUF_LENGTH, fmt,
+			 ap);
+  lw6sys_str_reformat_this (sys_context, message_raw, _MSGBOX_WIDTH);
 
-  switch (_lw6sys_global.log_backtrace_mode)
+  switch (global->log_backtrace_mode)
     {
     case LW6SYS_LOG_BACKTRACE_MODE_FUNC:
       bt = (char *) func;
       break;
     case LW6SYS_LOG_BACKTRACE_MODE_FULL:
-      bt = lw6sys_backtrace (2, 1);	// skip this function & caller
+      bt = lw6sys_backtrace (sys_context, 2, 1);	// skip this function & caller
       if (bt)
 	{
-	  lw6sys_str_truncate_middle (bt, _MSGBOX_BT_LENGTH,
+	  lw6sys_str_truncate_middle (sys_context, bt, _MSGBOX_BT_LENGTH,
 				      _MSGBOX_BT_MIDDLE);
-	  lw6sys_str_reformat_this (bt, _MSGBOX_WIDTH);
+	  lw6sys_str_reformat_this (sys_context, bt, _MSGBOX_WIDTH);
 	  free_bt = 1;
 	}
       break;
@@ -759,14 +770,14 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
       break;
     }
 
-  lw6sys_buf_sprintf (message_full, _MSGBOX_BUF_LENGTH,
+  lw6sys_buf_sprintf (sys_context, message_full, _MSGBOX_BUF_LENGTH,
 		      "%s (%s:%d)\n\n%s\n\n%s: %s\n\n%s: %s", level_str, file,
 		      line, message_raw, _("Backtrace"),
-		      lw6sys_str_empty_if_null (bt), _("Report bugs"),
-		      lw6sys_build_get_bugs_url ());
+		      lw6sys_str_empty_if_null (sys_context, bt),
+		      _("Report bugs"), lw6sys_build_get_bugs_url ());
   if (free_bt)
     {
-      LW6SYS_FREE (bt);
+      LW6SYS_FREE (sys_context, bt);
       bt = NULL;
     }
 #ifdef LW6_MS_WINDOWS
@@ -779,7 +790,8 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
     }
 #else
 #ifdef LW6_MAC_OS_X
-  _lw6sys_macosx_alert (lw6sys_build_get_package_name (), message_full);
+  _lw6sys_macosx_alert (sys_context, lw6sys_build_get_package_name (),
+			message_full);
 #else
 /*
  * Not implemented yet, below sample code, which would require to
@@ -834,11 +846,11 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
 	  gtk_dialog_add_button (GTK_DIALOG (dlg), GTK_STOCK_OK,
 				 GTK_RESPONSE_OK);
 	  dlg_timeout = dlg;
-	  if (_timeout_msec > 0)
+	  if (global->dialog_timeout_msec > 0)
 	    {
 	      timeout_thread =
-		lw6sys_thread_create (_gtk_dlg_timeout_callback, NULL,
-				      (void *) &dlg_timeout);
+		lw6sys_thread_create (sys_context, _gtk_dlg_timeout_callback,
+				      NULL, (void *) &dlg_timeout);
 	    }
 	  /*
 	   * Here we don't log on error, it's not a really good idea to call
@@ -852,7 +864,7 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
 	  dlg_timeout = NULL;
 	  if (timeout_thread)
 	    {
-	      lw6sys_thread_join (timeout_thread);
+	      lw6sys_thread_join (sys_context, timeout_thread);
 	      timeout_thread = NULL;
 	    }
 	  gtk_widget_hide_all (dlg);
@@ -862,7 +874,7 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
 	  while (gtk_events_pending ())
 	    {
 	      gtk_main_iteration ();
-	      lw6sys_idle ();
+	      lw6sys_idle (sys_context);
 	    }
 	}
     }
@@ -874,6 +886,7 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
 /**
  * lw6sys_log:
  *
+ * @sys_context: global system context
  * @level_id: the log level to use. Possible values are, by order,
  *   LW6SYS_LOG_ERROR_ID (0),
  *   LW6SYS_LOG_WARNING_ID (1),
@@ -901,16 +914,16 @@ _lw6sys_msgbox_alert (const char *level_str, const char *file, int line,
  * @Return value: void
  */
 void
-lw6sys_log (int level_id, const char *file, int line, const char *func,
-	    const char *fmt, ...)
+lw6sys_log (lw6sys_context_t * sys_context, int level_id, const char *file,
+	    int line, const char *func, const char *fmt, ...)
 {
 #ifdef LW6_OPTIMIZE
   if ((level_id <= LW6SYS_LOG_NOTICE_ID
-       && level_id <= lw6sys_log_get_level ())
-      || level_id == LW6SYS_LOG_TMP_ID || lw6sys_debug_get ())
+       && level_id <= lw6sys_log_get_level (sys_context))
+      || level_id == LW6SYS_LOG_TMP_ID || lw6sys_debug_get (sys_context))
 #else
-  if (level_id <= lw6sys_log_get_level () || level_id == LW6SYS_LOG_TMP_ID
-      || lw6sys_debug_get ())
+  if (level_id <= lw6sys_log_get_level (sys_context)
+      || level_id == LW6SYS_LOG_TMP_ID || lw6sys_debug_get (sys_context))
 #endif
     {
       char level_str[_LEVEL_LENGTH + 1];
@@ -943,13 +956,15 @@ lw6sys_log (int level_id, const char *file, int line, const char *func,
 	case LW6SYS_LOG_ERROR_ID:
 	  if (errno_int)
 	    {
-	      lw6sys_buf_sprintf (level_str, _LEVEL_LENGTH,
+	      lw6sys_buf_sprintf (sys_context, level_str, _LEVEL_LENGTH,
 				  _("ERROR! (errno=%d:%s) "), errno_int,
-				  lw6sys_log_errno_str (errno_int));
+				  lw6sys_log_errno_str (sys_context,
+							errno_int));
 	    }
 	  else
 	    {
-	      lw6sys_buf_sprintf (level_str, _LEVEL_LENGTH, _("ERROR! "));
+	      lw6sys_buf_sprintf (sys_context, level_str, _LEVEL_LENGTH,
+				  _("ERROR! "));
 	    }
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_ERR;
@@ -958,13 +973,15 @@ lw6sys_log (int level_id, const char *file, int line, const char *func,
 	case LW6SYS_LOG_WARNING_ID:
 	  if (errno_int)
 	    {
-	      lw6sys_buf_sprintf (level_str, _LEVEL_LENGTH,
+	      lw6sys_buf_sprintf (sys_context, level_str, _LEVEL_LENGTH,
 				  _("WARNING! (errno=%d:%s) "), errno_int,
-				  lw6sys_log_errno_str (errno_int));
+				  lw6sys_log_errno_str (sys_context,
+							errno_int));
 	    }
 	  else
 	    {
-	      lw6sys_buf_sprintf (level_str, _LEVEL_LENGTH, _("WARNING! "));
+	      lw6sys_buf_sprintf (sys_context, level_str, _LEVEL_LENGTH,
+				  _("WARNING! "));
 	    }
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_WARNING;
@@ -981,13 +998,15 @@ lw6sys_log (int level_id, const char *file, int line, const char *func,
 #endif
 	  break;
 	case LW6SYS_LOG_TMP_ID:
-	  lw6sys_buf_sprintf (level_str, _LEVEL_LENGTH, _("[tmp] "));
+	  lw6sys_buf_sprintf (sys_context, level_str, _LEVEL_LENGTH,
+			      _("[tmp] "));
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_DEBUG;
 #endif
 	  break;
 	default:		// LW6SYS_LOG_DEBUG_ID
-	  lw6sys_buf_sprintf (level_str, _LEVEL_LENGTH, _("[debug] "));
+	  lw6sys_buf_sprintf (sys_context, level_str, _LEVEL_LENGTH,
+			      _("[debug] "));
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_DEBUG;
 #endif
@@ -998,17 +1017,18 @@ lw6sys_log (int level_id, const char *file, int line, const char *func,
 	{
 	  // exclude INFO & DEBUG from console in non-debug mode
 	  if (level_id <= LW6SYS_LOG_NOTICE_ID
-	      || level_id == LW6SYS_LOG_TMP_ID || lw6sys_debug_get ())
+	      || level_id == LW6SYS_LOG_TMP_ID
+	      || lw6sys_debug_get (sys_context))
 	    {
 	      va_copy (ap2, ap);
-	      _log_to_console (stderr, level_str, fmt, ap2);
+	      _log_to_console (sys_context, stderr, level_str, fmt, ap2);
 	      va_end (ap2);
 	    }
 	  if (level_id <= LW6SYS_LOG_WARNING_ID
 	      || level_id == LW6SYS_LOG_TMP_ID)
 	    {
 	      va_copy (ap2, ap);
-	      _log_to_history (level_str, fmt, ap2);
+	      _log_to_history (sys_context, level_str, fmt, ap2);
 	      va_end (ap2);
 	    }
 #ifdef HAVE_SYSLOG_H
@@ -1020,20 +1040,20 @@ lw6sys_log (int level_id, const char *file, int line, const char *func,
 	      va_end (ap2);
 	    }
 #endif
-	  f = _open_log_file ();
+	  f = _open_log_file (sys_context);
 	  if (f)
 	    {
 	      va_copy (ap2, ap);
-	      _log_to_file (f, level_id, level_str, file_only, line, func,
-			    fmt, ap2);
+	      _log_to_file (sys_context, f, level_id, level_str, file_only,
+			    line, func, fmt, ap2);
 	      va_end (ap2);
 	      fclose (f);
 	    }
 	  if (level_id <= LW6SYS_LOG_ERROR_ID)
 	    {
 	      va_copy (ap2, ap);
-	      _lw6sys_msgbox_alert (level_str, file_only, line, func, fmt,
-				    ap2);
+	      _lw6sys_msgbox_alert (sys_context, level_str, file_only, line,
+				    func, fmt, ap2);
 	      va_end (ap2);
 	    }
 	}
@@ -1051,6 +1071,7 @@ lw6sys_log (int level_id, const char *file, int line, const char *func,
 /**
  * lw6sys_log_critical:
  *
+ * @sys_context: global system context
  * @fmt: a printf-like format string
  * @...: printf-like arguments, corresponding to @fmt.
  *
@@ -1064,7 +1085,7 @@ lw6sys_log (int level_id, const char *file, int line, const char *func,
  * @Return value: void
  */
 void
-lw6sys_log_critical (const char *fmt, ...)
+lw6sys_log_critical (lw6sys_context_t * sys_context, const char *fmt, ...)
 {
   va_list ap;
   va_list ap2;
@@ -1072,12 +1093,12 @@ lw6sys_log_critical (const char *fmt, ...)
   va_start (ap, fmt);
 
   va_copy (ap2, ap);
-  _log_to_console (stderr, _("CRITICAL! "), fmt, ap2);
+  _log_to_console (sys_context, stderr, _("CRITICAL! "), fmt, ap2);
   va_end (ap2);
 
   va_copy (ap2, ap);
-  _lw6sys_msgbox_alert (_("CRITICAL!"), _CRITICAL_FILE, _CRITICAL_LINE,
-			_CRITICAL_FUNC, fmt, ap2);
+  _lw6sys_msgbox_alert (sys_context, _("CRITICAL!"), _CRITICAL_FILE,
+			_CRITICAL_LINE, _CRITICAL_FUNC, fmt, ap2);
   va_end (ap2);
 
   exit (LW6SYS_EXIT_CRITICAL);
@@ -1088,32 +1109,47 @@ lw6sys_log_critical (const char *fmt, ...)
 /**
  * lw6sys_log_get_level
  *
+ * @sys_context: global system context
+ *
+ * Get the current log level. 
+ *
  * @Return value: the log level, integer between 0 & 4. 4 is very verbose
  * (debug), 0 displays errors only.
  */
 int
-lw6sys_log_get_level ()
+lw6sys_log_get_level (lw6sys_context_t * sys_context)
 {
-  return _lw6sys_global.log_level;
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+
+  return global->log_level;
 }
 
 /**
  * lw6sys_log_set_level
  *
+ * @sys_context: global system context
  * @level: the log level, integer between 0 & 4. 4 is very verbose (debug),
  * 0 displays errors only.
+ *
+ * Set the current log level.
+ *
+ * @Return valaue: none.
  */
 void
-lw6sys_log_set_level (int level)
+lw6sys_log_set_level (lw6sys_context_t * sys_context, int level)
 {
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+
   level = lw6sys_imin (level, LW6SYS_LOG_DEBUG_ID);
   level = lw6sys_imax (level, LW6SYS_LOG_ERROR_ID);
 
-  _lw6sys_global.log_level = level;
+  global->log_level = level;
 }
 
 /**
  * lw6sys_log_get_backtrace_mode
+ *
+ * @sys_context: global system context
  *
  * Gets the current backtrace mode.
  *
@@ -1121,9 +1157,11 @@ lw6sys_log_set_level (int level)
  * LW6SYS_LOG_BACKTRACE_MODE_FUNC.
  */
 int
-lw6sys_log_get_backtrace_mode ()
+lw6sys_log_get_backtrace_mode (lw6sys_context_t * sys_context)
 {
-  return _lw6sys_global.log_backtrace_mode;
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+
+  return global->log_backtrace_mode;
 }
 
 /**
@@ -1131,23 +1169,29 @@ lw6sys_log_get_backtrace_mode ()
  *
  * Sets the current backtrace mode.
  *
+ * @sys_context: global system context
  * @backtrace_mode: the backtrace mode, LW6SYS_LOG_BACKTRACE_MODE_FULL or
  * LW6SYS_LOG_BACKTRACE_MODE_FUNC.
  *
  * Return value : none
  */
 void
-lw6sys_log_set_backtrace_mode (int backtrace_mode)
+lw6sys_log_set_backtrace_mode (lw6sys_context_t * sys_context,
+			       int backtrace_mode)
 {
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+
   backtrace_mode =
     backtrace_mode ? LW6SYS_LOG_BACKTRACE_MODE_FULL :
     LW6SYS_LOG_BACKTRACE_MODE_FUNC;
 
-  _lw6sys_global.log_backtrace_mode = backtrace_mode;
+  global->log_backtrace_mode = backtrace_mode;
 }
 
 /**
  * lw6sys_log_get_console_state
+ *
+ * @sys_context: global system context
  *
  * Get the console output state. This is important, for instance to
  * set the console "back in the state it was" after setting it on or off.
@@ -1155,14 +1199,17 @@ lw6sys_log_set_backtrace_mode (int backtrace_mode)
  * Return value: 1 if enabled, 0 if not.
  */
 int
-lw6sys_log_get_console_state ()
+lw6sys_log_get_console_state (lw6sys_context_t * sys_context)
 {
-  return _console_enable_state ? 1 : 0;
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+
+  return global->console_enable_state ? 1 : 0;
 }
 
 /**
  * lw6sys_log_set_console_state
  *
+ * @sys_context: global system context
  * @state: 1 to activate console output, 0 to disable it.
  *
  * Enables or disables console output. By console output, we basically
@@ -1173,7 +1220,9 @@ lw6sys_log_get_console_state ()
  * Return value: none.
  */
 void
-lw6sys_log_set_console_state (int state)
+lw6sys_log_set_console_state (lw6sys_context_t * sys_context, int state)
 {
-  _console_enable_state = state ? 1 : 0;
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+
+  global->console_enable_state = state ? 1 : 0;
 }
