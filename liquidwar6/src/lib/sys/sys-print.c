@@ -29,6 +29,7 @@
 /**
  * lw6sys_print_xml_header
  *
+ * @sys_context: global system context
  * @f: file to output content to
  *
  * Prints a standard Liquid War compliant XML header in the given file.
@@ -36,7 +37,8 @@
  * Return value: none.
  */
 void
-lw6sys_print_xml_header (FILE * f, char *comment)
+lw6sys_print_xml_header (lw6sys_context_t * sys_context, FILE * f,
+			 char *comment)
 {
   char *reformatted_comment = NULL;
 
@@ -46,7 +48,7 @@ lw6sys_print_xml_header (FILE * f, char *comment)
 	   lw6sys_build_get_package_tarname (), lw6sys_eol ());
   fprintf (f, "<%s>%s", lw6sys_build_get_package_tarname (), lw6sys_eol ());
   reformatted_comment =
-    lw6sys_str_reformat (comment, LW6SYS_REFORMAT_XML_PREFIX,
+    lw6sys_str_reformat (sys_context, comment, LW6SYS_REFORMAT_XML_PREFIX,
 			 LW6SYS_REFORMAT_XML_NB_COLUMNS);
   if (reformatted_comment)
     {
@@ -60,6 +62,7 @@ lw6sys_print_xml_header (FILE * f, char *comment)
 /**
  * lw6sys_print_xml_header
  *
+ * @sys_context: global system context
  * @f: file to output content to
  *
  * Prints a standard Liquid War 6 compliant XML footer in the given file.
@@ -67,7 +70,7 @@ lw6sys_print_xml_header (FILE * f, char *comment)
  * Return value: none.
  */
 void
-lw6sys_print_xml_footer (FILE * f)
+lw6sys_print_xml_footer (lw6sys_context_t * sys_context, FILE * f)
 {
   fprintf (f, "</%s>%s", lw6sys_build_get_package_tarname (), lw6sys_eol ());
 }
