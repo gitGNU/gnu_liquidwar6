@@ -31,6 +31,7 @@
 /**
  * lw6sys_random:
  *
+ * @sys_context: global system context
  * @range: the high limit for random generated numbers. If you want
  *         random numbers between 0 and 5, set this to 6.
  *
@@ -44,7 +45,7 @@
  * @Return value: a pseudo-random number
  */
 u_int32_t
-lw6sys_random (u_int32_t range)
+lw6sys_random (lw6sys_context_t * sys_context, u_int32_t range)
 {
   static u_int32_t dirty_seed = 0;
   static u_int32_t alternate_seed = 0;
@@ -54,34 +55,37 @@ lw6sys_random (u_int32_t range)
 
   if (!alternate_seed)
     {
-      str = lw6sys_get_hostname ();
+      str = lw6sys_get_hostname (sys_context);
       if (str)
 	{
-	  lw6sys_checksum_update_str (&alternate_seed, str);
-	  LW6SYS_FREE (str);
+	  lw6sys_checksum_update_str (sys_context, &alternate_seed, str);
+	  LW6SYS_FREE (sys_context, str);
 	}
-      str = lw6sys_get_username ();
+      str = lw6sys_get_username (sys_context);
       if (str)
 	{
-	  lw6sys_checksum_update_str (&alternate_seed, str);
-	  LW6SYS_FREE (str);
+	  lw6sys_checksum_update_str (sys_context, &alternate_seed, str);
+	  LW6SYS_FREE (sys_context, str);
 	}
-      lw6sys_checksum_update_int32 (&alternate_seed,
-				    lw6sys_megabytes_available ());
-      lw6sys_checksum_update_int32 (&alternate_seed, lw6sys_get_timestamp ());
+      lw6sys_checksum_update_int32 (sys_context, &alternate_seed,
+				    lw6sys_megabytes_available (sys_context));
+      lw6sys_checksum_update_int32 (sys_context, &alternate_seed,
+				    lw6sys_get_timestamp (sys_context));
       while (!alternate_seed)
 	{
-	  lw6sys_checksum_update_int32 (&alternate_seed,
-					lw6sys_get_timestamp ());
+	  lw6sys_checksum_update_int32 (sys_context, &alternate_seed,
+					lw6sys_get_timestamp (sys_context));
 	}
     }
 
   tmp_seed = dirty_seed;
-  lw6sys_checksum_update_int32 (&tmp_seed, alternate_seed);
-  lw6sys_checksum_update_int32 (&tmp_seed, lw6sys_get_timestamp ());
+  lw6sys_checksum_update_int32 (sys_context, &tmp_seed, alternate_seed);
+  lw6sys_checksum_update_int32 (sys_context, &tmp_seed,
+				lw6sys_get_timestamp (sys_context));
   while (tmp_seed == dirty_seed)
     {
-      lw6sys_checksum_update_int32 (&tmp_seed, lw6sys_get_timestamp ());
+      lw6sys_checksum_update_int32 (sys_context, &tmp_seed,
+				    lw6sys_get_timestamp (sys_context));
     }
 #ifdef LW6_MS_WINDOWS
   /*
@@ -109,6 +113,7 @@ lw6sys_random (u_int32_t range)
 /**
  * lw6sys_random_float:
  *
+ * @sys_context: global system context
  * @min: the min value, as a float
  * @max: the max value, as a float
  *
@@ -118,13 +123,13 @@ lw6sys_random (u_int32_t range)
  * @Return value: a pseudo-random number
  */
 float
-lw6sys_random_float (float min, float max)
+lw6sys_random_float (lw6sys_context_t * sys_context, float min, float max)
 {
   float ret = 0.0f;
 
   ret =
-    ((((float) (lw6sys_random (RANDOM_FLOAT_PRECISION)) * (max - min))) /
-     (float) RANDOM_FLOAT_PRECISION) + min;
+    ((((float) (lw6sys_random (sys_context, RANDOM_FLOAT_PRECISION)) *
+       (max - min))) / (float) RANDOM_FLOAT_PRECISION) + min;
 
   return ret;
 }
