@@ -1529,16 +1529,11 @@ extern int lw6sys_shape_surface_wh (lw6sys_context_t * sys_context,
 extern void lw6sys_signal_custom (lw6sys_context_t * sys_context,
 				  int trap_errors);
 extern void lw6sys_signal_default (lw6sys_context_t * sys_context);
-extern void lw6sys_signal_term_handler (lw6sys_context_t * sys_context,
-					int signum);
-extern void lw6sys_signal_int_handler (lw6sys_context_t * sys_context,
-				       int signum);
-extern void lw6sys_signal_hup_handler (lw6sys_context_t * sys_context,
-				       int signum);
-extern void lw6sys_signal_segv_handler (lw6sys_context_t * sys_context,
-					int signum);
-extern void lw6sys_signal_fpe_handler (lw6sys_context_t * sys_context,
-				       int signum);
+extern void lw6sys_signal_term_handler (int signum);
+extern void lw6sys_signal_int_handler (int signum);
+extern void lw6sys_signal_hup_handler (int signum);
+extern void lw6sys_signal_segv_handler (int signum);
+extern void lw6sys_signal_fpe_handler (int signum);
 extern void lw6sys_signal_send_quit (lw6sys_context_t * sys_context);
 extern int lw6sys_signal_poll_quit (lw6sys_context_t * sys_context);
 
