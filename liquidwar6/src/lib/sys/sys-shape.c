@@ -30,6 +30,7 @@
 /**
  * lw6sys_shape_check_min_max_whd
  *
+ * @sys_context: global system context
  * @shape: the dimensions to control
  * @min: the minimum shape allowed
  * @max: the maximum shape allowed
@@ -40,7 +41,8 @@
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6sys_shape_check_min_max_whd (const lw6sys_whd_t * shape,
+lw6sys_shape_check_min_max_whd (lw6sys_context_t * sys_context,
+				const lw6sys_whd_t * shape,
 				const lw6sys_whd_t * min,
 				const lw6sys_whd_t * max)
 {
@@ -55,6 +57,7 @@ lw6sys_shape_check_min_max_whd (const lw6sys_whd_t * shape,
 /**
  * lw6sys_shape_check_pos
  *
+ * @sys_context: global system context
  * @shape: the boundary box
  * @pos: the position
  *
@@ -63,7 +66,8 @@ lw6sys_shape_check_min_max_whd (const lw6sys_whd_t * shape,
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6sys_shape_check_pos (const lw6sys_whd_t * shape, const lw6sys_xyz_t * pos)
+lw6sys_shape_check_pos (lw6sys_context_t * sys_context,
+			const lw6sys_whd_t * shape, const lw6sys_xyz_t * pos)
 {
   int ret = 0;
 
@@ -77,6 +81,7 @@ lw6sys_shape_check_pos (const lw6sys_whd_t * shape, const lw6sys_xyz_t * pos)
 /**
  * lw6sys_shape_is_same
  *
+ * @sys_context: global system context
  * @shape_a: the first shape to compare
  * @shape_b: the other shape to compare
  *
@@ -85,7 +90,8 @@ lw6sys_shape_check_pos (const lw6sys_whd_t * shape, const lw6sys_xyz_t * pos)
  * Return value: 1 if same, 0 if not.
  */
 int
-lw6sys_shape_is_same (const lw6sys_whd_t * shape_a,
+lw6sys_shape_is_same (lw6sys_context_t * sys_context,
+		      const lw6sys_whd_t * shape_a,
 		      const lw6sys_whd_t * shape_b)
 {
   int ret = 0;
@@ -99,6 +105,7 @@ lw6sys_shape_is_same (const lw6sys_whd_t * shape_a,
 /**
  * lw6sys_shape_is_same_xy
  *
+ * @sys_context: global system context
  * @shape_a: the first shape to compare
  * @shape_b: the other shape to compare
  *
@@ -107,7 +114,8 @@ lw6sys_shape_is_same (const lw6sys_whd_t * shape_a,
  * Return value: 1 if same_xy, 0 if not.
  */
 int
-lw6sys_shape_is_same_xy (const lw6sys_whd_t * shape_a,
+lw6sys_shape_is_same_xy (lw6sys_context_t * sys_context,
+			 const lw6sys_whd_t * shape_a,
 			 const lw6sys_whd_t * shape_b)
 {
   int ret = 0;
@@ -120,12 +128,16 @@ lw6sys_shape_is_same_xy (const lw6sys_whd_t * shape_a,
 /**
  * lw6sys_shape_volume_whd
  *
+ * @sys_context: global system context
+ * @shape: the shape to query
+ *
  * Gives the volume (w * h * d) for a given shape.
  *
  * Return value: the volume.
  */
 int
-lw6sys_shape_volume_whd (const lw6sys_whd_t * shape)
+lw6sys_shape_volume_whd (lw6sys_context_t * sys_context,
+			 const lw6sys_whd_t * shape)
 {
   return (shape->w * shape->h * shape->d);
 }
@@ -133,12 +145,16 @@ lw6sys_shape_volume_whd (const lw6sys_whd_t * shape)
 /**
  * lw6sys_shape_surface_wh
  *
+ * @sys_context: global system context
+ * @shape: the shape to query
+ *
  * Gives the surface (w * h) for a given shape.
  *
  * Return value: the surface.
  */
 int
-lw6sys_shape_surface_wh (const lw6sys_whd_t * shape)
+lw6sys_shape_surface_wh (lw6sys_context_t * sys_context,
+			 const lw6sys_whd_t * shape)
 {
   return (shape->w * shape->h);
 }
