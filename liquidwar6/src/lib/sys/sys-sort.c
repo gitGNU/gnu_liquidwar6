@@ -31,6 +31,7 @@
 /**
  * lw6sys_sort_int_callback
  *
+ * @sys_context: global system context
  * @list_a: pointer to a list of int item
  * @list_b: pointer to a list of int item
  *
@@ -41,7 +42,8 @@
  *   1 if @list_a > @list_b
  */
 int
-lw6sys_sort_int_callback (const lw6sys_list_t ** list_a,
+lw6sys_sort_int_callback (lw6sys_context_t * sys_context,
+			  const lw6sys_list_t ** list_a,
 			  const lw6sys_list_t ** list_b)
 {
   int ret = 0;
@@ -65,6 +67,7 @@ lw6sys_sort_int_callback (const lw6sys_list_t ** list_a,
 /**
  * lw6sys_sort_int_desc_callback
  *
+ * @sys_context: global system context
  * @list_a: pointer to a list of int item
  * @list_b: pointer to a list of int item
  *
@@ -75,7 +78,8 @@ lw6sys_sort_int_callback (const lw6sys_list_t ** list_a,
  *   -1 if @list_a > @list_b
  */
 int
-lw6sys_sort_int_desc_callback (const lw6sys_list_t ** list_a,
+lw6sys_sort_int_desc_callback (lw6sys_context_t * sys_context,
+			       const lw6sys_list_t ** list_a,
 			       const lw6sys_list_t ** list_b)
 {
   int ret = 0;
@@ -99,6 +103,7 @@ lw6sys_sort_int_desc_callback (const lw6sys_list_t ** list_a,
 /**
  * lw6sys_sort_float_callback
  *
+ * @sys_context: global system context
  * @list_a: pointer to a list of float item
  * @list_b: pointer to a list of float item
  *
@@ -109,7 +114,8 @@ lw6sys_sort_int_desc_callback (const lw6sys_list_t ** list_a,
  *   1 if @list_a > @list_b
  */
 int
-lw6sys_sort_float_callback (const lw6sys_list_t ** list_a,
+lw6sys_sort_float_callback (lw6sys_context_t * sys_context,
+			    const lw6sys_list_t ** list_a,
 			    const lw6sys_list_t ** list_b)
 {
   int ret = 0;
@@ -133,6 +139,7 @@ lw6sys_sort_float_callback (const lw6sys_list_t ** list_a,
 /**
  * lw6sys_sort_float_desc_callback
  *
+ * @sys_context: global system context
  * @list_a: pointer to a list of float item
  * @list_b: pointer to a list of float item
  *
@@ -144,7 +151,8 @@ lw6sys_sort_float_callback (const lw6sys_list_t ** list_a,
  *   -1 if @list_a > @list_b
  */
 int
-lw6sys_sort_float_desc_callback (const lw6sys_list_t ** list_a,
+lw6sys_sort_float_desc_callback (lw6sys_context_t * sys_context,
+				 const lw6sys_list_t ** list_a,
 				 const lw6sys_list_t ** list_b)
 {
   int ret = 0;
@@ -168,6 +176,7 @@ lw6sys_sort_float_desc_callback (const lw6sys_list_t ** list_a,
 /**
  * lw6sys_sort_str_callback
  *
+ * @sys_context: global system context
  * @list_a: pointer to a list of string item
  * @list_b: pointer to a list of string item
  *
@@ -178,7 +187,8 @@ lw6sys_sort_float_desc_callback (const lw6sys_list_t ** list_a,
  *   1 if @list_a > @list_b
  */
 int
-lw6sys_sort_str_callback (const lw6sys_list_t ** list_a,
+lw6sys_sort_str_callback (lw6sys_context_t * sys_context,
+			  const lw6sys_list_t ** list_a,
 			  const lw6sys_list_t ** list_b)
 {
   int ret = 0;
@@ -191,6 +201,7 @@ lw6sys_sort_str_callback (const lw6sys_list_t ** list_a,
 /**
  * lw6sys_sort_str_desc_callback
  *
+ * @sys_context: global system context
  * @list_a: pointer to a list of string item
  * @list_b: pointer to a list of string item
  *
@@ -202,7 +213,8 @@ lw6sys_sort_str_callback (const lw6sys_list_t ** list_a,
  *   -1 if @list_a > @list_b
  */
 int
-lw6sys_sort_str_desc_callback (const lw6sys_list_t ** list_a,
+lw6sys_sort_str_desc_callback (lw6sys_context_t * sys_context,
+			       const lw6sys_list_t ** list_a,
 			       const lw6sys_list_t ** list_b)
 {
   int ret = 0;
@@ -215,6 +227,7 @@ lw6sys_sort_str_desc_callback (const lw6sys_list_t ** list_a,
 /**
  * lw6sys_sort
  *
+ * @sys_context: global system context
  * @list: the list to sort, might be modified by the function
  * @sort_func: the callback function used to sort
  *
@@ -225,14 +238,15 @@ lw6sys_sort_str_desc_callback (const lw6sys_list_t ** list_a,
  * any callback, provided it has the right prototype.
  */
 void
-lw6sys_sort (lw6sys_list_t ** list, lw6sys_sort_callback_func_t sort_func)
+lw6sys_sort (lw6sys_context_t * sys_context, lw6sys_list_t ** list,
+	     lw6sys_sort_callback_func_t sort_func)
 {
   int length, i;
   lw6sys_list_t **array;
   lw6sys_list_t *pos;
   lw6sys_list_t *end;
 
-  length = lw6sys_list_length (*list);
+  length = lw6sys_list_length (sys_context, *list);
   if (length > 0)
     {
       array =
@@ -241,7 +255,7 @@ lw6sys_sort (lw6sys_list_t ** list, lw6sys_sort_callback_func_t sort_func)
       if (array)
 	{
 	  for (pos = (*list), i = 0; pos->next_item != NULL;
-	       pos = lw6sys_list_next (pos), i++)
+	       pos = lw6sys_list_next (sys_context, pos), i++)
 	    {
 	      array[i] = pos;
 	    }
