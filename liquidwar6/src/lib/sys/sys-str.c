@@ -55,6 +55,7 @@ typedef struct _join_callback_data_s
 /**
  * lw6sys_str_copy
  *
+ * @sys_context: global system context
  * @src: the string to copy
  *
  * Duplicate a string, creating a new pointer on it, which
@@ -65,7 +66,7 @@ typedef struct _join_callback_data_s
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_str_copy (sys_context, const char *src)
+lw6sys_str_copy (lw6sys_context_t * sys_context, const char *src)
 {
   char *copy = NULL;
   int length;
@@ -84,6 +85,7 @@ lw6sys_str_copy (sys_context, const char *src)
 /**
  * lw6sys_str_concat
  *
+ * @sys_context: global system context
  * @str1: the left part to be concatenated
  * @str2: the right part to be concatenated
  *
@@ -94,7 +96,8 @@ lw6sys_str_copy (sys_context, const char *src)
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_str_concat (const char *str1, const char *str2)
+lw6sys_str_concat (lw6sys_context_t * sys_context, const char *str1,
+		   const char *str2)
 {
   char *concat = NULL;
   int length;
@@ -111,14 +114,15 @@ lw6sys_str_concat (const char *str1, const char *str2)
 }
 
 char *
-_lw6sys_new_vsnprintf (int n, const char *fmt, va_list ap)
+_lw6sys_new_vsnprintf (lw6sys_context_t * sys_context, int n, const char *fmt,
+		       va_list ap)
 {
   char *ret = NULL;
   int written;
 
   if (n > 0)
     {
-      ret = (char *) LW6SYS_MALLOC (n);
+      ret = (char *) LW6SYS_MALLOC (sys_context, n);
 
       if (ret)
 	{
@@ -150,6 +154,7 @@ more_mem (int n)
 /**
  * lw6sys_new_sprintf
  *
+ * @sys_context: global system context
  * @fmt: a format string, like the one you would pass to @printf
  * @...: optional arguments, like the ones you would pass to @printf
  *
@@ -165,7 +170,7 @@ more_mem (int n)
  * Return value: a new allocated string, must be freed.
  */
 char *
-lw6sys_new_sprintf (sys_context, const char *fmt, ...)
+lw6sys_new_sprintf (lw6sys_context_t * sys_context, const char *fmt, ...)
 {
   char *ret = NULL;
   va_list ap;
@@ -181,7 +186,7 @@ lw6sys_new_sprintf (sys_context, const char *fmt, ...)
 	  va_list ap2;
 
 	  va_copy (ap2, ap);
-	  ret = _lw6sys_new_vsnprintf (n, fmt, ap2);
+	  ret = _lw6sys_new_vsnprintf (sys_context, n, fmt, ap2);
 	  va_end (ap2);
 
 	  /*
@@ -201,7 +206,8 @@ lw6sys_new_sprintf (sys_context, const char *fmt, ...)
 }
 
 int
-_lw6sys_buf_vsnprintf (char *buf, int len, const char *fmt, va_list ap)
+_lw6sys_buf_vsnprintf (lw6sys_context_t * sys_context, char *buf, int len,
+		       const char *fmt, va_list ap)
 {
   int ret = 0;
 
@@ -232,6 +238,7 @@ _lw6sys_buf_vsnprintf (char *buf, int len, const char *fmt, va_list ap)
 /**
  * lw6sys_buf_sprintf
  *
+ * @sys_context: global system context
  * @buf: a buffer of len+1 chars
  * @len: the max length of string
  * @fmt: a format string, like the one you would pass to @printf
@@ -244,7 +251,8 @@ _lw6sys_buf_vsnprintf (char *buf, int len, const char *fmt, va_list ap)
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6sys_buf_sprintf (char *buf, int len, const char *fmt, ...)
+lw6sys_buf_sprintf (lw6sys_context_t * sys_context, char *buf, int len,
+		    const char *fmt, ...)
 {
   int ret = 0;
   va_list ap;
@@ -264,7 +272,7 @@ lw6sys_buf_sprintf (char *buf, int len, const char *fmt, ...)
        * low-level function which do not want to lock
        * anything calling malloc or something.
        */
-      ret = _lw6sys_buf_vsnprintf (buf, len, fmt, ap);
+      ret = _lw6sys_buf_vsnprintf (sys_context, buf, len, fmt, ap);
       va_end (ap);
     }
 
@@ -274,6 +282,7 @@ lw6sys_buf_sprintf (char *buf, int len, const char *fmt, ...)
 /**
  * lw6sys_str_is_blank
  *
+ * @sys_context: global system context
  * @str: the string to test
  *
  * Tests wether a string is blank, that is, if it's composed
@@ -282,7 +291,7 @@ lw6sys_buf_sprintf (char *buf, int len, const char *fmt, ...)
  * Return value: 1 if blank, 0 if not.
  */
 int
-lw6sys_str_is_blank (const char *str)
+lw6sys_str_is_blank (lw6sys_context_t * sys_context, const char *str)
 {
   int ret = 1;
   int pos = 0;
@@ -307,6 +316,7 @@ lw6sys_str_is_blank (const char *str)
 /**
  * lw6sys_str_is_null_or_empty
  *
+ * @sys_context: global system context
  * @str: the string to test
  *
  * Tests wether a string is NULL or empty (string with 0 chars "").
@@ -314,7 +324,7 @@ lw6sys_str_is_blank (const char *str)
  * Return value: 1 if NULL or empty, 0 if contains something.
  */
 int
-lw6sys_str_is_null_or_empty (const char *str)
+lw6sys_str_is_null_or_empty (lw6sys_context_t * sys_context, const char *str)
 {
   return (str == NULL || str[0] == '\0');
 }
@@ -322,6 +332,7 @@ lw6sys_str_is_null_or_empty (const char *str)
 /**
  * lw6sys_str_empty_if_null
  *
+ * @sys_context: global system context
  * @str: the string to test
  *
  * Returns always a non-NULL string, if string is NULL, returns ""
@@ -331,7 +342,7 @@ lw6sys_str_is_null_or_empty (const char *str)
  * Return value: source string or "" if it was NULL
  */
 const char *
-lw6sys_str_empty_if_null (const char *str)
+lw6sys_str_empty_if_null (lw6sys_context_t * sys_context, const char *str)
 {
   return str ? str : LW6SYS_STR_EMPTY;
 }
@@ -339,6 +350,7 @@ lw6sys_str_empty_if_null (const char *str)
 /**
  * lw6sys_str_is_same
  *
+ * @sys_context: global system context
  * @str_a: 1st string to compare, can be NULL
  * @str_b: 2nd string to compare, can be NULL
  *
@@ -350,7 +362,8 @@ lw6sys_str_empty_if_null (const char *str)
  * Return value: 1 if same, 0 if not.
  */
 int
-lw6sys_str_is_same (const char *str_a, const char *str_b)
+lw6sys_str_is_same (lw6sys_context_t * sys_context, const char *str_a,
+		    const char *str_b)
 {
   int ret = 1;
 
@@ -369,6 +382,7 @@ lw6sys_str_is_same (const char *str_a, const char *str_b)
 /**
  * lw6sys_str_is_same_no_case
  *
+ * @sys_context: global system context
  * @str_a: 1st string to compare, can be NULL
  * @str_b: 2nd string to compare, can be NULL
  *
@@ -381,7 +395,8 @@ lw6sys_str_is_same (const char *str_a, const char *str_b)
  * Return value: 1 if same, 0 if not.
  */
 int
-lw6sys_str_is_same_no_case (const char *str_a, const char *str_b)
+lw6sys_str_is_same_no_case (lw6sys_context_t * sys_context, const char *str_a,
+			    const char *str_b)
 {
   int ret = 1;
 
@@ -400,6 +415,7 @@ lw6sys_str_is_same_no_case (const char *str_a, const char *str_b)
 /**
  * lw6sys_str_starts_with
  *
+ * @sys_context: global system context
  * @str: the string to analyse
  * @beginning: the pattern to search
  *
@@ -408,7 +424,8 @@ lw6sys_str_is_same_no_case (const char *str_a, const char *str_b)
  * Return value: 1 if @str starts with @beginning, 0 if not
  */
 int
-lw6sys_str_starts_with (const char *str, const char *beginning)
+lw6sys_str_starts_with (lw6sys_context_t * sys_context, const char *str,
+			const char *beginning)
 {
   int ret = 0;
 
@@ -420,6 +437,7 @@ lw6sys_str_starts_with (const char *str, const char *beginning)
 /**
  * lw6sys_str_starts_with_no_case
  *
+ * @sys_context: global system context
  * @str: the string to analyse
  * @beginning: the pattern to search
  *
@@ -429,7 +447,8 @@ lw6sys_str_starts_with (const char *str, const char *beginning)
  * Return value: 1 if @str starts with @beginning, 0 if not
  */
 int
-lw6sys_str_starts_with_no_case (const char *str, const char *beginning)
+lw6sys_str_starts_with_no_case (lw6sys_context_t * sys_context,
+				const char *str, const char *beginning)
 {
   int ret = 0;
 
@@ -441,6 +460,7 @@ lw6sys_str_starts_with_no_case (const char *str, const char *beginning)
 /**
  * lw6sys_skip_blanks
  *
+ * @sys_context: global system context
  * @str_ptr: a pointer to a string pointer (read/write parameter).
  *
  * Skips blanks at the beginning of a string. The passed parameter
@@ -449,7 +469,7 @@ lw6sys_str_starts_with_no_case (const char *str, const char *beginning)
  * Return value: 1 if blanks were found, else 0.
  */
 int
-lw6sys_skip_blanks (char **str_ptr)
+lw6sys_skip_blanks (lw6sys_context_t * sys_context, char **str_ptr)
 {
   int ret = 0;
 
@@ -477,7 +497,7 @@ lw6sys_skip_blanks (char **str_ptr)
  * Return value: none.
  */
 void
-lw6sys_str_cleanup (char *str)
+lw6sys_str_cleanup (lw6sys_context_t * sys_context, char *str)
 {
   /*
    * It's important to have pos unsigned here else characters
@@ -499,6 +519,7 @@ lw6sys_str_cleanup (char *str)
 /**
  * lw6sys_str_cleanup_ascii7
  *
+ * @sys_context: global system context
  * @str: a pointer to the string, which will be modified in-place.
  *
  * Used to clean up some strings, for instance if they
@@ -512,7 +533,7 @@ lw6sys_str_cleanup (char *str)
  * Return value: none.
  */
 void
-lw6sys_str_cleanup_ascii7 (char *str)
+lw6sys_str_cleanup_ascii7 (lw6sys_context_t * sys_context, char *str)
 {
   /*
    * It's important to have pos unsigned here else characters
@@ -532,15 +553,16 @@ lw6sys_str_cleanup_ascii7 (char *str)
 }
 
 static void
-reformat_newline (char **formatted_str, char *append, const char *prefix)
+_reformat_newline (lw6sys_context_t * sys_context, char **formatted_str,
+		   char *append, const char *prefix)
 {
   char *new_str = NULL;
 
-  lw6sys_str_cleanup (append);
-  lw6sys_skip_blanks (&append);
+  lw6sys_str_cleanup (sys_context, append);
+  lw6sys_skip_blanks (sys_context, &append);
   new_str =
-    lw6sys_new_sprintf ("%s%s%s%s", *formatted_str, prefix, append,
-			lw6sys_eol ());
+    lw6sys_new_sprintf (sys_context, "%s%s%s%s", *formatted_str, prefix,
+			append, lw6sys_eol ());
   if (new_str)
     {
       LW6SYS_FREE (sys_context, *formatted_str);
@@ -551,6 +573,7 @@ reformat_newline (char **formatted_str, char *append, const char *prefix)
 /**
  * lw6sys_str_reformat
  *
+ * @sys_context: global system context
  * @str: a pointer to the string we want to modify
  * @prefix: a prefix to put before each line
  * @nb_colummns: number of columns to use, without prefix.
@@ -564,7 +587,8 @@ reformat_newline (char **formatted_str, char *append, const char *prefix)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6sys_str_reformat (const char *str, const char *prefix, int nb_columns)
+lw6sys_str_reformat (lw6sys_context_t * sys_context, const char *str,
+		     const char *prefix, int nb_columns)
 {
   char *ret = NULL;
   char *str_copy = NULL;
@@ -574,10 +598,10 @@ lw6sys_str_reformat (const char *str, const char *prefix, int nb_columns)
   int space_i = 0;
 
   nb_columns = lw6sys_imax (nb_columns, 1);
-  str_copy = lw6sys_str_copy (str);
+  str_copy = lw6sys_str_copy (sys_context, str);
   if (str_copy)
     {
-      ret = lw6sys_str_copy ("");
+      ret = lw6sys_str_copy (sys_context, "");
       line_start = str_copy;
       i = 0;
       pos = str_copy;
@@ -590,7 +614,7 @@ lw6sys_str_reformat (const char *str, const char *prefix, int nb_columns)
 		  pos++;
 		}
 	      pos[0] = '\0';
-	      reformat_newline (&ret, line_start, prefix);
+	      _reformat_newline (sys_context, &ret, line_start, prefix);
 	      line_start = pos + 1;
 	      i = 0;
 	      pos = line_start;
@@ -628,7 +652,7 @@ lw6sys_str_reformat (const char *str, const char *prefix, int nb_columns)
 	      if (space_i)
 		{
 		  line_start[space_i] = '\0';
-		  reformat_newline (&ret, line_start, prefix);
+		  _reformat_newline (sys_context, &ret, line_start, prefix);
 		  line_start += (space_i + 1);
 		}
 	      else
@@ -649,10 +673,10 @@ lw6sys_str_reformat (const char *str, const char *prefix, int nb_columns)
 
       if (ret && line_start)
 	{
-	  reformat_newline (&ret, line_start, prefix);
+	  _reformat_newline (sys_context, &ret, line_start, prefix);
 	}
 
-      LW6SYS_FREE (str_copy);
+      LW6SYS_FREE (sys_context, str_copy);
     }
 
   return ret;
@@ -661,6 +685,7 @@ lw6sys_str_reformat (const char *str, const char *prefix, int nb_columns)
 /**
  * lw6sys_str_reformat_this
  *
+ * @sys_context: global system context
  * @str: a pointer to the string we want to modify
  * @nb_colummns: number of columns to use, without prefix.
  *
@@ -673,7 +698,8 @@ lw6sys_str_reformat (const char *str, const char *prefix, int nb_columns)
  * Return value: none
  */
 void
-lw6sys_str_reformat_this (char *str, int nb_columns)
+lw6sys_str_reformat_this (lw6sys_context_t * sys_context, char *str,
+			  int nb_columns)
 {
   int i = 0;
   char *pos = NULL;
@@ -701,6 +727,8 @@ lw6sys_str_reformat_this (char *str, int nb_columns)
 /**
  * lw6sys_eol
  *
+ * @sys_context: global system context
+ *
  * Returns the value of EOL, that is, the "end of line" sequence.
  * Will simply return "\n" on UNIX and "\r\n" on Microsoft platforms.
  * Note that while this is convenient to write config and example files,
@@ -711,7 +739,7 @@ lw6sys_str_reformat_this (char *str, int nb_columns)
  * Return value: the EOL string, must not be freed.
  */
 char *
-lw6sys_eol ()
+lw6sys_eol (lw6sys_context_t * sys_context)
 {
   return STR_EOL;
 }
@@ -719,6 +747,7 @@ lw6sys_eol ()
 /**
  * lw6sys_str_split
  *
+ * @sys_context: global system context
  * @str: a string
  * @c: the delimiter to split with
  *
@@ -728,7 +757,7 @@ lw6sys_eol ()
  * Return value: a list containing 0-terminated strings.
  */
 lw6sys_list_t *
-lw6sys_str_split (const char *str, char c)
+lw6sys_str_split (lw6sys_context_t * sys_context, const char *str, char c)
 {
   lw6sys_list_t *ret = NULL;
   char *found = NULL;
@@ -736,27 +765,27 @@ lw6sys_str_split (const char *str, char c)
   char *copy = NULL;
   char *part = NULL;
 
-  copy = lw6sys_str_copy (str);
+  copy = lw6sys_str_copy (sys_context, str);
   if (copy)
     {
-      ret = lw6sys_list_new (lw6sys_free_callback);
+      ret = lw6sys_list_new (sys_context, lw6sys_free_callback);
       if (ret)
 	{
 	  pos = copy;
 	  while ((found = strchr (pos, c)) != NULL)
 	    {
 	      (*found) = '\0';
-	      part = lw6sys_str_copy (pos);
+	      part = lw6sys_str_copy (sys_context, pos);
 	      if (part)
 		{
-		  lw6sys_list_push_back (&ret, part);
+		  lw6sys_list_push_back (sys_context, &ret, part);
 		}
 	      pos = found + 1;
 	    }
-	  part = lw6sys_str_copy (pos);
+	  part = lw6sys_str_copy (sys_context, pos);
 	  if (part)
 	    {
-	      lw6sys_list_push_back (&ret, part);
+	      lw6sys_list_push_back (sys_context, &ret, part);
 	    }
 	}
       LW6SYS_FREE (sys_context, copy);
@@ -768,6 +797,7 @@ lw6sys_str_split (const char *str, char c)
 /**
  * lw6sys_str_split_no_0
  *
+ * @sys_context: global system context
  * @str: a string
  * @c: the delimiter to split with
  *
@@ -777,7 +807,8 @@ lw6sys_str_split (const char *str, char c)
  * Return value: a list containing 0-terminated strings.
  */
 lw6sys_list_t *
-lw6sys_str_split_no_0 (const char *str, char c)
+lw6sys_str_split_no_0 (lw6sys_context_t * sys_context, const char *str,
+		       char c)
 {
   lw6sys_list_t *ret = NULL;
   char *found = NULL;
@@ -785,22 +816,22 @@ lw6sys_str_split_no_0 (const char *str, char c)
   char *copy = NULL;
   char *part = NULL;
 
-  copy = lw6sys_str_copy (str);
+  copy = lw6sys_str_copy (sys_context, str);
   if (copy)
     {
-      ret = lw6sys_list_new (lw6sys_free_callback);
+      ret = lw6sys_list_new (sys_context, lw6sys_free_callback);
       if (ret)
 	{
 	  pos = copy;
 	  while ((found = strchr (pos, c)) != NULL)
 	    {
 	      (*found) = '\0';
-	      part = lw6sys_str_copy (pos);
+	      part = lw6sys_str_copy (sys_context, pos);
 	      if (part)
 		{
 		  if ((*part) != '\0')
 		    {
-		      lw6sys_list_push_back (&ret, part);
+		      lw6sys_list_push_back (sys_context, &ret, part);
 		    }
 		  else
 		    {
@@ -809,12 +840,12 @@ lw6sys_str_split_no_0 (const char *str, char c)
 		}
 	      pos = found + 1;
 	    }
-	  part = lw6sys_str_copy (pos);
+	  part = lw6sys_str_copy (sys_context, pos);
 	  if (part)
 	    {
 	      if ((*part) != '\0')
 		{
-		  lw6sys_list_push_back (&ret, part);
+		  lw6sys_list_push_back (sys_context, &ret, part);
 		}
 	      else
 		{
@@ -831,6 +862,7 @@ lw6sys_str_split_no_0 (const char *str, char c)
 /**
  * lw6sys_str_split_config_item
  *
+ * @sys_context: global system context
  * @str: a string
  *
  * Splits a string, ignoring empty '0-length' members, and using
@@ -841,13 +873,13 @@ lw6sys_str_split_no_0 (const char *str, char c)
  * Return value: a list containing 0-terminated strings.
  */
 lw6sys_list_t *
-lw6sys_str_split_config_item (const char *str)
+lw6sys_str_split_config_item (lw6sys_context_t * sys_context, const char *str)
 {
-  return lw6sys_str_split_no_0 (str, ',');
+  return lw6sys_str_split_no_0 (sys_context, str, ',');
 }
 
 static void
-_join_callback (void *func_data, void *data)
+_join_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   _join_callback_data_t *join_callback_data =
     (_join_callback_data_t *) func_data;
@@ -858,19 +890,20 @@ _join_callback (void *func_data, void *data)
     {
       tmp = join_callback_data->ret;
       join_callback_data->ret =
-	lw6sys_new_sprintf ("%s%s%s", join_callback_data->ret,
+	lw6sys_new_sprintf (sys_context, "%s%s%s", join_callback_data->ret,
 			    join_callback_data->glue, str);
       LW6SYS_FREE (sys_context, tmp);
     }
   else
     {
-      join_callback_data->ret = lw6sys_str_copy (str);
+      join_callback_data->ret = lw6sys_str_copy (sys_context, str);
     }
 }
 
 /**
  * lw6sys_str_join
  *
+ * @sys_context: global system context
  * @list: list of strings to join
  * @glue: string to add in-between
  *
@@ -882,7 +915,8 @@ _join_callback (void *func_data, void *data)
  * Return value: dynamically allocated string
  */
 char *
-lw6sys_str_join (lw6sys_list_t * list, const char *glue)
+lw6sys_str_join (lw6sys_context_t * sys_context, lw6sys_list_t * list,
+		 const char *glue)
 {
   char *ret = NULL;
   _join_callback_data_t join_callback_data;
@@ -890,7 +924,7 @@ lw6sys_str_join (lw6sys_list_t * list, const char *glue)
   join_callback_data.ret = ret;
   join_callback_data.glue = glue;
 
-  lw6sys_list_map (list, _join_callback, &join_callback_data);
+  lw6sys_list_map (sys_context, list, _join_callback, &join_callback_data);
 
   ret = join_callback_data.ret;
 
@@ -900,6 +934,7 @@ lw6sys_str_join (lw6sys_list_t * list, const char *glue)
 /**
  * lw6sys_str_toupper
  *
+ * @sys_context: global system context
  * @str: the string to modify
  *
  * Transforms a string to upper case, the pointer must point
@@ -908,7 +943,7 @@ lw6sys_str_join (lw6sys_list_t * list, const char *glue)
  * Return value: none, @str pointed data modified in-place
  */
 void
-lw6sys_str_toupper (char *str)
+lw6sys_str_toupper (lw6sys_context_t * sys_context, char *str)
 {
   char *pos = str;
 
@@ -922,6 +957,7 @@ lw6sys_str_toupper (char *str)
 /**
  * lw6sys_str_tolower
  *
+ * @sys_context: global system context
  * @str: the string to modify
  *
  * Transforms a string to lower case, the pointer must point
@@ -930,7 +966,7 @@ lw6sys_str_toupper (char *str)
  * Return value: none, @str pointed data modified in-place
  */
 void
-lw6sys_str_tolower (char *str)
+lw6sys_str_tolower (lw6sys_context_t * sys_context, char *str)
 {
   char *pos = str;
 
@@ -944,6 +980,7 @@ lw6sys_str_tolower (char *str)
 /**
  * lw6sys_str_truncate
  *
+ * @sys_context: global system context
  * @str: the string to truncate
  * @len: the new length
  *
@@ -953,7 +990,7 @@ lw6sys_str_tolower (char *str)
  * Return value: none, @str pointed data modified in-place
  */
 void
-lw6sys_str_truncate (char *str, int len)
+lw6sys_str_truncate (lw6sys_context_t * sys_context, char *str, int len)
 {
   if (strlen (str) > len)
     {
@@ -964,6 +1001,7 @@ lw6sys_str_truncate (char *str, int len)
 /**
  * lw6sys_str_truncate_middle
  *
+ * @sys_context: global system context
  * @str: the string to truncate
  * @len: the new length
  * @middle: the string to add in the middle
@@ -976,7 +1014,8 @@ lw6sys_str_truncate (char *str, int len)
  * Return value: none, @str pointed data modified in-place
  */
 void
-lw6sys_str_truncate_middle (char *str, int len, const char *middle)
+lw6sys_str_truncate_middle (lw6sys_context_t * sys_context, char *str,
+			    int len, const char *middle)
 {
   int orig_len = strlen (str);
 
@@ -1009,6 +1048,7 @@ lw6sys_str_truncate_middle (char *str, int len, const char *middle)
 /**
  * lw6sys_str_random
  *
+ * @sys_context: global system context
  * @len: the length of the random string to generate.
  *
  * Generates a random string, this is usefull for testing.
@@ -1016,7 +1056,7 @@ lw6sys_str_truncate_middle (char *str, int len, const char *middle)
  * Return value: newly allocated string
  */
 char *
-lw6sys_str_random (int len)
+lw6sys_str_random (lw6sys_context_t * sys_context, int len)
 {
   unsigned char *ret = NULL;
   int i = 0;
@@ -1024,7 +1064,7 @@ lw6sys_str_random (int len)
   ret = (unsigned char *) LW6SYS_MALLOC (sys_context, len + 1);
   for (i = 0; i < len; ++i)
     {
-      ret[i] = lw6sys_random (254) + 1;
+      ret[i] = lw6sys_random (sys_context, 254) + 1;
     }
   ret[len] = 0;
 
@@ -1034,6 +1074,7 @@ lw6sys_str_random (int len)
 /**
  * lw6sys_str_random_words
  *
+ * @sys_context: global system context
  * @len: the length of the random string to generate.
  *
  * Generates a random string, this is usefull for testing.
@@ -1043,7 +1084,7 @@ lw6sys_str_random (int len)
  * Return value: newly allocated string
  */
 char *
-lw6sys_str_random_words (int len)
+lw6sys_str_random_words (lw6sys_context_t * sys_context, int len)
 {
   unsigned char *ret = NULL;
   int i = 0;
@@ -1052,7 +1093,7 @@ lw6sys_str_random_words (int len)
   ret = (unsigned char *) LW6SYS_MALLOC (sys_context, len + 1);
   for (i = 0; i < len; ++i)
     {
-      ret[i] = _STR_RANDOM_WORDS[lw6sys_random (cat_len)];
+      ret[i] = _STR_RANDOM_WORDS[lw6sys_random (sys_context, cat_len)];
     }
   ret[len] = 0;
 
@@ -1062,6 +1103,7 @@ lw6sys_str_random_words (int len)
 /**
  * lw6sys_str_random_word
  *
+ * @sys_context: global system context
  * @len: the length of the random string to generate.
  *
  * Generates a random string, this is usefull for testing.
@@ -1071,7 +1113,7 @@ lw6sys_str_random_words (int len)
  * Return value: newly allocated string
  */
 char *
-lw6sys_str_random_word (int len)
+lw6sys_str_random_word (lw6sys_context_t * sys_context, int len)
 {
   unsigned char *ret = NULL;
   int i = 0;
@@ -1080,7 +1122,7 @@ lw6sys_str_random_word (int len)
   ret = (unsigned char *) LW6SYS_MALLOC (sys_context, len + 1);
   for (i = 0; i < len; ++i)
     {
-      ret[i] = _STR_RANDOM_WORD[lw6sys_random (cat_len)];
+      ret[i] = _STR_RANDOM_WORD[lw6sys_random (sys_context, cat_len)];
     }
   ret[len] = 0;
 
@@ -1098,6 +1140,7 @@ _chr_is_text (char c)
 /**
  * lw6sys_str_is_bin
  *
+ * @sys_context: global system context
  * @buf: the buffer to test
  * @len: the length of the buffer
  *
@@ -1107,7 +1150,7 @@ _chr_is_text (char c)
  * Return value: 1 if probably binary, 0 if probably text
  */
 int
-lw6sys_str_is_bin (const char *buf, int len)
+lw6sys_str_is_bin (lw6sys_context_t * sys_context, const char *buf, int len)
 {
   int ret = 0;
   int text_chars = 0;
