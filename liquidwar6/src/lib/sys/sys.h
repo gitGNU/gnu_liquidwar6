@@ -138,19 +138,19 @@ typedef char *char_ptr_t;
 #define LW6SYS_MAIN_BEGIN { sys_context = lw6sys_context_init(); if (sys_context != NULL) {
 #define LW6SYS_MAIN_END ret = lw6sys_context_quit (sys_context) && ret; sys_context = NULL; } }
 
-#define LW6SYS_TEST_FUNCTION_BEGIN { lw6sys_log(LW6SYS_LOG_NOTICE,_("running tests in function \"%s\""),__FUNCTION__); }
-#define LW6SYS_TEST_FUNCTION_END_NO_CUNIT { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("tests OK in function \"%s\""),__FUNCTION__); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("tests FAILED in function \"%s\""),__FUNCTION__); } }
-#define LW6SYS_TEST_FUNCTION_END { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("tests OK in function \"%s\""),__FUNCTION__); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("tests FAILED in function \"%s\""),__FUNCTION__); } _test_data.ret=_test_data.ret && ret; CU_ASSERT_EQUAL(ret, 1); }
-#define LW6SYS_TEST_ACK(value) (lw6sys_cunit_lock() && ( ( CU_assertImplementation(!!(value), __LINE__, #value, __FILE__, "", CU_FALSE) && lw6sys_cunit_unlock()) || (lw6sys_cunit_unlock() && lw6sys_false())))
-#define LW6SYS_BACKEND_FUNCTION_BEGIN { lw6sys_log(LW6SYS_LOG_DEBUG,_("begin backend function \"%s\""),__FUNCTION__); }
-#define LW6SYS_BACKEND_FUNCTION_END { lw6sys_log(LW6SYS_LOG_DEBUG,_("end backend function \"%s\""),__FUNCTION__); }
+#define LW6SYS_TEST_FUNCTION_BEGIN { sys_context = _test_data.sys_context; if (sys_context) { lw6sys_log(sys_context,LW6SYS_LOG_NOTICE,_("running tests in function \"%s\""),__FUNCTION__);
+#define LW6SYS_TEST_FUNCTION_END_NO_CUNIT { if (ret) { lw6sys_log(sys_context,LW6SYS_LOG_NOTICE,_("tests OK in function \"%s\""),__FUNCTION__); } else { lw6sys_log(sys_context,LW6SYS_LOG_WARNING,_("tests FAILED in function \"%s\""),__FUNCTION__); } } } }
+#define LW6SYS_TEST_FUNCTION_END { if (ret) { lw6sys_log(sys_context,LW6SYS_LOG_NOTICE,_("tests OK in function \"%s\""),__FUNCTION__); } else { lw6sys_log(sys_context,LW6SYS_LOG_WARNING,_("tests FAILED in function \"%s\""),__FUNCTION__); } _test_data.ret=_test_data.ret && ret; CU_ASSERT_EQUAL(ret, 1); } } }
+#define LW6SYS_TEST_ACK(value) (lw6sys_cunit_lock(sys_context) && ( ( CU_assertImplementation(!!(value), __LINE__, #value, __FILE__, "", CU_FALSE) && lw6sys_cunit_unlock(sys_context)) || (lw6sys_cunit_unlock(sys_context) && lw6sys_false())))
+#define LW6SYS_BACKEND_FUNCTION_BEGIN { lw6sys_log(sys_context,LW6SYS_LOG_DEBUG,_("begin backend function \"%s\""),__FUNCTION__); }
+#define LW6SYS_BACKEND_FUNCTION_END { lw6sys_log(sys_context,LW6SYS_LOG_DEBUG,_("end backend function \"%s\""),__FUNCTION__); }
 
-#define LW6SYS_SCRIPT_FUNCTION_BEGIN { lw6sys_log(LW6SYS_LOG_DEBUG,_("begin script function \"%s\""),__FUNCTION__); }
-#define LW6SYS_SCRIPT_FUNCTION_END { lw6sys_log(LW6SYS_LOG_DEBUG,_("end script function \"%s\""),__FUNCTION__); }
+#define LW6SYS_SCRIPT_FUNCTION_BEGIN { lw6sys_log(sys_context,LW6SYS_LOG_DEBUG,_("begin script function \"%s\""),__FUNCTION__); }
+#define LW6SYS_SCRIPT_FUNCTION_END { lw6sys_log(sys_context,LW6SYS_LOG_DEBUG,_("end script function \"%s\""),__FUNCTION__); }
 
-#define LW6SYS_TEST_OUTPUT { lw6sys_cunit_clear(); if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("test suite OK!")); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("test suite FAILED...")); } }
+#define LW6SYS_TEST_OUTPUT { lw6sys_cunit_clear(sys_context); if (ret) { lw6sys_log(sys_context,LW6SYS_LOG_NOTICE,_("test suite OK!")); } else { lw6sys_log(sys_context,LW6SYS_LOG_WARNING,_("test suite FAILED...")); } }
 
-#define LW6SYS_CUNIT_ADD_TEST(suite, test) { if (CU_add_test(suite, #test, test)) { lw6sys_log(LW6SYS_LOG_INFO,_x_("registered test \"%s\""), #test); } else { lw6sys_log(LW6SYS_LOG_WARNING,_x_("unable to register test \"%s\""), #test); ret=0; } }
+#define LW6SYS_CUNIT_ADD_TEST(suite, test) { if (CU_add_test(suite, #test, test)) { lw6sys_log(sys_context,LW6SYS_LOG_INFO,_x_("registered test \"%s\""), #test); } else { lw6sys_log(sys_context,LW6SYS_LOG_WARNING,_x_("unable to register test \"%s\""), #test); ret=0; } }
 
 /*
  * Bit masks used for testing, the mode is a combination
