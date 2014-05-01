@@ -31,6 +31,7 @@
 /**
  * lw6sys_stream_file_to_str
  *
+ * @sys_context: global system context
  * @f: file to get input from, typically stdin
  *
  * Will read file/stream and return it as a string. This is not
@@ -44,13 +45,13 @@
  * Return value: newly allocated string.
  */
 char *
-lw6sys_stream_file_to_str (FILE * f)
+lw6sys_stream_file_to_str (lw6sys_context_t * sys_context, FILE * f)
 {
   char *ret = NULL;
   int read = 0;
   int size = _MAX_FILE_SIZE;
 
-  ret = (char *) LW6SYS_MALLOC (size + 1);
+  ret = (char *) LW6SYS_MALLOC (sys_context, size + 1);
 
   if (ret)
     {
@@ -82,6 +83,7 @@ lw6sys_stream_file_to_str (FILE * f)
 /**
  * lw6sys_stream_str_to_file
  *
+ * @sys_context: global system context
  * @f: file to receive the string
  * @str: the string to output
  *
@@ -91,7 +93,8 @@ lw6sys_stream_file_to_str (FILE * f)
  * Return value: none.
  */
 void
-lw6sys_stream_str_to_file (FILE * f, char *str)
+lw6sys_stream_str_to_file (lw6sys_context_t * sys_context, FILE * f,
+			   char *str)
 {
   fprintf (f, "%s", str);
 }

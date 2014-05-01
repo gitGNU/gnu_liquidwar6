@@ -25,6 +25,7 @@
 #endif // HAVE_CONFIG_H
 
 #include "sys.h"
+#include "sys-internal.h"
 
 #include <CUnit/CUnit.h>
 #include <CUnit/Automated.h>
@@ -35,15 +36,13 @@
 
 #define _LW6SYS_CUNIT_DIALOG_TIMEOUT 10
 
-static lw6sys_mutex_t *_cunit_mutex = NULL;
-
 /*
  * Base filename, -Listing.xml or -Results.xml will be appended to it
  */
 #define _CUNIT_BASENAME "CUnit"
 
 static void
-_cunit_summary (const char *cunit_basename)
+_cunit_summary (lw6sys_context_t * sys_context, const char *cunit_basename)
 {
   CU_pFailureRecord failure_record = NULL;
   int nb_failure_records = 0;
@@ -64,10 +63,10 @@ _cunit_summary (const char *cunit_basename)
 
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("failure record %s:%d %s/%s \"%s\""),
-		  lw6sys_str_empty_if_null (file), line,
-		  lw6sys_str_empty_if_null (suite),
-		  lw6sys_str_empty_if_null (test),
-		  lw6sys_str_empty_if_null (condition));
+		  lw6sys_str_empty_if_null (sys_context, file), line,
+		  lw6sys_str_empty_if_null (sys_context, suite),
+		  lw6sys_str_empty_if_null (sys_context, test),
+		  lw6sys_str_empty_if_null (sys_context, condition));
       failure_record = (failure_record->pNext
 			&& failure_record->pNext !=
 			failure_record) ? failure_record->pNext : NULL;
@@ -83,6 +82,7 @@ _cunit_summary (const char *cunit_basename)
 /**
  * lw6sys_cunit_run_tests
  *
+ * @sys_context: global system context
  * @mode: mode passed to program (bit mask)
  *
  * Run all registered suites and their tests, will interpret mode
@@ -91,7 +91,7 @@ _cunit_summary (const char *cunit_basename)
  * Return value: 1 if tests or OK, 0 if not.
  */
 int
-lw6sys_cunit_run_tests (int mode)
+lw6sys_cunit_run_tests (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
   CU_pRunSummary run_summary = NULL;
@@ -99,24 +99,25 @@ lw6sys_cunit_run_tests (int mode)
   char *user_dir = NULL;
   char *cunit_basename = NULL;
 
-  lw6sys_log_set_dialog_timeout (_LW6SYS_CUNIT_DIALOG_TIMEOUT);
+  lw6sys_log_set_dialog_timeout (sys_context, _LW6SYS_CUNIT_DIALOG_TIMEOUT);
   if (mode & LW6SYS_TEST_MODE_INTERACTIVE)
     {
-      console_state = lw6sys_log_get_console_state ();
-      lw6sys_log_set_console_state (0);
+      console_state = lw6sys_log_get_console_state (sys_context);
+      lw6sys_log_set_console_state (sys_context, 0);
 #ifdef LW6_CUNIT_CURSES
       CU_curses_run_tests ();
 #else
       CU_console_run_tests ();
 #endif // LW6_CUNIT_CURSES
-      lw6sys_log_set_console_state (console_state);
+      lw6sys_log_set_console_state (sys_context, console_state);
     }
   else
     {
-      user_dir = lw6sys_get_default_user_dir ();
+      user_dir = lw6sys_get_default_user_dir (sys_context);
       if (user_dir)
 	{
-	  cunit_basename = lw6sys_path_concat (user_dir, _CUNIT_BASENAME);
+	  cunit_basename =
+	    lw6sys_path_concat (sys_context, user_dir, _CUNIT_BASENAME);
 	  if (cunit_basename)
 	    {
 	      CU_set_output_filename (cunit_basename);
@@ -160,7 +161,7 @@ lw6sys_cunit_run_tests (int mode)
     {
       if (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
 	{
-	  _cunit_summary (cunit_basename);
+	  _cunit_summary (sys_context, cunit_basename);
 	}
       LW6SYS_FREE (sys_context, cunit_basename);
     }
@@ -171,22 +172,28 @@ lw6sys_cunit_run_tests (int mode)
 /**
  * lw6sys_cunit_clear
  *
+ * @sys_context: global system context
+ *
  * Clears the global CUnit related lock.
  *
  * Return value: none.
  */
 void
-lw6sys_cunit_clear ()
+lw6sys_cunit_clear (lw6sys_context_t * sys_context)
 {
-  if (_cunit_mutex)
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+
+  if (global->cunit_mutex)
     {
-      lw6sys_mutex_destroy (_cunit_mutex);
-      _cunit_mutex = NULL;
+      lw6sys_mutex_destroy (sys_context, global->cunit_mutex);
+      global->cunit_mutex = NULL;
     }
 }
 
 /**
  * lw6sys_cunit_lock
+ *
+ * @sys_context: global system context
  *
  * Locks a global CUnit related lock, this is to allow the use of
  * test macro LW6SYS_TEST_ACK in multithreaded environment, as CUnit
@@ -196,20 +203,21 @@ lw6sys_cunit_clear ()
  * Return value: 1 if locked, 0 on failure.
  */
 int
-lw6sys_cunit_lock ()
+lw6sys_cunit_lock (lw6sys_context_t * sys_context)
 {
   int ret = 1;
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
 
-  if (!_cunit_mutex)
+  if (!global->cunit_mutex)
     {
       /*
        * Initializing global mutex on-the-fly
        */
-      _cunit_mutex = lw6sys_mutex_create ();
+      global->cunit_mutex = lw6sys_mutex_create (sys_context);
     }
-  if (_cunit_mutex)
+  if (global->cunit_mutex)
     {
-      ret = lw6sys_mutex_lock (_cunit_mutex);
+      ret = lw6sys_mutex_lock (sys_context, global->cunit_mutex);
     }
   else
     {
@@ -224,6 +232,8 @@ lw6sys_cunit_lock ()
 /**
  * lw6sys_cunit_unlock
  *
+ * @sys_context: global system context
+ *
  * Unlocks the global CUnit related lock, this is to allow the use of
  * test macro LW6SYS_TEST_ACK in multithreaded environment, as CUnit
  * does not, by default garantee that concurrent accesses to its API
@@ -232,13 +242,14 @@ lw6sys_cunit_lock ()
  * Return value: 1 if unlocked, 0 on failure.
  */
 int
-lw6sys_cunit_unlock ()
+lw6sys_cunit_unlock (lw6sys_context_t * sys_context)
 {
   int ret = 1;
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
 
-  if (_cunit_mutex)
+  if (global->cunit_mutex)
     {
-      ret = lw6sys_mutex_unlock (_cunit_mutex);
+      ret = lw6sys_mutex_unlock (sys_context, global->cunit_mutex);
     }
   else
     {
