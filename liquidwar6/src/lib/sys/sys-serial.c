@@ -31,6 +31,7 @@
 /**
  * lw6sys_serialize_int64
  *
+ * @sys_context: global system context
  * @data: pointer to the data, must contain at least 8 bytes of writable space
  * @value: the integer to serialize
  *
@@ -39,7 +40,8 @@
  * serializations.
  */
 void
-lw6sys_serialize_int64 (unsigned char *data, int64_t value)
+lw6sys_serialize_int64 (lw6sys_context_t * sys_context, unsigned char *data,
+			int64_t value)
 {
   data[0] = value >> 56;
   data[1] = (value >> 48) & 0xFF;
@@ -54,6 +56,7 @@ lw6sys_serialize_int64 (unsigned char *data, int64_t value)
 /**
  * lw6sys_unserialize_int64
  *
+ * @sys_context: global system context
  * @data: pointer to the data, must contain at least 8 bytes
  * @value: the integer to unserialize
  *
@@ -61,7 +64,7 @@ lw6sys_serialize_int64 (unsigned char *data, int64_t value)
  * for instance, with @lw6sys_serialize_int64.
  */
 int64_t
-lw6sys_unserialize_int64 (unsigned char *data)
+lw6sys_unserialize_int64 (lw6sys_context_t * sys_context, unsigned char *data)
 {
   int64_t ret;
 
@@ -77,6 +80,7 @@ lw6sys_unserialize_int64 (unsigned char *data)
 /**
  * lw6sys_serialize_int32
  *
+ * @sys_context: global system context
  * @data: pointer to the data, must contain at least 4 bytes of writable space
  * @value: the integer to serialize
  *
@@ -85,7 +89,8 @@ lw6sys_unserialize_int64 (unsigned char *data)
  * serializations.
  */
 void
-lw6sys_serialize_int32 (unsigned char *data, int32_t value)
+lw6sys_serialize_int32 (lw6sys_context_t * sys_context, unsigned char *data,
+			int32_t value)
 {
   data[0] = value >> 24;
   data[1] = (value >> 16) & 0xFF;
@@ -96,6 +101,7 @@ lw6sys_serialize_int32 (unsigned char *data, int32_t value)
 /**
  * lw6sys_unserialize_int32
  *
+ * @sys_context: global system context
  * @data: pointer to the data, must contain at least 4 bytes
  * @value: the integer to unserialize
  *
@@ -103,7 +109,7 @@ lw6sys_serialize_int32 (unsigned char *data, int32_t value)
  * for instance, with @lw6sys_serialize_int32.
  */
 int32_t
-lw6sys_unserialize_int32 (unsigned char *data)
+lw6sys_unserialize_int32 (lw6sys_context_t * sys_context, unsigned char *data)
 {
   int32_t ret;
 
@@ -115,6 +121,7 @@ lw6sys_unserialize_int32 (unsigned char *data)
 /**
  * lw6sys_serialize_int16
  *
+ * @sys_context: global system context
  * @data: pointer to the data, must contain at least 2 bytes of writable space
  * @value: the integer to serialize
  *
@@ -123,7 +130,8 @@ lw6sys_unserialize_int32 (unsigned char *data)
  * serializations.
  */
 void
-lw6sys_serialize_int16 (unsigned char *data, int16_t value)
+lw6sys_serialize_int16 (lw6sys_context_t * sys_context, unsigned char *data,
+			int16_t value)
 {
   data[0] = value >> 8;
   data[1] = value & 0xFF;
@@ -132,6 +140,7 @@ lw6sys_serialize_int16 (unsigned char *data, int16_t value)
 /**
  * lw6sys_unserialize_int16
  *
+ * @sys_context: global system context
  * @data: pointer to the data, must contain at least 2 bytes
  * @value: the integer to unserialize
  *
@@ -139,7 +148,7 @@ lw6sys_serialize_int16 (unsigned char *data, int16_t value)
  * for instance, with @lw6sys_serialize_int16.
  */
 int16_t
-lw6sys_unserialize_int16 (unsigned char *data)
+lw6sys_unserialize_int16 (lw6sys_context_t * sys_context, unsigned char *data)
 {
   int16_t ret;
 
