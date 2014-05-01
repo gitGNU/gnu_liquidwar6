@@ -25,33 +25,43 @@
 #endif // HAVE_CONFIG_H
 
 #include "sys.h"
-
-static int registered_use = 0;
+#include "sys-internal.h"
 
 /**
  * lw6sys_sdl_register:
+ *
+ * @sys_context: global system context
  *
  * Function used to avoid initializing SDL several times in a program.
  * AFAIK Allegro has a @was_init function, but SDL doesn't. With this
  * function - which every LW6 sub-module should use - one can know
  * globally, for the whole program, wether SDL has been initialized
- * or not.
+ * or not. Note that this function uses the global system context,
+ * and can therefore be buggy when used in multithreaded / reentrant
+ * mode. So in some cases, that is, with two different contexts, SDL
+ * could be called twice. This is a limitation of current SDL implementations,
+ * should it have a per-thread / per-handler context, the problem would
+ * be solved. Fundamentally, the idea is that SDL does have a global static
+ * state, you've been warned.
  *
  * @Return value: 1 if SDL has never been initialized, 0 if it has
  *   already been set up.
  */
 int
-lw6sys_sdl_register ()
+lw6sys_sdl_register (lw6sys_context_t * sys_context)
 {
-  int ret = (registered_use <= 0);
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+  int ret = (global->sdl_registered_use <= 0);
 
-  registered_use++;
+  global->sdl_registered_use++;
 
   return ret;
 }
 
 /**
  * lw6sys_sdl_unregister:
+ *
+ * @sys_context: global system context
  *
  * Call this whenever you are done with SDL and exit it, so that
  * the @lw6sys_sdl_register function works correctly.
@@ -60,16 +70,17 @@ lw6sys_sdl_register ()
  *   it has already been initialized, else 0.
  */
 int
-lw6sys_sdl_unregister ()
+lw6sys_sdl_unregister (lw6sys_context_t * sys_context)
 {
   int ret = 0;
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
 
-  if (registered_use > 0)
+  if (global->sdl_registered_use > 0)
     {
-      registered_use--;
+      global->sdl_registered_use--;
     }
 
-  ret = (registered_use <= 0);
+  ret = (global->sdl_registered_use <= 0);
 
   return ret;
 }

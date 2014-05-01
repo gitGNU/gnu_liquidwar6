@@ -138,6 +138,7 @@ typedef struct _lw6sys_global_s
   volatile int console_enable_state;
   volatile int mutex_lock_counter;
   volatile int mutex_unlock_counter;
+  volatile int sdl_registered_use;
 } _lw6sys_global_t;
 
 typedef struct _lw6sys_context_s
