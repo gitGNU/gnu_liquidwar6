@@ -32,23 +32,24 @@ int
 main (int argc, const char *argv[])
 {
   int ret = 0;
+  lw6sys_context_t *sys_context = NULL;
   int mode = 0;
 
   LW6SYS_MAIN_BEGIN;
 
-  lw6sys_log_clear (NULL);
-  mode = lw6sys_arg_test_mode (argc, argv);
+  lw6sys_log_clear (sys_context, NULL);
+  mode = lw6sys_arg_test_mode (sys_context, argc, argv);
 
   if (CU_initialize_registry () == CUE_SUCCESS)
     {
-      if (lw6sys_test_register (mode))
+      if (lw6sys_test_register (sys_context, mode))
 	{
 	  ret = 1;
 	  if (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
 	    {
-	      ret = ret && lw6sys_test_exec (argc, argv, mode);
+	      ret = ret && lw6sys_test_exec (sys_context, argc, argv, mode);
 	    }
-	  ret = ret && lw6sys_test_run (mode);
+	  ret = ret && lw6sys_test_run (sys_context, mode);
 	}
       CU_cleanup_registry ();
     }

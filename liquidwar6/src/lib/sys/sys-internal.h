@@ -111,6 +111,7 @@ typedef struct _lw6sys_spinlock_s
 typedef struct _lw6sys_thread_handler_s
 {
   u_int32_t id;
+  lw6sys_context_t *sys_context;
   pthread_t thread;
   pthread_mutex_t mutex;
   pthread_cond_t cond_callback_done;

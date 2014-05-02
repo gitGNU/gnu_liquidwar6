@@ -32,18 +32,19 @@
 static volatile u_int32_t seq_id = 0;
 
 static void
-thread_callback (lw6sys_context_t * sys_context, void *thread_handler)
+thread_callback (void *thread_handler)
 {
-  _lw6sys_thread_handler_t *th;
-  th = (_lw6sys_thread_handler_t *) thread_handler;
-  struct timespec ts;
-  int yield_timeslice = 0;
-
-  ts.tv_sec = _LW6SYS_PTHREAD_COND_TIMEDWAIT_SEC;
-  ts.tv_nsec = _LW6SYS_PTHREAD_COND_TIMEDWAIT_NSEC;
+  _lw6sys_thread_handler_t *th = (_lw6sys_thread_handler_t *) thread_handler;
 
   if (th)
     {
+      lw6sys_context_t *sys_context = th->sys_context;
+      struct timespec ts;
+      int yield_timeslice = 0;
+
+      ts.tv_sec = _LW6SYS_PTHREAD_COND_TIMEDWAIT_SEC;
+      ts.tv_nsec = _LW6SYS_PTHREAD_COND_TIMEDWAIT_NSEC;
+
 #ifndef LW6_MS_WINDOWS
 #ifdef LW6_GPROF
       /*
@@ -144,11 +145,6 @@ thread_callback (lw6sys_context_t * sys_context, void *thread_handler)
 	}
       pthread_exit (NULL);
     }
-  else
-    {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't call thread_callback on NULL thread_handler"));
-    }
 }
 
 /**
@@ -194,6 +190,7 @@ lw6sys_thread_create (lw6sys_context_t * sys_context,
 	{
 	  thread_handler->id = ++seq_id;
 	}
+      thread_handler->sys_context = sys_context;
       thread_handler->callback_func = callback_func;
       thread_handler->callback_join = callback_join;
       thread_handler->callback_data = callback_data;
