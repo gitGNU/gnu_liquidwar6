@@ -66,7 +66,7 @@ typedef struct _join_callback_data_s
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_str_copy (sys_context, lw6sys_context_t * sys_context, const char *src)
+lw6sys_str_copy (lw6sys_context_t * sys_context, const char *src)
 {
   char *copy = NULL;
   int length;
@@ -170,7 +170,7 @@ more_mem (int n)
  * Return value: a new allocated string, must be freed.
  */
 char *
-lw6sys_new_sprintf (sys_context, lw6sys_context_t * sys_context,
+lw6sys_new_sprintf (lw6sys_context_t * sys_context,
 		    const char *fmt, ...)
 {
   char *ret = NULL;
