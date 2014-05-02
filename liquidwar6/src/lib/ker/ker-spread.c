@@ -89,7 +89,7 @@ _next_dir (int32_t dir)
 }
 
 int32_t
-_lw6ker_spread_next_dir (int32_t dir)
+_lw6ker_spread_next_dir (sys_context, int32_t dir)
 {
   return _next_dir (dir);
 }
@@ -424,8 +424,8 @@ void
  * Highest potential = closest to the cursor
  */
 void
-_lw6ker_spread_update_gradient (_lw6ker_team_t * team, int skip_vertical,
-				int spread_mode)
+_lw6ker_spread_update_gradient (sys_context, _lw6ker_team_t * team,
+				int skip_vertical, int spread_mode)
 {
   int32_t nb_zones;
   _lw6ker_zone_struct_t *zone_structs;

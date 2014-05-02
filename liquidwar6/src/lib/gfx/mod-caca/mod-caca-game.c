@@ -48,7 +48,7 @@ _mod_caca_display_map (_mod_caca_context_t * caca_context,
     {
       cursor = &local_cursors->cursors[local_cursors->main_i];
     }
-  lw6ker_game_state_get_shape (game_state, &shape);
+  lw6ker_game_state_get_shape (sys_context, game_state, &shape);
   width = shape.w;
   height = shape.h;
   buffer = malloc (sizeof (*buffer) * (shape.w * shape.h));
@@ -71,7 +71,9 @@ _mod_caca_display_map (_mod_caca_context_t * caca_context,
       for (x = 0; x < width; x++)
 	{
 	  fighter_id = -1;
-	  fighter_id = lw6ker_game_state_get_fighter_id (game_state, x, y, 0);
+	  fighter_id =
+	    lw6ker_game_state_get_fighter_id (sys_context, game_state, x, y,
+					      0);
 	  if (fighter_id >= 0)
 	    {
 	      fighter =
@@ -89,7 +91,8 @@ _mod_caca_display_map (_mod_caca_context_t * caca_context,
 	    }
 	  else
 	    {
-	      if (lw6ker_game_struct_is_bg (game_struct, x, y, 0))
+	      if (lw6ker_game_struct_is_bg
+		  (sys_context, game_struct, x, y, 0))
 		buffer[width * y + x] =
 		  lw6sys_color_8_to_ibgra (sys_context,
 					   caca_context->const_data.bg_color);

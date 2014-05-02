@@ -62,7 +62,7 @@ capture_eol (int w, int y)
 }
 
 char *
-_lw6ker_capture_str (const _lw6ker_game_state_t * game_state)
+_lw6ker_capture_str (sys_context, const _lw6ker_game_state_t * game_state)
 {
   char *ret = NULL;
   int w, h, x, y;
@@ -124,11 +124,13 @@ _lw6ker_capture_str (const _lw6ker_game_state_t * game_state)
  * Return value: dynamically allocated string.
  */
 char *
-lw6ker_capture_str (const lw6ker_game_state_t * game_state)
+lw6ker_capture_str (sys_context, const lw6ker_game_state_t * game_state)
 {
   char *ret = NULL;
 
-  ret = _lw6ker_capture_str ((const _lw6ker_game_state_t *) game_state);
+  ret =
+    _lw6ker_capture_str (sys_context,
+			 (const _lw6ker_game_state_t *) game_state);
 
   return ret;
 }

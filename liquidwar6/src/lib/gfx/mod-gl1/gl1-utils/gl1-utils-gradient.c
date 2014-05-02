@@ -44,7 +44,7 @@ mod_gl1_utils_create_gradient_surface (mod_gl1_utils_context_t *
   lw6sys_color_f_t color;
   lw6sys_whd_t shape;
 
-  lw6ker_game_state_get_shape (game_state, &shape);
+  lw6ker_game_state_get_shape (sys_context, game_state, &shape);
 
   if (layer_id < 0 || layer_id >= shape.d)
     {
@@ -65,25 +65,29 @@ mod_gl1_utils_create_gradient_surface (mod_gl1_utils_context_t *
       lw6sys_xyz_t zone_pos;
       int zone_size;
 
-      lw6ker_game_struct_get_zones_info (game_state->game_struct, &nb_zones,
-					 NULL);
+      lw6ker_game_struct_get_zones_info (sys_context, game_state->game_struct,
+					 &nb_zones, NULL);
       if (nb_zones > 0)
 	{
 	  pot_min =
-	    lw6ker_game_state_get_zone_potential (game_state, 0, team_id);
+	    lw6ker_game_state_get_zone_potential (sys_context, game_state, 0,
+						  team_id);
 	  pot_max =
-	    lw6ker_game_state_get_zone_potential (game_state, 0, team_id);
+	    lw6ker_game_state_get_zone_potential (sys_context, game_state, 0,
+						  team_id);
 	}
 
       for (i = 1; i < nb_zones; ++i)
 	{
 	  pot_min =
 	    lw6sys_imin (pot_min,
-			 lw6ker_game_state_get_zone_potential (game_state, i,
+			 lw6ker_game_state_get_zone_potential (sys_context,
+							       game_state, i,
 							       team_id));
 	  pot_max =
 	    lw6sys_imax (pot_max,
-			 lw6ker_game_state_get_zone_potential (game_state, i,
+			 lw6ker_game_state_get_zone_potential (sys_context,
+							       game_state, i,
 							       team_id));
 	}
 
@@ -91,12 +95,14 @@ mod_gl1_utils_create_gradient_surface (mod_gl1_utils_context_t *
 
       for (i = 0; i < nb_zones; ++i)
 	{
-	  lw6ker_game_struct_get_zone_info (game_state->game_struct, i,
+	  lw6ker_game_struct_get_zone_info (sys_context,
+					    game_state->game_struct, i,
 					    &zone_pos, &zone_size);
 	  if (zone_pos.z == layer_id)
 	    {
 	      potential =
-		lw6ker_game_state_get_zone_potential (game_state, i, team_id);
+		lw6ker_game_state_get_zone_potential (sys_context, game_state,
+						      i, team_id);
 	      grey =
 		((float) (potential - pot_min)) /
 		((float) (pot_max - pot_min));

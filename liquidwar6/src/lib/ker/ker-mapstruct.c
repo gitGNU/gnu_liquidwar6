@@ -61,7 +61,7 @@ typedef struct draft_zones_s
 draft_zones_t;
 
 void
-_lw6ker_map_struct_update_checksum (const _lw6ker_map_struct_t *
+_lw6ker_map_struct_update_checksum (sys_context, const _lw6ker_map_struct_t *
 				    map_struct, u_int32_t * checksum)
 {
   int i;
@@ -76,21 +76,24 @@ _lw6ker_map_struct_update_checksum (const _lw6ker_map_struct_t *
 				map_struct->max_zone_size);
   for (i = 0; i < map_struct->nb_places; ++i)
     {
-      _lw6ker_place_struct_update_checksum (&(map_struct->places[i]),
+      _lw6ker_place_struct_update_checksum (sys_context,
+					    &(map_struct->places[i]),
 					    checksum);
     }
   for (i = 0; i < map_struct->nb_zones; ++i)
     {
-      _lw6ker_zone_struct_update_checksum (&(map_struct->zones[i]), checksum);
+      _lw6ker_zone_struct_update_checksum (sys_context,
+					   &(map_struct->zones[i]), checksum);
     }
   for (i = 0; i < map_struct->nb_slots; ++i)
     {
-      _lw6ker_slot_struct_update_checksum (&(map_struct->slots[i]), checksum);
+      _lw6ker_slot_struct_update_checksum (sys_context,
+					   &(map_struct->slots[i]), checksum);
     }
 }
 
 int
-_lw6ker_map_struct_lazy_compare (const _lw6ker_map_struct_t *
+_lw6ker_map_struct_lazy_compare (sys_context, const _lw6ker_map_struct_t *
 				 map_struct_a, const _lw6ker_map_struct_t *
 				 map_struct_b)
 {
@@ -1083,7 +1086,8 @@ init_slots (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
  * of wether it's usefull to implement this. Debugging tool.
  */
 float
-_lw6ker_map_struct_get_compression (const _lw6ker_map_struct_t * map_struct)
+_lw6ker_map_struct_get_compression (sys_context,
+				    const _lw6ker_map_struct_t * map_struct)
 {
   float ret = 0.0f;
 
@@ -1101,7 +1105,7 @@ _lw6ker_map_struct_get_compression (const _lw6ker_map_struct_t * map_struct)
  * files, into an in-memory "ready for algorithmic stuff" structure.
  */
 int
-_lw6ker_map_struct_init (_lw6ker_map_struct_t * map_struct,
+_lw6ker_map_struct_init (sys_context, _lw6ker_map_struct_t * map_struct,
 			 const lw6map_level_t * level,
 			 lw6sys_progress_t * progress)
 {
@@ -1178,7 +1182,7 @@ _lw6ker_map_struct_init (_lw6ker_map_struct_t * map_struct,
 }
 
 void
-_lw6ker_map_struct_clear (_lw6ker_map_struct_t * map_struct)
+_lw6ker_map_struct_clear (sys_context, _lw6ker_map_struct_t * map_struct)
 {
   if (map_struct)
     {
@@ -1199,7 +1203,8 @@ _lw6ker_map_struct_clear (_lw6ker_map_struct_t * map_struct)
 }
 
 void
-_lw6ker_map_struct_find_free_slot_near (const _lw6ker_map_struct_t *
+_lw6ker_map_struct_find_free_slot_near (sys_context,
+					const _lw6ker_map_struct_t *
 					map_struct, lw6sys_xyz_t * there,
 					lw6sys_xyz_t here)
 {
@@ -1264,7 +1269,8 @@ _lw6ker_map_struct_find_free_slot_near (const _lw6ker_map_struct_t *
 }
 
 int
-_lw6ker_map_struct_sanity_check (const _lw6ker_map_struct_t * map_struct)
+_lw6ker_map_struct_sanity_check (sys_context,
+				 const _lw6ker_map_struct_t * map_struct)
 {
   int ret = 1;
   int x, y, z, w, h, d;

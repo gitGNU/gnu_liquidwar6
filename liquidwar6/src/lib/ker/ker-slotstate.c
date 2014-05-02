@@ -28,7 +28,8 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_slot_state_update_checksum (const _lw6ker_slot_state_t * slot_state,
+_lw6ker_slot_state_update_checksum (sys_context,
+				    const _lw6ker_slot_state_t * slot_state,
 				    u_int32_t * checksum)
 {
   lw6sys_checksum_update_int32 (sys_context, checksum,

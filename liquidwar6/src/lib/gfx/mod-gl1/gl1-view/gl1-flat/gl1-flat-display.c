@@ -332,7 +332,7 @@ _display_armies (mod_gl1_utils_context_t * utils_context,
   const lw6ker_game_state_t *game_state;
 
   game_state = flat_context->game_context.armies.game_state;
-  lw6ker_game_state_get_shape (game_state, &shape);
+  lw6ker_game_state_get_shape (sys_context, game_state, &shape);
 
   mod_gl1_utils_update_game_bitmap_array (utils_context,
 					  &(flat_context->game_context.armies.
@@ -648,7 +648,8 @@ _display_cursors (mod_gl1_utils_context_t * utils_context,
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display cursors"));
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
-      lw6ker_game_state_get_cursor_by_index (game_state, &cursor, i);
+      lw6ker_game_state_get_cursor_by_index (sys_context, game_state, &cursor,
+					     i);
       if (cursor.enabled)
 	{
 	  local_cursor =

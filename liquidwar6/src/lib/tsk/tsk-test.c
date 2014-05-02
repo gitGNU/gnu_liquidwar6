@@ -126,7 +126,9 @@ _test_manager_ldr ()
 			    if (level && game_struct && game_state)
 			      {
 				done = 1;
-				repr = lw6ker_game_struct_repr (game_struct);
+				repr =
+				  lw6ker_game_struct_repr (sys_context,
+							   game_struct);
 				if (repr)
 				  {
 				    lw6sys_log (sys_context,
@@ -136,7 +138,9 @@ _test_manager_ldr ()
 						repr);
 				    LW6SYS_FREE (sys_context, repr);
 				  }
-				repr = lw6ker_game_state_repr (game_state);
+				repr =
+				  lw6ker_game_state_repr (sys_context,
+							  game_state);
 				if (repr)
 				  {
 				    lw6sys_log (sys_context,
@@ -146,9 +150,11 @@ _test_manager_ldr ()
 						repr, bench_value);
 				    LW6SYS_FREE (sys_context, repr);
 				  }
-				lw6ker_game_state_free (game_state);
+				lw6ker_game_state_free (sys_context,
+							game_state);
 				game_state = NULL;
-				lw6ker_game_struct_free (game_struct);
+				lw6ker_game_struct_free (sys_context,
+							 game_struct);
 				game_struct = NULL;
 				lw6map_free (sys_context, level);
 				level = NULL;
@@ -248,7 +254,8 @@ _test_manager_gen ()
 		    if (level && game_struct && game_state)
 		      {
 			done = 1;
-			repr = lw6ker_game_struct_repr (game_struct);
+			repr =
+			  lw6ker_game_struct_repr (sys_context, game_struct);
 			if (repr)
 			  {
 			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -257,7 +264,8 @@ _test_manager_gen ()
 					repr);
 			    LW6SYS_FREE (sys_context, repr);
 			  }
-			repr = lw6ker_game_state_repr (game_state);
+			repr =
+			  lw6ker_game_state_repr (sys_context, game_state);
 			if (repr)
 			  {
 			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -266,9 +274,9 @@ _test_manager_gen ()
 					repr, bench_value);
 			    LW6SYS_FREE (sys_context, repr);
 			  }
-			lw6ker_game_state_free (game_state);
+			lw6ker_game_state_free (sys_context, game_state);
 			game_state = NULL;
-			lw6ker_game_struct_free (game_struct);
+			lw6ker_game_struct_free (sys_context, game_struct);
 			game_struct = NULL;
 			lw6map_free (sys_context, level);
 			level = NULL;
@@ -344,7 +352,7 @@ lw6tsk_test_register (int mode)
       lw6cfg_test_register (mode);
       lw6hlp_test_register (mode);
       lw6map_test_register (sys_context, mode);
-      lw6ker_test_register (mode);
+      lw6ker_test_register (sys_context, mode);
       lw6ldr_test_register (mode);
       lw6gen_test_register (mode);
     }

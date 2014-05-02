@@ -49,7 +49,7 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
   lw6sys_whd_t shape = { 0, 0, 0 };
   int bytes_per_pixel;
 
-  lw6ker_game_state_get_shape (game_state, &shape);
+  lw6ker_game_state_get_shape (sys_context, game_state, &shape);
   rules = &(game_state->game_struct->rules);
 
   x1 = x0 + w - 1;
@@ -70,7 +70,8 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 	    {
 	      fighter_id = -1;
 	      fighter_id =
-		lw6ker_game_state_get_fighter_id (game_state, x, ry, 0);
+		lw6ker_game_state_get_fighter_id (sys_context, game_state, x,
+						  ry, 0);
 	      if (fighter_id >= 0)
 		{
 		  fighter =
@@ -143,8 +144,10 @@ mod_gl1_utils_update_game_bitmap_raw (mod_gl1_utils_context_t * utils_context,
     {
       _update_game_bitmap_raw (utils_context, bitmap, game_state, map_color,
 			       invert_y, 0, 0,
-			       lw6ker_game_state_get_w (game_state),
-			       lw6ker_game_state_get_h (game_state));
+			       lw6ker_game_state_get_w (sys_context,
+							game_state),
+			       lw6ker_game_state_get_h (sys_context,
+							game_state));
       if (bitmap->texture)
 	{
 	  /*
@@ -182,7 +185,7 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
   lw6sys_whd_t shape = { 0, 0, 0 };
   int bytes_per_pixel;
 
-  lw6ker_game_state_get_shape (game_state, &shape);
+  lw6ker_game_state_get_shape (sys_context, game_state, &shape);
   rules = &(game_state->game_struct->rules);
 
   hidden_layer_alpha = look->style.hidden_layer_alpha;
@@ -205,7 +208,7 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 	      for (z = 0; z < d && fighter_id < 0; ++z)
 		{
 		  fighter_id =
-		    lw6ker_game_state_get_fighter_id (game_state,
+		    lw6ker_game_state_get_fighter_id (sys_context, game_state,
 						      safe_x, safe_y, z);
 		  /*
 		   * It's important to test d>1 else a call
@@ -297,8 +300,9 @@ mod_gl1_utils_update_game_bitmap (mod_gl1_utils_context_t * utils_context,
   if (bitmap->surface)
     {
       _update_game_bitmap (utils_context, bitmap, game_state, look,
-			   0, 0, lw6ker_game_state_get_w (game_state),
-			   lw6ker_game_state_get_h (game_state));
+			   0, 0, lw6ker_game_state_get_w (sys_context,
+							  game_state),
+			   lw6ker_game_state_get_h (sys_context, game_state));
       if (bitmap->texture)
 	{
 	  /*
@@ -331,7 +335,7 @@ mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
   if (utils_context->last_action.game_bitmap_array_update_id !=
       game_state->id
       || utils_context->last_action.game_bitmap_array_update_rounds !=
-      lw6ker_game_state_get_rounds (game_state))
+      lw6ker_game_state_get_rounds (sys_context, game_state))
     {
       wrap = GL_CLAMP_TO_EDGE;
       if (look->style.pixelize)
@@ -345,7 +349,7 @@ mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
 
       utils_context->last_action.game_bitmap_array_update_id = game_state->id;
       utils_context->last_action.game_bitmap_array_update_rounds =
-	lw6ker_game_state_get_rounds (game_state);
+	lw6ker_game_state_get_rounds (sys_context, game_state);
 
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("updating %d game tiles"),

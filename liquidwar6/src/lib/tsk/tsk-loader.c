@@ -383,7 +383,7 @@ stage2 (_lw6tsk_loader_data_t * loader_data)
       progress.min = _LW6TSK_LOADER_PROGRESS_STAGE2_BEGIN_STRUCT;
       progress.max = _LW6TSK_LOADER_PROGRESS_STAGE2_END_STRUCT;
       lw6sys_progress_begin (sys_context, &progress);
-      game_struct = lw6ker_game_struct_new (level, &progress);
+      game_struct = lw6ker_game_struct_new (sys_context, level, &progress);
       if (game_struct)
 	{
 	  lw6sys_progress_end (sys_context, &progress);
@@ -399,14 +399,15 @@ stage2 (_lw6tsk_loader_data_t * loader_data)
       progress.min = _LW6TSK_LOADER_PROGRESS_STAGE2_BEGIN_STATE;
       progress.max = _LW6TSK_LOADER_PROGRESS_STAGE2_END_STATE;
       lw6sys_progress_begin (sys_context, &progress);
-      game_state = lw6ker_game_state_new (game_struct, &progress);
+      game_state =
+	lw6ker_game_state_new (sys_context, game_struct, &progress);
       if (game_state)
 	{
 	  lw6sys_progress_end (sys_context, &progress);
 	}
       else
 	{
-	  lw6ker_game_struct_free (game_struct);
+	  lw6ker_game_struct_free (sys_context, game_struct);
 	  game_struct = NULL;
 	  lw6map_free (sys_context, level);
 	  level = NULL;
@@ -417,7 +418,7 @@ stage2 (_lw6tsk_loader_data_t * loader_data)
     {
       char *repr = NULL;
 
-      repr = lw6ker_game_state_repr (game_state);
+      repr = lw6ker_game_state_repr (sys_context, game_state);
       if (repr)
 	{
 	  LOADER_LOCK;
@@ -440,9 +441,9 @@ stage2 (_lw6tsk_loader_data_t * loader_data)
 			  _x_
 			  ("async load stage2 abort, request number %d < %d, game_state \"%s\""),
 			  request_number, loader_data->request_number, repr);
-	      lw6ker_game_state_free (game_state);
+	      lw6ker_game_state_free (sys_context, game_state);
 	      game_state = NULL;
-	      lw6ker_game_struct_free (game_struct);
+	      lw6ker_game_struct_free (sys_context, game_struct);
 	      game_struct = NULL;
 	      lw6map_free (sys_context, level);
 	      level = NULL;

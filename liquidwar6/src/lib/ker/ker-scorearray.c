@@ -30,7 +30,7 @@
 #include "ker-internal.h"
 
 int
-_lw6ker_score_array_update (lw6ker_score_array_t * score_array,
+_lw6ker_score_array_update (sys_context, lw6ker_score_array_t * score_array,
 			    const _lw6ker_game_state_t * game_state)
 {
   int ret = 0;
@@ -280,7 +280,7 @@ _lw6ker_score_array_update (lw6ker_score_array_t * score_array,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ker_score_array_update (lw6ker_score_array_t * score_array,
+lw6ker_score_array_update (sys_context, lw6ker_score_array_t * score_array,
 			   const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_score_array_update (score_array,

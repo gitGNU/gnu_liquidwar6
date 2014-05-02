@@ -267,7 +267,8 @@ _mod_gl1_view_flat_cursors_context_init (mod_gl1_utils_context_t *
   ret = ret && (cursors_context->bitmap_fg_bg != NULL);
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
-      lw6ker_game_state_get_cursor_by_index (game_state, &cursor, i);
+      lw6ker_game_state_get_cursor_by_index (sys_context, game_state, &cursor,
+					     i);
       ret = ret
 	&& _mod_gl1_view_flat_cursor_context_init (utils_context,
 						   &(cursors_context->cursor
@@ -312,7 +313,8 @@ _mod_gl1_view_flat_cursors_context_update (mod_gl1_utils_context_t *
     {
       for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
 	{
-	  lw6ker_game_state_get_cursor_by_index (game_state, &cursor, i);
+	  lw6ker_game_state_get_cursor_by_index (sys_context, game_state,
+						 &cursor, i);
 	  ret = ret
 	    && _mod_gl1_view_flat_cursor_context_update (utils_context,
 							 &

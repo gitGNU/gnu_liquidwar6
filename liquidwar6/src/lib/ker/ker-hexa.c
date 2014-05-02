@@ -131,7 +131,8 @@ push_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 char *
-_lw6ker_game_struct_to_hexa (const _lw6ker_game_struct_t * game_struct)
+_lw6ker_game_struct_to_hexa (sys_context,
+			     const _lw6ker_game_struct_t * game_struct)
 {
   char *ret = NULL;
   lw6sys_hexa_serializer_t *hexa_serializer = NULL;
@@ -164,12 +165,14 @@ _lw6ker_game_struct_to_hexa (const _lw6ker_game_struct_t * game_struct)
  * Return value: a newly allocated pointer, NULL if conversion failed.
  */
 char *
-lw6ker_game_struct_to_hexa (const lw6ker_game_struct_t * game_struct)
+lw6ker_game_struct_to_hexa (sys_context,
+			    const lw6ker_game_struct_t * game_struct)
 {
   char *ret = NULL;
 
   ret =
-    _lw6ker_game_struct_to_hexa ((const _lw6ker_game_struct_t *) game_struct);
+    _lw6ker_game_struct_to_hexa (sys_context,
+				 (const _lw6ker_game_struct_t *) game_struct);
 
   return ret;
 }
@@ -391,7 +394,8 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 _lw6ker_game_struct_t *
-_lw6ker_game_struct_from_hexa (const char *hexa, const lw6map_level_t * level)
+_lw6ker_game_struct_from_hexa (sys_context, const char *hexa,
+			       const lw6map_level_t * level)
 {
   _lw6ker_game_struct_t *game_struct = NULL;
   lw6sys_hexa_serializer_t *hexa_serializer;
@@ -408,8 +412,8 @@ _lw6ker_game_struct_from_hexa (const char *hexa, const lw6map_level_t * level)
 
       if (game_struct)
 	{
-	  _lw6ker_game_struct_set_id (game_struct);
-	  _lw6ker_game_struct_point_to (game_struct, level);
+	  _lw6ker_game_struct_set_id (sys_context, game_struct);
+	  _lw6ker_game_struct_point_to (sys_context, game_struct, level);
 	  lw6map_rules_copy (sys_context, &(game_struct->rules),
 			     &(level->param.rules));
 	  ok = ok
@@ -447,7 +451,7 @@ _lw6ker_game_struct_from_hexa (const char *hexa, const lw6map_level_t * level)
     {
       if (game_struct)
 	{
-	  _lw6ker_game_struct_free (game_struct);
+	  _lw6ker_game_struct_free (sys_context, game_struct);
 	  game_struct = NULL;
 	}
     }
@@ -467,12 +471,14 @@ _lw6ker_game_struct_from_hexa (const char *hexa, const lw6map_level_t * level)
  * Return value: a new map, might be NULL if string isn't correct.
  */
 lw6ker_game_struct_t *
-lw6ker_game_struct_from_hexa (const char *hexa, const lw6map_level_t * level)
+lw6ker_game_struct_from_hexa (sys_context, const char *hexa,
+			      const lw6map_level_t * level)
 {
   lw6ker_game_struct_t *game_struct = NULL;
 
   game_struct =
-    (lw6ker_game_struct_t *) _lw6ker_game_struct_from_hexa (hexa, level);
+    (lw6ker_game_struct_t *) _lw6ker_game_struct_from_hexa (sys_context, hexa,
+							    level);
 
   return game_struct;
 }
@@ -765,7 +771,8 @@ push_history (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 char *
-_lw6ker_game_state_to_hexa (const _lw6ker_game_state_t * game_state)
+_lw6ker_game_state_to_hexa (sys_context,
+			    const _lw6ker_game_state_t * game_state)
 {
   char *ret = NULL;
   lw6sys_hexa_serializer_t *hexa_serializer = NULL;
@@ -821,12 +828,14 @@ _lw6ker_game_state_to_hexa (const _lw6ker_game_state_t * game_state)
  * Return value: a newly allocated pointer, NULL if conversion failed.
  */
 char *
-lw6ker_game_state_to_hexa (const lw6ker_game_state_t * game_state)
+lw6ker_game_state_to_hexa (sys_context,
+			   const lw6ker_game_state_t * game_state)
 {
   char *ret = NULL;
 
   ret =
-    _lw6ker_game_state_to_hexa ((const _lw6ker_game_state_t *) game_state);
+    _lw6ker_game_state_to_hexa (sys_context,
+				(const _lw6ker_game_state_t *) game_state);
 
   return ret;
 }
@@ -1239,7 +1248,7 @@ pop_history (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 _lw6ker_game_state_t *
-_lw6ker_game_state_from_hexa (const char *hexa,
+_lw6ker_game_state_from_hexa (sys_context, const char *hexa,
 			      const _lw6ker_game_struct_t * game_struct)
 {
   _lw6ker_game_state_t *game_state = NULL;
@@ -1259,8 +1268,8 @@ _lw6ker_game_state_from_hexa (const char *hexa,
 
       if (game_state)
 	{
-	  _lw6ker_game_state_set_id (game_state);
-	  _lw6ker_game_state_point_to (game_state, game_struct);
+	  _lw6ker_game_state_set_id (sys_context, game_state);
+	  _lw6ker_game_state_point_to (sys_context, game_state, game_struct);
 	  game_state->map_state.map_struct = &(game_struct->map_struct);
 	  ok = ok
 	    && pop_map_state (hexa_serializer, &(game_state->map_state));
@@ -1327,7 +1336,7 @@ _lw6ker_game_state_from_hexa (const char *hexa,
     {
       if (game_state)
 	{
-	  _lw6ker_game_state_free (game_state);
+	  _lw6ker_game_state_free (sys_context, game_state);
 	  game_state = NULL;
 	}
     }
@@ -1347,13 +1356,13 @@ _lw6ker_game_state_from_hexa (const char *hexa,
  * Return value: a new map, might be NULL if string isn't correct.
  */
 lw6ker_game_state_t *
-lw6ker_game_state_from_hexa (const char *hexa,
+lw6ker_game_state_from_hexa (sys_context, const char *hexa,
 			     const lw6ker_game_struct_t * game_struct)
 {
   lw6ker_game_state_t *game_state = NULL;
 
   game_state =
-    (lw6ker_game_state_t *) _lw6ker_game_state_from_hexa (hexa,
+    (lw6ker_game_state_t *) _lw6ker_game_state_from_hexa (sys_context, hexa,
 							  (_lw6ker_game_struct_t
 							   *) game_struct);
 

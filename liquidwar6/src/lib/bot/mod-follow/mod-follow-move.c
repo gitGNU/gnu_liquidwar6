@@ -39,12 +39,13 @@ new_path (_mod_follow_context_t * follow_context, lw6bot_data_t * data)
   int looping = 0;
   int i;
 
-  lw6ker_game_state_get_shape (data->game_state, &shape);
+  lw6ker_game_state_get_shape (sys_context, data->game_state, &shape);
   if (lw6ker_game_state_get_cursor
       (data->game_state, &cursor, data->param.cursor_id))
     {
       looser =
-	lw6ker_game_state_get_looser (data->game_state, cursor.team_color);
+	lw6ker_game_state_get_looser (sys_context, data->game_state,
+				      cursor.team_color);
       if (looser >= 0 && looser < LW6MAP_MAX_NB_TEAMS)
 	{
 	  current_pos = cursor.pos;
@@ -106,7 +107,7 @@ _mod_follow_next_move (_mod_follow_context_t * follow_context, int *x, int *y,
   int delta_step = 0;
   int32_t z;
 
-  rounds = lw6ker_game_state_get_rounds (data->game_state);
+  rounds = lw6ker_game_state_get_rounds (sys_context, data->game_state);
 
   delta_step =
     (rounds -

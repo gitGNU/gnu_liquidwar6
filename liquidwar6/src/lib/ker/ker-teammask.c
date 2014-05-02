@@ -44,7 +44,8 @@
  * Return value: none.
  */
 void
-lw6ker_team_mask_get (u_int32_t * even, u_int32_t * odd, int32_t round)
+lw6ker_team_mask_get (sys_context, u_int32_t * even, u_int32_t * odd,
+		      int32_t round)
 {
   u_int32_t checksum;
 
@@ -73,23 +74,23 @@ lw6ker_team_mask_get (u_int32_t * even, u_int32_t * odd, int32_t round)
  * Return value: none.
  */
 void
-lw6ker_team_mask_best (u_int32_t * even, u_int32_t * odd,
+lw6ker_team_mask_best (sys_context, u_int32_t * even, u_int32_t * odd,
 		       lw6ker_game_state_t * game_state)
 {
   int i = 0, j = 0, k = 0, l = 0;
   int delta = LW6MAP_MAX_NB_TEAMS;
   int seed = 0;
 
-  seed = lw6ker_game_state_get_rounds (game_state);
+  seed = lw6ker_game_state_get_rounds (sys_context, game_state);
   while (delta > 1 && l < LW6MAP_MAX_NB_TEAMS)
     {
-      lw6ker_team_mask_get (even, odd, seed);
+      lw6ker_team_mask_get (sys_context, even, odd, seed);
       j = k = 0;
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
-	  if (lw6ker_game_state_team_exists (game_state, i))
+	  if (lw6ker_game_state_team_exists (sys_context, game_state, i))
 	    {
-	      if (lw6ker_team_mask_is_concerned (i, *even))
+	      if (lw6ker_team_mask_is_concerned (sys_context, i, *even))
 		{
 		  k++;
 		}
@@ -119,7 +120,8 @@ lw6ker_team_mask_best (u_int32_t * even, u_int32_t * odd,
  * Return value: 1 if concerned, 0 if not.
  */
 int
-lw6ker_team_mask_is_concerned (int team_color, u_int32_t team_mask)
+lw6ker_team_mask_is_concerned (sys_context, int team_color,
+			       u_int32_t team_mask)
 {
   static int matrix[LW6MAP_MAX_NB_TEAMS] = { LW6KER_TEAM_MASK_RED,
     LW6KER_TEAM_MASK_GREEN,
@@ -152,7 +154,7 @@ lw6ker_team_mask_is_concerned (int team_color, u_int32_t team_mask)
  * Return value: bitwise mask.
  */
 int
-lw6ker_team_mask_color2mask (int team_color)
+lw6ker_team_mask_color2mask (sys_context, int team_color)
 {
   int ret = 0;
 

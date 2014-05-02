@@ -37,10 +37,12 @@ _lw6pil_worker_init (lw6pil_worker_t * worker,
   memset (worker, 0, sizeof (lw6pil_worker_t));
   worker->run = 1;
   worker->verified = verified;
-  worker->target_round = lw6ker_game_state_get_rounds (game_state);
+  worker->target_round =
+    lw6ker_game_state_get_rounds (sys_context, game_state);
   worker->current_round = worker->target_round;
   worker->computed_rounds = 0;
-  worker->game_state = lw6ker_game_state_dup (game_state, progress);
+  worker->game_state =
+    lw6ker_game_state_dup (sys_context, game_state, progress);
   if (worker->game_state)
     {
       worker->commands =
@@ -109,7 +111,7 @@ _lw6pil_worker_quit (lw6pil_worker_t * worker)
     }
   if (worker->game_state)
     {
-      lw6ker_game_state_free (worker->game_state);
+      lw6ker_game_state_free (sys_context, worker->game_state);
     }
   lw6pil_dump_clear (&(worker->dump));
   memset (worker, 0, sizeof (lw6pil_worker_t));

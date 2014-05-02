@@ -56,7 +56,7 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results,
   nb_rounds =
     game_struct->rules.rounds_per_sec * game_struct->rules.total_time;
 
-  game_state = lw6ker_game_state_new (game_struct, NULL);
+  game_state = lw6ker_game_state_new (sys_context, game_struct, NULL);
   if (game_state)
     {
       seed.game_state = game_state;
@@ -67,14 +67,14 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results,
 
       ret = 1;
 
-      lw6ker_game_state_register_node (game_state, node_id);
+      lw6ker_game_state_register_node (sys_context, game_state, node_id);
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
-	  if (lw6ker_team_mask_is_concerned (i, mask))
+	  if (lw6ker_team_mask_is_concerned (sys_context, i, mask))
 	    {
 	      cursors_colors[nb_cursors] = i;
 	      cursors_ids[nb_cursors] = lw6sys_generate_id_16 ();
-	      lw6ker_game_state_add_cursor (game_state, node_id,
+	      lw6ker_game_state_add_cursor (sys_context, game_state, node_id,
 					    cursors_ids[nb_cursors], i);
 	      cursors_bots[nb_cursors] =
 		lw6bot_create_backend (argc, argv, bot_backend);
@@ -96,20 +96,21 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results,
 		  if (cursors_bots[i])
 		    {
 		      lw6bot_next_move (cursors_bots[i], &x, &y);
-		      lw6ker_cursor_reset (&cursor);
+		      lw6ker_cursor_reset (sys_context, &cursor);
 		      cursor.pos.x = x;
 		      cursor.pos.y = y;
 		      cursor.node_id = node_id;
 		      cursor.cursor_id = cursors_ids[i];
-		      lw6ker_game_state_set_cursor (game_state, &cursor);
+		      lw6ker_game_state_set_cursor (sys_context, game_state,
+						    &cursor);
 		    }
 		}
 	    }
 
-	  lw6ker_game_state_do_round (game_state);
+	  lw6ker_game_state_do_round (sys_context, game_state);
 	}
 
-      lw6ker_score_array_update (&score_array, game_state);
+      lw6ker_score_array_update (sys_context, &score_array, game_state);
       for (i = 0; i < score_array.nb_scores; ++i)
 	{
 	  j = score_array.scores[i].team_color;
@@ -132,7 +133,7 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results,
 	    }
 	}
 
-      lw6ker_game_state_free (game_state);
+      lw6ker_game_state_free (sys_context, game_state);
     }
 
   return ret;
@@ -168,7 +169,7 @@ lw6sim_simulate (int argc, const char *argv[], lw6sim_results_t * results,
   level->param.rules.total_time = _LW6SIM_SIMULATION_TIME;
   if (level)
     {
-      game_struct = lw6ker_game_struct_new (level, NULL);
+      game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
       if (game_struct)
 	{
 	  max_mask = _lw6sim_mask_get_max (nb_teams);
@@ -195,7 +196,7 @@ lw6sim_simulate (int argc, const char *argv[], lw6sim_results_t * results,
 			      i, max_mask);
 		}
 	    }
-	  lw6ker_game_struct_free (game_struct);
+	  lw6ker_game_struct_free (sys_context, game_struct);
 	}
       lw6map_free (sys_context, level);
     }

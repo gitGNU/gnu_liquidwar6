@@ -97,7 +97,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
   int row_stride;
   char *filename = NULL;
 
-  lw6ker_game_state_get_shape (game_state, &shape);
+  lw6ker_game_state_get_shape (sys_context, game_state, &shape);
 
   filename =
     lw6sys_path_concat (sys_context, user_dir, _SCREENSHOT_JPEG_FILE);
@@ -125,8 +125,9 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 		      for (z = 0; z < shape.d && fighter_id < 0; ++z)
 			{
 			  fighter_id =
-			    lw6ker_game_state_get_fighter_id (game_state,
-							      x, y, z);
+			    lw6ker_game_state_get_fighter_id (sys_context,
+							      game_state, x,
+							      y, z);
 			}
 		      if (fighter_id >= 0)
 			{

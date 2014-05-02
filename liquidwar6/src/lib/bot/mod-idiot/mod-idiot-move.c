@@ -49,7 +49,7 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
       y = cursor.pos.y;
       team_color = cursor.team_color;
 
-      lw6ker_game_state_get_shape (data->game_state, &shape);
+      lw6ker_game_state_get_shape (sys_context, data->game_state, &shape);
 
       idiot_context->start_pos_x = x;
       idiot_context->start_pos_y = y;
@@ -74,7 +74,8 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 	      for (z = 0; z < shape.d && !found; ++z)
 		{
 		  fighter_id =
-		    lw6ker_game_state_get_fighter_id (data->game_state, x, y,
+		    lw6ker_game_state_get_fighter_id (sys_context,
+						      data->game_state, x, y,
 						      z);
 		  if (fighter_id >= 0)
 		    {
@@ -141,9 +142,9 @@ _mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x, int *y,
   float average_size = 0.0f;
   lw6sys_whd_t shape = { 0, 0, 0 };
 
-  lw6ker_game_state_get_shape (data->game_state, &shape);
+  lw6ker_game_state_get_shape (sys_context, data->game_state, &shape);
 
-  rounds = lw6ker_game_state_get_rounds (data->game_state);
+  rounds = lw6ker_game_state_get_rounds (sys_context, data->game_state);
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("idiot bot move rounds=%d"),
 	      rounds);
 

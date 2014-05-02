@@ -148,7 +148,7 @@ lw6sim_test_register (int mode)
        */
       lw6sys_test_register (sys_context, mode);
       lw6map_test_register (sys_context, mode);
-      lw6ker_test_register (mode);
+      lw6ker_test_register (sys_context, mode);
       lw6pil_test_register (mode);
       lw6bot_test_register (mode);
     }

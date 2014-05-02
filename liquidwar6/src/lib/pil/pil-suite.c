@@ -241,10 +241,12 @@ lw6pil_suite_init (lw6pil_dump_t * dump, int64_t timestamp)
   dump->level = lw6map_builtin_scale (sys_context, _INIT_SCALE_PERCENT);
   if (dump->level)
     {
-      dump->game_struct = lw6ker_game_struct_new (dump->level, NULL);
+      dump->game_struct =
+	lw6ker_game_struct_new (sys_context, dump->level, NULL);
       if (dump->game_struct)
 	{
-	  dump->game_state = lw6ker_game_state_new (dump->game_struct, NULL);
+	  dump->game_state =
+	    lw6ker_game_state_new (sys_context, dump->game_struct, NULL);
 	  if (dump->game_state)
 	    {
 	      dump->pilot =

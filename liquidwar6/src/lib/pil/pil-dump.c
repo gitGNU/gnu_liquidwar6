@@ -66,13 +66,13 @@ lw6pil_dump_clear (lw6pil_dump_t * dump)
 
   if (dump->game_struct)
     {
-      lw6ker_game_struct_free (dump->game_struct);
+      lw6ker_game_struct_free (sys_context, dump->game_struct);
       (dump->game_struct) = NULL;
     }
 
   if (dump->game_state)
     {
-      lw6ker_game_state_free (dump->game_state);
+      lw6ker_game_state_free (sys_context, dump->game_state);
       (dump->game_state) = NULL;
     }
 
@@ -129,7 +129,8 @@ _lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id,
       if (level_hexa)
 	{
 	  game_struct_hexa =
-	    lw6ker_game_struct_to_hexa (pilot->reference.
+	    lw6ker_game_struct_to_hexa (sys_context,
+					pilot->reference.
 					game_state->game_struct);
 	  if (game_struct_hexa)
 	    {
@@ -145,7 +146,8 @@ _lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id,
 	       * atomicity logic.
 	       */
 	      game_state =
-		lw6ker_game_state_dup (pilot->reference.game_state, NULL);
+		lw6ker_game_state_dup (sys_context,
+				       pilot->reference.game_state, NULL);
 
 	      lw6sys_mutex_unlock (sys_context,
 				   pilot->reference.global_mutex);
@@ -157,14 +159,17 @@ _lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id,
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("dump pilot to command initial round=%d final round=%d"),
-			      lw6ker_game_state_get_rounds (game_state),
+			      lw6ker_game_state_get_rounds (sys_context,
+							    game_state),
 			      round);
-		  while (lw6ker_game_state_get_rounds (game_state) < round)
+		  while (lw6ker_game_state_get_rounds
+			 (sys_context, game_state) < round)
 		    {
-		      lw6ker_game_state_do_round (game_state);
+		      lw6ker_game_state_do_round (sys_context, game_state);
 		    }
-		  game_state_hexa = lw6ker_game_state_to_hexa (game_state);
-		  lw6ker_game_state_free (game_state);
+		  game_state_hexa =
+		    lw6ker_game_state_to_hexa (sys_context, game_state);
+		  lw6ker_game_state_free (sys_context, game_state);
 		}
 	    }
 	}
@@ -265,12 +270,14 @@ lw6pil_dump_command_execute (lw6pil_dump_t * dump,
       if (dump->level)
 	{
 	  (dump->game_struct) =
-	    lw6ker_game_struct_from_hexa (command->args.dump.game_struct_hexa,
+	    lw6ker_game_struct_from_hexa (sys_context,
+					  command->args.dump.game_struct_hexa,
 					  dump->level);
 	  if (dump->game_struct)
 	    {
 	      (dump->game_state) =
-		lw6ker_game_state_from_hexa (command->args.
+		lw6ker_game_state_from_hexa (sys_context,
+					     command->args.
 					     dump.game_state_hexa,
 					     dump->game_struct);
 	      if (dump->game_state)
@@ -282,9 +289,11 @@ lw6pil_dump_command_execute (lw6pil_dump_t * dump,
 		    {
 		      level_repr = lw6map_repr (sys_context, dump->level);
 		      game_struct_repr =
-			lw6ker_game_struct_repr (dump->game_struct);
+			lw6ker_game_struct_repr (sys_context,
+						 dump->game_struct);
 		      game_state_repr =
-			lw6ker_game_state_repr (dump->game_state);
+			lw6ker_game_state_repr (sys_context,
+						dump->game_state);
 		      pilot_repr = lw6pil_pilot_repr (dump->pilot);
 		      if (level_repr && game_struct_repr && game_state_repr
 			  && pilot_repr)

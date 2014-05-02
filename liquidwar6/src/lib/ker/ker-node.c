@@ -28,13 +28,13 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_node_init (_lw6ker_node_t * node)
+_lw6ker_node_init (sys_context, _lw6ker_node_t * node)
 {
   memset (node, 0, sizeof (_lw6ker_node_t));
 }
 
 void
-_lw6ker_node_update_checksum (const _lw6ker_node_t * node,
+_lw6ker_node_update_checksum (sys_context, const _lw6ker_node_t * node,
 			      u_int32_t * checksum)
 {
   lw6sys_checksum_update_int64 (sys_context, checksum, node->node_id);
@@ -44,21 +44,21 @@ _lw6ker_node_update_checksum (const _lw6ker_node_t * node,
 }
 
 void
-_lw6ker_node_reset (_lw6ker_node_t * node)
+_lw6ker_node_reset (sys_context, _lw6ker_node_t * node)
 {
   node->enabled = 0;
   node->last_command_round = 0;
 }
 
 int
-_lw6ker_node_enable (_lw6ker_node_t * node, u_int64_t node_id)
+_lw6ker_node_enable (sys_context, _lw6ker_node_t * node, u_int64_t node_id)
 {
   int ret = 0;
 
   if (!node->enabled)
     {
       node->node_id = node_id;
-      _lw6ker_node_reset (node);
+      _lw6ker_node_reset (sys_context, node);
       node->enabled = 1;
       ret = 1;
     }
@@ -72,14 +72,14 @@ _lw6ker_node_enable (_lw6ker_node_t * node, u_int64_t node_id)
 }
 
 int
-_lw6ker_node_disable (_lw6ker_node_t * node)
+_lw6ker_node_disable (sys_context, _lw6ker_node_t * node)
 {
   int ret = 0;
 
   if (node->enabled)
     {
       node->node_id = 0;
-      _lw6ker_node_reset (node);
+      _lw6ker_node_reset (sys_context, node);
       ret = 1;
     }
   else
@@ -92,7 +92,7 @@ _lw6ker_node_disable (_lw6ker_node_t * node)
 }
 
 int
-_lw6ker_node_sanity_check (const _lw6ker_node_t * node,
+_lw6ker_node_sanity_check (sys_context, const _lw6ker_node_t * node,
 			   const lw6map_rules_t * rules)
 {
   int ret = 1;

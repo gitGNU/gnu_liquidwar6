@@ -706,14 +706,16 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
       if (game_state)
 	{
 	  ret =
-	    lw6ker_game_state_register_node (game_state, command->node_id);
+	    lw6ker_game_state_register_node (sys_context, game_state,
+					     command->node_id);
 	}
       break;
     case LW6PIL_COMMAND_CODE_ADD:
       if (game_state)
 	{
 	  ret =
-	    lw6ker_game_state_add_cursor (game_state, command->node_id,
+	    lw6ker_game_state_add_cursor (sys_context, game_state,
+					  command->node_id,
 					  command->args.add.cursor_id,
 					  command->args.add.team_color);
 	}
@@ -721,21 +723,23 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
     case LW6PIL_COMMAND_CODE_SET:
       if (game_state)
 	{
-	  lw6ker_cursor_reset (&cursor);
+	  lw6ker_cursor_reset (sys_context, &cursor);
 	  cursor.node_id = command->node_id;
 	  cursor.cursor_id = command->args.set.cursor_id;
 	  cursor.pos.x = command->args.set.x;
 	  cursor.pos.y = command->args.set.y;
 	  cursor.fire = command->args.set.fire;
 	  cursor.fire2 = command->args.set.fire2;
-	  ret = lw6ker_game_state_set_cursor (game_state, &cursor);
+	  ret =
+	    lw6ker_game_state_set_cursor (sys_context, game_state, &cursor);
 	}
       break;
     case LW6PIL_COMMAND_CODE_REMOVE:
       if (game_state)
 	{
 	  ret =
-	    lw6ker_game_state_remove_cursor (game_state, command->node_id,
+	    lw6ker_game_state_remove_cursor (sys_context, game_state,
+					     command->node_id,
 					     command->args.remove.cursor_id);
 	}
       break;
@@ -743,7 +747,8 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
       if (game_state)
 	{
 	  ret =
-	    lw6ker_game_state_unregister_node (game_state, command->node_id);
+	    lw6ker_game_state_unregister_node (sys_context, game_state,
+					       command->node_id);
 	}
       break;
     case LW6PIL_COMMAND_CODE_DUMP:

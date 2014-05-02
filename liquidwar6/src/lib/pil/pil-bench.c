@@ -152,7 +152,8 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
 			     (pilot->reference.game_state));
   seq_draft =
     _lw6pil_pilot_round2seq (pilot,
-			     lw6ker_game_state_get_rounds (pilot->draft.
+			     lw6ker_game_state_get_rounds (sys_context,
+							   pilot->draft.
 							   game_state));
   computed_reference_end = pilot->reference.computed_rounds;
   computed_draft_end = pilot->draft.computed_rounds;
@@ -287,11 +288,13 @@ lw6pil_bench (int argc, const char *argv[], float *bench_result,
   if (level)
     {
       level->param.rules.total_time = LW6MAP_RULES_MAX_TOTAL_TIME;
-      game_struct = lw6ker_game_struct_new (level, &progress_game_struct);
+      game_struct =
+	lw6ker_game_struct_new (sys_context, level, &progress_game_struct);
       if (game_struct)
 	{
 	  game_state =
-	    lw6ker_game_state_new (game_struct, &progress_game_state);
+	    lw6ker_game_state_new (sys_context, game_struct,
+				   &progress_game_state);
 	  if (game_state)
 	    {
 	      pilot =
@@ -304,9 +307,9 @@ lw6pil_bench (int argc, const char *argv[], float *bench_result,
 		   * pilot continues to work when objects used
 		   * to build it have disappeared.
 		   */
-		  lw6ker_game_state_free (game_state);
+		  lw6ker_game_state_free (sys_context, game_state);
 		  game_state = NULL;
-		  lw6ker_game_struct_free (game_struct);
+		  lw6ker_game_struct_free (sys_context, game_struct);
 		  game_struct = NULL;
 		  lw6map_free (sys_context, level);
 		  level = NULL;
@@ -326,13 +329,13 @@ lw6pil_bench (int argc, const char *argv[], float *bench_result,
 		}
 	      if (game_state)
 		{
-		  lw6ker_game_state_free (game_state);
+		  lw6ker_game_state_free (sys_context, game_state);
 		  game_state = NULL;
 		}
 	    }
 	  if (game_struct)
 	    {
-	      lw6ker_game_struct_free (game_struct);
+	      lw6ker_game_struct_free (sys_context, game_struct);
 	      game_struct = NULL;
 	    }
 	}

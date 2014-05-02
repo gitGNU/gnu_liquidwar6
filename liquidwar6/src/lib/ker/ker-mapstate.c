@@ -31,7 +31,7 @@
 #include "ker-internal.h"
 
 int
-_lw6ker_map_state_init (_lw6ker_map_state_t * map_state,
+_lw6ker_map_state_init (sys_context, _lw6ker_map_state_t * map_state,
 			const _lw6ker_map_struct_t * map_struct,
 			const lw6map_rules_t * rules,
 			lw6sys_progress_t * progress)
@@ -47,7 +47,9 @@ _lw6ker_map_state_init (_lw6ker_map_state_t * map_state,
 
   ret = 1;
 
-  ret = ret && _lw6ker_armies_init (&(map_state->armies), map_struct, rules);
+  ret = ret
+    && _lw6ker_armies_init (sys_context, &(map_state->armies), map_struct,
+			    rules);
 
   lw6sys_progress_update (sys_context, progress, 0, 3, 1);
 
@@ -55,10 +57,11 @@ _lw6ker_map_state_init (_lw6ker_map_state_t * map_state,
   for (i = 0; i < map_state->max_nb_teams; ++i)
     {
       ret = ret
-	&& _lw6ker_team_init (&(map_state->teams[i]), map_struct, rules);
+	&& _lw6ker_team_init (sys_context, &(map_state->teams[i]), map_struct,
+			      rules);
     }
 
-  _lw6ker_cursor_array_init (&(map_state->cursor_array));
+  _lw6ker_cursor_array_init (sys_context, &(map_state->cursor_array));
 
   lw6sys_progress_update (sys_context, progress, 0, 3, 2);
 
@@ -88,7 +91,7 @@ _lw6ker_map_state_init (_lw6ker_map_state_t * map_state,
 }
 
 void
-_lw6ker_map_state_clear (_lw6ker_map_state_t * map_state)
+_lw6ker_map_state_clear (sys_context, _lw6ker_map_state_t * map_state)
 {
   int32_t i;
 
@@ -98,30 +101,33 @@ _lw6ker_map_state_clear (_lw6ker_map_state_t * map_state)
     }
   for (i = 0; i < map_state->max_nb_teams; ++i)
     {
-      _lw6ker_team_clear (&(map_state->teams[i]));
+      _lw6ker_team_clear (sys_context, &(map_state->teams[i]));
     }
-  _lw6ker_armies_clear (&(map_state->armies));
+  _lw6ker_armies_clear (sys_context, &(map_state->armies));
   memset (map_state, 0, sizeof (_lw6ker_map_state_t));
 }
 
 int
-_lw6ker_map_state_sync (_lw6ker_map_state_t * dst,
+_lw6ker_map_state_sync (sys_context, _lw6ker_map_state_t * dst,
 			const _lw6ker_map_state_t * src)
 {
   int ret = 0;
 
   if (dst && src
-      && _lw6ker_map_struct_lazy_compare (dst->map_struct, src->map_struct))
+      && _lw6ker_map_struct_lazy_compare (sys_context, dst->map_struct,
+					  src->map_struct))
     {
       int i;
 
       dst->shape = src->shape;
       dst->shape_surface = src->shape_surface;
-      ret = _lw6ker_armies_sync (&(dst->armies), &(src->armies));
+      ret = _lw6ker_armies_sync (sys_context, &(dst->armies), &(src->armies));
       dst->max_nb_teams = src->max_nb_teams;
       for (i = 0; i < src->max_nb_teams; ++i)
 	{
-	  ret = ret && _lw6ker_team_sync (&(dst->teams[i]), &(src->teams[i]));
+	  ret = ret
+	    && _lw6ker_team_sync (sys_context, &(dst->teams[i]),
+				  &(src->teams[i]));
 	}
       memcpy (&(dst->cursor_array), &(src->cursor_array),
 	      sizeof (_lw6ker_cursor_array_t));
@@ -140,7 +146,8 @@ _lw6ker_map_state_sync (_lw6ker_map_state_t * dst,
 }
 
 void
-_lw6ker_map_state_update_checksum (const _lw6ker_map_state_t * map_state,
+_lw6ker_map_state_update_checksum (sys_context,
+				   const _lw6ker_map_state_t * map_state,
 				   u_int32_t * checksum)
 {
   int i;
@@ -152,23 +159,28 @@ _lw6ker_map_state_update_checksum (const _lw6ker_map_state_t * map_state,
   lw6sys_checksum_update_whd (sys_context, checksum, &(map_state->shape));
   lw6sys_checksum_update_int32 (sys_context, checksum,
 				map_state->shape_surface);
-  _lw6ker_armies_update_checksum (&(map_state->armies), checksum);
+  _lw6ker_armies_update_checksum (sys_context, &(map_state->armies),
+				  checksum);
   lw6sys_checksum_update_int32 (sys_context, checksum,
 				map_state->max_nb_teams);
   for (i = 0; i < map_state->max_nb_teams; ++i)
     {
-      _lw6ker_team_update_checksum (&(map_state->teams[i]), checksum);
+      _lw6ker_team_update_checksum (sys_context, &(map_state->teams[i]),
+				    checksum);
     }
-  _lw6ker_cursor_array_update_checksum (&(map_state->cursor_array), checksum);
+  _lw6ker_cursor_array_update_checksum (sys_context,
+					&(map_state->cursor_array), checksum);
   lw6sys_checksum_update_int32 (sys_context, checksum, map_state->nb_slots);
   for (i = 0; i < map_state->nb_slots; ++i)
     {
-      _lw6ker_slot_state_update_checksum (&(map_state->slots[i]), checksum);
+      _lw6ker_slot_state_update_checksum (sys_context, &(map_state->slots[i]),
+					  checksum);
     }
 }
 
 int
-_lw6ker_map_state_get_free_team_color (const _lw6ker_map_state_t * map_state)
+_lw6ker_map_state_get_free_team_color (sys_context,
+				       const _lw6ker_map_state_t * map_state)
 {
   int32_t i;
   int32_t ret = LW6MAP_TEAM_COLOR_INVALID;
@@ -185,7 +197,7 @@ _lw6ker_map_state_get_free_team_color (const _lw6ker_map_state_t * map_state)
 }
 
 int32_t
-_lw6ker_map_state_populate_team (_lw6ker_map_state_t * map_state,
+_lw6ker_map_state_populate_team (sys_context, _lw6ker_map_state_t * map_state,
 				 int32_t team_color,
 				 int32_t nb_fighters,
 				 lw6sys_xyz_t desired_center,
@@ -201,7 +213,7 @@ _lw6ker_map_state_populate_team (_lw6ker_map_state_t * map_state,
   lw6sys_whd_t shape;
 
   shape = map_state->shape;
-  _lw6ker_fighter_clear (&new_fighter);
+  _lw6ker_fighter_clear (sys_context, &new_fighter);
   _lw6ker_map_struct_find_free_slot_near (map_state->map_struct, &real_center,
 					  desired_center);
   max_radius = 2 * (map_state->map_struct->shape.w + map_state->map_struct->shape.h);	// +, not *
@@ -238,7 +250,8 @@ _lw6ker_map_state_populate_team (_lw6ker_map_state_t * map_state,
 		      new_fighter.health = LW6MAP_MAX_FIGHTER_HEALTH;
 		      new_fighter.last_direction = 0;
 		      new_fighter_id =
-			_lw6ker_armies_add_fighter (&(map_state->armies),
+			_lw6ker_armies_add_fighter (sys_context,
+						    &(map_state->armies),
 						    new_fighter);
 		      if (new_fighter_id >= 0)
 			{
@@ -253,13 +266,15 @@ _lw6ker_map_state_populate_team (_lw6ker_map_state_t * map_state,
 	}
     }
 
-  _lw6ker_team_activate (&(map_state->teams[team_color]), real_center);
+  _lw6ker_team_activate (sys_context, &(map_state->teams[team_color]),
+			 real_center);
 
   return nb_fighters_added;
 }
 
 int
-_lw6ker_map_state_redistribute_team (_lw6ker_map_state_t * map_state,
+_lw6ker_map_state_redistribute_team (sys_context,
+				     _lw6ker_map_state_t * map_state,
 				     int32_t dst_team_color,
 				     int32_t src_team_color,
 				     int32_t nb_fighters,
@@ -311,7 +326,7 @@ _lw6ker_map_state_redistribute_team (_lw6ker_map_state_t * map_state,
 }
 
 int
-_lw6ker_map_state_cancel_team (_lw6ker_map_state_t * map_state,
+_lw6ker_map_state_cancel_team (sys_context, _lw6ker_map_state_t * map_state,
 			       int32_t team_color)
 {
   int ret = 0;
@@ -320,7 +335,8 @@ _lw6ker_map_state_cancel_team (_lw6ker_map_state_t * map_state,
     {
       if (map_state->armies.fighters_per_team[team_color] == 0)
 	{
-	  _lw6ker_team_unactivate (&(map_state->teams[team_color]));
+	  _lw6ker_team_unactivate (sys_context,
+				   &(map_state->teams[team_color]));
 	}
       else
 	{
@@ -341,7 +357,8 @@ _lw6ker_map_state_cancel_team (_lw6ker_map_state_t * map_state,
 }
 
 int
-_lw6ker_map_state_remove_fighter (_lw6ker_map_state_t * map_state,
+_lw6ker_map_state_remove_fighter (sys_context,
+				  _lw6ker_map_state_t * map_state,
 				  int32_t fighter_id)
 {
   int ret = 0;
@@ -376,7 +393,7 @@ _lw6ker_map_state_remove_fighter (_lw6ker_map_state_t * map_state,
       _lw6ker_map_state_set_fighter_id (map_state,
 					fighter.pos.x, fighter.pos.y,
 					fighter.pos.z, -1);
-      _lw6ker_armies_remove_fighter (&(map_state->armies));
+      _lw6ker_armies_remove_fighter (sys_context, &(map_state->armies));
 
       ret = 1;
     }
@@ -385,7 +402,8 @@ _lw6ker_map_state_remove_fighter (_lw6ker_map_state_t * map_state,
 }
 
 int
-_lw6ker_map_state_remove_fighters (_lw6ker_map_state_t * map_state,
+_lw6ker_map_state_remove_fighters (sys_context,
+				   _lw6ker_map_state_t * map_state,
 				   int32_t nb_fighters)
 {
   int32_t i, j;
@@ -491,7 +509,8 @@ _lw6ker_map_state_remove_fighters (_lw6ker_map_state_t * map_state,
 }
 
 int
-_lw6ker_map_state_remove_team_fighters (_lw6ker_map_state_t * map_state,
+_lw6ker_map_state_remove_team_fighters (sys_context,
+					_lw6ker_map_state_t * map_state,
 					int32_t team_color,
 					int32_t nb_fighters)
 {
@@ -527,7 +546,8 @@ _lw6ker_map_state_remove_team_fighters (_lw6ker_map_state_t * map_state,
 }
 
 int
-_lw6ker_map_state_sanity_check (const _lw6ker_map_state_t * map_state)
+_lw6ker_map_state_sanity_check (sys_context,
+				const _lw6ker_map_state_t * map_state)
 {
   int ret = 1;
   int32_t i;
@@ -615,7 +635,8 @@ _lw6ker_map_state_sanity_check (const _lw6ker_map_state_t * map_state)
  * Applies the cursors before spreading the gradient.
  */
 void
-_lw6ker_map_state_spread_gradient (_lw6ker_map_state_t * map_state,
+_lw6ker_map_state_spread_gradient (sys_context,
+				   _lw6ker_map_state_t * map_state,
 				   const lw6map_rules_t * rules,
 				   int32_t nb_spreads, u_int32_t team_mask)
 {
@@ -633,7 +654,7 @@ _lw6ker_map_state_spread_gradient (_lw6ker_map_state_t * map_state,
     {
       if (map_state->teams[i].active)
 	{
-	  if (lw6ker_team_mask_is_concerned (i, team_mask))
+	  if (lw6ker_team_mask_is_concerned (sys_context, i, team_mask))
 	    {
 	      teams_concerned[n] = i;
 	      n++;
@@ -668,7 +689,8 @@ _lw6ker_map_state_spread_gradient (_lw6ker_map_state_t * map_state,
 }
 
 int
-_lw6ker_map_state_get_nb_teams (const _lw6ker_map_state_t * map_state)
+_lw6ker_map_state_get_nb_teams (sys_context,
+				const _lw6ker_map_state_t * map_state)
 {
   int ret = 0;
   int i;
@@ -685,8 +707,9 @@ _lw6ker_map_state_get_nb_teams (const _lw6ker_map_state_t * map_state)
 }
 
 void
-_lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
-				 int parity, const lw6map_rules_t * rules,
+_lw6ker_map_state_move_fighters (sys_context, _lw6ker_map_state_t * map_state,
+				 int round, int parity,
+				 const lw6map_rules_t * rules,
 				 int32_t nb_moves, u_int32_t team_mask)
 {
   _lw6ker_move_context_t context;
@@ -924,12 +947,12 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 
   for (move_i = 0; move_i < nb_moves; ++move_i)
     {
-      _lw6ker_move_update_fighters_universal (&context);
+      _lw6ker_move_update_fighters_universal (sys_context, &context);
     }
 }
 
 void
-_lw6ker_map_state_apply_cursors (_lw6ker_map_state_t * map_state,
+_lw6ker_map_state_apply_cursors (sys_context, _lw6ker_map_state_t * map_state,
 				 const lw6map_rules_t * rules,
 				 u_int32_t team_mask)
 {
@@ -948,7 +971,7 @@ _lw6ker_map_state_apply_cursors (_lw6ker_map_state_t * map_state,
    */
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      if (lw6ker_team_mask_is_concerned (i, team_mask))
+      if (lw6ker_team_mask_is_concerned (sys_context, i, team_mask))
 	{
 	  max_pot[i] = map_state->teams[i].cursor_ref_pot;
 	  round_delta[i] = rules->round_delta;
@@ -959,7 +982,8 @@ _lw6ker_map_state_apply_cursors (_lw6ker_map_state_t * map_state,
       if (map_state->cursor_array.cursors[i].enabled)
 	{
 	  team_color = map_state->cursor_array.cursors[i].team_color;
-	  if (lw6ker_team_mask_is_concerned (team_color, team_mask))
+	  if (lw6ker_team_mask_is_concerned
+	      (sys_context, team_color, team_mask))
 	    {
 	      {
 		_lw6ker_cursor_update_apply_pos (&
@@ -1001,7 +1025,7 @@ _lw6ker_map_state_apply_cursors (_lw6ker_map_state_t * map_state,
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      if (lw6ker_team_mask_is_concerned (i, team_mask))
+      if (lw6ker_team_mask_is_concerned (sys_context, i, team_mask))
 	{
 	  /*
 	   * Following line is essential, it ensures that cursor potentials
@@ -1015,7 +1039,8 @@ _lw6ker_map_state_apply_cursors (_lw6ker_map_state_t * map_state,
 	  if (map_state->teams[i].cursor_ref_pot +
 	      rules->max_cursor_pot_offset > rules->max_cursor_pot)
 	    {
-	      _lw6ker_team_normalize_pot (&(map_state->teams[i]), rules);
+	      _lw6ker_team_normalize_pot (sys_context, &(map_state->teams[i]),
+					  rules);
 	    }
 	}
     }
@@ -1028,7 +1053,8 @@ _lw6ker_map_state_apply_cursors (_lw6ker_map_state_t * map_state,
       if (map_state->cursor_array.cursors[i].enabled)
 	{
 	  team_color = map_state->cursor_array.cursors[i].team_color;
-	  if (lw6ker_team_mask_is_concerned (team_color, team_mask))
+	  if (lw6ker_team_mask_is_concerned
+	      (sys_context, team_color, team_mask))
 	    {
 	      for (z = 0; z < map_state->shape.d; ++z)
 		{
@@ -1066,7 +1092,7 @@ _lw6ker_map_state_apply_cursors (_lw6ker_map_state_t * map_state,
 }
 
 void
-_lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
+_lw6ker_map_state_process_fire (sys_context, _lw6ker_map_state_t * map_state,
 				const lw6map_rules_t * rules, int round)
 {
   int32_t i, team_color;
@@ -1080,7 +1106,8 @@ _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
 	{
 	  team_color = map_state->cursor_array.cursors[i].team_color;
 	  charge_percent =
-	    _lw6ker_team_get_charge_per1000 (&(map_state->teams[team_color]))
+	    _lw6ker_team_get_charge_per1000 (sys_context,
+					     &(map_state->teams[team_color]))
 	    / 10;
 	  if (charge_percent >= 100)
 	    {
@@ -1140,9 +1167,9 @@ _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
 }
 
 void
-_lw6ker_map_state_frag (_lw6ker_map_state_t * map_state, int team_color,
-			int frags_mode, int frags_to_distribute,
-			int frags_fade_out)
+_lw6ker_map_state_frag (sys_context, _lw6ker_map_state_t * map_state,
+			int team_color, int frags_mode,
+			int frags_to_distribute, int frags_fade_out)
 {
   int active_fighters = 0;
   int nb_loosers = 0;
@@ -1322,7 +1349,7 @@ _lw6ker_map_state_frag (_lw6ker_map_state_t * map_state, int team_color,
 }
 
 void
-_lw6ker_map_state_charge (_lw6ker_map_state_t * map_state,
+_lw6ker_map_state_charge (sys_context, _lw6ker_map_state_t * map_state,
 			  const lw6map_rules_t * rules, int round)
 {
   int32_t team_color;
@@ -1392,20 +1419,24 @@ _lw6ker_map_state_charge (_lw6ker_map_state_t * map_state,
 }
 
 int
-_lw6ker_map_state_is_this_weapon_active (const _lw6ker_map_state_t *
+_lw6ker_map_state_is_this_weapon_active (sys_context,
+					 const _lw6ker_map_state_t *
 					 map_state, int round, int weapon_id,
 					 int team_color)
 {
-  return _lw6ker_team_is_this_weapon_active (&(map_state->teams[team_color]),
+  return _lw6ker_team_is_this_weapon_active (sys_context,
+					     &(map_state->teams[team_color]),
 					     round, weapon_id);
 }
 
 int
-_lw6ker_map_state_get_weapon_per1000_left (const _lw6ker_map_state_t *
+_lw6ker_map_state_get_weapon_per1000_left (sys_context,
+					   const _lw6ker_map_state_t *
 					   map_state, int round,
 					   int team_color)
 {
   return
-    _lw6ker_team_get_weapon_per1000_left (&(map_state->teams[team_color]),
+    _lw6ker_team_get_weapon_per1000_left (sys_context,
+					  &(map_state->teams[team_color]),
 					  round);
 }

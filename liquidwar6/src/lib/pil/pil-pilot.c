@@ -63,11 +63,12 @@ _lw6pil_pilot_new (lw6ker_game_state_t * game_state, int64_t seq_0,
 	}
       ret->last_commit_seq = -1L;
       ret->last_sync_draft_from_reference_seq = -1L;
-      ret->round_0 = lw6ker_game_state_get_rounds (game_state);
+      ret->round_0 = lw6ker_game_state_get_rounds (sys_context, game_state);
       ret->seq_0 = seq_0;
       _lw6pil_pilot_calibrate (ret, timestamp,
 			       seq_0 +
-			       lw6ker_game_state_get_rounds (game_state));
+			       lw6ker_game_state_get_rounds (sys_context,
+							     game_state));
       ret->replay =
 	lw6sys_list_new (sys_context,
 			 (lw6sys_free_func_t) lw6pil_command_free);
@@ -87,14 +88,16 @@ _lw6pil_pilot_new (lw6ker_game_state_t * game_state, int64_t seq_0,
 		  if (ret->level)
 		    {
 		      ret->game_struct =
-			lw6ker_game_struct_dup (game_state->game_struct,
+			lw6ker_game_struct_dup (sys_context,
+						game_state->game_struct,
 						&progress_game_struct);
 		      if (ret->game_struct)
 			{
 			  if (ret->level)
 			    {
 			      ret->backup =
-				lw6ker_game_state_dup (game_state,
+				lw6ker_game_state_dup (sys_context,
+						       game_state,
 						       &progress_game_state);
 			      if (ret->backup)
 				{
@@ -107,7 +110,8 @@ _lw6pil_pilot_new (lw6ker_game_state_t * game_state, int64_t seq_0,
 				   */
 				  lw6ker_game_struct_point_to
 				    (ret->game_struct, ret->level);
-				  lw6ker_game_state_point_to (ret->backup,
+				  lw6ker_game_state_point_to (sys_context,
+							      ret->backup,
 							      ret->
 							      game_struct);
 				  if (_lw6pil_worker_init
@@ -136,11 +140,11 @@ _lw6pil_pilot_new (lw6ker_game_state_t * game_state, int64_t seq_0,
 	{
 	  if (ret->backup)
 	    {
-	      lw6ker_game_state_free (ret->backup);
+	      lw6ker_game_state_free (sys_context, ret->backup);
 	    }
 	  if (ret->game_struct)
 	    {
-	      lw6ker_game_struct_free (ret->game_struct);
+	      lw6ker_game_struct_free (sys_context, ret->game_struct);
 	    }
 	  if (ret->level)
 	    {
@@ -196,8 +200,8 @@ _lw6pil_pilot_free (_lw6pil_pilot_t * pilot)
       _lw6pil_worker_quit (&(pilot->draft));
       _lw6pil_worker_quit (&(pilot->reference));
       lw6map_free (sys_context, pilot->level);
-      lw6ker_game_struct_free (pilot->game_struct);
-      lw6ker_game_state_free (pilot->backup);
+      lw6ker_game_struct_free (sys_context, pilot->game_struct);
+      lw6ker_game_state_free (sys_context, pilot->backup);
       lw6sys_list_free (sys_context, pilot->unverified_queue);
       lw6sys_list_free (sys_context, pilot->verified_queue);
       lw6sys_list_free (sys_context, pilot->replay);
@@ -321,9 +325,10 @@ sync_draft_from_reference (_lw6pil_pilot_t * pilot)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("pilot sync round=%d"),
-		      lw6ker_game_state_get_rounds (pilot->
+		      lw6ker_game_state_get_rounds (sys_context,
+						    pilot->
 						    reference.game_state));
-	  lw6ker_game_state_sync (pilot->draft.game_state,
+	  lw6ker_game_state_sync (sys_context, pilot->draft.game_state,
 				  pilot->reference.game_state);
 	  pilot->draft.target_round = pilot->reference.target_round;
 	  pilot->draft.current_round = pilot->reference.current_round;
@@ -641,10 +646,14 @@ _lw6pil_pilot_can_sync (lw6ker_game_state_t * target, _lw6pil_pilot_t * pilot)
 {
   int ret = 1;
 
-  ret = ret && lw6ker_game_state_can_sync (target, pilot->backup);
   ret = ret
-    && lw6ker_game_state_can_sync (target, pilot->reference.game_state);
-  ret = ret && lw6ker_game_state_can_sync (target, pilot->draft.game_state);
+    && lw6ker_game_state_can_sync (sys_context, target, pilot->backup);
+  ret = ret
+    && lw6ker_game_state_can_sync (sys_context, target,
+				   pilot->reference.game_state);
+  ret = ret
+    && lw6ker_game_state_can_sync (sys_context, target,
+				   pilot->draft.game_state);
 
   return ret;
 }
@@ -674,8 +683,8 @@ _lw6pil_pilot_sync_from_backup (lw6ker_game_state_t * target,
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_ ("sync from backup round=%d"),
-	      lw6ker_game_state_get_rounds (pilot->backup));
-  ret = lw6ker_game_state_sync (target, pilot->backup);
+	      lw6ker_game_state_get_rounds (sys_context, pilot->backup));
+  ret = lw6ker_game_state_sync (sys_context, target, pilot->backup);
 
   return ret;
 }
@@ -709,8 +718,10 @@ _lw6pil_pilot_sync_from_reference (lw6ker_game_state_t * target,
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_ ("sync from reference round=%d"),
-	      lw6ker_game_state_get_rounds (pilot->reference.game_state));
-  ret = lw6ker_game_state_sync (target, pilot->reference.game_state);
+	      lw6ker_game_state_get_rounds (sys_context,
+					    pilot->reference.game_state));
+  ret =
+    lw6ker_game_state_sync (sys_context, target, pilot->reference.game_state);
 
   lw6sys_mutex_unlock (sys_context, pilot->reference.global_mutex);
 
@@ -749,7 +760,7 @@ _lw6pil_pilot_sync_from_draft (lw6ker_game_state_t * target,
   int reference_rounds;
   int current_round;
 
-  current_round = lw6ker_game_state_get_rounds (target);
+  current_round = lw6ker_game_state_get_rounds (sys_context, target);
 
   max_round =
     _lw6pil_pilot_seq2round (pilot, _lw6pil_pilot_get_max_seq (pilot));
@@ -765,15 +776,19 @@ _lw6pil_pilot_sync_from_draft (lw6ker_game_state_t * target,
       if (max_round > current_round)
 	{
 	  draft_rounds =
-	    lw6ker_game_state_get_rounds (pilot->draft.game_state);
+	    lw6ker_game_state_get_rounds (sys_context,
+					  pilot->draft.game_state);
 	  reference_rounds =
-	    lw6ker_game_state_get_rounds (pilot->reference.game_state);
+	    lw6ker_game_state_get_rounds (sys_context,
+					  pilot->reference.game_state);
 	  if (draft_rounds > reference_rounds)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("sync from draft round=%d/%d"), draft_rounds,
 			  reference_rounds);
-	      ret = lw6ker_game_state_sync (target, pilot->draft.game_state);
+	      ret =
+		lw6ker_game_state_sync (sys_context, target,
+					pilot->draft.game_state);
 	    }
 	  else
 	    {
@@ -781,7 +796,8 @@ _lw6pil_pilot_sync_from_draft (lw6ker_game_state_t * target,
 			  _x_ ("sync from draft using reference round=%d/%d"),
 			  reference_rounds, draft_rounds);
 	      ret =
-		lw6ker_game_state_sync (target, pilot->reference.game_state);
+		lw6ker_game_state_sync (sys_context, target,
+					pilot->reference.game_state);
 	    }
 	}
       else
@@ -837,9 +853,10 @@ _lw6pil_pilot_dirty_read (_lw6pil_pilot_t * pilot)
   int draft_rounds = 0;
   int reference_rounds = 0;
 
-  draft_rounds = lw6ker_game_state_get_rounds (pilot->draft.game_state);
+  draft_rounds =
+    lw6ker_game_state_get_rounds (sys_context, pilot->draft.game_state);
   reference_rounds =
-    lw6ker_game_state_get_rounds (pilot->reference.game_state);
+    lw6ker_game_state_get_rounds (sys_context, pilot->reference.game_state);
   if (draft_rounds > reference_rounds)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
@@ -886,9 +903,9 @@ _lw6pil_pilot_repr (const _lw6pil_pilot_t * pilot)
 	lw6sys_new_sprintf
 	("%u (%dx%dx%d commmit_seq=%" LW6SYS_PRINTF_LL "d, current_seq=%"
 	 LW6SYS_PRINTF_LL "d)", pilot->id,
-	 lw6ker_game_state_get_w (pilot->backup),
-	 lw6ker_game_state_get_h (pilot->backup),
-	 lw6ker_game_state_get_d (pilot->backup),
+	 lw6ker_game_state_get_w (sys_context, pilot->backup),
+	 lw6ker_game_state_get_h (sys_context, pilot->backup),
+	 lw6ker_game_state_get_d (sys_context, pilot->backup),
 	 (long long) _lw6pil_pilot_get_last_commit_seq (pilot),
 	 (long long) _lw6pil_pilot_get_reference_current_seq (pilot));
     }
@@ -1288,7 +1305,8 @@ _lw6pil_pilot_did_cursor_win (const _lw6pil_pilot_t * pilot,
   if (pilot->reference.game_state)
     {
       ret =
-	lw6ker_game_state_did_cursor_win (pilot->reference.game_state,
+	lw6ker_game_state_did_cursor_win (sys_context,
+					  pilot->reference.game_state,
 					  cursor_id);
     }
 
@@ -1321,7 +1339,8 @@ _lw6pil_pilot_get_winner (const _lw6pil_pilot_t * pilot)
   if (pilot->reference.game_state)
     {
       ret =
-	lw6ker_game_state_get_winner (pilot->reference.game_state,
+	lw6ker_game_state_get_winner (sys_context,
+				      pilot->reference.game_state,
 				      LW6MAP_TEAM_COLOR_INVALID);
     }
 
@@ -1351,7 +1370,8 @@ _lw6pil_pilot_get_looser (const _lw6pil_pilot_t * pilot)
   if (pilot->reference.game_state)
     {
       ret =
-	lw6ker_game_state_get_looser (pilot->reference.game_state,
+	lw6ker_game_state_get_looser (sys_context,
+				      pilot->reference.game_state,
 				      LW6MAP_TEAM_COLOR_INVALID);
     }
 
@@ -1403,9 +1423,11 @@ _lw6pil_pilot_checksum_log_set_interval (_lw6pil_pilot_t * pilot,
    * It's not necessary to lock here, it's only a simple integer
    * affectation so should be fairly atomic
    */
-  lw6ker_game_state_checksum_log_set_interval (pilot->reference.game_state,
+  lw6ker_game_state_checksum_log_set_interval (sys_context,
+					       pilot->reference.game_state,
 					       checksum_log_interval);
-  lw6ker_game_state_checksum_log_set_interval (pilot->draft.game_state,
+  lw6ker_game_state_checksum_log_set_interval (sys_context,
+					       pilot->draft.game_state,
 					       checksum_log_interval);
 }
 

@@ -68,19 +68,24 @@ _test_screenshot ()
     level = lw6map_builtin_defaults ();
     if (level)
       {
-	game_struct = lw6ker_game_struct_new (level, NULL);
+	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
 	if (game_struct)
 	  {
-	    game_state = lw6ker_game_state_new (game_struct, NULL);
+	    game_state =
+	      lw6ker_game_state_new (sys_context, game_struct, NULL);
 	    if (game_state)
 	      {
-		lw6ker_game_state_register_node (game_state, _TEST_NODE_ID);
-		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
-					      _TEST_CURSOR1_ID, _TEST_COLOR1);
-		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
-					      _TEST_CURSOR2_ID, _TEST_COLOR2);
-		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
-					      _TEST_CURSOR3_ID, _TEST_COLOR3);
+		lw6ker_game_state_register_node (sys_context, game_state,
+						 _TEST_NODE_ID);
+		lw6ker_game_state_add_cursor (sys_context, game_state,
+					      _TEST_NODE_ID, _TEST_CURSOR1_ID,
+					      _TEST_COLOR1);
+		lw6ker_game_state_add_cursor (sys_context, game_state,
+					      _TEST_NODE_ID, _TEST_CURSOR2_ID,
+					      _TEST_COLOR2);
+		lw6ker_game_state_add_cursor (sys_context, game_state,
+					      _TEST_NODE_ID, _TEST_CURSOR3_ID,
+					      _TEST_COLOR3);
 
 		user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
 		if (user_dir)
@@ -114,14 +119,14 @@ _test_screenshot ()
 		  {
 		    ret = 0;
 		  }
-		lw6ker_game_state_free (game_state);
+		lw6ker_game_state_free (sys_context, game_state);
 		game_state = NULL;
 	      }
 	    else
 	      {
 		ret = 0;
 	      }
-	    lw6ker_game_struct_free (game_struct);
+	    lw6ker_game_struct_free (sys_context, game_struct);
 	    game_struct = NULL;
 	  }
 	else
@@ -179,7 +184,7 @@ lw6img_test_register (int mode)
       lw6sys_test_register (sys_context, mode);
       lw6cfg_test_register (mode);
       lw6map_test_register (sys_context, mode);
-      lw6ker_test_register (mode);
+      lw6ker_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6img", _setup_init, _setup_quit);

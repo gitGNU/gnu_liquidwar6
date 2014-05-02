@@ -44,7 +44,7 @@ static volatile u_int32_t seq_id = 0;
  * instance).
  */
 void
-_lw6ker_game_struct_set_id (_lw6ker_game_struct_t * game_struct)
+_lw6ker_game_struct_set_id (sys_context, _lw6ker_game_struct_t * game_struct)
 {
   game_struct->id = 0;
   while (!game_struct->id)
@@ -54,7 +54,7 @@ _lw6ker_game_struct_set_id (_lw6ker_game_struct_t * game_struct)
 }
 
 _lw6ker_game_struct_t *
-_lw6ker_game_struct_new (const lw6map_level_t * level,
+_lw6ker_game_struct_new (sys_context, const lw6map_level_t * level,
 			 lw6sys_progress_t * progress)
 {
   _lw6ker_game_struct_t *ret = NULL;
@@ -63,10 +63,11 @@ _lw6ker_game_struct_new (const lw6map_level_t * level,
     (_lw6ker_game_struct_t *) LW6SYS_CALLOC (sizeof (_lw6ker_game_struct_t));
   if (ret)
     {
-      _lw6ker_game_struct_set_id (ret);
+      _lw6ker_game_struct_set_id (sys_context, ret);
       ret->level = level;
       lw6map_rules_copy (sys_context, &(ret->rules), &(level->param.rules));
-      _lw6ker_map_struct_init (&(ret->map_struct), level, progress);
+      _lw6ker_map_struct_init (sys_context, &(ret->map_struct), level,
+			       progress);
     }
 
   return ret;
@@ -86,16 +87,17 @@ _lw6ker_game_struct_new (const lw6map_level_t * level,
  * Return value: newly allocated object
  */
 lw6ker_game_struct_t *
-lw6ker_game_struct_new (const lw6map_level_t * level,
+lw6ker_game_struct_new (sys_context, const lw6map_level_t * level,
 			lw6sys_progress_t * progress)
 {
-  return (lw6ker_game_struct_t *) _lw6ker_game_struct_new (level, progress);
+  return (lw6ker_game_struct_t *) _lw6ker_game_struct_new (sys_context, level,
+							   progress);
 }
 
 void
-_lw6ker_game_struct_free (_lw6ker_game_struct_t * game_struct)
+_lw6ker_game_struct_free (sys_context, _lw6ker_game_struct_t * game_struct)
 {
-  _lw6ker_map_struct_clear (&(game_struct->map_struct));
+  _lw6ker_map_struct_clear (sys_context, &(game_struct->map_struct));
   LW6SYS_FREE (sys_context, game_struct);
 }
 
@@ -110,13 +112,15 @@ _lw6ker_game_struct_free (_lw6ker_game_struct_t * game_struct)
  * Return value: none
  */
 void
-lw6ker_game_struct_free (lw6ker_game_struct_t * game_struct)
+lw6ker_game_struct_free (sys_context, lw6ker_game_struct_t * game_struct)
 {
-  _lw6ker_game_struct_free ((_lw6ker_game_struct_t *) game_struct);
+  _lw6ker_game_struct_free (sys_context,
+			    (_lw6ker_game_struct_t *) game_struct);
 }
 
 void
-_lw6ker_game_struct_point_to (_lw6ker_game_struct_t * game_struct,
+_lw6ker_game_struct_point_to (sys_context,
+			      _lw6ker_game_struct_t * game_struct,
 			      const lw6map_level_t * level)
 {
   game_struct->level = level;
@@ -137,14 +141,16 @@ _lw6ker_game_struct_point_to (_lw6ker_game_struct_t * game_struct,
  * Return value: none
  */
 void
-lw6ker_game_struct_point_to (lw6ker_game_struct_t * game_struct,
+lw6ker_game_struct_point_to (sys_context, lw6ker_game_struct_t * game_struct,
 			     const lw6map_level_t * level)
 {
-  _lw6ker_game_struct_point_to ((_lw6ker_game_struct_t *) game_struct, level);
+  _lw6ker_game_struct_point_to (sys_context,
+				(_lw6ker_game_struct_t *) game_struct, level);
 }
 
 int
-_lw6ker_game_struct_memory_footprint (const _lw6ker_game_struct_t *
+_lw6ker_game_struct_memory_footprint (sys_context,
+				      const _lw6ker_game_struct_t *
 				      game_struct)
 {
   int ret = 0;
@@ -164,14 +170,17 @@ _lw6ker_game_struct_memory_footprint (const _lw6ker_game_struct_t *
  * Return value: number of bytes (approximation)
  */
 int
-lw6ker_game_struct_memory_footprint (const lw6ker_game_struct_t * game_struct)
+lw6ker_game_struct_memory_footprint (sys_context,
+				     const lw6ker_game_struct_t * game_struct)
 {
-  return _lw6ker_game_struct_memory_footprint ((const _lw6ker_game_struct_t *)
+  return _lw6ker_game_struct_memory_footprint (sys_context,
+					       (const _lw6ker_game_struct_t *)
 					       game_struct);
 }
 
 char *
-_lw6ker_game_struct_repr (const _lw6ker_game_struct_t * game_struct)
+_lw6ker_game_struct_repr (sys_context,
+			  const _lw6ker_game_struct_t * game_struct)
 {
   char *ret = NULL;
   float compression = 0.0f;
@@ -183,7 +192,8 @@ _lw6ker_game_struct_repr (const _lw6ker_game_struct_t * game_struct)
        * function is called when freeing the object
        */
       compression =
-	_lw6ker_map_struct_get_compression (&(game_struct->map_struct)) *
+	_lw6ker_map_struct_get_compression (sys_context,
+					    &(game_struct->map_struct)) *
 	100.0f;
 
       ret =
@@ -211,14 +221,17 @@ _lw6ker_game_struct_repr (const _lw6ker_game_struct_t * game_struct)
  * Return value: newly allocated string, must be freed
  */
 char *
-lw6ker_game_struct_repr (const lw6ker_game_struct_t * game_struct)
+lw6ker_game_struct_repr (sys_context,
+			 const lw6ker_game_struct_t * game_struct)
 {
-  return _lw6ker_game_struct_repr ((const _lw6ker_game_struct_t *)
+  return _lw6ker_game_struct_repr (sys_context,
+				   (const _lw6ker_game_struct_t *)
 				   game_struct);
 }
 
 _lw6ker_game_struct_t *
-_lw6ker_game_struct_dup (const _lw6ker_game_struct_t * game_struct,
+_lw6ker_game_struct_dup (sys_context,
+			 const _lw6ker_game_struct_t * game_struct,
 			 lw6sys_progress_t * progress)
 {
   _lw6ker_game_struct_t *ret = NULL;
@@ -234,7 +247,7 @@ _lw6ker_game_struct_dup (const _lw6ker_game_struct_t * game_struct,
       /*
        * Set id after the memcpy, else will be overwritten
        */
-      _lw6ker_game_struct_set_id (ret);
+      _lw6ker_game_struct_set_id (sys_context, ret);
       ret->map_struct.places =
 	(_lw6ker_place_struct_t *)
 	LW6SYS_MALLOC (sizeof (_lw6ker_place_struct_t) *
@@ -286,8 +299,8 @@ _lw6ker_game_struct_dup (const _lw6ker_game_struct_t * game_struct,
 
   if (ret)
     {
-      if (_lw6ker_game_struct_checksum (ret) ==
-	  _lw6ker_game_struct_checksum (game_struct))
+      if (_lw6ker_game_struct_checksum (sys_context, ret) ==
+	  _lw6ker_game_struct_checksum (sys_context, game_struct))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("game_struct dup %d->%d"), game_struct->id,
@@ -320,28 +333,32 @@ _lw6ker_game_struct_dup (const _lw6ker_game_struct_t * game_struct,
  * Return value: newly created object
  */
 lw6ker_game_struct_t *
-lw6ker_game_struct_dup (const lw6ker_game_struct_t * game_struct,
+lw6ker_game_struct_dup (sys_context, const lw6ker_game_struct_t * game_struct,
 			lw6sys_progress_t * progress)
 {
   return (lw6ker_game_struct_t *)
-    _lw6ker_game_struct_dup ((const _lw6ker_game_struct_t *) game_struct,
+    _lw6ker_game_struct_dup (sys_context,
+			     (const _lw6ker_game_struct_t *) game_struct,
 			     progress);
 }
 
 void
-_lw6ker_game_struct_update_checksum (const _lw6ker_game_struct_t *
+_lw6ker_game_struct_update_checksum (sys_context,
+				     const _lw6ker_game_struct_t *
 				     game_struct, u_int32_t * checksum)
 {
   lw6map_rules_update_checksum (sys_context, &(game_struct->rules), checksum);
-  _lw6ker_map_struct_update_checksum (&(game_struct->map_struct), checksum);
+  _lw6ker_map_struct_update_checksum (sys_context, &(game_struct->map_struct),
+				      checksum);
 }
 
 u_int32_t
-_lw6ker_game_struct_checksum (const _lw6ker_game_struct_t * game_struct)
+_lw6ker_game_struct_checksum (sys_context,
+			      const _lw6ker_game_struct_t * game_struct)
 {
   u_int32_t ret = 0;
 
-  _lw6ker_game_struct_update_checksum (game_struct, &ret);
+  _lw6ker_game_struct_update_checksum (sys_context, game_struct, &ret);
 
   return ret;
 }
@@ -358,9 +375,11 @@ _lw6ker_game_struct_checksum (const _lw6ker_game_struct_t * game_struct)
  * Return value: 32-bit checksum
  */
 u_int32_t
-lw6ker_game_struct_checksum (const lw6ker_game_struct_t * game_struct)
+lw6ker_game_struct_checksum (sys_context,
+			     const lw6ker_game_struct_t * game_struct)
 {
-  return _lw6ker_game_struct_checksum ((const _lw6ker_game_struct_t *)
+  return _lw6ker_game_struct_checksum (sys_context,
+				       (const _lw6ker_game_struct_t *)
 				       game_struct);
 }
 
@@ -375,7 +394,8 @@ lw6ker_game_struct_checksum (const lw6ker_game_struct_t * game_struct)
  * Return value: none.
  */
 void
-lw6ker_game_struct_get_shape (const lw6ker_game_struct_t * game_struct,
+lw6ker_game_struct_get_shape (sys_context,
+			      const lw6ker_game_struct_t * game_struct,
 			      lw6sys_whd_t * shape)
 {
   (*shape) = ((const _lw6ker_game_struct_t *) game_struct)->map_struct.shape;
@@ -391,7 +411,8 @@ lw6ker_game_struct_get_shape (const lw6ker_game_struct_t * game_struct,
  * Return value: the width.
  */
 int
-lw6ker_game_struct_get_w (const lw6ker_game_struct_t * game_struct)
+lw6ker_game_struct_get_w (sys_context,
+			  const lw6ker_game_struct_t * game_struct)
 {
   return ((const _lw6ker_game_struct_t *) game_struct)->map_struct.shape.w;
 }
@@ -406,7 +427,8 @@ lw6ker_game_struct_get_w (const lw6ker_game_struct_t * game_struct)
  * Return value: the height.
  */
 int
-lw6ker_game_struct_get_h (const lw6ker_game_struct_t * game_struct)
+lw6ker_game_struct_get_h (sys_context,
+			  const lw6ker_game_struct_t * game_struct)
 {
   return ((const _lw6ker_game_struct_t *) game_struct)->map_struct.shape.h;
 }
@@ -421,7 +443,8 @@ lw6ker_game_struct_get_h (const lw6ker_game_struct_t * game_struct)
  * Return value: the depth.
  */
 int
-lw6ker_game_struct_get_d (const lw6ker_game_struct_t * game_struct)
+lw6ker_game_struct_get_d (sys_context,
+			  const lw6ker_game_struct_t * game_struct)
 {
   return ((const _lw6ker_game_struct_t *) game_struct)->map_struct.shape.d;
 }
@@ -439,7 +462,8 @@ lw6ker_game_struct_get_d (const lw6ker_game_struct_t * game_struct)
  * Return value: 1 if foreground (wall, fighters can't move), 0 if not
  */
 int
-lw6ker_game_struct_is_fg (const lw6ker_game_struct_t * game_struct, int32_t x,
+lw6ker_game_struct_is_fg (sys_context,
+			  const lw6ker_game_struct_t * game_struct, int32_t x,
 			  int32_t y, int32_t z)
 {
   return (_lw6ker_map_struct_get_zone_id
@@ -460,7 +484,8 @@ lw6ker_game_struct_is_fg (const lw6ker_game_struct_t * game_struct, int32_t x,
  * Return value: 1 if background (wall, fighters can move), 0 if not
  */
 int
-lw6ker_game_struct_is_bg (const lw6ker_game_struct_t * game_struct, int32_t x,
+lw6ker_game_struct_is_bg (sys_context,
+			  const lw6ker_game_struct_t * game_struct, int32_t x,
 			  int32_t y, int32_t z)
 {
   return (_lw6ker_map_struct_get_zone_id
@@ -481,7 +506,8 @@ lw6ker_game_struct_is_bg (const lw6ker_game_struct_t * game_struct, int32_t x,
  * Return value: none.
  */
 void
-lw6ker_game_struct_get_zones_info (const lw6ker_game_struct_t * game_struct,
+lw6ker_game_struct_get_zones_info (sys_context,
+				   const lw6ker_game_struct_t * game_struct,
 				   int *nb_zones, int *max_zone_size)
 {
   if (nb_zones)
@@ -511,9 +537,10 @@ lw6ker_game_struct_get_zones_info (const lw6ker_game_struct_t * game_struct,
  * Return value: none
  */
 void
-lw6ker_game_struct_get_zone_info (const lw6ker_game_struct_t * game_struct,
-				  int i,
-				  lw6sys_xyz_t * zone_pos, int *zone_size)
+lw6ker_game_struct_get_zone_info (sys_context,
+				  const lw6ker_game_struct_t * game_struct,
+				  int i, lw6sys_xyz_t * zone_pos,
+				  int *zone_size)
 {
   _lw6ker_zone_struct_t *zone;
 
@@ -543,7 +570,8 @@ lw6ker_game_struct_get_zone_info (const lw6ker_game_struct_t * game_struct,
  * Return value: the zone id
  */
 int32_t
-lw6ker_game_struct_get_zone_id (const lw6ker_game_struct_t * game_struct,
+lw6ker_game_struct_get_zone_id (sys_context,
+				const lw6ker_game_struct_t * game_struct,
 				int32_t x, int32_t y, int32_t z)
 {
   return
@@ -566,9 +594,9 @@ lw6ker_game_struct_get_zone_id (const lw6ker_game_struct_t * game_struct,
  * Return value: none
  */
 void
-lw6ker_game_struct_find_free_slot_near (const lw6ker_game_struct_t *
-					game_struct,
-					lw6sys_xyz_t * there,
+lw6ker_game_struct_find_free_slot_near (sys_context,
+					const lw6ker_game_struct_t *
+					game_struct, lw6sys_xyz_t * there,
 					lw6sys_xyz_t here)
 {
   _lw6ker_map_struct_find_free_slot_near (&

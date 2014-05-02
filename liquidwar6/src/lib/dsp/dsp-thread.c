@@ -244,7 +244,7 @@ poll (_lw6dsp_data_t * data)
 
   if (game_state)
     {
-      data->rounds = lw6ker_game_state_get_rounds (game_state);
+      data->rounds = lw6ker_game_state_get_rounds (sys_context, game_state);
     }
 
   if (!(data->param.look))

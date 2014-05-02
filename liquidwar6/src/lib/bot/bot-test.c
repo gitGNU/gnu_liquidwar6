@@ -65,17 +65,18 @@ new_data (lw6map_level_t ** level,
   *level =
     lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			   _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
-  *game_struct = lw6ker_game_struct_new (*level, NULL);
-  *game_state = lw6ker_game_state_new (*game_struct, NULL);
+  *game_struct = lw6ker_game_struct_new (sys_context, *level, NULL);
+  *game_state = lw6ker_game_state_new (sys_context, *game_struct, NULL);
 
   if (*game_state)
     {
-      lw6ker_game_state_register_node (*game_state, _TEST_NODE_ID);
-      lw6ker_game_state_add_cursor (*game_state, _TEST_NODE_ID,
+      lw6ker_game_state_register_node (sys_context, *game_state,
+				       _TEST_NODE_ID);
+      lw6ker_game_state_add_cursor (sys_context, *game_state, _TEST_NODE_ID,
 				    _TEST_CURSOR_ID1, _TEST_CURSOR_COLOR1);
-      lw6ker_game_state_add_cursor (*game_state, _TEST_NODE_ID,
+      lw6ker_game_state_add_cursor (sys_context, *game_state, _TEST_NODE_ID,
 				    _TEST_CURSOR_ID2, _TEST_CURSOR_COLOR2);
-      lw6ker_game_state_add_cursor (*game_state, _TEST_NODE_ID,
+      lw6ker_game_state_add_cursor (sys_context, *game_state, _TEST_NODE_ID,
 				    _TEST_CURSOR_ID3, _TEST_CURSOR_COLOR3);
     }
 
@@ -89,8 +90,8 @@ free_data (lw6map_level_t * level,
 	   lw6ker_game_struct_t * game_struct,
 	   lw6ker_game_state_t * game_state)
 {
-  lw6ker_game_state_free (game_state);
-  lw6ker_game_struct_free (game_struct);
+  lw6ker_game_state_free (sys_context, game_state);
+  lw6ker_game_struct_free (sys_context, game_struct);
   lw6map_free (sys_context, level);
 }
 
@@ -123,21 +124,23 @@ _test_backend ()
       bot_seed.dirty_read = LW6PIL_DIRTY_READ_NEVER;
       if (lw6bot_init (backend, &bot_seed))
 	{
-	  while (lw6ker_game_state_get_rounds (game_state) < _TEST_NB_ROUNDS)
+	  while (lw6ker_game_state_get_rounds (sys_context, game_state) <
+		 _TEST_NB_ROUNDS)
 	    {
 	      lw6bot_next_move (backend, &x, &y);
 	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			  _x_ ("round %d moved to %d,%d"),
-			  lw6ker_game_state_get_rounds (game_state), x, y);
-	      lw6ker_cursor_reset (&cursor);
+			  lw6ker_game_state_get_rounds (sys_context,
+							game_state), x, y);
+	      lw6ker_cursor_reset (sys_context, &cursor);
 	      cursor.node_id = _TEST_NODE_ID;
 	      cursor.cursor_id = _TEST_CURSOR_ID3;
 	      cursor.pos.x = x;
 	      cursor.pos.y = y;
-	      lw6ker_game_state_set_cursor (game_state, &cursor);
+	      lw6ker_game_state_set_cursor (sys_context, game_state, &cursor);
 	      for (i = 0; i < _TEST_ROUNDS_STEP; ++i)
 		{
-		  lw6ker_game_state_do_round (game_state);
+		  lw6ker_game_state_do_round (sys_context, game_state);
 		}
 	    }
 	  repr = lw6bot_repr (backend);
@@ -147,7 +150,7 @@ _test_backend ()
 			  _x_ ("bot repr is \"%s\""), repr);
 	      LW6SYS_FREE (sys_context, repr);
 	    }
-	  capture_str = lw6ker_capture_str (game_state);
+	  capture_str = lw6ker_capture_str (sys_context, game_state);
 	  if (capture_str)
 	    {
 	      if (lw6sys_log_get_console_state ())
@@ -343,7 +346,7 @@ lw6bot_test_register (int mode)
        */
       lw6sys_test_register (sys_context, mode);
       lw6map_test_register (sys_context, mode);
-      lw6ker_test_register (mode);
+      lw6ker_test_register (sys_context, mode);
       /*
        * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
        * this function is available only in non-allinone mode.

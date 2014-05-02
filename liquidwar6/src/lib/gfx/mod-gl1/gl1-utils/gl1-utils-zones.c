@@ -40,7 +40,7 @@ mod_gl1_utils_create_zones_surface (mod_gl1_utils_context_t * utils_context,
   lw6sys_color_f_t color;
   lw6sys_whd_t shape;
 
-  lw6ker_game_struct_get_shape (game_struct, &shape);
+  lw6ker_game_struct_get_shape (sys_context, game_struct, &shape);
 
   zones_surface =
     mod_gl1_utils_create_surface (utils_context, shape.w, shape.h);
@@ -53,7 +53,7 @@ mod_gl1_utils_create_zones_surface (mod_gl1_utils_context_t * utils_context,
       lw6sys_xyz_t zone_pos;
       int zone_size;
 
-      lw6ker_game_struct_get_zones_info (game_struct, &nb_zones,
+      lw6ker_game_struct_get_zones_info (sys_context, game_struct, &nb_zones,
 					 &max_zone_size);
 
       log_base = max_zone_size;
@@ -64,8 +64,8 @@ mod_gl1_utils_create_zones_surface (mod_gl1_utils_context_t * utils_context,
 
       for (i = 0; i < nb_zones; ++i)
 	{
-	  lw6ker_game_struct_get_zone_info (game_struct, i, &zone_pos,
-					    &zone_size);
+	  lw6ker_game_struct_get_zone_info (sys_context, game_struct, i,
+					    &zone_pos, &zone_size);
 	  grey = log (zone_size) / log (log_base);
 
 	  color.r = color.g = color.b = grey;

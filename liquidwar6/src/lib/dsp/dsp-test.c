@@ -170,7 +170,7 @@ game_struct_new (lw6map_level_t * level, lw6sys_progress_t * progress)
   lw6ker_game_struct_t *ret = NULL;
 
   lw6sys_progress_begin (sys_context, progress);
-  ret = lw6ker_game_struct_new (level, progress);
+  ret = lw6ker_game_struct_new (sys_context, level, progress);
   lw6sys_progress_begin (sys_context, progress);
 
   return ret;
@@ -183,13 +183,13 @@ game_state_new (lw6ker_game_struct_t * game_struct,
   lw6ker_game_state_t *ret = NULL;
 
   lw6sys_progress_begin (sys_context, progress);
-  ret = lw6ker_game_state_new (game_struct, progress);
+  ret = lw6ker_game_state_new (sys_context, game_struct, progress);
   if (ret)
     {
-      lw6ker_game_state_register_node (ret, _TEST_NODE_ID);
-      lw6ker_game_state_add_cursor (ret, _TEST_NODE_ID,
+      lw6ker_game_state_register_node (sys_context, ret, _TEST_NODE_ID);
+      lw6ker_game_state_add_cursor (sys_context, ret, _TEST_NODE_ID,
 				    _TEST_CURSOR1_ID, _TEST_COLOR1);
-      lw6ker_game_state_add_cursor (ret, _TEST_NODE_ID,
+      lw6ker_game_state_add_cursor (sys_context, ret, _TEST_NODE_ID,
 				    _TEST_CURSOR2_ID, _TEST_COLOR2);
     }
   lw6sys_progress_begin (sys_context, progress);
@@ -388,7 +388,8 @@ _test_display ()
 					    ("start play with game state"));
 				for (i = 0; i < _TEST_NB_ROUNDS; ++i)
 				  {
-				    lw6ker_game_state_do_round (game_state);
+				    lw6ker_game_state_do_round (sys_context,
+								game_state);
 				    lw6dsp_update (display, &param);
 				  }
 				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -413,13 +414,15 @@ _test_display ()
 				  }
 				param.game_state = NULL;
 				lw6dsp_update (display, &param);
-				lw6ker_game_state_free (game_state);
+				lw6ker_game_state_free (sys_context,
+							game_state);
 				game_state = NULL;
 				ret = 1;
 			      }
 			    param.game_struct = NULL;
 			    lw6dsp_update (display, &param);
-			    lw6ker_game_struct_free (game_struct);
+			    lw6ker_game_struct_free (sys_context,
+						     game_struct);
 			    game_struct = NULL;
 			  }
 			param.level = NULL;
@@ -677,7 +680,7 @@ lw6dsp_test_register (int mode)
       lw6sys_test_register (sys_context, mode);
       lw6cfg_test_register (mode);
       lw6map_test_register (sys_context, mode);
-      lw6ker_test_register (mode);
+      lw6ker_test_register (sys_context, mode);
       lw6pil_test_register (mode);
       lw6gui_test_register (mode);
       lw6vox_test_register (mode);

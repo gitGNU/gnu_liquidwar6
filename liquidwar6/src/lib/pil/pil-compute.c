@@ -98,7 +98,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 			      _x_ ("worker compute begin %d"),
 			      worker->current_round);
 		  lw6sys_mutex_lock (sys_context, worker->compute_mutex);
-		  lw6ker_team_mask_best (&team_mask_even,
+		  lw6ker_team_mask_best (sys_context, &team_mask_even,
 					 &team_mask_odd, worker->game_state);
 		  worker->target_round = command->round;
 		  if (worker->game_state->game_struct->rules.spread_thread)
@@ -110,7 +110,8 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 			lw6sys_thread_create ((lw6sys_thread_callback_func_t)
 					      _lw6pil_spread_thread_func,
 					      NULL, (void *) &spread_data);
-		      lw6ker_game_state_do_move (worker->game_state,
+		      lw6ker_game_state_do_move (sys_context,
+						 worker->game_state,
 						 team_mask_even);
 		      if (spread_thread)
 			{
@@ -130,7 +131,8 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 			lw6sys_thread_create ((lw6sys_thread_callback_func_t)
 					      _lw6pil_spread_thread_func,
 					      NULL, (void *) &spread_data);
-		      lw6ker_game_state_do_move (worker->game_state,
+		      lw6ker_game_state_do_move (sys_context,
+						 worker->game_state,
 						 team_mask_odd);
 		      if (spread_thread)
 			{
@@ -143,21 +145,25 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 			  _lw6pil_spread_thread_func (&spread_data);
 			}
 
-		      lw6ker_game_state_finish_round (worker->game_state);
+		      lw6ker_game_state_finish_round (sys_context,
+						      worker->game_state);
 		    }
 		  else
 		    {
-		      lw6ker_game_state_do_round (worker->game_state);
+		      lw6ker_game_state_do_round (sys_context,
+						  worker->game_state);
 		    }
 		  worker->current_round++;
-		  if (lw6ker_game_state_is_over (worker->game_state))
+		  if (lw6ker_game_state_is_over
+		      (sys_context, worker->game_state))
 		    {
 		      worker->over = 1;
 		    }
 		  else
 		    {
 		      if (worker->current_round !=
-			  lw6ker_game_state_get_rounds (worker->game_state))
+			  lw6ker_game_state_get_rounds (sys_context,
+							worker->game_state))
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_

@@ -394,7 +394,7 @@ _scm_lw6pil_fix_coords (SCM game_state, SCM x, SCM y, SCM z)
       c_y = scm_to_double (y);
       c_z = scm_to_double (z);
 
-      lw6ker_game_state_get_shape (c_game_state, &shape);
+      lw6ker_game_state_get_shape (sys_context, c_game_state, &shape);
       lw6pil_coords_fix (&(c_game_state->game_struct->rules),
 			 &shape, &c_x, &c_y, &c_z);
       ret =
@@ -438,7 +438,7 @@ _scm_lw6pil_fix_coords_x10 (SCM game_state, SCM x, SCM y, SCM z)
       c_y = scm_to_double (y);
       c_z = scm_to_double (z);
 
-      lw6ker_game_state_get_shape (c_game_state, &shape);
+      lw6ker_game_state_get_shape (sys_context, c_game_state, &shape);
       lw6pil_coords_fix_x10 (&(c_game_state->game_struct->rules),
 			     &shape, &c_x, &c_y, &c_z);
       ret =

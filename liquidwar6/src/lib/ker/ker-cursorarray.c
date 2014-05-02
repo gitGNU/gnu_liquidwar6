@@ -30,19 +30,20 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_cursor_array_init (_lw6ker_cursor_array_t * cursor_array)
+_lw6ker_cursor_array_init (sys_context, _lw6ker_cursor_array_t * cursor_array)
 {
   int i = 0;
 
   cursor_array->nb_cursors = 0;
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
-      _lw6ker_cursor_init (&(cursor_array->cursors[i]), 'a' + i);
+      _lw6ker_cursor_init (sys_context, &(cursor_array->cursors[i]), 'a' + i);
     }
 }
 
 void
-_lw6ker_cursor_array_update_checksum (const _lw6ker_cursor_array_t *
+_lw6ker_cursor_array_update_checksum (sys_context,
+				      const _lw6ker_cursor_array_t *
 				      cursor_array, u_int32_t * checksum)
 {
   int i = 0;
@@ -51,12 +52,14 @@ _lw6ker_cursor_array_update_checksum (const _lw6ker_cursor_array_t *
 				cursor_array->nb_cursors);
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
-      _lw6ker_cursor_update_checksum (&(cursor_array->cursors[i]), checksum);
+      _lw6ker_cursor_update_checksum (sys_context,
+				      &(cursor_array->cursors[i]), checksum);
     }
 }
 
 lw6ker_cursor_t *
-_lw6ker_cursor_array_find_free (_lw6ker_cursor_array_t * cursor_array)
+_lw6ker_cursor_array_find_free (sys_context,
+				_lw6ker_cursor_array_t * cursor_array)
 {
   lw6ker_cursor_t *ret = NULL;
   int i;
@@ -79,7 +82,8 @@ _lw6ker_cursor_array_find_free (_lw6ker_cursor_array_t * cursor_array)
 }
 
 int
-_lw6ker_cursor_array_is_color_owned_by (const _lw6ker_cursor_array_t *
+_lw6ker_cursor_array_is_color_owned_by (sys_context,
+					const _lw6ker_cursor_array_t *
 					cursor_array, u_int64_t node_id,
 					int team_color)
 {
@@ -104,19 +108,20 @@ _lw6ker_cursor_array_is_color_owned_by (const _lw6ker_cursor_array_t *
 }
 
 void
-_lw6ker_cursor_array_reset (_lw6ker_cursor_array_t * cursor_array)
+_lw6ker_cursor_array_reset (sys_context,
+			    _lw6ker_cursor_array_t * cursor_array)
 {
   int i;
 
   cursor_array->nb_cursors = 0;
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
-      lw6ker_cursor_reset (&(cursor_array->cursors[i]));
+      lw6ker_cursor_reset (sys_context, &(cursor_array->cursors[i]));
     }
 }
 
 lw6ker_cursor_t *
-_lw6ker_cursor_array_get_rw (_lw6ker_cursor_array_t *
+_lw6ker_cursor_array_get_rw (sys_context, _lw6ker_cursor_array_t *
 			     cursor_array, u_int16_t cursor_id)
 {
   lw6ker_cursor_t *ret = NULL;
@@ -152,22 +157,22 @@ _lw6ker_cursor_array_get_ro (const _lw6ker_cursor_array_t *
 }
 
 int
-_lw6ker_cursor_array_enable (_lw6ker_cursor_array_t * cursor_array,
-			     u_int64_t node_id,
-			     u_int16_t cursor_id, int team_color,
-			     int32_t x, int32_t y)
+_lw6ker_cursor_array_enable (sys_context,
+			     _lw6ker_cursor_array_t * cursor_array,
+			     u_int64_t node_id, u_int16_t cursor_id,
+			     int team_color, int32_t x, int32_t y)
 {
   int ret = 0;
   lw6ker_cursor_t *cursor;
 
-  cursor = _lw6ker_cursor_array_get_rw (cursor_array, cursor_id);
+  cursor = _lw6ker_cursor_array_get_rw (sys_context, cursor_array, cursor_id);
   if (!cursor)
     {
-      cursor = _lw6ker_cursor_array_find_free (cursor_array);
+      cursor = _lw6ker_cursor_array_find_free (sys_context, cursor_array);
       if (cursor)
 	{
-	  _lw6ker_cursor_enable (cursor, node_id, cursor_id, team_color, x,
-				 y);
+	  _lw6ker_cursor_enable (sys_context, cursor, node_id, cursor_id,
+				 team_color, x, y);
 	  cursor_array->nb_cursors++;
 	  ret = 1;
 	}
@@ -183,18 +188,19 @@ _lw6ker_cursor_array_enable (_lw6ker_cursor_array_t * cursor_array,
 }
 
 int
-_lw6ker_cursor_array_disable (_lw6ker_cursor_array_t * cursor_array,
+_lw6ker_cursor_array_disable (sys_context,
+			      _lw6ker_cursor_array_t * cursor_array,
 			      u_int64_t node_id, u_int16_t cursor_id)
 {
   int ret = 0;
   lw6ker_cursor_t *cursor;
 
-  cursor = _lw6ker_cursor_array_get_rw (cursor_array, cursor_id);
+  cursor = _lw6ker_cursor_array_get_rw (sys_context, cursor_array, cursor_id);
   if (cursor)
     {
-      if (_lw6ker_cursor_check_node_id (cursor, node_id))
+      if (_lw6ker_cursor_check_node_id (sys_context, cursor, node_id))
 	{
-	  _lw6ker_cursor_disable (cursor);
+	  _lw6ker_cursor_disable (sys_context, cursor);
 	  cursor_array->nb_cursors--;
 	  ret = 1;
 	}
@@ -210,10 +216,10 @@ _lw6ker_cursor_array_disable (_lw6ker_cursor_array_t * cursor_array,
 }
 
 int
-_lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
-			     u_int64_t node_id,
-			     u_int16_t cursor_id, int32_t x,
-			     int32_t y, int fire, int fire2,
+_lw6ker_cursor_array_update (sys_context,
+			     _lw6ker_cursor_array_t * cursor_array,
+			     u_int64_t node_id, u_int16_t cursor_id,
+			     int32_t x, int32_t y, int fire, int fire2,
 			     int32_t pot_offset, const lw6sys_whd_t * shape,
 			     const lw6map_rules_t * rules)
 {
@@ -223,14 +229,14 @@ _lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_ ("cursor array update %" LW6SYS_PRINTF_LL "x %x %d %d %d"),
 	      (long long) node_id, cursor_id, x, y, pot_offset);
-  cursor = _lw6ker_cursor_array_get_rw (cursor_array, cursor_id);
+  cursor = _lw6ker_cursor_array_get_rw (sys_context, cursor_array, cursor_id);
   if (cursor)
     {
-      if (_lw6ker_cursor_check_node_id (cursor, node_id))
+      if (_lw6ker_cursor_check_node_id (sys_context, cursor, node_id))
 	{
 	  ret =
-	    _lw6ker_cursor_update (cursor, x, y, fire, fire2, pot_offset,
-				   shape, rules);
+	    _lw6ker_cursor_update (sys_context, cursor, x, y, fire, fire2,
+				   pot_offset, shape, rules);
 	}
     }
   else
@@ -244,7 +250,7 @@ _lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
 }
 
 int
-_lw6ker_cursor_array_sanity_check (const _lw6ker_cursor_array_t *
+_lw6ker_cursor_array_sanity_check (sys_context, const _lw6ker_cursor_array_t *
 				   cursor_array, const lw6sys_whd_t * shape,
 				   const lw6map_rules_t * rules)
 {
@@ -255,7 +261,8 @@ _lw6ker_cursor_array_sanity_check (const _lw6ker_cursor_array_t *
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
       ret = ret
-	&& _lw6ker_cursor_sanity_check (&(cursor_array->cursors[i]), shape,
+	&& _lw6ker_cursor_sanity_check (sys_context,
+					&(cursor_array->cursors[i]), shape,
 					rules);
       if (cursor_array->cursors[i].enabled)
 	{

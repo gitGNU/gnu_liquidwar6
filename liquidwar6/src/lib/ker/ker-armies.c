@@ -28,7 +28,7 @@
 #include "ker-internal.h"
 
 int
-_lw6ker_armies_init (_lw6ker_armies_t * armies,
+_lw6ker_armies_init (sys_context, _lw6ker_armies_t * armies,
 		     const _lw6ker_map_struct_t * map_struct,
 		     const lw6map_rules_t * options)
 {
@@ -58,7 +58,7 @@ _lw6ker_armies_init (_lw6ker_armies_t * armies,
 }
 
 void
-_lw6ker_armies_clear (_lw6ker_armies_t * armies)
+_lw6ker_armies_clear (sys_context, _lw6ker_armies_t * armies)
 {
   if (armies->fighters)
     {
@@ -71,12 +71,14 @@ _lw6ker_armies_clear (_lw6ker_armies_t * armies)
 }
 
 int
-_lw6ker_armies_sync (_lw6ker_armies_t * dst, const _lw6ker_armies_t * src)
+_lw6ker_armies_sync (sys_context, _lw6ker_armies_t * dst,
+		     const _lw6ker_armies_t * src)
 {
   int ret = 0;
 
   if (dst && src
-      && _lw6ker_map_struct_lazy_compare (dst->map_struct, src->map_struct))
+      && _lw6ker_map_struct_lazy_compare (sys_context, dst->map_struct,
+					  src->map_struct))
     {
       int i;
 
@@ -102,7 +104,7 @@ _lw6ker_armies_sync (_lw6ker_armies_t * dst, const _lw6ker_armies_t * src)
 }
 
 void
-_lw6ker_armies_update_checksum (const _lw6ker_armies_t * armies,
+_lw6ker_armies_update_checksum (sys_context, const _lw6ker_armies_t * armies,
 				u_int32_t * checksum)
 {
   int i;
@@ -118,12 +120,13 @@ _lw6ker_armies_update_checksum (const _lw6ker_armies_t * armies,
     }
   for (i = 0; i < armies->max_fighters; ++i)
     {
-      _lw6ker_fighter_update_checksum (&(armies->fighters[i]), checksum);
+      _lw6ker_fighter_update_checksum (sys_context, &(armies->fighters[i]),
+				       checksum);
     }
 }
 
 int32_t
-_lw6ker_armies_add_fighter (_lw6ker_armies_t * armies,
+_lw6ker_armies_add_fighter (sys_context, _lw6ker_armies_t * armies,
 			    lw6ker_fighter_t fighter)
 {
   int32_t new_id = -1;
@@ -152,7 +155,7 @@ _lw6ker_armies_add_fighter (_lw6ker_armies_t * armies,
  * then delete.
  */
 int
-_lw6ker_armies_remove_fighter (_lw6ker_armies_t * armies)
+_lw6ker_armies_remove_fighter (sys_context, _lw6ker_armies_t * armies)
 {
   int ret = 0;
 

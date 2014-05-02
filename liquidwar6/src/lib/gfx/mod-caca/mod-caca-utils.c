@@ -174,7 +174,8 @@ _mod_caca_display_hud (_mod_caca_context_t * caca_context,
 
   int i;
 
-  lw6ker_score_array_update (&caca_context->score_array, game_state);
+  lw6ker_score_array_update (sys_context, &caca_context->score_array,
+			     game_state);
   for (i = 0; i < LW6MAP_NB_TEAM_COLORS; ++i)
     if (caca_context->score_array.scores[i].has_been_active)
       mod_caca_score_text (caca_context, i,
@@ -191,7 +192,8 @@ _mod_caca_display_score (_mod_caca_context_t * caca_context,
 {
   int ret = 1, i;
 
-  lw6ker_score_array_update (&caca_context->score_array, game_state);
+  lw6ker_score_array_update (sys_context, &caca_context->score_array,
+			     game_state);
   for (i = 0; i < LW6MAP_NB_TEAM_COLORS; ++i)
     if (caca_context->score_array.scores[i].has_been_active)
       mod_caca_score_font (caca_context, i,

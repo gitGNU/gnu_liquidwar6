@@ -50,7 +50,7 @@ _lw6sim_mask_is_valid (int mask)
 
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      if (lw6ker_team_mask_is_concerned (i, mask))
+      if (lw6ker_team_mask_is_concerned (sys_context, i, mask))
 	{
 	  ret++;
 	}

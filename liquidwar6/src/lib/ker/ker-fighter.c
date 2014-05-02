@@ -39,13 +39,14 @@ int32_t _lw6ker_fighter_t_MOVE_Y_OFFSET[LW6KER_NB_DIRS] =
   { -1, -1, 0, 0, 1, 1, 1, 1, 0, 0, -1, -1 };
 
 void
-_lw6ker_fighter_clear (lw6ker_fighter_t * fighter)
+_lw6ker_fighter_clear (sys_context, lw6ker_fighter_t * fighter)
 {
   memset (fighter, 0, sizeof (lw6ker_fighter_t));
 }
 
 void
-_lw6ker_fighter_update_checksum (const lw6ker_fighter_t * fighter,
+_lw6ker_fighter_update_checksum (sys_context,
+				 const lw6ker_fighter_t * fighter,
 				 u_int32_t * checksum)
 {
   lw6sys_checksum_update_int32 (sys_context, checksum, fighter->team_color);
@@ -59,7 +60,7 @@ _lw6ker_fighter_update_checksum (const lw6ker_fighter_t * fighter,
 }
 
 void
-_lw6ker_fighter_print_debug (lw6ker_fighter_t * fighter)
+_lw6ker_fighter_print_debug (sys_context, lw6ker_fighter_t * fighter)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_
@@ -70,7 +71,7 @@ _lw6ker_fighter_print_debug (lw6ker_fighter_t * fighter)
 }
 
 void
-_lw6ker_fighter_move (lw6ker_fighter_t * fighter,
+_lw6ker_fighter_move (sys_context, lw6ker_fighter_t * fighter,
 		      int32_t fighter_id,
 		      int32_t x,
 		      int32_t y, int32_t z, _lw6ker_map_state_t * map_state)
@@ -85,7 +86,7 @@ _lw6ker_fighter_move (lw6ker_fighter_t * fighter,
 }
 
 void
-_lw6ker_fighter_attack (lw6ker_fighter_t * fighter,
+_lw6ker_fighter_attack (sys_context, lw6ker_fighter_t * fighter,
 			int32_t x,
 			int32_t y, int32_t z, _lw6ker_map_state_t * map_state,
 			int32_t fighter_attack, int32_t fighter_new_health)
@@ -113,7 +114,7 @@ _lw6ker_fighter_attack (lw6ker_fighter_t * fighter,
 }
 
 void
-_lw6ker_fighter_defend (lw6ker_fighter_t * fighter,
+_lw6ker_fighter_defend (sys_context, lw6ker_fighter_t * fighter,
 			int32_t x,
 			int32_t y,
 			int32_t z,
@@ -131,7 +132,7 @@ _lw6ker_fighter_defend (lw6ker_fighter_t * fighter,
 }
 
 void
-_lw6ker_fighter_regenerate (lw6ker_fighter_t * fighter,
+_lw6ker_fighter_regenerate (sys_context, lw6ker_fighter_t * fighter,
 			    int32_t fighter_regenerate)
 {
   fighter->health += fighter_regenerate;

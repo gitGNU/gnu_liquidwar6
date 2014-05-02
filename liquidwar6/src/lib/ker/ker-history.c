@@ -30,7 +30,7 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_history_set (_lw6ker_history_t * history,
+_lw6ker_history_set (sys_context, _lw6ker_history_t * history,
 		     _lw6ker_armies_t * armies, int i)
 {
   int j;
@@ -56,7 +56,8 @@ _lw6ker_history_set (_lw6ker_history_t * history,
 }
 
 void
-_lw6ker_history_add (_lw6ker_history_t * history, _lw6ker_armies_t * armies)
+_lw6ker_history_add (sys_context, _lw6ker_history_t * history,
+		     _lw6ker_armies_t * armies)
 {
   int i, j;
 
@@ -73,7 +74,8 @@ _lw6ker_history_add (_lw6ker_history_t * history, _lw6ker_armies_t * armies)
 }
 
 int
-_lw6ker_history_get (const _lw6ker_history_t * history, int i, int team_id)
+_lw6ker_history_get (sys_context, const _lw6ker_history_t * history, int i,
+		     int team_id)
 {
   int offset = 0;
   int ret = 0;
@@ -102,7 +104,7 @@ _lw6ker_history_get (const _lw6ker_history_t * history, int i, int team_id)
 }
 
 int32_t
-_lw6ker_history_get_max (const _lw6ker_history_t * history)
+_lw6ker_history_get_max (sys_context, const _lw6ker_history_t * history)
 {
   int32_t ret = 0;
   int32_t sub_total;
@@ -122,7 +124,8 @@ _lw6ker_history_get_max (const _lw6ker_history_t * history)
 }
 
 void
-_lw6ker_history_update_checksum (const _lw6ker_history_t * history,
+_lw6ker_history_update_checksum (sys_context,
+				 const _lw6ker_history_t * history,
 				 u_int32_t * checksum)
 {
   int i, j;

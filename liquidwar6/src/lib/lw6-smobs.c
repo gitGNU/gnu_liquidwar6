@@ -758,7 +758,7 @@ print_game_struct (SCM game_struct, SCM port, scm_print_state * pstate)
   lw6ker_game_struct_t *c_game_struct = lw6_scm_to_game_struct (game_struct);
   char *repr = NULL;
 
-  repr = lw6ker_game_struct_repr (c_game_struct);
+  repr = lw6ker_game_struct_repr (sys_context, c_game_struct);
 
   scm_puts ("#<" SMOB_TYPE_GAME_STRUCT " ", port);
   if (repr)
@@ -802,7 +802,7 @@ lw6_make_scm_game_struct (lw6ker_game_struct_t * c_game_struct, SCM map)
       id = smob_id (SMOB_TYPE_GAME_STRUCT, c_game_struct->id);
       if (id)
 	{
-	  repr = lw6ker_game_struct_repr (c_game_struct);
+	  repr = lw6ker_game_struct_repr (sys_context, c_game_struct);
 	  if (repr)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
@@ -863,7 +863,8 @@ lw6_free_game_struct_smob (lw6_game_struct_smob_t * game_struct_smob)
 {
   char *repr = NULL;
 
-  repr = lw6ker_game_struct_repr (game_struct_smob->c_game_struct);
+  repr =
+    lw6ker_game_struct_repr (sys_context, game_struct_smob->c_game_struct);
   if (repr)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO,
@@ -871,7 +872,7 @@ lw6_free_game_struct_smob (lw6_game_struct_smob_t * game_struct_smob)
       LW6SYS_FREE (sys_context, repr);
     }
 
-  lw6ker_game_struct_free (game_struct_smob->c_game_struct);
+  lw6ker_game_struct_free (sys_context, game_struct_smob->c_game_struct);
   LW6SYS_FREE (sys_context, game_struct_smob);
 }
 
@@ -930,7 +931,7 @@ print_game_state (SCM game_state, SCM port, scm_print_state * pstate)
   lw6ker_game_state_t *c_game_state = lw6_scm_to_game_state (game_state);
   char *repr = NULL;
 
-  repr = lw6ker_game_state_repr (c_game_state);
+  repr = lw6ker_game_state_repr (sys_context, c_game_state);
 
   scm_puts ("#<" SMOB_TYPE_GAME_STATE " ", port);
   if (repr)
@@ -973,7 +974,7 @@ lw6_make_scm_game_state (lw6ker_game_state_t * c_game_state, SCM game_struct)
       id = smob_id (SMOB_TYPE_GAME_STATE, c_game_state->id);
       if (id)
 	{
-	  repr = lw6ker_game_state_repr (c_game_state);
+	  repr = lw6ker_game_state_repr (sys_context, c_game_state);
 	  if (repr)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
@@ -1034,7 +1035,7 @@ lw6_free_game_state_smob (lw6_game_state_smob_t * game_state_smob)
 {
   char *repr = NULL;
 
-  repr = lw6ker_game_state_repr (game_state_smob->c_game_state);
+  repr = lw6ker_game_state_repr (sys_context, game_state_smob->c_game_state);
   if (repr)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO,
@@ -1042,7 +1043,7 @@ lw6_free_game_state_smob (lw6_game_state_smob_t * game_state_smob)
       LW6SYS_FREE (sys_context, repr);
     }
 
-  lw6ker_game_state_free (game_state_smob->c_game_state);
+  lw6ker_game_state_free (sys_context, game_state_smob->c_game_state);
   LW6SYS_FREE (sys_context, game_state_smob);
 }
 

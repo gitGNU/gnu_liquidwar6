@@ -289,11 +289,11 @@ _print_game_state (lw6ker_game_state_t * game_state, char *text)
 {
   char *capture_str;
 
-  capture_str = lw6ker_capture_str (game_state);
+  capture_str = lw6ker_capture_str (sys_context, game_state);
   if (LW6SYS_TEST_ACK (capture_str))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%s round=%d"), text,
-		  lw6ker_game_state_get_rounds (game_state));
+		  lw6ker_game_state_get_rounds (sys_context, game_state));
       if (lw6sys_log_get_console_state ())
 	{
 	  printf ("%s", capture_str);
@@ -417,10 +417,11 @@ _test_dump ()
 	 * is different than the checksum in the other standard case. This is also
 	 * a way to test both algorithms, including the standard one (this case).
 	 */
-	game_struct = lw6ker_game_struct_new (level, NULL);
+	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
 	if (LW6SYS_TEST_ACK (game_struct))
 	  {
-	    game_state = lw6ker_game_state_new (game_struct, NULL);
+	    game_state =
+	      lw6ker_game_state_new (sys_context, game_struct, NULL);
 	    if (LW6SYS_TEST_ACK (game_state))
 	      {
 		pilot =
@@ -590,7 +591,8 @@ _test_dump ()
 				     && dump_rounds == _TEST_BACKUP_ROUND))
 				  {
 				    checksum =
-				      lw6ker_game_state_checksum (game_state);
+				      lw6ker_game_state_checksum (sys_context,
+								  game_state);
 				    dump_checksum =
 				      lw6ker_game_state_checksum
 				      (dump.game_state);
@@ -656,13 +658,13 @@ _test_dump ()
 		  }
 		if (game_state)
 		  {
-		    lw6ker_game_state_free (game_state);
+		    lw6ker_game_state_free (sys_context, game_state);
 		    game_state = NULL;
 		  }
 	      }
 	    if (game_struct)
 	      {
-		lw6ker_game_struct_free (game_struct);
+		lw6ker_game_struct_free (sys_context, game_struct);
 		game_struct = NULL;
 	      }
 	  }
@@ -708,10 +710,11 @@ _test_nopilot ()
 	 * is different than the checksum in the other standard case. This is also
 	 * a way to test both algorithms, including the standard one (this case).
 	 */
-	game_struct = lw6ker_game_struct_new (level, NULL);
+	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
 	if (LW6SYS_TEST_ACK (game_struct))
 	  {
-	    game_state = lw6ker_game_state_new (game_struct, NULL);
+	    game_state =
+	      lw6ker_game_state_new (sys_context, game_struct, NULL);
 	    if (LW6SYS_TEST_ACK (game_state))
 	      {
 		pilot =
@@ -762,13 +765,13 @@ _test_nopilot ()
 		  }
 		if (game_state)
 		  {
-		    lw6ker_game_state_free (game_state);
+		    lw6ker_game_state_free (sys_context, game_state);
 		    game_state = NULL;
 		  }
 	      }
 	    if (game_struct)
 	      {
-		lw6ker_game_struct_free (game_struct);
+		lw6ker_game_struct_free (sys_context, game_struct);
 		game_struct = NULL;
 	      }
 	  }
@@ -811,10 +814,11 @@ _test_pilot ()
 	 * is the most complicated and error-prone setting.
 	 */
 	level->param.rules.spread_thread = 1;
-	game_struct = lw6ker_game_struct_new (level, NULL);
+	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
 	if (LW6SYS_TEST_ACK (game_struct))
 	  {
-	    game_state = lw6ker_game_state_new (game_struct, NULL);
+	    game_state =
+	      lw6ker_game_state_new (sys_context, game_struct, NULL);
 	    if (LW6SYS_TEST_ACK (game_state))
 	      {
 		pilot =
@@ -891,11 +895,13 @@ _test_pilot ()
 				  }
 				_print_game_state (game_state,
 						   _x_ ("backup 2"));
-				if (lw6ker_game_state_get_rounds (game_state)
-				    == _TEST_BACKUP_ROUND)
+				if (lw6ker_game_state_get_rounds
+				    (sys_context,
+				     game_state) == _TEST_BACKUP_ROUND)
 				  {
 				    checksum =
-				      lw6ker_game_state_checksum (game_state);
+				      lw6ker_game_state_checksum (sys_context,
+								  game_state);
 				  }
 				_print_game_state (lw6pil_pilot_dirty_read
 						   (pilot),
@@ -915,11 +921,11 @@ _test_pilot ()
 			 * to build it have disappeared, the "sleep" after
 			 * deletion is usefull too.
 			 */
-			lw6ker_game_struct_free (game_struct);
+			lw6ker_game_struct_free (sys_context, game_struct);
 			game_struct = NULL;
 			lw6map_free (sys_context, level);
 			level = NULL;
-			lw6ker_game_state_free (game_state);
+			lw6ker_game_state_free (sys_context, game_state);
 			game_state = NULL;
 			lw6sys_sleep (sys_context, _TEST_CYCLE);
 
@@ -994,13 +1000,13 @@ _test_pilot ()
 		  }
 		if (game_state)
 		  {
-		    lw6ker_game_state_free (game_state);
+		    lw6ker_game_state_free (sys_context, game_state);
 		    game_state = NULL;
 		  }
 	      }
 	    if (game_struct)
 	      {
-		lw6ker_game_struct_free (game_struct);
+		lw6ker_game_struct_free (sys_context, game_struct);
 		game_struct = NULL;
 	      }
 	  }
@@ -1135,8 +1141,10 @@ _test_suite ()
 		lw6sys_sleep (sys_context, _TEST_SUITE_SLEEP);
 	      }
 	    lw6pil_pilot_sync_from_reference (dump.game_state, dump.pilot);
-	    round = lw6ker_game_state_get_rounds (dump.game_state);
-	    checksum = lw6ker_game_state_checksum (dump.game_state);
+	    round =
+	      lw6ker_game_state_get_rounds (sys_context, dump.game_state);
+	    checksum =
+	      lw6ker_game_state_checksum (sys_context, dump.game_state);
 	    if (LW6SYS_TEST_ACK
 		(round == checkpoint_round
 		 && checksum == checkpoint_checksum))
@@ -1202,7 +1210,7 @@ lw6pil_test_register (int mode)
        */
       lw6sys_test_register (sys_context, mode);
       lw6map_test_register (sys_context, mode);
-      lw6ker_test_register (mode);
+      lw6ker_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6pil", _setup_init, _setup_quit);

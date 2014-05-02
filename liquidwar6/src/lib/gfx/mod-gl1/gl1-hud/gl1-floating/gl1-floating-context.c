@@ -94,7 +94,9 @@ _update_clock (mod_gl1_utils_context_t *
   int seconds;
   char *text = NULL;
 
-  time_left = lw6ker_game_state_get_time_left (floating_context->game_state);
+  time_left =
+    lw6ker_game_state_get_time_left (sys_context,
+				     floating_context->game_state);
   hours = time_left / 3600;
   minutes = (time_left / 60) % 60;
   seconds = time_left % 60;
@@ -232,7 +234,7 @@ _mod_gl1_hud_floating_context_update_hud (mod_gl1_utils_context_t *
   floating_context->look = look;
   floating_context->game_state = game_state;
   floating_context->local_cursors = local_cursors;
-  lw6ker_score_array_update (&floating_context->score_array,
+  lw6ker_score_array_update (sys_context, &floating_context->score_array,
 			     floating_context->game_state);
 
   ret = _update_clock (utils_context, floating_context) && ret;
@@ -363,7 +365,7 @@ _mod_gl1_hud_floating_context_update_score (mod_gl1_utils_context_t *
   floating_context->look = look;
   floating_context->game_state = game_state;
   floating_context->local_cursors = local_cursors;
-  lw6ker_score_array_update (&floating_context->score_array,
+  lw6ker_score_array_update (sys_context, &floating_context->score_array,
 			     floating_context->game_state);
 
   ret = _update_pie (utils_context, floating_context);

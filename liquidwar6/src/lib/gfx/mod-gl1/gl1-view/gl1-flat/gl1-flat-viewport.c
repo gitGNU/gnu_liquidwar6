@@ -100,7 +100,7 @@ _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
   int drag_pop = 0;
   float x, y, z;
 
-  lw6ker_game_state_get_shape (game_state, &shape);
+  lw6ker_game_state_get_shape (sys_context, game_state, &shape);
 
   main_cursor_x = shape.w / 2;
   main_cursor_y = shape.h / 2;

@@ -54,10 +54,11 @@ _test_renderer ()
     level = lw6map_builtin_defaults ();
     if (level)
       {
-	game_struct = lw6ker_game_struct_new (level, NULL);
+	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
 	if (game_struct)
 	  {
-	    game_state = lw6ker_game_state_new (game_struct, NULL);
+	    game_state =
+	      lw6ker_game_state_new (sys_context, game_struct, NULL);
 	    if (game_state)
 	      {
 		renderer = lw6vox_renderer_new (game_state);
@@ -71,13 +72,13 @@ _test_renderer ()
 		  {
 		    ret = 0;
 		  }
-		lw6ker_game_state_free (game_state);
+		lw6ker_game_state_free (sys_context, game_state);
 	      }
 	    else
 	      {
 		ret = 0;
 	      }
-	    lw6ker_game_struct_free (game_struct);
+	    lw6ker_game_struct_free (sys_context, game_struct);
 	  }
 	else
 	  {
@@ -134,7 +135,7 @@ lw6vox_test_register (int mode)
       lw6cfg_test_register (mode);
       lw6hlp_test_register (mode);
       lw6map_test_register (sys_context, mode);
-      lw6ker_test_register (mode);
+      lw6ker_test_register (sys_context, mode);
       lw6mat_test_register (mode);
       lw6gui_test_register (mode);
     }
