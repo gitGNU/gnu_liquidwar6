@@ -81,7 +81,7 @@ static void
 sleep_and_report (lw6dsp_backend_t * display, float delay)
 {
   lw6sys_sleep (delay);
-  lw6sys_log (LW6SYS_LOG_NOTICE,
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 	      _x_
 	      ("last_frame_rendering_time=%d, instant_fps=%d, average_fps=%d"),
 	      lw6dsp_get_last_frame_rendering_time (display),
@@ -241,7 +241,8 @@ _test_display ()
     repr = lw6dsp_repr (display);
     if (repr)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("display repr is \"%s\""), repr);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+		    _x_ ("display repr is \"%s\""), repr);
 	LW6SYS_FREE (sys_context, repr);
       }
     lw6dsp_param_zero (&param);
@@ -262,18 +263,20 @@ _test_display ()
 	    repr = lw6dsp_repr (display);
 	    if (repr)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE,
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_ ("display repr is \"%s\""), repr);
 		LW6SYS_FREE (sys_context, repr);
 	      }
 	    lw6dsp_get_video_mode (display, &video_mode);
-	    lw6sys_log (LW6SYS_LOG_NOTICE,
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			_x_ ("video mode is %dx%d fullscreen=%d"),
 			video_mode.width, video_mode.height,
 			video_mode.fullscreen);
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("displaying background"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+			_x_ ("displaying background"));
 	    sleep_and_report (display, _TEST_SLEEP_LONG);
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("changing resolution"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+			_x_ ("changing resolution"));
 	    param.video_mode.width = _TEST_WIDTH2;
 	    param.video_mode.height = _TEST_HEIGHT2;
 	    param.video_mode.fullscreen = _TEST_FULLSCREEN2;
@@ -286,7 +289,8 @@ _test_display ()
 	    param.misc.log_timeout = _TEST_LOG_TIMEOUT;
 	    lw6dsp_update (display, &param);
 	    sleep_and_report (display, _TEST_SLEEP_LONG);
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("displaying menu"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+			_x_ ("displaying menu"));
 	    param.menu = menu_new (_TEST_NB_MENUITEMS1);
 	    if (param.menu)
 	      {
@@ -295,7 +299,7 @@ _test_display ()
 		while (param.menu->nb_items > 0)
 		  {
 		    lw6gui_menu_remove (param.menu, 0, 0);
-		    lw6sys_log (LW6SYS_LOG_NOTICE,
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				_x_ ("displaying menu with %d items"),
 				param.menu->nb_items);
 		    lw6dsp_update (display, &param);
@@ -305,15 +309,15 @@ _test_display ()
 		param.menu = menu_new (_TEST_NB_MENUITEMS2);
 		if (param.menu)
 		  {
-		    lw6sys_log (LW6SYS_LOG_NOTICE,
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				_x_ ("displaying big menu (%d items)"),
 				param.menu->nb_items);
 		    lw6dsp_update (display, &param);
 		    sleep_and_report (display, _TEST_SLEEP_SHORT);
-		    lw6sys_log (LW6SYS_LOG_NOTICE,
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				_x_ ("nb items displayed is %d"),
 				param.menu->nb_items_displayed);
-		    lw6sys_log (LW6SYS_LOG_NOTICE,
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				_x_
 				("scrolling to middle of big menu (%d)"),
 				param.menu->nb_items / 2);
@@ -322,26 +326,28 @@ _test_display ()
 					_TEST_MENU_ALLOW_SCROLL, 0);
 		    lw6dsp_update (display, &param);
 		    sleep_and_report (display, _TEST_SLEEP_SHORT);
-		    lw6sys_log (LW6SYS_LOG_NOTICE,
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				_x_ ("nb items displayed is %d"),
 				param.menu->nb_items_displayed);
 		    menu = param.menu;
 		    param.menu = NULL;
-		    lw6sys_log (LW6SYS_LOG_NOTICE,
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				_x_ ("big menu disappears"));
-		    lw6sys_log (LW6SYS_LOG_WARNING,
+		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				_x_
 				("this warning should appear for %d seconds on the screen"),
 				_TEST_LOG_TIMEOUT);
-		    lw6sys_log (LW6SYS_LOG_ERROR, _("this error too"));
+		    lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+				_("this error too"));
 		    lw6dsp_update (display, &param);
 		    sleep_and_report (display, _TEST_SLEEP_SHORT);
-		    lw6sys_log (LW6SYS_LOG_NOTICE,
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				_x_ ("big menu is back again"));
 		    param.menu = menu;
 		    lw6dsp_update (display, &param);
 		    sleep_and_report (display, _TEST_SLEEP_SHORT);
-		    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("loading a map"));
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+				_x_ ("loading a map"));
 		    param.misc.progress = &progress_value;
 		    lw6dsp_update (display, &param);
 		    level =
@@ -350,19 +356,20 @@ _test_display ()
 		    if (level)
 		      {
 			param.level = level;
-			lw6sys_log (LW6SYS_LOG_NOTICE,
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_ ("displaying a map"));
 			lw6dsp_update (display, &param);
 			sleep_and_report (display, _TEST_SLEEP_LONG);
 
-			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("build struct"));
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+				    _x_ ("build struct"));
 			game_struct =
 			  game_struct_new (param.level, &progress);
 			if (game_struct)
 			  {
 			    param.game_struct = game_struct;
 			    lw6dsp_update (display, &param);
-			    lw6sys_log (LW6SYS_LOG_NOTICE,
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					_x_ ("build state"));
 			    game_state =
 			      game_state_new (param.game_struct, &progress);
@@ -370,10 +377,10 @@ _test_display ()
 			      {
 				param.game_state = game_state;
 				lw6dsp_update (display, &param);
-				lw6sys_log (LW6SYS_LOG_NOTICE,
+				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					    _x_ ("displaying a game"));
 				sleep_and_report (display, _TEST_SLEEP_LONG);
-				lw6sys_log (LW6SYS_LOG_NOTICE,
+				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					    _x_
 					    ("start play with game state"));
 				for (i = 0; i < _TEST_NB_ROUNDS; ++i)
@@ -381,18 +388,20 @@ _test_display ()
 				    lw6ker_game_state_do_round (game_state);
 				    lw6dsp_update (display, &param);
 				  }
-				lw6sys_log (LW6SYS_LOG_NOTICE,
+				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					    _x_
 					    ("stop play with game state"));
 				pilot = pilot_new (game_state, &progress);
 				if (pilot)
 				  {
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
+				    lw6sys_log (sys_context,
+						LW6SYS_LOG_NOTICE,
 						_x_
 						("start play with pilot"));
 				    sleep_and_report (display,
 						      _TEST_SLEEP_LONG);
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
+				    lw6sys_log (sys_context,
+						LW6SYS_LOG_NOTICE,
 						_x_ ("stop play with pilot"));
 				    param.pilot = NULL;
 				    lw6dsp_update (display, &param);
@@ -419,17 +428,17 @@ _test_display ()
 		    param.menu = NULL;
 		  }
 	      }
-	    lw6sys_log (LW6SYS_LOG_NOTICE,
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			_x_
 			("checking what happens when replicated objects are freed in the param (menu, for instance)"));
 	    sleep_and_report (display, _TEST_SLEEP_SHORT);
-	    lw6sys_log (LW6SYS_LOG_NOTICE,
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			_x_
 			("now applying the params, nothing should be displayed but the background"));
 	    lw6dsp_update (display, &param);
 	    sleep_and_report (display, _TEST_SLEEP_LONG);
 
-	    lw6sys_log (LW6SYS_LOG_NOTICE,
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			_x_
 			("pumping events, try to press random keys while having the focus on the game window, you should get one log message per keypress, test will end after %d seconds"),
 			(int) (_TEST_INPUT_TICKS / LW6SYS_TICKS_PER_SEC));
@@ -449,13 +458,15 @@ _test_display ()
 		    repr = lw6gui_keypress_repr (keypress);
 		    if (repr)
 		      {
-			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s"), repr);
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+				    _x_ ("%s"), repr);
 			LW6SYS_FREE (sys_context, repr);
 		      }
 		    lw6gui_keypress_free (keypress);
 		  }
 	      }
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("done with events"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+			_x_ ("done with events"));
 
 	    nb_frames = lw6dsp_get_nb_frames (display);
 
@@ -463,7 +474,8 @@ _test_display ()
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to start display"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+			_x_ ("unable to start display"));
 	  }
 	lw6gui_look_free (param.look);
       }
@@ -471,7 +483,7 @@ _test_display ()
       {
 	ret = 0;
       }
-    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("frames=%d"), nb_frames);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("frames=%d"), nb_frames);
     lw6dsp_destroy_backend (display);
     _test_data.backend = display = NULL;
   }
@@ -486,7 +498,8 @@ _setup_init_gl1 ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libdsp-gl1 CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libdsp-gl1 CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6dsp_create_backend (argc, argv, "gl1");
@@ -504,7 +517,8 @@ _setup_quit_gl1 ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libdsp-gl1 CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libdsp-gl1 CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -523,7 +537,8 @@ _setup_init_gles2 ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libdsp-gles2 CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libdsp-gles2 CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6dsp_create_backend (argc, argv, "gles2");
@@ -541,7 +556,8 @@ _setup_quit_gles2 ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libdsp-gles2 CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libdsp-gles2 CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -560,7 +576,8 @@ _setup_init_soft ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libdsp-soft CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libdsp-soft CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6dsp_create_backend (argc, argv, "soft");
@@ -578,7 +595,8 @@ _setup_quit_soft ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libdsp-soft CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libdsp-soft CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -597,7 +615,8 @@ _setup_init_caca ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libdsp-caca CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libdsp-caca CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6dsp_create_backend (argc, argv, "caca");
@@ -615,7 +634,8 @@ _setup_quit_caca ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libdsp-caca CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libdsp-caca CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -680,7 +700,7 @@ lw6dsp_test_register (int mode)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("unable to add CUnit test suite, error msg is \"%s\""),
 			      CU_get_error_msg ());
@@ -699,7 +719,7 @@ lw6dsp_test_register (int mode)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("unable to add CUnit test suite, error msg is \"%s\""),
 			      CU_get_error_msg ());
@@ -718,7 +738,7 @@ lw6dsp_test_register (int mode)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("unable to add CUnit test suite, error msg is \"%s\""),
 			      CU_get_error_msg ());
@@ -739,7 +759,7 @@ lw6dsp_test_register (int mode)
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  _x_
 				  ("unable to add CUnit test suite, error msg is \"%s\""),
 				  CU_get_error_msg ());

@@ -186,7 +186,7 @@ _lw6ldr_guess_colors (lw6map_level_t * level, lw6sys_progress_t * progress)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_
 			      ("no background color found, unable to guess color"));
 		}
@@ -201,7 +201,7 @@ _lw6ldr_guess_colors (lw6map_level_t * level, lw6sys_progress_t * progress)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_
 			      ("no foreground color found, unable to guess color"));
 		}
@@ -327,7 +327,7 @@ _lw6ldr_guess_colors (lw6map_level_t * level, lw6sys_progress_t * progress)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("unable to guess colors"));
 		}
 	      LW6SYS_FREE (fg);

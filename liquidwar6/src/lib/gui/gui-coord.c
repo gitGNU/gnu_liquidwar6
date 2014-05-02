@@ -67,7 +67,7 @@ lw6gui_coord_calc_xy (float *dst_x, float *dst_y, float dst_x0, float dst_y0,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("inconsistent coord data dst_w=%f dst_h=%f src_w=%f src_h=%f"),
 		  dst_w, dst_h, src_w, src_h);

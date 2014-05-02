@@ -55,7 +55,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   lw6msg_meta_array_t meta_array;
   int index = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process \"%s\""), message);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process \"%s\""), message);
 
   /*
    * We consider data is received even if we don't have the proof
@@ -68,7 +68,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
     {
       if (lw6msg_cmd_analyse_hello (&remote_node_info, message))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("hello from \"%s\""),
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("hello from \"%s\""),
 		      cnx->remote_url);
 	  /*
 	   * We do nothing special on a hello (expect updating
@@ -77,7 +77,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("bad hello from \"%s\" (\"%s\")"), cnx->remote_url,
 		      message);
 	}
@@ -86,14 +86,14 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
     {
       if (lw6msg_cmd_analyse_ticket (&remote_node_info, &ticket, message))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("received ticket from \"%s\""),
-		      cnx->remote_url);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("received ticket from \"%s\""), cnx->remote_url);
 	  lw6cnx_ticket_table_set_send (&(node->ticket_table),
 					cnx->remote_id_str, ticket);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("bad ticket from \"%s\" (\"%s\")"),
 		      cnx->remote_url, message);
 	}
@@ -103,8 +103,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
       if (lw6msg_cmd_analyse_foo
 	  (&remote_node_info, &foo_bar_key, &serial, message))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("received foo from \"%s\""),
-		      cnx->remote_url);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("received foo from \"%s\""), cnx->remote_url);
 	  lw6dat_warehouse_update_serial_miss_max (node->warehouse,
 						   cnx->remote_id_int,
 						   serial);
@@ -143,7 +143,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("unable to find the tentacle for a node which has an active connection"));
 		}
@@ -152,7 +152,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("bad foo from \"%s\" (\"%s\")"), cnx->remote_url,
 		      message);
 	}
@@ -162,7 +162,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
       if (lw6msg_cmd_analyse_bar
 	  (&remote_node_info, &foo_bar_key, &serial, message))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("received bar from \"%s\" foo_bar_key=%08x"),
 		      cnx->remote_url, foo_bar_key);
 	  lw6dat_warehouse_update_serial_miss_max (node->warehouse,
@@ -216,7 +216,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		      foo_cnx->ping_msec = 1;
 		    }
 		  foo_cnx->foo_bar_key = 0;
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("ping=%d"),
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("ping=%d"),
 			      foo_cnx->ping_msec);
 		  if (cnx->dns_ok)
 		    {
@@ -231,7 +231,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 			  if (!node->tentacles[tentacle_i].data_exchanged)
 			    {
 			      node->tentacles[tentacle_i].data_exchanged = 1;
-			      lw6sys_log (LW6SYS_LOG_NOTICE,
+			      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					  _
 					  ("communication established \"%s\" <-> \"%s\" on %s:%d"),
 					  cnx->local_url, cnx->remote_url,
@@ -248,14 +248,14 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_
 				      ("serious problem, not finding a \"fastest\" connection, when we were just working on one?"));
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_
 				  ("node \"%s\" can't be trusted (DNS mismatch), not updating list"),
 				  cnx->remote_url);
@@ -263,7 +263,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("unable to find connection with foo_bar_key %08x"),
 			      foo_bar_key);
@@ -271,14 +271,14 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("unable to find the tentacle for a node which has an active connection"));
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("bad bar from \"%s\" (\"%s\")"), cnx->remote_url,
 		      message);
 	}
@@ -288,8 +288,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
       if (lw6msg_cmd_analyse_join
 	  (&remote_node_info, node->node_info, &seq, &serial, message))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("received join from \"%s\""),
-		      cnx->remote_url);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("received join from \"%s\""), cnx->remote_url);
 	  /*
 	   * Wether seq_register should be seq_max or seq_reference
 	   * or local_seq_last has been a question. Refactoring
@@ -328,7 +328,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		      if (!lw6dat_warehouse_is_node_registered
 			  (node->warehouse, cnx->remote_id_int))
 			{
-			  lw6sys_log (LW6SYS_LOG_INFO,
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				      _x_
 				      ("getting ready to send SEED/DUMP to %"
 				       LW6SYS_PRINTF_LL "x at seq %"
@@ -380,7 +380,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 			      if (lw6dat_warehouse_meta_put
 				  (node->warehouse, seq_register))
 				{
-				  lw6sys_log (LW6SYS_LOG_INFO,
+				  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					      _x_
 					      ("putting META message in queue at seq %"
 					       LW6SYS_PRINTF_LL "d"),
@@ -388,7 +388,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 				}
 			      else
 				{
-				  lw6sys_log (LW6SYS_LOG_WARNING,
+				  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 					      _x_
 					      ("problem putting META message in queue at seq %"
 					       LW6SYS_PRINTF_LL
@@ -406,7 +406,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  _x_
 				  ("unable to find the tentacle for a node which has an active connection"));
 		    }
@@ -444,7 +444,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("received unsollicited JOIN from IP \"%s\""),
 			      cnx->remote_ip);
@@ -453,7 +453,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("bad join from \"%s\" (\"%s\")"), cnx->remote_url,
 		      message);
 	}
@@ -462,13 +462,13 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
     {
       if (lw6msg_cmd_analyse_goodbye (&remote_node_info, message))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("received goodbye from \"%s\""),
-		      cnx->remote_url);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("received goodbye from \"%s\""), cnx->remote_url);
 	  // todo : close cnx
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("bad goodbye from \"%s\" (\"%s\")"),
 		      cnx->remote_url, message);
 	}
@@ -487,7 +487,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	  if (lw6dat_warehouse_put_atom_str
 	      (node->warehouse, logical_from_id, message))
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("put in warehouse DATA message \"%s\" from \"%s\""),
 			  message, cnx->remote_url);
@@ -499,7 +499,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	       * not been properly registered yet (order of messages is not
 	       * garanteed). So it's worth noting in the log for troubleshooting.
 	       */
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("unable to put in warehouse message \"%s\" from \"%s\""),
 			  message, cnx->remote_url);
@@ -508,7 +508,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("bad data from \"%s\" (\"%s\")"), cnx->remote_url,
 		      message);
 	}
@@ -529,7 +529,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	  if (lw6dat_warehouse_put_atom_str
 	      (node->warehouse, logical_from_id, message))
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("put in warehouse META message \"%s\" from \"%s\""),
 			  message, cnx->remote_url);
@@ -541,7 +541,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	       * not been properly registered yet (order of messages is not
 	       * garanteed). So it's worth noting in the log for troubleshooting.
 	       */
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("unable to put in warehouse message \"%s\" from \"%s\""),
 			  message, cnx->remote_url);
@@ -561,7 +561,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		  if (!_lw6p2p_node_is_peer_registered
 		      (node, meta_array.items[index].node_id))
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("node %" LW6SYS_PRINTF_LL
 				   "x is in registered for %" LW6SYS_PRINTF_LL
@@ -588,7 +588,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("bad meta from \"%s\" (\"%s\")"), cnx->remote_url,
 		      message);
 	}
@@ -598,7 +598,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
       if (lw6msg_cmd_analyse_miss
 	  (&id_from, &id_to, &serial_min, &serial_max, message))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("received MISS from %s id_from=%" LW6SYS_PRINTF_LL
 			   "x id_to=%" LW6SYS_PRINTF_LL
 			   "x serial_min=%d serial_max=%d"), cnx->remote_url,
@@ -609,15 +609,15 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("bad miss from \"%s\" (\"%s\")"), cnx->remote_url,
 		      message);
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unhandled message \"%s\""),
-		  message);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unhandled message \"%s\""), message);
     }
 
   if (remote_node_info)
@@ -633,7 +633,8 @@ _lw6p2p_recv_forward (_lw6p2p_node_t * node,
 		      u_int64_t logical_from_id, u_int64_t logical_to_id,
 		      const char *message)
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("forward \"%s\""), message);
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("forward \"%s\""),
+	      message);
 
   // todo, forwarding
 }
@@ -655,7 +656,7 @@ _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
     {
       if (was_recv_exchanged)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("good sig from \"%s\" to \"%" LW6SYS_PRINTF_LL
 			   "x\" on message \"%s\" using ticket \"%"
 			   LW6SYS_PRINTF_LL "x\""), remote_id_str,
@@ -664,7 +665,7 @@ _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("good sig from \"%s\" to \"%"
 			   LW6SYS_PRINTF_LL
 			   "x\" on message \"%s\" using ticket \"%"
@@ -685,7 +686,7 @@ _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
 	   * OK, messages have been once correctly signed, but
 	   * this one is *badly* signed.
 	   */
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("bad sig from \"%s\" to \"%" LW6SYS_PRINTF_LL
 			   "x\" on message \"%s\" using ticket \"%"
 			   LW6SYS_PRINTF_LL "x\""), remote_id_str,
@@ -698,7 +699,7 @@ _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
 	   * Peer probably never got the ticket, so for now we
 	   * ignore signatures.
 	   */
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_
 		      ("not checking sig from \"%s\" to \"%" LW6SYS_PRINTF_LL
 		       "x\" on message \"%s\" because ticket was never received using ticket \"%"
@@ -725,7 +726,8 @@ _lw6p2p_recv_callback (void *recv_callback_data,
   int logical_sig_ok = 0;
   char *logical_from_id_str = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("recv_callback msg=\"%s\""), message);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("recv_callback msg=\"%s\""),
+	      message);
   if (node && connection)
     {
       /*
@@ -771,7 +773,7 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_
 				      ("message forwarding not supported yet"));
 			  logical_from_id_str =
@@ -795,7 +797,7 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_
 				      ("bad logical ticket_sig from \"%s\""),
 				      connection->remote_url);
@@ -805,7 +807,7 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 		    {
 		      if (connection->remote_id_int == logical_from_id)
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_
 				      ("message forwarding not supported yet"));
 			  _lw6p2p_recv_forward (node, connection,
@@ -815,7 +817,7 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_ ("open relay not allowed (yet)"));
 			}
 		    }
@@ -823,28 +825,28 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 
 	      if (physical_sig_ok)
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("good physical ticket_sig from \"%s\" on message \"%s\""),
 			      connection->remote_url, message);
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("bad physical ticket_sig from \"%s\" on message \"%s\""),
 			      connection->remote_url, message);
 		}
 	      if (logical_sig_ok)
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("good logical ticket_sig from \"%s\" on message \"%s\""),
 			      connection->remote_url, message);
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("bad logical ticket_sig from \"%s\" on message \"%s\""),
 			      connection->remote_url, message);

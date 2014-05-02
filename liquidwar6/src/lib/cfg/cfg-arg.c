@@ -101,7 +101,7 @@ parse_option (_lw6cfg_context_t * context, const char *option)
 	      value_converted = lw6cfg_format_guess_type (key, value);
 	      if (value_converted)
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_
 			      ("key \"%s\" set to \"%s\" by command-line option \"%s\""),
 			      key, value_converted, option);

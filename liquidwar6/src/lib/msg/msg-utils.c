@@ -142,7 +142,7 @@ lw6msg_utils_parse_key_value_to_assoc (lw6sys_assoc_t ** assoc,
 	  lw6sys_assoc_set (assoc, key, value);
 	  if ((*assoc) == NULL)
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("assoc_set failed, assoc is now NULL"));
 	    }
 	  LW6SYS_FREE (sys_context, key);

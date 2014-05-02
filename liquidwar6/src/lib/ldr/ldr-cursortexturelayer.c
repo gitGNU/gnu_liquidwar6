@@ -57,7 +57,7 @@ read_image (lw6map_cursor_texture_layer_t * cursor_texture_layer,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("bad cursor texture layer size %dx%d, should be %dx%d"),
 		  image->w, image->h, LW6MAP_CURSOR_TEXTURE_SIZE,
@@ -77,7 +77,7 @@ _lw6ldr_cursor_texture_layer_read_png (lw6map_cursor_texture_layer_t *
   int ret = 0;
   _lw6ldr_image_rgba_t image;
 
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_ ("reading PNG cursor texture layer \"%s\""), png_file);
 
   memset (&image, 0, sizeof (_lw6ldr_image_rgba_t));

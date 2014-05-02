@@ -59,7 +59,7 @@ extract_title_from_dirname (const char *dirname)
 
   if (!title)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to handle map title, running out of memory?"));
     }
 
@@ -77,7 +77,8 @@ read_readme (const char *dirname)
     {
       if (lw6sys_file_exists (buf))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading README \"%s\""), buf);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("reading README \"%s\""), buf);
 	  readme = lw6sys_read_file_content (buf);
 	}
       LW6SYS_FREE (sys_context, buf);
@@ -90,8 +91,8 @@ read_readme (const char *dirname)
 	{
 	  if (lw6sys_file_exists (buf))
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading README \"%s\""),
-			  buf);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			  _x_ ("reading README \"%s\""), buf);
 	      readme = lw6sys_read_file_content (buf);
 	    }
 	  LW6SYS_FREE (sys_context, buf);
@@ -105,7 +106,7 @@ read_readme (const char *dirname)
 
   if (!readme)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("unable to handle map README file, running out of memory?"));
     }
@@ -157,7 +158,8 @@ lw6ldr_metadata_read (lw6map_metadata_t * metadata, const char *dirname)
     {
       if (lw6sys_file_exists (buf))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading metadata \"%s\""), buf);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("reading metadata \"%s\""), buf);
 	  ret =
 	    lw6cfg_read_key_value_xml_file (buf, read_callback,
 					    (void *) metadata);

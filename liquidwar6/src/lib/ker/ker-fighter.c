@@ -60,7 +60,7 @@ _lw6ker_fighter_update_checksum (const lw6ker_fighter_t * fighter,
 void
 _lw6ker_fighter_print_debug (lw6ker_fighter_t * fighter)
 {
-  lw6sys_log (LW6SYS_LOG_DEBUG,
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_
 	      ("fighter team_color=%d, last_direction=%d, health=%d, x=%d, y=%d, z=%d"),
 	      fighter->team_color, fighter->last_direction,

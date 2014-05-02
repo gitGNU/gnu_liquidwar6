@@ -145,7 +145,7 @@ lw6net_send_line_tcp (int *sock, const char *line)
 	      wanted_size = strlen (trailed_line);
 	      if (wanted_size > line_size)
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("stripping line \"%s\" of size %d, limit is %d"),
 			      line, wanted_size, line_size);
@@ -331,7 +331,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
     {
       if (ret)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_
 		      ("no lf at the very end of the sequence of lines, message was probably truncated"));
 	  lw6sys_list_free (ret);
@@ -385,7 +385,7 @@ lw6net_send_line_udp (int sock, const char *line, const char *ip, int port)
 	  wanted_size = strlen (copied_line);
 	  if (wanted_size > line_size)
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("stripping line \"%s\" of size %d, limit is %d"),
 			  copied_line, wanted_size, line_size);

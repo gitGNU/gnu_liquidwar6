@@ -104,7 +104,7 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 
 		  if (color_type & PNG_COLOR_MASK_PALETTE)
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  _x_
 				  ("can't load B&W PNG file \"%s\", it is still paletted after filtering"),
 				  png_file);
@@ -119,7 +119,7 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 				 LW6MAP_MAX_TEXTURE_HEIGHT);
 		  if (width > max_width || height > max_height)
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  _x_
 				  ("can't load B&W PNG file \"%s\", it is too big (size=%dx%d max=%dx%d)"),
 				  png_file, (int) width, (int) height,
@@ -129,7 +129,7 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 
 		  if (rowbytes != width * step || bit_depth > 8)
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  _x_
 				  ("can't load B&W PNG file \"%s\", memory footprint is inconsistent, color_type=%d, rowbytes=%d, width=%d, step=%d, bit_depth=%d"),
 				  png_file, color_type,
@@ -179,7 +179,7 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_
 				      ("unable to allocate memory for B&W PNG file"));
 			}
@@ -190,19 +190,19 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("couldn't create png end info struct"));
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("couldn't create png info struct"));
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("couldn't create png read struct"));
     }
 
@@ -270,16 +270,16 @@ _lw6ldr_bw_gray_level (_lw6ldr_image_bw_t * image)
   if (ret > 1.0f)
     {
       ret = 1.0f;
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("gray_level=%f, can't be >1"),
-		  ret);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("gray_level=%f, can't be >1"), ret);
     }
   if (ret < 0.0f)
     {
       ret = 0.0f;
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("gray_level=%f, can't be <0"),
-		  ret);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("gray_level=%f, can't be <0"), ret);
     }
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("gray_level=%f"), ret);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("gray_level=%f"), ret);
 
   return ret;
 }

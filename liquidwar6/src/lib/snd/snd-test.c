@@ -63,7 +63,8 @@ _call_init (lw6snd_backend_t * backend)
       repr = lw6snd_repr (backend);
       if (repr)
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("snd repr is \"%s\""), repr);
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+		      _x_ ("snd repr is \"%s\""), repr);
 	  LW6SYS_FREE (sys_context, repr);
 	}
     }
@@ -173,7 +174,8 @@ _setup_init_ogg ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libsnd-ogg CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libsnd-ogg CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6snd_create_backend (argc, argv, "ogg");
@@ -199,7 +201,8 @@ _setup_quit_ogg ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libsnd-ogg CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libsnd-ogg CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -221,7 +224,8 @@ _setup_init_csound ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libsnd-csound CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libsnd-csound CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6snd_create_backend (argc, argv, "csound");
@@ -247,7 +251,8 @@ _setup_quit_csound ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libsnd-csound CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libsnd-csound CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -302,7 +307,7 @@ lw6snd_test_register (int mode)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
 		  CU_get_error_msg ());
       ret = 0;
@@ -320,7 +325,7 @@ lw6snd_test_register (int mode)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
 		  CU_get_error_msg ());
       ret = 0;

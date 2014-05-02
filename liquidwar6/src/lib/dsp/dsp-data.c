@@ -50,7 +50,7 @@ _lw6dsp_data_free (_lw6dsp_data_t * data)
     }
   if (data->gfx_backend)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("graphics backend is still defined but we're freeing data, the backend should have be closed before, int the display thread (join function)"));
     }

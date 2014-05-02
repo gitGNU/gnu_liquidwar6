@@ -3197,7 +3197,7 @@ lw6hlp_reference_init ()
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't init, help reference already set up"));
     }
 
@@ -3222,7 +3222,7 @@ lw6hlp_reference_quit ()
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't quit, help reference is not set"));
     }
 }
@@ -3242,7 +3242,7 @@ _lw6hlp_reference_get_entry (const char *key)
 							   formatted_key);
 	  if (!entry)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("entry %s does not exists in help reference"),
 			  key);
@@ -3252,7 +3252,7 @@ _lw6hlp_reference_get_entry (const char *key)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to get entry before reference is set up"));
     }
 

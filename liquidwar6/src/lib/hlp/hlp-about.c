@@ -109,8 +109,8 @@ lw6hlp_about (lw6hlp_type_t * type, const char **default_value,
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("keyword '%s' is not documented"),
-		  keyword);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		  _x_ ("keyword '%s' is not documented"), keyword);
       if (type)
 	{
 	  *type = LW6HLP_TYPE_VOID;

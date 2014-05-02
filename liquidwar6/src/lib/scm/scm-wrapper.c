@@ -56,14 +56,14 @@ lw6scm_c_define_gsubr (const char *name, int req, int opt, int rst,
 
   if (lw6hlp_is_documented (name))
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("registering Guile function \"%s\""),
-		  name);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		  _x_ ("registering Guile function \"%s\""), name);
       scm_c_define_gsubr ((const char *) name, req, opt, rst, fcn);
       ret = 1;
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("Guile function \"%s\" not documented, won't register it"),
 		  name);
@@ -86,7 +86,7 @@ lw6scm_c_primitive_load (const char *filename)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading \"%s\""), filename);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading \"%s\""), filename);
 
   if (lw6sys_file_exists (filename))
     {
@@ -101,7 +101,7 @@ lw6scm_c_primitive_load (const char *filename)
        * check for file existence is also done
        * so this is just "in case".
        */
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to read script file \"%s\""), filename);
     }
 
@@ -121,7 +121,7 @@ lw6scm_c_primitive_load (const char *filename)
 void *
 lw6scm_with_guile (lw6scm_callback_t func, void *data)
 {
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_ ("running function %p(%p) in Guile context"), func, data);
 #ifdef LW6_GUILE2
   /*

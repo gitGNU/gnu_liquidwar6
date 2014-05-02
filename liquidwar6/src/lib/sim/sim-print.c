@@ -50,7 +50,7 @@ lw6sim_print (lw6sim_results_t * results, FILE * f)
       color_key = lw6map_team_color_index_to_key (i);
       percent = results->percent[i];
       absolute = results->absolute[i];
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("%s\": %02.1f (%d)"),
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("%s\": %02.1f (%d)"),
 		  color_key, percent, absolute);
       fprintf (f, "%s: %02.1f%%", color_key, percent);
       if (i < results->nb_teams - 1)

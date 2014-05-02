@@ -103,7 +103,7 @@ lw6ker_team_mask_best (u_int32_t * even, u_int32_t * odd,
 
   if (l >= LW6MAP_MAX_NB_TEAMS)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("team_max_best with l=%d, consider optimizing"), l);
     }
 }
@@ -189,8 +189,8 @@ lw6ker_team_mask_color2mask (int team_color)
       ret = LW6KER_TEAM_MASK_PINK;
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("invalid team index %d"),
-		  team_color);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("invalid team index %d"), team_color);
     }
 
   return ret;

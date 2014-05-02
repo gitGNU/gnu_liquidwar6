@@ -55,7 +55,7 @@ lw6map_metadata_defaults (lw6map_metadata_t * metadata)
   if ((!metadata->title) || (!metadata->author) || (!metadata->description)
       || (!metadata->license))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to construct default map metadata"));
     }
 }

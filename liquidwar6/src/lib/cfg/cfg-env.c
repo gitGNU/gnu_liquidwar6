@@ -69,7 +69,7 @@ merge_func (void *func_data, void *data)
 	      env = lw6sys_keyword_as_env (keyword);
 	      if (env)
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_
 			      ("key \"%s\" set to \"%s\" by environment variable \"%s\""),
 			      keyword, value_converted, env);
@@ -94,7 +94,8 @@ _lw6cfg_merge_env (_lw6cfg_context_t * cfg_context)
   int ret = 0;
   lw6sys_list_t *keywords;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("merging environment variables"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("merging environment variables"));
   keywords = lw6hlp_list ();
   if (keywords)
     {

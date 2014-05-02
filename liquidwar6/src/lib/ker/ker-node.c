@@ -63,7 +63,7 @@ _lw6ker_node_enable (_lw6ker_node_t * node, u_int64_t node_id)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to enable node which is already enabled"));
     }
 
@@ -83,7 +83,7 @@ _lw6ker_node_disable (_lw6ker_node_t * node)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to disable node which is already disabled"));
     }
 
@@ -100,7 +100,7 @@ _lw6ker_node_sanity_check (const _lw6ker_node_t * node,
        && (!lw6sys_check_id_64 (node->node_id)))
       || ((!node->enabled) && (node->node_id != 0)))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("inconsistent enabled node values enabled=%d node_id=%"
 		   LW6SYS_PRINTF_LL "x"), node->enabled,

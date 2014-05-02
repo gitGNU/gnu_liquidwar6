@@ -61,7 +61,7 @@ lw6ldr_exp_validate (const lw6map_level_t * level, const char *user_dir)
       new_player_exp = lw6sys_imin (LW6MAP_RULES_MAX_EXP, player_exp + 1);
       if (new_player_exp > player_exp)
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE,
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		      _("You just gained experience (exp=%d)."),
 		      new_player_exp);
 	  ret = lw6cfg_save_exp (user_dir, new_player_exp);
@@ -74,7 +74,7 @@ lw6ldr_exp_validate (const lw6map_level_t * level, const char *user_dir)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("can't validate level with player_exp=%d and map_exp=%d"),
 		  player_exp, map_exp);

@@ -133,7 +133,7 @@ new_entry (const char *absolute_path, const char *relative_path,
       if ((entry->metadata.vanilla_exp > player_exp)
 	  && (entry->absolute_path != NULL))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_
 		      ("not enough exp to load \"%s\", we load it but mark it as forbidden"),
 		      entry->absolute_path);
@@ -143,13 +143,13 @@ new_entry (const char *absolute_path, const char *relative_path,
 
   if (entry)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("name \"%s\" in \"%s\" is a valid entry"), entry_path,
 		  absolute_path);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("name \"%s\" in \"%s\" is not a valid entry"),
 		  entry_path, absolute_path);
     }
@@ -249,7 +249,7 @@ add_entry (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_
 		      ("duplicate map \"%s\", it is present in at least two places, last found (and ignored) in \"%s\""),
 		      entry->relative_path, entry->absolute_path);
@@ -305,8 +305,8 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("no files in dir \"%s\""),
-		  absolute_path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		  _x_ ("no files in dir \"%s\""), absolute_path);
     }
 #else
   dir_handle = opendir (absolute_path);
@@ -334,14 +334,14 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
 	}
       if (n == 0)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("no maps in dir \"%s\""), absolute_path);
 	}
       closedir (dir_handle);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("couldn't read map dir \"%s\""), absolute_path);
     }
 #endif
@@ -572,7 +572,7 @@ _chain_func (void *func_data, void *data)
   _chain_ret_t *chain_ret = (_chain_ret_t *) func_data;
   lw6ldr_entry_t *entry = (lw6ldr_entry_t *) data;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing \"%s\" exp=%d"),
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing \"%s\" exp=%d"),
 	      entry->absolute_path, entry->metadata.vanilla_exp);
 
   if (!(chain_ret->found_entry))
@@ -585,7 +585,7 @@ _chain_func (void *func_data, void *data)
        */
       if (entry->metadata.vanilla_exp == chain_ret->exp)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("ok, found \"%s\" exp=%d which is suitable"),
 		      entry->absolute_path, entry->metadata.vanilla_exp);
 	  chain_ret->found_entry = lw6ldr_dup_entry (entry);

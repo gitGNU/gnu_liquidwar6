@@ -218,7 +218,7 @@ lw6ldr_print_examples (char *user_dir)
 	      f = fopen (filename, "wb");
 	      if (f)
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_
 			      ("writing example map rules file in \"%s\""),
 			      filename);
@@ -234,7 +234,7 @@ lw6ldr_print_examples (char *user_dir)
 	      f = fopen (filename, "wb");
 	      if (f)
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_
 			      ("writing example map hints file in \"%s\""),
 			      filename);
@@ -250,7 +250,7 @@ lw6ldr_print_examples (char *user_dir)
 	      f = fopen (filename, "wb");
 	      if (f)
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_
 			      ("writing example map style file in \"%s\""),
 			      filename);
@@ -266,7 +266,7 @@ lw6ldr_print_examples (char *user_dir)
 	      f = fopen (filename, "wb");
 	      if (f)
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_
 			      ("writing example map teams file in \"%s\""),
 			      filename);

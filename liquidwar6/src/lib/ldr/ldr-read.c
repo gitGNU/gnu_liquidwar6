@@ -73,7 +73,7 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
   int player_exp = LW6MAP_RULES_DEFAULT_EXP;
   int map_exp = LW6MAP_RULES_DEFAULT_EXP;
 
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_ ("loading map \"%s\" display=%dx%d bench=%d"), dirname,
 	      display_w, display_h, bench_value);
 
@@ -194,7 +194,7 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
 	{
 	  if (player_exp >= map_exp)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("OK, can load \"%s\" with exp=%d, requires only %d"),
 			  dirname, player_exp, map_exp);
@@ -202,7 +202,7 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("can't load \"%s\" with exp=%d, requires %d"),
 			  dirname, player_exp, map_exp);
 	      ok = 0;
@@ -212,8 +212,8 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
 
   if (!ok)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to load map \"%s\""),
-		  dirname);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to load map \"%s\""), dirname);
       lw6map_free (level);
       level = NULL;
     }

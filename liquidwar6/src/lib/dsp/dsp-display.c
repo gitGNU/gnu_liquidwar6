@@ -132,7 +132,7 @@ lw6dsp_destroy_backend (lw6dsp_backend_t * dsp_backend)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("can't destroy backend with NULL data"));
 	    }
 	  if (dsp_backend->input)
@@ -143,14 +143,15 @@ lw6dsp_destroy_backend (lw6dsp_backend_t * dsp_backend)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("trying to free running dsp_backend"));
 	}
       LW6SYS_FREE (dsp_backend);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL backend"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL backend"));
     }
 }
 
@@ -253,7 +254,7 @@ lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("stopping dsp_backend thread"));
 	      data->run = 0;
 	      if (lw6sys_vthread_is_running ())
@@ -371,7 +372,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 	  while (data->nb_frames <= data->nb_frames_at_last_update
 		 && i < _LW6DSP_IDLE_LIMIT)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("calling display_update too often, no frame drawn between two calls"));
 	      /*
@@ -397,7 +398,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 	}
       if (diff || need_sync)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("dsp param update diff=%d sync=%d"), diff,
 		      need_sync);
 
@@ -430,13 +431,13 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 		    {
 		      if (data->last_menu_id == param->menu->id)
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				      _x_ ("synchronising menu"));
 			  lw6gui_menu_sync (data->param.menu, param->menu);
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				      _x_
 				      ("new menu is totally different, duping it"));
 			  lw6gui_menu_free (data->param.menu);
@@ -446,7 +447,8 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("new menu is NULL"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+				  _x_ ("new menu is NULL"));
 		      lw6gui_menu_free (data->param.menu);
 		      data->param.menu = NULL;
 		      data->last_menu_id = 0;
@@ -456,7 +458,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 		{
 		  if (param->menu)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_
 				  ("new menu and no previous one, duping it"));
 		      data->param.menu = lw6gui_menu_dup (param->menu);

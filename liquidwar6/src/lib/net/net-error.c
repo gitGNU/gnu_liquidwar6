@@ -548,7 +548,8 @@ lw6net_last_error ()
   ret = WSAGetLastError ();
   if (ret || errno)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("winsock error %d \"%s\""), ret,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		  _x_ ("winsock error %d \"%s\""), ret,
 		  _lw6net_wsa_str (ret));
     }
 #else
@@ -556,7 +557,8 @@ lw6net_last_error ()
 
   if (ret)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("socket error %d \"%s\""), ret,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		  _x_ ("socket error %d \"%s\""), ret,
 		  lw6sys_log_errno_str (ret));
     }
 #endif

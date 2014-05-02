@@ -116,20 +116,20 @@ lw6msg_z_encode (const char *msg, int limit)
 	      switch (z_ret)
 		{
 		case Z_BUF_ERROR:
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("zlib error, buffer is too small (in_len=%d out_len=%d)"),
 			      in_len, out_len);
 		  break;
 		case Z_MEM_ERROR:
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("zlib error, not enough memory (in_len=%d out_len=%d)"),
 			      in_len, out_len);
 		  break;
 		default:
-		  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("zlib error, ret=%d"),
-			      z_ret);
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+			      _x_ ("zlib error, ret=%d"), z_ret);
 		  break;
 		}
 	    }
@@ -143,8 +143,8 @@ lw6msg_z_encode (const char *msg, int limit)
 
   if (ret)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("z-encode \"%s\" -> \"%s\""), msg,
-		  ret);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("z-encode \"%s\" -> \"%s\""), msg, ret);
     }
 
   return ret;
@@ -206,7 +206,7 @@ lw6msg_z_decode (const char *msg)
 			}
 		      break;
 		    case Z_DATA_ERROR:
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_ ("corrupted zlib data"));
 		      break;
 		    case Z_BUF_ERROR:
@@ -229,40 +229,40 @@ lw6msg_z_decode (const char *msg)
 	    }
 	  if (ret)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("z-decode \"%s\" -> \"%s\""),
-			  msg, ret);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+			  _x_ ("z-decode \"%s\" -> \"%s\""), msg, ret);
 	    }
 	  else
 	    {
 	      switch (z_ret)
 		{
 		case Z_BUF_ERROR:
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("zlib error, buffer is too small (in_len=%d out_len=%d)"),
 			      in_len, out_len);
 		  break;
 		case Z_MEM_ERROR:
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("zlib error, not enough memory (in_len=%d out_len=%d)"),
 			      in_len, out_len);
 		  break;
 		case Z_DATA_ERROR:
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("zlib error, data error (in_len=%d out_len=%d)"),
 			      in_len, out_len);
 		  break;
 		case Z_STREAM_ERROR:
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("zlib error, stream error (in_len=%d out_len=%d)"),
 			      in_len, out_len);
 		  break;
 		default:
-		  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("zlib error, ret=%d"),
-			      z_ret);
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+			      _x_ ("zlib error, ret=%d"), z_ret);
 		  break;
 		}
 /*
@@ -271,7 +271,7 @@ lw6msg_z_decode (const char *msg)
 */
 	      if (strlen (msg) < _MSG_LEN_DUMP_MAX)
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_ ("z-decode %d bytes msg was \"%s\""),
 			      (int) strlen (msg), msg);
 		}
@@ -282,7 +282,7 @@ lw6msg_z_decode (const char *msg)
 		  in_hexa_str = lw6sys_hexa_buf_to_str (in_buf, in_len);
 		  if (in_hexa_str)
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("z-decode %d bytes in_hexa_str was \"%s\""),
 				  in_len, in_hexa_str);
@@ -294,7 +294,7 @@ lw6msg_z_decode (const char *msg)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_
 		      ("unable to decode \"%s\" as base64 prefixed by \"%s\""),
 		      msg, LW6MSG_Z_PREFIX);

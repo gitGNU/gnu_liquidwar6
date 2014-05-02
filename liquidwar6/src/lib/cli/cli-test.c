@@ -48,15 +48,15 @@ _call_init (lw6cli_backend_t * backend)
   {
     if (lw6cli_init (backend))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_
 		    ("successfull init for backend \"%s\", hint_timeout=%d seconds"),
 		    backend->name, backend->properties.hint_timeout);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init backend \"%s\""),
-		    backend->name);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		    _x_ ("unable to init backend \"%s\""), backend->name);
 	ret = 0;
       }
   }
@@ -80,7 +80,7 @@ _test_dummy ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dummy test"));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("dummy test"));
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -93,7 +93,8 @@ _setup_init_tcp ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libcli-tcp CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libcli-tcp CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6cli_create_backend (argc, argv, "tcp");
@@ -119,7 +120,8 @@ _setup_quit_tcp ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libcli-tcp CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libcli-tcp CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -139,7 +141,8 @@ _setup_init_udp ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libcli-udp CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libcli-udp CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6cli_create_backend (argc, argv, "udp");
@@ -165,7 +168,8 @@ _setup_quit_udp ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libcli-udp CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libcli-udp CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -186,7 +190,8 @@ _setup_init_http ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libcli-http CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libcli-http CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6cli_create_backend (argc, argv, "http");
@@ -212,7 +217,8 @@ _setup_quit_http ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libcli-http CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libcli-http CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -268,7 +274,7 @@ lw6cli_test_register (int mode)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
 		  CU_get_error_msg ());
       ret = 0;
@@ -281,7 +287,7 @@ lw6cli_test_register (int mode)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
 		  CU_get_error_msg ());
       ret = 0;
@@ -295,7 +301,7 @@ lw6cli_test_register (int mode)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("unable to add CUnit test suite, error msg is \"%s\""),
 		  CU_get_error_msg ());

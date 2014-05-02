@@ -56,7 +56,7 @@ lw6map_body_builtin_custom (lw6map_body_t * body, int w, int h, int d,
   body->shape.d = d;
   if (!lw6sys_shape_check_min_max_whd (&body->shape, &shape_min, &shape_max))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("incorrect default map size %dx%dx%d"), body->shape.w,
 		  body->shape.h, body->shape.d);
     }

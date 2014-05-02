@@ -395,7 +395,7 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
   int ret = -1;
   int stack_index = -1;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG,
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_ ("registering %" LW6SYS_PRINTF_LL "x serial_0=%d seq_0=%"
 		   LW6SYS_PRINTF_LL "d"), (long long) node_id, serial_0,
 	      (long long) seq_0);
@@ -420,13 +420,14 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
     }
   else if (ret >= 0 && ret < LW6DAT_MAX_NB_STACKS)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("registering already registered node"));
       _lw6dat_stack_shift (&(warehouse->stacks[ret]), serial_0, seq_0);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad stack index %d"), ret);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad stack index %d"),
+		  ret);
     }
 
   if (ret >= 0 && ret < LW6DAT_MAX_NB_STACKS)
@@ -555,7 +556,7 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_INFO,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_ ("peer %" LW6SYS_PRINTF_LL
 		       "x is not registered in warehouse, rejecting message"),
 		  (long long) logical_from);
@@ -603,7 +604,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 	   * imagine that in case of conflict/difference
 	   * this information is used. Yet to be implemented.
 	   */
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_
 		      ("unsure message logical_from=%"
 		       LW6SYS_PRINTF_LL "x and logical_from2=%"
@@ -956,7 +957,7 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
       int64_t warehouse_seq_min = 0LL;
       int64_t warehouse_seq_max = 0LL;
 
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("before range check seq_min=%" LW6SYS_PRINTF_LL
 		       "d seq_max=%" LW6SYS_PRINTF_LL "d"),
 		  (long long) seq_min, (long long) seq_max);
@@ -966,7 +967,7 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
       seq_min = lw6sys_llmax (warehouse_seq_min - 1, seq_min);
       seq_max = lw6sys_llmin (warehouse_seq_max + 1, seq_max);
 
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("after range check seq_min=%" LW6SYS_PRINTF_LL
 		       "d seq_max=%" LW6SYS_PRINTF_LL "d"),
 		  (long long) seq_min, (long long) seq_max);
@@ -1364,7 +1365,7 @@ _lw6dat_warehouse_meta_put (_lw6dat_warehouse_t * warehouse, int64_t seq)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to put META message at seq %" LW6SYS_PRINTF_LL
 		       "d when local_seq_last=%" LW6SYS_PRINTF_LL "d"),
 		  (long long) seq, (long long) local_seq_last);
@@ -1432,7 +1433,7 @@ _lw6dat_warehouse_meta_get (_lw6dat_warehouse_t * warehouse,
   if (seq < lowest_seq)
     {
       seq = lw6sys_llmax (seq, lowest_seq);
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("updating META message at seq %"
 		       LW6SYS_PRINTF_LL
 		       "d with lowes_seq=%"

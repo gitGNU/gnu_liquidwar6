@@ -78,14 +78,14 @@ _test_funcname ()
       {
 	if (lw6sys_str_is_same (funcname, _TEST_FUNCNAME_C))
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE,
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			_x_
 			("OK, can convert funcname from scm to C (\"%s\"->\"%s\")"),
 			_TEST_FUNCNAME_SCM, funcname);
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING,
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			_x_
 			("could not convert funcname from scm to C, got \"%s\" instead of \"%s\""),
 			funcname, _TEST_FUNCNAME_C);
@@ -98,14 +98,14 @@ _test_funcname ()
       {
 	if (lw6sys_str_is_same (funcname, _TEST_FUNCNAME_SCM))
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE,
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			_x_
 			("OK, can convert funcname from C to scm (\"%s\"->\"%s\")"),
 			_TEST_FUNCNAME_C, funcname);
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING,
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			_x_
 			("could not convert funcname from C to scm, got \"%s\" instead of \"%s\""),
 			funcname, _TEST_FUNCNAME_SCM);
@@ -133,7 +133,8 @@ guile_main_utils (void *data)
   const char *c_test_assoc_1_value_1 = 0;
   const char *c_test_assoc_2_value_1 = 0;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("entering Guile in %s"), __FUNCTION__);
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("entering Guile in %s"),
+	      __FUNCTION__);
 
   _test_string = scm_from_locale_string (_TEST_UTILS_STRING);
   c_test_string = lw6scm_utils_to_0str (_test_string);
@@ -141,7 +142,7 @@ guile_main_utils (void *data)
     {
       if (lw6sys_str_is_same (c_test_string, _TEST_UTILS_STRING))
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE,
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		      _x_
 		      ("was able to transfer string \"%s\" from C to Guile to C"),
 		      c_test_string);
@@ -169,14 +170,14 @@ guile_main_utils (void *data)
 	      c_test_list_2_length = lw6sys_list_length (c_test_list_2);
 	      if (c_test_list_1_length == c_test_list_2_length)
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE,
+		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			      _x_
 			      ("was able to transfer list of length %d from C to Guile to C"),
 			      c_test_list_2_length);
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("size mismatch c_test_list_1_lenght=%d c_test_list_2_length=%d"),
 			      c_test_list_1_length, c_test_list_2_length);
@@ -186,14 +187,14 @@ guile_main_utils (void *data)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to create C list from SCM object"));
 	      global_ret = 0;
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("problem setting list values"));
 	  global_ret = 0;
 	}
@@ -201,7 +202,8 @@ guile_main_utils (void *data)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create C list"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to create C list"));
       global_ret = 0;
     }
 
@@ -231,7 +233,7 @@ guile_main_utils (void *data)
 	      if (lw6sys_str_is_same
 		  (c_test_assoc_1_value_1, c_test_assoc_2_value_1))
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE,
+		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			      _x_
 			      ("was able to transfer assoc from C to Guile to C, value for key \"%s\" is \"%s\""),
 			      _TEST_UTILS_ASSOC_KEY_1,
@@ -239,7 +241,7 @@ guile_main_utils (void *data)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("content mismatch between assoc for key \"%s\" assoc_1 contains \"%s\" while assoc_2 contains \"%s\""),
 			      _TEST_UTILS_ASSOC_KEY_1, c_test_assoc_1_value_1,
@@ -250,14 +252,14 @@ guile_main_utils (void *data)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to create C assoc from SCM object"));
 	      global_ret = 0;
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("problem setting assoc values"));
 	  global_ret = 0;
 	}
@@ -265,12 +267,14 @@ guile_main_utils (void *data)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create C assoc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to create C assoc"));
       global_ret = 0;
     }
 
   scm_gc ();
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("leaving Guile in %s"), __FUNCTION__);
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _("leaving Guile in %s"),
+	      __FUNCTION__);
 
   return NULL;
 }
@@ -324,13 +328,13 @@ _test_coverage ()
 	    lw6scm_coverage_log (coverage);
 	    if (lw6scm_coverage_check (&percent, coverage, funcs))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE,
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_
 			    ("coverage OK, all functions reported as called"));
 	      }
 	    else
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING,
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			    _x_
 			    ("coverage problem, only %d percent of functions covered"),
 			    percent);
@@ -341,14 +345,14 @@ _test_coverage ()
 	      {
 		if (!lw6scm_coverage_check (&percent, coverage, funcs))
 		  {
-		    lw6sys_log (LW6SYS_LOG_NOTICE,
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				_x_
 				("coverage broken, only %d percent, this is right, error detection works"),
 				percent);
 		  }
 		else
 		  {
-		    lw6sys_log (LW6SYS_LOG_WARNING,
+		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				_x_
 				("coverage problem, reported as OK when it should not"));
 		    ret = 0;
@@ -387,19 +391,20 @@ _scm_lw6sys_build_get_version ()
 static void *
 guile_main_wrapper (void *data)
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("entering Guile in %s"), __FUNCTION__);
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("entering Guile in %s"),
+	      __FUNCTION__);
 
   if (lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION, 0, 0, 0,
 			     (SCM (*)())_scm_lw6sys_build_get_version))
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE,
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		  _x_
 		  ("next you should see a message complaining \"%s\" is not documented"),
 		  _TEST_UNEXISTING_FUNC);
       if (lw6scm_c_define_gsubr (_TEST_UNEXISTING_FUNC, 0, 0, 0,
 				 (SCM (*)())_scm_lw6sys_build_get_version))
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("function \"%s\" was defined, should have been refused"),
 		      _TEST_UNEXISTING_FUNC);
@@ -411,13 +416,14 @@ guile_main_wrapper (void *data)
       global_ret = 0;
     }
 
-  lw6sys_log (LW6SYS_LOG_NOTICE,
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 	      _x_
 	      ("next you should see a message complaining \"%s\" does not exists"),
 	      _TEST_UNEXISTING_FILE);
   lw6scm_c_primitive_load (_TEST_UNEXISTING_FILE);
   scm_gc ();
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("leaving Guile in %s"), __FUNCTION__);
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _("leaving Guile in %s"),
+	      __FUNCTION__);
 
   return NULL;
 }
@@ -443,14 +449,16 @@ _test_wrapper ()
 static int
 _setup_init ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libscm CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libscm CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libscm CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libscm CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -488,7 +496,7 @@ lw6scm_test_register (int mode)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
 		  CU_get_error_msg ());
       ret = 0;

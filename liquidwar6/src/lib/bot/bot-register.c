@@ -138,7 +138,7 @@ lw6bot_create_backend (int argc, const char *argv[], const char *name)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("bot backend \"%s\" does not exist"), name);
     }
 #else
@@ -162,7 +162,7 @@ lw6bot_create_backend (int argc, const char *argv[], const char *name)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("unable to find function \"%s\" in server backend \"%s\""),
 			  init_func_name, name);
@@ -180,7 +180,7 @@ lw6bot_create_backend (int argc, const char *argv[], const char *name)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to open server backend \"%s\""), name);
     }
 #endif

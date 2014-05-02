@@ -29,7 +29,7 @@
 static void
 _warning (const char *func_name)
 {
-  lw6sys_log (LW6SYS_LOG_WARNING,
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 	      _x_ ("bot backend function \"%s\" is not defined"), func_name);
 }
 
@@ -61,14 +61,15 @@ lw6bot_init (lw6bot_backend_t * backend, lw6bot_seed_t * seed)
       backend->seed = *seed;
       if (backend->seed.param.speed <= 0.0f)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("incorrect speed %0.1f"),
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("incorrect speed %0.1f"),
 		      backend->seed.param.speed);
 	  bad_speed = 1;
 	}
       if (backend->seed.param.iq < 0)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("incorrect iq %d"),
-		      backend->seed.param.iq);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("incorrect iq %d"), backend->seed.param.iq);
 	  bad_iq = 1;
 	}
       data.param = backend->seed.param;
@@ -172,7 +173,8 @@ lw6bot_next_move (lw6bot_backend_t * backend, int *x, int *y)
 	    }
 	  break;
 	default:
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unknown dirty read mode %d"),
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("unknown dirty read mode %d"),
 		      backend->seed.dirty_read);
 	}
       if (data.game_state)

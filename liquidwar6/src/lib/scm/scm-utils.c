@@ -72,7 +72,7 @@ lw6scm_utils_to_0str (SCM string)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("unable to convert a guile SCM string to a standard C \"'\\0' terminated\" string"));
     }

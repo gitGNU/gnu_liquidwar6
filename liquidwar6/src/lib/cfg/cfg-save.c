@@ -71,7 +71,8 @@ _lw6cfg_save (_lw6cfg_context_t * cfg_context, const char *filename)
   int ret = 0;
   FILE *f;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("saving config to \"%s\""), filename);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("saving config to \"%s\""),
+	      filename);
 
   _lw6cfg_parse_command_line (cfg_context);
 
@@ -95,7 +96,7 @@ _lw6cfg_save (_lw6cfg_context_t * cfg_context, const char *filename)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("could not open file \"%s\" in write mode"), filename);
     }
 

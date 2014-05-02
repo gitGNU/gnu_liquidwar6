@@ -195,14 +195,14 @@ lw6gui_video_mode_sync_ratio (lw6gui_video_mode_t * dst,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("can't handle dst resolution %dx%d"),
 		      dst->width, dst->height);
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't handle src resolution %dx%d"), src->width,
 		  src->height);
     }

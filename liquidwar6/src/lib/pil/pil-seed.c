@@ -42,7 +42,7 @@ _lw6pil_seed_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("calling seed with inconsistent seqs, seq=%"
 		       LW6SYS_PRINTF_LL
 		       "d is too low because last_commit_seq=%"

@@ -107,14 +107,15 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
 				    {
 				      unlink (db->log_filename);
 				    }
-				  lw6sys_log (LW6SYS_LOG_INFO,
+				  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					      _x_ ("opening db \"%s\""),
 					      db->db_filename);
 				  if (sqlite3_open
 				      (db->db_filename,
 				       &(db->handler)) == SQLITE_OK)
 				    {
-				      lw6sys_log (LW6SYS_LOG_INFO,
+				      lw6sys_log (sys_context,
+						  LW6SYS_LOG_INFO,
 						  _x_ ("opened db \"%s\""),
 						  db->db_filename);
 				      if (_lw6p2p_db_create_database (db))
@@ -133,7 +134,8 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
 					    }
 					  else
 					    {
-					      lw6sys_log (LW6SYS_LOG_WARNING,
+					      lw6sys_log (sys_context,
+							  LW6SYS_LOG_WARNING,
 							  _x_
 							  ("can't clean database \"%s\""),
 							  db->db_filename);
@@ -141,7 +143,8 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
 					}
 				      else
 					{
-					  lw6sys_log (LW6SYS_LOG_WARNING,
+					  lw6sys_log (sys_context,
+						      LW6SYS_LOG_WARNING,
 						      _x_
 						      ("can't create database \"%s\""),
 						      db->db_filename);
@@ -151,7 +154,8 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
 				    {
 				      if (db->handler)
 					{
-					  lw6sys_log (LW6SYS_LOG_WARNING,
+					  lw6sys_log (sys_context,
+						      LW6SYS_LOG_WARNING,
 						      _x_
 						      ("can't open db \"%s\" errcode=%d errmsg=\"%s\""),
 						      db->db_filename,
@@ -162,7 +166,8 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
 					}
 				      else
 					{
-					  lw6sys_log (LW6SYS_LOG_WARNING,
+					  lw6sys_log (sys_context,
+						      LW6SYS_LOG_WARNING,
 						      _x_
 						      ("can't open db \"%s\""),
 						      db->db_filename);
@@ -177,7 +182,7 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("can't load p2p data"));
 		}
 	      LW6SYS_FREE (sys_context, data_dir);
@@ -220,24 +225,25 @@ _lw6p2p_db_close (_lw6p2p_db_t * db)
 	}
       if (db->db_filename)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("closing db \"%s\""),
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("closing db \"%s\""),
 		      db->db_filename);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("closing unknown db"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("closing unknown db"));
 	}
       if (db->handler)
 	{
 	  if (sqlite3_close (db->handler) == SQLITE_OK)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("sqlite3_close successfull"));
 	      db->handler = NULL;
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("sqlite2_close failed errcode=%d errmsg=\"%s\""),
 			  sqlite3_errcode (db->handler),
@@ -247,14 +253,15 @@ _lw6p2p_db_close (_lw6p2p_db_t * db)
       _lw6p2p_data_unload (&(db->data));
       if (db->db_filename)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("closed db \"%s\""),
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("closed db \"%s\""),
 		      db->db_filename);
 	  LW6SYS_FREE (sys_context, db->db_filename);
 	  db->db_filename = NULL;
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("closed unknown db"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("closed unknown db"));
 	}
       if (db->log_filename)
 	{
@@ -264,7 +271,8 @@ _lw6p2p_db_close (_lw6p2p_db_t * db)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to close NULL db"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to close NULL db"));
     }
 }
 
@@ -294,7 +302,7 @@ _lw6p2p_db_repr (const _lw6p2p_db_t * db)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't repr NULL or unitialized db"));
     }
 
@@ -309,8 +317,8 @@ _lw6p2p_db_get_query (_lw6p2p_db_t * db, char *key)
   query = lw6sys_hash_get (db->data.sql.queries, key);
   if (!query)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't get SQL query \"%s\""),
-		  key);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("can't get SQL query \"%s\""), key);
       query = "";		// to avoid segfault in probable sprintf
     }
 
@@ -338,15 +346,15 @@ _lw6p2p_db_lock (_lw6p2p_db_t * db)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("lock db"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("lock db"));
   ret = lw6sys_mutex_lock (db->mutex);
   if (ret)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("lock db OK"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("lock db OK"));
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to lock db"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to lock db"));
     }
 
   return ret;
@@ -357,15 +365,16 @@ _lw6p2p_db_unlock (_lw6p2p_db_t * db)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unlock db"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unlock db"));
   ret = lw6sys_mutex_unlock (db->mutex);
   if (ret)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unlock db OK"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unlock db OK"));
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to unlock db"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to unlock db"));
     }
 
   return ret;
@@ -376,9 +385,9 @@ _lw6p2p_db_trylock (_lw6p2p_db_t * db)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("trylock db"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trylock db"));
   ret = lw6sys_mutex_trylock (db->mutex);
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("trylock db ret=%d"), ret);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trylock db ret=%d"), ret);
 
   return ret;
 }
@@ -401,10 +410,11 @@ _lw6p2p_db_exec (_lw6p2p_db_t * db, char *sql, _lw6p2p_db_callback_t func,
   int errcode = 0;
   char *errmsg = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("executing SQL statement \"%s\""), sql);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+	      _x_ ("executing SQL statement \"%s\""), sql);
   if (_lw6p2p_db_trylock (db))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("trying to execute SQL statement \"%s\" while DB is not locked"),
 		  sql);
@@ -422,7 +432,7 @@ _lw6p2p_db_exec (_lw6p2p_db_t * db, char *sql, _lw6p2p_db_callback_t func,
 	{
 	  if (errmsg)
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("error executing SQL statement \"%s\" errcode=%d errmsg=\"%s\""),
 			  sql, errcode, errmsg);
@@ -430,7 +440,7 @@ _lw6p2p_db_exec (_lw6p2p_db_t * db, char *sql, _lw6p2p_db_callback_t func,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("error executing SQL statement \"%s\" errcode=%d"),
 			  sql, errcode);
@@ -517,13 +527,13 @@ lw6p2p_db_reset (int argc, const char *argv[], const char *name)
 		    {
 		      if (!unlink (filename))
 			{
-			  lw6sys_log (LW6SYS_LOG_INFO,
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				      _x_ ("database file \"%s\" deleted"),
 				      filename);
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_
 				      ("can't delete database file \"%s\""),
 				      filename);
@@ -539,13 +549,13 @@ lw6p2p_db_reset (int argc, const char *argv[], const char *name)
 		    {
 		      if (!unlink (filename))
 			{
-			  lw6sys_log (LW6SYS_LOG_INFO,
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				      _x_ ("log file \"%s\" deleted"),
 				      filename);
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_ ("can't delete log file \"%s\""),
 				      filename);
 			  ret = 0;
@@ -556,7 +566,7 @@ lw6p2p_db_reset (int argc, const char *argv[], const char *name)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("no need to delete database in \"%s\", directory does not exists"),
 			  p2p_dir);

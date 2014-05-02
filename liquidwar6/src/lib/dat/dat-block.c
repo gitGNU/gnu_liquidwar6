@@ -72,7 +72,7 @@ _lw6dat_block_put_atom (_lw6dat_block_t * block, int type,
 	  if (strcmp (old_full_str, full_str) || order_i != atom->order_i
 	      || order_n != atom->order_n || serial != atom->serial)
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("inconsistency, atom set twice atom->serial=%d atom->order_i=%d atom->order_n=%d atom->full_str=\"%s\" but serial=%d order_i=%d order_n=%d full_str=\"%s\""),
 			  atom->serial, atom->order_i, atom->order_n,
@@ -80,7 +80,7 @@ _lw6dat_block_put_atom (_lw6dat_block_t * block, int type,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("receiving same atom serial=%d order_i=%d order_n=%d full_str=\"%s\""),
 			  serial, order_i, order_n, full_str);
@@ -104,14 +104,14 @@ _lw6dat_block_put_atom (_lw6dat_block_t * block, int type,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("couldn't set atom full_str"));
 	    }
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("serial out of range serial=%d block->serial_0=%d block->serial_n_1=%d"),
 		  serial, block->serial_0, block->serial_n_1);
@@ -135,15 +135,16 @@ _lw6dat_block_get_atom (_lw6dat_block_t * block, int serial)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("no atom defined at atom_index=%d for serial %d"),
 		      atom_index, serial);
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad atom_index=%d for serial %d"),
-		  atom_index, serial);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("bad atom_index=%d for serial %d"), atom_index,
+		  serial);
     }
 
   return atom;

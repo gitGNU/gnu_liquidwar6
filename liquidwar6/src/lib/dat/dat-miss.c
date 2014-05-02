@@ -72,7 +72,8 @@ lw6dat_miss_free (lw6dat_miss_t * miss)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL miss"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL miss"));
     }
 }
 
@@ -95,7 +96,7 @@ lw6dat_miss_sync (lw6dat_miss_t * dst, lw6dat_miss_t * src)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to sync NULL miss dst=%p src=%p"), dst, src);
     }
 }
@@ -121,7 +122,7 @@ lw6dat_miss_is_same (lw6dat_miss_t * a, lw6dat_miss_t * b)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to compare NULL miss a=%p b=%p"), a, b);
     }
 
@@ -151,7 +152,7 @@ lw6dat_miss_is_included (lw6dat_miss_t * a, lw6dat_miss_t * b)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to compare NULL miss a=%p b=%p"), a, b);
     }
 
@@ -182,7 +183,7 @@ lw6dat_miss_overlaps (lw6dat_miss_t * a, lw6dat_miss_t * b)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to compare NULL miss a=%p b=%p"), a, b);
     }
 

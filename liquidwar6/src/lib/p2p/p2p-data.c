@@ -90,7 +90,8 @@ _load_consts (_lw6p2p_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), consts_file);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
+	      consts_file);
   ret =
     lw6cfg_read_key_value_xml_file (consts_file, _read_callback,
 				    (void *) consts);
@@ -109,7 +110,8 @@ _read_query (lw6sys_hash_t * queries, const char *sql_dir,
   filename = lw6sys_path_concat (sql_dir, query_file);
   if (filename)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), filename);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
+		  filename);
       query = lw6sys_read_file_content (filename);
       if (query)
 	{
@@ -118,7 +120,7 @@ _read_query (lw6sys_hash_t * queries, const char *sql_dir,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_ERROR,
+	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 		      _("can't read query \"%s\" in \"%s\""), query_file,
 		      filename);
 	}
@@ -136,13 +138,14 @@ _check_query_not_null (void *func_data, const char *key, void *value)
 
   if (query == NULL)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("query \"%s\" is NULL"), key);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("query \"%s\" is NULL"), key);
       (*ret) = 0;
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("query \"%s\" is \"%s\""), key,
-		  query);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("query \"%s\" is \"%s\""), key, query);
     }
 }
 
@@ -195,21 +198,21 @@ _load_screenshot (_lw6p2p_screenshot_t * screenshot,
 	lw6sys_read_file_content_bin (&(screenshot->size), screenshot_file);
       if (screenshot->data && screenshot->size > 0)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("read screenshot \"%s\", %d bytes"),
 		      screenshot_file, screenshot->size);
 	  ret = 1;
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_ERROR,
+	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 		      _x_ ("unable to read screenshot file \"%s\""),
 		      screenshot_file);
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_ERROR,
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 		  _x_ ("unable to find screenshot file \"%s\""),
 		  screenshot_file);
     }

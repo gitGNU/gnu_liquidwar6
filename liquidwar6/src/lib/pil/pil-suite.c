@@ -305,8 +305,8 @@ lw6pil_suite_get_node_id (int node_index)
       ret = _NODE_C_ID;
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("invalid node_index %d"),
-		  node_index);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("invalid node_index %d"), node_index);
     }
 
   return ret;
@@ -559,7 +559,8 @@ lw6pil_suite_get_checkpoint (u_int32_t * game_state_checksum, int64_t * seq,
       (*round) = _STAGE_6_ROUND;
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("invalid stage %d"), stage);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("invalid stage %d"),
+		  stage);
       (*game_state_checksum) = 0;
       (*seq) = 0LL;
       (*round) = 0;

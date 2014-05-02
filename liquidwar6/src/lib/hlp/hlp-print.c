@@ -42,7 +42,7 @@ print_keyword_callback (void *func_data, void *data)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to print NULL help keyword"));
     }
 }
@@ -89,7 +89,7 @@ print_content_callback (void *func_data, void *data)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to print NULL help keyword"));
     }
 }
@@ -1175,9 +1175,9 @@ lw6hlp_print_hello (int argc, const char *argv[])
   char *hostname = NULL;
   char *date_rfc1123 = NULL;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("hello"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _("hello"));
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, "v%s \"%s\" (%s) %s/%s",
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, "v%s \"%s\" (%s) %s/%s",
 	      lw6sys_build_get_version (),
 	      lw6sys_build_get_codename (),
 	      lw6sys_build_get_date (),
@@ -1191,7 +1191,7 @@ lw6hlp_print_hello (int argc, const char *argv[])
 	{
 	  hostname = lw6sys_get_hostname ();
 	  {
-	    lw6sys_log (LW6SYS_LOG_INFO, "%s \"%s@%s\"",
+	    lw6sys_log (sys_context, LW6SYS_LOG_INFO, "%s \"%s@%s\"",
 			date_rfc1123, username, hostname);
 	    LW6SYS_FREE (hostname);
 	  }
@@ -1200,7 +1200,7 @@ lw6hlp_print_hello (int argc, const char *argv[])
       LW6SYS_FREE (sys_context, date_rfc1123);
     }
 
-  lw6sys_log (LW6SYS_LOG_INFO, "%d %s - %d %s",
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, "%d %s - %d %s",
 	      lw6sys_megabytes_available (), _x_ ("Mb"),
 	      lw6sys_openmp_get_num_procs (), _x_ ("procs"));
 
@@ -1222,5 +1222,5 @@ lw6hlp_print_hello (int argc, const char *argv[])
 void
 lw6hlp_print_goodbye ()
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("goodbye"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _("goodbye"));
 }

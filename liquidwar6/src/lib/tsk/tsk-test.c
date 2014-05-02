@@ -109,7 +109,7 @@ _test_manager_ldr ()
 			repr = lw6tsk_loader_repr (manager);
 			if (repr)
 			  {
-			    lw6sys_log (LW6SYS_LOG_NOTICE,
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					_x_ ("waiting for manager \"%s\""),
 					repr);
 			    LW6SYS_FREE (sys_context, repr);
@@ -124,7 +124,8 @@ _test_manager_ldr ()
 				repr = lw6ker_game_struct_repr (game_struct);
 				if (repr)
 				  {
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
+				    lw6sys_log (sys_context,
+						LW6SYS_LOG_NOTICE,
 						_x_
 						("loaded game_struct \"%s\""),
 						repr);
@@ -133,7 +134,8 @@ _test_manager_ldr ()
 				repr = lw6ker_game_state_repr (game_state);
 				if (repr)
 				  {
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
+				    lw6sys_log (sys_context,
+						LW6SYS_LOG_NOTICE,
 						_x_
 						("loaded game_state \"%s\" bench_value=%d"),
 						repr, bench_value);
@@ -151,7 +153,8 @@ _test_manager_ldr ()
 				repr = lw6map_repr (level);
 				if (repr)
 				  {
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
+				    lw6sys_log (sys_context,
+						LW6SYS_LOG_NOTICE,
 						_x_ ("loaded map \"%s\""),
 						repr);
 				    LW6SYS_FREE (sys_context, repr);
@@ -229,7 +232,7 @@ _test_manager_gen ()
 		repr = lw6tsk_loader_repr (manager);
 		if (repr)
 		  {
-		    lw6sys_log (LW6SYS_LOG_NOTICE,
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				_x_ ("waiting for manager \"%s\""), repr);
 		    LW6SYS_FREE (sys_context, repr);
 		  }
@@ -243,7 +246,7 @@ _test_manager_gen ()
 			repr = lw6ker_game_struct_repr (game_struct);
 			if (repr)
 			  {
-			    lw6sys_log (LW6SYS_LOG_NOTICE,
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					_x_
 					("generated game_struct \"%s\""),
 					repr);
@@ -252,7 +255,7 @@ _test_manager_gen ()
 			repr = lw6ker_game_state_repr (game_state);
 			if (repr)
 			  {
-			    lw6sys_log (LW6SYS_LOG_NOTICE,
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					_x_
 					("generated game_state \"%s\" bench_value=%d"),
 					repr, bench_value);
@@ -270,7 +273,7 @@ _test_manager_gen ()
 			repr = lw6map_repr (level);
 			if (repr)
 			  {
-			    lw6sys_log (LW6SYS_LOG_NOTICE,
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					_x_ ("generated map \"%s\""), repr);
 			    LW6SYS_FREE (sys_context, repr);
 			  }
@@ -299,14 +302,16 @@ _test_manager_gen ()
 static int
 _setup_init ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libtsk CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libtsk CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libtsk CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libtsk CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -347,7 +352,7 @@ lw6tsk_test_register (int mode)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
 		  CU_get_error_msg ());
       ret = 0;

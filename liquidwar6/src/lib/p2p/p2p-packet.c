@@ -63,14 +63,15 @@ _lw6p2p_packet_free (_lw6p2p_packet_t * packet)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("freeing packet with NULL msg"));
 	}
       LW6SYS_FREE (sys_context, packet);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL packet"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL packet"));
     }
 }
 

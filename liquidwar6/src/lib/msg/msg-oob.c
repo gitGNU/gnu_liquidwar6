@@ -136,7 +136,7 @@ _add_node_txt (void *func_data, void *data)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_
 		      ("truncating list, very long lists do not make any sense anyway, and it could cause problems on UDP"));
 	}
@@ -381,7 +381,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 		{
 		  if (lw6sys_url_is_canonized (param1))
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_
 				  ("param1=\"%s\" is canonized URL, considering it an URL"),
 				  param1);
@@ -389,7 +389,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_
 				  ("param1=\"%s\" is not a canonized URL, considering it a password"),
 				  param1);

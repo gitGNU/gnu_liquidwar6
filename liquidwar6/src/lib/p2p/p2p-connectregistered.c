@@ -43,7 +43,7 @@ _select_node_by_id_callback (void *func_data, int nb_fields,
   _select_node_by_id_data_t *node_by_id_data =
     (_select_node_by_id_data_t *) func_data;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG,
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_
 	      ("select_node_by_id_callback called with %d fields"),
 	      nb_fields);
@@ -80,7 +80,7 @@ _select_node_by_id_callback (void *func_data, int nb_fields,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("request for node by id should return %d fields but returned %d"),
 		  _LW6P2P_DB_NODE_NB_FIELDS, nb_fields);
@@ -176,7 +176,7 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 			       * Go ahead, establishing the tentacle should not be
 			       * long as we already have a "correct" ping.
 			       */
-			      lw6sys_log (LW6SYS_LOG_INFO,
+			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					  _x_ ("node %" LW6SYS_PRINTF_LL
 					       "x \"%s\" at %s registered without a connection, trying to establish a link"),
 					  (long long) meta_array.
@@ -188,7 +188,7 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 				   node_by_id_data.node_ip,
 				   meta_array.items[index].node_id))
 				{
-				  lw6sys_log (LW6SYS_LOG_INFO,
+				  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					      _x_
 					      ("link established with node %"
 					       LW6SYS_PRINTF_LL
@@ -200,7 +200,7 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 				}
 			      else
 				{
-				  lw6sys_log (LW6SYS_LOG_INFO,
+				  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					      _x_
 					      ("can't establish link with node %"
 					       LW6SYS_PRINTF_LL
@@ -220,7 +220,7 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 			       * automatic ping check takes time to cycle through all the list.
 			       * For now, as LW6 is beta, there's no hurr (servers not crowded).
 			       */
-			      lw6sys_log (LW6SYS_LOG_INFO,
+			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					  _x_
 					  ("won't establish link with node %"
 					   LW6SYS_PRINTF_LL

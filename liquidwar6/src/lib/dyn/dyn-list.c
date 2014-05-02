@@ -82,7 +82,7 @@ add_backend (lw6sys_assoc_t ** list, const char *libdir, const char *filename,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  _x_
 				  ("can't get pedigree for mod_%s in \"%s\""),
 				  id, so_file);

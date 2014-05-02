@@ -464,8 +464,8 @@ _lw6ker_spread_update_gradient (_lw6ker_team_t * team, int skip_vertical,
 	  _CALL_DO_ALL_DIRS_INCR_XY (zone_structs, zone_states, nb_zones);
 	  break;
 	default:
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad spread_mode=%d"),
-		      spread_mode);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("bad spread_mode=%d"), spread_mode);
 	  break;
 	}
       break;
@@ -484,8 +484,8 @@ _lw6ker_spread_update_gradient (_lw6ker_team_t * team, int skip_vertical,
 	  _CALL_DO_ALL_DIRS_INCR_XY (zone_structs, zone_states, nb_zones);
 	  break;
 	default:
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad spread_mode=%d"),
-		      spread_mode);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("bad spread_mode=%d"), spread_mode);
 	  break;
 	}
       break;
@@ -507,8 +507,8 @@ _lw6ker_spread_update_gradient (_lw6ker_team_t * team, int skip_vertical,
 	  _CALL_DO_ALL_DIRS_DECR_XY (zone_structs, zone_states, nb_zones);
 	  break;
 	default:
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad spread_mode=%d"),
-		      spread_mode);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("bad spread_mode=%d"), spread_mode);
 	  break;
 	}
       break;
@@ -527,8 +527,8 @@ _lw6ker_spread_update_gradient (_lw6ker_team_t * team, int skip_vertical,
 	  _CALL_DO_ALL_DIRS_DECR_XY (zone_structs, zone_states, nb_zones);
 	  break;
 	default:
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad spread_mode=%d"),
-		      spread_mode);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("bad spread_mode=%d"), spread_mode);
 	  break;
 	}
       break;
@@ -536,7 +536,7 @@ _lw6ker_spread_update_gradient (_lw6ker_team_t * team, int skip_vertical,
       _CALL_DO_ONE_DIR_DECR_Z (zone_structs, zone_states, nb_zones, dir);
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to spread gradient, incorrect dir=%d"), dir);
       break;
     }

@@ -215,14 +215,14 @@ lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table,
 	  lw6sys_spinlock_unlock (ticket_table->recv_ack_spinlock);
 	  if (!useless)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("acknowledging ticket for peer_id=%s, ack_delay_msec=%d"),
 			  peer_id, ack_delay_msec);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("acknowledging ticket for peer_id=%s, but this is useless, we already got one"),
 			  peer_id);
@@ -269,7 +269,7 @@ lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("ticket for \"%s\" exists but is too recent, still %d msec"),
 			  peer_id, (int) ((*limit) - now));
@@ -360,7 +360,7 @@ lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t * ticket_table,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("send_ticket for %s already exists, ignoring set"),
 		  peer_id);
     }

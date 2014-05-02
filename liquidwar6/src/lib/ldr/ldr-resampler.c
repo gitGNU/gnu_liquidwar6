@@ -182,7 +182,7 @@ _guess_moves_per_sec (lw6map_rules_t * rules, const lw6ldr_hints_t * hints,
       if (old_moves_per_round != rules->moves_per_round
 	  || old_rounds_per_sec != rules->rounds_per_sec)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("changing speed from %dx%d to %dx%d"),
 		      old_rounds_per_sec, old_moves_per_round,
 		      rules->rounds_per_sec, rules->moves_per_round);
@@ -269,7 +269,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 	    {
 	      target_w = tmp_w;
 	      target_h = tmp_h;
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("fighter_scale=%f on display %dx%d -> downsizing from %dx%d to %dx%d"),
 			  hints->fighter_scale, display_w, display_h,
@@ -280,7 +280,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 	    {
 	      target_w = tmp_w;
 	      target_h = tmp_h;
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("fighter_scale=%f on display %dx%d -> upsizing from %dx%d to %dx%d"),
 			  hints->fighter_scale, display_w, display_h,
@@ -335,7 +335,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 		    }
 		  if (tmp_w != target_w || tmp_h != target_h)
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("required=%f capacity=%f bench_value=%d lin_bench_value=%d -> downsizing from %dx%d to %dx%d"),
 				  required, capacity_orig, bench_value,
@@ -360,7 +360,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 		    }
 		  if (tmp_w != target_w || tmp_h != target_h)
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("required=%f capacity=%f bench_value=%d -> upsizing from %dx%d to %dx%d"),
 				  required, capacity_orig, bench_value,
@@ -383,7 +383,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 	   */
 	  if (target_w * target_h > hints->max_map_surface)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("target_w=%d target_h=%d hints->max_map_surface=%d -> downsizing"),
 			  target_w, target_h, hints->max_map_surface);
@@ -396,7 +396,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 
 	  if (target_w * target_h < hints->min_map_surface)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("target_w=%d target_h=%d hints->min_map_surface=%d -> upsizing"),
 			  target_w, target_h, hints->min_map_surface);
@@ -412,7 +412,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to handle map with shape %dx%d"), source_w,
 		  source_h);
     }
@@ -448,7 +448,7 @@ lw6ldr_resampler_use_for_gen (int *map_w, int *map_h,
 
   target_ratio = ((float) display_w) / ((float) display_h);
 
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_ ("using resampler for gen, display=%dx%d bench_value=%d"),
 	      display_w, display_h, bench_value);
   lw6ldr_resampler_init (&resampler, &param, &hints, display_w, display_h,

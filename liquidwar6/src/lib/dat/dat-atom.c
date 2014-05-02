@@ -138,7 +138,7 @@ _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("bad value for type in atom \"%s\""), full_str);
 	  ret = 0;
 	}
@@ -164,14 +164,14 @@ _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
 			      (logical_from, &next, next))
 			    {
 			      (*cmd_str_offset) = next - full_str;
-			      lw6sys_log (LW6SYS_LOG_DEBUG,
+			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					  _x_ ("successfully parsed \"%s\""),
 					  full_str);
 			      ret = 1;
 			    }
 			  else
 			    {
-			      lw6sys_log (LW6SYS_LOG_WARNING,
+			      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 					  _x_
 					  ("bad value for logical_from in atom \"%s\""),
 					  full_str);
@@ -179,7 +179,7 @@ _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_
 				      ("bad value for seq in atom \"%s\""),
 				      full_str);
@@ -187,7 +187,7 @@ _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  _x_
 				  ("bad value for order_n in atom \"%s\""),
 				  full_str);
@@ -195,14 +195,14 @@ _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("bad value for order_i in atom \"%s\""),
 			      full_str);
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("bad value for serial in atom \"%s\""),
 			  full_str);
 	    }
@@ -210,7 +210,7 @@ _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("bad value for META/DATA in atom \"%s\""), full_str);
     }
 

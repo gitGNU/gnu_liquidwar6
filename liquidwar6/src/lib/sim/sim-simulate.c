@@ -117,7 +117,7 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results,
 	    {
 	      bonus = score_array.scores[i].consolidated_percent;
 	      results->absolute[j] += bonus;
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("bonus for team %d is %d, new absolute is %d"),
 			  j, bonus, results->absolute[j]);
 	    }
@@ -181,8 +181,8 @@ lw6sim_simulate (int argc, const char *argv[], lw6sim_results_t * results,
 		{
 		  if (ret)
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("simulating %d/%d"),
-				  i, max_mask);
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+				  _x_ ("simulating %d/%d"), i, max_mask);
 		      ret =
 			_simulate (argc, argv, results, game_struct, i,
 				   bot_backend);
@@ -190,7 +190,7 @@ lw6sim_simulate (int argc, const char *argv[], lw6sim_results_t * results,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_ ("skipping simulation %d/%d, unvalid mask"),
 			      i, max_mask);
 		}

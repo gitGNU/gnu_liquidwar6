@@ -50,7 +50,7 @@ lw6img_repr (const lw6img_jpeg_t * jpeg)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't generate string id for NULL jpeg"));
     }
 

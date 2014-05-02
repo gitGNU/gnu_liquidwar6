@@ -155,8 +155,8 @@ lw6pil_local_cursors_set_xy (lw6pil_local_cursors_t * local_cursors,
   cursor = _get_cursor (local_cursors, cursor_id, 1);
   if (cursor)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("set local cursor %x to %d,%d"),
-		  cursor_id, x, y);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("set local cursor %x to %d,%d"), cursor_id, x, y);
       cursor->x = x;
       cursor->y = y;
       ret = 1;

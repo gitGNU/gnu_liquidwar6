@@ -170,7 +170,7 @@ lw6gfx_create_backend (int argc, const char *argv[], const char *name)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("graphical backend \"%s\" does not exist"), name);
     }
 #else // LW6_ALLINONE
@@ -194,7 +194,7 @@ lw6gfx_create_backend (int argc, const char *argv[], const char *name)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("unable to find function \"%s\" in gfx backend \"%s\""),
 			  init_func_name, name);
@@ -213,7 +213,7 @@ lw6gfx_create_backend (int argc, const char *argv[], const char *name)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to open gfx backend \"%s\""), name);
     }
 #endif // LW6_ALLINONE

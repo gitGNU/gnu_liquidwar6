@@ -139,11 +139,12 @@ _test_bench ()
 
     if (LW6SYS_TEST_ACK (lw6pil_bench (argc, argv, &bench_result, NULL)))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("bench=%0.1f"), bench_result);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("bench=%0.1f"),
+		    bench_result);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bench failed"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bench failed"));
 	ret = 0;
       }
   }
@@ -162,7 +163,8 @@ command_map_func (void *func_data, void *data)
   if (LW6SYS_TEST_ACK (repr))
     {
       (*ret) = 1;
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("command=\"%s\""), repr);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("command=\"%s\""),
+		  repr);
       LW6SYS_FREE (sys_context, repr);
     }
 }
@@ -195,7 +197,7 @@ _test_command ()
 		repr = lw6pil_command_repr (command);
 		if (LW6SYS_TEST_ACK (repr))
 		  {
-		    lw6sys_log (LW6SYS_LOG_NOTICE,
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				_x_ ("command \"%s\" interpreted as \"%s\""),
 				_test_commands[i], repr);
 		    LW6SYS_FREE (sys_context, repr);
@@ -254,19 +256,19 @@ _test_coords ()
 	  {
 	    rules.x_polarity = px;
 	    rules.y_polarity = py;
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("polarity set to %d,%d"), px,
-			py);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+			_x_ ("polarity set to %d,%d"), px, py);
 	    for (i = 0; i < _TEST_COORDS_NB; ++i)
 	      {
 		x = _test_x[i];
 		y = _test_y[i];
 		z = _TEST_COORDS_Z;
-		lw6sys_log (LW6SYS_LOG_NOTICE,
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_ ("coords before fix %0.2f,%0.2f,%0.2f"), x, y,
 			    z);
 		lw6pil_coords_fix_x10 (&rules, &shape, &x, &y, &z);
 		lw6pil_coords_fix (&rules, &shape, &x, &y, &z);
-		lw6sys_log (LW6SYS_LOG_NOTICE,
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_ ("coords after fix %0.2f,%0.2f,%0.2f"), x, y,
 			    z);
 	      }
@@ -287,7 +289,7 @@ _print_game_state (lw6ker_game_state_t * game_state, char *text)
   capture_str = lw6ker_capture_str (game_state);
   if (LW6SYS_TEST_ACK (capture_str))
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s round=%d"), text,
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%s round=%d"), text,
 		  lw6ker_game_state_get_rounds (game_state));
       if (lw6sys_log_get_console_state ())
 	{
@@ -338,7 +340,7 @@ _test_local_cursors ()
 					  &mouse_controlled,
 					  _TEST_LOCAL_CURSORS_ID1)))
 		      {
-			lw6sys_log (LW6SYS_LOG_NOTICE,
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_
 				    ("cursor %x is at %d,%d mouse_controlled=%d"),
 				    _TEST_LOCAL_CURSORS_ID1, x, y,
@@ -353,7 +355,7 @@ _test_local_cursors ()
 			     (&local_cursors, &cursor_id, &x, &y,
 			      &mouse_controlled)))
 			  {
-			    lw6sys_log (LW6SYS_LOG_NOTICE,
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					_x_
 					("main cursor %x is at %d,%d mouse_controlled=%d"),
 					cursor_id, x, y, mouse_controlled);
@@ -425,7 +427,7 @@ _test_dump ()
 		    repr = lw6pil_pilot_repr (pilot);
 		    if (LW6SYS_TEST_ACK (repr))
 		      {
-			lw6sys_log (LW6SYS_LOG_NOTICE,
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_ ("pilot \"%s\" created"), repr);
 			LW6SYS_FREE (sys_context, repr);
 		      }
@@ -441,7 +443,7 @@ _test_dump ()
 			memset (dump_preview, 0, _TEST_DUMP_PREVIEW_LEN + 1);
 			strncpy (dump_preview, dump_command,
 				 _TEST_DUMP_PREVIEW_LEN);
-			lw6sys_log (LW6SYS_LOG_NOTICE,
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_
 				    ("dump command with length=%d, %d first chars are \"%s\""),
 				    dump_len, _TEST_DUMP_PREVIEW_LEN,
@@ -459,7 +461,8 @@ _test_dump ()
 						     (pilot,
 						      _test_commands[i], 1)))
 				  {
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
+				    lw6sys_log (sys_context,
+						LW6SYS_LOG_NOTICE,
 						_x_
 						("sent command \"%s\" to pilot"),
 						_test_commands[i]);
@@ -496,7 +499,7 @@ _test_dump ()
 			    if (LW6SYS_TEST_ACK
 				(seq == _TEST_DUMP_LAST_COMMIT_SEQ))
 			      {
-				lw6sys_log (LW6SYS_LOG_NOTICE,
+				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					    _x_
 					    ("got dump from pilot, OK, last_commit_seq=%"
 					     LW6SYS_PRINTF_LL "d"),
@@ -510,7 +513,8 @@ _test_dump ()
 							       [i], 1);
 				    lw6pil_pilot_send_command
 				      (dump.pilot, _test_commands[i], 1);
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
+				    lw6sys_log (sys_context,
+						LW6SYS_LOG_NOTICE,
 						_x_
 						("sent command \"%s\" to pilots"),
 						_test_commands[i]);
@@ -529,7 +533,8 @@ _test_dump ()
 								  (dump.pilot))
 				       < _TEST_BACKUP_ROUND)
 				  {
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
+				    lw6sys_log (sys_context,
+						LW6SYS_LOG_NOTICE,
 						_x_
 						("waiting for reference round to increase"));
 				    lw6sys_sleep (_TEST_CYCLE);
@@ -551,7 +556,8 @@ _test_dump ()
 					(dump.game_state) <
 					_TEST_BACKUP_ROUND))
 				  {
-				    lw6sys_log (LW6SYS_LOG_WARNING,
+				    lw6sys_log (sys_context,
+						LW6SYS_LOG_WARNING,
 						_x_
 						("waiting for backups at round %d (game_state: %d dump.game_state: %d) is your computer slow or what?"),
 						_TEST_BACKUP_ROUND,
@@ -588,18 +594,20 @@ _test_dump ()
 				  }
 				else
 				  {
-				    lw6sys_log (LW6SYS_LOG_WARNING,
+				    lw6sys_log (sys_context,
+						LW6SYS_LOG_WARNING,
 						_x_
 						("rounds mismatch, should be %d but rounds for game_state is %d and and rounds for dump.game_state is %d"),
-						_TEST_BACKUP_ROUND,
-						rounds, dump_rounds);
+						_TEST_BACKUP_ROUND, rounds,
+						dump_rounds);
 				  }
 				if (LW6SYS_TEST_ACK (checksum ==
 						     _TEST_DUMP_BACKUP_CHECKSUM
 						     && dump_checksum ==
 						     _TEST_DUMP_BACKUP_CHECKSUM))
 				  {
-				    lw6sys_log (LW6SYS_LOG_NOTICE,
+				    lw6sys_log (sys_context,
+						LW6SYS_LOG_NOTICE,
 						_x_
 						("checksum of game_state and dump.game_state at round %d are both %x, OK"),
 						_TEST_BACKUP_ROUND,
@@ -608,7 +616,8 @@ _test_dump ()
 				  }
 				else
 				  {
-				    lw6sys_log (LW6SYS_LOG_WARNING,
+				    lw6sys_log (sys_context,
+						LW6SYS_LOG_WARNING,
 						_x_
 						("checksum of game_state and dump.game_state at round %d should be %x but got %x for game_state and %x for dump.game_state"),
 						_TEST_BACKUP_ROUND,
@@ -618,7 +627,7 @@ _test_dump ()
 			      }
 			    else
 			      {
-				lw6sys_log (LW6SYS_LOG_WARNING,
+				lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 					    _x_
 					    ("got dump from pilot but seq mismatch last_commit_seq=%"
 					     LW6SYS_PRINTF_LL
@@ -633,7 +642,7 @@ _test_dump ()
 			  }
 			else
 			  {
-			    lw6sys_log (LW6SYS_LOG_WARNING,
+			    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 					_x_ ("didn't get dump from pilot"));
 			  }
 
@@ -709,7 +718,7 @@ _test_nopilot ()
 		    repr = lw6pil_pilot_repr (pilot);
 		    if (LW6SYS_TEST_ACK (repr))
 		      {
-			lw6sys_log (LW6SYS_LOG_NOTICE,
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_ ("pilot \"%s\" created"), repr);
 			LW6SYS_FREE (sys_context, repr);
 		      }
@@ -725,7 +734,7 @@ _test_nopilot ()
 			memset (dump_preview, 0, _TEST_DUMP_PREVIEW_LEN + 1);
 			strncpy (dump_preview, dump_command,
 				 _TEST_DUMP_PREVIEW_LEN);
-			lw6sys_log (LW6SYS_LOG_NOTICE,
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_
 				    ("dump command with length=%d, %d first chars are \"%s\""),
 				    dump_len, _TEST_DUMP_PREVIEW_LEN,
@@ -736,7 +745,7 @@ _test_nopilot ()
 			  {
 			    if (LW6SYS_TEST_ACK (lw6pil_dump_exists (&dump)))
 			      {
-				lw6sys_log (LW6SYS_LOG_NOTICE,
+				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					    _x_ ("dump exists"));
 				ret = 1;
 				lw6pil_dump_clear (&dump);
@@ -812,7 +821,7 @@ _test_pilot ()
 		    repr = lw6pil_pilot_repr (pilot);
 		    if (LW6SYS_TEST_ACK (repr))
 		      {
-			lw6sys_log (LW6SYS_LOG_NOTICE,
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_ ("pilot \"%s\" start"), repr);
 
 			for (i = 0; _test_commands[i]; i += 2)
@@ -847,7 +856,7 @@ _test_pilot ()
 
 			    if (i == _TEST_SYNC_COMMAND_I)
 			      {
-				lw6sys_log (LW6SYS_LOG_NOTICE,
+				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					    _x_ ("can_sync: %d"),
 					    lw6pil_pilot_can_sync (game_state,
 								   pilot));
@@ -868,7 +877,8 @@ _test_pilot ()
 				while (lw6ker_game_state_get_rounds
 				       (game_state) < _TEST_BACKUP_ROUND)
 				  {
-				    lw6sys_log (LW6SYS_LOG_WARNING,
+				    lw6sys_log (sys_context,
+						LW6SYS_LOG_WARNING,
 						_x_
 						("waiting for backup at round %d, is your computer slow or what?"),
 						_TEST_BACKUP_ROUND);
@@ -910,7 +920,7 @@ _test_pilot ()
 			game_state = NULL;
 			lw6sys_sleep (_TEST_CYCLE);
 
-			lw6sys_log (LW6SYS_LOG_NOTICE,
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_ ("next_seq for ticks %"
 					 LW6SYS_PRINTF_LL "d is %"
 					 LW6SYS_PRINTF_LL "d"),
@@ -918,7 +928,7 @@ _test_pilot ()
 				    (long long)
 				    lw6pil_pilot_get_next_seq (pilot,
 							       _TEST_CALIBRATE_TICKS1));
-			lw6sys_log (LW6SYS_LOG_NOTICE,
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_ ("next_seq for ticks %"
 					 LW6SYS_PRINTF_LL "d is %"
 					 LW6SYS_PRINTF_LL "d"),
@@ -926,39 +936,42 @@ _test_pilot ()
 				    (long long)
 				    lw6pil_pilot_get_next_seq (pilot,
 							       _TEST_CALIBRATE_TICKS2));
-			lw6sys_log (LW6SYS_LOG_NOTICE,
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_ ("last_commit_seq=%" LW6SYS_PRINTF_LL
 					 "d"),
 				    (long long)
 				    lw6pil_pilot_get_last_commit_seq (pilot));
-			lw6sys_log (LW6SYS_LOG_NOTICE,
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_ ("reference_current_seq=%"
 					 LW6SYS_PRINTF_LL "d"),
 				    (long long)
 				    lw6pil_pilot_get_reference_current_seq
 				    (pilot));
-			lw6sys_log (LW6SYS_LOG_NOTICE,
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_ ("reference_target_seq=%"
 					 LW6SYS_PRINTF_LL "d"),
 				    (long long)
 				    lw6pil_pilot_get_reference_target_seq
 				    (pilot));
-			lw6sys_log (LW6SYS_LOG_NOTICE,
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_ ("max_seq=%" LW6SYS_PRINTF_LL "d"),
 				    (long long)
 				    lw6pil_pilot_get_max_seq (pilot));
-			lw6sys_log (LW6SYS_LOG_NOTICE,
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_ ("pilot \"%s\" stop"), repr);
-			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("is_over=%d"),
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+				    _x_ ("is_over=%d"),
 				    lw6pil_pilot_is_over (pilot));
-			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("winner=%d"),
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+				    _x_ ("winner=%d"),
 				    lw6pil_pilot_get_winner (pilot));
-			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("looser=%d"),
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+				    _x_ ("looser=%d"),
 				    lw6pil_pilot_get_looser (pilot));
 			if (LW6SYS_TEST_ACK
 			    (checksum == _TEST_BACKUP_CHECKSUM))
 			  {
-			    lw6sys_log (LW6SYS_LOG_NOTICE,
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					_x_
 					("checksum at round %d is %x, OK"),
 					_TEST_BACKUP_ROUND, checksum);
@@ -966,7 +979,7 @@ _test_pilot ()
 			  }
 			else
 			  {
-			    lw6sys_log (LW6SYS_LOG_WARNING,
+			    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 					_x_
 					("checksum at round %d is %x and should be %x"),
 					_TEST_BACKUP_ROUND, checksum,
@@ -1012,7 +1025,8 @@ _test_seq ()
     int64_t random_0;
 
     random_0 = lw6pil_seq_random_0 ();
-    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("random_0=%" LW6SYS_PRINTF_LL "d"),
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+		_x_ ("random_0=%" LW6SYS_PRINTF_LL "d"),
 		(long long) random_0);
 
     ret = 1;
@@ -1047,7 +1061,7 @@ _test_suite ()
     for (node_index = 0; node_index < LW6PIL_SUITE_NB_NODES; ++node_index)
       {
 	node_id = lw6pil_suite_get_node_id (node_index);
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("node_id=%" LW6SYS_PRINTF_LL "x for node_index=%d"),
 		    (long long) node_id, node_index);
       }
@@ -1057,7 +1071,7 @@ _test_suite ()
 						    _TEST_SUITE_STAGE,
 						    step)) != NULL)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_
 		    ("command for node_index=%d, stage=%d, step=%d is \"%s\""),
 		    _TEST_SUITE_NODE_INDEX, _TEST_SUITE_STAGE, step, command);
@@ -1069,7 +1083,7 @@ _test_suite ()
 	    lw6pil_suite_get_command_by_stage (_TEST_SUITE_STAGE,
 					       step)) != NULL)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("command for stage=%d, step=%d is \"%s\""),
 		    _TEST_SUITE_STAGE, step, command);
 	step++;
@@ -1078,8 +1092,8 @@ _test_suite ()
     step = 0;
     while ((command = lw6pil_suite_get_command_by_step (step)) != NULL)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("command for step=%d is \"%s\""),
-		    step, command);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+		    _x_ ("command for step=%d is \"%s\""), step, command);
 	step++;
       }
 
@@ -1094,14 +1108,14 @@ _test_suite ()
 	    while ((command =
 		    lw6pil_suite_get_command_by_stage (stage, step)) != NULL)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE,
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_
 			    ("running command for stage=%d, step=%d is \"%s\""),
 			    _TEST_SUITE_STAGE, step, command);
 		lw6pil_pilot_send_command (dump.pilot, command, 1);
 		step++;
 	      }
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("commit"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("commit"));
 	    lw6pil_pilot_commit (NULL, dump.pilot);
 	    lw6pil_suite_get_checkpoint (&checkpoint_checksum,
 					 &checkpoint_seq, &checkpoint_round,
@@ -1111,7 +1125,7 @@ _test_suite ()
 		    lw6pil_pilot_get_reference_current_seq (dump.pilot)) <
 		   checkpoint_seq)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE,
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_ ("seq=%" LW6SYS_PRINTF_LL
 				 "d < checkpoint_seq=%" LW6SYS_PRINTF_LL "d"),
 			    (long long) seq, (long long) checkpoint_seq);
@@ -1125,13 +1139,13 @@ _test_suite ()
 		 && checksum == checkpoint_checksum))
 	      {
 		_print_game_state (dump.game_state, _x_ ("checkpoint"));
-		lw6sys_log (LW6SYS_LOG_NOTICE,
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_ ("OK, stage=%d round=%d checksum=%08x"),
 			    stage, round, checksum);
 	      }
 	    else
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING,
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			    _x_
 			    ("problem, stage=%d expecting checkpoint_round=%d checkpoint_checksum of %08x but got round=%d checksum of %08x"),
 			    stage, checkpoint_round, checkpoint_checksum,
@@ -1150,14 +1164,16 @@ _test_suite ()
 static int
 _setup_init ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libpil CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libpil CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libpil CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libpil CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -1201,7 +1217,7 @@ lw6pil_test_register (int mode)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
 		  CU_get_error_msg ());
       ret = 0;

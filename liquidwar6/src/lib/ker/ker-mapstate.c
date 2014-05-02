@@ -78,7 +78,7 @@ _lw6ker_map_state_init (_lw6ker_map_state_t * map_state,
     {
       ret = 0;
 
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to allocate SLOT_STATE array"));
     }
 
@@ -131,7 +131,7 @@ _lw6ker_map_state_sync (_lw6ker_map_state_t * dst,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("map_state_copy only works if dst and src point to the same map_struct"));
     }
@@ -298,7 +298,7 @@ _lw6ker_map_state_redistribute_team (_lw6ker_map_state_t * map_state,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("can't redistribute %d fighters from team %d which has only %d"),
 		  nb_fighters, src_team_color,
@@ -322,7 +322,7 @@ _lw6ker_map_state_cancel_team (_lw6ker_map_state_t * map_state,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("trying to cancel non-zeroed team %d, still has %d fighters"),
 		      team_color,
@@ -331,7 +331,7 @@ _lw6ker_map_state_cancel_team (_lw6ker_map_state_t * map_state,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to cancel inactive team %d"), team_color);
     }
 
@@ -428,7 +428,7 @@ _lw6ker_map_state_remove_fighters (_lw6ker_map_state_t * map_state,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("strange, fighters_to_remove_total=%d but nb_fighters=%d"),
 		  fighters_to_remove_total, nb_fighters);
@@ -472,7 +472,7 @@ _lw6ker_map_state_remove_fighters (_lw6ker_map_state_t * map_state,
 	}
       if (fighters_to_remove_total != 0)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("fighters_to_remove_total=%d and should be 0"),
 		      fighters_to_remove_total);
 	}
@@ -480,7 +480,7 @@ _lw6ker_map_state_remove_fighters (_lw6ker_map_state_t * map_state,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't remove %d fighters, map only has %d"),
 		  nb_fighters, map_state->armies.active_fighters);
     }
@@ -535,7 +535,7 @@ _lw6ker_map_state_sanity_check (const _lw6ker_map_state_t * map_state)
 
   if (map_state->armies.active_fighters > map_state->armies.max_fighters)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("active_fighters (%d) > max_fighters (%d)"),
 		  map_state->armies.active_fighters,
 		  map_state->armies.max_fighters);
@@ -550,7 +550,7 @@ _lw6ker_map_state_sanity_check (const _lw6ker_map_state_t * map_state)
       fighter = map_state->armies.fighters[i];
       if (fighter.team_color >= LW6MAP_MAX_NB_TEAMS)	// <0 check useless, unsigned
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("fighter.team_color out of range (%d) for fighter %d"),
 		      fighter.team_color, i);
@@ -563,7 +563,7 @@ _lw6ker_map_state_sanity_check (const _lw6ker_map_state_t * map_state)
 					  fighter.pos.z);
       if (i != fighter_id)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("fighter %d in armies array pretends to be at layer=%d,x=%d,y=%d, but in fact there is fighter %d there from slots point of view"),
 		      i, fighter.pos.x, fighter.pos.y, fighter.pos.z,
@@ -576,7 +576,7 @@ _lw6ker_map_state_sanity_check (const _lw6ker_map_state_t * map_state)
       if (map_state->slots[i].fighter_id < -1
 	  || map_state->slots[i].fighter_id >= map_state->armies.max_fighters)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("fighter_id=%d at slot %d is invalid (max_fighters=%d)"),
 		      map_state->slots[i].fighter_id, i,
@@ -589,7 +589,7 @@ _lw6ker_map_state_sanity_check (const _lw6ker_map_state_t * map_state)
       if (map_state->armies.fighters_per_team[i] > 0
 	  && !map_state->teams[i].active)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("team %d pretends to have %d fighters but is inactive"),
 		      i, map_state->armies.fighters_per_team[i]);
@@ -597,7 +597,7 @@ _lw6ker_map_state_sanity_check (const _lw6ker_map_state_t * map_state)
 	}
       if (map_state->armies.fighters_per_team[i] != real_fighters_per_team[i])
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("team %d pretends to have %d fighters but counting them one founds %d"),
 		      i, map_state->armies.fighters_per_team[i],
@@ -1084,7 +1084,7 @@ _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
 	    {
 	      if (map_state->cursor_array.cursors[i].fire)
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("primary fire team_color=%d charge_percent=%d"),
 			      team_color, charge_percent);
@@ -1097,7 +1097,7 @@ _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
 		    }
 		  else if (map_state->cursor_array.cursors[i].fire2)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_
 				  ("secondary fire team_color=%d charge_percent=%d (primary failed)"),
 				  team_color, charge_percent);
@@ -1113,7 +1113,7 @@ _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
 		}
 	      else if (map_state->cursor_array.cursors[i].fire2)
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("secondary fire team_color=%d charge_percent=%d"),
 			      team_color, charge_percent);
@@ -1128,7 +1128,7 @@ _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("can't fire not enough charge for color %d"),
 			  team_color);
 	    }
@@ -1251,14 +1251,14 @@ _lw6ker_map_state_frag (_lw6ker_map_state_t * map_state, int team_color,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("can't calculate frags when there are no winners"));
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("can't calculate frags when there are no loosers"));
 	    }
@@ -1371,7 +1371,7 @@ _lw6ker_map_state_charge (_lw6ker_map_state_t * map_state,
 		      map_state->teams[team_color].charge =
 			lw6sys_imin (map_state->teams[team_color].charge,
 				     charge_max);
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("new charge for team %d is %d"),
 				  team_color,
 				  map_state->teams[team_color].charge);
@@ -1381,7 +1381,7 @@ _lw6ker_map_state_charge (_lw6ker_map_state_t * map_state,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("bad rules weapon_charge_delay=%d rounds_per_sec=%d"),
 		      rules->weapon_charge_delay, rules->rounds_per_sec);

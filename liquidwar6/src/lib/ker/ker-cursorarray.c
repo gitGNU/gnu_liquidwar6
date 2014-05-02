@@ -70,7 +70,8 @@ _lw6ker_cursor_array_find_free (_lw6ker_cursor_array_t * cursor_array)
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to find free cursor"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("unable to find free cursor"));
     }
 
   return ret;
@@ -91,7 +92,7 @@ _lw6ker_cursor_array_is_color_owned_by (const _lw6ker_cursor_array_t *
 	  && cursor_array->cursors[i].node_id != node_id)
 	{
 	  // this team_color is owned at least one by another node
-	  lw6sys_log (LW6SYS_LOG_NOTICE,
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		      _x_ ("color %d owned by %" LW6SYS_PRINTF_LL "x"),
 		      team_color, (long long) node_id);
 	  ret = 0;
@@ -172,7 +173,7 @@ _lw6ker_cursor_array_enable (_lw6ker_cursor_array_t * cursor_array,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("cursor %x already exists, can't enable it twice"),
 		  cursor_id);
     }
@@ -199,7 +200,7 @@ _lw6ker_cursor_array_disable (_lw6ker_cursor_array_t * cursor_array,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("cursor %x already does not exist, can't disable it"),
 		  cursor_id);
     }
@@ -218,7 +219,7 @@ _lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
   int ret = 0;
   lw6ker_cursor_t *cursor;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG,
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_ ("cursor array update %" LW6SYS_PRINTF_LL "x %x %d %d %d"),
 	      (long long) node_id, cursor_id, x, y, pot_offset);
   cursor = _lw6ker_cursor_array_get_rw (cursor_array, cursor_id);
@@ -233,7 +234,7 @@ _lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("cursor %x already does not exist, can't update it"),
 		  cursor_id);
     }
@@ -262,7 +263,7 @@ _lw6ker_cursor_array_sanity_check (const _lw6ker_cursor_array_t *
     }
   if (found != cursor_array->nb_cursors)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("inconsistency in cursor_array, found %d cursors but array reports %d"),
 		  found, cursor_array->nb_cursors);

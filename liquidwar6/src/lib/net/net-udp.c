@@ -52,14 +52,15 @@ lw6net_udp_client ()
 
   if (lw6net_socket_is_valid (sock))
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("new UDP socket %d"), sock);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("new UDP socket %d"),
+		  sock);
 
       _lw6net_counters_register_socket (&(_lw6net_global_context->counters));
 
       if (setsockopt (sock, SOL_SOCKET, SO_BROADCAST,
 		      (char *) &enable, sizeof (int)))
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("setsockopt(SO_BROADCAST) failed"));
 	  lw6net_last_error ();
 	}
@@ -72,7 +73,7 @@ lw6net_udp_client ()
 		      (char *) &enable, sizeof (int)))
 	{
 	  lw6net_last_error ();
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("setsockopt(SO_NOSIGPIPE) failed"));
 	}
 #endif // SO_NOSIGPIPE
@@ -113,7 +114,7 @@ lw6net_udp_server (const char *ip, int port)
       if (setsockopt (sock, SOL_SOCKET, SO_BROADCAST,
 		      (char *) &enable, sizeof (int)))
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("setsockopt(SO_BROADCAST) failed"));
 	  lw6net_last_error ();
 	}
@@ -163,7 +164,7 @@ lw6net_udp_send (int sock, const char *buf, int len, const char *ip, int port)
       if (res >= 0)
 	{
 	  send_size = res;
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("%d bytes sent on UDP socket %d"), send_size,
 		      sock);
 	  _lw6net_counters_register_send (&(_lw6net_global_context->counters),
@@ -173,7 +174,7 @@ lw6net_udp_send (int sock, const char *buf, int len, const char *ip, int port)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("unable to send %d bytes on UDP socket %d"), len,
 		      sock);
 	}
@@ -197,7 +198,7 @@ udp_recv (int sock, char *buf,
   if (res >= 0)
     {
       recv_size = res;
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("%d bytes received on UDP socket %d"), recv_size,
 		  sock);
       if (flag != MSG_PEEK)

@@ -111,8 +111,9 @@ _test_unified ()
     value = lw6cfg_unified_get_value (argc, argv, _TEST_UNIFIED_KEY_YES);
     if (value)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("value for \"%s\" is \"%s\""),
-		    _TEST_UNIFIED_KEY_YES, value);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+		    _x_ ("value for \"%s\" is \"%s\""), _TEST_UNIFIED_KEY_YES,
+		    value);
 	LW6SYS_FREE (sys_context, value);
       }
     else
@@ -123,7 +124,7 @@ _test_unified ()
     value = lw6cfg_unified_get_value (argc, argv, _TEST_UNIFIED_KEY_NO);
     if (value)
       {
-	lw6sys_log (LW6SYS_LOG_WARNING,
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		    _x_ ("key \"%s\" has value \"%s\", should be NULL"),
 		    _TEST_UNIFIED_KEY_NO, value);
 	LW6SYS_FREE (sys_context, value);
@@ -152,20 +153,21 @@ _test_exp ()
     int new_exp = 0;
 
     lw6cfg_load_exp (_TEST_EXP_DIR, &exp);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("first exp read exp=%d"), exp);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("first exp read exp=%d"),
+		exp);
     if (lw6cfg_save_exp (_TEST_EXP_DIR, exp))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("exp saved"));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("exp saved"));
 	if (lw6cfg_load_exp (_TEST_EXP_DIR, &new_exp))
 	  {
 	    if (new_exp == exp)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE,
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_ ("new exp read exp=%d"), new_exp);
 	      }
 	    else
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING,
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			    _x_ ("wrong new exp should be %d but is %d"),
 			    exp, new_exp);
 		ret = 0;
@@ -174,7 +176,8 @@ _test_exp ()
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to save exp"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		    _x_ ("unable to save exp"));
 	ret = 0;
       }
   }
@@ -185,14 +188,16 @@ _test_exp ()
 static int
 _setup_init ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libcfg CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libcfg CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libcfg CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libcfg CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -231,7 +236,7 @@ lw6cfg_test_register (int mode)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
 		  CU_get_error_msg ());
       ret = 0;

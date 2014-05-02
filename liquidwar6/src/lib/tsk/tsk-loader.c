@@ -185,7 +185,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
    */
   if (loader_data->stage1.map_path && loader_data->stage1.relative_path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_
 		  ("async load stage1 using ldr, request_number %d, level \"%s\""),
 		  request_number, loader_data->stage1.relative_path);
@@ -212,7 +212,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
    */
   if (loader_data->stage1.seed)
     {
-      lw6sys_log (LW6SYS_LOG_INFO,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_
 		  ("async load stage1 using gen, request_number %d, seed \"%s\""),
 		  request_number, loader_data->stage1.seed);
@@ -300,7 +300,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
 	      lw6sys_progress_end (&progress);
 	      stage1_clear_response (&(loader_data->stage1));
 	      loader_data->stage1.level = level;
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("async load stage1 done, request_number %d, level \"%s\""),
 			  request_number, repr);
@@ -310,7 +310,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
 	    }
 	  else if (request_number < loader_data->request_number)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("async load stage1 abort, request number %d < %d, level \"%s\""),
 			  request_number, loader_data->request_number, repr);
@@ -324,7 +324,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("async load stage1, inconsistent request number %d > %d, level \"%s\""),
 			  request_number, loader_data->request_number, repr);
@@ -362,7 +362,7 @@ stage2 (_lw6tsk_loader_data_t * loader_data)
 
   if (loader_data->stage2.src)
     {
-      lw6sys_log (LW6SYS_LOG_INFO,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_ ("async load stage2, request_number %d"),
 		  request_number);
       (*(progress.value)) = _LW6TSK_LOADER_PROGRESS_STAGE2_BEGIN;
@@ -427,7 +427,7 @@ stage2 (_lw6tsk_loader_data_t * loader_data)
 	      loader_data->stage2.level = level;
 	      loader_data->stage2.game_struct = game_struct;
 	      loader_data->stage2.game_state = game_state;
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("async load stage2 done, request_number %d, game_state \"%s\""),
 			  request_number, repr);
@@ -435,7 +435,7 @@ stage2 (_lw6tsk_loader_data_t * loader_data)
 	    }
 	  else if (request_number < loader_data->request_number)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("async load stage2 abort, request number %d < %d, game_state \"%s\""),
 			  request_number, loader_data->request_number, repr);
@@ -448,7 +448,7 @@ stage2 (_lw6tsk_loader_data_t * loader_data)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("async load stage2, inconsistent request number %d > %d, game_state \"%s\""),
 			  request_number, loader_data->request_number, repr);
@@ -744,19 +744,19 @@ lw6tsk_loader_new (float sleep, char *user_dir, volatile float *progress)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to create mutex for loader"));
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("unable to allocate memory for loader data"));
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to allocate memory for loader"));
     }
 
@@ -832,7 +832,7 @@ lw6tsk_loader_repr (const lw6tsk_loader_t * loader)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't generate string id for NULL loader"));
     }
 

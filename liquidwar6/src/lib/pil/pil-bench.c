@@ -101,8 +101,8 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
     lw6sys_new_sprintf (BENCH_NOP_COMMAND, (long long) BENCH_INFINITE_SEQ);
   if (command_str)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("infinite command \"%s\""),
-		  command_str);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		  _x_ ("infinite command \"%s\""), command_str);
       _lw6pil_pilot_send_command (pilot, command_str, 0);
       _lw6pil_pilot_send_command (pilot, command_str, 1);
       LW6SYS_FREE (sys_context, command_str);
@@ -112,7 +112,7 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
   computed_reference_begin = pilot->reference.computed_rounds;
   computed_draft_begin = pilot->draft.computed_rounds;
 
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_ ("stress start dummy=%" LW6SYS_PRINTF_LL "d"),
 	      (long long) dummy);
   while ((current_time =
@@ -127,7 +127,7 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
 					     current_seq + 1));
 	  if (command_str)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("anticipate at seq %" LW6SYS_PRINTF_LL
 			       "d with \"%s\""), (long long) current_seq,
 			  command_str);
@@ -141,7 +141,7 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
 			      current_time - start_time);
       _lw6pil_bench_dummy_nop (&dummy);
     }
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_ ("stress stop dummy=%" LW6SYS_PRINTF_LL "d"),
 	      (long long) dummy);
 
@@ -158,21 +158,21 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
   computed_reference_delta =
     computed_reference_end - computed_reference_begin;
   computed_draft_delta = computed_draft_end - computed_draft_begin;
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_ ("bench seq_reference=%" LW6SYS_PRINTF_LL "d seq_draft=%"
 		   LW6SYS_PRINTF_LL "d"), (long long) seq_reference,
 	      (long long) seq_draft);
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_
 	      ("bench computed_reference_begin=%d computed_draft_begin=%d"),
 	      computed_reference_begin, computed_draft_begin);
 
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_
 	      ("bench computed_reference_end=%d computed_draft_end=%d"),
 	      computed_reference_end, computed_draft_end);
 
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_
 	      ("bench computed_reference_delta=%d computed_draft_delta=%d"),
 	      computed_reference_delta, computed_draft_delta);
@@ -308,8 +308,8 @@ lw6pil_bench (int argc, const char *argv[], float *bench_result,
 		  level = NULL;
 
 		  do_bench (pilot, &value, &progress_do);
-		  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bench value=%0.3f"),
-			      value);
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			      _x_ ("bench value=%0.3f"), value);
 		  if (bench_result)
 		    {
 		      (*bench_result) = value;

@@ -40,14 +40,14 @@ main (int argc, const char *argv[])
     {
       if (argc > 1 && argv[0])
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("program \"%s\" is a stripped down version of \"%s\", it can't handle all options"),
 		      argv[0], lw6sys_build_get_package_tarname ());
 	}
       else if (argc == 1 && argv[0])
 	{
-	  lw6sys_log (LW6SYS_LOG_ERROR,
+	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 		      _x_
 		      ("program \"%s\" is a stripped down version of \"%s\", you need to pass it some args"),
 		      argv[0], lw6sys_build_get_package_tarname ());

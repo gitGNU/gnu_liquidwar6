@@ -140,7 +140,8 @@ lw6ldr_hints_read (lw6ldr_hints_t * hints, const char *dirname)
     {
       if (lw6sys_file_exists (buf))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading hints \"%s\""), buf);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("reading hints \"%s\""), buf);
 	  ret =
 	    lw6cfg_read_key_value_xml_file (buf, read_callback,
 					    (void *) hints);
@@ -156,7 +157,8 @@ lw6ldr_hints_read (lw6ldr_hints_t * hints, const char *dirname)
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to read map hints"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to read map hints"));
     }
 
   return ret;
@@ -420,7 +422,7 @@ lw6ldr_hints_get_default (const char *key)
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("unable to get default value for hints parameter \"%s\""),
 		  key);

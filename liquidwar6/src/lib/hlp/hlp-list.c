@@ -1573,7 +1573,7 @@ lw6hlp_list ()
 
   if (!ok)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("problem generating help keywords list"));
       if (list)
 	{

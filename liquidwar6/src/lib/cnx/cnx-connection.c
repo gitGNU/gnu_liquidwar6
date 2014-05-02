@@ -99,7 +99,7 @@ lw6cnx_connection_new (const char *local_url, const char *remote_url,
 	  && ret->password_send_checksum && ret->local_id_str
 	  && ret->remote_id_str && ret->send_mutex)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("created connection with \"%s\""), remote_url);
 	}
       else
@@ -264,7 +264,7 @@ lw6cnx_connection_reliability_filter (lw6cnx_connection_t * connection)
      (connection->network_reliability >> 1));
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("filtering message due to reliability %d"),
 		  connection->network_reliability);
     }

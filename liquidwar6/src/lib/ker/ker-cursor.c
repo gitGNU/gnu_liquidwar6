@@ -60,7 +60,7 @@ _lw6ker_cursor_check_node_id (const lw6ker_cursor_t * cursor,
   ret = (lw6sys_check_id_64 (node_id) && cursor->node_id == node_id);
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("node id mismatch node_id=%" LW6SYS_PRINTF_LL
 		   "x cursor->node_id=%" LW6SYS_PRINTF_LL "x"),
@@ -112,8 +112,8 @@ _lw6ker_cursor_get_start_xy (int32_t * x, int32_t * y, int team_color,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("invalid team_color=%d"),
-		      team_color);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("invalid team_color=%d"), team_color);
 	  ret = 0;
 	}
     }
@@ -186,7 +186,7 @@ _lw6ker_cursor_enable (lw6ker_cursor_t * cursor,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to enable cursor which is already enabled"));
     }
 
@@ -207,7 +207,7 @@ _lw6ker_cursor_disable (lw6ker_cursor_t * cursor)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to disable cursor which is already disabled"));
     }
 
@@ -222,8 +222,9 @@ _lw6ker_cursor_update (lw6ker_cursor_t * cursor, int32_t x,
 {
   int ret = 1;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("cursor update %x %d %d %d"),
-	      cursor->cursor_id, x, y, pot_offset);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+	      _x_ ("cursor update %x %d %d %d"), cursor->cursor_id, x, y,
+	      pot_offset);
   cursor->pos.x = x;
   cursor->pos.y = y;
   cursor->fire = fire;
@@ -246,8 +247,8 @@ _lw6ker_cursor_sanity_check (const lw6ker_cursor_t * cursor,
 
   if ((cursor->letter < 'a') || (cursor->letter > 'z'))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("invalid letter '%c' for cursor"),
-		  cursor->letter);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("invalid letter '%c' for cursor"), cursor->letter);
       ret = 0;
     }
   if (rules)
@@ -255,8 +256,8 @@ _lw6ker_cursor_sanity_check (const lw6ker_cursor_t * cursor,
       if (cursor->pot_offset < 0
 	  || cursor->pot_offset > rules->max_cursor_pot_offset)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad cursor_pot_offset %d"),
-		      cursor->pot_offset);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("bad cursor_pot_offset %d"), cursor->pot_offset);
 	  ret = 0;
 	}
     }
@@ -269,7 +270,7 @@ _lw6ker_cursor_sanity_check (const lw6ker_cursor_t * cursor,
 	  && (cursor->node_id != 0 || cursor->cursor_id != 0
 	      || cursor->team_color != LW6MAP_TEAM_COLOR_INVALID)))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("inconsistent enabled cursor values enabled=%d node_id=%"
 		   LW6SYS_PRINTF_LL "x cursor_id=%x team_color=%d"),
@@ -282,7 +283,7 @@ _lw6ker_cursor_sanity_check (const lw6ker_cursor_t * cursor,
       if ((!lw6sys_shape_check_pos (shape, &cursor->pos))
 	  || (!lw6sys_shape_check_pos (shape, &cursor->apply_pos)))
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("bad cursor position shape=%dx%d pos=%d,%d apply_pos=%d,%d"),
 		      shape->w, shape->h, cursor->pos.x, cursor->pos.y,

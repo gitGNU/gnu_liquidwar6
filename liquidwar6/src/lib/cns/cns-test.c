@@ -46,7 +46,7 @@ handler (char *line)
   if (line)
     {
       lw6cns_history_add_if_needed (line);
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("read \"%s\""), line);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("read \"%s\""), line);
       free (line);		// exceptionnally, don't use LW6SYS_FREE
     }
   else
@@ -67,7 +67,7 @@ _test_handler ()
   {
     int i;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE,
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		_x_
 		("you can enter random lines, test will end after %d seconds"),
 		(int) (_TEST_CON_NB_LOOPS * _TEST_CON_SLEEP));
@@ -93,7 +93,7 @@ _test_support ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6sys_log (LW6SYS_LOG_NOTICE,
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		_x_ ("console support -> %d"), lw6cns_console_support ());
     /*
      * Snoozing because, well, if we don't, test does not
@@ -101,7 +101,7 @@ _test_support ()
      * just return error because it has no node to process.
      */
     lw6sys_delay (_TEST_SUPPORT_DELAY);
-    lw6sys_log (LW6SYS_LOG_NOTICE,
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		_x_ ("term support -> %d"), lw6cns_term_support ());
   }
 
@@ -111,14 +111,16 @@ _test_support ()
 static int
 _setup_init ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libcns CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libcns CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libcns CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libcns CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -158,7 +160,7 @@ lw6cns_test_register (int mode)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
 		  CU_get_error_msg ());
       ret = 0;

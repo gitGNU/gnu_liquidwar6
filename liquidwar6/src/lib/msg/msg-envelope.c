@@ -79,7 +79,8 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
       need_base64 = 1;
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unknown mode %d"), (int) mode);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unknown mode %d"),
+		  (int) mode);
       sep = LW6MSG_TELNET_SEP;
       lw6 = LW6MSG_LW6;
       need_base64 = 0;
@@ -95,7 +96,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("unable to base64 encode, sending as is"));
 	}
     }
@@ -243,7 +244,8 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
       need_base64 = 1;
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unknown mode %d"), (int) mode);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unknown mode %d"),
+		  (int) mode);
       lw6 = LW6MSG_LW6;
       need_base64 = 0;
     }
@@ -471,7 +473,8 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 					    }
 					  else
 					    {
-					      lw6sys_log (LW6SYS_LOG_INFO,
+					      lw6sys_log (sys_context,
+							  LW6SYS_LOG_INFO,
 							  _x_
 							  ("can't parse \"physical_to\" (receiver) id in envelope \"%s\""),
 							  envelope);
@@ -479,7 +482,8 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 					}
 				      else
 					{
-					  lw6sys_log (LW6SYS_LOG_INFO,
+					  lw6sys_log (sys_context,
+						      LW6SYS_LOG_INFO,
 						      _x_
 						      ("wrong \"physical_from\" (sender) id expected %"
 						       LW6SYS_PRINTF_LL
@@ -495,7 +499,8 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 				    }
 				  else
 				    {
-				      lw6sys_log (LW6SYS_LOG_INFO,
+				      lw6sys_log (sys_context,
+						  LW6SYS_LOG_INFO,
 						  _x_
 						  ("can't parse \"physical_from\" (sender) id in envelope \"%s\""),
 						  envelope);
@@ -503,7 +508,7 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 				}
 			      else
 				{
-				  lw6sys_log (LW6SYS_LOG_INFO,
+				  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					      _x_
 					      ("can't parse logical ticket sig in envelope \"%s\""),
 					      envelope);
@@ -511,7 +516,7 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 			    }
 			  else
 			    {
-			      lw6sys_log (LW6SYS_LOG_INFO,
+			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					  _x_
 					  ("can't parse physical ticket sig in envelope \"%s\""),
 					  envelope);
@@ -519,14 +524,14 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_INFO,
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				      _x_ ("bad password in envelope \"%s\""),
 				      envelope);
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("can't parse password in envelope \"%s\""),
 				  envelope);
@@ -534,7 +539,7 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_
 			      ("bad version, received \"%s\", need \"%s\" in envelope \"%s\""),
 			      received_version.buf, version, envelope);
@@ -542,14 +547,14 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("can't parse version in envelope \"%s\""),
 			  envelope);
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_
 		      ("bad lw6 key, received \"%s\", need \"%s\" in envelope \"%s\""),
 		      received_lw6.buf, lw6, envelope);
@@ -557,7 +562,7 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_INFO,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_
 		  ("message does not start with \"%s\" in envelope \"%s\""),
 		  lw6, envelope);

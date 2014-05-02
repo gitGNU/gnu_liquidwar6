@@ -299,7 +299,7 @@ _find_best_dir (const _lw6ker_map_state_t * map_state,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("fighter with incorrect zone_id=%d (pos=%d,%d,%d)"),
 		  zone_id, (int) fighter->pos.x, (int) fighter->pos.y,
 		  (int) fighter->pos.z);

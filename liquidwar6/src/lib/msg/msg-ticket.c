@@ -65,7 +65,7 @@ lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
 	   */
 	  calc_sig--;
 	}
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("calculating sig with ticket %" LW6SYS_PRINTF_LL
 		       "x from=%" LW6SYS_PRINTF_LL "x to=%" LW6SYS_PRINTF_LL
 		       "x message=\"%s\" calc_sig=%x"), (long long) ticket,
@@ -73,7 +73,7 @@ lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("using ticket=0 from=%" LW6SYS_PRINTF_LL "x to=%"
 		       LW6SYS_PRINTF_LL "x to calc sig for message \"%s\""),
 		  (long long) from_id, (long long) to_id, msg);
@@ -110,7 +110,7 @@ lw6msg_ticket_check_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("sigs do not match calc_sig=%x ticket_sig=%x"),
 		  calc_sig, ticket_sig);
     }

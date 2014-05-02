@@ -83,7 +83,8 @@ lw6gui_keypress_free (lw6gui_keypress_t * keypress)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL keypress"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL keypress"));
     }
 }
 

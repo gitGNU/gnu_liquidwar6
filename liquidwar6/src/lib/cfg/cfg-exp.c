@@ -91,7 +91,8 @@ load_callback (void *callback_data, const char *element, const char *key,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("item \"%s\" ignored"), key);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("item \"%s\" ignored"),
+		  key);
     }
 }
 
@@ -119,7 +120,8 @@ lw6cfg_load_exp (const char *user_dir, int *exp)
   filename = _get_filename (user_dir);
   if (filename)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading exp from \"%s\""), filename);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		  _x_ ("loading exp from \"%s\""), filename);
 
       if (lw6sys_file_exists (filename))
 	{
@@ -129,13 +131,14 @@ lw6cfg_load_exp (const char *user_dir, int *exp)
 	  checksum = _calc_checksum (exp_t.exp);
 	  if (checksum != exp_t.checksum)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad exp checksum"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			  _x_ ("bad exp checksum"));
 	      exp_t.exp = LW6MAP_RULES_MIN_EXP;
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("exp file \"%s\" doesn't exist, using defaults"),
 		      filename);
 	}
@@ -172,7 +175,8 @@ lw6cfg_save_exp (const char *user_dir, int exp)
   filename = _get_filename (user_dir);
   if (filename)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("saving exp to \"%s\""), filename);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("saving exp to \"%s\""),
+		  filename);
 
       f = fopen (filename, "wb");
       if (f)
@@ -195,7 +199,7 @@ lw6cfg_save_exp (const char *user_dir, int exp)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("could not open file \"%s\" in write mode"),
 		      filename);
 	}

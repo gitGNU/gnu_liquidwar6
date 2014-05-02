@@ -74,7 +74,8 @@ _lw6cfg_get_option (_lw6cfg_context_t * context, const char *key)
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("option \"%s\" is not set"), key);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("option \"%s\" is not set"), key);
     }
 
   return ret;

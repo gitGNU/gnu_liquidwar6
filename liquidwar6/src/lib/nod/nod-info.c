@@ -83,7 +83,7 @@ lw6nod_info_new (const char *program,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("unable to create nod_info object"));
 	  lw6nod_info_free (info);
 	  info = NULL;
@@ -358,7 +358,7 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, const char *public_url)
 	      canonized_url = lw6sys_url_canonize (public_url);
 	      if (canonized_url)
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("adding \"%s\" as a possible node"),
 			      canonized_url);
 		  lw6sys_hash_set (info->discovered_nodes, canonized_url,

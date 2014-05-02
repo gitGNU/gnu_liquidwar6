@@ -73,7 +73,7 @@ lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id,
 		{
 		  if (url)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("can't add node with id=%"
 				       LW6SYS_PRINTF_LL
 				       "x url=\"%s\", no free slot"),
@@ -81,7 +81,7 @@ lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("can't add node with id=%"
 				       LW6SYS_PRINTF_LL "x, no free slot"),
 				  (long long) id);
@@ -93,14 +93,14 @@ lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id,
 	{
 	  if (url)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("can't add node with id=%" LW6SYS_PRINTF_LL
 			       "x url=\"%s\", already here"),
 			  (long long) id, url);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("can't add node with id=%" LW6SYS_PRINTF_LL
 			       "x, already here"), (long long) id);
 	    }
@@ -280,7 +280,7 @@ lw6nod_info_community_remove_by_id (lw6nod_info_t * info, u_int64_t id)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("can't remove peer with id=%" LW6SYS_PRINTF_LL
 			   "x url=\"%s\", this is ourselves"),
 		      (long long) ref_info->id_int, ref_info->url);
@@ -316,7 +316,7 @@ lw6nod_info_community_remove_by_url (lw6nod_info_t * info, const char *url)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("can't remove peer with id=%" LW6SYS_PRINTF_LL
 			   "x url=\"%s\", this is ourselves"),
 		      (long long) ref_info->id_int, ref_info->url);
@@ -351,7 +351,7 @@ lw6nod_info_community_count (lw6nod_info_t * info)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("strange, our own ID is 0, count will probably wrong"));
     }
@@ -482,14 +482,14 @@ lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info,
 		{
 		  if (lw6nod_info_community_has_id (info, peer_id))
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("peer_id \"%" LW6SYS_PRINTF_LL
 				       "x\" already in the community"),
 				  (long long) peer_id);
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("adding peer_id \"%" LW6SYS_PRINTF_LL
 				       "x\" to the community"),
 				  (long long) peer_id);
@@ -503,7 +503,7 @@ lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("not adding %" LW6SYS_PRINTF_LL
 				   "x, this is ourselves"),
 			      (long long) peer_id);
@@ -511,7 +511,7 @@ lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("bad id \"%s\" in peer_id_list_str \"%s\""),
 			  pos, peer_id_list_str);
 	    }

@@ -50,7 +50,7 @@ _set_community_id (lw6nod_dyn_info_t * dyninfo, u_int64_t community_id)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("invalid community id \"%" LW6SYS_PRINTF_LL "x\""),
 		      (long long) community_id);
 	  dyninfo->community_id_int = LW6NOD_COMMUNITY_ID_NONE;

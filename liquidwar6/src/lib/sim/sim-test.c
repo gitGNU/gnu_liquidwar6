@@ -59,15 +59,16 @@ _test_mask ()
     for (i = 0; i <= LW6MAP_MAX_NB_TEAMS; ++i)
       {
 	mask = _lw6sim_mask_get_max (i);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("max mask for %d is %d"), i,
-		    mask);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+		    _x_ ("max mask for %d is %d"), i, mask);
       }
 
     n = _lw6sim_mask_get_max (_TEST_MASK_NB_TEAMS);
     for (i = _LW6SIM_MASK_MIN; i < n; ++i)
       {
 	valid = _lw6sim_mask_is_valid (i);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("mask=%d valid=%d"), i, valid);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("mask=%d valid=%d"),
+		    i, valid);
       }
 
     ret = 1;
@@ -90,7 +91,7 @@ _test_simulate ()
     const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
     lw6sim_results_t results;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE,
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		_x_ ("simulating %d teams with bot backend \"%s\""),
 		_TEST_SIMULATE_NB_TEAMS, _TEST_SIMULATE_BOT_BACKEND);
     lw6sim_results_zero (&results);
@@ -112,14 +113,16 @@ _test_simulate ()
 static int
 _setup_init ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libsim CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libsim CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libsim CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libsim CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -158,7 +161,7 @@ lw6sim_test_register (int mode)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
 		  CU_get_error_msg ());
       ret = 0;

@@ -144,7 +144,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 			       * Normally we should never get there, but well,
 			       * just in case, we use black/dead color
 			       */
-			      lw6sys_log (LW6SYS_LOG_INFO,
+			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					  _x_ ("bad team_color=%d at %d,%d"),
 					  team_color, x, y);
 			      pixel_color = style->color_set.team_color_dead;
@@ -168,7 +168,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 
 	      if ((outfile = fopen (filename, "wb")) == NULL)
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("can't open jpeg file \"%s\""), filename);
 		}
 	      else
@@ -203,7 +203,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 		  if ((ret->jpeg_data != NULL) && (ret->jpeg_size > 0))
 		    {
 		      ret->shape = shape;
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_ ("wrote screenshot in \"%s\""),
 				  filename);
 		    }

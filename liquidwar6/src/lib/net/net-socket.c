@@ -55,7 +55,7 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
 			  (char *) &enable, sizeof (int)))
 	    {
 	      lw6net_last_error ();
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("setsockopt(SO_NOSIGPIPE) failed"));
 	    }
 #endif // SO_NOSIGPIPE
@@ -67,7 +67,7 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
 	      name.sin_port = htons (port);
 	      if (bind (sock, (struct sockaddr *) &name, sizeof (name)) >= 0)
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_ ("bind socket %d on %s:%d"), sock, ip,
 			      port);
 		  _lw6net_counters_register_socket (&
@@ -87,7 +87,7 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
 		       * on other platforms if there's a network interface problem.
 		       * In that case, we just bind on any/all interfaces, period.
 		       */
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_ ("bind socket %d on port *:%d"), sock,
 				  port);
 		      _lw6net_counters_register_socket (&
@@ -97,7 +97,7 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  _x_ ("bind() on %s:%d failed"), ip, port);
 		      lw6net_last_error ();
 		    }
@@ -106,13 +106,14 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("setsockopt() failed"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("setsockopt() failed"));
 	  lw6net_last_error ();
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("socket() failed"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("socket() failed"));
       lw6net_last_error ();
     }
 
@@ -124,7 +125,8 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
       if (close (sock))
 #endif
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("close() failed"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("close() failed"));
 	  lw6net_last_error ();
 	}
       sock = -1;
@@ -160,7 +162,7 @@ lw6net_socket_set_blocking_mode (int sock, int mode)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("ioctlsocket failed on socket %d"), sock);
 	  lw6net_last_error ();
 	}
@@ -184,20 +186,20 @@ lw6net_socket_set_blocking_mode (int sock, int mode)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("fcntl failed on socket %d"), sock);
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("fcntl failed on socket %d"),
-		      sock);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("fcntl failed on socket %d"), sock);
 	}
 #endif
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't set blocking mode on invalid socket %d"), sock);
     }
 
@@ -246,7 +248,8 @@ lw6net_socket_close (int *sock)
 	{
 	  tmp_sock = (*sock);
 	  (*sock) = LW6NET_SOCKET_INVALID;
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("close socket %d"), tmp_sock);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("close socket %d"),
+		      tmp_sock);
 	  _lw6net_counters_unregister_socket (&
 					      (_lw6net_global_context->counters));
 #ifdef LW6_MS_WINDOWS
@@ -255,18 +258,20 @@ lw6net_socket_close (int *sock)
 	  if (close (tmp_sock))
 #endif
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("close() failed"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+			  _x_ ("close() failed"));
 	      lw6net_last_error ();
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("can't close invalid socket %d"), tmp_sock);
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to close NULL socket"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to close NULL socket"));
     }
 }

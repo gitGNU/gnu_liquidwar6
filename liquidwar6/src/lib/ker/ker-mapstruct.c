@@ -116,7 +116,8 @@ _lw6ker_map_struct_lazy_compare (const _lw6ker_map_struct_t *
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("map_structs do not look the same"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("map_structs do not look the same"));
     }
 
   return ret;
@@ -273,13 +274,13 @@ draft_zones_new (const lw6map_level_t * level, lw6sys_progress_t * progress)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to allocate %d draft zones"), size);
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("map is too small, size=%d, LW6MAP_MIN_BODY_SURFACE=%d"),
 		      size, LW6MAP_MIN_BODY_SURFACE);
@@ -813,7 +814,7 @@ draft_zones_to_map_struct (_lw6ker_map_struct_t * map_struct,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to create zones for map struct"));
     }
 
@@ -978,7 +979,7 @@ init_places (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to create places for map struct"));
     }
 
@@ -1051,7 +1052,7 @@ init_slots (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to create slots for map struct"));
     }
 
@@ -1144,7 +1145,7 @@ _lw6ker_map_struct_init (_lw6ker_map_struct_t * map_struct,
 
       if (ret)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_
 		      ("map struct created %dx%dx%d, %d zones, %1.1f%% compression"),
 		      map_struct->shape.w, map_struct->shape.h,
@@ -1238,7 +1239,7 @@ _lw6ker_map_struct_find_free_slot_near (const _lw6ker_map_struct_t *
 
   if (!found)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to find a free zone near %dx%d"), here.x,
 		  here.y);
     }
@@ -1263,7 +1264,7 @@ _lw6ker_map_struct_sanity_check (const _lw6ker_map_struct_t * map_struct)
 
   if (nb_places != w * h)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("inconsistent nb_places=%d shape=%dx%d"),
 		  nb_places, w, h);
       ret = 0;
@@ -1271,7 +1272,7 @@ _lw6ker_map_struct_sanity_check (const _lw6ker_map_struct_t * map_struct)
 
   if (nb_slots != w * h * d)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("inconsistent nb_slots=%d shape=%dx%dx%d"), nb_slots,
 		  w, h, d);
       ret = 0;
@@ -1302,7 +1303,8 @@ _lw6ker_map_struct_sanity_check (const _lw6ker_map_struct_t * map_struct)
 				    case LW6KER_DIR_UP:
 				      if (!(z2 == z1 - 1 || z2 == d - 1))
 					{
-					  lw6sys_log (LW6SYS_LOG_WARNING,
+					  lw6sys_log (sys_context,
+						      LW6SYS_LOG_WARNING,
 						      _x_
 						      ("bad UP link in %d,%d,%d z1=%d z2=%d"),
 						      x, y, z, z1, z2);
@@ -1312,7 +1314,8 @@ _lw6ker_map_struct_sanity_check (const _lw6ker_map_struct_t * map_struct)
 				    case LW6KER_DIR_DOWN:
 				      if (!(z2 == z1 + 1 || z2 == 0))
 					{
-					  lw6sys_log (LW6SYS_LOG_WARNING,
+					  lw6sys_log (sys_context,
+						      LW6SYS_LOG_WARNING,
 						      _x_
 						      ("bad DOWN link in %d,%d,%d z1=%d z2=%d"),
 						      x, y, z, z1, z2);
@@ -1327,7 +1330,7 @@ _lw6ker_map_struct_sanity_check (const _lw6ker_map_struct_t * map_struct)
 			    }
 			  else
 			    {
-			      lw6sys_log (LW6SYS_LOG_WARNING,
+			      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 					  _x_ ("bad link %d->%d in %d,%d,%d"),
 					  i, j, x, y, z);
 			      ret = 0;
@@ -1337,7 +1340,7 @@ _lw6ker_map_struct_sanity_check (const _lw6ker_map_struct_t * map_struct)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("bad zone id %d in %d,%d,%d"), zone_id, x,
 			      y, z);
 		  ret = 0;

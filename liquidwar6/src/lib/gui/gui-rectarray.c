@@ -94,8 +94,8 @@ lw6gui_rect_array_get_tile_by_source_xy (const lw6gui_rect_array_t *
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("pos %d,%d out of range"),
-		  source_x, source_y);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("pos %d,%d out of range"), source_x, source_y);
     }
 
   return ret;
@@ -121,7 +121,8 @@ lw6gui_rect_array_get_tile_by_i (const lw6gui_rect_array_t * rect_array,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("tile index %d out of range"), i);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("tile index %d out of range"), i);
     }
 
   return ret;
@@ -178,7 +179,7 @@ lw6gui_rect_array_get_tile_and_quad (const lw6gui_rect_array_t * rect_array,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("quad is outside rect (%f,%f),(%f,%f),(%f,%f),(%f,%f) vs (%d,%d),(%d,%d) source was (%f,%f),(%f,%f),(%f,%f),(%f,%f)"),
 		      quad->p1.x, quad->p1.y, quad->p2.x, quad->p2.y,
@@ -192,7 +193,7 @@ lw6gui_rect_array_get_tile_and_quad (const lw6gui_rect_array_t * rect_array,
   else
     {
       memset (quad, 0, sizeof (lw6gui_quad_t));
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("couldn't find tile in rect_array of %dx%d for quad (%f,%f),(%f,%f),(%f,%f),(%f,%f)"),
 		  rect_array->source.w, rect_array->source.h,

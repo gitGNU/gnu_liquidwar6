@@ -91,7 +91,7 @@ lw6net_is_connectable (const char *ip, int port)
 	   */
 	  if (!lw6sys_cache_has_key (connectable->connectable_cache, key))
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("destination %s:%d marked as connectable"),
 			  ip, port);
 	      ret = 1;
@@ -147,14 +147,14 @@ lw6net_set_connectable (const char *ip, int port, int status)
 	       * needs to remove the entry.
 	       */
 	      lw6sys_cache_unset (connectable->connectable_cache, key);
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("destination %s:%d marked as connectable"), ip,
 			  port);
 	    }
 	  else
 	    {
 	      lw6sys_cache_set (connectable->connectable_cache, key, NULL);
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("destination %s:%d marked as not connectable"),
 			  ip, port);

@@ -54,7 +54,7 @@ lw6scm_coverage_new (lw6sys_list_t * funcs)
 
   funcs_size = lw6sys_list_length (funcs);
   ret_size = (funcs_size) / 2 + 1;
-  lw6sys_log (LW6SYS_LOG_DEBUG,
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_ ("init coverage hash with %d slots for a max of %d funcs"),
 	      ret_size, funcs_size);
   ret = lw6sys_hash_new (lw6sys_free_callback, ret_size);
@@ -85,7 +85,7 @@ lw6scm_coverage_call (lw6sys_hash_t * coverage, const char *func)
 	{
 	  calls = (int *) value;
 	  ++(*calls);
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("calling scm function \"%s\", #%d"), func,
 		      (*calls));
 	}
@@ -96,7 +96,7 @@ lw6scm_coverage_call (lw6sys_hash_t * coverage, const char *func)
 	    {
 	      (*calls) = 1;
 	      lw6sys_hash_set (coverage, func, calls);
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("calling scm function \"%s\", 1st call"),
 			  func);
 	    }
@@ -104,7 +104,7 @@ lw6scm_coverage_call (lw6sys_hash_t * coverage, const char *func)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to register function call on NULL coverage"));
     }
 }
@@ -117,12 +117,12 @@ _coverage_log_callback (void *func_data, const char *key, void *value)
   if (value)
     {
       calls = *((int *) value);
-      lw6sys_log (LW6SYS_LOG_INFO,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_ ("script function \"%s\" called %d times"), key, calls);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("script function \"%s\" has NULL coverage entry"),
 		  key);
     }
@@ -147,7 +147,8 @@ lw6scm_coverage_log (lw6sys_hash_t * coverage)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to log NULL coverage"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to log NULL coverage"));
     }
 }
 
@@ -158,7 +159,8 @@ _coverage_check_callback (void *func_data, void *value)
   _coverage_check_t *cc = (_coverage_check_t *) func_data;
   char *c_name = NULL;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("checking script function \"%s\""), key);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("checking script function \"%s\""), key);
   c_name = lw6scm_funcname_scm2c (key);
   if (c_name)
     {
@@ -168,7 +170,8 @@ _coverage_check_callback (void *func_data, void *value)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("no call to \"%s\""), key);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("no call to \"%s\""), key);
 	  *(cc->ret) = 0;
 	}
       LW6SYS_FREE (sys_context, c_name);
@@ -215,7 +218,8 @@ lw6scm_coverage_check (int *percent, lw6sys_hash_t * coverage,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to check NULL coverage"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to check NULL coverage"));
     }
 
   return ret;

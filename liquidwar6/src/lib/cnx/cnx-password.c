@@ -103,7 +103,7 @@ lw6cnx_password_verify (const char *seed, const char *password_here,
     {
       if (!(strcmp (password_here, password_received)))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("password OK, received as clear text"));
 	  ret = 1;
 	}
@@ -114,7 +114,7 @@ lw6cnx_password_verify (const char *seed, const char *password_here,
 	    {
 	      if (!(strcmp (checksum, password_received)))
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("password OK, received as checksum"));
 		  ret = 1;
 		}

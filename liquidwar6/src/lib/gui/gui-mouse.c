@@ -59,7 +59,7 @@ lw6gui_mouse_register_move (lw6gui_mouse_t * mouse, int screen_pos_x,
       mouse->screen_pointer.pos_y = screen_pos_y;
       mouse->moved = 1;
       mouse->last_moved = timestamp;
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("mouse pos=%d,%d speed=%d,%d"),
 		  mouse->screen_pointer.pos_x,
 		  mouse->screen_pointer.pos_y,

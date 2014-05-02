@@ -123,7 +123,7 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to duplicate layer %d data"), layer);
 
 	    }
@@ -141,7 +141,7 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to duplicate meta-layer"));
 
 	    }
@@ -159,7 +159,7 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to duplicate meta-layer"));
 
 	    }
@@ -177,7 +177,7 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to duplicate meta-layer"));
 
 	    }
@@ -196,7 +196,7 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to duplicate meta-layer"));
 
 	    }
@@ -215,7 +215,7 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to duplicate meta-layer"));
 
 	    }
@@ -234,7 +234,7 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to duplicate meta-layer"));
 
 	    }
@@ -253,7 +253,7 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to duplicate meta-layer"));
 
 	    }
@@ -272,7 +272,7 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to duplicate meta-layer"));
 
 	    }
@@ -289,7 +289,7 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to duplicate texture data"));
 	    }
 	}

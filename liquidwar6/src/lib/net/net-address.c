@@ -75,11 +75,11 @@ _lw6net_inet_aton (struct in_addr *in, const char *ip)
       else
 	{
 #ifdef LW6_MS_WINDOWS
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("inet_addr() failed, ip=\"%s\""), ip);
 	  lw6net_last_error ();
 #else
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("inet_aton() failed, ip=\"%s\""), ip);
 	  lw6net_last_error ();
 #endif
@@ -87,7 +87,7 @@ _lw6net_inet_aton (struct in_addr *in, const char *ip)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("address \"%s\" identified as \"ANY\""), ip);
       ret = 1;
     }

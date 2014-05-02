@@ -148,7 +148,7 @@ lw6cli_create_backend (int argc, const char *argv[], const char *name)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("client backend \"%s\" does not exist"), name);
     }
 #else
@@ -172,7 +172,7 @@ lw6cli_create_backend (int argc, const char *argv[], const char *name)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("unable to find function \"%s\" in client backend \"%s\""),
 			  init_func_name, name);
@@ -191,7 +191,7 @@ lw6cli_create_backend (int argc, const char *argv[], const char *name)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to open client backend \"%s\""), name);
     }
 #endif

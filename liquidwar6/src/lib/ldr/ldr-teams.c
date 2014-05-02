@@ -71,7 +71,8 @@ lw6ldr_teams_read (lw6map_teams_t * teams, const char *dirname)
     {
       if (lw6sys_file_exists (buf))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading teams \"%s\""), buf);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("reading teams \"%s\""), buf);
 	  ret =
 	    lw6cfg_read_key_value_xml_file (buf, read_callback,
 					    (void *) teams);
@@ -87,7 +88,8 @@ lw6ldr_teams_read (lw6map_teams_t * teams, const char *dirname)
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to read map teams"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to read map teams"));
     }
 
   return ret;

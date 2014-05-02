@@ -29,7 +29,7 @@
 static void
 _warning (const char *func_name)
 {
-  lw6sys_log (LW6SYS_LOG_WARNING,
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 	      _x_ ("snd backend function \"%s\" is not defined"), func_name);
 }
 
@@ -136,7 +136,7 @@ lw6snd_play_music_file (lw6snd_backend_t * backend, char *map_dir,
        */
       if (strlen (music_file) > 0)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_
 		      ("trying song \"%s\" with map_dir=\"%s\" and music_path=\"%s\""),
 		      music_file, map_dir, music_path);
@@ -182,7 +182,7 @@ lw6snd_play_music_random (lw6snd_backend_t * backend, char *music_path,
 
   if (backend->play_music_random)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("picking a random song in \"%s\" using filter \"%s\" and exclude \"%s\""),
 		  music_path, music_filter, music_exclude);

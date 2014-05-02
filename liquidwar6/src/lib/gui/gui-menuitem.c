@@ -115,7 +115,8 @@ lw6gui_menuitem_free (lw6gui_menuitem_t * menuitem)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menuitem with NULL label"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("menuitem with NULL label"));
 	}
       if (menuitem->tooltip)
 	{
@@ -124,13 +125,15 @@ lw6gui_menuitem_free (lw6gui_menuitem_t * menuitem)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menuitem with NULL tooltip"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("menuitem with NULL tooltip"));
 	}
       LW6SYS_FREE (sys_context, menuitem);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL menuitem"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL menuitem"));
     }
 }
 
@@ -156,7 +159,7 @@ lw6gui_menuitem_memory_footprint (lw6gui_menuitem_t * menuitem)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("calling memory_footprint on NULL menuitem"));
     }
 
@@ -215,7 +218,7 @@ lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem, const char *label,
   menuitem->label = lw6sys_str_copy (lw6sys_str_empty_if_null (label));
   if (!(menuitem->label))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("couldn't set menu item label \"%s\""), label);
     }
 }
@@ -248,7 +251,7 @@ lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t * menuitem,
   menuitem->tooltip = lw6sys_str_copy (lw6sys_str_empty_if_null (tooltip));
   if (!(menuitem->tooltip))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("couldn't set menu item tooltip \"%s\""), tooltip);
     }
 }
@@ -479,7 +482,8 @@ lw6gui_menuitem_sync (lw6gui_menuitem_t * dst, lw6gui_menuitem_t * src)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menuitems are not syncable"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("menuitems are not syncable"));
     }
 
   return ret;

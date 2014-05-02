@@ -41,7 +41,7 @@ lw6gui_button_register_down (lw6gui_button_t * button, int64_t timestamp)
 {
   if (timestamp <= 0LL)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("using negative or zero timestamp (%" LW6SYS_PRINTF_LL
 		       "d)"), (long long) timestamp);
     }
@@ -225,7 +225,7 @@ lw6gui_button_update_repeat (lw6gui_button_t * button,
        * Before anything else, register a fake button_up if we're
        * in auto_release mode and it's relevant.
        */
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("button auto release button->last_press=%"
 		       LW6SYS_PRINTF_LL "d timestamp=%" LW6SYS_PRINTF_LL "d"),
 		  (long long) button->last_press, (long long) timestamp);

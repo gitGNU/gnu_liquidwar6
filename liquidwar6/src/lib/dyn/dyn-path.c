@@ -140,13 +140,13 @@ _path_find (int argc, const char *argv[],
 	   */
 	  if (strstr (system_path_format, _SHARED_NEEDLE))
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE,
+	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			  _x_ ("couldn't find shared code for %s/%s in %s"),
 			  top_level_lib, backend_name, system_path);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE,
+	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			  _x_ ("couldn't find backend for %s/%s in %s"),
 			  top_level_lib, backend_name, system_path);
 	    }

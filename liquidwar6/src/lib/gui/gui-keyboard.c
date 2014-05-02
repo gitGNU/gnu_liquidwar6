@@ -46,7 +46,8 @@ lw6gui_keyboard_check_keysym (int keysym)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("keysym %d out of range"), keysym);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("keysym %d out of range"), keysym);
     }
 
   return ret;

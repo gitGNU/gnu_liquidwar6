@@ -93,7 +93,7 @@ _test_screenshot ()
 			repr = lw6img_repr (jpeg);
 			if (repr)
 			  {
-			    lw6sys_log (LW6SYS_LOG_NOTICE,
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					_x_ ("generated screenshot \"%s\""),
 					repr);
 			    LW6SYS_FREE (sys_context, repr);
@@ -103,7 +103,7 @@ _test_screenshot ()
 		      }
 		    else
 		      {
-			lw6sys_log (LW6SYS_LOG_WARNING,
+			lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				    _x_ ("unable to generate screenshot"));
 			ret = 0;
 		      }
@@ -143,14 +143,16 @@ _test_screenshot ()
 static int
 _setup_init ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libimg CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libimg CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libimg CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libimg CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -187,7 +189,7 @@ lw6img_test_register (int mode)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
 		  CU_get_error_msg ());
       ret = 0;

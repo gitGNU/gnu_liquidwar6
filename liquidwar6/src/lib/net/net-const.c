@@ -75,7 +75,8 @@ _lw6net_const_init (int argc, const char *argv[],
 
       if (const_file)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
+		      const_file);
 
 	  ret =
 	    lw6cfg_read_key_value_xml_file (const_file, read_callback,

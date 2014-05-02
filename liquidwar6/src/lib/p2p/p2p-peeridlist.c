@@ -46,7 +46,7 @@ _peer_id_list_process_join_callback (void *func_data, u_int64_t id)
        * technically be updated later, but for sure below these, there's
        * no need to handle anything.
        */
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("following a JOIN message, registering id=%"
 		       LW6SYS_PRINTF_LL "x with seq=%" LW6SYS_PRINTF_LL
 		       "d serial=%d"), (long long) id, (long long) seq,

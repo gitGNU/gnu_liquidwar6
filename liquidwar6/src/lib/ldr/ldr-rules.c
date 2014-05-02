@@ -69,7 +69,7 @@ read_callback (void *callback_data, const char *element, const char *key,
 
   if (!strcmp (element, LW6CFG_XML_FLOAT))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("map rules should not use floats, XML entry %s=%s is not correct"),
 		  key, value);
@@ -77,7 +77,7 @@ read_callback (void *callback_data, const char *element, const char *key,
 
   if (!strcmp (element, LW6CFG_XML_STRING))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("map rules should not use strings, XML entry %s=%s is not correct"),
 		  key, value);
@@ -108,7 +108,8 @@ lw6ldr_rules_read (lw6map_rules_t * rules, const char *dirname)
     {
       if (lw6sys_file_exists (buf))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading rules \"%s\""), buf);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("reading rules \"%s\""), buf);
 	  ret =
 	    lw6cfg_read_key_value_xml_file (buf, read_callback,
 					    (void *) rules);
@@ -124,7 +125,8 @@ lw6ldr_rules_read (lw6map_rules_t * rules, const char *dirname)
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to read map rules"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to read map rules"));
     }
 
   return ret;

@@ -50,7 +50,8 @@ _lw6ker_armies_init (_lw6ker_armies_t * armies,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to allocate armies"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to allocate armies"));
     }
 
   return ret;
@@ -92,7 +93,7 @@ _lw6ker_armies_sync (_lw6ker_armies_t * dst, const _lw6ker_armies_t * src)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("armies_copy only works if dst and src point to the same map_struct"));
     }
@@ -134,7 +135,7 @@ _lw6ker_armies_add_fighter (_lw6ker_armies_t * armies,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("unable to add fighter, there are already %d fighters"),
 		  armies->active_fighters);
@@ -173,7 +174,7 @@ _lw6ker_armies_remove_fighter (_lw6ker_armies_t * armies)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to remove fighter, none to remove"));
     }
 

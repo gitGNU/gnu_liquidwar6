@@ -345,7 +345,7 @@ lw6mat_dmat4_inv (lw6mat_dmat4_t * dmat4_dst,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_
 		      ("trying to invert non-invertible dmat4 matrix, determinant is 0"));
 

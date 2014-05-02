@@ -120,7 +120,8 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menu with NULL title"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("menu with NULL title"));
 	}
 
       if (menu->help)
@@ -130,7 +131,8 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menu with NULL help"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("menu with NULL help"));
 	}
 
       if (menu->popup)
@@ -140,7 +142,8 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menu with NULL popup"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("menu with NULL popup"));
 	}
 
       if (menu->esc_item)
@@ -163,7 +166,8 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL menu"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL menu"));
     }
 }
 
@@ -197,7 +201,7 @@ lw6gui_menu_memory_footprint (lw6gui_menu_t * menu)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("calling memory_footprint on NULL menu"));
     }
 
@@ -248,7 +252,7 @@ lw6gui_menu_set_title (lw6gui_menu_t * menu, const char *title)
   menu->title = lw6sys_str_copy (lw6sys_str_empty_if_null (title));
   if (!(menu->title))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("couldn't set menu title \"%s\""), title);
     }
 }
@@ -273,7 +277,7 @@ lw6gui_menu_set_help (lw6gui_menu_t * menu, const char *help)
   menu->help = lw6sys_str_copy (lw6sys_str_empty_if_null (help));
   if (!(menu->help))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("couldn't set menu help \"%s\""), help);
     }
 }
@@ -298,7 +302,7 @@ lw6gui_menu_set_popup (lw6gui_menu_t * menu, const char *popup)
   menu->popup = lw6sys_str_copy (lw6sys_str_empty_if_null (popup));
   if (!(menu->popup))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("couldn't set menu popup \"%s\""), popup);
     }
 }
@@ -361,7 +365,7 @@ lw6gui_menu_get_item (lw6gui_menu_t * menu, int position)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("requesting menuitem %d but there are only %d in \"%s\""),
 		  position, menu->nb_items, menu->title);
@@ -404,7 +408,7 @@ lw6gui_menu_select (lw6gui_menu_t * menu, int position, int allow_scroll,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("menu select out of range (%d/%d)"), position,
 		      menu->nb_items);
 	}
@@ -613,7 +617,7 @@ lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("trying to insert menuitem \"%s\" at position %d but menu \"%s\" has only %d items"),
 		  menu->title, position, menu->title, menu->nb_items);
@@ -707,7 +711,7 @@ lw6gui_menu_remove (lw6gui_menu_t * menu, int position, int64_t now)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("trying to remove menuitem \"%s\" at position %d but menu \"%s\" has only %d items"),
 		  menu->title, position, menu->title, menu->nb_items);
@@ -908,7 +912,7 @@ get_position_using_id (lw6gui_menu_t * menu, int id)
 
   if (ret < 0)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("error, no menuitem with id %d in menu %d \"%s\""), id,
 		  menu->id, menu->title);
     }
@@ -1255,7 +1259,7 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("unable to sync menus, dst has %d items while src has %d items"),
 		      dst->nb_items, src->nb_items);
@@ -1263,7 +1267,8 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menus are not syncable"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("menus are not syncable"));
     }
 
   return ret;

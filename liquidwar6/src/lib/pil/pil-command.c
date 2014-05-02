@@ -95,7 +95,7 @@ command_add_parse (lw6pil_command_t * command, char *command_args)
 	  if (command->args.add.team_color >= 0
 	      && command->args.add.team_color < LW6MAP_MAX_NB_TEAMS)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("%s command parsed cursor_id=%x, team_color=%d (%s)"),
 			  LW6PIL_COMMAND_TEXT_ADD,
@@ -117,7 +117,8 @@ command_remove_parse (lw6pil_command_t * command, char *command_args)
   command->args.remove.cursor_id = lw6sys_id_atol (command_args);
   if (lw6sys_check_id_16 (command->args.remove.cursor_id))
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("%s command parsed cursor_id=%x"),
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("%s command parsed cursor_id=%x"),
 		  LW6PIL_COMMAND_TEXT_REMOVE,
 		  (int) command->args.set.cursor_id);
       ret = 1;
@@ -184,7 +185,7 @@ command_set_parse (lw6pil_command_t * command, char *command_args)
 			  if (command->args.set.fire2 == 0
 			      || command->args.set.fire2 == 1)
 			    {
-			      lw6sys_log (LW6SYS_LOG_DEBUG,
+			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					  _x_
 					  ("%s command parsed cursor_id=%x, x=%d, y=%d, fire=%d, fire2=%d"),
 					  LW6PIL_COMMAND_TEXT_SET,
@@ -244,7 +245,7 @@ command_dump_parse (lw6pil_command_t * command, char *command_args)
 		  command->args.dump.game_state_hexa = lw6sys_str_copy (pos);
 		  if (command->args.dump.game_state_hexa)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_
 				  ("%s command parsed"),
 				  LW6PIL_COMMAND_TEXT_DUMP);
@@ -333,7 +334,7 @@ command_parse (lw6pil_command_t * command, const char *command_text,
 				}
 			      else
 				{
-				  lw6sys_log (LW6SYS_LOG_WARNING,
+				  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 					      _x_ ("bad command text \"%s\""),
 					      pos);
 				}
@@ -369,7 +370,7 @@ command_parse (lw6pil_command_t * command, const char *command_text,
 				}
 			      else
 				{
-				  lw6sys_log (LW6SYS_LOG_WARNING,
+				  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 					      _x_ ("bad command text \"%s\""),
 					      pos);
 				}
@@ -377,7 +378,7 @@ command_parse (lw6pil_command_t * command, const char *command_text,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_ ("bad id in command \"%s\""),
 				      command_text);
 			}
@@ -385,7 +386,7 @@ command_parse (lw6pil_command_t * command, const char *command_text,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("bad seq in command \"%s\""),
 			      command_text);
 		}
@@ -398,8 +399,8 @@ command_parse (lw6pil_command_t * command, const char *command_text,
     {
       if (command->text)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("invalid command \"%s\""),
-		      command->text);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_ ("invalid command \"%s\""), command->text);
 	  LW6SYS_FREE (sys_context, command->text);
 	}
       memset (command, 0, sizeof (lw6pil_command_t));
@@ -519,7 +520,8 @@ lw6pil_command_free (lw6pil_command_t * command)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL command"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL command"));
     }
 }
 
@@ -681,7 +683,7 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
   int ret = 0;
   lw6ker_cursor_t cursor;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("execute command \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("execute command \"%s\""),
 	      command->text);
 
   switch (command->code)
@@ -753,8 +755,8 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp,
       ret = 1;
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("incorrect command \"%s\""),
-		  command->text);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("incorrect command \"%s\""), command->text);
       break;
     }
 
@@ -813,7 +815,7 @@ lw6pil_command_execute_local (lw6pil_local_cursors_t * local_cursors,
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("execute command \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("execute command \"%s\""),
 	      command->text);
   switch (command->code)
     {
@@ -834,8 +836,8 @@ lw6pil_command_execute_local (lw6pil_local_cursors_t * local_cursors,
 				     command->args.set.y);
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("incorrect command \"%s\""),
-		  command->text);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("incorrect command \"%s\""), command->text);
       break;
     }
 

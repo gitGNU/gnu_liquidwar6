@@ -194,7 +194,7 @@ _lw6ker_game_struct_repr (const _lw6ker_game_struct_t * game_struct)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't generate string id for NULL game_struct"));
     }
 
@@ -289,12 +289,13 @@ _lw6ker_game_struct_dup (const _lw6ker_game_struct_t * game_struct,
       if (_lw6ker_game_struct_checksum (ret) ==
 	  _lw6ker_game_struct_checksum (game_struct))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("game_struct dup %d->%d"),
-		      game_struct->id, ret->id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("game_struct dup %d->%d"), game_struct->id,
+		      ret->id);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("game_struct checkum mismatch after dup"));
 	}
     }

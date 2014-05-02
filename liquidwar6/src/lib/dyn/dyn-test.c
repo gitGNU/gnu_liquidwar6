@@ -54,8 +54,9 @@ _display_module (void *func_data, const char *key, void *value)
   id = key;
   name = (char *) value;
   (*found) = 1;
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("module \"%s/%s\" \"%s\" found"),
-	      _TEST_DYN_TOP_LEVEL_LIB, id, name);
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("module \"%s/%s\" \"%s\" found"), _TEST_DYN_TOP_LEVEL_LIB,
+	      id, name);
 }
 
 static void
@@ -78,7 +79,8 @@ _test_list ()
       }
     if (!found)
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("no module found for \"%s\""),
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		    _x_ ("no module found for \"%s\""),
 		    _TEST_DYN_TOP_LEVEL_LIB);
       }
   }
@@ -105,7 +107,7 @@ _test_path ()
 				_TEST_DYN_BACKEND_NAME);
     if (library_path && lw6sys_file_exists (library_path))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("found library \"%s/mod-%s\" in \"%s\""),
 		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME,
 		    library_path);
@@ -118,7 +120,7 @@ _test_path ()
 	 * after all, this module can just not be compiled at all
 	 * if we didn't have the prerequisites.
 	 */
-	lw6sys_log (LW6SYS_LOG_WARNING,
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		    _x_ ("couldn't find library \"%s/mod-%s\" in \"%s\""),
 		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME,
 		    library_path);
@@ -129,7 +131,7 @@ _test_path ()
 			       _TEST_DYN_SHARED_NAME);
     if (library_path && lw6sys_file_exists (library_path))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("found library \"%s/shared-%s\" in \"%s\""),
 		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME,
 		    library_path);
@@ -142,7 +144,7 @@ _test_path ()
 	 * after all, this shared code can just not be compiled at all
 	 * if we didn't have the prerequisites.
 	 */
-	lw6sys_log (LW6SYS_LOG_WARNING,
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		    _x_ ("couldn't find library \"%s/shared-%s\" in \"%s\""),
 		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME,
 		    library_path);
@@ -179,7 +181,7 @@ _test_dl ()
 				    _TEST_DYN_BACKEND_NAME);
     if (handle)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("opened library \"%s/mod-%s\""),
 		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
 	lw6dyn_dlclose_backend (handle);
@@ -191,7 +193,7 @@ _test_dl ()
 	 * after all, this module can just not be compiled at all
 	 * if we didn't have the prerequisites.
 	 */
-	lw6sys_log (LW6SYS_LOG_WARNING,
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		    _x_ ("couldn't find library \"%s/mod-%s\""),
 		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
       }
@@ -200,7 +202,7 @@ _test_dl ()
 				   _TEST_DYN_SHARED_NAME);
     if (handle)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("opened library \"%s/shared-%s\""),
 		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
 	lw6dyn_dlclose_shared (handle);
@@ -212,7 +214,7 @@ _test_dl ()
 	 * after all, this shared_code can just not be compiled at all
 	 * if we didn't have the prerequisites.
 	 */
-	lw6sys_log (LW6SYS_LOG_WARNING,
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		    _x_ ("couldn't find library \"%s/shared-%s\""),
 		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
       }
@@ -224,14 +226,16 @@ _test_dl ()
 static int
 _setup_init ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init libdyn CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init libdyn CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit libdyn CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit libdyn CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -267,7 +271,7 @@ lw6dyn_test_register (int mode)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
 		  CU_get_error_msg ());
       ret = 0;

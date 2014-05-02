@@ -202,7 +202,8 @@ _lw6pil_pilot_free (_lw6pil_pilot_t * pilot)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL pilot"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL pilot"));
     }
 }
 
@@ -314,7 +315,8 @@ sync_draft_from_reference (_lw6pil_pilot_t * pilot)
       if (_lw6pil_pilot_get_reference_current_seq (pilot) >
 	  pilot->last_sync_draft_from_reference_seq)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("pilot sync round=%d"),
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("pilot sync round=%d"),
 		      lw6ker_game_state_get_rounds (pilot->
 						    reference.game_state));
 	  lw6ker_game_state_sync (pilot->draft.game_state,
@@ -370,7 +372,7 @@ _commit_reference (lw6pil_dump_t * dump, _lw6pil_pilot_t * pilot)
 	}
       if (pilot->verified_queue)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("verified_queue should be NULL, but isn't"));
 	}
       pilot->verified_queue = lw6sys_list_new (lw6sys_free_callback);
@@ -382,7 +384,7 @@ _commit_reference (lw6pil_dump_t * dump, _lw6pil_pilot_t * pilot)
 	    _lw6pil_pilot_seq2round (pilot, pilot->last_commit_seq);
 	  if (min_round <= last_commit_round)
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("possible game inconsistency, min_round=%d last_commit_round=%d, seq_0=%"
 			   LW6SYS_PRINTF_LL "d last_commmit_seq=%"
@@ -475,7 +477,7 @@ _commit_draft (_lw6pil_pilot_t * pilot)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("ignoring unverified command \"%s\""),
 			      command->text);
 		  lw6pil_command_free (command);
@@ -485,7 +487,7 @@ _commit_draft (_lw6pil_pilot_t * pilot)
 	}
       if (pilot->unverified_queue)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("unverified_queue should be NULL, but isn't"));
 	}
       pilot->unverified_queue = lw6sys_list_new (lw6sys_free_callback);
@@ -520,7 +522,7 @@ _commit_draft (_lw6pil_pilot_t * pilot)
 			}
 		      lw6sys_list_push_front (&(pilot->draft.commands),
 					      command);
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("draft anticipation of \"%s\""),
 				  command->text);
 		    }
@@ -531,7 +533,7 @@ _commit_draft (_lw6pil_pilot_t * pilot)
 		}
 	      if (pilot->replay)
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("replay should be NULL, but isn't"));
 		}
 	      pilot->replay = replay;
@@ -651,7 +653,8 @@ _lw6pil_pilot_sync_from_backup (lw6ker_game_state_t * target,
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("sync from backup round=%d"),
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+	      _x_ ("sync from backup round=%d"),
 	      lw6ker_game_state_get_rounds (pilot->backup));
   ret = lw6ker_game_state_sync (target, pilot->backup);
 
@@ -685,7 +688,8 @@ _lw6pil_pilot_sync_from_reference (lw6ker_game_state_t * target,
 
   lw6sys_mutex_lock (pilot->reference.global_mutex);
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("sync from reference round=%d"),
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+	      _x_ ("sync from reference round=%d"),
 	      lw6ker_game_state_get_rounds (pilot->reference.game_state));
   ret = lw6ker_game_state_sync (target, pilot->reference.game_state);
 
@@ -747,14 +751,14 @@ _lw6pil_pilot_sync_from_draft (lw6ker_game_state_t * target,
 	    lw6ker_game_state_get_rounds (pilot->reference.game_state);
 	  if (draft_rounds > reference_rounds)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("sync from draft round=%d/%d"), draft_rounds,
 			  reference_rounds);
 	      ret = lw6ker_game_state_sync (target, pilot->draft.game_state);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("sync from draft using reference round=%d/%d"),
 			  reference_rounds, draft_rounds);
 	      ret =
@@ -819,14 +823,14 @@ _lw6pil_pilot_dirty_read (_lw6pil_pilot_t * pilot)
     lw6ker_game_state_get_rounds (pilot->reference.game_state);
   if (draft_rounds > reference_rounds)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("dirty read using draft round=%d/%d"), draft_rounds,
 		  reference_rounds);
       ret = pilot->draft.game_state;
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("dirty read using reference round=%d/%d"),
 		  reference_rounds, draft_rounds);
       ret = pilot->reference.game_state;
@@ -871,7 +875,7 @@ _lw6pil_pilot_repr (const _lw6pil_pilot_t * pilot)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't generate string id for NULL pilot"));
     }
 
@@ -1086,7 +1090,7 @@ _lw6pil_pilot_get_next_seq (const _lw6pil_pilot_t * pilot, int64_t timestamp)
   last_commit_seq = _lw6pil_pilot_get_last_commit_seq (pilot);
   if (next_seq <= last_commit_seq)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("ideal next_seq=%" LW6SYS_PRINTF_LL
 		       "d but last_commit_seq=%" LW6SYS_PRINTF_LL
 		       "d, forcing greater value"), (long long) next_seq,

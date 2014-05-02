@@ -261,15 +261,15 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
     {
       if (node->trojan)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _
 		      ("started node \"%s\" in trojan mode, expect problems"),
 		      node->public_url);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("started node \"%s\""),
-		      node->public_url);
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+		      _("started node \"%s\""), node->public_url);
 	}
     }
 
@@ -350,7 +350,8 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL node"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL node"));
     }
 }
 
@@ -403,7 +404,7 @@ _lw6p2p_node_repr (const _lw6p2p_node_t * node)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't repr NULL or unitialized node"));
     }
 
@@ -415,15 +416,16 @@ _lw6p2p_node_lock (_lw6p2p_node_t * node)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("lock node"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("lock node"));
   ret = lw6sys_mutex_lock (node->mutex);
   if (ret)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("lock node OK"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("lock node OK"));
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to lock node"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to lock node"));
     }
 
   return ret;
@@ -434,15 +436,16 @@ _lw6p2p_node_unlock (_lw6p2p_node_t * node)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unlock node"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unlock node"));
   ret = lw6sys_mutex_unlock (node->mutex);
   if (ret)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unlock node OK"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unlock node OK"));
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to unlock node"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to unlock node"));
     }
 
   return ret;
@@ -453,9 +456,10 @@ _lw6p2p_node_trylock (_lw6p2p_node_t * node)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("trylock node"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trylock node"));
   ret = lw6sys_mutex_trylock (node->mutex);
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("trylock node ret=%d"), ret);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trylock node ret=%d"),
+	      ret);
 
   return ret;
 }
@@ -512,7 +516,7 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node, int64_t now)
   lw6srv_tcp_accepter_t *tcp_accepter = NULL;
   char *guessed_public_url = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("polling node TCP"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("polling node TCP"));
 
   if (lw6net_socket_is_valid (node->listener->tcp_sock))
     {
@@ -524,7 +528,7 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node, int64_t now)
 	  tcp_accepter = lw6srv_tcp_accepter_new (ip, port, sock);
 	  if (tcp_accepter)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("TCP connection from %s:%d"), ip, port);
 	      lw6sys_list_push_front (&(node->listener->tcp_accepters),
 				      tcp_accepter);
@@ -537,7 +541,7 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node, int64_t now)
 		lw6sys_url_http_from_ip_port (ip, LW6NET_DEFAULT_PORT);
 	      if (guessed_public_url)
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("discovered node \"%s\" from guessed url"),
 			      guessed_public_url);
@@ -551,7 +555,7 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node, int64_t now)
 		    lw6sys_url_http_from_ip_port (ip, node->bind_port);
 		  if (guessed_public_url)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_
 				  ("discovered node \"%s\" from guessed url (using non-standard port %d)"),
 				  guessed_public_url, node->bind_port);
@@ -591,7 +595,7 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node, int64_t now)
   lw6srv_udp_buffer_t *udp_buffer = NULL;
   char *guessed_public_url = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("polling node UDP"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("polling node UDP"));
   memset (buf, 0, LW6NET_UDP_MINIMAL_BUF_SIZE + 1);
   if (node->listener->udp_sock >= 0)
     {
@@ -599,13 +603,13 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node, int64_t now)
 	  (node->listener->udp_sock, buf, LW6NET_UDP_MINIMAL_BUF_SIZE, &ip1,
 	   &port1))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("received data from %s:%d"),
-		      ip1, port1);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("received data from %s:%d"), ip1, port1);
 	  line =
 	    lw6net_recv_line_udp (node->listener->udp_sock, &ip2, &port2);
 	  if (line)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("UDP connection from %s:%d"), ip2, port2);
 	      udp_buffer = lw6srv_udp_buffer_new (ip2, port2, line);
 	      if (udp_buffer)
@@ -620,7 +624,7 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node, int64_t now)
 		    lw6sys_url_http_from_ip_port (ip2, LW6NET_DEFAULT_PORT);
 		  if (guessed_public_url)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_
 				  ("discovered node \"%s\" from guessed url"),
 				  guessed_public_url);
@@ -634,7 +638,7 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node, int64_t now)
 			lw6sys_url_http_from_ip_port (ip2, node->bind_port);
 		      if (guessed_public_url)
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				      _x_
 				      ("discovered node \"%s\" from guessed url (using non-standard port %d)"),
 				      guessed_public_url, node->bind_port);
@@ -653,7 +657,7 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node, int64_t now)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("udp data received from %s:%d, but it's not correct"),
 			  ip1, port1);
@@ -700,7 +704,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 			    node->node_info, &remote_id, NULL);
       if (analyse_tcp_ret & LW6SRV_ANALYSE_DEAD)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("dead accepter, scheduling it for deletion"));
 	  lw6net_socket_close (&(tcp_accepter->sock));
 	  ret = 0;
@@ -709,7 +713,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 	{
 	  if (analyse_tcp_ret & LW6SRV_ANALYSE_UNDERSTANDABLE)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("understood accepter, scheduling it for deletion"));
 	      ret = 0;		// will be filtered
@@ -727,7 +731,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 						       NULL);
 		  if (srv_oob)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("process srv_oob (tcp)"));
 		      srv_oob->srv_oob->thread =
 			lw6sys_thread_create (_lw6p2p_srv_oob_callback, NULL,
@@ -765,7 +769,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 			    }
 			  else
 			    {
-			      lw6sys_log (LW6SYS_LOG_DEBUG,
+			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					  _x_
 					  ("can't create tentacle with \"%s\""),
 					  remote_url);
@@ -774,15 +778,18 @@ _tcp_accepter_reply (void *func_data, void *data)
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("wrong id/url"));
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+				      _x_ ("wrong id/url"));
 			}
 		    }
 		  if (tentacle_index >= 0
 		      && tentacle_index < LW6P2P_MAX_NB_TENTACLES)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("feed srv (tcp)"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+				  _x_ ("feed srv (tcp)"));
 		      lw6srv_feed_with_tcp (node->backends.srv_backends[i],
-					    node->tentacles
+					    node->
+					    tentacles
 					    [tentacle_index].srv_connections
 					    [i], tcp_accepter);
 		    }
@@ -818,7 +825,7 @@ _udp_buffer_reply (void *func_data, void *data)
 			    node->node_info, &remote_id, NULL);
       if (analyse_udp_ret & LW6SRV_ANALYSE_DEAD)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("dead buffer, scheduling it for deletion"));
 	  ret = 0;
 	}
@@ -826,7 +833,7 @@ _udp_buffer_reply (void *func_data, void *data)
 	{
 	  if (analyse_udp_ret & LW6SRV_ANALYSE_UNDERSTANDABLE)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("understood buffer, scheduling it for deletion"));
 	      ret = 0;		// will be filtered
@@ -845,7 +852,7 @@ _udp_buffer_reply (void *func_data, void *data)
 						       udp_buffer->line);
 		  if (srv_oob)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("process srv_oob (udp)"));
 		      srv_oob->srv_oob->thread =
 			lw6sys_thread_create (_lw6p2p_srv_oob_callback, NULL,
@@ -883,7 +890,7 @@ _udp_buffer_reply (void *func_data, void *data)
 			    }
 			  else
 			    {
-			      lw6sys_log (LW6SYS_LOG_DEBUG,
+			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					  _x_
 					  ("can't create tentacle with \"%s\""),
 					  remote_url);
@@ -892,15 +899,18 @@ _udp_buffer_reply (void *func_data, void *data)
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("wrong id/url"));
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+				      _x_ ("wrong id/url"));
 			}
 		    }
 		  if (tentacle_index >= 0
 		      && tentacle_index < LW6P2P_MAX_NB_TENTACLES)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("feed srv (udp)"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+				  _x_ ("feed srv (udp)"));
 		      lw6srv_feed_with_udp (node->backends.srv_backends[i],
-					    node->tentacles
+					    node->
+					    tentacles
 					    [tentacle_index].srv_connections
 					    [i], udp_buffer);
 		    }
@@ -1165,7 +1175,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now,
 		      if (now - node->db->data.consts.miss_duplicate_delay <
 			  node->tentacles[tentacle_i].last_miss_timestamp)
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				      _x_ ("not sending MISS from_id=%"
 					   LW6SYS_PRINTF_LL
 					   "x serial_min=%d serial_max=%d as it overlaps with previous serial_min=%d serial_max=%d"),
@@ -1179,7 +1189,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				      _x_ ("sending MISS from_id=%"
 					   LW6SYS_PRINTF_LL
 					   "x serial_min=%d serial_max=%d, it overlaps with previous serial_min=%d serial_max=%d but we've waited for too long"),
@@ -1193,7 +1203,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("sending MISS from_id=%"
 				       LW6SYS_PRINTF_LL
 				       "x serial_min=%d serial_max=%d, it does not overlap with previous serial_min=%d serial_max=%d"),
@@ -1404,7 +1414,7 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 		}
 	      if (!(node->srv_oobs))
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("NULL srv_oobs after emptying"));
 		}
 	    }
@@ -1419,7 +1429,7 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 		}
 	      if (!(node->cli_oobs))
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("NULL cli_oobs after emptying"));
 		}
 	    }
@@ -1435,12 +1445,14 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("closing closed node"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("closing closed node"));
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to close NULL node"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to close NULL node"));
     }
 }
 
@@ -1482,7 +1494,7 @@ _select_node_by_url_callback (void *func_data, int nb_fields,
   int *count = (int *) func_data;
 
   (*count)++;
-  lw6sys_log (LW6SYS_LOG_DEBUG,
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_
 	      ("select_node_by_url_callback called with %d fields, count is %d"),
 	      nb_fields, (*count));
@@ -1520,7 +1532,7 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
 		  LW6SYS_FREE (sys_context, query);
 		  if (count > 0)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_
 				  ("there's already a node with url \"%s\""),
 				  public_url);
@@ -1772,7 +1784,8 @@ _lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node)
       if (!_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
 	{
 	  ret = i;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("found free tentacle %d"), i);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("found free tentacle %d"), i);
 	}
     }
 
@@ -1824,14 +1837,14 @@ _lw6p2p_node_register_tentacle (_lw6p2p_node_t * node, const char *remote_url,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("unable to find a free tentacle"));
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("tentacle already exists (i=%d)"),
-		  i);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("tentacle already exists (i=%d)"), i);
     }
 
   return ret;
@@ -1851,7 +1864,8 @@ _lw6p2p_node_unregister_tentacle (_lw6p2p_node_t * node, u_int64_t remote_id)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to find tentacle"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to find tentacle"));
     }
 
   return ret;
@@ -1930,7 +1944,8 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node, int skip_local)
   ret = lw6sys_list_new ((lw6sys_free_func_t) lw6p2p_entry_free);
   if (ret)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("flush verified nodes"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("flush verified nodes"));
 
       /*
        * We lock the whole session, to avoid double listing
@@ -2097,14 +2112,14 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 	      tentacle = &(node->tentacles[i]);
 	      if (lw6sys_str_is_same (remote_url, tentacle->remote_url))
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("keep connected to  %" LW6SYS_PRINTF_LL
 				   "x at \"%s\""), (long long) remote_id,
 			      remote_url);
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("won't join %" LW6SYS_PRINTF_LL
 				   "x at \"%s\", it conflicts with %"
 				   LW6SYS_PRINTF_LL "x at \"%s\""),
@@ -2124,7 +2139,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("no more free tentacles"));
 		  ret = 0;
 		}
@@ -2137,7 +2152,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 		   */
 		  lw6nod_info_community_add (node->node_info, remote_id,
 					     remote_url);
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("trying to join  %" LW6SYS_PRINTF_LL
 				   "x at \"%s\""), (long long) remote_id,
 			      remote_url);
@@ -2226,7 +2241,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 	  if (lw6nod_info_community_is_member
 	      (node->node_info, remote_id, remote_url))
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("it's useless to join %" LW6SYS_PRINTF_LL
 			       "x at \"%s\", it's already a community member"),
 			  (long long) remote_id, remote_url);
@@ -2234,7 +2249,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 	  else
 	    {
 
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("won't join %" LW6SYS_PRINTF_LL
 			       "x at \"%s\", it conflicts with an existing community member"),
 			  (long long) remote_id, remote_url);
@@ -3092,7 +3107,7 @@ _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node,
 	    {
 	      if (lw6sys_list_length (node->draft_msg) > 0)
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("strange, got messages when one could not figure out what seq_draft was"));
 		}

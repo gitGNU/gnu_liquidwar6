@@ -96,8 +96,8 @@ lw6cfg_read_xml_int (const char *xml_key, const char *xml_value,
       if (value)
 	{
 	  (*value) = lw6sys_atoi (xml_value);
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("XML int \"%s\"=\"%d\""), xml_key,
-		      *value);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("XML int \"%s\"=\"%d\""), xml_key, *value);
 	}
     }
 }
@@ -135,8 +135,8 @@ lw6cfg_read_xml_bool (const char *xml_key, const char *xml_value,
 	       * Note that prefered value is "true" 8-)
 	       */
 	      (*value) = lw6sys_atob (xml_value);
-	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("XML bool \"%s\"=\"%d\""),
-			  xml_key, *value);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			  _x_ ("XML bool \"%s\"=\"%d\""), xml_key, *value);
 	    }
 	}
     }
@@ -166,8 +166,8 @@ lw6cfg_read_xml_float (const char *xml_key, const char *xml_value,
       if (value)
 	{
 	  (*value) = lw6sys_atof (xml_value);
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("XML float \"%s\"=\"%f\""),
-		      xml_key, *value);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("XML float \"%s\"=\"%f\""), xml_key, *value);
 	}
     }
 }
@@ -207,8 +207,8 @@ lw6cfg_read_xml_string (const char *xml_key, const char *xml_value,
 	  (*value) = lw6sys_str_copy (xml_value);
 	  if (*value)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("XML string \"%s\"=\"%s\""),
-			  xml_key, *value);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			  _x_ ("XML string \"%s\"=\"%s\""), xml_key, *value);
 	    }
 	}
     }
@@ -236,7 +236,7 @@ lw6cfg_read_xml_color (const char *xml_key, const char *xml_value,
   if (!strcasecmp (xml_key, target_key))
     {
       (*value) = lw6sys_color_a_to_8 (xml_value);
-      lw6sys_log (LW6SYS_LOG_INFO,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_ ("XML color \"%s\"=\"#%02x%02x%02x%02x\""), xml_key,
 		  value->r, value->g, value->b, value->a);
     }
@@ -272,7 +272,8 @@ element_start (void *data, const char *element, const char **attr)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("XML callback function is NULL"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("XML callback function is NULL"));
     }
 }
 
@@ -336,14 +337,14 @@ lw6cfg_read_key_value_xml_file (const char *filename,
 		   * INFO and not warning on MS-Windows, this avoids
 		   * stupid warning at startup.
 		   */
-		  lw6sys_log (LW6SYS_LOG_INFO,
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_
 			      ("parse error reading XML file \"%s\" at line %d: \"%s\""),
 			      filename,
 			      (int) XML_GetCurrentLineNumber (parser),
 			      XML_ErrorString (XML_GetErrorCode (parser)));
 #else
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("parse error reading XML file \"%s\" at line %d: \"%s\""),
 			      filename,
@@ -476,7 +477,7 @@ write_xml (FILE * f, const char *type, const char *key, const char *value,
 	    }
 	  if (type && strcasecmp (type, guessed_type))
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  ("inconsistency in XML entry type (\"%s\": \"%s!=%s\""),
 			  key, type, guessed_type);
 	    }

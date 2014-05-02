@@ -107,5 +107,6 @@ _lw6p2p_srv_oob_callback (void *callback_data)
     lw6srv_process_oob (srv_oob->backend, srv_oob->node_info,
 			&(srv_oob->srv_oob->data));
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("_srv_oob_callback done ret=%d"), ret);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+	      _x_ ("_srv_oob_callback done ret=%d"), ret);
 }

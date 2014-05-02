@@ -244,7 +244,7 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
   if (ret && !lw6sys_shape_check_min_max_whd
       (&(map_struct->shape), &shape_min, &shape_max))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("map_struct shape out of range (%dx%dx%d)"),
 		  map_struct->shape.w, map_struct->shape.h,
 		  map_struct->shape.d);
@@ -259,7 +259,8 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 					 &(map_struct->nb_places));
   if (ret && map_struct->nb_places != surface)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad nb_places=%d for surface=%d"),
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("bad nb_places=%d for surface=%d"),
 		  map_struct->nb_places, surface);
       ret = 0;
     }
@@ -268,7 +269,7 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 					 &(map_struct->nb_zones));
   if (ret && map_struct->nb_zones > volume)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("nb_zones=%d too big for volume=%d"),
 		  map_struct->nb_zones, volume);
       ret = 0;
@@ -278,7 +279,7 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 					 &(map_struct->nb_slots));
   if (ret && map_struct->nb_slots != volume)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("bad nb_slots=%d for map_struct with volume=%d"),
 		  map_struct->nb_slots, volume);
       ret = 0;
@@ -288,7 +289,7 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
 					 &(map_struct->room_for_armies));
   if (ret && map_struct->room_for_armies > map_struct->nb_slots)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("room_for_armies=%d too big for nb_slots=%d"),
 		  map_struct->room_for_armies, map_struct->nb_slots);
       ret = 0;
@@ -300,8 +301,8 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
       && (map_struct->max_zone_size < LW6MAP_RULES_MIN_MAX_ZONE_SIZE
 	  || map_struct->max_zone_size > LW6MAP_RULES_MAX_MAX_ZONE_SIZE))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad max_zone_size=%d"),
-		  map_struct->max_zone_size);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("bad max_zone_size=%d"), map_struct->max_zone_size);
       ret = 0;
     }
 
@@ -410,14 +411,14 @@ _lw6ker_game_struct_from_hexa (const char *hexa, const lw6map_level_t * level)
 	    {
 	      if (!lw6sys_hexa_serializer_eof (hexa_serializer))
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("expected EOF in serialized game_struct"));
 		  ok = 0;
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("shape mismatch game_struct=%dx%dx%d level=%dx%dx%d"),
 			  game_struct->map_struct.shape.w,
@@ -831,7 +832,7 @@ pop_armies (lw6sys_hexa_serializer_t * hexa_serializer,
 					 &(armies->max_fighters));
   if (ret && armies->max_fighters > LW6MAP_MAX_BODY_VOLUME)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("max_fighters is too great (%d>%d)"),
 		  armies->max_fighters, LW6MAP_MAX_BODY_VOLUME);
       ret = 0;
@@ -841,7 +842,7 @@ pop_armies (lw6sys_hexa_serializer_t * hexa_serializer,
 					 &(armies->active_fighters));
   if (ret && armies->active_fighters > armies->max_fighters)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("active_fighters is too great (%d>%d)"),
 		  armies->active_fighters, armies->max_fighters);
       ret = 0;
@@ -853,7 +854,7 @@ pop_armies (lw6sys_hexa_serializer_t * hexa_serializer,
 					     &(armies->fighters_per_team[i]));
       if (ret && armies->fighters_per_team[i] > armies->active_fighters)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("fighters_per_team[%d] is too great (%d>%d)"), i,
 		      armies->fighters_per_team[i], armies->active_fighters);
 	  ret = 0;
@@ -1043,7 +1044,7 @@ pop_map_state (lw6sys_hexa_serializer_t * hexa_serializer,
   if (ret && !lw6sys_shape_check_min_max_whd
       (&(map_state->shape), &shape_min, &shape_max))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("map_state shape out of range (%dx%dx%d)"),
 		  map_state->shape.w, map_state->shape.h, map_state->shape.d);
       ret = 0;
@@ -1071,14 +1072,14 @@ pop_map_state (lw6sys_hexa_serializer_t * hexa_serializer,
 					 &(map_state->nb_slots));
   if (ret && map_state->nb_slots != volume)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("bad nb_slots=%d for map_state with volume=%d"),
 		  map_state->nb_slots, volume);
       ret = 0;
     }
   if (ret && map_state->nb_slots != map_state->map_struct->nb_slots)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("map_state->nb_slots=%d but map_state->map_struct->nb_slots=%d"),
 		  map_state->nb_slots, map_state->map_struct->nb_slots);
@@ -1230,14 +1231,14 @@ _lw6ker_game_state_from_hexa (const char *hexa,
 	    {
 	      if (!lw6sys_hexa_serializer_eof (hexa_serializer))
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("expected EOF in serialized game_state"));
 		  ok = 0;
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("shape mismatch map_state=%dx%dx%d map_struct=%dx%dx%d"),
 			  game_state->map_state.shape.w,

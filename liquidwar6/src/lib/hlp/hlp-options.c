@@ -84,7 +84,8 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
       if (!_check_arg (argv[i]))
 	{
 	  lw6sys_log_clear (NULL);
-	  lw6sys_log (LW6SYS_LOG_ERROR, _("unknown option \"%s\""), argv[i]);
+	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+		      _("unknown option \"%s\""), argv[i]);
 	  (*run_game) = 0;
 	  ret = 0;
 	}
@@ -103,7 +104,8 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_ERROR, _("unable to start daemon"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+			      _("unable to start daemon"));
 		  (*run_game) = 0;
 		}
 	      LW6SYS_FREE (pid_file);

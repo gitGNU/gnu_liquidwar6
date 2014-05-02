@@ -75,7 +75,7 @@ read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to allocate memory for layer"));
     }
 

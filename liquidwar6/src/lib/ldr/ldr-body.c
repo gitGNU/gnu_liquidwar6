@@ -88,7 +88,8 @@ lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
   dot_png = lw6sys_path_concat (dirname, _LW6LDR_FILE_MAP_PNG);
   if (dot_png)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), dot_png);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
+		  dot_png);
 
       ret =
 	lw6ldr_layer_read_first (&(body->layers[0]), dot_png, param, hints,
@@ -107,7 +108,7 @@ lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
 		{
 		  if (lw6sys_file_exists (dot_png))
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_ ("reading extra layer %d \"%s\""),
 				  layer, dot_png);
 		      ret = ret

@@ -228,7 +228,7 @@ _lw6ker_game_state_repr (const _lw6ker_game_state_t * game_state)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't generate string id for NULL game_state"));
     }
 
@@ -341,7 +341,7 @@ _lw6ker_game_state_sync (_lw6ker_game_state_t * dst,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("game_state_copy only works if dst and src point to the same game_struct"));
     }
@@ -397,12 +397,12 @@ _lw6ker_game_state_dup (const _lw6ker_game_state_t * game_state,
       if (_lw6ker_game_state_checksum (ret) ==
 	  _lw6ker_game_state_checksum (game_state))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("game_state dup %d->%d"),
-		      game_state->id, ret->id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("game_state dup %d->%d"), game_state->id, ret->id);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("game_state checkum mismatch after dup"));
 	}
     }
@@ -551,7 +551,7 @@ _lw6ker_game_state_register_node (_lw6ker_game_state_t * game_state,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("node %" LW6SYS_PRINTF_LL "x already exists"),
 		  (long long) node_id);
     }
@@ -708,7 +708,7 @@ check_node_id (_lw6ker_game_state_t * game_state, u_int64_t node_id)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("node %" LW6SYS_PRINTF_LL "x does not exist"),
 		  (long long) node_id);
     }
@@ -761,7 +761,7 @@ _lw6ker_game_state_add_cursor (_lw6ker_game_state_t * game_state,
 		{
 		  if (real_team_color != team_color)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_
 				  ("color shift: real_team_color=%d team_color=%d"),
 				  real_team_color, team_color);
@@ -794,15 +794,15 @@ _lw6ker_game_state_add_cursor (_lw6ker_game_state_t * game_state,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("unable to add team %d, game is full"),
 			  (int) team_color);
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("cursor %x already exists"),
-		      (int) cursor_id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("cursor %x already exists"), (int) cursor_id);
 	}
     }
 
@@ -1142,7 +1142,7 @@ _lw6ker_game_state_add_team_internal (_lw6ker_game_state_t * game_state,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("can't add team %d, it's already active"), team_color);
     }
 
@@ -1555,7 +1555,7 @@ _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
 	       * This should be a rare case, how come there are no cursors for a team?
 	       * Still, with an alliance system, it could theorically happen.
 	       */
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("no cursors for team %d, removing it"),
 			  team_color);
 	      _lw6ker_game_state_remove_team_internal (game_state,
@@ -1874,7 +1874,7 @@ _lw6ker_game_state_did_cursor_win (const _lw6ker_game_state_t * game_state,
 	      winner_team_color = score_array.scores[0].team_color;
 	      if (winner_team_color == cursor.team_color)
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("cursor %x with color %d won"),
 			      (int) cursor_id, winner_team_color);
 		  ret = 1;
@@ -1885,7 +1885,7 @@ _lw6ker_game_state_did_cursor_win (const _lw6ker_game_state_t * game_state,
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("cursor %x didn't win"),
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("cursor %x didn't win"),
 		  (int) cursor_id);
     }
 

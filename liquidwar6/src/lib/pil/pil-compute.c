@@ -71,7 +71,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 	    lw6sys_list_new ((lw6sys_free_func_t) lw6pil_command_free);
 	  if (!worker->commands)
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("worker->commands is NULL"));
 	    }
 	}
@@ -80,7 +80,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
       if (commands)
 	{
 	  lw6sys_sort (&commands, _lw6pil_command_sort_callback);
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("worker global compute begin %d"),
 		      worker->current_round);
 	  lw6sys_mutex_lock (worker->global_mutex);
@@ -91,7 +91,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 		lw6sys_imax (command->round, worker->current_round);
 	      while (worker->run && worker->current_round < command->round)
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("worker compute begin %d"),
 			      worker->current_round);
 		  lw6sys_mutex_lock (worker->compute_mutex);
@@ -115,7 +115,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_ ("unable to spawn spread_thread"));
 			  _lw6pil_spread_thread_func (&spread_data);
 			}
@@ -135,7 +135,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_ ("unable to spawn spread_thread"));
 			  _lw6pil_spread_thread_func (&spread_data);
 			}
@@ -156,7 +156,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 		      if (worker->current_round !=
 			  lw6ker_game_state_get_rounds (worker->game_state))
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_
 				      ("possible race condition, worker and game_state do not report the same round number (%d vs %d)"),
 				      worker->current_round,
@@ -166,7 +166,8 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 		    }
 		  worker->computed_rounds++;
 		  lw6sys_mutex_unlock (worker->compute_mutex);
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("worker compute end %d"),
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+			      _x_ ("worker compute end %d"),
 			      worker->current_round);
 
 		  /*
@@ -186,7 +187,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 		       yield_limit)
 		      && (!(worker->computed_rounds % yield_period)))
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("at round %d and targetting %d, yielding a timeslice every %d rounds"),
 				  worker->current_round, worker->target_round,
@@ -194,11 +195,12 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 		      lw6sys_idle ();
 		    }
 		}
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("worker execute begin %d"),
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+			  _x_ ("worker execute begin %d"),
 			  worker->current_round);
 	      lw6sys_mutex_lock (worker->compute_mutex);
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("worker execute command %s"),
-			  command->text);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+			  _x_ ("worker execute command %s"), command->text);
 	      if (worker->verified)
 		{
 		  lw6pil_command_execute (&(worker->dump), timestamp,
@@ -240,12 +242,14 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 					  worker->game_state, command);
 		}
 	      lw6sys_mutex_unlock (worker->compute_mutex);
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("worker execute end %d"),
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+			  _x_ ("worker execute end %d"),
 			  worker->current_round);
 	      lw6pil_command_free (command);
 	    }
 	  lw6sys_mutex_unlock (worker->global_mutex);
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("worker global compute end %d"),
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("worker global compute end %d"),
 		      worker->current_round);
 	  if (commands)
 	    {
@@ -255,7 +259,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("worker idle"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker idle"));
 	  lw6sys_idle ();
 	}
     }
@@ -264,7 +268,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 void
 _lw6pil_compute_thread_join (lw6pil_worker_t * worker)
 {
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("worker compute join"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker compute join"));
 }
 
 void
@@ -280,14 +284,14 @@ _lw6pil_compute_pump_command_callback (void *func_data, void *data)
        * recopy of pending messages is a tricky stuff, and does not
        * happen often, so we log it.
        */
-      lw6sys_log (LW6SYS_LOG_INFO,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_ ("copying command \"%s\" into other pilot (dump)"),
 		  command->text);
       _lw6pil_pilot_send_command (pilot, command->text, 1);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("bad parameters for pump command callback"));
     }
 }

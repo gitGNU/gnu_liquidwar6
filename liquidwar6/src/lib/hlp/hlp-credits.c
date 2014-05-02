@@ -169,8 +169,8 @@ lw6hlp_get_credits (int id)
 			    lw6sys_build_get_bugs_url ());
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to handle credits id %d"),
-		  id);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _("unable to handle credits id %d"), id);
     }
 
   return ret;

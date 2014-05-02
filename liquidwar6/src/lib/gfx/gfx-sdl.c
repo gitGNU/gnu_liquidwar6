@@ -78,7 +78,7 @@ _lw6gfx_sdl_unbind_funcs (_lw6gfx_sdl_funcs_t * funcs)
 static void
 _warning (const char *func_name)
 {
-  lw6sys_log (LW6SYS_LOG_WARNING,
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 	      _x_ ("gfx sdl function \"%s\" is not defined"), func_name);
 }
 

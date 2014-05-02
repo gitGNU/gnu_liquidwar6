@@ -203,7 +203,8 @@ lw6map_free (lw6map_level_t * level)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL map"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL map"));
     }
 }
 
@@ -237,7 +238,7 @@ lw6map_memory_footprint (const lw6map_level_t * level)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("calling memory_footprint on NULL map"));
     }
 
@@ -272,7 +273,7 @@ lw6map_repr (const lw6map_level_t * level)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't generate string id for NULL level"));
     }
 

@@ -199,7 +199,7 @@ _lw6ker_score_array_update (lw6ker_score_array_t * score_array,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("invalid consolidated_total %d"),
 			  consolidated_total);
 	    }

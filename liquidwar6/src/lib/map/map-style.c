@@ -880,7 +880,7 @@ lw6map_style_get_default (const char *key)
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("unable to get default value for style parameter \"%s\""),
 		  key);

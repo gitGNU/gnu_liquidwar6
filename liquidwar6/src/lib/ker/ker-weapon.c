@@ -296,17 +296,19 @@ _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
   switch (rules->team_profile_weapon_mode[team_color])
     {
     case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_NONE:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("weapons disabled by config, doing nothing"));
       break;
     case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_BY_ID:
       weapon_id = rules->team_profile_weapon_id[team_color];
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("weapon %d for color %d (config)"),
-		  weapon_id, team_color);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("weapon %d for color %d (config)"), weapon_id,
+		  team_color);
       break;
     case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_RANDOM:
       weapon_id = lw6sys_random (LW6MAP_MAX_WEAPON_ID + 1);
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("random weapon %d"), weapon_id);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("random weapon %d"),
+		  weapon_id);
       break;
     }
 
@@ -327,19 +329,19 @@ _lw6ker_weapon_fire2 (_lw6ker_map_state_t * map_state,
   switch (rules->team_profile_weapon_mode[team_color])
     {
     case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_NONE:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("weapons disabled by config, doing nothing"));
       break;
     case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_BY_ID:
       weapon_id = rules->team_profile_weapon_alternate_id[team_color];
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("alternate weapon %d for color %d (config)"),
 		  weapon_id, team_color);
       break;
     case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_RANDOM:
       weapon_id = lw6sys_random (LW6MAP_MAX_WEAPON_ID + 1);
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("random alternate weapon %d"),
-		  weapon_id);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("random alternate weapon %d"), weapon_id);
       break;
     }
 
