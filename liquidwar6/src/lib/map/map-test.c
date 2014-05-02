@@ -81,6 +81,7 @@
 typedef struct _lw6map_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
 } _lw6map_test_data_t;
 
 static _lw6map_test_data_t _test_data = { 0 };
@@ -92,13 +93,15 @@ static void
 _test_new ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
     lw6map_level_t *level = NULL;
     char *repr = NULL;
 
-    level = lw6map_new ();
+    level = lw6map_new (sys_context);
     if (LW6SYS_TEST_ACK (level))
       {
 	repr = lw6map_repr (sys_context, level);
@@ -133,6 +136,8 @@ static void
 _test_color ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -156,10 +161,10 @@ _test_color ()
 
     for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
       {
-	key = lw6map_team_color_index_to_key (i);
+	key = lw6map_team_color_index_to_key (sys_context, i);
 	if (LW6SYS_TEST_ACK (key))
 	  {
-	    label = lw6map_team_color_index_to_label (i);
+	    label = lw6map_team_color_index_to_label (sys_context, i);
 	    if (LW6SYS_TEST_ACK (label))
 	      {
 		j = lw6map_team_color_key_to_index (sys_context, key);
@@ -194,6 +199,8 @@ static void
 _test_coords ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -242,12 +249,13 @@ _test_coords ()
 }
 
 static void
-_print_meta_layer (lw6map_meta_layer_t * meta_layer, char *label)
+_print_meta_layer (lw6sys_context_t * sys_context,
+		   lw6map_meta_layer_t * meta_layer, char *label)
 {
   int x, y, w, h;
   int value;
 
-  if (lw6sys_log_get_console_state ())
+  if (lw6sys_log_get_console_state (sys_context))
     {
       w = meta_layer->shape.w;
       h = meta_layer->shape.h;
@@ -268,11 +276,11 @@ _print_meta_layer (lw6map_meta_layer_t * meta_layer, char *label)
 }
 
 static void
-_print_body (lw6map_body_t * body)
+_print_body (lw6sys_context_t * sys_context, lw6map_body_t * body)
 {
   int x, y, z, w, h, d;
 
-  if (lw6sys_log_get_console_state ())
+  if (lw6sys_log_get_console_state (sys_context))
     {
       w = body->shape.w;
       h = body->shape.h;
@@ -303,13 +311,14 @@ _print_body (lw6map_body_t * body)
 }
 
 static void
-_print_cursor_texture (lw6map_cursor_texture_t * cursor_texture)
+_print_cursor_texture (lw6sys_context_t * sys_context,
+		       lw6map_cursor_texture_t * cursor_texture)
 {
   int x, y;
   lw6sys_color_8_t fg_bg;
   lw6sys_color_8_t color;
 
-  if (lw6sys_log_get_console_state ())
+  if (lw6sys_log_get_console_state (sys_context))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("cursor_texture:"));
       for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE; ++y)
@@ -317,11 +326,12 @@ _print_cursor_texture (lw6map_cursor_texture_t * cursor_texture)
 	  for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE; ++x)
 	    {
 	      fg_bg =
-		lw6map_cursor_texture_layer_get (&
+		lw6map_cursor_texture_layer_get (sys_context, &
 						 (cursor_texture->fg_bg_layer),
 						 x, y);
 	      color =
-		lw6map_cursor_texture_layer_get (&
+		lw6map_cursor_texture_layer_get (sys_context,
+						 &
 						 (cursor_texture->color_layer),
 						 x, y);
 	      if (color.a < 128)
@@ -354,6 +364,8 @@ static void
 _test_builtin ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -361,7 +373,7 @@ _test_builtin ()
     char *repr = NULL;
     int has_alpha = 0;
 
-    level = lw6map_builtin_defaults ();
+    level = lw6map_builtin_defaults (sys_context);
     if (LW6SYS_TEST_ACK (level))
       {
 	repr = lw6map_repr (sys_context, level);
@@ -373,8 +385,8 @@ _test_builtin ()
 	      lw6map_texture_has_alpha (sys_context, &(level->texture));
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"),
 			has_alpha);
-	    _print_body (&level->body);
-	    _print_cursor_texture (&level->cursor_texture);
+	    _print_body (sys_context, &level->body);
+	    _print_cursor_texture (sys_context, &level->cursor_texture);
 	    LW6SYS_FREE (sys_context, repr);
 	  }
 	else
@@ -403,8 +415,8 @@ _test_builtin ()
 	      lw6map_texture_has_alpha (sys_context, &(level->texture));
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"),
 			has_alpha);
-	    _print_body (&level->body);
-	    _print_cursor_texture (&level->cursor_texture);
+	    _print_body (sys_context, &level->body);
+	    _print_cursor_texture (sys_context, &level->cursor_texture);
 	    LW6SYS_FREE (sys_context, repr);
 	  }
 	else
@@ -430,8 +442,8 @@ _test_builtin ()
 	      lw6map_texture_has_alpha (sys_context, &(level->texture));
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"),
 			has_alpha);
-	    _print_body (&level->body);
-	    _print_cursor_texture (&level->cursor_texture);
+	    _print_body (sys_context, &level->body);
+	    _print_cursor_texture (sys_context, &level->cursor_texture);
 	    LW6SYS_FREE (sys_context, repr);
 	  }
 	else
@@ -456,6 +468,8 @@ static void
 _test_dup ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -529,6 +543,8 @@ static void
 _test_exp ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -541,10 +557,11 @@ _test_exp ()
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_
 		    ("exp=%d highest_color=%d highest_weapon=%d unlocked_team_color=%d unlocked_weapon=%d"),
-		    i, lw6map_exp_get_highest_team_color_allowed (i),
-		    lw6map_exp_get_highest_weapon_allowed (i),
-		    lw6map_exp_get_unlocked_team_color (i),
-		    lw6map_exp_get_unlocked_weapon (i));
+		    i, lw6map_exp_get_highest_team_color_allowed (sys_context,
+								  i),
+		    lw6map_exp_get_highest_weapon_allowed (sys_context, i),
+		    lw6map_exp_get_unlocked_team_color (sys_context, i),
+		    lw6map_exp_get_unlocked_weapon (sys_context, i));
       }
     for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
       {
@@ -570,6 +587,8 @@ static void
 _test_hexa ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -627,8 +646,8 @@ _test_hexa ()
 		dup_level = lw6map_dup (sys_context, level, NULL);
 		if (LW6SYS_TEST_ACK (dup_level))
 		  {
-		    hexa_check = lw6map_to_hexa (dup_level);
-		    lw6map_free (dup_level);
+		    hexa_check = lw6map_to_hexa (sys_context, dup_level);
+		    lw6map_free (sys_context, dup_level);
 		    dup_level = NULL;
 		    if (LW6SYS_TEST_ACK (hexa_check))
 		      {
@@ -686,6 +705,8 @@ static void
 _test_param ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -693,7 +714,8 @@ _test_param ()
     lw6map_param_t param2;
     char *value = NULL;
 
-    param = (lw6map_param_t *) LW6SYS_CALLOC (sizeof (lw6map_param_t));
+    param =
+      (lw6map_param_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_param_t));
     if (LW6SYS_TEST_ACK (param))
       {
 	lw6map_param_zero (sys_context, param);
@@ -764,6 +786,8 @@ static void
 _test_rules ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -771,7 +795,8 @@ _test_rules ()
     int value;
     unsigned int checksum = 0;
 
-    rules = (lw6map_rules_t *) LW6SYS_CALLOC (sizeof (lw6map_rules_t));
+    rules =
+      (lw6map_rules_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_rules_t));
     if (LW6SYS_TEST_ACK (rules))
       {
 	lw6map_rules_zero (sys_context, rules);
@@ -832,18 +857,22 @@ static void
 _test_style ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
     lw6map_style_t *style;
     char *value;
 
-    style = (lw6map_style_t *) LW6SYS_CALLOC (sizeof (lw6map_style_t));
+    style =
+      (lw6map_style_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_style_t));
     if (LW6SYS_TEST_ACK (style))
       {
-	lw6map_style_zero (style);
-	lw6map_style_set (style, _TEST_STYLE_KEY, _TEST_STYLE_VALUE);
-	value = lw6map_style_get (style, _TEST_STYLE_KEY);
+	lw6map_style_zero (sys_context, style);
+	lw6map_style_set (sys_context, style, _TEST_STYLE_KEY,
+			  _TEST_STYLE_VALUE);
+	value = lw6map_style_get (sys_context, style, _TEST_STYLE_KEY);
 	if (LW6SYS_TEST_ACK (value))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -857,14 +886,15 @@ _test_style ()
 			_x_ ("can't find style key \"%s\""), _TEST_STYLE_KEY);
 	    ret = 0;
 	  }
-	if (!LW6SYS_TEST_ACK (lw6map_style_is_same (style, style)))
+	if (!LW6SYS_TEST_ACK
+	    (lw6map_style_is_same (sys_context, style, style)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			_x_ ("map style comparison failed"));
 	    ret = 0;
 	  }
-	lw6map_style_clear (style);
-	LW6SYS_FREE (style);
+	lw6map_style_clear (sys_context, style);
+	LW6SYS_FREE (sys_context, style);
       }
     else
       {
@@ -879,13 +909,16 @@ static void
 _test_teams ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
     lw6map_teams_t *teams;
     char *value;
 
-    teams = (lw6map_teams_t *) LW6SYS_CALLOC (sizeof (lw6map_teams_t));
+    teams =
+      (lw6map_teams_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_teams_t));
     if (LW6SYS_TEST_ACK (teams))
       {
 	lw6map_teams_zero (sys_context, teams);
@@ -928,6 +961,8 @@ static void
 _test_local_info ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -952,6 +987,8 @@ static void
 _test_meta_layer ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -960,24 +997,24 @@ _test_meta_layer ()
     memset (&meta_layer, 0, sizeof (lw6map_meta_layer_t));
     lw6map_meta_layer_clear (sys_context, &meta_layer);
     if (LW6SYS_TEST_ACK (lw6map_meta_layer_builtin_custom
-			 (&meta_layer, _TEST_MAP_WIDTH, _TEST_MAP_WIDTH, 0,
-			  _TEST_MAP_NOISE_PERCENT, 0)))
+			 (sys_context, &meta_layer, _TEST_MAP_WIDTH,
+			  _TEST_MAP_WIDTH, 0, _TEST_MAP_NOISE_PERCENT, 0)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("custom boolean meta-layer initialized"));
-	_print_meta_layer (&meta_layer, "boolean");
+	_print_meta_layer (sys_context, &meta_layer, "boolean");
       }
     else
       {
 	ret = 0;
       }
     if (LW6SYS_TEST_ACK (lw6map_meta_layer_builtin_custom
-			 (&meta_layer, _TEST_MAP_WIDTH, _TEST_MAP_WIDTH, 1,
-			  _TEST_MAP_NOISE_PERCENT, 0)))
+			 (sys_context, &meta_layer, _TEST_MAP_WIDTH,
+			  _TEST_MAP_WIDTH, 1, _TEST_MAP_NOISE_PERCENT, 0)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("custom boolean meta-layer initialized"));
-	_print_meta_layer (&meta_layer, "analog");
+	_print_meta_layer (sys_context, &meta_layer, "analog");
       }
     else
       {
@@ -993,6 +1030,8 @@ static void
 _test_weapon ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -1002,10 +1041,10 @@ _test_weapon ()
 
     for (i = 0; i <= LW6MAP_MAX_WEAPON_ID; ++i)
       {
-	key = lw6map_weapon_index_to_key (i);
+	key = lw6map_weapon_index_to_key (sys_context, i);
 	if (LW6SYS_TEST_ACK (key))
 	  {
-	    label = lw6map_weapon_index_to_label (i);
+	    label = lw6map_weapon_index_to_label (sys_context, i);
 	    if (LW6SYS_TEST_ACK (label))
 	      {
 		j = lw6map_weapon_key_to_index (sys_context, key);
@@ -1039,22 +1078,29 @@ _test_weapon ()
 static int
 _setup_init ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 	      _x_ ("init libmap CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 	      _x_ ("quit libmap CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 /**
  * lw6map_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libmap module.
@@ -1062,10 +1108,12 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6map_test_register (sys_context, int mode)
+lw6map_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -1107,6 +1155,7 @@ lw6map_test_register (sys_context, int mode)
 /**
  * lw6map_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @map module test suite, testing most (if not all...)
@@ -1115,11 +1164,13 @@ lw6map_test_register (sys_context, int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6map_test_run (sys_context, int mode)
+lw6map_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;

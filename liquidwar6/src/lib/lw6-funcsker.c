@@ -360,7 +360,7 @@ _scm_lw6ker_add_cursor (SCM game_state, SCM node_id, SCM cursor_id,
       if (c_team_color_str)
 	{
 	  c_team_color_int =
-	    lw6map_team_color_key_to_index (c_team_color_str);
+	    lw6map_team_color_key_to_index (sys_context, c_team_color_str);
 	  LW6SYS_FREE (sys_context, c_team_color_str);
 	}
 
@@ -509,7 +509,8 @@ _scm_lw6ker_get_cursor (SCM game_state, SCM cursor_id)
 					    &c_cursor, c_cursor_id_int))
 	    {
 	      c_team_color_str =
-		lw6map_team_color_index_to_key (c_cursor.team_color);
+		lw6map_team_color_index_to_key (sys_context,
+						c_cursor.team_color);
 	      if (c_team_color_str)
 		{
 		  c_node_id_str =

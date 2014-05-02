@@ -31,6 +31,7 @@
 /**
  * lw6map_dup:
  *
+ * @sys_context: global system context
  * @source: the map to copy
  * @progress: to show advancement
  *
@@ -40,7 +41,7 @@
  * Return value: a newly allocated map, may be NULL.
  */
 lw6map_level_t *
-lw6map_dup (sys_context, lw6map_level_t * source,
+lw6map_dup (lw6sys_context_t * sys_context, lw6map_level_t * source,
 	    lw6sys_progress_t * progress)
 {
   lw6map_level_t *ret = NULL;
@@ -53,7 +54,7 @@ lw6map_dup (sys_context, lw6map_level_t * source,
   lw6sys_progress_begin (sys_context, progress);
   progress_n = source->body.shape.d + 3;
 
-  ret = lw6map_new ();
+  ret = lw6map_new (sys_context);
   if (ret)
     {
       id = ret->id;
@@ -89,25 +90,28 @@ lw6map_dup (sys_context, lw6map_level_t * source,
       lw6map_param_copy (sys_context, &(ret->param), &(source->param));
       if (source->metadata.title)
 	{
-	  ret->metadata.title = lw6sys_str_copy (source->metadata.title);
+	  ret->metadata.title =
+	    lw6sys_str_copy (sys_context, source->metadata.title);
 	}
       if (source->metadata.author)
 	{
-	  ret->metadata.author = lw6sys_str_copy (source->metadata.author);
+	  ret->metadata.author =
+	    lw6sys_str_copy (sys_context, source->metadata.author);
 	}
       if (source->metadata.description)
 	{
 	  ret->metadata.description =
-	    lw6sys_str_copy (source->metadata.description);
+	    lw6sys_str_copy (sys_context, source->metadata.description);
 	}
       if (source->metadata.license)
 	{
-	  ret->metadata.license = lw6sys_str_copy (source->metadata.license);
+	  ret->metadata.license =
+	    lw6sys_str_copy (sys_context, source->metadata.license);
 	}
       if (source->local_info.music_dir)
 	{
 	  ret->local_info.music_dir =
-	    lw6sys_str_copy (source->local_info.music_dir);
+	    lw6sys_str_copy (sys_context, source->local_info.music_dir);
 	}
       lw6sys_progress_update (sys_context, progress, 0, progress_n,
 			      ++progress_i);
@@ -116,7 +120,7 @@ lw6map_dup (sys_context, lw6map_level_t * source,
 	  size =
 	    source->body.layers[layer].shape.w *
 	    source->body.layers[layer].shape.h * sizeof (u_int8_t);
-	  ret->body.layers[layer].data = LW6SYS_MALLOC (size);
+	  ret->body.layers[layer].data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.layers[layer].data)
 	    {
 	      memcpy (ret->body.layers[layer].data,
@@ -136,7 +140,7 @@ lw6map_dup (sys_context, lw6map_level_t * source,
 	  size =
 	    source->body.glue.shape.w *
 	    source->body.glue.shape.h * sizeof (u_int8_t);
-	  ret->body.glue.data = LW6SYS_MALLOC (size);
+	  ret->body.glue.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.glue.data)
 	    {
 	      memcpy (ret->body.glue.data, source->body.glue.data, size);
@@ -155,7 +159,7 @@ lw6map_dup (sys_context, lw6map_level_t * source,
 	  size =
 	    source->body.boost.shape.w *
 	    source->body.boost.shape.h * sizeof (u_int8_t);
-	  ret->body.boost.data = LW6SYS_MALLOC (size);
+	  ret->body.boost.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.boost.data)
 	    {
 	      memcpy (ret->body.boost.data, source->body.boost.data, size);
@@ -174,7 +178,7 @@ lw6map_dup (sys_context, lw6map_level_t * source,
 	  size =
 	    source->body.danger.shape.w *
 	    source->body.danger.shape.h * sizeof (u_int8_t);
-	  ret->body.danger.data = LW6SYS_MALLOC (size);
+	  ret->body.danger.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.danger.data)
 	    {
 	      memcpy (ret->body.danger.data, source->body.danger.data, size);
@@ -193,7 +197,7 @@ lw6map_dup (sys_context, lw6map_level_t * source,
 	  size =
 	    source->body.medicine.shape.w *
 	    source->body.medicine.shape.h * sizeof (u_int8_t);
-	  ret->body.medicine.data = LW6SYS_MALLOC (size);
+	  ret->body.medicine.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.medicine.data)
 	    {
 	      memcpy (ret->body.medicine.data, source->body.medicine.data,
@@ -213,7 +217,7 @@ lw6map_dup (sys_context, lw6map_level_t * source,
 	  size =
 	    source->body.one_way_north.shape.w *
 	    source->body.one_way_north.shape.h * sizeof (u_int8_t);
-	  ret->body.one_way_north.data = LW6SYS_MALLOC (size);
+	  ret->body.one_way_north.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.one_way_north.data)
 	    {
 	      memcpy (ret->body.one_way_north.data,
@@ -233,7 +237,7 @@ lw6map_dup (sys_context, lw6map_level_t * source,
 	  size =
 	    source->body.one_way_east.shape.w *
 	    source->body.one_way_east.shape.h * sizeof (u_int8_t);
-	  ret->body.one_way_east.data = LW6SYS_MALLOC (size);
+	  ret->body.one_way_east.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.one_way_east.data)
 	    {
 	      memcpy (ret->body.one_way_east.data,
@@ -253,7 +257,7 @@ lw6map_dup (sys_context, lw6map_level_t * source,
 	  size =
 	    source->body.one_way_south.shape.w *
 	    source->body.one_way_south.shape.h * sizeof (u_int8_t);
-	  ret->body.one_way_south.data = LW6SYS_MALLOC (size);
+	  ret->body.one_way_south.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.one_way_south.data)
 	    {
 	      memcpy (ret->body.one_way_south.data,
@@ -273,7 +277,7 @@ lw6map_dup (sys_context, lw6map_level_t * source,
 	  size =
 	    source->body.one_way_west.shape.w *
 	    source->body.one_way_west.shape.h * sizeof (u_int8_t);
-	  ret->body.one_way_west.data = LW6SYS_MALLOC (size);
+	  ret->body.one_way_west.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.one_way_west.data)
 	    {
 	      memcpy (ret->body.one_way_west.data,
@@ -292,7 +296,7 @@ lw6map_dup (sys_context, lw6map_level_t * source,
 	{
 	  size =
 	    source->texture.w * source->texture.h * sizeof (lw6sys_color_8_t);
-	  ret->texture.data = LW6SYS_MALLOC (size);
+	  ret->texture.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->texture.data)
 	    {
 	      memcpy (ret->texture.data, source->texture.data, size);

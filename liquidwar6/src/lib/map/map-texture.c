@@ -31,6 +31,7 @@
 /**
  * lw6map_texture_from_body
  *
+ * @sys_context: global system context
  * @texture: texture to load (out param)
  * @body: body to pick data from
  * @color: colors to use
@@ -43,7 +44,8 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6map_texture_from_body (sys_context, lw6map_texture_t * texture,
+lw6map_texture_from_body (lw6sys_context_t * sys_context,
+			  lw6map_texture_t * texture,
 			  const lw6map_body_t * body,
 			  const lw6map_color_couple_t * color)
 {
@@ -87,6 +89,7 @@ lw6map_texture_from_body (sys_context, lw6map_texture_t * texture,
 /**
  * lw6map_texture_clear
  *
+ * @sys_context: global system context
  * @texture: data to clear
  *
  * Clears a texture object, expects it to be in a consitent
@@ -95,7 +98,8 @@ lw6map_texture_from_body (sys_context, lw6map_texture_t * texture,
  * Return value: none.
  */
 void
-lw6map_texture_clear (sys_context, lw6map_texture_t * texture)
+lw6map_texture_clear (lw6sys_context_t * sys_context,
+		      lw6map_texture_t * texture)
 {
   if (texture->data)
     {
@@ -108,6 +112,7 @@ lw6map_texture_clear (sys_context, lw6map_texture_t * texture)
 /**
  * lw6map_texture_coord_from_body
  *
+ * @sys_context: global system context
  * @level: map to work on
  * @texture_x: texture x coordinate (out param)
  * @texture_y: texture y coordinate (out param)
@@ -120,9 +125,9 @@ lw6map_texture_clear (sys_context, lw6map_texture_t * texture)
  * Return value: 1 on success, 0 if failure.
  */
 int
-lw6map_texture_coord_from_body (sys_context, const lw6map_level_t * level,
-				int *texture_x, int *texture_y, int body_x,
-				int body_y)
+lw6map_texture_coord_from_body (lw6sys_context_t * sys_context,
+				const lw6map_level_t * level, int *texture_x,
+				int *texture_y, int body_x, int body_y)
 {
   int ret = 0;
 
@@ -148,6 +153,7 @@ lw6map_texture_coord_from_body (sys_context, const lw6map_level_t * level,
 /**
  * lw6map_texture_get_with_body_coord
  *
+ * @sys_context: global system context
  * @level: map to use
  * @body_x: x coordinate in body space
  * @body_y: y coordinate in body space
@@ -158,15 +164,16 @@ lw6map_texture_coord_from_body (sys_context, const lw6map_level_t * level,
  * Return value: RGBA 8-bit color.
  */
 lw6sys_color_8_t
-lw6map_texture_get_with_body_coord (sys_context, const lw6map_level_t * level,
-				    int body_x, int body_y)
+lw6map_texture_get_with_body_coord (lw6sys_context_t * sys_context,
+				    const lw6map_level_t * level, int body_x,
+				    int body_y)
 {
   lw6sys_color_8_t ret = LW6SYS_COLOR_8_BLACK;
   int texture_x;
   int texture_y;
 
   if (lw6map_texture_coord_from_body
-      (level, &texture_x, &texture_y, body_x, body_y))
+      (sys_context, level, &texture_x, &texture_y, body_x, body_y))
     {
       ret = lw6map_texture_get (&level->texture, texture_x, texture_y);
     }
@@ -177,6 +184,7 @@ lw6map_texture_get_with_body_coord (sys_context, const lw6map_level_t * level,
 /**
  * lw6map_texture_has_alpha
  *
+ * @sys_context: global system context
  * @texture: texture object to test
  *
  * Finds out if the texture is fully opaque or not. If it has
@@ -189,7 +197,8 @@ lw6map_texture_get_with_body_coord (sys_context, const lw6map_level_t * level,
  * Return value: 1 if has used alpha layer, 0 if opaque.
  */
 int
-lw6map_texture_has_alpha (sys_context, lw6map_texture_t * texture)
+lw6map_texture_has_alpha (lw6sys_context_t * sys_context,
+			  lw6map_texture_t * texture)
 {
   int ret = 0;
   int x = 0;

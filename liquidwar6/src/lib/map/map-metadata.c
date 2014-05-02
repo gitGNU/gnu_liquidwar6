@@ -31,6 +31,7 @@
 /**
  * lw6map_metadata_defaults
  *
+ * @sys_context: global system context
  * @metadata: struct to set to defaults
  *
  * Sets the metadata struct to defaults, this does not set
@@ -40,7 +41,8 @@
  * Return value: none.
  */
 void
-lw6map_metadata_defaults (sys_context, lw6map_metadata_t * metadata)
+lw6map_metadata_defaults (lw6sys_context_t * sys_context,
+			  lw6map_metadata_t * metadata)
 {
   lw6map_metadata_clear (sys_context, metadata);
 
@@ -66,6 +68,7 @@ lw6map_metadata_defaults (sys_context, lw6map_metadata_t * metadata)
 /**
  * lw6map_metadata_clear
  *
+ * @sys_context: global system context
  * @metadata: struct to clear
  *
  * Clears a metadata, will expect it to be in a consistent
@@ -75,7 +78,8 @@ lw6map_metadata_defaults (sys_context, lw6map_metadata_t * metadata)
  * Return value: none.
  */
 void
-lw6map_metadata_clear (sys_context, lw6map_metadata_t * metadata)
+lw6map_metadata_clear (lw6sys_context_t * sys_context,
+		       lw6map_metadata_t * metadata)
 {
   if (metadata)
     {
@@ -107,6 +111,7 @@ lw6map_metadata_clear (sys_context, lw6map_metadata_t * metadata)
 /**
  * lw6map_metadata_is_same
  *
+ * @sys_context: global system context
  * @metadata_a: first item to compare
  * @metadata_b: second item to compare
  *
@@ -115,7 +120,8 @@ lw6map_metadata_clear (sys_context, lw6map_metadata_t * metadata)
  * Return value: 1 if same, 0 if different.
  */
 int
-lw6map_metadata_is_same (sys_context, const lw6map_metadata_t * metadata_a,
+lw6map_metadata_is_same (lw6sys_context_t * sys_context,
+			 const lw6map_metadata_t * metadata_a,
 			 const lw6map_metadata_t * metadata_b)
 {
   int ret = 1;

@@ -446,8 +446,8 @@ mod_gl1_utils_call_resize_callback (mod_gl1_utils_context_t * utils_context)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_ ("calling resize callback"));
-      utils_context->
-	sdl_context.resize_callback (&
-				     (utils_context->sdl_context.video_mode));
+      utils_context->sdl_context.resize_callback (&
+						  (utils_context->
+						   sdl_context.video_mode));
     }
 }

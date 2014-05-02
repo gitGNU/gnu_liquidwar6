@@ -29,6 +29,7 @@
 /**
  * lw6map_weapon_index_to_key
  *
+ * @sys_context: global system context
  * @index: index of the weapon between 0 & 19
  *
  * Transforms a team weapon index into its readable string form,
@@ -37,7 +38,7 @@
  * Return value: a string, must *not* be freed.
  */
 char *
-lw6map_weapon_index_to_key (sys_context, int index)
+lw6map_weapon_index_to_key (lw6sys_context_t * sys_context, int index)
 {
   char *ret = LW6DEF_BERZERK;
 
@@ -114,6 +115,7 @@ lw6map_weapon_index_to_key (sys_context, int index)
 /**
  * lw6map_weapon_key_to_index
  *
+ * @sys_context: global system context
  * @key: key of the weapon, for instance "red"
  *
  * The index of the weapon, between 0 & 19
@@ -121,7 +123,7 @@ lw6map_weapon_index_to_key (sys_context, int index)
  * Return value: an integer.
  */
 int
-lw6map_weapon_key_to_index (sys_context, const char *key)
+lw6map_weapon_key_to_index (lw6sys_context_t * sys_context, const char *key)
 {
   int ret = LW6MAP_WEAPON_NONE;
 
@@ -217,6 +219,7 @@ lw6map_weapon_key_to_index (sys_context, const char *key)
 /**
  * lw6map_weapon_index_to_label
  *
+ * @sys_context: global system context
  * @index: index of the weapon between 0 & 19
  *
  * Transforms a team weapon index into its readable string form,
@@ -225,7 +228,7 @@ lw6map_weapon_key_to_index (sys_context, const char *key)
  * Return value: a string, must *not* be freed.
  */
 char *
-lw6map_weapon_index_to_label (sys_context, int index)
+lw6map_weapon_index_to_label (lw6sys_context_t * sys_context, int index)
 {
   char *ret = LW6SYS_STR_EMPTY;
 

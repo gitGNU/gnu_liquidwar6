@@ -121,7 +121,7 @@ mod_gl1_utils_bitmap_array_init_from_surface (mod_gl1_utils_context_t *
        border_size))
     {
       ret = 1;
-      lw6map_rules_defaults (&rules);
+      lw6map_rules_defaults (sys_context, &rules);
       rules.x_polarity = x_polarity;
       rules.y_polarity = y_polarity;
       shape.w = surface->w;
@@ -152,8 +152,8 @@ mod_gl1_utils_bitmap_array_init_from_surface (mod_gl1_utils_context_t *
 			    {
 			      x_get = x;
 			      y_get = y;
-			      lw6map_coords_fix_xy (&rules, &shape, &x_get,
-						    &y_get);
+			      lw6map_coords_fix_xy (sys_context, &rules,
+						    &shape, &x_get, &y_get);
 			      x_put = x - rect.x1;
 			      y_put = y - rect.y1;
 			      mod_gl1_utils_putpixel (sub_surface, x_put,

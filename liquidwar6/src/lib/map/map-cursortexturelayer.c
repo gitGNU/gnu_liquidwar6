@@ -31,6 +31,7 @@
 /**
  * lw6map_cursor_texture_layer_set
  *
+ * @sys_context: global system context
  * @cursor_texture_layer: the cursor texture_layer to change
  * @x: x coord
  * @y: y coord
@@ -41,7 +42,8 @@
  * Return value: none
  */
 void
-lw6map_cursor_texture_layer_set (sys_context, lw6map_cursor_texture_layer_t *
+lw6map_cursor_texture_layer_set (lw6sys_context_t * sys_context,
+				 lw6map_cursor_texture_layer_t *
 				 cursor_texture_layer, int x, int y,
 				 lw6sys_color_8_t color)
 {
@@ -51,6 +53,7 @@ lw6map_cursor_texture_layer_set (sys_context, lw6map_cursor_texture_layer_t *
 /**
  * lw6map_cursor_texture_layer_get
  *
+ * @sys_context: global system context
  * @cursor_texture_layer: the cursor texture_layer to query
  * @x: x coord
  * @y: y coord
@@ -60,7 +63,8 @@ lw6map_cursor_texture_layer_set (sys_context, lw6map_cursor_texture_layer_t *
  * Return value: the color
  */
 lw6sys_color_8_t
-lw6map_cursor_texture_layer_get (const lw6map_cursor_texture_layer_t *
+lw6map_cursor_texture_layer_get (lw6sys_context_t * sys_context,
+				 const lw6map_cursor_texture_layer_t *
 				 cursor_texture_layer, int x, int y)
 {
   return cursor_texture_layer->data[y][x];

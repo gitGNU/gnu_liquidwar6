@@ -29,6 +29,7 @@
 /**
  * lw6map_local_info_set_music_dir
  *
+ * @sys_context: global system context
  * @local_info: the structure to modify
  * @music_dir: the new music_dir value
  *
@@ -38,7 +39,7 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6map_local_info_set_music_dir (sys_context,
+lw6map_local_info_set_music_dir (lw6sys_context_t * sys_context,
 				 lw6map_local_info_t * local_info,
 				 const char *music_dir)
 {
@@ -51,7 +52,7 @@ lw6map_local_info_set_music_dir (sys_context,
     }
   if (music_dir)
     {
-      local_info->music_dir = lw6sys_str_copy (music_dir);
+      local_info->music_dir = lw6sys_str_copy (sys_context, music_dir);
     }
   ret = (local_info->music_dir != NULL);
 
@@ -61,6 +62,7 @@ lw6map_local_info_set_music_dir (sys_context,
 /**
  * lw6map_local_info_clear
  *
+ * @sys_context: global system context
  * @local_info: the structure to clear
  *
  * Clears the local_info structure, before destroying a level for instance.
@@ -68,7 +70,8 @@ lw6map_local_info_set_music_dir (sys_context,
  * Return value: none
  */
 void
-lw6map_local_info_clear (sys_context, lw6map_local_info_t * local_info)
+lw6map_local_info_clear (lw6sys_context_t * sys_context,
+			 lw6map_local_info_t * local_info)
 {
   if (local_info->music_dir)
     {

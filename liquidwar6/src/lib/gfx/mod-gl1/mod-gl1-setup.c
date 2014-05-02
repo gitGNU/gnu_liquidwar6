@@ -358,7 +358,7 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
 			  (&(gl1_context->utils_context)))
 			{
 			  memset (&map_style, 0, sizeof (lw6map_style_t));
-			  lw6map_style_defaults (&map_style);
+			  lw6map_style_defaults (sys_context, &map_style);
 			  gl1_context->splash_context =
 			    mod_gl1_splash_init (&
 						 (gl1_context->utils_context));
@@ -387,7 +387,7 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
 			  mod_gl1_utils_timer_set_bitmap_refresh (&
 								  (gl1_context->
 								   utils_context));
-			  lw6map_style_clear (&map_style);
+			  lw6map_style_clear (sys_context, &map_style);
 			}
 		      else
 			{

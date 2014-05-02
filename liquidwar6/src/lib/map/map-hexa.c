@@ -27,8 +27,9 @@
 #include "map.h"
 
 static int
-push_metadata (lw6sys_hexa_serializer_t * hexa_serializer,
-	       const lw6map_metadata_t * metadata)
+_push_metadata (lw6sys_context_t * sys_context,
+		lw6sys_hexa_serializer_t * hexa_serializer,
+		const lw6map_metadata_t * metadata)
 {
   int ret = 1;
 
@@ -52,8 +53,9 @@ push_metadata (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
-push_layer (lw6sys_hexa_serializer_t * hexa_serializer,
-	    const lw6map_layer_t * layer)
+_push_layer (lw6sys_context_t * sys_context,
+	     lw6sys_hexa_serializer_t * hexa_serializer,
+	     const lw6map_layer_t * layer)
 {
   int ret = 1;
   int x, y;
@@ -76,8 +78,9 @@ push_layer (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
-push_meta_layer (lw6sys_hexa_serializer_t * hexa_serializer,
-		 const lw6map_meta_layer_t * meta_layer)
+_push_meta_layer (lw6sys_context_t * sys_context,
+		  lw6sys_hexa_serializer_t * hexa_serializer,
+		  const lw6map_meta_layer_t * meta_layer)
 {
   int ret = 1;
   int x, y;
@@ -92,7 +95,8 @@ push_meta_layer (lw6sys_hexa_serializer_t * hexa_serializer,
 	  ret = ret
 	    && lw6sys_hexa_serializer_push_int8 (sys_context, hexa_serializer,
 						 lw6map_meta_layer_get
-						 (meta_layer, x, y));
+						 (sys_context, meta_layer, x,
+						  y));
 	}
     }
 
@@ -100,8 +104,9 @@ push_meta_layer (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
-push_body (lw6sys_hexa_serializer_t * hexa_serializer,
-	   const lw6map_body_t * body)
+_push_body (lw6sys_context_t * sys_context,
+	    lw6sys_hexa_serializer_t * hexa_serializer,
+	    const lw6map_body_t * body)
 {
   int ret = 1;
   int layer;
@@ -114,23 +119,34 @@ push_body (lw6sys_hexa_serializer_t * hexa_serializer,
 					body->shape);
   for (layer = 0; layer < body->shape.d && ret; ++layer)
     {
-      ret = ret && push_layer (hexa_serializer, &(body->layers[layer]));
+      ret = ret
+	&& _push_layer (sys_context, hexa_serializer, &(body->layers[layer]));
     }
-  ret = ret && push_meta_layer (hexa_serializer, &(body->glue));
-  ret = ret && push_meta_layer (hexa_serializer, &(body->boost));
-  ret = ret && push_meta_layer (hexa_serializer, &(body->danger));
-  ret = ret && push_meta_layer (hexa_serializer, &(body->medicine));
-  ret = ret && push_meta_layer (hexa_serializer, &(body->one_way_north));
-  ret = ret && push_meta_layer (hexa_serializer, &(body->one_way_east));
-  ret = ret && push_meta_layer (hexa_serializer, &(body->one_way_south));
-  ret = ret && push_meta_layer (hexa_serializer, &(body->one_way_west));
+  ret = ret && _push_meta_layer (sys_context, hexa_serializer, &(body->glue));
+  ret = ret
+    && _push_meta_layer (sys_context, hexa_serializer, &(body->boost));
+  ret = ret
+    && _push_meta_layer (sys_context, hexa_serializer, &(body->danger));
+  ret = ret
+    && _push_meta_layer (sys_context, hexa_serializer, &(body->medicine));
+  ret = ret
+    && _push_meta_layer (sys_context, hexa_serializer,
+			 &(body->one_way_north));
+  ret = ret
+    && _push_meta_layer (sys_context, hexa_serializer, &(body->one_way_east));
+  ret = ret
+    && _push_meta_layer (sys_context, hexa_serializer,
+			 &(body->one_way_south));
+  ret = ret
+    && _push_meta_layer (sys_context, hexa_serializer, &(body->one_way_west));
 
   return ret;
 }
 
 static int
-push_texture (lw6sys_hexa_serializer_t * hexa_serializer,
-	      const lw6map_texture_t * texture)
+_push_texture (lw6sys_context_t * sys_context,
+	       lw6sys_hexa_serializer_t * hexa_serializer,
+	       const lw6map_texture_t * texture)
 {
   int ret = 1;
   int x, y;
@@ -174,8 +190,9 @@ push_texture (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
-push_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
-		     const lw6map_cursor_texture_t * cursor_texture)
+_push_cursor_texture (lw6sys_context_t * sys_context,
+		      lw6sys_hexa_serializer_t * hexa_serializer,
+		      const lw6map_cursor_texture_t * cursor_texture)
 {
   int ret = 1;
   int x, y;
@@ -188,7 +205,7 @@ push_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
 	    && lw6sys_hexa_serializer_push_color (sys_context,
 						  hexa_serializer,
 						  lw6map_cursor_texture_layer_get
-						  (&
+						  (sys_context, &
 						   (cursor_texture->fg_bg_layer),
 						   x, y));
 	}
@@ -201,7 +218,7 @@ push_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
 	    && lw6sys_hexa_serializer_push_color (sys_context,
 						  hexa_serializer,
 						  lw6map_cursor_texture_layer_get
-						  (&
+						  (sys_context, &
 						   (cursor_texture->color_layer),
 						   x, y));
 	}
@@ -211,8 +228,9 @@ push_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
-push_param (lw6sys_hexa_serializer_t * hexa_serializer,
-	    const lw6map_param_t * param)
+_push_param (lw6sys_context_t * sys_context,
+	     lw6sys_hexa_serializer_t * hexa_serializer,
+	     const lw6map_param_t * param)
 {
   int ret = 1;
   int i, value;
@@ -406,6 +424,7 @@ push_param (lw6sys_hexa_serializer_t * hexa_serializer,
 /**
  * lw6map_to_hexa
  *
+ * @sys_context: global system context
  * @map: the map to convert
  *
  * Converts a map to something that is later readable by @lw6map_from_hexa
@@ -414,7 +433,7 @@ push_param (lw6sys_hexa_serializer_t * hexa_serializer,
  * Return value: a newly allocated pointer, NULL if conversion failed.
  */
 char *
-lw6map_to_hexa (sys_context, const lw6map_level_t * level)
+lw6map_to_hexa (lw6sys_context_t * sys_context, const lw6map_level_t * level)
 {
   char *ret = NULL;
   lw6sys_hexa_serializer_t *hexa_serializer = NULL;
@@ -423,12 +442,15 @@ lw6map_to_hexa (sys_context, const lw6map_level_t * level)
   hexa_serializer = lw6sys_hexa_serializer_new (sys_context, NULL);
   if (hexa_serializer)
     {
-      ok = ok && push_metadata (hexa_serializer, &(level->metadata));
-      ok = ok && push_body (hexa_serializer, &(level->body));
-      ok = ok && push_texture (hexa_serializer, &(level->texture));
       ok = ok
-	&& push_cursor_texture (hexa_serializer, &(level->cursor_texture));
-      ok = ok && push_param (hexa_serializer, &(level->param));
+	&& _push_metadata (sys_context, hexa_serializer, &(level->metadata));
+      ok = ok && _push_body (sys_context, hexa_serializer, &(level->body));
+      ok = ok
+	&& _push_texture (sys_context, hexa_serializer, &(level->texture));
+      ok = ok
+	&& _push_cursor_texture (sys_context, hexa_serializer,
+				 &(level->cursor_texture));
+      ok = ok && _push_param (sys_context, hexa_serializer, &(level->param));
       if (ok)
 	{
 	  ret =
@@ -441,8 +463,9 @@ lw6map_to_hexa (sys_context, const lw6map_level_t * level)
 }
 
 static int
-pop_metadata (lw6sys_hexa_serializer_t * hexa_serializer,
-	      lw6map_metadata_t * metadata)
+_pop_metadata (lw6sys_context_t * sys_context,
+	       lw6sys_hexa_serializer_t * hexa_serializer,
+	       lw6map_metadata_t * metadata)
 {
   int ret = 1;
 
@@ -466,8 +489,9 @@ pop_metadata (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
-pop_layer (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_layer_t * layer,
-	   lw6sys_whd_t * shape)
+_pop_layer (lw6sys_context_t * sys_context,
+	    lw6sys_hexa_serializer_t * hexa_serializer,
+	    lw6map_layer_t * layer, lw6sys_whd_t * shape)
 {
   int ret = 1;
   int x, y;
@@ -511,8 +535,9 @@ pop_layer (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_layer_t * layer,
 }
 
 static int
-pop_meta_layer (lw6sys_hexa_serializer_t * hexa_serializer,
-		lw6map_meta_layer_t * meta_layer, lw6sys_whd_t * shape)
+_pop_meta_layer (lw6sys_context_t * sys_context,
+		 lw6sys_hexa_serializer_t * hexa_serializer,
+		 lw6map_meta_layer_t * meta_layer, lw6sys_whd_t * shape)
 {
   int ret = 1;
   int x, y;
@@ -564,7 +589,8 @@ pop_meta_layer (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
-pop_body (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_body_t * body)
+_pop_body (lw6sys_context_t * sys_context,
+	   lw6sys_hexa_serializer_t * hexa_serializer, lw6map_body_t * body)
 {
   int ret = 1;
   int layer;
@@ -585,8 +611,8 @@ pop_body (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_body_t * body)
       for (layer = 0; layer < body->shape.d; ++layer)
 	{
 	  ret = ret
-	    && pop_layer (hexa_serializer, &(body->layers[layer]),
-			  &(body->shape));
+	    && _pop_layer (sys_context, hexa_serializer,
+			   &(body->layers[layer]), &(body->shape));
 	}
     }
   else
@@ -597,32 +623,37 @@ pop_body (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_body_t * body)
       ret = 0;
     }
   ret = ret
-    && pop_meta_layer (hexa_serializer, &(body->glue), &(body->shape));
+    && _pop_meta_layer (sys_context, hexa_serializer, &(body->glue),
+			&(body->shape));
   ret = ret
-    && pop_meta_layer (hexa_serializer, &(body->boost), &(body->shape));
+    && _pop_meta_layer (sys_context, hexa_serializer, &(body->boost),
+			&(body->shape));
   ret = ret
-    && pop_meta_layer (hexa_serializer, &(body->danger), &(body->shape));
+    && _pop_meta_layer (sys_context, hexa_serializer, &(body->danger),
+			&(body->shape));
   ret = ret
-    && pop_meta_layer (hexa_serializer, &(body->medicine), &(body->shape));
+    && _pop_meta_layer (sys_context, hexa_serializer, &(body->medicine),
+			&(body->shape));
   ret = ret
-    && pop_meta_layer (hexa_serializer, &(body->one_way_north),
-		       &(body->shape));
+    && _pop_meta_layer (sys_context, hexa_serializer, &(body->one_way_north),
+			&(body->shape));
   ret = ret
-    && pop_meta_layer (hexa_serializer, &(body->one_way_east),
-		       &(body->shape));
+    && _pop_meta_layer (sys_context, hexa_serializer, &(body->one_way_east),
+			&(body->shape));
   ret = ret
-    && pop_meta_layer (hexa_serializer, &(body->one_way_south),
-		       &(body->shape));
+    && _pop_meta_layer (sys_context, hexa_serializer, &(body->one_way_south),
+			&(body->shape));
   ret = ret
-    && pop_meta_layer (hexa_serializer, &(body->one_way_west),
-		       &(body->shape));
+    && _pop_meta_layer (sys_context, hexa_serializer, &(body->one_way_west),
+			&(body->shape));
 
   return ret;
 }
 
 static int
-pop_texture (lw6sys_hexa_serializer_t * hexa_serializer,
-	     lw6map_texture_t * texture)
+_pop_texture (lw6sys_context_t * sys_context,
+	      lw6sys_hexa_serializer_t * hexa_serializer,
+	      lw6map_texture_t * texture)
 {
   int ret = 1;
   int x, y;
@@ -691,8 +722,9 @@ pop_texture (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
-pop_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
-		    lw6map_cursor_texture_t * cursor_texture)
+_pop_cursor_texture (lw6sys_context_t * sys_context,
+		     lw6sys_hexa_serializer_t * hexa_serializer,
+		     lw6map_cursor_texture_t * cursor_texture)
 {
   int ret = 1;
   int x, y;
@@ -727,7 +759,9 @@ pop_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
-pop_param (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_param_t * param)
+_pop_param (lw6sys_context_t * sys_context,
+	    lw6sys_hexa_serializer_t * hexa_serializer,
+	    lw6map_param_t * param)
 {
   int ret = 1;
   int32_t value;
@@ -926,6 +960,7 @@ pop_param (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_param_t * param)
 /**
  * lw6map_from_hexa
  *
+ * @sys_context: global system context
  * @hexa: an hexadecimal ASCII string, created by @lw6map_to_hexa
  *
  * Constructs a map from an hexadecimal string generated
@@ -934,7 +969,7 @@ pop_param (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_param_t * param)
  * Return value: a new map, might be NULL if string isn't correct.
  */
 lw6map_level_t *
-lw6map_from_hexa (sys_context, const char *hexa)
+lw6map_from_hexa (lw6sys_context_t * sys_context, const char *hexa)
 {
   lw6map_level_t *level = NULL;
   lw6sys_hexa_serializer_t *hexa_serializer;
@@ -944,15 +979,20 @@ lw6map_from_hexa (sys_context, const char *hexa)
   if (hexa_serializer)
     {
       lw6sys_hexa_serializer_rewind (sys_context, hexa_serializer);
-      level = lw6map_new ();
+      level = lw6map_new (sys_context);
       if (level)
 	{
-	  ok = ok && pop_metadata (hexa_serializer, &(level->metadata));
-	  ok = ok && pop_body (hexa_serializer, &(level->body));
-	  ok = ok && pop_texture (hexa_serializer, &(level->texture));
 	  ok = ok
-	    && pop_cursor_texture (hexa_serializer, &(level->cursor_texture));
-	  ok = ok && pop_param (hexa_serializer, &(level->param));
+	    && _pop_metadata (sys_context, hexa_serializer,
+			      &(level->metadata));
+	  ok = ok && _pop_body (sys_context, hexa_serializer, &(level->body));
+	  ok = ok
+	    && _pop_texture (sys_context, hexa_serializer, &(level->texture));
+	  ok = ok
+	    && _pop_cursor_texture (sys_context, hexa_serializer,
+				    &(level->cursor_texture));
+	  ok = ok
+	    && _pop_param (sys_context, hexa_serializer, &(level->param));
 	  if (!lw6sys_hexa_serializer_eof (sys_context, hexa_serializer))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,

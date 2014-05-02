@@ -34,6 +34,7 @@
 /**
  * lw6map_exp_get_highest_team_color_allowed
  *
+ * @sys_context: global system context
  * @exp: the player experience
  *
  * Gets the highest color available for a given exp.
@@ -41,7 +42,8 @@
  * Return value: a color id
  */
 int
-lw6map_exp_get_highest_team_color_allowed (sys_context, int exp)
+lw6map_exp_get_highest_team_color_allowed (lw6sys_context_t * sys_context,
+					   int exp)
 {
   int ret = 0;
 
@@ -63,6 +65,7 @@ lw6map_exp_get_highest_team_color_allowed (sys_context, int exp)
 /**
  * lw6map_exp_get_highest_weapon_allowed
  *
+ * @sys_context: global system context
  * @exp: the player experience
  *
  * Gets the highest weapon available for a given exp.
@@ -70,7 +73,8 @@ lw6map_exp_get_highest_team_color_allowed (sys_context, int exp)
  * Return value: a weapon id
  */
 int
-lw6map_exp_get_highest_weapon_allowed (sys_context, int exp)
+lw6map_exp_get_highest_weapon_allowed (lw6sys_context_t * sys_context,
+				       int exp)
 {
   int ret = 0;
 
@@ -92,6 +96,7 @@ lw6map_exp_get_highest_weapon_allowed (sys_context, int exp)
 /**
  * lw6map_exp_is_team_color_allowed
  *
+ * @sys_context: global system context
  * @rules: set of rules to use
  * @team_color_id: color id to test
  *
@@ -100,7 +105,8 @@ lw6map_exp_get_highest_weapon_allowed (sys_context, int exp)
  * Return value: 1 if allowed, 0 if not.
  */
 int
-lw6map_exp_is_team_color_allowed (sys_context, const lw6map_rules_t * rules,
+lw6map_exp_is_team_color_allowed (lw6sys_context_t * sys_context,
+				  const lw6map_rules_t * rules,
 				  int team_color_id)
 {
   int ret = 0;
@@ -115,6 +121,7 @@ lw6map_exp_is_team_color_allowed (sys_context, const lw6map_rules_t * rules,
 /**
  * lw6map_exp_is_weapon_allowed
  *
+ * @sys_context: global system context
  * @rules: set of rules to use
  * @weapon_id: weapon id to test
  *
@@ -123,8 +130,8 @@ lw6map_exp_is_team_color_allowed (sys_context, const lw6map_rules_t * rules,
  * Return value: 1 if allowed, 0 if not.
  */
 int
-lw6map_exp_is_weapon_allowed (sys_context, const lw6map_rules_t * rules,
-			      int weapon_id)
+lw6map_exp_is_weapon_allowed (lw6sys_context_t * sys_context,
+			      const lw6map_rules_t * rules, int weapon_id)
 {
   int ret = 0;
 
@@ -138,6 +145,7 @@ lw6map_exp_is_weapon_allowed (sys_context, const lw6map_rules_t * rules,
 /**
  * lw6map_exp_get_unlocked_team_color
  *
+ * @sys_context: global system context
  * @exp: exp to test
  *
  * Get the unlocked team color for a given exp, if applyable.
@@ -145,7 +153,7 @@ lw6map_exp_is_weapon_allowed (sys_context, const lw6map_rules_t * rules,
  * Return value: -1 if nothing unlocked, else the team color
  */
 int
-lw6map_exp_get_unlocked_team_color (sys_context, int exp)
+lw6map_exp_get_unlocked_team_color (lw6sys_context_t * sys_context, int exp)
 {
   int ret = LW6MAP_TEAM_COLOR_INVALID;
   int i, before, now;
@@ -167,6 +175,7 @@ lw6map_exp_get_unlocked_team_color (sys_context, int exp)
 /**
  * lw6map_exp_get_unlocked_weapon
  *
+ * @sys_context: global system context
  * @exp: exp to test
  *
  * Get the unlocked primary weapon for a given exp, if applyable.
@@ -174,7 +183,7 @@ lw6map_exp_get_unlocked_team_color (sys_context, int exp)
  * Return value: -1 if nothing unlocked, else the weapon id
  */
 int
-lw6map_exp_get_unlocked_weapon (sys_context, int exp)
+lw6map_exp_get_unlocked_weapon (lw6sys_context_t * sys_context, int exp)
 {
   int ret = LW6MAP_WEAPON_NONE;
   int i, before, now;

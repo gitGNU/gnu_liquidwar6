@@ -29,6 +29,7 @@
 /**
  * lw6map_meta_layer_set
  *
+ * @sys_context: global system context
  * @meta_layer: the meta_layer structure
  * @x: x coord
  * @y: y coord
@@ -39,8 +40,9 @@
  * Return value: none
  */
 void
-lw6map_meta_layer_set (sys_context, lw6map_meta_layer_t * meta_layer, int x,
-		       int y, u_int8_t value)
+lw6map_meta_layer_set (lw6sys_context_t * sys_context,
+		       lw6map_meta_layer_t * meta_layer, int x, int y,
+		       u_int8_t value)
 {
   if (meta_layer->data)
     {
@@ -51,6 +53,7 @@ lw6map_meta_layer_set (sys_context, lw6map_meta_layer_t * meta_layer, int x,
 /**
  * lw6map_meta_layer_get
  *
+ * @sys_context: global system context
  * @meta_layer: the meta_layer structure
  * @x: x coord
  * @y: y coord
@@ -60,8 +63,8 @@ lw6map_meta_layer_set (sys_context, lw6map_meta_layer_t * meta_layer, int x,
  * Return value: the value at this place
  */
 u_int8_t
-lw6map_meta_layer_get (sys_context, const lw6map_meta_layer_t * meta_layer,
-		       int x, int y)
+lw6map_meta_layer_get (lw6sys_context_t * sys_context,
+		       const lw6map_meta_layer_t * meta_layer, int x, int y)
 {
   int ret = 0;
 
@@ -76,6 +79,7 @@ lw6map_meta_layer_get (sys_context, const lw6map_meta_layer_t * meta_layer,
 /**
  * lw6map_meta_layer_clear
  *
+ * @sys_context: global system context
  * @meta_layer: the meta_layer to clear
  *
  * Clears a meta_layer struct. This means freeing the pointer
@@ -84,7 +88,8 @@ lw6map_meta_layer_get (sys_context, const lw6map_meta_layer_t * meta_layer,
  * Return value: none
  */
 void
-lw6map_meta_layer_clear (sys_context, lw6map_meta_layer_t * meta_layer)
+lw6map_meta_layer_clear (lw6sys_context_t * sys_context,
+			 lw6map_meta_layer_t * meta_layer)
 {
   if (meta_layer->data)
     {
@@ -97,6 +102,7 @@ lw6map_meta_layer_clear (sys_context, lw6map_meta_layer_t * meta_layer)
 /**
  * lw6map_meta_layer_builtin_custom
  *
+ * @sys_context: global system context
  * @meta_layer: the object to init
  * @w: width
  * @h: height
@@ -111,7 +117,7 @@ lw6map_meta_layer_clear (sys_context, lw6map_meta_layer_t * meta_layer)
  * Return value: 1 if OK, 0 on failure.
  */
 int
-lw6map_meta_layer_builtin_custom (sys_context,
+lw6map_meta_layer_builtin_custom (lw6sys_context_t * sys_context,
 				  lw6map_meta_layer_t * meta_layer, int w,
 				  int h, int analog, int noise_percent,
 				  int seed)
@@ -130,7 +136,7 @@ lw6map_meta_layer_builtin_custom (sys_context,
     {
       noise_percent = lw6sys_imax (1, noise_percent);
       noise_percent = lw6sys_imin (100, noise_percent);
-      seed = lw6sys_checksum_int32 (seed);
+      seed = lw6sys_checksum_int32 (sys_context, seed);
       meta_layer->data =
 	(u_int8_t *) LW6SYS_CALLOC (sys_context, w * h * sizeof (u_int8_t));
       if (meta_layer->data)
@@ -141,7 +147,7 @@ lw6map_meta_layer_builtin_custom (sys_context,
 	  n = w * h;
 	  for (i = 0; i < n; ++i)
 	    {
-	      checksum = lw6sys_checksum_int32 (seed + i);
+	      checksum = lw6sys_checksum_int32 (sys_context, seed + i);
 	      if ((checksum % 100) < noise_percent)
 		{
 		  if (analog)

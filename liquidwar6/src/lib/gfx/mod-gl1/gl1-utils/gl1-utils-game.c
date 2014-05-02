@@ -54,8 +54,8 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 
   x1 = x0 + w - 1;
   y1 = y0 + h - 1;
-  lw6map_coords_fix_xy (rules, &shape, &x0, &y0);
-  lw6map_coords_fix_xy (rules, &shape, &x1, &y1);
+  lw6map_coords_fix_xy (sys_context, rules, &shape, &x0, &y0);
+  lw6map_coords_fix_xy (sys_context, rules, &shape, &x1, &y1);
   x1++;
   y1++;
   bg = lw6sys_color_8_to_irgba (map_color->bg);
@@ -198,7 +198,8 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 	    {
 	      safe_x = x;
 	      safe_y = y;
-	      lw6map_coords_fix_xy (rules, &shape, &safe_x, &safe_y);
+	      lw6map_coords_fix_xy (sys_context, rules, &shape, &safe_x,
+				    &safe_y);
 	      fighter_id = -1;
 	      hidden = 0;
 	      for (z = 0; z < d && fighter_id < 0; ++z)

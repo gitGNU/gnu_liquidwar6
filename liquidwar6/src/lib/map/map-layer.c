@@ -172,7 +172,8 @@ static char *_LAYER_DEFAULT_SOURCE[LW6MAP_BUILTIN_DEFAULT_HEIGHT + 1] = {
 };
 
 static int
-_default_source (lw6map_layer_t * layer, int width, int height)
+_default_source (lw6sys_context_t * sys_context, lw6map_layer_t * layer,
+		 int width, int height)
 {
   int ret = 0;
   int x, y;
@@ -240,6 +241,7 @@ _default_source (lw6map_layer_t * layer, int width, int height)
 /**
  * lw6map_layer_builtin_custom
  *
+ * @sys_context: global system context
  * @layer: the layer to init
  * @w: width
  * @h: height
@@ -250,12 +252,12 @@ _default_source (lw6map_layer_t * layer, int width, int height)
  * Return value: none
  */
 void
-lw6map_layer_builtin_custom (sys_context, lw6map_layer_t * layer, int w,
-			     int h)
+lw6map_layer_builtin_custom (lw6sys_context_t * sys_context,
+			     lw6map_layer_t * layer, int w, int h)
 {
   lw6map_layer_clear (sys_context, layer);
 
-  if (!_default_source (layer, w, h))
+  if (!_default_source (sys_context, layer, w, h))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to construct default map layer"));
@@ -268,6 +270,7 @@ lw6map_layer_builtin_custom (sys_context, lw6map_layer_t * layer, int w,
 /**
  * lw6map_layer_clear
  *
+ * @sys_context: global system context
  * @layer: the layer to init
  *
  * Clears a layer struct. This means freeing the pointer
@@ -276,7 +279,7 @@ lw6map_layer_builtin_custom (sys_context, lw6map_layer_t * layer, int w,
  * Return value: none
  */
 void
-lw6map_layer_clear (sys_context, lw6map_layer_t * layer)
+lw6map_layer_clear (lw6sys_context_t * sys_context, lw6map_layer_t * layer)
 {
   if (layer->data)
     {

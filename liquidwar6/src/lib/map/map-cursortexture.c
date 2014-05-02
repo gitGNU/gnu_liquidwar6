@@ -38,6 +38,7 @@
 /**
  * lw6map_cursor_texture_clear
  *
+ * @sys_context: global system context
  * @cursor_texture: the cursor texture to clear
  *
  * Clears a cursor texture (set it all transparent).
@@ -45,7 +46,7 @@
  * Return value: none
  */
 void
-lw6map_cursor_texture_clear (sys_context,
+lw6map_cursor_texture_clear (lw6sys_context_t * sys_context,
 			     lw6map_cursor_texture_t * cursor_texture)
 {
   memset (cursor_texture, 0, sizeof (lw6map_cursor_texture_t));
@@ -54,6 +55,7 @@ lw6map_cursor_texture_clear (sys_context,
 /**
  * lw6map_cursor_texture_clear
  *
+ * @sys_context: global system context
  * @cursor_texture: the cursor texture to clear
  *
  * Sets a cursor texture to the builtin defauts, that is a circle
@@ -63,7 +65,7 @@ lw6map_cursor_texture_clear (sys_context,
  * Return value: none
  */
 void
-lw6map_cursor_texture_builtin (sys_context,
+lw6map_cursor_texture_builtin (lw6sys_context_t * sys_context,
 			       lw6map_cursor_texture_t * cursor_texture)
 {
   int x, y, d;

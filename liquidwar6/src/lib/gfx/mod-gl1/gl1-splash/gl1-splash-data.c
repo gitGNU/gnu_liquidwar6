@@ -176,7 +176,7 @@ _load_game (mod_gl1_utils_context_t * utils_context,
 
   splash_context->game.sphere = gluNewQuadric ();
   splash_context->game.level =
-    lw6map_builtin_custom (LW6MAP_BUILTIN_DEFAULT_WIDTH,
+    lw6map_builtin_custom (sys_context, LW6MAP_BUILTIN_DEFAULT_WIDTH,
 			   LW6MAP_BUILTIN_DEFAULT_HEIGHT,
 			   _MAP_DEPTH, _MAP_NOISE_PERCENT);
   if (splash_context->game.level)

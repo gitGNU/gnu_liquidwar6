@@ -442,8 +442,8 @@ _mod_gles2_call_resize_callback (_mod_gles2_context_t * gles2_context)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_ ("calling resize callback"));
-      gles2_context->
-	sdl_context.resize_callback (&
-				     (gles2_context->sdl_context.video_mode));
+      gles2_context->sdl_context.resize_callback (&
+						  (gles2_context->
+						   sdl_context.video_mode));
     }
 }

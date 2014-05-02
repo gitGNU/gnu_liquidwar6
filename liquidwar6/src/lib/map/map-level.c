@@ -39,6 +39,8 @@ static volatile u_int32_t seq_id = 0;
 /**
  * lw6map_new
  *
+ * @sys_context: global system context
+ *
  * Creates a new empty map. This object is perfectly unusable as is,
  * since it has a 0x0 size, and many things set to "NULL". Still, it's
  * used internally and is the canonical way to create the object, it
@@ -48,11 +50,12 @@ static volatile u_int32_t seq_id = 0;
  * Return value: a newly allocated pointer.
  */
 lw6map_level_t *
-lw6map_new ()
+lw6map_new (lw6sys_context_t * sys_context)
 {
   lw6map_level_t *level = NULL;
 
-  level = (lw6map_level_t *) LW6SYS_CALLOC (sizeof (lw6map_level_t));
+  level =
+    (lw6map_level_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_level_t));
 
   if (level)
     {
@@ -69,13 +72,15 @@ lw6map_new ()
 /**
  * lw6map_builtin_defaults
  *
+ * @sys_context: global system context
+ *
  * Creates a map, set to defaults. This is usefull mostly for testing.
  * This builtin map has walls, paths, it's playable.
  *
  * Return value: a newly allocated map.
  */
 lw6map_level_t *
-lw6map_builtin_defaults ()
+lw6map_builtin_defaults (lw6sys_context_t * sys_context)
 {
   return lw6map_builtin_custom (sys_context, LW6MAP_BUILTIN_DEFAULT_WIDTH,
 				LW6MAP_BUILTIN_DEFAULT_HEIGHT,
@@ -86,17 +91,18 @@ lw6map_builtin_defaults ()
 /**
  * lw6map_builtin_scale
  *
+ * @sys_context: global system context
+ * @percent_factor: how big the map should be, 100 is defaults 200 is double.
+ *
  * Creates a map, set to defaults. This is usefull mostly for testing.
  * This builtin map has walls, paths, it's playable, additionnally
  * it's scalable, that's to say one can make it bigger if needed,
  * using a percent factor.
  *
- * @percent_factor: how big the map should be, 100 is defaults 200 is double.
- *
  * Return value: a newly allocated map.
  */
 lw6map_level_t *
-lw6map_builtin_scale (sys_context, int percent_factor)
+lw6map_builtin_scale (lw6sys_context_t * sys_context, int percent_factor)
 {
   int width = 0;
   int height = 0;
@@ -125,6 +131,7 @@ lw6map_builtin_scale (sys_context, int percent_factor)
 /**
  * lw6map_builtin_custom
  *
+ * @sys_context: global system context
  * @w: the width of the map
  * @h: the height of the map
  * @d: the depth (number of layers) of the map
@@ -137,7 +144,8 @@ lw6map_builtin_scale (sys_context, int percent_factor)
  * Return value: a newly allocated map.
  */
 lw6map_level_t *
-lw6map_builtin_custom (sys_context, int w, int h, int d, int noise_percent)
+lw6map_builtin_custom (lw6sys_context_t * sys_context, int w, int h, int d,
+		       int noise_percent)
 {
   lw6map_level_t *level = NULL;
   lw6map_color_couple_t color;
@@ -145,7 +153,8 @@ lw6map_builtin_custom (sys_context, int w, int h, int d, int noise_percent)
   color.fg = LW6SYS_COLOR_8_WHITE;
   color.bg = LW6SYS_COLOR_8_BLACK;
 
-  level = (lw6map_level_t *) LW6SYS_CALLOC (sizeof (lw6map_level_t));
+  level =
+    (lw6map_level_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_level_t));
   if (level)
     {
       level->id = 0;
@@ -183,6 +192,7 @@ lw6map_builtin_custom (sys_context, int w, int h, int d, int noise_percent)
 /**
  * lw6map_free
  *
+ * @sys_context: global system context
  * @map: the map to free
  *
  * Frees a map and releases all its internal ressources.
@@ -190,7 +200,7 @@ lw6map_builtin_custom (sys_context, int w, int h, int d, int noise_percent)
  * Return value: none.
  */
 void
-lw6map_free (sys_context, lw6map_level_t * level)
+lw6map_free (lw6sys_context_t * sys_context, lw6map_level_t * level)
 {
   if (level)
     {
@@ -212,6 +222,7 @@ lw6map_free (sys_context, lw6map_level_t * level)
 /**
  * lw6map_memory_footprint
  *
+ * @sys_context: global system context
  * @map: the map to query
  *
  * Reports how many bytes the map needs, in memory. Note that this is
@@ -219,7 +230,8 @@ lw6map_free (sys_context, lw6map_level_t * level)
  * much more...
  */
 int
-lw6map_memory_footprint (sys_context, const lw6map_level_t * level)
+lw6map_memory_footprint (lw6sys_context_t * sys_context,
+			 const lw6map_level_t * level)
 {
   int memory_footprint = 0;
 
@@ -249,6 +261,7 @@ lw6map_memory_footprint (sys_context, const lw6map_level_t * level)
 /**
  * lw6map_repr
  *
+ * @sys_context: global system context
  * @map: the map to describe
  *
  * Returns a string describing the map. This is a very short description,
@@ -258,7 +271,7 @@ lw6map_memory_footprint (sys_context, const lw6map_level_t * level)
  * Return value: a dynamically allocated string.
  */
 char *
-lw6map_repr (sys_context, const lw6map_level_t * level)
+lw6map_repr (lw6sys_context_t * sys_context, const lw6map_level_t * level)
 {
   char *ret = NULL;
 
@@ -266,7 +279,7 @@ lw6map_repr (sys_context, const lw6map_level_t * level)
     {
       const char *title = NULL;
 
-      title = lw6map_get_title (level);
+      title = lw6map_get_title (sys_context, level);
       ret =
 	lw6sys_new_sprintf (sys_context, "%u \"%s\" (%dx%dx%d)", level->id,
 			    title, level->body.shape.w, level->body.shape.h,
@@ -284,6 +297,7 @@ lw6map_repr (sys_context, const lw6map_level_t * level)
 /**
  * lw6map_is_same
  *
+ * @sys_context: global system context
  * @level_a: the first level to compare
  * @level_b: the other level to compare
  *
@@ -293,7 +307,8 @@ lw6map_repr (sys_context, const lw6map_level_t * level)
  * Return value: 1 if they're the same, 0 if not.
  */
 int
-lw6map_is_same (sys_context, const lw6map_level_t * level_a,
+lw6map_is_same (lw6sys_context_t * sys_context,
+		const lw6map_level_t * level_a,
 		const lw6map_level_t * level_b)
 {
   int ret = 1;
@@ -329,6 +344,7 @@ lw6map_is_same (sys_context, const lw6map_level_t * level_a,
 /**
  * lw6map_get_title
  *
+ * @sys_context: global system context
  * @level: level to get informations about
  *
  * Gives the map name. This is just a simple utility/wrapper function
@@ -337,7 +353,8 @@ lw6map_is_same (sys_context, const lw6map_level_t * level_a,
  * Return value: static string, must not be freed, can't be NULL
  */
 const char *
-lw6map_get_title (const lw6map_level_t * level)
+lw6map_get_title (lw6sys_context_t * sys_context,
+		  const lw6map_level_t * level)
 {
   const char *ret = NULL;
 
@@ -362,7 +379,8 @@ lw6map_get_title (const lw6map_level_t * level)
  * Return value: number of colors, taken from rules
  */
 int
-lw6map_get_max_nb_colors (sys_context, const lw6map_level_t * level)
+lw6map_get_max_nb_colors (lw6sys_context_t * sys_context,
+			  const lw6map_level_t * level)
 {
   return level->param.rules.max_nb_teams;
 }
@@ -370,6 +388,7 @@ lw6map_get_max_nb_colors (sys_context, const lw6map_level_t * level)
 /**
  * lw6map_get_max_nb_cursors
  *
+ * @sys_context: global system context
  * @level: level to get informations about
  *
  * Gives the max number of cursors that can fit
@@ -379,7 +398,8 @@ lw6map_get_max_nb_colors (sys_context, const lw6map_level_t * level)
  * Return value: number of cursors, taken from rules
  */
 int
-lw6map_get_max_nb_cursors (sys_context, const lw6map_level_t * level)
+lw6map_get_max_nb_cursors (lw6sys_context_t * sys_context,
+			   const lw6map_level_t * level)
 {
   return level->param.rules.max_nb_cursors;
 }
@@ -387,6 +407,7 @@ lw6map_get_max_nb_cursors (sys_context, const lw6map_level_t * level)
 /**
  * lw6map_get_max_nb_nodes
  *
+ * @sys_context: global system context
  * @level: level to get informations about
  *
  * Gives the max number of nodes that can fit
@@ -396,7 +417,8 @@ lw6map_get_max_nb_cursors (sys_context, const lw6map_level_t * level)
  * Return value: number of nodes, taken from rules
  */
 int
-lw6map_get_max_nb_nodes (sys_context, const lw6map_level_t * level)
+lw6map_get_max_nb_nodes (lw6sys_context_t * sys_context,
+			 const lw6map_level_t * level)
 {
   return level->param.rules.max_nb_nodes;
 }

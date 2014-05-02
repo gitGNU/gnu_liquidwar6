@@ -31,6 +31,7 @@
 /**
  * lw6map_param_zero
  *
+ * @sys_context: global system context
  * @param: struct to initialize
  *
  * Sets a param struct to zero, simply puts zero everywhere
@@ -39,7 +40,7 @@
  * Return value: none.
  */
 void
-lw6map_param_zero (sys_context, lw6map_param_t * param)
+lw6map_param_zero (lw6sys_context_t * sys_context, lw6map_param_t * param)
 {
   memset (param, 0, sizeof (lw6map_param_t));
 }
@@ -47,6 +48,7 @@ lw6map_param_zero (sys_context, lw6map_param_t * param)
 /**
  * lw6map_param_defaults:
  *
+ * @sys_context: global system context
  * @param: the param struct to modify
  *
  * Sets a param structure to its default value, note that current
@@ -55,7 +57,7 @@ lw6map_param_zero (sys_context, lw6map_param_t * param)
  * Return value: none
  */
 void
-lw6map_param_defaults (sys_context, lw6map_param_t * param)
+lw6map_param_defaults (lw6sys_context_t * sys_context, lw6map_param_t * param)
 {
   lw6map_rules_defaults (sys_context, &(param->rules));
   lw6map_style_defaults (sys_context, &(param->style));
@@ -65,6 +67,7 @@ lw6map_param_defaults (sys_context, lw6map_param_t * param)
 /**
  * lw6map_param_clear:
  *
+ * @sys_context: global system context
  * @param: the param struct to modify
  *
  * Resets a param structure to nothing. Note that current
@@ -74,7 +77,7 @@ lw6map_param_defaults (sys_context, lw6map_param_t * param)
  * Return value: none
  */
 void
-lw6map_param_clear (sys_context, lw6map_param_t * param)
+lw6map_param_clear (lw6sys_context_t * sys_context, lw6map_param_t * param)
 {
   if (param)
     {
@@ -92,6 +95,7 @@ lw6map_param_clear (sys_context, lw6map_param_t * param)
 /**
  * lw6map_param_copy:
  *
+ * @sys_context: global system context
  * @src: the source param struct
  * @dst: the destination param struct
  *
@@ -101,7 +105,7 @@ lw6map_param_clear (sys_context, lw6map_param_t * param)
  * Return value: none
  */
 void
-lw6map_param_copy (sys_context, lw6map_param_t * dst,
+lw6map_param_copy (lw6sys_context_t * sys_context, lw6map_param_t * dst,
 		   const lw6map_param_t * src)
 {
   lw6map_rules_copy (sys_context, &(dst->rules), &(src->rules));
@@ -112,6 +116,7 @@ lw6map_param_copy (sys_context, lw6map_param_t * dst,
 /**
  * lw6map_param_set:
  *
+ * @sys_context: global system context
  * @param: the param struct to modify
  * @key: the name of the parameter to modify
  * @value: the value of the parameter to modify
@@ -124,8 +129,8 @@ lw6map_param_copy (sys_context, lw6map_param_t * dst,
  * Return value: 1 if parameter successfully set, 0 on error.
  */
 int
-lw6map_param_set (sys_context, lw6map_param_t * param, const char *key,
-		  const char *value)
+lw6map_param_set (lw6sys_context_t * sys_context, lw6map_param_t * param,
+		  const char *key, const char *value)
 {
   int ret = 0;
 
@@ -152,6 +157,7 @@ lw6map_param_set (sys_context, lw6map_param_t * param, const char *key,
 /**
  * lw6map_param_get:
  *
+ * @sys_context: global system context
  * @param: the param struct to query
  * @key: the name of the parameter to get
  *
@@ -163,7 +169,8 @@ lw6map_param_set (sys_context, lw6map_param_t * param, const char *key,
  *   might return a string containing 0 on bad keys.
  */
 char *
-lw6map_param_get (sys_context, const lw6map_param_t * param, const char *key)
+lw6map_param_get (lw6sys_context_t * sys_context,
+		  const lw6map_param_t * param, const char *key)
 {
   char *ret = NULL;
 
@@ -186,6 +193,7 @@ lw6map_param_get (sys_context, const lw6map_param_t * param, const char *key)
 /**
  * lw6map_param_is_same
  *
+ * @sys_context: global system context
  * @param_a: one struct to compare
  * @param_b: another struct to compare
  *
@@ -194,7 +202,8 @@ lw6map_param_get (sys_context, const lw6map_param_t * param, const char *key)
  * Return value: 1 if they contain the same thing, 0 if not
  */
 int
-lw6map_param_is_same (sys_context, const lw6map_param_t * param_a,
+lw6map_param_is_same (lw6sys_context_t * sys_context,
+		      const lw6map_param_t * param_a,
 		      const lw6map_param_t * param_b)
 {
   int ret = 1;

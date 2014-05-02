@@ -76,7 +76,7 @@ mod_gl1_utils_shaded_text_update (mod_gl1_utils_context_t * utils_context,
       shaded_text->text = lw6sys_str_copy (sys_context, text);
       change = (shaded_text->text != NULL);
     }
-  if (!lw6map_color_is_same (color, &(shaded_text->color)))
+  if (!lw6map_color_is_same (sys_context, color, &(shaded_text->color)))
     {
       shaded_text->color = *color;
       change = 1;

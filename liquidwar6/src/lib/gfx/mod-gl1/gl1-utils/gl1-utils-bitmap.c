@@ -232,7 +232,9 @@ mod_gl1_utils_bitmap_colorize (mod_gl1_utils_context_t *
   if (colorize)
     {
       if ((!bitmap->colorized_surface)
-	  || (!lw6map_color_is_same (color, &(bitmap->colorize_color))))
+	  ||
+	  (!lw6map_color_is_same
+	   (sys_context, color, &(bitmap->colorize_color))))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("colorize bitmap %u"), bitmap->id);

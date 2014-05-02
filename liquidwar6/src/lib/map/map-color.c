@@ -31,6 +31,7 @@
 /**
  * lw6map_color_invert
  *
+ * @sys_context: global system context
  * @color: the color to invert
  *
  * Inverts a color couple, that is, replace fg by bg and vice-versa.
@@ -38,7 +39,8 @@
  * Return value: none.
  */
 void
-lw6map_color_invert (sys_context, lw6map_color_couple_t * color)
+lw6map_color_invert (lw6sys_context_t * sys_context,
+		     lw6map_color_couple_t * color)
 {
   lw6sys_color_8_t tmp;
 
@@ -50,6 +52,7 @@ lw6map_color_invert (sys_context, lw6map_color_couple_t * color)
 /**
  * lw6map_color_is_same
  *
+ * @sys_context: global system context
  * @color1: 1st color to compare
  * @color2: 2nd color to compare
  *
@@ -58,7 +61,8 @@ lw6map_color_invert (sys_context, lw6map_color_couple_t * color)
  * Return value: 1 if equal, 0 if not.
  */
 int
-lw6map_color_is_same (sys_context, const lw6map_color_couple_t * color1,
+lw6map_color_is_same (lw6sys_context_t * sys_context,
+		      const lw6map_color_couple_t * color1,
 		      const lw6map_color_couple_t * color2)
 {
   return lw6sys_color_is_same (sys_context, color1->fg, color2->fg)
@@ -68,6 +72,7 @@ lw6map_color_is_same (sys_context, const lw6map_color_couple_t * color1,
 /**
  * lw6map_team_color_index_to_key
  *
+ * @sys_context: global system context
  * @index: index of the color between 0 & 9
  *
  * Transforms a team color index into its readable string form,
@@ -76,7 +81,7 @@ lw6map_color_is_same (sys_context, const lw6map_color_couple_t * color1,
  * Return value: a string, must *not* be freed.
  */
 char *
-lw6map_team_color_index_to_key (sys_context, int index)
+lw6map_team_color_index_to_key (lw6sys_context_t * sys_context, int index)
 {
   char *ret = LW6DEF_RED;
 
@@ -123,6 +128,7 @@ lw6map_team_color_index_to_key (sys_context, int index)
 /**
  * lw6map_team_color_key_to_index
  *
+ * @sys_context: global system context
  * @key: key of the color, for instance "red"
  *
  * The index of the color, between 0 & 9
@@ -130,7 +136,8 @@ lw6map_team_color_index_to_key (sys_context, int index)
  * Return value: an integer.
  */
 int
-lw6map_team_color_key_to_index (sys_context, const char *key)
+lw6map_team_color_key_to_index (lw6sys_context_t * sys_context,
+				const char *key)
 {
   int ret = LW6MAP_TEAM_COLOR_INVALID;
 
@@ -186,6 +193,7 @@ lw6map_team_color_key_to_index (sys_context, const char *key)
 /**
  * lw6map_team_color_index_to_label
  *
+ * @sys_context: global system context
  * @index: index of the color between 0 & 9
  *
  * Transforms a team color index into its readable string form,
@@ -194,7 +202,7 @@ lw6map_team_color_key_to_index (sys_context, const char *key)
  * Return value: a string, must *not* be freed.
  */
 char *
-lw6map_team_color_index_to_label (sys_context, int index)
+lw6map_team_color_index_to_label (lw6sys_context_t * sys_context, int index)
 {
   char *ret = LW6SYS_STR_EMPTY;
 

@@ -426,7 +426,7 @@ print_map (SCM map, SCM port, scm_print_state * pstate)
   lw6map_level_t *c_map = lw6_scm_to_map (map);
   char *repr = NULL;
 
-  repr = lw6map_repr (c_map);
+  repr = lw6map_repr (sys_context, c_map);
 
   scm_puts ("#<" SMOB_TYPE_MAP " ", port);
   if (repr)
@@ -473,7 +473,7 @@ lw6_make_scm_map (lw6map_level_t * c_map)
       id = smob_id (SMOB_TYPE_MAP, c_map->id);
       if (id)
 	{
-	  repr = lw6map_repr (c_map);
+	  repr = lw6map_repr (sys_context, c_map);
 	  if (repr)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,

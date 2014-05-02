@@ -52,7 +52,7 @@ _register_and_run_tests (int argc, const char **argv, int mode)
 	  ret =
 	    lw6sys_test_register (sys_context, mode)
 	    && lw6glb_test_register (sys_context, mode)
-	    && lw6map_test_register (mode)
+	    && lw6map_test_register (sys_context, mode)
 	    && lw6ker_test_register (mode) && lw6pil_test_register (mode)
 	    && DYN_TEST_REGISTER (mode) && lw6bot_test_register (mode)
 	    && lw6gen_test_register (mode) && lw6sim_test_register (mode)

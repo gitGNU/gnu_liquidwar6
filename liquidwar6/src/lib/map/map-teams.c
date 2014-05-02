@@ -29,6 +29,7 @@
 /**
  * lw6map_teams_zero
  *
+ * @sys_context: global system context
  * @teams: data to initialize
  *
  * Zeros the teams struct, this is not the same as setting to defaults.
@@ -36,7 +37,7 @@
  * Return value: none.
  */
 void
-lw6map_teams_zero (sys_context, lw6map_teams_t * teams)
+lw6map_teams_zero (lw6sys_context_t * sys_context, lw6map_teams_t * teams)
 {
   memset (teams, 0, sizeof (lw6map_teams_t));
 }
@@ -44,6 +45,7 @@ lw6map_teams_zero (sys_context, lw6map_teams_t * teams)
 /**
  * lw6map_teams_defaults
  *
+ * @sys_context: global system context
  * @teams: data to initialize
  *
  * Set the teams struct to its defaults.
@@ -51,7 +53,7 @@ lw6map_teams_zero (sys_context, lw6map_teams_t * teams)
  * Return value: none.
  */
 void
-lw6map_teams_defaults (sys_context, lw6map_teams_t * teams)
+lw6map_teams_defaults (lw6sys_context_t * sys_context, lw6map_teams_t * teams)
 {
   teams->player_color[LW6MAP_TEAMS_PLAYER1_INDEX] =
     lw6map_team_color_key_to_index (sys_context,
@@ -118,6 +120,7 @@ lw6map_teams_defaults (sys_context, lw6map_teams_t * teams)
 /**
  * lw6map_teams_clear
  *
+ * @sys_context: global system context
  * @teams: data to initialize
  *
  * Clears the teams struct, this is not the same as setting to defaults.
@@ -127,7 +130,7 @@ lw6map_teams_defaults (sys_context, lw6map_teams_t * teams)
  * Return value: none.
  */
 void
-lw6map_teams_clear (sys_context, lw6map_teams_t * teams)
+lw6map_teams_clear (lw6sys_context_t * sys_context, lw6map_teams_t * teams)
 {
   int i;
 
@@ -144,6 +147,7 @@ lw6map_teams_clear (sys_context, lw6map_teams_t * teams)
 /**
  * lw6map_teams_copy
  *
+ * @sys_context: global system context
  * @src: source
  * @dst: destination
  *
@@ -153,7 +157,7 @@ lw6map_teams_clear (sys_context, lw6map_teams_t * teams)
  * Return value: none.
  */
 void
-lw6map_teams_copy (sys_context, lw6map_teams_t * dst,
+lw6map_teams_copy (lw6sys_context_t * sys_context, lw6map_teams_t * dst,
 		   const lw6map_teams_t * src)
 {
   int i;
@@ -165,7 +169,7 @@ lw6map_teams_copy (sys_context, lw6map_teams_t * dst,
     {
       if (src->bot[i].ai)
 	{
-	  dst->bot[i].ai = lw6sys_str_copy (src->bot[i].ai);
+	  dst->bot[i].ai = lw6sys_str_copy (sys_context, src->bot[i].ai);
 	}
     }
 }
@@ -173,6 +177,7 @@ lw6map_teams_copy (sys_context, lw6map_teams_t * dst,
 /**
  * lw6map_teams_set
  *
+ * @sys_context: global system context
  * @teams: the teams to modify
  * @key: the key to modify
  * @value: the value to affect to the key, as a string
@@ -186,8 +191,8 @@ lw6map_teams_copy (sys_context, lw6map_teams_t * dst,
  * needs to be worked on.
  */
 int
-lw6map_teams_set (sys_context, lw6map_teams_t * teams, const char *key,
-		  const char *value)
+lw6map_teams_set (lw6sys_context_t * sys_context, lw6map_teams_t * teams,
+		  const char *key, const char *value)
 {
   int ret = 1;
   char *formatted_key = NULL;
@@ -383,7 +388,8 @@ lw6map_teams_set (sys_context, lw6map_teams_t * teams, const char *key,
 }
 
 static char *
-_get_bot_color (const lw6map_bot_info_t * bot_info)
+_get_bot_color (lw6sys_context_t * sys_context,
+		const lw6map_bot_info_t * bot_info)
 {
   char *ret = NULL;
 
@@ -391,20 +397,22 @@ _get_bot_color (const lw6map_bot_info_t * bot_info)
     {
       ret =
 	lw6sys_str_copy (sys_context,
-			 lw6map_team_color_index_to_key (bot_info->color));
+			 lw6map_team_color_index_to_key (sys_context,
+							 bot_info->color));
     }
 
   return ret;
 }
 
 static char *
-_get_bot_ai (const lw6map_bot_info_t * bot_info)
+_get_bot_ai (lw6sys_context_t * sys_context,
+	     const lw6map_bot_info_t * bot_info)
 {
   char *ret = NULL;
 
   if (bot_info->ai)
     {
-      ret = lw6sys_str_copy (bot_info->ai);
+      ret = lw6sys_str_copy (sys_context, bot_info->ai);
     }
 
   return ret;
@@ -413,6 +421,7 @@ _get_bot_ai (const lw6map_bot_info_t * bot_info)
 /**
  * lw6map_teams_get
  *
+ * @sys_context: global system context
  * @teams: the teams to modify
  * @key: the key to modify
  *
@@ -422,7 +431,8 @@ _get_bot_ai (const lw6map_bot_info_t * bot_info)
  * Return value: dynamically allocated string, NULL on error.
  */
 char *
-lw6map_teams_get (sys_context, const lw6map_teams_t * teams, const char *key)
+lw6map_teams_get (lw6sys_context_t * sys_context,
+		  const lw6map_teams_t * teams, const char *key)
 {
   char *ret = NULL;
   char *formatted_key = NULL;
@@ -434,28 +444,28 @@ lw6map_teams_get (sys_context, const lw6map_teams_t * teams, const char *key)
 	{
 	  ret =
 	    lw6sys_str_copy (sys_context, lw6map_team_color_index_to_key
-			     (teams->player_color
+			     (sys_context, teams->player_color
 			      [LW6MAP_TEAMS_PLAYER1_INDEX]));
 	}
       else if (!strcmp (LW6DEF_PLAYER2_COLOR, formatted_key))
 	{
 	  ret =
 	    lw6sys_str_copy (sys_context, lw6map_team_color_index_to_key
-			     (teams->player_color
+			     (sys_context, teams->player_color
 			      [LW6MAP_TEAMS_PLAYER2_INDEX]));
 	}
       else if (!strcmp (LW6DEF_PLAYER3_COLOR, formatted_key))
 	{
 	  ret =
 	    lw6sys_str_copy (sys_context, lw6map_team_color_index_to_key
-			     (teams->player_color
+			     (sys_context, teams->player_color
 			      [LW6MAP_TEAMS_PLAYER3_INDEX]));
 	}
       else if (!strcmp (LW6DEF_PLAYER4_COLOR, formatted_key))
 	{
 	  ret =
 	    lw6sys_str_copy (sys_context, lw6map_team_color_index_to_key
-			     (teams->player_color
+			     (sys_context, teams->player_color
 			      [LW6MAP_TEAMS_PLAYER4_INDEX]));
 	}
       else if (!strcmp (LW6DEF_NB_BOTS, formatted_key))
@@ -472,75 +482,102 @@ lw6map_teams_get (sys_context, const lw6map_teams_t * teams, const char *key)
 	}
       else if (!strcmp (LW6DEF_BOT1_COLOR, formatted_key))
 	{
-	  ret = _get_bot_color (&(teams->bot[LW6MAP_TEAMS_BOT1_INDEX]));
+	  ret =
+	    _get_bot_color (sys_context,
+			    &(teams->bot[LW6MAP_TEAMS_BOT1_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT2_COLOR, formatted_key))
 	{
-	  ret = _get_bot_color (&(teams->bot[LW6MAP_TEAMS_BOT2_INDEX]));
+	  ret =
+	    _get_bot_color (sys_context,
+			    &(teams->bot[LW6MAP_TEAMS_BOT2_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT3_COLOR, formatted_key))
 	{
-	  ret = _get_bot_color (&(teams->bot[LW6MAP_TEAMS_BOT3_INDEX]));
+	  ret =
+	    _get_bot_color (sys_context,
+			    &(teams->bot[LW6MAP_TEAMS_BOT3_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT4_COLOR, formatted_key))
 	{
-	  ret = _get_bot_color (&(teams->bot[LW6MAP_TEAMS_BOT4_INDEX]));
+	  ret =
+	    _get_bot_color (sys_context,
+			    &(teams->bot[LW6MAP_TEAMS_BOT4_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT5_COLOR, formatted_key))
 	{
-	  ret = _get_bot_color (&(teams->bot[LW6MAP_TEAMS_BOT5_INDEX]));
+	  ret =
+	    _get_bot_color (sys_context,
+			    &(teams->bot[LW6MAP_TEAMS_BOT5_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT6_COLOR, formatted_key))
 	{
-	  ret = _get_bot_color (&(teams->bot[LW6MAP_TEAMS_BOT6_INDEX]));
+	  ret =
+	    _get_bot_color (sys_context,
+			    &(teams->bot[LW6MAP_TEAMS_BOT6_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT7_COLOR, formatted_key))
 	{
-	  ret = _get_bot_color (&(teams->bot[LW6MAP_TEAMS_BOT7_INDEX]));
+	  ret =
+	    _get_bot_color (sys_context,
+			    &(teams->bot[LW6MAP_TEAMS_BOT7_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT8_COLOR, formatted_key))
 	{
-	  ret = _get_bot_color (&(teams->bot[LW6MAP_TEAMS_BOT8_INDEX]));
+	  ret =
+	    _get_bot_color (sys_context,
+			    &(teams->bot[LW6MAP_TEAMS_BOT8_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT9_COLOR, formatted_key))
 	{
-	  ret = _get_bot_color (&(teams->bot[LW6MAP_TEAMS_BOT9_INDEX]));
+	  ret =
+	    _get_bot_color (sys_context,
+			    &(teams->bot[LW6MAP_TEAMS_BOT9_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT1_AI, formatted_key))
 	{
-	  ret = _get_bot_ai (&(teams->bot[LW6MAP_TEAMS_BOT1_INDEX]));
+	  ret =
+	    _get_bot_ai (sys_context, &(teams->bot[LW6MAP_TEAMS_BOT1_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT2_AI, formatted_key))
 	{
-	  ret = _get_bot_ai (&(teams->bot[LW6MAP_TEAMS_BOT2_INDEX]));
+	  ret =
+	    _get_bot_ai (sys_context, &(teams->bot[LW6MAP_TEAMS_BOT2_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT3_AI, formatted_key))
 	{
-	  ret = _get_bot_ai (&(teams->bot[LW6MAP_TEAMS_BOT3_INDEX]));
+	  ret =
+	    _get_bot_ai (sys_context, &(teams->bot[LW6MAP_TEAMS_BOT3_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT4_AI, formatted_key))
 	{
-	  ret = _get_bot_ai (&(teams->bot[LW6MAP_TEAMS_BOT4_INDEX]));
+	  ret =
+	    _get_bot_ai (sys_context, &(teams->bot[LW6MAP_TEAMS_BOT4_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT5_AI, formatted_key))
 	{
-	  ret = _get_bot_ai (&(teams->bot[LW6MAP_TEAMS_BOT5_INDEX]));
+	  ret =
+	    _get_bot_ai (sys_context, &(teams->bot[LW6MAP_TEAMS_BOT5_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT6_AI, formatted_key))
 	{
-	  ret = _get_bot_ai (&(teams->bot[LW6MAP_TEAMS_BOT6_INDEX]));
+	  ret =
+	    _get_bot_ai (sys_context, &(teams->bot[LW6MAP_TEAMS_BOT6_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT7_AI, formatted_key))
 	{
-	  ret = _get_bot_ai (&(teams->bot[LW6MAP_TEAMS_BOT7_INDEX]));
+	  ret =
+	    _get_bot_ai (sys_context, &(teams->bot[LW6MAP_TEAMS_BOT7_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT8_AI, formatted_key))
 	{
-	  ret = _get_bot_ai (&(teams->bot[LW6MAP_TEAMS_BOT8_INDEX]));
+	  ret =
+	    _get_bot_ai (sys_context, &(teams->bot[LW6MAP_TEAMS_BOT8_INDEX]));
 	}
       else if (!strcmp (LW6DEF_BOT9_AI, formatted_key))
 	{
-	  ret = _get_bot_ai (&(teams->bot[LW6MAP_TEAMS_BOT9_INDEX]));
+	  ret =
+	    _get_bot_ai (sys_context, &(teams->bot[LW6MAP_TEAMS_BOT9_INDEX]));
 	}
       LW6SYS_FREE (sys_context, formatted_key);
     }
@@ -551,6 +588,7 @@ lw6map_teams_get (sys_context, const lw6map_teams_t * teams, const char *key)
 /**
  * lw6map_teams_get_default
  *
+ * @sys_context: global system context
  * @key: the key we want informations about.
  *
  * Gets the default value for a given teams key.
@@ -558,12 +596,13 @@ lw6map_teams_get (sys_context, const lw6map_teams_t * teams, const char *key)
  * Return value: dynamically allocated string, NULL on error.
  */
 char *
-lw6map_teams_get_default (sys_context, const char *key)
+lw6map_teams_get_default (lw6sys_context_t * sys_context, const char *key)
 {
   lw6map_teams_t *teams;
   char *ret = NULL;
 
-  teams = (lw6map_teams_t *) LW6SYS_CALLOC (sizeof (lw6map_teams_t));
+  teams =
+    (lw6map_teams_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_teams_t));
   if (teams)
     {
       lw6map_teams_defaults (sys_context, teams);
@@ -586,6 +625,7 @@ lw6map_teams_get_default (sys_context, const char *key)
 /**
  * lw6map_teams_is_same
  *
+ * @sys_context: global system context
  * @teams_a: one struct to compare
  * @teams_b: another struct to compare
  *
@@ -594,7 +634,8 @@ lw6map_teams_get_default (sys_context, const char *key)
  * Return value: 1 if they contain the same thing, 0 if not
  */
 int
-lw6map_teams_is_same (sys_context, const lw6map_teams_t * teams_a,
+lw6map_teams_is_same (lw6sys_context_t * sys_context,
+		      const lw6map_teams_t * teams_a,
 		      const lw6map_teams_t * teams_b)
 {
   int ret = 1;

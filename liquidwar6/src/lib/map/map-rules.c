@@ -708,6 +708,7 @@ static lw6map_rules_t max_rules = {
 /**
  * lw6map_rules_zero
  *
+ * @sys_context: global system context
  * @rules: struct to initialize
  *
  * Sets a rules struct to zero, simply puts zero everywhere
@@ -716,7 +717,7 @@ static lw6map_rules_t max_rules = {
  * Return value: none.
  */
 void
-lw6map_rules_zero (sys_context, lw6map_rules_t * rules)
+lw6map_rules_zero (lw6sys_context_t * sys_context, lw6map_rules_t * rules)
 {
   memset (rules, 0, sizeof (lw6map_rules_t));
 }
@@ -724,6 +725,7 @@ lw6map_rules_zero (sys_context, lw6map_rules_t * rules)
 /**
  * lw6map_rules_defaults
  *
+ * @sys_context: global system context
  * @rules: struct to set to defaults
  *
  * Set rules to default values, as these are all integers,
@@ -732,7 +734,7 @@ lw6map_rules_zero (sys_context, lw6map_rules_t * rules)
  * Return value: none.
  */
 void
-lw6map_rules_defaults (sys_context, lw6map_rules_t * rules)
+lw6map_rules_defaults (lw6sys_context_t * sys_context, lw6map_rules_t * rules)
 {
   lw6map_rules_copy (sys_context, rules, &default_rules);
 }
@@ -740,6 +742,7 @@ lw6map_rules_defaults (sys_context, lw6map_rules_t * rules)
 /**
  * lw6map_rules_copy
  *
+ * @sys_context: global system context
  * @dst: destination (out param)
  * @src: source (in param)
  *
@@ -749,7 +752,7 @@ lw6map_rules_defaults (sys_context, lw6map_rules_t * rules)
  * Return value: none.
  */
 void
-lw6map_rules_copy (sys_context, lw6map_rules_t * dst,
+lw6map_rules_copy (lw6sys_context_t * sys_context, lw6map_rules_t * dst,
 		   const lw6map_rules_t * src)
 {
   /*
@@ -762,6 +765,7 @@ lw6map_rules_copy (sys_context, lw6map_rules_t * dst,
 /**
  * lw6map_rules_update_checksum
  *
+ * @sys_context: global system context
  * @rules: rules struct to check
  * @checksum: checksum to update (in/out param)
  *
@@ -770,7 +774,8 @@ lw6map_rules_copy (sys_context, lw6map_rules_t * dst,
  * Return value: none.
  */
 void
-lw6map_rules_update_checksum (sys_context, const lw6map_rules_t * rules,
+lw6map_rules_update_checksum (lw6sys_context_t * sys_context,
+			      const lw6map_rules_t * rules,
 			      u_int32_t * checksum)
 {
   int i = 0;
@@ -904,7 +909,8 @@ lw6map_rules_update_checksum (sys_context, const lw6map_rules_t * rules,
 }
 
 static const int32_t *
-get_rules_int_ptr (const lw6map_rules_t * rules, const char *key)
+_get_rules_int_ptr (lw6sys_context_t * sys_context,
+		    const lw6map_rules_t * rules, const char *key)
 {
   const int32_t *ret = NULL;
   char *formatted_key = NULL;
@@ -1680,6 +1686,7 @@ get_rules_int_ptr (const lw6map_rules_t * rules, const char *key)
 /**
  * lw6map_rules_get_default
  *
+ * @sys_context: global system context
  * @key: key to query
  *
  * Get the default value for a given string key. Of course
@@ -1690,12 +1697,12 @@ get_rules_int_ptr (const lw6map_rules_t * rules, const char *key)
  * Return value: integer.
  */
 int32_t
-lw6map_rules_get_default (sys_context, const char *key)
+lw6map_rules_get_default (lw6sys_context_t * sys_context, const char *key)
 {
   const int32_t *ptr;
   int32_t ret = 0;
 
-  ptr = get_rules_int_ptr (&default_rules, key);
+  ptr = _get_rules_int_ptr (sys_context, &default_rules, key);
   if (ptr)
     {
       ret = (*ptr);
@@ -1707,6 +1714,7 @@ lw6map_rules_get_default (sys_context, const char *key)
 /**
  * lw6map_rules_get_min
  *
+ * @sys_context: global system context
  * @key: key to query
  *
  * Get the min value for a given string key. Of course
@@ -1717,12 +1725,12 @@ lw6map_rules_get_default (sys_context, const char *key)
  * Return value: integer.
  */
 int32_t
-lw6map_rules_get_min (sys_context, const char *key)
+lw6map_rules_get_min (lw6sys_context_t * sys_context, const char *key)
 {
   const int32_t *ptr;
   int32_t ret = 0;
 
-  ptr = get_rules_int_ptr (&min_rules, key);
+  ptr = _get_rules_int_ptr (sys_context, &min_rules, key);
   if (ptr)
     {
       ret = (*ptr);
@@ -1734,6 +1742,7 @@ lw6map_rules_get_min (sys_context, const char *key)
 /**
  * lw6map_rules_get_min
  *
+ * @sys_context: global system context
  * @key: key to query
  *
  * Get the min value for a given string key. Of course
@@ -1744,12 +1753,12 @@ lw6map_rules_get_min (sys_context, const char *key)
  * Return value: integer.
  */
 int32_t
-lw6map_rules_get_max (sys_context, const char *key)
+lw6map_rules_get_max (lw6sys_context_t * sys_context, const char *key)
 {
   const int32_t *ptr;
   int32_t ret = 0;
 
-  ptr = get_rules_int_ptr (&max_rules, key);
+  ptr = _get_rules_int_ptr (sys_context, &max_rules, key);
   if (ptr)
     {
       ret = (*ptr);
@@ -1761,6 +1770,7 @@ lw6map_rules_get_max (sys_context, const char *key)
 /**
  * lw6map_rules_get_int
  *
+ * @sys_context: global system context
  * @rules: struct to use
  * @key: key to query
  *
@@ -1772,15 +1782,15 @@ lw6map_rules_get_max (sys_context, const char *key)
  * Return value: integer.
  */
 int32_t
-lw6map_rules_get_int (sys_context, const lw6map_rules_t * rules,
-		      const char *key)
+lw6map_rules_get_int (lw6sys_context_t * sys_context,
+		      const lw6map_rules_t * rules, const char *key)
 {
   int32_t ret = 0;
   const int32_t *ptr;
   int32_t min_value;
   int32_t max_value;
 
-  ptr = get_rules_int_ptr (rules, key);
+  ptr = _get_rules_int_ptr (sys_context, rules, key);
   if (ptr)
     {
       min_value = lw6map_rules_get_min (sys_context, key);
@@ -1813,6 +1823,7 @@ lw6map_rules_get_int (sys_context, const lw6map_rules_t * rules,
 /**
  * lw6map_rules_set_int
  *
+ * @sys_context: global system context
  * @rules: struct to use
  * @key: key to set
  * @value: new integer value for key
@@ -1825,8 +1836,8 @@ lw6map_rules_get_int (sys_context, const lw6map_rules_t * rules,
  * Return value: 1 on success, 0 on failure (eg key not found)
  */
 int
-lw6map_rules_set_int (sys_context, lw6map_rules_t * rules, const char *key,
-		      int32_t value)
+lw6map_rules_set_int (lw6sys_context_t * sys_context, lw6map_rules_t * rules,
+		      const char *key, int32_t value)
 {
   int32_t *ptr;
   int32_t min_value;
@@ -1837,7 +1848,7 @@ lw6map_rules_set_int (sys_context, lw6map_rules_t * rules, const char *key,
    * We cast const to not const, actually in that case it's OK,
    * the rules we used are really supposed to be writeable.
    */
-  ptr = (int32_t *) get_rules_int_ptr (rules, key);
+  ptr = (int32_t *) _get_rules_int_ptr (sys_context, rules, key);
   if (ptr)
     {
       min_value = lw6map_rules_get_min (sys_context, key);
@@ -1871,6 +1882,7 @@ lw6map_rules_set_int (sys_context, lw6map_rules_t * rules, const char *key,
 /**
  * lw6map_rules_get_bool
  *
+ * @sys_context: global system context
  * @rules: struct to use
  * @key: key to query
  *
@@ -1882,8 +1894,8 @@ lw6map_rules_set_int (sys_context, lw6map_rules_t * rules, const char *key,
  * Return value: boolean.
  */
 int
-lw6map_rules_get_bool (sys_context, const lw6map_rules_t * rules,
-		       const char *key)
+lw6map_rules_get_bool (lw6sys_context_t * sys_context,
+		       const lw6map_rules_t * rules, const char *key)
 {
   return lw6map_rules_get_int (sys_context, rules, key) ? 1 : 0;
 }
@@ -1903,8 +1915,8 @@ lw6map_rules_get_bool (sys_context, const lw6map_rules_t * rules,
  * Return value: 1 on success, 0 on failure (eg key not found)
  */
 int
-lw6map_rules_set_bool (sys_context, lw6map_rules_t * rules, const char *key,
-		       int value)
+lw6map_rules_set_bool (lw6sys_context_t * sys_context, lw6map_rules_t * rules,
+		       const char *key, int value)
 {
   return lw6map_rules_set_int (sys_context, rules, key, value ? 1 : 0);
 }
@@ -1912,6 +1924,7 @@ lw6map_rules_set_bool (sys_context, lw6map_rules_t * rules, const char *key,
 /**
  * lw6map_rules_clear
  *
+ * @sys_context: global system context
  * @rules: struct to init
  *
  * Set rules to 0, this is not defaults, this is 0 (probably
@@ -1920,7 +1933,7 @@ lw6map_rules_set_bool (sys_context, lw6map_rules_t * rules, const char *key,
  * Return value: none.
  */
 void
-lw6map_rules_clear (sys_context, lw6map_rules_t * rules)
+lw6map_rules_clear (lw6sys_context_t * sys_context, lw6map_rules_t * rules)
 {
   if (rules)
     {
@@ -1931,6 +1944,7 @@ lw6map_rules_clear (sys_context, lw6map_rules_t * rules)
 /**
  * lw6map_rules_is_same
  *
+ * @sys_context: global system context
  * @rules_a: first item to compare
  * @rules_b: second item to compare
  *
@@ -1939,7 +1953,8 @@ lw6map_rules_clear (sys_context, lw6map_rules_t * rules)
  * Return value: 1 if same, 0 if different.
  */
 int
-lw6map_rules_is_same (sys_context, const lw6map_rules_t * rules_a,
+lw6map_rules_is_same (lw6sys_context_t * sys_context,
+		      const lw6map_rules_t * rules_a,
 		      const lw6map_rules_t * rules_b)
 {
   int ret = 1;
@@ -1952,6 +1967,7 @@ lw6map_rules_is_same (sys_context, const lw6map_rules_t * rules_a,
 /**
  * lw6map_rules_sanity_check
  *
+ * @sys_context: global system context
  * @rules: rules to check.
  *
  * Check wether the rules are within the acceptable range.
@@ -1959,7 +1975,8 @@ lw6map_rules_is_same (sys_context, const lw6map_rules_t * rules_a,
  * Return value: 1 if same, 0 if different.
  */
 int
-lw6map_rules_sanity_check (sys_context, const lw6map_rules_t * rules)
+lw6map_rules_sanity_check (lw6sys_context_t * sys_context,
+			   const lw6map_rules_t * rules)
 {
   int i = 0;
   int value = 0;
@@ -1971,7 +1988,7 @@ lw6map_rules_sanity_check (sys_context, const lw6map_rules_t * rules)
 
   while ((key = LW6MAP_RULES_LIST[i]) != NULL)
     {
-      ptr = get_rules_int_ptr (rules, key);
+      ptr = _get_rules_int_ptr (sys_context, rules, key);
       if (ptr)
 	{
 	  /*

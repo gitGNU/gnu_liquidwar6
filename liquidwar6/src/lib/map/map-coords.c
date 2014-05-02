@@ -30,6 +30,8 @@
 
 /**
  * lw6map_coords_fix_xy
+ *
+ * @sys_context: global system context
  * @rules: set of rules to use
  * @shape: shape of the map
  * @x: x coord (in/out param)
@@ -43,7 +45,8 @@
  * Return value: none.
  */
 void
-lw6map_coords_fix_xy (sys_context, const lw6map_rules_t * rules,
+lw6map_coords_fix_xy (lw6sys_context_t * sys_context,
+		      const lw6map_rules_t * rules,
 		      const lw6sys_whd_t * shape, int *x, int *y)
 {
   if ((*x) < 0 || (*y) < 0 || (*x) >= shape->w || (*y) >= shape->h)
@@ -131,6 +134,8 @@ lw6map_coords_fix_xy (sys_context, const lw6map_rules_t * rules,
 
 /**
  * lw6map_coords_fix_z
+ *
+ * @sys_context: global system context
  * @rules: set of rules to use
  * @shape: shape of the map
  * @z: z coord (in/out param)
@@ -143,8 +148,9 @@ lw6map_coords_fix_xy (sys_context, const lw6map_rules_t * rules,
  * Return value: none.
  */
 void
-lw6map_coords_fix_z (sys_context, const lw6map_rules_t * rules,
-		     const lw6sys_whd_t * shape, int *z)
+lw6map_coords_fix_z (lw6sys_context_t * sys_context,
+		     const lw6map_rules_t * rules, const lw6sys_whd_t * shape,
+		     int *z)
 {
 
   if ((*z) < 0 || (*z) >= shape->d)
