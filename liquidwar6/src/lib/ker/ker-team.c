@@ -127,21 +127,23 @@ _lw6ker_team_update_checksum (const _lw6ker_team_t * team,
 {
   int i;
 
-  lw6sys_checksum_update_int32 (checksum, team->active);
-  lw6sys_checksum_update_int32 (checksum, team->has_been_active);
-  lw6sys_checksum_update_int32 (checksum, team->respawn_round);
-  lw6sys_checksum_update_int32 (checksum, team->offline);
+  lw6sys_checksum_update_int32 (sys_context, checksum, team->active);
+  lw6sys_checksum_update_int32 (sys_context, checksum, team->has_been_active);
+  lw6sys_checksum_update_int32 (sys_context, checksum, team->respawn_round);
+  lw6sys_checksum_update_int32 (sys_context, checksum, team->offline);
   // map_struct checksumed elsewhere
   for (i = 0; i < team->map_struct->nb_zones; ++i)
     {
       _lw6ker_zone_state_update_checksum (&(team->gradient[i]), checksum);
     }
-  lw6sys_checksum_update_int32 (checksum, team->cursor_ref_pot);
-  lw6sys_checksum_update_int32 (checksum, team->last_spread_dir);
-  lw6sys_checksum_update_int32 (checksum, team->charge);
-  lw6sys_checksum_update_int32 (checksum, team->weapon_id);
-  lw6sys_checksum_update_int32 (checksum, team->weapon_first_round);
-  lw6sys_checksum_update_int32 (checksum, team->weapon_last_round);
+  lw6sys_checksum_update_int32 (sys_context, checksum, team->cursor_ref_pot);
+  lw6sys_checksum_update_int32 (sys_context, checksum, team->last_spread_dir);
+  lw6sys_checksum_update_int32 (sys_context, checksum, team->charge);
+  lw6sys_checksum_update_int32 (sys_context, checksum, team->weapon_id);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				team->weapon_first_round);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				team->weapon_last_round);
 }
 
 void

@@ -88,7 +88,7 @@ lw6scm_c_primitive_load (const char *filename)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading \"%s\""), filename);
 
-  if (lw6sys_file_exists (filename))
+  if (lw6sys_file_exists (sys_context, filename))
     {
       scm_c_primitive_load ((const char *) filename);
       // todo, check that it does really work

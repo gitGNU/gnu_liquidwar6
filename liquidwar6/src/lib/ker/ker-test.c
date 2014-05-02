@@ -78,9 +78,9 @@ _print_game_struct_repr (const lw6ker_game_struct_t * game_struct)
   lw6sys_xyz_t there = { 0, 0, 0 };
 
   lw6ker_game_struct_get_shape (game_struct, &shape);
-  x = lw6sys_random (lw6ker_game_struct_get_w (game_struct));
-  y = lw6sys_random (lw6ker_game_struct_get_h (game_struct));
-  z = lw6sys_random (lw6ker_game_struct_get_d (game_struct));
+  x = lw6sys_random (sys_context, lw6ker_game_struct_get_w (game_struct));
+  y = lw6sys_random (sys_context, lw6ker_game_struct_get_h (game_struct));
+  z = lw6sys_random (sys_context, lw6ker_game_struct_get_d (game_struct));
   is_fg = lw6ker_game_struct_is_fg (game_struct, x, y, z);
   is_bg = lw6ker_game_struct_is_bg (game_struct, x, y, z);
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -161,9 +161,12 @@ _print_game_state_repr (const lw6ker_game_state_t * game_state)
 	   */
 	  lw6ker_game_state_get_cursor_by_index (game_state, &cursor, 0);
 	  lw6ker_game_state_get_shape (game_state, &shape);
-	  x = lw6sys_random (lw6ker_game_state_get_w (game_state));
-	  y = lw6sys_random (lw6ker_game_state_get_h (game_state));
-	  z = lw6sys_random (lw6ker_game_state_get_d (game_state));
+	  x =
+	    lw6sys_random (sys_context, lw6ker_game_state_get_w (game_state));
+	  y =
+	    lw6sys_random (sys_context, lw6ker_game_state_get_h (game_state));
+	  z =
+	    lw6sys_random (sys_context, lw6ker_game_state_get_d (game_state));
 	  potential =
 	    lw6ker_game_state_get_zone_potential (game_state, 0,
 						  LW6MAP_TEAM_COLOR_RED);
@@ -251,7 +254,7 @@ _test_struct ()
 
     ret = 0;
     level =
-      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+      lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (LW6SYS_TEST_ACK (level))
       {
@@ -276,7 +279,7 @@ _test_struct ()
 	      }
 	    lw6ker_game_struct_free (game_struct);
 	  }
-	lw6map_free (level);
+	lw6map_free (sys_context, level);
       }
   }
 
@@ -297,7 +300,7 @@ _test_state ()
 
     ret = 0;
     level =
-      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+      lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (LW6SYS_TEST_ACK (level))
       {
@@ -332,7 +335,7 @@ _test_state ()
 	      }
 	    lw6ker_game_struct_free (game_struct);
 	  }
-	lw6map_free (level);
+	lw6map_free (sys_context, level);
       }
   }
 
@@ -354,7 +357,7 @@ _test_population ()
     ret = 0;
 
     level =
-      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+      lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (LW6SYS_TEST_ACK (level))
       {
@@ -400,7 +403,7 @@ _test_population ()
 	      }
 	    lw6ker_game_struct_free (game_struct);
 	  }
-	lw6map_free (level);
+	lw6map_free (sys_context, level);
       }
   }
 
@@ -424,7 +427,7 @@ _test_algorithm ()
 
     ret = 0;
     level =
-      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+      lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (LW6SYS_TEST_ACK (level))
       {
@@ -524,7 +527,7 @@ _test_algorithm ()
 	      }
 	    lw6ker_game_struct_free (game_struct);
 	  }
-	lw6map_free (level);
+	lw6map_free (sys_context, level);
       }
   }
 
@@ -546,7 +549,7 @@ _test_dup ()
 
     ret = 0;
     level =
-      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+      lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (LW6SYS_TEST_ACK (level))
       {
@@ -573,7 +576,7 @@ _test_dup ()
 	    lw6ker_game_struct_free (game_struct2);
 	    game_struct2 = NULL;
 	  }
-	lw6map_free (level);
+	lw6map_free (sys_context, level);
 	level = NULL;
       }
   }
@@ -649,7 +652,7 @@ _test_hexa ()
 
     ret = 0;
     level =
-      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+      lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (LW6SYS_TEST_ACK (level))
       {
@@ -663,7 +666,8 @@ _test_hexa ()
 	    game_struct = NULL;
 	    if (LW6SYS_TEST_ACK (hexa_struct))
 	      {
-		checksum_hexa_struct = lw6sys_checksum_str (hexa_struct);
+		checksum_hexa_struct =
+		  lw6sys_checksum_str (sys_context, hexa_struct);
 		if (LW6SYS_TEST_ACK
 		    (checksum_hexa_struct == _TEST_GAME_STRUCT_HEXA_CHECKSUM))
 		  {
@@ -697,7 +701,8 @@ _test_hexa ()
 					checksum_struct, checksum_struct2);
 			    if (LW6SYS_TEST_ACK
 				(checksum_struct == checksum_struct2
-				 && lw6sys_str_is_same (hexa_struct,
+				 && lw6sys_str_is_same (sys_context,
+							hexa_struct,
 							hexa_struct2)))
 			      {
 				game_state =
@@ -732,7 +737,8 @@ _test_hexa ()
 				    if (LW6SYS_TEST_ACK (hexa_state))
 				      {
 					checksum_hexa_state =
-					  lw6sys_checksum_str (hexa_state);
+					  lw6sys_checksum_str (sys_context,
+							       hexa_state);
 					if (LW6SYS_TEST_ACK
 					    (checksum_hexa_state ==
 					     _TEST_GAME_STATE_HEXA_CHECKSUM))
@@ -868,7 +874,7 @@ _test_hexa ()
 		LW6SYS_FREE (sys_context, hexa_struct);
 	      }
 	  }
-	lw6map_free (level);
+	lw6map_free (sys_context, level);
 	level = NULL;
       }
   }
@@ -916,8 +922,8 @@ lw6ker_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
-      lw6map_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
+      lw6map_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6ker", _setup_init, _setup_quit);
@@ -958,7 +964,7 @@ lw6ker_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

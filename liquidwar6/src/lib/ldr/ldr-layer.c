@@ -50,7 +50,8 @@ read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image,
 
       for (row = 0; row < layer->shape.h; ++row)
 	{
-	  lw6sys_progress_update (progress, 0, layer->shape.h, row);
+	  lw6sys_progress_update (sys_context, progress, 0, layer->shape.h,
+				  row);
 	  for (col = 0; col < layer->shape.w; ++col)
 	    {
 	      lw6ldr_resampler_target2source (resampler, &col2, &row2,
@@ -117,9 +118,9 @@ lw6ldr_layer_read_first (lw6map_layer_t * layer, const char *filename,
   lw6sys_progress_t progress2;
   float gray_level;
 
-  lw6sys_progress_split (&progress1, &progress2, progress);
+  lw6sys_progress_split (sys_context, &progress1, &progress2, progress);
 
-  lw6map_layer_clear (layer);
+  lw6map_layer_clear (sys_context, layer);
   memset (&image, 0, sizeof (_lw6ldr_image_bw_t));
   if (_lw6ldr_bw_read (&image, filename, &progress1))
     {
@@ -138,7 +139,7 @@ lw6ldr_layer_read_first (lw6map_layer_t * layer, const char *filename,
 
   if (!ret)
     {
-      lw6map_layer_clear (layer);
+      lw6map_layer_clear (sys_context, layer);
     }
 
   return ret;
@@ -165,7 +166,7 @@ lw6ldr_layer_read_next (lw6map_layer_t * layer, const char *filename,
   lw6ldr_resampler_t resampler;
   _lw6ldr_image_bw_t image;
 
-  lw6map_layer_clear (layer);
+  lw6map_layer_clear (sys_context, layer);
   memset (&image, 0, sizeof (_lw6ldr_image_bw_t));
   if (_lw6ldr_bw_read (&image, filename, NULL))
     {
@@ -178,7 +179,7 @@ lw6ldr_layer_read_next (lw6map_layer_t * layer, const char *filename,
 
   if (!ret)
     {
-      lw6map_layer_clear (layer);
+      lw6map_layer_clear (sys_context, layer);
     }
 
   return ret;

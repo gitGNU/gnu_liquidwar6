@@ -107,15 +107,15 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
       /*
        * If submitted id is not valid, just generate a new one
        */
-      if (!lw6sys_check_id_64 (node_id))
+      if (!lw6sys_check_id_64 (sys_context, node_id))
 	{
 	  node_id = lw6sys_generate_id_64 ();
 	}
       node->node_id_int = node_id;
-      node->node_id_str = lw6sys_id_ltoa (node->node_id_int);
+      node->node_id_str = lw6sys_id_ltoa (sys_context, node->node_id_int);
       if (public_url && strlen (public_url) > 0)
 	{
-	  node->public_url = lw6sys_url_canonize (public_url);
+	  node->public_url = lw6sys_url_canonize (sys_context, public_url);
 	}
       else
 	{
@@ -133,7 +133,7 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 	lw6nod_info_new (lw6sys_build_get_package_tarname (),
 			 lw6sys_build_get_version (),
 			 lw6sys_build_get_codename (),
-			 lw6sys_atoi (lw6sys_build_get_stamp ()),
+			 lw6sys_atoi (sys_context, lw6sys_build_get_stamp ()),
 			 node->node_id_int, node->public_url, title,
 			 description, node->password, bench, open_relay, 0,
 			 node->db->data.idle_screenshot.size,
@@ -175,14 +175,14 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
       if (ret)
 	{
 	  node->srv_oobs =
-	    lw6sys_list_new ((lw6sys_free_func_t)
+	    lw6sys_list_new (sys_context, (lw6sys_free_func_t)
 			     _lw6p2p_srv_oob_callback_data_free);
 	  ret = (node->srv_oobs != NULL);
 	}
       if (ret)
 	{
 	  node->cli_oobs =
-	    lw6sys_list_new ((lw6sys_free_func_t)
+	    lw6sys_list_new (sys_context, (lw6sys_free_func_t)
 			     _lw6p2p_cli_oob_callback_data_free);
 	  ret = (node->cli_oobs != NULL);
 	}
@@ -200,15 +200,18 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
       && node->node_info->const_info.description && node->bind_ip)
     {
       ret = 0;
-      escaped_public_url = lw6sys_escape_sql_value (node->public_url);
+      escaped_public_url =
+	lw6sys_escape_sql_value (sys_context, node->public_url);
       if (escaped_public_url)
 	{
 	  escaped_title =
-	    lw6sys_escape_sql_value (node->node_info->const_info.title);
+	    lw6sys_escape_sql_value (sys_context,
+				     node->node_info->const_info.title);
 	  if (escaped_title)
 	    {
 	      escaped_description =
-		lw6sys_escape_sql_value (node->node_info->const_info.
+		lw6sys_escape_sql_value (sys_context,
+					 node->node_info->const_info.
 					 description);
 	      if (escaped_description)
 		{
@@ -219,7 +222,8 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 					_lw6p2p_db_now (node->db),
 					lw6sys_build_get_version (),
 					lw6sys_build_get_codename (),
-					lw6sys_atoi (lw6sys_build_get_stamp
+					lw6sys_atoi (sys_context,
+						     lw6sys_build_get_stamp
 						     ()), node->node_id_str,
 					escaped_public_url, escaped_title,
 					escaped_description,
@@ -300,11 +304,11 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
       lw6cnx_ticket_table_clear (&(node->ticket_table));
       if (node->cli_oobs)
 	{
-	  lw6sys_list_free (node->cli_oobs);
+	  lw6sys_list_free (sys_context, node->cli_oobs);
 	}
       if (node->srv_oobs)
 	{
-	  lw6sys_list_free (node->srv_oobs);
+	  lw6sys_list_free (sys_context, node->srv_oobs);
 	}
       if (node->known_nodes)
 	{
@@ -336,15 +340,15 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
 	}
       if (node->reference_msg)
 	{
-	  lw6sys_list_free (node->reference_msg);
+	  lw6sys_list_free (sys_context, node->reference_msg);
 	}
       if (node->draft_msg)
 	{
-	  lw6sys_list_free (node->draft_msg);
+	  lw6sys_list_free (sys_context, node->draft_msg);
 	}
       if (node->mutex)
 	{
-	  lw6sys_mutex_destroy (node->mutex);
+	  lw6sys_mutex_destroy (sys_context, node->mutex);
 	}
       LW6SYS_FREE (sys_context, node);
     }
@@ -417,7 +421,7 @@ _lw6p2p_node_lock (_lw6p2p_node_t * node)
   int ret = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("lock node"));
-  ret = lw6sys_mutex_lock (node->mutex);
+  ret = lw6sys_mutex_lock (sys_context, node->mutex);
   if (ret)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("lock node OK"));
@@ -437,7 +441,7 @@ _lw6p2p_node_unlock (_lw6p2p_node_t * node)
   int ret = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unlock node"));
-  ret = lw6sys_mutex_unlock (node->mutex);
+  ret = lw6sys_mutex_unlock (sys_context, node->mutex);
   if (ret)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unlock node OK"));
@@ -457,7 +461,7 @@ _lw6p2p_node_trylock (_lw6p2p_node_t * node)
   int ret = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trylock node"));
-  ret = lw6sys_mutex_trylock (node->mutex);
+  ret = lw6sys_mutex_trylock (sys_context, node->mutex);
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trylock node ret=%d"),
 	      ret);
 
@@ -530,7 +534,8 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node, int64_t now)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("TCP connection from %s:%d"), ip, port);
-	      lw6sys_list_push_front (&(node->listener->tcp_accepters),
+	      lw6sys_list_push_front (sys_context,
+				      &(node->listener->tcp_accepters),
 				      tcp_accepter);
 
 	      /*
@@ -538,7 +543,8 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node, int64_t now)
 	       * it will be qualified as a real server (or not) later
 	       */
 	      guessed_public_url =
-		lw6sys_url_http_from_ip_port (ip, LW6NET_DEFAULT_PORT);
+		lw6sys_url_http_from_ip_port (sys_context, ip,
+					      LW6NET_DEFAULT_PORT);
 	      if (guessed_public_url)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
@@ -552,7 +558,8 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node, int64_t now)
 	      if (node->bind_port != LW6NET_DEFAULT_PORT)
 		{
 		  guessed_public_url =
-		    lw6sys_url_http_from_ip_port (ip, node->bind_port);
+		    lw6sys_url_http_from_ip_port (sys_context, ip,
+						  node->bind_port);
 		  if (guessed_public_url)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
@@ -614,14 +621,16 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node, int64_t now)
 	      udp_buffer = lw6srv_udp_buffer_new (ip2, port2, line);
 	      if (udp_buffer)
 		{
-		  lw6sys_list_push_front (&(node->listener->udp_buffers),
+		  lw6sys_list_push_front (sys_context,
+					  &(node->listener->udp_buffers),
 					  udp_buffer);
 		  /*
 		   * Now we register this peer as a potential server,
 		   * it will be qualified as a real server (or not) later
 		   */
 		  guessed_public_url =
-		    lw6sys_url_http_from_ip_port (ip2, LW6NET_DEFAULT_PORT);
+		    lw6sys_url_http_from_ip_port (sys_context, ip2,
+						  LW6NET_DEFAULT_PORT);
 		  if (guessed_public_url)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
@@ -635,7 +644,8 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node, int64_t now)
 		  if (node->bind_port != LW6NET_DEFAULT_PORT)
 		    {
 		      guessed_public_url =
-			lw6sys_url_http_from_ip_port (ip2, node->bind_port);
+			lw6sys_url_http_from_ip_port (sys_context, ip2,
+						      node->bind_port);
 		      if (guessed_public_url)
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
@@ -736,7 +746,8 @@ _tcp_accepter_reply (void *func_data, void *data)
 		      srv_oob->srv_oob->thread =
 			lw6sys_thread_create (_lw6p2p_srv_oob_callback, NULL,
 					      srv_oob);
-		      lw6sys_lifo_push (&(node->srv_oobs), srv_oob);
+		      lw6sys_lifo_push (sys_context, &(node->srv_oobs),
+					srv_oob);
 		    }
 		}
 	      else
@@ -856,7 +867,8 @@ _udp_buffer_reply (void *func_data, void *data)
 		      srv_oob->srv_oob->thread =
 			lw6sys_thread_create (_lw6p2p_srv_oob_callback, NULL,
 					      srv_oob);
-		      lw6sys_lifo_push (&(node->srv_oobs), srv_oob);
+		      lw6sys_lifo_push (sys_context, &(node->srv_oobs),
+					srv_oob);
 		    }
 		}
 	      else
@@ -933,10 +945,10 @@ _poll_step3_reply (_lw6p2p_node_t * node, int64_t now)
    */
   if (_lw6p2p_node_unlock (node))
     {
-      lw6sys_list_filter (&(node->listener->tcp_accepters),
+      lw6sys_list_filter (sys_context, &(node->listener->tcp_accepters),
 			  _tcp_accepter_reply, node);
-      lw6sys_list_filter (&(node->listener->udp_buffers), _udp_buffer_reply,
-			  node);
+      lw6sys_list_filter (sys_context, &(node->listener->udp_buffers),
+			  _udp_buffer_reply, node);
       _lw6p2p_node_lock (node);
     }
 
@@ -960,7 +972,7 @@ _poll_step4_cli_oob (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
 
-  lw6sys_list_filter (&(node->cli_oobs), _cli_oob_filter, NULL);
+  lw6sys_list_filter (sys_context, &(node->cli_oobs), _cli_oob_filter, NULL);
 
   return ret;
 }
@@ -982,7 +994,7 @@ _poll_step5_srv_oob (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
 
-  lw6sys_list_filter (&(node->srv_oobs), _srv_oob_filter, NULL);
+  lw6sys_list_filter (sys_context, &(node->srv_oobs), _srv_oob_filter, NULL);
 
   return ret;
 }
@@ -1052,7 +1064,8 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node, int64_t now)
 	  if (atom_str_list)
 	    {
 	      while ((atom_str =
-		      lw6sys_list_pop_front (&atom_str_list)) != NULL)
+		      lw6sys_list_pop_front (sys_context,
+					     &atom_str_list)) != NULL)
 		{
 		  logical_ticket_sig =
 		    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
@@ -1148,7 +1161,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now,
 					progress);
       if (list)
 	{
-	  while ((miss = lw6sys_list_pop_front (&list)) != NULL)
+	  while ((miss = lw6sys_list_pop_front (sys_context, &list)) != NULL)
 	    {
 	      nb_atom_parts_since_last_poll =
 		lw6dat_warehouse_get_nb_atom_parts_since_last_poll
@@ -1403,11 +1416,12 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 
 	  if (node->srv_oobs)
 	    {
-	      while (node->srv_oobs && !lw6sys_list_is_empty (node->srv_oobs))
+	      while (node->srv_oobs
+		     && !lw6sys_list_is_empty (sys_context, node->srv_oobs))
 		{
 		  srv_oob =
 		    (_lw6p2p_srv_oob_callback_data_t *)
-		    lw6sys_list_pop_front (&(node->srv_oobs));
+		    lw6sys_list_pop_front (sys_context, &(node->srv_oobs));
 		  _lw6p2p_srv_oob_callback_data_free (srv_oob);
 		}
 	      if (!(node->srv_oobs))
@@ -1418,11 +1432,12 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 	    }
 	  if (node->cli_oobs)
 	    {
-	      while (node->cli_oobs && !lw6sys_list_is_empty (node->cli_oobs))
+	      while (node->cli_oobs
+		     && !lw6sys_list_is_empty (sys_context, node->cli_oobs))
 		{
 		  cli_oob =
 		    (_lw6p2p_cli_oob_callback_data_t *)
-		    lw6sys_list_pop_front (&(node->cli_oobs));
+		    lw6sys_list_pop_front (sys_context, &(node->cli_oobs));
 		  _lw6p2p_cli_oob_callback_data_free (cli_oob);
 		}
 	      if (!(node->cli_oobs))
@@ -1509,10 +1524,11 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
   char *canonized_public_url;
   char *escaped_public_url;
 
-  canonized_public_url = lw6sys_url_canonize (public_url);
+  canonized_public_url = lw6sys_url_canonize (sys_context, public_url);
   if (canonized_public_url)
     {
-      escaped_public_url = lw6sys_escape_sql_value (canonized_public_url);
+      escaped_public_url =
+	lw6sys_escape_sql_value (sys_context, canonized_public_url);
       if (escaped_public_url)
 	{
 	  if (_lw6p2p_db_lock (node->db))
@@ -1594,22 +1610,22 @@ _lw6p2p_node_update_peer_info_x (_lw6p2p_node_t * node, const char *version,
   char *escaped_level = NULL;
   int available;
 
-  escaped_version = lw6sys_escape_sql_value (version);
-  escaped_codename = lw6sys_escape_sql_value (codename);
+  escaped_version = lw6sys_escape_sql_value (sys_context, version);
+  escaped_codename = lw6sys_escape_sql_value (sys_context, codename);
   escaped_id = lw6sys_escape_sql_value (id);
-  escaped_url = lw6sys_escape_sql_value (url);
-  escaped_title = lw6sys_escape_sql_value (title);
+  escaped_url = lw6sys_escape_sql_value (sys_context, url);
+  escaped_title = lw6sys_escape_sql_value (sys_context, title);
   escaped_description = lw6sys_escape_sql_value (description);
-  escaped_community_id = lw6sys_escape_sql_value (community_id);
-  escaped_level = lw6sys_escape_sql_value (level);
+  escaped_community_id = lw6sys_escape_sql_value (sys_context, community_id);
+  escaped_level = lw6sys_escape_sql_value (sys_context, level);
   // todo : test for bench to set available the right way
   available = ((!lw6sys_str_is_null_or_empty (id))
 	       &&
 	       (lw6sys_str_is_same
 		(version, node->node_info->const_info.version))
 	       && (required_bench <= node->node_info->const_info.bench)
-	       && (!lw6sys_str_is_same (id, node->node_id_str))
-	       && (!lw6sys_str_is_null_or_empty (level))
+	       && (!lw6sys_str_is_same (sys_context, id, node->node_id_str))
+	       && (!lw6sys_str_is_null_or_empty (sys_context, level))
 	       && (nb_colors < max_nb_colors) && (nb_cursors < max_nb_cursors)
 	       && (nb_nodes < max_nb_nodes)) ? 1 : 0;
 
@@ -1721,7 +1737,7 @@ _lw6p2p_node_update_peer_net (_lw6p2p_node_t * node,
   char *escaped_url = NULL;
 
   escaped_id = lw6sys_escape_sql_value (id);
-  escaped_url = lw6sys_escape_sql_value (url);
+  escaped_url = lw6sys_escape_sql_value (sys_context, url);
 
   query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 			      (node->db,
@@ -1885,44 +1901,44 @@ _get_entries_callback (void *func_data, int nb_fields,
 			   [_LW6P2P_DB_NODE_ORDER_CREATION_TIMESTAMP]),
 			  fields_values[_LW6P2P_DB_NODE_ORDER_VERSION],
 			  fields_values[_LW6P2P_DB_NODE_ORDER_CODENAME],
-			  lw6sys_atoi (fields_values
+			  lw6sys_atoi (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_STAMP]),
 			  fields_values[_LW6P2P_DB_NODE_ORDER_ID],
 			  fields_values[_LW6P2P_DB_NODE_ORDER_URL],
 			  fields_values[_LW6P2P_DB_NODE_ORDER_TITLE],
 			  fields_values[_LW6P2P_DB_NODE_ORDER_DESCRIPTION],
-			  lw6sys_atob (fields_values
+			  lw6sys_atob (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_HAS_PASSWORD]),
-			  lw6sys_atoi (fields_values
+			  lw6sys_atoi (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_BENCH]),
-			  lw6sys_atoi (fields_values
+			  lw6sys_atoi (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_OPEN_RELAY]),
 			  fields_values[_LW6P2P_DB_NODE_ORDER_COMMUNITY_ID],
-			  lw6sys_atoi (fields_values
+			  lw6sys_atoi (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_ROUND]),
 			  fields_values[_LW6P2P_DB_NODE_ORDER_LEVEL],
-			  lw6sys_atoi (fields_values
+			  lw6sys_atoi (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_REQUIRED_BENCH]),
-			  lw6sys_atoi (fields_values
+			  lw6sys_atoi (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_NB_COLORS]),
-			  lw6sys_atoi (fields_values
+			  lw6sys_atoi (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_MAX_NB_COLORS]),
-			  lw6sys_atoi (fields_values
+			  lw6sys_atoi (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_NB_CURSORS]),
-			  lw6sys_atoi (fields_values
+			  lw6sys_atoi (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_MAX_NB_CURSORS]),
-			  lw6sys_atoi (fields_values
+			  lw6sys_atoi (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_NB_NODES]),
-			  lw6sys_atoi (fields_values
+			  lw6sys_atoi (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_MAX_NB_NODES]),
 			  fields_values[_LW6P2P_DB_NODE_ORDER_IP],
-			  lw6sys_atoi (fields_values
+			  lw6sys_atoi (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_PORT]),
-			  lw6sys_atoi (fields_values
+			  lw6sys_atoi (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_LAST_PING_TIMESTAMP]),
-			  lw6sys_atoi (fields_values
+			  lw6sys_atoi (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC]),
-			  lw6sys_atob (fields_values
+			  lw6sys_atob (sys_context, fields_values
 				       [_LW6P2P_DB_NODE_ORDER_AVAILABLE]));
       if (entry)
 	{
@@ -1939,7 +1955,7 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node, int skip_local)
   lw6sys_list_t *ret;
   char *query = NULL;
 
-  ret = lw6sys_list_new ((lw6sys_free_func_t) lw6p2p_entry_free);
+  ret = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6p2p_entry_free);
   if (ret)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
@@ -2039,7 +2055,7 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node, int64_t seq_0)
 		      node->node_info->const_info.bench /
 		      LW6P2P_BENCH_NETWORK_DIVIDE, 0, 0, 0, 0, 0, 0, NULL, 0,
 		      NULL);
-  _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (), seq_0);
+  _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (sys_context,), seq_0);
   lw6dat_warehouse_set_local_seq_0 (node->warehouse, seq_0);
 
   ret = 1;
@@ -2098,7 +2114,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 
   now = lw6sys_get_timestamp ();
 
-  remote_id_str = lw6sys_id_ltoa (remote_id);
+  remote_id_str = lw6sys_id_ltoa (sys_context, remote_id);
   if (remote_id_str)
     {
       if ((!lw6nod_info_community_has_id (node->node_info, remote_id)) &&
@@ -2108,7 +2124,8 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 	  if (i >= 0 && i < LW6P2P_MAX_NB_TENTACLES)
 	    {
 	      tentacle = &(node->tentacles[i]);
-	      if (lw6sys_str_is_same (remote_url, tentacle->remote_url))
+	      if (lw6sys_str_is_same
+		  (sys_context, remote_url, tentacle->remote_url))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("keep connected to  %" LW6SYS_PRINTF_LL
@@ -2169,7 +2186,8 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id,
 		      limit_timestamp =
 			now + node->db->data.consts.join_delay;
 		      while (!tentacle->data_exchanged
-			     && lw6sys_get_timestamp () < limit_timestamp)
+			     && lw6sys_get_timestamp (sys_context,) <
+			     limit_timestamp)
 			{
 			  _lw6p2p_node_poll (node, progress);
 			  if (_lw6p2p_node_unlock (node))
@@ -2309,7 +2327,7 @@ _lw6p2p_node_refresh_peer (_lw6p2p_node_t * node, u_int64_t remote_id,
     lw6nod_info_community_get_url_from_id (node->node_info, remote_id);
   if (url_from_id)
     {
-      if (!lw6sys_str_is_same (remote_url, url_from_id))
+      if (!lw6sys_str_is_same (sys_context, remote_url, url_from_id))
 	{
 	  _lw6p2p_explore_start_verify_node (node, url_from_id);
 	}
@@ -2379,12 +2397,12 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
     lw6dat_warehouse_get_seq_min (node->warehouse) - 1;
   if (node->reference_msg)
     {
-      lw6sys_list_free (node->reference_msg);
+      lw6sys_list_free (sys_context, node->reference_msg);
       node->reference_msg = NULL;
     }
   if (node->draft_msg)
     {
-      lw6sys_list_free (node->draft_msg);
+      lw6sys_list_free (sys_context, node->draft_msg);
       node->draft_msg = NULL;
     }
 }
@@ -3020,7 +3038,7 @@ _lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node,
 
   if (node->reference_msg)
     {
-      ret = lw6sys_list_pop_front (&(node->reference_msg));
+      ret = lw6sys_list_pop_front (sys_context, &(node->reference_msg));
     }
 
   return ret;
@@ -3103,20 +3121,20 @@ _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node,
 	    }
 	  if (node->draft_msg)
 	    {
-	      if (lw6sys_list_length (node->draft_msg) > 0)
+	      if (lw6sys_list_length (sys_context, node->draft_msg) > 0)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("strange, got messages when one could not figure out what seq_draft was"));
 		}
-	      lw6sys_list_free (node->draft_msg);
+	      lw6sys_list_free (sys_context, node->draft_msg);
 	      node->draft_msg = NULL;
 	    }
 	}
     }
   if (node->draft_msg)
     {
-      ret = lw6sys_list_pop_front (&(node->draft_msg));
+      ret = lw6sys_list_pop_front (sys_context, &(node->draft_msg));
     }
 
   return ret;

@@ -48,13 +48,14 @@ void
 _lw6ker_fighter_update_checksum (const lw6ker_fighter_t * fighter,
 				 u_int32_t * checksum)
 {
-  lw6sys_checksum_update_int32 (checksum, fighter->team_color);
-  lw6sys_checksum_update_int32 (checksum, fighter->last_direction);
-  lw6sys_checksum_update_int32 (checksum, fighter->health);
-  lw6sys_checksum_update_int32 (checksum, fighter->act_counter);
-  lw6sys_checksum_update_int32 (checksum, fighter->pos.x);
-  lw6sys_checksum_update_int32 (checksum, fighter->pos.y);
-  lw6sys_checksum_update_int32 (checksum, fighter->pos.z);
+  lw6sys_checksum_update_int32 (sys_context, checksum, fighter->team_color);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				fighter->last_direction);
+  lw6sys_checksum_update_int32 (sys_context, checksum, fighter->health);
+  lw6sys_checksum_update_int32 (sys_context, checksum, fighter->act_counter);
+  lw6sys_checksum_update_int32 (sys_context, checksum, fighter->pos.x);
+  lw6sys_checksum_update_int32 (sys_context, checksum, fighter->pos.y);
+  lw6sys_checksum_update_int32 (sys_context, checksum, fighter->pos.z);
 }
 
 void

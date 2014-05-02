@@ -289,7 +289,7 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
   seek = (char *) pos;
   if (lw6msg_word_first_x (&received_lw6, &seek, pos))
     {
-      if (lw6sys_str_is_same (received_lw6.buf, lw6))
+      if (lw6sys_str_is_same (sys_context, received_lw6.buf, lw6))
 	{
 	  pos = seek;
 	  if (lw6msg_word_first_x (&received_version, &seek, pos))

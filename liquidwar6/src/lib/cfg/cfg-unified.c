@@ -39,7 +39,7 @@ get_option (int argc, const char *argv[], char *key)
   cfg_context = _lw6cfg_init (argc, argv);
   if (cfg_context)
     {
-      config_file = lw6sys_get_config_file (argc, argv);
+      config_file = lw6sys_get_config_file (sys_context, argc, argv);
       if (config_file)
 	{
 	  if (_lw6cfg_load (cfg_context, config_file))
@@ -82,7 +82,7 @@ lw6cfg_unified_get_value (int argc, const char *argv[], char *key)
 {
   char *ret = NULL;
 
-  ret = lw6sys_arg_get_value_with_env (argc, argv, key);
+  ret = lw6sys_arg_get_value_with_env (sys_context, argc, argv, key);
 
   if (!ret)
     {
@@ -112,7 +112,7 @@ lw6cfg_unified_get_user_dir (int argc, const char *argv[])
   ret = lw6cfg_unified_get_value (argc, argv, LW6DEF_USER_DIR);
   if (!ret)
     {
-      ret = lw6sys_get_user_dir (argc, argv);
+      ret = lw6sys_get_user_dir (sys_context, argc, argv);
     }
 
   return ret;
@@ -138,7 +138,7 @@ lw6cfg_unified_get_log_file (int argc, const char *argv[])
   ret = lw6cfg_unified_get_value (argc, argv, LW6DEF_LOG_FILE);
   if (!ret)
     {
-      ret = lw6sys_get_log_file (argc, argv);
+      ret = lw6sys_get_log_file (sys_context, argc, argv);
     }
 
   return ret;
@@ -163,7 +163,7 @@ lw6cfg_unified_get_music_path (int argc, const char *argv[])
   char *music_path = NULL;
   char *music_path_config = NULL;
 
-  music_path = lw6sys_get_music_path (argc, argv);
+  music_path = lw6sys_get_music_path (sys_context, argc, argv);
   if (music_path)
     {
       music_path_config = get_option (argc, argv, LW6DEF_MUSIC_PATH);
@@ -198,7 +198,7 @@ lw6cfg_unified_get_map_path (int argc, const char *argv[])
   char *map_path = NULL;
   char *map_path_config = NULL;
 
-  map_path = lw6sys_get_map_path (argc, argv);
+  map_path = lw6sys_get_map_path (sys_context, argc, argv);
   if (map_path)
     {
       map_path_config = get_option (argc, argv, LW6DEF_MAP_PATH);

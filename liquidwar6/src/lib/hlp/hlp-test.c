@@ -181,7 +181,7 @@ lw6hlp_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6hlp", _setup_init, _setup_quit);
@@ -221,7 +221,7 @@ lw6hlp_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

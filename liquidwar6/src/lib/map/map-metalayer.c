@@ -39,8 +39,8 @@
  * Return value: none
  */
 void
-lw6map_meta_layer_set (lw6map_meta_layer_t * meta_layer, int x, int y,
-		       u_int8_t value)
+lw6map_meta_layer_set (sys_context, lw6map_meta_layer_t * meta_layer, int x,
+		       int y, u_int8_t value)
 {
   if (meta_layer->data)
     {
@@ -60,7 +60,8 @@ lw6map_meta_layer_set (lw6map_meta_layer_t * meta_layer, int x, int y,
  * Return value: the value at this place
  */
 u_int8_t
-lw6map_meta_layer_get (const lw6map_meta_layer_t * meta_layer, int x, int y)
+lw6map_meta_layer_get (sys_context, const lw6map_meta_layer_t * meta_layer,
+		       int x, int y)
 {
   int ret = 0;
 
@@ -83,7 +84,7 @@ lw6map_meta_layer_get (const lw6map_meta_layer_t * meta_layer, int x, int y)
  * Return value: none
  */
 void
-lw6map_meta_layer_clear (lw6map_meta_layer_t * meta_layer)
+lw6map_meta_layer_clear (sys_context, lw6map_meta_layer_t * meta_layer)
 {
   if (meta_layer->data)
     {
@@ -110,7 +111,8 @@ lw6map_meta_layer_clear (lw6map_meta_layer_t * meta_layer)
  * Return value: 1 if OK, 0 on failure.
  */
 int
-lw6map_meta_layer_builtin_custom (lw6map_meta_layer_t * meta_layer, int w,
+lw6map_meta_layer_builtin_custom (sys_context,
+				  lw6map_meta_layer_t * meta_layer, int w,
 				  int h, int analog, int noise_percent,
 				  int seed)
 {
@@ -118,7 +120,7 @@ lw6map_meta_layer_builtin_custom (lw6map_meta_layer_t * meta_layer, int w,
   int i, n;
   u_int32_t checksum;
 
-  lw6map_meta_layer_clear (meta_layer);
+  lw6map_meta_layer_clear (sys_context, meta_layer);
   if (noise_percent == 0)
     {
       // ok, we leave pointer NULL, code should handler this fine

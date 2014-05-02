@@ -311,7 +311,8 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 	   * Step 3, take bench in account
 	   */
 	  lin_bench_value =
-	    lw6sys_math_log2lin (bench_value, LW6MAP_LOG2LIN_BASE);
+	    lw6sys_math_log2lin (sys_context, bench_value,
+				 LW6MAP_LOG2LIN_BASE);
 	  capacity_orig = ((float) lin_bench_value) * ((float) magic_number);
 	  capacity = capacity_orig;
 	  required =
@@ -441,8 +442,8 @@ lw6ldr_resampler_use_for_gen (int *map_w, int *map_h,
   display_w = lw6sys_imax (display_w, 1);
   display_h = lw6sys_imax (display_h, 1);
 
-  lw6map_param_zero (&param);
-  lw6map_param_defaults (&param);
+  lw6map_param_zero (sys_context, &param);
+  lw6map_param_defaults (sys_context, &param);
   lw6ldr_hints_zero (&hints);
   lw6ldr_hints_defaults (&hints);
 
@@ -459,7 +460,7 @@ lw6ldr_resampler_use_for_gen (int *map_w, int *map_h,
   (*map_w) = resampler.target_w;
   (*map_h) = resampler.target_h;
 
-  lw6map_param_clear (&param);
+  lw6map_param_clear (sys_context, &param);
   lw6ldr_hints_clear (&hints);
 }
 

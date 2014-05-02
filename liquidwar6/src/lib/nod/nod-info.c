@@ -112,16 +112,16 @@ lw6nod_info_free (lw6nod_info_t * info)
     }
   if (info->mutex)
     {
-      lw6sys_mutex_destroy (info->mutex);
+      lw6sys_mutex_destroy (sys_context, info->mutex);
     }
   _lw6nod_const_info_reset (&(info->const_info));
   if (info->discovered_nodes)
     {
-      lw6sys_hash_free (info->discovered_nodes);
+      lw6sys_hash_free (sys_context, info->discovered_nodes);
     }
   if (info->verified_nodes)
     {
-      lw6sys_list_free (info->verified_nodes);
+      lw6sys_list_free (sys_context, info->verified_nodes);
     }
   LW6SYS_FREE (sys_context, info);
 }
@@ -143,7 +143,7 @@ lw6nod_info_lock (lw6nod_info_t * info)
 {
   int ret = 0;
 
-  ret = lw6sys_mutex_lock (info->mutex);
+  ret = lw6sys_mutex_lock (sys_context, info->mutex);
 
   return ret;
 }
@@ -163,7 +163,7 @@ lw6nod_info_unlock (lw6nod_info_t * info)
 {
   int ret = 0;
 
-  ret = lw6sys_mutex_unlock (info->mutex);
+  ret = lw6sys_mutex_unlock (sys_context, info->mutex);
 
   return ret;
 }
@@ -319,7 +319,7 @@ lw6nod_info_new_discovered_nodes ()
 {
   lw6sys_hash_t *ret;
 
-  ret = lw6sys_hash_new (NULL, _LW6NOD_HASH_SIZE);
+  ret = lw6sys_hash_new (sys_context, NULL, _LW6NOD_HASH_SIZE);
 
   return ret;
 }
@@ -355,14 +355,14 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, const char *public_url)
 	    }
 	  if (info->discovered_nodes)
 	    {
-	      canonized_url = lw6sys_url_canonize (public_url);
+	      canonized_url = lw6sys_url_canonize (sys_context, public_url);
 	      if (canonized_url)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("adding \"%s\" as a possible node"),
 			      canonized_url);
-		  lw6sys_hash_set (info->discovered_nodes, canonized_url,
-				   NULL);
+		  lw6sys_hash_set (sys_context, info->discovered_nodes,
+				   canonized_url, NULL);
 		  LW6SYS_FREE (sys_context, canonized_url);
 		}
 	    }
@@ -393,12 +393,12 @@ lw6nod_info_pop_discovered_nodes (lw6nod_info_t * info)
     {
       if (info->discovered_nodes)
 	{
-	  ret = lw6sys_hash_keys (info->discovered_nodes);
-	  lw6sys_hash_free (info->discovered_nodes);
+	  ret = lw6sys_hash_keys (sys_context, info->discovered_nodes);
+	  lw6sys_hash_free (sys_context, info->discovered_nodes);
 	}
       else
 	{
-	  ret = lw6sys_list_new (lw6sys_free_callback);
+	  ret = lw6sys_list_new (sys_context, lw6sys_free_callback);
 	}
       info->discovered_nodes = lw6nod_info_new_discovered_nodes ();
       lw6nod_info_unlock (info);
@@ -421,7 +421,7 @@ lw6nod_info_new_verified_nodes ()
 {
   lw6sys_list_t *ret;
 
-  ret = lw6sys_list_new ((lw6sys_free_func_t) lw6nod_info_free);
+  ret = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6nod_info_free);
 
   return ret;
 }
@@ -470,7 +470,7 @@ lw6nod_info_set_verified_nodes (lw6nod_info_t * info, lw6sys_list_t * list)
 {
   int ret = 0;
 
-  lw6sys_sort (&list, _verified_sort_callback);
+  lw6sys_sort (sys_context, &list, _verified_sort_callback);
 
   if (list)
     {
@@ -478,7 +478,7 @@ lw6nod_info_set_verified_nodes (lw6nod_info_t * info, lw6sys_list_t * list)
 	{
 	  if (info->verified_nodes)
 	    {
-	      lw6sys_list_free (info->verified_nodes);
+	      lw6sys_list_free (sys_context, info->verified_nodes);
 	    }
 	  info->verified_nodes = list;
 	  lw6nod_info_unlock (info);
@@ -511,7 +511,8 @@ lw6nod_info_map_verified_nodes (lw6nod_info_t * info,
     {
       if (info->verified_nodes)
 	{
-	  lw6sys_list_map (info->verified_nodes, func, func_data);
+	  lw6sys_list_map (sys_context, info->verified_nodes, func,
+			   func_data);
 	}
       lw6nod_info_unlock (info);
     }

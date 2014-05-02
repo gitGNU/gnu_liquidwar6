@@ -105,12 +105,12 @@ parse_option (_lw6cfg_context_t * context, const char *option)
 			      _x_
 			      ("key \"%s\" set to \"%s\" by command-line option \"%s\""),
 			      key, value_converted, option);
-		  if (lw6sys_spinlock_lock (context->spinlock))
+		  if (lw6sys_spinlock_lock (sys_context, context->spinlock))
 		    {
-		      lw6sys_hash_set (context->options, key,
+		      lw6sys_hash_set (sys_context, context->options, key,
 				       value_converted);
 		      // no need to free value_converted
-		      lw6sys_spinlock_unlock (context->spinlock);
+		      lw6sys_spinlock_unlock (sys_context, context->spinlock);
 		    }
 		}
 	    }

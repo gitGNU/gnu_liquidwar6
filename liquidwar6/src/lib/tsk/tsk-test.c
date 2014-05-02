@@ -82,9 +82,12 @@ _test_manager_ldr ()
 	    map_path = lw6sys_get_default_map_path ();
 	    if (map_path)
 	      {
-		default_param = lw6sys_assoc_new (lw6sys_free_callback);
-		forced_param = lw6sys_assoc_new (lw6sys_free_callback);
-		lw6sys_assoc_set (&default_param, _TEST_OPTION_KEY1,
+		default_param =
+		  lw6sys_assoc_new (sys_context, lw6sys_free_callback);
+		forced_param =
+		  lw6sys_assoc_new (sys_context, lw6sys_free_callback);
+		lw6sys_assoc_set (sys_context, &default_param,
+				  _TEST_OPTION_KEY1,
 				  lw6sys_str_copy (sys_context,
 						   _TEST_OPTION_VALUE1));
 		lw6sys_assoc_set (&forced_param, _TEST_OPTION_KEY2,
@@ -98,7 +101,7 @@ _test_manager_ldr ()
 					    _TEST_DISPLAY_HEIGHT,
 					    LW6LDR_DEFAULT_BENCH_VALUE,
 					    LW6LDR_DEFAULT_MAGIC_NUMBER);
-		    lw6sys_sleep (_TEST_LOOP_SLEEP);
+		    lw6sys_sleep (sys_context, _TEST_LOOP_SLEEP);
 		    lw6tsk_loader_push_ldr (manager, map_path, _TEST_LOAD_MAP,
 					    default_param, forced_param,
 					    _TEST_DISPLAY_WIDTH,
@@ -107,7 +110,7 @@ _test_manager_ldr ()
 					    LW6LDR_DEFAULT_MAGIC_NUMBER);
 		    for (i = 0; i < _TEST_LOOP_N && !done; i++)
 		      {
-			lw6sys_sleep (_TEST_LOOP_SLEEP);
+			lw6sys_sleep (sys_context, _TEST_LOOP_SLEEP);
 			repr = lw6tsk_loader_repr (manager);
 			if (repr)
 			  {
@@ -147,12 +150,12 @@ _test_manager_ldr ()
 				game_state = NULL;
 				lw6ker_game_struct_free (game_struct);
 				game_struct = NULL;
-				lw6map_free (level);
+				lw6map_free (sys_context, level);
 				level = NULL;
 			      }
 			    if (level)
 			      {
-				repr = lw6map_repr (level);
+				repr = lw6map_repr (sys_context, level);
 				if (repr)
 				  {
 				    lw6sys_log (sys_context,
@@ -161,13 +164,13 @@ _test_manager_ldr ()
 						repr);
 				    LW6SYS_FREE (sys_context, repr);
 				  }
-				lw6map_free (level);
+				lw6map_free (sys_context, level);
 				level = NULL;
 			      }
 			  }
 		      }
-		    lw6sys_assoc_free (default_param);
-		    lw6sys_assoc_free (forced_param);
+		    lw6sys_assoc_free (sys_context, default_param);
+		    lw6sys_assoc_free (sys_context, forced_param);
 
 		  }
 		LW6SYS_FREE (map_path);
@@ -222,7 +225,7 @@ _test_manager_gen ()
 				    _TEST_DISPLAY_HEIGHT,
 				    LW6LDR_DEFAULT_BENCH_VALUE,
 				    LW6LDR_DEFAULT_MAGIC_NUMBER);
-	    lw6sys_sleep (_TEST_LOOP_SLEEP);
+	    lw6sys_sleep (sys_context, _TEST_LOOP_SLEEP);
 	    lw6tsk_loader_push_gen (manager, _TEST_SEED_2,
 				    _TEST_DISPLAY_WIDTH,
 				    _TEST_DISPLAY_HEIGHT,
@@ -230,7 +233,7 @@ _test_manager_gen ()
 				    LW6LDR_DEFAULT_MAGIC_NUMBER);
 	    for (i = 0; i < _TEST_LOOP_N && !done; i++)
 	      {
-		lw6sys_sleep (_TEST_LOOP_SLEEP);
+		lw6sys_sleep (sys_context, _TEST_LOOP_SLEEP);
 		repr = lw6tsk_loader_repr (manager);
 		if (repr)
 		  {
@@ -267,19 +270,19 @@ _test_manager_gen ()
 			game_state = NULL;
 			lw6ker_game_struct_free (game_struct);
 			game_struct = NULL;
-			lw6map_free (level);
+			lw6map_free (sys_context, level);
 			level = NULL;
 		      }
 		    if (level)
 		      {
-			repr = lw6map_repr (level);
+			repr = lw6map_repr (sys_context, level);
 			if (repr)
 			  {
 			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					_x_ ("generated map \"%s\""), repr);
 			    LW6SYS_FREE (sys_context, repr);
 			  }
-			lw6map_free (level);
+			lw6map_free (sys_context, level);
 			level = NULL;
 		      }
 		  }
@@ -337,10 +340,10 @@ lw6tsk_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
       lw6cfg_test_register (mode);
       lw6hlp_test_register (mode);
-      lw6map_test_register (mode);
+      lw6map_test_register (sys_context, mode);
       lw6ker_test_register (mode);
       lw6ldr_test_register (mode);
       lw6gen_test_register (mode);
@@ -379,7 +382,7 @@ lw6tsk_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

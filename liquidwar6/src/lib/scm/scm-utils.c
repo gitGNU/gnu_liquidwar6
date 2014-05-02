@@ -96,7 +96,8 @@ lw6scm_utils_to_scm_str_list (lw6sys_list_t * c_list)
   SCM ret = SCM_EOL;
   lw6sys_list_t *c_item = NULL;
 
-  for (c_item = c_list; c_item; c_item = lw6sys_list_next (c_item))
+  for (c_item = c_list; c_item;
+       c_item = lw6sys_list_next (sys_context, c_item))
     {
       if (c_item->data)
 	{
@@ -140,7 +141,7 @@ lw6scm_utils_to_scm_str_assoc (lw6sys_assoc_t * c_assoc)
 {
   SCM ret = SCM_EOL;
 
-  lw6sys_assoc_map (c_assoc, _to_scm_str_assoc_callback, &ret);
+  lw6sys_assoc_map (sys_context, c_assoc, _to_scm_str_assoc_callback, &ret);
   if (SCM_CONSP (ret) || ret == SCM_EOL)
     {
       ret = scm_reverse (ret);
@@ -165,7 +166,7 @@ lw6scm_utils_to_sys_str_list (SCM list)
 {
   lw6sys_list_t *c_list = NULL;
 
-  c_list = lw6sys_list_new (lw6sys_free_callback);
+  c_list = lw6sys_list_new (sys_context, lw6sys_free_callback);
   if (c_list)
     {
       if (SCM_CONSP (list))
@@ -181,7 +182,7 @@ lw6scm_utils_to_sys_str_list (SCM list)
 	      c_item = lw6scm_utils_to_0str (item);
 	      if (c_item)
 		{
-		  lw6sys_list_push_front (&c_list, c_item);
+		  lw6sys_list_push_front (sys_context, &c_list, c_item);
 		  // do not free c_item, list will do it
 		}
 	    }
@@ -207,7 +208,7 @@ lw6scm_utils_to_sys_str_assoc (SCM assoc)
 {
   lw6sys_assoc_t *c_assoc = NULL;
 
-  c_assoc = lw6sys_assoc_new (lw6sys_free_callback);
+  c_assoc = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
   if (c_assoc)
     {
       if (SCM_CONSP (assoc))
@@ -226,7 +227,8 @@ lw6scm_utils_to_sys_str_assoc (SCM assoc)
 		  value = lw6scm_utils_to_0str (scm_cdr (item));
 		  if (key && value)
 		    {
-		      lw6sys_assoc_set (&c_assoc, key, (void *) value);
+		      lw6sys_assoc_set (sys_context, &c_assoc, key,
+					(void *) value);
 		      LW6SYS_FREE (sys_context, key);
 		      // value must not be freed now
 		    }

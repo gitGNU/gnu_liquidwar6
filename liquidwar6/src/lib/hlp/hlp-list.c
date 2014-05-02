@@ -60,7 +60,7 @@ lw6hlp_list_quick ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_quick (&list);
@@ -112,7 +112,7 @@ lw6hlp_list_doc ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_doc (&list);
@@ -224,7 +224,7 @@ lw6hlp_list_show ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_show (&list);
@@ -263,7 +263,7 @@ lw6hlp_list_path ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_path (&list);
@@ -303,7 +303,7 @@ lw6hlp_list_players ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_players (&list);
@@ -353,7 +353,7 @@ lw6hlp_list_input ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_input (&list);
@@ -388,7 +388,7 @@ lw6hlp_list_graphics ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_graphics (&list);
@@ -423,7 +423,7 @@ lw6hlp_list_sound ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_sound (&list);
@@ -462,7 +462,7 @@ lw6hlp_list_network ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_network (&list);
@@ -499,7 +499,7 @@ lw6hlp_list_map ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_map (&list);
@@ -683,7 +683,7 @@ lw6hlp_list_map_rules ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_map_rules (&list);
@@ -732,7 +732,7 @@ lw6hlp_list_map_hints ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_map_hints (&list);
@@ -817,7 +817,7 @@ lw6hlp_list_map_style ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_map_style (&list);
@@ -870,7 +870,7 @@ lw6hlp_list_map_teams ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_map_teams (&list);
@@ -1291,7 +1291,7 @@ lw6hlp_list_funcs ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_funcs (&list);
@@ -1318,7 +1318,7 @@ lw6hlp_list_hooks ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_hooks (&list);
@@ -1411,7 +1411,7 @@ lw6hlp_list_advanced ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_advanced (&list);
@@ -1448,7 +1448,7 @@ lw6hlp_list_aliases ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_aliases (&list);
@@ -1486,7 +1486,7 @@ lw6hlp_list_team_colors ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_team_colors (&list);
@@ -1534,7 +1534,7 @@ lw6hlp_list_weapons ()
 {
   lw6sys_list_t *list = NULL;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       update_weapons (&list);
@@ -1556,7 +1556,7 @@ lw6hlp_list ()
   lw6sys_list_t *list = NULL;
   int ok = 0;
 
-  list = lw6sys_list_new (NULL);
+  list = lw6sys_list_new (sys_context, NULL);
   if (list)
     {
       ok = update_quick (&list) && update_doc (&list) && update_show (&list)

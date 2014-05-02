@@ -39,7 +39,7 @@
  * Return value: none.
  */
 void
-lw6map_param_zero (lw6map_param_t * param)
+lw6map_param_zero (sys_context, lw6map_param_t * param)
 {
   memset (param, 0, sizeof (lw6map_param_t));
 }
@@ -55,11 +55,11 @@ lw6map_param_zero (lw6map_param_t * param)
  * Return value: none
  */
 void
-lw6map_param_defaults (lw6map_param_t * param)
+lw6map_param_defaults (sys_context, lw6map_param_t * param)
 {
-  lw6map_rules_defaults (&(param->rules));
-  lw6map_style_defaults (&(param->style));
-  lw6map_teams_defaults (&(param->teams));
+  lw6map_rules_defaults (sys_context, &(param->rules));
+  lw6map_style_defaults (sys_context, &(param->style));
+  lw6map_teams_defaults (sys_context, &(param->teams));
 }
 
 /**
@@ -74,13 +74,13 @@ lw6map_param_defaults (lw6map_param_t * param)
  * Return value: none
  */
 void
-lw6map_param_clear (lw6map_param_t * param)
+lw6map_param_clear (sys_context, lw6map_param_t * param)
 {
   if (param)
     {
-      lw6map_rules_clear (&(param->rules));
-      lw6map_style_clear (&(param->style));
-      lw6map_teams_clear (&(param->teams));
+      lw6map_rules_clear (sys_context, &(param->rules));
+      lw6map_style_clear (sys_context, &(param->style));
+      lw6map_teams_clear (sys_context, &(param->teams));
 
       /*
        * We don't free the param pointer itself, this
@@ -101,11 +101,12 @@ lw6map_param_clear (lw6map_param_t * param)
  * Return value: none
  */
 void
-lw6map_param_copy (lw6map_param_t * dst, const lw6map_param_t * src)
+lw6map_param_copy (sys_context, lw6map_param_t * dst,
+		   const lw6map_param_t * src)
 {
-  lw6map_rules_copy (&(dst->rules), &(src->rules));
-  lw6map_style_copy (&(dst->style), &(src->style));
-  lw6map_teams_copy (&(dst->teams), &(src->teams));
+  lw6map_rules_copy (sys_context, &(dst->rules), &(src->rules));
+  lw6map_style_copy (sys_context, &(dst->style), &(src->style));
+  lw6map_teams_copy (sys_context, &(dst->teams), &(src->teams));
 }
 
 /**
@@ -123,23 +124,26 @@ lw6map_param_copy (lw6map_param_t * dst, const lw6map_param_t * src)
  * Return value: 1 if parameter successfully set, 0 on error.
  */
 int
-lw6map_param_set (lw6map_param_t * param, const char *key, const char *value)
+lw6map_param_set (sys_context, lw6map_param_t * param, const char *key,
+		  const char *value)
 {
   int ret = 0;
 
-  if (lw6map_style_set (&param->style, key, value))
+  if (lw6map_style_set (sys_context, &param->style, key, value))
     {
       // ok, it's a style member
       ret = 1;
     }
-  else if (lw6map_teams_set (&param->teams, key, value))
+  else if (lw6map_teams_set (sys_context, &param->teams, key, value))
     {
       // ok, it's a teams member
       ret = 1;
     }
   else
     {
-      ret = lw6map_rules_set_int (&param->rules, key, lw6sys_atoi (value));
+      ret =
+	lw6map_rules_set_int (sys_context, &param->rules, key,
+			      lw6sys_atoi (sys_context, value));
     }
 
   return ret;
@@ -159,17 +163,20 @@ lw6map_param_set (lw6map_param_t * param, const char *key, const char *value)
  *   might return a string containing 0 on bad keys.
  */
 char *
-lw6map_param_get (const lw6map_param_t * param, const char *key)
+lw6map_param_get (sys_context, const lw6map_param_t * param, const char *key)
 {
   char *ret = NULL;
 
-  ret = lw6map_style_get (&param->style, key);
+  ret = lw6map_style_get (sys_context, &param->style, key);
   if (!ret)
     {
-      ret = lw6map_teams_get (&param->teams, key);
+      ret = lw6map_teams_get (sys_context, &param->teams, key);
       if (!ret)
 	{
-	  ret = lw6sys_itoa (lw6map_rules_get_int (&param->rules, key));
+	  ret =
+	    lw6sys_itoa (sys_context,
+			 lw6map_rules_get_int (sys_context, &param->rules,
+					       key));
 	}
     }
 
@@ -187,14 +194,20 @@ lw6map_param_get (const lw6map_param_t * param, const char *key)
  * Return value: 1 if they contain the same thing, 0 if not
  */
 int
-lw6map_param_is_same (const lw6map_param_t * param_a,
+lw6map_param_is_same (sys_context, const lw6map_param_t * param_a,
 		      const lw6map_param_t * param_b)
 {
   int ret = 1;
 
-  ret = ret && lw6map_rules_is_same (&(param_a->rules), &(param_b->rules));
-  ret = ret && lw6map_style_is_same (&(param_a->style), &(param_b->style));
-  ret = ret && lw6map_teams_is_same (&(param_a->teams), &(param_b->teams));
+  ret = ret
+    && lw6map_rules_is_same (sys_context, &(param_a->rules),
+			     &(param_b->rules));
+  ret = ret
+    && lw6map_style_is_same (sys_context, &(param_a->style),
+			     &(param_b->style));
+  ret = ret
+    && lw6map_teams_is_same (sys_context, &(param_a->teams),
+			     &(param_b->teams));
 
   return ret;
 }

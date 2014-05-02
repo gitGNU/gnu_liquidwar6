@@ -39,16 +39,16 @@ void
 _lw6ker_cursor_update_checksum (const lw6ker_cursor_t * cursor,
 				u_int32_t * checksum)
 {
-  lw6sys_checksum_update_int64 (checksum, cursor->node_id);
-  lw6sys_checksum_update_int32 (checksum, cursor->cursor_id);
-  lw6sys_checksum_update_int32 (checksum, cursor->letter);
-  lw6sys_checksum_update_int32 (checksum, cursor->enabled);
-  lw6sys_checksum_update_int32 (checksum, cursor->team_color);
-  lw6sys_checksum_update_xyz (checksum, &(cursor->pos));
-  lw6sys_checksum_update_int32 (checksum, cursor->fire);
-  lw6sys_checksum_update_int32 (checksum, cursor->fire2);
-  lw6sys_checksum_update_xyz (checksum, &(cursor->apply_pos));
-  lw6sys_checksum_update_int32 (checksum, cursor->pot_offset);
+  lw6sys_checksum_update_int64 (sys_context, checksum, cursor->node_id);
+  lw6sys_checksum_update_int32 (sys_context, checksum, cursor->cursor_id);
+  lw6sys_checksum_update_int32 (sys_context, checksum, cursor->letter);
+  lw6sys_checksum_update_int32 (sys_context, checksum, cursor->enabled);
+  lw6sys_checksum_update_int32 (sys_context, checksum, cursor->team_color);
+  lw6sys_checksum_update_xyz (sys_context, checksum, &(cursor->pos));
+  lw6sys_checksum_update_int32 (sys_context, checksum, cursor->fire);
+  lw6sys_checksum_update_int32 (sys_context, checksum, cursor->fire2);
+  lw6sys_checksum_update_xyz (sys_context, checksum, &(cursor->apply_pos));
+  lw6sys_checksum_update_int32 (sys_context, checksum, cursor->pot_offset);
 }
 
 int
@@ -57,7 +57,8 @@ _lw6ker_cursor_check_node_id (const lw6ker_cursor_t * cursor,
 {
   int ret = 0;
 
-  ret = (lw6sys_check_id_64 (node_id) && cursor->node_id == node_id);
+  ret = (lw6sys_check_id_64 (sys_context, node_id)
+	 && cursor->node_id == node_id);
   if (!ret)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
@@ -86,7 +87,7 @@ _lw6ker_cursor_get_start_xy (int32_t * x, int32_t * y, int team_color,
    * https://savannah.gnu.org/bugs/index.php?30842
    */
 
-  checksum = lw6sys_checksum_int32 (random_seed + team_color);
+  checksum = lw6sys_checksum_int32 (sys_context, random_seed + team_color);
   /*
    * Update with something for when seed is 0 (game beginning)
    * then checksum is 0...
@@ -96,7 +97,7 @@ _lw6ker_cursor_get_start_xy (int32_t * x, int32_t * y, int team_color,
   if (position_mode == LW6MAP_RULES_POSITION_MODE_TOTAL_RANDOM)
     {
       px = checksum % 100;
-      py = lw6sys_checksum_int32 (checksum + team_color) % 100;
+      py = lw6sys_checksum_int32 (sys_context, checksum + team_color) % 100;
     }
   else
     {
@@ -262,8 +263,8 @@ _lw6ker_cursor_sanity_check (const lw6ker_cursor_t * cursor,
 	}
     }
   if ((cursor->enabled
-       && ((!lw6sys_check_id_64 (cursor->node_id))
-	   || (!lw6sys_check_id_16 (cursor->cursor_id))
+       && ((!lw6sys_check_id_64 (sys_context, cursor->node_id))
+	   || (!lw6sys_check_id_16 (sys_context, cursor->cursor_id))
 	   || cursor->team_color < 0
 	   || cursor->team_color >= LW6MAP_MAX_NB_TEAMS))
       || ((!cursor->enabled)

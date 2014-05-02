@@ -3189,7 +3189,8 @@ lw6hlp_reference_init ()
   if (!_references)
     {
       _references =
-	lw6sys_hash_new (lw6sys_free_callback, LW6HLP_APPROX_NB_ENTRIES);
+	lw6sys_hash_new (sys_context, lw6sys_free_callback,
+			 LW6HLP_APPROX_NB_ENTRIES);
       if (_references)
 	{
 	  ret = populate_references ();
@@ -3217,7 +3218,7 @@ lw6hlp_reference_quit ()
 {
   if (_references)
     {
-      lw6sys_hash_free (_references);
+      lw6sys_hash_free (sys_context, _references);
       _references = NULL;
     }
   else
@@ -3234,11 +3235,12 @@ _lw6hlp_reference_get_entry (const char *key)
   char *formatted_key = NULL;
   if (_references)
     {
-      formatted_key = lw6sys_keyword_as_key (key);
+      formatted_key = lw6sys_keyword_as_key (sys_context, key);
       if (formatted_key)
 	{
 	  entry =
-	    (_lw6hlp_reference_entry_t *) lw6sys_hash_get (_references,
+	    (_lw6hlp_reference_entry_t *) lw6sys_hash_get (sys_context,
+							   _references,
 							   formatted_key);
 	  if (!entry)
 	    {

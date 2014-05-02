@@ -49,7 +49,7 @@ _scm_lw6cli_get_backends ()
   backends = lw6cli_get_backends (lw6_global.argc, lw6_global.argv);
   if (backends)
     {
-      keys = lw6sys_assoc_keys (backends);
+      keys = lw6sys_assoc_keys (sys_context, backends);
       if (keys)
 	{
 	  ret = SCM_EOL;
@@ -60,18 +60,19 @@ _scm_lw6cli_get_backends ()
 		{
 		  module_id = (char *) key->data;
 		  module_name =
-		    (char *) lw6sys_assoc_get (backends, module_id);
+		    (char *) lw6sys_assoc_get (sys_context, backends,
+					       module_id);
 		  ret =
 		    scm_cons (scm_cons
 			      (scm_from_locale_string (module_id),
 			       scm_from_locale_string (module_name)), ret);
 		}
-	      key = lw6sys_list_next (key);
+	      key = lw6sys_list_next (sys_context, key);
 	    }
-	  lw6sys_list_free (keys);
+	  lw6sys_list_free (sys_context, keys);
 	  ret = scm_reverse (ret);
 	}
-      lw6sys_assoc_free (backends);
+      lw6sys_assoc_free (sys_context, backends);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

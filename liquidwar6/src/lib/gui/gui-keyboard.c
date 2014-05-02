@@ -68,9 +68,11 @@ lw6gui_keyboard_pop_keypress (lw6gui_keyboard_t * keyboard)
 {
   lw6gui_keypress_t *ret = NULL;
 
-  if (!lw6sys_list_is_empty (keyboard->queue))
+  if (!lw6sys_list_is_empty (sys_context, keyboard->queue))
     {
-      ret = (lw6gui_keypress_t *) lw6sys_list_pop_front (&(keyboard->queue));
+      ret =
+	(lw6gui_keypress_t *) lw6sys_list_pop_front (sys_context,
+						     &(keyboard->queue));
     }
 
   return ret;
@@ -131,7 +133,8 @@ lw6gui_keyboard_register_key_down (lw6gui_keyboard_t * keyboard, int keysym,
       keypress = lw6gui_keypress_new (keysym, unicode, label);
       if (keypress)
 	{
-	  lw6sys_list_push_back (&(keyboard->queue), (void *) keypress);
+	  lw6sys_list_push_back (sys_context, &(keyboard->queue),
+				 (void *) keypress);
 	  ret = 1;
 	}
     }
@@ -251,7 +254,8 @@ lw6gui_keyboard_sync (lw6gui_keyboard_t * dst, lw6gui_keyboard_t * src)
       keypress = (lw6gui_keypress_t *) lw6sys_list_pop_front (&(src->queue));
       if (keypress)
 	{
-	  lw6sys_list_push_back (&(dst->queue), (void *) keypress);
+	  lw6sys_list_push_back (sys_context, &(dst->queue),
+				 (void *) keypress);
 	}
     }
 

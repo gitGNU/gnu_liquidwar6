@@ -47,7 +47,7 @@ _lw6ker_node_array_update_checksum (const _lw6ker_node_array_t *
 {
   int i = 0;
 
-  lw6sys_checksum_update_int32 (checksum, node_array->nb_nodes);
+  lw6sys_checksum_update_int32 (sys_context, checksum, node_array->nb_nodes);
   for (i = 0; i < LW6MAP_MAX_NB_NODES; ++i)
     {
       _lw6ker_node_update_checksum (&(node_array->nodes[i]), checksum);

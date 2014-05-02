@@ -41,10 +41,10 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log,
   char *user_dir;
   char *net_dir;
 
-  user_dir = lw6sys_get_user_dir (argc, argv);
+  user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
   if (user_dir)
     {
-      net_dir = lw6sys_path_concat (user_dir, _NET_DIR);
+      net_dir = lw6sys_path_concat (sys_context, user_dir, _NET_DIR);
       if (net_dir)
 	{
 	  /*
@@ -63,9 +63,10 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log,
 		lw6sys_path_concat (net_dir, _TCP_RECV_FILE);
 	      if (log->tcp_recv_filename)
 		{
-		  if (lw6sys_file_exists (log->tcp_recv_filename))
+		  if (lw6sys_file_exists
+		      (sys_context, log->tcp_recv_filename))
 		    {
-		      lw6sys_clear_file (log->tcp_recv_filename);
+		      lw6sys_clear_file (sys_context, log->tcp_recv_filename);
 		    }
 		  if (!net_log)
 		    {
@@ -77,9 +78,10 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log,
 		lw6sys_path_concat (net_dir, _TCP_SEND_FILE);
 	      if (log->tcp_send_filename)
 		{
-		  if (lw6sys_file_exists (log->tcp_send_filename))
+		  if (lw6sys_file_exists
+		      (sys_context, log->tcp_send_filename))
 		    {
-		      lw6sys_clear_file (log->tcp_send_filename);
+		      lw6sys_clear_file (sys_context, log->tcp_send_filename);
 		    }
 		  if (!net_log)
 		    {
@@ -91,9 +93,10 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log,
 		lw6sys_path_concat (net_dir, _UDP_RECV_FILE);
 	      if (log->udp_recv_filename)
 		{
-		  if (lw6sys_file_exists (log->udp_recv_filename))
+		  if (lw6sys_file_exists
+		      (sys_context, log->udp_recv_filename))
 		    {
-		      lw6sys_clear_file (log->udp_recv_filename);
+		      lw6sys_clear_file (sys_context, log->udp_recv_filename);
 		    }
 		  if (!net_log)
 		    {
@@ -105,9 +108,10 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log,
 		lw6sys_path_concat (net_dir, _UDP_SEND_FILE);
 	      if (log->udp_send_filename)
 		{
-		  if (lw6sys_file_exists (log->udp_send_filename))
+		  if (lw6sys_file_exists
+		      (sys_context, log->udp_send_filename))
 		    {
-		      lw6sys_clear_file (log->udp_send_filename);
+		      lw6sys_clear_file (sys_context, log->udp_send_filename);
 		    }
 		  if (!net_log)
 		    {
@@ -169,7 +173,7 @@ _log (const char *filename, const char *buf, int len)
       f = fopen (filename, "ab");
       if (f)
 	{
-	  if (lw6sys_str_is_bin (buf, len))
+	  if (lw6sys_str_is_bin (sys_context, buf, len))
 	    {
 	      buf_base64 = lw6glb_base64_encode_bin (buf, len);
 	    }

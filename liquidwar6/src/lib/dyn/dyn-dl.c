@@ -50,7 +50,7 @@ verbose_dlopen (const char *file)
     }
   else
     {
-      if (lw6sys_file_exists (file))
+      if (lw6sys_file_exists (sys_context, file))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_

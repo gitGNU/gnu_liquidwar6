@@ -312,7 +312,7 @@ lw6cfg_read_key_value_xml_file (const char *filename,
       callback->func = callback_func;
       callback->data = callback_data;
 
-      content = lw6sys_read_file_content (filename);
+      content = lw6sys_read_file_content (sys_context, filename);
       if (content)
 	{
 	  int length = strlen (content);
@@ -424,7 +424,7 @@ write_xml (FILE * f, const char *type, const char *key, const char *value,
       if (tmp)
 	{
 	  help_string =
-	    lw6sys_str_reformat (tmp, LW6SYS_REFORMAT_XML_PREFIX,
+	    lw6sys_str_reformat (sys_context, tmp, LW6SYS_REFORMAT_XML_PREFIX,
 				 LW6SYS_REFORMAT_XML_NB_COLUMNS);
 	  LW6SYS_FREE (sys_context, tmp);
 	}
@@ -434,28 +434,35 @@ write_xml (FILE * f, const char *type, const char *key, const char *value,
 	  guessed_type = LW6CFG_XML_STRING;
 	  if (hlp_default_value)
 	    {
-	      same = lw6sys_str_is_same (value, hlp_default_value);
+	      same =
+		lw6sys_str_is_same (sys_context, value, hlp_default_value);
 	    }
 	  break;
 	case LW6HLP_TYPE_INT:
 	  guessed_type = LW6CFG_XML_INT;
 	  if (hlp_default_value)
 	    {
-	      same = (lw6sys_atoi (value) == lw6sys_atoi (hlp_default_value));
+	      same =
+		(lw6sys_atoi (sys_context, value) ==
+		 lw6sys_atoi (hlp_default_value));
 	    }
 	  break;
 	case LW6HLP_TYPE_BOOL:
 	  guessed_type = LW6CFG_XML_BOOL;
 	  if (hlp_default_value)
 	    {
-	      same = (lw6sys_atob (value) == lw6sys_atob (hlp_default_value));
+	      same =
+		(lw6sys_atob (sys_context, value) ==
+		 lw6sys_atob (hlp_default_value));
 	    }
 	  break;
 	case LW6HLP_TYPE_FLOAT:
 	  guessed_type = LW6CFG_XML_FLOAT;
 	  if (hlp_default_value)
 	    {
-	      same = (lw6sys_atof (value) == lw6sys_atof (hlp_default_value));
+	      same =
+		(lw6sys_atof (sys_context, value) ==
+		 lw6sys_atof (hlp_default_value));
 	    }
 	  break;
 	case LW6HLP_TYPE_COLOR:
@@ -463,7 +470,9 @@ write_xml (FILE * f, const char *type, const char *key, const char *value,
 	  if (hlp_default_value)
 	    {
 	      same =
-		lw6sys_color_is_same (lw6sys_color_a_to_8 (value),
+		lw6sys_color_is_same (sys_context,
+				      lw6sys_color_a_to_8 (sys_context,
+							   value),
 				      lw6sys_color_a_to_8
 				      (hlp_default_value));
 	    }
@@ -539,7 +548,7 @@ lw6cfg_write_xml_int (FILE * f, const char *key, int value)
 {
   char *str_value = NULL;
 
-  str_value = lw6sys_itoa (value);
+  str_value = lw6sys_itoa (sys_context, value);
   if (str_value)
     {
       write_xml (f, LW6CFG_XML_INT, key, str_value, 0);
@@ -563,7 +572,7 @@ lw6cfg_write_xml_bool (FILE * f, const char *key, int value)
 {
   char *str_value = NULL;
 
-  str_value = lw6sys_btoa (value);
+  str_value = lw6sys_btoa (sys_context, value);
   if (str_value)
     {
       write_xml (f, LW6CFG_XML_BOOL, key, str_value, 0);
@@ -587,7 +596,7 @@ lw6cfg_write_xml_float (FILE * f, const char *key, float value)
 {
   char *str_value = NULL;
 
-  str_value = lw6sys_ftoa (value);
+  str_value = lw6sys_ftoa (sys_context, value);
   if (str_value)
     {
       write_xml (f, LW6CFG_XML_FLOAT, key, str_value, 0);
@@ -628,7 +637,7 @@ lw6cfg_write_xml_color (FILE * f, const char *key, lw6sys_color_8_t value)
 {
   char *str_value = NULL;
 
-  str_value = lw6sys_color_8_to_a (value);
+  str_value = lw6sys_color_8_to_a (sys_context, value);
   if (str_value)
     {
       write_xml (f, LW6CFG_XML_COLOR, key, str_value, 0);

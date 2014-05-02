@@ -197,7 +197,7 @@ lw6sim_simulate (int argc, const char *argv[], lw6sim_results_t * results,
 	    }
 	  lw6ker_game_struct_free (game_struct);
 	}
-      lw6map_free (level);
+      lw6map_free (sys_context, level);
     }
 
   ret = lw6sim_results_update_percents (results) && ret;

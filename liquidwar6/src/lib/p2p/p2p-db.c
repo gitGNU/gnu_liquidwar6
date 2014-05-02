@@ -76,19 +76,20 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
       db->mutex = lw6sys_mutex_create ();
       if (db->mutex)
 	{
-	  data_dir = lw6sys_get_data_dir (argc, argv);
+	  data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
 	  if (data_dir)
 	    {
 	      if (_lw6p2p_data_load (&(db->data), data_dir))
 		{
-		  user_dir = lw6sys_get_user_dir (argc, argv);
+		  user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
 		  if (user_dir)
 		    {
-		      if (!lw6sys_dir_exists (user_dir))
+		      if (!lw6sys_dir_exists (sys_context, user_dir))
 			{
-			  lw6sys_create_dir (user_dir);
+			  lw6sys_create_dir (sys_context, user_dir);
 			}
-		      p2p_dir = lw6sys_path_concat (user_dir, name);
+		      p2p_dir =
+			lw6sys_path_concat (sys_context, user_dir, name);
 		      if (p2p_dir)
 			{
 			  if (!lw6sys_dir_exists (p2p_dir))
@@ -103,7 +104,8 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
 				lw6sys_path_concat (p2p_dir, _LOG_FILENAME);
 			      if (db->log_filename)
 				{
-				  if (lw6sys_file_exists (db->log_filename))
+				  if (lw6sys_file_exists
+				      (sys_context, db->log_filename))
 				    {
 				      unlink (db->log_filename);
 				    }
@@ -221,7 +223,7 @@ _lw6p2p_db_close (_lw6p2p_db_t * db)
     {
       if (db->mutex)
 	{
-	  lw6sys_mutex_destroy (db->mutex);
+	  lw6sys_mutex_destroy (sys_context, db->mutex);
 	}
       if (db->db_filename)
 	{
@@ -316,7 +318,7 @@ _lw6p2p_db_get_query (_lw6p2p_db_t * db, char *key)
 {
   char *query = NULL;
 
-  query = lw6sys_hash_get (db->data.sql.queries, key);
+  query = lw6sys_hash_get (sys_context, db->data.sql.queries, key);
   if (!query)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
@@ -349,7 +351,7 @@ _lw6p2p_db_lock (_lw6p2p_db_t * db)
   int ret = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("lock db"));
-  ret = lw6sys_mutex_lock (db->mutex);
+  ret = lw6sys_mutex_lock (sys_context, db->mutex);
   if (ret)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("lock db OK"));
@@ -368,7 +370,7 @@ _lw6p2p_db_unlock (_lw6p2p_db_t * db)
   int ret = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unlock db"));
-  ret = lw6sys_mutex_unlock (db->mutex);
+  ret = lw6sys_mutex_unlock (sys_context, db->mutex);
   if (ret)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unlock db OK"));
@@ -388,7 +390,7 @@ _lw6p2p_db_trylock (_lw6p2p_db_t * db)
   int ret = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trylock db"));
-  ret = lw6sys_mutex_trylock (db->mutex);
+  ret = lw6sys_mutex_trylock (sys_context, db->mutex);
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trylock db ret=%d"), ret);
 
   return ret;
@@ -515,10 +517,10 @@ lw6p2p_db_reset (int argc, const char *argv[], const char *name)
   char *p2p_dir = NULL;
   char *filename = NULL;
 
-  user_dir = lw6sys_get_user_dir (argc, argv);
+  user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
   if (user_dir)
     {
-      p2p_dir = lw6sys_path_concat (user_dir, name);
+      p2p_dir = lw6sys_path_concat (sys_context, user_dir, name);
       if (p2p_dir)
 	{
 	  if (lw6sys_dir_exists (p2p_dir))
@@ -526,7 +528,7 @@ lw6p2p_db_reset (int argc, const char *argv[], const char *name)
 	      filename = lw6sys_path_concat (p2p_dir, _DB_FILENAME);
 	      if (filename)
 		{
-		  if (lw6sys_file_exists (filename))
+		  if (lw6sys_file_exists (sys_context, filename))
 		    {
 		      if (!unlink (filename))
 			{
@@ -545,10 +547,11 @@ lw6p2p_db_reset (int argc, const char *argv[], const char *name)
 		    }
 		  LW6SYS_FREE (sys_context, filename);
 		}
-	      filename = lw6sys_path_concat (user_dir, _LOG_FILENAME);
+	      filename =
+		lw6sys_path_concat (sys_context, user_dir, _LOG_FILENAME);
 	      if (filename)
 		{
-		  if (lw6sys_file_exists (filename))
+		  if (lw6sys_file_exists (sys_context, filename))
 		    {
 		      if (!unlink (filename))
 			{

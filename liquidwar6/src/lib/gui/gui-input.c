@@ -43,7 +43,7 @@ lw6gui_input_init (lw6gui_input_t * input)
   memset (input, 0, sizeof (lw6gui_input_t));
 
   input->keyboard.queue =
-    lw6sys_list_new ((lw6sys_free_func_t) lw6gui_keypress_free);
+    lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6gui_keypress_free);
   if (input->keyboard.queue)
     {
       ret = 1;
@@ -73,7 +73,7 @@ lw6gui_input_quit (lw6gui_input_t * input)
 {
   if (input->keyboard.queue)
     {
-      lw6sys_list_free (input->keyboard.queue);
+      lw6sys_list_free (sys_context, input->keyboard.queue);
     }
   memset (input, 0, sizeof (lw6gui_input_t));
 }

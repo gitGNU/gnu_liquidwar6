@@ -201,8 +201,8 @@ lw6_cns_handler (char *c_line)
 
   if (c_line)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("interpreting console input \"%s\""),
-		  c_line);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		  _x_ ("interpreting console input \"%s\""), c_line);
 
       lw6cns_history_add_if_needed (c_line);
       line = scm_from_locale_string (c_line);

@@ -58,15 +58,15 @@ merge_func (void *func_data, void *data)
   char *env = NULL;
 
   if (must_be_stored (keyword) && strlen (keyword) > 0
-      && lw6sys_env_exists_prefixed (keyword))
+      && lw6sys_env_exists_prefixed (sys_context, keyword))
     {
-      value = lw6sys_getenv_prefixed (keyword);
+      value = lw6sys_getenv_prefixed (sys_context, keyword);
       if (value)
 	{
 	  value_converted = lw6cfg_format_guess_type (keyword, value);
 	  if (value_converted)
 	    {
-	      env = lw6sys_keyword_as_env (keyword);
+	      env = lw6sys_keyword_as_env (sys_context, keyword);
 	      if (env)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
@@ -99,8 +99,9 @@ _lw6cfg_merge_env (_lw6cfg_context_t * cfg_context)
   keywords = lw6hlp_list ();
   if (keywords)
     {
-      lw6sys_list_map (keywords, &merge_func, (void *) cfg_context);
-      lw6sys_list_free (keywords);
+      lw6sys_list_map (sys_context, keywords, &merge_func,
+		       (void *) cfg_context);
+      lw6sys_list_free (sys_context, keywords);
     }
 
   return ret;

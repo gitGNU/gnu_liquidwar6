@@ -373,9 +373,9 @@ lw6gui_menuitem_checksum (lw6gui_menuitem_t * menuitem, lw6gui_look_t * look)
   u_int32_t ret = 0;
 
 
-  lw6sys_checksum_update (&ret, (unsigned char *) menuitem,
+  lw6sys_checksum_update (sys_context, &ret, (unsigned char *) menuitem,
 			  sizeof (lw6gui_menuitem_t));
-  lw6sys_checksum_update (&ret, (unsigned char *) look,
+  lw6sys_checksum_update (sys_context, &ret, (unsigned char *) look,
 			  sizeof (lw6gui_look_t));
 
   return ret;
@@ -465,11 +465,11 @@ lw6gui_menuitem_sync (lw6gui_menuitem_t * dst, lw6gui_menuitem_t * src)
 
   if (dst && src)
     {
-      if (!lw6sys_str_is_same (dst->label, src->label))
+      if (!lw6sys_str_is_same (sys_context, dst->label, src->label))
 	{
 	  lw6gui_menuitem_set_label (dst, src->label, src->last_change);
 	}
-      if (!lw6sys_str_is_same (dst->tooltip, src->tooltip))
+      if (!lw6sys_str_is_same (sys_context, dst->tooltip, src->tooltip))
 	{
 	  lw6gui_menuitem_set_tooltip (dst, src->tooltip, src->last_change);
 	}

@@ -52,12 +52,12 @@ lw6scm_coverage_new (lw6sys_list_t * funcs)
   int funcs_size = 0;
   int ret_size = 0;
 
-  funcs_size = lw6sys_list_length (funcs);
+  funcs_size = lw6sys_list_length (sys_context, funcs);
   ret_size = (funcs_size) / 2 + 1;
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_ ("init coverage hash with %d slots for a max of %d funcs"),
 	      ret_size, funcs_size);
-  ret = lw6sys_hash_new (lw6sys_free_callback, ret_size);
+  ret = lw6sys_hash_new (sys_context, lw6sys_free_callback, ret_size);
 
   return ret;
 }
@@ -80,7 +80,7 @@ lw6scm_coverage_call (lw6sys_hash_t * coverage, const char *func)
 
   if (coverage)
     {
-      value = lw6sys_hash_get (coverage, func);
+      value = lw6sys_hash_get (sys_context, coverage, func);
       if (value)
 	{
 	  calls = (int *) value;
@@ -95,7 +95,7 @@ lw6scm_coverage_call (lw6sys_hash_t * coverage, const char *func)
 	  if (calls)
 	    {
 	      (*calls) = 1;
-	      lw6sys_hash_set (coverage, func, calls);
+	      lw6sys_hash_set (sys_context, coverage, func, calls);
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("calling scm function \"%s\", 1st call"),
 			  func);
@@ -143,7 +143,7 @@ lw6scm_coverage_log (lw6sys_hash_t * coverage)
 {
   if (coverage)
     {
-      lw6sys_hash_map (coverage, _coverage_log_callback, NULL);
+      lw6sys_hash_map (sys_context, coverage, _coverage_log_callback, NULL);
     }
   else
     {
@@ -206,11 +206,12 @@ lw6scm_coverage_check (int *percent, lw6sys_hash_t * coverage,
     {
       ret = 1;
       memset (&cc, 0, sizeof (_coverage_check_t));
-      funcs_size = lw6sys_list_length (funcs);
+      funcs_size = lw6sys_list_length (sys_context, funcs);
       cc.ret = &ret;
       cc.coverage = coverage;
 
-      lw6sys_list_map (funcs, _coverage_check_callback, (void *) &cc);
+      lw6sys_list_map (sys_context, funcs, _coverage_check_callback,
+		       (void *) &cc);
       if (percent != NULL && funcs_size > 0)
 	{
 	  (*percent) = (100 * cc.n) / funcs_size;

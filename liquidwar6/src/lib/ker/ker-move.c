@@ -327,7 +327,7 @@ _goto_with_dir_xy (const lw6map_rules_t * rules, const lw6sys_whd_t * shape,
    * next line is need to stay within map boundaries,
    * it will also handle polarity information
    */
-  lw6map_coords_fix_xy (rules, shape, dst_x, dst_y);
+  lw6map_coords_fix_xy (sys_context, rules, shape, dst_x, dst_y);
 }
 
 void
@@ -348,7 +348,7 @@ _goto_with_dir_z (const lw6map_rules_t * rules, const lw6sys_whd_t * shape,
    * next line is need to stay within map boundaries,
    * it will also handle polarity information
    */
-  lw6map_coords_fix_z (rules, shape, dst_z);
+  lw6map_coords_fix_z (sys_context, rules, shape, dst_z);
 }
 
 void
@@ -372,8 +372,8 @@ _goto_with_dir (const lw6map_rules_t * rules, const lw6sys_whd_t * shape,
    * next line is need to stay within map boundaries,
    * it will also handle polarity information
    */
-  lw6map_coords_fix_xy (rules, shape, dst_x, dst_y);
-  lw6map_coords_fix_z (rules, shape, dst_z);
+  lw6map_coords_fix_xy (sys_context, rules, shape, dst_x, dst_y);
+  lw6map_coords_fix_z (sys_context, rules, shape, dst_z);
 }
 
 void
@@ -658,7 +658,7 @@ _lw6ker_move_get_best_next_pos (const _lw6ker_game_state_t * game_state,
   int test_dir;
   int ret = 0;
   int parity =
-    lw6sys_checksum_int32 (game_state->rounds +
+    lw6sys_checksum_int32 (sys_context, game_state->rounds +
 			   team_color) % LW6KER_NB_PARITIES;
   int try;
   int i;

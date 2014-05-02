@@ -40,7 +40,8 @@
  * Return value: a newly allocated map, may be NULL.
  */
 lw6map_level_t *
-lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
+lw6map_dup (sys_context, lw6map_level_t * source,
+	    lw6sys_progress_t * progress)
 {
   lw6map_level_t *ret = NULL;
   int size = 0;
@@ -49,7 +50,7 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
   int progress_i = 0;
   int progress_n = 1;
 
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
   progress_n = source->body.shape.d + 3;
 
   ret = lw6map_new ();
@@ -85,7 +86,7 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
       ret->texture.data = NULL;
 
       memset (&(ret->param), 0, sizeof (lw6map_param_t));
-      lw6map_param_copy (&(ret->param), &(source->param));
+      lw6map_param_copy (sys_context, &(ret->param), &(source->param));
       if (source->metadata.title)
 	{
 	  ret->metadata.title = lw6sys_str_copy (source->metadata.title);
@@ -108,7 +109,8 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	  ret->local_info.music_dir =
 	    lw6sys_str_copy (source->local_info.music_dir);
 	}
-      lw6sys_progress_update (progress, 0, progress_n, ++progress_i);
+      lw6sys_progress_update (sys_context, progress, 0, progress_n,
+			      ++progress_i);
       for (layer = 0; layer < ret->body.shape.d; ++layer)
 	{
 	  size =
@@ -119,7 +121,8 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    {
 	      memcpy (ret->body.layers[layer].data,
 		      source->body.layers[layer].data, size);
-	      lw6sys_progress_update (progress, 0, progress_n, ++progress_i);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
+				      ++progress_i);
 	    }
 	  else
 	    {
@@ -137,7 +140,8 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	  if (ret->body.glue.data)
 	    {
 	      memcpy (ret->body.glue.data, source->body.glue.data, size);
-	      lw6sys_progress_update (progress, 0, progress_n, ++progress_i);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
+				      ++progress_i);
 	    }
 	  else
 	    {
@@ -155,7 +159,8 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	  if (ret->body.boost.data)
 	    {
 	      memcpy (ret->body.boost.data, source->body.boost.data, size);
-	      lw6sys_progress_update (progress, 0, progress_n, ++progress_i);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
+				      ++progress_i);
 	    }
 	  else
 	    {
@@ -173,7 +178,8 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	  if (ret->body.danger.data)
 	    {
 	      memcpy (ret->body.danger.data, source->body.danger.data, size);
-	      lw6sys_progress_update (progress, 0, progress_n, ++progress_i);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
+				      ++progress_i);
 	    }
 	  else
 	    {
@@ -192,7 +198,8 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    {
 	      memcpy (ret->body.medicine.data, source->body.medicine.data,
 		      size);
-	      lw6sys_progress_update (progress, 0, progress_n, ++progress_i);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
+				      ++progress_i);
 	    }
 	  else
 	    {
@@ -211,7 +218,8 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    {
 	      memcpy (ret->body.one_way_north.data,
 		      source->body.one_way_north.data, size);
-	      lw6sys_progress_update (progress, 0, progress_n, ++progress_i);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
+				      ++progress_i);
 	    }
 	  else
 	    {
@@ -230,7 +238,8 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    {
 	      memcpy (ret->body.one_way_east.data,
 		      source->body.one_way_east.data, size);
-	      lw6sys_progress_update (progress, 0, progress_n, ++progress_i);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
+				      ++progress_i);
 	    }
 	  else
 	    {
@@ -249,7 +258,8 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    {
 	      memcpy (ret->body.one_way_south.data,
 		      source->body.one_way_south.data, size);
-	      lw6sys_progress_update (progress, 0, progress_n, ++progress_i);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
+				      ++progress_i);
 	    }
 	  else
 	    {
@@ -268,7 +278,8 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    {
 	      memcpy (ret->body.one_way_west.data,
 		      source->body.one_way_west.data, size);
-	      lw6sys_progress_update (progress, 0, progress_n, ++progress_i);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
+				      ++progress_i);
 	    }
 	  else
 	    {
@@ -285,7 +296,8 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	  if (ret->texture.data)
 	    {
 	      memcpy (ret->texture.data, source->texture.data, size);
-	      lw6sys_progress_update (progress, 0, progress_n, ++progress_i);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
+				      ++progress_i);
 	    }
 	  else
 	    {
@@ -294,7 +306,7 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	    }
 	}
     }
-  lw6sys_progress_end (progress);
+  lw6sys_progress_end (sys_context, progress);
 
   return ret;
 }

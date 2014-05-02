@@ -78,7 +78,7 @@ _lw6p2p_srv_oob_filter (_lw6p2p_srv_oob_callback_data_t * srv_oob)
       thread = srv_oob->srv_oob->thread;
       if (thread)
 	{
-	  if (lw6sys_thread_is_callback_done (thread))
+	  if (lw6sys_thread_is_callback_done (sys_context, thread))
 	    {
 	      /*
 	       * We don't need to join the thread, it will

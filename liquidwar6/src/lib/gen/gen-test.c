@@ -63,7 +63,7 @@ _test_create ()
     level = lw6gen_create_from_seed (_TEST_SEED, _TEST_WIDTH, _TEST_HEIGHT);
     if (level)
       {
-	repr = lw6map_repr (level);
+	repr = lw6map_repr (sys_context, level);
 	if (repr)
 	  {
 	    if (level->body.shape.w == _TEST_WIDTH
@@ -85,7 +85,7 @@ _test_create ()
 			    level->body.shape.h, _TEST_WIDTH, _TEST_HEIGHT);
 	      }
 	  }
-	lw6map_free (level);
+	lw6map_free (sys_context, level);
       }
     else
       {
@@ -216,8 +216,8 @@ lw6gen_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
-      lw6map_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
+      lw6map_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6gen", _setup_init, _setup_quit);
@@ -253,7 +253,7 @@ lw6gen_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

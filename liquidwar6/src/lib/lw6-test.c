@@ -87,7 +87,7 @@ get_test_file (int argc, const char **argv, int mode, int suite)
   char *script_dir = NULL;
   char *ret = NULL;
 
-  script_file = lw6sys_get_script_file (argc, argv);
+  script_file = lw6sys_get_script_file (sys_context, argc, argv);
   if (script_file)
     {
       script_dir = lw6sys_path_parent (script_file);
@@ -134,10 +134,11 @@ get_test_file (int argc, const char **argv, int mode, int suite)
       LW6SYS_FREE (script_file);
     }
 
-  if (ret && !lw6sys_file_exists (ret))
+  if (ret && !lw6sys_file_exists (sys_context, ret))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't open \"%s\""), ret);
-      LW6SYS_FREE (ret);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't open \"%s\""),
+		  ret);
+      LW6SYS_FREE (sys_context, ret);
       ret = NULL;
     }
 
@@ -161,13 +162,15 @@ _guile_test_callback (_lw6_test_param_t * param)
      * are no logs and this avoids dirty interferences.
      * Will will run each test in the main thread anyway.
      */
-    lw6sys_log_set_level (param->log_level_id);
+    lw6sys_log_set_level (sys_context, param->log_level_id);
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("registering Guile smobs"));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+		_x_ ("registering Guile smobs"));
     if (lw6_register_smobs ())
       {
 
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("registering Guile functions"));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+		    _x_ ("registering Guile functions"));
 	if (lw6_register_funcs ())
 	  {
 	    test_file =
@@ -175,21 +178,23 @@ _guile_test_callback (_lw6_test_param_t * param)
 			     param->suite);
 	    if (test_file)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("loading \"%s\""),
-			    test_file);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+			    _x_ ("loading \"%s\""), test_file);
 		lw6scm_c_primitive_load (test_file);
 		LW6SYS_FREE (test_file);
 	      }
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to register funcs"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+			_x_ ("unable to register funcs"));
 	    ret = 0;
 	  }
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to register smobs"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		    _x_ ("unable to register smobs"));
 	ret = 0;
       }
 
@@ -204,42 +209,44 @@ _guile_test_callback (_lw6_test_param_t * param)
 		(&coverage_percent, lw6_global.coverage, funcs)
 		|| coverage_percent >= _TEST_COVERAGE_PERCENT_MIN)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE,
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_ ("script coverage OK %d%% (%d%% required)"),
 			    coverage_percent, _TEST_COVERAGE_PERCENT_MIN);
 	      }
 	    else
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING,
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			    _x_
 			    ("script coverage is only %d%% (%d%% required)"),
 			    coverage_percent, _TEST_COVERAGE_PERCENT_MIN);
 		ret = 0;
 	      }
-	    lw6sys_list_free (funcs);
+	    lw6sys_list_free (sys_context, funcs);
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to get funcs list"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+			_x_ ("unable to get funcs list"));
 	    ret = 0;
 	  }
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("skipping coverage check"));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+		    _x_ ("skipping coverage check"));
       }
 
     if (ret)
       {
 	if (lw6_global.ret)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE,
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			_x_
 			("script returned true, looks like tests were OK"));
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING,
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			_x_
 			("script returned false, at least one test failed"));
 	    ret = 0;
@@ -273,7 +280,7 @@ _guile_test_run (void *data)
    * We wait (or not) for some time, to simulate, (randomly!)
    * some time shift between various network flavors of tests.
    */
-  if (!lw6sys_random (_TEST_RUN_RANDOM_RANGE))
+  if (!lw6sys_random (sys_context, _TEST_RUN_RANDOM_RANGE))
     {
       lw6sys_snooze ();
     }
@@ -301,7 +308,7 @@ _test_node_abc ()
    * closed sockets, make double-sure a previous node won't
    * be left and used by next set of nodes.
    */
-  lw6sys_sleep (_TEST_NET_SLEEP);
+  lw6sys_sleep (sys_context, _TEST_NET_SLEEP);
 
   /*
    * First network test, we launch node_a in the main thread,
@@ -341,7 +348,7 @@ _test_node_bca ()
    * closed sockets, make double-sure a previous node won't
    * be left and used by next set of nodes.
    */
-  lw6sys_sleep (_TEST_NET_SLEEP);
+  lw6sys_sleep (sys_context, _TEST_NET_SLEEP);
 
   /*
    * Second network test, we launch node_b in the main thread,
@@ -381,7 +388,7 @@ _test_node_cab ()
    * closed sockets, make double-sure a previous node won't
    * be left and used by next set of nodes.
    */
-  lw6sys_sleep (_TEST_NET_SLEEP);
+  lw6sys_sleep (sys_context, _TEST_NET_SLEEP);
 
   /*
    * Third network test, we launch node_c in the main thread,
@@ -417,7 +424,8 @@ _setup_init ()
   const int argc = _TEST_ARGC;
   const char *argv[] = { _TEST_ARGV0 };
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("init lw6 CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("init lw6 CUnit test suite"));
 
   if (lw6_init_global (argc, argv))
     {
@@ -454,10 +462,11 @@ _setup_quit ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit lw6 CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
+	      _x_ ("quit lw6 CUnit test suite"));
 
   lw6_quit_global ();
-  lw6sys_log_set_level (_test_data.default_log_level_id);
+  lw6sys_log_set_level (sys_context, _test_data.default_log_level_id);
 
   ret = CUE_SUCCESS;
 
@@ -484,7 +493,7 @@ lw6_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
       lw6glb_test_register (mode);
       lw6map_test_register (mode);
       lw6ker_test_register (mode);
@@ -561,7 +570,7 @@ lw6_test_register (int mode)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("skipping client/server test, platform does not have adequate process support and/or it's likely to fail anyway"));
 	  _test_data.param_a.ret = 1;
@@ -571,7 +580,7 @@ lw6_test_register (int mode)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
 		  CU_get_error_msg ());
       ret = 0;
@@ -598,7 +607,7 @@ lw6_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       if (mode & LW6SYS_TEST_MODE_FULL_TEST)
 	{
@@ -614,7 +623,7 @@ lw6_test_run (int mode)
 
   if (ret)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("scripts tests OK"));
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("scripts tests OK"));
     }
   else
     {
@@ -623,7 +632,7 @@ lw6_test_run (int mode)
        * else standard output is pretty much undreadable since one must
        * scroll up to the test that failed, this being akward.
        */
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("script tests failed main=%d node-a=%d node-b=%d node-c=%d"),
 		  _test_data.param.ret, _test_data.param_a.ret,

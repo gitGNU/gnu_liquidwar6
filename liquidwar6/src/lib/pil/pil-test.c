@@ -184,7 +184,8 @@ _test_command ()
     char *repr;
     lw6sys_list_t *commands;
 
-    commands = lw6sys_list_new ((lw6sys_free_func_t) lw6pil_command_free);
+    commands =
+      lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6pil_command_free);
     if (LW6SYS_TEST_ACK (commands))
       {
 	for (i = 0; _test_commands[i] && commands; ++i)
@@ -203,7 +204,7 @@ _test_command ()
 		    LW6SYS_FREE (sys_context, repr);
 		    ret = 1;
 		  }
-		lw6sys_list_push_front (&commands, command);
+		lw6sys_list_push_front (sys_context, &commands, command);
 	      }
 	  }
 	if (LW6SYS_TEST_ACK (commands))
@@ -211,12 +212,14 @@ _test_command ()
 	    if (LW6SYS_TEST_ACK (ret))
 	      {
 		ret = 0;
-		lw6sys_sort (&commands, _lw6pil_command_sort_callback);
-		lw6sys_list_map (commands, command_map_func, &ret);
+		lw6sys_sort (sys_context, &commands,
+			     _lw6pil_command_sort_callback);
+		lw6sys_list_map (sys_context, commands, command_map_func,
+				 &ret);
 	      }
 	    if (LW6SYS_TEST_ACK (commands))
 	      {
-		lw6sys_list_free (commands);
+		lw6sys_list_free (sys_context, commands);
 	      }
 	  }
       }
@@ -245,7 +248,7 @@ _test_coords ()
     int i, px, py;
     float x, y, z;
 
-    lw6map_rules_defaults (&rules);
+    lw6map_rules_defaults (sys_context, &rules);
     shape.w = _TEST_COORDS_W;
     shape.h = _TEST_COORDS_H;
     shape.d = _TEST_COORDS_D;
@@ -405,7 +408,7 @@ _test_dump ()
 
     lw6pil_dump_zero (&dump);
     level =
-      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+      lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (LW6SYS_TEST_ACK (level))
       {
@@ -485,7 +488,7 @@ _test_dump ()
 				 i < _TEST_DUMP_NB_TRIES
 				 && !lw6pil_dump_exists (&dump); ++i)
 			      {
-				lw6sys_sleep (_TEST_DUMP_SLEEP);
+				lw6sys_sleep (sys_context, _TEST_DUMP_SLEEP);
 				lw6pil_pilot_commit (&dump, pilot);
 			      }
 			  }
@@ -522,7 +525,7 @@ _test_dump ()
 				lw6pil_pilot_commit (NULL, pilot);
 				lw6pil_pilot_commit (NULL, dump.pilot);
 
-				lw6sys_sleep (_TEST_CYCLE);
+				lw6sys_sleep (sys_context, _TEST_CYCLE);
 
 				while (lw6pil_pilot_seq2round
 				       (pilot,
@@ -537,7 +540,7 @@ _test_dump ()
 						LW6SYS_LOG_NOTICE,
 						_x_
 						("waiting for reference round to increase"));
-				    lw6sys_sleep (_TEST_CYCLE);
+				    lw6sys_sleep (sys_context, _TEST_CYCLE);
 				  }
 
 				lw6pil_pilot_make_backup (pilot);
@@ -565,7 +568,7 @@ _test_dump ()
 						(game_state),
 						lw6ker_game_state_get_rounds
 						(dump.game_state));
-				    lw6sys_sleep (_TEST_CYCLE);
+				    lw6sys_sleep (sys_context, _TEST_CYCLE);
 				    lw6pil_pilot_sync_from_backup
 				      (game_state, pilot);
 				    lw6pil_pilot_sync_from_backup
@@ -665,7 +668,7 @@ _test_dump ()
 	  }
 	if (level)
 	  {
-	    lw6map_free (level);
+	    lw6map_free (sys_context, level);
 	    level = NULL;
 	  }
       }
@@ -696,7 +699,7 @@ _test_nopilot ()
 
     lw6pil_dump_zero (&dump);
     level =
-      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+      lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (LW6SYS_TEST_ACK (level))
       {
@@ -771,7 +774,7 @@ _test_nopilot ()
 	  }
 	if (level)
 	  {
-	    lw6map_free (level);
+	    lw6map_free (sys_context, level);
 	    level = NULL;
 	  }
       }
@@ -799,7 +802,7 @@ _test_pilot ()
     u_int32_t checksum = 0;
 
     level =
-      lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+      lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (LW6SYS_TEST_ACK (level))
       {
@@ -852,7 +855,7 @@ _test_pilot ()
 				  }
 			      }
 			    lw6pil_pilot_commit (NULL, pilot);
-			    lw6sys_sleep (_TEST_CYCLE);
+			    lw6sys_sleep (sys_context, _TEST_CYCLE);
 
 			    if (i == _TEST_SYNC_COMMAND_I)
 			      {
@@ -882,7 +885,7 @@ _test_pilot ()
 						_x_
 						("waiting for backup at round %d, is your computer slow or what?"),
 						_TEST_BACKUP_ROUND);
-				    lw6sys_sleep (_TEST_CYCLE);
+				    lw6sys_sleep (sys_context, _TEST_CYCLE);
 				    lw6pil_pilot_sync_from_backup (game_state,
 								   pilot);
 				  }
@@ -914,11 +917,11 @@ _test_pilot ()
 			 */
 			lw6ker_game_struct_free (game_struct);
 			game_struct = NULL;
-			lw6map_free (level);
+			lw6map_free (sys_context, level);
 			level = NULL;
 			lw6ker_game_state_free (game_state);
 			game_state = NULL;
-			lw6sys_sleep (_TEST_CYCLE);
+			lw6sys_sleep (sys_context, _TEST_CYCLE);
 
 			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_ ("next_seq for ticks %"
@@ -1003,7 +1006,7 @@ _test_pilot ()
 	  }
 	if (level)
 	  {
-	    lw6map_free (level);
+	    lw6map_free (sys_context, level);
 	    level = NULL;
 	  }
       }
@@ -1129,7 +1132,7 @@ _test_suite ()
 			    _x_ ("seq=%" LW6SYS_PRINTF_LL
 				 "d < checkpoint_seq=%" LW6SYS_PRINTF_LL "d"),
 			    (long long) seq, (long long) checkpoint_seq);
-		lw6sys_sleep (_TEST_SUITE_SLEEP);
+		lw6sys_sleep (sys_context, _TEST_SUITE_SLEEP);
 	      }
 	    lw6pil_pilot_sync_from_reference (dump.game_state, dump.pilot);
 	    round = lw6ker_game_state_get_rounds (dump.game_state);
@@ -1197,8 +1200,8 @@ lw6pil_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
-      lw6map_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
+      lw6map_test_register (sys_context, mode);
       lw6ker_test_register (mode);
     }
 
@@ -1242,7 +1245,7 @@ lw6pil_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

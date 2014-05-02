@@ -53,8 +53,8 @@ main (int argc, const char *argv[])
   LW6SYS_MAIN_BEGIN;
   LW6HLP_MAIN_BEGIN;
 
-  lw6sys_log_clear (NULL);
-  mode = lw6sys_arg_test_mode (argc, argv);
+  lw6sys_log_clear (sys_context, NULL);
+  mode = lw6sys_arg_test_mode (sys_context, argc, argv);
 
   if (CU_initialize_registry () == CUE_SUCCESS)
     {

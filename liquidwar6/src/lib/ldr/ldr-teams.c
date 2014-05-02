@@ -44,7 +44,7 @@ read_callback (void *callback_data, const char *element, const char *key,
 
   teams_data = (lw6map_teams_t *) callback_data;
 
-  lw6map_teams_set (teams_data, key, value);
+  lw6map_teams_set (sys_context, teams_data, key, value);
 }
 
 /**
@@ -65,11 +65,11 @@ lw6ldr_teams_read (lw6map_teams_t * teams, const char *dirname)
   int ret = 0;
   char *buf = NULL;
 
-  buf = lw6sys_path_concat (dirname, _LW6LDR_FILE_TEAMS_XML);
+  buf = lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_TEAMS_XML);
 
   if (buf)
     {
-      if (lw6sys_file_exists (buf))
+      if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("reading teams \"%s\""), buf);
@@ -105,10 +105,10 @@ teams_update_callback (void *func_data, void *data)
   key = (char *) data;
   update_data = (teams_update_data_t *) func_data;
 
-  if (lw6sys_assoc_has_key (update_data->values, key))
+  if (lw6sys_assoc_has_key (sys_context, update_data->values, key))
     {
-      value = lw6sys_assoc_get (update_data->values, key);
-      lw6map_teams_set (update_data->teams, key, value);
+      value = lw6sys_assoc_get (sys_context, update_data->values, key);
+      lw6map_teams_set (sys_context, update_data->teams, key, value);
     }
 }
 

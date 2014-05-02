@@ -80,11 +80,13 @@ _lw6p2p_packet_checksum (const _lw6p2p_packet_t * packet)
 {
   u_int32_t ret = 0;
 
-  lw6sys_checksum_update_int32 (&ret, packet->logical_ticket_sig);
-  lw6sys_checksum_update_int32 (&ret, packet->physical_ticket_sig);
-  lw6sys_checksum_update_int64 (&ret, packet->logical_from_id);
-  lw6sys_checksum_update_int64 (&ret, packet->logical_to_id);
-  lw6sys_checksum_update_str (&ret, packet->msg);
+  lw6sys_checksum_update_int32 (sys_context, &ret,
+				packet->logical_ticket_sig);
+  lw6sys_checksum_update_int32 (sys_context, &ret,
+				packet->physical_ticket_sig);
+  lw6sys_checksum_update_int64 (sys_context, &ret, packet->logical_from_id);
+  lw6sys_checksum_update_int64 (sys_context, &ret, packet->logical_to_id);
+  lw6sys_checksum_update_str (sys_context, &ret, packet->msg);
 
   return ret;
 }

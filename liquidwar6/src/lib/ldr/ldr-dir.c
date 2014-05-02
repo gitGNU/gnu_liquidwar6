@@ -70,11 +70,11 @@ new_entry (const char *absolute_path, const char *relative_path,
 	    lw6sys_path_concat (absolute_path, entry_path);
 	  if (entry->absolute_path)
 	    {
-	      if (lw6sys_dir_exists (entry->absolute_path))
+	      if (lw6sys_dir_exists (sys_context, entry->absolute_path))
 		{
 		  lw6ldr_metadata_read (&(entry->metadata),
 					entry->absolute_path);
-		  if (lw6sys_path_is_cwd (relative_path))
+		  if (lw6sys_path_is_cwd (sys_context, relative_path))
 		    {
 		      entry->relative_path =
 			lw6sys_str_copy (sys_context, entry_path);
@@ -82,10 +82,11 @@ new_entry (const char *absolute_path, const char *relative_path,
 		  else
 		    {
 		      entry->relative_path =
-			lw6sys_path_concat (relative_path, entry_path);
+			lw6sys_path_concat (sys_context, relative_path,
+					    entry_path);
 		    }
 		  map_filename =
-		    lw6sys_path_concat (entry->absolute_path,
+		    lw6sys_path_concat (sys_context, entry->absolute_path,
 					_LW6LDR_FILE_MAP_PNG);
 		  if (map_filename)
 		    {
@@ -100,7 +101,7 @@ new_entry (const char *absolute_path, const char *relative_path,
 			}
 		      else
 			{
-			  lw6map_rules_defaults (&rules);
+			  lw6map_rules_defaults (sys_context, &rules);
 			  if (lw6ldr_rules_read
 			      (&rules, entry->absolute_path))
 			    {
@@ -179,7 +180,7 @@ lw6ldr_free_entry (lw6ldr_entry_t * entry)
   if (entry)
     {
       // needs to be rock solid for construction bugs
-      lw6map_metadata_clear (&(entry->metadata));
+      lw6map_metadata_clear (sys_context, &(entry->metadata));
       if (entry->absolute_path)
 	{
 	  LW6SYS_FREE (sys_context, entry->absolute_path);
@@ -247,10 +248,12 @@ add_entry (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
   entry = new_entry (absolute_path, relative_path, entry_path, player_exp);
   if (entry)
     {
-      if (!lw6sys_assoc_has_key (*entries_index, entry->relative_path))
+      if (!lw6sys_assoc_has_key
+	  (sys_context, *entries_index, entry->relative_path))
 	{
-	  lw6sys_lifo_push (entries, (void *) entry);
-	  lw6sys_assoc_set (entries_index, entry->relative_path, NULL);
+	  lw6sys_lifo_push (sys_context, entries, (void *) entry);
+	  lw6sys_assoc_set (sys_context, entries_index, entry->relative_path,
+			    NULL);
 	}
       else
 	{
@@ -396,23 +399,27 @@ _get_entries (const char *map_path, const char *relative_path, int player_exp)
   char *dir = NULL;
   char *absolute_path = NULL;
 
-  entries_index = lw6sys_assoc_new (NULL);
+  entries_index = lw6sys_assoc_new (sys_context, NULL);
   if (entries_index)
     {
-      entries = lw6sys_list_new (free_entry_callback);
+      entries = lw6sys_list_new (sys_context, free_entry_callback);
       if (entries)
 	{
 	  dirs = lw6sys_env_split (map_path);
 	  if (dirs)
 	    {
-	      while (dirs && (dir = (char *) lw6sys_lifo_pop (&dirs)) != NULL)
+	      while (dirs
+		     && (dir =
+			 (char *) lw6sys_lifo_pop (sys_context,
+						   &dirs)) != NULL)
 		{
 		  if (dir)
 		    {
 		      if (strlen (dir) > 0)
 			{
 			  absolute_path =
-			    lw6sys_path_concat (dir, relative_path);
+			    lw6sys_path_concat (sys_context, dir,
+						relative_path);
 			  if (absolute_path)
 			    {
 			      if (lw6sys_dir_exists (absolute_path))
@@ -429,12 +436,12 @@ _get_entries (const char *map_path, const char *relative_path, int player_exp)
 		}
 	    }
 	}
-      lw6sys_assoc_free (entries_index);
+      lw6sys_assoc_free (sys_context, entries_index);
     }
 
   if (entries)
     {
-      lw6sys_sort (&entries, entries_sort_callback);
+      lw6sys_sort (sys_context, &entries, entries_sort_callback);
     }
 
   return entries;
@@ -491,7 +498,7 @@ lw6ldr_get_entries (const char *map_path, const char *relative_path,
   entries = _get_entries (map_path, relative_path, player_exp);
   func1_data.map_path = map_path;
   func1_data.user_dir = user_dir;
-  lw6sys_list_map (entries, _count_submaps_callback_func1,
+  lw6sys_list_map (sys_context, entries, _count_submaps_callback_func1,
 		   (void *) &func1_data);
 
   return entries;
@@ -517,9 +524,9 @@ for_all_entries_callback_func (void *func_data, void *data)
 			      callback_data->player_exp);
 	      if (entries)
 		{
-		  lw6sys_list_map (entries, for_all_entries_callback_func,
-				   func_data);
-		  lw6sys_list_free (entries);
+		  lw6sys_list_map (sys_context, entries,
+				   for_all_entries_callback_func, func_data);
+		  lw6sys_list_free (sys_context, entries);
 		}
 	    }
 	}
@@ -565,9 +572,9 @@ lw6ldr_for_all_entries (const char *map_path, const char *relative_path,
       callback_data.recursive = recursive;
       callback_data.callback_func = callback_func;
       callback_data.func_data = func_data;
-      lw6sys_list_map (entries, for_all_entries_callback_func,
+      lw6sys_list_map (sys_context, entries, for_all_entries_callback_func,
 		       (void *) &callback_data);
-      lw6sys_list_free (entries);
+      lw6sys_list_free (sys_context, entries);
     }
 }
 
@@ -621,7 +628,7 @@ lw6ldr_chain_entry (const char *map_path, const char *relative_path,
   chain_ret.exp = LW6MAP_RULES_MIN_EXP;
   chain_ret.found_entry = NULL;
   lw6cfg_load_exp (user_dir, &chain_ret.exp);
-  parent = lw6sys_path_parent (relative_path);
+  parent = lw6sys_path_parent (sys_context, relative_path);
   if (parent)
     {
       lw6ldr_for_all_entries (map_path, parent, user_dir, 0, &_chain_func,

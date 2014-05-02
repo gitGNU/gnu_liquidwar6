@@ -41,7 +41,7 @@
  * Return value: a color id
  */
 int
-lw6map_exp_get_highest_team_color_allowed (int exp)
+lw6map_exp_get_highest_team_color_allowed (sys_context, int exp)
 {
   int ret = 0;
 
@@ -70,7 +70,7 @@ lw6map_exp_get_highest_team_color_allowed (int exp)
  * Return value: a weapon id
  */
 int
-lw6map_exp_get_highest_weapon_allowed (int exp)
+lw6map_exp_get_highest_weapon_allowed (sys_context, int exp)
 {
   int ret = 0;
 
@@ -100,13 +100,14 @@ lw6map_exp_get_highest_weapon_allowed (int exp)
  * Return value: 1 if allowed, 0 if not.
  */
 int
-lw6map_exp_is_team_color_allowed (const lw6map_rules_t * rules,
+lw6map_exp_is_team_color_allowed (sys_context, const lw6map_rules_t * rules,
 				  int team_color_id)
 {
   int ret = 0;
 
   ret = lw6map_team_color_is_valid (team_color_id)
-    && (ret <= lw6map_exp_get_highest_team_color_allowed (rules->exp));
+    && (ret <=
+	lw6map_exp_get_highest_team_color_allowed (sys_context, rules->exp));
 
   return ret;
 }
@@ -122,12 +123,14 @@ lw6map_exp_is_team_color_allowed (const lw6map_rules_t * rules,
  * Return value: 1 if allowed, 0 if not.
  */
 int
-lw6map_exp_is_weapon_allowed (const lw6map_rules_t * rules, int weapon_id)
+lw6map_exp_is_weapon_allowed (sys_context, const lw6map_rules_t * rules,
+			      int weapon_id)
 {
   int ret = 0;
 
   ret = lw6map_weapon_is_valid (weapon_id)
-    && (ret <= lw6map_exp_get_highest_weapon_allowed (rules->exp));
+    && (ret <=
+	lw6map_exp_get_highest_weapon_allowed (sys_context, rules->exp));
 
   return ret;
 }
@@ -142,15 +145,16 @@ lw6map_exp_is_weapon_allowed (const lw6map_rules_t * rules, int weapon_id)
  * Return value: -1 if nothing unlocked, else the team color
  */
 int
-lw6map_exp_get_unlocked_team_color (int exp)
+lw6map_exp_get_unlocked_team_color (sys_context, int exp)
 {
   int ret = LW6MAP_TEAM_COLOR_INVALID;
   int i, before, now;
 
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      before = lw6map_exp_get_highest_team_color_allowed (exp - 1);
-      now = lw6map_exp_get_highest_team_color_allowed (exp);
+      before =
+	lw6map_exp_get_highest_team_color_allowed (sys_context, exp - 1);
+      now = lw6map_exp_get_highest_team_color_allowed (sys_context, exp);
       if (before < now)
 	{
 	  ret = now;
@@ -170,15 +174,15 @@ lw6map_exp_get_unlocked_team_color (int exp)
  * Return value: -1 if nothing unlocked, else the weapon id
  */
 int
-lw6map_exp_get_unlocked_weapon (int exp)
+lw6map_exp_get_unlocked_weapon (sys_context, int exp)
 {
   int ret = LW6MAP_WEAPON_NONE;
   int i, before, now;
 
   for (i = 0; i <= LW6MAP_MAX_WEAPON_ID; ++i)
     {
-      before = lw6map_exp_get_highest_weapon_allowed (exp - 1);
-      now = lw6map_exp_get_highest_weapon_allowed (exp);
+      before = lw6map_exp_get_highest_weapon_allowed (sys_context, exp - 1);
+      now = lw6map_exp_get_highest_weapon_allowed (sys_context, exp);
       if (before < now)
 	{
 	  ret = now;

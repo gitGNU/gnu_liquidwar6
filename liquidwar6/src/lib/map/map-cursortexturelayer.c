@@ -41,7 +41,7 @@
  * Return value: none
  */
 void
-lw6map_cursor_texture_layer_set (lw6map_cursor_texture_layer_t *
+lw6map_cursor_texture_layer_set (sys_context, lw6map_cursor_texture_layer_t *
 				 cursor_texture_layer, int x, int y,
 				 lw6sys_color_8_t color)
 {

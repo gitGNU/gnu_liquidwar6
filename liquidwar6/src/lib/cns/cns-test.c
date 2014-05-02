@@ -75,7 +75,7 @@ _test_handler ()
     for (i = 0; i < _TEST_CON_NB_LOOPS; ++i)
       {
 	lw6cns_handler_poll ();
-	lw6sys_sleep (_TEST_CON_SLEEP);
+	lw6sys_sleep (sys_context, _TEST_CON_SLEEP);
       }
     lw6cns_handler_remove (handler);
   }
@@ -100,7 +100,7 @@ _test_support ()
      * last long enough, and, for instance, google perftools might
      * just return error because it has no node to process.
      */
-    lw6sys_delay (_TEST_SUPPORT_DELAY);
+    lw6sys_delay (sys_context, _TEST_SUPPORT_DELAY);
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		_x_ ("term support -> %d"), lw6cns_term_support ());
   }
@@ -144,7 +144,7 @@ lw6cns_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6cns", _setup_init, _setup_quit);
@@ -185,7 +185,7 @@ lw6cns_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

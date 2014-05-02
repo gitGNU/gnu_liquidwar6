@@ -107,12 +107,14 @@ _lw6ker_armies_update_checksum (const _lw6ker_armies_t * armies,
 {
   int i;
 
-  lw6sys_checksum_update_int32 (checksum, armies->max_fighters);
-  lw6sys_checksum_update_int32 (checksum, armies->active_fighters);
+  lw6sys_checksum_update_int32 (sys_context, checksum, armies->max_fighters);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				armies->active_fighters);
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (checksum, armies->fighters_per_team[i]);
-      lw6sys_checksum_update_int32 (checksum, armies->frags[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum,
+				    armies->fighters_per_team[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum, armies->frags[i]);
     }
   for (i = 0; i < armies->max_fighters; ++i)
     {

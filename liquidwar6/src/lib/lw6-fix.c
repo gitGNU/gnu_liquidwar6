@@ -48,23 +48,23 @@ _get_system_guile_load_path (int argc, const char *argv[])
   char *run_dir = NULL;
   char *guile_dir = NULL;
 
-  run_dir = lw6sys_get_run_dir (argc, argv);
+  run_dir = lw6sys_get_run_dir (sys_context, argc, argv);
   if (run_dir)
     {
       guile_dir = lw6sys_path_concat (run_dir, GUILE_LOAD_PATH_SUFFIX);
       if (guile_dir)
 	{
-	  if (lw6sys_dir_exists (guile_dir))
+	  if (lw6sys_dir_exists (sys_context, guile_dir))
 	    {
 	      ret = guile_dir;	// will be freed by caller
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("Guile library directory \"%s\" does not exist"),
 			  guile_dir);
-	      LW6SYS_FREE (guile_dir);
+	      LW6SYS_FREE (sys_context, guile_dir);
 	    }
 	}
       LW6SYS_FREE (run_dir);
@@ -83,7 +83,7 @@ _fix_guile_load_path (int argc, const char *argv[])
   char *env = NULL;
 
   system_dir = _get_system_guile_load_path (argc, argv);
-  script_file = lw6sys_get_script_file (argc, argv);
+  script_file = lw6sys_get_script_file (sys_context, argc, argv);
   if (script_file)
     {
       script_dir = lw6sys_path_parent (script_file);
@@ -91,7 +91,7 @@ _fix_guile_load_path (int argc, const char *argv[])
 	{
 	  if (!lw6sys_dir_exists (script_dir))
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("Guile script directory \"%s\" does not exist"),
 			  script_dir);
@@ -127,22 +127,22 @@ _fix_guile_load_path (int argc, const char *argv[])
 	    }
 	  else
 	    {
-	      env = lw6sys_str_copy (".");
+	      env = lw6sys_str_copy (sys_context, ".");
 	    }
 	}
     }
 
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_ ("setting Guile path using setenv %s=\"%s\""),
 	      GUILE_LOAD_PATH_KEY, env);
   if (env)
     {
-      lw6sys_setenv (GUILE_LOAD_PATH_KEY, env);
+      lw6sys_setenv (sys_context, GUILE_LOAD_PATH_KEY, env);
     }
 
   if (env)
     {
-      LW6SYS_FREE (env);
+      LW6SYS_FREE (sys_context, env);
     }
   if (script_dir)
     {
@@ -177,7 +177,7 @@ _fix_library_path (int argc, const char *argv[], char *library_path)
   /*
    * First, get old value and *append* program libdir to it
    */
-  old_library_path = lw6sys_getenv (library_path);
+  old_library_path = lw6sys_getenv (sys_context, library_path);
   if (old_library_path && strlen (old_library_path) > 0)
     {
       new_library_path =
@@ -185,7 +185,8 @@ _fix_library_path (int argc, const char *argv[], char *library_path)
     }
   else
     {
-      new_library_path = lw6sys_str_copy (lw6sys_build_get_libdir ());
+      new_library_path =
+	lw6sys_str_copy (sys_context, lw6sys_build_get_libdir ());
     }
 
   if (old_library_path)
@@ -209,7 +210,8 @@ _fix_library_path (int argc, const char *argv[], char *library_path)
     }
   else
     {
-      new_library_path = lw6sys_str_copy (DEFAULT_MACPORTS_LIBDIR);
+      new_library_path =
+	lw6sys_str_copy (sys_context, DEFAULT_MACPORTS_LIBDIR);
     }
 
   if (old_library_path)
@@ -226,18 +228,19 @@ _fix_library_path (int argc, const char *argv[], char *library_path)
   /*
    * Next, add CWD before it
    */
-  cwd = lw6sys_get_cwd (argc, argv);
+  cwd = lw6sys_get_cwd (sys_context, argc, argv);
   if (cwd)
     {
       if (old_library_path && strlen (old_library_path) > 0)
 	{
-	  new_library_path = lw6sys_env_concat (cwd, old_library_path);
+	  new_library_path =
+	    lw6sys_env_concat (sys_context, cwd, old_library_path);
 	}
       else
 	{
-	  new_library_path = lw6sys_str_copy (cwd);
+	  new_library_path = lw6sys_str_copy (sys_context, cwd);
 	}
-      LW6SYS_FREE (cwd);
+      LW6SYS_FREE (sys_context, cwd);
     }
 
   if (old_library_path)
@@ -254,7 +257,7 @@ _fix_library_path (int argc, const char *argv[], char *library_path)
   /*
    * Finally, put run_dir in front
    */
-  run_dir = lw6sys_get_run_dir (argc, argv);
+  run_dir = lw6sys_get_run_dir (sys_context, argc, argv);
   if (run_dir)
     {
       if (old_library_path && strlen (old_library_path) > 0)
@@ -275,7 +278,7 @@ _fix_library_path (int argc, const char *argv[], char *library_path)
     }
   if (new_library_path)
     {
-      lw6sys_setenv (library_path, new_library_path);
+      lw6sys_setenv (sys_context, library_path, new_library_path);
       LW6SYS_FREE (new_library_path);
       new_library_path = NULL;
     }
@@ -322,13 +325,13 @@ lw6_fix_env (int argc, const char *argv[])
 
   _fix_guile_load_path (argc, argv);
 #ifdef LW6_MAC_OS_X
-  if (!lw6sys_is_executed_again (argc, argv))
+  if (!lw6sys_is_executed_again (sys_context, argc, argv))
     {
       _fix_dyld_fallback_library_path (argc, argv);
       //_fix_dyld_library_path (argc, argv);
       //_fix_ld_library_path (argc, argv);
-      lw6sys_exec_again (argc, argv);
-      lw6sys_log (LW6SYS_LOG_ERROR,
+      lw6sys_exec_again (sys_context, argc, argv);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 		  _
 		  ("couldn't fix environment variable by restarting program"));
     }

@@ -250,9 +250,10 @@ _default_source (lw6map_layer_t * layer, int width, int height)
  * Return value: none
  */
 void
-lw6map_layer_builtin_custom (lw6map_layer_t * layer, int w, int h)
+lw6map_layer_builtin_custom (sys_context, lw6map_layer_t * layer, int w,
+			     int h)
 {
-  lw6map_layer_clear (layer);
+  lw6map_layer_clear (sys_context, layer);
 
   if (!_default_source (layer, w, h))
     {
@@ -275,7 +276,7 @@ lw6map_layer_builtin_custom (lw6map_layer_t * layer, int w, int h)
  * Return value: none
  */
 void
-lw6map_layer_clear (lw6map_layer_t * layer)
+lw6map_layer_clear (sys_context, lw6map_layer_t * layer)
 {
   if (layer->data)
     {

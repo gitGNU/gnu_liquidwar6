@@ -73,13 +73,13 @@ lw6cli_get_backends (int argc, const char *argv[])
 #ifdef LW6_ALLINONE
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
-  ret = lw6sys_assoc_new (lw6sys_free_callback);
+  ret = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
   if (ret)
     {
       module_pedigree = mod_tcp_get_pedigree ();
       if (module_pedigree)
 	{
-	  lw6sys_assoc_set (&ret, module_pedigree->id,
+	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id,
 			    lw6sys_str_copy (sys_context,
 					     module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
@@ -87,7 +87,7 @@ lw6cli_get_backends (int argc, const char *argv[])
       module_pedigree = mod_udp_get_pedigree ();
       if (module_pedigree)
 	{
-	  lw6sys_assoc_set (&ret, module_pedigree->id,
+	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id,
 			    lw6sys_str_copy (sys_context,
 					     module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
@@ -96,7 +96,7 @@ lw6cli_get_backends (int argc, const char *argv[])
       module_pedigree = mod_http_get_pedigree ();
       if (module_pedigree)
 	{
-	  lw6sys_assoc_set (&ret, module_pedigree->id,
+	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id,
 			    lw6sys_str_copy (sys_context,
 					     module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);

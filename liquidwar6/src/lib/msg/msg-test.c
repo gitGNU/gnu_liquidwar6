@@ -299,7 +299,7 @@ _test_cmd ()
 	  }
 
 	key = lw6sys_generate_id_32 ();
-	serial = lw6sys_random (_TEST_MSG_SERIAL_RANGE);
+	serial = lw6sys_random (sys_context, _TEST_MSG_SERIAL_RANGE);
 	msg = lw6msg_cmd_generate_foo (info, key, serial);
 	if (msg)
 	  {
@@ -349,7 +349,7 @@ _test_cmd ()
 	  }
 
 	key = lw6sys_generate_id_32 ();
-	serial = lw6sys_random (_TEST_MSG_SERIAL_RANGE);
+	serial = lw6sys_random (sys_context, _TEST_MSG_SERIAL_RANGE);
 	msg = lw6msg_cmd_generate_bar (info, key, serial);
 	if (msg)
 	  {
@@ -398,8 +398,9 @@ _test_cmd ()
 	    LW6SYS_FREE (sys_context, msg);
 	  }
 
-	seq = _TEST_SEQ_BASE + lw6sys_random (_TEST_SEQ_RANGE);
-	serial = _TEST_SERIAL_BASE + lw6sys_random (_TEST_SERIAL_RANGE);
+	seq = _TEST_SEQ_BASE + lw6sys_random (sys_context, _TEST_SEQ_RANGE);
+	serial =
+	  _TEST_SERIAL_BASE + lw6sys_random (sys_context, _TEST_SERIAL_RANGE);
 	msg = lw6msg_cmd_generate_join (info, seq, serial);
 	if (msg)
 	  {
@@ -733,7 +734,8 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 				  envelope);
 		      ret = 0;
 		    }
-		  lw6sys_str_truncate (envelope, _TEST_ENVELOPE_TRUNCATE_LEN);
+		  lw6sys_str_truncate (sys_context, envelope,
+				       _TEST_ENVELOPE_TRUNCATE_LEN);
 		  if (lw6msg_envelope_analyse
 		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
@@ -1120,7 +1122,7 @@ _test_oob ()
 	    pong_url = lw6msg_oob_analyse_pong (oob);
 	    if (pong_url)
 	      {
-		if (lw6sys_str_is_same (pong_url, _TEST_URL))
+		if (lw6sys_str_is_same (sys_context, pong_url, _TEST_URL))
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				_x_ ("got url \"%s\" from PONG"), pong_url);
@@ -1147,7 +1149,9 @@ _test_oob ()
 	list = lw6nod_info_new_verified_nodes ();
 	if (list)
 	  {
-	    url = lw6sys_url_http_from_ip_port (_TEST_IP_1, _TEST_PORT);
+	    url =
+	      lw6sys_url_http_from_ip_port (sys_context, _TEST_IP_1,
+					    _TEST_PORT);
 	    if (url)
 	      {
 		verified_node =
@@ -1160,11 +1164,14 @@ _test_oob ()
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
 		  {
-		    lw6sys_list_push_front (&list, verified_node);
+		    lw6sys_list_push_front (sys_context, &list,
+					    verified_node);
 		  }
 		LW6SYS_FREE (sys_context, url);
 	      }
-	    url = lw6sys_url_http_from_ip_port (_TEST_IP_2, _TEST_PORT);
+	    url =
+	      lw6sys_url_http_from_ip_port (sys_context, _TEST_IP_2,
+					    _TEST_PORT);
 	    if (url)
 	      {
 		verified_node =
@@ -1177,11 +1184,14 @@ _test_oob ()
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
 		  {
-		    lw6sys_list_push_front (&list, verified_node);
+		    lw6sys_list_push_front (sys_context, &list,
+					    verified_node);
 		  }
 		LW6SYS_FREE (sys_context, url);
 	      }
-	    url = lw6sys_url_http_from_ip_port (_TEST_IP_3, _TEST_PORT);
+	    url =
+	      lw6sys_url_http_from_ip_port (sys_context, _TEST_IP_3,
+					    _TEST_PORT);
 	    if (url)
 	      {
 		verified_node =
@@ -1194,7 +1204,8 @@ _test_oob ()
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
 		  {
-		    lw6sys_list_push_front (&list, verified_node);
+		    lw6sys_list_push_front (sys_context, &list,
+					    verified_node);
 		  }
 		LW6SYS_FREE (sys_context, url);
 	      }
@@ -1432,15 +1443,16 @@ _test_sort ()
     char *str = NULL;
     char *tmp = NULL;
 
-    list = lw6sys_list_new (lw6sys_free_callback);
+    list = lw6sys_list_new (sys_context, lw6sys_free_callback);
     if (list)
       {
 	for (i = 0; i < _TEST_SORT_NB; ++i)
 	  {
 	    seq =
-	      ((int64_t) lw6sys_random (_TEST_SORT_RANGE) +
-	       1) * ((int64_t) lw6sys_random (_TEST_SORT_RANGE) + 1);
-	    tmp = lw6sys_str_random_words (_TEST_SORT_LEN);
+	      ((int64_t) lw6sys_random (sys_context, _TEST_SORT_RANGE) +
+	       1) * ((int64_t) lw6sys_random (sys_context,
+					      _TEST_SORT_RANGE) + 1);
+	    tmp = lw6sys_str_random_words (sys_context, _TEST_SORT_LEN);
 	    if (tmp)
 	      {
 		str =
@@ -1449,7 +1461,7 @@ _test_sort ()
 				      (long long) seq, tmp);
 		if (str)
 		  {
-		    lw6sys_list_push_front (&list, str);
+		    lw6sys_list_push_front (sys_context, &list, str);
 		  }
 		else
 		  {
@@ -1462,8 +1474,8 @@ _test_sort ()
 		ret = 0;
 	      }
 	  }
-	lw6sys_sort (&list, lw6msg_sort_str_by_seq_callback);
-	while ((str = lw6sys_list_pop_front (&list)) != NULL)
+	lw6sys_sort (sys_context, &list, lw6msg_sort_str_by_seq_callback);
+	while ((str = lw6sys_list_pop_front (sys_context, &list)) != NULL)
 	  {
 	    if (lw6msg_word_first_int_64 (&seq, NULL, str))
 	      {
@@ -1645,7 +1657,7 @@ _test_utils ()
 		    _x_ ("unable to parse \"%s\", this is normal"),
 		    _TEST_KEY_VALUE_KO);
       }
-    assoc = lw6sys_assoc_new (lw6sys_free_callback);
+    assoc = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
     if (assoc)
       {
 	lw6msg_utils_parse_key_value_to_assoc (&assoc, _TEST_KEY_VALUE_OK_1);
@@ -2079,7 +2091,7 @@ _test_z_ok (char *_test_str, int log_all)
       decoded_string = lw6msg_z_decode (encoded_string);
       if (decoded_string)
 	{
-	  if (lw6sys_str_is_same (decoded_string, _test_str))
+	  if (lw6sys_str_is_same (sys_context, decoded_string, _test_str))
 	    {
 	      if (log_all)
 		{
@@ -2196,7 +2208,7 @@ _test_z ()
     char *random_str = NULL;
     char *z_random_str = NULL;
 
-    random_str = lw6sys_str_random (_TEST_Z_MSG_4_LEN);
+    random_str = lw6sys_str_random (sys_context, _TEST_Z_MSG_4_LEN);
     ret = _test_z_ok (_TEST_Z_MSG_1, 1) && ret;
     ret = _test_z_ok (_TEST_Z_MSG_2, 1) && ret;
     ret = _test_z_ok (_TEST_Z_MSG_3, 1) && ret;
@@ -2212,7 +2224,8 @@ _test_z ()
 
     if (random_str)
       {
-	z_random_str = lw6sys_str_concat (LW6MSG_Z_PREFIX, random_str);
+	z_random_str =
+	  lw6sys_str_concat (sys_context, LW6MSG_Z_PREFIX, random_str);
 	if (z_random_str)
 	  {
 	    ret = _test_z_ko (z_random_str, 0) && ret;
@@ -2261,7 +2274,7 @@ lw6msg_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
       lw6glb_test_register (mode);
       lw6nod_test_register (mode);
       lw6cnx_test_register (mode);
@@ -2307,7 +2320,7 @@ lw6msg_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

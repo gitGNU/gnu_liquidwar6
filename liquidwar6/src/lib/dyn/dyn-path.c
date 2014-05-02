@@ -75,7 +75,7 @@ _make_system_path (int argc, const char *argv[],
   char *ret = NULL;
   char *mod_dir = NULL;
 
-  mod_dir = lw6sys_get_mod_dir (argc, argv);
+  mod_dir = lw6sys_get_mod_dir (sys_context, argc, argv);
   if (mod_dir)
     {
       ret =
@@ -121,7 +121,7 @@ _path_find (int argc, const char *argv[],
 					  depth, devel_path_format);
 		      if (devel_path)
 			{
-			  if (lw6sys_file_exists (devel_path))
+			  if (lw6sys_file_exists (sys_context, devel_path))
 			    {
 			      ret = lw6sys_str_copy (sys_context, devel_path);
 			    }

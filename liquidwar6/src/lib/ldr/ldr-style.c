@@ -63,11 +63,11 @@ lw6ldr_style_read (lw6map_style_t * style, const char *dirname)
   int ret = 0;
   char *buf = NULL;
 
-  buf = lw6sys_path_concat (dirname, _LW6LDR_FILE_STYLE_XML);
+  buf = lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_STYLE_XML);
 
   if (buf)
     {
-      if (lw6sys_file_exists (buf))
+      if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("reading style \"%s\""), buf);
@@ -137,9 +137,9 @@ style_update_callback (void *func_data, void *data)
   key = (char *) data;
   update_data = (style_update_data_t *) func_data;
 
-  if (lw6sys_assoc_has_key (update_data->values, key))
+  if (lw6sys_assoc_has_key (sys_context, update_data->values, key))
     {
-      value = lw6sys_assoc_get (update_data->values, key);
+      value = lw6sys_assoc_get (sys_context, update_data->values, key);
       lw6ldr_style_set (update_data->style, key, value);
     }
 }

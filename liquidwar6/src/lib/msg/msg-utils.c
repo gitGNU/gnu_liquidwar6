@@ -206,7 +206,7 @@ lw6msg_utils_get_assoc_int_with_default (lw6sys_assoc_t * assoc,
   tmp = lw6sys_assoc_get (assoc, key);
   if (tmp)
     {
-      ret = lw6sys_atoi (tmp);
+      ret = lw6sys_atoi (sys_context, tmp);
     }
   else
     {

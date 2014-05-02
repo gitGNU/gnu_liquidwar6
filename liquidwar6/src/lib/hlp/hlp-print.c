@@ -78,7 +78,8 @@ print_content_callback (void *func_data, void *data)
 	  fprintf (f, "--%s\n", entry);
 	}
       desc =
-	lw6sys_str_reformat (about, LW6SYS_REFORMAT_INDENT_PREFIX,
+	lw6sys_str_reformat (sys_context, about,
+			     LW6SYS_REFORMAT_INDENT_PREFIX,
 			     LW6SYS_REFORMAT_INDENT_NB_COLUMNS);
       if (desc)
 	{
@@ -108,7 +109,7 @@ void
 lw6hlp_print_keyword (lw6sys_list_t ** list, FILE * f)
 {
   lw6sys_sort (list, lw6sys_sort_str_callback);
-  lw6sys_list_map (*list, print_keyword_callback, (void *) f);
+  lw6sys_list_map (sys_context, *list, print_keyword_callback, (void *) f);
 }
 
 /**
@@ -127,7 +128,7 @@ void
 lw6hlp_print_content (lw6sys_list_t ** list, FILE * f)
 {
   lw6sys_sort (list, lw6sys_sort_str_callback);
-  lw6sys_list_map (*list, print_content_callback, (void *) f);
+  lw6sys_list_map (sys_context, *list, print_content_callback, (void *) f);
 }
 
 /**
@@ -154,7 +155,7 @@ lw6hlp_print_about (const char *keyword, FILE * f)
   int values_set = 0;
 
   doc_str =
-    lw6sys_str_reformat (lw6hlp_about
+    lw6sys_str_reformat (sys_context, lw6hlp_about
 			 (&type, &default_value, &min_value, &max_value,
 			  keyword), LW6SYS_REFORMAT_DEFAULT_PREFIX,
 			 LW6SYS_REFORMAT_DEFAULT_NB_COLUMNS);
@@ -284,7 +285,8 @@ void
 lw6hlp_print_version (FILE * f)
 {
   fprintf (f, "%s (%s) %s\n", lw6sys_build_get_package_tarname (),
-	   lw6sys_build_get_package_name (), lw6sys_build_get_version ());
+	   lw6sys_build_get_package_name (sys_context,),
+	   lw6sys_build_get_version ());
   lw6hlp_print_short_copyright (f);
 }
 
@@ -442,13 +444,13 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
   fprintf (f, "localedir: %s\n", lw6sys_build_get_localedir ());
   fprintf (f, "docdir: %s\n", lw6sys_build_get_docdir ());
 
-  path = lw6sys_get_cwd (argc, argv);
+  path = lw6sys_get_cwd (sys_context, argc, argv);
   if (path)
     {
       fprintf (f, "cwd: %s\n", path);
       LW6SYS_FREE (sys_context, path);
     }
-  path = lw6sys_get_run_dir (argc, argv);
+  path = lw6sys_get_run_dir (sys_context, argc, argv);
   if (path)
     {
       fprintf (f, "run-dir: %s\n", path);
@@ -458,7 +460,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
   default_path = lw6sys_get_default_user_dir ();
   if (default_path)
     {
-      path = lw6sys_get_user_dir (argc, argv);
+      path = lw6sys_get_user_dir (sys_context, argc, argv);
       if (path)
 	{
 	  if (strcmp (default_path, path))
@@ -474,7 +476,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
   default_path = lw6sys_get_default_config_file ();
   if (default_path)
     {
-      path = lw6sys_get_config_file (argc, argv);
+      path = lw6sys_get_config_file (sys_context, argc, argv);
       if (path)
 	{
 	  if (strcmp (default_path, path))
@@ -490,7 +492,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
   default_path = lw6sys_get_default_log_file ();
   if (default_path)
     {
-      path = lw6sys_get_log_file (argc, argv);
+      path = lw6sys_get_log_file (sys_context, argc, argv);
       if (path)
 	{
 	  if (strcmp (default_path, path))
@@ -506,7 +508,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
   default_path = lw6sys_get_default_prefix ();
   if (default_path)
     {
-      path = lw6sys_get_prefix (argc, argv);
+      path = lw6sys_get_prefix (sys_context, argc, argv);
       if (path)
 	{
 	  if (strcmp (default_path, path))
@@ -522,7 +524,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
   default_path = lw6sys_get_default_mod_dir ();
   if (default_path)
     {
-      path = lw6sys_get_mod_dir (argc, argv);
+      path = lw6sys_get_mod_dir (sys_context, argc, argv);
       if (path)
 	{
 	  if (strcmp (default_path, path))
@@ -538,7 +540,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
   default_path = lw6sys_get_default_data_dir ();
   if (default_path)
     {
-      path = lw6sys_get_data_dir (argc, argv);
+      path = lw6sys_get_data_dir (sys_context, argc, argv);
       if (path)
 	{
 	  if (strcmp (default_path, path))
@@ -554,7 +556,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
   default_path = lw6sys_get_default_music_dir ();
   if (default_path)
     {
-      path = lw6sys_get_music_dir (argc, argv);
+      path = lw6sys_get_music_dir (sys_context, argc, argv);
       if (path)
 	{
 	  if (strcmp (default_path, path))
@@ -570,7 +572,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
   default_path = lw6sys_get_default_music_path ();
   if (default_path)
     {
-      path = lw6sys_get_music_path (argc, argv);
+      path = lw6sys_get_music_path (sys_context, argc, argv);
       if (path)
 	{
 	  if (strcmp (default_path, path))
@@ -586,7 +588,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
   default_path = lw6sys_get_default_map_dir ();
   if (default_path)
     {
-      path = lw6sys_get_map_dir (argc, argv);
+      path = lw6sys_get_map_dir (sys_context, argc, argv);
       if (path)
 	{
 	  if (strcmp (default_path, path))
@@ -602,7 +604,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
   default_path = lw6sys_get_default_map_path ();
   if (default_path)
     {
-      path = lw6sys_get_map_path (argc, argv);
+      path = lw6sys_get_map_path (sys_context, argc, argv);
       if (path)
 	{
 	  if (strcmp (default_path, path))
@@ -618,7 +620,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
   default_path = lw6sys_get_default_script_file ();
   if (default_path)
     {
-      path = lw6sys_get_script_file (argc, argv);
+      path = lw6sys_get_script_file (sys_context, argc, argv);
       if (path)
 	{
 	  if (strcmp (default_path, path))
@@ -1187,7 +1189,8 @@ lw6hlp_print_hello (int argc, const char *argv[])
 	      lw6sys_build_get_version (),
 	      lw6sys_build_get_codename (),
 	      lw6sys_build_get_date (),
-	      lw6sys_build_get_host_os (), lw6sys_build_get_host_cpu ());
+	      lw6sys_build_get_host_os (sys_context,),
+	      lw6sys_build_get_host_cpu ());
 
   date_rfc1123 = lw6sys_date_rfc1123 (0);
   if (date_rfc1123)
@@ -1212,9 +1215,9 @@ lw6hlp_print_hello (int argc, const char *argv[])
 
   lw6sys_build_log_all ();
   lw6sys_options_log_defaults ();
-  lw6sys_options_log (argc, argv);
+  lw6sys_options_log (sys_context, argc, argv);
 
-  lw6sys_check_types_size (argc, argv);
+  lw6sys_check_types_size (sys_context, argc, argv);
 }
 
 /**

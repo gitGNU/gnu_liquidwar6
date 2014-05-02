@@ -38,8 +38,9 @@ _release_dsp_quit (void *func_data, const char *key, void *value)
       repr = lw6dsp_repr (dsp_smob->c_dsp);
       if (repr)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("release dsp \"%s\""), repr);
-	  LW6SYS_FREE (repr);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("release dsp \"%s\""), repr);
+	  LW6SYS_FREE (sys_context, repr);
 	}
       lw6dsp_quit (dsp_smob->c_dsp);
     }
@@ -57,8 +58,9 @@ _release_snd_quit (void *func_data, const char *key, void *value)
       repr = lw6snd_repr (snd_smob->c_snd);
       if (repr)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("release snd \"%s\""), repr);
-	  LW6SYS_FREE (repr);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("release snd \"%s\""), repr);
+	  LW6SYS_FREE (sys_context, repr);
 	}
       lw6snd_quit (snd_smob->c_snd);
     }
@@ -76,8 +78,9 @@ _release_node_close (void *func_data, const char *key, void *value)
       repr = lw6p2p_node_repr (node_smob->c_node);
       if (repr)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("release node \"%s\""), repr);
-	  LW6SYS_FREE (repr);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("release node \"%s\""), repr);
+	  LW6SYS_FREE (sys_context, repr);
 	}
       lw6p2p_node_close (node_smob->c_node);
     }
@@ -140,7 +143,7 @@ lw6_exit ()
 void
 lw6_set_ret (int ret)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("set script ret=%d"), ret);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("set script ret=%d"), ret);
   lw6_global.ret = ret ? 1 : 0;
 }
 

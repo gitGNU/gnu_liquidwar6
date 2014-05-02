@@ -67,11 +67,12 @@ _lw6net_const_init (int argc, const char *argv[],
   char *const_file = NULL;
   char *data_root_dir = NULL;
 
-  data_root_dir = lw6sys_get_data_dir (argc, argv);
+  data_root_dir = lw6sys_get_data_dir (sys_context, argc, argv);
 
   if (data_root_dir)
     {
-      const_file = lw6sys_path_concat (data_root_dir, CONST_FILE);
+      const_file =
+	lw6sys_path_concat (sys_context, data_root_dir, CONST_FILE);
 
       if (const_file)
 	{

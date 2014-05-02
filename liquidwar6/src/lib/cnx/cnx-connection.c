@@ -85,9 +85,9 @@ lw6cnx_connection_new (const char *local_url, const char *remote_url,
 	    lw6sys_str_copy (sys_context, _DEFAULT_SEND_PASSWORD_CHECKSUM);
 	}
       ret->local_id_int = local_id;
-      ret->local_id_str = lw6sys_id_ltoa (local_id);
+      ret->local_id_str = lw6sys_id_ltoa (sys_context, local_id);
       ret->remote_id_int = remote_id;
-      ret->remote_id_str = lw6sys_id_ltoa (remote_id);
+      ret->remote_id_str = lw6sys_id_ltoa (sys_context, remote_id);
       ret->dns_ok = dns_ok ? 1 : 0;
       ret->network_reliability = network_reliability;
       ret->recv_callback_func = recv_callback_func;
@@ -155,7 +155,7 @@ lw6cnx_connection_free (lw6cnx_connection_t * connection)
     }
   if (connection->send_mutex)
     {
-      lw6sys_mutex_destroy (connection->send_mutex);
+      lw6sys_mutex_destroy (sys_context, connection->send_mutex);
     }
   LW6SYS_FREE (sys_context, connection);
 }
@@ -204,7 +204,7 @@ lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t * connection,
     }
   connection->last_send_foo_timestamp = now;
   connection->next_send_foo_timestamp =
-    now + next_foo_delay / 2 + lw6sys_random (next_foo_delay);
+    now + next_foo_delay / 2 + lw6sys_random (sys_context, next_foo_delay);
   connection->foo_bar_key = lw6sys_generate_id_32 ();
 }
 
@@ -223,7 +223,7 @@ lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t * connection,
 int
 lw6cnx_connection_lock_send (lw6cnx_connection_t * connection)
 {
-  return lw6sys_mutex_lock (connection->send_mutex);
+  return lw6sys_mutex_lock (sys_context, connection->send_mutex);
 }
 
 /**
@@ -241,7 +241,7 @@ lw6cnx_connection_lock_send (lw6cnx_connection_t * connection)
 void
 lw6cnx_connection_unlock_send (lw6cnx_connection_t * connection)
 {
-  lw6sys_mutex_unlock (connection->send_mutex);
+  lw6sys_mutex_unlock (sys_context, connection->send_mutex);
 }
 
 /**
@@ -260,7 +260,7 @@ lw6cnx_connection_reliability_filter (lw6cnx_connection_t * connection)
   int ret = 0;
 
   ret =
-    (lw6sys_random (connection->network_reliability) !=
+    (lw6sys_random (sys_context, connection->network_reliability) !=
      (connection->network_reliability >> 1));
   if (!ret)
     {

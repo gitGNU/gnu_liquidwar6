@@ -134,11 +134,11 @@ lw6ldr_hints_read (lw6ldr_hints_t * hints, const char *dirname)
   int ret = 0;
   char *buf = NULL;
 
-  buf = lw6sys_path_concat (dirname, _LW6LDR_FILE_HINTS_XML);
+  buf = lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_HINTS_XML);
 
   if (buf)
     {
-      if (lw6sys_file_exists (buf))
+      if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("reading hints \"%s\""), buf);
@@ -185,92 +185,95 @@ lw6ldr_hints_set (lw6ldr_hints_t * hints, const char *key, const char *value)
   int ret = 1;
   char *formatted_key = NULL;
 
-  formatted_key = lw6sys_keyword_as_key (key);
+  formatted_key = lw6sys_keyword_as_key (sys_context, key);
   if (formatted_key)
     {
       if (!strcmp (LW6DEF_RESAMPLE, formatted_key))
 	{
-	  hints->resample = lw6sys_atob (value);
+	  hints->resample = lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MIN_MAP_WIDTH, formatted_key))
 	{
-	  hints->min_map_width = lw6sys_atoi (value);
+	  hints->min_map_width = lw6sys_atoi (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MAX_MAP_WIDTH, formatted_key))
 	{
-	  hints->max_map_width = lw6sys_atoi (value);
+	  hints->max_map_width = lw6sys_atoi (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MIN_MAP_HEIGHT, formatted_key))
 	{
-	  hints->min_map_height = lw6sys_atoi (value);
+	  hints->min_map_height = lw6sys_atoi (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MAX_MAP_HEIGHT, formatted_key))
 	{
-	  hints->max_map_height = lw6sys_atoi (value);
+	  hints->max_map_height = lw6sys_atoi (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MIN_MAP_SURFACE, formatted_key))
 	{
-	  hints->min_map_surface = lw6sys_atoi (value);
+	  hints->min_map_surface = lw6sys_atoi (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MAX_MAP_SURFACE, formatted_key))
 	{
-	  hints->max_map_surface = lw6sys_atoi (value);
+	  hints->max_map_surface = lw6sys_atoi (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_FIGHTER_SCALE, formatted_key))
 	{
-	  hints->fighter_scale = lw6sys_atof (value);
+	  hints->fighter_scale = lw6sys_atof (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_DOWNSIZE_USING_FIGHTER_SCALE, formatted_key))
 	{
-	  hints->downsize_using_fighter_scale = lw6sys_atob (value);
+	  hints->downsize_using_fighter_scale =
+	    lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_UPSIZE_USING_FIGHTER_SCALE, formatted_key))
 	{
-	  hints->upsize_using_fighter_scale = lw6sys_atob (value);
+	  hints->upsize_using_fighter_scale =
+	    lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_DOWNSIZE_USING_BENCH_VALUE, formatted_key))
 	{
-	  hints->downsize_using_bench_value = lw6sys_atob (value);
+	  hints->downsize_using_bench_value =
+	    lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_UPSIZE_USING_BENCH_VALUE, formatted_key))
 	{
-	  hints->upsize_using_bench_value = lw6sys_atob (value);
+	  hints->upsize_using_bench_value = lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_GUESS_COLORS, formatted_key))
 	{
-	  hints->guess_colors = lw6sys_atob (value);
+	  hints->guess_colors = lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_BACKGROUND_COLOR_AUTO, formatted_key))
 	{
-	  hints->background_color_auto = lw6sys_atob (value);
+	  hints->background_color_auto = lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_HUD_COLOR_AUTO, formatted_key))
 	{
-	  hints->hud_color_auto = lw6sys_atob (value);
+	  hints->hud_color_auto = lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MENU_COLOR_AUTO, formatted_key))
 	{
-	  hints->menu_color_auto = lw6sys_atob (value);
+	  hints->menu_color_auto = lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_VIEW_COLOR_AUTO, formatted_key))
 	{
-	  hints->view_color_auto = lw6sys_atob (value);
+	  hints->view_color_auto = lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_SYSTEM_COLOR_AUTO, formatted_key))
 	{
-	  hints->system_color_auto = lw6sys_atob (value);
+	  hints->system_color_auto = lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_WALL_GREASE, formatted_key))
 	{
-	  hints->wall_grease = lw6sys_atoi (value);
+	  hints->wall_grease = lw6sys_atoi (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_GUESS_MOVES_PER_SEC, formatted_key))
 	{
-	  hints->guess_moves_per_sec = lw6sys_atob (value);
+	  hints->guess_moves_per_sec = lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_SPEED, formatted_key))
 	{
-	  hints->speed = lw6sys_atof (value);
+	  hints->speed = lw6sys_atof (sys_context, value);
 	}
       else
 	{
@@ -303,92 +306,93 @@ lw6ldr_hints_get (const lw6ldr_hints_t * hints, const char *key)
   char *ret = NULL;
   char *formatted_key = NULL;
 
-  formatted_key = lw6sys_keyword_as_key (key);
+  formatted_key = lw6sys_keyword_as_key (sys_context, key);
   if (formatted_key)
     {
       if (!strcmp (LW6DEF_RESAMPLE, formatted_key))
 	{
-	  ret = lw6sys_btoa (hints->resample);
+	  ret = lw6sys_btoa (sys_context, hints->resample);
 	}
       else if (!strcmp (LW6DEF_MIN_MAP_WIDTH, formatted_key))
 	{
-	  ret = lw6sys_itoa (hints->min_map_width);
+	  ret = lw6sys_itoa (sys_context, hints->min_map_width);
 	}
       else if (!strcmp (LW6DEF_MAX_MAP_WIDTH, formatted_key))
 	{
-	  ret = lw6sys_itoa (hints->max_map_width);
+	  ret = lw6sys_itoa (sys_context, hints->max_map_width);
 	}
       else if (!strcmp (LW6DEF_MIN_MAP_HEIGHT, formatted_key))
 	{
-	  ret = lw6sys_itoa (hints->min_map_height);
+	  ret = lw6sys_itoa (sys_context, hints->min_map_height);
 	}
       else if (!strcmp (LW6DEF_MAX_MAP_HEIGHT, formatted_key))
 	{
-	  ret = lw6sys_itoa (hints->max_map_height);
+	  ret = lw6sys_itoa (sys_context, hints->max_map_height);
 	}
       else if (!strcmp (LW6DEF_MIN_MAP_SURFACE, formatted_key))
 	{
-	  ret = lw6sys_itoa (hints->min_map_surface);
+	  ret = lw6sys_itoa (sys_context, hints->min_map_surface);
 	}
       else if (!strcmp (LW6DEF_MAX_MAP_SURFACE, formatted_key))
 	{
-	  ret = lw6sys_itoa (hints->max_map_surface);
+	  ret = lw6sys_itoa (sys_context, hints->max_map_surface);
 	}
       else if (!strcmp (LW6DEF_FIGHTER_SCALE, formatted_key))
 	{
-	  ret = lw6sys_ftoa (hints->fighter_scale);
+	  ret = lw6sys_ftoa (sys_context, hints->fighter_scale);
 	}
       else if (!strcmp (LW6DEF_DOWNSIZE_USING_FIGHTER_SCALE, formatted_key))
 	{
-	  ret = lw6sys_btoa (hints->downsize_using_fighter_scale);
+	  ret =
+	    lw6sys_btoa (sys_context, hints->downsize_using_fighter_scale);
 	}
       else if (!strcmp (LW6DEF_UPSIZE_USING_FIGHTER_SCALE, formatted_key))
 	{
-	  ret = lw6sys_btoa (hints->upsize_using_fighter_scale);
+	  ret = lw6sys_btoa (sys_context, hints->upsize_using_fighter_scale);
 	}
       else if (!strcmp (LW6DEF_DOWNSIZE_USING_BENCH_VALUE, formatted_key))
 	{
-	  ret = lw6sys_btoa (hints->downsize_using_bench_value);
+	  ret = lw6sys_btoa (sys_context, hints->downsize_using_bench_value);
 	}
       else if (!strcmp (LW6DEF_UPSIZE_USING_BENCH_VALUE, formatted_key))
 	{
-	  ret = lw6sys_btoa (hints->upsize_using_bench_value);
+	  ret = lw6sys_btoa (sys_context, hints->upsize_using_bench_value);
 	}
       else if (!strcmp (LW6DEF_GUESS_COLORS, formatted_key))
 	{
-	  ret = lw6sys_btoa (hints->guess_colors);
+	  ret = lw6sys_btoa (sys_context, hints->guess_colors);
 	}
       else if (!strcmp (LW6DEF_BACKGROUND_COLOR_AUTO, formatted_key))
 	{
-	  ret = lw6sys_btoa (hints->background_color_auto);
+	  ret = lw6sys_btoa (sys_context, hints->background_color_auto);
 	}
       else if (!strcmp (LW6DEF_HUD_COLOR_AUTO, formatted_key))
 	{
-	  ret = lw6sys_btoa (hints->hud_color_auto);
+	  ret = lw6sys_btoa (sys_context, hints->hud_color_auto);
 	}
       else if (!strcmp (LW6DEF_MENU_COLOR_AUTO, formatted_key))
 	{
-	  ret = lw6sys_btoa (hints->menu_color_auto);
+	  ret = lw6sys_btoa (sys_context, hints->menu_color_auto);
 	}
       else if (!strcmp (LW6DEF_VIEW_COLOR_AUTO, formatted_key))
 	{
-	  ret = lw6sys_btoa (hints->view_color_auto);
+	  ret = lw6sys_btoa (sys_context, hints->view_color_auto);
 	}
       else if (!strcmp (LW6DEF_SYSTEM_COLOR_AUTO, formatted_key))
 	{
-	  ret = lw6sys_btoa (hints->system_color_auto);
+	  ret = lw6sys_btoa (sys_context, hints->system_color_auto);
 	}
       else if (!strcmp (LW6DEF_WALL_GREASE, formatted_key))
 	{
-	  ret = lw6sys_itoa (hints->wall_grease);
+	  ret = lw6sys_itoa (sys_context, hints->wall_grease);
 	}
       else if (!strcmp (LW6DEF_GUESS_MOVES_PER_SEC, formatted_key))
 	{
-	  ret = lw6sys_btoa (hints->guess_moves_per_sec);
+	  ret = lw6sys_btoa (sys_context, hints->guess_moves_per_sec);
 	}
       else if (!strcmp (LW6DEF_SPEED, formatted_key))
 	{
-	  ret = lw6sys_ftoa (hints->speed);
+	  ret = lw6sys_ftoa (sys_context, hints->speed);
 	}
       LW6SYS_FREE (sys_context, formatted_key);
     }
@@ -441,9 +445,9 @@ hints_update_callback (void *func_data, void *data)
   key = (char *) data;
   update_data = (hints_update_data_t *) func_data;
 
-  if (lw6sys_assoc_has_key (update_data->values, key))
+  if (lw6sys_assoc_has_key (sys_context, update_data->values, key))
     {
-      value = lw6sys_assoc_get (update_data->values, key);
+      value = lw6sys_assoc_get (sys_context, update_data->values, key);
       lw6ldr_hints_set (update_data->hints, key, value);
     }
 }

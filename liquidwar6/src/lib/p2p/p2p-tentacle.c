@@ -45,7 +45,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
   tentacle->backends = backends;
   tentacle->local_url = lw6sys_str_copy (sys_context, local_url);
   tentacle->remote_url = lw6sys_str_copy (sys_context, remote_url);
-  parsed_url = lw6sys_url_parse (remote_url);
+  parsed_url = lw6sys_url_parse (sys_context, remote_url);
   if (parsed_url)
     {
       /*
@@ -60,7 +60,8 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 	{
 	  if (tentacle->remote_ip)
 	    {
-	      if (lw6sys_str_is_same (tentacle->remote_ip, real_remote_ip))
+	      if (lw6sys_str_is_same
+		  (sys_context, tentacle->remote_ip, real_remote_ip))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
@@ -110,7 +111,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 			  parsed_url->host);
 	    }
 	}
-      lw6sys_url_free (parsed_url);
+      lw6sys_url_free (sys_context, parsed_url);
     }
   if (password && strlen (password) > 0)
     {
@@ -121,9 +122,9 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
       tentacle->password = lw6sys_str_copy ("");
     }
   tentacle->local_id_int = local_id;
-  tentacle->local_id_str = lw6sys_id_ltoa (local_id);
+  tentacle->local_id_str = lw6sys_id_ltoa (sys_context, local_id);
   tentacle->remote_id_int = remote_id;
-  tentacle->remote_id_str = lw6sys_id_ltoa (remote_id);
+  tentacle->remote_id_str = lw6sys_id_ltoa (sys_context, remote_id);
 
   if (tentacle->local_url && tentacle->remote_url && tentacle->remote_ip
       && tentacle->password && tentacle->local_id_str
@@ -240,11 +241,11 @@ _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle)
 
   if (tentacle->unsent_reliable_queue)
     {
-      lw6sys_list_free (tentacle->unsent_reliable_queue);
+      lw6sys_list_free (sys_context, tentacle->unsent_reliable_queue);
     }
   if (tentacle->unsent_unreliable_queue)
     {
-      lw6sys_list_free (tentacle->unsent_unreliable_queue);
+      lw6sys_list_free (sys_context, tentacle->unsent_unreliable_queue);
     }
   if (tentacle->nb_srv_connections > 0 && tentacle->srv_connections)
     {
@@ -600,15 +601,15 @@ _lw6p2p_tentacle_poll_queues (_lw6p2p_tentacle_t * tentacle,
 	   * to make sure they arrive totally not in the right
 	   * order.
 	   */
-	  lw6sys_sort (&(tentacle->unsent_reliable_queue),
+	  lw6sys_sort (sys_context, &(tentacle->unsent_reliable_queue),
 		       _lw6p2p_packet_sort_callback);
-	  lw6sys_list_filter (&(tentacle->unsent_reliable_queue),
+	  lw6sys_list_filter (sys_context, &(tentacle->unsent_reliable_queue),
 			      _send_best_filter, &send_best_data);
 	}
       /*
          else
          {
-         lw6sys_list_free (tentacle->unsent_reliable_queue);
+         lw6sys_list_free (sys_context,tentacle->unsent_reliable_queue);
          tentacle->unsent_reliable_queue = NULL;
          }
        */
@@ -631,14 +632,15 @@ _lw6p2p_tentacle_poll_queues (_lw6p2p_tentacle_t * tentacle,
 	   * to make sure they arrive totally not in the right
 	   * order.
 	   */
-	  lw6sys_sort (&(tentacle->unsent_unreliable_queue),
+	  lw6sys_sort (sys_context, &(tentacle->unsent_unreliable_queue),
 		       _lw6p2p_packet_sort_callback);
-	  lw6sys_list_filter (&(tentacle->unsent_unreliable_queue),
+	  lw6sys_list_filter (sys_context,
+			      &(tentacle->unsent_unreliable_queue),
 			      _send_best_filter, &send_best_data);
 	}
       else
 	{
-	  lw6sys_list_free (tentacle->unsent_unreliable_queue);
+	  lw6sys_list_free (sys_context, tentacle->unsent_unreliable_queue);
 	  tentacle->unsent_unreliable_queue = NULL;
 	}
     }
@@ -685,7 +687,8 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
       if (!tentacle->unsent_reliable_queue)
 	{
 	  tentacle->unsent_reliable_queue =
-	    lw6sys_list_new ((lw6sys_free_func_t) _lw6p2p_packet_free);
+	    lw6sys_list_new (sys_context,
+			     (lw6sys_free_func_t) _lw6p2p_packet_free);
 	}
       if (tentacle->unsent_reliable_queue)
 	{
@@ -705,7 +708,8 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 	       * very likely sending a big hudge message splitted into
 	       * many atoms so order is irrelevant.
 	       */
-	      lw6sys_lifo_push (&(tentacle->unsent_reliable_queue), packet);
+	      lw6sys_lifo_push (sys_context,
+				&(tentacle->unsent_reliable_queue), packet);
 	      ret = 1;
 	    }
 	}
@@ -714,7 +718,8 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
   if (!tentacle->unsent_unreliable_queue)
     {
       tentacle->unsent_unreliable_queue =
-	lw6sys_list_new ((lw6sys_free_func_t) _lw6p2p_packet_free);
+	lw6sys_list_new (sys_context,
+			 (lw6sys_free_func_t) _lw6p2p_packet_free);
     }
   if (tentacle->unsent_unreliable_queue)
     {
@@ -734,7 +739,8 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 	   * very likely sending a big hudge message splitted into
 	   * many atoms so order is irrelevant.
 	   */
-	  lw6sys_lifo_push (&(tentacle->unsent_unreliable_queue), packet);
+	  lw6sys_lifo_push (sys_context, &(tentacle->unsent_unreliable_queue),
+			    packet);
 	  if (!reliable)
 	    {
 	      /*

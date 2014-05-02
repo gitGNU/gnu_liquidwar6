@@ -49,7 +49,7 @@ _scm_lw6bot_get_backends ()
   backends = lw6bot_get_backends (lw6_global.argc, lw6_global.argv);
   if (backends)
     {
-      keys = lw6sys_assoc_keys (backends);
+      keys = lw6sys_assoc_keys (sys_context, backends);
       if (keys)
 	{
 	  ret = SCM_EOL;
@@ -60,18 +60,19 @@ _scm_lw6bot_get_backends ()
 		{
 		  module_id = (char *) key->data;
 		  module_name =
-		    (char *) lw6sys_assoc_get (backends, module_id);
+		    (char *) lw6sys_assoc_get (sys_context, backends,
+					       module_id);
 		  ret =
 		    scm_cons (scm_cons
 			      (scm_from_locale_string (module_id),
 			       scm_from_locale_string (module_name)), ret);
 		}
-	      key = lw6sys_list_next (key);
+	      key = lw6sys_list_next (sys_context, key);
 	    }
-	  lw6sys_list_free (keys);
+	  lw6sys_list_free (sys_context, keys);
 	  ret = scm_reverse (ret);
 	}
-      lw6sys_assoc_free (backends);
+      lw6sys_assoc_free (sys_context, backends);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -123,7 +124,8 @@ _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read,
 	      c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
 	      if (c_cursor_id_str)
 		{
-		  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
+		  c_cursor_id_int =
+		    lw6sys_id_atol (sys_context, c_cursor_id_str);
 		  c_speed = scm_to_double (speed);
 		  c_iq = scm_to_int (iq);
 		  c_ret =
@@ -147,7 +149,7 @@ _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read,
 			  lw6bot_destroy_backend (c_ret);
 			}
 		    }
-		  LW6SYS_FREE (c_cursor_id_str);
+		  LW6SYS_FREE (sys_context, c_cursor_id_str);
 		}
 	    }
 	}

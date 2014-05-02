@@ -49,7 +49,7 @@ _scm_lw6p2p_db_new (SCM name)
 	{
 	  ret = lw6_make_scm_db (c_db);
 	}
-      LW6SYS_FREE (c_name);
+      LW6SYS_FREE (sys_context, c_name);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -75,7 +75,7 @@ _scm_lw6p2p_db_reset (SCM name)
 	lw6p2p_db_reset (lw6_global.argc, lw6_global.argv,
 			 c_name) ? SCM_BOOL_T : SCM_BOOL_F;
 
-      LW6SYS_FREE (c_name);
+      LW6SYS_FREE (sys_context, c_name);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -205,7 +205,8 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 		      c_node_id_str = lw6scm_utils_to_0str (node_id);
 		      if (c_node_id_str)
 			{
-			  c_node_id_int = lw6sys_id_atol (c_node_id_str);
+			  c_node_id_int =
+			    lw6sys_id_atol (sys_context, c_node_id_str);
 			  c_public_url = lw6scm_utils_to_0str (public_url);
 			  if (c_public_url)
 			    {
@@ -254,23 +255,26 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 						    lw6_make_scm_node (c_node,
 								       db);
 						}
-					      LW6SYS_FREE (c_known_nodes);
+					      LW6SYS_FREE (sys_context,
+							   c_known_nodes);
 					    }
-					  LW6SYS_FREE (c_password);
+					  LW6SYS_FREE (sys_context,
+						       c_password);
 					}
-				      LW6SYS_FREE (c_description);
+				      LW6SYS_FREE (sys_context,
+						   c_description);
 				    }
-				  LW6SYS_FREE (c_title);
+				  LW6SYS_FREE (sys_context, c_title);
 				}
-			      LW6SYS_FREE (c_public_url);
+			      LW6SYS_FREE (sys_context, c_public_url);
 			    }
-			  LW6SYS_FREE (c_node_id_str);
+			  LW6SYS_FREE (sys_context, c_node_id_str);
 			}
-		      LW6SYS_FREE (c_bind_ip);
+		      LW6SYS_FREE (sys_context, c_bind_ip);
 		    }
 		  LW6SYS_FREE (c_server_backends);
 		}
-	      LW6SYS_FREE (c_client_backends);
+	      LW6SYS_FREE (sys_context, c_client_backends);
 	    }
 	}
     }
@@ -348,11 +352,11 @@ _scm_lw6p2p_node_get_id (SCM node)
   if (c_node)
     {
       c_ret_int = lw6p2p_node_get_id (c_node);
-      c_ret_str = lw6sys_id_ltoa (c_ret_int);
+      c_ret_str = lw6sys_id_ltoa (sys_context, c_ret_int);
       if (c_ret_str)
 	{
 	  ret = scm_from_locale_string (c_ret_str);
-	  LW6SYS_FREE (c_ret_str);
+	  LW6SYS_FREE (sys_context, c_ret_str);
 	}
     }
 
@@ -507,9 +511,9 @@ _scm_lw6p2p_node_get_entries (SCM node, SCM skip_local)
       if (c_ret)
 	{
 	  ret = SCM_EOL;
-	  lw6sys_list_map (c_ret, _lw6p2p_node_get_entries_callback,
-			   (void *) &ret);
-	  lw6sys_list_free (c_ret);
+	  lw6sys_list_map (sys_context, c_ret,
+			   _lw6p2p_node_get_entries_callback, (void *) &ret);
+	  lw6sys_list_free (sys_context, c_ret);
 	}
     }
 
@@ -566,8 +570,8 @@ _scm_lw6p2p_node_client_join (SCM node, SCM remote_id, SCM remote_url)
   SCM_ASSERT (scm_is_string (remote_id), remote_id, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_string (remote_url), remote_url, SCM_ARG3, __FUNCTION__);
 
-  lw6sys_progress_default (&progress, &(lw6_global.progress));
-  lw6sys_progress_begin (&progress);
+  lw6sys_progress_default (sys_context, &progress, &(lw6_global.progress));
+  lw6sys_progress_begin (sys_context, &progress);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -575,7 +579,7 @@ _scm_lw6p2p_node_client_join (SCM node, SCM remote_id, SCM remote_url)
       c_remote_id_str = lw6scm_utils_to_0str (remote_id);
       if (c_remote_id_str)
 	{
-	  c_remote_id_int = lw6sys_id_atol (c_remote_id_str);
+	  c_remote_id_int = lw6sys_id_atol (sys_context, c_remote_id_str);
 	  if (c_remote_id_int > 0)
 	    {
 	      c_remote_url = lw6scm_utils_to_0str (remote_url);
@@ -586,14 +590,14 @@ _scm_lw6p2p_node_client_join (SCM node, SCM remote_id, SCM remote_url)
 					     c_remote_url,
 					     &progress) ? SCM_BOOL_T :
 		    SCM_BOOL_F;
-		  LW6SYS_FREE (c_remote_url);
+		  LW6SYS_FREE (sys_context, c_remote_url);
 		}
 	    }
-	  LW6SYS_FREE (c_remote_id_str);
+	  LW6SYS_FREE (sys_context, c_remote_id_str);
 	}
     }
 
-  lw6sys_progress_begin (&progress);
+  lw6sys_progress_begin (sys_context, &progress);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -624,7 +628,7 @@ _scm_lw6p2p_node_refresh_peer (SCM node, SCM remote_id, SCM remote_url)
       c_remote_id_str = lw6scm_utils_to_0str (remote_id);
       if (c_remote_id_str)
 	{
-	  c_remote_id_int = lw6sys_id_atol (c_remote_id_str);
+	  c_remote_id_int = lw6sys_id_atol (sys_context, c_remote_id_str);
 	  if (c_remote_id_int > 0)
 	    {
 	      c_remote_url = lw6scm_utils_to_0str (remote_url);
@@ -634,10 +638,10 @@ _scm_lw6p2p_node_refresh_peer (SCM node, SCM remote_id, SCM remote_url)
 		    lw6p2p_node_refresh_peer (c_node, c_remote_id_int,
 					      c_remote_url)
 		    ? SCM_BOOL_T : SCM_BOOL_F;
-		  LW6SYS_FREE (c_remote_url);
+		  LW6SYS_FREE (sys_context, c_remote_url);
 		}
 	    }
-	  LW6SYS_FREE (c_remote_id_str);
+	  LW6SYS_FREE (sys_context, c_remote_id_str);
 	}
     }
 
@@ -767,7 +771,7 @@ _scm_lw6p2p_node_update_info (SCM node, SCM param)
 					 c_nb_nodes, c_max_nb_nodes,
 					 0, NULL) ? SCM_BOOL_T : SCM_BOOL_F;
 	    }
-	  LW6SYS_FREE (c_level);
+	  LW6SYS_FREE (sys_context, c_level);
 	}
     }
 
@@ -985,13 +989,13 @@ _scm_lw6p2p_node_is_peer_connected (SCM node, SCM peer_id)
       c_peer_id_str = lw6scm_utils_to_0str (peer_id);
       if (c_peer_id_str)
 	{
-	  c_peer_id_int = lw6sys_id_atol (c_peer_id_str);
+	  c_peer_id_int = lw6sys_id_atol (sys_context, c_peer_id_str);
 	  if (c_peer_id_int > 0)
 	    {
 	      c_ret = lw6p2p_node_is_peer_connected (c_node, c_peer_id_int);
 	      ret = scm_from_int (c_ret);
 	    }
-	  LW6SYS_FREE (c_peer_id_str);
+	  LW6SYS_FREE (sys_context, c_peer_id_str);
 	}
     }
 
@@ -1023,13 +1027,13 @@ _scm_lw6p2p_node_is_peer_registered (SCM node, SCM peer_id)
       c_peer_id_str = lw6scm_utils_to_0str (peer_id);
       if (c_peer_id_str)
 	{
-	  c_peer_id_int = lw6sys_id_atol (c_peer_id_str);
+	  c_peer_id_int = lw6sys_id_atol (sys_context, c_peer_id_str);
 	  if (c_peer_id_int > 0)
 	    {
 	      c_ret = lw6p2p_node_is_peer_registered (c_node, c_peer_id_int);
 	      ret = scm_from_int (c_ret);
 	    }
-	  LW6SYS_FREE (c_peer_id_str);
+	  LW6SYS_FREE (sys_context, c_peer_id_str);
 	}
     }
 
@@ -1110,7 +1114,7 @@ _scm_lw6p2p_node_put_local_msg (SCM node, SCM msg)
 	  ret =
 	    lw6p2p_node_put_local_msg (c_node,
 				       c_msg) ? SCM_BOOL_T : SCM_BOOL_F;
-	  LW6SYS_FREE (c_msg);
+	  LW6SYS_FREE (sys_context, c_msg);
 	}
     }
 
@@ -1134,7 +1138,7 @@ _scm_lw6p2p_node_get_next_reference_msg (SCM node)
 	      (lw6_global.smob_types.node,
 	       node), node, SCM_ARG1, __FUNCTION__);
 
-  lw6sys_progress_default (&progress, &(lw6_global.progress));
+  lw6sys_progress_default (sys_context, &progress, &(lw6_global.progress));
   // do *not* call lw6sys_progress_begin here!
 
   c_node = lw6_scm_to_node (node);
@@ -1144,7 +1148,7 @@ _scm_lw6p2p_node_get_next_reference_msg (SCM node)
       if (c_ret)
 	{
 	  ret = scm_from_locale_string (c_ret);
-	  LW6SYS_FREE (c_ret);
+	  LW6SYS_FREE (sys_context, c_ret);
 	}
     }
 
@@ -1168,7 +1172,7 @@ _scm_lw6p2p_node_get_next_draft_msg (SCM node)
 	      (lw6_global.smob_types.node,
 	       node), node, SCM_ARG1, __FUNCTION__);
 
-  lw6sys_progress_default (&progress, &(lw6_global.progress));
+  lw6sys_progress_default (sys_context, &progress, &(lw6_global.progress));
   // do *not* call lw6sys_progress_begin here!
 
   c_node = lw6_scm_to_node (node);
@@ -1178,7 +1182,7 @@ _scm_lw6p2p_node_get_next_draft_msg (SCM node)
       if (c_ret)
 	{
 	  ret = scm_from_locale_string (c_ret);
-	  LW6SYS_FREE (c_ret);
+	  LW6SYS_FREE (sys_context, c_ret);
 	}
     }
 

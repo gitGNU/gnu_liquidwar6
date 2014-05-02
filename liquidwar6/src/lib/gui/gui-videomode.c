@@ -71,7 +71,7 @@ video_mode_copy_callback (void *func_data, void *data)
     {
       video_mode_sort->video_mode = (*video_mode);
       video_mode_sort->distance = 0;
-      lw6sys_lifo_push (target, video_mode_sort);
+      lw6sys_lifo_push (sys_context, target, video_mode_sort);
     }
 }
 
@@ -116,15 +116,16 @@ lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest,
 
   *closest = *wished;
 
-  sorted = lw6sys_list_new (lw6sys_free_callback);
+  sorted = lw6sys_list_new (sys_context, lw6sys_free_callback);
   if (sorted)
     {
       if (available)
 	{
-	  lw6sys_list_map (available, &video_mode_copy_callback, &sorted);
+	  lw6sys_list_map (sys_context, available, &video_mode_copy_callback,
+			   &sorted);
 	  lw6sys_list_map (sorted, &video_mode_distance_callback,
 			   (void *) wished);
-	  lw6sys_sort (&sorted, video_mode_sort_callback);
+	  lw6sys_sort (sys_context, &sorted, video_mode_sort_callback);
 
 	  if (sorted->data)
 	    {

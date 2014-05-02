@@ -85,9 +85,9 @@ _scm_lw6map_param_get (SCM level, SCM key)
 	  if (c_value)
 	    {
 	      ret = scm_from_locale_string (c_value);
-	      LW6SYS_FREE (c_value);
+	      LW6SYS_FREE (sys_context, c_value);
 	    }
-	  LW6SYS_FREE (c_key);
+	  LW6SYS_FREE (sys_context, c_key);
 	}
     }
 
@@ -175,7 +175,7 @@ _scm_lw6map_team_color_key_to_index (SCM key)
   if (c_key)
     {
       ret = scm_from_int (lw6map_team_color_key_to_index (c_key));
-      LW6SYS_FREE (c_key);
+      LW6SYS_FREE (sys_context, c_key);
     }
 
   return ret;
@@ -221,7 +221,7 @@ _scm_lw6map_team_color_list ()
 	      ret = scm_cons (scm_from_locale_string (color_key), ret);
 	    }
 	}
-      LW6SYS_FREE (user_dir);
+      LW6SYS_FREE (sys_context, user_dir);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -257,7 +257,7 @@ _scm_lw6map_weapon_key_to_index (SCM key)
   if (c_key)
     {
       ret = scm_from_int (lw6map_weapon_key_to_index (c_key));
-      LW6SYS_FREE (c_key);
+      LW6SYS_FREE (sys_context, c_key);
     }
 
   return ret;
@@ -305,7 +305,7 @@ _scm_lw6map_weapon_list ()
 		}
 	    }
 	}
-      LW6SYS_FREE (user_dir);
+      LW6SYS_FREE (sys_context, user_dir);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -332,7 +332,7 @@ _scm_lw6map_rules_get_default (SCM key)
     {
       ret = scm_from_int (lw6map_rules_get_default (c_key));
 
-      LW6SYS_FREE (c_key);
+      LW6SYS_FREE (sys_context, c_key);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -356,7 +356,7 @@ _scm_lw6map_rules_get_min (SCM key)
     {
       ret = scm_from_int (lw6map_rules_get_min (c_key));
 
-      LW6SYS_FREE (c_key);
+      LW6SYS_FREE (sys_context, c_key);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -380,7 +380,7 @@ _scm_lw6map_rules_get_max (SCM key)
     {
       ret = scm_from_int (lw6map_rules_get_max (c_key));
 
-      LW6SYS_FREE (c_key);
+      LW6SYS_FREE (sys_context, c_key);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -413,7 +413,7 @@ _scm_lw6map_rules_get_int (SCM game_struct, SCM key)
 	  ret =
 	    scm_from_int (lw6map_rules_get_int
 			  (&(c_game_struct->rules), c_key));
-	  LW6SYS_FREE (c_key);
+	  LW6SYS_FREE (sys_context, c_key);
 	}
     }
 
@@ -441,9 +441,9 @@ _scm_lw6map_style_get_default (SCM key)
       if (c_value)
 	{
 	  ret = scm_from_locale_string (c_value);
-	  LW6SYS_FREE (c_value);
+	  LW6SYS_FREE (sys_context, c_value);
 	}
-      LW6SYS_FREE (c_key);
+      LW6SYS_FREE (sys_context, c_key);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -470,9 +470,9 @@ _scm_lw6map_teams_get_default (SCM key)
       if (c_value)
 	{
 	  ret = scm_from_locale_string (c_value);
-	  LW6SYS_FREE (c_value);
+	  LW6SYS_FREE (sys_context, c_value);
 	}
-      LW6SYS_FREE (c_key);
+      LW6SYS_FREE (sys_context, c_key);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -558,7 +558,7 @@ _scm_lw6map_exp_get_unlocked_team_color ()
 
       ret = scm_from_int (lw6map_exp_get_unlocked_team_color (exp));
 
-      LW6SYS_FREE (user_dir);
+      LW6SYS_FREE (sys_context, user_dir);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -583,7 +583,7 @@ _scm_lw6map_exp_get_unlocked_weapon (SCM weapon)
 
       ret = scm_from_int (lw6map_exp_get_unlocked_weapon (exp));
 
-      LW6SYS_FREE (user_dir);
+      LW6SYS_FREE (sys_context, user_dir);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

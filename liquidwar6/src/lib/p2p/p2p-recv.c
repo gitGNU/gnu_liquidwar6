@@ -428,7 +428,9 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 						  cnx->remote_id_int,
 						  serial, seq_register);
 
-		  _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (), seq);
+		  _lw6p2p_node_calibrate (node,
+					  lw6sys_get_timestamp (sys_context,),
+					  seq);
 		  lw6dat_warehouse_set_local_seq_0 (node->warehouse, seq);
 
 		  /*

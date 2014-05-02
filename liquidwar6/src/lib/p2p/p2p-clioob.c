@@ -78,7 +78,7 @@ _lw6p2p_cli_oob_filter (_lw6p2p_cli_oob_callback_data_t * cli_oob)
       thread = cli_oob->cli_oob->thread;
       if (thread)
 	{
-	  if (lw6sys_thread_is_callback_done (thread))
+	  if (lw6sys_thread_is_callback_done (sys_context, thread))
 	    {
 	      /*
 	       * We don't need to join the thread, it will
@@ -152,7 +152,7 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, const char *url,
   remote_stamp_str = lw6sys_assoc_get (assoc, LW6MSG_OOB_STAMP);
   if (remote_stamp_str)
     {
-      remote_stamp_int = lw6sys_atoi (remote_stamp_str);
+      remote_stamp_int = lw6sys_atoi (sys_context, remote_stamp_str);
     }
   remote_id = lw6sys_assoc_get (assoc, LW6MSG_OOB_ID);
   remote_url = lw6sys_assoc_get (assoc, LW6MSG_OOB_URL);
@@ -166,14 +166,15 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, const char *url,
       if (lw6sys_str_is_same
 	  (remote_program, lw6sys_build_get_package_tarname ()))
 	{
-	  if (lw6sys_str_is_same (remote_url, url))
+	  if (lw6sys_str_is_same (sys_context, remote_url, url))
 	    {
 	      if (remote_version && remote_codename
 		  && remote_stamp_int && remote_id && remote_title
 		  && remote_description)
 		{
-		  if (!lw6sys_str_is_same (url, node->public_url)
-		      && !lw6sys_str_is_same (remote_id, node->node_id_str))
+		  if (!lw6sys_str_is_same (sys_context, url, node->public_url)
+		      && !lw6sys_str_is_same (sys_context, remote_id,
+					      node->node_id_str))
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("confirmed node \"%s\""), url);

@@ -86,20 +86,20 @@ average_color (color_info_t * ret, int size, color_info_t * color_info,
 	    {
 	      buf[i] = color_info[i1 + i].color_8;
 	    }
-	  ret->color_8 = lw6sys_color_average (n, buf);
+	  ret->color_8 = lw6sys_color_average (sys_context, n, buf);
 	  LW6SYS_FREE (sys_context, buf);
 	}
     }
 
-  lw6sys_color_rgb_to_hsv (&ret->color_hsv, ret->color_8);
+  lw6sys_color_rgb_to_hsv (sys_context, &ret->color_hsv, ret->color_8);
 }
 
 static void
 _set_to_invert (color_info_t * dst, color_info_t * src)
 {
   dst->color_hsv = src->color_hsv;
-  lw6sys_color_hsv_invert (&(dst->color_hsv), 1, 0, 0);
-  dst->color_8 = lw6sys_color_hsv_to_rgb (&(dst->color_hsv));
+  lw6sys_color_hsv_invert (sys_context, &(dst->color_hsv), 1, 0, 0);
+  dst->color_8 = lw6sys_color_hsv_to_rgb (sys_context, &(dst->color_hsv));
 }
 
 int
@@ -148,28 +148,33 @@ _lw6ldr_guess_colors (lw6map_level_t * level, lw6sys_progress_t * progress)
 		   y < level->texture.h && i_bg < size && i_fg < size;
 		   y += step)
 		{
-		  lw6sys_progress_update (progress, 0, level->texture.h, y);
+		  lw6sys_progress_update (sys_context, progress, 0,
+					  level->texture.h, y);
 		  for (x = 0;
-		       x < level->texture.w && i_bg < size
-		       && i_fg < size; x += step)
+		       x < level->texture.w && i_bg < size && i_fg < size;
+		       x += step)
 		    {
-		      if (lw6map_body_get_with_texture_coord (level, x, y, 0)
-			  > 0)
+		      if (lw6map_body_get_with_texture_coord
+			  (sys_context, level, x, y, 0) > 0)
 			{
 			  bg[i_bg].color_8 =
 			    lw6map_texture_get (&level->texture, x, y);
-			  lw6sys_color_rgb_to_hsv (&(bg[i_bg].color_hsv),
+			  lw6sys_color_rgb_to_hsv (sys_context,
+						   &(bg[i_bg].color_hsv),
 						   bg[i_bg].color_8);
-			  lw6sys_color_8_solid (&(bg[i_bg].color_8));
+			  lw6sys_color_8_solid (sys_context,
+						&(bg[i_bg].color_8));
 			  i_bg++;
 			}
 		      else
 			{
 			  fg[i_fg].color_8 =
 			    lw6map_texture_get (&level->texture, x, y);
-			  lw6sys_color_rgb_to_hsv (&(fg[i_fg].color_hsv),
+			  lw6sys_color_rgb_to_hsv (sys_context,
+						   &(fg[i_fg].color_hsv),
 						   fg[i_fg].color_8);
-			  lw6sys_color_8_solid (&(fg[i_fg].color_8));
+			  lw6sys_color_8_solid (sys_context,
+						&(fg[i_fg].color_8));
 			  i_fg++;
 			}
 		    }
@@ -284,7 +289,7 @@ _lw6ldr_guess_colors (lw6map_level_t * level, lw6sys_progress_t * progress)
 		  distance_base =
 		    lw6sys_color_distance (base_bg.color_8, base_fg.color_8);
 		  distance_alternate =
-		    lw6sys_color_distance (alternate_bg.color_8,
+		    lw6sys_color_distance (sys_context, alternate_bg.color_8,
 					   alternate_fg.color_8);
 		  if (distance_base >
 		      distance_alternate * SWAP_BASE_ALTERNATE_MAJ)
@@ -314,9 +319,11 @@ _lw6ldr_guess_colors (lw6map_level_t * level, lw6sys_progress_t * progress)
 			(LIGHTER_COEF * (1.0f - alternate_fg.color_hsv.v));
 		    }
 		  alternate_bg.color_8 =
-		    lw6sys_color_hsv_to_rgb (&alternate_bg.color_hsv);
+		    lw6sys_color_hsv_to_rgb (sys_context,
+					     &alternate_bg.color_hsv);
 		  alternate_fg.color_8 =
-		    lw6sys_color_hsv_to_rgb (&alternate_fg.color_hsv);
+		    lw6sys_color_hsv_to_rgb (sys_context,
+					     &alternate_fg.color_hsv);
 
 		  level->texture.guessed_color_base.bg = base_bg.color_8;
 		  level->texture.guessed_color_base.fg = base_fg.color_8;
@@ -381,7 +388,8 @@ lw6ldr_auto_colors (lw6map_style_t * style, const lw6ldr_hints_t * hints)
     {
       style->color_set.menu_color_default = style->color_set.color_alternate;
       style->color_set.menu_color_selected = style->color_set.color_alternate;
-      lw6map_color_invert (&style->color_set.menu_color_selected);
+      lw6map_color_invert (sys_context,
+			   &style->color_set.menu_color_selected);
       style->color_set.menu_color_disabled = style->color_set.color_base;
     }
 

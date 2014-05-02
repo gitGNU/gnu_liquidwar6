@@ -170,8 +170,7 @@ more_mem (int n)
  * Return value: a new allocated string, must be freed.
  */
 char *
-lw6sys_new_sprintf (lw6sys_context_t * sys_context,
-		    const char *fmt, ...)
+lw6sys_new_sprintf (lw6sys_context_t * sys_context, const char *fmt, ...)
 {
   char *ret = NULL;
   va_list ap;

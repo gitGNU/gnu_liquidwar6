@@ -82,7 +82,7 @@ _test_screenshot ()
 		lw6ker_game_state_add_cursor (game_state, _TEST_NODE_ID,
 					      _TEST_CURSOR3_ID, _TEST_COLOR3);
 
-		user_dir = lw6sys_get_user_dir (argc, argv);
+		user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
 		if (user_dir)
 		  {
 		    jpeg =
@@ -128,7 +128,7 @@ _test_screenshot ()
 	  {
 	    ret = 0;
 	  }
-	lw6map_free (level);
+	lw6map_free (sys_context, level);
 	level = NULL;
       }
     else
@@ -176,9 +176,9 @@ lw6img_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
       lw6cfg_test_register (mode);
-      lw6map_test_register (mode);
+      lw6map_test_register (sys_context, mode);
       lw6ker_test_register (mode);
     }
 
@@ -214,7 +214,7 @@ lw6img_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

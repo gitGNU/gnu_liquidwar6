@@ -68,13 +68,15 @@ lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
   lw6sys_progress_t progress2;
   int expected_depth = 1;
 
-  lw6sys_progress_split (&progress1, &progress2, progress);
+  lw6sys_progress_split (sys_context, &progress1, &progress2, progress);
 
-  lw6map_body_clear (body);
+  lw6map_body_clear (sys_context, body);
 
   for (layer = 1; layer < LW6MAP_MAX_BODY_DEPTH; ++layer)
     {
-      dot_png = lw6sys_path_concat (dirname, extra_layers_png[layer - 1]);
+      dot_png =
+	lw6sys_path_concat (sys_context, dirname,
+			    extra_layers_png[layer - 1]);
       if (dot_png)
 	{
 	  if (lw6sys_file_exists (dot_png))
@@ -85,7 +87,7 @@ lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
 	}
     }
 
-  dot_png = lw6sys_path_concat (dirname, _LW6LDR_FILE_MAP_PNG);
+  dot_png = lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_MAP_PNG);
   if (dot_png)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
@@ -103,7 +105,8 @@ lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
 	  for (layer = 1; layer < LW6MAP_MAX_BODY_DEPTH; ++layer)
 	    {
 	      dot_png =
-		lw6sys_path_concat (dirname, extra_layers_png[layer - 1]);
+		lw6sys_path_concat (sys_context, dirname,
+				    extra_layers_png[layer - 1]);
 	      if (dot_png)
 		{
 		  if (lw6sys_file_exists (dot_png))
@@ -133,7 +136,9 @@ lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
 		&& lw6ldr_grease_apply (&(body->layers[layer]), &param->rules,
 					hints, NULL);
 	    }
-	  ret = ret && lw6map_body_check_and_fix_holes (body, &param->rules);
+	  ret = ret
+	    && lw6map_body_check_and_fix_holes (sys_context, body,
+						&param->rules);
 
 	  ret = ret
 	    && lw6ldr_meta_layer_read_if_exists (&(body->glue), dirname,
@@ -182,7 +187,7 @@ lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
 
 	  if (ret)
 	    {
-	      lw6map_body_fix_checksum (body);
+	      lw6map_body_fix_checksum (sys_context, body);
 	    }
 	}
     }

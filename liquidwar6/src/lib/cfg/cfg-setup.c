@@ -36,11 +36,13 @@ _lw6cfg_init (int argc, const char *argv[])
     (_lw6cfg_context_t *) LW6SYS_CALLOC (sizeof (_lw6cfg_context_t));
   if (cfg_context)
     {
-      cfg_context->config_file = lw6sys_get_config_file (argc, argv);
+      cfg_context->config_file =
+	lw6sys_get_config_file (sys_context, argc, argv);
       if (cfg_context->config_file)
 	{
 	  cfg_context->options =
-	    lw6sys_hash_new (lw6sys_free_callback, LW6HLP_APPROX_NB_ENTRIES);
+	    lw6sys_hash_new (sys_context, lw6sys_free_callback,
+			     LW6HLP_APPROX_NB_ENTRIES);
 	  if (cfg_context->options)
 	    {
 	      cfg_context->spinlock = lw6sys_spinlock_create ();
@@ -143,19 +145,19 @@ lw6cfg_reset (int argc, const char *argv[])
   void *cfg_context = NULL;
   char *value = NULL;
 
-  config_file = lw6sys_get_config_file (argc, argv);
+  config_file = lw6sys_get_config_file (sys_context, argc, argv);
   if (config_file)
     {
       cfg_context = lw6cfg_init (argc, argv);
       if (cfg_context)
 	{
-	  value = lw6sys_get_user_dir (argc, argv);
+	  value = lw6sys_get_user_dir (sys_context, argc, argv);
 	  if (value)
 	    {
 	      lw6cfg_set_option (cfg_context, LW6DEF_USER_DIR, value);
 	      LW6SYS_FREE (sys_context, value);
 	    }
-	  value = lw6sys_get_log_file (argc, argv);
+	  value = lw6sys_get_log_file (sys_context, argc, argv);
 	  if (value)
 	    {
 	      lw6cfg_set_option (cfg_context, LW6DEF_LOG_FILE, value);

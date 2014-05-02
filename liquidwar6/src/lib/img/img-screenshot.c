@@ -99,7 +99,8 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 
   lw6ker_game_state_get_shape (game_state, &shape);
 
-  filename = lw6sys_path_concat (user_dir, _SCREENSHOT_JPEG_FILE);
+  filename =
+    lw6sys_path_concat (sys_context, user_dir, _SCREENSHOT_JPEG_FILE);
   if (filename)
     {
       ret = (lw6img_jpeg_t *) LW6SYS_CALLOC (sizeof (lw6img_jpeg_t));
@@ -153,7 +154,8 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 		      else
 			{
 			  pixel_color =
-			    lw6map_texture_get_with_body_coord (level, x, y);
+			    lw6map_texture_get_with_body_coord (sys_context,
+								level, x, y);
 			}
 		      tmp_buffer[i++] = pixel_color.r;
 		      tmp_buffer[i++] = pixel_color.g;
@@ -199,7 +201,8 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 		  fclose (outfile);
 
 		  ret->jpeg_data =
-		    lw6sys_read_file_content_bin (&ret->jpeg_size, filename);
+		    lw6sys_read_file_content_bin (sys_context,
+						  &ret->jpeg_size, filename);
 		  if ((ret->jpeg_data != NULL) && (ret->jpeg_size > 0))
 		    {
 		      ret->shape = shape;

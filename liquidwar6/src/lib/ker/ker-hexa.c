@@ -34,10 +34,10 @@ push_place_struct (lw6sys_hexa_serializer_t * hexa_serializer,
   int ret = 1;
 
   ret = ret
-    && lw6sys_hexa_serializer_push_int16 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int16 (sys_context, hexa_serializer,
 					  place_struct->act_incr);
   ret = ret
-    && lw6sys_hexa_serializer_push_int16 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int16 (sys_context, hexa_serializer,
 					  place_struct->health_correction);
 
   return ret;
@@ -51,20 +51,22 @@ push_zone_struct (lw6sys_hexa_serializer_t * hexa_serializer,
   int i = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_push_xyz (hexa_serializer, zone_struct->pos);
+    && lw6sys_hexa_serializer_push_xyz (sys_context, hexa_serializer,
+					zone_struct->pos);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, zone_struct->size);
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
+					  zone_struct->size);
   for (i = 0; i < LW6KER_NB_DIRS; ++i)
     {
       ret = ret
-	&& lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+	&& lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					      zone_struct->link[i]);
     }
   ret = ret
-    && lw6sys_hexa_serializer_push_int16 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int16 (sys_context, hexa_serializer,
 					  zone_struct->one_way_dir_odd);
   ret = ret
-    && lw6sys_hexa_serializer_push_int16 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int16 (sys_context, hexa_serializer,
 					  zone_struct->one_way_dir_even);
 
   return ret;
@@ -77,7 +79,7 @@ push_slot_struct (lw6sys_hexa_serializer_t * hexa_serializer,
   int ret = 1;
 
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  slot_struct->zone_id);
 
   return ret;
@@ -91,21 +93,22 @@ push_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
   int i = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_push_whd (hexa_serializer, map_struct->shape);
+    && lw6sys_hexa_serializer_push_whd (sys_context, hexa_serializer,
+					map_struct->shape);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  map_struct->nb_places);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  map_struct->nb_zones);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  map_struct->nb_slots);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  map_struct->room_for_armies);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  map_struct->max_zone_size);
 
   for (i = 0; i < map_struct->nb_places; ++i)
@@ -134,16 +137,17 @@ _lw6ker_game_struct_to_hexa (const _lw6ker_game_struct_t * game_struct)
   lw6sys_hexa_serializer_t *hexa_serializer = NULL;
   int ok = 1;
 
-  hexa_serializer = lw6sys_hexa_serializer_new (NULL);
+  hexa_serializer = lw6sys_hexa_serializer_new (sys_context, NULL);
   if (hexa_serializer)
     {
       ok = ok
 	&& push_map_struct (hexa_serializer, &(game_struct->map_struct));
       if (ok)
 	{
-	  ret = lw6sys_hexa_serializer_as_string (hexa_serializer);
+	  ret =
+	    lw6sys_hexa_serializer_as_string (sys_context, hexa_serializer);
 	}
-      lw6sys_hexa_serializer_free (hexa_serializer);
+      lw6sys_hexa_serializer_free (sys_context, hexa_serializer);
     }
 
   return ret;
@@ -177,9 +181,11 @@ pop_place_struct (lw6sys_hexa_serializer_t * hexa_serializer,
   int ret = 1;
   int16_t tmp = 0;
 
-  ret = ret && lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &tmp);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int16 (sys_context, hexa_serializer, &tmp);
   place_struct->act_incr = tmp;
-  ret = ret && lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &tmp);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int16 (sys_context, hexa_serializer, &tmp);
   place_struct->health_correction = tmp;
 
   return ret;
@@ -193,21 +199,22 @@ pop_zone_struct (lw6sys_hexa_serializer_t * hexa_serializer,
   int i = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_pop_xyz (hexa_serializer, &(zone_struct->pos));
+    && lw6sys_hexa_serializer_pop_xyz (sys_context, hexa_serializer,
+				       &(zone_struct->pos));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(zone_struct->size));
   for (i = 0; i < LW6KER_NB_DIRS; ++i)
     {
       ret = ret
-	&& lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+	&& lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					     &(zone_struct->link[i]));
     }
   ret = ret
-    && lw6sys_hexa_serializer_pop_int16 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int16 (sys_context, hexa_serializer,
 					 &(zone_struct->one_way_dir_odd));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int16 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int16 (sys_context, hexa_serializer,
 					 &(zone_struct->one_way_dir_even));
 
   return ret;
@@ -220,7 +227,7 @@ pop_slot_struct (lw6sys_hexa_serializer_t * hexa_serializer,
   int ret = 1;
 
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(slot_struct->zone_id));
 
   return ret;
@@ -240,9 +247,11 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
   int volume = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_pop_whd (hexa_serializer, &(map_struct->shape));
-  if (ret && !lw6sys_shape_check_min_max_whd
-      (&(map_struct->shape), &shape_min, &shape_max))
+    && lw6sys_hexa_serializer_pop_whd (sys_context, hexa_serializer,
+				       &(map_struct->shape));
+  if (ret
+      && !lw6sys_shape_check_min_max_whd (&(map_struct->shape), &shape_min,
+					  &shape_max))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("map_struct shape out of range (%dx%dx%d)"),
@@ -251,11 +260,11 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
       ret = 0;
     }
 
-  surface = lw6sys_shape_surface_wh (&(map_struct->shape));
-  volume = lw6sys_shape_volume_whd (&(map_struct->shape));
+  surface = lw6sys_shape_surface_wh (sys_context, &(map_struct->shape));
+  volume = lw6sys_shape_volume_whd (sys_context, &(map_struct->shape));
 
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(map_struct->nb_places));
   if (ret && map_struct->nb_places != surface)
     {
@@ -265,7 +274,7 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
       ret = 0;
     }
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(map_struct->nb_zones));
   if (ret && map_struct->nb_zones > volume)
     {
@@ -275,7 +284,7 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
       ret = 0;
     }
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(map_struct->nb_slots));
   if (ret && map_struct->nb_slots != volume)
     {
@@ -285,7 +294,7 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
       ret = 0;
     }
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(map_struct->room_for_armies));
   if (ret && map_struct->room_for_armies > map_struct->nb_slots)
     {
@@ -295,7 +304,7 @@ pop_map_struct (lw6sys_hexa_serializer_t * hexa_serializer,
       ret = 0;
     }
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(map_struct->max_zone_size));
   if (ret
       && (map_struct->max_zone_size < LW6MAP_RULES_MIN_MAX_ZONE_SIZE
@@ -388,10 +397,10 @@ _lw6ker_game_struct_from_hexa (const char *hexa, const lw6map_level_t * level)
   lw6sys_hexa_serializer_t *hexa_serializer;
   int ok = 1;
 
-  hexa_serializer = lw6sys_hexa_serializer_new (hexa);
+  hexa_serializer = lw6sys_hexa_serializer_new (sys_context, hexa);
   if (hexa_serializer)
     {
-      lw6sys_hexa_serializer_rewind (hexa_serializer);
+      lw6sys_hexa_serializer_rewind (sys_context, hexa_serializer);
 
       game_struct =
 	(_lw6ker_game_struct_t *)
@@ -401,15 +410,17 @@ _lw6ker_game_struct_from_hexa (const char *hexa, const lw6map_level_t * level)
 	{
 	  _lw6ker_game_struct_set_id (game_struct);
 	  _lw6ker_game_struct_point_to (game_struct, level);
-	  lw6map_rules_copy (&(game_struct->rules), &(level->param.rules));
-	  ok = ok && lw6map_rules_sanity_check (&(game_struct->rules));
+	  lw6map_rules_copy (sys_context, &(game_struct->rules),
+			     &(level->param.rules));
+	  ok = ok
+	    && lw6map_rules_sanity_check (sys_context, &(game_struct->rules));
 	  ok = ok
 	    && pop_map_struct (hexa_serializer, &(game_struct->map_struct));
 
 	  if (lw6sys_shape_is_same
 	      (&(game_struct->map_struct.shape), &(level->body.shape)))
 	    {
-	      if (!lw6sys_hexa_serializer_eof (hexa_serializer))
+	      if (!lw6sys_hexa_serializer_eof (sys_context, hexa_serializer))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("expected EOF in serialized game_struct"));
@@ -429,7 +440,7 @@ _lw6ker_game_struct_from_hexa (const char *hexa, const lw6map_level_t * level)
 	      ok = 0;
 	    }
 	}
-      lw6sys_hexa_serializer_free (hexa_serializer);
+      lw6sys_hexa_serializer_free (sys_context, hexa_serializer);
     }
 
   if (!ok)
@@ -473,18 +484,20 @@ push_fighter (lw6sys_hexa_serializer_t * hexa_serializer,
   int ret = 1;
 
   ret = ret
-    && lw6sys_hexa_serializer_push_int8 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int8 (sys_context, hexa_serializer,
 					 fighter->team_color);
   ret = ret
-    && lw6sys_hexa_serializer_push_int8 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int8 (sys_context, hexa_serializer,
 					 fighter->last_direction);
   ret = ret
-    && lw6sys_hexa_serializer_push_int16 (hexa_serializer, fighter->health);
+    && lw6sys_hexa_serializer_push_int16 (sys_context, hexa_serializer,
+					  fighter->health);
   ret = ret
-    && lw6sys_hexa_serializer_push_int16 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int16 (sys_context, hexa_serializer,
 					  fighter->act_counter);
   ret = ret
-    && lw6sys_hexa_serializer_push_xyz (hexa_serializer, fighter->pos);
+    && lw6sys_hexa_serializer_push_xyz (sys_context, hexa_serializer,
+					fighter->pos);
 
   return ret;
 }
@@ -497,21 +510,21 @@ push_armies (lw6sys_hexa_serializer_t * hexa_serializer,
   int i = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  armies->max_fighters);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  armies->active_fighters);
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
       ret = ret
-	&& lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+	&& lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					      armies->fighters_per_team[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
       ret = ret
-	&& lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+	&& lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					      armies->frags[i]);
     }
   for (i = 0; i < armies->max_fighters; ++i)
@@ -529,12 +542,13 @@ push_zone_state (lw6sys_hexa_serializer_t * hexa_serializer,
   int ret = 1;
 
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, zone->potential);
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
+					  zone->potential);
   ret = ret
-    && lw6sys_hexa_serializer_push_int8 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int8 (sys_context, hexa_serializer,
 					 zone->direction_to_cursor);
   ret = ret
-    && lw6sys_hexa_serializer_push_xyz (hexa_serializer,
+    && lw6sys_hexa_serializer_push_xyz (sys_context, hexa_serializer,
 					zone->closest_cursor_pos);
 
   return ret;
@@ -548,34 +562,38 @@ push_team (lw6sys_hexa_serializer_t * hexa_serializer,
   int i = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, team->active);
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
+					  team->active);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  team->has_been_active);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  team->respawn_round);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, team->offline);
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
+					  team->offline);
   for (i = 0; i < team->map_struct->nb_zones; ++i)
     {
       ret = ret && push_zone_state (hexa_serializer, &(team->gradient[i]));
     }
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  team->cursor_ref_pot);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  team->last_spread_dir);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, team->charge);
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
+					  team->charge);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, team->weapon_id);
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
+					  team->weapon_id);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  team->weapon_first_round);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  team->weapon_last_round);
 
   return ret;
@@ -589,25 +607,34 @@ push_cursor (lw6sys_hexa_serializer_t * hexa_serializer,
 
 
   ret = ret
-    && lw6sys_hexa_serializer_push_int64 (hexa_serializer, cursor->node_id);
+    && lw6sys_hexa_serializer_push_int64 (sys_context, hexa_serializer,
+					  cursor->node_id);
   ret = ret
-    && lw6sys_hexa_serializer_push_int16 (hexa_serializer, cursor->cursor_id);
+    && lw6sys_hexa_serializer_push_int16 (sys_context, hexa_serializer,
+					  cursor->cursor_id);
   ret = ret
-    && lw6sys_hexa_serializer_push_int8 (hexa_serializer, cursor->letter);
+    && lw6sys_hexa_serializer_push_int8 (sys_context, hexa_serializer,
+					 cursor->letter);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, cursor->enabled);
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
+					  cursor->enabled);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  cursor->team_color);
-  ret = ret && lw6sys_hexa_serializer_push_xyz (hexa_serializer, cursor->pos);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, cursor->fire);
+    && lw6sys_hexa_serializer_push_xyz (sys_context, hexa_serializer,
+					cursor->pos);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, cursor->fire2);
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
+					  cursor->fire);
   ret = ret
-    && lw6sys_hexa_serializer_push_xyz (hexa_serializer, cursor->apply_pos);
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
+					  cursor->fire2);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_xyz (sys_context, hexa_serializer,
+					cursor->apply_pos);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  cursor->pot_offset);
 
   return ret;
@@ -621,7 +648,7 @@ push_cursor_array (lw6sys_hexa_serializer_t * hexa_serializer,
   int i = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  cursor_array->nb_cursors);
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
@@ -638,7 +665,8 @@ push_slot_state (lw6sys_hexa_serializer_t * hexa_serializer,
   int ret = 1;
 
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, slot->fighter_id);
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
+					  slot->fighter_id);
 
   return ret;
 }
@@ -651,10 +679,11 @@ push_map_state (lw6sys_hexa_serializer_t * hexa_serializer,
   int i = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_push_whd (hexa_serializer, map_state->shape);
+    && lw6sys_hexa_serializer_push_whd (sys_context, hexa_serializer,
+					map_state->shape);
   ret = ret && push_armies (hexa_serializer, &(map_state->armies));
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  map_state->max_nb_teams);
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
@@ -663,7 +692,7 @@ push_map_state (lw6sys_hexa_serializer_t * hexa_serializer,
   ret = ret
     && push_cursor_array (hexa_serializer, &(map_state->cursor_array));
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  map_state->nb_slots);
   for (i = 0; i < map_state->nb_slots; ++i)
     {
@@ -681,11 +710,13 @@ push_node (lw6sys_hexa_serializer_t * hexa_serializer,
 
 
   ret = ret
-    && lw6sys_hexa_serializer_push_int64 (hexa_serializer, node->node_id);
+    && lw6sys_hexa_serializer_push_int64 (sys_context, hexa_serializer,
+					  node->node_id);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer, node->enabled);
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
+					  node->enabled);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  node->last_command_round);
 
   return ret;
@@ -699,7 +730,7 @@ push_node_array (lw6sys_hexa_serializer_t * hexa_serializer,
   int i = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  node_array->nb_nodes);
   for (i = 0; i < LW6MAP_MAX_NB_NODES; ++i)
     {
@@ -717,14 +748,15 @@ push_history (lw6sys_hexa_serializer_t * hexa_serializer,
   int i = 0, j = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					  history->nb_entries);
   for (i = 0; i < LW6KER_HISTORY_SIZE; ++i)
     {
       for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	{
 	  ret = ret
-	    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+	    && lw6sys_hexa_serializer_push_int32 (sys_context,
+						  hexa_serializer,
 						  history->nb_fighters[i][j]);
 	}
     }
@@ -739,7 +771,7 @@ _lw6ker_game_state_to_hexa (const _lw6ker_game_state_t * game_state)
   lw6sys_hexa_serializer_t *hexa_serializer = NULL;
   int ok = 1;
 
-  hexa_serializer = lw6sys_hexa_serializer_new (NULL);
+  hexa_serializer = lw6sys_hexa_serializer_new (sys_context, NULL);
   if (hexa_serializer)
     {
       ok = ok && push_map_state (hexa_serializer, &(game_state->map_state));
@@ -749,29 +781,30 @@ _lw6ker_game_state_to_hexa (const _lw6ker_game_state_t * game_state)
       ok = ok
 	&& push_history (hexa_serializer, &(game_state->latest_history));
       ok = ok
-	&& lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+	&& lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					      game_state->moves);
       ok = ok
-	&& lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+	&& lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					      game_state->spreads);
       ok = ok
-	&& lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+	&& lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					      game_state->rounds);
       ok = ok
-	&& lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+	&& lw6sys_hexa_serializer_push_int32 (sys_context, hexa_serializer,
 					      game_state->total_rounds);
       ok = ok
-	&& lw6sys_hexa_serializer_push_int8 (hexa_serializer,
+	&& lw6sys_hexa_serializer_push_int8 (sys_context, hexa_serializer,
 					     game_state->max_reached_teams);
       ok = ok
-	&& lw6sys_hexa_serializer_push_int8 (hexa_serializer,
+	&& lw6sys_hexa_serializer_push_int8 (sys_context, hexa_serializer,
 					     game_state->over);
 
       if (ok)
 	{
-	  ret = lw6sys_hexa_serializer_as_string (hexa_serializer);
+	  ret =
+	    lw6sys_hexa_serializer_as_string (sys_context, hexa_serializer);
 	}
-      lw6sys_hexa_serializer_free (hexa_serializer);
+      lw6sys_hexa_serializer_free (sys_context, hexa_serializer);
     }
 
   return ret;
@@ -806,16 +839,23 @@ pop_fighter (lw6sys_hexa_serializer_t * hexa_serializer,
   int8_t tmp8 = 0;
   int16_t tmp16 = 0;
 
-  ret = ret && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &tmp8);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int8 (sys_context, hexa_serializer, &tmp8);
   fighter->team_color = tmp8;
-  ret = ret && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &tmp8);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int8 (sys_context, hexa_serializer, &tmp8);
   fighter->last_direction = tmp8;
-  ret = ret && lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &tmp16);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int16 (sys_context, hexa_serializer,
+					 &tmp16);
   fighter->health = tmp16;
-  ret = ret && lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &tmp16);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int16 (sys_context, hexa_serializer,
+					 &tmp16);
   fighter->act_counter = tmp16;
   ret = ret
-    && lw6sys_hexa_serializer_pop_xyz (hexa_serializer, &(fighter->pos));
+    && lw6sys_hexa_serializer_pop_xyz (sys_context, hexa_serializer,
+				       &(fighter->pos));
 
   return ret;
 }
@@ -828,7 +868,7 @@ pop_armies (lw6sys_hexa_serializer_t * hexa_serializer,
   int i = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(armies->max_fighters));
   if (ret && armies->max_fighters > LW6MAP_MAX_BODY_VOLUME)
     {
@@ -838,7 +878,7 @@ pop_armies (lw6sys_hexa_serializer_t * hexa_serializer,
       ret = 0;
     }
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(armies->active_fighters));
   if (ret && armies->active_fighters > armies->max_fighters)
     {
@@ -850,7 +890,7 @@ pop_armies (lw6sys_hexa_serializer_t * hexa_serializer,
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
       ret = ret
-	&& lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+	&& lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					     &(armies->fighters_per_team[i]));
       if (ret && armies->fighters_per_team[i] > armies->active_fighters)
 	{
@@ -863,7 +903,7 @@ pop_armies (lw6sys_hexa_serializer_t * hexa_serializer,
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
       ret = ret
-	&& lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+	&& lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					     &(armies->frags[i]));
     }
   if (ret)
@@ -893,12 +933,15 @@ pop_zone_state (lw6sys_hexa_serializer_t * hexa_serializer,
   int8_t tmp8 = 0;
   int32_t tmp32 = 0;
 
-  ret = ret && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &tmp32);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
+					 &tmp32);
   zone->potential = tmp32;
-  ret = ret && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &tmp8);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int8 (sys_context, hexa_serializer, &tmp8);
   zone->direction_to_cursor = tmp8;
   ret = ret
-    && lw6sys_hexa_serializer_pop_xyz (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_xyz (sys_context, hexa_serializer,
 				       &(zone->closest_cursor_pos));
 
   return ret;
@@ -911,15 +954,17 @@ pop_team (lw6sys_hexa_serializer_t * hexa_serializer, _lw6ker_team_t * team)
   int i = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(team->active));
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
+					 &(team->active));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(team->has_been_active));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(team->respawn_round));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(team->offline));
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
+					 &(team->offline));
   if (ret)
     {
       team->gradient =
@@ -941,20 +986,22 @@ pop_team (lw6sys_hexa_serializer_t * hexa_serializer, _lw6ker_team_t * team)
 	}
     }
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(team->cursor_ref_pot));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(team->last_spread_dir));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(team->charge));
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
+					 &(team->charge));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(team->weapon_id));
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
+					 &(team->weapon_id));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(team->weapon_first_round));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(team->weapon_last_round));
 
   return ret;
@@ -969,27 +1016,37 @@ pop_cursor (lw6sys_hexa_serializer_t * hexa_serializer,
   int16_t tmp16 = 0;
   int8_t tmp8 = 0;
 
-  ret = ret && lw6sys_hexa_serializer_pop_int64 (hexa_serializer, &tmp64);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int64 (sys_context, hexa_serializer,
+					 &tmp64);
   cursor->node_id = tmp64;
-  ret = ret && lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &tmp16);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int16 (sys_context, hexa_serializer,
+					 &tmp16);
   cursor->cursor_id = tmp16;
-  ret = ret && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &tmp8);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int8 (sys_context, hexa_serializer, &tmp8);
   cursor->letter = tmp8;
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(cursor->enabled));
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
+					 &(cursor->enabled));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(cursor->team_color));
   ret = ret
-    && lw6sys_hexa_serializer_pop_xyz (hexa_serializer, &(cursor->pos));
+    && lw6sys_hexa_serializer_pop_xyz (sys_context, hexa_serializer,
+				       &(cursor->pos));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(cursor->fire));
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
+					 &(cursor->fire));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(cursor->fire2));
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
+					 &(cursor->fire2));
   ret = ret
-    && lw6sys_hexa_serializer_pop_xyz (hexa_serializer, &(cursor->apply_pos));
+    && lw6sys_hexa_serializer_pop_xyz (sys_context, hexa_serializer,
+				       &(cursor->apply_pos));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(cursor->pot_offset));
 
   return ret;
@@ -1003,7 +1060,7 @@ pop_cursor_array (lw6sys_hexa_serializer_t * hexa_serializer,
   int i = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(cursor_array->nb_cursors));
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
@@ -1020,7 +1077,7 @@ pop_slot_state (lw6sys_hexa_serializer_t * hexa_serializer,
   int ret = 1;
 
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(slot->fighter_id));
 
   return ret;
@@ -1040,9 +1097,11 @@ pop_map_state (lw6sys_hexa_serializer_t * hexa_serializer,
   int volume = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_pop_whd (hexa_serializer, &(map_state->shape));
-  if (ret && !lw6sys_shape_check_min_max_whd
-      (&(map_state->shape), &shape_min, &shape_max))
+    && lw6sys_hexa_serializer_pop_whd (sys_context, hexa_serializer,
+				       &(map_state->shape));
+  if (ret
+      && !lw6sys_shape_check_min_max_whd (&(map_state->shape), &shape_min,
+					  &shape_max))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("map_state shape out of range (%dx%dx%d)"),
@@ -1050,8 +1109,8 @@ pop_map_state (lw6sys_hexa_serializer_t * hexa_serializer,
       ret = 0;
     }
 
-  surface = lw6sys_shape_surface_wh (&(map_state->shape));
-  volume = lw6sys_shape_volume_whd (&(map_state->shape));
+  surface = lw6sys_shape_surface_wh (sys_context, &(map_state->shape));
+  volume = lw6sys_shape_volume_whd (sys_context, &(map_state->shape));
 
   if (ret)
     {
@@ -1060,7 +1119,7 @@ pop_map_state (lw6sys_hexa_serializer_t * hexa_serializer,
 
   ret = ret && pop_armies (hexa_serializer, &(map_state->armies));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(map_state->max_nb_teams));
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
@@ -1068,7 +1127,7 @@ pop_map_state (lw6sys_hexa_serializer_t * hexa_serializer,
     }
   ret = ret && pop_cursor_array (hexa_serializer, &(map_state->cursor_array));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(map_state->nb_slots));
   if (ret && map_state->nb_slots != volume)
     {
@@ -1123,12 +1182,15 @@ pop_node (lw6sys_hexa_serializer_t * hexa_serializer, _lw6ker_node_t * node)
   int ret = 1;
   int64_t tmp64 = 0LL;
 
-  ret = ret && lw6sys_hexa_serializer_pop_int64 (hexa_serializer, &tmp64);
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int64 (sys_context, hexa_serializer,
+					 &tmp64);
   node->node_id = tmp64;
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(node->enabled));
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
+					 &(node->enabled));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(node->last_command_round));
 
   return ret;
@@ -1142,7 +1204,7 @@ pop_node_array (lw6sys_hexa_serializer_t * hexa_serializer,
   int i = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(node_array->nb_nodes));
   for (i = 0; i < LW6MAP_MAX_NB_NODES; ++i)
     {
@@ -1160,14 +1222,14 @@ pop_history (lw6sys_hexa_serializer_t * hexa_serializer,
   int i = 0, j = 0;
 
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 					 &(history->nb_entries));
   for (i = 0; i < LW6KER_HISTORY_SIZE; ++i)
     {
       for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	{
 	  ret = ret
-	    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+	    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
 						 &(history->nb_fighters[i]
 						   [j]));
 	}
@@ -1186,10 +1248,10 @@ _lw6ker_game_state_from_hexa (const char *hexa,
   int32_t tmp32 = 0;
   int8_t tmp8 = 0;
 
-  hexa_serializer = lw6sys_hexa_serializer_new (hexa);
+  hexa_serializer = lw6sys_hexa_serializer_new (sys_context, hexa);
   if (hexa_serializer)
     {
-      lw6sys_hexa_serializer_rewind (hexa_serializer);
+      lw6sys_hexa_serializer_rewind (sys_context, hexa_serializer);
 
       game_state =
 	(_lw6ker_game_state_t *)
@@ -1209,27 +1271,35 @@ _lw6ker_game_state_from_hexa (const char *hexa,
 	  ok = ok
 	    && pop_history (hexa_serializer, &(game_state->latest_history));
 	  ok = ok
-	    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &tmp32);
+	    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
+						 &tmp32);
 	  game_state->moves = tmp32;
 	  ok = ok
-	    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &tmp32);
+	    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
+						 &tmp32);
 	  game_state->spreads = tmp32;
 	  ok = ok
-	    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &tmp32);
+	    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
+						 &tmp32);
 	  game_state->rounds = tmp32;
 	  ok = ok
-	    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &tmp32);
+	    && lw6sys_hexa_serializer_pop_int32 (sys_context, hexa_serializer,
+						 &tmp32);
 	  game_state->total_rounds = tmp32;
-	  ok = ok && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &tmp8);
+	  ok = ok
+	    && lw6sys_hexa_serializer_pop_int8 (sys_context, hexa_serializer,
+						&tmp8);
 	  game_state->max_reached_teams = tmp8;
-	  ok = ok && lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &tmp8);
+	  ok = ok
+	    && lw6sys_hexa_serializer_pop_int8 (sys_context, hexa_serializer,
+						&tmp8);
 	  game_state->over = tmp8;
 
 	  if (lw6sys_shape_is_same
 	      (&(game_state->map_state.shape),
 	       &(game_struct->map_struct.shape)))
 	    {
-	      if (!lw6sys_hexa_serializer_eof (hexa_serializer))
+	      if (!lw6sys_hexa_serializer_eof (sys_context, hexa_serializer))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("expected EOF in serialized game_state"));
@@ -1250,7 +1320,7 @@ _lw6ker_game_state_from_hexa (const char *hexa,
 	      ok = 0;
 	    }
 	}
-      lw6sys_hexa_serializer_free (hexa_serializer);
+      lw6sys_hexa_serializer_free (sys_context, hexa_serializer);
     }
 
   if (!ok)

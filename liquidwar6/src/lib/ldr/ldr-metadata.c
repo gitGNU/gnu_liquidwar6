@@ -34,7 +34,7 @@ extract_title_from_dirname (const char *dirname)
   char *title = NULL;
   char *begin = NULL;
 
-  copy = lw6sys_path_strip_slash (dirname);
+  copy = lw6sys_path_strip_slash (sys_context, dirname);
   if (copy)
     {
       begin = strrchr (copy, '/');
@@ -72,28 +72,28 @@ read_readme (const char *dirname)
   char *buf = NULL;
   char *readme = NULL;
 
-  buf = lw6sys_path_concat (dirname, LW6SYS_FILE_README);
+  buf = lw6sys_path_concat (sys_context, dirname, LW6SYS_FILE_README);
   if (buf)
     {
-      if (lw6sys_file_exists (buf))
+      if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("reading README \"%s\""), buf);
-	  readme = lw6sys_read_file_content (buf);
+	  readme = lw6sys_read_file_content (sys_context, buf);
 	}
       LW6SYS_FREE (sys_context, buf);
     }
 
   if (!readme)
     {
-      buf = lw6sys_path_concat (dirname, LW6SYS_FILE_README_TXT);
+      buf = lw6sys_path_concat (sys_context, dirname, LW6SYS_FILE_README_TXT);
       if (buf)
 	{
-	  if (lw6sys_file_exists (buf))
+	  if (lw6sys_file_exists (sys_context, buf))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("reading README \"%s\""), buf);
-	      readme = lw6sys_read_file_content (buf);
+	      readme = lw6sys_read_file_content (sys_context, buf);
 	    }
 	  LW6SYS_FREE (sys_context, buf);
 	}
@@ -151,12 +151,12 @@ lw6ldr_metadata_read (lw6map_metadata_t * metadata, const char *dirname)
   int ret = 0;
   char *buf = NULL;
 
-  lw6map_metadata_clear (metadata);
+  lw6map_metadata_clear (sys_context, metadata);
 
-  buf = lw6sys_path_concat (dirname, _LW6LDR_FILE_METADATA_XML);
+  buf = lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_METADATA_XML);
   if (buf)
     {
-      if (lw6sys_file_exists (buf))
+      if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("reading metadata \"%s\""), buf);

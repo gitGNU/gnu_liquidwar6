@@ -120,7 +120,7 @@ _scm_lw6gui_menu_new (SCM title, SCM help, SCM popup, SCM esc, SCM enable_esc)
     }
   else
     {
-      c_title = lw6sys_str_copy (LW6SYS_STR_EMPTY);
+      c_title = lw6sys_str_copy (sys_context, LW6SYS_STR_EMPTY);
     }
   if (c_title)
     {
@@ -130,7 +130,7 @@ _scm_lw6gui_menu_new (SCM title, SCM help, SCM popup, SCM esc, SCM enable_esc)
 	}
       else
 	{
-	  c_help = lw6sys_str_copy (LW6SYS_STR_EMPTY);
+	  c_help = lw6sys_str_copy (sys_context, LW6SYS_STR_EMPTY);
 	}
       if (c_help)
 	{
@@ -140,7 +140,7 @@ _scm_lw6gui_menu_new (SCM title, SCM help, SCM popup, SCM esc, SCM enable_esc)
 	    }
 	  else
 	    {
-	      c_popup = lw6sys_str_copy (LW6SYS_STR_EMPTY);
+	      c_popup = lw6sys_str_copy (sys_context, LW6SYS_STR_EMPTY);
 	    }
 	  if (c_popup)
 	    {
@@ -158,11 +158,11 @@ _scm_lw6gui_menu_new (SCM title, SCM help, SCM popup, SCM esc, SCM enable_esc)
 		    }
 		  LW6SYS_FREE (c_esc);
 		}
-	      LW6SYS_FREE (c_popup);
+	      LW6SYS_FREE (sys_context, c_popup);
 	    }
-	  LW6SYS_FREE (c_help);
+	  LW6SYS_FREE (sys_context, c_help);
 	}
-      LW6SYS_FREE (c_title);
+      LW6SYS_FREE (sys_context, c_title);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -222,9 +222,9 @@ _scm_lw6gui_menu_append (SCM menu, SCM menuitem)
 			  (c_menu, c_label, c_tooltip, c_value, c_enabled,
 			   c_selected, c_colored, lw6sys_get_timestamp ()));
 
-	  LW6SYS_FREE (c_tooltip);
+	  LW6SYS_FREE (sys_context, c_tooltip);
 	}
-      LW6SYS_FREE (c_label);
+      LW6SYS_FREE (sys_context, c_label);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -252,7 +252,8 @@ _scm_lw6gui_menu_remove (SCM menu, SCM position)
 
   ret =
     lw6gui_menu_remove (c_menu, c_position,
-			lw6sys_get_timestamp ())? SCM_BOOL_T : SCM_BOOL_F;
+			lw6sys_get_timestamp (sys_context,)) ? SCM_BOOL_T :
+    SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -275,7 +276,8 @@ _scm_lw6gui_menu_remove_all (SCM menu, SCM position)
   c_menu = lw6_scm_to_menu (menu);
   ret =
     lw6gui_menu_remove_all (c_menu,
-			    lw6sys_get_timestamp ())? SCM_BOOL_T : SCM_BOOL_F;
+			    lw6sys_get_timestamp (sys_context,)) ? SCM_BOOL_T
+    : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -337,9 +339,9 @@ _scm_lw6gui_menu_sync (SCM menu, SCM menuitem)
 	    (c_menu, c_id, c_label, c_tooltip, c_value, c_enabled, c_selected,
 	     c_colored, lw6sys_get_timestamp ());
 
-	  LW6SYS_FREE (c_tooltip);
+	  LW6SYS_FREE (sys_context, c_tooltip);
 	}
-      LW6SYS_FREE (c_label);
+      LW6SYS_FREE (sys_context, c_label);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -370,7 +372,8 @@ _scm_lw6gui_menu_select (SCM menu, SCM position, SCM allow_scroll)
 
   ret =
     lw6gui_menu_select (c_menu, c_position, c_allow_scroll,
-			lw6sys_get_timestamp ())? SCM_BOOL_T : SCM_BOOL_F;
+			lw6sys_get_timestamp (sys_context,)) ? SCM_BOOL_T :
+    SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -490,7 +493,7 @@ _scm_lw6gui_menu_set_breadcrumbs (SCM menu, SCM breadcrumbs)
   if (c_breadcrumbs)
     {
       lw6gui_menu_set_breadcrumbs (c_menu, c_breadcrumbs);
-      lw6sys_list_free (c_breadcrumbs);
+      lw6sys_list_free (sys_context, c_breadcrumbs);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -586,9 +589,9 @@ _scm_lw6gui_look_set (SCM look, SCM key, SCM value)
 	      ret =
 		lw6gui_look_set (c_look, c_key,
 				 c_value) ? SCM_BOOL_T : SCM_BOOL_F;
-	      LW6SYS_FREE (c_value);
+	      LW6SYS_FREE (sys_context, c_value);
 	    }
-	  LW6SYS_FREE (c_key);
+	  LW6SYS_FREE (sys_context, c_key);
 	}
     }
 
@@ -623,9 +626,9 @@ _scm_lw6gui_look_get (SCM look, SCM key)
 	  if (c_value)
 	    {
 	      ret = scm_from_locale_string (c_value);
-	      LW6SYS_FREE (c_value);
+	      LW6SYS_FREE (sys_context, c_value);
 	    }
-	  LW6SYS_FREE (c_key);
+	  LW6SYS_FREE (sys_context, c_key);
 	}
     }
 

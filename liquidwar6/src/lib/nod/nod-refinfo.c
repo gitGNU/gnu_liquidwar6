@@ -73,7 +73,7 @@ _lw6nod_ref_info_update (lw6nod_ref_info_t * ref_info, u_int64_t id,
 	}
       if (url)
 	{
-	  ref_info->url = lw6sys_url_canonize (url);
+	  ref_info->url = lw6sys_url_canonize (sys_context, url);
 	}
       else
 	{

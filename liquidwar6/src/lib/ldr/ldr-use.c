@@ -93,33 +93,33 @@ lw6ldr_use_set (lw6ldr_use_t * use, const char *key, const char *value)
 {
   int ret = 1;
 
-  if (lw6sys_arg_match (LW6DEF_USE_TEXTURE, key))
+  if (lw6sys_arg_match (sys_context, LW6DEF_USE_TEXTURE, key))
     {
-      use->use_texture = lw6sys_atob (value);
+      use->use_texture = lw6sys_atob (sys_context, value);
     }
-  else if (lw6sys_arg_match (LW6DEF_USE_CURSOR_TEXTURE, key))
+  else if (lw6sys_arg_match (sys_context, LW6DEF_USE_CURSOR_TEXTURE, key))
     {
-      use->use_cursor_texture = lw6sys_atob (value);
+      use->use_cursor_texture = lw6sys_atob (sys_context, value);
     }
-  else if (lw6sys_arg_match (LW6DEF_USE_RULES_XML, key))
+  else if (lw6sys_arg_match (sys_context, LW6DEF_USE_RULES_XML, key))
     {
-      use->use_rules_xml = lw6sys_atob (value);
+      use->use_rules_xml = lw6sys_atob (sys_context, value);
     }
-  else if (lw6sys_arg_match (LW6DEF_USE_HINTS_XML, key))
+  else if (lw6sys_arg_match (sys_context, LW6DEF_USE_HINTS_XML, key))
     {
-      use->use_hints_xml = lw6sys_atob (value);
+      use->use_hints_xml = lw6sys_atob (sys_context, value);
     }
-  else if (lw6sys_arg_match (LW6DEF_USE_STYLE_XML, key))
+  else if (lw6sys_arg_match (sys_context, LW6DEF_USE_STYLE_XML, key))
     {
-      use->use_style_xml = lw6sys_atob (value);
+      use->use_style_xml = lw6sys_atob (sys_context, value);
     }
-  else if (lw6sys_arg_match (LW6DEF_USE_TEAMS_XML, key))
+  else if (lw6sys_arg_match (sys_context, LW6DEF_USE_TEAMS_XML, key))
     {
-      use->use_teams_xml = lw6sys_atob (value);
+      use->use_teams_xml = lw6sys_atob (sys_context, value);
     }
-  else if (lw6sys_arg_match (LW6DEF_USE_MUSIC_FILE, key))
+  else if (lw6sys_arg_match (sys_context, LW6DEF_USE_MUSIC_FILE, key))
     {
-      use->use_music_file = lw6sys_atob (value);
+      use->use_music_file = lw6sys_atob (sys_context, value);
     }
   else
     {
@@ -139,9 +139,9 @@ use_update_callback (void *func_data, void *data)
   key = (char *) data;
   update_data = (use_update_data_t *) func_data;
 
-  if (lw6sys_assoc_has_key (update_data->values, key))
+  if (lw6sys_assoc_has_key (sys_context, update_data->values, key))
     {
-      value = lw6sys_assoc_get (update_data->values, key);
+      value = lw6sys_assoc_get (sys_context, update_data->values, key);
       lw6ldr_use_set (update_data->use, key, value);
     }
 }

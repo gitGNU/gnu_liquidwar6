@@ -34,7 +34,7 @@
  * In bazooka.c
  */
 static SCM
-_scm_lw6sys_set_memory_bazooka_size (SCM size)
+_scm_lw6sys_set_memory_bazooka_size (sys_context, SCM size)
 {
   SCM ret = SCM_BOOL_F;
   int c_size;
@@ -69,7 +69,7 @@ _scm_lw6sys_get_memory_bazooka_size ()
 }
 
 static SCM
-_scm_lw6sys_set_memory_bazooka_eraser (SCM state)
+_scm_lw6sys_set_memory_bazooka_eraser (sys_context, SCM state)
 {
   SCM ret = SCM_BOOL_F;
   int c_state;
@@ -96,7 +96,8 @@ _scm_lw6sys_get_memory_bazooka_eraser ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6sys_get_memory_bazooka_eraser ()? SCM_BOOL_T : SCM_BOOL_F;
+  ret =
+    lw6sys_get_memory_bazooka_eraser (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -519,7 +520,7 @@ _scm_lw6sys_build_is_gnu ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6sys_build_is_gnu ()? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6sys_build_is_gnu (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -534,7 +535,7 @@ _scm_lw6sys_build_is_unix ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6sys_build_is_unix ()? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6sys_build_is_unix (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -549,7 +550,7 @@ _scm_lw6sys_build_is_ms_windows ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6sys_build_is_ms_windows ()? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6sys_build_is_ms_windows (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -564,7 +565,7 @@ _scm_lw6sys_build_is_mac_os_x ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6sys_build_is_mac_os_x ()? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6sys_build_is_mac_os_x (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -579,7 +580,7 @@ _scm_lw6sys_build_is_gp2x ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6sys_build_is_gp2x ()? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6sys_build_is_gp2x (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1018,7 +1019,7 @@ _scm_lw6sys_debug_get ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6sys_debug_get ()? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6sys_debug_get (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1026,7 +1027,7 @@ _scm_lw6sys_debug_get ()
 }
 
 static SCM
-_scm_lw6sys_debug_set (SCM mode)
+_scm_lw6sys_debug_set (sys_context, SCM mode)
 {
   int c_mode;
 
@@ -1037,7 +1038,7 @@ _scm_lw6sys_debug_set (SCM mode)
 
   c_mode = scm_to_bool (mode);
 
-  lw6sys_debug_set (c_mode);
+  lw6sys_debug_set (sys_context, c_mode);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1066,10 +1067,10 @@ _scm_lw6sys_dump (SCM content)
 	lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
       if (user_dir)
 	{
-	  lw6sys_dump (user_dir, c_content);
-	  LW6SYS_FREE (user_dir);
+	  lw6sys_dump (sys_context, user_dir, c_content);
+	  LW6SYS_FREE (sys_context, user_dir);
 	}
-      LW6SYS_FREE (c_content);
+      LW6SYS_FREE (sys_context, c_content);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1088,8 +1089,8 @@ _scm_lw6sys_dump_clear ()
   user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
   if (user_dir)
     {
-      lw6sys_dump_clear (user_dir);
-      LW6SYS_FREE (user_dir);
+      lw6sys_dump_clear (sys_context, user_dir);
+      LW6SYS_FREE (sys_context, user_dir);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1113,7 +1114,7 @@ _scm_lw6sys_get_username ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1134,7 +1135,7 @@ _scm_lw6sys_get_hostname ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1143,7 +1144,7 @@ _scm_lw6sys_get_hostname ()
 }
 
 static SCM
-_scm_lw6sys_getenv (SCM key)
+_scm_lw6sys_getenv (sys_context, SCM key)
 {
   SCM ret = SCM_BOOL_F;
   char *c_key = NULL;
@@ -1157,13 +1158,13 @@ _scm_lw6sys_getenv (SCM key)
   c_key = lw6scm_utils_to_0str (key);
   if (c_key)
     {
-      buf = lw6sys_getenv (c_key);
+      buf = lw6sys_getenv (sys_context, c_key);
       if (buf)
 	{
 	  ret = scm_from_locale_string (buf);
-	  LW6SYS_FREE (buf);
+	  LW6SYS_FREE (sys_context, buf);
 	}
-      LW6SYS_FREE (c_key);
+      LW6SYS_FREE (sys_context, c_key);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1172,7 +1173,7 @@ _scm_lw6sys_getenv (SCM key)
 }
 
 static SCM
-_scm_lw6sys_getenv_prefixed (SCM keyword)
+_scm_lw6sys_getenv_prefixed (sys_context, SCM keyword)
 {
   SCM ret = SCM_BOOL_F;
   char *c_keyword = NULL;
@@ -1186,13 +1187,13 @@ _scm_lw6sys_getenv_prefixed (SCM keyword)
   c_keyword = lw6scm_utils_to_0str (keyword);
   if (c_keyword)
     {
-      buf = lw6sys_getenv_prefixed (c_keyword);
+      buf = lw6sys_getenv_prefixed (sys_context, c_keyword);
       if (buf)
 	{
 	  ret = scm_from_locale_string (buf);
-	  LW6SYS_FREE (buf);
+	  LW6SYS_FREE (sys_context, buf);
 	}
-      LW6SYS_FREE (c_keyword);
+      LW6SYS_FREE (sys_context, c_keyword);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1212,11 +1213,11 @@ _scm_lw6sys_generate_id_16 ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  c_ret = lw6sys_id_ltoa (lw6sys_generate_id_16 ());
+  c_ret = lw6sys_id_ltoa (sys_context, lw6sys_generate_id_16 ());
   if (c_ret)
     {
       ret = scm_from_locale_string (c_ret);
-      LW6SYS_FREE (c_ret);
+      LW6SYS_FREE (sys_context, c_ret);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1233,11 +1234,11 @@ _scm_lw6sys_generate_id_32 ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  c_ret = lw6sys_id_ltoa (lw6sys_generate_id_32 ());
+  c_ret = lw6sys_id_ltoa (sys_context, lw6sys_generate_id_32 ());
   if (c_ret)
     {
       ret = scm_from_locale_string (c_ret);
-      LW6SYS_FREE (c_ret);
+      LW6SYS_FREE (sys_context, c_ret);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1254,11 +1255,11 @@ _scm_lw6sys_generate_id_64 ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  c_ret = lw6sys_id_ltoa (lw6sys_generate_id_64 ());
+  c_ret = lw6sys_id_ltoa (sys_context, lw6sys_generate_id_64 ());
   if (c_ret)
     {
       ret = scm_from_locale_string (c_ret);
-      LW6SYS_FREE (c_ret);
+      LW6SYS_FREE (sys_context, c_ret);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1270,7 +1271,7 @@ _scm_lw6sys_generate_id_64 ()
  * In log.c
  */
 static SCM
-_scm_lw6sys_log (SCM level, SCM message)
+_scm_lw6sys_log (sys_context, SCM level, SCM message)
 {
   int c_level;
   char *c_message;
@@ -1285,8 +1286,8 @@ _scm_lw6sys_log (SCM level, SCM message)
   c_message = lw6scm_utils_to_0str (message);
   if (c_message)
     {
-      lw6sys_log (c_level, __FILE__, __LINE__, "%s", c_message);
-      LW6SYS_FREE (c_message);
+      lw6sys_log (sys_context, c_level, __FILE__, __LINE__, "%s", c_message);
+      LW6SYS_FREE (sys_context, c_message);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1295,7 +1296,7 @@ _scm_lw6sys_log (SCM level, SCM message)
 }
 
 static SCM
-_scm_lw6sys_log_set_dialog_timeout (SCM dialog_timeout)
+_scm_lw6sys_log_set_dialog_timeout (sys_context, SCM dialog_timeout)
 {
   SCM ret = SCM_BOOL_F;
   int c_dialog_timeout = 0;
@@ -1308,7 +1309,8 @@ _scm_lw6sys_log_set_dialog_timeout (SCM dialog_timeout)
 
   c_dialog_timeout = scm_to_int (dialog_timeout);
   ret =
-    lw6sys_log_set_dialog_timeout (c_dialog_timeout) ? SCM_BOOL_T :
+    lw6sys_log_set_dialog_timeout (sys_context,
+				   c_dialog_timeout) ? SCM_BOOL_T :
     SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1332,7 +1334,7 @@ _scm_lw6sys_log_get_level ()
 }
 
 static SCM
-_scm_lw6sys_log_set_level (SCM level)
+_scm_lw6sys_log_set_level (sys_context, SCM level)
 {
   int c_level;
 
@@ -1342,7 +1344,7 @@ _scm_lw6sys_log_set_level (SCM level)
   SCM_ASSERT (scm_is_integer (level), level, SCM_ARG1, __FUNCTION__);
 
   c_level = scm_to_int (level);
-  lw6sys_log_set_level (c_level);
+  lw6sys_log_set_level (sys_context, c_level);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1365,7 +1367,7 @@ _scm_lw6sys_log_get_backtrace_mode ()
 }
 
 static SCM
-_scm_lw6sys_log_set_backtrace_mode (SCM backtrace_mode)
+_scm_lw6sys_log_set_backtrace_mode (sys_context, SCM backtrace_mode)
 {
   int c_backtrace_mode;
 
@@ -1435,7 +1437,7 @@ _scm_lw6sys_get_default_user_dir ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1456,7 +1458,7 @@ _scm_lw6sys_get_default_config_file ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1477,7 +1479,7 @@ _scm_lw6sys_get_default_log_file ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1498,7 +1500,7 @@ _scm_lw6sys_get_default_prefix ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1519,7 +1521,7 @@ _scm_lw6sys_get_default_mod_dir ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1540,7 +1542,7 @@ _scm_lw6sys_get_default_data_dir ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1561,7 +1563,7 @@ _scm_lw6sys_get_default_music_dir ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1582,7 +1584,7 @@ _scm_lw6sys_get_default_music_path ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1603,7 +1605,7 @@ _scm_lw6sys_get_default_map_dir ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1624,7 +1626,7 @@ _scm_lw6sys_get_default_map_path ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1645,7 +1647,7 @@ _scm_lw6sys_get_default_script_file ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1666,7 +1668,7 @@ _scm_lw6sys_get_cwd ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1687,7 +1689,7 @@ _scm_lw6sys_get_run_dir ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1708,7 +1710,7 @@ _scm_lw6sys_get_user_dir ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1729,7 +1731,7 @@ _scm_lw6sys_get_config_file ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1750,7 +1752,7 @@ _scm_lw6sys_get_log_file ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1771,7 +1773,7 @@ _scm_lw6sys_get_prefix ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1792,7 +1794,7 @@ _scm_lw6sys_get_mod_dir ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1813,7 +1815,7 @@ _scm_lw6sys_get_data_dir ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1834,7 +1836,7 @@ _scm_lw6sys_get_music_dir ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1855,7 +1857,7 @@ _scm_lw6sys_get_music_path ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1876,7 +1878,7 @@ _scm_lw6sys_get_map_dir ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1897,7 +1899,7 @@ _scm_lw6sys_get_map_path ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1918,7 +1920,7 @@ _scm_lw6sys_get_script_file ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1930,7 +1932,7 @@ _scm_lw6sys_get_script_file ()
  * In path.c
  */
 static SCM
-_scm_lw6sys_path_concat (SCM path1, SCM path2)
+_scm_lw6sys_path_concat (sys_context, SCM path1, SCM path2)
 {
   SCM ret = SCM_BOOL_F;
   char *c_path1 = NULL;
@@ -1949,15 +1951,15 @@ _scm_lw6sys_path_concat (SCM path1, SCM path2)
       c_path2 = lw6scm_utils_to_0str (path2);
       if (c_path2)
 	{
-	  c_ret = lw6sys_path_concat (c_path1, c_path2);
+	  c_ret = lw6sys_path_concat (sys_context, c_path1, c_path2);
 	  if (c_ret)
 	    {
 	      ret = scm_from_locale_string (c_ret);
-	      LW6SYS_FREE (c_ret);
+	      LW6SYS_FREE (sys_context, c_ret);
 	    }
-	  LW6SYS_FREE (c_path2);
+	  LW6SYS_FREE (sys_context, c_path2);
 	}
-      LW6SYS_FREE (c_path1);
+      LW6SYS_FREE (sys_context, c_path1);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1966,7 +1968,7 @@ _scm_lw6sys_path_concat (SCM path1, SCM path2)
 }
 
 static SCM
-_scm_lw6sys_path_file_only (SCM path)
+_scm_lw6sys_path_file_only (sys_context, SCM path)
 {
   SCM ret = SCM_BOOL_F;
   char *c_path = NULL;
@@ -1980,13 +1982,13 @@ _scm_lw6sys_path_file_only (SCM path)
   c_path = lw6scm_utils_to_0str (path);
   if (c_path)
     {
-      c_ret = lw6sys_path_file_only (c_path);
+      c_ret = lw6sys_path_file_only (sys_context, c_path);
       if (c_ret)
 	{
 	  ret = scm_from_locale_string (c_ret);
-	  LW6SYS_FREE (c_ret);
+	  LW6SYS_FREE (sys_context, c_ret);
 	}
-      LW6SYS_FREE (c_path);
+      LW6SYS_FREE (sys_context, c_path);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -1995,7 +1997,7 @@ _scm_lw6sys_path_file_only (SCM path)
 }
 
 static SCM
-_scm_lw6sys_path_parent (SCM path)
+_scm_lw6sys_path_parent (sys_context, SCM path)
 {
   SCM ret = SCM_BOOL_F;
   char *c_path = NULL;
@@ -2009,13 +2011,13 @@ _scm_lw6sys_path_parent (SCM path)
   c_path = lw6scm_utils_to_0str (path);
   if (c_path)
     {
-      c_ret = lw6sys_path_parent (c_path);
+      c_ret = lw6sys_path_parent (sys_context, c_path);
       if (c_ret)
 	{
 	  ret = scm_from_locale_string (c_ret);
-	  LW6SYS_FREE (c_ret);
+	  LW6SYS_FREE (sys_context, c_ret);
 	}
-      LW6SYS_FREE (c_path);
+      LW6SYS_FREE (sys_context, c_path);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -2024,7 +2026,7 @@ _scm_lw6sys_path_parent (SCM path)
 }
 
 static SCM
-_scm_lw6sys_path_split (SCM path)
+_scm_lw6sys_path_split (sys_context, SCM path)
 {
   SCM ret = SCM_BOOL_F;
   char *c_path = NULL;
@@ -2040,7 +2042,7 @@ _scm_lw6sys_path_split (SCM path)
   if (c_path)
     {
       ret = SCM_LIST0;
-      c_ret = lw6sys_path_split (c_path);
+      c_ret = lw6sys_path_split (sys_context, c_path);
       if (c_ret)
 	{
 	  for (tmp = c_ret; tmp != NULL;
@@ -2053,10 +2055,10 @@ _scm_lw6sys_path_split (SCM path)
 			      ret);
 		}
 	    }
-	  lw6sys_list_free (c_ret);
+	  lw6sys_list_free (sys_context, c_ret);
 	  ret = scm_reverse (ret);
 	}
-      LW6SYS_FREE (c_path);
+      LW6SYS_FREE (sys_context, c_path);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -2068,7 +2070,7 @@ _scm_lw6sys_path_split (SCM path)
  * In signal.c
  */
 static SCM
-_scm_lw6sys_signal_custom (SCM trap_errors)
+_scm_lw6sys_signal_custom (sys_context, SCM trap_errors)
 {
   int c_trap_errors;
 
@@ -2078,7 +2080,7 @@ _scm_lw6sys_signal_custom (SCM trap_errors)
   SCM_ASSERT (SCM_BOOLP (trap_errors), trap_errors, SCM_ARG1, __FUNCTION__);
 
   c_trap_errors = SCM_NFALSEP (trap_errors);
-  lw6sys_signal_custom (c_trap_errors);
+  lw6sys_signal_custom (sys_context, c_trap_errors);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -2119,7 +2121,7 @@ _scm_lw6sys_signal_poll_quit ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6sys_signal_poll_quit ()? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6sys_signal_poll_quit (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -2175,7 +2177,7 @@ _scm_lw6sys_get_cycle ()
 }
 
 static SCM
-_scm_lw6sys_sleep (SCM seconds)
+_scm_lw6sys_sleep (sys_context, SCM seconds)
 {
   float c_seconds;
 
@@ -2194,7 +2196,7 @@ _scm_lw6sys_sleep (SCM seconds)
 }
 
 static SCM
-_scm_lw6sys_delay (SCM msec)
+_scm_lw6sys_delay (sys_context, SCM msec)
 {
   int c_msec;
 
@@ -2205,7 +2207,7 @@ _scm_lw6sys_delay (SCM msec)
 
   c_msec = scm_to_int (msec);
 
-  lw6sys_delay (c_msec);
+  lw6sys_delay (sys_context, c_msec);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -2242,7 +2244,7 @@ _scm_lw6sys_snooze ()
  * In url.c
  */
 static SCM
-_scm_lw6sys_url_canonize (SCM url)
+_scm_lw6sys_url_canonize (sys_context, SCM url)
 {
   char *c_url = NULL;
   char *c_ret = NULL;
@@ -2256,13 +2258,13 @@ _scm_lw6sys_url_canonize (SCM url)
   c_url = lw6scm_utils_to_0str (url);
   if (c_url)
     {
-      c_ret = lw6sys_url_canonize (c_url);
+      c_ret = lw6sys_url_canonize (sys_context, c_url);
       if (c_ret)
 	{
 	  ret = scm_from_locale_string (c_ret);
-	  LW6SYS_FREE (c_ret);
+	  LW6SYS_FREE (sys_context, c_ret);
 	}
-      LW6SYS_FREE (c_url);
+      LW6SYS_FREE (sys_context, c_url);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

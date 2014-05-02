@@ -127,12 +127,13 @@ _lw6ker_history_update_checksum (const _lw6ker_history_t * history,
 {
   int i, j;
 
-  lw6sys_checksum_update_int32 (checksum, history->nb_entries);
+  lw6sys_checksum_update_int32 (sys_context, checksum, history->nb_entries);
   for (i = 0; i < LW6KER_HISTORY_SIZE; ++i)
     {
       for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	{
-	  lw6sys_checksum_update_int32 (checksum, history->nb_fighters[i][j]);
+	  lw6sys_checksum_update_int32 (sys_context, checksum,
+					history->nb_fighters[i][j]);
 	}
     }
 }

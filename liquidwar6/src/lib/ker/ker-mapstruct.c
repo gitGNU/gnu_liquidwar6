@@ -66,12 +66,14 @@ _lw6ker_map_struct_update_checksum (const _lw6ker_map_struct_t *
 {
   int i;
 
-  lw6sys_checksum_update_whd (checksum, &(map_struct->shape));
-  lw6sys_checksum_update_int32 (checksum, map_struct->nb_places);
-  lw6sys_checksum_update_int32 (checksum, map_struct->nb_zones);
-  lw6sys_checksum_update_int32 (checksum, map_struct->nb_slots);
-  lw6sys_checksum_update_int32 (checksum, map_struct->room_for_armies);
-  lw6sys_checksum_update_int32 (checksum, map_struct->max_zone_size);
+  lw6sys_checksum_update_whd (sys_context, checksum, &(map_struct->shape));
+  lw6sys_checksum_update_int32 (sys_context, checksum, map_struct->nb_places);
+  lw6sys_checksum_update_int32 (sys_context, checksum, map_struct->nb_zones);
+  lw6sys_checksum_update_int32 (sys_context, checksum, map_struct->nb_slots);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				map_struct->room_for_armies);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				map_struct->max_zone_size);
   for (i = 0; i < map_struct->nb_places; ++i)
     {
       _lw6ker_place_struct_update_checksum (&(map_struct->places[i]),
@@ -134,8 +136,10 @@ relative_index_no_check (const lw6map_level_t * level, int32_t x, int32_t y,
 static int32_t
 relative_index (const lw6map_level_t * level, int32_t x, int32_t y, int32_t z)
 {
-  lw6map_coords_fix_xy (&(level->param.rules), &(level->body.shape), &x, &y);
-  lw6map_coords_fix_z (&(level->param.rules), &(level->body.shape), &z);
+  lw6map_coords_fix_xy (sys_context, &(level->param.rules),
+			&(level->body.shape), &x, &y);
+  lw6map_coords_fix_z (sys_context, &(level->param.rules),
+		       &(level->body.shape), &z);
 
   return relative_index_no_check (level, x, y, z);
 }
@@ -153,7 +157,7 @@ draft_zones_new (const lw6map_level_t * level, lw6sys_progress_t * progress)
 {
   draft_zones_t *ret;
 
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
 
   ret = (draft_zones_t *) LW6SYS_CALLOC (sizeof (draft_zones_t));
   if (ret)
@@ -288,7 +292,7 @@ draft_zones_new (const lw6map_level_t * level, lw6sys_progress_t * progress)
 
     }
 
-  lw6sys_progress_end (progress);
+  lw6sys_progress_end (sys_context, progress);
 
   return ret;
 }
@@ -574,19 +578,21 @@ _fix_one_way (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level)
 	      one_way_south = 0;
 	      one_way_west = 0;
 	      one_way_north +=
-		lw6map_meta_layer_get (&level->body.one_way_north,
+		lw6map_meta_layer_get (sys_context,
+				       &level->body.one_way_north,
 				       zone_struct->pos.x + x,
 				       zone_struct->pos.y + y);
 	      one_way_east +=
-		lw6map_meta_layer_get (&level->body.one_way_east,
+		lw6map_meta_layer_get (sys_context, &level->body.one_way_east,
 				       zone_struct->pos.x + x,
 				       zone_struct->pos.y + y);
 	      one_way_south +=
-		lw6map_meta_layer_get (&level->body.one_way_south,
+		lw6map_meta_layer_get (sys_context,
+				       &level->body.one_way_south,
 				       zone_struct->pos.x + x,
 				       zone_struct->pos.y + y);
 	      one_way_west +=
-		lw6map_meta_layer_get (&level->body.one_way_west,
+		lw6map_meta_layer_get (sys_context, &level->body.one_way_west,
 				       zone_struct->pos.x + x,
 				       zone_struct->pos.y + y);
 	    }
@@ -745,7 +751,7 @@ draft_zones_to_map_struct (_lw6ker_map_struct_t * map_struct,
   int32_t w, h, d, size, nb_zones;
   int32_t i, j, k, temp;
 
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
 
   w = draft_zones->shape.w;
   h = draft_zones->shape.h;
@@ -818,7 +824,7 @@ draft_zones_to_map_struct (_lw6ker_map_struct_t * map_struct,
 		  _x_ ("unable to create zones for map struct"));
     }
 
-  lw6sys_progress_end (progress);
+  lw6sys_progress_end (sys_context, progress);
 
   return ret;
 }
@@ -845,7 +851,7 @@ init_places (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
   int danger_correction = 0;
   int medicine_correction = 0;
 
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
 
   shape = map_struct->shape;
   map_struct->places =
@@ -873,7 +879,8 @@ init_places (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
       glue_power = level->param.rules.glue_power;
       if (level->body.glue.data && glue_power > 0)
 	{
-	  if (lw6sys_shape_is_same_xy (&level->body.glue.shape, &shape))
+	  if (lw6sys_shape_is_same_xy
+	      (sys_context, &level->body.glue.shape, &shape))
 	    {
 	      act_incr_min = _LW6KER_ACT_LIMIT / glue_power;
 	      for (y = 0; y < shape.h; ++y)
@@ -881,7 +888,8 @@ init_places (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
 		  for (x = 0; x < shape.w; ++x)
 		    {
 		      meta_layer_value =
-			lw6map_meta_layer_get (&level->body.glue, x, y);
+			lw6map_meta_layer_get (sys_context, &level->body.glue,
+					       x, y);
 		      act_incr =
 			((0xFF - meta_layer_value) * _LW6KER_ACT_LIMIT +
 			 meta_layer_value * act_incr_min) / 0xFF -
@@ -897,7 +905,8 @@ init_places (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
       boost_power = level->param.rules.boost_power;
       if (level->body.boost.data && boost_power > 0)
 	{
-	  if (lw6sys_shape_is_same_xy (&level->body.boost.shape, &shape))
+	  if (lw6sys_shape_is_same_xy
+	      (sys_context, &level->body.boost.shape, &shape))
 	    {
 	      act_incr_max = _LW6KER_ACT_LIMIT * boost_power;
 	      for (y = 0; y < shape.h; ++y)
@@ -905,7 +914,8 @@ init_places (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
 		  for (x = 0; x < shape.w; ++x)
 		    {
 		      meta_layer_value =
-			lw6map_meta_layer_get (&level->body.boost, x, y);
+			lw6map_meta_layer_get (sys_context,
+					       &level->body.boost, x, y);
 		      act_incr =
 			((0xFF - meta_layer_value) * _LW6KER_ACT_LIMIT +
 			 meta_layer_value * act_incr_max) / 0xFF -
@@ -921,14 +931,16 @@ init_places (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
       danger_power = level->param.rules.danger_power;
       if (level->body.danger.data && danger_power > 0)
 	{
-	  if (lw6sys_shape_is_same_xy (&level->body.danger.shape, &shape))
+	  if (lw6sys_shape_is_same_xy
+	      (sys_context, &level->body.danger.shape, &shape))
 	    {
 	      for (y = 0; y < shape.h; ++y)
 		{
 		  for (x = 0; x < shape.w; ++x)
 		    {
 		      meta_layer_value =
-			lw6map_meta_layer_get (&level->body.danger, x, y);
+			lw6map_meta_layer_get (sys_context,
+					       &level->body.danger, x, y);
 		      danger_correction =
 			(meta_layer_value * danger_power) / 0xFF;
 		      map_struct->places[_lw6ker_map_struct_place_index
@@ -943,14 +955,16 @@ init_places (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
       medicine_power = level->param.rules.medicine_power;
       if (level->body.medicine.data && medicine_power > 0)
 	{
-	  if (lw6sys_shape_is_same_xy (&level->body.medicine.shape, &shape))
+	  if (lw6sys_shape_is_same_xy
+	      (sys_context, &level->body.medicine.shape, &shape))
 	    {
 	      for (y = 0; y < shape.h; ++y)
 		{
 		  for (x = 0; x < shape.w; ++x)
 		    {
 		      meta_layer_value =
-			lw6map_meta_layer_get (&level->body.medicine, x, y);
+			lw6map_meta_layer_get (sys_context,
+					       &level->body.medicine, x, y);
 		      medicine_correction =
 			(meta_layer_value * medicine_power) / 0xFF;
 		      map_struct->places[_lw6ker_map_struct_place_index
@@ -983,7 +997,7 @@ init_places (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
 		  _x_ ("unable to create places for map struct"));
     }
 
-  lw6sys_progress_end (progress);
+  lw6sys_progress_end (sys_context, progress);
 
   return ret;
 }
@@ -1000,9 +1014,9 @@ init_slots (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
   lw6sys_progress_t progress1;
   lw6sys_progress_t progress2;
 
-  lw6sys_progress_split (&progress1, &progress2, progress);
+  lw6sys_progress_split (sys_context, &progress1, &progress2, progress);
 
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
 
   map_struct->slots =
     (_lw6ker_slot_struct_t *) LW6SYS_CALLOC (map_struct->shape.w *
@@ -1021,7 +1035,8 @@ init_slots (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
        */
       for (y = 0; y < map_struct->shape.h; ++y)
 	{
-	  lw6sys_progress_update (&progress1, 0, map_struct->shape.h, y);
+	  lw6sys_progress_update (sys_context, &progress1, 0,
+				  map_struct->shape.h, y);
 	  // z after y so that progress is more fluid
 	  for (z = 0; z < map_struct->shape.d; ++z)
 	    {
@@ -1034,7 +1049,8 @@ init_slots (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
 
       for (i = 0; i < map_struct->nb_zones; ++i)
 	{
-	  lw6sys_progress_update (&progress2, 0, map_struct->nb_zones, i);
+	  lw6sys_progress_update (sys_context, &progress2, 0,
+				  map_struct->nb_zones, i);
 	  zone = &map_struct->zones[i];
 	  for (y = 0; y < map_struct->zones[i].size; ++y)
 	    {
@@ -1056,7 +1072,7 @@ init_slots (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
 		  _x_ ("unable to create slots for map struct"));
     }
 
-  lw6sys_progress_end (progress);
+  lw6sys_progress_end (sys_context, progress);
 
   return ret;
 }
@@ -1099,9 +1115,9 @@ _lw6ker_map_struct_init (_lw6ker_map_struct_t * map_struct,
   lw6sys_progress_t progress4;
   lw6sys_progress_t progress5;
 
-  lw6sys_progress_begin (progress);
-  lw6sys_progress_split5 (&progress1, &progress2, &progress3, &progress4,
-			  &progress5, progress);
+  lw6sys_progress_begin (sys_context, progress);
+  lw6sys_progress_split5 (sys_context, &progress1, &progress2, &progress3,
+			  &progress4, &progress5, progress);
 
   memset (map_struct, 0, sizeof (_lw6ker_map_struct_t));
 
@@ -1110,7 +1126,7 @@ _lw6ker_map_struct_init (_lw6ker_map_struct_t * map_struct,
     {
       int32_t i;
 
-      lw6sys_progress_begin (&progress3);
+      lw6sys_progress_begin (sys_context, &progress3);
 
       ret = 1;
 
@@ -1127,10 +1143,11 @@ _lw6ker_map_struct_init (_lw6ker_map_struct_t * map_struct,
       while (i <= level->param.rules.max_zone_size / 2
 	     && draft_zones_group (level, draft_zones, i))
 	{
-	  lw6sys_progress_update (&progress3, 0, progress_n, progress_i++);
+	  lw6sys_progress_update (sys_context, &progress3, 0, progress_n,
+				  progress_i++);
 	  i *= 2;
 	}
-      lw6sys_progress_end (&progress3);
+      lw6sys_progress_end (sys_context, &progress3);
 
       ret = ret
 	&& draft_zones_to_map_struct (map_struct, draft_zones, &progress4);
@@ -1155,7 +1172,7 @@ _lw6ker_map_struct_init (_lw6ker_map_struct_t * map_struct,
 	}
     }
 
-  lw6sys_progress_end (progress);
+  lw6sys_progress_end (sys_context, progress);
 
   return ret;
 }
@@ -1190,7 +1207,7 @@ _lw6ker_map_struct_find_free_slot_near (const _lw6ker_map_struct_t *
 
   there->x = there->y = there->z = 0;
 
-  if (lw6sys_shape_check_pos (&(map_struct->shape), &here))
+  if (lw6sys_shape_check_pos (sys_context, &(map_struct->shape), &here))
     {
       if (_lw6ker_map_struct_get_zone_id (map_struct, here.x, here.y, here.z)
 	  >= 0)
@@ -1219,7 +1236,8 @@ _lw6ker_map_struct_find_free_slot_near (const _lw6ker_map_struct_t *
 		    (lw6ker_sin ((angle * LW6KER_TRIGO_2PI) / max_angle) *
 		     radius) / LW6KER_TRIGO_RADIUS;
 		  test.z = 0;
-		  if (lw6sys_shape_check_pos (&map_struct->shape, &test))
+		  if (lw6sys_shape_check_pos
+		      (sys_context, &map_struct->shape, &test))
 		    {
 		      for (test.z = 0; test.z < map_struct->shape.d; ++test.z)
 			{

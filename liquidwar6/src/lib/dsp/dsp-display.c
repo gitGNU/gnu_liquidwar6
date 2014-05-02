@@ -227,7 +227,8 @@ lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param,
       if (lw6sys_vthread_is_running ())
 	{
 	  thread_ok =
-	    lw6sys_vthread_create ((lw6sys_thread_callback_func_t)
+	    lw6sys_vthread_create (sys_context,
+				   (lw6sys_thread_callback_func_t)
 				   _lw6dsp_thread_func,
 				   (lw6sys_thread_callback_func_t)
 				   _lw6dsp_thread_join, dsp_backend->data);
@@ -404,7 +405,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 		      _x_ ("dsp param update diff=%d sync=%d"), diff,
 		      need_sync);
 
-	  lw6sys_mutex_lock (data->render_mutex);
+	  lw6sys_mutex_lock (sys_context, data->render_mutex);
 
 	  if (diff & _LW6DSP_PARAM_DIFF_MISC)
 	    {
@@ -494,7 +495,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 	      lw6gui_input_sync (dsp_backend->input, data->input);
 	    }
 
-	  lw6sys_mutex_unlock (data->render_mutex);
+	  lw6sys_mutex_unlock (sys_context, data->render_mutex);
 	}
     }
 
@@ -646,13 +647,13 @@ lw6dsp_get_video_mode (lw6dsp_backend_t * dsp_backend,
        * Here we can't do a dirty read as with atomic values such as fps,
        * so we reserve the mutex
        */
-      lw6sys_mutex_lock (data->render_mutex);
+      lw6sys_mutex_lock (sys_context, data->render_mutex);
       if (data->run && data->started)
 	{
 	  (*video_mode) = data->video_mode_obtained;
 	  ret = 1;
 	}
-      lw6sys_mutex_unlock (data->render_mutex);
+      lw6sys_mutex_unlock (sys_context, data->render_mutex);
     }
 
   return ret;
@@ -686,13 +687,13 @@ lw6dsp_get_fullscreen_modes (lw6dsp_backend_t * dsp_backend,
        * Here we can't do a dirty read as with atomic values such as fps,
        * so we reserve the mutex
        */
-      lw6sys_mutex_lock (data->render_mutex);
+      lw6sys_mutex_lock (sys_context, data->render_mutex);
       if (data->run && data->started)
 	{
 	  (*fullscreen_modes) = data->fullscreen_modes;
 	  ret = 1;
 	}
-      lw6sys_mutex_unlock (data->render_mutex);
+      lw6sys_mutex_unlock (sys_context, data->render_mutex);
     }
 
   return ret;

@@ -46,7 +46,8 @@ lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id,
   int i = 0;
   int found_i = -1;
 
-  if (lw6sys_check_id (id) && id != info->const_info.ref_info.id_int)
+  if (lw6sys_check_id (sys_context, id)
+      && id != info->const_info.ref_info.id_int)
     {
       if (((url != NULL)
 	   && (!lw6nod_info_community_is_member (info, id, url)))
@@ -476,7 +477,7 @@ lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info,
 	      end[0] = '\0';
 	    }
 	  peer_id = lw6sys_id_atol (pos);
-	  if (lw6sys_check_id (peer_id))
+	  if (lw6sys_check_id (sys_context, peer_id))
 	    {
 	      if (peer_id != info->const_info.ref_info.id_int)
 		{
@@ -583,7 +584,8 @@ _lw6nod_node_info_community_get_by_url (lw6nod_info_t * node_info,
   lw6nod_ref_info_t *ret = NULL;
   int i = 0;
 
-  if (lw6sys_str_is_same (node_info->const_info.ref_info.url, url))
+  if (lw6sys_str_is_same
+      (sys_context, node_info->const_info.ref_info.url, url))
     {
       ret = &(node_info->const_info.ref_info);
     }

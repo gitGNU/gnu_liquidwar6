@@ -80,7 +80,7 @@ static _lw6dsp_test_data_t _test_data = { 0, NULL };
 static void
 sleep_and_report (lw6dsp_backend_t * display, float delay)
 {
-  lw6sys_sleep (delay);
+  lw6sys_sleep (sys_context, delay);
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 	      _x_
 	      ("last_frame_rendering_time=%d, instant_fps=%d, average_fps=%d"),
@@ -142,11 +142,11 @@ level_new (char *name, int display_width, int display_height,
   const int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
   map_path = lw6cfg_unified_get_map_path (argc, argv);
   if (map_path)
     {
-      user_dir = lw6sys_get_user_dir (argc, argv);
+      user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
       if (user_dir)
 	{
 	  ret =
@@ -159,7 +159,7 @@ level_new (char *name, int display_width, int display_height,
 	}
       LW6SYS_FREE (map_path);
     }
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
 
   return ret;
 }
@@ -169,9 +169,9 @@ game_struct_new (lw6map_level_t * level, lw6sys_progress_t * progress)
 {
   lw6ker_game_struct_t *ret = NULL;
 
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
   ret = lw6ker_game_struct_new (level, progress);
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
 
   return ret;
 }
@@ -182,7 +182,7 @@ game_state_new (lw6ker_game_struct_t * game_struct,
 {
   lw6ker_game_state_t *ret = NULL;
 
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
   ret = lw6ker_game_state_new (game_struct, progress);
   if (ret)
     {
@@ -192,7 +192,7 @@ game_state_new (lw6ker_game_struct_t * game_struct,
       lw6ker_game_state_add_cursor (ret, _TEST_NODE_ID,
 				    _TEST_CURSOR2_ID, _TEST_COLOR2);
     }
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
 
   return ret;
 }
@@ -202,15 +202,15 @@ pilot_new (lw6ker_game_state_t * game_state, lw6sys_progress_t * progress)
 {
   lw6pil_pilot_t *ret = NULL;
 
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
   ret =
     lw6pil_pilot_new (game_state, lw6pil_seq_random_0 (),
-		      lw6sys_get_timestamp (), progress);
+		      lw6sys_get_timestamp (sys_context,), progress);
   if (ret)
     {
       // ok
     }
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
 
   return ret;
 }
@@ -239,8 +239,8 @@ _test_display ()
     lw6ker_game_state_t *game_state = NULL;
     lw6pil_pilot_t *pilot = NULL;
 
-    lw6sys_progress_default (&progress, &progress_value);
-    lw6sys_progress_begin (&progress);
+    lw6sys_progress_default (sys_context, &progress, &progress_value);
+    lw6sys_progress_begin (sys_context, &progress);
     repr = lw6dsp_repr (display);
     if (repr)
       {
@@ -424,7 +424,7 @@ _test_display ()
 			  }
 			param.level = NULL;
 			lw6dsp_update (display, &param);
-			lw6map_free (level);
+			lw6map_free (sys_context, level);
 			level = NULL;
 		      }
 		    lw6gui_menu_free (param.menu);
@@ -447,7 +447,8 @@ _test_display ()
 			(int) (_TEST_INPUT_TICKS / LW6SYS_TICKS_PER_SEC));
 	    ticks = lw6sys_get_uptime ();
 	    while ((!lw6sys_signal_poll_quit ())
-		   && lw6sys_get_uptime () < ticks + _TEST_INPUT_TICKS)
+		   && lw6sys_get_uptime (sys_context,) <
+		   ticks + _TEST_INPUT_TICKS)
 	      {
 		/*
 		 * Note, there's no sleep in this sloop, should be CPU greedy,
@@ -673,9 +674,9 @@ lw6dsp_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
       lw6cfg_test_register (mode);
-      lw6map_test_register (mode);
+      lw6map_test_register (sys_context, mode);
       lw6ker_test_register (mode);
       lw6pil_test_register (mode);
       lw6gui_test_register (mode);
@@ -794,7 +795,7 @@ lw6dsp_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

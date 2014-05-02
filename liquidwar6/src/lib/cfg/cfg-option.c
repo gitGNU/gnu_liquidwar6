@@ -32,10 +32,10 @@ _lw6cfg_option_exists (_lw6cfg_context_t * context, const char *key)
 {
   int ret = 0;
 
-  if (lw6sys_spinlock_lock (context->spinlock))
+  if (lw6sys_spinlock_lock (sys_context, context->spinlock))
     {
-      ret = lw6sys_hash_has_key (context->options, key);
-      lw6sys_spinlock_unlock (context->spinlock);
+      ret = lw6sys_hash_has_key (sys_context, context->options, key);
+      lw6sys_spinlock_unlock (sys_context, context->spinlock);
     }
 
   return ret;
@@ -62,14 +62,14 @@ _lw6cfg_get_option (_lw6cfg_context_t * context, const char *key)
 {
   char *ret = "";
 
-  if (lw6sys_spinlock_lock (context->spinlock))
+  if (lw6sys_spinlock_lock (sys_context, context->spinlock))
     {
-      ret = (char *) lw6sys_hash_get (context->options, key);
+      ret = (char *) lw6sys_hash_get (sys_context, context->options, key);
       if (ret)
 	{
 	  ret = lw6sys_str_copy (sys_context, ret);
 	}
-      lw6sys_spinlock_unlock (context->spinlock);
+      lw6sys_spinlock_unlock (sys_context, context->spinlock);
     }
 
   if (!ret)
@@ -108,10 +108,11 @@ _lw6cfg_set_option (_lw6cfg_context_t * context, const char *key,
   value_converted = lw6cfg_format_guess_type (key, value);
   if (value_converted)
     {
-      if (lw6sys_spinlock_lock (context->spinlock))
+      if (lw6sys_spinlock_lock (sys_context, context->spinlock))
 	{
-	  lw6sys_hash_set (context->options, key, (void *) value_converted);
-	  lw6sys_spinlock_unlock (context->spinlock);
+	  lw6sys_hash_set (sys_context, context->options, key,
+			   (void *) value_converted);
+	  lw6sys_spinlock_unlock (sys_context, context->spinlock);
 	}
     }
 }
@@ -175,7 +176,7 @@ _lw6cfg_set_option_int (_lw6cfg_context_t * context, const char *key,
 {
   char *str;
 
-  str = lw6sys_itoa (value);
+  str = lw6sys_itoa (sys_context, value);
   if (str)
     {
       _lw6cfg_set_option (context, key, str);
@@ -242,7 +243,7 @@ _lw6cfg_set_option_bool (_lw6cfg_context_t * context, const char *key,
 {
   char *str;
 
-  str = lw6sys_itoa (value ? 1 : 0);
+  str = lw6sys_itoa (sys_context, value ? 1 : 0);
   if (str)
     {
       _lw6cfg_set_option (context, key, str);

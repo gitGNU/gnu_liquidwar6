@@ -90,8 +90,9 @@ _lw6ldr_exp_fix (lw6map_rules_t * rules, int exp)
     lw6sys_imax (LW6MAP_RULES_MIN_EXP, lw6sys_imax (exp, rules->exp));
   rules->highest_team_color_allowed =
     lw6sys_imin (rules->highest_team_color_allowed,
-		 lw6map_exp_get_highest_team_color_allowed (exp));
+		 lw6map_exp_get_highest_team_color_allowed (sys_context,
+							    exp));
   rules->highest_weapon_allowed =
     lw6sys_imin (rules->highest_weapon_allowed,
-		 lw6map_exp_get_highest_weapon_allowed (exp));
+		 lw6map_exp_get_highest_weapon_allowed (sys_context, exp));
 }

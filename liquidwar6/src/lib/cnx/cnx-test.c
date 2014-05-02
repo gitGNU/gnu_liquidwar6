@@ -220,7 +220,8 @@ _test_password ()
     if (LW6SYS_TEST_ACK (checksum))
       {
 	if (LW6SYS_TEST_ACK
-	    (lw6sys_str_is_same (checksum, _TEST_PASSWORD_CHECKSUM)))
+	    (lw6sys_str_is_same
+	     (sys_context, checksum, _TEST_PASSWORD_CHECKSUM)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			_x_ ("checksum for password \"%s\" is \"%s\""),
@@ -353,7 +354,7 @@ _test_ticket_table ()
 		ret = 0;
 	      }
 
-	    lw6sys_delay (_TEST_TICKET_ACK_DELAY_MSEC + 1);
+	    lw6sys_delay (sys_context, _TEST_TICKET_ACK_DELAY_MSEC + 1);
 
 	    if (LW6SYS_TEST_ACK (lw6cnx_ticket_table_was_recv_exchanged
 				 (&ticket_table, _TEST_TICKET_TABLE_ID1)))
@@ -468,7 +469,7 @@ lw6cnx_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
       lw6glb_test_register (mode);
     }
 
@@ -506,7 +507,7 @@ lw6cnx_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

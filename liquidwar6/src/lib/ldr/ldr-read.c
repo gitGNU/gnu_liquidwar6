@@ -77,8 +77,8 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
 	      _x_ ("loading map \"%s\" display=%dx%d bench=%d"), dirname,
 	      display_w, display_h, bench_value);
 
-  lw6sys_progress_split3 (&progress_texture, &progress_body, &progress_color,
-			  progress);
+  lw6sys_progress_split3 (sys_context, &progress_texture, &progress_body,
+			  &progress_color, progress);
 
   level = lw6map_new ();
   if (level)
@@ -86,13 +86,14 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
       ok = 1;
 
       lw6cfg_load_exp (user_dir, &player_exp);
-      lw6map_param_defaults (&(level->param));
+      lw6map_param_defaults (sys_context, &(level->param));
       lw6ldr_hints_defaults (&hints);
       lw6ldr_use_defaults (&use);
 
       ok = ok && lw6ldr_metadata_read (&level->metadata, dirname);
       ok = ok
-	&& lw6map_local_info_set_music_dir (&level->local_info, dirname);
+	&& lw6map_local_info_set_music_dir (sys_context, &level->local_info,
+					    dirname);
       lw6ldr_rules_update (&(level->param.rules), default_param);
       level->param.rules.exp = LW6MAP_RULES_DEFAULT_EXP;
       lw6ldr_hints_update (&hints, default_param);
@@ -112,7 +113,7 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
 	   * OK we don't use rules, but still we need to know
 	   * the "exp" associated to the level...
 	   */
-	  lw6map_rules_defaults (&rules_tmp);
+	  lw6map_rules_defaults (sys_context, &rules_tmp);
 	  lw6ldr_rules_read (&rules_tmp, dirname);
 	  map_exp = rules_tmp.exp;
 	}
@@ -167,7 +168,8 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
 	}
       else
 	{
-	  lw6map_cursor_texture_builtin (&(level->cursor_texture));
+	  lw6map_cursor_texture_builtin (sys_context,
+					 &(level->cursor_texture));
 	}
       ok = ok
 	&& lw6ldr_body_read (&level->body, dirname, &(level->param), &hints,
@@ -176,7 +178,8 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
       if (!level->texture.data)
 	{
 	  ok = ok
-	    && lw6map_texture_from_body (&level->texture, &level->body,
+	    && lw6map_texture_from_body (sys_context, &level->texture,
+					 &level->body,
 					 &(level->param.style.
 					   color_set.view_color_map));
 	}
@@ -189,7 +192,8 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
 	    }
 	}
       lw6ldr_auto_colors (&level->param.style, &hints);
-      level->texture.has_alpha = lw6map_texture_has_alpha (&(level->texture));
+      level->texture.has_alpha =
+	lw6map_texture_has_alpha (sys_context, &(level->texture));
       if (ok)
 	{
 	  if (player_exp >= map_exp)
@@ -214,7 +218,7 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to load map \"%s\""), dirname);
-      lw6map_free (level);
+      lw6map_free (sys_context, level);
       level = NULL;
     }
 
@@ -258,12 +262,13 @@ lw6ldr_read_relative (const char *map_path, const char *relative_path,
   dirs = lw6sys_env_split (map_path);
   if (dirs)
     {
-      while (dirs && (dir = (char *) lw6sys_lifo_pop (&dirs)) != NULL)
+      while (dirs
+	     && (dir = (char *) lw6sys_lifo_pop (sys_context, &dirs)) != NULL)
 	{
-	  full_dir = lw6sys_path_concat (dir, relative_path);
+	  full_dir = lw6sys_path_concat (sys_context, dir, relative_path);
 	  if (full_dir)
 	    {
-	      if (lw6sys_dir_exists (full_dir))
+	      if (lw6sys_dir_exists (sys_context, full_dir))
 		{
 		  if (!ret)
 		    {

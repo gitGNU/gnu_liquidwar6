@@ -49,7 +49,7 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, const char *png_file,
   int ret = 0;
   FILE *f = NULL;
 
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
 
   png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
   if (png_ptr)
@@ -166,9 +166,11 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, const char *png_file,
 
 		      if (memory_ok)
 			{
-			  lw6sys_progress_update (progress, 0, 3, 1);
+			  lw6sys_progress_update (sys_context, progress, 0, 3,
+						  1);
 			  png_read_image (png_ptr, buf);
-			  lw6sys_progress_update (progress, 0, 3, 2);
+			  lw6sys_progress_update (sys_context, progress, 0, 3,
+						  2);
 			  png_read_end (png_ptr, end_info);
 
 			  image->w = width;
@@ -213,7 +215,7 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, const char *png_file,
       _lw6ldr_rgba_clear (image);
     }
 
-  lw6sys_progress_end (progress);
+  lw6sys_progress_end (sys_context, progress);
 
   return ret;
 }
@@ -236,7 +238,7 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, const char *jpeg_file,
   int max_width;
   int max_height;
 
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
 
   /*
    * This function probably lacks many error checks.
@@ -305,7 +307,7 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, const char *jpeg_file,
 		    ((j_common_ptr) & cinfo, JPOOL_IMAGE, row_stride, 1);
 		  while (cinfo.output_scanline < cinfo.output_height)
 		    {
-		      lw6sys_progress_update (progress, 0,
+		      lw6sys_progress_update (sys_context, progress, 0,
 					      cinfo.output_height,
 					      cinfo.output_scanline);
 		      j =
@@ -334,7 +336,7 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, const char *jpeg_file,
 		    ((j_common_ptr) & cinfo, JPOOL_IMAGE, row_stride, 1);
 		  while (cinfo.output_scanline < cinfo.output_height)
 		    {
-		      lw6sys_progress_update (progress, 0,
+		      lw6sys_progress_update (sys_context, progress, 0,
 					      cinfo.output_height,
 					      cinfo.output_scanline);
 		      j =
@@ -388,7 +390,7 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, const char *jpeg_file,
       _lw6ldr_rgba_clear (image);
     }
 
-  lw6sys_progress_end (progress);
+  lw6sys_progress_end (sys_context, progress);
 
   return ret;
 }

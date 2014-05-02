@@ -47,10 +47,10 @@ lw6hlp_match (const char *keyword1, const char *keyword2)
   char *key1 = NULL;
   char *key2 = NULL;
 
-  key1 = lw6sys_keyword_as_key (keyword1);
+  key1 = lw6sys_keyword_as_key (sys_context, keyword1);
   if (key1)
     {
-      key2 = lw6sys_keyword_as_key (keyword2);
+      key2 = lw6sys_keyword_as_key (sys_context, keyword2);
       if (key2)
 	{
 	  ret = !strcasecmp (key1, key2);

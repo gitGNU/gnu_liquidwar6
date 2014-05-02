@@ -45,7 +45,8 @@
  * Return value: none
  */
 void
-lw6map_cursor_texture_clear (lw6map_cursor_texture_t * cursor_texture)
+lw6map_cursor_texture_clear (sys_context,
+			     lw6map_cursor_texture_t * cursor_texture)
 {
   memset (cursor_texture, 0, sizeof (lw6map_cursor_texture_t));
 }
@@ -62,13 +63,14 @@ lw6map_cursor_texture_clear (lw6map_cursor_texture_t * cursor_texture)
  * Return value: none
  */
 void
-lw6map_cursor_texture_builtin (lw6map_cursor_texture_t * cursor_texture)
+lw6map_cursor_texture_builtin (sys_context,
+			       lw6map_cursor_texture_t * cursor_texture)
 {
   int x, y, d;
   float c;
   lw6sys_color_8_t color = { 0, 0, 0, 0 };
 
-  lw6map_cursor_texture_clear (cursor_texture);
+  lw6map_cursor_texture_clear (sys_context, cursor_texture);
 
   c = (LW6MAP_CURSOR_TEXTURE_SIZE - 1) / 2;
   for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE; ++y)
@@ -85,12 +87,14 @@ lw6map_cursor_texture_builtin (lw6map_cursor_texture_t * cursor_texture)
 	    {
 	      color.r = color.g = color.b = color.a = 0;
 	    }
-	  lw6map_cursor_texture_layer_set (&(cursor_texture->fg_bg_layer), x,
+	  lw6map_cursor_texture_layer_set (sys_context,
+					   &(cursor_texture->fg_bg_layer), x,
 					   y, color);
 	  color.a = (d >= _COLOR_DMIN
 		     && d <= _COLOR_DMAX) ? _COLOR_FULL : _COLOR_NONE;
 	  color.r = color.g = color.b = 255;
-	  lw6map_cursor_texture_layer_set (&(cursor_texture->color_layer), x,
+	  lw6map_cursor_texture_layer_set (sys_context,
+					   &(cursor_texture->color_layer), x,
 					   y, color);
 	}
     }

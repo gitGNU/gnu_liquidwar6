@@ -36,7 +36,7 @@ _lw6net_connectable_init (_lw6net_connectable_t * connectable,
 
   connectable->connectable_cache_mutex = lw6sys_mutex_create ();
   connectable->connectable_cache =
-    lw6sys_cache_new (NULL, connectable_cache_hash_size,
+    lw6sys_cache_new (sys_context, NULL, connectable_cache_hash_size,
 		      connectable_cache_delay_sec * LW6SYS_TICKS_PER_SEC);
   ret = (connectable->connectable_cache_mutex != NULL
 	 && connectable->connectable_cache != NULL);
@@ -49,11 +49,12 @@ _lw6net_connectable_quit (_lw6net_connectable_t * connectable)
 {
   if (connectable->connectable_cache)
     {
-      lw6sys_cache_free (connectable->connectable_cache);
+      lw6sys_cache_free (sys_context, connectable->connectable_cache);
     }
   if (connectable->connectable_cache_mutex)
     {
-      lw6sys_mutex_destroy (connectable->connectable_cache_mutex);
+      lw6sys_mutex_destroy (sys_context,
+			    connectable->connectable_cache_mutex);
     }
   memset (connectable, 0, sizeof (_lw6net_connectable_t));
 }
@@ -82,14 +83,16 @@ lw6net_is_connectable (const char *ip, int port)
   key = lw6sys_new_sprintf ("%s:%d", ip, port);
   if (key)
     {
-      if (lw6sys_mutex_lock (connectable->connectable_cache_mutex))
+      if (lw6sys_mutex_lock
+	  (sys_context, connectable->connectable_cache_mutex))
 	{
 	  /*
 	   * Yes, test is inverted, if there's no key it means we
 	   * can connect as we store probable impossibilities
 	   * in the cache, and not positive connects.
 	   */
-	  if (!lw6sys_cache_has_key (connectable->connectable_cache, key))
+	  if (!lw6sys_cache_has_key
+	      (sys_context, connectable->connectable_cache, key))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("destination %s:%d marked as connectable"),
@@ -100,7 +103,8 @@ lw6net_is_connectable (const char *ip, int port)
 	    {
 	      ret = 0;
 	    }
-	  lw6sys_mutex_unlock (connectable->connectable_cache_mutex);
+	  lw6sys_mutex_unlock (sys_context,
+			       connectable->connectable_cache_mutex);
 	}
 
       LW6SYS_FREE (sys_context, key);
@@ -136,7 +140,8 @@ lw6net_set_connectable (const char *ip, int port, int status)
   key = lw6sys_new_sprintf ("%s:%d", ip, port);
   if (key)
     {
-      if (lw6sys_mutex_lock (connectable->connectable_cache_mutex))
+      if (lw6sys_mutex_lock
+	  (sys_context, connectable->connectable_cache_mutex))
 	{
 	  if (status)
 	    {
@@ -146,21 +151,23 @@ lw6net_set_connectable (const char *ip, int port, int status)
 	       * the information to "yes you could connect" one just
 	       * needs to remove the entry.
 	       */
-	      lw6sys_cache_unset (connectable->connectable_cache, key);
+	      lw6sys_cache_unset (sys_context, connectable->connectable_cache,
+				  key);
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("destination %s:%d marked as connectable"), ip,
 			  port);
 	    }
 	  else
 	    {
-	      lw6sys_cache_set (connectable->connectable_cache, key, NULL);
+	      lw6sys_cache_set (sys_context, connectable->connectable_cache,
+				key, NULL);
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("destination %s:%d marked as not connectable"),
+			  _x_ ("destination %s:%d marked as not connectable"),
 			  ip, port);
 	    }
 
-	  lw6sys_mutex_unlock (connectable->connectable_cache_mutex);
+	  lw6sys_mutex_unlock (sys_context,
+			       connectable->connectable_cache_mutex);
 	}
       LW6SYS_FREE (sys_context, key);
     }

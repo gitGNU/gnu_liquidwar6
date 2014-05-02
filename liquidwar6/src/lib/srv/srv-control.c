@@ -49,10 +49,12 @@ lw6srv_start (const char *ip, int port)
       listener->port = port;
       listener->tcp_sock = lw6net_tcp_listen (ip, port);
       listener->tcp_accepters =
-	lw6sys_list_new ((lw6sys_free_func_t) lw6srv_tcp_accepter_free);
+	lw6sys_list_new (sys_context,
+			 (lw6sys_free_func_t) lw6srv_tcp_accepter_free);
       listener->udp_sock = lw6net_udp_server (ip, port);
       listener->udp_buffers =
-	lw6sys_list_new ((lw6sys_free_func_t) lw6srv_udp_buffer_free);
+	lw6sys_list_new (sys_context,
+			 (lw6sys_free_func_t) lw6srv_udp_buffer_free);
       if (listener->ip && listener->port && (listener->tcp_sock >= 0)
 	  && listener->tcp_accepters && (listener->udp_sock >= 0)
 	  && listener->udp_buffers)

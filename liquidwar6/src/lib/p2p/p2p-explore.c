@@ -38,7 +38,7 @@ _lw6p2p_explore_discover_nodes_if_needed (_lw6p2p_node_t * node)
   if (node->explore.next_discover_nodes_timestamp < now)
     {
       node->explore.next_discover_nodes_timestamp =
-	now + delay / 2 + lw6sys_random (delay);
+	now + delay / 2 + lw6sys_random (sys_context, delay);
       ret = _lw6p2p_explore_discover_nodes (node);
     }
   else
@@ -76,7 +76,7 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 
   if (node->known_nodes)
     {
-      list = lw6sys_str_split_config_item (node->known_nodes);
+      list = lw6sys_str_split_config_item (sys_context, node->known_nodes);
       if (list)
 	{
 	  lw6sys_list_map (list, _known_nodes_callback, node);
@@ -97,7 +97,8 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
       if (node->broadcast)
 	{
 	  broadcast_url =
-	    lw6sys_url_http_from_ip_port (LW6NET_ADDRESS_BROADCAST,
+	    lw6sys_url_http_from_ip_port (sys_context,
+					  LW6NET_ADDRESS_BROADCAST,
 					  node->bind_port);
 	  if (broadcast_url)
 	    {
@@ -113,14 +114,15 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 		  cli_oob->cli_oob->thread =
 		    lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL,
 					  cli_oob);
-		  lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
+		  lw6sys_lifo_push (sys_context, &(node->cli_oobs), cli_oob);
 		}
 	      LW6SYS_FREE (sys_context, broadcast_url);
 	    }
 	  if (node->bind_port != LW6NET_DEFAULT_PORT)
 	    {
 	      broadcast_url =
-		lw6sys_url_http_from_ip_port (LW6NET_ADDRESS_BROADCAST,
+		lw6sys_url_http_from_ip_port (sys_context,
+					      LW6NET_ADDRESS_BROADCAST,
 					      LW6NET_DEFAULT_PORT);
 	      if (broadcast_url)
 		{
@@ -138,7 +140,8 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 		      cli_oob->cli_oob->thread =
 			lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL,
 					      cli_oob);
-		      lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
+		      lw6sys_lifo_push (sys_context, &(node->cli_oobs),
+					cli_oob);
 		    }
 		  LW6SYS_FREE (sys_context, broadcast_url);
 		}
@@ -173,7 +176,7 @@ _lw6p2p_explore_start_verify_node (_lw6p2p_node_t * node,
        * same backend for the same node. This is not true for
        * broadcast, in which a round-robin is better.
        */
-      i = lw6sys_random (node->backends.nb_cli_backends);
+      i = lw6sys_random (sys_context, node->backends.nb_cli_backends);
 
       cli_oob =
 	_lw6p2p_cli_oob_callback_data_new (node->backends.cli_backends[i],
@@ -184,7 +187,7 @@ _lw6p2p_explore_start_verify_node (_lw6p2p_node_t * node,
 		      _x_ ("process cli_oob url=\"%s\""), public_url);
 	  cli_oob->cli_oob->thread =
 	    lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL, cli_oob);
-	  lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
+	  lw6sys_lifo_push (sys_context, &(node->cli_oobs), cli_oob);
 	}
     }
 }
@@ -200,7 +203,7 @@ _lw6p2p_explore_verify_nodes_if_needed (_lw6p2p_node_t * node)
   if (node->explore.next_verify_nodes_timestamp < now)
     {
       node->explore.next_verify_nodes_timestamp =
-	now + delay / 2 + lw6sys_random (delay);
+	now + delay / 2 + lw6sys_random (sys_context, delay);
       ret = _lw6p2p_explore_verify_nodes (node);
     }
   else
@@ -265,7 +268,10 @@ _lw6p2p_explore_verify_nodes (_lw6p2p_node_t * node)
    * and should induce, after some time, enough randomness in timeouts.
    */
   max_at_once =
-    1 + (2 * lw6sys_random (node->db->data.consts.node_verify_max_at_once));
+    1 +
+    (2 *
+     lw6sys_random (sys_context,
+		    node->db->data.consts.node_verify_max_at_once));
 
   if (_lw6p2p_db_lock (node->db))
     {

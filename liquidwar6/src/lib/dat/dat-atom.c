@@ -128,11 +128,13 @@ _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
     {
       ret = 1;
 
-      if (lw6sys_str_is_same_no_case (word.buf, LW6MSG_CMD_DATA))
+      if (lw6sys_str_is_same_no_case (sys_context, word.buf, LW6MSG_CMD_DATA))
 	{
 	  (*type) = _LW6DAT_ATOM_TYPE_DATA;
 	}
-      else if (lw6sys_str_is_same_no_case (word.buf, LW6MSG_CMD_META))
+      else
+	if (lw6sys_str_is_same_no_case
+	    (sys_context, word.buf, LW6MSG_CMD_META))
 	{
 	  (*type) = _LW6DAT_ATOM_TYPE_META;
 	}

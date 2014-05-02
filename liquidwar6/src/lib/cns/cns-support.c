@@ -66,7 +66,7 @@ lw6cns_term_support ()
    * We're sort of paranoid, if TERM is not a well-known proven-to-work
    * entry, then simply disable console support.
    */
-  env_term = lw6sys_getenv (_ENV_TERM_KEY);
+  env_term = lw6sys_getenv (sys_context, _ENV_TERM_KEY);
   if (env_term)
     {
       if (lw6sys_str_is_same (env_term, _ENV_TERM_ALLOWED_XTERM)

@@ -52,16 +52,18 @@ lw6cfg_format (const char *key, const char *value, lw6hlp_type_t type)
       switch (type)
 	{
 	case LW6HLP_TYPE_INT:
-	  ret = lw6sys_itoa (lw6sys_atoi (value));
+	  ret = lw6sys_itoa (sys_context, lw6sys_atoi (sys_context, value));
 	  break;
 	case LW6HLP_TYPE_FLOAT:
-	  ret = lw6sys_ftoa (lw6sys_atof (value));
+	  ret = lw6sys_ftoa (sys_context, lw6sys_atof (sys_context, value));
 	  break;
 	case LW6HLP_TYPE_BOOL:
-	  ret = lw6sys_btoa (lw6sys_atob (value));
+	  ret = lw6sys_btoa (sys_context, lw6sys_atob (sys_context, value));
 	  break;
 	case LW6HLP_TYPE_COLOR:
-	  ret = lw6sys_color_8_to_a (lw6sys_color_a_to_8 (value));
+	  ret =
+	    lw6sys_color_8_to_a (sys_context,
+				 lw6sys_color_a_to_8 (sys_context, value));
 	  break;
 	default:
 	  ret = lw6sys_str_copy (sys_context, value);

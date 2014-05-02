@@ -124,7 +124,7 @@ lw6gui_smoother_get_value (const lw6gui_smoother_t * smoother, int64_t now)
 
   if (smoother->t1 > 0)
     {
-      lw6sys_math_poly_wy1y2s1 (&ret, NULL, now - smoother->t1,
+      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, now - smoother->t1,
 				smoother->duration, smoother->y1,
 				smoother->y2, smoother->s1);
     }

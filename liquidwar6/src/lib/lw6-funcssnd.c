@@ -49,7 +49,7 @@ _scm_lw6snd_get_backends ()
   backends = lw6snd_get_backends (lw6_global.argc, lw6_global.argv);
   if (backends)
     {
-      keys = lw6sys_assoc_keys (backends);
+      keys = lw6sys_assoc_keys (sys_context, backends);
       if (keys)
 	{
 	  ret = SCM_EOL;
@@ -60,18 +60,19 @@ _scm_lw6snd_get_backends ()
 		{
 		  module_id = (char *) key->data;
 		  module_name =
-		    (char *) lw6sys_assoc_get (backends, module_id);
+		    (char *) lw6sys_assoc_get (sys_context, backends,
+					       module_id);
 		  ret =
 		    scm_cons (scm_cons
 			      (scm_from_locale_string (module_id),
 			       scm_from_locale_string (module_name)), ret);
 		}
-	      key = lw6sys_list_next (key);
+	      key = lw6sys_list_next (sys_context, key);
 	    }
-	  lw6sys_list_free (keys);
+	  lw6sys_list_free (sys_context, keys);
 	  ret = scm_reverse (ret);
 	}
-      lw6sys_assoc_free (backends);
+      lw6sys_assoc_free (sys_context, backends);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -287,11 +288,11 @@ _scm_lw6snd_is_music_file (SCM snd, SCM map_dir, SCM music_path,
 		    {
 		      ret = SCM_BOOL_T;
 		    }
-		  LW6SYS_FREE (c_music_file);
+		  LW6SYS_FREE (sys_context, c_music_file);
 		}
-	      LW6SYS_FREE (c_music_path);
+	      LW6SYS_FREE (sys_context, c_music_path);
 	    }
-	  LW6SYS_FREE (c_map_dir);
+	  LW6SYS_FREE (sys_context, c_map_dir);
 	}
     }
 
@@ -335,11 +336,11 @@ _scm_lw6snd_play_music_file (SCM snd, SCM map_dir, SCM music_path,
 		    scm_from_int (lw6snd_play_music_file
 				  (c_snd, c_map_dir, c_music_path,
 				   c_music_file));
-		  LW6SYS_FREE (c_music_file);
+		  LW6SYS_FREE (sys_context, c_music_file);
 		}
-	      LW6SYS_FREE (c_music_path);
+	      LW6SYS_FREE (sys_context, c_music_path);
 	    }
-	  LW6SYS_FREE (c_map_dir);
+	  LW6SYS_FREE (sys_context, c_map_dir);
 	}
     }
 
@@ -385,11 +386,11 @@ _scm_lw6snd_play_music_random (SCM snd, SCM music_path, SCM music_filter,
 		    scm_from_int (lw6snd_play_music_random
 				  (c_snd, c_music_path, c_music_filter,
 				   c_music_exclude));
-		  LW6SYS_FREE (c_music_exclude);
+		  LW6SYS_FREE (sys_context, c_music_exclude);
 		}
-	      LW6SYS_FREE (c_music_filter);
+	      LW6SYS_FREE (sys_context, c_music_filter);
 	    }
-	  LW6SYS_FREE (c_music_path);
+	  LW6SYS_FREE (sys_context, c_music_path);
 	}
     }
 

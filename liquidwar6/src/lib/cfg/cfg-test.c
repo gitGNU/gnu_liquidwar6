@@ -65,11 +65,11 @@ _test_load_save ()
       user_dir = lw6sys_get_default_user_dir ();
       if (user_dir)
 	{
-	  if (!lw6sys_dir_exists (user_dir))
+	  if (!lw6sys_dir_exists (sys_context, user_dir))
 	    {
-	      lw6sys_create_dir (user_dir);
+	      lw6sys_create_dir (sys_context, user_dir);
 	    }
-	  _test_cfg = lw6sys_path_concat (user_dir, _TEST_CFG);
+	  _test_cfg = lw6sys_path_concat (sys_context, user_dir, _TEST_CFG);
 	  if (_test_cfg)
 	    {
 	      /*
@@ -221,7 +221,7 @@ lw6cfg_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6cfg", _setup_init, _setup_quit);
@@ -261,7 +261,7 @@ lw6cfg_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

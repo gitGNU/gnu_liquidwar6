@@ -1007,17 +1007,17 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
        * we sort them upstream. Besides, this eases up the tests, they would
        * show up the same order.
        */
-      lw6sys_sort (&ret, lw6msg_sort_str_by_seq_callback);
+      lw6sys_sort (sys_context, &ret, lw6msg_sort_str_by_seq_callback);
     }
 
   if (main_worst_msg_n > 0)
     {
-      lw6sys_progress_update (progress, 0, main_worst_msg_n,
+      lw6sys_progress_update (sys_context, progress, 0, main_worst_msg_n,
 			      main_worst_msg_i);
     }
   else
     {
-      lw6sys_progress_end (progress);
+      lw6sys_progress_end (sys_context, progress);
     }
 
   return ret;
@@ -1122,7 +1122,7 @@ _lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse,
   int main_worst_msg_i = 0;
   int main_worst_msg_n = 0;
 
-  ret = lw6sys_list_new ((lw6sys_free_func_t) lw6dat_miss_free);
+  ret = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6dat_miss_free);
   if (ret)
     {
       for (i = 0; i < LW6DAT_MAX_NB_STACKS && ret; ++i)
@@ -1140,7 +1140,7 @@ _lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse,
 		      main_worst_msg_i = tmp_worst_msg_i;
 		      main_worst_msg_n = tmp_worst_msg_n;
 		    }
-		  lw6sys_list_push_front (&ret, miss);
+		  lw6sys_list_push_front (sys_context, &ret, miss);
 		}
 	    }
 	}
@@ -1148,12 +1148,12 @@ _lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse,
 
   if (main_worst_msg_n > 0)
     {
-      lw6sys_progress_update (progress, 0, main_worst_msg_n,
+      lw6sys_progress_update (sys_context, progress, 0, main_worst_msg_n,
 			      main_worst_msg_i);
     }
   else
     {
-      lw6sys_progress_end (progress);
+      lw6sys_progress_end (sys_context, progress);
     }
 
   return ret;

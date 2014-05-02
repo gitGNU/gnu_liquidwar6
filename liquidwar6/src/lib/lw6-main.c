@@ -39,7 +39,7 @@ guile_main (void *data)
   SCM_RESET_DEBUG_MODE;
 #endif
 
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_ ("registering C types and functions for Guile"));
   lw6_register_smobs ();
   lw6_register_funcs ();
@@ -53,7 +53,7 @@ guile_main (void *data)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_ERROR,
+	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 		      _("unable to read main script file \"%s\""), script);
 	}
       LW6SYS_FREE (script);
@@ -82,14 +82,14 @@ guile_main (void *data)
 static void
 _run (void *data)
 {
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("main run data=%p"), data);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("main run data=%p"), data);
   lw6scm_with_guile (guile_main, data);
 }
 
 static void
 _end (void *data)
 {
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("main end data=%p"), data);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("main end data=%p"), data);
 }
 
 /**
@@ -128,12 +128,13 @@ lw6_main (int argc, const char *argv[])
   ret = lw6_process_non_run_options (argc, argv, &run_game);
   if (run_game)
     {
-      debug_str = lw6sys_arg_get_value_with_env (argc, argv, LW6DEF_DEBUG);
+      debug_str =
+	lw6sys_arg_get_value_with_env (sys_context, argc, argv, LW6DEF_DEBUG);
       if (debug_str)
 	{
-	  debug = lw6sys_atob (debug_str);
-	  lw6sys_debug_set (debug);
-	  LW6SYS_FREE (debug_str);
+	  debug = lw6sys_atob (sys_context, debug_str);
+	  lw6sys_debug_set (sys_context, debug);
+	  LW6SYS_FREE (sys_context, debug_str);
 	}
       log_level_str = lw6cfg_unified_get_value (argc, argv, LW6DEF_LOG_LEVEL);
       if (log_level_str)
@@ -150,7 +151,7 @@ lw6_main (int argc, const char *argv[])
 	}
       else
 	{
-	  lw6sys_log_critical (_x_ ("can't determine log file"));
+	  lw6sys_log_critical (sys_context, _x_ ("can't determine log file"));
 	}
 
       lw6hlp_print_hello (argc, argv);
@@ -159,7 +160,7 @@ lw6_main (int argc, const char *argv[])
       if (lw6_init_global (argc, argv))
 	{
 #ifdef LW6_MAC_OS_X
-	  if (!lw6sys_vthread_run (_run, _end, NULL))
+	  if (!lw6sys_vthread_run (sys_context, _run, _end, NULL))
 	    {
 	      ret = 0;
 	    }
@@ -172,11 +173,12 @@ lw6_main (int argc, const char *argv[])
 	    {
 	      if (lw6_global.ret)
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("script returned true"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			      _x_ ("script returned true"));
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("script returned false, something is wrong"));
 		  ret = 0;
@@ -200,7 +202,7 @@ lw6_main (int argc, const char *argv[])
       lw6sys_clear_memory_bazooka ();
     }
 
-  pid_file = lw6sys_daemon_pid_file (argc, argv);
+  pid_file = lw6sys_daemon_pid_file (sys_context, argc, argv);
   if (pid_file)
     {
       lw6sys_daemon_stop (pid_file);

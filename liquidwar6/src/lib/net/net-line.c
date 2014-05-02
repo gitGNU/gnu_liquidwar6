@@ -94,7 +94,7 @@ lw6net_recv_line_tcp (int *sock)
 	      ret = lw6sys_str_copy (sys_context, line_buf);
 	      if (ret)
 		{
-		  lw6sys_str_cleanup (ret);
+		  lw6sys_str_cleanup (sys_context, ret);
 		}
 
 	      // remove data from queue
@@ -137,7 +137,7 @@ lw6net_send_line_tcp (int *sock, const char *line)
        */
       if (lw6net_tcp_is_alive (sock))
 	{
-	  trailed_line = lw6sys_str_concat (line, trail);
+	  trailed_line = lw6sys_str_concat (sys_context, line, trail);
 	  if (trailed_line)
 	    {
 	      line_size = _lw6net_global_context->const_data.line_size;
@@ -223,7 +223,7 @@ lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
 	      ret = lw6sys_str_copy (sys_context, line_buf);
 	      if (ret)
 		{
-		  lw6sys_str_cleanup (ret);
+		  lw6sys_str_cleanup (sys_context, ret);
 		}
 	    }
 	  // remove data from queue
@@ -271,7 +271,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
 
   if (lw6net_socket_is_valid (sock))
     {
-      ret = lw6sys_list_new (lw6sys_free_callback);
+      ret = lw6sys_list_new (sys_context, lw6sys_free_callback);
       if (ret)
 	{
 	  line_size =
@@ -300,10 +300,10 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
 		      line = lw6sys_str_copy (seek);
 		      if (line)
 			{
-			  lw6sys_str_cleanup (line);
+			  lw6sys_str_cleanup (sys_context, line);
 			  if (ret)
 			    {
-			      lw6sys_list_push_back (&ret, line);
+			      lw6sys_list_push_back (sys_context, &ret, line);
 			    }
 			}
 		      seek = pos_lf + 1;
@@ -321,9 +321,9 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
 	}
     }
 
-  if (ret && lw6sys_list_is_empty (ret))
+  if (ret && lw6sys_list_is_empty (sys_context, ret))
     {
-      lw6sys_list_free (ret);
+      lw6sys_list_free (sys_context, ret);
       ret = NULL;
     }
 
@@ -334,7 +334,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_
 		      ("no lf at the very end of the sequence of lines, message was probably truncated"));
-	  lw6sys_list_free (ret);
+	  lw6sys_list_free (sys_context, ret);
 	  ret = NULL;
 	}
     }
@@ -389,9 +389,9 @@ lw6net_send_line_udp (int sock, const char *line, const char *ip, int port)
 			  _x_
 			  ("stripping line \"%s\" of size %d, limit is %d"),
 			  copied_line, wanted_size, line_size);
-	      lw6sys_str_truncate (copied_line, line_size);
+	      lw6sys_str_truncate (sys_context, copied_line, line_size);
 	    }
-	  trailed_line = lw6sys_str_concat (copied_line, trail);
+	  trailed_line = lw6sys_str_concat (sys_context, copied_line, trail);
 	  if (trailed_line)
 	    {
 	      ret =

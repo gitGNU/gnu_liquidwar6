@@ -195,7 +195,7 @@ lw6net_if_guess_public_url (const char *bind_ip, int bind_port)
     }
   if (ip)
     {
-      ret = lw6sys_url_http_from_ip_port (ip, bind_port);
+      ret = lw6sys_url_http_from_ip_port (sys_context, ip, bind_port);
       LW6SYS_FREE (ip);
     }
 

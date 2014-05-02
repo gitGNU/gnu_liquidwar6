@@ -71,7 +71,8 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
     }
   else
     {
-      const_info->stamp = lw6sys_atoi (lw6sys_build_get_stamp ());
+      const_info->stamp =
+	lw6sys_atoi (sys_context, lw6sys_build_get_stamp ());
     }
 
   ret = _lw6nod_ref_info_update (&(const_info->ref_info), id, url) && ret;
@@ -86,7 +87,7 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
     }
   if (const_info->title)
     {
-      lw6sys_str_cleanup (const_info->title);
+      lw6sys_str_cleanup (sys_context, const_info->title);
     }
   if (description)
     {
@@ -98,7 +99,7 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
     }
   if (const_info->description)
     {
-      lw6sys_str_cleanup (const_info->description);
+      lw6sys_str_cleanup (sys_context, const_info->description);
     }
   if (!lw6sys_str_is_null_or_empty (password))
     {
@@ -112,7 +113,7 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
   const_info->bench = bench;
   const_info->open_relay = open_relay ? 1 : 0;
   const_info->creation_timestamp =
-    lw6sys_get_timestamp () - (u_int64_t) (uptime * 1000);
+    lw6sys_get_timestamp (sys_context,) - (u_int64_t) (uptime * 1000);
   const_info->idle_screenshot_size = idle_screenshot_size;
   if (idle_screenshot_size > 0)
     {

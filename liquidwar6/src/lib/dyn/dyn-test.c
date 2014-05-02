@@ -105,7 +105,7 @@ _test_path ()
     library_path =
       lw6dyn_path_find_backend (argc, argv, _TEST_DYN_TOP_LEVEL_LIB,
 				_TEST_DYN_BACKEND_NAME);
-    if (library_path && lw6sys_file_exists (library_path))
+    if (library_path && lw6sys_file_exists (sys_context, library_path))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("found library \"%s/mod-%s\" in \"%s\""),
@@ -129,7 +129,7 @@ _test_path ()
     library_path =
       lw6dyn_path_find_shared (argc, argv, _TEST_DYN_TOP_LEVEL_LIB,
 			       _TEST_DYN_SHARED_NAME);
-    if (library_path && lw6sys_file_exists (library_path))
+    if (library_path && lw6sys_file_exists (sys_context, library_path))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("found library \"%s/shared-%s\" in \"%s\""),
@@ -259,7 +259,7 @@ lw6dyn_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6dyn", _setup_init, _setup_quit);
@@ -296,7 +296,7 @@ lw6dyn_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

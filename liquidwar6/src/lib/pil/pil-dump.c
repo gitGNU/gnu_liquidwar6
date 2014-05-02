@@ -60,7 +60,7 @@ lw6pil_dump_clear (lw6pil_dump_t * dump)
 {
   if (dump->level)
     {
-      lw6map_free (dump->level);
+      lw6map_free (sys_context, dump->level);
       (dump->level) = NULL;
     }
 
@@ -124,7 +124,8 @@ _lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id,
 	}
 
       level_hexa =
-	lw6map_to_hexa (pilot->reference.game_state->game_struct->level);
+	lw6map_to_hexa (sys_context,
+			pilot->reference.game_state->game_struct->level);
       if (level_hexa)
 	{
 	  game_struct_hexa =
@@ -132,7 +133,7 @@ _lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id,
 					game_state->game_struct);
 	  if (game_struct_hexa)
 	    {
-	      lw6sys_mutex_lock (pilot->reference.global_mutex);
+	      lw6sys_mutex_lock (sys_context, pilot->reference.global_mutex);
 
 	      /*
 	       * Duplicating it, indeed, we need to possibly compute a
@@ -146,7 +147,8 @@ _lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id,
 	      game_state =
 		lw6ker_game_state_dup (pilot->reference.game_state, NULL);
 
-	      lw6sys_mutex_unlock (pilot->reference.global_mutex);
+	      lw6sys_mutex_unlock (sys_context,
+				   pilot->reference.global_mutex);
 
 	      if (game_state)
 		{
@@ -258,7 +260,8 @@ lw6pil_dump_command_execute (lw6pil_dump_t * dump,
     {
       lw6pil_dump_clear (dump);
 
-      (dump->level) = lw6map_from_hexa (command->args.dump.level_hexa);
+      (dump->level) =
+	lw6map_from_hexa (sys_context, command->args.dump.level_hexa);
       if (dump->level)
 	{
 	  (dump->game_struct) =
@@ -277,7 +280,7 @@ lw6pil_dump_command_execute (lw6pil_dump_t * dump,
 				      timestamp, progress);
 		  if (dump->pilot)
 		    {
-		      level_repr = lw6map_repr (dump->level);
+		      level_repr = lw6map_repr (sys_context, dump->level);
 		      game_struct_repr =
 			lw6ker_game_struct_repr (dump->game_struct);
 		      game_state_repr =

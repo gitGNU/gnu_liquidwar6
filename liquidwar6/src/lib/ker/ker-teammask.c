@@ -48,7 +48,7 @@ lw6ker_team_mask_get (u_int32_t * even, u_int32_t * odd, int32_t round)
 {
   u_int32_t checksum;
 
-  checksum = lw6sys_checksum_int32 (round);
+  checksum = lw6sys_checksum_int32 (sys_context, round);
 
   (*even) =
     ((checksum & 0x01) ? 0x001 : 0x002) | ((checksum & 0x02) ? 0x004 : 0x008)

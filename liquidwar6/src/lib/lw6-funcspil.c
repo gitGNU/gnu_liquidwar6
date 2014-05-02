@@ -42,15 +42,15 @@ _scm_lw6pil_bench ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  lw6sys_progress_default (&progress, &(lw6_global.progress));
-  lw6sys_progress_begin (&progress);
+  lw6sys_progress_default (sys_context, &progress, &(lw6_global.progress));
+  lw6sys_progress_begin (sys_context, &progress);
 
   if (lw6pil_bench (lw6_global.argc, lw6_global.argv, &c_ret, &progress))
     {
       ret = scm_from_int (ceil (c_ret));
     }
 
-  lw6sys_progress_begin (&progress);
+  lw6sys_progress_begin (sys_context, &progress);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -92,7 +92,7 @@ _scm_lw6pil_seed_command_generate (SCM pilot, SCM server_id, SCM seq)
 	      if (c_ret)
 		{
 		  ret = scm_from_locale_string (c_ret);
-		  LW6SYS_FREE (c_ret);
+		  LW6SYS_FREE (sys_context, c_ret);
 		}
 	    }
 	  LW6SYS_FREE (c_server_id_str);
@@ -140,7 +140,7 @@ _scm_lw6pil_dump_command_generate (SCM pilot, SCM server_id, SCM seq)
 	      if (c_ret)
 		{
 		  ret = scm_from_locale_string (c_ret);
-		  LW6SYS_FREE (c_ret);
+		  LW6SYS_FREE (sys_context, c_ret);
 		}
 	    }
 	  LW6SYS_FREE (c_server_id_str);
@@ -196,7 +196,7 @@ _scm_lw6pil_poll_dump (SCM command_text, SCM timestamp)
 					  ret_pilot));
 	    }
 	}
-      LW6SYS_FREE (c_command_text);
+      LW6SYS_FREE (sys_context, c_command_text);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -223,8 +223,8 @@ _scm_lw6pil_build_pilot (SCM game_state, SCM seq_0, SCM timestamp)
   SCM_ASSERT (scm_is_integer (seq_0), seq_0, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (timestamp), timestamp, SCM_ARG3, __FUNCTION__);
 
-  lw6sys_progress_default (&progress, &(lw6_global.progress));
-  lw6sys_progress_begin (&progress);
+  lw6sys_progress_default (sys_context, &progress, &(lw6_global.progress));
+  lw6sys_progress_begin (sys_context, &progress);
 
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
@@ -239,7 +239,7 @@ _scm_lw6pil_build_pilot (SCM game_state, SCM seq_0, SCM timestamp)
 	}
     }
 
-  lw6sys_progress_begin (&progress);
+  lw6sys_progress_begin (sys_context, &progress);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -274,7 +274,7 @@ _scm_lw6pil_send_command (SCM pilot, SCM command_text, SCM verified)
 	  ret =
 	    lw6pil_pilot_send_command (c_pilot, c_command_text,
 				       c_verified) ? SCM_BOOL_T : SCM_BOOL_F;
-	  LW6SYS_FREE (c_command_text);
+	  LW6SYS_FREE (sys_context, c_command_text);
 	}
     }
 
@@ -309,7 +309,7 @@ _scm_lw6pil_local_command (SCM pilot, SCM command_text)
 	    lw6pil_pilot_local_command (c_pilot,
 					c_command_text) ? SCM_BOOL_T :
 	    SCM_BOOL_F;
-	  LW6SYS_FREE (c_command_text);
+	  LW6SYS_FREE (sys_context, c_command_text);
 	}
     }
 
@@ -484,7 +484,7 @@ _scm_lw6pil_execute_command (SCM game_state, SCM command_text, SCM seq_0)
 	    lw6pil_command_execute_text (NULL, 0LL, c_game_state,
 					 c_command_text,
 					 c_seq_0) ? SCM_BOOL_T : SCM_BOOL_F;
-	  LW6SYS_FREE (c_command_text);
+	  LW6SYS_FREE (sys_context, c_command_text);
 	}
     }
 
@@ -515,13 +515,13 @@ _scm_lw6pil_local_cursors_set_main (SCM pilot, SCM cursor_id)
       c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
-	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
+	  c_cursor_id_int = lw6sys_id_atol (sys_context, c_cursor_id_str);
 	  ret =
 	    lw6pil_local_cursors_set_main (lw6pil_pilot_get_local_cursors
 					   (c_pilot),
 					   c_cursor_id_int) ? SCM_BOOL_T :
 	    SCM_BOOL_F;
-	  LW6SYS_FREE (c_cursor_id_str);
+	  LW6SYS_FREE (sys_context, c_cursor_id_str);
 	}
     }
 
@@ -556,13 +556,13 @@ _scm_lw6pil_local_cursors_set_mouse_controlled (SCM pilot, SCM cursor_id,
       c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
-	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
+	  c_cursor_id_int = lw6sys_id_atol (sys_context, c_cursor_id_str);
 	  c_mouse_controlled = SCM_NFALSEP (mouse_controlled);
 	  ret =
 	    lw6pil_local_cursors_set_mouse_controlled
 	    (lw6pil_pilot_get_local_cursors (c_pilot), c_cursor_id_int,
 	     c_mouse_controlled) ? SCM_BOOL_T : SCM_BOOL_F;
-	  LW6SYS_FREE (c_cursor_id_str);
+	  LW6SYS_FREE (sys_context, c_cursor_id_str);
 	}
     }
 
@@ -1067,11 +1067,11 @@ _scm_lw6pil_did_cursor_win (SCM pilot, SCM cursor_id)
       c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
-	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
-	  LW6SYS_FREE (c_cursor_id_str);
+	  c_cursor_id_int = lw6sys_id_atol (sys_context, c_cursor_id_str);
+	  LW6SYS_FREE (sys_context, c_cursor_id_str);
 	}
 
-      if (lw6sys_check_id (c_cursor_id_int))
+      if (lw6sys_check_id (sys_context, c_cursor_id_int))
 	{
 	  ret =
 	    lw6pil_pilot_did_cursor_win (c_pilot,
@@ -1232,11 +1232,12 @@ _scm_lw6pil_suite_get_node_id (SCM node_index)
 
   c_node_index = scm_to_int (node_index);
 
-  c_ret = lw6sys_id_ltoa (lw6pil_suite_get_node_id (c_node_index));
+  c_ret =
+    lw6sys_id_ltoa (sys_context, lw6pil_suite_get_node_id (c_node_index));
   if (c_ret)
     {
       ret = scm_from_locale_string (c_ret);
-      LW6SYS_FREE (c_ret);
+      LW6SYS_FREE (sys_context, c_ret);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

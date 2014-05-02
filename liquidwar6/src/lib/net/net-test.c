@@ -81,7 +81,7 @@ _test_address ()
 	str = _lw6net_inet_ntoa (in);
 	if (str)
 	  {
-	    if (lw6sys_str_is_same (_TEST_HOST_IP, str))
+	    if (lw6sys_str_is_same (sys_context, _TEST_HOST_IP, str))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_ ("\"%s\" converted to/from in_addr OK"), str);
@@ -651,7 +651,7 @@ _test_udp ()
 		(sock2, buf1_send, size,
 		 LW6NET_ADDRESS_LOOPBACK, _TEST_PORT) == size)
 	      {
-		lw6sys_delay (_TEST_UDP_DELAY);
+		lw6sys_delay (sys_context, _TEST_UDP_DELAY);
 		if (lw6net_udp_peek
 		    (sock1, buf1_recv, size,
 		     &incoming_ip, &incoming_port) == size)
@@ -940,7 +940,7 @@ lw6net_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
       lw6cfg_test_register (mode);
     }
 
@@ -981,7 +981,7 @@ lw6net_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

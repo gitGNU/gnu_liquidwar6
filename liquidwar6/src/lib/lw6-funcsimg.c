@@ -68,7 +68,7 @@ _scm_lw6img_screenshot (SCM game_state, SCM quality)
 	    {
 	      ret = lw6_make_scm_jpeg (c_jpeg);
 	    }
-	  LW6SYS_FREE (c_user_dir);
+	  LW6SYS_FREE (sys_context, c_user_dir);
 	}
     }
 

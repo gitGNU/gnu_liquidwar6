@@ -89,7 +89,7 @@ command_add_parse (lw6pil_command_t * command, char *command_args)
       seek++;
       command->args.add.cursor_id = lw6sys_id_atol (pos);
       pos = seek;
-      if (lw6sys_check_id_16 (command->args.add.cursor_id))
+      if (lw6sys_check_id_16 (sys_context, command->args.add.cursor_id))
 	{
 	  command->args.add.team_color = lw6map_team_color_key_to_index (pos);
 	  if (command->args.add.team_color >= 0
@@ -114,8 +114,8 @@ command_remove_parse (lw6pil_command_t * command, char *command_args)
 {
   int ret = 0;
 
-  command->args.remove.cursor_id = lw6sys_id_atol (command_args);
-  if (lw6sys_check_id_16 (command->args.remove.cursor_id))
+  command->args.remove.cursor_id = lw6sys_id_atol (sys_context, command_args);
+  if (lw6sys_check_id_16 (sys_context, command->args.remove.cursor_id))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("%s command parsed cursor_id=%x"),
@@ -146,7 +146,7 @@ command_set_parse (lw6pil_command_t * command, char *command_args)
       seek++;
       command->args.set.cursor_id = lw6sys_id_atol (pos);
       pos = seek;
-      if (lw6sys_check_id_16 (command->args.set.cursor_id))
+      if (lw6sys_check_id_16 (sys_context, command->args.set.cursor_id))
 	{
 	  while (!is_spc (*seek))
 	    {
@@ -299,7 +299,7 @@ command_parse (lw6pil_command_t * command, const char *command_text,
 		      (*seek) = '\0';
 		      seek++;
 		      command->node_id = lw6sys_id_atol (pos);
-		      if (lw6sys_check_id_64 (command->node_id))
+		      if (lw6sys_check_id_64 (sys_context, command->node_id))
 			{
 			  pos = seek;
 			  while (!is_spc (*seek))
@@ -608,7 +608,8 @@ lw6pil_command_repr (const lw6pil_command_t * command)
 			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_ADD,
 			    (int) command->args.add.cursor_id,
-			    lw6map_team_color_index_to_key (command->args.
+			    lw6map_team_color_index_to_key (sys_context,
+							    command->args.
 							    add.team_color));
       break;
     case LW6PIL_COMMAND_CODE_SET:

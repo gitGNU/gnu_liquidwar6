@@ -81,7 +81,7 @@ _lw6net_counters_quit (_lw6net_counters_t * counters)
    */
   if (counters->spinlock)
     {
-      lw6sys_spinlock_destroy (counters->spinlock);
+      lw6sys_spinlock_destroy (sys_context, counters->spinlock);
     }
 
   memset (counters, 0, sizeof (_lw6net_counters_t));
@@ -90,20 +90,20 @@ _lw6net_counters_quit (_lw6net_counters_t * counters)
 void
 _lw6net_counters_register_socket (_lw6net_counters_t * counters)
 {
-  if (lw6sys_spinlock_lock (counters->spinlock))
+  if (lw6sys_spinlock_lock (sys_context, counters->spinlock))
     {
       counters->open_counter++;
-      lw6sys_spinlock_unlock (counters->spinlock);
+      lw6sys_spinlock_unlock (sys_context, counters->spinlock);
     }
 }
 
 void
 _lw6net_counters_unregister_socket (_lw6net_counters_t * counters)
 {
-  if (lw6sys_spinlock_lock (counters->spinlock))
+  if (lw6sys_spinlock_lock (sys_context, counters->spinlock))
     {
       counters->close_counter++;
-      lw6sys_spinlock_unlock (counters->spinlock);
+      lw6sys_spinlock_unlock (sys_context, counters->spinlock);
     }
 }
 
@@ -114,10 +114,10 @@ _lw6net_counters_register_send (_lw6net_counters_t * counters, int bytes)
    * It's interesting to use the lock since the counter field is 64 bits
    * so it's not an atomic update on 32-bit machines.
    */
-  if (lw6sys_spinlock_lock (counters->spinlock))
+  if (lw6sys_spinlock_lock (sys_context, counters->spinlock))
     {
       counters->sent_bytes += bytes;
-      lw6sys_spinlock_unlock (counters->spinlock);
+      lw6sys_spinlock_unlock (sys_context, counters->spinlock);
     }
 }
 
@@ -128,10 +128,10 @@ _lw6net_counters_register_recv (_lw6net_counters_t * counters, int bytes)
    * It's interesting to use the lock since the counter field is 64 bits
    * so it's not an atomic update on 32-bit machines.
    */
-  if (lw6sys_spinlock_lock (counters->spinlock))
+  if (lw6sys_spinlock_lock (sys_context, counters->spinlock))
     {
       counters->received_bytes += bytes;
-      lw6sys_spinlock_unlock (counters->spinlock);
+      lw6sys_spinlock_unlock (sys_context, counters->spinlock);
     }
 }
 
@@ -141,10 +141,10 @@ lw6net_counters_get_sent_kbytes ()
   int ret = 0;
   _lw6net_counters_t *counters = &(_lw6net_global_context->counters);
 
-  if (lw6sys_spinlock_lock (counters->spinlock))
+  if (lw6sys_spinlock_lock (sys_context, counters->spinlock))
     {
       ret = counters->sent_bytes / 1024LL;
-      lw6sys_spinlock_unlock (counters->spinlock);
+      lw6sys_spinlock_unlock (sys_context, counters->spinlock);
     }
 
   return ret;
@@ -156,10 +156,10 @@ lw6net_counters_get_received_kbytes ()
   int ret = 0;
   _lw6net_counters_t *counters = &(_lw6net_global_context->counters);
 
-  if (lw6sys_spinlock_lock (counters->spinlock))
+  if (lw6sys_spinlock_lock (sys_context, counters->spinlock))
     {
       ret = counters->received_bytes / 1024LL;
-      lw6sys_spinlock_unlock (counters->spinlock);
+      lw6sys_spinlock_unlock (sys_context, counters->spinlock);
     }
 
   return ret;

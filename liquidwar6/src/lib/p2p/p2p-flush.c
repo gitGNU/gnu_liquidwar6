@@ -38,7 +38,7 @@ _lw6p2p_flush_verified_nodes_if_needed (_lw6p2p_node_t * node)
   if (node->flush.next_verified_nodes_timestamp < now)
     {
       node->flush.next_verified_nodes_timestamp =
-	now + delay / 2 + lw6sys_random (delay);
+	now + delay / 2 + lw6sys_random (sys_context, delay);
       ret = _lw6p2p_flush_verified_nodes (node);
     }
   else
@@ -73,26 +73,33 @@ _select_other_node_callback (void *func_data, int nb_fields,
     {
       if (fields_values[_LW6P2P_DB_NODE_ORDER_ID])
 	{
-	  id = lw6sys_id_atol (fields_values[_LW6P2P_DB_NODE_ORDER_ID]);
+	  id =
+	    lw6sys_id_atol (sys_context,
+			    fields_values[_LW6P2P_DB_NODE_ORDER_ID]);
 	}
       program = lw6sys_build_get_package_tarname ();
       version = fields_values[_LW6P2P_DB_NODE_ORDER_VERSION];
       codename = fields_values[_LW6P2P_DB_NODE_ORDER_CODENAME];
       if (fields_values[_LW6P2P_DB_NODE_ORDER_STAMP])
 	{
-	  stamp = lw6sys_atoi (fields_values[_LW6P2P_DB_NODE_ORDER_STAMP]);
+	  stamp =
+	    lw6sys_atoi (sys_context,
+			 fields_values[_LW6P2P_DB_NODE_ORDER_STAMP]);
 	}
       url = fields_values[_LW6P2P_DB_NODE_ORDER_URL];
       title = fields_values[_LW6P2P_DB_NODE_ORDER_TITLE];
       description = fields_values[_LW6P2P_DB_NODE_ORDER_DESCRIPTION];
       if (fields_values[_LW6P2P_DB_NODE_ORDER_BENCH])
 	{
-	  bench = lw6sys_atoi (fields_values[_LW6P2P_DB_NODE_ORDER_BENCH]);
+	  bench =
+	    lw6sys_atoi (sys_context,
+			 fields_values[_LW6P2P_DB_NODE_ORDER_BENCH]);
 	}
       if (fields_values[_LW6P2P_DB_NODE_ORDER_OPEN_RELAY])
 	{
 	  open_relay =
-	    lw6sys_atoi (fields_values[_LW6P2P_DB_NODE_ORDER_OPEN_RELAY]);
+	    lw6sys_atoi (sys_context,
+			 fields_values[_LW6P2P_DB_NODE_ORDER_OPEN_RELAY]);
 	}
       /*
        * uptime will be wrong (0), it could be possible to
@@ -174,7 +181,7 @@ _lw6p2p_flush_discovered_nodes_if_needed (_lw6p2p_node_t * node)
   if (node->flush.next_discovered_nodes_timestamp < now)
     {
       node->flush.next_discovered_nodes_timestamp =
-	now + delay / 2 + lw6sys_random (delay);
+	now + delay / 2 + lw6sys_random (sys_context, delay);
       ret = _lw6p2p_flush_discovered_nodes (node);
     }
   else
@@ -199,16 +206,16 @@ _lw6p2p_flush_discovered_nodes (_lw6p2p_node_t * node)
   list = lw6nod_info_pop_discovered_nodes (node->node_info);
   if (list)
     {
-      while ((url = lw6sys_list_pop_front (&list)) != NULL)
+      while ((url = lw6sys_list_pop_front (sys_context, &list)) != NULL)
 	{
 	  ret = _lw6p2p_node_insert_discovered (node, url);
 	  LW6SYS_FREE (sys_context, url);
 	}
     }
-  list = lw6sys_str_split_config_item (node->known_nodes);
+  list = lw6sys_str_split_config_item (sys_context, node->known_nodes);
   if (list)
     {
-      while ((url = lw6sys_list_pop_front (&list)) != NULL)
+      while ((url = lw6sys_list_pop_front (sys_context, &list)) != NULL)
 	{
 	  ret = _lw6p2p_node_insert_discovered (node, url);
 	  LW6SYS_FREE (sys_context, url);

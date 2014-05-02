@@ -37,9 +37,10 @@ void
 _lw6ker_node_update_checksum (const _lw6ker_node_t * node,
 			      u_int32_t * checksum)
 {
-  lw6sys_checksum_update_int64 (checksum, node->node_id);
-  lw6sys_checksum_update_int32 (checksum, node->enabled);
-  lw6sys_checksum_update_int32 (checksum, node->last_command_round);
+  lw6sys_checksum_update_int64 (sys_context, checksum, node->node_id);
+  lw6sys_checksum_update_int32 (sys_context, checksum, node->enabled);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				node->last_command_round);
 }
 
 void
@@ -97,7 +98,7 @@ _lw6ker_node_sanity_check (const _lw6ker_node_t * node,
   int ret = 1;
 
   if ((node->enabled
-       && (!lw6sys_check_id_64 (node->node_id)))
+       && (!lw6sys_check_id_64 (sys_context, node->node_id)))
       || ((!node->enabled) && (node->node_id != 0)))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,

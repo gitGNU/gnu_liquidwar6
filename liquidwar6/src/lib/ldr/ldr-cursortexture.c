@@ -46,12 +46,13 @@ lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture,
   char *cursor_dot_png;
   char *cursor_color_dot_png;
 
-  lw6map_cursor_texture_clear (cursor_texture);
+  lw6map_cursor_texture_clear (sys_context, cursor_texture);
 
-  cursor_dot_png = lw6sys_path_concat (dirname, _LW6LDR_FILE_CURSOR_PNG);
+  cursor_dot_png =
+    lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_CURSOR_PNG);
   if (cursor_dot_png)
     {
-      if (lw6sys_file_exists (cursor_dot_png))
+      if (lw6sys_file_exists (sys_context, cursor_dot_png))
 	{
 	  found = 1;
 	  ret = ret
@@ -64,10 +65,10 @@ lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture,
     }
 
   cursor_color_dot_png =
-    lw6sys_path_concat (dirname, _LW6LDR_FILE_CURSOR_COLOR_PNG);
+    lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_CURSOR_COLOR_PNG);
   if (cursor_color_dot_png)
     {
-      if (lw6sys_file_exists (cursor_color_dot_png))
+      if (lw6sys_file_exists (sys_context, cursor_color_dot_png))
 	{
 	  found = 1;
 	  ret = ret
@@ -81,7 +82,7 @@ lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture,
 
   if (!found)
     {
-      lw6map_cursor_texture_builtin (cursor_texture);
+      lw6map_cursor_texture_builtin (sys_context, cursor_texture);
     }
 
   return ret;

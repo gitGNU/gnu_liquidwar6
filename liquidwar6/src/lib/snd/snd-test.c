@@ -86,7 +86,7 @@ _test_play_fx ()
       {
 	if (lw6snd_play_fx (backend, i))
 	  {
-	    lw6sys_sleep (_TEST_FX_SLEEP);
+	    lw6sys_sleep (sys_context, _TEST_FX_SLEEP);
 	  }
 	else
 	  {
@@ -111,7 +111,7 @@ _test_play_water ()
     for (i = 0; i < _TEST_WATER_NB; ++i)
       {
 	lw6snd_poll (backend);
-	lw6sys_sleep (_TEST_WATER_SLEEP);
+	lw6sys_sleep (sys_context, _TEST_WATER_SLEEP);
       }
   }
 
@@ -136,11 +136,11 @@ _test_play_music ()
 	if (lw6snd_play_music_random
 	    (backend, map_path, _TEST_MUSIC_FILTER, _TEST_MUSIC_EXCLUDE))
 	  {
-	    lw6sys_sleep (_TEST_MUSIC_SLEEP);
+	    lw6sys_sleep (sys_context, _TEST_MUSIC_SLEEP);
 	    if (lw6snd_play_music_random
 		(backend, map_path, _TEST_MUSIC_FILTER, _TEST_MUSIC_EXCLUDE))
 	      {
-		lw6sys_sleep (_TEST_MUSIC_SLEEP);
+		lw6sys_sleep (sys_context, _TEST_MUSIC_SLEEP);
 	      }
 	    else
 	      {
@@ -288,7 +288,7 @@ lw6snd_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
       lw6cfg_test_register (mode);
       /*
        * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
@@ -351,7 +351,7 @@ lw6snd_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

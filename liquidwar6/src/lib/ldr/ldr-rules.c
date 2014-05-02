@@ -58,13 +58,13 @@ read_callback (void *callback_data, const char *element, const char *key,
   if (!strcmp (element, LW6CFG_XML_INT))
     {
       lw6cfg_read_xml_int (key, value, key, &int_value);
-      lw6map_rules_set_int (rules_data, key, int_value);
+      lw6map_rules_set_int (sys_context, rules_data, key, int_value);
     }
 
   if (!strcmp (element, LW6CFG_XML_BOOL))
     {
       lw6cfg_read_xml_bool (key, value, key, &int_value);
-      lw6map_rules_set_bool (rules_data, key, int_value);
+      lw6map_rules_set_bool (sys_context, rules_data, key, int_value);
     }
 
   if (!strcmp (element, LW6CFG_XML_FLOAT))
@@ -102,11 +102,11 @@ lw6ldr_rules_read (lw6map_rules_t * rules, const char *dirname)
   int ret = 0;
   char *buf = NULL;
 
-  buf = lw6sys_path_concat (dirname, _LW6LDR_FILE_RULES_XML);
+  buf = lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_RULES_XML);
 
   if (buf)
     {
-      if (lw6sys_file_exists (buf))
+      if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("reading rules \"%s\""), buf);
@@ -144,10 +144,10 @@ rules_update_callback (void *func_data, void *data)
   key = (char *) data;
   update_data = (rules_update_data_t *) func_data;
 
-  if (lw6sys_assoc_has_key (update_data->values, key))
+  if (lw6sys_assoc_has_key (sys_context, update_data->values, key))
     {
       lw6hlp_about (&type, NULL, NULL, NULL, key);
-      value = lw6sys_assoc_get (update_data->values, key);
+      value = lw6sys_assoc_get (sys_context, update_data->values, key);
       element = lw6cfg_xml_element (type);
       read_callback (update_data->rules, element, key, value);
     }

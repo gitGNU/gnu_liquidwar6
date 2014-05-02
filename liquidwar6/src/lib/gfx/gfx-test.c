@@ -188,9 +188,9 @@ _call_init (lw6gfx_backend_t * backend)
 	  LW6SYS_FREE (sys_context, repr);
 	}
       ticks = lw6sys_get_uptime ();
-      while (lw6sys_get_uptime () < ticks + _TEST_DURATION_SETUP)
+      while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_SETUP)
 	{
-	  lw6sys_sleep (_TEST_SLEEP);
+	  lw6sys_sleep (sys_context, _TEST_SLEEP);
 	}
     }
 
@@ -212,7 +212,8 @@ _test_splash ()
     if (look)
       {
 	ticks = lw6sys_get_uptime ();
-	while (lw6sys_get_uptime () < ticks + _TEST_DURATION_SPLASH)
+	while (lw6sys_get_uptime (sys_context,) <
+	       ticks + _TEST_DURATION_SPLASH)
 	  {
 	    if (!lw6gfx_display (backend,
 				 LW6GUI_DISPLAY_BACKGROUND |
@@ -223,7 +224,7 @@ _test_splash ()
 			    _x_ ("display error"));
 		ret = 0;
 	      }
-	    lw6sys_sleep (_TEST_SLEEP);
+	    lw6sys_sleep (sys_context, _TEST_SLEEP);
 	  }
 	lw6gui_look_free (look);
       }
@@ -253,7 +254,8 @@ _test_background ()
 	  {
 	    lw6gui_look_set (look, LW6DEF_BACKGROUND_STYLE, styles[i]);
 	    ticks = lw6sys_get_uptime ();
-	    while (lw6sys_get_uptime () < ticks + _TEST_DURATION_BACKGROUND)
+	    while (lw6sys_get_uptime (sys_context,) <
+		   ticks + _TEST_DURATION_BACKGROUND)
 	      {
 		if (!lw6gfx_display (backend,
 				     LW6GUI_DISPLAY_BACKGROUND,
@@ -266,7 +268,7 @@ _test_background ()
 				_x_ ("display error"));
 		    ret = 0;
 		  }
-		lw6sys_sleep (_TEST_SLEEP);
+		lw6sys_sleep (sys_context, _TEST_SLEEP);
 	      }
 	  }
 	lw6gui_look_free (look);
@@ -335,7 +337,8 @@ _test_menu ()
 	    lw6gui_menu_select (menu, _TEST_MENU_SELECTED_MENUITEM,
 				_TEST_MENU_ALLOW_SCROLL, 0);
 	    ticks = lw6sys_get_uptime ();
-	    while (lw6sys_get_uptime () < ticks + _TEST_DURATION_MENU)
+	    while (lw6sys_get_uptime (sys_context,) <
+		   ticks + _TEST_DURATION_MENU)
 	      {
 		progress = ((float)
 			    (lw6sys_get_uptime () -
@@ -351,7 +354,7 @@ _test_menu ()
 				_x_ ("display error"));
 		    ret = 0;
 		  }
-		lw6sys_sleep (_TEST_SLEEP);
+		lw6sys_sleep (sys_context, _TEST_SLEEP);
 	      }
 	    lw6gui_menu_free (menu);	// should free the menuitem
 	  }
@@ -389,7 +392,8 @@ _test_view ()
 		if (game_state)
 		  {
 		    ticks = lw6sys_get_uptime ();
-		    while (lw6sys_get_uptime () < ticks + _TEST_DURATION_VIEW)
+		    while (lw6sys_get_uptime (sys_context,) <
+			   ticks + _TEST_DURATION_VIEW)
 		      {
 			if (!lw6gfx_display (backend,
 					     LW6GUI_DISPLAY_BACKGROUND |
@@ -403,13 +407,13 @@ _test_view ()
 					_x_ ("display error"));
 			    ret = 0;
 			  }
-			lw6sys_sleep (_TEST_SLEEP);
+			lw6sys_sleep (sys_context, _TEST_SLEEP);
 		      }
 		    lw6ker_game_state_free (game_state);
 		  }
 		lw6ker_game_struct_free (game_struct);
 	      }
-	    lw6map_free (level);
+	    lw6map_free (sys_context, level);
 	  }
 	lw6gui_look_free (look);
       }
@@ -465,7 +469,8 @@ _test_hud ()
 		      }
 
 		    ticks = lw6sys_get_uptime ();
-		    while (lw6sys_get_uptime () < ticks + _TEST_DURATION_HUD)
+		    while (lw6sys_get_uptime (sys_context,) <
+			   ticks + _TEST_DURATION_HUD)
 		      {
 			if (!lw6gfx_display (backend,
 					     LW6GUI_DISPLAY_BACKGROUND |
@@ -479,13 +484,13 @@ _test_hud ()
 					_x_ ("display error"));
 			    ret = 0;
 			  }
-			lw6sys_sleep (_TEST_SLEEP);
+			lw6sys_sleep (sys_context, _TEST_SLEEP);
 		      }
 		    lw6ker_game_state_free (game_state);
 		  }
 		lw6ker_game_struct_free (game_struct);
 	      }
-	    lw6map_free (level);
+	    lw6map_free (sys_context, level);
 	  }
 	lw6gui_look_free (look);
       }
@@ -517,8 +522,8 @@ _test_events ()
 		    ("now for %d seconds you can move mouse, touch keyboard, punch joystick"),
 		    _TEST_DURATION_EVENTS / 1000);
 	input = lw6gfx_pump_events (backend);
-	while (lw6sys_get_uptime () < ticks + _TEST_DURATION_EVENTS
-	       && !lw6sys_signal_poll_quit ())
+	while (lw6sys_get_uptime (sys_context,) <
+	       ticks + _TEST_DURATION_EVENTS && !lw6sys_signal_poll_quit ())
 	  {
 	    if (!lw6gfx_display (backend,
 				 LW6GUI_DISPLAY_BACKGROUND, look, NULL,
@@ -529,7 +534,7 @@ _test_events ()
 			    _x_ ("display error"));
 		ret = 0;
 	      }
-	    lw6sys_sleep (_TEST_SLEEP);
+	    lw6sys_sleep (sys_context, _TEST_SLEEP);
 	    input = lw6gfx_pump_events (backend);
 	    if (lw6gui_button_pop_press (&(input->mouse.button_left)))
 	      {
@@ -832,9 +837,9 @@ lw6gfx_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
       lw6cfg_test_register (mode);
-      lw6map_test_register (mode);
+      lw6map_test_register (sys_context, mode);
       lw6ker_test_register (mode);
       lw6pil_test_register (mode);
       lw6gui_test_register (mode);
@@ -979,7 +984,7 @@ lw6gfx_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

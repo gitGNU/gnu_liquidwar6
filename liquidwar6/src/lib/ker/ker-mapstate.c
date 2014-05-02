@@ -39,7 +39,7 @@ _lw6ker_map_state_init (_lw6ker_map_state_t * map_state,
   int ret = 0;
   int32_t i;
 
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
 
   map_state->map_struct = map_struct;
   map_state->shape = map_struct->shape;
@@ -49,7 +49,7 @@ _lw6ker_map_state_init (_lw6ker_map_state_t * map_state,
 
   ret = ret && _lw6ker_armies_init (&(map_state->armies), map_struct, rules);
 
-  lw6sys_progress_update (progress, 0, 3, 1);
+  lw6sys_progress_update (sys_context, progress, 0, 3, 1);
 
   map_state->max_nb_teams = rules->max_nb_teams;
   for (i = 0; i < map_state->max_nb_teams; ++i)
@@ -60,7 +60,7 @@ _lw6ker_map_state_init (_lw6ker_map_state_t * map_state,
 
   _lw6ker_cursor_array_init (&(map_state->cursor_array));
 
-  lw6sys_progress_update (progress, 0, 3, 2);
+  lw6sys_progress_update (sys_context, progress, 0, 3, 2);
 
   map_state->nb_slots =
     map_struct->shape.w * map_struct->shape.h * map_struct->shape.d;
@@ -82,7 +82,7 @@ _lw6ker_map_state_init (_lw6ker_map_state_t * map_state,
 		  _x_ ("unable to allocate SLOT_STATE array"));
     }
 
-  lw6sys_progress_end (progress);
+  lw6sys_progress_end (sys_context, progress);
 
   return ret;
 }
@@ -149,16 +149,18 @@ _lw6ker_map_state_update_checksum (const _lw6ker_map_state_t * map_state,
    * within game_state_update_checksum which itself calls
    * game_struct_update_checksum.
    */
-  lw6sys_checksum_update_whd (checksum, &(map_state->shape));
-  lw6sys_checksum_update_int32 (checksum, map_state->shape_surface);
+  lw6sys_checksum_update_whd (sys_context, checksum, &(map_state->shape));
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				map_state->shape_surface);
   _lw6ker_armies_update_checksum (&(map_state->armies), checksum);
-  lw6sys_checksum_update_int32 (checksum, map_state->max_nb_teams);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				map_state->max_nb_teams);
   for (i = 0; i < map_state->max_nb_teams; ++i)
     {
       _lw6ker_team_update_checksum (&(map_state->teams[i]), checksum);
     }
   _lw6ker_cursor_array_update_checksum (&(map_state->cursor_array), checksum);
-  lw6sys_checksum_update_int32 (checksum, map_state->nb_slots);
+  lw6sys_checksum_update_int32 (sys_context, checksum, map_state->nb_slots);
   for (i = 0; i < map_state->nb_slots; ++i)
     {
       _lw6ker_slot_state_update_checksum (&(map_state->slots[i]), checksum);
@@ -219,7 +221,7 @@ _lw6ker_map_state_populate_team (_lw6ker_map_state_t * map_state,
 	    (lw6ker_sin ((angle * LW6KER_TRIGO_2PI) / max_angle) * radius) /
 	    (LW6KER_TRIGO_RADIUS * 2);
 
-	  lw6map_coords_fix_xy (rules, &shape, &x, &y);
+	  lw6map_coords_fix_xy (sys_context, rules, &shape, &x, &y);
 
 	  for (z = 0; z < map_state->shape.d; ++z)
 	    {

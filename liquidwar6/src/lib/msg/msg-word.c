@@ -282,7 +282,7 @@ lw6msg_word_first_int_32 (int32_t * parsed_value, char **next,
     {
       if (parsed_value)
 	{
-	  (*parsed_value) = lw6sys_atoi (word.buf);
+	  (*parsed_value) = lw6sys_atoi (sys_context, word.buf);
 	}
       ret = 1;
     }
@@ -404,7 +404,7 @@ lw6msg_word_first_int_64 (int64_t * parsed_value, char **next,
     {
       if (parsed_value)
 	{
-	  (*parsed_value) = lw6sys_atoll (word.buf);
+	  (*parsed_value) = lw6sys_atoll (sys_context, word.buf);
 	}
       ret = 1;
     }
@@ -527,7 +527,7 @@ lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next,
     }
   if (lw6msg_word_first_x (&word, next, msg))
     {
-      tmp_value = lw6sys_id_atol (word.buf);
+      tmp_value = lw6sys_id_atol (sys_context, word.buf);
       if (tmp_value && lw6sys_check_id_16 (tmp_value))
 	{
 	  if (parsed_value)
@@ -571,7 +571,7 @@ lw6msg_word_first_id_32 (u_int32_t * parsed_value, char **next,
     }
   if (lw6msg_word_first_x (&word, next, msg))
     {
-      tmp_value = lw6sys_id_atol (word.buf);
+      tmp_value = lw6sys_id_atol (sys_context, word.buf);
       if (tmp_value && lw6sys_check_id_32 (tmp_value))
 	{
 	  if (parsed_value)
@@ -615,7 +615,7 @@ lw6msg_word_first_id_64 (u_int64_t * parsed_value, char **next,
     }
   if (lw6msg_word_first_x (&word, next, msg))
     {
-      tmp_value = lw6sys_id_atol (word.buf);
+      tmp_value = lw6sys_id_atol (sys_context, word.buf);
       if (tmp_value && lw6sys_check_id_64 (tmp_value))
 	{
 	  if (parsed_value)

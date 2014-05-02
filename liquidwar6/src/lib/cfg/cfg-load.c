@@ -62,7 +62,7 @@ _lw6cfg_load (_lw6cfg_context_t * cfg_context, const char *filename)
   lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_ ("loading config from \"%s\""), filename);
 
-  if (lw6sys_file_exists (filename))
+  if (lw6sys_file_exists (sys_context, filename))
     {
       ret =
 	lw6cfg_read_key_value_xml_file (filename, load_callback,

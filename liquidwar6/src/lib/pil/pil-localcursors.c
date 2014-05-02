@@ -226,7 +226,7 @@ lw6pil_local_cursors_get_main_info (lw6pil_local_cursors_t *
   int ret = 0;
   int i = local_cursors->main_i;
 
-  if (lw6sys_check_id_16 (local_cursors->main_cursor_id)
+  if (lw6sys_check_id_16 (sys_context, local_cursors->main_cursor_id)
       && local_cursors->cursors[i].is_main)
     {
       if (cursor_id)

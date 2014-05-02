@@ -47,7 +47,8 @@ _lw6ker_cursor_array_update_checksum (const _lw6ker_cursor_array_t *
 {
   int i = 0;
 
-  lw6sys_checksum_update_int32 (checksum, cursor_array->nb_cursors);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				cursor_array->nb_cursors);
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
       _lw6ker_cursor_update_checksum (&(cursor_array->cursors[i]), checksum);

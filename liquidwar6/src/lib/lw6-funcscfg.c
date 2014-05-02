@@ -75,7 +75,7 @@ _scm_lw6cfg_load (SCM filename)
 	    {
 	      ret = SCM_BOOL_F;
 	    }
-	  LW6SYS_FREE (c_filename);
+	  LW6SYS_FREE (sys_context, c_filename);
 	}
     }
 
@@ -112,7 +112,7 @@ _scm_lw6cfg_option_exists (SCM key)
 	    {
 	      ret = SCM_BOOL_F;
 	    }
-	  LW6SYS_FREE (c_key);
+	  LW6SYS_FREE (sys_context, c_key);
 	}
     }
 
@@ -144,10 +144,10 @@ _scm_lw6cfg_get_option (SCM key)
 	  if (value)
 	    {
 	      ret = scm_from_locale_string (value);
-	      LW6SYS_FREE (value);
+	      LW6SYS_FREE (sys_context, value);
 	    }
 
-	  LW6SYS_FREE (c_key);
+	  LW6SYS_FREE (sys_context, c_key);
 	}
     }
 
@@ -178,9 +178,9 @@ _scm_lw6cfg_set_option (SCM key, SCM value)
 	    {
 	      lw6cfg_set_option (lw6_global.cfg_context, c_key, c_value);
 
-	      LW6SYS_FREE (c_value);
+	      LW6SYS_FREE (sys_context, c_value);
 	    }
-	  LW6SYS_FREE (c_key);
+	  LW6SYS_FREE (sys_context, c_key);
 	}
     }
 
@@ -217,7 +217,7 @@ _scm_lw6cfg_save (SCM filename)
 	    {
 	      ret = SCM_BOOL_F;
 	    }
-	  LW6SYS_FREE (c_filename);
+	  LW6SYS_FREE (sys_context, c_filename);
 	}
     }
 
@@ -282,7 +282,7 @@ _scm_lw6cfg_unified_get_user_dir ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -303,7 +303,7 @@ _scm_lw6cfg_unified_get_log_file ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -324,7 +324,7 @@ _scm_lw6cfg_unified_get_music_path ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -345,7 +345,7 @@ _scm_lw6cfg_unified_get_map_path ()
   if (buf)
     {
       ret = scm_from_locale_string (buf);
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

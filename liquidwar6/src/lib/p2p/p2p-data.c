@@ -112,10 +112,10 @@ _read_query (lw6sys_hash_t * queries, const char *sql_dir,
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
 		  filename);
-      query = lw6sys_read_file_content (filename);
+      query = lw6sys_read_file_content (sys_context, filename);
       if (query)
 	{
-	  lw6sys_hash_set (queries, query_file, query);
+	  lw6sys_hash_set (sys_context, queries, query_file, query);
 	  ret = 1;
 	}
       else
@@ -154,7 +154,8 @@ _load_sql (_lw6p2p_sql_t * sql, const char *sql_dir)
 {
   int ret = 0;
 
-  sql->queries = lw6sys_hash_new (lw6sys_free_callback, _QUERIES_HASH_SIZE);
+  sql->queries =
+    lw6sys_hash_new (sys_context, lw6sys_free_callback, _QUERIES_HASH_SIZE);
   if (sql->queries)
     {
       ret = 1;
@@ -230,7 +231,7 @@ _lw6p2p_data_load (_lw6p2p_data_t * data, const char *data_dir)
   char *screenshot_dir = NULL;
   char *screenshot_file = NULL;
 
-  p2p_subdir = lw6sys_path_concat (data_dir, _P2P_SUBDIR);
+  p2p_subdir = lw6sys_path_concat (sys_context, data_dir, _P2P_SUBDIR);
   if (p2p_subdir)
     {
       consts_file = lw6sys_path_concat (p2p_subdir, _CONSTS_FILE);

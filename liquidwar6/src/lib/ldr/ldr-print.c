@@ -73,7 +73,7 @@ lw6ldr_print_example_rules_xml (FILE * f)
   lw6map_rules_t rules;
 
   memset (&rules, 0, sizeof (lw6map_rules_t));
-  lw6map_rules_defaults (&rules);
+  lw6map_rules_defaults (sys_context, &rules);
 
   lw6sys_print_xml_header (f,
 			   _x_
@@ -87,7 +87,7 @@ lw6ldr_print_example_rules_xml (FILE * f)
   lw6cfg_write_xml_int (f, LW6DEF_START_BLUE_X, EXAMPLE_START_BLUE_X);
   lw6cfg_write_xml_int (f, LW6DEF_START_BLUE_Y, EXAMPLE_START_BLUE_Y);
   lw6sys_print_xml_footer (f);
-  lw6map_rules_clear (&rules);
+  lw6map_rules_clear (sys_context, &rules);
 }
 
 /**
@@ -132,7 +132,7 @@ lw6ldr_print_example_style_xml (FILE * f)
 {
   lw6map_style_t style;
   memset (&style, 0, sizeof (lw6map_style_t));
-  lw6map_style_defaults (&style);
+  lw6map_style_defaults (sys_context, &style);
   lw6sys_print_xml_header (f,
 			   _x_
 			   ("This is an example Liquid War 6 'style.xml' file. This file can be put along with a 'map.png' file to change the look of the map. It will not change the gameplay at all, all gameplay related parameters are in 'rules.xml', and, to some extent, 'hints.xml'. This file is not required, a map can live without any 'style.xml' file, defaults will be used, that's all. Note that this example only defines a few parameters, there are many more of them. The idea is to modify just the settings which are important for your map, and let the user choose the best values for other items. Happy hacking!"));
@@ -147,7 +147,7 @@ lw6ldr_print_example_style_xml (FILE * f)
 			  LW6DEF_COLOR_ALTERNATE_FG,
 			  EXAMPLE_COLOR_ALTERNATE_FG);
   lw6sys_print_xml_footer (f);
-  lw6map_style_clear (&style);
+  lw6map_style_clear (sys_context, &style);
 }
 
 /**
@@ -164,8 +164,8 @@ lw6ldr_print_example_teams_xml (FILE * f)
 {
   lw6map_teams_t teams;
 
-  lw6map_teams_zero (&teams);
-  lw6map_teams_defaults (&teams);
+  lw6map_teams_zero (sys_context, &teams);
+  lw6map_teams_defaults (sys_context, &teams);
   lw6sys_print_xml_header (f,
 			   _x_
 			   ("This is an example Liquid War 6 'teams.xml' file. This file can be put along with a 'map.png' file to explicitely say you want this kind of bot, with this color, and so on. This is not a required file, if not present, defaults will be used, however it's a really good way to personnalize a map, this is just how you populate it by default. Another important parameter is the default color for the player, changing this allows the player to try out various colors along its journey in the game."));
@@ -179,7 +179,7 @@ lw6ldr_print_example_teams_xml (FILE * f)
   lw6cfg_write_xml_string (f, LW6DEF_BOT3_COLOR, EXAMPLE_BOT3_COLOR);
   lw6cfg_write_xml_string (f, LW6DEF_BOT3_AI, EXAMPLE_BOT3_AI);
   lw6sys_print_xml_footer (f);
-  lw6map_teams_clear (&teams);
+  lw6map_teams_clear (sys_context, &teams);
 }
 
 /**
@@ -203,16 +203,18 @@ lw6ldr_print_examples (char *user_dir)
   int hints_ok = 0;
   int style_ok = 0;
   int teams_ok = 0;
-  example_dir = lw6sys_path_concat (user_dir, EXAMPLE_DIR);
+  example_dir = lw6sys_path_concat (sys_context, user_dir, EXAMPLE_DIR);
   if (example_dir)
     {
-      if (!lw6sys_dir_exists (example_dir))
+      if (!lw6sys_dir_exists (sys_context, example_dir))
 	{
-	  lw6sys_create_dir (example_dir);
+	  lw6sys_create_dir (sys_context, example_dir);
 	}
-      if (lw6sys_dir_exists (example_dir))
+      if (lw6sys_dir_exists (sys_context, example_dir))
 	{
-	  filename = lw6sys_path_concat (example_dir, _LW6LDR_FILE_RULES_XML);
+	  filename =
+	    lw6sys_path_concat (sys_context, example_dir,
+				_LW6LDR_FILE_RULES_XML);
 	  if (filename)
 	    {
 	      f = fopen (filename, "wb");
@@ -228,7 +230,9 @@ lw6ldr_print_examples (char *user_dir)
 		}
 	      LW6SYS_FREE (sys_context, filename);
 	    }
-	  filename = lw6sys_path_concat (example_dir, _LW6LDR_FILE_HINTS_XML);
+	  filename =
+	    lw6sys_path_concat (sys_context, example_dir,
+				_LW6LDR_FILE_HINTS_XML);
 	  if (filename)
 	    {
 	      f = fopen (filename, "wb");
@@ -244,7 +248,9 @@ lw6ldr_print_examples (char *user_dir)
 		}
 	      LW6SYS_FREE (sys_context, filename);
 	    }
-	  filename = lw6sys_path_concat (example_dir, _LW6LDR_FILE_STYLE_XML);
+	  filename =
+	    lw6sys_path_concat (sys_context, example_dir,
+				_LW6LDR_FILE_STYLE_XML);
 	  if (filename)
 	    {
 	      f = fopen (filename, "wb");
@@ -260,7 +266,9 @@ lw6ldr_print_examples (char *user_dir)
 		}
 	      LW6SYS_FREE (sys_context, filename);
 	    }
-	  filename = lw6sys_path_concat (example_dir, _LW6LDR_FILE_TEAMS_XML);
+	  filename =
+	    lw6sys_path_concat (sys_context, example_dir,
+				_LW6LDR_FILE_TEAMS_XML);
 	  if (filename)
 	    {
 	      f = fopen (filename, "wb");

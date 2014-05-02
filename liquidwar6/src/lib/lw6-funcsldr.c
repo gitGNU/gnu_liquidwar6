@@ -63,9 +63,11 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
 		lw6ldr_get_entries (c_map_path, c_relative_path, user_dir);
 	      if (c_maps)
 		{
-		  while (!lw6sys_list_is_empty (c_maps))
+		  while (!lw6sys_list_is_empty (sys_context, c_maps))
 		    {
-		      c_entry = (lw6ldr_entry_t *) lw6sys_lifo_pop (&c_maps);
+		      c_entry =
+			(lw6ldr_entry_t *) lw6sys_lifo_pop (sys_context,
+							    &c_maps);
 		      if (c_entry)
 			{
 			  item = SCM_EOL;
@@ -126,13 +128,13 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
 			  lw6ldr_free_entry (c_entry);
 			}
 		    }
-		  lw6sys_list_free (c_maps);
+		  lw6sys_list_free (sys_context, c_maps);
 		}
-	      LW6SYS_FREE (user_dir);
+	      LW6SYS_FREE (sys_context, user_dir);
 	    }
-	  LW6SYS_FREE (c_relative_path);
+	  LW6SYS_FREE (sys_context, c_relative_path);
 	}
-      LW6SYS_FREE (c_map_path);
+      LW6SYS_FREE (sys_context, c_map_path);
     }
 
   ret = scm_reverse (ret);
@@ -177,8 +179,8 @@ _scm_lw6ldr_read (SCM dirname, SCM default_param, SCM forced_param,
   SCM_ASSERT (scm_is_integer (magic_number), magic_number, SCM_ARG7,
 	      __FUNCTION__);
 
-  lw6sys_progress_default (&progress, &(lw6_global.progress));
-  lw6sys_progress_begin (&progress);
+  lw6sys_progress_default (sys_context, &progress, &(lw6_global.progress));
+  lw6sys_progress_begin (sys_context, &progress);
 
   c_dirname = lw6scm_utils_to_0str (dirname);
   if (c_dirname)
@@ -208,15 +210,15 @@ _scm_lw6ldr_read (SCM dirname, SCM default_param, SCM forced_param,
 		    {
 		      ret = lw6_make_scm_map (c_level);
 		    }
-		  LW6SYS_FREE (user_dir);
+		  LW6SYS_FREE (sys_context, user_dir);
 		}
-	      lw6sys_assoc_free (c_forced_param);
+	      lw6sys_assoc_free (sys_context, c_forced_param);
 	    }
-	  lw6sys_assoc_free (c_default_param);
+	  lw6sys_assoc_free (sys_context, c_default_param);
 	}
-      LW6SYS_FREE (c_dirname);
+      LW6SYS_FREE (sys_context, c_dirname);
     }
-  lw6sys_progress_begin (&progress);
+  lw6sys_progress_begin (sys_context, &progress);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -300,15 +302,15 @@ _scm_lw6ldr_read_relative (SCM map_path, SCM relative_path, SCM default_param,
 			{
 			  ret = lw6_make_scm_map (c_level);
 			}
-		      LW6SYS_FREE (user_dir);
+		      LW6SYS_FREE (sys_context, user_dir);
 		    }
-		  lw6sys_assoc_free (c_forced_param);
+		  lw6sys_assoc_free (sys_context, c_forced_param);
 		}
-	      lw6sys_assoc_free (c_default_param);
+	      lw6sys_assoc_free (sys_context, c_default_param);
 	    }
-	  LW6SYS_FREE (c_relative_path);
+	  LW6SYS_FREE (sys_context, c_relative_path);
 	}
-      LW6SYS_FREE (c_map_path);
+      LW6SYS_FREE (sys_context, c_map_path);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -328,7 +330,7 @@ _scm_lw6ldr_print_examples ()
   if (user_dir)
     {
       lw6ldr_print_examples (user_dir);
-      LW6SYS_FREE (user_dir);
+      LW6SYS_FREE (sys_context, user_dir);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -355,9 +357,9 @@ _scm_lw6ldr_hints_get_default (SCM key)
       if (c_value)
 	{
 	  ret = scm_from_locale_string (c_value);
-	  LW6SYS_FREE (c_value);
+	  LW6SYS_FREE (sys_context, c_value);
 	}
-      LW6SYS_FREE (c_key);
+      LW6SYS_FREE (sys_context, c_key);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -388,7 +390,7 @@ _scm_lw6ldr_exp_validate (SCM level)
 	{
 	  ret =
 	    lw6ldr_exp_validate (c_level, user_dir) ? SCM_BOOL_T : SCM_BOOL_F;
-	  LW6SYS_FREE (user_dir);
+	  LW6SYS_FREE (sys_context, user_dir);
 	}
     }
 
@@ -482,11 +484,11 @@ _scm_lw6ldr_chain_entry (SCM map_path, SCM relative_path)
 			      ret);
 		  lw6ldr_free_entry (c_entry);
 		}
-	      LW6SYS_FREE (user_dir);
+	      LW6SYS_FREE (sys_context, user_dir);
 	    }
-	  LW6SYS_FREE (c_relative_path);
+	  LW6SYS_FREE (sys_context, c_relative_path);
 	}
-      LW6SYS_FREE (c_map_path);
+      LW6SYS_FREE (sys_context, c_map_path);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

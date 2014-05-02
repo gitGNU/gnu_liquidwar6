@@ -108,7 +108,8 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0,
   int serial_0_base = serial_0;
   int serial_0_real = serial_0;
 
-  if (lw6sys_check_id (node_id) && serial_0 >= _LW6DAT_SERIAL_START)
+  if (lw6sys_check_id (sys_context, node_id)
+      && serial_0 >= _LW6DAT_SERIAL_START)
     {
       /*
        * Now we "align" our serial_0 value so that _LW6DAT_SERIAL_START
@@ -127,7 +128,7 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0,
 
       _lw6dat_stack_clear (stack);
       stack->node_id = node_id;
-      stack->node_id_str = lw6sys_id_ltoa (node_id);
+      stack->node_id_str = lw6sys_id_ltoa (sys_context, node_id);
       stack->serial_0_base = serial_0_base;
       stack->serial_0_real = serial_0_real;
 
@@ -1130,7 +1131,7 @@ _lw6dat_stack_init_list ()
 {
   lw6sys_list_t *ret = NULL;
 
-  ret = lw6sys_list_new (lw6sys_free_callback);
+  ret = lw6sys_list_new (sys_context, lw6sys_free_callback);
 
   return ret;
 }

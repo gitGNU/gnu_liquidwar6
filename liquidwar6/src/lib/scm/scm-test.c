@@ -76,7 +76,7 @@ _test_funcname ()
     funcname = lw6scm_funcname_scm2c (_TEST_FUNCNAME_SCM);
     if (funcname)
       {
-	if (lw6sys_str_is_same (funcname, _TEST_FUNCNAME_C))
+	if (lw6sys_str_is_same (sys_context, funcname, _TEST_FUNCNAME_C))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			_x_
@@ -96,7 +96,7 @@ _test_funcname ()
     funcname = lw6scm_funcname_c2scm (_TEST_FUNCNAME_C);
     if (funcname)
       {
-	if (lw6sys_str_is_same (funcname, _TEST_FUNCNAME_SCM))
+	if (lw6sys_str_is_same (sys_context, funcname, _TEST_FUNCNAME_SCM))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			_x_
@@ -140,7 +140,7 @@ guile_main_utils (void *data)
   c_test_string = lw6scm_utils_to_0str (_test_string);
   if (c_test_string)
     {
-      if (lw6sys_str_is_same (c_test_string, _TEST_UTILS_STRING))
+      if (lw6sys_str_is_same (sys_context, c_test_string, _TEST_UTILS_STRING))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		      _x_
@@ -154,20 +154,25 @@ guile_main_utils (void *data)
       global_ret = 0;
     }
 
-  c_test_list_1 = lw6sys_list_new (NULL);
+  c_test_list_1 = lw6sys_list_new (sys_context, NULL);
   if (c_test_list_1)
     {
-      lw6sys_list_push_front (&c_test_list_1, _TEST_UTILS_LIST_1);
-      lw6sys_list_push_front (&c_test_list_1, _TEST_UTILS_LIST_2);
-      lw6sys_list_push_front (&c_test_list_1, _TEST_UTILS_LIST_3);
+      lw6sys_list_push_front (sys_context, &c_test_list_1,
+			      _TEST_UTILS_LIST_1);
+      lw6sys_list_push_front (sys_context, &c_test_list_1,
+			      _TEST_UTILS_LIST_2);
+      lw6sys_list_push_front (sys_context, &c_test_list_1,
+			      _TEST_UTILS_LIST_3);
       if (c_test_list_1)
 	{
 	  _test_list = lw6scm_utils_to_scm_str_list (c_test_list_1);
 	  c_test_list_2 = lw6scm_utils_to_sys_str_list (_test_list);
 	  if (c_test_list_2)
 	    {
-	      c_test_list_1_length = lw6sys_list_length (c_test_list_1);
-	      c_test_list_2_length = lw6sys_list_length (c_test_list_2);
+	      c_test_list_1_length =
+		lw6sys_list_length (sys_context, c_test_list_1);
+	      c_test_list_2_length =
+		lw6sys_list_length (sys_context, c_test_list_2);
 	      if (c_test_list_1_length == c_test_list_2_length)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -183,7 +188,7 @@ guile_main_utils (void *data)
 			      c_test_list_1_length, c_test_list_2_length);
 		  global_ret = 0;
 		}
-	      lw6sys_list_free (c_test_list_2);
+	      lw6sys_list_free (sys_context, c_test_list_2);
 	    }
 	  else
 	    {
@@ -198,7 +203,7 @@ guile_main_utils (void *data)
 		      _x_ ("problem setting list values"));
 	  global_ret = 0;
 	}
-      lw6sys_list_free (c_test_list_1);
+      lw6sys_list_free (sys_context, c_test_list_1);
     }
   else
     {
@@ -207,14 +212,14 @@ guile_main_utils (void *data)
       global_ret = 0;
     }
 
-  c_test_assoc_1 = lw6sys_assoc_new (NULL);
+  c_test_assoc_1 = lw6sys_assoc_new (sys_context, NULL);
   if (c_test_assoc_1)
     {
-      lw6sys_assoc_set (&c_test_assoc_1, _TEST_UTILS_ASSOC_KEY_1,
+      lw6sys_assoc_set (sys_context, &c_test_assoc_1, _TEST_UTILS_ASSOC_KEY_1,
 			_TEST_UTILS_ASSOC_VALUE_1);
-      lw6sys_assoc_set (&c_test_assoc_1, _TEST_UTILS_ASSOC_KEY_2,
+      lw6sys_assoc_set (sys_context, &c_test_assoc_1, _TEST_UTILS_ASSOC_KEY_2,
 			_TEST_UTILS_ASSOC_VALUE_2);
-      lw6sys_assoc_set (&c_test_assoc_1, _TEST_UTILS_ASSOC_KEY_3,
+      lw6sys_assoc_set (sys_context, &c_test_assoc_1, _TEST_UTILS_ASSOC_KEY_3,
 			_TEST_UTILS_ASSOC_VALUE_3);
       if (c_test_assoc_1)
 	{
@@ -224,11 +229,13 @@ guile_main_utils (void *data)
 	    {
 	      c_test_assoc_1_value_1 =
 		lw6sys_str_empty_if_null ((char *)
-					  lw6sys_assoc_get (c_test_assoc_1,
+					  lw6sys_assoc_get (sys_context,
+							    c_test_assoc_1,
 							    _TEST_UTILS_ASSOC_KEY_1));
 	      c_test_assoc_2_value_1 =
 		lw6sys_str_empty_if_null ((char *)
-					  lw6sys_assoc_get (c_test_assoc_2,
+					  lw6sys_assoc_get (sys_context,
+							    c_test_assoc_2,
 							    _TEST_UTILS_ASSOC_KEY_1));
 	      if (lw6sys_str_is_same
 		  (c_test_assoc_1_value_1, c_test_assoc_2_value_1))
@@ -248,7 +255,7 @@ guile_main_utils (void *data)
 			      c_test_assoc_2_value_1);
 		  global_ret = 0;
 		}
-	      lw6sys_assoc_free (c_test_assoc_2);
+	      lw6sys_assoc_free (sys_context, c_test_assoc_2);
 	    }
 	  else
 	    {
@@ -263,7 +270,7 @@ guile_main_utils (void *data)
 		      _x_ ("problem setting assoc values"));
 	  global_ret = 0;
 	}
-      lw6sys_assoc_free (c_test_assoc_1);
+      lw6sys_assoc_free (sys_context, c_test_assoc_1);
     }
   else
     {
@@ -311,7 +318,7 @@ _test_coverage ()
     lw6sys_list_t *funcs = NULL;
     int percent = 0;
 
-    funcs = lw6sys_list_new (NULL);
+    funcs = lw6sys_list_new (sys_context, NULL);
     if (funcs)
       {
 	lw6sys_list_push_front (&funcs, _TEST_COVERAGE_SCM_FUNC1);
@@ -358,7 +365,7 @@ _test_coverage ()
 		    ret = 0;
 		  }
 	      }
-	    lw6sys_hash_free (coverage);
+	    lw6sys_hash_free (sys_context, coverage);
 	  }
 	else
 	  {
@@ -367,7 +374,7 @@ _test_coverage ()
       }
     if (funcs)
       {
-	lw6sys_list_free (funcs);
+	lw6sys_list_free (sys_context, funcs);
       }
   }
 
@@ -482,7 +489,7 @@ lw6scm_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
       lw6hlp_test_register (mode);
     }
 
@@ -521,7 +528,7 @@ lw6scm_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

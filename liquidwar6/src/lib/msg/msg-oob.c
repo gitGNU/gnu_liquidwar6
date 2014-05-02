@@ -173,7 +173,7 @@ lw6msg_oob_generate_list (lw6nod_info_t * info)
 	  lw6nod_info_map_verified_nodes (info, _add_node_txt, &ret);
 	  if (ret)
 	    {
-	      tmp = lw6sys_str_concat (ret, "\n");
+	      tmp = lw6sys_str_concat (sys_context, ret, "\n");
 	      if (tmp)
 		{
 		  LW6SYS_FREE (sys_context, ret);
@@ -381,7 +381,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 		}
 	      if (param1)
 		{
-		  if (lw6sys_url_is_canonized (param1))
+		  if (lw6sys_url_is_canonized (sys_context, param1))
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_
@@ -464,7 +464,7 @@ lw6msg_oob_analyse_pong (const char *text)
     {
       if (lw6msg_utils_parse_key_value_to_ptr (&key, &value, text))
 	{
-	  if (lw6sys_str_is_same (key, LW6MSG_OOB_PONG))
+	  if (lw6sys_str_is_same (sys_context, key, LW6MSG_OOB_PONG))
 	    {
 	      ret = value;
 	    }

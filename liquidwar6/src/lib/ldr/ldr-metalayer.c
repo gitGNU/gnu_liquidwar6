@@ -51,7 +51,8 @@ read_png (lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image,
 
       for (row = 0; row < meta_layer->shape.h; ++row)
 	{
-	  lw6sys_progress_update (progress, 0, meta_layer->shape.h, row);
+	  lw6sys_progress_update (sys_context, progress, 0,
+				  meta_layer->shape.h, row);
 	  for (col = 0; col < meta_layer->shape.w; ++col)
 	    {
 	      lw6ldr_resampler_target2source (resampler, &col2, &row2,
@@ -67,7 +68,8 @@ read_png (lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image,
 		{
 		  value = value ? 1 : 0;
 		}
-	      lw6map_meta_layer_set (meta_layer, col, row, value);
+	      lw6map_meta_layer_set (sys_context, meta_layer, col, row,
+				     value);
 	    }
 	}
 
@@ -105,7 +107,7 @@ lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer,
   lw6ldr_resampler_t resampler;
   _lw6ldr_image_bw_t image;
 
-  lw6map_meta_layer_clear (meta_layer);
+  lw6map_meta_layer_clear (sys_context, meta_layer);
   memset (&image, 0, sizeof (_lw6ldr_image_bw_t));
   if (_lw6ldr_bw_read (&image, filename, NULL))
     {
@@ -118,7 +120,7 @@ lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer,
 
   if (!ret)
     {
-      lw6map_meta_layer_clear (meta_layer);
+      lw6map_meta_layer_clear (sys_context, meta_layer);
     }
 
   return ret;
@@ -149,7 +151,7 @@ lw6ldr_meta_layer_read_if_exists (lw6map_meta_layer_t * meta_layer,
   int ret = 0;
   char *dot_png = NULL;
 
-  dot_png = lw6sys_path_concat (dirname, file_only);
+  dot_png = lw6sys_path_concat (sys_context, dirname, file_only);
   if (dot_png)
     {
       if (lw6sys_file_exists (dot_png))

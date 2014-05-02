@@ -44,7 +44,8 @@ _lw6pil_worker_init (lw6pil_worker_t * worker,
   if (worker->game_state)
     {
       worker->commands =
-	lw6sys_list_new ((lw6sys_free_func_t) lw6pil_command_free);
+	lw6sys_list_new (sys_context,
+			 (lw6sys_free_func_t) lw6pil_command_free);
       if (worker->commands)
 	{
 	  worker->commands_spinlock = lw6sys_spinlock_create ();
@@ -88,23 +89,23 @@ _lw6pil_worker_quit (lw6pil_worker_t * worker)
   worker->run = 0;
   if (worker->compute_thread)
     {
-      lw6sys_thread_join (worker->compute_thread);
+      lw6sys_thread_join (sys_context, worker->compute_thread);
     }
   if (worker->commands_spinlock)
     {
-      lw6sys_spinlock_destroy (worker->commands_spinlock);
+      lw6sys_spinlock_destroy (sys_context, worker->commands_spinlock);
     }
   if (worker->compute_mutex)
     {
-      lw6sys_mutex_destroy (worker->compute_mutex);
+      lw6sys_mutex_destroy (sys_context, worker->compute_mutex);
     }
   if (worker->global_mutex)
     {
-      lw6sys_mutex_destroy (worker->global_mutex);
+      lw6sys_mutex_destroy (sys_context, worker->global_mutex);
     }
   if (worker->commands)
     {
-      lw6sys_list_free (worker->commands);
+      lw6sys_list_free (sys_context, worker->commands);
     }
   if (worker->game_state)
     {

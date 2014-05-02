@@ -163,7 +163,7 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
 	}
       if (menu->breadcrumbs)
 	{
-	  lw6sys_list_free (menu->breadcrumbs);
+	  lw6sys_list_free (sys_context, menu->breadcrumbs);
 	}
       LW6SYS_FREE (sys_context, menu);
     }
@@ -345,7 +345,7 @@ lw6gui_menu_close_popup (lw6gui_menu_t * menu)
 int
 lw6gui_menu_has_popup (lw6gui_menu_t * menu)
 {
-  return !lw6sys_str_is_null_or_empty (menu->popup);
+  return !lw6sys_str_is_null_or_empty (sys_context, menu->popup);
 }
 
 /**
@@ -528,10 +528,11 @@ lw6gui_menu_set_breadcrumbs (lw6gui_menu_t * menu,
 
   if (menu->breadcrumbs)
     {
-      lw6sys_list_free (menu->breadcrumbs);
+      lw6sys_list_free (sys_context, menu->breadcrumbs);
     }
   menu->breadcrumbs =
-    lw6sys_list_dup (breadcrumbs, (lw6sys_dup_func_t) lw6sys_str_copy);
+    lw6sys_list_dup (sys_context, breadcrumbs,
+		     (lw6sys_dup_func_t) lw6sys_str_copy);
   ret = (menu->breadcrumbs != NULL);
 
   return ret;
@@ -1028,9 +1029,12 @@ lw6gui_menu_is_same (const lw6gui_menu_t * menu_a,
     }
   if (menu_a && menu_b)
     {
-      ret = ret && lw6sys_str_is_same (menu_a->title, menu_b->title);
-      ret = ret && lw6sys_str_is_same (menu_a->help, menu_b->help);
-      ret = ret && lw6sys_str_is_same (menu_a->popup, menu_b->popup);
+      ret = ret
+	&& lw6sys_str_is_same (sys_context, menu_a->title, menu_b->title);
+      ret = ret
+	&& lw6sys_str_is_same (sys_context, menu_a->help, menu_b->help);
+      ret = ret
+	&& lw6sys_str_is_same (sys_context, menu_a->popup, menu_b->popup);
       ret = ret && menu_a->nb_items == menu_b->nb_items;
       ret = ret
 	&& lw6gui_menuitem_is_same (menu_a->esc_item, menu_b->esc_item);
@@ -1060,8 +1064,8 @@ lw6gui_menu_is_same (const lw6gui_menu_t * menu_a,
 	   * period.
 	   */
 	  ret = ret
-	    && lw6sys_list_length (menu_a->breadcrumbs) ==
-	    lw6sys_list_length (menu_b->breadcrumbs);
+	    && lw6sys_list_length (sys_context, menu_a->breadcrumbs) ==
+	    lw6sys_list_length (sys_context, menu_b->breadcrumbs);
 	}
       else
 	{
@@ -1130,7 +1134,7 @@ lw6gui_menu_dup (const lw6gui_menu_t * menu)
       if (menu->breadcrumbs)
 	{
 	  ret->breadcrumbs =
-	    lw6sys_list_dup (menu->breadcrumbs,
+	    lw6sys_list_dup (sys_context, menu->breadcrumbs,
 			     (lw6sys_dup_func_t) lw6sys_str_copy);
 	  if (!(ret->breadcrumbs))
 	    {
@@ -1168,15 +1172,15 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
 
   if (dst && src)
     {
-      if (!lw6sys_str_is_same (dst->title, src->title))
+      if (!lw6sys_str_is_same (sys_context, dst->title, src->title))
 	{
 	  lw6gui_menu_set_title (dst, src->title);
 	}
-      if (!lw6sys_str_is_same (dst->help, src->help))
+      if (!lw6sys_str_is_same (sys_context, dst->help, src->help))
 	{
 	  lw6gui_menu_set_help (dst, src->help);
 	}
-      if (!lw6sys_str_is_same (dst->popup, src->popup))
+      if (!lw6sys_str_is_same (sys_context, dst->popup, src->popup))
 	{
 	  lw6gui_menu_set_popup (dst, src->popup);
 	}
@@ -1235,10 +1239,10 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
 		  /*
 		   * Lazy test on size only
 		   */
-		  if (lw6sys_list_length (dst->breadcrumbs) !=
+		  if (lw6sys_list_length (sys_context, dst->breadcrumbs) !=
 		      lw6sys_list_length (src->breadcrumbs))
 		    {
-		      lw6sys_list_free (dst->breadcrumbs);
+		      lw6sys_list_free (sys_context, dst->breadcrumbs);
 		      dst->breadcrumbs =
 			lw6sys_list_dup (src->breadcrumbs,
 					 (lw6sys_dup_func_t) lw6sys_str_copy);
@@ -1255,7 +1259,7 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
 	    {
 	      if (dst->breadcrumbs)
 		{
-		  lw6sys_list_free (dst->breadcrumbs);
+		  lw6sys_list_free (sys_context, dst->breadcrumbs);
 		  dst->breadcrumbs = NULL;
 		}
 	    }

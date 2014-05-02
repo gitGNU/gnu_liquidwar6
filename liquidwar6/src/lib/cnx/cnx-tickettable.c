@@ -63,11 +63,11 @@ lw6cnx_ticket_table_init (lw6cnx_ticket_table_t * ticket_table, int hash_size)
   ticket_table->recv_ack_spinlock = lw6sys_spinlock_create ();
   ticket_table->send_spinlock = lw6sys_spinlock_create ();
   ticket_table->recv_table =
-    lw6sys_hash_new (lw6sys_free_callback, hash_size);
+    lw6sys_hash_new (sys_context, lw6sys_free_callback, hash_size);
   ticket_table->recv_ack_table =
-    lw6sys_hash_new (lw6sys_free_callback, hash_size);
+    lw6sys_hash_new (sys_context, lw6sys_free_callback, hash_size);
   ticket_table->send_table =
-    lw6sys_hash_new (lw6sys_free_callback, hash_size);
+    lw6sys_hash_new (sys_context, lw6sys_free_callback, hash_size);
 
   ret = (ticket_table->recv_spinlock && ticket_table->recv_ack_spinlock
 	 && ticket_table->send_spinlock && ticket_table->recv_table
@@ -94,27 +94,27 @@ lw6cnx_ticket_table_clear (lw6cnx_ticket_table_t * ticket_table)
 {
   if (ticket_table->recv_spinlock)
     {
-      lw6sys_spinlock_destroy (ticket_table->recv_spinlock);
+      lw6sys_spinlock_destroy (sys_context, ticket_table->recv_spinlock);
     }
   if (ticket_table->recv_ack_spinlock)
     {
-      lw6sys_spinlock_destroy (ticket_table->recv_ack_spinlock);
+      lw6sys_spinlock_destroy (sys_context, ticket_table->recv_ack_spinlock);
     }
   if (ticket_table->send_spinlock)
     {
-      lw6sys_spinlock_destroy (ticket_table->send_spinlock);
+      lw6sys_spinlock_destroy (sys_context, ticket_table->send_spinlock);
     }
   if (ticket_table->recv_table)
     {
-      lw6sys_hash_free (ticket_table->recv_table);
+      lw6sys_hash_free (sys_context, ticket_table->recv_table);
     }
   if (ticket_table->recv_ack_table)
     {
-      lw6sys_hash_free (ticket_table->recv_ack_table);
+      lw6sys_hash_free (sys_context, ticket_table->recv_ack_table);
     }
   if (ticket_table->send_table)
     {
-      lw6sys_hash_free (ticket_table->send_table);
+      lw6sys_hash_free (sys_context, ticket_table->send_table);
     }
   lw6cnx_ticket_table_zero (ticket_table);
 }
@@ -138,10 +138,11 @@ lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table,
   u_int64_t recv_ticket = 0;
   u_int64_t *recv_ticket_ptr = NULL;
 
-  if (lw6sys_spinlock_lock (ticket_table->recv_spinlock))
+  if (lw6sys_spinlock_lock (sys_context, ticket_table->recv_spinlock))
     {
-      recv_ticket_ptr = lw6sys_hash_get (ticket_table->recv_table, peer_id);
-      lw6sys_spinlock_unlock (ticket_table->recv_spinlock);
+      recv_ticket_ptr =
+	lw6sys_hash_get (sys_context, ticket_table->recv_table, peer_id);
+      lw6sys_spinlock_unlock (sys_context, ticket_table->recv_spinlock);
     }
 
   if (recv_ticket_ptr)
@@ -155,11 +156,12 @@ lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table,
       if (recv_ticket_ptr)
 	{
 	  (*recv_ticket_ptr) = recv_ticket;
-	  if (lw6sys_spinlock_lock (ticket_table->recv_spinlock))
+	  if (lw6sys_spinlock_lock (sys_context, ticket_table->recv_spinlock))
 	    {
-	      lw6sys_hash_set (ticket_table->recv_table, peer_id,
+	      lw6sys_hash_set (sys_context, ticket_table->recv_table, peer_id,
 			       recv_ticket_ptr);
-	      lw6sys_spinlock_unlock (ticket_table->recv_spinlock);
+	      lw6sys_spinlock_unlock (sys_context,
+				      ticket_table->recv_spinlock);
 	    }
 	}
     }
@@ -194,25 +196,27 @@ lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table,
   limit = (int64_t *) LW6SYS_MALLOC (sizeof (int64_t));
   if (limit)
     {
-      (*limit) = lw6sys_get_timestamp () + ack_delay_msec;
-      if (lw6sys_spinlock_lock (ticket_table->recv_ack_spinlock))
+      (*limit) = lw6sys_get_timestamp (sys_context,) + ack_delay_msec;
+      if (lw6sys_spinlock_lock (sys_context, ticket_table->recv_ack_spinlock))
 	{
 	  /*
 	   * If there was already something received, we don't acknowledge
 	   * it again, else on regular sends the limit would be endlessly
 	   * updated, thus checks would never be performed.
 	   */
-	  if (!lw6sys_hash_has_key (ticket_table->recv_ack_table, peer_id))
+	  if (!lw6sys_hash_has_key
+	      (sys_context, ticket_table->recv_ack_table, peer_id))
 	    {
-	      lw6sys_hash_set (ticket_table->recv_ack_table, peer_id,
-			       (void *) limit);
+	      lw6sys_hash_set (sys_context, ticket_table->recv_ack_table,
+			       peer_id, (void *) limit);
 	    }
 	  else
 	    {
 	      LW6SYS_FREE (sys_context, limit);
 	      useless = 1;
 	    }
-	  lw6sys_spinlock_unlock (ticket_table->recv_ack_spinlock);
+	  lw6sys_spinlock_unlock (sys_context,
+				  ticket_table->recv_ack_spinlock);
 	  if (!useless)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
@@ -257,10 +261,11 @@ lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table,
   int64_t *limit;
 
   now = lw6sys_get_timestamp ();
-  if (lw6sys_spinlock_lock (ticket_table->recv_ack_spinlock))
+  if (lw6sys_spinlock_lock (sys_context, ticket_table->recv_ack_spinlock))
     {
       limit =
-	(int64_t *) lw6sys_hash_get (ticket_table->recv_ack_table, peer_id);
+	(int64_t *) lw6sys_hash_get (sys_context,
+				     ticket_table->recv_ack_table, peer_id);
       if (limit)
 	{
 	  if ((*limit) <= now)
@@ -275,7 +280,7 @@ lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table,
 			  peer_id, (int) ((*limit) - now));
 	    }
 	}
-      lw6sys_spinlock_unlock (ticket_table->recv_ack_spinlock);
+      lw6sys_spinlock_unlock (sys_context, ticket_table->recv_ack_spinlock);
     }
 
   return ret;
@@ -300,10 +305,11 @@ lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t * ticket_table,
   u_int64_t send_ticket = 0;
   u_int64_t *send_ticket_ptr = NULL;
 
-  if (lw6sys_spinlock_lock (ticket_table->send_spinlock))
+  if (lw6sys_spinlock_lock (sys_context, ticket_table->send_spinlock))
     {
-      send_ticket_ptr = lw6sys_hash_get (ticket_table->send_table, peer_id);
-      lw6sys_spinlock_unlock (ticket_table->send_spinlock);
+      send_ticket_ptr =
+	lw6sys_hash_get (sys_context, ticket_table->send_table, peer_id);
+      lw6sys_spinlock_unlock (sys_context, ticket_table->send_spinlock);
     }
 
   if (send_ticket_ptr)
@@ -338,10 +344,11 @@ lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t * ticket_table,
 {
   u_int64_t *send_ticket_ptr = NULL;
 
-  if (lw6sys_spinlock_lock (ticket_table->send_spinlock))
+  if (lw6sys_spinlock_lock (sys_context, ticket_table->send_spinlock))
     {
-      send_ticket_ptr = lw6sys_hash_get (ticket_table->send_table, peer_id);
-      lw6sys_spinlock_unlock (ticket_table->send_spinlock);
+      send_ticket_ptr =
+	lw6sys_hash_get (sys_context, ticket_table->send_table, peer_id);
+      lw6sys_spinlock_unlock (sys_context, ticket_table->send_spinlock);
     }
 
   if (!send_ticket_ptr)
@@ -350,11 +357,12 @@ lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t * ticket_table,
       if (send_ticket_ptr)
 	{
 	  (*send_ticket_ptr) = send_ticket;
-	  if (lw6sys_spinlock_lock (ticket_table->send_spinlock))
+	  if (lw6sys_spinlock_lock (sys_context, ticket_table->send_spinlock))
 	    {
-	      lw6sys_hash_set (ticket_table->send_table, peer_id,
+	      lw6sys_hash_set (sys_context, ticket_table->send_table, peer_id,
 			       send_ticket_ptr);
-	      lw6sys_spinlock_unlock (ticket_table->send_spinlock);
+	      lw6sys_spinlock_unlock (sys_context,
+				      ticket_table->send_spinlock);
 	    }
 	}
     }

@@ -36,7 +36,7 @@ _lw6p2p_backends_init_cli (int argc, const char *argv[],
   lw6sys_list_t *list_backends = NULL;
   char *backend = NULL;
 
-  list_backends = lw6sys_str_split_config_item (client_backends);
+  list_backends = lw6sys_str_split_config_item (sys_context, client_backends);
   if (list_backends)
     {
       if (lw6sys_list_is_empty (list_backends))
@@ -48,7 +48,9 @@ _lw6p2p_backends_init_cli (int argc, const char *argv[],
 	  ret = 1;
 	}
       while (list_backends
-	     && ((backend = lw6sys_list_pop_front (&list_backends)) != NULL))
+	     &&
+	     ((backend =
+	       lw6sys_list_pop_front (sys_context, &list_backends)) != NULL))
 	{
 	  backends->nb_cli_backends++;
 	  if (backends->cli_backends)
@@ -131,7 +133,9 @@ _lw6p2p_backends_init_srv (int argc, const char *argv[],
 	  ret = 1;
 	}
       while (list_backends
-	     && ((backend = lw6sys_list_pop_front (&list_backends)) != NULL))
+	     &&
+	     ((backend =
+	       lw6sys_list_pop_front (sys_context, &list_backends)) != NULL))
 	{
 	  backends->nb_srv_backends++;
 	  if (backends->srv_backends)

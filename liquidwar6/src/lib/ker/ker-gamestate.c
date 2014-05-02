@@ -441,12 +441,14 @@ _lw6ker_game_state_update_checksum (const _lw6ker_game_state_t *
   _lw6ker_node_array_update_checksum (&(game_state->node_array), checksum);
   _lw6ker_history_update_checksum (&(game_state->global_history), checksum);
   _lw6ker_history_update_checksum (&(game_state->latest_history), checksum);
-  lw6sys_checksum_update_int32 (checksum, game_state->moves);
-  lw6sys_checksum_update_int32 (checksum, game_state->spreads);
-  lw6sys_checksum_update_int32 (checksum, game_state->rounds);
-  lw6sys_checksum_update_int32 (checksum, game_state->total_rounds);
-  lw6sys_checksum_update_int32 (checksum, game_state->max_reached_teams);
-  lw6sys_checksum_update_int32 (checksum, game_state->over);
+  lw6sys_checksum_update_int32 (sys_context, checksum, game_state->moves);
+  lw6sys_checksum_update_int32 (sys_context, checksum, game_state->spreads);
+  lw6sys_checksum_update_int32 (sys_context, checksum, game_state->rounds);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				game_state->total_rounds);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				game_state->max_reached_teams);
+  lw6sys_checksum_update_int32 (sys_context, checksum, game_state->over);
 }
 
 u_int32_t
@@ -757,7 +759,8 @@ _lw6ker_game_state_add_cursor (_lw6ker_game_state_t * game_state,
 
 	  if (lw6map_team_color_is_valid (real_team_color))
 	    {
-	      if (lw6map_exp_is_team_color_allowed (rules, team_color))
+	      if (lw6map_exp_is_team_color_allowed
+		  (sys_context, rules, team_color))
 		{
 		  if (real_team_color != team_color)
 		    {
@@ -1011,7 +1014,7 @@ _lw6ker_game_state_set_cursor (_lw6ker_game_state_t * game_state,
       y = cursor->pos.y;
       fire = cursor->fire;
       fire2 = cursor->fire2;
-      lw6map_coords_fix_xy (&(game_state->game_struct->rules),
+      lw6map_coords_fix_xy (sys_context, &(game_state->game_struct->rules),
 			    &(game_state->map_state.shape), &x, &y);
       ret =
 	_lw6ker_cursor_array_update (&(game_state->map_state.cursor_array),

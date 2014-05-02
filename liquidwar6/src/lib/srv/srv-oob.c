@@ -108,7 +108,7 @@ lw6srv_oob_free (lw6srv_oob_t * oob)
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("joining srv OOB thread"));
 	    }
-	  lw6sys_thread_join (oob->thread);
+	  lw6sys_thread_join (sys_context, oob->thread);
 	  if (oob->data.remote_ip)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,

@@ -541,19 +541,19 @@ _test_stack_msg_callback (void *func_data, void *data)
   _test_stack_msg_data_t *msg_data = (_test_stack_msg_data_t *) func_data;
   char *msg = (char *) data;
 
-  if (lw6sys_str_is_same (msg, _TEST_STACK_MSG_3))
+  if (lw6sys_str_is_same (sys_context, msg, _TEST_STACK_MSG_3))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		  _x_ ("message 3 found (length=%d)"), (int) strlen (msg));
       msg_data->msg3_found = 1;
     }
-  if (lw6sys_str_is_same (msg, msg_data->msg4))
+  if (lw6sys_str_is_same (sys_context, msg, msg_data->msg4))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		  _x_ ("message 4 found (length=%d)"), (int) strlen (msg));
       msg_data->msg4_found = 1;
     }
-  if (lw6sys_str_is_same (msg, _TEST_STACK_MSG_5))
+  if (lw6sys_str_is_same (sys_context, msg, _TEST_STACK_MSG_5))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		  _x_ ("message 5 found (length=%d)"), (int) strlen (msg));
@@ -599,7 +599,7 @@ _test_stack ()
       {
 	serial =
 	  _TEST_STACK_SERIAL_0 + _TEST_STACK_RANDOM_BASE +
-	  lw6sys_random (_TEST_STACK_RANDOM_RANGE);
+	  lw6sys_random (sys_context, _TEST_STACK_RANDOM_RANGE);
 	seq = _TEST_STACK_SEQ + i;
 	if (!LW6SYS_TEST_ACK (_lw6dat_stack_put_atom
 			      (&stack, _TEST_STACK_ATOM_TYPE, serial,
@@ -816,7 +816,8 @@ _test_stack ()
     _lw6dat_stack_purge (&stack);
 
     msg4_random_part =
-      lw6sys_str_random_words (_TEST_STACK_MSG_4_RANDOM_PART_SIZE);
+      lw6sys_str_random_words (sys_context,
+			       _TEST_STACK_MSG_4_RANDOM_PART_SIZE);
     if (LW6SYS_TEST_ACK (msg4_random_part))
       {
 	msg4 =
@@ -1140,8 +1141,8 @@ _test_warehouse ()
     float progress_value = 0.0f;
     lw6sys_progress_t progress;
 
-    lw6sys_progress_default (&progress, &progress_value);
-    lw6sys_progress_begin (&progress);
+    lw6sys_progress_default (sys_context, &progress, &progress_value);
+    lw6sys_progress_begin (sys_context, &progress);
 
     _warehouse =
       _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID,
@@ -1339,7 +1340,7 @@ _test_warehouse ()
 
 	lw6dat_warehouse_purge (warehouse);
 
-	id_str = lw6sys_id_ltoa (_TEST_WAREHOUSE_LOCAL_NODE_ID);
+	id_str = lw6sys_id_ltoa (sys_context, _TEST_WAREHOUSE_LOCAL_NODE_ID);
 	if (LW6SYS_TEST_ACK (id_str))
 	  {
 	    for (i = _TEST_WAREHOUSE_PUT_MIN_SIZE;
@@ -1413,7 +1414,8 @@ _test_warehouse ()
 					    _TEST_WAREHOUSE_LOCAL_NODE_ID,
 					    _TEST_WAREHOUSE_SERIAL,
 					    _TEST_WAREHOUSE_SEQ);
-	    id_str = lw6sys_id_ltoa (_TEST_WAREHOUSE_LOCAL_NODE_ID);
+	    id_str =
+	      lw6sys_id_ltoa (sys_context, _TEST_WAREHOUSE_LOCAL_NODE_ID);
 	    if (LW6SYS_TEST_ACK (id_str))
 	      {
 		msg =
@@ -1821,7 +1823,8 @@ _test_more ()
 	    for (i = _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG / 2;
 		 i < _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG; ++i)
 	      {
-		long_text[i] = 'a' + lw6sys_checksum_int32 (i) % 26;
+		long_text[i] =
+		  'a' + lw6sys_checksum_int32 (sys_context, i) % 26;
 	      }
 	    for (warehouse_index = 0;
 		 warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
@@ -2400,7 +2403,7 @@ lw6dat_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
       lw6glb_test_register (mode);
       lw6nod_test_register (mode);
       lw6cnx_test_register (mode);
@@ -2444,7 +2447,7 @@ lw6dat_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

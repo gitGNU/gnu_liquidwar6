@@ -31,5 +31,6 @@ void
 _lw6ker_slot_state_update_checksum (const _lw6ker_slot_state_t * slot_state,
 				    u_int32_t * checksum)
 {
-  lw6sys_checksum_update_int32 (checksum, slot_state->fighter_id);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				slot_state->fighter_id);
 }

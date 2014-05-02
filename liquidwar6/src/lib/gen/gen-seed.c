@@ -116,7 +116,7 @@ lw6gen_seed_char ()
    * array size and simplifies code in lw6gen_seed_new.
    */
   len = strlen (LW6GEN_SEED_CHARS);
-  ret = LW6GEN_SEED_CHARS[lw6sys_random (len)];
+  ret = LW6GEN_SEED_CHARS[lw6sys_random (sys_context, len)];
 
   return ret;
 }

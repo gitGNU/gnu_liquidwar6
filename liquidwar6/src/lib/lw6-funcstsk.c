@@ -52,7 +52,7 @@ _scm_lw6tsk_loader_new (SCM sleep)
 	{
 	  ret = lw6_make_scm_loader (c_loader);
 	}
-      LW6SYS_FREE (user_dir);
+      LW6SYS_FREE (sys_context, user_dir);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -126,13 +126,13 @@ _scm_lw6tsk_loader_push_ldr (SCM loader, SCM map_path, SCM relative_path,
 					  c_magic_number);
 		  ret = SCM_BOOL_T;
 
-		  lw6sys_assoc_free (c_forced_param);
+		  lw6sys_assoc_free (sys_context, c_forced_param);
 		}
-	      lw6sys_assoc_free (c_default_param);
+	      lw6sys_assoc_free (sys_context, c_default_param);
 	    }
-	  LW6SYS_FREE (c_relative_path);
+	  LW6SYS_FREE (sys_context, c_relative_path);
 	}
-      LW6SYS_FREE (c_map_path);
+      LW6SYS_FREE (sys_context, c_map_path);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

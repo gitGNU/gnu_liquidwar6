@@ -258,7 +258,8 @@ poll (_lw6dsp_data_t * data)
     }
   if (ret)
     {
-      history = lw6sys_history_get (data->param.misc.log_timeout);
+      history =
+	lw6sys_history_get (sys_context, data->param.misc.log_timeout);
       if (history)
 	{
 	  if (lw6gfx_display (data->gfx_backend,
@@ -354,7 +355,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display thread"));
 
-  lw6sys_mutex_lock (data->render_mutex);
+  lw6sys_mutex_lock (sys_context, data->render_mutex);
 
 #ifdef LW6_MAC_OS_X
   data->macosx_vthread_handler = _lw6dsp_macosx_thread_init ();
@@ -365,7 +366,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
       init (data);
     }
 
-  lw6sys_mutex_unlock (data->render_mutex);
+  lw6sys_mutex_unlock (sys_context, data->render_mutex);
 
   if (data->gfx_backend)
     {
@@ -374,7 +375,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 	{
 	  ticks = lw6sys_get_timestamp ();
 
-	  lw6sys_mutex_lock (data->render_mutex);
+	  lw6sys_mutex_lock (sys_context, data->render_mutex);
 
 	  if (data->param.misc.target_fps > 0)
 	    {
@@ -479,7 +480,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 	       */
 	      do_skip = 1;
 	    }
-	  cpu_ticks = lw6sys_get_timestamp () - ticks;
+	  cpu_ticks = lw6sys_get_timestamp (sys_context,) - ticks;
 	  delay_cpu = 0;
 	  if (!do_skip)
 	    {
@@ -493,7 +494,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 		}
 	    }
 
-	  lw6sys_mutex_unlock (data->render_mutex);
+	  lw6sys_mutex_unlock (sys_context, data->render_mutex);
 
 	  if (!do_skip)
 	    {
@@ -512,7 +513,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 			  _x_
 			  ("sleeping %d ms (delay_skip=%d, delay_cpu=%d)"),
 			  delay_real, delay_skip, delay_cpu);
-	      lw6sys_delay (delay_real);
+	      lw6sys_delay (sys_context, delay_real);
 	    }
 	}
     }

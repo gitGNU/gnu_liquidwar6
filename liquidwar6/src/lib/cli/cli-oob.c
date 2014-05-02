@@ -53,7 +53,7 @@ lw6cli_oob_new (const char *public_url,
     {
       oob->data.creation_timestamp = lw6sys_get_timestamp ();
       oob->data.do_not_finish = 0;
-      oob->data.public_url = lw6sys_url_canonize (public_url);
+      oob->data.public_url = lw6sys_url_canonize (sys_context, public_url);
       oob->data.verify_callback_func = verify_callback_func;
       oob->data.verify_callback_data = verify_callback_data;
     }
@@ -106,7 +106,7 @@ lw6cli_oob_free (lw6cli_oob_t * oob)
 			  _x_
 			  ("joining cli OOB thread, this might take some time..."));
 	    }
-	  lw6sys_thread_join (oob->thread);
+	  lw6sys_thread_join (sys_context, oob->thread);
 	  if (oob->data.public_url)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,

@@ -36,7 +36,7 @@ _lw6net_dns_init (_lw6net_dns_t * dns, int dns_cache_hash_size,
   dns->dns_gethostbyname_mutex = lw6sys_mutex_create ();
   dns->dns_cache_mutex = lw6sys_mutex_create ();
   dns->dns_cache =
-    lw6sys_cache_new (lw6sys_free_callback, dns_cache_hash_size,
+    lw6sys_cache_new (sys_context, lw6sys_free_callback, dns_cache_hash_size,
 		      dns_cache_delay_sec * LW6SYS_TICKS_PER_SEC);
   ret = (dns->dns_gethostbyname_mutex != NULL && dns->dns_cache_mutex != NULL
 	 && dns->dns_cache != NULL);

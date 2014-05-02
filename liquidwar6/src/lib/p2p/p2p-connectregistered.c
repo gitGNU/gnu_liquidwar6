@@ -64,7 +64,8 @@ _select_node_by_id_callback (void *func_data, int nb_fields,
 	   * is memory allocation.
 	   */
 	  node_by_id_data->node_url =
-	    lw6sys_url_canonize (fields_values[_LW6P2P_DB_NODE_ORDER_URL]);
+	    lw6sys_url_canonize (sys_context,
+				 fields_values[_LW6P2P_DB_NODE_ORDER_URL]);
 	}
       if (fields_values[_LW6P2P_DB_NODE_ORDER_IP])
 	{
@@ -75,7 +76,7 @@ _select_node_by_id_callback (void *func_data, int nb_fields,
       if (fields_values[_LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC])
 	{
 	  node_by_id_data->ping_delay_msec =
-	    lw6sys_atoi (fields_values
+	    lw6sys_atoi (sys_context, fields_values
 			 [_LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC]);
 	}
     }
@@ -101,7 +102,7 @@ _lw6p2p_connect_registered_nodes_if_needed (_lw6p2p_node_t * node)
   if (node->connect_registered.next_connect_registered_nodes_timestamp < now)
     {
       node->connect_registered.next_connect_registered_nodes_timestamp =
-	now + delay / 2 + lw6sys_random (delay);
+	now + delay / 2 + lw6sys_random (sys_context, delay);
       ret = _lw6p2p_connect_registered_nodes (node);
     }
   else
@@ -142,7 +143,7 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 	       * warehouse but is not in our tentacle list.
 	       */
 	      node_by_id_data.node_id =
-		lw6sys_id_ltoa (meta_array.items[index].node_id);
+		lw6sys_id_ltoa (sys_context, meta_array.items[index].node_id);
 	      if (node_by_id_data.node_id)
 		{
 		  query =

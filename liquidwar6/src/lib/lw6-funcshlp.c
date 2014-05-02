@@ -50,7 +50,7 @@ _scm_lw6hlp_about (SCM key)
 	  ret = scm_from_locale_string (c_ret);
 	  // no need to free c_ret
 	}
-      LW6SYS_FREE (c_key);
+      LW6SYS_FREE (sys_context, c_key);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -79,7 +79,7 @@ _scm_lw6hlp_get_default_value (SCM key)
 	  ret = scm_from_locale_string (c_ret);
 	  // no need to free c_ret
 	}
-      LW6SYS_FREE (c_key);
+      LW6SYS_FREE (sys_context, c_key);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -100,7 +100,7 @@ _scm_lw6hlp_list_quick ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -121,7 +121,7 @@ _scm_lw6hlp_list_doc ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -142,7 +142,7 @@ _scm_lw6hlp_list_show ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -163,7 +163,7 @@ _scm_lw6hlp_list_path ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -184,7 +184,7 @@ _scm_lw6hlp_list_players ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -205,7 +205,7 @@ _scm_lw6hlp_list_input ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -226,7 +226,7 @@ _scm_lw6hlp_list_graphics ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -247,7 +247,7 @@ _scm_lw6hlp_list_sound ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -268,7 +268,7 @@ _scm_lw6hlp_list_network ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -289,7 +289,7 @@ _scm_lw6hlp_list_map ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -310,7 +310,7 @@ _scm_lw6hlp_list_map_rules ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -331,7 +331,7 @@ _scm_lw6hlp_list_map_hints ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -352,7 +352,7 @@ _scm_lw6hlp_list_map_style ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -373,7 +373,7 @@ _scm_lw6hlp_list_map_teams ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -394,7 +394,7 @@ _scm_lw6hlp_list_funcs ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -415,7 +415,7 @@ _scm_lw6hlp_list_hooks ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -436,7 +436,7 @@ _scm_lw6hlp_list_advanced ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -457,7 +457,7 @@ _scm_lw6hlp_list_aliases ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -478,7 +478,7 @@ _scm_lw6hlp_list_team_colors ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -499,7 +499,7 @@ _scm_lw6hlp_list_weapons ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -520,7 +520,7 @@ _scm_lw6hlp_list ()
   if (c_list)
     {
       ret = lw6scm_utils_to_scm_str_list (c_list);
-      lw6sys_list_free (c_list);
+      lw6sys_list_free (sys_context, c_list);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

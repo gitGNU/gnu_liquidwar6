@@ -41,7 +41,7 @@ lw6pil_seq_random_0 ()
 {
   int64_t ret = 0L;
 
-  ret = _LW6PIL_MIN_SEQ_0 + lw6sys_random (_LW6PIL_RANGE_SEQ_0);
+  ret = _LW6PIL_MIN_SEQ_0 + lw6sys_random (sys_context, _LW6PIL_RANGE_SEQ_0);
 
   return ret;
 }

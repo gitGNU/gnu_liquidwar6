@@ -173,7 +173,7 @@ lw6msg_z_decode (const char *msg)
   char *in_buf = NULL;
   int out_alloc_len = 0;
 
-  if (lw6sys_str_starts_with_no_case (msg, LW6MSG_Z_PREFIX))
+  if (lw6sys_str_starts_with_no_case (sys_context, msg, LW6MSG_Z_PREFIX))
     {
       in_buf =
 	lw6glb_base64_decode_bin_prefix (&in_len, msg, LW6MSG_Z_PREFIX);
@@ -279,7 +279,8 @@ lw6msg_z_decode (const char *msg)
 		{
 		  char *in_hexa_str = NULL;
 
-		  in_hexa_str = lw6sys_hexa_buf_to_str (in_buf, in_len);
+		  in_hexa_str =
+		    lw6sys_hexa_buf_to_str (sys_context, in_buf, in_len);
 		  if (in_hexa_str)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,

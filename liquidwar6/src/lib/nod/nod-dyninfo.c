@@ -39,9 +39,10 @@ _set_community_id (lw6nod_dyn_info_t * dyninfo, u_int64_t community_id)
     }
   if (community_id != LW6NOD_COMMUNITY_ID_NONE)
     {
-      if (lw6sys_check_id (community_id))
+      if (lw6sys_check_id (sys_context, community_id))
 	{
-	  dyninfo->community_id_str = lw6sys_id_ltoa (community_id);
+	  dyninfo->community_id_str =
+	    lw6sys_id_ltoa (sys_context, community_id);
 	}
       if (dyninfo->community_id_str != NULL)
 	{

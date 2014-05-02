@@ -68,10 +68,10 @@ main (int argc, const char *argv[])
   LW6SYS_MAIN_BEGIN;
   LW6HLP_MAIN_BEGIN;
 
-  lw6sys_log_clear (NULL);
-  _mode = lw6sys_arg_test_mode (argc, (const char **) argv);
+  lw6sys_log_clear (sys_context, NULL);
+  _mode = lw6sys_arg_test_mode (sys_context, argc, (const char **) argv);
 #ifdef LW6_MAC_OS_X
-  lw6sys_vthread_run (run, NULL, NULL);
+  lw6sys_vthread_run (sys_context, run, NULL, NULL);
 #else
   run (NULL);
 #endif

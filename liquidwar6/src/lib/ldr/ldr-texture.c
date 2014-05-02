@@ -71,7 +71,7 @@ read_image (lw6map_texture_t * texture, _lw6ldr_image_rgba_t * image)
 
   if (!ret)
     {
-      lw6map_texture_clear (texture);
+      lw6map_texture_clear (sys_context, texture);
     }
 
   return ret;
@@ -211,7 +211,7 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
 {
   int ret = 0;
 
-  lw6map_texture_clear (texture);
+  lw6map_texture_clear (sys_context, texture);
 
   (*texture_exists) = 0;
 
@@ -223,10 +223,10 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
       char *texture_dot_png;
 
       texture_dot_png =
-	lw6sys_path_concat (dirname, _LW6LDR_FILE_TEXTURE_PNG);
+	lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_TEXTURE_PNG);
       if (texture_dot_png)
 	{
-	  if (lw6sys_file_exists (texture_dot_png))
+	  if (lw6sys_file_exists (sys_context, texture_dot_png))
 	    {
 	      ret = read_png (texture, texture_dot_png, progress);
 	      (*texture_exists) = ret;
@@ -243,10 +243,10 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
       char *texture_dot_jpeg = NULL;
 
       texture_dot_jpeg =
-	lw6sys_path_concat (dirname, _LW6LDR_FILE_TEXTURE_JPEG);
+	lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_TEXTURE_JPEG);
       if (texture_dot_jpeg)
 	{
-	  if (lw6sys_file_exists (texture_dot_jpeg))
+	  if (lw6sys_file_exists (sys_context, texture_dot_jpeg))
 	    {
 	      ret = read_jpeg (texture, texture_dot_jpeg, progress);
 	      (*texture_exists) = ret;
@@ -257,10 +257,11 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
       if (!ret)
 	{
 	  texture_dot_jpeg =
-	    lw6sys_path_concat (dirname, _LW6LDR_FILE_TEXTURE_JPG);
+	    lw6sys_path_concat (sys_context, dirname,
+				_LW6LDR_FILE_TEXTURE_JPG);
 	  if (texture_dot_jpeg)
 	    {
-	      if (lw6sys_file_exists (texture_dot_jpeg))
+	      if (lw6sys_file_exists (sys_context, texture_dot_jpeg))
 		{
 		  ret = read_jpeg (texture, texture_dot_jpeg, progress);
 		  (*texture_exists) = ret;
@@ -279,10 +280,11 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
       char *texture_alpha_dot_jpeg = NULL;
 
       texture_alpha_dot_jpeg =
-	lw6sys_path_concat (dirname, _LW6LDR_FILE_TEXTURE_ALPHA_JPEG);
+	lw6sys_path_concat (sys_context, dirname,
+			    _LW6LDR_FILE_TEXTURE_ALPHA_JPEG);
       if (texture_alpha_dot_jpeg)
 	{
-	  if (lw6sys_file_exists (texture_alpha_dot_jpeg))
+	  if (lw6sys_file_exists (sys_context, texture_alpha_dot_jpeg))
 	    {
 	      ret = read_alpha_jpeg (texture, texture_alpha_dot_jpeg, NULL);
 	    }
@@ -291,10 +293,11 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
       if (!ret)
 	{
 	  texture_alpha_dot_jpeg =
-	    lw6sys_path_concat (dirname, _LW6LDR_FILE_TEXTURE_ALPHA_JPG);
+	    lw6sys_path_concat (sys_context, dirname,
+				_LW6LDR_FILE_TEXTURE_ALPHA_JPG);
 	  if (texture_alpha_dot_jpeg)
 	    {
-	      if (lw6sys_file_exists (texture_alpha_dot_jpeg))
+	      if (lw6sys_file_exists (sys_context, texture_alpha_dot_jpeg))
 		{
 		  ret =
 		    read_alpha_jpeg (texture, texture_alpha_dot_jpeg, NULL);

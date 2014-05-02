@@ -97,11 +97,11 @@ lw6gui_look_new (const lw6map_style_t * map_style)
       look->gfx_quality = LW6GUI_GFX_QUALITY_STANDARD;
       if (map_style)
 	{
-	  lw6map_style_copy (&look->style, map_style);
+	  lw6map_style_copy (sys_context, &look->style, map_style);
 	}
       else
 	{
-	  lw6map_style_defaults (&look->style);
+	  lw6map_style_defaults (sys_context, &look->style);
 	}
     }
 
@@ -122,7 +122,7 @@ lw6gui_look_free (lw6gui_look_t * look)
 {
   if (look)
     {
-      lw6map_style_clear (&look->style);
+      lw6map_style_clear (sys_context, &look->style);
       LW6SYS_FREE (sys_context, look);
     }
   else
@@ -196,18 +196,18 @@ lw6gui_look_set (lw6gui_look_t * look, char *key, char *value)
 
   if (!strcmp (key, "dynamic-zoom"))
     {
-      look->dynamic_zoom = lw6sys_atof (value);
+      look->dynamic_zoom = lw6sys_atof (sys_context, value);
       _fix_zoom (look);
       ret = 1;
     }
   else if (!strcmp (key, LW6DEF_GFX_QUALITY))
     {
-      look->gfx_quality = lw6sys_atoi (value);
+      look->gfx_quality = lw6sys_atoi (sys_context, value);
       _fix_gfx_quality (look);
     }
   else
     {
-      ret = lw6map_style_set (&(look->style), key, value);
+      ret = lw6map_style_set (sys_context, &(look->style), key, value);
     }
 
   return ret;
@@ -232,15 +232,15 @@ lw6gui_look_get (const lw6gui_look_t * look, char *key)
 
   if (!strcmp (key, "dynamic-zoom"))
     {
-      ret = lw6sys_ftoa (look->dynamic_zoom);
+      ret = lw6sys_ftoa (sys_context, look->dynamic_zoom);
     }
   else if (!strcmp (key, LW6DEF_GFX_QUALITY))
     {
-      ret = lw6sys_itoa (look->gfx_quality);
+      ret = lw6sys_itoa (sys_context, look->gfx_quality);
     }
   else
     {
-      ret = lw6map_style_get (&look->style, key);
+      ret = lw6map_style_get (sys_context, &look->style, key);
     }
 
   return ret;
@@ -274,7 +274,8 @@ lw6gui_look_is_same (const lw6gui_look_t * look_a,
     {
       ret = ret && look_a->dynamic_zoom == look_b->dynamic_zoom;
       ret = ret && look_a->gfx_quality == look_b->gfx_quality;
-      ret = ret && lw6map_style_is_same (&look_a->style, &look_b->style);
+      ret = ret
+	&& lw6map_style_is_same (sys_context, &look_a->style, &look_b->style);
     }
 
   return ret;

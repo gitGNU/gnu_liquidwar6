@@ -220,11 +220,11 @@ _scm_lw6ker_register_node (SCM game_state, SCM node_id)
       c_node_id_str = lw6scm_utils_to_0str (node_id);
       if (c_node_id_str)
 	{
-	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
-	  LW6SYS_FREE (c_node_id_str);
+	  c_node_id_int = lw6sys_id_atol (sys_context, c_node_id_str);
+	  LW6SYS_FREE (sys_context, c_node_id_str);
 	}
 
-      if (lw6sys_check_id (c_node_id_int))
+      if (lw6sys_check_id (sys_context, c_node_id_int))
 	{
 	  ret =
 	    lw6ker_game_state_register_node (c_game_state,
@@ -260,11 +260,11 @@ _scm_lw6ker_unregister_node (SCM game_state, SCM node_id)
       c_node_id_str = lw6scm_utils_to_0str (node_id);
       if (c_node_id_str)
 	{
-	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
-	  LW6SYS_FREE (c_node_id_str);
+	  c_node_id_int = lw6sys_id_atol (sys_context, c_node_id_str);
+	  LW6SYS_FREE (sys_context, c_node_id_str);
 	}
 
-      if (lw6sys_check_id (c_node_id_int))
+      if (lw6sys_check_id (sys_context, c_node_id_int))
 	{
 	  ret =
 	    lw6ker_game_state_unregister_node (c_game_state,
@@ -300,11 +300,11 @@ _scm_lw6ker_node_exists (SCM game_state, SCM node_id)
       c_node_id_str = lw6scm_utils_to_0str (node_id);
       if (c_node_id_str)
 	{
-	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
-	  LW6SYS_FREE (c_node_id_str);
+	  c_node_id_int = lw6sys_id_atol (sys_context, c_node_id_str);
+	  LW6SYS_FREE (sys_context, c_node_id_str);
 	}
 
-      if (lw6sys_check_id (c_node_id_int))
+      if (lw6sys_check_id (sys_context, c_node_id_int))
 	{
 	  ret =
 	    lw6ker_game_state_node_exists (c_game_state,
@@ -347,25 +347,25 @@ _scm_lw6ker_add_cursor (SCM game_state, SCM node_id, SCM cursor_id,
       c_node_id_str = lw6scm_utils_to_0str (node_id);
       if (c_node_id_str)
 	{
-	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
-	  LW6SYS_FREE (c_node_id_str);
+	  c_node_id_int = lw6sys_id_atol (sys_context, c_node_id_str);
+	  LW6SYS_FREE (sys_context, c_node_id_str);
 	}
       c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
-	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
-	  LW6SYS_FREE (c_cursor_id_str);
+	  c_cursor_id_int = lw6sys_id_atol (sys_context, c_cursor_id_str);
+	  LW6SYS_FREE (sys_context, c_cursor_id_str);
 	}
       c_team_color_str = lw6scm_utils_to_0str (team_color);
       if (c_team_color_str)
 	{
 	  c_team_color_int =
 	    lw6map_team_color_key_to_index (c_team_color_str);
-	  LW6SYS_FREE (c_team_color_str);
+	  LW6SYS_FREE (sys_context, c_team_color_str);
 	}
 
-      if (lw6sys_check_id (c_node_id_int)
-	  && lw6sys_check_id (c_cursor_id_int)
+      if (lw6sys_check_id (sys_context, c_node_id_int)
+	  && lw6sys_check_id (sys_context, c_cursor_id_int)
 	  && c_team_color_int != LW6MAP_TEAM_COLOR_INVALID)
 	{
 	  ret =
@@ -406,18 +406,18 @@ _scm_lw6ker_remove_cursor (SCM game_state, SCM node_id, SCM cursor_id)
       c_node_id_str = lw6scm_utils_to_0str (node_id);
       if (c_node_id_str)
 	{
-	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
-	  LW6SYS_FREE (c_node_id_str);
+	  c_node_id_int = lw6sys_id_atol (sys_context, c_node_id_str);
+	  LW6SYS_FREE (sys_context, c_node_id_str);
 	}
       c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
-	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
-	  LW6SYS_FREE (c_cursor_id_str);
+	  c_cursor_id_int = lw6sys_id_atol (sys_context, c_cursor_id_str);
+	  LW6SYS_FREE (sys_context, c_cursor_id_str);
 	}
 
-      if (lw6sys_check_id (c_node_id_int)
-	  && lw6sys_check_id (c_cursor_id_int))
+      if (lw6sys_check_id (sys_context, c_node_id_int)
+	  && lw6sys_check_id (sys_context, c_cursor_id_int))
 	{
 	  ret =
 	    lw6ker_game_state_remove_cursor (c_game_state, c_node_id_int,
@@ -453,11 +453,11 @@ _scm_lw6ker_cursor_exists (SCM game_state, SCM cursor_id)
       c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
-	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
-	  LW6SYS_FREE (c_cursor_id_str);
+	  c_cursor_id_int = lw6sys_id_atol (sys_context, c_cursor_id_str);
+	  LW6SYS_FREE (sys_context, c_cursor_id_str);
 	}
 
-      if (lw6sys_check_id (c_cursor_id_int))
+      if (lw6sys_check_id (sys_context, c_cursor_id_int))
 	{
 	  ret =
 	    lw6ker_game_state_cursor_exists (c_game_state,
@@ -493,11 +493,11 @@ _scm_lw6ker_get_cursor (SCM game_state, SCM cursor_id)
       c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
-	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
-	  LW6SYS_FREE (c_cursor_id_str);
+	  c_cursor_id_int = lw6sys_id_atol (sys_context, c_cursor_id_str);
+	  LW6SYS_FREE (sys_context, c_cursor_id_str);
 	}
 
-      if (lw6sys_check_id (c_cursor_id_int))
+      if (lw6sys_check_id (sys_context, c_cursor_id_int))
 	{
 	  char *c_team_color_str = NULL;
 	  char *c_node_id_str = NULL;
@@ -512,7 +512,8 @@ _scm_lw6ker_get_cursor (SCM game_state, SCM cursor_id)
 		lw6map_team_color_index_to_key (c_cursor.team_color);
 	      if (c_team_color_str)
 		{
-		  c_node_id_str = lw6sys_id_ltoa (c_cursor.node_id);
+		  c_node_id_str =
+		    lw6sys_id_ltoa (sys_context, c_cursor.node_id);
 		  if (c_node_id_str)
 		    {
 		      c_letter_str[0] = c_letter_char;
@@ -536,7 +537,7 @@ _scm_lw6ker_get_cursor (SCM game_state, SCM cursor_id)
 						  ("y"),
 						  scm_from_int (c_cursor.
 								pos.y)));
-		      LW6SYS_FREE (c_node_id_str);
+		      LW6SYS_FREE (sys_context, c_node_id_str);
 		    }
 		}
 	    }
@@ -577,20 +578,20 @@ _scm_lw6ker_set_cursor (SCM game_state, SCM node_id, SCM cursor_id, SCM x,
       c_node_id_str = lw6scm_utils_to_0str (node_id);
       if (c_node_id_str)
 	{
-	  c_cursor.node_id = lw6sys_id_atol (c_node_id_str);
-	  LW6SYS_FREE (c_node_id_str);
+	  c_cursor.node_id = lw6sys_id_atol (sys_context, c_node_id_str);
+	  LW6SYS_FREE (sys_context, c_node_id_str);
 	}
       c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
-	  c_cursor.cursor_id = lw6sys_id_atol (c_cursor_id_str);
-	  LW6SYS_FREE (c_cursor_id_str);
+	  c_cursor.cursor_id = lw6sys_id_atol (sys_context, c_cursor_id_str);
+	  LW6SYS_FREE (sys_context, c_cursor_id_str);
 	}
       c_cursor.pos.x = scm_to_int (x);
       c_cursor.pos.y = scm_to_int (y);
 
-      if (lw6sys_check_id (c_cursor.node_id)
-	  && lw6sys_check_id (c_cursor.cursor_id))
+      if (lw6sys_check_id (sys_context, c_cursor.node_id)
+	  && lw6sys_check_id (sys_context, c_cursor.cursor_id))
 	{
 	  ret =
 	    lw6ker_game_state_set_cursor (c_game_state, &c_cursor) ?
@@ -741,11 +742,11 @@ _scm_lw6ker_did_cursor_win (SCM game_state, SCM cursor_id)
       c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
       if (c_cursor_id_str)
 	{
-	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
-	  LW6SYS_FREE (c_cursor_id_str);
+	  c_cursor_id_int = lw6sys_id_atol (sys_context, c_cursor_id_str);
+	  LW6SYS_FREE (sys_context, c_cursor_id_str);
 	}
 
-      if (lw6sys_check_id (c_cursor_id_int))
+      if (lw6sys_check_id (sys_context, c_cursor_id_int))
 	{
 	  ret =
 	    lw6ker_game_state_did_cursor_win (c_game_state,

@@ -40,9 +40,9 @@
  * Return value: none.
  */
 void
-lw6map_metadata_defaults (lw6map_metadata_t * metadata)
+lw6map_metadata_defaults (sys_context, lw6map_metadata_t * metadata)
 {
-  lw6map_metadata_clear (metadata);
+  lw6map_metadata_clear (sys_context, metadata);
 
   metadata->title = lw6sys_new_sprintf (sys_context, _x_ ("Default map"));
   metadata->author =
@@ -75,7 +75,7 @@ lw6map_metadata_defaults (lw6map_metadata_t * metadata)
  * Return value: none.
  */
 void
-lw6map_metadata_clear (lw6map_metadata_t * metadata)
+lw6map_metadata_clear (sys_context, lw6map_metadata_t * metadata)
 {
   if (metadata)
     {
@@ -115,16 +115,22 @@ lw6map_metadata_clear (lw6map_metadata_t * metadata)
  * Return value: 1 if same, 0 if different.
  */
 int
-lw6map_metadata_is_same (const lw6map_metadata_t * metadata_a,
+lw6map_metadata_is_same (sys_context, const lw6map_metadata_t * metadata_a,
 			 const lw6map_metadata_t * metadata_b)
 {
   int ret = 1;
 
-  ret = ret && lw6sys_str_is_same (metadata_a->title, metadata_b->title);
-  ret = ret && lw6sys_str_is_same (metadata_a->author, metadata_b->author);
   ret = ret
-    && lw6sys_str_is_same (metadata_a->description, metadata_b->description);
-  ret = ret && lw6sys_str_is_same (metadata_a->license, metadata_b->license);
+    && lw6sys_str_is_same (sys_context, metadata_a->title, metadata_b->title);
+  ret = ret
+    && lw6sys_str_is_same (sys_context, metadata_a->author,
+			   metadata_b->author);
+  ret = ret
+    && lw6sys_str_is_same (sys_context, metadata_a->description,
+			   metadata_b->description);
+  ret = ret
+    && lw6sys_str_is_same (sys_context, metadata_a->license,
+			   metadata_b->license);
   ret = ret && (metadata_a->vanilla_exp == metadata_b->vanilla_exp);
 
   return ret;

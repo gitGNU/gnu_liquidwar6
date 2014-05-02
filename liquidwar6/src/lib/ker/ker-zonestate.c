@@ -31,7 +31,9 @@ void
 _lw6ker_zone_state_update_checksum (const _lw6ker_zone_state_t * zone_state,
 				    u_int32_t * checksum)
 {
-  lw6sys_checksum_update_int32 (checksum, zone_state->potential);
-  lw6sys_checksum_update_int32 (checksum, zone_state->direction_to_cursor);
-  lw6sys_checksum_update_xyz (checksum, &(zone_state->closest_cursor_pos));
+  lw6sys_checksum_update_int32 (sys_context, checksum, zone_state->potential);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				zone_state->direction_to_cursor);
+  lw6sys_checksum_update_xyz (sys_context, checksum,
+			      &(zone_state->closest_cursor_pos));
 }

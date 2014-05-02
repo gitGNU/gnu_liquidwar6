@@ -606,8 +606,8 @@ _test_look ()
     char *repr = NULL;
     char *value = NULL;
 
-    lw6map_style_zero (&style);
-    lw6map_style_defaults (&style);
+    lw6map_style_zero (sys_context, &style);
+    lw6map_style_defaults (sys_context, &style);
     look = lw6gui_look_new (&style);
     if (look)
       {
@@ -708,7 +708,7 @@ _test_look ()
 		    _x_ ("unable to create look"));
 	ret = 0;
       }
-    lw6map_style_clear (&style);
+    lw6map_style_clear (sys_context, &style);
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -875,13 +875,13 @@ _test_menu ()
     int menuitem_id;
     lw6sys_list_t *breadcrumbs = NULL;
 
-    breadcrumbs = lw6sys_list_new (lw6sys_free_callback);
+    breadcrumbs = lw6sys_list_new (sys_context, lw6sys_free_callback);
     if (breadcrumbs)
       {
-	lw6sys_list_push_back (&breadcrumbs,
+	lw6sys_list_push_back (sys_context, &breadcrumbs,
 			       lw6sys_str_copy (sys_context,
 						_TEST_MENU_BREADCRUMBS1));
-	lw6sys_list_push_back (&breadcrumbs,
+	lw6sys_list_push_back (sys_context, &breadcrumbs,
 			       lw6sys_str_copy (sys_context,
 						_TEST_MENU_BREADCRUMBS2));
       }
@@ -1032,7 +1032,7 @@ _test_menu ()
 	  {
 	    ret = 0;
 	  }
-	lw6sys_list_free (breadcrumbs);
+	lw6sys_list_free (sys_context, breadcrumbs);
       }
     else
       {
@@ -1264,7 +1264,7 @@ _test_smoother ()
 
     lw6gui_smoother_init (&smoother, _TEST_SMOOTHER_VALUE1,
 			  _TEST_SMOOTHER_DURATION);
-    lw6sys_delay (_TEST_SMOOTHER_DELAY);
+    lw6sys_delay (sys_context, _TEST_SMOOTHER_DELAY);
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("smoother init %f"),
 		lw6gui_smoother_get_value (&smoother,
 					   lw6sys_get_timestamp ()));
@@ -1276,7 +1276,7 @@ _test_smoother ()
 				lw6sys_get_timestamp ());
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		_x_ ("smoother set target %f"), _TEST_SMOOTHER_VALUE3);
-    lw6sys_delay (_TEST_SMOOTHER_DELAY);
+    lw6sys_delay (sys_context, _TEST_SMOOTHER_DELAY);
     lw6gui_smoother_set_target (&smoother, _TEST_SMOOTHER_VALUE4,
 				lw6sys_get_timestamp ());
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -1287,7 +1287,7 @@ _test_smoother ()
 		    _x_ ("smoother value is %f"),
 		    lw6gui_smoother_get_value (&smoother,
 					       lw6sys_get_timestamp ()));
-	lw6sys_delay (_TEST_SMOOTHER_DELAY);
+	lw6sys_delay (sys_context, _TEST_SMOOTHER_DELAY);
       }
     lw6gui_smoother_fix_overflow (&smoother, _TEST_SMOOTHER_STEP);
   }
@@ -1328,13 +1328,13 @@ _test_video_mode ()
       0
     };
 
-    available = lw6sys_list_new (NULL);
+    available = lw6sys_list_new (sys_context, NULL);
 
     if (available)
       {
-	lw6sys_lifo_push (&available, &available_1);
-	lw6sys_lifo_push (&available, &available_2);
-	lw6sys_lifo_push (&available, &available_3);
+	lw6sys_lifo_push (sys_context, &available, &available_1);
+	lw6sys_lifo_push (sys_context, &available, &available_2);
+	lw6sys_lifo_push (sys_context, &available, &available_3);
 
 	lw6gui_video_mode_find_closest (&closest, &wished, available);
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -1366,7 +1366,7 @@ _test_video_mode ()
 	    ret = 0;
 	  }
 
-	lw6sys_list_free (available);
+	lw6sys_list_free (sys_context, available);
       }
     else
       {
@@ -1444,8 +1444,10 @@ _test_viewport ()
 	log_zone (&viewport.map_visible, _x_ ("visible"));
 	for (i = 0; i < _TEST_VIEWPORT_NB_RANDOM_TRIES; ++i)
 	  {
-	    map_x = lw6sys_random_float (0.0f, _TEST_VIEWPORT_MAP_W);
-	    map_y = lw6sys_random_float (0.0f, _TEST_VIEWPORT_MAP_H);
+	    map_x =
+	      lw6sys_random_float (sys_context, 0.0f, _TEST_VIEWPORT_MAP_W);
+	    map_y =
+	      lw6sys_random_float (sys_context, 0.0f, _TEST_VIEWPORT_MAP_H);
 	    lw6gui_viewport_map_to_screen (&viewport, &screen_x, &screen_y,
 					   map_x, map_y, _TEST_VIEWPORT_CLIP);
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -1454,8 +1456,12 @@ _test_viewport ()
 	  }
 	for (i = 0; i < _TEST_VIEWPORT_NB_RANDOM_TRIES; ++i)
 	  {
-	    screen_x = lw6sys_random_float (0.0f, _TEST_VIEWPORT_SCREEN_W);
-	    screen_y = lw6sys_random_float (0.0f, _TEST_VIEWPORT_SCREEN_H);
+	    screen_x =
+	      lw6sys_random_float (sys_context, 0.0f,
+				   _TEST_VIEWPORT_SCREEN_W);
+	    screen_y =
+	      lw6sys_random_float (sys_context, 0.0f,
+				   _TEST_VIEWPORT_SCREEN_H);
 	    lw6gui_viewport_screen_to_map (&viewport, &map_x, &map_y,
 					   screen_x, screen_y,
 					   _TEST_VIEWPORT_WRAP);
@@ -1513,45 +1519,65 @@ _test_geometry ()
     lw6gui_rect_t rect;
 
     point.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     point.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     segment.p1.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     segment.p1.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     segment.p2.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     segment.p2.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     triangle.p1.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     triangle.p1.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     triangle.p2.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     triangle.p2.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     triangle.p3.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     triangle.p3.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     quad.p1.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     quad.p1.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     quad.p2.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     quad.p2.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     quad.p3.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     quad.p3.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     quad.p4.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     quad.p4.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (_TEST_GEOMETRY_POINT_RANGE);
+      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
+						_TEST_GEOMETRY_POINT_RANGE);
     lw6gui_rect_init_x1y1x2y2 (&rect, _TEST_GEOMETRY_RECT_X1,
 			       _TEST_GEOMETRY_RECT_Y1, _TEST_GEOMETRY_RECT_X2,
 			       _TEST_GEOMETRY_RECT_Y2);
@@ -1604,10 +1630,10 @@ lw6gui_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
       lw6hlp_test_register (mode);
       lw6cfg_test_register (mode);
-      lw6map_test_register (mode);
+      lw6map_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6gui", _setup_init, _setup_quit);
@@ -1659,7 +1685,7 @@ lw6gui_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

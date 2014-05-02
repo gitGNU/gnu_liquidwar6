@@ -679,11 +679,12 @@ lw6net_tcp_send (int *sock, const char *buf, int len, int delay_msec,
 	    {
 	      if (limit_timestamp == 0LL)
 		{
-		  limit_timestamp = lw6sys_get_timestamp () + delay_msec;
+		  limit_timestamp =
+		    lw6sys_get_timestamp (sys_context,) + delay_msec;
 		}
 	      else
 		{
-		  if (lw6sys_get_timestamp () > limit_timestamp)
+		  if (lw6sys_get_timestamp (sys_context,) > limit_timestamp)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_

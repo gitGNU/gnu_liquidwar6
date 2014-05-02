@@ -37,7 +37,7 @@
  * Return value: a string, must *not* be freed.
  */
 char *
-lw6map_weapon_index_to_key (int index)
+lw6map_weapon_index_to_key (sys_context, int index)
 {
   char *ret = LW6DEF_BERZERK;
 
@@ -121,7 +121,7 @@ lw6map_weapon_index_to_key (int index)
  * Return value: an integer.
  */
 int
-lw6map_weapon_key_to_index (const char *key)
+lw6map_weapon_key_to_index (sys_context, const char *key)
 {
   int ret = LW6MAP_WEAPON_NONE;
 
@@ -225,7 +225,7 @@ lw6map_weapon_key_to_index (const char *key)
  * Return value: a string, must *not* be freed.
  */
 char *
-lw6map_weapon_index_to_label (int index)
+lw6map_weapon_index_to_label (sys_context, int index)
 {
   char *ret = LW6SYS_STR_EMPTY;
 

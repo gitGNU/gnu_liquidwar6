@@ -63,7 +63,7 @@ new_data (lw6map_level_t ** level,
   int ret = 0;
 
   *level =
-    lw6map_builtin_custom (_TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
+    lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
 			   _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
   *game_struct = lw6ker_game_struct_new (*level, NULL);
   *game_state = lw6ker_game_state_new (*game_struct, NULL);
@@ -91,7 +91,7 @@ free_data (lw6map_level_t * level,
 {
   lw6ker_game_state_free (game_state);
   lw6ker_game_struct_free (game_struct);
-  lw6map_free (level);
+  lw6map_free (sys_context, level);
 }
 
 static void
@@ -341,8 +341,8 @@ lw6bot_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
-      lw6map_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
+      lw6map_test_register (sys_context, mode);
       lw6ker_test_register (mode);
       /*
        * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
@@ -424,7 +424,7 @@ lw6bot_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

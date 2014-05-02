@@ -65,7 +65,7 @@ _lw6ker_game_struct_new (const lw6map_level_t * level,
     {
       _lw6ker_game_struct_set_id (ret);
       ret->level = level;
-      lw6map_rules_copy (&(ret->rules), &(level->param.rules));
+      lw6map_rules_copy (sys_context, &(ret->rules), &(level->param.rules));
       _lw6ker_map_struct_init (&(ret->map_struct), level, progress);
     }
 
@@ -223,14 +223,14 @@ _lw6ker_game_struct_dup (const _lw6ker_game_struct_t * game_struct,
 {
   _lw6ker_game_struct_t *ret = NULL;
 
-  lw6sys_progress_begin (progress);
+  lw6sys_progress_begin (sys_context, progress);
 
   ret =
     (_lw6ker_game_struct_t *) LW6SYS_MALLOC (sizeof (_lw6ker_game_struct_t));
   if (ret)
     {
       memcpy (ret, game_struct, sizeof (_lw6ker_game_struct_t));
-      lw6sys_progress_update (progress, 0, 8, 1);
+      lw6sys_progress_update (sys_context, progress, 0, 8, 1);
       /*
        * Set id after the memcpy, else will be overwritten
        */
@@ -239,36 +239,36 @@ _lw6ker_game_struct_dup (const _lw6ker_game_struct_t * game_struct,
 	(_lw6ker_place_struct_t *)
 	LW6SYS_MALLOC (sizeof (_lw6ker_place_struct_t) *
 		       ret->map_struct.nb_places);
-      lw6sys_progress_update (progress, 0, 8, 2);
+      lw6sys_progress_update (sys_context, progress, 0, 8, 2);
       if (ret->map_struct.places)
 	{
 	  memcpy (ret->map_struct.places, game_struct->map_struct.places,
 		  sizeof (_lw6ker_place_struct_t) *
 		  ret->map_struct.nb_places);
 	}
-      lw6sys_progress_update (progress, 0, 8, 3);
+      lw6sys_progress_update (sys_context, progress, 0, 8, 3);
       ret->map_struct.zones =
 	(_lw6ker_zone_struct_t *)
 	LW6SYS_MALLOC (sizeof (_lw6ker_zone_struct_t) *
 		       ret->map_struct.nb_zones);
-      lw6sys_progress_update (progress, 0, 8, 4);
+      lw6sys_progress_update (sys_context, progress, 0, 8, 4);
       if (ret->map_struct.zones)
 	{
 	  memcpy (ret->map_struct.zones, game_struct->map_struct.zones,
 		  sizeof (_lw6ker_zone_struct_t) * ret->map_struct.nb_zones);
 	}
-      lw6sys_progress_update (progress, 0, 8, 5);
+      lw6sys_progress_update (sys_context, progress, 0, 8, 5);
       ret->map_struct.slots =
 	(_lw6ker_slot_struct_t *)
 	LW6SYS_MALLOC (sizeof (_lw6ker_slot_struct_t) *
 		       ret->map_struct.nb_slots);
-      lw6sys_progress_update (progress, 0, 8, 6);
+      lw6sys_progress_update (sys_context, progress, 0, 8, 6);
       if (ret->map_struct.slots)
 	{
 	  memcpy (ret->map_struct.slots, game_struct->map_struct.slots,
 		  sizeof (_lw6ker_slot_struct_t) * ret->map_struct.nb_slots);
 	}
-      lw6sys_progress_update (progress, 0, 8, 7);
+      lw6sys_progress_update (sys_context, progress, 0, 8, 7);
       if ((!ret->map_struct.zones) || (!ret->map_struct.slots))
 	{
 	  if (ret->map_struct.zones)
@@ -300,7 +300,7 @@ _lw6ker_game_struct_dup (const _lw6ker_game_struct_t * game_struct,
 	}
     }
 
-  lw6sys_progress_end (progress);
+  lw6sys_progress_end (sys_context, progress);
 
 
   return ret;
@@ -332,7 +332,7 @@ void
 _lw6ker_game_struct_update_checksum (const _lw6ker_game_struct_t *
 				     game_struct, u_int32_t * checksum)
 {
-  lw6map_rules_update_checksum (&(game_struct->rules), checksum);
+  lw6map_rules_update_checksum (sys_context, &(game_struct->rules), checksum);
   _lw6ker_map_struct_update_checksum (&(game_struct->map_struct), checksum);
 }
 

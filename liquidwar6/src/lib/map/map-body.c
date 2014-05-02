@@ -29,6 +29,7 @@
 /**
  * lw6map_body_builtin_custom
  *
+ * @sys_context: global system context
  * @body: the body to initialize
  * @w: the width
  * @h: the height
@@ -41,7 +42,8 @@
  * Return value: none
  */
 void
-lw6map_body_builtin_custom (lw6map_body_t * body, int w, int h, int d,
+lw6map_body_builtin_custom (lw6sys_context_t * sys_context,
+			    lw6map_body_t * body, int w, int h, int d,
 			    int noise_percent, const lw6map_rules_t * rules)
 {
   int layer;
@@ -50,11 +52,12 @@ lw6map_body_builtin_custom (lw6map_body_t * body, int w, int h, int d,
   lw6sys_whd_t shape_max =
     { LW6MAP_MAX_BODY_WIDTH, LW6MAP_MAX_BODY_HEIGHT, LW6MAP_MAX_BODY_DEPTH };
 
-  lw6map_body_clear (body);
+  lw6map_body_clear (sys_context, body);
   body->shape.w = w;
   body->shape.h = h;
   body->shape.d = d;
-  if (!lw6sys_shape_check_min_max_whd (&body->shape, &shape_min, &shape_max))
+  if (!lw6sys_shape_check_min_max_whd
+      (sys_context, &body->shape, &shape_min, &shape_max))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("incorrect default map size %dx%dx%d"), body->shape.w,
@@ -62,31 +65,33 @@ lw6map_body_builtin_custom (lw6map_body_t * body, int w, int h, int d,
     }
   for (layer = 0; layer < body->shape.d; ++layer)
     {
-      lw6map_layer_builtin_custom (&(body->layers[layer]), w, h);
+      lw6map_layer_builtin_custom (sys_context, &(body->layers[layer]), w, h);
     }
-  lw6map_body_check_and_fix_holes (body, rules);
+  lw6map_body_check_and_fix_holes (sys_context, body, rules);
 
-  lw6map_meta_layer_builtin_custom (&(body->glue), w, h, 1, noise_percent, 0);
-  lw6map_meta_layer_builtin_custom (&(body->boost), w, h, 1, noise_percent,
-				    1);
-  lw6map_meta_layer_builtin_custom (&(body->danger), w, h, 1, noise_percent,
-				    2);
-  lw6map_meta_layer_builtin_custom (&(body->medicine), w, h, 1, noise_percent,
-				    3);
-  lw6map_meta_layer_builtin_custom (&(body->one_way_north), w, h, 0,
-				    noise_percent, 4);
-  lw6map_meta_layer_builtin_custom (&(body->one_way_east), w, h, 0,
-				    noise_percent, 5);
-  lw6map_meta_layer_builtin_custom (&(body->one_way_south), w, h, 0,
-				    noise_percent, 6);
-  lw6map_meta_layer_builtin_custom (&(body->one_way_west), w, h, 0,
-				    noise_percent, 7);
-  lw6map_body_fix_checksum (body);
+  lw6map_meta_layer_builtin_custom (sys_context, &(body->glue), w, h, 1,
+				    noise_percent, 0);
+  lw6map_meta_layer_builtin_custom (sys_context, &(body->boost), w, h, 1,
+				    noise_percent, 1);
+  lw6map_meta_layer_builtin_custom (sys_context, &(body->danger), w, h, 1,
+				    noise_percent, 2);
+  lw6map_meta_layer_builtin_custom (sys_context, &(body->medicine), w, h, 1,
+				    noise_percent, 3);
+  lw6map_meta_layer_builtin_custom (sys_context, &(body->one_way_north), w, h,
+				    0, noise_percent, 4);
+  lw6map_meta_layer_builtin_custom (sys_context, &(body->one_way_east), w, h,
+				    0, noise_percent, 5);
+  lw6map_meta_layer_builtin_custom (sys_context, &(body->one_way_south), w, h,
+				    0, noise_percent, 6);
+  lw6map_meta_layer_builtin_custom (sys_context, &(body->one_way_west), w, h,
+				    0, noise_percent, 7);
+  lw6map_body_fix_checksum (sys_context, body);
 }
 
 /**
  * lw6map_body_clear
  *
+ * @sys_context: global system context
  * @body: the structure to clear
  *
  * Clears a body structure.
@@ -94,28 +99,29 @@ lw6map_body_builtin_custom (lw6map_body_t * body, int w, int h, int d,
  * Return value: none.
  */
 void
-lw6map_body_clear (lw6map_body_t * body)
+lw6map_body_clear (lw6sys_context_t * sys_context, lw6map_body_t * body)
 {
   int layer;
 
   for (layer = 0; layer < LW6MAP_MAX_BODY_DEPTH; ++layer)
     {
-      lw6map_layer_clear (&(body->layers[layer]));
+      lw6map_layer_clear (sys_context, &(body->layers[layer]));
     }
-  lw6map_meta_layer_clear (&(body->glue));
-  lw6map_meta_layer_clear (&(body->boost));
-  lw6map_meta_layer_clear (&(body->danger));
-  lw6map_meta_layer_clear (&(body->medicine));
-  lw6map_meta_layer_clear (&(body->one_way_north));
-  lw6map_meta_layer_clear (&(body->one_way_east));
-  lw6map_meta_layer_clear (&(body->one_way_south));
-  lw6map_meta_layer_clear (&(body->one_way_west));
+  lw6map_meta_layer_clear (sys_context, &(body->glue));
+  lw6map_meta_layer_clear (sys_context, &(body->boost));
+  lw6map_meta_layer_clear (sys_context, &(body->danger));
+  lw6map_meta_layer_clear (sys_context, &(body->medicine));
+  lw6map_meta_layer_clear (sys_context, &(body->one_way_north));
+  lw6map_meta_layer_clear (sys_context, &(body->one_way_east));
+  lw6map_meta_layer_clear (sys_context, &(body->one_way_south));
+  lw6map_meta_layer_clear (sys_context, &(body->one_way_west));
 
   memset (body, 0, sizeof (lw6map_body_t));
 }
 
 static void
-update_checksum (lw6map_body_t * body, u_int32_t * checksum)
+_update_checksum (lw6sys_context_t * sys_context, lw6map_body_t * body,
+		  u_int32_t * checksum)
 {
   int x, y, z;
   u_int8_t b;
@@ -127,7 +133,7 @@ update_checksum (lw6map_body_t * body, u_int32_t * checksum)
 	  for (x = 0; x < body->shape.w; ++x)
 	    {
 	      b = lw6map_body_get (body, x, y, z);
-	      lw6sys_checksum_update_int32 (checksum, b);
+	      lw6sys_checksum_update_int32 (sys_context, checksum, b);
 	    }
 	}
     }
@@ -136,6 +142,7 @@ update_checksum (lw6map_body_t * body, u_int32_t * checksum)
 /**
  * lw6map_body_fix_checksum
  *
+ * @sys_context: global system context
  * @body: the structure to update
  *
  * Updates (calculates) the checksum of a map body structure.
@@ -143,17 +150,18 @@ update_checksum (lw6map_body_t * body, u_int32_t * checksum)
  * Return value: none.
  */
 void
-lw6map_body_fix_checksum (lw6map_body_t * body)
+lw6map_body_fix_checksum (lw6sys_context_t * sys_context,
+			  lw6map_body_t * body)
 {
   u_int32_t checksum = 0;
 
-  update_checksum (body, &checksum);
+  _update_checksum (sys_context, body, &checksum);
   body->checksum = checksum;
 }
 
 static int
-find_first_free_point (lw6map_body_t * body, int *found_x,
-		       int *found_y, int *found_z)
+_find_first_free_point (lw6sys_context_t * sys_context, lw6map_body_t * body,
+			int *found_x, int *found_y, int *found_z)
 {
   int ret = 0;
   int x, y, z;
@@ -185,8 +193,8 @@ find_first_free_point (lw6map_body_t * body, int *found_x,
  * Updates a body point if needed, returns true if value was changed
  */
 static int
-update_if_needed (lw6map_body_t * dst, lw6map_body_t * src, int x,
-		  int y, int z)
+_update_if_needed (lw6sys_context_t * sys_context, lw6map_body_t * dst,
+		   lw6map_body_t * src, int x, int y, int z)
 {
   int ret = 0;
 
@@ -202,6 +210,7 @@ update_if_needed (lw6map_body_t * dst, lw6map_body_t * src, int x,
 /**
  * lw6map_body_check_and_fix_holes
  *
+ * @sys_context: global system context
  * @body: the structure to update
  * @rules: the game rules
  *
@@ -212,7 +221,8 @@ update_if_needed (lw6map_body_t * dst, lw6map_body_t * src, int x,
  * Return value: none.
  */
 int
-lw6map_body_check_and_fix_holes (lw6map_body_t * body,
+lw6map_body_check_and_fix_holes (lw6sys_context_t * sys_context,
+				 lw6map_body_t * body,
 				 const lw6map_rules_t * rules)
 {
   int ret = 0;
@@ -248,8 +258,8 @@ lw6map_body_check_and_fix_holes (lw6map_body_t * body,
       /*
        * We first set one point, which will spread all over.
        */
-      ret = find_first_free_point (body, &x, &y, &z)
-	&& update_if_needed (&fixed_body, body, x, y, z);
+      ret = _find_first_free_point (sys_context, body, &x, &y, &z)
+	&& _update_if_needed (sys_context, &fixed_body, body, x, y, z);
       found = ret ? 1 : 0;
 
       while (found)
@@ -266,32 +276,38 @@ lw6map_body_check_and_fix_holes (lw6map_body_t * body,
 			{
 			  tx = x + 1;
 			  ty = y;
-			  lw6map_coords_fix_xy (rules, &body->shape, &tx,
-						&ty);
+			  lw6map_coords_fix_xy (sys_context, rules,
+						&body->shape, &tx, &ty);
 			  found +=
-			    update_if_needed (&fixed_body, body, tx, ty, z);
+			    _update_if_needed (sys_context, &fixed_body, body,
+					       tx, ty, z);
 			  tx = x + 1;
 			  ty = y + 1;
-			  lw6map_coords_fix_xy (rules, &body->shape, &tx,
-						&ty);
+			  lw6map_coords_fix_xy (sys_context, rules,
+						&body->shape, &tx, &ty);
 			  found +=
-			    update_if_needed (&fixed_body, body, tx, ty, z);
+			    _update_if_needed (sys_context, &fixed_body, body,
+					       tx, ty, z);
 			  tx = x;
 			  ty = y + 1;
-			  lw6map_coords_fix_xy (rules, &body->shape, &tx,
-						&ty);
+			  lw6map_coords_fix_xy (sys_context, rules,
+						&body->shape, &tx, &ty);
 			  found +=
-			    update_if_needed (&fixed_body, body, tx, ty, z);
+			    _update_if_needed (sys_context, &fixed_body, body,
+					       tx, ty, z);
 			  tx = x - 1;
 			  ty = y + 1;
-			  lw6map_coords_fix_xy (rules, &body->shape, &tx,
-						&ty);
+			  lw6map_coords_fix_xy (sys_context, rules,
+						&body->shape, &tx, &ty);
 			  found +=
-			    update_if_needed (&fixed_body, body, tx, ty, z);
+			    _update_if_needed (sys_context, &fixed_body, body,
+					       tx, ty, z);
 			  tz = z + 1;
-			  lw6map_coords_fix_z (rules, &body->shape, &tz);
+			  lw6map_coords_fix_z (sys_context, rules,
+					       &body->shape, &tz);
 			  found +=
-			    update_if_needed (&fixed_body, body, x, y, tz);
+			    _update_if_needed (sys_context, &fixed_body, body,
+					       x, y, tz);
 			}
 		    }
 		}
@@ -307,32 +323,38 @@ lw6map_body_check_and_fix_holes (lw6map_body_t * body,
 			{
 			  tx = x - 1;
 			  ty = y;
-			  lw6map_coords_fix_xy (rules, &body->shape, &tx,
-						&ty);
+			  lw6map_coords_fix_xy (sys_context, rules,
+						&body->shape, &tx, &ty);
 			  found +=
-			    update_if_needed (&fixed_body, body, tx, ty, z);
+			    _update_if_needed (sys_context, &fixed_body, body,
+					       tx, ty, z);
 			  tx = x - 1;
 			  ty = y - 1;
-			  lw6map_coords_fix_xy (rules, &body->shape, &tx,
-						&ty);
+			  lw6map_coords_fix_xy (sys_context, rules,
+						&body->shape, &tx, &ty);
 			  found +=
-			    update_if_needed (&fixed_body, body, tx, ty, z);
+			    _update_if_needed (sys_context, &fixed_body, body,
+					       tx, ty, z);
 			  tx = x;
 			  ty = y - 1;
-			  lw6map_coords_fix_xy (rules, &body->shape, &tx,
-						&ty);
+			  lw6map_coords_fix_xy (sys_context, rules,
+						&body->shape, &tx, &ty);
 			  found +=
-			    update_if_needed (&fixed_body, body, tx, ty, z);
+			    _update_if_needed (sys_context, &fixed_body, body,
+					       tx, ty, z);
 			  tx = x + 1;
 			  ty = y - 1;
-			  lw6map_coords_fix_xy (rules, &body->shape, &tx,
-						&ty);
+			  lw6map_coords_fix_xy (sys_context, rules,
+						&body->shape, &tx, &ty);
 			  found +=
-			    update_if_needed (&fixed_body, body, tx, ty, z);
+			    _update_if_needed (sys_context, &fixed_body, body,
+					       tx, ty, z);
 			  tz = z - 1;
-			  lw6map_coords_fix_z (rules, &body->shape, &tz);
+			  lw6map_coords_fix_z (sys_context, rules,
+					       &body->shape, &tz);
 			  found +=
-			    update_if_needed (&fixed_body, body, x, y, tz);
+			    _update_if_needed (sys_context, &fixed_body, body,
+					       x, y, tz);
 			}
 		    }
 
@@ -367,6 +389,7 @@ lw6map_body_check_and_fix_holes (lw6map_body_t * body,
 /**
  * lw6map_body_coord_from_texture
  *
+ * @sys_context: global system context
  * @level: the level to work on
  * @body_x: the body (logical) x coord
  * @body_y: the body (logical) y coord
@@ -378,7 +401,8 @@ lw6map_body_check_and_fix_holes (lw6map_body_t * body,
  * Return value: 1 on success, 0 on failure (out of bounds)
  */
 int
-lw6map_body_coord_from_texture (const lw6map_level_t * level, int *body_x,
+lw6map_body_coord_from_texture (lw6sys_context_t * sys_context,
+				const lw6map_level_t * level, int *body_x,
 				int *body_y, int texture_x, int texture_y)
 {
   int ret = 0;
@@ -405,6 +429,7 @@ lw6map_body_coord_from_texture (const lw6map_level_t * level, int *body_x,
 /**
  * lw6map_body_get_with_texture_coord
  *
+ * @sys_context: global system context
  * @level: the level to work on
  * @texture_x: the texture x coord
  * @texture_y: the texture y coord
@@ -416,7 +441,8 @@ lw6map_body_coord_from_texture (const lw6map_level_t * level, int *body_x,
  * Return value: 1 if position is playable, 0 if not (wall)
  */
 u_int8_t
-lw6map_body_get_with_texture_coord (const lw6map_level_t * level,
+lw6map_body_get_with_texture_coord (lw6sys_context_t * sys_context,
+				    const lw6map_level_t * level,
 				    int texture_x, int texture_y, int z)
 {
   unsigned char ret = 0;
@@ -424,7 +450,7 @@ lw6map_body_get_with_texture_coord (const lw6map_level_t * level,
   int body_y;
 
   if (lw6map_body_coord_from_texture
-      (level, &body_x, &body_y, texture_x, texture_y))
+      (sys_context, level, &body_x, &body_y, texture_x, texture_y))
     {
       ret = lw6map_body_get (&level->body, body_x, body_y, z);
     }

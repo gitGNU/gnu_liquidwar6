@@ -93,7 +93,7 @@ _do_grease (lw6map_layer_t * layer, const lw6map_rules_t * rules,
 
 	      ty = y - 1;
 	      tx = x;
-	      lw6map_coords_fix_xy (rules, &shape, &tx, &ty);
+	      lw6map_coords_fix_xy (sys_context, rules, &shape, &tx, &ty);
 	      if (lw6map_layer_get (&tmp, tx, ty))
 		{
 		  if (mode)
@@ -110,7 +110,7 @@ _do_grease (lw6map_layer_t * layer, const lw6map_rules_t * rules,
 		}
 	      ty = y;
 	      tx = x + 1;
-	      lw6map_coords_fix_xy (rules, &shape, &tx, &ty);
+	      lw6map_coords_fix_xy (sys_context, rules, &shape, &tx, &ty);
 	      if (lw6map_layer_get (&tmp, tx, ty))
 		{
 		  if (mode)
@@ -127,7 +127,7 @@ _do_grease (lw6map_layer_t * layer, const lw6map_rules_t * rules,
 		}
 	      ty = y + 1;
 	      tx = x;
-	      lw6map_coords_fix_xy (rules, &shape, &tx, &ty);
+	      lw6map_coords_fix_xy (sys_context, rules, &shape, &tx, &ty);
 	      if (lw6map_layer_get (&tmp, tx, ty))
 		{
 		  if (mode)
@@ -144,7 +144,7 @@ _do_grease (lw6map_layer_t * layer, const lw6map_rules_t * rules,
 		}
 	      ty = y;
 	      tx = x - 1;
-	      lw6map_coords_fix_xy (rules, &shape, &tx, &ty);
+	      lw6map_coords_fix_xy (sys_context, rules, &shape, &tx, &ty);
 	      if (lw6map_layer_get (&tmp, tx, ty))
 		{
 		  if (mode)

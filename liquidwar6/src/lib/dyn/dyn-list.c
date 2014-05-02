@@ -52,7 +52,7 @@ add_backend (lw6sys_assoc_t ** list, const char *libdir, const char *filename,
   lw6sys_module_pedigree_t *module_pedigree = NULL;
   lw6dyn_dl_handle_t *backend_handle = NULL;
 
-  so_file = lw6sys_path_concat (libdir, filename);
+  so_file = lw6sys_path_concat (sys_context, libdir, filename);
   if (so_file)
     {
       backend_handle = lw6dyn_dlopen_backend_so (so_file);
@@ -175,7 +175,7 @@ update_devel_list (lw6sys_assoc_t ** list, const char *top_level_lib,
 			    [depth], top_level_lib);
       if (dir1)
 	{
-	  if (lw6sys_dir_exists (dir1))
+	  if (lw6sys_dir_exists (sys_context, dir1))
 	    {
 	      dir_handle = opendir (dir1);
 	      if (dir_handle)
@@ -198,15 +198,17 @@ update_devel_list (lw6sys_assoc_t ** list, const char *top_level_lib,
 					       LIST_DEVEL_MOD_PREFIX_SIZE))
 				{
 				  dir2 =
-				    lw6sys_path_concat (dir1,
+				    lw6sys_path_concat (sys_context, dir1,
 							dir_entry->d_name);
 				  if (dir2)
 				    {
-				      dir3 = lw6sys_path_concat (dir2,
-								 LIST_DEVEL_DIR3_NAME);
+				      dir3 =
+					lw6sys_path_concat (sys_context, dir2,
+							    LIST_DEVEL_DIR3_NAME);
 				      if (dir3)
 					{
-					  if (lw6sys_dir_exists (dir3))
+					  if (lw6sys_dir_exists
+					      (sys_context, dir3))
 					    {
 					      update_list (list, dir3);
 					    }
@@ -238,7 +240,7 @@ update_system_list (lw6sys_assoc_t ** list, int argc,
   char *mod_dir = NULL;
   char *libdir = NULL;
 
-  mod_dir = lw6sys_get_mod_dir (argc, argv);
+  mod_dir = lw6sys_get_mod_dir (sys_context, argc, argv);
   if (mod_dir)
     {
       libdir = lw6sys_path_concat (mod_dir, top_level_lib);
@@ -271,7 +273,7 @@ lw6dyn_list_backends (int argc, const char *argv[], const char *top_level_lib)
   lw6sys_assoc_t *ret = NULL;
   int depth = 0;
 
-  ret = lw6sys_assoc_new (lw6sys_free_callback);
+  ret = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
   if (ret)
     {
       for (depth = 0; depth < _LW6DYN_DEVEL_NB_DEPTHS; ++depth)
@@ -287,7 +289,7 @@ lw6dyn_list_backends (int argc, const char *argv[], const char *top_level_lib)
 	}
       if (ret)
 	{
-	  lw6sys_assoc_sort_and_map (ret, NULL, NULL);
+	  lw6sys_assoc_sort_and_map (sys_context, ret, NULL, NULL);
 	}
     }
 

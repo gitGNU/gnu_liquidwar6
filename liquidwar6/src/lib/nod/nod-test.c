@@ -85,9 +85,9 @@ _node_dup_dyn_callback (void *data)
   int first_time = 1;
   lw6nod_dyn_info_t *dyn_info = NULL;
 
-  stop_timestamp = lw6sys_get_timestamp () + _TEST_DELAY_MS;
+  stop_timestamp = lw6sys_get_timestamp (sys_context,) + _TEST_DELAY_MS;
 
-  while (lw6sys_get_timestamp () < stop_timestamp)
+  while (lw6sys_get_timestamp (sys_context,) < stop_timestamp)
     {
       dyn_info = lw6nod_info_dup_dyn (info);
       if (dyn_info)
@@ -112,9 +112,9 @@ _node_update_callback (void *data)
   int first_time = 1;
   int ret = 0;
 
-  stop_timestamp = lw6sys_get_timestamp () + _TEST_DELAY_MS;
+  stop_timestamp = lw6sys_get_timestamp (sys_context,) + _TEST_DELAY_MS;
 
-  while (lw6sys_get_timestamp () < stop_timestamp)
+  while (lw6sys_get_timestamp (sys_context,) < stop_timestamp)
     {
       ret =
 	lw6nod_info_update (info, _TEST_COMMUNITY, _TEST_ROUND, _TEST_LEVEL,
@@ -142,11 +142,11 @@ _node_add_discovered_callback (void *data)
   int64_t stop_timestamp = 0;
   int first_time = 1;
 
-  stop_timestamp = lw6sys_get_timestamp () + _TEST_DELAY_MS;
+  stop_timestamp = lw6sys_get_timestamp (sys_context,) + _TEST_DELAY_MS;
 
-  while (lw6sys_get_timestamp () < stop_timestamp)
+  while (lw6sys_get_timestamp (sys_context,) < stop_timestamp)
     {
-      switch (lw6sys_random (_TEST_NB_IP))
+      switch (lw6sys_random (sys_context, _TEST_NB_IP))
 	{
 	case 0:
 	  ip = _TEST_IP_1;
@@ -158,7 +158,7 @@ _node_add_discovered_callback (void *data)
 	  ip = _TEST_IP_3;
 	  break;
 	}
-      url = lw6sys_url_http_from_ip_port (ip, _TEST_PORT);
+      url = lw6sys_url_http_from_ip_port (sys_context, ip, _TEST_PORT);
       if (url)
 	{
 	  if (first_time)
@@ -182,9 +182,9 @@ _node_pop_discovered_callback (void *data)
   int64_t stop_timestamp = 0;
   int first_time = 1;
 
-  stop_timestamp = lw6sys_get_timestamp () + _TEST_DELAY_MS;
+  stop_timestamp = lw6sys_get_timestamp (sys_context,) + _TEST_DELAY_MS;
 
-  while (lw6sys_get_timestamp () < stop_timestamp)
+  while (lw6sys_get_timestamp (sys_context,) < stop_timestamp)
     {
       discovered_nodes = lw6nod_info_pop_discovered_nodes (info);
       if (discovered_nodes)
@@ -219,14 +219,16 @@ _node_set_verified_callback (void *data)
   int64_t stop_timestamp = 0;
   int first_time = 1;
 
-  stop_timestamp = lw6sys_get_timestamp () + _TEST_DELAY_MS;
+  stop_timestamp = lw6sys_get_timestamp (sys_context,) + _TEST_DELAY_MS;
 
-  while (lw6sys_get_timestamp () < stop_timestamp)
+  while (lw6sys_get_timestamp (sys_context,) < stop_timestamp)
     {
       list = lw6nod_info_new_verified_nodes ();
       if (list)
 	{
-	  url = lw6sys_url_http_from_ip_port (_TEST_IP_1, _TEST_PORT);
+	  url =
+	    lw6sys_url_http_from_ip_port (sys_context, _TEST_IP_1,
+					  _TEST_PORT);
 	  if (url)
 	    {
 	      verified_node =
@@ -238,11 +240,13 @@ _node_set_verified_callback (void *data)
 				 _TEST_IDLE_SCREENSHOT_DATA);
 	      if (verified_node && list)
 		{
-		  lw6sys_list_push_front (&list, verified_node);
+		  lw6sys_list_push_front (sys_context, &list, verified_node);
 		}
 	      LW6SYS_FREE (sys_context, url);
 	    }
-	  url = lw6sys_url_http_from_ip_port (_TEST_IP_2, _TEST_PORT);
+	  url =
+	    lw6sys_url_http_from_ip_port (sys_context, _TEST_IP_2,
+					  _TEST_PORT);
 	  if (url)
 	    {
 	      verified_node =
@@ -254,11 +258,13 @@ _node_set_verified_callback (void *data)
 				 _TEST_IDLE_SCREENSHOT_DATA);
 	      if (verified_node && list)
 		{
-		  lw6sys_list_push_front (&list, verified_node);
+		  lw6sys_list_push_front (sys_context, &list, verified_node);
 		}
 	      LW6SYS_FREE (sys_context, url);
 	    }
-	  url = lw6sys_url_http_from_ip_port (_TEST_IP_3, _TEST_PORT);
+	  url =
+	    lw6sys_url_http_from_ip_port (sys_context, _TEST_IP_3,
+					  _TEST_PORT);
 	  if (url)
 	    {
 	      verified_node =
@@ -270,7 +276,7 @@ _node_set_verified_callback (void *data)
 				 _TEST_IDLE_SCREENSHOT_DATA);
 	      if (verified_node && list)
 		{
-		  lw6sys_list_push_front (&list, verified_node);
+		  lw6sys_list_push_front (sys_context, &list, verified_node);
 		}
 	      LW6SYS_FREE (sys_context, url);
 	    }
@@ -320,9 +326,9 @@ _node_map_verified_callback (void *data)
   int64_t stop_timestamp = 0;
   int first_time = 1;
 
-  stop_timestamp = lw6sys_get_timestamp () + _TEST_DELAY_MS;
+  stop_timestamp = lw6sys_get_timestamp (sys_context,) + _TEST_DELAY_MS;
 
-  while (lw6sys_get_timestamp () < stop_timestamp)
+  while (lw6sys_get_timestamp (sys_context,) < stop_timestamp)
     {
       lw6nod_info_map_verified_nodes (info,
 				      _node_map_verified_callback_callback,
@@ -385,7 +391,7 @@ _test_node ()
 	    list = lw6nod_info_pop_discovered_nodes (info);
 	    if (LW6SYS_TEST_ACK (list && !lw6sys_list_is_empty (list)))
 	      {
-		url = lw6sys_list_pop_front (&list);
+		url = lw6sys_list_pop_front (sys_context, &list);
 		if (LW6SYS_TEST_ACK (url))
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -439,17 +445,19 @@ _test_node ()
 					    _x_
 					    ("6 threads started, each one querying the same node info object"));
 				ret = 1;
-				lw6sys_thread_join (thread_dup_dyn);
+				lw6sys_thread_join (sys_context,
+						    thread_dup_dyn);
 			      }
-			    lw6sys_thread_join (thread_update);
+			    lw6sys_thread_join (sys_context, thread_update);
 			  }
-			lw6sys_thread_join (thread_add_discovered);
+			lw6sys_thread_join (sys_context,
+					    thread_add_discovered);
 		      }
-		    lw6sys_thread_join (thread_pop_discovered);
+		    lw6sys_thread_join (sys_context, thread_pop_discovered);
 		  }
-		lw6sys_thread_join (thread_set_verified);
+		lw6sys_thread_join (sys_context, thread_set_verified);
 	      }
-	    lw6sys_thread_join (thread_map_verified);
+	    lw6sys_thread_join (sys_context, thread_map_verified);
 	  }
 
 	lw6nod_info_free (info);
@@ -893,7 +901,7 @@ lw6nod_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6nod", _setup_init, _setup_quit);
@@ -929,7 +937,7 @@ lw6nod_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

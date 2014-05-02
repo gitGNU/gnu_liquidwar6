@@ -46,7 +46,7 @@ typedef struct _exp_s
 static char *
 _get_filename (const char *user_dir)
 {
-  return lw6sys_path_concat (user_dir, _EXP_FILE);
+  return lw6sys_path_concat (sys_context, user_dir, _EXP_FILE);
 }
 
 static u_int32_t
@@ -83,11 +83,11 @@ load_callback (void *callback_data, const char *element, const char *key,
 
   if (!strcmp (key, _EXP_KEY))
     {
-      exp->exp = lw6sys_atoi (value);
+      exp->exp = lw6sys_atoi (sys_context, value);
     }
   else if (!strcmp (key, _CHECKSUM_KEY))
     {
-      exp->checksum = lw6sys_atoi (value);
+      exp->checksum = lw6sys_atoi (sys_context, value);
     }
   else
     {
@@ -123,7 +123,7 @@ lw6cfg_load_exp (const char *user_dir, int *exp)
       lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_ ("loading exp from \"%s\""), filename);
 
-      if (lw6sys_file_exists (filename))
+      if (lw6sys_file_exists (sys_context, filename))
 	{
 	  ret =
 	    lw6cfg_read_key_value_xml_file (filename, load_callback,

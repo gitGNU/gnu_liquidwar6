@@ -83,7 +83,7 @@ _test_renderer ()
 	  {
 	    ret = 0;
 	  }
-	lw6map_free (level);
+	lw6map_free (sys_context, level);
       }
     else
       {
@@ -130,10 +130,10 @@ lw6vox_test_register (int mode)
       /*
        * Just to make sure most functions are stuffed in the binary
        */
-      lw6sys_test_register (mode);
+      lw6sys_test_register (sys_context, mode);
       lw6cfg_test_register (mode);
       lw6hlp_test_register (mode);
-      lw6map_test_register (mode);
+      lw6map_test_register (sys_context, mode);
       lw6ker_test_register (mode);
       lw6mat_test_register (mode);
       lw6gui_test_register (mode);
@@ -171,7 +171,7 @@ lw6vox_test_run (int mode)
   int ret = 0;
 
   _test_data.ret = 1;
-  if (lw6sys_cunit_run_tests (mode))
+  if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
     }

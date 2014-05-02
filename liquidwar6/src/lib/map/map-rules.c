@@ -716,7 +716,7 @@ static lw6map_rules_t max_rules = {
  * Return value: none.
  */
 void
-lw6map_rules_zero (lw6map_rules_t * rules)
+lw6map_rules_zero (sys_context, lw6map_rules_t * rules)
 {
   memset (rules, 0, sizeof (lw6map_rules_t));
 }
@@ -732,9 +732,9 @@ lw6map_rules_zero (lw6map_rules_t * rules)
  * Return value: none.
  */
 void
-lw6map_rules_defaults (lw6map_rules_t * rules)
+lw6map_rules_defaults (sys_context, lw6map_rules_t * rules)
 {
-  lw6map_rules_copy (rules, &default_rules);
+  lw6map_rules_copy (sys_context, rules, &default_rules);
 }
 
 /**
@@ -749,7 +749,8 @@ lw6map_rules_defaults (lw6map_rules_t * rules)
  * Return value: none.
  */
 void
-lw6map_rules_copy (lw6map_rules_t * dst, const lw6map_rules_t * src)
+lw6map_rules_copy (sys_context, lw6map_rules_t * dst,
+		   const lw6map_rules_t * src)
 {
   /*
    * Note that in this context, we'd better not use strings
@@ -769,109 +770,137 @@ lw6map_rules_copy (lw6map_rules_t * dst, const lw6map_rules_t * src)
  * Return value: none.
  */
 void
-lw6map_rules_update_checksum (const lw6map_rules_t * rules,
+lw6map_rules_update_checksum (sys_context, const lw6map_rules_t * rules,
 			      u_int32_t * checksum)
 {
   int i = 0;
 
-  lw6sys_checksum_update_int32 (checksum, rules->total_time);
-  lw6sys_checksum_update_int32 (checksum, rules->respawn_team);
-  lw6sys_checksum_update_int32 (checksum, rules->respawn_position_mode);
-  lw6sys_checksum_update_int32 (checksum, rules->respawn_delay);
-  lw6sys_checksum_update_int32 (checksum, rules->moves_per_round);
-  lw6sys_checksum_update_int32 (checksum, rules->spreads_per_round);
-  lw6sys_checksum_update_int32 (checksum, rules->rounds_per_sec);
-  lw6sys_checksum_update_int32 (checksum, rules->fighter_attack);
-  lw6sys_checksum_update_int32 (checksum, rules->fighter_defense);
-  lw6sys_checksum_update_int32 (checksum, rules->fighter_new_health);
-  lw6sys_checksum_update_int32 (checksum, rules->fighter_regenerate);
-  lw6sys_checksum_update_int32 (checksum, rules->side_attack_factor);
-  lw6sys_checksum_update_int32 (checksum, rules->side_defense_factor);
-  lw6sys_checksum_update_int32 (checksum, rules->nb_move_tries);
-  lw6sys_checksum_update_int32 (checksum, rules->nb_attack_tries);
-  lw6sys_checksum_update_int32 (checksum, rules->nb_defense_tries);
-  lw6sys_checksum_update_int32 (checksum, rules->vertical_move);
-  lw6sys_checksum_update_int32 (checksum, rules->spread_mode);
-  lw6sys_checksum_update_int32 (checksum, rules->single_army_size);
-  lw6sys_checksum_update_int32 (checksum, rules->total_armies_size);
-  lw6sys_checksum_update_int32 (checksum, rules->max_nb_teams);
-  lw6sys_checksum_update_int32 (checksum, rules->max_nb_cursors);
-  lw6sys_checksum_update_int32 (checksum, rules->max_nb_nodes);
-  lw6sys_checksum_update_int32 (checksum, rules->exp);
-  lw6sys_checksum_update_int32 (checksum, rules->highest_team_color_allowed);
-  lw6sys_checksum_update_int32 (checksum, rules->highest_weapon_allowed);
-  lw6sys_checksum_update_int32 (checksum, rules->x_polarity);
-  lw6sys_checksum_update_int32 (checksum, rules->y_polarity);
-  lw6sys_checksum_update_int32 (checksum, rules->z_polarity);
-  lw6sys_checksum_update_int32 (checksum, rules->max_zone_size);
-  lw6sys_checksum_update_int32 (checksum, rules->round_delta);
-  lw6sys_checksum_update_int32 (checksum, rules->max_round_delta);
-  lw6sys_checksum_update_int32 (checksum, rules->max_cursor_pot);
-  lw6sys_checksum_update_int32 (checksum, rules->cursor_pot_init);
-  lw6sys_checksum_update_int32 (checksum, rules->max_cursor_pot_offset);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->total_time);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->respawn_team);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->respawn_position_mode);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->respawn_delay);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->moves_per_round);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->spreads_per_round);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->rounds_per_sec);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->fighter_attack);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->fighter_defense);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->fighter_new_health);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->fighter_regenerate);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->side_attack_factor);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->side_defense_factor);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->nb_move_tries);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->nb_attack_tries);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->nb_defense_tries);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->vertical_move);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->spread_mode);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->single_army_size);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->total_armies_size);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->max_nb_teams);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->max_nb_cursors);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->max_nb_nodes);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->exp);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->highest_team_color_allowed);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->highest_weapon_allowed);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->x_polarity);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->y_polarity);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->z_polarity);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->max_zone_size);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->round_delta);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->max_round_delta);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->max_cursor_pot);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->cursor_pot_init);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->max_cursor_pot_offset);
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (checksum, rules->start_x[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum, rules->start_x[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (checksum, rules->start_y[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum, rules->start_y[i]);
     }
-  lw6sys_checksum_update_int32 (checksum, rules->start_position_mode);
-  lw6sys_checksum_update_int32 (checksum, rules->color_conflict_mode);
-  lw6sys_checksum_update_int32 (checksum, rules->spread_thread);
-  lw6sys_checksum_update_int32 (checksum, rules->glue_power);
-  lw6sys_checksum_update_int32 (checksum, rules->boost_power);
-  lw6sys_checksum_update_int32 (checksum, rules->danger_power);
-  lw6sys_checksum_update_int32 (checksum, rules->medicine_power);
-  lw6sys_checksum_update_int32 (checksum, rules->frags_mode);
-  lw6sys_checksum_update_int32 (checksum, rules->frags_to_distribute);
-  lw6sys_checksum_update_int32 (checksum, rules->frags_fade_out);
-  lw6sys_checksum_update_int32 (checksum, rules->use_team_profiles);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->start_position_mode);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->color_conflict_mode);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->spread_thread);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->glue_power);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->boost_power);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->danger_power);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->medicine_power);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->frags_mode);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->frags_to_distribute);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->frags_fade_out);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->use_team_profiles);
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (checksum,
+      lw6sys_checksum_update_int32 (sys_context, checksum,
 				    rules->team_profile_aggressive[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (checksum,
+      lw6sys_checksum_update_int32 (sys_context, checksum,
 				    rules->team_profile_vulnerable[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (checksum, rules->team_profile_mobile[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum,
+				    rules->team_profile_mobile[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (checksum, rules->team_profile_fast[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum,
+				    rules->team_profile_fast[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (checksum,
+      lw6sys_checksum_update_int32 (sys_context, checksum,
 				    rules->team_profile_handicap[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (checksum,
+      lw6sys_checksum_update_int32 (sys_context, checksum,
 				    rules->team_profile_weapon_id[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (checksum,
+      lw6sys_checksum_update_int32 (sys_context, checksum,
 				    rules->team_profile_weapon_alternate_id
 				    [i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (checksum,
+      lw6sys_checksum_update_int32 (sys_context, checksum,
 				    rules->team_profile_weapon_mode[i]);
     }
-  lw6sys_checksum_update_int32 (checksum, rules->weapon_duration);
-  lw6sys_checksum_update_int32 (checksum, rules->weapon_charge_delay);
-  lw6sys_checksum_update_int32 (checksum, rules->weapon_charge_max);
-  lw6sys_checksum_update_int32 (checksum, rules->weapon_tune_berzerk_power);
-  lw6sys_checksum_update_int32 (checksum, rules->weapon_tune_turbo_power);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->weapon_duration);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->weapon_charge_delay);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->weapon_charge_max);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->weapon_tune_berzerk_power);
+  lw6sys_checksum_update_int32 (sys_context, checksum,
+				rules->weapon_tune_turbo_power);
 }
 
 static const int32_t *
@@ -882,7 +911,7 @@ get_rules_int_ptr (const lw6map_rules_t * rules, const char *key)
 
   if (rules && key)
     {
-      formatted_key = lw6sys_keyword_as_key (key);
+      formatted_key = lw6sys_keyword_as_key (sys_context, key);
       if (formatted_key)
 	{
 	  if (!strcmp (formatted_key, LW6DEF_TOTAL_TIME))
@@ -1661,7 +1690,7 @@ get_rules_int_ptr (const lw6map_rules_t * rules, const char *key)
  * Return value: integer.
  */
 int32_t
-lw6map_rules_get_default (const char *key)
+lw6map_rules_get_default (sys_context, const char *key)
 {
   const int32_t *ptr;
   int32_t ret = 0;
@@ -1688,7 +1717,7 @@ lw6map_rules_get_default (const char *key)
  * Return value: integer.
  */
 int32_t
-lw6map_rules_get_min (const char *key)
+lw6map_rules_get_min (sys_context, const char *key)
 {
   const int32_t *ptr;
   int32_t ret = 0;
@@ -1715,7 +1744,7 @@ lw6map_rules_get_min (const char *key)
  * Return value: integer.
  */
 int32_t
-lw6map_rules_get_max (const char *key)
+lw6map_rules_get_max (sys_context, const char *key)
 {
   const int32_t *ptr;
   int32_t ret = 0;
@@ -1743,7 +1772,8 @@ lw6map_rules_get_max (const char *key)
  * Return value: integer.
  */
 int32_t
-lw6map_rules_get_int (const lw6map_rules_t * rules, const char *key)
+lw6map_rules_get_int (sys_context, const lw6map_rules_t * rules,
+		      const char *key)
 {
   int32_t ret = 0;
   const int32_t *ptr;
@@ -1753,8 +1783,8 @@ lw6map_rules_get_int (const lw6map_rules_t * rules, const char *key)
   ptr = get_rules_int_ptr (rules, key);
   if (ptr)
     {
-      min_value = lw6map_rules_get_min (key);
-      max_value = lw6map_rules_get_max (key);
+      min_value = lw6map_rules_get_min (sys_context, key);
+      max_value = lw6map_rules_get_max (sys_context, key);
       if ((*ptr) < min_value)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
@@ -1795,7 +1825,8 @@ lw6map_rules_get_int (const lw6map_rules_t * rules, const char *key)
  * Return value: 1 on success, 0 on failure (eg key not found)
  */
 int
-lw6map_rules_set_int (lw6map_rules_t * rules, const char *key, int32_t value)
+lw6map_rules_set_int (sys_context, lw6map_rules_t * rules, const char *key,
+		      int32_t value)
 {
   int32_t *ptr;
   int32_t min_value;
@@ -1809,8 +1840,8 @@ lw6map_rules_set_int (lw6map_rules_t * rules, const char *key, int32_t value)
   ptr = (int32_t *) get_rules_int_ptr (rules, key);
   if (ptr)
     {
-      min_value = lw6map_rules_get_min (key);
-      max_value = lw6map_rules_get_max (key);
+      min_value = lw6map_rules_get_min (sys_context, key);
+      max_value = lw6map_rules_get_max (sys_context, key);
       if (value < min_value)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
@@ -1851,9 +1882,10 @@ lw6map_rules_set_int (lw6map_rules_t * rules, const char *key, int32_t value)
  * Return value: boolean.
  */
 int
-lw6map_rules_get_bool (const lw6map_rules_t * rules, const char *key)
+lw6map_rules_get_bool (sys_context, const lw6map_rules_t * rules,
+		       const char *key)
 {
-  return lw6map_rules_get_int (rules, key) ? 1 : 0;
+  return lw6map_rules_get_int (sys_context, rules, key) ? 1 : 0;
 }
 
 /**
@@ -1871,9 +1903,10 @@ lw6map_rules_get_bool (const lw6map_rules_t * rules, const char *key)
  * Return value: 1 on success, 0 on failure (eg key not found)
  */
 int
-lw6map_rules_set_bool (lw6map_rules_t * rules, const char *key, int value)
+lw6map_rules_set_bool (sys_context, lw6map_rules_t * rules, const char *key,
+		       int value)
 {
-  return lw6map_rules_set_int (rules, key, value ? 1 : 0);
+  return lw6map_rules_set_int (sys_context, rules, key, value ? 1 : 0);
 }
 
 /**
@@ -1887,7 +1920,7 @@ lw6map_rules_set_bool (lw6map_rules_t * rules, const char *key, int value)
  * Return value: none.
  */
 void
-lw6map_rules_clear (lw6map_rules_t * rules)
+lw6map_rules_clear (sys_context, lw6map_rules_t * rules)
 {
   if (rules)
     {
@@ -1906,7 +1939,7 @@ lw6map_rules_clear (lw6map_rules_t * rules)
  * Return value: 1 if same, 0 if different.
  */
 int
-lw6map_rules_is_same (const lw6map_rules_t * rules_a,
+lw6map_rules_is_same (sys_context, const lw6map_rules_t * rules_a,
 		      const lw6map_rules_t * rules_b)
 {
   int ret = 1;
@@ -1926,7 +1959,7 @@ lw6map_rules_is_same (const lw6map_rules_t * rules_a,
  * Return value: 1 if same, 0 if different.
  */
 int
-lw6map_rules_sanity_check (const lw6map_rules_t * rules)
+lw6map_rules_sanity_check (sys_context, const lw6map_rules_t * rules)
 {
   int i = 0;
   int value = 0;
@@ -1947,8 +1980,8 @@ lw6map_rules_sanity_check (const lw6map_rules_t * rules)
 	   * is to trap errors.
 	   */
 	  value = *ptr;
-	  min_value = lw6map_rules_get_min (key);
-	  max_value = lw6map_rules_get_max (key);
+	  min_value = lw6map_rules_get_min (sys_context, key);
+	  max_value = lw6map_rules_get_max (sys_context, key);
 	  if (value < min_value || value > max_value)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,

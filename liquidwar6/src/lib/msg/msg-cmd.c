@@ -486,7 +486,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing url \"%s\""),
 		  pos);
       if (lw6msg_word_first (&url, &seek, pos)
-	  && lw6sys_url_is_canonized (url.buf))
+	  && lw6sys_url_is_canonized (sys_context, url.buf))
 	{
 	  pos = seek;
 	}
@@ -850,7 +850,7 @@ lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, const char *msg)
 {
   int ret = 0;
 
-  if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_HELLO))
+  if (lw6sys_str_starts_with_no_case (sys_context, msg, LW6MSG_CMD_HELLO))
     {
       if (_analyse_info (info, NULL, NULL, msg + strlen (LW6MSG_CMD_HELLO)))
 	{
@@ -885,7 +885,7 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket,
   const char *pos = NULL;
   char *seek = NULL;
 
-  if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_TICKET))
+  if (lw6sys_str_starts_with_no_case (sys_context, msg, LW6MSG_CMD_TICKET))
     {
       pos = msg + strlen (LW6MSG_CMD_TICKET);
       if (_analyse_info (info, NULL, &seek, pos))
@@ -932,7 +932,7 @@ lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, int *serial,
   const char *pos = NULL;
   char *seek = NULL;
 
-  if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_FOO))
+  if (lw6sys_str_starts_with_no_case (sys_context, msg, LW6MSG_CMD_FOO))
     {
       pos = msg + strlen (LW6MSG_CMD_FOO);
       if (_analyse_info (info, NULL, &seek, pos))
@@ -987,7 +987,7 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, int *serial,
   const char *pos = NULL;
   char *seek = NULL;
 
-  if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_BAR))
+  if (lw6sys_str_starts_with_no_case (sys_context, msg, LW6MSG_CMD_BAR))
     {
       pos = msg + strlen (LW6MSG_CMD_BAR);
       if (_analyse_info (info, NULL, &seek, pos))
@@ -1043,7 +1043,7 @@ lw6msg_cmd_analyse_join (lw6nod_info_t ** info, lw6nod_info_t * local_info,
   const char *pos = NULL;
   char *seek = NULL;
 
-  if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_JOIN))
+  if (lw6sys_str_starts_with_no_case (sys_context, msg, LW6MSG_CMD_JOIN))
     {
       pos = msg + strlen (LW6MSG_CMD_JOIN);
       if (_analyse_info (info, local_info, &seek, pos))
@@ -1093,7 +1093,7 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
 {
   int ret = 0;
 
-  if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_GOODBYE))
+  if (lw6sys_str_starts_with_no_case (sys_context, msg, LW6MSG_CMD_GOODBYE))
     {
       if (_analyse_info (info, NULL, NULL, msg + strlen (LW6MSG_CMD_GOODBYE)))
 	{
@@ -1148,7 +1148,8 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq,
   seek = (char *) pos;
 
   if (lw6msg_word_first (&data_word, &seek, pos)
-      && lw6sys_str_is_same_no_case (data_word.buf, LW6MSG_CMD_DATA))
+      && lw6sys_str_is_same_no_case (sys_context, data_word.buf,
+				     LW6MSG_CMD_DATA))
     {
       pos = seek;
       if (lw6msg_word_first_int_32_gt0 (&read_serial, &seek, pos))
@@ -1251,7 +1252,8 @@ lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int64_t * seq,
   seek = (char *) pos;
 
   if (lw6msg_word_first (&meta_word, &seek, pos)
-      && lw6sys_str_is_same_no_case (meta_word.buf, LW6MSG_CMD_META))
+      && lw6sys_str_is_same_no_case (sys_context, meta_word.buf,
+				     LW6MSG_CMD_META))
     {
       pos = seek;
       if (lw6msg_word_first_int_32_gt0 (&read_serial, &seek, pos))
@@ -1449,7 +1451,7 @@ lw6msg_cmd_guess_from_url (const char *msg)
 
   for (command = msg_table; (*command) != NULL && !ret; ++command)
     {
-      if (lw6sys_str_starts_with_no_case (msg, *command))
+      if (lw6sys_str_starts_with_no_case (sys_context, msg, *command))
 	{
 	  pos = msg + strlen (*command);
 	  if (_analyse_info (&node_info, NULL, &seek, pos))

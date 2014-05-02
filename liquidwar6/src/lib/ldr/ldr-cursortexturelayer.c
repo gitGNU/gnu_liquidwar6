@@ -48,7 +48,8 @@ read_image (lw6map_cursor_texture_layer_t * cursor_texture_layer,
 	      value.b = image->data[row][col * 4 + 2];
 	      value.a = image->data[row][col * 4 + 3];
 
-	      lw6map_cursor_texture_layer_set (cursor_texture_layer, col, row,
+	      lw6map_cursor_texture_layer_set (sys_context,
+					       cursor_texture_layer, col, row,
 					       value);
 	    }
 	}
