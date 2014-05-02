@@ -112,7 +112,7 @@ _test_manager_ldr ()
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
 					_x_ ("waiting for manager \"%s\""),
 					repr);
-			    LW6SYS_FREE (repr);
+			    LW6SYS_FREE (sys_context, repr);
 			  }
 			if (lw6tsk_loader_pop
 			    (&level, &game_struct, &game_state, &bench_value,
@@ -128,7 +128,7 @@ _test_manager_ldr ()
 						_x_
 						("loaded game_struct \"%s\""),
 						repr);
-				    LW6SYS_FREE (repr);
+				    LW6SYS_FREE (sys_context, repr);
 				  }
 				repr = lw6ker_game_state_repr (game_state);
 				if (repr)
@@ -137,7 +137,7 @@ _test_manager_ldr ()
 						_x_
 						("loaded game_state \"%s\" bench_value=%d"),
 						repr, bench_value);
-				    LW6SYS_FREE (repr);
+				    LW6SYS_FREE (sys_context, repr);
 				  }
 				lw6ker_game_state_free (game_state);
 				game_state = NULL;
@@ -154,7 +154,7 @@ _test_manager_ldr ()
 				    lw6sys_log (LW6SYS_LOG_NOTICE,
 						_x_ ("loaded map \"%s\""),
 						repr);
-				    LW6SYS_FREE (repr);
+				    LW6SYS_FREE (sys_context, repr);
 				  }
 				lw6map_free (level);
 				level = NULL;
@@ -173,7 +173,7 @@ _test_manager_ldr ()
 	  {
 	    ret = 0;
 	  }
-	LW6SYS_FREE (user_dir);
+	LW6SYS_FREE (sys_context, user_dir);
       }
     else
       {
@@ -231,7 +231,7 @@ _test_manager_gen ()
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("waiting for manager \"%s\""), repr);
-		    LW6SYS_FREE (repr);
+		    LW6SYS_FREE (sys_context, repr);
 		  }
 		if (lw6tsk_loader_pop
 		    (&level, &game_struct, &game_state, &bench_value,
@@ -247,7 +247,7 @@ _test_manager_gen ()
 					_x_
 					("generated game_struct \"%s\""),
 					repr);
-			    LW6SYS_FREE (repr);
+			    LW6SYS_FREE (sys_context, repr);
 			  }
 			repr = lw6ker_game_state_repr (game_state);
 			if (repr)
@@ -256,7 +256,7 @@ _test_manager_gen ()
 					_x_
 					("generated game_state \"%s\" bench_value=%d"),
 					repr, bench_value);
-			    LW6SYS_FREE (repr);
+			    LW6SYS_FREE (sys_context, repr);
 			  }
 			lw6ker_game_state_free (game_state);
 			game_state = NULL;
@@ -272,7 +272,7 @@ _test_manager_gen ()
 			  {
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
 					_x_ ("generated map \"%s\""), repr);
-			    LW6SYS_FREE (repr);
+			    LW6SYS_FREE (sys_context, repr);
 			  }
 			lw6map_free (level);
 			level = NULL;
@@ -285,7 +285,7 @@ _test_manager_gen ()
 	  {
 	    ret = 0;
 	  }
-	LW6SYS_FREE (user_dir);
+	LW6SYS_FREE (sys_context, user_dir);
       }
     else
       {

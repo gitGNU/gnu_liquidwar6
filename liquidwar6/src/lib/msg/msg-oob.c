@@ -130,7 +130,7 @@ _add_node_txt (void *func_data, void *data)
 				verified_node->const_info.ref_info.url);
 	  if (tmp)
 	    {
-	      LW6SYS_FREE (*list);
+	      LW6SYS_FREE (sys_context, *list);
 	      (*list) = tmp;
 	    }
 	}
@@ -176,7 +176,7 @@ lw6msg_oob_generate_list (lw6nod_info_t * info)
 	      tmp = lw6sys_str_concat (ret, "\n");
 	      if (tmp)
 		{
-		  LW6SYS_FREE (ret);
+		  LW6SYS_FREE (sys_context, ret);
 		  ret = tmp;
 		}
 	    }
@@ -416,24 +416,24 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 		{
 		  if (received_url)
 		    {
-		      LW6SYS_FREE (received_url);
+		      LW6SYS_FREE (sys_context, received_url);
 		    }
 		}
 	      if (received_password)
 		{
-		  LW6SYS_FREE (received_password);
+		  LW6SYS_FREE (sys_context, received_password);
 		}
 	      if (!ret)
 		{
 		  if (*remote_url)
 		    {
-		      LW6SYS_FREE (*remote_url);
+		      LW6SYS_FREE (sys_context, *remote_url);
 		      (*remote_url) = NULL;
 		    }
 		}
 	    }
 	}
-      LW6SYS_FREE (copy);
+      LW6SYS_FREE (sys_context, copy);
     }
 
   return ret;
@@ -468,11 +468,11 @@ lw6msg_oob_analyse_pong (const char *text)
 	    }
 	  else
 	    {
-	      LW6SYS_FREE (value);
+	      LW6SYS_FREE (sys_context, value);
 	    }
-	  LW6SYS_FREE (key);
+	  LW6SYS_FREE (sys_context, key);
 	}
-      LW6SYS_FREE (copy);
+      LW6SYS_FREE (sys_context, copy);
     }
 
   return ret;

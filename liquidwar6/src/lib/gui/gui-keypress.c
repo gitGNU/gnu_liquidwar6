@@ -77,9 +77,9 @@ lw6gui_keypress_free (lw6gui_keypress_t * keypress)
     {
       if (keypress->label)
 	{
-	  LW6SYS_FREE (keypress->label);
+	  LW6SYS_FREE (sys_context, keypress->label);
 	}
-      LW6SYS_FREE (keypress);
+      LW6SYS_FREE (sys_context, keypress);
     }
   else
     {

@@ -213,7 +213,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 	      LW6SYS_FREE (tmp_buffer);
 	    }
 	}
-      LW6SYS_FREE (filename);
+      LW6SYS_FREE (sys_context, filename);
     }
 
   if (ret)

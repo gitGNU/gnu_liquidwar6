@@ -180,7 +180,7 @@ _call_init (lw6gfx_backend_t * backend)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("display repr is \"%s\""),
 		      repr);
-	  LW6SYS_FREE (repr);
+	  LW6SYS_FREE (sys_context, repr);
 	}
       ticks = lw6sys_get_uptime ();
       while (lw6sys_get_uptime () < ticks + _TEST_DURATION_SETUP)
@@ -319,9 +319,9 @@ _test_menu ()
 			    lw6gui_menu_append (menu, menuitem,
 						lw6sys_get_uptime ());
 			  }
-			LW6SYS_FREE (menuitem_tooltip);
+			LW6SYS_FREE (sys_context, menuitem_tooltip);
 		      }
-		    LW6SYS_FREE (menuitem_label);
+		    LW6SYS_FREE (sys_context, menuitem_label);
 		  }
 	      }
 	    lw6gui_menu_select (menu, _TEST_MENU_SELECTED_MENUITEM,
@@ -550,7 +550,7 @@ _test_events ()
 		if (repr)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s"), repr);
-		    LW6SYS_FREE (repr);
+		    LW6SYS_FREE (sys_context, repr);
 		  }
 		lw6gui_keypress_free (keypress);
 	      }

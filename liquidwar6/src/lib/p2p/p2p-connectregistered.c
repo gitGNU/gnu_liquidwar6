@@ -159,7 +159,7 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 			    && ret;
 			  _lw6p2p_db_unlock (node->db);
 			}
-		      LW6SYS_FREE (query);
+		      LW6SYS_FREE (sys_context, query);
 		      query = NULL;
 
 		      if (node_by_id_data.node_url && node_by_id_data.node_ip)
@@ -242,15 +242,15 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 
   if (node_by_id_data.node_id)
     {
-      LW6SYS_FREE (node_by_id_data.node_id);
+      LW6SYS_FREE (sys_context, node_by_id_data.node_id);
     }
   if (node_by_id_data.node_url)
     {
-      LW6SYS_FREE (node_by_id_data.node_url);
+      LW6SYS_FREE (sys_context, node_by_id_data.node_url);
     }
   if (node_by_id_data.node_ip)
     {
-      LW6SYS_FREE (node_by_id_data.node_ip);
+      LW6SYS_FREE (sys_context, node_by_id_data.node_ip);
     }
 
   return ret;

@@ -122,7 +122,7 @@ _read_query (lw6sys_hash_t * queries, const char *sql_dir,
 		      _("can't read query \"%s\" in \"%s\""), query_file,
 		      filename);
 	}
-      LW6SYS_FREE (filename);
+      LW6SYS_FREE (sys_context, filename);
     }
 
   return ret;
@@ -246,7 +246,7 @@ _lw6p2p_data_load (_lw6p2p_data_t * data, const char *data_dir)
 	}
       if (consts_file)
 	{
-	  LW6SYS_FREE (consts_file);
+	  LW6SYS_FREE (sys_context, consts_file);
 	}
       if (sql_dir)
 	{

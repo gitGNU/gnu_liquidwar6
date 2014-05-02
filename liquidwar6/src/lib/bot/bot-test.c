@@ -144,7 +144,7 @@ _test_backend ()
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("bot repr is \"%s\""),
 			  repr);
-	      LW6SYS_FREE (repr);
+	      LW6SYS_FREE (sys_context, repr);
 	    }
 	  capture_str = lw6ker_capture_str (game_state);
 	  if (capture_str)
@@ -154,7 +154,7 @@ _test_backend ()
 		  printf ("%s", capture_str);
 		  fflush (stdout);
 		}
-	      LW6SYS_FREE (capture_str);
+	      LW6SYS_FREE (sys_context, capture_str);
 	    }
 	  lw6bot_quit (backend);
 	}

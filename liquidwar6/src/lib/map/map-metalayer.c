@@ -87,7 +87,7 @@ lw6map_meta_layer_clear (lw6map_meta_layer_t * meta_layer)
 {
   if (meta_layer->data)
     {
-      LW6SYS_FREE (meta_layer->data);
+      LW6SYS_FREE (sys_context, meta_layer->data);
     }
 
   memset (meta_layer, 0, sizeof (lw6map_meta_layer_t));

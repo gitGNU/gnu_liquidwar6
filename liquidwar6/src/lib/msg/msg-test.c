@@ -235,7 +235,7 @@ _test_cmd ()
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("could guess url \"%s\" from \"%s\""),
 			    remote_url, msg);
-		LW6SYS_FREE (remote_url);
+		LW6SYS_FREE (sys_context, remote_url);
 	      }
 	    else
 	      {
@@ -243,7 +243,7 @@ _test_cmd ()
 			    _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
-	    LW6SYS_FREE (msg);
+	    LW6SYS_FREE (sys_context, msg);
 	  }
 
 	ticket = lw6sys_generate_id_64 ();
@@ -287,7 +287,7 @@ _test_cmd ()
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("could guess url \"%s\" from \"%s\""),
 			    remote_url, msg);
-		LW6SYS_FREE (remote_url);
+		LW6SYS_FREE (sys_context, remote_url);
 	      }
 	    else
 	      {
@@ -295,7 +295,7 @@ _test_cmd ()
 			    _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
-	    LW6SYS_FREE (msg);
+	    LW6SYS_FREE (sys_context, msg);
 	  }
 
 	key = lw6sys_generate_id_32 ();
@@ -337,7 +337,7 @@ _test_cmd ()
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("could guess url \"%s\" from \"%s\""),
 			    remote_url, msg);
-		LW6SYS_FREE (remote_url);
+		LW6SYS_FREE (sys_context, remote_url);
 	      }
 	    else
 	      {
@@ -345,7 +345,7 @@ _test_cmd ()
 			    _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
-	    LW6SYS_FREE (msg);
+	    LW6SYS_FREE (sys_context, msg);
 	  }
 
 	key = lw6sys_generate_id_32 ();
@@ -387,7 +387,7 @@ _test_cmd ()
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("could guess url \"%s\" from \"%s\""),
 			    remote_url, msg);
-		LW6SYS_FREE (remote_url);
+		LW6SYS_FREE (sys_context, remote_url);
 	      }
 	    else
 	      {
@@ -395,7 +395,7 @@ _test_cmd ()
 			    _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
-	    LW6SYS_FREE (msg);
+	    LW6SYS_FREE (sys_context, msg);
 	  }
 
 	seq = _TEST_SEQ_BASE + lw6sys_random (_TEST_SEQ_RANGE);
@@ -441,7 +441,7 @@ _test_cmd ()
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("could guess url \"%s\" from \"%s\""),
 			    remote_url, msg);
-		LW6SYS_FREE (remote_url);
+		LW6SYS_FREE (sys_context, remote_url);
 	      }
 	    else
 	      {
@@ -449,7 +449,7 @@ _test_cmd ()
 			    _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
-	    LW6SYS_FREE (msg);
+	    LW6SYS_FREE (sys_context, msg);
 	  }
 
 	msg = lw6msg_cmd_generate_goodbye (info);
@@ -477,7 +477,7 @@ _test_cmd ()
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("could guess url \"%s\" from \"%s\""),
 			    remote_url, msg);
-		LW6SYS_FREE (remote_url);
+		LW6SYS_FREE (sys_context, remote_url);
 	      }
 	    else
 	      {
@@ -485,7 +485,7 @@ _test_cmd ()
 			    _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
-	    LW6SYS_FREE (msg);
+	    LW6SYS_FREE (sys_context, msg);
 	  }
 
 	msg =
@@ -504,7 +504,7 @@ _test_cmd ()
 			    _x_
 			    ("data command analysed (node ker_msg=\"%s\")"),
 			    data_ker_msg);
-		LW6SYS_FREE (data_ker_msg);
+		LW6SYS_FREE (sys_context, data_ker_msg);
 	      }
 	    else
 	      {
@@ -519,7 +519,7 @@ _test_cmd ()
 			    _x_
 			    ("could guess url \"%s\" from \"%s\", this is wrong"),
 			    remote_url, msg);
-		LW6SYS_FREE (remote_url);
+		LW6SYS_FREE (sys_context, remote_url);
 		ret = 0;
 	      }
 	    else
@@ -529,7 +529,7 @@ _test_cmd ()
 			    ("unable to guess url from \"%s\", this is right"),
 			    msg);
 	      }
-	    LW6SYS_FREE (msg);
+	    LW6SYS_FREE (sys_context, msg);
 	  }
 
 	lw6msg_meta_array_zero (&meta_array_src);
@@ -587,7 +587,7 @@ _test_cmd ()
 			    _x_
 			    ("could guess url \"%s\" from \"%s\", this is wrong"),
 			    remote_url, msg);
-		LW6SYS_FREE (remote_url);
+		LW6SYS_FREE (sys_context, remote_url);
 		ret = 0;
 	      }
 	    else
@@ -597,7 +597,7 @@ _test_cmd ()
 			    ("unable to guess url from \"%s\", this is right"),
 			    msg);
 	      }
-	    LW6SYS_FREE (msg);
+	    LW6SYS_FREE (sys_context, msg);
 	  }
 
 	msg =
@@ -633,7 +633,7 @@ _test_cmd ()
 			    _x_
 			    ("could guess url \"%s\" from \"%s\", this is wrong"),
 			    remote_url, msg);
-		LW6SYS_FREE (remote_url);
+		LW6SYS_FREE (sys_context, remote_url);
 		ret = 0;
 	      }
 	    else
@@ -643,7 +643,7 @@ _test_cmd ()
 			    ("unable to guess url from \"%s\", this is right"),
 			    msg);
 	      }
-	    LW6SYS_FREE (msg);
+	    LW6SYS_FREE (sys_context, msg);
 	  }
 
 	lw6nod_info_free (info);
@@ -715,14 +715,15 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 			  lw6sys_log (LW6SYS_LOG_NOTICE,
 				      _x_ ("message is \"%s\""),
 				      received_msg);
-			  LW6SYS_FREE (received_msg);
+			  LW6SYS_FREE (sys_context, received_msg);
 			}
 		      if (received_physical_from_url)
 			{
 			  lw6sys_log (LW6SYS_LOG_NOTICE,
 				      _x_ ("guessed \"from url\" \"%s\""),
 				      received_physical_from_url);
-			  LW6SYS_FREE (received_physical_from_url);
+			  LW6SYS_FREE (sys_context,
+				       received_physical_from_url);
 			}
 		    }
 		  else
@@ -751,11 +752,12 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 			  lw6sys_log (LW6SYS_LOG_NOTICE,
 				      _x_ ("message is \"%s\""),
 				      received_msg);
-			  LW6SYS_FREE (received_msg);
+			  LW6SYS_FREE (sys_context, received_msg);
 			}
 		      if (received_physical_from_url)
 			{
-			  LW6SYS_FREE (received_physical_from_url);
+			  LW6SYS_FREE (sys_context,
+				       received_physical_from_url);
 			}
 		    }
 		  else
@@ -827,14 +829,14 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 				  _x_ ("\"to id\" checking works"));
 		    }
 
-		  LW6SYS_FREE (envelope);
+		  LW6SYS_FREE (sys_context, envelope);
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("unable to generate envelope"));
 		}
-	      LW6SYS_FREE (msg);
+	      LW6SYS_FREE (sys_context, msg);
 	    }
 
 	  /*
@@ -873,11 +875,12 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 			  lw6sys_log (LW6SYS_LOG_NOTICE,
 				      _x_ ("message is \"%s\""),
 				      received_msg);
-			  LW6SYS_FREE (received_msg);
+			  LW6SYS_FREE (sys_context, received_msg);
 			}
 		      if (received_physical_from_url)
 			{
-			  LW6SYS_FREE (received_physical_from_url);
+			  LW6SYS_FREE (sys_context,
+				       received_physical_from_url);
 			}
 		    }
 		  else
@@ -887,14 +890,14 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 				  envelope);
 		      ret = 0;
 		    }
-		  LW6SYS_FREE (envelope);
+		  LW6SYS_FREE (sys_context, envelope);
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("unable to generate envelope"));
 		}
-	      LW6SYS_FREE (msg);
+	      LW6SYS_FREE (sys_context, msg);
 	    }
 	  LW6SYS_FREE (password_checksum);
 	}
@@ -1098,14 +1101,14 @@ _test_oob ()
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("standard oob INFO is \"%s\""), oob);
-	    LW6SYS_FREE (oob);
+	    LW6SYS_FREE (sys_context, oob);
 	  }
 	oob = lw6msg_oob_generate_list (info);
 	if (oob)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("standard (empty) oob LIST is \"%s\""), oob);
-	    LW6SYS_FREE (oob);
+	    LW6SYS_FREE (sys_context, oob);
 	  }
 
 	oob = lw6msg_oob_generate_pong (info);
@@ -1129,7 +1132,7 @@ _test_oob ()
 				pong_url, _TEST_URL);
 		    ret = 0;
 		  }
-		LW6SYS_FREE (pong_url);
+		LW6SYS_FREE (sys_context, pong_url);
 	      }
 	    else
 	      {
@@ -1137,7 +1140,7 @@ _test_oob ()
 			    _x_ ("unable to parse PONG message \"%s\""), oob);
 		ret = 0;
 	      }
-	    LW6SYS_FREE (oob);
+	    LW6SYS_FREE (sys_context, oob);
 	  }
 
 	list = lw6nod_info_new_verified_nodes ();
@@ -1158,7 +1161,7 @@ _test_oob ()
 		  {
 		    lw6sys_list_push_front (&list, verified_node);
 		  }
-		LW6SYS_FREE (url);
+		LW6SYS_FREE (sys_context, url);
 	      }
 	    url = lw6sys_url_http_from_ip_port (_TEST_IP_2, _TEST_PORT);
 	    if (url)
@@ -1175,7 +1178,7 @@ _test_oob ()
 		  {
 		    lw6sys_list_push_front (&list, verified_node);
 		  }
-		LW6SYS_FREE (url);
+		LW6SYS_FREE (sys_context, url);
 	      }
 	    url = lw6sys_url_http_from_ip_port (_TEST_IP_3, _TEST_PORT);
 	    if (url)
@@ -1192,7 +1195,7 @@ _test_oob ()
 		  {
 		    lw6sys_list_push_front (&list, verified_node);
 		  }
-		LW6SYS_FREE (url);
+		LW6SYS_FREE (sys_context, url);
 	      }
 
 	    if (list)
@@ -1206,7 +1209,7 @@ _test_oob ()
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("standard (populated) oob LIST is \"%s\""),
 			    oob);
-		LW6SYS_FREE (oob);
+		LW6SYS_FREE (sys_context, oob);
 	      }
 	  }
 
@@ -1232,7 +1235,7 @@ _test_oob ()
 				_x_
 				("request \"%s\" analysed syntax_ok=%d password_ok=%d remote_url=\"%s\""),
 				request, syntax_ok, password_ok, remote_url);
-		    LW6SYS_FREE (remote_url);
+		    LW6SYS_FREE (sys_context, remote_url);
 		  }
 	      }
 	    else
@@ -1243,7 +1246,7 @@ _test_oob ()
 			    request, syntax_ok, password_ok);
 		ret = 0;
 	      }
-	    LW6SYS_FREE (request);
+	    LW6SYS_FREE (sys_context, request);
 	  }
 	request =
 	  lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND,
@@ -1266,7 +1269,7 @@ _test_oob ()
 			    request, syntax_ok, password_ok);
 		if (remote_url)
 		  {
-		    LW6SYS_FREE (remote_url);
+		    LW6SYS_FREE (sys_context, remote_url);
 		  }
 	      }
 	    else
@@ -1277,7 +1280,7 @@ _test_oob ()
 			    request, syntax_ok, password_ok);
 		ret = 0;
 	      }
-	    LW6SYS_FREE (request);
+	    LW6SYS_FREE (sys_context, request);
 	  }
 	request =
 	  lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND, NULL, NULL,
@@ -1299,7 +1302,7 @@ _test_oob ()
 				_x_
 				("request \"%s\" analysed syntax_ok=%d password_ok=%d remote_url=\"%s\""),
 				request, syntax_ok, password_ok, remote_url);
-		    LW6SYS_FREE (remote_url);
+		    LW6SYS_FREE (sys_context, remote_url);
 		  }
 	      }
 	    else
@@ -1320,7 +1323,7 @@ _test_oob ()
 			    request);
 		if (remote_url)
 		  {
-		    LW6SYS_FREE (remote_url);
+		    LW6SYS_FREE (sys_context, remote_url);
 		  }
 		ret = 0;
 	      }
@@ -1340,7 +1343,7 @@ _test_oob ()
 				_x_ ("password checking is OK"));
 		  }
 	      }
-	    LW6SYS_FREE (request);
+	    LW6SYS_FREE (sys_context, request);
 	  }
 	request =
 	  lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND, NULL, NULL,
@@ -1361,7 +1364,7 @@ _test_oob ()
 			    request, syntax_ok, password_ok);
 		if (remote_url)
 		  {
-		    LW6SYS_FREE (remote_url);
+		    LW6SYS_FREE (sys_context, remote_url);
 		  }
 	      }
 	    else
@@ -1382,7 +1385,7 @@ _test_oob ()
 			    request);
 		if (remote_url)
 		  {
-		    LW6SYS_FREE (remote_url);
+		    LW6SYS_FREE (sys_context, remote_url);
 		  }
 		ret = 0;
 	      }
@@ -1402,7 +1405,7 @@ _test_oob ()
 				_x_ ("password checking is OK"));
 		  }
 	      }
-	    LW6SYS_FREE (request);
+	    LW6SYS_FREE (sys_context, request);
 	  }
 
 	lw6nod_info_free (info);
@@ -1450,7 +1453,7 @@ _test_sort ()
 		  {
 		    ret = 0;
 		  }
-		LW6SYS_FREE (tmp);
+		LW6SYS_FREE (sys_context, tmp);
 	      }
 	    else
 	      {
@@ -1614,8 +1617,8 @@ _test_utils ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("line \"%s\" parsed key=\"%s\" value=\"%s\""),
 		    _TEST_KEY_VALUE_OK_1, key, value);
-	LW6SYS_FREE (key);
-	LW6SYS_FREE (value);
+	LW6SYS_FREE (sys_context, key);
+	LW6SYS_FREE (sys_context, value);
       }
     else
       {
@@ -1630,8 +1633,8 @@ _test_utils ()
 		    _x_
 		    ("line \"%s\" parsed key=\"%s\" value=\"%s\" but this should have returned NULL"),
 		    _TEST_KEY_VALUE_KO, key, value);
-	LW6SYS_FREE (key);
-	LW6SYS_FREE (value);
+	LW6SYS_FREE (sys_context, key);
+	LW6SYS_FREE (sys_context, value);
 	ret = 0;
       }
     else
@@ -2101,7 +2104,7 @@ _test_z_ok (char *_test_str, int log_all)
 		}
 	      ret = 0;
 	    }
-	  LW6SYS_FREE (decoded_string);
+	  LW6SYS_FREE (sys_context, decoded_string);
 	}
       else
 	{
@@ -2109,7 +2112,7 @@ _test_z_ok (char *_test_str, int log_all)
 		      encoded_string);
 	  ret = 0;
 	}
-      LW6SYS_FREE (encoded_string);
+      LW6SYS_FREE (sys_context, encoded_string);
     }
   else
     {
@@ -2150,7 +2153,7 @@ _test_z_ko (char *_test_str, int log_all)
 		      ("z-decoded a non z-encoded string, this is wrong!"));
 	}
       ret = 0;
-      LW6SYS_FREE (decoded_string);
+      LW6SYS_FREE (sys_context, decoded_string);
     }
   else
     {
@@ -2204,9 +2207,9 @@ _test_z ()
 	if (z_random_str)
 	  {
 	    ret = _test_z_ko (z_random_str, 0) && ret;
-	    LW6SYS_FREE (z_random_str);
+	    LW6SYS_FREE (sys_context, z_random_str);
 	  }
-	LW6SYS_FREE (random_str);
+	LW6SYS_FREE (sys_context, random_str);
       }
   }
 

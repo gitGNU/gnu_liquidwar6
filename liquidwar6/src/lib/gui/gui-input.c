@@ -93,7 +93,7 @@ lw6gui_input_new ()
     {
       if (!lw6gui_input_init (ret))
 	{
-	  LW6SYS_FREE (ret);
+	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
 	}
     }
@@ -116,7 +116,7 @@ lw6gui_input_free (lw6gui_input_t * input)
   if (input)
     {
       lw6gui_input_quit (input);
-      LW6SYS_FREE (input);
+      LW6SYS_FREE (sys_context, input);
     }
   else
     {

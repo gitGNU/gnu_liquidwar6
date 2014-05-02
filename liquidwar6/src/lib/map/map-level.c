@@ -199,7 +199,7 @@ lw6map_free (lw6map_level_t * level)
       lw6map_local_info_clear (&level->local_info);
       lw6map_metadata_clear (&level->metadata);
 
-      LW6SYS_FREE (level);
+      LW6SYS_FREE (sys_context, level);
     }
   else
     {

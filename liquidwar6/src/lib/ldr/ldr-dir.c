@@ -181,16 +181,16 @@ lw6ldr_free_entry (lw6ldr_entry_t * entry)
       lw6map_metadata_clear (&(entry->metadata));
       if (entry->absolute_path)
 	{
-	  LW6SYS_FREE (entry->absolute_path);
+	  LW6SYS_FREE (sys_context, entry->absolute_path);
 	  entry->absolute_path = NULL;
 	}
       if (entry->relative_path)
 	{
-	  LW6SYS_FREE (entry->relative_path);
+	  LW6SYS_FREE (sys_context, entry->relative_path);
 	  entry->relative_path = NULL;
 	}
     }
-  LW6SYS_FREE (entry);
+  LW6SYS_FREE (sys_context, entry);
 }
 
 /**
@@ -419,7 +419,7 @@ _get_entries (const char *map_path, const char *relative_path, int player_exp)
 			      LW6SYS_FREE (absolute_path);
 			    }
 			}
-		      LW6SYS_FREE (dir);
+		      LW6SYS_FREE (sys_context, dir);
 		    }
 		}
 	    }
@@ -622,7 +622,7 @@ lw6ldr_chain_entry (const char *map_path, const char *relative_path,
       lw6ldr_for_all_entries (map_path, parent, user_dir, 0, &_chain_func,
 			      &chain_ret);
       ret = chain_ret.found_entry;
-      LW6SYS_FREE (parent);
+      LW6SYS_FREE (sys_context, parent);
     }
 
   return ret;

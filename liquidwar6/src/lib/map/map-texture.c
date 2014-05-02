@@ -99,7 +99,7 @@ lw6map_texture_clear (lw6map_texture_t * texture)
 {
   if (texture->data)
     {
-      LW6SYS_FREE (texture->data);
+      LW6SYS_FREE (sys_context, texture->data);
     }
 
   memset (texture, 0, sizeof (lw6map_texture_t));

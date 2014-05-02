@@ -64,7 +64,7 @@ _call_init (lw6snd_backend_t * backend)
       if (repr)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("snd repr is \"%s\""), repr);
-	  LW6SYS_FREE (repr);
+	  LW6SYS_FREE (sys_context, repr);
 	}
     }
 

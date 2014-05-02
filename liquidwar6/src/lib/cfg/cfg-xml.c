@@ -201,7 +201,7 @@ lw6cfg_read_xml_string (const char *xml_key, const char *xml_value,
 	       * This implies that *value is zeroed at initialisation,
 	       * or filled with a dynamically allocated string.
 	       */
-	      LW6SYS_FREE (*value);
+	      LW6SYS_FREE (sys_context, *value);
 	      (*value) = NULL;
 	    }
 	  (*value) = lw6sys_str_copy (xml_value);
@@ -353,9 +353,9 @@ lw6cfg_read_key_value_xml_file (const char *filename,
 		}
 	      XML_ParserFree (parser);
 	    }
-	  LW6SYS_FREE (content);
+	  LW6SYS_FREE (sys_context, content);
 	}
-      LW6SYS_FREE (callback);
+      LW6SYS_FREE (sys_context, callback);
     }
 
   return ret;
@@ -421,7 +421,7 @@ write_xml (FILE * f, const char *type, const char *key, const char *value,
 	  help_string =
 	    lw6sys_str_reformat (tmp, LW6SYS_REFORMAT_XML_PREFIX,
 				 LW6SYS_REFORMAT_XML_NB_COLUMNS);
-	  LW6SYS_FREE (tmp);
+	  LW6SYS_FREE (sys_context, tmp);
 	}
       switch (hlp_type)
 	{
@@ -513,7 +513,7 @@ write_xml (FILE * f, const char *type, const char *key, const char *value,
 	}
       if (help_string)
 	{
-	  LW6SYS_FREE (help_string);
+	  LW6SYS_FREE (sys_context, help_string);
 	}
     }
 }

@@ -152,13 +152,13 @@ lw6cfg_reset (int argc, const char *argv[])
 	  if (value)
 	    {
 	      lw6cfg_set_option (cfg_context, LW6DEF_USER_DIR, value);
-	      LW6SYS_FREE (value);
+	      LW6SYS_FREE (sys_context, value);
 	    }
 	  value = lw6sys_get_log_file (argc, argv);
 	  if (value)
 	    {
 	      lw6cfg_set_option (cfg_context, LW6DEF_LOG_FILE, value);
-	      LW6SYS_FREE (value);
+	      LW6SYS_FREE (sys_context, value);
 	    }
 	  lw6cfg_set_option (cfg_context, LW6DEF_MUSIC_PATH, "");
 	  lw6cfg_set_option (cfg_context, LW6DEF_MAP_PATH, "");
@@ -166,6 +166,6 @@ lw6cfg_reset (int argc, const char *argv[])
 	  lw6cfg_save (cfg_context, config_file);
 	  lw6cfg_quit (cfg_context);
 	}
-      LW6SYS_FREE (config_file);
+      LW6SYS_FREE (sys_context, config_file);
     }
 }

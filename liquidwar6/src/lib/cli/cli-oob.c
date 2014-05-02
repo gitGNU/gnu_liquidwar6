@@ -122,9 +122,9 @@ lw6cli_oob_free (lw6cli_oob_t * oob)
 
       if (oob->data.public_url)
 	{
-	  LW6SYS_FREE (oob->data.public_url);
+	  LW6SYS_FREE (sys_context, oob->data.public_url);
 	}
-      LW6SYS_FREE (oob);
+      LW6SYS_FREE (sys_context, oob);
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("oob freed"));
     }
   else

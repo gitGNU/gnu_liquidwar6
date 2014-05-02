@@ -710,7 +710,7 @@ _test_stack ()
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("got atom str by serial \"%s\""), msg);
-		    LW6SYS_FREE (msg);
+		    LW6SYS_FREE (sys_context, msg);
 		  }
 	      }
 	    else
@@ -743,7 +743,7 @@ _test_stack ()
 		msg = (char *) lw6sys_list_pop_front (&msg_list);
 		if (msg)
 		  {
-		    LW6SYS_FREE (msg);
+		    LW6SYS_FREE (sys_context, msg);
 		  }
 	      }
 
@@ -771,7 +771,7 @@ _test_stack ()
 		msg = (char *) lw6sys_list_pop_front (&msg_list);
 		if (msg)
 		  {
-		    LW6SYS_FREE (msg);
+		    LW6SYS_FREE (sys_context, msg);
 		  }
 	      }
 
@@ -906,9 +906,9 @@ _test_stack ()
 			    _x_ ("unable to put one of the messages"));
 		ret = 0;
 	      }
-	    LW6SYS_FREE (msg4);
+	    LW6SYS_FREE (sys_context, msg4);
 	  }
-	LW6SYS_FREE (msg4_random_part);
+	LW6SYS_FREE (sys_context, msg4_random_part);
       }
 
     if (LW6SYS_TEST_ACK
@@ -1362,12 +1362,12 @@ _test_warehouse ()
 					msg);
 			    ret = 0;
 			  }
-			LW6SYS_FREE (msg);
+			LW6SYS_FREE (sys_context, msg);
 		      }
-		    LW6SYS_FREE (cmd);
+		    LW6SYS_FREE (sys_context, cmd);
 		  }
 	      }
-	    LW6SYS_FREE (id_str);
+	    LW6SYS_FREE (sys_context, id_str);
 	  }
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("last put msg local_serial=%d i=%d"),
@@ -1531,9 +1531,9 @@ _test_warehouse ()
 				    ("unable to put message in other warehouse"));
 			ret = 0;
 		      }
-		    LW6SYS_FREE (msg);
+		    LW6SYS_FREE (sys_context, msg);
 		  }
-		LW6SYS_FREE (id_str);
+		LW6SYS_FREE (sys_context, id_str);
 	      }
 	    lw6dat_warehouse_free (warehouse2);
 	  }
@@ -1873,7 +1873,7 @@ _test_more ()
 				lw6dat_warehouse_put_local_msg (warehouse
 								[node_index],
 								msg);
-				LW6SYS_FREE (msg);
+				LW6SYS_FREE (sys_context, msg);
 			      }
 			  }
 		      }
@@ -1903,7 +1903,7 @@ _test_more ()
 				    (long long) node_id, (int) strlen (msg));
 			lw6dat_warehouse_put_local_msg (warehouse[stage],
 							msg);
-			LW6SYS_FREE (msg);
+			LW6SYS_FREE (sys_context, msg);
 		      }
 		  }
 
@@ -2324,7 +2324,7 @@ _test_more ()
 		      }
 		  }
 	      }
-	    LW6SYS_FREE (long_text);
+	    LW6SYS_FREE (sys_context, long_text);
 	  }
 	LW6SYS_FREE (short_text);
       }

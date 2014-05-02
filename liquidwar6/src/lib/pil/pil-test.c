@@ -163,7 +163,7 @@ command_map_func (void *func_data, void *data)
     {
       (*ret) = 1;
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("command=\"%s\""), repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
 }
 
@@ -198,7 +198,7 @@ _test_command ()
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("command \"%s\" interpreted as \"%s\""),
 				_test_commands[i], repr);
-		    LW6SYS_FREE (repr);
+		    LW6SYS_FREE (sys_context, repr);
 		    ret = 1;
 		  }
 		lw6sys_list_push_front (&commands, command);
@@ -294,7 +294,7 @@ _print_game_state (lw6ker_game_state_t * game_state, char *text)
 	  printf ("%s", capture_str);
 	  fflush (stdout);
 	}
-      LW6SYS_FREE (capture_str);
+      LW6SYS_FREE (sys_context, capture_str);
     }
 }
 
@@ -427,7 +427,7 @@ _test_dump ()
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("pilot \"%s\" created"), repr);
-			LW6SYS_FREE (repr);
+			LW6SYS_FREE (sys_context, repr);
 		      }
 		    lw6pil_pilot_checksum_log_set_interval (pilot,
 							    _TEST_CHECKSUM_LOG_INTERVAL);
@@ -637,7 +637,7 @@ _test_dump ()
 					_x_ ("didn't get dump from pilot"));
 			  }
 
-			LW6SYS_FREE (dump_command);
+			LW6SYS_FREE (sys_context, dump_command);
 		      }
 
 		    lw6pil_pilot_free (pilot);
@@ -711,7 +711,7 @@ _test_nopilot ()
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("pilot \"%s\" created"), repr);
-			LW6SYS_FREE (repr);
+			LW6SYS_FREE (sys_context, repr);
 		      }
 		    lw6pil_pilot_checksum_log_set_interval (pilot,
 							    _TEST_CHECKSUM_LOG_INTERVAL);
@@ -743,7 +743,7 @@ _test_nopilot ()
 			      }
 			  }
 
-			LW6SYS_FREE (dump_command);
+			LW6SYS_FREE (sys_context, dump_command);
 		      }
 
 		    lw6pil_pilot_free (pilot);
@@ -972,7 +972,7 @@ _test_pilot ()
 					_TEST_BACKUP_ROUND, checksum,
 					_TEST_BACKUP_CHECKSUM);
 			  }
-			LW6SYS_FREE (repr);
+			LW6SYS_FREE (sys_context, repr);
 		      }
 		    lw6pil_pilot_free (pilot);
 		  }

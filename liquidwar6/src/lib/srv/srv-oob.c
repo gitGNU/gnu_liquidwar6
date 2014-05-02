@@ -122,13 +122,13 @@ lw6srv_oob_free (lw6srv_oob_t * oob)
 
       if (oob->data.remote_ip)
 	{
-	  LW6SYS_FREE (oob->data.remote_ip);
+	  LW6SYS_FREE (sys_context, oob->data.remote_ip);
 	}
       if (oob->data.first_line)
 	{
-	  LW6SYS_FREE (oob->data.first_line);
+	  LW6SYS_FREE (sys_context, oob->data.first_line);
 	}
-      LW6SYS_FREE (oob);
+      LW6SYS_FREE (sys_context, oob);
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("oob freed"));
     }
   else

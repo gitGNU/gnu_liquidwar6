@@ -73,7 +73,7 @@ merge_func (void *func_data, void *data)
 			      _x_
 			      ("key \"%s\" set to \"%s\" by environment variable \"%s\""),
 			      keyword, value_converted, env);
-		  LW6SYS_FREE (env);
+		  LW6SYS_FREE (sys_context, env);
 		}
 	      if (lw6sys_spinlock_lock (cfg_context->spinlock))
 		{
@@ -83,7 +83,7 @@ merge_func (void *func_data, void *data)
 		  lw6sys_spinlock_unlock (cfg_context->spinlock);
 		}
 	    }
-	  LW6SYS_FREE (value);
+	  LW6SYS_FREE (sys_context, value);
 	}
     }
 }

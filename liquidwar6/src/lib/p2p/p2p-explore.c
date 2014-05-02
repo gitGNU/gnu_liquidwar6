@@ -115,7 +115,7 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 					  cli_oob);
 		  lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
 		}
-	      LW6SYS_FREE (broadcast_url);
+	      LW6SYS_FREE (sys_context, broadcast_url);
 	    }
 	  if (node->bind_port != LW6NET_DEFAULT_PORT)
 	    {
@@ -140,7 +140,7 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 					      cli_oob);
 		      lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
 		    }
-		  LW6SYS_FREE (broadcast_url);
+		  LW6SYS_FREE (sys_context, broadcast_url);
 		}
 	    }
 	}
@@ -275,7 +275,7 @@ _lw6p2p_explore_verify_nodes (_lw6p2p_node_t * node)
       if (query)
 	{
 	  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
-	  LW6SYS_FREE (query);
+	  LW6SYS_FREE (sys_context, query);
 	}
       query =
 	lw6sys_new_sprintf (_lw6p2p_db_get_query
@@ -286,7 +286,7 @@ _lw6p2p_explore_verify_nodes (_lw6p2p_node_t * node)
 	  ret =
 	    _lw6p2p_db_exec (node->db, query,
 			     _select_unverified_node_callback, node);
-	  LW6SYS_FREE (query);
+	  LW6SYS_FREE (sys_context, query);
 	}
       _lw6p2p_db_unlock (node->db);
     }

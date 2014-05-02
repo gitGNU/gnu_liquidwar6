@@ -226,7 +226,7 @@ lw6ldr_print_examples (char *user_dir)
 		  rules_ok = 1;
 		  fclose (f);
 		}
-	      LW6SYS_FREE (filename);
+	      LW6SYS_FREE (sys_context, filename);
 	    }
 	  filename = lw6sys_path_concat (example_dir, _LW6LDR_FILE_HINTS_XML);
 	  if (filename)
@@ -242,7 +242,7 @@ lw6ldr_print_examples (char *user_dir)
 		  hints_ok = 1;
 		  fclose (f);
 		}
-	      LW6SYS_FREE (filename);
+	      LW6SYS_FREE (sys_context, filename);
 	    }
 	  filename = lw6sys_path_concat (example_dir, _LW6LDR_FILE_STYLE_XML);
 	  if (filename)
@@ -258,7 +258,7 @@ lw6ldr_print_examples (char *user_dir)
 		  style_ok = 1;
 		  fclose (f);
 		}
-	      LW6SYS_FREE (filename);
+	      LW6SYS_FREE (sys_context, filename);
 	    }
 	  filename = lw6sys_path_concat (example_dir, _LW6LDR_FILE_TEAMS_XML);
 	  if (filename)
@@ -274,10 +274,10 @@ lw6ldr_print_examples (char *user_dir)
 		  teams_ok = 1;
 		  fclose (f);
 		}
-	      LW6SYS_FREE (filename);
+	      LW6SYS_FREE (sys_context, filename);
 	    }
 	}
-      LW6SYS_FREE (example_dir);
+      LW6SYS_FREE (sys_context, example_dir);
     }
 
   ret = (rules_ok && hints_ok && style_ok && teams_ok);

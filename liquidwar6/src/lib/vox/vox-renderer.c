@@ -59,7 +59,7 @@ lw6vox_renderer_new (lw6ker_game_state_t * game_state)
 void
 _lw6vox_renderer_free (_lw6vox_renderer_t * renderer)
 {
-  LW6SYS_FREE (renderer);
+  LW6SYS_FREE (sys_context, renderer);
 }
 
 /**

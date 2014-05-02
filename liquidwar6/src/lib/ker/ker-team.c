@@ -82,7 +82,7 @@ _lw6ker_team_clear (_lw6ker_team_t * team)
 {
   if (team->gradient)
     {
-      LW6SYS_FREE (team->gradient);
+      LW6SYS_FREE (sys_context, team->gradient);
     }
 
   memset (team, 0, sizeof (_lw6ker_team_t));

@@ -150,7 +150,7 @@ lw6p2p_entry_new (int creation_timestamp, char *version, char *codename,
 void
 lw6p2p_entry_free (lw6p2p_entry_t * entry)
 {
-  LW6SYS_FREE (entry);
+  LW6SYS_FREE (sys_context, entry);
 }
 
 /**

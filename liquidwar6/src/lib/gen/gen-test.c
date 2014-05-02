@@ -72,7 +72,7 @@ _test_create ()
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("built map \"%s\" from seed \"%s\""), repr,
 			    _TEST_SEED);
-		LW6SYS_FREE (repr);
+		LW6SYS_FREE (sys_context, repr);
 
 		ret = 1;
 	      }

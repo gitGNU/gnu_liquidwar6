@@ -110,7 +110,7 @@ lw6gui_menuitem_free (lw6gui_menuitem_t * menuitem)
     {
       if (menuitem->label)
 	{
-	  LW6SYS_FREE (menuitem->label);
+	  LW6SYS_FREE (sys_context, menuitem->label);
 	  menuitem->label = NULL;
 	}
       else
@@ -119,14 +119,14 @@ lw6gui_menuitem_free (lw6gui_menuitem_t * menuitem)
 	}
       if (menuitem->tooltip)
 	{
-	  LW6SYS_FREE (menuitem->tooltip);
+	  LW6SYS_FREE (sys_context, menuitem->tooltip);
 	  menuitem->tooltip = NULL;
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menuitem with NULL tooltip"));
 	}
-      LW6SYS_FREE (menuitem);
+      LW6SYS_FREE (sys_context, menuitem);
     }
   else
     {
@@ -211,7 +211,7 @@ lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem, const char *label,
     {
       menuitem->last_change = now;
     }
-  LW6SYS_FREE (menuitem->label);
+  LW6SYS_FREE (sys_context, menuitem->label);
   menuitem->label = lw6sys_str_copy (lw6sys_str_empty_if_null (label));
   if (!(menuitem->label))
     {
@@ -244,7 +244,7 @@ lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t * menuitem,
     {
       menuitem->last_change = now;
     }
-  LW6SYS_FREE (menuitem->tooltip);
+  LW6SYS_FREE (sys_context, menuitem->tooltip);
   menuitem->tooltip = lw6sys_str_copy (lw6sys_str_empty_if_null (tooltip));
   if (!(menuitem->tooltip))
     {

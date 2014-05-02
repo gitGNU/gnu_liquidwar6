@@ -102,7 +102,7 @@ _lw6p2p_backends_init_cli (int argc, const char *argv[],
 	    {
 	      backends->nb_cli_backends--;
 	    }
-	  LW6SYS_FREE (backend);
+	  LW6SYS_FREE (sys_context, backend);
 	}
       list_backends = NULL;
     }
@@ -191,7 +191,7 @@ _lw6p2p_backends_init_srv (int argc, const char *argv[],
 	    {
 	      backends->nb_srv_backends--;
 	    }
-	  LW6SYS_FREE (backend);
+	  LW6SYS_FREE (sys_context, backend);
 	}
       list_backends = NULL;
     }
@@ -215,7 +215,7 @@ _lw6p2p_backends_clear_cli (_lw6p2p_backends_t * backends)
 	      backends->cli_backends[i] = NULL;
 	    }
 	}
-      LW6SYS_FREE (backends->cli_backends);
+      LW6SYS_FREE (sys_context, backends->cli_backends);
       backends->cli_backends = NULL;
       backends->nb_cli_backends = 0;
     }
@@ -237,7 +237,7 @@ _lw6p2p_backends_clear_srv (_lw6p2p_backends_t * backends)
 	      backends->srv_backends[i] = NULL;
 	    }
 	}
-      LW6SYS_FREE (backends->srv_backends);
+      LW6SYS_FREE (sys_context, backends->srv_backends);
       backends->srv_backends = NULL;
       backends->nb_srv_backends = 0;
     }

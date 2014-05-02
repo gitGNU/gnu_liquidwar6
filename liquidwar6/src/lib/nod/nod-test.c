@@ -167,7 +167,7 @@ _node_add_discovered_callback (void *data)
 	      first_time = 0;
 	    }
 	  lw6nod_info_add_discovered_node (info, url);
-	  LW6SYS_FREE (url);
+	  LW6SYS_FREE (sys_context, url);
 	}
     }
 }
@@ -195,7 +195,7 @@ _node_pop_discovered_callback (void *data)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _x_ ("pop_discovered_node \"%s\""), url);
-		  LW6SYS_FREE (url);
+		  LW6SYS_FREE (sys_context, url);
 		}
 	      first_time = 0;
 	    }
@@ -239,7 +239,7 @@ _node_set_verified_callback (void *data)
 		{
 		  lw6sys_list_push_front (&list, verified_node);
 		}
-	      LW6SYS_FREE (url);
+	      LW6SYS_FREE (sys_context, url);
 	    }
 	  url = lw6sys_url_http_from_ip_port (_TEST_IP_2, _TEST_PORT);
 	  if (url)
@@ -255,7 +255,7 @@ _node_set_verified_callback (void *data)
 		{
 		  lw6sys_list_push_front (&list, verified_node);
 		}
-	      LW6SYS_FREE (url);
+	      LW6SYS_FREE (sys_context, url);
 	    }
 	  url = lw6sys_url_http_from_ip_port (_TEST_IP_3, _TEST_PORT);
 	  if (url)
@@ -271,7 +271,7 @@ _node_set_verified_callback (void *data)
 		{
 		  lw6sys_list_push_front (&list, verified_node);
 		}
-	      LW6SYS_FREE (url);
+	      LW6SYS_FREE (sys_context, url);
 	    }
 
 	  if (first_time)
@@ -386,7 +386,7 @@ _test_node ()
 		if (LW6SYS_TEST_ACK (url))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop \"%s\""), url);
-		    LW6SYS_FREE (url);
+		    LW6SYS_FREE (sys_context, url);
 		  }
 	      }
 	    if (LW6SYS_TEST_ACK (list))
@@ -699,7 +699,7 @@ _test_community ()
 			    peer_id_list_str, _TEST_PEER_ID_LIST_STR);
 		ret = 0;
 	      }
-	    LW6SYS_FREE (peer_id_list_str);
+	    LW6SYS_FREE (sys_context, peer_id_list_str);
 	  }
 	else
 	  {

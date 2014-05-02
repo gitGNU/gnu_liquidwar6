@@ -159,7 +159,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
 
   if (physical_ticket_sig_str && physical_ticket_sig_str != msg_undef)
     {
-      LW6SYS_FREE (physical_ticket_sig_str);
+      LW6SYS_FREE (sys_context, physical_ticket_sig_str);
     }
 
   if (logical_ticket_sig_str && logical_ticket_sig_str != msg_undef)

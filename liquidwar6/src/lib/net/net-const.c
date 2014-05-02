@@ -80,9 +80,9 @@ _lw6net_const_init (int argc, const char *argv[],
 	  ret =
 	    lw6cfg_read_key_value_xml_file (const_file, read_callback,
 					    (void *) const_data);
-	  LW6SYS_FREE (const_file);
+	  LW6SYS_FREE (sys_context, const_file);
 	}
-      LW6SYS_FREE (data_root_dir);
+      LW6SYS_FREE (sys_context, data_root_dir);
     }
 
   /*

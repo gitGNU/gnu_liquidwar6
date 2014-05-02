@@ -151,7 +151,7 @@ lw6ldr_hints_read (lw6ldr_hints_t * hints, const char *dirname)
 	  ret = 1;
 	}
 
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   if (!ret)
@@ -274,7 +274,7 @@ lw6ldr_hints_set (lw6ldr_hints_t * hints, const char *key, const char *value)
 	{
 	  ret = 0;
 	}
-      LW6SYS_FREE (formatted_key);
+      LW6SYS_FREE (sys_context, formatted_key);
     }
   else
     {
@@ -388,7 +388,7 @@ lw6ldr_hints_get (const lw6ldr_hints_t * hints, const char *key)
 	{
 	  ret = lw6sys_ftoa (hints->speed);
 	}
-      LW6SYS_FREE (formatted_key);
+      LW6SYS_FREE (sys_context, formatted_key);
     }
 
   return ret;
@@ -415,7 +415,7 @@ lw6ldr_hints_get_default (const char *key)
       lw6ldr_hints_defaults (hints);
       ret = lw6ldr_hints_get (hints, key);
       lw6ldr_hints_clear (hints);
-      LW6SYS_FREE (hints);
+      LW6SYS_FREE (sys_context, hints);
     }
 
   if (!ret)

@@ -46,7 +46,7 @@ _lw6p2p_srv_oob_callback_data_new (lw6srv_backend_t * backend,
 	lw6srv_oob_new (remote_ip, remote_port, sock, first_line);
       if (!ret->srv_oob)
 	{
-	  LW6SYS_FREE (ret);
+	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
 	}
     }

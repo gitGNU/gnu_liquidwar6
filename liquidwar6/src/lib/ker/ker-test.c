@@ -104,7 +104,7 @@ _print_game_struct_repr (const lw6ker_game_struct_t * game_struct)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("game_struct repr is \"%s\""),
 		  repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
 }
 
@@ -136,7 +136,7 @@ _print_game_state_repr (const lw6ker_game_state_t * game_state)
   if (LW6SYS_TEST_ACK (repr))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("game_state repr is \"%s\""), repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
 
   total_fighters = lw6ker_game_state_get_nb_active_fighters (game_state);
@@ -223,7 +223,7 @@ _print_game_state_repr (const lw6ker_game_state_t * game_state)
 	  printf ("%s", capture);
 	  fflush (stdout);
 	}
-      LW6SYS_FREE (capture);
+      LW6SYS_FREE (sys_context, capture);
     }
   lw6sys_log (LW6SYS_LOG_NOTICE,
 	      _x_ ("nb_colors=%d nb_cursors=%d nb_nodes=%d"),
@@ -801,7 +801,8 @@ _test_hexa ()
 							  }
 							ret = 0;
 						      }
-						    LW6SYS_FREE (hexa_state2);
+						    LW6SYS_FREE (sys_context,
+								 hexa_state2);
 						  }
 						lw6ker_game_state_free
 						  (game_state2);
@@ -816,7 +817,7 @@ _test_hexa ()
 							checksum_hexa_state,
 							_TEST_GAME_STATE_HEXA_CHECKSUM);
 					  }
-					LW6SYS_FREE (hexa_state);
+					LW6SYS_FREE (sys_context, hexa_state);
 				      }
 				  }
 			      }
@@ -839,7 +840,7 @@ _test_hexa ()
 				  }
 				ret = 0;
 			      }
-			    LW6SYS_FREE (hexa_struct2);
+			    LW6SYS_FREE (sys_context, hexa_struct2);
 			  }
 			lw6ker_game_struct_free (game_struct2);
 			game_struct2 = NULL;
@@ -853,7 +854,7 @@ _test_hexa ()
 				checksum_hexa_struct,
 				_TEST_GAME_STRUCT_HEXA_CHECKSUM);
 		  }
-		LW6SYS_FREE (hexa_struct);
+		LW6SYS_FREE (sys_context, hexa_struct);
 	      }
 	  }
 	lw6map_free (level);

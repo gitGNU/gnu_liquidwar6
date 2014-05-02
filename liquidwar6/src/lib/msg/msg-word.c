@@ -249,7 +249,7 @@ lw6msg_word_first_base64 (lw6msg_word_t * word, char **next, const char *msg)
 		}
 	      ret = 1;
 	    }
-	  LW6SYS_FREE (decoded);
+	  LW6SYS_FREE (sys_context, decoded);
 	}
     }
 

@@ -103,7 +103,7 @@ _test_credits ()
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("credit line %d: \"%s\""), i,
 			credits);
-	    LW6SYS_FREE (credits);
+	    LW6SYS_FREE (sys_context, credits);
 	  }
 	else
 	  {

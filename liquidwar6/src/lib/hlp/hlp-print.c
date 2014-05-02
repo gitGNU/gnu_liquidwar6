@@ -187,7 +187,7 @@ lw6hlp_print_about (const char *keyword, FILE * f)
 	  if (tmp)
 	    {
 	      fprintf (f, "%s\n\n", tmp);
-	      LW6SYS_FREE (tmp);
+	      LW6SYS_FREE (sys_context, tmp);
 	    }
 	}
       if (default_value)
@@ -202,7 +202,7 @@ lw6hlp_print_about (const char *keyword, FILE * f)
 	    {
 	      values_set = 1;
 	      fprintf (f, "%s\n", tmp);
-	      LW6SYS_FREE (tmp);
+	      LW6SYS_FREE (sys_context, tmp);
 	    }
 	}
       if (min_value != 0 || max_value != 0)
@@ -212,14 +212,14 @@ lw6hlp_print_about (const char *keyword, FILE * f)
 	    {
 	      values_set = 1;
 	      fprintf (f, "%s\n", tmp);
-	      LW6SYS_FREE (tmp);
+	      LW6SYS_FREE (sys_context, tmp);
 	    }
 	  tmp = lw6sys_new_sprintf (_x_ ("Max value: %d"), max_value);
 	  if (tmp)
 	    {
 	      values_set = 1;
 	      fprintf (f, "%s\n", tmp);
-	      LW6SYS_FREE (tmp);
+	      LW6SYS_FREE (sys_context, tmp);
 	    }
 	}
       if (values_set)
@@ -440,13 +440,13 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
   if (path)
     {
       fprintf (f, "cwd: %s\n", path);
-      LW6SYS_FREE (path);
+      LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_run_dir (argc, argv);
   if (path)
     {
       fprintf (f, "run-dir: %s\n", path);
-      LW6SYS_FREE (path);
+      LW6SYS_FREE (sys_context, path);
     }
 
   default_path = lw6sys_get_default_user_dir ();
@@ -460,9 +460,9 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
 	      fprintf (f, "default-user-dir: %s\n", default_path);
 	    }
 	  fprintf (f, "user-dir: %s\n", path);
-	  LW6SYS_FREE (path);
+	  LW6SYS_FREE (sys_context, path);
 	}
-      LW6SYS_FREE (default_path);
+      LW6SYS_FREE (sys_context, default_path);
     }
 
   default_path = lw6sys_get_default_config_file ();
@@ -476,9 +476,9 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
 	      fprintf (f, "default-config-file: %s\n", default_path);
 	    }
 	  fprintf (f, "config-file: %s\n", path);
-	  LW6SYS_FREE (path);
+	  LW6SYS_FREE (sys_context, path);
 	}
-      LW6SYS_FREE (default_path);
+      LW6SYS_FREE (sys_context, default_path);
     }
 
   default_path = lw6sys_get_default_log_file ();
@@ -492,9 +492,9 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
 	      fprintf (f, "default-log-file: %s\n", default_path);
 	    }
 	  fprintf (f, "log-file: %s\n", path);
-	  LW6SYS_FREE (path);
+	  LW6SYS_FREE (sys_context, path);
 	}
-      LW6SYS_FREE (default_path);
+      LW6SYS_FREE (sys_context, default_path);
     }
 
   default_path = lw6sys_get_default_prefix ();
@@ -508,9 +508,9 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
 	      fprintf (f, "default-prefix: %s\n", default_path);
 	    }
 	  fprintf (f, "prefix: %s\n", path);
-	  LW6SYS_FREE (path);
+	  LW6SYS_FREE (sys_context, path);
 	}
-      LW6SYS_FREE (default_path);
+      LW6SYS_FREE (sys_context, default_path);
     }
 
   default_path = lw6sys_get_default_mod_dir ();
@@ -524,9 +524,9 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
 	      fprintf (f, "default-mod-dir: %s\n", default_path);
 	    }
 	  fprintf (f, "mod-dir: %s\n", path);
-	  LW6SYS_FREE (path);
+	  LW6SYS_FREE (sys_context, path);
 	}
-      LW6SYS_FREE (default_path);
+      LW6SYS_FREE (sys_context, default_path);
     }
 
   default_path = lw6sys_get_default_data_dir ();
@@ -540,9 +540,9 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
 	      fprintf (f, "default-data-dir: %s\n", default_path);
 	    }
 	  fprintf (f, "data-dir: %s\n", path);
-	  LW6SYS_FREE (path);
+	  LW6SYS_FREE (sys_context, path);
 	}
-      LW6SYS_FREE (default_path);
+      LW6SYS_FREE (sys_context, default_path);
     }
 
   default_path = lw6sys_get_default_music_dir ();
@@ -556,9 +556,9 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
 	      fprintf (f, "default-music-dir: %s\n", default_path);
 	    }
 	  fprintf (f, "music-dir: %s\n", path);
-	  LW6SYS_FREE (path);
+	  LW6SYS_FREE (sys_context, path);
 	}
-      LW6SYS_FREE (default_path);
+      LW6SYS_FREE (sys_context, default_path);
     }
 
   default_path = lw6sys_get_default_music_path ();
@@ -572,9 +572,9 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
 	      fprintf (f, "default-music-path: %s\n", default_path);
 	    }
 	  fprintf (f, "music-path: %s\n", path);
-	  LW6SYS_FREE (path);
+	  LW6SYS_FREE (sys_context, path);
 	}
-      LW6SYS_FREE (default_path);
+      LW6SYS_FREE (sys_context, default_path);
     }
 
   default_path = lw6sys_get_default_map_dir ();
@@ -588,9 +588,9 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
 	      fprintf (f, "default-map-dir: %s\n", default_path);
 	    }
 	  fprintf (f, "map-dir: %s\n", path);
-	  LW6SYS_FREE (path);
+	  LW6SYS_FREE (sys_context, path);
 	}
-      LW6SYS_FREE (default_path);
+      LW6SYS_FREE (sys_context, default_path);
     }
 
   default_path = lw6sys_get_default_map_path ();
@@ -604,9 +604,9 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
 	      fprintf (f, "default-map-path: %s\n", default_path);
 	    }
 	  fprintf (f, "map-path: %s\n", path);
-	  LW6SYS_FREE (path);
+	  LW6SYS_FREE (sys_context, path);
 	}
-      LW6SYS_FREE (default_path);
+      LW6SYS_FREE (sys_context, default_path);
     }
 
   default_path = lw6sys_get_default_script_file ();
@@ -620,9 +620,9 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
 	      fprintf (f, "default-script-file: %s\n", default_path);
 	    }
 	  fprintf (f, "script-file: %s\n", path);
-	  LW6SYS_FREE (path);
+	  LW6SYS_FREE (sys_context, path);
 	}
-      LW6SYS_FREE (default_path);
+      LW6SYS_FREE (sys_context, default_path);
     }
 
   fflush (f);
@@ -689,7 +689,7 @@ lw6hlp_print_credits (FILE * f)
       if (credits)
 	{
 	  fprintf (f, "%s\n", credits);
-	  LW6SYS_FREE (credits);
+	  LW6SYS_FREE (sys_context, credits);
 	}
     }
 
@@ -1195,9 +1195,9 @@ lw6hlp_print_hello (int argc, const char *argv[])
 			date_rfc1123, username, hostname);
 	    LW6SYS_FREE (hostname);
 	  }
-	  LW6SYS_FREE (username);
+	  LW6SYS_FREE (sys_context, username);
 	}
-      LW6SYS_FREE (date_rfc1123);
+      LW6SYS_FREE (sys_context, date_rfc1123);
     }
 
   lw6sys_log (LW6SYS_LOG_INFO, "%d %s - %d %s",

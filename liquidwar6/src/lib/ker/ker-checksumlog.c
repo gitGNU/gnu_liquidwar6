@@ -80,7 +80,7 @@ _lw6ker_game_state_checksum_log_if_needed (const _lw6ker_game_state_t *
 	      lw6sys_log (LW6SYS_LOG_INFO,
 			  _x_ ("game_state \"%s\" has checksum %x"), repr,
 			  checksum);
-	      LW6SYS_FREE (repr);
+	      LW6SYS_FREE (sys_context, repr);
 	    }
 	}
     }

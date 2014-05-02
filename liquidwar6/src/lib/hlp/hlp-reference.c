@@ -3247,7 +3247,7 @@ _lw6hlp_reference_get_entry (const char *key)
 			  ("entry %s does not exists in help reference"),
 			  key);
 	    }
-	  LW6SYS_FREE (formatted_key);
+	  LW6SYS_FREE (sys_context, formatted_key);
 	}
     }
   else

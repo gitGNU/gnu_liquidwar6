@@ -109,7 +109,7 @@ _test_path ()
 		    _x_ ("found library \"%s/mod-%s\" in \"%s\""),
 		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME,
 		    library_path);
-	LW6SYS_FREE (library_path);
+	LW6SYS_FREE (sys_context, library_path);
       }
     else
       {
@@ -133,7 +133,7 @@ _test_path ()
 		    _x_ ("found library \"%s/shared-%s\" in \"%s\""),
 		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME,
 		    library_path);
-	LW6SYS_FREE (library_path);
+	LW6SYS_FREE (sys_context, library_path);
       }
     else
       {

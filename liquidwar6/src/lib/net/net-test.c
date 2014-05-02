@@ -210,7 +210,7 @@ _test_if ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("public URL on default port would be \"%s\""),
 		    public_url);
-	LW6SYS_FREE (public_url);
+	LW6SYS_FREE (sys_context, public_url);
       }
     else
       {
@@ -225,7 +225,7 @@ _test_if ()
 		    _x_
 		    ("public URL on http port with IP %s would be \"%s\""),
 		    _TEST_UNREACHABLE_IP, public_url);
-	LW6SYS_FREE (public_url);
+	LW6SYS_FREE (sys_context, public_url);
       }
     else
       {
@@ -279,7 +279,7 @@ prepare_2_tcp_socks (int *sock1, int *sock2)
 	    }
 	  if (accept_ip)
 	    {
-	      LW6SYS_FREE (accept_ip);
+	      LW6SYS_FREE (sys_context, accept_ip);
 	    }
 	}
     }
@@ -552,19 +552,19 @@ _test_tcp ()
 
     if (buf1_send)
       {
-	LW6SYS_FREE (buf1_send);
+	LW6SYS_FREE (sys_context, buf1_send);
       }
     if (buf1_recv)
       {
-	LW6SYS_FREE (buf1_recv);
+	LW6SYS_FREE (sys_context, buf1_recv);
       }
     if (buf2_send)
       {
-	LW6SYS_FREE (buf2_send);
+	LW6SYS_FREE (sys_context, buf2_send);
       }
     if (buf2_recv)
       {
-	LW6SYS_FREE (buf2_recv);
+	LW6SYS_FREE (sys_context, buf2_recv);
       }
     if (sock1 >= 0)
       {
@@ -660,7 +660,7 @@ _test_udp ()
 				    _x_
 				    ("%d bytes available on socket %d (%s:%d)"),
 				    size, sock1, incoming_ip, incoming_port);
-			LW6SYS_FREE (incoming_ip);
+			LW6SYS_FREE (sys_context, incoming_ip);
 		      }
 		    if (lw6net_udp_recv
 			(sock1, buf1_recv, size,
@@ -673,7 +673,7 @@ _test_udp ()
 					("received \"%s\" on socket %d (%s:%d)"),
 					buf1_recv, sock1, incoming_ip,
 					incoming_port);
-			    LW6SYS_FREE (incoming_ip);
+			    LW6SYS_FREE (sys_context, incoming_ip);
 			  }
 			ret_tmp = 1;
 		      }
@@ -683,11 +683,11 @@ _test_udp ()
       }
     if (buf1_send)
       {
-	LW6SYS_FREE (buf1_send);
+	LW6SYS_FREE (sys_context, buf1_send);
       }
     if (buf1_recv)
       {
-	LW6SYS_FREE (buf1_recv);
+	LW6SYS_FREE (sys_context, buf1_recv);
       }
     if (sock1 >= 0)
       {
@@ -748,7 +748,7 @@ _test_line ()
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("received line \"%s\""), line);
-		    LW6SYS_FREE (line);
+		    LW6SYS_FREE (sys_context, line);
 		  }
 		else
 		  {
@@ -814,9 +814,9 @@ _test_line ()
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("received line \"%s\" from %s:%d"),
 				    line, incoming_ip, incoming_port);
-			LW6SYS_FREE (incoming_ip);
+			LW6SYS_FREE (sys_context, incoming_ip);
 		      }
-		    LW6SYS_FREE (line);
+		    LW6SYS_FREE (sys_context, line);
 		  }
 		else
 		  {
@@ -841,7 +841,7 @@ _test_line ()
 	      {
 		lw6sys_list_map (list, _udp_lines_callback, NULL);
 		lw6sys_list_free (list);
-		LW6SYS_FREE (incoming_ip);
+		LW6SYS_FREE (sys_context, incoming_ip);
 	      }
 	  }
 	if (lw6net_udp_send
@@ -859,7 +859,7 @@ _test_line ()
 			    ("received lines, when it should have returned an error"));
 		ret_tmp = 0;
 		lw6sys_list_free (list);
-		LW6SYS_FREE (incoming_ip);
+		LW6SYS_FREE (sys_context, incoming_ip);
 	      }
 	    else
 	      {

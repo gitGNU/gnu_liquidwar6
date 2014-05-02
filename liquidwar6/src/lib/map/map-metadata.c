@@ -78,19 +78,19 @@ lw6map_metadata_clear (lw6map_metadata_t * metadata)
     {
       if (metadata->title)
 	{
-	  LW6SYS_FREE (metadata->title);
+	  LW6SYS_FREE (sys_context, metadata->title);
 	}
       if (metadata->author)
 	{
-	  LW6SYS_FREE (metadata->author);
+	  LW6SYS_FREE (sys_context, metadata->author);
 	}
       if (metadata->description)
 	{
-	  LW6SYS_FREE (metadata->description);
+	  LW6SYS_FREE (sys_context, metadata->description);
 	}
       if (metadata->license)
 	{
-	  LW6SYS_FREE (metadata->license);
+	  LW6SYS_FREE (sys_context, metadata->license);
 	}
       memset (metadata, 0, sizeof (lw6map_metadata_t));
 

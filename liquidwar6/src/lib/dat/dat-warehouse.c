@@ -124,7 +124,7 @@ _lw6dat_warehouse_free (_lw6dat_warehouse_t * warehouse)
 {
   _lw6dat_warehouse_clear (warehouse);
 
-  LW6SYS_FREE (warehouse);
+  LW6SYS_FREE (sys_context, warehouse);
 }
 
 /**

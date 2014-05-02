@@ -80,7 +80,7 @@ _generate_info (const char *cmd, lw6nod_info_t * info)
 		     info->dyn_info.max_nb_cursors, sep,
 		     info->dyn_info.nb_nodes, sep,
 		     info->dyn_info.max_nb_nodes, sep, peer_id_list);
-		  LW6SYS_FREE (peer_id_list);
+		  LW6SYS_FREE (sys_context, peer_id_list);
 		}
 	      LW6SYS_FREE (base64_level);
 	    }
@@ -134,7 +134,7 @@ lw6msg_cmd_generate_ticket (lw6nod_info_t * info, u_int64_t ticket)
       ret =
 	lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "x", info_str, sep,
 			    (long long) ticket);
-      LW6SYS_FREE (info_str);
+      LW6SYS_FREE (sys_context, info_str);
     }
 
   return ret;
@@ -163,7 +163,7 @@ lw6msg_cmd_generate_foo (lw6nod_info_t * info, u_int32_t key, int serial)
     {
       ret =
 	lw6sys_new_sprintf ("%s%c%08x%c%d", info_str, sep, key, sep, serial);
-      LW6SYS_FREE (info_str);
+      LW6SYS_FREE (sys_context, info_str);
     }
 
   return ret;
@@ -192,7 +192,7 @@ lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key, int serial)
     {
       ret =
 	lw6sys_new_sprintf ("%s%c%08x%c%d", info_str, sep, key, sep, serial);
-      LW6SYS_FREE (info_str);
+      LW6SYS_FREE (sys_context, info_str);
     }
 
   return ret;
@@ -229,7 +229,7 @@ lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq, int serial)
       ret =
 	lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "d%c%d", info_str, sep,
 			    (long long) seq, sep, serial);
-      LW6SYS_FREE (info_str);
+      LW6SYS_FREE (sys_context, info_str);
     }
 
   return ret;
@@ -323,11 +323,11 @@ lw6msg_cmd_generate_meta (int serial, int i, int n, int64_t seq,
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
 			  _x_ ("message \"%s\" is too long"), ret);
-	      LW6SYS_FREE (ret);
+	      LW6SYS_FREE (sys_context, ret);
 	      ret = NULL;
 	    }
 	}
-      LW6SYS_FREE (meta_str);
+      LW6SYS_FREE (sys_context, meta_str);
     }
 
   return ret;

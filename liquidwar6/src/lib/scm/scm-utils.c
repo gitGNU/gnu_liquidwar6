@@ -227,7 +227,7 @@ lw6scm_utils_to_sys_str_assoc (SCM assoc)
 		  if (key && value)
 		    {
 		      lw6sys_assoc_set (&c_assoc, key, (void *) value);
-		      LW6SYS_FREE (key);
+		      LW6SYS_FREE (sys_context, key);
 		      // value must not be freed now
 		    }
 		}

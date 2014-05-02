@@ -123,7 +123,7 @@ lw6gui_look_free (lw6gui_look_t * look)
   if (look)
     {
       lw6map_style_clear (&look->style);
-      LW6SYS_FREE (look);
+      LW6SYS_FREE (sys_context, look);
     }
   else
     {

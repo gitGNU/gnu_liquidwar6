@@ -167,7 +167,7 @@ _do_grease (lw6map_layer_t * layer, const lw6map_rules_t * rules,
 	    }
 	}
       ret = 1;
-      LW6SYS_FREE (tmp.data);
+      LW6SYS_FREE (sys_context, tmp.data);
     }
 
   return ret;

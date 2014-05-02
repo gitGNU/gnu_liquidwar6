@@ -44,7 +44,7 @@ _lw6p2p_packet_new (u_int32_t logical_ticket_sig,
       ret->msg = lw6sys_str_copy (msg);
       if (!(ret->msg))
 	{
-	  LW6SYS_FREE (ret);
+	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
 	}
     }
@@ -59,14 +59,14 @@ _lw6p2p_packet_free (_lw6p2p_packet_t * packet)
     {
       if (packet->msg)
 	{
-	  LW6SYS_FREE (packet->msg);
+	  LW6SYS_FREE (sys_context, packet->msg);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_ ("freeing packet with NULL msg"));
 	}
-      LW6SYS_FREE (packet);
+      LW6SYS_FREE (sys_context, packet);
     }
   else
     {

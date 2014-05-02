@@ -108,7 +108,7 @@ lw6nod_info_free (lw6nod_info_t * info)
   lw6nod_info_idle (info);
   if (info->dyn_info.level)
     {
-      LW6SYS_FREE (info->dyn_info.level);
+      LW6SYS_FREE (sys_context, info->dyn_info.level);
     }
   if (info->mutex)
     {
@@ -123,7 +123,7 @@ lw6nod_info_free (lw6nod_info_t * info)
     {
       lw6sys_list_free (info->verified_nodes);
     }
-  LW6SYS_FREE (info);
+  LW6SYS_FREE (sys_context, info);
 }
 
 /**
@@ -363,7 +363,7 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, const char *public_url)
 			      canonized_url);
 		  lw6sys_hash_set (info->discovered_nodes, canonized_url,
 				   NULL);
-		  LW6SYS_FREE (canonized_url);
+		  LW6SYS_FREE (sys_context, canonized_url);
 		}
 	    }
 	  ret = ((info->discovered_nodes) != NULL);

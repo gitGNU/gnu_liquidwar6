@@ -299,9 +299,9 @@ draft_zones_free (draft_zones_t * draft_zones)
     {
       if (draft_zones->zones)
 	{
-	  LW6SYS_FREE (draft_zones->zones);
+	  LW6SYS_FREE (sys_context, draft_zones->zones);
 	}
-      LW6SYS_FREE (draft_zones);
+      LW6SYS_FREE (sys_context, draft_zones);
     }
 }
 

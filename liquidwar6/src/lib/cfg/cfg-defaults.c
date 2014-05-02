@@ -89,7 +89,7 @@ lw6cfg_defaults (void *context)
       if (path)
 	{
 	  lw6cfg_set_option (context, LW6DEF_USER_DIR, path);
-	  LW6SYS_FREE (path);
+	  LW6SYS_FREE (sys_context, path);
 	}
       else
 	{
@@ -100,7 +100,7 @@ lw6cfg_defaults (void *context)
       if (path)
 	{
 	  lw6cfg_set_option (context, LW6DEF_LOG_FILE, path);
-	  LW6SYS_FREE (path);
+	  LW6SYS_FREE (sys_context, path);
 	}
       else
 	{
@@ -120,7 +120,7 @@ lw6cfg_defaults (void *context)
       if (player_name)
 	{
 	  lw6cfg_set_option (context, LW6DEF_PLAYER1_NAME, player_name);
-	  LW6SYS_FREE (player_name);
+	  LW6SYS_FREE (sys_context, player_name);
 	}
       else
 	{
@@ -134,7 +134,7 @@ lw6cfg_defaults (void *context)
 	  if (player_name)
 	    {
 	      lw6cfg_set_option (context, LW6DEF_PLAYER2_NAME, player_name);
-	      LW6SYS_FREE (player_name);
+	      LW6SYS_FREE (sys_context, player_name);
 	    }
 	  else
 	    {
@@ -144,7 +144,7 @@ lw6cfg_defaults (void *context)
 	  if (player_name)
 	    {
 	      lw6cfg_set_option (context, LW6DEF_PLAYER3_NAME, player_name);
-	      LW6SYS_FREE (player_name);
+	      LW6SYS_FREE (sys_context, player_name);
 	    }
 	  else
 	    {
@@ -154,7 +154,7 @@ lw6cfg_defaults (void *context)
 	  if (player_name)
 	    {
 	      lw6cfg_set_option (context, LW6DEF_PLAYER4_NAME, player_name);
-	      LW6SYS_FREE (player_name);
+	      LW6SYS_FREE (sys_context, player_name);
 	    }
 	  else
 	    {

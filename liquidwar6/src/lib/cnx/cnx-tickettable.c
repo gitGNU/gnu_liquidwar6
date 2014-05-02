@@ -209,7 +209,7 @@ lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table,
 	    }
 	  else
 	    {
-	      LW6SYS_FREE (limit);
+	      LW6SYS_FREE (sys_context, limit);
 	      useless = 1;
 	    }
 	  lw6sys_spinlock_unlock (ticket_table->recv_ack_spinlock);
@@ -230,7 +230,7 @@ lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table,
 	}
       else
 	{
-	  LW6SYS_FREE (limit);
+	  LW6SYS_FREE (sys_context, limit);
 	}
     }
 }

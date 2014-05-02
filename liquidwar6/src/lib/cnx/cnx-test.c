@@ -182,7 +182,7 @@ _test_password ()
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("checksum for password NULL is \"%s\""), checksum);
-	LW6SYS_FREE (checksum);
+	LW6SYS_FREE (sys_context, checksum);
       }
     else
       {
@@ -193,7 +193,7 @@ _test_password ()
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("checksum for empty password is \"%s\""), checksum);
-	LW6SYS_FREE (checksum);
+	LW6SYS_FREE (sys_context, checksum);
       }
     else
       {
@@ -206,7 +206,7 @@ _test_password ()
 		    _x_
 		    ("checksum for empty password with seed \"%s\" is \"%s\""),
 		    _TEST_PASSWORD_SEED, checksum);
-	LW6SYS_FREE (checksum);
+	LW6SYS_FREE (sys_context, checksum);
       }
     else
       {
@@ -284,7 +284,7 @@ _test_password ()
 	  {
 	    ret = 0;
 	  }
-	LW6SYS_FREE (checksum);
+	LW6SYS_FREE (sys_context, checksum);
       }
     else
       {

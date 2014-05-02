@@ -82,7 +82,7 @@ lw6ldr_teams_read (lw6map_teams_t * teams, const char *dirname)
 	  ret = 1;
 	}
 
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   if (!ret)

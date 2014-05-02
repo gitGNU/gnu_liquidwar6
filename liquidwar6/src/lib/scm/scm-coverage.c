@@ -171,7 +171,7 @@ _coverage_check_callback (void *func_data, void *value)
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("no call to \"%s\""), key);
 	  *(cc->ret) = 0;
 	}
-      LW6SYS_FREE (c_name);
+      LW6SYS_FREE (sys_context, c_name);
     }
 }
 

@@ -105,7 +105,7 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
 		  command_str);
       _lw6pil_pilot_send_command (pilot, command_str, 0);
       _lw6pil_pilot_send_command (pilot, command_str, 1);
-      LW6SYS_FREE (command_str);
+      LW6SYS_FREE (sys_context, command_str);
     }
   _lw6pil_pilot_commit (NULL, pilot);
 
@@ -132,7 +132,7 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
 			       "d with \"%s\""), (long long) current_seq,
 			  command_str);
 	      _lw6pil_pilot_send_command (pilot, command_str, 0);
-	      LW6SYS_FREE (command_str);
+	      LW6SYS_FREE (sys_context, command_str);
 	    }
 	  _lw6pil_pilot_commit (NULL, pilot);
 	  last_seq = current_seq;
@@ -231,11 +231,11 @@ _write_bench (int argc, const char *argv[], float value)
 	    {
 	      ret =
 		lw6sys_write_file_content (bench_txt_path, bench_txt_content);
-	      LW6SYS_FREE (bench_txt_content);
+	      LW6SYS_FREE (sys_context, bench_txt_content);
 	    }
-	  LW6SYS_FREE (bench_txt_path);
+	  LW6SYS_FREE (sys_context, bench_txt_path);
 	}
-      LW6SYS_FREE (user_dir);
+      LW6SYS_FREE (sys_context, user_dir);
     }
 
   return ret;

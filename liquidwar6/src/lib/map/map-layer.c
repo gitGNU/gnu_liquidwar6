@@ -228,7 +228,7 @@ _default_source (lw6map_layer_t * layer, int width, int height)
     {
       if (layer->data)
 	{
-	  LW6SYS_FREE (layer->data);
+	  LW6SYS_FREE (sys_context, layer->data);
 	  layer->data = NULL;
 	}
     }
@@ -278,7 +278,7 @@ lw6map_layer_clear (lw6map_layer_t * layer)
 {
   if (layer->data)
     {
-      LW6SYS_FREE (layer->data);
+      LW6SYS_FREE (sys_context, layer->data);
     }
 
   memset (layer, 0, sizeof (lw6map_layer_t));

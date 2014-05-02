@@ -273,9 +273,9 @@ lw6ldr_read_relative (const char *map_path, const char *relative_path,
 				     magic_number, user_dir, progress);
 		    }
 		}
-	      LW6SYS_FREE (full_dir);
+	      LW6SYS_FREE (sys_context, full_dir);
 	    }
-	  LW6SYS_FREE (dir);
+	  LW6SYS_FREE (sys_context, dir);
 	}
     }
 

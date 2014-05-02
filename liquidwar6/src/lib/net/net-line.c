@@ -155,7 +155,7 @@ lw6net_send_line_tcp (int *sock, const char *line)
 	      ret =
 		lw6net_tcp_send (sock, trailed_line, wanted_size, line_delay,
 				 0);
-	      LW6SYS_FREE (trailed_line);
+	      LW6SYS_FREE (sys_context, trailed_line);
 	    }
 	}
     }
@@ -209,7 +209,7 @@ lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
 			 incoming_ip, incoming_port);
       if (incoming_ip && (*incoming_ip))
 	{
-	  LW6SYS_FREE (*incoming_ip);
+	  LW6SYS_FREE (sys_context, *incoming_ip);
 	}
       if (available_size > 0)
 	{
@@ -283,7 +283,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
 			     incoming_ip, incoming_port);
 	  if (incoming_ip && (*incoming_ip))
 	    {
-	      LW6SYS_FREE (*incoming_ip);
+	      LW6SYS_FREE (sys_context, *incoming_ip);
 	    }
 	  if (available_size > 0)
 	    {
@@ -343,7 +343,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
     {
       if (incoming_ip && (*incoming_ip))
 	{
-	  LW6SYS_FREE (*incoming_ip);
+	  LW6SYS_FREE (sys_context, *incoming_ip);
 	  (*incoming_ip) = NULL;
 	}
     }
@@ -397,9 +397,9 @@ lw6net_send_line_udp (int sock, const char *line, const char *ip, int port)
 	      ret =
 		lw6net_udp_send (sock, trailed_line,
 				 strlen (trailed_line), ip, port);
-	      LW6SYS_FREE (trailed_line);
+	      LW6SYS_FREE (sys_context, trailed_line);
 	    }
-	  LW6SYS_FREE (copied_line);
+	  LW6SYS_FREE (sys_context, copied_line);
 	}
     }
 

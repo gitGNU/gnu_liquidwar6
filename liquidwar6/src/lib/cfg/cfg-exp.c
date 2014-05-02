@@ -67,7 +67,7 @@ _calc_checksum (int exp)
 	  lw6sys_checksum_update_int32 (&checksum, exp);
 	  LW6SYS_FREE (hostname);
 	}
-      LW6SYS_FREE (username);
+      LW6SYS_FREE (sys_context, username);
     }
 
   return checksum;
@@ -140,7 +140,7 @@ lw6cfg_load_exp (const char *user_dir, int *exp)
 		      filename);
 	}
 
-      LW6SYS_FREE (filename);
+      LW6SYS_FREE (sys_context, filename);
     }
 
   exp_t.exp =
@@ -199,7 +199,7 @@ lw6cfg_save_exp (const char *user_dir, int exp)
 		      _x_ ("could not open file \"%s\" in write mode"),
 		      filename);
 	}
-      LW6SYS_FREE (filename);
+      LW6SYS_FREE (sys_context, filename);
     }
 
   return ret;

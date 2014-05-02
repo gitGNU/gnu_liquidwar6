@@ -222,7 +222,7 @@ lw6msg_z_decode (const char *msg)
 		{
 		  if (ret)
 		    {
-		      LW6SYS_FREE (ret);
+		      LW6SYS_FREE (sys_context, ret);
 		      ret = NULL;
 		    }
 		}
@@ -286,11 +286,11 @@ lw6msg_z_decode (const char *msg)
 				  _x_
 				  ("z-decode %d bytes in_hexa_str was \"%s\""),
 				  in_len, in_hexa_str);
-		      LW6SYS_FREE (in_hexa_str);
+		      LW6SYS_FREE (sys_context, in_hexa_str);
 		    }
 		}
 	    }
-	  LW6SYS_FREE (in_buf);
+	  LW6SYS_FREE (sys_context, in_buf);
 	}
       else
 	{

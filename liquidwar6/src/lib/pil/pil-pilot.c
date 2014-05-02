@@ -155,7 +155,7 @@ _lw6pil_pilot_new (lw6ker_game_state_t * game_state, int64_t seq_0,
 	    {
 	      lw6sys_list_free (ret->replay);
 	    }
-	  LW6SYS_FREE (ret);
+	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
 	}
     }
@@ -198,7 +198,7 @@ _lw6pil_pilot_free (_lw6pil_pilot_t * pilot)
       lw6sys_list_free (pilot->unverified_queue);
       lw6sys_list_free (pilot->verified_queue);
       lw6sys_list_free (pilot->replay);
-      LW6SYS_FREE (pilot);
+      LW6SYS_FREE (sys_context, pilot);
     }
   else
     {
@@ -366,7 +366,7 @@ _commit_reference (lw6pil_dump_t * dump, _lw6pil_pilot_t * pilot)
 	      max_round = lw6sys_imax (command->round, max_round);
 	      lw6sys_list_push_front (&(pilot->reference.commands), command);
 	    }
-	  LW6SYS_FREE (command_text);
+	  LW6SYS_FREE (sys_context, command_text);
 	}
       if (pilot->verified_queue)
 	{
@@ -481,7 +481,7 @@ _commit_draft (_lw6pil_pilot_t * pilot)
 		  lw6pil_command_free (command);
 		}
 	    }
-	  LW6SYS_FREE (command_text);
+	  LW6SYS_FREE (sys_context, command_text);
 	}
       if (pilot->unverified_queue)
 	{

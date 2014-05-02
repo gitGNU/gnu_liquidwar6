@@ -127,37 +127,37 @@ lw6cnx_connection_free (lw6cnx_connection_t * connection)
 {
   if (connection->local_url)
     {
-      LW6SYS_FREE (connection->local_url);
+      LW6SYS_FREE (sys_context, connection->local_url);
     }
   if (connection->remote_url)
     {
-      LW6SYS_FREE (connection->remote_url);
+      LW6SYS_FREE (sys_context, connection->remote_url);
     }
   if (connection->remote_ip)
     {
-      LW6SYS_FREE (connection->remote_ip);
+      LW6SYS_FREE (sys_context, connection->remote_ip);
     }
   if (connection->password)
     {
-      LW6SYS_FREE (connection->password);
+      LW6SYS_FREE (sys_context, connection->password);
     }
   if (connection->password_send_checksum)
     {
-      LW6SYS_FREE (connection->password_send_checksum);
+      LW6SYS_FREE (sys_context, connection->password_send_checksum);
     }
   if (connection->local_id_str)
     {
-      LW6SYS_FREE (connection->local_id_str);
+      LW6SYS_FREE (sys_context, connection->local_id_str);
     }
   if (connection->remote_id_str)
     {
-      LW6SYS_FREE (connection->remote_id_str);
+      LW6SYS_FREE (sys_context, connection->remote_id_str);
     }
   if (connection->send_mutex)
     {
       lw6sys_mutex_destroy (connection->send_mutex);
     }
-  LW6SYS_FREE (connection);
+  LW6SYS_FREE (sys_context, connection);
 }
 
 /**

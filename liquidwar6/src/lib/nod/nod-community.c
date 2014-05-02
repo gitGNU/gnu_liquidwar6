@@ -427,7 +427,7 @@ lw6nod_info_community_get_peer_id_list_str (lw6nod_info_t * info)
 	    }
 	  if (tmp)
 	    {
-	      LW6SYS_FREE (ret);
+	      LW6SYS_FREE (sys_context, ret);
 	      ret = tmp;
 	      tmp = NULL;
 	    }
@@ -517,7 +517,7 @@ lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info,
 	    }
 	  pos = end + 1;
 	}
-      LW6SYS_FREE (tmp);
+      LW6SYS_FREE (sys_context, tmp);
     }
 }
 

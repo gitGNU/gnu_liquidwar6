@@ -1641,7 +1641,7 @@ get_rules_int_ptr (const lw6map_rules_t * rules, const char *key)
 			  ("static rules key \"%s\" does not exist, can't get a pointer on its value"),
 			  key);
 	    }
-	  LW6SYS_FREE (formatted_key);
+	  LW6SYS_FREE (sys_context, formatted_key);
 	}
     }
 

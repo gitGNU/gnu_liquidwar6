@@ -118,7 +118,7 @@ lw6cnx_password_verify (const char *seed, const char *password_here,
 			      _x_ ("password OK, received as checksum"));
 		  ret = 1;
 		}
-	      LW6SYS_FREE (checksum);
+	      LW6SYS_FREE (sys_context, checksum);
 	    }
 	}
     }

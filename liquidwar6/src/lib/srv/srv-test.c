@@ -150,7 +150,7 @@ _test_udp_buffer ()
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
 			    _x_ ("unable to create udp_buffer object"));
-		LW6SYS_FREE (line);
+		LW6SYS_FREE (sys_context, line);
 		LW6SYS_FREE (ip);
 		ret = 0;
 	      }

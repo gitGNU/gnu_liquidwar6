@@ -78,7 +78,7 @@ add_backend (lw6sys_assoc_t ** list, const char *libdir, const char *filename,
 			{
 			  ret = 1;
 			}
-		      LW6SYS_FREE (module_pedigree);
+		      LW6SYS_FREE (sys_context, module_pedigree);
 		    }
 		  else
 		    {
@@ -209,9 +209,9 @@ update_devel_list (lw6sys_assoc_t ** list, const char *top_level_lib,
 					    {
 					      update_list (list, dir3);
 					    }
-					  LW6SYS_FREE (dir3);
+					  LW6SYS_FREE (sys_context, dir3);
 					}
-				      LW6SYS_FREE (dir2);
+				      LW6SYS_FREE (sys_context, dir2);
 				    }
 				}
 			    }
@@ -225,7 +225,7 @@ update_devel_list (lw6sys_assoc_t ** list, const char *top_level_lib,
 		  closedir (dir_handle);
 		}
 	    }
-	  LW6SYS_FREE (dir1);
+	  LW6SYS_FREE (sys_context, dir1);
 	}
     }
 }
@@ -244,7 +244,7 @@ update_system_list (lw6sys_assoc_t ** list, int argc,
       if (libdir)
 	{
 	  update_list (list, libdir);
-	  LW6SYS_FREE (libdir);
+	  LW6SYS_FREE (sys_context, libdir);
 	}
       LW6SYS_FREE (mod_dir);
     }

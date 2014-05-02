@@ -115,7 +115,7 @@ parse_option (_lw6cfg_context_t * context, const char *option)
 		}
 	    }
 
-	  LW6SYS_FREE (key);
+	  LW6SYS_FREE (sys_context, key);
 
 	  ret = 1;
 	}

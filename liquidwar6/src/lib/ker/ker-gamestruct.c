@@ -96,7 +96,7 @@ void
 _lw6ker_game_struct_free (_lw6ker_game_struct_t * game_struct)
 {
   _lw6ker_map_struct_clear (&(game_struct->map_struct));
-  LW6SYS_FREE (game_struct);
+  LW6SYS_FREE (sys_context, game_struct);
 }
 
 /**
@@ -273,13 +273,13 @@ _lw6ker_game_struct_dup (const _lw6ker_game_struct_t * game_struct,
 	{
 	  if (ret->map_struct.zones)
 	    {
-	      LW6SYS_FREE (ret->map_struct.zones);
+	      LW6SYS_FREE (sys_context, ret->map_struct.zones);
 	    }
 	  if (ret->map_struct.slots)
 	    {
-	      LW6SYS_FREE (ret->map_struct.slots);
+	      LW6SYS_FREE (sys_context, ret->map_struct.slots);
 	    }
-	  LW6SYS_FREE (ret);
+	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
 	}
     }

@@ -49,7 +49,7 @@ extract_title_from_dirname (const char *dirname)
 
       title = lw6sys_str_copy (begin);
 
-      LW6SYS_FREE (copy);
+      LW6SYS_FREE (sys_context, copy);
     }
 
   if (!title)
@@ -80,7 +80,7 @@ read_readme (const char *dirname)
 	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading README \"%s\""), buf);
 	  readme = lw6sys_read_file_content (buf);
 	}
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   if (!readme)
@@ -94,7 +94,7 @@ read_readme (const char *dirname)
 			  buf);
 	      readme = lw6sys_read_file_content (buf);
 	    }
-	  LW6SYS_FREE (buf);
+	  LW6SYS_FREE (sys_context, buf);
 	}
     }
 
@@ -162,7 +162,7 @@ lw6ldr_metadata_read (lw6map_metadata_t * metadata, const char *dirname)
 	    lw6cfg_read_key_value_xml_file (buf, read_callback,
 					    (void *) metadata);
 	}
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   if (!(metadata->title))

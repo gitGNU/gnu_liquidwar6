@@ -119,9 +119,9 @@ menu_new (int n)
 		    {
 		      lw6gui_menu_append (ret, item, 0);
 		    }
-		  LW6SYS_FREE (tooltip);
+		  LW6SYS_FREE (sys_context, tooltip);
 		}
-	      LW6SYS_FREE (label);
+	      LW6SYS_FREE (sys_context, label);
 	    }
 	}
     }
@@ -152,7 +152,7 @@ level_new (char *name, int display_width, int display_height,
 				  LW6LDR_DEFAULT_BENCH_VALUE,
 				  LW6LDR_DEFAULT_MAGIC_NUMBER, user_dir,
 				  progress);
-	  LW6SYS_FREE (user_dir);
+	  LW6SYS_FREE (sys_context, user_dir);
 	}
       LW6SYS_FREE (map_path);
     }
@@ -242,7 +242,7 @@ _test_display ()
     if (repr)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("display repr is \"%s\""), repr);
-	LW6SYS_FREE (repr);
+	LW6SYS_FREE (sys_context, repr);
       }
     lw6dsp_param_zero (&param);
     param.video_mode.width = _TEST_WIDTH1;
@@ -264,7 +264,7 @@ _test_display ()
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("display repr is \"%s\""), repr);
-		LW6SYS_FREE (repr);
+		LW6SYS_FREE (sys_context, repr);
 	      }
 	    lw6dsp_get_video_mode (display, &video_mode);
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -450,7 +450,7 @@ _test_display ()
 		    if (repr)
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s"), repr);
-			LW6SYS_FREE (repr);
+			LW6SYS_FREE (sys_context, repr);
 		      }
 		    lw6gui_keypress_free (keypress);
 		  }

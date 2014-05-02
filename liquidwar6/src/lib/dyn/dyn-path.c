@@ -125,7 +125,7 @@ _path_find (int argc, const char *argv[],
 			    {
 			      ret = lw6sys_str_copy (devel_path);
 			    }
-			  LW6SYS_FREE (devel_path);
+			  LW6SYS_FREE (sys_context, devel_path);
 			}
 		    }
 		}

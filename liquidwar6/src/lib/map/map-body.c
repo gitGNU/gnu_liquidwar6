@@ -345,7 +345,7 @@ lw6map_body_check_and_fix_holes (lw6map_body_t * body,
     {
       for (layer = 0; layer < fixed_body.shape.d; ++layer)
 	{
-	  LW6SYS_FREE (body->layers[layer].data);
+	  LW6SYS_FREE (sys_context, body->layers[layer].data);
 	  body->layers[layer].data = fixed_body.layers[layer].data;
 	}
     }
@@ -355,7 +355,7 @@ lw6map_body_check_and_fix_holes (lw6map_body_t * body,
 	{
 	  if (fixed_body.layers[layer].data)
 	    {
-	      LW6SYS_FREE (fixed_body.layers[layer].data);
+	      LW6SYS_FREE (sys_context, fixed_body.layers[layer].data);
 	    }
 	}
     }

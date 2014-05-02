@@ -75,7 +75,7 @@ lw6gfx_get_backends (int argc, const char *argv[])
 	{
 	  lw6sys_assoc_set (&ret, module_pedigree->id,
 			    lw6sys_str_copy (module_pedigree->name));
-	  LW6SYS_FREE (module_pedigree);
+	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
 #else // MOD_GL1
 #ifdef MOD_GLES2
@@ -84,7 +84,7 @@ lw6gfx_get_backends (int argc, const char *argv[])
 	{
 	  lw6sys_assoc_set (&ret, module_pedigree->id,
 			    lw6sys_str_copy (module_pedigree->name));
-	  LW6SYS_FREE (module_pedigree);
+	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
 
 #else // MOD_GLES2
@@ -94,7 +94,7 @@ lw6gfx_get_backends (int argc, const char *argv[])
 	{
 	  lw6sys_assoc_set (&ret, module_pedigree->id,
 			    lw6sys_str_copy (module_pedigree->name));
-	  LW6SYS_FREE (module_pedigree);
+	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
 #else // MOD_SOFT
 #ifdef MOD_CACA
@@ -103,7 +103,7 @@ lw6gfx_get_backends (int argc, const char *argv[])
 	{
 	  lw6sys_assoc_set (&ret, module_pedigree->id,
 			    lw6sys_str_copy (module_pedigree->name));
-	  LW6SYS_FREE (module_pedigree);
+	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
 #endif // MOD_CACA
 #endif // MOD_SOFT
@@ -200,7 +200,7 @@ lw6gfx_create_backend (int argc, const char *argv[], const char *name)
 			  init_func_name, name);
 	    }
 
-	  LW6SYS_FREE (init_func_name);
+	  LW6SYS_FREE (sys_context, init_func_name);
 	}
     }
 
@@ -248,5 +248,5 @@ lw6gfx_destroy_backend (lw6gfx_backend_t * backend)
 #ifndef LW6_ALLINONE
   lw6dyn_dlclose_backend (backend->dl_handle);
 #endif
-  LW6SYS_FREE (backend);
+  LW6SYS_FREE (sys_context, backend);
 }

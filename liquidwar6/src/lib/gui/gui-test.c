@@ -516,7 +516,7 @@ _test_keyboard ()
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("keysym %d popped"),
 				    keypress->keysym);
-			LW6SYS_FREE (repr);
+			LW6SYS_FREE (sys_context, repr);
 		      }
 		    else
 		      {
@@ -574,7 +574,7 @@ _test_keypress ()
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("keypress repr is \"%s\""),
 			repr);
-	    LW6SYS_FREE (repr);
+	    LW6SYS_FREE (sys_context, repr);
 	  }
 	lw6gui_keypress_free (keypress);
       }
@@ -612,7 +612,7 @@ _test_look ()
 	if (repr)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("look repr is %s"), repr);
-	    LW6SYS_FREE (repr);
+	    LW6SYS_FREE (sys_context, repr);
 	  }
 	if (!lw6gui_look_is_same (look, look))
 	  {
@@ -627,7 +627,7 @@ _test_look ()
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("look value for key \"%s\" is \"%s\""),
 			    _TEST_LOOK_KEY1, value);
-		LW6SYS_FREE (value);
+		LW6SYS_FREE (sys_context, value);
 	      }
 	    else
 	      {
@@ -652,7 +652,7 @@ _test_look ()
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("look value for key \"%s\" is \"%s\""),
 			    _TEST_LOOK_KEY2, value);
-		LW6SYS_FREE (value);
+		LW6SYS_FREE (sys_context, value);
 	      }
 	    else
 	      {
@@ -685,7 +685,7 @@ _test_look ()
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("duplicated, look2 repr is %s"), repr);
-		LW6SYS_FREE (repr);
+		LW6SYS_FREE (sys_context, repr);
 	      }
 	    lw6gui_look_free (look2);
 	  }
@@ -738,7 +738,7 @@ _test_menuitem ()
 	if (repr)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("menuitem repr is %s"), repr);
-	    LW6SYS_FREE (repr);
+	    LW6SYS_FREE (sys_context, repr);
 	  }
 	else
 	  {
@@ -760,7 +760,7 @@ _test_menuitem ()
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("menuitem duplicate repr is %s"), repr);
-		    LW6SYS_FREE (repr);
+		    LW6SYS_FREE (sys_context, repr);
 		  }
 		else
 		  {
@@ -835,7 +835,7 @@ _test_menu ()
 	if (repr)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("menu repr is %s"), repr);
-	    LW6SYS_FREE (repr);
+	    LW6SYS_FREE (sys_context, repr);
 	  }
 	else
 	  {
@@ -932,7 +932,7 @@ _test_menu ()
 			  {
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
 					_x_ ("menu repr is %s"), repr);
-			    LW6SYS_FREE (repr);
+			    LW6SYS_FREE (sys_context, repr);
 			  }
 			else
 			  {
@@ -951,7 +951,7 @@ _test_menu ()
 						_x_
 						("menu duplicate repr is %s"),
 						repr);
-				    LW6SYS_FREE (repr);
+				    LW6SYS_FREE (sys_context, repr);
 				  }
 				else
 				  {

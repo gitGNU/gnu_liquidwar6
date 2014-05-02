@@ -86,7 +86,7 @@ average_color (color_info_t * ret, int size, color_info_t * color_info,
 	      buf[i] = color_info[i1 + i].color_8;
 	    }
 	  ret->color_8 = lw6sys_color_average (n, buf);
-	  LW6SYS_FREE (buf);
+	  LW6SYS_FREE (sys_context, buf);
 	}
     }
 

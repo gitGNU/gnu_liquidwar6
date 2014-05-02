@@ -405,10 +405,10 @@ _lw6ldr_rgba_clear (_lw6ldr_image_rgba_t * image)
 	{
 	  if (image->data[row])
 	    {
-	      LW6SYS_FREE (image->data[row]);
+	      LW6SYS_FREE (sys_context, image->data[row]);
 	    }
 	}
-      LW6SYS_FREE (image->data);
+      LW6SYS_FREE (sys_context, image->data);
     }
 
   memset (image, 0, sizeof (_lw6ldr_image_rgba_t));

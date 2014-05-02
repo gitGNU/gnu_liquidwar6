@@ -91,14 +91,14 @@ _dlopen_so (const char *so_file, int is_backend)
 	      ret->handle = verbose_dlopen (ret->library_path);
 	      if (!ret->handle)
 		{
-		  LW6SYS_FREE (ret->library_path);
-		  LW6SYS_FREE (ret);
+		  LW6SYS_FREE (sys_context, ret->library_path);
+		  LW6SYS_FREE (sys_context, ret);
 		  ret = NULL;
 		}
 	    }
 	  else
 	    {
-	      LW6SYS_FREE (ret);
+	      LW6SYS_FREE (sys_context, ret);
 	      ret = NULL;
 	    }
 	}
@@ -390,7 +390,8 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
 						  module_pedigree->id);
 				    }
 				}
-			      LW6SYS_FREE (create_backend_func_str);
+			      LW6SYS_FREE (sys_context,
+					   create_backend_func_str);
 			    }
 			}
 		      else
@@ -400,7 +401,7 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
 				      ("bad pedigree for mod_%s in \"%s\""),
 				      backend_name, so_file);
 			}
-		      LW6SYS_FREE (module_pedigree);
+		      LW6SYS_FREE (sys_context, module_pedigree);
 		    }
 		  else
 		    {
@@ -556,14 +557,14 @@ _dlclose (lw6dyn_dl_handle_t * handle)
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("lt_dlexit done for \"%s\""),
 		  handle->library_path);
 
-      LW6SYS_FREE (handle->library_path);
+      LW6SYS_FREE (sys_context, handle->library_path);
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL dl_handle"));
     }
 
-  LW6SYS_FREE (handle);
+  LW6SYS_FREE (sys_context, handle);
 
   return ret;
 }

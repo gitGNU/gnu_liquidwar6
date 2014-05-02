@@ -115,7 +115,7 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
     {
       if (menu->title)
 	{
-	  LW6SYS_FREE (menu->title);
+	  LW6SYS_FREE (sys_context, menu->title);
 	  menu->title = NULL;
 	}
       else
@@ -125,7 +125,7 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
 
       if (menu->help)
 	{
-	  LW6SYS_FREE (menu->help);
+	  LW6SYS_FREE (sys_context, menu->help);
 	  menu->help = NULL;
 	}
       else
@@ -135,7 +135,7 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
 
       if (menu->popup)
 	{
-	  LW6SYS_FREE (menu->popup);
+	  LW6SYS_FREE (sys_context, menu->popup);
 	  menu->popup = NULL;
 	}
       else
@@ -153,13 +153,13 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
 	    {
 	      lw6gui_menuitem_free (menu->items[i]);
 	    }
-	  LW6SYS_FREE (menu->items);
+	  LW6SYS_FREE (sys_context, menu->items);
 	}
       if (menu->breadcrumbs)
 	{
 	  lw6sys_list_free (menu->breadcrumbs);
 	}
-      LW6SYS_FREE (menu);
+      LW6SYS_FREE (sys_context, menu);
     }
   else
     {
@@ -244,7 +244,7 @@ lw6gui_menu_repr (const lw6gui_menu_t * menu)
 void
 lw6gui_menu_set_title (lw6gui_menu_t * menu, const char *title)
 {
-  LW6SYS_FREE (menu->title);
+  LW6SYS_FREE (sys_context, menu->title);
   menu->title = lw6sys_str_copy (lw6sys_str_empty_if_null (title));
   if (!(menu->title))
     {
@@ -269,7 +269,7 @@ lw6gui_menu_set_title (lw6gui_menu_t * menu, const char *title)
 void
 lw6gui_menu_set_help (lw6gui_menu_t * menu, const char *help)
 {
-  LW6SYS_FREE (menu->help);
+  LW6SYS_FREE (sys_context, menu->help);
   menu->help = lw6sys_str_copy (lw6sys_str_empty_if_null (help));
   if (!(menu->help))
     {
@@ -294,7 +294,7 @@ lw6gui_menu_set_help (lw6gui_menu_t * menu, const char *help)
 void
 lw6gui_menu_set_popup (lw6gui_menu_t * menu, const char *popup)
 {
-  LW6SYS_FREE (menu->popup);
+  LW6SYS_FREE (sys_context, menu->popup);
   menu->popup = lw6sys_str_copy (lw6sys_str_empty_if_null (popup));
   if (!(menu->popup))
     {
@@ -700,7 +700,7 @@ lw6gui_menu_remove (lw6gui_menu_t * menu, int position, int64_t now)
 	{
 	  menu->nb_items = 0;
 	  menu->selected_item = 0;
-	  LW6SYS_FREE (menu->items);
+	  LW6SYS_FREE (sys_context, menu->items);
 	  menu->items = NULL;
 	}
       ret = 1;

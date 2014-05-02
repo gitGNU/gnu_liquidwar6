@@ -46,7 +46,7 @@ _lw6p2p_cli_oob_callback_data_new (lw6cli_backend_t * backend,
 			(void *) node);
       if (!ret->cli_oob)
 	{
-	  LW6SYS_FREE (ret);
+	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
 	}
     }

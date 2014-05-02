@@ -94,7 +94,7 @@ lw6snd_is_music_file (lw6snd_backend_t * backend, char *map_dir,
       if (found_path)
 	{
 	  ret = backend->is_music_file (backend->snd_context, found_path);
-	  LW6SYS_FREE (found_path);
+	  LW6SYS_FREE (sys_context, found_path);
 	}
     }
   else
@@ -146,7 +146,7 @@ lw6snd_play_music_file (lw6snd_backend_t * backend, char *map_dir,
 	    {
 	      ret =
 		backend->play_music_file (backend->snd_context, found_path);
-	      LW6SYS_FREE (found_path);
+	      LW6SYS_FREE (sys_context, found_path);
 	    }
 	}
     }

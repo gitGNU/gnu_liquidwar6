@@ -147,7 +147,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 			      _x_
 			      ("unable to find the tentacle for a node which has an active connection"));
 		}
-	      LW6SYS_FREE (reply_msg);
+	      LW6SYS_FREE (sys_context, reply_msg);
 	    }
 	}
       else
@@ -410,7 +410,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 				  _x_
 				  ("unable to find the tentacle for a node which has an active connection"));
 		    }
-		  LW6SYS_FREE (reply_msg);
+		  LW6SYS_FREE (sys_context, reply_msg);
 		}
 	    }
 	  else

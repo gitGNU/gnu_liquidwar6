@@ -98,17 +98,17 @@ lw6msg_utils_parse_key_value_to_ptr (char **key, char **value,
 	{
 	  if (*key)
 	    {
-	      LW6SYS_FREE (*key);
+	      LW6SYS_FREE (sys_context, *key);
 	      (*key) = NULL;
 	    }
 	  if (*value)
 	    {
-	      LW6SYS_FREE (*value);
+	      LW6SYS_FREE (sys_context, *value);
 	      (*value) = NULL;
 	    }
 	}
 
-      LW6SYS_FREE (copy);
+      LW6SYS_FREE (sys_context, copy);
     }
 
   return ret;
@@ -145,7 +145,7 @@ lw6msg_utils_parse_key_value_to_assoc (lw6sys_assoc_t ** assoc,
 	      lw6sys_log (LW6SYS_LOG_WARNING,
 			  _x_ ("assoc_set failed, assoc is now NULL"));
 	    }
-	  LW6SYS_FREE (key);
+	  LW6SYS_FREE (sys_context, key);
 	}
     }
 

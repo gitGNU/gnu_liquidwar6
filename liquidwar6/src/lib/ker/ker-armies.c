@@ -61,7 +61,7 @@ _lw6ker_armies_clear (_lw6ker_armies_t * armies)
 {
   if (armies->fighters)
     {
-      LW6SYS_FREE (armies->fighters);
+      LW6SYS_FREE (sys_context, armies->fighters);
     }
 
   armies->fighters = NULL;

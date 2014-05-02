@@ -230,7 +230,7 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
 	      ret = read_png (texture, texture_dot_png, progress);
 	      (*texture_exists) = ret;
 	    }
-	  LW6SYS_FREE (texture_dot_png);
+	  LW6SYS_FREE (sys_context, texture_dot_png);
 	}
     }
 
@@ -250,7 +250,7 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
 	      ret = read_jpeg (texture, texture_dot_jpeg, progress);
 	      (*texture_exists) = ret;
 	    }
-	  LW6SYS_FREE (texture_dot_jpeg);
+	  LW6SYS_FREE (sys_context, texture_dot_jpeg);
 	}
 
       if (!ret)
@@ -264,7 +264,7 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
 		  ret = read_jpeg (texture, texture_dot_jpeg, progress);
 		  (*texture_exists) = ret;
 		}
-	      LW6SYS_FREE (texture_dot_jpeg);
+	      LW6SYS_FREE (sys_context, texture_dot_jpeg);
 	    }
 	}
     }
@@ -285,7 +285,7 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
 	    {
 	      ret = read_alpha_jpeg (texture, texture_alpha_dot_jpeg, NULL);
 	    }
-	  LW6SYS_FREE (texture_alpha_dot_jpeg);
+	  LW6SYS_FREE (sys_context, texture_alpha_dot_jpeg);
 	}
       if (!ret)
 	{
@@ -298,7 +298,7 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
 		  ret =
 		    read_alpha_jpeg (texture, texture_alpha_dot_jpeg, NULL);
 		}
-	      LW6SYS_FREE (texture_alpha_dot_jpeg);
+	      LW6SYS_FREE (sys_context, texture_alpha_dot_jpeg);
 	    }
 	}
     }

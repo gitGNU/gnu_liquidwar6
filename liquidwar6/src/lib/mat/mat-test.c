@@ -851,7 +851,7 @@ _print_fvec2 (const lw6mat_fvec2_t * fvec2, const char *about)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec2 %s repr=\"%s\""), about,
 		  repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
   else
     {
@@ -875,7 +875,7 @@ _print_fvec3 (const lw6mat_fvec3_t * fvec3, const char *about)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec3 %s repr=\"%s\""), about,
 		  repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
   else
     {
@@ -899,7 +899,7 @@ _print_fvec4 (const lw6mat_fvec4_t * fvec4, const char *about)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fvec4 %s repr=\"%s\""), about,
 		  repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
   else
     {
@@ -923,7 +923,7 @@ _print_dvec2 (const lw6mat_dvec2_t * dvec2, const char *about)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec2 %s repr=\"%s\""), about,
 		  repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
   else
     {
@@ -947,7 +947,7 @@ _print_dvec3 (const lw6mat_dvec3_t * dvec3, const char *about)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec3 %s repr=\"%s\""), about,
 		  repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
   else
     {
@@ -971,7 +971,7 @@ _print_dvec4 (const lw6mat_dvec4_t * dvec4, const char *about)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dvec4 %s repr=\"%s\""), about,
 		  repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
   else
     {
@@ -995,7 +995,7 @@ _print_fmat2 (const lw6mat_fmat2_t * fmat2, const char *about)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat2 %s repr=\"%s\""), about,
 		  repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
   else
     {
@@ -1019,7 +1019,7 @@ _print_fmat3 (const lw6mat_fmat3_t * fmat3, const char *about)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat3 %s repr=\"%s\""), about,
 		  repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
   else
     {
@@ -1043,7 +1043,7 @@ _print_fmat4 (const lw6mat_fmat4_t * fmat4, const char *about)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fmat4 %s repr=\"%s\""), about,
 		  repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
   else
     {
@@ -1067,7 +1067,7 @@ _print_dmat2 (const lw6mat_dmat2_t * dmat2, const char *about)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat2 %s repr=\"%s\""), about,
 		  repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
   else
     {
@@ -1091,7 +1091,7 @@ _print_dmat3 (const lw6mat_dmat3_t * dmat3, const char *about)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat3 %s repr=\"%s\""), about,
 		  repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
   else
     {
@@ -1115,7 +1115,7 @@ _print_dmat4 (const lw6mat_dmat4_t * dmat4, const char *about)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dmat4 %s repr=\"%s\""), about,
 		  repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
   else
     {

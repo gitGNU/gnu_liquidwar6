@@ -267,7 +267,7 @@ _test_db ()
 	if (LW6SYS_TEST_ACK (repr))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created db \"%s\""), repr);
-	    LW6SYS_FREE (repr);
+	    LW6SYS_FREE (sys_context, repr);
 	  }
 	lw6p2p_db_close (db);
       }
@@ -337,7 +337,7 @@ _test_entry ()
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("entry created: \"%s\""),
 			repr);
-	    LW6SYS_FREE (repr);
+	    LW6SYS_FREE (sys_context, repr);
 	  }
 	lw6p2p_entry_free (entry);
 	entry = NULL;
@@ -403,7 +403,7 @@ _test_tentacle_poll_step1_accept_tcp (lw6srv_listener_t * listener,
 			      _x_
 			      ("discovered node \"%s\" from guessed url"),
 			      guessed_public_url);
-		  LW6SYS_FREE (guessed_public_url);
+		  LW6SYS_FREE (sys_context, guessed_public_url);
 		}
 
 	      ip = NULL;	// tcp_accepter will free it
@@ -468,7 +468,7 @@ _test_tentacle_poll_step2_recv_udp (lw6srv_listener_t * listener, int64_t now)
 				  _x_
 				  ("discovered node \"%s\" from guessed url"),
 				  guessed_public_url);
-		      LW6SYS_FREE (guessed_public_url);
+		      LW6SYS_FREE (sys_context, guessed_public_url);
 		    }
 
 		  line = NULL;	// udp_buffer will free it
@@ -491,15 +491,15 @@ _test_tentacle_poll_step2_recv_udp (lw6srv_listener_t * listener, int64_t now)
 
   if (ip1)
     {
-      LW6SYS_FREE (ip1);
+      LW6SYS_FREE (sys_context, ip1);
     }
   if (ip2)
     {
-      LW6SYS_FREE (ip2);
+      LW6SYS_FREE (sys_context, ip2);
     }
   if (line)
     {
-      LW6SYS_FREE (line);
+      LW6SYS_FREE (sys_context, line);
     }
 
   return ret;
@@ -1146,14 +1146,14 @@ _test_node_init ()
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node \"%s\""),
 			    repr);
-		LW6SYS_FREE (repr);
+		LW6SYS_FREE (sys_context, repr);
 	      }
 	    id_str = lw6sys_id_ltoa (lw6p2p_node_get_id (node));
 	    if (LW6SYS_TEST_ACK (id_str))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("get_id returns %s"),
 			    id_str);
-		LW6SYS_FREE (id_str);
+		LW6SYS_FREE (sys_context, id_str);
 	      }
 	    local_seq_0 = lw6p2p_node_get_local_seq_0 (node);
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -1233,7 +1233,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	  if (LW6SYS_TEST_ACK (repr))
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created db \"%s\""), repr);
-	      LW6SYS_FREE (repr);
+	      LW6SYS_FREE (sys_context, repr);
 	    }
 	}
     }
@@ -1255,7 +1255,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	  if (LW6SYS_TEST_ACK (repr))
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created db \"%s\""), repr);
-	      LW6SYS_FREE (repr);
+	      LW6SYS_FREE (sys_context, repr);
 	    }
 	}
     }
@@ -1277,7 +1277,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	  if (LW6SYS_TEST_ACK (repr))
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created db \"%s\""), repr);
-	      LW6SYS_FREE (repr);
+	      LW6SYS_FREE (sys_context, repr);
 	    }
 	}
     }
@@ -1304,7 +1304,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node1 \"%s\""),
 			      repr);
-		  LW6SYS_FREE (repr);
+		  LW6SYS_FREE (sys_context, repr);
 		}
 	    }
 	}
@@ -1329,7 +1329,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node2 \"%s\""),
 			      repr);
-		  LW6SYS_FREE (repr);
+		  LW6SYS_FREE (sys_context, repr);
 		}
 	    }
 	}
@@ -1357,7 +1357,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node3 \"%s\""),
 			      repr);
-		  LW6SYS_FREE (repr);
+		  LW6SYS_FREE (sys_context, repr);
 		}
 	    }
 	}
@@ -1382,7 +1382,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node4 \"%s\""),
 			      repr);
-		  LW6SYS_FREE (repr);
+		  LW6SYS_FREE (sys_context, repr);
 		}
 	    }
 	}
@@ -1411,7 +1411,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node5 \"%s\""),
 			      repr);
-		  LW6SYS_FREE (repr);
+		  LW6SYS_FREE (sys_context, repr);
 		}
 	    }
 	}
@@ -1436,7 +1436,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node6 \"%s\""),
 			      repr);
-		  LW6SYS_FREE (repr);
+		  LW6SYS_FREE (sys_context, repr);
 		}
 	    }
 	}
@@ -1601,7 +1601,7 @@ _print_entry_callback (void *func_data, void *data)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("node \"%s\" knows entry \"%s\""),
 		  node->node_info->const_info.title, repr);
-      LW6SYS_FREE (repr);
+      LW6SYS_FREE (sys_context, repr);
     }
 }
 
@@ -1901,7 +1901,7 @@ _test_node_msg ()
 			    msgs[k] = msg;
 			    lw6p2p_node_put_local_msg (node, msg);
 			  }
-			LW6SYS_FREE (random_str);
+			LW6SYS_FREE (sys_context, random_str);
 		      }
 		  }
 	      }
@@ -1938,7 +1938,7 @@ _test_node_msg ()
 				(int) k, (int) strlen (msg), msg);
 		    ret = 0;
 		  }
-		LW6SYS_FREE (msg);
+		LW6SYS_FREE (sys_context, msg);
 		++k;
 	      }
 	    if (LW6SYS_TEST_ACK
@@ -1960,7 +1960,7 @@ _test_node_msg ()
 	      {
 		if (msgs[k])
 		  {
-		    LW6SYS_FREE (msgs[k]);
+		    LW6SYS_FREE (sys_context, msgs[k]);
 		  }
 	      }
 
@@ -2078,7 +2078,7 @@ _test_node_api_node2_callback (void *api_data)
 				  msg);
 		    }
 		  lw6p2p_node_put_local_msg (data->node, msg);
-		  LW6SYS_FREE (msg);
+		  LW6SYS_FREE (sys_context, msg);
 		}
 	      msg =
 		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
@@ -2096,7 +2096,7 @@ _test_node_api_node2_callback (void *api_data)
 				  _x_ ("node2 draft message is \"%s\""), msg);
 		    }
 		  lw6p2p_node_put_local_msg (data->node, msg);
-		  LW6SYS_FREE (msg);
+		  LW6SYS_FREE (sys_context, msg);
 		}
 	      seq++;		// fake we're going next round...
 	      msg =
@@ -2115,7 +2115,7 @@ _test_node_api_node2_callback (void *api_data)
 				  _x_ ("node2 draft message is \"%s\""), msg);
 		    }
 		  lw6p2p_node_put_local_msg (data->node, msg);
-		  LW6SYS_FREE (msg);
+		  LW6SYS_FREE (sys_context, msg);
 		}
 	      msg =
 		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
@@ -2133,7 +2133,7 @@ _test_node_api_node2_callback (void *api_data)
 				  _x_ ("node2 draft message is \"%s\""), msg);
 		    }
 		  lw6p2p_node_put_local_msg (data->node, msg);
-		  LW6SYS_FREE (msg);
+		  LW6SYS_FREE (sys_context, msg);
 		}
 
 	      /*
@@ -2152,7 +2152,7 @@ _test_node_api_node2_callback (void *api_data)
 					LW6SYS_PRINTF_LL "x %s",
 					(long long) seq, (long long) node_id,
 					tmp);
-		  LW6SYS_FREE (tmp);
+		  LW6SYS_FREE (sys_context, tmp);
 		}
 	      if (msg)
 		{
@@ -2167,10 +2167,10 @@ _test_node_api_node2_callback (void *api_data)
 				  msg);
 		    }
 		  lw6p2p_node_put_local_msg (data->node, msg);
-		  LW6SYS_FREE (msg);
+		  LW6SYS_FREE (sys_context, msg);
 		}
 
-	      LW6SYS_FREE (dump);
+	      LW6SYS_FREE (sys_context, dump);
 	      dump_sent = 1;
 	    }
 	}
@@ -2196,7 +2196,7 @@ _test_node_api_node2_callback (void *api_data)
 				  _x_ ("node2 draft message is \"%s\""), msg);
 		    }
 		  lw6p2p_node_put_local_msg (data->node, msg);
-		  LW6SYS_FREE (msg);
+		  LW6SYS_FREE (sys_context, msg);
 		}
 	      next_msgn_timestamp =
 		lw6sys_get_timestamp () + _TEST_NODE_API_MSGN_DELAY_MSEC;
@@ -2285,7 +2285,7 @@ _test_node_api_node4_callback (void *api_data)
 			      _x_ ("node4 reference message is \"%s\""), msg);
 		}
 	      ++reference_received;
-	      LW6SYS_FREE (msg);
+	      LW6SYS_FREE (sys_context, msg);
 	    }
 	  while ((msg =
 		  lw6p2p_node_get_next_draft_msg (data->node,
@@ -2304,7 +2304,7 @@ _test_node_api_node4_callback (void *api_data)
 		{
 		  ++long_draft_received;
 		}
-	      LW6SYS_FREE (msg);
+	      LW6SYS_FREE (sys_context, msg);
 	    }
 	  if (reference_received >= _TEST_NODE_API_NODE4_REFERENCE_RECEIVED &&
 	      long_draft_received >= _TEST_NODE_API_NODE4_LONG_DRAFT_RECEIVED

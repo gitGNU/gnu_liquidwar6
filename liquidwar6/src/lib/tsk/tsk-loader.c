@@ -264,7 +264,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
     }
   if (relative_path)
     {
-      LW6SYS_FREE (relative_path);
+      LW6SYS_FREE (sys_context, relative_path);
       relative_path = NULL;
     }
   if (default_param)
@@ -330,7 +330,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
 			  request_number, loader_data->request_number, repr);
 	    }
 	  LOADER_UNLOCK;
-	  LW6SYS_FREE (repr);
+	  LW6SYS_FREE (sys_context, repr);
 	  repr = NULL;
 	}
     }
@@ -454,7 +454,7 @@ stage2 (_lw6tsk_loader_data_t * loader_data)
 			  request_number, loader_data->request_number, repr);
 	    }
 	  LOADER_UNLOCK;
-	  LW6SYS_FREE (repr);
+	  LW6SYS_FREE (sys_context, repr);
 	  repr = NULL;
 	}
     }
@@ -669,9 +669,9 @@ loader_data_free (_lw6tsk_loader_data_t * loader_data)
     }
   if (loader_data->user_dir)
     {
-      LW6SYS_FREE (loader_data->user_dir);
+      LW6SYS_FREE (sys_context, loader_data->user_dir);
     }
-  LW6SYS_FREE (loader_data);
+  LW6SYS_FREE (sys_context, loader_data);
 }
 
 static void
@@ -772,7 +772,7 @@ lw6tsk_loader_new (float sleep, char *user_dir, volatile float *progress)
 	{
 	  loader_data_free (loader_data);
 	}
-      LW6SYS_FREE (loader);
+      LW6SYS_FREE (sys_context, loader);
       loader = NULL;
     }
 
@@ -798,7 +798,7 @@ lw6tsk_loader_free (lw6tsk_loader_t * loader)
   loader_data->stop = 1;
   lw6sys_thread_join (loader->thread);
   // no need to free loader_data, done by join
-  LW6SYS_FREE (loader);
+  LW6SYS_FREE (sys_context, loader);
 }
 
 /**

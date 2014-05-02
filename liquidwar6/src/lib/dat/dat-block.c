@@ -50,7 +50,7 @@ _lw6dat_block_free (_lw6dat_block_t * block)
     {
       _lw6dat_atom_clear (&(block->atoms[i]));
     }
-  LW6SYS_FREE (block);
+  LW6SYS_FREE (sys_context, block);
 }
 
 int

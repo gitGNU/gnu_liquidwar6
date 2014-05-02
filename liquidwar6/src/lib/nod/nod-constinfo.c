@@ -139,34 +139,34 @@ _lw6nod_const_info_reset (lw6nod_const_info_t * const_info)
 {
   if (const_info->program)
     {
-      LW6SYS_FREE (const_info->program);
+      LW6SYS_FREE (sys_context, const_info->program);
     }
   if (const_info->version)
     {
-      LW6SYS_FREE (const_info->version);
+      LW6SYS_FREE (sys_context, const_info->version);
     }
   if (const_info->codename)
     {
-      LW6SYS_FREE (const_info->codename);
+      LW6SYS_FREE (sys_context, const_info->codename);
     }
 
   _lw6nod_ref_info_reset (&(const_info->ref_info));
 
   if (const_info->title)
     {
-      LW6SYS_FREE (const_info->title);
+      LW6SYS_FREE (sys_context, const_info->title);
     }
   if (const_info->description)
     {
-      LW6SYS_FREE (const_info->description);
+      LW6SYS_FREE (sys_context, const_info->description);
     }
   if (const_info->password)
     {
-      LW6SYS_FREE (const_info->password);
+      LW6SYS_FREE (sys_context, const_info->password);
     }
   if (const_info->idle_screenshot_data)
     {
-      LW6SYS_FREE (const_info->idle_screenshot_data);
+      LW6SYS_FREE (sys_context, const_info->idle_screenshot_data);
     }
   memset (const_info, 0, sizeof (lw6nod_const_info_t));
 }

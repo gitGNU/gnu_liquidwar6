@@ -122,7 +122,7 @@ lw6map_teams_clear (lw6map_teams_t * teams)
     {
       if (teams->bot[i].ai)
 	{
-	  LW6SYS_FREE (teams->bot[i].ai);
+	  LW6SYS_FREE (sys_context, teams->bot[i].ai);
 	}
     }
   lw6map_teams_zero (teams);
@@ -267,7 +267,8 @@ lw6map_teams_set (lw6map_teams_t * teams, const char *key, const char *value)
 	{
 	  if (teams->bot[LW6MAP_TEAMS_BOT1_INDEX].ai)
 	    {
-	      LW6SYS_FREE (teams->bot[LW6MAP_TEAMS_BOT1_INDEX].ai);
+	      LW6SYS_FREE (sys_context,
+			   teams->bot[LW6MAP_TEAMS_BOT1_INDEX].ai);
 	    }
 	  teams->bot[LW6MAP_TEAMS_BOT1_INDEX].ai = lw6sys_str_copy (value);
 	}
@@ -275,7 +276,8 @@ lw6map_teams_set (lw6map_teams_t * teams, const char *key, const char *value)
 	{
 	  if (teams->bot[LW6MAP_TEAMS_BOT2_INDEX].ai)
 	    {
-	      LW6SYS_FREE (teams->bot[LW6MAP_TEAMS_BOT2_INDEX].ai);
+	      LW6SYS_FREE (sys_context,
+			   teams->bot[LW6MAP_TEAMS_BOT2_INDEX].ai);
 	    }
 	  teams->bot[LW6MAP_TEAMS_BOT2_INDEX].ai = lw6sys_str_copy (value);
 	}
@@ -283,7 +285,8 @@ lw6map_teams_set (lw6map_teams_t * teams, const char *key, const char *value)
 	{
 	  if (teams->bot[LW6MAP_TEAMS_BOT3_INDEX].ai)
 	    {
-	      LW6SYS_FREE (teams->bot[LW6MAP_TEAMS_BOT3_INDEX].ai);
+	      LW6SYS_FREE (sys_context,
+			   teams->bot[LW6MAP_TEAMS_BOT3_INDEX].ai);
 	    }
 	  teams->bot[LW6MAP_TEAMS_BOT3_INDEX].ai = lw6sys_str_copy (value);
 	}
@@ -291,7 +294,8 @@ lw6map_teams_set (lw6map_teams_t * teams, const char *key, const char *value)
 	{
 	  if (teams->bot[LW6MAP_TEAMS_BOT4_INDEX].ai)
 	    {
-	      LW6SYS_FREE (teams->bot[LW6MAP_TEAMS_BOT4_INDEX].ai);
+	      LW6SYS_FREE (sys_context,
+			   teams->bot[LW6MAP_TEAMS_BOT4_INDEX].ai);
 	    }
 	  teams->bot[LW6MAP_TEAMS_BOT4_INDEX].ai = lw6sys_str_copy (value);
 	}
@@ -299,7 +303,8 @@ lw6map_teams_set (lw6map_teams_t * teams, const char *key, const char *value)
 	{
 	  if (teams->bot[LW6MAP_TEAMS_BOT5_INDEX].ai)
 	    {
-	      LW6SYS_FREE (teams->bot[LW6MAP_TEAMS_BOT5_INDEX].ai);
+	      LW6SYS_FREE (sys_context,
+			   teams->bot[LW6MAP_TEAMS_BOT5_INDEX].ai);
 	    }
 	  teams->bot[LW6MAP_TEAMS_BOT5_INDEX].ai = lw6sys_str_copy (value);
 	}
@@ -307,7 +312,8 @@ lw6map_teams_set (lw6map_teams_t * teams, const char *key, const char *value)
 	{
 	  if (teams->bot[LW6MAP_TEAMS_BOT6_INDEX].ai)
 	    {
-	      LW6SYS_FREE (teams->bot[LW6MAP_TEAMS_BOT6_INDEX].ai);
+	      LW6SYS_FREE (sys_context,
+			   teams->bot[LW6MAP_TEAMS_BOT6_INDEX].ai);
 	    }
 	  teams->bot[LW6MAP_TEAMS_BOT6_INDEX].ai = lw6sys_str_copy (value);
 	}
@@ -315,7 +321,8 @@ lw6map_teams_set (lw6map_teams_t * teams, const char *key, const char *value)
 	{
 	  if (teams->bot[LW6MAP_TEAMS_BOT7_INDEX].ai)
 	    {
-	      LW6SYS_FREE (teams->bot[LW6MAP_TEAMS_BOT7_INDEX].ai);
+	      LW6SYS_FREE (sys_context,
+			   teams->bot[LW6MAP_TEAMS_BOT7_INDEX].ai);
 	    }
 	  teams->bot[LW6MAP_TEAMS_BOT7_INDEX].ai = lw6sys_str_copy (value);
 	}
@@ -323,7 +330,8 @@ lw6map_teams_set (lw6map_teams_t * teams, const char *key, const char *value)
 	{
 	  if (teams->bot[LW6MAP_TEAMS_BOT8_INDEX].ai)
 	    {
-	      LW6SYS_FREE (teams->bot[LW6MAP_TEAMS_BOT8_INDEX].ai);
+	      LW6SYS_FREE (sys_context,
+			   teams->bot[LW6MAP_TEAMS_BOT8_INDEX].ai);
 	    }
 	  teams->bot[LW6MAP_TEAMS_BOT8_INDEX].ai = lw6sys_str_copy (value);
 	}
@@ -331,7 +339,8 @@ lw6map_teams_set (lw6map_teams_t * teams, const char *key, const char *value)
 	{
 	  if (teams->bot[LW6MAP_TEAMS_BOT9_INDEX].ai)
 	    {
-	      LW6SYS_FREE (teams->bot[LW6MAP_TEAMS_BOT9_INDEX].ai);
+	      LW6SYS_FREE (sys_context,
+			   teams->bot[LW6MAP_TEAMS_BOT9_INDEX].ai);
 	    }
 	  teams->bot[LW6MAP_TEAMS_BOT9_INDEX].ai = lw6sys_str_copy (value);
 	}
@@ -339,7 +348,7 @@ lw6map_teams_set (lw6map_teams_t * teams, const char *key, const char *value)
 	{
 	  ret = 0;
 	}
-      LW6SYS_FREE (formatted_key);
+      LW6SYS_FREE (sys_context, formatted_key);
     }
   else
     {
@@ -508,7 +517,7 @@ lw6map_teams_get (const lw6map_teams_t * teams, const char *key)
 	{
 	  ret = _get_bot_ai (&(teams->bot[LW6MAP_TEAMS_BOT9_INDEX]));
 	}
-      LW6SYS_FREE (formatted_key);
+      LW6SYS_FREE (sys_context, formatted_key);
     }
 
   return ret;
@@ -535,7 +544,7 @@ lw6map_teams_get_default (const char *key)
       lw6map_teams_defaults (teams);
       ret = lw6map_teams_get (teams, key);
       lw6map_teams_clear (teams);
-      LW6SYS_FREE (teams);
+      LW6SYS_FREE (sys_context, teams);
     }
 
   if (!ret)

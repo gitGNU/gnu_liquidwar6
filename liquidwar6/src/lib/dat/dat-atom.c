@@ -37,7 +37,7 @@ _lw6dat_atom_clear (_lw6dat_atom_t * atom)
 {
   if (atom->full_str_if_longer)
     {
-      LW6SYS_FREE (atom->full_str_if_longer);
+      LW6SYS_FREE (sys_context, atom->full_str_if_longer);
     }
   memset (atom, 0, sizeof (_lw6dat_atom_t));
 }
@@ -55,7 +55,7 @@ _lw6dat_atom_set_full_str (_lw6dat_atom_t * atom, const char *full_str)
       atom->full_str_if_short[len] = '\0';
       if (atom->full_str_if_longer)
 	{
-	  LW6SYS_FREE (atom->full_str_if_longer);
+	  LW6SYS_FREE (sys_context, atom->full_str_if_longer);
 	  atom->full_str_if_longer = NULL;
 	}
       ret = 1;
@@ -72,7 +72,7 @@ _lw6dat_atom_set_full_str (_lw6dat_atom_t * atom, const char *full_str)
 	    }
 	  else
 	    {
-	      LW6SYS_FREE (atom->full_str_if_longer);
+	      LW6SYS_FREE (sys_context, atom->full_str_if_longer);
 	      atom->full_str_if_longer = NULL;
 	    }
 	}

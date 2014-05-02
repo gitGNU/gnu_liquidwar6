@@ -205,7 +205,7 @@ lw6net_tcp_accept (char **incoming_ip,
 	{
 	  if (*incoming_ip)
 	    {
-	      LW6SYS_FREE (*incoming_ip);
+	      LW6SYS_FREE (sys_context, *incoming_ip);
 	    }
 	  (*incoming_ip) = NULL;
 	}
@@ -827,7 +827,7 @@ lw6net_tcp_peek (int *sock, char *buf, int len, int delay_msec)
 
 	  if (!buf)
 	    {
-	      LW6SYS_FREE (buf2);
+	      LW6SYS_FREE (sys_context, buf2);
 	    }
 	}
     }

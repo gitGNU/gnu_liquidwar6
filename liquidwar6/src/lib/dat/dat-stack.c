@@ -1371,7 +1371,7 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 					      _x_
 					      ("get UNKNOWN message from stack, ignoring"));
 				}
-			      LW6SYS_FREE (unz);
+			      LW6SYS_FREE (sys_context, unz);
 			    }
 			}
 		      // search messages after
@@ -1391,7 +1391,7 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 		      lw6sys_log (LW6SYS_LOG_WARNING,
 				  _x_ ("bad seq_from_len=%d"), seq_from_len);
 		    }
-		  LW6SYS_FREE (cmd);
+		  LW6SYS_FREE (sys_context, cmd);
 		}
 	    }
 	}
@@ -1756,7 +1756,7 @@ _lw6dat_stack_meta_put (_lw6dat_stack_t * stack, int64_t seq,
   if (meta_msg)
     {
       ret = _lw6dat_stack_put_atom_str (stack, meta_msg, _LW6DAT_FLAG_REMOTE);
-      LW6SYS_FREE (meta_msg);
+      LW6SYS_FREE (sys_context, meta_msg);
     }
 
   return ret;

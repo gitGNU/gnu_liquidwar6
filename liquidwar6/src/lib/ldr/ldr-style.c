@@ -80,7 +80,7 @@ lw6ldr_style_read (lw6map_style_t * style, const char *dirname)
 	  ret = 1;
 	}
 
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   if (!ret)

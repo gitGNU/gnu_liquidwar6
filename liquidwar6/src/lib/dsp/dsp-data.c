@@ -46,7 +46,7 @@ _lw6dsp_data_free (_lw6dsp_data_t * data)
 {
   if (data->gfx_backend_name)
     {
-      LW6SYS_FREE (data->gfx_backend_name);
+      LW6SYS_FREE (sys_context, data->gfx_backend_name);
     }
   if (data->gfx_backend)
     {
@@ -59,5 +59,5 @@ _lw6dsp_data_free (_lw6dsp_data_t * data)
       lw6sys_mutex_destroy (data->render_mutex);
     }
   _lw6dsp_param_clear (&(data->param));
-  LW6SYS_FREE (data);
+  LW6SYS_FREE (sys_context, data);
 }

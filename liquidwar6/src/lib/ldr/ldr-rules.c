@@ -119,7 +119,7 @@ lw6ldr_rules_read (lw6map_rules_t * rules, const char *dirname)
 	  ret = 1;
 	}
 
-      LW6SYS_FREE (buf);
+      LW6SYS_FREE (sys_context, buf);
     }
 
   if (!ret)

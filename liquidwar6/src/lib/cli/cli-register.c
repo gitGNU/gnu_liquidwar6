@@ -81,14 +81,14 @@ lw6cli_get_backends (int argc, const char *argv[])
 	{
 	  lw6sys_assoc_set (&ret, module_pedigree->id,
 			    lw6sys_str_copy (module_pedigree->name));
-	  LW6SYS_FREE (module_pedigree);
+	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
       module_pedigree = mod_udp_get_pedigree ();
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (&ret, module_pedigree->id,
 			    lw6sys_str_copy (module_pedigree->name));
-	  LW6SYS_FREE (module_pedigree);
+	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
 #ifdef MOD_HTTP
       module_pedigree = mod_http_get_pedigree ();
@@ -96,7 +96,7 @@ lw6cli_get_backends (int argc, const char *argv[])
 	{
 	  lw6sys_assoc_set (&ret, module_pedigree->id,
 			    lw6sys_str_copy (module_pedigree->name));
-	  LW6SYS_FREE (module_pedigree);
+	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
 #endif
     }
@@ -178,7 +178,7 @@ lw6cli_create_backend (int argc, const char *argv[], const char *name)
 			  init_func_name, name);
 	    }
 
-	  LW6SYS_FREE (init_func_name);
+	  LW6SYS_FREE (sys_context, init_func_name);
 	}
     }
 
@@ -233,8 +233,8 @@ lw6cli_destroy_backend (lw6cli_backend_t * backend)
 #endif
   if (backend->name)
     {
-      LW6SYS_FREE (backend->name);
+      LW6SYS_FREE (sys_context, backend->name);
       backend->name = NULL;
     }
-  LW6SYS_FREE (backend);
+  LW6SYS_FREE (sys_context, backend);
 }

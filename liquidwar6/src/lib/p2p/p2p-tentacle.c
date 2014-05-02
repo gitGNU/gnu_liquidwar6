@@ -78,7 +78,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 			      tentacle->remote_port, tentacle->remote_ip,
 			      tentacle->remote_port, real_remote_ip,
 			      tentacle->remote_port);
-		  LW6SYS_FREE (tentacle->remote_ip);
+		  LW6SYS_FREE (sys_context, tentacle->remote_ip);
 		  tentacle->remote_ip = lw6sys_str_copy (real_remote_ip);
 		}
 	    }
@@ -156,7 +156,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 			{
 			  lw6sys_log (LW6SYS_LOG_DEBUG,
 				      _x_ ("connection \"%s\" opened"), repr);
-			  LW6SYS_FREE (repr);
+			  LW6SYS_FREE (sys_context, repr);
 			}
 		    }
 		  else
@@ -204,7 +204,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 			{
 			  lw6sys_log (LW6SYS_LOG_DEBUG,
 				      _x_ ("connection \"%s\" opened"), repr);
-			  LW6SYS_FREE (repr);
+			  LW6SYS_FREE (sys_context, repr);
 			}
 		    }
 		  else
@@ -254,7 +254,7 @@ _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle)
 			    tentacle->srv_connections[i]);
 	    }
 	}
-      LW6SYS_FREE (tentacle->srv_connections);
+      LW6SYS_FREE (sys_context, tentacle->srv_connections);
     }
   if (tentacle->nb_cli_connections > 0 && tentacle->cli_connections)
     {
@@ -266,31 +266,31 @@ _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle)
 			    tentacle->cli_connections[i]);
 	    }
 	}
-      LW6SYS_FREE (tentacle->cli_connections);
+      LW6SYS_FREE (sys_context, tentacle->cli_connections);
     }
   if (tentacle->local_url)
     {
-      LW6SYS_FREE (tentacle->local_url);
+      LW6SYS_FREE (sys_context, tentacle->local_url);
     }
   if (tentacle->remote_url)
     {
-      LW6SYS_FREE (tentacle->remote_url);
+      LW6SYS_FREE (sys_context, tentacle->remote_url);
     }
   if (tentacle->remote_ip)
     {
-      LW6SYS_FREE (tentacle->remote_ip);
+      LW6SYS_FREE (sys_context, tentacle->remote_ip);
     }
   if (tentacle->password)
     {
-      LW6SYS_FREE (tentacle->password);
+      LW6SYS_FREE (sys_context, tentacle->password);
     }
   if (tentacle->local_id_str)
     {
-      LW6SYS_FREE (tentacle->local_id_str);
+      LW6SYS_FREE (sys_context, tentacle->local_id_str);
     }
   if (tentacle->remote_id_str)
     {
-      LW6SYS_FREE (tentacle->remote_id_str);
+      LW6SYS_FREE (sys_context, tentacle->remote_id_str);
     }
   memset (tentacle, 0, sizeof (_lw6p2p_tentacle_t));
 }
@@ -458,7 +458,7 @@ _lw6p2p_tentacle_poll_protocol (_lw6p2p_tentacle_t * tentacle,
 		  tentacle->hello_sent = 1;
 		}
 	    }
-	  LW6SYS_FREE (msg);
+	  LW6SYS_FREE (sys_context, msg);
 	}
     }
 
@@ -482,7 +482,7 @@ _lw6p2p_tentacle_poll_protocol (_lw6p2p_tentacle_t * tentacle,
 	      lw6cli_send (tentacle->backends->cli_backends[i], cnx, now,
 			   ticket_sig, ticket_sig, cnx->local_id_int,
 			   cnx->remote_id_int, msg);
-	      LW6SYS_FREE (msg);
+	      LW6SYS_FREE (sys_context, msg);
 	    }
 	  if (!lw6cnx_ticket_table_was_recv_exchanged
 	      (ticket_table, cnx->remote_id_str))
@@ -503,7 +503,7 @@ _lw6p2p_tentacle_poll_protocol (_lw6p2p_tentacle_t * tentacle,
 		  lw6cli_send (tentacle->backends->cli_backends[i], cnx, now,
 			       ticket_sig, ticket_sig, cnx->local_id_int,
 			       cnx->remote_id_int, msg);
-		  LW6SYS_FREE (msg);
+		  LW6SYS_FREE (sys_context, msg);
 		}
 	    }
 	}
@@ -529,7 +529,7 @@ _lw6p2p_tentacle_poll_protocol (_lw6p2p_tentacle_t * tentacle,
 	      lw6srv_send (tentacle->backends->srv_backends[i], cnx, now,
 			   ticket_sig, ticket_sig, cnx->local_id_int,
 			   cnx->remote_id_int, msg);
-	      LW6SYS_FREE (msg);
+	      LW6SYS_FREE (sys_context, msg);
 	    }
 	  if (!lw6cnx_ticket_table_was_recv_exchanged
 	      (ticket_table, cnx->remote_id_str))
@@ -550,7 +550,7 @@ _lw6p2p_tentacle_poll_protocol (_lw6p2p_tentacle_t * tentacle,
 		  lw6srv_send (tentacle->backends->srv_backends[i], cnx, now,
 			       ticket_sig, ticket_sig, cnx->local_id_int,
 			       cnx->remote_id_int, msg);
-		  LW6SYS_FREE (msg);
+		  LW6SYS_FREE (sys_context, msg);
 		}
 	    }
 	}

@@ -60,7 +60,7 @@ lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture,
 						   (cursor_texture->fg_bg_layer),
 						   cursor_dot_png);
 	}
-      LW6SYS_FREE (cursor_dot_png);
+      LW6SYS_FREE (sys_context, cursor_dot_png);
     }
 
   cursor_color_dot_png =
@@ -76,7 +76,7 @@ lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture,
 						   (cursor_texture->color_layer),
 						   cursor_color_dot_png);
 	}
-      LW6SYS_FREE (cursor_color_dot_png);
+      LW6SYS_FREE (sys_context, cursor_color_dot_png);
     }
 
   if (!found)

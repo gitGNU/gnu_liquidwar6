@@ -80,9 +80,9 @@ _test_load_save ()
 	      lw6cfg_load (context, _test_cfg);
 	      lw6cfg_save (context, _test_cfg);
 
-	      LW6SYS_FREE (_test_cfg);
+	      LW6SYS_FREE (sys_context, _test_cfg);
 	    }
-	  LW6SYS_FREE (user_dir);
+	  LW6SYS_FREE (sys_context, user_dir);
 	}
       lw6cfg_quit (context);
     }
@@ -113,7 +113,7 @@ _test_unified ()
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("value for \"%s\" is \"%s\""),
 		    _TEST_UNIFIED_KEY_YES, value);
-	LW6SYS_FREE (value);
+	LW6SYS_FREE (sys_context, value);
       }
     else
       {
@@ -126,7 +126,7 @@ _test_unified ()
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("key \"%s\" has value \"%s\", should be NULL"),
 		    _TEST_UNIFIED_KEY_NO, value);
-	LW6SYS_FREE (value);
+	LW6SYS_FREE (sys_context, value);
 	ret = 0;
       }
     else

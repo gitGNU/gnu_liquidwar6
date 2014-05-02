@@ -96,7 +96,7 @@ _test_screenshot ()
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
 					_x_ ("generated screenshot \"%s\""),
 					repr);
-			    LW6SYS_FREE (repr);
+			    LW6SYS_FREE (sys_context, repr);
 			  }
 			lw6img_screenshot_free (jpeg);
 			jpeg = NULL;
@@ -107,7 +107,7 @@ _test_screenshot ()
 				    _x_ ("unable to generate screenshot"));
 			ret = 0;
 		      }
-		    LW6SYS_FREE (user_dir);
+		    LW6SYS_FREE (sys_context, user_dir);
 		    user_dir = NULL;
 		  }
 		else

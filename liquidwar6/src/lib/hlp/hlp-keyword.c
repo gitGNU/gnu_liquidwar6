@@ -54,9 +54,9 @@ lw6hlp_match (const char *keyword1, const char *keyword2)
       if (key2)
 	{
 	  ret = !strcasecmp (key1, key2);
-	  LW6SYS_FREE (key2);
+	  LW6SYS_FREE (sys_context, key2);
 	}
-      LW6SYS_FREE (key1);
+      LW6SYS_FREE (sys_context, key1);
     }
 
   return ret;

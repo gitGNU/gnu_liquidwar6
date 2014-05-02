@@ -68,7 +68,7 @@ lw6net_if_guess_local ()
       if (GetAdaptersInfo (pAdapterInfo, &ulOutBufLen) ==
 	  ERROR_BUFFER_OVERFLOW)
 	{
-	  LW6SYS_FREE (pAdapterInfo);
+	  LW6SYS_FREE (sys_context, pAdapterInfo);
 	  pAdapterInfo = (IP_ADAPTER_INFO *) LW6SYS_CALLOC (ulOutBufLen);
 	}
       if (pAdapterInfo)
@@ -103,7 +103,7 @@ lw6net_if_guess_local ()
 
   if (pAdapterInfo)
     {
-      LW6SYS_FREE (pAdapterInfo);
+      LW6SYS_FREE (sys_context, pAdapterInfo);
     }
 
 #else

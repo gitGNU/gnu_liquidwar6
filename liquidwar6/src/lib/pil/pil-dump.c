@@ -189,15 +189,15 @@ _lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id,
 
   if (level_hexa)
     {
-      LW6SYS_FREE (level_hexa);
+      LW6SYS_FREE (sys_context, level_hexa);
     }
   if (game_struct_hexa)
     {
-      LW6SYS_FREE (game_struct_hexa);
+      LW6SYS_FREE (sys_context, game_struct_hexa);
     }
   if (game_state_hexa)
     {
-      LW6SYS_FREE (game_state_hexa);
+      LW6SYS_FREE (sys_context, game_state_hexa);
     }
 
   return ret;
@@ -313,22 +313,22 @@ lw6pil_dump_command_execute (lw6pil_dump_t * dump,
 
   if (level_repr)
     {
-      LW6SYS_FREE (level_repr);
+      LW6SYS_FREE (sys_context, level_repr);
     }
 
   if (game_struct_repr)
     {
-      LW6SYS_FREE (game_struct_repr);
+      LW6SYS_FREE (sys_context, game_struct_repr);
     }
 
   if (game_state_repr)
     {
-      LW6SYS_FREE (game_state_repr);
+      LW6SYS_FREE (sys_context, game_state_repr);
     }
 
   if (pilot_repr)
     {
-      LW6SYS_FREE (pilot_repr);
+      LW6SYS_FREE (sys_context, pilot_repr);
     }
 
   return ret;

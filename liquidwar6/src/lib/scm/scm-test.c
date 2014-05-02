@@ -90,7 +90,7 @@ _test_funcname ()
 			("could not convert funcname from scm to C, got \"%s\" instead of \"%s\""),
 			funcname, _TEST_FUNCNAME_C);
 	  }
-	LW6SYS_FREE (funcname);
+	LW6SYS_FREE (sys_context, funcname);
       }
 
     funcname = lw6scm_funcname_c2scm (_TEST_FUNCNAME_C);
@@ -110,7 +110,7 @@ _test_funcname ()
 			("could not convert funcname from C to scm, got \"%s\" instead of \"%s\""),
 			funcname, _TEST_FUNCNAME_SCM);
 	  }
-	LW6SYS_FREE (funcname);
+	LW6SYS_FREE (sys_context, funcname);
       }
   }
 
@@ -146,7 +146,7 @@ guile_main_utils (void *data)
 		      ("was able to transfer string \"%s\" from C to Guile to C"),
 		      c_test_string);
 	}
-      LW6SYS_FREE (c_test_string);
+      LW6SYS_FREE (sys_context, c_test_string);
     }
   else
     {

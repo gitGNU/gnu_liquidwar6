@@ -103,7 +103,7 @@ lw6net_is_connectable (const char *ip, int port)
 	  lw6sys_mutex_unlock (connectable->connectable_cache_mutex);
 	}
 
-      LW6SYS_FREE (key);
+      LW6SYS_FREE (sys_context, key);
     }
 
   return ret;
@@ -162,6 +162,6 @@ lw6net_set_connectable (const char *ip, int port, int status)
 
 	  lw6sys_mutex_unlock (connectable->connectable_cache_mutex);
 	}
-      LW6SYS_FREE (key);
+      LW6SYS_FREE (sys_context, key);
     }
 }

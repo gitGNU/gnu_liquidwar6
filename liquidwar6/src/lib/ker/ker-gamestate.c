@@ -123,7 +123,7 @@ _lw6ker_game_state_free (_lw6ker_game_state_t * game_state)
    */
   _lw6ker_map_state_clear (&(game_state->map_state));
 
-  LW6SYS_FREE (game_state);
+  LW6SYS_FREE (sys_context, game_state);
 }
 
 /**

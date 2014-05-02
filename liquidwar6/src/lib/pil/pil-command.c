@@ -391,7 +391,7 @@ command_parse (lw6pil_command_t * command, const char *command_text,
 		}
 	    }
 	}
-      LW6SYS_FREE (tmp);
+      LW6SYS_FREE (sys_context, tmp);
     }
 
   if (!ret)
@@ -400,7 +400,7 @@ command_parse (lw6pil_command_t * command, const char *command_text,
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("invalid command \"%s\""),
 		      command->text);
-	  LW6SYS_FREE (command->text);
+	  LW6SYS_FREE (sys_context, command->text);
 	}
       memset (command, 0, sizeof (lw6pil_command_t));
     }
@@ -429,7 +429,7 @@ lw6pil_command_new (const char *command_text, int64_t seq_0, int round_0)
     {
       if (!command_parse (ret, command_text, seq_0, round_0))
 	{
-	  LW6SYS_FREE (ret);
+	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
 	}
     }
@@ -458,7 +458,7 @@ lw6pil_command_dup (lw6pil_command_t * command)
       ret->text = lw6sys_str_copy (command->text);
       if (!ret->text)
 	{
-	  LW6SYS_FREE (ret);
+	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
 	}
       if (ret && ret->code == LW6PIL_COMMAND_CODE_DUMP)
@@ -498,24 +498,24 @@ lw6pil_command_free (lw6pil_command_t * command)
     {
       if (command->text)
 	{
-	  LW6SYS_FREE (command->text);
+	  LW6SYS_FREE (sys_context, command->text);
 	}
       if (command->code == LW6PIL_COMMAND_CODE_DUMP)
 	{
 	  if (command->args.dump.level_hexa)
 	    {
-	      LW6SYS_FREE (command->args.dump.level_hexa);
+	      LW6SYS_FREE (sys_context, command->args.dump.level_hexa);
 	    }
 	  if (command->args.dump.game_struct_hexa)
 	    {
-	      LW6SYS_FREE (command->args.dump.game_struct_hexa);
+	      LW6SYS_FREE (sys_context, command->args.dump.game_struct_hexa);
 	    }
 	  if (command->args.dump.game_state_hexa)
 	    {
-	      LW6SYS_FREE (command->args.dump.game_state_hexa);
+	      LW6SYS_FREE (sys_context, command->args.dump.game_state_hexa);
 	    }
 	}
-      LW6SYS_FREE (command);
+      LW6SYS_FREE (sys_context, command);
     }
   else
     {

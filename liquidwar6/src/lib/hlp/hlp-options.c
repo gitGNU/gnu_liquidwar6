@@ -43,7 +43,7 @@ _check_arg (const char *arg)
 	  (*equal) = '\0';
 	}
       ret = lw6hlp_is_documented (keyword);
-      LW6SYS_FREE (keyword);
+      LW6SYS_FREE (sys_context, keyword);
     }
 
   return ret;
@@ -169,7 +169,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (value)
 	    {
 	      lw6hlp_print_about (value, stdout);
-	      LW6SYS_FREE (value);
+	      LW6SYS_FREE (sys_context, value);
 	    }
 	  (*run_game) = 0;
 	}
@@ -594,7 +594,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -605,7 +605,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -616,7 +616,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -627,7 +627,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -638,7 +638,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -649,7 +649,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -660,7 +660,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -671,7 +671,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -682,7 +682,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -693,7 +693,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -704,7 +704,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -718,7 +718,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -729,7 +729,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -740,7 +740,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -751,7 +751,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -762,7 +762,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -773,7 +773,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -784,7 +784,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -795,7 +795,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;
@@ -806,7 +806,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
-	      LW6SYS_FREE (path);
+	      LW6SYS_FREE (sys_context, path);
 	      path = NULL;
 	    }
 	  (*run_game) = 0;

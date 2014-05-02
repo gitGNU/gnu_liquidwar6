@@ -151,7 +151,7 @@ _lw6p2p_flush_verified_nodes (_lw6p2p_node_t * node)
 			       _select_other_node_callback, &list_of_node);
 	      _lw6p2p_db_unlock (node->db);
 	    }
-	  LW6SYS_FREE (query);
+	  LW6SYS_FREE (sys_context, query);
 	}
       if (list_of_node)
 	{
@@ -202,7 +202,7 @@ _lw6p2p_flush_discovered_nodes (_lw6p2p_node_t * node)
       while ((url = lw6sys_list_pop_front (&list)) != NULL)
 	{
 	  ret = _lw6p2p_node_insert_discovered (node, url);
-	  LW6SYS_FREE (url);
+	  LW6SYS_FREE (sys_context, url);
 	}
     }
   list = lw6sys_str_split_config_item (node->known_nodes);
@@ -211,7 +211,7 @@ _lw6p2p_flush_discovered_nodes (_lw6p2p_node_t * node)
       while ((url = lw6sys_list_pop_front (&list)) != NULL)
 	{
 	  ret = _lw6p2p_node_insert_discovered (node, url);
-	  LW6SYS_FREE (url);
+	  LW6SYS_FREE (sys_context, url);
 	}
     }
 

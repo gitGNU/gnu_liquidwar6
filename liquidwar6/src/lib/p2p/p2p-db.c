@@ -172,7 +172,7 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
 			    }
 			  LW6SYS_FREE (p2p_dir);
 			}
-		      LW6SYS_FREE (user_dir);
+		      LW6SYS_FREE (sys_context, user_dir);
 		    }
 		}
 	      else
@@ -180,7 +180,7 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
 		  lw6sys_log (LW6SYS_LOG_WARNING,
 			      _x_ ("can't load p2p data"));
 		}
-	      LW6SYS_FREE (data_dir);
+	      LW6SYS_FREE (sys_context, data_dir);
 	    }
 	}
     }
@@ -249,7 +249,7 @@ _lw6p2p_db_close (_lw6p2p_db_t * db)
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("closed db \"%s\""),
 		      db->db_filename);
-	  LW6SYS_FREE (db->db_filename);
+	  LW6SYS_FREE (sys_context, db->db_filename);
 	  db->db_filename = NULL;
 	}
       else
@@ -258,7 +258,7 @@ _lw6p2p_db_close (_lw6p2p_db_t * db)
 	}
       if (db->log_filename)
 	{
-	  LW6SYS_FREE (db->log_filename);
+	  LW6SYS_FREE (sys_context, db->log_filename);
 	}
       LW6SYS_FREE (db);
     }
@@ -476,7 +476,7 @@ _lw6p2p_db_clean_database (_lw6p2p_db_t * db)
 	  ret = _lw6p2p_db_exec_ignore_data (db, query);
 	  _lw6p2p_db_unlock (db);
 	}
-      LW6SYS_FREE (query);
+      LW6SYS_FREE (sys_context, query);
     }
 
   return ret;
@@ -530,7 +530,7 @@ lw6p2p_db_reset (int argc, const char *argv[], const char *name)
 			  ret = 0;
 			}
 		    }
-		  LW6SYS_FREE (filename);
+		  LW6SYS_FREE (sys_context, filename);
 		}
 	      filename = lw6sys_path_concat (user_dir, _LOG_FILENAME);
 	      if (filename)
@@ -551,7 +551,7 @@ lw6p2p_db_reset (int argc, const char *argv[], const char *name)
 			  ret = 0;
 			}
 		    }
-		  LW6SYS_FREE (filename);
+		  LW6SYS_FREE (sys_context, filename);
 		}
 	    }
 	  else
@@ -563,7 +563,7 @@ lw6p2p_db_reset (int argc, const char *argv[], const char *name)
 	    }
 	  LW6SYS_FREE (p2p_dir);
 	}
-      LW6SYS_FREE (user_dir);
+      LW6SYS_FREE (sys_context, user_dir);
     }
 
   return ret;

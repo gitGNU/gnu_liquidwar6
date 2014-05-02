@@ -69,7 +69,7 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log,
 		    }
 		  if (!net_log)
 		    {
-		      LW6SYS_FREE (log->tcp_recv_filename);
+		      LW6SYS_FREE (sys_context, log->tcp_recv_filename);
 		      log->tcp_recv_filename = NULL;
 		    }
 		}
@@ -83,7 +83,7 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log,
 		    }
 		  if (!net_log)
 		    {
-		      LW6SYS_FREE (log->tcp_send_filename);
+		      LW6SYS_FREE (sys_context, log->tcp_send_filename);
 		      log->tcp_send_filename = NULL;
 		    }
 		}
@@ -97,7 +97,7 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log,
 		    }
 		  if (!net_log)
 		    {
-		      LW6SYS_FREE (log->udp_recv_filename);
+		      LW6SYS_FREE (sys_context, log->udp_recv_filename);
 		      log->udp_recv_filename = NULL;
 		    }
 		}
@@ -111,14 +111,14 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log,
 		    }
 		  if (!net_log)
 		    {
-		      LW6SYS_FREE (log->udp_send_filename);
+		      LW6SYS_FREE (sys_context, log->udp_send_filename);
 		      log->udp_send_filename = NULL;
 		    }
 		}
 	    }
 	  LW6SYS_FREE (net_dir);
 	}
-      LW6SYS_FREE (user_dir);
+      LW6SYS_FREE (sys_context, user_dir);
     }
   if (net_log)
     {
@@ -139,19 +139,19 @@ _lw6net_log_quit (_lw6net_log_t * log)
 {
   if (log->tcp_recv_filename)
     {
-      LW6SYS_FREE (log->tcp_recv_filename);
+      LW6SYS_FREE (sys_context, log->tcp_recv_filename);
     }
   if (log->tcp_send_filename)
     {
-      LW6SYS_FREE (log->tcp_send_filename);
+      LW6SYS_FREE (sys_context, log->tcp_send_filename);
     }
   if (log->udp_recv_filename)
     {
-      LW6SYS_FREE (log->udp_recv_filename);
+      LW6SYS_FREE (sys_context, log->udp_recv_filename);
     }
   if (log->udp_send_filename)
     {
-      LW6SYS_FREE (log->udp_send_filename);
+      LW6SYS_FREE (sys_context, log->udp_send_filename);
     }
   memset (log, 0, sizeof (_lw6net_log_t));
 }

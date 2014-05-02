@@ -133,7 +133,7 @@ lw6net_init (int argc, const char *argv[], int net_log)
        */
       if (_lw6net_global_context)
 	{
-	  LW6SYS_FREE (_lw6net_global_context);
+	  LW6SYS_FREE (sys_context, _lw6net_global_context);
 	  _lw6net_global_context = NULL;
 	}
     }
@@ -165,7 +165,7 @@ lw6net_quit ()
       _lw6net_log_quit (&(_lw6net_global_context->log));
       _lw6net_counters_quit (&(_lw6net_global_context->counters));
       _lw6net_const_quit (&(_lw6net_global_context->const_data));
-      LW6SYS_FREE (_lw6net_global_context);
+      LW6SYS_FREE (sys_context, _lw6net_global_context);
     }
 
   _lw6net_global_context = NULL;

@@ -100,7 +100,7 @@ lw6dsp_create_backend (int argc, const char *argv[],
 	    {
 	      lw6gui_input_free (ret->input);
 	    }
-	  LW6SYS_FREE (ret);
+	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
 	}
     }

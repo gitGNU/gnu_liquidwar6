@@ -109,7 +109,7 @@ check_map_with_absolute_path (char *absolute_path)
 				{
 				  lw6sys_log (LW6SYS_LOG_NOTICE,
 					      _x_ ("map repr=\"%s\""), repr);
-				  LW6SYS_FREE (repr);
+				  LW6SYS_FREE (sys_context, repr);
 				  ret = 1;
 				}
 			      lw6map_free (level3);
@@ -128,7 +128,7 @@ check_map_with_absolute_path (char *absolute_path)
 				      ("second serialization of \"%s\" returned inconsistent result"),
 				      absolute_path);
 			}
-		      LW6SYS_FREE (hexa_level2);
+		      LW6SYS_FREE (sys_context, hexa_level2);
 		    }
 		  else
 		    {
@@ -144,7 +144,7 @@ check_map_with_absolute_path (char *absolute_path)
 			      _x_ ("unable to unserialize \"%s\""),
 			      absolute_path);
 		}
-	      LW6SYS_FREE (hexa_level1);
+	      LW6SYS_FREE (sys_context, hexa_level1);
 	    }
 	  else
 	    {
@@ -159,7 +159,7 @@ check_map_with_absolute_path (char *absolute_path)
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to read \"%s\""),
 		      absolute_path);
 	}
-      LW6SYS_FREE (user_dir);
+      LW6SYS_FREE (sys_context, user_dir);
     }
 
   return ret;
@@ -230,7 +230,7 @@ _test_quick ()
 	  {
 	    lw6ldr_for_all_entries (map_path, "", user_dir, 1,
 				    _test_data_callback_quick, &ret);
-	    LW6SYS_FREE (user_dir);
+	    LW6SYS_FREE (sys_context, user_dir);
 	  }
 	LW6SYS_FREE (map_path);
       }
@@ -265,7 +265,7 @@ _test_deep ()
 	  {
 	    lw6ldr_for_all_entries (map_path, "", user_dir, 0,
 				    _test_data_callback_deep, &ret);
-	    LW6SYS_FREE (user_dir);
+	    LW6SYS_FREE (sys_context, user_dir);
 	  }
 	LW6SYS_FREE (map_path);
       }
@@ -339,7 +339,7 @@ _test_dir ()
 
 	if (user_dir)
 	  {
-	    LW6SYS_FREE (user_dir);
+	    LW6SYS_FREE (sys_context, user_dir);
 	  }
 
 	LW6SYS_FREE (map_path);
@@ -523,7 +523,7 @@ _test_read ()
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("after reading, map repr is \"%s\""),
 				repr);
-		    LW6SYS_FREE (repr);
+		    LW6SYS_FREE (sys_context, repr);
 		  }
 		else
 		  {
@@ -535,7 +535,7 @@ _test_read ()
 	      {
 		ret = 0;
 	      }
-	    LW6SYS_FREE (user_dir);
+	    LW6SYS_FREE (sys_context, user_dir);
 	  }
 	else
 	  {

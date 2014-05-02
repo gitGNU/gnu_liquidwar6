@@ -561,7 +561,7 @@ lw6map_style_set (lw6map_style_t * style, const char *key, const char *value)
 	{
 	  ret = 0;		// no entry matches
 	}
-      LW6SYS_FREE (formatted_key);
+      LW6SYS_FREE (sys_context, formatted_key);
     }
   else
     {
@@ -845,7 +845,7 @@ lw6map_style_get (const lw6map_style_t * style, const char *key)
 	{
 	  ret = lw6sys_btoa (style->waves);
 	}
-      LW6SYS_FREE (formatted_key);
+      LW6SYS_FREE (sys_context, formatted_key);
     }
 
   return ret;

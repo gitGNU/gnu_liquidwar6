@@ -45,7 +45,7 @@ lw6map_local_info_set_music_dir (lw6map_local_info_t * local_info,
 
   if (local_info->music_dir)
     {
-      LW6SYS_FREE (local_info->music_dir);
+      LW6SYS_FREE (sys_context, local_info->music_dir);
       local_info->music_dir = NULL;
     }
   if (music_dir)
@@ -71,7 +71,7 @@ lw6map_local_info_clear (lw6map_local_info_t * local_info)
 {
   if (local_info->music_dir)
     {
-      LW6SYS_FREE (local_info->music_dir);
+      LW6SYS_FREE (sys_context, local_info->music_dir);
     }
   memset (&local_info, 0, sizeof (lw6map_local_info_t));
 }

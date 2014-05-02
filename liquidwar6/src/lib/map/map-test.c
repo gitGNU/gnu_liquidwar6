@@ -112,7 +112,7 @@ _test_new ()
 			lw6map_get_max_nb_colors (level),
 			lw6map_get_max_nb_cursors (level),
 			lw6map_get_max_nb_nodes (level));
-	    LW6SYS_FREE (repr);
+	    LW6SYS_FREE (sys_context, repr);
 	  }
 	else
 	  {
@@ -371,7 +371,7 @@ _test_builtin ()
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"), has_alpha);
 	    _print_body (&level->body);
 	    _print_cursor_texture (&level->cursor_texture);
-	    LW6SYS_FREE (repr);
+	    LW6SYS_FREE (sys_context, repr);
 	  }
 	else
 	  {
@@ -399,7 +399,7 @@ _test_builtin ()
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"), has_alpha);
 	    _print_body (&level->body);
 	    _print_cursor_texture (&level->cursor_texture);
-	    LW6SYS_FREE (repr);
+	    LW6SYS_FREE (sys_context, repr);
 	  }
 	else
 	  {
@@ -424,7 +424,7 @@ _test_builtin ()
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"), has_alpha);
 	    _print_body (&level->body);
 	    _print_cursor_texture (&level->cursor_texture);
-	    LW6SYS_FREE (repr);
+	    LW6SYS_FREE (sys_context, repr);
 	  }
 	else
 	  {
@@ -484,7 +484,7 @@ _test_dup ()
 		      {
 			ret = 0;
 		      }
-		    LW6SYS_FREE (repr2);
+		    LW6SYS_FREE (sys_context, repr2);
 		  }
 		else
 		  {
@@ -496,7 +496,7 @@ _test_dup ()
 	      {
 		ret = 0;
 	      }
-	    LW6SYS_FREE (repr1);
+	    LW6SYS_FREE (sys_context, repr1);
 	  }
 	else
 	  {
@@ -577,7 +577,7 @@ _test_hexa ()
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("map \"%s\" constructed"),
 			repr);
-	    LW6SYS_FREE (repr);
+	    LW6SYS_FREE (sys_context, repr);
 	  }
 	else
 	  {
@@ -600,7 +600,7 @@ _test_hexa ()
 				_x_
 				("map \"%s\" re-constructed from hexa"),
 				repr);
-		    LW6SYS_FREE (repr);
+		    LW6SYS_FREE (sys_context, repr);
 		  }
 		else
 		  {
@@ -632,7 +632,7 @@ _test_hexa ()
 					("copy and original are different"));
 			    ret = 0;
 			  }
-			LW6SYS_FREE (hexa_check);
+			LW6SYS_FREE (sys_context, hexa_check);
 			hexa_check = NULL;
 		      }
 		    else
@@ -652,7 +652,7 @@ _test_hexa ()
 	      {
 		ret = 0;
 	      }
-	    LW6SYS_FREE (hexa);
+	    LW6SYS_FREE (sys_context, hexa);
 	    hexa = NULL;
 	  }
 	else
@@ -706,7 +706,7 @@ _test_param ()
 			    _TEST_PARAM_KEY, value, _TEST_PARAM_VALUE);
 		ret = 0;
 	      }
-	    LW6SYS_FREE (value);
+	    LW6SYS_FREE (sys_context, value);
 	  }
 	else
 	  {
@@ -733,7 +733,7 @@ _test_param ()
 
 	lw6map_param_clear (&param2);
 	lw6map_param_clear (param);
-	LW6SYS_FREE (param);
+	LW6SYS_FREE (sys_context, param);
       }
     else
       {
@@ -798,7 +798,7 @@ _test_rules ()
 			_x_ ("sanity_check return true, this is wrong"));
 	    ret = 0;
 	  }
-	LW6SYS_FREE (rules);
+	LW6SYS_FREE (sys_context, rules);
       }
     else
       {
@@ -830,7 +830,7 @@ _test_style ()
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("map style for key \"%s\" is \"%s\""),
 			_TEST_STYLE_KEY, value);
-	    LW6SYS_FREE (value);
+	    LW6SYS_FREE (sys_context, value);
 	  }
 	else
 	  {
@@ -877,7 +877,7 @@ _test_teams ()
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("map teams for key \"%s\" is \"%s\""),
 			_TEST_TEAMS_KEY, value);
-	    LW6SYS_FREE (value);
+	    LW6SYS_FREE (sys_context, value);
 	  }
 	else
 	  {
@@ -892,7 +892,7 @@ _test_teams ()
 	    ret = 0;
 	  }
 	lw6map_teams_clear (teams);
-	LW6SYS_FREE (teams);
+	LW6SYS_FREE (sys_context, teams);
       }
     else
       {
