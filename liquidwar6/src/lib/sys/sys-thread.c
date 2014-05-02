@@ -34,7 +34,7 @@ static volatile int thread_join_counter = 0;
 static volatile u_int32_t seq_id = 0;
 
 static void
-thread_callback (void *thread_handler)
+thread_callback (lw6sys_context_t * sys_context, void *thread_handler)
 {
   _lw6sys_thread_handler_t *th;
   th = (_lw6sys_thread_handler_t *) thread_handler;
@@ -59,8 +59,8 @@ thread_callback (void *thread_handler)
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("setitimer failed"));
 	}
-#endif
-#endif
+#endif // LW6_GPROF
+#endif // LW6_MS_WINDOWS
 
       if (th->callback_join)
 	{
@@ -75,7 +75,7 @@ thread_callback (void *thread_handler)
 	}
       if (th->callback_func)
 	{
-	  th->callback_func (th->callback_data);
+	  th->callback_func (sys_context, th->callback_data);
 	}
       /*
        * callback is over, we signal it to the caller, if needed
@@ -121,7 +121,7 @@ thread_callback (void *thread_handler)
 		  pthread_mutex_unlock (&(th->mutex));
 		  if (yield_timeslice)
 		    {
-		      lw6sys_idle ();
+		      lw6sys_idle (sys_context);
 		    }
 		}
 	      else
@@ -132,7 +132,7 @@ thread_callback (void *thread_handler)
 			      th->id);
 		}
 	    }
-	  th->callback_join (th->callback_data);
+	  th->callback_join (sys_context, th->callback_data);
 	}
       if (th->callback_join)
 	{
@@ -156,6 +156,7 @@ thread_callback (void *thread_handler)
 /**
  * lw6sys_thread_create
  *
+ * @sys_context: global system context
  * @callback_func: the main callback, the function that will run the thread
  * @callback_join: function which will be called when joining, at the end
  * @callback_data: data which will be passed to the callback
@@ -171,7 +172,8 @@ thread_callback (void *thread_handler)
  * Return value: an opaque pointer on the thread. Can be NULL if failed.
  */
 lw6sys_thread_handler_t *
-lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
+lw6sys_thread_create (lw6sys_context_t * sys_context,
+		      lw6sys_thread_callback_func_t callback_func,
 		      lw6sys_thread_callback_func_t callback_join,
 		      void *callback_data)
 {
@@ -183,7 +185,7 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
 
   thread_handler =
     (_lw6sys_thread_handler_t *)
-    LW6SYS_CALLOC (sizeof (_lw6sys_thread_handler_t));
+    LW6SYS_CALLOC (sys_context, sizeof (_lw6sys_thread_handler_t));
   if (thread_handler)
     {
       // callback_done & the rest already set to 0, CALLOC is important
@@ -280,6 +282,7 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
 /**
  * lw6sys_thread_is_callback_done
  *
+ * @sys_context: global system context
  * @thread_handler: thread to work on
  *
  * Tells wether the callback is done, that is to say, wether the
@@ -288,7 +291,8 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
  * Return value: 1 if done, else 0.
  */
 int
-lw6sys_thread_is_callback_done (lw6sys_thread_handler_t * thread_handler)
+lw6sys_thread_is_callback_done (lw6sys_context_t * sys_context,
+				lw6sys_thread_handler_t * thread_handler)
 {
   int ret = 0;
 
@@ -311,6 +315,7 @@ lw6sys_thread_is_callback_done (lw6sys_thread_handler_t * thread_handler)
 /**
  * lw6sys_thread_wait_callback_done
  *
+ * @sys_context: global system context
  * @thread_handler: thread to work on
  *
  * Waits until the callback of the thread is done, this does not
@@ -321,7 +326,8 @@ lw6sys_thread_is_callback_done (lw6sys_thread_handler_t * thread_handler)
  * Return value: 1 if done, 0 on error
  */
 int
-lw6sys_thread_wait_callback_done (lw6sys_thread_handler_t * thread_handler)
+lw6sys_thread_wait_callback_done (lw6sys_context_t * sys_context,
+				  lw6sys_thread_handler_t * thread_handler)
 {
   int ret = 0;
   struct timespec ts;
@@ -366,6 +372,7 @@ lw6sys_thread_wait_callback_done (lw6sys_thread_handler_t * thread_handler)
 /**
  * lw6sys_thread_get_id
  *
+ * @sys_context: global system context
  * @thread_handler: thread to query
  *
  * Returns the id of the thread, this is an internal value,
@@ -374,7 +381,8 @@ lw6sys_thread_wait_callback_done (lw6sys_thread_handler_t * thread_handler)
  * Return value: the id, should be >0.
  */
 int
-lw6sys_thread_get_id (lw6sys_thread_handler_t * thread_handler)
+lw6sys_thread_get_id (lw6sys_context_t * sys_context,
+		      lw6sys_thread_handler_t * thread_handler)
 {
   int ret = 0;
 
@@ -397,6 +405,7 @@ lw6sys_thread_get_id (lw6sys_thread_handler_t * thread_handler)
 /**
  * lw6sys_thread_get_data
  *
+ * @sys_context: global system context
  * @thread_handler: thread to query
  *
  * Returns the data associated to the thread, that is, the pointer
@@ -405,7 +414,8 @@ lw6sys_thread_get_id (lw6sys_thread_handler_t * thread_handler)
  * Return value: a pointer.
  */
 void *
-lw6sys_thread_get_data (lw6sys_thread_handler_t * thread_handler)
+lw6sys_thread_get_data (lw6sys_context_t * sys_context,
+			lw6sys_thread_handler_t * thread_handler)
 {
   void *ret = NULL;
 
@@ -428,6 +438,7 @@ lw6sys_thread_get_data (lw6sys_thread_handler_t * thread_handler)
 /**
  * lw6sys_thread_join
  *
+ * @sys_context: global system context
  * @thread_handler: thread to end
  *
  * Joins the thread, that's to say wait until the thread is over,
@@ -438,7 +449,8 @@ lw6sys_thread_get_data (lw6sys_thread_handler_t * thread_handler)
  * Return value: none.
  */
 void
-lw6sys_thread_join (lw6sys_thread_handler_t * thread_handler)
+lw6sys_thread_join (lw6sys_context_t * sys_context,
+		    lw6sys_thread_handler_t * thread_handler)
 {
   if (thread_handler)
     {
@@ -488,7 +500,7 @@ lw6sys_thread_join (lw6sys_thread_handler_t * thread_handler)
 			  ("unable to lock internal thread mutex thread id=%u"),
 			  th->id);
 	    }
-	  LW6SYS_FREE (th);
+	  LW6SYS_FREE (sys_context, th);
 	  thread_join_counter++;
 	}
       else
@@ -507,12 +519,14 @@ lw6sys_thread_join (lw6sys_thread_handler_t * thread_handler)
 /**
  * lw6sys_get_thread_create_count
  *
+ * @sys_context: global system context
+ *
  * Utility function used to check how many threads where created and joined.
  *
  * Return value: how many threads were created.
  */
 int
-lw6sys_get_thread_create_count ()
+lw6sys_get_thread_create_count (lw6sys_context_t * sys_context)
 {
   return thread_create_counter;
 }
@@ -520,18 +534,22 @@ lw6sys_get_thread_create_count ()
 /**
  * lw6sys_get_thread_join_count
  *
+ * @sys_context: global system context
+ *
  * Utility function used to check how many threads where created and joined.
  *
  * Return value: how many threads were joined.
  */
 int
-lw6sys_get_thread_join_count ()
+lw6sys_get_thread_join_count (lw6sys_context_t * sys_context)
 {
   return thread_join_counter;
 }
 
 /**
  * lw6sys_check_thread_count
+ *
+ * @sys_context: global system context
  *
  * Utility function used to check how many threads where created and joined.
  * This one will compare the results of @lw6sys_get_thread_create_count
@@ -540,7 +558,7 @@ lw6sys_get_thread_join_count ()
  * Return value: 1 if both are equals, 0 if not (error...).
  */
 int
-lw6sys_check_thread_count ()
+lw6sys_check_thread_count (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

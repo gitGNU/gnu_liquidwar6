@@ -117,8 +117,8 @@ typedef struct _lw6sys_thread_handler_s
   volatile int flag_callback_done;
   pthread_cond_t cond_can_join;
   volatile int flag_can_join;
-  void (*callback_func) (void *callback_data);
-  void (*callback_join) (void *callback_data);
+  lw6sys_thread_callback_func_t callback_func;
+  lw6sys_thread_callback_func_t callback_join;
   void *callback_data;
 #ifndef LW6_MS_WINDOWS
   struct itimerval itimer;
