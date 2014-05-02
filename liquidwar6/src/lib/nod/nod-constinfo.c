@@ -114,7 +114,8 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
   const_info->idle_screenshot_size = idle_screenshot_size;
   if (idle_screenshot_size > 0)
     {
-      const_info->idle_screenshot_data = LW6SYS_MALLOC (idle_screenshot_size);
+      const_info->idle_screenshot_data =
+	LW6SYS_MALLOC (sys_context, idle_screenshot_size);
       if (const_info->idle_screenshot_data)
 	{
 	  memcpy (const_info->idle_screenshot_data, idle_screenshot_data,

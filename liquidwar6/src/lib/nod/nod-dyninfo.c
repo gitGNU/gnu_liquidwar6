@@ -149,7 +149,7 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
       if (game_screenshot_size > 0)
 	{
 	  dyn_info->game_screenshot_data =
-	    LW6SYS_MALLOC (game_screenshot_size);
+	    LW6SYS_MALLOC (sys_context, game_screenshot_size);
 	  if (dyn_info->game_screenshot_data)
 	    {
 	      memcpy (dyn_info->game_screenshot_data, game_screenshot_data,

@@ -767,7 +767,7 @@ draft_zones_to_map_struct (_lw6ker_map_struct_t * map_struct,
   map_struct->max_zone_size = draft_zones->max_zone_size;
 
   map_struct->zones =
-    (_lw6ker_zone_struct_t *) LW6SYS_MALLOC (nb_zones *
+    (_lw6ker_zone_struct_t *) LW6SYS_MALLOC (sys_context, nb_zones *
 					     sizeof (_lw6ker_zone_struct_t));
 
   if (map_struct->zones)

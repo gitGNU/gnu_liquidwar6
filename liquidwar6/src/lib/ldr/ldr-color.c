@@ -78,7 +78,8 @@ average_color (color_info_t * ret, int size, color_info_t * color_info,
   if (n > 0)
     {
       buf =
-	(lw6sys_color_8_t *) LW6SYS_MALLOC (n * sizeof (lw6sys_color_8_t));
+	(lw6sys_color_8_t *) LW6SYS_MALLOC (sys_context,
+					    n * sizeof (lw6sys_color_8_t));
       if (buf)
 	{
 	  for (i = 0; i < n; ++i)

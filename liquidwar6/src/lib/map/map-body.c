@@ -232,7 +232,8 @@ lw6map_body_check_and_fix_holes (lw6map_body_t * body,
     {
       fixed_body.layers[layer].shape = fixed_body.shape;
       fixed_body.layers[layer].data =
-	(unsigned char *) LW6SYS_CALLOC (body->shape.w * body->shape.h *
+	(unsigned char *) LW6SYS_CALLOC (sys_context,
+					 body->shape.w * body->shape.h *
 					 sizeof (unsigned char));
       if (!fixed_body.layers[layer].data)
 	{

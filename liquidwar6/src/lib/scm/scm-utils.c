@@ -62,7 +62,7 @@ lw6scm_utils_to_0str (SCM string)
    * string handling is awfull enough...
    */
   c_length = length * 2 * sizeof (char);
-  c_string = (char *) LW6SYS_CALLOC (c_length + 3);
+  c_string = (char *) LW6SYS_CALLOC (sys_context, c_length + 3);
   if (c_string)
     {
       if (length > 0)

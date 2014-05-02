@@ -39,7 +39,8 @@ read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image,
   layer->shape.h = resampler->target_h;
   layer->shape.d = 1;		// allways 1
   layer->data =
-    (unsigned char *) LW6SYS_MALLOC (layer->shape.w * layer->shape.h *
+    (unsigned char *) LW6SYS_MALLOC (sys_context,
+				     layer->shape.w * layer->shape.h *
 				     sizeof (unsigned char *));
 
   if (layer->data)

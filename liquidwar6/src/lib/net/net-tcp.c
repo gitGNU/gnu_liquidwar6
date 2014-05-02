@@ -749,7 +749,7 @@ lw6net_tcp_peek (int *sock, char *buf, int len, int delay_msec)
 	}
       else
 	{
-	  buf2 = (char *) LW6SYS_MALLOC (len);
+	  buf2 = (char *) LW6SYS_MALLOC (sys_context, len);
 	}
       if (buf2)
 	{

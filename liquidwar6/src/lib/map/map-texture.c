@@ -55,7 +55,7 @@ lw6map_texture_from_body (lw6map_texture_t * texture,
   texture->w = body->shape.w;
   texture->h = body->shape.h;
   texture->data =
-    (lw6sys_color_8_t *) LW6SYS_MALLOC (texture->w *
+    (lw6sys_color_8_t *) LW6SYS_MALLOC (sys_context, texture->w *
 					texture->h *
 					sizeof (lw6sys_color_8_t));
 

@@ -41,7 +41,7 @@ _lw6ker_armies_init (_lw6ker_armies_t * armies,
     lw6ker_per100_2 (map_struct->room_for_armies, options->total_armies_size);
   armies->active_fighters = 0;
   armies->fighters =
-    (lw6ker_fighter_t *) LW6SYS_CALLOC (armies->max_fighters *
+    (lw6ker_fighter_t *) LW6SYS_CALLOC (sys_context, armies->max_fighters *
 					sizeof (lw6ker_fighter_t));
 
   if (armies->fighters)

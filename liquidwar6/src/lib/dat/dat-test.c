@@ -1768,13 +1768,16 @@ _test_more ()
     lw6sys_list_t *miss_list = NULL;
     int miss_list_length = 0;
 
-    short_text = LW6SYS_MALLOC (_TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT + 1);
+    short_text =
+      LW6SYS_MALLOC (sys_context, _TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT + 1);
     if (LW6SYS_TEST_ACK (short_text))
       {
 	memset (short_text, _TEST_MORE_WAREHOUSE_MSG_CHAR_SHORT,
 		_TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT);
 	short_text[_TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT] = '\0';
-	long_text = LW6SYS_MALLOC (_TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG + 1);
+	long_text =
+	  LW6SYS_MALLOC (sys_context,
+			 _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG + 1);
 	if (LW6SYS_TEST_ACK (long_text))
 	  {
 	    memset (long_text, _TEST_MORE_WAREHOUSE_MSG_CHAR_LONG,

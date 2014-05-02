@@ -458,7 +458,8 @@ pop_layer (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_layer_t * layer,
   if (layer->shape.w == shape->w && layer->shape.h == shape->h)
     {
       layer->data =
-	(u_int8_t *) LW6SYS_CALLOC (layer->shape.w * layer->shape.h);
+	(u_int8_t *) LW6SYS_CALLOC (sys_context,
+				    layer->shape.w * layer->shape.h);
       if (layer->data)
 	{
 	  for (y = 0; y < layer->shape.h && ret; ++y)
@@ -500,7 +501,7 @@ pop_meta_layer (lw6sys_hexa_serializer_t * hexa_serializer,
   if (meta_layer->shape.w == shape->w && meta_layer->shape.h == shape->h)
     {
       meta_layer->data =
-	(u_int8_t *) LW6SYS_CALLOC (meta_layer->shape.w *
+	(u_int8_t *) LW6SYS_CALLOC (sys_context, meta_layer->shape.w *
 				    meta_layer->shape.h);
       if (meta_layer->data)
 	{
@@ -613,7 +614,7 @@ pop_texture (lw6sys_hexa_serializer_t * hexa_serializer,
       && texture->h <= LW6MAP_MAX_TEXTURE_HEIGHT)
     {
       texture->data =
-	(lw6sys_color_8_t *) LW6SYS_CALLOC (texture->w *
+	(lw6sys_color_8_t *) LW6SYS_CALLOC (sys_context, texture->w *
 					    texture->h *
 					    sizeof (lw6sys_color_8_t));
       if (texture->data)

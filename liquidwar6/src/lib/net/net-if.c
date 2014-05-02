@@ -69,7 +69,8 @@ lw6net_if_guess_local ()
 	  ERROR_BUFFER_OVERFLOW)
 	{
 	  LW6SYS_FREE (sys_context, pAdapterInfo);
-	  pAdapterInfo = (IP_ADAPTER_INFO *) LW6SYS_CALLOC (ulOutBufLen);
+	  pAdapterInfo =
+	    (IP_ADAPTER_INFO *) LW6SYS_CALLOC (sys_context, ulOutBufLen);
 	}
       if (pAdapterInfo)
 	{

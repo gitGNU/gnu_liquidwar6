@@ -63,7 +63,7 @@ _lw6p2p_backends_init_cli (int argc, const char *argv[],
 	    {
 	      backends->cli_backends =
 		(lw6cli_backend_t **)
-		LW6SYS_MALLOC (backends->nb_cli_backends *
+		LW6SYS_MALLOC (sys_context, backends->nb_cli_backends *
 			       sizeof (lw6cli_backend_t *));
 	    }
 	  if (backends->cli_backends)
@@ -146,7 +146,7 @@ _lw6p2p_backends_init_srv (int argc, const char *argv[],
 	    {
 	      backends->srv_backends =
 		(lw6srv_backend_t **)
-		LW6SYS_MALLOC (backends->nb_srv_backends *
+		LW6SYS_MALLOC (sys_context, backends->nb_srv_backends *
 			       sizeof (lw6srv_backend_t *));
 	    }
 	  if (backends->srv_backends)

@@ -42,7 +42,7 @@ lw6gen_seed_new ()
   char *ret = NULL;
   int i = 0;
 
-  ret = LW6SYS_CALLOC (LW6GEN_SEED_LENGTH + 1);
+  ret = LW6SYS_CALLOC (sys_context, LW6GEN_SEED_LENGTH + 1);
   if (ret)
     {
       for (i = 0; i < LW6GEN_SEED_LENGTH; ++i)
@@ -74,7 +74,7 @@ lw6gen_seed_normalize (const char *seed)
   int len_chars = 0;
   int len_seed = 0;
 
-  ret = LW6SYS_CALLOC (LW6GEN_SEED_LENGTH + 1);
+  ret = LW6SYS_CALLOC (sys_context, LW6GEN_SEED_LENGTH + 1);
   if (ret)
     {
       len_chars = strlen (LW6GEN_SEED_CHARS);

@@ -130,7 +130,7 @@ lw6map_meta_layer_builtin_custom (lw6map_meta_layer_t * meta_layer, int w,
       noise_percent = lw6sys_imin (100, noise_percent);
       seed = lw6sys_checksum_int32 (seed);
       meta_layer->data =
-	(u_int8_t *) LW6SYS_CALLOC (w * h * sizeof (u_int8_t));
+	(u_int8_t *) LW6SYS_CALLOC (sys_context, w * h * sizeof (u_int8_t));
       if (meta_layer->data)
 	{
 	  meta_layer->shape.w = w;

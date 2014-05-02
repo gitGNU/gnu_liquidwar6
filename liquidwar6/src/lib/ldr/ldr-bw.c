@@ -141,7 +141,8 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 		  if (format_ok)
 		    {
 		      buf =
-			(unsigned char **) LW6SYS_MALLOC (height *
+			(unsigned char **) LW6SYS_MALLOC (sys_context,
+							  height *
 							  sizeof (unsigned
 								  char *));
 		      if (buf)
@@ -150,7 +151,7 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 			    {
 			      buf[row] =
 				(unsigned char *)
-				LW6SYS_MALLOC (rowbytes *
+				LW6SYS_MALLOC (sys_context, rowbytes *
 					       sizeof (unsigned char));
 			      if (!buf[row])
 				{

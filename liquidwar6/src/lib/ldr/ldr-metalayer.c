@@ -40,7 +40,7 @@ read_png (lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image,
   meta_layer->shape.h = resampler->target_h;
   meta_layer->shape.d = 1;	// allways 1
   meta_layer->data =
-    (unsigned char *) LW6SYS_MALLOC (meta_layer->shape.w *
+    (unsigned char *) LW6SYS_MALLOC (sys_context, meta_layer->shape.w *
 				     meta_layer->shape.h *
 				     sizeof (unsigned char *));
 

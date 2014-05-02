@@ -141,7 +141,8 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, const char *png_file,
 		  if (format_ok)
 		    {
 		      buf =
-			(unsigned char **) LW6SYS_MALLOC (height *
+			(unsigned char **) LW6SYS_MALLOC (sys_context,
+							  height *
 							  sizeof (unsigned
 								  char *));
 		      if (buf)
@@ -150,7 +151,7 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, const char *png_file,
 			    {
 			      buf[row] =
 				(unsigned char *)
-				LW6SYS_MALLOC (rowbytes *
+				LW6SYS_MALLOC (sys_context, rowbytes *
 					       sizeof (unsigned char));
 			      if (!buf[row])
 				{
@@ -272,14 +273,16 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, const char *jpeg_file,
 	  jpeg_start_decompress (&cinfo);
 
 	  buf =
-	    (unsigned char **) LW6SYS_MALLOC (cinfo.output_height *
+	    (unsigned char **) LW6SYS_MALLOC (sys_context,
+					      cinfo.output_height *
 					      sizeof (unsigned char *));
 	  if (buf)
 	    {
 	      for (j = 0; j < cinfo.output_height; ++j)
 		{
 		  buf[j] =
-		    (unsigned char *) LW6SYS_MALLOC (cinfo.output_width * 4 *
+		    (unsigned char *) LW6SYS_MALLOC (sys_context,
+						     cinfo.output_width * 4 *
 						     sizeof (unsigned char));
 		  if (!buf[j])
 		    {

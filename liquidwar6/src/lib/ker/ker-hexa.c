@@ -868,7 +868,8 @@ pop_armies (lw6sys_hexa_serializer_t * hexa_serializer,
   if (ret)
     {
       armies->fighters =
-	(lw6ker_fighter_t *) LW6SYS_CALLOC (armies->max_fighters *
+	(lw6ker_fighter_t *) LW6SYS_CALLOC (sys_context,
+					    armies->max_fighters *
 					    sizeof (lw6ker_fighter_t));
       if (ret && armies->fighters)
 	{
@@ -921,7 +922,8 @@ pop_team (lw6sys_hexa_serializer_t * hexa_serializer, _lw6ker_team_t * team)
   if (ret)
     {
       team->gradient =
-	(_lw6ker_zone_state_t *) LW6SYS_CALLOC (team->map_struct->nb_zones *
+	(_lw6ker_zone_state_t *) LW6SYS_CALLOC (sys_context,
+						team->map_struct->nb_zones *
 						sizeof
 						(_lw6ker_zone_state_t));
       if (ret && team->gradient)

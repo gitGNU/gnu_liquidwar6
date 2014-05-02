@@ -132,7 +132,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 	{
 	  tentacle->cli_connections =
 	    (lw6cnx_connection_t **)
-	    LW6SYS_CALLOC (tentacle->nb_cli_connections *
+	    LW6SYS_CALLOC (sys_context, tentacle->nb_cli_connections *
 			   sizeof (lw6cnx_connection_t *));
 	  if (tentacle->cli_connections)
 	    {
@@ -179,7 +179,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 	{
 	  tentacle->srv_connections =
 	    (lw6cnx_connection_t **)
-	    LW6SYS_CALLOC (tentacle->nb_srv_connections *
+	    LW6SYS_CALLOC (sys_context, tentacle->nb_srv_connections *
 			   sizeof (lw6cnx_connection_t *));
 	  if (tentacle->srv_connections)
 	    {

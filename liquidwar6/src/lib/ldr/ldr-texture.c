@@ -37,7 +37,7 @@ read_image (lw6map_texture_t * texture, _lw6ldr_image_rgba_t * image)
   texture->w = image->w;
   texture->h = image->h;
   texture->data =
-    (lw6sys_color_8_t *) LW6SYS_MALLOC (texture->w *
+    (lw6sys_color_8_t *) LW6SYS_MALLOC (sys_context, texture->w *
 					texture->h *
 					sizeof (lw6sys_color_8_t *));
 

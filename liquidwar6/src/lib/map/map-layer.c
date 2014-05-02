@@ -183,7 +183,8 @@ _default_source (lw6map_layer_t * layer, int width, int height)
   layer->shape.h = height;
   layer->shape.d = 1;		// allways 1
   layer->data =
-    (unsigned char *) LW6SYS_CALLOC (layer->shape.w * layer->shape.h *
+    (unsigned char *) LW6SYS_CALLOC (sys_context,
+				     layer->shape.w * layer->shape.h *
 				     sizeof (unsigned char));
 
   if (layer->data)
