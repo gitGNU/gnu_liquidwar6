@@ -879,9 +879,11 @@ _test_menu ()
     if (breadcrumbs)
       {
 	lw6sys_list_push_back (&breadcrumbs,
-			       lw6sys_str_copy (_TEST_MENU_BREADCRUMBS1));
+			       lw6sys_str_copy (sys_context,
+						_TEST_MENU_BREADCRUMBS1));
 	lw6sys_list_push_back (&breadcrumbs,
-			       lw6sys_str_copy (_TEST_MENU_BREADCRUMBS2));
+			       lw6sys_str_copy (sys_context,
+						_TEST_MENU_BREADCRUMBS2));
       }
     if (breadcrumbs)
       {

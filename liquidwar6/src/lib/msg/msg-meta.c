@@ -270,7 +270,7 @@ lw6msg_meta_array2str (const lw6msg_meta_array_t * meta_array)
 	  else
 	    {
 	      str =
-		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "x %d %"
+		lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "x %d %"
 				    LW6SYS_PRINTF_LL "d",
 				    (long long) meta_array->items[i].node_id,
 				    meta_array->items[i].serial_0,

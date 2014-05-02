@@ -165,7 +165,7 @@ lw6gui_look_repr (const lw6gui_look_t * look)
 
   if (look)
     {
-      ret = lw6sys_new_sprintf ("id=%u", look->id);
+      ret = lw6sys_new_sprintf (sys_context, "id=%u", look->id);
     }
   else
     {

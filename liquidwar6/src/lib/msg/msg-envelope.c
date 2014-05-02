@@ -108,7 +108,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
   else
     {
       physical_ticket_sig_str =
-	lw6sys_new_sprintf ("%08x", physical_ticket_sig);
+	lw6sys_new_sprintf (sys_context, "%08x", physical_ticket_sig);
     }
 
   if (logical_ticket_sig == 0 || logical_ticket_sig == physical_ticket_sig)
@@ -118,7 +118,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
   else
     {
       logical_ticket_sig_str =
-	lw6sys_new_sprintf ("%08x", logical_ticket_sig);
+	lw6sys_new_sprintf (sys_context, "%08x", logical_ticket_sig);
     }
 
   if (physical_from_id == logical_from_id)

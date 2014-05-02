@@ -64,28 +64,32 @@ lw6bot_get_backends (int argc, const char *argv[])
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (&ret, module_pedigree->id,
-			    lw6sys_str_copy (module_pedigree->name));
+			    lw6sys_str_copy (sys_context,
+					     module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
       module_pedigree = mod_follow_get_pedigree ();
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (&ret, module_pedigree->id,
-			    lw6sys_str_copy (module_pedigree->name));
+			    lw6sys_str_copy (sys_context,
+					     module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
       module_pedigree = mod_idiot_get_pedigree ();
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (&ret, module_pedigree->id,
-			    lw6sys_str_copy (module_pedigree->name));
+			    lw6sys_str_copy (sys_context,
+					     module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
       module_pedigree = mod_random_get_pedigree ();
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (&ret, module_pedigree->id,
-			    lw6sys_str_copy (module_pedigree->name));
+			    lw6sys_str_copy (sys_context,
+					     module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
     }
@@ -152,7 +156,8 @@ lw6bot_create_backend (int argc, const char *argv[], const char *name)
       lw6bot_backend_t *(*init_func) ();
 
       init_func_name =
-	lw6sys_new_sprintf (LW6DYN_CREATE_BACKEND_FUNC_FORMAT, name);
+	lw6sys_new_sprintf (sys_context, LW6DYN_CREATE_BACKEND_FUNC_FORMAT,
+			    name);
       if (init_func_name)
 	{
 	  init_func = lw6dyn_dlsym (backend_handle, init_func_name);

@@ -167,7 +167,7 @@ lw6msg_oob_generate_list (lw6nod_info_t * info)
   dyn_info = lw6nod_info_dup_dyn (info);
   if (dyn_info)
     {
-      ret = lw6sys_str_copy (LW6SYS_STR_EMPTY);
+      ret = lw6sys_str_copy (sys_context, LW6SYS_STR_EMPTY);
       if (ret)
 	{
 	  lw6nod_info_map_verified_nodes (info, _add_node_txt, &ret);
@@ -204,7 +204,9 @@ lw6msg_oob_generate_pong (lw6nod_info_t * info)
 {
   char *ret = NULL;
 
-  ret = lw6sys_new_sprintf ("PONG %s\n\n", info->const_info.ref_info.url);
+  ret =
+    lw6sys_new_sprintf (sys_context, "PONG %s\n\n",
+			info->const_info.ref_info.url);
 
   return ret;
 }
@@ -297,7 +299,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
   (*password_ok) = 0;
   (*remote_url) = NULL;
 
-  copy = lw6sys_str_copy (request);
+  copy = lw6sys_str_copy (sys_context, request);
   if (copy)
     {
       seek = copy;
@@ -457,7 +459,7 @@ lw6msg_oob_analyse_pong (const char *text)
   char *key = NULL;
   char *value = NULL;
 
-  copy = lw6sys_str_copy (text);
+  copy = lw6sys_str_copy (sys_context, text);
   if (copy)
     {
       if (lw6msg_utils_parse_key_value_to_ptr (&key, &value, text))

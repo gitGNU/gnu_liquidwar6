@@ -97,7 +97,7 @@ _test_tcp_accepter ()
     lw6srv_tcp_accepter_t *tcp_accepter = NULL;
     char *ip = NULL;
 
-    ip = lw6sys_str_copy (LW6NET_ADDRESS_LOOPBACK);
+    ip = lw6sys_str_copy (sys_context, LW6NET_ADDRESS_LOOPBACK);
     if (ip)
       {
 	tcp_accepter =
@@ -134,10 +134,10 @@ _test_udp_buffer ()
     char *ip = NULL;
     char *line = NULL;
 
-    ip = lw6sys_str_copy (LW6NET_ADDRESS_LOOPBACK);
+    ip = lw6sys_str_copy (sys_context, LW6NET_ADDRESS_LOOPBACK);
     if (ip)
       {
-	line = lw6sys_str_copy (_TEST_LINE);
+	line = lw6sys_str_copy (sys_context, _TEST_LINE);
 	if (line)
 	  {
 	    udp_buffer = lw6srv_udp_buffer_new (ip, _TEST_PORT, line);

@@ -123,7 +123,8 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
 	  LW6SYS_FREE (dyn_info->level);
 	  dyn_info->level = NULL;
 	}
-      dyn_info->level = lw6sys_str_copy (lw6sys_str_empty_if_null (level));
+      dyn_info->level =
+	lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (level));
     }
   dyn_info->required_bench = required_bench;
   dyn_info->nb_colors = nb_colors;

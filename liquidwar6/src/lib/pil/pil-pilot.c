@@ -230,7 +230,7 @@ _lw6pil_pilot_send_command (_lw6pil_pilot_t * pilot, const char *command_text,
   int ret = 1;
   char *command_text_dup;
 
-  command_text_dup = lw6sys_str_copy (command_text);
+  command_text_dup = lw6sys_str_copy (sys_context, command_text);
   if (command_text_dup)
     {
       if (verified)

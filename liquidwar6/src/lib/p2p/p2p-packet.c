@@ -41,7 +41,7 @@ _lw6p2p_packet_new (u_int32_t logical_ticket_sig,
       ret->physical_ticket_sig = physical_ticket_sig;
       ret->logical_from_id = logical_from_id;
       ret->logical_to_id = logical_to_id;
-      ret->msg = lw6sys_str_copy (msg);
+      ret->msg = lw6sys_str_copy (sys_context, msg);
       if (!(ret->msg))
 	{
 	  LW6SYS_FREE (sys_context, ret);

@@ -45,7 +45,7 @@ lw6img_repr (const lw6img_jpeg_t * jpeg)
   if (jpeg)
     {
       ret =
-	lw6sys_new_sprintf ("%u jpeg %dx%d, %d bytes", jpeg->id,
+	lw6sys_new_sprintf (sys_context, "%u jpeg %dx%d, %d bytes", jpeg->id,
 			    jpeg->shape.w, jpeg->shape.h, jpeg->jpeg_size);
     }
   else

@@ -819,7 +819,9 @@ _test_stack ()
       lw6sys_str_random_words (_TEST_STACK_MSG_4_RANDOM_PART_SIZE);
     if (LW6SYS_TEST_ACK (msg4_random_part))
       {
-	msg4 = lw6sys_new_sprintf (_TEST_STACK_MSG_4, msg4_random_part);
+	msg4 =
+	  lw6sys_new_sprintf (sys_context, _TEST_STACK_MSG_4,
+			      msg4_random_part);
 	if (LW6SYS_TEST_ACK (msg4))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -1347,7 +1349,8 @@ _test_warehouse ()
 		if (LW6SYS_TEST_ACK (cmd))
 		  {
 		    msg =
-		      lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %s %s",
+		      lw6sys_new_sprintf (sys_context,
+					  "%" LW6SYS_PRINTF_LL "d %s %s",
 					  (long long) (_TEST_WAREHOUSE_SEQ +
 						       (int) sqrt (i)),
 					  id_str, cmd);
@@ -1414,7 +1417,8 @@ _test_warehouse ()
 	    if (LW6SYS_TEST_ACK (id_str))
 	      {
 		msg =
-		  lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %s %s",
+		  lw6sys_new_sprintf (sys_context,
+				      "%" LW6SYS_PRINTF_LL "d %s %s",
 				      (long long) (_TEST_WAREHOUSE_SEQ),
 				      id_str, _TEST_WAREHOUSE_OTHER_NODE_MSG);
 		if (LW6SYS_TEST_ACK (msg))
@@ -1881,7 +1885,8 @@ _test_more ()
 			      node_seq_0_offsets[node_index] + msg_index;
 			    node_id = node_ids[node_index];
 			    msg =
-			      lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+			      lw6sys_new_sprintf (sys_context,
+						  "%" LW6SYS_PRINTF_LL "d %"
 						  LW6SYS_PRINTF_LL "x %s",
 						  (long long) seq,
 						  (long long) node_id,
@@ -1912,7 +1917,8 @@ _test_more ()
 		     */
 		    node_id = node_ids[stage];
 		    msg =
-		      lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+		      lw6sys_new_sprintf (sys_context,
+					  "%" LW6SYS_PRINTF_LL "d %"
 					  LW6SYS_PRINTF_LL "x %s",
 					  (long long)
 					  _TEST_MORE_WAREHOUSE_NODE_FINAL_SEQ,

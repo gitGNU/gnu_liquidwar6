@@ -40,28 +40,30 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
 
   if (program && strlen (program) > 0)
     {
-      const_info->program = lw6sys_str_copy (program);
+      const_info->program = lw6sys_str_copy (sys_context, program);
     }
   else
     {
       const_info->program =
-	lw6sys_str_copy (lw6sys_build_get_package_tarname ());
+	lw6sys_str_copy (sys_context, lw6sys_build_get_package_tarname ());
     }
   if (version && strlen (version) > 0)
     {
-      const_info->version = lw6sys_str_copy (version);
+      const_info->version = lw6sys_str_copy (sys_context, version);
     }
   else
     {
-      const_info->version = lw6sys_str_copy (lw6sys_build_get_version ());
+      const_info->version =
+	lw6sys_str_copy (sys_context, lw6sys_build_get_version ());
     }
   if (codename && strlen (codename) > 0)
     {
-      const_info->codename = lw6sys_str_copy (codename);
+      const_info->codename = lw6sys_str_copy (sys_context, codename);
     }
   else
     {
-      const_info->codename = lw6sys_str_copy (lw6sys_build_get_codename ());
+      const_info->codename =
+	lw6sys_str_copy (sys_context, lw6sys_build_get_codename ());
     }
   if (stamp)
     {
@@ -76,7 +78,7 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
 
   if (title && strlen (title) > 0)
     {
-      const_info->title = lw6sys_str_copy (title);
+      const_info->title = lw6sys_str_copy (sys_context, title);
     }
   else
     {

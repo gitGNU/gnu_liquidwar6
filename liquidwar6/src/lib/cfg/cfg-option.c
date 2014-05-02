@@ -67,7 +67,7 @@ _lw6cfg_get_option (_lw6cfg_context_t * context, const char *key)
       ret = (char *) lw6sys_hash_get (context->options, key);
       if (ret)
 	{
-	  ret = lw6sys_str_copy (ret);
+	  ret = lw6sys_str_copy (sys_context, ret);
 	}
       lw6sys_spinlock_unlock (context->spinlock);
     }

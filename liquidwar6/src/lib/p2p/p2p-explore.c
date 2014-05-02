@@ -270,7 +270,7 @@ _lw6p2p_explore_verify_nodes (_lw6p2p_node_t * node)
   if (_lw6p2p_db_lock (node->db))
     {
       query =
-	lw6sys_new_sprintf (_lw6p2p_db_get_query
+	lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 			    (node->db, _LW6P2P_DELETE_OLD_NODE_SQL),
 			    time_limit_hard, node->public_url);
       if (query)
@@ -279,7 +279,7 @@ _lw6p2p_explore_verify_nodes (_lw6p2p_node_t * node)
 	  LW6SYS_FREE (sys_context, query);
 	}
       query =
-	lw6sys_new_sprintf (_lw6p2p_db_get_query
+	lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 			    (node->db, _LW6P2P_SELECT_UNVERIFIED_NODE_SQL),
 			    time_limit_soft, node->node_id_str, max_at_once);
       if (query)

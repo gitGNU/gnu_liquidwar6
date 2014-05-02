@@ -170,7 +170,8 @@ _lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id,
       if (level_hexa && game_struct_hexa && game_state_hexa)
 	{
 	  ret =
-	    lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+	    lw6sys_new_sprintf (sys_context,
+				"%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
 				"x %s %s %s %s", (long long) seq,
 				(long long) server_id,
 				LW6PIL_COMMAND_TEXT_DUMP, level_hexa,

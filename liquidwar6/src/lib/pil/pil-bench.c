@@ -98,7 +98,8 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
       command++;
     }
   command_str =
-    lw6sys_new_sprintf (BENCH_NOP_COMMAND, (long long) BENCH_INFINITE_SEQ);
+    lw6sys_new_sprintf (sys_context, BENCH_NOP_COMMAND,
+			(long long) BENCH_INFINITE_SEQ);
   if (command_str)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO,
@@ -122,7 +123,7 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
       if (current_seq - BENCH_ANTICIPATION_DELTA >= last_seq)
 	{
 	  command_str =
-	    lw6sys_new_sprintf (BENCH_NOP_COMMAND,
+	    lw6sys_new_sprintf (sys_context, BENCH_NOP_COMMAND,
 				(long long) (BENCH_INFINITE_SEQ +
 					     current_seq + 1));
 	  if (command_str)
@@ -215,11 +216,12 @@ _write_bench (int argc, const char *argv[], float value)
 	       * otherwise the content pointed by *locale
 	       * might change dynamically when calling setlocale
 	       */
-	      old_locale = lw6sys_str_copy (locale);
+	      old_locale = lw6sys_str_copy (sys_context, locale);
 
 	      setlocale (LC_ALL, "C");
 
-	      bench_txt_content = lw6sys_new_sprintf ("%0.2f\n", value);
+	      bench_txt_content =
+		lw6sys_new_sprintf (sys_context, "%0.2f\n", value);
 
 	      setlocale (LC_ALL, old_locale);
 	      if (old_locale)

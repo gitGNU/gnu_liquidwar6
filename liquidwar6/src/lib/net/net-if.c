@@ -87,7 +87,8 @@ lw6net_if_guess_local ()
 				 LW6NET_ADDRESS_LOOPBACK) != 0)
 		    {
 		      ret =
-			lw6sys_str_copy (pAdapter->IpAddressList.
+			lw6sys_str_copy (sys_context,
+					 pAdapter->IpAddressList.
 					 IpAddress.String);
 		    }
 		  pAdapter = pAdapter->Next;
@@ -185,12 +186,12 @@ lw6net_if_guess_public_url (const char *bind_ip, int bind_port)
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_
 		      ("can't find local network interface, using loopback"));
-	  ip = lw6sys_str_copy (LW6NET_ADDRESS_LOOPBACK);
+	  ip = lw6sys_str_copy (sys_context, LW6NET_ADDRESS_LOOPBACK);
 	}
     }
   else
     {
-      ip = lw6sys_str_copy (bind_ip);
+      ip = lw6sys_str_copy (sys_context, bind_ip);
     }
   if (ip)
     {

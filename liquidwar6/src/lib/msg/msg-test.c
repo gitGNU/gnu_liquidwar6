@@ -1444,7 +1444,8 @@ _test_sort ()
 	    if (tmp)
 	      {
 		str =
-		  lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %s",
+		  lw6sys_new_sprintf (sys_context,
+				      "%" LW6SYS_PRINTF_LL "d %s",
 				      (long long) seq, tmp);
 		if (str)
 		  {
@@ -1764,7 +1765,8 @@ _test_word ()
     base64_item = lw6glb_base64_encode_str (_TEST_WORD_BASE64_ITEM);
     if (base64_item)
       {
-	base64_str = lw6sys_new_sprintf (_TEST_WORD_BASE64_OK, base64_item);
+	base64_str =
+	  lw6sys_new_sprintf (sys_context, _TEST_WORD_BASE64_OK, base64_item);
 	if (base64_str)
 	  {
 	    if (lw6msg_word_first_base64 (&word, &next, base64_str))
@@ -1782,7 +1784,8 @@ _test_word ()
 	      }
 	    LW6SYS_FREE (base64_str);
 	  }
-	base64_str = lw6sys_new_sprintf (_TEST_WORD_BASE64_KO, base64_item);
+	base64_str =
+	  lw6sys_new_sprintf (sys_context, _TEST_WORD_BASE64_KO, base64_item);
 	if (base64_str)
 	  {
 	    if (lw6msg_word_first_base64 (&word, &next, base64_str))

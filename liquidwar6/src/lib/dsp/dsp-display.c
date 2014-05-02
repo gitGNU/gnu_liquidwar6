@@ -179,14 +179,16 @@ lw6dsp_repr (const lw6dsp_backend_t * dsp_backend)
       if (gfx_backend_repr)
 	{
 	  ret =
-	    lw6sys_new_sprintf (_x_ ("%u using %s"), dsp_backend->id,
-				gfx_backend_repr);
+	    lw6sys_new_sprintf (sys_context, _x_ ("%u using %s"),
+				dsp_backend->id, gfx_backend_repr);
 	  LW6SYS_FREE (gfx_backend_repr);
 	}
     }
   else
     {
-      ret = lw6sys_new_sprintf (_x_ ("%u with no gfx"), dsp_backend->id);
+      ret =
+	lw6sys_new_sprintf (sys_context, _x_ ("%u with no gfx"),
+			    dsp_backend->id);
     }
 
   return ret;

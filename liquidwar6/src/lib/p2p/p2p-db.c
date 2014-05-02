@@ -298,7 +298,9 @@ _lw6p2p_db_repr (const _lw6p2p_db_t * db)
 
   if (db && db->db_filename)
     {
-      repr = lw6sys_new_sprintf (_x_ ("%u %s"), db->id, db->db_filename);
+      repr =
+	lw6sys_new_sprintf (sys_context, _x_ ("%u %s"), db->id,
+			    db->db_filename);
     }
   else
     {
@@ -477,7 +479,8 @@ _lw6p2p_db_clean_database (_lw6p2p_db_t * db)
   char *query = NULL;
 
   query =
-    lw6sys_new_sprintf (_lw6p2p_db_get_query (db, _LW6P2P_CLEAN_DATABASE_SQL),
+    lw6sys_new_sprintf (sys_context,
+			_lw6p2p_db_get_query (db, _LW6P2P_CLEAN_DATABASE_SQL),
 			-db->data.consts.node_expire_soft_delay / 1000);
   if (query)
     {

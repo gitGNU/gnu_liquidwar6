@@ -64,7 +64,7 @@ lw6cfg_format (const char *key, const char *value, lw6hlp_type_t type)
 	  ret = lw6sys_color_8_to_a (lw6sys_color_a_to_8 (value));
 	  break;
 	default:
-	  ret = lw6sys_str_copy (value);
+	  ret = lw6sys_str_copy (sys_context, value);
 	  break;
 	}
     }

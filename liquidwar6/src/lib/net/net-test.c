@@ -385,7 +385,7 @@ _test_tcp ()
       {
 
 	size = strlen (_TEST_BUF1_STR) + 1;
-	buf1_send = lw6sys_str_copy (_TEST_BUF1_STR);
+	buf1_send = lw6sys_str_copy (sys_context, _TEST_BUF1_STR);
 	buf1_recv = LW6SYS_CALLOC (strlen (_TEST_BUF1_STR) + 1);
 
 	if (buf1_send && buf1_recv)
@@ -418,7 +418,7 @@ _test_tcp ()
 	 * Now proceeding with a massive data test
 	 */
 	size = strlen (_TEST_BUF2_STR) + 1;
-	buf2_send = lw6sys_str_copy (_TEST_BUF2_STR);
+	buf2_send = lw6sys_str_copy (sys_context, _TEST_BUF2_STR);
 	buf2_recv = LW6SYS_CALLOC (strlen (_TEST_BUF2_STR) + 1);
 	if (buf2_send && buf2_recv)
 	  {
@@ -642,7 +642,7 @@ _test_udp ()
     if (prepare_2_udp_socks (&sock1, &sock2))
       {
 	size = strlen (_TEST_BUF1_STR) + 1;
-	buf1_send = lw6sys_str_copy (_TEST_BUF1_STR);
+	buf1_send = lw6sys_str_copy (sys_context, _TEST_BUF1_STR);
 	buf1_recv = LW6SYS_CALLOC (strlen (_TEST_BUF1_STR) + 1);
 
 	if (buf1_send && buf1_recv)

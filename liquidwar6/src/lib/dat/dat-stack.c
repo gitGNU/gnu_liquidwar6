@@ -1495,7 +1495,7 @@ _lw6dat_stack_update_atom_str_list_by_serial (_lw6dat_stack_t * stack,
 	  if (atom_str)
 	    {
 	      lw6sys_list_push_back (msg_list,
-				     lw6sys_str_copy (atom_str +
+				     lw6sys_str_copy (sys_context, atom_str +
 						      atom->seq_from_cmd_str_offset));
 	      ret = 1;
 	    }
@@ -1547,7 +1547,8 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 		    }
 		  atom->sent_status |= send_mask;
 		  lw6sys_list_push_back (msg_list,
-					 lw6sys_str_copy (atom_str));
+					 lw6sys_str_copy (sys_context,
+							  atom_str));
 		  ++nb;
 		  ret = 1;
 		}

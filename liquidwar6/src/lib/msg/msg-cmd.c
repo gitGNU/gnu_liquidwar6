@@ -1454,7 +1454,9 @@ lw6msg_cmd_guess_from_url (const char *msg)
 	  pos = msg + strlen (*command);
 	  if (_analyse_info (&node_info, NULL, &seek, pos))
 	    {
-	      ret = lw6sys_str_copy (node_info->const_info.ref_info.url);
+	      ret =
+		lw6sys_str_copy (sys_context,
+				 node_info->const_info.ref_info.url);
 	      lw6nod_info_free (node_info);
 	      node_info = NULL;
 	    }

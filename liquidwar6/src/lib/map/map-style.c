@@ -67,10 +67,13 @@ lw6map_style_defaults (lw6map_style_t * style)
   style->x_wrap = LW6MAP_STYLE_DEFAULT_X_WRAP;
   style->y_wrap = LW6MAP_STYLE_DEFAULT_Y_WRAP;
   style->background_style =
-    lw6sys_str_copy (LW6MAP_STYLE_DEFAULT_BACKGROUND_STYLE);
-  style->hud_style = lw6sys_str_copy (LW6MAP_STYLE_DEFAULT_HUD_STYLE);
-  style->menu_style = lw6sys_str_copy (LW6MAP_STYLE_DEFAULT_MENU_STYLE);
-  style->view_style = lw6sys_str_copy (LW6MAP_STYLE_DEFAULT_VIEW_STYLE);
+    lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_BACKGROUND_STYLE);
+  style->hud_style =
+    lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_HUD_STYLE);
+  style->menu_style =
+    lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_MENU_STYLE);
+  style->view_style =
+    lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_VIEW_STYLE);
   style->animation_density = LW6MAP_STYLE_DEFAULT_ANIMATION_DENSITY;
   style->animation_speed = LW6MAP_STYLE_DEFAULT_ANIMATION_SPEED;
   style->cursor_size = LW6MAP_STYLE_DEFAULT_CURSOR_SIZE;
@@ -149,9 +152,12 @@ lw6map_style_defaults (lw6map_style_t * style)
     lw6sys_color_a_to_8 (LW6MAP_STYLE_DEFAULT_TEAM_COLOR_PURPLE);
   style->color_set.team_colors[LW6MAP_TEAM_COLOR_PINK] =
     lw6sys_color_a_to_8 (LW6MAP_STYLE_DEFAULT_TEAM_COLOR_PINK);
-  style->music_file = lw6sys_str_copy (LW6MAP_STYLE_DEFAULT_MUSIC_FILE);
-  style->music_filter = lw6sys_str_copy (LW6MAP_STYLE_DEFAULT_MUSIC_FILTER);
-  style->music_exclude = lw6sys_str_copy (LW6MAP_STYLE_DEFAULT_MUSIC_EXCLUDE);
+  style->music_file =
+    lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_MUSIC_FILE);
+  style->music_filter =
+    lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_MUSIC_FILTER);
+  style->music_exclude =
+    lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_MUSIC_EXCLUDE);
   style->waves = LW6MAP_STYLE_DEFAULT_WAVES;
 }
 
@@ -311,7 +317,7 @@ lw6map_style_set (lw6map_style_t * style, const char *key, const char *value)
 	    {
 	      LW6SYS_FREE (style->background_style);
 	    }
-	  style->background_style = lw6sys_str_copy (value);
+	  style->background_style = lw6sys_str_copy (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_HUD_STYLE, formatted_key))
 	{
@@ -319,7 +325,7 @@ lw6map_style_set (lw6map_style_t * style, const char *key, const char *value)
 	    {
 	      LW6SYS_FREE (style->hud_style);
 	    }
-	  style->hud_style = lw6sys_str_copy (value);
+	  style->hud_style = lw6sys_str_copy (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MENU_STYLE, formatted_key))
 	{
@@ -327,7 +333,7 @@ lw6map_style_set (lw6map_style_t * style, const char *key, const char *value)
 	    {
 	      LW6SYS_FREE (style->menu_style);
 	    }
-	  style->menu_style = lw6sys_str_copy (value);
+	  style->menu_style = lw6sys_str_copy (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_VIEW_STYLE, formatted_key))
 	{
@@ -335,7 +341,7 @@ lw6map_style_set (lw6map_style_t * style, const char *key, const char *value)
 	    {
 	      LW6SYS_FREE (style->view_style);
 	    }
-	  style->view_style = lw6sys_str_copy (value);
+	  style->view_style = lw6sys_str_copy (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_ANIMATION_DENSITY, formatted_key))
 	{
@@ -535,7 +541,7 @@ lw6map_style_set (lw6map_style_t * style, const char *key, const char *value)
 	    {
 	      LW6SYS_FREE (style->music_file);
 	    }
-	  style->music_file = lw6sys_str_copy (value);
+	  style->music_file = lw6sys_str_copy (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MUSIC_FILTER, formatted_key))
 	{
@@ -543,7 +549,7 @@ lw6map_style_set (lw6map_style_t * style, const char *key, const char *value)
 	    {
 	      LW6SYS_FREE (style->music_filter);
 	    }
-	  style->music_filter = lw6sys_str_copy (value);
+	  style->music_filter = lw6sys_str_copy (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MUSIC_EXCLUDE, formatted_key))
 	{
@@ -551,7 +557,7 @@ lw6map_style_set (lw6map_style_t * style, const char *key, const char *value)
 	    {
 	      LW6SYS_FREE (style->music_exclude);
 	    }
-	  style->music_exclude = lw6sys_str_copy (value);
+	  style->music_exclude = lw6sys_str_copy (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_WAVES, formatted_key))
 	{

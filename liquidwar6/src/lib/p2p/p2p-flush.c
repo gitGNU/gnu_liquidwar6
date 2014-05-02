@@ -140,7 +140,7 @@ _lw6p2p_flush_verified_nodes (_lw6p2p_node_t * node)
   list_of_node = lw6nod_info_new_verified_nodes ();
   if (list_of_node)
     {
-      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+      query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 				  (node->db, _LW6P2P_SELECT_OTHER_NODE_SQL),
 				  node->public_url);
       if (query)

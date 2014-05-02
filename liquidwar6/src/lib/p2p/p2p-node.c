@@ -101,7 +101,7 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
       node->mutex = lw6sys_mutex_create ();
       node->closed = 0;
       node->db = db;
-      node->bind_ip = lw6sys_str_copy (bind_ip);
+      node->bind_ip = lw6sys_str_copy (sys_context, bind_ip);
       node->bind_port = bind_port;
       node->broadcast = broadcast;
       /*
@@ -140,7 +140,7 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 			 node->db->data.idle_screenshot.data);
       if (known_nodes)
 	{
-	  node->known_nodes = lw6sys_str_copy (known_nodes);
+	  node->known_nodes = lw6sys_str_copy (sys_context, known_nodes);
 	}
       else
 	{
@@ -213,7 +213,7 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 	      if (escaped_description)
 		{
 		  query =
-		    lw6sys_new_sprintf (_lw6p2p_db_get_query
+		    lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 					(node->db,
 					 _LW6P2P_INSERT_LOCAL_NODE_SQL),
 					_lw6p2p_db_now (node->db),
@@ -788,8 +788,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("feed srv (tcp)"));
 		      lw6srv_feed_with_tcp (node->backends.srv_backends[i],
-					    node->
-					    tentacles
+					    node->tentacles
 					    [tentacle_index].srv_connections
 					    [i], tcp_accepter);
 		    }
@@ -909,8 +908,7 @@ _udp_buffer_reply (void *func_data, void *data)
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("feed srv (udp)"));
 		      lw6srv_feed_with_udp (node->backends.srv_backends[i],
-					    node->
-					    tentacles
+					    node->tentacles
 					    [tentacle_index].srv_connections
 					    [i], udp_buffer);
 		    }
@@ -1372,7 +1370,7 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 	  if (_lw6p2p_db_lock (node->db))
 	    {
 	      query =
-		lw6sys_new_sprintf (_lw6p2p_db_get_query
+		lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 				    (node->db,
 				     _LW6P2P_DELETE_NODE_BY_ID_SQL),
 				    node->node_id_str);
@@ -1386,7 +1384,7 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 	       * who knows, well, never be too sure ;)
 	       */
 	      query =
-		lw6sys_new_sprintf (_lw6p2p_db_get_query
+		lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 				    (node->db,
 				     _LW6P2P_DELETE_NODE_BY_URL_SQL),
 				    node->public_url);
@@ -1519,7 +1517,7 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
 	{
 	  if (_lw6p2p_db_lock (node->db))
 	    {
-	      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+	      query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 					  (node->db,
 					   _LW6P2P_SELECT_NODE_BY_URL_SQL),
 					  escaped_public_url);
@@ -1540,7 +1538,7 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
 		  else
 		    {
 		      query =
-			lw6sys_new_sprintf (_lw6p2p_db_get_query
+			lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 					    (node->db,
 					     _LW6P2P_INSERT_DISCOVERED_NODE_SQL),
 					    escaped_public_url,
@@ -1615,7 +1613,7 @@ _lw6p2p_node_update_peer_info_x (_lw6p2p_node_t * node, const char *version,
 	       && (nb_colors < max_nb_colors) && (nb_cursors < max_nb_cursors)
 	       && (nb_nodes < max_nb_nodes)) ? 1 : 0;
 
-  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+  query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 			      (node->db,
 			       _LW6P2P_UPDATE_NODE_INFO_SQL),
 			      creation_timestamp, escaped_version,
@@ -1725,7 +1723,7 @@ _lw6p2p_node_update_peer_net (_lw6p2p_node_t * node,
   escaped_id = lw6sys_escape_sql_value (id);
   escaped_url = lw6sys_escape_sql_value (url);
 
-  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+  query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 			      (node->db,
 			       _LW6P2P_UPDATE_NODE_NET_SQL),
 			      ip, port,
@@ -1954,7 +1952,7 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node, int skip_local)
        */
       if (_lw6p2p_db_lock (node->db))
 	{
-	  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+	  query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 				      (node->db,
 				       _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL),
 				      skip_local ? node->node_id_str :
@@ -1966,7 +1964,7 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node, int skip_local)
 	    }
 	  LW6SYS_FREE (sys_context, query);
 
-	  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+	  query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 				      (node->db,
 				       _LW6P2P_SELECT_AVAILABLE_NODE_SQL),
 				      skip_local ? node->node_id_str :

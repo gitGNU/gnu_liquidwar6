@@ -191,8 +191,9 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
 		  request_number, loader_data->stage1.relative_path);
 
       (*(progress.value)) = _LW6TSK_LOADER_PROGRESS_STAGE1_BEGIN;
-      map_path = lw6sys_str_copy (loader_data->stage1.map_path);
-      relative_path = lw6sys_str_copy (loader_data->stage1.relative_path);
+      map_path = lw6sys_str_copy (sys_context, loader_data->stage1.map_path);
+      relative_path =
+	lw6sys_str_copy (sys_context, loader_data->stage1.relative_path);
       default_param =
 	lw6sys_assoc_dup (loader_data->stage1.default_param,
 			  (lw6sys_dup_func_t) lw6sys_str_copy);
@@ -509,7 +510,8 @@ lw6tsk_loader_push_ldr (lw6tsk_loader_t * loader, const char *map_path,
   loader_data->request_number++;
   clear (loader_data);
   loader_data->stage1.map_path = lw6sys_str_copy (map_path);
-  loader_data->stage1.relative_path = lw6sys_str_copy (relative_path);
+  loader_data->stage1.relative_path =
+    lw6sys_str_copy (sys_context, relative_path);
   loader_data->stage1.default_param =
     lw6sys_assoc_dup (default_param, (lw6sys_dup_func_t) lw6sys_str_copy);
   loader_data->stage1.forced_param =
@@ -733,7 +735,7 @@ lw6tsk_loader_new (float sleep, char *user_dir, volatile float *progress)
       if (loader->data)
 	{
 	  loader_data->sleep = sleep;
-	  loader_data->user_dir = lw6sys_str_copy (user_dir);
+	  loader_data->user_dir = lw6sys_str_copy (sys_context, user_dir);
 	  loader_data->progress = progress;
 	  loader_data->mutex = lw6sys_mutex_create ();
 	  if (loader_data->mutex)

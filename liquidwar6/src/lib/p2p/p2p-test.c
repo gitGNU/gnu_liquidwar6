@@ -1903,11 +1903,12 @@ _test_node_msg ()
 		    if (LW6SYS_TEST_ACK (random_str))
 		      {
 			msg =
-			  lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+			  lw6sys_new_sprintf (sys_context,
+					      "%" LW6SYS_PRINTF_LL "d %"
 					      LW6SYS_PRINTF_LL "x k=%d %s",
 					      (long long) seq,
-					      (long long) node_id,
-					      k, random_str);
+					      (long long) node_id, k,
+					      random_str);
 			if (LW6SYS_TEST_ACK (msg))
 			  {
 			    checksums[k] = lw6sys_checksum_str (msg);
@@ -2077,7 +2078,7 @@ _test_node_api_node2_callback (void *api_data)
 	  if (dump)
 	    {
 	      msg =
-		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+		lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "d %"
 				    LW6SYS_PRINTF_LL "x %s", (long long) seq,
 				    (long long) node_id, dump);
 	      if (msg)
@@ -2096,7 +2097,7 @@ _test_node_api_node2_callback (void *api_data)
 		  LW6SYS_FREE (sys_context, msg);
 		}
 	      msg =
-		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+		lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "d %"
 				    LW6SYS_PRINTF_LL "x %s", (long long) seq,
 				    (long long) node_id,
 				    _TEST_NODE_API_MSG1_STR);
@@ -2115,7 +2116,7 @@ _test_node_api_node2_callback (void *api_data)
 		}
 	      seq++;		// fake we're going next round...
 	      msg =
-		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+		lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "d %"
 				    LW6SYS_PRINTF_LL "x %s", (long long) seq,
 				    (long long) node_id,
 				    _TEST_NODE_API_MSG2_STR);
@@ -2133,7 +2134,7 @@ _test_node_api_node2_callback (void *api_data)
 		  LW6SYS_FREE (sys_context, msg);
 		}
 	      msg =
-		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+		lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "d %"
 				    LW6SYS_PRINTF_LL "x %s", (long long) seq,
 				    (long long) node_id,
 				    _TEST_NODE_API_MSG3_STR);
@@ -2163,7 +2164,8 @@ _test_node_api_node2_callback (void *api_data)
 	      if (tmp)
 		{
 		  msg =
-		    lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+		    lw6sys_new_sprintf (sys_context,
+					"%" LW6SYS_PRINTF_LL "d %"
 					LW6SYS_PRINTF_LL "x %s",
 					(long long) seq, (long long) node_id,
 					tmp);
@@ -2196,7 +2198,7 @@ _test_node_api_node2_callback (void *api_data)
 	    {
 	      seq++;		// fake we're going next round...
 	      msg =
-		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %"
+		lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "d %"
 				    LW6SYS_PRINTF_LL "x %s", (long long) seq,
 				    (long long) node_id,
 				    _TEST_NODE_API_MSGN_STR);

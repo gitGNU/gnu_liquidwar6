@@ -38,7 +38,7 @@ _lw6net_inet_ntoa (struct in_addr in)
   in_addr_t addr = ntohl (in.s_addr);
 
   ret =
-    lw6sys_new_sprintf ("%d.%d.%d.%d", (addr >> 24) & 0xff,
+    lw6sys_new_sprintf (sys_context, "%d.%d.%d.%d", (addr >> 24) & 0xff,
 			(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff);
 
   return ret;

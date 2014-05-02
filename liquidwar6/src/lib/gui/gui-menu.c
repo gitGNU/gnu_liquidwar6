@@ -67,14 +67,17 @@ lw6gui_menu_new (const char *title, const char *help, const char *popup,
 	  menu->id = ++seq_id;
 	}
 
-      menu->title = lw6sys_str_copy (lw6sys_str_empty_if_null (title));
+      menu->title =
+	lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (title));
       if (menu->title)
 	{
-	  menu->help = lw6sys_str_copy (lw6sys_str_empty_if_null (help));
+	  menu->help =
+	    lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (help));
 	  if (menu->help)
 	    {
 	      menu->popup =
-		lw6sys_str_copy (lw6sys_str_empty_if_null (popup));
+		lw6sys_str_copy (sys_context,
+				 lw6sys_str_empty_if_null (popup));
 	      if (menu->popup)
 		{
 		  menu->esc_item =
@@ -226,8 +229,8 @@ lw6gui_menu_repr (const lw6gui_menu_t * menu)
   char *repr;
 
   repr =
-    lw6sys_new_sprintf (_x_ ("%u \"%s\" (nb_items=%d)"), menu->id,
-			menu->title, menu->nb_items);
+    lw6sys_new_sprintf (sys_context, _x_ ("%u \"%s\" (nb_items=%d)"),
+			menu->id, menu->title, menu->nb_items);
 
   return repr;
 }
@@ -249,7 +252,8 @@ void
 lw6gui_menu_set_title (lw6gui_menu_t * menu, const char *title)
 {
   LW6SYS_FREE (sys_context, menu->title);
-  menu->title = lw6sys_str_copy (lw6sys_str_empty_if_null (title));
+  menu->title =
+    lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (title));
   if (!(menu->title))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
@@ -274,7 +278,7 @@ void
 lw6gui_menu_set_help (lw6gui_menu_t * menu, const char *help)
 {
   LW6SYS_FREE (sys_context, menu->help);
-  menu->help = lw6sys_str_copy (lw6sys_str_empty_if_null (help));
+  menu->help = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (help));
   if (!(menu->help))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
@@ -299,7 +303,8 @@ void
 lw6gui_menu_set_popup (lw6gui_menu_t * menu, const char *popup)
 {
   LW6SYS_FREE (sys_context, menu->popup);
-  menu->popup = lw6sys_str_copy (lw6sys_str_empty_if_null (popup));
+  menu->popup =
+    lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (popup));
   if (!(menu->popup))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,

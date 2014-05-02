@@ -59,7 +59,8 @@ add_backend (lw6sys_assoc_t ** list, const char *libdir, const char *filename,
       if (backend_handle)
 	{
 	  get_pedigree_func_str =
-	    lw6sys_new_sprintf (LW6DYN_GET_PEDIGREE_FUNC_FORMAT, id);
+	    lw6sys_new_sprintf (sys_context, LW6DYN_GET_PEDIGREE_FUNC_FORMAT,
+				id);
 	  if (get_pedigree_func_str)
 	    {
 	      get_pedigree_func =
@@ -169,7 +170,7 @@ update_devel_list (lw6sys_assoc_t ** list, const char *top_level_lib,
   if (depth >= 0 && depth < _LW6DYN_DEVEL_NB_DEPTHS)
     {
       dir1 =
-	lw6sys_new_sprintf (LIST_DEVEL_DIR1_FORMAT,
+	lw6sys_new_sprintf (sys_context, LIST_DEVEL_DIR1_FORMAT,
 			    _LW6DYN_DEVEL_DEPTH_STRINGS
 			    [depth], top_level_lib);
       if (dir1)

@@ -85,9 +85,11 @@ _test_manager_ldr ()
 		default_param = lw6sys_assoc_new (lw6sys_free_callback);
 		forced_param = lw6sys_assoc_new (lw6sys_free_callback);
 		lw6sys_assoc_set (&default_param, _TEST_OPTION_KEY1,
-				  lw6sys_str_copy (_TEST_OPTION_VALUE1));
+				  lw6sys_str_copy (sys_context,
+						   _TEST_OPTION_VALUE1));
 		lw6sys_assoc_set (&forced_param, _TEST_OPTION_KEY2,
-				  lw6sys_str_copy (_TEST_OPTION_VALUE2));
+				  lw6sys_str_copy (sys_context,
+						   _TEST_OPTION_VALUE2));
 		if (default_param && forced_param)
 		  {
 		    lw6tsk_loader_push_ldr (manager, map_path, _TEST_LOAD_MAP,

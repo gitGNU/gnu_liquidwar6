@@ -50,7 +50,7 @@ lw6gui_keypress_new (int keysym, int unicode, const char *label)
       ret->unicode = unicode;
       if (label)
 	{
-	  ret->label = lw6sys_str_copy (label);
+	  ret->label = lw6sys_str_copy (sys_context, label);
 	  /*
 	   * we don't care if the copied label is NULL, a keypress
 	   * struct with a NULL label is valid anyway
@@ -124,7 +124,8 @@ lw6gui_keypress_repr (const lw6gui_keypress_t * keypress)
   else
     {
       ret =
-	lw6sys_new_sprintf (_x_ ("keypress keysym=%d unicode=%d label=NULL"),
+	lw6sys_new_sprintf (sys_context,
+			    _x_ ("keypress keysym=%d unicode=%d label=NULL"),
 			    keypress->keysym, keypress->unicode);
     }
 

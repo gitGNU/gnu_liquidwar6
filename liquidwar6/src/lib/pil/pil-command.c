@@ -268,11 +268,11 @@ command_parse (lw6pil_command_t * command, const char *command_text,
   char *seek;
   char *tmp;
 
-  tmp = lw6sys_str_copy (command_text);
+  tmp = lw6sys_str_copy (sys_context, command_text);
   if (tmp)
     {
       command_normalize (tmp);
-      command->text = lw6sys_str_copy (tmp);
+      command->text = lw6sys_str_copy (sys_context, tmp);
       if (command->text)
 	{
 	  seek = tmp;
@@ -456,7 +456,7 @@ lw6pil_command_dup (lw6pil_command_t * command)
   if (ret)
     {
       memcpy (ret, command, sizeof (lw6pil_command_t));
-      ret->text = lw6sys_str_copy (command->text);
+      ret->text = lw6sys_str_copy (sys_context, command->text);
       if (!ret->text)
 	{
 	  LW6SYS_FREE (sys_context, ret);
@@ -465,11 +465,12 @@ lw6pil_command_dup (lw6pil_command_t * command)
       if (ret && ret->code == LW6PIL_COMMAND_CODE_DUMP)
 	{
 	  ret->args.dump.level_hexa =
-	    lw6sys_str_copy (command->args.dump.level_hexa);
+	    lw6sys_str_copy (sys_context, command->args.dump.level_hexa);
 	  ret->args.dump.game_struct_hexa =
-	    lw6sys_str_copy (command->args.dump.game_struct_hexa);
+	    lw6sys_str_copy (sys_context,
+			     command->args.dump.game_struct_hexa);
 	  ret->args.dump.game_state_hexa =
-	    lw6sys_str_copy (command->args.dump.game_state_hexa);
+	    lw6sys_str_copy (sys_context, command->args.dump.game_state_hexa);
 	  if ((!ret->args.dump.level_hexa)
 	      || (!ret->args.dump.game_struct_hexa)
 	      || (!ret->args.dump.game_state_hexa))
@@ -585,21 +586,24 @@ lw6pil_command_repr (const lw6pil_command_t * command)
     {
     case LW6PIL_COMMAND_CODE_NOP:
       ret =
-	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+	lw6sys_new_sprintf (sys_context,
+			    "%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
 			    "x %s", (long long) command->seq,
 			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_NOP);
       break;
     case LW6PIL_COMMAND_CODE_REGISTER:
       ret =
-	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+	lw6sys_new_sprintf (sys_context,
+			    "%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
 			    "x %s", (long long) command->seq,
 			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_REGISTER);
       break;
     case LW6PIL_COMMAND_CODE_ADD:
       ret =
-	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+	lw6sys_new_sprintf (sys_context,
+			    "%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
 			    "x %s %x %s", (long long) command->seq,
 			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_ADD,
@@ -609,7 +613,8 @@ lw6pil_command_repr (const lw6pil_command_t * command)
       break;
     case LW6PIL_COMMAND_CODE_SET:
       ret =
-	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+	lw6sys_new_sprintf (sys_context,
+			    "%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
 			    "x %s %x %d %d %d %d", (long long) command->seq,
 			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_SET,
@@ -619,7 +624,8 @@ lw6pil_command_repr (const lw6pil_command_t * command)
       break;
     case LW6PIL_COMMAND_CODE_REMOVE:
       ret =
-	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+	lw6sys_new_sprintf (sys_context,
+			    "%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
 			    "x %s %x", (long long) command->seq,
 			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_REMOVE,
@@ -627,21 +633,24 @@ lw6pil_command_repr (const lw6pil_command_t * command)
       break;
     case LW6PIL_COMMAND_CODE_UNREGISTER:
       ret =
-	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+	lw6sys_new_sprintf (sys_context,
+			    "%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
 			    "x %s", (long long) command->seq,
 			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_UNREGISTER);
       break;
     case LW6PIL_COMMAND_CODE_SEED:
       ret =
-	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+	lw6sys_new_sprintf (sys_context,
+			    "%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
 			    "x %s", (long long) command->seq,
 			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_SEED);
       break;
     case LW6PIL_COMMAND_CODE_DUMP:
       ret =
-	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+	lw6sys_new_sprintf (sys_context,
+			    "%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
 			    "x %s %d %d %d", (long long) command->seq,
 			    (long long) command->node_id,
 			    LW6PIL_COMMAND_TEXT_DUMP,

@@ -58,7 +58,7 @@ _make_devel_path (const char *top_level_lib, const char *backend_name,
   if (depth >= 0 && depth < _LW6DYN_DEVEL_NB_DEPTHS)
     {
       ret =
-	lw6sys_new_sprintf (devel_path_format,
+	lw6sys_new_sprintf (sys_context, devel_path_format,
 			    _LW6DYN_DEVEL_DEPTH_STRINGS[depth], top_level_lib,
 			    backend_name, backend_name,
 			    lw6sys_build_get_version ());
@@ -123,7 +123,7 @@ _path_find (int argc, const char *argv[],
 			{
 			  if (lw6sys_file_exists (devel_path))
 			    {
-			      ret = lw6sys_str_copy (devel_path);
+			      ret = lw6sys_str_copy (sys_context, devel_path);
 			    }
 			  LW6SYS_FREE (sys_context, devel_path);
 			}

@@ -187,7 +187,7 @@ _lw6ker_game_struct_repr (const _lw6ker_game_struct_t * game_struct)
 	100.0f;
 
       ret =
-	lw6sys_new_sprintf ("%u (%dx%dx%d, compression=%0.1f%%)",
+	lw6sys_new_sprintf (sys_context, "%u (%dx%dx%d, compression=%0.1f%%)",
 			    game_struct->id, game_struct->map_struct.shape.w,
 			    game_struct->map_struct.shape.h,
 			    game_struct->map_struct.shape.d, compression);

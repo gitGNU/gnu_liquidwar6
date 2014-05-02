@@ -71,11 +71,11 @@ lw6gui_menuitem_new (const char *label, const char *tooltip, int value,
 	  menuitem->id = ++seq_id;
 	}
 
-      menuitem->label = lw6sys_str_copy (label);
+      menuitem->label = lw6sys_str_copy (sys_context, label);
       if (menuitem->label)
 	{
 	  menuitem->tooltip =
-	    lw6sys_str_copy (lw6sys_str_empty_if_null (tooltip));
+	    lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (tooltip));
 	  if (menuitem->tooltip)
 	    {
 	      menuitem->value = value;
@@ -184,8 +184,8 @@ lw6gui_menuitem_repr (const lw6gui_menuitem_t * menuitem)
   char *repr;
 
   repr =
-    lw6sys_new_sprintf (_x_ ("%u \"%s\" (value=%d)"), menuitem->id,
-			menuitem->label, menuitem->value);
+    lw6sys_new_sprintf (sys_context, _x_ ("%u \"%s\" (value=%d)"),
+			menuitem->id, menuitem->label, menuitem->value);
 
   return repr;
 }
@@ -215,7 +215,8 @@ lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem, const char *label,
       menuitem->last_change = now;
     }
   LW6SYS_FREE (sys_context, menuitem->label);
-  menuitem->label = lw6sys_str_copy (lw6sys_str_empty_if_null (label));
+  menuitem->label =
+    lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (label));
   if (!(menuitem->label))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
@@ -248,7 +249,8 @@ lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t * menuitem,
       menuitem->last_change = now;
     }
   LW6SYS_FREE (sys_context, menuitem->tooltip);
-  menuitem->tooltip = lw6sys_str_copy (lw6sys_str_empty_if_null (tooltip));
+  menuitem->tooltip =
+    lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (tooltip));
   if (!(menuitem->tooltip))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,

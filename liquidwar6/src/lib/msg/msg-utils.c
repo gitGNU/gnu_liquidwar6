@@ -52,7 +52,7 @@ lw6msg_utils_parse_key_value_to_ptr (char **key, char **value,
   (*key) = NULL;
   (*value) = NULL;
 
-  copy = lw6sys_str_copy (line);
+  copy = lw6sys_str_copy (sys_context, line);
   if (copy)
     {
       seek = pos = copy;

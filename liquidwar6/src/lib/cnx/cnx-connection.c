@@ -68,9 +68,9 @@ lw6cnx_connection_new (const char *local_url, const char *remote_url,
   ret = (lw6cnx_connection_t *) LW6SYS_CALLOC (sizeof (lw6cnx_connection_t));
   if (ret)
     {
-      ret->local_url = lw6sys_str_copy (local_url);
-      ret->remote_url = lw6sys_str_copy (remote_url);
-      ret->remote_ip = lw6sys_str_copy (remote_ip);
+      ret->local_url = lw6sys_str_copy (sys_context, local_url);
+      ret->remote_url = lw6sys_str_copy (sys_context, remote_url);
+      ret->remote_ip = lw6sys_str_copy (sys_context, remote_ip);
       ret->remote_port = remote_port;
       if (password && strlen (password) > 0)
 	{
@@ -82,7 +82,7 @@ lw6cnx_connection_new (const char *local_url, const char *remote_url,
 	{
 	  ret->password = lw6sys_str_copy ("");
 	  ret->password_send_checksum =
-	    lw6sys_str_copy (_DEFAULT_SEND_PASSWORD_CHECKSUM);
+	    lw6sys_str_copy (sys_context, _DEFAULT_SEND_PASSWORD_CHECKSUM);
 	}
       ret->local_id_int = local_id;
       ret->local_id_str = lw6sys_id_ltoa (local_id);

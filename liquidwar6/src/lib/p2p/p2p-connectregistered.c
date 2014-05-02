@@ -69,7 +69,8 @@ _select_node_by_id_callback (void *func_data, int nb_fields,
       if (fields_values[_LW6P2P_DB_NODE_ORDER_IP])
 	{
 	  node_by_id_data->node_ip =
-	    lw6sys_str_copy (fields_values[_LW6P2P_DB_NODE_ORDER_IP]);
+	    lw6sys_str_copy (sys_context,
+			     fields_values[_LW6P2P_DB_NODE_ORDER_IP]);
 	}
       if (fields_values[_LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC])
 	{
@@ -144,10 +145,11 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 		lw6sys_id_ltoa (meta_array.items[index].node_id);
 	      if (node_by_id_data.node_id)
 		{
-		  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
-					      (node->db,
-					       _LW6P2P_SELECT_NODE_BY_ID_SQL),
-					      node_by_id_data.node_id);
+		  query =
+		    lw6sys_new_sprintf (sys_context,
+					_lw6p2p_db_get_query (node->db,
+							      _LW6P2P_SELECT_NODE_BY_ID_SQL),
+					node_by_id_data.node_id);
 		  if (query)
 		    {
 		      if (_lw6p2p_db_lock (node->db))

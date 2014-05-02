@@ -91,7 +91,7 @@ lw6net_recv_line_tcp (int *sock)
 			    CHAR_CR) ? TRAIL_SIZE : TRAIL_SIZE - 1;
 	      wanted_size = (pos_lf + 1 - line_buf);
 	      pos_lf[1 - trail_size] = CHAR_0;
-	      ret = lw6sys_str_copy (line_buf);
+	      ret = lw6sys_str_copy (sys_context, line_buf);
 	      if (ret)
 		{
 		  lw6sys_str_cleanup (ret);
@@ -220,7 +220,7 @@ lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
 			    && pos_lf[-1] ==
 			    CHAR_CR) ? TRAIL_SIZE : TRAIL_SIZE - 1;
 	      pos_lf[1 - trail_size] = CHAR_0;
-	      ret = lw6sys_str_copy (line_buf);
+	      ret = lw6sys_str_copy (sys_context, line_buf);
 	      if (ret)
 		{
 		  lw6sys_str_cleanup (ret);
@@ -379,7 +379,7 @@ lw6net_send_line_udp (int sock, const char *line, const char *ip, int port)
       line_size =
 	lw6sys_imin (_lw6net_global_context->const_data.line_size,
 		     LW6NET_PPPOE_MTU - TRAIL_SIZE);
-      copied_line = lw6sys_str_copy (line);
+      copied_line = lw6sys_str_copy (sys_context, line);
       if (copied_line)
 	{
 	  wanted_size = strlen (copied_line);

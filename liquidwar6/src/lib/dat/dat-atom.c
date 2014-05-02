@@ -78,7 +78,7 @@ _lw6dat_atom_set_full_str (_lw6dat_atom_t * atom, const char *full_str)
 	}
       if (!atom->full_str_if_longer)
 	{
-	  atom->full_str_if_longer = lw6sys_str_copy (full_str);
+	  atom->full_str_if_longer = lw6sys_str_copy (sys_context, full_str);
 	}
       if (atom->full_str_if_longer)
 	{

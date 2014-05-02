@@ -138,7 +138,7 @@ lw6msg_z_encode (const char *msg, int limit)
     }
   else
     {
-      ret = lw6sys_str_copy (msg);
+      ret = lw6sys_str_copy (sys_context, msg);
     }
 
   if (ret)
@@ -305,7 +305,7 @@ lw6msg_z_decode (const char *msg)
       /*
        * We consider it wasn't z-encoded, keep it the same
        */
-      ret = lw6sys_str_copy (msg);
+      ret = lw6sys_str_copy (sys_context, msg);
     }
 
   return ret;

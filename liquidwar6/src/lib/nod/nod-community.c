@@ -422,7 +422,7 @@ lw6nod_info_community_get_peer_id_list_str (lw6nod_info_t * info)
 	  else
 	    {
 	      tmp =
-		lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "x",
+		lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "x",
 				    (long long) peer_id);
 	    }
 	  if (tmp)
@@ -460,7 +460,7 @@ lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info,
   u_int64_t peer_id = 0LL;
   int done = 0;
 
-  tmp = lw6sys_str_copy (peer_id_list_str);
+  tmp = lw6sys_str_copy (sys_context, peer_id_list_str);
   if (tmp)
     {
       pos = tmp;

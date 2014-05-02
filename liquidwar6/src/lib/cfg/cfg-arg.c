@@ -62,19 +62,19 @@ parse_option (_lw6cfg_context_t * context, const char *option)
 
       if (strncmp (option, "--", 2) == 0)
 	{
-	  key = lw6sys_str_copy (option + 2);
+	  key = lw6sys_str_copy (sys_context, option + 2);
 	}
       else if (strncmp (option, "-", 1) == 0)
 	{
-	  key = lw6sys_str_copy (option + 1);
+	  key = lw6sys_str_copy (sys_context, option + 1);
 	}
       else if (strncmp (option, "/", 1) == 0)
 	{
-	  key = lw6sys_str_copy (option + 1);
+	  key = lw6sys_str_copy (sys_context, option + 1);
 	}
       else
 	{
-	  key = lw6sys_str_copy (option);
+	  key = lw6sys_str_copy (sys_context, option);
 	}
 
       if (key)

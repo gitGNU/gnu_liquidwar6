@@ -53,12 +53,12 @@ lw6srv_oob_new (const char *remote_ip, int remote_port, int sock,
     {
       oob->data.creation_timestamp = lw6sys_get_timestamp ();
       oob->data.do_not_finish = 0;
-      oob->data.remote_ip = lw6sys_str_copy (remote_ip);
+      oob->data.remote_ip = lw6sys_str_copy (sys_context, remote_ip);
       oob->data.remote_port = remote_port;
       oob->data.sock = sock;
       if (first_line)
 	{
-	  oob->data.first_line = lw6sys_str_copy (first_line);
+	  oob->data.first_line = lw6sys_str_copy (sys_context, first_line);
 	}
     }
 

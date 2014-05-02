@@ -145,7 +145,7 @@ lw6net_dns_gethostbyname (const char *name)
        * conditions. Ideal implementation would use
        * gethostbyname_r when available.
        */
-      ret = lw6sys_str_copy (name);
+      ret = lw6sys_str_copy (sys_context, name);
     }
   else
     {
@@ -157,7 +157,7 @@ lw6net_dns_gethostbyname (const char *name)
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("cached DNS \"%s\" -> \"%s\""), name,
 			  cached_ret);
-	      ret = lw6sys_str_copy (cached_ret);
+	      ret = lw6sys_str_copy (sys_context, cached_ret);
 	    }
 	  lw6sys_mutex_unlock (dns->dns_cache_mutex);
 	}
@@ -182,9 +182,10 @@ lw6net_dns_gethostbyname (const char *name)
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_ ("DNS request \"%s\" -> \"%s\""), name,
 				  ntoa_ret);
-		      to_put_in_cache = lw6sys_str_copy (ntoa_ret);
+		      to_put_in_cache =
+			lw6sys_str_copy (sys_context, ntoa_ret);
 
-		      ret = lw6sys_str_copy (ntoa_ret);
+		      ret = lw6sys_str_copy (sys_context, ntoa_ret);
 		    }
 		}
 	      lw6net_dns_unlock ();

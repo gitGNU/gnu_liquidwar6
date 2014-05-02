@@ -43,8 +43,8 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
   lw6sys_url_t *parsed_url = NULL;
 
   tentacle->backends = backends;
-  tentacle->local_url = lw6sys_str_copy (local_url);
-  tentacle->remote_url = lw6sys_str_copy (remote_url);
+  tentacle->local_url = lw6sys_str_copy (sys_context, local_url);
+  tentacle->remote_url = lw6sys_str_copy (sys_context, remote_url);
   parsed_url = lw6sys_url_parse (remote_url);
   if (parsed_url)
     {
@@ -79,7 +79,8 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 			      tentacle->remote_port, real_remote_ip,
 			      tentacle->remote_port);
 		  LW6SYS_FREE (sys_context, tentacle->remote_ip);
-		  tentacle->remote_ip = lw6sys_str_copy (real_remote_ip);
+		  tentacle->remote_ip =
+		    lw6sys_str_copy (sys_context, real_remote_ip);
 		}
 	    }
 	  else
@@ -88,7 +89,8 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 			  _x_
 			  ("unable to get IP from DNS for \"%s\", using \"%s:%d\" instead"),
 			  remote_url, real_remote_ip, tentacle->remote_port);
-	      tentacle->remote_ip = lw6sys_str_copy (real_remote_ip);
+	      tentacle->remote_ip =
+		lw6sys_str_copy (sys_context, real_remote_ip);
 	    }
 	}
       else

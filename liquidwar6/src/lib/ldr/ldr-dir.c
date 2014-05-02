@@ -76,7 +76,8 @@ new_entry (const char *absolute_path, const char *relative_path,
 					entry->absolute_path);
 		  if (lw6sys_path_is_cwd (relative_path))
 		    {
-		      entry->relative_path = lw6sys_str_copy (entry_path);
+		      entry->relative_path =
+			lw6sys_str_copy (sys_context, entry_path);
 		    }
 		  else
 		    {
@@ -212,13 +213,17 @@ lw6ldr_dup_entry (const lw6ldr_entry_t * entry)
     {
       memcpy (ret, entry, sizeof (lw6ldr_entry_t));
 
-      ret->metadata.title = lw6sys_str_copy (ret->metadata.title);
-      ret->metadata.author = lw6sys_str_copy (ret->metadata.author);
-      ret->metadata.description = lw6sys_str_copy (ret->metadata.description);
-      ret->metadata.license = lw6sys_str_copy (ret->metadata.license);
+      ret->metadata.title =
+	lw6sys_str_copy (sys_context, ret->metadata.title);
+      ret->metadata.author =
+	lw6sys_str_copy (sys_context, ret->metadata.author);
+      ret->metadata.description =
+	lw6sys_str_copy (sys_context, ret->metadata.description);
+      ret->metadata.license =
+	lw6sys_str_copy (sys_context, ret->metadata.license);
       ret->metadata.vanilla_exp = ret->metadata.vanilla_exp;
-      ret->absolute_path = lw6sys_str_copy (ret->absolute_path);
-      ret->relative_path = lw6sys_str_copy (ret->relative_path);
+      ret->absolute_path = lw6sys_str_copy (sys_context, ret->absolute_path);
+      ret->relative_path = lw6sys_str_copy (sys_context, ret->relative_path);
 
       if (!ret->metadata.title || !ret->metadata.author
 	  || !ret->metadata.description || !ret->metadata.license

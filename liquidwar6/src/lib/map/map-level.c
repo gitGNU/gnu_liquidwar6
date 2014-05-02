@@ -267,9 +267,9 @@ lw6map_repr (const lw6map_level_t * level)
 
       title = lw6map_get_title (level);
       ret =
-	lw6sys_new_sprintf ("%u \"%s\" (%dx%dx%d)", level->id, title,
-			    level->body.shape.w,
-			    level->body.shape.h, level->body.shape.d);
+	lw6sys_new_sprintf (sys_context, "%u \"%s\" (%dx%dx%d)", level->id,
+			    title, level->body.shape.w, level->body.shape.h,
+			    level->body.shape.d);
     }
   else
     {

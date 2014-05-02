@@ -398,7 +398,8 @@ write_xml (FILE * f, const char *type, const char *key, const char *value,
 	      else
 		{
 		  tmp =
-		    lw6sys_new_sprintf ("\"%s\" (default=\"%s\"): %s", key,
+		    lw6sys_new_sprintf (sys_context,
+					"\"%s\" (default=\"%s\"): %s", key,
 					hlp_default_value, hlp_about);
 		}
 	    }
@@ -407,13 +408,16 @@ write_xml (FILE * f, const char *type, const char *key, const char *value,
 	      if (hlp_min_value != 0 || hlp_max_value != 0)
 		{
 		  tmp =
-		    lw6sys_new_sprintf ("\"%s\" (min=\"%d\", max=\"%d\"): %s",
+		    lw6sys_new_sprintf (sys_context,
+					"\"%s\" (min=\"%d\", max=\"%d\"): %s",
 					key, hlp_min_value, hlp_max_value,
 					hlp_about);
 		}
 	      else
 		{
-		  tmp = lw6sys_new_sprintf ("\"%s\": %s", key, hlp_about);
+		  tmp =
+		    lw6sys_new_sprintf (sys_context, "\"%s\": %s", key,
+					hlp_about);
 		}
 	    }
 	}

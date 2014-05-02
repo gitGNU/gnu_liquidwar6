@@ -105,11 +105,14 @@ menu_new (int n)
     {
       for (i = 0; i < n; ++i)
 	{
-	  label = lw6sys_new_sprintf (_TEST_MENUITEM_LABEL_FORMAT, i + 1);
+	  label =
+	    lw6sys_new_sprintf (sys_context, _TEST_MENUITEM_LABEL_FORMAT,
+				i + 1);
 	  if (label)
 	    {
 	      tooltip =
-		lw6sys_new_sprintf (_TEST_MENUITEM_TOOLTIP_FORMAT, i + 1);
+		lw6sys_new_sprintf (sys_context,
+				    _TEST_MENUITEM_TOOLTIP_FORMAT, i + 1);
 	      if (tooltip)
 		{
 		  item =

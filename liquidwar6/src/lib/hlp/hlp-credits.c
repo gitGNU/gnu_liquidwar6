@@ -74,94 +74,117 @@ lw6hlp_get_credits (int id)
   switch (id)
     {
     case 0:
-      ret = lw6sys_str_copy (lw6sys_build_get_package_string ());
+      ret = lw6sys_str_copy (sys_context, lw6sys_build_get_package_string ());
       break;
     case 1:
       ret =
-	lw6sys_new_sprintf (_("Codename \"%s\""),
+	lw6sys_new_sprintf (sys_context, _("Codename \"%s\""),
 			    lw6sys_build_get_codename ());
       break;
     case 2:
-      ret = lw6sys_str_copy (lw6sys_build_get_home_url ());
+      ret = lw6sys_str_copy (sys_context, lw6sys_build_get_home_url ());
       break;
     case 3:
-      ret = lw6sys_new_sprintf (_("Idea: %s"), _CREDITS_IDEA);
+      ret = lw6sys_new_sprintf (sys_context, _("Idea: %s"), _CREDITS_IDEA);
       break;
     case 4:
-      ret = lw6sys_new_sprintf (_("Programming: %s"), _CREDITS_CODING);
+      ret =
+	lw6sys_new_sprintf (sys_context, _("Programming: %s"),
+			    _CREDITS_CODING);
       break;
     case 5:
-      ret = lw6sys_new_sprintf (_("Artwork & design: %s"), _CREDITS_ARTWORK);
+      ret =
+	lw6sys_new_sprintf (sys_context, _("Artwork & design: %s"),
+			    _CREDITS_ARTWORK);
       break;
     case 6:
-      ret = lw6sys_new_sprintf (_("Menu music: %s"), _CREDITS_MUSIC_MENU);
+      ret =
+	lw6sys_new_sprintf (sys_context, _("Menu music: %s"),
+			    _CREDITS_MUSIC_MENU);
       break;
     case 7:
-      ret = lw6sys_new_sprintf (_("Thanks to all Liquid War 5 contributors"));
+      ret =
+	lw6sys_new_sprintf (sys_context,
+			    _("Thanks to all Liquid War 5 contributors"));
       break;
     case 8:
-      ret = lw6sys_new_sprintf (_("Extra maps: %s"), _CREDITS_EXTRA_MAPS1);
+      ret =
+	lw6sys_new_sprintf (sys_context, _("Extra maps: %s"),
+			    _CREDITS_EXTRA_MAPS1);
       break;
     case 9:
       ret =
-	lw6sys_new_sprintf (_("Song \"%s\" by %s"), _CREDITS_MUSIC1_TITLE,
-			    _CREDITS_MUSIC1_AUTHOR);
+	lw6sys_new_sprintf (sys_context, _("Song \"%s\" by %s"),
+			    _CREDITS_MUSIC1_TITLE, _CREDITS_MUSIC1_AUTHOR);
       break;
     case 10:
       ret =
-	lw6sys_new_sprintf (_("Song \"%s\" by %s"), _CREDITS_MUSIC2_TITLE,
-			    _CREDITS_MUSIC2_AUTHOR);
+	lw6sys_new_sprintf (sys_context, _("Song \"%s\" by %s"),
+			    _CREDITS_MUSIC2_TITLE, _CREDITS_MUSIC2_AUTHOR);
       break;
     case 11:
       ret =
-	lw6sys_new_sprintf (_("Song \"%s\" by %s"), _CREDITS_MUSIC3_TITLE,
-			    _CREDITS_MUSIC3_AUTHOR);
+	lw6sys_new_sprintf (sys_context, _("Song \"%s\" by %s"),
+			    _CREDITS_MUSIC3_TITLE, _CREDITS_MUSIC3_AUTHOR);
       break;
     case 12:
       ret =
-	lw6sys_new_sprintf (_("Norwegian translation by %s"),
+	lw6sys_new_sprintf (sys_context, _("Norwegian translation by %s"),
 			    _CREDITS_NN_TRANSLATOR);
       break;
     case 13:
       ret =
-	lw6sys_new_sprintf (_("Russian translation by %s"),
+	lw6sys_new_sprintf (sys_context, _("Russian translation by %s"),
 			    _CREDITS_RU_TRANSLATOR);
       break;
     case 14:
-      ret = lw6sys_new_sprintf (_("Libcaca port by %s"), _CREDITS_LIBCACA);
+      ret =
+	lw6sys_new_sprintf (sys_context, _("Libcaca port by %s"),
+			    _CREDITS_LIBCACA);
       break;
     case 15:
-      ret = lw6sys_new_sprintf (_("Handicap patch by %s"), _CREDITS_HANDICAP);
+      ret =
+	lw6sys_new_sprintf (sys_context, _("Handicap patch by %s"),
+			    _CREDITS_HANDICAP);
       break;
     case 16:
-      ret = lw6sys_str_copy (_("Thanks to all other contributors"));
+      ret =
+	lw6sys_str_copy (sys_context, _("Thanks to all other contributors"));
       break;
     case 17:
-      ret = lw6sys_str_copy (_("Help is always appreciated"));
+      ret = lw6sys_str_copy (sys_context, _("Help is always appreciated"));
       break;
     case 18:
-      ret = lw6sys_new_sprintf (_("Mailing list: <%s>"), _LIST_EMAIL);
+      ret =
+	lw6sys_new_sprintf (sys_context, _("Mailing list: <%s>"),
+			    _LIST_EMAIL);
       break;
     case 19:
-      ret = lw6sys_str_copy (_("Free as in \"free speech\" (not beer)"));
+      ret =
+	lw6sys_str_copy (sys_context,
+			 _("Free as in \"free speech\" (not beer)"));
       break;
     case 20:
       ret =
-	lw6sys_new_sprintf (_("License: %s"), lw6sys_build_get_license ());
+	lw6sys_new_sprintf (sys_context, _("License: %s"),
+			    lw6sys_build_get_license ());
       break;
     case 21:
-      ret = lw6sys_str_copy (lw6sys_build_get_copyright ());
+      ret = lw6sys_str_copy (sys_context, lw6sys_build_get_copyright ());
       break;
     case 22:
       ret =
-	lw6sys_new_sprintf (_("Built on %s at %s"), lw6sys_build_get_date (),
+	lw6sys_new_sprintf (sys_context, _("Built on %s at %s"),
+			    lw6sys_build_get_date (),
 			    lw6sys_build_get_time ());
       break;
     case 23:
-      ret = lw6sys_new_sprintf (_("Help GNU %s"), _HELP_GNU_URL);
+      ret = lw6sys_new_sprintf (sys_context, _("Help GNU %s"), _HELP_GNU_URL);
       break;
     case 24:
-      ret = lw6sys_new_sprintf (_("Fight software patents %s"), _FFII_URL);
+      ret =
+	lw6sys_new_sprintf (sys_context, _("Fight software patents %s"),
+			    _FFII_URL);
       break;
     case 25:
       ret =

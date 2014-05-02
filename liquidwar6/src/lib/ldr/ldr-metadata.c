@@ -47,14 +47,14 @@ extract_title_from_dirname (const char *dirname)
 	  begin = copy;
 	}
 
-      title = lw6sys_str_copy (begin);
+      title = lw6sys_str_copy (sys_context, begin);
 
       LW6SYS_FREE (sys_context, copy);
     }
 
   if (!title)
     {
-      title = lw6sys_str_copy (_x_ ("no title for this map"));
+      title = lw6sys_str_copy (sys_context, _x_ ("no title for this map"));
     }
 
   if (!title)
@@ -101,7 +101,7 @@ read_readme (const char *dirname)
 
   if (!readme)
     {
-      readme = lw6sys_str_copy (_x_ ("no README for this map"));
+      readme = lw6sys_str_copy (sys_context, _x_ ("no README for this map"));
     }
 
   if (!readme)
@@ -173,7 +173,7 @@ lw6ldr_metadata_read (lw6map_metadata_t * metadata, const char *dirname)
     }
   if (!(metadata->author))
     {
-      metadata->author = lw6sys_str_copy (_x_ ("unknown"));
+      metadata->author = lw6sys_str_copy (sys_context, _x_ ("unknown"));
     }
   if (!(metadata->description))
     {
@@ -181,7 +181,7 @@ lw6ldr_metadata_read (lw6map_metadata_t * metadata, const char *dirname)
     }
   if (!(metadata->license))
     {
-      metadata->license = lw6sys_str_copy (_x_ ("unspecified"));
+      metadata->license = lw6sys_str_copy (sys_context, _x_ ("unspecified"));
     }
 
   ret = (metadata->title && metadata->author && metadata->description

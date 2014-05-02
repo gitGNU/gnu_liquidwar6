@@ -36,9 +36,10 @@ _lw6pil_seed_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id,
   if (seq > _lw6pil_pilot_get_last_commit_seq (pilot))
     {
       ret =
-	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
-			    "x %s", (long long) seq,
-			    (long long) server_id, LW6PIL_COMMAND_TEXT_SEED);
+	lw6sys_new_sprintf (sys_context,
+			    "%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+			    "x %s", (long long) seq, (long long) server_id,
+			    LW6PIL_COMMAND_TEXT_SEED);
     }
   else
     {

@@ -217,9 +217,9 @@ _lw6ker_game_state_repr (const _lw6ker_game_state_t * game_state)
        * function is called when freeing the object
        */
       ret =
-	lw6sys_new_sprintf ("%u (%dx%dx%d, round %d, %d fighters)",
-			    game_state->id,
-			    game_state->map_state.shape.w,
+	lw6sys_new_sprintf (sys_context,
+			    "%u (%dx%dx%d, round %d, %d fighters)",
+			    game_state->id, game_state->map_state.shape.w,
 			    game_state->map_state.shape.h,
 			    game_state->map_state.shape.d,
 			    _lw6ker_game_state_get_rounds (game_state),

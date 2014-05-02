@@ -43,7 +43,7 @@ load_callback (void *callback_data, const char *element, const char *key,
       if (lw6sys_spinlock_lock (cfg_context->spinlock))
 	{
 	  lw6sys_hash_set (cfg_context->options, key,
-			   lw6sys_str_copy (value));
+			   lw6sys_str_copy (sys_context, value));
 	  lw6sys_spinlock_unlock (cfg_context->spinlock);
 	}
     }

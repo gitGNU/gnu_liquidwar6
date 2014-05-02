@@ -34,7 +34,7 @@ _check_arg (const char *arg)
   char *equal = NULL;
   int ret = 0;
 
-  keyword = lw6sys_str_copy (arg);
+  keyword = lw6sys_str_copy (sys_context, arg);
   if (keyword)
     {
       equal = strchr (keyword, '=');

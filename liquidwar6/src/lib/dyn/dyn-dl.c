@@ -205,7 +205,7 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
       if (ret)
 	{
 	  get_pedigree_func_str =
-	    lw6sys_new_sprintf (LW6DYN_GET_PEDIGREE_FUNC_FORMAT,
+	    lw6sys_new_sprintf (sys_context, LW6DYN_GET_PEDIGREE_FUNC_FORMAT,
 				backend_name);
 	  if (get_pedigree_func_str)
 	    {

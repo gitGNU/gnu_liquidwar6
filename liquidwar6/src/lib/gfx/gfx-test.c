@@ -306,7 +306,8 @@ _test_menu ()
 	    for (i = 0; i < _TEST_MENU_NB_MENUITEMS; ++i)
 	      {
 		menuitem_label =
-		  lw6sys_new_sprintf (_x_ ("Test menuitem %d"), i);
+		  lw6sys_new_sprintf (sys_context, _x_ ("Test menuitem %d"),
+				      i);
 		if (menuitem_label)
 		  {
 		    menuitem_tooltip =

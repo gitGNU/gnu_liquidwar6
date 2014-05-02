@@ -183,7 +183,7 @@ lw6hlp_print_about (const char *keyword, FILE * f)
 	}
       if (type_str && type != LW6HLP_TYPE_VOID)
 	{
-	  tmp = lw6sys_new_sprintf (_x_ ("Type: %s"), type_str);
+	  tmp = lw6sys_new_sprintf (sys_context, _x_ ("Type: %s"), type_str);
 	  if (tmp)
 	    {
 	      fprintf (f, "%s\n\n", tmp);
@@ -197,7 +197,9 @@ lw6hlp_print_about (const char *keyword, FILE * f)
 	   * after the default value but this is confusing when
 	   * the default is "." or "" ...
 	   */
-	  tmp = lw6sys_new_sprintf (_x_ ("Default value: %s"), default_value);
+	  tmp =
+	    lw6sys_new_sprintf (sys_context, _x_ ("Default value: %s"),
+				default_value);
 	  if (tmp)
 	    {
 	      values_set = 1;
@@ -207,14 +209,18 @@ lw6hlp_print_about (const char *keyword, FILE * f)
 	}
       if (min_value != 0 || max_value != 0)
 	{
-	  tmp = lw6sys_new_sprintf (_x_ ("Min value: %d"), min_value);
+	  tmp =
+	    lw6sys_new_sprintf (sys_context, _x_ ("Min value: %d"),
+				min_value);
 	  if (tmp)
 	    {
 	      values_set = 1;
 	      fprintf (f, "%s\n", tmp);
 	      LW6SYS_FREE (sys_context, tmp);
 	    }
-	  tmp = lw6sys_new_sprintf (_x_ ("Max value: %d"), max_value);
+	  tmp =
+	    lw6sys_new_sprintf (sys_context, _x_ ("Max value: %d"),
+				max_value);
 	  if (tmp)
 	    {
 	      values_set = 1;
