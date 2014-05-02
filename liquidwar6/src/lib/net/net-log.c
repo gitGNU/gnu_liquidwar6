@@ -175,7 +175,7 @@ _log (const char *filename, const char *buf, int len)
 	{
 	  if (lw6sys_str_is_bin (sys_context, buf, len))
 	    {
-	      buf_base64 = lw6glb_base64_encode_bin (buf, len);
+	      buf_base64 = lw6glb_base64_encode_bin (sys_context, buf, len);
 	    }
 
 	  if (buf_base64)

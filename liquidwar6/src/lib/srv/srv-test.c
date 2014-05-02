@@ -318,7 +318,7 @@ lw6srv_test_register (int mode)
        * Just to make sure most functions are stuffed in the binary
        */
       lw6sys_test_register (sys_context, mode);
-      lw6glb_test_register (mode);
+      lw6glb_test_register (sys_context, mode);
       lw6cfg_test_register (mode);
       lw6net_test_register (mode);
       lw6nod_test_register (mode);

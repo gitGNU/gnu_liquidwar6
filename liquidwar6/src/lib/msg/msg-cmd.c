@@ -38,17 +38,17 @@ _generate_info (const char *cmd, lw6nod_info_t * info)
   int uptime = 0;
 
   base64_title =
-    lw6glb_base64_encode_str (lw6sys_str_empty_if_null
+    lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null
 			      (info->const_info.title));
   if (base64_title)
     {
       base64_description =
-	lw6glb_base64_encode_str (lw6sys_str_empty_if_null
+	lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null
 				  (info->const_info.description));
       if (base64_description)
 	{
 	  base64_level =
-	    lw6glb_base64_encode_str (lw6sys_str_empty_if_null
+	    lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null
 				      (info->dyn_info.level));
 	  if (base64_level)
 	    {

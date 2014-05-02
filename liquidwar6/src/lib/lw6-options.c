@@ -51,7 +51,7 @@ _register_and_run_tests (int argc, const char **argv, int mode)
 	{
 	  ret =
 	    lw6sys_test_register (sys_context, mode)
-	    && lw6glb_test_register (mode)
+	    && lw6glb_test_register (sys_context, mode)
 	    && lw6map_test_register (mode)
 	    && lw6ker_test_register (mode) && lw6pil_test_register (mode)
 	    && DYN_TEST_REGISTER (mode) && lw6bot_test_register (mode)
@@ -281,7 +281,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	      input = lw6sys_stream_file_to_str (stdin);
 	      if (input)
 		{
-		  output = lw6glb_base64_encode_str (input);
+		  output = lw6glb_base64_encode_str (sys_context, input);
 		  if (output)
 		    {
 		      lw6sys_stream_str_to_file (stdout, output);
@@ -298,7 +298,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	      input = lw6sys_stream_file_to_str (stdin);
 	      if (input)
 		{
-		  output = lw6glb_base64_decode_str (input);
+		  output = lw6glb_base64_decode_str (sys_context, input);
 		  if (output)
 		    {
 		      lw6sys_stream_str_to_file (stdout, output);

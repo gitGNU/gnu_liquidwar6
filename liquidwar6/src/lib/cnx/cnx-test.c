@@ -470,7 +470,7 @@ lw6cnx_test_register (int mode)
        * Just to make sure most functions are stuffed in the binary
        */
       lw6sys_test_register (sys_context, mode);
-      lw6glb_test_register (mode);
+      lw6glb_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6cnx", _setup_init, _setup_quit);

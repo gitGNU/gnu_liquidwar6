@@ -89,7 +89,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
   body = msg;
   if (need_base64)
     {
-      base64_str = lw6glb_base64_encode_str (msg);
+      base64_str = lw6glb_base64_encode_str (sys_context, msg);
       if (base64_str)
 	{
 	  body = base64_str;

@@ -235,7 +235,8 @@ lw6msg_word_first_base64 (lw6msg_word_t * word, char **next, const char *msg)
   if (ret)
     {
       ret = 0;
-      decoded = lw6glb_base64_decode_bin (&decoded_len, tmp_word.buf);
+      decoded =
+	lw6glb_base64_decode_bin (sys_context, &decoded_len, tmp_word.buf);
       if (decoded)
 	{
 	  if (decoded_len <= LW6MSG_MAX_WORD_SIZE)

@@ -1774,7 +1774,8 @@ _test_word ()
 		    _TEST_WORD_X_STR_KO);
       }
 
-    base64_item = lw6glb_base64_encode_str (_TEST_WORD_BASE64_ITEM);
+    base64_item =
+      lw6glb_base64_encode_str (sys_context, _TEST_WORD_BASE64_ITEM);
     if (base64_item)
       {
 	base64_str =
@@ -2275,7 +2276,7 @@ lw6msg_test_register (int mode)
        * Just to make sure most functions are stuffed in the binary
        */
       lw6sys_test_register (sys_context, mode);
-      lw6glb_test_register (mode);
+      lw6glb_test_register (sys_context, mode);
       lw6nod_test_register (mode);
       lw6cnx_test_register (mode);
     }
