@@ -620,7 +620,7 @@ extern lw6sys_color_hsv_t LW6SYS_COLOR_HSV_BLUE;
 /*
  * Instant backtrace facility
  */
-#define BT { char *bt=lw6sys_backtrace(0,1); if (bt) { TMP1("bt: \"%s\"",bt); LW6SYS_FREE(bt); } }
+#define BT { char *bt=lw6sys_backtrace(sys_context,0,1); if (bt) { TMP1(sys_context,"bt: \"%s\"",bt); LW6SYS_FREE(sys_context,bt); } }
 
 /*
  * Common indenting parameters
