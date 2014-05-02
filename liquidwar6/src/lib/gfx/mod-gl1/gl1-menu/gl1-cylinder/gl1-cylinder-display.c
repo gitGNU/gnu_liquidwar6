@@ -107,7 +107,7 @@ get_bg_color (const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("invalid value %d for colored menu item"),
 		      menuitem->value);
 	  color = mod_gl1_utils_color_8_to_sdl (LW6SYS_COLOR_8_WHITE);
@@ -175,7 +175,7 @@ draw_button (mod_gl1_utils_context_t * utils_context,
 
   if (bitmap == NULL)
     {
-      utf8 = lw6sys_locale_to_utf8 (menuitem->label);
+      utf8 = lw6sys_locale_to_utf8 (sys_context, menuitem->label);
       if (utf8 != NULL)
 	{
 	  fg_color = get_fg_color (look, menuitem);
@@ -226,7 +226,7 @@ draw_button (mod_gl1_utils_context_t * utils_context,
 		}
 	      mod_gl1_utils_delete_surface (utils_context, text_surface);
 	    }
-	  LW6SYS_FREE (utf8);
+	  LW6SYS_FREE (sys_context, utf8);
 	}
     }
 
@@ -290,7 +290,7 @@ draw_button (mod_gl1_utils_context_t * utils_context,
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to draw button \"%s\""), menuitem->label);
     }
 }
@@ -381,7 +381,7 @@ _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
   if (lw6gui_menu_has_popup (menu))
     {
       popup = menu->popup;
-      if (!lw6sys_str_is_null_or_empty (popup))
+      if (!lw6sys_str_is_null_or_empty (sys_context, popup))
 	{
 	  if ((!lw6sys_str_is_same
 	       (popup, utils_context->menucache_array.popup_str))
@@ -389,7 +389,8 @@ _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
 	    {
 	      if (utils_context->menucache_array.popup_str)
 		{
-		  LW6SYS_FREE (utils_context->menucache_array.popup_str);
+		  LW6SYS_FREE (sys_context,
+			       utils_context->menucache_array.popup_str);
 		  utils_context->menucache_array.popup_str = NULL;
 		}
 	      if (utils_context->menucache_array.popup_bitmap)
@@ -400,7 +401,7 @@ _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
 		  utils_context->menucache_array.popup_bitmap = NULL;
 		}
 	      utils_context->menucache_array.popup_str =
-		lw6sys_str_copy (popup);
+		lw6sys_str_copy (sys_context, popup);
 	      utils_context->menucache_array.popup_bitmap =
 		mod_gl1_utils_multiline_text_write (utils_context,
 						    utils_context->
@@ -542,7 +543,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 	{
 	  tooltip = menu->items[cylinder_context->j_tooltip]->tooltip;
 	}
-      if (!lw6sys_str_is_null_or_empty (tooltip))
+      if (!lw6sys_str_is_null_or_empty (sys_context, tooltip))
 	{
 	  _mod_gl1_menu_cylinder_get_cylinder_right_point (utils_context,
 							   cylinder_context,
@@ -556,7 +557,8 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 	    {
 	      if (utils_context->menucache_array.tooltip_str)
 		{
-		  LW6SYS_FREE (utils_context->menucache_array.tooltip_str);
+		  LW6SYS_FREE (sys_context,
+			       utils_context->menucache_array.tooltip_str);
 		  utils_context->menucache_array.tooltip_str = NULL;
 		}
 	      if (utils_context->menucache_array.tooltip_bitmap)
@@ -567,7 +569,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 		  utils_context->menucache_array.tooltip_bitmap = NULL;
 		}
 	      utils_context->menucache_array.tooltip_str =
-		lw6sys_str_copy (tooltip);
+		lw6sys_str_copy (sys_context, tooltip);
 	      utils_context->menucache_array.tooltip_bitmap =
 		mod_gl1_utils_multiline_text_write (utils_context,
 						    utils_context->
@@ -614,7 +616,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 	}
 
       help = menu->help;
-      if (!lw6sys_str_is_null_or_empty (help))
+      if (!lw6sys_str_is_null_or_empty (sys_context, help))
 	{
 	  if ((!lw6sys_str_is_same
 	       (help, utils_context->menucache_array.help_str))
@@ -622,7 +624,8 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 	    {
 	      if (utils_context->menucache_array.help_str)
 		{
-		  LW6SYS_FREE (utils_context->menucache_array.help_str);
+		  LW6SYS_FREE (sys_context,
+			       utils_context->menucache_array.help_str);
 		  utils_context->menucache_array.help_str = NULL;
 		}
 	      if (utils_context->menucache_array.help_bitmap)
@@ -633,7 +636,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 		  utils_context->menucache_array.help_bitmap = NULL;
 		}
 	      utils_context->menucache_array.help_str =
-		lw6sys_str_copy (help);
+		lw6sys_str_copy (sys_context, help);
 	      utils_context->menucache_array.help_bitmap =
 		mod_gl1_utils_multiline_text_write (utils_context,
 						    utils_context->
@@ -681,10 +684,11 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 
   if (menu->breadcrumbs)
     {
-      breadcrumbs = lw6sys_str_join (menu->breadcrumbs, _BREADCRUMBS_GLUE);
+      breadcrumbs =
+	lw6sys_str_join (sys_context, menu->breadcrumbs, _BREADCRUMBS_GLUE);
     }
 
-  if (!lw6sys_str_is_null_or_empty (breadcrumbs))
+  if (!lw6sys_str_is_null_or_empty (sys_context, breadcrumbs))
     {
       if ((!lw6sys_str_is_same
 	   (breadcrumbs, utils_context->menucache_array.breadcrumbs_str))
@@ -692,7 +696,8 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 	{
 	  if (utils_context->menucache_array.breadcrumbs_str)
 	    {
-	      LW6SYS_FREE (utils_context->menucache_array.breadcrumbs_str);
+	      LW6SYS_FREE (sys_context,
+			   utils_context->menucache_array.breadcrumbs_str);
 	      utils_context->menucache_array.breadcrumbs_str = NULL;
 	    }
 	  if (utils_context->menucache_array.breadcrumbs_bitmap)
@@ -703,7 +708,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 	      utils_context->menucache_array.breadcrumbs_bitmap = NULL;
 	    }
 	  utils_context->menucache_array.breadcrumbs_str =
-	    lw6sys_str_copy (breadcrumbs);
+	    lw6sys_str_copy (sys_context, breadcrumbs);
 	  utils_context->menucache_array.breadcrumbs_bitmap =
 	    mod_gl1_utils_multiline_text_write (utils_context,
 						utils_context->font_data.hud,
@@ -753,7 +758,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
     }
   if (breadcrumbs)
     {
-      LW6SYS_FREE (breadcrumbs);
+      LW6SYS_FREE (sys_context, breadcrumbs);
     }
 }
 

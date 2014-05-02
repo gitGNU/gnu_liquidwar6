@@ -36,7 +36,8 @@ mod_gl1_utils_joystick_init (mod_gl1_utils_joysticks_info_t * joysticks_info)
   int i;
 
   joysticks_info->driver_nb_joysticks = SDL_NumJoysticks ();
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("%d joystick(s) initialized"),
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("%d joystick(s) initialized"),
 	      joysticks_info->driver_nb_joysticks);
   for (i = 0; i < joysticks_info->driver_nb_joysticks; ++i)
     {
@@ -45,12 +46,13 @@ mod_gl1_utils_joystick_init (mod_gl1_utils_joysticks_info_t * joysticks_info)
 	  joysticks_info->sdl_joysticks[i] = SDL_JoystickOpen (i);
 	  if (joysticks_info->sdl_joysticks[i])
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("joystick %d \"%s\" enabled"),
-			  i, SDL_JoystickName (i));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			  _x_ ("joystick %d \"%s\" enabled"), i,
+			  SDL_JoystickName (i));
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("unable to initialize joystick %d \"%s\" enabled"),
 			  i, SDL_JoystickName (i));
@@ -58,7 +60,7 @@ mod_gl1_utils_joystick_init (mod_gl1_utils_joysticks_info_t * joysticks_info)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE,
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		      _x_
 		      ("joystick %d \"%s\" ignored, only %d joysticks supported"),
 		      i, SDL_JoystickName (i), LW6GUI_NB_JOYSTICKS);
@@ -84,7 +86,8 @@ mod_gl1_utils_joystick_quit (mod_gl1_utils_joysticks_info_t * joysticks_info)
     {
       if (joysticks_info->sdl_joysticks[i])
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("joystick %d \"%s\" disabled"), i,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		      _x_ ("joystick %d \"%s\" disabled"), i,
 		      SDL_JoystickName (i));
 	  SDL_JoystickClose (joysticks_info->sdl_joysticks[i]);
 	}

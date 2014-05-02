@@ -54,7 +54,8 @@ _load_consts (_mod_udpd_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), consts_file);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
+	      consts_file);
 
   ret =
     lw6cfg_read_key_value_xml_file (consts_file, _read_callback,
@@ -70,16 +71,17 @@ _mod_udpd_load_data (_mod_udpd_data_t * udpd_data, const char *data_dir)
   char *udpd_subdir = NULL;
   char *consts_file = NULL;
 
-  udpd_subdir = lw6sys_path_concat (data_dir, _UDPD_SUBDIR);
+  udpd_subdir = lw6sys_path_concat (sys_context, data_dir, _UDPD_SUBDIR);
   if (udpd_subdir)
     {
-      consts_file = lw6sys_path_concat (udpd_subdir, _CONSTS_FILE);
+      consts_file =
+	lw6sys_path_concat (sys_context, udpd_subdir, _CONSTS_FILE);
       if (consts_file)
 	{
 	  ret = _load_consts (&(udpd_data->consts), consts_file);
-	  LW6SYS_FREE (consts_file);
+	  LW6SYS_FREE (sys_context, consts_file);
 	}
-      LW6SYS_FREE (udpd_subdir);
+      LW6SYS_FREE (sys_context, udpd_subdir);
     }
 
   return ret;

@@ -40,15 +40,15 @@ _mod_ogg_poll_water (_mod_ogg_context_t * ogg_context)
     {
       if (Mix_Playing (channel))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("OK, channel %d playing"),
-		      channel);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("OK, channel %d playing"), channel);
 	}
       else
 	{
-	  water_id = lw6sys_random (_MOD_OGG_NB_WATER);
+	  water_id = lw6sys_random (sys_context, _MOD_OGG_NB_WATER);
 	  if (ogg_context->water.water[water_id])
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("play water %d on channel %d"), water_id,
 			  channel);
 	      Mix_PlayChannel (channel, ogg_context->water.water[water_id],
@@ -67,25 +67,25 @@ load_water (_mod_ogg_context_t * ogg_context, char *file)
 
   if (file)
     {
-      path1 = lw6sys_path_concat (WATER_DIR, file);
+      path1 = lw6sys_path_concat (sys_context, WATER_DIR, file);
       if (path1)
 	{
 	  path2 = lw6sys_path_concat (ogg_context->path.data_dir, path1);
 	  if (path2)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading water \"%s\""),
-			  path2);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			  _x_ ("loading water \"%s\""), path2);
 	      ret = Mix_LoadWAV (path2);
 	      if (!ret)
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("unable to load water \"%s\" Mix_GetError returned \"%s\""),
 			      path2, Mix_GetError ());
 		}
-	      LW6SYS_FREE (path2);
+	      LW6SYS_FREE (sys_context, path2);
 	    }
-	  LW6SYS_FREE (path1);
+	  LW6SYS_FREE (sys_context, path1);
 	}
     }
 
@@ -116,7 +116,8 @@ _mod_ogg_load_water (_mod_ogg_context_t * ogg_context)
     {
       if (!ogg_context->water.water[i])
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to load water %d"), i);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("unable to load water %d"), i);
 	  ret = 0;
 	}
     }

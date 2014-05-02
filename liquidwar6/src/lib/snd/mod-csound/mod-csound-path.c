@@ -36,12 +36,13 @@ _mod_csound_path_init (_mod_csound_context_t * csound_context, int argc,
   char *data_root_dir = NULL;
   int ret = 0;
 
-  data_root_dir = lw6sys_get_data_dir (argc, argv);
+  data_root_dir = lw6sys_get_data_dir (sys_context, argc, argv);
   if (data_root_dir)
     {
-      csound_context->path.data_dir = lw6sys_path_concat (data_root_dir, SUB);
+      csound_context->path.data_dir =
+	lw6sys_path_concat (sys_context, data_root_dir, SUB);
       ret = 1;
-      LW6SYS_FREE (data_root_dir);
+      LW6SYS_FREE (sys_context, data_root_dir);
     }
 
   return ret;
@@ -52,6 +53,6 @@ _mod_csound_path_quit (_mod_csound_context_t * csound_context)
 {
   if (csound_context->path.data_dir)
     {
-      LW6SYS_FREE (csound_context->path.data_dir);
+      LW6SYS_FREE (sys_context, csound_context->path.data_dir);
     }
 }

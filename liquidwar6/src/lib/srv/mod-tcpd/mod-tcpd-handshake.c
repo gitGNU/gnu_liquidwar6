@@ -38,7 +38,7 @@ _mod_tcpd_analyse_tcp (_mod_tcpd_context_t * tcpd_context,
   char *msg = NULL;
 
   line = tcp_accepter->first_line;
-  lw6sys_log (LW6SYS_LOG_DEBUG,
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_ ("trying to recognize tcpd protocol in \"%s\""), line);
 
   if (remote_id)
@@ -53,13 +53,14 @@ _mod_tcpd_analyse_tcp (_mod_tcpd_context_t * tcpd_context,
   if (lw6net_tcp_is_alive (&(tcp_accepter->sock)))
     {
       if (lw6sys_chr_is_eol (line[0])
-	  || lw6sys_str_starts_with_no_case (line,
+	  || lw6sys_str_starts_with_no_case (sys_context, line,
 					     LW6MSG_OOB_PING)
-	  || lw6sys_str_starts_with_no_case (line,
+	  || lw6sys_str_starts_with_no_case (sys_context, line,
 					     LW6MSG_OOB_INFO)
-	  || lw6sys_str_starts_with_no_case (line, LW6MSG_OOB_LIST))
+	  || lw6sys_str_starts_with_no_case (sys_context, line,
+					     LW6MSG_OOB_LIST))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("recognized tcpd protocol (OOB)"));
 	  ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
 	}
@@ -67,7 +68,8 @@ _mod_tcpd_analyse_tcp (_mod_tcpd_context_t * tcpd_context,
       if (lw6sys_str_starts_with_no_case
 	  (line, _MOD_TCPD_PROTOCOL_LW6_STRING))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("recognized tcpd protocol"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("recognized tcpd protocol"));
 	  if (lw6msg_envelope_analyse
 	      (line, LW6MSG_ENVELOPE_MODE_TELNET,
 	       node_info->const_info.ref_info.url,
@@ -76,27 +78,27 @@ _mod_tcpd_analyse_tcp (_mod_tcpd_context_t * tcpd_context,
 	       remote_id, NULL, NULL, NULL, remote_url))
 	    {
 	      ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("tcpd message \"%s\" OK"),
-			  line);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+			  _x_ ("tcpd message \"%s\" OK"), line);
 	      if (msg)
 		{
 		  /*
 		   * We need to pass msg else remote_url isn't processed
 		   */
-		  LW6SYS_FREE (msg);
+		  LW6SYS_FREE (sys_context, msg);
 		}
 	    }
 	  else
 	    {
 	      if (strchr (line, '\n'))
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("unable to analyse message \"%s\""), line);
 		  ret |= LW6SRV_ANALYSE_DEAD;
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("unable to analyse message \"%s\" but line does not seem complete, assuming some data is still missing, giving it another chance"),
 			      line);
@@ -162,7 +164,7 @@ _mod_tcpd_feed_with_tcp (_mod_tcpd_context_t * tcpd_context,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("double connection from \"%s\" (%s:%d), ignoring"),
 			  connection->remote_url, connection->remote_ip,

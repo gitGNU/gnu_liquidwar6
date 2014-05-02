@@ -42,20 +42,22 @@ mod_gl1_utils_load_image (mod_gl1_utils_context_t * utils_context,
   SDL_Surface *ret = NULL;
   char *image_file = NULL;
 
-  image_file = lw6sys_path_concat (utils_context->path.data_dir, filename);
+  image_file =
+    lw6sys_path_concat (sys_context, utils_context->path.data_dir, filename);
 
   if (image_file)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading image \"%s\""), image_file);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading image \"%s\""),
+		  image_file);
       ret = IMG_Load (image_file);
       if (!ret)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("SDL_image error \"%s\" while loading image \"%s\""),
 		      IMG_GetError (), image_file);
 	}
-      LW6SYS_FREE (image_file);
+      LW6SYS_FREE (sys_context, image_file);
     }
 
   if (ret != NULL)
@@ -67,7 +69,7 @@ mod_gl1_utils_load_image (mod_gl1_utils_context_t * utils_context,
       /*
        * Carefull not to use buf in error message.
        */
-      lw6sys_log (LW6SYS_LOG_ERROR,
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 		  _("unable to load image \"%s\""), filename);
     }
 
@@ -94,18 +96,19 @@ load_font (mod_gl1_utils_context_t * utils_context, const char *filename,
   TTF_Font *ret = NULL;
   char *font_file;
 
-  font_file = lw6sys_path_concat (utils_context->path.data_dir, filename);
+  font_file =
+    lw6sys_path_concat (sys_context, utils_context->path.data_dir, filename);
   if (font_file)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading font \"%s\", size %d"),
-		  font_file, size);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+		  _x_ ("loading font \"%s\", size %d"), font_file, size);
       ret = TTF_OpenFont (font_file, size);
-      LW6SYS_FREE (font_file);
+      LW6SYS_FREE (sys_context, font_file);
     }
 
   if (ret == NULL)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR,
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 		  _("unable to load font \"%s\""), filename);
     }
 
@@ -132,7 +135,7 @@ mod_gl1_utils_load_fonts (mod_gl1_utils_context_t * utils_context)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading fonts"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading fonts"));
 
   ret =
     ((utils_context->font_data.menu =
@@ -186,7 +189,8 @@ mod_gl1_utils_load_data (mod_gl1_utils_context_t * utils_context)
   lw6gui_look_t *look = NULL;
 
   ret =
-    ((utils_context->texture_data.to_delete = lw6sys_list_new (NULL)) != NULL)
+    ((utils_context->texture_data.to_delete =
+      lw6sys_list_new (sys_context, NULL)) != NULL)
     && mod_gl1_utils_load_fonts (utils_context);
 
   look = lw6gui_look_new (NULL);
@@ -215,7 +219,7 @@ mod_gl1_utils_unload_data (mod_gl1_utils_context_t * utils_context)
   mod_gl1_utils_delete_scheduled_textures (utils_context);
   if (utils_context->texture_data.to_delete)
     {
-      LW6SYS_FREE (utils_context->texture_data.to_delete);
+      LW6SYS_FREE (sys_context, utils_context->texture_data.to_delete);
     }
   memset (&utils_context->texture_data, 0,
 	  sizeof (mod_gl1_utils_texture_data_t));

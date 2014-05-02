@@ -34,7 +34,8 @@ _mod_udp_repr (_mod_udp_context_t * udp_context,
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf (_x_ ("udp connexion of \"%s\" on \"%s\""),
+    lw6sys_new_sprintf (sys_context,
+			_x_ ("udp connexion of \"%s\" on \"%s\""),
 			connection->local_url, connection->remote_url);
 
   return ret;

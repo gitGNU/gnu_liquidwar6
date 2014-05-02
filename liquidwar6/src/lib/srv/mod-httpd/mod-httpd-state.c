@@ -39,7 +39,8 @@ _mod_httpd_open (_mod_httpd_context_t * httpd_context,
   lw6cnx_connection_t *ret = NULL;
   _mod_httpd_specific_data_t *specific_data = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("_mod_httpd_open \"%s\""), remote_url);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("_mod_httpd_open \"%s\""),
+	      remote_url);
   ret =
     lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
 			   password, local_id, remote_id, dns_ok,
@@ -55,10 +56,11 @@ _mod_httpd_open (_mod_httpd_context_t * httpd_context,
 	{
 	  specific_data->send_buffer = NULL;
 	  specific_data->reply_threads =
-	    lw6sys_list_new (_mod_httpd_reply_thread_free_list_item);
+	    lw6sys_list_new (sys_context,
+			     _mod_httpd_reply_thread_free_list_item);
 	  if (specific_data->reply_threads)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("open httpd connection with \"%s\""),
 			  remote_url);
 	    }
@@ -118,7 +120,7 @@ _mod_httpd_timeout_ok (_mod_httpd_context_t * httpd_context,
    * some time assumed to be reasonnable (depends on settings)
    * it will be over.
    */
-  d = abs (lw6sys_get_timestamp () - origin_timestamp);
+  d = abs (lw6sys_get_timestamp (sys_context,) - origin_timestamp);
   ret = (d < (httpd_context->data.consts.error_timeout * 1000));
 
   return ret;

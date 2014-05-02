@@ -39,7 +39,8 @@ _mod_udpd_open (_mod_udpd_context_t * udpd_context,
   lw6cnx_connection_t *ret = NULL;
   _mod_udpd_specific_data_t *specific_data = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("_mod_udpd_open \"%s\""), remote_url);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("_mod_udpd_open \"%s\""),
+	      remote_url);
   ret =
     lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
 			   password, local_id, remote_id, dns_ok,
@@ -55,7 +56,7 @@ _mod_udpd_open (_mod_udpd_context_t * udpd_context,
 	{
 	  specific_data->sock = listener->udp_sock;
 	  specific_data->remote_port = remote_port;
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("open udpd connection with \"%s\""), remote_url);
 	}
       else
@@ -96,7 +97,7 @@ _mod_udpd_timeout_ok (_mod_udpd_context_t * udpd_context,
    * some time assumed to be reasonnable (depends on settings)
    * it will be over.
    */
-  d = abs (lw6sys_get_timestamp () - origin_timestamp);
+  d = abs (lw6sys_get_timestamp (sys_context,) - origin_timestamp);
   ret = (d < (udpd_context->data.consts.error_timeout * 1000));
 
   return ret;

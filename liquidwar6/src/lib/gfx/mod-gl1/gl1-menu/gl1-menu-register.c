@@ -44,7 +44,7 @@ mod_gl1_menu_create_backend (mod_gl1_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("menu backend \"%s\" does not exists"), name);
     }
 
@@ -53,7 +53,7 @@ mod_gl1_menu_create_backend (mod_gl1_utils_context_t * utils_context,
       backend = init_func (utils_context);
       if (backend)
 	{
-	  backend->backend_name = lw6sys_str_copy (name);
+	  backend->backend_name = lw6sys_str_copy (sys_context, name);
 	}
     }
 
@@ -68,8 +68,8 @@ mod_gl1_menu_destroy_backend (mod_gl1_utils_context_t * utils_context,
     {
       if (backend->backend_name)
 	{
-	  LW6SYS_FREE (backend->backend_name);
+	  LW6SYS_FREE (sys_context, backend->backend_name);
 	}
-      LW6SYS_FREE (backend);
+      LW6SYS_FREE (sys_context, backend);
     }
 }

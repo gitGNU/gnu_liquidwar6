@@ -34,7 +34,7 @@ _get_text_wh (TTF_Font * font, const char *text, int *width, int *height)
 {
   if (TTF_SizeUTF8 (font, text, width, height) == -1)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("unable to calculate font width and height for text \"%s\""),
 		  text);
@@ -90,7 +90,7 @@ mod_gl1_utils_blended_text_surface (mod_gl1_utils_context_t * utils_context,
   SDL_Surface *ret = NULL;
   char *utf8 = NULL;
 
-  utf8 = lw6sys_locale_to_utf8 (text);
+  utf8 = lw6sys_locale_to_utf8 (sys_context, text);
   if (utf8 != NULL)
     {
       ret = TTF_RenderUTF8_Blended (font, utf8, color);
@@ -100,10 +100,10 @@ mod_gl1_utils_blended_text_surface (mod_gl1_utils_context_t * utils_context,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("TTF_RenderUTF8_Blended failed"));
 	}
-      LW6SYS_FREE (utf8);
+      LW6SYS_FREE (sys_context, utf8);
     }
 
   return ret;
@@ -118,7 +118,7 @@ _multiline_text_size_callback (void *func_data, void *data)
   char *line = (char *) data;
   int w = 0, h = 0;
 
-  if (!lw6sys_str_is_blank (line))
+  if (!lw6sys_str_is_blank (sys_context, line))
     {
       _get_text_wh (text_callback_data->font, line, &w, &h);
       text_callback_data->shape.w =
@@ -139,9 +139,9 @@ _multiline_text_draw_callback (void *func_data, void *data)
   SDL_Rect src_rect;
   SDL_Rect dst_rect;
 
-  if (!lw6sys_str_is_blank (line))
+  if (!lw6sys_str_is_blank (sys_context, line))
     {
-      utf8 = lw6sys_locale_to_utf8 (line);
+      utf8 = lw6sys_locale_to_utf8 (sys_context, line);
       if (utf8 != NULL)
 	{
 	  buffer =
@@ -177,10 +177,10 @@ _multiline_text_draw_callback (void *func_data, void *data)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("TTF_RenderUTF8_Shaded failed"));
 	    }
-	  LW6SYS_FREE (utf8);
+	  LW6SYS_FREE (sys_context, utf8);
 	}
     }
 }
@@ -203,15 +203,15 @@ mod_gl1_utils_multiline_text_write (mod_gl1_utils_context_t *
   Uint32 i_color_fg;
 
   memset (&data, 0, sizeof (mod_gl1_utils_multiline_text_callback_data_t));
-  reformatted = lw6sys_str_reformat (text, "", reformat_width);
+  reformatted = lw6sys_str_reformat (sys_context, text, "", reformat_width);
   if (reformatted)
     {
-      lines = lw6sys_str_split (reformatted, '\n');
+      lines = lw6sys_str_split (sys_context, reformatted, '\n');
       if (lines)
 	{
 	  data.utils_context = utils_context;
 	  data.font = font;
-	  lw6sys_list_map (lines, _multiline_text_size_callback,
+	  lw6sys_list_map (sys_context, lines, _multiline_text_size_callback,
 			   (void *) &data);
 	  data.shape.w += (2 * (border_size + margin_size));
 	  data.shape.h += (2 * (border_size + margin_size));
@@ -231,8 +231,8 @@ mod_gl1_utils_multiline_text_write (mod_gl1_utils_context_t *
 	    {
 	      data.sdl_color_bg = mod_gl1_utils_color_8_to_sdl (color->bg);
 	      data.sdl_color_fg = mod_gl1_utils_color_8_to_sdl (color->fg);
-	      i_color_bg = lw6sys_color_8_to_irgba (color->bg);
-	      i_color_fg = lw6sys_color_8_to_irgba (color->fg);
+	      i_color_bg = lw6sys_color_8_to_irgba (sys_context, color->bg);
+	      i_color_fg = lw6sys_color_8_to_irgba (sys_context, color->fg);
 
 	      mod_gl1_utils_draw_rectfill (data.target, 0, 0,
 					   data.shape.w - 1, data.shape.h - 1,
@@ -243,8 +243,8 @@ mod_gl1_utils_multiline_text_write (mod_gl1_utils_context_t *
 					   data.shape.h - 1 - border_size,
 					   i_color_bg);
 
-	      lw6sys_list_map (lines, _multiline_text_draw_callback,
-			       (void *) &data);
+	      lw6sys_list_map (sys_context, lines,
+			       _multiline_text_draw_callback, (void *) &data);
 	      mod_gl1_utils_draw_set_alpha_for_color (data.target, alpha_bg,
 						      i_color_bg);
 	      ret =
@@ -256,9 +256,9 @@ mod_gl1_utils_multiline_text_write (mod_gl1_utils_context_t *
 		}
 	    }
 
-	  lw6sys_list_free (lines);
+	  lw6sys_list_free (sys_context, lines);
 	}
-      LW6SYS_FREE (reformatted);
+      LW6SYS_FREE (sys_context, reformatted);
     }
 
   return ret;
@@ -289,8 +289,8 @@ _draw_text (mod_gl1_utils_context_t * utils_context,
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to draw text \"%s\""),
-		  text);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to draw text \"%s\""), text);
     }
 }
 

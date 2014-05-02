@@ -40,15 +40,16 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
     (_mod_tcp_specific_data_t *) connection->backend_specific_data;
   char *line = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcp send \"%s\""), message);
-  line = lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_TELNET,
-				   lw6sys_build_get_version (),
-				   connection->password_send_checksum,
-				   physical_ticket_sig,
-				   logical_ticket_sig,
-				   connection->local_id_int,
-				   connection->remote_id_int,
-				   logical_from_id, logical_to_id, message);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcp send \"%s\""),
+	      message);
+  line =
+    lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_TELNET,
+			      lw6sys_build_get_version (),
+			      connection->password_send_checksum,
+			      physical_ticket_sig, logical_ticket_sig,
+			      connection->local_id_int,
+			      connection->remote_id_int, logical_from_id,
+			      logical_to_id, message);
   if (line)
     {
       if (specific_data->state == _MOD_TCP_STATE_CONNECTED
@@ -58,8 +59,8 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
 	    {
 	      if (lw6net_send_line_tcp (&(specific_data->sock), line))
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcp sent \"%s\""),
-			      line);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+			      _x_ ("mod_tcp sent \"%s\""), line);
 		  specific_data->last_send_success_timestamp = now;
 		  ret = 1;
 		}
@@ -74,12 +75,12 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
 	{
 	  if (specific_data->last_send_success_timestamp)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("mod_tcp send failed but has succeeded before"));
 	    }
 	  specific_data->last_send_fail_timestamp = now;
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_
 		      ("mod_tcp can't send \"%s\", not connected sock=%d state=%d"),
 		      message, specific_data->sock, specific_data->state);
@@ -90,13 +91,13 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
     {
       if (line)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("mod_tcp did not send \"%s\" sock=%d state=%d"),
 		      line, specific_data->sock, specific_data->state);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("mod_tcp did not send NULL sock=%d state=%d"),
 		      specific_data->sock, specific_data->state);
 	}
@@ -104,7 +105,7 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
 
   if (line)
     {
-      LW6SYS_FREE (line);
+      LW6SYS_FREE (sys_context, line);
     }
 
   return ret;
@@ -141,7 +142,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
   u_int64_t logical_from_id = 0;
   u_int64_t logical_to_id = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcp poll"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcp poll"));
   switch (specific_data->state)
     {
     case _MOD_TCP_STATE_CLOSED:
@@ -162,7 +163,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 	  else
 	    {
 	      specific_data->state = _MOD_TCP_STATE_CLOSED;
-	      LW6SYS_FREE (connect_data);
+	      LW6SYS_FREE (sys_context, connect_data);
 	    }
 	}
       break;
@@ -215,7 +216,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 			lw6net_recv_line_tcp (&(specific_data->sock));
 		      if (envelope_line)
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				      _x_
 				      ("mod_tcp received envelope \"%s\""),
 				      envelope_line);
@@ -228,7 +229,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 			       &physical_from_id, &physical_to_id,
 			       &logical_from_id, &logical_to_id, NULL))
 			    {
-			      lw6sys_log (LW6SYS_LOG_DEBUG,
+			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					  _x_ ("mod_tcp analysed msg \"%s\""),
 					  msg);
 			      if (connection->recv_callback_func)
@@ -241,13 +242,13 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 				}
 			      else
 				{
-				  lw6sys_log (LW6SYS_LOG_DEBUG,
+				  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					      _x_
 					      ("no recv callback defined"));
 				}
-			      LW6SYS_FREE (msg);
+			      LW6SYS_FREE (sys_context, msg);
 			    }
-			  LW6SYS_FREE (envelope_line);
+			  LW6SYS_FREE (sys_context, envelope_line);
 			}
 		    }
 		}
@@ -260,7 +261,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 	}
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unvalid state %d"),
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unvalid state %d"),
 		  specific_data->state);
     }
 }

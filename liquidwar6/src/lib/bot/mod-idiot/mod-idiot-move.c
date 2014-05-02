@@ -64,7 +64,7 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 	      && data->param.iq < _MOD_IDIOT_IQ_LIMIT2)
 	    {
 	      // here, we don't search anymore, just choose random
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("idiot bot acting randomly, choosed %d,%d"), x, y);
 	      found = 1;
@@ -87,7 +87,7 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 			      && fighter->team_color != team_color)
 			    {
 			      // default behavior, find an opponent
-			      lw6sys_log (LW6SYS_LOG_DEBUG,
+			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					  _x_
 					  ("idiot bot acting normally, choosed opponent of color %d at %d,%d"),
 					  fighter->team_color, x, y);
@@ -97,7 +97,7 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 			      && fighter->team_color == team_color)
 			    {
 			      // acting stupid, centering on self
-			      lw6sys_log (LW6SYS_LOG_DEBUG,
+			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					  _x_
 					  ("idiot bot acting stupid, choosed self color %d at %d,%d"),
 					  fighter->team_color, x, y);
@@ -108,13 +108,13 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 		}
 	      if (!found)
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("idiot bot found nothing at %d,%d"), x, y);
 		}
 	    }
 	}
 
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("idiot bot moved start=%d,%d target=%d,%d after %d tries"),
 		  idiot_context->start_pos_x, idiot_context->start_pos_y,
@@ -144,7 +144,8 @@ _mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x, int *y,
   lw6ker_game_state_get_shape (data->game_state, &shape);
 
   rounds = lw6ker_game_state_get_rounds (data->game_state);
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("idiot bot move rounds=%d"), rounds);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("idiot bot move rounds=%d"),
+	      rounds);
 
   average_size = (shape.w + shape.h) / 2.0f;
   d_move =

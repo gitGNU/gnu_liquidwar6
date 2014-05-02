@@ -122,8 +122,9 @@ _display_gauges (mod_gl1_utils_context_t * utils_context,
 				       (floating_context->game_state,
 					team_color) >=
 				       1000) ?
-		lw6sys_math_heartbeat (_lw6gfx_sdl_timer_get_uptime
-				       (&(utils_context->sdl_context)),
+		lw6sys_math_heartbeat (sys_context,
+				       _lw6gfx_sdl_timer_get_uptime (&
+								     (utils_context->sdl_context)),
 				       floating_context->const_data.
 				       gauge_heartbeat_period,
 				       floating_context->

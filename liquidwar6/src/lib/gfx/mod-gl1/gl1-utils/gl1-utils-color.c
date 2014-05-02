@@ -46,7 +46,7 @@ mod_gl1_utils_color_f_to_sdl (const lw6sys_color_f_t * color_f)
   lw6sys_color_8_t color_8;
   SDL_Color ret;
 
-  color_8 = lw6sys_color_f_to_8 (color_f);
+  color_8 = lw6sys_color_f_to_8 (sys_context, color_f);
   ret = mod_gl1_utils_color_8_to_sdl (color_8);
 
   return ret;
@@ -60,11 +60,11 @@ _prepare_shaded_color_for_fighter (lw6sys_color_8_t dead_color,
   lw6sys_color_8_t color;
 
   color =
-    lw6sys_color_ponderate (dead_color, team_color,
+    lw6sys_color_ponderate (sys_context, dead_color, team_color,
 			    ((float) j) /
 			    ((float) MOD_GL1_SHADES_FOR_FIGHTERS_SCALE));
   color.a = 0xFF;
-  ret = lw6sys_color_8_to_irgba (color);
+  ret = lw6sys_color_8_to_irgba (sys_context, color);
 
   return ret;
 }
@@ -89,7 +89,8 @@ mod_gl1_utils_update_team_color_map (mod_gl1_utils_team_color_map_t *
       if (test !=
 	  team_color_map->team_colors[i][MOD_GL1_SHADES_FOR_FIGHTERS_SCALE])
 	{
-	  lw6sys_color_8_to_f (&(team_color_map->team_colors_f[i]),
+	  lw6sys_color_8_to_f (sys_context,
+			       &(team_color_map->team_colors_f[i]),
 			       team_color);
 	  for (j = 0; j < MOD_GL1_SHADES_FOR_FIGHTERS_SCALE + 1; ++j)
 	    {

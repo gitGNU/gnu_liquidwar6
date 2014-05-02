@@ -36,13 +36,13 @@ _mod_tcpd_init (int argc, const char *argv[],
   char *data_dir = NULL;
   int ok = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("tcpd init"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("tcpd init"));
 
   tcpd_context =
     (_mod_tcpd_context_t *) LW6SYS_CALLOC (sizeof (_mod_tcpd_context_t));
   if (tcpd_context)
     {
-      data_dir = lw6sys_get_data_dir (argc, argv);
+      data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
       if (data_dir)
 	{
 	  if (_mod_tcpd_load_data (&(tcpd_context->data), data_dir))
@@ -57,7 +57,7 @@ _mod_tcpd_init (int argc, const char *argv[],
 	      properties->backend_id = MOD_TCPD_BACKEND_ID;
 	      ok = 1;
 	    }
-	  LW6SYS_FREE (data_dir);
+	  LW6SYS_FREE (sys_context, data_dir);
 	}
       if (!ok)
 	{
@@ -68,7 +68,8 @@ _mod_tcpd_init (int argc, const char *argv[],
 
   if (!tcpd_context)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_tcpd"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+		  _("can't initialize mod_tcpd"));
     }
 
   return tcpd_context;
@@ -77,7 +78,7 @@ _mod_tcpd_init (int argc, const char *argv[],
 void
 _mod_tcpd_quit (_mod_tcpd_context_t * tcpd_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("tcpd quit"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("tcpd quit"));
   _mod_tcpd_unload_data (&(tcpd_context->data));
-  LW6SYS_FREE (tcpd_context);
+  LW6SYS_FREE (sys_context, tcpd_context);
 }

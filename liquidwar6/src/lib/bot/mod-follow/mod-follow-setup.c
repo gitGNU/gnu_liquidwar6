@@ -32,7 +32,7 @@ _mod_follow_init (int argc, const char *argv[], lw6bot_data_t * data)
 {
   _mod_follow_context_t *follow_context = NULL;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("follow init"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("follow init"));
 
   follow_context =
     (_mod_follow_context_t *) LW6SYS_CALLOC (sizeof (_mod_follow_context_t));
@@ -47,6 +47,6 @@ _mod_follow_init (int argc, const char *argv[], lw6bot_data_t * data)
 void
 _mod_follow_quit (_mod_follow_context_t * follow_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("follow quit"));
-  LW6SYS_FREE (follow_context);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("follow quit"));
+  LW6SYS_FREE (sys_context, follow_context);
 }

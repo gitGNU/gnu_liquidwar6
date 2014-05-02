@@ -65,7 +65,8 @@ mod_gl1_utils_display_mps (mod_gl1_utils_context_t * context,
   if (mps >= 0.0f)
     {
       list_mps[0] = " ";
-      list_mps[1] = lw6sys_new_sprintf ("%d/%d", (int) mps, target_mps);
+      list_mps[1] =
+	lw6sys_new_sprintf (sys_context, "%d/%d", (int) mps, target_mps);
       list_mps[2] = NULL;
 
       if (list_mps[0])

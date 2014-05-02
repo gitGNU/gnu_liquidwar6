@@ -55,7 +55,7 @@ _mod_httpd_reply_thread_func (void *callback_data)
 	      if (request->get_head_post == _MOD_HTTPD_GET)
 		{
 		  envelope_line = request->uri;
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("mod_httpd received envelope \"%s\""),
 			      envelope_line);
 		  if (lw6msg_envelope_analyse
@@ -67,7 +67,7 @@ _mod_httpd_reply_thread_func (void *callback_data)
 		       &physical_from_id, &physical_to_id,
 		       &logical_from_id, &logical_to_id, NULL))
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("mod_httpd analysed msg \"%s\""), msg);
 		      if (cnx->recv_callback_func)
 			{
@@ -79,7 +79,7 @@ _mod_httpd_reply_thread_func (void *callback_data)
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				      _x_ ("no recv callback defined"));
 			}
 		      /*
@@ -90,7 +90,7 @@ _mod_httpd_reply_thread_func (void *callback_data)
 		       */
 		      response =
 			_mod_httpd_reply_thread_response (reply_thread_data);
-		      LW6SYS_FREE (msg);
+		      LW6SYS_FREE (sys_context, msg);
 		    }
 		}
 	      else
@@ -115,14 +115,14 @@ _mod_httpd_reply_thread_func (void *callback_data)
 						&(reply_thread_data->sock),
 						0))
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("mod_httpd sent %d bytes"),
 				  response->content_size);
 		      _mod_httpd_log (httpd_context, request, response);
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_ ("request \"%s\" failed"),
 				  request->uri);
 		    }
@@ -143,7 +143,7 @@ _mod_httpd_reply_thread_join (void *callback_data)
   if (reply_thread_data)
     {
       lw6net_socket_close (&(reply_thread_data->sock));
-      LW6SYS_FREE (reply_thread_data);
+      LW6SYS_FREE (sys_context, reply_thread_data);
     }
 }
 
@@ -154,10 +154,11 @@ _mod_httpd_reply_thread_free_list_item (void *data)
   lw6sys_thread_handler_t *handler = (lw6sys_thread_handler_t *) data;
 
   reply_thread_data =
-    (_mod_httpd_reply_thread_data_t *) lw6sys_thread_get_data (handler);
+    (_mod_httpd_reply_thread_data_t *) lw6sys_thread_get_data (sys_context,
+							       handler);
   reply_thread_data->do_not_finish = 1;
 
-  lw6sys_thread_join (handler);
+  lw6sys_thread_join (sys_context, handler);
 }
 
 int
@@ -168,7 +169,7 @@ _mod_httpd_reply_thread_filter (void *func_data, void *data)
   /*
    * If callback is done, free item, that is, return 0
    */
-  ret = !lw6sys_thread_is_callback_done (data);
+  ret = !lw6sys_thread_is_callback_done (sys_context, data);
 
   return ret;
 }
@@ -210,7 +211,7 @@ _mod_httpd_reply_thread_response (_mod_httpd_reply_thread_data_t *
 
   if (!send_buffer)
     {
-      send_buffer = lw6sys_str_copy (LW6SYS_STR_EMPTY);
+      send_buffer = lw6sys_str_copy (sys_context, LW6SYS_STR_EMPTY);
     }
 
   if (send_buffer)

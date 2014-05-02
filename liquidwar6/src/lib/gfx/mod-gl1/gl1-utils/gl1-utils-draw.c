@@ -58,9 +58,9 @@ mod_gl1_utils_draw_set_alpha_for_color (SDL_Surface * surface, float alpha,
   lw6sys_color_f_t color_f_tmp;
 
   //alpha_8=lw6sys_color_float2char(alpha);
-  lw6sys_color_irgba_to_f (&color_f_tmp, color);
+  lw6sys_color_irgba_to_f (sys_context, &color_f_tmp, color);
   color_f_tmp.a = alpha;
-  alpha_color = lw6sys_color_f_to_irgba (&color_f_tmp);
+  alpha_color = lw6sys_color_f_to_irgba (sys_context, &color_f_tmp);
   w = surface->w;
   h = surface->h;
   for (x = 0; x < w; ++x)

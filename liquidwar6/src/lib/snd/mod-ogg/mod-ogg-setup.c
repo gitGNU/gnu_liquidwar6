@@ -38,7 +38,7 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume,
   int pan1 = 0;
   int pan2 = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_ ("ogg init volume=%01.2f/%01.2f/%01.2f"), fx_volume,
 	      water_volume, music_volume);
 
@@ -50,11 +50,11 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume,
 	{
 	  memset (&version, 0, sizeof (SDL_version));
 	  SDL_VERSION (&version);
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("SDL header version when compiled %u.%u.%u"),
 		      version.major, version.minor, version.patch);
 	  version = *SDL_Linked_Version ();
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("SDL linked version now at runtime %u.%u.%u"),
 		      version.major, version.minor, version.patch);
 
@@ -67,7 +67,7 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume,
 
 	  if (!SDL_WasInit (SDL_INIT_EVENTTHREAD))
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("unable to start SDL event thread, using poll() function"));
 	    }
@@ -103,7 +103,7 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume,
 		      if (!Mix_SetPanning
 			  (_MOD_OGG_CHANNEL_WATER1, pan1, pan2))
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_
 				      ("unable to set panning on channel %d (%s)"),
 				      _MOD_OGG_CHANNEL_WATER1,
@@ -112,7 +112,7 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume,
 		      if (!Mix_SetPanning
 			  (_MOD_OGG_CHANNEL_WATER2, pan2, pan1))
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_
 				      ("unable to set panning on channel %d (%s)"),
 				      _MOD_OGG_CHANNEL_WATER2,
@@ -121,7 +121,7 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  _x_
 				  ("not enough channels (%d) to handle both water and sound fx"),
 				  snd_context->mixer.nb_channels);
@@ -138,14 +138,14 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("SDL_mixer init error: \"%s\""),
 			      Mix_GetError ());
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("SDL init error: \"%s\""), SDL_GetError ());
 	    }
 	}
@@ -153,7 +153,8 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume,
 
   if (!ok)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init mod_ogg"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to init mod_ogg"));
       _mod_ogg_quit (snd_context);
       snd_context = NULL;
     }
@@ -164,7 +165,7 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume,
 void
 _mod_ogg_poll (_mod_ogg_context_t * snd_context)
 {
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("ogg poll"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("ogg poll"));
 
   _mod_ogg_poll_water (snd_context);
 }
@@ -172,7 +173,7 @@ _mod_ogg_poll (_mod_ogg_context_t * snd_context)
 void
 _mod_ogg_quit (_mod_ogg_context_t * snd_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("ogg quit"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("ogg quit"));
 
   _mod_ogg_stop_music (snd_context);
 
@@ -194,7 +195,7 @@ _mod_ogg_quit (_mod_ogg_context_t * snd_context)
 
   if (lw6sys_sdl_unregister ())
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL Quit"));
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL Quit"));
       SDL_Quit ();
     }
 

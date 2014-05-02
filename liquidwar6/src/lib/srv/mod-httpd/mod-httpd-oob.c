@@ -56,10 +56,11 @@ _add_node_html (void *func_data, void *data)
 	  description = verified_node->const_info.ref_info.url;
 	}
       escaped_url =
-	lw6sys_escape_html_attribute (verified_node->const_info.ref_info.url);
+	lw6sys_escape_html_attribute (sys_context,
+				      verified_node->const_info.ref_info.url);
       if (escaped_url)
 	{
-	  escaped_title = lw6sys_escape_html_attribute (title);
+	  escaped_title = lw6sys_escape_html_attribute (sys_context, title);
 	  if (escaped_title)
 	    {
 	      escaped_description =
@@ -80,15 +81,15 @@ _add_node_html (void *func_data, void *data)
 			("<a href=\"%s\" title=\"%s\">%s</a>", escaped_url,
 			 escaped_description, escaped_title);
 		    }
-		  LW6SYS_FREE (escaped_description);
+		  LW6SYS_FREE (sys_context, escaped_description);
 		}
-	      LW6SYS_FREE (escaped_title);
+	      LW6SYS_FREE (sys_context, escaped_title);
 	    }
-	  LW6SYS_FREE (escaped_url);
+	  LW6SYS_FREE (sys_context, escaped_url);
 	}
       if (tmp)
 	{
-	  LW6SYS_FREE (*list);
+	  LW6SYS_FREE (sys_context, *list);
 	  (*list) = tmp;
 	}
     }
@@ -109,41 +110,46 @@ _response_index_html (_mod_httpd_context_t * httpd_context,
   char *escaped_description = NULL;
   char *escaped_level = NULL;
 
-  dummy = lw6sys_random (_DUMMY_RANGE);
+  dummy = lw6sys_random (sys_context, _DUMMY_RANGE);
 
-  escaped_title = lw6sys_escape_html_attribute (node_info->const_info.title);
+  escaped_title =
+    lw6sys_escape_html_attribute (sys_context, node_info->const_info.title);
   if (escaped_title)
     {
       escaped_description =
-	lw6sys_escape_html_attribute (node_info->const_info.description);
+	lw6sys_escape_html_attribute (sys_context,
+				      node_info->const_info.description);
       if (escaped_description)
 	{
 	  if (dyn_info->level)
 	    {
 	      level = dyn_info->level;
 	    }
-	  escaped_level = lw6sys_escape_html_attribute (level);
+	  escaped_level = lw6sys_escape_html_attribute (sys_context, level);
 	  if (escaped_level)
 	    {
 	      screenshot_url =
-		lw6sys_str_concat (node_info->const_info.ref_info.url,
+		lw6sys_str_concat (sys_context,
+				   node_info->const_info.ref_info.url,
 				   _SCREENSHOT_JPEG_REFRESH);
 	      if (screenshot_url)
 		{
 		  uptime =
-		    lw6sys_readable_uptime (lw6sys_get_timestamp () -
+		    lw6sys_readable_uptime (sys_context,
+					    lw6sys_get_timestamp () -
 					    node_info->
 					    const_info.creation_timestamp);
 		  if (uptime)
 		    {
-		      list = lw6sys_str_copy (LW6SYS_STR_EMPTY);
+		      list = lw6sys_str_copy (sys_context, LW6SYS_STR_EMPTY);
 		      if (list)
 			{
 			  lw6nod_info_map_verified_nodes (node_info,
 							  _add_node_html,
 							  &list);
 			  content =
-			    lw6sys_new_sprintf (httpd_context->data.
+			    lw6sys_new_sprintf (sys_context,
+						httpd_context->data.
 						htdocs.index_html,
 						/*
 						 * Variables in the HEAD section
@@ -221,19 +227,19 @@ _response_index_html (_mod_httpd_context_t * httpd_context,
 							      content_type_html,
 							      content);
 
-			      LW6SYS_FREE (content);
+			      LW6SYS_FREE (sys_context, content);
 			    }
 			  LW6SYS_FREE (list);
 			}
-		      LW6SYS_FREE (uptime);
+		      LW6SYS_FREE (sys_context, uptime);
 		    }
 		  LW6SYS_FREE (screenshot_url);
 		}
-	      LW6SYS_FREE (escaped_level);
+	      LW6SYS_FREE (sys_context, escaped_level);
 	    }
-	  LW6SYS_FREE (escaped_description);
+	  LW6SYS_FREE (sys_context, escaped_description);
 	}
-      LW6SYS_FREE (escaped_title);
+      LW6SYS_FREE (sys_context, escaped_title);
     }
 
   return response;
@@ -261,7 +267,7 @@ _response_screenshot_jpeg (_mod_httpd_context_t * httpd_context,
       screenshot_data = node_info->const_info.idle_screenshot_data;
     }
   refresh_url =
-    lw6sys_str_concat (node_info->const_info.ref_info.url,
+    lw6sys_str_concat (sys_context, node_info->const_info.ref_info.url,
 		       _SCREENSHOT_JPEG_REFRESH);
   if (refresh_url)
     {
@@ -277,7 +283,7 @@ _response_screenshot_jpeg (_mod_httpd_context_t * httpd_context,
 					  consts.content_type_jpeg,
 					  screenshot_size, screenshot_data);
 	}
-      LW6SYS_FREE (refresh_url);
+      LW6SYS_FREE (sys_context, refresh_url);
     }
   return response;
 }
@@ -299,7 +305,7 @@ _response_info_txt (_mod_httpd_context_t * httpd_context,
 				      NULL,
 				      httpd_context->data.
 				      consts.content_type_txt, content);
-      LW6SYS_FREE (content);
+      LW6SYS_FREE (sys_context, content);
     }
 
   return response;
@@ -322,7 +328,7 @@ _response_list_txt (_mod_httpd_context_t * httpd_context,
 				      NULL,
 				      httpd_context->data.
 				      consts.content_type_txt, content);
-      LW6SYS_FREE (content);
+      LW6SYS_FREE (sys_context, content);
     }
 
   return response;
@@ -345,7 +351,7 @@ _response_ping_txt (_mod_httpd_context_t * httpd_context,
 				      NULL,
 				      httpd_context->data.
 				      consts.content_type_txt, content);
-      LW6SYS_FREE (content);
+      LW6SYS_FREE (sys_context, content);
     }
 
   return response;
@@ -361,7 +367,7 @@ _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context,
   _mod_httpd_response_t *response = NULL;
   lw6nod_dyn_info_t *dyn_info = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process httpd oob"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process httpd oob"));
 
   request = _mod_httpd_request_parse_oob (httpd_context, node_info, oob_data);
   if (request)
@@ -397,7 +403,7 @@ _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  _x_ ("unable to duplicate dyn_info"));
 		    }
 		}
@@ -511,8 +517,8 @@ _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("request \"%s\" failed"),
-			  request->uri);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			  _x_ ("request \"%s\" failed"), request->uri);
 	    }
 
 	  _mod_httpd_response_free (response);

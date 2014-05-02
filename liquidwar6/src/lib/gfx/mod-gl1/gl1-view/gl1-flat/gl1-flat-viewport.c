@@ -111,7 +111,7 @@ _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
 	  (local_cursors, NULL, &main_cursor_x, &main_cursor_y,
 	   &mouse_controlled))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("no main cursor"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no main cursor"));
 	}
     }
 

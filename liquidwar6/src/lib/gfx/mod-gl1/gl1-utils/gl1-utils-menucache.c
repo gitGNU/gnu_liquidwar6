@@ -40,10 +40,13 @@ create_button_key (const lw6gui_look_t * look,
   char *key;
   int c1, c2;
 
-  c1 = lw6sys_checksum ((unsigned char *) look, sizeof (lw6gui_look_t));
+  c1 =
+    lw6sys_checksum (sys_context, (unsigned char *) look,
+		     sizeof (lw6gui_look_t));
   c2 =
-    lw6sys_checksum ((unsigned char *) menuitem, sizeof (lw6gui_menuitem_t));
-  key = lw6sys_new_sprintf ("%d %d", c1, c2);
+    lw6sys_checksum (sys_context, (unsigned char *) menuitem,
+		     sizeof (lw6gui_menuitem_t));
+  key = lw6sys_new_sprintf (sys_context, "%d %d", c1, c2);
 
   return key;
 }
@@ -123,7 +126,7 @@ mod_gl1_utils_get_button_from_menucache (mod_gl1_utils_context_t * context,
 		}
 	    }
 	}
-      LW6SYS_FREE (key);
+      LW6SYS_FREE (sys_context, key);
     }
 
   return bitmap;
@@ -146,7 +149,7 @@ mod_gl1_utils_clear_menucache (mod_gl1_utils_context_t * context)
     {
       if ((key = menucache_array->item_array[i].key) != NULL)
 	{
-	  LW6SYS_FREE (key);
+	  LW6SYS_FREE (sys_context, key);
 	}
       if ((bitmap = menucache_array->item_array[i].bitmap) != NULL)
 	{

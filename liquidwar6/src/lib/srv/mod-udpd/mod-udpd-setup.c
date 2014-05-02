@@ -36,13 +36,13 @@ _mod_udpd_init (int argc, const char *argv[],
   char *data_dir = NULL;
   int ok = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("udpd init"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("udpd init"));
 
   udpd_context =
     (_mod_udpd_context_t *) LW6SYS_CALLOC (sizeof (_mod_udpd_context_t));
   if (udpd_context)
     {
-      data_dir = lw6sys_get_data_dir (argc, argv);
+      data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
       if (data_dir)
 	{
 	  if (_mod_udpd_load_data (&(udpd_context->data), data_dir))
@@ -57,7 +57,7 @@ _mod_udpd_init (int argc, const char *argv[],
 	      properties->backend_id = MOD_UDPD_BACKEND_ID;
 	      ok = 1;
 	    }
-	  LW6SYS_FREE (data_dir);
+	  LW6SYS_FREE (sys_context, data_dir);
 	}
       if (!ok)
 	{
@@ -68,7 +68,8 @@ _mod_udpd_init (int argc, const char *argv[],
 
   if (!udpd_context)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_udpd"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+		  _("can't initialize mod_udpd"));
     }
 
   return udpd_context;
@@ -77,7 +78,7 @@ _mod_udpd_init (int argc, const char *argv[],
 void
 _mod_udpd_quit (_mod_udpd_context_t * udpd_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("udpd quit"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("udpd quit"));
   _mod_udpd_unload_data (&(udpd_context->data));
-  LW6SYS_FREE (udpd_context);
+  LW6SYS_FREE (sys_context, udpd_context);
 }

@@ -43,7 +43,8 @@ _mod_http_send (_mod_http_context_t * http_context,
   _mod_http_query_thread_data_t *query_thread_data = NULL;
   void *thread_handler = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_http send \"%s\""), message);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_http send \"%s\""),
+	      message);
   /*
    * We don't even try to use http protocol if there's a DNS problem,
    * no use to query a 192.168.X.X address (case of peer behind a
@@ -65,7 +66,8 @@ _mod_http_send (_mod_http_context_t * http_context,
 					   message);
 	  if (line)
 	    {
-	      url = lw6sys_str_concat (connection->remote_url, line);
+	      url =
+		lw6sys_str_concat (sys_context, connection->remote_url, line);
 	      if (url)
 		{
 		  /*
@@ -98,23 +100,23 @@ _mod_http_send (_mod_http_context_t * http_context,
 			}
 		    }
 		}
-	      LW6SYS_FREE (line);
+	      LW6SYS_FREE (sys_context, line);
 	    }
 	  if (!ret)
 	    {
 	      if (url)
 		{
-		  LW6SYS_FREE (url);
+		  LW6SYS_FREE (sys_context, url);
 		}
 	      if (query_thread_data)
 		{
-		  LW6SYS_FREE (query_thread_data);
+		  LW6SYS_FREE (sys_context, query_thread_data);
 		}
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_
 		      ("too many client send in query_threads (max_concurrent_requests=%d), discarding"),
 		      http_context->data.consts.max_concurrent_requests);
@@ -122,7 +124,7 @@ _mod_http_send (_mod_http_context_t * http_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("mod_http can't send, DNS mismatch"));
     }
 
@@ -151,7 +153,7 @@ _mod_http_poll (_mod_http_context_t * http_context,
   _mod_http_specific_data_t *specific_data =
     (_mod_http_specific_data_t *) connection->backend_specific_data;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_http poll"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_http poll"));
 
   lw6sys_list_filter (&(specific_data->query_threads),
 		      _mod_http_query_thread_filter, NULL);

@@ -40,7 +40,7 @@ mod_gl1_utils_bitmap_hash_init ()
    * the hash is just here to keep track of the various
    * bitmaps, not to actually store them.
    */
-  ret = lw6sys_hash_new (NULL, _BITMAP_HASH_APPROX_NB_ENTRIES);
+  ret = lw6sys_hash_new (sys_context, NULL, _BITMAP_HASH_APPROX_NB_ENTRIES);
 
   return ret;
 }
@@ -50,23 +50,23 @@ mod_gl1_utils_bitmap_hash_quit (lw6sys_hash_t * bitmap_hash)
 {
   lw6sys_list_t *keys;
 
-  keys = lw6sys_hash_keys (bitmap_hash);
+  keys = lw6sys_hash_keys (sys_context, bitmap_hash);
   if (keys)
     {
-      if (lw6sys_list_is_empty (keys))
+      if (lw6sys_list_is_empty (sys_context, keys))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("bitmap hash is empty on quit, this is fine"));
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("bitmap hash still has keys on quit, memory leak suspected"));
 	}
-      lw6sys_list_free (keys);
+      lw6sys_list_free (sys_context, keys);
     }
-  lw6sys_hash_free (bitmap_hash);
+  lw6sys_hash_free (sys_context, bitmap_hash);
 }
 
 static char *
@@ -77,11 +77,14 @@ _get_key (mod_gl1_utils_context_t * utils_context,
 
   if (bitmap->desc)
     {
-      key = lw6sys_new_sprintf (_FILE_MASK, bitmap->desc, bitmap->id);
+      key =
+	lw6sys_new_sprintf (sys_context, _FILE_MASK, bitmap->desc,
+			    bitmap->id);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bitmap has no desc"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("bitmap has no desc"));
     }
 
   return key;
@@ -99,17 +102,19 @@ mod_gl1_utils_bitmap_hash_register (mod_gl1_utils_context_t * utils_context,
       key = _get_key (utils_context, bitmap);
       if (key)
 	{
-	  if (!lw6sys_hash_has_key (utils_context->bitmap_hash, key))
+	  if (!lw6sys_hash_has_key
+	      (sys_context, utils_context->bitmap_hash, key))
 	    {
 	      ret = 1;
-	      lw6sys_hash_set (utils_context->bitmap_hash, key, bitmap);
+	      lw6sys_hash_set (sys_context, utils_context->bitmap_hash, key,
+			       bitmap);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("bitmap hash already has key \"%s\""), key);
 	    }
-	  LW6SYS_FREE (key);
+	  LW6SYS_FREE (sys_context, key);
 	}
     }
 
@@ -128,17 +133,19 @@ mod_gl1_utils_bitmap_hash_unregister (mod_gl1_utils_context_t * utils_context,
       key = _get_key (utils_context, bitmap);
       if (key)
 	{
-	  if (lw6sys_hash_has_key (utils_context->bitmap_hash, key))
+	  if (lw6sys_hash_has_key
+	      (sys_context, utils_context->bitmap_hash, key))
 	    {
 	      ret = 1;
-	      lw6sys_hash_unset (utils_context->bitmap_hash, key);
+	      lw6sys_hash_unset (sys_context, utils_context->bitmap_hash,
+				 key);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("bitmap hash has no key \"%s\""), key);
 	    }
-	  LW6SYS_FREE (key);
+	  LW6SYS_FREE (sys_context, key);
 	}
     }
 
@@ -162,8 +169,8 @@ mod_gl1_utils_bitmap_hash_refresh (mod_gl1_utils_context_t * utils_context)
 
   if (utils_context->bitmap_hash)
     {
-      lw6sys_hash_map (utils_context->bitmap_hash, _refresh_callback,
-		       (void *) utils_context);
+      lw6sys_hash_map (sys_context, utils_context->bitmap_hash,
+		       _refresh_callback, (void *) utils_context);
     }
 
   return ret;
@@ -180,22 +187,23 @@ _dump2disk_callback (void *func_data, const char *key, void *value)
   if (bitmap->surface)
     {
       full_path =
-	lw6sys_path_concat (utils_context->path.bitmap_frame_dir, key);
+	lw6sys_path_concat (sys_context, utils_context->path.bitmap_frame_dir,
+			    key);
       if (full_path)
 	{
 	  if (SDL_SaveBMP (bitmap->surface, full_path) == 0)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("wrote bitmap \"%s\""),
-			  full_path);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			  _x_ ("wrote bitmap \"%s\""), full_path);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_
 			  ("unable to write bitmap \"%s\" to disk"),
 			  full_path);
 	    }
-	  LW6SYS_FREE (full_path);
+	  LW6SYS_FREE (sys_context, full_path);
 	}
     }
 }
@@ -213,19 +221,23 @@ mod_gl1_utils_bitmap_hash_dump2disk (mod_gl1_utils_context_t * utils_context,
       if (utils_context->bitmap_hash)
 	{
 	  mod_gl1_utils_path_update (utils_context);
-	  if (!lw6sys_dir_exists (utils_context->path.bitmap_dir))
+	  if (!lw6sys_dir_exists
+	      (sys_context, utils_context->path.bitmap_dir))
 	    {
-	      lw6sys_create_dir (utils_context->path.bitmap_dir);
+	      lw6sys_create_dir (sys_context, utils_context->path.bitmap_dir);
 	    }
-	  if (lw6sys_dir_exists (utils_context->path.bitmap_dir))
+	  if (lw6sys_dir_exists (sys_context, utils_context->path.bitmap_dir))
 	    {
-	      if (!lw6sys_dir_exists (utils_context->path.bitmap_frame_dir))
+	      if (!lw6sys_dir_exists
+		  (sys_context, utils_context->path.bitmap_frame_dir))
 		{
-		  lw6sys_create_dir (utils_context->path.bitmap_frame_dir);
+		  lw6sys_create_dir (sys_context,
+				     utils_context->path.bitmap_frame_dir);
 		}
-	      if (lw6sys_dir_exists (utils_context->path.bitmap_frame_dir))
+	      if (lw6sys_dir_exists
+		  (sys_context, utils_context->path.bitmap_frame_dir))
 		{
-		  lw6sys_hash_map (utils_context->bitmap_hash,
+		  lw6sys_hash_map (sys_context, utils_context->bitmap_hash,
 				   _dump2disk_callback,
 				   (void *) utils_context);
 		  ret = 1;
@@ -234,7 +246,7 @@ mod_gl1_utils_bitmap_hash_dump2disk (mod_gl1_utils_context_t * utils_context,
 	  if (!ret)
 	    {
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING,
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			    _x_ ("unable to dump bitmaps to disk in \"%s\""),
 			    utils_context->path.bitmap_frame_dir);
 	      }

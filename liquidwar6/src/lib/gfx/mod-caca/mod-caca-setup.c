@@ -50,7 +50,7 @@ _mod_caca_init (int argc, const char *argv[],
   if (caca_context)
     {
       caca_context->version = (const char *) caca_get_version ();
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("libcaca version %s"),
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("libcaca version %s"),
 		  caca_context->version);
       caca_context->driver_list =
 	(const char **) caca_get_display_driver_list ();
@@ -59,7 +59,7 @@ _mod_caca_init (int argc, const char *argv[],
 	{
 	  while ((driver_id = d[0]) != NULL && (driver_desc = d[1]) != NULL)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("libcaca driver available id=\"%s\" desc=\"%s\""),
 			  d[0], d[1]);
@@ -89,7 +89,7 @@ _mod_caca_init (int argc, const char *argv[],
 		   * output and wreck everything...
 		   */
 
-		  lw6sys_log (LW6SYS_LOG_NOTICE,
+		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			      _x_ ("disabling console output (libcaca)"));
 		  /*
 		   * Storing old state to restore it later
@@ -97,8 +97,10 @@ _mod_caca_init (int argc, const char *argv[],
 		  caca_context->console_state = console_state;
 		  lw6sys_log_set_console_state (0);
 
-		  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("libcaca init"));
-		  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default canvas %dx%d"),
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			      _x_ ("libcaca init"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			      _x_ ("default canvas %dx%d"),
 			      caca_context->const_data.canvas_create_width,
 			      caca_context->const_data.canvas_create_height);
 		  caca_context->canvas =
@@ -114,7 +116,7 @@ _mod_caca_init (int argc, const char *argv[],
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_ERROR,
+			  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 				      _("unable to set video mode"));
 			  _mod_caca_quit (caca_context);
 			  caca_context = NULL;
@@ -122,7 +124,7 @@ _mod_caca_init (int argc, const char *argv[],
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_ERROR,
+		      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 				  _("unable to create canvas %dx%d"),
 				  caca_context->
 				  const_data.canvas_create_width,
@@ -134,7 +136,7 @@ _mod_caca_init (int argc, const char *argv[],
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_ERROR,
+		  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 			      _("unable to set resize callback"));
 		  _mod_caca_quit (caca_context);
 		  caca_context = NULL;
@@ -142,14 +144,16 @@ _mod_caca_init (int argc, const char *argv[],
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_ERROR, _("unable to load consts"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+			  _("unable to load consts"));
 	      _mod_caca_quit (caca_context);
 	      caca_context = NULL;
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_ERROR, _("unable to init paths"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+		      _("unable to init paths"));
 	  _mod_caca_quit (caca_context);
 	  caca_context = NULL;
 	}
@@ -162,7 +166,7 @@ _mod_caca_init (int argc, const char *argv[],
    */
   if (caca_context == NULL)
     {
-      lw6sys_log_set_console_state (console_state);
+      lw6sys_log_set_console_state (sys_context, console_state);
     }
 
   return caca_context;
@@ -176,7 +180,7 @@ _mod_caca_quit (_mod_caca_context_t * caca_context)
 {
   float quit_sleep = 0.0f;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("libcaca quit"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("libcaca quit"));
 
   quit_sleep = caca_context->const_data.quit_sleep;
 
@@ -197,10 +201,10 @@ _mod_caca_quit (_mod_caca_context_t * caca_context)
       caca_context->canvas = NULL;
     }
 
-  lw6sys_log_set_console_state (caca_context->console_state);
+  lw6sys_log_set_console_state (sys_context, caca_context->console_state);
   if (caca_context->console_state)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE,
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		  _x_ ("console output enabled (libcaca)"));
     }
 
@@ -209,7 +213,7 @@ _mod_caca_quit (_mod_caca_context_t * caca_context)
   _mod_caca_unload_consts (caca_context);
   _mod_caca_path_quit (&(caca_context->path));
 
-  LW6SYS_FREE (caca_context);
+  LW6SYS_FREE (sys_context, caca_context);
 
   /*
    * For some reason, I suspect some segfaults occur when
@@ -218,5 +222,5 @@ _mod_caca_quit (_mod_caca_context_t * caca_context)
    * "wasting" a little time when closing, one never knows,
    * it might better things. Cf bug https://savannah.gnu.org/bugs/?37904
    */
-  lw6sys_sleep (quit_sleep);
+  lw6sys_sleep (sys_context, quit_sleep);
 }

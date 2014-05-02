@@ -89,14 +89,14 @@ mod_gl1_utils_bitmap_new (mod_gl1_utils_context_t *
 	mod_gl1_utils_create_surface (utils_context, width, height);
       if (ret->surface)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("new bitmap %d %dx%d"), ret->id,
-		      width, height);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("new bitmap %d %dx%d"), ret->id, width, height);
 	  ret->has_alpha = 1;
 	  _set_defaults (utils_context, ret, desc);
 	}
       else
 	{
-	  LW6SYS_FREE (ret);
+	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
 	}
     }
@@ -122,13 +122,13 @@ mod_gl1_utils_bitmap_load (mod_gl1_utils_context_t *
 	  ret->id = ++seq_id;
 	}
 
-      desc = lw6sys_path_file_only (filename);
+      desc = lw6sys_path_file_only (sys_context, filename);
       if (desc)
 	{
 	  ret->surface = mod_gl1_utils_load_image (utils_context, filename);
 	  if (ret->surface)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("bitmap %u \"%s\" %dx%d loaded"), ret->id,
 			  filename, ret->surface->w, ret->surface->h);
 	      if (ret->surface->format->BytesPerPixel == 4)
@@ -139,14 +139,14 @@ mod_gl1_utils_bitmap_load (mod_gl1_utils_context_t *
 	    }
 	  else
 	    {
-	      LW6SYS_FREE (ret);
+	      LW6SYS_FREE (sys_context, ret);
 	      ret = NULL;
 	    }
 	  LW6SYS_FREE (desc);
 	}
       else
 	{
-	  LW6SYS_FREE (ret);
+	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
 	}
     }
@@ -173,8 +173,9 @@ mod_gl1_utils_surface2bitmap (mod_gl1_utils_context_t
 	}
 
       ret->surface = surface;
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bitmap %u from surface %dx%d"),
-		  ret->id, ret->surface->w, ret->surface->h);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("bitmap %u from surface %dx%d"), ret->id,
+		  ret->surface->w, ret->surface->h);
       ret->has_alpha = 1;
       _set_defaults (utils_context, ret, desc);
     }
@@ -188,12 +189,13 @@ mod_gl1_utils_bitmap_free (mod_gl1_utils_context_t *
 {
   if (bitmap)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("free bitmap %u"), bitmap->id);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("free bitmap %u"),
+		  bitmap->id);
       mod_gl1_utils_bitmap_hash_unregister (utils_context, bitmap);
 
       if (bitmap->desc)
 	{
-	  LW6SYS_FREE (bitmap->desc);
+	  LW6SYS_FREE (sys_context, bitmap->desc);
 	}
       if (bitmap->surface)
 	{
@@ -209,11 +211,12 @@ mod_gl1_utils_bitmap_free (mod_gl1_utils_context_t *
 	  mod_gl1_utils_schedule_delete_texture (utils_context,
 						 bitmap->texture);
 	}
-      LW6SYS_FREE (bitmap);
+      LW6SYS_FREE (sys_context, bitmap);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL bitmap"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL bitmap"));
     }
 }
 
@@ -231,8 +234,8 @@ mod_gl1_utils_bitmap_colorize (mod_gl1_utils_context_t *
       if ((!bitmap->colorized_surface)
 	  || (!lw6map_color_is_same (color, &(bitmap->colorize_color))))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("colorize bitmap %u"),
-		      bitmap->id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("colorize bitmap %u"), bitmap->id);
 	  if (bitmap->colorized_surface)
 	    {
 	      mod_gl1_utils_delete_surface (utils_context,
@@ -275,7 +278,8 @@ mod_gl1_utils_bitmap_set_wrap (mod_gl1_utils_context_t *
       ret = 1;
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unknow GL wrap %d"), wrap);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unknow GL wrap %d"),
+		  wrap);
     }
 
   return ret;
@@ -311,7 +315,8 @@ mod_gl1_utils_bitmap_set_filter (mod_gl1_utils_context_t *
       // keep given filter
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unknown gfx_quality %d"),
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unknown gfx_quality %d"),
 		  utils_context->render_param.gfx_quality);
       break;
     }
@@ -350,7 +355,8 @@ mod_gl1_utils_bitmap_set_filter (mod_gl1_utils_context_t *
       ret = 1;
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unknow GL filter %d"), filter);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unknow GL filter %d"), filter);
     }
 
   return ret;
@@ -372,8 +378,8 @@ mod_gl1_utils_bitmap_set_texture_coords (mod_gl1_utils_context_t *
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("same texture coords s1=%f s2=%f"),
-		  s1, s2);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("same texture coords s1=%f s2=%f"), s1, s2);
     }
 
   if (t1 != t2)
@@ -383,8 +389,8 @@ mod_gl1_utils_bitmap_set_texture_coords (mod_gl1_utils_context_t *
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("same texture coords t1=%f t2=%f"),
-		  t1, t2);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("same texture coords t1=%f t2=%f"), t1, t2);
     }
 
   return ret;
@@ -427,7 +433,7 @@ mod_gl1_utils_bitmap_refresh (mod_gl1_utils_context_t *
 
   if (bitmap->last_refresh < bitmap_refresh)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("bitmap %u is too old bitmap->last_refresh=%"
 		       LW6SYS_PRINTF_LL
 		       "d timer_get_bitmap_refresh returned %"
@@ -442,7 +448,7 @@ mod_gl1_utils_bitmap_refresh (mod_gl1_utils_context_t *
     {
       if (bitmap->last_refresh == timestamp)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_
 		      ("not touching bitmap %u, refreshing it now wouldn't change anything as it has already been refreshed for this frame"),
 		      bitmap->id);
@@ -452,7 +458,7 @@ mod_gl1_utils_bitmap_refresh (mod_gl1_utils_context_t *
 	  if (bitmap->need_another_refresh)
 	    {
 	      bitmap->need_another_refresh = 0;
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("refreshing bitmap %u, second time, this could hopefully fix bug #28029 (white rectangles)"),
 			  bitmap->id);
@@ -461,7 +467,8 @@ mod_gl1_utils_bitmap_refresh (mod_gl1_utils_context_t *
     }
   if (!bitmap->texture)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("refresh bitmap %u"), bitmap->id);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("refresh bitmap %u"),
+		  bitmap->id);
 
       /*
        * Calling set_filter with self value will cause gfx_quality
@@ -486,7 +493,7 @@ mod_gl1_utils_bitmap_refresh (mod_gl1_utils_context_t *
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("no surface for bitmap \"%u\""), bitmap->id);
 	    }
 	}
@@ -557,14 +564,15 @@ mod_gl1_utils_bitmap_bind (mod_gl1_utils_context_t *
 	{
 	  if (bitmap->texture != 0)
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("unable to bind texture %d"), bitmap->texture);
 	    }
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to bind NULL bitmap"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to bind NULL bitmap"));
     }
 
   return ret;

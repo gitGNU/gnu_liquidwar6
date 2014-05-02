@@ -34,7 +34,7 @@ _mod_csound_init (int argc, const char *argv[], float fx_volume,
   _mod_csound_context_t *csound_context = NULL;
   int ok = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_ ("csound init volume=%01.2f/%01.2f"), fx_volume,
 	      music_volume);
 
@@ -54,7 +54,8 @@ _mod_csound_init (int argc, const char *argv[], float fx_volume,
 
   if (!ok)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init csound module"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to init csound module"));
       _mod_csound_quit (csound_context);
     }
 
@@ -64,13 +65,13 @@ _mod_csound_init (int argc, const char *argv[], float fx_volume,
 void
 _mod_csound_poll (_mod_csound_context_t * csound_context)
 {
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("csound poll"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("csound poll"));
 }
 
 void
 _mod_csound_quit (_mod_csound_context_t * csound_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("csound quit"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("csound quit"));
   _mod_csound_path_quit (csound_context);
-  LW6SYS_FREE (csound_context);
+  LW6SYS_FREE (sys_context, csound_context);
 }

@@ -154,13 +154,14 @@ shared_sdl_load_consts (_lw6gfx_sdl_context_t * sdl_context)
 
   if (const_file)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
+		  const_file);
 
       ret =
 	lw6cfg_read_key_value_xml_file (const_file, read_callback,
 					(void *) &(sdl_context->const_data));
 
-      LW6SYS_FREE (const_file);
+      LW6SYS_FREE (sys_context, const_file);
     }
 
   return ret;

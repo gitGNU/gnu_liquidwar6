@@ -98,17 +98,19 @@ _mod_ogg_load_consts (_mod_ogg_context_t * context)
   int ret = 0;
   char *const_file = NULL;
 
-  const_file = lw6sys_path_concat (context->path.data_dir, CONST_FILE);
+  const_file =
+    lw6sys_path_concat (sys_context, context->path.data_dir, CONST_FILE);
 
   if (const_file)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
+		  const_file);
 
       ret =
 	lw6cfg_read_key_value_xml_file (const_file, read_callback,
 					(void *) &(context->const_data));
 
-      LW6SYS_FREE (const_file);
+      LW6SYS_FREE (sys_context, const_file);
     }
 
   return ret;
@@ -122,67 +124,67 @@ _mod_ogg_unload_consts (_mod_ogg_context_t * context)
 {
   if (context->const_data.file_splash)
     {
-      LW6SYS_FREE (context->const_data.file_splash);
+      LW6SYS_FREE (sys_context, context->const_data.file_splash);
     }
   if (context->const_data.file_valid)
     {
-      LW6SYS_FREE (context->const_data.file_valid);
+      LW6SYS_FREE (sys_context, context->const_data.file_valid);
     }
   if (context->const_data.file_select)
     {
-      LW6SYS_FREE (context->const_data.file_select);
+      LW6SYS_FREE (sys_context, context->const_data.file_select);
     }
   if (context->const_data.file_no)
     {
-      LW6SYS_FREE (context->const_data.file_no);
+      LW6SYS_FREE (sys_context, context->const_data.file_no);
     }
   if (context->const_data.file_start)
     {
-      LW6SYS_FREE (context->const_data.file_start);
+      LW6SYS_FREE (sys_context, context->const_data.file_start);
     }
   if (context->const_data.file_death)
     {
-      LW6SYS_FREE (context->const_data.file_death);
+      LW6SYS_FREE (sys_context, context->const_data.file_death);
     }
   if (context->const_data.file_bell)
     {
-      LW6SYS_FREE (context->const_data.file_bell);
+      LW6SYS_FREE (sys_context, context->const_data.file_bell);
     }
   if (context->const_data.file_score)
     {
-      LW6SYS_FREE (context->const_data.file_score);
+      LW6SYS_FREE (sys_context, context->const_data.file_score);
     }
   if (context->const_data.file_hello)
     {
-      LW6SYS_FREE (context->const_data.file_hello);
+      LW6SYS_FREE (sys_context, context->const_data.file_hello);
     }
   if (context->const_data.file_goodbye)
     {
-      LW6SYS_FREE (context->const_data.file_goodbye);
+      LW6SYS_FREE (sys_context, context->const_data.file_goodbye);
     }
   if (context->const_data.file_water1)
     {
-      LW6SYS_FREE (context->const_data.file_water1);
+      LW6SYS_FREE (sys_context, context->const_data.file_water1);
     }
   if (context->const_data.file_water2)
     {
-      LW6SYS_FREE (context->const_data.file_water2);
+      LW6SYS_FREE (sys_context, context->const_data.file_water2);
     }
   if (context->const_data.file_water3)
     {
-      LW6SYS_FREE (context->const_data.file_water3);
+      LW6SYS_FREE (sys_context, context->const_data.file_water3);
     }
   if (context->const_data.file_water4)
     {
-      LW6SYS_FREE (context->const_data.file_water4);
+      LW6SYS_FREE (sys_context, context->const_data.file_water4);
     }
   if (context->const_data.file_water5)
     {
-      LW6SYS_FREE (context->const_data.file_water5);
+      LW6SYS_FREE (sys_context, context->const_data.file_water5);
     }
   if (context->const_data.file_water6)
     {
-      LW6SYS_FREE (context->const_data.file_water6);
+      LW6SYS_FREE (sys_context, context->const_data.file_water6);
     }
   memset (&context->const_data, 0, sizeof (_mod_ogg_const_data_t));
 }

@@ -99,11 +99,12 @@ _mod_gl1_menu_cylinder_draw_cylinder (mod_gl1_utils_context_t * utils_context,
       glRotatef (90.0f, 0.0f, 1.0f, 0.0f);
       glTranslatef (0.0f, y + dy, 0.0f);
 
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("%s.gluCylinder begin %d"),
-		  __FUNCTION__, mode);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("%s.gluCylinder begin %d"), __FUNCTION__, mode);
       gluCylinder (cyl, radius, radius, cyl_height, slices,
 		   cylinder_context->const_data.stacks);
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("%s.gluCylinder end"), __FUNCTION__);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("%s.gluCylinder end"),
+		  __FUNCTION__);
 
       glMatrixMode (GL_MODELVIEW);
       glPopMatrix ();
@@ -112,7 +113,8 @@ _mod_gl1_menu_cylinder_draw_cylinder (mod_gl1_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create quadric"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to create quadric"));
     }
 }
 
@@ -219,7 +221,8 @@ _mod_gl1_menu_cylinder_draw_sphere (mod_gl1_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create quadric"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to create quadric"));
     }
 }
 
@@ -293,10 +296,11 @@ _mod_gl1_menu_cylinder_draw_fixed_cylinder (mod_gl1_utils_context_t *
       glRotatef (rotate, 1.0f, 0.0f, 0.0f);
       glTranslatef (0.0f, 0.0f, -cyl_height / 2.0f);
 
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("%s.gluCylinder begin %d"),
-		  __FUNCTION__, mode);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("%s.gluCylinder begin %d"), __FUNCTION__, mode);
       gluCylinder (cyl, radius, radius, cyl_height, slices, stacks);
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("%s.gluCylinder end"), __FUNCTION__);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("%s.gluCylinder end"),
+		  __FUNCTION__);
 
       glMatrixMode (GL_MODELVIEW);
       glPopMatrix ();
@@ -305,7 +309,8 @@ _mod_gl1_menu_cylinder_draw_fixed_cylinder (mod_gl1_utils_context_t *
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create quadric"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to create quadric"));
     }
 }
 

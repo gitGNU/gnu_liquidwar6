@@ -37,14 +37,14 @@ _mod_http_init (int argc, const char *argv[],
   char *data_dir = NULL;
   int ok = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("http init"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("http init"));
 
   http_context =
     (_mod_http_context_t *) LW6SYS_CALLOC (sizeof (_mod_http_context_t));
   if (http_context)
     {
       http_context->curl_init_ret = -1;
-      data_dir = lw6sys_get_data_dir (argc, argv);
+      data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
       if (data_dir)
 	{
 	  if (_mod_http_load_data (&(http_context->data), data_dir))
@@ -67,7 +67,7 @@ _mod_http_init (int argc, const char *argv[],
 		  ok = 1;
 		}
 	    }
-	  LW6SYS_FREE (data_dir);
+	  LW6SYS_FREE (sys_context, data_dir);
 	}
       if (!ok)
 	{
@@ -78,7 +78,8 @@ _mod_http_init (int argc, const char *argv[],
 
   if (!http_context)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_http"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+		  _("can't initialize mod_http"));
     }
 
   return http_context;
@@ -87,11 +88,11 @@ _mod_http_init (int argc, const char *argv[],
 void
 _mod_http_quit (_mod_http_context_t * http_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("http quit"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("http quit"));
   if (http_context->curl_init_ret == CURLE_OK)
     {
       curl_global_cleanup ();
     }
   _mod_http_unload_data (&(http_context->data));
-  LW6SYS_FREE (http_context);
+  LW6SYS_FREE (sys_context, http_context);
 }

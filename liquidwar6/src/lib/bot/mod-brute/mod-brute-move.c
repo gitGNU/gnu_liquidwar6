@@ -43,7 +43,7 @@ _mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y,
   int nb_retries;
 
   lw6ker_game_struct_get_shape (data->game_state->game_struct, &shape);
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("anticipating %d rounds"),
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("anticipating %d rounds"),
 	      brute_context->nb_rounds_to_anticipate);
 
   (*x) = shape.w / 2;
@@ -71,9 +71,9 @@ _mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y,
 	    {
 	      if (score_staying_here < score_now
 		  || (score_staying_here == score_now
-		      && !lw6sys_random (_MOD_BRUTE_STABILITY)))
+		      && !lw6sys_random (sys_context, _MOD_BRUTE_STABILITY)))
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("loosing by staying here, trying any place..."));
 		  cursor.pos.x = lw6sys_random (shape.w);
@@ -81,7 +81,7 @@ _mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("same or better score staying here, still we try to find the other fighters"));
 		  nb_retries =
@@ -122,10 +122,10 @@ _mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y,
 	       */
 	      if (score_moving_there > score_staying_here
 		  || (score_moving_there == score_staying_here
-		      && (!lw6sys_random (_MOD_BRUTE_STABILITY))
+		      && (!lw6sys_random (sys_context, _MOD_BRUTE_STABILITY))
 		      && (score_staying_here <= score_now)))
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("it's better to move there score_now=%d score_staying_here=%d score_moving_there=%d"),
 			      score_now, score_staying_here,
@@ -135,7 +135,7 @@ _mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("it's better to stay here score_now=%d score_staying_here=%d score_moving_there=%d"),
 			      score_now, score_staying_here,

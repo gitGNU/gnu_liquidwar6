@@ -54,7 +54,8 @@ _load_consts (_mod_tcpd_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), consts_file);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
+	      consts_file);
 
   ret =
     lw6cfg_read_key_value_xml_file (consts_file, _read_callback,
@@ -70,16 +71,17 @@ _mod_tcpd_load_data (_mod_tcpd_data_t * tcpd_data, const char *data_dir)
   char *tcpd_subdir = NULL;
   char *consts_file = NULL;
 
-  tcpd_subdir = lw6sys_path_concat (data_dir, _TCPD_SUBDIR);
+  tcpd_subdir = lw6sys_path_concat (sys_context, data_dir, _TCPD_SUBDIR);
   if (tcpd_subdir)
     {
-      consts_file = lw6sys_path_concat (tcpd_subdir, _CONSTS_FILE);
+      consts_file =
+	lw6sys_path_concat (sys_context, tcpd_subdir, _CONSTS_FILE);
       if (consts_file)
 	{
 	  ret = _load_consts (&(tcpd_data->consts), consts_file);
-	  LW6SYS_FREE (consts_file);
+	  LW6SYS_FREE (sys_context, consts_file);
 	}
-      LW6SYS_FREE (tcpd_subdir);
+      LW6SYS_FREE (sys_context, tcpd_subdir);
     }
 
   return ret;

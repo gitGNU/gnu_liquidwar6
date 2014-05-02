@@ -42,14 +42,14 @@ _mod_ogg_play_fx (_mod_ogg_context_t * ogg_context, int fx_id)
 	  channel = Mix_GroupAvailable (_MOD_OGG_CHANNEL_GROUP_FX);
 	  if (channel < 0)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("no free channel for fx, trying to use the oldest"));
 	      channel = Mix_GroupOldest (_MOD_OGG_CHANNEL_GROUP_FX);
 	    }
 	  if (channel < 0)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("unable to find channel for fx, using default"));
 	      channel = _MOD_OGG_CHANNEL_FX0;
@@ -57,14 +57,14 @@ _mod_ogg_play_fx (_mod_ogg_context_t * ogg_context, int fx_id)
 	  if (channel >= _MOD_OGG_CHANNEL_FX0
 	      && channel < ogg_context->mixer.nb_channels)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("play sound fx %d on channel %d"),
 			  fx_id, channel);
 	      Mix_PlayChannel (channel, ogg_context->fx.fx[fx_id], 0);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("not enough channels (%d) to play fx"),
 			  ogg_context->mixer.nb_channels);
 	    }
@@ -72,7 +72,7 @@ _mod_ogg_play_fx (_mod_ogg_context_t * ogg_context, int fx_id)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("unable to play fx %d, was not correctly loaded"),
 		      fx_id);
@@ -80,7 +80,7 @@ _mod_ogg_play_fx (_mod_ogg_context_t * ogg_context, int fx_id)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to play fx %d, index out of range"), fx_id);
     }
 
@@ -98,24 +98,25 @@ load_fx (_mod_ogg_context_t * ogg_context, char *file)
 
   if (file)
     {
-      path1 = lw6sys_path_concat (FX_DIR, file);
+      path1 = lw6sys_path_concat (sys_context, FX_DIR, file);
       if (path1)
 	{
 	  path2 = lw6sys_path_concat (ogg_context->path.data_dir, path1);
 	  if (path2)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading fx \"%s\""), path2);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			  _x_ ("loading fx \"%s\""), path2);
 	      ret = Mix_LoadWAV (path2);
 	      if (!ret)
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("unable to load fx \"%s\" Mix_GetError returned \"%s\""),
 			      path2, Mix_GetError ());
 		}
-	      LW6SYS_FREE (path2);
+	      LW6SYS_FREE (sys_context, path2);
 	    }
-	  LW6SYS_FREE (path1);
+	  LW6SYS_FREE (sys_context, path1);
 	}
     }
 
@@ -154,7 +155,8 @@ _mod_ogg_load_fx (_mod_ogg_context_t * ogg_context)
     {
       if (!ogg_context->fx.fx[i])
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to load fx %d"), i);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("unable to load fx %d"), i);
 	  ret = 0;
 	}
     }

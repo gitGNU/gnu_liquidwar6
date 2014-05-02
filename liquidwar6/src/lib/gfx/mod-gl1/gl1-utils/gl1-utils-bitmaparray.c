@@ -44,7 +44,8 @@ mod_gl1_utils_bitmap_array_init (mod_gl1_utils_context_t *
       (&(bitmap_array->layout), w, h, tile_size, border_size))
     {
       bitmap_array->bitmaps =
-	(mod_gl1_utils_bitmap_t **) LW6SYS_CALLOC (bitmap_array->
+	(mod_gl1_utils_bitmap_t **) LW6SYS_CALLOC (sys_context,
+						   bitmap_array->
 						   layout.nb_tiles *
 						   sizeof
 						   (mod_gl1_utils_bitmap_t
@@ -74,7 +75,7 @@ mod_gl1_utils_bitmap_array_init (mod_gl1_utils_context_t *
 	      else
 		{
 		  ret = 0;
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("bitmap %d of bitmap array couldn't be created, array is broken"),
 			      i);
@@ -84,10 +85,11 @@ mod_gl1_utils_bitmap_array_init (mod_gl1_utils_context_t *
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init rect_array"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to init rect_array"));
       if (bitmap_array->bitmaps)
 	{
-	  LW6SYS_FREE (bitmap_array->bitmaps);
+	  LW6SYS_FREE (sys_context, bitmap_array->bitmaps);
 	  bitmap_array->bitmaps = NULL;
 	}
     }
@@ -164,21 +166,22 @@ mod_gl1_utils_bitmap_array_init_from_surface (mod_gl1_utils_context_t *
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  _x_ ("inconsistent layout"));
 		      ret = 0;
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("sub_surface is NULL"));
 		  ret = 0;
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bitmap is NULL"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+			  _x_ ("bitmap is NULL"));
 	      ret = 0;
 	    }
 	}
@@ -239,7 +242,7 @@ mod_gl1_utils_bitmap_array_update (mod_gl1_utils_context_t *
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("NULL bitmap in bitmap_array at index %d"), i);
 	  ret = 0;
 	}
@@ -260,7 +263,7 @@ mod_gl1_utils_bitmap_array_clear (mod_gl1_utils_context_t * utils_context,
 	{
 	  mod_gl1_utils_bitmap_free (utils_context, bitmap_array->bitmaps[i]);
 	}
-      LW6SYS_FREE (bitmap_array->bitmaps);
+      LW6SYS_FREE (sys_context, bitmap_array->bitmaps);
       bitmap_array->bitmaps = NULL;
     }
 }
@@ -285,7 +288,7 @@ sdl_utils_schedule_delete_bitmap_array (mod_gl1_utils_context_t *
 	{
 	  mod_gl1_utils_bitmap_free (utils_context, bitmap_array->bitmaps[i]);
 	}
-      LW6SYS_FREE (bitmap_array->bitmaps);
+      LW6SYS_FREE (sys_context, bitmap_array->bitmaps);
       bitmap_array->bitmaps = NULL;
     }
 }
@@ -303,7 +306,7 @@ mod_gl1_utils_bitmap_array_set (mod_gl1_utils_bitmap_array_t *
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("bitmap_array_set parameters out of range i=%d nb_tiles=%d"),
 		  i, bitmap_array->layout.nb_tiles);
@@ -324,7 +327,7 @@ mod_gl1_utils_bitmap_array_get (mod_gl1_utils_bitmap_array_t *
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_INFO,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_
 		  ("bitmap_array_get parameters out of range i=%d nb_tiles=%d"),
 		  i, bitmap_array->layout.nb_tiles);

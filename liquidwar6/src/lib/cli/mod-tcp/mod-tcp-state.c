@@ -38,7 +38,8 @@ _mod_tcp_open (_mod_tcp_context_t * tcp_context, const char *local_url,
   lw6cnx_connection_t *ret = NULL;
   _mod_tcp_specific_data_t *specific_data = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("_mod_tcp_open \"%s\""), remote_url);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("_mod_tcp_open \"%s\""),
+	      remote_url);
   ret =
     lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
 			   password, local_id, remote_id, dns_ok,
@@ -57,7 +58,7 @@ _mod_tcp_open (_mod_tcp_context_t * tcp_context, const char *local_url,
 	   */
 	  specific_data->sock = LW6NET_SOCKET_INVALID;
 	  specific_data->state = _MOD_TCP_STATE_CLOSED;
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("open tcp connection with \"%s\""), remote_url);
 	}
       else
@@ -104,7 +105,7 @@ _mod_tcp_timeout_ok (_mod_tcp_context_t * tcp_context,
    * some time assumed to be reasonnable (depends on settings)
    * it will be over.
    */
-  d = abs (lw6sys_get_timestamp () - origin_timestamp);
+  d = abs (lw6sys_get_timestamp (sys_context,) - origin_timestamp);
   ret = (d < (tcp_context->data.consts.global_timeout * 1000));
 
   return ret;
@@ -121,7 +122,7 @@ _mod_tcp_connect_func (void *func_data)
     (_mod_tcp_specific_data_t *) connection->backend_specific_data;
   int sock = LW6NET_SOCKET_INVALID;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("connecting on %s:%d"),
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("connecting on %s:%d"),
 	      connection->remote_ip, connection->remote_port);
 
   sock = specific_data->sock;
@@ -132,8 +133,9 @@ _mod_tcp_connect_func (void *func_data)
 			    tcp_context->data.consts.connect_timeout * 1000);
       if (lw6net_socket_is_valid (sock))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("connected on %s:%d"),
-		      connection->remote_ip, connection->remote_port);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("connected on %s:%d"), connection->remote_ip,
+		      connection->remote_port);
 	  specific_data->sock = sock;
 	}
       else
@@ -143,7 +145,7 @@ _mod_tcp_connect_func (void *func_data)
 	   * is blocked because of a firewall or something, we don't want
 	   * to try and connect 1000 times/sec.
 	   */
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("waiting for %d seconds before continuing"),
 		      tcp_context->data.consts.reconnect_delay);
 	  lw6sys_delay (tcp_context->data.consts.reconnect_delay * 1000);
@@ -152,9 +154,9 @@ _mod_tcp_connect_func (void *func_data)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't connect, sock %d is still used"), sock);
     }
 
-  LW6SYS_FREE (func_data);
+  LW6SYS_FREE (sys_context, func_data);
 }

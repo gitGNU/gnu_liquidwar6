@@ -51,8 +51,9 @@ mod_caca_score_font (_mod_caca_context_t * caca_context, int player_id,
 
   for (i = 0; i < 4 * (hc / 5); ++i)
     buffer[i] =
-      lw6sys_color_8_to_ibgra (caca_context->
-			       const_data.team_color[score->team_color]);
+      lw6sys_color_8_to_ibgra (sys_context,
+			       caca_context->const_data.
+			       team_color[score->team_color]);
 
   d = caca_create_dither (32, 4, (hc / 5), 4 * 4,
 			  0x00ff0000, 0x0000ff00, 0x000000ff, 0x0);
@@ -68,7 +69,8 @@ mod_caca_score_font (_mod_caca_context_t * caca_context, int player_id,
   cv = caca_create_canvas (wc / 2, hc / 5);
   if (cv == NULL)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR, _x_ ("Can't create tmp canvas"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+		  _x_ ("Can't create tmp canvas"));
       return (0);
     }
 
@@ -81,15 +83,15 @@ mod_caca_score_font (_mod_caca_context_t * caca_context, int player_id,
   fonts = caca_get_font_list ();
   if (fonts[0] == NULL || fonts[1] == NULL)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR,
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 		  _x_ ("libcaca was compiled without any fonts"));
       return (0);
     }
   f = caca_load_font (fonts[1], 0);
   if (f == NULL)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR, _x_ ("could not load font : '%s'"),
-		  fonts[0]);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+		  _x_ ("could not load font : '%s'"), fonts[0]);
       return (0);
     }
 
@@ -144,8 +146,9 @@ mod_caca_score_text (_mod_caca_context_t * caca_context, int player_id,
 
   for (i = 0; i < 3; ++i)
     buffer[i] =
-      lw6sys_color_8_to_ibgra (caca_context->
-			       const_data.team_color[score->team_color]);
+      lw6sys_color_8_to_ibgra (sys_context,
+			       caca_context->const_data.
+			       team_color[score->team_color]);
 
   dither = caca_create_dither (32, 3, 1, 4 * 3,
 			       0x00ff0000, 0x0000ff00, 0x000000ff, 0x0);

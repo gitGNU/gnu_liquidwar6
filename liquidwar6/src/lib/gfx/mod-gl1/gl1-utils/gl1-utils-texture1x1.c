@@ -50,7 +50,7 @@ mod_gl1_utils_texture_1x1_color2bitmap (mod_gl1_utils_context_t *
   ret = mod_gl1_utils_bitmap_new (utils_context, 1, 1, _DESC_TEXTURE_1X1);
   if (ret)
     {
-      pixel = lw6sys_color_8_to_irgba (color_8);
+      pixel = lw6sys_color_8_to_irgba (sys_context, color_8);
       mod_gl1_utils_putpixel (ret->surface, 0, 0, pixel);
       mod_gl1_utils_bitmap_clear_texture (utils_context, ret);
     }

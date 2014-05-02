@@ -129,14 +129,14 @@ _mod_follow_next_move (_mod_follow_context_t * follow_context, int *x, int *y,
       (*y) = follow_context->step[follow_context->current_step].y;
       z = follow_context->step[follow_context->current_step].z;
 
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("follow bot move rounds=%d pos=%d,%d,%d"), rounds, *x,
 		  *y, z);
       ret = 1;
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("follow bot rounds=%d can't find next move"), rounds);
       (*x) = 0;
       (*y) = 0;

@@ -98,7 +98,9 @@ _update_clock (mod_gl1_utils_context_t *
   hours = time_left / 3600;
   minutes = (time_left / 60) % 60;
   seconds = time_left % 60;
-  text = lw6sys_new_sprintf (_x_ ("%0d:%02d:%02d"), hours, minutes, seconds);
+  text =
+    lw6sys_new_sprintf (sys_context, _x_ ("%0d:%02d:%02d"), hours, minutes,
+			seconds);
   if (text)
     {
       if (floating_context->clock.clock_text)
@@ -118,7 +120,7 @@ _update_clock (mod_gl1_utils_context_t *
 					   &(floating_context->look->style.
 					     color_set.hud_color_text));
 	}
-      LW6SYS_FREE (text);
+      LW6SYS_FREE (sys_context, text);
     }
 
   return ret;
@@ -158,7 +160,8 @@ _update_gauges (mod_gl1_utils_context_t *
 
       if (floating_context->game_state)
 	{
-	  percent_text = lw6sys_new_sprintf (_x_ ("%d%%"), percent);
+	  percent_text =
+	    lw6sys_new_sprintf (sys_context, _x_ ("%d%%"), percent);
 	  if (percent_text)
 	    {
 	      if (floating_context->gauges.percent_texts[i])
@@ -177,12 +180,13 @@ _update_gauges (mod_gl1_utils_context_t *
 						   hud, percent_text,
 						   &color_text);
 		}
-	      LW6SYS_FREE (percent_text);
+	      LW6SYS_FREE (sys_context, percent_text);
 	    }
 
 	  if (floating_context->game_state->game_struct->rules.respawn_team)
 	    {
-	      frags_text = lw6sys_new_sprintf (_x_ ("%d"), frags);
+	      frags_text =
+		lw6sys_new_sprintf (sys_context, _x_ ("%d"), frags);
 	      if (frags_text)
 		{
 		  if (floating_context->gauges.frags_texts[i])
@@ -202,7 +206,7 @@ _update_gauges (mod_gl1_utils_context_t *
 						       frags_text,
 						       &color_text);
 		    }
-		  LW6SYS_FREE (frags_text);
+		  LW6SYS_FREE (sys_context, frags_text);
 		}
 	    }
 	}
@@ -302,7 +306,8 @@ _update_pie (mod_gl1_utils_context_t *
 	  if (floating_context->game_state->game_struct->rules.respawn_team)
 	    {
 	      score_text =
-		lw6sys_new_sprintf (_x_ ("%d: %s, %d frags"), i + 1,
+		lw6sys_new_sprintf (sys_context, _x_ ("%d: %s, %d frags"),
+				    i + 1,
 				    _(lw6map_team_color_index_to_key
 				      (team_color)),
 				    floating_context->score_array.
@@ -311,7 +316,7 @@ _update_pie (mod_gl1_utils_context_t *
 	  else
 	    {
 	      score_text =
-		lw6sys_new_sprintf (_x_ ("%d: %s, %d%%"), i + 1,
+		lw6sys_new_sprintf (sys_context, _x_ ("%d: %s, %d%%"), i + 1,
 				    _(lw6map_team_color_index_to_key
 				      (team_color)),
 				    floating_context->score_array.

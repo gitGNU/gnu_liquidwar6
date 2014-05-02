@@ -52,7 +52,8 @@ mod_gl1_utils_create_surface (mod_gl1_utils_context_t * context, int w, int h)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create image"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("unable to create image"));
     }
 
   return image;
@@ -72,7 +73,8 @@ mod_gl1_utils_delete_surface (mod_gl1_utils_context_t * context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL surface"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL surface"));
     }
 }
 
@@ -112,7 +114,8 @@ map2surface_xywh (mod_gl1_utils_context_t * gfx_context,
 	    {
 	      color_8 = lw6map_texture_get (&level->texture, i, j);
 	      mod_gl1_utils_putpixel (ret, i + x, j + y,
-				      lw6sys_color_8_to_irgba (color_8));
+				      lw6sys_color_8_to_irgba (sys_context,
+							       color_8));
 	    }
 	}
     }

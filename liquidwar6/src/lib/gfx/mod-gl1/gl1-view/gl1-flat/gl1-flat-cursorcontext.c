@@ -148,7 +148,8 @@ _mod_gl1_view_flat_cursor_context_init (mod_gl1_utils_context_t *
 
   if (cursor->enabled)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("view_flat cursor init %x '%c' %d"),
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("view_flat cursor init %x '%c' %d"),
 		  (int) cursor->cursor_id, cursor->letter,
 		  cursor->team_color);
       cursor_context->cursor_id = cursor->cursor_id;

@@ -156,24 +156,26 @@ _mod_caca_load_consts (_mod_caca_context_t * context)
   char *const_file = NULL;
   int i = 0;
 
-  const_file = lw6sys_path_concat (context->path.data_dir, CONST_FILE);
+  const_file =
+    lw6sys_path_concat (sys_context, context->path.data_dir, CONST_FILE);
 
   if (const_file)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
+		  const_file);
 
       ret =
 	lw6cfg_read_key_value_xml_file (const_file, read_callback,
 					(void *) &(context->const_data));
 
-      LW6SYS_FREE (const_file);
+      LW6SYS_FREE (sys_context, const_file);
     }
 
   for (i = 0; i < _MOD_CACA_NB_VIDEO_DRIVERS; ++i)
     {
       if (!context->const_data.video_driver[i])
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("bad caca consts, \"video-driver-%d\" (i=%d) not found"),
 		      i + 1, i);
@@ -196,7 +198,7 @@ _mod_caca_unload_consts (_mod_caca_context_t * context)
     {
       if (context->const_data.video_driver[i])
 	{
-	  LW6SYS_FREE (context->const_data.video_driver[i]);
+	  LW6SYS_FREE (sys_context, context->const_data.video_driver[i]);
 	}
     }
 

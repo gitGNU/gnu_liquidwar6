@@ -38,7 +38,8 @@ _mod_http_open (_mod_http_context_t * http_context, const char *local_url,
   lw6cnx_connection_t *ret = NULL;
   _mod_http_specific_data_t *specific_data = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("_mod_http_open \"%s\""), remote_url);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("_mod_http_open \"%s\""),
+	      remote_url);
   ret =
     lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
 			   password, local_id, remote_id, dns_ok,
@@ -53,10 +54,11 @@ _mod_http_open (_mod_http_context_t * http_context, const char *local_url,
       if (specific_data)
 	{
 	  specific_data->query_threads =
-	    lw6sys_list_new (_mod_http_query_thread_free_list_item);
+	    lw6sys_list_new (sys_context,
+			     _mod_http_query_thread_free_list_item);
 	  if (specific_data->query_threads)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("open http connection with \"%s\""),
 			  remote_url);
 	    }
@@ -108,7 +110,7 @@ _mod_http_timeout_ok (_mod_http_context_t * http_context,
    * some time assumed to be reasonnable (depends on settings)
    * it will be over.
    */
-  d = abs (lw6sys_get_timestamp () - origin_timestamp);
+  d = abs (lw6sys_get_timestamp (sys_context,) - origin_timestamp);
   ret = (d < (http_context->data.consts.global_timeout * 1000));
 
   return ret;

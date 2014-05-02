@@ -29,7 +29,7 @@
 void
 shared_sdl_timer_update (_lw6gfx_sdl_timer_t * timer)
 {
-  lw6sys_timer_update (&(timer->timestamp),
+  lw6sys_timer_update (sys_context, &(timer->timestamp),
 		       &(timer->uptime), &(timer->cycle));
 }
 

@@ -100,7 +100,7 @@ _mod_caca_pump_events (_mod_caca_context_t * caca_context)
 
   if (caca_context)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE,
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		  _x_ ("pumping libcaca events timeout %d microseconds"),
 		  caca_context->const_data.event_timeout_microseconds);
 
@@ -114,7 +114,7 @@ _mod_caca_pump_events (_mod_caca_context_t * caca_context)
 			     const_data.event_timeout_microseconds))
 	{
 	  timestamp = lw6sys_get_timestamp ();
-	  lw6sys_log (LW6SYS_LOG_NOTICE,
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		      _x_ ("libcaca event type=%s ascii=%d\n"),
 		      (caca_get_event_type (&event) ==
 		       CACA_EVENT_KEY_PRESS ? "CACA_EVENT_KEY_PRESS" :

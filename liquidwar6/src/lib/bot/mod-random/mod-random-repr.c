@@ -33,7 +33,7 @@ _mod_random_repr (_mod_random_context_t * random_context, u_int32_t id)
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf (_x_ ("%u random pos=%d,%d"), id,
+    lw6sys_new_sprintf (sys_context, _x_ ("%u random pos=%d,%d"), id,
 			(int) random_context->pos_x,
 			(int) random_context->pos_y);
 

@@ -73,7 +73,7 @@ mod_gl1_utils_shaded_text_update (mod_gl1_utils_context_t * utils_context,
 	{
 	  LW6SYS_FREE (shaded_text->text);
 	}
-      shaded_text->text = lw6sys_str_copy (text);
+      shaded_text->text = lw6sys_str_copy (sys_context, text);
       change = (shaded_text->text != NULL);
     }
   if (!lw6map_color_is_same (color, &(shaded_text->color)))
@@ -153,7 +153,7 @@ mod_gl1_utils_shaded_text_display (mod_gl1_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't display, shaded_text->bg=NULL"));
       ret = 0;
     }
@@ -165,7 +165,7 @@ mod_gl1_utils_shaded_text_display (mod_gl1_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("can't display, shaded_text->fg=NULL"));
       ret = 0;
     }
@@ -195,7 +195,7 @@ mod_gl1_utils_shaded_text_free (mod_gl1_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("trying to free NULL shaded text"));
     }
 }

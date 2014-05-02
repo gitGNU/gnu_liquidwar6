@@ -32,7 +32,7 @@ _mod_csound_repr (_mod_csound_context_t * csound_context, u_int32_t id)
 {
   char *ret = NULL;
 
-  ret = lw6sys_new_sprintf (_x_ ("%u csound"), id);
+  ret = lw6sys_new_sprintf (sys_context, _x_ ("%u csound"), id);
 
   return ret;
 }

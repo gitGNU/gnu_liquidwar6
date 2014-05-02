@@ -99,7 +99,7 @@ _mod_gles2_find_closest_resolution (_mod_gles2_context_t *
   sdl_modes = SDL_ListModes (NULL, SDL_OPENGL | SDL_FULLSCREEN);
   if (sdl_modes)
     {
-      mode_list = lw6sys_list_new (lw6sys_free_callback);
+      mode_list = lw6sys_list_new (sys_context, lw6sys_free_callback);
       if (mode_list)
 	{
 	  for (i = 0; sdl_modes[i]; ++i)
@@ -112,7 +112,7 @@ _mod_gles2_find_closest_resolution (_mod_gles2_context_t *
 		  video_mode->width = sdl_modes[i]->w;
 		  video_mode->height = sdl_modes[i]->h;
 		  video_mode->fullscreen = LW6GUI_DEFAULT_FULLSCREEN;
-		  lw6sys_lifo_push (&mode_list, video_mode);
+		  lw6sys_lifo_push (sys_context, &mode_list, video_mode);
 		}
 	    }
 	  wished.width = wished_width;
@@ -124,7 +124,7 @@ _mod_gles2_find_closest_resolution (_mod_gles2_context_t *
 	  (*closest_width) = closest.width;
 	  (*closest_height) = closest.height;
 
-	  lw6sys_list_free (mode_list);
+	  lw6sys_list_free (sys_context, mode_list);
 	}
     }
 }

@@ -94,7 +94,8 @@ _load_consts (_mod_httpd_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), consts_file);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
+	      consts_file);
 
   ret =
     lw6cfg_read_key_value_xml_file (consts_file, _read_callback,
@@ -118,39 +119,40 @@ _load_htdocs (_mod_httpd_htdocs_t * htdocs, const char *htdocs_dir)
   int ret = 1;
   char *filename = NULL;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading htdocs from \"%s\""),
-	      htdocs_dir);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+	      _x_ ("loading htdocs from \"%s\""), htdocs_dir);
 
   filename = lw6sys_path_concat (htdocs_dir, _INDEX_HTML_FILE);
   if (filename)
     {
-      htdocs->index_html = lw6sys_read_file_content (filename);
-      LW6SYS_FREE (filename);
+      htdocs->index_html = lw6sys_read_file_content (sys_context, filename);
+      LW6SYS_FREE (sys_context, filename);
     }
   filename = lw6sys_path_concat (htdocs_dir, _ERROR_HTML_FILE);
   if (filename)
     {
-      htdocs->error_html = lw6sys_read_file_content (filename);
-      LW6SYS_FREE (filename);
+      htdocs->error_html = lw6sys_read_file_content (sys_context, filename);
+      LW6SYS_FREE (sys_context, filename);
     }
   filename = lw6sys_path_concat (htdocs_dir, _ROBOTS_TXT_FILE);
   if (filename)
     {
-      htdocs->robots_txt = lw6sys_read_file_content (filename);
-      LW6SYS_FREE (filename);
+      htdocs->robots_txt = lw6sys_read_file_content (sys_context, filename);
+      LW6SYS_FREE (sys_context, filename);
     }
   filename = lw6sys_path_concat (htdocs_dir, _GPL_TXT_FILE);
   if (filename)
     {
-      htdocs->gpl_txt = lw6sys_read_file_content (filename);
-      LW6SYS_FREE (filename);
+      htdocs->gpl_txt = lw6sys_read_file_content (sys_context, filename);
+      LW6SYS_FREE (sys_context, filename);
     }
   filename = lw6sys_path_concat (htdocs_dir, _FAVICON_ICO_FILE);
   if (filename)
     {
       htdocs->favicon_ico_data =
-	lw6sys_read_file_content_bin (&(htdocs->favicon_ico_size), filename);
-      LW6SYS_FREE (filename);
+	lw6sys_read_file_content_bin (sys_context,
+				      &(htdocs->favicon_ico_size), filename);
+      LW6SYS_FREE (sys_context, filename);
     }
 
   ret = htdocs->index_html && htdocs->error_html && htdocs->robots_txt
@@ -167,11 +169,13 @@ _mod_httpd_load_data (_mod_httpd_data_t * httpd_data, const char *data_dir)
   char *consts_file = NULL;
   char *htdocs_dir = NULL;
 
-  httpd_subdir = lw6sys_path_concat (data_dir, _HTTPD_SUBDIR);
+  httpd_subdir = lw6sys_path_concat (sys_context, data_dir, _HTTPD_SUBDIR);
   if (httpd_subdir)
     {
-      consts_file = lw6sys_path_concat (httpd_subdir, _CONSTS_FILE);
-      htdocs_dir = lw6sys_path_concat (httpd_subdir, _HTDOCS_DIR);
+      consts_file =
+	lw6sys_path_concat (sys_context, httpd_subdir, _CONSTS_FILE);
+      htdocs_dir =
+	lw6sys_path_concat (sys_context, httpd_subdir, _HTDOCS_DIR);
       if (consts_file && htdocs_dir)
 	{
 	  ret = _load_consts (&(httpd_data->consts), consts_file)
@@ -179,13 +183,13 @@ _mod_httpd_load_data (_mod_httpd_data_t * httpd_data, const char *data_dir)
 	}
       if (consts_file)
 	{
-	  LW6SYS_FREE (consts_file);
+	  LW6SYS_FREE (sys_context, consts_file);
 	}
       if (htdocs_dir)
 	{
 	  LW6SYS_FREE (htdocs_dir);
 	}
-      LW6SYS_FREE (httpd_subdir);
+      LW6SYS_FREE (sys_context, httpd_subdir);
     }
 
   return ret;
@@ -198,55 +202,55 @@ _unload_consts (_mod_httpd_consts_t * consts)
 
   if (consts->http_version)
     {
-      LW6SYS_FREE (consts->http_version);
+      LW6SYS_FREE (sys_context, consts->http_version);
     }
   if (consts->header_description)
     {
-      LW6SYS_FREE (consts->header_description);
+      LW6SYS_FREE (sys_context, consts->header_description);
     }
   if (consts->header_keywords)
     {
-      LW6SYS_FREE (consts->header_keywords);
+      LW6SYS_FREE (sys_context, consts->header_keywords);
     }
   if (consts->content_type_html)
     {
-      LW6SYS_FREE (consts->content_type_html);
+      LW6SYS_FREE (sys_context, consts->content_type_html);
     }
   if (consts->content_type_txt)
     {
-      LW6SYS_FREE (consts->content_type_txt);
+      LW6SYS_FREE (sys_context, consts->content_type_txt);
     }
   if (consts->content_type_jpeg)
     {
-      LW6SYS_FREE (consts->content_type_jpeg);
+      LW6SYS_FREE (sys_context, consts->content_type_jpeg);
     }
   if (consts->content_type_ico)
     {
-      LW6SYS_FREE (consts->content_type_ico);
+      LW6SYS_FREE (sys_context, consts->content_type_ico);
     }
   if (consts->error_401)
     {
-      LW6SYS_FREE (consts->error_401);
+      LW6SYS_FREE (sys_context, consts->error_401);
     }
   if (consts->error_403)
     {
-      LW6SYS_FREE (consts->error_403);
+      LW6SYS_FREE (sys_context, consts->error_403);
     }
   if (consts->error_404)
     {
-      LW6SYS_FREE (consts->error_404);
+      LW6SYS_FREE (sys_context, consts->error_404);
     }
   if (consts->error_405)
     {
-      LW6SYS_FREE (consts->error_405);
+      LW6SYS_FREE (sys_context, consts->error_405);
     }
   if (consts->error_500)
     {
-      LW6SYS_FREE (consts->error_500);
+      LW6SYS_FREE (sys_context, consts->error_500);
     }
   if (consts->auth_realm)
     {
-      LW6SYS_FREE (consts->auth_realm);
+      LW6SYS_FREE (sys_context, consts->auth_realm);
     }
   memset (consts, 0, sizeof (_mod_httpd_consts_t));
 

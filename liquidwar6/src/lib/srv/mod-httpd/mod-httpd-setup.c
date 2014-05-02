@@ -41,13 +41,13 @@ _mod_httpd_init (int argc, const char *argv[],
   char *httpd_dir;
   int ok = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("httpd init"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("httpd init"));
 
   httpd_context =
     (_mod_httpd_context_t *) LW6SYS_CALLOC (sizeof (_mod_httpd_context_t));
   if (httpd_context)
     {
-      data_dir = lw6sys_get_data_dir (argc, argv);
+      data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
       if (data_dir)
 	{
 	  if (_mod_httpd_load_data (&(httpd_context->data), data_dir))
@@ -67,22 +67,24 @@ _mod_httpd_init (int argc, const char *argv[],
 	       */
 	      properties->reliable = 0;
 	      properties->backend_id = MOD_HTTPD_BACKEND_ID;
-	      user_dir = lw6sys_get_user_dir (argc, argv);
+	      user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
 	      if (user_dir)
 		{
-		  if (!lw6sys_dir_exists (user_dir))
+		  if (!lw6sys_dir_exists (sys_context, user_dir))
 		    {
-		      lw6sys_create_dir (user_dir);
+		      lw6sys_create_dir (sys_context, user_dir);
 		    }
-		  httpd_dir = lw6sys_path_concat (user_dir, _HTTPD_DIR);
+		  httpd_dir =
+		    lw6sys_path_concat (sys_context, user_dir, _HTTPD_DIR);
 		  if (httpd_dir)
 		    {
-		      if (!lw6sys_dir_exists (httpd_dir))
+		      if (!lw6sys_dir_exists (sys_context, httpd_dir))
 			{
-			  lw6sys_create_dir (httpd_dir);
+			  lw6sys_create_dir (sys_context, httpd_dir);
 			}
 		      httpd_context->access_log_file =
-			lw6sys_path_concat (httpd_dir, _ACCESS_LOG_FILE);
+			lw6sys_path_concat (sys_context, httpd_dir,
+					    _ACCESS_LOG_FILE);
 		      if (httpd_context->access_log_file)
 			{
 			  if (lw6sys_clear_file
@@ -97,23 +99,23 @@ _mod_httpd_init (int argc, const char *argv[],
 			    }
 			  else
 			    {
-			      lw6sys_log (LW6SYS_LOG_WARNING,
+			      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 					  _x_ ("can't init \"%s\""),
 					  httpd_context->access_log_file);
 			    }
 			}
-		      LW6SYS_FREE (httpd_dir);
+		      LW6SYS_FREE (sys_context, httpd_dir);
 		    }
-		  LW6SYS_FREE (user_dir);
+		  LW6SYS_FREE (sys_context, user_dir);
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("couldn't read mod-httpd data from \"%s\""),
 			  data_dir);
 	    }
-	  LW6SYS_FREE (data_dir);
+	  LW6SYS_FREE (sys_context, data_dir);
 	}
 
       if (!ok)
@@ -125,7 +127,8 @@ _mod_httpd_init (int argc, const char *argv[],
 
   if (!httpd_context)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_httpd"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+		  _("can't initialize mod_httpd"));
     }
 
   return httpd_context;
@@ -134,18 +137,18 @@ _mod_httpd_init (int argc, const char *argv[],
 void
 _mod_httpd_quit (_mod_httpd_context_t * httpd_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("httpd quit"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("httpd quit"));
 
   if (httpd_context->access_log_mutex)
     {
-      lw6sys_mutex_destroy (httpd_context->access_log_mutex);
+      lw6sys_mutex_destroy (sys_context, httpd_context->access_log_mutex);
     }
   if (httpd_context->access_log_file)
     {
-      LW6SYS_FREE (httpd_context->access_log_file);
+      LW6SYS_FREE (sys_context, httpd_context->access_log_file);
     }
 
   _mod_httpd_unload_data (&(httpd_context->data));
 
-  LW6SYS_FREE (httpd_context);
+  LW6SYS_FREE (sys_context, httpd_context);
 }

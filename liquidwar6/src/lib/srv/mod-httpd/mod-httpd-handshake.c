@@ -41,7 +41,7 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
 
   line = tcp_accepter->first_line;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG,
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_ ("trying to recognize httpd protocol in \"%s\""), line);
 
   if (remote_id)
@@ -64,11 +64,12 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
     {
       if (lw6sys_str_starts_with
 	  (line, _MOD_HTTPD_PROTOCOL_GET_STRING)
-	  || lw6sys_str_starts_with (line,
+	  || lw6sys_str_starts_with (sys_context, line,
 				     _MOD_HTTPD_PROTOCOL_POST_STRING)
-	  || lw6sys_str_starts_with (line, _MOD_HTTPD_PROTOCOL_HEAD_STRING))
+	  || lw6sys_str_starts_with (sys_context, line,
+				     _MOD_HTTPD_PROTOCOL_HEAD_STRING))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("recognized httpd protocol \"%s\""), line);
 	  pos = line;
 	  while ((*pos) && !lw6sys_chr_is_space (*pos))
@@ -81,8 +82,8 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
 	    }
 	  if (lw6sys_str_starts_with (pos, _MOD_HTTPD_PROTOCOL_LW6_STRING))
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("httpd LW6 message \"%s\""),
-			  pos);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+			  _x_ ("httpd LW6 message \"%s\""), pos);
 	      if (lw6msg_envelope_analyse
 		  (pos, LW6MSG_ENVELOPE_MODE_URL,
 		   node_info->const_info.ref_info.url,
@@ -91,28 +92,28 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
 		   remote_id, NULL, NULL, NULL, remote_url))
 		{
 		  ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("httpd message \"%s\" OK"), line);
 		  if (msg)
 		    {
 		      /*
 		       * We need to pass msg else remote_url isn't processed
 		       */
-		      LW6SYS_FREE (msg);
+		      LW6SYS_FREE (sys_context, msg);
 		    }
 		}
 	      else
 		{
 		  if (strchr (line, '\n'))
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("unable to analyse message \"%s\""),
 				  line);
 		      ret |= LW6SRV_ANALYSE_DEAD;
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_
 				  ("unable to analyse message \"%s\" but line does not seem complete, assuming some data is still missing, giving it another chance"),
 				  line);
@@ -121,8 +122,8 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("out of band httpd \"%s\""),
-			  pos);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+			  _x_ ("out of band httpd \"%s\""), pos);
 	      ret |= LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB;
 	    }
 	}
@@ -141,14 +142,14 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
     {
       if (line_size > 0)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_
 		      ("timeout on receive (first_line=\"%s\") so sending request to http handler, which will probably return error 500"),
 		      line);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_
 		      ("timeout on receive and no input data, sending request to http handler, which will probably return nothing"));
 	}
@@ -193,7 +194,8 @@ _mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context,
   _mod_httpd_reply_thread_data_t *reply_thread_data = NULL;
   lw6sys_thread_handler_t *thread_handler = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_httpd feed with tcp \"%s\""),
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+	      _x_ ("mod_httpd feed with tcp \"%s\""),
 	      tcp_accepter->first_line);
 
   if (lw6net_socket_is_valid (tcp_accepter->sock))
@@ -226,7 +228,7 @@ _mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context,
       lw6net_socket_close (&(tcp_accepter->sock));
       if (reply_thread_data)
 	{
-	  LW6SYS_FREE (reply_thread_data);
+	  LW6SYS_FREE (sys_context, reply_thread_data);
 	}
     }
 

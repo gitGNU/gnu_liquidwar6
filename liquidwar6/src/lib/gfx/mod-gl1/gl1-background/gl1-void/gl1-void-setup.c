@@ -38,7 +38,7 @@ _mod_gl1_background_void_init (mod_gl1_utils_context_t * utils_context)
 {
   _mod_gl1_background_void_context_t *void_context = NULL;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("init background/void"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("init background/void"));
 
   void_context =
     (_mod_gl1_background_void_context_t *)
@@ -71,9 +71,9 @@ _mod_gl1_background_void_quit (mod_gl1_utils_context_t * utils_context,
 			       _mod_gl1_background_void_context_t *
 			       void_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("quit background/void"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("quit background/void"));
 
-  LW6SYS_FREE (void_context);
+  LW6SYS_FREE (sys_context, void_context);
 }
 
 void

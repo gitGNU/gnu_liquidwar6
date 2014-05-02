@@ -43,19 +43,19 @@ _parse_first_line (_mod_httpd_request_t * request)
   if (lw6sys_str_starts_with
       (request->first_line, _MOD_HTTPD_PROTOCOL_GET_STRING))
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("this is a GET"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("this is a GET"));
       request->get_head_post = _MOD_HTTPD_GET;
     }
   if (lw6sys_str_starts_with
       (request->first_line, _MOD_HTTPD_PROTOCOL_HEAD_STRING))
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("this is a HEAD"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("this is a HEAD"));
       request->get_head_post = _MOD_HTTPD_HEAD;
     }
   if (lw6sys_str_starts_with
       (request->first_line, _MOD_HTTPD_PROTOCOL_POST_STRING))
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("this is a POST"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("this is a POST"));
       request->get_head_post = _MOD_HTTPD_POST;
     }
 
@@ -87,14 +87,15 @@ _parse_first_line (_mod_httpd_request_t * request)
     {
       if (strlen (request->uri) == 0)
 	{
-	  LW6SYS_FREE (request->uri);
-	  request->uri = lw6sys_str_copy ("/");
+	  LW6SYS_FREE (sys_context, request->uri);
+	  request->uri = lw6sys_str_copy (sys_context, "/");
 	}
     }
 
   if (request->uri)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("REQUEST_URI=\"%s\""), request->uri);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("REQUEST_URI=\"%s\""),
+		  request->uri);
       if (!strcmp (request->uri, _MOD_HTTPD_OOB_PING_TXT))
 	{
 	  request->password_ok = 1;
@@ -116,7 +117,7 @@ _parse_header (_mod_httpd_request_t * request, char *line, char *public_url,
   char *double_dot = NULL;
   char *received_password = NULL;
 
-  if (lw6sys_str_starts_with (line, _HTTP_AUTHORIZATION))
+  if (lw6sys_str_starts_with (sys_context, line, _HTTP_AUTHORIZATION))
     {
       if (!lw6sys_str_is_null_or_empty (password))
 	{
@@ -135,7 +136,7 @@ _parse_header (_mod_httpd_request_t * request, char *line, char *public_url,
 		  if (double_dot)
 		    {
 		      received_password = double_dot + 1;
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("received HTTP password \"%s\""),
 				  received_password);
 		    }
@@ -145,7 +146,7 @@ _parse_header (_mod_httpd_request_t * request, char *line, char *public_url,
 			lw6cnx_password_verify (public_url, password,
 						received_password);
 		    }
-		  LW6SYS_FREE (clear_authorization);
+		  LW6SYS_FREE (sys_context, clear_authorization);
 		}
 	    }
 	}
@@ -164,7 +165,7 @@ _mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context,
   char *line = NULL;
   char b = '\0';
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process httpd oob"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process httpd oob"));
 
   /*
    * If there's not even one byte available right now, it's no
@@ -211,7 +212,7 @@ _mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context,
 						 node_info->
 						 const_info.password);
 				}
-			      LW6SYS_FREE (line);
+			      LW6SYS_FREE (sys_context, line);
 			    }
 			}
 		    }
@@ -228,15 +229,16 @@ _mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context,
 	       */
 	      if (request->first_line)
 		{
-		  LW6SYS_FREE (request->first_line);
+		  LW6SYS_FREE (sys_context, request->first_line);
 		}
 	      if (request->uri)
 		{
-		  LW6SYS_FREE (request->uri);
+		  LW6SYS_FREE (sys_context, request->uri);
 		}
-	      request->first_line = lw6sys_str_copy (_ERROR_FIRST_LINE);
+	      request->first_line =
+		lw6sys_str_copy (sys_context, _ERROR_FIRST_LINE);
 	      request->get_head_post = 0;
-	      request->uri = lw6sys_str_copy (_ERROR_URI);
+	      request->uri = lw6sys_str_copy (sys_context, _ERROR_URI);
 	    }
 	}
     }
@@ -253,12 +255,12 @@ _mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t *
   int eof = 0;
   char *line = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process httpd cmd"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process httpd cmd"));
   request =
     (_mod_httpd_request_t *) LW6SYS_CALLOC (sizeof (_mod_httpd_request_t));
   if (request)
     {
-      request->client_ip = lw6sys_str_copy (cnx->remote_ip);
+      request->client_ip = lw6sys_str_copy (sys_context, cnx->remote_ip);
 
       if (_mod_httpd_reply_thread_should_continue (reply_thread_data))
 	{
@@ -268,7 +270,8 @@ _mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t *
 	    {
 	      if (_parse_first_line (request))
 		{
-		  if (lw6sys_str_is_null_or_empty (cnx->password))
+		  if (lw6sys_str_is_null_or_empty
+		      (sys_context, cnx->password))
 		    {
 		      request->password_ok = 1;
 		    }
@@ -290,7 +293,7 @@ _mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t *
 			      _parse_header (request, line,
 					     cnx->local_url, cnx->password);
 			    }
-			  LW6SYS_FREE (line);
+			  LW6SYS_FREE (sys_context, line);
 			}
 		    }
 		}
@@ -306,15 +309,16 @@ _mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t *
 	   */
 	  if (request->first_line)
 	    {
-	      LW6SYS_FREE (request->first_line);
+	      LW6SYS_FREE (sys_context, request->first_line);
 	    }
 	  if (request->uri)
 	    {
-	      LW6SYS_FREE (request->uri);
+	      LW6SYS_FREE (sys_context, request->uri);
 	    }
-	  request->first_line = lw6sys_str_copy (_ERROR_FIRST_LINE);
+	  request->first_line =
+	    lw6sys_str_copy (sys_context, _ERROR_FIRST_LINE);
 	  request->get_head_post = 0;
-	  request->uri = lw6sys_str_copy (_ERROR_URI);
+	  request->uri = lw6sys_str_copy (sys_context, _ERROR_URI);
 	}
     }
 
@@ -328,24 +332,24 @@ _mod_httpd_request_free (_mod_httpd_request_t * request)
     {
       if (request->client_ip)
 	{
-	  LW6SYS_FREE (request->client_ip);
+	  LW6SYS_FREE (sys_context, request->client_ip);
 	}
       if (request->first_line)
 	{
-	  LW6SYS_FREE (request->first_line);
+	  LW6SYS_FREE (sys_context, request->first_line);
 	}
       if (request->uri)
 	{
-	  LW6SYS_FREE (request->uri);
+	  LW6SYS_FREE (sys_context, request->uri);
 	}
       if (request->http_user)
 	{
-	  LW6SYS_FREE (request->http_user);
+	  LW6SYS_FREE (sys_context, request->http_user);
 	}
       if (request->http_password)
 	{
-	  LW6SYS_FREE (request->http_password);
+	  LW6SYS_FREE (sys_context, request->http_password);
 	}
-      LW6SYS_FREE (request);
+      LW6SYS_FREE (sys_context, request);
     }
 }

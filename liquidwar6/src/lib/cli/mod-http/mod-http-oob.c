@@ -37,9 +37,9 @@ _do_ping (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
   char *ping_url = NULL;
   char *given_url = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("connecting in HTTP on %s:%d"), ip,
-	      parsed_url->port);
-  ping_url = lw6sys_str_concat (url, _MOD_HTTP_OOB_PING_TXT);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+	      _x_ ("connecting in HTTP on %s:%d"), ip, parsed_url->port);
+  ping_url = lw6sys_str_concat (sys_context, url, _MOD_HTTP_OOB_PING_TXT);
   if (ping_url)
     {
       response =
@@ -51,9 +51,9 @@ _do_ping (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 	      given_url = lw6msg_oob_analyse_pong (response);
 	      if (given_url)
 		{
-		  if (lw6sys_str_is_same (url, given_url))
+		  if (lw6sys_str_is_same (sys_context, url, given_url))
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_
 				  ("ping successfull on %s:%d  \"%s\""),
 				  ip, parsed_url->port, url);
@@ -61,23 +61,23 @@ _do_ping (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("mod_http connected on %s:%d \"%s\" but server reports \"%s\""),
 				  ip, parsed_url->port, url, given_url);
 		      lw6nod_info_add_discovered_node (node_info, given_url);
 		    }
-		  LW6SYS_FREE (given_url);
+		  LW6SYS_FREE (sys_context, given_url);
 		}
 	    }
 	  LW6SYS_FREE (response);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("no response from %s:%d"),
-		      ip, parsed_url->port);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("no response from %s:%d"), ip, parsed_url->port);
 	}
-      LW6SYS_FREE (ping_url);
+      LW6SYS_FREE (sys_context, ping_url);
     }
 
   return ret;
@@ -97,13 +97,13 @@ _do_info (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
   char *pos = NULL;
   char seek_c = '\0';
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("connecting in HTTP on %s:%d"), ip,
-	      parsed_url->port);
-  assoc = lw6sys_assoc_new (lw6sys_free_callback);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+	      _x_ ("connecting in HTTP on %s:%d"), ip, parsed_url->port);
+  assoc = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
   if (assoc)
     {
       origin = lw6sys_get_timestamp ();
-      info_url = lw6sys_str_concat (url, _MOD_HTTP_OOB_INFO_TXT);
+      info_url = lw6sys_str_concat (sys_context, url, _MOD_HTTP_OOB_INFO_TXT);
       if (info_url)
 	{
 	  response =
@@ -129,13 +129,13 @@ _do_info (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 			      if (lw6msg_utils_parse_key_value_to_assoc
 				  (&assoc, pos))
 				{
-				  lw6sys_log (LW6SYS_LOG_DEBUG,
+				  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					      _x_ ("parsed line \"%s\""),
 					      pos);
 				}
 			      else
 				{
-				  lw6sys_log (LW6SYS_LOG_DEBUG,
+				  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					      _x_
 					      ("unable to parse line \"%s\", ignoring"),
 					      pos);
@@ -151,10 +151,11 @@ _do_info (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("no response from %s:%d"),
-			  ip, parsed_url->port);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+			  _x_ ("no response from %s:%d"), ip,
+			  parsed_url->port);
 	    }
-	  LW6SYS_FREE (info_url);
+	  LW6SYS_FREE (sys_context, info_url);
 	}
       if (assoc)
 	{
@@ -164,8 +165,8 @@ _do_info (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 		oob_data->
 		verify_callback_func (oob_data->verify_callback_data, url, ip,
 				      parsed_url->port,
-				      lw6sys_get_timestamp () - origin,
-				      assoc);
+				      lw6sys_get_timestamp (sys_context,) -
+				      origin, assoc);
 	    }
 	  lw6sys_assoc_free (assoc);
 	}
@@ -186,9 +187,9 @@ _do_list (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
   char *pos = NULL;
   char seek_c = '\0';
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("connecting in HTTP on %s:%d"), ip,
-	      parsed_url->port);
-  list_url = lw6sys_str_concat (url, _MOD_HTTP_OOB_LIST_TXT);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+	      _x_ ("connecting in HTTP on %s:%d"), ip, parsed_url->port);
+  list_url = lw6sys_str_concat (sys_context, url, _MOD_HTTP_OOB_LIST_TXT);
   if (list_url)
     {
       response =
@@ -214,7 +215,7 @@ _do_list (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 			{
 			  if (lw6sys_url_is_canonized (pos))
 			    {
-			      lw6sys_log (LW6SYS_LOG_DEBUG,
+			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					  _x_
 					  ("list from %s:%d \"%s\" contains \"%s\", registering it"),
 					  ip, parsed_url->port, url, pos);
@@ -223,7 +224,7 @@ _do_list (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 			    }
 			  else
 			    {
-			      lw6sys_log (LW6SYS_LOG_DEBUG,
+			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					  _x_
 					  ("list from %s:%d \"%s\" contains non-canonized url \"%s\""),
 					  ip, parsed_url->port, url, pos);
@@ -240,8 +241,8 @@ _do_list (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("no response from %s:%d"),
-		      ip, parsed_url->port);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("no response from %s:%d"), ip, parsed_url->port);
 	}
       LW6SYS_FREE (list_url);
     }
@@ -261,13 +262,14 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
   int tcp_connect_ok = 0;
   int tcp_connect_sock = LW6NET_SOCKET_INVALID;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process http oob url=\"%s\""),
-	      oob_data->public_url);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+	      _x_ ("process http oob url=\"%s\""), oob_data->public_url);
 
   parsed_url = lw6sys_url_parse (oob_data->public_url);
   if (parsed_url)
     {
-      if (lw6sys_str_is_same (parsed_url->host, LW6NET_ADDRESS_BROADCAST))
+      if (lw6sys_str_is_same
+	  (sys_context, parsed_url->host, LW6NET_ADDRESS_BROADCAST))
 	{
 	  // no broadcast in HTTP
 	  ret = 1;
@@ -305,7 +307,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 					    LW6SYS_TICKS_PER_SEC);
 		      if (lw6net_socket_is_valid (tcp_connect_sock))
 			{
-			  lw6sys_log (LW6SYS_LOG_INFO,
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				      _x_
 				      ("TCP check before HTTP request, connected to \"%s\" on %s:%d"),
 				      oob_data->public_url, ip,
@@ -315,7 +317,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_INFO,
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				      _x_
 				      ("TCP check before HTTP request, can't connect to node \"%s\" on %s:%d"),
 				      oob_data->public_url, ip,
@@ -324,7 +326,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("TCP check before HTTP request disabled, will use libcurl directly to connect to node \"%s\" on %s:%d"),
 				  oob_data->public_url, ip, parsed_url->port);
@@ -340,7 +342,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 		      (http_context, node_info, oob_data,
 		       oob_data->public_url, parsed_url, ip))
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("mod_http client PING on node \"%s\" OK"),
 				  oob_data->public_url);
@@ -349,7 +351,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 			   oob_data->public_url, parsed_url, ip,
 			   password_checksum))
 			{
-			  lw6sys_log (LW6SYS_LOG_INFO,
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				      _x_
 				      ("mod_http client INFO on node \"%s\" OK"),
 				      oob_data->public_url);
@@ -358,7 +360,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 			       oob_data->public_url, parsed_url, ip,
 			       password_checksum))
 			    {
-			      lw6sys_log (LW6SYS_LOG_INFO,
+			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					  _x_
 					  ("mod_http client LIST on node \"%s\" OK"),
 					  oob_data->public_url);
@@ -366,7 +368,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 			    }
 			  else
 			    {
-			      lw6sys_log (LW6SYS_LOG_INFO,
+			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					  _x_
 					  ("mod_http client LIST on node \"%s\" failed"),
 					  oob_data->public_url);
@@ -374,7 +376,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_INFO,
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				      _x_
 				      ("mod_http client INFO on node \"%s\" failed"),
 				      oob_data->public_url);
@@ -382,7 +384,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("mod_http client PING on node \"%s\" failed"),
 				  oob_data->public_url);
@@ -395,7 +397,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context,
 	      LW6SYS_FREE (password_checksum);
 	    }
 	}
-      lw6sys_url_free (parsed_url);
+      lw6sys_url_free (sys_context, parsed_url);
     }
 
   return ret;

@@ -39,7 +39,7 @@ mod_gl1_utils_timer_set_bitmap_refresh (mod_gl1_utils_context_t *
 					utils_context)
 {
 #if LW6_MS_WINDOWS || LW6_MAC_OS_X
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_
 	      ("forcing the purge of textures now, OpenGL context might be lost"));
   mod_gl1_utils_bitmap_hash_refresh (utils_context);

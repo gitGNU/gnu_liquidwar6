@@ -34,7 +34,7 @@ _mod_udpd_repr (_mod_udpd_context_t * udpd_context,
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf (_x_ ("udpd connexion with %s:%d"),
+    lw6sys_new_sprintf (sys_context, _x_ ("udpd connexion with %s:%d"),
 			connection->remote_ip, connection->remote_port);
 
   return ret;

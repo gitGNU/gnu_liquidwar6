@@ -83,9 +83,10 @@ _display_bubble (mod_gl1_utils_context_t * utils_context,
       bubble->t0 =
 	_lw6gfx_sdl_timer_get_uptime (&(utils_context->sdl_context));
       bubble->size =
-	lw6sys_random_float (bubbles_context->const_data.bubble_size_min,
+	lw6sys_random_float (sys_context,
+			     bubbles_context->const_data.bubble_size_min,
 			     bubbles_context->const_data.bubble_size_max);
-      bubble->x = lw6sys_random_float (0.0f, 1.0f);
+      bubble->x = lw6sys_random_float (sys_context, 0.0f, 1.0f);
     }
 
   dt =

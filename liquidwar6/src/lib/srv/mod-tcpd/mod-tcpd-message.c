@@ -40,15 +40,16 @@ _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
     (_mod_tcpd_specific_data_t *) connection->backend_specific_data;
   char *line;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd send \"%s\""), message);
-  line = lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_TELNET,
-				   lw6sys_build_get_version (),
-				   connection->password_send_checksum,
-				   physical_ticket_sig,
-				   logical_ticket_sig,
-				   connection->local_id_int,
-				   connection->remote_id_int,
-				   logical_from_id, logical_to_id, message);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd send \"%s\""),
+	      message);
+  line =
+    lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_TELNET,
+			      lw6sys_build_get_version (),
+			      connection->password_send_checksum,
+			      physical_ticket_sig, logical_ticket_sig,
+			      connection->local_id_int,
+			      connection->remote_id_int, logical_from_id,
+			      logical_to_id, message);
   if (line)
     {
       if (lw6net_socket_is_valid (specific_data->sock))
@@ -57,8 +58,8 @@ _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
 	    {
 	      if (lw6net_send_line_tcp (&(specific_data->sock), line))
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd sent \"%s\""),
-			      line);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+			      _x_ ("mod_tcpd sent \"%s\""), line);
 		  specific_data->last_send_success_timestamp = now;
 		  ret = 1;
 		}
@@ -69,12 +70,12 @@ _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
 	{
 	  if (specific_data->last_send_success_timestamp)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("mod_tcpd send failed but has succeeded before"));
 	    }
 	  specific_data->last_send_fail_timestamp = now;
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_
 		      ("mod_tcpd can't send \"%s\", not connected sock=%d"),
 		      message, specific_data->sock);
@@ -85,13 +86,13 @@ _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
     {
       if (line)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("mod_tcpd did not send \"%s\" sock=%d"), line,
 		      specific_data->sock);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_ ("mod_tcpd did not send NULL sock=%d"),
 		      specific_data->sock);
 	}
@@ -99,7 +100,7 @@ _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
 
   if (line)
     {
-      LW6SYS_FREE (line);
+      LW6SYS_FREE (sys_context, line);
     }
 
   return ret;
@@ -134,7 +135,7 @@ _mod_tcpd_poll (_mod_tcpd_context_t * tcpd_context,
   u_int64_t logical_from_id = 0;
   u_int64_t logical_to_id = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd poll"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd poll"));
   if (lw6net_socket_is_valid (specific_data->sock))
     {
       /*
@@ -157,7 +158,7 @@ _mod_tcpd_poll (_mod_tcpd_context_t * tcpd_context,
 		    lw6net_recv_line_tcp (&(specific_data->sock));
 		  if (envelope_line)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("mod_tcpd received envelope \"%s\""),
 				  envelope_line);
 		      if (lw6msg_envelope_analyse
@@ -169,7 +170,7 @@ _mod_tcpd_poll (_mod_tcpd_context_t * tcpd_context,
 			   &physical_from_id, &physical_to_id,
 			   &logical_from_id, &logical_to_id, NULL))
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				      _x_ ("mod_tcpd analysed msg \"%s\""),
 				      msg);
 			  if (connection->recv_callback_func)
@@ -182,12 +183,12 @@ _mod_tcpd_poll (_mod_tcpd_context_t * tcpd_context,
 			    }
 			  else
 			    {
-			      lw6sys_log (LW6SYS_LOG_DEBUG,
+			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					  _x_ ("no recv callback defined"));
 			    }
-			  LW6SYS_FREE (msg);
+			  LW6SYS_FREE (sys_context, msg);
 			}
-		      LW6SYS_FREE (envelope_line);
+		      LW6SYS_FREE (sys_context, envelope_line);
 		    }
 		}
 	    }

@@ -67,7 +67,7 @@ _write_memory_callback (void *ptr, size_t size, size_t nmemb, void *data)
 static void
 _print_error (char *function, CURLcode res)
 {
-  lw6sys_log (LW6SYS_LOG_INFO,
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 	      _x_ ("call to curl function \"%s\" failed with code %d \"%s\""),
 	      function, res, curl_easy_strerror (res));
 }
@@ -88,7 +88,7 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
   chunk.memory = NULL;		/* we expect realloc(NULL, size) to work */
   chunk.size = 0;		/* no data at this point */
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("GET \"%s\""), url);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("GET \"%s\""), url);
 
   if (lw6net_is_connectable (ip, port))
     {
@@ -279,7 +279,7 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("unable to initialize CURL handle"));
 		}
 
@@ -288,16 +288,16 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
 		  if (http_ok && chunk.size > 0)
 		    {
 		      ret = chunk.memory;
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("CURL HTTP response=\"%s\""), ret);
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("ignoring CURL HTTP response, http_ok=%d res=%d size=%d"),
 				  http_ok, (int) res, (int) chunk.size);
-		      LW6SYS_FREE (chunk.memory);
+		      LW6SYS_FREE (sys_context, chunk.memory);
 		      chunk.memory = NULL;
 		    }
 		}
@@ -315,7 +315,7 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
 				http_context->data.consts.connect_timeout);
 	  if (lw6net_socket_is_valid (test_sock))
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("destination %s:%d is reachable by plain TCP/IP, but unable to serve correct LW6 HTTP stuff on url \"%s\""),
 			  ip, port, url);
@@ -329,7 +329,7 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_INFO,
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		  _x_
 		  ("destination %s:%d already marked as not connectable, not even trying to connect to it"),
 		  ip, port);

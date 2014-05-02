@@ -114,7 +114,7 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("wrong surface dimension x0=%d x1=%d surface->w=%d y0=%d y1=%d surface->h=%d"),
 		  x0, x1, surface->w, y0, y1, surface->h);
@@ -270,7 +270,7 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("wrong surface dimension x0=%d x1=%d surface->w=%d y0=%d y1=%d surface->h=%d"),
 		  x0, x1, surface->w, y0, y1, surface->h);
@@ -346,7 +346,8 @@ mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
       utils_context->last_action.game_bitmap_array_update_rounds =
 	lw6ker_game_state_get_rounds (game_state);
 
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("updating %d game tiles"),
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("updating %d game tiles"),
 		  bitmap_array->layout.nb_tiles);
       /*
        * Typically parallelizable function. Doesn't matter how tiles are updated,

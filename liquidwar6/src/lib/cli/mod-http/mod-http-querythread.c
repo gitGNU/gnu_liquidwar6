@@ -41,8 +41,8 @@ _mod_http_query_thread_func (void *callback_data)
     {
       if (query_thread_data->url)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("processing \"%s\""),
-		      query_thread_data->url);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("processing \"%s\""), query_thread_data->url);
 	  response =
 	    _mod_http_get (query_thread_data->http_context,
 			   query_thread_data->url,
@@ -51,7 +51,7 @@ _mod_http_query_thread_func (void *callback_data)
 			   query_thread_data->cnx->remote_port);
 	  if (response)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("mod_http received content \"%s\""), response);
 	      seek = pos = response;
 	      while (*seek)
@@ -91,18 +91,19 @@ _mod_http_query_thread_join (void *callback_data)
     {
       if (query_thread_data->url)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("done with processing \"%s\""),
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("done with processing \"%s\""),
 		      query_thread_data->url);
-	  LW6SYS_FREE (query_thread_data->url);
+	  LW6SYS_FREE (sys_context, query_thread_data->url);
 	}
-      LW6SYS_FREE (query_thread_data);
+      LW6SYS_FREE (sys_context, query_thread_data);
     }
 }
 
 void
 _mod_http_query_thread_free_list_item (void *data)
 {
-  lw6sys_thread_join (data);
+  lw6sys_thread_join (sys_context, data);
 }
 
 int
@@ -113,7 +114,7 @@ _mod_http_query_thread_filter (void *func_data, void *data)
   /*
    * If callback is done, free item, that is, return 0
    */
-  ret = !lw6sys_thread_is_callback_done (data);
+  ret = !lw6sys_thread_is_callback_done (sys_context, data);
 
   return ret;
 }
@@ -133,7 +134,7 @@ _mod_http_query_thread_process_response_line (_mod_http_query_thread_data_t *
   u_int64_t logical_from_id = 0;
   u_int64_t logical_to_id = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG,
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_ ("mod_http received envelope \"%s\""), response_line);
   if (lw6msg_envelope_analyse
       (response_line, LW6MSG_ENVELOPE_MODE_TELNET,
@@ -144,7 +145,7 @@ _mod_http_query_thread_process_response_line (_mod_http_query_thread_data_t *
        &physical_from_id, &physical_to_id,
        &logical_from_id, &logical_to_id, NULL))
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("mod_http analysed msg \"%s\""), msg);
       ret = 1;
       if (cnx->recv_callback_func)
@@ -156,9 +157,10 @@ _mod_http_query_thread_process_response_line (_mod_http_query_thread_data_t *
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("no recv callback defined"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("no recv callback defined"));
 	}
-      LW6SYS_FREE (msg);
+      LW6SYS_FREE (sys_context, msg);
     }
 
   return ret;

@@ -39,21 +39,23 @@ mod_gl1_utils_path_init (mod_gl1_utils_context_t *
   char *user_dir = NULL;
   int ret = 0;
 
-  data_root_dir = lw6sys_get_data_dir (argc, argv);
+  data_root_dir = lw6sys_get_data_dir (sys_context, argc, argv);
   if (data_root_dir)
     {
-      utils_context->path.data_dir = lw6sys_path_concat (data_root_dir, SUB);
-      LW6SYS_FREE (data_root_dir);
+      utils_context->path.data_dir =
+	lw6sys_path_concat (sys_context, data_root_dir, SUB);
+      LW6SYS_FREE (sys_context, data_root_dir);
     }
 
-  user_dir = lw6sys_get_user_dir (argc, argv);
+  user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
   if (user_dir)
     {
       utils_context->path.capture_dir =
-	lw6sys_path_concat (user_dir, CAPTURE);
-      utils_context->path.bitmap_dir = lw6sys_path_concat (user_dir, BITMAP);
+	lw6sys_path_concat (sys_context, user_dir, CAPTURE);
+      utils_context->path.bitmap_dir =
+	lw6sys_path_concat (sys_context, user_dir, BITMAP);
       mod_gl1_utils_path_update (utils_context);
-      LW6SYS_FREE (user_dir);
+      LW6SYS_FREE (sys_context, user_dir);
     }
 
   ret = (utils_context->path.data_dir && utils_context->path.capture_dir
@@ -72,14 +74,15 @@ mod_gl1_utils_path_update (mod_gl1_utils_context_t * utils_context)
     {
       if (utils_context->path.bitmap_frame_dir)
 	{
-	  LW6SYS_FREE (utils_context->path.bitmap_frame_dir);
+	  LW6SYS_FREE (sys_context, utils_context->path.bitmap_frame_dir);
 	}
-      frame_str = lw6sys_itoa (utils_context->counter.nb_frames);
+      frame_str = lw6sys_itoa (sys_context, utils_context->counter.nb_frames);
       if (frame_str)
 	{
 	  utils_context->path.bitmap_frame_dir =
-	    lw6sys_path_concat (utils_context->path.bitmap_dir, frame_str);
-	  LW6SYS_FREE (frame_str);
+	    lw6sys_path_concat (sys_context, utils_context->path.bitmap_dir,
+				frame_str);
+	  LW6SYS_FREE (sys_context, frame_str);
 	  ret = 1;
 	}
     }
@@ -92,18 +95,18 @@ mod_gl1_utils_path_quit (mod_gl1_utils_context_t * utils_context)
 {
   if (utils_context->path.data_dir)
     {
-      LW6SYS_FREE (utils_context->path.data_dir);
+      LW6SYS_FREE (sys_context, utils_context->path.data_dir);
     }
   if (utils_context->path.capture_dir)
     {
-      LW6SYS_FREE (utils_context->path.capture_dir);
+      LW6SYS_FREE (sys_context, utils_context->path.capture_dir);
     }
   if (utils_context->path.bitmap_dir)
     {
-      LW6SYS_FREE (utils_context->path.bitmap_dir);
+      LW6SYS_FREE (sys_context, utils_context->path.bitmap_dir);
     }
   if (utils_context->path.bitmap_frame_dir)
     {
-      LW6SYS_FREE (utils_context->path.bitmap_frame_dir);
+      LW6SYS_FREE (sys_context, utils_context->path.bitmap_frame_dir);
     }
 }

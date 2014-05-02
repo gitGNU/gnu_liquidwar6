@@ -96,17 +96,20 @@ load_consts (mod_gl1_utils_context_t * utils_context,
   int ret = 0;
   char *const_file = NULL;
 
-  const_file = lw6sys_path_concat (utils_context->path.data_dir, CONST_FILE);
+  const_file =
+    lw6sys_path_concat (sys_context, utils_context->path.data_dir,
+			CONST_FILE);
 
   if (const_file)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
+		  const_file);
 
       ret =
 	lw6cfg_read_key_value_xml_file (const_file, read_callback,
 					(void *) &(flat_context->const_data));
 
-      LW6SYS_FREE (const_file);
+      LW6SYS_FREE (sys_context, const_file);
     }
 
   return ret;

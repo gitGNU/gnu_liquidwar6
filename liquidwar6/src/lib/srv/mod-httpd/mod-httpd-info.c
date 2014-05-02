@@ -34,7 +34,7 @@ _mod_httpd_repr (_mod_httpd_context_t * httpd_context,
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf (_x_ ("httpd connexion with %s:%d"),
+    lw6sys_new_sprintf (sys_context, _x_ ("httpd connexion with %s:%d"),
 			connection->remote_ip, connection->remote_port);
 
   return ret;

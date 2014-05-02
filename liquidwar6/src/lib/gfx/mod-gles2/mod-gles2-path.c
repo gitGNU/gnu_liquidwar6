@@ -36,18 +36,18 @@ _mod_gles2_path_init (_mod_gles2_path_t * path, int argc, const char *argv[])
   char *user_dir = NULL;
   int ret = 0;
 
-  data_root_dir = lw6sys_get_data_dir (argc, argv);
+  data_root_dir = lw6sys_get_data_dir (sys_context, argc, argv);
   if (data_root_dir)
     {
-      path->data_dir = lw6sys_path_concat (data_root_dir, SUB);
-      LW6SYS_FREE (data_root_dir);
+      path->data_dir = lw6sys_path_concat (sys_context, data_root_dir, SUB);
+      LW6SYS_FREE (sys_context, data_root_dir);
     }
 
-  user_dir = lw6sys_get_user_dir (argc, argv);
+  user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
   if (user_dir)
     {
-      path->debug_dir = lw6sys_path_concat (user_dir, DEBUG);
-      LW6SYS_FREE (user_dir);
+      path->debug_dir = lw6sys_path_concat (sys_context, user_dir, DEBUG);
+      LW6SYS_FREE (sys_context, user_dir);
     }
 
   ret = (path->data_dir && path->debug_dir);
@@ -65,10 +65,10 @@ _mod_gles2_path_quit (_mod_gles2_path_t * path)
 {
   if (path->debug_dir)
     {
-      LW6SYS_FREE (path->debug_dir);
+      LW6SYS_FREE (sys_context, path->debug_dir);
     }
   if (path->data_dir)
     {
-      LW6SYS_FREE (path->data_dir);
+      LW6SYS_FREE (sys_context, path->data_dir);
     }
 }

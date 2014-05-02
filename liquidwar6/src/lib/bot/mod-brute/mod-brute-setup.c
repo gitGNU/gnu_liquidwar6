@@ -33,7 +33,7 @@ _mod_brute_init (int argc, const char *argv[], lw6bot_data_t * data)
   _mod_brute_context_t *brute_context = NULL;
   float iq_divided = 0.0f;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("brute init"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("brute init"));
 
   brute_context =
     (_mod_brute_context_t *) LW6SYS_CALLOC (sizeof (_mod_brute_context_t));
@@ -56,11 +56,11 @@ _mod_brute_init (int argc, const char *argv[], lw6bot_data_t * data)
 void
 _mod_brute_quit (_mod_brute_context_t * brute_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("brute quit"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("brute quit"));
   if (brute_context->game_sandbox)
     {
       lw6ker_game_state_free (brute_context->game_sandbox);
       brute_context->game_sandbox = NULL;
     }
-  LW6SYS_FREE (brute_context);
+  LW6SYS_FREE (sys_context, brute_context);
 }

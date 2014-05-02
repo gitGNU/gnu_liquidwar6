@@ -71,7 +71,7 @@ _mod_gl1_view_flat_game_context_init_map (mod_gl1_utils_context_t *
 
   ret = 1;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("init map"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("init map"));
   memset (&
 	  (game_context_map->map_bitmap_array), 0,
 	  sizeof (mod_gl1_utils_bitmap_array_t));
@@ -115,7 +115,7 @@ _mod_gl1_view_flat_game_context_init_map (mod_gl1_utils_context_t *
   if (!ret)
     {
 
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("unable to init game_context (map) for flat backend"));
     }
 
@@ -138,7 +138,7 @@ _mod_gl1_view_flat_game_context_init_armies (mod_gl1_utils_context_t *
 
   ret = 1;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("init armies"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("init armies"));
 
   game_struct = game_state->game_struct;
 
@@ -161,7 +161,7 @@ _mod_gl1_view_flat_game_context_init_armies (mod_gl1_utils_context_t *
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("unable to init game_context (armies) for flat backend"));
     }
@@ -296,7 +296,7 @@ _mod_gl1_view_flat_game_context_update_armies (mod_gl1_utils_context_t *
     {
       if (game_context_armies->game_state != game_state)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		      _x_
 		      ("game_state is changed while game_struct remains the same, there's nothing wrong with that but not synchronizing the game_state in this special case has caused a historical, hard to track bug, so it's worth noting it"));
 	  game_context_armies->game_state = game_state;

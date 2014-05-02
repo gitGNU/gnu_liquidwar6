@@ -217,7 +217,8 @@ plasma_anim (_mod_caca_context_t * caca_context)
   cv = caca_create_canvas (10, 1);
   if (cv == NULL)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR, _x_ ("Can't create tmp canvas"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+		  _x_ ("Can't create tmp canvas"));
       return;
     }
   hc = caca_get_canvas_height (caca_context->canvas);
@@ -230,15 +231,15 @@ plasma_anim (_mod_caca_context_t * caca_context)
   fonts = caca_get_font_list ();
   if (fonts[0] == NULL || fonts[1] == NULL)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR,
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 		  _x_ ("libcaca was compiled without any fonts"));
       return;
     }
   f = caca_load_font (fonts[1], 0);
   if (f == NULL)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR, _x_ ("could not load font : '%s'"),
-		  fonts[0]);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+		  _x_ ("could not load font : '%s'"), fonts[0]);
       return;
     }
   buf = malloc (4 * wc * hc);

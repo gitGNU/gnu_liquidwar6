@@ -37,7 +37,8 @@ _mod_caca_display_menu (_mod_caca_context_t * caca_context,
   lw6gui_menuitem_t *menuitem;
 
   wc = caca_get_canvas_width (caca_context->canvas);
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("menu:nb_item %d"), menu->nb_items);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("menu:nb_item %d"),
+	      menu->nb_items);
   for (i = 0; i < menu->nb_items; ++i)
     {
       j = i + menu->first_item_displayed;
@@ -47,7 +48,8 @@ _mod_caca_display_menu (_mod_caca_context_t * caca_context,
 	{
 	  caca_set_color_ansi (caca_context->canvas, CACA_BLACK, CACA_WHITE);
 	}
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("menu:nb_item %s"), menuitem->label);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("menu:nb_item %s"),
+		  menuitem->label);
       caca_put_str (caca_context->canvas, (wc - strlen (menuitem->label)) / 2,
 		    4 + i, menuitem->label);
     }

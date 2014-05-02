@@ -51,7 +51,7 @@ _mod_gles2_init (int argc, const char *argv[],
 	lw6dyn_dlopen_shared (argc, argv, "gfx", "sdl");
       if (gles2_context->shared_sdl_handle == NULL)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("unable to load shared SDL code"));
 	  _mod_gles2_quit (gles2_context);
 	  gles2_context = NULL;
@@ -69,11 +69,11 @@ _mod_gles2_init (int argc, const char *argv[],
 	{
 	  memset (&version, 0, sizeof (SDL_version));
 	  SDL_VERSION (&version);
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("SDL header version when compiled %u.%u.%u"),
 		      version.major, version.minor, version.patch);
 	  version = *SDL_Linked_Version ();
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("SDL linked version now at runtime %u.%u.%u"),
 		      version.major, version.minor, version.patch);
 
@@ -84,7 +84,7 @@ _mod_gles2_init (int argc, const char *argv[],
 
 	  if (!SDL_WasInit (SDL_INIT_EVENTTHREAD))
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("unable to start SDL event thread, events treated in main thread with poll() functions"));
 	    }
@@ -92,12 +92,12 @@ _mod_gles2_init (int argc, const char *argv[],
 			      || !SDL_InitSubSystem (SDL_INIT_VIDEO));
 	  if (sdl_ok)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL Init"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL Init"));
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_ERROR, _("SDL init error: \"%s\""),
-			  SDL_GetError ());
+	      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
+			  _("SDL init error: \"%s\""), SDL_GetError ());
 	      _mod_gles2_quit (gles2_context);
 	      gles2_context = NULL;
 	    }
@@ -116,11 +116,12 @@ _mod_gles2_init (int argc, const char *argv[],
 	      ttf_ok = (TTF_Init () != -1);
 	      if (ttf_ok)
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL_ttf Init"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			      _x_ ("SDL_ttf Init"));
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_ERROR,
+		  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 			      _("SDL_ttf init error: \"%s\""),
 			      TTF_GetError ());
 		  _mod_gles2_quit (gles2_context);
@@ -149,7 +150,7 @@ _mod_gles2_init (int argc, const char *argv[],
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_ERROR,
+			  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 				      _("unable to set video mode"));
 			  _mod_gles2_quit (gles2_context);
 			  gles2_context = NULL;
@@ -157,7 +158,7 @@ _mod_gles2_init (int argc, const char *argv[],
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_ERROR,
+		      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 				  _("unable to load consts"));
 		      _mod_gles2_quit (gles2_context);
 		      gles2_context = NULL;
@@ -193,14 +194,14 @@ _mod_gles2_quit (_mod_gles2_context_t * gles2_context)
 
   // todo...
 
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL_ttf Quit"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL_ttf Quit"));
   TTF_Quit ();
 
   SDL_QuitSubSystem (SDL_INIT_VIDEO);
 
   if (lw6sys_sdl_unregister ())
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL Quit"));
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL Quit"));
       SDL_Quit ();
     }
 
@@ -220,7 +221,7 @@ _mod_gles2_quit (_mod_gles2_context_t * gles2_context)
     }
 #endif // LW6_ALLINONE
 
-  LW6SYS_FREE (gles2_context);
+  LW6SYS_FREE (sys_context, gles2_context);
 
   /*
    * For some reason, I suspect some segfaults occur when
@@ -229,5 +230,5 @@ _mod_gles2_quit (_mod_gles2_context_t * gles2_context)
    * "wasting" a little time when closing, one never knows,
    * it might better things.
    */
-  lw6sys_sleep (quit_sleep);
+  lw6sys_sleep (sys_context, quit_sleep);
 }

@@ -32,12 +32,12 @@ log_event (SDL_Event * event)
   switch (event->type)
     {
     case SDL_ACTIVEEVENT:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("SDL event type=SDL_ACTIVEEVENT gain=%d state=%d"),
 		  (int) event->active.gain, (int) event->active.state);
       break;
     case SDL_KEYDOWN:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_KEYDOWN state=%d scancode=%d sym=%d mod=%d unicode=%d"),
 		  (int) event->key.state,
@@ -47,7 +47,7 @@ log_event (SDL_Event * event)
 		  (int) event->key.keysym.unicode);
       break;
     case SDL_KEYUP:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_KEYUP state=%d scancode=%d sym=%d mod=%d unicode=%d"),
 		  (int) event->key.state,
@@ -57,7 +57,7 @@ log_event (SDL_Event * event)
 		  (int) event->key.keysym.unicode);
       break;
     case SDL_MOUSEMOTION:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_MOUSEMOTION state=%d x=%d y=%d xrel=%d yrel=%d"),
 		  (int) event->motion.state, (int) event->motion.x,
@@ -65,77 +65,80 @@ log_event (SDL_Event * event)
 		  (int) event->motion.yrel);
       break;
     case SDL_MOUSEBUTTONDOWN:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_MOUSEBUTTONDOWN button=%d state=%d x=%d y=%d"),
 		  (int) event->button.button, (int) event->button.state,
 		  (int) event->motion.x, (int) event->motion.y);
       break;
     case SDL_MOUSEBUTTONUP:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_MOUSEBUTTONUP button=%d state=%d x=%d y=%d"),
 		  (int) event->button.button, (int) event->button.state,
 		  (int) event->motion.x, (int) event->motion.y);
       break;
     case SDL_JOYAXISMOTION:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_JOYAXISMOTION which=%d axis=%d value=%d"),
 		  (int) event->jaxis.which, event->jaxis.axis,
 		  (int) event->jaxis.value);
       break;
     case SDL_JOYBALLMOTION:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_JOYBALLMOTION which=%d ball=%d xrel=%d yrel=%d"),
 		  (int) event->jball.which, (int) event->jball.ball,
 		  (int) event->jball.xrel, (int) event->jball.yrel);
       break;
     case SDL_JOYHATMOTION:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_JOYHATMOTION which=%d hat=%d value=%d"),
 		  (int) event->jhat.which, (int) event->jhat.hat,
 		  (int) event->jhat.value);
       break;
     case SDL_JOYBUTTONDOWN:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_JOYBUTTONDOWN which=%d button=%d state=%d"),
 		  (int) event->jbutton.which, (int) event->jbutton.button,
 		  (int) event->jbutton.state);
       break;
     case SDL_JOYBUTTONUP:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_JOYBUTTONUP which=%d button=%d state=%d"),
 		  (int) event->jbutton.which, (int) event->jbutton.button,
 		  (int) event->jbutton.state);
       break;
     case SDL_QUIT:
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("SDL event type=SDL_QUIT"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("SDL event type=SDL_QUIT"));
       break;
     case SDL_SYSWMEVENT:
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("SDL event type=SDL_SYSWMEVENT"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("SDL event type=SDL_SYSWMEVENT"));
       break;
     case SDL_VIDEORESIZE:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("SDL event type=SDL_VIDEORESIZE w=%d h=%d"),
 		  (int) event->resize.w, (int) event->resize.h);
       break;
     case SDL_VIDEOEXPOSE:
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("SDL event type=SDL_VIDEOEXPOSE"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("SDL event type=SDL_VIDEOEXPOSE"));
       break;
     case SDL_USEREVENT:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("SDL event type=SDL_USEREVENT code=%d"),
 		  (int) event->user.code);
       break;
     default:
 // should never get there, unless API changes...
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("SDL event with unknown type=%d"),
-		  event->type);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		  _x_ ("SDL event with unknown type=%d"), event->type);
     }
 }
 
@@ -490,7 +493,7 @@ joystick_move (lw6gui_joystick_t * joystick, SDL_Event * event, int limit,
 				     timestamp);
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("joystick %d axis %d with value %d ignored"),
 		  event->jaxis.which, event->jaxis.axis, event->jaxis.value);
       break;
@@ -522,8 +525,9 @@ joystick_button_down (lw6gui_joystick_t * joystick, int b, SDL_Event * event,
       lw6gui_button_register_down (&(joystick->button_f), timestamp);
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("joystick %d button %d ignored"),
-		  event->jbutton.which, event->jbutton.button);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("joystick %d button %d ignored"), event->jbutton.which,
+		  event->jbutton.button);
       break;
     }
 }
@@ -552,8 +556,9 @@ joystick_button_up (lw6gui_joystick_t * joystick, int b, SDL_Event * event)
       lw6gui_button_register_up (&(joystick->button_f));
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("joystick %d button %d ignored"),
-		  event->jbutton.which, event->jbutton.button);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		  _x_ ("joystick %d button %d ignored"), event->jbutton.which,
+		  event->jbutton.button);
       break;
     }
 }
@@ -648,7 +653,7 @@ shared_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context,
    */
   if (event_callback_func)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("event_callback defined, calling it with data=%p"),
 		  event_callback_data);
       event_callback_func (event_callback_data, (void *) &event);

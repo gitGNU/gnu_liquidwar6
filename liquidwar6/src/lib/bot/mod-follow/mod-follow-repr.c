@@ -33,7 +33,8 @@ _mod_follow_repr (_mod_follow_context_t * follow_context, u_int32_t id)
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf (_x_ ("%u follow nb_steps=%d current_step=%d"), id,
+    lw6sys_new_sprintf (sys_context,
+			_x_ ("%u follow nb_steps=%d current_step=%d"), id,
 			(int) follow_context->nb_steps,
 			(int) follow_context->current_step);
 

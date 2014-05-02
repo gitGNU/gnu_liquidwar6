@@ -253,7 +253,7 @@ _update_text (mod_gl1_utils_context_t *
 					       &splash_context->const_data.
 					       text_color);
 	    }
-	  LW6SYS_FREE (credits);
+	  LW6SYS_FREE (sys_context, credits);
 	}
     }
 }
