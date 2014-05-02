@@ -4933,6 +4933,7 @@ _setup_init ()
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 	      _x_ ("init libsys CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
@@ -4943,6 +4944,7 @@ _setup_quit ()
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 	      _x_ ("quit libsys CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
@@ -4960,8 +4962,9 @@ int
 lw6sys_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
-  _test_data.sys_context = sys_context;
   CU_Suite *suite = NULL;
+
+  _test_data.sys_context = sys_context;
 
   suite = CU_add_suite ("lw6sys", _setup_init, _setup_quit);
   if (suite)

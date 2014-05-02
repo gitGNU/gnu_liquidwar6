@@ -32,6 +32,7 @@
 /**
  * lw6glb_base64_encode_bin
  *
+ * @sys_context: global system context
  * @buf: the data to encode
  * @size: the size of data to encode
  *
@@ -41,11 +42,12 @@
  * Return value: newly allocated string.
  */
 char *
-lw6glb_base64_encode_bin (const char *buf, int size)
+lw6glb_base64_encode_bin (lw6sys_context_t * sys_context, const char *buf,
+			  int size)
 {
   char *ret = NULL;
 
-  ret = lw6glb_base64_encode_bin_prefix (buf, size, NULL);
+  ret = lw6glb_base64_encode_bin_prefix (sys_context, buf, size, NULL);
 
   return ret;
 }
@@ -53,6 +55,7 @@ lw6glb_base64_encode_bin (const char *buf, int size)
 /**
  * lw6glb_base64_decode_bin
  *
+ * @sys_context: global system context
  * @size: the size of the decoded data
  * @base64_str: the string to decode
  *
@@ -63,11 +66,12 @@ lw6glb_base64_encode_bin (const char *buf, int size)
  * Return value: newly allocated pointer, NULL on error.
  */
 char *
-lw6glb_base64_decode_bin (int *size, const char *base64_str)
+lw6glb_base64_decode_bin (lw6sys_context_t * sys_context, int *size,
+			  const char *base64_str)
 {
   char *ret = NULL;
 
-  ret = lw6glb_base64_decode_bin_prefix (size, base64_str, NULL);
+  ret = lw6glb_base64_decode_bin_prefix (sys_context, size, base64_str, NULL);
 
   return ret;
 }
@@ -75,6 +79,7 @@ lw6glb_base64_decode_bin (int *size, const char *base64_str)
 /**
  * lw6glb_base64_encode_str
  *
+ * @sys_context: global system context
  * @str: the string to encode
  *
  * Encodes a string into base64.
@@ -82,11 +87,11 @@ lw6glb_base64_decode_bin (int *size, const char *base64_str)
  * Return value: newly allocated string.
  */
 char *
-lw6glb_base64_encode_str (const char *str)
+lw6glb_base64_encode_str (lw6sys_context_t * sys_context, const char *str)
 {
   char *ret = NULL;
 
-  ret = lw6glb_base64_encode_str_prefix (str, NULL);
+  ret = lw6glb_base64_encode_str_prefix (sys_context, str, NULL);
 
   return ret;
 }
@@ -94,6 +99,7 @@ lw6glb_base64_encode_str (const char *str)
 /**
  * lw6glb_base64_decode_str
  *
+ * @sys_context: global system context
  * @str: the string to decode
  *
  * Decodes a string from base64.
@@ -101,11 +107,11 @@ lw6glb_base64_encode_str (const char *str)
  * Return value: newly allocated string, NULL on error.
  */
 char *
-lw6glb_base64_decode_str (const char *str)
+lw6glb_base64_decode_str (lw6sys_context_t * sys_context, const char *str)
 {
   char *ret = NULL;
 
-  ret = lw6glb_base64_decode_str_prefix (str, NULL);
+  ret = lw6glb_base64_decode_str_prefix (sys_context, str, NULL);
 
   return ret;
 }
@@ -113,6 +119,7 @@ lw6glb_base64_decode_str (const char *str)
 /**
  * lw6glb_base64_encode_bin_prefix
  *
+ * @sys_context: global system context
  * @buf: the data to encode
  * @size: the size of data to encode
  * @prefix: a prefix string
@@ -124,7 +131,8 @@ lw6glb_base64_decode_str (const char *str)
  * Return value: newly allocated string.
  */
 char *
-lw6glb_base64_encode_bin_prefix (const char *buf, int size,
+lw6glb_base64_encode_bin_prefix (lw6sys_context_t * sys_context,
+				 const char *buf, int size,
 				 const char *prefix)
 {
   char *ret = NULL;
@@ -137,7 +145,7 @@ lw6glb_base64_encode_bin_prefix (const char *buf, int size,
     }
 
   out_len = BASE64_LENGTH (size);
-  ret = (char *) LW6SYS_MALLOC (prefix_len + out_len + 1);
+  ret = (char *) LW6SYS_MALLOC (sys_context, prefix_len + out_len + 1);
   if (ret)
     {
       if (prefix && prefix_len > 0)
@@ -154,6 +162,7 @@ lw6glb_base64_encode_bin_prefix (const char *buf, int size,
 /**
  * lw6glb_base64_decode_bin_prefix
  *
+ * @sys_context: global system context
  * @size: the size of the decoded data
  * @base64_str: the string to decode
  * @prefix: a prefix string
@@ -167,8 +176,8 @@ lw6glb_base64_encode_bin_prefix (const char *buf, int size,
  * Return value: newly allocated pointer, NULL on error.
  */
 char *
-lw6glb_base64_decode_bin_prefix (int *size, const char *base64_str,
-				 const char *prefix)
+lw6glb_base64_decode_bin_prefix (lw6sys_context_t * sys_context, int *size,
+				 const char *base64_str, const char *prefix)
 {
   char *ret = NULL;
   int in_len = 0;
@@ -184,7 +193,7 @@ lw6glb_base64_decode_bin_prefix (int *size, const char *base64_str,
     }
   if (prefix && prefix_len > 0)
     {
-      if (lw6sys_str_starts_with (base64_str, prefix))
+      if (lw6sys_str_starts_with (sys_context, base64_str, prefix))
 	{
 	  base64_str += prefix_len;
 	}
@@ -207,7 +216,7 @@ lw6glb_base64_decode_bin_prefix (int *size, const char *base64_str,
 	  in_len++;
 	}
       out_len = in_len;
-      ret = (char *) LW6SYS_CALLOC (out_len + 1);
+      ret = (char *) LW6SYS_CALLOC (sys_context, out_len + 1);
       if (ret)
 	{
 	  if (in_len > 0)
@@ -222,7 +231,7 @@ lw6glb_base64_decode_bin_prefix (int *size, const char *base64_str,
 		{
 		  if (cut > 0)
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO,
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("base64 decoding with cut=%d, in_len=%d"),
 				  cut, in_len);
@@ -237,10 +246,10 @@ lw6glb_base64_decode_bin_prefix (int *size, const char *base64_str,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("base64 decode failed, decode_ret=%d"),
 			      decode_ret);
-		  LW6SYS_FREE (ret);
+		  LW6SYS_FREE (sys_context, ret);
 		  ret = NULL;
 		}
 	    }
@@ -253,6 +262,7 @@ lw6glb_base64_decode_bin_prefix (int *size, const char *base64_str,
 /**
  * lw6glb_base64_encode_str_prefix
  *
+ * @sys_context: global system context
  * @str: the string to encode
  * @prefix: a prefix string
  *
@@ -262,11 +272,13 @@ lw6glb_base64_decode_bin_prefix (int *size, const char *base64_str,
  * Return value: newly allocated string.
  */
 char *
-lw6glb_base64_encode_str_prefix (const char *str, const char *prefix)
+lw6glb_base64_encode_str_prefix (lw6sys_context_t * sys_context,
+				 const char *str, const char *prefix)
 {
   char *ret = NULL;
 
-  ret = lw6glb_base64_encode_bin_prefix (str, strlen (str), prefix);
+  ret =
+    lw6glb_base64_encode_bin_prefix (sys_context, str, strlen (str), prefix);
 
   return ret;
 }
@@ -274,6 +286,7 @@ lw6glb_base64_encode_str_prefix (const char *str, const char *prefix)
 /**
  * lw6glb_base64_decode_str_prefix
  *
+ * @sys_context: global system context
  * @str: the string to decode
  * @prefix: a prefix string
  *
@@ -283,12 +296,13 @@ lw6glb_base64_encode_str_prefix (const char *str, const char *prefix)
  * Return value: newly allocated string, NULL on error.
  */
 char *
-lw6glb_base64_decode_str_prefix (const char *str, const char *prefix)
+lw6glb_base64_decode_str_prefix (lw6sys_context_t * sys_context,
+				 const char *str, const char *prefix)
 {
   char *ret = NULL;
   int size = 0;
 
-  ret = lw6glb_base64_decode_bin_prefix (&size, str, prefix);
+  ret = lw6glb_base64_decode_bin_prefix (sys_context, &size, str, prefix);
 
   return ret;
 }

@@ -26,33 +26,47 @@
 #include "../sys/sys.h"
 
 /* glb-base64.c */
-extern char *lw6glb_base64_encode_bin (const char *buf, int size);
-extern char *lw6glb_base64_decode_bin (int *size, const char *base64_str);
-extern char *lw6glb_base64_encode_str (const char *str);
-extern char *lw6glb_base64_decode_str (const char *str);
-extern char *lw6glb_base64_encode_bin_prefix (const char *buf, int size,
+extern char *lw6glb_base64_encode_bin (lw6sys_context_t * sys_context,
+				       const char *buf, int size);
+extern char *lw6glb_base64_decode_bin (lw6sys_context_t * sys_context,
+				       int *size, const char *base64_str);
+extern char *lw6glb_base64_encode_str (lw6sys_context_t * sys_context,
+				       const char *str);
+extern char *lw6glb_base64_decode_str (lw6sys_context_t * sys_context,
+				       const char *str);
+extern char *lw6glb_base64_encode_bin_prefix (lw6sys_context_t * sys_context,
+					      const char *buf, int size,
 					      const char *prefix);
-extern char *lw6glb_base64_decode_bin_prefix (int *size,
+extern char *lw6glb_base64_decode_bin_prefix (lw6sys_context_t * sys_context,
+					      int *size,
 					      const char *base64_str,
 					      const char *prefix);
-extern char *lw6glb_base64_encode_str_prefix (const char *str,
+extern char *lw6glb_base64_encode_str_prefix (lw6sys_context_t * sys_context,
+					      const char *str,
 					      const char *prefix);
-extern char *lw6glb_base64_decode_str_prefix (const char *str,
+extern char *lw6glb_base64_decode_str_prefix (lw6sys_context_t * sys_context,
+					      const char *str,
 					      const char *prefix);
 
-extern char *lw6glb_base64_encode (const char *str);
-extern char *lw6glb_base64_decode (const char *str);
+extern char *lw6glb_base64_encode (lw6sys_context_t * sys_context,
+				   const char *str);
+extern char *lw6glb_base64_decode (lw6sys_context_t * sys_context,
+				   const char *str);
 
 /* glb-sha1.c */
-char *lw6glb_sha1_hmac_80_bin (const char *key, int key_size, const char *buf,
+char *lw6glb_sha1_hmac_80_bin (lw6sys_context_t * sys_context,
+			       const char *key, int key_size, const char *buf,
 			       int buf_size);
-char *lw6glb_sha1_hmac_80_str (const char *key, const char *str);
-u_int32_t lw6glb_sha1_hmac_32_bin (const char *key, int key_size,
+char *lw6glb_sha1_hmac_80_str (lw6sys_context_t * sys_context,
+			       const char *key, const char *str);
+u_int32_t lw6glb_sha1_hmac_32_bin (lw6sys_context_t * sys_context,
+				   const char *key, int key_size,
 				   const char *buf, int buf_size);
-u_int32_t lw6glb_sha1_hmac_32_str (const char *key, const char *str);
+u_int32_t lw6glb_sha1_hmac_32_str (lw6sys_context_t * sys_context,
+				   const char *key, const char *str);
 
 /* glb-test.c */
-extern int lw6glb_test_register (int mode);
-extern int lw6glb_test_run (int mode);
+extern int lw6glb_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6glb_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif
