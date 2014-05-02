@@ -140,6 +140,10 @@ typedef struct _lw6sys_global_s
   volatile int mutex_unlock_counter;
   volatile int sdl_registered_use;
   lw6sys_mutex_t *cunit_mutex;
+  volatile int thread_create_counter;
+  volatile int thread_join_counter;
+  lw6sys_thread_handler_t *vthread_run_handler;
+  _lw6sys_thread_handler_t *vthread_main_handler;
 } _lw6sys_global_t;
 
 typedef struct _lw6sys_context_s

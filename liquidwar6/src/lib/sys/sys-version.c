@@ -29,7 +29,7 @@
 #define _VERSION_SEP '.'
 
 static void
-_cut_at_2nd_version_sep (char *version)
+_cut_at_2nd_version_sep (lw6sys_context_t * sys_context, char *version)
 {
   char *end = NULL;
 
@@ -47,6 +47,7 @@ _cut_at_2nd_version_sep (char *version)
 /**
  * lw6sys_version_is_compatible
  *
+ * @sys_context: global system context
  * @version_a: 1st version to compare
  * @version_b: 2nd version to compare
  *
@@ -58,7 +59,8 @@ _cut_at_2nd_version_sep (char *version)
  * Return value: 1 if compatible, 0 if not
  */
 int
-lw6sys_version_is_compatible (const char *version_a, const char *version_b)
+lw6sys_version_is_compatible (lw6sys_context_t * sys_context,
+			      const char *version_a, const char *version_b)
 {
   int ret = 0;
   char *tmp_a = NULL;
@@ -70,14 +72,14 @@ lw6sys_version_is_compatible (const char *version_a, const char *version_b)
       tmp_b = lw6sys_str_copy (sys_context, version_b);
       if (tmp_b)
 	{
-	  _cut_at_2nd_version_sep (tmp_a);
-	  _cut_at_2nd_version_sep (tmp_b);
+	  _cut_at_2nd_version_sep (sys_context, tmp_a);
+	  _cut_at_2nd_version_sep (sys_context, tmp_b);
 
-	  ret = lw6sys_str_is_same_no_case (tmp_a, tmp_b);
+	  ret = lw6sys_str_is_same_no_case (sys_context, tmp_a, tmp_b);
 
-	  LW6SYS_FREE (tmp_b);
+	  LW6SYS_FREE (sys_context, tmp_b);
 	}
-      LW6SYS_FREE (tmp_a);
+      LW6SYS_FREE (sys_context, tmp_a);
     }
 
   return ret;

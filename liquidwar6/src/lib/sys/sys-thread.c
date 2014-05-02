@@ -29,8 +29,6 @@
 #include "sys.h"
 #include "sys-internal.h"
 
-static volatile int thread_create_counter = 0;
-static volatile int thread_join_counter = 0;
 static volatile u_int32_t seq_id = 0;
 
 static void
@@ -177,6 +175,7 @@ lw6sys_thread_create (lw6sys_context_t * sys_context,
 		      lw6sys_thread_callback_func_t callback_join,
 		      void *callback_data)
 {
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
   _lw6sys_thread_handler_t *thread_handler = NULL;
   int thread_ok = 0;
   int mutex_ok = 0;
@@ -189,7 +188,7 @@ lw6sys_thread_create (lw6sys_context_t * sys_context,
   if (thread_handler)
     {
       // callback_done & the rest already set to 0, CALLOC is important
-      ++thread_create_counter;
+      ++(global->thread_create_counter);
       thread_handler->id = 0;
       while (!(thread_handler->id))
 	{
@@ -264,13 +263,13 @@ lw6sys_thread_create (lw6sys_context_t * sys_context,
 	      pthread_cond_destroy (&(thread_handler->cond_can_join));
 	    }
 	  /*
-	   * Better do a thread_create_counter-- here, this way we
+	   * Better do a global->thread_create_counter-- here, this way we
 	   * can use a "very probably" atomic operation to increase
 	   * it *before* thread creation, ensuring the id is properly
 	   * set. Not perfect, but better and simpler than many other
 	   * "solutions".
 	   */
-	  thread_create_counter--;
+	  --(global->thread_create_counter);
 	  LW6SYS_FREE (sys_context, thread_handler);
 	  thread_handler = NULL;
 	}
@@ -452,6 +451,8 @@ void
 lw6sys_thread_join (lw6sys_context_t * sys_context,
 		    lw6sys_thread_handler_t * thread_handler)
 {
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+
   if (thread_handler)
     {
       _lw6sys_thread_handler_t *th;
@@ -501,7 +502,7 @@ lw6sys_thread_join (lw6sys_context_t * sys_context,
 			  th->id);
 	    }
 	  LW6SYS_FREE (sys_context, th);
-	  thread_join_counter++;
+	  ++(global->thread_join_counter);
 	}
       else
 	{
@@ -528,7 +529,9 @@ lw6sys_thread_join (lw6sys_context_t * sys_context,
 int
 lw6sys_get_thread_create_count (lw6sys_context_t * sys_context)
 {
-  return thread_create_counter;
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+
+  return global->thread_create_counter;
 }
 
 /**
@@ -543,7 +546,9 @@ lw6sys_get_thread_create_count (lw6sys_context_t * sys_context)
 int
 lw6sys_get_thread_join_count (lw6sys_context_t * sys_context)
 {
-  return thread_join_counter;
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+
+  return global->thread_join_counter;
 }
 
 /**
@@ -560,15 +565,16 @@ lw6sys_get_thread_join_count (lw6sys_context_t * sys_context)
 int
 lw6sys_check_thread_count (lw6sys_context_t * sys_context)
 {
+  _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
   int ret = 1;
 
-  if (thread_create_counter != thread_join_counter)
+  if (global->thread_create_counter != global->thread_join_counter)
     {
       ret = 0;
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("possible thread problem, %d threads have been started, but only %d threads have been joined"),
-		  thread_create_counter, thread_join_counter);
+		  global->thread_create_counter, global->thread_join_counter);
     }
 
   return ret;
