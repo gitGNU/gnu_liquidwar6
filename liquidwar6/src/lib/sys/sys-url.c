@@ -45,6 +45,7 @@
 /**
  * lw6sys_url_http_from_ip_port
  *
+ * @sys_context: global system context
  * @ip: IP address
  * @port: IP port
  *
@@ -55,7 +56,8 @@
  * Return value: a newly allocated string, NULL on error.
  */
 extern char *
-lw6sys_url_http_from_ip_port (const char *ip, int port)
+lw6sys_url_http_from_ip_port (lw6sys_context_t * sys_context, const char *ip,
+			      int port)
 {
   char *ret = NULL;
 
@@ -70,7 +72,7 @@ lw6sys_url_http_from_ip_port (const char *ip, int port)
 
   if (ret)
     {
-      if (!lw6sys_url_is_canonized (ret))
+      if (!lw6sys_url_is_canonized (sys_context, ret))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_ ("generated url \"%s\" reported as not canonized"),
@@ -96,6 +98,7 @@ _is_port (char c)
 /**
  * lw6sys_url_parse
  *
+ * @sys_context: global system context
  * @url: the URL to parse
  *
  * Parses a URL, this is not a complete RFC compliant
@@ -106,7 +109,7 @@ _is_port (char c)
  * Return value: a newly allocated struct, NULL on error
  */
 lw6sys_url_t *
-lw6sys_url_parse (const char *url)
+lw6sys_url_parse (lw6sys_context_t * sys_context, const char *url)
 {
   lw6sys_url_t *ret = NULL;
   char *tmp = NULL;
@@ -114,12 +117,12 @@ lw6sys_url_parse (const char *url)
   char *seek = NULL;
   char seek_c = '\0';
 
-  ret = (lw6sys_url_t *) LW6SYS_CALLOC (sizeof (lw6sys_url_t));
+  ret = (lw6sys_url_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6sys_url_t));
   if (ret)
     {
       tmp = lw6sys_str_copy (sys_context, url);
-      lw6sys_str_cleanup_ascii7 (tmp);
-      if (lw6sys_str_starts_with (tmp, _HTTPS))
+      lw6sys_str_cleanup_ascii7 (sys_context, tmp);
+      if (lw6sys_str_starts_with (sys_context, tmp, _HTTPS))
 	{
 	  ret->use_ssl = 1;
 	}
@@ -138,10 +141,10 @@ lw6sys_url_parse (const char *url)
 	}
       seek_c = (*seek);
       (*seek) = '\0';
-      lw6sys_str_tolower (pos);
+      lw6sys_str_tolower (sys_context, pos);
       if (strlen (pos) > 0)
 	{
-	  ret->host = lw6sys_str_copy (pos);
+	  ret->host = lw6sys_str_copy (sys_context, pos);
 	}
       else
 	{
@@ -161,7 +164,7 @@ lw6sys_url_parse (const char *url)
 	    }
 	  seek_c = (*seek);
 	  (*seek) = '\0';
-	  ret->port = lw6sys_atoi (pos);
+	  ret->port = lw6sys_atoi (sys_context, pos);
 	  (*seek) = seek_c;
 	  pos = seek;
 	}
@@ -187,7 +190,7 @@ lw6sys_url_parse (const char *url)
 		  _x_ ("interpreting URI, remaining string is \"%s\""), pos);
       if (strlen (pos) > 0 && (*pos) == _SLASH)
 	{
-	  ret->uri = lw6sys_escape_http_uri (pos);
+	  ret->uri = lw6sys_escape_http_uri (sys_context, pos);
 	}
       else
 	{
@@ -199,7 +202,7 @@ lw6sys_url_parse (const char *url)
 	}
       else
 	{
-	  lw6sys_url_free (ret);
+	  lw6sys_url_free (sys_context, ret);
 	  ret = NULL;
 	}
       LW6SYS_FREE (sys_context, tmp);
@@ -211,6 +214,7 @@ lw6sys_url_parse (const char *url)
 /**
  * lw6sys_url_free
  *
+ * @sys_context: global system context
  * @url: the url struct to free
  *
  * Frees a URL struct and all its members.
@@ -218,7 +222,7 @@ lw6sys_url_parse (const char *url)
  * Return value: none.
  */
 void
-lw6sys_url_free (lw6sys_url_t * url)
+lw6sys_url_free (lw6sys_context_t * sys_context, lw6sys_url_t * url)
 {
   if (url)
     {
@@ -237,6 +241,7 @@ lw6sys_url_free (lw6sys_url_t * url)
 /**
  * lw6sys_url_canonize
  *
+ * @sys_context: global system context
  * @url: the url to check & transform
  *
  * Checks if a given URL is correct and, if it is,
@@ -249,7 +254,7 @@ lw6sys_url_free (lw6sys_url_t * url)
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_url_canonize (const char *url)
+lw6sys_url_canonize (lw6sys_context_t * sys_context, const char *url)
 {
   char *ret = NULL;
   lw6sys_url_t *tmp = NULL;
@@ -259,7 +264,7 @@ lw6sys_url_canonize (const char *url)
 
   if (url && strlen (url) > 0)
     {
-      tmp = lw6sys_url_parse (url);
+      tmp = lw6sys_url_parse (sys_context, url);
       if (tmp)
 	{
 	  if (tmp->use_ssl)
@@ -285,22 +290,22 @@ lw6sys_url_canonize (const char *url)
 	      || (tmp->port == _HTTPS_PORT && tmp->use_ssl))
 	    {
 	      ret =
-		lw6sys_new_sprintf ("%s://%s%s%s", protocol, tmp->host,
-				    tmp->uri, tail);
+		lw6sys_new_sprintf (sys_context, "%s://%s%s%s", protocol,
+				    tmp->host, tmp->uri, tail);
 	    }
 	  else
 	    {
 	      ret =
-		lw6sys_new_sprintf ("%s://%s:%d%s%s", protocol, tmp->host,
-				    tmp->port, tmp->uri, tail);
+		lw6sys_new_sprintf (sys_context, "%s://%s:%d%s%s", protocol,
+				    tmp->host, tmp->port, tmp->uri, tail);
 	    }
 
-	  lw6sys_url_free (tmp);
+	  lw6sys_url_free (sys_context, tmp);
 	}
     }
   else
     {
-      ret = lw6sys_str_copy ("");
+      ret = lw6sys_str_copy (sys_context, "");
     }
 
   return ret;
@@ -309,6 +314,7 @@ lw6sys_url_canonize (const char *url)
 /**
  * lw6sys_url_is_canonized
  *
+ * @sys_context: global system context
  * @url: the URL to check
  *
  * Checks wether an URL is in its canonized form.
@@ -316,15 +322,15 @@ lw6sys_url_canonize (const char *url)
  * Return value: 1 if OK (canonized form), 0 if not
  */
 int
-lw6sys_url_is_canonized (const char *url)
+lw6sys_url_is_canonized (lw6sys_context_t * sys_context, const char *url)
 {
   int ret = 0;
   char *canonized_url = NULL;
 
-  canonized_url = lw6sys_url_canonize (url);
+  canonized_url = lw6sys_url_canonize (sys_context, url);
   if (canonized_url)
     {
-      if (lw6sys_str_is_same (canonized_url, url))
+      if (lw6sys_str_is_same (sys_context, canonized_url, url))
 	{
 	  ret = 1;
 	}

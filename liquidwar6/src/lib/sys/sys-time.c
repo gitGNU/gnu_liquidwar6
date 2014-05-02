@@ -33,7 +33,6 @@
 #include <unistd.h>
 #endif // HAVE_UNISTD_H
 
-
 #include "sys.h"
 #include "sys-internal.h"
 
@@ -46,6 +45,8 @@ static int64_t timestamp_0 = 0;
 /**
  * lw6sys_get_timestamp
  *
+ * @sys_context: global system context
+ *
  * Returns a 64-bit timestamp, for general purpose. The unit is milliseconds,
  * should return the number of milliseconds since EPOCH. Don't use this
  * for accurate date handling, but rather to technical stamp events.
@@ -53,11 +54,11 @@ static int64_t timestamp_0 = 0;
  * Return value: the timestamp.
  */
 int64_t
-lw6sys_get_timestamp ()
+lw6sys_get_timestamp (lw6sys_context_t * sys_context)
 {
   int64_t ret = 0L;
 
-  ret = lw6sys_get_uptime () + timestamp_0;
+  ret = lw6sys_get_uptime (sys_context) + timestamp_0;
 
   return ret;
 }
@@ -65,13 +66,15 @@ lw6sys_get_timestamp ()
 /**
  * lw6sys_get_uptime
  *
+ * @sys_context: global system context
+ *
  * Returns the number of milliseconds since program was started. Milliseconds
  * are often referred to as 'ticks'.
  *
  * Return value: the number of milliseconds (64-bit)
  */
 int64_t
-lw6sys_get_uptime ()
+lw6sys_get_uptime (lw6sys_context_t * sys_context)
 {
   int64_t ret = 0;
   static int64_t last_ret = 0;
@@ -112,6 +115,8 @@ lw6sys_get_uptime ()
 /**
  * lw6sys_get_cycle
  *
+ * @sys_context: global system context
+ *
  * Returns a 32-bit timestamp, which is likely to "loop" and have twice
  * the same value during a single program execution. The idea here is
  * just to provide a 32-bit value, not too big, for animation purposes.
@@ -127,18 +132,19 @@ lw6sys_get_uptime ()
  * Return value: the cycle value, a 20-bit integer.
  */
 int32_t
-lw6sys_get_cycle ()
+lw6sys_get_cycle (lw6sys_context_t * sys_context)
 {
   int64_t ret = 0L;
 
-  ret = lw6sys_get_uptime () & _TIMER_CYCLE_MASK;
+  ret = lw6sys_get_uptime (sys_context) & _TIMER_CYCLE_MASK;
 
   return ret;
 }
 
 /**
- * lw6sys_timer_updqte
+ * lw6sys_timer_update
  *
+ * @sys_context: global system context
  * @timestamp: the timestamp in msec since EPOCH (output), can be NULL
  * @uptime: the uptime in msec since startup (output), can be NULL
  * @cycle: a 20-bit value for animation purpose.
@@ -148,11 +154,12 @@ lw6sys_get_cycle ()
  * Return value: none (parameters modified).
  */
 void
-lw6sys_timer_update (int64_t * timestamp, int64_t * uptime, int32_t * cycle)
+lw6sys_timer_update (lw6sys_context_t * sys_context, int64_t * timestamp,
+		     int64_t * uptime, int32_t * cycle)
 {
   int64_t tmp = 0;
 
-  tmp = lw6sys_get_uptime ();
+  tmp = lw6sys_get_uptime (sys_context);
 
   if (uptime)
     {
@@ -171,6 +178,7 @@ lw6sys_timer_update (int64_t * timestamp, int64_t * uptime, int32_t * cycle)
 /**
  * lw6sys_sleep
  *
+ * @sys_context: global system context
  * @seconds: the number of seconds to wait, fractions allowed
  *
  * Will sleep for the given amount of seconds. Same as @lw6sys_delay
@@ -178,14 +186,16 @@ lw6sys_timer_update (int64_t * timestamp, int64_t * uptime, int32_t * cycle)
  * of ticks.
  */
 void
-lw6sys_sleep (float seconds)
+lw6sys_sleep (lw6sys_context_t * sys_context, float seconds)
 {
-  lw6sys_delay ((int) (seconds * ((float) LW6SYS_TICKS_PER_SEC)));
+  lw6sys_delay (sys_context,
+		(int) (seconds * ((float) LW6SYS_TICKS_PER_SEC)));
 }
 
 /**
  * lw6sys_delay
  *
+ * @sys_context: global system context
  * @msec: the number of milliseconds (ticks) to wait
  *
  * Will sleep for the given amount of seconds. Provides accurate timing
@@ -198,7 +208,7 @@ lw6sys_sleep (float seconds)
  * 100% of the CPU for nothing.
  */
 void
-lw6sys_delay (int msec)
+lw6sys_delay (lw6sys_context_t * sys_context, int msec)
 {
   if (msec > 0)
     {
@@ -228,6 +238,8 @@ lw6sys_delay (int msec)
 /**
  * lw6sys_idle
  *
+ * @sys_context: global system context
+ *
  * Will sleep for a minimal amount of time, just giving the OS a chance
  * to let other threads/processes execute themselves. This can make
  * a big difference in polling loops between a process that eats 100% CPU
@@ -235,13 +247,15 @@ lw6sys_delay (int msec)
  * of ticks.
  */
 void
-lw6sys_idle ()
+lw6sys_idle (lw6sys_context_t * sys_context)
 {
-  lw6sys_delay (LW6SYS_SLEEP_DELAY);
+  lw6sys_delay (sys_context, LW6SYS_SLEEP_DELAY);
 }
 
 /**
  * lw6sys_snooze
+ *
+ * @sys_context: global system context
  *
  * Will sleep for some time, like @lw6sys_idle, except it's a "longer"
  * time, use this when you don't really care about reactivity but are
@@ -249,18 +263,20 @@ lw6sys_idle ()
  * polling code.
  */
 void
-lw6sys_snooze ()
+lw6sys_snooze (lw6sys_context_t * sys_context)
 {
-  lw6sys_delay (LW6SYS_SNOOZE_DELAY);
+  lw6sys_delay (sys_context, LW6SYS_SNOOZE_DELAY);
 }
 
 /**
  * lw6sys_time_init
  *
+ * @sys_context: global system context
+ *
  * Global initializations required to handle time properly.
  */
 void
-lw6sys_time_init ()
+lw6sys_time_init (lw6sys_context_t * sys_context)
 {
   struct timeval now;
 
@@ -273,6 +289,7 @@ lw6sys_time_init ()
 /**
  * lw6sys_date_rfc1123
  *
+ * @sys_context: global system context
  * @seconds_from_now: an offset to add to current time
  *
  * Gives the date according to RFC1123, this is typically
@@ -281,7 +298,7 @@ lw6sys_time_init ()
  * Return value: newly allocated string.
  */
 char *
-lw6sys_date_rfc1123 (int seconds_from_now)
+lw6sys_date_rfc1123 (lw6sys_context_t * sys_context, int seconds_from_now)
 {
   char *ret = NULL;
   time_t now;
@@ -307,8 +324,8 @@ lw6sys_date_rfc1123 (int seconds_from_now)
 
       setlocale (LC_TIME, "POSIX");
 
-      old_tz = lw6sys_getenv ("TZ");
-      lw6sys_setenv ("TZ", "GMT");
+      old_tz = lw6sys_getenv (sys_context, "TZ");
+      lw6sys_setenv (sys_context, "TZ", "GMT");
       tzset ();
 
       time (&now);
@@ -333,15 +350,15 @@ lw6sys_date_rfc1123 (int seconds_from_now)
 		      _x_ ("buffer exceeded %d>=%d"), strflen, _RFC1123_SIZE);
 	}
       // called with old_tz=NULL, will unset
-      lw6sys_setenv ("TZ", old_tz);
+      lw6sys_setenv (sys_context, "TZ", old_tz);
       if (old_locale)
 	{
 	  setlocale (LC_TIME, old_locale);
-	  LW6SYS_FREE (old_locale);
+	  LW6SYS_FREE (sys_context, old_locale);
 	}
       if (old_tz)
 	{
-	  LW6SYS_FREE (old_tz);
+	  LW6SYS_FREE (sys_context, old_tz);
 	}
     }
 
@@ -351,13 +368,15 @@ lw6sys_date_rfc1123 (int seconds_from_now)
 /**
  * lw6sys_date_clf
  *
+ * @sys_context: global system context
+ *
  * Gives the date in a format which is compatible with Apache CLF
  * Common Log Format.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6sys_date_clf ()
+lw6sys_date_clf (lw6sys_context_t * sys_context)
 {
   char *ret = NULL;
   time_t now;
@@ -403,7 +422,7 @@ lw6sys_date_clf ()
       if (old_locale)
 	{
 	  setlocale (LC_TIME, old_locale);
-	  LW6SYS_FREE (old_locale);
+	  LW6SYS_FREE (sys_context, old_locale);
 	}
     }
 
@@ -413,6 +432,7 @@ lw6sys_date_clf ()
 /**
  * lw6sys_readable_uptimew
  *
+ * @sys_context: global system context
  * @timestamp_delta: the duration to show, in msec
  *
  * Returns a readable form of an uptime, typically 1d 12:34:06
@@ -422,7 +442,8 @@ lw6sys_date_clf ()
  * Return value: newly allocated string
  */
 char *
-lw6sys_readable_uptime (int64_t timestamp_delta)
+lw6sys_readable_uptime (lw6sys_context_t * sys_context,
+			int64_t timestamp_delta)
 {
   char *ret = NULL;
   int delta;
