@@ -43,7 +43,7 @@ typedef struct _lw6glb_test_data_s
   lw6sys_context_t *sys_context;
 } _lw6glb_test_data_t;
 
-static _lw6glb_test_data_t _test_data = { 0 };
+static _lw6glb_test_data_t _test_data = { 0, NULL };
 
 static int
 _test_base64_ok (lw6sys_context_t * sys_context, char *_test_str, int log_all)

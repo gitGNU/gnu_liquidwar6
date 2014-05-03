@@ -84,7 +84,7 @@ typedef struct _lw6map_test_data_s
   lw6sys_context_t *sys_context;
 } _lw6map_test_data_t;
 
-static _lw6map_test_data_t _test_data = { 0 };
+static _lw6map_test_data_t _test_data = { 0, NULL };
 
 /*
  * Testing basic new & free functions

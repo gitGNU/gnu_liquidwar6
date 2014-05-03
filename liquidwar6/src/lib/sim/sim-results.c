@@ -30,6 +30,7 @@
 /**
  * lw6sim_results_zero
  *
+ * @sys_context: global system context
  * @results: out param, will be cleared
  *
  * Fills the struct with zeroes.
@@ -37,7 +38,7 @@
  * Return value: none.
  */
 void
-lw6sim_results_zero (lw6sim_results_t * results)
+lw6sim_results_zero (lw6sys_context_t * sys_context, lw6sim_results_t * results)
 {
   memset (results, 0, sizeof (lw6sim_results_t));
 }
@@ -45,6 +46,7 @@ lw6sim_results_zero (lw6sim_results_t * results)
 /**
  * lw6sim_results_update_percents
  *
+ * @sys_context: global system context
  * @results: results set to work on (in/out param)
  *
  * Updates the structure so that the percent members
@@ -53,7 +55,7 @@ lw6sim_results_zero (lw6sim_results_t * results)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6sim_results_update_percents (lw6sim_results_t * results)
+lw6sim_results_update_percents (lw6sys_context_t * sys_context, lw6sim_results_t * results)
 {
   int ret = 0;
   int i;

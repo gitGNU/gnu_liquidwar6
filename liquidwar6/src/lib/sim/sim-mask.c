@@ -28,14 +28,14 @@
 #include "sim-internal.h"
 
 int
-_lw6sim_mask_get_max (int nb_teams)
+_lw6sim_mask_get_max (lw6sys_context_t * sys_context, int nb_teams)
 {
   int ret = 0;
   int i;
 
   for (i = 0; i < nb_teams; ++i)
     {
-      ret |= lw6ker_team_mask_color2mask (i);
+      ret |= lw6ker_team_mask_color2mask (sys_context, i);
     }
   ret++;
 
@@ -43,7 +43,7 @@ _lw6sim_mask_get_max (int nb_teams)
 }
 
 int
-_lw6sim_mask_is_valid (int mask)
+_lw6sim_mask_is_valid (lw6sys_context_t * sys_context, int mask)
 {
   int ret = 0;
   int i;

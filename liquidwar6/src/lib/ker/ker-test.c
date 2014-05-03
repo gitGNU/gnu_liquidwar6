@@ -61,7 +61,7 @@ typedef struct _lw6ker_test_data_s
   lw6sys_context_t *sys_context;
 } _lw6ker_test_data_t;
 
-static _lw6ker_test_data_t _test_data = { 0 };
+static _lw6ker_test_data_t _test_data = { 0, NULL };
 
 static void
 _print_game_struct_repr (lw6sys_context_t * sys_context, const lw6ker_game_struct_t * game_struct)

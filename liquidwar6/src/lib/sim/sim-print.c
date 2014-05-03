@@ -30,6 +30,7 @@
 /**
  * lw6sim_print
  *
+ * @sys_context: global system context
  * @results: data to print
  * @f: file to print data to
  *
@@ -38,7 +39,7 @@
  * Return value: none.
  */
 void
-lw6sim_print (lw6sim_results_t * results, FILE * f)
+lw6sim_print (lw6sys_context_t * sys_context, lw6sim_results_t * results, FILE * f)
 {
   int i;
   char *color_key = NULL;
@@ -47,7 +48,7 @@ lw6sim_print (lw6sim_results_t * results, FILE * f)
 
   for (i = 0; i < results->nb_teams; ++i)
     {
-      color_key = lw6map_team_color_index_to_key (i);
+      color_key = lw6map_team_color_index_to_key (sys_context, i);
       percent = results->percent[i];
       absolute = results->absolute[i];
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("%s\": %02.1f (%d)"), color_key, percent, absolute);

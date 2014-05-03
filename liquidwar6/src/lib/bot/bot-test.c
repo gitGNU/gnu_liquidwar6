@@ -54,7 +54,7 @@ typedef struct _lw6bot_test_data_s
   lw6bot_backend_t *backend;
 } _lw6bot_test_data_t;
 
-static _lw6bot_test_data_t _test_data = { 0, NULL };
+static _lw6bot_test_data_t _test_data = { 0, NULL, NULL };
 
 static int
 _new_data (lw6sys_context_t * sys_context, lw6map_level_t ** level, lw6ker_game_struct_t ** game_struct, lw6ker_game_state_t ** game_state)

@@ -30,7 +30,7 @@
 #define _LW6SIM_SIMULATION_TIME 60
 
 /* sim-mask */
-extern int _lw6sim_mask_get_max (int nb_teams);
-extern int _lw6sim_mask_is_valid (int mask);
+extern int _lw6sim_mask_get_max (lw6sys_context_t * sys_context, int nb_teams);
+extern int _lw6sim_mask_is_valid (lw6sys_context_t * sys_context, int mask);
 
 #endif

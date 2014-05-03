@@ -42,7 +42,7 @@ typedef struct _lw6dyn_test_data_s
   lw6sys_context_t *sys_context;
 } _lw6dyn_test_data_t;
 
-static _lw6dyn_test_data_t _test_data = { 0 };
+static _lw6dyn_test_data_t _test_data = { 0, NULL };
 
 static void
 _display_module (lw6sys_context_t * sys_context, void *func_data, const char *key, void *value)

@@ -39,9 +39,10 @@
 typedef struct _lw6sim_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
 } _lw6sim_test_data_t;
 
-static _lw6sim_test_data_t _test_data = { 0 };
+static _lw6sim_test_data_t _test_data = { 0, NULL };
 
 /*
  * Testing functions in mask.c
@@ -50,6 +51,8 @@ static void
 _test_mask ()
 {
   int ret = 0;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -58,14 +61,14 @@ _test_mask ()
 
     for (i = 0; i <= LW6MAP_MAX_NB_TEAMS; ++i)
       {
-	mask = _lw6sim_mask_get_max (i);
+	mask = _lw6sim_mask_get_max (sys_context, i);
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("max mask for %d is %d"), i, mask);
       }
 
-    n = _lw6sim_mask_get_max (_TEST_MASK_NB_TEAMS);
+    n = _lw6sim_mask_get_max (sys_context, _TEST_MASK_NB_TEAMS);
     for (i = _LW6SIM_MASK_MIN; i < n; ++i)
       {
-	valid = _lw6sim_mask_is_valid (i);
+	valid = _lw6sim_mask_is_valid (sys_context, i);
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("mask=%d valid=%d"), i, valid);
       }
 
@@ -82,6 +85,8 @@ static void
 _test_simulate ()
 {
   int ret = 0;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -90,13 +95,13 @@ _test_simulate ()
     lw6sim_results_t results;
 
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("simulating %d teams with bot backend \"%s\""), _TEST_SIMULATE_NB_TEAMS, _TEST_SIMULATE_BOT_BACKEND);
-    lw6sim_results_zero (&results);
-    ret = lw6sim_simulate (argc, argv, &results, _TEST_SIMULATE_NB_TEAMS, _TEST_SIMULATE_BOT_BACKEND);
+    lw6sim_results_zero (sys_context, &results);
+    ret = lw6sim_simulate (sys_context, argc, argv, &results, _TEST_SIMULATE_NB_TEAMS, _TEST_SIMULATE_BOT_BACKEND);
     if (ret)
       {
-	if (lw6sys_log_get_console_state ())
+	if (lw6sys_log_get_console_state (sys_context))
 	  {
-	    lw6sim_print (&results, stderr);
+	    lw6sim_print (sys_context, &results, stderr);
 	  }
       }
   }
@@ -107,20 +112,27 @@ _test_simulate ()
 static int
 _setup_init ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libsim CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libsim CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 /**
  * lw6sim_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libsim module.
@@ -128,10 +140,12 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6sim_test_register (int mode)
+lw6sim_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -163,6 +177,7 @@ lw6sim_test_register (int mode)
 /**
  * lw6sim_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @sim module test suite, testing most (if not all...)
@@ -171,11 +186,13 @@ lw6sim_test_register (int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6sim_test_run (int mode)
+lw6sim_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;

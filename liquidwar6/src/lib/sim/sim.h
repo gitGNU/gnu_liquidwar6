@@ -58,19 +58,19 @@ typedef struct lw6sim_results_s
 } lw6sim_results_t;
 
 /* sim-print.c */
-extern void lw6sim_print (lw6sim_results_t * results, FILE * f);
+extern void lw6sim_print (lw6sys_context_t * sys_context, lw6sim_results_t * results, FILE * f);
 
 /* sim-results.c */
-extern void lw6sim_results_zero (lw6sim_results_t * results);
-extern int lw6sim_results_update_percents (lw6sim_results_t * results);
+extern void lw6sim_results_zero (lw6sys_context_t * sys_context, lw6sim_results_t * results);
+extern int lw6sim_results_update_percents (lw6sys_context_t * sys_context, lw6sim_results_t * results);
 
 /* sim-simulate.c */
-extern int lw6sim_simulate (int argc, const char *argv[], lw6sim_results_t * results, int nb_teams, char *bot_backend);
-extern int lw6sim_simulate_basic (int argc, const char *argv[], lw6sim_results_t * results);
-extern int lw6sim_simulate_full (int argc, const char *argv[], lw6sim_results_t * results);
+extern int lw6sim_simulate (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6sim_results_t * results, int nb_teams, char *bot_backend);
+extern int lw6sim_simulate_basic (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6sim_results_t * results);
+extern int lw6sim_simulate_full (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6sim_results_t * results);
 
 /* sim-test.c */
-extern int lw6sim_test_register (int mode);
-extern int lw6sim_test_run (int mode);
+extern int lw6sim_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6sim_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif

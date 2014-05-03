@@ -56,7 +56,7 @@ _register_and_run_tests (int argc, const char **argv, int mode)
 	    && lw6ker_test_register (sys_context, mode)
 	    && lw6pil_test_register (sys_context, mode) && DYN_TEST_REGISTER (mode)
 	    && lw6bot_test_register (sys_context, mode) && lw6gen_test_register (mode)
-	    && lw6sim_test_register (mode) && lw6cns_test_register (mode)
+	    && lw6sim_test_register (sys_context, mode) && lw6cns_test_register (mode)
 	    && lw6hlp_test_register (mode) && lw6cfg_test_register (mode)
 	    && lw6ldr_test_register (mode) && lw6tsk_test_register (mode)
 	    && lw6mat_test_register (mode) && lw6gui_test_register (mode)
@@ -320,16 +320,16 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	    {
 	      lw6sim_results_t results;
 
-	      lw6sim_simulate_basic (argc, argv, &results);
-	      lw6sim_print (&results, stdout);
+	      lw6sim_simulate_basic (sys_context, argc, argv, &results);
+	      lw6sim_print (sys_context, &results, stdout);
 	      (*run_game) = 0;
 	    }
 	  else if (lw6sys_arg_match (sys_context, LW6DEF_SIMULATE_FULL, argv[i]))
 	    {
 	      lw6sim_results_t results;
 
-	      lw6sim_simulate_full (argc, argv, &results);
-	      lw6sim_print (&results, stdout);
+	      lw6sim_simulate_full (sys_context, argc, argv, &results);
+	      lw6sim_print (sys_context, &results, stdout);
 	      (*run_game) = 0;
 	    }
 	}
