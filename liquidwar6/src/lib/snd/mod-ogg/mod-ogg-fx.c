@@ -42,46 +42,33 @@ _mod_ogg_play_fx (_mod_ogg_context_t * ogg_context, int fx_id)
 	  channel = Mix_GroupAvailable (_MOD_OGG_CHANNEL_GROUP_FX);
 	  if (channel < 0)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("no free channel for fx, trying to use the oldest"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("no free channel for fx, trying to use the oldest"));
 	      channel = Mix_GroupOldest (_MOD_OGG_CHANNEL_GROUP_FX);
 	    }
 	  if (channel < 0)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("unable to find channel for fx, using default"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to find channel for fx, using default"));
 	      channel = _MOD_OGG_CHANNEL_FX0;
 	    }
-	  if (channel >= _MOD_OGG_CHANNEL_FX0
-	      && channel < ogg_context->mixer.nb_channels)
+	  if (channel >= _MOD_OGG_CHANNEL_FX0 && channel < ogg_context->mixer.nb_channels)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("play sound fx %d on channel %d"),
-			  fx_id, channel);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("play sound fx %d on channel %d"), fx_id, channel);
 	      Mix_PlayChannel (channel, ogg_context->fx.fx[fx_id], 0);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("not enough channels (%d) to play fx"),
-			  ogg_context->mixer.nb_channels);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("not enough channels (%d) to play fx"), ogg_context->mixer.nb_channels);
 	    }
 	  ogg_context->mixer.last_channel = channel;
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("unable to play fx %d, was not correctly loaded"),
-		      fx_id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to play fx %d, was not correctly loaded"), fx_id);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to play fx %d, index out of range"), fx_id);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to play fx %d, index out of range"), fx_id);
     }
 
   ret = 1;
@@ -104,15 +91,11 @@ load_fx (_mod_ogg_context_t * ogg_context, char *file)
 	  path2 = lw6sys_path_concat (ogg_context->path.data_dir, path1);
 	  if (path2)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("loading fx \"%s\""), path2);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading fx \"%s\""), path2);
 	      ret = Mix_LoadWAV (path2);
 	      if (!ret)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_
-			      ("unable to load fx \"%s\" Mix_GetError returned \"%s\""),
-			      path2, Mix_GetError ());
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to load fx \"%s\" Mix_GetError returned \"%s\""), path2, Mix_GetError ());
 		}
 	      LW6SYS_FREE (sys_context, path2);
 	    }
@@ -129,34 +112,23 @@ _mod_ogg_load_fx (_mod_ogg_context_t * ogg_context)
   int ret = 0;
   int i;
 
-  ogg_context->fx.fx[LW6SND_FX_SPLASH] =
-    load_fx (ogg_context, ogg_context->const_data.file_splash);
-  ogg_context->fx.fx[LW6SND_FX_VALID] =
-    load_fx (ogg_context, ogg_context->const_data.file_valid);
-  ogg_context->fx.fx[LW6SND_FX_SELECT] =
-    load_fx (ogg_context, ogg_context->const_data.file_select);
-  ogg_context->fx.fx[LW6SND_FX_NO] =
-    load_fx (ogg_context, ogg_context->const_data.file_no);
-  ogg_context->fx.fx[LW6SND_FX_START] =
-    load_fx (ogg_context, ogg_context->const_data.file_start);
-  ogg_context->fx.fx[LW6SND_FX_DEATH] =
-    load_fx (ogg_context, ogg_context->const_data.file_death);
-  ogg_context->fx.fx[LW6SND_FX_BELL] =
-    load_fx (ogg_context, ogg_context->const_data.file_bell);
-  ogg_context->fx.fx[LW6SND_FX_SCORE] =
-    load_fx (ogg_context, ogg_context->const_data.file_score);
-  ogg_context->fx.fx[LW6SND_FX_HELLO] =
-    load_fx (ogg_context, ogg_context->const_data.file_hello);
-  ogg_context->fx.fx[LW6SND_FX_GOODBYE] =
-    load_fx (ogg_context, ogg_context->const_data.file_goodbye);
+  ogg_context->fx.fx[LW6SND_FX_SPLASH] = load_fx (ogg_context, ogg_context->const_data.file_splash);
+  ogg_context->fx.fx[LW6SND_FX_VALID] = load_fx (ogg_context, ogg_context->const_data.file_valid);
+  ogg_context->fx.fx[LW6SND_FX_SELECT] = load_fx (ogg_context, ogg_context->const_data.file_select);
+  ogg_context->fx.fx[LW6SND_FX_NO] = load_fx (ogg_context, ogg_context->const_data.file_no);
+  ogg_context->fx.fx[LW6SND_FX_START] = load_fx (ogg_context, ogg_context->const_data.file_start);
+  ogg_context->fx.fx[LW6SND_FX_DEATH] = load_fx (ogg_context, ogg_context->const_data.file_death);
+  ogg_context->fx.fx[LW6SND_FX_BELL] = load_fx (ogg_context, ogg_context->const_data.file_bell);
+  ogg_context->fx.fx[LW6SND_FX_SCORE] = load_fx (ogg_context, ogg_context->const_data.file_score);
+  ogg_context->fx.fx[LW6SND_FX_HELLO] = load_fx (ogg_context, ogg_context->const_data.file_hello);
+  ogg_context->fx.fx[LW6SND_FX_GOODBYE] = load_fx (ogg_context, ogg_context->const_data.file_goodbye);
 
   ret = 1;
   for (i = 0; i < LW6SND_NB_FX; ++i)
     {
       if (!ogg_context->fx.fx[i])
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("unable to load fx %d"), i);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unable to load fx %d"), i);
 	  ret = 0;
 	}
     }

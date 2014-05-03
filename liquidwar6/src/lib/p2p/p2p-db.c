@@ -88,38 +88,27 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
 			{
 			  lw6sys_create_dir (sys_context, user_dir);
 			}
-		      p2p_dir =
-			lw6sys_path_concat (sys_context, user_dir, name);
+		      p2p_dir = lw6sys_path_concat (sys_context, user_dir, name);
 		      if (p2p_dir)
 			{
 			  if (!lw6sys_dir_exists (p2p_dir))
 			    {
 			      lw6sys_create_dir (p2p_dir);
 			    }
-			  db->db_filename =
-			    lw6sys_path_concat (p2p_dir, _DB_FILENAME);
+			  db->db_filename = lw6sys_path_concat (p2p_dir, _DB_FILENAME);
 			  if (db->db_filename)
 			    {
-			      db->log_filename =
-				lw6sys_path_concat (p2p_dir, _LOG_FILENAME);
+			      db->log_filename = lw6sys_path_concat (p2p_dir, _LOG_FILENAME);
 			      if (db->log_filename)
 				{
-				  if (lw6sys_file_exists
-				      (sys_context, db->log_filename))
+				  if (lw6sys_file_exists (sys_context, db->log_filename))
 				    {
 				      unlink (db->log_filename);
 				    }
-				  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-					      _x_ ("opening db \"%s\""),
-					      db->db_filename);
-				  if (sqlite3_open
-				      (db->db_filename,
-				       &(db->handler)) == SQLITE_OK)
+				  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("opening db \"%s\""), db->db_filename);
+				  if (sqlite3_open (db->db_filename, &(db->handler)) == SQLITE_OK)
 				    {
-				      lw6sys_log (sys_context,
-						  LW6SYS_LOG_INFO,
-						  _x_ ("opened db \"%s\""),
-						  db->db_filename);
+				      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("opened db \"%s\""), db->db_filename);
 				      if (_lw6p2p_db_create_database (db))
 					{
 					  if (_lw6p2p_db_clean_database (db))
@@ -136,20 +125,12 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
 					    }
 					  else
 					    {
-					      lw6sys_log (sys_context,
-							  LW6SYS_LOG_WARNING,
-							  _x_
-							  ("can't clean database \"%s\""),
-							  db->db_filename);
+					      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't clean database \"%s\""), db->db_filename);
 					    }
 					}
 				      else
 					{
-					  lw6sys_log (sys_context,
-						      LW6SYS_LOG_WARNING,
-						      _x_
-						      ("can't create database \"%s\""),
-						      db->db_filename);
+					  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't create database \"%s\""), db->db_filename);
 					}
 				    }
 				  else
@@ -160,19 +141,11 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
 						      LW6SYS_LOG_WARNING,
 						      _x_
 						      ("can't open db \"%s\" errcode=%d errmsg=\"%s\""),
-						      db->db_filename,
-						      sqlite3_errcode
-						      (db->handler),
-						      sqlite3_errmsg
-						      (db->handler));
+						      db->db_filename, sqlite3_errcode (db->handler), sqlite3_errmsg (db->handler));
 					}
 				      else
 					{
-					  lw6sys_log (sys_context,
-						      LW6SYS_LOG_WARNING,
-						      _x_
-						      ("can't open db \"%s\""),
-						      db->db_filename);
+					  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't open db \"%s\""), db->db_filename);
 					}
 				    }
 				}
@@ -184,8 +157,7 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_ ("can't load p2p data"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't load p2p data"));
 		}
 	      LW6SYS_FREE (sys_context, data_dir);
 	    }
@@ -227,43 +199,35 @@ _lw6p2p_db_close (_lw6p2p_db_t * db)
 	}
       if (db->db_filename)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("closing db \"%s\""),
-		      db->db_filename);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("closing db \"%s\""), db->db_filename);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("closing unknown db"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("closing unknown db"));
 	}
       if (db->handler)
 	{
 	  if (sqlite3_close (db->handler) == SQLITE_OK)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("sqlite3_close successfull"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("sqlite3_close successfull"));
 	      db->handler = NULL;
 	    }
 	  else
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_
-			  ("sqlite2_close failed errcode=%d errmsg=\"%s\""),
-			  sqlite3_errcode (db->handler),
-			  sqlite3_errmsg (db->handler));
+			  _x_ ("sqlite2_close failed errcode=%d errmsg=\"%s\""), sqlite3_errcode (db->handler), sqlite3_errmsg (db->handler));
 	    }
 	}
       _lw6p2p_data_unload (&(db->data));
       if (db->db_filename)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("closed db \"%s\""),
-		      db->db_filename);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("closed db \"%s\""), db->db_filename);
 	  LW6SYS_FREE (sys_context, db->db_filename);
 	  db->db_filename = NULL;
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("closed unknown db"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("closed unknown db"));
 	}
       if (db->log_filename)
 	{
@@ -273,8 +237,7 @@ _lw6p2p_db_close (_lw6p2p_db_t * db)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to close NULL db"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to close NULL db"));
     }
 }
 
@@ -300,14 +263,11 @@ _lw6p2p_db_repr (const _lw6p2p_db_t * db)
 
   if (db && db->db_filename)
     {
-      repr =
-	lw6sys_new_sprintf (sys_context, _x_ ("%u %s"), db->id,
-			    db->db_filename);
+      repr = lw6sys_new_sprintf (sys_context, _x_ ("%u %s"), db->id, db->db_filename);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't repr NULL or unitialized db"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't repr NULL or unitialized db"));
     }
 
   return repr;
@@ -321,8 +281,7 @@ _lw6p2p_db_get_query (_lw6p2p_db_t * db, char *key)
   query = lw6sys_hash_get (sys_context, db->data.sql.queries, key);
   if (!query)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't get SQL query \"%s\""), key);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't get SQL query \"%s\""), key);
       query = "";		// to avoid segfault in probable sprintf
     }
 
@@ -377,8 +336,7 @@ _lw6p2p_db_unlock (_lw6p2p_db_t * db)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to unlock db"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to unlock db"));
     }
 
   return ret;
@@ -407,21 +365,16 @@ _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql)
 }
 
 int
-_lw6p2p_db_exec (_lw6p2p_db_t * db, char *sql, _lw6p2p_db_callback_t func,
-		 void *func_data)
+_lw6p2p_db_exec (_lw6p2p_db_t * db, char *sql, _lw6p2p_db_callback_t func, void *func_data)
 {
   int ret = 0;
   int errcode = 0;
   char *errmsg = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("executing SQL statement \"%s\""), sql);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("executing SQL statement \"%s\""), sql);
   if (_lw6p2p_db_trylock (db))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("trying to execute SQL statement \"%s\" while DB is not locked"),
-		  sql);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to execute SQL statement \"%s\" while DB is not locked"), sql);
       _lw6p2p_db_unlock (db);
     }
   else
@@ -436,18 +389,12 @@ _lw6p2p_db_exec (_lw6p2p_db_t * db, char *sql, _lw6p2p_db_callback_t func,
 	{
 	  if (errmsg)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_
-			  ("error executing SQL statement \"%s\" errcode=%d errmsg=\"%s\""),
-			  sql, errcode, errmsg);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("error executing SQL statement \"%s\" errcode=%d errmsg=\"%s\""), sql, errcode, errmsg);
 	      sqlite3_free (errmsg);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_
-			  ("error executing SQL statement \"%s\" errcode=%d"),
-			  sql, errcode);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("error executing SQL statement \"%s\" errcode=%d"), sql, errcode);
 	    }
 	}
     }
@@ -480,10 +427,7 @@ _lw6p2p_db_clean_database (_lw6p2p_db_t * db)
   int ret = 0;
   char *query = NULL;
 
-  query =
-    lw6sys_new_sprintf (sys_context,
-			_lw6p2p_db_get_query (db, _LW6P2P_CLEAN_DATABASE_SQL),
-			-db->data.consts.node_expire_soft_delay / 1000);
+  query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (db, _LW6P2P_CLEAN_DATABASE_SQL), -db->data.consts.node_expire_soft_delay / 1000);
   if (query)
     {
       if (_lw6p2p_db_lock (db))
@@ -532,38 +476,28 @@ lw6p2p_db_reset (int argc, const char *argv[], const char *name)
 		    {
 		      if (!unlink (filename))
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				      _x_ ("database file \"%s\" deleted"),
-				      filename);
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("database file \"%s\" deleted"), filename);
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				      _x_
-				      ("can't delete database file \"%s\""),
-				      filename);
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't delete database file \"%s\""), filename);
 			  ret = 0;
 			}
 		    }
 		  LW6SYS_FREE (sys_context, filename);
 		}
-	      filename =
-		lw6sys_path_concat (sys_context, user_dir, _LOG_FILENAME);
+	      filename = lw6sys_path_concat (sys_context, user_dir, _LOG_FILENAME);
 	      if (filename)
 		{
 		  if (lw6sys_file_exists (sys_context, filename))
 		    {
 		      if (!unlink (filename))
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				      _x_ ("log file \"%s\" deleted"),
-				      filename);
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("log file \"%s\" deleted"), filename);
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				      _x_ ("can't delete log file \"%s\""),
-				      filename);
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't delete log file \"%s\""), filename);
 			  ret = 0;
 			}
 		    }
@@ -572,10 +506,7 @@ lw6p2p_db_reset (int argc, const char *argv[], const char *name)
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("no need to delete database in \"%s\", directory does not exists"),
-			  p2p_dir);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("no need to delete database in \"%s\", directory does not exists"), p2p_dir);
 	    }
 	  LW6SYS_FREE (p2p_dir);
 	}

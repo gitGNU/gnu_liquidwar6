@@ -62,8 +62,7 @@ _capture_eol (int w, int y)
 }
 
 char *
-_lw6ker_capture_str (lw6sys_context_t * sys_context,
-		     const _lw6ker_game_state_t * game_state)
+_lw6ker_capture_str (lw6sys_context_t * sys_context, const _lw6ker_game_state_t * game_state)
 {
   char *ret = NULL;
   int w, h, x, y;
@@ -87,21 +86,15 @@ _lw6ker_capture_str (lw6sys_context_t * sys_context,
 	       * No multilayer support, only display layer0, this is
 	       * just a preview/debugging function
 	       */
-	      fighter_id =
-		_lw6ker_map_state_get_fighter_id (&(game_state->map_state),
-						  x, y, 0);
+	      fighter_id = _lw6ker_map_state_get_fighter_id (&(game_state->map_state), x, y, 0);
 	      if (fighter_id >= 0)
 		{
-		  fighter =
-		    &(game_state->map_state.armies.fighters[fighter_id]);
+		  fighter = &(game_state->map_state.armies.fighters[fighter_id]);
 		  c = _CAPTURE_COLOR_0 + fighter->team_color;
 		}
 	      else
 		{
-		  c =
-		    (lw6map_body_get
-		     (&(game_state->game_struct->level->body), x,
-		      y, 0) > 0) ? _CAPTURE_BG : _CAPTURE_FG;
+		  c = (lw6map_body_get (&(game_state->game_struct->level->body), x, y, 0) > 0) ? _CAPTURE_BG : _CAPTURE_FG;
 		}
 	      ret[pos] = c;
 	    }
@@ -126,14 +119,11 @@ _lw6ker_capture_str (lw6sys_context_t * sys_context,
  * Return value: dynamically allocated string.
  */
 char *
-lw6ker_capture_str (lw6sys_context_t * sys_context,
-		    const lw6ker_game_state_t * game_state)
+lw6ker_capture_str (lw6sys_context_t * sys_context, const lw6ker_game_state_t * game_state)
 {
   char *ret = NULL;
 
-  ret =
-    _lw6ker_capture_str (sys_context,
-			 (const _lw6ker_game_state_t *) game_state);
+  ret = _lw6ker_capture_str (sys_context, (const _lw6ker_game_state_t *) game_state);
 
   return ret;
 }

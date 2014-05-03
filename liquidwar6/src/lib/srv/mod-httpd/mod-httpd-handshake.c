@@ -29,9 +29,7 @@
 
 int
 _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
-			lw6srv_tcp_accepter_t * tcp_accepter,
-			lw6nod_info_t * node_info,
-			u_int64_t * remote_id, char **remote_url)
+			lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
   char *pos = NULL;
@@ -41,8 +39,7 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
 
   line = tcp_accepter->first_line;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("trying to recognize httpd protocol in \"%s\""), line);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trying to recognize httpd protocol in \"%s\""), line);
 
   if (remote_id)
     {
@@ -59,18 +56,14 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
     }
 
   line_size = strlen (line);
-  if (strlen (line) >=
-      _MOD_HTTPD_PROTOCOL_UNDERSTANDABLE_SIZE || strchr (line, '\n'))
+  if (strlen (line) >= _MOD_HTTPD_PROTOCOL_UNDERSTANDABLE_SIZE || strchr (line, '\n'))
     {
       if (lw6sys_str_starts_with
 	  (line, _MOD_HTTPD_PROTOCOL_GET_STRING)
 	  || lw6sys_str_starts_with (sys_context, line,
-				     _MOD_HTTPD_PROTOCOL_POST_STRING)
-	  || lw6sys_str_starts_with (sys_context, line,
-				     _MOD_HTTPD_PROTOCOL_HEAD_STRING))
+				     _MOD_HTTPD_PROTOCOL_POST_STRING) || lw6sys_str_starts_with (sys_context, line, _MOD_HTTPD_PROTOCOL_HEAD_STRING))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("recognized httpd protocol \"%s\""), line);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("recognized httpd protocol \"%s\""), line);
 	  pos = line;
 	  while ((*pos) && !lw6sys_chr_is_space (*pos))
 	    {
@@ -82,18 +75,14 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
 	    }
 	  if (lw6sys_str_starts_with (pos, _MOD_HTTPD_PROTOCOL_LW6_STRING))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("httpd LW6 message \"%s\""), pos);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("httpd LW6 message \"%s\""), pos);
 	      if (lw6msg_envelope_analyse
 		  (pos, LW6MSG_ENVELOPE_MODE_URL,
 		   node_info->const_info.ref_info.url,
-		   node_info->const_info.password, 0,
-		   node_info->const_info.ref_info.id_int, &msg, NULL, NULL,
-		   remote_id, NULL, NULL, NULL, remote_url))
+		   node_info->const_info.password, 0, node_info->const_info.ref_info.id_int, &msg, NULL, NULL, remote_id, NULL, NULL, NULL, remote_url))
 		{
 		  ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("httpd message \"%s\" OK"), line);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("httpd message \"%s\" OK"), line);
 		  if (msg)
 		    {
 		      /*
@@ -106,9 +95,7 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
 		{
 		  if (strchr (line, '\n'))
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_ ("unable to analyse message \"%s\""),
-				  line);
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unable to analyse message \"%s\""), line);
 		      ret |= LW6SRV_ANALYSE_DEAD;
 		    }
 		  else
@@ -122,8 +109,7 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("out of band httpd \"%s\""), pos);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("out of band httpd \"%s\""), pos);
 	      ret |= LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB;
 	    }
 	}
@@ -136,22 +122,17 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
    * suspect some hacker seeing this when administrating is box
    * will find out the random he was trying was Liquid War 6...
    */
-  if (lw6net_tcp_is_alive (&(tcp_accepter->sock))
-      && !_mod_httpd_timeout_ok (httpd_context,
-				 tcp_accepter->creation_timestamp))
+  if (lw6net_tcp_is_alive (&(tcp_accepter->sock)) && !_mod_httpd_timeout_ok (httpd_context, tcp_accepter->creation_timestamp))
     {
       if (line_size > 0)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_
-		      ("timeout on receive (first_line=\"%s\") so sending request to http handler, which will probably return error 500"),
-		      line);
+		      _x_ ("timeout on receive (first_line=\"%s\") so sending request to http handler, which will probably return error 500"), line);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_
-		      ("timeout on receive and no input data, sending request to http handler, which will probably return nothing"));
+		      _x_ ("timeout on receive and no input data, sending request to http handler, which will probably return nothing"));
 	}
       ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
     }
@@ -161,9 +142,7 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
 
 int
 _mod_httpd_analyse_udp (_mod_httpd_context_t * httpd_context,
-			lw6srv_udp_buffer_t * udp_buffer,
-			lw6nod_info_t * node_info,
-			u_int64_t * remote_id, char **remote_url)
+			lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
 
@@ -184,25 +163,18 @@ _mod_httpd_analyse_udp (_mod_httpd_context_t * httpd_context,
 }
 
 int
-_mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context,
-			  lw6cnx_connection_t * connection,
-			  lw6srv_tcp_accepter_t * tcp_accepter)
+_mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
-  _mod_httpd_specific_data_t *specific_data =
-    (_mod_httpd_specific_data_t *) connection->backend_specific_data;
+  _mod_httpd_specific_data_t *specific_data = (_mod_httpd_specific_data_t *) connection->backend_specific_data;
   _mod_httpd_reply_thread_data_t *reply_thread_data = NULL;
   lw6sys_thread_handler_t *thread_handler = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("mod_httpd feed with tcp \"%s\""),
-	      tcp_accepter->first_line);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_httpd feed with tcp \"%s\""), tcp_accepter->first_line);
 
   if (lw6net_socket_is_valid (tcp_accepter->sock))
     {
-      reply_thread_data =
-	(_mod_httpd_reply_thread_data_t *)
-	LW6SYS_MALLOC (sizeof (_mod_httpd_reply_thread_data_t));
+      reply_thread_data = (_mod_httpd_reply_thread_data_t *) LW6SYS_MALLOC (sizeof (_mod_httpd_reply_thread_data_t));
       if (reply_thread_data)
 	{
 	  reply_thread_data->httpd_context = httpd_context;
@@ -210,14 +182,10 @@ _mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context,
 	  reply_thread_data->sock = tcp_accepter->sock;
 	  reply_thread_data->creation_timestamp = lw6sys_get_timestamp ();
 	  reply_thread_data->do_not_finish = 0;
-	  thread_handler =
-	    lw6sys_thread_create (_mod_httpd_reply_thread_func,
-				  _mod_httpd_reply_thread_join,
-				  (void *) reply_thread_data);
+	  thread_handler = lw6sys_thread_create (_mod_httpd_reply_thread_func, _mod_httpd_reply_thread_join, (void *) reply_thread_data);
 	  if (thread_handler)
 	    {
-	      lw6sys_list_push_back (&(specific_data->reply_threads),
-				     thread_handler);
+	      lw6sys_list_push_back (&(specific_data->reply_threads), thread_handler);
 	      ret = 1;
 	    }
 	}
@@ -236,9 +204,7 @@ _mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context,
 }
 
 int
-_mod_httpd_feed_with_udp (_mod_httpd_context_t * httpd_context,
-			  lw6cnx_connection_t * connection,
-			  lw6srv_udp_buffer_t * udp_buffer)
+_mod_httpd_feed_with_udp (_mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 

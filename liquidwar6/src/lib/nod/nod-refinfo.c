@@ -43,8 +43,7 @@ _lw6nod_ref_info_reset (lw6nod_ref_info_t * ref_info)
 }
 
 int
-_lw6nod_ref_info_update (lw6nod_ref_info_t * ref_info, u_int64_t id,
-			 const char *url)
+_lw6nod_ref_info_update (lw6nod_ref_info_t * ref_info, u_int64_t id, const char *url)
 {
   int ret = 1;
 

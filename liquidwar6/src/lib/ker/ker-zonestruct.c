@@ -28,9 +28,7 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_zone_struct_update_checksum (lw6sys_context_t * sys_context,
-				     const _lw6ker_zone_struct_t *
-				     zone_struct, u_int32_t * checksum)
+_lw6ker_zone_struct_update_checksum (lw6sys_context_t * sys_context, const _lw6ker_zone_struct_t * zone_struct, u_int32_t * checksum)
 {
   int i;
 
@@ -38,11 +36,8 @@ _lw6ker_zone_struct_update_checksum (lw6sys_context_t * sys_context,
   lw6sys_checksum_update_int32 (sys_context, checksum, zone_struct->size);
   for (i = 0; i < LW6KER_NB_DIRS; ++i)
     {
-      lw6sys_checksum_update_int32 (sys_context, checksum,
-				    zone_struct->link[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum, zone_struct->link[i]);
     }
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				zone_struct->one_way_dir_even);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				zone_struct->one_way_dir_odd);
+  lw6sys_checksum_update_int32 (sys_context, checksum, zone_struct->one_way_dir_even);
+  lw6sys_checksum_update_int32 (sys_context, checksum, zone_struct->one_way_dir_odd);
 }

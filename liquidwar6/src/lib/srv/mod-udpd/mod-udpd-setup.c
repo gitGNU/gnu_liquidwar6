@@ -28,9 +28,7 @@
 #include "mod-udpd-internal.h"
 
 _mod_udpd_context_t *
-_mod_udpd_init (int argc, const char *argv[],
-		lw6cnx_properties_t * properties,
-		lw6srv_listener_t * listener)
+_mod_udpd_init (int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
 {
   _mod_udpd_context_t *udpd_context = NULL;
   char *data_dir = NULL;
@@ -38,8 +36,7 @@ _mod_udpd_init (int argc, const char *argv[],
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("udpd init"));
 
-  udpd_context =
-    (_mod_udpd_context_t *) LW6SYS_CALLOC (sizeof (_mod_udpd_context_t));
+  udpd_context = (_mod_udpd_context_t *) LW6SYS_CALLOC (sizeof (_mod_udpd_context_t));
   if (udpd_context)
     {
       data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
@@ -47,12 +44,9 @@ _mod_udpd_init (int argc, const char *argv[],
 	{
 	  if (_mod_udpd_load_data (&(udpd_context->data), data_dir))
 	    {
-	      properties->hint_timeout =
-		udpd_context->data.consts.error_timeout;
-	      properties->ping_alter_base =
-		udpd_context->data.consts.ping_alter_base;
-	      properties->ping_alter_percent =
-		udpd_context->data.consts.ping_alter_percent;
+	      properties->hint_timeout = udpd_context->data.consts.error_timeout;
+	      properties->ping_alter_base = udpd_context->data.consts.ping_alter_base;
+	      properties->ping_alter_percent = udpd_context->data.consts.ping_alter_percent;
 	      properties->reliable = 0;
 	      properties->backend_id = MOD_UDPD_BACKEND_ID;
 	      ok = 1;
@@ -68,8 +62,7 @@ _mod_udpd_init (int argc, const char *argv[],
 
   if (!udpd_context)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _("can't initialize mod_udpd"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("can't initialize mod_udpd"));
     }
 
   return udpd_context;

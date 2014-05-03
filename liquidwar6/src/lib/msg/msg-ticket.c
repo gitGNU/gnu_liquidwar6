@@ -43,8 +43,7 @@
  * Return value: the sig, always non-zero
  */
 u_int32_t
-lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
-			const char *msg)
+lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id, const char *msg)
 {
   u_int32_t calc_sig = 0;
   unsigned char key_buf[3 * sizeof (u_int64_t)];
@@ -55,9 +54,7 @@ lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
       lw6sys_serialize_int64 (key_buf, ticket);
       lw6sys_serialize_int64 (key_buf + sizeof (u_int64_t), from_id);
       lw6sys_serialize_int64 (key_buf + 2 * sizeof (u_int64_t), to_id);
-      calc_sig =
-	lw6glb_sha1_hmac_32_bin ((char *) key_buf,
-				 3 * sizeof (u_int64_t), msg, strlen (msg));
+      calc_sig = lw6glb_sha1_hmac_32_bin ((char *) key_buf, 3 * sizeof (u_int64_t), msg, strlen (msg));
       if (!calc_sig)
 	{
 	  /*
@@ -68,15 +65,13 @@ lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("calculating sig with ticket %" LW6SYS_PRINTF_LL
 		       "x from=%" LW6SYS_PRINTF_LL "x to=%" LW6SYS_PRINTF_LL
-		       "x message=\"%s\" calc_sig=%x"), (long long) ticket,
-		  (long long) from_id, (long long) to_id, msg, calc_sig);
+		       "x message=\"%s\" calc_sig=%x"), (long long) ticket, (long long) from_id, (long long) to_id, msg, calc_sig);
     }
   else
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("using ticket=0 from=%" LW6SYS_PRINTF_LL "x to=%"
-		       LW6SYS_PRINTF_LL "x to calc sig for message \"%s\""),
-		  (long long) from_id, (long long) to_id, msg);
+		       LW6SYS_PRINTF_LL "x to calc sig for message \"%s\""), (long long) from_id, (long long) to_id, msg);
       calc_sig--;
     }
 
@@ -97,8 +92,7 @@ lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
  * Return value: 1 if they are the same, 0 if not.
  */
 int
-lw6msg_ticket_check_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
-			 const char *msg, u_int32_t ticket_sig)
+lw6msg_ticket_check_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id, const char *msg, u_int32_t ticket_sig)
 {
   int ret = 0;
   u_int32_t calc_sig = 0;
@@ -110,9 +104,7 @@ lw6msg_ticket_check_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("sigs do not match calc_sig=%x ticket_sig=%x"),
-		  calc_sig, ticket_sig);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("sigs do not match calc_sig=%x ticket_sig=%x"), calc_sig, ticket_sig);
     }
 
   return ret;

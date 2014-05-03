@@ -71,8 +71,7 @@ lw6sys_clear_file (lw6sys_context_t * sys_context, const char *filename)
 }
 
 static void *
-_read_bin (lw6sys_context_t * sys_context, int *filesize,
-	   const char *filename)
+_read_bin (lw6sys_context_t * sys_context, int *filesize, const char *filename)
 {
   char *file_content = NULL;
   FILE *f;
@@ -93,9 +92,7 @@ _read_bin (lw6sys_context_t * sys_context, int *filesize,
 	      clearerr (f);
 	      while ((!feof (f)) && (!ferror (f)) && (read < size))
 		{
-		  read +=
-		    fread (file_content + read, sizeof (char), size - read,
-			   f);
+		  read += fread (file_content + read, sizeof (char), size - read, f);
 		}
 	      if (read < size)
 		{
@@ -105,17 +102,12 @@ _read_bin (lw6sys_context_t * sys_context, int *filesize,
 		   */
 #ifndef LW6_MS_WINDOWS
 		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_
-			      ("couldn't read all of file \"%s\", size was supposed to be %d but only read %d"),
-			      filename, size, (int) read);
+			      _x_ ("couldn't read all of file \"%s\", size was supposed to be %d but only read %d"), filename, size, (int) read);
 #endif
 		}
 	      else if (read > size)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_
-			      ("inconsistency in file \"%s\", size is %d but read %d"),
-			      filename, size, (int) read);
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("inconsistency in file \"%s\", size is %d but read %d"), filename, size, (int) read);
 		}
 	    }
 	}
@@ -123,8 +115,7 @@ _read_bin (lw6sys_context_t * sys_context, int *filesize,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't open file \"%s\" for reading"), filename);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't open file \"%s\" for reading"), filename);
     }
 
   if (filesize)
@@ -157,8 +148,7 @@ _read_bin (lw6sys_context_t * sys_context, int *filesize,
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_read_file_content (lw6sys_context_t * sys_context,
-			  const char *filename)
+lw6sys_read_file_content (lw6sys_context_t * sys_context, const char *filename)
 {
   char *ret = NULL;
 
@@ -188,8 +178,7 @@ lw6sys_read_file_content (lw6sys_context_t * sys_context,
  * Return value: a newly allocated pointer, must be freed.
  */
 void *
-lw6sys_read_file_content_bin (lw6sys_context_t * sys_context, int *filesize,
-			      const char *filename)
+lw6sys_read_file_content_bin (lw6sys_context_t * sys_context, int *filesize, const char *filename)
 {
   void *ret = NULL;
 
@@ -213,8 +202,7 @@ lw6sys_read_file_content_bin (lw6sys_context_t * sys_context, int *filesize,
  * and opaque binary data usage is not recommended.
  */
 int
-lw6sys_write_file_content (lw6sys_context_t * sys_context,
-			   const char *filename, const char *content)
+lw6sys_write_file_content (lw6sys_context_t * sys_context, const char *filename, const char *content)
 {
   FILE *f = NULL;
   int ret = 0;
@@ -228,16 +216,13 @@ lw6sys_write_file_content (lw6sys_context_t * sys_context,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("unable to write %d bytes in file \"%s\""),
-		      (int) strlen (content), filename);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to write %d bytes in file \"%s\""), (int) strlen (content), filename);
 	}
       fclose (f);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable open file \"%s\" for reading"), filename);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable open file \"%s\" for reading"), filename);
     }
 
   return ret;

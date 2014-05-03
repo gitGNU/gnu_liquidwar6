@@ -91,10 +91,8 @@ lw6_register_funcs_net ()
   /*
    * In setup.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6NET_INIT, 1, 0, 0,
-				      (SCM (*)())_scm_lw6net_init);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6NET_QUIT, 0, 0, 0,
-				      (SCM (*)())_scm_lw6net_quit);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6NET_INIT, 1, 0, 0, (SCM (*)())_scm_lw6net_init);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6NET_QUIT, 0, 0, 0, (SCM (*)())_scm_lw6net_quit);
 
   return ret;
 }

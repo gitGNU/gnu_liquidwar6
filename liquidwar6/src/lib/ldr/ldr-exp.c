@@ -61,9 +61,7 @@ lw6ldr_exp_validate (const lw6map_level_t * level, const char *user_dir)
       new_player_exp = lw6sys_imin (LW6MAP_RULES_MAX_EXP, player_exp + 1);
       if (new_player_exp > player_exp)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		      _("You just gained experience (exp=%d)."),
-		      new_player_exp);
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _("You just gained experience (exp=%d)."), new_player_exp);
 	  ret = lw6cfg_save_exp (user_dir, new_player_exp);
 	}
     }
@@ -74,10 +72,7 @@ lw6ldr_exp_validate (const lw6map_level_t * level, const char *user_dir)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("can't validate level with player_exp=%d and map_exp=%d"),
-		  player_exp, map_exp);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't validate level with player_exp=%d and map_exp=%d"), player_exp, map_exp);
     }
 
   return ret;
@@ -86,13 +81,7 @@ lw6ldr_exp_validate (const lw6map_level_t * level, const char *user_dir)
 void
 _lw6ldr_exp_fix (lw6map_rules_t * rules, int exp)
 {
-  rules->exp =
-    lw6sys_imax (LW6MAP_RULES_MIN_EXP, lw6sys_imax (exp, rules->exp));
-  rules->highest_team_color_allowed =
-    lw6sys_imin (rules->highest_team_color_allowed,
-		 lw6map_exp_get_highest_team_color_allowed (sys_context,
-							    exp));
-  rules->highest_weapon_allowed =
-    lw6sys_imin (rules->highest_weapon_allowed,
-		 lw6map_exp_get_highest_weapon_allowed (sys_context, exp));
+  rules->exp = lw6sys_imax (LW6MAP_RULES_MIN_EXP, lw6sys_imax (exp, rules->exp));
+  rules->highest_team_color_allowed = lw6sys_imin (rules->highest_team_color_allowed, lw6map_exp_get_highest_team_color_allowed (sys_context, exp));
+  rules->highest_weapon_allowed = lw6sys_imin (rules->highest_weapon_allowed, lw6map_exp_get_highest_weapon_allowed (sys_context, exp));
 }

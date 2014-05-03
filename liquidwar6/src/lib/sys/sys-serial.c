@@ -40,8 +40,7 @@
  * serializations.
  */
 void
-lw6sys_serialize_int64 (lw6sys_context_t * sys_context, unsigned char *data,
-			int64_t value)
+lw6sys_serialize_int64 (lw6sys_context_t * sys_context, unsigned char *data, int64_t value)
 {
   data[0] = value >> 56;
   data[1] = (value >> 48) & 0xFF;
@@ -71,8 +70,7 @@ lw6sys_unserialize_int64 (lw6sys_context_t * sys_context, unsigned char *data)
   ret =
     (((int64_t) data[0]) << 56) + (((int64_t) data[1]) << 48) +
     (((int64_t) data[2]) << 40) + (((int64_t) data[3]) << 32) +
-    (((int64_t) data[4]) << 24) + (((int64_t) data[5]) << 16) +
-    (((int64_t) data[6]) << 8) + (int64_t) data[7];
+    (((int64_t) data[4]) << 24) + (((int64_t) data[5]) << 16) + (((int64_t) data[6]) << 8) + (int64_t) data[7];
 
   return ret;
 }
@@ -89,8 +87,7 @@ lw6sys_unserialize_int64 (lw6sys_context_t * sys_context, unsigned char *data)
  * serializations.
  */
 void
-lw6sys_serialize_int32 (lw6sys_context_t * sys_context, unsigned char *data,
-			int32_t value)
+lw6sys_serialize_int32 (lw6sys_context_t * sys_context, unsigned char *data, int32_t value)
 {
   data[0] = value >> 24;
   data[1] = (value >> 16) & 0xFF;
@@ -130,8 +127,7 @@ lw6sys_unserialize_int32 (lw6sys_context_t * sys_context, unsigned char *data)
  * serializations.
  */
 void
-lw6sys_serialize_int16 (lw6sys_context_t * sys_context, unsigned char *data,
-			int16_t value)
+lw6sys_serialize_int16 (lw6sys_context_t * sys_context, unsigned char *data, int16_t value)
 {
   data[0] = value >> 8;
   data[1] = value & 0xFF;

@@ -87,8 +87,7 @@ lw6cnx_password_checksum (const char *seed, const char *password)
  * Return value: 1 if OK, passwords are the same, 0 if not.
  */
 int
-lw6cnx_password_verify (const char *seed, const char *password_here,
-			const char *password_received)
+lw6cnx_password_verify (const char *seed, const char *password_here, const char *password_received)
 {
   int ret = 0;
   char *checksum = NULL;
@@ -98,13 +97,11 @@ lw6cnx_password_verify (const char *seed, const char *password_here,
       // no passwd
       ret = 1;
     }
-  if (password_here && strlen (password_here) > 0 && password_received
-      && strlen (password_received) > 0)
+  if (password_here && strlen (password_here) > 0 && password_received && strlen (password_received) > 0)
     {
       if (!(strcmp (password_here, password_received)))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("password OK, received as clear text"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("password OK, received as clear text"));
 	  ret = 1;
 	}
       else
@@ -114,8 +111,7 @@ lw6cnx_password_verify (const char *seed, const char *password_here,
 	    {
 	      if (!(strcmp (checksum, password_received)))
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("password OK, received as checksum"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("password OK, received as checksum"));
 		  ret = 1;
 		}
 	      LW6SYS_FREE (sys_context, checksum);

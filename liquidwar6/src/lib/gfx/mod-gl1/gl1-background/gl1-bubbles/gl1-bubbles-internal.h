@@ -38,8 +38,7 @@ _mod_gl1_background_bubbles_bubble_t;
 
 typedef struct _mod_gl1_background_bubbles_state_s
 {
-  _mod_gl1_background_bubbles_bubble_t
-    bubbles[_MOD_GL1_BACKGROUND_BUBBLES_MAX_NB_BUBBLES];
+  _mod_gl1_background_bubbles_bubble_t bubbles[_MOD_GL1_BACKGROUND_BUBBLES_MAX_NB_BUBBLES];
 }
 _mod_gl1_background_bubbles_state_t;
 
@@ -82,32 +81,18 @@ _mod_gl1_background_bubbles_context_t;
  */
 extern void
 _mod_gl1_background_bubbles_display_background (mod_gl1_utils_context_t *
-						utils_context,
-						_mod_gl1_background_bubbles_context_t
-						* bubbles_context,
-						const lw6gui_look_t * look);
+						utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context, const lw6gui_look_t * look);
 
 /*
  * In data.c
  */
-extern int _mod_gl1_background_bubbles_load_data (mod_gl1_utils_context_t *
-						  utils_context,
-						  _mod_gl1_background_bubbles_context_t
-						  * bubbles_context);
-extern void _mod_gl1_background_bubbles_unload_data (mod_gl1_utils_context_t *
-						     utils_context,
-						     _mod_gl1_background_bubbles_context_t
-						     * bubbles_context);
+extern int _mod_gl1_background_bubbles_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context);
+extern void _mod_gl1_background_bubbles_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context);
 
 /*
  * In setup.c
  */
-extern _mod_gl1_background_bubbles_context_t
-  * _mod_gl1_background_bubbles_init (mod_gl1_utils_context_t *
-				      utils_context);
-extern void _mod_gl1_background_bubbles_quit (mod_gl1_utils_context_t *
-					      utils_context,
-					      _mod_gl1_background_bubbles_context_t
-					      * bubbles_context);
+extern _mod_gl1_background_bubbles_context_t *_mod_gl1_background_bubbles_init (mod_gl1_utils_context_t * utils_context);
+extern void _mod_gl1_background_bubbles_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context);
 
 #endif

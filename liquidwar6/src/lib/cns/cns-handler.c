@@ -85,9 +85,7 @@ lw6cns_handler_install (lw6cns_callback_func_t callback)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("trying to install console handler but it looks like it's already installed..."));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to install console handler but it looks like it's already installed..."));
     }
 #else
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("no console support"));
@@ -139,9 +137,7 @@ lw6cns_handler_poll ()
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_
-		  ("trying to poll console handler but it looks like it's not installed..."));
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("trying to poll console handler but it looks like it's not installed..."));
     }
 #endif // LW6_CONSOLE
 }
@@ -169,9 +165,7 @@ lw6cns_handler_remove ()
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_
-		  ("trying to remove console handler but it looks like it's not installed..."));
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("trying to remove console handler but it looks like it's not installed..."));
     }
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("console closed"));

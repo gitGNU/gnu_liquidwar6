@@ -31,8 +31,7 @@
 #define _CONSTS_FILE "http-const.xml"
 
 static void
-_read_callback (void *callback_data, const char *element, const char *key,
-		const char *value)
+_read_callback (void *callback_data, const char *element, const char *key, const char *value)
 {
   _mod_http_consts_t *consts;
 
@@ -40,22 +39,16 @@ _read_callback (void *callback_data, const char *element, const char *key,
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "global-timeout",
-			   &(consts->global_timeout));
-      lw6cfg_read_xml_int (key, value, "connect-timeout",
-			   &(consts->connect_timeout));
-      lw6cfg_read_xml_int (key, value, "ping-alter-base",
-			   &(consts->ping_alter_base));
-      lw6cfg_read_xml_int (key, value, "ping-alter-percent",
-			   &(consts->ping_alter_percent));
-      lw6cfg_read_xml_int (key, value, "max-concurrent-requests",
-			   &(consts->max_concurrent_requests));
+      lw6cfg_read_xml_int (key, value, "global-timeout", &(consts->global_timeout));
+      lw6cfg_read_xml_int (key, value, "connect-timeout", &(consts->connect_timeout));
+      lw6cfg_read_xml_int (key, value, "ping-alter-base", &(consts->ping_alter_base));
+      lw6cfg_read_xml_int (key, value, "ping-alter-percent", &(consts->ping_alter_percent));
+      lw6cfg_read_xml_int (key, value, "max-concurrent-requests", &(consts->max_concurrent_requests));
     }
 
   if (!strcmp (element, "bool"))
     {
-      lw6cfg_read_xml_bool (key, value, "tcp-connect-before-http-get",
-			    &(consts->tcp_connect_before_http_get));
+      lw6cfg_read_xml_bool (key, value, "tcp-connect-before-http-get", &(consts->tcp_connect_before_http_get));
     }
 }
 
@@ -64,12 +57,9 @@ _load_consts (_mod_http_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
-	      consts_file);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), consts_file);
 
-  ret =
-    lw6cfg_read_key_value_xml_file (consts_file, _read_callback,
-				    (void *) consts);
+  ret = lw6cfg_read_key_value_xml_file (consts_file, _read_callback, (void *) consts);
 
   return ret;
 }
@@ -84,8 +74,7 @@ _mod_http_load_data (_mod_http_data_t * http_data, const char *data_dir)
   http_subdir = lw6sys_path_concat (sys_context, data_dir, _HTTP_SUBDIR);
   if (http_subdir)
     {
-      consts_file =
-	lw6sys_path_concat (sys_context, http_subdir, _CONSTS_FILE);
+      consts_file = lw6sys_path_concat (sys_context, http_subdir, _CONSTS_FILE);
       if (consts_file)
 	{
 	  ret = _load_consts (&(http_data->consts), consts_file);

@@ -79,31 +79,24 @@ typedef struct _mod_http_specific_data_s
 _mod_http_specific_data_t;
 
 /* mod-http-data.c */
-extern int _mod_http_load_data (_mod_http_data_t * http_data,
-				const char *data_dir);
+extern int _mod_http_load_data (_mod_http_data_t * http_data, const char *data_dir);
 extern void _mod_http_unload_data (_mod_http_data_t * http_data);
 
 /*
  * In setup.c
  */
-extern _mod_http_context_t *_mod_http_init (int argc, const char *argv[],
-					    lw6cnx_properties_t * properties);
+extern _mod_http_context_t *_mod_http_init (int argc, const char *argv[], lw6cnx_properties_t * properties);
 extern void _mod_http_quit (_mod_http_context_t * http_context);
 
 /* http-get.c */
-extern char *_mod_http_get (_mod_http_context_t * http_context,
-			    const char *url, const char *password,
-			    const char *ip, int port);
+extern char *_mod_http_get (_mod_http_context_t * http_context, const char *url, const char *password, const char *ip, int port);
 
 /* http-querythread.c */
 extern void _mod_http_query_thread_func (void *callback_data);
 extern void _mod_http_query_thread_join (void *callback_data);
 extern void _mod_http_query_thread_free_list_item (void *data);
 extern int _mod_http_query_thread_filter (void *func_data, void *data);
-extern int
-_mod_http_query_thread_process_response_line (_mod_http_query_thread_data_t *
-					      query_thread_data,
-					      const char *response_line);
+extern int _mod_http_query_thread_process_response_line (_mod_http_query_thread_data_t * query_thread_data, const char *response_line);
 
 /*
  * In state.c
@@ -117,14 +110,9 @@ extern lw6cnx_connection_t *_mod_http_open (_mod_http_context_t *
 					    const char *password,
 					    u_int64_t local_id,
 					    u_int64_t remote_id, int dns_ok,
-					    int network_reliability,
-					    lw6cnx_recv_callback_t
-					    recv_callback_func,
-					    void *recv_callback_data);
-extern void _mod_http_close (_mod_http_context_t * http_context,
-			     lw6cnx_connection_t * connection);
-extern int _mod_http_timeout_ok (_mod_http_context_t * http_context,
-				 int64_t origin_timestamp);
+					    int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data);
+extern void _mod_http_close (_mod_http_context_t * http_context, lw6cnx_connection_t * connection);
+extern int _mod_http_timeout_ok (_mod_http_context_t * http_context, int64_t origin_timestamp);
 
 /*
  * In message.c
@@ -133,28 +121,19 @@ extern int _mod_http_send (_mod_http_context_t * http_context,
 			   lw6cnx_connection_t * connection,
 			   int64_t now,
 			   u_int32_t physical_ticket_sig,
-			   u_int32_t logical_ticket_sig,
-			   u_int64_t logical_from_id, u_int64_t logical_to_id,
-			   const char *message);
-extern int _mod_http_can_send (_mod_http_context_t * http_context,
-			       lw6cnx_connection_t * connection);
-extern void _mod_http_poll (_mod_http_context_t * http_context,
-			    lw6cnx_connection_t * connection);
+			   u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message);
+extern int _mod_http_can_send (_mod_http_context_t * http_context, lw6cnx_connection_t * connection);
+extern void _mod_http_poll (_mod_http_context_t * http_context, lw6cnx_connection_t * connection);
 
 /*
  * In info.c
  */
-extern char *_mod_http_repr (_mod_http_context_t * http_context,
-			     lw6cnx_connection_t * connection);
+extern char *_mod_http_repr (_mod_http_context_t * http_context, lw6cnx_connection_t * connection);
 
 /*
  * In oob.c
  */
-extern int _mod_http_process_oob (_mod_http_context_t * http_context,
-				  lw6nod_info_t * node_info,
-				  lw6cli_oob_data_t * oob_data);
-extern int _mod_http_oob_should_continue (_mod_http_context_t *
-					  http_context,
-					  lw6cli_oob_data_t * oob_data);
+extern int _mod_http_process_oob (_mod_http_context_t * http_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data);
+extern int _mod_http_oob_should_continue (_mod_http_context_t * http_context, lw6cli_oob_data_t * oob_data);
 
 #endif

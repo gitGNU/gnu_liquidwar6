@@ -52,16 +52,13 @@ lw6net_udp_client ()
 
   if (lw6net_socket_is_valid (sock))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("new UDP socket %d"),
-		  sock);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("new UDP socket %d"), sock);
 
       _lw6net_counters_register_socket (&(_lw6net_global_context->counters));
 
-      if (setsockopt (sock, SOL_SOCKET, SO_BROADCAST,
-		      (char *) &enable, sizeof (int)))
+      if (setsockopt (sock, SOL_SOCKET, SO_BROADCAST, (char *) &enable, sizeof (int)))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("setsockopt(SO_BROADCAST) failed"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("setsockopt(SO_BROADCAST) failed"));
 	  lw6net_last_error ();
 	}
       /*
@@ -69,12 +66,10 @@ lw6net_udp_client ()
        * we use MSG_NOSIGNAL on send calls
        */
 #ifdef SO_NOSIGPIPE
-      if (setsockopt (sock, SOL_SOCKET, SO_NOSIGPIPE,
-		      (char *) &enable, sizeof (int)))
+      if (setsockopt (sock, SOL_SOCKET, SO_NOSIGPIPE, (char *) &enable, sizeof (int)))
 	{
 	  lw6net_last_error ();
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("setsockopt(SO_NOSIGPIPE) failed"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("setsockopt(SO_NOSIGPIPE) failed"));
 	}
 #endif // SO_NOSIGPIPE
 
@@ -111,11 +106,9 @@ lw6net_udp_server (const char *ip, int port)
   sock = _lw6net_socket_bind (ip, port, SOCK_DGRAM);
   if (lw6net_socket_is_valid (sock))
     {
-      if (setsockopt (sock, SOL_SOCKET, SO_BROADCAST,
-		      (char *) &enable, sizeof (int)))
+      if (setsockopt (sock, SOL_SOCKET, SO_BROADCAST, (char *) &enable, sizeof (int)))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("setsockopt(SO_BROADCAST) failed"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("setsockopt(SO_BROADCAST) failed"));
 	  lw6net_last_error ();
 	}
 
@@ -159,24 +152,17 @@ lw6net_udp_send (int sock, const char *buf, int len, const char *ip, int port)
   if (_lw6net_inet_aton (&name.sin_addr, ip))
     {
       name.sin_port = htons (port);
-      res =
-	sendto (sock, buf, len, 0, (struct sockaddr *) &name, sizeof (name));
+      res = sendto (sock, buf, len, 0, (struct sockaddr *) &name, sizeof (name));
       if (res >= 0)
 	{
 	  send_size = res;
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("%d bytes sent on UDP socket %d"), send_size,
-		      sock);
-	  _lw6net_counters_register_send (&(_lw6net_global_context->counters),
-					  send_size);
-	  _lw6net_log_udp_send (&(_lw6net_global_context->log), buf,
-				send_size);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("%d bytes sent on UDP socket %d"), send_size, sock);
+	  _lw6net_counters_register_send (&(_lw6net_global_context->counters), send_size);
+	  _lw6net_log_udp_send (&(_lw6net_global_context->log), buf, send_size);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("unable to send %d bytes on UDP socket %d"), len,
-		      sock);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unable to send %d bytes on UDP socket %d"), len, sock);
 	}
     }
 
@@ -184,8 +170,7 @@ lw6net_udp_send (int sock, const char *buf, int len, const char *ip, int port)
 }
 
 static int
-udp_recv (int sock, char *buf,
-	  int len, char **incoming_ip, int *incoming_port, int flag)
+udp_recv (int sock, char *buf, int len, char **incoming_ip, int *incoming_port, int flag)
 {
   int recv_size = 0;
   struct sockaddr_in name;
@@ -198,15 +183,11 @@ udp_recv (int sock, char *buf,
   if (res >= 0)
     {
       recv_size = res;
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("%d bytes received on UDP socket %d"), recv_size,
-		  sock);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("%d bytes received on UDP socket %d"), recv_size, sock);
       if (flag != MSG_PEEK)
 	{
-	  _lw6net_counters_register_recv (&(_lw6net_global_context->counters),
-					  recv_size);
-	  _lw6net_log_udp_recv (&(_lw6net_global_context->log), buf,
-				recv_size);
+	  _lw6net_counters_register_recv (&(_lw6net_global_context->counters), recv_size);
+	  _lw6net_log_udp_recv (&(_lw6net_global_context->log), buf, recv_size);
 	}
       if (incoming_ip)
 	{
@@ -246,8 +227,7 @@ udp_recv (int sock, char *buf,
  * Return value: number of bytes received
  */
 int
-lw6net_udp_peek (int sock, char *buf, int len,
-		 char **incoming_ip, int *incoming_port)
+lw6net_udp_peek (int sock, char *buf, int len, char **incoming_ip, int *incoming_port)
 {
   return udp_recv (sock, buf, len, incoming_ip, incoming_port, MSG_PEEK);
 }
@@ -266,8 +246,7 @@ lw6net_udp_peek (int sock, char *buf, int len,
  * Return value: number of bytes received
  */
 int
-lw6net_udp_recv (int sock, char *buf,
-		 int len, char **incoming_ip, int *incoming_port)
+lw6net_udp_recv (int sock, char *buf, int len, char **incoming_ip, int *incoming_port)
 {
   return udp_recv (sock, buf, len, incoming_ip, incoming_port, 0);
 }

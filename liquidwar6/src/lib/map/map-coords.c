@@ -44,8 +44,7 @@
  * Return value: none.
  */
 void
-lw6map_coords_fix_xy (const lw6map_rules_t * rules,
-		      const lw6sys_whd_t * shape, int *x, int *y)
+lw6map_coords_fix_xy (const lw6map_rules_t * rules, const lw6sys_whd_t * shape, int *x, int *y)
 {
   if ((*x) < 0 || (*y) < 0 || (*x) >= shape->w || (*y) >= shape->h)
     {
@@ -145,8 +144,7 @@ lw6map_coords_fix_xy (const lw6map_rules_t * rules,
  * Return value: none.
  */
 void
-lw6map_coords_fix_z (const lw6map_rules_t * rules, const lw6sys_whd_t * shape,
-		     int *z)
+lw6map_coords_fix_z (const lw6map_rules_t * rules, const lw6sys_whd_t * shape, int *z)
 {
 
   if ((*z) < 0 || (*z) >= shape->d)

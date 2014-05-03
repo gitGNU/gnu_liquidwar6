@@ -28,18 +28,14 @@
 #include "gl1-tactical-internal.h"
 
 static void
-display_frame (mod_gl1_utils_context_t * utils_context,
-	       _mod_gl1_hud_tactical_context_t * tactical_context)
+display_frame (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
 {
   mod_gl1_utils_set_render_mode_2d_blend (utils_context);
 
-  mod_gl1_utils_bitmap_bind (utils_context,
-			     tactical_context->bitmap_data.frame);
+  mod_gl1_utils_bitmap_bind (utils_context, tactical_context->bitmap_data.frame);
   mod_gl1_utils_bitmap_display (utils_context,
 				tactical_context->bitmap_data.frame, 0.0f,
-				0.0f,
-				utils_context->sdl_context.video_mode.width,
-				utils_context->sdl_context.video_mode.height);
+				0.0f, utils_context->sdl_context.video_mode.width, utils_context->sdl_context.video_mode.height);
 }
 
 
@@ -47,9 +43,7 @@ void
 _mod_gl1_hud_tactical_display_hud (mod_gl1_utils_context_t * utils_context,
 				   _mod_gl1_hud_tactical_context_t *
 				   tactical_context,
-				   const lw6gui_look_t * look,
-				   const lw6ker_game_state_t * game_state,
-				   lw6pil_local_cursors_t * local_cursors)
+				   const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
   display_frame (utils_context, tactical_context);
 }
@@ -57,23 +51,16 @@ _mod_gl1_hud_tactical_display_hud (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_hud_tactical_display_hud (mod_gl1_utils_context_t * utils_context,
 				  void *hud_context,
-				  const lw6gui_look_t * look,
-				  const lw6ker_game_state_t * game_state,
-				  lw6pil_local_cursors_t * local_cursors)
+				  const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
-  _mod_gl1_hud_tactical_display_hud (utils_context,
-				     (_mod_gl1_hud_tactical_context_t *)
-				     hud_context, look, game_state,
-				     local_cursors);
+  _mod_gl1_hud_tactical_display_hud (utils_context, (_mod_gl1_hud_tactical_context_t *) hud_context, look, game_state, local_cursors);
 }
 
 void
 _mod_gl1_hud_tactical_display_score (mod_gl1_utils_context_t * utils_context,
 				     _mod_gl1_hud_tactical_context_t *
 				     tactical_context,
-				     const lw6gui_look_t * look,
-				     const lw6ker_game_state_t * game_state,
-				     lw6pil_local_cursors_t * local_cursors)
+				     const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
   //
 }
@@ -81,12 +68,7 @@ _mod_gl1_hud_tactical_display_score (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_hud_tactical_display_score (mod_gl1_utils_context_t * utils_context,
 				    void *hud_context,
-				    const lw6gui_look_t * look,
-				    const lw6ker_game_state_t * game_state,
-				    lw6pil_local_cursors_t * local_cursors)
+				    const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
-  _mod_gl1_hud_tactical_display_score (utils_context,
-				       (_mod_gl1_hud_tactical_context_t *)
-				       hud_context, look, game_state,
-				       local_cursors);
+  _mod_gl1_hud_tactical_display_score (utils_context, (_mod_gl1_hud_tactical_context_t *) hud_context, look, game_state, local_cursors);
 }

@@ -59,8 +59,7 @@ extract_title_from_dirname (const char *dirname)
 
   if (!title)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to handle map title, running out of memory?"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to handle map title, running out of memory?"));
     }
 
   return title;
@@ -77,8 +76,7 @@ read_readme (const char *dirname)
     {
       if (lw6sys_file_exists (sys_context, buf))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("reading README \"%s\""), buf);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading README \"%s\""), buf);
 	  readme = lw6sys_read_file_content (sys_context, buf);
 	}
       LW6SYS_FREE (sys_context, buf);
@@ -91,8 +89,7 @@ read_readme (const char *dirname)
 	{
 	  if (lw6sys_file_exists (sys_context, buf))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("reading README \"%s\""), buf);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading README \"%s\""), buf);
 	      readme = lw6sys_read_file_content (sys_context, buf);
 	    }
 	  LW6SYS_FREE (sys_context, buf);
@@ -106,17 +103,14 @@ read_readme (const char *dirname)
 
   if (!readme)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("unable to handle map README file, running out of memory?"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to handle map README file, running out of memory?"));
     }
 
   return readme;
 }
 
 static void
-read_callback (void *callback_data, const char *element, const char *key,
-	       const char *value)
+read_callback (void *callback_data, const char *element, const char *key, const char *value)
 {
   lw6map_metadata_t *metadata_data;
 
@@ -126,10 +120,8 @@ read_callback (void *callback_data, const char *element, const char *key,
     {
       lw6cfg_read_xml_string (key, value, "title", &(metadata_data->title));
       lw6cfg_read_xml_string (key, value, "author", &(metadata_data->author));
-      lw6cfg_read_xml_string (key, value, "description",
-			      &(metadata_data->description));
-      lw6cfg_read_xml_string (key, value, "license",
-			      &(metadata_data->license));
+      lw6cfg_read_xml_string (key, value, "description", &(metadata_data->description));
+      lw6cfg_read_xml_string (key, value, "license", &(metadata_data->license));
     }
 }
 
@@ -158,11 +150,8 @@ lw6ldr_metadata_read (lw6map_metadata_t * metadata, const char *dirname)
     {
       if (lw6sys_file_exists (sys_context, buf))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("reading metadata \"%s\""), buf);
-	  ret =
-	    lw6cfg_read_key_value_xml_file (buf, read_callback,
-					    (void *) metadata);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading metadata \"%s\""), buf);
+	  ret = lw6cfg_read_key_value_xml_file (buf, read_callback, (void *) metadata);
 	}
       LW6SYS_FREE (sys_context, buf);
     }
@@ -184,8 +173,7 @@ lw6ldr_metadata_read (lw6map_metadata_t * metadata, const char *dirname)
       metadata->license = lw6sys_str_copy (sys_context, _x_ ("unspecified"));
     }
 
-  ret = (metadata->title && metadata->author && metadata->description
-	 && metadata->license);
+  ret = (metadata->title && metadata->author && metadata->description && metadata->license);
 
   return ret;
 }

@@ -40,9 +40,7 @@ _mod_gl1_background_bubbles_init (mod_gl1_utils_context_t * utils_context)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("init background/bubbles"));
 
-  bubbles_context =
-    (_mod_gl1_background_bubbles_context_t *)
-    LW6SYS_CALLOC (sizeof (_mod_gl1_background_bubbles_context_t));
+  bubbles_context = (_mod_gl1_background_bubbles_context_t *) LW6SYS_CALLOC (sizeof (_mod_gl1_background_bubbles_context_t));
   if (!bubbles_context)
     {
       /*
@@ -70,9 +68,7 @@ mod_gl1_background_bubbles_init (mod_gl1_utils_context_t * utils_context)
  * Ends-up all SDL stuff.
  */
 void
-_mod_gl1_background_bubbles_quit (mod_gl1_utils_context_t * utils_context,
-				  _mod_gl1_background_bubbles_context_t *
-				  bubbles_context)
+_mod_gl1_background_bubbles_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("quit background/bubbles"));
 
@@ -81,10 +77,7 @@ _mod_gl1_background_bubbles_quit (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_background_bubbles_quit (mod_gl1_utils_context_t * utils_context,
-				 void *bubbles_context)
+mod_gl1_background_bubbles_quit (mod_gl1_utils_context_t * utils_context, void *bubbles_context)
 {
-  _mod_gl1_background_bubbles_quit (utils_context,
-				    (_mod_gl1_background_bubbles_context_t *)
-				    bubbles_context);
+  _mod_gl1_background_bubbles_quit (utils_context, (_mod_gl1_background_bubbles_context_t *) bubbles_context);
 }

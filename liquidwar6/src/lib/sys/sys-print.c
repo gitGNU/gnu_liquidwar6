@@ -37,19 +37,15 @@
  * Return value: none.
  */
 void
-lw6sys_print_xml_header (lw6sys_context_t * sys_context, FILE * f,
-			 char *comment)
+lw6sys_print_xml_header (lw6sys_context_t * sys_context, FILE * f, char *comment)
 {
   char *reformatted_comment = NULL;
 
   fprintf (f, "<?xml version=\"1.0\"?>%s", lw6sys_eol ());
   fprintf (f, "<!DOCTYPE %s SYSTEM \"%s/dtd/%s.dtd\">%s",
-	   lw6sys_build_get_package_tarname (), lw6sys_build_get_docdir (),
-	   lw6sys_build_get_package_tarname (), lw6sys_eol ());
+	   lw6sys_build_get_package_tarname (), lw6sys_build_get_docdir (), lw6sys_build_get_package_tarname (), lw6sys_eol ());
   fprintf (f, "<%s>%s", lw6sys_build_get_package_tarname (), lw6sys_eol ());
-  reformatted_comment =
-    lw6sys_str_reformat (sys_context, comment, LW6SYS_REFORMAT_XML_PREFIX,
-			 LW6SYS_REFORMAT_XML_NB_COLUMNS);
+  reformatted_comment = lw6sys_str_reformat (sys_context, comment, LW6SYS_REFORMAT_XML_PREFIX, LW6SYS_REFORMAT_XML_NB_COLUMNS);
   if (reformatted_comment)
     {
       fprintf (f, "  <!--%s", lw6sys_eol ());

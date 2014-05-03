@@ -67,9 +67,7 @@ lw6sim_results_update_percents (lw6sim_results_t * results)
     {
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
-	  results->percent[i] =
-	    (((float) results->absolute[i]) * 100.0f) /
-	    ((float) absolute_total);
+	  results->percent[i] = (((float) results->absolute[i]) * 100.0f) / ((float) absolute_total);
 	}
       ret = 1;
     }

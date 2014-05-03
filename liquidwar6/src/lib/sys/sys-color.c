@@ -601,17 +601,12 @@ lw6sys_color_a_to_8 (lw6sys_context_t * sys_context, const char *ascii)
 	  break;
 	default:
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("invalid color value \"%s\", color format must be \"#RGB\", \"#RGBA\", \"#RRGGBB\" or \"#RRGGBBAA\""),
-		      ascii);
+		      _x_ ("invalid color value \"%s\", color format must be \"#RGB\", \"#RGBA\", \"#RRGGBB\" or \"#RRGGBBAA\""), ascii);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("invalid color value \"%s\", color value must start with \"#\""),
-		  ascii);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("invalid color value \"%s\", color value must start with \"#\""), ascii);
     }
 
   return ret;
@@ -632,8 +627,7 @@ lw6sys_color_a_to_8 (lw6sys_context_t * sys_context, const char *ascii)
  * Return value: none.
  */
 void
-lw6sys_color_a_to_f (lw6sys_context_t * sys_context,
-		     lw6sys_color_f_t * color_f, const char *ascii)
+lw6sys_color_a_to_f (lw6sys_context_t * sys_context, lw6sys_color_f_t * color_f, const char *ascii)
 {
   lw6sys_color_8_t color_8;
 
@@ -660,15 +654,11 @@ lw6sys_color_8_to_a (lw6sys_context_t * sys_context, lw6sys_color_8_t color_8)
 
   if (color_8.a == 0xFF)
     {
-      ret =
-	lw6sys_new_sprintf (sys_context, "#%02x%02x%02x", color_8.r,
-			    color_8.g, color_8.b);
+      ret = lw6sys_new_sprintf (sys_context, "#%02x%02x%02x", color_8.r, color_8.g, color_8.b);
     }
   else
     {
-      ret =
-	lw6sys_new_sprintf (sys_context, "#%02x%02x%02x%02x", color_8.r,
-			    color_8.g, color_8.b, color_8.a);
+      ret = lw6sys_new_sprintf (sys_context, "#%02x%02x%02x%02x", color_8.r, color_8.g, color_8.b, color_8.a);
     }
 
   return ret;
@@ -688,9 +678,7 @@ lw6sys_color_8_to_a (lw6sys_context_t * sys_context, lw6sys_color_8_t color_8)
  * Return value: none.
  */
 void
-lw6sys_color_rgb_to_hsv (lw6sys_context_t * sys_context,
-			 lw6sys_color_hsv_t * color_hsv,
-			 lw6sys_color_8_t color_8)
+lw6sys_color_rgb_to_hsv (lw6sys_context_t * sys_context, lw6sys_color_hsv_t * color_hsv, lw6sys_color_8_t color_8)
 {
   // inspired from Allegro src/color.c
   int delta;
@@ -705,8 +693,7 @@ lw6sys_color_rgb_to_hsv (lw6sys_context_t * sys_context,
 	{
 	  /* b>r>g */
 	  delta = color_8.b - color_8.g;
-	  color_hsv->h =
-	    240.0f + ((color_8.r - color_8.g) * 60) / (float) delta;
+	  color_hsv->h = 240.0f + ((color_8.r - color_8.g) * 60) / (float) delta;
 	  color_hsv->s = (float) delta / (float) color_8.b;
 	  color_hsv->v = (float) color_8.b * (1.0f / 255.0f);
 	}
@@ -727,8 +714,7 @@ lw6sys_color_rgb_to_hsv (lw6sys_context_t * sys_context,
 	{
 	  /* b>g>=r */
 	  delta = color_8.b - color_8.r;
-	  color_hsv->h =
-	    240.0f + ((color_8.r - color_8.g) * 60) / (float) delta;
+	  color_hsv->h = 240.0f + ((color_8.r - color_8.g) * 60) / (float) delta;
 	  color_hsv->s = (float) delta / (float) color_8.b;
 	  color_hsv->v = (float) color_8.b * (1.0f / 255.0f);
 	}
@@ -749,8 +735,7 @@ lw6sys_color_rgb_to_hsv (lw6sys_context_t * sys_context,
 	    }
 	  else
 	    {
-	      color_hsv->h =
-		120.0f + ((color_8.b - color_8.r) * 60) / (float) delta;
+	      color_hsv->h = 120.0f + ((color_8.b - color_8.r) * 60) / (float) delta;
 	      color_hsv->s = (float) delta / (float) color_8.g;
 	      color_hsv->v = (float) color_8.g * (1.0f / 255.0f);
 	    }
@@ -773,8 +758,7 @@ lw6sys_color_rgb_to_hsv (lw6sys_context_t * sys_context,
  * Return value: the RGB color.
  */
 lw6sys_color_8_t
-lw6sys_color_hsv_to_rgb (lw6sys_context_t * sys_context,
-			 const lw6sys_color_hsv_t * color_hsv)
+lw6sys_color_hsv_to_rgb (lw6sys_context_t * sys_context, const lw6sys_color_hsv_t * color_hsv)
 {
   // inspired from Allegro src/color.c
   lw6sys_color_8_t color_8 = LW6SYS_COLOR_8_BLACK;
@@ -871,9 +855,7 @@ lw6sys_color_hsv_to_rgb (lw6sys_context_t * sys_context,
  * Return value: none.
  */
 void
-lw6sys_color_hsv_invert (lw6sys_context_t * sys_context,
-			 lw6sys_color_hsv_t * color_hsv, int invert_h,
-			 int invert_s, int invert_v)
+lw6sys_color_hsv_invert (lw6sys_context_t * sys_context, lw6sys_color_hsv_t * color_hsv, int invert_h, int invert_s, int invert_v)
 {
   if (invert_h)
     {
@@ -927,8 +909,7 @@ lw6sys_color_is_grey (lw6sys_color_8_t color)
  * Return value: the (inexact) average color.
  */
 lw6sys_color_8_t
-lw6sys_color_average (lw6sys_context_t * sys_context, int size,
-		      const lw6sys_color_8_t * colors)
+lw6sys_color_average (lw6sys_context_t * sys_context, int size, const lw6sys_color_8_t * colors)
 {
   int i;
   int64_t sum_r = 0;
@@ -982,9 +963,7 @@ lw6sys_color_average (lw6sys_context_t * sys_context, int size,
  * Return value: the (inexact) ponderated color.
  */
 lw6sys_color_8_t
-lw6sys_color_ponderate (lw6sys_context_t * sys_context,
-			lw6sys_color_8_t color1, lw6sys_color_8_t color2,
-			float coeff)
+lw6sys_color_ponderate (lw6sys_context_t * sys_context, lw6sys_color_8_t color1, lw6sys_color_8_t color2, float coeff)
 {
   lw6sys_color_8_t ret = LW6SYS_COLOR_8_BLACK;
   lw6sys_color_hsv_t color1_hsv;
@@ -1034,8 +1013,7 @@ lw6sys_color_ponderate (lw6sys_context_t * sys_context,
 }
 
 static void
-color_hsv_to_xyz (lw6sys_context_t * sys_context, float *x, float *y,
-		  float *z, lw6sys_color_hsv_t * color_hsv)
+color_hsv_to_xyz (lw6sys_context_t * sys_context, float *x, float *y, float *z, lw6sys_color_hsv_t * color_hsv)
 {
   float angle;
 
@@ -1046,8 +1024,7 @@ color_hsv_to_xyz (lw6sys_context_t * sys_context, float *x, float *y,
 }
 
 static void
-color_8_to_xyz (lw6sys_context_t * sys_context, float *x, float *y, float *z,
-		lw6sys_color_8_t color_8)
+color_8_to_xyz (lw6sys_context_t * sys_context, float *x, float *y, float *z, lw6sys_color_8_t color_8)
 {
   lw6sys_color_hsv_t color_hsv = LW6SYS_COLOR_HSV_BLACK;
 
@@ -1070,8 +1047,7 @@ color_8_to_xyz (lw6sys_context_t * sys_context, float *x, float *y, float *z,
  * Return value: the distance.
  */
 float
-lw6sys_color_distance (lw6sys_context_t * sys_context,
-		       lw6sys_color_8_t color1, lw6sys_color_8_t color2)
+lw6sys_color_distance (lw6sys_context_t * sys_context, lw6sys_color_8_t color1, lw6sys_color_8_t color2)
 {
   float x1 = 0.0f;
   float y1 = 0.0f;
@@ -1083,9 +1059,7 @@ lw6sys_color_distance (lw6sys_context_t * sys_context,
 
   color_8_to_xyz (sys_context, &x1, &y1, &z1, color1);
   color_8_to_xyz (sys_context, &x2, &y2, &z2, color2);
-  distance =
-    sqrt ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) +
-	  (z2 - z1) * (z2 - z1));
+  distance = sqrt ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) + (z2 - z1) * (z2 - z1));
 
   return distance;
 }
@@ -1102,8 +1076,7 @@ lw6sys_color_distance (lw6sys_context_t * sys_context,
  * Return value: 1 if they are the same, 0 if not.
  */
 int
-lw6sys_color_is_same (lw6sys_context_t * sys_context, lw6sys_color_8_t color1,
-		      lw6sys_color_8_t color2)
+lw6sys_color_is_same (lw6sys_context_t * sys_context, lw6sys_color_8_t color1, lw6sys_color_8_t color2)
 {
   int ret = 0;
 

@@ -60,11 +60,9 @@ mod_httpd_is_dlclose_safe ()
 }
 
 static void *
-_init (int argc, const char *argv[], lw6cnx_properties_t * properties,
-       lw6srv_listener_t * listener)
+_init (int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
 {
-  _mod_httpd_context_t *httpd_context =
-    _mod_httpd_init (argc, argv, properties, listener);
+  _mod_httpd_context_t *httpd_context = _mod_httpd_init (argc, argv, properties, listener);
 
   return (void *) httpd_context;
 }
@@ -81,44 +79,35 @@ _quit (void *srv_context)
 }
 
 static int
-_analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter,
-	      lw6nod_info_t * node_info,
-	      u_int64_t * remote_id, char **remote_url)
+_analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
 
   if (httpd_context)
     {
-      ret =
-	_mod_httpd_analyse_tcp (httpd_context, tcp_accepter, node_info,
-				remote_id, remote_url);
+      ret = _mod_httpd_analyse_tcp (httpd_context, tcp_accepter, node_info, remote_id, remote_url);
     }
 
   return ret;
 }
 
 static int
-_analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer,
-	      lw6nod_info_t * node_info,
-	      u_int64_t * remote_id, char **remote_url)
+_analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
 
   if (httpd_context)
     {
-      ret =
-	_mod_httpd_analyse_udp (httpd_context, udp_buffer, node_info,
-				remote_id, remote_url);
+      ret = _mod_httpd_analyse_udp (httpd_context, udp_buffer, node_info, remote_id, remote_url);
     }
 
   return ret;
 }
 
 static int
-_process_oob (void *srv_context, lw6nod_info_t * node_info,
-	      lw6srv_oob_data_t * oob_data)
+_process_oob (void *srv_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
@@ -135,9 +124,7 @@ static lw6cnx_connection_t *
 _open (void *srv_context, lw6srv_listener_t * listener, const char *local_url,
        const char *remote_url, const char *remote_ip,
        int remote_port, const char *password,
-       u_int64_t local_id, u_int64_t remote_id, int dns_ok,
-       int network_reliability, lw6cnx_recv_callback_t recv_callback_func,
-       void *recv_callback_data)
+       u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   lw6cnx_connection_t *ret = NULL;
@@ -146,33 +133,28 @@ _open (void *srv_context, lw6srv_listener_t * listener, const char *local_url,
     {
       ret =
 	_mod_httpd_open (httpd_context, listener, local_url, remote_url,
-			 remote_ip, remote_port, password, local_id,
-			 remote_id, dns_ok, network_reliability,
-			 recv_callback_func, recv_callback_data);
+			 remote_ip, remote_port, password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
     }
 
   return ret;
 }
 
 static int
-_feed_with_tcp (void *srv_context, lw6cnx_connection_t * connection,
-		lw6srv_tcp_accepter_t * tcp_accepter)
+_feed_with_tcp (void *srv_context, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
 
   if (connection)
     {
-      ret =
-	_mod_httpd_feed_with_tcp (httpd_context, connection, tcp_accepter);
+      ret = _mod_httpd_feed_with_tcp (httpd_context, connection, tcp_accepter);
     }
 
   return ret;
 }
 
 static int
-_feed_with_udp (void *srv_context, lw6cnx_connection_t * connection,
-		lw6srv_udp_buffer_t * udp_buffer)
+_feed_with_udp (void *srv_context, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
@@ -198,19 +180,14 @@ _close (void *srv_context, lw6cnx_connection_t * connection)
 
 static int
 _send (void *srv_context, lw6cnx_connection_t * connection, int64_t now,
-       u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
-       u_int64_t logical_from_id, u_int64_t logical_to_id,
-       const char *message)
+       u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
 
   if (connection)
     {
-      ret =
-	_mod_httpd_send (httpd_context, connection, now, physical_ticket_sig,
-			 logical_ticket_sig, logical_from_id, logical_to_id,
-			 message);
+      ret = _mod_httpd_send (httpd_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, message);
     }
 
   return ret;
@@ -260,20 +237,15 @@ mod_httpd_get_pedigree ()
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
-  module_pedigree =
-    (lw6sys_module_pedigree_t *)
-    LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
+  module_pedigree = (lw6sys_module_pedigree_t *) LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
   if (module_pedigree)
     {
       module_pedigree->id = MOD_HTTPD_BACKEND_ID;
       module_pedigree->category = "srv";
       module_pedigree->name = _("HTTPD");
-      module_pedigree->readme =
-	_x_
-	("Custom HTTP server, allows HTTP clients to connect, and also exposes game status to standard web browsers.");
+      module_pedigree->readme = _x_ ("Custom HTTP server, allows HTTP clients to connect, and also exposes game status to standard web browsers.");
       module_pedigree->version = VERSION;
-      module_pedigree->copyright =
-	"Copyright (C)  2014  Christian Mauduit <ufoot@ufoot.org>";
+      module_pedigree->copyright = "Copyright (C)  2014  Christian Mauduit <ufoot@ufoot.org>";
       module_pedigree->license = "GPLv3+ (GNU GPL version 3 or later)";
       module_pedigree->date = __DATE__;
       module_pedigree->time = __TIME__;

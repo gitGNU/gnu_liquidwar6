@@ -29,8 +29,7 @@
 static void
 _warning (const char *func_name)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-	      _x_ ("cli backend function \"%s\" is not defined"), func_name);
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("cli backend function \"%s\" is not defined"), func_name);
 }
 
 /**
@@ -50,8 +49,7 @@ lw6cli_init (lw6cli_backend_t * backend)
   backend->cli_context = NULL;
   if (backend->init)
     {
-      backend->cli_context =
-	backend->init (backend->argc, backend->argv, &(backend->properties));
+      backend->cli_context = backend->init (backend->argc, backend->argv, &(backend->properties));
     }
   else
     {
@@ -111,8 +109,7 @@ lw6cli_quit (lw6cli_backend_t * backend)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6cli_process_oob (lw6cli_backend_t * backend,
-		    lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
+lw6cli_process_oob (lw6cli_backend_t * backend, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
 {
   int ret = 0;
 
@@ -158,9 +155,7 @@ lw6cnx_connection_t *
 lw6cli_open (lw6cli_backend_t * backend, const char *local_url,
 	     const char *remote_url, const char *remote_ip, int remote_port,
 	     const char *password, u_int64_t local_id, u_int64_t remote_id,
-	     int dns_ok, int network_reliability,
-	     lw6cnx_recv_callback_t recv_callback_func,
-	     void *recv_callback_data)
+	     int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
 {
   lw6cnx_connection_t *ret = NULL;
 
@@ -170,9 +165,7 @@ lw6cli_open (lw6cli_backend_t * backend, const char *local_url,
     {
       ret =
 	backend->open (backend->cli_context, local_url, remote_url, remote_ip,
-		       remote_port, password, local_id, remote_id, dns_ok,
-		       network_reliability, recv_callback_func,
-		       recv_callback_data);
+		       remote_port, password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
       if (ret)
 	{
 	  ret->properties = backend->properties;
@@ -233,10 +226,7 @@ lw6cli_close (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
  */
 int
 lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
-	     int64_t now,
-	     u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
-	     u_int64_t logical_from_id,
-	     u_int64_t logical_to_id, const char *message)
+	     int64_t now, u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
 {
   int ret = 0;
 
@@ -246,10 +236,7 @@ lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
     {
       if (lw6cnx_connection_reliability_filter (connection))
 	{
-	  ret =
-	    backend->send (backend->cli_context, connection, now,
-			   physical_ticket_sig, logical_ticket_sig,
-			   logical_from_id, logical_to_id, message);
+	  ret = backend->send (backend->cli_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, message);
 	  ++(connection->sent_nb_total);
 	  if (ret)
 	    {
@@ -355,8 +342,7 @@ lw6cli_poll (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
  * Return value: dynamically allocated string.
  */
 char *
-lw6cli_repr (const lw6cli_backend_t * backend,
-	     lw6cnx_connection_t * connection)
+lw6cli_repr (const lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 

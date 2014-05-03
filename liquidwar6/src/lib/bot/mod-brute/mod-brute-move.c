@@ -28,8 +28,7 @@
 #include "mod-brute-internal.h"
 
 int
-_mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y,
-		      lw6bot_data_t * data)
+_mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y, lw6bot_data_t * data)
 {
   int ret = 0;
   int score_now = 0;
@@ -42,67 +41,43 @@ _mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y,
   const lw6ker_fighter_t *fighter;
   int nb_retries;
 
-  lw6ker_game_struct_get_shape (sys_context, data->game_state->game_struct,
-				&shape);
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("anticipating %d rounds"),
-	      brute_context->nb_rounds_to_anticipate);
+  lw6ker_game_struct_get_shape (sys_context, data->game_state->game_struct, &shape);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("anticipating %d rounds"), brute_context->nb_rounds_to_anticipate);
 
   (*x) = shape.w / 2;
   (*y) = shape.h / 2;
-  if (lw6ker_game_state_get_cursor
-      (data->game_state, &cursor, data->param.cursor_id))
+  if (lw6ker_game_state_get_cursor (data->game_state, &cursor, data->param.cursor_id))
     {
       (*x) = cursor.pos.x;
       (*y) = cursor.pos.y;
-      if (lw6ker_game_state_sync
-	  (brute_context->game_sandbox, data->game_state))
+      if (lw6ker_game_state_sync (brute_context->game_sandbox, data->game_state))
 	{
-	  lw6ker_game_state_get_team_info (sys_context,
-					   brute_context->game_sandbox,
-					   cursor.team_color, NULL,
-					   &score_now);
+	  lw6ker_game_state_get_team_info (sys_context, brute_context->game_sandbox, cursor.team_color, NULL, &score_now);
 	  for (i = 0; i < brute_context->nb_rounds_to_anticipate; ++i)
 	    {
-	      lw6ker_game_state_do_round (sys_context,
-					  brute_context->game_sandbox);
+	      lw6ker_game_state_do_round (sys_context, brute_context->game_sandbox);
 	    }
-	  lw6ker_game_state_get_team_info (sys_context,
-					   brute_context->game_sandbox,
-					   cursor.team_color, NULL,
-					   &score_staying_here);
-	  if (lw6ker_game_state_sync
-	      (brute_context->game_sandbox, data->game_state))
+	  lw6ker_game_state_get_team_info (sys_context, brute_context->game_sandbox, cursor.team_color, NULL, &score_staying_here);
+	  if (lw6ker_game_state_sync (brute_context->game_sandbox, data->game_state))
 	    {
-	      if (score_staying_here < score_now
-		  || (score_staying_here == score_now
-		      && !lw6sys_random (sys_context, _MOD_BRUTE_STABILITY)))
+	      if (score_staying_here < score_now || (score_staying_here == score_now && !lw6sys_random (sys_context, _MOD_BRUTE_STABILITY)))
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_
-			      ("loosing by staying here, trying any place..."));
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("loosing by staying here, trying any place..."));
 		  cursor.pos.x = lw6sys_random (shape.w);
 		  cursor.pos.y = lw6sys_random (shape.h);
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_
-			      ("same or better score staying here, still we try to find the other fighters"));
-		  nb_retries =
-		    lw6ker_percent (shape.w * shape.h,
-				    _MOD_BRUTE_PERCENT_OF_SURFACE_FOR_RETRIES);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("same or better score staying here, still we try to find the other fighters"));
+		  nb_retries = lw6ker_percent (shape.w * shape.h, _MOD_BRUTE_PERCENT_OF_SURFACE_FOR_RETRIES);
 		  for (i = 0; i < nb_retries && !found; ++i)
 		    {
 		      cursor.pos.x = lw6sys_random (shape.w);
 		      cursor.pos.y = lw6sys_random (shape.h);
 		      for (z = 0; z < shape.d && !found; ++z)
 			{
-			  fighter =
-			    lw6ker_game_state_get_fighter_ro_safe
-			    (brute_context->game_sandbox, cursor.pos.x,
-			     cursor.pos.y, z);
-			  if (fighter
-			      && fighter->team_color != cursor.team_color)
+			  fighter = lw6ker_game_state_get_fighter_ro_safe (brute_context->game_sandbox, cursor.pos.x, cursor.pos.y, z);
+			  if (fighter && fighter->team_color != cursor.team_color)
 			    {
 			      found = 1;
 			    }
@@ -110,33 +85,24 @@ _mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y,
 		    }
 		}
 
-	      lw6ker_game_state_set_cursor (sys_context,
-					    brute_context->game_sandbox,
-					    &cursor);
+	      lw6ker_game_state_set_cursor (sys_context, brute_context->game_sandbox, &cursor);
 	      for (i = 0; i < brute_context->nb_rounds_to_anticipate; ++i)
 		{
-		  lw6ker_game_state_do_round (sys_context,
-					      brute_context->game_sandbox);
+		  lw6ker_game_state_do_round (sys_context, brute_context->game_sandbox);
 		}
-	      lw6ker_game_state_get_team_info (sys_context,
-					       brute_context->game_sandbox,
-					       cursor.team_color, NULL,
-					       &score_moving_there);
+	      lw6ker_game_state_get_team_info (sys_context, brute_context->game_sandbox, cursor.team_color, NULL, &score_moving_there);
 	      /*
 	       * The >= is important else we would stall and don't
 	       * move when anticipation gives no feedback, and this is
 	       * not aggressive enough.
 	       */
 	      if (score_moving_there > score_staying_here
-		  || (score_moving_there == score_staying_here
-		      && (!lw6sys_random (sys_context, _MOD_BRUTE_STABILITY))
-		      && (score_staying_here <= score_now)))
+		  || (score_moving_there == score_staying_here && (!lw6sys_random (sys_context, _MOD_BRUTE_STABILITY)) && (score_staying_here <= score_now)))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("it's better to move there score_now=%d score_staying_here=%d score_moving_there=%d"),
-			      score_now, score_staying_here,
-			      score_moving_there);
+			      score_now, score_staying_here, score_moving_there);
 		  (*x) = cursor.pos.x;
 		  (*y) = cursor.pos.y;
 		}
@@ -145,8 +111,7 @@ _mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y,
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("it's better to stay here score_now=%d score_staying_here=%d score_moving_there=%d"),
-			      score_now, score_staying_here,
-			      score_moving_there);
+			      score_now, score_staying_here, score_moving_there);
 		}
 	      ret = 1;
 	    }

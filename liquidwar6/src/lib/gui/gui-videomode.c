@@ -36,8 +36,7 @@ typedef struct video_mode_sort_s
 } video_mode_sort_t;
 
 static int
-video_mode_sort_callback (const lw6sys_list_t ** list_a,
-			  const lw6sys_list_t ** list_b)
+video_mode_sort_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
 {
   int ret = 0;
   const video_mode_sort_t *a;
@@ -65,8 +64,7 @@ video_mode_copy_callback (void *func_data, void *data)
   lw6gui_video_mode_t *video_mode = (lw6gui_video_mode_t *) data;
   video_mode_sort_t *video_mode_sort = NULL;
 
-  video_mode_sort =
-    (video_mode_sort_t *) LW6SYS_MALLOC (sizeof (video_mode_sort_t));
+  video_mode_sort = (video_mode_sort_t *) LW6SYS_MALLOC (sizeof (video_mode_sort_t));
   if (video_mode_sort)
     {
       video_mode_sort->video_mode = (*video_mode);
@@ -83,12 +81,8 @@ video_mode_distance_callback (void *func_data, void *data)
 
   video_mode_sort->distance =
     (wished->width - video_mode_sort->video_mode.width) * (wished->width -
-							   video_mode_sort->
-							   video_mode.width) +
-    (wished->height - video_mode_sort->video_mode.height) * (wished->height -
-							     video_mode_sort->
-							     video_mode.
-							     height);
+							   video_mode_sort->video_mode.width) +
+    (wished->height - video_mode_sort->video_mode.height) * (wished->height - video_mode_sort->video_mode.height);
 }
 
 /**
@@ -107,9 +101,7 @@ video_mode_distance_callback (void *func_data, void *data)
  *   an approximative match was picked.
  */
 int
-lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest,
-				const lw6gui_video_mode_t * wished,
-				lw6sys_list_t * available)
+lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest, const lw6gui_video_mode_t * wished, lw6sys_list_t * available)
 {
   int ret = 0;
   lw6sys_list_t *sorted = NULL;
@@ -121,10 +113,8 @@ lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest,
     {
       if (available)
 	{
-	  lw6sys_list_map (sys_context, available, &video_mode_copy_callback,
-			   &sorted);
-	  lw6sys_list_map (sorted, &video_mode_distance_callback,
-			   (void *) wished);
+	  lw6sys_list_map (sys_context, available, &video_mode_copy_callback, &sorted);
+	  lw6sys_list_map (sorted, &video_mode_distance_callback, (void *) wished);
 	  lw6sys_sort (sys_context, &sorted, video_mode_sort_callback);
 
 	  if (sorted->data)
@@ -154,13 +144,11 @@ lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest,
  * Return value: 1 if equal, 0 if not.
  */
 int
-lw6gui_video_mode_is_same (const lw6gui_video_mode_t * mode_a,
-			   const lw6gui_video_mode_t * mode_b)
+lw6gui_video_mode_is_same (const lw6gui_video_mode_t * mode_a, const lw6gui_video_mode_t * mode_b)
 {
   int ret = 0;
 
-  ret = (mode_a->width == mode_b->width) && (mode_a->height == mode_b->height)
-    && (mode_a->fullscreen == mode_b->fullscreen) ? 1 : 0;
+  ret = (mode_a->width == mode_b->width) && (mode_a->height == mode_b->height) && (mode_a->fullscreen == mode_b->fullscreen) ? 1 : 0;
 
   return ret;
 }
@@ -177,8 +165,7 @@ lw6gui_video_mode_is_same (const lw6gui_video_mode_t * mode_a,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6gui_video_mode_sync_ratio (lw6gui_video_mode_t * dst,
-			      const lw6gui_video_mode_t * src)
+lw6gui_video_mode_sync_ratio (lw6gui_video_mode_t * dst, const lw6gui_video_mode_t * src)
 {
   int ret = 0;
   float coeff = 0.0f;
@@ -187,25 +174,19 @@ lw6gui_video_mode_sync_ratio (lw6gui_video_mode_t * dst,
     {
       if (dst->width > 0 && dst->height > 0)
 	{
-	  coeff =
-	    sqrt (((float) dst->width * dst->height) /
-		  ((float) src->width * src->height));
+	  coeff = sqrt (((float) dst->width * dst->height) / ((float) src->width * src->height));
 	  dst->width = src->width * coeff;
 	  dst->height = src->height * coeff;
 	  ret = 1;
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("can't handle dst resolution %dx%d"),
-		      dst->width, dst->height);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't handle dst resolution %dx%d"), dst->width, dst->height);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't handle src resolution %dx%d"), src->width,
-		  src->height);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't handle src resolution %dx%d"), src->width, src->height);
     }
 
   return ret;

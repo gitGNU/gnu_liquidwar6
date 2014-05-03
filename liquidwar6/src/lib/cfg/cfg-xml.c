@@ -88,16 +88,14 @@ lw6cfg_xml_element (lw6hlp_type_t type)
  * Return value: none.
  */
 void
-lw6cfg_read_xml_int (const char *xml_key, const char *xml_value,
-		     const char *target_key, int *value)
+lw6cfg_read_xml_int (const char *xml_key, const char *xml_value, const char *target_key, int *value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
       if (value)
 	{
 	  (*value) = lw6sys_atoi (xml_value);
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("XML int \"%s\"=\"%d\""), xml_key, *value);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("XML int \"%s\"=\"%d\""), xml_key, *value);
 	}
     }
 }
@@ -118,8 +116,7 @@ lw6cfg_read_xml_int (const char *xml_key, const char *xml_value,
  * Return value: none.
  */
 void
-lw6cfg_read_xml_bool (const char *xml_key, const char *xml_value,
-		      const char *target_key, int *value)
+lw6cfg_read_xml_bool (const char *xml_key, const char *xml_value, const char *target_key, int *value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
@@ -135,8 +132,7 @@ lw6cfg_read_xml_bool (const char *xml_key, const char *xml_value,
 	       * Note that prefered value is "true" 8-)
 	       */
 	      (*value) = lw6sys_atob (xml_value);
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("XML bool \"%s\"=\"%d\""), xml_key, *value);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("XML bool \"%s\"=\"%d\""), xml_key, *value);
 	    }
 	}
     }
@@ -158,16 +154,14 @@ lw6cfg_read_xml_bool (const char *xml_key, const char *xml_value,
  * Return value: none.
  */
 void
-lw6cfg_read_xml_float (const char *xml_key, const char *xml_value,
-		       const char *target_key, float *value)
+lw6cfg_read_xml_float (const char *xml_key, const char *xml_value, const char *target_key, float *value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
       if (value)
 	{
 	  (*value) = lw6sys_atof (xml_value);
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("XML float \"%s\"=\"%f\""), xml_key, *value);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("XML float \"%s\"=\"%f\""), xml_key, *value);
 	}
     }
 }
@@ -188,8 +182,7 @@ lw6cfg_read_xml_float (const char *xml_key, const char *xml_value,
  * Return value: none.
  */
 void
-lw6cfg_read_xml_string (const char *xml_key, const char *xml_value,
-			const char *target_key, char **value)
+lw6cfg_read_xml_string (const char *xml_key, const char *xml_value, const char *target_key, char **value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
@@ -207,8 +200,7 @@ lw6cfg_read_xml_string (const char *xml_key, const char *xml_value,
 	  (*value) = lw6sys_str_copy (xml_value);
 	  if (*value)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("XML string \"%s\"=\"%s\""), xml_key, *value);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("XML string \"%s\"=\"%s\""), xml_key, *value);
 	    }
 	}
     }
@@ -230,15 +222,12 @@ lw6cfg_read_xml_string (const char *xml_key, const char *xml_value,
  * Return value: none.
  */
 void
-lw6cfg_read_xml_color (const char *xml_key, const char *xml_value,
-		       const char *target_key, lw6sys_color_8_t * value)
+lw6cfg_read_xml_color (const char *xml_key, const char *xml_value, const char *target_key, lw6sys_color_8_t * value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
       (*value) = lw6sys_color_a_to_8 (xml_value);
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("XML color \"%s\"=\"#%02x%02x%02x%02x\""), xml_key,
-		  value->r, value->g, value->b, value->a);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("XML color \"%s\"=\"#%02x%02x%02x%02x\""), xml_key, value->r, value->g, value->b, value->a);
     }
 }
 
@@ -272,8 +261,7 @@ element_start (void *data, const char *element, const char **attr)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("XML callback function is NULL"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("XML callback function is NULL"));
     }
 }
 
@@ -298,9 +286,7 @@ element_end (void *data, const char *el)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6cfg_read_key_value_xml_file (const char *filename,
-				lw6cfg_read_xml_callback_func_t callback_func,
-				void *callback_data)
+lw6cfg_read_key_value_xml_file (const char *filename, lw6cfg_read_xml_callback_func_t callback_func, void *callback_data)
 {
   int ret = 0;
   char *content = NULL;
@@ -340,16 +326,12 @@ lw6cfg_read_key_value_xml_file (const char *filename,
 		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_
 			      ("parse error reading XML file \"%s\" at line %d: \"%s\""),
-			      filename,
-			      (int) XML_GetCurrentLineNumber (parser),
-			      XML_ErrorString (XML_GetErrorCode (parser)));
+			      filename, (int) XML_GetCurrentLineNumber (parser), XML_ErrorString (XML_GetErrorCode (parser)));
 #else
 		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_
 			      ("parse error reading XML file \"%s\" at line %d: \"%s\""),
-			      filename,
-			      (int) XML_GetCurrentLineNumber (parser),
-			      XML_ErrorString (XML_GetErrorCode (parser)));
+			      filename, (int) XML_GetCurrentLineNumber (parser), XML_ErrorString (XML_GetErrorCode (parser)));
 #endif
 		}
 	      XML_ParserFree (parser);
@@ -364,8 +346,7 @@ lw6cfg_read_key_value_xml_file (const char *filename,
 
 // if type is NULL, will be guessed automatically
 static void
-write_xml (FILE * f, const char *type, const char *key, const char *value,
-	   int skip_same)
+write_xml (FILE * f, const char *type, const char *key, const char *value, int skip_same)
 {
   char *tmp = NULL;
   int pos = 0;
@@ -380,9 +361,7 @@ write_xml (FILE * f, const char *type, const char *key, const char *value,
 
   if (lw6cfg_must_be_saved (key))
     {
-      hlp_about =
-	lw6hlp_about (&hlp_type, &hlp_default_value, &hlp_min_value,
-		      &hlp_max_value, key);
+      hlp_about = lw6hlp_about (&hlp_type, &hlp_default_value, &hlp_min_value, &hlp_max_value, key);
       if (hlp_about)
 	{
 	  if (hlp_default_value)
@@ -391,41 +370,28 @@ write_xml (FILE * f, const char *type, const char *key, const char *value,
 		{
 		  tmp =
 		    lw6sys_new_sprintf
-		    ("\"%s\" (default=\"%s\", min=\"%d\", max=\"%d\"): %s",
-		     key, hlp_default_value, hlp_min_value, hlp_max_value,
-		     hlp_about);
+		    ("\"%s\" (default=\"%s\", min=\"%d\", max=\"%d\"): %s", key, hlp_default_value, hlp_min_value, hlp_max_value, hlp_about);
 		}
 	      else
 		{
-		  tmp =
-		    lw6sys_new_sprintf (sys_context,
-					"\"%s\" (default=\"%s\"): %s", key,
-					hlp_default_value, hlp_about);
+		  tmp = lw6sys_new_sprintf (sys_context, "\"%s\" (default=\"%s\"): %s", key, hlp_default_value, hlp_about);
 		}
 	    }
 	  else
 	    {
 	      if (hlp_min_value != 0 || hlp_max_value != 0)
 		{
-		  tmp =
-		    lw6sys_new_sprintf (sys_context,
-					"\"%s\" (min=\"%d\", max=\"%d\"): %s",
-					key, hlp_min_value, hlp_max_value,
-					hlp_about);
+		  tmp = lw6sys_new_sprintf (sys_context, "\"%s\" (min=\"%d\", max=\"%d\"): %s", key, hlp_min_value, hlp_max_value, hlp_about);
 		}
 	      else
 		{
-		  tmp =
-		    lw6sys_new_sprintf (sys_context, "\"%s\": %s", key,
-					hlp_about);
+		  tmp = lw6sys_new_sprintf (sys_context, "\"%s\": %s", key, hlp_about);
 		}
 	    }
 	}
       if (tmp)
 	{
-	  help_string =
-	    lw6sys_str_reformat (sys_context, tmp, LW6SYS_REFORMAT_XML_PREFIX,
-				 LW6SYS_REFORMAT_XML_NB_COLUMNS);
+	  help_string = lw6sys_str_reformat (sys_context, tmp, LW6SYS_REFORMAT_XML_PREFIX, LW6SYS_REFORMAT_XML_NB_COLUMNS);
 	  LW6SYS_FREE (sys_context, tmp);
 	}
       switch (hlp_type)
@@ -434,47 +400,35 @@ write_xml (FILE * f, const char *type, const char *key, const char *value,
 	  guessed_type = LW6CFG_XML_STRING;
 	  if (hlp_default_value)
 	    {
-	      same =
-		lw6sys_str_is_same (sys_context, value, hlp_default_value);
+	      same = lw6sys_str_is_same (sys_context, value, hlp_default_value);
 	    }
 	  break;
 	case LW6HLP_TYPE_INT:
 	  guessed_type = LW6CFG_XML_INT;
 	  if (hlp_default_value)
 	    {
-	      same =
-		(lw6sys_atoi (sys_context, value) ==
-		 lw6sys_atoi (hlp_default_value));
+	      same = (lw6sys_atoi (sys_context, value) == lw6sys_atoi (hlp_default_value));
 	    }
 	  break;
 	case LW6HLP_TYPE_BOOL:
 	  guessed_type = LW6CFG_XML_BOOL;
 	  if (hlp_default_value)
 	    {
-	      same =
-		(lw6sys_atob (sys_context, value) ==
-		 lw6sys_atob (hlp_default_value));
+	      same = (lw6sys_atob (sys_context, value) == lw6sys_atob (hlp_default_value));
 	    }
 	  break;
 	case LW6HLP_TYPE_FLOAT:
 	  guessed_type = LW6CFG_XML_FLOAT;
 	  if (hlp_default_value)
 	    {
-	      same =
-		(lw6sys_atof (sys_context, value) ==
-		 lw6sys_atof (hlp_default_value));
+	      same = (lw6sys_atof (sys_context, value) == lw6sys_atof (hlp_default_value));
 	    }
 	  break;
 	case LW6HLP_TYPE_COLOR:
 	  guessed_type = LW6CFG_XML_COLOR;
 	  if (hlp_default_value)
 	    {
-	      same =
-		lw6sys_color_is_same (sys_context,
-				      lw6sys_color_a_to_8 (sys_context,
-							   value),
-				      lw6sys_color_a_to_8
-				      (hlp_default_value));
+	      same = lw6sys_color_is_same (sys_context, lw6sys_color_a_to_8 (sys_context, value), lw6sys_color_a_to_8 (hlp_default_value));
 	    }
 	  break;
 	default:
@@ -490,16 +444,13 @@ write_xml (FILE * f, const char *type, const char *key, const char *value,
 	    }
 	  if (type && strcasecmp (type, guessed_type))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  ("inconsistency in XML entry type (\"%s\": \"%s!=%s\""),
-			  key, type, guessed_type);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, ("inconsistency in XML entry type (\"%s\": \"%s!=%s\""), key, type, guessed_type);
 	    }
 	  if (!type)
 	    {
 	      type = guessed_type;
 	    }
-	  fprintf (f, "  <%s %s=\"%s\" %s=\"", type, LW6CFG_XML_KEY,
-		   key, LW6CFG_XML_VALUE);
+	  fprintf (f, "  <%s %s=\"%s\" %s=\"", type, LW6CFG_XML_KEY, key, LW6CFG_XML_VALUE);
 	  for (pos = 0; value[pos] != '\0'; ++pos)
 	    {
 	      switch (value[pos])
@@ -687,8 +638,7 @@ lw6cfg_write_xml_guess_type (FILE * f, const char *key, const char *value)
  * Return value: none.
  */
 void
-lw6cfg_write_xml_guess_type_skip_same (FILE * f, const char *key,
-				       const char *value)
+lw6cfg_write_xml_guess_type_skip_same (FILE * f, const char *key, const char *value)
 {
   write_xml (f, NULL, key, value, 1);
 }

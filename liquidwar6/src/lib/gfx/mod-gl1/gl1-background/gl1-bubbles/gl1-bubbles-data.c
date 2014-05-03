@@ -39,8 +39,7 @@
 #define IMAGE_BUBBLE "bubble.png"
 
 static void
-_read_callback (void *callback_data, const char *element, const char *key,
-		const char *value)
+_read_callback (void *callback_data, const char *element, const char *key, const char *value)
 {
   _mod_gl1_background_bubbles_const_data_t *const_data;
 
@@ -54,35 +53,25 @@ _read_callback (void *callback_data, const char *element, const char *key,
   if (!strcmp (element, "float"))
     {
       lw6cfg_read_xml_float (key, value, "yspeed", &const_data->yspeed);
-      lw6cfg_read_xml_float (key, value, "bubble-yspeed",
-			     &const_data->bubble_yspeed);
-      lw6cfg_read_xml_float (key, value, "bubble-size-min",
-			     &const_data->bubble_size_min);
-      lw6cfg_read_xml_float (key, value, "bubble-size-max",
-			     &const_data->bubble_size_max);
+      lw6cfg_read_xml_float (key, value, "bubble-yspeed", &const_data->bubble_yspeed);
+      lw6cfg_read_xml_float (key, value, "bubble-size-min", &const_data->bubble_size_min);
+      lw6cfg_read_xml_float (key, value, "bubble-size-max", &const_data->bubble_size_max);
     }
 }
 
 static int
-_load_consts (mod_gl1_utils_context_t * utils_context,
-	      _mod_gl1_background_bubbles_context_t * bubbles_context)
+_load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context)
 {
   int ret = 0;
   char *const_file = NULL;
 
-  const_file =
-    lw6sys_path_concat (sys_context, utils_context->path.data_dir,
-			CONST_FILE);
+  const_file = lw6sys_path_concat (sys_context, utils_context->path.data_dir, CONST_FILE);
 
   if (const_file)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
-		  const_file);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-      ret =
-	lw6cfg_read_key_value_xml_file (const_file, _read_callback,
-					(void *)
-					&(bubbles_context->const_data));
+      ret = lw6cfg_read_key_value_xml_file (const_file, _read_callback, (void *) &(bubbles_context->const_data));
 
       LW6SYS_FREE (sys_context, const_file);
     }
@@ -91,19 +80,16 @@ _load_consts (mod_gl1_utils_context_t * utils_context,
 }
 
 static void
-_unload_consts (mod_gl1_utils_context_t * utils_context,
-		_mod_gl1_background_bubbles_context_t * bubbles_context)
+_unload_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context)
 {
-  memset (&bubbles_context->const_data, 0,
-	  sizeof (_mod_gl1_background_bubbles_const_data_t));
+  memset (&bubbles_context->const_data, 0, sizeof (_mod_gl1_background_bubbles_const_data_t));
 }
 
 /*
  * Loads images from disk.
  */
 static int
-_load_bitmaps (mod_gl1_utils_context_t * utils_context,
-	       _mod_gl1_background_bubbles_context_t * bubbles_context)
+_load_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context)
 {
   int ret = 0;
 
@@ -113,22 +99,16 @@ _load_bitmaps (mod_gl1_utils_context_t * utils_context,
     ((bubbles_context->bitmap_data.background =
       mod_gl1_utils_bitmap_load (utils_context,
 				 IMAGE_DIR IMAGE_BACKGROUND)) != NULL)
-    &&
-    ((bubbles_context->bitmap_data.bubble =
-      mod_gl1_utils_bitmap_load (utils_context,
-				 IMAGE_DIR IMAGE_BUBBLE)) != NULL);
+    && ((bubbles_context->bitmap_data.bubble = mod_gl1_utils_bitmap_load (utils_context, IMAGE_DIR IMAGE_BUBBLE)) != NULL);
 
   if (bubbles_context->bitmap_data.background)
     {
-      mod_gl1_utils_bitmap_set_wrap (utils_context,
-				     bubbles_context->bitmap_data.background,
-				     GL_REPEAT);
+      mod_gl1_utils_bitmap_set_wrap (utils_context, bubbles_context->bitmap_data.background, GL_REPEAT);
     }
 
   if (!ret)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't load bitmaps, expect serious problems"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't load bitmaps, expect serious problems"));
     }
 
   return ret;
@@ -138,36 +118,25 @@ _load_bitmaps (mod_gl1_utils_context_t * utils_context,
  * Free memory.
  */
 static void
-_unload_bitmaps (mod_gl1_utils_context_t * utils_context,
-		 _mod_gl1_background_bubbles_context_t * bubbles_context)
+_unload_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context)
 {
-  mod_gl1_utils_bitmap_free (utils_context,
-			     bubbles_context->bitmap_data.background);
-  mod_gl1_utils_bitmap_free (utils_context,
-			     bubbles_context->bitmap_data.bubble);
+  mod_gl1_utils_bitmap_free (utils_context, bubbles_context->bitmap_data.background);
+  mod_gl1_utils_bitmap_free (utils_context, bubbles_context->bitmap_data.bubble);
 
-  memset (&bubbles_context->bitmap_data, 0,
-	  sizeof (_mod_gl1_background_bubbles_bitmap_data_t));
+  memset (&bubbles_context->bitmap_data, 0, sizeof (_mod_gl1_background_bubbles_bitmap_data_t));
 }
 
 /*
  * Putting all the load/unload functions together
  */
 int
-_mod_gl1_background_bubbles_load_data (mod_gl1_utils_context_t *
-				       utils_context,
-				       _mod_gl1_background_bubbles_context_t *
-				       bubbles_context)
+_mod_gl1_background_bubbles_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context)
 {
-  return _load_consts (utils_context, bubbles_context) &&
-    _load_bitmaps (utils_context, bubbles_context);
+  return _load_consts (utils_context, bubbles_context) && _load_bitmaps (utils_context, bubbles_context);
 }
 
 void
-_mod_gl1_background_bubbles_unload_data (mod_gl1_utils_context_t *
-					 utils_context,
-					 _mod_gl1_background_bubbles_context_t
-					 * bubbles_context)
+_mod_gl1_background_bubbles_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context)
 {
   _unload_bitmaps (utils_context, bubbles_context);
   _unload_consts (utils_context, bubbles_context);

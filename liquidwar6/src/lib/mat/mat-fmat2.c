@@ -73,11 +73,9 @@ lw6mat_fmat2_id (lw6mat_fmat2_t * fmat2)
  * Return value: 1 if equal, 0 if different.
  */
 int
-lw6mat_fmat2_is_same (const lw6mat_fmat2_t * fmat2_a,
-		      const lw6mat_fmat2_t * fmat2_b)
+lw6mat_fmat2_is_same (const lw6mat_fmat2_t * fmat2_a, const lw6mat_fmat2_t * fmat2_b)
 {
-  return (!memcmp
-	  ((void *) fmat2_a, (void *) fmat2_b, sizeof (lw6mat_fmat2_t)));
+  return (!memcmp ((void *) fmat2_a, (void *) fmat2_b, sizeof (lw6mat_fmat2_t)));
 }
 
 /**
@@ -153,8 +151,7 @@ lw6mat_fmat2_scale (lw6mat_fmat2_t * fmat2, float f)
  * can not be inverted.
  */
 int
-lw6mat_fmat2_inv (lw6mat_fmat2_t * fmat2_dst,
-		  const lw6mat_fmat2_t * fmat2_src)
+lw6mat_fmat2_inv (lw6mat_fmat2_t * fmat2_dst, const lw6mat_fmat2_t * fmat2_src)
 {
   /*
    * In case src and dst or the same, recursively call this
@@ -186,9 +183,7 @@ lw6mat_fmat2_inv (lw6mat_fmat2_t * fmat2_dst,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_
-		      ("trying to invert non-invertible fmat2 matrix, determinant is 0"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("trying to invert non-invertible fmat2 matrix, determinant is 0"));
 
 	  return 0;
 	}
@@ -207,9 +202,7 @@ lw6mat_fmat2_inv (lw6mat_fmat2_t * fmat2_dst,
  * Return value: none.
  */
 void
-lw6mat_fmat2_mul_fmat2 (lw6mat_fmat2_t * fmat2,
-			const lw6mat_fmat2_t * fmat2_a,
-			const lw6mat_fmat2_t * fmat2_b)
+lw6mat_fmat2_mul_fmat2 (lw6mat_fmat2_t * fmat2, const lw6mat_fmat2_t * fmat2_a, const lw6mat_fmat2_t * fmat2_b)
 {
   /*
    * In case src(s) and dst or the same, recursively call this
@@ -236,8 +229,7 @@ lw6mat_fmat2_mul_fmat2 (lw6mat_fmat2_t * fmat2,
 	{
 	  for (j = 0; j < LW6MAT_MAT2_M_SIZE; ++j)
 	    {
-	      fmat2->m[i][j] = fmat2_a->m[0][j] * fmat2_b->m[i][0]
-		+ fmat2_a->m[1][j] * fmat2_b->m[i][1];
+	      fmat2->m[i][j] = fmat2_a->m[0][j] * fmat2_b->m[i][0] + fmat2_a->m[1][j] * fmat2_b->m[i][1];
 	    }
 	}
     }
@@ -260,9 +252,7 @@ lw6mat_fmat2_mul_fmat2 (lw6mat_fmat2_t * fmat2,
  * Return value: none.
  */
 void
-lw6mat_fmat2_mul_fvec2 (lw6mat_fvec2_t * fvec2_dst,
-			const lw6mat_fmat2_t * fmat2,
-			const lw6mat_fvec2_t * fvec2_src)
+lw6mat_fmat2_mul_fvec2 (lw6mat_fvec2_t * fvec2_dst, const lw6mat_fmat2_t * fmat2, const lw6mat_fvec2_t * fvec2_src)
 {
   /*
    * In case src and dst or the same, recursively call this
@@ -277,10 +267,8 @@ lw6mat_fmat2_mul_fvec2 (lw6mat_fvec2_t * fvec2_dst,
     }
   else
     {
-      fvec2_dst->v[0] =
-	fmat2->m[0][0] * fvec2_src->v[0] + fmat2->m[1][0] * fvec2_src->v[1];
-      fvec2_dst->v[1] =
-	fmat2->m[0][1] * fvec2_src->v[0] + fmat2->m[1][1] * fvec2_src->v[1];
+      fvec2_dst->v[0] = fmat2->m[0][0] * fvec2_src->v[0] + fmat2->m[1][0] * fvec2_src->v[1];
+      fvec2_dst->v[1] = fmat2->m[0][1] * fvec2_src->v[0] + fmat2->m[1][1] * fvec2_src->v[1];
     }
 }
 
@@ -301,9 +289,7 @@ lw6mat_fmat2_repr (const lw6mat_fmat2_t * fmat2)
 
   repr =
     lw6sys_new_sprintf ("%s %s %dx%d\n[ \t%f\t%f\n\t%f\t%f ]", LW6MAT_REPR_F,
-			LW6MAT_REPR_MAT, LW6MAT_MAT2_M_SIZE,
-			LW6MAT_MAT2_M_SIZE, fmat2->m[0][0], fmat2->m[1][0],
-			fmat2->m[0][1], fmat2->m[1][1]);
+			LW6MAT_REPR_MAT, LW6MAT_MAT2_M_SIZE, LW6MAT_MAT2_M_SIZE, fmat2->m[0][0], fmat2->m[1][0], fmat2->m[0][1], fmat2->m[1][1]);
 
   return repr;
 }

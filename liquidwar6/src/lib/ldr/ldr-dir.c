@@ -53,8 +53,7 @@ typedef struct _chain_ret_s
 _chain_ret_t;
 
 static lw6ldr_entry_t *
-new_entry (const char *absolute_path, const char *relative_path,
-	   const char *entry_path, int player_exp)
+new_entry (const char *absolute_path, const char *relative_path, const char *entry_path, int player_exp)
 {
   lw6ldr_entry_t *entry = NULL;
   lw6map_rules_t rules;
@@ -66,28 +65,21 @@ new_entry (const char *absolute_path, const char *relative_path,
       if (entry)
 	{
 	  entry->metadata.vanilla_exp = LW6MAP_RULES_DEFAULT_EXP;
-	  entry->absolute_path =
-	    lw6sys_path_concat (absolute_path, entry_path);
+	  entry->absolute_path = lw6sys_path_concat (absolute_path, entry_path);
 	  if (entry->absolute_path)
 	    {
 	      if (lw6sys_dir_exists (sys_context, entry->absolute_path))
 		{
-		  lw6ldr_metadata_read (&(entry->metadata),
-					entry->absolute_path);
+		  lw6ldr_metadata_read (&(entry->metadata), entry->absolute_path);
 		  if (lw6sys_path_is_cwd (sys_context, relative_path))
 		    {
-		      entry->relative_path =
-			lw6sys_str_copy (sys_context, entry_path);
+		      entry->relative_path = lw6sys_str_copy (sys_context, entry_path);
 		    }
 		  else
 		    {
-		      entry->relative_path =
-			lw6sys_path_concat (sys_context, relative_path,
-					    entry_path);
+		      entry->relative_path = lw6sys_path_concat (sys_context, relative_path, entry_path);
 		    }
-		  map_filename =
-		    lw6sys_path_concat (sys_context, entry->absolute_path,
-					_LW6LDR_FILE_MAP_PNG);
+		  map_filename = lw6sys_path_concat (sys_context, entry->absolute_path, _LW6LDR_FILE_MAP_PNG);
 		  if (map_filename)
 		    {
 		      if (!lw6sys_file_exists (map_filename))
@@ -102,8 +94,7 @@ new_entry (const char *absolute_path, const char *relative_path,
 		      else
 			{
 			  lw6map_rules_defaults (sys_context, &rules);
-			  if (lw6ldr_rules_read
-			      (&rules, entry->absolute_path))
+			  if (lw6ldr_rules_read (&rules, entry->absolute_path))
 			    {
 			      entry->metadata.vanilla_exp = rules.exp;
 			    }
@@ -122,8 +113,7 @@ new_entry (const char *absolute_path, const char *relative_path,
   if (entry)
     {
       if (!entry->metadata.title || !entry->metadata.author
-	  || !entry->metadata.description || !entry->metadata.license
-	  || !entry->absolute_path || !entry->relative_path)
+	  || !entry->metadata.description || !entry->metadata.license || !entry->absolute_path || !entry->relative_path)
 	{
 	  lw6ldr_free_entry (entry);
 	  entry = NULL;
@@ -132,28 +122,20 @@ new_entry (const char *absolute_path, const char *relative_path,
 
   if (entry)
     {
-      if ((entry->metadata.vanilla_exp > player_exp)
-	  && (entry->absolute_path != NULL))
+      if ((entry->metadata.vanilla_exp > player_exp) && (entry->absolute_path != NULL))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_
-		      ("not enough exp to load \"%s\", we load it but mark it as forbidden"),
-		      entry->absolute_path);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("not enough exp to load \"%s\", we load it but mark it as forbidden"), entry->absolute_path);
 	  entry->forbidden = 1;
 	}
     }
 
   if (entry)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("name \"%s\" in \"%s\" is a valid entry"), entry_path,
-		  absolute_path);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("name \"%s\" in \"%s\" is a valid entry"), entry_path, absolute_path);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("name \"%s\" in \"%s\" is not a valid entry"),
-		  entry_path, absolute_path);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("name \"%s\" in \"%s\" is not a valid entry"), entry_path, absolute_path);
     }
 
   return entry;
@@ -214,21 +196,15 @@ lw6ldr_dup_entry (const lw6ldr_entry_t * entry)
     {
       memcpy (ret, entry, sizeof (lw6ldr_entry_t));
 
-      ret->metadata.title =
-	lw6sys_str_copy (sys_context, ret->metadata.title);
-      ret->metadata.author =
-	lw6sys_str_copy (sys_context, ret->metadata.author);
-      ret->metadata.description =
-	lw6sys_str_copy (sys_context, ret->metadata.description);
-      ret->metadata.license =
-	lw6sys_str_copy (sys_context, ret->metadata.license);
+      ret->metadata.title = lw6sys_str_copy (sys_context, ret->metadata.title);
+      ret->metadata.author = lw6sys_str_copy (sys_context, ret->metadata.author);
+      ret->metadata.description = lw6sys_str_copy (sys_context, ret->metadata.description);
+      ret->metadata.license = lw6sys_str_copy (sys_context, ret->metadata.license);
       ret->metadata.vanilla_exp = ret->metadata.vanilla_exp;
       ret->absolute_path = lw6sys_str_copy (sys_context, ret->absolute_path);
       ret->relative_path = lw6sys_str_copy (sys_context, ret->relative_path);
 
-      if (!ret->metadata.title || !ret->metadata.author
-	  || !ret->metadata.description || !ret->metadata.license
-	  || !ret->absolute_path || !ret->relative_path)
+      if (!ret->metadata.title || !ret->metadata.author || !ret->metadata.description || !ret->metadata.license || !ret->absolute_path || !ret->relative_path)
 	{
 	  lw6ldr_free_entry (ret);
 	  ret = NULL;
@@ -240,20 +216,17 @@ lw6ldr_dup_entry (const lw6ldr_entry_t * entry)
 
 static void
 add_entry (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
-	   const char *absolute_path, const char *relative_path,
-	   const char *entry_path, int *n, int player_exp)
+	   const char *absolute_path, const char *relative_path, const char *entry_path, int *n, int player_exp)
 {
   lw6ldr_entry_t *entry = NULL;
 
   entry = new_entry (absolute_path, relative_path, entry_path, player_exp);
   if (entry)
     {
-      if (!lw6sys_assoc_has_key
-	  (sys_context, *entries_index, entry->relative_path))
+      if (!lw6sys_assoc_has_key (sys_context, *entries_index, entry->relative_path))
 	{
 	  lw6sys_lifo_push (sys_context, entries, (void *) entry);
-	  lw6sys_assoc_set (sys_context, entries_index, entry->relative_path,
-			    NULL);
+	  lw6sys_assoc_set (sys_context, entries_index, entry->relative_path, NULL);
 	}
       else
 	{
@@ -269,9 +242,7 @@ add_entry (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
 }
 
 static void
-add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
-	     const char *absolute_path, const char *relative_path,
-	     int player_exp)
+add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index, const char *absolute_path, const char *relative_path, int player_exp)
 {
 #ifdef LW6_MS_WINDOWS
   WIN32_FIND_DATA dir_entry;
@@ -301,8 +272,7 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
     {
       while (!eod)
 	{
-	  add_entry (entries, entries_index, absolute_path, relative_path,
-		     dir_entry.cFileName, &n, player_exp);
+	  add_entry (entries, entries_index, absolute_path, relative_path, dir_entry.cFileName, &n, player_exp);
 	  memset (&dir_entry, 0, sizeof (WIN32_FIND_DATA));
 	  if (!FindNextFile (dir_handle, &dir_entry))
 	    {
@@ -313,8 +283,7 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("no files in dir \"%s\""), absolute_path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("no files in dir \"%s\""), absolute_path);
     }
 #else
   dir_handle = opendir (absolute_path);
@@ -329,9 +298,7 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
 	      readdir_r (dir_handle, dir_entry, &dir_entry_result);
 	      if (dir_entry_result && (dir_entry_result == dir_entry))
 		{
-		  add_entry (entries, entries_index, absolute_path,
-			     relative_path, dir_entry->d_name, &n,
-			     player_exp);
+		  add_entry (entries, entries_index, absolute_path, relative_path, dir_entry->d_name, &n, player_exp);
 		}
 	      else
 		{
@@ -342,22 +309,19 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
 	}
       if (n == 0)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("no maps in dir \"%s\""), absolute_path);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("no maps in dir \"%s\""), absolute_path);
 	}
       closedir (dir_handle);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("couldn't read map dir \"%s\""), absolute_path);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't read map dir \"%s\""), absolute_path);
     }
 #endif
 }
 
 static int
-entries_sort_callback (const lw6sys_list_t ** list_a,
-		       const lw6sys_list_t ** list_b)
+entries_sort_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
 {
   int ret = 0;
   const lw6ldr_entry_t *entry_a;
@@ -408,25 +372,18 @@ _get_entries (const char *map_path, const char *relative_path, int player_exp)
 	  dirs = lw6sys_env_split (map_path);
 	  if (dirs)
 	    {
-	      while (dirs
-		     && (dir =
-			 (char *) lw6sys_lifo_pop (sys_context,
-						   &dirs)) != NULL)
+	      while (dirs && (dir = (char *) lw6sys_lifo_pop (sys_context, &dirs)) != NULL)
 		{
 		  if (dir)
 		    {
 		      if (strlen (dir) > 0)
 			{
-			  absolute_path =
-			    lw6sys_path_concat (sys_context, dir,
-						relative_path);
+			  absolute_path = lw6sys_path_concat (sys_context, dir, relative_path);
 			  if (absolute_path)
 			    {
 			      if (lw6sys_dir_exists (absolute_path))
 				{
-				  add_subdirs (&entries, &entries_index,
-					       absolute_path, relative_path,
-					       player_exp);
+				  add_subdirs (&entries, &entries_index, absolute_path, relative_path, player_exp);
 				}
 			      LW6SYS_FREE (absolute_path);
 			    }
@@ -463,13 +420,9 @@ static void
 _count_submaps_callback_func1 (void *func_data, void *data)
 {
   lw6ldr_entry_t *entry = (lw6ldr_entry_t *) data;
-  _count_submaps_callback_func1_data_t *func1_data =
-    (_count_submaps_callback_func1_data_t *) func_data;
+  _count_submaps_callback_func1_data_t *func1_data = (_count_submaps_callback_func1_data_t *) func_data;
 
-  lw6ldr_for_all_entries (func1_data->map_path, entry->relative_path,
-			  func1_data->user_dir, 1,
-			  _count_submaps_callback_func2,
-			  &(entry->nb_submaps));
+  lw6ldr_for_all_entries (func1_data->map_path, entry->relative_path, func1_data->user_dir, 1, _count_submaps_callback_func2, &(entry->nb_submaps));
 }
 
 /**
@@ -487,8 +440,7 @@ _count_submaps_callback_func1 (void *func_data, void *data)
  * Return value: a list of dynamically allocated lw6ldr_entry_t.
  */
 lw6sys_list_t *
-lw6ldr_get_entries (const char *map_path, const char *relative_path,
-		    const char *user_dir)
+lw6ldr_get_entries (const char *map_path, const char *relative_path, const char *user_dir)
 {
   int player_exp = 0;
   lw6sys_list_t *entries = NULL;
@@ -498,8 +450,7 @@ lw6ldr_get_entries (const char *map_path, const char *relative_path,
   entries = _get_entries (map_path, relative_path, player_exp);
   func1_data.map_path = map_path;
   func1_data.user_dir = user_dir;
-  lw6sys_list_map (sys_context, entries, _count_submaps_callback_func1,
-		   (void *) &func1_data);
+  lw6sys_list_map (sys_context, entries, _count_submaps_callback_func1, (void *) &func1_data);
 
   return entries;
 }
@@ -507,8 +458,7 @@ lw6ldr_get_entries (const char *map_path, const char *relative_path,
 static void
 for_all_entries_callback_func (void *func_data, void *data)
 {
-  for_all_entries_callback_data_t *callback_data =
-    (for_all_entries_callback_data_t *) func_data;
+  for_all_entries_callback_data_t *callback_data = (for_all_entries_callback_data_t *) func_data;
   lw6ldr_entry_t *entry = (lw6ldr_entry_t *) data;
   lw6sys_list_t *entries;
 
@@ -518,14 +468,10 @@ for_all_entries_callback_func (void *func_data, void *data)
 	{
 	  if (callback_data->recursive)
 	    {
-	      entries =
-		_get_entries (callback_data->map_path,
-			      entry->relative_path,
-			      callback_data->player_exp);
+	      entries = _get_entries (callback_data->map_path, entry->relative_path, callback_data->player_exp);
 	      if (entries)
 		{
-		  lw6sys_list_map (sys_context, entries,
-				   for_all_entries_callback_func, func_data);
+		  lw6sys_list_map (sys_context, entries, for_all_entries_callback_func, func_data);
 		  lw6sys_list_free (sys_context, entries);
 		}
 	    }
@@ -554,9 +500,7 @@ for_all_entries_callback_func (void *func_data, void *data)
  */
 void
 lw6ldr_for_all_entries (const char *map_path, const char *relative_path,
-			const char *user_dir, int recursive,
-			lw6sys_list_callback_func_t callback_func,
-			void *func_data)
+			const char *user_dir, int recursive, lw6sys_list_callback_func_t callback_func, void *func_data)
 {
   lw6sys_list_t *entries = NULL;
   for_all_entries_callback_data_t callback_data;
@@ -572,8 +516,7 @@ lw6ldr_for_all_entries (const char *map_path, const char *relative_path,
       callback_data.recursive = recursive;
       callback_data.callback_func = callback_func;
       callback_data.func_data = func_data;
-      lw6sys_list_map (sys_context, entries, for_all_entries_callback_func,
-		       (void *) &callback_data);
+      lw6sys_list_map (sys_context, entries, for_all_entries_callback_func, (void *) &callback_data);
       lw6sys_list_free (sys_context, entries);
     }
 }
@@ -584,8 +527,7 @@ _chain_func (void *func_data, void *data)
   _chain_ret_t *chain_ret = (_chain_ret_t *) func_data;
   lw6ldr_entry_t *entry = (lw6ldr_entry_t *) data;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing \"%s\" exp=%d"),
-	      entry->absolute_path, entry->metadata.vanilla_exp);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing \"%s\" exp=%d"), entry->absolute_path, entry->metadata.vanilla_exp);
 
   if (!(chain_ret->found_entry))
     {
@@ -597,9 +539,7 @@ _chain_func (void *func_data, void *data)
        */
       if (entry->metadata.vanilla_exp == chain_ret->exp)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("ok, found \"%s\" exp=%d which is suitable"),
-		      entry->absolute_path, entry->metadata.vanilla_exp);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("ok, found \"%s\" exp=%d which is suitable"), entry->absolute_path, entry->metadata.vanilla_exp);
 	  chain_ret->found_entry = lw6ldr_dup_entry (entry);
 	}
     }
@@ -618,8 +558,7 @@ _chain_func (void *func_data, void *data)
  * Return value: none.
  */
 lw6ldr_entry_t *
-lw6ldr_chain_entry (const char *map_path, const char *relative_path,
-		    const char *user_dir)
+lw6ldr_chain_entry (const char *map_path, const char *relative_path, const char *user_dir)
 {
   char *parent = NULL;
   lw6ldr_entry_t *ret = NULL;
@@ -631,8 +570,7 @@ lw6ldr_chain_entry (const char *map_path, const char *relative_path,
   parent = lw6sys_path_parent (sys_context, relative_path);
   if (parent)
     {
-      lw6ldr_for_all_entries (map_path, parent, user_dir, 0, &_chain_func,
-			      &chain_ret);
+      lw6ldr_for_all_entries (map_path, parent, user_dir, 0, &_chain_func, &chain_ret);
       ret = chain_ret.found_entry;
       LW6SYS_FREE (sys_context, parent);
     }

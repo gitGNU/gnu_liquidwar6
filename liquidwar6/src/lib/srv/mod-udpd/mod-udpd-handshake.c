@@ -29,9 +29,7 @@
 
 int
 _mod_udpd_analyse_tcp (_mod_udpd_context_t * udpd_context,
-		       lw6srv_tcp_accepter_t * tcp_accepter,
-		       lw6nod_info_t * node_info,
-		       u_int64_t * remote_id, char **remote_url)
+		       lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
 
@@ -53,17 +51,14 @@ _mod_udpd_analyse_tcp (_mod_udpd_context_t * udpd_context,
 
 int
 _mod_udpd_analyse_udp (_mod_udpd_context_t * udpd_context,
-		       lw6srv_udp_buffer_t * udp_buffer,
-		       lw6nod_info_t * node_info,
-		       u_int64_t * remote_id, char **remote_url)
+		       lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
   char *line = NULL;
   char *msg = NULL;
 
   line = udp_buffer->line;
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("trying to recognize udpd protocol in \"%s\""), line);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trying to recognize udpd protocol in \"%s\""), line);
 
   if (remote_id)
     {
@@ -76,28 +71,22 @@ _mod_udpd_analyse_udp (_mod_udpd_context_t * udpd_context,
 
   if (lw6sys_str_starts_with_no_case (sys_context, line,
 				      LW6MSG_OOB_PING)
-      || lw6sys_str_starts_with_no_case (sys_context, line,
-					 LW6MSG_OOB_INFO)
-      || lw6sys_str_starts_with_no_case (sys_context, line, LW6MSG_OOB_LIST))
+      || lw6sys_str_starts_with_no_case (sys_context, line, LW6MSG_OOB_INFO) || lw6sys_str_starts_with_no_case (sys_context, line, LW6MSG_OOB_LIST))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("recognized udpd protocol (OOB)"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("recognized udpd protocol (OOB)"));
       ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
     }
 
   if (lw6sys_str_starts_with_no_case (sys_context, line, LW6MSG_LW6))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("recognized udpd protocol"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("recognized udpd protocol"));
       ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
       if (lw6msg_envelope_analyse
 	  (line, LW6MSG_ENVELOPE_MODE_TELNET,
 	   node_info->const_info.ref_info.url, node_info->const_info.password,
-	   0, node_info->const_info.ref_info.id_int, &msg, NULL, NULL,
-	   remote_id, NULL, NULL, NULL, remote_url))
+	   0, node_info->const_info.ref_info.id_int, &msg, NULL, NULL, remote_id, NULL, NULL, NULL, remote_url))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("udpd message \"%s\" OK"), line);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("udpd message \"%s\" OK"), line);
 	  if (msg)
 	    {
 	      /*
@@ -108,8 +97,7 @@ _mod_udpd_analyse_udp (_mod_udpd_context_t * udpd_context,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("unable to analyse message \"%s\""), line);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unable to analyse message \"%s\""), line);
 	  ret |= LW6SRV_ANALYSE_DEAD;
 	}
     }
@@ -118,26 +106,20 @@ _mod_udpd_analyse_udp (_mod_udpd_context_t * udpd_context,
 }
 
 int
-_mod_udpd_feed_with_tcp (_mod_udpd_context_t * udpd_context,
-			 lw6cnx_connection_t * connection,
-			 lw6srv_tcp_accepter_t * tcp_accepter)
+_mod_udpd_feed_with_tcp (_mod_udpd_context_t * udpd_context, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-	      _x_ ("trying to feed mod_udpd with tcp data"));
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to feed mod_udpd with tcp data"));
 
   return ret;
 }
 
 int
-_mod_udpd_feed_with_udp (_mod_udpd_context_t * udpd_context,
-			 lw6cnx_connection_t * connection,
-			 lw6srv_udp_buffer_t * udp_buffer)
+_mod_udpd_feed_with_udp (_mod_udpd_context_t * udpd_context, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
-  _mod_udpd_specific_data_t *specific_data =
-    (_mod_udpd_specific_data_t *) connection->backend_specific_data;
+  _mod_udpd_specific_data_t *specific_data = (_mod_udpd_specific_data_t *) connection->backend_specific_data;
   char *envelope_line = NULL;
   char *msg = NULL;
   u_int32_t physical_ticket_sig = 0;
@@ -148,19 +130,15 @@ _mod_udpd_feed_with_udp (_mod_udpd_context_t * udpd_context,
   u_int64_t logical_to_id = 0;
 
   envelope_line = udp_buffer->line;
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("mod_udpd received envelope \"%s\""), envelope_line);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udpd received envelope \"%s\""), envelope_line);
   if (lw6msg_envelope_analyse
       (envelope_line, LW6MSG_ENVELOPE_MODE_TELNET, connection->local_url,
        connection->password, connection->remote_id_int,
-       connection->local_id_int, &msg, &physical_ticket_sig,
-       &logical_ticket_sig, &physical_from_id, &physical_to_id,
-       &logical_from_id, &logical_to_id, NULL))
+       connection->local_id_int, &msg, &physical_ticket_sig, &logical_ticket_sig, &physical_from_id, &physical_to_id, &logical_from_id, &logical_to_id, NULL))
     {
       ret = 1;
 
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("mod_udpd analysed msg \"%s\""), msg);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udpd analysed msg \"%s\""), msg);
       /*
        * Now that we've received a packet we set the
        * connection remote port to the port it came
@@ -172,15 +150,11 @@ _mod_udpd_feed_with_udp (_mod_udpd_context_t * udpd_context,
       if (connection->recv_callback_func)
 	{
 	  connection->recv_callback_func (connection->recv_callback_data,
-					  (void *) connection,
-					  physical_ticket_sig,
-					  logical_ticket_sig, logical_from_id,
-					  logical_to_id, msg);
+					  (void *) connection, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, msg);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("no recv callback defined"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no recv callback defined"));
 	}
       LW6SYS_FREE (sys_context, msg);
     }

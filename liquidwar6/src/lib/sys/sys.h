@@ -364,23 +364,14 @@ typedef struct lw6sys_context_s
   u_int32_t id;
 } lw6sys_context_t;
 
-typedef void (*lw6sys_free_func_t) (lw6sys_context_t * sys_context,
-				    void *data);
-typedef void (*lw6sys_assoc_callback_func_t) (lw6sys_context_t * sys_context,
-					      void *func_data,
-					      const char *key, void *value);
-typedef void (*lw6sys_list_callback_func_t) (lw6sys_context_t * sys_context,
-					     void *func_data, void *data);
-typedef int (*lw6sys_list_filter_func_t) (lw6sys_context_t * sys_context,
-					  void *func_data, void *data);
-typedef void *(*lw6sys_dup_func_t) (lw6sys_context_t * sys_context,
-				    void *data);
-typedef void (*lw6sys_thread_callback_func_t) (lw6sys_context_t * sys_context,
-					       void *callback_data);
-typedef int (*lw6sys_dir_list_filter_func_t) (lw6sys_context_t * sys_context,
-					      void *func_data, char *file);
-typedef void (*lw6sys_fork_func_t) (lw6sys_context_t * sys_context,
-				    void *data);
+typedef void (*lw6sys_free_func_t) (lw6sys_context_t * sys_context, void *data);
+typedef void (*lw6sys_assoc_callback_func_t) (lw6sys_context_t * sys_context, void *func_data, const char *key, void *value);
+typedef void (*lw6sys_list_callback_func_t) (lw6sys_context_t * sys_context, void *func_data, void *data);
+typedef int (*lw6sys_list_filter_func_t) (lw6sys_context_t * sys_context, void *func_data, void *data);
+typedef void *(*lw6sys_dup_func_t) (lw6sys_context_t * sys_context, void *data);
+typedef void (*lw6sys_thread_callback_func_t) (lw6sys_context_t * sys_context, void *callback_data);
+typedef int (*lw6sys_dir_list_filter_func_t) (lw6sys_context_t * sys_context, void *func_data, char *file);
+typedef void (*lw6sys_fork_func_t) (lw6sys_context_t * sys_context, void *data);
 
 typedef struct lw6sys_assoc_s *lw6sys_assoc_p;
 
@@ -517,8 +508,7 @@ lw6sys_list_t;
  * Should you need it in your callback, you need
  * to add in to the structures compared.
  */
-typedef int (*lw6sys_sort_callback_func_t) (const lw6sys_list_t ** list_a,
-					    const lw6sys_list_t ** list_b);
+typedef int (*lw6sys_sort_callback_func_t) (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
 
 /**
  * The hexa (for hexadecimal) serializer is a tool used
@@ -685,81 +675,45 @@ typedef struct lw6sys_thread_handler_s
 } lw6sys_thread_handler_t;
 
 /* sys-arg.c */
-extern int lw6sys_arg_match (lw6sys_context_t * sys_context,
-			     const char *keyword, const char *argv_string);
-extern int lw6sys_arg_exists (lw6sys_context_t * sys_context, int argc,
-			      const char *argv[], const char *keyword);
-extern char *lw6sys_arg_get_value (lw6sys_context_t * sys_context, int argc,
-				   const char *argv[], const char *keyword);
-extern char *lw6sys_arg_get_value_with_env (lw6sys_context_t * sys_context,
-					    int argc, const char *argv[],
-					    const char *keyword);
-extern int lw6sys_arg_test_mode (lw6sys_context_t * sys_context, int argc,
-				 const char *argv[]);
+extern int lw6sys_arg_match (lw6sys_context_t * sys_context, const char *keyword, const char *argv_string);
+extern int lw6sys_arg_exists (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *keyword);
+extern char *lw6sys_arg_get_value (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *keyword);
+extern char *lw6sys_arg_get_value_with_env (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *keyword);
+extern int lw6sys_arg_test_mode (lw6sys_context_t * sys_context, int argc, const char *argv[]);
 
 /* sys-assoc.c */
-extern lw6sys_assoc_t *lw6sys_assoc_new (lw6sys_context_t * sys_context,
-					 lw6sys_free_func_t free_func);
-extern void lw6sys_assoc_free (lw6sys_context_t * sys_context,
-			       lw6sys_assoc_t * assoc);
-extern int lw6sys_assoc_has_key (lw6sys_context_t * sys_context,
-				 lw6sys_assoc_t * assoc, const char *key);
-extern void *lw6sys_assoc_get (lw6sys_context_t * sys_context,
-			       lw6sys_assoc_t * assoc, const char *key);
-extern void lw6sys_assoc_set (lw6sys_context_t * sys_context,
-			      lw6sys_assoc_t ** assoc, const char *key,
-			      void *value);
-extern void lw6sys_assoc_unset (lw6sys_context_t * sys_context,
-				lw6sys_assoc_t * assoc, const char *key);
-extern lw6sys_list_t *lw6sys_assoc_keys (lw6sys_context_t * sys_context,
-					 lw6sys_assoc_t * assoc);
-extern void lw6sys_assoc_map (lw6sys_context_t * sys_context,
-			      lw6sys_assoc_t * assoc,
-			      lw6sys_assoc_callback_func_t func,
-			      void *func_data);
-extern void lw6sys_assoc_sort_and_map (lw6sys_context_t * sys_context,
-				       lw6sys_assoc_t * assoc,
-				       lw6sys_assoc_callback_func_t func,
-				       void *func_data);
-extern lw6sys_assoc_t *lw6sys_assoc_dup (lw6sys_context_t * sys_context,
-					 lw6sys_assoc_t * assoc,
-					 lw6sys_dup_func_t dup_func);
+extern lw6sys_assoc_t *lw6sys_assoc_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func);
+extern void lw6sys_assoc_free (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc);
+extern int lw6sys_assoc_has_key (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc, const char *key);
+extern void *lw6sys_assoc_get (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc, const char *key);
+extern void lw6sys_assoc_set (lw6sys_context_t * sys_context, lw6sys_assoc_t ** assoc, const char *key, void *value);
+extern void lw6sys_assoc_unset (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc, const char *key);
+extern lw6sys_list_t *lw6sys_assoc_keys (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc);
+extern void lw6sys_assoc_map (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc, lw6sys_assoc_callback_func_t func, void *func_data);
+extern void lw6sys_assoc_sort_and_map (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc, lw6sys_assoc_callback_func_t func, void *func_data);
+extern lw6sys_assoc_t *lw6sys_assoc_dup (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc, lw6sys_dup_func_t dup_func);
 
 /* sys-backtrace.c */
-extern char *lw6sys_backtrace (lw6sys_context_t * sys_context, int skip,
-			       int detailed);
+extern char *lw6sys_backtrace (lw6sys_context_t * sys_context, int skip, int detailed);
 
 /* sys-bazooka.c */
 extern int lw6sys_default_memory_bazooka (lw6sys_context_t * sys_context);
 extern void lw6sys_clear_memory_bazooka (lw6sys_context_t * sys_context);
-extern int lw6sys_set_memory_bazooka_size (lw6sys_context_t * sys_context,
-					   int size);
+extern int lw6sys_set_memory_bazooka_size (lw6sys_context_t * sys_context, int size);
 extern int lw6sys_get_memory_bazooka_size (lw6sys_context_t * sys_context);
-extern int lw6sys_set_memory_bazooka_eraser (lw6sys_context_t * sys_context,
-					     int state);
+extern int lw6sys_set_memory_bazooka_eraser (lw6sys_context_t * sys_context, int state);
 extern int lw6sys_get_memory_bazooka_eraser (lw6sys_context_t * sys_context);
-extern int lw6sys_get_memory_bazooka_malloc_count (lw6sys_context_t *
-						   sys_context);
-extern int lw6sys_get_memory_bazooka_free_count (lw6sys_context_t *
-						 sys_context);
-extern int lw6sys_get_memory_bazooka_malloc_max (lw6sys_context_t *
-						 sys_context);
-extern int lw6sys_get_memory_bazooka_malloc_count (lw6sys_context_t *
-						   sys_context);
-extern int lw6sys_get_memory_bazooka_free_count (lw6sys_context_t *
-						 sys_context);
-extern int lw6sys_get_memory_bazooka_malloc_current_count (lw6sys_context_t *
-							   sys_context);
-extern int lw6sys_get_memory_bazooka_malloc_max_count (lw6sys_context_t *
-						       sys_context);
-extern int lw6sys_get_memory_bazooka_malloc_megabytes (lw6sys_context_t *
-						       sys_context);
-extern int lw6sys_get_memory_bazooka_free_megabytes (lw6sys_context_t *
-						     sys_context);
-extern int lw6sys_get_memory_bazooka_malloc_current_bytes (lw6sys_context_t *
-							   sys_context);
-extern int lw6sys_get_memory_bazooka_malloc_max_bytes (lw6sys_context_t *
-						       sys_context);
+extern int lw6sys_get_memory_bazooka_malloc_count (lw6sys_context_t * sys_context);
+extern int lw6sys_get_memory_bazooka_free_count (lw6sys_context_t * sys_context);
+extern int lw6sys_get_memory_bazooka_malloc_max (lw6sys_context_t * sys_context);
+extern int lw6sys_get_memory_bazooka_malloc_count (lw6sys_context_t * sys_context);
+extern int lw6sys_get_memory_bazooka_free_count (lw6sys_context_t * sys_context);
+extern int lw6sys_get_memory_bazooka_malloc_current_count (lw6sys_context_t * sys_context);
+extern int lw6sys_get_memory_bazooka_malloc_max_count (lw6sys_context_t * sys_context);
+extern int lw6sys_get_memory_bazooka_malloc_megabytes (lw6sys_context_t * sys_context);
+extern int lw6sys_get_memory_bazooka_free_megabytes (lw6sys_context_t * sys_context);
+extern int lw6sys_get_memory_bazooka_malloc_current_bytes (lw6sys_context_t * sys_context);
+extern int lw6sys_get_memory_bazooka_malloc_max_bytes (lw6sys_context_t * sys_context);
 extern int lw6sys_memory_bazooka_report (lw6sys_context_t * sys_context);
 
 /* sys-build.c */
@@ -826,22 +780,13 @@ extern int lw6sys_build_get_bin_id (lw6sys_context_t * sys_context);
 extern void lw6sys_build_log_all (lw6sys_context_t * sys_context);
 
 /* sys-cache.c */
-extern lw6sys_cache_t *lw6sys_cache_new (lw6sys_context_t * sys_context,
-					 lw6sys_free_func_t free_func,
-					 int size, int delay_msec);
-extern void lw6sys_cache_free (lw6sys_context_t * sys_context,
-			       lw6sys_cache_t * cache);
-extern void lw6sys_cache_free_callback (lw6sys_context_t * sys_context,
-					void *data);
-extern int lw6sys_cache_has_key (lw6sys_context_t * sys_context,
-				 lw6sys_cache_t * cache, const char *key);
-extern void *lw6sys_cache_get (lw6sys_context_t * sys_context,
-			       lw6sys_cache_t * cache, const char *key);
-extern void lw6sys_cache_set (lw6sys_context_t * sys_context,
-			      lw6sys_cache_t * cache, const char *key,
-			      void *value);
-extern void lw6sys_cache_unset (lw6sys_context_t * sys_context,
-				lw6sys_cache_t * cache, const char *key);
+extern lw6sys_cache_t *lw6sys_cache_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func, int size, int delay_msec);
+extern void lw6sys_cache_free (lw6sys_context_t * sys_context, lw6sys_cache_t * cache);
+extern void lw6sys_cache_free_callback (lw6sys_context_t * sys_context, void *data);
+extern int lw6sys_cache_has_key (lw6sys_context_t * sys_context, lw6sys_cache_t * cache, const char *key);
+extern void *lw6sys_cache_get (lw6sys_context_t * sys_context, lw6sys_cache_t * cache, const char *key);
+extern void lw6sys_cache_set (lw6sys_context_t * sys_context, lw6sys_cache_t * cache, const char *key, void *value);
+extern void lw6sys_cache_unset (lw6sys_context_t * sys_context, lw6sys_cache_t * cache, const char *key);
 
 /* sys-chr.c */
 static inline int
@@ -853,8 +798,7 @@ lw6sys_chr_is_digit (char c)
 static inline int
 lw6sys_chr_is_alnum (char c)
 {
-  return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A'
-							      && c <= 'Z');
+  return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 }
 
 static inline int
@@ -870,44 +814,24 @@ lw6sys_chr_is_eol (char c)
 }
 
 /* sys-checksum.c */
-extern u_int32_t lw6sys_checksum (lw6sys_context_t * sys_context,
-				  unsigned char *data, int len);
-extern u_int32_t lw6sys_checksum_str (lw6sys_context_t * sys_context,
-				      const char *value);
-extern u_int32_t lw6sys_checksum_int32 (lw6sys_context_t * sys_context,
-					u_int32_t value);
-extern u_int32_t lw6sys_checksum_int64 (lw6sys_context_t * sys_context,
-					u_int64_t value);
-extern u_int32_t lw6sys_checksum_whd (lw6sys_context_t * sys_context,
-				      lw6sys_whd_t * whd);
-extern u_int32_t lw6sys_checksum_xyz (lw6sys_context_t * sys_context,
-				      lw6sys_xyz_t * xyz);
-extern void lw6sys_checksum_update (lw6sys_context_t * sys_context,
-				    u_int32_t * checksum, unsigned char *data,
-				    int len);
-extern void lw6sys_checksum_update_str (lw6sys_context_t * sys_context,
-					u_int32_t * checksum,
-					const char *value);
-extern void lw6sys_checksum_update_int32 (lw6sys_context_t * sys_context,
-					  u_int32_t * checksum,
-					  int32_t value);
-extern void lw6sys_checksum_update_int64 (lw6sys_context_t * sys_context,
-					  u_int32_t * checksum,
-					  int64_t value);
-extern void lw6sys_checksum_update_whd (lw6sys_context_t * sys_context,
-					u_int32_t * checksum,
-					const lw6sys_whd_t * whd);
-extern void lw6sys_checksum_update_xyz (lw6sys_context_t * sys_context,
-					u_int32_t * checksum,
-					const lw6sys_xyz_t * xyz);
+extern u_int32_t lw6sys_checksum (lw6sys_context_t * sys_context, unsigned char *data, int len);
+extern u_int32_t lw6sys_checksum_str (lw6sys_context_t * sys_context, const char *value);
+extern u_int32_t lw6sys_checksum_int32 (lw6sys_context_t * sys_context, u_int32_t value);
+extern u_int32_t lw6sys_checksum_int64 (lw6sys_context_t * sys_context, u_int64_t value);
+extern u_int32_t lw6sys_checksum_whd (lw6sys_context_t * sys_context, lw6sys_whd_t * whd);
+extern u_int32_t lw6sys_checksum_xyz (lw6sys_context_t * sys_context, lw6sys_xyz_t * xyz);
+extern void lw6sys_checksum_update (lw6sys_context_t * sys_context, u_int32_t * checksum, unsigned char *data, int len);
+extern void lw6sys_checksum_update_str (lw6sys_context_t * sys_context, u_int32_t * checksum, const char *value);
+extern void lw6sys_checksum_update_int32 (lw6sys_context_t * sys_context, u_int32_t * checksum, int32_t value);
+extern void lw6sys_checksum_update_int64 (lw6sys_context_t * sys_context, u_int32_t * checksum, int64_t value);
+extern void lw6sys_checksum_update_whd (lw6sys_context_t * sys_context, u_int32_t * checksum, const lw6sys_whd_t * whd);
+extern void lw6sys_checksum_update_xyz (lw6sys_context_t * sys_context, u_int32_t * checksum, const lw6sys_xyz_t * xyz);
 
 /* sys-color.c */
 extern u_int8_t lw6sys_color_float2char (float f);
 extern float lw6sys_color_char2float (u_int8_t i);
-extern lw6sys_color_8_t lw6sys_color_f_to_8 (const lw6sys_color_f_t *
-					     color_f);
-extern void lw6sys_color_8_to_f (lw6sys_color_f_t * color_f,
-				 lw6sys_color_8_t color_8);
+extern lw6sys_color_8_t lw6sys_color_f_to_8 (const lw6sys_color_f_t * color_f);
+extern void lw6sys_color_8_to_f (lw6sys_color_f_t * color_f, lw6sys_color_8_t color_8);
 extern u_int32_t lw6sys_color_f_to_irgba (const lw6sys_color_f_t * color_f);
 extern u_int32_t lw6sys_color_f_to_ibgra (const lw6sys_color_f_t * color_f);
 extern u_int32_t lw6sys_color_f_to_iargb (const lw6sys_color_f_t * color_f);
@@ -916,52 +840,25 @@ extern u_int32_t lw6sys_color_8_to_irgba (lw6sys_color_8_t color_8);
 extern u_int32_t lw6sys_color_8_to_ibgra (lw6sys_color_8_t color_8);
 extern u_int32_t lw6sys_color_8_to_iargb (lw6sys_color_8_t color_8);
 extern u_int32_t lw6sys_color_8_to_iabgr (lw6sys_color_8_t color_8);
-extern void lw6sys_color_irgba_to_f (lw6sys_color_f_t * color_f,
-				     u_int32_t color_i);
-extern void lw6sys_color_ibgra_to_f (lw6sys_color_f_t * color_f,
-				     u_int32_t color_i);
-extern void lw6sys_color_iargb_to_f (lw6sys_color_f_t * color_f,
-				     u_int32_t color_i);
-extern void lw6sys_color_iabgr_to_f (lw6sys_color_f_t * color_f,
-				     u_int32_t color_i);
+extern void lw6sys_color_irgba_to_f (lw6sys_color_f_t * color_f, u_int32_t color_i);
+extern void lw6sys_color_ibgra_to_f (lw6sys_color_f_t * color_f, u_int32_t color_i);
+extern void lw6sys_color_iargb_to_f (lw6sys_color_f_t * color_f, u_int32_t color_i);
+extern void lw6sys_color_iabgr_to_f (lw6sys_color_f_t * color_f, u_int32_t color_i);
 extern lw6sys_color_8_t lw6sys_color_irgba_to_8 (u_int32_t color_i);
 extern lw6sys_color_8_t lw6sys_color_ibgra_to_8 (u_int32_t color_i);
 extern lw6sys_color_8_t lw6sys_color_iargb_to_8 (u_int32_t color_i);
 extern lw6sys_color_8_t lw6sys_color_iabgr_to_8 (u_int32_t color_i);
-extern lw6sys_color_8_t lw6sys_color_a_to_8 (lw6sys_context_t * sys_context,
-					     const char *ascii);
-extern void lw6sys_color_a_to_f (lw6sys_context_t * sys_context,
-				 lw6sys_color_f_t * color_f,
-				 const char *ascii);
-extern char *lw6sys_color_8_to_a (lw6sys_context_t * sys_context,
-				  lw6sys_color_8_t color_8);
-extern void lw6sys_color_rgb_to_hsv (lw6sys_context_t * sys_context,
-				     lw6sys_color_hsv_t * color_hsv,
-				     lw6sys_color_8_t color_8);
-extern lw6sys_color_8_t lw6sys_color_hsv_to_rgb (lw6sys_context_t *
-						 sys_context,
-						 const lw6sys_color_hsv_t *
-						 color_hsv);
-extern void lw6sys_color_hsv_invert (lw6sys_context_t * sys_context,
-				     lw6sys_color_hsv_t * color_hsv,
-				     int invert_h, int invert_s,
-				     int invert_v);
+extern lw6sys_color_8_t lw6sys_color_a_to_8 (lw6sys_context_t * sys_context, const char *ascii);
+extern void lw6sys_color_a_to_f (lw6sys_context_t * sys_context, lw6sys_color_f_t * color_f, const char *ascii);
+extern char *lw6sys_color_8_to_a (lw6sys_context_t * sys_context, lw6sys_color_8_t color_8);
+extern void lw6sys_color_rgb_to_hsv (lw6sys_context_t * sys_context, lw6sys_color_hsv_t * color_hsv, lw6sys_color_8_t color_8);
+extern lw6sys_color_8_t lw6sys_color_hsv_to_rgb (lw6sys_context_t * sys_context, const lw6sys_color_hsv_t * color_hsv);
+extern void lw6sys_color_hsv_invert (lw6sys_context_t * sys_context, lw6sys_color_hsv_t * color_hsv, int invert_h, int invert_s, int invert_v);
 extern int lw6sys_color_is_grey (lw6sys_color_8_t color);
-extern lw6sys_color_8_t lw6sys_color_average (lw6sys_context_t * sys_context,
-					      int size,
-					      const lw6sys_color_8_t *
-					      colors);
-extern lw6sys_color_8_t lw6sys_color_ponderate (lw6sys_context_t *
-						sys_context,
-						lw6sys_color_8_t color1,
-						lw6sys_color_8_t color2,
-						float coeff);
-extern float lw6sys_color_distance (lw6sys_context_t * sys_context,
-				    lw6sys_color_8_t color1,
-				    lw6sys_color_8_t color2);
-extern int lw6sys_color_is_same (lw6sys_context_t * sys_context,
-				 const lw6sys_color_8_t color1,
-				 const lw6sys_color_8_t color2);
+extern lw6sys_color_8_t lw6sys_color_average (lw6sys_context_t * sys_context, int size, const lw6sys_color_8_t * colors);
+extern lw6sys_color_8_t lw6sys_color_ponderate (lw6sys_context_t * sys_context, lw6sys_color_8_t color1, lw6sys_color_8_t color2, float coeff);
+extern float lw6sys_color_distance (lw6sys_context_t * sys_context, lw6sys_color_8_t color1, lw6sys_color_8_t color2);
+extern int lw6sys_color_is_same (lw6sys_context_t * sys_context, const lw6sys_color_8_t color1, const lw6sys_color_8_t color2);
 extern void lw6sys_color_8_solid (lw6sys_color_8_t * color);
 extern void lw6sys_color_f_solid (lw6sys_color_f_t * color);
 
@@ -990,311 +887,159 @@ extern int lw6sys_cunit_lock (lw6sys_context_t * sys_context);
 extern int lw6sys_cunit_unlock (lw6sys_context_t * sys_context);
 
 /* sys-daemon.c */
-extern char *lw6sys_daemon_pid_file (lw6sys_context_t * sys_context, int argc,
-				     const char *argv[]);
-extern int lw6sys_daemon_start (lw6sys_context_t * sys_context,
-				char *pid_file);
-extern int lw6sys_daemon_stop (lw6sys_context_t * sys_context,
-			       char *pid_file);
+extern char *lw6sys_daemon_pid_file (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern int lw6sys_daemon_start (lw6sys_context_t * sys_context, char *pid_file);
+extern int lw6sys_daemon_stop (lw6sys_context_t * sys_context, char *pid_file);
 
 /* sys-debug.c */
 extern int lw6sys_debug_get (lw6sys_context_t * sys_context);
 extern void lw6sys_debug_set (lw6sys_context_t * sys_context, int mode);
 
 /* sys-dump.c */
-extern void lw6sys_dump_clear (lw6sys_context_t * sys_context,
-			       char *user_dir);
-extern int lw6sys_dump (lw6sys_context_t * sys_context, char *user_dir,
-			char *content);
+extern void lw6sys_dump_clear (lw6sys_context_t * sys_context, char *user_dir);
+extern int lw6sys_dump (lw6sys_context_t * sys_context, char *user_dir, char *content);
 
 /* sys-env.c */
 extern char lw6sys_env_separator_char ();
 extern char *lw6sys_env_separator_str ();
-extern char *lw6sys_env_concat (lw6sys_context_t * sys_context,
-				const char *value1, const char *value2);
-extern int lw6sys_env_exists_prefixed (lw6sys_context_t * sys_context,
-				       const char *keyword);
+extern char *lw6sys_env_concat (lw6sys_context_t * sys_context, const char *value1, const char *value2);
+extern int lw6sys_env_exists_prefixed (lw6sys_context_t * sys_context, const char *keyword);
 extern char *lw6sys_getenv (lw6sys_context_t * sys_context, const char *key);
-extern char *lw6sys_getenv_prefixed (lw6sys_context_t * sys_context,
-				     const char *keyword);
-extern int lw6sys_setenv (lw6sys_context_t * sys_context, const char *keyword,
-			  const char *value);
-extern int lw6sys_setenv_prefixed (lw6sys_context_t * sys_context,
-				   const char *keyword, const char *value);
-extern lw6sys_list_t *lw6sys_env_split (lw6sys_context_t * sys_context,
-					const char *value);
+extern char *lw6sys_getenv_prefixed (lw6sys_context_t * sys_context, const char *keyword);
+extern int lw6sys_setenv (lw6sys_context_t * sys_context, const char *keyword, const char *value);
+extern int lw6sys_setenv_prefixed (lw6sys_context_t * sys_context, const char *keyword, const char *value);
+extern lw6sys_list_t *lw6sys_env_split (lw6sys_context_t * sys_context, const char *value);
 extern char *lw6sys_get_home (lw6sys_context_t * sys_context);
 extern char *lw6sys_get_username (lw6sys_context_t * sys_context);
 extern char *lw6sys_get_hostname (lw6sys_context_t * sys_context);
 
 /* sys-escape.c */
-extern char *lw6sys_escape_http_uri (lw6sys_context_t * sys_context,
-				     const char *src);
-extern char *lw6sys_escape_html_attribute (lw6sys_context_t * sys_context,
-					   const char *src);
-extern char *lw6sys_escape_sql_value (lw6sys_context_t * sys_context,
-				      const char *src);
+extern char *lw6sys_escape_http_uri (lw6sys_context_t * sys_context, const char *src);
+extern char *lw6sys_escape_html_attribute (lw6sys_context_t * sys_context, const char *src);
+extern char *lw6sys_escape_sql_value (lw6sys_context_t * sys_context, const char *src);
 
 /* sys-exec.c */
-extern char *lw6sys_exec_find_myself (lw6sys_context_t * sys_context,
-				      int argc, const char *argv[]);
-extern int lw6sys_is_executed_again (lw6sys_context_t * sys_context, int argc,
-				     const char *argv[]);
-extern int lw6sys_exec_again (lw6sys_context_t * sys_context, int argc,
-			      const char *argv[]);
-extern int lw6sys_exec_restart (lw6sys_context_t * sys_context, int argc,
-				const char *argv[]);
+extern char *lw6sys_exec_find_myself (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern int lw6sys_is_executed_again (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern int lw6sys_exec_again (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern int lw6sys_exec_restart (lw6sys_context_t * sys_context, int argc, const char *argv[]);
 
 /* sys-file.c */
-extern int lw6sys_clear_file (lw6sys_context_t * sys_context,
-			      const char *filename);
-extern char *lw6sys_read_file_content (lw6sys_context_t * sys_context,
-				       const char *filename);
-extern void *lw6sys_read_file_content_bin (lw6sys_context_t * sys_context,
-					   int *filesize,
-					   const char *filename);
-extern int lw6sys_write_file_content (lw6sys_context_t * sys_context,
-				      const char *filename,
-				      const char *content);
+extern int lw6sys_clear_file (lw6sys_context_t * sys_context, const char *filename);
+extern char *lw6sys_read_file_content (lw6sys_context_t * sys_context, const char *filename);
+extern void *lw6sys_read_file_content_bin (lw6sys_context_t * sys_context, int *filesize, const char *filename);
+extern int lw6sys_write_file_content (lw6sys_context_t * sys_context, const char *filename, const char *content);
 
 /* sys-profiler.c */
-extern int lw6sys_profiler_check (lw6sys_context_t * sys_context,
-				  int verbose);
+extern int lw6sys_profiler_check (lw6sys_context_t * sys_context, int verbose);
 
 /* sys-hash.c */
-extern lw6sys_hash_t *lw6sys_hash_new (lw6sys_context_t * sys_context,
-				       lw6sys_free_func_t free_func,
-				       int size);
-extern void lw6sys_hash_free (lw6sys_context_t * sys_context,
-			      lw6sys_hash_t * hash);
-extern int lw6sys_hash_has_key (lw6sys_context_t * sys_context,
-				lw6sys_hash_t * hash, const char *key);
-extern void *lw6sys_hash_get (lw6sys_context_t * sys_context,
-			      lw6sys_hash_t * hash, const char *key);
-extern void lw6sys_hash_set (lw6sys_context_t * sys_context,
-			     lw6sys_hash_t * hash, const char *key,
-			     void *value);
-extern void lw6sys_hash_unset (lw6sys_context_t * sys_context,
-			       lw6sys_hash_t * hash, const char *key);
-extern lw6sys_list_t *lw6sys_hash_keys (lw6sys_context_t * sys_context,
-					lw6sys_hash_t * hash);
-extern void lw6sys_hash_map (lw6sys_context_t * sys_context,
-			     lw6sys_hash_t * hash,
-			     lw6sys_assoc_callback_func_t func,
-			     void *func_data);
-extern void lw6sys_hash_sort_and_map (lw6sys_context_t * sys_context,
-				      lw6sys_hash_t * hash,
-				      lw6sys_assoc_callback_func_t func,
-				      void *func_data);
-extern lw6sys_hash_t *lw6sys_hash_dup (lw6sys_context_t * sys_context,
-				       lw6sys_hash_t * hash,
-				       lw6sys_dup_func_t dup_func);
+extern lw6sys_hash_t *lw6sys_hash_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func, int size);
+extern void lw6sys_hash_free (lw6sys_context_t * sys_context, lw6sys_hash_t * hash);
+extern int lw6sys_hash_has_key (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, const char *key);
+extern void *lw6sys_hash_get (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, const char *key);
+extern void lw6sys_hash_set (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, const char *key, void *value);
+extern void lw6sys_hash_unset (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, const char *key);
+extern lw6sys_list_t *lw6sys_hash_keys (lw6sys_context_t * sys_context, lw6sys_hash_t * hash);
+extern void lw6sys_hash_map (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, lw6sys_assoc_callback_func_t func, void *func_data);
+extern void lw6sys_hash_sort_and_map (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, lw6sys_assoc_callback_func_t func, void *func_data);
+extern lw6sys_hash_t *lw6sys_hash_dup (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, lw6sys_dup_func_t dup_func);
 
 /* sys-hexa.c */
-extern lw6sys_hexa_serializer_t *lw6sys_hexa_serializer_new (lw6sys_context_t
-							     * sys_context,
-							     const char
-							     *hexa_string);
-extern void lw6sys_hexa_serializer_free (lw6sys_context_t * sys_context,
-					 lw6sys_hexa_serializer_t *
-					 hexa_serializer);
-extern void lw6sys_hexa_serializer_rewind (lw6sys_context_t * sys_context,
-					   lw6sys_hexa_serializer_t *
-					   hexa_serializer);
-extern int lw6sys_hexa_serializer_eof (lw6sys_context_t * sys_context,
-				       lw6sys_hexa_serializer_t *
-				       hexa_serializer);
-extern char *lw6sys_hexa_serializer_as_string (lw6sys_context_t * sys_context,
-					       lw6sys_hexa_serializer_t *
-					       hexa_serializer);
-extern int lw6sys_hexa_serializer_push_int64 (lw6sys_context_t * sys_context,
-					      lw6sys_hexa_serializer_t *
-					      hexa_serializer, int64_t value);
-extern int lw6sys_hexa_serializer_push_int32 (lw6sys_context_t * sys_context,
-					      lw6sys_hexa_serializer_t *
-					      hexa_serializer, int32_t value);
-extern int lw6sys_hexa_serializer_push_int16 (lw6sys_context_t * sys_context,
-					      lw6sys_hexa_serializer_t *
-					      hexa_serializer, int16_t value);
-extern int lw6sys_hexa_serializer_push_int8 (lw6sys_context_t * sys_context,
-					     lw6sys_hexa_serializer_t *
-					     hexa_serializer, int8_t value);
-extern int lw6sys_hexa_serializer_push_float (lw6sys_context_t * sys_context,
-					      lw6sys_hexa_serializer_t *
-					      hexa_serializer, float value);
-extern int lw6sys_hexa_serializer_push_str (lw6sys_context_t * sys_context,
-					    lw6sys_hexa_serializer_t *
-					    hexa_serializer,
-					    const char *value);
-extern int lw6sys_hexa_serializer_push_xyz (lw6sys_context_t * sys_context,
-					    lw6sys_hexa_serializer_t *
-					    hexa_serializer,
-					    lw6sys_xyz_t value);
-extern int lw6sys_hexa_serializer_push_whd (lw6sys_context_t * sys_context,
-					    lw6sys_hexa_serializer_t *
-					    hexa_serializer,
-					    lw6sys_whd_t value);
-extern int lw6sys_hexa_serializer_push_color (lw6sys_context_t * sys_context,
-					      lw6sys_hexa_serializer_t *
-					      hexa_serializer,
-					      lw6sys_color_8_t value);
-extern int lw6sys_hexa_serializer_pop_int64 (lw6sys_context_t * sys_context,
-					     lw6sys_hexa_serializer_t *
-					     hexa_serializer,
-					     int64_t * value);
-extern int lw6sys_hexa_serializer_pop_int32 (lw6sys_context_t * sys_context,
-					     lw6sys_hexa_serializer_t *
-					     hexa_serializer,
-					     int32_t * value);
-extern int lw6sys_hexa_serializer_pop_int16 (lw6sys_context_t * sys_context,
-					     lw6sys_hexa_serializer_t *
-					     hexa_serializer,
-					     int16_t * value);
-extern int lw6sys_hexa_serializer_pop_int8 (lw6sys_context_t * sys_context,
-					    lw6sys_hexa_serializer_t *
-					    hexa_serializer, int8_t * value);
-extern int lw6sys_hexa_serializer_pop_float (lw6sys_context_t * sys_context,
-					     lw6sys_hexa_serializer_t *
-					     hexa_serializer, float *value);
-extern int lw6sys_hexa_serializer_pop_str (lw6sys_context_t * sys_context,
-					   lw6sys_hexa_serializer_t *
-					   hexa_serializer, char **value);
-extern int lw6sys_hexa_serializer_pop_xyz (lw6sys_context_t * sys_context,
-					   lw6sys_hexa_serializer_t *
-					   hexa_serializer,
-					   lw6sys_xyz_t * value);
-extern int lw6sys_hexa_serializer_pop_whd (lw6sys_context_t * sys_context,
-					   lw6sys_hexa_serializer_t *
-					   hexa_serializer,
-					   lw6sys_whd_t * value);
-extern int lw6sys_hexa_serializer_pop_color (lw6sys_context_t * sys_context,
-					     lw6sys_hexa_serializer_t *
-					     hexa_serializer,
-					     lw6sys_color_8_t * value);
-extern int lw6sys_hexa_str_to_buf (lw6sys_context_t * sys_context, void *buf,
-				   int size, const char *str);
-extern char *lw6sys_hexa_buf_to_str (lw6sys_context_t * sys_context,
-				     void *buf, int size);
-extern void *lw6sys_hexa_str_to_ptr (lw6sys_context_t * sys_context,
-				     const char *str);
-extern char *lw6sys_hexa_ptr_to_str (lw6sys_context_t * sys_context,
-				     void *ptr);
+extern lw6sys_hexa_serializer_t *lw6sys_hexa_serializer_new (lw6sys_context_t * sys_context, const char *hexa_string);
+extern void lw6sys_hexa_serializer_free (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer);
+extern void lw6sys_hexa_serializer_rewind (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer);
+extern int lw6sys_hexa_serializer_eof (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer);
+extern char *lw6sys_hexa_serializer_as_string (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer);
+extern int lw6sys_hexa_serializer_push_int64 (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, int64_t value);
+extern int lw6sys_hexa_serializer_push_int32 (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, int32_t value);
+extern int lw6sys_hexa_serializer_push_int16 (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, int16_t value);
+extern int lw6sys_hexa_serializer_push_int8 (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, int8_t value);
+extern int lw6sys_hexa_serializer_push_float (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, float value);
+extern int lw6sys_hexa_serializer_push_str (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, const char *value);
+extern int lw6sys_hexa_serializer_push_xyz (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, lw6sys_xyz_t value);
+extern int lw6sys_hexa_serializer_push_whd (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, lw6sys_whd_t value);
+extern int lw6sys_hexa_serializer_push_color (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, lw6sys_color_8_t value);
+extern int lw6sys_hexa_serializer_pop_int64 (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, int64_t * value);
+extern int lw6sys_hexa_serializer_pop_int32 (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, int32_t * value);
+extern int lw6sys_hexa_serializer_pop_int16 (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, int16_t * value);
+extern int lw6sys_hexa_serializer_pop_int8 (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, int8_t * value);
+extern int lw6sys_hexa_serializer_pop_float (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, float *value);
+extern int lw6sys_hexa_serializer_pop_str (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, char **value);
+extern int lw6sys_hexa_serializer_pop_xyz (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, lw6sys_xyz_t * value);
+extern int lw6sys_hexa_serializer_pop_whd (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, lw6sys_whd_t * value);
+extern int lw6sys_hexa_serializer_pop_color (lw6sys_context_t * sys_context, lw6sys_hexa_serializer_t * hexa_serializer, lw6sys_color_8_t * value);
+extern int lw6sys_hexa_str_to_buf (lw6sys_context_t * sys_context, void *buf, int size, const char *str);
+extern char *lw6sys_hexa_buf_to_str (lw6sys_context_t * sys_context, void *buf, int size);
+extern void *lw6sys_hexa_str_to_ptr (lw6sys_context_t * sys_context, const char *str);
+extern char *lw6sys_hexa_ptr_to_str (lw6sys_context_t * sys_context, void *ptr);
 
 /* sys-history.c */
 extern void lw6sys_history_init (lw6sys_context_t * sys_context);
-extern void lw6sys_history_register (lw6sys_context_t * sys_context,
-				     char *msg);
-extern char **lw6sys_history_get (lw6sys_context_t * sys_context,
-				  int64_t timeout);
-extern void lw6sys_history_free (lw6sys_context_t * sys_context,
-				 char **history);
+extern void lw6sys_history_register (lw6sys_context_t * sys_context, char *msg);
+extern char **lw6sys_history_get (lw6sys_context_t * sys_context, int64_t timeout);
+extern void lw6sys_history_free (lw6sys_context_t * sys_context, char **history);
 
 /* sys-i18n.c */
-extern char *lw6sys_locale_to_utf8 (lw6sys_context_t * sys_context,
-				    const char *string);
+extern char *lw6sys_locale_to_utf8 (lw6sys_context_t * sys_context, const char *string);
 
 /* sys-id.c */
 extern u_int16_t lw6sys_generate_id_16 (lw6sys_context_t * sys_context);
 extern u_int32_t lw6sys_generate_id_32 (lw6sys_context_t * sys_context);
 extern u_int64_t lw6sys_generate_id_64 (lw6sys_context_t * sys_context);
-extern int lw6sys_check_id_16 (lw6sys_context_t * sys_context,
-			       u_int16_t id_16);
-extern int lw6sys_check_id_32 (lw6sys_context_t * sys_context,
-			       u_int32_t id_32);
-extern int lw6sys_check_id_64 (lw6sys_context_t * sys_context,
-			       u_int64_t id_64);
+extern int lw6sys_check_id_16 (lw6sys_context_t * sys_context, u_int16_t id_16);
+extern int lw6sys_check_id_32 (lw6sys_context_t * sys_context, u_int32_t id_32);
+extern int lw6sys_check_id_64 (lw6sys_context_t * sys_context, u_int64_t id_64);
 extern int lw6sys_check_id (lw6sys_context_t * sys_context, u_int64_t id_64);
 extern char *lw6sys_id_ltoa (lw6sys_context_t * sys_context, u_int64_t id);
 extern u_int64_t lw6sys_id_atol (lw6sys_context_t * sys_context, char *id);
 
 /* sys-keyword.c */
-extern char *lw6sys_keyword_as_key (lw6sys_context_t * sys_context,
-				    const char *keyword);
-extern char *lw6sys_keyword_as_arg (lw6sys_context_t * sys_context,
-				    const char *keyword);
-extern char *lw6sys_keyword_as_env (lw6sys_context_t * sys_context,
-				    const char *keyword);
-extern char *lw6sys_keyword_as_xml (lw6sys_context_t * sys_context,
-				    const char *keyword);
+extern char *lw6sys_keyword_as_key (lw6sys_context_t * sys_context, const char *keyword);
+extern char *lw6sys_keyword_as_arg (lw6sys_context_t * sys_context, const char *keyword);
+extern char *lw6sys_keyword_as_env (lw6sys_context_t * sys_context, const char *keyword);
+extern char *lw6sys_keyword_as_xml (lw6sys_context_t * sys_context, const char *keyword);
 
 /* sys-list.c */
-extern lw6sys_list_t *lw6sys_list_new (lw6sys_context_t * sys_context,
-				       lw6sys_free_func_t free_func);
-extern void lw6sys_list_free (lw6sys_context_t * sys_context,
-			      lw6sys_list_t * list);
-extern lw6sys_list_t *lw6sys_list_next (lw6sys_context_t * sys_context,
-					lw6sys_list_t * list);
-extern int lw6sys_list_is_empty (lw6sys_context_t * sys_context,
-				 lw6sys_list_t * list);
-extern int lw6sys_list_length (lw6sys_context_t * sys_context,
-			       lw6sys_list_t * list);
-extern void lw6sys_list_map (lw6sys_context_t * sys_context,
-			     lw6sys_list_t * list,
-			     lw6sys_list_callback_func_t func,
-			     void *func_data);
-extern void lw6sys_list_filter (lw6sys_context_t * sys_context,
-				lw6sys_list_t ** list,
-				lw6sys_list_filter_func_t func,
-				void *func_data);
-extern void lw6sys_list_push_front (lw6sys_context_t * sys_context,
-				    lw6sys_list_t ** list, void *data);
-extern void *lw6sys_list_pop_front (lw6sys_context_t * sys_context,
-				    lw6sys_list_t ** list);
-extern void lw6sys_list_push_back (lw6sys_context_t * sys_context,
-				   lw6sys_list_t ** list, void *data);
-extern void *lw6sys_list_pop_back (lw6sys_context_t * sys_context,
-				   lw6sys_list_t ** list);
-extern void lw6sys_lifo_push (lw6sys_context_t * sys_context,
-			      lw6sys_list_t ** list, void *data);
-extern void *lw6sys_lifo_pop (lw6sys_context_t * sys_context,
-			      lw6sys_list_t ** list);
-extern void lw6sys_fifo_push (lw6sys_context_t * sys_context,
-			      lw6sys_list_t ** list, void *data);
-extern void *lw6sys_fifo_pop (lw6sys_context_t * sys_context,
-			      lw6sys_list_t ** list);
-extern lw6sys_list_t *lw6sys_list_dup (lw6sys_context_t * sys_context,
-				       lw6sys_list_t * list,
-				       lw6sys_dup_func_t dup_func);
+extern lw6sys_list_t *lw6sys_list_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func);
+extern void lw6sys_list_free (lw6sys_context_t * sys_context, lw6sys_list_t * list);
+extern lw6sys_list_t *lw6sys_list_next (lw6sys_context_t * sys_context, lw6sys_list_t * list);
+extern int lw6sys_list_is_empty (lw6sys_context_t * sys_context, lw6sys_list_t * list);
+extern int lw6sys_list_length (lw6sys_context_t * sys_context, lw6sys_list_t * list);
+extern void lw6sys_list_map (lw6sys_context_t * sys_context, lw6sys_list_t * list, lw6sys_list_callback_func_t func, void *func_data);
+extern void lw6sys_list_filter (lw6sys_context_t * sys_context, lw6sys_list_t ** list, lw6sys_list_filter_func_t func, void *func_data);
+extern void lw6sys_list_push_front (lw6sys_context_t * sys_context, lw6sys_list_t ** list, void *data);
+extern void *lw6sys_list_pop_front (lw6sys_context_t * sys_context, lw6sys_list_t ** list);
+extern void lw6sys_list_push_back (lw6sys_context_t * sys_context, lw6sys_list_t ** list, void *data);
+extern void *lw6sys_list_pop_back (lw6sys_context_t * sys_context, lw6sys_list_t ** list);
+extern void lw6sys_lifo_push (lw6sys_context_t * sys_context, lw6sys_list_t ** list, void *data);
+extern void *lw6sys_lifo_pop (lw6sys_context_t * sys_context, lw6sys_list_t ** list);
+extern void lw6sys_fifo_push (lw6sys_context_t * sys_context, lw6sys_list_t ** list, void *data);
+extern void *lw6sys_fifo_pop (lw6sys_context_t * sys_context, lw6sys_list_t ** list);
+extern lw6sys_list_t *lw6sys_list_dup (lw6sys_context_t * sys_context, lw6sys_list_t * list, lw6sys_dup_func_t dup_func);
 
 /* sys-log.c */
-extern const char *lw6sys_log_errno_str (lw6sys_context_t * sys_context,
-					 int errno_int);
-extern void lw6sys_log_set_file (lw6sys_context_t * sys_context,
-				 const char *filename);
-extern int lw6sys_log_set_dialog_timeout (lw6sys_context_t * sys_context,
-					  int timeout_sec);
-extern void lw6sys_log_clear (lw6sys_context_t * sys_context,
-			      const char *filename);
+extern const char *lw6sys_log_errno_str (lw6sys_context_t * sys_context, int errno_int);
+extern void lw6sys_log_set_file (lw6sys_context_t * sys_context, const char *filename);
+extern int lw6sys_log_set_dialog_timeout (lw6sys_context_t * sys_context, int timeout_sec);
+extern void lw6sys_log_clear (lw6sys_context_t * sys_context, const char *filename);
 extern void lw6sys_log (lw6sys_context_t * sys_context, int level_id,
-			const char *file, int line, const char *func,
-			const char *fmt, ...)
-  __attribute__ ((format (printf, 6, 7)));
-extern void lw6sys_log_critical (lw6sys_context_t * sys_context,
-				 const char *fmt, ...)
-  __attribute__ ((format (printf, 2, 3)));
+			const char *file, int line, const char *func, const char *fmt, ...) __attribute__ ((format (printf, 6, 7)));
+extern void lw6sys_log_critical (lw6sys_context_t * sys_context, const char *fmt, ...) __attribute__ ((format (printf, 2, 3)));
 extern int lw6sys_log_get_level (lw6sys_context_t * sys_context);
 extern void lw6sys_log_set_level (lw6sys_context_t * sys_context, int level);
 extern int lw6sys_log_get_backtrace_mode (lw6sys_context_t * sys_context);
-extern void lw6sys_log_set_backtrace_mode (lw6sys_context_t * sys_context,
-					   int backtrace_mode);
+extern void lw6sys_log_set_backtrace_mode (lw6sys_context_t * sys_context, int backtrace_mode);
 extern int lw6sys_log_get_console_state (lw6sys_context_t * sys_context);
-extern void lw6sys_log_set_console_state (lw6sys_context_t * sys_context,
-					  int state);
+extern void lw6sys_log_set_console_state (lw6sys_context_t * sys_context, int state);
 
 /* sys-math.c */
-extern void lw6sys_math_poly_wy1y2s1 (lw6sys_context_t * sys_context,
-				      float *y, float *s, float x, float w,
-				      float y1, float y2, float s1);
-extern float lw6sys_math_angle_360 (lw6sys_context_t * sys_context, int x,
-				    int y);
-extern float lw6sys_math_heartbeat (lw6sys_context_t * sys_context, int64_t x,
-				    int period, float y1, float y2);
-extern int lw6sys_math_blink (lw6sys_context_t * sys_context, int64_t x,
-			      int period);
-extern float lw6sys_math_lin2log (lw6sys_context_t * sys_context,
-				  int lin_value, int base);
-extern int lw6sys_math_log2lin (lw6sys_context_t * sys_context,
-				float log_value, int base);
+extern void lw6sys_math_poly_wy1y2s1 (lw6sys_context_t * sys_context, float *y, float *s, float x, float w, float y1, float y2, float s1);
+extern float lw6sys_math_angle_360 (lw6sys_context_t * sys_context, int x, int y);
+extern float lw6sys_math_heartbeat (lw6sys_context_t * sys_context, int64_t x, int period, float y1, float y2);
+extern int lw6sys_math_blink (lw6sys_context_t * sys_context, int64_t x, int period);
+extern float lw6sys_math_lin2log (lw6sys_context_t * sys_context, int lin_value, int base);
+extern int lw6sys_math_log2lin (lw6sys_context_t * sys_context, float log_value, int base);
 
 /* sys-mem.c */
 #ifdef LW6_OPTIMIZE
@@ -1309,14 +1054,10 @@ extern int lw6sys_math_log2lin (lw6sys_context_t * sys_context,
 #define LW6SYS_FREE(SYS_CONTEXT,PTR) lw6sys_free((SYS_CONTEXT),(void *) (PTR),__FILE__,__LINE__)
 #endif // LW6_OPTIMIZE
 
-extern void *lw6sys_malloc (lw6sys_context_t * sys_context, int size,
-			    const char *file, int line);
-extern void *lw6sys_calloc (lw6sys_context_t * sys_context, int size,
-			    const char *file, int line);
-extern void *lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr,
-			     int size, const char *file, int line);
-extern void lw6sys_free (lw6sys_context_t * sys_context, void *ptr,
-			 const char *file, int line);
+extern void *lw6sys_malloc (lw6sys_context_t * sys_context, int size, const char *file, int line);
+extern void *lw6sys_calloc (lw6sys_context_t * sys_context, int size, const char *file, int line);
+extern void *lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size, const char *file, int line);
+extern void lw6sys_free (lw6sys_context_t * sys_context, void *ptr, const char *file, int line);
 extern void lw6sys_free_callback (lw6sys_context_t * sys_context, void *ptr);
 extern int lw6sys_megabytes_available (lw6sys_context_t * sys_context);
 extern int lw6sys_is_big_endian (lw6sys_context_t * sys_context);
@@ -1325,14 +1066,10 @@ extern int lw6sys_check_types_size (lw6sys_context_t * sys_context);
 
 /* sys-mutex.c */
 extern lw6sys_mutex_t *lw6sys_mutex_create (lw6sys_context_t * sys_context);
-extern void lw6sys_mutex_destroy (lw6sys_context_t * sys_context,
-				  lw6sys_mutex_t * mutex);
-extern int lw6sys_mutex_lock (lw6sys_context_t * sys_context,
-			      lw6sys_mutex_t * mutex);
-extern int lw6sys_mutex_trylock (lw6sys_context_t * sys_context,
-				 lw6sys_mutex_t * mutex);
-extern int lw6sys_mutex_unlock (lw6sys_context_t * sys_context,
-				lw6sys_mutex_t * mutex);
+extern void lw6sys_mutex_destroy (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex);
+extern int lw6sys_mutex_lock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex);
+extern int lw6sys_mutex_trylock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex);
+extern int lw6sys_mutex_unlock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex);
 extern int lw6sys_get_mutex_lock_count (lw6sys_context_t * sys_context);
 extern int lw6sys_get_mutex_unlock_count (lw6sys_context_t * sys_context);
 extern int lw6sys_check_mutex_count (lw6sys_context_t * sys_context);
@@ -1358,181 +1095,100 @@ extern char *lw6sys_get_default_map_dir (lw6sys_context_t * sys_context);
 extern char *lw6sys_get_default_map_path (lw6sys_context_t * sys_context);
 extern char *lw6sys_get_default_script_file (lw6sys_context_t * sys_context);
 extern void lw6sys_options_log_defaults (lw6sys_context_t * sys_context);
-extern char *lw6sys_get_run_dir (lw6sys_context_t * sys_context, int argc,
-				 const char *argv[]);
-extern char *lw6sys_get_user_dir (lw6sys_context_t * sys_context, int argc,
-				  const char *argv[]);
-extern char *lw6sys_get_config_file (lw6sys_context_t * sys_context, int argc,
-				     const char *argv[]);
-extern char *lw6sys_get_log_file (lw6sys_context_t * sys_context, int argc,
-				  const char *argv[]);
-extern char *lw6sys_get_prefix (lw6sys_context_t * sys_context, int argc,
-				const char *argv[]);
-extern char *lw6sys_get_mod_dir (lw6sys_context_t * sys_context, int argc,
-				 const char *argv[]);
-extern char *lw6sys_get_data_dir (lw6sys_context_t * sys_context, int argc,
-				  const char *argv[]);
-extern char *lw6sys_get_music_dir (lw6sys_context_t * sys_context, int argc,
-				   const char *argv[]);
-extern char *lw6sys_get_music_path (lw6sys_context_t * sys_context, int argc,
-				    const char *argv[]);
-extern char *lw6sys_get_map_dir (lw6sys_context_t * sys_context, int argc,
-				 const char *argv[]);
-extern char *lw6sys_get_map_path (lw6sys_context_t * sys_context, int argc,
-				  const char *argv[]);
-extern char *lw6sys_get_script_file (lw6sys_context_t * sys_context, int argc,
-				     const char *argv[]);
-extern void lw6sys_options_log (lw6sys_context_t * sys_context, int argc,
-				const char *argv[]);
+extern char *lw6sys_get_run_dir (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern char *lw6sys_get_user_dir (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern char *lw6sys_get_config_file (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern char *lw6sys_get_log_file (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern char *lw6sys_get_prefix (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern char *lw6sys_get_mod_dir (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern char *lw6sys_get_data_dir (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern char *lw6sys_get_music_dir (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern char *lw6sys_get_music_path (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern char *lw6sys_get_map_dir (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern char *lw6sys_get_map_path (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern char *lw6sys_get_script_file (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern void lw6sys_options_log (lw6sys_context_t * sys_context, int argc, const char *argv[]);
 
 /* sys-path.c */
-extern int lw6sys_file_exists (lw6sys_context_t * sys_context,
-			       const char *filename);
-extern int lw6sys_dir_exists (lw6sys_context_t * sys_context,
-			      const char *dirname);
-extern int lw6sys_dir_exists_with_readme (lw6sys_context_t * sys_context,
-					  const char *dirname);
-extern int lw6sys_dir_exists_with_readme_containing_text (lw6sys_context_t *
-							  sys_context,
-							  const char *dirname,
-							  const char *needle);
-extern int lw6sys_create_dir (lw6sys_context_t * sys_context,
-			      const char *dirname);
-extern int lw6sys_create_dir_silent (lw6sys_context_t * sys_context,
-				     const char *dirname);
-extern char *lw6sys_path_add_slash (lw6sys_context_t * sys_context,
-				    const char *path);
-extern char *lw6sys_path_strip_slash (lw6sys_context_t * sys_context,
-				      const char *path);
-extern char *lw6sys_path_concat (lw6sys_context_t * sys_context,
-				 const char *path1, const char *path2);
-extern lw6sys_list_t *lw6sys_path_split (lw6sys_context_t * sys_context,
-					 const char *path);
-extern char *lw6sys_path_file_only (lw6sys_context_t * sys_context,
-				    const char *path);
-extern int lw6sys_path_is_relative (lw6sys_context_t * sys_context,
-				    const char *path);
-extern int lw6sys_path_is_cwd (lw6sys_context_t * sys_context,
-			       const char *path);
-extern char *lw6sys_path_parent (lw6sys_context_t * sys_context,
-				 const char *path);
-extern char *lw6sys_path_unparent (lw6sys_context_t * sys_context,
-				   const char *path);
-extern char *lw6sys_path_unparent_no_malloc (lw6sys_context_t * sys_context,
-					     char *path);
-extern lw6sys_list_t *lw6sys_dir_list (lw6sys_context_t * sys_context,
-				       const char *dir,
-				       lw6sys_dir_list_filter_func_t
-				       filter_func, void *func_data, int *n);
-extern lw6sys_list_t *lw6sys_path_list (lw6sys_context_t * sys_context,
-					const char *path,
-					lw6sys_dir_list_filter_func_t
-					filter_func, void *func_data, int *n);
-extern char *lw6sys_find_in_dir_and_path (lw6sys_context_t * sys_context,
-					  const char *dir, const char *path,
-					  const char *file);
+extern int lw6sys_file_exists (lw6sys_context_t * sys_context, const char *filename);
+extern int lw6sys_dir_exists (lw6sys_context_t * sys_context, const char *dirname);
+extern int lw6sys_dir_exists_with_readme (lw6sys_context_t * sys_context, const char *dirname);
+extern int lw6sys_dir_exists_with_readme_containing_text (lw6sys_context_t * sys_context, const char *dirname, const char *needle);
+extern int lw6sys_create_dir (lw6sys_context_t * sys_context, const char *dirname);
+extern int lw6sys_create_dir_silent (lw6sys_context_t * sys_context, const char *dirname);
+extern char *lw6sys_path_add_slash (lw6sys_context_t * sys_context, const char *path);
+extern char *lw6sys_path_strip_slash (lw6sys_context_t * sys_context, const char *path);
+extern char *lw6sys_path_concat (lw6sys_context_t * sys_context, const char *path1, const char *path2);
+extern lw6sys_list_t *lw6sys_path_split (lw6sys_context_t * sys_context, const char *path);
+extern char *lw6sys_path_file_only (lw6sys_context_t * sys_context, const char *path);
+extern int lw6sys_path_is_relative (lw6sys_context_t * sys_context, const char *path);
+extern int lw6sys_path_is_cwd (lw6sys_context_t * sys_context, const char *path);
+extern char *lw6sys_path_parent (lw6sys_context_t * sys_context, const char *path);
+extern char *lw6sys_path_unparent (lw6sys_context_t * sys_context, const char *path);
+extern char *lw6sys_path_unparent_no_malloc (lw6sys_context_t * sys_context, char *path);
+extern lw6sys_list_t *lw6sys_dir_list (lw6sys_context_t * sys_context, const char *dir, lw6sys_dir_list_filter_func_t filter_func, void *func_data, int *n);
+extern lw6sys_list_t *lw6sys_path_list (lw6sys_context_t * sys_context, const char *path, lw6sys_dir_list_filter_func_t filter_func, void *func_data, int *n);
+extern char *lw6sys_find_in_dir_and_path (lw6sys_context_t * sys_context, const char *dir, const char *path, const char *file);
 
 /* sys-print.c */
-extern void lw6sys_print_xml_header (lw6sys_context_t * sys_context, FILE * f,
-				     char *comment);
-extern void lw6sys_print_xml_footer (lw6sys_context_t * sys_context,
-				     FILE * f);
+extern void lw6sys_print_xml_header (lw6sys_context_t * sys_context, FILE * f, char *comment);
+extern void lw6sys_print_xml_footer (lw6sys_context_t * sys_context, FILE * f);
 
 /* sys-process.c */
 int lw6sys_process_is_fully_supported (lw6sys_context_t * sys_context);
-u_int64_t lw6sys_process_fork_and_call (lw6sys_context_t * sys_context,
-					lw6sys_fork_func_t func, void *data);
+u_int64_t lw6sys_process_fork_and_call (lw6sys_context_t * sys_context, lw6sys_fork_func_t func, void *data);
 int lw6sys_process_kill_1_9 (lw6sys_context_t * sys_context, u_int64_t pid);
 
 /* sys-progress.c */
-extern void lw6sys_progress_bind (lw6sys_context_t * sys_context,
-				  lw6sys_progress_t * progress, float *value);
-extern void lw6sys_progress_default (lw6sys_context_t * sys_context,
-				     lw6sys_progress_t * progress,
-				     float *value);
-extern void lw6sys_progress_update (lw6sys_context_t * sys_context,
-				    lw6sys_progress_t * progress, int min,
-				    int max, int current);
+extern void lw6sys_progress_bind (lw6sys_context_t * sys_context, lw6sys_progress_t * progress, float *value);
+extern void lw6sys_progress_default (lw6sys_context_t * sys_context, lw6sys_progress_t * progress, float *value);
+extern void lw6sys_progress_update (lw6sys_context_t * sys_context, lw6sys_progress_t * progress, int min, int max, int current);
 extern void lw6sys_progress_split (lw6sys_context_t * sys_context,
-				   lw6sys_progress_t * progress1,
-				   lw6sys_progress_t * progress2,
-				   lw6sys_progress_t * progress_src);
+				   lw6sys_progress_t * progress1, lw6sys_progress_t * progress2, lw6sys_progress_t * progress_src);
 extern void lw6sys_progress_split_here (lw6sys_context_t * sys_context,
-					lw6sys_progress_t * progress1,
-					lw6sys_progress_t * progress2,
-					lw6sys_progress_t * progress_src,
-					float here);
+					lw6sys_progress_t * progress1, lw6sys_progress_t * progress2, lw6sys_progress_t * progress_src, float here);
 extern void lw6sys_progress_split3 (lw6sys_context_t * sys_context,
 				    lw6sys_progress_t * progress1,
-				    lw6sys_progress_t * progress2,
-				    lw6sys_progress_t * progress3,
-				    lw6sys_progress_t * progress_src);
+				    lw6sys_progress_t * progress2, lw6sys_progress_t * progress3, lw6sys_progress_t * progress_src);
 extern void lw6sys_progress_split4 (lw6sys_context_t * sys_context,
 				    lw6sys_progress_t * progress1,
 				    lw6sys_progress_t * progress2,
-				    lw6sys_progress_t * progress3,
-				    lw6sys_progress_t * progress4,
-				    lw6sys_progress_t * progress_src);
+				    lw6sys_progress_t * progress3, lw6sys_progress_t * progress4, lw6sys_progress_t * progress_src);
 extern void lw6sys_progress_split5 (lw6sys_context_t * sys_context,
 				    lw6sys_progress_t * progress1,
 				    lw6sys_progress_t * progress2,
 				    lw6sys_progress_t * progress3,
-				    lw6sys_progress_t * progress4,
-				    lw6sys_progress_t * progress5,
-				    lw6sys_progress_t * progress_src);
-extern void lw6sys_progress_begin (lw6sys_context_t * sys_context,
-				   lw6sys_progress_t * progress);
-extern void lw6sys_progress_half (lw6sys_context_t * sys_context,
-				  lw6sys_progress_t * progress);
-extern void lw6sys_progress_end (lw6sys_context_t * sys_context,
-				 lw6sys_progress_t * progress);
+				    lw6sys_progress_t * progress4, lw6sys_progress_t * progress5, lw6sys_progress_t * progress_src);
+extern void lw6sys_progress_begin (lw6sys_context_t * sys_context, lw6sys_progress_t * progress);
+extern void lw6sys_progress_half (lw6sys_context_t * sys_context, lw6sys_progress_t * progress);
+extern void lw6sys_progress_end (lw6sys_context_t * sys_context, lw6sys_progress_t * progress);
 
 /* sys-random.c */
-extern u_int32_t lw6sys_random (lw6sys_context_t * sys_context,
-				u_int32_t range);
-extern float lw6sys_random_float (lw6sys_context_t * sys_context, float min,
-				  float max);
+extern u_int32_t lw6sys_random (lw6sys_context_t * sys_context, u_int32_t range);
+extern float lw6sys_random_float (lw6sys_context_t * sys_context, float min, float max);
 
 /* sys-sdl.c */
 extern int lw6sys_sdl_register (lw6sys_context_t * sys_context);
 extern int lw6sys_sdl_unregister (lw6sys_context_t * sys_context);
 
 /* sys-serial.c */
-extern void lw6sys_serialize_int64 (lw6sys_context_t * sys_context,
-				    unsigned char *data, int64_t value);
-extern int64_t lw6sys_unserialize_int64 (lw6sys_context_t * sys_context,
-					 unsigned char *data);
-extern void lw6sys_serialize_int32 (lw6sys_context_t * sys_context,
-				    unsigned char *data, int32_t value);
-extern int32_t lw6sys_unserialize_int32 (lw6sys_context_t * sys_context,
-					 unsigned char *data);
-extern void lw6sys_serialize_int16 (lw6sys_context_t * sys_context,
-				    unsigned char *data, int16_t value);
-extern int16_t lw6sys_unserialize_int16 (lw6sys_context_t * sys_context,
-					 unsigned char *data);
+extern void lw6sys_serialize_int64 (lw6sys_context_t * sys_context, unsigned char *data, int64_t value);
+extern int64_t lw6sys_unserialize_int64 (lw6sys_context_t * sys_context, unsigned char *data);
+extern void lw6sys_serialize_int32 (lw6sys_context_t * sys_context, unsigned char *data, int32_t value);
+extern int32_t lw6sys_unserialize_int32 (lw6sys_context_t * sys_context, unsigned char *data);
+extern void lw6sys_serialize_int16 (lw6sys_context_t * sys_context, unsigned char *data, int16_t value);
+extern int16_t lw6sys_unserialize_int16 (lw6sys_context_t * sys_context, unsigned char *data);
 
 /* sys-shape.c */
-extern int lw6sys_shape_check_min_max_whd (lw6sys_context_t * sys_context,
-					   const lw6sys_whd_t * shape,
-					   const lw6sys_whd_t * min,
-					   const lw6sys_whd_t * max);
-extern int lw6sys_shape_check_pos (lw6sys_context_t * sys_context,
-				   const lw6sys_whd_t * shape,
-				   const lw6sys_xyz_t * pos);
-extern int lw6sys_shape_is_same (lw6sys_context_t * sys_context,
-				 const lw6sys_whd_t * shape_a,
-				 const lw6sys_whd_t * shape_b);
-extern int lw6sys_shape_is_same_xy (lw6sys_context_t * sys_context,
-				    const lw6sys_whd_t * shape_a,
-				    const lw6sys_whd_t * shape_b);
-extern int lw6sys_shape_volume_whd (lw6sys_context_t * sys_context,
-				    const lw6sys_whd_t * shape);
-extern int lw6sys_shape_surface_wh (lw6sys_context_t * sys_context,
-				    const lw6sys_whd_t * shape);
+extern int lw6sys_shape_check_min_max_whd (lw6sys_context_t * sys_context, const lw6sys_whd_t * shape, const lw6sys_whd_t * min, const lw6sys_whd_t * max);
+extern int lw6sys_shape_check_pos (lw6sys_context_t * sys_context, const lw6sys_whd_t * shape, const lw6sys_xyz_t * pos);
+extern int lw6sys_shape_is_same (lw6sys_context_t * sys_context, const lw6sys_whd_t * shape_a, const lw6sys_whd_t * shape_b);
+extern int lw6sys_shape_is_same_xy (lw6sys_context_t * sys_context, const lw6sys_whd_t * shape_a, const lw6sys_whd_t * shape_b);
+extern int lw6sys_shape_volume_whd (lw6sys_context_t * sys_context, const lw6sys_whd_t * shape);
+extern int lw6sys_shape_surface_wh (lw6sys_context_t * sys_context, const lw6sys_whd_t * shape);
 
 /* sys-signal.c */
-extern void lw6sys_signal_custom (lw6sys_context_t * sys_context,
-				  int trap_errors);
+extern void lw6sys_signal_custom (lw6sys_context_t * sys_context, int trap_errors);
 extern void lw6sys_signal_default (lw6sys_context_t * sys_context);
 extern void lw6sys_signal_term_handler (int signum);
 extern void lw6sys_signal_int_handler (int signum);
@@ -1543,105 +1199,60 @@ extern void lw6sys_signal_send_quit (lw6sys_context_t * sys_context);
 extern int lw6sys_signal_poll_quit (lw6sys_context_t * sys_context);
 
 /* sys-sort.c */
-extern int lw6sys_sort_int_callback (const lw6sys_list_t ** list_a,
-				     const lw6sys_list_t ** list_b);
-extern int lw6sys_sort_int_desc_callback (const lw6sys_list_t ** list_a,
-					  const lw6sys_list_t ** list_b);
-extern int lw6sys_sort_float_callback (const lw6sys_list_t ** list_a,
-				       const lw6sys_list_t ** list_b);
-extern int lw6sys_sort_float_desc_callback (const lw6sys_list_t ** list_a,
-					    const lw6sys_list_t ** list_b);
-extern int lw6sys_sort_str_callback (const lw6sys_list_t ** list_a,
-				     const lw6sys_list_t ** list_b);
-extern int lw6sys_sort_str_desc_callback (const lw6sys_list_t ** list_a,
-					  const lw6sys_list_t ** list_b);
-extern void lw6sys_sort (lw6sys_context_t * sys_context,
-			 lw6sys_list_t ** list,
-			 lw6sys_sort_callback_func_t sort_func);
+extern int lw6sys_sort_int_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
+extern int lw6sys_sort_int_desc_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
+extern int lw6sys_sort_float_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
+extern int lw6sys_sort_float_desc_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
+extern int lw6sys_sort_str_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
+extern int lw6sys_sort_str_desc_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
+extern void lw6sys_sort (lw6sys_context_t * sys_context, lw6sys_list_t ** list, lw6sys_sort_callback_func_t sort_func);
 
 /* sys-spinlock.c */
-extern lw6sys_spinlock_t *lw6sys_spinlock_create (lw6sys_context_t *
-						  sys_context);
-extern void lw6sys_spinlock_destroy (lw6sys_context_t * sys_context,
-				     lw6sys_spinlock_t * spinlock);
-extern int lw6sys_spinlock_lock (lw6sys_context_t * sys_context,
-				 lw6sys_spinlock_t * spinlock);
-extern int lw6sys_spinlock_trylock (lw6sys_context_t * sys_context,
-				    lw6sys_spinlock_t * spinlock);
-extern int lw6sys_spinlock_unlock (lw6sys_context_t * sys_context,
-				   lw6sys_spinlock_t * spinlock);
+extern lw6sys_spinlock_t *lw6sys_spinlock_create (lw6sys_context_t * sys_context);
+extern void lw6sys_spinlock_destroy (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spinlock);
+extern int lw6sys_spinlock_lock (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spinlock);
+extern int lw6sys_spinlock_trylock (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spinlock);
+extern int lw6sys_spinlock_unlock (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spinlock);
 
 /* sys-str.c */
-extern char *lw6sys_str_copy (lw6sys_context_t * sys_context,
-			      const char *src);
-extern char *lw6sys_str_concat (lw6sys_context_t * sys_context,
-				const char *str1, const char *str2);
-extern char *lw6sys_new_sprintf (lw6sys_context_t * sys_context,
-				 const char *fmt, ...)
-  __attribute__ ((format (printf, 2, 3)));
-extern int lw6sys_buf_sprintf (lw6sys_context_t * sys_context, char *buf,
-			       int len, const char *fmt, ...)
-  __attribute__ ((format (printf, 4, 5)));
-extern int lw6sys_str_is_blank (lw6sys_context_t * sys_context,
-				const char *str);
-extern int lw6sys_str_is_null_or_empty (lw6sys_context_t * sys_context,
-					const char *str);
-extern const char *lw6sys_str_empty_if_null (lw6sys_context_t * sys_context,
-					     const char *str);
-extern int lw6sys_str_is_same (lw6sys_context_t * sys_context,
-			       const char *str_a, const char *str_b);
-extern int lw6sys_str_is_same_no_case (lw6sys_context_t * sys_context,
-				       const char *str_a, const char *str_b);
-extern int lw6sys_str_starts_with (lw6sys_context_t * sys_context,
-				   const char *str, const char *beginning);
-extern int lw6sys_str_starts_with_no_case (lw6sys_context_t * sys_context,
-					   const char *str,
-					   const char *beginning);
-extern int lw6sys_skip_blanks (lw6sys_context_t * sys_context,
-			       char **str_ptr);
+extern char *lw6sys_str_copy (lw6sys_context_t * sys_context, const char *src);
+extern char *lw6sys_str_concat (lw6sys_context_t * sys_context, const char *str1, const char *str2);
+extern char *lw6sys_new_sprintf (lw6sys_context_t * sys_context, const char *fmt, ...) __attribute__ ((format (printf, 2, 3)));
+extern int lw6sys_buf_sprintf (lw6sys_context_t * sys_context, char *buf, int len, const char *fmt, ...) __attribute__ ((format (printf, 4, 5)));
+extern int lw6sys_str_is_blank (lw6sys_context_t * sys_context, const char *str);
+extern int lw6sys_str_is_null_or_empty (lw6sys_context_t * sys_context, const char *str);
+extern const char *lw6sys_str_empty_if_null (lw6sys_context_t * sys_context, const char *str);
+extern int lw6sys_str_is_same (lw6sys_context_t * sys_context, const char *str_a, const char *str_b);
+extern int lw6sys_str_is_same_no_case (lw6sys_context_t * sys_context, const char *str_a, const char *str_b);
+extern int lw6sys_str_starts_with (lw6sys_context_t * sys_context, const char *str, const char *beginning);
+extern int lw6sys_str_starts_with_no_case (lw6sys_context_t * sys_context, const char *str, const char *beginning);
+extern int lw6sys_skip_blanks (lw6sys_context_t * sys_context, char **str_ptr);
 extern void lw6sys_str_cleanup (lw6sys_context_t * sys_context, char *str);
-extern void lw6sys_str_cleanup_ascii7 (lw6sys_context_t * sys_context,
-				       char *str);
-extern char *lw6sys_str_reformat (lw6sys_context_t * sys_context,
-				  const char *str, const char *prefix,
-				  int nb_columns);
-extern void lw6sys_str_reformat_this (lw6sys_context_t * sys_context,
-				      char *str, int nb_columns);
+extern void lw6sys_str_cleanup_ascii7 (lw6sys_context_t * sys_context, char *str);
+extern char *lw6sys_str_reformat (lw6sys_context_t * sys_context, const char *str, const char *prefix, int nb_columns);
+extern void lw6sys_str_reformat_this (lw6sys_context_t * sys_context, char *str, int nb_columns);
 extern char *lw6sys_eol ();
-extern lw6sys_list_t *lw6sys_str_split (lw6sys_context_t * sys_context,
-					const char *str, char c);
-extern lw6sys_list_t *lw6sys_str_split_no_0 (lw6sys_context_t * sys_context,
-					     const char *str, char c);
-extern lw6sys_list_t *lw6sys_str_split_config_item (lw6sys_context_t *
-						    sys_context,
-						    const char *str);
-extern char *lw6sys_str_join (lw6sys_context_t * sys_context,
-			      lw6sys_list_t * list, const char *glue);
+extern lw6sys_list_t *lw6sys_str_split (lw6sys_context_t * sys_context, const char *str, char c);
+extern lw6sys_list_t *lw6sys_str_split_no_0 (lw6sys_context_t * sys_context, const char *str, char c);
+extern lw6sys_list_t *lw6sys_str_split_config_item (lw6sys_context_t * sys_context, const char *str);
+extern char *lw6sys_str_join (lw6sys_context_t * sys_context, lw6sys_list_t * list, const char *glue);
 extern void lw6sys_str_toupper (lw6sys_context_t * sys_context, char *str);
 extern void lw6sys_str_tolower (lw6sys_context_t * sys_context, char *str);
-extern void lw6sys_str_truncate (lw6sys_context_t * sys_context, char *str,
-				 int len);
-extern void lw6sys_str_truncate_middle (lw6sys_context_t * sys_context,
-					char *str, int len,
-					const char *middle);
+extern void lw6sys_str_truncate (lw6sys_context_t * sys_context, char *str, int len);
+extern void lw6sys_str_truncate_middle (lw6sys_context_t * sys_context, char *str, int len, const char *middle);
 extern char *lw6sys_str_random (lw6sys_context_t * sys_context, int len);
-extern char *lw6sys_str_random_words (lw6sys_context_t * sys_context,
-				      int len);
+extern char *lw6sys_str_random_words (lw6sys_context_t * sys_context, int len);
 extern char *lw6sys_str_random_word (lw6sys_context_t * sys_context, int len);
-extern int lw6sys_str_is_bin (lw6sys_context_t * sys_context, const char *buf,
-			      int len);
+extern int lw6sys_str_is_bin (lw6sys_context_t * sys_context, const char *buf, int len);
 
 /* sys-stream.c */
-extern char *lw6sys_stream_file_to_str (lw6sys_context_t * sys_context,
-					FILE * f);
-extern void lw6sys_stream_str_to_file (lw6sys_context_t * sys_context,
-				       FILE * f, char *str);
+extern char *lw6sys_stream_file_to_str (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6sys_stream_str_to_file (lw6sys_context_t * sys_context, FILE * f, char *str);
 
 /* sys-test.c */
 extern int lw6sys_test_register (lw6sys_context_t * sys_context, int mode);
 extern int lw6sys_test_run (lw6sys_context_t * sys_context, int mode);
-extern int lw6sys_test_exec (lw6sys_context_t * sys_context, int argc,
-			     const char *argv[], int mode);
+extern int lw6sys_test_exec (lw6sys_context_t * sys_context, int argc, const char *argv[], int mode);
 
 /* sys-testandset.s */
 extern int lw6sys_test_and_set (int *spinlock);
@@ -1649,22 +1260,12 @@ extern int lw6sys_test_and_set (int *spinlock);
 /* sys-thread.c */
 extern lw6sys_thread_handler_t
   * lw6sys_thread_create (lw6sys_context_t * sys_context,
-			  lw6sys_thread_callback_func_t callback_func,
-			  lw6sys_thread_callback_func_t callback_join,
-			  void *callback_data);
-extern int lw6sys_thread_is_callback_done (lw6sys_context_t * sys_context,
-					   lw6sys_thread_handler_t *
-					   thread_handler);
-extern int lw6sys_thread_wait_callback_done (lw6sys_context_t * sys_context,
-					     lw6sys_thread_handler_t *
-					     thread_handler);
-extern int lw6sys_thread_get_id (lw6sys_context_t * sys_context,
-				 lw6sys_thread_handler_t * thread_handler);
-extern void *lw6sys_thread_get_data (lw6sys_context_t * sys_context,
-				     lw6sys_thread_handler_t *
-				     thread_handler);
-extern void lw6sys_thread_join (lw6sys_context_t * sys_context,
-				lw6sys_thread_handler_t * thread_handler);
+			  lw6sys_thread_callback_func_t callback_func, lw6sys_thread_callback_func_t callback_join, void *callback_data);
+extern int lw6sys_thread_is_callback_done (lw6sys_context_t * sys_context, lw6sys_thread_handler_t * thread_handler);
+extern int lw6sys_thread_wait_callback_done (lw6sys_context_t * sys_context, lw6sys_thread_handler_t * thread_handler);
+extern int lw6sys_thread_get_id (lw6sys_context_t * sys_context, lw6sys_thread_handler_t * thread_handler);
+extern void *lw6sys_thread_get_data (lw6sys_context_t * sys_context, lw6sys_thread_handler_t * thread_handler);
+extern void lw6sys_thread_join (lw6sys_context_t * sys_context, lw6sys_thread_handler_t * thread_handler);
 extern int lw6sys_get_thread_create_count (lw6sys_context_t * sys_context);
 extern int lw6sys_get_thread_join_count (lw6sys_context_t * sys_context);
 extern int lw6sys_check_thread_count (lw6sys_context_t * sys_context);
@@ -1673,47 +1274,32 @@ extern int lw6sys_check_thread_count (lw6sys_context_t * sys_context);
 extern int64_t lw6sys_get_timestamp (lw6sys_context_t * sys_context);
 extern int64_t lw6sys_get_uptime (lw6sys_context_t * sys_context);
 extern int32_t lw6sys_get_cycle (lw6sys_context_t * sys_context);
-extern void lw6sys_timer_update (lw6sys_context_t * sys_context,
-				 int64_t * timestamp, int64_t * uptime,
-				 int32_t * cycle);
+extern void lw6sys_timer_update (lw6sys_context_t * sys_context, int64_t * timestamp, int64_t * uptime, int32_t * cycle);
 extern void lw6sys_sleep (lw6sys_context_t * sys_context, float seconds);
 extern void lw6sys_delay (lw6sys_context_t * sys_context, int msec);
 extern void lw6sys_idle (lw6sys_context_t * sys_context);
 extern void lw6sys_snooze (lw6sys_context_t * sys_context);
 extern void lw6sys_time_init (lw6sys_context_t * sys_context);
-extern char *lw6sys_date_rfc1123 (lw6sys_context_t * sys_context,
-				  int seconds_from_now);
+extern char *lw6sys_date_rfc1123 (lw6sys_context_t * sys_context, int seconds_from_now);
 extern char *lw6sys_date_clf (lw6sys_context_t * sys_context);
-extern char *lw6sys_readable_uptime (lw6sys_context_t * sys_context,
-				     int64_t timestamp_delta);
+extern char *lw6sys_readable_uptime (lw6sys_context_t * sys_context, int64_t timestamp_delta);
 
 /* sys-url.c */
-extern char *lw6sys_url_http_from_ip_port (lw6sys_context_t * sys_context,
-					   const char *ip, int port);
-extern lw6sys_url_t *lw6sys_url_parse (lw6sys_context_t * sys_context,
-				       const char *url);
-extern void lw6sys_url_free (lw6sys_context_t * sys_context,
-			     lw6sys_url_t * url);
-extern char *lw6sys_url_canonize (lw6sys_context_t * sys_context,
-				  const char *url);
-extern int lw6sys_url_is_canonized (lw6sys_context_t * sys_context,
-				    const char *url);
+extern char *lw6sys_url_http_from_ip_port (lw6sys_context_t * sys_context, const char *ip, int port);
+extern lw6sys_url_t *lw6sys_url_parse (lw6sys_context_t * sys_context, const char *url);
+extern void lw6sys_url_free (lw6sys_context_t * sys_context, lw6sys_url_t * url);
+extern char *lw6sys_url_canonize (lw6sys_context_t * sys_context, const char *url);
+extern int lw6sys_url_is_canonized (lw6sys_context_t * sys_context, const char *url);
 
 /* sys-version.c */
-extern int lw6sys_version_is_compatible (lw6sys_context_t * sys_context,
-					 const char *version_a,
-					 const char *version_b);
+extern int lw6sys_version_is_compatible (lw6sys_context_t * sys_context, const char *version_a, const char *version_b);
 
 /* sys-vthread.c */
 extern int lw6sys_vthread_run (lw6sys_context_t * sys_context,
-			       lw6sys_thread_callback_func_t callback_func,
-			       lw6sys_thread_callback_func_t callback_join,
-			       void *callback_data);
+			       lw6sys_thread_callback_func_t callback_func, lw6sys_thread_callback_func_t callback_join, void *callback_data);
 extern int lw6sys_vthread_is_running (lw6sys_context_t * sys_context);
 extern int lw6sys_vthread_create (lw6sys_context_t * sys_context,
-				  lw6sys_thread_callback_func_t callback_func,
-				  lw6sys_thread_callback_func_t callback_join,
-				  void *callback_data);
+				  lw6sys_thread_callback_func_t callback_func, lw6sys_thread_callback_func_t callback_join, void *callback_data);
 extern void lw6sys_vthread_join (lw6sys_context_t * sys_context);
 
 

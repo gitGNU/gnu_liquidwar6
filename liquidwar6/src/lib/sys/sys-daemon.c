@@ -53,8 +53,7 @@ static int _pid_file_descriptor = -1;
  * Return value: newly allocated string
  */
 char *
-lw6sys_daemon_pid_file (lw6sys_context_t * sys_context, int argc,
-			const char *argv[])
+lw6sys_daemon_pid_file (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *user_dir = NULL;
   char *pid_file = NULL;
@@ -99,9 +98,7 @@ lw6sys_daemon_start (lw6sys_context_t * sys_context, char *pid_file)
    * does not seem a very common case, any sane person should use GNU/Linux
    * instead for that purpose.
    */
-  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-	      _x_ ("daemon mode not available on platform \"%s\""),
-	      lw6sys_build_get_host_os ());
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("daemon mode not available on platform \"%s\""), lw6sys_build_get_host_os ());
 #else // LW6_MS_WINDOWS || LW6_MAC_OS_X
   pid_t fork_ret = 0;
   char *pid_str = NULL;
@@ -112,8 +109,7 @@ lw6sys_daemon_start (lw6sys_context_t * sys_context, char *pid_file)
       fork_ret = fork ();
       if (fork_ret < 0)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("fork error code=%d"), fork_ret);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("fork error code=%d"), fork_ret);
 	}
       else
 	{
@@ -141,26 +137,16 @@ lw6sys_daemon_start (lw6sys_context_t * sys_context, char *pid_file)
 	      _pid_file_descriptor = open (pid_file, O_RDWR | O_CREAT, 0640);
 	      if (_pid_file_descriptor >= 0)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("pid file \"%s\""), pid_file);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pid file \"%s\""), pid_file);
 		  if (lockf (_pid_file_descriptor, F_TLOCK, 0) >= 0)
 		    {
-		      pid_str =
-			lw6sys_new_sprintf (sys_context,
-					    "%" LW6SYS_PRINTF_LL "d\n",
-					    (long long) pid_int);
+		      pid_str = lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "d\n", (long long) pid_int);
 		      if (pid_str)
 			{
-			  if (write
-			      (_pid_file_descriptor, pid_str,
-			       strlen (pid_str)) > 0)
+			  if (write (_pid_file_descriptor, pid_str, strlen (pid_str)) > 0)
 			    {
 			      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					  _x_
-					  ("daemon started pid=%"
-					   LW6SYS_PRINTF_LL
-					   "d, pid file is \"%s\""),
-					  (long long) pid_int, pid_file);
+					  _x_ ("daemon started pid=%" LW6SYS_PRINTF_LL "d, pid file is \"%s\""), (long long) pid_int, pid_file);
 			    }
 			  LW6SYS_FREE (sys_context, pid_str);
 			}
@@ -168,26 +154,19 @@ lw6sys_daemon_start (lw6sys_context_t * sys_context, char *pid_file)
 		  else
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_
-				  ("daemon pid=%" LW6SYS_PRINTF_LL
-				   "d unable to lock \"%s\""),
-				  (long long) pid_int, pid_file);
+				  _x_ ("daemon pid=%" LW6SYS_PRINTF_LL "d unable to lock \"%s\""), (long long) pid_int, pid_file);
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_ ("daemon pid=%" LW6SYS_PRINTF_LL
-				   "d unable to open \"%s\""),
-			      (long long) pid_int, pid_file);
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("daemon pid=%" LW6SYS_PRINTF_LL "d unable to open \"%s\""), (long long) pid_int, pid_file);
 		}
 	    }
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't start daemon twice"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't start daemon twice"));
     }
 #endif // LW6_MS_WINDOWS || LW6_MAC_OS_X
 
@@ -211,15 +190,12 @@ lw6sys_daemon_stop (lw6sys_context_t * sys_context, char *pid_file)
   int ret = 0;
 
 #if LW6_MS_WINDOWS || LW6_MAC_OS_X
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("no daemon on platform \"%s\""),
-	      lw6sys_build_get_host_os ());
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no daemon on platform \"%s\""), lw6sys_build_get_host_os ());
   ret = 1;
 #else // LW6_MS_WINDOWS || LW6_MAC_OS_X
   if (_pid_file_descriptor >= 0)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("closing pid file \"%s\""), pid_file);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("closing pid file \"%s\""), pid_file);
       close (_pid_file_descriptor);
       _pid_file_descriptor = -1;
     }
@@ -229,14 +205,12 @@ lw6sys_daemon_stop (lw6sys_context_t * sys_context, char *pid_file)
       unlink (pid_file);
       if (!lw6sys_file_exists (sys_context, pid_file))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("removed pid file \"%s\""), pid_file);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("removed pid file \"%s\""), pid_file);
 	  ret = 1;
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("unable to remove pid file \"%s\""), pid_file);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to remove pid file \"%s\""), pid_file);
 	}
     }
 #endif // LW6_MS_WINDOWS || LW6_MAC_OS_X

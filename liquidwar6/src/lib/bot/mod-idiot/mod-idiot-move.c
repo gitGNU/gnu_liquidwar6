@@ -42,8 +42,7 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
   lw6sys_whd_t shape = { 0, 0, 0 };
   lw6ker_cursor_t cursor;
 
-  if (lw6ker_game_state_get_cursor
-      (data->game_state, &cursor, data->param.cursor_id))
+  if (lw6ker_game_state_get_cursor (data->game_state, &cursor, data->param.cursor_id))
     {
       x = cursor.pos.x;
       y = cursor.pos.y;
@@ -60,48 +59,34 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 	  y = lw6sys_random (shape.h);
 	  idiot_context->target_pos_x = x;
 	  idiot_context->target_pos_y = y;
-	  if (data->param.iq >= _MOD_IDIOT_IQ_LIMIT1
-	      && data->param.iq < _MOD_IDIOT_IQ_LIMIT2)
+	  if (data->param.iq >= _MOD_IDIOT_IQ_LIMIT1 && data->param.iq < _MOD_IDIOT_IQ_LIMIT2)
 	    {
 	      // here, we don't search anymore, just choose random
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("idiot bot acting randomly, choosed %d,%d"), x, y);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("idiot bot acting randomly, choosed %d,%d"), x, y);
 	      found = 1;
 	    }
 	  else
 	    {
 	      for (z = 0; z < shape.d && !found; ++z)
 		{
-		  fighter_id =
-		    lw6ker_game_state_get_fighter_id (sys_context,
-						      data->game_state, x, y,
-						      z);
+		  fighter_id = lw6ker_game_state_get_fighter_id (sys_context, data->game_state, x, y, z);
 		  if (fighter_id >= 0)
 		    {
-		      fighter =
-			lw6ker_game_state_get_fighter_ro_by_id
-			(data->game_state, fighter_id);
+		      fighter = lw6ker_game_state_get_fighter_ro_by_id (data->game_state, fighter_id);
 		      if (fighter != NULL)
 			{
-			  if (data->param.iq >= _MOD_IDIOT_IQ_LIMIT2
-			      && fighter->team_color != team_color)
+			  if (data->param.iq >= _MOD_IDIOT_IQ_LIMIT2 && fighter->team_color != team_color)
 			    {
 			      // default behavior, find an opponent
 			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-					  _x_
-					  ("idiot bot acting normally, choosed opponent of color %d at %d,%d"),
-					  fighter->team_color, x, y);
+					  _x_ ("idiot bot acting normally, choosed opponent of color %d at %d,%d"), fighter->team_color, x, y);
 			      found = 1;
 			    }
-			  if (data->param.iq < _MOD_IDIOT_IQ_LIMIT1
-			      && fighter->team_color == team_color)
+			  if (data->param.iq < _MOD_IDIOT_IQ_LIMIT1 && fighter->team_color == team_color)
 			    {
 			      // acting stupid, centering on self
 			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-					  _x_
-					  ("idiot bot acting stupid, choosed self color %d at %d,%d"),
-					  fighter->team_color, x, y);
+					  _x_ ("idiot bot acting stupid, choosed self color %d at %d,%d"), fighter->team_color, x, y);
 			      found = 1;
 			    }
 			}
@@ -109,8 +94,7 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 		}
 	      if (!found)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("idiot bot found nothing at %d,%d"), x, y);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("idiot bot found nothing at %d,%d"), x, y);
 		}
 	    }
 	}
@@ -118,9 +102,7 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("idiot bot moved start=%d,%d target=%d,%d after %d tries"),
-		  idiot_context->start_pos_x, idiot_context->start_pos_y,
-		  idiot_context->target_pos_x, idiot_context->target_pos_y,
-		  i);
+		  idiot_context->start_pos_x, idiot_context->start_pos_y, idiot_context->target_pos_x, idiot_context->target_pos_y, i);
 
       ret = found;
     }
@@ -129,8 +111,7 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 }
 
 int
-_mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x, int *y,
-		      lw6bot_data_t * data)
+_mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x, int *y, lw6bot_data_t * data)
 {
   int ret = 0;
   int rounds = 0;
@@ -145,20 +126,12 @@ _mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x, int *y,
   lw6ker_game_state_get_shape (sys_context, data->game_state, &shape);
 
   rounds = lw6ker_game_state_get_rounds (sys_context, data->game_state);
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("idiot bot move rounds=%d"),
-	      rounds);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("idiot bot move rounds=%d"), rounds);
 
   average_size = (shape.w + shape.h) / 2.0f;
-  d_move =
-    lw6sys_imax (1,
-		 (((float) _MOD_IDIOT_DEFAULT_MOVE_ROUNDS) * average_size) /
-		 (((float) _MOD_IDIOT_REFERENCE_SIZE) * data->param.speed));
-  d_wait =
-    lw6sys_imax (1,
-		 (((float) _MOD_IDIOT_DEFAULT_WAIT_ROUNDS) * average_size) /
-		 (((float) _MOD_IDIOT_REFERENCE_SIZE) * data->param.speed));
-  if (idiot_context->last_move_round < 0
-      || (rounds >= idiot_context->last_move_round + d_move + d_wait))
+  d_move = lw6sys_imax (1, (((float) _MOD_IDIOT_DEFAULT_MOVE_ROUNDS) * average_size) / (((float) _MOD_IDIOT_REFERENCE_SIZE) * data->param.speed));
+  d_wait = lw6sys_imax (1, (((float) _MOD_IDIOT_DEFAULT_WAIT_ROUNDS) * average_size) / (((float) _MOD_IDIOT_REFERENCE_SIZE) * data->param.speed));
+  if (idiot_context->last_move_round < 0 || (rounds >= idiot_context->last_move_round + d_move + d_wait))
     {
       new_target (idiot_context, data);
       if (idiot_context->last_move_round >= 0)
@@ -177,12 +150,8 @@ _mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x, int *y,
   if (rounds > start_of_move && rounds < end_of_move)
     {
       dt = lw6sys_imax (1, end_of_move - start_of_move);
-      (*x) =
-	((end_of_move - rounds) * idiot_context->start_pos_x +
-	 (rounds - start_of_move) * idiot_context->target_pos_x) / dt;
-      (*y) =
-	((end_of_move - rounds) * idiot_context->start_pos_y +
-	 (rounds - start_of_move) * idiot_context->target_pos_y) / dt;
+      (*x) = ((end_of_move - rounds) * idiot_context->start_pos_x + (rounds - start_of_move) * idiot_context->target_pos_x) / dt;
+      (*y) = ((end_of_move - rounds) * idiot_context->start_pos_y + (rounds - start_of_move) * idiot_context->target_pos_y) / dt;
     }
   else if (rounds >= end_of_move)
     {

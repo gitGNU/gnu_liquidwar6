@@ -33,26 +33,21 @@
  * Low-level SDL initialisation.
  */
 _mod_soft_context_t *
-_mod_soft_init (int argc, const char *argv[],
-		lw6gui_video_mode_t * video_mode,
-		lw6gui_resize_callback_func_t resize_callback)
+_mod_soft_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
   _mod_soft_context_t *soft_context = NULL;
   int sdl_ok = 1;
   int ttf_ok = 1;
   SDL_version version;
 
-  soft_context =
-    (_mod_soft_context_t *) LW6SYS_CALLOC (sizeof (_mod_soft_context_t));
+  soft_context = (_mod_soft_context_t *) LW6SYS_CALLOC (sizeof (_mod_soft_context_t));
 #ifndef LW6_ALLINONE
   if (soft_context)
     {
-      soft_context->shared_sdl_handle =
-	lw6dyn_dlopen_shared (argc, argv, "gfx", "sdl");
+      soft_context->shared_sdl_handle = lw6dyn_dlopen_shared (argc, argv, "gfx", "sdl");
       if (soft_context->shared_sdl_handle == NULL)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("unable to load shared SDL code"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to load shared SDL code"));
 	  _mod_soft_quit (soft_context);
 	  soft_context = NULL;
 	}
@@ -61,21 +56,15 @@ _mod_soft_init (int argc, const char *argv[],
 
   if (soft_context)
     {
-      _lw6gfx_sdl_bind_funcs (&(soft_context->sdl_context.funcs),
-			      soft_context->shared_sdl_handle);
+      _lw6gfx_sdl_bind_funcs (&(soft_context->sdl_context.funcs), soft_context->shared_sdl_handle);
 
-      if (_mod_soft_path_init (&(soft_context->path), argc, argv) &&
-	  _lw6gfx_sdl_path_init (&(soft_context->sdl_context), argc, argv))
+      if (_mod_soft_path_init (&(soft_context->path), argc, argv) && _lw6gfx_sdl_path_init (&(soft_context->sdl_context), argc, argv))
 	{
 	  memset (&version, 0, sizeof (SDL_version));
 	  SDL_VERSION (&version);
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("SDL header version when compiled %u.%u.%u"),
-		      version.major, version.minor, version.patch);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL header version when compiled %u.%u.%u"), version.major, version.minor, version.patch);
 	  version = *SDL_Linked_Version ();
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("SDL linked version now at runtime %u.%u.%u"),
-		      version.major, version.minor, version.patch);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL linked version now at runtime %u.%u.%u"), version.major, version.minor, version.patch);
 
 	  if (lw6sys_sdl_register ())
 	    {
@@ -84,20 +73,16 @@ _mod_soft_init (int argc, const char *argv[],
 
 	  if (!SDL_WasInit (SDL_INIT_EVENTTHREAD))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("unable to start SDL event thread, events treated in main thread with poll() functions"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to start SDL event thread, events treated in main thread with poll() functions"));
 	    }
-	  sdl_ok = sdl_ok && (SDL_WasInit (SDL_INIT_VIDEO)
-			      || !SDL_InitSubSystem (SDL_INIT_VIDEO));
+	  sdl_ok = sdl_ok && (SDL_WasInit (SDL_INIT_VIDEO) || !SDL_InitSubSystem (SDL_INIT_VIDEO));
 	  if (sdl_ok)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL Init"));
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-			  _("SDL init error: \"%s\""), SDL_GetError ());
+	      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("SDL init error: \"%s\""), SDL_GetError ());
 	      _mod_soft_quit (soft_context);
 	      soft_context = NULL;
 	    }
@@ -116,14 +101,11 @@ _mod_soft_init (int argc, const char *argv[],
 	      ttf_ok = (TTF_Init () != -1);
 	      if (ttf_ok)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_ ("SDL_ttf Init"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL_ttf Init"));
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-			      _("SDL_ttf init error: \"%s\""),
-			      TTF_GetError ());
+		  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("SDL_ttf init error: \"%s\""), TTF_GetError ());
 		  _mod_soft_quit (soft_context);
 		  soft_context = NULL;
 		}
@@ -135,30 +117,24 @@ _mod_soft_init (int argc, const char *argv[],
 		{
 		  lw6gui_input_init (&(soft_context->sdl_context.input));
 		  //_mod_soft_show_mouse (&(soft_context->utils_context), 0, 1);
-		  _mod_soft_set_resize_callback (soft_context,
-						 resize_callback);
-		  if (_mod_soft_load_consts (soft_context)
-		      &&
-		      _lw6gfx_sdl_load_consts (&(soft_context->sdl_context)))
+		  _mod_soft_set_resize_callback (soft_context, resize_callback);
+		  if (_mod_soft_load_consts (soft_context) && _lw6gfx_sdl_load_consts (&(soft_context->sdl_context)))
 		    {
 		      if (_mod_soft_set_video_mode (soft_context, video_mode))
 			{
-			  _lw6gfx_sdl_timer_update (&
-						    (soft_context->sdl_context));
+			  _lw6gfx_sdl_timer_update (&(soft_context->sdl_context));
 			  // todo
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-				      _("unable to set video mode"));
+			  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to set video mode"));
 			  _mod_soft_quit (soft_context);
 			  soft_context = NULL;
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-				  _("unable to load consts"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to load consts"));
 		      _mod_soft_quit (soft_context);
 		      soft_context = NULL;
 		    }

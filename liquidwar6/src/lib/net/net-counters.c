@@ -34,8 +34,7 @@
 #define _UDP_SEND_FILE "udp-send.log"
 
 int
-_lw6net_counters_init (int argc, const char *argv[],
-		       _lw6net_counters_t * counters)
+_lw6net_counters_init (int argc, const char *argv[], _lw6net_counters_t * counters)
 {
   int ret = 0;
 
@@ -54,27 +53,18 @@ _lw6net_counters_quit (_lw6net_counters_t * counters)
   if (counters->open_counter < counters->close_counter)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("%d sockets opened, but %d closed, there's probably a bug"),
-		  counters->open_counter, counters->close_counter);
+		  _x_ ("%d sockets opened, but %d closed, there's probably a bug"), counters->open_counter, counters->close_counter);
     }
   if (counters->open_counter > counters->close_counter)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("%d sockets opened, but only %d closed"),
-		  counters->open_counter, counters->close_counter);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("%d sockets opened, but only %d closed"), counters->open_counter, counters->close_counter);
     }
   if (counters->close_counter == counters->open_counter)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("%d sockets opened and closed"),
-		  counters->open_counter);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("%d sockets opened and closed"), counters->open_counter);
     }
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("%d kb sent"), lw6net_counters_get_sent_kbytes ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("%d kb received"), lw6net_counters_get_received_kbytes ());
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("%d kb sent"), lw6net_counters_get_sent_kbytes ());
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("%d kb received"), lw6net_counters_get_received_kbytes ());
 
   /*
    * Only free spinlock now as functions above might need it

@@ -36,19 +36,12 @@ _mod_gl1_background_void_context_t;
  */
 extern void
 _mod_gl1_background_void_display_background (mod_gl1_utils_context_t *
-					     utils_context,
-					     _mod_gl1_background_void_context_t
-					     * void_context,
-					     const lw6gui_look_t * look);
+					     utils_context, _mod_gl1_background_void_context_t * void_context, const lw6gui_look_t * look);
 
 /*
  * In setup.c
  */
-extern _mod_gl1_background_void_context_t
-  * _mod_gl1_background_void_init (mod_gl1_utils_context_t * utils_context);
-extern void _mod_gl1_background_void_quit (mod_gl1_utils_context_t *
-					   utils_context,
-					   _mod_gl1_background_void_context_t
-					   * void_context);
+extern _mod_gl1_background_void_context_t *_mod_gl1_background_void_init (mod_gl1_utils_context_t * utils_context);
+extern void _mod_gl1_background_void_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_void_context_t * void_context);
 
 #endif

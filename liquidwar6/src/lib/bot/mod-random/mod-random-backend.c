@@ -70,8 +70,7 @@ _init (int argc, const char *argv[], lw6bot_data_t * data)
 static void
 _quit (void *bot_context)
 {
-  _mod_random_context_t *random_context =
-    (_mod_random_context_t *) bot_context;
+  _mod_random_context_t *random_context = (_mod_random_context_t *) bot_context;
 
   if (random_context)
     {
@@ -83,8 +82,7 @@ static int
 _next_move (void *bot_context, int *x, int *y, lw6bot_data_t * data)
 {
   int ret = 0;
-  _mod_random_context_t *random_context =
-    (_mod_random_context_t *) bot_context;
+  _mod_random_context_t *random_context = (_mod_random_context_t *) bot_context;
 
   if (random_context)
     {
@@ -98,8 +96,7 @@ static char *
 _repr (void *bot_context, u_int32_t id)
 {
   char *ret = NULL;
-  _mod_random_context_t *random_context =
-    (_mod_random_context_t *) bot_context;
+  _mod_random_context_t *random_context = (_mod_random_context_t *) bot_context;
 
   if (random_context)
     {
@@ -122,20 +119,15 @@ mod_random_get_pedigree ()
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
-  module_pedigree =
-    (lw6sys_module_pedigree_t *)
-    LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
+  module_pedigree = (lw6sys_module_pedigree_t *) LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
   if (module_pedigree)
     {
       module_pedigree->id = "random";
       module_pedigree->category = "bot";
       module_pedigree->name = _("Random");
-      module_pedigree->readme =
-	_x_
-	("A totally random bot, cursor goes anywhere, whithout any logic.");
+      module_pedigree->readme = _x_ ("A totally random bot, cursor goes anywhere, whithout any logic.");
       module_pedigree->version = VERSION;
-      module_pedigree->copyright =
-	"Copyright (C)  2014  Christian Mauduit <ufoot@ufoot.org>";
+      module_pedigree->copyright = "Copyright (C)  2014  Christian Mauduit <ufoot@ufoot.org>";
       module_pedigree->license = "GPLv3+ (GNU GPL version 3 or later)";
       module_pedigree->date = __DATE__;
       module_pedigree->time = __TIME__;

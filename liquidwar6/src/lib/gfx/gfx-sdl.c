@@ -52,17 +52,12 @@ _lw6gfx_sdl_bind_funcs (_lw6gfx_sdl_funcs_t * funcs, void *handle)
   funcs->path_init = lw6dyn_dlsym (handle, "shared_sdl_path_init");
   funcs->path_quit = lw6dyn_dlsym (handle, "shared_sdl_path_quit");
   funcs->timer_update = lw6dyn_dlsym (handle, "shared_sdl_timer_update");
-  funcs->timer_get_timestamp =
-    lw6dyn_dlsym (handle, "shared_sdl_timer_get_timestamp");
-  funcs->timer_get_uptime =
-    lw6dyn_dlsym (handle, "shared_sdl_timer_get_uptime");
-  funcs->timer_get_cycle =
-    lw6dyn_dlsym (handle, "shared_sdl_timer_get_cycle");
+  funcs->timer_get_timestamp = lw6dyn_dlsym (handle, "shared_sdl_timer_get_timestamp");
+  funcs->timer_get_uptime = lw6dyn_dlsym (handle, "shared_sdl_timer_get_uptime");
+  funcs->timer_get_cycle = lw6dyn_dlsym (handle, "shared_sdl_timer_get_cycle");
 
   ret = (funcs->load_consts && funcs->unload_consts && funcs->pump_events
-	 && funcs->path_init && funcs->path_quit && funcs->timer_update
-	 && funcs->timer_get_timestamp && funcs->timer_get_uptime
-	 && funcs->timer_get_cycle);
+	 && funcs->path_init && funcs->path_quit && funcs->timer_update && funcs->timer_get_timestamp && funcs->timer_get_uptime && funcs->timer_get_cycle);
 #endif // MOD_GL1 || MOD_GLES2 || MOD_SOFT
 #endif // LW6_ALLINONE
 
@@ -78,8 +73,7 @@ _lw6gfx_sdl_unbind_funcs (_lw6gfx_sdl_funcs_t * funcs)
 static void
 _warning (const char *func_name)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-	      _x_ ("gfx sdl function \"%s\" is not defined"), func_name);
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("gfx sdl function \"%s\" is not defined"), func_name);
 }
 
 int
@@ -113,17 +107,13 @@ _lw6gfx_sdl_unload_consts (_lw6gfx_sdl_context_t * sdl_context)
 }
 
 lw6gui_input_t *
-_lw6gfx_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context,
-			 _lw6gfx_sdl_event_callback_t event_callback_func,
-			 void *event_callback_data)
+_lw6gfx_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context, _lw6gfx_sdl_event_callback_t event_callback_func, void *event_callback_data)
 {
   lw6gui_input_t *ret = NULL;
 
   if (sdl_context->funcs.pump_events)
     {
-      ret =
-	sdl_context->funcs.pump_events (sdl_context, event_callback_func,
-					event_callback_data);
+      ret = sdl_context->funcs.pump_events (sdl_context, event_callback_func, event_callback_data);
     }
   else
     {
@@ -134,8 +124,7 @@ _lw6gfx_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context,
 }
 
 int
-_lw6gfx_sdl_path_init (_lw6gfx_sdl_context_t * sdl_context, int argc,
-		       const char *argv[])
+_lw6gfx_sdl_path_init (_lw6gfx_sdl_context_t * sdl_context, int argc, const char *argv[])
 {
   int ret = 0;
 

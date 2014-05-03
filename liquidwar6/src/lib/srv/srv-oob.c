@@ -43,8 +43,7 @@
  * Return value: new object
  */
 lw6srv_oob_t *
-lw6srv_oob_new (const char *remote_ip, int remote_port, int sock,
-		const char *first_line)
+lw6srv_oob_new (const char *remote_ip, int remote_port, int sock, const char *first_line)
 {
   lw6srv_oob_t *oob = NULL;
 
@@ -99,26 +98,20 @@ lw6srv_oob_free (lw6srv_oob_t * oob)
 	  oob->data.do_not_finish = 1;
 	  if (oob->data.remote_ip)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("joining srv OOB thread serving \"%s:%d\""),
-			  oob->data.remote_ip, oob->data.remote_port);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("joining srv OOB thread serving \"%s:%d\""), oob->data.remote_ip, oob->data.remote_port);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("joining srv OOB thread"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("joining srv OOB thread"));
 	    }
 	  lw6sys_thread_join (sys_context, oob->thread);
 	  if (oob->data.remote_ip)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("joined srv OOB thread serving \"%s:%d\""),
-			  oob->data.remote_ip, oob->data.remote_port);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("joined srv OOB thread serving \"%s:%d\""), oob->data.remote_ip, oob->data.remote_port);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("joined srv OOB thread"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("joined srv OOB thread"));
 	    }
 	}
 
@@ -135,7 +128,6 @@ lw6srv_oob_free (lw6srv_oob_t * oob)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL oob"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL oob"));
     }
 }

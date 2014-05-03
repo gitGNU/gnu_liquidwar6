@@ -45,9 +45,7 @@ mod_gl1_utils_texture_scale (int size)
  * Transforms an SDL bitmap into a proper GL texture.
  */
 static GLuint
-_surface2texture_xywh (mod_gl1_utils_context_t * gfx_context,
-		       SDL_Surface * surface, int x, int y, int w, int h,
-		       int mipmap)
+_surface2texture_xywh (mod_gl1_utils_context_t * gfx_context, SDL_Surface * surface, int x, int y, int w, int h, int mipmap)
 {
   GLuint texture = 0;
 
@@ -57,14 +55,12 @@ _surface2texture_xywh (mod_gl1_utils_context_t * gfx_context,
   Uint32 saved_flags;
   Uint8 saved_alpha;
 
-  if (w > gfx_context->caps.max_texture_size ||
-      h > gfx_context->caps.max_texture_size)
+  if (w > gfx_context->caps.max_texture_size || h > gfx_context->caps.max_texture_size)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("texture is too big (%dx%d) for OpenGL driver (accepts %dx%d)"),
-		  w, h, gfx_context->caps.max_texture_size,
-		  gfx_context->caps.max_texture_size);
+		  w, h, gfx_context->caps.max_texture_size, gfx_context->caps.max_texture_size);
     }
 
   w = lw6gui_power_of_two_ge (w);
@@ -113,37 +109,26 @@ _surface2texture_xywh (mod_gl1_utils_context_t * gfx_context,
       glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
       if (mipmap)
 	{
-	  gluBuild2DMipmaps (GL_TEXTURE_2D,
-			     4, w, h, GL_RGBA, GL_UNSIGNED_BYTE,
-			     image->pixels);
+	  gluBuild2DMipmaps (GL_TEXTURE_2D, 4, w, h, GL_RGBA, GL_UNSIGNED_BYTE, image->pixels);
 	}
       else
 	{
-	  glTexImage2D (GL_TEXTURE_2D,
-			0,
-			GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE,
-			image->pixels);
+	  glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, image->pixels);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("glGenTextures failed"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("glGenTextures failed"));
     }
 
   if (texture && glIsTexture (texture))
     {
       gfx_context->texture_counter.new_counter++;
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("new texture %d (%dx%d mipmap=%d)"), (int) texture, w,
-		  h, mipmap);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("new texture %d (%dx%d mipmap=%d)"), (int) texture, w, h, mipmap);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_
-		  ("unable to generate texture from surface x,y=%d,%d w,h=%d,%d"),
-		  y, y, w, h);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unable to generate texture from surface x,y=%d,%d w,h=%d,%d"), y, y, w, h);
     }
 
   mod_gl1_utils_delete_surface (gfx_context, image);	/* No longer needed */
@@ -155,8 +140,7 @@ _surface2texture_xywh (mod_gl1_utils_context_t * gfx_context,
  * Transforms an SDL bitmap into a proper GL texture.
  */
 static GLuint
-_surface2texture_wh (mod_gl1_utils_context_t * gfx_context,
-		     SDL_Surface * surface, int w, int h, int mipmap)
+_surface2texture_wh (mod_gl1_utils_context_t * gfx_context, SDL_Surface * surface, int w, int h, int mipmap)
 {
   return _surface2texture_xywh (gfx_context, surface, 0, 0, w, h, mipmap);
 }
@@ -165,8 +149,7 @@ _surface2texture_wh (mod_gl1_utils_context_t * gfx_context,
  * Transforms an SDL bitmap into a proper GL texture.
  */
 static GLuint
-_surface2texture (mod_gl1_utils_context_t * gfx_context,
-		  SDL_Surface * surface, int mipmap)
+_surface2texture (mod_gl1_utils_context_t * gfx_context, SDL_Surface * surface, int mipmap)
 {
   int w, h;
 
@@ -181,9 +164,7 @@ _surface2texture (mod_gl1_utils_context_t * gfx_context,
  * Converts a surface to a texture. Public wrapper function.
  */
 GLuint
-mod_gl1_utils_surface2texture_xywh (mod_gl1_utils_context_t * gfx_context,
-				    SDL_Surface * surface, int x, int y,
-				    int w, int h, int mipmap)
+mod_gl1_utils_surface2texture_xywh (mod_gl1_utils_context_t * gfx_context, SDL_Surface * surface, int x, int y, int w, int h, int mipmap)
 {
   GLuint texture;
 
@@ -196,9 +177,7 @@ mod_gl1_utils_surface2texture_xywh (mod_gl1_utils_context_t * gfx_context,
  * Converts a surface to a texture. Public wrapper function.
  */
 GLuint
-mod_gl1_utils_surface2texture_wh (mod_gl1_utils_context_t * gfx_context,
-				  SDL_Surface * surface, int w, int h,
-				  int mipmap)
+mod_gl1_utils_surface2texture_wh (mod_gl1_utils_context_t * gfx_context, SDL_Surface * surface, int w, int h, int mipmap)
 {
   GLuint texture;
 
@@ -211,8 +190,7 @@ mod_gl1_utils_surface2texture_wh (mod_gl1_utils_context_t * gfx_context,
  * Converts a surface to a texture. Public wrapper function.
  */
 GLuint
-mod_gl1_utils_surface2texture (mod_gl1_utils_context_t * gfx_context,
-			       SDL_Surface * surface, int mipmap)
+mod_gl1_utils_surface2texture (mod_gl1_utils_context_t * gfx_context, SDL_Surface * surface, int mipmap)
 {
   GLuint texture;
 
@@ -225,19 +203,14 @@ mod_gl1_utils_surface2texture (mod_gl1_utils_context_t * gfx_context,
  * Transforms an SDL bitmap into a proper GL texture.
  */
 static GLuint
-_map2texture_xywh (mod_gl1_utils_context_t * gfx_context,
-		   const lw6map_level_t * level, int x, int y, int w, int h)
+_map2texture_xywh (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level, int x, int y, int w, int h)
 {
   GLuint texture = 0;
   SDL_Surface *image;
 
-  if (w > gfx_context->caps.max_texture_size ||
-      h > gfx_context->caps.max_texture_size)
+  if (w > gfx_context->caps.max_texture_size || h > gfx_context->caps.max_texture_size)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("map is too big (%dx%d) to be texturized by OpenGL driver"),
-		  w, h);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("map is too big (%dx%d) to be texturized by OpenGL driver"), w, h);
     }
 
   w = lw6gui_power_of_two_ge (w);
@@ -254,17 +227,13 @@ _map2texture_xywh (mod_gl1_utils_context_t * gfx_context,
 	  glBindTexture (GL_TEXTURE_2D, texture);
 	  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
-			   GL_CLAMP_TO_EDGE);
-	  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
-			   GL_CLAMP_TO_EDGE);
-	  glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA,
-			GL_UNSIGNED_BYTE, image->pixels);
+	  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	  glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, image->pixels);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("glGenTextures failed"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("glGenTextures failed"));
 	}
 
       mod_gl1_utils_delete_surface (gfx_context, image);	/* No longer needed */
@@ -273,28 +242,24 @@ _map2texture_xywh (mod_gl1_utils_context_t * gfx_context,
   if (texture && glIsTexture (texture))
     {
       gfx_context->texture_counter.new_counter++;
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("new map texture %d (%dx%d)"), (int) texture, w, h);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("new map texture %d (%dx%d)"), (int) texture, w, h);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to generate texture from map"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to generate texture from map"));
     }
 
   return texture;
 }
 
 static GLuint
-_map2texture_wh (mod_gl1_utils_context_t * gfx_context,
-		 const lw6map_level_t * level, int w, int h)
+_map2texture_wh (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level, int w, int h)
 {
   return _map2texture_xywh (gfx_context, level, 0, 0, w, h);
 }
 
 static GLuint
-_map2texture (mod_gl1_utils_context_t * gfx_context,
-	      const lw6map_level_t * level)
+_map2texture (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level)
 {
   int w, h;
 
@@ -306,9 +271,7 @@ _map2texture (mod_gl1_utils_context_t * gfx_context,
 }
 
 GLuint
-mod_gl1_utils_map2texture_xywh (mod_gl1_utils_context_t * gfx_context,
-				const lw6map_level_t * level, int x, int y,
-				int w, int h)
+mod_gl1_utils_map2texture_xywh (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level, int x, int y, int w, int h)
 {
   GLuint texture;
 
@@ -318,8 +281,7 @@ mod_gl1_utils_map2texture_xywh (mod_gl1_utils_context_t * gfx_context,
 }
 
 GLuint
-mod_gl1_utils_map2texture_wh (mod_gl1_utils_context_t * gfx_context,
-			      const lw6map_level_t * level, int w, int h)
+mod_gl1_utils_map2texture_wh (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level, int w, int h)
 {
   GLuint texture;
 
@@ -329,8 +291,7 @@ mod_gl1_utils_map2texture_wh (mod_gl1_utils_context_t * gfx_context,
 }
 
 GLuint
-mod_gl1_utils_map2texture (mod_gl1_utils_context_t * gfx_context,
-			   const lw6map_level_t * level)
+mod_gl1_utils_map2texture (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level)
 {
   GLuint texture;
 
@@ -349,8 +310,7 @@ mod_gl1_utils_map2texture (mod_gl1_utils_context_t * gfx_context,
  * use mod_gl1_utils_schedule_delete_texture instead.
  */
 void
-mod_gl1_utils_delete_texture (mod_gl1_utils_context_t * gfx_context,
-			      GLuint texture)
+mod_gl1_utils_delete_texture (mod_gl1_utils_context_t * gfx_context, GLuint texture)
 {
   if (texture)
     {
@@ -358,21 +318,16 @@ mod_gl1_utils_delete_texture (mod_gl1_utils_context_t * gfx_context,
       glDeleteTextures (1, (GLuint *) & texture);
       if (glIsTexture ((GLuint) texture))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("delete texture %d"), (int) texture);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("delete texture %d"), (int) texture);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_
-		      ("trying to delete texture %d, but glIsTexture returns false"),
-		      (int) texture);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trying to delete texture %d, but glIsTexture returns false"), (int) texture);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to delete NULL texture"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to delete NULL texture"));
     }
 }
 
@@ -380,8 +335,7 @@ mod_gl1_utils_delete_texture (mod_gl1_utils_context_t * gfx_context,
  * Schedules a texture to be deleted by mod_gl1_utils_flush_delete_texture
  */
 void
-mod_gl1_utils_schedule_delete_texture (mod_gl1_utils_context_t * gfx_context,
-				       GLuint texture)
+mod_gl1_utils_schedule_delete_texture (mod_gl1_utils_context_t * gfx_context, GLuint texture)
 {
   GLuint *texture_ptr = NULL;
 
@@ -389,8 +343,7 @@ mod_gl1_utils_schedule_delete_texture (mod_gl1_utils_context_t * gfx_context,
   if (texture_ptr)
     {
       *texture_ptr = texture;
-      lw6sys_lifo_push (sys_context, &(gfx_context->texture_data.to_delete),
-			(void *) texture_ptr);
+      lw6sys_lifo_push (sys_context, &(gfx_context->texture_data.to_delete), (void *) texture_ptr);
     }
 }
 
@@ -398,8 +351,7 @@ mod_gl1_utils_schedule_delete_texture (mod_gl1_utils_context_t * gfx_context,
  * Deletes all textures scheduled for delete.
  */
 void
-mod_gl1_utils_delete_scheduled_textures (mod_gl1_utils_context_t *
-					 gfx_context)
+mod_gl1_utils_delete_scheduled_textures (mod_gl1_utils_context_t * gfx_context)
 {
   GLuint *texture_ptr = NULL;
 
@@ -407,10 +359,7 @@ mod_gl1_utils_delete_scheduled_textures (mod_gl1_utils_context_t *
     {
       while (!lw6sys_list_is_empty (gfx_context->texture_data.to_delete))
 	{
-	  texture_ptr =
-	    (GLuint *)
-	    lw6sys_lifo_pop (sys_context,
-			     &(gfx_context->texture_data.to_delete));
+	  texture_ptr = (GLuint *) lw6sys_lifo_pop (sys_context, &(gfx_context->texture_data.to_delete));
 	  if (texture_ptr != NULL)
 	    {
 	      mod_gl1_utils_delete_texture (gfx_context, *texture_ptr);
@@ -421,9 +370,7 @@ mod_gl1_utils_delete_scheduled_textures (mod_gl1_utils_context_t *
 }
 
 void
-mod_gl1_utils_texture_update (mod_gl1_utils_context_t *
-			      utils_context,
-			      GLuint texture, SDL_Surface * surface)
+mod_gl1_utils_texture_update (mod_gl1_utils_context_t * utils_context, GLuint texture, SDL_Surface * surface)
 {
   if (texture && surface)
     {
@@ -442,17 +389,12 @@ mod_gl1_utils_texture_update (mod_gl1_utils_context_t *
        */
       if (glIsTexture (texture))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("glTexSubImage2D on %d (%dx%d)"), texture,
-		      surface->w, surface->h);
-	  glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, surface->w, surface->h,
-			   GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("glTexSubImage2D on %d (%dx%d)"), texture, surface->w, surface->h);
+	  glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, surface->w, surface->h, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("%d isn't a texture, can't call glTexSubImage2D"),
-		      texture);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("%d isn't a texture, can't call glTexSubImage2D"), texture);
 	}
     }
 }

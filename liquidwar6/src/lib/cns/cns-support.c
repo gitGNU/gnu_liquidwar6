@@ -69,13 +69,9 @@ lw6cns_term_support ()
   env_term = lw6sys_getenv (sys_context, _ENV_TERM_KEY);
   if (env_term)
     {
-      if (lw6sys_str_is_same (env_term, _ENV_TERM_ALLOWED_XTERM)
-	  || lw6sys_str_is_same (env_term, _ENV_TERM_ALLOWED_LINUX))
+      if (lw6sys_str_is_same (env_term, _ENV_TERM_ALLOWED_XTERM) || lw6sys_str_is_same (env_term, _ENV_TERM_ALLOWED_LINUX))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_
-		      ("term support should be fine, env variable \"%s\" is \"%s\""),
-		      _ENV_TERM_KEY, env_term);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("term support should be fine, env variable \"%s\" is \"%s\""), _ENV_TERM_KEY, env_term);
 	  ret = 1;
 	}
       else
@@ -83,8 +79,7 @@ lw6cns_term_support ()
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_
 		      ("term support probably broken, env variable \"%s\" is \"%s\" which is neither \"%s\" or \"%s\""),
-		      _ENV_TERM_KEY, env_term, _ENV_TERM_ALLOWED_XTERM,
-		      _ENV_TERM_ALLOWED_LINUX);
+		      _ENV_TERM_KEY, env_term, _ENV_TERM_ALLOWED_XTERM, _ENV_TERM_ALLOWED_LINUX);
 	}
 
       LW6SYS_FREE (env_term);
@@ -92,10 +87,7 @@ lw6cns_term_support ()
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_
-		  ("term support probably broken, env variable \"%s\" is not set"),
-		  _ENV_TERM_KEY);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("term support probably broken, env variable \"%s\" is not set"), _ENV_TERM_KEY);
     }
 
   return ret;

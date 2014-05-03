@@ -65,9 +65,7 @@ lw6sys_stream_file_to_str (lw6sys_context_t * sys_context, FILE * f)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("file too long, function \"%s\" can't handle it"),
-		      __FUNCTION__);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("file too long, function \"%s\" can't handle it"), __FUNCTION__);
 	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
 	}
@@ -93,8 +91,7 @@ lw6sys_stream_file_to_str (lw6sys_context_t * sys_context, FILE * f)
  * Return value: none.
  */
 void
-lw6sys_stream_str_to_file (lw6sys_context_t * sys_context, FILE * f,
-			   char *str)
+lw6sys_stream_str_to_file (lw6sys_context_t * sys_context, FILE * f, char *str)
 {
   fprintf (f, "%s", str);
 }

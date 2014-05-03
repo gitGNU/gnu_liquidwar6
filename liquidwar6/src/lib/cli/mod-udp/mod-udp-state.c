@@ -31,30 +31,23 @@ lw6cnx_connection_t *
 _mod_udp_open (_mod_udp_context_t * udp_context, const char *local_url,
 	       const char *remote_url, const char *remote_ip, int remote_port,
 	       const char *password, u_int64_t local_id, u_int64_t remote_id,
-	       int dns_ok, int network_reliability,
-	       lw6cnx_recv_callback_t recv_callback_func,
-	       void *recv_callback_data)
+	       int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
 {
   lw6cnx_connection_t *ret = NULL;
   _udp_specific_data_t *specific_data = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("_mod_udp_open \"%s\""),
-	      remote_url);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("_mod_udp_open \"%s\""), remote_url);
   ret =
     lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
-			   password, local_id, remote_id, dns_ok,
-			   network_reliability, recv_callback_func,
-			   recv_callback_data);
+			   password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
   if (ret)
     {
-      ret->backend_specific_data =
-	LW6SYS_CALLOC (sizeof (_udp_specific_data_t));
+      ret->backend_specific_data = LW6SYS_CALLOC (sizeof (_udp_specific_data_t));
       specific_data = (_udp_specific_data_t *) ret->backend_specific_data;
       if (ret->backend_specific_data)
 	{
 	  specific_data->sock = lw6net_udp_client ();
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("open udp connection with \"%s\""), remote_url);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("open udp connection with \"%s\""), remote_url);
 	}
       else
 	{
@@ -67,11 +60,9 @@ _mod_udp_open (_mod_udp_context_t * udp_context, const char *local_url,
 }
 
 void
-_mod_udp_close (_mod_udp_context_t * udp_context,
-		lw6cnx_connection_t * connection)
+_mod_udp_close (_mod_udp_context_t * udp_context, lw6cnx_connection_t * connection)
 {
-  _udp_specific_data_t *specific_data =
-    (_udp_specific_data_t *) connection->backend_specific_data;
+  _udp_specific_data_t *specific_data = (_udp_specific_data_t *) connection->backend_specific_data;
 
   if (specific_data)
     {
@@ -85,8 +76,7 @@ _mod_udp_close (_mod_udp_context_t * udp_context,
 }
 
 int
-_mod_udp_timeout_ok (_mod_udp_context_t * udp_context,
-		     int64_t origin_timestamp, int broadcast)
+_mod_udp_timeout_ok (_mod_udp_context_t * udp_context, int64_t origin_timestamp, int broadcast)
 {
   int ret = 0;
   int d = 0;
@@ -99,9 +89,7 @@ _mod_udp_timeout_ok (_mod_udp_context_t * udp_context,
    * it will be over.
    */
   d = abs (lw6sys_get_timestamp (sys_context,) - origin_timestamp);
-  ret =
-    (broadcast ? (d < udp_context->data.consts.broadcast_timeout * 1000)
-     : (d < udp_context->data.consts.global_timeout * 1000));
+  ret = (broadcast ? (d < udp_context->data.consts.broadcast_timeout * 1000) : (d < udp_context->data.consts.global_timeout * 1000));
 
   return ret;
 }

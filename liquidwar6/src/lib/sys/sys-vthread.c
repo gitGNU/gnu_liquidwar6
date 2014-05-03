@@ -46,13 +46,11 @@ _vthread_callback (lw6sys_context_t * sys_context)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("begin vthread (fast mode, no join)"));
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("begin vthread (fast mode, no join)"));
     }
   if (global->vthread_main_handler->callback_func)
     {
-      global->vthread_main_handler->callback_func (sys_context,
-						   global->vthread_main_handler->callback_data);
+      global->vthread_main_handler->callback_func (sys_context, global->vthread_main_handler->callback_data);
     }
   /*
    * callback is over, we signal it to the caller, if needed
@@ -60,17 +58,13 @@ _vthread_callback (lw6sys_context_t * sys_context)
   if (!pthread_mutex_lock (&(global->vthread_main_handler->mutex)))
     {
       global->vthread_main_handler->flag_callback_done = 1;
-      pthread_cond_signal (&
-			   (global->
-			    vthread_main_handler->cond_callback_done));
+      pthread_cond_signal (&(global->vthread_main_handler->cond_callback_done));
       pthread_mutex_unlock (&(global->vthread_main_handler->mutex));
     }
   else
     {
       global->vthread_main_handler->flag_callback_done = 1;
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("unable to lock internal thread mutex thread (vthread)"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to lock internal thread mutex thread (vthread)"));
     }
   /*
    * If callback_join is defined, we wait until the caller
@@ -88,14 +82,11 @@ _vthread_callback (lw6sys_context_t * sys_context)
 	   * Now the caller is supposed to set "can_join"
 	   * to allow this thread to actually finish.
 	   */
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("waiting for can_join to be 1 (vhtread)"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("waiting for can_join to be 1 (vhtread)"));
 	  if (!pthread_mutex_lock (&(global->vthread_main_handler->mutex)))
 	    {
 	      yield_timeslice =
-		(pthread_cond_timedwait
-		 (&(global->vthread_main_handler->cond_can_join),
-		  &(global->vthread_main_handler->mutex), &ts) == ETIMEDOUT);
+		(pthread_cond_timedwait (&(global->vthread_main_handler->cond_can_join), &(global->vthread_main_handler->mutex), &ts) == ETIMEDOUT);
 	      pthread_mutex_unlock (&(global->vthread_main_handler->mutex));
 	      if (yield_timeslice)
 		{
@@ -104,17 +95,14 @@ _vthread_callback (lw6sys_context_t * sys_context)
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_
-			  ("unable to lock internal thread mutex thread (vthread)"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to lock internal thread mutex thread (vthread)"));
 	    }
 	}
       /*
        * In the peculiar case of vthread, join must imperatively
        * be called in this thread, not in the other one...
        */
-      global->vthread_main_handler->callback_join (sys_context,
-						   global->vthread_main_handler->callback_data);
+      global->vthread_main_handler->callback_join (sys_context, global->vthread_main_handler->callback_data);
     }
   if (global->vthread_main_handler->callback_join)
     {
@@ -122,8 +110,7 @@ _vthread_callback (lw6sys_context_t * sys_context)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("end vthread (fast mode, no join)"));
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("end vthread (fast mode, no join)"));
     }
   /*
    * callback is over, we signal it to the caller, if needed
@@ -140,9 +127,7 @@ _vthread_callback (lw6sys_context_t * sys_context)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("unable to lock internal thread mutex thread (vthread)"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to lock internal thread mutex thread (vthread)"));
     }
 
   LW6SYS_FREE (sys_context, tmp_handler);
@@ -170,37 +155,28 @@ _vthread_callback (lw6sys_context_t * sys_context)
  */
 int
 lw6sys_vthread_run (lw6sys_context_t * sys_context,
-		    lw6sys_thread_callback_func_t callback_func,
-		    lw6sys_thread_callback_func_t callback_join,
-		    void *callback_data)
+		    lw6sys_thread_callback_func_t callback_func, lw6sys_thread_callback_func_t callback_join, void *callback_data)
 {
   int ret = 0;
   _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
 
   if (!global->vthread_run_handler && !global->vthread_main_handler)
     {
-      global->vthread_run_handler =
-	lw6sys_thread_create (sys_context, callback_func, callback_join,
-			      callback_data);
+      global->vthread_run_handler = lw6sys_thread_create (sys_context, callback_func, callback_join,
+							  callback_data);
       if (global->vthread_run_handler)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("run vthread begin"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("run vthread begin"));
 
 	  /*
 	   * More than one vthread could be started (not at once!)
 	   * successively so we loop until spawned is done.
 	   */
-	  while (!lw6sys_thread_is_callback_done
-		 (sys_context, global->vthread_run_handler))
+	  while (!lw6sys_thread_is_callback_done (sys_context, global->vthread_run_handler))
 	    {
-	      while (global->vthread_main_handler == NULL
-		     && !lw6sys_thread_is_callback_done (sys_context,
-							 global->vthread_run_handler))
+	      while (global->vthread_main_handler == NULL && !lw6sys_thread_is_callback_done (sys_context, global->vthread_run_handler))
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_
-			      ("waiting for main handler to be defined by spawned thread"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("waiting for main handler to be defined by spawned thread"));
 		  lw6sys_snooze (sys_context);
 		}
 	      /*
@@ -209,12 +185,10 @@ lw6sys_vthread_run (lw6sys_context_t * sys_context,
 	       */
 	      if (global->vthread_main_handler)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_ ("vthread main handler"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("vthread main handler"));
 		  _vthread_callback (sys_context);
 		}
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("waiting for callback to be done (vhtread)"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("waiting for callback to be done (vhtread)"));
 	      lw6sys_snooze (sys_context);
 	    }
 
@@ -230,8 +204,7 @@ lw6sys_vthread_run (lw6sys_context_t * sys_context,
 	   */
 	  if (global->vthread_main_handler)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("freeing _main_vhandler"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing _main_vhandler"));
 	      LW6SYS_FREE (sys_context, _main_vhandler);
 	      _main_vhandler = NULL;
 	    }
@@ -240,14 +213,12 @@ lw6sys_vthread_run (lw6sys_context_t * sys_context,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("unable to create run vthread"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create run vthread"));
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't run vthread, already initialized"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't run vthread, already initialized"));
     }
 
   return ret;
@@ -296,9 +267,7 @@ lw6sys_vthread_is_running (lw6sys_context_t * sys_context)
  */
 int
 lw6sys_vthread_create (lw6sys_context_t * sys_context,
-		       lw6sys_thread_callback_func_t callback_func,
-		       lw6sys_thread_callback_func_t callback_join,
-		       void *callback_data)
+		       lw6sys_thread_callback_func_t callback_func, lw6sys_thread_callback_func_t callback_join, void *callback_data)
 {
   int ret = 0;
   _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
@@ -311,20 +280,16 @@ lw6sys_vthread_create (lw6sys_context_t * sys_context,
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("vthread_create"));
   if (!global->vthread_main_handler)
     {
-      tmp_handler =
-	(_lw6sys_thread_handler_t *)
-	LW6SYS_CALLOC (sys_context, sizeof (_lw6sys_thread_handler_t));
+      tmp_handler = (_lw6sys_thread_handler_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6sys_thread_handler_t));
       if (tmp_handler)
 	{
 	  if (!pthread_mutex_init (&(tmp_handler->mutex), NULL))
 	    {
 	      mutex_ok = 1;
-	      if (!pthread_cond_init
-		  (&(tmp_handler->cond_callback_done), NULL))
+	      if (!pthread_cond_init (&(tmp_handler->cond_callback_done), NULL))
 		{
 		  cond_callback_done_ok = 1;
-		  if (!pthread_cond_init
-		      (&(tmp_handler->cond_can_join), NULL))
+		  if (!pthread_cond_init (&(tmp_handler->cond_can_join), NULL))
 		    {
 		      cond_can_join_ok = 1;
 		      thread_ok = 1;
@@ -339,11 +304,9 @@ lw6sys_vthread_create (lw6sys_context_t * sys_context,
 	  tmp_handler->callback_func = callback_func;
 	  tmp_handler->callback_join = callback_join;
 	  tmp_handler->callback_data = callback_data;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("vhtread create successfull"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("vhtread create successfull"));
 	  ret = 1;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("defining global->vthread_main_handler"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("defining global->vthread_main_handler"));
 
 
 	  /*
@@ -354,8 +317,7 @@ lw6sys_vthread_create (lw6sys_context_t * sys_context,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("can't create vthread"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't create vthread"));
 	  if (tmp_handler)
 	    {
 	      if (mutex_ok)
@@ -376,9 +338,7 @@ lw6sys_vthread_create (lw6sys_context_t * sys_context,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("can't start vthread, there's already a running vthread"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't start vthread, there's already a running vthread"));
     }
 
   return ret;
@@ -409,35 +369,29 @@ lw6sys_vthread_join (lw6sys_context_t * sys_context)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("joining vthread (fast mode, no join)"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("joining vthread (fast mode, no join)"));
 	}
 
       if (!pthread_mutex_lock (&(global->vthread_main_handler->mutex)))
 	{
 	  global->vthread_main_handler->flag_can_join = 1;
-	  pthread_cond_signal (&
-			       (global->vthread_main_handler->cond_can_join));
+	  pthread_cond_signal (&(global->vthread_main_handler->cond_can_join));
 	  pthread_mutex_unlock (&(global->vthread_main_handler->mutex));
 	}
       else
 	{
 	  global->vthread_main_handler->flag_can_join = 1;
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("unable to lock internal thread mutex thread (vthread)"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to lock internal thread mutex thread (vthread)"));
 	}
 
       while (global->vthread_main_handler)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("waiting for main handler to be NULL"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("waiting for main handler to be NULL"));
 	  lw6sys_snooze (sys_context);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't call join vthread, vhandler is NULL"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't call join vthread, vhandler is NULL"));
     }
 }

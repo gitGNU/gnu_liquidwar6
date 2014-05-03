@@ -40,9 +40,7 @@ _mod_gl1_background_void_init (mod_gl1_utils_context_t * utils_context)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("init background/void"));
 
-  void_context =
-    (_mod_gl1_background_void_context_t *)
-    LW6SYS_MALLOC (sizeof (_mod_gl1_background_void_context_t));
+  void_context = (_mod_gl1_background_void_context_t *) LW6SYS_MALLOC (sizeof (_mod_gl1_background_void_context_t));
   if (!void_context)
     {
       /*
@@ -67,9 +65,7 @@ mod_gl1_background_void_init (mod_gl1_utils_context_t * utils_context)
  * Ends-up all SDL stuff.
  */
 void
-_mod_gl1_background_void_quit (mod_gl1_utils_context_t * utils_context,
-			       _mod_gl1_background_void_context_t *
-			       void_context)
+_mod_gl1_background_void_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_void_context_t * void_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("quit background/void"));
 
@@ -77,10 +73,7 @@ _mod_gl1_background_void_quit (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_background_void_quit (mod_gl1_utils_context_t * utils_context,
-			      void *void_context)
+mod_gl1_background_void_quit (mod_gl1_utils_context_t * utils_context, void *void_context)
 {
-  _mod_gl1_background_void_quit (utils_context,
-				 (_mod_gl1_background_void_context_t *)
-				 void_context);
+  _mod_gl1_background_void_quit (utils_context, (_mod_gl1_background_void_context_t *) void_context);
 }

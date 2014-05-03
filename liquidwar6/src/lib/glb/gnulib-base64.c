@@ -64,8 +64,7 @@ to_uchar (char ch)
    possible.  If OUTLEN is larger than BASE64_LENGTH(INLEN), also zero
    terminate the output buffer. */
 void
-base64_encode (const char *restrict in, size_t inlen,
-	       char *restrict out, size_t outlen)
+base64_encode (const char *restrict in, size_t inlen, char *restrict out, size_t outlen)
 {
   /*
    * Modified to fit URL requirements, see:
@@ -74,22 +73,17 @@ base64_encode (const char *restrict in, size_t inlen,
    */
   //  static const char b64str[64] =
   //    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-  static const char b64str[64] =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+  static const char b64str[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
   while (inlen && outlen)
     {
       *out++ = b64str[(to_uchar (in[0]) >> 2) & 0x3f];
       if (!--outlen)
 	break;
-      *out++ = b64str[((to_uchar (in[0]) << 4)
-		       + (--inlen ? to_uchar (in[1]) >> 4 : 0)) & 0x3f];
+      *out++ = b64str[((to_uchar (in[0]) << 4) + (--inlen ? to_uchar (in[1]) >> 4 : 0)) & 0x3f];
       if (!--outlen)
 	break;
-      *out++ =
-	(inlen
-	 ? b64str[((to_uchar (in[1]) << 2)
-		   + (--inlen ? to_uchar (in[2]) >> 6 : 0)) & 0x3f] : '=');
+      *out++ = (inlen ? b64str[((to_uchar (in[1]) << 2) + (--inlen ? to_uchar (in[2]) >> 6 : 0)) & 0x3f] : '=');
       if (!--outlen)
 	break;
       *out++ = inlen ? b64str[to_uchar (in[2]) & 0x3f] : '=';
@@ -321,9 +315,7 @@ base64_decode_ctx_init (struct base64_decode_context *ctx)
    after the last one processed, and set *N_NON_NEWLINE to the number of
    verified non-newline bytes accessible through the returned pointer.  */
 static char *
-get_4 (struct base64_decode_context *ctx,
-       char const *restrict * in, char const *restrict in_end,
-       size_t * n_non_newline)
+get_4 (struct base64_decode_context *ctx, char const *restrict * in, char const *restrict in_end, size_t * n_non_newline)
 {
   if (ctx->i == 4)
     ctx->i = 0;
@@ -375,8 +367,7 @@ get_4 (struct base64_decode_context *ctx,
    *OUT to point to the byte after the last one written, and decrement
    *OUTLEN to reflect the number of bytes remaining in *OUT.  */
 static bool
-decode_4 (char const *restrict in, size_t inlen,
-	  char *restrict * outp, size_t * outleft)
+decode_4 (char const *restrict in, size_t inlen, char *restrict * outp, size_t * outleft)
 {
   char *out = *outp;
   if (inlen < 2)
@@ -409,8 +400,7 @@ decode_4 (char const *restrict in, size_t inlen,
 
       if (*outleft)
 	{
-	  *out++ = (((b64[to_uchar (in[1])] << 4) & 0xf0)
-		    | (b64[to_uchar (in[2])] >> 2));
+	  *out++ = (((b64[to_uchar (in[1])] << 4) & 0xf0) | (b64[to_uchar (in[2])] >> 2));
 	  --*outleft;
 	}
 
@@ -429,8 +419,7 @@ decode_4 (char const *restrict in, size_t inlen,
 
 	  if (*outleft)
 	    {
-	      *out++ = (((b64[to_uchar (in[2])] << 6) & 0xc0)
-			| b64[to_uchar (in[3])]);
+	      *out++ = (((b64[to_uchar (in[2])] << 6) & 0xc0) | b64[to_uchar (in[3])]);
 	      --*outleft;
 	    }
 	}
@@ -459,9 +448,7 @@ decode_4 (char const *restrict in, size_t inlen,
    buffer is processed as a unit.  */
 
 bool
-base64_decode_ctx (struct base64_decode_context * ctx,
-		   const char *restrict in, size_t inlen,
-		   char *restrict out, size_t * outlen)
+base64_decode_ctx (struct base64_decode_context * ctx, const char *restrict in, size_t inlen, char *restrict out, size_t * outlen)
 {
   size_t outleft = *outlen;
   bool ignore_newlines = ctx != NULL;
@@ -550,9 +537,7 @@ base64_decode_ctx (struct base64_decode_context * ctx,
    input was invalid, in which case *OUT is NULL and *OUTLEN is
    undefined. */
 bool
-base64_decode_alloc_ctx (struct base64_decode_context * ctx,
-			 const char *in, size_t inlen, char **out,
-			 size_t * outlen)
+base64_decode_alloc_ctx (struct base64_decode_context * ctx, const char *in, size_t inlen, char **out, size_t * outlen)
 {
   /* This may allocate a few bytes too many, depending on input,
      but it's not worth the extra CPU time to compute the exact size.

@@ -36,17 +36,13 @@ typedef struct _mod_random_context_s
 _mod_random_context_t;
 
 /* mod-random-setup.c */
-extern _mod_random_context_t *_mod_random_init (int argc,
-						const char *argv[],
-						lw6bot_data_t * data);
+extern _mod_random_context_t *_mod_random_init (int argc, const char *argv[], lw6bot_data_t * data);
 extern void _mod_random_quit (_mod_random_context_t * random_context);
 
 /* mod-random-move.c */
-extern int _mod_random_next_move (_mod_random_context_t * random_context,
-				  int *x, int *y, lw6bot_data_t * data);
+extern int _mod_random_next_move (_mod_random_context_t * random_context, int *x, int *y, lw6bot_data_t * data);
 
 /* mod-random-repr.c */
-extern char *_mod_random_repr (_mod_random_context_t * random_context,
-			       u_int32_t id);
+extern char *_mod_random_repr (_mod_random_context_t * random_context, u_int32_t id);
 
 #endif // LIQUIDWAR6BOT_RANDOM_INTERNAL_H

@@ -50,9 +50,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
 			  const char *password_checksum,
 			  u_int32_t physical_ticket_sig,
 			  u_int32_t logical_ticket_sig,
-			  u_int64_t physical_from_id,
-			  u_int64_t physical_to_id, u_int64_t logical_from_id,
-			  u_int64_t logical_to_id, const char *msg)
+			  u_int64_t physical_from_id, u_int64_t physical_to_id, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *msg)
 {
   char *ret = NULL;
   char sep = '\0';
@@ -79,8 +77,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
       need_base64 = 1;
       break;
     default:
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unknown mode %d"),
-		  (int) mode);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unknown mode %d"), (int) mode);
       sep = LW6MSG_TELNET_SEP;
       lw6 = LW6MSG_LW6;
       need_base64 = 0;
@@ -96,8 +93,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("unable to base64 encode, sending as is"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to base64 encode, sending as is"));
 	}
     }
 
@@ -107,8 +103,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
     }
   else
     {
-      physical_ticket_sig_str =
-	lw6sys_new_sprintf (sys_context, "%08x", physical_ticket_sig);
+      physical_ticket_sig_str = lw6sys_new_sprintf (sys_context, "%08x", physical_ticket_sig);
     }
 
   if (logical_ticket_sig == 0 || logical_ticket_sig == physical_ticket_sig)
@@ -117,8 +112,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
     }
   else
     {
-      logical_ticket_sig_str =
-	lw6sys_new_sprintf (sys_context, "%08x", logical_ticket_sig);
+      logical_ticket_sig_str = lw6sys_new_sprintf (sys_context, "%08x", logical_ticket_sig);
     }
 
   if (physical_from_id == logical_from_id)
@@ -147,10 +141,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
 			    version, sep, password_checksum, sep,
 			    physical_ticket_sig_str, sep,
 			    logical_ticket_sig_str, sep,
-			    (long long) physical_from_id, sep,
-			    (long long) physical_to_id, sep,
-			    logical_from_id_str, sep, logical_to_id_str, sep,
-			    body);
+			    (long long) physical_from_id, sep, (long long) physical_to_id, sep, logical_from_id_str, sep, logical_to_id_str, sep, body);
     }
 
   if (base64_str)
@@ -212,9 +203,7 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 			 u_int32_t * physical_ticket_sig,
 			 u_int32_t * logical_ticket_sig,
 			 u_int64_t * physical_from_id,
-			 u_int64_t * physical_to_id,
-			 u_int64_t * logical_from_id,
-			 u_int64_t * logical_to_id, char **physical_from_url)
+			 u_int64_t * physical_to_id, u_int64_t * logical_from_id, u_int64_t * logical_to_id, char **physical_from_url)
 {
   int ret = 0;
   char *lw6 = NULL;
@@ -244,8 +233,7 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
       need_base64 = 1;
       break;
     default:
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unknown mode %d"),
-		  (int) mode);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unknown mode %d"), (int) mode);
       lw6 = LW6MSG_LW6;
       need_base64 = 0;
     }
@@ -294,14 +282,12 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 	  pos = seek;
 	  if (lw6msg_word_first_x (&received_version, &seek, pos))
 	    {
-	      if (lw6sys_version_is_compatible
-		  (received_version.buf, version))
+	      if (lw6sys_version_is_compatible (received_version.buf, version))
 		{
 		  pos = seek;
 		  if (lw6msg_word_first_x (&received_password, &seek, pos))
 		    {
-		      if (lw6cnx_password_verify
-			  (local_url, password, received_password.buf))
+		      if (lw6cnx_password_verify (local_url, password, received_password.buf))
 			{
 			  pos = seek;
 			  if (lw6msg_word_first_x (&tmp_word, &seek, pos))
@@ -310,76 +296,50 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 			      /*
 			       * Bad and/or 0 ticket accepted at this stage
 			       */
-			      sscanf
-				(tmp_word.buf, "%x",
-				 &received_physical_ticket_sig_int);
+			      sscanf (tmp_word.buf, "%x", &received_physical_ticket_sig_int);
 			      if (lw6msg_word_first_x (&tmp_word, &seek, pos))
 				{
 				  pos = seek;
 				  /*
 				   * Bad and/or 0 ticket accepted at this stage
 				   */
-				  sscanf
-				    (tmp_word.buf, "%x",
-				     &received_logical_ticket_sig_int);
+				  sscanf (tmp_word.buf, "%x", &received_logical_ticket_sig_int);
 				  if (!received_logical_ticket_sig_int)
 				    {
-				      received_logical_ticket_sig_int =
-					received_physical_ticket_sig_int;
+				      received_logical_ticket_sig_int = received_physical_ticket_sig_int;
 				    }
-				  if (lw6msg_word_first_id_64
-				      (&received_physical_from_id, &seek,
-				       pos))
+				  if (lw6msg_word_first_id_64 (&received_physical_from_id, &seek, pos))
 				    {
-				      if (expected_physical_from_id == 0LL
-					  ||
-					  (expected_physical_from_id ==
-					   received_physical_from_id))
+				      if (expected_physical_from_id == 0LL || (expected_physical_from_id == received_physical_from_id))
 					{
 					  pos = seek;
-					  if (lw6msg_word_first_id_64
-					      (&received_physical_to_id,
-					       &seek, pos))
+					  if (lw6msg_word_first_id_64 (&received_physical_to_id, &seek, pos))
 					    {
-					      if (expected_physical_from_id ==
-						  0LL
-						  ||
-						  (expected_physical_to_id
-						   ==
-						   received_physical_to_id))
+					      if (expected_physical_from_id == 0LL || (expected_physical_to_id == received_physical_to_id))
 						{
 						  pos = seek;
 						  if (lw6msg_word_first_id_64
-						      (&received_logical_from_id,
-						       &seek, pos)
-						      ||
-						      lw6msg_word_first_x
-						      (&tmp_word, &seek, pos))
+						      (&received_logical_from_id, &seek, pos) || lw6msg_word_first_x (&tmp_word, &seek, pos))
 						    {
 						      pos = seek;
 						      if (!received_logical_from_id)
 							{
-							  received_logical_from_id
-							    =
-							    received_physical_from_id;
+							  received_logical_from_id = received_physical_from_id;
 							}
-						      if (lw6msg_word_first_id_64 (&received_logical_to_id, &seek, pos) || lw6msg_word_first_x (&tmp_word, &seek, pos))
+						      if (lw6msg_word_first_id_64 (&received_logical_to_id, &seek, pos)
+							  || lw6msg_word_first_x (&tmp_word, &seek, pos))
 							{
 							  pos = seek;
 							  if (!received_logical_to_id)
 							    {
-							      received_logical_to_id
-								=
-								received_physical_to_id;
+							      received_logical_to_id = received_physical_to_id;
 							    }
 							  ret = 1;
 							  if (msg)
 							    {
 							      if (need_base64)
 								{
-								  (*msg) =
-								    lw6glb_base64_decode_str
-								    (pos);
+								  (*msg) = lw6glb_base64_decode_str (pos);
 								  if (!(*msg))
 								    {
 								      /*
@@ -389,20 +349,13 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 								       * it anyway in case this function would
 								       *  be called just to check the protocol
 								       */
-								      lw6sys_log
-									(LW6SYS_LOG_DEBUG,
-									 _x_
-									 ("forcing clear text instead of base64"));
-								      (*msg) =
-									lw6sys_str_copy
-									(pos);
+								      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("forcing clear text instead of base64"));
+								      (*msg) = lw6sys_str_copy (pos);
 								    }
 								}
 							      else
 								{
-								  (*msg) =
-								    lw6sys_str_copy
-								    (pos);
+								  (*msg) = lw6sys_str_copy (pos);
 								}
 							    }
 							  if (physical_ticket_sig)
@@ -427,9 +380,7 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 							    }
 							  if (logical_to_id)
 							    {
-							      (*logical_to_id)
-								=
-								received_logical_to_id;
+							      (*logical_to_id) = received_logical_to_id;
 							    }
 							  if (physical_from_url && msg && (*msg))
 							    {
@@ -440,18 +391,13 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 							{
 							  lw6sys_log
 							    (LW6SYS_LOG_INFO,
-							     _x_
-							     ("can't parse \"logical_to\" (final destination) id in envelope \"%s\""),
-							     envelope);
+							     _x_ ("can't parse \"logical_to\" (final destination) id in envelope \"%s\""), envelope);
 							}
 						    }
 						  else
 						    {
 						      lw6sys_log
-							(LW6SYS_LOG_INFO,
-							 _x_
-							 ("can't parse \"logical_from\" (creator) id in envelope \"%s\""),
-							 envelope);
+							(LW6SYS_LOG_INFO, _x_ ("can't parse \"logical_from\" (creator) id in envelope \"%s\""), envelope);
 						    }
 						}
 					      else
@@ -464,20 +410,13 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 						      "x received %"
 						      LW6SYS_PRINTF_LL
 						      "x in envelope \"%s\""),
-						     (long long)
-						     expected_physical_to_id,
-						     (long long)
-						     received_physical_to_id,
-						     envelope);
+						     (long long) expected_physical_to_id, (long long) received_physical_to_id, envelope);
 						}
 					    }
 					  else
 					    {
 					      lw6sys_log (sys_context,
-							  LW6SYS_LOG_INFO,
-							  _x_
-							  ("can't parse \"physical_to\" (receiver) id in envelope \"%s\""),
-							  envelope);
+							  LW6SYS_LOG_INFO, _x_ ("can't parse \"physical_to\" (receiver) id in envelope \"%s\""), envelope);
 					    }
 					}
 				      else
@@ -490,82 +429,54 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 						       "x received %"
 						       LW6SYS_PRINTF_LL
 						       "x in envelope \"%s\""),
-						      (long long)
-						      expected_physical_from_id,
-						      (long long)
-						      received_physical_from_id,
-						      envelope);
+						      (long long) expected_physical_from_id, (long long) received_physical_from_id, envelope);
 					}
 				    }
 				  else
 				    {
 				      lw6sys_log (sys_context,
-						  LW6SYS_LOG_INFO,
-						  _x_
-						  ("can't parse \"physical_from\" (sender) id in envelope \"%s\""),
-						  envelope);
+						  LW6SYS_LOG_INFO, _x_ ("can't parse \"physical_from\" (sender) id in envelope \"%s\""), envelope);
 				    }
 				}
 			      else
 				{
-				  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-					      _x_
-					      ("can't parse logical ticket sig in envelope \"%s\""),
-					      envelope);
+				  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("can't parse logical ticket sig in envelope \"%s\""), envelope);
 				}
 			    }
 			  else
 			    {
-			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-					  _x_
-					  ("can't parse physical ticket sig in envelope \"%s\""),
-					  envelope);
+			      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("can't parse physical ticket sig in envelope \"%s\""), envelope);
 			    }
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				      _x_ ("bad password in envelope \"%s\""),
-				      envelope);
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad password in envelope \"%s\""), envelope);
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_
-				  ("can't parse password in envelope \"%s\""),
-				  envelope);
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("can't parse password in envelope \"%s\""), envelope);
 		    }
 		}
 	      else
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_
-			      ("bad version, received \"%s\", need \"%s\" in envelope \"%s\""),
-			      received_version.buf, version, envelope);
+			      _x_ ("bad version, received \"%s\", need \"%s\" in envelope \"%s\""), received_version.buf, version, envelope);
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("can't parse version in envelope \"%s\""),
-			  envelope);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("can't parse version in envelope \"%s\""), envelope);
 	    }
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_
-		      ("bad lw6 key, received \"%s\", need \"%s\" in envelope \"%s\""),
-		      received_lw6.buf, lw6, envelope);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad lw6 key, received \"%s\", need \"%s\" in envelope \"%s\""), received_lw6.buf, lw6, envelope);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_
-		  ("message does not start with \"%s\" in envelope \"%s\""),
-		  lw6, envelope);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("message does not start with \"%s\" in envelope \"%s\""), lw6, envelope);
     }
 
   return ret;

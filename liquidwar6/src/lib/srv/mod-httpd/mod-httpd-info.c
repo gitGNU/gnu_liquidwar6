@@ -28,14 +28,11 @@
 #include "mod-httpd-internal.h"
 
 char *
-_mod_httpd_repr (_mod_httpd_context_t * httpd_context,
-		 lw6cnx_connection_t * connection)
+_mod_httpd_repr (_mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 
-  ret =
-    lw6sys_new_sprintf (sys_context, _x_ ("httpd connexion with %s:%d"),
-			connection->remote_ip, connection->remote_port);
+  ret = lw6sys_new_sprintf (sys_context, _x_ ("httpd connexion with %s:%d"), connection->remote_ip, connection->remote_port);
 
   return ret;
 }

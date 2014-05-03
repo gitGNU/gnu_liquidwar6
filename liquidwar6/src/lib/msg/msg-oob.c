@@ -53,9 +53,7 @@ lw6msg_oob_generate_info (lw6nod_info_t * info)
     {
       has_password = info->const_info.has_password ? LW6MSG_YES : LW6MSG_NO;
       open_relay = info->const_info.open_relay ? LW6MSG_YES : LW6MSG_NO;
-      uptime =
-	(lw6sys_get_timestamp () -
-	 info->const_info.creation_timestamp) / 1000;
+      uptime = (lw6sys_get_timestamp () - info->const_info.creation_timestamp) / 1000;
       ret =
 	lw6sys_new_sprintf
 	("%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %d\n%s %s\n%s %d\n%s %s\n%s %d\n%s %s\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n\n",
@@ -97,10 +95,7 @@ lw6msg_oob_generate_info (lw6nod_info_t * info)
 	 dyn_info->max_nb_colors,
 	 LW6MSG_OOB_NB_CURSORS,
 	 dyn_info->nb_cursors,
-	 LW6MSG_OOB_MAX_NB_CURSORS,
-	 dyn_info->max_nb_cursors,
-	 LW6MSG_OOB_NB_NODES,
-	 dyn_info->nb_nodes, LW6MSG_OOB_MAX_NB_NODES, dyn_info->max_nb_nodes);
+	 LW6MSG_OOB_MAX_NB_CURSORS, dyn_info->max_nb_cursors, LW6MSG_OOB_NB_NODES, dyn_info->nb_nodes, LW6MSG_OOB_MAX_NB_NODES, dyn_info->max_nb_nodes);
       lw6nod_dyn_info_free (dyn_info);
     }
 
@@ -119,15 +114,11 @@ _add_node_txt (void *func_data, void *data)
    * on the list object? This is because we can only
    * access it through the map function because of locking issues
    */
-  if (list && (*list) && verified_node
-      && verified_node->const_info.ref_info.url)
+  if (list && (*list) && verified_node && verified_node->const_info.ref_info.url)
     {
-      if (strlen (*list) + strlen (verified_node->const_info.ref_info.url) <=
-	  LW6NET_PPPOE_MTU - 1)
+      if (strlen (*list) + strlen (verified_node->const_info.ref_info.url) <= LW6NET_PPPOE_MTU - 1)
 	{
-	  tmp =
-	    lw6sys_new_sprintf ("%s%s\n", *list,
-				verified_node->const_info.ref_info.url);
+	  tmp = lw6sys_new_sprintf ("%s%s\n", *list, verified_node->const_info.ref_info.url);
 	  if (tmp)
 	    {
 	      LW6SYS_FREE (sys_context, *list);
@@ -137,8 +128,7 @@ _add_node_txt (void *func_data, void *data)
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_
-		      ("truncating list, very long lists do not make any sense anyway, and it could cause problems on UDP"));
+		      _x_ ("truncating list, very long lists do not make any sense anyway, and it could cause problems on UDP"));
 	}
     }
 }
@@ -204,9 +194,7 @@ lw6msg_oob_generate_pong (lw6nod_info_t * info)
 {
   char *ret = NULL;
 
-  ret =
-    lw6sys_new_sprintf (sys_context, "PONG %s\n\n",
-			info->const_info.ref_info.url);
+  ret = lw6sys_new_sprintf (sys_context, "PONG %s\n\n", info->const_info.ref_info.url);
 
   return ret;
 }
@@ -224,14 +212,12 @@ lw6msg_oob_generate_pong (lw6nod_info_t * info)
  * Return value: a newly allocated string
  */
 char *
-lw6msg_oob_generate_request (const char *command, const char *remote_url,
-			     const char *password, const char *local_url)
+lw6msg_oob_generate_request (const char *command, const char *remote_url, const char *password, const char *local_url)
 {
   char *ret = NULL;
   char *password_checksum = NULL;
 
-  if (remote_url && strlen (remote_url) > 0 && password
-      && strlen (password) > 0)
+  if (remote_url && strlen (remote_url) > 0 && password && strlen (password) > 0)
     {
       password_checksum = lw6cnx_password_checksum (remote_url, password);
     }
@@ -239,9 +225,7 @@ lw6msg_oob_generate_request (const char *command, const char *remote_url,
     {
       if (local_url && strlen (local_url) > 0)
 	{
-	  ret =
-	    lw6sys_new_sprintf ("%s %s %s", command, password_checksum,
-				local_url);
+	  ret = lw6sys_new_sprintf ("%s %s %s", command, password_checksum, local_url);
 	}
       else
 	{
@@ -281,8 +265,7 @@ lw6msg_oob_generate_request (const char *command, const char *remote_url,
  */
 int
 lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
-			    char **remote_url, const char *request,
-			    const char *local_url, const char *password)
+			    char **remote_url, const char *request, const char *local_url, const char *password)
 {
   int ret = 0;
   char *copy = NULL;
@@ -339,8 +322,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 	      if (seek != pos)
 		{
 		  pos = seek;
-		  while ((*seek) && !lw6sys_chr_is_space (*seek)
-			 && !lw6sys_chr_is_eol (*seek))
+		  while ((*seek) && !lw6sys_chr_is_space (*seek) && !lw6sys_chr_is_eol (*seek))
 		    {
 		      seek++;
 		    }
@@ -358,8 +340,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 		      if (seek != pos)
 			{
 			  pos = seek;
-			  while ((*seek) && !lw6sys_chr_is_space (*seek)
-				 && !lw6sys_chr_is_eol (*seek))
+			  while ((*seek) && !lw6sys_chr_is_space (*seek) && !lw6sys_chr_is_eol (*seek))
 			    {
 			      seek++;
 			    }
@@ -383,18 +364,12 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 		{
 		  if (lw6sys_url_is_canonized (sys_context, param1))
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_
-				  ("param1=\"%s\" is canonized URL, considering it an URL"),
-				  param1);
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("param1=\"%s\" is canonized URL, considering it an URL"), param1);
 		      received_url = param1;
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_
-				  ("param1=\"%s\" is not a canonized URL, considering it a password"),
-				  param1);
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("param1=\"%s\" is not a canonized URL, considering it a password"), param1);
 		      received_password = param1;
 		    }
 		  param1 = NULL;
@@ -404,8 +379,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 	       * We only check password now that we have chosen which
 	       * field is password, even if the value is NULL
 	       */
-	      if (lw6cnx_password_verify (local_url, password,
-					  received_password))
+	      if (lw6cnx_password_verify (local_url, password, received_password))
 		{
 		  (*password_ok) = 1;
 		}

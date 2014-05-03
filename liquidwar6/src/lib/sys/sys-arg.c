@@ -62,18 +62,15 @@
  * Return value: non zero if it matches, 0 if it doesn't.
  */
 int
-lw6sys_arg_match (lw6sys_context_t * sys_context, const char *keyword,
-		  const char *argv_string)
+lw6sys_arg_match (lw6sys_context_t * sys_context, const char *keyword, const char *argv_string)
 {
   int ret = 0;
   char *buf = NULL;
   int i;
-  char *match_exact_formats[MATCH_EXACT_FORMAT_SIZE] =
-    { MATCH_EXACT_FORMAT_1, MATCH_EXACT_FORMAT_2, MATCH_EXACT_FORMAT_3,
+  char *match_exact_formats[MATCH_EXACT_FORMAT_SIZE] = { MATCH_EXACT_FORMAT_1, MATCH_EXACT_FORMAT_2, MATCH_EXACT_FORMAT_3,
     MATCH_EXACT_FORMAT_4
   };
-  char *match_lazy_formats[MATCH_LAZY_FORMAT_SIZE] =
-    { MATCH_LAZY_FORMAT_1, MATCH_LAZY_FORMAT_2, MATCH_LAZY_FORMAT_3,
+  char *match_lazy_formats[MATCH_LAZY_FORMAT_SIZE] = { MATCH_LAZY_FORMAT_1, MATCH_LAZY_FORMAT_2, MATCH_LAZY_FORMAT_3,
     MATCH_LAZY_FORMAT_4
   };
 
@@ -81,8 +78,7 @@ lw6sys_arg_match (lw6sys_context_t * sys_context, const char *keyword,
     {
       for (i = 0; i < MATCH_EXACT_FORMAT_SIZE && !ret; ++i)
 	{
-	  buf =
-	    lw6sys_new_sprintf (sys_context, match_exact_formats[i], keyword);
+	  buf = lw6sys_new_sprintf (sys_context, match_exact_formats[i], keyword);
 	  if (buf)
 	    {
 	      if (strcasecmp (buf, argv_string) == 0)
@@ -95,8 +91,7 @@ lw6sys_arg_match (lw6sys_context_t * sys_context, const char *keyword,
 
       for (i = 0; i < MATCH_LAZY_FORMAT_SIZE && !ret; ++i)
 	{
-	  buf =
-	    lw6sys_new_sprintf (sys_context, match_lazy_formats[i], keyword);
+	  buf = lw6sys_new_sprintf (sys_context, match_lazy_formats[i], keyword);
 	  if (buf)
 	    {
 	      if (strncasecmp (buf, argv_string, strlen (buf)) == 0)
@@ -109,8 +104,7 @@ lw6sys_arg_match (lw6sys_context_t * sys_context, const char *keyword,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to match empty command-line argument"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to match empty command-line argument"));
     }
 
   return ret;
@@ -130,8 +124,7 @@ lw6sys_arg_match (lw6sys_context_t * sys_context, const char *keyword,
  * Return value: 1 if key is present, 0 if not.
  */
 int
-lw6sys_arg_exists (lw6sys_context_t * sys_context, int argc,
-		   const char *argv[], const char *keyword)
+lw6sys_arg_exists (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *keyword)
 {
   int i;
   int ret = 0;
@@ -160,8 +153,7 @@ lw6sys_arg_exists (lw6sys_context_t * sys_context, int argc,
  * Return value: a pointer to the value. May be NULL. Must be freed.
  */
 char *
-lw6sys_arg_get_value (lw6sys_context_t * sys_context, int argc,
-		      const char *argv[], const char *keyword)
+lw6sys_arg_get_value (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *keyword)
 {
   int i;
   char *equal = NULL;
@@ -174,10 +166,7 @@ lw6sys_arg_get_value (lw6sys_context_t * sys_context, int argc,
 	  equal = strchr (argv[i], '=');
 	  if (equal)
 	    {
-	      ret =
-		lw6sys_str_copy (sys_context,
-				 lw6sys_str_empty_if_null (sys_context,
-							   equal + 1));
+	      ret = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (sys_context, equal + 1));
 	    }
 	}
     }
@@ -205,8 +194,7 @@ lw6sys_arg_get_value (lw6sys_context_t * sys_context, int argc,
  * Return value: a pointer to the value. May be NULL. Must be freed.
  */
 char *
-lw6sys_arg_get_value_with_env (lw6sys_context_t * sys_context, int argc,
-			       const char *argv[], const char *keyword)
+lw6sys_arg_get_value_with_env (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *keyword)
 {
   char *ret = NULL;
 
@@ -235,8 +223,7 @@ lw6sys_arg_get_value_with_env (lw6sys_context_t * sys_context, int argc,
  * Return value: a bit mask one can pass to test functions
  */
 int
-lw6sys_arg_test_mode (lw6sys_context_t * sys_context, int argc,
-		      const char *argv[])
+lw6sys_arg_test_mode (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   int ret = 0;
   int syntax_ok = 0;
@@ -249,8 +236,7 @@ lw6sys_arg_test_mode (lw6sys_context_t * sys_context, int argc,
   if (argc >= 2)
     {
       mode = lw6sys_atoi (sys_context, argv[1]);
-      ret =
-	mode & (LW6SYS_TEST_MODE_FULL_TEST | LW6SYS_TEST_MODE_INTERACTIVE);
+      ret = mode & (LW6SYS_TEST_MODE_FULL_TEST | LW6SYS_TEST_MODE_INTERACTIVE);
       if (ret == mode)
 	{
 	  syntax_ok = 1;
@@ -258,10 +244,7 @@ lw6sys_arg_test_mode (lw6sys_context_t * sys_context, int argc,
     }
   if (!syntax_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("wrong syntax (should be \"<program> {0|1|2|3}\"), test suite will be run anyways with mode=%d"),
-		  ret);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("wrong syntax (should be \"<program> {0|1|2|3}\"), test suite will be run anyways with mode=%d"), ret);
     }
 
   return ret;

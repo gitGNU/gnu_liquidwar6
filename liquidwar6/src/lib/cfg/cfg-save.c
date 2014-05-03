@@ -50,9 +50,7 @@ lw6cfg_must_be_saved (const char *key)
       lw6hlp_match (key, LW6DEF_PREFIX) ||
       lw6hlp_match (key, LW6DEF_MOD_DIR) ||
       lw6hlp_match (key, LW6DEF_DATA_DIR) ||
-      lw6hlp_match (key, LW6DEF_MUSIC_DIR) ||
-      lw6hlp_match (key, LW6DEF_MAP_DIR)
-      || lw6hlp_match (key, LW6DEF_SCRIPT_FILE))
+      lw6hlp_match (key, LW6DEF_MUSIC_DIR) || lw6hlp_match (key, LW6DEF_MAP_DIR) || lw6hlp_match (key, LW6DEF_SCRIPT_FILE))
     {
       /*
        * These options must not be save in the config file, doing so
@@ -71,8 +69,7 @@ _lw6cfg_save (_lw6cfg_context_t * cfg_context, const char *filename)
   int ret = 0;
   FILE *f;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("saving config to \"%s\""),
-	      filename);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("saving config to \"%s\""), filename);
 
   _lw6cfg_parse_command_line (cfg_context);
 
@@ -84,10 +81,7 @@ _lw6cfg_save (_lw6cfg_context_t * cfg_context, const char *filename)
 			       ("This is the main Liquid War 6 config file. Here you'll be able to tweak many, if not all, parameters in the game. Some of these values simply reflect changes you can make through the interface, some are not even present in the menus. What is sure is that if you can modify it by clicking somewhere in the game interface, it can surely be done here too. Note that this file is overwritten every time you run the game, your own comments and personnal touch in it will simply be squashed and disappear. But of course the values you set will be kept. All entries should be documented in the file. This file should only contain entries that have values which are different from the default, so if you set a value to the default, it will automatically be removed from the file. If in doubt, documentation is online on http://www.gnu.org/software/liquidwar6/manual/"));
       if (lw6sys_spinlock_lock (cfg_context->spinlock))
 	{
-	  lw6sys_hash_sort_and_map (cfg_context->options,
-				    (lw6sys_assoc_callback_func_t)
-				    lw6cfg_write_xml_guess_type_skip_same,
-				    (void *) f);
+	  lw6sys_hash_sort_and_map (cfg_context->options, (lw6sys_assoc_callback_func_t) lw6cfg_write_xml_guess_type_skip_same, (void *) f);
 	  lw6sys_spinlock_unlock (cfg_context->spinlock);
 	}
       lw6sys_print_xml_footer (f);
@@ -96,8 +90,7 @@ _lw6cfg_save (_lw6cfg_context_t * cfg_context, const char *filename)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("could not open file \"%s\" in write mode"), filename);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("could not open file \"%s\" in write mode"), filename);
     }
 
   return ret;

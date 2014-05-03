@@ -28,18 +28,14 @@
 #include "net-internal.h"
 
 int
-_lw6net_dns_init (_lw6net_dns_t * dns, int dns_cache_hash_size,
-		  int dns_cache_delay_sec)
+_lw6net_dns_init (_lw6net_dns_t * dns, int dns_cache_hash_size, int dns_cache_delay_sec)
 {
   int ret = 0;
 
   dns->dns_gethostbyname_mutex = lw6sys_mutex_create ();
   dns->dns_cache_mutex = lw6sys_mutex_create ();
-  dns->dns_cache =
-    lw6sys_cache_new (sys_context, lw6sys_free_callback, dns_cache_hash_size,
-		      dns_cache_delay_sec * LW6SYS_TICKS_PER_SEC);
-  ret = (dns->dns_gethostbyname_mutex != NULL && dns->dns_cache_mutex != NULL
-	 && dns->dns_cache != NULL);
+  dns->dns_cache = lw6sys_cache_new (sys_context, lw6sys_free_callback, dns_cache_hash_size, dns_cache_delay_sec * LW6SYS_TICKS_PER_SEC);
+  ret = (dns->dns_gethostbyname_mutex != NULL && dns->dns_cache_mutex != NULL && dns->dns_cache != NULL);
 
   return ret;
 }
@@ -154,9 +150,7 @@ lw6net_dns_gethostbyname (const char *name)
 	  cached_ret = lw6sys_cache_get (dns->dns_cache, name);
 	  if (cached_ret)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("cached DNS \"%s\" -> \"%s\""), name,
-			  cached_ret);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("cached DNS \"%s\" -> \"%s\""), name, cached_ret);
 	      ret = lw6sys_str_copy (sys_context, cached_ret);
 	    }
 	  lw6sys_mutex_unlock (dns->dns_cache_mutex);
@@ -172,18 +166,14 @@ lw6net_dns_gethostbyname (const char *name)
 	  if (lw6net_dns_lock ())
 	    {
 	      h = gethostbyname (name);
-	      if (h && h->h_addrtype == AF_INET && h->h_length >= 4
-		  && h->h_addr_list[0])
+	      if (h && h->h_addrtype == AF_INET && h->h_length >= 4 && h->h_addr_list[0])
 		{
 		  addr.s_addr = *((u_long *) (h->h_addr_list[0]));
 		  ntoa_ret = inet_ntoa (addr);
 		  if (ntoa_ret)
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_ ("DNS request \"%s\" -> \"%s\""), name,
-				  ntoa_ret);
-		      to_put_in_cache =
-			lw6sys_str_copy (sys_context, ntoa_ret);
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("DNS request \"%s\" -> \"%s\""), name, ntoa_ret);
+		      to_put_in_cache = lw6sys_str_copy (sys_context, ntoa_ret);
 
 		      ret = lw6sys_str_copy (sys_context, ntoa_ret);
 		    }
@@ -197,9 +187,7 @@ lw6net_dns_gethostbyname (const char *name)
     {
       if (lw6sys_mutex_lock (dns->dns_cache_mutex))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("put in DNS cache \"%s\" -> \"%s\""), name,
-		      to_put_in_cache);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("put in DNS cache \"%s\" -> \"%s\""), name, to_put_in_cache);
 	  lw6sys_cache_set (dns->dns_cache, name, to_put_in_cache);
 	  lw6sys_mutex_unlock (dns->dns_cache_mutex);
 	}

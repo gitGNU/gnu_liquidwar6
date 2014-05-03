@@ -41,8 +41,7 @@
  * Return value: a newly allocated map, may be NULL.
  */
 lw6map_level_t *
-lw6map_dup (lw6sys_context_t * sys_context, lw6map_level_t * source,
-	    lw6sys_progress_t * progress)
+lw6map_dup (lw6sys_context_t * sys_context, lw6map_level_t * source, lw6sys_progress_t * progress)
 {
   lw6map_level_t *ret = NULL;
   int size = 0;
@@ -90,223 +89,172 @@ lw6map_dup (lw6sys_context_t * sys_context, lw6map_level_t * source,
       lw6map_param_copy (sys_context, &(ret->param), &(source->param));
       if (source->metadata.title)
 	{
-	  ret->metadata.title =
-	    lw6sys_str_copy (sys_context, source->metadata.title);
+	  ret->metadata.title = lw6sys_str_copy (sys_context, source->metadata.title);
 	}
       if (source->metadata.author)
 	{
-	  ret->metadata.author =
-	    lw6sys_str_copy (sys_context, source->metadata.author);
+	  ret->metadata.author = lw6sys_str_copy (sys_context, source->metadata.author);
 	}
       if (source->metadata.description)
 	{
-	  ret->metadata.description =
-	    lw6sys_str_copy (sys_context, source->metadata.description);
+	  ret->metadata.description = lw6sys_str_copy (sys_context, source->metadata.description);
 	}
       if (source->metadata.license)
 	{
-	  ret->metadata.license =
-	    lw6sys_str_copy (sys_context, source->metadata.license);
+	  ret->metadata.license = lw6sys_str_copy (sys_context, source->metadata.license);
 	}
       if (source->local_info.music_dir)
 	{
-	  ret->local_info.music_dir =
-	    lw6sys_str_copy (sys_context, source->local_info.music_dir);
+	  ret->local_info.music_dir = lw6sys_str_copy (sys_context, source->local_info.music_dir);
 	}
-      lw6sys_progress_update (sys_context, progress, 0, progress_n,
-			      ++progress_i);
+      lw6sys_progress_update (sys_context, progress, 0, progress_n, ++progress_i);
       for (layer = 0; layer < ret->body.shape.d; ++layer)
 	{
-	  size =
-	    source->body.layers[layer].shape.w *
-	    source->body.layers[layer].shape.h * sizeof (u_int8_t);
+	  size = source->body.layers[layer].shape.w * source->body.layers[layer].shape.h * sizeof (u_int8_t);
 	  ret->body.layers[layer].data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.layers[layer].data)
 	    {
-	      memcpy (ret->body.layers[layer].data,
-		      source->body.layers[layer].data, size);
-	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
-				      ++progress_i);
+	      memcpy (ret->body.layers[layer].data, source->body.layers[layer].data, size);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n, ++progress_i);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to duplicate layer %d data"), layer);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to duplicate layer %d data"), layer);
 
 	    }
 	}
       if (source->body.glue.data)
 	{
-	  size =
-	    source->body.glue.shape.w *
-	    source->body.glue.shape.h * sizeof (u_int8_t);
+	  size = source->body.glue.shape.w * source->body.glue.shape.h * sizeof (u_int8_t);
 	  ret->body.glue.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.glue.data)
 	    {
 	      memcpy (ret->body.glue.data, source->body.glue.data, size);
-	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
-				      ++progress_i);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n, ++progress_i);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to duplicate meta-layer"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to duplicate meta-layer"));
 
 	    }
 	}
       if (source->body.boost.data)
 	{
-	  size =
-	    source->body.boost.shape.w *
-	    source->body.boost.shape.h * sizeof (u_int8_t);
+	  size = source->body.boost.shape.w * source->body.boost.shape.h * sizeof (u_int8_t);
 	  ret->body.boost.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.boost.data)
 	    {
 	      memcpy (ret->body.boost.data, source->body.boost.data, size);
-	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
-				      ++progress_i);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n, ++progress_i);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to duplicate meta-layer"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to duplicate meta-layer"));
 
 	    }
 	}
       if (source->body.danger.data)
 	{
-	  size =
-	    source->body.danger.shape.w *
-	    source->body.danger.shape.h * sizeof (u_int8_t);
+	  size = source->body.danger.shape.w * source->body.danger.shape.h * sizeof (u_int8_t);
 	  ret->body.danger.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.danger.data)
 	    {
 	      memcpy (ret->body.danger.data, source->body.danger.data, size);
-	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
-				      ++progress_i);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n, ++progress_i);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to duplicate meta-layer"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to duplicate meta-layer"));
 
 	    }
 	}
       if (source->body.medicine.data)
 	{
-	  size =
-	    source->body.medicine.shape.w *
-	    source->body.medicine.shape.h * sizeof (u_int8_t);
+	  size = source->body.medicine.shape.w * source->body.medicine.shape.h * sizeof (u_int8_t);
 	  ret->body.medicine.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.medicine.data)
 	    {
-	      memcpy (ret->body.medicine.data, source->body.medicine.data,
-		      size);
-	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
-				      ++progress_i);
+	      memcpy (ret->body.medicine.data, source->body.medicine.data, size);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n, ++progress_i);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to duplicate meta-layer"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to duplicate meta-layer"));
 
 	    }
 	}
       if (source->body.one_way_north.data)
 	{
-	  size =
-	    source->body.one_way_north.shape.w *
-	    source->body.one_way_north.shape.h * sizeof (u_int8_t);
+	  size = source->body.one_way_north.shape.w * source->body.one_way_north.shape.h * sizeof (u_int8_t);
 	  ret->body.one_way_north.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.one_way_north.data)
 	    {
-	      memcpy (ret->body.one_way_north.data,
-		      source->body.one_way_north.data, size);
-	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
-				      ++progress_i);
+	      memcpy (ret->body.one_way_north.data, source->body.one_way_north.data, size);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n, ++progress_i);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to duplicate meta-layer"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to duplicate meta-layer"));
 
 	    }
 	}
       if (source->body.one_way_east.data)
 	{
-	  size =
-	    source->body.one_way_east.shape.w *
-	    source->body.one_way_east.shape.h * sizeof (u_int8_t);
+	  size = source->body.one_way_east.shape.w * source->body.one_way_east.shape.h * sizeof (u_int8_t);
 	  ret->body.one_way_east.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.one_way_east.data)
 	    {
-	      memcpy (ret->body.one_way_east.data,
-		      source->body.one_way_east.data, size);
-	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
-				      ++progress_i);
+	      memcpy (ret->body.one_way_east.data, source->body.one_way_east.data, size);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n, ++progress_i);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to duplicate meta-layer"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to duplicate meta-layer"));
 
 	    }
 	}
       if (source->body.one_way_south.data)
 	{
-	  size =
-	    source->body.one_way_south.shape.w *
-	    source->body.one_way_south.shape.h * sizeof (u_int8_t);
+	  size = source->body.one_way_south.shape.w * source->body.one_way_south.shape.h * sizeof (u_int8_t);
 	  ret->body.one_way_south.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.one_way_south.data)
 	    {
-	      memcpy (ret->body.one_way_south.data,
-		      source->body.one_way_south.data, size);
-	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
-				      ++progress_i);
+	      memcpy (ret->body.one_way_south.data, source->body.one_way_south.data, size);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n, ++progress_i);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to duplicate meta-layer"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to duplicate meta-layer"));
 
 	    }
 	}
       if (source->body.one_way_west.data)
 	{
-	  size =
-	    source->body.one_way_west.shape.w *
-	    source->body.one_way_west.shape.h * sizeof (u_int8_t);
+	  size = source->body.one_way_west.shape.w * source->body.one_way_west.shape.h * sizeof (u_int8_t);
 	  ret->body.one_way_west.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->body.one_way_west.data)
 	    {
-	      memcpy (ret->body.one_way_west.data,
-		      source->body.one_way_west.data, size);
-	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
-				      ++progress_i);
+	      memcpy (ret->body.one_way_west.data, source->body.one_way_west.data, size);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n, ++progress_i);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to duplicate meta-layer"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to duplicate meta-layer"));
 
 	    }
 	}
       if (source->texture.data)
 	{
-	  size =
-	    source->texture.w * source->texture.h * sizeof (lw6sys_color_8_t);
+	  size = source->texture.w * source->texture.h * sizeof (lw6sys_color_8_t);
 	  ret->texture.data = LW6SYS_MALLOC (sys_context, size);
 	  if (ret->texture.data)
 	    {
 	      memcpy (ret->texture.data, source->texture.data, size);
-	      lw6sys_progress_update (sys_context, progress, 0, progress_n,
-				      ++progress_i);
+	      lw6sys_progress_update (sys_context, progress, 0, progress_n, ++progress_i);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to duplicate texture data"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to duplicate texture data"));
 	    }
 	}
     }

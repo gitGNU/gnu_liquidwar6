@@ -119,20 +119,16 @@ mod_brute_get_pedigree ()
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
-  module_pedigree =
-    (lw6sys_module_pedigree_t *)
-    LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
+  module_pedigree = (lw6sys_module_pedigree_t *) LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
   if (module_pedigree)
     {
       module_pedigree->id = "brute";
       module_pedigree->category = "bot";
       module_pedigree->name = _("Brute");
       module_pedigree->readme =
-	_x_
-	("A basic - almost brute - bot which uses the old LW5 algorithm, that is, choose a point in the opponents' amries and go to it.");
+	_x_ ("A basic - almost brute - bot which uses the old LW5 algorithm, that is, choose a point in the opponents' amries and go to it.");
       module_pedigree->version = VERSION;
-      module_pedigree->copyright =
-	"Copyright (C)  2014  Christian Mauduit <ufoot@ufoot.org>";
+      module_pedigree->copyright = "Copyright (C)  2014  Christian Mauduit <ufoot@ufoot.org>";
       module_pedigree->license = "GPLv3+ (GNU GPL version 3 or later)";
       module_pedigree->date = __DATE__;
       module_pedigree->time = __TIME__;

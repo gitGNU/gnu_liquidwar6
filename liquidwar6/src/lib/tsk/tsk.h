@@ -53,19 +53,11 @@ extern void lw6tsk_loader_push_ldr (lw6tsk_loader_t * loader,
 				    const char *map_path,
 				    const char *relative_path,
 				    lw6sys_assoc_t * default_param,
-				    lw6sys_assoc_t * forced_param,
-				    int display_w, int display_h,
-				    int bench_value, int magic_number);
-extern void lw6tsk_loader_push_gen (lw6tsk_loader_t * loader,
-				    const char *seed, int display_w,
-				    int display_h, int bench_value,
-				    int magic_number);
+				    lw6sys_assoc_t * forced_param, int display_w, int display_h, int bench_value, int magic_number);
+extern void lw6tsk_loader_push_gen (lw6tsk_loader_t * loader, const char *seed, int display_w, int display_h, int bench_value, int magic_number);
 extern int lw6tsk_loader_pop (lw6map_level_t ** level,
-			      lw6ker_game_struct_t ** game_struct,
-			      lw6ker_game_state_t ** game_state,
-			      int *bench_value, lw6tsk_loader_t * loader);
-extern lw6tsk_loader_t *lw6tsk_loader_new (float sleep, char *user_dir,
-					   volatile float *progress);
+			      lw6ker_game_struct_t ** game_struct, lw6ker_game_state_t ** game_state, int *bench_value, lw6tsk_loader_t * loader);
+extern lw6tsk_loader_t *lw6tsk_loader_new (float sleep, char *user_dir, volatile float *progress);
 extern void lw6tsk_loader_free (lw6tsk_loader_t * loader);
 extern char *lw6tsk_loader_repr (const lw6tsk_loader_t * loader);
 extern int lw6tsk_loader_get_stage (lw6tsk_loader_t * loader);

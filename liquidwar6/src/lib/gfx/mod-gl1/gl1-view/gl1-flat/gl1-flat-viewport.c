@@ -31,10 +31,7 @@
 void
 _mod_gl1_view_flat_viewport_update_preview (mod_gl1_utils_context_t *
 					    utils_context,
-					    _mod_gl1_view_flat_context_t *
-					    flat_context,
-					    const lw6gui_look_t * look,
-					    const lw6map_level_t * level)
+					    _mod_gl1_view_flat_context_t * flat_context, const lw6gui_look_t * look, const lw6map_level_t * level)
 {
   int center_x = 0;
   int center_y = 0;
@@ -43,16 +40,11 @@ _mod_gl1_view_flat_viewport_update_preview (mod_gl1_utils_context_t *
   center_x = level->body.shape.w / 2;
   center_y = level->body.shape.h / 2;
 
-  lw6gui_smoother_immediate_force (&(utils_context->smoothers.map_center_x),
-				   center_x);
-  lw6gui_smoother_immediate_force (&(utils_context->smoothers.map_center_y),
-				   center_y);
+  lw6gui_smoother_immediate_force (&(utils_context->smoothers.map_center_x), center_x);
+  lw6gui_smoother_immediate_force (&(utils_context->smoothers.map_center_y), center_y);
 
   global_zoom = look->dynamic_zoom * look->style.zoom;
-  lw6gui_smoother_set_target (&(utils_context->smoothers.global_zoom),
-			      global_zoom,
-			      _lw6gfx_sdl_timer_get_timestamp (&
-							       (utils_context->sdl_context)));
+  lw6gui_smoother_set_target (&(utils_context->smoothers.global_zoom), global_zoom, _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context)));
 
   mod_gl1_utils_smoothers_update (utils_context);
 
@@ -70,21 +62,14 @@ _mod_gl1_view_flat_viewport_update_preview (mod_gl1_utils_context_t *
 			level->param.rules.x_polarity,
 			level->param.rules.y_polarity,
 			look->style.x_wrap,
-			look->style.y_wrap,
-			look->style.keep_ratio,
-			utils_context->smoothed.global_zoom,
-			flat_context->const_data.scroll_limit, 0);
+			look->style.y_wrap, look->style.keep_ratio, utils_context->smoothed.global_zoom, flat_context->const_data.scroll_limit, 0);
 }
 
 void
 _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
 				    utils_context,
 				    _mod_gl1_view_flat_context_t *
-				    flat_context,
-				    const lw6gui_look_t * look,
-				    const lw6ker_game_state_t *
-				    game_state,
-				    lw6pil_local_cursors_t * local_cursors)
+				    flat_context, const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
   float global_zoom = 1.0f;
   float map_mouse_x = 0.0f;
@@ -107,9 +92,7 @@ _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
 
   if (local_cursors)
     {
-      if (!lw6pil_local_cursors_get_main_info
-	  (local_cursors, NULL, &main_cursor_x, &main_cursor_y,
-	   &mouse_controlled))
+      if (!lw6pil_local_cursors_get_main_info (local_cursors, NULL, &main_cursor_x, &main_cursor_y, &mouse_controlled))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no main cursor"));
 	}
@@ -121,35 +104,20 @@ _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
   /*
    * Normally fix_10 is called by calling, but just in case.
    */
-  lw6pil_coords_fix_x10 (&(game_state->game_struct->rules), &shape, &x, &y,
-			 &z);
+  lw6pil_coords_fix_x10 (&(game_state->game_struct->rules), &shape, &x, &y, &z);
   main_cursor_x = x;
   main_cursor_y = y;
 
   if (mouse_controlled)
     {
-      drag_pop = lw6gui_mouse_drag_pop
-	(&(utils_context->sdl_context.input.mouse), &dx, &dy, &px, &py, &sx,
-	 &sy);
-      delta_x =
-	px - (flat_context->viewport.drawable.x1 +
-	      flat_context->viewport.drawable.x2) / 2.0f;
-      delta_y =
-	py - (flat_context->viewport.drawable.y1 +
-	      flat_context->viewport.drawable.y2) / 2.0f;
-      lw6gui_viewport_calc_drag (&(flat_context->viewport), &center_x,
-				 &center_y, main_cursor_x, main_cursor_y,
-				 delta_x, delta_y);
+      drag_pop = lw6gui_mouse_drag_pop (&(utils_context->sdl_context.input.mouse), &dx, &dy, &px, &py, &sx, &sy);
+      delta_x = px - (flat_context->viewport.drawable.x1 + flat_context->viewport.drawable.x2) / 2.0f;
+      delta_y = py - (flat_context->viewport.drawable.y1 + flat_context->viewport.drawable.y2) / 2.0f;
+      lw6gui_viewport_calc_drag (&(flat_context->viewport), &center_x, &center_y, main_cursor_x, main_cursor_y, delta_x, delta_y);
       if (dx || dy)
 	{
-	  lw6gui_smoother_immediate_force (&
-					   (utils_context->
-					    smoothers.map_center_x),
-					   center_x);
-	  lw6gui_smoother_immediate_force (&
-					   (utils_context->
-					    smoothers.map_center_y),
-					   center_y);
+	  lw6gui_smoother_immediate_force (&(utils_context->smoothers.map_center_x), center_x);
+	  lw6gui_smoother_immediate_force (&(utils_context->smoothers.map_center_y), center_y);
 	}
       if (drag_pop)
 	{
@@ -161,25 +129,14 @@ _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
     {
       center_x = main_cursor_x;
       center_y = main_cursor_y;
-      lw6gui_smoother_set_target (&(utils_context->smoothers.map_center_x),
-				  center_x,
-				  _lw6gfx_sdl_timer_get_timestamp (&
-								   (utils_context->sdl_context)));
-      lw6gui_smoother_set_target (&(utils_context->smoothers.map_center_y),
-				  center_y,
-				  _lw6gfx_sdl_timer_get_timestamp (&
-								   (utils_context->sdl_context)));
-      lw6gui_smoother_fix_overflow (&(utils_context->smoothers.map_center_x),
-				    shape.w * LW6PIL_COORDS_X2);
-      lw6gui_smoother_fix_overflow (&(utils_context->smoothers.map_center_y),
-				    shape.h * LW6PIL_COORDS_X2);
+      lw6gui_smoother_set_target (&(utils_context->smoothers.map_center_x), center_x, _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context)));
+      lw6gui_smoother_set_target (&(utils_context->smoothers.map_center_y), center_y, _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context)));
+      lw6gui_smoother_fix_overflow (&(utils_context->smoothers.map_center_x), shape.w * LW6PIL_COORDS_X2);
+      lw6gui_smoother_fix_overflow (&(utils_context->smoothers.map_center_y), shape.h * LW6PIL_COORDS_X2);
     }
 
   global_zoom = look->dynamic_zoom * look->style.zoom;
-  lw6gui_smoother_set_target (&(utils_context->smoothers.global_zoom),
-			      global_zoom,
-			      _lw6gfx_sdl_timer_get_timestamp (&
-							       (utils_context->sdl_context)));
+  lw6gui_smoother_set_target (&(utils_context->smoothers.global_zoom), global_zoom, _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context)));
 
   mod_gl1_utils_smoothers_update (utils_context);
 
@@ -197,10 +154,7 @@ _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
 			game_state->game_struct->rules.x_polarity,
 			game_state->game_struct->rules.y_polarity,
 			look->style.x_wrap,
-			look->style.y_wrap,
-			look->style.keep_ratio,
-			utils_context->smoothed.global_zoom,
-			flat_context->const_data.scroll_limit, 1);
+			look->style.y_wrap, look->style.keep_ratio, utils_context->smoothed.global_zoom, flat_context->const_data.scroll_limit, 1);
 
   flat_context->viewport = test;
 

@@ -30,7 +30,5 @@ void
 _mod_gles2_viewport_drawable_max (_mod_gles2_context_t * gles2_context)
 {
   lw6gui_zone_init_xywh (&(gles2_context->sdl_context.viewport), 0.0f,
-			 0.0f,
-			 gles2_context->sdl_context.video_mode.width,
-			 gles2_context->sdl_context.video_mode.height);
+			 0.0f, gles2_context->sdl_context.video_mode.width, gles2_context->sdl_context.video_mode.height);
 }

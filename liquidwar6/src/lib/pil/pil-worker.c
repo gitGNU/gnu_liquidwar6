@@ -28,26 +28,20 @@
 #include "pil-internal.h"
 
 int
-_lw6pil_worker_init (lw6pil_worker_t * worker,
-		     lw6ker_game_state_t * game_state,
-		     int verified, lw6sys_progress_t * progress)
+_lw6pil_worker_init (lw6pil_worker_t * worker, lw6ker_game_state_t * game_state, int verified, lw6sys_progress_t * progress)
 {
   int ret = 0;
 
   memset (worker, 0, sizeof (lw6pil_worker_t));
   worker->run = 1;
   worker->verified = verified;
-  worker->target_round =
-    lw6ker_game_state_get_rounds (sys_context, game_state);
+  worker->target_round = lw6ker_game_state_get_rounds (sys_context, game_state);
   worker->current_round = worker->target_round;
   worker->computed_rounds = 0;
-  worker->game_state =
-    lw6ker_game_state_dup (sys_context, game_state, progress);
+  worker->game_state = lw6ker_game_state_dup (sys_context, game_state, progress);
   if (worker->game_state)
     {
-      worker->commands =
-	lw6sys_list_new (sys_context,
-			 (lw6sys_free_func_t) lw6pil_command_free);
+      worker->commands = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6pil_command_free);
       if (worker->commands)
 	{
 	  worker->commands_spinlock = lw6sys_spinlock_create ();
@@ -61,10 +55,7 @@ _lw6pil_worker_init (lw6pil_worker_t * worker,
 		    {
 		      worker->compute_thread =
 			lw6sys_thread_create ((lw6sys_thread_callback_func_t)
-					      _lw6pil_compute_thread_func,
-					      (lw6sys_thread_callback_func_t)
-					      _lw6pil_compute_thread_join,
-					      (void *) worker);
+					      _lw6pil_compute_thread_func, (lw6sys_thread_callback_func_t) _lw6pil_compute_thread_join, (void *) worker);
 		      if (worker->compute_thread)
 			{
 			  ret = 1;

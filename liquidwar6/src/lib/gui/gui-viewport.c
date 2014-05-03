@@ -62,9 +62,7 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 		      int screen_h, float drawable_x1, float drawable_y1,
 		      float drawable_x2, float drawable_y2, float center_x,
 		      float center_y, int map_w, int map_h, int x_polarity,
-		      int y_polarity, int x_wrap, int y_wrap, int keep_ratio,
-		      float global_zoom, float scroll_limit,
-		      int use_old_center)
+		      int y_polarity, int x_wrap, int y_wrap, int keep_ratio, float global_zoom, float scroll_limit, int use_old_center)
 {
   int ret = 0;
   float map_ratio = 1.0f;
@@ -97,20 +95,17 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
       viewport->screen_shape.w = screen_w;
       viewport->screen_shape.h = screen_h;
 
-      lw6gui_zone_init_x1y1x2y2 (&(viewport->drawable), drawable_x1,
-				 drawable_y1, drawable_x2, drawable_y2);
+      lw6gui_zone_init_x1y1x2y2 (&(viewport->drawable), drawable_x1, drawable_y1, drawable_x2, drawable_y2);
 
       if (viewport->map_shape.w > 0 && viewport->map_shape.h > 0
-	  && viewport->screen_shape.w > 0 && viewport->screen_shape.h
-	  && viewport->drawable.w > 0.0f && viewport->drawable.h > 0.0f)
+	  && viewport->screen_shape.w > 0 && viewport->screen_shape.h && viewport->drawable.w > 0.0f && viewport->drawable.h > 0.0f)
 	{
 	  /*
 	   * First, we choose the right w & h value (on the screen,
 	   * in pixels) for the main map zone, neglecting clip and/or
 	   * wrapping.
 	   */
-	  map_ratio =
-	    ((float) viewport->map_shape.w) / ((float) viewport->map_shape.h);
+	  map_ratio = ((float) viewport->map_shape.w) / ((float) viewport->map_shape.h);
 	  drawable_ratio = viewport->drawable.w / viewport->drawable.h;
 
 	  if (keep_ratio)
@@ -118,13 +113,11 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 	      if (map_ratio > drawable_ratio)
 		{
 		  map_main_w = viewport->drawable.w;
-		  map_main_h =
-		    viewport->drawable.h * drawable_ratio / map_ratio;
+		  map_main_h = viewport->drawable.h * drawable_ratio / map_ratio;
 		}
 	      else
 		{
-		  map_main_w =
-		    viewport->drawable.w * map_ratio / drawable_ratio;
+		  map_main_w = viewport->drawable.w * map_ratio / drawable_ratio;
 		  map_main_h = viewport->drawable.h;
 		}
 	    }
@@ -146,33 +139,23 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 #ifdef REMOVE_ME
 	  if (map_main_w < viewport->drawable.w)
 	    {
-	      map_main_x =
-		viewport->drawable.x1 + (viewport->drawable.w -
-					 map_main_w) / 2.0f;
+	      map_main_x = viewport->drawable.x1 + (viewport->drawable.w - map_main_w) / 2.0f;
 	    }
 	  else if (map_main_w > viewport->drawable.w)
 	    {
 	      map_main_x =
 		viewport->drawable.x1 + (viewport->drawable.w -
-					 map_main_w) / 2.0f -
-		(viewport->center_x -
-		 viewport->map_shape.w / 2) * (map_main_w /
-					       viewport->map_shape.w);
+					 map_main_w) / 2.0f - (viewport->center_x - viewport->map_shape.w / 2) * (map_main_w / viewport->map_shape.w);
 	      if (viewport->x_polarity == 0 || viewport->x_wrap == 0)
 		{
-		  if (map_main_x + map_main_w <
-		      viewport->drawable.x1 + viewport->drawable.w)
+		  if (map_main_x + map_main_w < viewport->drawable.x1 + viewport->drawable.w)
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_ ("x correct 1 %0.0f"), map_main_x);
-		      map_main_x =
-			viewport->drawable.x1 + viewport->drawable.w -
-			map_main_w;
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("x correct 1 %0.0f"), map_main_x);
+		      map_main_x = viewport->drawable.x1 + viewport->drawable.w - map_main_w;
 		    }
 		  if (map_main_x > viewport->drawable.x1)
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_ ("x correct 2 %0.0f"), map_main_x);
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("x correct 2 %0.0f"), map_main_x);
 		      map_main_x = viewport->drawable.x1;
 		    }
 		}
@@ -180,33 +163,23 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 
 	  if (map_main_h < viewport->drawable.h)
 	    {
-	      map_main_y =
-		viewport->drawable.y1 + (viewport->drawable.h -
-					 map_main_h) / 2.0f;
+	      map_main_y = viewport->drawable.y1 + (viewport->drawable.h - map_main_h) / 2.0f;
 	    }
 	  else if (map_main_h > viewport->drawable.h)
 	    {
 	      map_main_y =
 		viewport->drawable.y1 + (viewport->drawable.h -
-					 map_main_h) / 2.0f -
-		(viewport->center_y -
-		 viewport->map_shape.h / 2) * (map_main_h /
-					       viewport->map_shape.h);
+					 map_main_h) / 2.0f - (viewport->center_y - viewport->map_shape.h / 2) * (map_main_h / viewport->map_shape.h);
 	      if (viewport->y_polarity == 0 || viewport->y_wrap == 0)
 		{
-		  if (map_main_y + map_main_h <
-		      viewport->drawable.y1 + viewport->drawable.h)
+		  if (map_main_y + map_main_h < viewport->drawable.y1 + viewport->drawable.h)
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_ ("y correct 1 %0.0f"), map_main_y);
-		      map_main_y =
-			viewport->drawable.y1 + viewport->drawable.h -
-			map_main_h;
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("y correct 1 %0.0f"), map_main_y);
+		      map_main_y = viewport->drawable.y1 + viewport->drawable.h - map_main_h;
 		    }
 		  if (map_main_y > viewport->drawable.y1)
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_ ("y correct 2 %0.0f"), map_main_y);
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("y correct 2 %0.0f"), map_main_y);
 		      map_main_y = viewport->drawable.y1;
 		    }
 		}
@@ -214,78 +187,54 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 #endif
 	  if (map_main_w < viewport->drawable.w)
 	    {
-	      map_main_x =
-		viewport->drawable.x1 + (viewport->drawable.w -
-					 map_main_w) / 2.0f;
+	      map_main_x = viewport->drawable.x1 + (viewport->drawable.w - map_main_w) / 2.0f;
 	    }
-	  if (map_main_w > viewport->drawable.w
-	      || (viewport->x_polarity != 0 && viewport->x_wrap != 0))
+	  if (map_main_w > viewport->drawable.w || (viewport->x_polarity != 0 && viewport->x_wrap != 0))
 	    {
 	      map_main_x =
 		viewport->drawable.x1 + (viewport->drawable.w -
-					 map_main_w) / 2.0f -
-		(viewport->center_x -
-		 viewport->map_shape.w / 2) * (map_main_w /
-					       viewport->map_shape.w);
+					 map_main_w) / 2.0f - (viewport->center_x - viewport->map_shape.w / 2) * (map_main_w / viewport->map_shape.w);
 	    }
-	  if (map_main_w > viewport->drawable.w
-	      && (viewport->x_polarity == 0 || viewport->x_wrap == 0))
+	  if (map_main_w > viewport->drawable.w && (viewport->x_polarity == 0 || viewport->x_wrap == 0))
 	    {
-	      if (map_main_x + map_main_w <
-		  viewport->drawable.x1 + viewport->drawable.w)
+	      if (map_main_x + map_main_w < viewport->drawable.x1 + viewport->drawable.w)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("x correct 1 %0.0f"), map_main_x);
-		  map_main_x =
-		    viewport->drawable.x1 + viewport->drawable.w - map_main_w;
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("x correct 1 %0.0f"), map_main_x);
+		  map_main_x = viewport->drawable.x1 + viewport->drawable.w - map_main_w;
 		}
 	      if (map_main_x > viewport->drawable.x1)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("x correct 2 %0.0f"), map_main_x);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("x correct 2 %0.0f"), map_main_x);
 		  map_main_x = viewport->drawable.x1;
 		}
 	    }
 
 	  if (map_main_h < viewport->drawable.h)
 	    {
-	      map_main_y =
-		viewport->drawable.y1 + (viewport->drawable.h -
-					 map_main_h) / 2.0f;
+	      map_main_y = viewport->drawable.y1 + (viewport->drawable.h - map_main_h) / 2.0f;
 	    }
-	  if (map_main_h > viewport->drawable.h
-	      || (viewport->y_polarity != 0 && viewport->y_wrap != 0))
+	  if (map_main_h > viewport->drawable.h || (viewport->y_polarity != 0 && viewport->y_wrap != 0))
 	    {
 	      map_main_y =
 		viewport->drawable.y1 + (viewport->drawable.h -
-					 map_main_h) / 2.0f -
-		(viewport->center_y -
-		 viewport->map_shape.h / 2) * (map_main_h /
-					       viewport->map_shape.h);
+					 map_main_h) / 2.0f - (viewport->center_y - viewport->map_shape.h / 2) * (map_main_h / viewport->map_shape.h);
 	    }
-	  if (map_main_h > viewport->drawable.h
-	      && (viewport->y_polarity == 0 || viewport->y_wrap == 0))
+	  if (map_main_h > viewport->drawable.h && (viewport->y_polarity == 0 || viewport->y_wrap == 0))
 	    {
-	      if (map_main_y + map_main_h <
-		  viewport->drawable.y1 + viewport->drawable.h)
+	      if (map_main_y + map_main_h < viewport->drawable.y1 + viewport->drawable.h)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("y correct 1 %0.0f"), map_main_y);
-		  map_main_y =
-		    viewport->drawable.y1 + viewport->drawable.h - map_main_h;
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("y correct 1 %0.0f"), map_main_y);
+		  map_main_y = viewport->drawable.y1 + viewport->drawable.h - map_main_h;
 		}
 	      if (map_main_y > viewport->drawable.y1)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("y correct 2 %0.0f"), map_main_y);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("y correct 2 %0.0f"), map_main_y);
 		  map_main_y = viewport->drawable.y1;
 		}
 	    }
 
-	  lw6gui_zone_init_xywh (&(viewport->map_main), map_main_x,
-				 map_main_y, map_main_w, map_main_h);
-	  lw6gui_zone_clip (&(viewport->map_main_clipped),
-			    &(viewport->map_main), &(viewport->drawable));
+	  lw6gui_zone_init_xywh (&(viewport->map_main), map_main_x, map_main_y, map_main_w, map_main_h);
+	  lw6gui_zone_clip (&(viewport->map_main_clipped), &(viewport->map_main), &(viewport->drawable));
 
 	  /*
 	   * Last, we update the "visible" part, that is, what should
@@ -305,16 +254,11 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 	      map_visible_y1 = viewport->drawable.y1;
 	      map_visible_y2 = viewport->drawable.y2;
 	    }
-	  lw6gui_zone_init_x1y1x2y2 (&(viewport->map_visible), map_visible_x1,
-				     map_visible_y1, map_visible_x2,
-				     map_visible_y2);
+	  lw6gui_zone_init_x1y1x2y2 (&(viewport->map_visible), map_visible_x1, map_visible_y1, map_visible_x2, map_visible_y2);
 
 	  if (use_old_center)
 	    {
-	      lw6gui_viewport_map_to_screen (viewport, &old_center_screen_x,
-					     &old_center_screen_y,
-					     viewport->old_center_x,
-					     viewport->old_center_y, 0);
+	      lw6gui_viewport_map_to_screen (viewport, &old_center_screen_x, &old_center_screen_y, viewport->old_center_x, viewport->old_center_y, 0);
 	      //dx = old_center_screen_x - viewport->map_visible.w / 2;
 	      //dy = old_center_screen_y - viewport->map_visible.h / 2;
 	    }
@@ -330,8 +274,7 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 		      _x_
 		      ("nothing is likely to be drawn, map_w=%d, map_h=%d, screen_w=%d, screen_h=%d, drawable_w=%f, drawable_h=%f"),
 		      viewport->map_shape.w, viewport->map_shape.h,
-		      viewport->screen_shape.w, viewport->screen_shape.h,
-		      viewport->drawable.w, viewport->drawable.h);
+		      viewport->screen_shape.w, viewport->screen_shape.h, viewport->drawable.w, viewport->drawable.h);
 	}
     }
 
@@ -355,18 +298,14 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
  * Return value: NULL
  */
 void
-lw6gui_viewport_map_to_screen (lw6gui_viewport_t * viewport, float *screen_x,
-			       float *screen_y, float map_x, float map_y,
-			       int clip)
+lw6gui_viewport_map_to_screen (lw6gui_viewport_t * viewport, float *screen_x, float *screen_y, float map_x, float map_y, int clip)
 {
   float x = 0.0f;
   float y = 0.0f;
 
   lw6gui_coord_calc_xy (&x, &y,
 			viewport->map_main.x1, viewport->map_main.y1,
-			viewport->map_main.w, viewport->map_main.h,
-			map_x, map_y,
-			0, 0, viewport->map_shape.w, viewport->map_shape.h);
+			viewport->map_main.w, viewport->map_main.h, map_x, map_y, 0, 0, viewport->map_shape.w, viewport->map_shape.h);
 
   if (clip)
     {
@@ -410,9 +349,7 @@ lw6gui_viewport_map_to_screen (lw6gui_viewport_t * viewport, float *screen_x,
  * Return value: NULL
  */
 void
-lw6gui_viewport_screen_to_map (lw6gui_viewport_t * viewport, float *map_x,
-			       float *map_y, float screen_x, float screen_y,
-			       int wrap)
+lw6gui_viewport_screen_to_map (lw6gui_viewport_t * viewport, float *map_x, float *map_y, float screen_x, float screen_y, int wrap)
 {
   float x = 0.0f;
   float y = 0.0f;
@@ -423,16 +360,12 @@ lw6gui_viewport_screen_to_map (lw6gui_viewport_t * viewport, float *map_x,
 
   lw6gui_coord_calc_xy (&x, &y,
 			0, 0, viewport->map_shape.w, viewport->map_shape.h,
-			screen_x, screen_y,
-			viewport->map_main.x1, viewport->map_main.y1,
-			viewport->map_main.w, viewport->map_main.h);
+			screen_x, screen_y, viewport->map_main.x1, viewport->map_main.y1, viewport->map_main.w, viewport->map_main.h);
 
   if (wrap)
     {
       lw6gui_coords_fix_xy_float (&x, &y, &x_flipped, &y_flipped, w, h,
-				  viewport->x_wrap ? viewport->x_polarity : 0,
-				  viewport->
-				  y_wrap ? viewport->y_polarity : 0);
+				  viewport->x_wrap ? viewport->x_polarity : 0, viewport->y_wrap ? viewport->y_polarity : 0);
     }
 
   *map_x = x;
@@ -455,17 +388,13 @@ lw6gui_viewport_screen_to_map (lw6gui_viewport_t * viewport, float *map_x,
  * Return value: none.
  */
 void
-lw6gui_viewport_calc_drag (lw6gui_viewport_t * viewport,
-			   float *map_dst_x, float *map_dst_y,
-			   float map_src_x, float map_src_y,
-			   int screen_dx, int screen_dy)
+lw6gui_viewport_calc_drag (lw6gui_viewport_t * viewport, float *map_dst_x, float *map_dst_y, float map_src_x, float map_src_y, int screen_dx, int screen_dy)
 {
   float map_dx = 0.0f;
   float map_dy = 0.0f;
 
   lw6gui_coord_calc_xy (&map_dx, &map_dy, 0.0f, 0.0f, viewport->map_shape.w,
-			viewport->map_shape.h, screen_dx, screen_dy, 0.0f,
-			0.0f, viewport->map_main.w, viewport->map_main.h);
+			viewport->map_shape.h, screen_dx, screen_dy, 0.0f, 0.0f, viewport->map_main.w, viewport->map_main.h);
 
   (*map_dst_x) = map_src_x - map_dx;
   (*map_dst_y) = map_src_y - map_dy;

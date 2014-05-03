@@ -155,31 +155,16 @@ typedef struct _lw6sys_context_s
 }
 _lw6sys_context_t;
 
-extern void _lw6sys_bazooka_context_init (lw6sys_context_t * sys_context,
-					  _lw6sys_bazooka_context_t *
-					  bazooka_context);
-extern int _lw6sys_bazooka_register_malloc (lw6sys_context_t * sys_context,
-					    char *ptr, int size,
-					    const char *file, int line);
-extern int _lw6sys_bazooka_register_calloc (lw6sys_context_t * sys_context,
-					    char *ptr, int size,
-					    const char *file, int line);
-extern int _lw6sys_bazooka_register_realloc_1 (lw6sys_context_t * sys_context,
-					       char *ptr, int size,
-					       const char *file, int line);
-extern int _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context,
-					       char *ptr, char *ptr2,
-					       int size, const char *file,
-					       int line);
-extern int _lw6sys_bazooka_register_free (lw6sys_context_t * sys_context,
-					  char *ptr);
-extern char *_lw6sys_new_vsnprintf (lw6sys_context_t * sys_context, int n,
-				    const char *fmt, va_list ap);
-extern int _lw6sys_buf_vsnprintf (lw6sys_context_t * sys_context, char *buf,
-				  int len, const char *fmt, va_list ap);
+extern void _lw6sys_bazooka_context_init (lw6sys_context_t * sys_context, _lw6sys_bazooka_context_t * bazooka_context);
+extern int _lw6sys_bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line);
+extern int _lw6sys_bazooka_register_calloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line);
+extern int _lw6sys_bazooka_register_realloc_1 (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line);
+extern int _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, char *ptr2, int size, const char *file, int line);
+extern int _lw6sys_bazooka_register_free (lw6sys_context_t * sys_context, char *ptr);
+extern char *_lw6sys_new_vsnprintf (lw6sys_context_t * sys_context, int n, const char *fmt, va_list ap);
+extern int _lw6sys_buf_vsnprintf (lw6sys_context_t * sys_context, char *buf, int len, const char *fmt, va_list ap);
 #ifdef LW6_MAC_OS_X
-extern void _lw6sys_macosx_alert (lw6sys_context_t * sys_context, char *title,
-				  char *msg);
+extern void _lw6sys_macosx_alert (lw6sys_context_t * sys_context, char *title, char *msg);
 #endif
 
 #endif

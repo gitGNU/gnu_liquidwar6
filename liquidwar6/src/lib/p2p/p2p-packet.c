@@ -28,9 +28,7 @@
 #include "p2p-internal.h"
 
 _lw6p2p_packet_t *
-_lw6p2p_packet_new (u_int32_t logical_ticket_sig,
-		    u_int32_t physical_ticket_sig, u_int64_t logical_from_id,
-		    u_int64_t logical_to_id, const char *msg)
+_lw6p2p_packet_new (u_int32_t logical_ticket_sig, u_int32_t physical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *msg)
 {
   _lw6p2p_packet_t *ret = NULL;
 
@@ -63,15 +61,13 @@ _lw6p2p_packet_free (_lw6p2p_packet_t * packet)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("freeing packet with NULL msg"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("freeing packet with NULL msg"));
 	}
       LW6SYS_FREE (sys_context, packet);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL packet"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL packet"));
     }
 }
 
@@ -80,10 +76,8 @@ _lw6p2p_packet_checksum (const _lw6p2p_packet_t * packet)
 {
   u_int32_t ret = 0;
 
-  lw6sys_checksum_update_int32 (sys_context, &ret,
-				packet->logical_ticket_sig);
-  lw6sys_checksum_update_int32 (sys_context, &ret,
-				packet->physical_ticket_sig);
+  lw6sys_checksum_update_int32 (sys_context, &ret, packet->logical_ticket_sig);
+  lw6sys_checksum_update_int32 (sys_context, &ret, packet->physical_ticket_sig);
   lw6sys_checksum_update_int64 (sys_context, &ret, packet->logical_from_id);
   lw6sys_checksum_update_int64 (sys_context, &ret, packet->logical_to_id);
   lw6sys_checksum_update_str (sys_context, &ret, packet->msg);
@@ -92,28 +86,23 @@ _lw6p2p_packet_checksum (const _lw6p2p_packet_t * packet)
 }
 
 int
-_lw6p2p_packet_compare (const _lw6p2p_packet_t * a,
-			const _lw6p2p_packet_t * b)
+_lw6p2p_packet_compare (const _lw6p2p_packet_t * a, const _lw6p2p_packet_t * b)
 {
   int ret = 0;
   u_int32_t checksum_a = _lw6p2p_packet_checksum (a);
   u_int32_t checksum_b = _lw6p2p_packet_checksum (b);
 
-  ret =
-    (checksum_a == checksum_b) ? 0 : ((checksum_a < checksum_b) ? -1 : +1);
+  ret = (checksum_a == checksum_b) ? 0 : ((checksum_a < checksum_b) ? -1 : +1);
 
   return ret;
 }
 
 int
-_lw6p2p_packet_sort_callback (const lw6sys_list_t ** list_a,
-			      const lw6sys_list_t ** list_b)
+_lw6p2p_packet_sort_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
 {
   int ret = 0;
 
-  ret =
-    _lw6p2p_packet_compare ((_lw6p2p_packet_t *) ((*list_a)->data),
-			    (_lw6p2p_packet_t *) ((*list_b)->data));
+  ret = _lw6p2p_packet_compare ((_lw6p2p_packet_t *) ((*list_a)->data), (_lw6p2p_packet_t *) ((*list_b)->data));
 
   return ret;
 }

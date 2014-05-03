@@ -28,12 +28,8 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_place_struct_update_checksum (lw6sys_context_t * sys_context,
-				      const _lw6ker_place_struct_t *
-				      place_struct, u_int32_t * checksum)
+_lw6ker_place_struct_update_checksum (lw6sys_context_t * sys_context, const _lw6ker_place_struct_t * place_struct, u_int32_t * checksum)
 {
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				place_struct->act_incr);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				place_struct->health_correction);
+  lw6sys_checksum_update_int32 (sys_context, checksum, place_struct->act_incr);
+  lw6sys_checksum_update_int32 (sys_context, checksum, place_struct->health_correction);
 }

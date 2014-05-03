@@ -47,8 +47,7 @@ lw6sys_mutex_create (lw6sys_context_t * sys_context)
 {
   _lw6sys_mutex_t *mutex;
 
-  mutex =
-    (_lw6sys_mutex_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6sys_mutex_t));
+  mutex = (_lw6sys_mutex_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6sys_mutex_t));
   if (mutex)
     {
       mutex->id = 0;
@@ -71,8 +70,7 @@ lw6sys_mutex_create (lw6sys_context_t * sys_context)
 
   if (!mutex)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create mutex"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create mutex"));
     }
 
   return (lw6sys_mutex_t *) mutex;
@@ -122,9 +120,7 @@ lw6sys_mutex_lock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("pthread_mutex_lock failed with error code %d"),
-		  pthread_ret);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("pthread_mutex_lock failed with error code %d"), pthread_ret);
     }
 
   return ret;
@@ -165,9 +161,7 @@ lw6sys_mutex_trylock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("pthread_mutex_trylock failed with error code %d"),
-		      pthread_ret);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("pthread_mutex_trylock failed with error code %d"), pthread_ret);
 	}
     }
 
@@ -199,9 +193,7 @@ lw6sys_mutex_unlock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("pthread_mutex_unlock failed with error code %d"),
-		  pthread_ret);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("pthread_mutex_unlock failed with error code %d"), pthread_ret);
     }
 
   return ret;

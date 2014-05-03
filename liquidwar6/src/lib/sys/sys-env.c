@@ -95,8 +95,7 @@ lw6sys_env_separator_str ()
  * Return value: the concatenated string, must be freed.
  */
 char *
-lw6sys_env_concat (lw6sys_context_t * sys_context, const char *value1,
-		   const char *value2)
+lw6sys_env_concat (lw6sys_context_t * sys_context, const char *value1, const char *value2)
 {
   char *ret = NULL;
 
@@ -110,9 +109,7 @@ lw6sys_env_concat (lw6sys_context_t * sys_context, const char *value1,
     }
   else
     {
-      ret =
-	lw6sys_new_sprintf (sys_context, "%s%s%s", value1,
-			    lw6sys_env_separator_str (), value2);
+      ret = lw6sys_new_sprintf (sys_context, "%s%s%s", value1, lw6sys_env_separator_str (), value2);
     }
 
   return ret;
@@ -135,8 +132,7 @@ lw6sys_env_concat (lw6sys_context_t * sys_context, const char *value1,
  * Return value: 1 if the environment variable exists, 0 if not.
  */
 int
-lw6sys_env_exists_prefixed (lw6sys_context_t * sys_context,
-			    const char *keyword)
+lw6sys_env_exists_prefixed (lw6sys_context_t * sys_context, const char *keyword)
 {
   int ret = 0;
   char *value = NULL;
@@ -185,8 +181,7 @@ lw6sys_getenv (lw6sys_context_t * sys_context, const char *key)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("GetEnvironmentVariable failed"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("GetEnvironmentVariable failed"));
 	}
     }
   else
@@ -251,8 +246,7 @@ lw6sys_getenv_prefixed (lw6sys_context_t * sys_context, const char *keyword)
  * Return value: 1 if success, 0 if failed
  */
 int
-lw6sys_setenv (lw6sys_context_t * sys_context, const char *keyword,
-	       const char *value)
+lw6sys_setenv (lw6sys_context_t * sys_context, const char *keyword, const char *value)
 {
   int ret = 0;
 
@@ -278,8 +272,7 @@ lw6sys_setenv (lw6sys_context_t * sys_context, const char *keyword,
   ret = SetEnvironmentVariable (keyword, value) ? 1 : 0;
   if (!ret)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("SetEnvironmentVariable failed"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("SetEnvironmentVariable failed"));
     }
 #else
   if (value)
@@ -313,8 +306,7 @@ lw6sys_setenv (lw6sys_context_t * sys_context, const char *keyword,
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_setenv_prefixed (lw6sys_context_t * sys_context, const char *keyword,
-			const char *value)
+lw6sys_setenv_prefixed (lw6sys_context_t * sys_context, const char *keyword, const char *value)
 {
   char *keyword_prefixed = NULL;
   int ret = 0;

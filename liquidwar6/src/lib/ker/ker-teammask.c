@@ -45,8 +45,7 @@
  * Return value: none.
  */
 void
-lw6ker_team_mask_get (lw6sys_context_t * sys_context, u_int32_t * even,
-		      u_int32_t * odd, int32_t round)
+lw6ker_team_mask_get (lw6sys_context_t * sys_context, u_int32_t * even, u_int32_t * odd, int32_t round)
 {
   u_int32_t checksum;
 
@@ -54,9 +53,7 @@ lw6ker_team_mask_get (lw6sys_context_t * sys_context, u_int32_t * even,
 
   (*even) =
     ((checksum & 0x01) ? 0x001 : 0x002) | ((checksum & 0x02) ? 0x004 : 0x008)
-    | ((checksum & 0x08) ? 0x010 : 0x020) | ((checksum & 0x10) ? 0x040 :
-					     0x080) | ((checksum & 0x20) ?
-						       0x100 : 0x200);
+    | ((checksum & 0x08) ? 0x010 : 0x020) | ((checksum & 0x10) ? 0x040 : 0x080) | ((checksum & 0x20) ? 0x100 : 0x200);
   (*odd) = (*even) ^ LW6KER_TEAM_MASK_ALL;
 }
 
@@ -76,8 +73,7 @@ lw6ker_team_mask_get (lw6sys_context_t * sys_context, u_int32_t * even,
  * Return value: none.
  */
 void
-lw6ker_team_mask_best (lw6sys_context_t * sys_context, u_int32_t * even,
-		       u_int32_t * odd, lw6ker_game_state_t * game_state)
+lw6ker_team_mask_best (lw6sys_context_t * sys_context, u_int32_t * even, u_int32_t * odd, lw6ker_game_state_t * game_state)
 {
   int i = 0, j = 0, k = 0, l = 0;
   int delta = LW6MAP_MAX_NB_TEAMS;
@@ -106,8 +102,7 @@ lw6ker_team_mask_best (lw6sys_context_t * sys_context, u_int32_t * even,
 
   if (l >= LW6MAP_MAX_NB_TEAMS)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("team_max_best with l=%d, consider optimizing"), l);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("team_max_best with l=%d, consider optimizing"), l);
     }
 }
 
@@ -123,8 +118,7 @@ lw6ker_team_mask_best (lw6sys_context_t * sys_context, u_int32_t * even,
  * Return value: 1 if concerned, 0 if not.
  */
 int
-lw6ker_team_mask_is_concerned (lw6sys_context_t * sys_context, int team_color,
-			       u_int32_t team_mask)
+lw6ker_team_mask_is_concerned (lw6sys_context_t * sys_context, int team_color, u_int32_t team_mask)
 {
   static int matrix[LW6MAP_MAX_NB_TEAMS] = { LW6KER_TEAM_MASK_RED,
     LW6KER_TEAM_MASK_GREEN,
@@ -194,8 +188,7 @@ lw6ker_team_mask_color2mask (lw6sys_context_t * sys_context, int team_color)
       ret = LW6KER_TEAM_MASK_PINK;
       break;
     default:
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("invalid team index %d"), team_color);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("invalid team index %d"), team_color);
     }
 
   return ret;

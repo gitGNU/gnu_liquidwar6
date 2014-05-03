@@ -28,9 +28,7 @@
 #include "p2p-internal.h"
 
 int
-_lw6p2p_backends_init_cli (int argc, const char *argv[],
-			   _lw6p2p_backends_t * backends,
-			   char *client_backends)
+_lw6p2p_backends_init_cli (int argc, const char *argv[], _lw6p2p_backends_t * backends, char *client_backends)
 {
   int ret = 0;
   lw6sys_list_t *list_backends = NULL;
@@ -47,51 +45,32 @@ _lw6p2p_backends_init_cli (int argc, const char *argv[],
 	   */
 	  ret = 1;
 	}
-      while (list_backends
-	     &&
-	     ((backend =
-	       lw6sys_list_pop_front (sys_context, &list_backends)) != NULL))
+      while (list_backends && ((backend = lw6sys_list_pop_front (sys_context, &list_backends)) != NULL))
 	{
 	  backends->nb_cli_backends++;
 	  if (backends->cli_backends)
 	    {
-	      backends->cli_backends =
-		(lw6cli_backend_t **)
-		LW6SYS_REALLOC (backends->cli_backends,
-				backends->nb_cli_backends *
-				sizeof (lw6cli_backend_t *));
+	      backends->cli_backends = (lw6cli_backend_t **) LW6SYS_REALLOC (backends->cli_backends, backends->nb_cli_backends * sizeof (lw6cli_backend_t *));
 	    }
 	  else
 	    {
-	      backends->cli_backends =
-		(lw6cli_backend_t **)
-		LW6SYS_MALLOC (sys_context, backends->nb_cli_backends *
-			       sizeof (lw6cli_backend_t *));
+	      backends->cli_backends = (lw6cli_backend_t **) LW6SYS_MALLOC (sys_context, backends->nb_cli_backends * sizeof (lw6cli_backend_t *));
 	    }
 	  if (backends->cli_backends)
 	    {
-	      backends->cli_backends[backends->nb_cli_backends - 1] =
-		lw6cli_create_backend (argc, argv, backend);
+	      backends->cli_backends[backends->nb_cli_backends - 1] = lw6cli_create_backend (argc, argv, backend);
 	      if (backends->cli_backends[backends->nb_cli_backends - 1])
 		{
-		  if (lw6cli_init
-		      (backends->cli_backends[backends->nb_cli_backends - 1]))
+		  if (lw6cli_init (backends->cli_backends[backends->nb_cli_backends - 1]))
 		    {
 		      backends->hint_timeout_max =
-			lw6sys_imax (backends->hint_timeout_max,
-				     backends->
-				     cli_backends[backends->nb_cli_backends -
-						  1]->
-				     properties.hint_timeout);
+			lw6sys_imax (backends->hint_timeout_max, backends->cli_backends[backends->nb_cli_backends - 1]->properties.hint_timeout);
 		      ret = 1;
 		    }
 		  else
 		    {
-		      lw6cli_destroy_backend (backends->cli_backends
-					      [backends->nb_cli_backends -
-					       1]);
-		      backends->cli_backends[backends->nb_cli_backends - 1] =
-			NULL;
+		      lw6cli_destroy_backend (backends->cli_backends[backends->nb_cli_backends - 1]);
+		      backends->cli_backends[backends->nb_cli_backends - 1] = NULL;
 		      backends->nb_cli_backends--;
 		    }
 		}
@@ -112,10 +91,7 @@ _lw6p2p_backends_init_cli (int argc, const char *argv[],
 }
 
 int
-_lw6p2p_backends_init_srv (int argc, const char *argv[],
-			   _lw6p2p_backends_t * backends,
-			   char *server_backends,
-			   lw6srv_listener_t * listener)
+_lw6p2p_backends_init_srv (int argc, const char *argv[], _lw6p2p_backends_t * backends, char *server_backends, lw6srv_listener_t * listener)
 {
   int ret = 0;
   lw6sys_list_t *list_backends = NULL;
@@ -132,43 +108,26 @@ _lw6p2p_backends_init_srv (int argc, const char *argv[],
 	   */
 	  ret = 1;
 	}
-      while (list_backends
-	     &&
-	     ((backend =
-	       lw6sys_list_pop_front (sys_context, &list_backends)) != NULL))
+      while (list_backends && ((backend = lw6sys_list_pop_front (sys_context, &list_backends)) != NULL))
 	{
 	  backends->nb_srv_backends++;
 	  if (backends->srv_backends)
 	    {
-	      backends->srv_backends =
-		(lw6srv_backend_t **)
-		LW6SYS_REALLOC (backends->srv_backends,
-				backends->nb_srv_backends *
-				sizeof (lw6srv_backend_t *));
+	      backends->srv_backends = (lw6srv_backend_t **) LW6SYS_REALLOC (backends->srv_backends, backends->nb_srv_backends * sizeof (lw6srv_backend_t *));
 	    }
 	  else
 	    {
-	      backends->srv_backends =
-		(lw6srv_backend_t **)
-		LW6SYS_MALLOC (sys_context, backends->nb_srv_backends *
-			       sizeof (lw6srv_backend_t *));
+	      backends->srv_backends = (lw6srv_backend_t **) LW6SYS_MALLOC (sys_context, backends->nb_srv_backends * sizeof (lw6srv_backend_t *));
 	    }
 	  if (backends->srv_backends)
 	    {
-	      backends->srv_backends[backends->nb_srv_backends - 1] =
-		lw6srv_create_backend (argc, argv, backend);
+	      backends->srv_backends[backends->nb_srv_backends - 1] = lw6srv_create_backend (argc, argv, backend);
 	      if (backends->srv_backends[backends->nb_srv_backends - 1])
 		{
-		  if (lw6srv_init
-		      (backends->srv_backends[backends->nb_srv_backends - 1],
-		       listener))
+		  if (lw6srv_init (backends->srv_backends[backends->nb_srv_backends - 1], listener))
 		    {
 		      backends->hint_timeout_max =
-			lw6sys_imax (backends->hint_timeout_max,
-				     backends->
-				     srv_backends[backends->nb_srv_backends -
-						  1]->
-				     properties.hint_timeout);
+			lw6sys_imax (backends->hint_timeout_max, backends->srv_backends[backends->nb_srv_backends - 1]->properties.hint_timeout);
 		      /*
 		       * OK, at this state, we have at
 		       * least one server backend working,
@@ -178,11 +137,8 @@ _lw6p2p_backends_init_srv (int argc, const char *argv[],
 		    }
 		  else
 		    {
-		      lw6srv_destroy_backend (backends->srv_backends
-					      [backends->nb_srv_backends -
-					       1]);
-		      backends->srv_backends[backends->nb_srv_backends - 1] =
-			NULL;
+		      lw6srv_destroy_backend (backends->srv_backends[backends->nb_srv_backends - 1]);
+		      backends->srv_backends[backends->nb_srv_backends - 1] = NULL;
 		      backends->nb_srv_backends--;
 		    }
 		}

@@ -29,20 +29,16 @@
 #include "gl1-bubbles-internal.h"
 
 mod_gl1_background_backend_t *
-mod_gl1_background_bubbles_create_backend (mod_gl1_utils_context_t *
-					   utils_context)
+mod_gl1_background_bubbles_create_backend (mod_gl1_utils_context_t * utils_context)
 {
   mod_gl1_background_backend_t *backend;
 
-  backend =
-    (mod_gl1_background_backend_t *)
-    LW6SYS_MALLOC (sizeof (mod_gl1_background_backend_t));
+  backend = (mod_gl1_background_backend_t *) LW6SYS_MALLOC (sizeof (mod_gl1_background_backend_t));
   if (backend)
     {
       memset (backend, 0, sizeof (mod_gl1_background_backend_t));
 
-      backend->display_background =
-	mod_gl1_background_bubbles_display_background;
+      backend->display_background = mod_gl1_background_bubbles_display_background;
       backend->init = mod_gl1_background_bubbles_init;
       backend->quit = mod_gl1_background_bubbles_quit;
     }

@@ -71,9 +71,7 @@ _scm_lw6p2p_db_reset (SCM name)
   c_name = lw6scm_utils_to_0str (name);
   if (c_name)
     {
-      ret =
-	lw6p2p_db_reset (lw6_global.argc, lw6_global.argv,
-			 c_name) ? SCM_BOOL_T : SCM_BOOL_F;
+      ret = lw6p2p_db_reset (lw6_global.argc, lw6_global.argv, c_name) ? SCM_BOOL_T : SCM_BOOL_F;
 
       LW6SYS_FREE (sys_context, c_name);
     }
@@ -141,38 +139,27 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 
   if (lw6_global.net_initialized)
     {
-      SCM_ASSERT (SCM_SMOB_PREDICATE
-		  (lw6_global.smob_types.db, db), db, SCM_ARG1, __FUNCTION__);
-      SCM_ASSERT (SCM_CONSP (param)
-		  || param == SCM_EOL, param, SCM_ARG2, __FUNCTION__);
+      SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.db, db), db, SCM_ARG1, __FUNCTION__);
+      SCM_ASSERT (SCM_CONSP (param) || param == SCM_EOL, param, SCM_ARG2, __FUNCTION__);
 
-      client_backends =
-	scm_assoc_ref (param, scm_from_locale_string ("client-backends"));
-      server_backends =
-	scm_assoc_ref (param, scm_from_locale_string ("server-backends"));
+      client_backends = scm_assoc_ref (param, scm_from_locale_string ("client-backends"));
+      server_backends = scm_assoc_ref (param, scm_from_locale_string ("server-backends"));
       bind_ip = scm_assoc_ref (param, scm_from_locale_string ("bind-ip"));
       bind_port = scm_assoc_ref (param, scm_from_locale_string ("bind-port"));
       broadcast = scm_assoc_ref (param, scm_from_locale_string ("broadcast"));
       node_id = scm_assoc_ref (param, scm_from_locale_string ("node-id"));
-      public_url =
-	scm_assoc_ref (param, scm_from_locale_string ("public-url"));
+      public_url = scm_assoc_ref (param, scm_from_locale_string ("public-url"));
       password = scm_assoc_ref (param, scm_from_locale_string ("password"));
       title = scm_assoc_ref (param, scm_from_locale_string ("title"));
-      description =
-	scm_assoc_ref (param, scm_from_locale_string ("description"));
+      description = scm_assoc_ref (param, scm_from_locale_string ("description"));
       bench = scm_assoc_ref (param, scm_from_locale_string ("bench"));
-      open_relay =
-	scm_assoc_ref (param, scm_from_locale_string ("open-relay"));
-      known_nodes =
-	scm_assoc_ref (param, scm_from_locale_string ("known-nodes"));
-      network_reliability =
-	scm_assoc_ref (param, scm_from_locale_string ("network-reliability"));
+      open_relay = scm_assoc_ref (param, scm_from_locale_string ("open-relay"));
+      known_nodes = scm_assoc_ref (param, scm_from_locale_string ("known-nodes"));
+      network_reliability = scm_assoc_ref (param, scm_from_locale_string ("network-reliability"));
       trojan = scm_assoc_ref (param, scm_from_locale_string ("trojan"));
 
-      SCM_ASSERT (scm_is_string (client_backends), param, SCM_ARG2,
-		  __FUNCTION__);
-      SCM_ASSERT (scm_is_string (server_backends), param, SCM_ARG2,
-		  __FUNCTION__);
+      SCM_ASSERT (scm_is_string (client_backends), param, SCM_ARG2, __FUNCTION__);
+      SCM_ASSERT (scm_is_string (server_backends), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_string (bind_ip), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_integer (bind_port), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (SCM_BOOLP (broadcast), param, SCM_ARG2, __FUNCTION__);
@@ -184,8 +171,7 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
       SCM_ASSERT (scm_is_integer (bench), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (SCM_BOOLP (open_relay), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_string (known_nodes), param, SCM_ARG2, __FUNCTION__);
-      SCM_ASSERT (scm_is_integer (network_reliability), param, SCM_ARG2,
-		  __FUNCTION__);
+      SCM_ASSERT (scm_is_integer (network_reliability), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (SCM_BOOLP (trojan), param, SCM_ARG2, __FUNCTION__);
 
       c_db = lw6_scm_to_db (db);
@@ -205,33 +191,25 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 		      c_node_id_str = lw6scm_utils_to_0str (node_id);
 		      if (c_node_id_str)
 			{
-			  c_node_id_int =
-			    lw6sys_id_atol (sys_context, c_node_id_str);
+			  c_node_id_int = lw6sys_id_atol (sys_context, c_node_id_str);
 			  c_public_url = lw6scm_utils_to_0str (public_url);
 			  if (c_public_url)
 			    {
 			      c_title = lw6scm_utils_to_0str (title);
 			      if (c_title)
 				{
-				  c_description =
-				    lw6scm_utils_to_0str (description);
+				  c_description = lw6scm_utils_to_0str (description);
 				  if (c_description)
 				    {
-				      c_password =
-					lw6scm_utils_to_0str (password);
+				      c_password = lw6scm_utils_to_0str (password);
 				      if (c_password)
 					{
 					  c_bench = scm_to_int (bench);
-					  c_open_relay =
-					    SCM_NFALSEP (open_relay);
-					  c_known_nodes =
-					    lw6scm_utils_to_0str
-					    (known_nodes);
+					  c_open_relay = SCM_NFALSEP (open_relay);
+					  c_known_nodes = lw6scm_utils_to_0str (known_nodes);
 					  if (c_known_nodes)
 					    {
-					      c_network_reliability =
-						scm_to_int
-						(network_reliability);
+					      c_network_reliability = scm_to_int (network_reliability);
 					      c_trojan = SCM_NFALSEP (trojan);
 
 					      c_node =
@@ -243,26 +221,16 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 						 c_bind_port, c_broadcast,
 						 c_node_id_int,
 						 c_public_url,
-						 c_title,
-						 c_description, c_password,
-						 c_bench, c_open_relay,
-						 c_known_nodes,
-						 c_network_reliability,
-						 c_trojan);
+						 c_title, c_description, c_password, c_bench, c_open_relay, c_known_nodes, c_network_reliability, c_trojan);
 					      if (c_node)
 						{
-						  ret =
-						    lw6_make_scm_node (c_node,
-								       db);
+						  ret = lw6_make_scm_node (c_node, db);
 						}
-					      LW6SYS_FREE (sys_context,
-							   c_known_nodes);
+					      LW6SYS_FREE (sys_context, c_known_nodes);
 					    }
-					  LW6SYS_FREE (sys_context,
-						       c_password);
+					  LW6SYS_FREE (sys_context, c_password);
 					}
-				      LW6SYS_FREE (sys_context,
-						   c_description);
+				      LW6SYS_FREE (sys_context, c_description);
 				    }
 				  LW6SYS_FREE (sys_context, c_title);
 				}
@@ -293,9 +261,7 @@ _scm_lw6p2p_node_poll (SCM node)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -318,9 +284,7 @@ _scm_lw6p2p_node_close (SCM node)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -344,9 +308,7 @@ _scm_lw6p2p_node_get_id (SCM node)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -375,112 +337,34 @@ _lw6p2p_node_get_entries_callback (void *func_data, void *data)
   item = SCM_EOL;
 
   // constant data
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("creation-timestamp"),
-	       scm_from_int (entry->creation_timestamp)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("version"),
-	       scm_from_locale_string (entry->version)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("codename"),
-	       scm_from_locale_string (entry->codename)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("stamp"), scm_from_int (entry->stamp)),
-	      item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("id"),
-	       scm_from_locale_string (entry->id)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("url"),
-	       scm_from_locale_string (entry->url)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("title"),
-	       scm_from_locale_string (entry->title)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("description"),
-	       scm_from_locale_string (entry->description)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("has-password"),
-	       entry->has_password ? SCM_BOOL_T : SCM_BOOL_F), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("bench"), scm_from_int (entry->bench)),
-	      item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("open-relay"),
-	       entry->open_relay ? SCM_BOOL_T : SCM_BOOL_F), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("creation-timestamp"), scm_from_int (entry->creation_timestamp)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("version"), scm_from_locale_string (entry->version)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("codename"), scm_from_locale_string (entry->codename)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("stamp"), scm_from_int (entry->stamp)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("id"), scm_from_locale_string (entry->id)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("url"), scm_from_locale_string (entry->url)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("title"), scm_from_locale_string (entry->title)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("description"), scm_from_locale_string (entry->description)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("has-password"), entry->has_password ? SCM_BOOL_T : SCM_BOOL_F), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("bench"), scm_from_int (entry->bench)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("open-relay"), entry->open_relay ? SCM_BOOL_T : SCM_BOOL_F), item);
   // variable data
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("community-id"),
-	       scm_from_locale_string (entry->community_id)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("round"), scm_from_int (entry->round)),
-	      item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("level"),
-	       scm_from_locale_string (entry->level)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("required-bench"),
-	       scm_from_int (entry->required_bench)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("nb-colors"),
-	       scm_from_int (entry->nb_colors)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("max-nb-colors"),
-	       scm_from_int (entry->max_nb_colors)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("nb-cursors"),
-	       scm_from_int (entry->nb_cursors)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("max-nb-cursors"),
-	       scm_from_int (entry->max_nb_cursors)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("nb-nodes"),
-	       scm_from_int (entry->nb_nodes)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("max-nb-nodes"),
-	       scm_from_int (entry->max_nb_nodes)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("community-id"), scm_from_locale_string (entry->community_id)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("round"), scm_from_int (entry->round)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("level"), scm_from_locale_string (entry->level)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("required-bench"), scm_from_int (entry->required_bench)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("nb-colors"), scm_from_int (entry->nb_colors)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("max-nb-colors"), scm_from_int (entry->max_nb_colors)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("nb-cursors"), scm_from_int (entry->nb_cursors)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("max-nb-cursors"), scm_from_int (entry->max_nb_cursors)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("nb-nodes"), scm_from_int (entry->nb_nodes)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("max-nb-nodes"), scm_from_int (entry->max_nb_nodes)), item);
   // additionnal data
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("ip"),
-	       scm_from_locale_string (entry->ip)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("port"), scm_from_int (entry->port)),
-	      item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("last-ping-timestamp"),
-	       scm_from_int (entry->last_ping_timestamp)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("ping-delay-msec"),
-	       scm_from_int (entry->ping_delay_msec)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_from_locale_string ("available"),
-	       entry->available ? SCM_BOOL_T : SCM_BOOL_F), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("ip"), scm_from_locale_string (entry->ip)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("port"), scm_from_int (entry->port)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("last-ping-timestamp"), scm_from_int (entry->last_ping_timestamp)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("ping-delay-msec"), scm_from_int (entry->ping_delay_msec)), item);
+  item = scm_cons (scm_cons (scm_from_locale_string ("available"), entry->available ? SCM_BOOL_T : SCM_BOOL_F), item);
 
   item = scm_reverse (item);
 
@@ -498,9 +382,7 @@ _scm_lw6p2p_node_get_entries (SCM node, SCM skip_local)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_BOOLP (skip_local), skip_local, SCM_ARG2, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
@@ -511,8 +393,7 @@ _scm_lw6p2p_node_get_entries (SCM node, SCM skip_local)
       if (c_ret)
 	{
 	  ret = SCM_EOL;
-	  lw6sys_list_map (sys_context, c_ret,
-			   _lw6p2p_node_get_entries_callback, (void *) &ret);
+	  lw6sys_list_map (sys_context, c_ret, _lw6p2p_node_get_entries_callback, (void *) &ret);
 	  lw6sys_list_free (sys_context, c_ret);
 	}
     }
@@ -532,9 +413,7 @@ _scm_lw6p2p_node_server_start (SCM node, SCM seq_0)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (seq_0), seq_0, SCM_ARG2, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
@@ -542,8 +421,7 @@ _scm_lw6p2p_node_server_start (SCM node, SCM seq_0)
     {
       c_seq_0 = scm_to_long_long (seq_0);
 
-      ret =
-	lw6p2p_node_server_start (c_node, c_seq_0) ? SCM_BOOL_T : SCM_BOOL_F;
+      ret = lw6p2p_node_server_start (c_node, c_seq_0) ? SCM_BOOL_T : SCM_BOOL_F;
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -564,9 +442,7 @@ _scm_lw6p2p_node_client_join (SCM node, SCM remote_id, SCM remote_url)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (remote_id), remote_id, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_string (remote_url), remote_url, SCM_ARG3, __FUNCTION__);
 
@@ -585,11 +461,7 @@ _scm_lw6p2p_node_client_join (SCM node, SCM remote_id, SCM remote_url)
 	      c_remote_url = lw6scm_utils_to_0str (remote_url);
 	      if (c_remote_url)
 		{
-		  ret =
-		    lw6p2p_node_client_join (c_node, c_remote_id_int,
-					     c_remote_url,
-					     &progress) ? SCM_BOOL_T :
-		    SCM_BOOL_F;
+		  ret = lw6p2p_node_client_join (c_node, c_remote_id_int, c_remote_url, &progress) ? SCM_BOOL_T : SCM_BOOL_F;
 		  LW6SYS_FREE (sys_context, c_remote_url);
 		}
 	    }
@@ -616,9 +488,7 @@ _scm_lw6p2p_node_refresh_peer (SCM node, SCM remote_id, SCM remote_url)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (remote_id), remote_id, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_string (remote_url), remote_url, SCM_ARG3, __FUNCTION__);
 
@@ -634,10 +504,7 @@ _scm_lw6p2p_node_refresh_peer (SCM node, SCM remote_id, SCM remote_url)
 	      c_remote_url = lw6scm_utils_to_0str (remote_url);
 	      if (c_remote_url)
 		{
-		  ret =
-		    lw6p2p_node_refresh_peer (c_node, c_remote_id_int,
-					      c_remote_url)
-		    ? SCM_BOOL_T : SCM_BOOL_F;
+		  ret = lw6p2p_node_refresh_peer (c_node, c_remote_id_int, c_remote_url) ? SCM_BOOL_T : SCM_BOOL_F;
 		  LW6SYS_FREE (sys_context, c_remote_url);
 		}
 	    }
@@ -658,9 +525,7 @@ _scm_lw6p2p_node_disconnect (SCM node)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -700,23 +565,17 @@ _scm_lw6p2p_node_update_info (SCM node, SCM param)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (SCM_CONSP (param)
-	      || param == SCM_EOL, param, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_CONSP (param) || param == SCM_EOL, param, SCM_ARG2, __FUNCTION__);
 
   round = scm_assoc_ref (param, scm_from_locale_string ("round"));
   level = scm_assoc_ref (param, scm_from_locale_string ("level"));
   nb_colors = scm_assoc_ref (param, scm_from_locale_string ("nb-colors"));
-  max_nb_colors =
-    scm_assoc_ref (param, scm_from_locale_string ("max-nb-colors"));
+  max_nb_colors = scm_assoc_ref (param, scm_from_locale_string ("max-nb-colors"));
   nb_cursors = scm_assoc_ref (param, scm_from_locale_string ("nb-cursors"));
-  max_nb_cursors =
-    scm_assoc_ref (param, scm_from_locale_string ("max-nb-cursors"));
+  max_nb_cursors = scm_assoc_ref (param, scm_from_locale_string ("max-nb-cursors"));
   nb_nodes = scm_assoc_ref (param, scm_from_locale_string ("nb-nodes"));
-  max_nb_nodes =
-    scm_assoc_ref (param, scm_from_locale_string ("max-nb-nodes"));
+  max_nb_nodes = scm_assoc_ref (param, scm_from_locale_string ("max-nb-nodes"));
   screenshot = scm_assoc_ref (param, scm_from_locale_string ("screenshot"));
 
   SCM_ASSERT (scm_is_integer (round), param, SCM_ARG2, __FUNCTION__);
@@ -729,9 +588,7 @@ _scm_lw6p2p_node_update_info (SCM node, SCM param)
   SCM_ASSERT (scm_is_integer (max_nb_nodes), param, SCM_ARG2, __FUNCTION__);
   if (SCM_NFALSEP (screenshot))
     {
-      SCM_ASSERT (SCM_SMOB_PREDICATE
-		  (lw6_global.smob_types.jpeg,
-		   screenshot), param, SCM_ARG2, __FUNCTION__);
+      SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.jpeg, screenshot), param, SCM_ARG2, __FUNCTION__);
     }
 
   c_node = lw6_scm_to_node (node);
@@ -756,10 +613,7 @@ _scm_lw6p2p_node_update_info (SCM node, SCM param)
 		    lw6p2p_node_update_info (c_node, c_round, c_level,
 					     c_nb_colors, c_max_nb_colors,
 					     c_nb_cursors, c_max_nb_cursors,
-					     c_nb_nodes, c_max_nb_nodes,
-					     c_screenshot->jpeg_size,
-					     c_screenshot->jpeg_data) ?
-		    SCM_BOOL_T : SCM_BOOL_F;
+					     c_nb_nodes, c_max_nb_nodes, c_screenshot->jpeg_size, c_screenshot->jpeg_data) ? SCM_BOOL_T : SCM_BOOL_F;
 		}
 	    }
 	  else
@@ -767,9 +621,7 @@ _scm_lw6p2p_node_update_info (SCM node, SCM param)
 	      ret =
 		lw6p2p_node_update_info (c_node, c_round, c_level,
 					 c_nb_colors, c_max_nb_colors,
-					 c_nb_cursors, c_max_nb_cursors,
-					 c_nb_nodes, c_max_nb_nodes,
-					 0, NULL) ? SCM_BOOL_T : SCM_BOOL_F;
+					 c_nb_cursors, c_max_nb_cursors, c_nb_nodes, c_max_nb_nodes, 0, NULL) ? SCM_BOOL_T : SCM_BOOL_F;
 	    }
 	  LW6SYS_FREE (sys_context, c_level);
 	}
@@ -790,9 +642,7 @@ _scm_lw6p2p_node_calibrate (SCM node, SCM timestamp, SCM seq_0)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   SCM_ASSERT (scm_is_integer (seq_0), seq_0, SCM_ARG2, __FUNCTION__);
 
@@ -820,9 +670,7 @@ _scm_lw6p2p_node_get_local_seq_0 (SCM node)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -846,9 +694,7 @@ _scm_lw6p2p_node_get_local_seq_last (SCM node)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -872,9 +718,7 @@ _scm_lw6p2p_node_get_seq_min (SCM node)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -898,9 +742,7 @@ _scm_lw6p2p_node_get_seq_max (SCM node)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -924,9 +766,7 @@ _scm_lw6p2p_node_get_seq_draft (SCM node)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -950,9 +790,7 @@ _scm_lw6p2p_node_get_seq_reference (SCM node)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -978,9 +816,7 @@ _scm_lw6p2p_node_is_peer_connected (SCM node, SCM peer_id)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (peer_id), peer_id, SCM_ARG2, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
@@ -1016,9 +852,7 @@ _scm_lw6p2p_node_is_peer_registered (SCM node, SCM peer_id)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (peer_id), peer_id, SCM_ARG2, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
@@ -1051,9 +885,7 @@ _scm_lw6p2p_node_is_seed_needed (SCM node)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -1075,9 +907,7 @@ _scm_lw6p2p_node_is_dump_needed (SCM node)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
   if (c_node)
@@ -1100,9 +930,7 @@ _scm_lw6p2p_node_put_local_msg (SCM node, SCM msg)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node, node), node, SCM_ARG1,
-	      __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (msg), msg, SCM_ARG2, __FUNCTION__);
 
   c_node = lw6_scm_to_node (node);
@@ -1111,9 +939,7 @@ _scm_lw6p2p_node_put_local_msg (SCM node, SCM msg)
       c_msg = lw6scm_utils_to_0str (msg);
       if (c_msg)
 	{
-	  ret =
-	    lw6p2p_node_put_local_msg (c_node,
-				       c_msg) ? SCM_BOOL_T : SCM_BOOL_F;
+	  ret = lw6p2p_node_put_local_msg (c_node, c_msg) ? SCM_BOOL_T : SCM_BOOL_F;
 	  LW6SYS_FREE (sys_context, c_msg);
 	}
     }
@@ -1134,9 +960,7 @@ _scm_lw6p2p_node_get_next_reference_msg (SCM node)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   lw6sys_progress_default (sys_context, &progress, &(lw6_global.progress));
   // do *not* call lw6sys_progress_begin here!
@@ -1168,9 +992,7 @@ _scm_lw6p2p_node_get_next_draft_msg (SCM node)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.node,
-	       node), node, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
   lw6sys_progress_default (sys_context, &progress, &(lw6_global.progress));
   // do *not* call lw6sys_progress_begin here!
@@ -1206,90 +1028,33 @@ lw6_register_funcs_p2p ()
   /*
    * In liquidwar6p2p
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_DB_NEW, 1, 0, 0,
-				      (SCM (*)())_scm_lw6p2p_db_new);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_DB_RESET, 1, 0, 0,
-				      (SCM (*)())_scm_lw6p2p_db_reset);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_DB_DEFAULT_NAME, 0, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_db_default_name);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_NEW, 2, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_new);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_POLL, 1, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_poll);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_CLOSE, 1, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_close);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_ID, 1, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_get_id);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_ENTRIES, 2, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_get_entries);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_SERVER_START, 2, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_server_start);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_CLIENT_JOIN, 3, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_client_join);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_REFRESH_PEER, 3, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_refresh_peer);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_DISCONNECT, 1, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_disconnect);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_UPDATE_INFO, 2, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_update_info);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_CALIBRATE, 3, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_calibrate);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_LOCAL_SEQ_0, 1, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_get_local_seq_0);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_LOCAL_SEQ_LAST, 1, 0,
-			      0,
-			      (SCM (*)())_scm_lw6p2p_node_get_local_seq_last);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MIN, 1, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_get_seq_min);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX, 1, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_get_seq_max);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_DRAFT, 1, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_get_seq_draft);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_REFERENCE, 1, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_get_seq_reference);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_PEER_CONNECTED, 2, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_is_peer_connected);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_PEER_REGISTERED, 2, 0,
-			      0,
-			      (SCM (*)())_scm_lw6p2p_node_is_peer_registered);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_SEED_NEEDED, 1, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_is_seed_needed);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED, 1, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_is_dump_needed);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_PUT_LOCAL_MSG, 2, 0, 0,
-			      (SCM (*)())_scm_lw6p2p_node_put_local_msg);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_NEXT_REFERENCE_MSG, 1,
-			      0, 0,
-			      (SCM (*)
-			       ())_scm_lw6p2p_node_get_next_reference_msg);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_NEXT_DRAFT_MSG, 1, 0,
-			      0,
-			      (SCM (*)())_scm_lw6p2p_node_get_next_draft_msg);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_DB_NEW, 1, 0, 0, (SCM (*)())_scm_lw6p2p_db_new);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_DB_RESET, 1, 0, 0, (SCM (*)())_scm_lw6p2p_db_reset);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_DB_DEFAULT_NAME, 0, 0, 0, (SCM (*)())_scm_lw6p2p_db_default_name);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_NEW, 2, 0, 0, (SCM (*)())_scm_lw6p2p_node_new);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_POLL, 1, 0, 0, (SCM (*)())_scm_lw6p2p_node_poll);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_CLOSE, 1, 0, 0, (SCM (*)())_scm_lw6p2p_node_close);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_ID, 1, 0, 0, (SCM (*)())_scm_lw6p2p_node_get_id);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_ENTRIES, 2, 0, 0, (SCM (*)())_scm_lw6p2p_node_get_entries);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_SERVER_START, 2, 0, 0, (SCM (*)())_scm_lw6p2p_node_server_start);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_CLIENT_JOIN, 3, 0, 0, (SCM (*)())_scm_lw6p2p_node_client_join);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_REFRESH_PEER, 3, 0, 0, (SCM (*)())_scm_lw6p2p_node_refresh_peer);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_DISCONNECT, 1, 0, 0, (SCM (*)())_scm_lw6p2p_node_disconnect);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_UPDATE_INFO, 2, 0, 0, (SCM (*)())_scm_lw6p2p_node_update_info);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_CALIBRATE, 3, 0, 0, (SCM (*)())_scm_lw6p2p_node_calibrate);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_LOCAL_SEQ_0, 1, 0, 0, (SCM (*)())_scm_lw6p2p_node_get_local_seq_0);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_LOCAL_SEQ_LAST, 1, 0, 0, (SCM (*)())_scm_lw6p2p_node_get_local_seq_last);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MIN, 1, 0, 0, (SCM (*)())_scm_lw6p2p_node_get_seq_min);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_MAX, 1, 0, 0, (SCM (*)())_scm_lw6p2p_node_get_seq_max);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_DRAFT, 1, 0, 0, (SCM (*)())_scm_lw6p2p_node_get_seq_draft);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_SEQ_REFERENCE, 1, 0, 0, (SCM (*)())_scm_lw6p2p_node_get_seq_reference);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_PEER_CONNECTED, 2, 0, 0, (SCM (*)())_scm_lw6p2p_node_is_peer_connected);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_PEER_REGISTERED, 2, 0, 0, (SCM (*)())_scm_lw6p2p_node_is_peer_registered);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_SEED_NEEDED, 1, 0, 0, (SCM (*)())_scm_lw6p2p_node_is_seed_needed);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_IS_DUMP_NEEDED, 1, 0, 0, (SCM (*)())_scm_lw6p2p_node_is_dump_needed);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_PUT_LOCAL_MSG, 2, 0, 0, (SCM (*)())_scm_lw6p2p_node_put_local_msg);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_NEXT_REFERENCE_MSG, 1, 0, 0, (SCM (*)())_scm_lw6p2p_node_get_next_reference_msg);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_NEXT_DRAFT_MSG, 1, 0, 0, (SCM (*)())_scm_lw6p2p_node_get_next_draft_msg);
 
   return ret;
 }

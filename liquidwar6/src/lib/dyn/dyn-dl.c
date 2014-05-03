@@ -35,8 +35,7 @@ verbose_dlopen (const char *file)
 
   if ((nb_errs = lt_dlinit ()) > 0)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("couldn't initialize libltdl, %d errors"), nb_errs);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't initialize libltdl, %d errors"), nb_errs);
     }
   else
     {
@@ -45,17 +44,13 @@ verbose_dlopen (const char *file)
 
   if (ret)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("load module \"%s\""),
-		  file);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("load module \"%s\""), file);
     }
   else
     {
       if (lw6sys_file_exists (sys_context, file))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("couldn't open shared library \"%s\" lt_dlerror=\"%s\""),
-		      file, lt_dlerror ());
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't open shared library \"%s\" lt_dlerror=\"%s\""), file, lt_dlerror ());
 	}
       else
 	{
@@ -63,8 +58,7 @@ verbose_dlopen (const char *file)
 	   * File doesn't exist, different error message, and not
 	   * as a warning, only an information.
 	   */
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("shared library \"%s\" doesn't exist"), file);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("shared library \"%s\" doesn't exist"), file);
 	}
     }
 
@@ -141,8 +135,7 @@ lw6dyn_dlopen_shared_so (const char *so_file)
 }
 
 static int
-_sym_exists (lw6dyn_dl_handle_t * handle, const char *sym_format,
-	     const char *backend_name)
+_sym_exists (lw6dyn_dl_handle_t * handle, const char *sym_format, const char *backend_name)
 {
   int ret = 0;
   char *sym_str = NULL;
@@ -183,8 +176,7 @@ _sym_exists (lw6dyn_dl_handle_t * handle, const char *sym_format,
  *   need to call a module specific @init function, but it's another story.
  */
 lw6dyn_dl_handle_t *
-lw6dyn_dlopen_backend (int argc, const char *argv[],
-		       const char *top_level_lib, const char *backend_name)
+lw6dyn_dlopen_backend (int argc, const char *argv[], const char *top_level_lib, const char *backend_name)
 {
   lw6dyn_dl_handle_t *ret = NULL;
   char *so_file = NULL;
@@ -196,24 +188,20 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
   int ok = 0;
   static int first_load = 1;
 
-  so_file =
-    lw6dyn_path_find_backend (argc, argv, top_level_lib, backend_name);
+  so_file = lw6dyn_path_find_backend (argc, argv, top_level_lib, backend_name);
   if (so_file)
     {
       ret = lw6dyn_dlopen_backend_so (so_file);
 
       if (ret)
 	{
-	  get_pedigree_func_str =
-	    lw6sys_new_sprintf (sys_context, LW6DYN_GET_PEDIGREE_FUNC_FORMAT,
-				backend_name);
+	  get_pedigree_func_str = lw6sys_new_sprintf (sys_context, LW6DYN_GET_PEDIGREE_FUNC_FORMAT, backend_name);
 	  if (get_pedigree_func_str)
 	    {
 	      get_pedigree_func = lw6dyn_dlsym (ret, get_pedigree_func_str);
 	      if (get_pedigree_func)
 		{
-		  module_pedigree =
-		    (lw6sys_module_pedigree_t *) (get_pedigree_func) ();
+		  module_pedigree = (lw6sys_module_pedigree_t *) (get_pedigree_func) ();
 		  if (module_pedigree)
 		    {
 		      if (module_pedigree->id
@@ -221,33 +209,21 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
 			  && module_pedigree->name
 			  && module_pedigree->readme
 			  && module_pedigree->version
-			  && module_pedigree->copyright
-			  && module_pedigree->license
-			  && module_pedigree->date && module_pedigree->time)
+			  && module_pedigree->copyright && module_pedigree->license && module_pedigree->date && module_pedigree->time)
 			{
-			  create_backend_func_str =
-			    lw6sys_new_sprintf
-			    (LW6DYN_CREATE_BACKEND_FUNC_FORMAT, backend_name);
+			  create_backend_func_str = lw6sys_new_sprintf (LW6DYN_CREATE_BACKEND_FUNC_FORMAT, backend_name);
 			  if (create_backend_func_str)
 			    {
-			      create_backend_func =
-				lw6dyn_dlsym (ret, create_backend_func_str);
+			      create_backend_func = lw6dyn_dlsym (ret, create_backend_func_str);
 			      if (create_backend_func)
 				{
-				  if (!strcmp
-				      (backend_name, module_pedigree->id))
+				  if (!strcmp (backend_name, module_pedigree->id))
 				    {
-				      if (!strcmp
-					  (top_level_lib,
-					   module_pedigree->category))
+				      if (!strcmp (top_level_lib, module_pedigree->category))
 					{
-					  if (lw6sys_version_is_compatible
-					      (lw6sys_build_get_version (),
-					       module_pedigree->version))
+					  if (lw6sys_version_is_compatible (lw6sys_build_get_version (), module_pedigree->version))
 					    {
-					      if (_sym_exists (ret,
-							       LW6DYN_IS_BACKEND_GPL_COMPATIBLE_SYM_FORMAT,
-							       backend_name))
+					      if (_sym_exists (ret, LW6DYN_IS_BACKEND_GPL_COMPATIBLE_SYM_FORMAT, backend_name))
 						{
 						  if (first_load)
 						    {
@@ -258,96 +234,32 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
 						       * just to make sure
 						       * paths are right.
 						       */
-						      lw6sys_log
-							(LW6SYS_LOG_NOTICE,
-							 _
-							 ("loaded module \"%s\""),
-							 so_file);
+						      lw6sys_log (LW6SYS_LOG_NOTICE, _("loaded module \"%s\""), so_file);
 						      first_load = 0;
 						    }
 
-						  lw6sys_log
-						    (LW6SYS_LOG_INFO,
-						     _x_
-						     ("module \"%s\" loaded, looks fine"),
-						     so_file);
+						  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("module \"%s\" loaded, looks fine"), so_file);
 
-						  ret->is_dlclose_safe =
-						    _sym_exists (ret,
-								 LW6DYN_IS_BACKEND_DLCLOSE_SAFE_SYM_FORMAT,
-								 backend_name);
+						  ret->is_dlclose_safe = _sym_exists (ret, LW6DYN_IS_BACKEND_DLCLOSE_SAFE_SYM_FORMAT, backend_name);
 						  lw6sys_log (sys_context,
-							      LW6SYS_LOG_INFO,
-							      _x_
-							      ("is_dlclose_safe for \"%s\" is %d"),
-							      so_file,
-							      ret->is_dlclose_safe);
+							      LW6SYS_LOG_INFO, _x_ ("is_dlclose_safe for \"%s\" is %d"), so_file, ret->is_dlclose_safe);
 
 						  /*
 						   * Verbose dlopen did log the so name
 						   */
-						  lw6sys_log
-						    (LW6SYS_LOG_INFO,
-						     _x_
-						     ("id for \"%s\" is \"%s\""),
-						     so_file,
-						     module_pedigree->id);
-						  lw6sys_log
-						    (LW6SYS_LOG_INFO,
-						     _x_
-						     ("category for \"%s\" is \"%s\""),
-						     so_file,
-						     module_pedigree->
-						     category);
+						  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("id for \"%s\" is \"%s\""), so_file, module_pedigree->id);
+						  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("category for \"%s\" is \"%s\""), so_file, module_pedigree->category);
+						  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("name for \"%s\" is \"%s\""), so_file, module_pedigree->name);
 						  lw6sys_log (sys_context,
-							      LW6SYS_LOG_INFO,
-							      _x_
-							      ("name for \"%s\" is \"%s\""),
-							      so_file,
-							      module_pedigree->
-							      name);
+							      LW6SYS_LOG_INFO, _x_ ("readme for \"%s\" is \"%s\""), so_file, module_pedigree->readme);
 						  lw6sys_log (sys_context,
-							      LW6SYS_LOG_INFO,
-							      _x_
-							      ("readme for \"%s\" is \"%s\""),
-							      so_file,
-							      module_pedigree->
-							      readme);
+							      LW6SYS_LOG_INFO, _x_ ("version for \"%s\" is \"%s\""), so_file, module_pedigree->version);
 						  lw6sys_log (sys_context,
-							      LW6SYS_LOG_INFO,
-							      _x_
-							      ("version for \"%s\" is \"%s\""),
-							      so_file,
-							      module_pedigree->
-							      version);
+							      LW6SYS_LOG_INFO, _x_ ("copyright for \"%s\" is \"%s\""), so_file, module_pedigree->copyright);
 						  lw6sys_log (sys_context,
-							      LW6SYS_LOG_INFO,
-							      _x_
-							      ("copyright for \"%s\" is \"%s\""),
-							      so_file,
-							      module_pedigree->
-							      copyright);
-						  lw6sys_log (sys_context,
-							      LW6SYS_LOG_INFO,
-							      _x_
-							      ("license for \"%s\" is \"%s\""),
-							      so_file,
-							      module_pedigree->
-							      license);
-						  lw6sys_log (sys_context,
-							      LW6SYS_LOG_INFO,
-							      _x_
-							      ("date for \"%s\" is \"%s\""),
-							      so_file,
-							      module_pedigree->
-							      date);
-						  lw6sys_log (sys_context,
-							      LW6SYS_LOG_INFO,
-							      _x_
-							      ("time for \"%s\" is \"%s\""),
-							      so_file,
-							      module_pedigree->
-							      time);
+							      LW6SYS_LOG_INFO, _x_ ("license for \"%s\" is \"%s\""), so_file, module_pedigree->license);
+						  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("date for \"%s\" is \"%s\""), so_file, module_pedigree->date);
+						  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("time for \"%s\" is \"%s\""), so_file, module_pedigree->time);
 						  ok = 1;
 						}
 					      else
@@ -355,10 +267,7 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
 						  lw6sys_log
 						    (LW6SYS_LOG_WARNING,
 						     _x_
-						     ("module mod_%s \"%s\" in \"%s\" is not GPL compatible"),
-						     backend_name,
-						     module_pedigree->name,
-						     so_file);
+						     ("module mod_%s \"%s\" in \"%s\" is not GPL compatible"), backend_name, module_pedigree->name, so_file);
 						}
 					    }
 					  else
@@ -367,13 +276,7 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
 							  LW6SYS_LOG_WARNING,
 							  _x_
 							  ("bad version for module mod_%s \"%s\" in \"%s\", module version is \"%s\" but main program version is \"%s\""),
-							  backend_name,
-							  module_pedigree->
-							  name, so_file,
-							  module_pedigree->
-							  version,
-							  lw6sys_build_get_version
-							  ());
+							  backend_name, module_pedigree->name, so_file, module_pedigree->version, lw6sys_build_get_version ());
 					    }
 					}
 				      else
@@ -382,12 +285,7 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
 						      LW6SYS_LOG_WARNING,
 						      _x_
 						      ("bad category for module mod_%s \"%s\" in \"%s\", module category is \"%s\" but main program requested \"%s\""),
-						      backend_name,
-						      module_pedigree->name,
-						      so_file,
-						      module_pedigree->
-						      category,
-						      top_level_lib);
+						      backend_name, module_pedigree->name, so_file, module_pedigree->category, top_level_lib);
 					}
 				    }
 				  else
@@ -396,31 +294,21 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
 						  LW6SYS_LOG_WARNING,
 						  _x_
 						  ("bad id for module mod_%s \"%s\" in \"%s\", module id is \"%s\""),
-						  backend_name,
-						  module_pedigree->name,
-						  so_file,
-						  module_pedigree->id);
+						  backend_name, module_pedigree->name, so_file, module_pedigree->id);
 				    }
 				}
-			      LW6SYS_FREE (sys_context,
-					   create_backend_func_str);
+			      LW6SYS_FREE (sys_context, create_backend_func_str);
 			    }
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				      _x_
-				      ("bad pedigree for mod_%s in \"%s\""),
-				      backend_name, so_file);
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad pedigree for mod_%s in \"%s\""), backend_name, so_file);
 			}
 		      LW6SYS_FREE (sys_context, module_pedigree);
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_
-				  ("can't get pedigree for mod_%s in \"%s\""),
-				  backend_name, so_file);
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't get pedigree for mod_%s in \"%s\""), backend_name, so_file);
 		    }
 		}
 	      LW6SYS_FREE (get_pedigree_func_str);
@@ -463,8 +351,7 @@ lw6dyn_dlopen_backend (int argc, const char *argv[],
  *   different from a real module, there's no real prototype, it just loads code.
  */
 lw6dyn_dl_handle_t *
-lw6dyn_dlopen_shared (int argc, const char *argv[],
-		      const char *top_level_lib, const char *shared_name)
+lw6dyn_dlopen_shared (int argc, const char *argv[], const char *top_level_lib, const char *shared_name)
 {
   lw6dyn_dl_handle_t *ret = NULL;
   char *so_file = NULL;
@@ -479,27 +366,16 @@ lw6dyn_dlopen_shared (int argc, const char *argv[],
 	{
 	  ret->is_backend = 0;
 
-	  if (_sym_exists
-	      (ret, LW6DYN_IS_SHARED_GPL_COMPATIBLE_SYM_FORMAT, shared_name))
+	  if (_sym_exists (ret, LW6DYN_IS_SHARED_GPL_COMPATIBLE_SYM_FORMAT, shared_name))
 	    {
-	      lw6sys_log
-		(LW6SYS_LOG_INFO,
-		 _x_ ("shared code \"%s\" loaded, looks fine"), so_file);
-	      ret->is_dlclose_safe =
-		_sym_exists (ret, LW6DYN_IS_SHARED_DLCLOSE_SAFE_SYM_FORMAT,
-			     shared_name);
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("is_dlclose_safe for \"%s\" is %d"),
-			  so_file, ret->is_dlclose_safe);
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("shared code \"%s\" loaded, looks fine"), so_file);
+	      ret->is_dlclose_safe = _sym_exists (ret, LW6DYN_IS_SHARED_DLCLOSE_SAFE_SYM_FORMAT, shared_name);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("is_dlclose_safe for \"%s\" is %d"), so_file, ret->is_dlclose_safe);
 	      ok = 1;
 	    }
 	  else
 	    {
-	      lw6sys_log
-		(LW6SYS_LOG_WARNING,
-		 _x_
-		 ("shared code shared_%s in \"%s\" is not GPL compatible"),
-		 shared_name, so_file);
+	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("shared code shared_%s in \"%s\" is not GPL compatible"), shared_name, so_file);
 	    }
 	}
       LW6SYS_FREE (so_file);
@@ -533,8 +409,7 @@ _dlclose (lw6dyn_dl_handle_t * handle)
 	   * a loaded shared library, we know *what* we're freeing,
 	   * which can be pretty usefull when debugging.
 	   */
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unload \"%s\""),
-		      handle->library_path);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unload \"%s\""), handle->library_path);
 	  if (handle->handle)
 	    {
 	      if (!lt_dlclose (handle->handle))
@@ -543,39 +418,30 @@ _dlclose (lw6dyn_dl_handle_t * handle)
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_ ("couldn't unload shared library"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't unload shared library"));
 		}
 	      handle->handle = NULL;
 	    }
 
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("lt_dlclose done for \"%s\""),
-		      handle->library_path);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("lt_dlclose done for \"%s\""), handle->library_path);
 
 	  if ((nb_errs = lt_dlexit ()) > 0)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("couldn't exit libltdl, %d errors"), nb_errs);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't exit libltdl, %d errors"), nb_errs);
 	      ret = 0;
 	    }
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_
-		      ("unload \"%s\" skipped, marked as not \"dlclose safe\""),
-		      handle->library_path);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unload \"%s\" skipped, marked as not \"dlclose safe\""), handle->library_path);
 	}
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("lt_dlexit done for \"%s\""), handle->library_path);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("lt_dlexit done for \"%s\""), handle->library_path);
 
       LW6SYS_FREE (sys_context, handle->library_path);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL dl_handle"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL dl_handle"));
     }
 
   LW6SYS_FREE (sys_context, handle);
@@ -598,9 +464,7 @@ lw6dyn_dlclose_backend (lw6dyn_dl_handle_t * handle)
 {
   if (!(handle->is_backend))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("dlclosing \"%s\" as a backend but it's not one"),
-		  handle->library_path);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("dlclosing \"%s\" as a backend but it's not one"), handle->library_path);
     }
 
   return _dlclose (handle);
@@ -621,9 +485,7 @@ lw6dyn_dlclose_shared (lw6dyn_dl_handle_t * handle)
 {
   if (handle->is_backend)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("dlclosing \"%s\" as shared code but it's a backend"),
-		  handle->library_path);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("dlclosing \"%s\" as shared code but it's a backend"), handle->library_path);
     }
 
   return _dlclose (handle);
@@ -647,16 +509,11 @@ lw6dyn_dlsym (lw6dyn_dl_handle_t * handle, const char *func_name)
   ret = lt_dlsym (handle->handle, func_name);
   if (ret)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("found symbol \"%s\" in library \"%s\""),
-		  func_name, handle->library_path);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("found symbol \"%s\" in library \"%s\""), func_name, handle->library_path);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("unable to find symbol \"%s\" in library \"%s\""),
-		  func_name, handle->library_path);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to find symbol \"%s\" in library \"%s\""), func_name, handle->library_path);
     }
 
   return ret;

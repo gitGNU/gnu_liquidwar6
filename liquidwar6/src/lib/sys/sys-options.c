@@ -122,17 +122,12 @@ lw6sys_get_default_user_dir (lw6sys_context_t * sys_context)
   if (home_dir)
     {
 #ifdef LW6_MS_WINDOWS
-      relative =
-	lw6sys_str_copy (sys_context, lw6sys_build_get_package_name ());
+      relative = lw6sys_str_copy (sys_context, lw6sys_build_get_package_name ());
 #else // LW6_MS_WINDOWS
 #ifdef LW6_MAC_OS_X
-      relative =
-	lw6sys_path_concat (sys_context, APPLICATION_SUPPORT,
-			    lw6sys_build_get_package_name ());
+      relative = lw6sys_path_concat (sys_context, APPLICATION_SUPPORT, lw6sys_build_get_package_name ());
 #else // LW6_MAC_OS_X
-      relative =
-	lw6sys_str_concat (sys_context, ".",
-			   lw6sys_build_get_package_tarname ());
+      relative = lw6sys_str_concat (sys_context, ".", lw6sys_build_get_package_tarname ());
 #endif // LW6_MAC_OS_X
 #endif // LW6_MS_WINDOWS
       if (relative)
@@ -147,8 +142,7 @@ lw6sys_get_default_user_dir (lw6sys_context_t * sys_context)
 }
 
 static char *
-_get_config_file_with_user_dir (lw6sys_context_t * sys_context,
-				char *user_dir)
+_get_config_file_with_user_dir (lw6sys_context_t * sys_context, char *user_dir)
 {
   char *config_file;
 
@@ -241,8 +235,7 @@ lw6sys_get_default_prefix (lw6sys_context_t * sys_context)
 }
 
 static char *
-_get_dir_common (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
-		 char *mask2, char *prefix2, char *sub, int check_readme)
+_get_dir_common (lw6sys_context_t * sys_context, char *mask1, char *prefix1, char *mask2, char *prefix2, char *sub, int check_readme)
 {
   char *system_dir = NULL;
   char *abs_srcdir = NULL;
@@ -251,10 +244,7 @@ _get_dir_common (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
 
   if (dir == NULL)
     {
-      system_dir =
-	lw6sys_new_sprintf (sys_context, mask1, prefix1,
-			    lw6sys_build_get_package_tarname (),
-			    lw6sys_build_get_version_base ());
+      system_dir = lw6sys_new_sprintf (sys_context, mask1, prefix1, lw6sys_build_get_package_tarname (), lw6sys_build_get_version_base ());
       if (system_dir)
 	{
 	  dir = lw6sys_path_concat (sys_context, system_dir, sub);
@@ -262,11 +252,7 @@ _get_dir_common (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
 	    {
 	      dir_exists =
 		check_readme ?
-		lw6sys_dir_exists_with_readme_containing_text (sys_context,
-							       dir,
-							       lw6sys_build_get_home_url
-							       ()) :
-		lw6sys_dir_exists (sys_context, dir);
+		lw6sys_dir_exists_with_readme_containing_text (sys_context, dir, lw6sys_build_get_home_url ()) : lw6sys_dir_exists (sys_context, dir);
 	      if (!dir_exists)
 		{
 		  // directory doesn't exist, we ignore it
@@ -280,10 +266,7 @@ _get_dir_common (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
 
   if (dir == NULL)
     {
-      system_dir =
-	lw6sys_new_sprintf (sys_context, mask2, prefix2,
-			    lw6sys_build_get_package_tarname (),
-			    lw6sys_build_get_version_base ());
+      system_dir = lw6sys_new_sprintf (sys_context, mask2, prefix2, lw6sys_build_get_package_tarname (), lw6sys_build_get_version_base ());
       if (system_dir)
 	{
 	  dir = lw6sys_path_concat (sys_context, system_dir, sub);
@@ -291,11 +274,7 @@ _get_dir_common (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
 	    {
 	      dir_exists =
 		check_readme ?
-		lw6sys_dir_exists_with_readme_containing_text (sys_context,
-							       dir,
-							       lw6sys_build_get_home_url
-							       ()) :
-		lw6sys_dir_exists (sys_context, dir);
+		lw6sys_dir_exists_with_readme_containing_text (sys_context, dir, lw6sys_build_get_home_url ()) : lw6sys_dir_exists (sys_context, dir);
 	      if (!dir_exists)
 		{
 		  // directory doesn't exist, we ignore it
@@ -315,10 +294,7 @@ _get_dir_common (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
 	{
 	  dir_exists =
 	    check_readme ?
-	    lw6sys_dir_exists_with_readme_containing_text (sys_context, dir,
-							   lw6sys_build_get_home_url
-							   ()) :
-	    lw6sys_dir_exists (sys_context, dir);
+	    lw6sys_dir_exists_with_readme_containing_text (sys_context, dir, lw6sys_build_get_home_url ()) : lw6sys_dir_exists (sys_context, dir);
 	  if (!dir_exists)
 	    {
 	      // directory doesn't exist, we ignore it
@@ -332,8 +308,7 @@ _get_dir_common (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
 }
 
 static void
-_dir_if_not_found (lw6sys_context_t * sys_context, char **dir,
-		   const char *sub, int check_readme)
+_dir_if_not_found (lw6sys_context_t * sys_context, char **dir, const char *sub, int check_readme)
 {
   char *tmp = NULL;
   char *parent = NULL;
@@ -343,11 +318,7 @@ _dir_if_not_found (lw6sys_context_t * sys_context, char **dir,
   if (dir && *dir)
     {
       dir_exists =
-	check_readme ?
-	lw6sys_dir_exists_with_readme_containing_text (sys_context, *dir,
-						       lw6sys_build_get_home_url
-						       ()) :
-	lw6sys_dir_exists (sys_context, *dir);
+	check_readme ? lw6sys_dir_exists_with_readme_containing_text (sys_context, *dir, lw6sys_build_get_home_url ()) : lw6sys_dir_exists (sys_context, *dir);
       if (!dir_exists)
 	{
 	  parent = lw6sys_path_parent (sys_context, ".");
@@ -358,10 +329,7 @@ _dir_if_not_found (lw6sys_context_t * sys_context, char **dir,
 		  tmp = lw6sys_path_concat (sys_context, parent, sub);
 		  dir_exists =
 		    check_readme ?
-		    lw6sys_dir_exists_with_readme_containing_text
-		    (sys_context, tmp,
-		     lw6sys_build_get_home_url ()) :
-		    lw6sys_dir_exists (sys_context, tmp);
+		    lw6sys_dir_exists_with_readme_containing_text (sys_context, tmp, lw6sys_build_get_home_url ()) : lw6sys_dir_exists (sys_context, tmp);
 		  if (dir_exists)
 		    {
 		      LW6SYS_FREE (sys_context, *dir);
@@ -385,17 +353,12 @@ _dir_if_not_found (lw6sys_context_t * sys_context, char **dir,
 
 	  if (!lw6sys_dir_exists (sys_context, *dir))
 	    {
-	      tmp =
-		lw6sys_path_concat (sys_context,
-				    lw6sys_build_get_package_id (), sub);
+	      tmp = lw6sys_path_concat (sys_context, lw6sys_build_get_package_id (), sub);
 	      if (tmp)
 		{
 		  dir_exists =
 		    check_readme ?
-		    lw6sys_dir_exists_with_readme_containing_text
-		    (sys_context, tmp,
-		     lw6sys_build_get_home_url ()) :
-		    lw6sys_dir_exists (sys_context, tmp);
+		    lw6sys_dir_exists_with_readme_containing_text (sys_context, tmp, lw6sys_build_get_home_url ()) : lw6sys_dir_exists (sys_context, tmp);
 		  if (dir_exists)
 		    {
 		      LW6SYS_FREE (sys_context, *dir);
@@ -406,17 +369,12 @@ _dir_if_not_found (lw6sys_context_t * sys_context, char **dir,
 		      LW6SYS_FREE (sys_context, tmp);
 		    }
 		}
-	      tmp =
-		lw6sys_path_concat (sys_context,
-				    lw6sys_build_get_package_string (), sub);
+	      tmp = lw6sys_path_concat (sys_context, lw6sys_build_get_package_string (), sub);
 	      if (tmp)
 		{
 		  dir_exists =
 		    check_readme ?
-		    lw6sys_dir_exists_with_readme_containing_text
-		    (sys_context, tmp,
-		     lw6sys_build_get_home_url ()) :
-		    lw6sys_dir_exists (sys_context, tmp);
+		    lw6sys_dir_exists_with_readme_containing_text (sys_context, tmp, lw6sys_build_get_home_url ()) : lw6sys_dir_exists (sys_context, tmp);
 		  if (dir_exists)
 		    {
 		      LW6SYS_FREE (sys_context, *dir);
@@ -427,17 +385,12 @@ _dir_if_not_found (lw6sys_context_t * sys_context, char **dir,
 		      LW6SYS_FREE (sys_context, tmp);
 		    }
 		}
-	      tmp =
-		lw6sys_path_concat (sys_context,
-				    lw6sys_build_get_package_tarname (), sub);
+	      tmp = lw6sys_path_concat (sys_context, lw6sys_build_get_package_tarname (), sub);
 	      if (tmp)
 		{
 		  dir_exists =
 		    check_readme ?
-		    lw6sys_dir_exists_with_readme_containing_text
-		    (sys_context, tmp,
-		     lw6sys_build_get_home_url ()) :
-		    lw6sys_dir_exists (sys_context, tmp);
+		    lw6sys_dir_exists_with_readme_containing_text (sys_context, tmp, lw6sys_build_get_home_url ()) : lw6sys_dir_exists (sys_context, tmp);
 		  if (dir_exists)
 		    {
 		      LW6SYS_FREE (sys_context, *dir);
@@ -448,17 +401,12 @@ _dir_if_not_found (lw6sys_context_t * sys_context, char **dir,
 		      LW6SYS_FREE (sys_context, tmp);
 		    }
 		}
-	      tmp =
-		lw6sys_path_concat (sys_context,
-				    lw6sys_build_get_package_name (), sub);
+	      tmp = lw6sys_path_concat (sys_context, lw6sys_build_get_package_name (), sub);
 	      if (tmp)
 		{
 		  dir_exists =
 		    check_readme ?
-		    lw6sys_dir_exists_with_readme_containing_text
-		    (sys_context, tmp,
-		     lw6sys_build_get_home_url ()) :
-		    lw6sys_dir_exists (sys_context, tmp);
+		    lw6sys_dir_exists_with_readme_containing_text (sys_context, tmp, lw6sys_build_get_home_url ()) : lw6sys_dir_exists (sys_context, tmp);
 		  if (dir_exists)
 		    {
 		      LW6SYS_FREE (sys_context, *dir);
@@ -475,14 +423,11 @@ _dir_if_not_found (lw6sys_context_t * sys_context, char **dir,
 }
 
 static char *
-_get_dir (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
-	  char *mask2, char *prefix2, char *sub, int check_readme)
+_get_dir (lw6sys_context_t * sys_context, char *mask1, char *prefix1, char *mask2, char *prefix2, char *sub, int check_readme)
 {
   char *dir = NULL;
 
-  dir =
-    _get_dir_common (sys_context, mask1, prefix1, mask2, prefix2, sub,
-		     check_readme);
+  dir = _get_dir_common (sys_context, mask1, prefix1, mask2, prefix2, sub, check_readme);
 
   if (dir == NULL)
     {
@@ -497,17 +442,14 @@ _get_dir (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
 
 static char *
 _get_dir_argc_argv (lw6sys_context_t * sys_context, int argc,
-		    const char *argv[], char *mask1, char *prefix1,
-		    char *mask2, char *prefix2, char *sub, int check_readme)
+		    const char *argv[], char *mask1, char *prefix1, char *mask2, char *prefix2, char *sub, int check_readme)
 {
   char *dir = NULL;
   char *run_dir = NULL;
   char *run_dir_rel = NULL;
   int dir_exists = 0;
 
-  dir =
-    _get_dir_common (sys_context, mask1, prefix1, mask2, prefix2, sub,
-		     check_readme);
+  dir = _get_dir_common (sys_context, mask1, prefix1, mask2, prefix2, sub, check_readme);
 
   if (dir == NULL && strlen (sub) > 0)
     {
@@ -519,11 +461,7 @@ _get_dir_argc_argv (lw6sys_context_t * sys_context, int argc,
 	    {
 	      dir_exists =
 		check_readme ?
-		lw6sys_dir_exists_with_readme_containing_text (sys_context,
-							       dir,
-							       lw6sys_build_get_home_url
-							       ()) :
-		lw6sys_dir_exists (sys_context, dir);
+		lw6sys_dir_exists_with_readme_containing_text (sys_context, dir, lw6sys_build_get_home_url ()) : lw6sys_dir_exists (sys_context, dir);
 	      if (!dir_exists)
 		{
 		  // directory doesn't exist, we ignore it
@@ -532,23 +470,18 @@ _get_dir_argc_argv (lw6sys_context_t * sys_context, int argc,
 
 		  if (RUN_REL && strlen (RUN_REL))
 		    {
-		      run_dir_rel =
-			lw6sys_path_concat (sys_context, run_dir, RUN_REL);
+		      run_dir_rel = lw6sys_path_concat (sys_context, run_dir, RUN_REL);
 		      if (run_dir_rel)
 			{
 			  if (lw6sys_dir_exists (sys_context, run_dir_rel))
 			    {
-			      dir =
-				lw6sys_path_concat (sys_context, run_dir_rel,
-						    sub);
+			      dir = lw6sys_path_concat (sys_context, run_dir_rel, sub);
 			      if (dir)
 				{
 				  dir_exists =
 				    check_readme ?
 				    lw6sys_dir_exists_with_readme_containing_text
-				    (sys_context, dir,
-				     lw6sys_build_get_home_url ()) :
-				    lw6sys_dir_exists (sys_context, dir);
+				    (sys_context, dir, lw6sys_build_get_home_url ()) : lw6sys_dir_exists (sys_context, dir);
 				  if (!dir_exists)
 				    {
 				      LW6SYS_FREE (sys_context, dir);
@@ -578,8 +511,7 @@ _get_dir_argc_argv (lw6sys_context_t * sys_context, int argc,
 }
 
 static char *
-_get_file_common (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
-		  char *mask2, char *prefix2, char *sub)
+_get_file_common (lw6sys_context_t * sys_context, char *mask1, char *prefix1, char *mask2, char *prefix2, char *sub)
 {
   char *system_dir = NULL;
   char *abs_srcdir = NULL;
@@ -587,10 +519,7 @@ _get_file_common (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
 
   if (file == NULL)
     {
-      system_dir =
-	lw6sys_new_sprintf (sys_context, mask1, prefix1,
-			    lw6sys_build_get_package_tarname (),
-			    lw6sys_build_get_version_base ());
+      system_dir = lw6sys_new_sprintf (sys_context, mask1, prefix1, lw6sys_build_get_package_tarname (), lw6sys_build_get_version_base ());
       if (system_dir)
 	{
 	  file = lw6sys_path_concat (sys_context, system_dir, sub);
@@ -609,10 +538,7 @@ _get_file_common (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
 
   if (file == NULL)
     {
-      system_dir =
-	lw6sys_new_sprintf (sys_context, mask2, prefix2,
-			    lw6sys_build_get_package_tarname (),
-			    lw6sys_build_get_version_base ());
+      system_dir = lw6sys_new_sprintf (sys_context, mask2, prefix2, lw6sys_build_get_package_tarname (), lw6sys_build_get_version_base ());
       if (system_dir)
 	{
 	  file = lw6sys_path_concat (sys_context, system_dir, sub);
@@ -648,8 +574,7 @@ _get_file_common (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
 }
 
 static void
-_file_if_not_found (lw6sys_context_t * sys_context, char **file,
-		    const char *sub)
+_file_if_not_found (lw6sys_context_t * sys_context, char **file, const char *sub)
 {
   char *tmp = NULL;
   char *parent = NULL;
@@ -685,9 +610,7 @@ _file_if_not_found (lw6sys_context_t * sys_context, char **file,
 	}
       if (!lw6sys_file_exists (sys_context, *file))
 	{
-	  tmp =
-	    lw6sys_path_concat (sys_context, lw6sys_build_get_package_id (),
-				sub);
+	  tmp = lw6sys_path_concat (sys_context, lw6sys_build_get_package_id (), sub);
 	  if (tmp)
 	    {
 	      if (lw6sys_file_exists (sys_context, tmp))
@@ -700,9 +623,7 @@ _file_if_not_found (lw6sys_context_t * sys_context, char **file,
 		  LW6SYS_FREE (sys_context, tmp);
 		}
 	    }
-	  tmp =
-	    lw6sys_path_concat (sys_context,
-				lw6sys_build_get_package_string (), sub);
+	  tmp = lw6sys_path_concat (sys_context, lw6sys_build_get_package_string (), sub);
 	  if (tmp)
 	    {
 	      if (lw6sys_file_exists (sys_context, tmp))
@@ -715,9 +636,7 @@ _file_if_not_found (lw6sys_context_t * sys_context, char **file,
 		  LW6SYS_FREE (sys_context, tmp);
 		}
 	    }
-	  tmp =
-	    lw6sys_path_concat (sys_context,
-				lw6sys_build_get_package_tarname (), sub);
+	  tmp = lw6sys_path_concat (sys_context, lw6sys_build_get_package_tarname (), sub);
 	  if (tmp)
 	    {
 	      if (lw6sys_file_exists (sys_context, tmp))
@@ -730,9 +649,7 @@ _file_if_not_found (lw6sys_context_t * sys_context, char **file,
 		  LW6SYS_FREE (sys_context, tmp);
 		}
 	    }
-	  tmp =
-	    lw6sys_path_concat (sys_context, lw6sys_build_get_package_name (),
-				sub);
+	  tmp = lw6sys_path_concat (sys_context, lw6sys_build_get_package_name (), sub);
 	  if (tmp)
 	    {
 	      if (lw6sys_file_exists (sys_context, tmp))
@@ -750,8 +667,7 @@ _file_if_not_found (lw6sys_context_t * sys_context, char **file,
 }
 
 static char *
-_get_file (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
-	   char *mask2, char *prefix2, char *sub)
+_get_file (lw6sys_context_t * sys_context, char *mask1, char *prefix1, char *mask2, char *prefix2, char *sub)
 {
   char *file = NULL;
 
@@ -769,9 +685,7 @@ _get_file (lw6sys_context_t * sys_context, char *mask1, char *prefix1,
 }
 
 static char *
-_get_file_argc_argv (lw6sys_context_t * sys_context, int argc,
-		     const char *argv[], char *mask1, char *prefix1,
-		     char *mask2, char *prefix2, char *sub)
+_get_file_argc_argv (lw6sys_context_t * sys_context, int argc, const char *argv[], char *mask1, char *prefix1, char *mask2, char *prefix2, char *sub)
 {
   char *file = NULL;
   char *run_dir = NULL;
@@ -795,15 +709,12 @@ _get_file_argc_argv (lw6sys_context_t * sys_context, int argc,
 
 		  if (RUN_REL && strlen (RUN_REL))
 		    {
-		      run_dir_rel =
-			lw6sys_path_concat (sys_context, run_dir, RUN_REL);
+		      run_dir_rel = lw6sys_path_concat (sys_context, run_dir, RUN_REL);
 		      if (run_dir_rel)
 			{
 			  if (lw6sys_dir_exists (sys_context, run_dir_rel))
 			    {
-			      file =
-				lw6sys_path_concat (sys_context, run_dir_rel,
-						    sub);
+			      file = lw6sys_path_concat (sys_context, run_dir_rel, sub);
 			      if (file)
 				{
 				  if (!lw6sys_file_exists (sys_context, file))
@@ -841,24 +752,19 @@ _get_mod_dir_with_prefix (lw6sys_context_t * sys_context, char *prefix)
   char *libdir = NULL;
 
   libdir = lw6sys_build_get_libdir ();
-  mod_dir =
-    _get_dir (sys_context, MOD_PREFIX_MASK, prefix, MOD_LIBDIR_MASK, libdir,
-	      "", 0);
+  mod_dir = _get_dir (sys_context, MOD_PREFIX_MASK, prefix, MOD_LIBDIR_MASK, libdir, "", 0);
 
   return mod_dir;
 }
 
 static char *
-_get_mod_dir_with_prefix_argc_argc (lw6sys_context_t * sys_context, int argc,
-				    const char *argv[], char *prefix)
+_get_mod_dir_with_prefix_argc_argc (lw6sys_context_t * sys_context, int argc, const char *argv[], char *prefix)
 {
   char *mod_dir = NULL;
   char *libdir = NULL;
 
   libdir = lw6sys_build_get_libdir ();
-  mod_dir =
-    _get_dir_argc_argv (sys_context, argc, argv, MOD_PREFIX_MASK, prefix,
-			MOD_LIBDIR_MASK, libdir, "", 0);
+  mod_dir = _get_dir_argc_argv (sys_context, argc, argv, MOD_PREFIX_MASK, prefix, MOD_LIBDIR_MASK, libdir, "", 0);
 
   return mod_dir;
 }
@@ -889,33 +795,25 @@ lw6sys_get_default_mod_dir (lw6sys_context_t * sys_context)
 }
 
 static char *
-_get_share_dir_with_prefix (lw6sys_context_t * sys_context, char *prefix,
-			    char *sub, int check_readme)
+_get_share_dir_with_prefix (lw6sys_context_t * sys_context, char *prefix, char *sub, int check_readme)
 {
   char *share_dir = NULL;
   char *datadir = NULL;
 
   datadir = lw6sys_build_get_datadir ();
-  share_dir =
-    _get_dir (sys_context, SHARE_PREFIX_MASK, prefix, SHARE_DATADIR_MASK,
-	      datadir, sub, check_readme);
+  share_dir = _get_dir (sys_context, SHARE_PREFIX_MASK, prefix, SHARE_DATADIR_MASK, datadir, sub, check_readme);
 
   return share_dir;
 }
 
 static char *
-_get_share_dir_with_prefix_argc_argv (lw6sys_context_t * sys_context,
-				      int argc, const char *argv[],
-				      char *prefix, char *sub,
-				      int check_readme)
+_get_share_dir_with_prefix_argc_argv (lw6sys_context_t * sys_context, int argc, const char *argv[], char *prefix, char *sub, int check_readme)
 {
   char *share_dir = NULL;
   char *datadir = NULL;
 
   datadir = lw6sys_build_get_datadir ();
-  share_dir =
-    _get_dir_argc_argv (sys_context, argc, argv, SHARE_PREFIX_MASK, prefix,
-			SHARE_DATADIR_MASK, datadir, sub, check_readme);
+  share_dir = _get_dir_argc_argv (sys_context, argc, argv, SHARE_PREFIX_MASK, prefix, SHARE_DATADIR_MASK, datadir, sub, check_readme);
 
   return share_dir;
 }
@@ -938,8 +836,7 @@ lw6sys_get_default_data_dir (lw6sys_context_t * sys_context)
   prefix = lw6sys_get_default_prefix (sys_context);
   if (prefix)
     {
-      data_dir =
-	_get_share_dir_with_prefix (sys_context, prefix, DATA_DIR, 1);
+      data_dir = _get_share_dir_with_prefix (sys_context, prefix, DATA_DIR, 1);
       LW6SYS_FREE (sys_context, prefix);
     }
 
@@ -947,9 +844,7 @@ lw6sys_get_default_data_dir (lw6sys_context_t * sys_context)
 }
 
 static char *
-_get_path_with_dir_and_user_dir (lw6sys_context_t * sys_context, char *dir,
-				 char *user_dir, char *sub, int create_dir,
-				 char *readme_comment)
+_get_path_with_dir_and_user_dir (lw6sys_context_t * sys_context, char *dir, char *user_dir, char *sub, int create_dir, char *readme_comment)
 {
   char *path = NULL;
   char *user_sub_dir = NULL;
@@ -965,21 +860,15 @@ _get_path_with_dir_and_user_dir (lw6sys_context_t * sys_context, char *dir,
 	    {
 	      lw6sys_create_dir (sys_context, user_sub_dir);
 	    }
-	  user_sub_dir_readme =
-	    lw6sys_path_concat (sys_context, user_sub_dir, README_FILE);
+	  user_sub_dir_readme = lw6sys_path_concat (sys_context, user_sub_dir, README_FILE);
 	  if (user_sub_dir_readme)
 	    {
 	      if (readme_comment)
 		{
-		  readme_content =
-		    lw6sys_str_reformat (sys_context, readme_comment,
-					 LW6SYS_REFORMAT_DEFAULT_PREFIX,
-					 LW6SYS_REFORMAT_DEFAULT_NB_COLUMNS);
+		  readme_content = lw6sys_str_reformat (sys_context, readme_comment, LW6SYS_REFORMAT_DEFAULT_PREFIX, LW6SYS_REFORMAT_DEFAULT_NB_COLUMNS);
 		  if (readme_content)
 		    {
-		      lw6sys_write_file_content (sys_context,
-						 user_sub_dir_readme,
-						 readme_content);
+		      lw6sys_write_file_content (sys_context, user_sub_dir_readme, readme_content);
 		      LW6SYS_FREE (sys_context, readme_content);
 		    }
 		}
@@ -1011,8 +900,7 @@ lw6sys_get_default_music_dir (lw6sys_context_t * sys_context)
   prefix = lw6sys_get_default_prefix (sys_context);
   if (prefix)
     {
-      music_dir =
-	_get_share_dir_with_prefix (sys_context, prefix, MUSIC_DIR, 1);
+      music_dir = _get_share_dir_with_prefix (sys_context, prefix, MUSIC_DIR, 1);
       LW6SYS_FREE (sys_context, prefix);
     }
 
@@ -1041,9 +929,7 @@ lw6sys_get_default_music_path (lw6sys_context_t * sys_context)
       user_dir = lw6sys_get_default_user_dir (sys_context);
       if (user_dir)
 	{
-	  music_path =
-	    _get_path_with_dir_and_user_dir (sys_context, music_dir, user_dir,
-					     MUSIC_DIR, 0, NULL);
+	  music_path = _get_path_with_dir_and_user_dir (sys_context, music_dir, user_dir, MUSIC_DIR, 0, NULL);
 	  LW6SYS_FREE (sys_context, user_dir);
 	}
       LW6SYS_FREE (sys_context, music_dir);
@@ -1099,9 +985,7 @@ lw6sys_get_default_map_path (lw6sys_context_t * sys_context)
       user_dir = lw6sys_get_default_user_dir (sys_context);
       if (user_dir)
 	{
-	  map_path =
-	    _get_path_with_dir_and_user_dir (sys_context, map_dir, user_dir,
-					     MAP_DIR, 0, NULL);
+	  map_path = _get_path_with_dir_and_user_dir (sys_context, map_dir, user_dir, MAP_DIR, 0, NULL);
 	  LW6SYS_FREE (sys_context, user_dir);
 	}
       LW6SYS_FREE (sys_context, map_dir);
@@ -1111,32 +995,25 @@ lw6sys_get_default_map_path (lw6sys_context_t * sys_context)
 }
 
 static char *
-_get_share_file_with_prefix (lw6sys_context_t * sys_context, char *prefix,
-			     char *sub)
+_get_share_file_with_prefix (lw6sys_context_t * sys_context, char *prefix, char *sub)
 {
   char *share_file = NULL;
   char *datadir;
 
   datadir = lw6sys_build_get_datadir ();
-  share_file =
-    _get_file (sys_context, SHARE_PREFIX_MASK, prefix, SHARE_DATADIR_MASK,
-	       datadir, sub);
+  share_file = _get_file (sys_context, SHARE_PREFIX_MASK, prefix, SHARE_DATADIR_MASK, datadir, sub);
 
   return share_file;
 }
 
 static char *
-_get_share_file_with_prefix_argc_argv (lw6sys_context_t * sys_context,
-				       int argc, const char *argv[],
-				       char *prefix, char *sub)
+_get_share_file_with_prefix_argc_argv (lw6sys_context_t * sys_context, int argc, const char *argv[], char *prefix, char *sub)
 {
   char *share_file = NULL;
   char *datadir;
 
   datadir = lw6sys_build_get_datadir ();
-  share_file =
-    _get_file_argc_argv (sys_context, argc, argv, SHARE_PREFIX_MASK, prefix,
-			 SHARE_DATADIR_MASK, datadir, sub);
+  share_file = _get_file_argc_argv (sys_context, argc, argv, SHARE_PREFIX_MASK, prefix, SHARE_DATADIR_MASK, datadir, sub);
 
   return share_file;
 }
@@ -1159,8 +1036,7 @@ lw6sys_get_default_script_file (lw6sys_context_t * sys_context)
   prefix = lw6sys_get_default_prefix (sys_context);
   if (prefix)
     {
-      script_file =
-	_get_share_file_with_prefix (sys_context, prefix, SCRIPT_FILE);
+      script_file = _get_share_file_with_prefix (sys_context, prefix, SCRIPT_FILE);
       LW6SYS_FREE (sys_context, prefix);
     }
 
@@ -1183,91 +1059,78 @@ lw6sys_options_log_defaults (lw6sys_context_t * sys_context)
   path = lw6sys_get_default_user_dir (sys_context);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("default user dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default user dir is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_default_config_file (sys_context);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("default config file is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default config file is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_default_log_file (sys_context);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("default log file is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default log file is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_default_prefix (sys_context);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("default prefix is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default prefix is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_default_mod_dir (sys_context);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("default mod dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default mod dir is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_default_data_dir (sys_context);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("default data dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default data dir is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_default_music_dir (sys_context);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("default music dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default music dir is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_default_music_path (sys_context);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("default music path is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default music path is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_default_map_dir (sys_context);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("default map dir is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default map dir is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_default_map_path (sys_context);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("default map path is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default map path is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_default_script_file (sys_context);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("default script file is \"%s\""), path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("default script file is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
 }
 
 static void *
-get_command_arg_with_env (lw6sys_context_t * sys_context, int argc,
-			  const char *argv[], char *keyword)
+get_command_arg_with_env (lw6sys_context_t * sys_context, int argc, const char *argv[], char *keyword)
 {
   char *arg_value = NULL;
   char *ret = NULL;
 
-  arg_value =
-    lw6sys_arg_get_value_with_env (sys_context, argc, argv, keyword);
+  arg_value = lw6sys_arg_get_value_with_env (sys_context, argc, argv, keyword);
   if (arg_value)
     {
       ret = lw6sys_path_strip_slash (sys_context, arg_value);
@@ -1291,8 +1154,7 @@ get_command_arg_with_env (lw6sys_context_t * sys_context, int argc,
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_run_dir (lw6sys_context_t * sys_context, int argc,
-		    const char *argv[])
+lw6sys_get_run_dir (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *run_dir = NULL;
 
@@ -1322,13 +1184,11 @@ lw6sys_get_run_dir (lw6sys_context_t * sys_context, int argc,
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_user_dir (lw6sys_context_t * sys_context, int argc,
-		     const char *argv[])
+lw6sys_get_user_dir (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *user_dir = NULL;
 
-  user_dir =
-    get_command_arg_with_env (sys_context, argc, argv, LW6DEF_USER_DIR);
+  user_dir = get_command_arg_with_env (sys_context, argc, argv, LW6DEF_USER_DIR);
   if (user_dir == NULL)
     {
       user_dir = lw6sys_get_default_user_dir (sys_context);
@@ -1341,9 +1201,7 @@ lw6sys_get_user_dir (lw6sys_context_t * sys_context, int argc,
 	  lw6sys_create_dir_silent (sys_context, user_dir);
 	  if (!lw6sys_dir_exists (sys_context, user_dir))
 	    {
-	      lw6sys_log_critical (sys_context,
-				   _x_ ("can't open user dir \"%s\""),
-				   user_dir);
+	      lw6sys_log_critical (sys_context, _x_ ("can't open user dir \"%s\""), user_dir);
 	    }
 	}
     }
@@ -1365,21 +1223,18 @@ lw6sys_get_user_dir (lw6sys_context_t * sys_context, int argc,
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_config_file (lw6sys_context_t * sys_context, int argc,
-			const char *argv[])
+lw6sys_get_config_file (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *config_file = NULL;
   char *user_dir = NULL;
 
-  config_file =
-    get_command_arg_with_env (sys_context, argc, argv, LW6DEF_CONFIG_FILE);
+  config_file = get_command_arg_with_env (sys_context, argc, argv, LW6DEF_CONFIG_FILE);
   if (config_file == NULL)
     {
       user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
       if (user_dir)
 	{
-	  config_file =
-	    _get_config_file_with_user_dir (sys_context, user_dir);
+	  config_file = _get_config_file_with_user_dir (sys_context, user_dir);
 	  LW6SYS_FREE (sys_context, user_dir);
 	}
     }
@@ -1401,14 +1256,12 @@ lw6sys_get_config_file (lw6sys_context_t * sys_context, int argc,
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_log_file (lw6sys_context_t * sys_context, int argc,
-		     const char *argv[])
+lw6sys_get_log_file (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *log_file = NULL;
   char *user_dir = NULL;
 
-  log_file =
-    get_command_arg_with_env (sys_context, argc, argv, LW6DEF_LOG_FILE);
+  log_file = get_command_arg_with_env (sys_context, argc, argv, LW6DEF_LOG_FILE);
   if (log_file == NULL)
     {
       user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
@@ -1436,8 +1289,7 @@ lw6sys_get_log_file (lw6sys_context_t * sys_context, int argc,
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_prefix (lw6sys_context_t * sys_context, int argc,
-		   const char *argv[])
+lw6sys_get_prefix (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *prefix = NULL;
 
@@ -1465,22 +1317,18 @@ lw6sys_get_prefix (lw6sys_context_t * sys_context, int argc,
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_mod_dir (lw6sys_context_t * sys_context, int argc,
-		    const char *argv[])
+lw6sys_get_mod_dir (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *mod_dir = NULL;
   char *prefix = NULL;
 
-  mod_dir =
-    get_command_arg_with_env (sys_context, argc, argv, LW6DEF_MOD_DIR);
+  mod_dir = get_command_arg_with_env (sys_context, argc, argv, LW6DEF_MOD_DIR);
   if (mod_dir == NULL)
     {
       prefix = lw6sys_get_prefix (sys_context, argc, argv);
       if (prefix)
 	{
-	  mod_dir =
-	    _get_mod_dir_with_prefix_argc_argc (sys_context, argc, argv,
-						prefix);
+	  mod_dir = _get_mod_dir_with_prefix_argc_argc (sys_context, argc, argv, prefix);
 	  LW6SYS_FREE (sys_context, prefix);
 	}
     }
@@ -1502,22 +1350,18 @@ lw6sys_get_mod_dir (lw6sys_context_t * sys_context, int argc,
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_data_dir (lw6sys_context_t * sys_context, int argc,
-		     const char *argv[])
+lw6sys_get_data_dir (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *data_dir = NULL;
   char *prefix = NULL;
 
-  data_dir =
-    get_command_arg_with_env (sys_context, argc, argv, LW6DEF_DATA_DIR);
+  data_dir = get_command_arg_with_env (sys_context, argc, argv, LW6DEF_DATA_DIR);
   if (data_dir == NULL)
     {
       prefix = lw6sys_get_prefix (sys_context, argc, argv);
       if (prefix)
 	{
-	  data_dir =
-	    _get_share_dir_with_prefix_argc_argv (sys_context, argc, argv,
-						  prefix, DATA_DIR, 1);
+	  data_dir = _get_share_dir_with_prefix_argc_argv (sys_context, argc, argv, prefix, DATA_DIR, 1);
 	  LW6SYS_FREE (sys_context, prefix);
 	}
     }
@@ -1539,22 +1383,18 @@ lw6sys_get_data_dir (lw6sys_context_t * sys_context, int argc,
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_music_dir (lw6sys_context_t * sys_context, int argc,
-		      const char *argv[])
+lw6sys_get_music_dir (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *music_dir = NULL;
   char *prefix = NULL;
 
-  music_dir =
-    get_command_arg_with_env (sys_context, argc, argv, LW6DEF_MUSIC_DIR);
+  music_dir = get_command_arg_with_env (sys_context, argc, argv, LW6DEF_MUSIC_DIR);
   if (music_dir == NULL)
     {
       prefix = lw6sys_get_prefix (sys_context, argc, argv);
       if (prefix)
 	{
-	  music_dir =
-	    _get_share_dir_with_prefix_argc_argv (sys_context, argc, argv,
-						  prefix, MUSIC_DIR, 1);
+	  music_dir = _get_share_dir_with_prefix_argc_argv (sys_context, argc, argv, prefix, MUSIC_DIR, 1);
 	  LW6SYS_FREE (sys_context, prefix);
 	}
     }
@@ -1576,8 +1416,7 @@ lw6sys_get_music_dir (lw6sys_context_t * sys_context, int argc,
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_music_path (lw6sys_context_t * sys_context, int argc,
-		       const char *argv[])
+lw6sys_get_music_path (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *music_path = NULL;
   char *music_path_cmd = NULL;
@@ -1599,26 +1438,19 @@ lw6sys_get_music_path (lw6sys_context_t * sys_context, int argc,
 					     ("This is your Liquid War 6 user music directory. You can put your own musics here, they will be automatically loaded by the game, and played."));
 	  if (music_path)
 	    {
-	      music_path_env =
-		lw6sys_getenv_prefixed (sys_context, LW6DEF_MUSIC_PATH);
+	      music_path_env = lw6sys_getenv_prefixed (sys_context, LW6DEF_MUSIC_PATH);
 	      if (music_path && music_path_env)
 		{
 		  tmp = music_path;
-		  music_path =
-		    lw6sys_env_concat (sys_context, music_path_env,
-				       music_path);
+		  music_path = lw6sys_env_concat (sys_context, music_path_env, music_path);
 		  LW6SYS_FREE (sys_context, tmp);
 		  LW6SYS_FREE (sys_context, music_path_env);
 		}
-	      music_path_cmd =
-		lw6sys_arg_get_value (sys_context, argc, argv,
-				      LW6DEF_MUSIC_PATH);
+	      music_path_cmd = lw6sys_arg_get_value (sys_context, argc, argv, LW6DEF_MUSIC_PATH);
 	      if (music_path && music_path_cmd)
 		{
 		  tmp = music_path;
-		  music_path =
-		    lw6sys_env_concat (sys_context, music_path_cmd,
-				       music_path);
+		  music_path = lw6sys_env_concat (sys_context, music_path_cmd, music_path);
 		  LW6SYS_FREE (sys_context, tmp);
 		  LW6SYS_FREE (sys_context, music_path_cmd);
 		}
@@ -1645,22 +1477,18 @@ lw6sys_get_music_path (lw6sys_context_t * sys_context, int argc,
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_map_dir (lw6sys_context_t * sys_context, int argc,
-		    const char *argv[])
+lw6sys_get_map_dir (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *map_dir = NULL;
   char *prefix = NULL;
 
-  map_dir =
-    get_command_arg_with_env (sys_context, argc, argv, LW6DEF_MAP_DIR);
+  map_dir = get_command_arg_with_env (sys_context, argc, argv, LW6DEF_MAP_DIR);
   if (map_dir == NULL)
     {
       prefix = lw6sys_get_prefix (sys_context, argc, argv);
       if (prefix)
 	{
-	  map_dir =
-	    _get_share_dir_with_prefix_argc_argv (sys_context, argc, argv,
-						  prefix, MAP_DIR, 1);
+	  map_dir = _get_share_dir_with_prefix_argc_argv (sys_context, argc, argv, prefix, MAP_DIR, 1);
 	  LW6SYS_FREE (sys_context, prefix);
 	}
     }
@@ -1682,8 +1510,7 @@ lw6sys_get_map_dir (lw6sys_context_t * sys_context, int argc,
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_map_path (lw6sys_context_t * sys_context, int argc,
-		     const char *argv[])
+lw6sys_get_map_path (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *map_path = NULL;
   char *map_path_cmd = NULL;
@@ -1705,24 +1532,19 @@ lw6sys_get_map_path (lw6sys_context_t * sys_context, int argc,
 					     ("This is your Liquid War 6 user map directory. You can put your own maps here, they will be automatically loaded by the game, and appear in the menus. To create maps, you need to 1) read the documentation 2) study existing map to see how things work in practice and 3) be creative. FYI the Liquid War 6 map format is rather simple and hopefully well documented, the general idea is that a map is a directory containing files, the most important of them being 'map.png'. Again, read the documentation. I repeat: 'Read the docs!'. http://www.gnu.org/software/liquidwar6/manual/"));
 	  if (map_path)
 	    {
-	      map_path_env =
-		lw6sys_getenv_prefixed (sys_context, LW6DEF_MAP_PATH);
+	      map_path_env = lw6sys_getenv_prefixed (sys_context, LW6DEF_MAP_PATH);
 	      if (map_path && map_path_env)
 		{
 		  tmp = map_path;
-		  map_path =
-		    lw6sys_env_concat (sys_context, map_path_env, map_path);
+		  map_path = lw6sys_env_concat (sys_context, map_path_env, map_path);
 		  LW6SYS_FREE (sys_context, tmp);
 		  LW6SYS_FREE (sys_context, map_path_env);
 		}
-	      map_path_cmd =
-		lw6sys_arg_get_value (sys_context, argc, argv,
-				      LW6DEF_MAP_PATH);
+	      map_path_cmd = lw6sys_arg_get_value (sys_context, argc, argv, LW6DEF_MAP_PATH);
 	      if (map_path && map_path_cmd)
 		{
 		  tmp = map_path;
-		  map_path =
-		    lw6sys_env_concat (sys_context, map_path_cmd, map_path);
+		  map_path = lw6sys_env_concat (sys_context, map_path_cmd, map_path);
 		  LW6SYS_FREE (sys_context, tmp);
 		  LW6SYS_FREE (sys_context, map_path_cmd);
 		}
@@ -1749,22 +1571,18 @@ lw6sys_get_map_path (lw6sys_context_t * sys_context, int argc,
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_script_file (lw6sys_context_t * sys_context, int argc,
-			const char *argv[])
+lw6sys_get_script_file (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *script_file = NULL;
   char *prefix = NULL;
 
-  script_file =
-    get_command_arg_with_env (sys_context, argc, argv, LW6DEF_SCRIPT_FILE);
+  script_file = get_command_arg_with_env (sys_context, argc, argv, LW6DEF_SCRIPT_FILE);
   if (script_file == NULL)
     {
       prefix = lw6sys_get_prefix (sys_context, argc, argv);
       if (prefix)
 	{
-	  script_file =
-	    _get_share_file_with_prefix_argc_argv (sys_context, argc, argv,
-						   prefix, SCRIPT_FILE);
+	  script_file = _get_share_file_with_prefix_argc_argv (sys_context, argc, argv, prefix, SCRIPT_FILE);
 	  LW6SYS_FREE (sys_context, prefix);
 	}
     }
@@ -1785,8 +1603,7 @@ lw6sys_get_script_file (lw6sys_context_t * sys_context, int argc,
  * program is searching for things.
  */
 void
-lw6sys_options_log (lw6sys_context_t * sys_context, int argc,
-		    const char *argv[])
+lw6sys_options_log (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *path = NULL;
 
@@ -1799,85 +1616,73 @@ lw6sys_options_log (lw6sys_context_t * sys_context, int argc,
   path = lw6sys_get_run_dir (sys_context, argc, argv);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("run dir is \"%s\""),
-		  path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("run dir is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_user_dir (sys_context, argc, argv);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("user dir is \"%s\""),
-		  path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("user dir is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_config_file (sys_context, argc, argv);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("config file is \"%s\""),
-		  path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("config file is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_log_file (sys_context, argc, argv);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("log file is \"%s\""),
-		  path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("log file is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_prefix (sys_context, argc, argv);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("prefix is \"%s\""),
-		  path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("prefix is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_mod_dir (sys_context, argc, argv);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod dir is \"%s\""),
-		  path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod dir is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_data_dir (sys_context, argc, argv);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("data dir is \"%s\""),
-		  path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("data dir is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_music_dir (sys_context, argc, argv);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("music dir is \"%s\""),
-		  path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("music dir is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_music_path (sys_context, argc, argv);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("music path is \"%s\""),
-		  path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("music path is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_map_dir (sys_context, argc, argv);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("map dir is \"%s\""),
-		  path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("map dir is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_map_path (sys_context, argc, argv);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("map path is \"%s\""),
-		  path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("map path is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
   path = lw6sys_get_script_file (sys_context, argc, argv);
   if (path)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("script file is \"%s\""),
-		  path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("script file is \"%s\""), path);
       LW6SYS_FREE (sys_context, path);
     }
 }

@@ -42,8 +42,7 @@
 #define LIST_SO_STR "." _LW6DYN_SUFFIX
 
 static int
-add_backend (lw6sys_assoc_t ** list, const char *libdir, const char *filename,
-	     const char *id)
+add_backend (lw6sys_assoc_t ** list, const char *libdir, const char *filename, const char *id)
 {
   int ret = 0;
   char *so_file = NULL;
@@ -58,23 +57,16 @@ add_backend (lw6sys_assoc_t ** list, const char *libdir, const char *filename,
       backend_handle = lw6dyn_dlopen_backend_so (so_file);
       if (backend_handle)
 	{
-	  get_pedigree_func_str =
-	    lw6sys_new_sprintf (sys_context, LW6DYN_GET_PEDIGREE_FUNC_FORMAT,
-				id);
+	  get_pedigree_func_str = lw6sys_new_sprintf (sys_context, LW6DYN_GET_PEDIGREE_FUNC_FORMAT, id);
 	  if (get_pedigree_func_str)
 	    {
-	      get_pedigree_func =
-		lw6dyn_dlsym (backend_handle, get_pedigree_func_str);
+	      get_pedigree_func = lw6dyn_dlsym (backend_handle, get_pedigree_func_str);
 	      if (get_pedigree_func)
 		{
-		  module_pedigree =
-		    (lw6sys_module_pedigree_t *) (get_pedigree_func) ();
-		  if (module_pedigree && module_pedigree->id
-		      && module_pedigree->name)
+		  module_pedigree = (lw6sys_module_pedigree_t *) (get_pedigree_func) ();
+		  if (module_pedigree && module_pedigree->id && module_pedigree->name)
 		    {
-		      lw6sys_assoc_set (list, module_pedigree->id,
-					lw6sys_str_copy
-					(module_pedigree->name));
+		      lw6sys_assoc_set (list, module_pedigree->id, lw6sys_str_copy (module_pedigree->name));
 		      if (*list)
 			{
 			  ret = 1;
@@ -83,10 +75,7 @@ add_backend (lw6sys_assoc_t ** list, const char *libdir, const char *filename,
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_
-				  ("can't get pedigree for mod_%s in \"%s\""),
-				  id, so_file);
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't get pedigree for mod_%s in \"%s\""), id, so_file);
 		    }
 		}
 	      LW6SYS_FREE (get_pedigree_func_str);
@@ -123,13 +112,9 @@ update_list (lw6sys_assoc_t ** list, const char *path)
 	      if (dir_entry_result && (dir_entry_result == dir_entry))
 		{
 		  if (dir_entry->d_name
-		      && strstr (dir_entry->d_name, LIST_SO_STR)
-		      && !strncmp (LIST_LIBMOD_PREFIX_STR, dir_entry->d_name,
-				   LIST_LIBMOD_PREFIX_SIZE))
+		      && strstr (dir_entry->d_name, LIST_SO_STR) && !strncmp (LIST_LIBMOD_PREFIX_STR, dir_entry->d_name, LIST_LIBMOD_PREFIX_SIZE))
 		    {
-		      id =
-			lw6sys_str_copy (dir_entry->d_name +
-					 LIST_LIBMOD_PREFIX_SIZE);
+		      id = lw6sys_str_copy (dir_entry->d_name + LIST_LIBMOD_PREFIX_SIZE);
 		      if (id)
 			{
 			  pos = id;
@@ -155,8 +140,7 @@ update_list (lw6sys_assoc_t ** list, const char *path)
 }
 
 static void
-update_devel_list (lw6sys_assoc_t ** list, const char *top_level_lib,
-		   int depth)
+update_devel_list (lw6sys_assoc_t ** list, const char *top_level_lib, int depth)
 {
   char *dir1 = NULL;
   char *dir2 = NULL;
@@ -169,10 +153,7 @@ update_devel_list (lw6sys_assoc_t ** list, const char *top_level_lib,
 
   if (depth >= 0 && depth < _LW6DYN_DEVEL_NB_DEPTHS)
     {
-      dir1 =
-	lw6sys_new_sprintf (sys_context, LIST_DEVEL_DIR1_FORMAT,
-			    _LW6DYN_DEVEL_DEPTH_STRINGS
-			    [depth], top_level_lib);
+      dir1 = lw6sys_new_sprintf (sys_context, LIST_DEVEL_DIR1_FORMAT, _LW6DYN_DEVEL_DEPTH_STRINGS[depth], top_level_lib);
       if (dir1)
 	{
 	  if (lw6sys_dir_exists (sys_context, dir1))
@@ -183,32 +164,21 @@ update_devel_list (lw6sys_assoc_t ** list, const char *top_level_lib,
 		  while (!eod)
 		    {
 		      dir_entry_size = sizeof (struct dirent) + NAME_MAX + 1;
-		      dir_entry =
-			(struct dirent *) LW6SYS_CALLOC (dir_entry_size);
+		      dir_entry = (struct dirent *) LW6SYS_CALLOC (dir_entry_size);
 		      if (dir_entry)
 			{
-			  readdir_r (dir_handle, dir_entry,
-				     &dir_entry_result);
-			  if (dir_entry_result
-			      && (dir_entry_result == dir_entry))
+			  readdir_r (dir_handle, dir_entry, &dir_entry_result);
+			  if (dir_entry_result && (dir_entry_result == dir_entry))
 			    {
-			      if (dir_entry->d_name
-				  && !strncmp (LIST_DEVEL_MOD_PREFIX_STR,
-					       dir_entry->d_name,
-					       LIST_DEVEL_MOD_PREFIX_SIZE))
+			      if (dir_entry->d_name && !strncmp (LIST_DEVEL_MOD_PREFIX_STR, dir_entry->d_name, LIST_DEVEL_MOD_PREFIX_SIZE))
 				{
-				  dir2 =
-				    lw6sys_path_concat (sys_context, dir1,
-							dir_entry->d_name);
+				  dir2 = lw6sys_path_concat (sys_context, dir1, dir_entry->d_name);
 				  if (dir2)
 				    {
-				      dir3 =
-					lw6sys_path_concat (sys_context, dir2,
-							    LIST_DEVEL_DIR3_NAME);
+				      dir3 = lw6sys_path_concat (sys_context, dir2, LIST_DEVEL_DIR3_NAME);
 				      if (dir3)
 					{
-					  if (lw6sys_dir_exists
-					      (sys_context, dir3))
+					  if (lw6sys_dir_exists (sys_context, dir3))
 					    {
 					      update_list (list, dir3);
 					    }
@@ -234,8 +204,7 @@ update_devel_list (lw6sys_assoc_t ** list, const char *top_level_lib,
 }
 
 static void
-update_system_list (lw6sys_assoc_t ** list, int argc,
-		    const char *argv[], const char *top_level_lib)
+update_system_list (lw6sys_assoc_t ** list, int argc, const char *argv[], const char *top_level_lib)
 {
   char *mod_dir = NULL;
   char *libdir = NULL;

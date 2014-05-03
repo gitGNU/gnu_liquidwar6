@@ -53,8 +53,7 @@ static volatile u_int32_t seq_id = 0;
  * Return value: a pointer to the newly allocated object.
  */
 lw6gui_menu_t *
-lw6gui_menu_new (const char *title, const char *help, const char *popup,
-		 const char *esc, int enable_esc)
+lw6gui_menu_new (const char *title, const char *help, const char *popup, const char *esc, int enable_esc)
 {
   lw6gui_menu_t *menu = NULL;
 
@@ -67,21 +66,16 @@ lw6gui_menu_new (const char *title, const char *help, const char *popup,
 	  menu->id = ++seq_id;
 	}
 
-      menu->title =
-	lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (title));
+      menu->title = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (title));
       if (menu->title)
 	{
-	  menu->help =
-	    lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (help));
+	  menu->help = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (help));
 	  if (menu->help)
 	    {
-	      menu->popup =
-		lw6sys_str_copy (sys_context,
-				 lw6sys_str_empty_if_null (popup));
+	      menu->popup = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (popup));
 	      if (menu->popup)
 		{
-		  menu->esc_item =
-		    lw6gui_menuitem_new (esc, NULL, 0, enable_esc, 0, 0);
+		  menu->esc_item = lw6gui_menuitem_new (esc, NULL, 0, enable_esc, 0, 0);
 		  if (menu->esc_item)
 		    {
 		      // OK
@@ -89,8 +83,7 @@ lw6gui_menu_new (const char *title, const char *help, const char *popup,
 		}
 	    }
 	}
-      if ((!menu->title) || (!menu->help) || (!menu->popup)
-	  || (!menu->esc_item))
+      if ((!menu->title) || (!menu->help) || (!menu->popup) || (!menu->esc_item))
 	{
 	  lw6gui_menu_free (menu);
 	  menu = NULL;
@@ -123,8 +116,7 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("menu with NULL title"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("menu with NULL title"));
 	}
 
       if (menu->help)
@@ -134,8 +126,7 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("menu with NULL help"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("menu with NULL help"));
 	}
 
       if (menu->popup)
@@ -145,8 +136,7 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("menu with NULL popup"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("menu with NULL popup"));
 	}
 
       if (menu->esc_item)
@@ -169,8 +159,7 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL menu"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL menu"));
     }
 }
 
@@ -198,14 +187,12 @@ lw6gui_menu_memory_footprint (lw6gui_menu_t * menu)
       memory_footprint += strlen (menu->popup) + 1;
       for (i = 0; i < menu->nb_items; ++i)
 	{
-	  memory_footprint +=
-	    lw6gui_menuitem_memory_footprint (menu->items[i]);
+	  memory_footprint += lw6gui_menuitem_memory_footprint (menu->items[i]);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("calling memory_footprint on NULL menu"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling memory_footprint on NULL menu"));
     }
 
   return memory_footprint;
@@ -228,9 +215,7 @@ lw6gui_menu_repr (const lw6gui_menu_t * menu)
 {
   char *repr;
 
-  repr =
-    lw6sys_new_sprintf (sys_context, _x_ ("%u \"%s\" (nb_items=%d)"),
-			menu->id, menu->title, menu->nb_items);
+  repr = lw6sys_new_sprintf (sys_context, _x_ ("%u \"%s\" (nb_items=%d)"), menu->id, menu->title, menu->nb_items);
 
   return repr;
 }
@@ -252,12 +237,10 @@ void
 lw6gui_menu_set_title (lw6gui_menu_t * menu, const char *title)
 {
   LW6SYS_FREE (sys_context, menu->title);
-  menu->title =
-    lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (title));
+  menu->title = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (title));
   if (!(menu->title))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("couldn't set menu title \"%s\""), title);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't set menu title \"%s\""), title);
     }
 }
 
@@ -281,8 +264,7 @@ lw6gui_menu_set_help (lw6gui_menu_t * menu, const char *help)
   menu->help = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (help));
   if (!(menu->help))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("couldn't set menu help \"%s\""), help);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't set menu help \"%s\""), help);
     }
 }
 
@@ -303,12 +285,10 @@ void
 lw6gui_menu_set_popup (lw6gui_menu_t * menu, const char *popup)
 {
   LW6SYS_FREE (sys_context, menu->popup);
-  menu->popup =
-    lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (popup));
+  menu->popup = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (popup));
   if (!(menu->popup))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("couldn't set menu popup \"%s\""), popup);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't set menu popup \"%s\""), popup);
     }
 }
 
@@ -370,10 +350,7 @@ lw6gui_menu_get_item (lw6gui_menu_t * menu, int position)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("requesting menuitem %d but there are only %d in \"%s\""),
-		  position, menu->nb_items, menu->title);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("requesting menuitem %d but there are only %d in \"%s\""), position, menu->nb_items, menu->title);
     }
 
   return ret;
@@ -394,8 +371,7 @@ lw6gui_menu_get_item (lw6gui_menu_t * menu, int position)
  * Return value: 1 if success, 0 if failure (out of range).
  */
 int
-lw6gui_menu_select (lw6gui_menu_t * menu, int position, int allow_scroll,
-		    int64_t now)
+lw6gui_menu_select (lw6gui_menu_t * menu, int position, int allow_scroll, int64_t now)
 {
   int ret = 0;
   int i = 0;
@@ -413,9 +389,7 @@ lw6gui_menu_select (lw6gui_menu_t * menu, int position, int allow_scroll,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("menu select out of range (%d/%d)"), position,
-		      menu->nb_items);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("menu select out of range (%d/%d)"), position, menu->nb_items);
 	}
     }
   menu->allow_scroll = allow_scroll;
@@ -498,8 +472,7 @@ lw6gui_menu_scroll_down (lw6gui_menu_t * menu)
 {
   int ret = 0;
 
-  if (menu->selected_item < menu->nb_items - 1
-      && menu->first_item_displayed < menu->nb_items - 1)
+  if (menu->selected_item < menu->nb_items - 1 && menu->first_item_displayed < menu->nb_items - 1)
     {
       menu->first_item_displayed++;
       ret = 1;
@@ -521,8 +494,7 @@ lw6gui_menu_scroll_down (lw6gui_menu_t * menu)
  * Return value: 1 if OK, 0 if failed.
  */
 int
-lw6gui_menu_set_breadcrumbs (lw6gui_menu_t * menu,
-			     lw6sys_list_t * breadcrumbs)
+lw6gui_menu_set_breadcrumbs (lw6gui_menu_t * menu, lw6sys_list_t * breadcrumbs)
 {
   int ret = 0;
 
@@ -530,9 +502,7 @@ lw6gui_menu_set_breadcrumbs (lw6gui_menu_t * menu,
     {
       lw6sys_list_free (sys_context, menu->breadcrumbs);
     }
-  menu->breadcrumbs =
-    lw6sys_list_dup (sys_context, breadcrumbs,
-		     (lw6sys_dup_func_t) lw6sys_str_copy);
+  menu->breadcrumbs = lw6sys_list_dup (sys_context, breadcrumbs, (lw6sys_dup_func_t) lw6sys_str_copy);
   ret = (menu->breadcrumbs != NULL);
 
   return ret;
@@ -551,12 +521,10 @@ lw6gui_menu_set_breadcrumbs (lw6gui_menu_t * menu,
  * Return value: none.
  */
 void
-lw6gui_menu_center (lw6gui_menu_t * menu, int position,
-		    int max_displayed_items)
+lw6gui_menu_center (lw6gui_menu_t * menu, int position, int max_displayed_items)
 {
   menu->first_item_displayed = position - (max_displayed_items / 2);
-  menu->first_item_displayed =
-    lw6sys_imin (menu->first_item_displayed, menu->nb_items - 1);
+  menu->first_item_displayed = lw6sys_imin (menu->first_item_displayed, menu->nb_items - 1);
   menu->first_item_displayed = lw6sys_imax (menu->first_item_displayed, 0);
 }
 
@@ -576,8 +544,7 @@ lw6gui_menu_center (lw6gui_menu_t * menu, int position,
  * Return value: 1 if success, 0 if failure (memory problem, out of range).
  */
 int
-lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem,
-		    int position, int64_t now)
+lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem, int position, int64_t now)
 {
   int ret = 0;
   int i;
@@ -586,12 +553,7 @@ lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem,
     {
       if (menu->items > 0)
 	{
-	  menu->items =
-	    (lw6gui_menuitem_t **) LW6SYS_REALLOC ((void *) (menu->items),
-						   (menu->nb_items +
-						    1) *
-						   sizeof (lw6gui_menuitem_t
-							   *));
+	  menu->items = (lw6gui_menuitem_t **) LW6SYS_REALLOC ((void *) (menu->items), (menu->nb_items + 1) * sizeof (lw6gui_menuitem_t *));
 	  if (menu->items)
 	    {
 	      ++(menu->nb_items);
@@ -609,9 +571,7 @@ lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem,
 	}
       else
 	{
-	  menu->items =
-	    (lw6gui_menuitem_t **)
-	    LW6SYS_MALLOC (sizeof (lw6gui_menuitem_t *));
+	  menu->items = (lw6gui_menuitem_t **) LW6SYS_MALLOC (sizeof (lw6gui_menuitem_t *));
 	  if (menu->items)
 	    {
 	      menu->nb_items = 1;
@@ -625,8 +585,7 @@ lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem,
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
-		  ("trying to insert menuitem \"%s\" at position %d but menu \"%s\" has only %d items"),
-		  menu->title, position, menu->title, menu->nb_items);
+		  ("trying to insert menuitem \"%s\" at position %d but menu \"%s\" has only %d items"), menu->title, position, menu->title, menu->nb_items);
     }
 
   return ret;
@@ -646,8 +605,7 @@ lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem,
  * Return value: 1 if success, 0 if failure (memory problem).
  */
 int
-lw6gui_menu_append (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem,
-		    int64_t now)
+lw6gui_menu_append (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem, int64_t now)
 {
   int ret = 0;
 
@@ -719,8 +677,7 @@ lw6gui_menu_remove (lw6gui_menu_t * menu, int position, int64_t now)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
-		  ("trying to remove menuitem \"%s\" at position %d but menu \"%s\" has only %d items"),
-		  menu->title, position, menu->title, menu->nb_items);
+		  ("trying to remove menuitem \"%s\" at position %d but menu \"%s\" has only %d items"), menu->title, position, menu->title, menu->nb_items);
     }
 
   return ret;
@@ -766,15 +723,13 @@ lw6gui_menu_remove_all (lw6gui_menu_t * menu, int64_t now)
  * Return value: none.
  */
 void
-lw6gui_menu_update_display_range (lw6gui_menu_t * menu,
-				  int max_displayed_items)
+lw6gui_menu_update_display_range (lw6gui_menu_t * menu, int max_displayed_items)
 {
   if (menu->nb_items > max_displayed_items)
     {
       if (menu->allow_scroll)
 	{
-	  menu->first_item_displayed =
-	    menu->selected_item - menu->order_of_selected_on_display;
+	  menu->first_item_displayed = menu->selected_item - menu->order_of_selected_on_display;
 	}
 
       /*
@@ -787,8 +742,7 @@ lw6gui_menu_update_display_range (lw6gui_menu_t * menu,
 	{
 	  menu->first_item_displayed--;
 	}
-      while (menu->first_item_displayed +
-	     menu->nb_items_displayed - 1 < menu->selected_item)
+      while (menu->first_item_displayed + menu->nb_items_displayed - 1 < menu->selected_item)
 	{
 	  menu->first_item_displayed++;
 	}
@@ -798,11 +752,9 @@ lw6gui_menu_update_display_range (lw6gui_menu_t * menu,
 	{
 	  menu->first_item_displayed = 0;
 	}
-      if (menu->first_item_displayed + menu->nb_items_displayed >
-	  menu->nb_items)
+      if (menu->first_item_displayed + menu->nb_items_displayed > menu->nb_items)
 	{
-	  menu->first_item_displayed =
-	    menu->nb_items - menu->nb_items_displayed;
+	  menu->first_item_displayed = menu->nb_items - menu->nb_items_displayed;
 	}
     }
   else
@@ -810,8 +762,7 @@ lw6gui_menu_update_display_range (lw6gui_menu_t * menu,
       menu->first_item_displayed = 0;
       menu->nb_items_displayed = menu->nb_items;
     }
-  menu->order_of_selected_on_display =
-    menu->selected_item - menu->first_item_displayed;
+  menu->order_of_selected_on_display = menu->selected_item - menu->first_item_displayed;
 }
 
 /**
@@ -842,16 +793,12 @@ lw6gui_menu_update_display_range (lw6gui_menu_t * menu,
  *   used with '_using_id' functions.
  */
 int
-lw6gui_menu_insert_for_id_use (lw6gui_menu_t * menu, char *label,
-			       char *tooltip, int value, int enabled,
-			       int selected, int colored, int position,
-			       int64_t now)
+lw6gui_menu_insert_for_id_use (lw6gui_menu_t * menu, char *label, char *tooltip, int value, int enabled, int selected, int colored, int position, int64_t now)
 {
   int ret = 0;
   lw6gui_menuitem_t *menuitem;
 
-  menuitem =
-    lw6gui_menuitem_new (label, tooltip, value, enabled, selected, colored);
+  menuitem = lw6gui_menuitem_new (label, tooltip, value, enabled, selected, colored);
   if (menuitem)
     {
       if (lw6gui_menu_insert (menu, menuitem, position, now))
@@ -888,15 +835,11 @@ lw6gui_menu_insert_for_id_use (lw6gui_menu_t * menu, char *label,
  *   used with '_using_id' functions.
  */
 int
-lw6gui_menu_append_for_id_use (lw6gui_menu_t * menu, char *label,
-			       char *tooltip, int value, int enabled,
-			       int selected, int colored, int64_t now)
+lw6gui_menu_append_for_id_use (lw6gui_menu_t * menu, char *label, char *tooltip, int value, int enabled, int selected, int colored, int64_t now)
 {
   int ret = 0;
 
-  ret =
-    lw6gui_menu_insert_for_id_use (menu, label, tooltip, value, enabled,
-				   selected, colored, menu->nb_items, now);
+  ret = lw6gui_menu_insert_for_id_use (menu, label, tooltip, value, enabled, selected, colored, menu->nb_items, now);
 
   return ret;
 }
@@ -918,9 +861,7 @@ get_position_using_id (lw6gui_menu_t * menu, int id)
 
   if (ret < 0)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("error, no menuitem with id %d in menu %d \"%s\""), id,
-		  menu->id, menu->title);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("error, no menuitem with id %d in menu %d \"%s\""), id, menu->id, menu->title);
     }
 
   return ret;
@@ -941,8 +882,7 @@ get_position_using_id (lw6gui_menu_t * menu, int id)
  * Return value: 1 if success, 0 if failure (out of range).
  */
 int
-lw6gui_menu_remove_using_id (lw6gui_menu_t * menu, int menuitem_id,
-			     int64_t now)
+lw6gui_menu_remove_using_id (lw6gui_menu_t * menu, int menuitem_id, int64_t now)
 {
   int ret = 0;
   int position;
@@ -980,9 +920,7 @@ lw6gui_menu_remove_using_id (lw6gui_menu_t * menu, int menuitem_id,
  * Return value: 1 if success, 0 if failure (out of range).
  */
 void
-lw6gui_menu_sync_using_id (lw6gui_menu_t * menu, int menuitem_id, char *label,
-			   char *tooltip, int value, int enabled,
-			   int selected, int colored, int64_t now)
+lw6gui_menu_sync_using_id (lw6gui_menu_t * menu, int menuitem_id, char *label, char *tooltip, int value, int enabled, int selected, int colored, int64_t now)
 {
   int position;
   lw6gui_menuitem_t *menuitem;
@@ -1017,8 +955,7 @@ lw6gui_menu_sync_using_id (lw6gui_menu_t * menu, int menuitem_id, char *label,
  * Return value: 1 if they are the same, 0 if not
  */
 int
-lw6gui_menu_is_same (const lw6gui_menu_t * menu_a,
-		     const lw6gui_menu_t * menu_b)
+lw6gui_menu_is_same (const lw6gui_menu_t * menu_a, const lw6gui_menu_t * menu_b)
 {
   int ret = 1;
   int i;
@@ -1029,32 +966,22 @@ lw6gui_menu_is_same (const lw6gui_menu_t * menu_a,
     }
   if (menu_a && menu_b)
     {
-      ret = ret
-	&& lw6sys_str_is_same (sys_context, menu_a->title, menu_b->title);
-      ret = ret
-	&& lw6sys_str_is_same (sys_context, menu_a->help, menu_b->help);
-      ret = ret
-	&& lw6sys_str_is_same (sys_context, menu_a->popup, menu_b->popup);
+      ret = ret && lw6sys_str_is_same (sys_context, menu_a->title, menu_b->title);
+      ret = ret && lw6sys_str_is_same (sys_context, menu_a->help, menu_b->help);
+      ret = ret && lw6sys_str_is_same (sys_context, menu_a->popup, menu_b->popup);
       ret = ret && menu_a->nb_items == menu_b->nb_items;
-      ret = ret
-	&& lw6gui_menuitem_is_same (menu_a->esc_item, menu_b->esc_item);
-      for (i = 0; ret && i < lw6sys_imin (menu_a->nb_items, menu_b->nb_items);
-	   ++i)
+      ret = ret && lw6gui_menuitem_is_same (menu_a->esc_item, menu_b->esc_item);
+      for (i = 0; ret && i < lw6sys_imin (menu_a->nb_items, menu_b->nb_items); ++i)
 	{
-	  if (i < menu_a->nb_items && i < menu_b->nb_items
-	      && !lw6gui_menuitem_is_same (menu_a->items[i],
-					   menu_b->items[i]))
+	  if (i < menu_a->nb_items && i < menu_b->nb_items && !lw6gui_menuitem_is_same (menu_a->items[i], menu_b->items[i]))
 	    {
 	      ret = 0;
 	    }
 	}
       ret = ret && menu_a->selected_item == menu_b->selected_item;
-      ret = ret
-	&& menu_a->first_item_displayed == menu_b->first_item_displayed;
+      ret = ret && menu_a->first_item_displayed == menu_b->first_item_displayed;
       ret = ret && menu_a->nb_items_displayed == menu_b->nb_items_displayed;
-      ret = ret
-	&& menu_a->order_of_selected_on_display ==
-	menu_b->order_of_selected_on_display;
+      ret = ret && menu_a->order_of_selected_on_display == menu_b->order_of_selected_on_display;
       ret = ret && menu_a->allow_scroll == menu_b->allow_scroll;
       if (menu_a->breadcrumbs && menu_b->breadcrumbs)
 	{
@@ -1063,9 +990,7 @@ lw6gui_menu_is_same (const lw6gui_menu_t * menu_a,
 	   * one by one. In practice, we just rely on size,
 	   * period.
 	   */
-	  ret = ret
-	    && lw6sys_list_length (sys_context, menu_a->breadcrumbs) ==
-	    lw6sys_list_length (sys_context, menu_b->breadcrumbs);
+	  ret = ret && lw6sys_list_length (sys_context, menu_a->breadcrumbs) == lw6sys_list_length (sys_context, menu_b->breadcrumbs);
 	}
       else
 	{
@@ -1094,9 +1019,7 @@ lw6gui_menu_dup (const lw6gui_menu_t * menu)
 
   if (menu)
     {
-      ret =
-	lw6gui_menu_new (menu->title, menu->help, menu->popup,
-			 menu->esc_item->label, menu->esc_item->enabled);
+      ret = lw6gui_menu_new (menu->title, menu->help, menu->popup, menu->esc_item->label, menu->esc_item->enabled);
       if (ret)
 	{
 	  lw6gui_menuitem_sync (ret->esc_item, menu->esc_item);
@@ -1133,9 +1056,7 @@ lw6gui_menu_dup (const lw6gui_menu_t * menu)
 
       if (menu->breadcrumbs)
 	{
-	  ret->breadcrumbs =
-	    lw6sys_list_dup (sys_context, menu->breadcrumbs,
-			     (lw6sys_dup_func_t) lw6sys_str_copy);
+	  ret->breadcrumbs = lw6sys_list_dup (sys_context, menu->breadcrumbs, (lw6sys_dup_func_t) lw6sys_str_copy);
 	  if (!(ret->breadcrumbs))
 	    {
 	      lw6gui_menu_free (ret);
@@ -1225,8 +1146,7 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
 	   */
 	  src->first_item_displayed = dst->first_item_displayed;
 	  src->nb_items_displayed = dst->nb_items_displayed;
-	  src->order_of_selected_on_display =
-	    dst->order_of_selected_on_display;
+	  src->order_of_selected_on_display = dst->order_of_selected_on_display;
 	  /*
 	   * The rest is "normal", copied from src to dst
 	   */
@@ -1239,20 +1159,15 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
 		  /*
 		   * Lazy test on size only
 		   */
-		  if (lw6sys_list_length (sys_context, dst->breadcrumbs) !=
-		      lw6sys_list_length (src->breadcrumbs))
+		  if (lw6sys_list_length (sys_context, dst->breadcrumbs) != lw6sys_list_length (src->breadcrumbs))
 		    {
 		      lw6sys_list_free (sys_context, dst->breadcrumbs);
-		      dst->breadcrumbs =
-			lw6sys_list_dup (src->breadcrumbs,
-					 (lw6sys_dup_func_t) lw6sys_str_copy);
+		      dst->breadcrumbs = lw6sys_list_dup (src->breadcrumbs, (lw6sys_dup_func_t) lw6sys_str_copy);
 		    }
 		}
 	      else
 		{
-		  dst->breadcrumbs =
-		    lw6sys_list_dup (src->breadcrumbs,
-				     (lw6sys_dup_func_t) lw6sys_str_copy);
+		  dst->breadcrumbs = lw6sys_list_dup (src->breadcrumbs, (lw6sys_dup_func_t) lw6sys_str_copy);
 		}
 	    }
 	  else
@@ -1268,16 +1183,12 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("unable to sync menus, dst has %d items while src has %d items"),
-		      dst->nb_items, src->nb_items);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to sync menus, dst has %d items while src has %d items"), dst->nb_items, src->nb_items);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("menus are not syncable"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("menus are not syncable"));
     }
 
   return ret;

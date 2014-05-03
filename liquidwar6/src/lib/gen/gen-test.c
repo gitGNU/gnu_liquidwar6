@@ -57,21 +57,16 @@ _test_create ()
   {
     lw6map_level_t *level = NULL;
     char *repr = NULL;
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("creating map from seed \"%s\" with size %dx%d"),
-		_TEST_SEED, _TEST_WIDTH, _TEST_HEIGHT);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("creating map from seed \"%s\" with size %dx%d"), _TEST_SEED, _TEST_WIDTH, _TEST_HEIGHT);
     level = lw6gen_create_from_seed (_TEST_SEED, _TEST_WIDTH, _TEST_HEIGHT);
     if (level)
       {
 	repr = lw6map_repr (sys_context, level);
 	if (repr)
 	  {
-	    if (level->body.shape.w == _TEST_WIDTH
-		&& level->body.shape.h == _TEST_HEIGHT)
+	    if (level->body.shape.w == _TEST_WIDTH && level->body.shape.h == _TEST_HEIGHT)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("built map \"%s\" from seed \"%s\""), repr,
-			    _TEST_SEED);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("built map \"%s\" from seed \"%s\""), repr, _TEST_SEED);
 		LW6SYS_FREE (sys_context, repr);
 
 		ret = 1;
@@ -81,18 +76,14 @@ _test_create ()
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			    _x_
 			    ("map created from seed \"%s\" with bad size %dx%d, should have been %dx%d"),
-			    _TEST_SEED, level->body.shape.w,
-			    level->body.shape.h, _TEST_WIDTH, _TEST_HEIGHT);
+			    _TEST_SEED, level->body.shape.w, level->body.shape.h, _TEST_WIDTH, _TEST_HEIGHT);
 	      }
 	  }
 	lw6map_free (sys_context, level);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_
-		    ("unable to create map from seed \"%s\" with size %dx%d"),
-		    _TEST_SEED, _TEST_WIDTH, _TEST_HEIGHT);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create map from seed \"%s\" with size %dx%d"), _TEST_SEED, _TEST_WIDTH, _TEST_HEIGHT);
       }
   }
 
@@ -115,8 +106,7 @@ _test_seed ()
     seed = lw6gen_seed_new ();
     if (seed)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("generated new random seed \"%s\""), seed);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("generated new random seed \"%s\""), seed);
 	LW6SYS_FREE (seed);
       }
     else
@@ -127,20 +117,14 @@ _test_seed ()
     seed = lw6gen_seed_normalize (_TEST_SEED_SHORT_SRC);
     if (seed)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("normalizing short seed \"%s\" -> \"%s\""),
-		    _TEST_SEED_SHORT_SRC, seed);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("normalizing short seed \"%s\" -> \"%s\""), _TEST_SEED_SHORT_SRC, seed);
 	if (lw6sys_str_is_same (seed, _TEST_SEED_SHORT_DST))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("ouput is correct"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ouput is correct"));
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_
-			("bad ouput, should have been \"%s\" but is \"%s\""),
-			_TEST_SEED_SHORT_DST, seed);
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad ouput, should have been \"%s\" but is \"%s\""), _TEST_SEED_SHORT_DST, seed);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (seed);
@@ -153,20 +137,14 @@ _test_seed ()
     seed = lw6gen_seed_normalize (_TEST_SEED_LONG_SRC);
     if (seed)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("normalizing long seed \"%s\" -> \"%s\""),
-		    _TEST_SEED_LONG_SRC, seed);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("normalizing long seed \"%s\" -> \"%s\""), _TEST_SEED_LONG_SRC, seed);
 	if (lw6sys_str_is_same (seed, _TEST_SEED_LONG_DST))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("ouput is correct"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ouput is correct"));
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_
-			("bad ouput, should have been \"%s\" but is \"%s\""),
-			_TEST_SEED_LONG_DST, seed);
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad ouput, should have been \"%s\" but is \"%s\""), _TEST_SEED_LONG_DST, seed);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (seed);
@@ -183,16 +161,14 @@ _test_seed ()
 static int
 _setup_init ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libgen CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libgen CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libgen CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libgen CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -228,9 +204,7 @@ lw6gen_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 

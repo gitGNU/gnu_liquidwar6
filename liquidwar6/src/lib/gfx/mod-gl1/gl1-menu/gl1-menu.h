@@ -37,49 +37,28 @@ typedef struct mod_gl1_menu_backend_s
 
   void *(*init) (mod_gl1_utils_context_t * utils_context);
   void (*quit) (mod_gl1_utils_context_t * utils_context, void *menu_context);
-  void (*display_menu) (mod_gl1_utils_context_t * utils_context,
-			void *menu_context, const lw6gui_look_t * look,
-			lw6gui_menu_t * menu);
-  void (*display_progress) (mod_gl1_utils_context_t * utils_context,
-			    void *menu_context, const lw6gui_look_t * look,
-			    float progress);
-  void (*display_meta) (mod_gl1_utils_context_t * utils_context,
-			void *menu_context, const lw6gui_look_t * look,
-			lw6gui_menu_t * menu);
+  void (*display_menu) (mod_gl1_utils_context_t * utils_context, void *menu_context, const lw6gui_look_t * look, lw6gui_menu_t * menu);
+  void (*display_progress) (mod_gl1_utils_context_t * utils_context, void *menu_context, const lw6gui_look_t * look, float progress);
+  void (*display_meta) (mod_gl1_utils_context_t * utils_context, void *menu_context, const lw6gui_look_t * look, lw6gui_menu_t * menu);
 }
 mod_gl1_menu_backend_t;
 
 /*
  * In api.c
  */
-extern int mod_gl1_menu_init (mod_gl1_utils_context_t * utils_context,
-			      mod_gl1_menu_backend_t * backend);
-extern void mod_gl1_menu_quit (mod_gl1_utils_context_t * utils_context,
-			       mod_gl1_menu_backend_t * backend);
+extern int mod_gl1_menu_init (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend);
+extern void mod_gl1_menu_quit (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend);
 extern void mod_gl1_menu_display_menu (mod_gl1_utils_context_t *
-				       utils_context,
-				       mod_gl1_menu_backend_t * backend,
-				       const lw6gui_look_t * look,
-				       lw6gui_menu_t * menu);
+				       utils_context, mod_gl1_menu_backend_t * backend, const lw6gui_look_t * look, lw6gui_menu_t * menu);
 extern void mod_gl1_menu_display_progress (mod_gl1_utils_context_t *
-					   utils_context,
-					   mod_gl1_menu_backend_t * backend,
-					   const lw6gui_look_t * look,
-					   float progress);
+					   utils_context, mod_gl1_menu_backend_t * backend, const lw6gui_look_t * look, float progress);
 extern void mod_gl1_menu_display_meta (mod_gl1_utils_context_t *
-				       utils_context,
-				       mod_gl1_menu_backend_t * backend,
-				       const lw6gui_look_t * look,
-				       lw6gui_menu_t * menu);
+				       utils_context, mod_gl1_menu_backend_t * backend, const lw6gui_look_t * look, lw6gui_menu_t * menu);
 
 /*
  * In backend.c
  */
-extern mod_gl1_menu_backend_t
-  * mod_gl1_menu_create_backend (mod_gl1_utils_context_t * utils_context,
-				 const char *name);
-extern void mod_gl1_menu_destroy_backend (mod_gl1_utils_context_t *
-					  utils_context,
-					  mod_gl1_menu_backend_t * backend);
+extern mod_gl1_menu_backend_t *mod_gl1_menu_create_backend (mod_gl1_utils_context_t * utils_context, const char *name);
+extern void mod_gl1_menu_destroy_backend (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend);
 
 #endif

@@ -72,11 +72,10 @@ typedef struct _lw6_test_data_s
   int default_log_level_id;
 } _lw6_test_data_t;
 
-static _lw6_test_data_t _test_data =
-  { 0, {0, 0, NULL, 0, 0, 0, 0}, {0, 0, NULL, 0, 0, 0, 0}, {0, 0, NULL, 0, 0,
-							    0, 0}, {0, 0,
-								    NULL, 0,
-								    0, 0, 0},
+static _lw6_test_data_t _test_data = { 0, {0, 0, NULL, 0, 0, 0, 0}, {0, 0, NULL, 0, 0, 0, 0}, {0, 0, NULL, 0, 0,
+											       0, 0}, {0, 0,
+												       NULL, 0,
+												       0, 0, 0},
 0
 };
 
@@ -136,8 +135,7 @@ get_test_file (int argc, const char **argv, int mode, int suite)
 
   if (ret && !lw6sys_file_exists (sys_context, ret))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't open \"%s\""),
-		  ret);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't open \"%s\""), ret);
       LW6SYS_FREE (sys_context, ret);
       ret = NULL;
     }
@@ -164,37 +162,30 @@ _guile_test_callback (_lw6_test_param_t * param)
      */
     lw6sys_log_set_level (sys_context, param->log_level_id);
 
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("registering Guile smobs"));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("registering Guile smobs"));
     if (lw6_register_smobs ())
       {
 
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("registering Guile functions"));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("registering Guile functions"));
 	if (lw6_register_funcs ())
 	  {
-	    test_file =
-	      get_test_file (param->argc, param->argv, param->mode,
-			     param->suite);
+	    test_file = get_test_file (param->argc, param->argv, param->mode, param->suite);
 	    if (test_file)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("loading \"%s\""), test_file);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("loading \"%s\""), test_file);
 		lw6scm_c_primitive_load (test_file);
 		LW6SYS_FREE (test_file);
 	      }
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("unable to register funcs"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to register funcs"));
 	    ret = 0;
 	  }
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to register smobs"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to register smobs"));
 	ret = 0;
       }
 
@@ -205,50 +196,38 @@ _guile_test_callback (_lw6_test_param_t * param)
 	funcs = lw6hlp_list_funcs ();
 	if (funcs)
 	  {
-	    if (lw6scm_coverage_check
-		(&coverage_percent, lw6_global.coverage, funcs)
-		|| coverage_percent >= _TEST_COVERAGE_PERCENT_MIN)
+	    if (lw6scm_coverage_check (&coverage_percent, lw6_global.coverage, funcs) || coverage_percent >= _TEST_COVERAGE_PERCENT_MIN)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("script coverage OK %d%% (%d%% required)"),
-			    coverage_percent, _TEST_COVERAGE_PERCENT_MIN);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("script coverage OK %d%% (%d%% required)"), coverage_percent, _TEST_COVERAGE_PERCENT_MIN);
 	      }
 	    else
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("script coverage is only %d%% (%d%% required)"),
-			    coverage_percent, _TEST_COVERAGE_PERCENT_MIN);
+			    _x_ ("script coverage is only %d%% (%d%% required)"), coverage_percent, _TEST_COVERAGE_PERCENT_MIN);
 		ret = 0;
 	      }
 	    lw6sys_list_free (sys_context, funcs);
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("unable to get funcs list"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to get funcs list"));
 	    ret = 0;
 	  }
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("skipping coverage check"));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("skipping coverage check"));
       }
 
     if (ret)
       {
 	if (lw6_global.ret)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_
-			("script returned true, looks like tests were OK"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("script returned true, looks like tests were OK"));
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_
-			("script returned false, at least one test failed"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("script returned false, at least one test failed"));
 	    ret = 0;
 	  }
       }
@@ -424,8 +403,7 @@ _setup_init ()
   const int argc = _TEST_ARGC;
   const char *argv[] = { _TEST_ARGV0 };
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init lw6 CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init lw6 CUnit test suite"));
 
   if (lw6_init_global (argc, argv))
     {
@@ -436,12 +414,9 @@ _setup_init ()
       _test_data.param.log_level_id = lw6sys_log_get_level ();
       _test_data.default_log_level_id = _test_data.param.log_level_id;
 
-      memcpy (&_test_data.param_a, &_test_data.param,
-	      sizeof (_lw6_test_param_t));
-      memcpy (&_test_data.param_b, &_test_data.param,
-	      sizeof (_lw6_test_param_t));
-      memcpy (&_test_data.param_c, &_test_data.param,
-	      sizeof (_lw6_test_param_t));
+      memcpy (&_test_data.param_a, &_test_data.param, sizeof (_lw6_test_param_t));
+      memcpy (&_test_data.param_b, &_test_data.param, sizeof (_lw6_test_param_t));
+      memcpy (&_test_data.param_c, &_test_data.param, sizeof (_lw6_test_param_t));
 
       _test_data.param_a.suite = _TEST_SUITE_NODE_A;
       _test_data.param_b.suite = _TEST_SUITE_NODE_B;
@@ -462,8 +437,7 @@ _setup_quit ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit lw6 CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit lw6 CUnit test suite"));
 
   lw6_quit_global ();
   lw6sys_log_set_level (sys_context, _test_data.default_log_level_id);
@@ -571,8 +545,7 @@ lw6_test_register (int mode)
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("skipping client/server test, platform does not have adequate process support and/or it's likely to fail anyway"));
+		      _x_ ("skipping client/server test, platform does not have adequate process support and/or it's likely to fail anyway"));
 	  _test_data.param_a.ret = 1;
 	  _test_data.param_b.ret = 1;
 	  _test_data.param_c.ret = 1;
@@ -580,9 +553,7 @@ lw6_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 
@@ -611,9 +582,7 @@ lw6_test_run (int mode)
     {
       if (mode & LW6SYS_TEST_MODE_FULL_TEST)
 	{
-	  ret = _test_data.ret && _test_data.param.ret
-	    && _test_data.param_a.ret && _test_data.param_b.ret
-	    && _test_data.param_c.ret;;
+	  ret = _test_data.ret && _test_data.param.ret && _test_data.param_a.ret && _test_data.param_b.ret && _test_data.param_c.ret;;
 	}
       else
 	{
@@ -635,8 +604,7 @@ lw6_test_run (int mode)
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("script tests failed main=%d node-a=%d node-b=%d node-c=%d"),
-		  _test_data.param.ret, _test_data.param_a.ret,
-		  _test_data.param_b.ret, _test_data.param_c.ret);
+		  _test_data.param.ret, _test_data.param_a.ret, _test_data.param_b.ret, _test_data.param_c.ret);
     }
 
   return ret;

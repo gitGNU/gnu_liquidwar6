@@ -54,9 +54,7 @@ _display_module (void *func_data, const char *key, void *value)
   id = key;
   name = (char *) value;
   (*found) = 1;
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("module \"%s/%s\" \"%s\" found"), _TEST_DYN_TOP_LEVEL_LIB,
-	      id, name);
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("module \"%s/%s\" \"%s\" found"), _TEST_DYN_TOP_LEVEL_LIB, id, name);
 }
 
 static void
@@ -79,9 +77,7 @@ _test_list ()
       }
     if (!found)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("no module found for \"%s\""),
-		    _TEST_DYN_TOP_LEVEL_LIB);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("no module found for \"%s\""), _TEST_DYN_TOP_LEVEL_LIB);
       }
   }
 
@@ -102,15 +98,11 @@ _test_path ()
     const int argc = _TEST_ARGC;
     const char *argv[] = { _TEST_ARGV0, _TEST_ARGV1 };
 
-    library_path =
-      lw6dyn_path_find_backend (argc, argv, _TEST_DYN_TOP_LEVEL_LIB,
-				_TEST_DYN_BACKEND_NAME);
+    library_path = lw6dyn_path_find_backend (argc, argv, _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
     if (library_path && lw6sys_file_exists (sys_context, library_path))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("found library \"%s/mod-%s\" in \"%s\""),
-		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME,
-		    library_path);
+		    _x_ ("found library \"%s/mod-%s\" in \"%s\""), _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME, library_path);
 	LW6SYS_FREE (sys_context, library_path);
       }
     else
@@ -121,20 +113,14 @@ _test_path ()
 	 * if we didn't have the prerequisites.
 	 */
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("couldn't find library \"%s/mod-%s\" in \"%s\""),
-		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME,
-		    library_path);
+		    _x_ ("couldn't find library \"%s/mod-%s\" in \"%s\""), _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME, library_path);
       }
 
-    library_path =
-      lw6dyn_path_find_shared (argc, argv, _TEST_DYN_TOP_LEVEL_LIB,
-			       _TEST_DYN_SHARED_NAME);
+    library_path = lw6dyn_path_find_shared (argc, argv, _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
     if (library_path && lw6sys_file_exists (sys_context, library_path))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("found library \"%s/shared-%s\" in \"%s\""),
-		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME,
-		    library_path);
+		    _x_ ("found library \"%s/shared-%s\" in \"%s\""), _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME, library_path);
 	LW6SYS_FREE (sys_context, library_path);
       }
     else
@@ -145,9 +131,7 @@ _test_path ()
 	 * if we didn't have the prerequisites.
 	 */
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("couldn't find library \"%s/shared-%s\" in \"%s\""),
-		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME,
-		    library_path);
+		    _x_ ("couldn't find library \"%s/shared-%s\" in \"%s\""), _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME, library_path);
       }
   }
 
@@ -177,13 +161,10 @@ _test_dl ()
      * needed when stuffing stuff in the main binary.
      */
 
-    handle = lw6dyn_dlopen_backend (argc, argv, _TEST_DYN_TOP_LEVEL_LIB,
-				    _TEST_DYN_BACKEND_NAME);
+    handle = lw6dyn_dlopen_backend (argc, argv, _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
     if (handle)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("opened library \"%s/mod-%s\""),
-		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("opened library \"%s/mod-%s\""), _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
 	lw6dyn_dlclose_backend (handle);
       }
     else
@@ -193,18 +174,13 @@ _test_dl ()
 	 * after all, this module can just not be compiled at all
 	 * if we didn't have the prerequisites.
 	 */
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("couldn't find library \"%s/mod-%s\""),
-		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't find library \"%s/mod-%s\""), _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
       }
 
-    handle = lw6dyn_dlopen_shared (argc, argv, _TEST_DYN_TOP_LEVEL_LIB,
-				   _TEST_DYN_SHARED_NAME);
+    handle = lw6dyn_dlopen_shared (argc, argv, _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
     if (handle)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("opened library \"%s/shared-%s\""),
-		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("opened library \"%s/shared-%s\""), _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
 	lw6dyn_dlclose_shared (handle);
       }
     else
@@ -214,9 +190,7 @@ _test_dl ()
 	 * after all, this shared_code can just not be compiled at all
 	 * if we didn't have the prerequisites.
 	 */
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("couldn't find library \"%s/shared-%s\""),
-		    _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't find library \"%s/shared-%s\""), _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
       }
   }
 
@@ -226,16 +200,14 @@ _test_dl ()
 static int
 _setup_init ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libdyn CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libdyn CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libdyn CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libdyn CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -271,9 +243,7 @@ lw6dyn_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 

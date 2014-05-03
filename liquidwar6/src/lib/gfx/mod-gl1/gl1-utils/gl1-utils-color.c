@@ -53,16 +53,12 @@ mod_gl1_utils_color_f_to_sdl (const lw6sys_color_f_t * color_f)
 }
 
 static Uint32
-_prepare_shaded_color_for_fighter (lw6sys_color_8_t dead_color,
-				   lw6sys_color_8_t team_color, int j)
+_prepare_shaded_color_for_fighter (lw6sys_color_8_t dead_color, lw6sys_color_8_t team_color, int j)
 {
   Uint32 ret = 0;
   lw6sys_color_8_t color;
 
-  color =
-    lw6sys_color_ponderate (sys_context, dead_color, team_color,
-			    ((float) j) /
-			    ((float) MOD_GL1_SHADES_FOR_FIGHTERS_SCALE));
+  color = lw6sys_color_ponderate (sys_context, dead_color, team_color, ((float) j) / ((float) MOD_GL1_SHADES_FOR_FIGHTERS_SCALE));
   color.a = 0xFF;
   ret = lw6sys_color_8_to_irgba (sys_context, color);
 
@@ -70,9 +66,7 @@ _prepare_shaded_color_for_fighter (lw6sys_color_8_t dead_color,
 }
 
 void
-mod_gl1_utils_update_team_color_map (mod_gl1_utils_team_color_map_t *
-				     team_color_map,
-				     const lw6map_style_t * map_style)
+mod_gl1_utils_update_team_color_map (mod_gl1_utils_team_color_map_t * team_color_map, const lw6map_style_t * map_style)
 {
   int i, j;
   Uint32 test;
@@ -83,35 +77,24 @@ mod_gl1_utils_update_team_color_map (mod_gl1_utils_team_color_map_t *
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
       team_color = map_style->color_set.team_colors[i];
-      test =
-	_prepare_shaded_color_for_fighter (dead_color, team_color,
-					   MOD_GL1_SHADES_FOR_FIGHTERS_SCALE);
-      if (test !=
-	  team_color_map->team_colors[i][MOD_GL1_SHADES_FOR_FIGHTERS_SCALE])
+      test = _prepare_shaded_color_for_fighter (dead_color, team_color, MOD_GL1_SHADES_FOR_FIGHTERS_SCALE);
+      if (test != team_color_map->team_colors[i][MOD_GL1_SHADES_FOR_FIGHTERS_SCALE])
 	{
-	  lw6sys_color_8_to_f (sys_context,
-			       &(team_color_map->team_colors_f[i]),
-			       team_color);
+	  lw6sys_color_8_to_f (sys_context, &(team_color_map->team_colors_f[i]), team_color);
 	  for (j = 0; j < MOD_GL1_SHADES_FOR_FIGHTERS_SCALE + 1; ++j)
 	    {
-	      team_color_map->team_colors[i][j] =
-		_prepare_shaded_color_for_fighter (dead_color, team_color, j);
+	      team_color_map->team_colors[i][j] = _prepare_shaded_color_for_fighter (dead_color, team_color, j);
 	    }
 	}
     }
 }
 
 int
-mod_gl1_utils_team_color_map_is_same (const mod_gl1_utils_team_color_map_t
-				      * team_color_map_a,
-				      const mod_gl1_utils_team_color_map_t *
-				      team_color_map_b)
+mod_gl1_utils_team_color_map_is_same (const mod_gl1_utils_team_color_map_t * team_color_map_a, const mod_gl1_utils_team_color_map_t * team_color_map_b)
 {
   int ret = 0;
 
-  ret =
-    !memcmp (team_color_map_a, team_color_map_b,
-	     sizeof (mod_gl1_utils_team_color_map_t));
+  ret = !memcmp (team_color_map_a, team_color_map_b, sizeof (mod_gl1_utils_team_color_map_t));
 
   return ret;
 }
@@ -125,9 +108,7 @@ mod_gl1_utils_force_color32_alpha (Uint32 * color, float alpha)
 }
 
 Uint32
-mod_gl1_utils_get_shaded_color_for_fighter_f (mod_gl1_utils_context_t *
-					      utils_context, int team_id,
-					      float health)
+mod_gl1_utils_get_shaded_color_for_fighter_f (mod_gl1_utils_context_t * utils_context, int team_id, float health)
 {
   Uint32 ret;
   float f;

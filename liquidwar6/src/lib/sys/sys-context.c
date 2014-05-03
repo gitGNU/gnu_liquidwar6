@@ -104,16 +104,14 @@ lw6sys_context_begin (lw6sys_context_t * sys_context)
   /*
    * Initializing sub structures.
    */
-  _lw6sys_bazooka_context_init (sys_context,
-				&(_sys_context->bazooka_context));
+  _lw6sys_bazooka_context_init (sys_context, &(_sys_context->bazooka_context));
 
   /*
    * Performing global initializations, all programs
    * should need those.
    */
   setlocale (LC_ALL, "");
-  bindtextdomain (lw6sys_build_get_package_tarname (),
-		  lw6sys_build_get_localedir ());
+  bindtextdomain (lw6sys_build_get_package_tarname (), lw6sys_build_get_localedir ());
   textdomain (lw6sys_build_get_package_tarname ());
   lw6sys_time_init (sys_context);
   lw6sys_history_init (sys_context);

@@ -32,10 +32,7 @@
 
 int
 _lw6ker_map_state_init (lw6sys_context_t * sys_context,
-			_lw6ker_map_state_t * map_state,
-			const _lw6ker_map_struct_t * map_struct,
-			const lw6map_rules_t * rules,
-			lw6sys_progress_t * progress)
+			_lw6ker_map_state_t * map_state, const _lw6ker_map_struct_t * map_struct, const lw6map_rules_t * rules, lw6sys_progress_t * progress)
 {
   int ret = 0;
   int32_t i;
@@ -48,29 +45,22 @@ _lw6ker_map_state_init (lw6sys_context_t * sys_context,
 
   ret = 1;
 
-  ret = ret
-    && _lw6ker_armies_init (sys_context, &(map_state->armies), map_struct,
-			    rules);
+  ret = ret && _lw6ker_armies_init (sys_context, &(map_state->armies), map_struct, rules);
 
   lw6sys_progress_update (sys_context, progress, 0, 3, 1);
 
   map_state->max_nb_teams = rules->max_nb_teams;
   for (i = 0; i < map_state->max_nb_teams; ++i)
     {
-      ret = ret
-	&& _lw6ker_team_init (sys_context, &(map_state->teams[i]), map_struct,
-			      rules);
+      ret = ret && _lw6ker_team_init (sys_context, &(map_state->teams[i]), map_struct, rules);
     }
 
   _lw6ker_cursor_array_init (sys_context, &(map_state->cursor_array));
 
   lw6sys_progress_update (sys_context, progress, 0, 3, 2);
 
-  map_state->nb_slots =
-    map_struct->shape.w * map_struct->shape.h * map_struct->shape.d;
-  map_state->slots =
-    (_lw6ker_slot_state_t *) LW6SYS_CALLOC (sys_context, map_state->nb_slots *
-					    sizeof (_lw6ker_slot_state_t));
+  map_state->nb_slots = map_struct->shape.w * map_struct->shape.h * map_struct->shape.d;
+  map_state->slots = (_lw6ker_slot_state_t *) LW6SYS_CALLOC (sys_context, map_state->nb_slots * sizeof (_lw6ker_slot_state_t));
   if (map_state->slots)
     {
       for (i = 0; i < map_state->nb_slots; ++i)
@@ -82,8 +72,7 @@ _lw6ker_map_state_init (lw6sys_context_t * sys_context,
     {
       ret = 0;
 
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to allocate SLOT_STATE array"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to allocate SLOT_STATE array"));
     }
 
   lw6sys_progress_end (sys_context, progress);
@@ -92,8 +81,7 @@ _lw6ker_map_state_init (lw6sys_context_t * sys_context,
 }
 
 void
-_lw6ker_map_state_clear (lw6sys_context_t * sys_context,
-			 _lw6ker_map_state_t * map_state)
+_lw6ker_map_state_clear (lw6sys_context_t * sys_context, _lw6ker_map_state_t * map_state)
 {
   int32_t i;
 
@@ -110,15 +98,11 @@ _lw6ker_map_state_clear (lw6sys_context_t * sys_context,
 }
 
 int
-_lw6ker_map_state_sync (lw6sys_context_t * sys_context,
-			_lw6ker_map_state_t * dst,
-			const _lw6ker_map_state_t * src)
+_lw6ker_map_state_sync (lw6sys_context_t * sys_context, _lw6ker_map_state_t * dst, const _lw6ker_map_state_t * src)
 {
   int ret = 0;
 
-  if (dst && src
-      && _lw6ker_map_struct_lazy_compare (sys_context, dst->map_struct,
-					  src->map_struct))
+  if (dst && src && _lw6ker_map_struct_lazy_compare (sys_context, dst->map_struct, src->map_struct))
     {
       int i;
 
@@ -128,30 +112,22 @@ _lw6ker_map_state_sync (lw6sys_context_t * sys_context,
       dst->max_nb_teams = src->max_nb_teams;
       for (i = 0; i < src->max_nb_teams; ++i)
 	{
-	  ret = ret
-	    && _lw6ker_team_sync (sys_context, &(dst->teams[i]),
-				  &(src->teams[i]));
+	  ret = ret && _lw6ker_team_sync (sys_context, &(dst->teams[i]), &(src->teams[i]));
 	}
-      memcpy (&(dst->cursor_array), &(src->cursor_array),
-	      sizeof (_lw6ker_cursor_array_t));
+      memcpy (&(dst->cursor_array), &(src->cursor_array), sizeof (_lw6ker_cursor_array_t));
       dst->nb_slots = src->nb_slots;
-      memcpy (dst->slots, src->slots,
-	      src->map_struct->nb_slots * sizeof (_lw6ker_slot_state_t));
+      memcpy (dst->slots, src->slots, src->map_struct->nb_slots * sizeof (_lw6ker_slot_state_t));
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("map_state_copy only works if dst and src point to the same map_struct"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("map_state_copy only works if dst and src point to the same map_struct"));
     }
 
   return ret;
 }
 
 void
-_lw6ker_map_state_update_checksum (lw6sys_context_t * sys_context,
-				   const _lw6ker_map_state_t * map_state,
-				   u_int32_t * checksum)
+_lw6ker_map_state_update_checksum (lw6sys_context_t * sys_context, const _lw6ker_map_state_t * map_state, u_int32_t * checksum)
 {
   int i;
   /*
@@ -160,30 +136,23 @@ _lw6ker_map_state_update_checksum (lw6sys_context_t * sys_context,
    * game_struct_update_checksum.
    */
   lw6sys_checksum_update_whd (sys_context, checksum, &(map_state->shape));
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				map_state->shape_surface);
-  _lw6ker_armies_update_checksum (sys_context, &(map_state->armies),
-				  checksum);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				map_state->max_nb_teams);
+  lw6sys_checksum_update_int32 (sys_context, checksum, map_state->shape_surface);
+  _lw6ker_armies_update_checksum (sys_context, &(map_state->armies), checksum);
+  lw6sys_checksum_update_int32 (sys_context, checksum, map_state->max_nb_teams);
   for (i = 0; i < map_state->max_nb_teams; ++i)
     {
-      _lw6ker_team_update_checksum (sys_context, &(map_state->teams[i]),
-				    checksum);
+      _lw6ker_team_update_checksum (sys_context, &(map_state->teams[i]), checksum);
     }
-  _lw6ker_cursor_array_update_checksum (sys_context,
-					&(map_state->cursor_array), checksum);
+  _lw6ker_cursor_array_update_checksum (sys_context, &(map_state->cursor_array), checksum);
   lw6sys_checksum_update_int32 (sys_context, checksum, map_state->nb_slots);
   for (i = 0; i < map_state->nb_slots; ++i)
     {
-      _lw6ker_slot_state_update_checksum (sys_context, &(map_state->slots[i]),
-					  checksum);
+      _lw6ker_slot_state_update_checksum (sys_context, &(map_state->slots[i]), checksum);
     }
 }
 
 int
-_lw6ker_map_state_get_free_team_color (lw6sys_context_t * sys_context,
-				       const _lw6ker_map_state_t * map_state)
+_lw6ker_map_state_get_free_team_color (lw6sys_context_t * sys_context, const _lw6ker_map_state_t * map_state)
 {
   int32_t i;
   int32_t ret = LW6MAP_TEAM_COLOR_INVALID;
@@ -202,9 +171,7 @@ _lw6ker_map_state_get_free_team_color (lw6sys_context_t * sys_context,
 int32_t
 _lw6ker_map_state_populate_team (lw6sys_context_t * sys_context,
 				 _lw6ker_map_state_t * map_state,
-				 int32_t team_color, int32_t nb_fighters,
-				 lw6sys_xyz_t desired_center,
-				 const lw6map_rules_t * rules)
+				 int32_t team_color, int32_t nb_fighters, lw6sys_xyz_t desired_center, const lw6map_rules_t * rules)
 {
   lw6sys_xyz_t real_center;
   int32_t angle, radius;
@@ -217,34 +184,23 @@ _lw6ker_map_state_populate_team (lw6sys_context_t * sys_context,
 
   shape = map_state->shape;
   _lw6ker_fighter_clear (sys_context, &new_fighter);
-  _lw6ker_map_struct_find_free_slot_near (sys_context, map_state->map_struct,
-					  &real_center, desired_center);
+  _lw6ker_map_struct_find_free_slot_near (sys_context, map_state->map_struct, &real_center, desired_center);
   max_radius = 2 * (map_state->map_struct->shape.w + map_state->map_struct->shape.h);	// +, not *
-  for (radius = 1; radius < max_radius && nb_fighters_added < nb_fighters;
-       ++radius)
+  for (radius = 1; radius < max_radius && nb_fighters_added < nb_fighters; ++radius)
     {
       max_angle = radius * M_PI * 4;
-      for (angle = 0; angle < max_angle && nb_fighters_added < nb_fighters;
-	   ++angle)
+      for (angle = 0; angle < max_angle && nb_fighters_added < nb_fighters; ++angle)
 	{
-	  x =
-	    real_center.x +
-	    (lw6ker_cos ((angle * LW6KER_TRIGO_2PI) / max_angle) * radius) /
-	    (LW6KER_TRIGO_RADIUS * 2);
-	  y =
-	    real_center.y -
-	    (lw6ker_sin ((angle * LW6KER_TRIGO_2PI) / max_angle) * radius) /
-	    (LW6KER_TRIGO_RADIUS * 2);
+	  x = real_center.x + (lw6ker_cos ((angle * LW6KER_TRIGO_2PI) / max_angle) * radius) / (LW6KER_TRIGO_RADIUS * 2);
+	  y = real_center.y - (lw6ker_sin ((angle * LW6KER_TRIGO_2PI) / max_angle) * radius) / (LW6KER_TRIGO_RADIUS * 2);
 
 	  lw6map_coords_fix_xy (rules, &shape, &x, &y);
 
 	  for (z = 0; z < map_state->shape.d; ++z)
 	    {
-	      if (_lw6ker_map_struct_get_zone_id
-		  (map_state->map_struct, x, y, z) >= 0)
+	      if (_lw6ker_map_struct_get_zone_id (map_state->map_struct, x, y, z) >= 0)
 		{
-		  if (_lw6ker_map_state_get_fighter_id (map_state, x, y, z)
-		      < 0)
+		  if (_lw6ker_map_state_get_fighter_id (map_state, x, y, z) < 0)
 		    {
 		      new_fighter.team_color = team_color;
 		      new_fighter.pos.x = x;
@@ -252,16 +208,11 @@ _lw6ker_map_state_populate_team (lw6sys_context_t * sys_context,
 		      new_fighter.pos.z = z;
 		      new_fighter.health = LW6MAP_MAX_FIGHTER_HEALTH;
 		      new_fighter.last_direction = 0;
-		      new_fighter_id =
-			_lw6ker_armies_add_fighter (sys_context,
-						    &(map_state->armies),
-						    new_fighter);
+		      new_fighter_id = _lw6ker_armies_add_fighter (sys_context, &(map_state->armies), new_fighter);
 		      if (new_fighter_id >= 0)
 			{
 			  nb_fighters_added++;
-			  _lw6ker_map_state_set_fighter_id (map_state,
-							    x, y, z,
-							    new_fighter_id);
+			  _lw6ker_map_state_set_fighter_id (map_state, x, y, z, new_fighter_id);
 			}
 		    }
 		}
@@ -269,8 +220,7 @@ _lw6ker_map_state_populate_team (lw6sys_context_t * sys_context,
 	}
     }
 
-  _lw6ker_team_activate (sys_context, &(map_state->teams[team_color]),
-			 real_center);
+  _lw6ker_team_activate (sys_context, &(map_state->teams[team_color]), real_center);
 
   return nb_fighters_added;
 }
@@ -278,10 +228,7 @@ _lw6ker_map_state_populate_team (lw6sys_context_t * sys_context,
 int
 _lw6ker_map_state_redistribute_team (lw6sys_context_t * sys_context,
 				     _lw6ker_map_state_t * map_state,
-				     int32_t dst_team_color,
-				     int32_t src_team_color,
-				     int32_t nb_fighters,
-				     const lw6map_rules_t * rules)
+				     int32_t dst_team_color, int32_t src_team_color, int32_t nb_fighters, const lw6map_rules_t * rules)
 {
   int ret = 0;
   int32_t i, j;
@@ -291,24 +238,16 @@ _lw6ker_map_state_redistribute_team (lw6sys_context_t * sys_context,
     {
       while (nb_fighters_redistributed < nb_fighters)
 	{
-	  for (i = 0;
-	       i < LW6MAP_MAX_NB_TEAMS
-	       && nb_fighters_redistributed < nb_fighters; ++i)
+	  for (i = 0; i < LW6MAP_MAX_NB_TEAMS && nb_fighters_redistributed < nb_fighters; ++i)
 	    {
-	      for (j = i;
-		   j < map_state->armies.active_fighters
-		   && nb_fighters_redistributed < nb_fighters;
-		   j += LW6MAP_MAX_NB_TEAMS)
+	      for (j = i; j < map_state->armies.active_fighters && nb_fighters_redistributed < nb_fighters; j += LW6MAP_MAX_NB_TEAMS)
 		{
-		  if (map_state->armies.fighters[j].team_color ==
-		      src_team_color)
+		  if (map_state->armies.fighters[j].team_color == src_team_color)
 		    {
-		      map_state->armies.fighters[j].team_color =
-			dst_team_color;
+		      map_state->armies.fighters[j].team_color = dst_team_color;
 		      (map_state->armies.fighters_per_team[src_team_color])--;
 		      (map_state->armies.fighters_per_team[dst_team_color])++;
-		      map_state->armies.fighters[j].health =
-			LW6MAP_MAX_FIGHTER_HEALTH;
+		      map_state->armies.fighters[j].health = LW6MAP_MAX_FIGHTER_HEALTH;
 		      nb_fighters_redistributed++;
 		    }
 		}
@@ -321,17 +260,14 @@ _lw6ker_map_state_redistribute_team (lw6sys_context_t * sys_context,
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("can't redistribute %d fighters from team %d which has only %d"),
-		  nb_fighters, src_team_color,
-		  map_state->armies.fighters_per_team[src_team_color]);
+		  nb_fighters, src_team_color, map_state->armies.fighters_per_team[src_team_color]);
     }
 
   return ret;
 }
 
 int
-_lw6ker_map_state_cancel_team (lw6sys_context_t * sys_context,
-			       _lw6ker_map_state_t * map_state,
-			       int32_t team_color)
+_lw6ker_map_state_cancel_team (lw6sys_context_t * sys_context, _lw6ker_map_state_t * map_state, int32_t team_color)
 {
   int ret = 0;
 
@@ -339,31 +275,24 @@ _lw6ker_map_state_cancel_team (lw6sys_context_t * sys_context,
     {
       if (map_state->armies.fighters_per_team[team_color] == 0)
 	{
-	  _lw6ker_team_unactivate (sys_context,
-				   &(map_state->teams[team_color]));
+	  _lw6ker_team_unactivate (sys_context, &(map_state->teams[team_color]));
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("trying to cancel non-zeroed team %d, still has %d fighters"),
-		      team_color,
-		      map_state->armies.fighters_per_team[team_color]);
+		      _x_ ("trying to cancel non-zeroed team %d, still has %d fighters"), team_color, map_state->armies.fighters_per_team[team_color]);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to cancel inactive team %d"), team_color);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to cancel inactive team %d"), team_color);
     }
 
   return ret;
 }
 
 int
-_lw6ker_map_state_remove_fighter (lw6sys_context_t * sys_context,
-				  _lw6ker_map_state_t * map_state,
-				  int32_t fighter_id)
+_lw6ker_map_state_remove_fighter (lw6sys_context_t * sys_context, _lw6ker_map_state_t * map_state, int32_t fighter_id)
 {
   int ret = 0;
   int32_t last_fighter_id;
@@ -379,10 +308,7 @@ _lw6ker_map_state_remove_fighter (lw6sys_context_t * sys_context,
 
       if (fighter_id < last_fighter_id)
 	{
-	  _lw6ker_map_state_set_fighter_id (map_state,
-					    last_fighter.pos.x,
-					    last_fighter.pos.y,
-					    last_fighter.pos.z, fighter_id);
+	  _lw6ker_map_state_set_fighter_id (map_state, last_fighter.pos.x, last_fighter.pos.y, last_fighter.pos.z, fighter_id);
 	  /*
 	   * It's important to really *exchange* the fighters, for
 	   * deletion in the armies struct will read the last fighter's
@@ -394,9 +320,7 @@ _lw6ker_map_state_remove_fighter (lw6sys_context_t * sys_context,
 	  map_state->armies.fighters[last_fighter_id] = fighter;
 	}
 
-      _lw6ker_map_state_set_fighter_id (map_state,
-					fighter.pos.x, fighter.pos.y,
-					fighter.pos.z, -1);
+      _lw6ker_map_state_set_fighter_id (map_state, fighter.pos.x, fighter.pos.y, fighter.pos.z, -1);
       _lw6ker_armies_remove_fighter (sys_context, &(map_state->armies));
 
       ret = 1;
@@ -406,9 +330,7 @@ _lw6ker_map_state_remove_fighter (lw6sys_context_t * sys_context,
 }
 
 int
-_lw6ker_map_state_remove_fighters (lw6sys_context_t * sys_context,
-				   _lw6ker_map_state_t * map_state,
-				   int32_t nb_fighters)
+_lw6ker_map_state_remove_fighters (lw6sys_context_t * sys_context, _lw6ker_map_state_t * map_state, int32_t nb_fighters)
 {
   int32_t i, j;
   int ret = 0;
@@ -420,16 +342,14 @@ _lw6ker_map_state_remove_fighters (lw6sys_context_t * sys_context,
   lw6ker_fighter_t *fighter = NULL;
   int team_color;
 
-  memset (fighters_to_remove_per_team, 0,
-	  sizeof (fighters_to_remove_per_team));
+  memset (fighters_to_remove_per_team, 0, sizeof (fighters_to_remove_per_team));
   if (map_state->armies.active_fighters > 0)
     {
       active_fighters = map_state->armies.active_fighters;
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
 	  this_team_fighters = map_state->armies.fighters_per_team[i];
-	  fighters_to_remove_per_team[i] =
-	    (nb_fighters * this_team_fighters) / active_fighters;
+	  fighters_to_remove_per_team[i] = (nb_fighters * this_team_fighters) / active_fighters;
 	  fighters_to_remove_total += fighters_to_remove_per_team[i];
 	}
     }
@@ -442,8 +362,7 @@ _lw6ker_map_state_remove_fighters (lw6sys_context_t * sys_context,
 	   * amoung teams
 	   */
 	  j = i % LW6MAP_MAX_NB_TEAMS;
-	  if (map_state->armies.fighters_per_team[j] >
-	      fighters_to_remove_per_team[j] + 1)
+	  if (map_state->armies.fighters_per_team[j] > fighters_to_remove_per_team[j] + 1)
 	    {
 	      fighters_to_remove_per_team[j]++;
 	      fighters_to_remove_total++;
@@ -452,10 +371,7 @@ _lw6ker_map_state_remove_fighters (lw6sys_context_t * sys_context,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("strange, fighters_to_remove_total=%d but nb_fighters=%d"),
-		  fighters_to_remove_total, nb_fighters);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("strange, fighters_to_remove_total=%d but nb_fighters=%d"), fighters_to_remove_total, nb_fighters);
     }
 
   if (nb_fighters <= map_state->armies.active_fighters)
@@ -473,21 +389,15 @@ _lw6ker_map_state_remove_fighters (lw6sys_context_t * sys_context,
 	   * giving all teams reasonnable chances to survive.
 	   * This should solve https://savannah.gnu.org/bugs/?28030
 	   */
-	  for (i = 0;
-	       i < LW6MAP_MAX_NB_TEAMS && nb_fighters_removed < nb_fighters;
-	       ++i)
+	  for (i = 0; i < LW6MAP_MAX_NB_TEAMS && nb_fighters_removed < nb_fighters; ++i)
 	    {
-	      for (j = i;
-		   j < map_state->armies.active_fighters
-		   && nb_fighters_removed < nb_fighters;
-		   j += LW6MAP_MAX_NB_TEAMS)
+	      for (j = i; j < map_state->armies.active_fighters && nb_fighters_removed < nb_fighters; j += LW6MAP_MAX_NB_TEAMS)
 		{
 		  fighter = &(map_state->armies.fighters[j]);
 		  team_color = fighter->team_color;
 		  if (fighters_to_remove_per_team[team_color] > 0)
 		    {
-		      _lw6ker_map_state_remove_fighter (sys_context,
-							map_state, j);
+		      _lw6ker_map_state_remove_fighter (sys_context, map_state, j);
 		      fighters_to_remove_per_team[team_color]--;
 		      fighters_to_remove_total--;
 		      nb_fighters_removed++;
@@ -497,49 +407,36 @@ _lw6ker_map_state_remove_fighters (lw6sys_context_t * sys_context,
 	}
       if (fighters_to_remove_total != 0)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("fighters_to_remove_total=%d and should be 0"),
-		      fighters_to_remove_total);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("fighters_to_remove_total=%d and should be 0"), fighters_to_remove_total);
 	}
       ret = 1;
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't remove %d fighters, map only has %d"),
-		  nb_fighters, map_state->armies.active_fighters);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't remove %d fighters, map only has %d"), nb_fighters, map_state->armies.active_fighters);
     }
 
   return ret;
 }
 
 int
-_lw6ker_map_state_remove_team_fighters (lw6sys_context_t * sys_context,
-					_lw6ker_map_state_t * map_state,
-					int32_t team_color,
-					int32_t nb_fighters)
+_lw6ker_map_state_remove_team_fighters (lw6sys_context_t * sys_context, _lw6ker_map_state_t * map_state, int32_t team_color, int32_t nb_fighters)
 {
   int ret = 0;
   int32_t nb_fighters_removed = 0;
   int32_t i, j;
 
-  nb_fighters =
-    lw6sys_imin (nb_fighters,
-		 map_state->armies.fighters_per_team[team_color]);
+  nb_fighters = lw6sys_imin (nb_fighters, map_state->armies.fighters_per_team[team_color]);
 
   while (nb_fighters_removed < nb_fighters)
     {
-      for (i = 0;
-	   i < LW6MAP_MAX_NB_TEAMS && nb_fighters_removed < nb_fighters; ++i)
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS && nb_fighters_removed < nb_fighters; ++i)
 	{
-	  for (j = i;
-	       j < map_state->armies.active_fighters
-	       && nb_fighters_removed < nb_fighters; j += LW6MAP_MAX_NB_TEAMS)
+	  for (j = i; j < map_state->armies.active_fighters && nb_fighters_removed < nb_fighters; j += LW6MAP_MAX_NB_TEAMS)
 	    {
 	      if (map_state->armies.fighters[j].team_color == team_color)
 		{
-		  _lw6ker_map_state_remove_fighter (sys_context, map_state,
-						    j);
+		  _lw6ker_map_state_remove_fighter (sys_context, map_state, j);
 		  nb_fighters_removed++;
 		}
 	    }
@@ -552,8 +449,7 @@ _lw6ker_map_state_remove_team_fighters (lw6sys_context_t * sys_context,
 }
 
 int
-_lw6ker_map_state_sanity_check (lw6sys_context_t * sys_context,
-				const _lw6ker_map_state_t * map_state)
+_lw6ker_map_state_sanity_check (lw6sys_context_t * sys_context, const _lw6ker_map_state_t * map_state)
 {
   int ret = 1;
   int32_t i;
@@ -564,9 +460,7 @@ _lw6ker_map_state_sanity_check (lw6sys_context_t * sys_context,
   if (map_state->armies.active_fighters > map_state->armies.max_fighters)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("active_fighters (%d) > max_fighters (%d)"),
-		  map_state->armies.active_fighters,
-		  map_state->armies.max_fighters);
+		  _x_ ("active_fighters (%d) > max_fighters (%d)"), map_state->armies.active_fighters, map_state->armies.max_fighters);
       ret = 0;
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
@@ -578,49 +472,35 @@ _lw6ker_map_state_sanity_check (lw6sys_context_t * sys_context,
       fighter = map_state->armies.fighters[i];
       if (fighter.team_color >= LW6MAP_MAX_NB_TEAMS)	// <0 check useless, unsigned
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("fighter.team_color out of range (%d) for fighter %d"),
-		      fighter.team_color, i);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("fighter.team_color out of range (%d) for fighter %d"), fighter.team_color, i);
 	  ret = 0;
 	}
       (real_fighters_per_team[fighter.team_color])++;
-      fighter_id =
-	_lw6ker_map_state_get_fighter_id (map_state,
-					  fighter.pos.x, fighter.pos.y,
-					  fighter.pos.z);
+      fighter_id = _lw6ker_map_state_get_fighter_id (map_state, fighter.pos.x, fighter.pos.y, fighter.pos.z);
       if (i != fighter_id)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("fighter %d in armies array pretends to be at layer=%d,x=%d,y=%d, but in fact there is fighter %d there from slots point of view"),
-		      i, fighter.pos.x, fighter.pos.y, fighter.pos.z,
-		      fighter_id);
+		      i, fighter.pos.x, fighter.pos.y, fighter.pos.z, fighter_id);
 	  ret = 0;
 	}
     }
   for (i = 0; i < map_state->nb_slots; ++i)
     {
-      if (map_state->slots[i].fighter_id < -1
-	  || map_state->slots[i].fighter_id >= map_state->armies.max_fighters)
+      if (map_state->slots[i].fighter_id < -1 || map_state->slots[i].fighter_id >= map_state->armies.max_fighters)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("fighter_id=%d at slot %d is invalid (max_fighters=%d)"),
-		      map_state->slots[i].fighter_id, i,
-		      map_state->armies.max_fighters);
+		      _x_ ("fighter_id=%d at slot %d is invalid (max_fighters=%d)"), map_state->slots[i].fighter_id, i, map_state->armies.max_fighters);
 	  ret = 0;
 	}
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      if (map_state->armies.fighters_per_team[i] > 0
-	  && !map_state->teams[i].active)
+      if (map_state->armies.fighters_per_team[i] > 0 && !map_state->teams[i].active)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("team %d pretends to have %d fighters but is inactive"),
-		      i, map_state->armies.fighters_per_team[i]);
+		      _x_ ("team %d pretends to have %d fighters but is inactive"), i, map_state->armies.fighters_per_team[i]);
 	  ret = 0;
 	}
       if (map_state->armies.fighters_per_team[i] != real_fighters_per_team[i])
@@ -628,8 +508,7 @@ _lw6ker_map_state_sanity_check (lw6sys_context_t * sys_context,
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("team %d pretends to have %d fighters but counting them one founds %d"),
-		      i, map_state->armies.fighters_per_team[i],
-		      real_fighters_per_team[i]);
+		      i, map_state->armies.fighters_per_team[i], real_fighters_per_team[i]);
 	  ret = 0;
 	}
     }
@@ -642,9 +521,7 @@ _lw6ker_map_state_sanity_check (lw6sys_context_t * sys_context,
  */
 void
 _lw6ker_map_state_spread_gradient (lw6sys_context_t * sys_context,
-				   _lw6ker_map_state_t * map_state,
-				   const lw6map_rules_t * rules,
-				   int32_t nb_spreads, u_int32_t team_mask)
+				   _lw6ker_map_state_t * map_state, const lw6map_rules_t * rules, int32_t nb_spreads, u_int32_t team_mask)
 {
   int i;
   int teams_concerned[LW6MAP_MAX_NB_TEAMS];
@@ -685,18 +562,13 @@ _lw6ker_map_state_spread_gradient (lw6sys_context_t * sys_context,
 
       for (j = 0; j < nb_spreads; ++j)
 	{
-	  _lw6ker_spread_update_gradient (sys_context, &
-					  (map_state->teams
-					   [teams_concerned[i]]),
-					  map_state->shape.d == 1,
-					  rules->spread_mode);
+	  _lw6ker_spread_update_gradient (sys_context, &(map_state->teams[teams_concerned[i]]), map_state->shape.d == 1, rules->spread_mode);
 	}
     }
 }
 
 int
-_lw6ker_map_state_get_nb_teams (lw6sys_context_t * sys_context,
-				const _lw6ker_map_state_t * map_state)
+_lw6ker_map_state_get_nb_teams (lw6sys_context_t * sys_context, const _lw6ker_map_state_t * map_state)
 {
   int ret = 0;
   int i;
@@ -714,9 +586,7 @@ _lw6ker_map_state_get_nb_teams (lw6sys_context_t * sys_context,
 
 void
 _lw6ker_map_state_move_fighters (lw6sys_context_t * sys_context,
-				 _lw6ker_map_state_t * map_state, int round,
-				 int parity, const lw6map_rules_t * rules,
-				 int32_t nb_moves, u_int32_t team_mask)
+				 _lw6ker_map_state_t * map_state, int round, int parity, const lw6map_rules_t * rules, int32_t nb_moves, u_int32_t team_mask)
 {
   _lw6ker_move_context_t context;
   int move_i = 0;
@@ -739,10 +609,7 @@ _lw6ker_map_state_move_fighters (lw6sys_context_t * sys_context,
 	  for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	    {
 	      context.fighter_attack[i][j] =
-		lw6ker_percent (lw6ker_percent
-				(rules->fighter_attack,
-				 rules->team_profile_aggressive[i]),
-				rules->team_profile_vulnerable[j]);
+		lw6ker_percent (lw6ker_percent (rules->fighter_attack, rules->team_profile_aggressive[i]), rules->team_profile_vulnerable[j]);
 	    }
 	}
     }
@@ -753,9 +620,7 @@ _lw6ker_map_state_move_fighters (lw6sys_context_t * sys_context,
 	  for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	    {
 	      context.fighter_attack[i][j] = rules->fighter_attack;
-	      context.fighter_side_attack[i][j] =
-		lw6ker_percent (context.fighter_attack[i][j],
-				rules->side_attack_factor);
+	      context.fighter_side_attack[i][j] = lw6ker_percent (context.fighter_attack[i][j], rules->side_attack_factor);
 	    }
 	}
     }
@@ -763,10 +628,7 @@ _lw6ker_map_state_move_fighters (lw6sys_context_t * sys_context,
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
       context.fighter_defense[i] = rules->fighter_defense;
-      context.fighter_side_defense[i] =
-	lw6sys_imax (rules->fighter_regenerate,
-		     lw6ker_percent (rules->fighter_defense,
-				     rules->side_defense_factor));
+      context.fighter_side_defense[i] = lw6sys_imax (rules->fighter_regenerate, lw6ker_percent (rules->fighter_defense, rules->side_defense_factor));
       context.fighter_regenerate[i] = rules->fighter_regenerate;
     }
   context.shape = map_state->shape;
@@ -779,41 +641,22 @@ _lw6ker_map_state_move_fighters (lw6sys_context_t * sys_context,
     {
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
-	  context.per_team_nb_move_tries[i] =
-	    context.rules.nb_move_tries +
-	    context.rules.team_profile_mobile[i];
-	  context.per_team_nb_attack_tries[i] =
-	    context.rules.nb_attack_tries +
-	    context.rules.team_profile_mobile[i];
-	  context.per_team_nb_defense_tries[i] =
-	    context.rules.nb_defense_tries +
-	    context.rules.team_profile_mobile[i];
+	  context.per_team_nb_move_tries[i] = context.rules.nb_move_tries + context.rules.team_profile_mobile[i];
+	  context.per_team_nb_attack_tries[i] = context.rules.nb_attack_tries + context.rules.team_profile_mobile[i];
+	  context.per_team_nb_defense_tries[i] = context.rules.nb_defense_tries + context.rules.team_profile_mobile[i];
 
-	  context.per_team_nb_move_tries[i] =
-	    lw6sys_imax (context.per_team_nb_move_tries[i],
-			 LW6MAP_RULES_MIN_NB_MOVE_TRIES);
-	  context.per_team_nb_move_tries[i] =
-	    lw6sys_imin (context.per_team_nb_move_tries[i],
-			 LW6MAP_RULES_MAX_NB_MOVE_TRIES);
-	  context.per_team_nb_attack_tries[i] =
-	    lw6sys_imax (context.per_team_nb_attack_tries[i],
-			 LW6MAP_RULES_MIN_NB_ATTACK_TRIES);
-	  context.per_team_nb_attack_tries[i] =
-	    lw6sys_imin (context.per_team_nb_attack_tries[i],
-			 LW6MAP_RULES_MAX_NB_ATTACK_TRIES);
-	  context.per_team_nb_defense_tries[i] =
-	    lw6sys_imax (context.per_team_nb_defense_tries[i],
-			 LW6MAP_RULES_MIN_NB_DEFENSE_TRIES);
-	  context.per_team_nb_defense_tries[i] =
-	    lw6sys_imin (context.per_team_nb_defense_tries[i],
-			 LW6MAP_RULES_MAX_NB_DEFENSE_TRIES);
+	  context.per_team_nb_move_tries[i] = lw6sys_imax (context.per_team_nb_move_tries[i], LW6MAP_RULES_MIN_NB_MOVE_TRIES);
+	  context.per_team_nb_move_tries[i] = lw6sys_imin (context.per_team_nb_move_tries[i], LW6MAP_RULES_MAX_NB_MOVE_TRIES);
+	  context.per_team_nb_attack_tries[i] = lw6sys_imax (context.per_team_nb_attack_tries[i], LW6MAP_RULES_MIN_NB_ATTACK_TRIES);
+	  context.per_team_nb_attack_tries[i] = lw6sys_imin (context.per_team_nb_attack_tries[i], LW6MAP_RULES_MAX_NB_ATTACK_TRIES);
+	  context.per_team_nb_defense_tries[i] = lw6sys_imax (context.per_team_nb_defense_tries[i], LW6MAP_RULES_MIN_NB_DEFENSE_TRIES);
+	  context.per_team_nb_defense_tries[i] = lw6sys_imin (context.per_team_nb_defense_tries[i], LW6MAP_RULES_MAX_NB_DEFENSE_TRIES);
 
 	  context.per_team_fast[i] = context.rules.team_profile_fast[i];
 
 	  if (map_state->teams[i].weapon_first_round <= round
 	      && map_state->teams[i].weapon_last_round >= round
-	      && map_state->teams[i].weapon_id >= LW6MAP_MIN_WEAPON_ID
-	      && map_state->teams[i].weapon_id <= LW6MAP_MAX_WEAPON_ID)
+	      && map_state->teams[i].weapon_id >= LW6MAP_MIN_WEAPON_ID && map_state->teams[i].weapon_id <= LW6MAP_MAX_WEAPON_ID)
 	    {
 	      context.per_team_weapon_id[i] = map_state->teams[i].weapon_id;
 	    }
@@ -831,8 +674,7 @@ _lw6ker_map_state_move_fighters (lw6sys_context_t * sys_context,
 	    {
 	      for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 		{
-		  context.fighter_attack[i][j] *=
-		    context.rules.weapon_tune_berzerk_power;
+		  context.fighter_attack[i][j] *= context.rules.weapon_tune_berzerk_power;
 		}
 	    }
 	  if (context.per_team_weapon_id[i] == LW6MAP_WEAPON_INVINCIBLE)
@@ -844,8 +686,7 @@ _lw6ker_map_state_move_fighters (lw6sys_context_t * sys_context,
 	    }
 	  if (context.per_team_weapon_id[i] == LW6MAP_WEAPON_TURBO)
 	    {
-	      context.per_team_fast[i] *=
-		context.rules.weapon_tune_turbo_power;
+	      context.per_team_fast[i] *= context.rules.weapon_tune_turbo_power;
 	    }
 	}
       /*
@@ -855,25 +696,15 @@ _lw6ker_map_state_move_fighters (lw6sys_context_t * sys_context,
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
 	  context.fighter_defense[i] =
-	    lw6sys_imax (LW6MAP_RULES_MIN_FIGHTER_DEFENSE,
-			 lw6sys_imin (context.fighter_defense[i],
-				      LW6MAP_RULES_MAX_FIGHTER_DEFENSE));
-	  context.fighter_side_defense[i] =
-	    lw6sys_imin (context.fighter_side_defense[i],
-			 LW6MAP_RULES_MAX_FIGHTER_DEFENSE);
+	    lw6sys_imax (LW6MAP_RULES_MIN_FIGHTER_DEFENSE, lw6sys_imin (context.fighter_defense[i], LW6MAP_RULES_MAX_FIGHTER_DEFENSE));
+	  context.fighter_side_defense[i] = lw6sys_imin (context.fighter_side_defense[i], LW6MAP_RULES_MAX_FIGHTER_DEFENSE);
 	  context.fighter_regenerate[i] =
-	    lw6sys_imax (LW6MAP_RULES_MIN_FIGHTER_REGENERATE,
-			 lw6sys_imin (context.fighter_regenerate[i],
-				      LW6MAP_RULES_MAX_FIGHTER_REGENERATE));
+	    lw6sys_imax (LW6MAP_RULES_MIN_FIGHTER_REGENERATE, lw6sys_imin (context.fighter_regenerate[i], LW6MAP_RULES_MAX_FIGHTER_REGENERATE));
 	  for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	    {
 	      context.fighter_attack[i][j] =
-		lw6sys_imax (LW6MAP_RULES_MIN_FIGHTER_ATTACK,
-			     lw6sys_imin (context.fighter_attack[i][j],
-					  LW6MAP_RULES_MAX_FIGHTER_ATTACK));
-	      context.fighter_side_attack[i][j] =
-		lw6sys_imin (context.fighter_side_attack[i][j],
-			     LW6MAP_RULES_MAX_FIGHTER_ATTACK);
+		lw6sys_imax (LW6MAP_RULES_MIN_FIGHTER_ATTACK, lw6sys_imin (context.fighter_attack[i][j], LW6MAP_RULES_MAX_FIGHTER_ATTACK));
+	      context.fighter_side_attack[i][j] = lw6sys_imin (context.fighter_side_attack[i][j], LW6MAP_RULES_MAX_FIGHTER_ATTACK);
 	    }
 	}
       /*
@@ -885,25 +716,19 @@ _lw6ker_map_state_move_fighters (lw6sys_context_t * sys_context,
        */
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
-	  context.per_team_fast[i] =
-	    lw6sys_imax (1, context.per_team_fast[i]);
+	  context.per_team_fast[i] = lw6sys_imax (1, context.per_team_fast[i]);
 
-	  context.fighter_defense[i] *=
-	    LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
+	  context.fighter_defense[i] *= LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
 	  context.fighter_defense[i] /= context.per_team_fast[i];
-	  context.fighter_side_defense[i] *=
-	    LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
+	  context.fighter_side_defense[i] *= LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
 	  context.fighter_side_defense[i] /= context.per_team_fast[i];
-	  context.fighter_regenerate[i] *=
-	    LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
+	  context.fighter_regenerate[i] *= LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
 	  context.fighter_regenerate[i] /= context.per_team_fast[i];
 	  for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	    {
-	      context.fighter_attack[i][j] *=
-		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
+	      context.fighter_attack[i][j] *= LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
 	      context.fighter_attack[i][j] /= context.per_team_fast[i];
-	      context.fighter_side_attack[i][j] *=
-		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
+	      context.fighter_side_attack[i][j] *= LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
 	      context.fighter_side_attack[i][j] /= context.per_team_fast[i];
 	    }
 	}
@@ -916,25 +741,15 @@ _lw6ker_map_state_move_fighters (lw6sys_context_t * sys_context,
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
 	  context.fighter_defense[i] =
-	    lw6sys_imax (LW6MAP_RULES_MIN_FIGHTER_DEFENSE,
-			 lw6sys_imin (context.fighter_defense[i],
-				      LW6MAP_RULES_MAX_FIGHTER_DEFENSE));
-	  context.fighter_side_defense[i] =
-	    lw6sys_imin (context.fighter_side_defense[i],
-			 LW6MAP_RULES_MAX_FIGHTER_DEFENSE);
+	    lw6sys_imax (LW6MAP_RULES_MIN_FIGHTER_DEFENSE, lw6sys_imin (context.fighter_defense[i], LW6MAP_RULES_MAX_FIGHTER_DEFENSE));
+	  context.fighter_side_defense[i] = lw6sys_imin (context.fighter_side_defense[i], LW6MAP_RULES_MAX_FIGHTER_DEFENSE);
 	  context.fighter_regenerate[i] =
-	    lw6sys_imax (LW6MAP_RULES_MIN_FIGHTER_REGENERATE,
-			 lw6sys_imin (context.fighter_regenerate[i],
-				      LW6MAP_RULES_MAX_FIGHTER_REGENERATE));
+	    lw6sys_imax (LW6MAP_RULES_MIN_FIGHTER_REGENERATE, lw6sys_imin (context.fighter_regenerate[i], LW6MAP_RULES_MAX_FIGHTER_REGENERATE));
 	  for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	    {
 	      lw6sys_imax (LW6MAP_RULES_MIN_FIGHTER_ATTACK,
-			   context.fighter_attack[i][j] =
-			   lw6sys_imin (context.fighter_attack[i][j],
-					LW6MAP_RULES_MAX_FIGHTER_ATTACK));
-	      context.fighter_side_attack[i][j] =
-		lw6sys_imin (context.fighter_side_attack[i][j],
-			     LW6MAP_RULES_MAX_FIGHTER_ATTACK);
+			   context.fighter_attack[i][j] = lw6sys_imin (context.fighter_attack[i][j], LW6MAP_RULES_MAX_FIGHTER_ATTACK));
+	      context.fighter_side_attack[i][j] = lw6sys_imin (context.fighter_side_attack[i][j], LW6MAP_RULES_MAX_FIGHTER_ATTACK);
 	    }
 	}
     }
@@ -944,8 +759,7 @@ _lw6ker_map_state_move_fighters (lw6sys_context_t * sys_context,
 	{
 	  context.per_team_nb_move_tries[i] = context.rules.nb_move_tries;
 	  context.per_team_nb_attack_tries[i] = context.rules.nb_attack_tries;
-	  context.per_team_nb_defense_tries[i] =
-	    context.rules.nb_defense_tries;
+	  context.per_team_nb_defense_tries[i] = context.rules.nb_defense_tries;
 	  context.per_team_fast[i] = LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
 	  context.per_team_weapon_id[i] = LW6MAP_WEAPON_NONE;
 	}
@@ -958,10 +772,7 @@ _lw6ker_map_state_move_fighters (lw6sys_context_t * sys_context,
 }
 
 void
-_lw6ker_map_state_apply_cursors (lw6sys_context_t * sys_context,
-				 _lw6ker_map_state_t * map_state,
-				 const lw6map_rules_t * rules,
-				 u_int32_t team_mask)
+_lw6ker_map_state_apply_cursors (lw6sys_context_t * sys_context, _lw6ker_map_state_t * map_state, const lw6map_rules_t * rules, u_int32_t team_mask)
 {
   int32_t i, team_color;
   int32_t zone_id = -1;
@@ -989,42 +800,24 @@ _lw6ker_map_state_apply_cursors (lw6sys_context_t * sys_context,
       if (map_state->cursor_array.cursors[i].enabled)
 	{
 	  team_color = map_state->cursor_array.cursors[i].team_color;
-	  if (lw6ker_team_mask_is_concerned
-	      (sys_context, team_color, team_mask))
+	  if (lw6ker_team_mask_is_concerned (sys_context, team_color, team_mask))
 	    {
 	      {
-		_lw6ker_cursor_update_apply_pos (sys_context, &
-						 (map_state->cursor_array.
-						  cursors[i]),
-						 map_state->map_struct);
-		for (z = 0, zone_id = -1;
-		     z < map_state->shape.d && zone_id < 0; ++z)
+		_lw6ker_cursor_update_apply_pos (sys_context, &(map_state->cursor_array.cursors[i]), map_state->map_struct);
+		for (z = 0, zone_id = -1; z < map_state->shape.d && zone_id < 0; ++z)
 		  {
 		    zone_id =
 		      _lw6ker_map_struct_get_zone_id (map_state->map_struct,
-						      map_state->cursor_array.
-						      cursors[i].apply_pos.x,
-						      map_state->cursor_array.
-						      cursors[i].apply_pos.y,
-						      z);
+						      map_state->cursor_array.cursors[i].apply_pos.x, map_state->cursor_array.cursors[i].apply_pos.y, z);
 		  }
 		if (zone_id >= 0)
 		  {
-		    max_pot[team_color] =
-		      lw6sys_imax (max_pot[team_color],
-				   map_state->teams[team_color].
-				   gradient[zone_id].potential);
+		    max_pot[team_color] = lw6sys_imax (max_pot[team_color], map_state->teams[team_color].gradient[zone_id].potential);
 		    round_delta[team_color] =
 		      lw6sys_imax (round_delta[team_color],
-				   map_state->
-				   teams[team_color].cursor_ref_pot +
-				   map_state->cursor_array.
-				   cursors[i].pot_offset -
-				   map_state->teams[team_color].
-				   gradient[zone_id].potential);
-		    round_delta[team_color] =
-		      lw6sys_imin (round_delta[team_color],
-				   rules->max_round_delta);
+				   map_state->teams[team_color].cursor_ref_pot +
+				   map_state->cursor_array.cursors[i].pot_offset - map_state->teams[team_color].gradient[zone_id].potential);
+		    round_delta[team_color] = lw6sys_imin (round_delta[team_color], rules->max_round_delta);
 		  }
 	      }
 	    }
@@ -1043,11 +836,9 @@ _lw6ker_map_state_apply_cursors (lw6sys_context_t * sys_context,
 	   */
 	  map_state->teams[i].cursor_ref_pot = max_pot[i] + round_delta[i];
 
-	  if (map_state->teams[i].cursor_ref_pot +
-	      rules->max_cursor_pot_offset > rules->max_cursor_pot)
+	  if (map_state->teams[i].cursor_ref_pot + rules->max_cursor_pot_offset > rules->max_cursor_pot)
 	    {
-	      _lw6ker_team_normalize_pot (sys_context, &(map_state->teams[i]),
-					  rules);
+	      _lw6ker_team_normalize_pot (sys_context, &(map_state->teams[i]), rules);
 	    }
 	}
     }
@@ -1060,36 +851,25 @@ _lw6ker_map_state_apply_cursors (lw6sys_context_t * sys_context,
       if (map_state->cursor_array.cursors[i].enabled)
 	{
 	  team_color = map_state->cursor_array.cursors[i].team_color;
-	  if (lw6ker_team_mask_is_concerned
-	      (sys_context, team_color, team_mask))
+	  if (lw6ker_team_mask_is_concerned (sys_context, team_color, team_mask))
 	    {
 	      for (z = 0; z < map_state->shape.d; ++z)
 		{
 		  zone_id =
 		    _lw6ker_map_struct_get_zone_id (map_state->map_struct,
-						    map_state->cursor_array.
-						    cursors[i].apply_pos.x,
-						    map_state->cursor_array.
-						    cursors[i].apply_pos.y,
-						    z);
+						    map_state->cursor_array.cursors[i].apply_pos.x, map_state->cursor_array.cursors[i].apply_pos.y, z);
 		  if (zone_id >= 0)
 		    {
 		      /*
 		       * Beware of multiple cursors, we check again if changing
 		       * the value is needed.
 		       */
-		      if (map_state->teams[team_color].
-			  gradient[zone_id].potential <
-			  map_state->teams[team_color].cursor_ref_pot +
-			  map_state->cursor_array.cursors[i].pot_offset)
+		      if (map_state->teams[team_color].gradient[zone_id].potential <
+			  map_state->teams[team_color].cursor_ref_pot + map_state->cursor_array.cursors[i].pot_offset)
 			{
-			  map_state->teams[team_color].
-			    gradient[zone_id].potential =
-			    map_state->teams[team_color].cursor_ref_pot +
-			    map_state->cursor_array.cursors[i].pot_offset;
-			  map_state->teams[team_color].
-			    gradient[zone_id].closest_cursor_pos =
-			    map_state->cursor_array.cursors[i].apply_pos;
+			  map_state->teams[team_color].gradient[zone_id].potential =
+			    map_state->teams[team_color].cursor_ref_pot + map_state->cursor_array.cursors[i].pot_offset;
+			  map_state->teams[team_color].gradient[zone_id].closest_cursor_pos = map_state->cursor_array.cursors[i].apply_pos;
 			}
 		    }
 		}
@@ -1099,77 +879,48 @@ _lw6ker_map_state_apply_cursors (lw6sys_context_t * sys_context,
 }
 
 void
-_lw6ker_map_state_process_fire (lw6sys_context_t * sys_context,
-				_lw6ker_map_state_t * map_state,
-				const lw6map_rules_t * rules, int round)
+_lw6ker_map_state_process_fire (lw6sys_context_t * sys_context, _lw6ker_map_state_t * map_state, const lw6map_rules_t * rules, int round)
 {
   int32_t i, team_color;
   int charge_percent;
 
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
-      if (map_state->cursor_array.cursors[i].enabled
-	  && (map_state->cursor_array.cursors[i].fire
-	      || map_state->cursor_array.cursors[i].fire2))
+      if (map_state->cursor_array.cursors[i].enabled && (map_state->cursor_array.cursors[i].fire || map_state->cursor_array.cursors[i].fire2))
 	{
 	  team_color = map_state->cursor_array.cursors[i].team_color;
-	  charge_percent =
-	    _lw6ker_team_get_charge_per1000 (sys_context,
-					     &(map_state->teams[team_color]))
-	    / 10;
+	  charge_percent = _lw6ker_team_get_charge_per1000 (sys_context, &(map_state->teams[team_color])) / 10;
 	  if (charge_percent >= 100)
 	    {
 	      if (map_state->cursor_array.cursors[i].fire)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_
-			      ("primary fire team_color=%d charge_percent=%d"),
-			      team_color, charge_percent);
-		  if (_lw6ker_weapon_fire
-		      (sys_context, map_state, rules, round, team_color,
-		       charge_percent))
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("primary fire team_color=%d charge_percent=%d"), team_color, charge_percent);
+		  if (_lw6ker_weapon_fire (sys_context, map_state, rules, round, team_color, charge_percent))
 		    {
-		      _lw6ker_team_reset_charge (sys_context, &
-						 (map_state->teams
-						  [team_color]));
+		      _lw6ker_team_reset_charge (sys_context, &(map_state->teams[team_color]));
 		    }
 		  else if (map_state->cursor_array.cursors[i].fire2)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_
-				  ("secondary fire team_color=%d charge_percent=%d (primary failed)"),
-				  team_color, charge_percent);
-		      if (_lw6ker_weapon_fire2
-			  (sys_context, map_state, rules, round, team_color,
-			   charge_percent))
+				  _x_ ("secondary fire team_color=%d charge_percent=%d (primary failed)"), team_color, charge_percent);
+		      if (_lw6ker_weapon_fire2 (sys_context, map_state, rules, round, team_color, charge_percent))
 			{
-			  _lw6ker_team_reset_charge (sys_context, &
-						     (map_state->teams
-						      [team_color]));
+			  _lw6ker_team_reset_charge (sys_context, &(map_state->teams[team_color]));
 			}
 		    }
 		}
 	      else if (map_state->cursor_array.cursors[i].fire2)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_
-			      ("secondary fire team_color=%d charge_percent=%d"),
-			      team_color, charge_percent);
-		  if (_lw6ker_weapon_fire2
-		      (sys_context, map_state, rules, round, team_color,
-		       charge_percent))
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("secondary fire team_color=%d charge_percent=%d"), team_color, charge_percent);
+		  if (_lw6ker_weapon_fire2 (sys_context, map_state, rules, round, team_color, charge_percent))
 		    {
-		      _lw6ker_team_reset_charge (sys_context, &
-						 (map_state->teams
-						  [team_color]));
+		      _lw6ker_team_reset_charge (sys_context, &(map_state->teams[team_color]));
 		    }
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("can't fire not enough charge for color %d"),
-			  team_color);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("can't fire not enough charge for color %d"), team_color);
 	    }
 	}
       map_state->cursor_array.cursors[i].fire = 0;
@@ -1178,9 +929,7 @@ _lw6ker_map_state_process_fire (lw6sys_context_t * sys_context,
 
 void
 _lw6ker_map_state_frag (lw6sys_context_t * sys_context,
-			_lw6ker_map_state_t * map_state, int team_color,
-			int frags_mode, int frags_to_distribute,
-			int frags_fade_out)
+			_lw6ker_map_state_t * map_state, int team_color, int frags_mode, int frags_to_distribute, int frags_fade_out)
 {
   int active_fighters = 0;
   int nb_loosers = 0;
@@ -1195,15 +944,13 @@ _lw6ker_map_state_frag (lw6sys_context_t * sys_context,
       delta_frags[i] = 0;
     }
 
-  if (frags_mode == LW6MAP_RULES_FRAGS_MODE_BALANCED
-      || frags_mode == LW6MAP_RULES_FRAGS_MODE_PROPORTIONAL)
+  if (frags_mode == LW6MAP_RULES_FRAGS_MODE_BALANCED || frags_mode == LW6MAP_RULES_FRAGS_MODE_PROPORTIONAL)
     {
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
 	  if (map_state->teams[i].active)
 	    {
-	      armies->frags[i] =
-		lw6ker_percent (armies->frags[i], frags_fade_out);
+	      armies->frags[i] = lw6ker_percent (armies->frags[i], frags_fade_out);
 	    }
 	}
     }
@@ -1250,8 +997,7 @@ _lw6ker_map_state_frag (lw6sys_context_t * sys_context,
     }
 
   active_fighters = armies->active_fighters;
-  if (frags_mode == LW6MAP_RULES_FRAGS_MODE_BALANCED
-      || frags_mode == LW6MAP_RULES_FRAGS_MODE_PROPORTIONAL)
+  if (frags_mode == LW6MAP_RULES_FRAGS_MODE_BALANCED || frags_mode == LW6MAP_RULES_FRAGS_MODE_PROPORTIONAL)
     {
       if (active_fighters > 0)
 	{
@@ -1265,42 +1011,27 @@ _lw6ker_map_state_frag (lw6sys_context_t * sys_context,
 			{
 			  if (armies->fighters_per_team[i] <= 0)
 			    {
-			      if (frags_mode ==
-				  LW6MAP_RULES_FRAGS_MODE_BALANCED)
+			      if (frags_mode == LW6MAP_RULES_FRAGS_MODE_BALANCED)
 				{
-				  delta_frags[i] -=
-				    lw6sys_imax (1,
-						 frags_to_distribute /
-						 nb_loosers);
+				  delta_frags[i] -= lw6sys_imax (1, frags_to_distribute / nb_loosers);
 				}
 			    }
 			  else
 			    {
-			      if (frags_mode ==
-				  LW6MAP_RULES_FRAGS_MODE_BALANCED
-				  || frags_mode ==
-				  LW6MAP_RULES_FRAGS_MODE_PROPORTIONAL)
-				delta_frags[i] +=
-				  lw6sys_imax (1,
-					       (frags_to_distribute *
-						armies->fighters_per_team[i])
-					       / armies->active_fighters);
+			      if (frags_mode == LW6MAP_RULES_FRAGS_MODE_BALANCED || frags_mode == LW6MAP_RULES_FRAGS_MODE_PROPORTIONAL)
+				delta_frags[i] += lw6sys_imax (1, (frags_to_distribute * armies->fighters_per_team[i]) / armies->active_fighters);
 			    }
 			}
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_
-			      ("can't calculate frags when there are no winners"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("can't calculate frags when there are no winners"));
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("can't calculate frags when there are no loosers"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("can't calculate frags when there are no loosers"));
 	    }
 	}
     }
@@ -1313,8 +1044,7 @@ _lw6ker_map_state_frag (lw6sys_context_t * sys_context,
 	}
     }
 
-  if (frags_mode == LW6MAP_RULES_FRAGS_MODE_ONE_FOR_WINNERS_ALL_FOR_LOSER
-      || frags_mode == LW6MAP_RULES_FRAGS_MODE_BALANCED)
+  if (frags_mode == LW6MAP_RULES_FRAGS_MODE_ONE_FOR_WINNERS_ALL_FOR_LOSER || frags_mode == LW6MAP_RULES_FRAGS_MODE_BALANCED)
     {
       while (frags_total < 0)
 	{
@@ -1360,9 +1090,7 @@ _lw6ker_map_state_frag (lw6sys_context_t * sys_context,
 }
 
 void
-_lw6ker_map_state_charge (lw6sys_context_t * sys_context,
-			  _lw6ker_map_state_t * map_state,
-			  const lw6map_rules_t * rules, int round)
+_lw6ker_map_state_charge (lw6sys_context_t * sys_context, _lw6ker_map_state_t * map_state, const lw6map_rules_t * rules, int round)
 {
   int32_t team_color;
   int charge_incr = 0;
@@ -1373,50 +1101,33 @@ _lw6ker_map_state_charge (lw6sys_context_t * sys_context,
   if (rules->use_team_profiles)
     {
       nb_teams = _lw6ker_map_state_get_nb_teams (sys_context, map_state);
-      charge_max =
-	lw6ker_percent (_LW6KER_CHARGE_LIMIT, rules->weapon_charge_max);
+      charge_max = lw6ker_percent (_LW6KER_CHARGE_LIMIT, rules->weapon_charge_max);
 
       if (rules->weapon_charge_delay > 0 && rules->rounds_per_sec > 0)
 	{
 	  if (nb_teams > 0)
 	    {
-	      for (team_color = 0; team_color < LW6MAP_MAX_NB_TEAMS;
-		   ++team_color)
+	      for (team_color = 0; team_color < LW6MAP_MAX_NB_TEAMS; ++team_color)
 		{
 		  if (map_state->teams[team_color].active
 		      && rules->team_profile_weapon_mode[team_color] !=
 		      LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_NONE &&
-		      _lw6ker_map_state_get_weapon_per1000_left (sys_context,
-								 map_state,
-								 round,
-								 team_color)
-		      <= 0 && !map_state->teams[team_color].offline)
+		      _lw6ker_map_state_get_weapon_per1000_left (sys_context, map_state, round, team_color) <= 0 && !map_state->teams[team_color].offline)
 		    {
-		      charge_incr =
-			_LW6KER_CHARGE_LIMIT / (rules->weapon_charge_delay *
-						rules->rounds_per_sec);
+		      charge_incr = _LW6KER_CHARGE_LIMIT / (rules->weapon_charge_delay * rules->rounds_per_sec);
 		      if (map_state->armies.active_fighters > 0)
 			{
-			  charge_percent =
-			    (map_state->armies.fighters_per_team[team_color] *
-			     nb_teams * 100) /
-			    map_state->armies.active_fighters;
+			  charge_percent = (map_state->armies.fighters_per_team[team_color] * nb_teams * 100) / map_state->armies.active_fighters;
 			}
 		      else
 			{
 			  charge_percent = 100;
 			}
 		      charge_percent = (charge_percent + 100) / 2;
-		      charge_incr =
-			lw6ker_percent (charge_incr, charge_percent);
+		      charge_incr = lw6ker_percent (charge_incr, charge_percent);
 		      map_state->teams[team_color].charge += charge_incr;
-		      map_state->teams[team_color].charge =
-			lw6sys_imin (map_state->teams[team_color].charge,
-				     charge_max);
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_ ("new charge for team %d is %d"),
-				  team_color,
-				  map_state->teams[team_color].charge);
+		      map_state->teams[team_color].charge = lw6sys_imin (map_state->teams[team_color].charge, charge_max);
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("new charge for team %d is %d"), team_color, map_state->teams[team_color].charge);
 		    }
 		}
 	    }
@@ -1424,32 +1135,19 @@ _lw6ker_map_state_charge (lw6sys_context_t * sys_context,
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("bad rules weapon_charge_delay=%d rounds_per_sec=%d"),
-		      rules->weapon_charge_delay, rules->rounds_per_sec);
+		      _x_ ("bad rules weapon_charge_delay=%d rounds_per_sec=%d"), rules->weapon_charge_delay, rules->rounds_per_sec);
 	}
     }
 }
 
 int
-_lw6ker_map_state_is_this_weapon_active (lw6sys_context_t * sys_context,
-					 const _lw6ker_map_state_t *
-					 map_state, int round, int weapon_id,
-					 int team_color)
+_lw6ker_map_state_is_this_weapon_active (lw6sys_context_t * sys_context, const _lw6ker_map_state_t * map_state, int round, int weapon_id, int team_color)
 {
-  return _lw6ker_team_is_this_weapon_active (sys_context,
-					     &(map_state->teams[team_color]),
-					     round, weapon_id);
+  return _lw6ker_team_is_this_weapon_active (sys_context, &(map_state->teams[team_color]), round, weapon_id);
 }
 
 int
-_lw6ker_map_state_get_weapon_per1000_left (lw6sys_context_t * sys_context,
-					   const _lw6ker_map_state_t *
-					   map_state, int round,
-					   int team_color)
+_lw6ker_map_state_get_weapon_per1000_left (lw6sys_context_t * sys_context, const _lw6ker_map_state_t * map_state, int round, int team_color)
 {
-  return
-    _lw6ker_team_get_weapon_per1000_left (sys_context,
-					  &(map_state->teams[team_color]),
-					  round);
+  return _lw6ker_team_get_weapon_per1000_left (sys_context, &(map_state->teams[team_color]), round);
 }

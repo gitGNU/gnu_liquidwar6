@@ -56,11 +56,9 @@ lw6mat_dvec3_zero (lw6mat_dvec3_t * dvec3)
  * Return value: 1 if equal, 0 if different.
  */
 int
-lw6mat_dvec3_is_same (const lw6mat_dvec3_t * dvec3_a,
-		      const lw6mat_dvec3_t * dvec3_b)
+lw6mat_dvec3_is_same (const lw6mat_dvec3_t * dvec3_a, const lw6mat_dvec3_t * dvec3_b)
 {
-  return (!memcmp
-	  ((void *) dvec3_a, (void *) dvec3_b, sizeof (lw6mat_dvec3_t)));
+  return (!memcmp ((void *) dvec3_a, (void *) dvec3_b, sizeof (lw6mat_dvec3_t)));
 }
 
 /**
@@ -78,8 +76,7 @@ lw6mat_dvec3_is_same (const lw6mat_dvec3_t * dvec3_a,
 double
 lw6mat_dvec3_len_sq (const lw6mat_dvec3_t * dvec3)
 {
-  return dvec3->p.x * dvec3->p.x + dvec3->p.y * dvec3->p.y +
-    dvec3->p.z * dvec3->p.z;
+  return dvec3->p.x * dvec3->p.x + dvec3->p.y * dvec3->p.y + dvec3->p.z * dvec3->p.z;
 }
 
 /**
@@ -122,8 +119,7 @@ lw6mat_dvec3_norm (lw6mat_dvec3_t * dvec3)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("trying to normalize vector zero"));
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("trying to normalize vector zero"));
 
       return 0;
     }
@@ -158,8 +154,7 @@ lw6mat_dvec3_neg (lw6mat_dvec3_t * dvec3)
  * Return value: none
  */
 void
-lw6mat_dvec3_add (lw6mat_dvec3_t * dvec3, const lw6mat_dvec3_t * dvec3_a,
-		  const lw6mat_dvec3_t * dvec3_b)
+lw6mat_dvec3_add (lw6mat_dvec3_t * dvec3, const lw6mat_dvec3_t * dvec3_a, const lw6mat_dvec3_t * dvec3_b)
 {
   dvec3->p.x = dvec3_a->p.x + dvec3_b->p.x;
   dvec3->p.y = dvec3_a->p.y + dvec3_b->p.y;
@@ -178,8 +173,7 @@ lw6mat_dvec3_add (lw6mat_dvec3_t * dvec3, const lw6mat_dvec3_t * dvec3_a,
  * Return value: none
  */
 void
-lw6mat_dvec3_sub (lw6mat_dvec3_t * dvec3, const lw6mat_dvec3_t * dvec3_a,
-		  const lw6mat_dvec3_t * dvec3_b)
+lw6mat_dvec3_sub (lw6mat_dvec3_t * dvec3, const lw6mat_dvec3_t * dvec3_a, const lw6mat_dvec3_t * dvec3_b)
 {
   dvec3->p.x = dvec3_a->p.x - dvec3_b->p.x;
   dvec3->p.y = dvec3_a->p.y - dvec3_b->p.y;
@@ -197,11 +191,9 @@ lw6mat_dvec3_sub (lw6mat_dvec3_t * dvec3, const lw6mat_dvec3_t * dvec3_a,
  * Return value: none
  */
 double
-lw6mat_dvec3_dot (const lw6mat_dvec3_t * dvec3_a,
-		  const lw6mat_dvec3_t * dvec3_b)
+lw6mat_dvec3_dot (const lw6mat_dvec3_t * dvec3_a, const lw6mat_dvec3_t * dvec3_b)
 {
-  return dvec3_a->p.x * dvec3_b->p.x + dvec3_a->p.y * dvec3_b->p.y +
-    dvec3_a->p.z * dvec3_b->p.z;
+  return dvec3_a->p.x * dvec3_b->p.x + dvec3_a->p.y * dvec3_b->p.y + dvec3_a->p.z * dvec3_b->p.z;
 }
 
 /**
@@ -216,8 +208,7 @@ lw6mat_dvec3_dot (const lw6mat_dvec3_t * dvec3_a,
  * Return value: none
  */
 void
-lw6mat_dvec3_cross (lw6mat_dvec3_t * dvec3, const lw6mat_dvec3_t * dvec3_a,
-		    const lw6mat_dvec3_t * dvec3_b)
+lw6mat_dvec3_cross (lw6mat_dvec3_t * dvec3, const lw6mat_dvec3_t * dvec3_a, const lw6mat_dvec3_t * dvec3_b)
 {
   dvec3->p.x = dvec3_a->p.y * dvec3_b->p.z - dvec3_a->p.z * dvec3_b->p.y;
   dvec3->p.y = dvec3_a->p.z * dvec3_b->p.x - dvec3_a->p.x * dvec3_b->p.z;
@@ -254,9 +245,7 @@ lw6mat_dvec3_scale (lw6mat_dvec3_t * dvec3, double f)
  * Return value: none
  */
 void
-lw6mat_dvec3_mul_dvec3 (lw6mat_dmat3_t * dmat3,
-			const lw6mat_dvec3_t * dvec3_a,
-			const lw6mat_dvec3_t * dvec3_b)
+lw6mat_dvec3_mul_dvec3 (lw6mat_dmat3_t * dmat3, const lw6mat_dvec3_t * dvec3_a, const lw6mat_dvec3_t * dvec3_b)
 {
   int i, j;
 
@@ -283,10 +272,7 @@ lw6mat_dvec3_repr (const lw6mat_dvec3_t * dvec3)
 {
   char *repr = NULL;
 
-  repr =
-    lw6sys_new_sprintf ("%s %s %d [ %f %f %f ]", LW6MAT_REPR_D,
-			LW6MAT_REPR_VEC, LW6MAT_VEC3_V_SIZE, dvec3->v[0],
-			dvec3->v[1], dvec3->v[2]);
+  repr = lw6sys_new_sprintf ("%s %s %d [ %f %f %f ]", LW6MAT_REPR_D, LW6MAT_REPR_VEC, LW6MAT_VEC3_V_SIZE, dvec3->v[0], dvec3->v[1], dvec3->v[2]);
 
   return repr;
 }

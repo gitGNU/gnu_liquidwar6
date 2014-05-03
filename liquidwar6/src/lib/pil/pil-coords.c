@@ -43,8 +43,7 @@
  * Return value: none.
  */
 void
-lw6pil_coords_fix (lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x,
-		   float *y, float *z)
+lw6pil_coords_fix (lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x, float *y, float *z)
 {
   float w;
   float h;
@@ -190,8 +189,7 @@ lw6pil_coords_fix (lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x,
  * Return value: none.
  */
 void
-lw6pil_coords_fix_x10 (lw6map_rules_t * rules, lw6sys_whd_t * shape,
-		       float *x, float *y, float *z)
+lw6pil_coords_fix_x10 (lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x, float *y, float *z)
 {
   lw6sys_whd_t shape_x10;
 

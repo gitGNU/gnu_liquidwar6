@@ -132,21 +132,14 @@ lw6_register_funcs_cns ()
   /*
    * In support.c
    */
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_CONSOLE_SUPPORT, 0, 0, 0,
-			      (SCM (*)())_scm_lw6cns_console_support);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_TERM_SUPPORT, 0, 0, 0,
-			      (SCM (*)())_scm_lw6cns_term_support);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_CONSOLE_SUPPORT, 0, 0, 0, (SCM (*)())_scm_lw6cns_console_support);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_TERM_SUPPORT, 0, 0, 0, (SCM (*)())_scm_lw6cns_term_support);
   /*
    * In handler.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_INIT, 0, 0, 0,
-				      (SCM (*)())_scm_lw6cns_init);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_QUIT, 0, 0, 0,
-				      (SCM (*)())_scm_lw6cns_quit);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_POLL, 0, 0, 0,
-				      (SCM (*)())_scm_lw6cns_poll);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_INIT, 0, 0, 0, (SCM (*)())_scm_lw6cns_init);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_QUIT, 0, 0, 0, (SCM (*)())_scm_lw6cns_quit);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_POLL, 0, 0, 0, (SCM (*)())_scm_lw6cns_poll);
 
   return ret;
 }

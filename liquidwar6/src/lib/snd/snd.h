@@ -77,13 +77,11 @@ typedef struct lw6snd_backend_s
   /// Pointer on lw6snd_play_music_file callback code.
   int (*play_music_file) (void *snd_context, char *music_file);
   /// Pointer on lw6snd_play_music_randomcallback code.
-  int (*play_music_random) (void *snd_context, char *music_path,
-			    char *music_filter, char *music_exclude);
+  int (*play_music_random) (void *snd_context, char *music_path, char *music_filter, char *music_exclude);
   /// Pointer on lw6snd_stop_music callback code.
   void (*stop_music) (void *snd_context);
   /// Pointer on lw6snd_init callback code.
-  void *(*init) (int argc, const char *argv[], float fx_volume,
-		 float water_volume, float music_volume);
+  void *(*init) (int argc, const char *argv[], float fx_volume, float water_volume, float music_volume);
   /// Pointer on lw6snd_set_fx_volume callback code.
   void (*set_fx_volume) (void *snd_context, float volume);
   /// Pointer on lw6snd_set_water_volume callback code.
@@ -101,32 +99,22 @@ lw6snd_backend_t;
 
 /* snd-api.c */
 extern int lw6snd_play_fx (lw6snd_backend_t * backend, int fx_id);
-extern int lw6snd_is_music_file (lw6snd_backend_t * backend,
-				 char *map_dir,
-				 char *music_path, char *music_file);
-extern int lw6snd_play_music_file (lw6snd_backend_t * backend,
-				   char *map_dir,
-				   char *music_path, char *music_file);
-extern int lw6snd_play_music_random (lw6snd_backend_t * backend,
-				     char *music_path, char *music_filter,
-				     char *music_exclude);
+extern int lw6snd_is_music_file (lw6snd_backend_t * backend, char *map_dir, char *music_path, char *music_file);
+extern int lw6snd_play_music_file (lw6snd_backend_t * backend, char *map_dir, char *music_path, char *music_file);
+extern int lw6snd_play_music_random (lw6snd_backend_t * backend, char *music_path, char *music_filter, char *music_exclude);
 extern void lw6snd_stop_music (lw6snd_backend_t * backend);
 extern char *lw6snd_repr (const lw6snd_backend_t * snd_backend);
-extern int lw6snd_init (lw6snd_backend_t * backend, float fx_volume,
-			float water_volume, float music_volume);
+extern int lw6snd_init (lw6snd_backend_t * backend, float fx_volume, float water_volume, float music_volume);
 extern void lw6snd_set_fx_volume (lw6snd_backend_t * backend, float volume);
-extern void lw6snd_set_water_volume (lw6snd_backend_t * backend,
-				     float volume);
-extern void lw6snd_set_music_volume (lw6snd_backend_t * backend,
-				     float volume);
+extern void lw6snd_set_water_volume (lw6snd_backend_t * backend, float volume);
+extern void lw6snd_set_music_volume (lw6snd_backend_t * backend, float volume);
 extern void lw6snd_poll (lw6snd_backend_t * backend);
 extern void lw6snd_quit (lw6snd_backend_t * backend);
 extern char *lw6snd_repr (const lw6snd_backend_t * backend);
 
 /* snd-register.c */
 extern lw6sys_assoc_t *lw6snd_get_backends (int argc, const char *argv[]);
-extern lw6snd_backend_t *lw6snd_create_backend (int argc, const char *argv[],
-						const char *name);
+extern lw6snd_backend_t *lw6snd_create_backend (int argc, const char *argv[], const char *name);
 extern void lw6snd_destroy_backend (lw6snd_backend_t * backend);
 
 /* snd-test.c */

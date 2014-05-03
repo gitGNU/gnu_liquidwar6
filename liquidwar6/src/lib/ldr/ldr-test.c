@@ -78,16 +78,14 @@ check_map_with_absolute_path (char *absolute_path)
   char *repr = NULL;
   char *user_dir = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("deep check \"%s\""),
-	      absolute_path);
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("deep check \"%s\""), absolute_path);
 
   user_dir = lw6sys_get_default_user_dir ();
   if (LW6SYS_TEST_ACK (user_dir))
     {
       level1 =
 	lw6ldr_read (absolute_path, NULL, NULL, _TEST_DISPLAY_WIDTH,
-		     _TEST_DISPLAY_HEIGHT, LW6LDR_DEFAULT_BENCH_VALUE,
-		     LW6LDR_DEFAULT_MAGIC_NUMBER, user_dir, NULL);
+		     _TEST_DISPLAY_HEIGHT, LW6LDR_DEFAULT_BENCH_VALUE, LW6LDR_DEFAULT_MAGIC_NUMBER, user_dir, NULL);
       if (LW6SYS_TEST_ACK (level1))
 	{
 	  hexa_level1 = lw6map_to_hexa (sys_context, level1);
@@ -99,8 +97,7 @@ check_map_with_absolute_path (char *absolute_path)
 		  hexa_level2 = lw6map_to_hexa (sys_context, level2);
 		  if (LW6SYS_TEST_ACK (hexa_level2))
 		    {
-		      if (LW6SYS_TEST_ACK
-			  (strcmp (hexa_level1, hexa_level2) == 0))
+		      if (LW6SYS_TEST_ACK (strcmp (hexa_level1, hexa_level2) == 0))
 			{
 			  level3 = lw6map_dup (sys_context, level2, NULL);
 			  if (LW6SYS_TEST_ACK (level3))
@@ -108,8 +105,7 @@ check_map_with_absolute_path (char *absolute_path)
 			      repr = lw6map_repr (sys_context, level3);
 			      if (LW6SYS_TEST_ACK (repr))
 				{
-				  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					      _x_ ("map repr=\"%s\""), repr);
+				  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("map repr=\"%s\""), repr);
 				  LW6SYS_FREE (sys_context, repr);
 				  ret = 1;
 				}
@@ -117,48 +113,36 @@ check_map_with_absolute_path (char *absolute_path)
 			    }
 			  else
 			    {
-			      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-					  _x_ ("unable to copy \"%s\""),
-					  absolute_path);
+			      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to copy \"%s\""), absolute_path);
 			    }
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				      _x_
-				      ("second serialization of \"%s\" returned inconsistent result"),
-				      absolute_path);
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("second serialization of \"%s\" returned inconsistent result"), absolute_path);
 			}
 		      LW6SYS_FREE (sys_context, hexa_level2);
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_ ("unable to serialize \"%s\" (2)"),
-				  absolute_path);
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to serialize \"%s\" (2)"), absolute_path);
 		    }
 		  lw6map_free (sys_context, level2);
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_ ("unable to unserialize \"%s\""),
-			      absolute_path);
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to unserialize \"%s\""), absolute_path);
 		}
 	      LW6SYS_FREE (sys_context, hexa_level1);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to serialize \"%s\" (1)"),
-			  absolute_path);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to serialize \"%s\" (1)"), absolute_path);
 	    }
 	  lw6map_free (sys_context, level1);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("unable to read \"%s\""), absolute_path);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to read \"%s\""), absolute_path);
 	}
       LW6SYS_FREE (sys_context, user_dir);
     }
@@ -175,8 +159,7 @@ _test_data_callback_quick (void *func_data, void *data)
 
   if (LW6SYS_TEST_ACK (entry))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quick check \"%s\""),
-		  entry->absolute_path);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quick check \"%s\""), entry->absolute_path);
       ok = lw6sys_dir_exists (sys_context, entry->absolute_path);
       if (LW6SYS_TEST_ACK (ret))
 	{
@@ -229,8 +212,7 @@ _test_quick ()
 	user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
 	if (LW6SYS_TEST_ACK (user_dir))
 	  {
-	    lw6ldr_for_all_entries (map_path, "", user_dir, 1,
-				    _test_data_callback_quick, &ret);
+	    lw6ldr_for_all_entries (map_path, "", user_dir, 1, _test_data_callback_quick, &ret);
 	    LW6SYS_FREE (sys_context, user_dir);
 	  }
 	LW6SYS_FREE (map_path);
@@ -264,8 +246,7 @@ _test_deep ()
 	user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
 	if (LW6SYS_TEST_ACK (user_dir))
 	  {
-	    lw6ldr_for_all_entries (map_path, "", user_dir, 0,
-				    _test_data_callback_deep, &ret);
+	    lw6ldr_for_all_entries (map_path, "", user_dir, 0, _test_data_callback_deep, &ret);
 	    LW6SYS_FREE (sys_context, user_dir);
 	  }
 	LW6SYS_FREE (map_path);
@@ -296,25 +277,17 @@ _test_dir ()
     map_path = lw6cfg_unified_get_map_path (argc, argv);
     if (LW6SYS_TEST_ACK (map_path))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("map_path=\"%s\""),
-		    map_path);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("map_path=\"%s\""), map_path);
 	user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
 	if (LW6SYS_TEST_ACK (user_dir))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("user_dir=\"%s\""), user_dir);
-	    entries =
-	      lw6ldr_get_entries (map_path, _TEST_DIR_RELATIVE_PATH,
-				  user_dir);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("user_dir=\"%s\""), user_dir);
+	    entries = lw6ldr_get_entries (map_path, _TEST_DIR_RELATIVE_PATH, user_dir);
 	    if (LW6SYS_TEST_ACK (entries))
 	      {
-		while (entries
-		       && (entry =
-			   lw6sys_lifo_pop (sys_context, &entries)) != NULL)
+		while (entries && (entry = lw6sys_lifo_pop (sys_context, &entries)) != NULL)
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("found map \"%s\" in \"%s\""),
-				entry->metadata.title, entry->absolute_path);
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("found map \"%s\" in \"%s\""), entry->metadata.title, entry->absolute_path);
 		    entry_found = 1;
 		    lw6ldr_free_entry (entry);
 		  };
@@ -332,9 +305,7 @@ _test_dir ()
 	entry = lw6ldr_chain_entry (map_path, _TEST_DIR_CHAIN_PATH, user_dir);
 	if (LW6SYS_TEST_ACK (entry))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("chain for \"%s\" is \"%s\""),
-			_TEST_DIR_CHAIN_PATH, entry->relative_path);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("chain for \"%s\" is \"%s\""), _TEST_DIR_CHAIN_PATH, entry->relative_path);
 	    lw6ldr_free_entry (entry);
 	  }
 	else
@@ -381,12 +352,9 @@ _test_param ()
     values = lw6sys_assoc_new (sys_context, NULL);
     if (LW6SYS_TEST_ACK (values))
       {
-	lw6sys_assoc_set (sys_context, &values, _TEST_PARAM_KEY1,
-			  _TEST_PARAM_VALUE1);
-	lw6sys_assoc_set (sys_context, &values, _TEST_PARAM_KEY2,
-			  _TEST_PARAM_VALUE2);
-	lw6sys_assoc_set (sys_context, &values, _TEST_PARAM_KEY3,
-			  _TEST_PARAM_VALUE3);
+	lw6sys_assoc_set (sys_context, &values, _TEST_PARAM_KEY1, _TEST_PARAM_VALUE1);
+	lw6sys_assoc_set (sys_context, &values, _TEST_PARAM_KEY2, _TEST_PARAM_VALUE2);
+	lw6sys_assoc_set (sys_context, &values, _TEST_PARAM_KEY3, _TEST_PARAM_VALUE3);
 
 	if (LW6SYS_TEST_ACK (lw6ldr_param_update (&param, values)))
 	  {
@@ -426,12 +394,9 @@ _test_hints ()
     values = lw6sys_assoc_new (sys_context, NULL);
     if (LW6SYS_TEST_ACK (values))
       {
-	lw6sys_assoc_set (sys_context, &values, _TEST_HINTS_KEY1,
-			  _TEST_HINTS_VALUE1);
-	lw6sys_assoc_set (sys_context, &values, _TEST_HINTS_KEY2,
-			  _TEST_HINTS_VALUE2);
-	lw6sys_assoc_set (sys_context, &values, _TEST_HINTS_KEY3,
-			  _TEST_HINTS_VALUE3);
+	lw6sys_assoc_set (sys_context, &values, _TEST_HINTS_KEY1, _TEST_HINTS_VALUE1);
+	lw6sys_assoc_set (sys_context, &values, _TEST_HINTS_KEY2, _TEST_HINTS_VALUE2);
+	lw6sys_assoc_set (sys_context, &values, _TEST_HINTS_KEY3, _TEST_HINTS_VALUE3);
 
 	if (LW6SYS_TEST_ACK (lw6ldr_hints_update (&hints, values)))
 	  {
@@ -470,12 +435,9 @@ _test_teams ()
     values = lw6sys_assoc_new (sys_context, NULL);
     if (LW6SYS_TEST_ACK (values))
       {
-	lw6sys_assoc_set (sys_context, &values, _TEST_TEAMS_KEY1,
-			  _TEST_TEAMS_VALUE1);
-	lw6sys_assoc_set (sys_context, &values, _TEST_TEAMS_KEY2,
-			  _TEST_TEAMS_VALUE2);
-	lw6sys_assoc_set (sys_context, &values, _TEST_TEAMS_KEY3,
-			  _TEST_TEAMS_VALUE3);
+	lw6sys_assoc_set (sys_context, &values, _TEST_TEAMS_KEY1, _TEST_TEAMS_VALUE1);
+	lw6sys_assoc_set (sys_context, &values, _TEST_TEAMS_KEY2, _TEST_TEAMS_VALUE2);
+	lw6sys_assoc_set (sys_context, &values, _TEST_TEAMS_KEY3, _TEST_TEAMS_VALUE3);
 
 	if (LW6SYS_TEST_ACK (lw6ldr_teams_update (&teams, values)))
 	  {
@@ -525,18 +487,13 @@ _test_read ()
 	  {
 	    level =
 	      lw6ldr_read_relative (map_path, _TEST_MAP, NULL, NULL,
-				    _TEST_DISPLAY_WIDTH, _TEST_DISPLAY_HEIGHT,
-				    LW6LDR_DEFAULT_BENCH_VALUE,
-				    LW6LDR_DEFAULT_MAGIC_NUMBER, user_dir,
-				    &progress);
+				    _TEST_DISPLAY_WIDTH, _TEST_DISPLAY_HEIGHT, LW6LDR_DEFAULT_BENCH_VALUE, LW6LDR_DEFAULT_MAGIC_NUMBER, user_dir, &progress);
 	    if (LW6SYS_TEST_ACK (level))
 	      {
 		repr = lw6map_repr (sys_context, level);
 		if (LW6SYS_TEST_ACK (repr))
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("after reading, map repr is \"%s\""),
-				repr);
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("after reading, map repr is \"%s\""), repr);
 		    LW6SYS_FREE (sys_context, repr);
 		  }
 		else
@@ -581,13 +538,9 @@ _test_resampler ()
     int map_h = 0;
 
     lw6ldr_resampler_use_for_gen (&map_w, &map_h, _TEST_RESAMPLER_DISPLAY_W,
-				  _TEST_RESAMPLER_DISPLAY_H,
-				  LW6LDR_DEFAULT_BENCH_VALUE,
-				  LW6LDR_DEFAULT_MAGIC_NUMBER);
+				  _TEST_RESAMPLER_DISPLAY_H, LW6LDR_DEFAULT_BENCH_VALUE, LW6LDR_DEFAULT_MAGIC_NUMBER);
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("gen would create a %dx%d map with a display of %dx%d"),
-		map_w, map_h, _TEST_RESAMPLER_DISPLAY_W,
-		_TEST_RESAMPLER_DISPLAY_H);
+		_x_ ("gen would create a %dx%d map with a display of %dx%d"), map_w, map_h, _TEST_RESAMPLER_DISPLAY_W, _TEST_RESAMPLER_DISPLAY_H);
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -596,16 +549,14 @@ _test_resampler ()
 static int
 _setup_init ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libldr CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libldr CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libldr CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libldr CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -649,9 +600,7 @@ lw6ldr_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 

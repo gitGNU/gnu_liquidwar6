@@ -37,17 +37,12 @@
 
 static void
 draw_button_corners (mod_gl1_utils_context_t * utils_context,
-		     _mod_gl1_menu_cylinder_context_t * cylinder_context,
-		     int i, int n, float relative_text_width,
-		     int pass_through)
+		     _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, float relative_text_width, int pass_through)
 {
 
   if (i >= 0)
     {
-      _mod_gl1_menu_cylinder_draw_cylinder_corners (utils_context,
-						    cylinder_context, i, n,
-						    relative_text_width,
-						    pass_through);
+      _mod_gl1_menu_cylinder_draw_cylinder_corners (utils_context, cylinder_context, i, n, relative_text_width, pass_through);
     }
   else
     {
@@ -58,44 +53,31 @@ draw_button_corners (mod_gl1_utils_context_t * utils_context,
       float draw_esc_cyl_height_offset;
       float draw_esc_rotate;
 
-      screen_ratio =
-	((float) utils_context->sdl_context.video_mode.width) /
-	((float) utils_context->sdl_context.video_mode.height);
+      screen_ratio = ((float) utils_context->sdl_context.video_mode.width) / ((float) utils_context->sdl_context.video_mode.height);
 
       draw_esc_offset = cylinder_context->const_data.esc_offset;
       draw_esc_radius = cylinder_context->const_data.esc_radius;
-      draw_esc_cyl_height =
-	relative_text_width *
-	cylinder_context->const_data.esc_cyl_height * screen_ratio;
-      draw_esc_cyl_height_offset =
-	cylinder_context->const_data.esc_cyl_height_offset * screen_ratio;
+      draw_esc_cyl_height = relative_text_width * cylinder_context->const_data.esc_cyl_height * screen_ratio;
+      draw_esc_cyl_height_offset = cylinder_context->const_data.esc_cyl_height_offset * screen_ratio;
       draw_esc_rotate = cylinder_context->const_data.esc_rotate;
 
       _mod_gl1_menu_cylinder_draw_fixed_cylinder_corners (utils_context,
 							  cylinder_context,
 							  draw_esc_offset,
 							  draw_esc_radius,
-							  draw_esc_cyl_height,
-							  draw_esc_cyl_height_offset,
-							  draw_esc_rotate,
-							  relative_text_width,
-							  pass_through);
+							  draw_esc_cyl_height, draw_esc_cyl_height_offset, draw_esc_rotate, relative_text_width, pass_through);
     }
 }
 
 static void
 draw_spheres_corners (mod_gl1_utils_context_t * utils_context,
-		      _mod_gl1_menu_cylinder_context_t * cylinder_context,
-		      int i, int n, int nb_spheres, int pass_through)
+		      _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, int nb_spheres, int pass_through)
 {
   int sphere_i;
 
   for (sphere_i = 0; sphere_i < nb_spheres; ++sphere_i)
     {
-      _mod_gl1_menu_cylinder_draw_sphere_corners (utils_context,
-						  cylinder_context, i, n,
-						  sphere_i, nb_spheres,
-						  pass_through);
+      _mod_gl1_menu_cylinder_draw_sphere_corners (utils_context, cylinder_context, i, n, sphere_i, nb_spheres, pass_through);
     }
 }
 
@@ -103,9 +85,7 @@ void
 _mod_gl1_menu_cylinder_pick_item (mod_gl1_utils_context_t * utils_context,
 				  _mod_gl1_menu_cylinder_context_t *
 				  cylinder_context,
-				  const lw6gui_look_t * look, int *position,
-				  int *scroll, int *esc, lw6gui_menu_t * menu,
-				  int screen_x, int screen_y)
+				  const lw6gui_look_t * look, int *position, int *scroll, int *esc, lw6gui_menu_t * menu, int screen_x, int screen_y)
 {
   //  http://users.polytech.unice.fr/~buffa/cours/synthese_image/DOCS/Tutoriaux/glGameDeveloppers/view.cgi-V=tutorial_glfeedback&S=3.htm
 
@@ -118,9 +98,7 @@ _mod_gl1_menu_cylinder_pick_item (mod_gl1_utils_context_t * utils_context,
   float relative_text_width;
   int ret = _PASS_THROUGH_DEFAULT;
 
-  lw6gui_menu_update_display_range (menu,
-				    cylinder_context->
-				    const_data.max_displayed_items);
+  lw6gui_menu_update_display_range (menu, cylinder_context->const_data.max_displayed_items);
 
   memset (feedback_buffer, 0, sizeof (GLfloat) * FEEDBACK_BUFFER_SIZE);
 
@@ -133,23 +111,17 @@ _mod_gl1_menu_cylinder_pick_item (mod_gl1_utils_context_t * utils_context,
 
   if (menu->first_item_displayed > 0)
     {
-      draw_spheres_corners (utils_context, cylinder_context, 0, n,
-			    cylinder_context->const_data.nb_spheres,
-			    _PASS_THROUGH_PREV);
+      draw_spheres_corners (utils_context, cylinder_context, 0, n, cylinder_context->const_data.nb_spheres, _PASS_THROUGH_PREV);
     }
   if (menu->first_item_displayed + menu->nb_items_displayed < menu->nb_items)
     {
-      draw_spheres_corners (utils_context, cylinder_context, n - 1, n,
-			    cylinder_context->const_data.nb_spheres,
-			    _PASS_THROUGH_NEXT);
+      draw_spheres_corners (utils_context, cylinder_context, n - 1, n, cylinder_context->const_data.nb_spheres, _PASS_THROUGH_NEXT);
     }
 
   for (i = 0; i < menu->nb_items_displayed; ++i)
     {
       menuitem = menu->items[i + menu->first_item_displayed];
-      button_bitmap =
-	mod_gl1_utils_get_button_from_menucache (utils_context, look,
-						 menuitem);
+      button_bitmap = mod_gl1_utils_get_button_from_menucache (utils_context, look, menuitem);
       if (button_bitmap)
 	{
 	  //
@@ -157,25 +129,18 @@ _mod_gl1_menu_cylinder_pick_item (mod_gl1_utils_context_t * utils_context,
 	  // we just suppose the button is very large. It practise
 	  // it shouldn't happen for we've drawn them just before.
 	  //
-	  relative_text_width =
-	    ((float) button_bitmap->surface->w) /
-	    ((float) MOD_GL1_UTILS_MENU_TEXTURE_W);
+	  relative_text_width = ((float) button_bitmap->surface->w) / ((float) MOD_GL1_UTILS_MENU_TEXTURE_W);
 	}
       else
 	{
 	  relative_text_width = 1.0f;
 	}
-      draw_button_corners (utils_context,
-			   cylinder_context,
-			   i + 1, n, relative_text_width,
-			   i + menu->first_item_displayed);
+      draw_button_corners (utils_context, cylinder_context, i + 1, n, relative_text_width, i + menu->first_item_displayed);
     }
 
   if (menu->esc_item->enabled)
     {
-      button_bitmap =
-	mod_gl1_utils_get_button_from_menucache (utils_context, look,
-						 menu->esc_item);
+      button_bitmap = mod_gl1_utils_get_button_from_menucache (utils_context, look, menu->esc_item);
       if (button_bitmap)
 	{
 	  //
@@ -183,24 +148,20 @@ _mod_gl1_menu_cylinder_pick_item (mod_gl1_utils_context_t * utils_context,
 	  // we just suppose the button is very large. It practise
 	  // it shouldn't happen for we've drawn them just before.
 	  //
-	  relative_text_width =
-	    ((float) button_bitmap->surface->w) /
-	    ((float) MOD_GL1_UTILS_MENU_TEXTURE_W);
+	  relative_text_width = ((float) button_bitmap->surface->w) / ((float) MOD_GL1_UTILS_MENU_TEXTURE_W);
 	}
       else
 	{
 	  relative_text_width = 1.0f;
 	}
-      draw_button_corners (utils_context, cylinder_context, -1, n,
-			   relative_text_width, _PASS_THROUGH_ESC);
+      draw_button_corners (utils_context, cylinder_context, -1, n, relative_text_width, _PASS_THROUGH_ESC);
     }
 
   glRenderMode (GL_RENDER);	// back to normal mode
 
   ptr = feedback_buffer;
 
-  while ((*ptr) == GL_PASS_THROUGH_TOKEN
-	 && (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE))
+  while ((*ptr) == GL_PASS_THROUGH_TOKEN && (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE))
     {
       ptr++;
       if (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE)
@@ -210,8 +171,7 @@ _mod_gl1_menu_cylinder_pick_item (mod_gl1_utils_context_t * utils_context,
 	  y_min = utils_context->sdl_context.video_mode.height + 1;
 	  y_max = -1;
 	  i = (int) (*ptr++);
-	  while ((*ptr) == GL_POINT_TOKEN
-		 && ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE - 3)
+	  while ((*ptr) == GL_POINT_TOKEN && ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE - 3)
 	    {
 	      ptr++;
 	      x = *(ptr++);
@@ -233,8 +193,7 @@ _mod_gl1_menu_cylinder_pick_item (mod_gl1_utils_context_t * utils_context,
 		  y_max = y;
 		}
 	    }
-	  if (x_min <= screen_x && screen_x <= x_max && y_min <= screen_y
-	      && screen_y <= y_max)
+	  if (x_min <= screen_x && screen_x <= x_max && y_min <= screen_y && screen_y <= y_max)
 	    {
 	      ret = i;
 	    }
@@ -269,11 +228,7 @@ void
 _mod_gl1_menu_cylinder_get_cylinder_right_point (mod_gl1_utils_context_t *
 						 utils_context,
 						 _mod_gl1_menu_cylinder_context_t
-						 * cylinder_context, int i,
-						 int n,
-						 float relative_text_width,
-						 float *right_point_x,
-						 float *right_point_y)
+						 * cylinder_context, int i, int n, float relative_text_width, float *right_point_x, float *right_point_y)
 {
   GLfloat feedback_buffer[FEEDBACK_BUFFER_SIZE];
   GLfloat *ptr;
@@ -286,17 +241,13 @@ _mod_gl1_menu_cylinder_get_cylinder_right_point (mod_gl1_utils_context_t *
   mod_gl1_utils_set_render_mode_3d_feedback (utils_context);
   glRenderMode (GL_FEEDBACK);	// enter feedback mode
 
-  _mod_gl1_menu_cylinder_draw_cylinder_corners (utils_context,
-						cylinder_context, i, n,
-						relative_text_width,
-						_PASS_THROUGH_SELECTED);
+  _mod_gl1_menu_cylinder_draw_cylinder_corners (utils_context, cylinder_context, i, n, relative_text_width, _PASS_THROUGH_SELECTED);
 
   glRenderMode (GL_RENDER);	// back to normal mode
 
   ptr = feedback_buffer;
 
-  while ((*ptr) == GL_PASS_THROUGH_TOKEN
-	 && (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE))
+  while ((*ptr) == GL_PASS_THROUGH_TOKEN && (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE))
     {
       ptr++;
       if (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE)
@@ -306,8 +257,7 @@ _mod_gl1_menu_cylinder_get_cylinder_right_point (mod_gl1_utils_context_t *
 	  y_min = utils_context->sdl_context.video_mode.height + 1;
 	  y_max = -1;
 	  ptr++;		// skipping passthrough value (_PASS_THROUGH_SELECTED)
-	  while ((*ptr) == GL_POINT_TOKEN
-		 && ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE - 3)
+	  while ((*ptr) == GL_POINT_TOKEN && ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE - 3)
 	    {
 	      ptr++;
 	      x = *(ptr++);

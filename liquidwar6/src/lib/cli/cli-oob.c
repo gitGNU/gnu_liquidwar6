@@ -42,9 +42,7 @@
  * Return value: new object
  */
 lw6cli_oob_t *
-lw6cli_oob_new (const char *public_url,
-		lw6cli_verify_callback_func_t verify_callback_func,
-		void *verify_callback_data)
+lw6cli_oob_new (const char *public_url, lw6cli_verify_callback_func_t verify_callback_func, void *verify_callback_data)
 {
   lw6cli_oob_t *oob = NULL;
 
@@ -96,28 +94,20 @@ lw6cli_oob_free (lw6cli_oob_t * oob)
 	  if (oob->data.public_url)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("joining cli OOB thread connecting on \"%s\" this might take some time..."),
-			  oob->data.public_url);
+			  _x_ ("joining cli OOB thread connecting on \"%s\" this might take some time..."), oob->data.public_url);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("joining cli OOB thread, this might take some time..."));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("joining cli OOB thread, this might take some time..."));
 	    }
 	  lw6sys_thread_join (sys_context, oob->thread);
 	  if (oob->data.public_url)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("joined cli OOB thread connecting on \"%s\""),
-			  oob->data.public_url);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("joined cli OOB thread connecting on \"%s\""), oob->data.public_url);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("joined cli OOB thread"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("joined cli OOB thread"));
 	    }
 	}
 
@@ -130,7 +120,6 @@ lw6cli_oob_free (lw6cli_oob_t * oob)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL oob"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL oob"));
     }
 }

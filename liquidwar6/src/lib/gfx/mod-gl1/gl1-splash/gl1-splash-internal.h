@@ -93,34 +93,20 @@ typedef struct _mod_gl1_splash_context_s
 /*
  * In data.c
  */
-extern int _mod_gl1_splash_load_data (mod_gl1_utils_context_t * utils_context,
-				      _mod_gl1_splash_context_t *
-				      splash_context);
-extern void _mod_gl1_splash_unload_data (mod_gl1_utils_context_t *
-					 utils_context,
-					 _mod_gl1_splash_context_t *
-					 splash_context);
+extern int _mod_gl1_splash_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context);
+extern void _mod_gl1_splash_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context);
 
 /*
  * In display.c
  */
-extern void _mod_gl1_splash_display (mod_gl1_utils_context_t *
-				     utils_context,
-				     _mod_gl1_splash_context_t *
-				     splash_context);
+extern void _mod_gl1_splash_display (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context);
 extern void _mod_gl1_splash_patch_system_color (mod_gl1_utils_context_t *
-						utils_context,
-						_mod_gl1_splash_context_t *
-						splash_context,
-						lw6map_color_couple_t *
-						system_color);
+						utils_context, _mod_gl1_splash_context_t * splash_context, lw6map_color_couple_t * system_color);
 
 /*
  * In setup.c
  */
-extern _mod_gl1_splash_context_t
-  * _mod_gl1_splash_init (mod_gl1_utils_context_t * utils_context);
-extern void _mod_gl1_splash_quit (mod_gl1_utils_context_t * utils_context,
-				  _mod_gl1_splash_context_t * splash_context);
+extern _mod_gl1_splash_context_t *_mod_gl1_splash_init (mod_gl1_utils_context_t * utils_context);
+extern void _mod_gl1_splash_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context);
 
 #endif

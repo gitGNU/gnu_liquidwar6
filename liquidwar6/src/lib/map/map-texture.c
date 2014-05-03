@@ -44,10 +44,7 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6map_texture_from_body (lw6sys_context_t * sys_context,
-			  lw6map_texture_t * texture,
-			  const lw6map_body_t * body,
-			  const lw6map_color_couple_t * color)
+lw6map_texture_from_body (lw6sys_context_t * sys_context, lw6map_texture_t * texture, const lw6map_body_t * body, const lw6map_color_couple_t * color)
 {
   int ret = 0;
   int x, y;
@@ -56,10 +53,7 @@ lw6map_texture_from_body (lw6sys_context_t * sys_context,
 
   texture->w = body->shape.w;
   texture->h = body->shape.h;
-  texture->data =
-    (lw6sys_color_8_t *) LW6SYS_MALLOC (sys_context, texture->w *
-					texture->h *
-					sizeof (lw6sys_color_8_t));
+  texture->data = (lw6sys_color_8_t *) LW6SYS_MALLOC (sys_context, texture->w * texture->h * sizeof (lw6sys_color_8_t));
 
   if (texture->data)
     {
@@ -67,18 +61,14 @@ lw6map_texture_from_body (lw6sys_context_t * sys_context,
 	{
 	  for (x = 0; x < texture->w; ++x)
 	    {
-	      lw6map_texture_set (texture, x, y,
-				  lw6map_body_get (body, x,
-						   y, 0) >
-				  0 ? color->bg : color->fg);
+	      lw6map_texture_set (texture, x, y, lw6map_body_get (body, x, y, 0) > 0 ? color->bg : color->fg);
 	    }
 	}
       ret = 1;
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to construct texture from body"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to construct texture from body"));
       texture->w = 0;
       texture->h = 0;
     }
@@ -98,8 +88,7 @@ lw6map_texture_from_body (lw6sys_context_t * sys_context,
  * Return value: none.
  */
 void
-lw6map_texture_clear (lw6sys_context_t * sys_context,
-		      lw6map_texture_t * texture)
+lw6map_texture_clear (lw6sys_context_t * sys_context, lw6map_texture_t * texture)
 {
   if (texture->data)
     {
@@ -125,9 +114,7 @@ lw6map_texture_clear (lw6sys_context_t * sys_context,
  * Return value: 1 on success, 0 if failure.
  */
 int
-lw6map_texture_coord_from_body (lw6sys_context_t * sys_context,
-				const lw6map_level_t * level, int *texture_x,
-				int *texture_y, int body_x, int body_y)
+lw6map_texture_coord_from_body (lw6sys_context_t * sys_context, const lw6map_level_t * level, int *texture_x, int *texture_y, int body_x, int body_y)
 {
   int ret = 0;
 
@@ -135,10 +122,8 @@ lw6map_texture_coord_from_body (lw6sys_context_t * sys_context,
     {
       (*texture_x) = (body_x * level->texture.w) / level->body.shape.w;
       (*texture_y) = (body_y * level->texture.h) / level->body.shape.h;
-      (*texture_x) =
-	lw6sys_imax (0, lw6sys_imin (level->texture.w - 1, *texture_x));
-      (*texture_y) =
-	lw6sys_imax (0, lw6sys_imin (level->texture.h - 1, *texture_y));
+      (*texture_x) = lw6sys_imax (0, lw6sys_imin (level->texture.w - 1, *texture_x));
+      (*texture_y) = lw6sys_imax (0, lw6sys_imin (level->texture.h - 1, *texture_y));
       ret = 1;
     }
   else
@@ -164,16 +149,13 @@ lw6map_texture_coord_from_body (lw6sys_context_t * sys_context,
  * Return value: RGBA 8-bit color.
  */
 lw6sys_color_8_t
-lw6map_texture_get_with_body_coord (lw6sys_context_t * sys_context,
-				    const lw6map_level_t * level, int body_x,
-				    int body_y)
+lw6map_texture_get_with_body_coord (lw6sys_context_t * sys_context, const lw6map_level_t * level, int body_x, int body_y)
 {
   lw6sys_color_8_t ret = LW6SYS_COLOR_8_BLACK;
   int texture_x;
   int texture_y;
 
-  if (lw6map_texture_coord_from_body
-      (sys_context, level, &texture_x, &texture_y, body_x, body_y))
+  if (lw6map_texture_coord_from_body (sys_context, level, &texture_x, &texture_y, body_x, body_y))
     {
       ret = lw6map_texture_get (&level->texture, texture_x, texture_y);
     }
@@ -197,8 +179,7 @@ lw6map_texture_get_with_body_coord (lw6sys_context_t * sys_context,
  * Return value: 1 if has used alpha layer, 0 if opaque.
  */
 int
-lw6map_texture_has_alpha (lw6sys_context_t * sys_context,
-			  lw6map_texture_t * texture)
+lw6map_texture_has_alpha (lw6sys_context_t * sys_context, lw6map_texture_t * texture)
 {
   int ret = 0;
   int x = 0;

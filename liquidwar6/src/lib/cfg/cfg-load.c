@@ -31,8 +31,7 @@
 
 
 static void
-load_callback (void *callback_data, const char *element, const char *key,
-	       const char *value)
+load_callback (void *callback_data, const char *element, const char *key, const char *value)
 {
   _lw6cfg_context_t *cfg_context;
 
@@ -42,15 +41,13 @@ load_callback (void *callback_data, const char *element, const char *key,
     {
       if (lw6sys_spinlock_lock (cfg_context->spinlock))
 	{
-	  lw6sys_hash_set (cfg_context->options, key,
-			   lw6sys_str_copy (sys_context, value));
+	  lw6sys_hash_set (cfg_context->options, key, lw6sys_str_copy (sys_context, value));
 	  lw6sys_spinlock_unlock (cfg_context->spinlock);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("option \"%s\" not loaded"), key);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("option \"%s\" not loaded"), key);
     }
 }
 
@@ -59,20 +56,15 @@ _lw6cfg_load (_lw6cfg_context_t * cfg_context, const char *filename)
 {
   int ret = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("loading config from \"%s\""), filename);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading config from \"%s\""), filename);
 
   if (lw6sys_file_exists (sys_context, filename))
     {
-      ret =
-	lw6cfg_read_key_value_xml_file (filename, load_callback,
-					(void *) cfg_context);
+      ret = lw6cfg_read_key_value_xml_file (filename, load_callback, (void *) cfg_context);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("config file \"%s\" doesn't exist, using defaults"),
-		  filename);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("config file \"%s\" doesn't exist, using defaults"), filename);
     }
 
   _lw6cfg_merge_env (cfg_context);

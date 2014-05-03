@@ -91,10 +91,7 @@ lw6sys_get_uptime (lw6sys_context_t * sys_context)
 
   memset (&now, 0, sizeof (struct timeval));
   gettimeofday (&now, NULL);
-  ret =
-    ((int64_t) (now.tv_sec)) * LW6SYS_TICKS_PER_SEC +
-    ((int64_t) (now.tv_usec)) / (1000000 / LW6SYS_TICKS_PER_SEC) -
-    timestamp_0;
+  ret = ((int64_t) (now.tv_sec)) * LW6SYS_TICKS_PER_SEC + ((int64_t) (now.tv_usec)) / (1000000 / LW6SYS_TICKS_PER_SEC) - timestamp_0;
 
   if (ret < last_ret)
     {
@@ -154,8 +151,7 @@ lw6sys_get_cycle (lw6sys_context_t * sys_context)
  * Return value: none (parameters modified).
  */
 void
-lw6sys_timer_update (lw6sys_context_t * sys_context, int64_t * timestamp,
-		     int64_t * uptime, int32_t * cycle)
+lw6sys_timer_update (lw6sys_context_t * sys_context, int64_t * timestamp, int64_t * uptime, int32_t * cycle)
 {
   int64_t tmp = 0;
 
@@ -188,8 +184,7 @@ lw6sys_timer_update (lw6sys_context_t * sys_context, int64_t * timestamp,
 void
 lw6sys_sleep (lw6sys_context_t * sys_context, float seconds)
 {
-  lw6sys_delay (sys_context,
-		(int) (seconds * ((float) LW6SYS_TICKS_PER_SEC)));
+  lw6sys_delay (sys_context, (int) (seconds * ((float) LW6SYS_TICKS_PER_SEC)));
 }
 
 /**
@@ -282,8 +277,7 @@ lw6sys_time_init (lw6sys_context_t * sys_context)
 
   memset (&now, 0, sizeof (struct timeval));
   gettimeofday (&now, NULL);
-  timestamp_0 =
-    ((int64_t) (now.tv_sec)) * 1000L + ((int64_t) (now.tv_usec)) / 1000L;
+  timestamp_0 = ((int64_t) (now.tv_sec)) * 1000L + ((int64_t) (now.tv_usec)) / 1000L;
 }
 
 /**
@@ -342,12 +336,10 @@ lw6sys_date_rfc1123 (lw6sys_context_t * sys_context, int seconds_from_now)
       tm_ptr = &tm;
 #endif // LW6_MS_WINDOWS
       // http://www.gta.igs.net/~hwt/rfcdate.html
-      strflen =
-	strftime (ret, _RFC1123_SIZE, "%a, %d %b %Y %H:%M:%S +0000", tm_ptr);
+      strflen = strftime (ret, _RFC1123_SIZE, "%a, %d %b %Y %H:%M:%S +0000", tm_ptr);
       if (strflen >= _RFC1123_SIZE)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("buffer exceeded %d>=%d"), strflen, _RFC1123_SIZE);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("buffer exceeded %d>=%d"), strflen, _RFC1123_SIZE);
 	}
       // called with old_tz=NULL, will unset
       lw6sys_setenv (sys_context, "TZ", old_tz);
@@ -416,8 +408,7 @@ lw6sys_date_clf (lw6sys_context_t * sys_context)
       strflen = strftime (ret, _CLF_SIZE, "%d/%b/%Y:%H:%M:%S %z", tm_ptr);
       if (strflen >= _CLF_SIZE)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("buffer exceeded %d>=%d"), strflen, _CLF_SIZE);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("buffer exceeded %d>=%d"), strflen, _CLF_SIZE);
 	}
       if (old_locale)
 	{
@@ -442,8 +433,7 @@ lw6sys_date_clf (lw6sys_context_t * sys_context)
  * Return value: newly allocated string
  */
 char *
-lw6sys_readable_uptime (lw6sys_context_t * sys_context,
-			int64_t timestamp_delta)
+lw6sys_readable_uptime (lw6sys_context_t * sys_context, int64_t timestamp_delta)
 {
   char *ret = NULL;
   int delta;
@@ -459,15 +449,11 @@ lw6sys_readable_uptime (lw6sys_context_t * sys_context,
   days = (delta / (3600 * 24));
   if (days > 0)
     {
-      ret =
-	lw6sys_new_sprintf (sys_context, "%dd %d:%02d:%02d", days, hours,
-			    minutes, seconds);
+      ret = lw6sys_new_sprintf (sys_context, "%dd %d:%02d:%02d", days, hours, minutes, seconds);
     }
   else
     {
-      ret =
-	lw6sys_new_sprintf (sys_context, "%d:%02d:%02d", hours, minutes,
-			    seconds);
+      ret = lw6sys_new_sprintf (sys_context, "%d:%02d:%02d", hours, minutes, seconds);
     }
 
   return ret;

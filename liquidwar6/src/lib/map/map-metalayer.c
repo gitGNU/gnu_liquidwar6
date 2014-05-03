@@ -40,9 +40,7 @@
  * Return value: none
  */
 void
-lw6map_meta_layer_set (lw6sys_context_t * sys_context,
-		       lw6map_meta_layer_t * meta_layer, int x, int y,
-		       u_int8_t value)
+lw6map_meta_layer_set (lw6sys_context_t * sys_context, lw6map_meta_layer_t * meta_layer, int x, int y, u_int8_t value)
 {
   if (meta_layer->data)
     {
@@ -63,8 +61,7 @@ lw6map_meta_layer_set (lw6sys_context_t * sys_context,
  * Return value: the value at this place
  */
 u_int8_t
-lw6map_meta_layer_get (lw6sys_context_t * sys_context,
-		       const lw6map_meta_layer_t * meta_layer, int x, int y)
+lw6map_meta_layer_get (lw6sys_context_t * sys_context, const lw6map_meta_layer_t * meta_layer, int x, int y)
 {
   int ret = 0;
 
@@ -88,8 +85,7 @@ lw6map_meta_layer_get (lw6sys_context_t * sys_context,
  * Return value: none
  */
 void
-lw6map_meta_layer_clear (lw6sys_context_t * sys_context,
-			 lw6map_meta_layer_t * meta_layer)
+lw6map_meta_layer_clear (lw6sys_context_t * sys_context, lw6map_meta_layer_t * meta_layer)
 {
   if (meta_layer->data)
     {
@@ -117,10 +113,7 @@ lw6map_meta_layer_clear (lw6sys_context_t * sys_context,
  * Return value: 1 if OK, 0 on failure.
  */
 int
-lw6map_meta_layer_builtin_custom (lw6sys_context_t * sys_context,
-				  lw6map_meta_layer_t * meta_layer, int w,
-				  int h, int analog, int noise_percent,
-				  int seed)
+lw6map_meta_layer_builtin_custom (lw6sys_context_t * sys_context, lw6map_meta_layer_t * meta_layer, int w, int h, int analog, int noise_percent, int seed)
 {
   int ret = 0;
   int i, n;
@@ -137,8 +130,7 @@ lw6map_meta_layer_builtin_custom (lw6sys_context_t * sys_context,
       noise_percent = lw6sys_imax (1, noise_percent);
       noise_percent = lw6sys_imin (100, noise_percent);
       seed = lw6sys_checksum_int32 (sys_context, seed);
-      meta_layer->data =
-	(u_int8_t *) LW6SYS_CALLOC (sys_context, w * h * sizeof (u_int8_t));
+      meta_layer->data = (u_int8_t *) LW6SYS_CALLOC (sys_context, w * h * sizeof (u_int8_t));
       if (meta_layer->data)
 	{
 	  meta_layer->shape.w = w;

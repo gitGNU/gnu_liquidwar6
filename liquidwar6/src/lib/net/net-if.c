@@ -65,40 +65,29 @@ lw6net_if_guess_local ()
     {
       // Make an initial call to GetAdaptersInfo to get
       // the necessary size into the ulOutBufLen variable
-      if (GetAdaptersInfo (pAdapterInfo, &ulOutBufLen) ==
-	  ERROR_BUFFER_OVERFLOW)
+      if (GetAdaptersInfo (pAdapterInfo, &ulOutBufLen) == ERROR_BUFFER_OVERFLOW)
 	{
 	  LW6SYS_FREE (sys_context, pAdapterInfo);
-	  pAdapterInfo =
-	    (IP_ADAPTER_INFO *) LW6SYS_CALLOC (sys_context, ulOutBufLen);
+	  pAdapterInfo = (IP_ADAPTER_INFO *) LW6SYS_CALLOC (sys_context, ulOutBufLen);
 	}
       if (pAdapterInfo)
 	{
-	  if ((dwRetVal =
-	       GetAdaptersInfo (pAdapterInfo, &ulOutBufLen)) == NO_ERROR)
+	  if ((dwRetVal = GetAdaptersInfo (pAdapterInfo, &ulOutBufLen)) == NO_ERROR)
 	    {
 	      pAdapter = pAdapterInfo;
 	      while (pAdapter && !ret)
 		{
 		  if (pAdapter->IpAddressList.IpAddress.String &&
-		      strlen (pAdapter->IpAddressList.IpAddress.String) >
-		      0
-		      && strcmp (pAdapter->IpAddressList.IpAddress.String,
-				 LW6NET_ADDRESS_LOOPBACK) != 0)
+		      strlen (pAdapter->IpAddressList.IpAddress.String) > 0 && strcmp (pAdapter->IpAddressList.IpAddress.String, LW6NET_ADDRESS_LOOPBACK) != 0)
 		    {
-		      ret =
-			lw6sys_str_copy (sys_context,
-					 pAdapter->IpAddressList.
-					 IpAddress.String);
+		      ret = lw6sys_str_copy (sys_context, pAdapter->IpAddressList.IpAddress.String);
 		    }
 		  pAdapter = pAdapter->Next;
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("GetAdaptersInfo failed with error %d"),
-			  (int) dwRetVal);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("GetAdaptersInfo failed with error %d"), (int) dwRetVal);
 	    }
 	}
     }
@@ -126,10 +115,7 @@ lw6net_if_guess_local ()
 	  // https://savannah.gnu.org/bugs/?41184
 	  if (ifa->ifa_addr != NULL && ifa->ifa_addr->sa_family == AF_INET)
 	    {
-	      if (!(s = getnameinfo (ifa->ifa_addr,
-				     sizeof (struct sockaddr_in),
-				     host, NI_MAXHOST, NULL, 0,
-				     NI_NUMERICHOST)))
+	      if (!(s = getnameinfo (ifa->ifa_addr, sizeof (struct sockaddr_in), host, NI_MAXHOST, NULL, 0, NI_NUMERICHOST)))
 		{
 		  if (strcmp (host, LW6NET_ADDRESS_LOOPBACK))
 		    {
@@ -138,9 +124,7 @@ lw6net_if_guess_local ()
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_ ("getnameinfo() failed \"%s\""),
-			      gai_strerror (s));
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("getnameinfo() failed \"%s\""), gai_strerror (s));
 		}
 	    }
 	}
@@ -183,9 +167,7 @@ lw6net_if_guess_public_url (const char *bind_ip, int bind_port)
       ip = lw6net_if_guess_local ();
       if (!ip)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_
-		      ("can't find local network interface, using loopback"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("can't find local network interface, using loopback"));
 	  ip = lw6sys_str_copy (sys_context, LW6NET_ADDRESS_LOOPBACK);
 	}
     }

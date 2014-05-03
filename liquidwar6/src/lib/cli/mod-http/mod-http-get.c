@@ -67,14 +67,11 @@ _write_memory_callback (void *ptr, size_t size, size_t nmemb, void *data)
 static void
 _print_error (char *function, CURLcode res)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("call to curl function \"%s\" failed with code %d \"%s\""),
-	      function, res, curl_easy_strerror (res));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("call to curl function \"%s\" failed with code %d \"%s\""), function, res, curl_easy_strerror (res));
 }
 
 char *
-_mod_http_get (_mod_http_context_t * http_context, const char *url,
-	       const char *password, const char *ip, int port)
+_mod_http_get (_mod_http_context_t * http_context, const char *url, const char *password, const char *ip, int port)
 {
   char *ret = NULL;
   CURL *curl_handle = NULL;
@@ -124,28 +121,18 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
 		      res = curl_easy_setopt (curl_handle, CURLOPT_URL, url);
 		      if (res == CURLE_OK)
 			{
-			  res =
-			    curl_easy_setopt (curl_handle,
-					      CURLOPT_WRITEFUNCTION,
-					      _write_memory_callback);
+			  res = curl_easy_setopt (curl_handle, CURLOPT_WRITEFUNCTION, _write_memory_callback);
 			  if (res == CURLE_OK)
 			    {
 			      /* we pass our 'chunk' struct to the callback function */
-			      res =
-				curl_easy_setopt (curl_handle,
-						  CURLOPT_WRITEDATA,
-						  (void *) &chunk);
+			      res = curl_easy_setopt (curl_handle, CURLOPT_WRITEDATA, (void *) &chunk);
 			      if (res == CURLE_OK)
 				{
 				  /*
 				   * Don't waist a full minute when
 				   * firewall is in DROP mode
 				   */
-				  res =
-				    curl_easy_setopt (curl_handle,
-						      CURLOPT_CONNECTTIMEOUT,
-						      http_context->data.
-						      consts.connect_timeout);
+				  res = curl_easy_setopt (curl_handle, CURLOPT_CONNECTTIMEOUT, http_context->data.consts.connect_timeout);
 				  if (res == CURLE_OK)
 				    {
 				      /*
@@ -153,70 +140,39 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
 				       * this only happens if server is buggy, but
 				       * it *can* be buggy. Or malicious.
 				       */
-				      res =
-					curl_easy_setopt (curl_handle,
-							  CURLOPT_TIMEOUT,
-							  http_context->data.
-							  consts.global_timeout);
+				      res = curl_easy_setopt (curl_handle, CURLOPT_TIMEOUT, http_context->data.consts.global_timeout);
 				      if (res == CURLE_OK)
 					{
 					  /* some servers don't like requests that are made without a user-agent
 					     field, so we provide one */
-					  res =
-					    curl_easy_setopt (curl_handle,
-							      CURLOPT_USERAGENT,
-							      lw6sys_build_get_package_tarname
-							      ());
+					  res = curl_easy_setopt (curl_handle, CURLOPT_USERAGENT, lw6sys_build_get_package_tarname ());
 					  if (res == CURLE_OK)
 					    {
 					      if (password)
 						{
-						  authorization =
-						    lw6sys_new_sprintf
-						    ("%s:%s",
-						     lw6sys_build_get_package_tarname
-						     (), password);
+						  authorization = lw6sys_new_sprintf ("%s:%s", lw6sys_build_get_package_tarname (), password);
 						  if (authorization)
 						    {
-						      lw6sys_log
-							(LW6SYS_LOG_DEBUG,
-							 _x_
-							 ("using authorization \"%s\""),
-							 authorization);
+						      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("using authorization \"%s\""), authorization);
 						      /* tell libcurl we can use "any" auth, which lets the lib pick one, but it
 						         also costs one extra round-trip and possibly sending of all the PUT
 						         data twice!!! */
-						      res =
-							curl_easy_setopt
-							(curl_handle,
-							 CURLOPT_HTTPAUTH,
-							 (long) CURLAUTH_ANY);
+						      res = curl_easy_setopt (curl_handle, CURLOPT_HTTPAUTH, (long) CURLAUTH_ANY);
 						      if (res != CURLE_OK)
 							{
-							  _print_error
-							    ("curl_easy_setopt(CURLOPT_HTTPAUTH)",
-							     res);
+							  _print_error ("curl_easy_setopt(CURLOPT_HTTPAUTH)", res);
 							}
 						      /* set user name and password for the authentication */
-						      res =
-							curl_easy_setopt
-							(curl_handle,
-							 CURLOPT_USERPWD,
-							 authorization);
+						      res = curl_easy_setopt (curl_handle, CURLOPT_USERPWD, authorization);
 						      if (res != CURLE_OK)
 							{
-							  _print_error
-							    ("curl_easy_setopt(CURLOPT_USERPWD)",
-							     res);
+							  _print_error ("curl_easy_setopt(CURLOPT_USERPWD)", res);
 							}
-						      LW6SYS_FREE
-							(authorization);
+						      LW6SYS_FREE (authorization);
 						    }
 						}
 					      /* get it! */
-					      res =
-						curl_easy_perform
-						(curl_handle);
+					      res = curl_easy_perform (curl_handle);
 					      if (res == CURLE_OK)
 						{
 						  /* should be OK */
@@ -224,44 +180,32 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
 						}
 					      else
 						{
-						  _print_error
-						    ("curl_easy_perform",
-						     res);
+						  _print_error ("curl_easy_perform", res);
 						}
 					    }
 					  else
 					    {
-					      _print_error
-						("curl_easy_setopt(CURLOPT_USERAGENT)",
-						 res);
+					      _print_error ("curl_easy_setopt(CURLOPT_USERAGENT)", res);
 					    }
 					}
 				      else
 					{
-					  _print_error
-					    ("curl_easy_setopt(CURLOPT_TIMEOUT)",
-					     res);
+					  _print_error ("curl_easy_setopt(CURLOPT_TIMEOUT)", res);
 					}
 				    }
 				  else
 				    {
-				      _print_error
-					("curl_easy_setopt(CURLOPT_CONNECTTIMEOUT)",
-					 res);
+				      _print_error ("curl_easy_setopt(CURLOPT_CONNECTTIMEOUT)", res);
 				    }
 				}
 			      else
 				{
-				  _print_error
-				    ("curl_easy_setopt(CURLOPT_WRITEDATA)",
-				     res);
+				  _print_error ("curl_easy_setopt(CURLOPT_WRITEDATA)", res);
 				}
 			    }
 			  else
 			    {
-			      _print_error
-				("curl_easy_setopt(CURLOPT_WRITEFUNCTION)",
-				 res);
+			      _print_error ("curl_easy_setopt(CURLOPT_WRITEFUNCTION)", res);
 			    }
 			}
 		      else
@@ -271,16 +215,14 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
 		    }
 		  else
 		    {
-		      _print_error ("curl_easy_setopt(CURLOPT_NOSIGNAL)",
-				    res);
+		      _print_error ("curl_easy_setopt(CURLOPT_NOSIGNAL)", res);
 		    }
 		  /* cleanup curl stuff */
 		  curl_easy_cleanup (curl_handle);
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_ ("unable to initialize CURL handle"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to initialize CURL handle"));
 		}
 
 	      if (chunk.memory)
@@ -288,15 +230,12 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
 		  if (http_ok && chunk.size > 0)
 		    {
 		      ret = chunk.memory;
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_ ("CURL HTTP response=\"%s\""), ret);
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("CURL HTTP response=\"%s\""), ret);
 		    }
 		  else
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_
-				  ("ignoring CURL HTTP response, http_ok=%d res=%d size=%d"),
-				  http_ok, (int) res, (int) chunk.size);
+				  _x_ ("ignoring CURL HTTP response, http_ok=%d res=%d size=%d"), http_ok, (int) res, (int) chunk.size);
 		      LW6SYS_FREE (sys_context, chunk.memory);
 		      chunk.memory = NULL;
 		    }
@@ -310,15 +249,11 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
 	   * Try a simple connect if we were in failure, this is just to set
 	   * the "not connectable" state if needed.
 	   */
-	  test_sock =
-	    lw6net_tcp_connect (ip, port,
-				http_context->data.consts.connect_timeout);
+	  test_sock = lw6net_tcp_connect (ip, port, http_context->data.consts.connect_timeout);
 	  if (lw6net_socket_is_valid (test_sock))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("destination %s:%d is reachable by plain TCP/IP, but unable to serve correct LW6 HTTP stuff on url \"%s\""),
-			  ip, port, url);
+			  _x_ ("destination %s:%d is reachable by plain TCP/IP, but unable to serve correct LW6 HTTP stuff on url \"%s\""), ip, port, url);
 	      lw6net_socket_close (&test_sock);
 	    }
 	  else
@@ -329,10 +264,7 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_
-		  ("destination %s:%d already marked as not connectable, not even trying to connect to it"),
-		  ip, port);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("destination %s:%d already marked as not connectable, not even trying to connect to it"), ip, port);
     }
 
   return ret;

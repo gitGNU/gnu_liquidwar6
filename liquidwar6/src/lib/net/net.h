@@ -78,13 +78,9 @@ extern char *lw6net_if_guess_public_url (const char *bind_ip, int bind_port);
 /* net-line.c */
 extern char *lw6net_recv_line_tcp (int *sock);
 extern int lw6net_send_line_tcp (int *sock, const char *line);
-extern char *lw6net_recv_line_udp (int sock,
-				   char **incoming_ip, int *incoming_port);
-extern lw6sys_list_t *lw6net_recv_lines_udp (int sock,
-					     char **incoming_ip,
-					     int *incoming_port);
-extern int lw6net_send_line_udp (int sock, const char *line, const char *ip,
-				 int port);
+extern char *lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port);
+extern lw6sys_list_t *lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port);
+extern int lw6net_send_line_udp (int sock, const char *line, const char *ip, int port);
 
 /* net-setup.c */
 extern int lw6net_init (int argc, const char *argv[], int net_log);
@@ -97,15 +93,11 @@ extern void lw6net_socket_close (int *sock);
 
 /* net-tcp.c */
 extern int lw6net_tcp_listen (const char *ip, int port);
-extern int lw6net_tcp_accept (char **incoming_ip,
-			      int *incoming_port, int listening_sock,
-			      int delay_msec);
+extern int lw6net_tcp_accept (char **incoming_ip, int *incoming_port, int listening_sock, int delay_msec);
 extern int lw6net_tcp_connect (const char *ip, int port, int delay_msec);
-extern int lw6net_tcp_send (int *sock, const char *buf,
-			    int len, int delay_msec, int loop);
+extern int lw6net_tcp_send (int *sock, const char *buf, int len, int delay_msec, int loop);
 extern int lw6net_tcp_peek (int *sock, char *buf, int len, int delay_msec);
-extern int lw6net_tcp_recv (int *sock, char *buf,
-			    int len, int delay_msec, int loop);
+extern int lw6net_tcp_recv (int *sock, char *buf, int len, int delay_msec, int loop);
 extern int lw6net_tcp_is_alive (int *sock);
 
 /* net-test.c */
@@ -115,11 +107,8 @@ extern int lw6net_test_run (int mode);
 /* net-udp.c */
 extern int lw6net_udp_client ();
 extern int lw6net_udp_server (const char *ip, int port);
-extern int lw6net_udp_send (int sock, const char *buf, int len,
-			    const char *ip, int port);
-extern int lw6net_udp_peek (int sock, char *buf, int len, char **incoming_ip,
-			    int *incoming_port);
-extern int lw6net_udp_recv (int sock, char *buf, int len, char **incoming_ip,
-			    int *incoming_port);
+extern int lw6net_udp_send (int sock, const char *buf, int len, const char *ip, int port);
+extern int lw6net_udp_peek (int sock, char *buf, int len, char **incoming_ip, int *incoming_port);
+extern int lw6net_udp_recv (int sock, char *buf, int len, char **incoming_ip, int *incoming_port);
 
 #endif

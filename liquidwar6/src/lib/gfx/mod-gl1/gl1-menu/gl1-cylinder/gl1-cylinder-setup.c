@@ -40,9 +40,7 @@ _mod_gl1_menu_cylinder_init (mod_gl1_utils_context_t * utils_context)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("init menu/cylinder"));
 
-  cylinder_context =
-    (_mod_gl1_menu_cylinder_context_t *)
-    LW6SYS_CALLOC (sizeof (_mod_gl1_menu_cylinder_context_t));
+  cylinder_context = (_mod_gl1_menu_cylinder_context_t *) LW6SYS_CALLOC (sizeof (_mod_gl1_menu_cylinder_context_t));
   if (cylinder_context)
     {
       if (_mod_gl1_menu_cylinder_load_data (utils_context, cylinder_context))
@@ -74,9 +72,7 @@ mod_gl1_menu_cylinder_init (mod_gl1_utils_context_t * utils_context)
  * Ends-up all SDL stuff.
  */
 void
-_mod_gl1_menu_cylinder_quit (mod_gl1_utils_context_t * utils_context,
-			     _mod_gl1_menu_cylinder_context_t *
-			     cylinder_context)
+_mod_gl1_menu_cylinder_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
 {
   if (cylinder_context)
     {
@@ -85,12 +81,9 @@ _mod_gl1_menu_cylinder_quit (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_menu_cylinder_quit (mod_gl1_utils_context_t * utils_context,
-			    void *cylinder_context)
+mod_gl1_menu_cylinder_quit (mod_gl1_utils_context_t * utils_context, void *cylinder_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("quit menu/cylinder"));
 
-  _mod_gl1_menu_cylinder_quit (utils_context,
-			       (_mod_gl1_menu_cylinder_context_t *)
-			       cylinder_context);
+  _mod_gl1_menu_cylinder_quit (utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context);
 }

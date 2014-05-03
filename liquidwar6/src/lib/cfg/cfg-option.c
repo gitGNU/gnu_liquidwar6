@@ -74,8 +74,7 @@ _lw6cfg_get_option (_lw6cfg_context_t * context, const char *key)
 
   if (!ret)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("option \"%s\" is not set"), key);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("option \"%s\" is not set"), key);
     }
 
   return ret;
@@ -100,8 +99,7 @@ lw6cfg_get_option (void *context, const char *key)
 }
 
 void
-_lw6cfg_set_option (_lw6cfg_context_t * context, const char *key,
-		    const char *value)
+_lw6cfg_set_option (_lw6cfg_context_t * context, const char *key, const char *value)
 {
   char *value_converted = NULL;
 
@@ -110,8 +108,7 @@ _lw6cfg_set_option (_lw6cfg_context_t * context, const char *key,
     {
       if (lw6sys_spinlock_lock (sys_context, context->spinlock))
 	{
-	  lw6sys_hash_set (sys_context, context->options, key,
-			   (void *) value_converted);
+	  lw6sys_hash_set (sys_context, context->options, key, (void *) value_converted);
 	  lw6sys_spinlock_unlock (sys_context, context->spinlock);
 	}
     }
@@ -171,8 +168,7 @@ lw6cfg_get_option_int (void *context, const char *key)
 }
 
 void
-_lw6cfg_set_option_int (_lw6cfg_context_t * context, const char *key,
-			int value)
+_lw6cfg_set_option_int (_lw6cfg_context_t * context, const char *key, int value)
 {
   char *str;
 
@@ -238,8 +234,7 @@ lw6cfg_get_option_bool (void *context, const char *key)
 }
 
 void
-_lw6cfg_set_option_bool (_lw6cfg_context_t * context, const char *key,
-			 int value)
+_lw6cfg_set_option_bool (_lw6cfg_context_t * context, const char *key, int value)
 {
   char *str;
 

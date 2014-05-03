@@ -27,8 +27,7 @@
 #include "../snd.h"
 #include "mod-ogg-internal.h"
 
-static char *_MUSIC_EXTS[] =
-  { ".ogg", ".mp3", ".wav", ".mid", ".midi", ".mod", ".xm", ".s3m", NULL };
+static char *_MUSIC_EXTS[] = { ".ogg", ".mp3", ".wav", ".mid", ".midi", ".mod", ".xm", ".s3m", NULL };
 
 int
 _mod_ogg_is_music_file (_mod_ogg_context_t * ogg_context, char *music_file)
@@ -46,13 +45,9 @@ _mod_ogg_is_music_file (_mod_ogg_context_t * ogg_context, char *music_file)
       if (music_file_tmp)
 	{
 	  lw6sys_str_tolower (music_file_tmp);
-	  if ((ogg_context->music.filter == NULL)
-	      || (strlen (ogg_context->music.filter) == 0)
-	      || (strstr (music_file_tmp, ogg_context->music.filter)))
+	  if ((ogg_context->music.filter == NULL) || (strlen (ogg_context->music.filter) == 0) || (strstr (music_file_tmp, ogg_context->music.filter)))
 	    {
-	      if ((ogg_context->music.exclude == NULL)
-		  || (strlen (ogg_context->music.exclude) == 0)
-		  || (!strstr (music_file_tmp, ogg_context->music.exclude)))
+	      if ((ogg_context->music.exclude == NULL) || (strlen (ogg_context->music.exclude) == 0) || (!strstr (music_file_tmp, ogg_context->music.exclude)))
 		{
 		  while (_MUSIC_EXTS[i])
 		    {
@@ -75,18 +70,12 @@ _mod_ogg_is_music_file (_mod_ogg_context_t * ogg_context, char *music_file)
 	  else
 	    {
 	      ret = 0;
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("file \"%s\" is not a music file, it can't be opened"),
-			  music_file);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("file \"%s\" is not a music file, it can't be opened"), music_file);
 	    }
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_
-		      ("file \"%s\" is not a music file, extension is unknown"),
-		      music_file);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("file \"%s\" is not a music file, extension is unknown"), music_file);
 	}
     }
 
@@ -107,29 +96,22 @@ _mod_ogg_play_music_file (_mod_ogg_context_t * ogg_context, char *music_file)
 	{
 	  if (Mix_PlayMusic (ogg_context->music.music, -1) == 0)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("playing music file \"%s\""), music_file);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("playing music file \"%s\""), music_file);
 	      ret = 1;
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("can't play \%s\", SDL_mixer says \"%s\""),
-			  music_file, Mix_GetError ());
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't play \%s\", SDL_mixer says \"%s\""), music_file, Mix_GetError ());
 	    }
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("can't load \%s\", SDL_mixer says \"%s\""),
-		      music_file, Mix_GetError ());
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't load \%s\", SDL_mixer says \"%s\""), music_file, Mix_GetError ());
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't play music \"%s\", one seems already active"),
-		  music_file);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't play music \"%s\", one seems already active"), music_file);
     }
 
   return ret;
@@ -142,16 +124,13 @@ _is_music_callback_func (void *func_data, char *file)
   _mod_ogg_context_t *ogg_context = (_mod_ogg_context_t *) func_data;
 
   ret = _mod_ogg_is_music_file (ogg_context, file);
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("found file \"%s\" is_music_file=%d"), file, ret);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("found file \"%s\" is_music_file=%d"), file, ret);
 
   return ret;
 }
 
 int
-_mod_ogg_play_music_random (_mod_ogg_context_t * ogg_context,
-			    char *music_path, char *music_filter,
-			    char *music_exclude)
+_mod_ogg_play_music_random (_mod_ogg_context_t * ogg_context, char *music_path, char *music_filter, char *music_exclude)
 {
   int ret = 0;
   lw6sys_list_t *list = NULL;
@@ -172,17 +151,11 @@ _mod_ogg_play_music_random (_mod_ogg_context_t * ogg_context,
       lw6sys_str_tolower (ogg_context->music.exclude);
     }
 
-  list =
-    lw6sys_path_list (music_path, _is_music_callback_func,
-		      (void *) ogg_context, &n);
+  list = lw6sys_path_list (music_path, _is_music_callback_func, (void *) ogg_context, &n);
   if (list)
     {
       j = lw6sys_random (n);
-      while (list
-	     &&
-	     ((path =
-	       ((char *) lw6sys_list_pop_front (sys_context, &list))) !=
-	      NULL))
+      while (list && ((path = ((char *) lw6sys_list_pop_front (sys_context, &list))) != NULL))
 	{
 	  if ((i == j) && (!music_file))
 	    {

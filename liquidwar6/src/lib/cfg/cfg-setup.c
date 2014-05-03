@@ -32,17 +32,13 @@ _lw6cfg_init (int argc, const char *argv[])
 {
   _lw6cfg_context_t *cfg_context = NULL;
 
-  cfg_context =
-    (_lw6cfg_context_t *) LW6SYS_CALLOC (sizeof (_lw6cfg_context_t));
+  cfg_context = (_lw6cfg_context_t *) LW6SYS_CALLOC (sizeof (_lw6cfg_context_t));
   if (cfg_context)
     {
-      cfg_context->config_file =
-	lw6sys_get_config_file (sys_context, argc, argv);
+      cfg_context->config_file = lw6sys_get_config_file (sys_context, argc, argv);
       if (cfg_context->config_file)
 	{
-	  cfg_context->options =
-	    lw6sys_hash_new (sys_context, lw6sys_free_callback,
-			     LW6HLP_APPROX_NB_ENTRIES);
+	  cfg_context->options = lw6sys_hash_new (sys_context, lw6sys_free_callback, LW6HLP_APPROX_NB_ENTRIES);
 	  if (cfg_context->options)
 	    {
 	      cfg_context->spinlock = lw6sys_spinlock_create ();
@@ -76,8 +72,7 @@ _lw6cfg_init (int argc, const char *argv[])
 
   if (!cfg_context)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to initialize config"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to initialize config"));
     }
 
   return cfg_context;

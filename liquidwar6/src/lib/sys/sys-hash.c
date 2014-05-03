@@ -60,8 +60,7 @@ typedef struct hash_dup_callback_data_s
  * Must be freed with @lw6sys_hash_free.
  */
 lw6sys_hash_t *
-lw6sys_hash_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func,
-		 int size)
+lw6sys_hash_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func, int size)
 {
   lw6sys_hash_t *ret = NULL;
   int i;
@@ -74,9 +73,7 @@ lw6sys_hash_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func,
 	{
 	  ret->free_func = free_func;
 	  ret->size = size;
-	  ret->entries =
-	    (lw6sys_assoc_t **) LW6SYS_MALLOC (sys_context, size *
-					       sizeof (lw6sys_assoc_t *));
+	  ret->entries = (lw6sys_assoc_t **) LW6SYS_MALLOC (sys_context, size * sizeof (lw6sys_assoc_t *));
 	  if (ret->entries)
 	    {
 	      for (i = 0; i < ret->size; ++i)
@@ -109,8 +106,7 @@ lw6sys_hash_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't create hash with size=%d"), size);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't create hash with size=%d"), size);
     }
 
   return ret;
@@ -146,8 +142,7 @@ lw6sys_hash_free (lw6sys_context_t * sys_context, lw6sys_hash_t * hash)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL hash"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL hash"));
     }
 }
 
@@ -164,8 +159,7 @@ lw6sys_hash_free (lw6sys_context_t * sys_context, lw6sys_hash_t * hash)
  *   corresponding key.
  */
 int
-lw6sys_hash_has_key (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
-		     const char *key)
+lw6sys_hash_has_key (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, const char *key)
 {
   int exists = 0;
   int index = 0;
@@ -177,8 +171,7 @@ lw6sys_hash_has_key (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("calling has_key on NULL hash"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling has_key on NULL hash"));
     }
 
   return exists;
@@ -201,8 +194,7 @@ lw6sys_hash_has_key (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
  *   destroying the hash will actually free the data if needed.
  */
 void *
-lw6sys_hash_get (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
-		 const char *key)
+lw6sys_hash_get (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, const char *key)
 {
   void *value = NULL;
   int index = 0;
@@ -214,8 +206,7 @@ lw6sys_hash_get (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("calling get on NULL hash"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling get on NULL hash"));
     }
 
   return value;
@@ -241,8 +232,7 @@ lw6sys_hash_get (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
  * Return value: void
  */
 void
-lw6sys_hash_set (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
-		 const char *key, void *value)
+lw6sys_hash_set (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, const char *key, void *value)
 {
   int index = 0;
 
@@ -253,8 +243,7 @@ lw6sys_hash_set (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("calling set on NULL hash"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling set on NULL hash"));
     }
 }
 
@@ -272,8 +261,7 @@ lw6sys_hash_set (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
  * Return value: void
  */
 void
-lw6sys_hash_unset (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
-		   const char *key)
+lw6sys_hash_unset (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, const char *key)
 {
   int index = 0;
 
@@ -284,8 +272,7 @@ lw6sys_hash_unset (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("calling unset on NULL hash"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling unset on NULL hash"));
     }
 }
 
@@ -323,9 +310,7 @@ lw6sys_hash_keys (lw6sys_context_t * sys_context, lw6sys_hash_t * hash)
 		{
 		  if (assoc->key)
 		    {
-		      lw6sys_lifo_push (sys_context, &keys,
-					lw6sys_str_copy (sys_context,
-							 assoc->key));
+		      lw6sys_lifo_push (sys_context, &keys, lw6sys_str_copy (sys_context, assoc->key));
 		    }
 		  assoc = assoc->next_item;
 		}
@@ -334,8 +319,7 @@ lw6sys_hash_keys (lw6sys_context_t * sys_context, lw6sys_hash_t * hash)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("calling keys on NULL hash"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling keys on NULL hash"));
     }
 
   return keys;
@@ -358,8 +342,7 @@ lw6sys_hash_keys (lw6sys_context_t * sys_context, lw6sys_hash_t * hash)
  * Return value: void
  */
 void
-lw6sys_hash_map (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
-		 lw6sys_assoc_callback_func_t func, void *func_data)
+lw6sys_hash_map (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, lw6sys_assoc_callback_func_t func, void *func_data)
 {
   int i;
 
@@ -372,8 +355,7 @@ lw6sys_hash_map (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("calling map on NULL hash"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling map on NULL hash"));
     }
 }
 
@@ -391,9 +373,7 @@ lw6sys_hash_map (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
  * Return value: void
  */
 void
-lw6sys_hash_sort_and_map (lw6sys_context_t * sys_context,
-			  lw6sys_hash_t * hash,
-			  lw6sys_assoc_callback_func_t func, void *func_data)
+lw6sys_hash_sort_and_map (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, lw6sys_assoc_callback_func_t func, void *func_data)
 {
   lw6sys_list_t *keys = NULL;
   lw6sys_list_t *current_key;
@@ -415,8 +395,7 @@ lw6sys_hash_sort_and_map (lw6sys_context_t * sys_context,
 		    {
 		      if (func)
 			{
-			  func (sys_context, func_data, str_key,
-				lw6sys_hash_get (sys_context, hash, str_key));
+			  func (sys_context, func_data, str_key, lw6sys_hash_get (sys_context, hash, str_key));
 			}
 		    }
 		  current_key = lw6sys_list_next (sys_context, current_key);
@@ -430,8 +409,7 @@ lw6sys_hash_sort_and_map (lw6sys_context_t * sys_context,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("calling sort and map on NULL hash"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling sort and map on NULL hash"));
     }
 }
 
@@ -451,8 +429,7 @@ lw6sys_hash_sort_and_map (lw6sys_context_t * sys_context,
  * Returned value: a newly allocated hash.
  */
 lw6sys_hash_t *
-lw6sys_hash_dup (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
-		 lw6sys_dup_func_t dup_func)
+lw6sys_hash_dup (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, lw6sys_dup_func_t dup_func)
 {
   lw6sys_hash_t *ret = NULL;
   int i;
@@ -460,22 +437,17 @@ lw6sys_hash_dup (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
 
   if (hash)
     {
-      ret =
-	(lw6sys_hash_t *) LW6SYS_MALLOC (sys_context, sizeof (lw6sys_hash_t));
+      ret = (lw6sys_hash_t *) LW6SYS_MALLOC (sys_context, sizeof (lw6sys_hash_t));
       if (ret)
 	{
 	  ret->free_func = hash->free_func;
 	  ret->size = hash->size;
-	  ret->entries =
-	    (lw6sys_assoc_t **) LW6SYS_MALLOC (sys_context, hash->size *
-					       sizeof (lw6sys_assoc_t *));
+	  ret->entries = (lw6sys_assoc_t **) LW6SYS_MALLOC (sys_context, hash->size * sizeof (lw6sys_assoc_t *));
 	  if (ret->entries)
 	    {
 	      for (i = 0; i < hash->size; ++i)
 		{
-		  ret->entries[i] =
-		    lw6sys_assoc_dup (sys_context, hash->entries[i],
-				      dup_func);
+		  ret->entries[i] = lw6sys_assoc_dup (sys_context, hash->entries[i], dup_func);
 		  if (!ret->entries[i])
 		    {
 		      null_entry = 1;
@@ -503,8 +475,7 @@ lw6sys_hash_dup (lw6sys_context_t * sys_context, lw6sys_hash_t * hash,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("calling dup on NULL hash"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling dup on NULL hash"));
     }
 
   return ret;

@@ -136,15 +136,9 @@ lw6_register_funcs_gen ()
   /*
    * In liquidwar6gen
    */
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6GEN_CREATE_FROM_SEED, 3, 0, 0,
-			      (SCM (*)())_scm_lw6gen_create_from_seed);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6GEN_SEED_NEW, 0, 0, 0,
-			      (SCM (*)())_scm_lw6gen_seed_new);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6GEN_SEED_NORMALIZE, 1, 0, 0,
-			      (SCM (*)())_scm_lw6gen_seed_normalize);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6GEN_CREATE_FROM_SEED, 3, 0, 0, (SCM (*)())_scm_lw6gen_create_from_seed);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6GEN_SEED_NEW, 0, 0, 0, (SCM (*)())_scm_lw6gen_seed_new);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6GEN_SEED_NORMALIZE, 1, 0, 0, (SCM (*)())_scm_lw6gen_seed_normalize);
 
   return ret;
 }

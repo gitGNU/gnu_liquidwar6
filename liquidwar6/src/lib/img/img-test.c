@@ -71,36 +71,24 @@ _test_screenshot ()
 	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
 	if (game_struct)
 	  {
-	    game_state =
-	      lw6ker_game_state_new (sys_context, game_struct, NULL);
+	    game_state = lw6ker_game_state_new (sys_context, game_struct, NULL);
 	    if (game_state)
 	      {
-		lw6ker_game_state_register_node (sys_context, game_state,
-						 _TEST_NODE_ID);
-		lw6ker_game_state_add_cursor (sys_context, game_state,
-					      _TEST_NODE_ID, _TEST_CURSOR1_ID,
-					      _TEST_COLOR1);
-		lw6ker_game_state_add_cursor (sys_context, game_state,
-					      _TEST_NODE_ID, _TEST_CURSOR2_ID,
-					      _TEST_COLOR2);
-		lw6ker_game_state_add_cursor (sys_context, game_state,
-					      _TEST_NODE_ID, _TEST_CURSOR3_ID,
-					      _TEST_COLOR3);
+		lw6ker_game_state_register_node (sys_context, game_state, _TEST_NODE_ID);
+		lw6ker_game_state_add_cursor (sys_context, game_state, _TEST_NODE_ID, _TEST_CURSOR1_ID, _TEST_COLOR1);
+		lw6ker_game_state_add_cursor (sys_context, game_state, _TEST_NODE_ID, _TEST_CURSOR2_ID, _TEST_COLOR2);
+		lw6ker_game_state_add_cursor (sys_context, game_state, _TEST_NODE_ID, _TEST_CURSOR3_ID, _TEST_COLOR3);
 
 		user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
 		if (user_dir)
 		  {
-		    jpeg =
-		      lw6img_screenshot_new (game_state, user_dir,
-					     LW6IMG_JPEG_QUALITY_DEFAULT);
+		    jpeg = lw6img_screenshot_new (game_state, user_dir, LW6IMG_JPEG_QUALITY_DEFAULT);
 		    if (jpeg)
 		      {
 			repr = lw6img_repr (jpeg);
 			if (repr)
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					_x_ ("generated screenshot \"%s\""),
-					repr);
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("generated screenshot \"%s\""), repr);
 			    LW6SYS_FREE (sys_context, repr);
 			  }
 			lw6img_screenshot_free (jpeg);
@@ -108,8 +96,7 @@ _test_screenshot ()
 		      }
 		    else
 		      {
-			lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				    _x_ ("unable to generate screenshot"));
+			lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to generate screenshot"));
 			ret = 0;
 		      }
 		    LW6SYS_FREE (sys_context, user_dir);
@@ -148,16 +135,14 @@ _test_screenshot ()
 static int
 _setup_init ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libimg CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libimg CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libimg CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libimg CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -194,9 +179,7 @@ lw6img_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 

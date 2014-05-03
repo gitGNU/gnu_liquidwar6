@@ -543,74 +543,29 @@ lw6_register_funcs_hlp ()
   /*
    * In liquidwar6hlp
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_ABOUT, 1, 0, 0,
-				      (SCM (*)())_scm_lw6hlp_about);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE, 1, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_get_default_value);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_QUICK, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_quick);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_DOC, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_doc);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_SHOW, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_show);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_PATH, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_path);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_PLAYERS, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_players);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_INPUT, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_input);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_GRAPHICS, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_graphics);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_SOUND, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_sound);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_NETWORK, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_network);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_map);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_RULES, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_map_rules);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_HINTS, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_map_hints);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_STYLE, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_map_style);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_TEAMS, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_map_teams);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_FUNCS, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_funcs);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_HOOKS, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_hooks);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_ADVANCED, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_advanced);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_ALIASES, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_aliases);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_TEAM_COLORS, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_team_colors);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_WEAPONS, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list_weapons);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST, 0, 0, 0,
-			      (SCM (*)())_scm_lw6hlp_list);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_ABOUT, 1, 0, 0, (SCM (*)())_scm_lw6hlp_about);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE, 1, 0, 0, (SCM (*)())_scm_lw6hlp_get_default_value);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_QUICK, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_quick);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_DOC, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_doc);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_SHOW, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_show);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_PATH, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_path);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_PLAYERS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_players);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_INPUT, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_input);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_GRAPHICS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_graphics);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_SOUND, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_sound);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_NETWORK, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_network);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_RULES, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_rules);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_HINTS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_hints);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_STYLE, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_style);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_TEAMS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_teams);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_FUNCS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_funcs);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_HOOKS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_hooks);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_ADVANCED, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_advanced);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_ALIASES, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_aliases);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_TEAM_COLORS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_team_colors);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_WEAPONS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_weapons);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list);
 
   return ret;
 }

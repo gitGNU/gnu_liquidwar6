@@ -42,22 +42,18 @@ _scm_lw6img_screenshot (SCM game_state, SCM quality)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.game_state, game_state), game_state,
-	      SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (quality), quality, SCM_ARG2, __FUNCTION__);
 
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_user_dir =
-	lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+      c_user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
       if (c_user_dir)
 	{
 	  c_quality = scm_to_int (quality);
 
-	  c_jpeg =
-	    lw6img_screenshot_new (c_game_state, c_user_dir, c_quality);
+	  c_jpeg = lw6img_screenshot_new (c_game_state, c_user_dir, c_quality);
 	  /*
 	   * Note that it's valid *not* to have a screenshot for a game,
 	   * this is typically the case if there's no active game,
@@ -92,8 +88,7 @@ lw6_register_funcs_img ()
   /*
    * In liquidwar6img
    */
-  ret = ret && lw6scm_c_define_gsubr
-    (LW6DEF_C_LW6IMG_SCREENSHOT, 2, 0, 0, (SCM (*)())_scm_lw6img_screenshot);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6IMG_SCREENSHOT, 2, 0, 0, (SCM (*)())_scm_lw6img_screenshot);
 
   return ret;
 }

@@ -39,8 +39,7 @@ guile_main (void *data)
   SCM_RESET_DEBUG_MODE;
 #endif
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("registering C types and functions for Guile"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("registering C types and functions for Guile"));
   lw6_register_smobs ();
   lw6_register_funcs ();
 
@@ -53,8 +52,7 @@ guile_main (void *data)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		      _("unable to read main script file \"%s\""), script);
+	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to read main script file \"%s\""), script);
 	}
       LW6SYS_FREE (script);
     }
@@ -128,8 +126,7 @@ lw6_main (int argc, const char *argv[])
   ret = lw6_process_non_run_options (argc, argv, &run_game);
   if (run_game)
     {
-      debug_str =
-	lw6sys_arg_get_value_with_env (sys_context, argc, argv, LW6DEF_DEBUG);
+      debug_str = lw6sys_arg_get_value_with_env (sys_context, argc, argv, LW6DEF_DEBUG);
       if (debug_str)
 	{
 	  debug = lw6sys_atob (sys_context, debug_str);
@@ -173,14 +170,11 @@ lw6_main (int argc, const char *argv[])
 	    {
 	      if (lw6_global.ret)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_ ("script returned true"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("script returned true"));
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_
-			      ("script returned false, something is wrong"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("script returned false, something is wrong"));
 		  ret = 0;
 		}
 	    }

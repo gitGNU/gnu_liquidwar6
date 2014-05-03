@@ -31,35 +31,26 @@ int
 _mod_udpd_send (_mod_udpd_context_t * udpd_context,
 		lw6cnx_connection_t * connection,
 		int64_t now,
-		u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
-		u_int64_t logical_from_id, u_int64_t logical_to_id,
-		const char *message)
+		u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
 {
   int ret = 0;
-  _mod_udpd_specific_data_t *specific_data =
-    (_mod_udpd_specific_data_t *) connection->backend_specific_data;
+  _mod_udpd_specific_data_t *specific_data = (_mod_udpd_specific_data_t *) connection->backend_specific_data;
   char *line;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udpd send \"%s\""),
-	      message);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udpd send \"%s\""), message);
   line =
     lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_TELNET,
 			      lw6sys_build_get_version (),
 			      connection->password_send_checksum,
 			      physical_ticket_sig, logical_ticket_sig,
-			      connection->local_id_int,
-			      connection->remote_id_int, logical_from_id,
-			      logical_to_id, message);
+			      connection->local_id_int, connection->remote_id_int, logical_from_id, logical_to_id, message);
   if (line)
     {
       if (lw6cnx_connection_lock_send (connection))
 	{
-	  if (lw6net_send_line_udp
-	      (specific_data->sock, line, connection->remote_ip,
-	       specific_data->remote_port))
+	  if (lw6net_send_line_udp (specific_data->sock, line, connection->remote_ip, specific_data->remote_port))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("mod_udpd sent \"%s\""), line);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udpd sent \"%s\""), line);
 	      ret = 1;
 	    }
 	  lw6cnx_connection_unlock_send (connection);
@@ -71,15 +62,13 @@ _mod_udpd_send (_mod_udpd_context_t * udpd_context,
 }
 
 int
-_mod_udpd_can_send (_mod_udpd_context_t * udpd_context,
-		    lw6cnx_connection_t * connection)
+_mod_udpd_can_send (_mod_udpd_context_t * udpd_context, lw6cnx_connection_t * connection)
 {
   return 1;
 }
 
 void
-_mod_udpd_poll (_mod_udpd_context_t * udpd_context,
-		lw6cnx_connection_t * connection)
+_mod_udpd_poll (_mod_udpd_context_t * udpd_context, lw6cnx_connection_t * connection)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udpd poll"));
   /*

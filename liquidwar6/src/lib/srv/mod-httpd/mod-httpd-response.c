@@ -44,16 +44,11 @@ _mod_httpd_response_t *
 _mod_httpd_response_from_bin (_mod_httpd_context_t *
 			      httpd_context,
 			      int status,
-			      int no_cache,
-			      int refresh_sec,
-			      const char *refresh_url,
-			      const char *content_type,
-			      int content_size, void *content_data)
+			      int no_cache, int refresh_sec, const char *refresh_url, const char *content_type, int content_size, void *content_data)
 {
   _mod_httpd_response_t *response = NULL;
 
-  response =
-    (_mod_httpd_response_t *) LW6SYS_CALLOC (sizeof (_mod_httpd_response_t));
+  response = (_mod_httpd_response_t *) LW6SYS_CALLOC (sizeof (_mod_httpd_response_t));
   if (response)
     {
       response->status = status;
@@ -73,9 +68,7 @@ _mod_httpd_response_from_bin (_mod_httpd_context_t *
 	}
       if (response->content_type && response->content_data)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("create response content_type=\"%s\" size=%d"),
-		      content_type, content_size);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("create response content_type=\"%s\" size=%d"), content_type, content_size);
 	}
       else
 	{
@@ -89,18 +82,11 @@ _mod_httpd_response_from_bin (_mod_httpd_context_t *
 
 _mod_httpd_response_t *
 _mod_httpd_response_from_str (_mod_httpd_context_t *
-			      httpd_context,
-			      int status,
-			      int no_cache, int refresh_sec,
-			      const char *refresh_url,
-			      const char *content_type, const char *content)
+			      httpd_context, int status, int no_cache, int refresh_sec, const char *refresh_url, const char *content_type, const char *content)
 {
   _mod_httpd_response_t *response = NULL;
 
-  response =
-    _mod_httpd_response_from_bin (httpd_context, status, no_cache,
-				  refresh_sec, refresh_url, content_type,
-				  strlen (content), (void *) content);
+  response = _mod_httpd_response_from_bin (httpd_context, status, no_cache, refresh_sec, refresh_url, content_type, strlen (content), (void *) content);
 
   return response;
 }
@@ -127,9 +113,7 @@ _mod_httpd_response_free (_mod_httpd_response_t * response)
 }
 
 int
-_mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
-			  _mod_httpd_response_t * response, int *sock,
-			  int headers_only)
+_mod_httpd_response_send (_mod_httpd_context_t * httpd_context, _mod_httpd_response_t * response, int *sock, int headers_only)
 {
   int ret = 0;
   char *first_line = NULL;
@@ -161,17 +145,13 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
       tmp = _HTTP_500;
       break;
     default:
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unknown response code %d"), status);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unknown response code %d"), status);
       status = _MOD_HTTPD_STATUS_500;
       tmp = _HTTP_500;
     }
   if (tmp)
     {
-      first_line =
-	lw6sys_new_sprintf (sys_context, "HTTP/%s %d %s",
-			    httpd_context->data.consts.http_version, status,
-			    tmp);
+      first_line = lw6sys_new_sprintf (sys_context, "HTTP/%s %d %s", httpd_context->data.consts.http_version, status, tmp);
       if (first_line)
 	{
 	  lw6net_send_line_tcp (sock, first_line);
@@ -179,9 +159,7 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
 	  now_str = lw6sys_date_rfc1123 (0);
 	  if (now_str)
 	    {
-	      line =
-		lw6sys_new_sprintf (sys_context, "Server: %s",
-				    lw6sys_build_get_package_tarname ());
+	      line = lw6sys_new_sprintf (sys_context, "Server: %s", lw6sys_build_get_package_tarname ());
 	      if (line)
 		{
 		  lw6net_send_line_tcp (sock, line);
@@ -197,10 +175,7 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
 		}
 	      if (status == _MOD_HTTPD_STATUS_401)
 		{
-		  line =
-		    lw6sys_new_sprintf
-		    ("WWW-Authenticate: Basic realm=\"%s\"",
-		     httpd_context->data.consts.auth_realm);
+		  line = lw6sys_new_sprintf ("WWW-Authenticate: Basic realm=\"%s\"", httpd_context->data.consts.auth_realm);
 		  if (line)
 		    {
 		      lw6net_send_line_tcp (sock, line);
@@ -208,9 +183,7 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
 		      line = NULL;
 		    }
 		}
-	      line =
-		lw6sys_new_sprintf (sys_context, "Last-Modified: %s",
-				    now_str);
+	      line = lw6sys_new_sprintf (sys_context, "Last-Modified: %s", now_str);
 	      if (line)
 		{
 		  lw6net_send_line_tcp (sock, line);
@@ -225,10 +198,7 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
 		}
 	      else
 		{
-		  line =
-		    lw6sys_new_sprintf (sys_context,
-					"Cache-Control: max-age=%d",
-					httpd_context->data.consts.max_age);
+		  line = lw6sys_new_sprintf (sys_context, "Cache-Control: max-age=%d", httpd_context->data.consts.max_age);
 		  if (line)
 		    {
 		      lw6net_send_line_tcp (sock, line);
@@ -240,9 +210,7 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
 	      expire_str = lw6sys_date_rfc1123 (sys_context, expire_delta);
 	      if (expire_str)
 		{
-		  line =
-		    lw6sys_new_sprintf (sys_context, "Expires: %s",
-					expire_str);
+		  line = lw6sys_new_sprintf (sys_context, "Expires: %s", expire_str);
 		  if (line)
 		    {
 		      lw6net_send_line_tcp (sock, line);
@@ -253,10 +221,7 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
 		}
 	      if (response->refresh_sec > 0 && response->refresh_url != NULL)
 		{
-		  line =
-		    lw6sys_new_sprintf (sys_context, "Refresh: %d; url=%s",
-					response->refresh_sec,
-					response->refresh_url);
+		  line = lw6sys_new_sprintf (sys_context, "Refresh: %d; url=%s", response->refresh_sec, response->refresh_url);
 		  if (line)
 		    {
 		      lw6net_send_line_tcp (sock, line);
@@ -267,18 +232,14 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
 	      LW6SYS_FREE (now_str);
 	    }
 	  lw6net_send_line_tcp (sock, "Connection: close");
-	  line =
-	    lw6sys_new_sprintf (sys_context, "Content-Length: %d",
-				response->content_size);
+	  line = lw6sys_new_sprintf (sys_context, "Content-Length: %d", response->content_size);
 	  if (line)
 	    {
 	      lw6net_send_line_tcp (sock, line);
 	      LW6SYS_FREE (sys_context, line);
 	      line = NULL;
 	    }
-	  line =
-	    lw6sys_new_sprintf (sys_context, "Content-Type: %s",
-				response->content_type);
+	  line = lw6sys_new_sprintf (sys_context, "Content-Type: %s", response->content_type);
 	  if (line)
 	    {
 	      lw6net_send_line_tcp (sock, line);
@@ -292,11 +253,7 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
       lw6net_send_line_tcp (sock, "");
       if (lw6net_tcp_is_alive (sock) && !headers_only)
 	{
-	  ret =
-	    lw6net_tcp_send (sock, response->content_data,
-			     response->content_size,
-			     httpd_context->data.consts.error_timeout * 1000,
-			     1);
+	  ret = lw6net_tcp_send (sock, response->content_data, response->content_size, httpd_context->data.consts.error_timeout * 1000, 1);
 	}
     }
 

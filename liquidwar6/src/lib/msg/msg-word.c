@@ -68,8 +68,7 @@ lw6msg_word_first (lw6msg_word_t * word, char **next, const char *msg)
       /*
        * Note: (len=(j-i)<=...) must really be the first test else len is false
        */
-      while ((len = (j - i)) <= LW6MSG_MAX_WORD_SIZE && msg[j]
-	     && msg[j] != _QUOTE && !lw6sys_chr_is_eol (msg[j]))
+      while ((len = (j - i)) <= LW6MSG_MAX_WORD_SIZE && msg[j] && msg[j] != _QUOTE && !lw6sys_chr_is_eol (msg[j]))
 	{
 	  j++;
 	}
@@ -79,8 +78,7 @@ lw6msg_word_first (lw6msg_word_t * word, char **next, const char *msg)
       /*
        * Note: (len=(j-i)<=...) must really be the first test else len is false
        */
-      while ((len = (j - i)) <= LW6MSG_MAX_WORD_SIZE && msg[j]
-	     && !lw6sys_chr_is_space (msg[j]) && !lw6sys_chr_is_eol (msg[j]))
+      while ((len = (j - i)) <= LW6MSG_MAX_WORD_SIZE && msg[j] && !lw6sys_chr_is_space (msg[j]) && !lw6sys_chr_is_eol (msg[j]))
 	{
 	  j++;
 	}
@@ -159,8 +157,7 @@ lw6msg_word_first_x (lw6msg_word_t * word, char **next, const char *msg)
       /*
        * Note: (len=(j-i)<=...) must really be the first test else len is false
        */
-      while ((len = (j - i)) <= LW6MSG_MAX_WORD_SIZE && msg[j]
-	     && msg[j] != _QUOTE && !lw6sys_chr_is_eol (msg[j]))
+      while ((len = (j - i)) <= LW6MSG_MAX_WORD_SIZE && msg[j] && msg[j] != _QUOTE && !lw6sys_chr_is_eol (msg[j]))
 	{
 	  j++;
 	}
@@ -170,9 +167,7 @@ lw6msg_word_first_x (lw6msg_word_t * word, char **next, const char *msg)
       /*
        * Note: (len=(j-i)<=...) must really be the first test else len is false
        */
-      while ((len = (j - i)) <= LW6MSG_MAX_WORD_SIZE && msg[j]
-	     && !lw6sys_chr_is_space (msg[j]) && msg[j] != LW6MSG_URL_SEP
-	     && !lw6sys_chr_is_eol (msg[j]))
+      while ((len = (j - i)) <= LW6MSG_MAX_WORD_SIZE && msg[j] && !lw6sys_chr_is_space (msg[j]) && msg[j] != LW6MSG_URL_SEP && !lw6sys_chr_is_eol (msg[j]))
 	{
 	  j++;
 	}
@@ -235,8 +230,7 @@ lw6msg_word_first_base64 (lw6msg_word_t * word, char **next, const char *msg)
   if (ret)
     {
       ret = 0;
-      decoded =
-	lw6glb_base64_decode_bin (sys_context, &decoded_len, tmp_word.buf);
+      decoded = lw6glb_base64_decode_bin (sys_context, &decoded_len, tmp_word.buf);
       if (decoded)
 	{
 	  if (decoded_len <= LW6MSG_MAX_WORD_SIZE)
@@ -269,8 +263,7 @@ lw6msg_word_first_base64 (lw6msg_word_t * word, char **next, const char *msg)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_32 (int32_t * parsed_value, char **next,
-			  const char *msg)
+lw6msg_word_first_int_32 (int32_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -304,8 +297,7 @@ lw6msg_word_first_int_32 (int32_t * parsed_value, char **next,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_32_ge0 (int32_t * parsed_value, char **next,
-			      const char *msg)
+lw6msg_word_first_int_32_ge0 (int32_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   int32_t tmp_value = 0;
@@ -326,9 +318,7 @@ lw6msg_word_first_int_32_ge0 (int32_t * parsed_value, char **next,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("bad int32 value %d, not greater or equal to 0"),
-		      tmp_value);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad int32 value %d, not greater or equal to 0"), tmp_value);
 	}
     }
 
@@ -348,8 +338,7 @@ lw6msg_word_first_int_32_ge0 (int32_t * parsed_value, char **next,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_32_gt0 (int32_t * parsed_value, char **next,
-			      const char *msg)
+lw6msg_word_first_int_32_gt0 (int32_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   int32_t tmp_value = 0;
@@ -370,9 +359,7 @@ lw6msg_word_first_int_32_gt0 (int32_t * parsed_value, char **next,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("bad int32 value %d, not strictly greater than 0"),
-		      tmp_value);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad int32 value %d, not strictly greater than 0"), tmp_value);
 	}
     }
 
@@ -391,8 +378,7 @@ lw6msg_word_first_int_32_gt0 (int32_t * parsed_value, char **next,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_64 (int64_t * parsed_value, char **next,
-			  const char *msg)
+lw6msg_word_first_int_64 (int64_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -426,8 +412,7 @@ lw6msg_word_first_int_64 (int64_t * parsed_value, char **next,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_64_ge0 (int64_t * parsed_value, char **next,
-			      const char *msg)
+lw6msg_word_first_int_64_ge0 (int64_t * parsed_value, char **next, const char *msg)
 {
   int64_t ret = 0;
   int64_t tmp_value = 0;
@@ -448,10 +433,7 @@ lw6msg_word_first_int_64_ge0 (int64_t * parsed_value, char **next,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("bad int64 value %" LW6SYS_PRINTF_LL
-			   "d, not greater or equal to 0"),
-		      (long long) tmp_value);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad int64 value %" LW6SYS_PRINTF_LL "d, not greater or equal to 0"), (long long) tmp_value);
 	}
     }
 
@@ -471,8 +453,7 @@ lw6msg_word_first_int_64_ge0 (int64_t * parsed_value, char **next,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_64_gt0 (int64_t * parsed_value, char **next,
-			      const char *msg)
+lw6msg_word_first_int_64_gt0 (int64_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   int64_t tmp_value = 0;
@@ -493,10 +474,7 @@ lw6msg_word_first_int_64_gt0 (int64_t * parsed_value, char **next,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("bad int64 value %" LW6SYS_PRINTF_LL
-			   "d, not strictly greater than 0"),
-		      (long long) tmp_value);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad int64 value %" LW6SYS_PRINTF_LL "d, not strictly greater than 0"), (long long) tmp_value);
 	}
     }
 
@@ -515,8 +493,7 @@ lw6msg_word_first_int_64_gt0 (int64_t * parsed_value, char **next,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next,
-			 const char *msg)
+lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -539,8 +516,7 @@ lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad id 16 \"%s\""),
-		      word.buf);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad id 16 \"%s\""), word.buf);
 	}
     }
 
@@ -559,8 +535,7 @@ lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_id_32 (u_int32_t * parsed_value, char **next,
-			 const char *msg)
+lw6msg_word_first_id_32 (u_int32_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -583,8 +558,7 @@ lw6msg_word_first_id_32 (u_int32_t * parsed_value, char **next,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad id 32 \"%s\""),
-		      word.buf);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad id 32 \"%s\""), word.buf);
 	}
     }
 
@@ -603,8 +577,7 @@ lw6msg_word_first_id_32 (u_int32_t * parsed_value, char **next,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_id_64 (u_int64_t * parsed_value, char **next,
-			 const char *msg)
+lw6msg_word_first_id_64 (u_int64_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -627,8 +600,7 @@ lw6msg_word_first_id_64 (u_int64_t * parsed_value, char **next,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad id 64 \"%s\""),
-		      word.buf);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad id 64 \"%s\""), word.buf);
 	}
     }
 

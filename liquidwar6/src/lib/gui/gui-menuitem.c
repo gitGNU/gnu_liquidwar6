@@ -57,8 +57,7 @@ static volatile u_int32_t seq_id = 0;
  * Return value: a pointer to the newly allocated object.
  */
 lw6gui_menuitem_t *
-lw6gui_menuitem_new (const char *label, const char *tooltip, int value,
-		     int enabled, int selected, int colored)
+lw6gui_menuitem_new (const char *label, const char *tooltip, int value, int enabled, int selected, int colored)
 {
   lw6gui_menuitem_t *menuitem = NULL;
 
@@ -74,8 +73,7 @@ lw6gui_menuitem_new (const char *label, const char *tooltip, int value,
       menuitem->label = lw6sys_str_copy (sys_context, label);
       if (menuitem->label)
 	{
-	  menuitem->tooltip =
-	    lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (tooltip));
+	  menuitem->tooltip = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (tooltip));
 	  if (menuitem->tooltip)
 	    {
 	      menuitem->value = value;
@@ -115,8 +113,7 @@ lw6gui_menuitem_free (lw6gui_menuitem_t * menuitem)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("menuitem with NULL label"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("menuitem with NULL label"));
 	}
       if (menuitem->tooltip)
 	{
@@ -125,15 +122,13 @@ lw6gui_menuitem_free (lw6gui_menuitem_t * menuitem)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("menuitem with NULL tooltip"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("menuitem with NULL tooltip"));
 	}
       LW6SYS_FREE (sys_context, menuitem);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL menuitem"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL menuitem"));
     }
 }
 
@@ -159,8 +154,7 @@ lw6gui_menuitem_memory_footprint (lw6gui_menuitem_t * menuitem)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("calling memory_footprint on NULL menuitem"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling memory_footprint on NULL menuitem"));
     }
 
   return memory_footprint;
@@ -183,9 +177,7 @@ lw6gui_menuitem_repr (const lw6gui_menuitem_t * menuitem)
 {
   char *repr;
 
-  repr =
-    lw6sys_new_sprintf (sys_context, _x_ ("%u \"%s\" (value=%d)"),
-			menuitem->id, menuitem->label, menuitem->value);
+  repr = lw6sys_new_sprintf (sys_context, _x_ ("%u \"%s\" (value=%d)"), menuitem->id, menuitem->label, menuitem->value);
 
   return repr;
 }
@@ -207,20 +199,17 @@ lw6gui_menuitem_repr (const lw6gui_menuitem_t * menuitem)
  * Return value: none
  */
 void
-lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem, const char *label,
-			   int64_t now)
+lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem, const char *label, int64_t now)
 {
   if (strcmp (label, menuitem->label))
     {
       menuitem->last_change = now;
     }
   LW6SYS_FREE (sys_context, menuitem->label);
-  menuitem->label =
-    lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (label));
+  menuitem->label = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (label));
   if (!(menuitem->label))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("couldn't set menu item label \"%s\""), label);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't set menu item label \"%s\""), label);
     }
 }
 
@@ -241,20 +230,17 @@ lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem, const char *label,
  * Return value: none
  */
 void
-lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t * menuitem,
-			     const char *tooltip, int64_t now)
+lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t * menuitem, const char *tooltip, int64_t now)
 {
   if (strcmp (tooltip, menuitem->tooltip))
     {
       menuitem->last_change = now;
     }
   LW6SYS_FREE (sys_context, menuitem->tooltip);
-  menuitem->tooltip =
-    lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (tooltip));
+  menuitem->tooltip = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (tooltip));
   if (!(menuitem->tooltip))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("couldn't set menu item tooltip \"%s\""), tooltip);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't set menu item tooltip \"%s\""), tooltip);
     }
 }
 
@@ -274,8 +260,7 @@ lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t * menuitem,
  * Return value: none
  */
 void
-lw6gui_menuitem_set_value (lw6gui_menuitem_t * menuitem, int value,
-			   int64_t now)
+lw6gui_menuitem_set_value (lw6gui_menuitem_t * menuitem, int value, int64_t now)
 {
   if (value != menuitem->value)
     {
@@ -373,10 +358,8 @@ lw6gui_menuitem_checksum (lw6gui_menuitem_t * menuitem, lw6gui_look_t * look)
   u_int32_t ret = 0;
 
 
-  lw6sys_checksum_update (sys_context, &ret, (unsigned char *) menuitem,
-			  sizeof (lw6gui_menuitem_t));
-  lw6sys_checksum_update (sys_context, &ret, (unsigned char *) look,
-			  sizeof (lw6gui_look_t));
+  lw6sys_checksum_update (sys_context, &ret, (unsigned char *) menuitem, sizeof (lw6gui_menuitem_t));
+  lw6sys_checksum_update (sys_context, &ret, (unsigned char *) look, sizeof (lw6gui_look_t));
 
   return ret;
 }
@@ -392,8 +375,7 @@ lw6gui_menuitem_checksum (lw6gui_menuitem_t * menuitem, lw6gui_look_t * look)
  * Return value: 1 if they are the same, 0 if not
  */
 int
-lw6gui_menuitem_is_same (const lw6gui_menuitem_t * menuitem_a,
-			 const lw6gui_menuitem_t * menuitem_b)
+lw6gui_menuitem_is_same (const lw6gui_menuitem_t * menuitem_a, const lw6gui_menuitem_t * menuitem_b)
 {
   int ret = 1;
 
@@ -432,10 +414,7 @@ lw6gui_menuitem_dup (const lw6gui_menuitem_t * menuitem)
 
   if (menuitem)
     {
-      ret =
-	lw6gui_menuitem_new (menuitem->label, menuitem->tooltip,
-			     menuitem->value, menuitem->enabled,
-			     menuitem->selected, menuitem->colored);
+      ret = lw6gui_menuitem_new (menuitem->label, menuitem->tooltip, menuitem->value, menuitem->enabled, menuitem->selected, menuitem->colored);
       if (ret)
 	{
 	  ret->last_change = menuitem->last_change;
@@ -484,8 +463,7 @@ lw6gui_menuitem_sync (lw6gui_menuitem_t * dst, lw6gui_menuitem_t * src)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("menuitems are not syncable"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("menuitems are not syncable"));
     }
 
   return ret;

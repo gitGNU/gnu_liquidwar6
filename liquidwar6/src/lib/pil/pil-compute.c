@@ -45,13 +45,8 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
   memset (&spread_data, 0, sizeof (_lw6pil_spread_data_t));
 
   lw6sys_mutex_lock (sys_context, worker->global_mutex);
-  yield_limit =
-    lw6sys_imax (1, (worker->game_state->game_struct->rules.rounds_per_sec *
-		     _LW6PIL_YIELD_LIMIT_MSEC) / 1000);
-  yield_period =
-    lw6sys_imax (1,
-		 (worker->game_state->game_struct->rules.rounds_per_sec *
-		  _LW6PIL_YIELD_PERIOD_MSEC) / 1000);
+  yield_limit = lw6sys_imax (1, (worker->game_state->game_struct->rules.rounds_per_sec * _LW6PIL_YIELD_LIMIT_MSEC) / 1000);
+  yield_period = lw6sys_imax (1, (worker->game_state->game_struct->rules.rounds_per_sec * _LW6PIL_YIELD_PERIOD_MSEC) / 1000);
   lw6sys_mutex_unlock (sys_context, worker->global_mutex);
 
   while (worker->run)
@@ -64,17 +59,13 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 	}
 
       lw6sys_spinlock_lock (sys_context, worker->commands_spinlock);
-      if (worker->commands
-	  && !lw6sys_list_is_empty (sys_context, worker->commands))
+      if (worker->commands && !lw6sys_list_is_empty (sys_context, worker->commands))
 	{
 	  commands = worker->commands;
-	  worker->commands =
-	    lw6sys_list_new (sys_context,
-			     (lw6sys_free_func_t) lw6pil_command_free);
+	  worker->commands = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6pil_command_free);
 	  if (!worker->commands)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("worker->commands is NULL"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("worker->commands is NULL"));
 	    }
 	}
       lw6sys_spinlock_unlock (sys_context, worker->commands_spinlock);
@@ -82,102 +73,73 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
       if (commands)
 	{
 	  lw6sys_sort (sys_context, &commands, _lw6pil_command_sort_callback);
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("worker global compute begin %d"),
-		      worker->current_round);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker global compute begin %d"), worker->current_round);
 	  lw6sys_mutex_lock (sys_context, worker->global_mutex);
-	  while (worker->run && commands
-		 && (command =
-		     lw6sys_list_pop_front (sys_context, &commands)) != NULL)
+	  while (worker->run && commands && (command = lw6sys_list_pop_front (sys_context, &commands)) != NULL)
 	    {
-	      command->round =
-		lw6sys_imax (command->round, worker->current_round);
+	      command->round = lw6sys_imax (command->round, worker->current_round);
 	      while (worker->run && worker->current_round < command->round)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("worker compute begin %d"),
-			      worker->current_round);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker compute begin %d"), worker->current_round);
 		  lw6sys_mutex_lock (sys_context, worker->compute_mutex);
-		  lw6ker_team_mask_best (sys_context, &team_mask_even,
-					 &team_mask_odd, worker->game_state);
+		  lw6ker_team_mask_best (sys_context, &team_mask_even, &team_mask_odd, worker->game_state);
 		  worker->target_round = command->round;
 		  if (worker->game_state->game_struct->rules.spread_thread)
 		    {
 		      // even compute
 		      spread_data.game_state = worker->game_state;
 		      spread_data.team_mask = team_mask_odd;
-		      spread_thread =
-			lw6sys_thread_create ((lw6sys_thread_callback_func_t)
-					      _lw6pil_spread_thread_func,
-					      NULL, (void *) &spread_data);
-		      lw6ker_game_state_do_move (sys_context,
-						 worker->game_state,
-						 team_mask_even);
+		      spread_thread = lw6sys_thread_create ((lw6sys_thread_callback_func_t) _lw6pil_spread_thread_func, NULL, (void *) &spread_data);
+		      lw6ker_game_state_do_move (sys_context, worker->game_state, team_mask_even);
 		      if (spread_thread)
 			{
 			  lw6sys_thread_join (spread_thread);
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				      _x_ ("unable to spawn spread_thread"));
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to spawn spread_thread"));
 			  _lw6pil_spread_thread_func (&spread_data);
 			}
 
 		      // odd compute
 		      spread_data.game_state = worker->game_state;
 		      spread_data.team_mask = team_mask_even;
-		      spread_thread =
-			lw6sys_thread_create ((lw6sys_thread_callback_func_t)
-					      _lw6pil_spread_thread_func,
-					      NULL, (void *) &spread_data);
-		      lw6ker_game_state_do_move (sys_context,
-						 worker->game_state,
-						 team_mask_odd);
+		      spread_thread = lw6sys_thread_create ((lw6sys_thread_callback_func_t) _lw6pil_spread_thread_func, NULL, (void *) &spread_data);
+		      lw6ker_game_state_do_move (sys_context, worker->game_state, team_mask_odd);
 		      if (spread_thread)
 			{
 			  lw6sys_thread_join (spread_thread);
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				      _x_ ("unable to spawn spread_thread"));
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to spawn spread_thread"));
 			  _lw6pil_spread_thread_func (&spread_data);
 			}
 
-		      lw6ker_game_state_finish_round (sys_context,
-						      worker->game_state);
+		      lw6ker_game_state_finish_round (sys_context, worker->game_state);
 		    }
 		  else
 		    {
-		      lw6ker_game_state_do_round (sys_context,
-						  worker->game_state);
+		      lw6ker_game_state_do_round (sys_context, worker->game_state);
 		    }
 		  worker->current_round++;
-		  if (lw6ker_game_state_is_over
-		      (sys_context, worker->game_state))
+		  if (lw6ker_game_state_is_over (sys_context, worker->game_state))
 		    {
 		      worker->over = 1;
 		    }
 		  else
 		    {
-		      if (worker->current_round !=
-			  lw6ker_game_state_get_rounds (sys_context,
-							worker->game_state))
+		      if (worker->current_round != lw6ker_game_state_get_rounds (sys_context, worker->game_state))
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				      _x_
 				      ("possible race condition, worker and game_state do not report the same round number (%d vs %d)"),
-				      worker->current_round,
-				      lw6ker_game_state_get_rounds
-				      (worker->game_state));
+				      worker->current_round, lw6ker_game_state_get_rounds (worker->game_state));
 			}
 		    }
 		  worker->computed_rounds++;
 		  lw6sys_mutex_unlock (sys_context, worker->compute_mutex);
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("worker compute end %d"),
-			      worker->current_round);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker compute end %d"), worker->current_round);
 
 		  /*
 		   * https://savannah.gnu.org/bugs/index.php?41113
@@ -192,37 +154,27 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 		   * main thread could never be fast enough to catch up) but in practice
 		   * it does work.
 		   */
-		  if ((worker->target_round - worker->current_round >
-		       yield_limit)
-		      && (!(worker->computed_rounds % yield_period)))
+		  if ((worker->target_round - worker->current_round > yield_limit) && (!(worker->computed_rounds % yield_period)))
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("at round %d and targetting %d, yielding a timeslice every %d rounds"),
-				  worker->current_round, worker->target_round,
-				  yield_period);
+				  worker->current_round, worker->target_round, yield_period);
 		      lw6sys_idle ();
 		    }
 		}
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("worker execute begin %d"),
-			  worker->current_round);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker execute begin %d"), worker->current_round);
 	      lw6sys_mutex_lock (sys_context, worker->compute_mutex);
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("worker execute command %s"), command->text);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker execute command %s"), command->text);
 	      if (worker->verified)
 		{
-		  lw6pil_command_execute (&(worker->dump), timestamp,
-					  worker->game_state, command);
+		  lw6pil_command_execute (&(worker->dump), timestamp, worker->game_state, command);
 		  if (lw6pil_dump_exists (&(worker->dump)) &&
-		      ((old_worker_dump_pilot_ptr != worker->dump.pilot) ||
-		       (old_worker_dump_pilot_id != worker->dump.pilot->id)))
+		      ((old_worker_dump_pilot_ptr != worker->dump.pilot) || (old_worker_dump_pilot_id != worker->dump.pilot->id)))
 		    {
 		      if (commands)
 			{
-			  lw6sys_list_map (sys_context, commands,
-					   _lw6pil_compute_pump_command_callback,
-					   worker->dump.pilot);
+			  lw6sys_list_map (sys_context, commands, _lw6pil_compute_pump_command_callback, worker->dump.pilot);
 			}
 		    }
 		  /*
@@ -235,8 +187,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 		  old_worker_dump_pilot_ptr = worker->dump.pilot;
 		  if (old_worker_dump_pilot_ptr)
 		    {
-		      old_worker_dump_pilot_id =
-			old_worker_dump_pilot_ptr->id;
+		      old_worker_dump_pilot_id = old_worker_dump_pilot_ptr->id;
 		    }
 		}
 	      else
@@ -247,19 +198,14 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 		   * compared to the gain it would introduce, we'll treat it when
 		   * it's verified, meanwhile, keep working on old map.
 		   */
-		  lw6pil_command_execute (NULL, 0L,
-					  worker->game_state, command);
+		  lw6pil_command_execute (NULL, 0L, worker->game_state, command);
 		}
 	      lw6sys_mutex_unlock (sys_context, worker->compute_mutex);
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("worker execute end %d"),
-			  worker->current_round);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker execute end %d"), worker->current_round);
 	      lw6pil_command_free (command);
 	    }
 	  lw6sys_mutex_unlock (sys_context, worker->global_mutex);
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("worker global compute end %d"),
-		      worker->current_round);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker global compute end %d"), worker->current_round);
 	  if (commands)
 	    {
 	      // commands could be NULL if stopped by worker->run==0
@@ -293,14 +239,11 @@ _lw6pil_compute_pump_command_callback (void *func_data, void *data)
        * recopy of pending messages is a tricky stuff, and does not
        * happen often, so we log it.
        */
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("copying command \"%s\" into other pilot (dump)"),
-		  command->text);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("copying command \"%s\" into other pilot (dump)"), command->text);
       _lw6pil_pilot_send_command (pilot, command->text, 1);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("bad parameters for pump command callback"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad parameters for pump command callback"));
     }
 }

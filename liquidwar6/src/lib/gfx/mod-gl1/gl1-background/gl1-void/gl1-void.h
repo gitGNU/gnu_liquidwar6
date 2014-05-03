@@ -27,26 +27,17 @@
 #include "../../gl1-utils/gl1-utils.h"
 #include "../gl1-background.h"
 
-extern mod_gl1_background_backend_t
-  * mod_gl1_background_void_create_backend (mod_gl1_utils_context_t *
-					    utils_context);
+extern mod_gl1_background_backend_t *mod_gl1_background_void_create_backend (mod_gl1_utils_context_t * utils_context);
 
 /*
  * In display.c
  */
-extern void
-mod_gl1_background_void_display_background (mod_gl1_utils_context_t *
-					    utils_context,
-					    void *background_context,
-					    const lw6gui_look_t * look);
+extern void mod_gl1_background_void_display_background (mod_gl1_utils_context_t * utils_context, void *background_context, const lw6gui_look_t * look);
 
 /*
  * In setup.c
  */
-extern void *mod_gl1_background_void_init (mod_gl1_utils_context_t *
-					   utils_context);
-extern void mod_gl1_background_void_quit (mod_gl1_utils_context_t *
-					  utils_context,
-					  void *background_context);
+extern void *mod_gl1_background_void_init (mod_gl1_utils_context_t * utils_context);
+extern void mod_gl1_background_void_quit (mod_gl1_utils_context_t * utils_context, void *background_context);
 
 #endif

@@ -61,9 +61,7 @@ lw6cfg_format (const char *key, const char *value, lw6hlp_type_t type)
 	  ret = lw6sys_btoa (sys_context, lw6sys_atob (sys_context, value));
 	  break;
 	case LW6HLP_TYPE_COLOR:
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 lw6sys_color_a_to_8 (sys_context, value));
+	  ret = lw6sys_color_8_to_a (sys_context, lw6sys_color_a_to_8 (sys_context, value));
 	  break;
 	default:
 	  ret = lw6sys_str_copy (sys_context, value);

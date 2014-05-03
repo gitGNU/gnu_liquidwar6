@@ -57,8 +57,7 @@
 lw6map_level_t *
 lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
 	     lw6sys_assoc_t * forced_param, int display_w, int display_h,
-	     int bench_value, int magic_number, const char *user_dir,
-	     lw6sys_progress_t * progress)
+	     int bench_value, int magic_number, const char *user_dir, lw6sys_progress_t * progress)
 {
   lw6map_level_t *level = NULL;
   int ok = 0;
@@ -73,12 +72,9 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
   int player_exp = LW6MAP_RULES_DEFAULT_EXP;
   int map_exp = LW6MAP_RULES_DEFAULT_EXP;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("loading map \"%s\" display=%dx%d bench=%d"), dirname,
-	      display_w, display_h, bench_value);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading map \"%s\" display=%dx%d bench=%d"), dirname, display_w, display_h, bench_value);
 
-  lw6sys_progress_split3 (sys_context, &progress_texture, &progress_body,
-			  &progress_color, progress);
+  lw6sys_progress_split3 (sys_context, &progress_texture, &progress_body, &progress_color, progress);
 
   level = lw6map_new ();
   if (level)
@@ -91,9 +87,7 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
       lw6ldr_use_defaults (&use);
 
       ok = ok && lw6ldr_metadata_read (&level->metadata, dirname);
-      ok = ok
-	&& lw6map_local_info_set_music_dir (sys_context, &level->local_info,
-					    dirname);
+      ok = ok && lw6map_local_info_set_music_dir (sys_context, &level->local_info, dirname);
       lw6ldr_rules_update (&(level->param.rules), default_param);
       level->param.rules.exp = LW6MAP_RULES_DEFAULT_EXP;
       lw6ldr_hints_update (&hints, default_param);
@@ -122,15 +116,9 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
 
       level->param.rules.highest_team_color_allowed =
 	lw6sys_imin (LW6MAP_MAX_NB_TEAMS - 1,
-		     lw6sys_imin (level->param.
-				  rules.highest_team_color_allowed,
-				  lw6map_exp_get_highest_team_color_allowed
-				  (player_exp)));
+		     lw6sys_imin (level->param.rules.highest_team_color_allowed, lw6map_exp_get_highest_team_color_allowed (player_exp)));
       level->param.rules.highest_weapon_allowed =
-	lw6sys_imin (LW6MAP_MAX_WEAPON_ID,
-		     lw6sys_imin (level->param.rules.highest_weapon_allowed,
-				  lw6map_exp_get_highest_weapon_allowed
-				  (player_exp)));
+	lw6sys_imin (LW6MAP_MAX_WEAPON_ID, lw6sys_imin (level->param.rules.highest_weapon_allowed, lw6map_exp_get_highest_weapon_allowed (player_exp)));
 
       if (use.use_hints_xml)
 	{
@@ -156,32 +144,20 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
 	   * texture_exists will contain 0.
 	   */
 	  ok = ok && lw6ldr_texture_read (&level->texture, dirname,
-					  &(level->param), &hints,
-					  use.use_texture, display_w,
-					  display_h, &ratio, &texture_exists,
-					  &progress_texture);
+					  &(level->param), &hints, use.use_texture, display_w, display_h, &ratio, &texture_exists, &progress_texture);
 	}
       if (use.use_cursor_texture)
 	{
-	  ok = ok
-	    && lw6ldr_cursor_texture_read (&level->cursor_texture, dirname);
+	  ok = ok && lw6ldr_cursor_texture_read (&level->cursor_texture, dirname);
 	}
       else
 	{
-	  lw6map_cursor_texture_builtin (sys_context,
-					 &(level->cursor_texture));
+	  lw6map_cursor_texture_builtin (sys_context, &(level->cursor_texture));
 	}
-      ok = ok
-	&& lw6ldr_body_read (&level->body, dirname, &(level->param), &hints,
-			     display_w, display_h, ratio, bench_value,
-			     magic_number, &progress_body);
+      ok = ok && lw6ldr_body_read (&level->body, dirname, &(level->param), &hints, display_w, display_h, ratio, bench_value, magic_number, &progress_body);
       if (!level->texture.data)
 	{
-	  ok = ok
-	    && lw6map_texture_from_body (sys_context, &level->texture,
-					 &level->body,
-					 &(level->param.style.
-					   color_set.view_color_map));
+	  ok = ok && lw6map_texture_from_body (sys_context, &level->texture, &level->body, &(level->param.style.color_set.view_color_map));
 	}
       if (ok && texture_exists)
 	{
@@ -192,23 +168,17 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
 	    }
 	}
       lw6ldr_auto_colors (&level->param.style, &hints);
-      level->texture.has_alpha =
-	lw6map_texture_has_alpha (sys_context, &(level->texture));
+      level->texture.has_alpha = lw6map_texture_has_alpha (sys_context, &(level->texture));
       if (ok)
 	{
 	  if (player_exp >= map_exp)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("OK, can load \"%s\" with exp=%d, requires only %d"),
-			  dirname, player_exp, map_exp);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("OK, can load \"%s\" with exp=%d, requires only %d"), dirname, player_exp, map_exp);
 	      _lw6ldr_exp_fix (&(level->param.rules), player_exp);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("can't load \"%s\" with exp=%d, requires %d"),
-			  dirname, player_exp, map_exp);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't load \"%s\" with exp=%d, requires %d"), dirname, player_exp, map_exp);
 	      ok = 0;
 	    }
 	}
@@ -216,8 +186,7 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
 
   if (!ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to load map \"%s\""), dirname);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to load map \"%s\""), dirname);
       lw6map_free (sys_context, level);
       level = NULL;
     }
@@ -250,9 +219,7 @@ lw6map_level_t *
 lw6ldr_read_relative (const char *map_path, const char *relative_path,
 		      lw6sys_assoc_t * default_param,
 		      lw6sys_assoc_t * forced_param,
-		      int display_w, int display_h, int bench_value,
-		      int magic_number, const char *user_dir,
-		      lw6sys_progress_t * progress)
+		      int display_w, int display_h, int bench_value, int magic_number, const char *user_dir, lw6sys_progress_t * progress)
 {
   lw6map_level_t *ret = NULL;
   lw6sys_list_t *dirs = NULL;
@@ -262,8 +229,7 @@ lw6ldr_read_relative (const char *map_path, const char *relative_path,
   dirs = lw6sys_env_split (map_path);
   if (dirs)
     {
-      while (dirs
-	     && (dir = (char *) lw6sys_lifo_pop (sys_context, &dirs)) != NULL)
+      while (dirs && (dir = (char *) lw6sys_lifo_pop (sys_context, &dirs)) != NULL)
 	{
 	  full_dir = lw6sys_path_concat (sys_context, dir, relative_path);
 	  if (full_dir)
@@ -272,10 +238,7 @@ lw6ldr_read_relative (const char *map_path, const char *relative_path,
 		{
 		  if (!ret)
 		    {
-		      ret =
-			lw6ldr_read (full_dir, default_param, forced_param,
-				     display_w, display_h, bench_value,
-				     magic_number, user_dir, progress);
+		      ret = lw6ldr_read (full_dir, default_param, forced_param, display_w, display_h, bench_value, magic_number, user_dir, progress);
 		    }
 		}
 	      LW6SYS_FREE (sys_context, full_dir);

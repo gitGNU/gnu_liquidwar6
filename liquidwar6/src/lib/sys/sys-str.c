@@ -96,8 +96,7 @@ lw6sys_str_copy (lw6sys_context_t * sys_context, const char *src)
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_str_concat (lw6sys_context_t * sys_context, const char *str1,
-		   const char *str2)
+lw6sys_str_concat (lw6sys_context_t * sys_context, const char *str1, const char *str2)
 {
   char *concat = NULL;
   int length;
@@ -114,8 +113,7 @@ lw6sys_str_concat (lw6sys_context_t * sys_context, const char *str1,
 }
 
 char *
-_lw6sys_new_vsnprintf (lw6sys_context_t * sys_context, int n, const char *fmt,
-		       va_list ap)
+_lw6sys_new_vsnprintf (lw6sys_context_t * sys_context, int n, const char *fmt, va_list ap)
 {
   char *ret = NULL;
   int written;
@@ -206,8 +204,7 @@ lw6sys_new_sprintf (lw6sys_context_t * sys_context, const char *fmt, ...)
 }
 
 int
-_lw6sys_buf_vsnprintf (lw6sys_context_t * sys_context, char *buf, int len,
-		       const char *fmt, va_list ap)
+_lw6sys_buf_vsnprintf (lw6sys_context_t * sys_context, char *buf, int len, const char *fmt, va_list ap)
 {
   int ret = 0;
 
@@ -251,8 +248,7 @@ _lw6sys_buf_vsnprintf (lw6sys_context_t * sys_context, char *buf, int len,
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6sys_buf_sprintf (lw6sys_context_t * sys_context, char *buf, int len,
-		    const char *fmt, ...)
+lw6sys_buf_sprintf (lw6sys_context_t * sys_context, char *buf, int len, const char *fmt, ...)
 {
   int ret = 0;
   va_list ap;
@@ -362,8 +358,7 @@ lw6sys_str_empty_if_null (lw6sys_context_t * sys_context, const char *str)
  * Return value: 1 if same, 0 if not.
  */
 int
-lw6sys_str_is_same (lw6sys_context_t * sys_context, const char *str_a,
-		    const char *str_b)
+lw6sys_str_is_same (lw6sys_context_t * sys_context, const char *str_a, const char *str_b)
 {
   int ret = 1;
 
@@ -395,8 +390,7 @@ lw6sys_str_is_same (lw6sys_context_t * sys_context, const char *str_a,
  * Return value: 1 if same, 0 if not.
  */
 int
-lw6sys_str_is_same_no_case (lw6sys_context_t * sys_context, const char *str_a,
-			    const char *str_b)
+lw6sys_str_is_same_no_case (lw6sys_context_t * sys_context, const char *str_a, const char *str_b)
 {
   int ret = 1;
 
@@ -424,8 +418,7 @@ lw6sys_str_is_same_no_case (lw6sys_context_t * sys_context, const char *str_a,
  * Return value: 1 if @str starts with @beginning, 0 if not
  */
 int
-lw6sys_str_starts_with (lw6sys_context_t * sys_context, const char *str,
-			const char *beginning)
+lw6sys_str_starts_with (lw6sys_context_t * sys_context, const char *str, const char *beginning)
 {
   int ret = 0;
 
@@ -447,8 +440,7 @@ lw6sys_str_starts_with (lw6sys_context_t * sys_context, const char *str,
  * Return value: 1 if @str starts with @beginning, 0 if not
  */
 int
-lw6sys_str_starts_with_no_case (lw6sys_context_t * sys_context,
-				const char *str, const char *beginning)
+lw6sys_str_starts_with_no_case (lw6sys_context_t * sys_context, const char *str, const char *beginning)
 {
   int ret = 0;
 
@@ -553,16 +545,13 @@ lw6sys_str_cleanup_ascii7 (lw6sys_context_t * sys_context, char *str)
 }
 
 static void
-_reformat_newline (lw6sys_context_t * sys_context, char **formatted_str,
-		   char *append, const char *prefix)
+_reformat_newline (lw6sys_context_t * sys_context, char **formatted_str, char *append, const char *prefix)
 {
   char *new_str = NULL;
 
   lw6sys_str_cleanup (sys_context, append);
   lw6sys_skip_blanks (sys_context, &append);
-  new_str =
-    lw6sys_new_sprintf (sys_context, "%s%s%s%s", *formatted_str, prefix,
-			append, lw6sys_eol ());
+  new_str = lw6sys_new_sprintf (sys_context, "%s%s%s%s", *formatted_str, prefix, append, lw6sys_eol ());
   if (new_str)
     {
       LW6SYS_FREE (sys_context, *formatted_str);
@@ -587,8 +576,7 @@ _reformat_newline (lw6sys_context_t * sys_context, char **formatted_str,
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6sys_str_reformat (lw6sys_context_t * sys_context, const char *str,
-		     const char *prefix, int nb_columns)
+lw6sys_str_reformat (lw6sys_context_t * sys_context, const char *str, const char *prefix, int nb_columns)
 {
   char *ret = NULL;
   char *str_copy = NULL;
@@ -636,8 +624,7 @@ lw6sys_str_reformat (lw6sys_context_t * sys_context, const char *str,
 		  i = 1;
 		  while (line_start[i] && !space_i)
 		    {
-		      if (lw6sys_chr_is_eol (line_start[i])
-			  || lw6sys_chr_is_space (line_start[i]))
+		      if (lw6sys_chr_is_eol (line_start[i]) || lw6sys_chr_is_space (line_start[i]))
 			{
 			  space_i = i;
 			  break;
@@ -657,8 +644,7 @@ lw6sys_str_reformat (lw6sys_context_t * sys_context, const char *str,
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_ ("reformat problem"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("reformat problem"));
 		  line_start += i;
 		}
 	      i = 0;
@@ -698,8 +684,7 @@ lw6sys_str_reformat (lw6sys_context_t * sys_context, const char *str,
  * Return value: none
  */
 void
-lw6sys_str_reformat_this (lw6sys_context_t * sys_context, char *str,
-			  int nb_columns)
+lw6sys_str_reformat_this (lw6sys_context_t * sys_context, char *str, int nb_columns)
 {
   int i = 0;
   char *pos = NULL;
@@ -807,8 +792,7 @@ lw6sys_str_split (lw6sys_context_t * sys_context, const char *str, char c)
  * Return value: a list containing 0-terminated strings.
  */
 lw6sys_list_t *
-lw6sys_str_split_no_0 (lw6sys_context_t * sys_context, const char *str,
-		       char c)
+lw6sys_str_split_no_0 (lw6sys_context_t * sys_context, const char *str, char c)
 {
   lw6sys_list_t *ret = NULL;
   char *found = NULL;
@@ -881,17 +865,14 @@ lw6sys_str_split_config_item (lw6sys_context_t * sys_context, const char *str)
 static void
 _join_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
-  _join_callback_data_t *join_callback_data =
-    (_join_callback_data_t *) func_data;
+  _join_callback_data_t *join_callback_data = (_join_callback_data_t *) func_data;
   char *str = (char *) data;
   char *tmp = NULL;
 
   if (join_callback_data->ret)
     {
       tmp = join_callback_data->ret;
-      join_callback_data->ret =
-	lw6sys_new_sprintf (sys_context, "%s%s%s", join_callback_data->ret,
-			    join_callback_data->glue, str);
+      join_callback_data->ret = lw6sys_new_sprintf (sys_context, "%s%s%s", join_callback_data->ret, join_callback_data->glue, str);
       LW6SYS_FREE (sys_context, tmp);
     }
   else
@@ -915,8 +896,7 @@ _join_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
  * Return value: dynamically allocated string
  */
 char *
-lw6sys_str_join (lw6sys_context_t * sys_context, lw6sys_list_t * list,
-		 const char *glue)
+lw6sys_str_join (lw6sys_context_t * sys_context, lw6sys_list_t * list, const char *glue)
 {
   char *ret = NULL;
   _join_callback_data_t join_callback_data;
@@ -1014,8 +994,7 @@ lw6sys_str_truncate (lw6sys_context_t * sys_context, char *str, int len)
  * Return value: none, @str pointed data modified in-place
  */
 void
-lw6sys_str_truncate_middle (lw6sys_context_t * sys_context, char *str,
-			    int len, const char *middle)
+lw6sys_str_truncate_middle (lw6sys_context_t * sys_context, char *str, int len, const char *middle)
 {
   int orig_len = strlen (str);
 
@@ -1132,9 +1111,7 @@ lw6sys_str_random_word (lw6sys_context_t * sys_context, int len)
 static int
 _chr_is_text (char c)
 {
-  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0'
-							      && c <= '9')
-    || (strchr (_STR_BIN_TEXT_OTHER, c) != NULL);
+  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || (strchr (_STR_BIN_TEXT_OTHER, c) != NULL);
 }
 
 /**

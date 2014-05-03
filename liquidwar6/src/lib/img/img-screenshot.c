@@ -65,8 +65,7 @@ static volatile u_int32_t seq_id = 0;
  * Return value: dynamically allocated object.
  */
 lw6img_jpeg_t *
-lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
-		       int quality)
+lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir, int quality)
 {
   lw6img_jpeg_t *ret = NULL;
   lw6ker_game_struct_t *game_struct = game_state->game_struct;
@@ -99,8 +98,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 
   lw6ker_game_state_get_shape (sys_context, game_state, &shape);
 
-  filename =
-    lw6sys_path_concat (sys_context, user_dir, _SCREENSHOT_JPEG_FILE);
+  filename = lw6sys_path_concat (sys_context, user_dir, _SCREENSHOT_JPEG_FILE);
   if (filename)
     {
       ret = (lw6img_jpeg_t *) LW6SYS_CALLOC (sizeof (lw6img_jpeg_t));
@@ -113,8 +111,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 	    }
 
 	  surface = shape.w * shape.h;
-	  tmp_buffer =
-	    (JSAMPLE *) LW6SYS_CALLOC (surface * _JPEG_3 * sizeof (JSAMPLE));
+	  tmp_buffer = (JSAMPLE *) LW6SYS_CALLOC (surface * _JPEG_3 * sizeof (JSAMPLE));
 	  if (tmp_buffer)
 	    {
 	      for (y = 0; y < shape.h; ++y)
@@ -124,21 +121,15 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 		      fighter_id = -1;
 		      for (z = 0; z < shape.d && fighter_id < 0; ++z)
 			{
-			  fighter_id =
-			    lw6ker_game_state_get_fighter_id (sys_context,
-							      game_state, x,
-							      y, z);
+			  fighter_id = lw6ker_game_state_get_fighter_id (sys_context, game_state, x, y, z);
 			}
 		      if (fighter_id >= 0)
 			{
-			  fighter =
-			    lw6ker_game_state_get_fighter_ro_by_id
-			    (game_state, fighter_id);
+			  fighter = lw6ker_game_state_get_fighter_ro_by_id (game_state, fighter_id);
 			  team_color = fighter->team_color;
 			  if (lw6map_team_color_is_valid (team_color))
 			    {
-			      pixel_color =
-				style->color_set.team_colors[team_color];
+			      pixel_color = style->color_set.team_colors[team_color];
 			    }
 			  else
 			    {
@@ -146,17 +137,13 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 			       * Normally we should never get there, but well,
 			       * just in case, we use black/dead color
 			       */
-			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-					  _x_ ("bad team_color=%d at %d,%d"),
-					  team_color, x, y);
+			      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad team_color=%d at %d,%d"), team_color, x, y);
 			      pixel_color = style->color_set.team_color_dead;
 			    }
 			}
 		      else
 			{
-			  pixel_color =
-			    lw6map_texture_get_with_body_coord (sys_context,
-								level, x, y);
+			  pixel_color = lw6map_texture_get_with_body_coord (sys_context, level, x, y);
 			}
 		      tmp_buffer[i++] = pixel_color.r;
 		      tmp_buffer[i++] = pixel_color.g;
@@ -171,8 +158,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 
 	      if ((outfile = fopen (filename, "wb")) == NULL)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_ ("can't open jpeg file \"%s\""), filename);
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't open jpeg file \"%s\""), filename);
 		}
 	      else
 		{
@@ -192,8 +178,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 
 		  while (cinfo.next_scanline < cinfo.image_height)
 		    {
-		      row_pointer[0] =
-			&tmp_buffer[cinfo.next_scanline * row_stride];
+		      row_pointer[0] = &tmp_buffer[cinfo.next_scanline * row_stride];
 		      (void) jpeg_write_scanlines (&cinfo, row_pointer, 1);
 		    }
 
@@ -201,15 +186,11 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 
 		  fclose (outfile);
 
-		  ret->jpeg_data =
-		    lw6sys_read_file_content_bin (sys_context,
-						  &ret->jpeg_size, filename);
+		  ret->jpeg_data = lw6sys_read_file_content_bin (sys_context, &ret->jpeg_size, filename);
 		  if ((ret->jpeg_data != NULL) && (ret->jpeg_size > 0))
 		    {
 		      ret->shape = shape;
-		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_ ("wrote screenshot in \"%s\""),
-				  filename);
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("wrote screenshot in \"%s\""), filename);
 		    }
 		}
 
@@ -222,8 +203,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 
   if (ret)
     {
-      if ((!(ret->jpeg_data)) || (ret->jpeg_size <= 0) || (ret->shape.w <= 0)
-	  || (ret->shape.h <= 0))
+      if ((!(ret->jpeg_data)) || (ret->jpeg_size <= 0) || (ret->shape.w <= 0) || (ret->shape.h <= 0))
 	{
 	  lw6img_screenshot_free (ret);
 	  ret = NULL;

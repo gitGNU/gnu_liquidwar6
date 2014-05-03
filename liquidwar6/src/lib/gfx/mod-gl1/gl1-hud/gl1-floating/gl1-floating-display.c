@@ -30,45 +30,33 @@
 #include "gl1-floating-internal.h"
 
 static void
-_display_clock (mod_gl1_utils_context_t * utils_context,
-		_mod_gl1_hud_floating_context_t * floating_context)
+_display_clock (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   float x1, x2, y1, y2, dw, dh;
-  float size_factor =
-    sqrt (utils_context->sdl_context.video_mode.width *
-	  utils_context->sdl_context.video_mode.height);
+  float size_factor = sqrt (utils_context->sdl_context.video_mode.width * utils_context->sdl_context.video_mode.height);
 
-  if (floating_context->clock.clock_text
-      && floating_context->clock.clock_text->texture_h > 0)
+  if (floating_context->clock.clock_text && floating_context->clock.clock_text->texture_h > 0)
     {
-      x2 =
-	utils_context->sdl_context.video_mode.width *
-	floating_context->const_data.clock_x2;
+      x2 = utils_context->sdl_context.video_mode.width * floating_context->const_data.clock_x2;
       x1 =
 	x2 -
 	size_factor * floating_context->const_data.clock_size *
-	((float) floating_context->clock.clock_text->texture_w) /
-	((float) floating_context->clock.clock_text->texture_h);
+	((float) floating_context->clock.clock_text->texture_w) / ((float) floating_context->clock.clock_text->texture_h);
       ;
       y1 = size_factor * floating_context->const_data.clock_y1;
       y2 = y1 + (size_factor * floating_context->const_data.clock_size);
       dw = size_factor * floating_context->const_data.clock_dw;
       dh = size_factor * floating_context->const_data.clock_dh;
-      mod_gl1_utils_shaded_text_display (utils_context,
-					 floating_context->clock.clock_text,
-					 x1, y1, x2, y2, dw, dh);
+      mod_gl1_utils_shaded_text_display (utils_context, floating_context->clock.clock_text, x1, y1, x2, y2, dw, dh);
     }
 }
 
 static void
-_display_gauges (mod_gl1_utils_context_t * utils_context,
-		 _mod_gl1_hud_floating_context_t * floating_context)
+_display_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   float x1, x2, y1, y2, w, h;
   float text_w, text_h, text_x1, text_x2, text_y1, text_y2, text_dw, text_dh;
-  float size_factor_screen =
-    sqrt (utils_context->sdl_context.video_mode.width *
-	  utils_context->sdl_context.video_mode.height);
+  float size_factor_screen = sqrt (utils_context->sdl_context.video_mode.width * utils_context->sdl_context.video_mode.height);
   float size_factor_score;
   float size_factor_heartbeat;
   float size_factor;
@@ -83,8 +71,7 @@ _display_gauges (mod_gl1_utils_context_t * utils_context,
   float sweep2;
   int team_color;
 
-  if (floating_context->game_state && floating_context->gauges.gauge_frame
-      && floating_context->gauges.gauge_frame->texture_h > 0)
+  if (floating_context->game_state && floating_context->gauges.gauge_frame && floating_context->gauges.gauge_frame->texture_h > 0)
     {
       x2 = utils_context->sdl_context.video_mode.width;
       y2 = utils_context->sdl_context.video_mode.height;
@@ -99,25 +86,16 @@ _display_gauges (mod_gl1_utils_context_t * utils_context,
 	  team_color = floating_context->score_array.scores[i].team_color;
 	  if (team_color >= 0)
 	    {
-	      weapon_per1000_left =
-		lw6ker_game_state_get_weapon_per1000_left
-		(floating_context->game_state, team_color);
+	      weapon_per1000_left = lw6ker_game_state_get_weapon_per1000_left (floating_context->game_state, team_color);
 	      if (weapon_per1000_left > 0)
 		{
 		  charge = lw6sys_imin (1000, weapon_per1000_left) / 1000.0f;
 		}
 	      else
 		{
-		  charge =
-		    lw6sys_imin (1000,
-				 lw6ker_game_state_get_charge_per1000
-				 (floating_context->game_state,
-				  team_color)) / 1000.0f;
+		  charge = lw6sys_imin (1000, lw6ker_game_state_get_charge_per1000 (floating_context->game_state, team_color)) / 1000.0f;
 		}
-	      size_factor_score =
-		ratio * floating_context->const_data.gauge_max_size + (1.0f -
-								       ratio)
-		* floating_context->const_data.gauge_min_size;
+	      size_factor_score = ratio * floating_context->const_data.gauge_max_size + (1.0f - ratio) * floating_context->const_data.gauge_min_size;
 	      size_factor_heartbeat = (lw6ker_game_state_get_charge_per1000
 				       (floating_context->game_state,
 					team_color) >=
@@ -125,16 +103,10 @@ _display_gauges (mod_gl1_utils_context_t * utils_context,
 		lw6sys_math_heartbeat (sys_context,
 				       _lw6gfx_sdl_timer_get_uptime (&
 								     (utils_context->sdl_context)),
-				       floating_context->const_data.
-				       gauge_heartbeat_period,
-				       floating_context->
-				       const_data.gauge_relative_heartbeat_min,
-				       floating_context->
-				       const_data.gauge_relative_heartbeat_max)
-		: 1.0f;
-	      size_factor =
-		size_factor_screen * size_factor_score *
-		size_factor_heartbeat;
+				       floating_context->const_data.gauge_heartbeat_period,
+				       floating_context->const_data.gauge_relative_heartbeat_min,
+				       floating_context->const_data.gauge_relative_heartbeat_max) : 1.0f;
+	      size_factor = size_factor_screen * size_factor_score * size_factor_heartbeat;
 	      w = size_factor;
 	      h = size_factor;
 
@@ -155,56 +127,33 @@ _display_gauges (mod_gl1_utils_context_t * utils_context,
 	      glTranslatef ((x1 + x2) / 2.0f, (y1 + y2) / 2.0f, 0.0f);
 	      gluQuadricTexture (floating_context->gauges.disk, GL_TRUE);
 
-	      inner =
-		size_factor *
-		floating_context->const_data.gauge_relative_bg_inner;
-	      outer =
-		size_factor *
-		floating_context->const_data.gauge_relative_bg_outer;
+	      inner = size_factor * floating_context->const_data.gauge_relative_bg_inner;
+	      outer = size_factor * floating_context->const_data.gauge_relative_bg_outer;
 
 	      if (floating_context->gauges.gauge_frame)
 		{
 		  mod_gl1_utils_bitmap_colorize (utils_context,
-						 floating_context->gauges.
-						 gauge_frame,
-						 floating_context->
-						 look->style.colorize,
-						 &(floating_context->look->
-						   style.color_set.
-						   hud_color_frame));
-		  mod_gl1_utils_bitmap_bind (utils_context,
-					     floating_context->gauges.
-					     gauge_frame);
-		  gluDisk (floating_context->gauges.disk, inner, outer,
-			   slices, loops);
+						 floating_context->gauges.gauge_frame,
+						 floating_context->look->style.colorize, &(floating_context->look->style.color_set.hud_color_frame));
+		  mod_gl1_utils_bitmap_bind (utils_context, floating_context->gauges.gauge_frame);
+		  gluDisk (floating_context->gauges.disk, inner, outer, slices, loops);
 		}
 
 	      glDisable (GL_BLEND);
 
-	      inner =
-		size_factor *
-		floating_context->const_data.gauge_relative_fg_inner;
-	      outer =
-		size_factor *
-		floating_context->const_data.gauge_relative_fg_outer;
+	      inner = size_factor * floating_context->const_data.gauge_relative_fg_inner;
+	      outer = size_factor * floating_context->const_data.gauge_relative_fg_outer;
 
 	      if (utils_context->textures_1x1.team_colors[team_color])
 		{
-		  mod_gl1_utils_bitmap_bind (utils_context,
-					     utils_context->
-					     textures_1x1.team_colors
-					     [team_color]);
-		  gluPartialDisk (floating_context->gauges.disk, inner, outer,
-				  slices, loops, start, sweep1);
+		  mod_gl1_utils_bitmap_bind (utils_context, utils_context->textures_1x1.team_colors[team_color]);
+		  gluPartialDisk (floating_context->gauges.disk, inner, outer, slices, loops, start, sweep1);
 		}
 
 	      if (utils_context->textures_1x1.team_color_dead)
 		{
-		  mod_gl1_utils_bitmap_bind (utils_context,
-					     utils_context->
-					     textures_1x1.team_color_dead);
-		  gluPartialDisk (floating_context->gauges.disk, inner, outer,
-				  slices, loops, start + sweep1, sweep2);
+		  mod_gl1_utils_bitmap_bind (utils_context, utils_context->textures_1x1.team_color_dead);
+		  gluPartialDisk (floating_context->gauges.disk, inner, outer, slices, loops, start + sweep1, sweep2);
 		}
 	      glMatrixMode (GL_MODELVIEW);
 	      glPopMatrix ();
@@ -212,96 +161,49 @@ _display_gauges (mod_gl1_utils_context_t * utils_context,
 	      glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	      glEnable (GL_BLEND);
 
-	      text_h =
-		size_factor *
-		floating_context->const_data.gauge_relative_text_size;
-	      text_dw = size_factor *
-		floating_context->const_data.gauge_relative_text_dw;
-	      text_dh = size_factor *
-		floating_context->const_data.gauge_relative_text_dh;
+	      text_h = size_factor * floating_context->const_data.gauge_relative_text_size;
+	      text_dw = size_factor * floating_context->const_data.gauge_relative_text_dw;
+	      text_dh = size_factor * floating_context->const_data.gauge_relative_text_dh;
 
-	      if (floating_context->game_state->game_struct->
-		  rules.respawn_team)
+	      if (floating_context->game_state->game_struct->rules.respawn_team)
 		{
-		  if (floating_context->gauges.percent_texts[i]
-		      && floating_context->gauges.
-		      percent_texts[i]->texture_h > 0)
+		  if (floating_context->gauges.percent_texts[i] && floating_context->gauges.percent_texts[i]->texture_h > 0)
 		    {
 		      text_w =
 			text_h *
-			((float) floating_context->gauges.percent_texts[i]->
-			 texture_w) /
-			((float) floating_context->gauges.
-			 percent_texts[i]->texture_h);
+			((float) floating_context->gauges.percent_texts[i]->texture_w) / ((float) floating_context->gauges.percent_texts[i]->texture_h);
 		      text_x1 = (x1 + x2 - text_w) / 2.0f;
-		      text_y1 =
-			(y1 + y2) / 2.0f +
-			size_factor *
-			floating_context->
-			const_data.gauge_relative_percent_y1;
+		      text_y1 = (y1 + y2) / 2.0f + size_factor * floating_context->const_data.gauge_relative_percent_y1;
 		      text_x2 = text_x1 + text_w;
 		      text_y2 = text_y1 + text_h;
 		      mod_gl1_utils_shaded_text_display (utils_context,
-							 floating_context->
-							 gauges.
-							 percent_texts[i],
-							 text_x1, text_y1,
-							 text_x2, text_y2,
-							 text_dw, text_dh);
+							 floating_context->gauges.percent_texts[i], text_x1, text_y1, text_x2, text_y2, text_dw, text_dh);
 		    }
-		  if (floating_context->gauges.frags_texts[i]
-		      && floating_context->gauges.frags_texts[i]->texture_h >
-		      0)
+		  if (floating_context->gauges.frags_texts[i] && floating_context->gauges.frags_texts[i]->texture_h > 0)
 		    {
 		      text_w =
-			text_h *
-			((float) floating_context->gauges.frags_texts[i]->
-			 texture_w) /
-			((float) floating_context->gauges.
-			 frags_texts[i]->texture_h);
+			text_h * ((float) floating_context->gauges.frags_texts[i]->texture_w) / ((float) floating_context->gauges.frags_texts[i]->texture_h);
 		      text_x1 = (x1 + x2 - text_w) / 2.0f;
-		      text_y1 =
-			(y1 + y2) / 2.0f +
-			size_factor *
-			floating_context->const_data.gauge_relative_frags_y1;
+		      text_y1 = (y1 + y2) / 2.0f + size_factor * floating_context->const_data.gauge_relative_frags_y1;
 		      text_x2 = text_x1 + text_w;
 		      text_y2 = text_y1 + text_h;
 		      mod_gl1_utils_shaded_text_display (utils_context,
-							 floating_context->
-							 gauges.frags_texts
-							 [i], text_x1,
-							 text_y1, text_x2,
-							 text_y2, text_dw,
-							 text_dh);
+							 floating_context->gauges.frags_texts[i], text_x1, text_y1, text_x2, text_y2, text_dw, text_dh);
 		    }
 		}
 	      else
 		{
-		  if (floating_context->gauges.percent_texts[i]
-		      && floating_context->gauges.
-		      percent_texts[i]->texture_h > 0)
+		  if (floating_context->gauges.percent_texts[i] && floating_context->gauges.percent_texts[i]->texture_h > 0)
 		    {
 		      text_w =
 			text_h *
-			((float) floating_context->gauges.percent_texts[i]->
-			 texture_w) /
-			((float) floating_context->gauges.
-			 percent_texts[i]->texture_h);
+			((float) floating_context->gauges.percent_texts[i]->texture_w) / ((float) floating_context->gauges.percent_texts[i]->texture_h);
 		      text_x1 = (x1 + x2 - text_w) / 2.0f;
-		      text_y1 =
-			(y1 + y2) / 2.0f +
-			size_factor *
-			floating_context->
-			const_data.gauge_relative_percent_only_y1;
+		      text_y1 = (y1 + y2) / 2.0f + size_factor * floating_context->const_data.gauge_relative_percent_only_y1;
 		      text_x2 = text_x1 + text_w;
 		      text_y2 = text_y1 + text_h;
 		      mod_gl1_utils_shaded_text_display (utils_context,
-							 floating_context->
-							 gauges.
-							 percent_texts[i],
-							 text_x1, text_y1,
-							 text_x2, text_y2,
-							 text_dw, text_dh);
+							 floating_context->gauges.percent_texts[i], text_x1, text_y1, text_x2, text_y2, text_dw, text_dh);
 		    }
 		}
 	      x2 = x1;
@@ -311,8 +213,7 @@ _display_gauges (mod_gl1_utils_context_t * utils_context,
 }
 
 static void
-_display_weapon (mod_gl1_utils_context_t * utils_context,
-		 _mod_gl1_hud_floating_context_t * floating_context)
+_display_weapon (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int team_color = 0;
   int weapon_id = 0;
@@ -324,22 +225,13 @@ _display_weapon (mod_gl1_utils_context_t * utils_context,
   glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable (GL_BLEND);
 
-  if (lw6ker_game_state_get_latest_weapon
-      (floating_context->game_state, &team_color, &weapon_id, &per1000_left))
+  if (lw6ker_game_state_get_latest_weapon (floating_context->game_state, &team_color, &weapon_id, &per1000_left))
     {
       transparency =
 	((per1000_left * floating_context->const_data.weapon_ambiance_alpha1 +
-	  (1000 -
-	   per1000_left) *
-	  floating_context->const_data.weapon_ambiance_alpha2) *
-	 MOD_GL1_UTILS_TRANSPARENCY_SCALE) / 1000;
-      transparency =
-	lw6sys_imax (0,
-		     lw6sys_imin (MOD_GL1_UTILS_TRANSPARENCY_SCALE,
-				  transparency));
-      bitmap =
-	utils_context->
-	textures_1x1.team_colors_transparency[team_color][transparency];
+	  (1000 - per1000_left) * floating_context->const_data.weapon_ambiance_alpha2) * MOD_GL1_UTILS_TRANSPARENCY_SCALE) / 1000;
+      transparency = lw6sys_imax (0, lw6sys_imin (MOD_GL1_UTILS_TRANSPARENCY_SCALE, transparency));
+      bitmap = utils_context->textures_1x1.team_colors_transparency[team_color][transparency];
       x1 = y1 = 0.0f;
       x2 = utils_context->sdl_context.video_mode.width;
       y2 = utils_context->sdl_context.video_mode.height;
@@ -348,8 +240,7 @@ _display_weapon (mod_gl1_utils_context_t * utils_context,
 }
 
 static void
-_display_hud (mod_gl1_utils_context_t * utils_context,
-	      _mod_gl1_hud_floating_context_t * floating_context)
+_display_hud (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   glMatrixMode (GL_TEXTURE);
   glPushMatrix ();
@@ -365,13 +256,10 @@ void
 _mod_gl1_hud_floating_display_hud (mod_gl1_utils_context_t * utils_context,
 				   _mod_gl1_hud_floating_context_t *
 				   floating_context,
-				   const lw6gui_look_t * look,
-				   const lw6ker_game_state_t * game_state,
-				   lw6pil_local_cursors_t * local_cursors)
+				   const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
   _mod_gl1_hud_floating_context_begin_hud (utils_context, floating_context);
-  _mod_gl1_hud_floating_context_update_hud (utils_context, floating_context,
-					    look, game_state, local_cursors);
+  _mod_gl1_hud_floating_context_update_hud (utils_context, floating_context, look, game_state, local_cursors);
 
   mod_gl1_utils_set_render_mode_2d_blend (utils_context);
   _display_hud (utils_context, floating_context);
@@ -381,28 +269,20 @@ _mod_gl1_hud_floating_display_hud (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_hud_floating_display_hud (mod_gl1_utils_context_t * utils_context,
 				  void *hud_context,
-				  const lw6gui_look_t * look,
-				  const lw6ker_game_state_t * game_state,
-				  lw6pil_local_cursors_t * local_cursors)
+				  const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
-  _mod_gl1_hud_floating_display_hud (utils_context,
-				     (_mod_gl1_hud_floating_context_t *)
-				     hud_context, look, game_state,
-				     local_cursors);
+  _mod_gl1_hud_floating_display_hud (utils_context, (_mod_gl1_hud_floating_context_t *) hud_context, look, game_state, local_cursors);
 }
 
 static void
-_display_pie (mod_gl1_utils_context_t * utils_context,
-	      _mod_gl1_hud_floating_context_t * floating_context)
+_display_pie (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int i = 0;
   float x0, y0, dx, dy, angle1, angle2, angle_offset;
   float text_w, text_h, text_dw, text_dh;
   float text_x1, text_y1, text_x2, text_y2;
   int percent = 0;
-  float size_factor_screen =
-    sqrt (utils_context->sdl_context.video_mode.width *
-	  utils_context->sdl_context.video_mode.height);
+  float size_factor_screen = sqrt (utils_context->sdl_context.video_mode.width * utils_context->sdl_context.video_mode.height);
   float radius_scale;
   float inner, outer;
   float heartbeat_factor = 1.0f;
@@ -416,32 +296,19 @@ _display_pie (mod_gl1_utils_context_t * utils_context,
       y0 = utils_context->sdl_context.video_mode.height / 2;
       cycle = _lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context));
 
-      inner =
-	floating_context->const_data.score_pie_inner *
-	size_factor_screen / 2.0f;
-      outer =
-	floating_context->const_data.score_pie_outer *
-	size_factor_screen / 2.0f;
+      inner = floating_context->const_data.score_pie_inner * size_factor_screen / 2.0f;
+      outer = floating_context->const_data.score_pie_outer * size_factor_screen / 2.0f;
       slices = floating_context->const_data.score_pie_slices;
       loops = floating_context->const_data.score_pie_loops;
 
-      angle1 = angle2 =
-	-(cycle * 360.0f) /
-	floating_context->const_data.score_pie_rotation_period;
-      for (i = 0; i < floating_context->score_array.nb_scores;
-	   ++i, angle1 = angle2)
+      angle1 = angle2 = -(cycle * 360.0f) / floating_context->const_data.score_pie_rotation_period;
+      for (i = 0; i < floating_context->score_array.nb_scores; ++i, angle1 = angle2)
 	{
-	  percent =
-	    floating_context->score_array.scores[i].consolidated_percent;
+	  percent = floating_context->score_array.scores[i].consolidated_percent;
 	  angle2 = angle1 + percent * 3.6f;
-	  angle_offset =
-	    M_PI / 2.0f - ((angle1 + angle2) / 2.0f) * M_PI / 180.0f;
-	  dx =
-	    cos (angle_offset) * size_factor_screen *
-	    floating_context->const_data.score_pie_offset / 2.0f;
-	  dy =
-	    sin (angle_offset) * size_factor_screen *
-	    floating_context->const_data.score_pie_offset / 2.0f;
+	  angle_offset = M_PI / 2.0f - ((angle1 + angle2) / 2.0f) * M_PI / 180.0f;
+	  dx = cos (angle_offset) * size_factor_screen * floating_context->const_data.score_pie_offset / 2.0f;
+	  dy = sin (angle_offset) * size_factor_screen * floating_context->const_data.score_pie_offset / 2.0f;
 
 	  team_color = floating_context->score_array.scores[i].team_color;
 
@@ -449,12 +316,8 @@ _display_pie (mod_gl1_utils_context_t * utils_context,
 	    {
 	      heartbeat_factor =
 		lw6sys_math_heartbeat (cycle,
-				       floating_context->
-				       const_data.score_pie_heartbeat_period,
-				       floating_context->
-				       const_data.score_pie_heartbeat_factor1,
-				       floating_context->
-				       const_data.score_pie_heartbeat_factor2);
+				       floating_context->const_data.score_pie_heartbeat_period,
+				       floating_context->const_data.score_pie_heartbeat_factor1, floating_context->const_data.score_pie_heartbeat_factor2);
 	    }
 	  else
 	    {
@@ -470,15 +333,9 @@ _display_pie (mod_gl1_utils_context_t * utils_context,
 	      glPushMatrix ();
 	      glLoadIdentity ();
 	      glTranslatef (x0 + dx, y0 + dy, 0.0f);
-	      mod_gl1_utils_bitmap_bind (utils_context,
-					 utils_context->
-					 textures_1x1.team_colors
-					 [team_color]);
+	      mod_gl1_utils_bitmap_bind (utils_context, utils_context->textures_1x1.team_colors[team_color]);
 	      gluQuadricTexture (floating_context->score_pie.disk, GL_TRUE);
-	      gluPartialDisk (floating_context->score_pie.disk,
-			      inner * heartbeat_factor,
-			      outer * heartbeat_factor, slices, loops, angle1,
-			      angle2 - angle1);
+	      gluPartialDisk (floating_context->score_pie.disk, inner * heartbeat_factor, outer * heartbeat_factor, slices, loops, angle1, angle2 - angle1);
 	      glPopMatrix ();
 	    }
 	}
@@ -490,51 +347,33 @@ _display_pie (mod_gl1_utils_context_t * utils_context,
       glPushMatrix ();
       glLoadIdentity ();
 
-      angle1 = angle2 =
-	-(cycle * 360.0f) /
-	floating_context->const_data.score_pie_rotation_period;
-      for (i = 0; i < floating_context->score_array.nb_scores;
-	   ++i, angle1 = angle2)
+      angle1 = angle2 = -(cycle * 360.0f) / floating_context->const_data.score_pie_rotation_period;
+      for (i = 0; i < floating_context->score_array.nb_scores; ++i, angle1 = angle2)
 	{
-	  percent =
-	    floating_context->score_array.scores[i].consolidated_percent;
+	  percent = floating_context->score_array.scores[i].consolidated_percent;
 	  angle2 = angle1 + percent * 3.6f;
-	  angle_offset =
-	    M_PI / 2.0f - ((angle1 + angle2) / 2.0f) * M_PI / 180.0f;
+	  angle_offset = M_PI / 2.0f - ((angle1 + angle2) / 2.0f) * M_PI / 180.0f;
 	  radius_scale =
 	    (floating_context->const_data.score_pie_text_radius_min *
 	     (floating_context->score_array.nb_scores - i) +
-	     floating_context->const_data.score_pie_text_radius_max * i) /
-	    floating_context->score_array.nb_scores;
+	     floating_context->const_data.score_pie_text_radius_max * i) / floating_context->score_array.nb_scores;
 	  dx = cos (angle_offset) * size_factor_screen * radius_scale / 2.0f;
 	  dy = sin (angle_offset) * size_factor_screen * radius_scale / 2.0f;
 
-	  text_h =
-	    size_factor_screen *
-	    floating_context->const_data.score_pie_text_size;
-	  text_dw = size_factor_screen *
-	    floating_context->const_data.score_pie_text_dw;
-	  text_dh = size_factor_screen *
-	    floating_context->const_data.score_pie_text_dh;
+	  text_h = size_factor_screen * floating_context->const_data.score_pie_text_size;
+	  text_dw = size_factor_screen * floating_context->const_data.score_pie_text_dw;
+	  text_dh = size_factor_screen * floating_context->const_data.score_pie_text_dh;
 
-	  if (floating_context->score_pie.score_texts[i]
-	      && floating_context->score_pie.score_texts[i]->texture_h > 0)
+	  if (floating_context->score_pie.score_texts[i] && floating_context->score_pie.score_texts[i]->texture_h > 0)
 	    {
 	      text_w =
-		text_h *
-		((float) floating_context->score_pie.score_texts[i]->
-		 texture_w) /
-		((float) floating_context->score_pie.
-		 score_texts[i]->texture_h);
+		text_h * ((float) floating_context->score_pie.score_texts[i]->texture_w) / ((float) floating_context->score_pie.score_texts[i]->texture_h);
 	      text_x1 = x0 - text_w / 2 + dx;
 	      text_y1 = y0 - text_h / 2 + dy;
 	      text_x2 = text_x1 + text_w;
 	      text_y2 = text_y1 + text_h;
 	      mod_gl1_utils_shaded_text_display (utils_context,
-						 floating_context->score_pie.
-						 score_texts[i], text_x1,
-						 text_y1, text_x2, text_y2,
-						 text_dw, text_dh);
+						 floating_context->score_pie.score_texts[i], text_x1, text_y1, text_x2, text_y2, text_dw, text_dh);
 	    }
 	}
       glPopMatrix ();
@@ -542,8 +381,7 @@ _display_pie (mod_gl1_utils_context_t * utils_context,
 }
 
 static void
-_display_score (mod_gl1_utils_context_t * utils_context,
-		_mod_gl1_hud_floating_context_t * floating_context)
+_display_score (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   glMatrixMode (GL_TEXTURE);
   glPushMatrix ();
@@ -557,14 +395,10 @@ void
 _mod_gl1_hud_floating_display_score (mod_gl1_utils_context_t * utils_context,
 				     _mod_gl1_hud_floating_context_t *
 				     floating_context,
-				     const lw6gui_look_t * look,
-				     const lw6ker_game_state_t * game_state,
-				     lw6pil_local_cursors_t * local_cursors)
+				     const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
   _mod_gl1_hud_floating_context_begin_score (utils_context, floating_context);
-  _mod_gl1_hud_floating_context_update_score (utils_context, floating_context,
-					      look, game_state,
-					      local_cursors);
+  _mod_gl1_hud_floating_context_update_score (utils_context, floating_context, look, game_state, local_cursors);
 
   mod_gl1_utils_set_render_mode_2d_blend (utils_context);
   _display_score (utils_context, floating_context);
@@ -574,12 +408,7 @@ _mod_gl1_hud_floating_display_score (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_hud_floating_display_score (mod_gl1_utils_context_t * utils_context,
 				    void *hud_context,
-				    const lw6gui_look_t * look,
-				    const lw6ker_game_state_t * game_state,
-				    lw6pil_local_cursors_t * local_cursors)
+				    const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
-  _mod_gl1_hud_floating_display_score (utils_context,
-				       (_mod_gl1_hud_floating_context_t *)
-				       hud_context, look, game_state,
-				       local_cursors);
+  _mod_gl1_hud_floating_display_score (utils_context, (_mod_gl1_hud_floating_context_t *) hud_context, look, game_state, local_cursors);
 }

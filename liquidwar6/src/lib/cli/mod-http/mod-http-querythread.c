@@ -30,8 +30,7 @@
 void
 _mod_http_query_thread_func (void *callback_data)
 {
-  _mod_http_query_thread_data_t *query_thread_data =
-    (_mod_http_query_thread_data_t *) callback_data;
+  _mod_http_query_thread_data_t *query_thread_data = (_mod_http_query_thread_data_t *) callback_data;
   char *response = NULL;
   char *pos = NULL;
   char *seek = NULL;
@@ -41,18 +40,14 @@ _mod_http_query_thread_func (void *callback_data)
     {
       if (query_thread_data->url)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("processing \"%s\""), query_thread_data->url);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("processing \"%s\""), query_thread_data->url);
 	  response =
 	    _mod_http_get (query_thread_data->http_context,
 			   query_thread_data->url,
-			   query_thread_data->cnx->password_send_checksum,
-			   query_thread_data->cnx->remote_ip,
-			   query_thread_data->cnx->remote_port);
+			   query_thread_data->cnx->password_send_checksum, query_thread_data->cnx->remote_ip, query_thread_data->cnx->remote_port);
 	  if (response)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("mod_http received content \"%s\""), response);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_http received content \"%s\""), response);
 	      seek = pos = response;
 	      while (*seek)
 		{
@@ -64,8 +59,7 @@ _mod_http_query_thread_func (void *callback_data)
 		    {
 		      seek_c = (*seek);
 		      (*seek) = '\0';
-		      _mod_http_query_thread_process_response_line
-			(query_thread_data, pos);
+		      _mod_http_query_thread_process_response_line (query_thread_data, pos);
 		      (*seek) = seek_c;
 		    }
 		  if (lw6sys_chr_is_eol (*seek))
@@ -84,16 +78,13 @@ _mod_http_query_thread_func (void *callback_data)
 void
 _mod_http_query_thread_join (void *callback_data)
 {
-  _mod_http_query_thread_data_t *query_thread_data =
-    (_mod_http_query_thread_data_t *) callback_data;
+  _mod_http_query_thread_data_t *query_thread_data = (_mod_http_query_thread_data_t *) callback_data;
 
   if (query_thread_data)
     {
       if (query_thread_data->url)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("done with processing \"%s\""),
-		      query_thread_data->url);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("done with processing \"%s\""), query_thread_data->url);
 	  LW6SYS_FREE (sys_context, query_thread_data->url);
 	}
       LW6SYS_FREE (sys_context, query_thread_data);
@@ -120,9 +111,7 @@ _mod_http_query_thread_filter (void *func_data, void *data)
 }
 
 int
-_mod_http_query_thread_process_response_line (_mod_http_query_thread_data_t *
-					      query_thread_data,
-					      const char *response_line)
+_mod_http_query_thread_process_response_line (_mod_http_query_thread_data_t * query_thread_data, const char *response_line)
 {
   int ret = 0;
   lw6cnx_connection_t *cnx = query_thread_data->cnx;
@@ -134,31 +123,22 @@ _mod_http_query_thread_process_response_line (_mod_http_query_thread_data_t *
   u_int64_t logical_from_id = 0;
   u_int64_t logical_to_id = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("mod_http received envelope \"%s\""), response_line);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_http received envelope \"%s\""), response_line);
   if (lw6msg_envelope_analyse
       (response_line, LW6MSG_ENVELOPE_MODE_TELNET,
        cnx->local_url, cnx->password,
        cnx->remote_id_int,
-       cnx->local_id_int, &msg,
-       &physical_ticket_sig, &logical_ticket_sig,
-       &physical_from_id, &physical_to_id,
-       &logical_from_id, &logical_to_id, NULL))
+       cnx->local_id_int, &msg, &physical_ticket_sig, &logical_ticket_sig, &physical_from_id, &physical_to_id, &logical_from_id, &logical_to_id, NULL))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("mod_http analysed msg \"%s\""), msg);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_http analysed msg \"%s\""), msg);
       ret = 1;
       if (cnx->recv_callback_func)
 	{
-	  cnx->recv_callback_func
-	    (cnx->recv_callback_data,
-	     (void *) cnx, physical_ticket_sig,
-	     logical_ticket_sig, logical_from_id, logical_to_id, msg);
+	  cnx->recv_callback_func (cnx->recv_callback_data, (void *) cnx, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, msg);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("no recv callback defined"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no recv callback defined"));
 	}
       LW6SYS_FREE (sys_context, msg);
     }

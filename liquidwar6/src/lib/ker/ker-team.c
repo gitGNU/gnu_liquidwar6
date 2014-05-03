@@ -30,9 +30,7 @@
 #include "ker-internal.h"
 
 int
-_lw6ker_team_init (lw6sys_context_t * sys_context, _lw6ker_team_t * team,
-		   const _lw6ker_map_struct_t * map_struct,
-		   const lw6map_rules_t * rules)
+_lw6ker_team_init (lw6sys_context_t * sys_context, _lw6ker_team_t * team, const _lw6ker_map_struct_t * map_struct, const lw6map_rules_t * rules)
 {
   int ret = 0;
   int i;
@@ -41,10 +39,7 @@ _lw6ker_team_init (lw6sys_context_t * sys_context, _lw6ker_team_t * team,
   team->respawn_round = 0;
   team->offline = 0;
   team->map_struct = map_struct;
-  team->gradient =
-    (_lw6ker_zone_state_t *) LW6SYS_CALLOC (sys_context,
-					    map_struct->nb_zones *
-					    sizeof (_lw6ker_zone_state_t));
+  team->gradient = (_lw6ker_zone_state_t *) LW6SYS_CALLOC (sys_context, map_struct->nb_zones * sizeof (_lw6ker_zone_state_t));
   team->cursor_ref_pot = rules->cursor_pot_init;
   team->last_spread_dir = LW6KER_DIR_NNE;
   // team->charge is set to 0 because of CALLOC
@@ -63,17 +58,14 @@ _lw6ker_team_init (lw6sys_context_t * sys_context, _lw6ker_team_t * team,
 	  /*
 	   * Set closest cursor to the center of the square
 	   */
-	  team->gradient[i].closest_cursor_pos.x =
-	    map_struct->zones[i].pos.x + map_struct->zones[i].size / 2;
-	  team->gradient[i].closest_cursor_pos.y =
-	    map_struct->zones[i].pos.y + map_struct->zones[i].size / 2;
+	  team->gradient[i].closest_cursor_pos.x = map_struct->zones[i].pos.x + map_struct->zones[i].size / 2;
+	  team->gradient[i].closest_cursor_pos.y = map_struct->zones[i].pos.y + map_struct->zones[i].size / 2;
 	}
       ret = 1;
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to allocate gradient"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to allocate gradient"));
     }
 
   return ret;
@@ -91,21 +83,17 @@ _lw6ker_team_clear (lw6sys_context_t * sys_context, _lw6ker_team_t * team)
 }
 
 int
-_lw6ker_team_sync (lw6sys_context_t * sys_context, _lw6ker_team_t * dst,
-		   const _lw6ker_team_t * src)
+_lw6ker_team_sync (lw6sys_context_t * sys_context, _lw6ker_team_t * dst, const _lw6ker_team_t * src)
 {
   int ret = 0;
 
-  if (dst && src
-      && _lw6ker_map_struct_lazy_compare (sys_context, dst->map_struct,
-					  src->map_struct))
+  if (dst && src && _lw6ker_map_struct_lazy_compare (sys_context, dst->map_struct, src->map_struct))
     {
       dst->active = src->active;
       dst->has_been_active = src->has_been_active;
       dst->respawn_round = src->respawn_round;
       dst->offline = src->offline;
-      memcpy (dst->gradient, src->gradient,
-	      src->map_struct->nb_zones * sizeof (_lw6ker_zone_state_t));
+      memcpy (dst->gradient, src->gradient, src->map_struct->nb_zones * sizeof (_lw6ker_zone_state_t));
       dst->cursor_ref_pot = src->cursor_ref_pot;
       dst->last_spread_dir = src->last_spread_dir;
       dst->charge = src->charge;
@@ -116,18 +104,14 @@ _lw6ker_team_sync (lw6sys_context_t * sys_context, _lw6ker_team_t * dst,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("team_copy only works if dst and src point to the same map_struct"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("team_copy only works if dst and src point to the same map_struct"));
     }
 
   return ret;
 }
 
 void
-_lw6ker_team_update_checksum (lw6sys_context_t * sys_context,
-			      const _lw6ker_team_t * team,
-			      u_int32_t * checksum)
+_lw6ker_team_update_checksum (lw6sys_context_t * sys_context, const _lw6ker_team_t * team, u_int32_t * checksum)
 {
   int i;
 
@@ -138,22 +122,18 @@ _lw6ker_team_update_checksum (lw6sys_context_t * sys_context,
   // map_struct checksumed elsewhere
   for (i = 0; i < team->map_struct->nb_zones; ++i)
     {
-      _lw6ker_zone_state_update_checksum (sys_context, &(team->gradient[i]),
-					  checksum);
+      _lw6ker_zone_state_update_checksum (sys_context, &(team->gradient[i]), checksum);
     }
   lw6sys_checksum_update_int32 (sys_context, checksum, team->cursor_ref_pot);
   lw6sys_checksum_update_int32 (sys_context, checksum, team->last_spread_dir);
   lw6sys_checksum_update_int32 (sys_context, checksum, team->charge);
   lw6sys_checksum_update_int32 (sys_context, checksum, team->weapon_id);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				team->weapon_first_round);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				team->weapon_last_round);
+  lw6sys_checksum_update_int32 (sys_context, checksum, team->weapon_first_round);
+  lw6sys_checksum_update_int32 (sys_context, checksum, team->weapon_last_round);
 }
 
 void
-_lw6ker_team_activate (lw6sys_context_t * sys_context, _lw6ker_team_t * team,
-		       lw6sys_xyz_t pos)
+_lw6ker_team_activate (lw6sys_context_t * sys_context, _lw6ker_team_t * team, lw6sys_xyz_t pos)
 {
   team->active = 1;
   team->has_been_active = 1;
@@ -163,8 +143,7 @@ _lw6ker_team_activate (lw6sys_context_t * sys_context, _lw6ker_team_t * team,
 }
 
 void
-_lw6ker_team_unactivate (lw6sys_context_t * sys_context,
-			 _lw6ker_team_t * team)
+_lw6ker_team_unactivate (lw6sys_context_t * sys_context, _lw6ker_team_t * team)
 {
   team->active = 0;
   // carefull, do not touch "has_been_active" !!!
@@ -174,9 +153,7 @@ _lw6ker_team_unactivate (lw6sys_context_t * sys_context,
 }
 
 void
-_lw6ker_team_normalize_pot (lw6sys_context_t * sys_context,
-			    _lw6ker_team_t * team,
-			    const lw6map_rules_t * rules)
+_lw6ker_team_normalize_pot (lw6sys_context_t * sys_context, _lw6ker_team_t * team, const lw6map_rules_t * rules)
 {
   int32_t i;
   int32_t n;
@@ -204,8 +181,7 @@ _lw6ker_team_normalize_pot (lw6sys_context_t * sys_context,
   for (i = 0; i < n; ++i)
     {
       zone_states[i].potential -= delta;
-      if (zone_states[i].potential <= 0
-	  || zone_states[i].potential > rules->max_cursor_pot)
+      if (zone_states[i].potential <= 0 || zone_states[i].potential > rules->max_cursor_pot)
 	{
 	  zone_states[i].potential = rules->cursor_pot_init;
 	}
@@ -215,17 +191,13 @@ _lw6ker_team_normalize_pot (lw6sys_context_t * sys_context,
   team->cursor_ref_pot = max_pot - delta;
   if (team->cursor_ref_pot <= 0 || team->cursor_ref_pot > max_pot)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("inconsistent cursor_ref_pot=%d (max_pot=%d, delta=%d)"),
-		  team->cursor_ref_pot, max_pot, delta);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("inconsistent cursor_ref_pot=%d (max_pot=%d, delta=%d)"), team->cursor_ref_pot, max_pot, delta);
       team->cursor_ref_pot = rules->cursor_pot_init;
     }
 }
 
 int
-_lw6ker_team_get_charge_per1000 (lw6sys_context_t * sys_context,
-				 const _lw6ker_team_t * team)
+_lw6ker_team_get_charge_per1000 (lw6sys_context_t * sys_context, const _lw6ker_team_t * team)
 {
   int ret = 0;
 
@@ -238,24 +210,19 @@ _lw6ker_team_get_charge_per1000 (lw6sys_context_t * sys_context,
 }
 
 void
-_lw6ker_team_reset_charge (lw6sys_context_t * sys_context,
-			   _lw6ker_team_t * team)
+_lw6ker_team_reset_charge (lw6sys_context_t * sys_context, _lw6ker_team_t * team)
 {
   team->charge = 0;
 }
 
 int
-_lw6ker_team_is_this_weapon_active (lw6sys_context_t * sys_context,
-				    const _lw6ker_team_t * team, int round,
-				    int weapon_id)
+_lw6ker_team_is_this_weapon_active (lw6sys_context_t * sys_context, const _lw6ker_team_t * team, int round, int weapon_id)
 {
-  return (team->weapon_id == weapon_id && team->weapon_first_round <= round
-	  && team->weapon_last_round >= round);
+  return (team->weapon_id == weapon_id && team->weapon_first_round <= round && team->weapon_last_round >= round);
 }
 
 int
-_lw6ker_team_get_weapon_per1000_left (lw6sys_context_t * sys_context,
-				      const _lw6ker_team_t * team, int round)
+_lw6ker_team_get_weapon_per1000_left (lw6sys_context_t * sys_context, const _lw6ker_team_t * team, int round)
 {
   int ret = 0;
   int rounds_done = 0;
@@ -264,13 +231,10 @@ _lw6ker_team_get_weapon_per1000_left (lw6sys_context_t * sys_context,
 
   rounds_done = round - team->weapon_first_round;
   rounds_left = team->weapon_last_round - round;
-  if (rounds_done >= 0 && rounds_left >= 0
-      && team->weapon_id >= LW6MAP_MIN_WEAPON_ID
-      && team->weapon_id <= LW6MAP_MAX_WEAPON_ID)
+  if (rounds_done >= 0 && rounds_left >= 0 && team->weapon_id >= LW6MAP_MIN_WEAPON_ID && team->weapon_id <= LW6MAP_MAX_WEAPON_ID)
     {
       duration = lw6sys_imax (1, rounds_done + rounds_left);
-      ret =
-	lw6sys_imax (1, lw6sys_imin (1000, rounds_left * 1000 / duration));
+      ret = lw6sys_imax (1, lw6sys_imin (1000, rounds_left * 1000 / duration));
     }
 
   return ret;

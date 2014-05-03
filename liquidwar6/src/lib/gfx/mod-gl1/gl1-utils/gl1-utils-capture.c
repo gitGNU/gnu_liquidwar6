@@ -88,28 +88,20 @@ mod_gl1_utils_capture2disk (mod_gl1_utils_context_t * utils_context)
 	}
       if (lw6sys_dir_exists (sys_context, utils_context->path.capture_dir))
 	{
-	  file =
-	    lw6sys_new_sprintf (sys_context, _FILE_MASK,
-				utils_context->counter.nb_frames);
+	  file = lw6sys_new_sprintf (sys_context, _FILE_MASK, utils_context->counter.nb_frames);
 	  if (file)
 	    {
-	      full_path =
-		lw6sys_path_concat (sys_context,
-				    utils_context->path.capture_dir, file);
+	      full_path = lw6sys_path_concat (sys_context, utils_context->path.capture_dir, file);
 	      if (full_path)
 		{
 		  if (SDL_SaveBMP (surface, full_path) == 0)
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_ ("wrote capture \"%s\""), full_path);
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("wrote capture \"%s\""), full_path);
 		      ret = 1;
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_
-				  ("unable to write capture \"%s\" to disk"),
-				  full_path);
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to write capture \"%s\" to disk"), full_path);
 		    }
 		  LW6SYS_FREE (sys_context, full_path);
 		}

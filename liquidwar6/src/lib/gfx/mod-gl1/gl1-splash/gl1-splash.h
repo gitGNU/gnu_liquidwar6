@@ -30,19 +30,13 @@
 /*
  * In display.c
  */
-extern void mod_gl1_splash_display (mod_gl1_utils_context_t *
-				    utils_context, void *splash_context);
-extern void mod_gl1_splash_patch_system_color (mod_gl1_utils_context_t *
-					       utils_context,
-					       void *splash_context,
-					       lw6map_color_couple_t *
-					       system_color);
+extern void mod_gl1_splash_display (mod_gl1_utils_context_t * utils_context, void *splash_context);
+extern void mod_gl1_splash_patch_system_color (mod_gl1_utils_context_t * utils_context, void *splash_context, lw6map_color_couple_t * system_color);
 
 /*
  * In setup.c
  */
 extern void *mod_gl1_splash_init (mod_gl1_utils_context_t * utils_context);
-extern void mod_gl1_splash_quit (mod_gl1_utils_context_t * utils_context,
-				 void *splash_context);
+extern void mod_gl1_splash_quit (mod_gl1_utils_context_t * utils_context, void *splash_context);
 
 #endif

@@ -54,41 +54,23 @@ extern void _mod_gl1_hud_tactical_display_hud (mod_gl1_utils_context_t *
 					       utils_context,
 					       _mod_gl1_hud_tactical_context_t
 					       * tactical_context,
-					       const lw6gui_look_t * look,
-					       const lw6ker_game_state_t *
-					       game_state,
-					       lw6pil_local_cursors_t *
-					       local_cursors);
+					       const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
 extern void _mod_gl1_hud_tactical_display_score (mod_gl1_utils_context_t *
 						 utils_context,
 						 _mod_gl1_hud_tactical_context_t
 						 * tactical_context,
-						 const lw6gui_look_t * look,
-						 const lw6ker_game_state_t *
-						 game_state,
-						 lw6pil_local_cursors_t *
-						 local_cursors);
+						 const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
 
 /*
  * In data.c
  */
-extern int _mod_gl1_hud_tactical_load_data (mod_gl1_utils_context_t *
-					    utils_context,
-					    _mod_gl1_hud_tactical_context_t
-					    * tactical_context);
-extern void _mod_gl1_hud_tactical_unload_data (mod_gl1_utils_context_t *
-					       utils_context,
-					       _mod_gl1_hud_tactical_context_t
-					       * tactical_context);
+extern int _mod_gl1_hud_tactical_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context);
+extern void _mod_gl1_hud_tactical_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context);
 
 /*
  * In setup.c
  */
-extern _mod_gl1_hud_tactical_context_t
-  * _mod_gl1_hud_tactical_init (mod_gl1_utils_context_t * utils_context);
-extern void _mod_gl1_hud_tactical_quit (mod_gl1_utils_context_t *
-					utils_context,
-					_mod_gl1_hud_tactical_context_t *
-					tactical_context);
+extern _mod_gl1_hud_tactical_context_t *_mod_gl1_hud_tactical_init (mod_gl1_utils_context_t * utils_context);
+extern void _mod_gl1_hud_tactical_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context);
 
 #endif

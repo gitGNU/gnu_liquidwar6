@@ -38,8 +38,7 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture,
-			    const char *dirname)
+lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture, const char *dirname)
 {
   int ret = 1;
   int found = 0;
@@ -48,34 +47,24 @@ lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture,
 
   lw6map_cursor_texture_clear (sys_context, cursor_texture);
 
-  cursor_dot_png =
-    lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_CURSOR_PNG);
+  cursor_dot_png = lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_CURSOR_PNG);
   if (cursor_dot_png)
     {
       if (lw6sys_file_exists (sys_context, cursor_dot_png))
 	{
 	  found = 1;
-	  ret = ret
-	    &&
-	    _lw6ldr_cursor_texture_layer_read_png (&
-						   (cursor_texture->fg_bg_layer),
-						   cursor_dot_png);
+	  ret = ret && _lw6ldr_cursor_texture_layer_read_png (&(cursor_texture->fg_bg_layer), cursor_dot_png);
 	}
       LW6SYS_FREE (sys_context, cursor_dot_png);
     }
 
-  cursor_color_dot_png =
-    lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_CURSOR_COLOR_PNG);
+  cursor_color_dot_png = lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_CURSOR_COLOR_PNG);
   if (cursor_color_dot_png)
     {
       if (lw6sys_file_exists (sys_context, cursor_color_dot_png))
 	{
 	  found = 1;
-	  ret = ret
-	    &&
-	    _lw6ldr_cursor_texture_layer_read_png (&
-						   (cursor_texture->color_layer),
-						   cursor_color_dot_png);
+	  ret = ret && _lw6ldr_cursor_texture_layer_read_png (&(cursor_texture->color_layer), cursor_color_dot_png);
 	}
       LW6SYS_FREE (sys_context, cursor_color_dot_png);
     }

@@ -72,9 +72,7 @@ lw6scm_utils_to_0str (SCM string)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("unable to convert a guile SCM string to a standard C \"'\\0' terminated\" string"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to convert a guile SCM string to a standard C \"'\\0' terminated\" string"));
     }
 
   return c_string;
@@ -96,13 +94,11 @@ lw6scm_utils_to_scm_str_list (lw6sys_list_t * c_list)
   SCM ret = SCM_EOL;
   lw6sys_list_t *c_item = NULL;
 
-  for (c_item = c_list; c_item;
-       c_item = lw6sys_list_next (sys_context, c_item))
+  for (c_item = c_list; c_item; c_item = lw6sys_list_next (sys_context, c_item))
     {
       if (c_item->data)
 	{
-	  ret =
-	    scm_cons (scm_from_locale_string ((char *) c_item->data), ret);
+	  ret = scm_cons (scm_from_locale_string ((char *) c_item->data), ret);
 	}
     }
 
@@ -119,10 +115,7 @@ _to_scm_str_assoc_callback (void *func_data, const char *key, void *value)
 
   if (value_str && (SCM_CONSP (*ret_p) || (*ret_p) == SCM_EOL))
     {
-      (*ret_p) =
-	scm_cons (scm_cons
-		  (scm_from_locale_string (key),
-		   scm_from_locale_string (value_str)), *ret_p);
+      (*ret_p) = scm_cons (scm_cons (scm_from_locale_string (key), scm_from_locale_string (value_str)), *ret_p);
     }
 }
 
@@ -227,8 +220,7 @@ lw6scm_utils_to_sys_str_assoc (SCM assoc)
 		  value = lw6scm_utils_to_0str (scm_cdr (item));
 		  if (key && value)
 		    {
-		      lw6sys_assoc_set (sys_context, &c_assoc, key,
-					(void *) value);
+		      lw6sys_assoc_set (sys_context, &c_assoc, key, (void *) value);
 		      LW6SYS_FREE (sys_context, key);
 		      // value must not be freed now
 		    }

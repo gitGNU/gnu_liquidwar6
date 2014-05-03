@@ -58,10 +58,7 @@ lw6cnx_connection_t *
 lw6cnx_connection_new (const char *local_url, const char *remote_url,
 		       const char *remote_ip, int remote_port,
 		       const char *password, u_int64_t local_id,
-		       u_int64_t remote_id,
-		       int dns_ok, int network_reliability,
-		       lw6cnx_recv_callback_t recv_callback_func,
-		       void *recv_callback_data)
+		       u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
 {
   lw6cnx_connection_t *ret = NULL;
 
@@ -75,14 +72,12 @@ lw6cnx_connection_new (const char *local_url, const char *remote_url,
       if (password && strlen (password) > 0)
 	{
 	  ret->password = lw6sys_str_copy (password);
-	  ret->password_send_checksum =
-	    lw6cnx_password_checksum (remote_url, password);
+	  ret->password_send_checksum = lw6cnx_password_checksum (remote_url, password);
 	}
       else
 	{
 	  ret->password = lw6sys_str_copy ("");
-	  ret->password_send_checksum =
-	    lw6sys_str_copy (sys_context, _DEFAULT_SEND_PASSWORD_CHECKSUM);
+	  ret->password_send_checksum = lw6sys_str_copy (sys_context, _DEFAULT_SEND_PASSWORD_CHECKSUM);
 	}
       ret->local_id_int = local_id;
       ret->local_id_str = lw6sys_id_ltoa (sys_context, local_id);
@@ -96,11 +91,9 @@ lw6cnx_connection_new (const char *local_url, const char *remote_url,
       ret->ping_msec = LW6CNX_WORST_PING_MSEC;
 
       if (ret->local_url && ret->remote_url && ret->remote_ip && ret->password
-	  && ret->password_send_checksum && ret->local_id_str
-	  && ret->remote_id_str && ret->send_mutex)
+	  && ret->password_send_checksum && ret->local_id_str && ret->remote_id_str && ret->send_mutex)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("created connection with \"%s\""), remote_url);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("created connection with \"%s\""), remote_url);
 	}
       else
 	{
@@ -171,8 +164,7 @@ lw6cnx_connection_free (lw6cnx_connection_t * connection)
  * Return value: 1 if true, 0 if false.
  */
 int
-lw6cnx_connection_should_send_foo (lw6cnx_connection_t * connection,
-				   int64_t now)
+lw6cnx_connection_should_send_foo (lw6cnx_connection_t * connection, int64_t now)
 {
   return (now > connection->next_send_foo_timestamp);
 }
@@ -189,8 +181,7 @@ lw6cnx_connection_should_send_foo (lw6cnx_connection_t * connection,
  * Return value: none.
  */
 void
-lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t * connection,
-				    int64_t now, int next_foo_delay)
+lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t * connection, int64_t now, int next_foo_delay)
 {
   if (connection->foo_bar_key)
     {
@@ -203,8 +194,7 @@ lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t * connection,
       connection->ping_msec = LW6CNX_WORST_PING_MSEC;
     }
   connection->last_send_foo_timestamp = now;
-  connection->next_send_foo_timestamp =
-    now + next_foo_delay / 2 + lw6sys_random (sys_context, next_foo_delay);
+  connection->next_send_foo_timestamp = now + next_foo_delay / 2 + lw6sys_random (sys_context, next_foo_delay);
   connection->foo_bar_key = lw6sys_generate_id_32 ();
 }
 
@@ -259,14 +249,10 @@ lw6cnx_connection_reliability_filter (lw6cnx_connection_t * connection)
 {
   int ret = 0;
 
-  ret =
-    (lw6sys_random (sys_context, connection->network_reliability) !=
-     (connection->network_reliability >> 1));
+  ret = (lw6sys_random (sys_context, connection->network_reliability) != (connection->network_reliability >> 1));
   if (!ret)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("filtering message due to reliability %d"),
-		  connection->network_reliability);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("filtering message due to reliability %d"), connection->network_reliability);
     }
 
   return ret;

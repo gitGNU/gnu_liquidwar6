@@ -114,9 +114,7 @@ lw6sys_keyword_as_key (lw6sys_context_t * sys_context, const char *keyword)
 	    }
 	  else
 	    {
-	      lw6sys_log_critical (sys_context, _x_
-				   ("weird char '%c' in keyword \"%s\""),
-				   pos_p[0], keyword);
+	      lw6sys_log_critical (sys_context, _x_ ("weird char '%c' in keyword \"%s\""), pos_p[0], keyword);
 	    }
 	  pos_p++;
 	}
@@ -192,9 +190,7 @@ lw6sys_keyword_as_env (lw6sys_context_t * sys_context, const char *keyword)
 	    }
 	  else
 	    {
-	      lw6sys_log_critical (sys_context, _x_
-				   ("weird char '%c' in keyword \"%s\""),
-				   pos_p[0], keyword);
+	      lw6sys_log_critical (sys_context, _x_ ("weird char '%c' in keyword \"%s\""), pos_p[0], keyword);
 	    }
 	  pos_p++;
 	}

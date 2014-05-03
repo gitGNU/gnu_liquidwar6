@@ -33,9 +33,7 @@ mod_gl1_view_flat_create_backend (mod_gl1_utils_context_t * utils_context)
 {
   mod_gl1_view_backend_t *backend;
 
-  backend =
-    (mod_gl1_view_backend_t *)
-    LW6SYS_MALLOC (sizeof (mod_gl1_view_backend_t));
+  backend = (mod_gl1_view_backend_t *) LW6SYS_MALLOC (sizeof (mod_gl1_view_backend_t));
   if (backend)
     {
       memset (backend, 0, sizeof (mod_gl1_view_backend_t));

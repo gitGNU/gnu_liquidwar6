@@ -27,9 +27,7 @@
 #include "mod-soft-internal.h"
 
 int
-_mod_soft_get_fullscreen_modes (_mod_soft_context_t *
-				soft_context,
-				lw6gui_fullscreen_modes_t * modes)
+_mod_soft_get_fullscreen_modes (_mod_soft_context_t * soft_context, lw6gui_fullscreen_modes_t * modes)
 {
   SDL_Rect **sdl_modes = NULL;
   int i = 0;
@@ -71,20 +69,13 @@ _mod_soft_get_fullscreen_modes (_mod_soft_context_t *
 
   lw6gui_video_mode_sync_ratio (&(modes->standard), &(modes->high));
 
-  _mod_soft_find_closest_resolution (soft_context,
-				     &(modes->standard.width),
-				     &(modes->standard.height),
-				     modes->standard.width,
-				     modes->standard.height);
+  _mod_soft_find_closest_resolution (soft_context, &(modes->standard.width), &(modes->standard.height), modes->standard.width, modes->standard.height);
 
   return ret;
 }
 
 void
-_mod_soft_find_closest_resolution (_mod_soft_context_t *
-				   soft_context, int *closest_width,
-				   int *closest_height, int wished_width,
-				   int wished_height)
+_mod_soft_find_closest_resolution (_mod_soft_context_t * soft_context, int *closest_width, int *closest_height, int wished_width, int wished_height)
 {
   SDL_Rect **sdl_modes = NULL;
   int i = 0;
@@ -104,9 +95,7 @@ _mod_soft_find_closest_resolution (_mod_soft_context_t *
 	{
 	  for (i = 0; sdl_modes[i]; ++i)
 	    {
-	      video_mode =
-		(lw6gui_video_mode_t *)
-		LW6SYS_MALLOC (sizeof (lw6gui_video_mode_t));
+	      video_mode = (lw6gui_video_mode_t *) LW6SYS_MALLOC (sizeof (lw6gui_video_mode_t));
 	      if (video_mode)
 		{
 		  video_mode->width = sdl_modes[i]->w;

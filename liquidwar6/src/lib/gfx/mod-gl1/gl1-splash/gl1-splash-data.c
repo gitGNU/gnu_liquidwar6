@@ -39,8 +39,7 @@
 #define _DESC_SPLASH_GAME "splash_game"
 
 static void
-_read_callback (void *callback_data, const char *element, const char *key,
-		const char *value)
+_read_callback (void *callback_data, const char *element, const char *key, const char *value)
 {
   _mod_gl1_splash_const_data_t *const_data;
 
@@ -48,28 +47,20 @@ _read_callback (void *callback_data, const char *element, const char *key,
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "text-period",
-			   &const_data->text_period);
+      lw6cfg_read_xml_int (key, value, "text-period", &const_data->text_period);
       lw6cfg_read_xml_int (key, value, "slices", &const_data->slices);
       lw6cfg_read_xml_int (key, value, "stacks", &const_data->stacks);
-      lw6cfg_read_xml_int (key, value, "planet-day-period",
-			   &const_data->planet_day_period);
-      lw6cfg_read_xml_int (key, value, "satellite-year-period",
-			   &const_data->satellite_year_period);
-      lw6cfg_read_xml_int (key, value, "satellite-day-period",
-			   &const_data->satellite_day_period);
-      lw6cfg_read_xml_int (key, value, "cursors-spin-radius",
-			   &const_data->cursors_spin_radius);
-      lw6cfg_read_xml_int (key, value, "cursors-spin-period",
-			   &const_data->cursors_spin_period);
+      lw6cfg_read_xml_int (key, value, "planet-day-period", &const_data->planet_day_period);
+      lw6cfg_read_xml_int (key, value, "satellite-year-period", &const_data->satellite_year_period);
+      lw6cfg_read_xml_int (key, value, "satellite-day-period", &const_data->satellite_day_period);
+      lw6cfg_read_xml_int (key, value, "cursors-spin-radius", &const_data->cursors_spin_radius);
+      lw6cfg_read_xml_int (key, value, "cursors-spin-period", &const_data->cursors_spin_period);
     }
 
   if (!strcmp (element, "float"))
     {
-      lw6cfg_read_xml_float (key, value, "text-center-x",
-			     &const_data->text_center_x);
-      lw6cfg_read_xml_float (key, value, "text-center-y",
-			     &const_data->text_center_y);
+      lw6cfg_read_xml_float (key, value, "text-center-x", &const_data->text_center_x);
+      lw6cfg_read_xml_float (key, value, "text-center-y", &const_data->text_center_y);
       lw6cfg_read_xml_float (key, value, "text-size", &const_data->text_size);
       lw6cfg_read_xml_float (key, value, "text-dw", &const_data->text_dw);
       lw6cfg_read_xml_float (key, value, "text-dh", &const_data->text_dh);
@@ -79,14 +70,10 @@ _read_callback (void *callback_data, const char *element, const char *key,
       lw6cfg_read_xml_float (key, value, "planet-x", &const_data->planet_x);
       lw6cfg_read_xml_float (key, value, "planet-y", &const_data->planet_y);
       lw6cfg_read_xml_float (key, value, "planet-z", &const_data->planet_z);
-      lw6cfg_read_xml_float (key, value, "planet-radius",
-			     &const_data->planet_radius);
-      lw6cfg_read_xml_float (key, value, "satellite-radius",
-			     &const_data->satellite_radius);
-      lw6cfg_read_xml_float (key, value, "satellite-distance",
-			     &const_data->satellite_distance);
-      lw6cfg_read_xml_float (key, value, "cursors-center-speed",
-			     &const_data->cursors_center_speed);
+      lw6cfg_read_xml_float (key, value, "planet-radius", &const_data->planet_radius);
+      lw6cfg_read_xml_float (key, value, "satellite-radius", &const_data->satellite_radius);
+      lw6cfg_read_xml_float (key, value, "satellite-distance", &const_data->satellite_distance);
+      lw6cfg_read_xml_float (key, value, "cursors-center-speed", &const_data->cursors_center_speed);
     }
 
   if (!strcmp (element, "color"))
@@ -94,33 +81,24 @@ _read_callback (void *callback_data, const char *element, const char *key,
       lw6cfg_read_xml_color (key, value, "root-bg", &const_data->root_bg);
       lw6cfg_read_xml_color (key, value, "map-fg", &const_data->map_color.fg);
       lw6cfg_read_xml_color (key, value, "map-bg", &const_data->map_color.bg);
-      lw6cfg_read_xml_color (key, value, "text-fg",
-			     &const_data->text_color.fg);
-      lw6cfg_read_xml_color (key, value, "text-bg",
-			     &const_data->text_color.bg);
+      lw6cfg_read_xml_color (key, value, "text-fg", &const_data->text_color.fg);
+      lw6cfg_read_xml_color (key, value, "text-bg", &const_data->text_color.bg);
     }
 }
 
 static int
-_load_consts (mod_gl1_utils_context_t * utils_context,
-	      _mod_gl1_splash_context_t * splash_context)
+_load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   int ret = 0;
   char *const_file = NULL;
 
-  const_file =
-    lw6sys_path_concat (sys_context, utils_context->path.data_dir,
-			CONST_FILE);
+  const_file = lw6sys_path_concat (sys_context, utils_context->path.data_dir, CONST_FILE);
 
   if (const_file)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
-		  const_file);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-      ret =
-	lw6cfg_read_key_value_xml_file (const_file, _read_callback,
-					(void *)
-					&(splash_context->const_data));
+      ret = lw6cfg_read_key_value_xml_file (const_file, _read_callback, (void *) &(splash_context->const_data));
 
       LW6SYS_FREE (sys_context, const_file);
     }
@@ -129,26 +107,20 @@ _load_consts (mod_gl1_utils_context_t * utils_context,
 }
 
 static void
-_unload_consts (mod_gl1_utils_context_t * utils_context,
-		_mod_gl1_splash_context_t * splash_context)
+_unload_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
-  memset (&splash_context->const_data, 0,
-	  sizeof (_mod_gl1_splash_const_data_t));
+  memset (&splash_context->const_data, 0, sizeof (_mod_gl1_splash_const_data_t));
 }
 
 static int
-_load_bitmaps (mod_gl1_utils_context_t * utils_context,
-	       _mod_gl1_splash_context_t * splash_context)
+_load_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   int ret = 0;
 
-  splash_context->bitmap_data.satellite =
-    mod_gl1_utils_bitmap_load (utils_context, IMAGE_DIR IMAGE_GNU_HEAD);
+  splash_context->bitmap_data.satellite = mod_gl1_utils_bitmap_load (utils_context, IMAGE_DIR IMAGE_GNU_HEAD);
   if (splash_context->bitmap_data.satellite)
     {
-      mod_gl1_utils_bitmap_set_wrap (utils_context,
-				     splash_context->bitmap_data.satellite,
-				     GL_REPEAT);
+      mod_gl1_utils_bitmap_set_wrap (utils_context, splash_context->bitmap_data.satellite, GL_REPEAT);
     }
   ret = (splash_context->bitmap_data.satellite != NULL);
 
@@ -156,72 +128,44 @@ _load_bitmaps (mod_gl1_utils_context_t * utils_context,
 }
 
 static void
-_unload_bitmaps (mod_gl1_utils_context_t * utils_context,
-		 _mod_gl1_splash_context_t * splash_context)
+_unload_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   if (splash_context->bitmap_data.satellite)
     {
-      mod_gl1_utils_bitmap_free (utils_context,
-				 splash_context->bitmap_data.satellite);
+      mod_gl1_utils_bitmap_free (utils_context, splash_context->bitmap_data.satellite);
     }
-  memset (&splash_context->bitmap_data, 0,
-	  sizeof (_mod_gl1_splash_bitmap_data_t));
+  memset (&splash_context->bitmap_data, 0, sizeof (_mod_gl1_splash_bitmap_data_t));
 }
 
 static int
-_load_game (mod_gl1_utils_context_t * utils_context,
-	    _mod_gl1_splash_context_t * splash_context)
+_load_game (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   int ret = 0;
 
   splash_context->game.sphere = gluNewQuadric ();
   splash_context->game.level =
-    lw6map_builtin_custom (sys_context, LW6MAP_BUILTIN_DEFAULT_WIDTH,
-			   LW6MAP_BUILTIN_DEFAULT_HEIGHT,
-			   _MAP_DEPTH, _MAP_NOISE_PERCENT);
+    lw6map_builtin_custom (sys_context, LW6MAP_BUILTIN_DEFAULT_WIDTH, LW6MAP_BUILTIN_DEFAULT_HEIGHT, _MAP_DEPTH, _MAP_NOISE_PERCENT);
   if (splash_context->game.level)
     {
-      splash_context->game.level->param.rules.total_time =
-	LW6MAP_RULES_MAX_TOTAL_TIME;
-      splash_context->game.game_struct =
-	lw6ker_game_struct_new (splash_context->game.level, NULL);
+      splash_context->game.level->param.rules.total_time = LW6MAP_RULES_MAX_TOTAL_TIME;
+      splash_context->game.game_struct = lw6ker_game_struct_new (splash_context->game.level, NULL);
       if (splash_context->game.game_struct)
 	{
-	  splash_context->game.game_state =
-	    lw6ker_game_state_new (splash_context->game.game_struct, NULL);
+	  splash_context->game.game_state = lw6ker_game_state_new (splash_context->game.game_struct, NULL);
 	  if (splash_context->game.game_state)
 	    {
-	      lw6ker_game_state_register_node (splash_context->game.
-					       game_state,
-					       _MOD_GL1_SPLASH_GAME_NODE_ID);
-	      lw6ker_game_state_add_cursor (splash_context->game.game_state,
-					    _MOD_GL1_SPLASH_GAME_NODE_ID,
-					    _MOD_GL1_SPLASH_GAME_CURSOR1_ID,
-					    _GAME_COLOR1);
-	      lw6ker_game_state_add_cursor (splash_context->game.game_state,
-					    _MOD_GL1_SPLASH_GAME_NODE_ID,
-					    _MOD_GL1_SPLASH_GAME_CURSOR2_ID,
-					    _GAME_COLOR2);
-	      lw6ker_game_state_add_cursor (splash_context->game.game_state,
-					    _MOD_GL1_SPLASH_GAME_NODE_ID,
-					    _MOD_GL1_SPLASH_GAME_CURSOR3_ID,
-					    _GAME_COLOR3);
-	      lw6ker_game_state_add_cursor (splash_context->game.game_state,
-					    _MOD_GL1_SPLASH_GAME_NODE_ID,
-					    _MOD_GL1_SPLASH_GAME_CURSOR4_ID,
-					    _GAME_COLOR4);
+	      lw6ker_game_state_register_node (splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID);
+	      lw6ker_game_state_add_cursor (splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID, _MOD_GL1_SPLASH_GAME_CURSOR1_ID, _GAME_COLOR1);
+	      lw6ker_game_state_add_cursor (splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID, _MOD_GL1_SPLASH_GAME_CURSOR2_ID, _GAME_COLOR2);
+	      lw6ker_game_state_add_cursor (splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID, _MOD_GL1_SPLASH_GAME_CURSOR3_ID, _GAME_COLOR3);
+	      lw6ker_game_state_add_cursor (splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID, _MOD_GL1_SPLASH_GAME_CURSOR4_ID, _GAME_COLOR4);
 	      splash_context->game.bitmap =
 		mod_gl1_utils_bitmap_new (utils_context,
 					  lw6ker_game_state_get_w
-					  (splash_context->game.game_state),
-					  lw6ker_game_state_get_h
-					  (splash_context->game.game_state),
-					  _DESC_SPLASH_GAME);
+					  (splash_context->game.game_state), lw6ker_game_state_get_h (splash_context->game.game_state), _DESC_SPLASH_GAME);
 	      if (splash_context->game.bitmap)
 		{
-		  mod_gl1_utils_bitmap_set_wrap (utils_context,
-						 splash_context->game.bitmap,
-						 GL_REPEAT);
+		  mod_gl1_utils_bitmap_set_wrap (utils_context, splash_context->game.bitmap, GL_REPEAT);
 		}
 	    }
 	}
@@ -229,16 +173,13 @@ _load_game (mod_gl1_utils_context_t * utils_context,
 
   ret = (splash_context->game.sphere != 0)
     && (splash_context->game.level != NULL)
-    && (splash_context->game.game_struct != NULL)
-    && (splash_context->game.game_state != NULL)
-    && (splash_context->game.bitmap != NULL);
+    && (splash_context->game.game_struct != NULL) && (splash_context->game.game_state != NULL) && (splash_context->game.bitmap != NULL);
 
   return ret;
 }
 
 static void
-_unload_game (mod_gl1_utils_context_t * utils_context,
-	      _mod_gl1_splash_context_t * splash_context)
+_unload_game (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   if (splash_context->game.bitmap)
     {
@@ -264,21 +205,17 @@ _unload_game (mod_gl1_utils_context_t * utils_context,
 }
 
 int
-_mod_gl1_splash_load_data (mod_gl1_utils_context_t * utils_context,
-			   _mod_gl1_splash_context_t * splash_context)
+_mod_gl1_splash_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   int ret = 0;
 
-  ret = _load_consts (utils_context, splash_context)
-    && _load_bitmaps (utils_context, splash_context)
-    && _load_game (utils_context, splash_context);
+  ret = _load_consts (utils_context, splash_context) && _load_bitmaps (utils_context, splash_context) && _load_game (utils_context, splash_context);
 
   return ret;
 }
 
 void
-_mod_gl1_splash_unload_data (mod_gl1_utils_context_t * utils_context,
-			     _mod_gl1_splash_context_t * splash_context)
+_mod_gl1_splash_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   _unload_game (utils_context, splash_context);
   _unload_bitmaps (utils_context, splash_context);

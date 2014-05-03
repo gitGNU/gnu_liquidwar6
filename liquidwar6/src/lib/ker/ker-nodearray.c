@@ -30,8 +30,7 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_node_array_init (lw6sys_context_t * sys_context,
-			 _lw6ker_node_array_t * node_array)
+_lw6ker_node_array_init (lw6sys_context_t * sys_context, _lw6ker_node_array_t * node_array)
 {
   int i = 0;
 
@@ -43,23 +42,19 @@ _lw6ker_node_array_init (lw6sys_context_t * sys_context,
 }
 
 void
-_lw6ker_node_array_update_checksum (lw6sys_context_t * sys_context,
-				    const _lw6ker_node_array_t * node_array,
-				    u_int32_t * checksum)
+_lw6ker_node_array_update_checksum (lw6sys_context_t * sys_context, const _lw6ker_node_array_t * node_array, u_int32_t * checksum)
 {
   int i = 0;
 
   lw6sys_checksum_update_int32 (sys_context, checksum, node_array->nb_nodes);
   for (i = 0; i < LW6MAP_MAX_NB_NODES; ++i)
     {
-      _lw6ker_node_update_checksum (sys_context, &(node_array->nodes[i]),
-				    checksum);
+      _lw6ker_node_update_checksum (sys_context, &(node_array->nodes[i]), checksum);
     }
 }
 
 _lw6ker_node_t *
-_lw6ker_node_array_find_free (lw6sys_context_t * sys_context,
-			      _lw6ker_node_array_t * node_array)
+_lw6ker_node_array_find_free (lw6sys_context_t * sys_context, _lw6ker_node_array_t * node_array)
 {
   _lw6ker_node_t *ret = NULL;
   int i;
@@ -74,16 +69,14 @@ _lw6ker_node_array_find_free (lw6sys_context_t * sys_context,
 
   if (!ret)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("unable to find free node"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unable to find free node"));
     }
 
   return ret;
 }
 
 void
-_lw6ker_node_array_reset (lw6sys_context_t * sys_context,
-			  _lw6ker_node_array_t * node_array)
+_lw6ker_node_array_reset (lw6sys_context_t * sys_context, _lw6ker_node_array_t * node_array)
 {
   int i;
 
@@ -95,9 +88,7 @@ _lw6ker_node_array_reset (lw6sys_context_t * sys_context,
 }
 
 _lw6ker_node_t *
-_lw6ker_node_array_get_rw (lw6sys_context_t * sys_context,
-			   _lw6ker_node_array_t * node_array,
-			   u_int64_t node_id)
+_lw6ker_node_array_get_rw (lw6sys_context_t * sys_context, _lw6ker_node_array_t * node_array, u_int64_t node_id)
 {
   _lw6ker_node_t *ret = NULL;
   int i;
@@ -114,9 +105,7 @@ _lw6ker_node_array_get_rw (lw6sys_context_t * sys_context,
 }
 
 const _lw6ker_node_t *
-_lw6ker_node_array_get_ro (lw6sys_context_t * sys_context,
-			   const _lw6ker_node_array_t * node_array,
-			   u_int64_t node_id)
+_lw6ker_node_array_get_ro (lw6sys_context_t * sys_context, const _lw6ker_node_array_t * node_array, u_int64_t node_id)
 {
   const _lw6ker_node_t *ret = NULL;
   int i;
@@ -133,9 +122,7 @@ _lw6ker_node_array_get_ro (lw6sys_context_t * sys_context,
 }
 
 int
-_lw6ker_node_array_enable (lw6sys_context_t * sys_context,
-			   _lw6ker_node_array_t * node_array,
-			   u_int64_t node_id)
+_lw6ker_node_array_enable (lw6sys_context_t * sys_context, _lw6ker_node_array_t * node_array, u_int64_t node_id)
 {
   int ret = 0;
   _lw6ker_node_t *node;
@@ -153,19 +140,14 @@ _lw6ker_node_array_enable (lw6sys_context_t * sys_context,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("node %" LW6SYS_PRINTF_LL
-		       "x already exists, can't enable it twice"),
-		  (long long) node_id);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("node %" LW6SYS_PRINTF_LL "x already exists, can't enable it twice"), (long long) node_id);
     }
 
   return ret;
 }
 
 int
-_lw6ker_node_array_disable (lw6sys_context_t * sys_context,
-			    _lw6ker_node_array_t * node_array,
-			    u_int64_t node_id)
+_lw6ker_node_array_disable (lw6sys_context_t * sys_context, _lw6ker_node_array_t * node_array, u_int64_t node_id)
 {
   int ret = 0;
   _lw6ker_node_t *node;
@@ -179,19 +161,14 @@ _lw6ker_node_array_disable (lw6sys_context_t * sys_context,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("node %" LW6SYS_PRINTF_LL
-		       "x already does not exist, can't disable it"),
-		  (long long) node_id);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("node %" LW6SYS_PRINTF_LL "x already does not exist, can't disable it"), (long long) node_id);
     }
 
   return ret;
 }
 
 int
-_lw6ker_node_array_sanity_check (lw6sys_context_t * sys_context,
-				 const _lw6ker_node_array_t * node_array,
-				 const lw6map_rules_t * rules)
+_lw6ker_node_array_sanity_check (lw6sys_context_t * sys_context, const _lw6ker_node_array_t * node_array, const lw6map_rules_t * rules)
 {
   int ret = 1;
   int i;
@@ -199,9 +176,7 @@ _lw6ker_node_array_sanity_check (lw6sys_context_t * sys_context,
 
   for (i = 0; i < LW6MAP_MAX_NB_NODES; ++i)
     {
-      ret = ret
-	&& _lw6ker_node_sanity_check (sys_context, &(node_array->nodes[i]),
-				      rules);
+      ret = ret && _lw6ker_node_sanity_check (sys_context, &(node_array->nodes[i]), rules);
       if (node_array->nodes[i].enabled)
 	{
 	  found++;
@@ -209,10 +184,7 @@ _lw6ker_node_array_sanity_check (lw6sys_context_t * sys_context,
     }
   if (found != node_array->nb_nodes)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("inconsistency in node_array, found %d nodes but array reports %d"),
-		  found, node_array->nb_nodes);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("inconsistency in node_array, found %d nodes but array reports %d"), found, node_array->nb_nodes);
       ret = 0;
     }
 

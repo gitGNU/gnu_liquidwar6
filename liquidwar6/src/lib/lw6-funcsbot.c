@@ -59,13 +59,8 @@ _scm_lw6bot_get_backends ()
 	      if (key->data)
 		{
 		  module_id = (char *) key->data;
-		  module_name =
-		    (char *) lw6sys_assoc_get (sys_context, backends,
-					       module_id);
-		  ret =
-		    scm_cons (scm_cons
-			      (scm_from_locale_string (module_id),
-			       scm_from_locale_string (module_name)), ret);
+		  module_name = (char *) lw6sys_assoc_get (sys_context, backends, module_id);
+		  ret = scm_cons (scm_cons (scm_from_locale_string (module_id), scm_from_locale_string (module_name)), ret);
 		}
 	      key = lw6sys_list_next (sys_context, key);
 	    }
@@ -81,8 +76,7 @@ _scm_lw6bot_get_backends ()
 }
 
 static SCM
-_scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read,
-		 SCM cursor_id, SCM speed, SCM iq)
+_scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read, SCM cursor_id, SCM speed, SCM iq)
 {
   lw6ker_game_state_t *c_game_state;
   lw6pil_pilot_t *c_pilot;
@@ -99,14 +93,9 @@ _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read,
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (scm_is_string (backend_name), backend_name, SCM_ARG1,
-	      __FUNCTION__);
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.game_state,
-	       game_state), game_state, SCM_ARG2, __FUNCTION__);
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.pilot,
-	       pilot), pilot, SCM_ARG3, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (backend_name), backend_name, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG3, __FUNCTION__);
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG5, __FUNCTION__);
   SCM_ASSERT (scm_is_number (speed), speed, SCM_ARG6, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (iq), iq, SCM_ARG7, __FUNCTION__);
@@ -124,13 +113,10 @@ _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read,
 	      c_cursor_id_str = lw6scm_utils_to_0str (cursor_id);
 	      if (c_cursor_id_str)
 		{
-		  c_cursor_id_int =
-		    lw6sys_id_atol (sys_context, c_cursor_id_str);
+		  c_cursor_id_int = lw6sys_id_atol (sys_context, c_cursor_id_str);
 		  c_speed = scm_to_double (speed);
 		  c_iq = scm_to_int (iq);
-		  c_ret =
-		    lw6bot_create_backend (lw6_global.argc, lw6_global.argv,
-					   c_backend_name);
+		  c_ret = lw6bot_create_backend (lw6_global.argc, lw6_global.argv, c_backend_name);
 		  if (c_ret)
 		    {
 		      memset (&c_seed, 0, sizeof (lw6bot_seed_t));
@@ -172,19 +158,14 @@ _scm_lw6bot_next_move (SCM bot)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.bot, bot), bot, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.bot, bot), bot, SCM_ARG1, __FUNCTION__);
 
   c_bot = lw6_scm_to_bot (bot);
   if (c_bot)
     {
       if (lw6bot_next_move (c_bot, &c_x, &c_y))
 	{
-	  ret = scm_list_2 (scm_cons
-			    (scm_from_locale_string ("x"),
-			     scm_from_int (c_x)),
-			    scm_cons (scm_from_locale_string ("y"),
-				      scm_from_int (c_y)));
+	  ret = scm_list_2 (scm_cons (scm_from_locale_string ("x"), scm_from_int (c_x)), scm_cons (scm_from_locale_string ("y"), scm_from_int (c_y)));
 	}
     }
 
@@ -211,12 +192,9 @@ lw6_register_funcs_bot ()
   /*
    * In backend.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6BOT_GET_BACKENDS, 0, 0, 0,
-				      (SCM (*)())_scm_lw6bot_get_backends);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6BOT_NEW, 7, 0, 0,
-				      (SCM (*)())_scm_lw6bot_new);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6BOT_NEXT_MOVE, 1, 0, 0,
-				      (SCM (*)())_scm_lw6bot_next_move);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6BOT_GET_BACKENDS, 0, 0, 0, (SCM (*)())_scm_lw6bot_get_backends);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6BOT_NEW, 7, 0, 0, (SCM (*)())_scm_lw6bot_new);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6BOT_NEXT_MOVE, 1, 0, 0, (SCM (*)())_scm_lw6bot_next_move);
 
   return ret;
 }

@@ -47,11 +47,8 @@ lw6_resize_callback (lw6gui_video_mode_t * video_mode)
 {
   if (lw6_global.cfg_context)
     {
-      lw6cfg_set_option_int (lw6_global.cfg_context, LW6DEF_WIDTH,
-			     video_mode->width);
-      lw6cfg_set_option_int (lw6_global.cfg_context, LW6DEF_HEIGHT,
-			     video_mode->height);
-      lw6cfg_set_option_bool (lw6_global.cfg_context, LW6DEF_FULLSCREEN,
-			      video_mode->fullscreen);
+      lw6cfg_set_option_int (lw6_global.cfg_context, LW6DEF_WIDTH, video_mode->width);
+      lw6cfg_set_option_int (lw6_global.cfg_context, LW6DEF_HEIGHT, video_mode->height);
+      lw6cfg_set_option_bool (lw6_global.cfg_context, LW6DEF_FULLSCREEN, video_mode->fullscreen);
     }
 }

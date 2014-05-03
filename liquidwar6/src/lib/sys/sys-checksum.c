@@ -190,8 +190,7 @@ lw6sys_checksum_xyz (lw6sys_context_t * sys_context, lw6sys_xyz_t * xyz)
  * Return value: none.
  */
 void
-lw6sys_checksum_update (lw6sys_context_t * sys_context, u_int32_t * checksum,
-			unsigned char *data, int len)
+lw6sys_checksum_update (lw6sys_context_t * sys_context, u_int32_t * checksum, unsigned char *data, int len)
 {
   /*
    * Algorithm copied from Linux kernel source (lib/crc32.c).
@@ -206,9 +205,7 @@ lw6sys_checksum_update (lw6sys_context_t * sys_context, u_int32_t * checksum,
     {
       (*checksum) ^= ((u_int32_t) (*data++)) << 24;
       for (i = 0; i < 8; i++)
-	(*checksum) =
-	  ((*checksum) << 1) ^ (((*checksum) & 0x80000000) ? CHECKSUM_POLY :
-				0);
+	(*checksum) = ((*checksum) << 1) ^ (((*checksum) & 0x80000000) ? CHECKSUM_POLY : 0);
     }
 }
 
@@ -227,16 +224,14 @@ lw6sys_checksum_update (lw6sys_context_t * sys_context, u_int32_t * checksum,
  * Return value: none.
  */
 void
-lw6sys_checksum_update_str (lw6sys_context_t * sys_context,
-			    u_int32_t * checksum, const char *value)
+lw6sys_checksum_update_str (lw6sys_context_t * sys_context, u_int32_t * checksum, const char *value)
 {
   int len = 0;
 
   len = strlen (value);
   if (len > 0)
     {
-      lw6sys_checksum_update (sys_context, checksum, (unsigned char *) value,
-			      len);
+      lw6sys_checksum_update (sys_context, checksum, (unsigned char *) value, len);
     }
 }
 
@@ -255,8 +250,7 @@ lw6sys_checksum_update_str (lw6sys_context_t * sys_context,
  * Return value: none.
  */
 void
-lw6sys_checksum_update_int32 (lw6sys_context_t * sys_context,
-			      u_int32_t * checksum, int32_t value)
+lw6sys_checksum_update_int32 (lw6sys_context_t * sys_context, u_int32_t * checksum, int32_t value)
 {
   unsigned char buffer[LW6SYS_SIZEOF_INT32];
 
@@ -279,8 +273,7 @@ lw6sys_checksum_update_int32 (lw6sys_context_t * sys_context,
  * Return value: none.
  */
 void
-lw6sys_checksum_update_int64 (lw6sys_context_t * sys_context,
-			      u_int32_t * checksum, int64_t value)
+lw6sys_checksum_update_int64 (lw6sys_context_t * sys_context, u_int32_t * checksum, int64_t value)
 {
   unsigned char buffer[LW6SYS_SIZEOF_INT64];
 
@@ -303,8 +296,7 @@ lw6sys_checksum_update_int64 (lw6sys_context_t * sys_context,
  * Return value: none.
  */
 void
-lw6sys_checksum_update_whd (lw6sys_context_t * sys_context,
-			    u_int32_t * checksum, const lw6sys_whd_t * whd)
+lw6sys_checksum_update_whd (lw6sys_context_t * sys_context, u_int32_t * checksum, const lw6sys_whd_t * whd)
 {
   lw6sys_checksum_update_int32 (sys_context, checksum, whd->w);
   lw6sys_checksum_update_int32 (sys_context, checksum, whd->h);
@@ -326,8 +318,7 @@ lw6sys_checksum_update_whd (lw6sys_context_t * sys_context,
  * Return value: none.
  */
 void
-lw6sys_checksum_update_xyz (lw6sys_context_t * sys_context,
-			    u_int32_t * checksum, const lw6sys_xyz_t * xyz)
+lw6sys_checksum_update_xyz (lw6sys_context_t * sys_context, u_int32_t * checksum, const lw6sys_xyz_t * xyz)
 {
   lw6sys_checksum_update_int32 (sys_context, checksum, xyz->x);
   lw6sys_checksum_update_int32 (sys_context, checksum, xyz->y);

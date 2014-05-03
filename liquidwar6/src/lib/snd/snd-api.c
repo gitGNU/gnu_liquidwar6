@@ -29,8 +29,7 @@
 static void
 _warning (const char *func_name)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-	      _x_ ("snd backend function \"%s\" is not defined"), func_name);
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("snd backend function \"%s\" is not defined"), func_name);
 }
 
 /**
@@ -79,8 +78,7 @@ lw6snd_play_fx (lw6snd_backend_t * backend, int fx_id)
  * Return value: 1 if music file, 0 if not
  */
 int
-lw6snd_is_music_file (lw6snd_backend_t * backend, char *map_dir,
-		      char *music_path, char *music_file)
+lw6snd_is_music_file (lw6snd_backend_t * backend, char *map_dir, char *music_path, char *music_file)
 {
   int ret = 0;
   char *found_path;
@@ -89,8 +87,7 @@ lw6snd_is_music_file (lw6snd_backend_t * backend, char *map_dir,
 
   if (backend->is_music_file)
     {
-      found_path =
-	lw6sys_find_in_dir_and_path (map_dir, music_path, music_file);
+      found_path = lw6sys_find_in_dir_and_path (map_dir, music_path, music_file);
       if (found_path)
 	{
 	  ret = backend->is_music_file (backend->snd_context, found_path);
@@ -120,8 +117,7 @@ lw6snd_is_music_file (lw6snd_backend_t * backend, char *map_dir,
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6snd_play_music_file (lw6snd_backend_t * backend, char *map_dir,
-			char *music_path, char *music_file)
+lw6snd_play_music_file (lw6snd_backend_t * backend, char *map_dir, char *music_path, char *music_file)
 {
   int ret = 0;
   char *found_path = NULL;
@@ -136,16 +132,11 @@ lw6snd_play_music_file (lw6snd_backend_t * backend, char *map_dir,
        */
       if (strlen (music_file) > 0)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_
-		      ("trying song \"%s\" with map_dir=\"%s\" and music_path=\"%s\""),
-		      music_file, map_dir, music_path);
-	  found_path =
-	    lw6sys_find_in_dir_and_path (map_dir, music_path, music_file);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trying song \"%s\" with map_dir=\"%s\" and music_path=\"%s\""), music_file, map_dir, music_path);
+	  found_path = lw6sys_find_in_dir_and_path (map_dir, music_path, music_file);
 	  if (found_path)
 	    {
-	      ret =
-		backend->play_music_file (backend->snd_context, found_path);
+	      ret = backend->play_music_file (backend->snd_context, found_path);
 	      LW6SYS_FREE (sys_context, found_path);
 	    }
 	}
@@ -173,8 +164,7 @@ lw6snd_play_music_file (lw6snd_backend_t * backend, char *map_dir,
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6snd_play_music_random (lw6snd_backend_t * backend, char *music_path,
-			  char *music_filter, char *music_exclude)
+lw6snd_play_music_random (lw6snd_backend_t * backend, char *music_path, char *music_filter, char *music_exclude)
 {
   int ret = 0;
 
@@ -183,12 +173,8 @@ lw6snd_play_music_random (lw6snd_backend_t * backend, char *music_path,
   if (backend->play_music_random)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_
-		  ("picking a random song in \"%s\" using filter \"%s\" and exclude \"%s\""),
-		  music_path, music_filter, music_exclude);
-      ret =
-	backend->play_music_random (backend->snd_context, music_path,
-				    music_filter, music_exclude);
+		  _x_ ("picking a random song in \"%s\" using filter \"%s\" and exclude \"%s\""), music_path, music_filter, music_exclude);
+      ret = backend->play_music_random (backend->snd_context, music_path, music_filter, music_exclude);
     }
   else
     {
@@ -242,16 +228,13 @@ lw6snd_stop_music (lw6snd_backend_t * backend)
  * Return value: 1 on success, 0 if not
  */
 int
-lw6snd_init (lw6snd_backend_t * backend, float fx_volume, float water_volume,
-	     float music_volume)
+lw6snd_init (lw6snd_backend_t * backend, float fx_volume, float water_volume, float music_volume)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   if (backend->init)
     {
-      backend->snd_context =
-	backend->init (backend->argc, backend->argv, fx_volume, water_volume,
-		       music_volume);
+      backend->snd_context = backend->init (backend->argc, backend->argv, fx_volume, water_volume, music_volume);
     }
   else
     {

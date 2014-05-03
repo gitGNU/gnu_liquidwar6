@@ -54,8 +54,7 @@
  *
  */
 void
-lw6sys_math_poly_wy1y2s1 (lw6sys_context_t * sys_context, float *y, float *s,
-			  float x, float w, float y1, float y2, float s1)
+lw6sys_math_poly_wy1y2s1 (lw6sys_context_t * sys_context, float *y, float *s, float x, float w, float y1, float y2, float s1)
 {
   float a = 0.0f;
   float b = 0.0f;
@@ -118,8 +117,7 @@ lw6sys_math_poly_wy1y2s1 (lw6sys_context_t * sys_context, float *y, float *s,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't extrapolate with x=%f and w=%f"), x, w);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't extrapolate with x=%f and w=%f"), x, w);
       tmp_y = y2;
       tmp_s = 0.0f;
     }
@@ -165,21 +163,18 @@ lw6sys_math_angle_360 (lw6sys_context_t * sys_context, int x, int y)
 	    }
 	  else
 	    {
-	      ret =
-		360.0f - atanf (((float) -y) / ((float) x)) * 180.0f / M_PI;
+	      ret = 360.0f - atanf (((float) -y) / ((float) x)) * 180.0f / M_PI;
 	    }
 	}
       else
 	{
 	  if (y >= 0)
 	    {
-	      ret =
-		180.0f - atanf (((float) y) / ((float) -x)) * 180.0f / M_PI;
+	      ret = 180.0f - atanf (((float) y) / ((float) -x)) * 180.0f / M_PI;
 	    }
 	  else
 	    {
-	      ret =
-		180.0f + atanf (((float) -y) / ((float) -x)) * 180.0f / M_PI;
+	      ret = 180.0f + atanf (((float) -y) / ((float) -x)) * 180.0f / M_PI;
 	    }
 	}
     }
@@ -201,8 +196,7 @@ lw6sys_math_angle_360 (lw6sys_context_t * sys_context, int x, int y)
  *
  */
 float
-lw6sys_math_heartbeat (lw6sys_context_t * sys_context, int64_t x, int period,
-		       float y1, float y2)
+lw6sys_math_heartbeat (lw6sys_context_t * sys_context, int64_t x, int period, float y1, float y2)
 {
   float ret = y1;
   int t;
@@ -223,30 +217,25 @@ lw6sys_math_heartbeat (lw6sys_context_t * sys_context, int64_t x, int period,
 
 	  if (t < high1)
 	    {
-	      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, t, high1, y1,
-					y2, 0.0f);
+	      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, t, high1, y1, y2, 0.0f);
 	    }
 	  else if (t < low1)
 	    {
-	      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, t - high1,
-					low1 - high1, y2, y1, 0.0f);
+	      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, t - high1, low1 - high1, y2, y1, 0.0f);
 	    }
 	  else if (t < high2)
 	    {
-	      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, t - low1,
-					high2 - low1, y1, y2, 0.0f);
+	      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, t - low1, high2 - low1, y1, y2, 0.0f);
 	    }
 	  else if (t < low2)
 	    {
-	      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, t - high2,
-					low2 - high2, y2, y1, 0.0f);
+	      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, t - high2, low2 - high2, y2, y1, 0.0f);
 	    }
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't use period %d"), period);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't use period %d"), period);
     }
 
   return ret;
@@ -278,8 +267,7 @@ lw6sys_math_blink (lw6sys_context_t * sys_context, int64_t x, int period)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't use period %d"), period);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't use period %d"), period);
     }
 
   return ret;
@@ -323,11 +311,9 @@ lw6sys_math_lin2log (lw6sys_context_t * sys_context, int lin_value, int base)
  * Return value: value on a linear scale.
  */
 int
-lw6sys_math_log2lin (lw6sys_context_t * sys_context, float log_value,
-		     int base)
+lw6sys_math_log2lin (lw6sys_context_t * sys_context, float log_value, int base)
 {
   base = lw6sys_fmax (2.0f, base);
 
-  return lw6sys_imax (1,
-		      (int) roundf (expf (log_value * logf (base) / base)));
+  return lw6sys_imax (1, (int) roundf (expf (log_value * logf (base) / base)));
 }

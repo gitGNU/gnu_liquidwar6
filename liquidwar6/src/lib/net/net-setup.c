@@ -51,8 +51,7 @@ lw6net_init (int argc, const char *argv[], int net_log)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("net init"));
 
-  _lw6net_global_context =
-    (_lw6net_context_t *) LW6SYS_CALLOC (sizeof (_lw6net_context_t));
+  _lw6net_global_context = (_lw6net_context_t *) LW6SYS_CALLOC (sizeof (_lw6net_context_t));
   if (_lw6net_global_context)
     {
 #ifdef LW6_MS_WINDOWS
@@ -65,15 +64,12 @@ lw6net_init (int argc, const char *argv[], int net_log)
       err = WSAStartup (version_requested, &wsa_data);
       if (err == 0)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("WSAStartup() OK, returned 0"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("WSAStartup() OK, returned 0"));
 	  ok = 1;
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("WSAStartup() failed with code %d \"%s\""), err,
-		      _lw6net_wsa_str (err));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("WSAStartup() failed with code %d \"%s\""), err, _lw6net_wsa_str (err));
 	}
 #else
       /*
@@ -98,32 +94,20 @@ lw6net_init (int argc, const char *argv[], int net_log)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("signal() failed"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("signal() failed"));
 	}
 #endif
 
-      ok = ok
-	&& _lw6net_const_init (argc, argv,
-			       &(_lw6net_global_context->const_data));
-      ok = ok
-	&& _lw6net_counters_init (argc, argv,
-				  &(_lw6net_global_context->counters));
-      ok = ok
-	&& _lw6net_log_init (argc, argv, &(_lw6net_global_context->log),
-			     net_log);
+      ok = ok && _lw6net_const_init (argc, argv, &(_lw6net_global_context->const_data));
+      ok = ok && _lw6net_counters_init (argc, argv, &(_lw6net_global_context->counters));
+      ok = ok && _lw6net_log_init (argc, argv, &(_lw6net_global_context->log), net_log);
       ok = ok
 	&& _lw6net_dns_init (&(_lw6net_global_context->dns),
-			     _lw6net_global_context->
-			     const_data.dns_cache_hash_size,
-			     _lw6net_global_context->
-			     const_data.dns_cache_delay_sec);
+			     _lw6net_global_context->const_data.dns_cache_hash_size, _lw6net_global_context->const_data.dns_cache_delay_sec);
       ok = ok
 	&& _lw6net_connectable_init (&(_lw6net_global_context->connectable),
-				     _lw6net_global_context->
-				     const_data.connectable_cache_hash_size,
-				     _lw6net_global_context->
-				     const_data.connectable_cache_delay_sec);
+				     _lw6net_global_context->const_data.connectable_cache_hash_size,
+				     _lw6net_global_context->const_data.connectable_cache_delay_sec);
     }
 
   if (!ok)

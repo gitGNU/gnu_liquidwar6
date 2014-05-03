@@ -72,8 +72,7 @@ lw6dat_miss_free (lw6dat_miss_t * miss)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL miss"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL miss"));
     }
 }
 
@@ -96,8 +95,7 @@ lw6dat_miss_sync (lw6dat_miss_t * dst, lw6dat_miss_t * src)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to sync NULL miss dst=%p src=%p"), dst, src);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to sync NULL miss dst=%p src=%p"), dst, src);
     }
 }
 
@@ -122,8 +120,7 @@ lw6dat_miss_is_same (lw6dat_miss_t * a, lw6dat_miss_t * b)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to compare NULL miss a=%p b=%p"), a, b);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to compare NULL miss a=%p b=%p"), a, b);
     }
 
   return ret;
@@ -146,14 +143,11 @@ lw6dat_miss_is_included (lw6dat_miss_t * a, lw6dat_miss_t * b)
 
   if (a && b)
     {
-      ret = (a->from_id == b->from_id) && (a->serial_min >= b->serial_min)
-	&& (a->serial_max <= b->serial_max)
-	&& (a->serial_min <= a->serial_max);
+      ret = (a->from_id == b->from_id) && (a->serial_min >= b->serial_min) && (a->serial_max <= b->serial_max) && (a->serial_min <= a->serial_max);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to compare NULL miss a=%p b=%p"), a, b);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to compare NULL miss a=%p b=%p"), a, b);
     }
 
   return ret;
@@ -177,14 +171,11 @@ lw6dat_miss_overlaps (lw6dat_miss_t * a, lw6dat_miss_t * b)
   if (a && b)
     {
       ret = (a->from_id == b->from_id) && (a->serial_min <= a->serial_max)
-	&& (b->serial_min <= b->serial_max)
-	&& ((a->serial_max >= b->serial_min)
-	    || (a->serial_min <= b->serial_max));
+	&& (b->serial_min <= b->serial_max) && ((a->serial_max >= b->serial_min) || (a->serial_min <= b->serial_max));
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to compare NULL miss a=%p b=%p"), a, b);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to compare NULL miss a=%p b=%p"), a, b);
     }
 
   return ret;

@@ -37,17 +37,13 @@ typedef struct _mod_brute_context_s
 _mod_brute_context_t;
 
 /* mod-brute-setup.c */
-extern _mod_brute_context_t *_mod_brute_init (int argc,
-					      const char *argv[],
-					      lw6bot_data_t * data);
+extern _mod_brute_context_t *_mod_brute_init (int argc, const char *argv[], lw6bot_data_t * data);
 extern void _mod_brute_quit (_mod_brute_context_t * brute_context);
 
 /* mod-brute-move.c */
-extern int _mod_brute_next_move (_mod_brute_context_t * brute_context,
-				 int *x, int *y, lw6bot_data_t * data);
+extern int _mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y, lw6bot_data_t * data);
 
 /* mod-brute-repr.c */
-extern char *_mod_brute_repr (_mod_brute_context_t * brute_context,
-			      u_int32_t id);
+extern char *_mod_brute_repr (_mod_brute_context_t * brute_context, u_int32_t id);
 
 #endif // LIQUIDWAR6BOT_BRUTE_INTERNAL_H

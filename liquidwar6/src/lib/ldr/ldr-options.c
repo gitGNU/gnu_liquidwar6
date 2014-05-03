@@ -60,29 +60,22 @@ lw6ldr_process_non_run_options (int argc, const char *argv[], int *run_game)
     {
       for (i = 1; i < argc; ++i)
 	{
-	  if (lw6sys_arg_match
-	      (sys_context, LW6DEF_EXAMPLE_RULES_XML, argv[i]))
+	  if (lw6sys_arg_match (sys_context, LW6DEF_EXAMPLE_RULES_XML, argv[i]))
 	    {
 	      lw6ldr_print_example_rules_xml (stdout);
 	      (*run_game) = 0;
 	    }
-	  else
-	    if (lw6sys_arg_match
-		(sys_context, LW6DEF_EXAMPLE_HINTS_XML, argv[i]))
+	  else if (lw6sys_arg_match (sys_context, LW6DEF_EXAMPLE_HINTS_XML, argv[i]))
 	    {
 	      lw6ldr_print_example_hints_xml (stdout);
 	      (*run_game) = 0;
 	    }
-	  else
-	    if (lw6sys_arg_match
-		(sys_context, LW6DEF_EXAMPLE_STYLE_XML, argv[i]))
+	  else if (lw6sys_arg_match (sys_context, LW6DEF_EXAMPLE_STYLE_XML, argv[i]))
 	    {
 	      lw6ldr_print_example_style_xml (stdout);
 	      (*run_game) = 0;
 	    }
-	  else
-	    if (lw6sys_arg_match
-		(sys_context, LW6DEF_EXAMPLE_TEAMS_XML, argv[i]))
+	  else if (lw6sys_arg_match (sys_context, LW6DEF_EXAMPLE_TEAMS_XML, argv[i]))
 	    {
 	      lw6ldr_print_example_teams_xml (stdout);
 	      (*run_game) = 0;

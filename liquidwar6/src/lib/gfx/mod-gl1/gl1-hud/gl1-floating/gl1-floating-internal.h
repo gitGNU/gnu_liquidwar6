@@ -112,107 +112,48 @@ extern void _mod_gl1_hud_floating_display_hud (mod_gl1_utils_context_t *
 					       utils_context,
 					       _mod_gl1_hud_floating_context_t
 					       * floating_context,
-					       const lw6gui_look_t * look,
-					       const lw6ker_game_state_t *
-					       game_state,
-					       lw6pil_local_cursors_t *
-					       local_cursors);
+					       const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
 extern void _mod_gl1_hud_floating_display_score (mod_gl1_utils_context_t *
 						 utils_context,
 						 _mod_gl1_hud_floating_context_t
 						 * floating_context,
-						 const lw6gui_look_t * look,
-						 const lw6ker_game_state_t *
-						 game_state,
-						 lw6pil_local_cursors_t *
-						 local_cursors);
+						 const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
 /*
  * In context.c
  */
-extern int _mod_gl1_hud_floating_context_init (mod_gl1_utils_context_t *
-					       utils_context,
-					       _mod_gl1_hud_floating_context_t
-					       * floating_context);
-extern int _mod_gl1_hud_floating_context_begin_hud (mod_gl1_utils_context_t *
-						    utils_context,
-						    _mod_gl1_hud_floating_context_t
-						    * floating_context);
-extern void _mod_gl1_hud_floating_context_end_hud (mod_gl1_utils_context_t *
-						   utils_context,
-						   _mod_gl1_hud_floating_context_t
-						   * floating_context);
+extern int _mod_gl1_hud_floating_context_init (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context);
+extern int _mod_gl1_hud_floating_context_begin_hud (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context);
+extern void _mod_gl1_hud_floating_context_end_hud (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context);
 extern int _mod_gl1_hud_floating_context_update_hud (mod_gl1_utils_context_t *
 						     utils_context,
 						     _mod_gl1_hud_floating_context_t
 						     * floating_context,
 						     const lw6gui_look_t *
-						     look,
-						     const lw6ker_game_state_t
-						     * game_state,
-						     lw6pil_local_cursors_t *
-						     local_cursors);
-extern int _mod_gl1_hud_floating_context_begin_score (mod_gl1_utils_context_t
-						      * utils_context,
-						      _mod_gl1_hud_floating_context_t
-						      * floating_context);
-extern void _mod_gl1_hud_floating_context_end_score (mod_gl1_utils_context_t *
-						     utils_context,
-						     _mod_gl1_hud_floating_context_t
-						     * floating_context);
+						     look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
+extern int _mod_gl1_hud_floating_context_begin_score (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context);
+extern void _mod_gl1_hud_floating_context_end_score (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context);
 extern int _mod_gl1_hud_floating_context_update_score (mod_gl1_utils_context_t
 						       * utils_context,
 						       _mod_gl1_hud_floating_context_t
 						       * floating_context,
 						       const lw6gui_look_t *
-						       look,
-						       const
-						       lw6ker_game_state_t *
-						       game_state,
-						       lw6pil_local_cursors_t
-						       * local_cursors);
-extern int
-_mod_gl1_hud_floating_context_clear_hud_clock (mod_gl1_utils_context_t *
-					       utils_context,
-					       _mod_gl1_hud_floating_context_t
-					       * floating_context);
-extern int
-_mod_gl1_hud_floating_context_clear_hud_gauges (mod_gl1_utils_context_t *
-						utils_context,
-						_mod_gl1_hud_floating_context_t
-						* floating_context);
-extern int _mod_gl1_hud_floating_context_clear_hud (mod_gl1_utils_context_t *
-						    utils_context,
-						    _mod_gl1_hud_floating_context_t
-						    * floating_context);
-extern int _mod_gl1_hud_floating_context_clear_score (mod_gl1_utils_context_t
-						      * utils_context,
-						      _mod_gl1_hud_floating_context_t
-						      * floating_context);
-extern int _mod_gl1_hud_floating_context_clear (mod_gl1_utils_context_t *
-						utils_context,
-						_mod_gl1_hud_floating_context_t
-						* floating_context);
+						       look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
+extern int _mod_gl1_hud_floating_context_clear_hud_clock (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context);
+extern int _mod_gl1_hud_floating_context_clear_hud_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context);
+extern int _mod_gl1_hud_floating_context_clear_hud (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context);
+extern int _mod_gl1_hud_floating_context_clear_score (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context);
+extern int _mod_gl1_hud_floating_context_clear (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context);
 
 /*
  * In data.c
  */
-extern int _mod_gl1_hud_floating_load_data (mod_gl1_utils_context_t *
-					    utils_context,
-					    _mod_gl1_hud_floating_context_t
-					    * floating_context);
-extern void _mod_gl1_hud_floating_unload_data (mod_gl1_utils_context_t *
-					       utils_context,
-					       _mod_gl1_hud_floating_context_t
-					       * floating_context);
+extern int _mod_gl1_hud_floating_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context);
+extern void _mod_gl1_hud_floating_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context);
 
 /*
  * In setup.c
  */
-extern _mod_gl1_hud_floating_context_t
-  * _mod_gl1_hud_floating_init (mod_gl1_utils_context_t * utils_context);
-extern void _mod_gl1_hud_floating_quit (mod_gl1_utils_context_t *
-					utils_context,
-					_mod_gl1_hud_floating_context_t *
-					floating_context);
+extern _mod_gl1_hud_floating_context_t *_mod_gl1_hud_floating_init (mod_gl1_utils_context_t * utils_context);
+extern void _mod_gl1_hud_floating_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context);
 
 #endif

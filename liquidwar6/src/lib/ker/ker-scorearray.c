@@ -30,9 +30,7 @@
 #include "ker-internal.h"
 
 int
-_lw6ker_score_array_update (lw6sys_context_t * sys_context,
-			    lw6ker_score_array_t * score_array,
-			    const _lw6ker_game_state_t * game_state)
+_lw6ker_score_array_update (lw6sys_context_t * sys_context, lw6ker_score_array_t * score_array, const _lw6ker_game_state_t * game_state)
 {
   int ret = 0;
   int i = 0;
@@ -66,8 +64,7 @@ _lw6ker_score_array_update (lw6sys_context_t * sys_context,
       // LW6MAP_MAX_NB_TEAMS and LW6MAP_NB_TEAM_COLORS should be the same
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS && i < LW6MAP_NB_TEAM_COLORS; ++i)
 	{
-	  fighters_per_team =
-	    game_state->map_state.armies.fighters_per_team[i];
+	  fighters_per_team = game_state->map_state.armies.fighters_per_team[i];
 	  frags = game_state->map_state.armies.frags[i];
 	  /*
 	   * We need to test has_been_active and not just active,
@@ -79,17 +76,12 @@ _lw6ker_score_array_update (lw6sys_context_t * sys_context,
 	      score_array->scores[i].has_been_active = 1;
 	      score_array->scores[i].team_color = i;
 	      score_array->scores[i].fighters_absolute = fighters_per_team;
-	      score_array->scores[i].fighters_percent =
-		lw6sys_imax ((fighters_per_team > 0) ? 1 : 0,
-			     (100 * fighters_per_team) / active_fighters);
-	      score_array->scores[i].fighters_ratio =
-		((float) fighters_per_team) / ((float) active_fighters);
+	      score_array->scores[i].fighters_percent = lw6sys_imax ((fighters_per_team > 0) ? 1 : 0, (100 * fighters_per_team) / active_fighters);
+	      score_array->scores[i].fighters_ratio = ((float) fighters_per_team) / ((float) active_fighters);
 	      score_array->scores[i].frags = frags;
 	    }
 	}
-      qsort (score_array->scores, LW6MAP_NB_TEAM_COLORS,
-	     sizeof (lw6ker_score_t),
-	     (void *) _lw6ker_score_sort_quantity_callback_desc);
+      qsort (score_array->scores, LW6MAP_NB_TEAM_COLORS, sizeof (lw6ker_score_t), (void *) _lw6ker_score_sort_quantity_callback_desc);
 
       absolute_other = 0;
       percent_other = 0;
@@ -99,19 +91,15 @@ _lw6ker_score_array_update (lw6sys_context_t * sys_context,
 	  percent_other += score_array->scores[i].fighters_percent;
 	}
 
-      score_array->scores[0].fighters_absolute =
-	active_fighters - absolute_other;
+      score_array->scores[0].fighters_absolute = active_fighters - absolute_other;
       score_array->scores[0].fighters_percent = 100 - percent_other;
 
-      if (score_array->scores[1].fighters_percent >
-	  score_array->scores[0].fighters_percent)
+      if (score_array->scores[1].fighters_percent > score_array->scores[0].fighters_percent)
 	{
 	  /*
 	   * 2nd is higher than 1st because of rounding errors
 	   */
-	  diff =
-	    score_array->scores[1].fighters_percent -
-	    score_array->scores[0].fighters_percent;
+	  diff = score_array->scores[1].fighters_percent - score_array->scores[0].fighters_percent;
 	  for (i = score_array->nb_scores - 1; i >= 1 && diff > 0; --i)
 	    {
 	      if (score_array->scores[i].fighters_percent > 0)
@@ -123,18 +111,14 @@ _lw6ker_score_array_update (lw6sys_context_t * sys_context,
 	    }
 	}
 
-      if (score_array->scores[0].fighters_absolute > 0 &&
-	  score_array->scores[0].fighters_percent > 0 &&
-	  score_array->nb_scores > 0)
+      if (score_array->scores[0].fighters_absolute > 0 && score_array->scores[0].fighters_percent > 0 && score_array->nb_scores > 0)
 	{
 	  ret = 1;
 	}
 
       if (game_state->game_struct->rules.respawn_team)
 	{
-	  qsort (score_array->scores, score_array->nb_scores,
-		 sizeof (lw6ker_score_t),
-		 (void *) _lw6ker_score_sort_frags_callback_desc);
+	  qsort (score_array->scores, score_array->nb_scores, sizeof (lw6ker_score_t), (void *) _lw6ker_score_sort_frags_callback_desc);
 	  /*
 	   * Now we calculate consolidated_percent which is used
 	   * for final score display
@@ -149,45 +133,34 @@ _lw6ker_score_array_update (lw6sys_context_t * sys_context,
 	    }
 	  for (i = 0; i < score_array->nb_scores; ++i)
 	    {
-	      score_array->scores[i].consolidated_percent =
-		((score_array->scores[i].frags - frags_min) * 100) +
-		score_array->scores[i].fighters_percent;
+	      score_array->scores[i].consolidated_percent = ((score_array->scores[i].frags - frags_min) * 100) + score_array->scores[i].fighters_percent;
 	    }
 	  for (i = 0; i < score_array->nb_scores; ++i)
 	    {
-	      consolidated_total +=
-		score_array->scores[i].consolidated_percent;
+	      consolidated_total += score_array->scores[i].consolidated_percent;
 	    }
 	  if (consolidated_total > 0)
 	    {
 	      for (i = 0; i < score_array->nb_scores; ++i)
 		{
-		  score_array->scores[i].consolidated_percent =
-		    100 * score_array->scores[i].consolidated_percent /
-		    consolidated_total;
+		  score_array->scores[i].consolidated_percent = 100 * score_array->scores[i].consolidated_percent / consolidated_total;
 		}
 
 	      percent_other = 0;
 	      for (i = 1; i < score_array->nb_scores; ++i)
 		{
-		  percent_other +=
-		    score_array->scores[i].consolidated_percent;
+		  percent_other += score_array->scores[i].consolidated_percent;
 		}
 
-	      score_array->scores[0].consolidated_percent =
-		100 - percent_other;
+	      score_array->scores[0].consolidated_percent = 100 - percent_other;
 
-	      if (score_array->scores[1].consolidated_percent >
-		  score_array->scores[0].consolidated_percent)
+	      if (score_array->scores[1].consolidated_percent > score_array->scores[0].consolidated_percent)
 		{
 		  /*
 		   * 2nd is higher than 1st because of rounding errors
 		   */
-		  diff =
-		    score_array->scores[1].consolidated_percent -
-		    score_array->scores[0].consolidated_percent;
-		  for (i = score_array->nb_scores - 1; i >= 1 && diff > 0;
-		       --i)
+		  diff = score_array->scores[1].consolidated_percent - score_array->scores[0].consolidated_percent;
+		  for (i = score_array->nb_scores - 1; i >= 1 && diff > 0; --i)
 		    {
 		      if (score_array->scores[i].consolidated_percent > 0)
 			{
@@ -200,17 +173,14 @@ _lw6ker_score_array_update (lw6sys_context_t * sys_context,
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("invalid consolidated_total %d"),
-			  consolidated_total);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("invalid consolidated_total %d"), consolidated_total);
 	    }
 	}
       else
 	{
 	  for (i = 0; i < score_array->nb_scores; ++i)
 	    {
-	      score_array->scores[i].consolidated_percent =
-		score_array->scores[i].fighters_percent;
+	      score_array->scores[i].consolidated_percent = score_array->scores[i].fighters_percent;
 	    }
 	}
       /*
@@ -219,8 +189,7 @@ _lw6ker_score_array_update (lw6sys_context_t * sys_context,
       diff = 0;
       for (i = 1; i < score_array->nb_scores; ++i)
 	{
-	  if (score_array->scores[i].consolidated_percent == 0
-	      && score_array->scores[i].fighters_absolute > 0)
+	  if (score_array->scores[i].consolidated_percent == 0 && score_array->scores[i].fighters_absolute > 0)
 	    {
 	      score_array->scores[i].consolidated_percent = 1;
 	      diff++;
@@ -228,8 +197,7 @@ _lw6ker_score_array_update (lw6sys_context_t * sys_context,
 	}
       if (score_array->nb_scores == 2)
 	{
-	  score_array->scores[0].consolidated_percent =
-	    100 - score_array->scores[1].consolidated_percent;
+	  score_array->scores[0].consolidated_percent = 100 - score_array->scores[1].consolidated_percent;
 	}
       else if (score_array->nb_scores >= 3)
 	{
@@ -282,11 +250,7 @@ _lw6ker_score_array_update (lw6sys_context_t * sys_context,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ker_score_array_update (lw6sys_context_t * sys_context,
-			   lw6ker_score_array_t * score_array,
-			   const lw6ker_game_state_t * game_state)
+lw6ker_score_array_update (lw6sys_context_t * sys_context, lw6ker_score_array_t * score_array, const lw6ker_game_state_t * game_state)
 {
-  return _lw6ker_score_array_update (sys_context, score_array,
-				     (const _lw6ker_game_state_t *)
-				     game_state);
+  return _lw6ker_score_array_update (sys_context, score_array, (const _lw6ker_game_state_t *) game_state);
 }

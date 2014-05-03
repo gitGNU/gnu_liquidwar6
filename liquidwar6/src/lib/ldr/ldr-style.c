@@ -35,8 +35,7 @@ typedef struct style_update_data_s
 style_update_data_t;
 
 static void
-read_callback (void *callback_data, const char *element, const char *key,
-	       const char *value)
+read_callback (void *callback_data, const char *element, const char *key, const char *value)
 {
   lw6map_style_t *style_data;
 
@@ -69,11 +68,8 @@ lw6ldr_style_read (lw6map_style_t * style, const char *dirname)
     {
       if (lw6sys_file_exists (sys_context, buf))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("reading style \"%s\""), buf);
-	  ret =
-	    lw6cfg_read_key_value_xml_file (buf, read_callback,
-					    (void *) style);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading style \"%s\""), buf);
+	  ret = lw6cfg_read_key_value_xml_file (buf, read_callback, (void *) style);
 	}
       else
 	{
@@ -86,8 +82,7 @@ lw6ldr_style_read (lw6map_style_t * style, const char *dirname)
 
   if (!ret)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to read map style"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to read map style"));
     }
 
   return ret;

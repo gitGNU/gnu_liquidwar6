@@ -41,8 +41,7 @@ _mod_gles2_repr (_mod_gles2_context_t * gles2_context, u_int32_t id)
     lw6sys_new_sprintf (_x_
 			("%u gles2 SDL version %u.%u.%u resolution %dx%d"),
 			id, version.major, version.minor, version.patch,
-			gles2_context->sdl_context.video_mode.width,
-			gles2_context->sdl_context.video_mode.height);
+			gles2_context->sdl_context.video_mode.width, gles2_context->sdl_context.video_mode.height);
 
   return ret;
 }

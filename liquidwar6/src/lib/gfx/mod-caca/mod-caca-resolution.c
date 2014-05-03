@@ -27,9 +27,7 @@
 #include "mod-caca-internal.h"
 
 int
-_mod_caca_get_fullscreen_modes (_mod_caca_context_t *
-				caca_context,
-				lw6gui_fullscreen_modes_t * modes)
+_mod_caca_get_fullscreen_modes (_mod_caca_context_t * caca_context, lw6gui_fullscreen_modes_t * modes)
 {
   int ret = 0;
 
@@ -53,11 +51,7 @@ _mod_caca_get_fullscreen_modes (_mod_caca_context_t *
 
   lw6gui_video_mode_sync_ratio (&(modes->standard), &(modes->high));
 
-  _mod_caca_find_closest_resolution (caca_context,
-				     &(modes->standard.width),
-				     &(modes->standard.height),
-				     modes->standard.width,
-				     modes->standard.height);
+  _mod_caca_find_closest_resolution (caca_context, &(modes->standard.width), &(modes->standard.height), modes->standard.width, modes->standard.height);
 
   /*
    * Liquid War 6 does have a (retrospectively) quite awfull way
@@ -72,10 +66,7 @@ _mod_caca_get_fullscreen_modes (_mod_caca_context_t *
 }
 
 void
-_mod_caca_find_closest_resolution (_mod_caca_context_t *
-				   caca_context, int *closest_width,
-				   int *closest_height, int wished_width,
-				   int wished_height)
+_mod_caca_find_closest_resolution (_mod_caca_context_t * caca_context, int *closest_width, int *closest_height, int wished_width, int wished_height)
 {
   (*closest_width) = wished_width;
   (*closest_height) = wished_height;

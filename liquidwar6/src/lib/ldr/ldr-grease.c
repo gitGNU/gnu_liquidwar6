@@ -57,8 +57,7 @@ typedef int _grease_table_t[_NB_GREASE_CONFIGURATIONS];
  * -> grease 4 : add the opposite squares configuration (5,a)
  * -> grease 5 : add "only 1 squares arround me" cases (1,2,4,8)
  */
-static _grease_table_t _GREASE_TABLES[LW6LDR_HINTS_MAX_WALL_GREASE] =
-  { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+static _grease_table_t _GREASE_TABLES[LW6LDR_HINTS_MAX_WALL_GREASE] = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1},
 {0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1},
 {0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1},
@@ -66,9 +65,7 @@ static _grease_table_t _GREASE_TABLES[LW6LDR_HINTS_MAX_WALL_GREASE] =
 };
 
 static int
-_do_grease (lw6map_layer_t * layer, const lw6map_rules_t * rules,
-	    _grease_table_t grease_table, int mode,
-	    lw6sys_progress_t * progress)
+_do_grease (lw6map_layer_t * layer, const lw6map_rules_t * rules, _grease_table_t grease_table, int mode, lw6sys_progress_t * progress)
 {
   int ret = 0;
   int x, y, tx, ty;
@@ -186,39 +183,27 @@ _do_grease (lw6map_layer_t * layer, const lw6map_rules_t * rules,
  * Return value: 1 if OK, 0 if failed.
  */
 int
-lw6ldr_grease_apply (lw6map_layer_t * layer,
-		     const lw6map_rules_t * rules,
-		     const lw6ldr_hints_t * hints,
-		     lw6sys_progress_t * progress)
+lw6ldr_grease_apply (lw6map_layer_t * layer, const lw6map_rules_t * rules, const lw6ldr_hints_t * hints, lw6sys_progress_t * progress)
 {
   int ret = 0;
   int i = 0;
 
   if (hints->wall_grease == 0)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("grease==0, nothing to do"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("grease==0, nothing to do"));
     }
   else
     {
       if (hints->wall_grease > 0)
 	{
-	  i =
-	    lw6sys_imin (hints->wall_grease - 1,
-			 LW6LDR_HINTS_MAX_WALL_GREASE - 1);
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("positive grease %d using table %d"),
-		      hints->wall_grease, i);
+	  i = lw6sys_imin (hints->wall_grease - 1, LW6LDR_HINTS_MAX_WALL_GREASE - 1);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("positive grease %d using table %d"), hints->wall_grease, i);
 	  _do_grease (layer, rules, _GREASE_TABLES[i], 0, progress);
 	}
       else
 	{
-	  i =
-	    lw6sys_imin (-hints->wall_grease - 1,
-			 LW6LDR_HINTS_MAX_WALL_GREASE - 1);
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("negative grease %d using table %d"),
-		      hints->wall_grease, i);
+	  i = lw6sys_imin (-hints->wall_grease - 1, LW6LDR_HINTS_MAX_WALL_GREASE - 1);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("negative grease %d using table %d"), hints->wall_grease, i);
 	  _do_grease (layer, rules, _GREASE_TABLES[i], 1, progress);
 	}
     }

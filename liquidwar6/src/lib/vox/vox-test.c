@@ -57,15 +57,13 @@ _test_renderer ()
 	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
 	if (game_struct)
 	  {
-	    game_state =
-	      lw6ker_game_state_new (sys_context, game_struct, NULL);
+	    game_state = lw6ker_game_state_new (sys_context, game_struct, NULL);
 	    if (game_state)
 	      {
 		renderer = lw6vox_renderer_new (game_state);
 		if (renderer)
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("vox renderer created"));
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("vox renderer created"));
 		    lw6vox_renderer_free (renderer);
 		  }
 		else
@@ -98,16 +96,14 @@ _test_renderer ()
 static int
 _setup_init ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libvox CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libvox CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libvox CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libvox CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -147,9 +143,7 @@ lw6vox_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 

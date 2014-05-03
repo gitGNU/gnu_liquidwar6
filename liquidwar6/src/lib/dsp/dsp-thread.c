@@ -38,35 +38,25 @@ init (_lw6dsp_data_t * data)
 
   data->video_mode_requested = data->param.video_mode;
 
-  data->gfx_backend =
-    lw6gfx_create_backend (data->argc, data->argv, data->gfx_backend_name);
+  data->gfx_backend = lw6gfx_create_backend (data->argc, data->argv, data->gfx_backend_name);
   if (data->gfx_backend)
     {
-      lw6gfx_get_fullscreen_modes (data->gfx_backend,
-				   &data->fullscreen_modes);
+      lw6gfx_get_fullscreen_modes (data->gfx_backend, &data->fullscreen_modes);
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("dsp init requested %dx%d fullscreen=%d mode"),
-		  data->video_mode_requested.width,
-		  data->video_mode_requested.height,
-		  data->video_mode_requested.fullscreen);
-      if (lw6gfx_init
-	  (data->gfx_backend, &(data->video_mode_requested),
-	   data->resize_callback))
+		  data->video_mode_requested.width, data->video_mode_requested.height, data->video_mode_requested.fullscreen);
+      if (lw6gfx_init (data->gfx_backend, &(data->video_mode_requested), data->resize_callback))
 	{
 	  /*
 	   * We call it here too for it seems to work better once init
 	   * has been called...
 	   */
-	  lw6gfx_get_fullscreen_modes (data->gfx_backend,
-				       &data->fullscreen_modes);
-	  if (lw6gfx_get_video_mode
-	      (data->gfx_backend, &(data->video_mode_obtained)))
+	  lw6gfx_get_fullscreen_modes (data->gfx_backend, &data->fullscreen_modes);
+	  if (lw6gfx_get_video_mode (data->gfx_backend, &(data->video_mode_obtained)))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("dsp init obtained %dx%d fullscreen=%d mode"),
-			  data->video_mode_obtained.width,
-			  data->video_mode_obtained.height,
-			  data->video_mode_obtained.fullscreen);
+			  data->video_mode_obtained.width, data->video_mode_obtained.height, data->video_mode_obtained.fullscreen);
 	      ok = 1;
 	    }
 	  else
@@ -76,39 +66,28 @@ init (_lw6dsp_data_t * data)
 	}
       if (!ok)
 	{
-	  if (data->video_mode_obtained.width <= 0
-	      || data->video_mode_obtained.height <= 0)
+	  if (data->video_mode_obtained.width <= 0 || data->video_mode_obtained.height <= 0)
 	    {
-	      if (lw6gfx_get_fullscreen_modes
-		  (data->gfx_backend, &fullscreen_modes))
+	      if (lw6gfx_get_fullscreen_modes (data->gfx_backend, &fullscreen_modes))
 		{
-		  data->video_mode_requested.width =
-		    fullscreen_modes.standard.width;
-		  data->video_mode_requested.height =
-		    fullscreen_modes.standard.height;
+		  data->video_mode_requested.width = fullscreen_modes.standard.width;
+		  data->video_mode_requested.height = fullscreen_modes.standard.height;
 		}
 	    }
 
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("couldn't set up mode, trying fallback %dx%d fullscreen=%d"),
-		      data->video_mode_requested.width,
-		      data->video_mode_requested.height,
-		      data->video_mode_requested.fullscreen);
-	  if (lw6gfx_init
-	      (data->gfx_backend, &(data->video_mode_requested),
-	       data->resize_callback))
+		      data->video_mode_requested.width, data->video_mode_requested.height, data->video_mode_requested.fullscreen);
+	  if (lw6gfx_init (data->gfx_backend, &(data->video_mode_requested), data->resize_callback))
 	    {
-	      if (lw6gfx_get_video_mode
-		  (data->gfx_backend, &(data->video_mode_obtained)))
+	      if (lw6gfx_get_video_mode (data->gfx_backend, &(data->video_mode_obtained)))
 		{
 		  ok = 1;
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("dsp init obtained %dx%d fullscreen=%d mode"),
-			      data->video_mode_obtained.width,
-			      data->video_mode_obtained.height,
-			      data->video_mode_obtained.fullscreen);
+			      data->video_mode_obtained.width, data->video_mode_obtained.height, data->video_mode_obtained.fullscreen);
 		}
 	      else
 		{
@@ -143,8 +122,7 @@ poll (_lw6dsp_data_t * data)
 
   timestamp = lw6sys_get_timestamp ();
   data->input = lw6gfx_pump_events (data->gfx_backend);
-  lw6gui_input_update_repeat (data->input,
-			      &(data->param.misc.repeat_settings), timestamp);
+  lw6gui_input_update_repeat (data->input, &(data->param.misc.repeat_settings), timestamp);
   mask = data->param.misc.mask;
   if (data->slow_fps)
     {
@@ -159,14 +137,12 @@ poll (_lw6dsp_data_t * data)
     {
       if (!(data->param.game_state))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("pilot defined but not game_state"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("pilot defined but not game_state"));
 	  ret = 0;
 	}
       if (!lw6pil_pilot_can_sync (data->param.game_state, data->param.pilot))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("game_state state can't be synced from pilot"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("game_state state can't be synced from pilot"));
 	  ret = 0;
 	}
     }
@@ -175,8 +151,7 @@ poll (_lw6dsp_data_t * data)
     {
       if (!(data->param.game_struct))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("game_state defined but not game_struct"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("game_state defined but not game_struct"));
 	  ret = 0;
 	}
       if (data->param.game_state->game_struct != data->param.game_struct)
@@ -184,8 +159,7 @@ poll (_lw6dsp_data_t * data)
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("game_state->game_struct=%p but game_struct=%p, they should be the same"),
-		      data->param.game_state->game_struct,
-		      data->param.game_struct);
+		      data->param.game_state->game_struct, data->param.game_struct);
 	  ret = 0;
 	}
     }
@@ -194,16 +168,13 @@ poll (_lw6dsp_data_t * data)
     {
       if (!(data->param.level))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("game_struct defined but not level"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("game_struct defined but not level"));
 	  ret = 0;
 	}
       if (data->param.game_struct->level != data->param.level)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("game_struct->level=%p but level=%p, they should be the same"),
-		      data->param.game_struct->level, data->param.level);
+		      _x_ ("game_struct->level=%p but level=%p, they should be the same"), data->param.game_struct->level, data->param.level);
 	  ret = 0;
 	}
     }
@@ -220,24 +191,20 @@ poll (_lw6dsp_data_t * data)
 	{
 	case LW6PIL_DIRTY_READ_NEVER:
 	case LW6PIL_DIRTY_READ_SYNC_ONLY:
-	  lw6pil_pilot_sync_from_draft (game_state, data->param.pilot,
-					data->param.misc.dirty_read);
+	  lw6pil_pilot_sync_from_draft (game_state, data->param.pilot, data->param.misc.dirty_read);
 	  /*
 	   * Here we don't sync completely correctly, the local_cursors
 	   * might contain inconsistent data, but at least it won't
 	   * be modified *while* we are reading it.
 	   */
-	  data->local_cursors =
-	    (*lw6pil_pilot_get_local_cursors (data->param.pilot));
+	  data->local_cursors = (*lw6pil_pilot_get_local_cursors (data->param.pilot));
 	  break;
 	case LW6PIL_DIRTY_READ_ALWAYS:
 	  game_state = lw6pil_pilot_dirty_read (data->param.pilot);
 	  local_cursors = lw6pil_pilot_get_local_cursors (data->param.pilot);
 	  break;
 	default:
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("bad value %d for dirty_read"),
-		      data->param.misc.dirty_read);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad value %d for dirty_read"), data->param.misc.dirty_read);
 	  break;
 	}
     }
@@ -258,8 +225,7 @@ poll (_lw6dsp_data_t * data)
     }
   if (ret)
     {
-      history =
-	lw6sys_history_get (sys_context, data->param.misc.log_timeout);
+      history = lw6sys_history_get (sys_context, data->param.misc.log_timeout);
       if (history)
 	{
 	  if (lw6gfx_display (data->gfx_backend,
@@ -273,25 +239,20 @@ poll (_lw6dsp_data_t * data)
 			      progress,
 			      data->average_fps, data->mps,
 			      (const char **) history,
-			      data->param.misc.capture,
-			      data->param.misc.gfx_debug,
-			      data->param.misc.debug_team_id,
-			      data->param.misc.debug_layer_id))
+			      data->param.misc.capture, data->param.misc.gfx_debug, data->param.misc.debug_team_id, data->param.misc.debug_layer_id))
 	    {
 	      // ok
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("display thread problem"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("display thread problem"));
 	      ret = 0;
 	    }
 	  lw6sys_history_free (history);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("couldn't get log history"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't get log history"));
 	  ret = 0;
 	}
     }
@@ -304,27 +265,20 @@ loop (_lw6dsp_data_t * data)
 {
   int ret = 0;
 
-  if (!lw6gui_video_mode_is_same
-      (&(data->video_mode_requested), &(data->param.video_mode)))
+  if (!lw6gui_video_mode_is_same (&(data->video_mode_requested), &(data->param.video_mode)))
     {
       data->video_mode_requested = data->param.video_mode;
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("dsp update request %dx%d fullscreen=%d mode"),
-		  data->video_mode_requested.width,
-		  data->video_mode_requested.height,
-		  data->video_mode_requested.fullscreen);
-      if (lw6gfx_set_video_mode (data->gfx_backend,
-				 &(data->video_mode_requested)))
+		  data->video_mode_requested.width, data->video_mode_requested.height, data->video_mode_requested.fullscreen);
+      if (lw6gfx_set_video_mode (data->gfx_backend, &(data->video_mode_requested)))
 	{
-	  if (lw6gfx_get_video_mode (data->gfx_backend,
-				     &(data->video_mode_obtained)))
+	  if (lw6gfx_get_video_mode (data->gfx_backend, &(data->video_mode_obtained)))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("dsp update obtained %dx%d fullscreen=%d mode"),
-			  data->video_mode_obtained.width,
-			  data->video_mode_obtained.height,
-			  data->video_mode_obtained.fullscreen);
+			  data->video_mode_obtained.width, data->video_mode_obtained.height, data->video_mode_obtained.fullscreen);
 	    }
 	}
     }
@@ -379,16 +333,12 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 
 	  if (data->param.misc.target_fps > 0)
 	    {
-	      frames_increment =
-		LW6SYS_TICKS_PER_SEC / data->param.misc.target_fps;
-	      delay_skip =
-		LW6SYS_TICKS_PER_SEC / (2 * data->param.misc.target_fps);
+	      frames_increment = LW6SYS_TICKS_PER_SEC / data->param.misc.target_fps;
+	      delay_skip = LW6SYS_TICKS_PER_SEC / (2 * data->param.misc.target_fps);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("can't handle target_fps of %d"),
-			  data->param.misc.target_fps);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't handle target_fps of %d"), data->param.misc.target_fps);
 	    }
 	  frames_increment = lw6sys_imax (frames_increment, 1);
 	  delay_skip = lw6sys_imax (delay_skip, 1);
@@ -401,9 +351,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 	       * The following is more efficient than a plain +=
 	       * it will avoid going too fast after a slowdown
 	       */
-	      frames_counter =
-		lw6sys_imax (frames_counter + frames_increment,
-			     nb_ticks - frames_increment);
+	      frames_counter = lw6sys_imax (frames_counter + frames_increment, nb_ticks - frames_increment);
 	      data->nb_frames++;
 
 	      delta_ticks = ticks - last_display_ticks;
@@ -414,17 +362,13 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 		}
 	      if (delta_ticks > 0)
 		{
-		  data->instant_fps =
-		    ((float) LW6SYS_TICKS_PER_SEC) / delta_ticks;
+		  data->instant_fps = ((float) LW6SYS_TICKS_PER_SEC) / delta_ticks;
 		  data->average_fps =
 		    (WEIGHT_INSTANT_FPS * delta_ticks * data->instant_fps +
 		     WEIGHT_AVERAGE_FPS * ((float) LW6SYS_TICKS_PER_SEC) *
-		     data->average_fps) / (WEIGHT_INSTANT_FPS * delta_ticks +
-					   WEIGHT_AVERAGE_FPS *
-					   ((float) LW6SYS_TICKS_PER_SEC));
+		     data->average_fps) / (WEIGHT_INSTANT_FPS * delta_ticks + WEIGHT_AVERAGE_FPS * ((float) LW6SYS_TICKS_PER_SEC));
 		  last_display_ticks = ticks;
-		  data->slow_fps =
-		    data->average_fps < (data->param.misc.target_fps / 2);
+		  data->slow_fps = data->average_fps < (data->param.misc.target_fps / 2);
 		}
 
 	      if (data->param.game_state && data->param.game_struct)
@@ -435,27 +379,18 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 		      last_rounds_ticks = ticks;
 		      data->slow_mps = 0;
 		    }
-		  if (delta_ticks >
-		      LW6SYS_TICKS_PER_SEC / MPS_REFRESH_PER_SEC)
+		  if (delta_ticks > LW6SYS_TICKS_PER_SEC / MPS_REFRESH_PER_SEC)
 		    {
 		      rounds = data->rounds;
 		      delta_rounds = rounds - last_display_rounds;
 		      if (delta_rounds > 0)
 			{
-			  data->mps =
-			    ((float)
-			     (delta_rounds * LW6SYS_TICKS_PER_SEC *
-			      data->param.game_struct->
-			      rules.moves_per_round)) / delta_ticks;
+			  data->mps = ((float) (delta_rounds * LW6SYS_TICKS_PER_SEC * data->param.game_struct->rules.moves_per_round)) / delta_ticks;
 			  last_display_rounds = rounds;
 			  data->slow_mps =
 			    (data->rounds >
 			     data->param.game_struct->rules.rounds_per_sec)
-			    && (data->mps <
-				((data->param.game_struct->
-				  rules.rounds_per_sec *
-				  data->param.game_struct->
-				  rules.moves_per_round) / 2));
+			    && (data->mps < ((data->param.game_struct->rules.rounds_per_sec * data->param.game_struct->rules.moves_per_round) / 2));
 			}
 		      last_rounds_ticks = ticks;
 		    }
@@ -465,9 +400,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 		  data->slow_mps = 0;
 		}
 
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("frame %d at ticks %" LW6SYS_PRINTF_LL "d"),
-			  data->nb_frames, (long long) ticks);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("frame %d at ticks %" LW6SYS_PRINTF_LL "d"), data->nb_frames, (long long) ticks);
 	      loop (data);
 	      do_skip = 0;
 	    }
@@ -485,12 +418,9 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 	  if (!do_skip)
 	    {
 	      data->last_frame_rendering_time = cpu_ticks;
-	      if (data->param.misc.gfx_cpu_usage > 0.0f
-		  && data->param.misc.gfx_cpu_usage < 1.0f)
+	      if (data->param.misc.gfx_cpu_usage > 0.0f && data->param.misc.gfx_cpu_usage < 1.0f)
 		{
-		  delay_cpu =
-		    ((float) cpu_ticks) * (1.0f -
-					   data->param.misc.gfx_cpu_usage);
+		  delay_cpu = ((float) cpu_ticks) * (1.0f - data->param.misc.gfx_cpu_usage);
 		}
 	    }
 
@@ -498,29 +428,19 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 
 	  if (!do_skip)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("frame %d rendering took %d ms"),
-			  (int) data->nb_frames, (int) cpu_ticks);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("frame %d rendering took %d ms"), (int) data->nb_frames, (int) cpu_ticks);
 	    }
 	  if (do_skip || (delay_cpu > 0))
 	    {
-	      delay_real =
-		lw6sys_imin (LW6SYS_TICKS_PER_SEC,
-			     lw6sys_imax (1,
-					  lw6sys_imax (do_skip ? delay_skip :
-						       0, delay_cpu)));
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("sleeping %d ms (delay_skip=%d, delay_cpu=%d)"),
-			  delay_real, delay_skip, delay_cpu);
+	      delay_real = lw6sys_imin (LW6SYS_TICKS_PER_SEC, lw6sys_imax (1, lw6sys_imax (do_skip ? delay_skip : 0, delay_cpu)));
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("sleeping %d ms (delay_skip=%d, delay_cpu=%d)"), delay_real, delay_skip, delay_cpu);
 	      lw6sys_delay (sys_context, delay_real);
 	    }
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("display thread can't initialise graphics"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("display thread can't initialise graphics"));
     }
 }
 

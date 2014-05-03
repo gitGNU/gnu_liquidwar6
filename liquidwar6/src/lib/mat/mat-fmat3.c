@@ -77,11 +77,9 @@ lw6mat_fmat3_id (lw6mat_fmat3_t * fmat3)
  * Return value: 1 if equal, 0 if different.
  */
 int
-lw6mat_fmat3_is_same (const lw6mat_fmat3_t * fmat3_a,
-		      const lw6mat_fmat3_t * fmat3_b)
+lw6mat_fmat3_is_same (const lw6mat_fmat3_t * fmat3_a, const lw6mat_fmat3_t * fmat3_b)
 {
-  return (!memcmp
-	  ((void *) fmat3_a, (void *) fmat3_b, sizeof (lw6mat_fmat3_t)));
+  return (!memcmp ((void *) fmat3_a, (void *) fmat3_b, sizeof (lw6mat_fmat3_t)));
 }
 
 /**
@@ -129,9 +127,7 @@ lw6mat_fmat3_det (const lw6mat_fmat3_t * fmat3)
   return fmat3->m[0][0] * fmat3->m[1][1] * fmat3->m[2][2] +
     fmat3->m[0][1] * fmat3->m[1][2] * fmat3->m[2][0] +
     fmat3->m[0][2] * fmat3->m[1][0] * fmat3->m[2][1] -
-    fmat3->m[0][0] * fmat3->m[1][2] * fmat3->m[2][1] -
-    fmat3->m[0][1] * fmat3->m[1][0] * fmat3->m[2][2] -
-    fmat3->m[0][2] * fmat3->m[1][1] * fmat3->m[2][0];
+    fmat3->m[0][0] * fmat3->m[1][2] * fmat3->m[2][1] - fmat3->m[0][1] * fmat3->m[1][0] * fmat3->m[2][2] - fmat3->m[0][2] * fmat3->m[1][1] * fmat3->m[2][0];
 }
 
 /**
@@ -169,8 +165,7 @@ lw6mat_fmat3_scale (lw6mat_fmat3_t * fmat3, float f)
  * can not be inverted.
  */
 int
-lw6mat_fmat3_inv (lw6mat_fmat3_t * fmat3_dst,
-		  const lw6mat_fmat3_t * fmat3_src)
+lw6mat_fmat3_inv (lw6mat_fmat3_t * fmat3_dst, const lw6mat_fmat3_t * fmat3_src)
 {
   /*
    * In case src and dst or the same, recursively call this
@@ -193,41 +188,21 @@ lw6mat_fmat3_inv (lw6mat_fmat3_t * fmat3_dst,
 	   * Wooo I'm so lazy, got this one from :
 	   * http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/
 	   */
-	  fmat3_dst->m[0][0] =
-	    (fmat3_src->m[1][1] * fmat3_src->m[2][2] -
-	     fmat3_src->m[1][2] * fmat3_src->m[2][1]) / det;
-	  fmat3_dst->m[0][1] =
-	    (fmat3_src->m[0][2] * fmat3_src->m[2][1] -
-	     fmat3_src->m[0][1] * fmat3_src->m[2][2]) / det;
-	  fmat3_dst->m[0][2] =
-	    (fmat3_src->m[0][1] * fmat3_src->m[1][2] -
-	     fmat3_src->m[0][2] * fmat3_src->m[1][1]) / det;
-	  fmat3_dst->m[1][0] =
-	    (fmat3_src->m[1][2] * fmat3_src->m[2][0] -
-	     fmat3_src->m[1][0] * fmat3_src->m[2][2]) / det;
-	  fmat3_dst->m[1][1] =
-	    (fmat3_src->m[0][0] * fmat3_src->m[2][2] -
-	     fmat3_src->m[0][2] * fmat3_src->m[2][0]) / det;
-	  fmat3_dst->m[1][2] =
-	    (fmat3_src->m[0][2] * fmat3_src->m[1][0] -
-	     fmat3_src->m[0][0] * fmat3_src->m[1][2]) / det;
-	  fmat3_dst->m[2][0] =
-	    (fmat3_src->m[1][0] * fmat3_src->m[2][1] -
-	     fmat3_src->m[1][1] * fmat3_src->m[2][0]) / det;
-	  fmat3_dst->m[2][1] =
-	    (fmat3_src->m[0][1] * fmat3_src->m[2][0] -
-	     fmat3_src->m[0][0] * fmat3_src->m[2][1]) / det;
-	  fmat3_dst->m[2][2] =
-	    (fmat3_src->m[0][0] * fmat3_src->m[1][1] -
-	     fmat3_src->m[0][1] * fmat3_src->m[1][0]) / det;
+	  fmat3_dst->m[0][0] = (fmat3_src->m[1][1] * fmat3_src->m[2][2] - fmat3_src->m[1][2] * fmat3_src->m[2][1]) / det;
+	  fmat3_dst->m[0][1] = (fmat3_src->m[0][2] * fmat3_src->m[2][1] - fmat3_src->m[0][1] * fmat3_src->m[2][2]) / det;
+	  fmat3_dst->m[0][2] = (fmat3_src->m[0][1] * fmat3_src->m[1][2] - fmat3_src->m[0][2] * fmat3_src->m[1][1]) / det;
+	  fmat3_dst->m[1][0] = (fmat3_src->m[1][2] * fmat3_src->m[2][0] - fmat3_src->m[1][0] * fmat3_src->m[2][2]) / det;
+	  fmat3_dst->m[1][1] = (fmat3_src->m[0][0] * fmat3_src->m[2][2] - fmat3_src->m[0][2] * fmat3_src->m[2][0]) / det;
+	  fmat3_dst->m[1][2] = (fmat3_src->m[0][2] * fmat3_src->m[1][0] - fmat3_src->m[0][0] * fmat3_src->m[1][2]) / det;
+	  fmat3_dst->m[2][0] = (fmat3_src->m[1][0] * fmat3_src->m[2][1] - fmat3_src->m[1][1] * fmat3_src->m[2][0]) / det;
+	  fmat3_dst->m[2][1] = (fmat3_src->m[0][1] * fmat3_src->m[2][0] - fmat3_src->m[0][0] * fmat3_src->m[2][1]) / det;
+	  fmat3_dst->m[2][2] = (fmat3_src->m[0][0] * fmat3_src->m[1][1] - fmat3_src->m[0][1] * fmat3_src->m[1][0]) / det;
 
 	  return 1;
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_
-		      ("trying to invert non-invertible fmat3 matrix, determinant is 0"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("trying to invert non-invertible fmat3 matrix, determinant is 0"));
 
 	  return 0;
 	}
@@ -246,9 +221,7 @@ lw6mat_fmat3_inv (lw6mat_fmat3_t * fmat3_dst,
  * Return value: none.
  */
 void
-lw6mat_fmat3_mul_fmat3 (lw6mat_fmat3_t * fmat3,
-			const lw6mat_fmat3_t * fmat3_a,
-			const lw6mat_fmat3_t * fmat3_b)
+lw6mat_fmat3_mul_fmat3 (lw6mat_fmat3_t * fmat3, const lw6mat_fmat3_t * fmat3_a, const lw6mat_fmat3_t * fmat3_b)
 {
   /*
    * In case src(s) and dst or the same, recursively call this
@@ -275,9 +248,7 @@ lw6mat_fmat3_mul_fmat3 (lw6mat_fmat3_t * fmat3,
 	{
 	  for (j = 0; j < LW6MAT_MAT3_M_SIZE; ++j)
 	    {
-	      fmat3->m[i][j] = fmat3_a->m[0][j] * fmat3_b->m[i][0]
-		+ fmat3_a->m[1][j] * fmat3_b->m[i][1]
-		+ fmat3_a->m[2][j] * fmat3_b->m[i][2];
+	      fmat3->m[i][j] = fmat3_a->m[0][j] * fmat3_b->m[i][0] + fmat3_a->m[1][j] * fmat3_b->m[i][1] + fmat3_a->m[2][j] * fmat3_b->m[i][2];
 	    }
 	}
     }
@@ -300,9 +271,7 @@ lw6mat_fmat3_mul_fmat3 (lw6mat_fmat3_t * fmat3,
  * Return value: none.
  */
 void
-lw6mat_fmat3_mul_fvec3 (lw6mat_fvec3_t * fvec3_dst,
-			const lw6mat_fmat3_t * fmat3,
-			const lw6mat_fvec3_t * fvec3_src)
+lw6mat_fmat3_mul_fvec3 (lw6mat_fvec3_t * fvec3_dst, const lw6mat_fmat3_t * fmat3, const lw6mat_fvec3_t * fvec3_src)
 {
   /*
    * In case src and dst or the same, recursively call this
@@ -317,15 +286,9 @@ lw6mat_fmat3_mul_fvec3 (lw6mat_fvec3_t * fvec3_dst,
     }
   else
     {
-      fvec3_dst->v[0] =
-	fmat3->m[0][0] * fvec3_src->v[0] + fmat3->m[1][0] * fvec3_src->v[1] +
-	fmat3->m[2][0] * fvec3_src->v[2];
-      fvec3_dst->v[1] =
-	fmat3->m[0][1] * fvec3_src->v[0] + fmat3->m[1][1] * fvec3_src->v[1] +
-	fmat3->m[2][1] * fvec3_src->v[2];
-      fvec3_dst->v[2] =
-	fmat3->m[0][2] * fvec3_src->v[0] + fmat3->m[1][2] * fvec3_src->v[1] +
-	fmat3->m[2][2] * fvec3_src->v[2];
+      fvec3_dst->v[0] = fmat3->m[0][0] * fvec3_src->v[0] + fmat3->m[1][0] * fvec3_src->v[1] + fmat3->m[2][0] * fvec3_src->v[2];
+      fvec3_dst->v[1] = fmat3->m[0][1] * fvec3_src->v[0] + fmat3->m[1][1] * fvec3_src->v[1] + fmat3->m[2][1] * fvec3_src->v[2];
+      fvec3_dst->v[2] = fmat3->m[0][2] * fvec3_src->v[0] + fmat3->m[1][2] * fvec3_src->v[1] + fmat3->m[2][2] * fvec3_src->v[2];
     }
 }
 
@@ -349,9 +312,7 @@ lw6mat_fmat3_mul_fvec3 (lw6mat_fvec3_t * fvec3_dst,
  * Return value: none.
  */
 void
-lw6mat_fmat3_mul_fvec2 (lw6mat_fvec2_t * fvec2_dst,
-			const lw6mat_fmat3_t * fmat3,
-			const lw6mat_fvec2_t * fvec2_src)
+lw6mat_fmat3_mul_fvec2 (lw6mat_fvec2_t * fvec2_dst, const lw6mat_fmat3_t * fmat3, const lw6mat_fvec2_t * fvec2_src)
 {
   /*
    * In case src and dst or the same, recursively call this
@@ -366,12 +327,8 @@ lw6mat_fmat3_mul_fvec2 (lw6mat_fvec2_t * fvec2_dst,
     }
   else
     {
-      fvec2_dst->v[0] =
-	fmat3->m[0][0] * fvec2_src->v[0] + fmat3->m[1][0] * fvec2_src->v[1] +
-	fmat3->m[2][0];
-      fvec2_dst->v[1] =
-	fmat3->m[0][1] * fvec2_src->v[0] + fmat3->m[1][1] * fvec2_src->v[1] +
-	fmat3->m[2][1];
+      fvec2_dst->v[0] = fmat3->m[0][0] * fvec2_src->v[0] + fmat3->m[1][0] * fvec2_src->v[1] + fmat3->m[2][0];
+      fvec2_dst->v[1] = fmat3->m[0][1] * fvec2_src->v[0] + fmat3->m[1][1] * fvec2_src->v[1] + fmat3->m[2][1];
     }
 }
 
@@ -395,8 +352,7 @@ lw6mat_fmat3_repr (const lw6mat_fmat3_t * fmat3)
     ("%s %s %dx%d\n[ \t%f\t%f\t%f\n\t%f\t%f\t%f\n\t%f\t%f\t%f ]",
      LW6MAT_REPR_F, LW6MAT_REPR_MAT, LW6MAT_MAT3_M_SIZE,
      LW6MAT_MAT3_M_SIZE, fmat3->m[0][0], fmat3->m[1][0], fmat3->m[2][0],
-     fmat3->m[0][1], fmat3->m[1][1], fmat3->m[2][1], fmat3->m[0][2],
-     fmat3->m[1][2], fmat3->m[2][2]);
+     fmat3->m[0][1], fmat3->m[1][1], fmat3->m[2][1], fmat3->m[0][2], fmat3->m[1][2], fmat3->m[2][2]);
 
   return repr;
 }

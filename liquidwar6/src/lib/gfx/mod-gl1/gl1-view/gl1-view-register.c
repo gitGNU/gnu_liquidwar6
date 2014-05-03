@@ -31,11 +31,9 @@
 #include "gl1-flat/gl1-flat.h"
 
 mod_gl1_view_backend_t *
-mod_gl1_view_create_backend (mod_gl1_utils_context_t * utils_context,
-			     const char *name)
+mod_gl1_view_create_backend (mod_gl1_utils_context_t * utils_context, const char *name)
 {
-  mod_gl1_view_backend_t *(*init_func) (mod_gl1_utils_context_t *
-					utils_context) = NULL;
+  mod_gl1_view_backend_t *(*init_func) (mod_gl1_utils_context_t * utils_context) = NULL;
   mod_gl1_view_backend_t *backend = NULL;
 
   if (strcmp (name, "flat") == 0)
@@ -44,8 +42,7 @@ mod_gl1_view_create_backend (mod_gl1_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("view backend \"%s\" does not exists"), name);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("view backend \"%s\" does not exists"), name);
     }
 
   if (init_func)
@@ -61,8 +58,7 @@ mod_gl1_view_create_backend (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_view_destroy_backend (mod_gl1_utils_context_t * utils_context,
-			      mod_gl1_view_backend_t * backend)
+mod_gl1_view_destroy_backend (mod_gl1_utils_context_t * utils_context, mod_gl1_view_backend_t * backend)
 {
   if (backend)
     {

@@ -62,9 +62,7 @@
  * LW6MAP_RULES_DEFAULT_MOVES_PER_ROUND)
  * which is something like 900 * 50 * 2 = 90000.
  */
-static const char
-  *_commands[LW6PIL_SUITE_NB_NODES][LW6PIL_SUITE_NB_STAGES]
-  [_MAX_MESSAGES_PER_NODE_AND_STAGE] = {
+static const char *_commands[LW6PIL_SUITE_NB_NODES][LW6PIL_SUITE_NB_STAGES][_MAX_MESSAGES_PER_NODE_AND_STAGE] = {
   /*
    * NODE_A messages
    */
@@ -241,16 +239,13 @@ lw6pil_suite_init (lw6pil_dump_t * dump, int64_t timestamp)
   dump->level = lw6map_builtin_scale (sys_context, _INIT_SCALE_PERCENT);
   if (dump->level)
     {
-      dump->game_struct =
-	lw6ker_game_struct_new (sys_context, dump->level, NULL);
+      dump->game_struct = lw6ker_game_struct_new (sys_context, dump->level, NULL);
       if (dump->game_struct)
 	{
-	  dump->game_state =
-	    lw6ker_game_state_new (sys_context, dump->game_struct, NULL);
+	  dump->game_state = lw6ker_game_state_new (sys_context, dump->game_struct, NULL);
 	  if (dump->game_state)
 	    {
-	      dump->pilot =
-		lw6pil_pilot_new (dump->game_state, _SEQ_0, timestamp, NULL);
+	      dump->pilot = lw6pil_pilot_new (dump->game_state, _SEQ_0, timestamp, NULL);
 	      if (dump->pilot)
 		{
 		  ret = 1;
@@ -307,8 +302,7 @@ lw6pil_suite_get_node_id (int node_index)
       ret = _NODE_C_ID;
       break;
     default:
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("invalid node_index %d"), node_index);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("invalid node_index %d"), node_index);
     }
 
   return ret;
@@ -332,8 +326,7 @@ lw6pil_suite_get_command_by_node_index (int node_index, int stage, int step)
   const char **commands = NULL;
   int i = 0;
 
-  if (node_index >= 0 && node_index < LW6PIL_SUITE_NB_NODES && stage >= 0
-      && stage < LW6PIL_SUITE_NB_STAGES)
+  if (node_index >= 0 && node_index < LW6PIL_SUITE_NB_NODES && stage >= 0 && stage < LW6PIL_SUITE_NB_STAGES)
     {
       commands = _commands[node_index][stage];
       while (i <= step && commands[i])
@@ -397,14 +390,11 @@ lw6pil_suite_get_command_by_stage (int stage, int step)
 	}
       if (step < nb_commands)
 	{
-	  sorted_commands =
-	    (const char **) LW6SYS_MALLOC ((nb_commands + 1) *
-					   sizeof (char *));
+	  sorted_commands = (const char **) LW6SYS_MALLOC ((nb_commands + 1) * sizeof (char *));
 	  if (sorted_commands)
 	    {
 	      j = 0;
-	      for (node_index = 0; node_index < LW6PIL_SUITE_NB_NODES;
-		   ++node_index)
+	      for (node_index = 0; node_index < LW6PIL_SUITE_NB_NODES; ++node_index)
 		{
 		  i = 0;
 		  commands = _commands[node_index][stage];
@@ -423,8 +413,7 @@ lw6pil_suite_get_command_by_stage (int stage, int step)
 		   * function. But it's not a real problem, this is just for
 		   * testing, never used within real games.
 		   */
-		  qsort (sorted_commands, nb_commands, sizeof (char *),
-			 _command_sort);
+		  qsort (sorted_commands, nb_commands, sizeof (char *), _command_sort);
 		}
 	      ret = sorted_commands[step];
 	      LW6SYS_FREE (sorted_commands);
@@ -471,13 +460,11 @@ lw6pil_suite_get_command_by_step (int step)
     }
   if (step < nb_commands)
     {
-      sorted_commands =
-	(const char **) LW6SYS_MALLOC ((nb_commands + 1) * sizeof (char *));
+      sorted_commands = (const char **) LW6SYS_MALLOC ((nb_commands + 1) * sizeof (char *));
       if (sorted_commands)
 	{
 	  j = 0;
-	  for (node_index = 0; node_index < LW6PIL_SUITE_NB_NODES;
-	       ++node_index)
+	  for (node_index = 0; node_index < LW6PIL_SUITE_NB_NODES; ++node_index)
 	    {
 	      for (stage = 0; stage < LW6PIL_SUITE_NB_STAGES; ++stage)
 		{
@@ -499,8 +486,7 @@ lw6pil_suite_get_command_by_step (int step)
 	       * function. But it's not a real problem, this is just for
 	       * testing, never used within real games.
 	       */
-	      qsort (sorted_commands, nb_commands, sizeof (char *),
-		     _command_sort);
+	      qsort (sorted_commands, nb_commands, sizeof (char *), _command_sort);
 	    }
 	  ret = sorted_commands[step];
 	  LW6SYS_FREE (sorted_commands);
@@ -525,8 +511,7 @@ lw6pil_suite_get_command_by_step (int step)
  * Return value: none, everything in out params
  */
 void
-lw6pil_suite_get_checkpoint (u_int32_t * game_state_checksum, int64_t * seq,
-			     int *round, int stage)
+lw6pil_suite_get_checkpoint (u_int32_t * game_state_checksum, int64_t * seq, int *round, int stage)
 {
   switch (stage)
     {
@@ -561,8 +546,7 @@ lw6pil_suite_get_checkpoint (u_int32_t * game_state_checksum, int64_t * seq,
       (*round) = _STAGE_6_ROUND;
       break;
     default:
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("invalid stage %d"),
-		  stage);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("invalid stage %d"), stage);
       (*game_state_checksum) = 0;
       (*seq) = 0LL;
       (*round) = 0;

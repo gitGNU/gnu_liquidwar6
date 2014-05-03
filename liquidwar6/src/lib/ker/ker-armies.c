@@ -28,22 +28,16 @@
 #include "ker-internal.h"
 
 int
-_lw6ker_armies_init (lw6sys_context_t * sys_context,
-		     _lw6ker_armies_t * armies,
-		     const _lw6ker_map_struct_t * map_struct,
-		     const lw6map_rules_t * options)
+_lw6ker_armies_init (lw6sys_context_t * sys_context, _lw6ker_armies_t * armies, const _lw6ker_map_struct_t * map_struct, const lw6map_rules_t * options)
 {
   int ret = 0;
 
   // todo
   ret = 1;
   armies->map_struct = map_struct;
-  armies->max_fighters =
-    lw6ker_per100_2 (map_struct->room_for_armies, options->total_armies_size);
+  armies->max_fighters = lw6ker_per100_2 (map_struct->room_for_armies, options->total_armies_size);
   armies->active_fighters = 0;
-  armies->fighters =
-    (lw6ker_fighter_t *) LW6SYS_CALLOC (sys_context, armies->max_fighters *
-					sizeof (lw6ker_fighter_t));
+  armies->fighters = (lw6ker_fighter_t *) LW6SYS_CALLOC (sys_context, armies->max_fighters * sizeof (lw6ker_fighter_t));
 
   if (armies->fighters)
     {
@@ -51,16 +45,14 @@ _lw6ker_armies_init (lw6sys_context_t * sys_context,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to allocate armies"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to allocate armies"));
     }
 
   return ret;
 }
 
 void
-_lw6ker_armies_clear (lw6sys_context_t * sys_context,
-		      _lw6ker_armies_t * armies)
+_lw6ker_armies_clear (lw6sys_context_t * sys_context, _lw6ker_armies_t * armies)
 {
   if (armies->fighters)
     {
@@ -73,14 +65,11 @@ _lw6ker_armies_clear (lw6sys_context_t * sys_context,
 }
 
 int
-_lw6ker_armies_sync (lw6sys_context_t * sys_context, _lw6ker_armies_t * dst,
-		     const _lw6ker_armies_t * src)
+_lw6ker_armies_sync (lw6sys_context_t * sys_context, _lw6ker_armies_t * dst, const _lw6ker_armies_t * src)
 {
   int ret = 0;
 
-  if (dst && src
-      && _lw6ker_map_struct_lazy_compare (sys_context, dst->map_struct,
-					  src->map_struct))
+  if (dst && src && _lw6ker_map_struct_lazy_compare (sys_context, dst->map_struct, src->map_struct))
     {
       int i;
 
@@ -91,47 +80,37 @@ _lw6ker_armies_sync (lw6sys_context_t * sys_context, _lw6ker_armies_t * dst,
 	  dst->fighters_per_team[i] = src->fighters_per_team[i];
 	  dst->frags[i] = src->frags[i];
 	}
-      memcpy (dst->fighters, src->fighters,
-	      src->max_fighters * sizeof (lw6ker_fighter_t));
+      memcpy (dst->fighters, src->fighters, src->max_fighters * sizeof (lw6ker_fighter_t));
       ret = 1;
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("armies_copy only works if dst and src point to the same map_struct"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("armies_copy only works if dst and src point to the same map_struct"));
     }
 
   return ret;
 }
 
 void
-_lw6ker_armies_update_checksum (lw6sys_context_t * sys_context,
-				const _lw6ker_armies_t * armies,
-				u_int32_t * checksum)
+_lw6ker_armies_update_checksum (lw6sys_context_t * sys_context, const _lw6ker_armies_t * armies, u_int32_t * checksum)
 {
   int i;
 
   lw6sys_checksum_update_int32 (sys_context, checksum, armies->max_fighters);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				armies->active_fighters);
+  lw6sys_checksum_update_int32 (sys_context, checksum, armies->active_fighters);
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (sys_context, checksum,
-				    armies->fighters_per_team[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum, armies->fighters_per_team[i]);
       lw6sys_checksum_update_int32 (sys_context, checksum, armies->frags[i]);
     }
   for (i = 0; i < armies->max_fighters; ++i)
     {
-      _lw6ker_fighter_update_checksum (sys_context, &(armies->fighters[i]),
-				       checksum);
+      _lw6ker_fighter_update_checksum (sys_context, &(armies->fighters[i]), checksum);
     }
 }
 
 int32_t
-_lw6ker_armies_add_fighter (lw6sys_context_t * sys_context,
-			    _lw6ker_armies_t * armies,
-			    lw6ker_fighter_t fighter)
+_lw6ker_armies_add_fighter (lw6sys_context_t * sys_context, _lw6ker_armies_t * armies, lw6ker_fighter_t fighter)
 {
   int32_t new_id = -1;
 
@@ -144,10 +123,7 @@ _lw6ker_armies_add_fighter (lw6sys_context_t * sys_context,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("unable to add fighter, there are already %d fighters"),
-		  armies->active_fighters);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add fighter, there are already %d fighters"), armies->active_fighters);
     }
 
   return new_id;
@@ -159,8 +135,7 @@ _lw6ker_armies_add_fighter (lw6sys_context_t * sys_context,
  * then delete.
  */
 int
-_lw6ker_armies_remove_fighter (lw6sys_context_t * sys_context,
-			       _lw6ker_armies_t * armies)
+_lw6ker_armies_remove_fighter (lw6sys_context_t * sys_context, _lw6ker_armies_t * armies)
 {
   int ret = 0;
 
@@ -169,23 +144,20 @@ _lw6ker_armies_remove_fighter (lw6sys_context_t * sys_context,
       int32_t last_fighter_id;
 
       last_fighter_id = armies->active_fighters - 1;
-      armies->fighters_per_team[armies->fighters[last_fighter_id].
-				team_color]--;
+      armies->fighters_per_team[armies->fighters[last_fighter_id].team_color]--;
       /*
        * This memset might not be truely needed but well, it can't harm,
        * and fighter addition/deletion is rare enough that we can take
        * the time to vacuum stuff.
        */
-      memset (&(armies->fighters[last_fighter_id]), 0,
-	      sizeof (lw6ker_fighter_t));
+      memset (&(armies->fighters[last_fighter_id]), 0, sizeof (lw6ker_fighter_t));
       armies->active_fighters--;
 
       ret = 1;
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to remove fighter, none to remove"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to remove fighter, none to remove"));
     }
 
   return ret;

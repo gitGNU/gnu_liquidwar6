@@ -28,15 +28,11 @@
 #include "mod-http-internal.h"
 
 char *
-_mod_http_repr (_mod_http_context_t * http_context,
-		lw6cnx_connection_t * connection)
+_mod_http_repr (_mod_http_context_t * http_context, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 
-  ret =
-    lw6sys_new_sprintf (sys_context,
-			_x_ ("http connexion of \"%s\" on \"%s\""),
-			connection->local_url, connection->remote_url);
+  ret = lw6sys_new_sprintf (sys_context, _x_ ("http connexion of \"%s\" on \"%s\""), connection->local_url, connection->remote_url);
 
   return ret;
 }

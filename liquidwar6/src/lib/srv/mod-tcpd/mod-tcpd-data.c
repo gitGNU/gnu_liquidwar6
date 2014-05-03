@@ -31,8 +31,7 @@
 #define _CONSTS_FILE "tcpd-const.xml"
 
 static void
-_read_callback (void *callback_data, const char *element, const char *key,
-		const char *value)
+_read_callback (void *callback_data, const char *element, const char *key, const char *value)
 {
   _mod_tcpd_consts_t *consts;
 
@@ -40,12 +39,9 @@ _read_callback (void *callback_data, const char *element, const char *key,
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "error-timeout",
-			   &(consts->error_timeout));
-      lw6cfg_read_xml_int (key, value, "ping-alter-base",
-			   &(consts->ping_alter_base));
-      lw6cfg_read_xml_int (key, value, "ping-alter-percent",
-			   &(consts->ping_alter_percent));
+      lw6cfg_read_xml_int (key, value, "error-timeout", &(consts->error_timeout));
+      lw6cfg_read_xml_int (key, value, "ping-alter-base", &(consts->ping_alter_base));
+      lw6cfg_read_xml_int (key, value, "ping-alter-percent", &(consts->ping_alter_percent));
     }
 }
 
@@ -54,12 +50,9 @@ _load_consts (_mod_tcpd_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
-	      consts_file);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), consts_file);
 
-  ret =
-    lw6cfg_read_key_value_xml_file (consts_file, _read_callback,
-				    (void *) consts);
+  ret = lw6cfg_read_key_value_xml_file (consts_file, _read_callback, (void *) consts);
 
   return ret;
 }
@@ -74,8 +67,7 @@ _mod_tcpd_load_data (_mod_tcpd_data_t * tcpd_data, const char *data_dir)
   tcpd_subdir = lw6sys_path_concat (sys_context, data_dir, _TCPD_SUBDIR);
   if (tcpd_subdir)
     {
-      consts_file =
-	lw6sys_path_concat (sys_context, tcpd_subdir, _CONSTS_FILE);
+      consts_file = lw6sys_path_concat (sys_context, tcpd_subdir, _CONSTS_FILE);
       if (consts_file)
 	{
 	  ret = _load_consts (&(tcpd_data->consts), consts_file);

@@ -32,149 +32,109 @@ log_event (SDL_Event * event)
   switch (event->type)
     {
     case SDL_ACTIVEEVENT:
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("SDL event type=SDL_ACTIVEEVENT gain=%d state=%d"),
-		  (int) event->active.gain, (int) event->active.state);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("SDL event type=SDL_ACTIVEEVENT gain=%d state=%d"), (int) event->active.gain, (int) event->active.state);
       break;
     case SDL_KEYDOWN:
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_KEYDOWN state=%d scancode=%d sym=%d mod=%d unicode=%d"),
 		  (int) event->key.state,
-		  (int) event->key.keysym.scancode,
-		  (int) event->key.keysym.sym,
-		  (int) event->key.keysym.mod,
-		  (int) event->key.keysym.unicode);
+		  (int) event->key.keysym.scancode, (int) event->key.keysym.sym, (int) event->key.keysym.mod, (int) event->key.keysym.unicode);
       break;
     case SDL_KEYUP:
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_KEYUP state=%d scancode=%d sym=%d mod=%d unicode=%d"),
 		  (int) event->key.state,
-		  (int) event->key.keysym.scancode,
-		  (int) event->key.keysym.sym,
-		  (int) event->key.keysym.mod,
-		  (int) event->key.keysym.unicode);
+		  (int) event->key.keysym.scancode, (int) event->key.keysym.sym, (int) event->key.keysym.mod, (int) event->key.keysym.unicode);
       break;
     case SDL_MOUSEMOTION:
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_MOUSEMOTION state=%d x=%d y=%d xrel=%d yrel=%d"),
-		  (int) event->motion.state, (int) event->motion.x,
-		  (int) event->motion.y, (int) event->motion.xrel,
-		  (int) event->motion.yrel);
+		  (int) event->motion.state, (int) event->motion.x, (int) event->motion.y, (int) event->motion.xrel, (int) event->motion.yrel);
       break;
     case SDL_MOUSEBUTTONDOWN:
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_MOUSEBUTTONDOWN button=%d state=%d x=%d y=%d"),
-		  (int) event->button.button, (int) event->button.state,
-		  (int) event->motion.x, (int) event->motion.y);
+		  (int) event->button.button, (int) event->button.state, (int) event->motion.x, (int) event->motion.y);
       break;
     case SDL_MOUSEBUTTONUP:
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_MOUSEBUTTONUP button=%d state=%d x=%d y=%d"),
-		  (int) event->button.button, (int) event->button.state,
-		  (int) event->motion.x, (int) event->motion.y);
+		  (int) event->button.button, (int) event->button.state, (int) event->motion.x, (int) event->motion.y);
       break;
     case SDL_JOYAXISMOTION:
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_
-		  ("SDL event type=SDL_JOYAXISMOTION which=%d axis=%d value=%d"),
-		  (int) event->jaxis.which, event->jaxis.axis,
-		  (int) event->jaxis.value);
+		  _x_ ("SDL event type=SDL_JOYAXISMOTION which=%d axis=%d value=%d"), (int) event->jaxis.which, event->jaxis.axis, (int) event->jaxis.value);
       break;
     case SDL_JOYBALLMOTION:
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_JOYBALLMOTION which=%d ball=%d xrel=%d yrel=%d"),
-		  (int) event->jball.which, (int) event->jball.ball,
-		  (int) event->jball.xrel, (int) event->jball.yrel);
+		  (int) event->jball.which, (int) event->jball.ball, (int) event->jball.xrel, (int) event->jball.yrel);
       break;
     case SDL_JOYHATMOTION:
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_
-		  ("SDL event type=SDL_JOYHATMOTION which=%d hat=%d value=%d"),
-		  (int) event->jhat.which, (int) event->jhat.hat,
-		  (int) event->jhat.value);
+		  _x_ ("SDL event type=SDL_JOYHATMOTION which=%d hat=%d value=%d"), (int) event->jhat.which, (int) event->jhat.hat, (int) event->jhat.value);
       break;
     case SDL_JOYBUTTONDOWN:
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_JOYBUTTONDOWN which=%d button=%d state=%d"),
-		  (int) event->jbutton.which, (int) event->jbutton.button,
-		  (int) event->jbutton.state);
+		  (int) event->jbutton.which, (int) event->jbutton.button, (int) event->jbutton.state);
       break;
     case SDL_JOYBUTTONUP:
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("SDL event type=SDL_JOYBUTTONUP which=%d button=%d state=%d"),
-		  (int) event->jbutton.which, (int) event->jbutton.button,
-		  (int) event->jbutton.state);
+		  (int) event->jbutton.which, (int) event->jbutton.button, (int) event->jbutton.state);
       break;
     case SDL_QUIT:
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("SDL event type=SDL_QUIT"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("SDL event type=SDL_QUIT"));
       break;
     case SDL_SYSWMEVENT:
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("SDL event type=SDL_SYSWMEVENT"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("SDL event type=SDL_SYSWMEVENT"));
       break;
     case SDL_VIDEORESIZE:
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("SDL event type=SDL_VIDEORESIZE w=%d h=%d"),
-		  (int) event->resize.w, (int) event->resize.h);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("SDL event type=SDL_VIDEORESIZE w=%d h=%d"), (int) event->resize.w, (int) event->resize.h);
       break;
     case SDL_VIDEOEXPOSE:
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("SDL event type=SDL_VIDEOEXPOSE"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("SDL event type=SDL_VIDEOEXPOSE"));
       break;
     case SDL_USEREVENT:
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("SDL event type=SDL_USEREVENT code=%d"),
-		  (int) event->user.code);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("SDL event type=SDL_USEREVENT code=%d"), (int) event->user.code);
       break;
     default:
 // should never get there, unless API changes...
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("SDL event with unknown type=%d"), event->type);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("SDL event with unknown type=%d"), event->type);
     }
 }
 
 static void
-key_down (lw6gui_keyboard_t * keyboard, SDL_Event * event,
-	  _lw6gfx_sdl_const_data_t * const_data, int64_t timestamp)
+key_down (lw6gui_keyboard_t * keyboard, SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data, int64_t timestamp)
 {
   int sym = 0;
 
   sym = event->key.keysym.sym;
 
-  lw6gui_keyboard_register_key_down (keyboard, sym,
-				     event->key.keysym.unicode,
-				     SDL_GetKeyName (sym), timestamp);
+  lw6gui_keyboard_register_key_down (keyboard, sym, event->key.keysym.unicode, SDL_GetKeyName (sym), timestamp);
 
-  if (sym == const_data->keysym1_up ||
-      sym == const_data->keysym2_up ||
-      sym == const_data->keysym3_up || sym == const_data->keysym4_up)
+  if (sym == const_data->keysym1_up || sym == const_data->keysym2_up || sym == const_data->keysym3_up || sym == const_data->keysym4_up)
     {
       lw6gui_button_register_down (&(keyboard->arrow_up), timestamp);
     }
-  if (sym == const_data->keysym1_down ||
-      sym == const_data->keysym2_down ||
-      sym == const_data->keysym3_down || sym == const_data->keysym4_down)
+  if (sym == const_data->keysym1_down || sym == const_data->keysym2_down || sym == const_data->keysym3_down || sym == const_data->keysym4_down)
     {
       lw6gui_button_register_down (&(keyboard->arrow_down), timestamp);
     }
-  if (sym == const_data->keysym1_left ||
-      sym == const_data->keysym2_left ||
-      sym == const_data->keysym3_left || sym == const_data->keysym4_left)
+  if (sym == const_data->keysym1_left || sym == const_data->keysym2_left || sym == const_data->keysym3_left || sym == const_data->keysym4_left)
     {
       lw6gui_button_register_down (&(keyboard->arrow_left), timestamp);
     }
-  if (sym == const_data->keysym1_right ||
-      sym == const_data->keysym2_right ||
-      sym == const_data->keysym3_right || sym == const_data->keysym4_right)
+  if (sym == const_data->keysym1_right || sym == const_data->keysym2_right || sym == const_data->keysym3_right || sym == const_data->keysym4_right)
     {
       lw6gui_button_register_down (&(keyboard->arrow_right), timestamp);
     }
@@ -205,8 +165,7 @@ key_down (lw6gui_keyboard_t * keyboard, SDL_Event * event,
 }
 
 static void
-key_up (lw6gui_keyboard_t * keyboard, SDL_Event * event,
-	_lw6gfx_sdl_const_data_t * const_data)
+key_up (lw6gui_keyboard_t * keyboard, SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data)
 {
   int sym = 0;
 
@@ -214,101 +173,80 @@ key_up (lw6gui_keyboard_t * keyboard, SDL_Event * event,
 
   lw6gui_keyboard_register_key_up (keyboard, sym);
 
-  if (sym == const_data->keysym1_up ||
-      sym == const_data->keysym2_up ||
-      sym == const_data->keysym3_up || sym == const_data->keysym4_up)
+  if (sym == const_data->keysym1_up || sym == const_data->keysym2_up || sym == const_data->keysym3_up || sym == const_data->keysym4_up)
     {
       if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_up)
 	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_up)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_up)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym4_up))
+	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_up) && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym4_up))
 	{
 	  lw6gui_button_register_up (&(keyboard->arrow_up));
 	}
     }
-  if (sym == const_data->keysym1_down ||
-      sym == const_data->keysym2_down ||
-      sym == const_data->keysym3_down || sym == const_data->keysym4_down)
+  if (sym == const_data->keysym1_down || sym == const_data->keysym2_down || sym == const_data->keysym3_down || sym == const_data->keysym4_down)
     {
       if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_down)
 	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_down)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_down)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym4_down))
+	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_down) && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym4_down))
 	{
 	  lw6gui_button_register_up (&(keyboard->arrow_down));
 	}
     }
-  if (sym == const_data->keysym1_left ||
-      sym == const_data->keysym2_left ||
-      sym == const_data->keysym3_left || sym == const_data->keysym4_left)
+  if (sym == const_data->keysym1_left || sym == const_data->keysym2_left || sym == const_data->keysym3_left || sym == const_data->keysym4_left)
     {
       if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_left)
 	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_left)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_left)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym4_left))
+	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_left) && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym4_left))
 	{
 	  lw6gui_button_register_up (&(keyboard->arrow_left));
 	}
     }
-  if (sym == const_data->keysym1_right ||
-      sym == const_data->keysym2_right ||
-      sym == const_data->keysym3_right || sym == const_data->keysym4_right)
+  if (sym == const_data->keysym1_right || sym == const_data->keysym2_right || sym == const_data->keysym3_right || sym == const_data->keysym4_right)
     {
       if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_right)
 	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_right)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_right)
-	  && !lw6gui_keyboard_is_pressed (keyboard,
-					  const_data->keysym4_right))
+	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_right) && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym4_right))
 	{
 	  lw6gui_button_register_up (&(keyboard->arrow_right));
 	}
     }
   if (sym == const_data->keysym1_enter || sym == const_data->keysym2_enter)
     {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_enter)
-	  && !lw6gui_keyboard_is_pressed (keyboard,
-					  const_data->keysym2_enter))
+      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_enter) && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_enter))
 	{
 	  lw6gui_button_register_up (&(keyboard->key_enter));
 	}
     }
   if (sym == const_data->keysym1_esc || sym == const_data->keysym2_esc)
     {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_esc)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_esc))
+      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_esc) && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_esc))
 	{
 	  lw6gui_button_register_up (&(keyboard->key_esc));
 	}
     }
   if (sym == const_data->keysym1_ctrl || sym == const_data->keysym2_ctrl)
     {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_ctrl)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_ctrl))
+      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_ctrl) && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_ctrl))
 	{
 	  lw6gui_button_register_up (&(keyboard->key_ctrl));
 	}
     }
   if (sym == const_data->keysym1_alt || sym == const_data->keysym2_alt)
     {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_alt)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_alt))
+      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_alt) && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_alt))
 	{
 	  lw6gui_button_register_up (&(keyboard->key_alt));
 	}
     }
   if (sym == const_data->keysym1_pgup || sym == const_data->keysym2_pgup)
     {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_pgup)
-	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_pgup))
+      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_pgup) && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_pgup))
 	{
 	  lw6gui_button_register_up (&(keyboard->key_pgup));
 	}
     }
   if (sym == const_data->keysym1_pgdown || sym == const_data->keysym2_pgdown)
     {
-      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_pgdown)
-	  && !lw6gui_keyboard_is_pressed (keyboard,
-					  const_data->keysym2_pgdown))
+      if (!lw6gui_keyboard_is_pressed (keyboard, const_data->keysym1_pgdown) && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym2_pgdown))
 	{
 	  lw6gui_button_register_up (&(keyboard->key_pgdown));
 	}
@@ -318,13 +256,11 @@ key_up (lw6gui_keyboard_t * keyboard, SDL_Event * event,
 static void
 mouse_move (lw6gui_mouse_t * mouse, SDL_Event * event, int64_t timestamp)
 {
-  lw6gui_mouse_register_move (mouse, event->button.x, event->button.y,
-			      timestamp);
+  lw6gui_mouse_register_move (mouse, event->button.x, event->button.y, timestamp);
 }
 
 static void
-mouse_button_down (lw6gui_mouse_t * mouse, SDL_Event * event,
-		   int64_t timestamp)
+mouse_button_down (lw6gui_mouse_t * mouse, SDL_Event * event, int64_t timestamp)
 {
   switch (event->button.button)
     {
@@ -405,8 +341,7 @@ joystick_index (SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data)
 }
 
 static int
-joystick_button_index (SDL_Event * event,
-		       _lw6gfx_sdl_const_data_t * const_data, int i)
+joystick_button_index (SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data, int i)
 {
   int ret = -1;
 
@@ -479,30 +414,24 @@ joystick_button_index (SDL_Event * event,
 }
 
 static void
-joystick_move (lw6gui_joystick_t * joystick, SDL_Event * event, int limit,
-	       int64_t timestamp)
+joystick_move (lw6gui_joystick_t * joystick, SDL_Event * event, int limit, int64_t timestamp)
 {
   switch (event->jaxis.axis)
     {
     case 0:
-      lw6gui_joystick_update_axis_x (joystick, event->jaxis.value, limit,
-				     timestamp);
+      lw6gui_joystick_update_axis_x (joystick, event->jaxis.value, limit, timestamp);
       break;
     case 1:
-      lw6gui_joystick_update_axis_y (joystick, event->jaxis.value, limit,
-				     timestamp);
+      lw6gui_joystick_update_axis_y (joystick, event->jaxis.value, limit, timestamp);
       break;
     default:
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("joystick %d axis %d with value %d ignored"),
-		  event->jaxis.which, event->jaxis.axis, event->jaxis.value);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("joystick %d axis %d with value %d ignored"), event->jaxis.which, event->jaxis.axis, event->jaxis.value);
       break;
     }
 }
 
 static void
-joystick_button_down (lw6gui_joystick_t * joystick, int b, SDL_Event * event,
-		      int64_t timestamp)
+joystick_button_down (lw6gui_joystick_t * joystick, int b, SDL_Event * event, int64_t timestamp)
 {
   switch (b)
     {
@@ -525,9 +454,7 @@ joystick_button_down (lw6gui_joystick_t * joystick, int b, SDL_Event * event,
       lw6gui_button_register_down (&(joystick->button_f), timestamp);
       break;
     default:
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("joystick %d button %d ignored"), event->jbutton.which,
-		  event->jbutton.button);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("joystick %d button %d ignored"), event->jbutton.which, event->jbutton.button);
       break;
     }
 }
@@ -556,9 +483,7 @@ joystick_button_up (lw6gui_joystick_t * joystick, int b, SDL_Event * event)
       lw6gui_button_register_up (&(joystick->button_f));
       break;
     default:
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("joystick %d button %d ignored"), event->jbutton.which,
-		  event->jbutton.button);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("joystick %d button %d ignored"), event->jbutton.which, event->jbutton.button);
       break;
     }
 }
@@ -567,9 +492,7 @@ joystick_button_up (lw6gui_joystick_t * joystick, int b, SDL_Event * event)
  * Internal poll function.
  */
 lw6gui_input_t *
-shared_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context,
-			_lw6gfx_sdl_event_callback_t event_callback_func,
-			void *event_callback_data)
+shared_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context, _lw6gfx_sdl_event_callback_t event_callback_func, void *event_callback_data)
 {
   SDL_Event event;
   int64_t timestamp = 0LL;
@@ -619,8 +542,7 @@ shared_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context,
 	  i = joystick_index (&event, const_data);
 	  if (lw6gui_joystick_check_index (i))
 	    {
-	      joystick_move (&(input->joysticks[i]), &event,
-			     const_data->joystick_limit, timestamp);
+	      joystick_move (&(input->joysticks[i]), &event, const_data->joystick_limit, timestamp);
 	    }
 	  break;
 	case SDL_JOYBUTTONDOWN:
@@ -629,8 +551,7 @@ shared_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context,
 	  if (lw6gui_joystick_check_index (i))
 	    {
 	      b = joystick_button_index (&event, const_data, i);
-	      joystick_button_down (&(input->joysticks[i]), b, &event,
-				    timestamp);
+	      joystick_button_down (&(input->joysticks[i]), b, &event, timestamp);
 	    }
 	  break;
 	case SDL_JOYBUTTONUP:
@@ -653,9 +574,7 @@ shared_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context,
    */
   if (event_callback_func)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("event_callback defined, calling it with data=%p"),
-		  event_callback_data);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("event_callback defined, calling it with data=%p"), event_callback_data);
       event_callback_func (event_callback_data, (void *) &event);
     }
 

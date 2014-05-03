@@ -48,8 +48,7 @@
  */
 int
 lw6gui_coord_calc_xy (float *dst_x, float *dst_y, float dst_x0, float dst_y0,
-		      float dst_w, float dst_h, float src_x, float src_y,
-		      float src_x0, float src_y0, float src_w, float src_h)
+		      float dst_w, float dst_h, float src_x, float src_y, float src_x0, float src_y0, float src_w, float src_h)
 {
   int ret = 0;
 
@@ -67,10 +66,7 @@ lw6gui_coord_calc_xy (float *dst_x, float *dst_y, float dst_x0, float dst_y0,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("inconsistent coord data dst_w=%f dst_h=%f src_w=%f src_h=%f"),
-		  dst_w, dst_h, src_w, src_h);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("inconsistent coord data dst_w=%f dst_h=%f src_w=%f src_h=%f"), dst_w, dst_h, src_w, src_h);
     }
 
   return ret;
@@ -99,8 +95,7 @@ lw6gui_coord_calc_xy (float *dst_x, float *dst_y, float dst_x0, float dst_y0,
  * Return value: none
  */
 void
-lw6gui_coords_fix_xy_float (float *x, float *y, int *x_flip, int *y_flip,
-			    float w, float h, int x_polarity, int y_polarity)
+lw6gui_coords_fix_xy_float (float *x, float *y, int *x_flip, int *y_flip, float w, float h, int x_polarity, int y_polarity)
 {
   /*
    * The algorithm is copied/pasted from map code, only here it

@@ -62,16 +62,12 @@ lw6cnx_ticket_table_init (lw6cnx_ticket_table_t * ticket_table, int hash_size)
   ticket_table->recv_spinlock = lw6sys_spinlock_create ();
   ticket_table->recv_ack_spinlock = lw6sys_spinlock_create ();
   ticket_table->send_spinlock = lw6sys_spinlock_create ();
-  ticket_table->recv_table =
-    lw6sys_hash_new (sys_context, lw6sys_free_callback, hash_size);
-  ticket_table->recv_ack_table =
-    lw6sys_hash_new (sys_context, lw6sys_free_callback, hash_size);
-  ticket_table->send_table =
-    lw6sys_hash_new (sys_context, lw6sys_free_callback, hash_size);
+  ticket_table->recv_table = lw6sys_hash_new (sys_context, lw6sys_free_callback, hash_size);
+  ticket_table->recv_ack_table = lw6sys_hash_new (sys_context, lw6sys_free_callback, hash_size);
+  ticket_table->send_table = lw6sys_hash_new (sys_context, lw6sys_free_callback, hash_size);
 
   ret = (ticket_table->recv_spinlock && ticket_table->recv_ack_spinlock
-	 && ticket_table->send_spinlock && ticket_table->recv_table
-	 && ticket_table->recv_ack_table && ticket_table->send_table);
+	 && ticket_table->send_spinlock && ticket_table->recv_table && ticket_table->recv_ack_table && ticket_table->send_table);
   if (!ret)
     {
       lw6cnx_ticket_table_clear (ticket_table);
@@ -132,16 +128,14 @@ lw6cnx_ticket_table_clear (lw6cnx_ticket_table_t * ticket_table)
  * Return value: the ticket used to check incoming messages.
  */
 u_int64_t
-lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table,
-			      const char *peer_id)
+lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table, const char *peer_id)
 {
   u_int64_t recv_ticket = 0;
   u_int64_t *recv_ticket_ptr = NULL;
 
   if (lw6sys_spinlock_lock (sys_context, ticket_table->recv_spinlock))
     {
-      recv_ticket_ptr =
-	lw6sys_hash_get (sys_context, ticket_table->recv_table, peer_id);
+      recv_ticket_ptr = lw6sys_hash_get (sys_context, ticket_table->recv_table, peer_id);
       lw6sys_spinlock_unlock (sys_context, ticket_table->recv_spinlock);
     }
 
@@ -158,10 +152,8 @@ lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table,
 	  (*recv_ticket_ptr) = recv_ticket;
 	  if (lw6sys_spinlock_lock (sys_context, ticket_table->recv_spinlock))
 	    {
-	      lw6sys_hash_set (sys_context, ticket_table->recv_table, peer_id,
-			       recv_ticket_ptr);
-	      lw6sys_spinlock_unlock (sys_context,
-				      ticket_table->recv_spinlock);
+	      lw6sys_hash_set (sys_context, ticket_table->recv_table, peer_id, recv_ticket_ptr);
+	      lw6sys_spinlock_unlock (sys_context, ticket_table->recv_spinlock);
 	    }
 	}
     }
@@ -187,8 +179,7 @@ lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table,
  * Return value: none.
  */
 void
-lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table,
-			      const char *peer_id, int ack_delay_msec)
+lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table, const char *peer_id, int ack_delay_msec)
 {
   int64_t *limit = NULL;
   int useless = 0;
@@ -204,32 +195,23 @@ lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table,
 	   * it again, else on regular sends the limit would be endlessly
 	   * updated, thus checks would never be performed.
 	   */
-	  if (!lw6sys_hash_has_key
-	      (sys_context, ticket_table->recv_ack_table, peer_id))
+	  if (!lw6sys_hash_has_key (sys_context, ticket_table->recv_ack_table, peer_id))
 	    {
-	      lw6sys_hash_set (sys_context, ticket_table->recv_ack_table,
-			       peer_id, (void *) limit);
+	      lw6sys_hash_set (sys_context, ticket_table->recv_ack_table, peer_id, (void *) limit);
 	    }
 	  else
 	    {
 	      LW6SYS_FREE (sys_context, limit);
 	      useless = 1;
 	    }
-	  lw6sys_spinlock_unlock (sys_context,
-				  ticket_table->recv_ack_spinlock);
+	  lw6sys_spinlock_unlock (sys_context, ticket_table->recv_ack_spinlock);
 	  if (!useless)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("acknowledging ticket for peer_id=%s, ack_delay_msec=%d"),
-			  peer_id, ack_delay_msec);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("acknowledging ticket for peer_id=%s, ack_delay_msec=%d"), peer_id, ack_delay_msec);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("acknowledging ticket for peer_id=%s, but this is useless, we already got one"),
-			  peer_id);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("acknowledging ticket for peer_id=%s, but this is useless, we already got one"), peer_id);
 	    }
 	}
       else
@@ -253,8 +235,7 @@ lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table,
  * Return value: the ticket used to check incoming messages.
  */
 int
-lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table,
-					const char *peer_id)
+lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table, const char *peer_id)
 {
   int ret = 0;
   int64_t now;
@@ -263,9 +244,7 @@ lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table,
   now = lw6sys_get_timestamp ();
   if (lw6sys_spinlock_lock (sys_context, ticket_table->recv_ack_spinlock))
     {
-      limit =
-	(int64_t *) lw6sys_hash_get (sys_context,
-				     ticket_table->recv_ack_table, peer_id);
+      limit = (int64_t *) lw6sys_hash_get (sys_context, ticket_table->recv_ack_table, peer_id);
       if (limit)
 	{
 	  if ((*limit) <= now)
@@ -274,10 +253,7 @@ lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table,
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("ticket for \"%s\" exists but is too recent, still %d msec"),
-			  peer_id, (int) ((*limit) - now));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("ticket for \"%s\" exists but is too recent, still %d msec"), peer_id, (int) ((*limit) - now));
 	    }
 	}
       lw6sys_spinlock_unlock (sys_context, ticket_table->recv_ack_spinlock);
@@ -299,16 +275,14 @@ lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table,
  * Return value: the ticket used to stamp outgoing messages.
  */
 u_int64_t
-lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t * ticket_table,
-			      const char *peer_id)
+lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t * ticket_table, const char *peer_id)
 {
   u_int64_t send_ticket = 0;
   u_int64_t *send_ticket_ptr = NULL;
 
   if (lw6sys_spinlock_lock (sys_context, ticket_table->send_spinlock))
     {
-      send_ticket_ptr =
-	lw6sys_hash_get (sys_context, ticket_table->send_table, peer_id);
+      send_ticket_ptr = lw6sys_hash_get (sys_context, ticket_table->send_table, peer_id);
       lw6sys_spinlock_unlock (sys_context, ticket_table->send_spinlock);
     }
 
@@ -339,15 +313,13 @@ lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t * ticket_table,
  * Return value: NULL
  */
 void
-lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t * ticket_table,
-			      const char *peer_id, u_int64_t send_ticket)
+lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t * ticket_table, const char *peer_id, u_int64_t send_ticket)
 {
   u_int64_t *send_ticket_ptr = NULL;
 
   if (lw6sys_spinlock_lock (sys_context, ticket_table->send_spinlock))
     {
-      send_ticket_ptr =
-	lw6sys_hash_get (sys_context, ticket_table->send_table, peer_id);
+      send_ticket_ptr = lw6sys_hash_get (sys_context, ticket_table->send_table, peer_id);
       lw6sys_spinlock_unlock (sys_context, ticket_table->send_spinlock);
     }
 
@@ -359,17 +331,13 @@ lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t * ticket_table,
 	  (*send_ticket_ptr) = send_ticket;
 	  if (lw6sys_spinlock_lock (sys_context, ticket_table->send_spinlock))
 	    {
-	      lw6sys_hash_set (sys_context, ticket_table->send_table, peer_id,
-			       send_ticket_ptr);
-	      lw6sys_spinlock_unlock (sys_context,
-				      ticket_table->send_spinlock);
+	      lw6sys_hash_set (sys_context, ticket_table->send_table, peer_id, send_ticket_ptr);
+	      lw6sys_spinlock_unlock (sys_context, ticket_table->send_spinlock);
 	    }
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("send_ticket for %s already exists, ignoring set"),
-		  peer_id);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("send_ticket for %s already exists, ignoring set"), peer_id);
     }
 }

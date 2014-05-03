@@ -199,13 +199,11 @@ _test_button ()
       {
 	if (lw6gui_button_pop_press (&button))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("button press buffer works"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("button press buffer works"));
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("button press buffer problem"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("button press buffer problem"));
 	    ret = 0;
 	  }
       }
@@ -217,31 +215,25 @@ _test_button ()
       {
 	ret = 0;
 	lw6gui_button_update_repeat (&button, &repeat_settings, timestamp, 0);
-	if (!lw6gui_button_pop_double_click (&button)
-	    && !lw6gui_button_pop_triple_click (&button))
+	if (!lw6gui_button_pop_double_click (&button) && !lw6gui_button_pop_triple_click (&button))
 	  {
 	    lw6gui_button_register_down (&button, timestamp++);
-	    lw6gui_button_update_repeat (&button, &repeat_settings,
-					 timestamp, 0);
+	    lw6gui_button_update_repeat (&button, &repeat_settings, timestamp, 0);
 	    timestamp += 2 * _TEST_REPEAT_DOUBLE_CLICK_DELAY;
-	    lw6gui_button_update_repeat (&button, &repeat_settings,
-					 timestamp, 0);
+	    lw6gui_button_update_repeat (&button, &repeat_settings, timestamp, 0);
 	    if (lw6gui_button_pop_double_click (&button))
 	      {
 		if (!lw6gui_button_pop_double_click (&button))
 		  {
 		    timestamp += 2 * _TEST_REPEAT_DOUBLE_CLICK_DELAY;
 		    lw6gui_button_register_down (&button, timestamp);
-		    lw6gui_button_update_repeat (&button, &repeat_settings,
-						 timestamp, 0);
+		    lw6gui_button_update_repeat (&button, &repeat_settings, timestamp, 0);
 		    timestamp += 2 * _TEST_REPEAT_DOUBLE_CLICK_DELAY;
 		    lw6gui_button_register_down (&button, timestamp);
-		    lw6gui_button_update_repeat (&button, &repeat_settings,
-						 timestamp, 0);
+		    lw6gui_button_update_repeat (&button, &repeat_settings, timestamp, 0);
 		    if (!lw6gui_button_pop_double_click (&button))
 		      {
-			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				    _x_ ("double click works"));
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("double click works"));
 			ret = 1;
 		      }
 		  }
@@ -249,29 +241,23 @@ _test_button ()
 	  }
 	if (!ret)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("double click problem"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("double click problem"));
 	  }
       }
     if (ret)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("testing auto_release mode"));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("testing auto_release mode"));
 	lw6gui_button_register_up (&button);
 	lw6gui_button_register_down (&button, timestamp);
 	lw6gui_button_update_repeat (&button, &repeat_settings, timestamp, 1);
 	if (lw6gui_button_is_pressed (&button))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("OK, button pressed at t=%" LW6SYS_PRINTF_LL
-			     "d just after press"), (long long) timestamp);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("OK, button pressed at t=%" LW6SYS_PRINTF_LL "d just after press"), (long long) timestamp);
 	  }
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("Problem, button not pressed at t=%"
-			     LW6SYS_PRINTF_LL "d just after press"),
-			(long long) timestamp);
+			_x_ ("Problem, button not pressed at t=%" LW6SYS_PRINTF_LL "d just after press"), (long long) timestamp);
 	    ret = 0;
 	  }
 	timestamp += _TEST_REPEAT_AUTO_RELEASE_DELAY / 2;
@@ -279,16 +265,12 @@ _test_button ()
 	if (lw6gui_button_is_pressed (&button))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("OK, button still pressed at t=%"
-			     LW6SYS_PRINTF_LL "d \"half delay\" after press"),
-			(long long) timestamp);
+			_x_ ("OK, button still pressed at t=%" LW6SYS_PRINTF_LL "d \"half delay\" after press"), (long long) timestamp);
 	  }
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("Problem, button not pressed at t=%"
-			     LW6SYS_PRINTF_LL "d \"half delay\" after press"),
-			(long long) timestamp);
+			_x_ ("Problem, button not pressed at t=%" LW6SYS_PRINTF_LL "d \"half delay\" after press"), (long long) timestamp);
 	    ret = 0;
 	  }
 	timestamp += _TEST_REPEAT_AUTO_RELEASE_DELAY;
@@ -296,18 +278,12 @@ _test_button ()
 	if (!lw6gui_button_is_pressed (&button))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("OK, button now not pressed at t=%"
-			     LW6SYS_PRINTF_LL
-			     "d \"1 1/2 delay\" after press"),
-			(long long) timestamp);
+			_x_ ("OK, button now not pressed at t=%" LW6SYS_PRINTF_LL "d \"1 1/2 delay\" after press"), (long long) timestamp);
 	  }
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("Problem, button still pressed at t=%"
-			     LW6SYS_PRINTF_LL
-			     "d \"1 1/2 delay\" after press"),
-			(long long) timestamp);
+			_x_ ("Problem, button still pressed at t=%" LW6SYS_PRINTF_LL "d \"1 1/2 delay\" after press"), (long long) timestamp);
 	    ret = 0;
 	  }
       }
@@ -330,16 +306,13 @@ _test_coord ()
     float y = 0.0f;
 
     if (lw6gui_coord_calc_xy
-	(&x, &y, _TEST_DST_X0, _TEST_DST_Y0, _TEST_DST_W, _TEST_DST_H,
-	 _TEST_SRC_X, _TEST_SRC_Y, _TEST_SRC_X0, _TEST_SRC_Y0, _TEST_SRC_W,
-	 _TEST_SRC_H))
+	(&x, &y, _TEST_DST_X0, _TEST_DST_Y0, _TEST_DST_W, _TEST_DST_H, _TEST_SRC_X, _TEST_SRC_Y, _TEST_SRC_X0, _TEST_SRC_Y0, _TEST_SRC_W, _TEST_SRC_H))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_
 		    ("calc_xy returned %f,%f (%f,%f/%fx%f) with source %f,%f (%f,%f/%fx%f)"),
 		    x, y, _TEST_DST_X0, _TEST_DST_Y0, _TEST_DST_W,
-		    _TEST_DST_H, _TEST_SRC_X, _TEST_SRC_Y, _TEST_SRC_X0,
-		    _TEST_SRC_Y0, _TEST_SRC_W, _TEST_SRC_H);
+		    _TEST_DST_H, _TEST_SRC_X, _TEST_SRC_Y, _TEST_SRC_X0, _TEST_SRC_Y0, _TEST_SRC_W, _TEST_SRC_H);
       }
     else
       {
@@ -373,31 +346,22 @@ _test_input ()
 	dst = lw6gui_input_new ();
 	if (dst)
 	  {
-	    if (lw6gui_keyboard_register_key_down
-		(&(src->keyboard), _TEST_KEYSYM, _TEST_UNICODE, _TEST_LABEL,
-		 0))
+	    if (lw6gui_keyboard_register_key_down (&(src->keyboard), _TEST_KEYSYM, _TEST_UNICODE, _TEST_LABEL, 0))
 	      {
 		repeat_settings.delay = _TEST_REPEAT_DELAY;
 		repeat_settings.interval = _TEST_REPEAT_INTERVAL;
-		repeat_settings.double_click_delay =
-		  _TEST_REPEAT_DOUBLE_CLICK_DELAY;
+		repeat_settings.double_click_delay = _TEST_REPEAT_DOUBLE_CLICK_DELAY;
 		lw6gui_input_update_repeat (src, &repeat_settings, 0);
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("need_sync (before sync) dst=%d src=%d"),
-			    lw6gui_input_need_sync (dst),
-			    lw6gui_input_need_sync (src));
+			    _x_ ("need_sync (before sync) dst=%d src=%d"), lw6gui_input_need_sync (dst), lw6gui_input_need_sync (src));
 		if (lw6gui_input_sync (dst, src))
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("need_sync (after sync) dst=%d src=%d"),
-				lw6gui_input_need_sync (dst),
-				lw6gui_input_need_sync (src));
-		    keypress =
-		      lw6gui_keyboard_pop_keypress (&(dst->keyboard));
+				_x_ ("need_sync (after sync) dst=%d src=%d"), lw6gui_input_need_sync (dst), lw6gui_input_need_sync (src));
+		    keypress = lw6gui_keyboard_pop_keypress (&(dst->keyboard));
 		    if (keypress)
 		      {
-			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				    _x_ ("keypress synchronisation is OK"));
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("keypress synchronisation is OK"));
 			lw6gui_keypress_free (keypress);
 		      }
 		    else
@@ -407,8 +371,7 @@ _test_input ()
 		  }
 		else
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				_x_ ("synchronisation error"));
+		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("synchronisation error"));
 		    ret = 0;
 		  }
 	      }
@@ -449,19 +412,14 @@ _test_joystick ()
     memset (&joystick, 0, sizeof (lw6gui_joystick_t));
     memset (&move_pad, 0, sizeof (lw6gui_move_pad_t));
 
-    if (!lw6gui_joystick_check_index (0) || lw6gui_joystick_check_index (-1)
-	|| lw6gui_joystick_check_index (LW6GUI_NB_KEYS))
+    if (!lw6gui_joystick_check_index (0) || lw6gui_joystick_check_index (-1) || lw6gui_joystick_check_index (LW6GUI_NB_KEYS))
       {
 	ret = 0;
       }
-    lw6gui_joystick_update_axis_x (&joystick, _TEST_JOYSTICK_X,
-				   _TEST_JOYSTICK_LIMIT, 0);
-    lw6gui_joystick_update_axis_y (&joystick, _TEST_JOYSTICK_Y,
-				   _TEST_JOYSTICK_LIMIT, 0);
+    lw6gui_joystick_update_axis_x (&joystick, _TEST_JOYSTICK_X, _TEST_JOYSTICK_LIMIT, 0);
+    lw6gui_joystick_update_axis_y (&joystick, _TEST_JOYSTICK_Y, _TEST_JOYSTICK_LIMIT, 0);
     lw6gui_joystick_get_move_pad (&joystick, &move_pad);
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("joystick up=%d, down=%d, left=%d, right=%d"),
-		move_pad.up, move_pad.down, move_pad.left, move_pad.right);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("joystick up=%d, down=%d, left=%d, right=%d"), move_pad.up, move_pad.down, move_pad.left, move_pad.right);
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -484,8 +442,7 @@ _test_keyboard ()
 
     memset (&move_pad, 0, sizeof (lw6gui_move_pad_t));
 
-    if (!lw6gui_keyboard_check_keysym (0) || lw6gui_keyboard_check_keysym (-1)
-	|| lw6gui_keyboard_check_keysym (LW6GUI_NB_KEYS))
+    if (!lw6gui_keyboard_check_keysym (0) || lw6gui_keyboard_check_keysym (-1) || lw6gui_keyboard_check_keysym (LW6GUI_NB_KEYS))
       {
 	ret = 0;
       }
@@ -493,32 +450,22 @@ _test_keyboard ()
     input = lw6gui_input_new ();
     if (input)
       {
-	if (lw6gui_keyboard_register_key_down
-	    (&(input->keyboard), _TEST_KEYSYM, _TEST_UNICODE, _TEST_LABEL, 0))
+	if (lw6gui_keyboard_register_key_down (&(input->keyboard), _TEST_KEYSYM, _TEST_UNICODE, _TEST_LABEL, 0))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("key %d pressed=%d"), _TEST_KEYSYM,
-			lw6gui_keyboard_is_pressed (&(input->keyboard),
-						    _TEST_KEYSYM));
-	    if (lw6gui_keyboard_register_key_up
-		(&(input->keyboard), _TEST_KEYSYM))
+			_x_ ("key %d pressed=%d"), _TEST_KEYSYM, lw6gui_keyboard_is_pressed (&(input->keyboard), _TEST_KEYSYM));
+	    if (lw6gui_keyboard_register_key_up (&(input->keyboard), _TEST_KEYSYM))
 	      {
 		keypress = lw6gui_keyboard_pop_keypress (&(input->keyboard));
 		if (keypress)
 		  {
-		    lw6gui_keyboard_get_move_pad (&(input->keyboard),
-						  &move_pad);
+		    lw6gui_keyboard_get_move_pad (&(input->keyboard), &move_pad);
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_
-				("keyboard up=%d, down=%d, left=%d, right=%d"),
-				move_pad.up, move_pad.down, move_pad.left,
-				move_pad.right);
+				_x_ ("keyboard up=%d, down=%d, left=%d, right=%d"), move_pad.up, move_pad.down, move_pad.left, move_pad.right);
 		    repr = lw6gui_keypress_repr (keypress);
 		    if (repr)
 		      {
-			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				    _x_ ("keysym %d popped"),
-				    keypress->keysym);
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("keysym %d popped"), keypress->keysym);
 			LW6SYS_FREE (sys_context, repr);
 		      }
 		    else
@@ -575,8 +522,7 @@ _test_keypress ()
 	repr = lw6gui_keypress_repr (keypress);
 	if (repr)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("keypress repr is \"%s\""), repr);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("keypress repr is \"%s\""), repr);
 	    LW6SYS_FREE (sys_context, repr);
 	  }
 	lw6gui_keypress_free (keypress);
@@ -614,14 +560,12 @@ _test_look ()
 	repr = lw6gui_look_repr (look);
 	if (repr)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("look repr is %s"), repr);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("look repr is %s"), repr);
 	    LW6SYS_FREE (sys_context, repr);
 	  }
 	if (!lw6gui_look_is_same (look, look))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("look comparison failed"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("look comparison failed"));
 	    ret = 0;
 	  }
 	if (lw6gui_look_set (look, _TEST_LOOK_KEY1, _TEST_LOOK_VALUE1))
@@ -629,24 +573,18 @@ _test_look ()
 	    value = lw6gui_look_get (look, _TEST_LOOK_KEY1);
 	    if (value)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("look value for key \"%s\" is \"%s\""),
-			    _TEST_LOOK_KEY1, value);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("look value for key \"%s\" is \"%s\""), _TEST_LOOK_KEY1, value);
 		LW6SYS_FREE (sys_context, value);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to get look key \"%s\""),
-			    _TEST_LOOK_KEY1);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to get look key \"%s\""), _TEST_LOOK_KEY1);
 		ret = 0;
 	      }
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("unable to set look key \"%s\" to \"%s\""),
-			_TEST_LOOK_KEY1, _TEST_LOOK_VALUE1);
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to set look key \"%s\" to \"%s\""), _TEST_LOOK_KEY1, _TEST_LOOK_VALUE1);
 	    ret = 0;
 	  }
 	if (lw6gui_look_set (look, _TEST_LOOK_KEY2, _TEST_LOOK_VALUE2))
@@ -654,58 +592,46 @@ _test_look ()
 	    value = lw6gui_look_get (look, _TEST_LOOK_KEY2);
 	    if (value)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("look value for key \"%s\" is \"%s\""),
-			    _TEST_LOOK_KEY2, value);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("look value for key \"%s\" is \"%s\""), _TEST_LOOK_KEY2, value);
 		LW6SYS_FREE (sys_context, value);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to get look key \"%s\""),
-			    _TEST_LOOK_KEY2);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to get look key \"%s\""), _TEST_LOOK_KEY2);
 		ret = 0;
 	      }
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("unable to set look key \"%s\" to \"%s\""),
-			_TEST_LOOK_KEY2, _TEST_LOOK_VALUE2);
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to set look key \"%s\" to \"%s\""), _TEST_LOOK_KEY2, _TEST_LOOK_VALUE2);
 	    ret = 0;
 	  }
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("zoom is %f"),
-		    look->dynamic_zoom);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("zoom is %f"), look->dynamic_zoom);
 	lw6gui_look_zoom_in (look, _TEST_LOOK_ZOOM_STEP);
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("after zoom in zoom is %f"), look->dynamic_zoom);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("after zoom in zoom is %f"), look->dynamic_zoom);
 	lw6gui_look_zoom_out (look, _TEST_LOOK_ZOOM_STEP);
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("after zoom out zoom is %f"), look->dynamic_zoom);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("after zoom out zoom is %f"), look->dynamic_zoom);
 	look2 = lw6gui_look_dup (look);
 	if (look2)
 	  {
 	    repr = lw6gui_look_repr (look2);
 	    if (repr)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("duplicated, look2 repr is %s"), repr);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("duplicated, look2 repr is %s"), repr);
 		LW6SYS_FREE (sys_context, repr);
 	      }
 	    lw6gui_look_free (look2);
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("unable to duplicate look"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to duplicate look"));
 	    ret = 0;
 	  }
 	lw6gui_look_free (look);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to create look"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create look"));
 	ret = 0;
       }
     lw6map_style_clear (sys_context, &style);
@@ -728,24 +654,18 @@ _test_menuitem ()
     lw6gui_menuitem_t *menuitem2 = NULL;
     char *repr;
 
-    menuitem =
-      lw6gui_menuitem_new (_TEST_MENUITEM_LABEL1, _TEST_MENUITEM_TOOLTIP1,
-			   _TEST_MENUITEM_VALUE1, 1, 0, 0);
+    menuitem = lw6gui_menuitem_new (_TEST_MENUITEM_LABEL1, _TEST_MENUITEM_TOOLTIP1, _TEST_MENUITEM_VALUE1, 1, 0, 0);
     if (menuitem)
       {
-	lw6gui_menuitem_set_label (menuitem, _TEST_MENUITEM_LABEL2,
-				   _TEST_MENUITEM_NOW);
-	lw6gui_menuitem_set_tooltip (menuitem, _TEST_MENUITEM_TOOLTIP2,
-				     _TEST_MENUITEM_NOW);
-	lw6gui_menuitem_set_value (menuitem, _TEST_MENUITEM_VALUE2,
-				   _TEST_MENUITEM_NOW);
+	lw6gui_menuitem_set_label (menuitem, _TEST_MENUITEM_LABEL2, _TEST_MENUITEM_NOW);
+	lw6gui_menuitem_set_tooltip (menuitem, _TEST_MENUITEM_TOOLTIP2, _TEST_MENUITEM_NOW);
+	lw6gui_menuitem_set_value (menuitem, _TEST_MENUITEM_VALUE2, _TEST_MENUITEM_NOW);
 	lw6gui_menuitem_select (menuitem, 1, _TEST_MENUITEM_NOW);
 	lw6gui_menuitem_select (menuitem, 0, _TEST_MENUITEM_NOW);
 	repr = lw6gui_menuitem_repr (menuitem);
 	if (repr)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("menuitem repr is %s"), repr);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("menuitem repr is %s"), repr);
 	    LW6SYS_FREE (sys_context, repr);
 	  }
 	else
@@ -754,8 +674,7 @@ _test_menuitem ()
 	  }
 	if (!lw6gui_menuitem_is_same (menuitem, menuitem))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("menuitem comparison failed"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("menuitem comparison failed"));
 	  }
 	menuitem2 = lw6gui_menuitem_dup (menuitem);
 	if (menuitem2)
@@ -766,8 +685,7 @@ _test_menuitem ()
 		repr = lw6gui_menuitem_repr (menuitem2);
 		if (repr)
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("menuitem duplicate repr is %s"), repr);
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("menuitem duplicate repr is %s"), repr);
 		    LW6SYS_FREE (sys_context, repr);
 		  }
 		else
@@ -809,9 +727,7 @@ _test_menu ()
     lw6gui_menu_t *menu = NULL;
     char *repr;
 
-    menu =
-      lw6gui_menu_new (_TEST_MENU_TITLE1, _TEST_MENU_HELP1, _TEST_MENU_POPUP1,
-		       _TEST_MENU_ESC, _TEST_MENU_ENABLE_ESC);
+    menu = lw6gui_menu_new (_TEST_MENU_TITLE1, _TEST_MENU_HELP1, _TEST_MENU_POPUP1, _TEST_MENU_ESC, _TEST_MENU_ENABLE_ESC);
     if (menu)
       {
 	lw6gui_menu_set_title (menu, _TEST_MENU_TITLE2);
@@ -820,32 +736,27 @@ _test_menu ()
 	lw6gui_menu_close_popup (menu);
 	if (!lw6gui_menu_has_popup (menu))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("no popup after close, OK"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("no popup after close, OK"));
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("popup reported to exist after being closed"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("popup reported to exist after being closed"));
 	    ret = 0;
 	  }
 	lw6gui_menu_set_popup (menu, _TEST_MENU_POPUP2);
 	if (lw6gui_menu_has_popup (menu))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("popup defined, OK"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("popup defined, OK"));
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("no popup reported when it's just been set"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("no popup reported when it's just been set"));
 	    ret = 0;
 	  }
 	repr = lw6gui_menu_repr (menu);
 	if (repr)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("menu repr is %s"), repr);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("menu repr is %s"), repr);
 	    LW6SYS_FREE (sys_context, repr);
 	  }
 	else
@@ -854,8 +765,7 @@ _test_menu ()
 	  }
 	if (!lw6gui_menu_is_same (menu, menu))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("menu comparison failed"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("menu comparison failed"));
 	  }
 	lw6gui_menu_free (menu);
       }
@@ -878,74 +788,43 @@ _test_menu ()
     breadcrumbs = lw6sys_list_new (sys_context, lw6sys_free_callback);
     if (breadcrumbs)
       {
-	lw6sys_list_push_back (sys_context, &breadcrumbs,
-			       lw6sys_str_copy (sys_context,
-						_TEST_MENU_BREADCRUMBS1));
-	lw6sys_list_push_back (sys_context, &breadcrumbs,
-			       lw6sys_str_copy (sys_context,
-						_TEST_MENU_BREADCRUMBS2));
+	lw6sys_list_push_back (sys_context, &breadcrumbs, lw6sys_str_copy (sys_context, _TEST_MENU_BREADCRUMBS1));
+	lw6sys_list_push_back (sys_context, &breadcrumbs, lw6sys_str_copy (sys_context, _TEST_MENU_BREADCRUMBS2));
       }
     if (breadcrumbs)
       {
-	menu =
-	  lw6gui_menu_new (_TEST_MENU_TITLE1, _TEST_MENU_HELP1,
-			   _TEST_MENU_POPUP1, _TEST_MENU_ESC,
-			   _TEST_MENU_ENABLE_ESC);
+	menu = lw6gui_menu_new (_TEST_MENU_TITLE1, _TEST_MENU_HELP1, _TEST_MENU_POPUP1, _TEST_MENU_ESC, _TEST_MENU_ENABLE_ESC);
 	if (menu)
 	  {
 	    lw6gui_menu_set_title (menu, _TEST_MENU_TITLE2);
 	    lw6gui_menu_set_breadcrumbs (menu, breadcrumbs);
-	    menuitem1 =
-	      lw6gui_menuitem_new (_TEST_MENUITEM_LABEL1,
-				   _TEST_MENUITEM_TOOLTIP1,
-				   _TEST_MENUITEM_VALUE1, 1, 0, 0);
+	    menuitem1 = lw6gui_menuitem_new (_TEST_MENUITEM_LABEL1, _TEST_MENUITEM_TOOLTIP1, _TEST_MENUITEM_VALUE1, 1, 0, 0);
 	    if (menuitem1)
 	      {
-		menuitem2 =
-		  lw6gui_menuitem_new (_TEST_MENUITEM_LABEL2,
-				       _TEST_MENUITEM_TOOLTIP2,
-				       _TEST_MENUITEM_VALUE2, 1, 0, 0);
+		menuitem2 = lw6gui_menuitem_new (_TEST_MENUITEM_LABEL2, _TEST_MENUITEM_TOOLTIP2, _TEST_MENUITEM_VALUE2, 1, 0, 0);
 		if (menuitem2)
 		  {
-		    menuitem3 =
-		      lw6gui_menuitem_new (_TEST_MENUITEM_LABEL3,
-					   _TEST_MENUITEM_TOOLTIP3,
-					   _TEST_MENUITEM_VALUE3, 1, 0, 0);
+		    menuitem3 = lw6gui_menuitem_new (_TEST_MENUITEM_LABEL3, _TEST_MENUITEM_TOOLTIP3, _TEST_MENUITEM_VALUE3, 1, 0, 0);
 		    if (menuitem3)
 		      {
 			lw6gui_menu_append (menu, menuitem1, 0);
 			lw6gui_menu_insert (menu, menuitem2, 0, 0);
 			lw6gui_menu_insert (menu, menuitem3, 1, 0);
-			lw6gui_menu_select (menu, 2, _TEST_MENU_ALLOW_SCROLL1,
-					    0);
+			lw6gui_menu_select (menu, 2, _TEST_MENU_ALLOW_SCROLL1, 0);
 			lw6gui_menu_remove (menu, 0, 0);
-			lw6gui_menu_select (menu, 0, _TEST_MENU_ALLOW_SCROLL2,
-					    0);
-			menuitem_id =
-			  lw6gui_menu_append_for_id_use (menu,
-							 _TEST_MENUITEM_LABEL4,
-							 _TEST_MENUITEM_TOOLTIP4,
-							 _TEST_MENUITEM_VALUE4,
-							 1, 0, 0, 0);
+			lw6gui_menu_select (menu, 0, _TEST_MENU_ALLOW_SCROLL2, 0);
+			menuitem_id = lw6gui_menu_append_for_id_use (menu, _TEST_MENUITEM_LABEL4, _TEST_MENUITEM_TOOLTIP4, _TEST_MENUITEM_VALUE4, 1, 0, 0, 0);
 			if (menuitem_id)
 			  {
-			    lw6gui_menu_sync_using_id (menu, menuitem_id,
-						       _TEST_MENUITEM_LABEL1,
-						       _TEST_MENUITEM_TOOLTIP1,
-						       _TEST_MENUITEM_VALUE1,
-						       1, 0, 0, 0);
-			    lw6gui_menu_remove_using_id (menu, menuitem_id,
-							 0);
+			    lw6gui_menu_sync_using_id (menu, menuitem_id, _TEST_MENUITEM_LABEL1, _TEST_MENUITEM_TOOLTIP1, _TEST_MENUITEM_VALUE1, 1, 0, 0, 0);
+			    lw6gui_menu_remove_using_id (menu, menuitem_id, 0);
 			  }
-			lw6gui_menu_update_display_range (menu,
-							  _TEST_MAX_DISPLAYED_ITEMS);
-			lw6gui_menu_center (menu, 1,
-					    _TEST_MAX_DISPLAYED_ITEMS);
+			lw6gui_menu_update_display_range (menu, _TEST_MAX_DISPLAYED_ITEMS);
+			lw6gui_menu_center (menu, 1, _TEST_MAX_DISPLAYED_ITEMS);
 			repr = lw6gui_menu_repr (menu);
 			if (repr)
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					_x_ ("menu repr is %s"), repr);
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("menu repr is %s"), repr);
 			    LW6SYS_FREE (sys_context, repr);
 			  }
 			else
@@ -961,11 +840,7 @@ _test_menu ()
 				repr = lw6gui_menu_repr (menu2);
 				if (repr)
 				  {
-				    lw6sys_log (sys_context,
-						LW6SYS_LOG_NOTICE,
-						_x_
-						("menu duplicate repr is %s"),
-						repr);
+				    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("menu duplicate repr is %s"), repr);
 				    LW6SYS_FREE (sys_context, repr);
 				  }
 				else
@@ -1000,30 +875,21 @@ _test_menu ()
 	      }
 	    if (menu->nb_items > 0)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("%d items in menu, will try to remove them all"),
-			    menu->nb_items);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d items in menu, will try to remove them all"), menu->nb_items);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("%d items in menu, there should be more"),
-			    menu->nb_items);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("%d items in menu, there should be more"), menu->nb_items);
 		ret = 0;
 	      }
 	    lw6gui_menu_remove_all (menu, lw6sys_get_timestamp ());
 	    if (menu->nb_items == 0)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("no more items in menu, fine"));
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("no more items in menu, fine"));
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("%d items in menu, there should be none after complete removal"),
-			    menu->nb_items);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("%d items in menu, there should be none after complete removal"), menu->nb_items);
 		ret = 0;
 	      }
 	    lw6gui_menu_free (menu);
@@ -1087,9 +953,7 @@ _test_mouse ()
 static void
 log_rect (lw6gui_rect_t * rect, char *comment)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("%s x1=%d y1=%d x2=%d y2=%d w=%d h=%d"), comment, rect->x1,
-	      rect->y1, rect->x2, rect->y2, rect->w, rect->h);
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%s x1=%d y1=%d x2=%d y2=%d w=%d h=%d"), comment, rect->x1, rect->y1, rect->x2, rect->y2, rect->w, rect->h);
 }
 
 /*
@@ -1104,9 +968,7 @@ _test_power_of_two ()
   {
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		_x_ ("input=%d power_of_two_le=%d power_of_two_ge=%d"),
-		_TEST_POWER_OF_TWO,
-		lw6gui_power_of_two_le (_TEST_POWER_OF_TWO),
-		lw6gui_power_of_two_ge (_TEST_POWER_OF_TWO));
+		_TEST_POWER_OF_TWO, lw6gui_power_of_two_le (_TEST_POWER_OF_TWO), lw6gui_power_of_two_ge (_TEST_POWER_OF_TWO));
   }
   LW6SYS_TEST_FUNCTION_END;
 }
@@ -1125,11 +987,9 @@ _test_rect ()
     lw6gui_rect_t rect2;
     lw6gui_rect_t rect3;
 
-    lw6gui_rect_init_x1y1x2y2 (&rect1, _TEST_RECT1_X1, _TEST_RECT1_Y1,
-			       _TEST_RECT1_X2, _TEST_RECT1_Y2);
+    lw6gui_rect_init_x1y1x2y2 (&rect1, _TEST_RECT1_X1, _TEST_RECT1_Y1, _TEST_RECT1_X2, _TEST_RECT1_Y2);
     log_rect (&rect1, _x_ ("rect1"));
-    lw6gui_rect_init_x1y1x2y2 (&rect1, _TEST_RECT2_X, _TEST_RECT2_Y,
-			       _TEST_RECT2_W, _TEST_RECT2_H);
+    lw6gui_rect_init_x1y1x2y2 (&rect1, _TEST_RECT2_X, _TEST_RECT2_Y, _TEST_RECT2_W, _TEST_RECT2_H);
     log_rect (&rect2, _x_ ("rect2"));
     lw6gui_rect_clip (&rect3, &rect1, &rect2);
     log_rect (&rect3, _x_ ("rect3"));
@@ -1154,34 +1014,24 @@ _test_rect_array ()
     lw6gui_quad_t quad;
     lw6gui_quad_t source_quad;
 
-    lw6gui_rect_array_init (&rect_array, _TEST_RECT_ARRAY_W,
-			    _TEST_RECT_ARRAY_H, _TEST_RECT_ARRAY_TILE_SIZE,
-			    _TEST_RECT_ARRAY_BORDER_SIZE);
+    lw6gui_rect_array_init (&rect_array, _TEST_RECT_ARRAY_W, _TEST_RECT_ARRAY_H, _TEST_RECT_ARRAY_TILE_SIZE, _TEST_RECT_ARRAY_BORDER_SIZE);
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		_x_
 		("rect_array source=%dx%d limits=(%d,%d),(%d,%d) tile_size=%d border_size=%d tile_spacing=%d nb_tiles_w=%d nb_tiles_h=%d nb_tiles=%d"),
 		rect_array.source.w, rect_array.source.h,
 		rect_array.limits.x1, rect_array.limits.y1,
 		rect_array.limits.x2, rect_array.limits.y2,
-		rect_array.tile_size, rect_array.border_size,
-		rect_array.tile_spacing, rect_array.nb_tiles_w,
-		rect_array.nb_tiles_h, rect_array.nb_tiles);
-    if (lw6gui_rect_array_get_tile_by_source_xy
-	(&rect_array, &rect, &i, _TEST_RECT_ARRAY_SOURCE_X,
-	 _TEST_RECT_ARRAY_SOURCE_Y))
+		rect_array.tile_size, rect_array.border_size, rect_array.tile_spacing, rect_array.nb_tiles_w, rect_array.nb_tiles_h, rect_array.nb_tiles);
+    if (lw6gui_rect_array_get_tile_by_source_xy (&rect_array, &rect, &i, _TEST_RECT_ARRAY_SOURCE_X, _TEST_RECT_ARRAY_SOURCE_Y))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_
 		    ("tile for source %d,%d is index %d corners=(%d,%d),(%d,%d)"),
-		    _TEST_RECT_ARRAY_SOURCE_X, _TEST_RECT_ARRAY_SOURCE_Y, i,
-		    rect.x1, rect.y1, rect.x2, rect.y2);
-	if (lw6gui_rect_array_get_tile_by_i
-	    (&rect_array, &rect, _TEST_RECT_ARRAY_TILE_I))
+		    _TEST_RECT_ARRAY_SOURCE_X, _TEST_RECT_ARRAY_SOURCE_Y, i, rect.x1, rect.y1, rect.x2, rect.y2);
+	if (lw6gui_rect_array_get_tile_by_i (&rect_array, &rect, _TEST_RECT_ARRAY_TILE_I))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("tile i=%d corners=(%d,%d),(%d,%d)"),
-			_TEST_RECT_ARRAY_TILE_I, rect.x1, rect.y1, rect.x2,
-			rect.y2);
+			_x_ ("tile i=%d corners=(%d,%d),(%d,%d)"), _TEST_RECT_ARRAY_TILE_I, rect.x1, rect.y1, rect.x2, rect.y2);
 	    source_quad.p1.x = _TEST_RECT_ARRAY_QUAD_P1X;
 	    source_quad.p1.y = _TEST_RECT_ARRAY_QUAD_P1Y;
 	    source_quad.p2.x = _TEST_RECT_ARRAY_QUAD_P2X;
@@ -1190,23 +1040,17 @@ _test_rect_array ()
 	    source_quad.p3.y = _TEST_RECT_ARRAY_QUAD_P3Y;
 	    source_quad.p4.x = _TEST_RECT_ARRAY_QUAD_P4X;
 	    source_quad.p4.y = _TEST_RECT_ARRAY_QUAD_P4Y;
-	    for (y_polarity = LW6MAP_RULES_MIN_Y_POLARITY;
-		 y_polarity <= LW6MAP_RULES_MAX_Y_POLARITY; ++y_polarity)
+	    for (y_polarity = LW6MAP_RULES_MIN_Y_POLARITY; y_polarity <= LW6MAP_RULES_MAX_Y_POLARITY; ++y_polarity)
 	      {
-		for (x_polarity = LW6MAP_RULES_MIN_X_POLARITY;
-		     x_polarity <= LW6MAP_RULES_MAX_X_POLARITY; ++x_polarity)
+		for (x_polarity = LW6MAP_RULES_MIN_X_POLARITY; x_polarity <= LW6MAP_RULES_MAX_X_POLARITY; ++x_polarity)
 		  {
-		    if (lw6gui_rect_array_get_tile_and_quad
-			(&rect_array, &rect, &i, &quad, &source_quad,
-			 x_polarity, y_polarity))
+		    if (lw6gui_rect_array_get_tile_and_quad (&rect_array, &rect, &i, &quad, &source_quad, x_polarity, y_polarity))
 		      {
 			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_
 				    ("polarity x=%d y=%d tile corners=(%d,%d),(%d,%d) quad=(%f,%f),(%f,%f),(%f,%f),(%f,%f)"),
 				    x_polarity, y_polarity, rect.x1, rect.y1,
-				    rect.x2, rect.y2, quad.p1.x, quad.p1.y,
-				    quad.p2.x, quad.p2.y, quad.p3.x,
-				    quad.p3.y, quad.p4.x, quad.p4.y);
+				    rect.x2, rect.y2, quad.p1.x, quad.p1.y, quad.p2.x, quad.p2.y, quad.p3.x, quad.p3.y, quad.p4.x, quad.p4.y);
 		      }
 		    else
 		      {
@@ -1217,17 +1061,13 @@ _test_rect_array ()
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("unable to find tile for i=%d"),
-			_TEST_RECT_ARRAY_TILE_I);
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to find tile for i=%d"), _TEST_RECT_ARRAY_TILE_I);
 	    ret = 0;
 	  }
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to find tile for source %d,%d"),
-		    _TEST_RECT_ARRAY_SOURCE_X, _TEST_RECT_ARRAY_SOURCE_Y);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to find tile for source %d,%d"), _TEST_RECT_ARRAY_SOURCE_X, _TEST_RECT_ARRAY_SOURCE_Y);
 	ret = 0;
       }
     /*
@@ -1262,31 +1102,19 @@ _test_smoother ()
     lw6gui_smoother_t smoother;
     int i;
 
-    lw6gui_smoother_init (&smoother, _TEST_SMOOTHER_VALUE1,
-			  _TEST_SMOOTHER_DURATION);
+    lw6gui_smoother_init (&smoother, _TEST_SMOOTHER_VALUE1, _TEST_SMOOTHER_DURATION);
     lw6sys_delay (sys_context, _TEST_SMOOTHER_DELAY);
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("smoother init %f"),
-		lw6gui_smoother_get_value (&smoother,
-					   lw6sys_get_timestamp ()));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("smoother init %f"), lw6gui_smoother_get_value (&smoother, lw6sys_get_timestamp ()));
     lw6gui_smoother_immediate_force (&smoother, _TEST_SMOOTHER_VALUE2);
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("smoother force %f"),
-		lw6gui_smoother_get_value (&smoother,
-					   lw6sys_get_timestamp ()));
-    lw6gui_smoother_set_target (&smoother, _TEST_SMOOTHER_VALUE3,
-				lw6sys_get_timestamp ());
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("smoother set target %f"), _TEST_SMOOTHER_VALUE3);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("smoother force %f"), lw6gui_smoother_get_value (&smoother, lw6sys_get_timestamp ()));
+    lw6gui_smoother_set_target (&smoother, _TEST_SMOOTHER_VALUE3, lw6sys_get_timestamp ());
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("smoother set target %f"), _TEST_SMOOTHER_VALUE3);
     lw6sys_delay (sys_context, _TEST_SMOOTHER_DELAY);
-    lw6gui_smoother_set_target (&smoother, _TEST_SMOOTHER_VALUE4,
-				lw6sys_get_timestamp ());
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("smoother set target %f"), _TEST_SMOOTHER_VALUE4);
+    lw6gui_smoother_set_target (&smoother, _TEST_SMOOTHER_VALUE4, lw6sys_get_timestamp ());
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("smoother set target %f"), _TEST_SMOOTHER_VALUE4);
     for (i = 0; i < _TEST_SMOOTHER_N; i++)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("smoother value is %f"),
-		    lw6gui_smoother_get_value (&smoother,
-					       lw6sys_get_timestamp ()));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("smoother value is %f"), lw6gui_smoother_get_value (&smoother, lw6sys_get_timestamp ()));
 	lw6sys_delay (sys_context, _TEST_SMOOTHER_DELAY);
       }
     lw6gui_smoother_fix_overflow (&smoother, _TEST_SMOOTHER_STEP);
@@ -1305,8 +1133,7 @@ _test_video_mode ()
 
   {
     lw6sys_list_t *available = NULL;
-    lw6gui_video_mode_t wished =
-      { _TEST_VIDEO_MODE_WISHED_WIDTH, _TEST_VIDEO_MODE_WISHED_HEIGHT,
+    lw6gui_video_mode_t wished = { _TEST_VIDEO_MODE_WISHED_WIDTH, _TEST_VIDEO_MODE_WISHED_HEIGHT,
       _TEST_VIDEO_MODE_WISHED_FULLSCREEN
     };
     lw6gui_video_mode_t closest;
@@ -1319,12 +1146,10 @@ _test_video_mode ()
     lw6gui_video_mode_t available_3 = { _TEST_VIDEO_MODE_AVAILABLE_3_WIDTH,
       _TEST_VIDEO_MODE_AVAILABLE_3_HEIGHT, _TEST_VIDEO_MODE_WISHED_FULLSCREEN
     };
-    lw6gui_video_mode_t ratio_dst =
-      { _TEST_VIDEO_MODE_RATIO_DST_WIDTH, _TEST_VIDEO_MODE_RATIO_DST_HEIGHT,
+    lw6gui_video_mode_t ratio_dst = { _TEST_VIDEO_MODE_RATIO_DST_WIDTH, _TEST_VIDEO_MODE_RATIO_DST_HEIGHT,
       0
     };
-    lw6gui_video_mode_t ratio_src =
-      { _TEST_VIDEO_MODE_RATIO_SRC_WIDTH, _TEST_VIDEO_MODE_RATIO_SRC_HEIGHT,
+    lw6gui_video_mode_t ratio_src = { _TEST_VIDEO_MODE_RATIO_SRC_WIDTH, _TEST_VIDEO_MODE_RATIO_SRC_HEIGHT,
       0
     };
 
@@ -1337,32 +1162,24 @@ _test_video_mode ()
 	lw6sys_lifo_push (sys_context, &available, &available_3);
 
 	lw6gui_video_mode_find_closest (&closest, &wished, available);
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("closest video_mode to %dx%d is %dx%d"),
-		    wished.width, wished.height, closest.width,
-		    closest.height);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("closest video_mode to %dx%d is %dx%d"), wished.width, wished.height, closest.width, closest.height);
 
 	if (lw6gui_video_mode_is_same (&available_1, &available_1))
 	  {
 	    if (!lw6gui_video_mode_is_same (&available_2, &available_3))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("video mode comparison works"));
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("video mode comparison works"));
 	      }
 	    else
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("can't compare %dx%d with %dx%d"),
-			    available_2.width, available_2.height,
-			    available_3.width, available_3.height);
+			    _x_ ("can't compare %dx%d with %dx%d"), available_2.width, available_2.height, available_3.width, available_3.height);
 		ret = 0;
 	      }
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("error comparing %dx%d with itself"),
-			available_1.width, available_1.height);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("error comparing %dx%d with itself"), available_1.width, available_1.height);
 	    ret = 0;
 	  }
 
@@ -1378,10 +1195,7 @@ _test_video_mode ()
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("applying ratio %dx%d to %dx%d gives %dx%d"),
 		    _TEST_VIDEO_MODE_RATIO_SRC_WIDTH,
-		    _TEST_VIDEO_MODE_RATIO_SRC_HEIGHT,
-		    _TEST_VIDEO_MODE_RATIO_DST_WIDTH,
-		    _TEST_VIDEO_MODE_RATIO_DST_HEIGHT, ratio_dst.width,
-		    ratio_dst.height);
+		    _TEST_VIDEO_MODE_RATIO_SRC_HEIGHT, _TEST_VIDEO_MODE_RATIO_DST_WIDTH, _TEST_VIDEO_MODE_RATIO_DST_HEIGHT, ratio_dst.width, ratio_dst.height);
       }
     else
       {
@@ -1395,9 +1209,7 @@ _test_video_mode ()
 static void
 log_zone (lw6gui_zone_t * zone, char *comment)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("%s x1=%f y1=%f x2=%f y2=%f w=%f h=%f"), comment, zone->x1,
-	      zone->y1, zone->x2, zone->y2, zone->w, zone->h);
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%s x1=%f y1=%f x2=%f y2=%f w=%f h=%f"), comment, zone->x1, zone->y1, zone->x2, zone->y2, zone->w, zone->h);
 }
 
 /*
@@ -1418,12 +1230,9 @@ _test_viewport ()
     float screen_y = 0.0f;
     float global_zoom = 0.0f;
 
-    for (global_zoom = _TEST_VIEWPORT_GLOBAL_ZOOM_MIN;
-	 global_zoom < _TEST_VIEWPORT_GLOBAL_ZOOM_MAX;
-	 global_zoom *= _TEST_VIEWPORT_GLOBAL_ZOOM_STEP)
+    for (global_zoom = _TEST_VIEWPORT_GLOBAL_ZOOM_MIN; global_zoom < _TEST_VIEWPORT_GLOBAL_ZOOM_MAX; global_zoom *= _TEST_VIEWPORT_GLOBAL_ZOOM_STEP)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("testing viewport with zoom=%f"), global_zoom);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("testing viewport with zoom=%f"), global_zoom);
 	lw6gui_viewport_init (&viewport, _TEST_VIEWPORT_SCREEN_W,
 			      _TEST_VIEWPORT_SCREEN_H,
 			      _TEST_VIEWPORT_DRAWABLE_X1,
@@ -1435,42 +1244,26 @@ _test_viewport ()
 			      _TEST_VIEWPORT_MAP_H, _TEST_VIEWPORT_X_POLARITY,
 			      _TEST_VIEWPORT_Y_POLARITY,
 			      _TEST_VIEWPORT_X_WRAP, _TEST_VIEWPORT_Y_WRAP,
-			      _TEST_VIEWPORT_KEEP_RATIO, global_zoom,
-			      _TEST_VIEWPORT_SCROLL_LIMIT,
-			      _TEST_VIEWPORT_USE_OLD_CENTER);
+			      _TEST_VIEWPORT_KEEP_RATIO, global_zoom, _TEST_VIEWPORT_SCROLL_LIMIT, _TEST_VIEWPORT_USE_OLD_CENTER);
 	log_zone (&viewport.drawable, _x_ ("drawable"));
 	log_zone (&viewport.map_main, _x_ ("map_main"));
 	log_zone (&viewport.map_main_clipped, _x_ ("map_main_clipped"));
 	log_zone (&viewport.map_visible, _x_ ("visible"));
 	for (i = 0; i < _TEST_VIEWPORT_NB_RANDOM_TRIES; ++i)
 	  {
-	    map_x =
-	      lw6sys_random_float (sys_context, 0.0f, _TEST_VIEWPORT_MAP_W);
-	    map_y =
-	      lw6sys_random_float (sys_context, 0.0f, _TEST_VIEWPORT_MAP_H);
-	    lw6gui_viewport_map_to_screen (&viewport, &screen_x, &screen_y,
-					   map_x, map_y, _TEST_VIEWPORT_CLIP);
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("map ( %f , %f ) -> screen ( %f , %f )"), map_x,
-			map_y, screen_x, screen_y);
+	    map_x = lw6sys_random_float (sys_context, 0.0f, _TEST_VIEWPORT_MAP_W);
+	    map_y = lw6sys_random_float (sys_context, 0.0f, _TEST_VIEWPORT_MAP_H);
+	    lw6gui_viewport_map_to_screen (&viewport, &screen_x, &screen_y, map_x, map_y, _TEST_VIEWPORT_CLIP);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("map ( %f , %f ) -> screen ( %f , %f )"), map_x, map_y, screen_x, screen_y);
 	  }
 	for (i = 0; i < _TEST_VIEWPORT_NB_RANDOM_TRIES; ++i)
 	  {
-	    screen_x =
-	      lw6sys_random_float (sys_context, 0.0f,
-				   _TEST_VIEWPORT_SCREEN_W);
-	    screen_y =
-	      lw6sys_random_float (sys_context, 0.0f,
-				   _TEST_VIEWPORT_SCREEN_H);
-	    lw6gui_viewport_screen_to_map (&viewport, &map_x, &map_y,
-					   screen_x, screen_y,
-					   _TEST_VIEWPORT_WRAP);
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("screen ( %f , %f ) -> map ( %f , %f )"),
-			screen_x, screen_y, map_x, map_y);
+	    screen_x = lw6sys_random_float (sys_context, 0.0f, _TEST_VIEWPORT_SCREEN_W);
+	    screen_y = lw6sys_random_float (sys_context, 0.0f, _TEST_VIEWPORT_SCREEN_H);
+	    lw6gui_viewport_screen_to_map (&viewport, &map_x, &map_y, screen_x, screen_y, _TEST_VIEWPORT_WRAP);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("screen ( %f , %f ) -> map ( %f , %f )"), screen_x, screen_y, map_x, map_y);
 	  }
-	lw6gui_viewport_calc_drag (&viewport, &map_x, &map_y, map_x, map_y,
-				   screen_x, screen_y);
+	lw6gui_viewport_calc_drag (&viewport, &map_x, &map_y, map_x, map_y, screen_x, screen_y);
       }
   }
   LW6SYS_TEST_FUNCTION_END;
@@ -1490,11 +1283,9 @@ _test_zone ()
     lw6gui_zone_t zone2;
     lw6gui_zone_t zone3;
 
-    lw6gui_zone_init_x1y1x2y2 (&zone1, _TEST_ZONE1_X1, _TEST_ZONE1_Y1,
-			       _TEST_ZONE1_X2, _TEST_ZONE1_Y2);
+    lw6gui_zone_init_x1y1x2y2 (&zone1, _TEST_ZONE1_X1, _TEST_ZONE1_Y1, _TEST_ZONE1_X2, _TEST_ZONE1_Y2);
     log_zone (&zone1, _x_ ("zone1"));
-    lw6gui_zone_init_x1y1x2y2 (&zone1, _TEST_ZONE2_X, _TEST_ZONE2_Y,
-			       _TEST_ZONE2_W, _TEST_ZONE2_H);
+    lw6gui_zone_init_x1y1x2y2 (&zone1, _TEST_ZONE2_X, _TEST_ZONE2_Y, _TEST_ZONE2_W, _TEST_ZONE2_H);
     log_zone (&zone2, _x_ ("zone2"));
     lw6gui_zone_clip (&zone3, &zone1, &zone2);
     log_zone (&zone3, _x_ ("zone3"));
@@ -1518,77 +1309,33 @@ _test_geometry ()
     lw6gui_quad_t quad;
     lw6gui_rect_t rect;
 
-    point.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    point.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    segment.p1.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    segment.p1.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    segment.p2.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    segment.p2.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    triangle.p1.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    triangle.p1.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    triangle.p2.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    triangle.p2.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    triangle.p3.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    triangle.p3.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    quad.p1.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    quad.p1.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    quad.p2.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    quad.p2.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    quad.p3.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    quad.p3.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    quad.p4.x =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    quad.p4.y =
-      _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context,
-						_TEST_GEOMETRY_POINT_RANGE);
-    lw6gui_rect_init_x1y1x2y2 (&rect, _TEST_GEOMETRY_RECT_X1,
-			       _TEST_GEOMETRY_RECT_Y1, _TEST_GEOMETRY_RECT_X2,
-			       _TEST_GEOMETRY_RECT_Y2);
+    point.x = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    point.y = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    segment.p1.x = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    segment.p1.y = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    segment.p2.x = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    segment.p2.y = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    triangle.p1.x = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    triangle.p1.y = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    triangle.p2.x = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    triangle.p2.y = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    triangle.p3.x = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    triangle.p3.y = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    quad.p1.x = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    quad.p1.y = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    quad.p2.x = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    quad.p2.y = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    quad.p3.x = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    quad.p3.y = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    quad.p4.x = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    quad.p4.y = _TEST_GEOMETRY_POINT_MIN + lw6sys_random (sys_context, _TEST_GEOMETRY_POINT_RANGE);
+    lw6gui_rect_init_x1y1x2y2 (&rect, _TEST_GEOMETRY_RECT_X1, _TEST_GEOMETRY_RECT_Y1, _TEST_GEOMETRY_RECT_X2, _TEST_GEOMETRY_RECT_Y2);
 
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		_x_
 		("point_is_inside=%d segment_is_inside=%d triangle_is_inside=%d quad_is_inside=%d"),
 		lw6gui_point_is_inside_rect (point, &rect),
-		lw6gui_segment_is_inside_rect (&segment, &rect),
-		lw6gui_triangle_is_inside_rect (&triangle, &rect),
-		lw6gui_quad_is_inside_rect (&quad, &rect));
+		lw6gui_segment_is_inside_rect (&segment, &rect), lw6gui_triangle_is_inside_rect (&triangle, &rect), lw6gui_quad_is_inside_rect (&quad, &rect));
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -1597,16 +1344,14 @@ _test_geometry ()
 static int
 _setup_init ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libgui CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libgui CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libgui CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libgui CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -1660,9 +1405,7 @@ lw6gui_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 

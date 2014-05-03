@@ -40,32 +40,19 @@ new_path (_mod_follow_context_t * follow_context, lw6bot_data_t * data)
   int i;
 
   lw6ker_game_state_get_shape (sys_context, data->game_state, &shape);
-  if (lw6ker_game_state_get_cursor
-      (data->game_state, &cursor, data->param.cursor_id))
+  if (lw6ker_game_state_get_cursor (data->game_state, &cursor, data->param.cursor_id))
     {
-      looser =
-	lw6ker_game_state_get_looser (sys_context, data->game_state,
-				      cursor.team_color);
+      looser = lw6ker_game_state_get_looser (sys_context, data->game_state, cursor.team_color);
       if (looser >= 0 && looser < LW6MAP_MAX_NB_TEAMS)
 	{
 	  current_pos = cursor.pos;
 	  follow_context->nb_steps = 0;
-	  while (follow_context->nb_steps <
-		 _MOD_FOLLOW_MAX_PATH_SIZE && !looping)
+	  while (follow_context->nb_steps < _MOD_FOLLOW_MAX_PATH_SIZE && !looping)
 	    {
-	      lw6ker_move_get_best_next_pos
-		(data->game_state, &next_pos, &current_pos, looser);
-	      for (i =
-		   lw6sys_imax (0,
-				follow_context->nb_steps
-				-
-				_MOD_FOLLOW_LOOPING_BUFFER_SIZE);
-		   i < follow_context->nb_steps && !looping; ++i)
+	      lw6ker_move_get_best_next_pos (data->game_state, &next_pos, &current_pos, looser);
+	      for (i = lw6sys_imax (0, follow_context->nb_steps - _MOD_FOLLOW_LOOPING_BUFFER_SIZE); i < follow_context->nb_steps && !looping; ++i)
 		{
-		  if (follow_context->step[i].x ==
-		      next_pos.x
-		      && follow_context->step[i].y ==
-		      next_pos.y && follow_context->step[i].z == next_pos.z)
+		  if (follow_context->step[i].x == next_pos.x && follow_context->step[i].y == next_pos.y && follow_context->step[i].z == next_pos.z)
 		    {
 		      looping = 1;
 		    }
@@ -99,8 +86,7 @@ new_path (_mod_follow_context_t * follow_context, lw6bot_data_t * data)
 }
 
 int
-_mod_follow_next_move (_mod_follow_context_t * follow_context, int *x, int *y,
-		       lw6bot_data_t * data)
+_mod_follow_next_move (_mod_follow_context_t * follow_context, int *x, int *y, lw6bot_data_t * data)
 {
   int ret = 0;
   int rounds = 0;
@@ -110,11 +96,7 @@ _mod_follow_next_move (_mod_follow_context_t * follow_context, int *x, int *y,
   rounds = lw6ker_game_state_get_rounds (sys_context, data->game_state);
 
   delta_step =
-    (rounds -
-     follow_context->last_move_round) * (((100 - data->param.iq) *
-					  _MOD_FOLLOW_IQ_0_SPEED) +
-					 (data->param.iq *
-					  _MOD_FOLLOW_IQ_100_SPEED)) / 100;
+    (rounds - follow_context->last_move_round) * (((100 - data->param.iq) * _MOD_FOLLOW_IQ_0_SPEED) + (data->param.iq * _MOD_FOLLOW_IQ_100_SPEED)) / 100;
   follow_context->last_move_round = rounds;
   delta_step = lw6sys_imin (delta_step, 1);
   follow_context->current_step += delta_step;
@@ -130,15 +112,12 @@ _mod_follow_next_move (_mod_follow_context_t * follow_context, int *x, int *y,
       (*y) = follow_context->step[follow_context->current_step].y;
       z = follow_context->step[follow_context->current_step].z;
 
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("follow bot move rounds=%d pos=%d,%d,%d"), rounds, *x,
-		  *y, z);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("follow bot move rounds=%d pos=%d,%d,%d"), rounds, *x, *y, z);
       ret = 1;
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("follow bot rounds=%d can't find next move"), rounds);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("follow bot rounds=%d can't find next move"), rounds);
       (*x) = 0;
       (*y) = 0;
     }

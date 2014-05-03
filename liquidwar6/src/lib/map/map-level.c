@@ -54,8 +54,7 @@ lw6map_new (lw6sys_context_t * sys_context)
 {
   lw6map_level_t *level = NULL;
 
-  level =
-    (lw6map_level_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_level_t));
+  level = (lw6map_level_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_level_t));
 
   if (level)
     {
@@ -83,9 +82,7 @@ lw6map_level_t *
 lw6map_builtin_defaults (lw6sys_context_t * sys_context)
 {
   return lw6map_builtin_custom (sys_context, LW6MAP_BUILTIN_DEFAULT_WIDTH,
-				LW6MAP_BUILTIN_DEFAULT_HEIGHT,
-				LW6MAP_BUILTIN_DEFAULT_DEPTH,
-				LW6MAP_BUILTIN_DEFAULT_NOISE_PERCENT);
+				LW6MAP_BUILTIN_DEFAULT_HEIGHT, LW6MAP_BUILTIN_DEFAULT_DEPTH, LW6MAP_BUILTIN_DEFAULT_NOISE_PERCENT);
 }
 
 /**
@@ -108,24 +105,11 @@ lw6map_builtin_scale (lw6sys_context_t * sys_context, int percent_factor)
   int height = 0;
   int depth = 0;
 
-  width =
-    lw6sys_imax (LW6MAP_MIN_BODY_WIDTH,
-		 lw6sys_imin (LW6MAP_MAX_BODY_WIDTH,
-			      (LW6MAP_BUILTIN_DEFAULT_WIDTH *
-			       percent_factor) / 100));
-  height =
-    lw6sys_imax (LW6MAP_MIN_BODY_HEIGHT,
-		 lw6sys_imin (LW6MAP_MAX_BODY_HEIGHT,
-			      (LW6MAP_BUILTIN_DEFAULT_HEIGHT *
-			       percent_factor) / 100));
-  depth =
-    lw6sys_imax (LW6MAP_MIN_BODY_DEPTH,
-		 lw6sys_imin (LW6MAP_MAX_BODY_DEPTH,
-			      (LW6MAP_BUILTIN_DEFAULT_DEPTH *
-			       percent_factor) / 100));
+  width = lw6sys_imax (LW6MAP_MIN_BODY_WIDTH, lw6sys_imin (LW6MAP_MAX_BODY_WIDTH, (LW6MAP_BUILTIN_DEFAULT_WIDTH * percent_factor) / 100));
+  height = lw6sys_imax (LW6MAP_MIN_BODY_HEIGHT, lw6sys_imin (LW6MAP_MAX_BODY_HEIGHT, (LW6MAP_BUILTIN_DEFAULT_HEIGHT * percent_factor) / 100));
+  depth = lw6sys_imax (LW6MAP_MIN_BODY_DEPTH, lw6sys_imin (LW6MAP_MAX_BODY_DEPTH, (LW6MAP_BUILTIN_DEFAULT_DEPTH * percent_factor) / 100));
 
-  return lw6map_builtin_custom (sys_context, width, height, depth,
-				LW6MAP_BUILTIN_DEFAULT_NOISE_PERCENT);
+  return lw6map_builtin_custom (sys_context, width, height, depth, LW6MAP_BUILTIN_DEFAULT_NOISE_PERCENT);
 }
 
 /**
@@ -144,8 +128,7 @@ lw6map_builtin_scale (lw6sys_context_t * sys_context, int percent_factor)
  * Return value: a newly allocated map.
  */
 lw6map_level_t *
-lw6map_builtin_custom (lw6sys_context_t * sys_context, int w, int h, int d,
-		       int noise_percent)
+lw6map_builtin_custom (lw6sys_context_t * sys_context, int w, int h, int d, int noise_percent)
 {
   lw6map_level_t *level = NULL;
   lw6map_color_couple_t color;
@@ -153,8 +136,7 @@ lw6map_builtin_custom (lw6sys_context_t * sys_context, int w, int h, int d,
   color.fg = LW6SYS_COLOR_8_WHITE;
   color.bg = LW6SYS_COLOR_8_BLACK;
 
-  level =
-    (lw6map_level_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_level_t));
+  level = (lw6map_level_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_level_t));
   if (level)
     {
       level->id = 0;
@@ -178,10 +160,8 @@ lw6map_builtin_custom (lw6sys_context_t * sys_context, int w, int h, int d,
       /*
        * Now proceed with standard construction
        */
-      lw6map_body_builtin_custom (sys_context, &level->body, w, h, d,
-				  noise_percent, &level->param.rules);
-      lw6map_texture_from_body (sys_context, &level->texture, &level->body,
-				&color);
+      lw6map_body_builtin_custom (sys_context, &level->body, w, h, d, noise_percent, &level->param.rules);
+      lw6map_texture_from_body (sys_context, &level->texture, &level->body, &color);
       lw6map_cursor_texture_builtin (sys_context, &level->cursor_texture);
       lw6map_metadata_defaults (sys_context, &level->metadata);
     }
@@ -214,8 +194,7 @@ lw6map_free (lw6sys_context_t * sys_context, lw6map_level_t * level)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL map"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL map"));
     }
 }
 
@@ -230,8 +209,7 @@ lw6map_free (lw6sys_context_t * sys_context, lw6map_level_t * level)
  * much more...
  */
 int
-lw6map_memory_footprint (lw6sys_context_t * sys_context,
-			 const lw6map_level_t * level)
+lw6map_memory_footprint (lw6sys_context_t * sys_context, const lw6map_level_t * level)
 {
   int memory_footprint = 0;
 
@@ -242,17 +220,13 @@ lw6map_memory_footprint (lw6sys_context_t * sys_context,
       memory_footprint += strlen (level->metadata.author) + 1;
       memory_footprint += strlen (level->metadata.description) + 1;
       memory_footprint += strlen (level->metadata.license) + 1;
-      memory_footprint +=
-	level->body.shape.w * level->body.shape.h * level->body.shape.d *
-	sizeof (u_int8_t);
-      memory_footprint +=
-	level->texture.w * level->texture.h * sizeof (lw6sys_color_8_t);
+      memory_footprint += level->body.shape.w * level->body.shape.h * level->body.shape.d * sizeof (u_int8_t);
+      memory_footprint += level->texture.w * level->texture.h * sizeof (lw6sys_color_8_t);
 
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("calling memory_footprint on NULL map"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling memory_footprint on NULL map"));
     }
 
   return memory_footprint;
@@ -280,15 +254,11 @@ lw6map_repr (lw6sys_context_t * sys_context, const lw6map_level_t * level)
       const char *title = NULL;
 
       title = lw6map_get_title (sys_context, level);
-      ret =
-	lw6sys_new_sprintf (sys_context, "%u \"%s\" (%dx%dx%d)", level->id,
-			    title, level->body.shape.w, level->body.shape.h,
-			    level->body.shape.d);
+      ret = lw6sys_new_sprintf (sys_context, "%u \"%s\" (%dx%dx%d)", level->id, title, level->body.shape.w, level->body.shape.h, level->body.shape.d);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't generate string id for NULL level"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't generate string id for NULL level"));
     }
 
   return ret;
@@ -307,9 +277,7 @@ lw6map_repr (lw6sys_context_t * sys_context, const lw6map_level_t * level)
  * Return value: 1 if they're the same, 0 if not.
  */
 int
-lw6map_is_same (lw6sys_context_t * sys_context,
-		const lw6map_level_t * level_a,
-		const lw6map_level_t * level_b)
+lw6map_is_same (lw6sys_context_t * sys_context, const lw6map_level_t * level_a, const lw6map_level_t * level_b)
 {
   int ret = 1;
 
@@ -325,15 +293,9 @@ lw6map_is_same (lw6sys_context_t * sys_context,
        * the shape is the same, and the body checksum is the same ->
        * it's the same map
        */
-      ret = ret
-	&& lw6map_metadata_is_same (sys_context, &(level_a->metadata),
-				    &(level_b->metadata));
-      ret = ret
-	&& lw6sys_shape_is_same (sys_context, &(level_a->body.shape),
-				 &(level_b->body.shape));
-      ret = ret
-	&& lw6map_param_is_same (sys_context, &(level_a->param),
-				 &(level_b->param));
+      ret = ret && lw6map_metadata_is_same (sys_context, &(level_a->metadata), &(level_b->metadata));
+      ret = ret && lw6sys_shape_is_same (sys_context, &(level_a->body.shape), &(level_b->body.shape));
+      ret = ret && lw6map_param_is_same (sys_context, &(level_a->param), &(level_b->param));
 
       ret = ret && (level_a->body.checksum == level_b->body.checksum);
     }
@@ -353,8 +315,7 @@ lw6map_is_same (lw6sys_context_t * sys_context,
  * Return value: static string, must not be freed, can't be NULL
  */
 const char *
-lw6map_get_title (lw6sys_context_t * sys_context,
-		  const lw6map_level_t * level)
+lw6map_get_title (lw6sys_context_t * sys_context, const lw6map_level_t * level)
 {
   const char *ret = NULL;
 
@@ -379,8 +340,7 @@ lw6map_get_title (lw6sys_context_t * sys_context,
  * Return value: number of colors, taken from rules
  */
 int
-lw6map_get_max_nb_colors (lw6sys_context_t * sys_context,
-			  const lw6map_level_t * level)
+lw6map_get_max_nb_colors (lw6sys_context_t * sys_context, const lw6map_level_t * level)
 {
   return level->param.rules.max_nb_teams;
 }
@@ -398,8 +358,7 @@ lw6map_get_max_nb_colors (lw6sys_context_t * sys_context,
  * Return value: number of cursors, taken from rules
  */
 int
-lw6map_get_max_nb_cursors (lw6sys_context_t * sys_context,
-			   const lw6map_level_t * level)
+lw6map_get_max_nb_cursors (lw6sys_context_t * sys_context, const lw6map_level_t * level)
 {
   return level->param.rules.max_nb_cursors;
 }
@@ -417,8 +376,7 @@ lw6map_get_max_nb_cursors (lw6sys_context_t * sys_context,
  * Return value: number of nodes, taken from rules
  */
 int
-lw6map_get_max_nb_nodes (lw6sys_context_t * sys_context,
-			 const lw6map_level_t * level)
+lw6map_get_max_nb_nodes (lw6sys_context_t * sys_context, const lw6map_level_t * level)
 {
   return level->param.rules.max_nb_nodes;
 }

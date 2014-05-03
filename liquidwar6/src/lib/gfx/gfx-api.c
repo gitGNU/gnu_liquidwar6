@@ -29,8 +29,7 @@
 static void
 _warning (const char *func_name)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-	      _x_ ("gfx backend function \"%s\" is not defined"), func_name);
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("gfx backend function \"%s\" is not defined"), func_name);
 }
 
 /**
@@ -47,16 +46,13 @@ _warning (const char *func_name)
  * Return value: 1 on success, 0 if not
  */
 int
-lw6gfx_init (lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode,
-	     lw6gui_resize_callback_func_t resize_callback)
+lw6gfx_init (lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   if (backend->init)
     {
-      backend->gfx_context =
-	backend->init (backend->argc, backend->argv, video_mode,
-		       resize_callback);
+      backend->gfx_context = backend->init (backend->argc, backend->argv, video_mode, resize_callback);
     }
   else
     {
@@ -149,8 +145,7 @@ lw6gfx_repr (const lw6gfx_backend_t * backend)
  * Return value: 1 on success, 0 on failure;
  */
 int
-lw6gfx_set_video_mode (lw6gfx_backend_t * backend,
-		       lw6gui_video_mode_t * video_mode)
+lw6gfx_set_video_mode (lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -181,8 +176,7 @@ lw6gfx_set_video_mode (lw6gfx_backend_t * backend,
  * Return value: 1 on success, 0 on failure;
  */
 int
-lw6gfx_get_video_mode (lw6gfx_backend_t * backend,
-		       lw6gui_video_mode_t * video_mode)
+lw6gfx_get_video_mode (lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -213,8 +207,7 @@ lw6gfx_get_video_mode (lw6gfx_backend_t * backend,
  * Return value: 1 on success, 0 on failure;
  */
 int
-lw6gfx_get_fullscreen_modes (lw6gfx_backend_t * backend,
-			     lw6gui_fullscreen_modes_t * fullscreen_modes)
+lw6gfx_get_fullscreen_modes (lw6gfx_backend_t * backend, lw6gui_fullscreen_modes_t * fullscreen_modes)
 {
   int ret = 0;
 
@@ -222,9 +215,7 @@ lw6gfx_get_fullscreen_modes (lw6gfx_backend_t * backend,
 
   if (backend->get_fullscreen_modes)
     {
-      ret =
-	backend->get_fullscreen_modes (backend->gfx_context,
-				       fullscreen_modes);
+      ret = backend->get_fullscreen_modes (backend->gfx_context, fullscreen_modes);
     }
   else
     {
@@ -302,9 +293,7 @@ lw6gfx_display (lw6gfx_backend_t * backend, int mask,
 		const lw6ker_game_struct_t * game_struct,
 		const lw6ker_game_state_t * game_state,
 		lw6pil_local_cursors_t * local_cursors, lw6gui_menu_t * menu,
-		float progress, float fps, float mps, const char **log_list,
-		int capture, int gfx_debug, int debug_team_id,
-		int debug_layer_id)
+		float progress, float fps, float mps, const char **log_list, int capture, int gfx_debug, int debug_team_id, int debug_layer_id)
 {
   int ret = 0;
 
@@ -314,9 +303,7 @@ lw6gfx_display (lw6gfx_backend_t * backend, int mask,
     {
       ret =
 	backend->display (backend->gfx_context, mask, look, level,
-			  game_struct, game_state, local_cursors, menu,
-			  progress, fps, mps, log_list, capture, gfx_debug,
-			  debug_team_id, debug_layer_id);
+			  game_struct, game_state, local_cursors, menu, progress, fps, mps, log_list, capture, gfx_debug, debug_team_id, debug_layer_id);
     }
   else
     {

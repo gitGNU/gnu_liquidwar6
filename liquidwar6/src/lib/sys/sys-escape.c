@@ -81,16 +81,13 @@ lw6sys_escape_http_uri (lw6sys_context_t * sys_context, const char *src)
 	  if (c >= ' ')
 	    {
 	      if (c == '_' || c == '-' || c == '/' || c == '.' || c == ','
-		  || c == '#' || c == ':' || c == ';' || c == '?' || c == '&'
-		  || c == '%' || lw6sys_chr_is_alnum (c))
+		  || c == '#' || c == ':' || c == ';' || c == '?' || c == '&' || c == '%' || lw6sys_chr_is_alnum (c))
 		{
 		  ret[j++] = c;
 		}
 	      else
 		{
-		  hexa =
-		    lw6sys_new_sprintf (sys_context, _ESCAPE_HTTP_URI_MASK,
-					(int) c);
+		  hexa = lw6sys_new_sprintf (sys_context, _ESCAPE_HTTP_URI_MASK, (int) c);
 		  if (hexa)
 		    {
 		      ret[j++] = '%';
@@ -101,10 +98,7 @@ lw6sys_escape_http_uri (lw6sys_context_t * sys_context, const char *src)
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				      _x_
-				      ("incorrect hexa conversion for %d \"%s\""),
-				      (int) c, hexa);
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("incorrect hexa conversion for %d \"%s\""), (int) c, hexa);
 			}
 		      LW6SYS_FREE (sys_context, hexa);
 		    }
@@ -112,8 +106,7 @@ lw6sys_escape_http_uri (lw6sys_context_t * sys_context, const char *src)
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("invalid character %d in uri"), (int) c);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("invalid character %d in uri"), (int) c);
 	    }
 	}
       if (j <= _ESCAPE_HTTP_URI_LEN * len)
@@ -122,9 +115,7 @@ lw6sys_escape_http_uri (lw6sys_context_t * sys_context, const char *src)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("http uri escape string too long %d for %d/%d"), j,
-		      _ESCAPE_HTTP_URI_LEN * len, len);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("http uri escape string too long %d for %d/%d"), j, _ESCAPE_HTTP_URI_LEN * len, len);
 	}
     }
 
@@ -154,9 +145,7 @@ lw6sys_escape_html_attribute (lw6sys_context_t * sys_context, const char *src)
 
   src = lw6sys_str_empty_if_null (sys_context, src);
   len = lw6sys_imin (strlen (src), _ESCAPE_HTML_ATTRIBUTE_MAX_LEN);
-  ret =
-    (char *) LW6SYS_CALLOC (sys_context,
-			    _ESCAPE_HTML_ATTRIBUTE_LEN * len + 1);
+  ret = (char *) LW6SYS_CALLOC (sys_context, _ESCAPE_HTML_ATTRIBUTE_LEN * len + 1);
   if (ret)
     {
       for (i = 0, j = 0; i < len && j < _ESCAPE_HTML_ATTRIBUTE_MAX_LEN; ++i)
@@ -164,9 +153,7 @@ lw6sys_escape_html_attribute (lw6sys_context_t * sys_context, const char *src)
 	  c = src[i];
 	  c = lw6sys_imax (' ', c);
 	  if (c != _ESCAPE_HTML_ATTRIBUTE_QUOT_CHAR
-	      && c != _ESCAPE_HTML_ATTRIBUTE_LT_CHAR
-	      && c != _ESCAPE_HTML_ATTRIBUTE_GT_CHAR
-	      && c != _ESCAPE_HTML_ATTRIBUTE_AMP_CHAR)
+	      && c != _ESCAPE_HTML_ATTRIBUTE_LT_CHAR && c != _ESCAPE_HTML_ATTRIBUTE_GT_CHAR && c != _ESCAPE_HTML_ATTRIBUTE_AMP_CHAR)
 	    {
 	      ret[j++] = c;
 	    }
@@ -187,9 +174,7 @@ lw6sys_escape_html_attribute (lw6sys_context_t * sys_context, const char *src)
 		  quot = _ESCAPE_HTML_ATTRIBUTE_AMP_STR;
 		  break;
 		default:
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_ ("unable to find a substitude for char %d"),
-			      (int) c);
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to find a substitude for char %d"), (int) c);
 		  quot = "";
 		}
 	      for (k = 0; k < _ESCAPE_HTML_ATTRIBUTE_LEN && quot[k]; ++k)
@@ -204,10 +189,7 @@ lw6sys_escape_html_attribute (lw6sys_context_t * sys_context, const char *src)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("html attribute escape string too long %d for %d/%d"),
-		      j, _ESCAPE_HTML_ATTRIBUTE_LEN * len, len);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("html attribute escape string too long %d for %d/%d"), j, _ESCAPE_HTML_ATTRIBUTE_LEN * len, len);
 	}
     }
 
@@ -264,9 +246,7 @@ lw6sys_escape_sql_value (lw6sys_context_t * sys_context, const char *src)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("sql value escape string too long %d for %d/%d"),
-		      j, _ESCAPE_SQL_VALUE_LEN * len, len);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("sql value escape string too long %d for %d/%d"), j, _ESCAPE_SQL_VALUE_LEN * len, len);
 	}
     }
 

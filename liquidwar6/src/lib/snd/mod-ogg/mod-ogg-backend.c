@@ -105,8 +105,7 @@ _play_music_file (void *snd_context, char *music_file)
 }
 
 static int
-_play_music_random (void *snd_context, char *music_path, char *music_filter,
-		    char *music_exclude)
+_play_music_random (void *snd_context, char *music_path, char *music_filter, char *music_exclude)
 {
   int ret = 0;
 
@@ -114,9 +113,7 @@ _play_music_random (void *snd_context, char *music_path, char *music_filter,
 
   if (mod_ogg_context)
     {
-      ret =
-	_mod_ogg_play_music_random (mod_ogg_context, music_path,
-				    music_filter, music_exclude);
+      ret = _mod_ogg_play_music_random (mod_ogg_context, music_path, music_filter, music_exclude);
     }
 
   return ret;
@@ -134,11 +131,9 @@ _stop_music (void *snd_context)
 }
 
 static void *
-_init (int argc, const char *argv[], float fx_volume, float water_volume,
-       float music_volume)
+_init (int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
 {
-  _mod_ogg_context_t *mod_ogg_context =
-    _mod_ogg_init (argc, argv, fx_volume, water_volume, music_volume);
+  _mod_ogg_context_t *mod_ogg_context = _mod_ogg_init (argc, argv, fx_volume, water_volume, music_volume);
 
   return (void *) mod_ogg_context;
 }
@@ -217,20 +212,16 @@ mod_ogg_get_pedigree ()
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
-  module_pedigree =
-    (lw6sys_module_pedigree_t *)
-    LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
+  module_pedigree = (lw6sys_module_pedigree_t *) LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
   if (module_pedigree)
     {
       module_pedigree->id = "ogg";
       module_pedigree->category = "snd";
       module_pedigree->name = _("Ogg Vorbis");
       module_pedigree->readme =
-	_x_
-	("This sound backend uses Ogg Vorbis (through SDL) to handle sound effects and music. This is the only working sound backend for now.");
+	_x_ ("This sound backend uses Ogg Vorbis (through SDL) to handle sound effects and music. This is the only working sound backend for now.");
       module_pedigree->version = VERSION;
-      module_pedigree->copyright =
-	"Copyright (C)  2014  Christian Mauduit <ufoot@ufoot.org>";
+      module_pedigree->copyright = "Copyright (C)  2014  Christian Mauduit <ufoot@ufoot.org>";
       module_pedigree->license = "GPLv3+ (GNU GPL version 3 or later)";
       module_pedigree->date = __DATE__;
       module_pedigree->time = __TIME__;

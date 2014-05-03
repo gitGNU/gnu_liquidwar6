@@ -39,9 +39,7 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6map_local_info_set_music_dir (lw6sys_context_t * sys_context,
-				 lw6map_local_info_t * local_info,
-				 const char *music_dir)
+lw6map_local_info_set_music_dir (lw6sys_context_t * sys_context, lw6map_local_info_t * local_info, const char *music_dir)
 {
   int ret = 0;
 
@@ -70,8 +68,7 @@ lw6map_local_info_set_music_dir (lw6sys_context_t * sys_context,
  * Return value: none
  */
 void
-lw6map_local_info_clear (lw6sys_context_t * sys_context,
-			 lw6map_local_info_t * local_info)
+lw6map_local_info_clear (lw6sys_context_t * sys_context, lw6map_local_info_t * local_info)
 {
   if (local_info->music_dir)
     {

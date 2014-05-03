@@ -68,9 +68,7 @@ _test_handler ()
     int i;
 
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_
-		("you can enter random lines, test will end after %d seconds"),
-		(int) (_TEST_CON_NB_LOOPS * _TEST_CON_SLEEP));
+		_x_ ("you can enter random lines, test will end after %d seconds"), (int) (_TEST_CON_NB_LOOPS * _TEST_CON_SLEEP));
     lw6cns_handler_install (handler);
     for (i = 0; i < _TEST_CON_NB_LOOPS; ++i)
       {
@@ -93,16 +91,14 @@ _test_support ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("console support -> %d"), lw6cns_console_support ());
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("console support -> %d"), lw6cns_console_support ());
     /*
      * Snoozing because, well, if we don't, test does not
      * last long enough, and, for instance, google perftools might
      * just return error because it has no node to process.
      */
     lw6sys_delay (sys_context, _TEST_SUPPORT_DELAY);
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("term support -> %d"), lw6cns_term_support ());
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("term support -> %d"), lw6cns_term_support ());
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -111,16 +107,14 @@ _test_support ()
 static int
 _setup_init ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libcns CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libcns CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libcns CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libcns CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -151,18 +145,14 @@ lw6cns_test_register (int mode)
   if (suite)
     {
       LW6SYS_CUNIT_ADD_TEST (suite, _test_support);
-      if ((mode & LW6SYS_TEST_MODE_FULL_TEST)
-	  && (!(mode & LW6SYS_TEST_MODE_INTERACTIVE))
-	  && lw6cns_console_support () && lw6cns_term_support ())
+      if ((mode & LW6SYS_TEST_MODE_FULL_TEST) && (!(mode & LW6SYS_TEST_MODE_INTERACTIVE)) && lw6cns_console_support () && lw6cns_term_support ())
 	{
 	  LW6SYS_CUNIT_ADD_TEST (suite, _test_handler);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 

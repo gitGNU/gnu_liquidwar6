@@ -36,8 +36,7 @@ _mod_tcp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("tcp init"));
 
-  tcp_context =
-    (_mod_tcp_context_t *) LW6SYS_CALLOC (sizeof (_mod_tcp_context_t));
+  tcp_context = (_mod_tcp_context_t *) LW6SYS_CALLOC (sizeof (_mod_tcp_context_t));
   if (tcp_context)
     {
       data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
@@ -45,12 +44,9 @@ _mod_tcp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 	{
 	  if (_mod_tcp_load_data (&(tcp_context->data), data_dir))
 	    {
-	      properties->hint_timeout =
-		tcp_context->data.consts.global_timeout;
-	      properties->ping_alter_base =
-		tcp_context->data.consts.ping_alter_base;
-	      properties->ping_alter_percent =
-		tcp_context->data.consts.ping_alter_percent;
+	      properties->hint_timeout = tcp_context->data.consts.global_timeout;
+	      properties->ping_alter_base = tcp_context->data.consts.ping_alter_base;
+	      properties->ping_alter_percent = tcp_context->data.consts.ping_alter_percent;
 	      properties->reliable = 1;
 	      properties->backend_id = MOD_TCP_BACKEND_ID;
 	      ok = 1;
@@ -66,8 +62,7 @@ _mod_tcp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 
   if (!tcp_context)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _("can't initialize mod_tcp"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("can't initialize mod_tcp"));
     }
 
   return tcp_context;

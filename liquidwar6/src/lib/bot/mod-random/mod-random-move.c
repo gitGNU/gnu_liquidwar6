@@ -28,8 +28,7 @@
 #include "mod-random-internal.h"
 
 int
-_mod_random_next_move (_mod_random_context_t * random_context, int *x, int *y,
-		       lw6bot_data_t * data)
+_mod_random_next_move (_mod_random_context_t * random_context, int *x, int *y, lw6bot_data_t * data)
 {
   int ret = 0;
   int rounds = 0;
@@ -37,29 +36,16 @@ _mod_random_next_move (_mod_random_context_t * random_context, int *x, int *y,
   int d_move;
 
   rounds = lw6ker_game_state_get_rounds (sys_context, data->game_state);
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("random bot move rounds=%d"), rounds);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("random bot move rounds=%d"), rounds);
 
-  d_move =
-    lw6sys_imax (1,
-		 (float) _MOD_RANDOM_DEFAULT_ROUNDS_BETWEEN_MOVE /
-		 data->param.speed);
+  d_move = lw6sys_imax (1, (float) _MOD_RANDOM_DEFAULT_ROUNDS_BETWEEN_MOVE / data->param.speed);
   next_move_round = random_context->last_move_round + d_move;
-  if (random_context->pos_x < 0 || random_context->pos_y < 0
-      || rounds > next_move_round)
+  if (random_context->pos_x < 0 || random_context->pos_y < 0 || rounds > next_move_round)
     {
       random_context->last_move_round = next_move_round;
-      random_context->pos_x =
-	lw6sys_random (sys_context,
-		       lw6ker_game_state_get_w (sys_context,
-						data->game_state));
-      random_context->pos_y =
-	lw6sys_random (sys_context,
-		       lw6ker_game_state_get_h (sys_context,
-						data->game_state));
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("random bot moved %d,%d"), random_context->pos_x,
-		  random_context->pos_y);
+      random_context->pos_x = lw6sys_random (sys_context, lw6ker_game_state_get_w (sys_context, data->game_state));
+      random_context->pos_y = lw6sys_random (sys_context, lw6ker_game_state_get_h (sys_context, data->game_state));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("random bot moved %d,%d"), random_context->pos_x, random_context->pos_y);
     }
 
   (*x) = random_context->pos_x;

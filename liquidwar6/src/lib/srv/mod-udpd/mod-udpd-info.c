@@ -28,14 +28,11 @@
 #include "mod-udpd-internal.h"
 
 char *
-_mod_udpd_repr (_mod_udpd_context_t * udpd_context,
-		lw6cnx_connection_t * connection)
+_mod_udpd_repr (_mod_udpd_context_t * udpd_context, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 
-  ret =
-    lw6sys_new_sprintf (sys_context, _x_ ("udpd connexion with %s:%d"),
-			connection->remote_ip, connection->remote_port);
+  ret = lw6sys_new_sprintf (sys_context, _x_ ("udpd connexion with %s:%d"), connection->remote_ip, connection->remote_port);
 
   return ret;
 }

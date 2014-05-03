@@ -32,8 +32,7 @@ typedef struct _lw6vox_renderer_s
 } _lw6vox_renderer_t;
 
 /* vox-renderer.c */
-extern _lw6vox_renderer_t *_lw6vox_renderer_new (lw6ker_game_state_t *
-						 game_state);
+extern _lw6vox_renderer_t *_lw6vox_renderer_new (lw6ker_game_state_t * game_state);
 extern void _lw6vox_renderer_free (_lw6vox_renderer_t * renderer);
 
 #endif

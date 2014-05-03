@@ -41,8 +41,7 @@ _set_community_id (lw6nod_dyn_info_t * dyninfo, u_int64_t community_id)
     {
       if (lw6sys_check_id (sys_context, community_id))
 	{
-	  dyninfo->community_id_str =
-	    lw6sys_id_ltoa (sys_context, community_id);
+	  dyninfo->community_id_str = lw6sys_id_ltoa (sys_context, community_id);
 	}
       if (dyninfo->community_id_str != NULL)
 	{
@@ -51,9 +50,7 @@ _set_community_id (lw6nod_dyn_info_t * dyninfo, u_int64_t community_id)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("invalid community id \"%" LW6SYS_PRINTF_LL "x\""),
-		      (long long) community_id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("invalid community id \"%" LW6SYS_PRINTF_LL "x\""), (long long) community_id);
 	  dyninfo->community_id_int = LW6NOD_COMMUNITY_ID_NONE;
 	}
     }
@@ -105,8 +102,7 @@ int
 _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
 			 int round, const char *level, int required_bench,
 			 int nb_colors, int max_nb_colors, int nb_cursors,
-			 int max_nb_cursors, int nb_nodes, int max_nb_nodes,
-			 int game_screenshot_size, void *game_screenshot_data)
+			 int max_nb_cursors, int nb_nodes, int max_nb_nodes, int game_screenshot_size, void *game_screenshot_data)
 {
   int ret = 1;
 
@@ -124,8 +120,7 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
 	  LW6SYS_FREE (dyn_info->level);
 	  dyn_info->level = NULL;
 	}
-      dyn_info->level =
-	lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (level));
+      dyn_info->level = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (level));
     }
   dyn_info->required_bench = required_bench;
   dyn_info->nb_colors = nb_colors;
@@ -150,12 +145,10 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
 	}
       if (game_screenshot_size > 0)
 	{
-	  dyn_info->game_screenshot_data =
-	    LW6SYS_MALLOC (sys_context, game_screenshot_size);
+	  dyn_info->game_screenshot_data = LW6SYS_MALLOC (sys_context, game_screenshot_size);
 	  if (dyn_info->game_screenshot_data)
 	    {
-	      memcpy (dyn_info->game_screenshot_data, game_screenshot_data,
-		      game_screenshot_size);
+	      memcpy (dyn_info->game_screenshot_data, game_screenshot_data, game_screenshot_size);
 	    }
 	}
     }

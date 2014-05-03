@@ -29,17 +29,14 @@
 
 int
 _mod_tcpd_analyse_tcp (_mod_tcpd_context_t * tcpd_context,
-		       lw6srv_tcp_accepter_t * tcp_accepter,
-		       lw6nod_info_t * node_info,
-		       u_int64_t * remote_id, char **remote_url)
+		       lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
   char *line = NULL;
   char *msg = NULL;
 
   line = tcp_accepter->first_line;
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("trying to recognize tcpd protocol in \"%s\""), line);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trying to recognize tcpd protocol in \"%s\""), line);
 
   if (remote_id)
     {
@@ -55,31 +52,22 @@ _mod_tcpd_analyse_tcp (_mod_tcpd_context_t * tcpd_context,
       if (lw6sys_chr_is_eol (line[0])
 	  || lw6sys_str_starts_with_no_case (sys_context, line,
 					     LW6MSG_OOB_PING)
-	  || lw6sys_str_starts_with_no_case (sys_context, line,
-					     LW6MSG_OOB_INFO)
-	  || lw6sys_str_starts_with_no_case (sys_context, line,
-					     LW6MSG_OOB_LIST))
+	  || lw6sys_str_starts_with_no_case (sys_context, line, LW6MSG_OOB_INFO) || lw6sys_str_starts_with_no_case (sys_context, line, LW6MSG_OOB_LIST))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("recognized tcpd protocol (OOB)"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("recognized tcpd protocol (OOB)"));
 	  ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
 	}
 
-      if (lw6sys_str_starts_with_no_case
-	  (line, _MOD_TCPD_PROTOCOL_LW6_STRING))
+      if (lw6sys_str_starts_with_no_case (line, _MOD_TCPD_PROTOCOL_LW6_STRING))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("recognized tcpd protocol"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("recognized tcpd protocol"));
 	  if (lw6msg_envelope_analyse
 	      (line, LW6MSG_ENVELOPE_MODE_TELNET,
 	       node_info->const_info.ref_info.url,
-	       node_info->const_info.password, 0,
-	       node_info->const_info.ref_info.id_int, &msg, NULL, NULL,
-	       remote_id, NULL, NULL, NULL, remote_url))
+	       node_info->const_info.password, 0, node_info->const_info.ref_info.id_int, &msg, NULL, NULL, remote_id, NULL, NULL, NULL, remote_url))
 	    {
 	      ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("tcpd message \"%s\" OK"), line);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("tcpd message \"%s\" OK"), line);
 	      if (msg)
 		{
 		  /*
@@ -92,8 +80,7 @@ _mod_tcpd_analyse_tcp (_mod_tcpd_context_t * tcpd_context,
 	    {
 	      if (strchr (line, '\n'))
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("unable to analyse message \"%s\""), line);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unable to analyse message \"%s\""), line);
 		  ret |= LW6SRV_ANALYSE_DEAD;
 		}
 	      else
@@ -116,9 +103,7 @@ _mod_tcpd_analyse_tcp (_mod_tcpd_context_t * tcpd_context,
 
 int
 _mod_tcpd_analyse_udp (_mod_tcpd_context_t * tcpd_context,
-		       lw6srv_udp_buffer_t * udp_buffer,
-		       lw6nod_info_t * node_info,
-		       u_int64_t * remote_id, char **remote_url)
+		       lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
 
@@ -139,13 +124,10 @@ _mod_tcpd_analyse_udp (_mod_tcpd_context_t * tcpd_context,
 }
 
 int
-_mod_tcpd_feed_with_tcp (_mod_tcpd_context_t * tcpd_context,
-			 lw6cnx_connection_t * connection,
-			 lw6srv_tcp_accepter_t * tcp_accepter)
+_mod_tcpd_feed_with_tcp (_mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
-  _mod_tcpd_specific_data_t *specific_data =
-    (_mod_tcpd_specific_data_t *) connection->backend_specific_data;;
+  _mod_tcpd_specific_data_t *specific_data = (_mod_tcpd_specific_data_t *) connection->backend_specific_data;;
   int tmp_sock = LW6NET_SOCKET_INVALID;
 
   if (specific_data)
@@ -165,10 +147,7 @@ _mod_tcpd_feed_with_tcp (_mod_tcpd_context_t * tcpd_context,
 	  else
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_
-			  ("double connection from \"%s\" (%s:%d), ignoring"),
-			  connection->remote_url, connection->remote_ip,
-			  connection->remote_port);
+			  _x_ ("double connection from \"%s\" (%s:%d), ignoring"), connection->remote_url, connection->remote_ip, connection->remote_port);
 	      lw6net_socket_close (&(tcp_accepter->sock));
 	    }
 	}
@@ -190,9 +169,7 @@ _mod_tcpd_feed_with_tcp (_mod_tcpd_context_t * tcpd_context,
 }
 
 int
-_mod_tcpd_feed_with_udp (_mod_tcpd_context_t * tcpd_context,
-			 lw6cnx_connection_t * connection,
-			 lw6srv_udp_buffer_t * udp_buffer)
+_mod_tcpd_feed_with_udp (_mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 

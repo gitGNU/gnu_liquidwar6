@@ -63,8 +63,7 @@ _check_limits (const lw6ldr_hints_t * hints, int *w, int *h)
 	{
 	  if (surface > hints->max_map_surface)
 	    {
-	      coeff =
-		sqrt (((float) hints->max_map_surface) / ((float) surface));
+	      coeff = sqrt (((float) hints->max_map_surface) / ((float) surface));
 	      *w = ((float) (*w)) * coeff;
 	      *h = ((float) (*h)) * coeff;
 	      surface = (*w) * (*h);
@@ -74,8 +73,7 @@ _check_limits (const lw6ldr_hints_t * hints, int *w, int *h)
 	{
 	  if (surface < hints->min_map_surface)
 	    {
-	      coeff =
-		sqrt (((float) hints->min_map_surface) / ((float) surface));
+	      coeff = sqrt (((float) hints->min_map_surface) / ((float) surface));
 	      *w = ((float) (*w)) * coeff;
 	      *h = ((float) (*h)) * coeff;
 	      surface = (*w) * (*h);
@@ -83,16 +81,14 @@ _check_limits (const lw6ldr_hints_t * hints, int *w, int *h)
 	}
       if (surface > LW6MAP_MAX_BODY_SURFACE)
 	{
-	  coeff =
-	    sqrt (((float) LW6MAP_MAX_BODY_SURFACE) / ((float) surface));
+	  coeff = sqrt (((float) LW6MAP_MAX_BODY_SURFACE) / ((float) surface));
 	  *w = ((float) (*w)) * coeff;
 	  *h = ((float) (*h)) * coeff;
 	  surface = (*w) * (*h);
 	}
       if (surface < LW6MAP_MIN_BODY_SURFACE)
 	{
-	  coeff =
-	    sqrt (((float) LW6MAP_MIN_BODY_SURFACE) / ((float) surface));
+	  coeff = sqrt (((float) LW6MAP_MIN_BODY_SURFACE) / ((float) surface));
 	  *w = ((float) (*w)) * coeff;
 	  *h = ((float) (*h)) * coeff;
 	  surface = (*w) * (*h);
@@ -113,9 +109,7 @@ _check_limits (const lw6ldr_hints_t * hints, int *w, int *h)
 }
 
 static float
-_estimate_capacity (const lw6map_rules_t * rules,
-		    const lw6ldr_hints_t * hints, int w, int h,
-		    int expected_depth, float gray_level)
+_estimate_capacity (const lw6map_rules_t * rules, const lw6ldr_hints_t * hints, int w, int h, int expected_depth, float gray_level)
 {
   float ret = 0.0f;
   int surface;
@@ -126,10 +120,7 @@ _estimate_capacity (const lw6map_rules_t * rules,
   float moves_per_sec;
 
   surface = w * h;
-  estimated_nb_fighters =
-    ((float) expected_depth) * ((float) surface) *
-    ((float) rules->total_armies_size) *
-    ((float) rules->total_armies_size) / 10000LL;
+  estimated_nb_fighters = ((float) expected_depth) * ((float) surface) * ((float) rules->total_armies_size) * ((float) rules->total_armies_size) / 10000LL;
   estimated_nb_fighters *= gray_level;
   if (hints->guess_moves_per_sec && hints->speed > 0.0f)
     {
@@ -139,16 +130,13 @@ _estimate_capacity (const lw6map_rules_t * rules,
     {
       moves_per_sec = rules->rounds_per_sec * rules->moves_per_round;
     }
-  ret =
-    estimated_nb_fighters * moves_per_sec +
-    ((float) surface) * ((float) _RESAMPLER_BOGUS_FPS);
+  ret = estimated_nb_fighters * moves_per_sec + ((float) surface) * ((float) _RESAMPLER_BOGUS_FPS);
 
   return ret;
 }
 
 static void
-_guess_moves_per_sec (lw6map_rules_t * rules, const lw6ldr_hints_t * hints,
-		      int w, int h)
+_guess_moves_per_sec (lw6map_rules_t * rules, const lw6ldr_hints_t * hints, int w, int h)
 {
   int moves_per_sec;
   int i;
@@ -161,31 +149,25 @@ _guess_moves_per_sec (lw6map_rules_t * rules, const lw6ldr_hints_t * hints,
       old_rounds_per_sec = rules->rounds_per_sec;
       moves_per_sec = sqrt (w * w + h * h) * hints->speed / _RESAMPLER_R2;
       rules->moves_per_round = LW6MAP_RULES_MIN_MOVES_PER_ROUND;
-      for (i = rules->moves_per_round + 1;
-	   i <= LW6MAP_RULES_MAX_MOVES_PER_ROUND; ++i)
+      for (i = rules->moves_per_round + 1; i <= LW6MAP_RULES_MAX_MOVES_PER_ROUND; ++i)
 	{
 	  if (i * rules->rounds_per_sec <= moves_per_sec)
 	    {
 	      rules->moves_per_round = i;
 	    }
 	}
-      while (rules->moves_per_round * rules->rounds_per_sec > moves_per_sec
-	     && rules->rounds_per_sec > LW6MAP_RULES_MIN_ROUNDS_PER_SEC)
+      while (rules->moves_per_round * rules->rounds_per_sec > moves_per_sec && rules->rounds_per_sec > LW6MAP_RULES_MIN_ROUNDS_PER_SEC)
 	{
 	  rules->rounds_per_sec--;
 	}
-      while (rules->moves_per_round * rules->rounds_per_sec < moves_per_sec
-	     && rules->rounds_per_sec < LW6MAP_RULES_MAX_ROUNDS_PER_SEC)
+      while (rules->moves_per_round * rules->rounds_per_sec < moves_per_sec && rules->rounds_per_sec < LW6MAP_RULES_MAX_ROUNDS_PER_SEC)
 	{
 	  rules->rounds_per_sec++;
 	}
-      if (old_moves_per_round != rules->moves_per_round
-	  || old_rounds_per_sec != rules->rounds_per_sec)
+      if (old_moves_per_round != rules->moves_per_round || old_rounds_per_sec != rules->rounds_per_sec)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("changing speed from %dx%d to %dx%d"),
-		      old_rounds_per_sec, old_moves_per_round,
-		      rules->rounds_per_sec, rules->moves_per_round);
+		      _x_ ("changing speed from %dx%d to %dx%d"), old_rounds_per_sec, old_moves_per_round, rules->rounds_per_sec, rules->moves_per_round);
 	}
     }
   else
@@ -222,10 +204,7 @@ void
 lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 		       lw6map_param_t * param, const lw6ldr_hints_t * hints,
 		       int source_w,
-		       int source_h,
-		       int display_w, int display_h, float target_ratio,
-		       int bench_value, int magic_number, int expected_depth,
-		       float gray_level)
+		       int source_h, int display_w, int display_h, float target_ratio, int bench_value, int magic_number, int expected_depth, float gray_level)
 {
   int target_w = 0;
   int target_h = 0;
@@ -264,27 +243,23 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 	    }
 	  tmp_w = display_w * param->style.zoom / fighter_scale;
 	  tmp_h = display_h * param->style.zoom / fighter_scale;
-	  if (hints->downsize_using_fighter_scale
-	      && tmp_w * tmp_h < target_w * target_h)
+	  if (hints->downsize_using_fighter_scale && tmp_w * tmp_h < target_w * target_h)
 	    {
 	      target_w = tmp_w;
 	      target_h = tmp_h;
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("fighter_scale=%f on display %dx%d -> downsizing from %dx%d to %dx%d"),
-			  hints->fighter_scale, display_w, display_h,
-			  source_w, source_h, target_w, target_h);
+			  hints->fighter_scale, display_w, display_h, source_w, source_h, target_w, target_h);
 	    }
-	  else if (hints->upsize_using_fighter_scale
-		   && tmp_w * tmp_h > target_w * target_h)
+	  else if (hints->upsize_using_fighter_scale && tmp_w * tmp_h > target_w * target_h)
 	    {
 	      target_w = tmp_w;
 	      target_h = tmp_h;
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_
 			  ("fighter_scale=%f on display %dx%d -> upsizing from %dx%d to %dx%d"),
-			  hints->fighter_scale, display_w, display_h,
-			  source_w, source_h, target_w, target_h);
+			  hints->fighter_scale, display_w, display_h, source_w, source_h, target_w, target_h);
 	    }
 
 	  _check_limits (hints, &target_w, &target_h);
@@ -310,62 +285,47 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 	  /*
 	   * Step 3, take bench in account
 	   */
-	  lin_bench_value =
-	    lw6sys_math_log2lin (sys_context, bench_value,
-				 LW6MAP_LOG2LIN_BASE);
+	  lin_bench_value = lw6sys_math_log2lin (sys_context, bench_value, LW6MAP_LOG2LIN_BASE);
 	  capacity_orig = ((float) lin_bench_value) * ((float) magic_number);
 	  capacity = capacity_orig;
-	  required =
-	    _estimate_capacity (&param->rules, hints, target_w, target_h,
-				expected_depth, gray_level);
+	  required = _estimate_capacity (&param->rules, hints, target_w, target_h, expected_depth, gray_level);
 	  if (required > 0.0f)
 	    {
 	      f = 1.0f;
 	      if (hints->downsize_using_bench_value && capacity < required)
 		{
-		  while (capacity < required && tmp_w > LW6MAP_MIN_BODY_WIDTH
-			 && tmp_h > LW6MAP_MIN_BODY_HEIGHT)
+		  while (capacity < required && tmp_w > LW6MAP_MIN_BODY_WIDTH && tmp_h > LW6MAP_MIN_BODY_HEIGHT)
 		    {
 		      f *= _RESAMPLER_DOWNSIZE;
 		      tmp_w = target_w * f;
 		      tmp_h = target_h * f;
-		      required =
-			_estimate_capacity (&param->rules, hints, tmp_w,
-					    tmp_h,
-					    expected_depth, gray_level);
+		      required = _estimate_capacity (&param->rules, hints, tmp_w, tmp_h, expected_depth, gray_level);
 		    }
 		  if (tmp_w != target_w || tmp_h != target_h)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("required=%f capacity=%f bench_value=%d lin_bench_value=%d -> downsizing from %dx%d to %dx%d"),
-				  required, capacity_orig, bench_value,
-				  lin_bench_value, target_w, target_h, tmp_w,
-				  tmp_h);
+				  required, capacity_orig, bench_value, lin_bench_value, target_w, target_h, tmp_w, tmp_h);
 		      target_w = tmp_w;
 		      target_h = tmp_h;
 		    }
 		}
 	      else if (hints->upsize_using_bench_value && capacity > required)
 		{
-		  while (capacity < required && tmp_w < LW6MAP_MAX_BODY_WIDTH
-			 && tmp_h < LW6MAP_MAX_BODY_HEIGHT)
+		  while (capacity < required && tmp_w < LW6MAP_MAX_BODY_WIDTH && tmp_h < LW6MAP_MAX_BODY_HEIGHT)
 		    {
 		      f *= _RESAMPLER_UPSIZE;
 		      tmp_w = target_w * f;
 		      tmp_h = target_h * f;
-		      required =
-			_estimate_capacity (&param->rules, hints, tmp_w,
-					    tmp_h,
-					    expected_depth, gray_level);
+		      required = _estimate_capacity (&param->rules, hints, tmp_w, tmp_h, expected_depth, gray_level);
 		    }
 		  if (tmp_w != target_w || tmp_h != target_h)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_
 				  ("required=%f capacity=%f bench_value=%d -> upsizing from %dx%d to %dx%d"),
-				  required, capacity_orig, bench_value,
-				  target_w, target_h, tmp_w, tmp_h);
+				  required, capacity_orig, bench_value, target_w, target_h, tmp_w, tmp_h);
 		      target_w = tmp_w;
 		      target_h = tmp_h;
 		    }
@@ -385,12 +345,8 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 	  if (target_w * target_h > hints->max_map_surface)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("target_w=%d target_h=%d hints->max_map_surface=%d -> downsizing"),
-			  target_w, target_h, hints->max_map_surface);
-	      f =
-		sqrt ((((float) target_w) * ((float) target_h)) /
-		      ((float) hints->max_map_surface));
+			  _x_ ("target_w=%d target_h=%d hints->max_map_surface=%d -> downsizing"), target_w, target_h, hints->max_map_surface);
+	      f = sqrt ((((float) target_w) * ((float) target_h)) / ((float) hints->max_map_surface));
 	      target_w /= f;
 	      target_h /= f;
 	    }
@@ -398,12 +354,8 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 	  if (target_w * target_h < hints->min_map_surface)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("target_w=%d target_h=%d hints->min_map_surface=%d -> upsizing"),
-			  target_w, target_h, hints->min_map_surface);
-	      f =
-		sqrt (((float) hints->min_map_surface) /
-		      (((float) target_w) * ((float) target_h)));
+			  _x_ ("target_w=%d target_h=%d hints->min_map_surface=%d -> upsizing"), target_w, target_h, hints->min_map_surface);
+	      f = sqrt (((float) hints->min_map_surface) / (((float) target_w) * ((float) target_h)));
 	      target_w *= f;
 	      target_h *= f;
 	    }
@@ -413,26 +365,19 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to handle map with shape %dx%d"), source_w,
-		  source_h);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to handle map with shape %dx%d"), source_w, source_h);
     }
 
   resampler->target_w = target_w;
   resampler->target_h = target_h;
   resampler->source_w = source_w;
   resampler->source_h = source_h;
-  resampler->scale_x =
-    ((float) (resampler->target_w)) / ((float) (resampler->source_w));
-  resampler->scale_y =
-    ((float) (resampler->target_h)) / ((float) (resampler->source_h));
+  resampler->scale_x = ((float) (resampler->target_w)) / ((float) (resampler->source_w));
+  resampler->scale_y = ((float) (resampler->target_h)) / ((float) (resampler->source_h));
 }
 
 void
-lw6ldr_resampler_use_for_gen (int *map_w, int *map_h,
-			      int display_w,
-			      int display_h,
-			      int bench_value, int magic_number)
+lw6ldr_resampler_use_for_gen (int *map_w, int *map_h, int display_w, int display_h, int bench_value, int magic_number)
 {
   lw6map_param_t param;
   lw6ldr_hints_t hints;
@@ -449,13 +394,10 @@ lw6ldr_resampler_use_for_gen (int *map_w, int *map_h,
 
   target_ratio = ((float) display_w) / ((float) display_h);
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("using resampler for gen, display=%dx%d bench_value=%d"),
-	      display_w, display_h, bench_value);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("using resampler for gen, display=%dx%d bench_value=%d"), display_w, display_h, bench_value);
   lw6ldr_resampler_init (&resampler, &param, &hints, display_w, display_h,
 			 display_w, display_h, target_ratio, bench_value,
-			 magic_number, _RESAMPLER_USE_FOR_GEN_EXPECTED_DEPTH,
-			 _RESAMPLER_USE_FOR_GEN_GRAY_LEVEL);
+			 magic_number, _RESAMPLER_USE_FOR_GEN_EXPECTED_DEPTH, _RESAMPLER_USE_FOR_GEN_GRAY_LEVEL);
 
   (*map_w) = resampler.target_w;
   (*map_h) = resampler.target_h;
@@ -489,18 +431,14 @@ check_bounds (int *x, int *y, int w, int h)
  * Return value: none.
  */
 void
-lw6ldr_resampler_force (lw6ldr_resampler_t * resampler,
-			int source_w,
-			int source_h, int target_w, int target_h)
+lw6ldr_resampler_force (lw6ldr_resampler_t * resampler, int source_w, int source_h, int target_w, int target_h)
 {
   resampler->target_w = target_w;
   resampler->target_h = target_h;
   resampler->source_w = source_w;
   resampler->source_h = source_h;
-  resampler->scale_x =
-    ((float) (resampler->target_w)) / ((float) (resampler->source_w));
-  resampler->scale_y =
-    ((float) (resampler->target_h)) / ((float) (resampler->source_h));
+  resampler->scale_x = ((float) (resampler->target_w)) / ((float) (resampler->source_w));
+  resampler->scale_y = ((float) (resampler->target_h)) / ((float) (resampler->source_h));
 }
 
 /**
@@ -518,14 +456,10 @@ lw6ldr_resampler_force (lw6ldr_resampler_t * resampler,
  * Return value: none.
  */
 void
-lw6ldr_resampler_source2target (const lw6ldr_resampler_t * resampler,
-				int *target_x, int *target_y, int source_x,
-				int source_y)
+lw6ldr_resampler_source2target (const lw6ldr_resampler_t * resampler, int *target_x, int *target_y, int source_x, int source_y)
 {
-  (*target_x) =
-    (int) (floor ((((float) source_x) + _RESAMPLER_05) * resampler->scale_x));
-  (*target_y) =
-    (int) (floor ((((float) source_y) + _RESAMPLER_05) * resampler->scale_y));
+  (*target_x) = (int) (floor ((((float) source_x) + _RESAMPLER_05) * resampler->scale_x));
+  (*target_y) = (int) (floor ((((float) source_y) + _RESAMPLER_05) * resampler->scale_y));
   check_bounds (target_x, target_y, resampler->target_w, resampler->target_h);
 }
 
@@ -547,13 +481,9 @@ lw6ldr_resampler_source2target (const lw6ldr_resampler_t * resampler,
  * Return value: none.
  */
 void
-lw6ldr_resampler_target2source (const lw6ldr_resampler_t * resampler,
-				int *source_x, int *source_y, int target_x,
-				int target_y)
+lw6ldr_resampler_target2source (const lw6ldr_resampler_t * resampler, int *source_x, int *source_y, int target_x, int target_y)
 {
-  (*source_x) =
-    (int) (floor ((((float) target_x) + _RESAMPLER_05) / resampler->scale_x));
-  (*source_y) =
-    (int) (floor ((((float) target_y) + _RESAMPLER_05) / resampler->scale_y));
+  (*source_x) = (int) (floor ((((float) target_x) + _RESAMPLER_05) / resampler->scale_x));
+  (*source_y) = (int) (floor ((((float) target_y) + _RESAMPLER_05) / resampler->scale_y));
   check_bounds (source_x, source_y, resampler->source_w, resampler->source_h);
 }

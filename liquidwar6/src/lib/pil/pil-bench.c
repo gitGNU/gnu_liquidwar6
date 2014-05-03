@@ -97,13 +97,10 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
       _lw6pil_pilot_send_command (pilot, *command, 1);
       command++;
     }
-  command_str =
-    lw6sys_new_sprintf (sys_context, BENCH_NOP_COMMAND,
-			(long long) BENCH_INFINITE_SEQ);
+  command_str = lw6sys_new_sprintf (sys_context, BENCH_NOP_COMMAND, (long long) BENCH_INFINITE_SEQ);
   if (command_str)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("infinite command \"%s\""), command_str);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("infinite command \"%s\""), command_str);
       _lw6pil_pilot_send_command (pilot, command_str, 0);
       _lw6pil_pilot_send_command (pilot, command_str, 1);
       LW6SYS_FREE (sys_context, command_str);
@@ -113,71 +110,40 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
   computed_reference_begin = pilot->reference.computed_rounds;
   computed_draft_begin = pilot->draft.computed_rounds;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("stress start dummy=%" LW6SYS_PRINTF_LL "d"),
-	      (long long) dummy);
-  while ((current_time =
-	  lw6sys_get_timestamp (sys_context,)) < start_time + BENCH_DURATION)
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("stress start dummy=%" LW6SYS_PRINTF_LL "d"), (long long) dummy);
+  while ((current_time = lw6sys_get_timestamp (sys_context,)) < start_time + BENCH_DURATION)
     {
       current_seq = _lw6pil_pilot_get_reference_current_seq (pilot);
       if (current_seq - BENCH_ANTICIPATION_DELTA >= last_seq)
 	{
-	  command_str =
-	    lw6sys_new_sprintf (sys_context, BENCH_NOP_COMMAND,
-				(long long) (BENCH_INFINITE_SEQ +
-					     current_seq + 1));
+	  command_str = lw6sys_new_sprintf (sys_context, BENCH_NOP_COMMAND, (long long) (BENCH_INFINITE_SEQ + current_seq + 1));
 	  if (command_str)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("anticipate at seq %" LW6SYS_PRINTF_LL
-			       "d with \"%s\""), (long long) current_seq,
-			  command_str);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("anticipate at seq %" LW6SYS_PRINTF_LL "d with \"%s\""), (long long) current_seq, command_str);
 	      _lw6pil_pilot_send_command (pilot, command_str, 0);
 	      LW6SYS_FREE (sys_context, command_str);
 	    }
 	  _lw6pil_pilot_commit (NULL, pilot);
 	  last_seq = current_seq;
 	}
-      lw6sys_progress_update (sys_context, progress, 0, BENCH_DURATION,
-			      current_time - start_time);
+      lw6sys_progress_update (sys_context, progress, 0, BENCH_DURATION, current_time - start_time);
       _lw6pil_bench_dummy_nop (&dummy);
     }
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("stress stop dummy=%" LW6SYS_PRINTF_LL "d"),
-	      (long long) dummy);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("stress stop dummy=%" LW6SYS_PRINTF_LL "d"), (long long) dummy);
 
-  seq_reference =
-    _lw6pil_pilot_round2seq (pilot,
-			     lw6ker_game_state_get_rounds
-			     (pilot->reference.game_state));
-  seq_draft =
-    _lw6pil_pilot_round2seq (pilot,
-			     lw6ker_game_state_get_rounds (sys_context,
-							   pilot->draft.
-							   game_state));
+  seq_reference = _lw6pil_pilot_round2seq (pilot, lw6ker_game_state_get_rounds (pilot->reference.game_state));
+  seq_draft = _lw6pil_pilot_round2seq (pilot, lw6ker_game_state_get_rounds (sys_context, pilot->draft.game_state));
   computed_reference_end = pilot->reference.computed_rounds;
   computed_draft_end = pilot->draft.computed_rounds;
-  computed_reference_delta =
-    computed_reference_end - computed_reference_begin;
+  computed_reference_delta = computed_reference_end - computed_reference_begin;
   computed_draft_delta = computed_draft_end - computed_draft_begin;
   lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("bench seq_reference=%" LW6SYS_PRINTF_LL "d seq_draft=%"
-		   LW6SYS_PRINTF_LL "d"), (long long) seq_reference,
-	      (long long) seq_draft);
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_
-	      ("bench computed_reference_begin=%d computed_draft_begin=%d"),
-	      computed_reference_begin, computed_draft_begin);
+	      _x_ ("bench seq_reference=%" LW6SYS_PRINTF_LL "d seq_draft=%" LW6SYS_PRINTF_LL "d"), (long long) seq_reference, (long long) seq_draft);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bench computed_reference_begin=%d computed_draft_begin=%d"), computed_reference_begin, computed_draft_begin);
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_
-	      ("bench computed_reference_end=%d computed_draft_end=%d"),
-	      computed_reference_end, computed_draft_end);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bench computed_reference_end=%d computed_draft_end=%d"), computed_reference_end, computed_draft_end);
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_
-	      ("bench computed_reference_delta=%d computed_draft_delta=%d"),
-	      computed_reference_delta, computed_draft_delta);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bench computed_reference_delta=%d computed_draft_delta=%d"), computed_reference_delta, computed_draft_delta);
 
   /*
      Previous versions of bench used to take draft_delta in account
@@ -187,10 +153,7 @@ do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
      LW6SYS_TICKS_PER_SEC) / (2.0f * BENCH_DURATION);
    */
 
-  (*value) =
-    lw6sys_math_lin2log (sys_context, ((float) (computed_reference_delta *
-						LW6SYS_TICKS_PER_SEC)) /
-			 BENCH_DURATION, LW6MAP_LOG2LIN_BASE);
+  (*value) = lw6sys_math_lin2log (sys_context, ((float) (computed_reference_delta * LW6SYS_TICKS_PER_SEC)) / BENCH_DURATION, LW6MAP_LOG2LIN_BASE);
 }
 
 static int
@@ -206,8 +169,7 @@ _write_bench (int argc, const char *argv[], float value)
   user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
   if (user_dir)
     {
-      bench_txt_path =
-	lw6sys_path_concat (sys_context, user_dir, _LW6PIL_BENCH_TXT);
+      bench_txt_path = lw6sys_path_concat (sys_context, user_dir, _LW6PIL_BENCH_TXT);
       if (bench_txt_path)
 	{
 	  locale = setlocale (LC_ALL, NULL);
@@ -222,8 +184,7 @@ _write_bench (int argc, const char *argv[], float value)
 
 	      setlocale (LC_ALL, "C");
 
-	      bench_txt_content =
-		lw6sys_new_sprintf (sys_context, "%0.2f\n", value);
+	      bench_txt_content = lw6sys_new_sprintf (sys_context, "%0.2f\n", value);
 
 	      setlocale (LC_ALL, old_locale);
 	      if (old_locale)
@@ -233,9 +194,7 @@ _write_bench (int argc, const char *argv[], float value)
 	    }
 	  if (bench_txt_content)
 	    {
-	      ret =
-		lw6sys_write_file_content (sys_context, bench_txt_path,
-					   bench_txt_content);
+	      ret = lw6sys_write_file_content (sys_context, bench_txt_path, bench_txt_content);
 	      LW6SYS_FREE (sys_context, bench_txt_content);
 	    }
 	  LW6SYS_FREE (sys_context, bench_txt_path);
@@ -260,8 +219,7 @@ _write_bench (int argc, const char *argv[], float value)
  * Return value: 1 on success, 0 if failure
  */
 int
-lw6pil_bench (int argc, const char *argv[], float *bench_result,
-	      lw6sys_progress_t * progress)
+lw6pil_bench (int argc, const char *argv[], float *bench_result, lw6sys_progress_t * progress)
 {
   int ret = 0;
 
@@ -277,29 +235,21 @@ lw6pil_bench (int argc, const char *argv[], float *bench_result,
   lw6sys_progress_t progress_pilot;
   lw6sys_progress_t progress_do;
 
-  lw6sys_progress_split_here (sys_context, &progress_init, &progress_do,
-			      progress, _PROGRESS_INIT_HERE);
-  lw6sys_progress_split4 (sys_context, &progress_level, &progress_game_struct,
-			  &progress_game_state, &progress_pilot,
-			  &progress_init);
+  lw6sys_progress_split_here (sys_context, &progress_init, &progress_do, progress, _PROGRESS_INIT_HERE);
+  lw6sys_progress_split4 (sys_context, &progress_level, &progress_game_struct, &progress_game_state, &progress_pilot, &progress_init);
   lw6sys_progress_begin (sys_context, &progress_level);
   level = lw6map_builtin_defaults ();
   lw6sys_progress_end (sys_context, &progress_level);
   if (level)
     {
       level->param.rules.total_time = LW6MAP_RULES_MAX_TOTAL_TIME;
-      game_struct =
-	lw6ker_game_struct_new (sys_context, level, &progress_game_struct);
+      game_struct = lw6ker_game_struct_new (sys_context, level, &progress_game_struct);
       if (game_struct)
 	{
-	  game_state =
-	    lw6ker_game_state_new (sys_context, game_struct,
-				   &progress_game_state);
+	  game_state = lw6ker_game_state_new (sys_context, game_struct, &progress_game_state);
 	  if (game_state)
 	    {
-	      pilot =
-		_lw6pil_pilot_new (game_state, BENCH_SEQ_0, BENCH_TIMESTAMP,
-				   &progress_pilot);
+	      pilot = _lw6pil_pilot_new (game_state, BENCH_SEQ_0, BENCH_TIMESTAMP, &progress_pilot);
 	      if (pilot)
 		{
 		  /*
@@ -315,8 +265,7 @@ lw6pil_bench (int argc, const char *argv[], float *bench_result,
 		  level = NULL;
 
 		  do_bench (pilot, &value, &progress_do);
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_ ("bench value=%0.3f"), value);
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bench value=%0.3f"), value);
 		  if (bench_result)
 		    {
 		      (*bench_result) = value;

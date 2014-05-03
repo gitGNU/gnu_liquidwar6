@@ -66,8 +66,7 @@ _register_and_run_tests (int argc, const char **argv, int mode)
 	    && lw6nod_test_register (mode) && lw6cnx_test_register (mode)
 	    && lw6msg_test_register (mode) && lw6cli_test_register (mode)
 	    && lw6srv_test_register (mode) && lw6dat_test_register (mode)
-	    && lw6p2p_test_register (mode) && lw6scm_test_register (mode)
-	    && lw6_test_register (mode);
+	    && lw6p2p_test_register (mode) && lw6scm_test_register (mode) && lw6_test_register (mode);
 
 	  if (ret)
 	    {
@@ -78,8 +77,7 @@ _register_and_run_tests (int argc, const char **argv, int mode)
     }
 
 #else // LW6_CUNIT
-  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-	      _x_ ("no test support, CUnit not linked"));
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("no test support, CUnit not linked"));
   ret = 0;
 #endif // LW6_CUNIT
 
@@ -127,20 +125,14 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 		{
 		  lw6sys_log_clear (log_file);
 
-		  ret =
-		    _register_and_run_tests (argc, argv,
-					     LW6SYS_TEST_MODE_FULL_TEST);
+		  ret = _register_and_run_tests (argc, argv, LW6SYS_TEST_MODE_FULL_TEST);
 		  if (ret)
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				  _("all tests SUCCESSFULL!"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _("all tests SUCCESSFULL!"));
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-				  _
-				  ("test FAILED, see log file \"%s\" for details"),
-				  log_file);
+		      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("test FAILED, see log file \"%s\" for details"), log_file);
 		    }
 		  LW6SYS_FREE (log_file);
 		}
@@ -156,9 +148,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 		  ret = _register_and_run_tests (argc, argv, 0);
 		  if (ret)
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				  _x_
-				  ("all tests SUCCESSFULL! (check-only mode)"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("all tests SUCCESSFULL! (check-only mode)"));
 		    }
 		  else
 		    {
@@ -166,10 +156,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 		       * Here only a warning, not an error which can require
 		       * interactive operation to finish
 		       */
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_
-				  ("check FAILED, see log file \"%s\" for details"),
-				  log_file);
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("check FAILED, see log file \"%s\" for details"), log_file);
 		    }
 		  LW6SYS_FREE (log_file);
 		}
@@ -182,21 +169,14 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 		{
 		  lw6sys_log_clear (log_file);
 
-		  ret =
-		    _register_and_run_tests (argc, argv,
-					     LW6SYS_TEST_MODE_FULL_TEST |
-					     LW6SYS_TEST_MODE_INTERACTIVE);
+		  ret = _register_and_run_tests (argc, argv, LW6SYS_TEST_MODE_FULL_TEST | LW6SYS_TEST_MODE_INTERACTIVE);
 		  if (ret)
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				  _("all tests SUCCESSFULL!"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _("all tests SUCCESSFULL!"));
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-				  _
-				  ("test FAILED, see log file \"%s\" for details"),
-				  log_file);
+		      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("test FAILED, see log file \"%s\" for details"), log_file);
 		    }
 		  LW6SYS_FREE (log_file);
 		}
@@ -224,8 +204,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  /*
 	   * Show any interesting path
 	   */
-	  else
-	    if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_USER_DIR, argv[i]))
+	  else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_USER_DIR, argv[i]))
 	    {
 	      path = lw6cfg_unified_get_user_dir (argc, argv);
 	      if (path)
@@ -236,8 +215,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 		}
 	      (*run_game) = 0;
 	    }
-	  else
-	    if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_LOG_FILE, argv[i]))
+	  else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_LOG_FILE, argv[i]))
 	    {
 	      path = lw6cfg_unified_get_log_file (argc, argv);
 	      if (path)
@@ -248,9 +226,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 		}
 	      (*run_game) = 0;
 	    }
-	  else
-	    if (lw6sys_arg_match
-		(sys_context, LW6DEF_SHOW_MUSIC_PATH, argv[i]))
+	  else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_MUSIC_PATH, argv[i]))
 	    {
 	      path = lw6cfg_unified_get_music_path (argc, argv);
 	      if (path)
@@ -261,8 +237,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 		}
 	      (*run_game) = 0;
 	    }
-	  else
-	    if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_MAP_PATH, argv[i]))
+	  else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_MAP_PATH, argv[i]))
 	    {
 	      path = lw6cfg_unified_get_map_path (argc, argv);
 	      if (path)
@@ -276,8 +251,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  /*
 	   * Decode/encode debugging routines
 	   */
-	  else
-	    if (lw6sys_arg_match (sys_context, LW6DEF_BASE64_ENCODE, argv[i]))
+	  else if (lw6sys_arg_match (sys_context, LW6DEF_BASE64_ENCODE, argv[i]))
 	    {
 	      input = lw6sys_stream_file_to_str (stdin);
 	      if (input)
@@ -293,8 +267,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 		}
 	      (*run_game) = 0;
 	    }
-	  else
-	    if (lw6sys_arg_match (sys_context, LW6DEF_BASE64_DECODE, argv[i]))
+	  else if (lw6sys_arg_match (sys_context, LW6DEF_BASE64_DECODE, argv[i]))
 	    {
 	      input = lw6sys_stream_file_to_str (stdin);
 	      if (input)
@@ -343,9 +316,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  /*
 	   * Simulate fights for statistics
 	   */
-	  else
-	    if (lw6sys_arg_match
-		(sys_context, LW6DEF_SIMULATE_BASIC, argv[i]))
+	  else if (lw6sys_arg_match (sys_context, LW6DEF_SIMULATE_BASIC, argv[i]))
 	    {
 	      lw6sim_results_t results;
 
@@ -353,8 +324,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	      lw6sim_print (&results, stdout);
 	      (*run_game) = 0;
 	    }
-	  else
-	    if (lw6sys_arg_match (sys_context, LW6DEF_SIMULATE_FULL, argv[i]))
+	  else if (lw6sys_arg_match (sys_context, LW6DEF_SIMULATE_FULL, argv[i]))
 	    {
 	      lw6sim_results_t results;
 

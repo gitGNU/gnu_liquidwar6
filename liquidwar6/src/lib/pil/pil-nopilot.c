@@ -43,8 +43,7 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6pil_nopilot_poll_dump (lw6pil_dump_t * dump, const char *command_text,
-			  int64_t timestamp)
+lw6pil_nopilot_poll_dump (lw6pil_dump_t * dump, const char *command_text, int64_t timestamp)
 {
   int ret = 0;
 
@@ -54,9 +53,7 @@ lw6pil_nopilot_poll_dump (lw6pil_dump_t * dump, const char *command_text,
    */
   lw6pil_dump_zero (dump);
 
-  ret = lw6pil_command_execute_text (dump,
-				     timestamp, NULL, command_text,
-				     _LW6PIL_MIN_SEQ_0);
+  ret = lw6pil_command_execute_text (dump, timestamp, NULL, command_text, _LW6PIL_MIN_SEQ_0);
 
   return ret;
 }

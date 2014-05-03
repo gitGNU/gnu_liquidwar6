@@ -30,8 +30,7 @@
 void
 _mod_httpd_reply_thread_func (void *callback_data)
 {
-  _mod_httpd_reply_thread_data_t *reply_thread_data =
-    (_mod_httpd_reply_thread_data_t *) callback_data;
+  _mod_httpd_reply_thread_data_t *reply_thread_data = (_mod_httpd_reply_thread_data_t *) callback_data;
   _mod_httpd_context_t *httpd_context = reply_thread_data->httpd_context;
   lw6cnx_connection_t *cnx = reply_thread_data->cnx;
   _mod_httpd_request_t *request = NULL;
@@ -55,32 +54,23 @@ _mod_httpd_reply_thread_func (void *callback_data)
 	      if (request->get_head_post == _MOD_HTTPD_GET)
 		{
 		  envelope_line = request->uri;
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("mod_httpd received envelope \"%s\""),
-			      envelope_line);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_httpd received envelope \"%s\""), envelope_line);
 		  if (lw6msg_envelope_analyse
 		      (envelope_line, LW6MSG_ENVELOPE_MODE_URL,
 		       cnx->local_url, cnx->password,
 		       cnx->remote_id_int,
 		       cnx->local_id_int, &msg,
-		       &physical_ticket_sig, &logical_ticket_sig,
-		       &physical_from_id, &physical_to_id,
-		       &logical_from_id, &logical_to_id, NULL))
+		       &physical_ticket_sig, &logical_ticket_sig, &physical_from_id, &physical_to_id, &logical_from_id, &logical_to_id, NULL))
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_ ("mod_httpd analysed msg \"%s\""), msg);
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_httpd analysed msg \"%s\""), msg);
 		      if (cnx->recv_callback_func)
 			{
 			  cnx->recv_callback_func
-			    (cnx->recv_callback_data,
-			     (void *) cnx, physical_ticket_sig,
-			     logical_ticket_sig, logical_from_id,
-			     logical_to_id, msg);
+			    (cnx->recv_callback_data, (void *) cnx, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, msg);
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				      _x_ ("no recv callback defined"));
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no recv callback defined"));
 			}
 		      /*
 		       * Give response only once we've called
@@ -88,8 +78,7 @@ _mod_httpd_reply_thread_func (void *callback_data)
 		       * need to reply right back to
 		       * a ping for instance.
 		       */
-		      response =
-			_mod_httpd_reply_thread_response (reply_thread_data);
+		      response = _mod_httpd_reply_thread_response (reply_thread_data);
 		      LW6SYS_FREE (sys_context, msg);
 		    }
 		}
@@ -99,32 +88,22 @@ _mod_httpd_reply_thread_func (void *callback_data)
 		   * We don't accept HEAD or POST for in-band
 		   * messages.
 		   */
-		  response =
-		    _mod_httpd_http_error (httpd_context,
-					   _MOD_HTTPD_STATUS_405);
+		  response = _mod_httpd_http_error (httpd_context, _MOD_HTTPD_STATUS_405);
 		}
 	      if (!response)
 		{
-		  response =
-		    _mod_httpd_http_error (httpd_context,
-					   _MOD_HTTPD_STATUS_500);
+		  response = _mod_httpd_http_error (httpd_context, _MOD_HTTPD_STATUS_500);
 		}
 	      if (response)
 		{
-		  if (_mod_httpd_response_send (httpd_context, response,
-						&(reply_thread_data->sock),
-						0))
+		  if (_mod_httpd_response_send (httpd_context, response, &(reply_thread_data->sock), 0))
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_ ("mod_httpd sent %d bytes"),
-				  response->content_size);
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_httpd sent %d bytes"), response->content_size);
 		      _mod_httpd_log (httpd_context, request, response);
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_ ("request \"%s\" failed"),
-				  request->uri);
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request \"%s\" failed"), request->uri);
 		    }
 		  _mod_httpd_response_free (response);
 		}
@@ -137,8 +116,7 @@ _mod_httpd_reply_thread_func (void *callback_data)
 void
 _mod_httpd_reply_thread_join (void *callback_data)
 {
-  _mod_httpd_reply_thread_data_t *reply_thread_data =
-    (_mod_httpd_reply_thread_data_t *) callback_data;
+  _mod_httpd_reply_thread_data_t *reply_thread_data = (_mod_httpd_reply_thread_data_t *) callback_data;
 
   if (reply_thread_data)
     {
@@ -153,9 +131,7 @@ _mod_httpd_reply_thread_free_list_item (void *data)
   _mod_httpd_reply_thread_data_t *reply_thread_data = NULL;
   lw6sys_thread_handler_t *handler = (lw6sys_thread_handler_t *) data;
 
-  reply_thread_data =
-    (_mod_httpd_reply_thread_data_t *) lw6sys_thread_get_data (sys_context,
-							       handler);
+  reply_thread_data = (_mod_httpd_reply_thread_data_t *) lw6sys_thread_get_data (sys_context, handler);
   reply_thread_data->do_not_finish = 1;
 
   lw6sys_thread_join (sys_context, handler);
@@ -175,27 +151,23 @@ _mod_httpd_reply_thread_filter (void *func_data, void *data)
 }
 
 int
-_mod_httpd_reply_thread_should_continue (_mod_httpd_reply_thread_data_t *
-					 reply_thread_data)
+_mod_httpd_reply_thread_should_continue (_mod_httpd_reply_thread_data_t * reply_thread_data)
 {
   int ret = 0;
 
   ret = (_mod_httpd_timeout_ok (reply_thread_data->httpd_context,
 				reply_thread_data->creation_timestamp)
-	 && lw6net_tcp_is_alive (&(reply_thread_data->sock))
-	 && (!reply_thread_data->do_not_finish));
+	 && lw6net_tcp_is_alive (&(reply_thread_data->sock)) && (!reply_thread_data->do_not_finish));
 
   return ret;
 }
 
 _mod_httpd_response_t *
-_mod_httpd_reply_thread_response (_mod_httpd_reply_thread_data_t *
-				  reply_thread_data)
+_mod_httpd_reply_thread_response (_mod_httpd_reply_thread_data_t * reply_thread_data)
 {
   _mod_httpd_context_t *httpd_context = reply_thread_data->httpd_context;
   lw6cnx_connection_t *cnx = reply_thread_data->cnx;
-  _mod_httpd_specific_data_t *specific_data =
-    (_mod_httpd_specific_data_t *) cnx->backend_specific_data;
+  _mod_httpd_specific_data_t *specific_data = (_mod_httpd_specific_data_t *) cnx->backend_specific_data;
   _mod_httpd_response_t *response = NULL;
   char *send_buffer = NULL;
 
@@ -216,12 +188,7 @@ _mod_httpd_reply_thread_response (_mod_httpd_reply_thread_data_t *
 
   if (send_buffer)
     {
-      response =
-	_mod_httpd_response_from_str (httpd_context,
-				      _MOD_HTTPD_STATUS_200,
-				      0, 0, NULL,
-				      httpd_context->data.
-				      consts.content_type_txt, send_buffer);
+      response = _mod_httpd_response_from_str (httpd_context, _MOD_HTTPD_STATUS_200, 0, 0, NULL, httpd_context->data.consts.content_type_txt, send_buffer);
       LW6SYS_FREE (send_buffer);
     }
 

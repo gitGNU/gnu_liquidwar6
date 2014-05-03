@@ -30,8 +30,7 @@
 #define SUB "snd/ogg"
 
 int
-_mod_ogg_path_init (_mod_ogg_context_t * ogg_context, int argc,
-		    const char *argv[])
+_mod_ogg_path_init (_mod_ogg_context_t * ogg_context, int argc, const char *argv[])
 {
   char *data_root_dir = NULL;
   int ret = 0;
@@ -39,8 +38,7 @@ _mod_ogg_path_init (_mod_ogg_context_t * ogg_context, int argc,
   data_root_dir = lw6sys_get_data_dir (sys_context, argc, argv);
   if (data_root_dir)
     {
-      ogg_context->path.data_dir =
-	lw6sys_path_concat (sys_context, data_root_dir, SUB);
+      ogg_context->path.data_dir = lw6sys_path_concat (sys_context, data_root_dir, SUB);
       ret = 1;
       LW6SYS_FREE (sys_context, data_root_dir);
     }

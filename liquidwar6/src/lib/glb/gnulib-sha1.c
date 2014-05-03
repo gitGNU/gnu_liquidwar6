@@ -228,9 +228,7 @@ sha1_process_bytes (const void *buffer, size_t len, struct sha1_ctx *ctx)
 
 	  ctx->buflen &= 63;
 	  /* The regions in the following copy operation cannot overlap.  */
-	  memcpy (ctx->buffer,
-		  &((char *) ctx->buffer)[(left_over + add) & ~63],
-		  ctx->buflen);
+	  memcpy (ctx->buffer, &((char *) ctx->buffer)[(left_over + add) & ~63], ctx->buflen);
 	}
 
       buffer = (const char *) buffer + add;

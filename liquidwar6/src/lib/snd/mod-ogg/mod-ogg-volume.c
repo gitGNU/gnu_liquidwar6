@@ -52,9 +52,7 @@ _mod_ogg_set_water_volume (_mod_ogg_context_t * ogg_context, float volume)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("not even channels (%d) to handle water"),
-		  ogg_context->mixer.nb_channels);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("not even channels (%d) to handle water"), ogg_context->mixer.nb_channels);
     }
 }
 

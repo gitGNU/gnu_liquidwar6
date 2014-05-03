@@ -62,9 +62,7 @@ lw6snd_get_backends (int argc, const char *argv[])
       module_pedigree = mod_csound_get_pedigree ();
       if (module_pedigree)
 	{
-	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id,
-			    lw6sys_str_copy (sys_context,
-					     module_pedigree->name));
+	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
 #endif
@@ -72,9 +70,7 @@ lw6snd_get_backends (int argc, const char *argv[])
       module_pedigree = mod_ogg_get_pedigree ();
       if (module_pedigree)
 	{
-	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id,
-			    lw6sys_str_copy (sys_context,
-					     module_pedigree->name));
+	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
 #endif
@@ -124,8 +120,7 @@ lw6snd_create_backend (int argc, const char *argv[], const char *name)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("sound backend \"%s\" does not exist"), name);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("sound backend \"%s\" does not exist"), name);
     }
 #else
   lw6dyn_dl_handle_t *backend_handle = NULL;
@@ -137,9 +132,7 @@ lw6snd_create_backend (int argc, const char *argv[], const char *name)
       char *init_func_name;
       lw6snd_backend_t *(*init_func) ();
 
-      init_func_name =
-	lw6sys_new_sprintf (sys_context, LW6DYN_CREATE_BACKEND_FUNC_FORMAT,
-			    name);
+      init_func_name = lw6sys_new_sprintf (sys_context, LW6DYN_CREATE_BACKEND_FUNC_FORMAT, name);
       if (init_func_name)
 	{
 	  init_func = lw6dyn_dlsym (backend_handle, init_func_name);
@@ -149,10 +142,7 @@ lw6snd_create_backend (int argc, const char *argv[], const char *name)
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_
-			  ("unable to find function \"%s\" in sound backend \"%s\""),
-			  init_func_name, name);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to find function \"%s\" in sound backend \"%s\""), init_func_name, name);
 	    }
 
 	  LW6SYS_FREE (sys_context, init_func_name);
@@ -168,8 +158,7 @@ lw6snd_create_backend (int argc, const char *argv[], const char *name)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to open sound backend \"%s\""), name);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to open sound backend \"%s\""), name);
     }
 #endif
 

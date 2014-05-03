@@ -46,8 +46,7 @@ lw6gui_keyboard_check_keysym (int keysym)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("keysym %d out of range"), keysym);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("keysym %d out of range"), keysym);
     }
 
   return ret;
@@ -70,9 +69,7 @@ lw6gui_keyboard_pop_keypress (lw6gui_keyboard_t * keyboard)
 
   if (!lw6sys_list_is_empty (sys_context, keyboard->queue))
     {
-      ret =
-	(lw6gui_keypress_t *) lw6sys_list_pop_front (sys_context,
-						     &(keyboard->queue));
+      ret = (lw6gui_keypress_t *) lw6sys_list_pop_front (sys_context, &(keyboard->queue));
     }
 
   return ret;
@@ -119,22 +116,18 @@ lw6gui_keyboard_is_pressed (const lw6gui_keyboard_t * keyboard, int keysym)
  * Return value: 1 if success, O if failure.
  */
 int
-lw6gui_keyboard_register_key_down (lw6gui_keyboard_t * keyboard, int keysym,
-				   int unicode, char *label,
-				   int64_t timestamp)
+lw6gui_keyboard_register_key_down (lw6gui_keyboard_t * keyboard, int keysym, int unicode, char *label, int64_t timestamp)
 {
   int ret = 0;
   lw6gui_keypress_t *keypress;
 
   if (lw6gui_keyboard_check_keysym (keysym))
     {
-      lw6gui_button_register_down (&(keyboard->keys_state[keysym]),
-				   timestamp);
+      lw6gui_button_register_down (&(keyboard->keys_state[keysym]), timestamp);
       keypress = lw6gui_keypress_new (keysym, unicode, label);
       if (keypress)
 	{
-	  lw6sys_list_push_back (sys_context, &(keyboard->queue),
-				 (void *) keypress);
+	  lw6sys_list_push_back (sys_context, &(keyboard->queue), (void *) keypress);
 	  ret = 1;
 	}
     }
@@ -179,38 +172,24 @@ lw6gui_keyboard_register_key_up (lw6gui_keyboard_t * keyboard, int keysym)
  * Return value: none.
  */
 void
-lw6gui_keyboard_update_repeat (lw6gui_keyboard_t * keyboard,
-			       lw6gui_repeat_settings_t * repeat_settings,
-			       int64_t timestamp)
+lw6gui_keyboard_update_repeat (lw6gui_keyboard_t * keyboard, lw6gui_repeat_settings_t * repeat_settings, int64_t timestamp)
 {
   int i = 0;
 
-  lw6gui_button_update_repeat (&(keyboard->arrow_up), repeat_settings,
-			       timestamp, keyboard->auto_release_enabled);
-  lw6gui_button_update_repeat (&(keyboard->arrow_down), repeat_settings,
-			       timestamp, keyboard->auto_release_enabled);
-  lw6gui_button_update_repeat (&(keyboard->arrow_left), repeat_settings,
-			       timestamp, keyboard->auto_release_enabled);
-  lw6gui_button_update_repeat (&(keyboard->arrow_right), repeat_settings,
-			       timestamp, keyboard->auto_release_enabled);
-  lw6gui_button_update_repeat (&(keyboard->key_enter), repeat_settings,
-			       timestamp, keyboard->auto_release_enabled);
-  lw6gui_button_update_repeat (&(keyboard->key_esc), repeat_settings,
-			       timestamp, keyboard->auto_release_enabled);
-  lw6gui_button_update_repeat (&(keyboard->key_ctrl), repeat_settings,
-			       timestamp, keyboard->auto_release_enabled);
-  lw6gui_button_update_repeat (&(keyboard->key_alt), repeat_settings,
-			       timestamp, keyboard->auto_release_enabled);
-  lw6gui_button_update_repeat (&(keyboard->key_pgup), repeat_settings,
-			       timestamp, keyboard->auto_release_enabled);
-  lw6gui_button_update_repeat (&(keyboard->key_pgdown), repeat_settings,
-			       timestamp, keyboard->auto_release_enabled);
+  lw6gui_button_update_repeat (&(keyboard->arrow_up), repeat_settings, timestamp, keyboard->auto_release_enabled);
+  lw6gui_button_update_repeat (&(keyboard->arrow_down), repeat_settings, timestamp, keyboard->auto_release_enabled);
+  lw6gui_button_update_repeat (&(keyboard->arrow_left), repeat_settings, timestamp, keyboard->auto_release_enabled);
+  lw6gui_button_update_repeat (&(keyboard->arrow_right), repeat_settings, timestamp, keyboard->auto_release_enabled);
+  lw6gui_button_update_repeat (&(keyboard->key_enter), repeat_settings, timestamp, keyboard->auto_release_enabled);
+  lw6gui_button_update_repeat (&(keyboard->key_esc), repeat_settings, timestamp, keyboard->auto_release_enabled);
+  lw6gui_button_update_repeat (&(keyboard->key_ctrl), repeat_settings, timestamp, keyboard->auto_release_enabled);
+  lw6gui_button_update_repeat (&(keyboard->key_alt), repeat_settings, timestamp, keyboard->auto_release_enabled);
+  lw6gui_button_update_repeat (&(keyboard->key_pgup), repeat_settings, timestamp, keyboard->auto_release_enabled);
+  lw6gui_button_update_repeat (&(keyboard->key_pgdown), repeat_settings, timestamp, keyboard->auto_release_enabled);
 
   for (i = 0; i < LW6GUI_NB_KEYS; ++i)
     {
-      lw6gui_button_update_repeat (&(keyboard->keys_state[i]),
-				   repeat_settings, timestamp,
-				   keyboard->auto_release_enabled);
+      lw6gui_button_update_repeat (&(keyboard->keys_state[i]), repeat_settings, timestamp, keyboard->auto_release_enabled);
     }
 }
 
@@ -242,8 +221,7 @@ lw6gui_keyboard_sync (lw6gui_keyboard_t * dst, lw6gui_keyboard_t * src)
     lw6gui_button_sync (&(dst->key_esc), &(src->key_esc)) &&
     lw6gui_button_sync (&(dst->key_ctrl), &(src->key_ctrl)) &&
     lw6gui_button_sync (&(dst->key_alt), &(src->key_alt)) &&
-    lw6gui_button_sync (&(dst->key_pgup), &(src->key_pgup)) &&
-    lw6gui_button_sync (&(dst->key_pgdown), &(src->key_pgdown));
+    lw6gui_button_sync (&(dst->key_pgup), &(src->key_pgup)) && lw6gui_button_sync (&(dst->key_pgdown), &(src->key_pgdown));
 
   /*
    * We use raw list functions to pop/push objects to avoid
@@ -254,15 +232,13 @@ lw6gui_keyboard_sync (lw6gui_keyboard_t * dst, lw6gui_keyboard_t * src)
       keypress = (lw6gui_keypress_t *) lw6sys_list_pop_front (&(src->queue));
       if (keypress)
 	{
-	  lw6sys_list_push_back (sys_context, &(dst->queue),
-				 (void *) keypress);
+	  lw6sys_list_push_back (sys_context, &(dst->queue), (void *) keypress);
 	}
     }
 
   for (i = 0; i < LW6GUI_NB_KEYS; ++i)
     {
-      ret = lw6gui_button_sync (&(dst->keys_state[i]), &(src->keys_state[i]))
-	&& ret;
+      ret = lw6gui_button_sync (&(dst->keys_state[i]), &(src->keys_state[i])) && ret;
     }
 
   return ret;
@@ -280,8 +256,7 @@ lw6gui_keyboard_sync (lw6gui_keyboard_t * dst, lw6gui_keyboard_t * src)
  * Return value: none, the value are stored in @move_pad.
  */
 void
-lw6gui_keyboard_get_move_pad (const lw6gui_keyboard_t * keyboard,
-			      lw6gui_move_pad_t * move_pad)
+lw6gui_keyboard_get_move_pad (const lw6gui_keyboard_t * keyboard, lw6gui_move_pad_t * move_pad)
 {
   move_pad->up = lw6gui_button_is_pressed (&(keyboard->arrow_up));
   move_pad->down = lw6gui_button_is_pressed (&(keyboard->arrow_down));

@@ -30,8 +30,7 @@
  * Initialize display.
  */
 int
-_mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
-			   lw6gui_video_mode_t * video_mode)
+_mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
 {
   /* Information about the current video settings. */
   const SDL_VideoInfo *info = NULL;
@@ -56,8 +55,7 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
   height = video_mode->height;
   fullscreen = video_mode->fullscreen;
 
-  lw6sys_sleep (sys_context,
-		gles2_context->sdl_context.const_data.mode_sleep);
+  lw6sys_sleep (sys_context, gles2_context->sdl_context.const_data.mode_sleep);
 
   /* Let's get some video information. */
   info = SDL_GetVideoInfo ();
@@ -65,15 +63,12 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
   if (info)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_
-		  ("SDL VideoInfo hw_available=%d wm_available=%d video_mem=%dkb"),
-		  info->hw_available, info->wm_available, info->video_mem);
+		  _x_ ("SDL VideoInfo hw_available=%d wm_available=%d video_mem=%dkb"), info->hw_available, info->wm_available, info->video_mem);
     }
   else
     {
       /* This should probably never happen. */
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _("SDL GetVideoInfo failed: \"%s\""), SDL_GetError ());
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("SDL GetVideoInfo failed: \"%s\""), SDL_GetError ());
       fflush (stderr);
       ok = 0;
     }
@@ -123,21 +118,17 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
 
       if (width <= 0 || height <= 0)
 	{
-	  if (_mod_gles2_get_fullscreen_modes
-	      (gles2_context, &fullscreen_modes))
+	  if (_mod_gles2_get_fullscreen_modes (gles2_context, &fullscreen_modes))
 	    {
 	      width = fullscreen_modes.standard.width;
 	      height = fullscreen_modes.standard.height;
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_
-			  ("mode %dx%d selected automatically"),
-			  width, height);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mode %dx%d selected automatically"), width, height);
 	    }
 	}
 
       if (fullscreen)
 	{
-	  if (_mod_gles2_get_fullscreen_modes
-	      (gles2_context, &fullscreen_modes))
+	  if (_mod_gles2_get_fullscreen_modes (gles2_context, &fullscreen_modes))
 	    {
 	      ratio_mode = fullscreen_modes.high;
 	      target_mode.width = width;
@@ -146,17 +137,11 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
 		{
 		  width_test = target_mode.width;
 		  height_test = target_mode.height;
-		  _mod_gles2_find_closest_resolution (gles2_context,
-						      &width_test,
-						      &height_test,
-						      width_test,
-						      height_test);
+		  _mod_gles2_find_closest_resolution (gles2_context, &width_test, &height_test, width_test, height_test);
 		  if (width_test != width || height_test != height)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_
-				  ("trying mode %dx%d which seems to fit best than %dx%d"),
-				  width_test, height_test, width, height);
+				  _x_ ("trying mode %dx%d which seems to fit best than %dx%d"), width_test, height_test, width, height);
 		      width = width_test;
 		      height = height_test;
 		    }
@@ -175,9 +160,7 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
 	   * resolution not being available, etc.
 	   */
 	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		      _
-		      ("SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""),
-		      width, height, bpp, fullscreen, SDL_GetError ());
+		      _("SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""), width, height, bpp, fullscreen, SDL_GetError ());
 	}
       else
 	{
@@ -187,41 +170,28 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
 	      if (video_surface->w != width || video_surface->h != height)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_
-			      ("video surface is %dx%d and not the requested %dx%d"),
-			      video_surface->w, video_surface->h, width,
-			      height);
+			      _x_ ("video surface is %dx%d and not the requested %dx%d"), video_surface->w, video_surface->h, width, height);
 		}
 	      width = video_surface->w;
 	      height = video_surface->h;
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to get video surface"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to get video surface"));
 	    }
 
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("SDL SetVideoMode %dx%d bpp=%d fullscreen=%d"),
-		      width, height, bpp, fullscreen);
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("%d BPP"),
-		      SDL_GetVideoSurface ()->format->BitsPerPixel);
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("OpenGL vendor \"%s\""), glGetString (GL_VENDOR));
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("OpenGL renderer \"%s\""),
-		      glGetString (GL_RENDERER));
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("OpenGL version \"%s\""),
-		      glGetString (GL_VERSION));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL SetVideoMode %dx%d bpp=%d fullscreen=%d"), width, height, bpp, fullscreen);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("%d BPP"), SDL_GetVideoSurface ()->format->BitsPerPixel);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("OpenGL vendor \"%s\""), glGetString (GL_VENDOR));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("OpenGL renderer \"%s\""), glGetString (GL_RENDERER));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("OpenGL version \"%s\""), glGetString (GL_VERSION));
 	}
 
       if (ok)
 	{
 	  //_mod_gles2_show_mouse (gles2_context, 0, 1);
 	  SDL_PumpEvents ();
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("SDL events pumped"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("SDL events pumped"));
 
 	  gles2_context->sdl_context.video_mode.width = width;
 	  gles2_context->sdl_context.video_mode.height = height;
@@ -229,48 +199,35 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
 	  gles2_context->caps.bpp = bpp;
 	  gles2_context->caps.max_texture_size = 0;
 	  _mod_gles2_sync_viewport (gles2_context);
-	  glGetIntegerv (GL_MAX_TEXTURE_SIZE,
-			 &(gles2_context->caps.max_texture_size));
+	  glGetIntegerv (GL_MAX_TEXTURE_SIZE, &(gles2_context->caps.max_texture_size));
 	  if (!gles2_context->caps.max_texture_size)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to get MAX_TEXTURE_SIZE"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to get MAX_TEXTURE_SIZE"));
 	      gles2_context->caps.max_texture_size = 512;
 	    }
 	}
 
       lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("set caption to \"%s\" - \"%s\""),
-		  lw6sys_build_get_package_string (),
-		  lw6sys_build_get_package_tarname ());
-      SDL_WM_SetCaption (lw6sys_build_get_package_string (),
-			 lw6sys_build_get_package_tarname ());
+		  _x_ ("set caption to \"%s\" - \"%s\""), lw6sys_build_get_package_string (), lw6sys_build_get_package_tarname ());
+      SDL_WM_SetCaption (lw6sys_build_get_package_string (), lw6sys_build_get_package_tarname ());
 
       if (fullscreen)
 	{
-	  warp_x =
-	    gles2_context->sdl_context.const_data.warp_x * (float) width;
-	  warp_y =
-	    gles2_context->sdl_context.const_data.warp_y * (float) height;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("warp mouse to %d,%d"), warp_x, warp_y);
+	  warp_x = gles2_context->sdl_context.const_data.warp_x * (float) width;
+	  warp_y = gles2_context->sdl_context.const_data.warp_y * (float) height;
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("warp mouse to %d,%d"), warp_x, warp_y);
 	  SDL_WarpMouse (warp_x, warp_y);
 	}
 
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("OpenGL MAX_TEXTURE_SIZE = %d"),
-		  gles2_context->caps.max_texture_size);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("OpenGL MAX_TEXTURE_SIZE = %d"), gles2_context->caps.max_texture_size);
 
-      if (gles2_context->caps.max_texture_size <
-	  _MOD_GLES2_REQUIRED_TEXTURE_SIZE)
+      if (gles2_context->caps.max_texture_size < _MOD_GLES2_REQUIRED_TEXTURE_SIZE)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_
 		      ("OpenGL driver only handles %dx%d textures when %dx%d textures are needed"),
 		      gles2_context->caps.max_texture_size,
-		      gles2_context->caps.max_texture_size,
-		      _MOD_GLES2_REQUIRED_TEXTURE_SIZE,
-		      _MOD_GLES2_REQUIRED_TEXTURE_SIZE);
+		      gles2_context->caps.max_texture_size, _MOD_GLES2_REQUIRED_TEXTURE_SIZE, _MOD_GLES2_REQUIRED_TEXTURE_SIZE);
 	}
 
       /*
@@ -282,8 +239,7 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
       //_mod_gles2_timer_set_bitmap_refresh (gles2_context);
       //_mod_gles2_smoothers_reset_drawable (gles2_context);
 
-      lw6sys_sleep (sys_context,
-		    gles2_context->sdl_context.const_data.mode_sleep);
+      lw6sys_sleep (sys_context, gles2_context->sdl_context.const_data.mode_sleep);
     }
 
   return ok;
@@ -294,46 +250,32 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context,
  * Called whenever window resize is asked for.
  */
 int
-_mod_gles2_resize_video_mode (_mod_gles2_context_t * gles2_context,
-			      lw6gui_video_mode_t * video_mode)
+_mod_gles2_resize_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
-  if (video_mode->width != gles2_context->sdl_context.video_mode.width
-      || video_mode->height != gles2_context->sdl_context.video_mode.height)
+  if (video_mode->width != gles2_context->sdl_context.video_mode.width || video_mode->height != gles2_context->sdl_context.video_mode.height)
     {
       int flags = 0;
 
-      flags =
-	SDL_OPENGL | (video_mode->fullscreen ? SDL_FULLSCREEN :
-		      SDL_RESIZABLE);
+      flags = SDL_OPENGL | (video_mode->fullscreen ? SDL_FULLSCREEN : SDL_RESIZABLE);
 
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("request screen %dx%d fullscreen=%d"),
-		  video_mode->width, video_mode->height,
-		  video_mode->fullscreen);
-      if (SDL_SetVideoMode
-	  (video_mode->width, video_mode->height, gles2_context->caps.bpp,
-	   flags) != 0)
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request screen %dx%d fullscreen=%d"), video_mode->width, video_mode->height, video_mode->fullscreen);
+      if (SDL_SetVideoMode (video_mode->width, video_mode->height, gles2_context->caps.bpp, flags) != 0)
 	{
 	  gles2_context->sdl_context.video_mode = *video_mode;
 	  _mod_gles2_sync_viewport (gles2_context);
 
 	  _mod_gles2_call_resize_callback (gles2_context);
 
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("screen set to %dx%d fullscreen=%d"),
-		      video_mode->width, video_mode->height,
-		      video_mode->fullscreen);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("screen set to %dx%d fullscreen=%d"), video_mode->width, video_mode->height, video_mode->fullscreen);
 
 	  ret = 1;
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("unable to resize screen %dx%d fullscreen=%d"),
-		      video_mode->width, video_mode->height,
-		      video_mode->fullscreen);
+		      _x_ ("unable to resize screen %dx%d fullscreen=%d"), video_mode->width, video_mode->height, video_mode->fullscreen);
 	}
     }
   else
@@ -352,8 +294,7 @@ _mod_gles2_resize_video_mode (_mod_gles2_context_t * gles2_context,
 }
 
 int
-_mod_gles2_get_video_mode (_mod_gles2_context_t * gles2_context,
-			   lw6gui_video_mode_t * video_mode)
+_mod_gles2_get_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -373,10 +314,8 @@ _mod_gles2_sync_viewport (_mod_gles2_context_t * gles2_context)
   int ret = 1;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("glViewport %dx%d"),
-	      gles2_context->sdl_context.video_mode.width,
-	      gles2_context->sdl_context.video_mode.height);
-  glViewport (0, 0, gles2_context->sdl_context.video_mode.width,
-	      gles2_context->sdl_context.video_mode.height);
+	      gles2_context->sdl_context.video_mode.width, gles2_context->sdl_context.video_mode.height);
+  glViewport (0, 0, gles2_context->sdl_context.video_mode.width, gles2_context->sdl_context.video_mode.height);
   _mod_gles2_viewport_drawable_max (gles2_context);
 
   return ret;
@@ -393,14 +332,11 @@ _mod_gles2_sync_mode (_mod_gles2_context_t * gles2_context, int force)
   int flags = 0;
 
   _mod_gles2_get_video_mode (gles2_context, &video_mode);
-  flags =
-    SDL_OPENGL | (video_mode.fullscreen ? SDL_FULLSCREEN : SDL_RESIZABLE);
+  flags = SDL_OPENGL | (video_mode.fullscreen ? SDL_FULLSCREEN : SDL_RESIZABLE);
 
   if (force)
     {
-      if (SDL_SetVideoMode
-	  (video_mode.width, video_mode.height, gles2_context->caps.bpp,
-	   flags) == 0)
+      if (SDL_SetVideoMode (video_mode.width, video_mode.height, gles2_context->caps.bpp, flags) == 0)
 	{
 	  _mod_gles2_sync_viewport (gles2_context);
 	  //_mod_gles2_timer_set_bitmap_refresh (gles2_context);
@@ -409,9 +345,7 @@ _mod_gles2_sync_mode (_mod_gles2_context_t * gles2_context, int force)
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("unable to sync screen %dx%d fullscreen=%d"),
-		      video_mode.width, video_mode.height,
-		      video_mode.fullscreen);
+		      _x_ ("unable to sync screen %dx%d fullscreen=%d"), video_mode.width, video_mode.height, video_mode.fullscreen);
 	}
     }
   else
@@ -424,8 +358,7 @@ _mod_gles2_sync_mode (_mod_gles2_context_t * gles2_context, int force)
 }
 
 int
-_mod_gles2_set_resize_callback (_mod_gles2_context_t * gles2_context,
-				lw6gui_resize_callback_func_t resize_callback)
+_mod_gles2_set_resize_callback (_mod_gles2_context_t * gles2_context, lw6gui_resize_callback_func_t resize_callback)
 {
   int ret = 0;
 
@@ -440,10 +373,7 @@ _mod_gles2_call_resize_callback (_mod_gles2_context_t * gles2_context)
 {
   if (gles2_context->sdl_context.resize_callback)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("calling resize callback"));
-      gles2_context->sdl_context.resize_callback (&
-						  (gles2_context->
-						   sdl_context.video_mode));
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("calling resize callback"));
+      gles2_context->sdl_context.resize_callback (&(gles2_context->sdl_context.video_mode));
     }
 }

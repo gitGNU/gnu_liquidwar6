@@ -136,8 +136,7 @@ lw6_register_funcs ()
 {
   int ret = 1;
 
-  ret = ret
-    && lw6scm_c_define_gsubr ("C-GETTEXT", 1, 0, 0, (SCM (*)())_scm_gettext);
+  ret = ret && lw6scm_c_define_gsubr ("C-GETTEXT", 1, 0, 0, (SCM (*)())_scm_gettext);
   /*
    * This one uses scm_define_gsubr and not the binding
    * lw6scm_c_define_gsubr for _ is not documented due
@@ -169,14 +168,10 @@ lw6_register_funcs ()
   /*
    * Global control funcs
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6_RELEASE, 0, 0, 0,
-				      (SCM (*)())_scm_lw6_release);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6_EXIT, 0, 0, 0,
-				      (SCM (*)())_scm_lw6_exit);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6_SET_RET, 1, 0, 0,
-				      (SCM (*)())_scm_lw6_set_ret);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6_GET_RET, 0, 0, 0,
-				      (SCM (*)())_scm_lw6_get_ret);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6_RELEASE, 0, 0, 0, (SCM (*)())_scm_lw6_release);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6_EXIT, 0, 0, 0, (SCM (*)())_scm_lw6_exit);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6_SET_RET, 1, 0, 0, (SCM (*)())_scm_lw6_set_ret);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6_GET_RET, 0, 0, 0, (SCM (*)())_scm_lw6_get_ret);
 
   return ret;
 }
@@ -201,8 +196,7 @@ lw6_cns_handler (char *c_line)
 
   if (c_line)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("interpreting console input \"%s\""), c_line);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("interpreting console input \"%s\""), c_line);
 
       lw6cns_history_add_if_needed (c_line);
       line = scm_from_locale_string (c_line);

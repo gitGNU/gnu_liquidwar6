@@ -30,19 +30,14 @@
 #include "ldr-internal.h"
 
 static int
-read_png (lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image,
-	  lw6ldr_resampler_t * resampler, int analog,
-	  lw6sys_progress_t * progress)
+read_png (lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image, lw6ldr_resampler_t * resampler, int analog, lw6sys_progress_t * progress)
 {
   int ret = 0;
 
   meta_layer->shape.w = resampler->target_w;
   meta_layer->shape.h = resampler->target_h;
   meta_layer->shape.d = 1;	// allways 1
-  meta_layer->data =
-    (unsigned char *) LW6SYS_MALLOC (sys_context, meta_layer->shape.w *
-				     meta_layer->shape.h *
-				     sizeof (unsigned char *));
+  meta_layer->data = (unsigned char *) LW6SYS_MALLOC (sys_context, meta_layer->shape.w * meta_layer->shape.h * sizeof (unsigned char *));
 
   if (meta_layer->data)
     {
@@ -51,12 +46,10 @@ read_png (lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image,
 
       for (row = 0; row < meta_layer->shape.h; ++row)
 	{
-	  lw6sys_progress_update (sys_context, progress, 0,
-				  meta_layer->shape.h, row);
+	  lw6sys_progress_update (sys_context, progress, 0, meta_layer->shape.h, row);
 	  for (col = 0; col < meta_layer->shape.w; ++col)
 	    {
-	      lw6ldr_resampler_target2source (resampler, &col2, &row2,
-					      col, row);
+	      lw6ldr_resampler_target2source (resampler, &col2, &row2, col, row);
 	      /*
 	       * For metalayers, we always "invert" the layer meaning,
 	       * that is black is "metalayer param set to full" and
@@ -68,8 +61,7 @@ read_png (lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image,
 		{
 		  value = value ? 1 : 0;
 		}
-	      lw6map_meta_layer_set (sys_context, meta_layer, col, row,
-				     value);
+	      lw6map_meta_layer_set (sys_context, meta_layer, col, row, value);
 	    }
 	}
 
@@ -77,8 +69,7 @@ read_png (lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to allocate memory for meta_layer"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to allocate memory for meta_layer"));
     }
 
   return ret;
@@ -99,9 +90,7 @@ read_png (lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer,
-			const char *filename, int target_w, int target_h,
-			int analog)
+lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer, const char *filename, int target_w, int target_h, int analog)
 {
   int ret = 0;
   lw6ldr_resampler_t resampler;
@@ -111,8 +100,7 @@ lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer,
   memset (&image, 0, sizeof (_lw6ldr_image_bw_t));
   if (_lw6ldr_bw_read (&image, filename, NULL))
     {
-      lw6ldr_resampler_force (&resampler, image.w, image.h, target_w,
-			      target_h);
+      lw6ldr_resampler_force (&resampler, image.w, image.h, target_w, target_h);
       ret = read_png (meta_layer, &image, &resampler, analog, NULL);
 
       _lw6ldr_bw_clear (&image);
@@ -144,9 +132,7 @@ lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6ldr_meta_layer_read_if_exists (lw6map_meta_layer_t * meta_layer,
-				  const char *dirname, const char *file_only,
-				  int target_w, int target_h, int analog)
+lw6ldr_meta_layer_read_if_exists (lw6map_meta_layer_t * meta_layer, const char *dirname, const char *file_only, int target_w, int target_h, int analog)
 {
   int ret = 0;
   char *dot_png = NULL;
@@ -156,9 +142,7 @@ lw6ldr_meta_layer_read_if_exists (lw6map_meta_layer_t * meta_layer,
     {
       if (lw6sys_file_exists (dot_png))
 	{
-	  ret =
-	    lw6ldr_meta_layer_read (meta_layer,
-				    dot_png, target_w, target_h, analog);
+	  ret = lw6ldr_meta_layer_read (meta_layer, dot_png, target_w, target_h, analog);
 	}
       else
 	{

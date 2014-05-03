@@ -28,28 +28,19 @@
 #include "gl1-bubbles-internal.h"
 
 static void
-_display_background (mod_gl1_utils_context_t * utils_context,
-		     _mod_gl1_background_bubbles_context_t * bubbles_context,
-		     const lw6gui_look_t * look)
+_display_background (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context, const lw6gui_look_t * look)
 {
   mod_gl1_utils_set_render_mode_2d (utils_context);
 
-  mod_gl1_utils_bitmap_colorize (utils_context,
-				 bubbles_context->bitmap_data.background,
-				 look->style.colorize,
-				 &(look->style.color_set.
-				   background_color_root));
-  mod_gl1_utils_bitmap_bind (utils_context,
-			     bubbles_context->bitmap_data.background);
+  mod_gl1_utils_bitmap_colorize (utils_context, bubbles_context->bitmap_data.background, look->style.colorize, &(look->style.color_set.background_color_root));
+  mod_gl1_utils_bitmap_bind (utils_context, bubbles_context->bitmap_data.background);
 
   glMatrixMode (GL_TEXTURE);
   glPushMatrix ();
   glLoadIdentity ();
   glTranslatef (0.0f,
 		bubbles_context->const_data.yspeed *
-		look->style.animation_speed *
-		_lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) /
-		1000.0f, 0.0f);
+		look->style.animation_speed * _lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) / 1000.0f, 0.0f);
 
   glBegin (GL_QUADS);
   glTexCoord2d (0.0f, 0.0f);
@@ -68,10 +59,7 @@ _display_background (mod_gl1_utils_context_t * utils_context,
 
 static void
 _display_bubble (mod_gl1_utils_context_t * utils_context,
-		 _mod_gl1_background_bubbles_context_t *
-		 bubbles_context,
-		 _mod_gl1_background_bubbles_bubble_t * bubble,
-		 const lw6gui_look_t * look)
+		 _mod_gl1_background_bubbles_context_t * bubbles_context, _mod_gl1_background_bubbles_bubble_t * bubble, const lw6gui_look_t * look)
 {
   int dt;
   float y;
@@ -80,25 +68,16 @@ _display_bubble (mod_gl1_utils_context_t * utils_context,
   if (!bubble->active)
     {
       bubble->active = 1;
-      bubble->t0 =
-	_lw6gfx_sdl_timer_get_uptime (&(utils_context->sdl_context));
-      bubble->size =
-	lw6sys_random_float (sys_context,
-			     bubbles_context->const_data.bubble_size_min,
-			     bubbles_context->const_data.bubble_size_max);
+      bubble->t0 = _lw6gfx_sdl_timer_get_uptime (&(utils_context->sdl_context));
+      bubble->size = lw6sys_random_float (sys_context, bubbles_context->const_data.bubble_size_min, bubbles_context->const_data.bubble_size_max);
       bubble->x = lw6sys_random_float (sys_context, 0.0f, 1.0f);
     }
 
-  dt =
-    _lw6gfx_sdl_timer_get_uptime (&(utils_context->sdl_context)) - bubble->t0;
+  dt = _lw6gfx_sdl_timer_get_uptime (&(utils_context->sdl_context)) - bubble->t0;
   x_px = bubble->x * utils_context->sdl_context.video_mode.width;
-  y =
-    1.0f + (bubble->size / 2.0f) -
-    (bubble->size * bubbles_context->const_data.bubble_yspeed *
-     look->style.animation_speed * dt / 1000.0f);
+  y = 1.0f + (bubble->size / 2.0f) - (bubble->size * bubbles_context->const_data.bubble_yspeed * look->style.animation_speed * dt / 1000.0f);
   y_px = y * utils_context->sdl_context.video_mode.height;
-  size2_px =
-    (utils_context->sdl_context.video_mode.height * bubble->size) / 2.0f;
+  size2_px = (utils_context->sdl_context.video_mode.height * bubble->size) / 2.0f;
 
   glMatrixMode (GL_TEXTURE);
   glPushMatrix ();
@@ -123,55 +102,38 @@ _display_bubble (mod_gl1_utils_context_t * utils_context,
 }
 
 static void
-_display_bubbles (mod_gl1_utils_context_t * utils_context,
-		  _mod_gl1_background_bubbles_context_t *
-		  bubbles_context, const lw6gui_look_t * look)
+_display_bubbles (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context, const lw6gui_look_t * look)
 {
   int i;
   int nb_bubbles;
 
   mod_gl1_utils_set_render_mode_2d_blend (utils_context);
 
-  mod_gl1_utils_bitmap_colorize (utils_context,
-				 bubbles_context->bitmap_data.bubble,
-				 look->style.colorize,
-				 &(look->style.color_set.
-				   background_color_stuff));
-  mod_gl1_utils_bitmap_bind (utils_context,
-			     bubbles_context->bitmap_data.bubble);
+  mod_gl1_utils_bitmap_colorize (utils_context, bubbles_context->bitmap_data.bubble, look->style.colorize, &(look->style.color_set.background_color_stuff));
+  mod_gl1_utils_bitmap_bind (utils_context, bubbles_context->bitmap_data.bubble);
 
-  nb_bubbles =
-    bubbles_context->const_data.nb_bubbles * look->style.animation_density;
+  nb_bubbles = bubbles_context->const_data.nb_bubbles * look->style.animation_density;
 
-  nb_bubbles =
-    lw6sys_imin (nb_bubbles, _MOD_GL1_BACKGROUND_BUBBLES_MAX_NB_BUBBLES);
+  nb_bubbles = lw6sys_imin (nb_bubbles, _MOD_GL1_BACKGROUND_BUBBLES_MAX_NB_BUBBLES);
 
   glBegin (GL_QUADS);
   for (i = 0; i < nb_bubbles; ++i)
     {
-      _display_bubble (utils_context, bubbles_context,
-		       &(bubbles_context->state.bubbles[i]), look);
+      _display_bubble (utils_context, bubbles_context, &(bubbles_context->state.bubbles[i]), look);
     }
   glEnd ();
 }
 
 void
 _mod_gl1_background_bubbles_display_background (mod_gl1_utils_context_t *
-						utils_context,
-						_mod_gl1_background_bubbles_context_t
-						* bubbles_context,
-						const lw6gui_look_t * look)
+						utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context, const lw6gui_look_t * look)
 {
   _display_background (utils_context, bubbles_context, look);
   _display_bubbles (utils_context, bubbles_context, look);
 }
 
 void
-mod_gl1_background_bubbles_display_background (mod_gl1_utils_context_t *
-					       utils_context,
-					       void *bubbles_context,
-					       const lw6gui_look_t * look)
+mod_gl1_background_bubbles_display_background (mod_gl1_utils_context_t * utils_context, void *bubbles_context, const lw6gui_look_t * look)
 {
-  _mod_gl1_background_bubbles_display_background (utils_context,
-						  bubbles_context, look);
+  _mod_gl1_background_bubbles_display_background (utils_context, bubbles_context, look);
 }

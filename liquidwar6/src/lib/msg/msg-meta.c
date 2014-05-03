@@ -52,8 +52,7 @@ lw6msg_meta_array_zero (lw6msg_meta_array_t * meta_array)
  * Return value: 1 if registered, 0 if not (possible error: no place left)
  */
 int
-lw6msg_meta_array_find (const lw6msg_meta_array_t * meta_array,
-			u_int64_t node_id)
+lw6msg_meta_array_find (const lw6msg_meta_array_t * meta_array, u_int64_t node_id)
 {
   int ret = -1;
   int i = 0;
@@ -80,8 +79,7 @@ lw6msg_meta_array_find (const lw6msg_meta_array_t * meta_array,
  * Return value: 1 if registered, 0 if not (possible error: no place left)
  */
 int
-lw6msg_meta_array_exists (const lw6msg_meta_array_t * meta_array,
-			  u_int64_t node_id)
+lw6msg_meta_array_exists (const lw6msg_meta_array_t * meta_array, u_int64_t node_id)
 {
   return (lw6msg_meta_array_find (meta_array, node_id) >= 0) ? 1 : 0;
 }
@@ -99,8 +97,7 @@ lw6msg_meta_array_exists (const lw6msg_meta_array_t * meta_array,
  * Return value: 1 if registered, 0 if not (possible error: no place left)
  */
 int
-lw6msg_meta_array_set (lw6msg_meta_array_t * meta_array, u_int64_t node_id,
-		       int serial_0, int64_t seq_0)
+lw6msg_meta_array_set (lw6msg_meta_array_t * meta_array, u_int64_t node_id, int serial_0, int64_t seq_0)
 {
   int ret = 0;
   int i = -1;
@@ -196,8 +193,7 @@ lw6msg_meta_str2array (lw6msg_meta_array_t * meta_array, const char *str)
 	      if (lw6msg_word_first_int_64_gt0 (&seq_0, &seek, pos))
 		{
 		  pos = seek;
-		  if (lw6msg_meta_array_set
-		      (meta_array, node_id, serial_0, seq_0))
+		  if (lw6msg_meta_array_set (meta_array, node_id, serial_0, seq_0))
 		    {
 		      ret = 1;
 		    }
@@ -258,9 +254,7 @@ lw6msg_meta_array2str (const lw6msg_meta_array_t * meta_array)
 	      tmp =
 		lw6sys_new_sprintf ("%s %" LW6SYS_PRINTF_LL "x %d %"
 				    LW6SYS_PRINTF_LL "d", str,
-				    (long long) meta_array->items[i].node_id,
-				    meta_array->items[i].serial_0,
-				    (long long) meta_array->items[i].seq_0);
+				    (long long) meta_array->items[i].node_id, meta_array->items[i].serial_0, (long long) meta_array->items[i].seq_0);
 	      if (tmp)
 		{
 		  LW6SYS_FREE (str);
@@ -272,9 +266,7 @@ lw6msg_meta_array2str (const lw6msg_meta_array_t * meta_array)
 	      str =
 		lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "x %d %"
 				    LW6SYS_PRINTF_LL "d",
-				    (long long) meta_array->items[i].node_id,
-				    meta_array->items[i].serial_0,
-				    (long long) meta_array->items[i].seq_0);
+				    (long long) meta_array->items[i].node_id, meta_array->items[i].serial_0, (long long) meta_array->items[i].seq_0);
 	    }
 	}
     }

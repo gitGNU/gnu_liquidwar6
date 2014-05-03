@@ -67,25 +67,20 @@ lw6sys_random (lw6sys_context_t * sys_context, u_int32_t range)
 	  lw6sys_checksum_update_str (sys_context, &alternate_seed, str);
 	  LW6SYS_FREE (sys_context, str);
 	}
-      lw6sys_checksum_update_int32 (sys_context, &alternate_seed,
-				    lw6sys_megabytes_available (sys_context));
-      lw6sys_checksum_update_int32 (sys_context, &alternate_seed,
-				    lw6sys_get_timestamp (sys_context));
+      lw6sys_checksum_update_int32 (sys_context, &alternate_seed, lw6sys_megabytes_available (sys_context));
+      lw6sys_checksum_update_int32 (sys_context, &alternate_seed, lw6sys_get_timestamp (sys_context));
       while (!alternate_seed)
 	{
-	  lw6sys_checksum_update_int32 (sys_context, &alternate_seed,
-					lw6sys_get_timestamp (sys_context));
+	  lw6sys_checksum_update_int32 (sys_context, &alternate_seed, lw6sys_get_timestamp (sys_context));
 	}
     }
 
   tmp_seed = dirty_seed;
   lw6sys_checksum_update_int32 (sys_context, &tmp_seed, alternate_seed);
-  lw6sys_checksum_update_int32 (sys_context, &tmp_seed,
-				lw6sys_get_timestamp (sys_context));
+  lw6sys_checksum_update_int32 (sys_context, &tmp_seed, lw6sys_get_timestamp (sys_context));
   while (tmp_seed == dirty_seed)
     {
-      lw6sys_checksum_update_int32 (sys_context, &tmp_seed,
-				    lw6sys_get_timestamp (sys_context));
+      lw6sys_checksum_update_int32 (sys_context, &tmp_seed, lw6sys_get_timestamp (sys_context));
     }
 #ifdef LW6_MS_WINDOWS
   /*
@@ -102,8 +97,7 @@ lw6sys_random (lw6sys_context_t * sys_context, u_int32_t range)
       ret = tmp_seed % range;
     }
 #else
-  ret = (((u_int64_t) rand_r (&tmp_seed)) * ((u_int64_t) range)) /
-    (((u_int64_t) RAND_MAX) + 1);
+  ret = (((u_int64_t) rand_r (&tmp_seed)) * ((u_int64_t) range)) / (((u_int64_t) RAND_MAX) + 1);
 #endif
   dirty_seed = tmp_seed;
 
@@ -127,9 +121,7 @@ lw6sys_random_float (lw6sys_context_t * sys_context, float min, float max)
 {
   float ret = 0.0f;
 
-  ret =
-    ((((float) (lw6sys_random (sys_context, RANDOM_FLOAT_PRECISION)) *
-       (max - min))) / (float) RANDOM_FLOAT_PRECISION) + min;
+  ret = ((((float) (lw6sys_random (sys_context, RANDOM_FLOAT_PRECISION)) * (max - min))) / (float) RANDOM_FLOAT_PRECISION) + min;
 
   return ret;
 }

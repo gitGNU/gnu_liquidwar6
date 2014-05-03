@@ -36,10 +36,7 @@ _mod_caca_repr (_mod_caca_context_t * caca_context, u_int32_t id)
   caca_version = lw6sys_str_empty_if_null (caca_get_version ());
   ret =
     lw6sys_new_sprintf (_x_
-			("%u caca libcaca version %s resolution %dx%d"),
-			id, caca_version,
-			caca_context->video_mode.width,
-			caca_context->video_mode.height);
+			("%u caca libcaca version %s resolution %dx%d"), id, caca_version, caca_context->video_mode.width, caca_context->video_mode.height);
 
   return ret;
 }

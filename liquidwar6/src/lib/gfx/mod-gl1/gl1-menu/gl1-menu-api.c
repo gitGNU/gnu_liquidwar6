@@ -29,13 +29,11 @@
 static void
 _warning (const char *func_name)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-	      _x_ ("menu backend function \"%s\" is not defined"), func_name);
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("menu backend function \"%s\" is not defined"), func_name);
 }
 
 int
-mod_gl1_menu_init (mod_gl1_utils_context_t * utils_context,
-		   mod_gl1_menu_backend_t * backend)
+mod_gl1_menu_init (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend)
 {
   if (backend->init)
     {
@@ -50,8 +48,7 @@ mod_gl1_menu_init (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_menu_quit (mod_gl1_utils_context_t * utils_context,
-		   mod_gl1_menu_backend_t * backend)
+mod_gl1_menu_quit (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend)
 {
   if (backend->quit)
     {
@@ -64,14 +61,11 @@ mod_gl1_menu_quit (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_menu_display_menu (mod_gl1_utils_context_t * utils_context,
-			   mod_gl1_menu_backend_t * backend,
-			   const lw6gui_look_t * look, lw6gui_menu_t * menu)
+mod_gl1_menu_display_menu (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend, const lw6gui_look_t * look, lw6gui_menu_t * menu)
 {
   if (backend->display_menu)
     {
-      backend->display_menu (utils_context, backend->menu_context, look,
-			     menu);
+      backend->display_menu (utils_context, backend->menu_context, look, menu);
     }
   else
     {
@@ -80,14 +74,11 @@ mod_gl1_menu_display_menu (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_menu_display_progress (mod_gl1_utils_context_t * utils_context,
-			       mod_gl1_menu_backend_t * backend,
-			       const lw6gui_look_t * look, float progress)
+mod_gl1_menu_display_progress (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend, const lw6gui_look_t * look, float progress)
 {
   if (backend->display_progress)
     {
-      backend->display_progress (utils_context, backend->menu_context, look,
-				 progress);
+      backend->display_progress (utils_context, backend->menu_context, look, progress);
     }
   else
     {
@@ -96,14 +87,11 @@ mod_gl1_menu_display_progress (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_menu_display_meta (mod_gl1_utils_context_t * utils_context,
-			   mod_gl1_menu_backend_t * backend,
-			   const lw6gui_look_t * look, lw6gui_menu_t * menu)
+mod_gl1_menu_display_meta (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend, const lw6gui_look_t * look, lw6gui_menu_t * menu)
 {
   if (backend->display_meta)
     {
-      backend->display_meta (utils_context, backend->menu_context, look,
-			     menu);
+      backend->display_meta (utils_context, backend->menu_context, look, menu);
     }
   else
     {

@@ -81,9 +81,7 @@ lw6sys_atob (lw6sys_context_t * sys_context, const char *str)
     {
       ret = (strcasecmp (str, "true") == 0
 	     || strcasecmp (str, "y") == 0
-	     || strcasecmp (str, "yes") == 0
-	     || strcasecmp (str, "on") == 0 || strlen (str) == 0
-	     || lw6sys_atoi (sys_context, str) > 0);
+	     || strcasecmp (str, "yes") == 0 || strcasecmp (str, "on") == 0 || strlen (str) == 0 || lw6sys_atoi (sys_context, str) > 0);
     }
 
   return ret;
@@ -166,8 +164,7 @@ lw6sys_itoa (lw6sys_context_t * sys_context, int value)
 char *
 lw6sys_lltoa (lw6sys_context_t * sys_context, int64_t value)
 {
-  return lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "d",
-			     (long long) value);
+  return lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "d", (long long) value);
 }
 
 /**
@@ -186,10 +183,7 @@ lw6sys_btoa (lw6sys_context_t * sys_context, int value)
 {
   char *ret = NULL;
 
-  ret =
-    value ? lw6sys_new_sprintf (sys_context, "%s",
-				"true") : lw6sys_new_sprintf (sys_context,
-							      "%s", "false");
+  ret = value ? lw6sys_new_sprintf (sys_context, "%s", "true") : lw6sys_new_sprintf (sys_context, "%s", "false");
 
   return ret;
 }

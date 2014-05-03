@@ -40,8 +40,7 @@
  * Return value: none.
  */
 void
-lw6gui_zone_init_x1y1x2y2 (lw6gui_zone_t * zone, float x1, float y1, float x2,
-			   float y2)
+lw6gui_zone_init_x1y1x2y2 (lw6gui_zone_t * zone, float x1, float y1, float x2, float y2)
 {
   zone->x1 = x1;
   zone->y1 = y1;
@@ -65,8 +64,7 @@ lw6gui_zone_init_x1y1x2y2 (lw6gui_zone_t * zone, float x1, float y1, float x2,
  * Return value: none.
  */
 void
-lw6gui_zone_init_xywh (lw6gui_zone_t * zone, float x, float y, float w,
-		       float h)
+lw6gui_zone_init_xywh (lw6gui_zone_t * zone, float x, float y, float w, float h)
 {
   zone->x1 = x;
   zone->y1 = y;
@@ -88,8 +86,7 @@ lw6gui_zone_init_xywh (lw6gui_zone_t * zone, float x, float y, float w,
  * Return value: none.
  */
 void
-lw6gui_zone_clip (lw6gui_zone_t * dst, lw6gui_zone_t * src,
-		  lw6gui_zone_t * clip)
+lw6gui_zone_clip (lw6gui_zone_t * dst, lw6gui_zone_t * src, lw6gui_zone_t * clip)
 {
   float max_x1 = 0.0f;
   float max_y1 = 0.0f;

@@ -28,8 +28,7 @@
 #include "mod-udp-internal.h"
 
 static int
-_do_broadcast (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
-	       lw6cli_oob_data_t * oob_data, int port)
+_do_broadcast (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, int port)
 {
   int ret = 0;
   int sock;
@@ -39,40 +38,28 @@ _do_broadcast (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
   char *incoming_ip = NULL;
   int incoming_port = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("UDP broadcast on %d"),
-	      port);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("UDP broadcast on %d"), port);
   sock = lw6net_udp_client ();
   if (lw6net_socket_is_valid (sock))
     {
-      request =
-	lw6msg_oob_generate_request (LW6MSG_OOB_PING, NULL,
-				     NULL,
-				     node_info->const_info.ref_info.url);
+      request = lw6msg_oob_generate_request (LW6MSG_OOB_PING, NULL, NULL, node_info->const_info.ref_info.url);
       if (request)
 	{
-	  if (lw6net_send_line_udp
-	      (sock, request, LW6NET_ADDRESS_BROADCAST, port))
+	  if (lw6net_send_line_udp (sock, request, LW6NET_ADDRESS_BROADCAST, port))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("sent UDP OOB request \"%s\" to %s:%d"),
-			  request, LW6NET_ADDRESS_BROADCAST, port);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("sent UDP OOB request \"%s\" to %s:%d"), request, LW6NET_ADDRESS_BROADCAST, port);
 	      lw6sys_snooze ();
 	      ret = 1;
 	      while (_mod_udp_oob_should_continue (udp_context, oob_data, 1))
 		{
-		  response =
-		    lw6net_recv_line_udp (sock, &incoming_ip, &incoming_port);
+		  response = lw6net_recv_line_udp (sock, &incoming_ip, &incoming_port);
 		  if (response)
 		    {
 		      given_url = lw6msg_oob_analyse_pong (response);
 		      if (given_url)
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				      _x_
-				      ("mod_udp client BROADCAST discovered %s:%d \"%s\""),
-				      incoming_ip, port, given_url);
-			  lw6nod_info_add_discovered_node (node_info,
-							   given_url);
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_udp client BROADCAST discovered %s:%d \"%s\""), incoming_ip, port, given_url);
+			  lw6nod_info_add_discovered_node (node_info, given_url);
 			  LW6SYS_FREE (sys_context, given_url);
 			}
 		      LW6SYS_FREE (response);
@@ -93,9 +80,7 @@ _do_broadcast (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
 }
 
 static int
-_do_ping (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
-	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
-	  char *ip)
+_do_ping (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url, char *ip)
 {
   int ret = 0;
   int eom = 0;
@@ -106,56 +91,38 @@ _do_ping (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
   char *incoming_ip = NULL;
   int incoming_port = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("connecting in UDP on %s:%d"), ip, parsed_url->port);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("connecting in UDP on %s:%d"), ip, parsed_url->port);
   sock = lw6net_udp_client ();
   if (lw6net_socket_is_valid (sock))
     {
-      request =
-	lw6msg_oob_generate_request (LW6MSG_OOB_PING, url,
-				     node_info->const_info.password,
-				     node_info->const_info.ref_info.url);
+      request = lw6msg_oob_generate_request (LW6MSG_OOB_PING, url, node_info->const_info.password, node_info->const_info.ref_info.url);
       if (request)
 	{
 	  if (lw6net_send_line_udp (sock, request, ip, parsed_url->port))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("sent UDP OOB request \"%s\" to %s:%d"),
-			  request, ip, parsed_url->port);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("sent UDP OOB request \"%s\" to %s:%d"), request, ip, parsed_url->port);
 	      lw6sys_snooze ();
-	      while (!eom
-		     && _mod_udp_oob_should_continue (udp_context, oob_data,
-						      0))
+	      while (!eom && _mod_udp_oob_should_continue (udp_context, oob_data, 0))
 		{
-		  response =
-		    lw6net_recv_line_udp (sock, &incoming_ip, &incoming_port);
+		  response = lw6net_recv_line_udp (sock, &incoming_ip, &incoming_port);
 		  if (response)
 		    {
 		      eom = 1;
-		      if (lw6sys_str_is_same (sys_context, ip, incoming_ip)
-			  && parsed_url->port == incoming_port)
+		      if (lw6sys_str_is_same (sys_context, ip, incoming_ip) && parsed_url->port == incoming_port)
 			{
 			  given_url = lw6msg_oob_analyse_pong (response);
 			  if (given_url)
 			    {
-			      if (lw6sys_str_is_same
-				  (sys_context, url, given_url))
+			      if (lw6sys_str_is_same (sys_context, url, given_url))
 				{
-				  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-					      _x_
-					      ("ping successfull on %s:%d \"%s\""),
-					      ip, parsed_url->port, url);
+				  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("ping successfull on %s:%d \"%s\""), ip, parsed_url->port, url);
 				  ret = 1;
 				}
 			      else
 				{
 				  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-					      _x_
-					      ("mod_udp connected on %s:%d using \"%s\" but server reports \"%s\""),
-					      ip, parsed_url->port, url,
-					      given_url);
-				  lw6nod_info_add_discovered_node (node_info,
-								   given_url);
+					      _x_ ("mod_udp connected on %s:%d using \"%s\" but server reports \"%s\""), ip, parsed_url->port, url, given_url);
+				  lw6nod_info_add_discovered_node (node_info, given_url);
 				}
 			      LW6SYS_FREE (sys_context, given_url);
 			    }
@@ -164,9 +131,7 @@ _do_ping (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				      _x_
-				      ("received UDP data from %s:%d when expecting it to come from %s:%d"),
-				      incoming_ip, incoming_port, ip,
-				      parsed_url->port);
+				      ("received UDP data from %s:%d when expecting it to come from %s:%d"), incoming_ip, incoming_port, ip, parsed_url->port);
 			}
 		      LW6SYS_FREE (response);
 		      LW6SYS_FREE (sys_context, incoming_ip);
@@ -192,16 +157,13 @@ _info_response_callback (void *func_data, void *data)
     {
       if (lw6msg_utils_parse_key_value_to_assoc (assoc, line))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("parsed line \"%s\""), line);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("parsed line \"%s\""), line);
 	}
     }
 }
 
 static int
-_do_info (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
-	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
-	  char *ip)
+_do_info (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url, char *ip)
 {
   int ret = 0;
   int eom = 0;
@@ -213,8 +175,7 @@ _do_info (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
   char *incoming_ip = NULL;
   int incoming_port = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("connecting in UDP on %s:%d"), ip, parsed_url->port);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("connecting in UDP on %s:%d"), ip, parsed_url->port);
   assoc = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
   if (assoc)
     {
@@ -222,34 +183,24 @@ _do_info (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
       sock = lw6net_udp_client ();
       if (lw6net_socket_is_valid (sock))
 	{
-	  request =
-	    lw6msg_oob_generate_request (LW6MSG_OOB_INFO, url,
-					 node_info->const_info.password,
-					 node_info->const_info.ref_info.url);
+	  request = lw6msg_oob_generate_request (LW6MSG_OOB_INFO, url, node_info->const_info.password, node_info->const_info.ref_info.url);
 	  if (request)
 	    {
 	      if (lw6net_send_line_udp (sock, request, ip, parsed_url->port))
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("sent UDP OOB request \"%s\" to %s:%d"),
-			      request, ip, parsed_url->port);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("sent UDP OOB request \"%s\" to %s:%d"), request, ip, parsed_url->port);
 		  /*
 		   * Here we use idle and not snooze for we're concerned
 		   * with the exact time it takes to ping the server.
 		   */
 		  lw6sys_idle ();
-		  while (!eom
-			 && _mod_udp_oob_should_continue (udp_context,
-							  oob_data, 0))
+		  while (!eom && _mod_udp_oob_should_continue (udp_context, oob_data, 0))
 		    {
-		      response =
-			lw6net_recv_lines_udp (sock, &incoming_ip,
-					       &incoming_port);
+		      response = lw6net_recv_lines_udp (sock, &incoming_ip, &incoming_port);
 		      if (response)
 			{
 			  eom = 1;
-			  lw6sys_list_map (response, _info_response_callback,
-					   (void *) &assoc);
+			  lw6sys_list_map (response, _info_response_callback, (void *) &assoc);
 			  lw6sys_list_free (response);
 			  LW6SYS_FREE (sys_context, incoming_ip);
 			}
@@ -269,11 +220,8 @@ _do_info (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	  if (oob_data->verify_callback_func)
 	    {
 	      ret =
-		oob_data->
-		verify_callback_func (oob_data->verify_callback_data, url, ip,
-				      parsed_url->port,
-				      lw6sys_get_timestamp (sys_context,) -
-				      origin, assoc);
+		oob_data->verify_callback_func (oob_data->verify_callback_data, url, ip,
+						parsed_url->port, lw6sys_get_timestamp (sys_context,) - origin, assoc);
 	    }
 	  lw6sys_assoc_free (assoc);
 	}
@@ -292,22 +240,18 @@ _list_response_callback (void *func_data, void *data)
     {
       if (lw6sys_url_is_canonized (sys_context, line))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("list contains \"%s\", registering it"), line);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("list contains \"%s\", registering it"), line);
 	  lw6nod_info_add_discovered_node (node_info, line);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("list contains non-canonized url \"%s\""), line);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("list contains non-canonized url \"%s\""), line);
 	}
     }
 }
 
 static int
-_do_list (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
-	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
-	  char *ip)
+_do_list (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url, char *ip)
 {
   int ret = 0;
   int sock = -1;
@@ -316,36 +260,25 @@ _do_list (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
   char *incoming_ip = NULL;
   int incoming_port = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("connecting in UDP on %s:%d"), ip, parsed_url->port);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("connecting in UDP on %s:%d"), ip, parsed_url->port);
 
   sock = lw6net_udp_client ();
   if (lw6net_socket_is_valid (sock))
     {
-      request =
-	lw6msg_oob_generate_request (LW6MSG_OOB_LIST, url,
-				     node_info->const_info.password,
-				     node_info->const_info.ref_info.url);
+      request = lw6msg_oob_generate_request (LW6MSG_OOB_LIST, url, node_info->const_info.password, node_info->const_info.ref_info.url);
       if (request)
 	{
 	  if (lw6net_send_line_udp (sock, request, ip, parsed_url->port))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("sent UDP OOB request \"%s\" to %s:%d"),
-			  request, ip, parsed_url->port);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("sent UDP OOB request \"%s\" to %s:%d"), request, ip, parsed_url->port);
 	      lw6sys_snooze ();
-	      while (!ret
-		     && _mod_udp_oob_should_continue (udp_context, oob_data,
-						      0))
+	      while (!ret && _mod_udp_oob_should_continue (udp_context, oob_data, 0))
 		{
-		  response =
-		    lw6net_recv_lines_udp (sock, &incoming_ip,
-					   &incoming_port);
+		  response = lw6net_recv_lines_udp (sock, &incoming_ip, &incoming_port);
 		  if (response)
 		    {
 		      ret = 1;
-		      lw6sys_list_map (response, _list_response_callback,
-				       node_info);
+		      lw6sys_list_map (response, _list_response_callback, node_info);
 		      lw6sys_list_free (response);
 		      LW6SYS_FREE (sys_context, incoming_ip);
 		    }
@@ -361,34 +294,26 @@ _do_list (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info,
 }
 
 int
-_mod_udp_process_oob (_mod_udp_context_t * udp_context,
-		      lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
+_mod_udp_process_oob (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
 {
   int ret = 0;
   lw6sys_url_t *parsed_url = NULL;
   char *ip = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("process udp oob url=\"%s\""), oob_data->public_url);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process udp oob url=\"%s\""), oob_data->public_url);
   parsed_url = lw6sys_url_parse (oob_data->public_url);
   if (parsed_url)
     {
-      if (lw6sys_str_is_same
-	  (sys_context, parsed_url->host, LW6NET_ADDRESS_BROADCAST))
+      if (lw6sys_str_is_same (sys_context, parsed_url->host, LW6NET_ADDRESS_BROADCAST))
 	{
-	  if (_do_broadcast
-	      (udp_context, node_info, oob_data, parsed_url->port))
+	  if (_do_broadcast (udp_context, node_info, oob_data, parsed_url->port))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("mod_udp client BROADCAST on \"%s\" OK"),
-			  oob_data->public_url);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_udp client BROADCAST on \"%s\" OK"), oob_data->public_url);
 	      ret = 1;
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("mod_udp client BROADCAST on \"%s\" failed"),
-			  oob_data->public_url);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_udp client BROADCAST on \"%s\" failed"), oob_data->public_url);
 	    }
 	}
       else
@@ -398,54 +323,30 @@ _mod_udp_process_oob (_mod_udp_context_t * udp_context,
 	    {
 	      if (_mod_udp_oob_should_continue (udp_context, oob_data, 0))
 		{
-		  if (_do_ping
-		      (udp_context, node_info, oob_data, oob_data->public_url,
-		       parsed_url, ip))
+		  if (_do_ping (udp_context, node_info, oob_data, oob_data->public_url, parsed_url, ip))
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_
-				  ("mod_udp client PING on node \"%s\" OK"),
-				  oob_data->public_url);
-		      if (_do_info
-			  (udp_context, node_info, oob_data,
-			   oob_data->public_url, parsed_url, ip))
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_udp client PING on node \"%s\" OK"), oob_data->public_url);
+		      if (_do_info (udp_context, node_info, oob_data, oob_data->public_url, parsed_url, ip))
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				      _x_
-				      ("mod_udp client INFO on node \"%s\" OK"),
-				      oob_data->public_url);
-			  if (_do_list
-			      (udp_context, node_info, oob_data,
-			       oob_data->public_url, parsed_url, ip))
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_udp client INFO on node \"%s\" OK"), oob_data->public_url);
+			  if (_do_list (udp_context, node_info, oob_data, oob_data->public_url, parsed_url, ip))
 			    {
-			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-					  _x_
-					  ("mod_udp client LIST on node \"%s\" OK"),
-					  oob_data->public_url);
+			      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_udp client LIST on node \"%s\" OK"), oob_data->public_url);
 			      ret = 1;	// todo LIST
 			    }
 			  else
 			    {
-			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-					  _x_
-					  ("mod_udp client LIST on node \"%s\" failed"),
-					  oob_data->public_url);
+			      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_udp client LIST on node \"%s\" failed"), oob_data->public_url);
 			    }
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				      _x_
-				      ("mod_udp client INFO on node \"%s\" failed"),
-				      oob_data->public_url);
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_udp client INFO on node \"%s\" failed"), oob_data->public_url);
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_
-				  ("mod_udp client PING on node \"%s\" failed"),
-				  oob_data->public_url);
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_udp client PING on node \"%s\" failed"), oob_data->public_url);
 		    }
 		}
 	      LW6SYS_FREE (ip);
@@ -458,13 +359,9 @@ _mod_udp_process_oob (_mod_udp_context_t * udp_context,
 }
 
 int
-_mod_udp_oob_should_continue (_mod_udp_context_t *
-			      udp_context, lw6cli_oob_data_t * oob_data,
-			      int broadcast)
+_mod_udp_oob_should_continue (_mod_udp_context_t * udp_context, lw6cli_oob_data_t * oob_data, int broadcast)
 {
   int ret = 0;
-  ret = (_mod_udp_timeout_ok (udp_context,
-			      oob_data->creation_timestamp, broadcast)
-	 && (!oob_data->do_not_finish));
+  ret = (_mod_udp_timeout_ok (udp_context, oob_data->creation_timestamp, broadcast) && (!oob_data->do_not_finish));
   return ret;
 }

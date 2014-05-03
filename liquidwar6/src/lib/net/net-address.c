@@ -37,9 +37,7 @@ _lw6net_inet_ntoa (struct in_addr in)
   char *ret = NULL;
   in_addr_t addr = ntohl (in.s_addr);
 
-  ret =
-    lw6sys_new_sprintf (sys_context, "%d.%d.%d.%d", (addr >> 24) & 0xff,
-			(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff);
+  ret = lw6sys_new_sprintf (sys_context, "%d.%d.%d.%d", (addr >> 24) & 0xff, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff);
 
   return ret;
 }
@@ -75,20 +73,17 @@ _lw6net_inet_aton (struct in_addr *in, const char *ip)
       else
 	{
 #ifdef LW6_MS_WINDOWS
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("inet_addr() failed, ip=\"%s\""), ip);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("inet_addr() failed, ip=\"%s\""), ip);
 	  lw6net_last_error ();
 #else
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("inet_aton() failed, ip=\"%s\""), ip);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("inet_aton() failed, ip=\"%s\""), ip);
 	  lw6net_last_error ();
 #endif
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("address \"%s\" identified as \"ANY\""), ip);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("address \"%s\" identified as \"ANY\""), ip);
       ret = 1;
     }
 

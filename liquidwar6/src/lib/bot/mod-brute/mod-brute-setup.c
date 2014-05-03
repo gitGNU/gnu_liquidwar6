@@ -35,14 +35,12 @@ _mod_brute_init (int argc, const char *argv[], lw6bot_data_t * data)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("brute init"));
 
-  brute_context =
-    (_mod_brute_context_t *) LW6SYS_CALLOC (sizeof (_mod_brute_context_t));
+  brute_context = (_mod_brute_context_t *) LW6SYS_CALLOC (sizeof (_mod_brute_context_t));
   if (brute_context)
     {
       iq_divided = data->param.iq / _MOD_BRUTE_IQ_DIVISOR;
       brute_context->nb_rounds_to_anticipate = 1 + iq_divided * iq_divided;
-      brute_context->game_sandbox =
-	lw6ker_game_state_dup (sys_context, data->game_state, NULL);
+      brute_context->game_sandbox = lw6ker_game_state_dup (sys_context, data->game_state, NULL);
       if (!brute_context->game_sandbox)
 	{
 	  _mod_brute_quit (brute_context);

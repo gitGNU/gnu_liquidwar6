@@ -65,13 +65,9 @@ extern void lw6sim_results_zero (lw6sim_results_t * results);
 extern int lw6sim_results_update_percents (lw6sim_results_t * results);
 
 /* sim-simulate.c */
-extern int lw6sim_simulate (int argc, const char *argv[],
-			    lw6sim_results_t * results, int nb_teams,
-			    char *bot_backend);
-extern int lw6sim_simulate_basic (int argc, const char *argv[],
-				  lw6sim_results_t * results);
-extern int lw6sim_simulate_full (int argc, const char *argv[],
-				 lw6sim_results_t * results);
+extern int lw6sim_simulate (int argc, const char *argv[], lw6sim_results_t * results, int nb_teams, char *bot_backend);
+extern int lw6sim_simulate_basic (int argc, const char *argv[], lw6sim_results_t * results);
+extern int lw6sim_simulate_full (int argc, const char *argv[], lw6sim_results_t * results);
 
 /* sim-test.c */
 extern int lw6sim_test_register (int mode);

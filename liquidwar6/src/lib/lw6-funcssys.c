@@ -96,8 +96,7 @@ _scm_lw6sys_get_memory_bazooka_eraser ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  ret =
-    lw6sys_get_memory_bazooka_eraser (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6sys_get_memory_bazooka_eraser (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1063,8 +1062,7 @@ _scm_lw6sys_dump (SCM content)
   c_content = lw6scm_utils_to_0str (content);
   if (c_content)
     {
-      user_dir =
-	lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+      user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
       if (user_dir)
 	{
 	  lw6sys_dump (sys_context, user_dir, c_content);
@@ -1304,14 +1302,10 @@ _scm_lw6sys_log_set_dialog_timeout (sys_context, SCM dialog_timeout)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (scm_is_integer (dialog_timeout), dialog_timeout, SCM_ARG1,
-	      __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (dialog_timeout), dialog_timeout, SCM_ARG1, __FUNCTION__);
 
   c_dialog_timeout = scm_to_int (dialog_timeout);
-  ret =
-    lw6sys_log_set_dialog_timeout (sys_context,
-				   c_dialog_timeout) ? SCM_BOOL_T :
-    SCM_BOOL_F;
+  ret = lw6sys_log_set_dialog_timeout (sys_context, c_dialog_timeout) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1374,8 +1368,7 @@ _scm_lw6sys_log_set_backtrace_mode (sys_context, SCM backtrace_mode)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (scm_is_integer (backtrace_mode), backtrace_mode, SCM_ARG1,
-	      __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (backtrace_mode), backtrace_mode, SCM_ARG1, __FUNCTION__);
 
   c_backtrace_mode = scm_to_int (backtrace_mode);
   lw6sys_log_set_backtrace_mode (c_backtrace_mode);
@@ -2045,14 +2038,11 @@ _scm_lw6sys_path_split (sys_context, SCM path)
       c_ret = lw6sys_path_split (sys_context, c_path);
       if (c_ret)
 	{
-	  for (tmp = c_ret; tmp != NULL;
-	       tmp = (lw6sys_list_t *) tmp->next_item)
+	  for (tmp = c_ret; tmp != NULL; tmp = (lw6sys_list_t *) tmp->next_item)
 	    {
 	      if (tmp->data)
 		{
-		  ret =
-		    scm_cons (scm_from_locale_string ((char *) tmp->data),
-			      ret);
+		  ret = scm_cons (scm_from_locale_string ((char *) tmp->data), ret);
 		}
 	    }
 	  lw6sys_list_free (sys_context, c_ret);
@@ -2290,448 +2280,170 @@ lw6_register_funcs_sys ()
   /*
    * In bazooka.c
    */
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_SIZE, 1, 0,
-			      0,
-			      (SCM (*)())_scm_lw6sys_set_memory_bazooka_size);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MEMORY_BAZOOKA_SIZE, 0, 0,
-			      0,
-			      (SCM (*)())_scm_lw6sys_get_memory_bazooka_size);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_ERASER, 1, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_set_memory_bazooka_eraser);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MEMORY_BAZOOKA_ERASER, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_get_memory_bazooka_eraser);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_SIZE, 1, 0, 0, (SCM (*)())_scm_lw6sys_set_memory_bazooka_size);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MEMORY_BAZOOKA_SIZE, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_memory_bazooka_size);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_ERASER, 1, 0, 0, (SCM (*)())_scm_lw6sys_set_memory_bazooka_eraser);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MEMORY_BAZOOKA_ERASER, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_memory_bazooka_eraser);
   /*
    * In build.c
    */
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_TARNAME, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_package_tarname);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_NAME, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_package_name);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_STRING, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_package_string);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_ID, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_package_id);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_version);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CODENAME, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_codename);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION_BASE, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_version_base);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION_MAJOR, 0, 0,
-			      0,
-			      (SCM (*)())_scm_lw6sys_build_get_version_major);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION_MINOR, 0, 0,
-			      0,
-			      (SCM (*)())_scm_lw6sys_build_get_version_minor);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_STAMP, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_stamp);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_MD5SUM, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_md5sum);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_COPYRIGHT, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_copyright);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LICENSE, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_license);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOME_URL, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_home_url);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_BUGS_URL, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_bugs_url);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CONFIGURE_ARGS, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_configure_args);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_GCC_VERSION, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_gcc_version);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CFLAGS, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_cflags);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LDFLAGS, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_ldflags);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOSTNAME, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_hostname);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_DATE, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_date);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_TIME, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_time);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOST_CPU, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_host_cpu);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENDIANNESS, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_endianness);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_POINTER_SIZE, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_pointer_size);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_X86, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_is_x86);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOST_OS, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_host_os);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_GNU, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_is_gnu);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_UNIX, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_is_unix);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_MS_WINDOWS, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_is_ms_windows);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_MAC_OS_X, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_is_mac_os_x);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_GP2X, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_is_gp2x);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_TOP_SRCDIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_top_srcdir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ABS_SRCDIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_abs_srcdir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PREFIX, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_prefix);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_DATADIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_datadir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LIBDIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_libdir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_INCLUDEDIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_includedir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LOCALEDIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_localedir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_DOCDIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_docdir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_CONSOLE, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_console);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GTK, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_enable_gtk);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GL1, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_mod_gl1);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GLES2, 0,
-			      0, 0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_mod_gles2);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_SOFT, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_mod_soft);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CACA, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_mod_caca);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CSOUND, 0,
-			      0, 0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_mod_csound);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_OGG, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_mod_ogg);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_HTTP, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_mod_http);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_OPENMP, 0, 0,
-			      0,
-			      (SCM (*)())_scm_lw6sys_build_get_enable_openmp);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_OPTIMIZE, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_optimize);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_ALLINONE, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_allinone);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_FULLSTATIC, 0,
-			      0, 0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_fullstatic);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_PARANOID, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_paranoid);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GPROF, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_enable_gprof);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_INSTRUMENT, 0,
-			      0, 0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_instrument);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_PROFILER, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_profiler);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GCOV, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_enable_gcov);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_VALGRIND, 0, 0,
-			      0,
-			      (SCM (*)
-			       ())_scm_lw6sys_build_get_enable_valgrind);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_BIN_ID, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_build_get_bin_id);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_TARNAME, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_package_tarname);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_NAME, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_package_name);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_STRING, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_package_string);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_ID, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_package_id);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_version);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CODENAME, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_codename);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION_BASE, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_version_base);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION_MAJOR, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_version_major);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION_MINOR, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_version_minor);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_STAMP, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_stamp);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_MD5SUM, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_md5sum);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_COPYRIGHT, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_copyright);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LICENSE, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_license);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOME_URL, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_home_url);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_BUGS_URL, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_bugs_url);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CONFIGURE_ARGS, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_configure_args);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_GCC_VERSION, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_gcc_version);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CFLAGS, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_cflags);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LDFLAGS, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_ldflags);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOSTNAME, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_hostname);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_DATE, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_date);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_TIME, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_time);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOST_CPU, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_host_cpu);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENDIANNESS, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_endianness);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_POINTER_SIZE, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_pointer_size);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_X86, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_is_x86);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOST_OS, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_host_os);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_GNU, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_is_gnu);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_UNIX, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_is_unix);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_MS_WINDOWS, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_is_ms_windows);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_MAC_OS_X, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_is_mac_os_x);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_GP2X, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_is_gp2x);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_TOP_SRCDIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_top_srcdir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ABS_SRCDIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_abs_srcdir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PREFIX, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_prefix);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_DATADIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_datadir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LIBDIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_libdir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_INCLUDEDIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_includedir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LOCALEDIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_localedir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_DOCDIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_docdir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_CONSOLE, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_console);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GTK, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_gtk);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GL1, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_mod_gl1);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GLES2, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_mod_gles2);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_SOFT, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_mod_soft);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CACA, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_mod_caca);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CSOUND, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_mod_csound);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_OGG, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_mod_ogg);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_HTTP, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_mod_http);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_OPENMP, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_openmp);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_OPTIMIZE, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_optimize);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_ALLINONE, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_allinone);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_FULLSTATIC, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_fullstatic);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_PARANOID, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_paranoid);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GPROF, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_gprof);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_INSTRUMENT, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_instrument);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_PROFILER, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_profiler);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GCOV, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_gcov);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_VALGRIND, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_enable_valgrind);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_BIN_ID, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_bin_id);
   /*
    * In debug.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DEBUG_GET, 0, 0, 0,
-				      (SCM (*)())_scm_lw6sys_debug_get);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DEBUG_SET, 1, 0, 0,
-				      (SCM (*)())_scm_lw6sys_debug_set);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DEBUG_GET, 0, 0, 0, (SCM (*)())_scm_lw6sys_debug_get);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DEBUG_SET, 1, 0, 0, (SCM (*)())_scm_lw6sys_debug_set);
   /*
    * In dump.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DUMP, 1, 0, 0,
-				      (SCM (*)())_scm_lw6sys_dump);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DUMP_CLEAR, 0, 0, 0,
-				      (SCM (*)())_scm_lw6sys_dump_clear);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DUMP, 1, 0, 0, (SCM (*)())_scm_lw6sys_dump);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DUMP_CLEAR, 0, 0, 0, (SCM (*)())_scm_lw6sys_dump_clear);
   /*
    * In env.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_USERNAME, 0, 0, 0,
-				      (SCM (*)())_scm_lw6sys_get_username);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_HOSTNAME, 0, 0, 0,
-				      (SCM (*)())_scm_lw6sys_get_hostname);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GETENV, 1, 0, 0,
-				      (SCM (*)())_scm_lw6sys_getenv);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GETENV_PREFIXED, 1, 0, 0,
-			      (SCM (*)())_scm_lw6sys_getenv_prefixed);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_USERNAME, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_username);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_HOSTNAME, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_hostname);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GETENV, 1, 0, 0, (SCM (*)())_scm_lw6sys_getenv);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GETENV_PREFIXED, 1, 0, 0, (SCM (*)())_scm_lw6sys_getenv_prefixed);
 
   /*
    * In id.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GENERATE_ID_16, 0, 0, 0,
-				      (SCM (*)())_scm_lw6sys_generate_id_16);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GENERATE_ID_32, 0, 0, 0,
-				      (SCM (*)())_scm_lw6sys_generate_id_32);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GENERATE_ID_64, 0, 0, 0,
-				      (SCM (*)())_scm_lw6sys_generate_id_64);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GENERATE_ID_16, 0, 0, 0, (SCM (*)())_scm_lw6sys_generate_id_16);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GENERATE_ID_32, 0, 0, 0, (SCM (*)())_scm_lw6sys_generate_id_32);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GENERATE_ID_64, 0, 0, 0, (SCM (*)())_scm_lw6sys_generate_id_64);
 
   /*
    * In log.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG, 2, 0, 0,
-				      (SCM (*)())_scm_lw6sys_log);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_DIALOG_TIMEOUT, 1, 0, 0,
-			      (SCM (*)())_scm_lw6sys_log_set_dialog_timeout);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_GET_LEVEL, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_log_get_level);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_LEVEL, 1, 0, 0,
-			      (SCM (*)())_scm_lw6sys_log_set_level);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_GET_BACKTRACE_MODE, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_log_get_backtrace_mode);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_BACKTRACE_MODE, 1, 0, 0,
-			      (SCM (*)())_scm_lw6sys_log_set_backtrace_mode);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG, 2, 0, 0, (SCM (*)())_scm_lw6sys_log);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_DIALOG_TIMEOUT, 1, 0, 0, (SCM (*)())_scm_lw6sys_log_set_dialog_timeout);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_GET_LEVEL, 0, 0, 0, (SCM (*)())_scm_lw6sys_log_get_level);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_LEVEL, 1, 0, 0, (SCM (*)())_scm_lw6sys_log_set_level);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_GET_BACKTRACE_MODE, 0, 0, 0, (SCM (*)())_scm_lw6sys_log_get_backtrace_mode);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_BACKTRACE_MODE, 1, 0, 0, (SCM (*)())_scm_lw6sys_log_set_backtrace_mode);
   /*
    * in mem.c
    */
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_MEGABYTES_AVAILABLE, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_megabytes_available);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_MEGABYTES_AVAILABLE, 0, 0, 0, (SCM (*)())_scm_lw6sys_megabytes_available);
   /*
    * in openmp.c
    */
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_OPENMP_GET_NUM_PROCS, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_openmp_get_num_procs);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_OPENMP_GET_NUM_PROCS, 0, 0, 0, (SCM (*)())_scm_lw6sys_openmp_get_num_procs);
   /*
    * In options.c
    */
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_USER_DIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_default_user_dir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_CONFIG_FILE, 0, 0,
-			      0,
-			      (SCM (*)())_scm_lw6sys_get_default_config_file);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_LOG_FILE, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_default_log_file);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_PREFIX, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_default_prefix);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MOD_DIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_default_mod_dir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_DATA_DIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_default_data_dir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MUSIC_DIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_default_music_dir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MUSIC_PATH, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_default_music_path);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MAP_DIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_default_map_dir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MAP_PATH, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_default_map_path);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_SCRIPT_FILE, 0, 0,
-			      0,
-			      (SCM (*)())_scm_lw6sys_get_default_script_file);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_CWD, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_cwd);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_RUN_DIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_run_dir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_USER_DIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_user_dir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_CONFIG_FILE, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_config_file);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_LOG_FILE, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_log_file);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_PREFIX, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_prefix);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MOD_DIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_mod_dir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DATA_DIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_data_dir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MUSIC_DIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_music_dir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MUSIC_PATH, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_music_path);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MAP_DIR, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_map_dir);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MAP_PATH, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_map_path);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_SCRIPT_FILE, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_script_file);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_USER_DIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_default_user_dir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_CONFIG_FILE, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_default_config_file);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_LOG_FILE, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_default_log_file);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_PREFIX, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_default_prefix);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MOD_DIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_default_mod_dir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_DATA_DIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_default_data_dir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MUSIC_DIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_default_music_dir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MUSIC_PATH, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_default_music_path);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MAP_DIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_default_map_dir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MAP_PATH, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_default_map_path);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_SCRIPT_FILE, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_default_script_file);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_CWD, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_cwd);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_RUN_DIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_run_dir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_USER_DIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_user_dir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_CONFIG_FILE, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_config_file);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_LOG_FILE, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_log_file);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_PREFIX, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_prefix);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MOD_DIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_mod_dir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DATA_DIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_data_dir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MUSIC_DIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_music_dir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MUSIC_PATH, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_music_path);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MAP_DIR, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_map_dir);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MAP_PATH, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_map_path);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_SCRIPT_FILE, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_script_file);
   /*
    * In path.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_CONCAT, 2, 0, 0,
-				      (SCM (*)())_scm_lw6sys_path_concat);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_FILE_ONLY, 1, 0, 0,
-				      (SCM (*)())_scm_lw6sys_path_file_only);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_PARENT, 1, 0, 0,
-				      (SCM (*)())_scm_lw6sys_path_parent);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_SPLIT, 1, 0, 0,
-				      (SCM (*)())_scm_lw6sys_path_split);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_CONCAT, 2, 0, 0, (SCM (*)())_scm_lw6sys_path_concat);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_FILE_ONLY, 1, 0, 0, (SCM (*)())_scm_lw6sys_path_file_only);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_PARENT, 1, 0, 0, (SCM (*)())_scm_lw6sys_path_parent);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_SPLIT, 1, 0, 0, (SCM (*)())_scm_lw6sys_path_split);
   /*
    * In signal.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_CUSTOM,
-				      1, 0, 0,
-				      (SCM (*)())_scm_lw6sys_signal_custom);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_DEFAULT, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_signal_default);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_SEND_QUIT, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_signal_send_quit);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_POLL_QUIT, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_signal_poll_quit);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_CUSTOM, 1, 0, 0, (SCM (*)())_scm_lw6sys_signal_custom);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_DEFAULT, 0, 0, 0, (SCM (*)())_scm_lw6sys_signal_default);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_SEND_QUIT, 0, 0, 0, (SCM (*)())_scm_lw6sys_signal_send_quit);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_POLL_QUIT, 0, 0, 0, (SCM (*)())_scm_lw6sys_signal_poll_quit);
   /*
    * In time.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_TIMESTAMP,
-				      0, 0, 0,
-				      (SCM (*)())_scm_lw6sys_get_timestamp);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_UPTIME, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_uptime);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_CYCLE, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_get_cycle);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SLEEP, 1, 0, 0,
-			      (SCM (*)())_scm_lw6sys_sleep);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DELAY, 1, 0, 0,
-			      (SCM (*)())_scm_lw6sys_delay);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_IDLE, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_idle);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SNOOZE, 0, 0, 0,
-			      (SCM (*)())_scm_lw6sys_snooze);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_TIMESTAMP, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_timestamp);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_UPTIME, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_uptime);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_CYCLE, 0, 0, 0, (SCM (*)())_scm_lw6sys_get_cycle);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SLEEP, 1, 0, 0, (SCM (*)())_scm_lw6sys_sleep);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DELAY, 1, 0, 0, (SCM (*)())_scm_lw6sys_delay);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_IDLE, 0, 0, 0, (SCM (*)())_scm_lw6sys_idle);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SNOOZE, 0, 0, 0, (SCM (*)())_scm_lw6sys_snooze);
   /*
    * In url.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_URL_CANONIZE,
-				      1, 0, 0,
-				      (SCM (*)())_scm_lw6sys_url_canonize);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_URL_CANONIZE, 1, 0, 0, (SCM (*)())_scm_lw6sys_url_canonize);
 
   return ret;
 }

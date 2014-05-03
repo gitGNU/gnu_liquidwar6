@@ -31,8 +31,7 @@
  * OpenGL wizardry, to prepare view parameters.
  */
 static void
-prepare_view (mod_gl1_utils_context_t * utils_context,
-	      _mod_gl1_menu_cylinder_context_t * cylinder_context)
+prepare_view (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
 {
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -42,9 +41,7 @@ prepare_view (mod_gl1_utils_context_t * utils_context,
 
 static void
 draw_cylinder_with_color (mod_gl1_utils_context_t * utils_context,
-			  _mod_gl1_menu_cylinder_context_t *
-			  cylinder_context, const lw6gui_look_t * look,
-			  float progress)
+			  _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, float progress)
 {
   lw6sys_color_8_t done;
   lw6sys_color_8_t todo;
@@ -64,20 +61,15 @@ draw_cylinder_with_color (mod_gl1_utils_context_t * utils_context,
   i_done = lw6sys_color_8_to_irgba (sys_context, done);
   i_todo = lw6sys_color_8_to_irgba (sys_context, todo);
 
-  surface =
-    mod_gl1_utils_create_surface (utils_context, MOD_GL1_UTILS_MENU_TEXTURE_W,
-				  MOD_GL1_UTILS_MENU_TEXTURE_H);
+  surface = mod_gl1_utils_create_surface (utils_context, MOD_GL1_UTILS_MENU_TEXTURE_W, MOD_GL1_UTILS_MENU_TEXTURE_H);
   if (surface)
     {
       mod_gl1_utils_clear_surface_with_color (surface, sdl_todo);
       limit = progress * (MOD_GL1_UTILS_MENU_TEXTURE_W - 1);
       limit = lw6sys_imin (limit, MOD_GL1_UTILS_MENU_TEXTURE_W - 1);
       limit = lw6sys_imax (limit, 0);
-      mod_gl1_utils_draw_rectfill (surface, 0, 0, limit,
-				   MOD_GL1_UTILS_MENU_TEXTURE_H - 1, i_done);
-      mod_gl1_utils_draw_rectfill (surface, limit, 0,
-				   MOD_GL1_UTILS_MENU_TEXTURE_W - 1,
-				   MOD_GL1_UTILS_MENU_TEXTURE_H - 1, i_todo);
+      mod_gl1_utils_draw_rectfill (surface, 0, 0, limit, MOD_GL1_UTILS_MENU_TEXTURE_H - 1, i_done);
+      mod_gl1_utils_draw_rectfill (surface, limit, 0, MOD_GL1_UTILS_MENU_TEXTURE_W - 1, MOD_GL1_UTILS_MENU_TEXTURE_H - 1, i_todo);
       texture = mod_gl1_utils_surface2texture (utils_context, surface, 0);
       if (texture)
 	{
@@ -89,23 +81,16 @@ draw_cylinder_with_color (mod_gl1_utils_context_t * utils_context,
 	  glPushMatrix ();
 	  glLoadIdentity ();
 	  glScalef (1.0f, -1.0f, 1.0f);
-	  glTranslatef (0.0f,
-			-0.25f + cylinder_context->const_data.texture_offset,
-			0.0f);
+	  glTranslatef (0.0f, -0.25f + cylinder_context->const_data.texture_offset, 0.0f);
 	  glRotatef (-90.0f, 0.0f, 0.0f, 1.0f);
 
 	  offset = cylinder_context->const_data.progress_offset;
 	  radius = cylinder_context->const_data.progress_radius;
 	  cyl_height =
 	    cylinder_context->const_data.progress_cyl_height *
-	    ((float) utils_context->sdl_context.video_mode.width) /
-	    ((float) utils_context->sdl_context.video_mode.height);
+	    ((float) utils_context->sdl_context.video_mode.width) / ((float) utils_context->sdl_context.video_mode.height);
 
-	  _mod_gl1_menu_cylinder_draw_fixed_cylinder (utils_context,
-						      cylinder_context,
-						      GL_RENDER, offset,
-						      radius, cyl_height,
-						      0.0f, 0.0f);
+	  _mod_gl1_menu_cylinder_draw_fixed_cylinder (utils_context, cylinder_context, GL_RENDER, offset, radius, cyl_height, 0.0f, 0.0f);
 
 	  glMatrixMode (GL_TEXTURE);
 	  glPopMatrix ();
@@ -118,10 +103,7 @@ draw_cylinder_with_color (mod_gl1_utils_context_t * utils_context,
 
 void
 _mod_gl1_menu_cylinder_draw_progress (mod_gl1_utils_context_t * utils_context,
-				      _mod_gl1_menu_cylinder_context_t *
-				      cylinder_context,
-				      const lw6gui_look_t * look,
-				      float progress)
+				      _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, float progress)
 {
   mod_gl1_utils_set_render_mode_3d_menu (utils_context);
   prepare_view (utils_context, cylinder_context);

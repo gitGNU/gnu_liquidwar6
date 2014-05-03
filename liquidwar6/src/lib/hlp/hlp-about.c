@@ -30,8 +30,7 @@
 #include "hlp-internal.h"
 
 static const char *
-about (lw6hlp_type_t * type, const char **default_value, int *min_value,
-       int *max_value, const char *keyword)
+about (lw6hlp_type_t * type, const char **default_value, int *min_value, int *max_value, const char *keyword)
 {
   const char *ret = NULL;
   _lw6hlp_reference_entry_t *entry = NULL;
@@ -100,8 +99,7 @@ lw6hlp_is_documented (const char *keyword)
  *   Additionnally, type will be updated.
  */
 const char *
-lw6hlp_about (lw6hlp_type_t * type, const char **default_value,
-	      int *min_value, int *max_value, const char *keyword)
+lw6hlp_about (lw6hlp_type_t * type, const char **default_value, int *min_value, int *max_value, const char *keyword)
 {
   const char *ret = NULL;
 
@@ -109,8 +107,7 @@ lw6hlp_about (lw6hlp_type_t * type, const char **default_value,
 
   if (!ret)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("keyword '%s' is not documented"), keyword);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("keyword '%s' is not documented"), keyword);
       if (type)
 	{
 	  *type = LW6HLP_TYPE_VOID;

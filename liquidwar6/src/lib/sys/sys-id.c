@@ -84,10 +84,7 @@ lw6sys_generate_id_32 (lw6sys_context_t * sys_context)
 {
   u_int32_t ret;
 
-  ret =
-    (((u_int32_t) generate_4_digit (sys_context)) << 16) | ((u_int32_t)
-							    generate_4_digit
-							    (sys_context));
+  ret = (((u_int32_t) generate_4_digit (sys_context)) << 16) | ((u_int32_t) generate_4_digit (sys_context));
 
   if (!ret)
     {
@@ -117,10 +114,7 @@ lw6sys_generate_id_64 (lw6sys_context_t * sys_context)
 
   ret =
     (((u_int64_t) generate_4_digit (sys_context)) << 48) |
-    (((u_int64_t) generate_4_digit (sys_context)) << 32) |
-    (((u_int64_t) generate_4_digit (sys_context)) << 16) | ((u_int64_t)
-							    generate_4_digit
-							    (sys_context));
+    (((u_int64_t) generate_4_digit (sys_context)) << 32) | (((u_int64_t) generate_4_digit (sys_context)) << 16) | ((u_int64_t) generate_4_digit (sys_context));
 
   if (!ret)
     {
@@ -145,8 +139,7 @@ lw6sys_check_id_16 (lw6sys_context_t * sys_context, u_int16_t id_16)
 {
   int ret = 0;
 
-  ret = (id_16 >= 0x1000 && id_16 <= 0x7fff)
-    || (id_16 == LW6SYS_BROADCAST_ID_16);
+  ret = (id_16 >= 0x1000 && id_16 <= 0x7fff) || (id_16 == LW6SYS_BROADCAST_ID_16);
 
   return ret;
 }
@@ -166,8 +159,7 @@ lw6sys_check_id_32 (lw6sys_context_t * sys_context, u_int32_t id_32)
 {
   int ret = 0;
 
-  ret = (id_32 >= 0x10001000 && id_32 <= 0x7fff7fff)
-    || (id_32 == LW6SYS_BROADCAST_ID_32);
+  ret = (id_32 >= 0x10001000 && id_32 <= 0x7fff7fff) || (id_32 == LW6SYS_BROADCAST_ID_32);
 
   return ret;
 }
@@ -187,8 +179,7 @@ lw6sys_check_id_64 (lw6sys_context_t * sys_context, u_int64_t id_64)
 {
   int ret = 0;
 
-  ret = (id_64 >= 0x1000100010001000LL && id_64 <= 0x7fff7fff7fff7fffLL)
-    || (id_64 == LW6SYS_BROADCAST_ID_64);
+  ret = (id_64 >= 0x1000100010001000LL && id_64 <= 0x7fff7fff7fff7fffLL) || (id_64 == LW6SYS_BROADCAST_ID_64);
 
   return ret;
 }
@@ -208,9 +199,7 @@ lw6sys_check_id (lw6sys_context_t * sys_context, u_int64_t id)
 {
   int ret = 0;
 
-  ret = lw6sys_check_id_16 (sys_context, id)
-    || lw6sys_check_id_32 (sys_context, id)
-    || lw6sys_check_id_64 (sys_context, id);
+  ret = lw6sys_check_id_16 (sys_context, id) || lw6sys_check_id_32 (sys_context, id) || lw6sys_check_id_64 (sys_context, id);
 
   return ret;
 }
@@ -234,9 +223,7 @@ lw6sys_id_ltoa (lw6sys_context_t * sys_context, u_int64_t id)
 
   if (lw6sys_check_id (sys_context, id))
     {
-      ret =
-	lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "x",
-			    (long long) id);
+      ret = lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "x", (long long) id);
     }
 
   return ret;
@@ -263,19 +250,16 @@ lw6sys_id_atol (lw6sys_context_t * sys_context, char *id)
 
   len = strlen (id);
 
-  if (len == LW6SYS_LEN_ID_16 || len == LW6SYS_LEN_ID_32
-      || len == LW6SYS_LEN_ID_64)
+  if (len == LW6SYS_LEN_ID_16 || len == LW6SYS_LEN_ID_32 || len == LW6SYS_LEN_ID_64)
     {
       if (!sscanf (id, scan_format_u_int64, &ret))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("id \"%s\" is not valid (sscanf error)"), id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("id \"%s\" is not valid (sscanf error)"), id);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("id \"%s\" is not valid (bad length)"), id);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("id \"%s\" is not valid (bad length)"), id);
     }
 
   if (!lw6sys_check_id (sys_context, ret))

@@ -30,6 +30,5 @@ void
 mod_gl1_utils_viewport_drawable_max (mod_gl1_utils_context_t * utils_context)
 {
   lw6gui_zone_init_xywh (&(utils_context->sdl_context.viewport), 0.0f, 0.0f,
-			 utils_context->sdl_context.video_mode.width,
-			 utils_context->sdl_context.video_mode.height);
+			 utils_context->sdl_context.video_mode.width, utils_context->sdl_context.video_mode.height);
 }

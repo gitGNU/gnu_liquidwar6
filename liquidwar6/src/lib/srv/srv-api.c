@@ -29,8 +29,7 @@
 static void
 _warning (const char *func_name)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-	      _x_ ("srv backend function \"%s\" is not defined"), func_name);
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("srv backend function \"%s\" is not defined"), func_name);
 }
 
 /**
@@ -51,9 +50,7 @@ lw6srv_init (lw6srv_backend_t * backend, lw6srv_listener_t * listener)
   backend->srv_context = NULL;
   if (backend->init)
     {
-      backend->srv_context =
-	backend->init (backend->argc, backend->argv, &(backend->properties),
-		       listener);
+      backend->srv_context = backend->init (backend->argc, backend->argv, &(backend->properties), listener);
     }
   else
     {
@@ -114,10 +111,7 @@ lw6srv_quit (lw6srv_backend_t * backend)
  * Return value: bitwise flag.
  */
 int
-lw6srv_analyse_tcp (lw6srv_backend_t * backend,
-		    lw6srv_tcp_accepter_t * tcp_accepter,
-		    lw6nod_info_t * node_info,
-		    u_int64_t * remote_id, char **remote_url)
+lw6srv_analyse_tcp (lw6srv_backend_t * backend, lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
 
@@ -125,9 +119,7 @@ lw6srv_analyse_tcp (lw6srv_backend_t * backend,
 
   if (backend->analyse_tcp)
     {
-      ret =
-	backend->analyse_tcp (backend->srv_context, tcp_accepter, node_info,
-			      remote_id, remote_url);
+      ret = backend->analyse_tcp (backend->srv_context, tcp_accepter, node_info, remote_id, remote_url);
     }
   else
     {
@@ -157,10 +149,7 @@ lw6srv_analyse_tcp (lw6srv_backend_t * backend,
  * Return value: bitwise flag.
  */
 int
-lw6srv_analyse_udp (lw6srv_backend_t * backend,
-		    lw6srv_udp_buffer_t * udp_buffer,
-		    lw6nod_info_t * node_info, u_int64_t * remote_id,
-		    char **remote_url)
+lw6srv_analyse_udp (lw6srv_backend_t * backend, lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
 
@@ -168,9 +157,7 @@ lw6srv_analyse_udp (lw6srv_backend_t * backend,
 
   if (backend->analyse_udp)
     {
-      ret =
-	backend->analyse_udp (backend->srv_context, udp_buffer, node_info,
-			      remote_id, remote_url);
+      ret = backend->analyse_udp (backend->srv_context, udp_buffer, node_info, remote_id, remote_url);
     }
   else
     {
@@ -194,8 +181,7 @@ lw6srv_analyse_udp (lw6srv_backend_t * backend,
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6srv_process_oob (lw6srv_backend_t * backend, lw6nod_info_t * node_info,
-		    lw6srv_oob_data_t * oob_data)
+lw6srv_process_oob (lw6srv_backend_t * backend, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
 
@@ -246,10 +232,7 @@ lw6cnx_connection_t *
 lw6srv_open (lw6srv_backend_t * backend, lw6srv_listener_t * listener,
 	     const char *local_url, const char *remote_url,
 	     const char *remote_ip, int remote_port, const char *password,
-	     u_int64_t local_id, u_int64_t remote_id, int dns_ok,
-	     int network_reliability,
-	     lw6cnx_recv_callback_t recv_callback_func,
-	     void *recv_callback_data)
+	     u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
 {
   lw6cnx_connection_t *ret = NULL;
 
@@ -259,9 +242,7 @@ lw6srv_open (lw6srv_backend_t * backend, lw6srv_listener_t * listener,
     {
       ret =
 	backend->open (backend->srv_context, listener, local_url, remote_url,
-		       remote_ip, remote_port, password, local_id, remote_id,
-		       dns_ok, network_reliability, recv_callback_func,
-		       recv_callback_data);
+		       remote_ip, remote_port, password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
       if (ret)
 	{
 	  ret->properties = backend->properties;
@@ -291,9 +272,7 @@ lw6srv_open (lw6srv_backend_t * backend, lw6srv_listener_t * listener,
  * Return value: 1 some data processed, else 0
  */
 int
-lw6srv_feed_with_tcp (lw6srv_backend_t * backend,
-		      lw6cnx_connection_t * connection,
-		      lw6srv_tcp_accepter_t * tcp_accepter)
+lw6srv_feed_with_tcp (lw6srv_backend_t * backend, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
 
@@ -301,9 +280,7 @@ lw6srv_feed_with_tcp (lw6srv_backend_t * backend,
 
   if (backend->feed_with_tcp)
     {
-      ret =
-	backend->feed_with_tcp (backend->srv_context, connection,
-				tcp_accepter);
+      ret = backend->feed_with_tcp (backend->srv_context, connection, tcp_accepter);
     }
   else
     {
@@ -329,9 +306,7 @@ lw6srv_feed_with_tcp (lw6srv_backend_t * backend,
  * Return value: 1 some data processed, else 0
  */
 int
-lw6srv_feed_with_udp (lw6srv_backend_t * backend,
-		      lw6cnx_connection_t * connection,
-		      lw6srv_udp_buffer_t * udp_buffer)
+lw6srv_feed_with_udp (lw6srv_backend_t * backend, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 
@@ -339,8 +314,7 @@ lw6srv_feed_with_udp (lw6srv_backend_t * backend,
 
   if (backend->feed_with_udp)
     {
-      ret =
-	backend->feed_with_udp (backend->srv_context, connection, udp_buffer);
+      ret = backend->feed_with_udp (backend->srv_context, connection, udp_buffer);
     }
   else
     {
@@ -398,10 +372,7 @@ lw6srv_close (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
  */
 int
 lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
-	     int64_t now,
-	     u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
-	     u_int64_t logical_from_id,
-	     u_int64_t logical_to_id, const char *message)
+	     int64_t now, u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
 {
   int ret = 0;
 
@@ -411,10 +382,7 @@ lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
     {
       if (lw6cnx_connection_reliability_filter (connection))
 	{
-	  ret =
-	    backend->send (backend->srv_context, connection, now,
-			   physical_ticket_sig, logical_ticket_sig,
-			   logical_from_id, logical_to_id, message);
+	  ret = backend->send (backend->srv_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, message);
 	}
       else
 	{
@@ -509,8 +477,7 @@ lw6srv_poll (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
  * Return value: dynamically allocated string.
  */
 char *
-lw6srv_repr (const lw6srv_backend_t * backend,
-	     lw6cnx_connection_t * connection)
+lw6srv_repr (const lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 

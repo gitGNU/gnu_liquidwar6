@@ -66,8 +66,7 @@
  * Return value: the newly allocated pointer. Data is not initialized.
  */
 void *
-lw6sys_malloc (lw6sys_context_t * sys_context, int size, const char *file,
-	       int line)
+lw6sys_malloc (lw6sys_context_t * sys_context, int size, const char *file, int line)
 {
   void *ptr;
 
@@ -85,9 +84,7 @@ lw6sys_malloc (lw6sys_context_t * sys_context, int size, const char *file,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _("out of memory malloc (%d) failed in %s:%d"), size, file,
-		  line);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("out of memory malloc (%d) failed in %s:%d"), size, file, line);
     }
 
   return ptr;
@@ -111,8 +108,7 @@ lw6sys_malloc (lw6sys_context_t * sys_context, int size, const char *file,
  * Return value: the newly allocated pointer. Data is filled with zeros.
  */
 void *
-lw6sys_calloc (lw6sys_context_t * sys_context, int size, const char *file,
-	       int line)
+lw6sys_calloc (lw6sys_context_t * sys_context, int size, const char *file, int line)
 {
   void *ptr;
 
@@ -130,9 +126,7 @@ lw6sys_calloc (lw6sys_context_t * sys_context, int size, const char *file,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _("out of memory calloc(%d) failed in %s:%d"), size, file,
-		  line);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("out of memory calloc(%d) failed in %s:%d"), size, file, line);
     }
 
   return ptr;
@@ -156,8 +150,7 @@ lw6sys_calloc (lw6sys_context_t * sys_context, int size, const char *file,
  * Return value: the newly allocated pointer.
  */
 void *
-lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size,
-		const char *file, int line)
+lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size, const char *file, int line)
 {
   void *ptr2;
 
@@ -166,11 +159,9 @@ lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size,
 #endif // LW6_PARANOID
 
 #ifndef LW6_OPTIMIZE
-  if (!_lw6sys_bazooka_register_realloc_1
-      (sys_context, ptr, size, file, line))
+  if (!_lw6sys_bazooka_register_realloc_1 (sys_context, ptr, size, file, line))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("suspicious realloc (stage 1) at %s:%d"), file, line);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("suspicious realloc (stage 1) at %s:%d"), file, line);
     }
 
 #endif // LW6_OPTIMIZE
@@ -180,20 +171,15 @@ lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size,
   if (ptr2)
     {
 #ifndef LW6_OPTIMIZE
-      if (!_lw6sys_bazooka_register_realloc_2
-	  (sys_context, ptr, ptr2, size, file, line))
+      if (!_lw6sys_bazooka_register_realloc_2 (sys_context, ptr, ptr2, size, file, line))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("suspicious realloc (stage 2) at %s:%d"), file,
-		      line);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("suspicious realloc (stage 2) at %s:%d"), file, line);
 	}
 #endif // LW6_OPTIMIZE
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _("out of memory realloc (%d) failed in %s:%d"), size,
-		  file, line);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("out of memory realloc (%d) failed in %s:%d"), size, file, line);
     }
 
   return ptr2;
@@ -217,16 +203,14 @@ lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size,
  * Return value: none.
  */
 void
-lw6sys_free (lw6sys_context_t * sys_context, void *ptr, const char *file,
-	     int line)
+lw6sys_free (lw6sys_context_t * sys_context, void *ptr, const char *file, int line)
 {
   if (ptr != NULL)
     {
 #ifndef LW6_OPTIMIZE
       if (!_lw6sys_bazooka_register_free (sys_context, ptr))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("double free suspected at %s:%d"), file, line);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("double free suspected at %s:%d"), file, line);
 	}
 #endif // LW6_OPTIMIZE
       /*
@@ -237,8 +221,7 @@ lw6sys_free (lw6sys_context_t * sys_context, void *ptr, const char *file,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _("trying to free NULL pointer in %s:%d"), file, line);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("trying to free NULL pointer in %s:%d"), file, line);
     }
 }
 
@@ -301,9 +284,7 @@ lw6sys_megabytes_available (lw6sys_context_t * sys_context)
 
   mach_port = mach_host_self ();
   count = sizeof (vm_stats) / sizeof (natural_t);
-  if (KERN_SUCCESS == host_page_size (mach_port, &page_size) &&
-      KERN_SUCCESS == host_statistics (mach_port, HOST_VM_INFO,
-				       (host_info_t) & vm_stats, &count))
+  if (KERN_SUCCESS == host_page_size (mach_port, &page_size) && KERN_SUCCESS == host_statistics (mach_port, HOST_VM_INFO, (host_info_t) & vm_stats, &count))
     {
       freeram = (int64_t) vm_stats.free_count * (int64_t) page_size;
     }
@@ -330,8 +311,7 @@ lw6sys_megabytes_available (lw6sys_context_t * sys_context)
    */
   ret = (sysconf (_SC_PAGESIZE) * sysconf (_SC_AVPHYS_PAGES)) / MEM_DIVIDE;
 #else // _SC_AVPHYS_PAGES
-  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-	      _x_ ("unable to guess how much free memory is available"));
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to guess how much free memory is available"));
 #endif // _SC_AVPHYS_PAGES
 #endif // HAVE_SYS_SYSINFO_H
 #endif // LW6_MAC_OS_X
@@ -392,37 +372,27 @@ lw6sys_check_types_size (lw6sys_context_t * sys_context)
 
   if (sizeof (int8_t) != LW6SYS_SIZEOF_INT8)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("int8_t is %d bytes, should be %d"),
-		  (int) sizeof (int8_t), LW6SYS_SIZEOF_INT8);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("int8_t is %d bytes, should be %d"), (int) sizeof (int8_t), LW6SYS_SIZEOF_INT8);
       ret = 0;
     }
   if (sizeof (int16_t) != LW6SYS_SIZEOF_INT16)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("int16_t is %d bytes, should be %d"),
-		  (int) sizeof (int16_t), LW6SYS_SIZEOF_INT16);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("int16_t is %d bytes, should be %d"), (int) sizeof (int16_t), LW6SYS_SIZEOF_INT16);
       ret = 0;
     }
   if (sizeof (int32_t) != LW6SYS_SIZEOF_INT32)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("int32_t is %d bytes, should be %d"),
-		  (int) sizeof (int32_t), LW6SYS_SIZEOF_INT32);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("int32_t is %d bytes, should be %d"), (int) sizeof (int32_t), LW6SYS_SIZEOF_INT32);
       ret = 0;
     }
   if (sizeof (int64_t) != LW6SYS_SIZEOF_INT64)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("int64_t is %d bytes, should be %d"),
-		  (int) sizeof (int64_t), LW6SYS_SIZEOF_INT64);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("int64_t is %d bytes, should be %d"), (int) sizeof (int64_t), LW6SYS_SIZEOF_INT64);
       ret = 0;
     }
   if (sizeof (lw6sys_xyz_t) != LW6SYS_SIZEOF_XYZ)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("lw6sys_xyz_t is %d bytes, should be %d"),
-		  (int) sizeof (lw6sys_xyz_t), LW6SYS_SIZEOF_XYZ);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("lw6sys_xyz_t is %d bytes, should be %d"), (int) sizeof (lw6sys_xyz_t), LW6SYS_SIZEOF_XYZ);
       ret = 0;
     }
 

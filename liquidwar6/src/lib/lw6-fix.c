@@ -60,10 +60,7 @@ _get_system_guile_load_path (int argc, const char *argv[])
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("Guile library directory \"%s\" does not exist"),
-			  guile_dir);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("Guile library directory \"%s\" does not exist"), guile_dir);
 	      LW6SYS_FREE (sys_context, guile_dir);
 	    }
 	}
@@ -91,10 +88,7 @@ _fix_guile_load_path (int argc, const char *argv[])
 	{
 	  if (!lw6sys_dir_exists (script_dir))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("Guile script directory \"%s\" does not exist"),
-			  script_dir);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("Guile script directory \"%s\" does not exist"), script_dir);
 	      LW6SYS_FREE (script_dir);
 	      script_dir = NULL;
 	    }
@@ -104,26 +98,19 @@ _fix_guile_load_path (int argc, const char *argv[])
 
   if (system_dir && script_dir)
     {
-      env =
-	lw6sys_new_sprintf ("%s%c%s%c.", system_dir,
-			    lw6sys_env_separator_char (), script_dir,
-			    lw6sys_env_separator_char ());
+      env = lw6sys_new_sprintf ("%s%c%s%c.", system_dir, lw6sys_env_separator_char (), script_dir, lw6sys_env_separator_char ());
     }
   else
     {
       if (system_dir)
 	{
-	  env =
-	    lw6sys_new_sprintf ("%s%c.", system_dir,
-				lw6sys_env_separator_char ());
+	  env = lw6sys_new_sprintf ("%s%c.", system_dir, lw6sys_env_separator_char ());
 	}
       else
 	{
 	  if (script_dir)
 	    {
-	      env =
-		lw6sys_new_sprintf ("%s%c.", script_dir,
-				    lw6sys_env_separator_char ());
+	      env = lw6sys_new_sprintf ("%s%c.", script_dir, lw6sys_env_separator_char ());
 	    }
 	  else
 	    {
@@ -132,9 +119,7 @@ _fix_guile_load_path (int argc, const char *argv[])
 	}
     }
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("setting Guile path using setenv %s=\"%s\""),
-	      GUILE_LOAD_PATH_KEY, env);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("setting Guile path using setenv %s=\"%s\""), GUILE_LOAD_PATH_KEY, env);
   if (env)
     {
       lw6sys_setenv (sys_context, GUILE_LOAD_PATH_KEY, env);
@@ -180,13 +165,11 @@ _fix_library_path (int argc, const char *argv[], char *library_path)
   old_library_path = lw6sys_getenv (sys_context, library_path);
   if (old_library_path && strlen (old_library_path) > 0)
     {
-      new_library_path =
-	lw6sys_env_concat (old_library_path, lw6sys_build_get_libdir ());
+      new_library_path = lw6sys_env_concat (old_library_path, lw6sys_build_get_libdir ());
     }
   else
     {
-      new_library_path =
-	lw6sys_str_copy (sys_context, lw6sys_build_get_libdir ());
+      new_library_path = lw6sys_str_copy (sys_context, lw6sys_build_get_libdir ());
     }
 
   if (old_library_path)
@@ -205,13 +188,11 @@ _fix_library_path (int argc, const char *argv[], char *library_path)
    */
   if (old_library_path && strlen (old_library_path) > 0)
     {
-      new_library_path =
-	lw6sys_env_concat (old_library_path, DEFAULT_MACPORTS_LIBDIR);
+      new_library_path = lw6sys_env_concat (old_library_path, DEFAULT_MACPORTS_LIBDIR);
     }
   else
     {
-      new_library_path =
-	lw6sys_str_copy (sys_context, DEFAULT_MACPORTS_LIBDIR);
+      new_library_path = lw6sys_str_copy (sys_context, DEFAULT_MACPORTS_LIBDIR);
     }
 
   if (old_library_path)
@@ -233,8 +214,7 @@ _fix_library_path (int argc, const char *argv[], char *library_path)
     {
       if (old_library_path && strlen (old_library_path) > 0)
 	{
-	  new_library_path =
-	    lw6sys_env_concat (sys_context, cwd, old_library_path);
+	  new_library_path = lw6sys_env_concat (sys_context, cwd, old_library_path);
 	}
       else
 	{
@@ -331,9 +311,7 @@ lw6_fix_env (int argc, const char *argv[])
       //_fix_dyld_library_path (argc, argv);
       //_fix_ld_library_path (argc, argv);
       lw6sys_exec_again (sys_context, argc, argv);
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _
-		  ("couldn't fix environment variable by restarting program"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("couldn't fix environment variable by restarting program"));
     }
 #endif
 

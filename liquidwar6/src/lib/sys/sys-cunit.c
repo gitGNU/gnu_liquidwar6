@@ -65,18 +65,12 @@ _cunit_summary (lw6sys_context_t * sys_context, const char *cunit_basename)
 		  _x_ ("failure record %s:%d %s/%s \"%s\""),
 		  lw6sys_str_empty_if_null (sys_context, file), line,
 		  lw6sys_str_empty_if_null (sys_context, suite),
-		  lw6sys_str_empty_if_null (sys_context, test),
-		  lw6sys_str_empty_if_null (sys_context, condition));
-      failure_record = (failure_record->pNext
-			&& failure_record->pNext !=
-			failure_record) ? failure_record->pNext : NULL;
+		  lw6sys_str_empty_if_null (sys_context, test), lw6sys_str_empty_if_null (sys_context, condition));
+      failure_record = (failure_record->pNext && failure_record->pNext != failure_record) ? failure_record->pNext : NULL;
       nb_failure_records++;
     }
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_
-	      ("%d failure records, complete test results in \"%s-Results.xml\""),
-	      nb_failure_records, cunit_basename);
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d failure records, complete test results in \"%s-Results.xml\""), nb_failure_records, cunit_basename);
 }
 
 /**
@@ -116,8 +110,7 @@ lw6sys_cunit_run_tests (lw6sys_context_t * sys_context, int mode)
       user_dir = lw6sys_get_default_user_dir (sys_context);
       if (user_dir)
 	{
-	  cunit_basename =
-	    lw6sys_path_concat (sys_context, user_dir, _CUNIT_BASENAME);
+	  cunit_basename = lw6sys_path_concat (sys_context, user_dir, _CUNIT_BASENAME);
 	  if (cunit_basename)
 	    {
 	      CU_set_output_filename (cunit_basename);
@@ -130,27 +123,19 @@ lw6sys_cunit_run_tests (lw6sys_context_t * sys_context, int mode)
   run_summary = CU_get_run_summary ();
   if (run_summary)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit suites run"),
-		  run_summary->nSuitesRun);
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		  _x_ ("%d CUnit suites failed"), run_summary->nSuitesFailed);
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit tests"),
-		  run_summary->nTestsRun);
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		  _x_ ("%d CUnit tests failed"), run_summary->nTestsFailed);
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit asserts"),
-		  run_summary->nAsserts);
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit successes"),
-		  run_summary->nAssertsFailed);
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit failures"),
-		  run_summary->nFailureRecords);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit suites run"), run_summary->nSuitesRun);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit suites failed"), run_summary->nSuitesFailed);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit tests"), run_summary->nTestsRun);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit tests failed"), run_summary->nTestsFailed);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit asserts"), run_summary->nAsserts);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit successes"), run_summary->nAssertsFailed);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d CUnit failures"), run_summary->nFailureRecords);
 
       ret = (run_summary->nTestsFailed == 0);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("CU_get_run_summary failed"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("CU_get_run_summary failed"));
     }
 
   if (user_dir)
@@ -221,8 +206,7 @@ lw6sys_cunit_lock (lw6sys_context_t * sys_context)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to initialize CUnit global mutex"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to initialize CUnit global mutex"));
       ret = 0;
     }
 
@@ -253,9 +237,7 @@ lw6sys_cunit_unlock (lw6sys_context_t * sys_context)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("trying to unlock CUnit global mutex but it's not defined"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to unlock CUnit global mutex but it's not defined"));
       ret = 0;
     }
 

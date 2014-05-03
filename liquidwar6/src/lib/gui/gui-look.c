@@ -127,8 +127,7 @@ lw6gui_look_free (lw6gui_look_t * look)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL look"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL look"));
     }
 }
 
@@ -169,8 +168,7 @@ lw6gui_look_repr (const lw6gui_look_t * look)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't generate string id for NULL look"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't generate string id for NULL look"));
     }
 
   return ret;
@@ -261,8 +259,7 @@ lw6gui_look_get (const lw6gui_look_t * look, char *key)
  * Return value: 1 if they are the same, 0 if not.
  */
 int
-lw6gui_look_is_same (const lw6gui_look_t * look_a,
-		     const lw6gui_look_t * look_b)
+lw6gui_look_is_same (const lw6gui_look_t * look_a, const lw6gui_look_t * look_b)
 {
   int ret = 1;
 
@@ -274,8 +271,7 @@ lw6gui_look_is_same (const lw6gui_look_t * look_a,
     {
       ret = ret && look_a->dynamic_zoom == look_b->dynamic_zoom;
       ret = ret && look_a->gfx_quality == look_b->gfx_quality;
-      ret = ret
-	&& lw6map_style_is_same (sys_context, &look_a->style, &look_b->style);
+      ret = ret && lw6map_style_is_same (sys_context, &look_a->style, &look_b->style);
     }
 
   return ret;
@@ -359,8 +355,7 @@ lw6gui_look_zoom_in (lw6gui_look_t * look, float zoom_step)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("zoom_step=%f, should be >1.0"), zoom_step);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("zoom_step=%f, should be >1.0"), zoom_step);
     }
   _fix_zoom (look);
 
@@ -399,8 +394,7 @@ lw6gui_look_zoom_out (lw6gui_look_t * look, float zoom_step)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("zoom_step=%f, should be >1.0"), zoom_step);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("zoom_step=%f, should be >1.0"), zoom_step);
     }
   _fix_zoom (look);
 

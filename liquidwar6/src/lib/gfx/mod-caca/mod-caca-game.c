@@ -31,9 +31,7 @@
 extern int
 _mod_caca_display_map (_mod_caca_context_t * caca_context,
 		       const lw6gui_look_t * look,
-		       const lw6ker_game_state_t * game_state,
-		       const lw6ker_game_struct_t * game_struct,
-		       lw6pil_local_cursors_t * local_cursors)
+		       const lw6ker_game_state_t * game_state, const lw6ker_game_struct_t * game_struct, lw6pil_local_cursors_t * local_cursors)
 {
   int fighter_id;
   const lw6ker_fighter_t *fighter;
@@ -54,64 +52,42 @@ _mod_caca_display_map (_mod_caca_context_t * caca_context,
   buffer = malloc (sizeof (*buffer) * (shape.w * shape.h));
   if (buffer == NULL)
     return 0;
-  memset (buffer,
-	  lw6sys_color_8_to_ibgra (sys_context,
-				   caca_context->const_data.bg_color),
-	  sizeof (*buffer) * (shape.w * shape.h));
+  memset (buffer, lw6sys_color_8_to_ibgra (sys_context, caca_context->const_data.bg_color), sizeof (*buffer) * (shape.w * shape.h));
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("map [%d|%d]"), width,
-	      height);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("map [%d|%d]"), width, height);
   if (cursor)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("cursor [%d|%d]"),
-		  cursor->x, cursor->y);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("cursor [%d|%d]"), cursor->x, cursor->y);
     }
   for (y = 0; y < height; y++)
     {
       for (x = 0; x < width; x++)
 	{
 	  fighter_id = -1;
-	  fighter_id =
-	    lw6ker_game_state_get_fighter_id (sys_context, game_state, x, y,
-					      0);
+	  fighter_id = lw6ker_game_state_get_fighter_id (sys_context, game_state, x, y, 0);
 	  if (fighter_id >= 0)
 	    {
-	      fighter =
-		lw6ker_game_state_get_fighter_ro_by_id (game_state,
-							fighter_id);
+	      fighter = lw6ker_game_state_get_fighter_ro_by_id (game_state, fighter_id);
 	      team_color = fighter->team_color;
 	      if (team_color >= 0 && team_color < 10)
 		{
-		  buffer[width * y + x] =
-		    lw6sys_color_8_to_ibgra (sys_context,
-					     caca_context->
-					     const_data.team_color
-					     [team_color]);
+		  buffer[width * y + x] = lw6sys_color_8_to_ibgra (sys_context, caca_context->const_data.team_color[team_color]);
 		}
 	    }
 	  else
 	    {
-	      if (lw6ker_game_struct_is_bg
-		  (sys_context, game_struct, x, y, 0))
-		buffer[width * y + x] =
-		  lw6sys_color_8_to_ibgra (sys_context,
-					   caca_context->const_data.bg_color);
+	      if (lw6ker_game_struct_is_bg (sys_context, game_struct, x, y, 0))
+		buffer[width * y + x] = lw6sys_color_8_to_ibgra (sys_context, caca_context->const_data.bg_color);
 	      else
-		buffer[width * y + x] =
-		  lw6sys_color_8_to_ibgra (sys_context,
-					   caca_context->const_data.fg_color);
+		buffer[width * y + x] = lw6sys_color_8_to_ibgra (sys_context, caca_context->const_data.fg_color);
 	    }
 	}
     }
   if (cursor && cursor->y < height && cursor->x < width)
     buffer[width * cursor->y + cursor->x] = 0xff0000;
 
-  dither = caca_create_dither (32, width, height, 4 * width,
-			       0x00ff0000, 0x0000ff00, 0x000000ff, 0x0);
-  caca_dither_bitmap (caca_context->canvas, 0, 0,
-		      caca_get_canvas_width (caca_context->canvas),
-		      caca_get_canvas_height (caca_context->canvas), dither,
-		      buffer);
+  dither = caca_create_dither (32, width, height, 4 * width, 0x00ff0000, 0x0000ff00, 0x000000ff, 0x0);
+  caca_dither_bitmap (caca_context->canvas, 0, 0, caca_get_canvas_width (caca_context->canvas), caca_get_canvas_height (caca_context->canvas), dither, buffer);
   caca_free_dither (dither);
   free (buffer);
   return ret;

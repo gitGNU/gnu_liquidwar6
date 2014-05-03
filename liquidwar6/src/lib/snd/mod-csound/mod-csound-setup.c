@@ -28,18 +28,14 @@
 #include "mod-csound-internal.h"
 
 _mod_csound_context_t *
-_mod_csound_init (int argc, const char *argv[], float fx_volume,
-		  float water_volume, float music_volume)
+_mod_csound_init (int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
 {
   _mod_csound_context_t *csound_context = NULL;
   int ok = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("csound init volume=%01.2f/%01.2f"), fx_volume,
-	      music_volume);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("csound init volume=%01.2f/%01.2f"), fx_volume, music_volume);
 
-  csound_context =
-    (_mod_csound_context_t *) LW6SYS_CALLOC (sizeof (_mod_csound_context_t));
+  csound_context = (_mod_csound_context_t *) LW6SYS_CALLOC (sizeof (_mod_csound_context_t));
   if (csound_context)
     {
       if (_mod_csound_path_init (csound_context, argc, argv))
@@ -54,8 +50,7 @@ _mod_csound_init (int argc, const char *argv[], float fx_volume,
 
   if (!ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to init csound module"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to init csound module"));
       _mod_csound_quit (csound_context);
     }
 

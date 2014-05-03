@@ -56,14 +56,10 @@ lw6ldr_hints_defaults (lw6ldr_hints_t * hints)
   hints->min_map_surface = LW6LDR_HINTS_DEFAULT_MIN_MAP_SURFACE;
   hints->max_map_surface = LW6LDR_HINTS_DEFAULT_MAX_MAP_SURFACE;
   hints->fighter_scale = LW6LDR_HINTS_DEFAULT_FIGHTER_SCALE;
-  hints->downsize_using_fighter_scale =
-    LW6LDR_HINTS_DEFAULT_DOWNSIZE_USING_FIGHTER_SCALE;
-  hints->upsize_using_fighter_scale =
-    LW6LDR_HINTS_DEFAULT_UPSIZE_USING_FIGHTER_SCALE;
-  hints->downsize_using_bench_value =
-    LW6LDR_HINTS_DEFAULT_DOWNSIZE_USING_BENCH_VALUE;
-  hints->upsize_using_bench_value =
-    LW6LDR_HINTS_DEFAULT_UPSIZE_USING_BENCH_VALUE;
+  hints->downsize_using_fighter_scale = LW6LDR_HINTS_DEFAULT_DOWNSIZE_USING_FIGHTER_SCALE;
+  hints->upsize_using_fighter_scale = LW6LDR_HINTS_DEFAULT_UPSIZE_USING_FIGHTER_SCALE;
+  hints->downsize_using_bench_value = LW6LDR_HINTS_DEFAULT_DOWNSIZE_USING_BENCH_VALUE;
+  hints->upsize_using_bench_value = LW6LDR_HINTS_DEFAULT_UPSIZE_USING_BENCH_VALUE;
   hints->guess_colors = LW6LDR_HINTS_DEFAULT_GUESS_COLORS;
   hints->background_color_auto = LW6LDR_HINTS_DEFAULT_BACKGROUND_COLOR_AUTO;
   hints->hud_color_auto = LW6LDR_HINTS_DEFAULT_HUD_COLOR_AUTO;
@@ -106,8 +102,7 @@ lw6ldr_hints_clear (lw6ldr_hints_t * hints)
 }
 
 static void
-read_callback (void *callback_data, const char *element, const char *key,
-	       const char *value)
+read_callback (void *callback_data, const char *element, const char *key, const char *value)
 {
   lw6ldr_hints_t *hints_data;
 
@@ -140,11 +135,8 @@ lw6ldr_hints_read (lw6ldr_hints_t * hints, const char *dirname)
     {
       if (lw6sys_file_exists (sys_context, buf))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("reading hints \"%s\""), buf);
-	  ret =
-	    lw6cfg_read_key_value_xml_file (buf, read_callback,
-					    (void *) hints);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading hints \"%s\""), buf);
+	  ret = lw6cfg_read_key_value_xml_file (buf, read_callback, (void *) hints);
 	}
       else
 	{
@@ -157,8 +149,7 @@ lw6ldr_hints_read (lw6ldr_hints_t * hints, const char *dirname)
 
   if (!ret)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to read map hints"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to read map hints"));
     }
 
   return ret;
@@ -222,18 +213,15 @@ lw6ldr_hints_set (lw6ldr_hints_t * hints, const char *key, const char *value)
 	}
       else if (!strcmp (LW6DEF_DOWNSIZE_USING_FIGHTER_SCALE, formatted_key))
 	{
-	  hints->downsize_using_fighter_scale =
-	    lw6sys_atob (sys_context, value);
+	  hints->downsize_using_fighter_scale = lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_UPSIZE_USING_FIGHTER_SCALE, formatted_key))
 	{
-	  hints->upsize_using_fighter_scale =
-	    lw6sys_atob (sys_context, value);
+	  hints->upsize_using_fighter_scale = lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_DOWNSIZE_USING_BENCH_VALUE, formatted_key))
 	{
-	  hints->downsize_using_bench_value =
-	    lw6sys_atob (sys_context, value);
+	  hints->downsize_using_bench_value = lw6sys_atob (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_UPSIZE_USING_BENCH_VALUE, formatted_key))
 	{
@@ -343,8 +331,7 @@ lw6ldr_hints_get (const lw6ldr_hints_t * hints, const char *key)
 	}
       else if (!strcmp (LW6DEF_DOWNSIZE_USING_FIGHTER_SCALE, formatted_key))
 	{
-	  ret =
-	    lw6sys_btoa (sys_context, hints->downsize_using_fighter_scale);
+	  ret = lw6sys_btoa (sys_context, hints->downsize_using_fighter_scale);
 	}
       else if (!strcmp (LW6DEF_UPSIZE_USING_FIGHTER_SCALE, formatted_key))
 	{
@@ -426,10 +413,7 @@ lw6ldr_hints_get_default (const char *key)
 
   if (!ret)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("unable to get default value for hints parameter \"%s\""),
-		  key);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to get default value for hints parameter \"%s\""), key);
     }
 
   return ret;

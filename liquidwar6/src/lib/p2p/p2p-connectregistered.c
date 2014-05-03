@@ -36,17 +36,12 @@ typedef struct _select_node_by_id_data_s
 } _select_node_by_id_data_t;
 
 static int
-_select_node_by_id_callback (void *func_data, int nb_fields,
-			     char **fields_values, char **fields_names)
+_select_node_by_id_callback (void *func_data, int nb_fields, char **fields_values, char **fields_names)
 {
   int ret = 0;
-  _select_node_by_id_data_t *node_by_id_data =
-    (_select_node_by_id_data_t *) func_data;
+  _select_node_by_id_data_t *node_by_id_data = (_select_node_by_id_data_t *) func_data;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_
-	      ("select_node_by_id_callback called with %d fields"),
-	      nb_fields);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("select_node_by_id_callback called with %d fields"), nb_fields);
   /*
    * Putting a high value by default (means "no valid connection"
    * when a zero value would be "optimal connection").
@@ -63,29 +58,21 @@ _select_node_by_id_callback (void *func_data, int nb_fields,
 	   * it on the fly, it won't harm. The real cost
 	   * is memory allocation.
 	   */
-	  node_by_id_data->node_url =
-	    lw6sys_url_canonize (sys_context,
-				 fields_values[_LW6P2P_DB_NODE_ORDER_URL]);
+	  node_by_id_data->node_url = lw6sys_url_canonize (sys_context, fields_values[_LW6P2P_DB_NODE_ORDER_URL]);
 	}
       if (fields_values[_LW6P2P_DB_NODE_ORDER_IP])
 	{
-	  node_by_id_data->node_ip =
-	    lw6sys_str_copy (sys_context,
-			     fields_values[_LW6P2P_DB_NODE_ORDER_IP]);
+	  node_by_id_data->node_ip = lw6sys_str_copy (sys_context, fields_values[_LW6P2P_DB_NODE_ORDER_IP]);
 	}
       if (fields_values[_LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC])
 	{
-	  node_by_id_data->ping_delay_msec =
-	    lw6sys_atoi (sys_context, fields_values
-			 [_LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC]);
+	  node_by_id_data->ping_delay_msec = lw6sys_atoi (sys_context, fields_values[_LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC]);
 	}
     }
   else
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("request for node by id should return %d fields but returned %d"),
-		  _LW6P2P_DB_NODE_NB_FIELDS, nb_fields);
+		  _x_ ("request for node by id should return %d fields but returned %d"), _LW6P2P_DB_NODE_NB_FIELDS, nb_fields);
     }
 
   return ret;
@@ -101,8 +88,7 @@ _lw6p2p_connect_registered_nodes_if_needed (_lw6p2p_node_t * node)
   now = lw6sys_get_timestamp ();
   if (node->connect_registered.next_connect_registered_nodes_timestamp < now)
     {
-      node->connect_registered.next_connect_registered_nodes_timestamp =
-	now + delay / 2 + lw6sys_random (sys_context, delay);
+      node->connect_registered.next_connect_registered_nodes_timestamp = now + delay / 2 + lw6sys_random (sys_context, delay);
       ret = _lw6p2p_connect_registered_nodes (node);
     }
   else
@@ -125,41 +111,28 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 
   lw6msg_meta_array_zero (&meta_array);
   memset (&node_by_id_data, 0, sizeof (_select_node_by_id_data_t));
-  lw6dat_warehouse_meta_get (node->warehouse, &meta_array,
-			     lw6dat_warehouse_get_seq_max (node->warehouse));
+  lw6dat_warehouse_meta_get (node->warehouse, &meta_array, lw6dat_warehouse_get_seq_max (node->warehouse));
 
   for (index = 0; index < LW6MSG_NB_META_ARRAY_ITEMS; ++index)
     {
       if (meta_array.items[index].node_id)
 	{
 	  if (_lw6p2p_node_is_peer_registered
-	      (node, meta_array.items[index].node_id)
-	      && !_lw6p2p_node_is_peer_connected (node,
-						  meta_array.
-						  items[index].node_id))
+	      (node, meta_array.items[index].node_id) && !_lw6p2p_node_is_peer_connected (node, meta_array.items[index].node_id))
 	    {
 	      /*
 	       * OK, we found a node which is registered in the
 	       * warehouse but is not in our tentacle list.
 	       */
-	      node_by_id_data.node_id =
-		lw6sys_id_ltoa (sys_context, meta_array.items[index].node_id);
+	      node_by_id_data.node_id = lw6sys_id_ltoa (sys_context, meta_array.items[index].node_id);
 	      if (node_by_id_data.node_id)
 		{
-		  query =
-		    lw6sys_new_sprintf (sys_context,
-					_lw6p2p_db_get_query (node->db,
-							      _LW6P2P_SELECT_NODE_BY_ID_SQL),
-					node_by_id_data.node_id);
+		  query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (node->db, _LW6P2P_SELECT_NODE_BY_ID_SQL), node_by_id_data.node_id);
 		  if (query)
 		    {
 		      if (_lw6p2p_db_lock (node->db))
 			{
-			  ret =
-			    _lw6p2p_db_exec (node->db, query,
-					     _select_node_by_id_callback,
-					     (void *) &node_by_id_data)
-			    && ret;
+			  ret = _lw6p2p_db_exec (node->db, query, _select_node_by_id_callback, (void *) &node_by_id_data) && ret;
 			  _lw6p2p_db_unlock (node->db);
 			}
 		      LW6SYS_FREE (sys_context, query);
@@ -171,9 +144,7 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 			   * OK, we got a node with that id in our database,
 			   * now let's check if it's worth connecting to it
 			   */
-			  if (node_by_id_data.ping_delay_msec <=
-			      node->db->data.
-			      consts.connect_registered_nodes_delay)
+			  if (node_by_id_data.ping_delay_msec <= node->db->data.consts.connect_registered_nodes_delay)
 			    {
 			      /*
 			       * Go ahead, establishing the tentacle should not be
@@ -182,24 +153,15 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					  _x_ ("node %" LW6SYS_PRINTF_LL
 					       "x \"%s\" at %s registered without a connection, trying to establish a link"),
-					  (long long) meta_array.
-					  items[index].node_id,
-					  node_by_id_data.node_url,
-					  node_by_id_data.node_ip);
-			      if (_lw6p2p_node_register_tentacle
-				  (node, node_by_id_data.node_url,
-				   node_by_id_data.node_ip,
-				   meta_array.items[index].node_id))
+					  (long long) meta_array.items[index].node_id, node_by_id_data.node_url, node_by_id_data.node_ip);
+			      if (_lw6p2p_node_register_tentacle (node, node_by_id_data.node_url, node_by_id_data.node_ip, meta_array.items[index].node_id))
 				{
 				  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					      _x_
 					      ("link established with node %"
 					       LW6SYS_PRINTF_LL
 					       "x \"%s\" at %s which was registered without a connection"),
-					      (long long)
-					      meta_array.items[index].node_id,
-					      node_by_id_data.node_url,
-					      node_by_id_data.node_ip);
+					      (long long) meta_array.items[index].node_id, node_by_id_data.node_url, node_by_id_data.node_ip);
 				}
 			      else
 				{
@@ -208,10 +170,7 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 					      ("can't establish link with node %"
 					       LW6SYS_PRINTF_LL
 					       "x \"%s\" at %s, relying on forwarded messages"),
-					      (long long)
-					      meta_array.items[index].node_id,
-					      node_by_id_data.node_url,
-					      node_by_id_data.node_ip);
+					      (long long) meta_array.items[index].node_id, node_by_id_data.node_url, node_by_id_data.node_ip);
 				}
 			    }
 			  else
@@ -228,13 +187,9 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 					  ("won't establish link with node %"
 					   LW6SYS_PRINTF_LL
 					   "x \"%s\" at %s, as its ping is too high (%d>%d)"),
-					  (long long) meta_array.
-					  items[index].node_id,
+					  (long long) meta_array.items[index].node_id,
 					  node_by_id_data.node_url,
-					  node_by_id_data.node_ip,
-					  node_by_id_data.ping_delay_msec,
-					  node->db->data.
-					  consts.connect_registered_nodes_delay);
+					  node_by_id_data.node_ip, node_by_id_data.ping_delay_msec, node->db->data.consts.connect_registered_nodes_delay);
 			    }
 			}
 		    }

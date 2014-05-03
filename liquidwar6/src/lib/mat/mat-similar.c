@@ -47,8 +47,7 @@ lw6mat_is_similar_f (float f_a, float f_b)
   float diff = fabsf (f_a - f_b);
   float scale = lw6sys_fmax (fabsf (f_a), fabsf (f_b));
 
-  return (scale <= LW6MAT_SIMILAR_F_SCALE) ? 1 : ((diff / scale) <=
-						  LW6MAT_SIMILAR_F_DIFF);
+  return (scale <= LW6MAT_SIMILAR_F_SCALE) ? 1 : ((diff / scale) <= LW6MAT_SIMILAR_F_DIFF);
 }
 
 /**
@@ -72,8 +71,7 @@ lw6mat_is_similar_i (int32_t i_a, int32_t i_b)
   int32_t diff = abs (i_a - i_b);
   int32_t scale = lw6sys_imax (abs (i_a), abs (i_b));
 
-  return (scale <= LW6MAT_SIMILAR_I_SCALE) ? 1 : (diff <=
-						  LW6MAT_SIMILAR_I_DIFF);
+  return (scale <= LW6MAT_SIMILAR_I_SCALE) ? 1 : (diff <= LW6MAT_SIMILAR_I_DIFF);
 }
 
 /**
@@ -97,8 +95,7 @@ lw6mat_is_similar_d (double d_a, double d_b)
   double diff = fabs (d_a - d_b);
   double scale = lw6sys_dmax (fabs (d_a), fabs (d_b));
 
-  return (scale <= LW6MAT_SIMILAR_D_SCALE) ? 1 : ((diff / scale) <=
-						  LW6MAT_SIMILAR_D_DIFF);
+  return (scale <= LW6MAT_SIMILAR_D_SCALE) ? 1 : ((diff / scale) <= LW6MAT_SIMILAR_D_DIFF);
 }
 
 /**
@@ -122,8 +119,5 @@ lw6mat_is_similar_x (int32_t x_a, int32_t x_b)
   int32_t diff = abs (x_a - x_b);
   int32_t scale = lw6sys_imax (abs (x_a), abs (x_b));
 
-  return (scale <=
-	  LW6MAT_SIMILAR_X_SCALE) ? 1 : (lw6mat_x_div_32 (diff,
-							  scale) <=
-					 LW6MAT_SIMILAR_X_DIFF);
+  return (scale <= LW6MAT_SIMILAR_X_SCALE) ? 1 : (lw6mat_x_div_32 (diff, scale) <= LW6MAT_SIMILAR_X_DIFF);
 }

@@ -48,19 +48,16 @@
  * Must be freed with @lw6sys_cache_free.
  */
 lw6sys_cache_t *
-lw6sys_cache_new (lw6sys_context_t * sys_context,
-		  lw6sys_free_func_t free_func, int size, int delay_msec)
+lw6sys_cache_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func, int size, int delay_msec)
 {
   lw6sys_cache_t *ret = NULL;
 
-  ret =
-    (lw6sys_cache_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6sys_cache_t));
+  ret = (lw6sys_cache_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6sys_cache_t));
   if (ret)
     {
       ret->delay_msec = delay_msec;
       ret->real_free_func = free_func;
-      ret->data =
-	lw6sys_hash_new (sys_context, lw6sys_cache_free_callback, size);
+      ret->data = lw6sys_hash_new (sys_context, lw6sys_cache_free_callback, size);
       if (!(ret->data))
 	{
 	  LW6SYS_FREE (sys_context, ret);
@@ -92,8 +89,7 @@ lw6sys_cache_free (lw6sys_context_t * sys_context, lw6sys_cache_t * cache)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL cache"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL cache"));
     }
 }
 
@@ -142,8 +138,7 @@ lw6sys_cache_free_callback (lw6sys_context_t * sys_context, void *data)
  *   corresponding key.
  */
 int
-lw6sys_cache_has_key (lw6sys_context_t * sys_context, lw6sys_cache_t * cache,
-		      const char *key)
+lw6sys_cache_has_key (lw6sys_context_t * sys_context, lw6sys_cache_t * cache, const char *key)
 {
   int ret = 0;
   lw6sys_cache_item_t *item = NULL;
@@ -193,8 +188,7 @@ lw6sys_cache_has_key (lw6sys_context_t * sys_context, lw6sys_cache_t * cache,
  *   destroying the cache will actually free the data if needed.
  */
 void *
-lw6sys_cache_get (lw6sys_context_t * sys_context, lw6sys_cache_t * cache,
-		  const char *key)
+lw6sys_cache_get (lw6sys_context_t * sys_context, lw6sys_cache_t * cache, const char *key)
 {
   void *ret = NULL;
   lw6sys_cache_item_t *item = NULL;
@@ -238,19 +232,15 @@ lw6sys_cache_get (lw6sys_context_t * sys_context, lw6sys_cache_t * cache,
  * Return value: void
  */
 void
-lw6sys_cache_set (lw6sys_context_t * sys_context, lw6sys_cache_t * cache,
-		  const char *key, void *value)
+lw6sys_cache_set (lw6sys_context_t * sys_context, lw6sys_cache_t * cache, const char *key, void *value)
 {
   lw6sys_cache_item_t *item = NULL;
 
-  item =
-    (lw6sys_cache_item_t *) LW6SYS_CALLOC (sys_context,
-					   sizeof (lw6sys_cache_item_t));
+  item = (lw6sys_cache_item_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6sys_cache_item_t));
 
   if (item)
     {
-      item->expiration_timestamp =
-	lw6sys_get_timestamp (sys_context) + cache->delay_msec;
+      item->expiration_timestamp = lw6sys_get_timestamp (sys_context) + cache->delay_msec;
       item->real_free_func = cache->real_free_func;
       item->value = value;
       lw6sys_hash_set (sys_context, cache->data, key, item);
@@ -271,8 +261,7 @@ lw6sys_cache_set (lw6sys_context_t * sys_context, lw6sys_cache_t * cache,
  * Return value: void
  */
 void
-lw6sys_cache_unset (lw6sys_context_t * sys_context, lw6sys_cache_t * cache,
-		    const char *key)
+lw6sys_cache_unset (lw6sys_context_t * sys_context, lw6sys_cache_t * cache, const char *key)
 {
   lw6sys_hash_unset (sys_context, cache->data, key);
 }

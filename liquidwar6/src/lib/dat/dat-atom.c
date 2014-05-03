@@ -113,12 +113,7 @@ _lw6dat_atom_get_full_str (_lw6dat_atom_t * atom)
 
 int
 _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
-			     int *order_n,
-			     int64_t * seq,
-			     u_int64_t * logical_from,
-			     int
-			     *seq_from_cmd_str_offset,
-			     int *cmd_str_offset, const char *full_str)
+			     int *order_n, int64_t * seq, u_int64_t * logical_from, int *seq_from_cmd_str_offset, int *cmd_str_offset, const char *full_str)
 {
   int ret = 0;
   char *next = (char *) full_str;
@@ -132,16 +127,13 @@ _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
 	{
 	  (*type) = _LW6DAT_ATOM_TYPE_DATA;
 	}
-      else
-	if (lw6sys_str_is_same_no_case
-	    (sys_context, word.buf, LW6MSG_CMD_META))
+      else if (lw6sys_str_is_same_no_case (sys_context, word.buf, LW6MSG_CMD_META))
 	{
 	  (*type) = _LW6DAT_ATOM_TYPE_META;
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("bad value for type in atom \"%s\""), full_str);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad value for type in atom \"%s\""), full_str);
 	  ret = 0;
 	}
       if (ret)
@@ -162,58 +154,41 @@ _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
 		      (*seq_from_cmd_str_offset) = next - full_str;
 		      if (lw6msg_word_first_int_64_ge0 (seq, &next, next))
 			{
-			  if (lw6msg_word_first_id_64
-			      (logical_from, &next, next))
+			  if (lw6msg_word_first_id_64 (logical_from, &next, next))
 			    {
 			      (*cmd_str_offset) = next - full_str;
-			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-					  _x_ ("successfully parsed \"%s\""),
-					  full_str);
+			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("successfully parsed \"%s\""), full_str);
 			      ret = 1;
 			    }
 			  else
 			    {
-			      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-					  _x_
-					  ("bad value for logical_from in atom \"%s\""),
-					  full_str);
+			      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad value for logical_from in atom \"%s\""), full_str);
 			    }
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				      _x_
-				      ("bad value for seq in atom \"%s\""),
-				      full_str);
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad value for seq in atom \"%s\""), full_str);
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_
-				  ("bad value for order_n in atom \"%s\""),
-				  full_str);
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad value for order_n in atom \"%s\""), full_str);
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_ ("bad value for order_i in atom \"%s\""),
-			      full_str);
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad value for order_i in atom \"%s\""), full_str);
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("bad value for serial in atom \"%s\""),
-			  full_str);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad value for serial in atom \"%s\""), full_str);
 	    }
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("bad value for META/DATA in atom \"%s\""), full_str);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad value for META/DATA in atom \"%s\""), full_str);
     }
 
   return ret;

@@ -31,20 +31,15 @@
 #define _DESC_SHADED_TEXT_FG "shaded_text_bg"
 
 mod_gl1_utils_shaded_text_t *
-mod_gl1_utils_shaded_text_new (mod_gl1_utils_context_t * utils_context,
-			       TTF_Font * font, const char *text,
-			       const lw6map_color_couple_t * color)
+mod_gl1_utils_shaded_text_new (mod_gl1_utils_context_t * utils_context, TTF_Font * font, const char *text, const lw6map_color_couple_t * color)
 {
   mod_gl1_utils_shaded_text_t *shaded_text;
 
-  shaded_text =
-    (mod_gl1_utils_shaded_text_t *)
-    LW6SYS_CALLOC (sizeof (mod_gl1_utils_shaded_text_t));
+  shaded_text = (mod_gl1_utils_shaded_text_t *) LW6SYS_CALLOC (sizeof (mod_gl1_utils_shaded_text_t));
   if (shaded_text)
     {
       shaded_text->font = font;
-      if (!mod_gl1_utils_shaded_text_update
-	  (utils_context, shaded_text, text, color))
+      if (!mod_gl1_utils_shaded_text_update (utils_context, shaded_text, text, color))
 	{
 	  LW6SYS_FREE (shaded_text);
 	  shaded_text = NULL;
@@ -55,9 +50,7 @@ mod_gl1_utils_shaded_text_new (mod_gl1_utils_context_t * utils_context,
 
 int
 mod_gl1_utils_shaded_text_update (mod_gl1_utils_context_t * utils_context,
-				  mod_gl1_utils_shaded_text_t * shaded_text,
-				  const char *text,
-				  const lw6map_color_couple_t * color)
+				  mod_gl1_utils_shaded_text_t * shaded_text, const char *text, const lw6map_color_couple_t * color)
 {
   int ret = 0;
   int change = 0;
@@ -66,8 +59,7 @@ mod_gl1_utils_shaded_text_update (mod_gl1_utils_context_t * utils_context,
   SDL_Surface *surface_bg = NULL;
   SDL_Surface *surface_fg = NULL;
 
-  if ((!shaded_text->text)
-      || ((shaded_text->text && strcmp (text, shaded_text->text) != 0)))
+  if ((!shaded_text->text) || ((shaded_text->text && strcmp (text, shaded_text->text) != 0)))
     {
       if (shaded_text->text)
 	{
@@ -93,19 +85,11 @@ mod_gl1_utils_shaded_text_update (mod_gl1_utils_context_t * utils_context,
 	}
       color_bg = mod_gl1_utils_color_8_to_sdl (shaded_text->color.bg);
       color_fg = mod_gl1_utils_color_8_to_sdl (shaded_text->color.fg);
-      surface_bg =
-	mod_gl1_utils_blended_text_surface (utils_context,
-					    shaded_text->font,
-					    color_bg, shaded_text->text);
-      surface_fg =
-	mod_gl1_utils_blended_text_surface (utils_context,
-					    shaded_text->font,
-					    color_fg, shaded_text->text);
+      surface_bg = mod_gl1_utils_blended_text_surface (utils_context, shaded_text->font, color_bg, shaded_text->text);
+      surface_fg = mod_gl1_utils_blended_text_surface (utils_context, shaded_text->font, color_fg, shaded_text->text);
       if (surface_bg)
 	{
-	  shaded_text->bg =
-	    mod_gl1_utils_surface2bitmap (utils_context, surface_bg,
-					  _DESC_SHADED_TEXT_BG);
+	  shaded_text->bg = mod_gl1_utils_surface2bitmap (utils_context, surface_bg, _DESC_SHADED_TEXT_BG);
 	  if (shaded_text->bg)
 	    {
 	      shaded_text->texture_w = surface_bg->w;
@@ -118,9 +102,7 @@ mod_gl1_utils_shaded_text_update (mod_gl1_utils_context_t * utils_context,
 	}
       if (surface_fg)
 	{
-	  shaded_text->fg =
-	    mod_gl1_utils_surface2bitmap (utils_context, surface_fg,
-					  _DESC_SHADED_TEXT_FG);
+	  shaded_text->fg = mod_gl1_utils_surface2bitmap (utils_context, surface_fg, _DESC_SHADED_TEXT_FG);
 	  if (shaded_text->fg)
 	    {
 	      shaded_text->texture_w = surface_fg->w;
@@ -139,34 +121,26 @@ mod_gl1_utils_shaded_text_update (mod_gl1_utils_context_t * utils_context,
 
 int
 mod_gl1_utils_shaded_text_display (mod_gl1_utils_context_t * utils_context,
-				   mod_gl1_utils_shaded_text_t * shaded_text,
-				   float x1, float y1, float x2, float y2,
-				   float dw, float dh)
+				   mod_gl1_utils_shaded_text_t * shaded_text, float x1, float y1, float x2, float y2, float dw, float dh)
 {
   int ret = 1;
 
   if (shaded_text->bg)
     {
-      ret = ret
-	&& mod_gl1_utils_bitmap_display (utils_context, shaded_text->bg,
-					 x1 + dw, y1 + dh, x2 + dw, y2 + dh);
+      ret = ret && mod_gl1_utils_bitmap_display (utils_context, shaded_text->bg, x1 + dw, y1 + dh, x2 + dw, y2 + dh);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't display, shaded_text->bg=NULL"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't display, shaded_text->bg=NULL"));
       ret = 0;
     }
   if (shaded_text->fg)
     {
-      ret = ret
-	&& mod_gl1_utils_bitmap_display (utils_context, shaded_text->fg, x1,
-					 y1, x2, y2);
+      ret = ret && mod_gl1_utils_bitmap_display (utils_context, shaded_text->fg, x1, y1, x2, y2);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("can't display, shaded_text->fg=NULL"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't display, shaded_text->fg=NULL"));
       ret = 0;
     }
 
@@ -174,8 +148,7 @@ mod_gl1_utils_shaded_text_display (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_utils_shaded_text_free (mod_gl1_utils_context_t * utils_context,
-				mod_gl1_utils_shaded_text_t * shaded_text)
+mod_gl1_utils_shaded_text_free (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_shaded_text_t * shaded_text)
 {
   if (shaded_text)
     {
@@ -195,7 +168,6 @@ mod_gl1_utils_shaded_text_free (mod_gl1_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL shaded text"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL shaded text"));
     }
 }

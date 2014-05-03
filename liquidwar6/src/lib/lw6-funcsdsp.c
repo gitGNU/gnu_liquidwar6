@@ -34,241 +34,177 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
 
   lw6dsp_param_zero (c_param);
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_SPLASH),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_SPLASH), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_SPLASH);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_SPLASH;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_BACKGROUND),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_BACKGROUND), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_BACKGROUND);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_BACKGROUND;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_PREVIEW),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_PREVIEW), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_PREVIEW);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_PREVIEW;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_MAP),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_MAP), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_MAP);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_MAP;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_FIGHTERS),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_FIGHTERS), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_FIGHTERS);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_FIGHTERS;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_CURSORS),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_CURSORS), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_CURSORS);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_CURSORS;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_HUD),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_HUD), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_HUD);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_HUD;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_SCORE),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_SCORE), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_SCORE);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_SCORE;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_MENU),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_MENU), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_MENU);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_MENU;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_META),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_META), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_META);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_META;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_PROGRESS),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_PROGRESS), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_PROGRESS);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_PROGRESS;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_LOG),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_LOG), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_LOG);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_LOG;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_FPS),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_FPS), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_FPS);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_FPS;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_MPS),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_MPS), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_MPS);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_MPS;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_URL),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_URL), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_URL);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_URL;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_MOUSE),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_MOUSE), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_MOUSE);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_MOUSE;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_DEBUG_ZONES),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_DEBUG_ZONES), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_DEBUG_ZONES);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_DEBUG_ZONES;
     }
 
-  value =
-    scm_hash_ref (param,
-		  scm_from_locale_string (LW6DEF_DISPLAY_DEBUG_GRADIENT),
-		  SCM_BOOL_F);
-  SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn,
-	      LW6DEF_DISPLAY_DEBUG_GRADIENT);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_DEBUG_GRADIENT), SCM_BOOL_F);
+  SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_DEBUG_GRADIENT);
   if (SCM_NFALSEP (value))
     {
       c_param->misc.mask |= LW6GUI_DISPLAY_DEBUG_GRADIENT;
     }
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_TARGET_FPS),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_TARGET_FPS), SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_TARGET_FPS);
   c_param->misc.target_fps = scm_to_int (value);
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_GFX_CPU_USAGE),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_GFX_CPU_USAGE), SCM_BOOL_F);
   SCM_ASSERT (scm_is_number (value), value, SCM_ARGn, LW6DEF_GFX_CPU_USAGE);
   c_param->misc.gfx_cpu_usage = scm_to_double (value);
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DIRTY_READ),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DIRTY_READ), SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_DIRTY_READ);
   c_param->misc.dirty_read = scm_to_int (value);
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_CAPTURE), SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_CAPTURE), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_CAPTURE);
   c_param->misc.capture = SCM_NFALSEP (value);
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_GFX_DEBUG),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_GFX_DEBUG), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_GFX_DEBUG);
   c_param->misc.gfx_debug = SCM_NFALSEP (value);
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DEBUG_TEAM_ID),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DEBUG_TEAM_ID), SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_DEBUG_TEAM_ID);
   c_param->misc.debug_team_id = scm_to_int (value);
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DEBUG_LAYER_ID),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DEBUG_LAYER_ID), SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_DEBUG_LAYER_ID);
   c_param->misc.debug_layer_id = scm_to_int (value);
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_REPEAT_DELAY),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_REPEAT_DELAY), SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_REPEAT_DELAY);
   c_param->misc.repeat_settings.delay = scm_to_int (value);
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_REPEAT_INTERVAL),
-		  SCM_BOOL_F);
-  SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn,
-	      LW6DEF_REPEAT_INTERVAL);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_REPEAT_INTERVAL), SCM_BOOL_F);
+  SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_REPEAT_INTERVAL);
   c_param->misc.repeat_settings.interval = scm_to_int (value);
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DOUBLE_CLICK_DELAY),
-		  SCM_BOOL_F);
-  SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn,
-	      LW6DEF_DOUBLE_CLICK_DELAY);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DOUBLE_CLICK_DELAY), SCM_BOOL_F);
+  SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_DOUBLE_CLICK_DELAY);
   c_param->misc.repeat_settings.double_click_delay = scm_to_int (value);
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_AUTO_RELEASE_DELAY),
-		  SCM_BOOL_F);
-  SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn,
-	      LW6DEF_AUTO_RELEASE_DELAY);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_AUTO_RELEASE_DELAY), SCM_BOOL_F);
+  SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_AUTO_RELEASE_DELAY);
   c_param->misc.repeat_settings.auto_release_delay = scm_to_int (value);
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_LOG_TIMEOUT),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_LOG_TIMEOUT), SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_LOG_TIMEOUT);
   c_param->misc.log_timeout = scm_to_int (value);
 
@@ -280,19 +216,15 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
   /*
    * Video mode
    */
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_WIDTH), SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_WIDTH), SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_WIDTH);
   c_param->video_mode.width = scm_to_int (value);
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_HEIGHT), SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_HEIGHT), SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_HEIGHT);
   c_param->video_mode.height = scm_to_int (value);
 
-  value =
-    scm_hash_ref (param, scm_from_locale_string (LW6DEF_FULLSCREEN),
-		  SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_FULLSCREEN), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_FULLSCREEN);
   c_param->video_mode.fullscreen = SCM_NFALSEP (value);
 
@@ -328,8 +260,7 @@ prepare_update_param (SCM dsp, lw6dsp_param_t * c_param, SCM param)
     {
       prepare_update_param_bootstrap (c_param, param);
 
-      value =
-	scm_hash_ref (param, scm_from_locale_string ("level"), SCM_BOOL_F);
+      value = scm_hash_ref (param, scm_from_locale_string ("level"), SCM_BOOL_F);
       if (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, value))
 	{
 	  /*
@@ -345,9 +276,7 @@ prepare_update_param (SCM dsp, lw6dsp_param_t * c_param, SCM param)
 	  c_param->level = NULL;
 	}
 
-      value =
-	scm_hash_ref (param, scm_from_locale_string ("game-struct"),
-		      SCM_BOOL_F);
+      value = scm_hash_ref (param, scm_from_locale_string ("game-struct"), SCM_BOOL_F);
       if (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_struct, value))
 	{
 	  /*
@@ -363,9 +292,7 @@ prepare_update_param (SCM dsp, lw6dsp_param_t * c_param, SCM param)
 	  c_param->game_struct = NULL;
 	}
 
-      value =
-	scm_hash_ref (param, scm_from_locale_string ("game-state"),
-		      SCM_BOOL_F);
+      value = scm_hash_ref (param, scm_from_locale_string ("game-state"), SCM_BOOL_F);
       if (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, value))
 	{
 	  /*
@@ -381,8 +308,7 @@ prepare_update_param (SCM dsp, lw6dsp_param_t * c_param, SCM param)
 	  c_param->game_state = NULL;
 	}
 
-      value =
-	scm_hash_ref (param, scm_from_locale_string ("pilot"), SCM_BOOL_F);
+      value = scm_hash_ref (param, scm_from_locale_string ("pilot"), SCM_BOOL_F);
       if (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, value))
 	{
 	  /*
@@ -418,8 +344,7 @@ _scm_lw6dsp_new (SCM backend_name, SCM param)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (scm_is_string (backend_name),
-	      backend_name, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (backend_name), backend_name, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_hash_table_p (param), param, SCM_ARG2, __FUNCTION__);
 
   c_backend_name = lw6scm_utils_to_0str (backend_name);
@@ -427,8 +352,7 @@ _scm_lw6dsp_new (SCM backend_name, SCM param)
     {
       if (prepare_update_param_bootstrap (&c_param, param))
 	{
-	  c_ret = lw6dsp_create_backend (lw6_global.argc, lw6_global.argv,
-					 c_backend_name);
+	  c_ret = lw6dsp_create_backend (lw6_global.argc, lw6_global.argv, c_backend_name);
 	  if (c_ret)
 	    {
 	      if (lw6dsp_init (c_ret, &c_param, lw6_resize_callback))
@@ -458,8 +382,7 @@ _scm_lw6dsp_release (SCM dsp)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
@@ -482,8 +405,7 @@ _scm_lw6dsp_update (SCM dsp, SCM param)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_hash_table_p (param), param, SCM_ARG2, __FUNCTION__);
 
   c_dsp = lw6_scm_to_dsp (dsp);
@@ -509,8 +431,7 @@ _scm_lw6dsp_get_nb_frames (SCM dsp)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
@@ -532,8 +453,7 @@ _scm_lw6dsp_get_last_frame_rendering_time (SCM dsp)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
@@ -555,8 +475,7 @@ _scm_lw6dsp_get_instant_fps (SCM dsp)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
@@ -578,8 +497,7 @@ _scm_lw6dsp_get_average_fps (SCM dsp)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
@@ -601,8 +519,7 @@ _scm_lw6dsp_get_video_mode (SCM dsp)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
@@ -617,9 +534,7 @@ _scm_lw6dsp_get_video_mode (SCM dsp)
 			 scm_from_int (video_mode.width)),
 			scm_cons (scm_from_locale_string ("height"),
 				  scm_from_int (video_mode.height)),
-			scm_cons (scm_from_locale_string ("fullscreen"),
-				  video_mode.fullscreen ? SCM_BOOL_T :
-				  SCM_BOOL_F));
+			scm_cons (scm_from_locale_string ("fullscreen"), video_mode.fullscreen ? SCM_BOOL_T : SCM_BOOL_F));
 	}
     }
 
@@ -637,8 +552,7 @@ _scm_lw6dsp_get_fullscreen_modes (SCM dsp)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
@@ -652,58 +566,46 @@ _scm_lw6dsp_get_fullscreen_modes (SCM dsp)
 						  (scm_from_locale_string
 						   ("width"),
 						   scm_from_int
-						   (fullscreen_modes.low.
-						    width)),
+						   (fullscreen_modes.low.width)),
 						  scm_cons
 						  (scm_from_locale_string
 						   ("height"),
 						   scm_from_int
-						   (fullscreen_modes.
-						    low.height)),
+						   (fullscreen_modes.low.height)),
 						  scm_cons
 						  (scm_from_locale_string
 						   ("fullscreen"),
-						   fullscreen_modes.low.
-						   fullscreen ? SCM_BOOL_T :
+						   fullscreen_modes.low.fullscreen ? SCM_BOOL_T :
 						   SCM_BOOL_F))),
 			    scm_cons (scm_from_locale_string ("standard"),
 				      scm_list_3 (scm_cons
 						  (scm_from_locale_string
 						   ("width"),
 						   scm_from_int
-						   (fullscreen_modes.standard.
-						    width)),
+						   (fullscreen_modes.standard.width)),
 						  scm_cons
 						  (scm_from_locale_string
 						   ("height"),
 						   scm_from_int
-						   (fullscreen_modes.standard.
-						    height)),
+						   (fullscreen_modes.standard.height)),
 						  scm_cons
 						  (scm_from_locale_string
 						   ("fullscreen"),
-						   fullscreen_modes.standard.
-						   fullscreen ? SCM_BOOL_T :
+						   fullscreen_modes.standard.fullscreen ? SCM_BOOL_T :
 						   SCM_BOOL_F))),
 			    scm_cons (scm_from_locale_string ("high"),
 				      scm_list_3 (scm_cons
 						  (scm_from_locale_string
 						   ("width"),
 						   scm_from_int
-						   (fullscreen_modes.high.
-						    width)),
+						   (fullscreen_modes.high.width)),
 						  scm_cons
 						  (scm_from_locale_string
 						   ("height"),
 						   scm_from_int
-						   (fullscreen_modes.
-						    high.height)),
+						   (fullscreen_modes.high.height)),
 						  scm_cons
-						  (scm_from_locale_string
-						   ("fullscreen"),
-						   fullscreen_modes.high.
-						   fullscreen ? SCM_BOOL_T :
-						   SCM_BOOL_F))));
+						  (scm_from_locale_string ("fullscreen"), fullscreen_modes.high.fullscreen ? SCM_BOOL_T : SCM_BOOL_F))));
 
 	}
     }
@@ -731,31 +633,15 @@ lw6_register_funcs_dsp ()
   /*
    * In display.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_NEW, 2, 0, 0,
-				      (SCM (*)())_scm_lw6dsp_new);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_RELEASE, 1, 0, 0,
-				      (SCM (*)())_scm_lw6dsp_release);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_UPDATE, 2, 0, 0,
-				      (SCM (*)())_scm_lw6dsp_update);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_NB_FRAMES, 1, 0, 0,
-				      (SCM (*)())_scm_lw6dsp_get_nb_frames);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_LAST_FRAME_RENDERING_TIME,
-			      1, 0, 0,
-			      (SCM (*)
-			       ())_scm_lw6dsp_get_last_frame_rendering_time);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_INSTANT_FPS, 1, 0, 0,
-			      (SCM (*)())_scm_lw6dsp_get_instant_fps);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_AVERAGE_FPS, 1, 0, 0,
-			      (SCM (*)())_scm_lw6dsp_get_average_fps);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_VIDEO_MODE, 1, 0, 0,
-			      (SCM (*)())_scm_lw6dsp_get_video_mode);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_FULLSCREEN_MODES, 1, 0, 0,
-			      (SCM (*)())_scm_lw6dsp_get_fullscreen_modes);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_NEW, 2, 0, 0, (SCM (*)())_scm_lw6dsp_new);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_RELEASE, 1, 0, 0, (SCM (*)())_scm_lw6dsp_release);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_UPDATE, 2, 0, 0, (SCM (*)())_scm_lw6dsp_update);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_NB_FRAMES, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_nb_frames);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_LAST_FRAME_RENDERING_TIME, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_last_frame_rendering_time);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_INSTANT_FPS, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_instant_fps);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_AVERAGE_FPS, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_average_fps);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_VIDEO_MODE, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_video_mode);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_FULLSCREEN_MODES, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_fullscreen_modes);
 
   return ret;
 }

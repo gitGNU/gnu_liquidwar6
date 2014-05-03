@@ -56,9 +56,7 @@ lw6nod_info_new (const char *program,
 		 const char *version,
 		 const char *codename,
 		 int stamp, u_int64_t id, const char *url, const char *title,
-		 const char *description, const char *password, int bench,
-		 int open_relay, int uptime, int idle_screenshot_size,
-		 void *idle_screenshot_data)
+		 const char *description, const char *password, int bench, int open_relay, int uptime, int idle_screenshot_size, void *idle_screenshot_data)
 {
   lw6nod_info_t *info = NULL;
   int const_init_ret = 0;
@@ -71,20 +69,17 @@ lw6nod_info_new (const char *program,
       const_init_ret =
 	_lw6nod_const_info_init (&(info->const_info), program, version,
 				 codename, stamp, id, url, title, description,
-				 password, bench, open_relay, uptime,
-				 idle_screenshot_size, idle_screenshot_data);
+				 password, bench, open_relay, uptime, idle_screenshot_size, idle_screenshot_data);
       lw6nod_info_idle (info);
       info->discovered_nodes = lw6nod_info_new_discovered_nodes ();
       info->verified_nodes = lw6nod_info_new_verified_nodes ();
-      if (info->mutex && const_init_ret && info->discovered_nodes
-	  && info->verified_nodes)
+      if (info->mutex && const_init_ret && info->discovered_nodes && info->verified_nodes)
 	{
 	  // ok
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("unable to create nod_info object"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create nod_info object"));
 	  lw6nod_info_free (info);
 	  info = NULL;
 	}
@@ -230,8 +225,7 @@ int
 lw6nod_info_update (lw6nod_info_t * info, u_int64_t community_id, int round,
 		    const char *level, int required_bench, int nb_colors,
 		    int max_nb_colors, int nb_cursors, int max_nb_cursors,
-		    int nb_nodes, int max_nb_nodes, const char *peer_id_list,
-		    int game_screenshot_size, void *game_screenshot_data)
+		    int nb_nodes, int max_nb_nodes, const char *peer_id_list, int game_screenshot_size, void *game_screenshot_data)
 {
   int ret = 0;
 
@@ -240,9 +234,7 @@ lw6nod_info_update (lw6nod_info_t * info, u_int64_t community_id, int round,
       ret =
 	_lw6nod_dyn_info_update (&(info->dyn_info), community_id, round,
 				 level, required_bench, nb_colors,
-				 max_nb_colors, nb_cursors, max_nb_cursors,
-				 nb_nodes, max_nb_nodes,
-				 game_screenshot_size, game_screenshot_data);
+				 max_nb_colors, nb_cursors, max_nb_cursors, nb_nodes, max_nb_nodes, game_screenshot_size, game_screenshot_data);
       lw6nod_info_unlock (info);
     }
 
@@ -279,17 +271,12 @@ lw6nod_info_dup_dyn (lw6nod_info_t * info)
 	     info->dyn_info.required_bench, info->dyn_info.nb_colors,
 	     info->dyn_info.max_nb_colors, info->dyn_info.nb_cursors,
 	     info->dyn_info.max_nb_cursors, info->dyn_info.nb_nodes,
-	     info->dyn_info.max_nb_nodes,
-	     info->dyn_info.game_screenshot_size,
-	     info->dyn_info.game_screenshot_data) && ok;
+	     info->dyn_info.max_nb_nodes, info->dyn_info.game_screenshot_size, info->dyn_info.game_screenshot_data) && ok;
 	  for (i = 0; i < LW6NOD_MAX_NB_PEERS; ++i)
 	    {
 	      ok =
 		_lw6nod_ref_info_update (&(dyn_info->community_peers[i]),
-					 info->dyn_info.
-					 community_peers[i].id_int,
-					 info->dyn_info.
-					 community_peers[i].url) && ok;
+					 info->dyn_info.community_peers[i].id_int, info->dyn_info.community_peers[i].url) && ok;
 	    }
 	  if (!ok)
 	    {
@@ -358,11 +345,8 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, const char *public_url)
 	      canonized_url = lw6sys_url_canonize (sys_context, public_url);
 	      if (canonized_url)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("adding \"%s\" as a possible node"),
-			      canonized_url);
-		  lw6sys_hash_set (sys_context, info->discovered_nodes,
-				   canonized_url, NULL);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("adding \"%s\" as a possible node"), canonized_url);
+		  lw6sys_hash_set (sys_context, info->discovered_nodes, canonized_url, NULL);
 		  LW6SYS_FREE (sys_context, canonized_url);
 		}
 	    }
@@ -427,8 +411,7 @@ lw6nod_info_new_verified_nodes ()
 }
 
 static int
-_verified_sort_callback (const lw6sys_list_t ** list_a,
-			 const lw6sys_list_t ** list_b)
+_verified_sort_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
 {
   int ret = 0;
   const lw6nod_info_t *a;
@@ -503,16 +486,13 @@ lw6nod_info_set_verified_nodes (lw6nod_info_t * info, lw6sys_list_t * list)
  * Return value: none.
  */
 void
-lw6nod_info_map_verified_nodes (lw6nod_info_t * info,
-				lw6sys_list_callback_func_t func,
-				void *func_data)
+lw6nod_info_map_verified_nodes (lw6nod_info_t * info, lw6sys_list_callback_func_t func, void *func_data)
 {
   if (lw6nod_info_lock (info))
     {
       if (info->verified_nodes)
 	{
-	  lw6sys_list_map (sys_context, info->verified_nodes, func,
-			   func_data);
+	  lw6sys_list_map (sys_context, info->verified_nodes, func, func_data);
 	}
       lw6nod_info_unlock (info);
     }

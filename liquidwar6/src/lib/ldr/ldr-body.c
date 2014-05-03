@@ -50,8 +50,7 @@
 int
 lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
 		  lw6map_param_t * param, const lw6ldr_hints_t * hints,
-		  int display_w, int display_h, float ratio, int bench_value,
-		  int magic_number, lw6sys_progress_t * progress)
+		  int display_w, int display_h, float ratio, int bench_value, int magic_number, lw6sys_progress_t * progress)
 {
   int ret = 0;
   char *dot_png;
@@ -74,9 +73,7 @@ lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
 
   for (layer = 1; layer < LW6MAP_MAX_BODY_DEPTH; ++layer)
     {
-      dot_png =
-	lw6sys_path_concat (sys_context, dirname,
-			    extra_layers_png[layer - 1]);
+      dot_png = lw6sys_path_concat (sys_context, dirname, extra_layers_png[layer - 1]);
       if (dot_png)
 	{
 	  if (lw6sys_file_exists (dot_png))
@@ -90,13 +87,11 @@ lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
   dot_png = lw6sys_path_concat (sys_context, dirname, _LW6LDR_FILE_MAP_PNG);
   if (dot_png)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
-		  dot_png);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), dot_png);
 
       ret =
 	lw6ldr_layer_read_first (&(body->layers[0]), dot_png, param, hints,
-				 display_w, display_h, ratio, bench_value,
-				 magic_number, expected_depth, &progress1);
+				 display_w, display_h, ratio, bench_value, magic_number, expected_depth, &progress1);
       LW6SYS_FREE (dot_png);
       if (ret)
 	{
@@ -104,20 +99,13 @@ lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
 	  body->shape.d = 1;
 	  for (layer = 1; layer < LW6MAP_MAX_BODY_DEPTH; ++layer)
 	    {
-	      dot_png =
-		lw6sys_path_concat (sys_context, dirname,
-				    extra_layers_png[layer - 1]);
+	      dot_png = lw6sys_path_concat (sys_context, dirname, extra_layers_png[layer - 1]);
 	      if (dot_png)
 		{
 		  if (lw6sys_file_exists (dot_png))
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_ ("reading extra layer %d \"%s\""),
-				  layer, dot_png);
-		      ret = ret
-			&& lw6ldr_layer_read_next (&(body->layers[layer]),
-						   dot_png, body->shape.w,
-						   body->shape.h);
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading extra layer %d \"%s\""), layer, dot_png);
+		      ret = ret && lw6ldr_layer_read_next (&(body->layers[layer]), dot_png, body->shape.w, body->shape.h);
 		      if (ret)
 			{
 			  body->shape.d++;
@@ -127,63 +115,21 @@ lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
 		}
 	    }
 
-	  ret = ret
-	    && lw6ldr_grease_apply (&(body->layers[0]), &param->rules, hints,
-				    &progress2);
+	  ret = ret && lw6ldr_grease_apply (&(body->layers[0]), &param->rules, hints, &progress2);
 	  for (layer = 1; layer < body->shape.d; ++layer)
 	    {
-	      ret = ret
-		&& lw6ldr_grease_apply (&(body->layers[layer]), &param->rules,
-					hints, NULL);
+	      ret = ret && lw6ldr_grease_apply (&(body->layers[layer]), &param->rules, hints, NULL);
 	    }
-	  ret = ret
-	    && lw6map_body_check_and_fix_holes (sys_context, body,
-						&param->rules);
+	  ret = ret && lw6map_body_check_and_fix_holes (sys_context, body, &param->rules);
 
-	  ret = ret
-	    && lw6ldr_meta_layer_read_if_exists (&(body->glue), dirname,
-						 _LW6LDR_FILE_GLUE_PNG,
-						 body->shape.w, body->shape.h,
-						 1);
-	  ret = ret
-	    && lw6ldr_meta_layer_read_if_exists (&(body->boost), dirname,
-						 _LW6LDR_FILE_BOOST_PNG,
-						 body->shape.w, body->shape.h,
-						 1);
-	  ret = ret
-	    && lw6ldr_meta_layer_read_if_exists (&(body->danger), dirname,
-						 _LW6LDR_FILE_DANGER_PNG,
-						 body->shape.w, body->shape.h,
-						 1);
-	  ret = ret
-	    && lw6ldr_meta_layer_read_if_exists (&(body->medicine), dirname,
-						 _LW6LDR_FILE_MEDICINE_PNG,
-						 body->shape.w, body->shape.h,
-						 1);
-	  ret = ret
-	    && lw6ldr_meta_layer_read_if_exists (&(body->one_way_north),
-						 dirname,
-						 _LW6LDR_FILE_ONE_WAY_NORTH_PNG,
-						 body->shape.w, body->shape.h,
-						 0);
-	  ret = ret
-	    && lw6ldr_meta_layer_read_if_exists (&(body->one_way_east),
-						 dirname,
-						 _LW6LDR_FILE_ONE_WAY_EAST_PNG,
-						 body->shape.w, body->shape.h,
-						 0);
-	  ret = ret
-	    && lw6ldr_meta_layer_read_if_exists (&(body->one_way_south),
-						 dirname,
-						 _LW6LDR_FILE_ONE_WAY_SOUTH_PNG,
-						 body->shape.w, body->shape.h,
-						 0);
-	  ret = ret
-	    && lw6ldr_meta_layer_read_if_exists (&(body->one_way_west),
-						 dirname,
-						 _LW6LDR_FILE_ONE_WAY_WEST_PNG,
-						 body->shape.w, body->shape.h,
-						 0);
+	  ret = ret && lw6ldr_meta_layer_read_if_exists (&(body->glue), dirname, _LW6LDR_FILE_GLUE_PNG, body->shape.w, body->shape.h, 1);
+	  ret = ret && lw6ldr_meta_layer_read_if_exists (&(body->boost), dirname, _LW6LDR_FILE_BOOST_PNG, body->shape.w, body->shape.h, 1);
+	  ret = ret && lw6ldr_meta_layer_read_if_exists (&(body->danger), dirname, _LW6LDR_FILE_DANGER_PNG, body->shape.w, body->shape.h, 1);
+	  ret = ret && lw6ldr_meta_layer_read_if_exists (&(body->medicine), dirname, _LW6LDR_FILE_MEDICINE_PNG, body->shape.w, body->shape.h, 1);
+	  ret = ret && lw6ldr_meta_layer_read_if_exists (&(body->one_way_north), dirname, _LW6LDR_FILE_ONE_WAY_NORTH_PNG, body->shape.w, body->shape.h, 0);
+	  ret = ret && lw6ldr_meta_layer_read_if_exists (&(body->one_way_east), dirname, _LW6LDR_FILE_ONE_WAY_EAST_PNG, body->shape.w, body->shape.h, 0);
+	  ret = ret && lw6ldr_meta_layer_read_if_exists (&(body->one_way_south), dirname, _LW6LDR_FILE_ONE_WAY_SOUTH_PNG, body->shape.w, body->shape.h, 0);
+	  ret = ret && lw6ldr_meta_layer_read_if_exists (&(body->one_way_west), dirname, _LW6LDR_FILE_ONE_WAY_WEST_PNG, body->shape.w, body->shape.h, 0);
 
 	  if (ret)
 	    {

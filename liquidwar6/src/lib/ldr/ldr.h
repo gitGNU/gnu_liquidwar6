@@ -196,53 +196,38 @@ lw6ldr_entry_t;
 extern int lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
 			     lw6map_param_t * param,
 			     const lw6ldr_hints_t * hints, int display_w,
-			     int display_h, float ratio, int bench_value,
-			     int magic_number, lw6sys_progress_t * progress);
+			     int display_h, float ratio, int bench_value, int magic_number, lw6sys_progress_t * progress);
 
 /* ldr-color.c */
-extern void lw6ldr_auto_colors (lw6map_style_t * style,
-				const lw6ldr_hints_t * hints);
+extern void lw6ldr_auto_colors (lw6map_style_t * style, const lw6ldr_hints_t * hints);
 
 /* ldr-cursortexture.c */
-extern int lw6ldr_cursor_texture_read (lw6map_cursor_texture_t *
-				       cursor_texture, const char *dirname);
+extern int lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture, const char *dirname);
 
 /* ldr-dir.c */
 extern void lw6ldr_free_entry (lw6ldr_entry_t * entry);
 extern lw6ldr_entry_t *lw6ldr_dup_entry (const lw6ldr_entry_t * entry);
-extern lw6sys_list_t *lw6ldr_get_entries (char const *map_path,
-					  char const *relative_path,
-					  char const *user_dir);
+extern lw6sys_list_t *lw6ldr_get_entries (char const *map_path, char const *relative_path, char const *user_dir);
 extern void lw6ldr_for_all_entries (const char *map_path,
 				    const char *relative_path,
-				    const char *user_dir, int recursive,
-				    lw6sys_list_callback_func_t callback_func,
-				    void *func_data);
-extern lw6ldr_entry_t *lw6ldr_chain_entry (const char *map_path,
-					   const char *relative_path,
-					   const char *user_dir);
+				    const char *user_dir, int recursive, lw6sys_list_callback_func_t callback_func, void *func_data);
+extern lw6ldr_entry_t *lw6ldr_chain_entry (const char *map_path, const char *relative_path, const char *user_dir);
 
 /* ldr-exp.c */
-extern int lw6ldr_exp_validate (const lw6map_level_t * level,
-				const char *user_dir);
+extern int lw6ldr_exp_validate (const lw6map_level_t * level, const char *user_dir);
 
 /* ldr-grease.c */
-extern int lw6ldr_grease_apply (lw6map_layer_t * layer,
-				const lw6map_rules_t * rules,
-				const lw6ldr_hints_t * hints,
-				lw6sys_progress_t * progress);
+extern int lw6ldr_grease_apply (lw6map_layer_t * layer, const lw6map_rules_t * rules, const lw6ldr_hints_t * hints, lw6sys_progress_t * progress);
 
 /* ldr-hints.c */
 extern void lw6ldr_hints_defaults (lw6ldr_hints_t * hints);
 extern void lw6ldr_hints_zero (lw6ldr_hints_t * hints);
 extern void lw6ldr_hints_clear (lw6ldr_hints_t * hints);
 extern int lw6ldr_hints_read (lw6ldr_hints_t * hints, const char *dirname);
-extern int lw6ldr_hints_set (lw6ldr_hints_t * hints, const char *key,
-			     const char *value);
+extern int lw6ldr_hints_set (lw6ldr_hints_t * hints, const char *key, const char *value);
 extern char *lw6ldr_hints_get (const lw6ldr_hints_t * hints, const char *key);
 extern char *lw6ldr_hints_get_default (const char *key);
-extern int lw6ldr_hints_update (lw6ldr_hints_t * hints,
-				lw6sys_assoc_t * values);
+extern int lw6ldr_hints_update (lw6ldr_hints_t * hints, lw6sys_assoc_t * values);
 
 /* ldr-layer.c */
 extern int lw6ldr_layer_read_first (lw6map_layer_t * layer,
@@ -250,40 +235,27 @@ extern int lw6ldr_layer_read_first (lw6map_layer_t * layer,
 				    lw6map_param_t * param,
 				    const lw6ldr_hints_t * hints,
 				    int display_w, int display_h,
-				    float target_ratio, int bench_value,
-				    int magic_number, int expected_depth,
-				    lw6sys_progress_t * progress);
-extern int lw6ldr_layer_read_next (lw6map_layer_t * layer,
-				   const char *filename, int target_w,
-				   int target_h);
+				    float target_ratio, int bench_value, int magic_number, int expected_depth, lw6sys_progress_t * progress);
+extern int lw6ldr_layer_read_next (lw6map_layer_t * layer, const char *filename, int target_w, int target_h);
 
 /* ldr-metadata.c */
-extern int lw6ldr_metadata_read (lw6map_metadata_t * metadata,
-				 const char *dirname);
+extern int lw6ldr_metadata_read (lw6map_metadata_t * metadata, const char *dirname);
 
 /* ldr-metalayer.c */
-extern int lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer,
-				   const char *filename, int target_w,
-				   int target_h, int analog);
+extern int lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer, const char *filename, int target_w, int target_h, int analog);
 extern int lw6ldr_meta_layer_read_if_exists (lw6map_meta_layer_t * meta_layer,
-					     const char *dirname,
-					     const char *file_only,
-					     int target_w, int target_h,
-					     int analog);
+					     const char *dirname, const char *file_only, int target_w, int target_h, int analog);
 
 /* ldr-options.c */
-extern int lw6ldr_process_non_run_options (int argc, const char *argv[],
-					   int *run_game);
+extern int lw6ldr_process_non_run_options (int argc, const char *argv[], int *run_game);
 
 /* ldr-rules.c */
 extern int lw6ldr_rules_read (lw6map_rules_t * rules, const char *dirname);
-extern int lw6ldr_rules_update (lw6map_rules_t * rules,
-				lw6sys_assoc_t * values);
+extern int lw6ldr_rules_update (lw6map_rules_t * rules, lw6sys_assoc_t * values);
 
 /* ldr-param.c */
 extern int lw6ldr_param_read (lw6map_param_t * param, const char *dirname);
-extern int lw6ldr_param_update (lw6map_param_t * param,
-				lw6sys_assoc_t * values);
+extern int lw6ldr_param_update (lw6map_param_t * param, lw6sys_assoc_t * values);
 
 /* ldr-print.c */
 extern void lw6ldr_print_example_rules_xml (FILE * f);
@@ -296,19 +268,13 @@ extern int lw6ldr_print_examples (char *user_dir);
 extern lw6map_level_t *lw6ldr_read (const char *dirname,
 				    lw6sys_assoc_t * default_param,
 				    lw6sys_assoc_t * forced_param,
-				    int display_w, int display_h,
-				    int bench_value, int magic_number,
-				    const char *user_dir,
-				    lw6sys_progress_t * progress);
+				    int display_w, int display_h, int bench_value, int magic_number, const char *user_dir, lw6sys_progress_t * progress);
 extern lw6map_level_t *lw6ldr_read_relative (const char *map_path,
 					     const char *relative_path,
 					     lw6sys_assoc_t * default_param,
 					     lw6sys_assoc_t * forced_param,
 					     int display_w, int display_h,
-					     int bench_value,
-					     int magic_number,
-					     const char *user_dir,
-					     lw6sys_progress_t * progress);
+					     int bench_value, int magic_number, const char *user_dir, lw6sys_progress_t * progress);
 
 /* ldr-resampler.c */
 extern void lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
@@ -316,35 +282,19 @@ extern void lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 				   const lw6ldr_hints_t * hints,
 				   int source_w,
 				   int source_h,
-				   int display_w,
-				   int display_h, float target_ratio,
-				   int bench_value, int magic_number,
-				   int expected_depth, float gray_level);
-extern void lw6ldr_resampler_use_for_gen (int *map_w, int *map_h,
-					  int display_w,
-					  int display_h,
-					  int bench_value, int magic_number);
-extern void lw6ldr_resampler_force (lw6ldr_resampler_t * resampler,
-				    int source_w, int source_h, int target_w,
-				    int target_h);
-extern void lw6ldr_resampler_source2target (const lw6ldr_resampler_t *
-					    resampler, int *target_x,
-					    int *target_y, int source_x,
-					    int source_y);
-extern void lw6ldr_resampler_target2source (const lw6ldr_resampler_t *
-					    resampler, int *source_x,
-					    int *source_y, int target_x,
-					    int target_y);
+				   int display_w, int display_h, float target_ratio, int bench_value, int magic_number, int expected_depth, float gray_level);
+extern void lw6ldr_resampler_use_for_gen (int *map_w, int *map_h, int display_w, int display_h, int bench_value, int magic_number);
+extern void lw6ldr_resampler_force (lw6ldr_resampler_t * resampler, int source_w, int source_h, int target_w, int target_h);
+extern void lw6ldr_resampler_source2target (const lw6ldr_resampler_t * resampler, int *target_x, int *target_y, int source_x, int source_y);
+extern void lw6ldr_resampler_target2source (const lw6ldr_resampler_t * resampler, int *source_x, int *source_y, int target_x, int target_y);
 
 /* ldr-style.c */
 extern int lw6ldr_style_read (lw6map_style_t * style, const char *dirname);
-extern int lw6ldr_style_update (lw6map_style_t * style,
-				lw6sys_assoc_t * values);
+extern int lw6ldr_style_update (lw6map_style_t * style, lw6sys_assoc_t * values);
 
 /* ldr-teams.c */
 extern int lw6ldr_teams_read (lw6map_teams_t * teams, const char *dirname);
-extern int lw6ldr_teams_update (lw6map_teams_t * teams,
-				lw6sys_assoc_t * values);
+extern int lw6ldr_teams_update (lw6map_teams_t * teams, lw6sys_assoc_t * values);
 
 /* ldr-test.c */
 extern int lw6ldr_test_register (int mode);
@@ -355,15 +305,12 @@ extern int lw6ldr_texture_read (lw6map_texture_t * texture,
 				const char *dirname,
 				const lw6map_param_t * param,
 				const lw6ldr_hints_t * hints, int use_texture,
-				int display_w, int display_h, float *ratio,
-				int *texture_exists,
-				lw6sys_progress_t * progress);
+				int display_w, int display_h, float *ratio, int *texture_exists, lw6sys_progress_t * progress);
 
 /* ldr-use.c */
 extern void lw6ldr_use_defaults (lw6ldr_use_t * use);
 extern void lw6ldr_use_clear (lw6ldr_use_t * use);
-extern int lw6ldr_use_set (lw6ldr_use_t * use, const char *key,
-			   const char *value);
+extern int lw6ldr_use_set (lw6ldr_use_t * use, const char *key, const char *value);
 extern int lw6ldr_use_update (lw6ldr_use_t * use, lw6sys_assoc_t * values);
 
 #endif

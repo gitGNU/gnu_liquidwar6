@@ -29,13 +29,11 @@
 static void
 _warning (const char *func_name)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-	      _x_ ("hud backend function \"%s\" is not defined"), func_name);
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("hud backend function \"%s\" is not defined"), func_name);
 }
 
 int
-mod_gl1_hud_init (mod_gl1_utils_context_t * utils_context,
-		  mod_gl1_hud_backend_t * backend)
+mod_gl1_hud_init (mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend)
 {
   if (backend->init)
     {
@@ -50,8 +48,7 @@ mod_gl1_hud_init (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_hud_quit (mod_gl1_utils_context_t * utils_context,
-		  mod_gl1_hud_backend_t * backend)
+mod_gl1_hud_quit (mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend)
 {
   if (backend->quit)
     {
@@ -66,14 +63,11 @@ mod_gl1_hud_quit (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_hud_display_hud (mod_gl1_utils_context_t * utils_context,
 			 mod_gl1_hud_backend_t * backend,
-			 const lw6gui_look_t * look,
-			 const lw6ker_game_state_t * game_state,
-			 lw6pil_local_cursors_t * local_cursors)
+			 const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
   if (backend->display_hud)
     {
-      backend->display_hud (utils_context, backend->hud_context, look,
-			    game_state, local_cursors);
+      backend->display_hud (utils_context, backend->hud_context, look, game_state, local_cursors);
     }
   else
     {
@@ -84,14 +78,11 @@ mod_gl1_hud_display_hud (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_hud_display_score (mod_gl1_utils_context_t * utils_context,
 			   mod_gl1_hud_backend_t * backend,
-			   const lw6gui_look_t * look,
-			   const lw6ker_game_state_t * game_state,
-			   lw6pil_local_cursors_t * local_cursors)
+			   const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
   if (backend->display_score)
     {
-      backend->display_score (utils_context, backend->hud_context, look,
-			      game_state, local_cursors);
+      backend->display_score (utils_context, backend->hud_context, look, game_state, local_cursors);
     }
   else
     {

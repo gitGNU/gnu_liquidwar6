@@ -30,18 +30,14 @@
 #include "ldr-internal.h"
 
 static int
-read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image,
-	  const lw6ldr_resampler_t * resampler, lw6sys_progress_t * progress)
+read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image, const lw6ldr_resampler_t * resampler, lw6sys_progress_t * progress)
 {
   int ret = 0;
 
   layer->shape.w = resampler->target_w;
   layer->shape.h = resampler->target_h;
   layer->shape.d = 1;		// allways 1
-  layer->data =
-    (unsigned char *) LW6SYS_MALLOC (sys_context,
-				     layer->shape.w * layer->shape.h *
-				     sizeof (unsigned char *));
+  layer->data = (unsigned char *) LW6SYS_MALLOC (sys_context, layer->shape.w * layer->shape.h * sizeof (unsigned char *));
 
   if (layer->data)
     {
@@ -50,12 +46,10 @@ read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image,
 
       for (row = 0; row < layer->shape.h; ++row)
 	{
-	  lw6sys_progress_update (sys_context, progress, 0, layer->shape.h,
-				  row);
+	  lw6sys_progress_update (sys_context, progress, 0, layer->shape.h, row);
 	  for (col = 0; col < layer->shape.w; ++col)
 	    {
-	      lw6ldr_resampler_target2source (resampler, &col2, &row2,
-					      col, row);
+	      lw6ldr_resampler_target2source (resampler, &col2, &row2, col, row);
 
 	      value = image->data[row2][col2 * image->step];
 	      /*
@@ -76,8 +70,7 @@ read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to allocate memory for layer"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to allocate memory for layer"));
     }
 
   return ret;
@@ -107,9 +100,7 @@ read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image,
 int
 lw6ldr_layer_read_first (lw6map_layer_t * layer, const char *filename,
 			 lw6map_param_t * param, const lw6ldr_hints_t * hints,
-			 int display_w, int display_h, float target_ratio,
-			 int bench_value, int magic_number,
-			 int expected_depth, lw6sys_progress_t * progress)
+			 int display_w, int display_h, float target_ratio, int bench_value, int magic_number, int expected_depth, lw6sys_progress_t * progress)
 {
   int ret = 0;
   lw6ldr_resampler_t resampler;
@@ -130,8 +121,7 @@ lw6ldr_layer_read_first (lw6map_layer_t * layer, const char *filename,
 	}
       gray_level = _lw6ldr_bw_gray_level (&image);
       lw6ldr_resampler_init (&resampler, param, hints, image.w, image.h,
-			     display_w, display_h, target_ratio, bench_value,
-			     magic_number, expected_depth, gray_level);
+			     display_w, display_h, target_ratio, bench_value, magic_number, expected_depth, gray_level);
       ret = read_png (layer, &image, &resampler, &progress2);
 
       _lw6ldr_bw_clear (&image);
@@ -159,8 +149,7 @@ lw6ldr_layer_read_first (lw6map_layer_t * layer, const char *filename,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ldr_layer_read_next (lw6map_layer_t * layer, const char *filename,
-			int target_w, int target_h)
+lw6ldr_layer_read_next (lw6map_layer_t * layer, const char *filename, int target_w, int target_h)
 {
   int ret = 0;
   lw6ldr_resampler_t resampler;
@@ -170,8 +159,7 @@ lw6ldr_layer_read_next (lw6map_layer_t * layer, const char *filename,
   memset (&image, 0, sizeof (_lw6ldr_image_bw_t));
   if (_lw6ldr_bw_read (&image, filename, NULL))
     {
-      lw6ldr_resampler_force (&resampler, image.w, image.h, target_w,
-			      target_h);
+      lw6ldr_resampler_force (&resampler, image.w, image.h, target_w, target_h);
       ret = read_png (layer, &image, &resampler, NULL);
 
       _lw6ldr_bw_clear (&image);

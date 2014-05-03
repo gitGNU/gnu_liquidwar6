@@ -32,14 +32,10 @@
 void
 mod_gl1_utils_smoothers_init (mod_gl1_utils_context_t * utils_context)
 {
-  lw6gui_smoother_init (&(utils_context->smoothers.global_zoom), 1.0f,
-			utils_context->const_data.
-			smoother_global_zoom_duration);
+  lw6gui_smoother_init (&(utils_context->smoothers.global_zoom), 1.0f, utils_context->const_data.smoother_global_zoom_duration);
 
-  lw6gui_smoother_init (&(utils_context->smoothers.map_center_x), 0,
-			utils_context->const_data.smoother_center_duration);
-  lw6gui_smoother_init (&(utils_context->smoothers.map_center_y), 0,
-			utils_context->const_data.smoother_center_duration);
+  lw6gui_smoother_init (&(utils_context->smoothers.map_center_x), 0, utils_context->const_data.smoother_center_duration);
+  lw6gui_smoother_init (&(utils_context->smoothers.map_center_y), 0, utils_context->const_data.smoother_center_duration);
   /*
      lw6gui_smoother_init (&(utils_context->smoothers.drawable_x1), 0,
      utils_context->const_data.smoother_drawable_duration);
@@ -54,8 +50,7 @@ mod_gl1_utils_smoothers_init (mod_gl1_utils_context_t * utils_context)
 }
 
 void
-mod_gl1_utils_smoothers_reset_drawable (mod_gl1_utils_context_t *
-					utils_context)
+mod_gl1_utils_smoothers_reset_drawable (mod_gl1_utils_context_t * utils_context)
 {
   /*
      lw6gui_smoother_immediate_force (&(utils_context->smoothers.drawable_x1),
@@ -74,17 +69,11 @@ mod_gl1_utils_smoothers_update (mod_gl1_utils_context_t * utils_context)
 {
   //float drawable_x1, drawable_y1, drawable_x2, drawable_y2;
   utils_context->smoothed.global_zoom =
-    lw6gui_smoother_get_value (&(utils_context->smoothers.global_zoom),
-			       _lw6gfx_sdl_timer_get_timestamp (&
-								(utils_context->sdl_context)));
+    lw6gui_smoother_get_value (&(utils_context->smoothers.global_zoom), _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context)));
   utils_context->smoothed.map_center_x =
-    lw6gui_smoother_get_value (&(utils_context->smoothers.map_center_x),
-			       _lw6gfx_sdl_timer_get_timestamp (&
-								(utils_context->sdl_context)));
+    lw6gui_smoother_get_value (&(utils_context->smoothers.map_center_x), _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context)));
   utils_context->smoothed.map_center_y =
-    lw6gui_smoother_get_value (&(utils_context->smoothers.map_center_y),
-			       _lw6gfx_sdl_timer_get_timestamp (&
-								(utils_context->sdl_context)));
+    lw6gui_smoother_get_value (&(utils_context->smoothers.map_center_y), _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context)));
   /*
      drawable_x1 =
      lw6gui_smoother_get_value (&(utils_context->smoothers.drawable_x1),

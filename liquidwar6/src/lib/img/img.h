@@ -55,8 +55,7 @@ lw6img_jpeg_t;
 extern char *lw6img_repr (const lw6img_jpeg_t * jpeg);
 
 /* img-screenshot.c */
-extern lw6img_jpeg_t *lw6img_screenshot_new (lw6ker_game_state_t * game_state,
-					     char *user_dir, int quality);
+extern lw6img_jpeg_t *lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir, int quality);
 extern void lw6img_screenshot_free (lw6img_jpeg_t * screenshot);
 
 /* img-test.c */

@@ -105,8 +105,7 @@ lw6map_weapon_index_to_key (lw6sys_context_t * sys_context, int index)
       ret = LW6DEF_PLAGUE;
       break;
     default:
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("weapon index %d isn't valid"), index);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("weapon index %d isn't valid"), index);
     }
 
   return ret;
@@ -209,8 +208,7 @@ lw6map_weapon_key_to_index (lw6sys_context_t * sys_context, const char *key)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("weapon key %s isn't valid"), key);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("weapon key %s isn't valid"), key);
     }
 
   return ret;

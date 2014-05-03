@@ -70,8 +70,7 @@ lw6p2p_entry_new (int creation_timestamp, char *version, char *codename,
 		  int open_relay, char *community_id, int round, char *level,
 		  int required_bench, int nb_colors, int max_nb_colors,
 		  int nb_cursors, int max_nb_cursors, int nb_nodes,
-		  int max_nb_nodes, char *ip, int port,
-		  int last_ping_timestamp, int ping_delay_msec, int available)
+		  int max_nb_nodes, char *ip, int port, int last_ping_timestamp, int ping_delay_msec, int available)
 {
   lw6p2p_entry_t *entry = NULL;
 
@@ -110,8 +109,7 @@ lw6p2p_entry_new (int creation_timestamp, char *version, char *codename,
       // variable data
       if (community_id)
 	{
-	  strncpy (entry->community_id, community_id,
-		   LW6P2P_COMMUNITY_ID_SIZE);
+	  strncpy (entry->community_id, community_id, LW6P2P_COMMUNITY_ID_SIZE);
 	}
       entry->round = round;
       if (level)
@@ -167,9 +165,7 @@ lw6p2p_entry_repr (const lw6p2p_entry_t * entry)
 {
   char *repr = NULL;
 
-  repr =
-    lw6sys_new_sprintf ("%s url=%s (%s:%d) available=%d", entry->title,
-			entry->url, entry->ip, entry->port, entry->available);
+  repr = lw6sys_new_sprintf ("%s url=%s (%s:%d) available=%d", entry->title, entry->url, entry->ip, entry->port, entry->available);
 
   return repr;
 }

@@ -752,8 +752,7 @@ lw6map_rules_defaults (lw6sys_context_t * sys_context, lw6map_rules_t * rules)
  * Return value: none.
  */
 void
-lw6map_rules_copy (lw6sys_context_t * sys_context, lw6map_rules_t * dst,
-		   const lw6map_rules_t * src)
+lw6map_rules_copy (lw6sys_context_t * sys_context, lw6map_rules_t * dst, const lw6map_rules_t * src)
 {
   /*
    * Note that in this context, we'd better not use strings
@@ -774,64 +773,45 @@ lw6map_rules_copy (lw6sys_context_t * sys_context, lw6map_rules_t * dst,
  * Return value: none.
  */
 void
-lw6map_rules_update_checksum (lw6sys_context_t * sys_context,
-			      const lw6map_rules_t * rules,
-			      u_int32_t * checksum)
+lw6map_rules_update_checksum (lw6sys_context_t * sys_context, const lw6map_rules_t * rules, u_int32_t * checksum)
 {
   int i = 0;
 
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->total_time);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->respawn_team);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->respawn_position_mode);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->respawn_position_mode);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->respawn_delay);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->moves_per_round);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->spreads_per_round);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->moves_per_round);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->spreads_per_round);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->rounds_per_sec);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->fighter_attack);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->fighter_defense);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->fighter_new_health);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->fighter_regenerate);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->side_attack_factor);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->side_defense_factor);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->fighter_defense);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->fighter_new_health);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->fighter_regenerate);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->side_attack_factor);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->side_defense_factor);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->nb_move_tries);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->nb_attack_tries);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->nb_defense_tries);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->nb_attack_tries);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->nb_defense_tries);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->vertical_move);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->spread_mode);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->single_army_size);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->total_armies_size);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->single_army_size);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->total_armies_size);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->max_nb_teams);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->max_nb_cursors);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->max_nb_nodes);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->exp);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->highest_team_color_allowed);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->highest_weapon_allowed);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->highest_team_color_allowed);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->highest_weapon_allowed);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->x_polarity);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->y_polarity);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->z_polarity);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->max_zone_size);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->round_delta);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->max_round_delta);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->max_round_delta);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->max_cursor_pot);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->cursor_pot_init);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->max_cursor_pot_offset);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->cursor_pot_init);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->max_cursor_pot_offset);
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
       lw6sys_checksum_update_int32 (sys_context, checksum, rules->start_x[i]);
@@ -840,77 +820,58 @@ lw6map_rules_update_checksum (lw6sys_context_t * sys_context,
     {
       lw6sys_checksum_update_int32 (sys_context, checksum, rules->start_y[i]);
     }
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->start_position_mode);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->color_conflict_mode);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->start_position_mode);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->color_conflict_mode);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->spread_thread);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->glue_power);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->boost_power);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->danger_power);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->medicine_power);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->frags_mode);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->frags_to_distribute);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->frags_to_distribute);
   lw6sys_checksum_update_int32 (sys_context, checksum, rules->frags_fade_out);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->use_team_profiles);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->use_team_profiles);
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (sys_context, checksum,
-				    rules->team_profile_aggressive[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum, rules->team_profile_aggressive[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (sys_context, checksum,
-				    rules->team_profile_vulnerable[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum, rules->team_profile_vulnerable[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (sys_context, checksum,
-				    rules->team_profile_mobile[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum, rules->team_profile_mobile[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (sys_context, checksum,
-				    rules->team_profile_fast[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum, rules->team_profile_fast[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (sys_context, checksum,
-				    rules->team_profile_handicap[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum, rules->team_profile_handicap[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (sys_context, checksum,
-				    rules->team_profile_weapon_id[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum, rules->team_profile_weapon_id[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (sys_context, checksum,
-				    rules->team_profile_weapon_alternate_id
-				    [i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum, rules->team_profile_weapon_alternate_id[i]);
     }
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      lw6sys_checksum_update_int32 (sys_context, checksum,
-				    rules->team_profile_weapon_mode[i]);
+      lw6sys_checksum_update_int32 (sys_context, checksum, rules->team_profile_weapon_mode[i]);
     }
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->weapon_duration);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->weapon_charge_delay);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->weapon_charge_max);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->weapon_tune_berzerk_power);
-  lw6sys_checksum_update_int32 (sys_context, checksum,
-				rules->weapon_tune_turbo_power);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->weapon_duration);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->weapon_charge_delay);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->weapon_charge_max);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->weapon_tune_berzerk_power);
+  lw6sys_checksum_update_int32 (sys_context, checksum, rules->weapon_tune_turbo_power);
 }
 
 static const int32_t *
-_get_rules_int_ptr (lw6sys_context_t * sys_context,
-		    const lw6map_rules_t * rules, const char *key)
+_get_rules_int_ptr (lw6sys_context_t * sys_context, const lw6map_rules_t * rules, const char *key)
 {
   const int32_t *ret = NULL;
   char *formatted_key = NULL;
@@ -1184,127 +1145,83 @@ _get_rules_int_ptr (lw6sys_context_t * sys_context,
 	    {
 	      ret = &(rules->use_team_profiles);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_RED_AGGRESSIVE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_RED_AGGRESSIVE))
 	    {
 	      ret = &(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_RED]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_GREEN_AGGRESSIVE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_GREEN_AGGRESSIVE))
 	    {
-	      ret =
-		&(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_GREEN]);
+	      ret = &(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_GREEN]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_BLUE_AGGRESSIVE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_BLUE_AGGRESSIVE))
 	    {
 	      ret = &(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_BLUE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_AGGRESSIVE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_AGGRESSIVE))
 	    {
-	      ret =
-		&(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_YELLOW]);
+	      ret = &(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_YELLOW]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_CYAN_AGGRESSIVE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_CYAN_AGGRESSIVE))
 	    {
 	      ret = &(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_CYAN]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_AGGRESSIVE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_AGGRESSIVE))
 	    {
-	      ret =
-		&(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_MAGENTA]);
+	      ret = &(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_MAGENTA]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_AGGRESSIVE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_AGGRESSIVE))
 	    {
-	      ret =
-		&(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_ORANGE]);
+	      ret = &(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_ORANGE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE))
 	    {
-	      ret =
-		&(rules->team_profile_aggressive
-		  [LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+	      ret = &(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_AGGRESSIVE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_AGGRESSIVE))
 	    {
-	      ret =
-		&(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_PURPLE]);
+	      ret = &(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_PURPLE]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PINK_AGGRESSIVE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PINK_AGGRESSIVE))
 	    {
 	      ret = &(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_PINK]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_RED_VULNERABLE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_RED_VULNERABLE))
 	    {
 	      ret = &(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_RED]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_GREEN_VULNERABLE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_GREEN_VULNERABLE))
 	    {
-	      ret =
-		&(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_GREEN]);
+	      ret = &(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_GREEN]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_BLUE_VULNERABLE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_BLUE_VULNERABLE))
 	    {
 	      ret = &(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_BLUE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_VULNERABLE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_VULNERABLE))
 	    {
-	      ret =
-		&(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_YELLOW]);
+	      ret = &(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_YELLOW]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_CYAN_VULNERABLE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_CYAN_VULNERABLE))
 	    {
 	      ret = &(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_CYAN]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_VULNERABLE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_VULNERABLE))
 	    {
-	      ret =
-		&(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_MAGENTA]);
+	      ret = &(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_MAGENTA]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_VULNERABLE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_VULNERABLE))
 	    {
-	      ret =
-		&(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_ORANGE]);
+	      ret = &(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_ORANGE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_VULNERABLE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_VULNERABLE))
 	    {
-	      ret =
-		&(rules->team_profile_vulnerable
-		  [LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+	      ret = &(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_VULNERABLE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_VULNERABLE))
 	    {
-	      ret =
-		&(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_PURPLE]);
+	      ret = &(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_PURPLE]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PINK_VULNERABLE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PINK_VULNERABLE))
 	    {
 	      ret = &(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_PINK]);
 	    }
@@ -1328,8 +1245,7 @@ _get_rules_int_ptr (lw6sys_context_t * sys_context,
 	    {
 	      ret = &(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_CYAN]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_MOBILE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_MOBILE))
 	    {
 	      ret = &(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_MAGENTA]);
 	    }
@@ -1337,11 +1253,9 @@ _get_rules_int_ptr (lw6sys_context_t * sys_context,
 	    {
 	      ret = &(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_ORANGE]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_MOBILE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_MOBILE))
 	    {
-	      ret =
-		&(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+	      ret = &(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_MOBILE))
 	    {
@@ -1379,8 +1293,7 @@ _get_rules_int_ptr (lw6sys_context_t * sys_context,
 	    {
 	      ret = &(rules->team_profile_fast[LW6MAP_TEAM_COLOR_ORANGE]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_FAST))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_FAST))
 	    {
 	      ret = &(rules->team_profile_fast[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
 	    }
@@ -1396,8 +1309,7 @@ _get_rules_int_ptr (lw6sys_context_t * sys_context,
 	    {
 	      ret = &(rules->team_profile_handicap[LW6MAP_TEAM_COLOR_RED]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_GREEN_HANDICAP))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_GREEN_HANDICAP))
 	    {
 	      ret = &(rules->team_profile_handicap[LW6MAP_TEAM_COLOR_GREEN]);
 	    }
@@ -1405,8 +1317,7 @@ _get_rules_int_ptr (lw6sys_context_t * sys_context,
 	    {
 	      ret = &(rules->team_profile_handicap[LW6MAP_TEAM_COLOR_BLUE]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_HANDICAP))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_HANDICAP))
 	    {
 	      ret = &(rules->team_profile_handicap[LW6MAP_TEAM_COLOR_YELLOW]);
 	    }
@@ -1414,26 +1325,19 @@ _get_rules_int_ptr (lw6sys_context_t * sys_context,
 	    {
 	      ret = &(rules->team_profile_handicap[LW6MAP_TEAM_COLOR_CYAN]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_HANDICAP))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_HANDICAP))
 	    {
-	      ret =
-		&(rules->team_profile_handicap[LW6MAP_TEAM_COLOR_MAGENTA]);
+	      ret = &(rules->team_profile_handicap[LW6MAP_TEAM_COLOR_MAGENTA]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_HANDICAP))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_HANDICAP))
 	    {
 	      ret = &(rules->team_profile_handicap[LW6MAP_TEAM_COLOR_ORANGE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_HANDICAP))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_HANDICAP))
 	    {
-	      ret =
-		&(rules->team_profile_handicap[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+	      ret = &(rules->team_profile_handicap[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_HANDICAP))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_HANDICAP))
 	    {
 	      ret = &(rules->team_profile_handicap[LW6MAP_TEAM_COLOR_PURPLE]);
 	    }
@@ -1445,209 +1349,121 @@ _get_rules_int_ptr (lw6sys_context_t * sys_context,
 	    {
 	      ret = &(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_RED]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_GREEN_WEAPON_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_GREEN_WEAPON_ID))
 	    {
 	      ret = &(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_GREEN]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_BLUE_WEAPON_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_BLUE_WEAPON_ID))
 	    {
 	      ret = &(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_BLUE]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_YELLOW]);
+	      ret = &(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_YELLOW]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_CYAN_WEAPON_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_CYAN_WEAPON_ID))
 	    {
 	      ret = &(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_CYAN]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_MAGENTA]);
+	      ret = &(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_MAGENTA]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_ORANGE]);
+	      ret = &(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_ORANGE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+	      ret = &(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_PURPLE]);
+	      ret = &(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_PURPLE]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PINK_WEAPON_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PINK_WEAPON_ID))
 	    {
 	      ret = &(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_PINK]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_alternate_id
-		  [LW6MAP_TEAM_COLOR_RED]);
+	      ret = &(rules->team_profile_weapon_alternate_id[LW6MAP_TEAM_COLOR_RED]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key,
-		 LW6DEF_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_alternate_id
-		  [LW6MAP_TEAM_COLOR_GREEN]);
+	      ret = &(rules->team_profile_weapon_alternate_id[LW6MAP_TEAM_COLOR_GREEN]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_alternate_id
-		  [LW6MAP_TEAM_COLOR_BLUE]);
+	      ret = &(rules->team_profile_weapon_alternate_id[LW6MAP_TEAM_COLOR_BLUE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key,
-		 LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_alternate_id
-		  [LW6MAP_TEAM_COLOR_YELLOW]);
+	      ret = &(rules->team_profile_weapon_alternate_id[LW6MAP_TEAM_COLOR_YELLOW]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_alternate_id
-		  [LW6MAP_TEAM_COLOR_CYAN]);
+	      ret = &(rules->team_profile_weapon_alternate_id[LW6MAP_TEAM_COLOR_CYAN]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key,
-		 LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_alternate_id
-		  [LW6MAP_TEAM_COLOR_MAGENTA]);
+	      ret = &(rules->team_profile_weapon_alternate_id[LW6MAP_TEAM_COLOR_MAGENTA]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key,
-		 LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_alternate_id
-		  [LW6MAP_TEAM_COLOR_ORANGE]);
+	      ret = &(rules->team_profile_weapon_alternate_id[LW6MAP_TEAM_COLOR_ORANGE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key,
-		 LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_alternate_id
-		  [LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+	      ret = &(rules->team_profile_weapon_alternate_id[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key,
-		 LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_alternate_id
-		  [LW6MAP_TEAM_COLOR_PURPLE]);
+	      ret = &(rules->team_profile_weapon_alternate_id[LW6MAP_TEAM_COLOR_PURPLE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_alternate_id
-		  [LW6MAP_TEAM_COLOR_PINK]);
+	      ret = &(rules->team_profile_weapon_alternate_id[LW6MAP_TEAM_COLOR_PINK]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_RED_WEAPON_MODE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_RED_WEAPON_MODE))
 	    {
 	      ret = &(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_RED]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_GREEN_WEAPON_MODE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_GREEN_WEAPON_MODE))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_GREEN]);
+	      ret = &(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_GREEN]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_BLUE_WEAPON_MODE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_BLUE_WEAPON_MODE))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_BLUE]);
+	      ret = &(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_BLUE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_MODE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_MODE))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_YELLOW]);
+	      ret = &(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_YELLOW]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_CYAN_WEAPON_MODE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_CYAN_WEAPON_MODE))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_CYAN]);
+	      ret = &(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_CYAN]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_MODE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_MODE))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_MAGENTA]);
+	      ret = &(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_MAGENTA]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_MODE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_MODE))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_ORANGE]);
+	      ret = &(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_ORANGE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_MODE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_MODE))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_mode
-		  [LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+	      ret = &(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
 	    }
-	  else
-	    if (!strcmp
-		(formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_MODE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_MODE))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_PURPLE]);
+	      ret = &(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_PURPLE]);
 	    }
-	  else
-	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PINK_WEAPON_MODE))
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PINK_WEAPON_MODE))
 	    {
-	      ret =
-		&(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_PINK]);
+	      ret = &(rules->team_profile_weapon_mode[LW6MAP_TEAM_COLOR_PINK]);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_WEAPON_DURATION))
 	    {
@@ -1671,10 +1487,7 @@ _get_rules_int_ptr (lw6sys_context_t * sys_context,
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_
-			  ("static rules key \"%s\" does not exist, can't get a pointer on its value"),
-			  key);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("static rules key \"%s\" does not exist, can't get a pointer on its value"), key);
 	    }
 	  LW6SYS_FREE (sys_context, formatted_key);
 	}
@@ -1782,8 +1595,7 @@ lw6map_rules_get_max (lw6sys_context_t * sys_context, const char *key)
  * Return value: integer.
  */
 int32_t
-lw6map_rules_get_int (lw6sys_context_t * sys_context,
-		      const lw6map_rules_t * rules, const char *key)
+lw6map_rules_get_int (lw6sys_context_t * sys_context, const lw6map_rules_t * rules, const char *key)
 {
   int32_t ret = 0;
   const int32_t *ptr;
@@ -1798,17 +1610,13 @@ lw6map_rules_get_int (lw6sys_context_t * sys_context,
       if ((*ptr) < min_value)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("can't get static option \"%s\" (%d), it's too small, returning min value %d instead"),
-		      key, (*ptr), min_value);
+		      _x_ ("can't get static option \"%s\" (%d), it's too small, returning min value %d instead"), key, (*ptr), min_value);
 	  ret = min_value;
 	}
       else if ((*ptr) > max_value)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("can't get static option \"%s\" (%d), it's too big, returning max value %d instead"),
-		      key, (*ptr), max_value);
+		      _x_ ("can't get static option \"%s\" (%d), it's too big, returning max value %d instead"), key, (*ptr), max_value);
 	  ret = max_value;
 	}
       else
@@ -1836,8 +1644,7 @@ lw6map_rules_get_int (lw6sys_context_t * sys_context,
  * Return value: 1 on success, 0 on failure (eg key not found)
  */
 int
-lw6map_rules_set_int (lw6sys_context_t * sys_context, lw6map_rules_t * rules,
-		      const char *key, int32_t value)
+lw6map_rules_set_int (lw6sys_context_t * sys_context, lw6map_rules_t * rules, const char *key, int32_t value)
 {
   int32_t *ptr;
   int32_t min_value;
@@ -1856,17 +1663,13 @@ lw6map_rules_set_int (lw6sys_context_t * sys_context, lw6map_rules_t * rules,
       if (value < min_value)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("can't set static option \"%s\" to value %d, it's too small, using min value %d"),
-		      key, value, min_value);
+		      _x_ ("can't set static option \"%s\" to value %d, it's too small, using min value %d"), key, value, min_value);
 	  (*ptr) = min_value;
 	}
       else if (value > max_value)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("can't set static option \"%s\" to value %d, it's too big, using max value %d"),
-		      key, value, max_value);
+		      _x_ ("can't set static option \"%s\" to value %d, it's too big, using max value %d"), key, value, max_value);
 	  (*ptr) = max_value;
 	}
       else
@@ -1894,8 +1697,7 @@ lw6map_rules_set_int (lw6sys_context_t * sys_context, lw6map_rules_t * rules,
  * Return value: boolean.
  */
 int
-lw6map_rules_get_bool (lw6sys_context_t * sys_context,
-		       const lw6map_rules_t * rules, const char *key)
+lw6map_rules_get_bool (lw6sys_context_t * sys_context, const lw6map_rules_t * rules, const char *key)
 {
   return lw6map_rules_get_int (sys_context, rules, key) ? 1 : 0;
 }
@@ -1915,8 +1717,7 @@ lw6map_rules_get_bool (lw6sys_context_t * sys_context,
  * Return value: 1 on success, 0 on failure (eg key not found)
  */
 int
-lw6map_rules_set_bool (lw6sys_context_t * sys_context, lw6map_rules_t * rules,
-		       const char *key, int value)
+lw6map_rules_set_bool (lw6sys_context_t * sys_context, lw6map_rules_t * rules, const char *key, int value)
 {
   return lw6map_rules_set_int (sys_context, rules, key, value ? 1 : 0);
 }
@@ -1953,9 +1754,7 @@ lw6map_rules_clear (lw6sys_context_t * sys_context, lw6map_rules_t * rules)
  * Return value: 1 if same, 0 if different.
  */
 int
-lw6map_rules_is_same (lw6sys_context_t * sys_context,
-		      const lw6map_rules_t * rules_a,
-		      const lw6map_rules_t * rules_b)
+lw6map_rules_is_same (lw6sys_context_t * sys_context, const lw6map_rules_t * rules_a, const lw6map_rules_t * rules_b)
 {
   int ret = 1;
 
@@ -1975,8 +1774,7 @@ lw6map_rules_is_same (lw6sys_context_t * sys_context,
  * Return value: 1 if same, 0 if different.
  */
 int
-lw6map_rules_sanity_check (lw6sys_context_t * sys_context,
-			   const lw6map_rules_t * rules)
+lw6map_rules_sanity_check (lw6sys_context_t * sys_context, const lw6map_rules_t * rules)
 {
   int i = 0;
   int value = 0;
@@ -2002,16 +1800,13 @@ lw6map_rules_sanity_check (lw6sys_context_t * sys_context,
 	  if (value < min_value || value > max_value)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_
-			  ("value for rules key \"%s\" is out of range (value=%d min=%d max=%d)"),
-			  key, value, min_value, max_value);
+			  _x_ ("value for rules key \"%s\" is out of range (value=%d min=%d max=%d)"), key, value, min_value, max_value);
 	      ret = 0;
 	    }
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("get get pointer for rules key \"%s\""), key);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("get get pointer for rules key \"%s\""), key);
 	  ret = 0;
 	}
       ++i;

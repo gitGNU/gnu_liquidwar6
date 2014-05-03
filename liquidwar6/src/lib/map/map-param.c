@@ -105,8 +105,7 @@ lw6map_param_clear (lw6sys_context_t * sys_context, lw6map_param_t * param)
  * Return value: none
  */
 void
-lw6map_param_copy (lw6sys_context_t * sys_context, lw6map_param_t * dst,
-		   const lw6map_param_t * src)
+lw6map_param_copy (lw6sys_context_t * sys_context, lw6map_param_t * dst, const lw6map_param_t * src)
 {
   lw6map_rules_copy (sys_context, &(dst->rules), &(src->rules));
   lw6map_style_copy (sys_context, &(dst->style), &(src->style));
@@ -129,8 +128,7 @@ lw6map_param_copy (lw6sys_context_t * sys_context, lw6map_param_t * dst,
  * Return value: 1 if parameter successfully set, 0 on error.
  */
 int
-lw6map_param_set (lw6sys_context_t * sys_context, lw6map_param_t * param,
-		  const char *key, const char *value)
+lw6map_param_set (lw6sys_context_t * sys_context, lw6map_param_t * param, const char *key, const char *value)
 {
   int ret = 0;
 
@@ -146,9 +144,7 @@ lw6map_param_set (lw6sys_context_t * sys_context, lw6map_param_t * param,
     }
   else
     {
-      ret =
-	lw6map_rules_set_int (sys_context, &param->rules, key,
-			      lw6sys_atoi (sys_context, value));
+      ret = lw6map_rules_set_int (sys_context, &param->rules, key, lw6sys_atoi (sys_context, value));
     }
 
   return ret;
@@ -169,8 +165,7 @@ lw6map_param_set (lw6sys_context_t * sys_context, lw6map_param_t * param,
  *   might return a string containing 0 on bad keys.
  */
 char *
-lw6map_param_get (lw6sys_context_t * sys_context,
-		  const lw6map_param_t * param, const char *key)
+lw6map_param_get (lw6sys_context_t * sys_context, const lw6map_param_t * param, const char *key)
 {
   char *ret = NULL;
 
@@ -180,10 +175,7 @@ lw6map_param_get (lw6sys_context_t * sys_context,
       ret = lw6map_teams_get (sys_context, &param->teams, key);
       if (!ret)
 	{
-	  ret =
-	    lw6sys_itoa (sys_context,
-			 lw6map_rules_get_int (sys_context, &param->rules,
-					       key));
+	  ret = lw6sys_itoa (sys_context, lw6map_rules_get_int (sys_context, &param->rules, key));
 	}
     }
 
@@ -202,21 +194,13 @@ lw6map_param_get (lw6sys_context_t * sys_context,
  * Return value: 1 if they contain the same thing, 0 if not
  */
 int
-lw6map_param_is_same (lw6sys_context_t * sys_context,
-		      const lw6map_param_t * param_a,
-		      const lw6map_param_t * param_b)
+lw6map_param_is_same (lw6sys_context_t * sys_context, const lw6map_param_t * param_a, const lw6map_param_t * param_b)
 {
   int ret = 1;
 
-  ret = ret
-    && lw6map_rules_is_same (sys_context, &(param_a->rules),
-			     &(param_b->rules));
-  ret = ret
-    && lw6map_style_is_same (sys_context, &(param_a->style),
-			     &(param_b->style));
-  ret = ret
-    && lw6map_teams_is_same (sys_context, &(param_a->teams),
-			     &(param_b->teams));
+  ret = ret && lw6map_rules_is_same (sys_context, &(param_a->rules), &(param_b->rules));
+  ret = ret && lw6map_style_is_same (sys_context, &(param_a->style), &(param_b->style));
+  ret = ret && lw6map_teams_is_same (sys_context, &(param_a->teams), &(param_b->teams));
 
   return ret;
 }

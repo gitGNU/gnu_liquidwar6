@@ -29,21 +29,16 @@
 
 _lw6p2p_srv_oob_callback_data_t *
 _lw6p2p_srv_oob_callback_data_new (lw6srv_backend_t * backend,
-				   lw6nod_info_t * node_info,
-				   const char *remote_ip, int remote_port,
-				   int sock, const char *first_line)
+				   lw6nod_info_t * node_info, const char *remote_ip, int remote_port, int sock, const char *first_line)
 {
   _lw6p2p_srv_oob_callback_data_t *ret = NULL;
 
-  ret =
-    (_lw6p2p_srv_oob_callback_data_t *)
-    LW6SYS_CALLOC (sizeof (_lw6p2p_srv_oob_callback_data_t));
+  ret = (_lw6p2p_srv_oob_callback_data_t *) LW6SYS_CALLOC (sizeof (_lw6p2p_srv_oob_callback_data_t));
   if (ret)
     {
       ret->backend = backend;
       ret->node_info = node_info;
-      ret->srv_oob =
-	lw6srv_oob_new (remote_ip, remote_port, sock, first_line);
+      ret->srv_oob = lw6srv_oob_new (remote_ip, remote_port, sock, first_line);
       if (!ret->srv_oob)
 	{
 	  LW6SYS_FREE (sys_context, ret);
@@ -99,14 +94,10 @@ _lw6p2p_srv_oob_filter (_lw6p2p_srv_oob_callback_data_t * srv_oob)
 void
 _lw6p2p_srv_oob_callback (void *callback_data)
 {
-  _lw6p2p_srv_oob_callback_data_t *srv_oob =
-    (_lw6p2p_srv_oob_callback_data_t *) callback_data;
+  _lw6p2p_srv_oob_callback_data_t *srv_oob = (_lw6p2p_srv_oob_callback_data_t *) callback_data;
   int ret = 0;
 
-  ret =
-    lw6srv_process_oob (srv_oob->backend, srv_oob->node_info,
-			&(srv_oob->srv_oob->data));
+  ret = lw6srv_process_oob (srv_oob->backend, srv_oob->node_info, &(srv_oob->srv_oob->data));
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("_srv_oob_callback done ret=%d"), ret);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("_srv_oob_callback done ret=%d"), ret);
 }

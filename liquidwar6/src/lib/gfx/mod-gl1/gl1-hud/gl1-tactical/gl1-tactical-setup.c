@@ -40,9 +40,7 @@ _mod_gl1_hud_tactical_init (mod_gl1_utils_context_t * utils_context)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("init hud/tactical"));
 
-  tactical_context =
-    (_mod_gl1_hud_tactical_context_t *)
-    LW6SYS_MALLOC (sizeof (_mod_gl1_hud_tactical_context_t));
+  tactical_context = (_mod_gl1_hud_tactical_context_t *) LW6SYS_MALLOC (sizeof (_mod_gl1_hud_tactical_context_t));
   if (!tactical_context)
     {
       /*
@@ -73,9 +71,7 @@ mod_gl1_hud_tactical_init (mod_gl1_utils_context_t * utils_context)
  * Ends-up all SDL stuff.
  */
 void
-_mod_gl1_hud_tactical_quit (mod_gl1_utils_context_t * utils_context,
-			    _mod_gl1_hud_tactical_context_t *
-			    tactical_context)
+_mod_gl1_hud_tactical_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("quit hud/tactical"));
 
@@ -84,10 +80,7 @@ _mod_gl1_hud_tactical_quit (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_hud_tactical_quit (mod_gl1_utils_context_t * utils_context,
-			   void *tactical_context)
+mod_gl1_hud_tactical_quit (mod_gl1_utils_context_t * utils_context, void *tactical_context)
 {
-  _mod_gl1_hud_tactical_quit (utils_context,
-			      (_mod_gl1_hud_tactical_context_t *)
-			      tactical_context);
+  _mod_gl1_hud_tactical_quit (utils_context, (_mod_gl1_hud_tactical_context_t *) tactical_context);
 }

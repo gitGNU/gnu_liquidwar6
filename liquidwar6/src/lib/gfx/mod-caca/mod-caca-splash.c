@@ -45,8 +45,7 @@ static uint8_t table[TABLEX * TABLEY];
 
 static int frame = 0;
 
-static void do_plasma (uint8_t *,
-		       double, double, double, double, double, double);
+static void do_plasma (uint8_t *, double, double, double, double, double, double);
 
 static void
 plasma (enum action action, caca_canvas_t * cv)
@@ -75,9 +74,7 @@ plasma (enum action action, caca_canvas_t * cv)
 	for (x = 0; x < TABLEX; x++)
 	  {
 	    double tmp = (((double) ((x - (TABLEX / 2)) * (x - (TABLEX / 2))
-				     + (y - (TABLEX / 2)) * (y -
-							     (TABLEX / 2)))) *
-			  (M_PI / (TABLEX * TABLEX + TABLEY * TABLEY)));
+				     + (y - (TABLEX / 2)) * (y - (TABLEX / 2)))) * (M_PI / (TABLEX * TABLEX + TABLEY * TABLEY)));
 
 	    table[x + y * TABLEX] = (1.0 + sin (12.0 * sqrt (tmp))) * 256 / 6;
 	  }
@@ -105,15 +102,11 @@ plasma (enum action action, caca_canvas_t * cv)
 		 (1.0 + sin (((double) frame) * R[0])) / 2,
 		 (1.0 + sin (((double) frame) * R[1])) / 2,
 		 (1.0 + sin (((double) frame) * R[2])) / 2,
-		 (1.0 + sin (((double) frame) * R[3])) / 2,
-		 (1.0 + sin (((double) frame) * R[4])) / 2,
-		 (1.0 + sin (((double) frame) * R[5])) / 2);
+		 (1.0 + sin (((double) frame) * R[3])) / 2, (1.0 + sin (((double) frame) * R[4])) / 2, (1.0 + sin (((double) frame) * R[5])) / 2);
       break;
 
     case RENDER:
-      caca_dither_bitmap (cv, 0, 0,
-			  caca_get_canvas_width (cv),
-			  caca_get_canvas_height (cv), dither, screen);
+      caca_dither_bitmap (cv, 0, 0, caca_get_canvas_width (cv), caca_get_canvas_height (cv), dither, screen);
       break;
 
     case FREE:
@@ -124,16 +117,12 @@ plasma (enum action action, caca_canvas_t * cv)
 }
 
 static void
-do_plasma (uint8_t * pixels, double x_1, double y_1,
-	   double x_2, double y_2, double x_3, double y_3)
+do_plasma (uint8_t * pixels, double x_1, double y_1, double x_2, double y_2, double x_3, double y_3)
 {
   unsigned int X1 = x_1 * (TABLEX / 2),
-    Y1 = y_1 * (TABLEY / 2),
-    X2 = x_2 * (TABLEX / 2),
-    Y2 = y_2 * (TABLEY / 2), X3 = x_3 * (TABLEX / 2), Y3 = y_3 * (TABLEY / 2);
+    Y1 = y_1 * (TABLEY / 2), X2 = x_2 * (TABLEX / 2), Y2 = y_2 * (TABLEY / 2), X3 = x_3 * (TABLEX / 2), Y3 = y_3 * (TABLEY / 2);
   unsigned int y;
-  uint8_t *t1 = table + X1 + Y1 * TABLEX,
-    *t2 = table + X2 + Y2 * TABLEX, *t3 = table + X3 + Y3 * TABLEX;
+  uint8_t *t1 = table + X1 + Y1 * TABLEX, *t2 = table + X2 + Y2 * TABLEX, *t3 = table + X3 + Y3 * TABLEX;
 
   for (y = 0; y < YSIZ; y++)
     {
@@ -145,8 +134,7 @@ do_plasma (uint8_t * pixels, double x_1, double y_1,
 }
 
 static void
-increment_frame (_mod_caca_context_t * caca_context, caca_font_t * fo,
-		 caca_dither_t * di, uint8_t * buff)
+increment_frame (_mod_caca_context_t * caca_context, caca_font_t * fo, caca_dither_t * di, uint8_t * buff)
 {
   int wc, hc;
   static caca_font_t *f = NULL;
@@ -165,20 +153,16 @@ increment_frame (_mod_caca_context_t * caca_context, caca_font_t * fo,
   plasma (RENDER, caca_context->canvas);
 
   caca_set_color_ansi (caca_context->canvas, CACA_WHITE, CACA_BLACK);
-  caca_dither_bitmap (caca_context->canvas,
-		      (wc - (10 * caca_get_font_width (f))) / 2,
-		      (hc - caca_get_font_height (f)) / 2, wc, hc, d, buf);
+  caca_dither_bitmap (caca_context->canvas, (wc - (10 * caca_get_font_width (f))) / 2, (hc - caca_get_font_height (f)) / 2, wc, hc, d, buf);
   caca_put_str (caca_context->canvas, wc - 8, 0, "mod-caca");
   caca_put_str (caca_context->canvas, 0, 0, "PFA Epitech 2012-2013");
-  caca_put_str (caca_context->canvas, (wc - 41) / 2, hc - 1,
-		"by france_a, clavel_r, lemonn_k, vougie_c");
+  caca_put_str (caca_context->canvas, (wc - 41) / 2, hc - 1, "by france_a, clavel_r, lemonn_k, vougie_c");
   caca_refresh_display (caca_context->display);
   frame++;
 }
 
 extern void
-splash_free (_mod_caca_context_t * caca_context, caca_font_t * fo,
-	     caca_dither_t * di, uint8_t * buff, int init)
+splash_free (_mod_caca_context_t * caca_context, caca_font_t * fo, caca_dither_t * di, uint8_t * buff, int init)
 {
   static caca_font_t *f = NULL;
   static caca_dither_t *d = NULL;
@@ -217,8 +201,7 @@ plasma_anim (_mod_caca_context_t * caca_context)
   cv = caca_create_canvas (10, 1);
   if (cv == NULL)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _x_ ("Can't create tmp canvas"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _x_ ("Can't create tmp canvas"));
       return;
     }
   hc = caca_get_canvas_height (caca_context->canvas);
@@ -231,24 +214,20 @@ plasma_anim (_mod_caca_context_t * caca_context)
   fonts = caca_get_font_list ();
   if (fonts[0] == NULL || fonts[1] == NULL)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _x_ ("libcaca was compiled without any fonts"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _x_ ("libcaca was compiled without any fonts"));
       return;
     }
   f = caca_load_font (fonts[1], 0);
   if (f == NULL)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _x_ ("could not load font : '%s'"), fonts[0]);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _x_ ("could not load font : '%s'"), fonts[0]);
       return;
     }
   buf = malloc (4 * wc * hc);
   if (buf == NULL)
     return;
   caca_render_canvas (cv, f, buf, wc, hc, 4 * wc);
-  d =
-    caca_create_dither (32, wc, hc, 4 * wc, 0xff00, 0xff0000, 0xff000000,
-			0xff);
+  d = caca_create_dither (32, wc, hc, 4 * wc, 0xff00, 0xff0000, 0xff000000, 0xff);
   increment_frame (caca_context, f, d, buf);
   splash_free (caca_context, f, d, buf, 1);
   caca_free_canvas (cv);

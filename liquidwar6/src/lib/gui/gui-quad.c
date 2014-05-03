@@ -38,11 +38,8 @@
  * Return value: 1 if OK, 0 if outside
  */
 int
-lw6gui_quad_is_inside_rect (const lw6gui_quad_t * quad,
-			    const lw6gui_rect_t * rect)
+lw6gui_quad_is_inside_rect (const lw6gui_quad_t * quad, const lw6gui_rect_t * rect)
 {
   return (lw6gui_point_is_inside_rect (quad->p1, rect)
-	  && lw6gui_point_is_inside_rect (quad->p2, rect)
-	  && lw6gui_point_is_inside_rect (quad->p3, rect)
-	  && lw6gui_point_is_inside_rect (quad->p4, rect));
+	  && lw6gui_point_is_inside_rect (quad->p2, rect) && lw6gui_point_is_inside_rect (quad->p3, rect) && lw6gui_point_is_inside_rect (quad->p4, rect));
 }

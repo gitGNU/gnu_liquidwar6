@@ -234,57 +234,48 @@ _test_atom ()
     _lw6dat_atom_zero (&atom);
     if (!LW6SYS_TEST_ACK (!_lw6dat_atom_get_full_str (&atom)))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("get text returned something on a zeroed atom"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("get text returned something on a zeroed atom"));
 	ret = 0;
       }
     _lw6dat_atom_set_full_str (&atom, _TEST_ATOM_TEXT_SHORT);
     text = _lw6dat_atom_get_full_str (&atom);
     if (LW6SYS_TEST_ACK (text))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("atom text is \"%s\""), text);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("atom text is \"%s\""), text);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to get atom text"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to get atom text"));
       }
     _lw6dat_atom_set_full_str (&atom, _TEST_ATOM_TEXT_LONG);
     text = _lw6dat_atom_get_full_str (&atom);
     if (LW6SYS_TEST_ACK (text))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("atom text is \"%s\""), text);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("atom text is \"%s\""), text);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to get atom text"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to get atom text"));
       }
     _lw6dat_atom_set_full_str (&atom, _TEST_ATOM_TEXT_SHORT);
     text = _lw6dat_atom_get_full_str (&atom);
     if (LW6SYS_TEST_ACK (text))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("atom text is \"%s\""), text);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("atom text is \"%s\""), text);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to get atom text"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to get atom text"));
       }
     _lw6dat_atom_set_full_str (&atom, _TEST_ATOM_TEXT_LONG);
     text = _lw6dat_atom_get_full_str (&atom);
     if (LW6SYS_TEST_ACK (text))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("atom text is \"%s\""), text);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("atom text is \"%s\""), text);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to get atom text"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to get atom text"));
       }
     _lw6dat_atom_clear (&atom);
   }
@@ -311,50 +302,37 @@ _test_block ()
     if (LW6SYS_TEST_ACK (block))
       {
 	for (serial = _TEST_BLOCK_SERIAL_0;
-	     serial < _LW6DAT_NB_ATOMS_PER_BLOCK + _TEST_BLOCK_SERIAL_0;
-	     serial += _TEST_BLOCK_STEP, order_i += _TEST_BLOCK_STEP)
+	     serial < _LW6DAT_NB_ATOMS_PER_BLOCK + _TEST_BLOCK_SERIAL_0; serial += _TEST_BLOCK_STEP, order_i += _TEST_BLOCK_STEP)
 	  {
 	    if (LW6SYS_TEST_ACK (_lw6dat_block_put_atom
 				 (block, _TEST_BLOCK_ATOM_TYPE, serial,
 				  order_i, _TEST_BLOCK_ORDER_N,
 				  _TEST_BLOCK_SEQ, _TEST_BLOCK_TEXT_1,
-				  _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET,
-				  _TEST_BLOCK_CMD_STR_OFFSET,
-				  _TEST_BLOCK_SEND_FLAG)))
+				  _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET, _TEST_BLOCK_CMD_STR_OFFSET, _TEST_BLOCK_SEND_FLAG)))
 	      {
 		// ok
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to add atom into block serial=%d"),
-			    serial);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add atom into block serial=%d"), serial);
 		ret = 0;
 	      }
 	  }
 	if (LW6SYS_TEST_ACK (ret))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("added %d atoms"),
-			_LW6DAT_NB_ATOMS_PER_BLOCK / _TEST_BLOCK_STEP);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("added %d atoms"), _LW6DAT_NB_ATOMS_PER_BLOCK / _TEST_BLOCK_STEP);
 	  }
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("trying various invalid atom \"put\" calls"));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("trying various invalid atom \"put\" calls"));
 	if (LW6SYS_TEST_ACK (!_lw6dat_block_put_atom
 			     (block, _TEST_BLOCK_ATOM_TYPE,
 			      _TEST_BLOCK_SERIAL_0, 0, _TEST_BLOCK_ORDER_N,
-			      _TEST_BLOCK_SEQ, _TEST_BLOCK_TEXT_2,
-			      _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET,
-			      _TEST_BLOCK_CMD_STR_OFFSET,
-			      _TEST_BLOCK_SEND_FLAG)))
+			      _TEST_BLOCK_SEQ, _TEST_BLOCK_TEXT_2, _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET, _TEST_BLOCK_CMD_STR_OFFSET, _TEST_BLOCK_SEND_FLAG)))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("duplicate detection OK"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("duplicate detection OK"));
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("wrong duplicate detection"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("wrong duplicate detection"));
 	    ret = 0;
 	  }
 	if (LW6SYS_TEST_ACK (!(_lw6dat_block_put_atom
@@ -374,37 +352,27 @@ _test_block ()
 							  _TEST_BLOCK_ORDER_N,
 							  _TEST_BLOCK_SEQ,
 							  _TEST_BLOCK_TEXT_1,
-							  _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET,
-							  _TEST_BLOCK_CMD_STR_OFFSET,
-							  _TEST_BLOCK_SEND_FLAG))))
+							  _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET, _TEST_BLOCK_CMD_STR_OFFSET, _TEST_BLOCK_SEND_FLAG))))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("range check OK"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("range check OK"));
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("wrong range check"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("wrong range check"));
 	    ret = 0;
 	  }
 	atom = _lw6dat_block_get_atom (block, _TEST_BLOCK_SERIAL_0);
 	if (LW6SYS_TEST_ACK (atom))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("got atom serial=%d"), atom->serial);
-	    atom =
-	      _lw6dat_block_get_atom (block,
-				      _TEST_BLOCK_SERIAL_0 +
-				      _TEST_BLOCK_STEP - 1);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("got atom serial=%d"), atom->serial);
+	    atom = _lw6dat_block_get_atom (block, _TEST_BLOCK_SERIAL_0 + _TEST_BLOCK_STEP - 1);
 	    if (LW6SYS_TEST_ACK (!atom))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("OK, non-set atoms returned as NULL"));
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("OK, non-set atoms returned as NULL"));
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("non-set atom returns non-NULL"));
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("non-set atom returns non-NULL"));
 		ret = 0;
 	      }
 	  }
@@ -412,8 +380,7 @@ _test_block ()
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to create block"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create block"));
 	ret = 0;
       }
   }
@@ -434,100 +401,75 @@ _test_miss ()
     lw6dat_miss_t *miss = NULL;
     lw6dat_miss_t miss2;
 
-    miss =
-      lw6dat_miss_new (_TEST_MISS_FROM_ID, _TEST_MISS_SERIAL_MIN,
-		       _TEST_MISS_SERIAL_MAX);
+    miss = lw6dat_miss_new (_TEST_MISS_FROM_ID, _TEST_MISS_SERIAL_MIN, _TEST_MISS_SERIAL_MAX);
     if (LW6SYS_TEST_ACK (miss))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("miss struct created from_id=%" LW6SYS_PRINTF_LL
-			 "x serial_min=%d serial_%d"),
-		    (long long) miss->from_id, miss->serial_min,
-		    miss->serial_max);
+			 "x serial_min=%d serial_%d"), (long long) miss->from_id, miss->serial_min, miss->serial_max);
 
 	memset (&miss2, 0xff, sizeof (lw6dat_miss_t));
 	if (LW6SYS_TEST_ACK (!lw6dat_miss_is_same (miss, &miss2)))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("miss is_same works when different"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("miss is_same works when different"));
 	    lw6dat_miss_sync (&miss2, miss);
 	    if (LW6SYS_TEST_ACK (lw6dat_miss_is_same (miss, &miss2)))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("miss is_same works when equal"));
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("miss is_same works when equal"));
 		if (LW6SYS_TEST_ACK (lw6dat_miss_is_included (miss, &miss2)))
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("miss is_included works when equal"));
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("miss is_included works when equal"));
 		    if (LW6SYS_TEST_ACK (lw6dat_miss_overlaps (miss, &miss2)))
 		      {
-			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				    _x_ ("miss overlaps works when equal"));
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("miss overlaps works when equal"));
 			miss->serial_max++;
-			if (LW6SYS_TEST_ACK
-			    (!lw6dat_miss_is_included (miss, &miss2)))
+			if (LW6SYS_TEST_ACK (!lw6dat_miss_is_included (miss, &miss2)))
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					_x_
-					("miss is_included works when different"));
-			    if (LW6SYS_TEST_ACK
-				(lw6dat_miss_overlaps (miss, &miss2)))
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("miss is_included works when different"));
+			    if (LW6SYS_TEST_ACK (lw6dat_miss_overlaps (miss, &miss2)))
 			      {
-				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					    _x_
-					    ("miss overlaps works when different"));
+				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("miss overlaps works when different"));
 			      }
 			    else
 			      {
-				lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-					    _x_
-					    ("miss overlaps does not work when different"));
+				lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("miss overlaps does not work when different"));
 				ret = 0;
 			      }
 			  }
 			else
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-					_x_
-					("miss is_included does not work when different"));
+			    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("miss is_included does not work when different"));
 			    ret = 0;
 			  }
 		      }
 		    else
 		      {
-			lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				    _x_
-				    ("miss overlaps does not work when equal"));
+			lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("miss overlaps does not work when equal"));
 			ret = 0;
 		      }
 		  }
 		else
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				_x_
-				("miss is_included does not work when equal"));
+		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("miss is_included does not work when equal"));
 		    ret = 0;
 		  }
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("miss is_same does not work when equal"));
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("miss is_same does not work when equal"));
 		ret = 0;
 	      }
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("miss is_same does not work when different"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("miss is_same does not work when different"));
 	    ret = 0;
 	  }
 	lw6dat_miss_free (miss);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("miss creation problem"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("miss creation problem"));
 	ret = 0;
       }
   }
@@ -543,20 +485,17 @@ _test_stack_msg_callback (void *func_data, void *data)
 
   if (lw6sys_str_is_same (sys_context, msg, _TEST_STACK_MSG_3))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		  _x_ ("message 3 found (length=%d)"), (int) strlen (msg));
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("message 3 found (length=%d)"), (int) strlen (msg));
       msg_data->msg3_found = 1;
     }
   if (lw6sys_str_is_same (sys_context, msg, msg_data->msg4))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		  _x_ ("message 4 found (length=%d)"), (int) strlen (msg));
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("message 4 found (length=%d)"), (int) strlen (msg));
       msg_data->msg4_found = 1;
     }
   if (lw6sys_str_is_same (sys_context, msg, _TEST_STACK_MSG_5))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		  _x_ ("message 5 found (length=%d)"), (int) strlen (msg));
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("message 5 found (length=%d)"), (int) strlen (msg));
       msg_data->msg5_found = 1;
     }
 }
@@ -591,101 +530,69 @@ _test_stack ()
     int64_t new_seq_0 = 0LL;
 
     _lw6dat_stack_zero (&stack);
-    _lw6dat_stack_init (&stack, _TEST_STACK_NODE_ID, _TEST_STACK_SERIAL_0,
-			_TEST_STACK_SEQ_0);
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("putting %d atoms in stack"), _TEST_STACK_NB_RANDOM_PUT);
+    _lw6dat_stack_init (&stack, _TEST_STACK_NODE_ID, _TEST_STACK_SERIAL_0, _TEST_STACK_SEQ_0);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("putting %d atoms in stack"), _TEST_STACK_NB_RANDOM_PUT);
     for (i = 0; i < _TEST_STACK_NB_RANDOM_PUT; ++i)
       {
-	serial =
-	  _TEST_STACK_SERIAL_0 + _TEST_STACK_RANDOM_BASE +
-	  lw6sys_random (sys_context, _TEST_STACK_RANDOM_RANGE);
+	serial = _TEST_STACK_SERIAL_0 + _TEST_STACK_RANDOM_BASE + lw6sys_random (sys_context, _TEST_STACK_RANDOM_RANGE);
 	seq = _TEST_STACK_SEQ + i;
 	if (!LW6SYS_TEST_ACK (_lw6dat_stack_put_atom
 			      (&stack, _TEST_STACK_ATOM_TYPE, serial,
 			       _TEST_STACK_ORDER_I, _TEST_STACK_ORDER_N, seq,
-			       _TEST_STACK_TEXT,
-			       _TEST_STACK_SEQ_FROM_CMD_STR_OFFSET,
-			       _TEST_STACK_CMD_STR_OFFSET,
-			       _TEST_STACK_SEND_FLAG)))
+			       _TEST_STACK_TEXT, _TEST_STACK_SEQ_FROM_CMD_STR_OFFSET, _TEST_STACK_CMD_STR_OFFSET, _TEST_STACK_SEND_FLAG)))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("error putting atom on stack i=%d serial=%d"), i,
-			serial);
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("error putting atom on stack i=%d serial=%d"), i, serial);
 	    ret = 0;
 	  }
       }
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("last put serial=%d seq=%" LW6SYS_PRINTF_LL "d"), serial,
-		(long long) seq);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("last put serial=%d seq=%" LW6SYS_PRINTF_LL "d"), serial, (long long) seq);
     if (LW6SYS_TEST_ACK (ret))
       {
 	/*
 	 * The tests for seq2serial and serial2seq must
 	 * be done now as serial and seq values are untouched.
 	 */
-	if (LW6SYS_TEST_ACK
-	    (_lw6dat_stack_seq2serial (&stack, _LW6DAT_SEQ_INVALID) ==
-	     _LW6DAT_SERIAL_INVALID))
+	if (LW6SYS_TEST_ACK (_lw6dat_stack_seq2serial (&stack, _LW6DAT_SEQ_INVALID) == _LW6DAT_SERIAL_INVALID))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_
-			("invalid seq number correctly treated by seq2serial"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("invalid seq number correctly treated by seq2serial"));
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_
-			("invalid seq number *NOT* correctly treated by seq2serial"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("invalid seq number *NOT* correctly treated by seq2serial"));
 	    ret = 0;
 	  }
-	if (LW6SYS_TEST_ACK
-	    (_lw6dat_stack_serial2seq (&stack, _LW6DAT_SERIAL_INVALID) ==
-	     _LW6DAT_SEQ_INVALID))
+	if (LW6SYS_TEST_ACK (_lw6dat_stack_serial2seq (&stack, _LW6DAT_SERIAL_INVALID) == _LW6DAT_SEQ_INVALID))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_
-			("invalid serial number correctly treated by serial2seq"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("invalid serial number correctly treated by serial2seq"));
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_
-			("invalid serial number *NOT* correctly treated by serial2seq"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("invalid serial number *NOT* correctly treated by serial2seq"));
 	    ret = 0;
 	  }
 	tmp = _lw6dat_stack_serial2seq (&stack, serial);
 	if (LW6SYS_TEST_ACK (tmp == seq))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("serial2seq OK %d->%" LW6SYS_PRINTF_LL "d"),
-			serial, (long long) seq);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("serial2seq OK %d->%" LW6SYS_PRINTF_LL "d"), serial, (long long) seq);
 	  }
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("serial2seq problem %d->%" LW6SYS_PRINTF_LL
-			     "d instead of %" LW6SYS_PRINTF_LL "d"), serial,
-			(long long) tmp, (long long) seq);
+			_x_ ("serial2seq problem %d->%" LW6SYS_PRINTF_LL "d instead of %" LW6SYS_PRINTF_LL "d"), serial, (long long) tmp, (long long) seq);
 	    ret = 0;
 	  }
 	tmp = _lw6dat_stack_seq2serial (&stack, seq);
 	if (LW6SYS_TEST_ACK (tmp == serial))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("seq2serial OK %" LW6SYS_PRINTF_LL "d->%d"),
-			(long long) seq, serial);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("seq2serial OK %" LW6SYS_PRINTF_LL "d->%d"), (long long) seq, serial);
 	  }
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("seq2serial problem %" LW6SYS_PRINTF_LL "d->%"
-			     LW6SYS_PRINTF_LL "d instead of %d"),
-			(long long) seq, (long long) tmp, serial);
+			_x_ ("seq2serial problem %" LW6SYS_PRINTF_LL "d->%" LW6SYS_PRINTF_LL "d instead of %d"), (long long) seq, (long long) tmp, serial);
 	    ret = 0;
 	  }
-	for (serial = stack.serial_0_real; serial <= stack.serial_n_1;
-	     ++serial)
+	for (serial = stack.serial_0_real; serial <= stack.serial_n_1; ++serial)
 	  {
 	    if (_lw6dat_stack_get_atom (&stack, serial))
 	      {
@@ -699,57 +606,43 @@ _test_stack ()
 	if (LW6SYS_TEST_ACK (found_null && found_not_null))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_
-			("OK, found both NULL and non-NULL entries found_not_null=%d found_null=%d"),
-			found_not_null, found_null);
+			_x_ ("OK, found both NULL and non-NULL entries found_not_null=%d found_null=%d"), found_not_null, found_null);
 	  }
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_
-			("couldn't find both NULL and non-NULL entries found_not_null=%d found_null=%d"),
-			found_not_null, found_null);
+			_x_ ("couldn't find both NULL and non-NULL entries found_not_null=%d found_null=%d"), found_not_null, found_null);
 	    ret = 0;
 	  }
 	msg_list = _lw6dat_stack_init_list ();
 	if (LW6SYS_TEST_ACK (msg_list))
 	  {
-	    _lw6dat_stack_update_atom_str_list_by_serial (&stack, &msg_list,
-							  stack.serial_max);
+	    _lw6dat_stack_update_atom_str_list_by_serial (&stack, &msg_list, stack.serial_max);
 	    length = lw6sys_list_length (msg_list);
 	    if (LW6SYS_TEST_ACK (length == 1))
 	      {
 		msg = (char *) lw6sys_list_pop_front (&msg_list);
 		if (LW6SYS_TEST_ACK (msg))
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("got atom str by serial \"%s\""), msg);
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("got atom str by serial \"%s\""), msg);
 		    LW6SYS_FREE (sys_context, msg);
 		  }
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("there should be an atom at serial %d, unable to get it"),
-			    stack.serial_max);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("there should be an atom at serial %d, unable to get it"), stack.serial_max);
 		ret = 0;
 	      }
 
-	    _lw6dat_stack_update_atom_str_list_not_sent (&stack, &msg_list,
-							 _TEST_STACK_TARGET_INDEX);
+	    _lw6dat_stack_update_atom_str_list_not_sent (&stack, &msg_list, _TEST_STACK_TARGET_INDEX);
 	    length = lw6sys_list_length (msg_list);
 	    if (LW6SYS_TEST_ACK (length == found_not_null))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("got %d unsent atoms"), length);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("got %d unsent atoms"), length);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("error getting list of atoms length=%d found_not_null=%d"),
-			    length, found_not_null);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("error getting list of atoms length=%d found_not_null=%d"), length, found_not_null);
 		ret = 0;
 	      }
 	    while (!lw6sys_list_is_empty (msg_list))
@@ -761,23 +654,16 @@ _test_stack ()
 		  }
 	      }
 
-	    _lw6dat_stack_miss_invalidate (&stack, _TEST_STACK_TARGET_INDEX,
-					   stack.serial_min,
-					   stack.serial_max);
-	    _lw6dat_stack_update_atom_str_list_not_sent (&stack, &msg_list,
-							 _TEST_STACK_TARGET_INDEX);
+	    _lw6dat_stack_miss_invalidate (&stack, _TEST_STACK_TARGET_INDEX, stack.serial_min, stack.serial_max);
+	    _lw6dat_stack_update_atom_str_list_not_sent (&stack, &msg_list, _TEST_STACK_TARGET_INDEX);
 	    length = lw6sys_list_length (msg_list);
 	    if (LW6SYS_TEST_ACK (length == found_not_null))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("got %d unsent atoms"), length);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("got %d unsent atoms"), length);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("error getting list of atoms length=%d found_not_null=%d"),
-			    length, found_not_null);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("error getting list of atoms length=%d found_not_null=%d"), length, found_not_null);
 		ret = 0;
 	      }
 	    while (!lw6sys_list_is_empty (msg_list))
@@ -789,20 +675,15 @@ _test_stack ()
 		  }
 	      }
 
-	    _lw6dat_stack_update_atom_str_list_not_sent (&stack, &msg_list,
-							 _TEST_STACK_TARGET_INDEX);
+	    _lw6dat_stack_update_atom_str_list_not_sent (&stack, &msg_list, _TEST_STACK_TARGET_INDEX);
 	    length = lw6sys_list_length (msg_list);
 	    if (LW6SYS_TEST_ACK (length == 0))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("got no more unsent atoms on second call"));
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("got no more unsent atoms on second call"));
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("error getting list of atoms length=%d, should be 0"),
-			    length);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("error getting list of atoms length=%d, should be 0"), length);
 		ret = 0;
 	      }
 	    lw6sys_list_free (msg_list);
@@ -815,19 +696,13 @@ _test_stack ()
      */
     _lw6dat_stack_purge (&stack);
 
-    msg4_random_part =
-      lw6sys_str_random_words (sys_context,
-			       _TEST_STACK_MSG_4_RANDOM_PART_SIZE);
+    msg4_random_part = lw6sys_str_random_words (sys_context, _TEST_STACK_MSG_4_RANDOM_PART_SIZE);
     if (LW6SYS_TEST_ACK (msg4_random_part))
       {
-	msg4 =
-	  lw6sys_new_sprintf (sys_context, _TEST_STACK_MSG_4,
-			      msg4_random_part);
+	msg4 = lw6sys_new_sprintf (sys_context, _TEST_STACK_MSG_4, msg4_random_part);
 	if (LW6SYS_TEST_ACK (msg4))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_
-			("put a few messages in stack to test recollection of atoms into a full message"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("put a few messages in stack to test recollection of atoms into a full message"));
 	    if (LW6SYS_TEST_ACK (_lw6dat_stack_put_msg
 				 (&stack, NULL, _TEST_STACK_MSG_1,
 				  _TEST_STACK_SEND_FLAG)
@@ -842,65 +717,45 @@ _test_stack ()
 				 && _lw6dat_stack_put_msg (&stack, NULL,
 							   _TEST_STACK_MSG_5,
 							   _TEST_STACK_SEND_FLAG)
-				 && _lw6dat_stack_put_msg (&stack, NULL,
-							   _TEST_STACK_MSG_6,
-							   _TEST_STACK_SEND_FLAG)))
+				 && _lw6dat_stack_put_msg (&stack, NULL, _TEST_STACK_MSG_6, _TEST_STACK_SEND_FLAG)))
 	      {
 		msg_list = _lw6dat_stack_init_list ();
 		if (LW6SYS_TEST_ACK (msg_list))
 		  {
-		    _lw6dat_stack_update_msg_list_by_seq (&stack, &msg_list,
-							  _TEST_STACK_MSG_GET_SEQ,
-							  1, 1, &worst_msg_i,
-							  &worst_msg_n);
+		    _lw6dat_stack_update_msg_list_by_seq (&stack, &msg_list, _TEST_STACK_MSG_GET_SEQ, 1, 1, &worst_msg_i, &worst_msg_n);
 		    length = lw6sys_list_length (msg_list);
 		    if (LW6SYS_TEST_ACK (length == _TEST_STACK_MSG_GET_NB))
 		      {
-			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				    _x_ ("OK, got %d messages"), length);
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("OK, got %d messages"), length);
 			msg_data.msg4 = msg4;
-			lw6sys_list_map (msg_list, _test_stack_msg_callback,
-					 (void *) &msg_data);
-			if (LW6SYS_TEST_ACK
-			    (msg_data.msg3_found && msg_data.msg4_found
-			     && msg_data.msg5_found))
+			lw6sys_list_map (msg_list, _test_stack_msg_callback, (void *) &msg_data);
+			if (LW6SYS_TEST_ACK (msg_data.msg3_found && msg_data.msg4_found && msg_data.msg5_found))
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					_x_ ("all messages OK"));
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("all messages OK"));
 			  }
 			else
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-					_x_ ("some messages were wrong"));
+			    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("some messages were wrong"));
 			    ret = 0;
 			  }
 		      }
 		    else
 		      {
-			lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				    _x_
-				    ("error, should have got %d messages and got %d"),
-				    _TEST_STACK_MSG_GET_NB, length);
+			lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("error, should have got %d messages and got %d"), _TEST_STACK_MSG_GET_NB, length);
 			ret = 0;
 		      }
 		    lw6sys_list_free (msg_list);
 
-		    miss =
-		      _lw6dat_stack_get_miss (&stack,
-					      _TEST_STACK_MISS_MAX_RANGE,
-					      &worst_msg_i, &worst_msg_n);
+		    miss = _lw6dat_stack_get_miss (&stack, _TEST_STACK_MISS_MAX_RANGE, &worst_msg_i, &worst_msg_n);
 		    if (LW6SYS_TEST_ACK (miss))
 		      {
-			if (LW6SYS_TEST_ACK
-			    (miss->serial_min > stack.serial_max))
+			if (LW6SYS_TEST_ACK (miss->serial_min > stack.serial_max))
 			  {
 			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					_x_ ("miss from_id=%" LW6SYS_PRINTF_LL
 					     "x miss->serial_min=%d miss->serial_max=%d stack.serial_min=%d stack.serial_max=%d worst_msg_i=%d worst_msg_n=%d, since the range is outside (later than) our current data, it will simply cause a new fetch, this does not harm (and can help if remote host is stall)"),
 					(long long) miss->from_id,
-					miss->serial_min, miss->serial_max,
-					stack.serial_min, stack.serial_max,
-					worst_msg_i, worst_msg_n);
+					miss->serial_min, miss->serial_max, stack.serial_min, stack.serial_max, worst_msg_i, worst_msg_n);
 			  }
 			else
 			  {
@@ -908,9 +763,7 @@ _test_stack ()
 					_x_ ("miss from_id=%" LW6SYS_PRINTF_LL
 					     "x miss->serial_min=%d miss->serial_max=%d stack.serial_min=%d stack.serial_max=%d worst_msg_i=%d worst_msg_n=%d, normally all messages should be complete"),
 					(long long) miss->from_id,
-					miss->serial_min, miss->serial_max,
-					stack.serial_min, stack.serial_max,
-					worst_msg_i, worst_msg_n);
+					miss->serial_min, miss->serial_max, stack.serial_min, stack.serial_max, worst_msg_i, worst_msg_n);
 			    ret = 0;
 			  }
 			lw6dat_miss_free (miss);
@@ -919,8 +772,7 @@ _test_stack ()
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to put one of the messages"));
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to put one of the messages"));
 		ret = 0;
 	      }
 	    LW6SYS_FREE (sys_context, msg4);
@@ -928,147 +780,103 @@ _test_stack ()
 	LW6SYS_FREE (sys_context, msg4_random_part);
       }
 
-    if (LW6SYS_TEST_ACK
-	(_lw6dat_stack_shift (&stack, stack.serial_0_real, stack.seq_0)))
+    if (LW6SYS_TEST_ACK (_lw6dat_stack_shift (&stack, stack.serial_0_real, stack.seq_0)))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("shifted stack with same values OK"));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("shifted stack with same values OK"));
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("shifted stack with same values failed"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("shifted stack with same values failed"));
 	ret = 0;
       }
 
-    if (LW6SYS_TEST_ACK (!_lw6dat_stack_shift
-			 (&stack,
-			  stack.serial_0_base -
-			  _TEST_STACK_SHIFT_SERIAL_DELTA,
-			  stack.seq_0 - _TEST_STACK_SHIFT_SEQ_DELTA)))
+    if (LW6SYS_TEST_ACK (!_lw6dat_stack_shift (&stack, stack.serial_0_base - _TEST_STACK_SHIFT_SERIAL_DELTA, stack.seq_0 - _TEST_STACK_SHIFT_SEQ_DELTA)))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_
-		    ("shifted stack with inconsistent values did not work, this is fine"));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("shifted stack with inconsistent values did not work, this is fine"));
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_
-		    ("shifted stack with inconsistent values worked, it should have raised an error"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("shifted stack with inconsistent values worked, it should have raised an error"));
 	ret = 0;
       }
 
-    tmp_atom =
-      _lw6dat_stack_get_atom (&stack,
-			      _TEST_STACK_SERIAL_0 +
-			      _TEST_STACK_SHIFT_SERIAL_DELTA);
+    tmp_atom = _lw6dat_stack_get_atom (&stack, _TEST_STACK_SERIAL_0 + _TEST_STACK_SHIFT_SERIAL_DELTA);
     if (LW6SYS_TEST_ACK (tmp_atom))
       {
 	new_seq_0 = tmp_atom->seq;
-	if (LW6SYS_TEST_ACK (_lw6dat_stack_shift
-			     (&stack,
-			      _TEST_STACK_SERIAL_0 +
-			      _TEST_STACK_SHIFT_SERIAL_DELTA, new_seq_0)))
+	if (LW6SYS_TEST_ACK (_lw6dat_stack_shift (&stack, _TEST_STACK_SERIAL_0 + _TEST_STACK_SHIFT_SERIAL_DELTA, new_seq_0)))
 	  {
-	    tmp_atom =
-	      _lw6dat_stack_get_atom (&stack,
-				      _TEST_STACK_SERIAL_0 +
-				      _TEST_STACK_SHIFT_SERIAL_DELTA);
+	    tmp_atom = _lw6dat_stack_get_atom (&stack, _TEST_STACK_SERIAL_0 + _TEST_STACK_SHIFT_SERIAL_DELTA);
 	    if (LW6SYS_TEST_ACK (tmp_atom))
 	      {
 		if (LW6SYS_TEST_ACK (stack.serial_0_base ==
 				     _TEST_STACK_SHIFT_REAL_WORLD_SERIAL_BASE
-				     && stack.serial_0_real ==
-				     _TEST_STACK_SHIFT_REAL_WORLD_SERIAL_REAL
-				     && tmp_atom->seq ==
-				     _TEST_STACK_SHIFT_REAL_WORLD_SEQ))
+				     && stack.serial_0_real == _TEST_STACK_SHIFT_REAL_WORLD_SERIAL_REAL && tmp_atom->seq == _TEST_STACK_SHIFT_REAL_WORLD_SEQ))
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				_x_
 				("shifted stack with real world delta OK serial_0_base=%d serial_0_real=%d seq=%"
-				 LW6SYS_PRINTF_LL "d"), stack.serial_0_base,
-				stack.serial_0_real,
-				(long long) tmp_atom->seq);
+				 LW6SYS_PRINTF_LL "d"), stack.serial_0_base, stack.serial_0_real, (long long) tmp_atom->seq);
 		  }
 		else
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				_x_
 				("shifted stack with real world delta OK serial_0_base=%d serial_0_real=%d seq=%"
-				 LW6SYS_PRINTF_LL "d"), stack.serial_0_base,
-				stack.serial_0_real,
-				(long long) tmp_atom->seq);
+				 LW6SYS_PRINTF_LL "d"), stack.serial_0_base, stack.serial_0_real, (long long) tmp_atom->seq);
 		    ret = 0;
 		  }
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to get first atom"));
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to get first atom"));
 		ret = 0;
 	      }
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("shifted stack with real world delta failed"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("shifted stack with real world delta failed"));
 	    ret = 0;
 	  }
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to get atom for serial %d"),
-		    _TEST_STACK_SERIAL_0 + _TEST_STACK_SHIFT_SERIAL_DELTA);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to get atom for serial %d"), _TEST_STACK_SERIAL_0 + _TEST_STACK_SHIFT_SERIAL_DELTA);
 	ret = 0;
       }
 
-    if (LW6SYS_TEST_ACK (_lw6dat_stack_shift
-			 (&stack,
-			  _TEST_STACK_SERIAL_0 +
-			  2 * _TEST_STACK_SHIFT_SERIAL_DELTA,
-			  _LW6DAT_SEQ_INVALID)))
+    if (LW6SYS_TEST_ACK (_lw6dat_stack_shift (&stack, _TEST_STACK_SERIAL_0 + 2 * _TEST_STACK_SHIFT_SERIAL_DELTA, _LW6DAT_SEQ_INVALID)))
       {
-	tmp_atom =
-	  _lw6dat_stack_get_atom (&stack,
-				  _TEST_STACK_SERIAL_0 +
-				  2 * _TEST_STACK_SHIFT_SERIAL_DELTA);
+	tmp_atom = _lw6dat_stack_get_atom (&stack, _TEST_STACK_SERIAL_0 + 2 * _TEST_STACK_SHIFT_SERIAL_DELTA);
 	if (LW6SYS_TEST_ACK (tmp_atom))
 	  {
 	    if (LW6SYS_TEST_ACK
 		(stack.serial_0_base == _TEST_STACK_SHIFT_GUESSED_SERIAL_BASE
-		 && stack.serial_0_real ==
-		 _TEST_STACK_SHIFT_GUESSED_SERIAL_REAL
-		 && tmp_atom->seq == _TEST_STACK_SHIFT_GUESSED_SEQ))
+		 && stack.serial_0_real == _TEST_STACK_SHIFT_GUESSED_SERIAL_REAL && tmp_atom->seq == _TEST_STACK_SHIFT_GUESSED_SEQ))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_
 			    ("shifted stack with guessed delta OK serial_0_base=%d serial_0_real=%d seq=%"
-			     LW6SYS_PRINTF_LL "d"), stack.serial_0_base,
-			    stack.serial_0_real, (long long) tmp_atom->seq);
+			     LW6SYS_PRINTF_LL "d"), stack.serial_0_base, stack.serial_0_real, (long long) tmp_atom->seq);
 	      }
 	    else
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			    _x_
 			    ("shifted stack with guessed delta OK serial_0_base=%d serial_0_real=%d seq=%"
-			     LW6SYS_PRINTF_LL "d"), stack.serial_0_base,
-			    stack.serial_0_real, (long long) tmp_atom->seq);
+			     LW6SYS_PRINTF_LL "d"), stack.serial_0_base, stack.serial_0_real, (long long) tmp_atom->seq);
 		ret = 0;
 	      }
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("unable to get first atom"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to get first atom"));
 	    ret = 0;
 	  }
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("shifted stack with guessed delta failed"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("shifted stack with guessed delta failed"));
 	ret = 0;
       }
 
@@ -1085,15 +893,13 @@ _test_warehouse_copy_atoms_callback (void *func_data, void *data)
   lw6dat_warehouse_t *warehouse2 = (lw6dat_warehouse_t *) func_data;
   char *atom_str = (char *) data;
 
-  if (LW6SYS_TEST_ACK (lw6dat_warehouse_put_atom_str
-		       (warehouse2, _TEST_WAREHOUSE_LOCAL_NODE_ID, atom_str)))
+  if (LW6SYS_TEST_ACK (lw6dat_warehouse_put_atom_str (warehouse2, _TEST_WAREHOUSE_LOCAL_NODE_ID, atom_str)))
     {
       // ok
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("error copying atom \"%s\""), atom_str);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("error copying atom \"%s\""), atom_str);
     }
 }
 
@@ -1103,9 +909,7 @@ _test_miss_print_callback (void *func_data, void *data)
   lw6dat_miss_t *miss = (lw6dat_miss_t *) data;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("MISS item from_id=%" LW6SYS_PRINTF_LL
-		   "x serial_min=%d serial_max=%d"),
-	      (long long) miss->from_id, miss->serial_min, miss->serial_max);
+	      _x_ ("MISS item from_id=%" LW6SYS_PRINTF_LL "x serial_min=%d serial_max=%d"), (long long) miss->from_id, miss->serial_min, miss->serial_max);
 }
 
 /*
@@ -1144,9 +948,7 @@ _test_warehouse ()
     lw6sys_progress_default (sys_context, &progress, &progress_value);
     lw6sys_progress_begin (sys_context, &progress);
 
-    _warehouse =
-      _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID,
-			     _TEST_WAREHOUSE_SEQ_0);
+    _warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID, _TEST_WAREHOUSE_SEQ_0);
     if (LW6SYS_TEST_ACK (_warehouse))
       {
 	if (LW6SYS_TEST_ACK (_lw6dat_warehouse_put_atom
@@ -1154,13 +956,9 @@ _test_warehouse ()
 			      _TEST_WAREHOUSE_ATOM_TYPE,
 			      _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
 			      _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_SEQ,
-			      _TEST_WAREHOUSE_TEXT,
-			      _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
-			      _TEST_WAREHOUSE_CMD_STR_OFFSET)))
+			      _TEST_WAREHOUSE_TEXT, _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET, _TEST_WAREHOUSE_CMD_STR_OFFSET)))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("text \"%s\" put into warehouse"),
-			_TEST_WAREHOUSE_TEXT);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("text \"%s\" put into warehouse"), _TEST_WAREHOUSE_TEXT);
 	  }
 	for (i = 0; i < _TEST_WAREHOUSE_NB_STACKS_OVERFLOW; ++i)
 	  {
@@ -1168,10 +966,7 @@ _test_warehouse ()
 		(_warehouse, lw6sys_generate_id_64 (),
 		 _TEST_WAREHOUSE_ATOM_TYPE, _TEST_WAREHOUSE_SERIAL,
 		 _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
-		 _TEST_WAREHOUSE_SEQ,
-		 _TEST_WAREHOUSE_TEXT,
-		 _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
-		 _TEST_WAREHOUSE_CMD_STR_OFFSET))
+		 _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT, _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET, _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	      {
 		overflow = 1;
 	      }
@@ -1179,9 +974,7 @@ _test_warehouse ()
 	if (LW6SYS_TEST_ACK (overflow))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_
-			("OK, warehouse has a stack number limit (%d) this is right"),
-			_lw6dat_warehouse_get_nb_nodes (_warehouse));
+			_x_ ("OK, warehouse has a stack number limit (%d) this is right"), _lw6dat_warehouse_get_nb_nodes (_warehouse));
 	  }
 	else
 	  {
@@ -1193,31 +986,21 @@ _test_warehouse ()
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("couldn't create _warehouse object"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't create _warehouse object"));
 	ret = 0;
       }
 
-    _warehouse =
-      _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID,
-			     _TEST_WAREHOUSE_SEQ_0);
+    _warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID, _TEST_WAREHOUSE_SEQ_0);
     if (LW6SYS_TEST_ACK (_warehouse))
       {
-	_lw6dat_warehouse_register_node (_warehouse,
-					 _TEST_WAREHOUSE_OTHER_NODE_ID,
-					 _TEST_WAREHOUSE_SERIAL,
-					 _TEST_WAREHOUSE_SEQ);
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("putting %d atoms in warehouse"),
-		    _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW);
+	_lw6dat_warehouse_register_node (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID, _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_SEQ);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("putting %d atoms in warehouse"), _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW);
 	if (LW6SYS_TEST_ACK
 	    (_lw6dat_warehouse_put_atom
 	     (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 	      _TEST_WAREHOUSE_ATOM_TYPE, _TEST_WAREHOUSE_SERIAL,
 	      _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
-	      _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT,
-	      _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
-	      _TEST_WAREHOUSE_CMD_STR_OFFSET)))
+	      _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT, _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET, _TEST_WAREHOUSE_CMD_STR_OFFSET)))
 	  {
 	    for (i = 1; i < _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW; ++i)
 	      {
@@ -1228,13 +1011,9 @@ _test_warehouse ()
 				       _TEST_WAREHOUSE_SERIAL + i,
 				       _TEST_WAREHOUSE_ORDER_I,
 				       _TEST_WAREHOUSE_ORDER_N,
-				       _TEST_WAREHOUSE_SEQ,
-				       _TEST_WAREHOUSE_TEXT,
-				       _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
-				       _TEST_WAREHOUSE_CMD_STR_OFFSET)))
+				       _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT, _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET, _TEST_WAREHOUSE_CMD_STR_OFFSET)))
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				_x_ ("unable to put atom %d"), i);
+		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to put atom %d"), i);
 		    ret = 0;
 		  }
 	      }
@@ -1244,26 +1023,19 @@ _test_warehouse ()
 				  _TEST_WAREHOUSE_SERIAL,
 				  _TEST_WAREHOUSE_ORDER_I,
 				  _TEST_WAREHOUSE_ORDER_N,
-				  _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT,
-				  _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
-				  _TEST_WAREHOUSE_CMD_STR_OFFSET)))
+				  _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT, _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET, _TEST_WAREHOUSE_CMD_STR_OFFSET)))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("could put again 1st atom in warehouse, shifting should work"));
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("could put again 1st atom in warehouse, shifting should work"));
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("couldn't put (again) 1st atom in warehouse"));
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't put (again) 1st atom in warehouse"));
 		ret = 0;
 	      }
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("couldn't put 1st atom in warehouse"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't put 1st atom in warehouse"));
 	    ret = 0;
 	  }
 
@@ -1271,70 +1043,48 @@ _test_warehouse ()
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("couldn't create _warehouse object"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't create _warehouse object"));
 	ret = 0;
       }
 
-    warehouse =
-      lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID,
-			    _TEST_WAREHOUSE_SEQ_0);
+    warehouse = lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID, _TEST_WAREHOUSE_SEQ_0);
     if (LW6SYS_TEST_ACK (warehouse))
       {
-	if (!LW6SYS_TEST_ACK (lw6dat_warehouse_get_local_id (warehouse) ==
-			      _TEST_WAREHOUSE_LOCAL_NODE_ID))
+	if (!LW6SYS_TEST_ACK (lw6dat_warehouse_get_local_id (warehouse) == _TEST_WAREHOUSE_LOCAL_NODE_ID))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("lw6dat_warehouse_get_local_id failed"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("lw6dat_warehouse_get_local_id failed"));
 	    ret = 0;
 	  }
-	_lw6dat_warehouse_register_node (_warehouse,
-					 _TEST_WAREHOUSE_OTHER_NODE_ID,
-					 _TEST_WAREHOUSE_SERIAL,
-					 _TEST_WAREHOUSE_SEQ);
-	if (LW6SYS_TEST_ACK (lw6dat_warehouse_put_atom_str
-			     (warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
-			      _TEST_WAREHOUSE_SERIAL_I_N_MSG)))
+	_lw6dat_warehouse_register_node (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID, _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_SEQ);
+	if (LW6SYS_TEST_ACK (lw6dat_warehouse_put_atom_str (warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID, _TEST_WAREHOUSE_SERIAL_I_N_MSG)))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("lw6dat_warehouse_put_atom_str seem to work"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("lw6dat_warehouse_put_atom_str seem to work"));
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("lw6dat_warehouse_put_atom_str failed"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("lw6dat_warehouse_put_atom_str failed"));
 	    ret = 0;
 	  }
-	nb_atom_parts_since_last_poll =
-	  lw6dat_warehouse_get_nb_atom_parts_since_last_poll (warehouse,
-							      _TEST_WAREHOUSE_OTHER_NODE_ID);
+	nb_atom_parts_since_last_poll = lw6dat_warehouse_get_nb_atom_parts_since_last_poll (warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID);
 	if (LW6SYS_TEST_ACK (nb_atom_parts_since_last_poll > 0))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("OK, got %d atom parts since last poll"),
-			nb_atom_parts_since_last_poll);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("OK, got %d atom parts since last poll"), nb_atom_parts_since_last_poll);
 	    lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (warehouse);
-	    nb_atom_parts_since_last_poll =
-	      lw6dat_warehouse_get_nb_atom_parts_since_last_poll (warehouse,
-								  _TEST_WAREHOUSE_OTHER_NODE_ID);
+	    nb_atom_parts_since_last_poll = lw6dat_warehouse_get_nb_atom_parts_since_last_poll (warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID);
 	    if (LW6SYS_TEST_ACK (nb_atom_parts_since_last_poll == 0))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("OK, got no atom parts since last poll"));
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("OK, got no atom parts since last poll"));
 	      }
 	    else
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("got %d atom parts since last poll but there should be none"),
-			    nb_atom_parts_since_last_poll);
+			    _x_ ("got %d atom parts since last poll but there should be none"), nb_atom_parts_since_last_poll);
 		ret = 0;
 	      }
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("got no atom parts since last poll"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("got no atom parts since last poll"));
 	    ret = 0;
 	  }
 
@@ -1343,43 +1093,29 @@ _test_warehouse ()
 	id_str = lw6sys_id_ltoa (sys_context, _TEST_WAREHOUSE_LOCAL_NODE_ID);
 	if (LW6SYS_TEST_ACK (id_str))
 	  {
-	    for (i = _TEST_WAREHOUSE_PUT_MIN_SIZE;
-		 i < _TEST_WAREHOUSE_PUT_MAX_SIZE; ++i)
+	    for (i = _TEST_WAREHOUSE_PUT_MIN_SIZE; i < _TEST_WAREHOUSE_PUT_MAX_SIZE; ++i)
 	      {
 		cmd = lw6sys_str_random_words (i);
 		if (LW6SYS_TEST_ACK (cmd))
 		  {
-		    msg =
-		      lw6sys_new_sprintf (sys_context,
-					  "%" LW6SYS_PRINTF_LL "d %s %s",
-					  (long long) (_TEST_WAREHOUSE_SEQ +
-						       (int) sqrt (i)),
-					  id_str, cmd);
+		    msg = lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "d %s %s", (long long) (_TEST_WAREHOUSE_SEQ + (int) sqrt (i)), id_str, cmd);
 		    if (LW6SYS_TEST_ACK (msg))
 		      {
-			if (LW6SYS_TEST_ACK
-			    (lw6dat_warehouse_put_local_msg (warehouse, msg)))
+			if (LW6SYS_TEST_ACK (lw6dat_warehouse_put_local_msg (warehouse, msg)))
 			  {
-			    if (LW6SYS_TEST_ACK (lw6dat_warehouse_meta_put
-						 (warehouse,
-						  lw6dat_warehouse_get_local_seq_last
-						  (warehouse))))
+			    if (LW6SYS_TEST_ACK (lw6dat_warehouse_meta_put (warehouse, lw6dat_warehouse_get_local_seq_last (warehouse))))
 			      {
 				// ok
 			      }
 			    else
 			      {
-				lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-					    _x_ ("unable to put meta"));
+				lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to put meta"));
 				ret = 0;
 			      }
 			  }
 			else
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-					_x_
-					("unable to put msg \"%s\" into warehouse"),
-					msg);
+			    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to put msg \"%s\" into warehouse"), msg);
 			    ret = 0;
 			  }
 			LW6SYS_FREE (sys_context, msg);
@@ -1389,9 +1125,7 @@ _test_warehouse ()
 	      }
 	    LW6SYS_FREE (sys_context, id_str);
 	  }
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("last put msg local_serial=%d i=%d"),
-		    lw6dat_warehouse_get_local_serial (warehouse), i);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("last put msg local_serial=%d i=%d"), lw6dat_warehouse_get_local_serial (warehouse), i);
 
 	lw6dat_warehouse_calc_serial_draft_and_reference (warehouse);
 	seq_min = lw6dat_warehouse_get_seq_min (warehouse);
@@ -1401,86 +1135,48 @@ _test_warehouse ()
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("seq info min=%" LW6SYS_PRINTF_LL "d max=%"
 			 LW6SYS_PRINTF_LL "d draft=%" LW6SYS_PRINTF_LL
-			 "d reference=%" LW6SYS_PRINTF_LL "d"),
-		    (long long) seq_min, (long long) seq_max,
-		    (long long) seq_draft, (long long) seq_reference);
+			 "d reference=%" LW6SYS_PRINTF_LL "d"), (long long) seq_min, (long long) seq_max, (long long) seq_draft, (long long) seq_reference);
 
-	warehouse2 =
-	  lw6dat_warehouse_new (_TEST_WAREHOUSE_OTHER_NODE_ID,
-				_TEST_WAREHOUSE_SEQ_0);
+	warehouse2 = lw6dat_warehouse_new (_TEST_WAREHOUSE_OTHER_NODE_ID, _TEST_WAREHOUSE_SEQ_0);
 	if (LW6SYS_TEST_ACK (warehouse2))
 	  {
-	    lw6dat_warehouse_register_node (warehouse2,
-					    _TEST_WAREHOUSE_LOCAL_NODE_ID,
-					    _TEST_WAREHOUSE_SERIAL,
-					    _TEST_WAREHOUSE_SEQ);
-	    id_str =
-	      lw6sys_id_ltoa (sys_context, _TEST_WAREHOUSE_LOCAL_NODE_ID);
+	    lw6dat_warehouse_register_node (warehouse2, _TEST_WAREHOUSE_LOCAL_NODE_ID, _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_SEQ);
+	    id_str = lw6sys_id_ltoa (sys_context, _TEST_WAREHOUSE_LOCAL_NODE_ID);
 	    if (LW6SYS_TEST_ACK (id_str))
 	      {
 		msg =
-		  lw6sys_new_sprintf (sys_context,
-				      "%" LW6SYS_PRINTF_LL "d %s %s",
-				      (long long) (_TEST_WAREHOUSE_SEQ),
-				      id_str, _TEST_WAREHOUSE_OTHER_NODE_MSG);
+		  lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "d %s %s", (long long) (_TEST_WAREHOUSE_SEQ), id_str, _TEST_WAREHOUSE_OTHER_NODE_MSG);
 		if (LW6SYS_TEST_ACK (msg))
 		  {
-		    if (LW6SYS_TEST_ACK
-			(lw6dat_warehouse_put_local_msg (warehouse2, msg)))
+		    if (LW6SYS_TEST_ACK (lw6dat_warehouse_put_local_msg (warehouse2, msg)))
 		      {
-			list_not_sent =
-			  lw6dat_warehouse_get_atom_str_list_not_sent
-			  (warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID);
+			list_not_sent = lw6dat_warehouse_get_atom_str_list_not_sent (warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID);
 			if (LW6SYS_TEST_ACK (list_not_sent))
 			  {
 			    length = lw6sys_list_length (list_not_sent);
-			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					_x_
-					("putting %d atoms from warehouse to warehouse2"),
-					length);
-			    lw6sys_list_map (list_not_sent,
-					     _test_warehouse_copy_atoms_callback,
-					     (void *) warehouse2);
-			    lw6dat_warehouse_calc_serial_draft_and_reference
-			      (warehouse2);
-			    seq_min =
-			      lw6dat_warehouse_get_seq_min (warehouse2);
-			    seq_max =
-			      lw6dat_warehouse_get_seq_max (warehouse2);
-			    seq_draft =
-			      lw6dat_warehouse_get_seq_draft (warehouse2);
-			    seq_reference =
-			      lw6dat_warehouse_get_seq_reference (warehouse2);
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("putting %d atoms from warehouse to warehouse2"), length);
+			    lw6sys_list_map (list_not_sent, _test_warehouse_copy_atoms_callback, (void *) warehouse2);
+			    lw6dat_warehouse_calc_serial_draft_and_reference (warehouse2);
+			    seq_min = lw6dat_warehouse_get_seq_min (warehouse2);
+			    seq_max = lw6dat_warehouse_get_seq_max (warehouse2);
+			    seq_draft = lw6dat_warehouse_get_seq_draft (warehouse2);
+			    seq_reference = lw6dat_warehouse_get_seq_reference (warehouse2);
 			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					_x_
 					("seq info min=%" LW6SYS_PRINTF_LL
 					 "d max=%" LW6SYS_PRINTF_LL
 					 "d draft=%" LW6SYS_PRINTF_LL
 					 "d reference=%" LW6SYS_PRINTF_LL
-					 "d"), (long long) seq_min,
-					(long long) seq_max,
-					(long long) seq_draft,
-					(long long) seq_reference);
-			    list_by_seq =
-			      lw6dat_warehouse_get_msg_list_by_seq (warehouse,
-								    seq_reference
-								    + 1,
-								    seq_draft,
-								    1,
-								    &progress);
+					 "d"), (long long) seq_min, (long long) seq_max, (long long) seq_draft, (long long) seq_reference);
+			    list_by_seq = lw6dat_warehouse_get_msg_list_by_seq (warehouse, seq_reference + 1, seq_draft, 1, &progress);
 			    if (LW6SYS_TEST_ACK (list_by_seq))
 			      {
 				length = lw6sys_list_length (list_by_seq);
-				list_by_seq2 =
-				  lw6dat_warehouse_get_msg_list_by_seq
-				  (warehouse2, seq_reference + 1, seq_draft,
-				   0, &progress);
+				list_by_seq2 = lw6dat_warehouse_get_msg_list_by_seq (warehouse2, seq_reference + 1, seq_draft, 0, &progress);
 				if (LW6SYS_TEST_ACK (list_by_seq2))
 				  {
-				    length2 =
-				      lw6sys_list_length (list_by_seq2);
-				    if (LW6SYS_TEST_ACK
-					(length2 == (length + 1)))
+				    length2 = lw6sys_list_length (list_by_seq2);
+				    if (LW6SYS_TEST_ACK (length2 == (length + 1)))
 				      {
 					lw6sys_log (sys_context,
 						    LW6SYS_LOG_NOTICE,
@@ -1490,44 +1186,23 @@ _test_warehouse ()
 				      }
 				    else
 				      {
-					lw6sys_log (sys_context,
-						    LW6SYS_LOG_WARNING,
-						    _x_
-						    ("length of lists mismatch length=%d length2=%d"),
-						    length, length2);
+					lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("length of lists mismatch length=%d length2=%d"), length, length2);
 					ret = 0;
 				      }
-				    miss_list =
-				      lw6dat_warehouse_get_miss_list
-				      (warehouse,
-				       _TEST_WAREHOUSE_MISS_MAX_RANGE,
-				       &progress);
-				    lw6sys_log (sys_context,
-						LW6SYS_LOG_NOTICE,
-						_x_ ("progress_value=%0.6f"),
-						progress_value);
+				    miss_list = lw6dat_warehouse_get_miss_list (warehouse, _TEST_WAREHOUSE_MISS_MAX_RANGE, &progress);
+				    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("progress_value=%0.6f"), progress_value);
 				    if (LW6SYS_TEST_ACK (miss_list))
 				      {
-					miss_list_length =
-					  lw6sys_list_length (miss_list);
-					if (LW6SYS_TEST_ACK
-					    (miss_list_length == 0))
+					miss_list_length = lw6sys_list_length (miss_list);
+					if (LW6SYS_TEST_ACK (miss_list_length == 0))
 					  {
-					    lw6sys_log (sys_context,
-							LW6SYS_LOG_NOTICE,
-							_x_
-							("OK, miss_list contains nothing"));
+					    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("OK, miss_list contains nothing"));
 					  }
 					else
 					  {
 					    lw6sys_log (sys_context,
-							LW6SYS_LOG_NOTICE,
-							_x_
-							("miss_list contains %d members, should be empty"),
-							miss_list_length);
-					    lw6sys_list_map (miss_list,
-							     _test_miss_print_callback,
-							     NULL);
+							LW6SYS_LOG_NOTICE, _x_ ("miss_list contains %d members, should be empty"), miss_list_length);
+					    lw6sys_list_map (miss_list, _test_miss_print_callback, NULL);
 					  }
 					lw6sys_list_free (miss_list);
 				      }
@@ -1547,16 +1222,13 @@ _test_warehouse ()
 			  }
 			else
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-					_x_ ("list_not_sent is NULL"));
+			    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("list_not_sent is NULL"));
 			    ret = 0;
 			  }
 		      }
 		    else
 		      {
-			lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				    _x_
-				    ("unable to put message in other warehouse"));
+			lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to put message in other warehouse"));
 			ret = 0;
 		      }
 		    LW6SYS_FREE (sys_context, msg);
@@ -1567,16 +1239,14 @@ _test_warehouse ()
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("couldn't create warehouse2 object"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't create warehouse2 object"));
 	    ret = 0;
 	  }
 	lw6dat_warehouse_free (warehouse);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("couldn't create warehouse object"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't create warehouse object"));
 	ret = 0;
       }
   }
@@ -1601,15 +1271,12 @@ _print_msg (void *func_data, void *data)
   if (LW6SYS_TEST_ACK ((!func_data) && msg))
     {
       len = strlen (msg);
-      _lw6dat_atom_parse_from_cmd
-	(&type, &serial, &order_i, &order_n, &seq, &logical_from2,
-	 &seq_from_cmd_str_offset, &cmd_str_offset, msg);
+      _lw6dat_atom_parse_from_cmd (&type, &serial, &order_i, &order_n, &seq, &logical_from2, &seq_from_cmd_str_offset, &cmd_str_offset, msg);
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		  _x_
 		  ("serial=%d order_i=%d order_n=%d seq=%"
 		   LW6SYS_PRINTF_LL "d logicial_from=%" LW6SYS_PRINTF_LL
-		   "x len=%d"), serial, order_i, order_n,
-		  (long long) seq, (long long) logical_from2, len);
+		   "x len=%d"), serial, order_i, order_n, (long long) seq, (long long) logical_from2, len);
     }
 }
 
@@ -1644,38 +1311,28 @@ _fake_send (void *func_data, void *data)
        * sender can been parsed upstream but here we
        * need to figure it out "manually".
        */
-      _lw6dat_atom_parse_from_cmd
-	(&type, &serial, &order_i, &order_n, &seq, &logical_from2,
-	 &seq_from_cmd_str_offset, &cmd_str_offset, msg);
+      _lw6dat_atom_parse_from_cmd (&type, &serial, &order_i, &order_n, &seq, &logical_from2, &seq_from_cmd_str_offset, &cmd_str_offset, msg);
       if (fake_send_data->logical_from)
 	{
 	  logical_from2 = fake_send_data->logical_from;
 	}
-      if (LW6SYS_TEST_ACK (lw6dat_warehouse_put_atom_str
-			   (fake_send_data->warehouse, logical_from2, msg)))
+      if (LW6SYS_TEST_ACK (lw6dat_warehouse_put_atom_str (fake_send_data->warehouse, logical_from2, msg)))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		      _x_
 		      ("faking net send/recv and putting msg of length %d into warehouse (%"
 		       LW6SYS_PRINTF_LL "x -> %" LW6SYS_PRINTF_LL
 		       "x serial=%d seq=%" LW6SYS_PRINTF_LL "d)"), len,
-		      (long long) logical_from2,
-		      (long long)
-		      lw6dat_warehouse_get_local_id
-		      (fake_send_data->warehouse), serial, (long long) seq);
+		      (long long) logical_from2, (long long) lw6dat_warehouse_get_local_id (fake_send_data->warehouse), serial, (long long) seq);
 	  if (!LW6SYS_TEST_ACK (serial && seq))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("strange, serial=%d and seq=%" LW6SYS_PRINTF_LL
-			       "d msg was \"%s\""), serial, (long long) seq,
-			  msg);
+			  _x_ ("strange, serial=%d and seq=%" LW6SYS_PRINTF_LL "d msg was \"%s\""), serial, (long long) seq, msg);
 	    }
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("failed to put message \"%s\" into warehouse"),
-		      msg);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("failed to put message \"%s\" into warehouse"), msg);
 	  fake_send_data->ret = 0;
 	}
     }
@@ -1691,21 +1348,17 @@ _test_more ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6dat_warehouse_t *warehouse[_TEST_MORE_WAREHOUSE_NB_NODES] =
-      { NULL, NULL, NULL };
+    lw6dat_warehouse_t *warehouse[_TEST_MORE_WAREHOUSE_NB_NODES] = { NULL, NULL, NULL };
     int warehouse_index = 0;
     int stage = 0;
     int node_index = 0;
     int64_t msg_index = 0LL;
     int64_t seq = 0LL;
     u_int64_t node_id = 0LL;
-    u_int64_t node_ids[_TEST_MORE_WAREHOUSE_NB_NODES] =
-      { _TEST_MORE_WAREHOUSE_NODE_A_ID, _TEST_MORE_WAREHOUSE_NODE_B_ID,
+    u_int64_t node_ids[_TEST_MORE_WAREHOUSE_NB_NODES] = { _TEST_MORE_WAREHOUSE_NODE_A_ID, _TEST_MORE_WAREHOUSE_NODE_B_ID,
       _TEST_MORE_WAREHOUSE_NODE_C_ID
     };
-    int
-      node_serials[_TEST_MORE_WAREHOUSE_NB_NODES]
-      [_TEST_MORE_WAREHOUSE_NB_NODES] = {
+    int node_serials[_TEST_MORE_WAREHOUSE_NB_NODES][_TEST_MORE_WAREHOUSE_NB_NODES] = {
       {_TEST_MORE_WAREHOUSE_NODE_A_A_SERIAL,
        _TEST_MORE_WAREHOUSE_NODE_A_B_SERIAL,
        _TEST_MORE_WAREHOUSE_NODE_A_C_SERIAL},
@@ -1717,21 +1370,16 @@ _test_more ()
        _TEST_MORE_WAREHOUSE_NODE_C_C_SERIAL}
     }
     ;
-    int64_t node_seq_0s[_TEST_MORE_WAREHOUSE_NB_NODES] =
-      { _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0, _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0,
+    int64_t node_seq_0s[_TEST_MORE_WAREHOUSE_NB_NODES] = { _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0, _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0,
       _TEST_MORE_WAREHOUSE_NODE_C_SEQ_0
     };
-    int node_seq_0_offsets[_TEST_MORE_WAREHOUSE_NB_NODES] =
-      { _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0_OFFSET,
+    int node_seq_0_offsets[_TEST_MORE_WAREHOUSE_NB_NODES] = { _TEST_MORE_WAREHOUSE_NODE_A_SEQ_0_OFFSET,
       _TEST_MORE_WAREHOUSE_NODE_B_SEQ_0_OFFSET,
       _TEST_MORE_WAREHOUSE_NODE_C_SEQ_0_OFFSET
     };
-    int
-      nb_init_not_sent[_TEST_MORE_WAREHOUSE_NB_NODES]
-      [_TEST_MORE_WAREHOUSE_NB_NODES] =
-      { {_TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_0,
-	 _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_1,
-	 _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_2},
+    int nb_init_not_sent[_TEST_MORE_WAREHOUSE_NB_NODES][_TEST_MORE_WAREHOUSE_NB_NODES] = { {_TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_0,
+											    _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_1,
+											    _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_0_2},
     {_TEST_MORE_WAREHOUSE_INIT_NOT_SENT_1_0,
      _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_1_1,
      _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_1_2},
@@ -1739,12 +1387,9 @@ _test_more ()
      _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_2_1,
      _TEST_MORE_WAREHOUSE_INIT_NOT_SENT_2_2}
     };
-    int
-      nb_cross_not_sent[_TEST_MORE_WAREHOUSE_NB_NODES]
-      [_TEST_MORE_WAREHOUSE_NB_NODES] =
-      { {_TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_0,
-	 _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_1,
-	 _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_2},
+    int nb_cross_not_sent[_TEST_MORE_WAREHOUSE_NB_NODES][_TEST_MORE_WAREHOUSE_NB_NODES] = { {_TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_0,
+											     _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_1,
+											     _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_0_2},
     {_TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_0,
      _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_1,
      _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_1_2},
@@ -1752,8 +1397,7 @@ _test_more ()
      _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_1,
      _TEST_MORE_WAREHOUSE_CROSS_NOT_SENT_2_2}
     };
-    lw6sys_list_t *not_sent_list[_TEST_MORE_WAREHOUSE_NB_NODES]
-      [_TEST_MORE_WAREHOUSE_NB_NODES];
+    lw6sys_list_t *not_sent_list[_TEST_MORE_WAREHOUSE_NB_NODES][_TEST_MORE_WAREHOUSE_NB_NODES];
     char *msg = NULL;
     char *short_text = NULL;
     char *long_text = NULL;
@@ -1765,51 +1409,40 @@ _test_more ()
     int64_t seq_draft = 0LL;
     int64_t seq_reference = 0LL;
     lw6sys_list_t *msg_list = NULL;
-    int64_t seq_mins[_TEST_MORE_WAREHOUSE_NB_NODES] =
-      { _TEST_MORE_WAREHOUSE_SEQ_MIN_0, _TEST_MORE_WAREHOUSE_SEQ_MIN_1,
+    int64_t seq_mins[_TEST_MORE_WAREHOUSE_NB_NODES] = { _TEST_MORE_WAREHOUSE_SEQ_MIN_0, _TEST_MORE_WAREHOUSE_SEQ_MIN_1,
       _TEST_MORE_WAREHOUSE_SEQ_MIN_2
     };
-    int64_t seq_maxs[_TEST_MORE_WAREHOUSE_NB_NODES] =
-      { _TEST_MORE_WAREHOUSE_SEQ_MAX_0, _TEST_MORE_WAREHOUSE_SEQ_MAX_1,
+    int64_t seq_maxs[_TEST_MORE_WAREHOUSE_NB_NODES] = { _TEST_MORE_WAREHOUSE_SEQ_MAX_0, _TEST_MORE_WAREHOUSE_SEQ_MAX_1,
       _TEST_MORE_WAREHOUSE_SEQ_MAX_2
     };
-    int64_t seq_drafts[_TEST_MORE_WAREHOUSE_NB_NODES] =
-      { _TEST_MORE_WAREHOUSE_SEQ_DRAFT_0, _TEST_MORE_WAREHOUSE_SEQ_DRAFT_1,
+    int64_t seq_drafts[_TEST_MORE_WAREHOUSE_NB_NODES] = { _TEST_MORE_WAREHOUSE_SEQ_DRAFT_0, _TEST_MORE_WAREHOUSE_SEQ_DRAFT_1,
       _TEST_MORE_WAREHOUSE_SEQ_DRAFT_2
     };
-    int64_t seq_references[_TEST_MORE_WAREHOUSE_NB_NODES] =
-      { _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_0,
+    int64_t seq_references[_TEST_MORE_WAREHOUSE_NB_NODES] = { _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_0,
       _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_1,
       _TEST_MORE_WAREHOUSE_SEQ_REFERENCE_2
     };
     int draft_len = 0;
     int reference_len = 0;
-    int draft_lens[_TEST_MORE_WAREHOUSE_NB_NODES] =
-      { _TEST_MORE_WAREHOUSE_DRAFT_LEN_0, _TEST_MORE_WAREHOUSE_DRAFT_LEN_1,
+    int draft_lens[_TEST_MORE_WAREHOUSE_NB_NODES] = { _TEST_MORE_WAREHOUSE_DRAFT_LEN_0, _TEST_MORE_WAREHOUSE_DRAFT_LEN_1,
       _TEST_MORE_WAREHOUSE_DRAFT_LEN_2
     };
-    int reference_lens[_TEST_MORE_WAREHOUSE_NB_NODES] =
-      { _TEST_MORE_WAREHOUSE_REFERENCE_LEN_0,
+    int reference_lens[_TEST_MORE_WAREHOUSE_NB_NODES] = { _TEST_MORE_WAREHOUSE_REFERENCE_LEN_0,
       _TEST_MORE_WAREHOUSE_REFERENCE_LEN_1,
       _TEST_MORE_WAREHOUSE_REFERENCE_LEN_2
     };
     lw6sys_list_t *miss_list = NULL;
     int miss_list_length = 0;
 
-    short_text =
-      LW6SYS_MALLOC (sys_context, _TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT + 1);
+    short_text = LW6SYS_MALLOC (sys_context, _TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT + 1);
     if (LW6SYS_TEST_ACK (short_text))
       {
-	memset (short_text, _TEST_MORE_WAREHOUSE_MSG_CHAR_SHORT,
-		_TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT);
+	memset (short_text, _TEST_MORE_WAREHOUSE_MSG_CHAR_SHORT, _TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT);
 	short_text[_TEST_MORE_WAREHOUSE_MSG_LENGTH_SHORT] = '\0';
-	long_text =
-	  LW6SYS_MALLOC (sys_context,
-			 _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG + 1);
+	long_text = LW6SYS_MALLOC (sys_context, _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG + 1);
 	if (LW6SYS_TEST_ACK (long_text))
 	  {
-	    memset (long_text, _TEST_MORE_WAREHOUSE_MSG_CHAR_LONG,
-		    _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG);
+	    memset (long_text, _TEST_MORE_WAREHOUSE_MSG_CHAR_LONG, _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG);
 	    long_text[_TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG] = '\0';
 	    /*
 	     * OK, it proved the simple memset is not enough to make
@@ -1820,25 +1453,17 @@ _test_more ()
 	     * of atoms/msgs sent. OTOH, beware, if the compression code
 	     * is refactored, this test suite might fail.
 	     */
-	    for (i = _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG / 2;
-		 i < _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG; ++i)
+	    for (i = _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG / 2; i < _TEST_MORE_WAREHOUSE_MSG_LENGTH_LONG; ++i)
 	      {
-		long_text[i] =
-		  'a' + lw6sys_checksum_int32 (sys_context, i) % 26;
+		long_text[i] = 'a' + lw6sys_checksum_int32 (sys_context, i) % 26;
 	      }
-	    for (warehouse_index = 0;
-		 warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-		 ++warehouse_index)
+	    for (warehouse_index = 0; warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++warehouse_index)
 	      {
-		warehouse[warehouse_index] =
-		  lw6dat_warehouse_new (node_ids[warehouse_index],
-					node_seq_0s[warehouse_index]);
+		warehouse[warehouse_index] = lw6dat_warehouse_new (node_ids[warehouse_index], node_seq_0s[warehouse_index]);
 	      }
-	    if (LW6SYS_TEST_ACK
-		(warehouse[0] && warehouse[1] && warehouse[2]))
+	    if (LW6SYS_TEST_ACK (warehouse[0] && warehouse[1] && warehouse[2]))
 	      {
-		for (stage = 0; stage < _TEST_MORE_WAREHOUSE_NB_NODES;
-		     ++stage)
+		for (stage = 0; stage < _TEST_MORE_WAREHOUSE_NB_NODES; ++stage)
 		  {
 		    /*
 		     * Following line might look wrong but yes, we initialize
@@ -1847,9 +1472,7 @@ _test_more ()
 		     * a real life example with several nodes coming one after
 		     * the other.
 		     */
-		    for (warehouse_index = 0;
-			 warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-			 ++warehouse_index)
+		    for (warehouse_index = 0; warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++warehouse_index)
 		      {
 			if (warehouse_index != stage)
 			  {
@@ -1859,61 +1482,35 @@ _test_more ()
 					     "x in warehouse %d with serial %d seq %"
 					     LW6SYS_PRINTF_LL "d"),
 					(long long) node_ids[stage],
-					warehouse_index,
-					node_serials[warehouse_index][stage],
-					(long long)
-					node_seq_0s[warehouse_index]);
+					warehouse_index, node_serials[warehouse_index][stage], (long long) node_seq_0s[warehouse_index]);
 			    lw6dat_warehouse_register_node (warehouse
 							    [warehouse_index],
-							    node_ids[stage],
-							    node_serials
-							    [warehouse_index]
-							    [stage],
-							    node_seq_0s
-							    [warehouse_index]);
+							    node_ids[stage], node_serials[warehouse_index][stage], node_seq_0s[warehouse_index]);
 			  }
 		      }
-		    for (node_index = 0;
-			 node_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-			 ++node_index)
+		    for (node_index = 0; node_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++node_index)
 		      {
-			for (msg_index = 0LL;
-			     msg_index <
-			     ((node_index +
-			       1) * _TEST_MORE_WAREHOUSE_NB_MSGS_PER_STAGE) +
-			     1; ++msg_index)
+			for (msg_index = 0LL; msg_index < ((node_index + 1) * _TEST_MORE_WAREHOUSE_NB_MSGS_PER_STAGE) + 1; ++msg_index)
 			  {
-			    seq =
-			      node_seq_0s[stage] +
-			      node_seq_0_offsets[node_index] + msg_index;
+			    seq = node_seq_0s[stage] + node_seq_0_offsets[node_index] + msg_index;
 			    node_id = node_ids[node_index];
 			    msg =
 			      lw6sys_new_sprintf (sys_context,
 						  "%" LW6SYS_PRINTF_LL "d %"
-						  LW6SYS_PRINTF_LL "x %s",
-						  (long long) seq,
-						  (long long) node_id,
-						  msg_index & 1LL ? long_text
-						  : short_text);
+						  LW6SYS_PRINTF_LL "x %s", (long long) seq, (long long) node_id, msg_index & 1LL ? long_text : short_text);
 			    if (LW6SYS_TEST_ACK (msg))
 			      {
 				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					    _x_ ("PUT seq=%" LW6SYS_PRINTF_LL
-						 "d id=%" LW6SYS_PRINTF_LL
-						 "x len=%d"), (long long) seq,
-					    (long long) node_id,
-					    (int) strlen (msg));
-				lw6dat_warehouse_put_local_msg (warehouse
-								[node_index],
-								msg);
+						 "d id=%" LW6SYS_PRINTF_LL "x len=%d"), (long long) seq, (long long) node_id, (int) strlen (msg));
+				lw6dat_warehouse_put_local_msg (warehouse[node_index], msg);
 				LW6SYS_FREE (sys_context, msg);
 			      }
 			  }
 		      }
 		  }
 
-		for (stage = 0; stage < _TEST_MORE_WAREHOUSE_NB_NODES;
-		     ++stage)
+		for (stage = 0; stage < _TEST_MORE_WAREHOUSE_NB_NODES; ++stage)
 		  {
 		    /*
 		     * Insert a final message, else we are stuck at N-1
@@ -1922,50 +1519,30 @@ _test_more ()
 		    msg =
 		      lw6sys_new_sprintf (sys_context,
 					  "%" LW6SYS_PRINTF_LL "d %"
-					  LW6SYS_PRINTF_LL "x %s",
-					  (long long)
-					  _TEST_MORE_WAREHOUSE_NODE_FINAL_SEQ,
-					  (long long) node_id, short_text);
+					  LW6SYS_PRINTF_LL "x %s", (long long) _TEST_MORE_WAREHOUSE_NODE_FINAL_SEQ, (long long) node_id, short_text);
 		    if (LW6SYS_TEST_ACK (msg))
 		      {
 			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_ ("PUT seq=%" LW6SYS_PRINTF_LL
 					 "d id=%" LW6SYS_PRINTF_LL
-					 "x len=%d"),
-				    (long long)
-				    _TEST_MORE_WAREHOUSE_NODE_FINAL_SEQ,
-				    (long long) node_id, (int) strlen (msg));
-			lw6dat_warehouse_put_local_msg (warehouse[stage],
-							msg);
+					 "x len=%d"), (long long) _TEST_MORE_WAREHOUSE_NODE_FINAL_SEQ, (long long) node_id, (int) strlen (msg));
+			lw6dat_warehouse_put_local_msg (warehouse[stage], msg);
 			LW6SYS_FREE (sys_context, msg);
 		      }
 		  }
 
 		memset (&not_sent_list, 0, sizeof (not_sent_list));
-		for (warehouse_index = 0;
-		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-		     ++warehouse_index)
+		for (warehouse_index = 0; warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++warehouse_index)
 		  {
-		    for (node_index = 0;
-			 node_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-			 ++node_index)
+		    for (node_index = 0; node_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++node_index)
 		      {
 			node_id = node_ids[node_index];
-			not_sent_list[warehouse_index][node_index] =
-			  lw6dat_warehouse_get_atom_str_list_not_sent
-			  (warehouse[warehouse_index], node_id);
+			not_sent_list[warehouse_index][node_index] = lw6dat_warehouse_get_atom_str_list_not_sent (warehouse[warehouse_index], node_id);
 			if (not_sent_list[warehouse_index][node_index])
 			  {
-			    lw6sys_list_map (not_sent_list[warehouse_index]
-					     [node_index], _print_msg, NULL);
-			    not_sent_length =
-			      lw6sys_list_length (not_sent_list
-						  [warehouse_index]
-						  [node_index]);
-			    if (LW6SYS_TEST_ACK (not_sent_length ==
-						 nb_init_not_sent
-						 [warehouse_index]
-						 [node_index]))
+			    lw6sys_list_map (not_sent_list[warehouse_index][node_index], _print_msg, NULL);
+			    not_sent_length = lw6sys_list_length (not_sent_list[warehouse_index][node_index]);
+			    if (LW6SYS_TEST_ACK (not_sent_length == nb_init_not_sent[warehouse_index][node_index]))
 			      {
 				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					    _x_
@@ -1976,10 +1553,7 @@ _test_more ()
 					    warehouse_index, not_sent_length,
 					    node_index, (long long) node_id,
 					    lw6dat_warehouse_get_local_serial
-					    (warehouse[warehouse_index]),
-					    (long long)
-					    lw6dat_warehouse_get_local_seq_0
-					    (warehouse[warehouse_index]));
+					    (warehouse[warehouse_index]), (long long) lw6dat_warehouse_get_local_seq_0 (warehouse[warehouse_index]));
 			      }
 			    else
 			      {
@@ -1994,10 +1568,7 @@ _test_more ()
 					    nb_init_not_sent[warehouse_index]
 					    [node_index],
 					    lw6dat_warehouse_get_local_serial
-					    (warehouse[warehouse_index]),
-					    (long long)
-					    lw6dat_warehouse_get_local_seq_0
-					    (warehouse[warehouse_index]));
+					    (warehouse[warehouse_index]), (long long) lw6dat_warehouse_get_local_seq_0 (warehouse[warehouse_index]));
 				ret = 0;
 			      }
 			  }
@@ -2005,13 +1576,9 @@ _test_more ()
 		  }
 		memset (&fake_send_data, 0, sizeof (_fake_send_data_t));
 		fake_send_data.ret = 1;
-		for (warehouse_index = 0;
-		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-		     ++warehouse_index)
+		for (warehouse_index = 0; warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++warehouse_index)
 		  {
-		    for (node_index = 0;
-			 node_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-			 ++node_index)
+		    for (node_index = 0; node_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++node_index)
 		      {
 			if (not_sent_list[warehouse_index][node_index])
 			  {
@@ -2023,20 +1590,14 @@ _test_more ()
 			     * by peers.
 			     */
 			    fake_send_data.warehouse = warehouse[node_index];
-			    fake_send_data.logical_from =
-			      node_ids[warehouse_index];
-			    lw6sys_list_map (not_sent_list[warehouse_index]
-					     [node_index], _fake_send,
-					     &fake_send_data);
+			    fake_send_data.logical_from = node_ids[warehouse_index];
+			    lw6sys_list_map (not_sent_list[warehouse_index][node_index], _fake_send, &fake_send_data);
 			    if (!LW6SYS_TEST_ACK (fake_send_data.ret))
 			      {
-				lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-					    _x_
-					    ("problem with fake send/recv of messages"));
+				lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("problem with fake send/recv of messages"));
 				ret = 0;
 			      }
-			    lw6sys_list_free (not_sent_list[warehouse_index]
-					      [node_index]);
+			    lw6sys_list_free (not_sent_list[warehouse_index][node_index]);
 			  }
 		      }
 		  }
@@ -2047,30 +1608,17 @@ _test_more ()
 		 * new unsent messages!
 		 */
 		memset (&not_sent_list, 0, sizeof (not_sent_list));
-		for (warehouse_index = 0;
-		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-		     ++warehouse_index)
+		for (warehouse_index = 0; warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++warehouse_index)
 		  {
-		    for (node_index = 0;
-			 node_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-			 ++node_index)
+		    for (node_index = 0; node_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++node_index)
 		      {
 			node_id = node_ids[node_index];
-			not_sent_list[warehouse_index][node_index] =
-			  lw6dat_warehouse_get_atom_str_list_not_sent
-			  (warehouse[warehouse_index], node_id);
+			not_sent_list[warehouse_index][node_index] = lw6dat_warehouse_get_atom_str_list_not_sent (warehouse[warehouse_index], node_id);
 			if (not_sent_list[warehouse_index][node_index])
 			  {
-			    lw6sys_list_map (not_sent_list[warehouse_index]
-					     [node_index], _print_msg, NULL);
-			    not_sent_length =
-			      lw6sys_list_length (not_sent_list
-						  [warehouse_index]
-						  [node_index]);
-			    if (LW6SYS_TEST_ACK (not_sent_length ==
-						 nb_cross_not_sent
-						 [warehouse_index]
-						 [node_index]))
+			    lw6sys_list_map (not_sent_list[warehouse_index][node_index], _print_msg, NULL);
+			    not_sent_length = lw6sys_list_length (not_sent_list[warehouse_index][node_index]);
+			    if (LW6SYS_TEST_ACK (not_sent_length == nb_cross_not_sent[warehouse_index][node_index]))
 			      {
 				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					    _x_
@@ -2081,10 +1629,7 @@ _test_more ()
 					    warehouse_index, not_sent_length,
 					    node_index, (long long) node_id,
 					    lw6dat_warehouse_get_local_serial
-					    (warehouse[warehouse_index]),
-					    (long long)
-					    lw6dat_warehouse_get_local_seq_0
-					    (warehouse[warehouse_index]));
+					    (warehouse[warehouse_index]), (long long) lw6dat_warehouse_get_local_seq_0 (warehouse[warehouse_index]));
 			      }
 			    else
 			      {
@@ -2099,10 +1644,7 @@ _test_more ()
 					    nb_cross_not_sent[warehouse_index]
 					    [node_index],
 					    lw6dat_warehouse_get_local_serial
-					    (warehouse[warehouse_index]),
-					    (long long)
-					    lw6dat_warehouse_get_local_seq_0
-					    (warehouse[warehouse_index]));
+					    (warehouse[warehouse_index]), (long long) lw6dat_warehouse_get_local_seq_0 (warehouse[warehouse_index]));
 				ret = 0;
 			      }
 			  }
@@ -2111,30 +1653,21 @@ _test_more ()
 
 		memset (&fake_send_data, 0, sizeof (_fake_send_data_t));
 		fake_send_data.ret = 1;
-		for (warehouse_index = 0;
-		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-		     ++warehouse_index)
+		for (warehouse_index = 0; warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++warehouse_index)
 		  {
-		    for (node_index = 0;
-			 node_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-			 ++node_index)
+		    for (node_index = 0; node_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++node_index)
 		      {
 			if (not_sent_list[warehouse_index][node_index])
 			  {
 			    fake_send_data.warehouse = warehouse[node_index];
 			    fake_send_data.logical_from = 0LL;
-			    lw6sys_list_map (not_sent_list[warehouse_index]
-					     [node_index], _fake_send,
-					     &fake_send_data);
+			    lw6sys_list_map (not_sent_list[warehouse_index][node_index], _fake_send, &fake_send_data);
 			    if (!LW6SYS_TEST_ACK (fake_send_data.ret))
 			      {
-				lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-					    _x_
-					    ("problem with fake send/recv of messages"));
+				lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("problem with fake send/recv of messages"));
 				ret = 0;
 			      }
-			    lw6sys_list_free (not_sent_list[warehouse_index]
-					      [node_index]);
+			    lw6sys_list_free (not_sent_list[warehouse_index][node_index]);
 			  }
 		      }
 		  }
@@ -2145,48 +1678,32 @@ _test_more ()
 		 * since all has been done.
 		 */
 		memset (&not_sent_list, 0, sizeof (not_sent_list));
-		for (warehouse_index = 0;
-		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-		     ++warehouse_index)
+		for (warehouse_index = 0; warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++warehouse_index)
 		  {
-		    for (node_index = 0;
-			 node_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-			 ++node_index)
+		    for (node_index = 0; node_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++node_index)
 		      {
 			node_id = node_ids[node_index];
-			not_sent_list[warehouse_index][node_index] =
-			  lw6dat_warehouse_get_atom_str_list_not_sent
-			  (warehouse[warehouse_index], node_id);
+			not_sent_list[warehouse_index][node_index] = lw6dat_warehouse_get_atom_str_list_not_sent (warehouse[warehouse_index], node_id);
 			if (not_sent_list[warehouse_index][node_index])
 			  {
-			    lw6sys_list_map (not_sent_list[warehouse_index]
-					     [node_index], _print_msg, NULL);
-			    not_sent_length =
-			      lw6sys_list_length (not_sent_list
-						  [warehouse_index]
-						  [node_index]);
+			    lw6sys_list_map (not_sent_list[warehouse_index][node_index], _print_msg, NULL);
+			    not_sent_length = lw6sys_list_length (not_sent_list[warehouse_index][node_index]);
 			    if (LW6SYS_TEST_ACK (not_sent_length == 0))
 			      {
 				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 					    _x_
 					    ("in warehouse %d are no messages not sent for node %"
-					     LW6SYS_PRINTF_LL "x"),
-					    warehouse_index,
-					    (long long) node_id);
+					     LW6SYS_PRINTF_LL "x"), warehouse_index, (long long) node_id);
 			      }
 			    else
 			      {
 				lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 					    _x_
 					    ("in warehouse %d are %d messages not sent for node %"
-					     LW6SYS_PRINTF_LL
-					     "x but there should be none"),
-					    warehouse_index, not_sent_length,
-					    (long long) node_id);
+					     LW6SYS_PRINTF_LL "x but there should be none"), warehouse_index, not_sent_length, (long long) node_id);
 				ret = 0;
 			      }
-			    lw6sys_list_free (not_sent_list[warehouse_index]
-					      [node_index]);
+			    lw6sys_list_free (not_sent_list[warehouse_index][node_index]);
 			  }
 		      }
 		  }
@@ -2195,52 +1712,30 @@ _test_more ()
 		 * Now testing that actual messages can be extracted from
 		 * the warehouses, and not only atoms.
 		 */
-		for (warehouse_index = 0;
-		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-		     ++warehouse_index)
+		for (warehouse_index = 0; warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++warehouse_index)
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				_x_ ("checking node index=%d id=%"
-				     LW6SYS_PRINTF_LL "x"), warehouse_index,
-				(long long)
-				lw6dat_warehouse_get_local_id (warehouse
-							       [warehouse_index]));
+				     LW6SYS_PRINTF_LL "x"), warehouse_index, (long long) lw6dat_warehouse_get_local_id (warehouse[warehouse_index]));
 
-		    lw6dat_warehouse_calc_serial_draft_and_reference
-		      (warehouse[warehouse_index]);
-		    seq_min =
-		      lw6dat_warehouse_get_seq_min (warehouse
-						    [warehouse_index]);
-		    seq_max =
-		      lw6dat_warehouse_get_seq_max (warehouse
-						    [warehouse_index]);
-		    seq_draft =
-		      lw6dat_warehouse_get_seq_draft (warehouse
-						      [warehouse_index]);
-		    seq_reference =
-		      lw6dat_warehouse_get_seq_reference (warehouse
-							  [warehouse_index]);
+		    lw6dat_warehouse_calc_serial_draft_and_reference (warehouse[warehouse_index]);
+		    seq_min = lw6dat_warehouse_get_seq_min (warehouse[warehouse_index]);
+		    seq_max = lw6dat_warehouse_get_seq_max (warehouse[warehouse_index]);
+		    seq_draft = lw6dat_warehouse_get_seq_draft (warehouse[warehouse_index]);
+		    seq_reference = lw6dat_warehouse_get_seq_reference (warehouse[warehouse_index]);
 
-		    miss_list =
-		      lw6dat_warehouse_get_miss_list
-		      (warehouse[warehouse_index],
-		       _TEST_WAREHOUSE_MISS_MAX_RANGE, NULL);
+		    miss_list = lw6dat_warehouse_get_miss_list (warehouse[warehouse_index], _TEST_WAREHOUSE_MISS_MAX_RANGE, NULL);
 		    if (LW6SYS_TEST_ACK (miss_list))
 		      {
 			miss_list_length = lw6sys_list_length (miss_list);
 			if (LW6SYS_TEST_ACK (miss_list_length == 0))
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					_x_ ("OK, no messages in MISS list"));
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("OK, no messages in MISS list"));
 			  }
 			else
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-					_x_
-					("MISS list contains %d elements"),
-					miss_list_length);
-			    lw6sys_list_map (miss_list,
-					     _test_miss_print_callback, NULL);
+			    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("MISS list contains %d elements"), miss_list_length);
+			    lw6sys_list_map (miss_list, _test_miss_print_callback, NULL);
 			    ret = 0;
 			  }
 			lw6sys_list_free (miss_list);
@@ -2249,10 +1744,7 @@ _test_more ()
 		    if (LW6SYS_TEST_ACK (seq_min == seq_mins[warehouse_index]
 					 && seq_max ==
 					 seq_maxs[warehouse_index]
-					 && seq_draft ==
-					 seq_drafts[warehouse_index]
-					 && seq_reference ==
-					 seq_references[warehouse_index]))
+					 && seq_draft == seq_drafts[warehouse_index] && seq_reference == seq_references[warehouse_index]))
 		      {
 			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				    _x_ ("warehouse %d seq_min=%"
@@ -2260,63 +1752,37 @@ _test_more ()
 					 LW6SYS_PRINTF_LL "d seq_draft=%"
 					 LW6SYS_PRINTF_LL "d seq_reference=%"
 					 LW6SYS_PRINTF_LL "d"),
-				    warehouse_index, (long long) seq_min,
-				    (long long) seq_max,
-				    (long long) seq_draft,
-				    (long long) seq_reference);
-			msg_list =
-			  lw6dat_warehouse_get_msg_list_by_seq (warehouse
-								[warehouse_index],
-								seq_min,
-								seq_draft, 0,
-								NULL);
+				    warehouse_index, (long long) seq_min, (long long) seq_max, (long long) seq_draft, (long long) seq_reference);
+			msg_list = lw6dat_warehouse_get_msg_list_by_seq (warehouse[warehouse_index], seq_min, seq_draft, 0, NULL);
 			if (LW6SYS_TEST_ACK (msg_list))
 			  {
 			    draft_len = lw6sys_list_length (msg_list);
-			    if (LW6SYS_TEST_ACK
-				(draft_len == draft_lens[warehouse_index]))
+			    if (LW6SYS_TEST_ACK (draft_len == draft_lens[warehouse_index]))
 			      {
-				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					    _x_
-					    ("%d draft messages in warehouse %d, OK"),
-					    draft_len, warehouse_index);
+				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d draft messages in warehouse %d, OK"), draft_len, warehouse_index);
 			      }
 			    else
 			      {
 				lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-					    _x_
-					    ("%d draft  messages in warehouse %d, expected %d"),
-					    draft_len, warehouse_index,
-					    draft_lens[warehouse_index]);
+					    _x_ ("%d draft  messages in warehouse %d, expected %d"), draft_len, warehouse_index, draft_lens[warehouse_index]);
 				ret = 0;
 			      }
 			    lw6sys_list_free (msg_list);
 			  }
-			msg_list =
-			  lw6dat_warehouse_get_msg_list_by_seq (warehouse
-								[warehouse_index],
-								seq_min,
-								seq_reference,
-								1, NULL);
+			msg_list = lw6dat_warehouse_get_msg_list_by_seq (warehouse[warehouse_index], seq_min, seq_reference, 1, NULL);
 			if (LW6SYS_TEST_ACK (msg_list))
 			  {
 			    reference_len = lw6sys_list_length (msg_list);
-			    if (LW6SYS_TEST_ACK (reference_len ==
-						 reference_lens
-						 [warehouse_index]))
+			    if (LW6SYS_TEST_ACK (reference_len == reference_lens[warehouse_index]))
 			      {
-				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					    _x_
-					    ("%d reference messages in warehouse %d, OK"),
-					    reference_len, warehouse_index);
+				lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d reference messages in warehouse %d, OK"), reference_len, warehouse_index);
 			      }
 			    else
 			      {
 				lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 					    _x_
 					    ("%d reference messages in warehouse %d, expected %d"),
-					    reference_len, warehouse_index,
-					    reference_lens[warehouse_index]);
+					    reference_len, warehouse_index, reference_lens[warehouse_index]);
 				ret = 0;
 			      }
 			    lw6sys_list_free (msg_list);
@@ -2341,16 +1807,12 @@ _test_more ()
 				    (long long) seq_reference,
 				    (long long) seq_mins[warehouse_index],
 				    (long long) seq_maxs[warehouse_index],
-				    (long long) seq_drafts[warehouse_index],
-				    (long long)
-				    seq_references[warehouse_index]);
+				    (long long) seq_drafts[warehouse_index], (long long) seq_references[warehouse_index]);
 			ret = 0;
 		      }
 		  }
 
-		for (warehouse_index = 0;
-		     warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES;
-		     ++warehouse_index)
+		for (warehouse_index = 0; warehouse_index < _TEST_MORE_WAREHOUSE_NB_NODES; ++warehouse_index)
 		  {
 		    if (warehouse[warehouse_index])
 		      {
@@ -2370,16 +1832,14 @@ _test_more ()
 static int
 _setup_init ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libdat CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libdat CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libdat CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libdat CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -2422,9 +1882,7 @@ lw6dat_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 

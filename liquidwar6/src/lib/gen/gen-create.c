@@ -45,18 +45,14 @@ lw6gen_create_from_seed (const char *seed, int map_w, int map_h)
 {
   lw6map_level_t *level = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_
-	      ("creating pseudo-random map from seed \"%s\" with size %dx%d"),
-	      seed, map_w, map_h);
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("creating pseudo-random map from seed \"%s\" with size %dx%d"), seed, map_w, map_h);
 
   /*
    * Todo, meanwhile, there's a placeholder here creating the default map
    * Hack here!
    */
 
-  level = lw6map_builtin_custom (map_w, map_h, LW6MAP_BUILTIN_DEFAULT_DEPTH,
-				 LW6MAP_BUILTIN_DEFAULT_NOISE_PERCENT);
+  level = lw6map_builtin_custom (map_w, map_h, LW6MAP_BUILTIN_DEFAULT_DEPTH, LW6MAP_BUILTIN_DEFAULT_NOISE_PERCENT);
 
   return level;
 }

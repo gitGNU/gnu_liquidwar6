@@ -34,18 +34,13 @@
  * Pointer must be freed.
  */
 static char *
-create_button_key (const lw6gui_look_t * look,
-		   const lw6gui_menuitem_t * menuitem)
+create_button_key (const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
 {
   char *key;
   int c1, c2;
 
-  c1 =
-    lw6sys_checksum (sys_context, (unsigned char *) look,
-		     sizeof (lw6gui_look_t));
-  c2 =
-    lw6sys_checksum (sys_context, (unsigned char *) menuitem,
-		     sizeof (lw6gui_menuitem_t));
+  c1 = lw6sys_checksum (sys_context, (unsigned char *) look, sizeof (lw6gui_look_t));
+  c2 = lw6sys_checksum (sys_context, (unsigned char *) menuitem, sizeof (lw6gui_menuitem_t));
   key = lw6sys_new_sprintf (sys_context, "%d %d", c1, c2);
 
   return key;
@@ -56,9 +51,7 @@ create_button_key (const lw6gui_look_t * look,
  */
 int
 mod_gl1_utils_store_button_in_menucache (mod_gl1_utils_context_t * context,
-					 const lw6gui_look_t * look,
-					 const lw6gui_menuitem_t * menuitem,
-					 mod_gl1_utils_bitmap_t * bitmap)
+					 const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem, mod_gl1_utils_bitmap_t * bitmap)
 {
   mod_gl1_utils_menucache_array_t *menucache_array;
   int ret = 0;
@@ -69,9 +62,7 @@ mod_gl1_utils_store_button_in_menucache (mod_gl1_utils_context_t * context,
 
   menucache_array = &(context->menucache_array);
 
-  i = menucache_array->last_stored_item =
-    (menucache_array->last_stored_item +
-     1) % MOD_GL1_UTILS_MENUCACHE_ARRAY_SIZE;
+  i = menucache_array->last_stored_item = (menucache_array->last_stored_item + 1) % MOD_GL1_UTILS_MENUCACHE_ARRAY_SIZE;
 
   if ((old_key = menucache_array->item_array[i].key) != NULL)
     {
@@ -99,9 +90,7 @@ mod_gl1_utils_store_button_in_menucache (mod_gl1_utils_context_t * context,
  * Gets a button bitmap from the menucache. Returns non NULL if successfull.
  */
 mod_gl1_utils_bitmap_t *
-mod_gl1_utils_get_button_from_menucache (mod_gl1_utils_context_t * context,
-					 const lw6gui_look_t * look,
-					 const lw6gui_menuitem_t * menuitem)
+mod_gl1_utils_get_button_from_menucache (mod_gl1_utils_context_t * context, const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
 {
   mod_gl1_utils_menucache_array_t *menucache_array;
   mod_gl1_utils_bitmap_t *bitmap = NULL;
@@ -116,8 +105,7 @@ mod_gl1_utils_get_button_from_menucache (mod_gl1_utils_context_t * context,
     {
       for (i = 0; i < MOD_GL1_UTILS_MENUCACHE_ARRAY_SIZE; ++i)
 	{
-	  if (menucache_array->item_array[i].key != NULL &&
-	      menucache_array->item_array[i].bitmap != NULL)
+	  if (menucache_array->item_array[i].key != NULL && menucache_array->item_array[i].bitmap != NULL)
 	    {
 	      if (strcmp (key, menucache_array->item_array[i].key) == 0)
 		{
@@ -178,8 +166,7 @@ mod_gl1_utils_clear_menucache (mod_gl1_utils_context_t * context)
     }
   if (menucache_array->breadcrumbs_bitmap)
     {
-      mod_gl1_utils_bitmap_free (context,
-				 menucache_array->breadcrumbs_bitmap);
+      mod_gl1_utils_bitmap_free (context, menucache_array->breadcrumbs_bitmap);
     }
   if (menucache_array->popup_str)
     {

@@ -47,9 +47,7 @@ lw6hlp_type_t;
 
 /* hlp-about.c */
 extern int lw6hlp_is_documented (const char *keyword);
-extern const char *lw6hlp_about (lw6hlp_type_t * type,
-				 const char **default_value, int *min_value,
-				 int *max_value, const char *keyword);
+extern const char *lw6hlp_about (lw6hlp_type_t * type, const char **default_value, int *min_value, int *max_value, const char *keyword);
 extern lw6hlp_type_t lw6hlp_get_type (const char *keyword);
 extern const char *lw6hlp_get_default_value (const char *keyword);
 extern int lw6hlp_get_min_value (const char *keyword);
@@ -59,8 +57,7 @@ extern int lw6hlp_get_max_value (const char *keyword);
 extern char *lw6hlp_get_credits (int id);
 
 /* hlp-options.c */
-extern int lw6hlp_process_non_run_options (int argc, const char *argv[],
-					   int *run_game);
+extern int lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game);
 
 /* hlp-keyword.c */
 extern int lw6hlp_match (const char *keyword1, const char *keyword2);

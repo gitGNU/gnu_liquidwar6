@@ -47,8 +47,7 @@
  * Return value: newly allocated string, containing 20 chars checksum.
  */
 char *
-lw6glb_sha1_hmac_80_bin (lw6sys_context_t * sys_context, const char *key,
-			 int key_size, const char *buf, int buf_size)
+lw6glb_sha1_hmac_80_bin (lw6sys_context_t * sys_context, const char *key, int key_size, const char *buf, int buf_size)
 {
   char *ret = NULL;
   char sha1_bin[_SHA1_SIZE];
@@ -64,8 +63,7 @@ lw6glb_sha1_hmac_80_bin (lw6sys_context_t * sys_context, const char *key,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("error calculating SHA-1 sum for %d bytes"), buf_size);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("error calculating SHA-1 sum for %d bytes"), buf_size);
     }
 
   return ret;
@@ -83,8 +81,7 @@ lw6glb_sha1_hmac_80_bin (lw6sys_context_t * sys_context, const char *key,
  * Return value: newly allocated string, containing 20 chars checksum.
  */
 char *
-lw6glb_sha1_hmac_80_str (lw6sys_context_t * sys_context, const char *key,
-			 const char *str)
+lw6glb_sha1_hmac_80_str (lw6sys_context_t * sys_context, const char *key, const char *str)
 {
   char *ret = NULL;
 
@@ -96,9 +93,7 @@ lw6glb_sha1_hmac_80_str (lw6sys_context_t * sys_context, const char *key,
     {
       str = _SHA1_EMPTY;
     }
-  ret =
-    lw6glb_sha1_hmac_80_bin (sys_context, key, strlen (key), str,
-			     strlen (str));
+  ret = lw6glb_sha1_hmac_80_bin (sys_context, key, strlen (key), str, strlen (str));
 
   return ret;
 }
@@ -117,8 +112,7 @@ lw6glb_sha1_hmac_80_str (lw6sys_context_t * sys_context, const char *key,
  * Return value: a 32-bit unsigned integer
  */
 u_int32_t
-lw6glb_sha1_hmac_32_bin (lw6sys_context_t * sys_context, const char *key,
-			 int key_size, const char *buf, int buf_size)
+lw6glb_sha1_hmac_32_bin (lw6sys_context_t * sys_context, const char *key, int key_size, const char *buf, int buf_size)
 {
   u_int32_t ret = 0;
   char sha1_bin[_SHA1_SIZE];
@@ -130,14 +124,11 @@ lw6glb_sha1_hmac_32_bin (lw6sys_context_t * sys_context, const char *key,
        * We only convert the 10 first bytes, this way we reveal
        * less information when sending password hashes on the net.
        */
-      ret =
-	(u_int32_t) lw6sys_unserialize_int32 (sys_context,
-					      (unsigned char *) sha1_bin);
+      ret = (u_int32_t) lw6sys_unserialize_int32 (sys_context, (unsigned char *) sha1_bin);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("error calculating SHA-1 sum for %d bytes"), buf_size);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("error calculating SHA-1 sum for %d bytes"), buf_size);
     }
 
   return ret;
@@ -155,8 +146,7 @@ lw6glb_sha1_hmac_32_bin (lw6sys_context_t * sys_context, const char *key,
  * Return value: a 32-bit unsigned integer
  */
 u_int32_t
-lw6glb_sha1_hmac_32_str (lw6sys_context_t * sys_context, const char *key,
-			 const char *str)
+lw6glb_sha1_hmac_32_str (lw6sys_context_t * sys_context, const char *key, const char *str)
 {
   u_int32_t ret = 0;
 
@@ -168,9 +158,7 @@ lw6glb_sha1_hmac_32_str (lw6sys_context_t * sys_context, const char *key,
     {
       str = _SHA1_EMPTY;
     }
-  ret =
-    lw6glb_sha1_hmac_32_bin (sys_context, key, strlen (key), str,
-			     strlen (str));
+  ret = lw6glb_sha1_hmac_32_bin (sys_context, key, strlen (key), str, strlen (str));
 
   return ret;
 }

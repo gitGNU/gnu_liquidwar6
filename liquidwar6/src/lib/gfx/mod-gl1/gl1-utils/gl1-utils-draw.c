@@ -28,8 +28,7 @@
 #include "gl1-utils.h"
 
 void
-mod_gl1_utils_draw_rectfill (SDL_Surface * surface, int x1, int y1, int x2,
-			     int y2, Uint32 color)
+mod_gl1_utils_draw_rectfill (SDL_Surface * surface, int x1, int y1, int x2, int y2, Uint32 color)
 {
   /*
    * The slowest implementation ever, however optimizing
@@ -49,8 +48,7 @@ mod_gl1_utils_draw_rectfill (SDL_Surface * surface, int x1, int y1, int x2,
 }
 
 void
-mod_gl1_utils_draw_set_alpha_for_color (SDL_Surface * surface, float alpha,
-					Uint32 color)
+mod_gl1_utils_draw_set_alpha_for_color (SDL_Surface * surface, float alpha, Uint32 color)
 {
   int x, y, w, h;
   Uint32 pixel_color;

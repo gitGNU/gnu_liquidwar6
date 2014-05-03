@@ -35,8 +35,7 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
 		   const lw6ker_game_state_t * game_state,
 		   lw6pil_local_cursors_t * local_cursors,
 		   lw6gui_menu_t * menu, float progress, float fps, float mps,
-		   const char **log_list, int capture, int gfx_debug,
-		   int debug_team_id, int debug_layer_id)
+		   const char **log_list, int capture, int gfx_debug, int debug_team_id, int debug_layer_id)
 {
   int ret = 1;
   int wc, hc;
@@ -65,20 +64,17 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
       if ((mask & LW6GUI_DISPLAY_MAP) && game_state)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("display step=map"));
-	  _mod_caca_display_map (caca_context, look, game_state, game_struct,
-				 local_cursors);
+	  _mod_caca_display_map (caca_context, look, game_state, game_struct, local_cursors);
 
 	}
       if ((mask & LW6GUI_DISPLAY_FIGHTERS) && game_state)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("display step=fighters"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("display step=fighters"));
 
 	}
       if ((mask & LW6GUI_DISPLAY_CURSORS) && game_state)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("display step=cursor"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("display step=cursor"));
 	  // Why not ?
 	}
       if ((mask & LW6GUI_DISPLAY_HUD) && game_state)
@@ -88,20 +84,16 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
 	}
       if ((mask & LW6GUI_DISPLAY_SCORE) && game_state)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("display step=score"));
-	  _mod_caca_display_score (caca_context, look, game_state,
-				   game_struct);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("display step=score"));
+	  _mod_caca_display_score (caca_context, look, game_state, game_struct);
 	}
       if ((mask & LW6GUI_DISPLAY_PROGRESS))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("display step=progress"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("display step=progress"));
 	}
       if ((mask & LW6GUI_DISPLAY_MENU) && menu)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("display step=menu"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("display step=menu"));
 	  _mod_caca_display_menu (caca_context, look, menu);
 	}
     }

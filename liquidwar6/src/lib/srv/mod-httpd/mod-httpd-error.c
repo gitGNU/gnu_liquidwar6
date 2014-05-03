@@ -72,18 +72,10 @@ _mod_httpd_http_error (_mod_httpd_context_t * httpd_context, int status)
 				httpd_context->data.consts.header_description,
 				httpd_context->data.consts.header_keywords,
 				lw6sys_build_get_copyright (),
-				lw6sys_build_get_package_tarname
-				(sys_context,), status, status_text,
-				lw6sys_build_get_package_name (sys_context,),
-				date_str);
+				lw6sys_build_get_package_tarname (sys_context,), status, status_text, lw6sys_build_get_package_name (sys_context,), date_str);
 	  if (content)
 	    {
-	      response =
-		_mod_httpd_response_from_str (httpd_context, status, 1, 0,
-					      NULL,
-					      httpd_context->data.
-					      consts.content_type_html,
-					      content);
+	      response = _mod_httpd_response_from_str (httpd_context, status, 1, 0, NULL, httpd_context->data.consts.content_type_html, content);
 	      LW6SYS_FREE (sys_context, content);
 	      content = NULL;
 	    }

@@ -52,8 +52,7 @@ mod_gl1_utils_create_surface (mod_gl1_utils_context_t * context, int w, int h)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create image"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create image"));
     }
 
   return image;
@@ -63,8 +62,7 @@ mod_gl1_utils_create_surface (mod_gl1_utils_context_t * context, int w, int h)
  * Basic wrapper to handle errors and use our defaults settings.
  */
 void
-mod_gl1_utils_delete_surface (mod_gl1_utils_context_t * context,
-			      SDL_Surface * surface)
+mod_gl1_utils_delete_surface (mod_gl1_utils_context_t * context, SDL_Surface * surface)
 {
   if (surface != NULL)
     {
@@ -73,17 +71,14 @@ mod_gl1_utils_delete_surface (mod_gl1_utils_context_t * context,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL surface"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL surface"));
     }
 }
 
 void
-mod_gl1_utils_clear_surface_with_color (SDL_Surface * surface,
-					SDL_Color color)
+mod_gl1_utils_clear_surface_with_color (SDL_Surface * surface, SDL_Color color)
 {
-  SDL_FillRect (surface, NULL,
-		SDL_MapRGB (surface->format, color.r, color.g, color.b));
+  SDL_FillRect (surface, NULL, SDL_MapRGB (surface->format, color.r, color.g, color.b));
 }
 
 void
@@ -93,8 +88,7 @@ mod_gl1_utils_clear_surface (SDL_Surface * surface)
 }
 
 static SDL_Surface *
-map2surface_xywh (mod_gl1_utils_context_t * gfx_context,
-		  const lw6map_level_t * level, int x, int y, int w, int h)
+map2surface_xywh (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level, int x, int y, int w, int h)
 {
   SDL_Surface *ret;
   int i, j;
@@ -113,9 +107,7 @@ map2surface_xywh (mod_gl1_utils_context_t * gfx_context,
 	  for (j = 0; j < level->texture.h; ++j)
 	    {
 	      color_8 = lw6map_texture_get (&level->texture, i, j);
-	      mod_gl1_utils_putpixel (ret, i + x, j + y,
-				      lw6sys_color_8_to_irgba (sys_context,
-							       color_8));
+	      mod_gl1_utils_putpixel (ret, i + x, j + y, lw6sys_color_8_to_irgba (sys_context, color_8));
 	    }
 	}
     }
@@ -124,28 +116,23 @@ map2surface_xywh (mod_gl1_utils_context_t * gfx_context,
 }
 
 static SDL_Surface *
-map2surface_wh (mod_gl1_utils_context_t * gfx_context,
-		const lw6map_level_t * level, int w, int h)
+map2surface_wh (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level, int w, int h)
 {
   return map2surface_xywh (gfx_context, level, 0, 0, w, h);
 }
 
 static SDL_Surface *
-map2surface (mod_gl1_utils_context_t * gfx_context,
-	     const lw6map_level_t * level)
+map2surface (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level)
 {
   /*
    * No need to use the closest power of 2 here, it does not
    * make sense for a surface (but it surely does for a texture).
    */
-  return map2surface_wh (gfx_context, level, level->texture.w,
-			 level->texture.h);
+  return map2surface_wh (gfx_context, level, level->texture.w, level->texture.h);
 }
 
 SDL_Surface *
-mod_gl1_utils_map2surface_xywh (mod_gl1_utils_context_t * gfx_context,
-				const lw6map_level_t * level, int x, int y,
-				int w, int h)
+mod_gl1_utils_map2surface_xywh (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level, int x, int y, int w, int h)
 {
   SDL_Surface *surface;
 
@@ -155,8 +142,7 @@ mod_gl1_utils_map2surface_xywh (mod_gl1_utils_context_t * gfx_context,
 }
 
 SDL_Surface *
-mod_gl1_utils_map2surface_wh (mod_gl1_utils_context_t * gfx_context,
-			      const lw6map_level_t * level, int w, int h)
+mod_gl1_utils_map2surface_wh (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level, int w, int h)
 {
   SDL_Surface *surface;
 
@@ -166,8 +152,7 @@ mod_gl1_utils_map2surface_wh (mod_gl1_utils_context_t * gfx_context,
 }
 
 SDL_Surface *
-mod_gl1_utils_map2surface (mod_gl1_utils_context_t * gfx_context,
-			   const lw6map_level_t * level)
+mod_gl1_utils_map2surface (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level)
 {
   SDL_Surface *surface;
 

@@ -81,8 +81,7 @@ lw6gui_smoother_immediate_force (lw6gui_smoother_t * smoother, float value)
  * Return value: none.
  */
 void
-lw6gui_smoother_set_target (lw6gui_smoother_t * smoother, float value,
-			    int64_t now)
+lw6gui_smoother_set_target (lw6gui_smoother_t * smoother, float value, int64_t now)
 {
   float y = 0.0f;
   float s = 0.0f;
@@ -91,9 +90,7 @@ lw6gui_smoother_set_target (lw6gui_smoother_t * smoother, float value,
     {
       if (smoother->t1 > 0)
 	{
-	  lw6sys_math_poly_wy1y2s1 (&y, &s, now - smoother->t1,
-				    smoother->duration, smoother->y1,
-				    smoother->y2, smoother->s1);
+	  lw6sys_math_poly_wy1y2s1 (&y, &s, now - smoother->t1, smoother->duration, smoother->y1, smoother->y2, smoother->s1);
 	  smoother->y1 = y;
 	  smoother->s1 = s;
 	}
@@ -124,9 +121,7 @@ lw6gui_smoother_get_value (const lw6gui_smoother_t * smoother, int64_t now)
 
   if (smoother->t1 > 0)
     {
-      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, now - smoother->t1,
-				smoother->duration, smoother->y1,
-				smoother->y2, smoother->s1);
+      lw6sys_math_poly_wy1y2s1 (sys_context, &ret, NULL, now - smoother->t1, smoother->duration, smoother->y1, smoother->y2, smoother->s1);
     }
   else
     {

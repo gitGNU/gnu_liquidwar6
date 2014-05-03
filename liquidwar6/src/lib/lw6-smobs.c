@@ -80,15 +80,12 @@ free_dsp (SCM dsp)
     {
       if (lw6_global.dsp_smobs)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("request free dsp smob \"%s\""), id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free dsp smob \"%s\""), id);
 	  lw6sys_assoc_unset (lw6_global.dsp_smobs, id);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("request free dsp smob \"%s\" but assoc is NULL"),
-		      id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free dsp smob \"%s\" but assoc is NULL"), id);
 	}
       LW6SYS_FREE (id);
     }
@@ -150,11 +147,9 @@ lw6_make_scm_dsp (lw6dsp_backend_t * c_dsp)
 	  repr = lw6dsp_repr (c_dsp);
 	  if (repr)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("creating dsp smob \"%s\""), repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating dsp smob \"%s\""), repr);
 	      LW6_MUTEX_LOCK;
-	      lw6sys_assoc_set (sys_context, &lw6_global.dsp_smobs, id,
-				(void *) dsp_smob);
+	      lw6sys_assoc_set (sys_context, &lw6_global.dsp_smobs, id, (void *) dsp_smob);
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
@@ -163,8 +158,7 @@ lw6_make_scm_dsp (lw6dsp_backend_t * c_dsp)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create dsp smob, expect trouble"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create dsp smob, expect trouble"));
     }
 
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.dsp, dsp_smob);
@@ -210,8 +204,7 @@ lw6_free_dsp_smob (lw6_dsp_smob_t * dsp_smob)
   repr = lw6dsp_repr (dsp_smob->c_dsp);
   if (repr)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("freeing dsp smob \"%s\""), repr);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing dsp smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
@@ -243,15 +236,12 @@ free_snd (SCM snd)
     {
       if (lw6_global.snd_smobs)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("request free snd smob \"%s\""), id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free snd smob \"%s\""), id);
 	  lw6sys_assoc_unset (lw6_global.snd_smobs, id);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("request free snd smob \"%s\" but assoc is NULL"),
-		      id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free snd smob \"%s\" but assoc is NULL"), id);
 	}
       LW6SYS_FREE (id);
     }
@@ -309,11 +299,9 @@ lw6_make_scm_snd (lw6snd_backend_t * c_snd)
 	  repr = lw6snd_repr (c_snd);
 	  if (repr)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("creating snd smob \"%s\""), repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating snd smob \"%s\""), repr);
 	      LW6_MUTEX_LOCK;
-	      lw6sys_assoc_set (sys_context, &lw6_global.snd_smobs, id,
-				(void *) snd_smob);
+	      lw6sys_assoc_set (sys_context, &lw6_global.snd_smobs, id, (void *) snd_smob);
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
@@ -322,8 +310,7 @@ lw6_make_scm_snd (lw6snd_backend_t * c_snd)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create snd smob, expect trouble"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create snd smob, expect trouble"));
     }
 
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.snd, snd_smob);
@@ -369,8 +356,7 @@ lw6_free_snd_smob (lw6_snd_smob_t * snd_smob)
   repr = lw6snd_repr (snd_smob->c_snd);
   if (repr)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("freeing snd smob \"%s\""), repr);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing snd smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
@@ -402,15 +388,12 @@ free_map (SCM map)
     {
       if (lw6_global.map_smobs)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("request free map smob \"%s\""), id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free map smob \"%s\""), id);
 	  lw6sys_assoc_unset (lw6_global.map_smobs, id);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("request free map smob \"%s\" but assoc is NULL"),
-		      id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free map smob \"%s\" but assoc is NULL"), id);
 	}
       LW6SYS_FREE (id);
     }
@@ -476,11 +459,9 @@ lw6_make_scm_map (lw6map_level_t * c_map)
 	  repr = lw6map_repr (sys_context, c_map);
 	  if (repr)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("creating map smob \"%s\""), repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating map smob \"%s\""), repr);
 	      LW6_MUTEX_LOCK;
-	      lw6sys_assoc_set (sys_context, &lw6_global.map_smobs, id,
-				(void *) map_smob);
+	      lw6sys_assoc_set (sys_context, &lw6_global.map_smobs, id, (void *) map_smob);
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
@@ -489,8 +470,7 @@ lw6_make_scm_map (lw6map_level_t * c_map)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create map smob, expect trouble"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create map smob, expect trouble"));
     }
 
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.map, map_smob);
@@ -536,8 +516,7 @@ lw6_free_map_smob (lw6_map_smob_t * map_smob)
   repr = lw6map_repr (map_smob->c_map);
   if (repr)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("freeing map smob \"%s\""), repr);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing map smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
@@ -562,22 +541,18 @@ free_menu (SCM menu)
 
   LW6_MUTEX_LOCK;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("garbage collect menu smob"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect menu smob"));
   id = smob_id (SMOB_TYPE_MENU, menu_smob->c_menu->id);
   if (id)
     {
       if (lw6_global.menu_smobs)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("request free menu smob \"%s\""), id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free menu smob \"%s\""), id);
 	  lw6sys_assoc_unset (lw6_global.menu_smobs, id);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("request free menu smob \"%s\" but assoc is NULL"),
-		      id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free menu smob \"%s\" but assoc is NULL"), id);
 	}
       LW6SYS_FREE (id);
     }
@@ -634,11 +609,9 @@ lw6_make_scm_menu (lw6gui_menu_t * c_menu)
 	  repr = lw6gui_menu_repr (c_menu);
 	  if (repr)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("creating menu smob \"%s\""), repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating menu smob \"%s\""), repr);
 	      LW6_MUTEX_LOCK;
-	      lw6sys_assoc_set (sys_context, &lw6_global.menu_smobs, id,
-				(void *) menu_smob);
+	      lw6sys_assoc_set (sys_context, &lw6_global.menu_smobs, id, (void *) menu_smob);
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
@@ -647,8 +620,7 @@ lw6_make_scm_menu (lw6gui_menu_t * c_menu)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create menu smob, expect trouble"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create menu smob, expect trouble"));
     }
 
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.menu, menu_smob);
@@ -694,8 +666,7 @@ lw6_free_menu_smob (lw6_menu_smob_t * menu_smob)
   repr = lw6gui_menu_repr (menu_smob->c_menu);
   if (repr)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("freeing menu smob \"%s\""), repr);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing menu smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
@@ -709,8 +680,7 @@ lw6_free_menu_smob (lw6_menu_smob_t * menu_smob)
 static SCM
 mark_game_struct (SCM game_struct)
 {
-  lw6_game_struct_smob_t *game_struct_smob =
-    (lw6_game_struct_smob_t *) SCM_SMOB_DATA (game_struct);
+  lw6_game_struct_smob_t *game_struct_smob = (lw6_game_struct_smob_t *) SCM_SMOB_DATA (game_struct);
 
   scm_gc_mark (game_struct_smob->map);
 
@@ -721,28 +691,22 @@ static size_t
 free_game_struct (SCM game_struct)
 {
   char *id = NULL;
-  lw6_game_struct_smob_t *game_struct_smob =
-    (lw6_game_struct_smob_t *) SCM_SMOB_DATA (game_struct);
+  lw6_game_struct_smob_t *game_struct_smob = (lw6_game_struct_smob_t *) SCM_SMOB_DATA (game_struct);
 
   LW6_MUTEX_LOCK;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("garbage collect game struct smob"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect game struct smob"));
   id = smob_id (SMOB_TYPE_GAME_STRUCT, game_struct_smob->c_game_struct->id);
   if (id)
     {
       if (lw6_global.game_struct_smobs)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("request free game struct smob \"%s\""), id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free game struct smob \"%s\""), id);
 	  lw6sys_assoc_unset (lw6_global.game_struct_smobs, id);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("request free game struct smob \"%s\" but assoc is NULL"),
-		      id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free game struct smob \"%s\" but assoc is NULL"), id);
 	}
       LW6SYS_FREE (id);
     }
@@ -792,9 +756,7 @@ lw6_make_scm_game_struct (lw6ker_game_struct_t * c_game_struct, SCM map)
 
   scm_gc ();
 
-  game_struct_smob =
-    (lw6_game_struct_smob_t *)
-    LW6SYS_CALLOC (sizeof (lw6_game_struct_smob_t));
+  game_struct_smob = (lw6_game_struct_smob_t *) LW6SYS_CALLOC (sizeof (lw6_game_struct_smob_t));
   if (game_struct_smob)
     {
       game_struct_smob->c_game_struct = c_game_struct;
@@ -805,11 +767,9 @@ lw6_make_scm_game_struct (lw6ker_game_struct_t * c_game_struct, SCM map)
 	  repr = lw6ker_game_struct_repr (sys_context, c_game_struct);
 	  if (repr)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("creating game struct smob \"%s\""), repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating game struct smob \"%s\""), repr);
 	      LW6_MUTEX_LOCK;
-	      lw6sys_assoc_set (sys_context, &lw6_global.game_struct_smobs,
-				id, (void *) game_struct_smob);
+	      lw6sys_assoc_set (sys_context, &lw6_global.game_struct_smobs, id, (void *) game_struct_smob);
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
@@ -818,8 +778,7 @@ lw6_make_scm_game_struct (lw6ker_game_struct_t * c_game_struct, SCM map)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create game struct smob, expect trouble"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create game struct smob, expect trouble"));
     }
 
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.game_struct, game_struct_smob);
@@ -840,8 +799,7 @@ lw6_scm_to_game_struct (SCM game_struct)
 {
   lw6ker_game_struct_t *c_game_struct;
 
-  c_game_struct =
-    ((lw6_game_struct_smob_t *) SCM_SMOB_DATA (game_struct))->c_game_struct;
+  c_game_struct = ((lw6_game_struct_smob_t *) SCM_SMOB_DATA (game_struct))->c_game_struct;
 
   return c_game_struct;
 }
@@ -863,12 +821,10 @@ lw6_free_game_struct_smob (lw6_game_struct_smob_t * game_struct_smob)
 {
   char *repr = NULL;
 
-  repr =
-    lw6ker_game_struct_repr (sys_context, game_struct_smob->c_game_struct);
+  repr = lw6ker_game_struct_repr (sys_context, game_struct_smob->c_game_struct);
   if (repr)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("freeing game struct smob \"%s\""), repr);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing game struct smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
@@ -882,8 +838,7 @@ lw6_free_game_struct_smob (lw6_game_struct_smob_t * game_struct_smob)
 static SCM
 mark_game_state (SCM game_state)
 {
-  lw6_game_state_smob_t *game_state_smob =
-    (lw6_game_state_smob_t *) SCM_SMOB_DATA (game_state);
+  lw6_game_state_smob_t *game_state_smob = (lw6_game_state_smob_t *) SCM_SMOB_DATA (game_state);
 
   scm_gc_mark (game_state_smob->game_struct);
 
@@ -894,28 +849,22 @@ static size_t
 free_game_state (SCM game_state)
 {
   char *id = NULL;
-  lw6_game_state_smob_t *game_state_smob =
-    (lw6_game_state_smob_t *) SCM_SMOB_DATA (game_state);
+  lw6_game_state_smob_t *game_state_smob = (lw6_game_state_smob_t *) SCM_SMOB_DATA (game_state);
 
   LW6_MUTEX_LOCK;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("garbage collect game state smob"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect game state smob"));
   id = smob_id (SMOB_TYPE_GAME_STATE, game_state_smob->c_game_state->id);
   if (id)
     {
       if (lw6_global.game_state_smobs)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("request free game state smob \"%s\""), id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free game state smob \"%s\""), id);
 	  lw6sys_assoc_unset (lw6_global.game_state_smobs, id);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("request free game state smob \"%s\" but assoc is NULL"),
-		      id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free game state smob \"%s\" but assoc is NULL"), id);
 	}
       LW6SYS_FREE (id);
     }
@@ -965,8 +914,7 @@ lw6_make_scm_game_state (lw6ker_game_state_t * c_game_state, SCM game_struct)
 
   scm_gc ();
 
-  game_state_smob =
-    (lw6_game_state_smob_t *) LW6SYS_CALLOC (sizeof (lw6_game_state_smob_t));
+  game_state_smob = (lw6_game_state_smob_t *) LW6SYS_CALLOC (sizeof (lw6_game_state_smob_t));
   if (game_state_smob)
     {
       game_state_smob->c_game_state = c_game_state;
@@ -977,11 +925,9 @@ lw6_make_scm_game_state (lw6ker_game_state_t * c_game_state, SCM game_struct)
 	  repr = lw6ker_game_state_repr (sys_context, c_game_state);
 	  if (repr)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("creating game state smob \"%s\""), repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating game state smob \"%s\""), repr);
 	      LW6_MUTEX_LOCK;
-	      lw6sys_assoc_set (sys_context, &lw6_global.game_state_smobs, id,
-				(void *) game_state_smob);
+	      lw6sys_assoc_set (sys_context, &lw6_global.game_state_smobs, id, (void *) game_state_smob);
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
@@ -990,8 +936,7 @@ lw6_make_scm_game_state (lw6ker_game_state_t * c_game_state, SCM game_struct)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create game state smob, expect trouble"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create game state smob, expect trouble"));
     }
 
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.game_state, game_state_smob);
@@ -1012,8 +957,7 @@ lw6_scm_to_game_state (SCM game_state)
 {
   lw6ker_game_state_t *c_game_state;
 
-  c_game_state =
-    ((lw6_game_state_smob_t *) SCM_SMOB_DATA (game_state))->c_game_state;
+  c_game_state = ((lw6_game_state_smob_t *) SCM_SMOB_DATA (game_state))->c_game_state;
 
   return c_game_state;
 }
@@ -1038,8 +982,7 @@ lw6_free_game_state_smob (lw6_game_state_smob_t * game_state_smob)
   repr = lw6ker_game_state_repr (sys_context, game_state_smob->c_game_state);
   if (repr)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("freeing game state smob \"%s\""), repr);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing game state smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
@@ -1064,23 +1007,18 @@ free_pilot (SCM pilot)
 
   LW6_MUTEX_LOCK;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("garbage collect pilot smob"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect pilot smob"));
   id = smob_id (SMOB_TYPE_PILOT, pilot_smob->c_pilot->id);
   if (id)
     {
       if (lw6_global.pilot_smobs)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("request free pilot smob \"%s\""), id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free pilot smob \"%s\""), id);
 	  lw6sys_assoc_unset (lw6_global.pilot_smobs, id);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("request free pilot smob \"%s\" but assoc is NULL"),
-		      id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free pilot smob \"%s\" but assoc is NULL"), id);
 	}
       LW6SYS_FREE (id);
     }
@@ -1137,11 +1075,9 @@ lw6_make_scm_pilot (lw6pil_pilot_t * c_pilot)
 	  repr = lw6pil_pilot_repr (c_pilot);
 	  if (repr)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("creating pilot smob \"%s\""), repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating pilot smob \"%s\""), repr);
 	      LW6_MUTEX_LOCK;
-	      lw6sys_assoc_set (sys_context, &lw6_global.pilot_smobs, id,
-				(void *) pilot_smob);
+	      lw6sys_assoc_set (sys_context, &lw6_global.pilot_smobs, id, (void *) pilot_smob);
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
@@ -1150,8 +1086,7 @@ lw6_make_scm_pilot (lw6pil_pilot_t * c_pilot)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create pilot smob, expect trouble"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create pilot smob, expect trouble"));
     }
 
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.pilot, pilot_smob);
@@ -1197,8 +1132,7 @@ lw6_free_pilot_smob (lw6_pilot_smob_t * pilot_smob)
   repr = lw6pil_pilot_repr (pilot_smob->c_pilot);
   if (repr)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("freeing pilot smob \"%s\""), repr);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing pilot smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
@@ -1234,15 +1168,12 @@ free_bot (SCM bot)
     {
       if (lw6_global.bot_smobs)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("request free bot smob \"%s\""), id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free bot smob \"%s\""), id);
 	  lw6sys_assoc_unset (lw6_global.bot_smobs, id);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("request free bot smob \"%s\" but assoc is NULL"),
-		      id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free bot smob \"%s\" but assoc is NULL"), id);
 	}
       LW6SYS_FREE (id);
     }
@@ -1306,11 +1237,9 @@ lw6_make_scm_bot (lw6bot_backend_t * c_bot, SCM game_state, SCM pilot)
 	  repr = lw6bot_repr (c_bot);
 	  if (repr)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("creating bot smob \"%s\""), repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating bot smob \"%s\""), repr);
 	      LW6_MUTEX_LOCK;
-	      lw6sys_assoc_set (sys_context, &lw6_global.bot_smobs, id,
-				(void *) bot_smob);
+	      lw6sys_assoc_set (sys_context, &lw6_global.bot_smobs, id, (void *) bot_smob);
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
@@ -1319,8 +1248,7 @@ lw6_make_scm_bot (lw6bot_backend_t * c_bot, SCM game_state, SCM pilot)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create bot smob, expect trouble"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create bot smob, expect trouble"));
     }
 
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.bot, bot_smob);
@@ -1366,8 +1294,7 @@ lw6_free_bot_smob (lw6_bot_smob_t * bot_smob)
   repr = lw6bot_repr (bot_smob->c_bot);
   if (repr)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("freeing bot smob \"%s\""), repr);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing bot smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
@@ -1393,22 +1320,18 @@ free_look (SCM look)
 
   LW6_MUTEX_LOCK;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("garbage collect look smob"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect look smob"));
   id = smob_id (SMOB_TYPE_LOOK, look_smob->c_look->id);
   if (id)
     {
       if (lw6_global.look_smobs)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("request free look smob \"%s\""), id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free look smob \"%s\""), id);
 	  lw6sys_assoc_unset (lw6_global.look_smobs, id);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("request free look smob \"%s\" but assoc is NULL"),
-		      id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free look smob \"%s\" but assoc is NULL"), id);
 	}
       LW6SYS_FREE (id);
     }
@@ -1465,11 +1388,9 @@ lw6_make_scm_look (lw6gui_look_t * c_look)
 	  repr = lw6gui_look_repr (c_look);
 	  if (repr)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("creating look smob \"%s\""), repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating look smob \"%s\""), repr);
 	      LW6_MUTEX_LOCK;
-	      lw6sys_assoc_set (sys_context, &lw6_global.look_smobs, id,
-				(void *) look_smob);
+	      lw6sys_assoc_set (sys_context, &lw6_global.look_smobs, id, (void *) look_smob);
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
@@ -1478,8 +1399,7 @@ lw6_make_scm_look (lw6gui_look_t * c_look)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create look smob, expect trouble"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create look smob, expect trouble"));
     }
 
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.look, look_smob);
@@ -1525,8 +1445,7 @@ lw6_free_look_smob (lw6_look_smob_t * look_smob)
   repr = lw6gui_look_repr (look_smob->c_look);
   if (repr)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("freeing look smob \"%s\""), repr);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing look smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
@@ -1547,28 +1466,22 @@ static size_t
 free_loader (SCM loader)
 {
   char *id = NULL;
-  lw6_loader_smob_t *loader_smob =
-    (lw6_loader_smob_t *) SCM_SMOB_DATA (loader);
+  lw6_loader_smob_t *loader_smob = (lw6_loader_smob_t *) SCM_SMOB_DATA (loader);
 
   LW6_MUTEX_LOCK;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("garbage collect loader smob"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect loader smob"));
   id = smob_id (SMOB_TYPE_LOADER, loader_smob->c_loader->id);
   if (id)
     {
       if (lw6_global.loader_smobs)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("request free loader smob \"%s\""), id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free loader smob \"%s\""), id);
 	  lw6sys_assoc_unset (lw6_global.loader_smobs, id);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("request free loader smob \"%s\" but assoc is NULL"),
-		      id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free loader smob \"%s\" but assoc is NULL"), id);
 	}
       LW6SYS_FREE (id);
     }
@@ -1615,8 +1528,7 @@ lw6_make_scm_loader (lw6tsk_loader_t * c_loader)
 
   scm_gc ();
 
-  loader_smob =
-    (lw6_loader_smob_t *) LW6SYS_CALLOC (sizeof (lw6_loader_smob_t));
+  loader_smob = (lw6_loader_smob_t *) LW6SYS_CALLOC (sizeof (lw6_loader_smob_t));
   if (loader_smob)
     {
       loader_smob->c_loader = c_loader;
@@ -1626,11 +1538,9 @@ lw6_make_scm_loader (lw6tsk_loader_t * c_loader)
 	  repr = lw6tsk_loader_repr (c_loader);
 	  if (repr)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("creating loader smob \"%s\""), repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating loader smob \"%s\""), repr);
 	      LW6_MUTEX_LOCK;
-	      lw6sys_assoc_set (sys_context, &lw6_global.loader_smobs, id,
-				(void *) loader_smob);
+	      lw6sys_assoc_set (sys_context, &lw6_global.loader_smobs, id, (void *) loader_smob);
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
@@ -1639,8 +1549,7 @@ lw6_make_scm_loader (lw6tsk_loader_t * c_loader)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create loader smob, expect trouble"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create loader smob, expect trouble"));
     }
 
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.loader, loader_smob);
@@ -1686,8 +1595,7 @@ lw6_free_loader_smob (lw6_loader_smob_t * loader_smob)
   repr = lw6tsk_loader_repr (loader_smob->c_loader);
   if (repr)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("freeing loader smob \"%s\""), repr);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing loader smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
@@ -1718,15 +1626,12 @@ free_db (SCM db)
     {
       if (lw6_global.db_smobs)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("request free db smob \"%s\""), id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free db smob \"%s\""), id);
 	  lw6sys_assoc_unset (lw6_global.db_smobs, id);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("request free db smob \"%s\" but assoc is NULL"),
-		      id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free db smob \"%s\" but assoc is NULL"), id);
 	}
       LW6SYS_FREE (id);
     }
@@ -1783,11 +1688,9 @@ lw6_make_scm_db (lw6p2p_db_t * c_db)
 	  repr = lw6p2p_db_repr (c_db);
 	  if (repr)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("creating db smob \"%s\""), repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating db smob \"%s\""), repr);
 	      LW6_MUTEX_LOCK;
-	      lw6sys_assoc_set (sys_context, &lw6_global.db_smobs, id,
-				(void *) db_smob);
+	      lw6sys_assoc_set (sys_context, &lw6_global.db_smobs, id, (void *) db_smob);
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
@@ -1796,8 +1699,7 @@ lw6_make_scm_db (lw6p2p_db_t * c_db)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create db smob, expect trouble"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create db smob, expect trouble"));
     }
 
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.db, db_smob);
@@ -1843,8 +1745,7 @@ lw6_free_db_smob (lw6_db_smob_t * db_smob)
   repr = lw6p2p_db_repr (db_smob->c_db);
   if (repr)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("freeing db smob \"%s\""), repr);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing db smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
@@ -1873,22 +1774,18 @@ free_node (SCM node)
 
   LW6_MUTEX_LOCK;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("garbage collect node smob"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect node smob"));
   id = smob_id (SMOB_TYPE_NODE, node_smob->c_node->id);
   if (id)
     {
       if (lw6_global.node_smobs)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("request free node smob \"%s\""), id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free node smob \"%s\""), id);
 	  lw6sys_assoc_unset (lw6_global.node_smobs, id);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("request free node smob \"%s\" but assoc is NULL"),
-		      id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free node smob \"%s\" but assoc is NULL"), id);
 	}
       LW6SYS_FREE (id);
     }
@@ -1950,11 +1847,9 @@ lw6_make_scm_node (lw6p2p_node_t * c_node, SCM db)
 	  repr = lw6p2p_node_repr (c_node);
 	  if (repr)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("creating node smob \"%s\""), repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating node smob \"%s\""), repr);
 	      LW6_MUTEX_LOCK;
-	      lw6sys_assoc_set (sys_context, &lw6_global.node_smobs, id,
-				(void *) node_smob);
+	      lw6sys_assoc_set (sys_context, &lw6_global.node_smobs, id, (void *) node_smob);
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
@@ -1963,8 +1858,7 @@ lw6_make_scm_node (lw6p2p_node_t * c_node, SCM db)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create node smob, expect trouble"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create node smob, expect trouble"));
     }
 
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.node, node_smob);
@@ -2010,8 +1904,7 @@ lw6_free_node_smob (lw6_node_smob_t * node_smob)
   repr = lw6p2p_node_repr (node_smob->c_node);
   if (repr)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("freeing node smob \"%s\""), repr);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing node smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
@@ -2036,22 +1929,18 @@ free_jpeg (SCM jpeg)
 
   LW6_MUTEX_LOCK;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("garbage collect jpeg smob"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect jpeg smob"));
   id = smob_id (SMOB_TYPE_JPEG, jpeg_smob->c_jpeg->id);
   if (id)
     {
       if (lw6_global.jpeg_smobs)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("request free jpeg smob \"%s\""), id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free jpeg smob \"%s\""), id);
 	  lw6sys_assoc_unset (lw6_global.jpeg_smobs, id);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("request free jpeg smob \"%s\" but assoc is NULL"),
-		      id);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free jpeg smob \"%s\" but assoc is NULL"), id);
 	}
       LW6SYS_FREE (id);
     }
@@ -2108,11 +1997,9 @@ lw6_make_scm_jpeg (lw6img_jpeg_t * c_jpeg)
 	  repr = lw6img_repr (c_jpeg);
 	  if (repr)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("creating jpeg smob \"%s\""), repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating jpeg smob \"%s\""), repr);
 	      LW6_MUTEX_LOCK;
-	      lw6sys_assoc_set (sys_context, &lw6_global.jpeg_smobs, id,
-				(void *) jpeg_smob);
+	      lw6sys_assoc_set (sys_context, &lw6_global.jpeg_smobs, id, (void *) jpeg_smob);
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
@@ -2121,8 +2008,7 @@ lw6_make_scm_jpeg (lw6img_jpeg_t * c_jpeg)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to create jpeg smob, expect trouble"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create jpeg smob, expect trouble"));
     }
 
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.jpeg, jpeg_smob);
@@ -2168,8 +2054,7 @@ lw6_free_jpeg_smob (lw6_jpeg_smob_t * jpeg_smob)
   repr = lw6img_repr (jpeg_smob->c_jpeg);
   if (repr)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("freeing jpeg smob \"%s\""), repr);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing jpeg smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
@@ -2189,81 +2074,67 @@ lw6_register_smobs ()
 {
   int ret = 1;
 
-  lw6_global.smob_types.dsp =
-    scm_make_smob_type (SMOB_TYPE_DSP, sizeof (lw6_dsp_smob_t));
+  lw6_global.smob_types.dsp = scm_make_smob_type (SMOB_TYPE_DSP, sizeof (lw6_dsp_smob_t));
   scm_set_smob_mark (lw6_global.smob_types.dsp, mark_dsp);
   scm_set_smob_free (lw6_global.smob_types.dsp, free_dsp);
   scm_set_smob_print (lw6_global.smob_types.dsp, print_dsp);
 
-  lw6_global.smob_types.snd =
-    scm_make_smob_type (SMOB_TYPE_SND, sizeof (lw6_snd_smob_t));
+  lw6_global.smob_types.snd = scm_make_smob_type (SMOB_TYPE_SND, sizeof (lw6_snd_smob_t));
   scm_set_smob_mark (lw6_global.smob_types.snd, mark_snd);
   scm_set_smob_free (lw6_global.smob_types.snd, free_snd);
   scm_set_smob_print (lw6_global.smob_types.snd, print_snd);
 
-  lw6_global.smob_types.map =
-    scm_make_smob_type (SMOB_TYPE_MAP, sizeof (lw6_map_smob_t));
+  lw6_global.smob_types.map = scm_make_smob_type (SMOB_TYPE_MAP, sizeof (lw6_map_smob_t));
   scm_set_smob_mark (lw6_global.smob_types.map, mark_map);
   scm_set_smob_free (lw6_global.smob_types.map, free_map);
   scm_set_smob_print (lw6_global.smob_types.map, print_map);
 
-  lw6_global.smob_types.menu =
-    scm_make_smob_type (SMOB_TYPE_MENU, sizeof (lw6_menu_smob_t));
+  lw6_global.smob_types.menu = scm_make_smob_type (SMOB_TYPE_MENU, sizeof (lw6_menu_smob_t));
   scm_set_smob_mark (lw6_global.smob_types.menu, mark_menu);
   scm_set_smob_free (lw6_global.smob_types.menu, free_menu);
   scm_set_smob_print (lw6_global.smob_types.menu, print_menu);
 
-  lw6_global.smob_types.game_struct =
-    scm_make_smob_type (SMOB_TYPE_GAME_STRUCT,
-			sizeof (lw6_game_struct_smob_t));
+  lw6_global.smob_types.game_struct = scm_make_smob_type (SMOB_TYPE_GAME_STRUCT, sizeof (lw6_game_struct_smob_t));
   scm_set_smob_mark (lw6_global.smob_types.game_struct, mark_game_struct);
   scm_set_smob_free (lw6_global.smob_types.game_struct, free_game_struct);
   scm_set_smob_print (lw6_global.smob_types.game_struct, print_game_struct);
 
-  lw6_global.smob_types.game_state =
-    scm_make_smob_type (SMOB_TYPE_GAME_STATE, sizeof (lw6_game_state_smob_t));
+  lw6_global.smob_types.game_state = scm_make_smob_type (SMOB_TYPE_GAME_STATE, sizeof (lw6_game_state_smob_t));
   scm_set_smob_mark (lw6_global.smob_types.game_state, mark_game_state);
   scm_set_smob_free (lw6_global.smob_types.game_state, free_game_state);
   scm_set_smob_print (lw6_global.smob_types.game_state, print_game_state);
 
-  lw6_global.smob_types.pilot =
-    scm_make_smob_type (SMOB_TYPE_PILOT, sizeof (lw6_pilot_smob_t));
+  lw6_global.smob_types.pilot = scm_make_smob_type (SMOB_TYPE_PILOT, sizeof (lw6_pilot_smob_t));
   scm_set_smob_mark (lw6_global.smob_types.pilot, mark_pilot);
   scm_set_smob_free (lw6_global.smob_types.pilot, free_pilot);
   scm_set_smob_print (lw6_global.smob_types.pilot, print_pilot);
 
-  lw6_global.smob_types.bot =
-    scm_make_smob_type (SMOB_TYPE_BOT, sizeof (lw6_bot_smob_t));
+  lw6_global.smob_types.bot = scm_make_smob_type (SMOB_TYPE_BOT, sizeof (lw6_bot_smob_t));
   scm_set_smob_mark (lw6_global.smob_types.bot, mark_bot);
   scm_set_smob_free (lw6_global.smob_types.bot, free_bot);
   scm_set_smob_print (lw6_global.smob_types.bot, print_bot);
 
-  lw6_global.smob_types.look =
-    scm_make_smob_type (SMOB_TYPE_LOOK, sizeof (lw6_look_smob_t));
+  lw6_global.smob_types.look = scm_make_smob_type (SMOB_TYPE_LOOK, sizeof (lw6_look_smob_t));
   scm_set_smob_mark (lw6_global.smob_types.look, mark_look);
   scm_set_smob_free (lw6_global.smob_types.look, free_look);
   scm_set_smob_print (lw6_global.smob_types.look, print_look);
 
-  lw6_global.smob_types.loader =
-    scm_make_smob_type (SMOB_TYPE_LOADER, sizeof (lw6_loader_smob_t));
+  lw6_global.smob_types.loader = scm_make_smob_type (SMOB_TYPE_LOADER, sizeof (lw6_loader_smob_t));
   scm_set_smob_mark (lw6_global.smob_types.loader, mark_loader);
   scm_set_smob_free (lw6_global.smob_types.loader, free_loader);
   scm_set_smob_print (lw6_global.smob_types.loader, print_loader);
 
-  lw6_global.smob_types.db =
-    scm_make_smob_type (SMOB_TYPE_DB, sizeof (lw6_db_smob_t));
+  lw6_global.smob_types.db = scm_make_smob_type (SMOB_TYPE_DB, sizeof (lw6_db_smob_t));
   scm_set_smob_mark (lw6_global.smob_types.db, mark_db);
   scm_set_smob_free (lw6_global.smob_types.db, free_db);
   scm_set_smob_print (lw6_global.smob_types.db, print_db);
 
-  lw6_global.smob_types.node =
-    scm_make_smob_type (SMOB_TYPE_NODE, sizeof (lw6_node_smob_t));
+  lw6_global.smob_types.node = scm_make_smob_type (SMOB_TYPE_NODE, sizeof (lw6_node_smob_t));
   scm_set_smob_mark (lw6_global.smob_types.node, mark_node);
   scm_set_smob_free (lw6_global.smob_types.node, free_node);
   scm_set_smob_print (lw6_global.smob_types.node, print_node);
 
-  lw6_global.smob_types.jpeg =
-    scm_make_smob_type (SMOB_TYPE_JPEG, sizeof (lw6_jpeg_smob_t));
+  lw6_global.smob_types.jpeg = scm_make_smob_type (SMOB_TYPE_JPEG, sizeof (lw6_jpeg_smob_t));
   scm_set_smob_mark (lw6_global.smob_types.jpeg, mark_jpeg);
   scm_set_smob_free (lw6_global.smob_types.jpeg, free_jpeg);
   scm_set_smob_print (lw6_global.smob_types.jpeg, print_jpeg);

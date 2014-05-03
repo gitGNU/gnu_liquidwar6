@@ -39,8 +39,7 @@ mod_gl1_utils_pump_event_callback (void *data, void *event)
   switch (sdl_event->type)
     {
     case SDL_VIDEORESIZE:
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("SDL_VIDEORESIZE mod_gl1 specific code triggered"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("SDL_VIDEORESIZE mod_gl1 specific code triggered"));
       mod_gl1_utils_get_video_mode (utils_context, &video_mode);
       video_mode.width = sdl_event->resize.w;
       video_mode.height = sdl_event->resize.h;
@@ -48,8 +47,7 @@ mod_gl1_utils_pump_event_callback (void *data, void *event)
       mod_gl1_utils_timer_set_bitmap_refresh (utils_context);
       break;
     case SDL_VIDEOEXPOSE:
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("SDL_VIDEOEXPOSE mod_gl1 specific code triggered"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("SDL_VIDEOEXPOSE mod_gl1 specific code triggered"));
       mod_gl1_utils_sync_mode (utils_context, 0);
       mod_gl1_utils_timer_set_bitmap_refresh (utils_context);
       break;

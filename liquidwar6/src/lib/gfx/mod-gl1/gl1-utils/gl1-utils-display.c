@@ -29,9 +29,7 @@
 
 void
 mod_gl1_utils_display_texture_full (mod_gl1_utils_context_t * utils_context,
-				    GLuint texture, float x1, float y1,
-				    float x2, float y2, int texture_w,
-				    int texture_h)
+				    GLuint texture, float x1, float y1, float x2, float y2, int texture_w, int texture_h)
 {
   float scale_w, scale_h;
 
@@ -61,8 +59,7 @@ mod_gl1_utils_display_texture_full (mod_gl1_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("invalid texture size %dx%d"), texture_w, texture_h);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("invalid texture size %dx%d"), texture_w, texture_h);
     }
 }
 
@@ -85,9 +82,7 @@ mod_gl1_utils_display_quad_end (mod_gl1_utils_context_t * utils_context)
 
 void
 mod_gl1_utils_display_quad_do (mod_gl1_utils_context_t * utils_context,
-			       GLuint texture, float x1, float y1, float x2,
-			       float y2, float texture_x1, float texture_y1,
-			       float texture_x2, float texture_y2)
+			       GLuint texture, float x1, float y1, float x2, float y2, float texture_x1, float texture_y1, float texture_x2, float texture_y2)
 {
   glBindTexture (GL_TEXTURE_2D, texture);
 
@@ -103,14 +98,10 @@ mod_gl1_utils_display_quad_do (mod_gl1_utils_context_t * utils_context,
 
 void
 mod_gl1_utils_display_texture (mod_gl1_utils_context_t * utils_context,
-			       GLuint texture, float x1, float y1, float x2,
-			       float y2, float texture_x1, float texture_y1,
-			       float texture_x2, float texture_y2)
+			       GLuint texture, float x1, float y1, float x2, float y2, float texture_x1, float texture_y1, float texture_x2, float texture_y2)
 {
   mod_gl1_utils_display_quad_begin (utils_context);
-  mod_gl1_utils_display_quad_do (utils_context, texture, x1, y1, x2, y2,
-				 texture_x1, texture_y1, texture_x2,
-				 texture_y2);
+  mod_gl1_utils_display_quad_do (utils_context, texture, x1, y1, x2, y2, texture_x1, texture_y1, texture_x2, texture_y2);
   ;
   mod_gl1_utils_display_quad_end (utils_context);
 }
@@ -119,9 +110,7 @@ void
 mod_gl1_utils_display_texture_with_filter (mod_gl1_utils_context_t *
 					   utils_context, GLuint texture,
 					   float x1, float y1, float x2,
-					   float y2, float texture_x1,
-					   float texture_y1, float texture_x2,
-					   float texture_y2, int pixelize)
+					   float y2, float texture_x1, float texture_y1, float texture_x2, float texture_y2, int pixelize)
 {
   glBindTexture (GL_TEXTURE_2D, texture);
   if (pixelize)

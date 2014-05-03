@@ -205,42 +205,32 @@ _test_cmd ()
     info =
       lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 		       _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
-		       _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH,
-		       _TEST_OPEN_RELAY, _TEST_UPTIME,
-		       _TEST_IDLE_SCREENSHOT_SIZE,
-		       _TEST_IDLE_SCREENSHOT_DATA);
+		       _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH, _TEST_OPEN_RELAY, _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
     if (info)
       {
 	msg = lw6msg_cmd_generate_hello (info);
 	if (msg)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("hello command is \"%s\""), msg);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("hello command is \"%s\""), msg);
 	    if (lw6msg_cmd_analyse_hello (&analysed_info, msg))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("hello command analysed (node url=\"%s\")"),
-			    analysed_info->const_info.ref_info.url);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("hello command analysed (node url=\"%s\")"), analysed_info->const_info.ref_info.url);
 		lw6nod_info_free (analysed_info);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to analyze \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("could guess url \"%s\" from \"%s\""),
-			    remote_url, msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("could guess url \"%s\" from \"%s\""), remote_url, msg);
 		LW6SYS_FREE (sys_context, remote_url);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to guess url from \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (sys_context, msg);
@@ -250,49 +240,37 @@ _test_cmd ()
 	msg = lw6msg_cmd_generate_ticket (info, ticket);
 	if (msg)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("ticket command is \"%s\""), msg);
-	    if (lw6msg_cmd_analyse_ticket
-		(&analysed_info, &analysed_ticket, msg))
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ticket command is \"%s\""), msg);
+	    if (lw6msg_cmd_analyse_ticket (&analysed_info, &analysed_ticket, msg))
 	      {
 		if (ticket == analysed_ticket)
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("ticket command analysed (ticket=%"
-				     LW6SYS_PRINTF_LL "x)"),
-				(long long) ticket);
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ticket command analysed (ticket=%" LW6SYS_PRINTF_LL "x)"), (long long) ticket);
 		  }
 		else
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				_x_
 				("ticket command analysed but ticket is wrong (%"
-				 LW6SYS_PRINTF_LL "x and should be %"
-				 LW6SYS_PRINTF_LL "x)"),
-				(long long) analysed_ticket,
-				(long long) ticket);
+				 LW6SYS_PRINTF_LL "x and should be %" LW6SYS_PRINTF_LL "x)"), (long long) analysed_ticket, (long long) ticket);
 		    ret = 0;
 		  }
 		lw6nod_info_free (analysed_info);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to analyze \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("could guess url \"%s\" from \"%s\""),
-			    remote_url, msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("could guess url \"%s\" from \"%s\""), remote_url, msg);
 		LW6SYS_FREE (sys_context, remote_url);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to guess url from \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (sys_context, msg);
@@ -303,17 +281,12 @@ _test_cmd ()
 	msg = lw6msg_cmd_generate_foo (info, key, serial);
 	if (msg)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("foo command is \"%s\""), msg);
-	    if (lw6msg_cmd_analyse_foo
-		(&analysed_info, &analysed_key, &analysed_serial, msg))
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("foo command is \"%s\""), msg);
+	    if (lw6msg_cmd_analyse_foo (&analysed_info, &analysed_key, &analysed_serial, msg))
 	      {
 		if (key == analysed_key && serial == analysed_serial)
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_
-				("foo command analysed (key=%x serial=%d)"),
-				key, serial);
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("foo command analysed (key=%x serial=%d)"), key, serial);
 		  }
 		else
 		  {
@@ -327,22 +300,18 @@ _test_cmd ()
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to analyze \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("could guess url \"%s\" from \"%s\""),
-			    remote_url, msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("could guess url \"%s\" from \"%s\""), remote_url, msg);
 		LW6SYS_FREE (sys_context, remote_url);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to guess url from \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (sys_context, msg);
@@ -353,17 +322,12 @@ _test_cmd ()
 	msg = lw6msg_cmd_generate_bar (info, key, serial);
 	if (msg)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("bar command is \"%s\""), msg);
-	    if (lw6msg_cmd_analyse_bar
-		(&analysed_info, &analysed_key, &analysed_serial, msg))
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("bar command is \"%s\""), msg);
+	    if (lw6msg_cmd_analyse_bar (&analysed_info, &analysed_key, &analysed_serial, msg))
 	      {
 		if (key == analysed_key)
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_
-				("bar command analysed (key=%x serial=%d)"),
-				key, serial);
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("bar command analysed (key=%x serial=%d)"), key, serial);
 		  }
 		else
 		  {
@@ -377,44 +341,34 @@ _test_cmd ()
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to analyze \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("could guess url \"%s\" from \"%s\""),
-			    remote_url, msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("could guess url \"%s\" from \"%s\""), remote_url, msg);
 		LW6SYS_FREE (sys_context, remote_url);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to guess url from \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (sys_context, msg);
 	  }
 
 	seq = _TEST_SEQ_BASE + lw6sys_random (sys_context, _TEST_SEQ_RANGE);
-	serial =
-	  _TEST_SERIAL_BASE + lw6sys_random (sys_context, _TEST_SERIAL_RANGE);
+	serial = _TEST_SERIAL_BASE + lw6sys_random (sys_context, _TEST_SERIAL_RANGE);
 	msg = lw6msg_cmd_generate_join (info, seq, serial);
 	if (msg)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("join command is \"%s\""), msg);
-	    if (lw6msg_cmd_analyse_join
-		(&analysed_info, NULL, &analysed_seq, &analysed_serial, msg))
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("join command is \"%s\""), msg);
+	    if (lw6msg_cmd_analyse_join (&analysed_info, NULL, &analysed_seq, &analysed_serial, msg))
 	      {
 		if (seq == analysed_seq && serial == analysed_serial)
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("join command analysed (seq=%"
-				     LW6SYS_PRINTF_LL "d serial=%d)"),
-				(long long) seq, serial);
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("join command analysed (seq=%" LW6SYS_PRINTF_LL "d serial=%d)"), (long long) seq, serial);
 		  }
 		else
 		  {
@@ -422,32 +376,25 @@ _test_cmd ()
 				_x_
 				("join command analysed but seq and/or serial is wrong (seq=%"
 				 LW6SYS_PRINTF_LL "d and should be %"
-				 LW6SYS_PRINTF_LL
-				 "d serial=%d and should be %d)"),
-				(long long) analysed_seq, (long long) seq,
-				analysed_serial, serial);
+				 LW6SYS_PRINTF_LL "d serial=%d and should be %d)"), (long long) analysed_seq, (long long) seq, analysed_serial, serial);
 		    ret = 0;
 		  }
 		lw6nod_info_free (analysed_info);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to analyze \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("could guess url \"%s\" from \"%s\""),
-			    remote_url, msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("could guess url \"%s\" from \"%s\""), remote_url, msg);
 		LW6SYS_FREE (sys_context, remote_url);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to guess url from \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (sys_context, msg);
@@ -456,79 +403,55 @@ _test_cmd ()
 	msg = lw6msg_cmd_generate_goodbye (info);
 	if (msg)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("goodbye command is \"%s\""), msg);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("goodbye command is \"%s\""), msg);
 	    if (lw6msg_cmd_analyse_goodbye (&analysed_info, msg))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("goodbye command analysed (node url=\"%s\")"),
-			    analysed_info->const_info.ref_info.url);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("goodbye command analysed (node url=\"%s\")"), analysed_info->const_info.ref_info.url);
 		lw6nod_info_free (analysed_info);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to analyze \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("could guess url \"%s\" from \"%s\""),
-			    remote_url, msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("could guess url \"%s\" from \"%s\""), remote_url, msg);
 		LW6SYS_FREE (sys_context, remote_url);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to guess url from \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (sys_context, msg);
 	  }
 
-	msg =
-	  lw6msg_cmd_generate_data (_TEST_DATA_SERIAL, _TEST_DATA_I,
-				    _TEST_DATA_N,
-				    _TEST_DATA_SEQ, _TEST_DATA_KER_MSG);
+	msg = lw6msg_cmd_generate_data (_TEST_DATA_SERIAL, _TEST_DATA_I, _TEST_DATA_N, _TEST_DATA_SEQ, _TEST_DATA_KER_MSG);
 	if (msg)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("data command is \"%s\""), msg);
-	    if (lw6msg_cmd_analyse_data
-		(&data_serial, &data_i, &data_n, &data_seq, &data_ker_msg,
-		 msg))
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("data command is \"%s\""), msg);
+	    if (lw6msg_cmd_analyse_data (&data_serial, &data_i, &data_n, &data_seq, &data_ker_msg, msg))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("data command analysed (node ker_msg=\"%s\")"),
-			    data_ker_msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("data command analysed (node ker_msg=\"%s\")"), data_ker_msg);
 		LW6SYS_FREE (sys_context, data_ker_msg);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to analyze \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("could guess url \"%s\" from \"%s\", this is wrong"),
-			    remote_url, msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("could guess url \"%s\" from \"%s\", this is wrong"), remote_url, msg);
 		LW6SYS_FREE (sys_context, remote_url);
 		ret = 0;
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("unable to guess url from \"%s\", this is right"),
-			    msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to guess url from \"%s\", this is right"), msg);
 	      }
 	    LW6SYS_FREE (sys_context, msg);
 	  }
@@ -536,113 +459,70 @@ _test_cmd ()
 	lw6msg_meta_array_zero (&meta_array_src);
 	lw6msg_meta_array_zero (&meta_array_dst);
 	meta_array_src.logical_from = _TEST_META_LOGICAL_FROM;
-	lw6msg_meta_array_set (&meta_array_src,
-			       _TEST_META_ARRAY_ITEM_NODE_ID_1,
-			       _TEST_META_ARRAY_ITEM_SERIAL_0_1,
-			       _TEST_META_ARRAY_ITEM_SEQ_0_1);
-	lw6msg_meta_array_set (&meta_array_src,
-			       _TEST_META_ARRAY_ITEM_NODE_ID_2,
-			       _TEST_META_ARRAY_ITEM_SERIAL_0_2,
-			       _TEST_META_ARRAY_ITEM_SEQ_0_2);
-	lw6msg_meta_array_set (&meta_array_src,
-			       _TEST_META_ARRAY_ITEM_NODE_ID_3,
-			       _TEST_META_ARRAY_ITEM_SERIAL_0_3,
-			       _TEST_META_ARRAY_ITEM_SEQ_0_3);
-	msg =
-	  lw6msg_cmd_generate_meta (_TEST_META_SERIAL, _TEST_META_I,
-				    _TEST_META_N,
-				    _TEST_META_SEQ, &meta_array_src);
+	lw6msg_meta_array_set (&meta_array_src, _TEST_META_ARRAY_ITEM_NODE_ID_1, _TEST_META_ARRAY_ITEM_SERIAL_0_1, _TEST_META_ARRAY_ITEM_SEQ_0_1);
+	lw6msg_meta_array_set (&meta_array_src, _TEST_META_ARRAY_ITEM_NODE_ID_2, _TEST_META_ARRAY_ITEM_SERIAL_0_2, _TEST_META_ARRAY_ITEM_SEQ_0_2);
+	lw6msg_meta_array_set (&meta_array_src, _TEST_META_ARRAY_ITEM_NODE_ID_3, _TEST_META_ARRAY_ITEM_SERIAL_0_3, _TEST_META_ARRAY_ITEM_SEQ_0_3);
+	msg = lw6msg_cmd_generate_meta (_TEST_META_SERIAL, _TEST_META_I, _TEST_META_N, _TEST_META_SEQ, &meta_array_src);
 	if (msg)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("meta command is \"%s\""), msg);
-	    if (lw6msg_cmd_analyse_meta
-		(&meta_serial, &meta_i, &meta_n, &meta_seq, &meta_array_dst,
-		 msg))
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("meta command is \"%s\""), msg);
+	    if (lw6msg_cmd_analyse_meta (&meta_serial, &meta_i, &meta_n, &meta_seq, &meta_array_dst, msg))
 	      {
-		if (!memcmp
-		    (&meta_array_src, &meta_array_dst,
-		     sizeof (lw6msg_meta_array_t)))
+		if (!memcmp (&meta_array_src, &meta_array_dst, sizeof (lw6msg_meta_array_t)))
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_
-				("meta command parsed, dst == src, this is fine"));
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("meta command parsed, dst == src, this is fine"));
 		  }
 		else
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				_x_
-				("meta command not parsed, dst != src, should be the same"));
+		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("meta command not parsed, dst != src, should be the same"));
 		  }
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to analyze \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("could guess url \"%s\" from \"%s\", this is wrong"),
-			    remote_url, msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("could guess url \"%s\" from \"%s\", this is wrong"), remote_url, msg);
 		LW6SYS_FREE (sys_context, remote_url);
 		ret = 0;
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("unable to guess url from \"%s\", this is right"),
-			    msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to guess url from \"%s\", this is right"), msg);
 	      }
 	    LW6SYS_FREE (sys_context, msg);
 	  }
 
-	msg =
-	  lw6msg_cmd_generate_miss (_TEST_MISS_ID_FROM, _TEST_MISS_ID_TO,
-				    _TEST_MISS_SERIAL_MIN,
-				    _TEST_MISS_SERIAL_MAX);
+	msg = lw6msg_cmd_generate_miss (_TEST_MISS_ID_FROM, _TEST_MISS_ID_TO, _TEST_MISS_SERIAL_MIN, _TEST_MISS_SERIAL_MAX);
 	if (msg)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("miss command is \"%s\""), msg);
-	    if (lw6msg_cmd_analyse_miss
-		(&miss_id_from, &miss_id_to, &miss_serial_min,
-		 &miss_serial_max, msg))
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("miss command is \"%s\""), msg);
+	    if (lw6msg_cmd_analyse_miss (&miss_id_from, &miss_id_to, &miss_serial_min, &miss_serial_max, msg))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_
 			    ("miss command analysed id_from=%"
 			     LW6SYS_PRINTF_LL "x id_to=%" LW6SYS_PRINTF_LL
-			     "x serial_min=%d serial_max=%d"),
-			    (long long) miss_id_from, (long long) miss_id_to,
-			    miss_serial_min, miss_serial_max);
+			     "x serial_min=%d serial_max=%d"), (long long) miss_id_from, (long long) miss_id_to, miss_serial_min, miss_serial_max);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to analyze \"%s\""), msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("could guess url \"%s\" from \"%s\", this is wrong"),
-			    remote_url, msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("could guess url \"%s\" from \"%s\", this is wrong"), remote_url, msg);
 		LW6SYS_FREE (sys_context, remote_url);
 		ret = 0;
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("unable to guess url from \"%s\", this is right"),
-			    msg);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to guess url from \"%s\", this is right"), msg);
 	      }
 	    LW6SYS_FREE (sys_context, msg);
 	  }
@@ -674,13 +554,10 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
   info =
     lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 		     _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
-		     _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH,
-		     _TEST_OPEN_RELAY, _TEST_UPTIME,
-		     _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
+		     _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH, _TEST_OPEN_RELAY, _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
   if (info)
     {
-      password_checksum =
-	lw6cnx_password_checksum (_TEST_URL, _TEST_PASSWORD);
+      password_checksum = lw6cnx_password_checksum (_TEST_URL, _TEST_PASSWORD);
       if (password_checksum)
 	{
 	  msg = lw6msg_cmd_generate_hello (info);
@@ -692,81 +569,58 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 					  _TEST_ENVELOPE_PHYSICAL_TICKET_SIG,
 					  _TEST_ENVELOPE_LOGICAL_TICKET_SIG,
 					  _TEST_ENVELOPE_PHYSICAL_FROM_ID,
-					  _TEST_ENVELOPE_PHYSICAL_TO_ID,
-					  _TEST_ENVELOPE_LOGICAL_FROM_ID,
-					  _TEST_ENVELOPE_LOGICAL_TO_ID, msg);
+					  _TEST_ENVELOPE_PHYSICAL_TO_ID, _TEST_ENVELOPE_LOGICAL_FROM_ID, _TEST_ENVELOPE_LOGICAL_TO_ID, msg);
 	      if (envelope)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			      _x_ ("envelope generated \"%s\""), envelope);
+		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("envelope generated \"%s\""), envelope);
 		  if (lw6msg_envelope_analyse
 		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
 		       &received_physical_ticket_sig,
 		       &received_logical_ticket_sig,
-		       &received_physical_from_id, &received_physical_to_id,
-		       &received_logical_from_id, &received_logical_to_id,
-		       &received_physical_from_url))
+		       &received_physical_from_id, &received_physical_to_id, &received_logical_from_id, &received_logical_to_id, &received_physical_from_url))
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				  _x_ ("envelope \"%s\" parsed"), envelope);
+		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("envelope \"%s\" parsed"), envelope);
 		      if (received_msg)
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				      _x_ ("message is \"%s\""),
-				      received_msg);
+			  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("message is \"%s\""), received_msg);
 			  LW6SYS_FREE (sys_context, received_msg);
 			}
 		      if (received_physical_from_url)
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				      _x_ ("guessed \"from url\" \"%s\""),
-				      received_physical_from_url);
-			  LW6SYS_FREE (sys_context,
-				       received_physical_from_url);
+			  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("guessed \"from url\" \"%s\""), received_physical_from_url);
+			  LW6SYS_FREE (sys_context, received_physical_from_url);
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_ ("unable to analyse envelope \"%s\""),
-				  envelope);
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to analyse envelope \"%s\""), envelope);
 		      ret = 0;
 		    }
-		  lw6sys_str_truncate (sys_context, envelope,
-				       _TEST_ENVELOPE_TRUNCATE_LEN);
+		  lw6sys_str_truncate (sys_context, envelope, _TEST_ENVELOPE_TRUNCATE_LEN);
 		  if (lw6msg_envelope_analyse
 		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
 		       &received_physical_ticket_sig,
 		       &received_logical_ticket_sig,
-		       &received_physical_from_id, &received_physical_to_id,
-		       &received_logical_from_id, &received_logical_to_id,
-		       &received_physical_from_url))
+		       &received_physical_from_id, &received_physical_to_id, &received_logical_from_id, &received_logical_to_id, &received_physical_from_url))
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				  _x_ ("truncated envelope \"%s\" parsed"),
-				  envelope);
+		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("truncated envelope \"%s\" parsed"), envelope);
 		      if (received_msg)
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				      _x_ ("message is \"%s\""),
-				      received_msg);
+			  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("message is \"%s\""), received_msg);
 			  LW6SYS_FREE (sys_context, received_msg);
 			}
 		      if (received_physical_from_url)
 			{
-			  LW6SYS_FREE (sys_context,
-				       received_physical_from_url);
+			  LW6SYS_FREE (sys_context, received_physical_from_url);
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_ ("unable to analyse envelope \"%s\""),
-				  envelope);
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to analyse envelope \"%s\""), envelope);
 		      ret = 0;
 		    }
 
@@ -776,19 +630,14 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
 		       &received_physical_ticket_sig,
 		       &received_logical_ticket_sig,
-		       &received_physical_from_id, &received_physical_to_id,
-		       &received_logical_from_id, &received_logical_to_id,
-		       &received_physical_from_url))
+		       &received_physical_from_id, &received_physical_to_id, &received_logical_from_id, &received_logical_to_id, &received_physical_from_url))
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_
-				  ("message parsed even with wrong password"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("message parsed even with wrong password"));
 		      ret = 0;
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				  _x_ ("password checking works"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("password checking works"));
 		    }
 		  if (lw6msg_envelope_analyse
 		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
@@ -796,19 +645,14 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
 		       &received_physical_ticket_sig,
 		       &received_logical_ticket_sig,
-		       &received_physical_from_id, &received_physical_to_id,
-		       &received_logical_from_id, &received_logical_to_id,
-		       &received_physical_from_url))
+		       &received_physical_from_id, &received_physical_to_id, &received_logical_from_id, &received_logical_to_id, &received_physical_from_url))
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_
-				  ("message parsed even with wrong \"from id\""));
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("message parsed even with wrong \"from id\""));
 		      ret = 0;
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				  _x_ ("\"from id\" checking works"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("\"from id\" checking works"));
 		    }
 		  if (lw6msg_envelope_analyse
 		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
@@ -816,27 +660,21 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID_KO, &received_msg,
 		       &received_physical_ticket_sig,
 		       &received_logical_ticket_sig,
-		       &received_physical_from_id, &received_physical_to_id,
-		       &received_logical_from_id, &received_logical_to_id,
-		       &received_physical_from_url))
+		       &received_physical_from_id, &received_physical_to_id, &received_logical_from_id, &received_logical_to_id, &received_physical_from_url))
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_
-				  ("message parsed even with wrong \"to id\""));
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("message parsed even with wrong \"to id\""));
 		      ret = 0;
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				  _x_ ("\"to id\" checking works"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("\"to id\" checking works"));
 		    }
 
 		  LW6SYS_FREE (sys_context, envelope);
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			      _x_ ("unable to generate envelope"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to generate envelope"));
 		}
 	      LW6SYS_FREE (sys_context, msg);
 	    }
@@ -853,51 +691,39 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 					  0,
 					  0,
 					  _TEST_ENVELOPE_PHYSICAL_FROM_ID,
-					  _TEST_ENVELOPE_PHYSICAL_TO_ID,
-					  _TEST_ENVELOPE_PHYSICAL_FROM_ID,
-					  _TEST_ENVELOPE_PHYSICAL_TO_ID, msg);
+					  _TEST_ENVELOPE_PHYSICAL_TO_ID, _TEST_ENVELOPE_PHYSICAL_FROM_ID, _TEST_ENVELOPE_PHYSICAL_TO_ID, msg);
 	      if (envelope)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			      _x_ ("envelope generated \"%s\""), envelope);
+		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("envelope generated \"%s\""), envelope);
 		  if (lw6msg_envelope_analyse
 		      (envelope, mode, _TEST_URL, NULL,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
 		       &received_physical_ticket_sig,
 		       &received_logical_ticket_sig,
-		       &received_physical_from_id, &received_physical_to_id,
-		       &received_logical_from_id, &received_logical_to_id,
-		       &received_physical_from_url))
+		       &received_physical_from_id, &received_physical_to_id, &received_logical_from_id, &received_logical_to_id, &received_physical_from_url))
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				  _x_ ("envelope \"%s\" parsed"), envelope);
+		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("envelope \"%s\" parsed"), envelope);
 		      if (received_msg)
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				      _x_ ("message is \"%s\""),
-				      received_msg);
+			  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("message is \"%s\""), received_msg);
 			  LW6SYS_FREE (sys_context, received_msg);
 			}
 		      if (received_physical_from_url)
 			{
-			  LW6SYS_FREE (sys_context,
-				       received_physical_from_url);
+			  LW6SYS_FREE (sys_context, received_physical_from_url);
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_ ("unable to analyse envelope \"%s\""),
-				  envelope);
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to analyse envelope \"%s\""), envelope);
 		      ret = 0;
 		    }
 		  LW6SYS_FREE (sys_context, envelope);
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			      _x_ ("unable to generate envelope"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to generate envelope"));
 		}
 	      LW6SYS_FREE (sys_context, msg);
 	    }
@@ -943,88 +769,62 @@ _test_meta ()
     lw6msg_meta_array_zero (&meta_array);
     if (lw6msg_meta_array_exists (&meta_array, _TEST_META_NODE_ID_1))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("could find id in zeroed array, this is wrong"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("could find id in zeroed array, this is wrong"));
 	ret = 0;
       }
-    if (!lw6msg_meta_array_set
-	(&meta_array, _TEST_META_NODE_ID_1, _TEST_META_SERIAL_0_1,
-	 _TEST_META_SEQ_0_1))
+    if (!lw6msg_meta_array_set (&meta_array, _TEST_META_NODE_ID_1, _TEST_META_SERIAL_0_1, _TEST_META_SEQ_0_1))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to set node_id %" LW6SYS_PRINTF_LL "x"),
-		    (long long) _TEST_META_NODE_ID_1);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to set node_id %" LW6SYS_PRINTF_LL "x"), (long long) _TEST_META_NODE_ID_1);
 	ret = 0;
       }
-    if (!lw6msg_meta_array_set
-	(&meta_array, _TEST_META_NODE_ID_2, _TEST_META_SERIAL_0_2A,
-	 _TEST_META_SEQ_0_2A))
+    if (!lw6msg_meta_array_set (&meta_array, _TEST_META_NODE_ID_2, _TEST_META_SERIAL_0_2A, _TEST_META_SEQ_0_2A))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to set node_id %" LW6SYS_PRINTF_LL
-			 "x (stage A)"), (long long) _TEST_META_NODE_ID_2);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to set node_id %" LW6SYS_PRINTF_LL "x (stage A)"), (long long) _TEST_META_NODE_ID_2);
 	ret = 0;
       }
-    if (!lw6msg_meta_array_set
-	(&meta_array, _TEST_META_NODE_ID_2, _TEST_META_SERIAL_0_2B,
-	 _TEST_META_SEQ_0_2B))
+    if (!lw6msg_meta_array_set (&meta_array, _TEST_META_NODE_ID_2, _TEST_META_SERIAL_0_2B, _TEST_META_SEQ_0_2B))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to set node_id %" LW6SYS_PRINTF_LL
-			 "x (stage B)"), (long long) _TEST_META_NODE_ID_2);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to set node_id %" LW6SYS_PRINTF_LL "x (stage B)"), (long long) _TEST_META_NODE_ID_2);
 	ret = 0;
       }
     if (!lw6msg_meta_array_exists (&meta_array, _TEST_META_NODE_ID_1))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("couldn't find id %" LW6SYS_PRINTF_LL
-			 "x in array, it should be here"),
-		    (long long) _TEST_META_NODE_ID_1);
+		    _x_ ("couldn't find id %" LW6SYS_PRINTF_LL "x in array, it should be here"), (long long) _TEST_META_NODE_ID_1);
 	ret = 0;
       }
     i = lw6msg_meta_array_exists (&meta_array, _TEST_META_NODE_ID_2);
     if (i >= 0)
       {
 	if (meta_array.items[i].node_id == _TEST_META_NODE_ID_2 &&
-	    meta_array.items[i].serial_0 == _TEST_META_SERIAL_0_2B &&
-	    meta_array.items[i].seq_0 == _TEST_META_SEQ_0_2B)
+	    meta_array.items[i].serial_0 == _TEST_META_SERIAL_0_2B && meta_array.items[i].seq_0 == _TEST_META_SEQ_0_2B)
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			_x_ ("OK, found node_id=%" LW6SYS_PRINTF_LL
-			     "x serial_0=%d seq_0=%" LW6SYS_PRINTF_LL "d"),
-			(long long) _TEST_META_NODE_ID_2,
-			_TEST_META_SERIAL_0_2B, _TEST_META_SEQ_0_2B);
+			     "x serial_0=%d seq_0=%" LW6SYS_PRINTF_LL "d"), (long long) _TEST_META_NODE_ID_2, _TEST_META_SERIAL_0_2B, _TEST_META_SEQ_0_2B);
 	  }
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			_x_ ("could not find node_id=%" LW6SYS_PRINTF_LL
-			     "x serial_0=%d seq_0=%" LW6SYS_PRINTF_LL "d"),
-			(long long) _TEST_META_NODE_ID_2,
-			_TEST_META_SERIAL_0_2B, _TEST_META_SEQ_0_2B);
+			     "x serial_0=%d seq_0=%" LW6SYS_PRINTF_LL "d"), (long long) _TEST_META_NODE_ID_2, _TEST_META_SERIAL_0_2B, _TEST_META_SEQ_0_2B);
 	    ret = 0;
 	  }
       }
     else
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("couldn't find id %" LW6SYS_PRINTF_LL
-			 "x in array, it should be here"),
-		    (long long) _TEST_META_NODE_ID_2);
+		    _x_ ("couldn't find id %" LW6SYS_PRINTF_LL "x in array, it should be here"), (long long) _TEST_META_NODE_ID_2);
 	ret = 0;
       }
     if (!lw6msg_meta_array_unset (&meta_array, _TEST_META_NODE_ID_1))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("couldn't remove %" LW6SYS_PRINTF_LL "x from array"),
-		    (long long) _TEST_META_NODE_ID_1);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't remove %" LW6SYS_PRINTF_LL "x from array"), (long long) _TEST_META_NODE_ID_1);
 	ret = 0;
       }
     if (lw6msg_meta_array_exists (&meta_array, _TEST_META_NODE_ID_1))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("could find id %" LW6SYS_PRINTF_LL
-			 "x after removing it"), _TEST_META_NODE_ID_1);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("could find id %" LW6SYS_PRINTF_LL "x after removing it"), _TEST_META_NODE_ID_1);
 	ret = 0;
       }
     lw6msg_meta_array_zero (&meta_array);
@@ -1035,32 +835,25 @@ _test_meta ()
 	  {
 	    if (lw6sys_str_is_same (str, _TEST_META_STR))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("OK, str2array and array2str give the same result \"%s\""),
-			    str);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("OK, str2array and array2str give the same result \"%s\""), str);
 	      }
 	    else
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("problem, str2array and array2str give different results src=\"%s\" dst=\"%s\""),
-			    _TEST_META_STR, str);
+			    _x_ ("problem, str2array and array2str give different results src=\"%s\" dst=\"%s\""), _TEST_META_STR, str);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (str);
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("lw6msg_meta_array2str failed"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("lw6msg_meta_array2str failed"));
 	    ret = 0;
 	  }
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("lw6msg_meta_str2array failed"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("lw6msg_meta_str2array failed"));
 	ret = 0;
       }
   }
@@ -1093,54 +886,43 @@ _test_oob ()
     info =
       lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 		       _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
-		       _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH,
-		       _TEST_OPEN_RELAY, _TEST_UPTIME,
-		       _TEST_IDLE_SCREENSHOT_SIZE,
-		       _TEST_IDLE_SCREENSHOT_DATA);
+		       _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH, _TEST_OPEN_RELAY, _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
     if (info)
       {
 	oob = lw6msg_oob_generate_info (info);
 	if (oob)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("standard oob INFO is \"%s\""), oob);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("standard oob INFO is \"%s\""), oob);
 	    LW6SYS_FREE (sys_context, oob);
 	  }
 	oob = lw6msg_oob_generate_list (info);
 	if (oob)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("standard (empty) oob LIST is \"%s\""), oob);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("standard (empty) oob LIST is \"%s\""), oob);
 	    LW6SYS_FREE (sys_context, oob);
 	  }
 
 	oob = lw6msg_oob_generate_pong (info);
 	if (oob)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("standard oob PONG is \"%s\""), oob);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("standard oob PONG is \"%s\""), oob);
 	    pong_url = lw6msg_oob_analyse_pong (oob);
 	    if (pong_url)
 	      {
 		if (lw6sys_str_is_same (sys_context, pong_url, _TEST_URL))
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("got url \"%s\" from PONG"), pong_url);
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("got url \"%s\" from PONG"), pong_url);
 		  }
 		else
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				_x_
-				("PONG message parsed but read \"%s\" instead of \"%s\""),
-				pong_url, _TEST_URL);
+		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("PONG message parsed but read \"%s\" instead of \"%s\""), pong_url, _TEST_URL);
 		    ret = 0;
 		  }
 		LW6SYS_FREE (sys_context, pong_url);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to parse PONG message \"%s\""), oob);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse PONG message \"%s\""), oob);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (sys_context, oob);
@@ -1149,63 +931,45 @@ _test_oob ()
 	list = lw6nod_info_new_verified_nodes ();
 	if (list)
 	  {
-	    url =
-	      lw6sys_url_http_from_ip_port (sys_context, _TEST_IP_1,
-					    _TEST_PORT);
+	    url = lw6sys_url_http_from_ip_port (sys_context, _TEST_IP_1, _TEST_PORT);
 	    if (url)
 	      {
 		verified_node =
 		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
 				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_1,
 				   url, _TEST_TITLE, _TEST_DESCRIPTION,
-				   _TEST_PASSWORD, _TEST_BENCH,
-				   _TEST_OPEN_RELAY, _TEST_UPTIME,
-				   _TEST_IDLE_SCREENSHOT_SIZE,
-				   _TEST_IDLE_SCREENSHOT_DATA);
+				   _TEST_PASSWORD, _TEST_BENCH, _TEST_OPEN_RELAY, _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
 		  {
-		    lw6sys_list_push_front (sys_context, &list,
-					    verified_node);
+		    lw6sys_list_push_front (sys_context, &list, verified_node);
 		  }
 		LW6SYS_FREE (sys_context, url);
 	      }
-	    url =
-	      lw6sys_url_http_from_ip_port (sys_context, _TEST_IP_2,
-					    _TEST_PORT);
+	    url = lw6sys_url_http_from_ip_port (sys_context, _TEST_IP_2, _TEST_PORT);
 	    if (url)
 	      {
 		verified_node =
 		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
 				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_2,
 				   url, _TEST_TITLE, _TEST_DESCRIPTION,
-				   _TEST_PASSWORD, _TEST_BENCH,
-				   _TEST_OPEN_RELAY, _TEST_UPTIME,
-				   _TEST_IDLE_SCREENSHOT_SIZE,
-				   _TEST_IDLE_SCREENSHOT_DATA);
+				   _TEST_PASSWORD, _TEST_BENCH, _TEST_OPEN_RELAY, _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
 		  {
-		    lw6sys_list_push_front (sys_context, &list,
-					    verified_node);
+		    lw6sys_list_push_front (sys_context, &list, verified_node);
 		  }
 		LW6SYS_FREE (sys_context, url);
 	      }
-	    url =
-	      lw6sys_url_http_from_ip_port (sys_context, _TEST_IP_3,
-					    _TEST_PORT);
+	    url = lw6sys_url_http_from_ip_port (sys_context, _TEST_IP_3, _TEST_PORT);
 	    if (url)
 	      {
 		verified_node =
 		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
 				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_3,
 				   url, _TEST_TITLE, _TEST_DESCRIPTION,
-				   _TEST_PASSWORD, _TEST_BENCH,
-				   _TEST_OPEN_RELAY, _TEST_UPTIME,
-				   _TEST_IDLE_SCREENSHOT_SIZE,
-				   _TEST_IDLE_SCREENSHOT_DATA);
+				   _TEST_PASSWORD, _TEST_BENCH, _TEST_OPEN_RELAY, _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
 		  {
-		    lw6sys_list_push_front (sys_context, &list,
-					    verified_node);
+		    lw6sys_list_push_front (sys_context, &list, verified_node);
 		  }
 		LW6SYS_FREE (sys_context, url);
 	      }
@@ -1218,67 +982,43 @@ _test_oob ()
 	    oob = lw6msg_oob_generate_list (info);
 	    if (oob)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("standard (populated) oob LIST is \"%s\""),
-			    oob);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("standard (populated) oob LIST is \"%s\""), oob);
 		LW6SYS_FREE (sys_context, oob);
 	      }
 	  }
 
-	request =
-	  lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND,
-				       _TEST_REQUEST_REMOTE_URL,
-				       _TEST_REQUEST_PASSWORD,
-				       _TEST_REQUEST_LOCAL_URL);
+	request = lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND, _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD, _TEST_REQUEST_LOCAL_URL);
 	if (request)
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			_x_
 			("request with command=\"%s\" password=\"%s\" url=\"%s\" is \"%s\""),
-			_TEST_REQUEST_COMMAND, _TEST_REQUEST_PASSWORD,
-			_TEST_REQUEST_LOCAL_URL, request);
-	    if (lw6msg_oob_analyse_request
-		(&syntax_ok, &command, &password_ok, &remote_url, request,
-		 _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
+			_TEST_REQUEST_COMMAND, _TEST_REQUEST_PASSWORD, _TEST_REQUEST_LOCAL_URL, request);
+	    if (lw6msg_oob_analyse_request (&syntax_ok, &command, &password_ok, &remote_url, request, _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
 	      {
 		if (remote_url)
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_
-				("request \"%s\" analysed syntax_ok=%d password_ok=%d remote_url=\"%s\""),
-				request, syntax_ok, password_ok, remote_url);
+				_x_ ("request \"%s\" analysed syntax_ok=%d password_ok=%d remote_url=\"%s\""), request, syntax_ok, password_ok, remote_url);
 		    LW6SYS_FREE (sys_context, remote_url);
 		  }
 	      }
 	    else
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"),
-			    request, syntax_ok, password_ok);
+			    _x_ ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"), request, syntax_ok, password_ok);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (sys_context, request);
 	  }
-	request =
-	  lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND,
-				       _TEST_REQUEST_REMOTE_URL,
-				       _TEST_REQUEST_PASSWORD, NULL);
+	request = lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND, _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD, NULL);
 	if (request)
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_
-			("request with command=\"%s\" password=\"%s\" url=NULL is \"%s\""),
-			_TEST_REQUEST_COMMAND, _TEST_REQUEST_PASSWORD,
-			request);
-	    if (lw6msg_oob_analyse_request
-		(&syntax_ok, &command, &password_ok, &remote_url, request,
-		 _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
+			_x_ ("request with command=\"%s\" password=\"%s\" url=NULL is \"%s\""), _TEST_REQUEST_COMMAND, _TEST_REQUEST_PASSWORD, request);
+	    if (lw6msg_oob_analyse_request (&syntax_ok, &command, &password_ok, &remote_url, request, _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("request \"%s\" analysed syntax_ok=%d password_ok=%d"),
-			    request, syntax_ok, password_ok);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("request \"%s\" analysed syntax_ok=%d password_ok=%d"), request, syntax_ok, password_ok);
 		if (remote_url)
 		  {
 		    LW6SYS_FREE (sys_context, remote_url);
@@ -1287,52 +1027,34 @@ _test_oob ()
 	    else
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"),
-			    request, syntax_ok, password_ok);
+			    _x_ ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"), request, syntax_ok, password_ok);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (sys_context, request);
 	  }
-	request =
-	  lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND, NULL, NULL,
-				       _TEST_REQUEST_LOCAL_URL);
+	request = lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND, NULL, NULL, _TEST_REQUEST_LOCAL_URL);
 	if (request)
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_
-			("request with command=\"%s\" password=NULL url=\"%s\" is \"%s\""),
-			_TEST_REQUEST_COMMAND, _TEST_REQUEST_LOCAL_URL,
-			request);
-	    if (lw6msg_oob_analyse_request
-		(&syntax_ok, &command, &password_ok, &remote_url, request,
-		 NULL, NULL))
+			_x_ ("request with command=\"%s\" password=NULL url=\"%s\" is \"%s\""), _TEST_REQUEST_COMMAND, _TEST_REQUEST_LOCAL_URL, request);
+	    if (lw6msg_oob_analyse_request (&syntax_ok, &command, &password_ok, &remote_url, request, NULL, NULL))
 	      {
 		if (remote_url)
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_
-				("request \"%s\" analysed syntax_ok=%d password_ok=%d remote_url=\"%s\""),
-				request, syntax_ok, password_ok, remote_url);
+				_x_ ("request \"%s\" analysed syntax_ok=%d password_ok=%d remote_url=\"%s\""), request, syntax_ok, password_ok, remote_url);
 		    LW6SYS_FREE (sys_context, remote_url);
 		  }
 	      }
 	    else
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"),
-			    request, syntax_ok, password_ok);
+			    _x_ ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"), request, syntax_ok, password_ok);
 		ret = 0;
 	      }
-	    if (lw6msg_oob_analyse_request
-		(&syntax_ok, &command, &password_ok, &remote_url, request,
-		 _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
+	    if (lw6msg_oob_analyse_request (&syntax_ok, &command, &password_ok, &remote_url, request, _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("request \"%s\" is reported OK but password is wrong"),
-			    request);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request \"%s\" is reported OK but password is wrong"), request);
 		if (remote_url)
 		  {
 		    LW6SYS_FREE (sys_context, remote_url);
@@ -1344,36 +1066,23 @@ _test_oob ()
 		if (password_ok)
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				_x_
-				("request \"%s\" is reported KO with password OK, this is not logic, password *is* wrong"),
-				request);
+				_x_ ("request \"%s\" is reported KO with password OK, this is not logic, password *is* wrong"), request);
 		    ret = 0;
 		  }
 		else
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("password checking is OK"));
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("password checking is OK"));
 		  }
 	      }
 	    LW6SYS_FREE (sys_context, request);
 	  }
-	request =
-	  lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND, NULL, NULL,
-				       NULL);
+	request = lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND, NULL, NULL, NULL);
 	if (request)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_
-			("request with command=\"%s\" password=NULL url=NULL is \"%s\""),
-			_TEST_REQUEST_COMMAND, request);
-	    if (lw6msg_oob_analyse_request
-		(&syntax_ok, &command, &password_ok, &remote_url, request,
-		 NULL, NULL))
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("request with command=\"%s\" password=NULL url=NULL is \"%s\""), _TEST_REQUEST_COMMAND, request);
+	    if (lw6msg_oob_analyse_request (&syntax_ok, &command, &password_ok, &remote_url, request, NULL, NULL))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("request \"%s\" analysed syntax_ok=%d password_ok=%d"),
-			    request, syntax_ok, password_ok);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("request \"%s\" analysed syntax_ok=%d password_ok=%d"), request, syntax_ok, password_ok);
 		if (remote_url)
 		  {
 		    LW6SYS_FREE (sys_context, remote_url);
@@ -1382,19 +1091,12 @@ _test_oob ()
 	    else
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"),
-			    request, syntax_ok, password_ok);
+			    _x_ ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"), request, syntax_ok, password_ok);
 		ret = 0;
 	      }
-	    if (lw6msg_oob_analyse_request
-		(&syntax_ok, &command, &password_ok, &remote_url, request,
-		 _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
+	    if (lw6msg_oob_analyse_request (&syntax_ok, &command, &password_ok, &remote_url, request, _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("request \"%s\" is reported OK but password is wrong"),
-			    request);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request \"%s\" is reported OK but password is wrong"), request);
 		if (remote_url)
 		  {
 		    LW6SYS_FREE (sys_context, remote_url);
@@ -1406,15 +1108,12 @@ _test_oob ()
 		if (password_ok)
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				_x_
-				("request \"%s\" is reported KO with password OK, this is not logic, password *is* wrong"),
-				request);
+				_x_ ("request \"%s\" is reported KO with password OK, this is not logic, password *is* wrong"), request);
 		    ret = 0;
 		  }
 		else
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("password checking is OK"));
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("password checking is OK"));
 		  }
 	      }
 	    LW6SYS_FREE (sys_context, request);
@@ -1448,17 +1147,11 @@ _test_sort ()
       {
 	for (i = 0; i < _TEST_SORT_NB; ++i)
 	  {
-	    seq =
-	      ((int64_t) lw6sys_random (sys_context, _TEST_SORT_RANGE) +
-	       1) * ((int64_t) lw6sys_random (sys_context,
-					      _TEST_SORT_RANGE) + 1);
+	    seq = ((int64_t) lw6sys_random (sys_context, _TEST_SORT_RANGE) + 1) * ((int64_t) lw6sys_random (sys_context, _TEST_SORT_RANGE) + 1);
 	    tmp = lw6sys_str_random_words (sys_context, _TEST_SORT_LEN);
 	    if (tmp)
 	      {
-		str =
-		  lw6sys_new_sprintf (sys_context,
-				      "%" LW6SYS_PRINTF_LL "d %s",
-				      (long long) seq, tmp);
+		str = lw6sys_new_sprintf (sys_context, "%" LW6SYS_PRINTF_LL "d %s", (long long) seq, tmp);
 		if (str)
 		  {
 		    lw6sys_list_push_front (sys_context, &list, str);
@@ -1481,24 +1174,20 @@ _test_sort ()
 	      {
 		if (seq > 0LL && seq >= last_seq)
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("sorted str by seq \"%s\""), str);
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("sorted str by seq \"%s\""), str);
 		    last_seq = seq;
 		  }
 		else
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				_x_ ("sort problem last_seq=%"
-				     LW6SYS_PRINTF_LL "d > seq=%"
-				     LW6SYS_PRINTF_LL "d \"%s\""),
-				(long long) last_seq, (long long) seq, str);
+				     LW6SYS_PRINTF_LL "d > seq=%" LW6SYS_PRINTF_LL "d \"%s\""), (long long) last_seq, (long long) seq, str);
 		    ret = 0;
 		  }
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to parse string \"%s\""), str);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse string \"%s\""), str);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (str);
@@ -1526,61 +1215,42 @@ _test_ticket ()
     u_int32_t ticket1_sig = 0;
     u_int32_t ticket2_sig = 0;
 
-    ticket1_sig =
-      lw6msg_ticket_calc_sig (_TEST_TICKET1, _TEST_TICKET_FROM_ID,
-			      _TEST_TICKET_TO_ID, _TEST_TICKET_MSG);
+    ticket1_sig = lw6msg_ticket_calc_sig (_TEST_TICKET1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID, _TEST_TICKET_MSG);
     if (ticket1_sig == _TEST_TICKET1_SIG)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL "x is %08x"),
-		    (long long) _TEST_TICKET1, ticket1_sig);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL "x is %08x"), (long long) _TEST_TICKET1, ticket1_sig);
       }
     else
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL
-			 "x is %08x and should be %08x"),
-		    (long long) _TEST_TICKET1, ticket1_sig,
-		    _TEST_TICKET1_SIG);
+		    _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL "x is %08x and should be %08x"), (long long) _TEST_TICKET1, ticket1_sig, _TEST_TICKET1_SIG);
 	ret = 0;
       }
 
-    ticket2_sig =
-      lw6msg_ticket_calc_sig (_TEST_TICKET2, _TEST_TICKET_FROM_ID,
-			      _TEST_TICKET_TO_ID, _TEST_TICKET_MSG);
+    ticket2_sig = lw6msg_ticket_calc_sig (_TEST_TICKET2, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID, _TEST_TICKET_MSG);
     if (ticket2_sig == _TEST_TICKET2_SIG)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL "x is %08x"),
-		    (long long) _TEST_TICKET2, ticket2_sig);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL "x is %08x"), (long long) _TEST_TICKET2, ticket2_sig);
       }
     else
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL
-			 "x is %08x and should be %08x"),
-		    (long long) _TEST_TICKET2, ticket2_sig,
-		    _TEST_TICKET2_SIG);
+		    _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL "x is %08x and should be %08x"), (long long) _TEST_TICKET2, ticket2_sig, _TEST_TICKET2_SIG);
 	ret = 0;
       }
 
-    if (lw6msg_ticket_check_sig
-	(_TEST_TICKET1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID,
-	 _TEST_TICKET_MSG, ticket1_sig))
+    if (lw6msg_ticket_check_sig (_TEST_TICKET1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID, _TEST_TICKET_MSG, ticket1_sig))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("ticket_sig check works when same"));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ticket_sig check works when same"));
 	if (!lw6msg_ticket_check_sig
 	    (_TEST_TICKET1 + 1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID,
 	     _TEST_TICKET_MSG, ticket1_sig) &&
 	    !lw6msg_ticket_check_sig
 	    (_TEST_TICKET1, _TEST_TICKET_FROM_ID + 1, _TEST_TICKET_TO_ID,
 	     _TEST_TICKET_MSG, ticket1_sig) && !lw6msg_ticket_check_sig
-	    (_TEST_TICKET1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID + 1,
-	     _TEST_TICKET_MSG, ticket1_sig))
+	    (_TEST_TICKET1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID + 1, _TEST_TICKET_MSG, ticket1_sig))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("ticket_sig check works when different"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ticket_sig check works when different"));
 	  }
 	else
 	  {
@@ -1603,9 +1273,7 @@ _key_value_assoc_callback (void *func_data, const char *key, void *value)
   int *count = (int *) func_data;
 
   (*count)++;
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("count=%d found key=\"%s\" value=\"%s\""), *count, key,
-	      value_str);
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("count=%d found key=\"%s\" value=\"%s\""), *count, key, value_str);
 }
 
 /*
@@ -1625,37 +1293,28 @@ _test_utils ()
     char *value_str = NULL;
     int value_int = 0;
 
-    if (lw6msg_utils_parse_key_value_to_ptr
-	(&key, &value, _TEST_KEY_VALUE_OK_1))
+    if (lw6msg_utils_parse_key_value_to_ptr (&key, &value, _TEST_KEY_VALUE_OK_1))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("line \"%s\" parsed key=\"%s\" value=\"%s\""),
-		    _TEST_KEY_VALUE_OK_1, key, value);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("line \"%s\" parsed key=\"%s\" value=\"%s\""), _TEST_KEY_VALUE_OK_1, key, value);
 	LW6SYS_FREE (sys_context, key);
 	LW6SYS_FREE (sys_context, value);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse \"%s\""), _TEST_KEY_VALUE_OK_1);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse \"%s\""), _TEST_KEY_VALUE_OK_1);
 	ret = 0;
       }
-    if (lw6msg_utils_parse_key_value_to_ptr
-	(&key, &value, _TEST_KEY_VALUE_KO))
+    if (lw6msg_utils_parse_key_value_to_ptr (&key, &value, _TEST_KEY_VALUE_KO))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_
-		    ("line \"%s\" parsed key=\"%s\" value=\"%s\" but this should have returned NULL"),
-		    _TEST_KEY_VALUE_KO, key, value);
+		    _x_ ("line \"%s\" parsed key=\"%s\" value=\"%s\" but this should have returned NULL"), _TEST_KEY_VALUE_KO, key, value);
 	LW6SYS_FREE (sys_context, key);
 	LW6SYS_FREE (sys_context, value);
 	ret = 0;
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("unable to parse \"%s\", this is normal"),
-		    _TEST_KEY_VALUE_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to parse \"%s\", this is normal"), _TEST_KEY_VALUE_KO);
       }
     assoc = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
     if (assoc)
@@ -1668,34 +1327,14 @@ _test_utils ()
 	lw6sys_assoc_map (assoc, _key_value_assoc_callback, &count);
 	ret = ret && (count == 3);
 
-	value_str =
-	  lw6msg_utils_get_assoc_str_with_default (assoc,
-						   _TEST_DEFAULT_KEY_OK,
-						   _TEST_DEFAULT_VALUE_STR);
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("value for \"%s\" is \"%s\""), _TEST_DEFAULT_KEY_OK,
-		    value_str);
-	value_str =
-	  lw6msg_utils_get_assoc_str_with_default (assoc,
-						   _TEST_DEFAULT_KEY_KO,
-						   _TEST_DEFAULT_VALUE_STR);
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("value for \"%s\" is \"%s\""), _TEST_DEFAULT_KEY_KO,
-		    value_str);
-	value_int =
-	  lw6msg_utils_get_assoc_int_with_default (assoc,
-						   _TEST_DEFAULT_KEY_OK,
-						   _TEST_DEFAULT_VALUE_INT);
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("value for \"%s\" is %d"), _TEST_DEFAULT_KEY_OK,
-		    value_int);
-	value_int =
-	  lw6msg_utils_get_assoc_int_with_default (assoc,
-						   _TEST_DEFAULT_KEY_KO,
-						   _TEST_DEFAULT_VALUE_INT);
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("value for \"%s\" is %d"), _TEST_DEFAULT_KEY_KO,
-		    value_int);
+	value_str = lw6msg_utils_get_assoc_str_with_default (assoc, _TEST_DEFAULT_KEY_OK, _TEST_DEFAULT_VALUE_STR);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("value for \"%s\" is \"%s\""), _TEST_DEFAULT_KEY_OK, value_str);
+	value_str = lw6msg_utils_get_assoc_str_with_default (assoc, _TEST_DEFAULT_KEY_KO, _TEST_DEFAULT_VALUE_STR);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("value for \"%s\" is \"%s\""), _TEST_DEFAULT_KEY_KO, value_str);
+	value_int = lw6msg_utils_get_assoc_int_with_default (assoc, _TEST_DEFAULT_KEY_OK, _TEST_DEFAULT_VALUE_INT);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("value for \"%s\" is %d"), _TEST_DEFAULT_KEY_OK, value_int);
+	value_int = lw6msg_utils_get_assoc_int_with_default (assoc, _TEST_DEFAULT_KEY_KO, _TEST_DEFAULT_VALUE_INT);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("value for \"%s\" is %d"), _TEST_DEFAULT_KEY_KO, value_int);
 
 	lw6sys_assoc_free (assoc);
       }
@@ -1726,95 +1365,70 @@ _test_word ()
 
     if (lw6msg_word_first (&word, &next, _TEST_WORD_STR_OK))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("parsed str=\"%s\", next=\"%s\""), word.buf, next);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("parsed str=\"%s\", next=\"%s\""), word.buf, next);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse \"%s\""), _TEST_WORD_STR_OK);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse \"%s\""), _TEST_WORD_STR_OK);
 	ret = 0;
       }
     if (lw6msg_word_first (&word, &next, _TEST_WORD_STR_KO))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("parsed str=\"%s\" from \"%s\", this is wrong"),
-		    word.buf, _TEST_WORD_STR_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("parsed str=\"%s\" from \"%s\", this is wrong"), word.buf, _TEST_WORD_STR_KO);
 	ret = 0;
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("unable to parse \"%s\", that's right"),
-		    _TEST_WORD_STR_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to parse \"%s\", that's right"), _TEST_WORD_STR_KO);
       }
 
     if (lw6msg_word_first_x (&word, &next, _TEST_WORD_X_STR_OK))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("parsed str=\"%s\", next=\"%s\""), word.buf, next);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("parsed str=\"%s\", next=\"%s\""), word.buf, next);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse \"%s\""), _TEST_WORD_X_STR_OK);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse \"%s\""), _TEST_WORD_X_STR_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_x (&word, &next, _TEST_WORD_X_STR_KO))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("parsed str=\"%s\" from \"%s\", this is wrong"),
-		    word.buf, _TEST_WORD_X_STR_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("parsed str=\"%s\" from \"%s\", this is wrong"), word.buf, _TEST_WORD_X_STR_KO);
 	ret = 0;
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("unable to parse \"%s\", that's right"),
-		    _TEST_WORD_X_STR_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to parse \"%s\", that's right"), _TEST_WORD_X_STR_KO);
       }
 
-    base64_item =
-      lw6glb_base64_encode_str (sys_context, _TEST_WORD_BASE64_ITEM);
+    base64_item = lw6glb_base64_encode_str (sys_context, _TEST_WORD_BASE64_ITEM);
     if (base64_item)
       {
-	base64_str =
-	  lw6sys_new_sprintf (sys_context, _TEST_WORD_BASE64_OK, base64_item);
+	base64_str = lw6sys_new_sprintf (sys_context, _TEST_WORD_BASE64_OK, base64_item);
 	if (base64_str)
 	  {
 	    if (lw6msg_word_first_base64 (&word, &next, base64_str))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("parsed base64 str=\"%s\", next=\"%s\""),
-			    word.buf, next);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("parsed base64 str=\"%s\", next=\"%s\""), word.buf, next);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to parse base 64 from \"%s\""),
-			    base64_str);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse base 64 from \"%s\""), base64_str);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (base64_str);
 	  }
-	base64_str =
-	  lw6sys_new_sprintf (sys_context, _TEST_WORD_BASE64_KO, base64_item);
+	base64_str = lw6sys_new_sprintf (sys_context, _TEST_WORD_BASE64_KO, base64_item);
 	if (base64_str)
 	  {
 	    if (lw6msg_word_first_base64 (&word, &next, base64_str))
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("parsed str=\"%s\" from \"%s\", this is wrong"),
-			    word.buf, base64_str);
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("parsed str=\"%s\" from \"%s\", this is wrong"), word.buf, base64_str);
 		ret = 0;
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("unable to parse base64 from \"%s\", that's right"),
-			    base64_str);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to parse base64 from \"%s\", that's right"), base64_str);
 	      }
 	    LW6SYS_FREE (base64_str);
 	  }
@@ -1823,245 +1437,176 @@ _test_word ()
 
     if (lw6msg_word_first_int_32 (&i, &next, _TEST_WORD_INT_32_OK))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("parsed int32=%d, next=\"%s\""), i, next);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("parsed int32=%d, next=\"%s\""), i, next);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse int32 from \"%s\""),
-		    _TEST_WORD_INT_32_OK);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse int32 from \"%s\""), _TEST_WORD_INT_32_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_int_32 (&i, &next, _TEST_WORD_INT_32_KO))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("parsed int32=%d from \"%s\", this is wrong"), i,
-		    _TEST_WORD_INT_32_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("parsed int32=%d from \"%s\", this is wrong"), i, _TEST_WORD_INT_32_KO);
 	ret = 0;
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("unable to parse \"%s\", that's right"),
-		    _TEST_WORD_INT_32_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to parse \"%s\", that's right"), _TEST_WORD_INT_32_KO);
       }
 
     if (lw6msg_word_first_int_32_ge0 (&i, &next, _TEST_WORD_INT_32_GE0_OK))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("parsed int32=%d (>0), next=\"%s\""), i, next);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("parsed int32=%d (>0), next=\"%s\""), i, next);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse int32 (>0) from \"%s\""),
-		    _TEST_WORD_INT_32_GE0_OK);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse int32 (>0) from \"%s\""), _TEST_WORD_INT_32_GE0_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_int_32_ge0 (&i, &next, _TEST_WORD_INT_32_GE0_KO))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("parsed int32=%d from \"%s\", this is wrong"), i,
-		    _TEST_WORD_INT_32_GE0_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("parsed int32=%d from \"%s\", this is wrong"), i, _TEST_WORD_INT_32_GE0_KO);
 	ret = 0;
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("unable to parse int32 from \"%s\", that's right"),
-		    _TEST_WORD_INT_32_GE0_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to parse int32 from \"%s\", that's right"), _TEST_WORD_INT_32_GE0_KO);
       }
 
     if (lw6msg_word_first_int_32_gt0 (&i, &next, _TEST_WORD_INT_32_GT0_OK))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("parsed int32=%d (>0), next=\"%s\""), i, next);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("parsed int32=%d (>0), next=\"%s\""), i, next);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse int32 (>0) from \"%s\""),
-		    _TEST_WORD_INT_32_GT0_OK);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse int32 (>0) from \"%s\""), _TEST_WORD_INT_32_GT0_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_int_32_gt0 (&i, &next, _TEST_WORD_INT_32_GT0_KO))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("parsed int32=%d from \"%s\", this is wrong"), i,
-		    _TEST_WORD_INT_32_GT0_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("parsed int32=%d from \"%s\", this is wrong"), i, _TEST_WORD_INT_32_GT0_KO);
 	ret = 0;
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("unable to parse int32 from \"%s\", that's right"),
-		    _TEST_WORD_INT_32_GT0_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to parse int32 from \"%s\", that's right"), _TEST_WORD_INT_32_GT0_KO);
       }
 
     if (lw6msg_word_first_int_64 (&ll, &next, _TEST_WORD_INT_64_OK))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL "d, next=\"%s\""),
-		    (long long) ll, next);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("parsed int64=%" LW6SYS_PRINTF_LL "d, next=\"%s\""), (long long) ll, next);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse int64 from \"%s\""),
-		    _TEST_WORD_INT_64_OK);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse int64 from \"%s\""), _TEST_WORD_INT_64_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_int_64 (&ll, &next, _TEST_WORD_INT_64_KO))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
-			 "d from \"%s\", this is wrong"), (long long) ll,
-		    _TEST_WORD_INT_64_KO);
+		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL "d from \"%s\", this is wrong"), (long long) ll, _TEST_WORD_INT_64_KO);
 	ret = 0;
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("unable to parse \"%s\", that's right"),
-		    _TEST_WORD_INT_64_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to parse \"%s\", that's right"), _TEST_WORD_INT_64_KO);
       }
 
     if (lw6msg_word_first_int_64_ge0 (&ll, &next, _TEST_WORD_INT_64_GE0_OK))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
-			 "d (>0), next=\"%s\""), (long long) ll, next);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("parsed int64=%" LW6SYS_PRINTF_LL "d (>0), next=\"%s\""), (long long) ll, next);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse int64 (>0) from \"%s\""),
-		    _TEST_WORD_INT_64_GE0_OK);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse int64 (>0) from \"%s\""), _TEST_WORD_INT_64_GE0_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_int_64_ge0 (&ll, &next, _TEST_WORD_INT_64_GE0_KO))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
-			 "d from \"%s\", this is wrong"), (long long) ll,
-		    _TEST_WORD_INT_64_GE0_KO);
+		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL "d from \"%s\", this is wrong"), (long long) ll, _TEST_WORD_INT_64_GE0_KO);
 	ret = 0;
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("unable to parse int64 from \"%s\", that's right"),
-		    _TEST_WORD_INT_64_GE0_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to parse int64 from \"%s\", that's right"), _TEST_WORD_INT_64_GE0_KO);
       }
 
     if (lw6msg_word_first_int_64_gt0 (&ll, &next, _TEST_WORD_INT_64_GT0_OK))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
-			 "d (>0), next=\"%s\""), (long long) ll, next);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("parsed int64=%" LW6SYS_PRINTF_LL "d (>0), next=\"%s\""), (long long) ll, next);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse int64 (>0) from \"%s\""),
-		    _TEST_WORD_INT_64_GT0_OK);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse int64 (>0) from \"%s\""), _TEST_WORD_INT_64_GT0_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_int_64_gt0 (&ll, &next, _TEST_WORD_INT_64_GT0_KO))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
-			 "d from \"%s\", this is wrong"), (long long) ll,
-		    _TEST_WORD_INT_64_GT0_KO);
+		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL "d from \"%s\", this is wrong"), (long long) ll, _TEST_WORD_INT_64_GT0_KO);
 	ret = 0;
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("unable to parse int64 from \"%s\", that's right"),
-		    _TEST_WORD_INT_64_GT0_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to parse int64 from \"%s\", that's right"), _TEST_WORD_INT_64_GT0_KO);
       }
 
     if (lw6msg_word_first_id_16 (&id_16, &next, _TEST_WORD_ID_16_OK))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("parsed id_16 from \"%s\", next=\"%s\""),
-		    _TEST_WORD_ID_16_OK, next);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("parsed id_16 from \"%s\", next=\"%s\""), _TEST_WORD_ID_16_OK, next);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse id_16 from \"%s\""),
-		    _TEST_WORD_ID_16_OK);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse id_16 from \"%s\""), _TEST_WORD_ID_16_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_id_16 (&id_16, &next, _TEST_WORD_ID_16_KO))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("parsed id_16 from \"%s\", this is wrong"),
-		    _TEST_WORD_ID_16_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("parsed id_16 from \"%s\", this is wrong"), _TEST_WORD_ID_16_KO);
 	ret = 0;
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("unable to parse id_16 from \"%s\", that's right"),
-		    _TEST_WORD_ID_16_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to parse id_16 from \"%s\", that's right"), _TEST_WORD_ID_16_KO);
       }
 
     if (lw6msg_word_first_id_32 (&id_32, &next, _TEST_WORD_ID_32_OK))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("parsed id_32 from \"%s\", next=\"%s\""),
-		    _TEST_WORD_ID_32_OK, next);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("parsed id_32 from \"%s\", next=\"%s\""), _TEST_WORD_ID_32_OK, next);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse id_32 from \"%s\""),
-		    _TEST_WORD_ID_32_OK);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse id_32 from \"%s\""), _TEST_WORD_ID_32_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_id_32 (&id_32, &next, _TEST_WORD_ID_32_KO))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("parsed id_32 from \"%s\", this is wrong"),
-		    _TEST_WORD_ID_32_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("parsed id_32 from \"%s\", this is wrong"), _TEST_WORD_ID_32_KO);
 	ret = 0;
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("unable to parse id_32 from \"%s\", that's right"),
-		    _TEST_WORD_ID_32_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to parse id_32 from \"%s\", that's right"), _TEST_WORD_ID_32_KO);
       }
 
     if (lw6msg_word_first_id_64 (&id_64, &next, _TEST_WORD_ID_64_OK))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("parsed id_64 from \"%s\", next=\"%s\""),
-		    _TEST_WORD_ID_64_OK, next);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("parsed id_64 from \"%s\", next=\"%s\""), _TEST_WORD_ID_64_OK, next);
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse id_64 from \"%s\""),
-		    _TEST_WORD_ID_64_OK);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse id_64 from \"%s\""), _TEST_WORD_ID_64_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_id_64 (&id_64, &next, _TEST_WORD_ID_64_KO))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_ ("parsed id_64 from \"%s\", this is wrong"),
-		    _TEST_WORD_ID_64_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("parsed id_64 from \"%s\", this is wrong"), _TEST_WORD_ID_64_KO);
 	ret = 0;
       }
     else
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("unable to parse id_64 from \"%s\", that's right"),
-		    _TEST_WORD_ID_64_KO);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to parse id_64 from \"%s\", that's right"), _TEST_WORD_ID_64_KO);
       }
   }
 
@@ -2080,14 +1625,11 @@ _test_z_ok (char *_test_str, int log_all)
     {
       if (log_all)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		      _x_ ("z-encode of \"%s\" gives \"%s\""), _test_str,
-		      encoded_string);
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("z-encode of \"%s\" gives \"%s\""), _test_str, encoded_string);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		      _x_ ("z-encode gives \"%s\""), encoded_string);
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("z-encode gives \"%s\""), encoded_string);
 	}
       decoded_string = lw6msg_z_decode (encoded_string);
       if (decoded_string)
@@ -2096,15 +1638,11 @@ _test_z_ok (char *_test_str, int log_all)
 	    {
 	      if (log_all)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			      _x_ ("successuflly z-decoded \"%s\" to \"%s\""),
-			      encoded_string, decoded_string);
+		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("successuflly z-decoded \"%s\" to \"%s\""), encoded_string, decoded_string);
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			      _x_ ("successuflly z-decoded \"%s\""),
-			      encoded_string);
+		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("successuflly z-decoded \"%s\""), encoded_string);
 		}
 	    }
 	  else
@@ -2112,16 +1650,11 @@ _test_z_ok (char *_test_str, int log_all)
 	      if (log_all)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_
-			      ("z-decoded \"%s\" but it's \"%s\", different from \"%s\""),
-			      encoded_string, decoded_string, _test_str);
+			      _x_ ("z-decoded \"%s\" but it's \"%s\", different from \"%s\""), encoded_string, decoded_string, _test_str);
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_
-			      ("z-decoded \"%s\" but strings are different"),
-			      encoded_string);
+		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("z-decoded \"%s\" but strings are different"), encoded_string);
 		}
 	      ret = 0;
 	    }
@@ -2129,8 +1662,7 @@ _test_z_ok (char *_test_str, int log_all)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("unable to z-decode \"%s\""), encoded_string);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to z-decode \"%s\""), encoded_string);
 	  ret = 0;
 	}
       LW6SYS_FREE (sys_context, encoded_string);
@@ -2139,13 +1671,11 @@ _test_z_ok (char *_test_str, int log_all)
     {
       if (log_all)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("unable to z-encode \"%s\""), _test_str);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to z-encode \"%s\""), _test_str);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("unable to z-encode"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to z-encode"));
 	}
       ret = 0;
     }
@@ -2164,15 +1694,11 @@ _test_z_ko (char *_test_str, int log_all)
     {
       if (log_all)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		      _x_ ("z-decoded \"%s\" -> \"%s\", this is wrong!"),
-		      _test_str, decoded_string);
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("z-decoded \"%s\" -> \"%s\", this is wrong!"), _test_str, decoded_string);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		      _x_
-		      ("z-decoded a non z-encoded string, this is wrong!"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("z-decoded a non z-encoded string, this is wrong!"));
 	}
       ret = 0;
       LW6SYS_FREE (sys_context, decoded_string);
@@ -2181,15 +1707,11 @@ _test_z_ko (char *_test_str, int log_all)
     {
       if (log_all)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		      _x_ ("unable to z-decode \"%s\", that's right"),
-		      _test_str);
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to z-decode \"%s\", that's right"), _test_str);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		      _x_
-		      ("unable to z-decode a non z-encode string, that's right"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to z-decode a non z-encode string, that's right"));
 	}
     }
 
@@ -2225,8 +1747,7 @@ _test_z ()
 
     if (random_str)
       {
-	z_random_str =
-	  lw6sys_str_concat (sys_context, LW6MSG_Z_PREFIX, random_str);
+	z_random_str = lw6sys_str_concat (sys_context, LW6MSG_Z_PREFIX, random_str);
 	if (z_random_str)
 	  {
 	    ret = _test_z_ko (z_random_str, 0) && ret;
@@ -2242,16 +1763,14 @@ _test_z ()
 static int
 _setup_init ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libmsg CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libmsg CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libmsg CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libmsg CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -2296,9 +1815,7 @@ lw6msg_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 

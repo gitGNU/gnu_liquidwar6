@@ -28,15 +28,11 @@
 #include "mod-tcp-internal.h"
 
 char *
-_mod_tcp_repr (_mod_tcp_context_t * tcp_context,
-	       lw6cnx_connection_t * connection)
+_mod_tcp_repr (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 
-  ret =
-    lw6sys_new_sprintf (sys_context,
-			_x_ ("tcp connexion of \"%s\" on \"%s\""),
-			connection->local_url, connection->remote_url);
+  ret = lw6sys_new_sprintf (sys_context, _x_ ("tcp connexion of \"%s\" on \"%s\""), connection->local_url, connection->remote_url);
 
   return ret;
 }

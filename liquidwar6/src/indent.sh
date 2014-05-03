@@ -22,6 +22,13 @@
 
 # Automatically indent source files.
 
+# OK, GNU standards require 80 columns, however LW6 does have very
+# long variables and functions names, which causes it to be quite
+# unreadable. So it's raised to 159, which is 2*80-1, which means
+# lines can be spawned on two lines. On modern terminals with wide
+# 16/9 screens (HD, full-HD & co) this is usually not a problem.
+LINE_LENGTH=159
+
 ./scriptpo-update.sh
 
 #../src/dtou.sh `find ../src/ -name "*.c"`
@@ -29,12 +36,12 @@
 #../src/dtou.sh `find ../src/ -name "*.in"`
 
 # Indent C file twice to avoid weird diffs (ping-pong effect)
-find ../src/ -name "*.c" -exec indent "{}" \;
-find ../src/ -name "*.c" -exec indent "{}" \;
-find ../src/ -name "*.m" -exec indent "{}" \;
-find ../src/ -name "*.h" -exec indent "{}" \;
-find ../src/ -name "*.h" -exec indent "{}" \;
-find ../src/ -name "*.h.in" -exec indent "{}" \;
+find ../src/ -name "*.c" -exec indent -l$LINE_LENGTH "{}" \;
+find ../src/ -name "*.c" -exec indent -l$LINE_LENGTH "{}" \;
+find ../src/ -name "*.m" -exec indent -l$LINE_LENGTH "{}" \;
+find ../src/ -name "*.h" -exec indent -l$LINE_LENGTH "{}" \;
+find ../src/ -name "*.h" -exec indent -l$LINE_LENGTH "{}" \;
+find ../src/ -name "*.h.in" -exec indent -l$LINE_LENGTH "{}" \;
 
 ./clean.sh
 ./stamp.sh auto

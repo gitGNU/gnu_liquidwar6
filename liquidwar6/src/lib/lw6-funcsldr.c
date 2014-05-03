@@ -43,10 +43,8 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (scm_is_string (map_path), relative_path, SCM_ARG1,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_string (relative_path), relative_path, SCM_ARG2,
-	      __FUNCTION__);
+  SCM_ASSERT (scm_is_string (map_path), relative_path, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (relative_path), relative_path, SCM_ARG2, __FUNCTION__);
 
   ret = SCM_LIST0;
   c_map_path = lw6scm_utils_to_0str (map_path);
@@ -55,75 +53,28 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
       c_relative_path = lw6scm_utils_to_0str (relative_path);
       if (c_relative_path)
 	{
-	  user_dir =
-	    lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+	  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
 	  if (user_dir)
 	    {
-	      c_maps =
-		lw6ldr_get_entries (c_map_path, c_relative_path, user_dir);
+	      c_maps = lw6ldr_get_entries (c_map_path, c_relative_path, user_dir);
 	      if (c_maps)
 		{
 		  while (!lw6sys_list_is_empty (sys_context, c_maps))
 		    {
-		      c_entry =
-			(lw6ldr_entry_t *) lw6sys_lifo_pop (sys_context,
-							    &c_maps);
+		      c_entry = (lw6ldr_entry_t *) lw6sys_lifo_pop (sys_context, &c_maps);
 		      if (c_entry)
 			{
 			  item = SCM_EOL;
-			  item = scm_cons (scm_cons
-					   (scm_from_locale_string ("title"),
-					    scm_from_locale_string
-					    (c_entry->metadata.title)), item);
-			  item =
-			    scm_cons (scm_cons
-				      (scm_from_locale_string ("author"),
-				       scm_from_locale_string
-				       (c_entry->metadata.author)), item);
-			  item =
-			    scm_cons (scm_cons
-				      (scm_from_locale_string ("description"),
-				       scm_from_locale_string
-				       (c_entry->metadata.description)),
-				      item);
-			  item =
-			    scm_cons (scm_cons
-				      (scm_from_locale_string ("license"),
-				       scm_from_locale_string
-				       (c_entry->metadata.license)), item);
-			  item =
-			    scm_cons (scm_cons
-				      (scm_from_locale_string
-				       ("absolute-path"),
-				       scm_from_locale_string
-				       (c_entry->absolute_path)), item);
-			  item =
-			    scm_cons (scm_cons
-				      (scm_from_locale_string
-				       ("relative-path"),
-				       scm_from_locale_string
-				       (c_entry->relative_path)), item);
-			  item =
-			    scm_cons (scm_cons
-				      (scm_from_locale_string ("has-subdirs"),
-				       c_entry->has_subdirs ? SCM_BOOL_T :
-				       SCM_BOOL_F), item);
-			  item =
-			    scm_cons (scm_cons
-				      (scm_from_locale_string ("nb-submaps"),
-				       scm_from_int (c_entry->nb_submaps)),
-				      item);
-			  item =
-			    scm_cons (scm_cons
-				      (scm_from_locale_string ("exp"),
-				       scm_from_int (c_entry->
-						     metadata.vanilla_exp)),
-				      item);
-			  item =
-			    scm_cons (scm_cons
-				      (scm_from_locale_string ("forbidden"),
-				       c_entry->forbidden ? SCM_BOOL_T :
-				       SCM_BOOL_F), item);
+			  item = scm_cons (scm_cons (scm_from_locale_string ("title"), scm_from_locale_string (c_entry->metadata.title)), item);
+			  item = scm_cons (scm_cons (scm_from_locale_string ("author"), scm_from_locale_string (c_entry->metadata.author)), item);
+			  item = scm_cons (scm_cons (scm_from_locale_string ("description"), scm_from_locale_string (c_entry->metadata.description)), item);
+			  item = scm_cons (scm_cons (scm_from_locale_string ("license"), scm_from_locale_string (c_entry->metadata.license)), item);
+			  item = scm_cons (scm_cons (scm_from_locale_string ("absolute-path"), scm_from_locale_string (c_entry->absolute_path)), item);
+			  item = scm_cons (scm_cons (scm_from_locale_string ("relative-path"), scm_from_locale_string (c_entry->relative_path)), item);
+			  item = scm_cons (scm_cons (scm_from_locale_string ("has-subdirs"), c_entry->has_subdirs ? SCM_BOOL_T : SCM_BOOL_F), item);
+			  item = scm_cons (scm_cons (scm_from_locale_string ("nb-submaps"), scm_from_int (c_entry->nb_submaps)), item);
+			  item = scm_cons (scm_cons (scm_from_locale_string ("exp"), scm_from_int (c_entry->metadata.vanilla_exp)), item);
+			  item = scm_cons (scm_cons (scm_from_locale_string ("forbidden"), c_entry->forbidden ? SCM_BOOL_T : SCM_BOOL_F), item);
 			  ret = scm_cons (item, ret);
 			  lw6ldr_free_entry (c_entry);
 			}
@@ -144,9 +95,7 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
 }
 
 static SCM
-_scm_lw6ldr_read (SCM dirname, SCM default_param, SCM forced_param,
-		  SCM display_width, SCM display_height, SCM bench_value,
-		  SCM magic_number)
+_scm_lw6ldr_read (SCM dirname, SCM default_param, SCM forced_param, SCM display_width, SCM display_height, SCM bench_value, SCM magic_number)
 {
   char *c_dirname;
   lw6sys_assoc_t *c_default_param;
@@ -164,20 +113,12 @@ _scm_lw6ldr_read (SCM dirname, SCM default_param, SCM forced_param,
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (dirname), dirname, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (SCM_CONSP (default_param)
-	      || default_param == SCM_EOL, default_param, SCM_ARG2,
-	      __FUNCTION__);
-  SCM_ASSERT (SCM_CONSP (forced_param)
-	      || forced_param == SCM_EOL, forced_param, SCM_ARG3,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (display_width), display_width, SCM_ARG4,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (display_height), display_height, SCM_ARG5,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (bench_value), bench_value, SCM_ARG6,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (magic_number), magic_number, SCM_ARG7,
-	      __FUNCTION__);
+  SCM_ASSERT (SCM_CONSP (default_param) || default_param == SCM_EOL, default_param, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (SCM_CONSP (forced_param) || forced_param == SCM_EOL, forced_param, SCM_ARG3, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (display_width), display_width, SCM_ARG4, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (display_height), display_height, SCM_ARG5, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (bench_value), bench_value, SCM_ARG6, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (magic_number), magic_number, SCM_ARG7, __FUNCTION__);
 
   lw6sys_progress_default (sys_context, &progress, &(lw6_global.progress));
   lw6sys_progress_begin (sys_context, &progress);
@@ -196,16 +137,12 @@ _scm_lw6ldr_read (SCM dirname, SCM default_param, SCM forced_param,
 	      c_bench_value = scm_to_int (bench_value);
 	      c_magic_number = scm_to_int (magic_number);
 
-	      user_dir =
-		lw6cfg_unified_get_user_dir (lw6_global.argc,
-					     lw6_global.argv);
+	      user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
 	      if (user_dir)
 		{
 		  c_level =
 		    lw6ldr_read (c_dirname, c_default_param, c_forced_param,
-				 c_display_width, c_display_height,
-				 c_bench_value, c_magic_number, user_dir,
-				 &progress);
+				 c_display_width, c_display_height, c_bench_value, c_magic_number, user_dir, &progress);
 		  if (c_level)
 		    {
 		      ret = lw6_make_scm_map (c_level);
@@ -227,9 +164,7 @@ _scm_lw6ldr_read (SCM dirname, SCM default_param, SCM forced_param,
 
 static SCM
 _scm_lw6ldr_read_relative (SCM map_path, SCM relative_path, SCM default_param,
-			   SCM forced_param, SCM display_width,
-			   SCM display_height, SCM bench_value,
-			   SCM magic_number)
+			   SCM forced_param, SCM display_width, SCM display_height, SCM bench_value, SCM magic_number)
 {
   char *c_map_path;
   char *c_relative_path;
@@ -248,22 +183,13 @@ _scm_lw6ldr_read_relative (SCM map_path, SCM relative_path, SCM default_param,
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (map_path), map_path, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (scm_is_string (relative_path), relative_path, SCM_ARG2,
-	      __FUNCTION__);
-  SCM_ASSERT (SCM_CONSP (default_param)
-	      || default_param == SCM_EOL, default_param, SCM_ARG3,
-	      __FUNCTION__);
-  SCM_ASSERT (SCM_CONSP (forced_param)
-	      || forced_param == SCM_EOL, forced_param, SCM_ARG4,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (display_width), display_width, SCM_ARG5,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (display_height), display_height, SCM_ARG6,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (bench_value), bench_value, SCM_ARG7,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (magic_number), magic_number, SCM_ARGn,
-	      __FUNCTION__);
+  SCM_ASSERT (scm_is_string (relative_path), relative_path, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (SCM_CONSP (default_param) || default_param == SCM_EOL, default_param, SCM_ARG3, __FUNCTION__);
+  SCM_ASSERT (SCM_CONSP (forced_param) || forced_param == SCM_EOL, forced_param, SCM_ARG4, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (display_width), display_width, SCM_ARG5, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (display_height), display_height, SCM_ARG6, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (bench_value), bench_value, SCM_ARG7, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (magic_number), magic_number, SCM_ARGn, __FUNCTION__);
 
   progress.min = 0.0f;
   progress.max = 1.0f;
@@ -286,18 +212,13 @@ _scm_lw6ldr_read_relative (SCM map_path, SCM relative_path, SCM default_param,
 		  c_bench_value = scm_to_int (bench_value);
 		  c_magic_number = scm_to_int (magic_number);
 
-		  user_dir =
-		    lw6cfg_unified_get_user_dir (lw6_global.argc,
-						 lw6_global.argv);
+		  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
 		  if (user_dir)
 		    {
 		      c_level =
 			lw6ldr_read_relative (c_map_path, c_relative_path,
 					      c_default_param, c_forced_param,
-					      c_display_width,
-					      c_display_height, c_bench_value,
-					      c_magic_number, user_dir,
-					      &progress);
+					      c_display_width, c_display_height, c_bench_value, c_magic_number, user_dir, &progress);
 		      if (c_level)
 			{
 			  ret = lw6_make_scm_map (c_level);
@@ -377,19 +298,15 @@ _scm_lw6ldr_exp_validate (SCM level)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.map, level), level,
-	      SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, level), level, SCM_ARG1, __FUNCTION__);
 
   c_level = lw6_scm_to_map (level);
   if (c_level)
     {
-      user_dir =
-	lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+      user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
       if (user_dir)
 	{
-	  ret =
-	    lw6ldr_exp_validate (c_level, user_dir) ? SCM_BOOL_T : SCM_BOOL_F;
+	  ret = lw6ldr_exp_validate (c_level, user_dir) ? SCM_BOOL_T : SCM_BOOL_F;
 	  LW6SYS_FREE (sys_context, user_dir);
 	}
     }
@@ -412,8 +329,7 @@ _scm_lw6ldr_chain_entry (SCM map_path, SCM relative_path)
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (map_path), map_path, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (scm_is_string (relative_path), relative_path, SCM_ARG2,
-	      __FUNCTION__);
+  SCM_ASSERT (scm_is_string (relative_path), relative_path, SCM_ARG2, __FUNCTION__);
 
   c_map_path = lw6scm_utils_to_0str (map_path);
   if (c_map_path)
@@ -421,67 +337,23 @@ _scm_lw6ldr_chain_entry (SCM map_path, SCM relative_path)
       c_relative_path = lw6scm_utils_to_0str (relative_path);
       if (c_relative_path)
 	{
-	  user_dir =
-	    lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+	  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
 	  if (user_dir)
 	    {
-	      c_entry =
-		lw6ldr_chain_entry (c_map_path, c_relative_path, user_dir);
+	      c_entry = lw6ldr_chain_entry (c_map_path, c_relative_path, user_dir);
 	      if (c_entry)
 		{
 		  ret = SCM_EOL;
-		  ret = scm_cons (scm_cons
-				  (scm_from_locale_string ("title"),
-				   scm_from_locale_string (c_entry->
-							   metadata.title)),
-				  ret);
-		  ret =
-		    scm_cons (scm_cons
-			      (scm_from_locale_string ("author"),
-			       scm_from_locale_string (c_entry->
-						       metadata.author)),
-			      ret);
-		  ret =
-		    scm_cons (scm_cons
-			      (scm_from_locale_string ("description"),
-			       scm_from_locale_string (c_entry->
-						       metadata.description)),
-			      ret);
-		  ret =
-		    scm_cons (scm_cons
-			      (scm_from_locale_string ("license"),
-			       scm_from_locale_string (c_entry->
-						       metadata.license)),
-			      ret);
-		  ret =
-		    scm_cons (scm_cons
-			      (scm_from_locale_string ("absolute-path"),
-			       scm_from_locale_string
-			       (c_entry->absolute_path)), ret);
-		  ret =
-		    scm_cons (scm_cons
-			      (scm_from_locale_string ("relative-path"),
-			       scm_from_locale_string
-			       (c_entry->relative_path)), ret);
-		  ret =
-		    scm_cons (scm_cons
-			      (scm_from_locale_string ("has-subdirs"),
-			       c_entry->has_subdirs ? SCM_BOOL_T :
-			       SCM_BOOL_F), ret);
-		  ret =
-		    scm_cons (scm_cons
-			      (scm_from_locale_string ("nb-submaps"),
-			       scm_from_int (c_entry->nb_submaps)), ret);
-		  ret =
-		    scm_cons (scm_cons
-			      (scm_from_locale_string ("exp"),
-			       scm_from_int (c_entry->metadata.vanilla_exp)),
-			      ret);
-		  ret =
-		    scm_cons (scm_cons
-			      (scm_from_locale_string ("forbidden"),
-			       c_entry->forbidden ? SCM_BOOL_T : SCM_BOOL_F),
-			      ret);
+		  ret = scm_cons (scm_cons (scm_from_locale_string ("title"), scm_from_locale_string (c_entry->metadata.title)), ret);
+		  ret = scm_cons (scm_cons (scm_from_locale_string ("author"), scm_from_locale_string (c_entry->metadata.author)), ret);
+		  ret = scm_cons (scm_cons (scm_from_locale_string ("description"), scm_from_locale_string (c_entry->metadata.description)), ret);
+		  ret = scm_cons (scm_cons (scm_from_locale_string ("license"), scm_from_locale_string (c_entry->metadata.license)), ret);
+		  ret = scm_cons (scm_cons (scm_from_locale_string ("absolute-path"), scm_from_locale_string (c_entry->absolute_path)), ret);
+		  ret = scm_cons (scm_cons (scm_from_locale_string ("relative-path"), scm_from_locale_string (c_entry->relative_path)), ret);
+		  ret = scm_cons (scm_cons (scm_from_locale_string ("has-subdirs"), c_entry->has_subdirs ? SCM_BOOL_T : SCM_BOOL_F), ret);
+		  ret = scm_cons (scm_cons (scm_from_locale_string ("nb-submaps"), scm_from_int (c_entry->nb_submaps)), ret);
+		  ret = scm_cons (scm_cons (scm_from_locale_string ("exp"), scm_from_int (c_entry->metadata.vanilla_exp)), ret);
+		  ret = scm_cons (scm_cons (scm_from_locale_string ("forbidden"), c_entry->forbidden ? SCM_BOOL_T : SCM_BOOL_F), ret);
 		  lw6ldr_free_entry (c_entry);
 		}
 	      LW6SYS_FREE (sys_context, user_dir);
@@ -511,23 +383,13 @@ lw6_register_funcs_ldr ()
   /*
    * In liquidwar6ldr
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_GET_ENTRIES, 2, 0, 0,
-				      (SCM (*)())_scm_lw6ldr_get_entries);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_READ, 7, 0, 0,
-				      (SCM (*)())_scm_lw6ldr_read);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_READ_RELATIVE, 8, 0, 0,
-				      (SCM (*)())_scm_lw6ldr_read_relative);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_PRINT_EXAMPLES, 0, 0, 0,
-				      (SCM (*)())_scm_lw6ldr_print_examples);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_HINTS_GET_DEFAULT, 1, 0, 0,
-			      (SCM (*)())_scm_lw6ldr_hints_get_default);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_EXP_VALIDATE, 1, 0, 0,
-			      (SCM (*)())_scm_lw6ldr_exp_validate);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_CHAIN_ENTRY, 2, 0, 0,
-			      (SCM (*)())_scm_lw6ldr_chain_entry);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_GET_ENTRIES, 2, 0, 0, (SCM (*)())_scm_lw6ldr_get_entries);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_READ, 7, 0, 0, (SCM (*)())_scm_lw6ldr_read);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_READ_RELATIVE, 8, 0, 0, (SCM (*)())_scm_lw6ldr_read_relative);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_PRINT_EXAMPLES, 0, 0, 0, (SCM (*)())_scm_lw6ldr_print_examples);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_HINTS_GET_DEFAULT, 1, 0, 0, (SCM (*)())_scm_lw6ldr_hints_get_default);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_EXP_VALIDATE, 1, 0, 0, (SCM (*)())_scm_lw6ldr_exp_validate);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_CHAIN_ENTRY, 2, 0, 0, (SCM (*)())_scm_lw6ldr_chain_entry);
 
   return ret;
 }

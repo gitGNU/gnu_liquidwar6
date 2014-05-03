@@ -30,8 +30,7 @@
 #include "ldr-internal.h"
 
 int
-_lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
-		 lw6sys_progress_t * progress)
+_lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file, lw6sys_progress_t * progress)
 {
   png_structp png_ptr = NULL;
   png_infop info_ptr = NULL;
@@ -74,15 +73,13 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 
 		  png_read_info (png_ptr, info_ptr);
 
-		  png_get_IHDR (png_ptr, info_ptr, &width, &height,
-				&bit_depth, &color_type, NULL, NULL, NULL);
+		  png_get_IHDR (png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, NULL, NULL, NULL);
 
 		  png_set_expand (png_ptr);
 		  png_set_strip_16 (png_ptr);
 		  png_set_packswap (png_ptr);
 
-		  if (color_type == PNG_COLOR_TYPE_RGB ||
-		      color_type == PNG_COLOR_TYPE_RGB_ALPHA)
+		  if (color_type == PNG_COLOR_TYPE_RGB || color_type == PNG_COLOR_TYPE_RGB_ALPHA)
 		    {
 		      png_set_rgb_to_gray (png_ptr, 1, -1, -1);
 		    }
@@ -94,36 +91,26 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 
 		  png_read_update_info (png_ptr, info_ptr);
 
-		  png_get_IHDR (png_ptr, info_ptr, &width, &height,
-				&bit_depth, &color_type, NULL, NULL, NULL);
+		  png_get_IHDR (png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, NULL, NULL, NULL);
 
 		  rowbytes = png_get_rowbytes (png_ptr, info_ptr);
 
-		  step = ((color_type & PNG_COLOR_MASK_COLOR) ? 3 : 1) +
-		    ((color_type & PNG_COLOR_MASK_ALPHA) ? 1 : 0);
+		  step = ((color_type & PNG_COLOR_MASK_COLOR) ? 3 : 1) + ((color_type & PNG_COLOR_MASK_ALPHA) ? 1 : 0);
 
 		  if (color_type & PNG_COLOR_MASK_PALETTE)
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_
-				  ("can't load B&W PNG file \"%s\", it is still paletted after filtering"),
-				  png_file);
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't load B&W PNG file \"%s\", it is still paletted after filtering"), png_file);
 		      format_ok = 0;
 		    }
 
-		  max_width =
-		    lw6sys_imax (LW6MAP_MAX_BODY_WIDTH,
-				 LW6MAP_MAX_TEXTURE_WIDTH);
-		  max_height =
-		    lw6sys_imax (LW6MAP_MAX_BODY_HEIGHT,
-				 LW6MAP_MAX_TEXTURE_HEIGHT);
+		  max_width = lw6sys_imax (LW6MAP_MAX_BODY_WIDTH, LW6MAP_MAX_TEXTURE_WIDTH);
+		  max_height = lw6sys_imax (LW6MAP_MAX_BODY_HEIGHT, LW6MAP_MAX_TEXTURE_HEIGHT);
 		  if (width > max_width || height > max_height)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  _x_
 				  ("can't load B&W PNG file \"%s\", it is too big (size=%dx%d max=%dx%d)"),
-				  png_file, (int) width, (int) height,
-				  max_width, max_height);
+				  png_file, (int) width, (int) height, max_width, max_height);
 		      format_ok = 0;
 		    }
 
@@ -132,27 +119,18 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 				  _x_
 				  ("can't load B&W PNG file \"%s\", memory footprint is inconsistent, color_type=%d, rowbytes=%d, width=%d, step=%d, bit_depth=%d"),
-				  png_file, color_type,
-				  (int) rowbytes, (int) width, step,
-				  bit_depth);
+				  png_file, color_type, (int) rowbytes, (int) width, step, bit_depth);
 		      format_ok = 0;
 		    }
 
 		  if (format_ok)
 		    {
-		      buf =
-			(unsigned char **) LW6SYS_MALLOC (sys_context,
-							  height *
-							  sizeof (unsigned
-								  char *));
+		      buf = (unsigned char **) LW6SYS_MALLOC (sys_context, height * sizeof (unsigned char *));
 		      if (buf)
 			{
 			  for (row = 0; row < height; ++row)
 			    {
-			      buf[row] =
-				(unsigned char *)
-				LW6SYS_MALLOC (sys_context, rowbytes *
-					       sizeof (unsigned char));
+			      buf[row] = (unsigned char *) LW6SYS_MALLOC (sys_context, rowbytes * sizeof (unsigned char));
 			      if (!buf[row])
 				{
 				  memory_ok = 0;
@@ -166,11 +144,9 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 
 		      if (memory_ok)
 			{
-			  lw6sys_progress_update (sys_context, progress, 0, 3,
-						  1);
+			  lw6sys_progress_update (sys_context, progress, 0, 3, 1);
 			  png_read_image (png_ptr, buf);
-			  lw6sys_progress_update (sys_context, progress, 0, 3,
-						  2);
+			  lw6sys_progress_update (sys_context, progress, 0, 3, 2);
 			  png_read_end (png_ptr, end_info);
 
 			  image->w = width;
@@ -181,9 +157,7 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				      _x_
-				      ("unable to allocate memory for B&W PNG file"));
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to allocate memory for B&W PNG file"));
 			}
 		    }
 
@@ -192,20 +166,17 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("couldn't create png end info struct"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't create png end info struct"));
 	    }
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("couldn't create png info struct"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't create png info struct"));
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("couldn't create png read struct"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't create png read struct"));
     }
 
   png_destroy_read_struct (&png_ptr, &info_ptr, &end_info);
@@ -272,14 +243,12 @@ _lw6ldr_bw_gray_level (_lw6ldr_image_bw_t * image)
   if (ret > 1.0f)
     {
       ret = 1.0f;
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("gray_level=%f, can't be >1"), ret);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("gray_level=%f, can't be >1"), ret);
     }
   if (ret < 0.0f)
     {
       ret = 0.0f;
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("gray_level=%f, can't be <0"), ret);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("gray_level=%f, can't be <0"), ret);
     }
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("gray_level=%f"), ret);
 

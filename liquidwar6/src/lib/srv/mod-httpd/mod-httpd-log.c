@@ -28,9 +28,7 @@
 #include "mod-httpd-internal.h"
 
 int
-_mod_httpd_log (_mod_httpd_context_t * httpd_context,
-		_mod_httpd_request_t * request,
-		_mod_httpd_response_t * response)
+_mod_httpd_log (_mod_httpd_context_t * httpd_context, _mod_httpd_request_t * request, _mod_httpd_response_t * response)
 {
   int ret = 0;
   FILE *f = NULL;
@@ -44,10 +42,7 @@ _mod_httpd_log (_mod_httpd_context_t * httpd_context,
 	  f = fopen (httpd_context->access_log_file, "ab");
 	  if (f)
 	    {
-	      if (fprintf
-		  (f, "%s - - [%s] \"%s\" %d %d\n", request->client_ip,
-		   date_str, request->first_line, response->status,
-		   response->content_size) > 0)
+	      if (fprintf (f, "%s - - [%s] \"%s\" %d %d\n", request->client_ip, date_str, request->first_line, response->status, response->content_size) > 0)
 		{
 		  ret = 1;
 		}

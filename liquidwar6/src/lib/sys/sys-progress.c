@@ -40,8 +40,7 @@
  * Return value: none.
  */
 void
-lw6sys_progress_bind (lw6sys_context_t * sys_context,
-		      lw6sys_progress_t * progress, float *value)
+lw6sys_progress_bind (lw6sys_context_t * sys_context, lw6sys_progress_t * progress, float *value)
 {
   if (progress)
     {
@@ -63,8 +62,7 @@ lw6sys_progress_bind (lw6sys_context_t * sys_context,
  * Return value: none.
  */
 void
-lw6sys_progress_default (lw6sys_context_t * sys_context,
-			 lw6sys_progress_t * progress, float *value)
+lw6sys_progress_default (lw6sys_context_t * sys_context, lw6sys_progress_t * progress, float *value)
 {
   if (progress)
     {
@@ -93,30 +91,21 @@ lw6sys_progress_default (lw6sys_context_t * sys_context,
  * Return value: none.
  */
 void
-lw6sys_progress_update (lw6sys_context_t * sys_context,
-			lw6sys_progress_t * progress, int min, int max,
-			int value)
+lw6sys_progress_update (lw6sys_context_t * sys_context, lw6sys_progress_t * progress, int min, int max, int value)
 {
   if (progress && progress->value && (max > min))
     {
       value = lw6sys_imax (min, value);
       value = lw6sys_imin (max, value);
-      (*(progress->value)) =
-	((((float) value) - ((float) min)) / (((float) max) -
-					      ((float) min))) *
-	(progress->max - progress->min) + progress->min;
+      (*(progress->value)) = ((((float) value) - ((float) min)) / (((float) max) - ((float) min))) * (progress->max - progress->min) + progress->min;
       if ((*(progress->value)) < progress->min)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      "progress value too low min=%f max=%f value=%f",
-		      progress->min, progress->max, *(progress->value));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, "progress value too low min=%f max=%f value=%f", progress->min, progress->max, *(progress->value));
 	  (*(progress->value)) = progress->min;
 	}
       if ((*(progress->value)) > progress->max)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      "progress value too high min=%f max=%f value=%f",
-		      progress->min, progress->max, *(progress->value));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, "progress value too high min=%f max=%f value=%f", progress->min, progress->max, *(progress->value));
 	  (*(progress->value)) = progress->max;
 	}
     }
@@ -137,10 +126,7 @@ lw6sys_progress_update (lw6sys_context_t * sys_context,
  * Return value: none
  */
 void
-lw6sys_progress_split (lw6sys_context_t * sys_context,
-		       lw6sys_progress_t * progress1,
-		       lw6sys_progress_t * progress2,
-		       lw6sys_progress_t * progress_src)
+lw6sys_progress_split (lw6sys_context_t * sys_context, lw6sys_progress_t * progress1, lw6sys_progress_t * progress2, lw6sys_progress_t * progress_src)
 {
   float middle;
 
@@ -191,9 +177,7 @@ lw6sys_progress_split (lw6sys_context_t * sys_context,
  */
 void
 lw6sys_progress_split_here (lw6sys_context_t * sys_context,
-			    lw6sys_progress_t * progress1,
-			    lw6sys_progress_t * progress2,
-			    lw6sys_progress_t * progress_src, float here)
+			    lw6sys_progress_t * progress1, lw6sys_progress_t * progress2, lw6sys_progress_t * progress_src, float here)
 {
   float middle;
 
@@ -250,10 +234,7 @@ lw6sys_progress_split_here (lw6sys_context_t * sys_context,
  */
 void
 lw6sys_progress_split3 (lw6sys_context_t * sys_context,
-			lw6sys_progress_t * progress1,
-			lw6sys_progress_t * progress2,
-			lw6sys_progress_t * progress3,
-			lw6sys_progress_t * progress_src)
+			lw6sys_progress_t * progress1, lw6sys_progress_t * progress2, lw6sys_progress_t * progress3, lw6sys_progress_t * progress_src)
 {
   float limit_a, limit_b;
 
@@ -315,10 +296,7 @@ lw6sys_progress_split3 (lw6sys_context_t * sys_context,
 void
 lw6sys_progress_split4 (lw6sys_context_t * sys_context,
 			lw6sys_progress_t * progress1,
-			lw6sys_progress_t * progress2,
-			lw6sys_progress_t * progress3,
-			lw6sys_progress_t * progress4,
-			lw6sys_progress_t * progress_src)
+			lw6sys_progress_t * progress2, lw6sys_progress_t * progress3, lw6sys_progress_t * progress4, lw6sys_progress_t * progress_src)
 {
   float limit_a, limit_b, limit_c;
 
@@ -393,10 +371,7 @@ void
 lw6sys_progress_split5 (lw6sys_context_t * sys_context,
 			lw6sys_progress_t * progress1,
 			lw6sys_progress_t * progress2,
-			lw6sys_progress_t * progress3,
-			lw6sys_progress_t * progress4,
-			lw6sys_progress_t * progress5,
-			lw6sys_progress_t * progress_src)
+			lw6sys_progress_t * progress3, lw6sys_progress_t * progress4, lw6sys_progress_t * progress5, lw6sys_progress_t * progress_src)
 {
   float limit_a, limit_b, limit_c, limit_d;
 
@@ -473,8 +448,7 @@ lw6sys_progress_split5 (lw6sys_context_t * sys_context,
  * Return value: none
  */
 void
-lw6sys_progress_begin (lw6sys_context_t * sys_context,
-		       lw6sys_progress_t * progress)
+lw6sys_progress_begin (lw6sys_context_t * sys_context, lw6sys_progress_t * progress)
 {
   if (progress && progress->value)
     {
@@ -494,8 +468,7 @@ lw6sys_progress_begin (lw6sys_context_t * sys_context,
  * Return value: none
  */
 void
-lw6sys_progress_half (lw6sys_context_t * sys_context,
-		      lw6sys_progress_t * progress)
+lw6sys_progress_half (lw6sys_context_t * sys_context, lw6sys_progress_t * progress)
 {
   if (progress && progress->value)
     {
@@ -514,8 +487,7 @@ lw6sys_progress_half (lw6sys_context_t * sys_context,
  * Return value: none
  */
 void
-lw6sys_progress_end (lw6sys_context_t * sys_context,
-		     lw6sys_progress_t * progress)
+lw6sys_progress_end (lw6sys_context_t * sys_context, lw6sys_progress_t * progress)
 {
   if (progress && progress->value)
     {

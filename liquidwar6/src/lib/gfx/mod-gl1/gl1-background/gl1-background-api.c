@@ -29,14 +29,11 @@
 static void
 _warning (const char *func_name)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-	      _x_ ("background backend function \"%s\" is not defined"),
-	      func_name);
+  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("background backend function \"%s\" is not defined"), func_name);
 }
 
 int
-mod_gl1_background_init (mod_gl1_utils_context_t * utils_context,
-			 mod_gl1_background_backend_t * backend)
+mod_gl1_background_init (mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend)
 {
   if (backend->init)
     {
@@ -51,8 +48,7 @@ mod_gl1_background_init (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_background_quit (mod_gl1_utils_context_t * utils_context,
-			 mod_gl1_background_backend_t * backend)
+mod_gl1_background_quit (mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend)
 {
   if (backend->quit)
     {
@@ -65,15 +61,11 @@ mod_gl1_background_quit (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_background_display_background (mod_gl1_utils_context_t *
-				       utils_context,
-				       mod_gl1_background_backend_t * backend,
-				       const lw6gui_look_t * look)
+mod_gl1_background_display_background (mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend, const lw6gui_look_t * look)
 {
   if (backend->display_background)
     {
-      backend->display_background (utils_context, backend->background_context,
-				   look);
+      backend->display_background (utils_context, backend->background_context, look);
     }
   else
     {

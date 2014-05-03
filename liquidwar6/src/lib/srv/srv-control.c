@@ -48,16 +48,10 @@ lw6srv_start (const char *ip, int port)
       listener->ip = lw6sys_str_copy (ip);
       listener->port = port;
       listener->tcp_sock = lw6net_tcp_listen (ip, port);
-      listener->tcp_accepters =
-	lw6sys_list_new (sys_context,
-			 (lw6sys_free_func_t) lw6srv_tcp_accepter_free);
+      listener->tcp_accepters = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6srv_tcp_accepter_free);
       listener->udp_sock = lw6net_udp_server (ip, port);
-      listener->udp_buffers =
-	lw6sys_list_new (sys_context,
-			 (lw6sys_free_func_t) lw6srv_udp_buffer_free);
-      if (listener->ip && listener->port && (listener->tcp_sock >= 0)
-	  && listener->tcp_accepters && (listener->udp_sock >= 0)
-	  && listener->udp_buffers)
+      listener->udp_buffers = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6srv_udp_buffer_free);
+      if (listener->ip && listener->port && (listener->tcp_sock >= 0) && listener->tcp_accepters && (listener->udp_sock >= 0) && listener->udp_buffers)
 	{
 	  // OK
 	}
@@ -100,8 +94,7 @@ lw6srv_stop (lw6srv_listener_t * listener)
       lw6net_socket_close (&(listener->udp_sock));
       if (listener->tcp_accepters)
 	{
-	  lw6sys_list_map (listener->tcp_accepters, _accepter_close_callback,
-			   NULL);
+	  lw6sys_list_map (listener->tcp_accepters, _accepter_close_callback, NULL);
 	  lw6sys_list_free (listener->tcp_accepters);
 	}
       lw6net_socket_close (&(listener->tcp_sock));
@@ -113,7 +106,6 @@ lw6srv_stop (lw6srv_listener_t * listener)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL listener"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL listener"));
     }
 }

@@ -56,8 +56,7 @@
  * Return value: a newly allocated string, NULL on error.
  */
 extern char *
-lw6sys_url_http_from_ip_port (lw6sys_context_t * sys_context, const char *ip,
-			      int port)
+lw6sys_url_http_from_ip_port (lw6sys_context_t * sys_context, const char *ip, int port)
 {
   char *ret = NULL;
 
@@ -74,9 +73,7 @@ lw6sys_url_http_from_ip_port (lw6sys_context_t * sys_context, const char *ip,
     {
       if (!lw6sys_url_is_canonized (sys_context, ret))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("generated url \"%s\" reported as not canonized"),
-		      ret);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("generated url \"%s\" reported as not canonized"), ret);
 	}
     }
 
@@ -132,8 +129,7 @@ lw6sys_url_parse (lw6sys_context_t * sys_context, const char *url)
 	{
 	  pos = seek + strlen (_DOT_DOT_SLASH_SLASH);
 	}
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("interpreting host, remaining string is \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("interpreting host, remaining string is \"%s\""), pos);
       seek = pos;
       while (_is_host (*seek))
 	{
@@ -154,8 +150,7 @@ lw6sys_url_parse (lw6sys_context_t * sys_context, const char *url)
       pos = seek;
       if ((*pos) == _DOT_DOT)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("port detected, remaining string is \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("port detected, remaining string is \"%s\""), pos);
 	  pos++;
 	  seek = pos;
 	  while (_is_port (*seek))
@@ -170,9 +165,7 @@ lw6sys_url_parse (lw6sys_context_t * sys_context, const char *url)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("no port detected, remaining string is \"%s\""),
-		      pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no port detected, remaining string is \"%s\""), pos);
 	  if (ret->use_ssl)
 	    {
 	      ret->port = _HTTPS_PORT;
@@ -186,8 +179,7 @@ lw6sys_url_parse (lw6sys_context_t * sys_context, const char *url)
 	{
 	  ret->port = _HTTP_PORT;
 	}
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("interpreting URI, remaining string is \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("interpreting URI, remaining string is \"%s\""), pos);
       if (strlen (pos) > 0 && (*pos) == _SLASH)
 	{
 	  ret->uri = lw6sys_escape_http_uri (sys_context, pos);
@@ -286,18 +278,13 @@ lw6sys_url_canonize (lw6sys_context_t * sys_context, const char *url)
 	      tail = _EMPTY_STR;
 	    }
 
-	  if ((tmp->port == _HTTP_PORT && !tmp->use_ssl)
-	      || (tmp->port == _HTTPS_PORT && tmp->use_ssl))
+	  if ((tmp->port == _HTTP_PORT && !tmp->use_ssl) || (tmp->port == _HTTPS_PORT && tmp->use_ssl))
 	    {
-	      ret =
-		lw6sys_new_sprintf (sys_context, "%s://%s%s%s", protocol,
-				    tmp->host, tmp->uri, tail);
+	      ret = lw6sys_new_sprintf (sys_context, "%s://%s%s%s", protocol, tmp->host, tmp->uri, tail);
 	    }
 	  else
 	    {
-	      ret =
-		lw6sys_new_sprintf (sys_context, "%s://%s:%d%s%s", protocol,
-				    tmp->host, tmp->port, tmp->uri, tail);
+	      ret = lw6sys_new_sprintf (sys_context, "%s://%s:%d%s%s", protocol, tmp->host, tmp->port, tmp->uri, tail);
 	    }
 
 	  lw6sys_url_free (sys_context, tmp);

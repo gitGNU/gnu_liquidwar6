@@ -117,8 +117,7 @@ lw6sys_locale_to_utf8 (lw6sys_context_t * sys_context, const char *string)
 		  optr = utf8;
 		  oleft = max_olen;
 
-		  if (iconv (cd, &iptr, &ileft, &optr, &oleft) ==
-		      (size_t) - 1)
+		  if (iconv (cd, &iptr, &ileft, &optr, &oleft) == (size_t) - 1)
 		    {
 		      /*
 		       * The message below is not translated, not
@@ -128,8 +127,7 @@ lw6sys_locale_to_utf8 (lw6sys_context_t * sys_context, const char *string)
 		       * is not working, it makes to translate
 		       * anyway...
 		       */
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  "iconv error \"%s\"", string);
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, "iconv error \"%s\"", string);
 		      LW6SYS_FREE (sys_context, utf8);
 		      utf8 = NULL;	// important to be sure it's handled later
 		    }
@@ -142,8 +140,7 @@ lw6sys_locale_to_utf8 (lw6sys_context_t * sys_context, const char *string)
 	       * Message not translated, iconv doesn't work anyway
 	       * if we're here
 	       */
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  "unable to open iconv");
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, "unable to open iconv");
 	    }
 	}
     }
@@ -159,8 +156,7 @@ lw6sys_locale_to_utf8 (lw6sys_context_t * sys_context, const char *string)
        * Message not translated, iconv doesn't work anyway
        * if we're here
        */
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  "unable to translate string to utf8");
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, "unable to translate string to utf8");
     }
 
   return utf8;

@@ -58,19 +58,13 @@ _cpu_profiler_check (lw6sys_context_t * sys_context, int verbose)
 #ifdef LW6_PROFILER
       if (verbose)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		      _x_
-		      ("using Google CPU Profiler with CPUPROFILE=\"%s\""),
-		      cpuprofile);
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("using Google CPU Profiler with CPUPROFILE=\"%s\""), cpuprofile);
 	}
       ret = 1;
 #else
       if (verbose)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("CPUPROFILE=\"%s\" but this binaray does not seem to support Google Profiler"),
-		      cpuprofile);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("CPUPROFILE=\"%s\" but this binaray does not seem to support Google Profiler"), cpuprofile);
 	}
 #endif
       LW6SYS_FREE (sys_context, cpuprofile);
@@ -80,14 +74,12 @@ _cpu_profiler_check (lw6sys_context_t * sys_context, int verbose)
 #ifdef LW6_PROFILER
       if (verbose)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("Google CPU Profiler supported but turned off"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("Google CPU Profiler supported but turned off"));
 	}
 #else
       if (verbose)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("no Google CPU Profiler support"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no Google CPU Profiler support"));
 	}
 #endif
     }
@@ -108,19 +100,13 @@ _heap_profiler_check (lw6sys_context_t * sys_context, int verbose)
 #ifdef LW6_PROFILER
       if (verbose)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		      _x_
-		      ("using Google HEAP Profiler with HEAPPROFILE=\"%s\""),
-		      heapprofile);
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("using Google HEAP Profiler with HEAPPROFILE=\"%s\""), heapprofile);
 	}
       ret = 1;
 #else
       if (verbose)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("HEAPPROFILE=\"%s\" but this binaray does not seem to support Google Profiler"),
-		      heapprofile);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("HEAPPROFILE=\"%s\" but this binaray does not seem to support Google Profiler"), heapprofile);
 	}
 #endif
       LW6SYS_FREE (sys_context, heapprofile);
@@ -130,14 +116,12 @@ _heap_profiler_check (lw6sys_context_t * sys_context, int verbose)
 #ifdef LW6_PROFILER
       if (verbose)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("Google HEAP Profiler supported but turned off"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("Google HEAP Profiler supported but turned off"));
 	}
 #else
       if (verbose)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("no Google HEAP Profiler support"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no Google HEAP Profiler support"));
 	}
 #endif
     }

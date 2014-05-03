@@ -33,8 +33,7 @@
  * Very slow, we don't care, for debugging only.
  */
 SDL_Surface *
-mod_gl1_utils_create_zones_surface (mod_gl1_utils_context_t * utils_context,
-				    const lw6ker_game_struct_t * game_struct)
+mod_gl1_utils_create_zones_surface (mod_gl1_utils_context_t * utils_context, const lw6ker_game_struct_t * game_struct)
 {
   SDL_Surface *zones_surface;
   lw6sys_color_f_t color;
@@ -42,8 +41,7 @@ mod_gl1_utils_create_zones_surface (mod_gl1_utils_context_t * utils_context,
 
   lw6ker_game_struct_get_shape (sys_context, game_struct, &shape);
 
-  zones_surface =
-    mod_gl1_utils_create_surface (utils_context, shape.w, shape.h);
+  zones_surface = mod_gl1_utils_create_surface (utils_context, shape.w, shape.h);
   if (zones_surface)
     {
       int i;
@@ -53,8 +51,7 @@ mod_gl1_utils_create_zones_surface (mod_gl1_utils_context_t * utils_context,
       lw6sys_xyz_t zone_pos;
       int zone_size;
 
-      lw6ker_game_struct_get_zones_info (sys_context, game_struct, &nb_zones,
-					 &max_zone_size);
+      lw6ker_game_struct_get_zones_info (sys_context, game_struct, &nb_zones, &max_zone_size);
 
       log_base = max_zone_size;
       if (log_base <= 1)
@@ -64,18 +61,14 @@ mod_gl1_utils_create_zones_surface (mod_gl1_utils_context_t * utils_context,
 
       for (i = 0; i < nb_zones; ++i)
 	{
-	  lw6ker_game_struct_get_zone_info (sys_context, game_struct, i,
-					    &zone_pos, &zone_size);
+	  lw6ker_game_struct_get_zone_info (sys_context, game_struct, i, &zone_pos, &zone_size);
 	  grey = log (zone_size) / log (log_base);
 
 	  color.r = color.g = color.b = grey;
 	  color.a = utils_context->const_data.gradient_opacity;
 
 	  mod_gl1_utils_draw_rectfill (zones_surface, zone_pos.x, zone_pos.y,
-				       zone_pos.x + zone_size - 1,
-				       zone_pos.y + zone_size - 1,
-				       lw6sys_color_f_to_irgba (sys_context,
-								&color));
+				       zone_pos.x + zone_size - 1, zone_pos.y + zone_size - 1, lw6sys_color_f_to_irgba (sys_context, &color));
 	}
     }
 

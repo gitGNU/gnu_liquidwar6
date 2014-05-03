@@ -46,11 +46,9 @@ mod_caca_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
-       lw6gui_resize_callback_func_t resize_callback)
+_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
-  _mod_caca_context_t *mod_caca_context =
-    _mod_caca_init (argc, argv, video_mode, resize_callback);
+  _mod_caca_context_t *mod_caca_context = _mod_caca_init (argc, argv, video_mode, resize_callback);
 
   return (void *) mod_caca_context;
 }
@@ -142,10 +140,7 @@ _display (void *gfx_context, int mask, const lw6gui_look_t * look,
 	  const lw6ker_game_struct_t * game_struct,
 	  const lw6ker_game_state_t * game_state,
 	  lw6pil_local_cursors_t * local_cursors,
-	  lw6gui_menu_t * menu,
-	  float progress,
-	  float fps, float mps, const char **log_list, int capture,
-	  int gfx_debug, int debug_team_id, int debug_layer_id)
+	  lw6gui_menu_t * menu, float progress, float fps, float mps, const char **log_list, int capture, int gfx_debug, int debug_team_id, int debug_layer_id)
 {
   int ret = 0;
   _mod_caca_context_t *mod_caca_context = (_mod_caca_context_t *) gfx_context;
@@ -154,9 +149,7 @@ _display (void *gfx_context, int mask, const lw6gui_look_t * look,
     {
       ret =
 	_mod_caca_display (mod_caca_context, mask, look, level, game_struct,
-			   game_state, local_cursors, menu, progress, fps,
-			   mps, log_list, capture, gfx_debug, debug_team_id,
-			   debug_layer_id);
+			   game_state, local_cursors, menu, progress, fps, mps, log_list, capture, gfx_debug, debug_team_id, debug_layer_id);
     }
 
   return ret;
@@ -167,19 +160,15 @@ mod_caca_get_pedigree ()
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
-  module_pedigree =
-    (lw6sys_module_pedigree_t *)
-    LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
+  module_pedigree = (lw6sys_module_pedigree_t *) LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
   if (module_pedigree)
     {
       module_pedigree->id = "caca";
       module_pedigree->category = "gfx";
       module_pedigree->name = _("libcaca");
-      module_pedigree->readme =
-	_x_ ("ASCII-art based backend, using libcaca from Caca Labs.");
+      module_pedigree->readme = _x_ ("ASCII-art based backend, using libcaca from Caca Labs.");
       module_pedigree->version = VERSION;
-      module_pedigree->copyright =
-	"Copyright (C)  2014  Christian Mauduit <ufoot@ufoot.org>";
+      module_pedigree->copyright = "Copyright (C)  2014  Christian Mauduit <ufoot@ufoot.org>";
       module_pedigree->license = "GPLv3+ (GNU GPL version 3 or later)";
       module_pedigree->date = __DATE__;
       module_pedigree->time = __TIME__;

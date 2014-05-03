@@ -57,8 +57,7 @@ merge_func (void *func_data, void *data)
   char *value_converted = NULL;
   char *env = NULL;
 
-  if (must_be_stored (keyword) && strlen (keyword) > 0
-      && lw6sys_env_exists_prefixed (sys_context, keyword))
+  if (must_be_stored (keyword) && strlen (keyword) > 0 && lw6sys_env_exists_prefixed (sys_context, keyword))
     {
       value = lw6sys_getenv_prefixed (sys_context, keyword);
       if (value)
@@ -69,16 +68,12 @@ merge_func (void *func_data, void *data)
 	      env = lw6sys_keyword_as_env (sys_context, keyword);
 	      if (env)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_
-			      ("key \"%s\" set to \"%s\" by environment variable \"%s\""),
-			      keyword, value_converted, env);
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("key \"%s\" set to \"%s\" by environment variable \"%s\""), keyword, value_converted, env);
 		  LW6SYS_FREE (sys_context, env);
 		}
 	      if (lw6sys_spinlock_lock (cfg_context->spinlock))
 		{
-		  lw6sys_hash_set (cfg_context->options, keyword,
-				   value_converted);
+		  lw6sys_hash_set (cfg_context->options, keyword, value_converted);
 		  // no need to free value_converted now
 		  lw6sys_spinlock_unlock (cfg_context->spinlock);
 		}
@@ -94,13 +89,11 @@ _lw6cfg_merge_env (_lw6cfg_context_t * cfg_context)
   int ret = 0;
   lw6sys_list_t *keywords;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("merging environment variables"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("merging environment variables"));
   keywords = lw6hlp_list ();
   if (keywords)
     {
-      lw6sys_list_map (sys_context, keywords, &merge_func,
-		       (void *) cfg_context);
+      lw6sys_list_map (sys_context, keywords, &merge_func, (void *) cfg_context);
       lw6sys_list_free (sys_context, keywords);
     }
 

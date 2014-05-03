@@ -28,8 +28,7 @@
 #include "dyn.h"
 #include "dyn-internal.h"
 
-const char *_LW6DYN_DEVEL_DEPTH_STRINGS[_LW6DYN_DEVEL_NB_DEPTHS] =
-  { "", "../", "../../", "../../../" };
+const char *_LW6DYN_DEVEL_DEPTH_STRINGS[_LW6DYN_DEVEL_NB_DEPTHS] = { "", "../", "../../", "../../../" };
 
 /*
  * Path used to find loadable modules, this is normalize for
@@ -50,8 +49,7 @@ const char *_LW6DYN_DEVEL_DEPTH_STRINGS[_LW6DYN_DEVEL_NB_DEPTHS] =
 #define _SHARED_NEEDLE "shared"
 
 static char *
-_make_devel_path (const char *top_level_lib, const char *backend_name,
-		  int depth, const char *devel_path_format)
+_make_devel_path (const char *top_level_lib, const char *backend_name, int depth, const char *devel_path_format)
 {
   char *ret = NULL;
 
@@ -59,18 +57,14 @@ _make_devel_path (const char *top_level_lib, const char *backend_name,
     {
       ret =
 	lw6sys_new_sprintf (sys_context, devel_path_format,
-			    _LW6DYN_DEVEL_DEPTH_STRINGS[depth], top_level_lib,
-			    backend_name, backend_name,
-			    lw6sys_build_get_version ());
+			    _LW6DYN_DEVEL_DEPTH_STRINGS[depth], top_level_lib, backend_name, backend_name, lw6sys_build_get_version ());
     }
 
   return ret;
 }
 
 static char *
-_make_system_path (int argc, const char *argv[],
-		   const char *top_level_lib, const char *backend_name,
-		   const char *system_path_format)
+_make_system_path (int argc, const char *argv[], const char *top_level_lib, const char *backend_name, const char *system_path_format)
 {
   char *ret = NULL;
   char *mod_dir = NULL;
@@ -78,10 +72,7 @@ _make_system_path (int argc, const char *argv[],
   mod_dir = lw6sys_get_mod_dir (sys_context, argc, argv);
   if (mod_dir)
     {
-      ret =
-	lw6sys_new_sprintf (system_path_format, mod_dir,
-			    top_level_lib, backend_name,
-			    lw6sys_build_get_version ());
+      ret = lw6sys_new_sprintf (system_path_format, mod_dir, top_level_lib, backend_name, lw6sys_build_get_version ());
       LW6SYS_FREE (mod_dir);
     }
 
@@ -89,9 +80,7 @@ _make_system_path (int argc, const char *argv[],
 }
 
 static char *
-_path_find (int argc, const char *argv[],
-	    const char *top_level_lib, const char *backend_name,
-	    const char *devel_path_format, const char *system_path_format)
+_path_find (int argc, const char *argv[], const char *top_level_lib, const char *backend_name, const char *devel_path_format, const char *system_path_format)
 {
   char *ret = NULL;
   char *system_path = NULL;
@@ -100,9 +89,7 @@ _path_find (int argc, const char *argv[],
 
   if (!ret)
     {
-      system_path =
-	_make_system_path (argc, argv, top_level_lib, backend_name,
-			   system_path_format);
+      system_path = _make_system_path (argc, argv, top_level_lib, backend_name, system_path_format);
       if (system_path)
 	{
 	  if (lw6sys_file_exists (system_path))
@@ -111,14 +98,11 @@ _path_find (int argc, const char *argv[],
 	    }
 	  else
 	    {
-	      for (depth = 0; depth < _LW6DYN_DEVEL_NB_DEPTHS && !ret;
-		   ++depth)
+	      for (depth = 0; depth < _LW6DYN_DEVEL_NB_DEPTHS && !ret; ++depth)
 		{
 		  if (!ret)
 		    {
-		      devel_path =
-			_make_devel_path (top_level_lib, backend_name,
-					  depth, devel_path_format);
+		      devel_path = _make_devel_path (top_level_lib, backend_name, depth, devel_path_format);
 		      if (devel_path)
 			{
 			  if (lw6sys_file_exists (sys_context, devel_path))
@@ -140,15 +124,11 @@ _path_find (int argc, const char *argv[],
 	   */
 	  if (strstr (system_path_format, _SHARED_NEEDLE))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			  _x_ ("couldn't find shared code for %s/%s in %s"),
-			  top_level_lib, backend_name, system_path);
+	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("couldn't find shared code for %s/%s in %s"), top_level_lib, backend_name, system_path);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			  _x_ ("couldn't find backend for %s/%s in %s"),
-			  top_level_lib, backend_name, system_path);
+	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("couldn't find backend for %s/%s in %s"), top_level_lib, backend_name, system_path);
 	    }
 
 	  LW6SYS_FREE (system_path);
@@ -179,14 +159,11 @@ _path_find (int argc, const char *argv[],
  * Return value: the full path of the .so file, needs to be freed.
  */
 char *
-lw6dyn_path_find_backend (int argc, const char *argv[],
-			  const char *top_level_lib, const char *backend_name)
+lw6dyn_path_find_backend (int argc, const char *argv[], const char *top_level_lib, const char *backend_name)
 {
   char *ret = NULL;
 
-  ret =
-    _path_find (argc, argv, top_level_lib, backend_name,
-		_BACKEND_DEVEL_PATH_FORMAT, _BACKEND_SYSTEM_PATH_FORMAT);
+  ret = _path_find (argc, argv, top_level_lib, backend_name, _BACKEND_DEVEL_PATH_FORMAT, _BACKEND_SYSTEM_PATH_FORMAT);
 
   return ret;
 }
@@ -217,14 +194,11 @@ lw6dyn_path_find_backend (int argc, const char *argv[],
  * Return value: the full path of the .so file, needs to be freed.
  */
 char *
-lw6dyn_path_find_shared (int argc, const char *argv[],
-			 const char *top_level_lib, const char *shared_name)
+lw6dyn_path_find_shared (int argc, const char *argv[], const char *top_level_lib, const char *shared_name)
 {
   char *ret = NULL;
 
-  ret =
-    _path_find (argc, argv, top_level_lib, shared_name,
-		_SHARED_DEVEL_PATH_FORMAT, _SHARED_SYSTEM_PATH_FORMAT);
+  ret = _path_find (argc, argv, top_level_lib, shared_name, _SHARED_DEVEL_PATH_FORMAT, _SHARED_SYSTEM_PATH_FORMAT);
 
   return ret;
 }

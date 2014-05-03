@@ -105,29 +105,20 @@ extern void _mod_caca_unload_consts (_mod_caca_context_t * context);
 /* mod-caca-game.c */
 extern int _mod_caca_display_map (_mod_caca_context_t * caca_context,
 				  const lw6gui_look_t * look,
-				  const lw6ker_game_state_t * game_state,
-				  const lw6ker_game_struct_t * game_struct,
-				  lw6pil_local_cursors_t * local_cursors);
+				  const lw6ker_game_state_t * game_state, const lw6ker_game_struct_t * game_struct, lw6pil_local_cursors_t * local_cursors);
 
 /* mod-caca-menu.c */
-extern int _mod_caca_display_menu (_mod_caca_context_t * caca_context,
-				   const lw6gui_look_t * look,
-				   lw6gui_menu_t * menu);
+extern int _mod_caca_display_menu (_mod_caca_context_t * caca_context, const lw6gui_look_t * look, lw6gui_menu_t * menu);
 
 /* mod-caca-splash.c */
 extern void plasma_anim (_mod_caca_context_t * caca_context);
-extern void splash_free (_mod_caca_context_t * caca_context, caca_font_t * fo,
-			 caca_dither_t * di, uint8_t * buff, int init);
+extern void splash_free (_mod_caca_context_t * caca_context, caca_font_t * fo, caca_dither_t * di, uint8_t * buff, int init);
 
 /* mod-caca-utils.c */
 extern int _mod_caca_display_hud (_mod_caca_context_t * caca_context,
-				  const lw6gui_look_t * look,
-				  const lw6ker_game_state_t * game_state,
-				  const lw6ker_game_struct_t * game_struct);
+				  const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, const lw6ker_game_struct_t * game_struct);
 extern int _mod_caca_display_score (_mod_caca_context_t * caca_context,
-				    const lw6gui_look_t * look,
-				    const lw6ker_game_state_t * game_state,
-				    const lw6ker_game_struct_t * game_struct);
+				    const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, const lw6ker_game_struct_t * game_struct);
 
 /* mod-caca-display.c */
 extern int _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
@@ -137,54 +128,32 @@ extern int _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
 			      const lw6ker_game_state_t * game_state,
 			      lw6pil_local_cursors_t * local_cursors,
 			      lw6gui_menu_t * menu, float progress, float fps,
-			      float mps, const char **log_list, int capture,
-			      int gfx_debug, int debug_team_id,
-			      int debug_layer_id);
+			      float mps, const char **log_list, int capture, int gfx_debug, int debug_team_id, int debug_layer_id);
 
 /* mod-caca-event.c */
-extern lw6gui_input_t *_mod_caca_pump_events (_mod_caca_context_t *
-					      caca_context);
+extern lw6gui_input_t *_mod_caca_pump_events (_mod_caca_context_t * caca_context);
 
 /* mod-caca-mode.c */
-extern int _mod_caca_set_video_mode (_mod_caca_context_t * caca_context,
-				     lw6gui_video_mode_t * video_mode);
-extern int _mod_caca_resize_video_mode (_mod_caca_context_t * caca_context,
-					lw6gui_video_mode_t * video_mode);
-extern int _mod_caca_get_video_mode (_mod_caca_context_t * caca_context,
-				     lw6gui_video_mode_t * video_mode);
-extern int _mod_caca_set_resize_callback (_mod_caca_context_t *
-					  caca_context,
-					  lw6gui_resize_callback_func_t
-					  resize_callback);
-extern void _mod_caca_call_resize_callback (_mod_caca_context_t *
-					    caca_context);
+extern int _mod_caca_set_video_mode (_mod_caca_context_t * caca_context, lw6gui_video_mode_t * video_mode);
+extern int _mod_caca_resize_video_mode (_mod_caca_context_t * caca_context, lw6gui_video_mode_t * video_mode);
+extern int _mod_caca_get_video_mode (_mod_caca_context_t * caca_context, lw6gui_video_mode_t * video_mode);
+extern int _mod_caca_set_resize_callback (_mod_caca_context_t * caca_context, lw6gui_resize_callback_func_t resize_callback);
+extern void _mod_caca_call_resize_callback (_mod_caca_context_t * caca_context);
 
 /* mod-caca-path.c */
-extern int _mod_caca_path_init (_mod_caca_path_t *
-				path, int argc, const char *argv[]);
+extern int _mod_caca_path_init (_mod_caca_path_t * path, int argc, const char *argv[]);
 extern void _mod_caca_path_quit (_mod_caca_path_t * path);
 
 /* mod-caca-repr.c */
-extern char *_mod_caca_repr (_mod_caca_context_t * caca_context,
-			     u_int32_t id);
+extern char *_mod_caca_repr (_mod_caca_context_t * caca_context, u_int32_t id);
 
 /* mod-caca-resolution.c */
-extern int _mod_caca_get_fullscreen_modes (_mod_caca_context_t *
-					   caca_context,
-					   lw6gui_fullscreen_modes_t * modes);
+extern int _mod_caca_get_fullscreen_modes (_mod_caca_context_t * caca_context, lw6gui_fullscreen_modes_t * modes);
 extern void _mod_caca_find_closest_resolution (_mod_caca_context_t *
-					       caca_context,
-					       int *closest_width,
-					       int *closest_height,
-					       int wished_width,
-					       int wished_height);
+					       caca_context, int *closest_width, int *closest_height, int wished_width, int wished_height);
 
 /* mod-caca-setup.c */
-extern _mod_caca_context_t *_mod_caca_init (int argc, const char *argv[],
-					    lw6gui_video_mode_t *
-					    video_mode,
-					    lw6gui_resize_callback_func_t
-					    resize_callback);
+extern _mod_caca_context_t *_mod_caca_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback);
 extern void _mod_caca_quit (_mod_caca_context_t * caca_context);
 
 #endif // LIQUIDWAR6GFX_MOD_CACA_INTERNAL_H

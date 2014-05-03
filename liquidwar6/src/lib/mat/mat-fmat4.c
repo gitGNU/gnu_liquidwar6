@@ -77,11 +77,9 @@ lw6mat_fmat4_id (lw6mat_fmat4_t * fmat4)
  * Return value: 1 if equal, 0 if different.
  */
 int
-lw6mat_fmat4_is_same (const lw6mat_fmat4_t * fmat4_a,
-		      const lw6mat_fmat4_t * fmat4_b)
+lw6mat_fmat4_is_same (const lw6mat_fmat4_t * fmat4_a, const lw6mat_fmat4_t * fmat4_b)
 {
-  return (!memcmp
-	  ((void *) fmat4_a, (void *) fmat4_b, sizeof (lw6mat_fmat4_t)));
+  return (!memcmp ((void *) fmat4_a, (void *) fmat4_b, sizeof (lw6mat_fmat4_t)));
 }
 
 /**
@@ -148,8 +146,7 @@ lw6mat_fmat4_det (const lw6mat_fmat4_t * fmat4)
     fmat4->m[0][1] * fmat4->m[1][2] * fmat4->m[2][0] * fmat4->m[3][3] +
     fmat4->m[0][2] * fmat4->m[1][0] * fmat4->m[2][1] * fmat4->m[3][3] -
     fmat4->m[0][0] * fmat4->m[1][2] * fmat4->m[2][1] * fmat4->m[3][3] -
-    fmat4->m[0][1] * fmat4->m[1][0] * fmat4->m[2][2] * fmat4->m[3][3] +
-    fmat4->m[0][0] * fmat4->m[1][1] * fmat4->m[2][2] * fmat4->m[3][3];
+    fmat4->m[0][1] * fmat4->m[1][0] * fmat4->m[2][2] * fmat4->m[3][3] + fmat4->m[0][0] * fmat4->m[1][1] * fmat4->m[2][2] * fmat4->m[3][3];
 }
 
 /**
@@ -187,8 +184,7 @@ lw6mat_fmat4_scale (lw6mat_fmat4_t * fmat4, float f)
  * can not be inverted.
  */
 int
-lw6mat_fmat4_inv (lw6mat_fmat4_t * fmat4_dst,
-		  const lw6mat_fmat4_t * fmat4_src)
+lw6mat_fmat4_inv (lw6mat_fmat4_t * fmat4_dst, const lw6mat_fmat4_t * fmat4_src)
 {
   /*
    * In case src and dst or the same, recursively call this
@@ -217,137 +213,103 @@ lw6mat_fmat4_inv (lw6mat_fmat4_t * fmat4_dst,
 	     fmat4_src->m[1][3] * fmat4_src->m[2][2] * fmat4_src->m[3][1] +
 	     fmat4_src->m[1][3] * fmat4_src->m[2][1] * fmat4_src->m[3][2] -
 	     fmat4_src->m[1][1] * fmat4_src->m[2][3] * fmat4_src->m[3][2] -
-	     fmat4_src->m[1][2] * fmat4_src->m[2][1] * fmat4_src->m[3][3] +
-	     fmat4_src->m[1][1] * fmat4_src->m[2][2] * fmat4_src->m[3][3]) /
-	    det;
+	     fmat4_src->m[1][2] * fmat4_src->m[2][1] * fmat4_src->m[3][3] + fmat4_src->m[1][1] * fmat4_src->m[2][2] * fmat4_src->m[3][3]) / det;
 	  fmat4_dst->m[0][1] =
 	    (fmat4_src->m[0][3] * fmat4_src->m[2][2] * fmat4_src->m[3][1] -
 	     fmat4_src->m[0][2] * fmat4_src->m[2][3] * fmat4_src->m[3][1] -
 	     fmat4_src->m[0][3] * fmat4_src->m[2][1] * fmat4_src->m[3][2] +
 	     fmat4_src->m[0][1] * fmat4_src->m[2][3] * fmat4_src->m[3][2] +
-	     fmat4_src->m[0][2] * fmat4_src->m[2][1] * fmat4_src->m[3][3] -
-	     fmat4_src->m[0][1] * fmat4_src->m[2][2] * fmat4_src->m[3][3]) /
-	    det;
+	     fmat4_src->m[0][2] * fmat4_src->m[2][1] * fmat4_src->m[3][3] - fmat4_src->m[0][1] * fmat4_src->m[2][2] * fmat4_src->m[3][3]) / det;
 	  fmat4_dst->m[0][2] =
 	    (fmat4_src->m[0][2] * fmat4_src->m[1][3] * fmat4_src->m[3][1] -
 	     fmat4_src->m[0][3] * fmat4_src->m[1][2] * fmat4_src->m[3][1] +
 	     fmat4_src->m[0][3] * fmat4_src->m[1][1] * fmat4_src->m[3][2] -
 	     fmat4_src->m[0][1] * fmat4_src->m[1][3] * fmat4_src->m[3][2] -
-	     fmat4_src->m[0][2] * fmat4_src->m[1][1] * fmat4_src->m[3][3] +
-	     fmat4_src->m[0][1] * fmat4_src->m[1][2] * fmat4_src->m[3][3]) /
-	    det;
+	     fmat4_src->m[0][2] * fmat4_src->m[1][1] * fmat4_src->m[3][3] + fmat4_src->m[0][1] * fmat4_src->m[1][2] * fmat4_src->m[3][3]) / det;
 	  fmat4_dst->m[0][3] =
 	    (fmat4_src->m[0][3] * fmat4_src->m[1][2] * fmat4_src->m[2][1] -
 	     fmat4_src->m[0][2] * fmat4_src->m[1][3] * fmat4_src->m[2][1] -
 	     fmat4_src->m[0][3] * fmat4_src->m[1][1] * fmat4_src->m[2][2] +
 	     fmat4_src->m[0][1] * fmat4_src->m[1][3] * fmat4_src->m[2][2] +
-	     fmat4_src->m[0][2] * fmat4_src->m[1][1] * fmat4_src->m[2][3] -
-	     fmat4_src->m[0][1] * fmat4_src->m[1][2] * fmat4_src->m[2][3]) /
-	    det;
+	     fmat4_src->m[0][2] * fmat4_src->m[1][1] * fmat4_src->m[2][3] - fmat4_src->m[0][1] * fmat4_src->m[1][2] * fmat4_src->m[2][3]) / det;
 	  fmat4_dst->m[1][0] =
 	    (fmat4_src->m[1][3] * fmat4_src->m[2][2] * fmat4_src->m[3][0] -
 	     fmat4_src->m[1][2] * fmat4_src->m[2][3] * fmat4_src->m[3][0] -
 	     fmat4_src->m[1][3] * fmat4_src->m[2][0] * fmat4_src->m[3][2] +
 	     fmat4_src->m[1][0] * fmat4_src->m[2][3] * fmat4_src->m[3][2] +
-	     fmat4_src->m[1][2] * fmat4_src->m[2][0] * fmat4_src->m[3][3] -
-	     fmat4_src->m[1][0] * fmat4_src->m[2][2] * fmat4_src->m[3][3]) /
-	    det;
+	     fmat4_src->m[1][2] * fmat4_src->m[2][0] * fmat4_src->m[3][3] - fmat4_src->m[1][0] * fmat4_src->m[2][2] * fmat4_src->m[3][3]) / det;
 	  fmat4_dst->m[1][1] =
 	    (fmat4_src->m[0][2] * fmat4_src->m[2][3] * fmat4_src->m[3][0] -
 	     fmat4_src->m[0][3] * fmat4_src->m[2][2] * fmat4_src->m[3][0] +
 	     fmat4_src->m[0][3] * fmat4_src->m[2][0] * fmat4_src->m[3][2] -
 	     fmat4_src->m[0][0] * fmat4_src->m[2][3] * fmat4_src->m[3][2] -
-	     fmat4_src->m[0][2] * fmat4_src->m[2][0] * fmat4_src->m[3][3] +
-	     fmat4_src->m[0][0] * fmat4_src->m[2][2] * fmat4_src->m[3][3]) /
-	    det;
+	     fmat4_src->m[0][2] * fmat4_src->m[2][0] * fmat4_src->m[3][3] + fmat4_src->m[0][0] * fmat4_src->m[2][2] * fmat4_src->m[3][3]) / det;
 	  fmat4_dst->m[1][2] =
 	    (fmat4_src->m[0][3] * fmat4_src->m[1][2] * fmat4_src->m[3][0] -
 	     fmat4_src->m[0][2] * fmat4_src->m[1][3] * fmat4_src->m[3][0] -
 	     fmat4_src->m[0][3] * fmat4_src->m[1][0] * fmat4_src->m[3][2] +
 	     fmat4_src->m[0][0] * fmat4_src->m[1][3] * fmat4_src->m[3][2] +
-	     fmat4_src->m[0][2] * fmat4_src->m[1][0] * fmat4_src->m[3][3] -
-	     fmat4_src->m[0][0] * fmat4_src->m[1][2] * fmat4_src->m[3][3]) /
-	    det;
+	     fmat4_src->m[0][2] * fmat4_src->m[1][0] * fmat4_src->m[3][3] - fmat4_src->m[0][0] * fmat4_src->m[1][2] * fmat4_src->m[3][3]) / det;
 	  fmat4_dst->m[1][3] =
 	    (fmat4_src->m[0][2] * fmat4_src->m[1][3] * fmat4_src->m[2][0] -
 	     fmat4_src->m[0][3] * fmat4_src->m[1][2] * fmat4_src->m[2][0] +
 	     fmat4_src->m[0][3] * fmat4_src->m[1][0] * fmat4_src->m[2][2] -
 	     fmat4_src->m[0][0] * fmat4_src->m[1][3] * fmat4_src->m[2][2] -
-	     fmat4_src->m[0][2] * fmat4_src->m[1][0] * fmat4_src->m[2][3] +
-	     fmat4_src->m[0][0] * fmat4_src->m[1][2] * fmat4_src->m[2][3]) /
-	    det;
+	     fmat4_src->m[0][2] * fmat4_src->m[1][0] * fmat4_src->m[2][3] + fmat4_src->m[0][0] * fmat4_src->m[1][2] * fmat4_src->m[2][3]) / det;
 	  fmat4_dst->m[2][0] =
 	    (fmat4_src->m[1][1] * fmat4_src->m[2][3] * fmat4_src->m[3][0] -
 	     fmat4_src->m[1][3] * fmat4_src->m[2][1] * fmat4_src->m[3][0] +
 	     fmat4_src->m[1][3] * fmat4_src->m[2][0] * fmat4_src->m[3][1] -
 	     fmat4_src->m[1][0] * fmat4_src->m[2][3] * fmat4_src->m[3][1] -
-	     fmat4_src->m[1][1] * fmat4_src->m[2][0] * fmat4_src->m[3][3] +
-	     fmat4_src->m[1][0] * fmat4_src->m[2][1] * fmat4_src->m[3][3]) /
-	    det;
+	     fmat4_src->m[1][1] * fmat4_src->m[2][0] * fmat4_src->m[3][3] + fmat4_src->m[1][0] * fmat4_src->m[2][1] * fmat4_src->m[3][3]) / det;
 	  fmat4_dst->m[2][1] =
 	    (fmat4_src->m[0][3] * fmat4_src->m[2][1] * fmat4_src->m[3][0] -
 	     fmat4_src->m[0][1] * fmat4_src->m[2][3] * fmat4_src->m[3][0] -
 	     fmat4_src->m[0][3] * fmat4_src->m[2][0] * fmat4_src->m[3][1] +
 	     fmat4_src->m[0][0] * fmat4_src->m[2][3] * fmat4_src->m[3][1] +
-	     fmat4_src->m[0][1] * fmat4_src->m[2][0] * fmat4_src->m[3][3] -
-	     fmat4_src->m[0][0] * fmat4_src->m[2][1] * fmat4_src->m[3][3]) /
-	    det;
+	     fmat4_src->m[0][1] * fmat4_src->m[2][0] * fmat4_src->m[3][3] - fmat4_src->m[0][0] * fmat4_src->m[2][1] * fmat4_src->m[3][3]) / det;
 	  fmat4_dst->m[2][2] =
 	    (fmat4_src->m[0][1] * fmat4_src->m[1][3] * fmat4_src->m[3][0] -
 	     fmat4_src->m[0][3] * fmat4_src->m[1][1] * fmat4_src->m[3][0] +
 	     fmat4_src->m[0][3] * fmat4_src->m[1][0] * fmat4_src->m[3][1] -
 	     fmat4_src->m[0][0] * fmat4_src->m[1][3] * fmat4_src->m[3][1] -
-	     fmat4_src->m[0][1] * fmat4_src->m[1][0] * fmat4_src->m[3][3] +
-	     fmat4_src->m[0][0] * fmat4_src->m[1][1] * fmat4_src->m[3][3]) /
-	    det;
+	     fmat4_src->m[0][1] * fmat4_src->m[1][0] * fmat4_src->m[3][3] + fmat4_src->m[0][0] * fmat4_src->m[1][1] * fmat4_src->m[3][3]) / det;
 	  fmat4_dst->m[2][3] =
 	    (fmat4_src->m[0][3] * fmat4_src->m[1][1] * fmat4_src->m[2][0] -
 	     fmat4_src->m[0][1] * fmat4_src->m[1][3] * fmat4_src->m[2][0] -
 	     fmat4_src->m[0][3] * fmat4_src->m[1][0] * fmat4_src->m[2][1] +
 	     fmat4_src->m[0][0] * fmat4_src->m[1][3] * fmat4_src->m[2][1] +
-	     fmat4_src->m[0][1] * fmat4_src->m[1][0] * fmat4_src->m[2][3] -
-	     fmat4_src->m[0][0] * fmat4_src->m[1][1] * fmat4_src->m[2][3]) /
-	    det;
+	     fmat4_src->m[0][1] * fmat4_src->m[1][0] * fmat4_src->m[2][3] - fmat4_src->m[0][0] * fmat4_src->m[1][1] * fmat4_src->m[2][3]) / det;
 	  fmat4_dst->m[3][0] =
 	    (fmat4_src->m[1][2] * fmat4_src->m[2][1] * fmat4_src->m[3][0] -
 	     fmat4_src->m[1][1] * fmat4_src->m[2][2] * fmat4_src->m[3][0] -
 	     fmat4_src->m[1][2] * fmat4_src->m[2][0] * fmat4_src->m[3][1] +
 	     fmat4_src->m[1][0] * fmat4_src->m[2][2] * fmat4_src->m[3][1] +
-	     fmat4_src->m[1][1] * fmat4_src->m[2][0] * fmat4_src->m[3][2] -
-	     fmat4_src->m[1][0] * fmat4_src->m[2][1] * fmat4_src->m[3][2]) /
-	    det;
+	     fmat4_src->m[1][1] * fmat4_src->m[2][0] * fmat4_src->m[3][2] - fmat4_src->m[1][0] * fmat4_src->m[2][1] * fmat4_src->m[3][2]) / det;
 	  fmat4_dst->m[3][1] =
 	    (fmat4_src->m[0][1] * fmat4_src->m[2][2] * fmat4_src->m[3][0] -
 	     fmat4_src->m[0][2] * fmat4_src->m[2][1] * fmat4_src->m[3][0] +
 	     fmat4_src->m[0][2] * fmat4_src->m[2][0] * fmat4_src->m[3][1] -
 	     fmat4_src->m[0][0] * fmat4_src->m[2][2] * fmat4_src->m[3][1] -
-	     fmat4_src->m[0][1] * fmat4_src->m[2][0] * fmat4_src->m[3][2] +
-	     fmat4_src->m[0][0] * fmat4_src->m[2][1] * fmat4_src->m[3][2]) /
-	    det;
+	     fmat4_src->m[0][1] * fmat4_src->m[2][0] * fmat4_src->m[3][2] + fmat4_src->m[0][0] * fmat4_src->m[2][1] * fmat4_src->m[3][2]) / det;
 	  fmat4_dst->m[3][2] =
 	    (fmat4_src->m[0][2] * fmat4_src->m[1][1] * fmat4_src->m[3][0] -
 	     fmat4_src->m[0][1] * fmat4_src->m[1][2] * fmat4_src->m[3][0] -
 	     fmat4_src->m[0][2] * fmat4_src->m[1][0] * fmat4_src->m[3][1] +
 	     fmat4_src->m[0][0] * fmat4_src->m[1][2] * fmat4_src->m[3][1] +
-	     fmat4_src->m[0][1] * fmat4_src->m[1][0] * fmat4_src->m[3][2] -
-	     fmat4_src->m[0][0] * fmat4_src->m[1][1] * fmat4_src->m[3][2]) /
-	    det;
+	     fmat4_src->m[0][1] * fmat4_src->m[1][0] * fmat4_src->m[3][2] - fmat4_src->m[0][0] * fmat4_src->m[1][1] * fmat4_src->m[3][2]) / det;
 	  fmat4_dst->m[3][3] =
 	    (fmat4_src->m[0][1] * fmat4_src->m[1][2] * fmat4_src->m[2][0] -
 	     fmat4_src->m[0][2] * fmat4_src->m[1][1] * fmat4_src->m[2][0] +
 	     fmat4_src->m[0][2] * fmat4_src->m[1][0] * fmat4_src->m[2][1] -
 	     fmat4_src->m[0][0] * fmat4_src->m[1][2] * fmat4_src->m[2][1] -
-	     fmat4_src->m[0][1] * fmat4_src->m[1][0] * fmat4_src->m[2][2] +
-	     fmat4_src->m[0][0] * fmat4_src->m[1][1] * fmat4_src->m[2][2]) /
-	    det;
+	     fmat4_src->m[0][1] * fmat4_src->m[1][0] * fmat4_src->m[2][2] + fmat4_src->m[0][0] * fmat4_src->m[1][1] * fmat4_src->m[2][2]) / det;
 
 	  return 1;
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_
-		      ("trying to invert non-invertible fmat4 matrix, determinant is 0"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("trying to invert non-invertible fmat4 matrix, determinant is 0"));
 
 	  return 0;
 	}
@@ -366,9 +328,7 @@ lw6mat_fmat4_inv (lw6mat_fmat4_t * fmat4_dst,
  * Return value: none.
  */
 void
-lw6mat_fmat4_mul_fmat4 (lw6mat_fmat4_t * fmat4,
-			const lw6mat_fmat4_t * fmat4_a,
-			const lw6mat_fmat4_t * fmat4_b)
+lw6mat_fmat4_mul_fmat4 (lw6mat_fmat4_t * fmat4, const lw6mat_fmat4_t * fmat4_a, const lw6mat_fmat4_t * fmat4_b)
 {
   /*
    * In case src(s) and dst or the same, recursively call this
@@ -396,9 +356,7 @@ lw6mat_fmat4_mul_fmat4 (lw6mat_fmat4_t * fmat4,
 	  for (j = 0; j < LW6MAT_MAT4_M_SIZE; ++j)
 	    {
 	      fmat4->m[i][j] = fmat4_a->m[0][j] * fmat4_b->m[i][0]
-		+ fmat4_a->m[1][j] * fmat4_b->m[i][1]
-		+ fmat4_a->m[2][j] * fmat4_b->m[i][2]
-		+ fmat4_a->m[3][j] * fmat4_b->m[i][3];
+		+ fmat4_a->m[1][j] * fmat4_b->m[i][1] + fmat4_a->m[2][j] * fmat4_b->m[i][2] + fmat4_a->m[3][j] * fmat4_b->m[i][3];
 	    }
 	}
     }
@@ -421,9 +379,7 @@ lw6mat_fmat4_mul_fmat4 (lw6mat_fmat4_t * fmat4,
  * Return value: none.
  */
 void
-lw6mat_fmat4_mul_fvec4 (lw6mat_fvec4_t * fvec4_dst,
-			const lw6mat_fmat4_t * fmat4,
-			const lw6mat_fvec4_t * fvec4_src)
+lw6mat_fmat4_mul_fvec4 (lw6mat_fvec4_t * fvec4_dst, const lw6mat_fmat4_t * fmat4, const lw6mat_fvec4_t * fvec4_src)
 {
   /*
    * In case src and dst or the same, recursively call this
@@ -439,17 +395,13 @@ lw6mat_fmat4_mul_fvec4 (lw6mat_fvec4_t * fvec4_dst,
   else
     {
       fvec4_dst->v[0] =
-	fmat4->m[0][0] * fvec4_src->v[0] + fmat4->m[1][0] * fvec4_src->v[1] +
-	fmat4->m[2][0] * fvec4_src->v[2] + fmat4->m[3][0] * fvec4_src->v[3];
+	fmat4->m[0][0] * fvec4_src->v[0] + fmat4->m[1][0] * fvec4_src->v[1] + fmat4->m[2][0] * fvec4_src->v[2] + fmat4->m[3][0] * fvec4_src->v[3];
       fvec4_dst->v[1] =
-	fmat4->m[0][1] * fvec4_src->v[0] + fmat4->m[1][1] * fvec4_src->v[1] +
-	fmat4->m[2][1] * fvec4_src->v[2] + fmat4->m[3][1] * fvec4_src->v[3];
+	fmat4->m[0][1] * fvec4_src->v[0] + fmat4->m[1][1] * fvec4_src->v[1] + fmat4->m[2][1] * fvec4_src->v[2] + fmat4->m[3][1] * fvec4_src->v[3];
       fvec4_dst->v[2] =
-	fmat4->m[0][2] * fvec4_src->v[0] + fmat4->m[1][2] * fvec4_src->v[1] +
-	fmat4->m[2][2] * fvec4_src->v[2] + fmat4->m[3][2] * fvec4_src->v[3];
+	fmat4->m[0][2] * fvec4_src->v[0] + fmat4->m[1][2] * fvec4_src->v[1] + fmat4->m[2][2] * fvec4_src->v[2] + fmat4->m[3][2] * fvec4_src->v[3];
       fvec4_dst->v[3] =
-	fmat4->m[0][3] * fvec4_src->v[0] + fmat4->m[1][3] * fvec4_src->v[1] +
-	fmat4->m[2][3] * fvec4_src->v[2] + fmat4->m[3][3] * fvec4_src->v[3];
+	fmat4->m[0][3] * fvec4_src->v[0] + fmat4->m[1][3] * fvec4_src->v[1] + fmat4->m[2][3] * fvec4_src->v[2] + fmat4->m[3][3] * fvec4_src->v[3];
     }
 }
 
@@ -473,9 +425,7 @@ lw6mat_fmat4_mul_fvec4 (lw6mat_fvec4_t * fvec4_dst,
  * Return value: none.
  */
 void
-lw6mat_fmat4_mul_fvec3 (lw6mat_fvec3_t * fvec3_dst,
-			const lw6mat_fmat4_t * fmat4,
-			const lw6mat_fvec3_t * fvec3_src)
+lw6mat_fmat4_mul_fvec3 (lw6mat_fvec3_t * fvec3_dst, const lw6mat_fmat4_t * fmat4, const lw6mat_fvec3_t * fvec3_src)
 {
   /*
    * In case src and dst or the same, recursively call this
@@ -490,15 +440,9 @@ lw6mat_fmat4_mul_fvec3 (lw6mat_fvec3_t * fvec3_dst,
     }
   else
     {
-      fvec3_dst->v[0] =
-	fmat4->m[0][0] * fvec3_src->v[0] + fmat4->m[1][0] * fvec3_src->v[1] +
-	fmat4->m[2][0] * fvec3_src->v[2] + fmat4->m[3][0];
-      fvec3_dst->v[1] =
-	fmat4->m[0][1] * fvec3_src->v[0] + fmat4->m[1][1] * fvec3_src->v[1] +
-	fmat4->m[2][1] * fvec3_src->v[2] + fmat4->m[3][1];
-      fvec3_dst->v[2] =
-	fmat4->m[0][2] * fvec3_src->v[0] + fmat4->m[1][2] * fvec3_src->v[1] +
-	fmat4->m[2][2] * fvec3_src->v[2] + fmat4->m[3][2];
+      fvec3_dst->v[0] = fmat4->m[0][0] * fvec3_src->v[0] + fmat4->m[1][0] * fvec3_src->v[1] + fmat4->m[2][0] * fvec3_src->v[2] + fmat4->m[3][0];
+      fvec3_dst->v[1] = fmat4->m[0][1] * fvec3_src->v[0] + fmat4->m[1][1] * fvec3_src->v[1] + fmat4->m[2][1] * fvec3_src->v[2] + fmat4->m[3][1];
+      fvec3_dst->v[2] = fmat4->m[0][2] * fvec3_src->v[0] + fmat4->m[1][2] * fvec3_src->v[1] + fmat4->m[2][2] * fvec3_src->v[2] + fmat4->m[3][2];
     }
 }
 
@@ -523,9 +467,7 @@ lw6mat_fmat4_repr (const lw6mat_fmat4_t * fmat4)
      LW6MAT_REPR_F, LW6MAT_REPR_MAT, LW6MAT_MAT4_M_SIZE,
      LW6MAT_MAT4_M_SIZE, fmat4->m[0][0], fmat4->m[1][0], fmat4->m[2][0],
      fmat4->m[3][0], fmat4->m[0][1], fmat4->m[1][1], fmat4->m[2][1],
-     fmat4->m[3][1], fmat4->m[0][2], fmat4->m[1][2], fmat4->m[2][2],
-     fmat4->m[3][2], fmat4->m[0][3], fmat4->m[1][3], fmat4->m[2][3],
-     fmat4->m[3][3]);
+     fmat4->m[3][1], fmat4->m[0][2], fmat4->m[1][2], fmat4->m[2][2], fmat4->m[3][2], fmat4->m[0][3], fmat4->m[1][3], fmat4->m[2][3], fmat4->m[3][3]);
 
   return repr;
 }

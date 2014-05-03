@@ -35,8 +35,7 @@
 #define _SCREENSHOT_FILE "idle.jpg"
 
 static void
-_read_callback (void *callback_data, const char *element, const char *key,
-		const char *value)
+_read_callback (void *callback_data, const char *element, const char *key, const char *value)
 {
   _lw6p2p_consts_t *consts;
 
@@ -45,43 +44,25 @@ _read_callback (void *callback_data, const char *element, const char *key,
   if (!strcmp (element, "int"))
     {
       lw6cfg_read_xml_int (key, value, "accept-delay", &consts->accept_delay);
-      lw6cfg_read_xml_int (key, value, "flush-verified-nodes-delay",
-			   &consts->flush_verified_nodes_delay);
-      lw6cfg_read_xml_int (key, value, "flush-discovered-nodes-delay",
-			   &consts->flush_discovered_nodes_delay);
-      lw6cfg_read_xml_int (key, value, "explore-discover-nodes-delay",
-			   &consts->explore_discover_nodes_delay);
-      lw6cfg_read_xml_int (key, value, "explore-verify-nodes-delay",
-			   &consts->explore_verify_nodes_delay);
-      lw6cfg_read_xml_int (key, value, "connect-registered-nodes-delay",
-			   &consts->connect_registered_nodes_delay);
-      lw6cfg_read_xml_int (key, value, "connect-registered-max-ping",
-			   &consts->connect_registered_max_ping);
-      lw6cfg_read_xml_int (key, value, "node-expire-soft-delay",
-			   &consts->node_expire_soft_delay);
-      lw6cfg_read_xml_int (key, value, "node-expire-hard-delay",
-			   &consts->node_expire_hard_delay);
-      lw6cfg_read_xml_int (key, value, "node-verify-max-at-once",
-			   &consts->node_verify_max_at_once);
+      lw6cfg_read_xml_int (key, value, "flush-verified-nodes-delay", &consts->flush_verified_nodes_delay);
+      lw6cfg_read_xml_int (key, value, "flush-discovered-nodes-delay", &consts->flush_discovered_nodes_delay);
+      lw6cfg_read_xml_int (key, value, "explore-discover-nodes-delay", &consts->explore_discover_nodes_delay);
+      lw6cfg_read_xml_int (key, value, "explore-verify-nodes-delay", &consts->explore_verify_nodes_delay);
+      lw6cfg_read_xml_int (key, value, "connect-registered-nodes-delay", &consts->connect_registered_nodes_delay);
+      lw6cfg_read_xml_int (key, value, "connect-registered-max-ping", &consts->connect_registered_max_ping);
+      lw6cfg_read_xml_int (key, value, "node-expire-soft-delay", &consts->node_expire_soft_delay);
+      lw6cfg_read_xml_int (key, value, "node-expire-hard-delay", &consts->node_expire_hard_delay);
+      lw6cfg_read_xml_int (key, value, "node-verify-max-at-once", &consts->node_verify_max_at_once);
       lw6cfg_read_xml_int (key, value, "foo-delay", &consts->foo_delay);
       lw6cfg_read_xml_int (key, value, "join-delay", &consts->join_delay);
-      lw6cfg_read_xml_int (key, value, "miss-get-delay",
-			   &consts->miss_get_delay);
-      lw6cfg_read_xml_int (key, value, "miss-duplicate-delay",
-			   &consts->miss_duplicate_delay);
-      lw6cfg_read_xml_int (key, value, "miss-wake-up-interval",
-			   &consts->miss_wake_up_interval);
-      lw6cfg_read_xml_int (key, value, "miss-max-range",
-			   &consts->miss_max_range);
-      lw6cfg_read_xml_int (key, value, "ticket-table-hash-size",
-			   &consts->ticket_table_hash_size);
-      lw6cfg_read_xml_int (key, value, "send-per-poll-limit-n",
-			   &consts->send_per_poll_limit_n);
-      lw6cfg_read_xml_int (key, value,
-			   "received-atom-parts-per-poll-to-disable-miss",
-			   &consts->received_atom_parts_per_poll_to_disable_miss);
-      lw6cfg_read_xml_int (key, value, "meta-nb-duplicates",
-			   &consts->meta_nb_duplicates);
+      lw6cfg_read_xml_int (key, value, "miss-get-delay", &consts->miss_get_delay);
+      lw6cfg_read_xml_int (key, value, "miss-duplicate-delay", &consts->miss_duplicate_delay);
+      lw6cfg_read_xml_int (key, value, "miss-wake-up-interval", &consts->miss_wake_up_interval);
+      lw6cfg_read_xml_int (key, value, "miss-max-range", &consts->miss_max_range);
+      lw6cfg_read_xml_int (key, value, "ticket-table-hash-size", &consts->ticket_table_hash_size);
+      lw6cfg_read_xml_int (key, value, "send-per-poll-limit-n", &consts->send_per_poll_limit_n);
+      lw6cfg_read_xml_int (key, value, "received-atom-parts-per-poll-to-disable-miss", &consts->received_atom_parts_per_poll_to_disable_miss);
+      lw6cfg_read_xml_int (key, value, "meta-nb-duplicates", &consts->meta_nb_duplicates);
     }
 }
 
@@ -90,18 +71,14 @@ _load_consts (_lw6p2p_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
-	      consts_file);
-  ret =
-    lw6cfg_read_key_value_xml_file (consts_file, _read_callback,
-				    (void *) consts);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), consts_file);
+  ret = lw6cfg_read_key_value_xml_file (consts_file, _read_callback, (void *) consts);
 
   return ret;
 }
 
 static int
-_read_query (lw6sys_hash_t * queries, const char *sql_dir,
-	     const char *query_file)
+_read_query (lw6sys_hash_t * queries, const char *sql_dir, const char *query_file)
 {
   int ret = 0;
   char *filename = NULL;
@@ -110,8 +87,7 @@ _read_query (lw6sys_hash_t * queries, const char *sql_dir,
   filename = lw6sys_path_concat (sql_dir, query_file);
   if (filename)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
-		  filename);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), filename);
       query = lw6sys_read_file_content (sys_context, filename);
       if (query)
 	{
@@ -120,9 +96,7 @@ _read_query (lw6sys_hash_t * queries, const char *sql_dir,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		      _("can't read query \"%s\" in \"%s\""), query_file,
-		      filename);
+	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("can't read query \"%s\" in \"%s\""), query_file, filename);
 	}
       LW6SYS_FREE (sys_context, filename);
     }
@@ -138,14 +112,12 @@ _check_query_not_null (void *func_data, const char *key, void *value)
 
   if (query == NULL)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("query \"%s\" is NULL"), key);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("query \"%s\" is NULL"), key);
       (*ret) = 0;
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("query \"%s\" is \"%s\""), key, query);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("query \"%s\" is \"%s\""), key, query);
     }
 }
 
@@ -154,16 +126,14 @@ _load_sql (_lw6p2p_sql_t * sql, const char *sql_dir)
 {
   int ret = 0;
 
-  sql->queries =
-    lw6sys_hash_new (sys_context, lw6sys_free_callback, _QUERIES_HASH_SIZE);
+  sql->queries = lw6sys_hash_new (sys_context, lw6sys_free_callback, _QUERIES_HASH_SIZE);
   if (sql->queries)
     {
       ret = 1;
 
       _read_query (sql->queries, sql_dir, _LW6P2P_CLEAN_DATABASE_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_CREATE_DATABASE_SQL);
-      _read_query (sql->queries, sql_dir,
-		   _LW6P2P_DELETE_CONNECTION_BY_PTR_SQL);
+      _read_query (sql->queries, sql_dir, _LW6P2P_DELETE_CONNECTION_BY_PTR_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_DELETE_NODE_BY_ID_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_DELETE_NODE_BY_URL_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_DELETE_OLD_NODE_SQL);
@@ -176,8 +146,7 @@ _load_sql (_lw6p2p_sql_t * sql, const char *sql_dir)
       _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_UNVERIFIED_NODE_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_OTHER_NODE_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_AVAILABLE_NODE_SQL);
-      _read_query (sql->queries, sql_dir,
-		   _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL);
+      _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_UPDATE_NODE_INFO_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_UPDATE_NODE_NET_SQL);
 
@@ -188,34 +157,26 @@ _load_sql (_lw6p2p_sql_t * sql, const char *sql_dir)
 }
 
 static int
-_load_screenshot (_lw6p2p_screenshot_t * screenshot,
-		  const char *screenshot_file)
+_load_screenshot (_lw6p2p_screenshot_t * screenshot, const char *screenshot_file)
 {
   int ret = 0;
 
   if (lw6sys_file_exists (screenshot_file))
     {
-      screenshot->data =
-	lw6sys_read_file_content_bin (&(screenshot->size), screenshot_file);
+      screenshot->data = lw6sys_read_file_content_bin (&(screenshot->size), screenshot_file);
       if (screenshot->data && screenshot->size > 0)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("read screenshot \"%s\", %d bytes"),
-		      screenshot_file, screenshot->size);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("read screenshot \"%s\", %d bytes"), screenshot_file, screenshot->size);
 	  ret = 1;
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		      _x_ ("unable to read screenshot file \"%s\""),
-		      screenshot_file);
+	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _x_ ("unable to read screenshot file \"%s\""), screenshot_file);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _x_ ("unable to find screenshot file \"%s\""),
-		  screenshot_file);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _x_ ("unable to find screenshot file \"%s\""), screenshot_file);
     }
 
   return ret;
@@ -239,14 +200,12 @@ _lw6p2p_data_load (_lw6p2p_data_t * data, const char *data_dir)
       screenshot_dir = lw6sys_path_concat (p2p_subdir, _SCREENSHOT_DIR);
       if (screenshot_dir)
 	{
-	  screenshot_file =
-	    lw6sys_path_concat (screenshot_dir, _SCREENSHOT_FILE);
+	  screenshot_file = lw6sys_path_concat (screenshot_dir, _SCREENSHOT_FILE);
 	}
       if (consts_file && sql_dir && screenshot_file)
 	{
 	  ret = _load_consts (&(data->consts), consts_file)
-	    && _load_sql (&(data->sql), sql_dir)
-	    && _load_screenshot (&(data->idle_screenshot), screenshot_file);
+	    && _load_sql (&(data->sql), sql_dir) && _load_screenshot (&(data->idle_screenshot), screenshot_file);
 	}
       if (consts_file)
 	{
@@ -313,8 +272,7 @@ _lw6p2p_data_unload (_lw6p2p_data_t * data)
 {
   int ret = 0;
 
-  ret = _unload_consts (&(data->consts)) && _unload_sql (&(data->sql))
-    && _unload_screenshot (&(data->idle_screenshot));
+  ret = _unload_consts (&(data->consts)) && _unload_sql (&(data->sql)) && _unload_screenshot (&(data->idle_screenshot));
 
   return ret;
 }

@@ -28,8 +28,7 @@
 #include "mod-csound-internal.h"
 
 int
-_mod_csound_is_music_file (_mod_csound_context_t *
-			   csound_context, char *music_file)
+_mod_csound_is_music_file (_mod_csound_context_t * csound_context, char *music_file)
 {
   int ret = 0;
 
@@ -40,8 +39,7 @@ _mod_csound_is_music_file (_mod_csound_context_t *
 }
 
 int
-_mod_csound_play_music_file (_mod_csound_context_t * snd_context,
-			     char *music_file)
+_mod_csound_play_music_file (_mod_csound_context_t * snd_context, char *music_file)
 {
   int ret = 0;
 
@@ -52,9 +50,7 @@ _mod_csound_play_music_file (_mod_csound_context_t * snd_context,
 }
 
 int
-_mod_csound_play_music_random (_mod_csound_context_t * csound_context,
-			       char *music_path, char *music_filter,
-			       char *music_exclude)
+_mod_csound_play_music_random (_mod_csound_context_t * csound_context, char *music_path, char *music_filter, char *music_exclude)
 {
   int ret = 0;
 

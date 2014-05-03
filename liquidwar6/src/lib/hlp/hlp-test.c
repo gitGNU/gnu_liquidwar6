@@ -60,27 +60,18 @@ _test_about ()
       }
 
     help_string = lw6hlp_about (NULL, NULL, NULL, NULL, _TEST_KEYWORD);
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("help for \"%s\" is \"%s\""), _TEST_KEYWORD,
-		help_string);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("help for \"%s\" is \"%s\""), _TEST_KEYWORD, help_string);
     type = lw6hlp_get_type (_TEST_KEYWORD);
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("type for \"%s\" is \"%d\""), _TEST_KEYWORD, (int) type);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("type for \"%s\" is \"%d\""), _TEST_KEYWORD, (int) type);
     default_value = lw6hlp_get_default_value (_TEST_KEYWORD);
     if (default_value)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("default value for \"%s\" is \"%s\""), _TEST_KEYWORD,
-		    default_value);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("default value for \"%s\" is \"%s\""), _TEST_KEYWORD, default_value);
       }
     min_value = lw6hlp_get_min_value (_TEST_KEYWORD);
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("min value for \"%s\" is \"%d\""), _TEST_KEYWORD,
-		min_value);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("min value for \"%s\" is \"%d\""), _TEST_KEYWORD, min_value);
     max_value = lw6hlp_get_max_value (_TEST_KEYWORD);
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("max value for \"%s\" is \"%d\""), _TEST_KEYWORD,
-		max_value);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("max value for \"%s\" is \"%d\""), _TEST_KEYWORD, max_value);
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -104,8 +95,7 @@ _test_credits ()
 	credits = lw6hlp_get_credits (i);
 	if (credits)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("credit line %d: \"%s\""), i, credits);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("credit line %d: \"%s\""), i, credits);
 	    LW6SYS_FREE (sys_context, credits);
 	  }
 	else
@@ -136,9 +126,7 @@ _test_print ()
 	lw6hlp_print_keyword (&list, stdout);
 	lw6sys_list_free (list);
       }
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("now showing what \"--about=%s\" would look like"),
-		_TEST_KEYWORD);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("now showing what \"--about=%s\" would look like"), _TEST_KEYWORD);
     lw6hlp_print_about (_TEST_KEYWORD, stdout);
   }
 
@@ -148,16 +136,14 @@ _test_print ()
 static int
 _setup_init ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libhlp CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libhlp CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libhlp CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libhlp CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -196,9 +182,7 @@ lw6hlp_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 

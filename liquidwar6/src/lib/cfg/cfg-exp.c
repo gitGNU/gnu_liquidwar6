@@ -74,8 +74,7 @@ _calc_checksum (int exp)
 }
 
 static void
-load_callback (void *callback_data, const char *element, const char *key,
-	       const char *value)
+load_callback (void *callback_data, const char *element, const char *key, const char *value)
 {
   _exp_t *exp = (_exp_t *) callback_data;
 
@@ -91,8 +90,7 @@ load_callback (void *callback_data, const char *element, const char *key,
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("item \"%s\" ignored"),
-		  key);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("item \"%s\" ignored"), key);
     }
 }
 
@@ -120,35 +118,27 @@ lw6cfg_load_exp (const char *user_dir, int *exp)
   filename = _get_filename (user_dir);
   if (filename)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("loading exp from \"%s\""), filename);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading exp from \"%s\""), filename);
 
       if (lw6sys_file_exists (sys_context, filename))
 	{
-	  ret =
-	    lw6cfg_read_key_value_xml_file (filename, load_callback,
-					    (void *) &exp_t);
+	  ret = lw6cfg_read_key_value_xml_file (filename, load_callback, (void *) &exp_t);
 	  checksum = _calc_checksum (exp_t.exp);
 	  if (checksum != exp_t.checksum)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("bad exp checksum"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad exp checksum"));
 	      exp_t.exp = LW6MAP_RULES_MIN_EXP;
 	    }
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("exp file \"%s\" doesn't exist, using defaults"),
-		      filename);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("exp file \"%s\" doesn't exist, using defaults"), filename);
 	}
 
       LW6SYS_FREE (sys_context, filename);
     }
 
-  exp_t.exp =
-    lw6sys_imin (LW6MAP_RULES_MAX_EXP,
-		 lw6sys_imax (LW6MAP_RULES_MIN_EXP, exp_t.exp));
+  exp_t.exp = lw6sys_imin (LW6MAP_RULES_MAX_EXP, lw6sys_imax (LW6MAP_RULES_MIN_EXP, exp_t.exp));
   (*exp) = exp_t.exp;
 
   return ret;
@@ -175,8 +165,7 @@ lw6cfg_save_exp (const char *user_dir, int exp)
   filename = _get_filename (user_dir);
   if (filename)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("saving exp to \"%s\""),
-		  filename);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("saving exp to \"%s\""), filename);
 
       f = fopen (filename, "wb");
       if (f)
@@ -185,23 +174,17 @@ lw6cfg_save_exp (const char *user_dir, int exp)
 				   _x_
 				   ("This is where your exp is kept. Please do not edit, this would be assimilated to cheating, while it's not that hard to fool the game and make it believe you're super strong when you are not, such practice is not encouraged. It's believed it's more fun to wait until this number increases naturally."));
 
-	  exp =
-	    lw6sys_imin (LW6MAP_RULES_MAX_EXP,
-			 lw6sys_imax (LW6MAP_RULES_MIN_EXP, exp));
+	  exp = lw6sys_imin (LW6MAP_RULES_MAX_EXP, lw6sys_imax (LW6MAP_RULES_MIN_EXP, exp));
 	  checksum = _calc_checksum (exp);
-	  fprintf (f, "<int key=\"%s\" value=\"%d\" />%s", _EXP_KEY, exp,
-		   lw6sys_eol ());
-	  fprintf (f, "<int key=\"%s\" value=\"%d\" />%s", _CHECKSUM_KEY,
-		   checksum, lw6sys_eol ());
+	  fprintf (f, "<int key=\"%s\" value=\"%d\" />%s", _EXP_KEY, exp, lw6sys_eol ());
+	  fprintf (f, "<int key=\"%s\" value=\"%d\" />%s", _CHECKSUM_KEY, checksum, lw6sys_eol ());
 	  lw6sys_print_xml_footer (f);
 	  fclose (f);
 	  ret = 1;
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("could not open file \"%s\" in write mode"),
-		      filename);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("could not open file \"%s\" in write mode"), filename);
 	}
       LW6SYS_FREE (sys_context, filename);
     }

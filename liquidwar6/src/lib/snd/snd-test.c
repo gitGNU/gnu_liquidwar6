@@ -55,16 +55,13 @@ _call_init (lw6snd_backend_t * backend)
   int ret = 1;
   char *repr = NULL;
 
-  ret = ret
-    && lw6snd_init (backend, _TEST_FX_VOLUME, _TEST_WATER_VOLUME,
-		    _TEST_MUSIC_VOLUME);
+  ret = ret && lw6snd_init (backend, _TEST_FX_VOLUME, _TEST_WATER_VOLUME, _TEST_MUSIC_VOLUME);
   if (ret)
     {
       repr = lw6snd_repr (backend);
       if (repr)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		      _x_ ("snd repr is \"%s\""), repr);
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("snd repr is \"%s\""), repr);
 	  LW6SYS_FREE (sys_context, repr);
 	}
     }
@@ -133,12 +130,10 @@ _test_play_music ()
     map_path = lw6cfg_unified_get_music_path (argc, argv);
     if (map_path)
       {
-	if (lw6snd_play_music_random
-	    (backend, map_path, _TEST_MUSIC_FILTER, _TEST_MUSIC_EXCLUDE))
+	if (lw6snd_play_music_random (backend, map_path, _TEST_MUSIC_FILTER, _TEST_MUSIC_EXCLUDE))
 	  {
 	    lw6sys_sleep (sys_context, _TEST_MUSIC_SLEEP);
-	    if (lw6snd_play_music_random
-		(backend, map_path, _TEST_MUSIC_FILTER, _TEST_MUSIC_EXCLUDE))
+	    if (lw6snd_play_music_random (backend, map_path, _TEST_MUSIC_FILTER, _TEST_MUSIC_EXCLUDE))
 	      {
 		lw6sys_sleep (sys_context, _TEST_MUSIC_SLEEP);
 	      }
@@ -174,8 +169,7 @@ _setup_init_ogg ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libsnd-ogg CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libsnd-ogg CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6snd_create_backend (argc, argv, "ogg");
@@ -201,8 +195,7 @@ _setup_quit_ogg ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libsnd-ogg CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libsnd-ogg CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -224,8 +217,7 @@ _setup_init_csound ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libsnd-csound CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libsnd-csound CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6snd_create_backend (argc, argv, "csound");
@@ -251,8 +243,7 @@ _setup_quit_csound ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libsnd-csound CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libsnd-csound CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -307,16 +298,13 @@ lw6snd_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 #endif // MOD_OGG
 
 #ifdef MOD_CSOUND
-  suite =
-    CU_add_suite ("lw6snd-csound", _setup_init_csound, _setup_quit_csound);
+  suite = CU_add_suite ("lw6snd-csound", _setup_init_csound, _setup_quit_csound);
   if (suite)
     {
       LW6SYS_CUNIT_ADD_TEST (suite, _test_play_fx);
@@ -325,9 +313,7 @@ lw6snd_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 #endif // MOD_CSOUND

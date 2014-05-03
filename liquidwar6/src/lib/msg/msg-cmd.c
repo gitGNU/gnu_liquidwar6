@@ -37,28 +37,19 @@ _generate_info (const char *cmd, lw6nod_info_t * info)
   char *peer_id_list;
   int uptime = 0;
 
-  base64_title =
-    lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null
-			      (info->const_info.title));
+  base64_title = lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null (info->const_info.title));
   if (base64_title)
     {
-      base64_description =
-	lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null
-				  (info->const_info.description));
+      base64_description = lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null (info->const_info.description));
       if (base64_description)
 	{
-	  base64_level =
-	    lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null
-				      (info->dyn_info.level));
+	  base64_level = lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null (info->dyn_info.level));
 	  if (base64_level)
 	    {
-	      peer_id_list =
-		lw6nod_info_community_get_peer_id_list_str (info);
+	      peer_id_list = lw6nod_info_community_get_peer_id_list_str (info);
 	      if (peer_id_list)
 		{
-		  uptime =
-		    (lw6sys_get_timestamp () -
-		     info->const_info.creation_timestamp) / 1000;
+		  uptime = (lw6sys_get_timestamp () - info->const_info.creation_timestamp) / 1000;
 		  ret =
 		    lw6sys_new_sprintf
 		    ("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d%c%d%c%d%c%s%c%d%c\"%s\"%c%d%c%d%c%d%c%d%c%d%c%d%c%d%c\"%s\"",
@@ -70,16 +61,13 @@ _generate_info (const char *cmd, lw6nod_info_t * info)
 		     base64_description, sep, info->const_info.has_password,
 		     sep, info->const_info.bench, sep,
 		     info->const_info.open_relay, sep, uptime, sep,
-		     lw6sys_str_empty_if_null (info->
-					       dyn_info.community_id_str),
+		     lw6sys_str_empty_if_null (info->dyn_info.community_id_str),
 		     sep, info->dyn_info.round, sep, base64_level, sep,
 		     info->dyn_info.required_bench, sep,
 		     info->dyn_info.nb_colors, sep,
 		     info->dyn_info.max_nb_colors, sep,
 		     info->dyn_info.nb_cursors, sep,
-		     info->dyn_info.max_nb_cursors, sep,
-		     info->dyn_info.nb_nodes, sep,
-		     info->dyn_info.max_nb_nodes, sep, peer_id_list);
+		     info->dyn_info.max_nb_cursors, sep, info->dyn_info.nb_nodes, sep, info->dyn_info.max_nb_nodes, sep, peer_id_list);
 		  LW6SYS_FREE (sys_context, peer_id_list);
 		}
 	      LW6SYS_FREE (base64_level);
@@ -131,9 +119,7 @@ lw6msg_cmd_generate_ticket (lw6nod_info_t * info, u_int64_t ticket)
   info_str = _generate_info (LW6MSG_CMD_TICKET, info);
   if (info_str)
     {
-      ret =
-	lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "x", info_str, sep,
-			    (long long) ticket);
+      ret = lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "x", info_str, sep, (long long) ticket);
       LW6SYS_FREE (sys_context, info_str);
     }
 
@@ -161,8 +147,7 @@ lw6msg_cmd_generate_foo (lw6nod_info_t * info, u_int32_t key, int serial)
   info_str = _generate_info (LW6MSG_CMD_FOO, info);
   if (info_str)
     {
-      ret =
-	lw6sys_new_sprintf ("%s%c%08x%c%d", info_str, sep, key, sep, serial);
+      ret = lw6sys_new_sprintf ("%s%c%08x%c%d", info_str, sep, key, sep, serial);
       LW6SYS_FREE (sys_context, info_str);
     }
 
@@ -190,8 +175,7 @@ lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key, int serial)
   info_str = _generate_info (LW6MSG_CMD_BAR, info);
   if (info_str)
     {
-      ret =
-	lw6sys_new_sprintf ("%s%c%08x%c%d", info_str, sep, key, sep, serial);
+      ret = lw6sys_new_sprintf ("%s%c%08x%c%d", info_str, sep, key, sep, serial);
       LW6SYS_FREE (sys_context, info_str);
     }
 
@@ -226,9 +210,7 @@ lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq, int serial)
   info_str = _generate_info (LW6MSG_CMD_JOIN, info);
   if (info_str)
     {
-      ret =
-	lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "d%c%d", info_str, sep,
-			    (long long) seq, sep, serial);
+      ret = lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "d%c%d", info_str, sep, (long long) seq, sep, serial);
       LW6SYS_FREE (sys_context, info_str);
     }
 
@@ -270,15 +252,11 @@ lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_data (int serial, int i, int n, int64_t seq,
-			  const char *ker_msg)
+lw6msg_cmd_generate_data (int serial, int i, int n, int64_t seq, const char *ker_msg)
 {
   char *ret = NULL;
 
-  ret =
-    lw6sys_new_sprintf ("%s %d %d %d %" LW6SYS_PRINTF_LL "d %s",
-			LW6MSG_CMD_DATA, serial, i, n, (long long) seq,
-			ker_msg);
+  ret = lw6sys_new_sprintf ("%s %d %d %d %" LW6SYS_PRINTF_LL "d %s", LW6MSG_CMD_DATA, serial, i, n, (long long) seq, ker_msg);
 
   return ret;
 }
@@ -299,8 +277,7 @@ lw6msg_cmd_generate_data (int serial, int i, int n, int64_t seq,
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_meta (int serial, int i, int n, int64_t seq,
-			  const lw6msg_meta_array_t * meta_array)
+lw6msg_cmd_generate_meta (int serial, int i, int n, int64_t seq, const lw6msg_meta_array_t * meta_array)
 {
   char *ret = NULL;
   char *meta_str = NULL;
@@ -310,9 +287,7 @@ lw6msg_cmd_generate_meta (int serial, int i, int n, int64_t seq,
     {
       ret =
 	lw6sys_new_sprintf ("%s %d %d %d %" LW6SYS_PRINTF_LL "d %"
-			    LW6SYS_PRINTF_LL "x %s", LW6MSG_CMD_META,
-			    serial, i, n, (long long) seq,
-			    (long long) meta_array->logical_from, meta_str);
+			    LW6SYS_PRINTF_LL "x %s", LW6MSG_CMD_META, serial, i, n, (long long) seq, (long long) meta_array->logical_from, meta_str);
       if (ret)
 	{
 	  if (strlen (ret) < LW6MSG_MAX_WORD_SIZE)
@@ -321,8 +296,7 @@ lw6msg_cmd_generate_meta (int serial, int i, int n, int64_t seq,
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("message \"%s\" is too long"), ret);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("message \"%s\" is too long"), ret);
 	      LW6SYS_FREE (sys_context, ret);
 	      ret = NULL;
 	    }
@@ -348,22 +322,19 @@ lw6msg_cmd_generate_meta (int serial, int i, int n, int64_t seq,
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_miss (u_int64_t id_from, u_int64_t id_to, int serial_min,
-			  int serial_max)
+lw6msg_cmd_generate_miss (u_int64_t id_from, u_int64_t id_to, int serial_min, int serial_max)
 {
   char *ret = NULL;
 
   ret =
     lw6sys_new_sprintf ("%s %" LW6SYS_PRINTF_LL "x %" LW6SYS_PRINTF_LL
-			"x %d %d", LW6MSG_CMD_MISS, (long long) id_from,
-			(long long) id_to, serial_min, serial_max);
+			"x %d %d", LW6MSG_CMD_MISS, (long long) id_from, (long long) id_to, serial_min, serial_max);
 
   return ret;
 }
 
 static int
-_analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
-	       const char *msg)
+_analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, const char *msg)
 {
   int ret = 0;
   int still_ok = 1;
@@ -404,8 +375,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing program \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing program \"%s\""), pos);
       if (lw6msg_word_first (&program, &seek, pos))
 	{
 	  pos = seek;
@@ -413,15 +383,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("bad program \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad program \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing version \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing version \"%s\""), pos);
       if (lw6msg_word_first (&version, &seek, pos))
 	{
 	  pos = seek;
@@ -429,15 +397,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("bad version \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad version \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing codename \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing codename \"%s\""), pos);
       if (lw6msg_word_first (&codename, &seek, pos))
 	{
 	  pos = seek;
@@ -445,15 +411,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("bad codename \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad codename \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing stamp \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing stamp \"%s\""), pos);
       if (lw6msg_word_first_int_32_gt0 (&stamp, &seek, pos))
 	{
 	  pos = seek;
@@ -461,15 +425,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad stamp \"%s\""),
-		      pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad stamp \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing id \"%s\""),
-		  pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing id \"%s\""), pos);
       if (lw6msg_word_first_id_64 (&id, &seek, pos))
 	{
 	  pos = seek;
@@ -483,25 +445,21 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing url \"%s\""),
-		  pos);
-      if (lw6msg_word_first (&url, &seek, pos)
-	  && lw6sys_url_is_canonized (sys_context, url.buf))
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing url \"%s\""), pos);
+      if (lw6msg_word_first (&url, &seek, pos) && lw6sys_url_is_canonized (sys_context, url.buf))
 	{
 	  pos = seek;
 	}
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad url \"%s\""),
-		      pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad url \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing title \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing title \"%s\""), pos);
       if (lw6msg_word_first_base64 (&title, &seek, pos))
 	{
 	  pos = seek;
@@ -509,15 +467,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad title \"%s\""),
-		      pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad title \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing description \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing description \"%s\""), pos);
       if (lw6msg_word_first_base64 (&description, &seek, pos))
 	{
 	  pos = seek;
@@ -525,15 +481,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("bad description \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad description \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing has_password \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing has_password \"%s\""), pos);
       if (lw6msg_word_first_int_32 (&has_password, &seek, pos))
 	{
 	  pos = seek;
@@ -541,15 +495,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("bad has_password \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad has_password \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing bench \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing bench \"%s\""), pos);
       if (lw6msg_word_first_int_32 (&bench, &seek, pos))
 	{
 	  pos = seek;
@@ -557,15 +509,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad bench \"%s\""),
-		      pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad bench \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing open_relay \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing open_relay \"%s\""), pos);
       if (lw6msg_word_first_int_32 (&open_relay, &seek, pos))
 	{
 	  pos = seek;
@@ -573,15 +523,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("bad open_relay \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad open_relay \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing uptime \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing uptime \"%s\""), pos);
       if (lw6msg_word_first_int_32 (&uptime, &seek, pos))
 	{
 	  pos = seek;
@@ -589,15 +537,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad uptime \"%s\""),
-		      pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad uptime \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing community id \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing community id \"%s\""), pos);
       if (lw6msg_word_first_id_64 (&community_id, &seek, pos))
 	{
 	  pos = seek;
@@ -615,22 +561,19 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
 	  else
 	    {
 	      still_ok = 0;
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("bad community id \"%s\""), pos);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad community id \"%s\""), pos);
 	    }
 	}
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("bad community id \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad community id \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing round \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing round \"%s\""), pos);
       if (lw6msg_word_first_int_32 (&round, &seek, pos))
 	{
 	  pos = seek;
@@ -638,15 +581,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad round \"%s\""),
-		      pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad round \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing level \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing level \"%s\""), pos);
       if (lw6msg_word_first_base64 (&level, &seek, pos))
 	{
 	  pos = seek;
@@ -654,15 +595,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad level \"%s\""),
-		      pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad level \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing required_bench \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing required_bench \"%s\""), pos);
       if (lw6msg_word_first_int_32 (&required_bench, &seek, pos))
 	{
 	  pos = seek;
@@ -670,15 +609,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("bad required_bench \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad required_bench \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing nb_colors \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing nb_colors \"%s\""), pos);
       if (lw6msg_word_first_int_32 (&nb_colors, &seek, pos))
 	{
 	  pos = seek;
@@ -686,15 +623,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("bad nb_colors \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad nb_colors \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing max_nb_colors \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing max_nb_colors \"%s\""), pos);
       if (lw6msg_word_first_int_32 (&max_nb_colors, &seek, pos))
 	{
 	  pos = seek;
@@ -702,15 +637,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("bad max_nb_colors \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad max_nb_colors \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing nb_cursors \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing nb_cursors \"%s\""), pos);
       if (lw6msg_word_first_int_32 (&nb_cursors, &seek, pos))
 	{
 	  pos = seek;
@@ -718,15 +651,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("bad nb_cursors \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad nb_cursors \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing max_nb_cursors \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing max_nb_cursors \"%s\""), pos);
       if (lw6msg_word_first_int_32 (&max_nb_cursors, &seek, pos))
 	{
 	  pos = seek;
@@ -734,15 +665,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("bad max_nb_cursors \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad max_nb_cursors \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing nb_nodes \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing nb_nodes \"%s\""), pos);
       if (lw6msg_word_first_int_32 (&nb_nodes, &seek, pos))
 	{
 	  pos = seek;
@@ -750,15 +679,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("bad nb_nodes \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad nb_nodes \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing max_nb_nodes \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing max_nb_nodes \"%s\""), pos);
       if (lw6msg_word_first_int_32 (&max_nb_nodes, &seek, pos))
 	{
 	  pos = seek;
@@ -766,15 +693,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("bad max_nb_nodes \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad max_nb_nodes \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("analyzing peer_id_list \"%s\""), pos);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing peer_id_list \"%s\""), pos);
       if (lw6msg_word_first (&peer_id_list, &seek, pos))
 	{
 	  pos = seek;
@@ -782,25 +707,18 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
       else
 	{
 	  still_ok = 0;
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("bad peer_id_list \"%s\""), pos);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad peer_id_list \"%s\""), pos);
 	}
     }
 
   if (still_ok)
     {
       (*info) =
-	lw6nod_info_new
-	(program.buf, version.buf,
-	 codename.buf, stamp, id,
-	 url.buf, title.buf,
-	 description.buf, NULL, bench, open_relay, uptime, 0, NULL);
+	lw6nod_info_new (program.buf, version.buf, codename.buf, stamp, id, url.buf, title.buf, description.buf, NULL, bench, open_relay, uptime, 0, NULL);
       if (*info)
 	{
 	  if (lw6nod_info_update ((*info), community_id, round, level.buf,
-				  required_bench, nb_colors, max_nb_colors,
-				  nb_cursors, max_nb_cursors, nb_nodes,
-				  max_nb_nodes, peer_id_list.buf, 0, NULL))
+				  required_bench, nb_colors, max_nb_colors, nb_cursors, max_nb_cursors, nb_nodes, max_nb_nodes, peer_id_list.buf, 0, NULL))
 	    {
 	      if (local_info)
 		{
@@ -809,8 +727,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
 		   * peer database too, this is usually performed on join
 		   * messages.
 		   */
-		  lw6nod_info_community_set_peer_id_list_str (local_info,
-							      peer_id_list.buf);
+		  lw6nod_info_community_set_peer_id_list_str (local_info, peer_id_list.buf);
 		}
 	      (*info)->const_info.has_password = has_password;
 	      if (next)
@@ -821,14 +738,12 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next,
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to update nod info"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to update nod info"));
 	    }
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("unable to create nod info"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create nod info"));
 	}
     }
 
@@ -859,8 +774,7 @@ lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, const char *msg)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("parsing HELLO but couldn't find it in \"%s\""), msg);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("parsing HELLO but couldn't find it in \"%s\""), msg);
     }
 
   return ret;
@@ -878,8 +792,7 @@ lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, const char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket,
-			   const char *msg)
+lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket, const char *msg)
 {
   int ret = 0;
   const char *pos = NULL;
@@ -897,15 +810,13 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket,
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("bad ticket \"%s\""), pos);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad ticket \"%s\""), pos);
 	    }
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("parsing TICKET but couldn't find it in \"%s\""), msg);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("parsing TICKET but couldn't find it in \"%s\""), msg);
     }
 
   return ret;
@@ -925,8 +836,7 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, int *serial,
-			const char *msg)
+lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, int *serial, const char *msg)
 {
   int ret = 0;
   const char *pos = NULL;
@@ -947,21 +857,18 @@ lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, int *serial,
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("bad serial \"%s\""), pos);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad serial \"%s\""), pos);
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("bad key \"%s\""), pos);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad key \"%s\""), pos);
 	    }
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("parsing FOO but couldn't find it in \"%s\""), msg);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("parsing FOO but couldn't find it in \"%s\""), msg);
     }
 
   return ret;
@@ -980,8 +887,7 @@ lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, int *serial,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, int *serial,
-			const char *msg)
+lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, int *serial, const char *msg)
 {
   int ret = 0;
   const char *pos = NULL;
@@ -1002,21 +908,18 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, int *serial,
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("bad serial \"%s\""), pos);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad serial \"%s\""), pos);
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("bad key \"%s\""), pos);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad key \"%s\""), pos);
 	    }
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("parsing BAR but couldn't find it in \"%s\""), msg);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("parsing BAR but couldn't find it in \"%s\""), msg);
     }
 
   return ret;
@@ -1036,8 +939,7 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, int *serial,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_join (lw6nod_info_t ** info, lw6nod_info_t * local_info,
-			 int64_t * seq, int *serial, const char *msg)
+lw6msg_cmd_analyse_join (lw6nod_info_t ** info, lw6nod_info_t * local_info, int64_t * seq, int *serial, const char *msg)
 {
   int ret = 0;
   const char *pos = NULL;
@@ -1058,21 +960,18 @@ lw6msg_cmd_analyse_join (lw6nod_info_t ** info, lw6nod_info_t * local_info,
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("bad serial \"%s\""), pos);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad serial \"%s\""), pos);
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("bad seq \"%s\""), pos);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad seq \"%s\""), pos);
 	    }
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("parsing JOIN but couldn't find it in \"%s\""), msg);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("parsing JOIN but couldn't find it in \"%s\""), msg);
     }
 
   return ret;
@@ -1102,9 +1001,7 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("parsing GOODBYE but couldn't find it in \"%s\""),
-		  msg);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("parsing GOODBYE but couldn't find it in \"%s\""), msg);
     }
 
   return ret;
@@ -1125,8 +1022,7 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq,
-			 char **ker_msg, const char *msg)
+lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq, char **ker_msg, const char *msg)
 {
   int ret = 0;
   char *seek = NULL;
@@ -1147,9 +1043,7 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq,
   pos = msg;
   seek = (char *) pos;
 
-  if (lw6msg_word_first (&data_word, &seek, pos)
-      && lw6sys_str_is_same_no_case (sys_context, data_word.buf,
-				     LW6MSG_CMD_DATA))
+  if (lw6msg_word_first (&data_word, &seek, pos) && lw6sys_str_is_same_no_case (sys_context, data_word.buf, LW6MSG_CMD_DATA))
     {
       pos = seek;
       if (lw6msg_word_first_int_32_gt0 (&read_serial, &seek, pos))
@@ -1180,32 +1074,27 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq,
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				      _x_ ("unable to parse ker message"));
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse ker message"));
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_ ("unable to parse seq"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse seq"));
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_ ("unable to parse group size n"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse group size n"));
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("unable to parse group index i"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse group index i"));
 	    }
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("unable to parse serial"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse serial"));
 	}
     }
   else
@@ -1231,8 +1120,7 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int64_t * seq,
-			 lw6msg_meta_array_t * meta_array, const char *msg)
+lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int64_t * seq, lw6msg_meta_array_t * meta_array, const char *msg)
 {
   int ret = 0;
   char *seek = NULL;
@@ -1251,9 +1139,7 @@ lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int64_t * seq,
   pos = msg;
   seek = (char *) pos;
 
-  if (lw6msg_word_first (&meta_word, &seek, pos)
-      && lw6sys_str_is_same_no_case (sys_context, meta_word.buf,
-				     LW6MSG_CMD_META))
+  if (lw6msg_word_first (&meta_word, &seek, pos) && lw6sys_str_is_same_no_case (sys_context, meta_word.buf, LW6MSG_CMD_META))
     {
       pos = seek;
       if (lw6msg_word_first_int_32_gt0 (&read_serial, &seek, pos))
@@ -1268,8 +1154,7 @@ lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int64_t * seq,
 		  if (lw6msg_word_first_int_64_gt0 (&read_seq, &seek, pos))
 		    {
 		      pos = seek;
-		      if (lw6msg_word_first_id_64
-			  (&read_logical_from, &seek, pos))
+		      if (lw6msg_word_first_id_64 (&read_logical_from, &seek, pos))
 			{
 			  pos = seek;
 			  if (!lw6sys_str_is_null_or_empty (pos))
@@ -1282,52 +1167,41 @@ lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int64_t * seq,
 				  (*i) = read_i;
 				  (*n) = read_n;
 				  (*seq) = read_seq;
-				  meta_array->logical_from =
-				    read_logical_from;
+				  meta_array->logical_from = read_logical_from;
 				}
 			      else
 				{
-				  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-					      _x_
-					      ("unable to parse meta message (stage 2), pos=\"%s\""),
-					      pos);
+				  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse meta message (stage 2), pos=\"%s\""), pos);
 				}
 			    }
 			  else
 			    {
-			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-					  _x_
-					  ("unable to parse meta message (stage 1), no content"));
+			      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse meta message (stage 1), no content"));
 			    }
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				      _x_ ("unable to parse logical_from"));
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse logical_from"));
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_ ("unable to parse seq"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse seq"));
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_ ("unable to parse group size n"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse group size n"));
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("unable to parse group index i"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse group index i"));
 	    }
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("unable to parse serial"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse serial"));
 	}
     }
   else
@@ -1352,8 +1226,7 @@ lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int64_t * seq,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to,
-			 int *serial_min, int *serial_max, const char *msg)
+lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to, int *serial_min, int *serial_max, const char *msg)
 {
   int ret = 0;
   char *seek = NULL;
@@ -1372,8 +1245,7 @@ lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to,
   pos = msg;
   seek = (char *) pos;
 
-  if (lw6msg_word_first (&miss_word, &seek, pos)
-      && lw6sys_str_is_same_no_case (miss_word.buf, LW6MSG_CMD_MISS))
+  if (lw6msg_word_first (&miss_word, &seek, pos) && lw6sys_str_is_same_no_case (miss_word.buf, LW6MSG_CMD_MISS))
     {
       pos = seek;
       if (lw6msg_word_first_id_64 (&read_id_from, &seek, pos))
@@ -1385,8 +1257,7 @@ lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to,
 	      if (lw6msg_word_first_int_32_gt0 (&read_serial_min, &seek, pos))
 		{
 		  pos = seek;
-		  if (lw6msg_word_first_int_32_gt0
-		      (&read_serial_max, &seek, pos))
+		  if (lw6msg_word_first_int_32_gt0 (&read_serial_max, &seek, pos))
 		    {
 		      ret = 1;
 		      (*id_from) = read_id_from;
@@ -1396,26 +1267,22 @@ lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to,
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_ ("unable to parse serial_max"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse serial_max"));
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_ ("unable to parse serial_min"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse serial_min"));
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("unable to parse id_to"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse id_to"));
 	    }
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("unable to parse id_from"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to parse id_from"));
 	}
     }
   else
@@ -1440,8 +1307,7 @@ lw6msg_cmd_guess_from_url (const char *msg)
 {
   char *ret = NULL;
   lw6nod_info_t *node_info = NULL;
-  char *msg_table[] =
-    { LW6MSG_CMD_HELLO, LW6MSG_CMD_TICKET, LW6MSG_CMD_FOO, LW6MSG_CMD_BAR,
+  char *msg_table[] = { LW6MSG_CMD_HELLO, LW6MSG_CMD_TICKET, LW6MSG_CMD_FOO, LW6MSG_CMD_BAR,
     LW6MSG_CMD_JOIN,
     LW6MSG_CMD_GOODBYE, NULL
   };
@@ -1456,9 +1322,7 @@ lw6msg_cmd_guess_from_url (const char *msg)
 	  pos = msg + strlen (*command);
 	  if (_analyse_info (&node_info, NULL, &seek, pos))
 	    {
-	      ret =
-		lw6sys_str_copy (sys_context,
-				 node_info->const_info.ref_info.url);
+	      ret = lw6sys_str_copy (sys_context, node_info->const_info.ref_info.url);
 	      lw6nod_info_free (node_info);
 	      node_info = NULL;
 	    }

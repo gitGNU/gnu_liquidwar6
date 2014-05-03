@@ -56,11 +56,9 @@ lw6mat_fvec2_zero (lw6mat_fvec2_t * fvec2)
  * Return value: 1 if equal, 0 if different.
  */
 int
-lw6mat_fvec2_is_same (const lw6mat_fvec2_t * fvec2_a,
-		      const lw6mat_fvec2_t * fvec2_b)
+lw6mat_fvec2_is_same (const lw6mat_fvec2_t * fvec2_a, const lw6mat_fvec2_t * fvec2_b)
 {
-  return (!memcmp
-	  ((void *) fvec2_a, (void *) fvec2_b, sizeof (lw6mat_fvec2_t)));
+  return (!memcmp ((void *) fvec2_a, (void *) fvec2_b, sizeof (lw6mat_fvec2_t)));
 }
 
 /**
@@ -120,8 +118,7 @@ lw6mat_fvec2_norm (lw6mat_fvec2_t * fvec2)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("trying to normalize vector zero"));
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("trying to normalize vector zero"));
 
       return 0;
     }
@@ -155,8 +152,7 @@ lw6mat_fvec2_neg (lw6mat_fvec2_t * fvec2)
  * Return value: none
  */
 void
-lw6mat_fvec2_add (lw6mat_fvec2_t * fvec2, const lw6mat_fvec2_t * fvec2_a,
-		  const lw6mat_fvec2_t * fvec2_b)
+lw6mat_fvec2_add (lw6mat_fvec2_t * fvec2, const lw6mat_fvec2_t * fvec2_a, const lw6mat_fvec2_t * fvec2_b)
 {
   fvec2->p.x = fvec2_a->p.x + fvec2_b->p.x;
   fvec2->p.y = fvec2_a->p.y + fvec2_b->p.y;
@@ -174,8 +170,7 @@ lw6mat_fvec2_add (lw6mat_fvec2_t * fvec2, const lw6mat_fvec2_t * fvec2_a,
  * Return value: none
  */
 void
-lw6mat_fvec2_sub (lw6mat_fvec2_t * fvec2, const lw6mat_fvec2_t * fvec2_a,
-		  const lw6mat_fvec2_t * fvec2_b)
+lw6mat_fvec2_sub (lw6mat_fvec2_t * fvec2, const lw6mat_fvec2_t * fvec2_a, const lw6mat_fvec2_t * fvec2_b)
 {
   fvec2->p.x = fvec2_a->p.x - fvec2_b->p.x;
   fvec2->p.y = fvec2_a->p.y - fvec2_b->p.y;
@@ -192,8 +187,7 @@ lw6mat_fvec2_sub (lw6mat_fvec2_t * fvec2, const lw6mat_fvec2_t * fvec2_a,
  * Return value: none
  */
 float
-lw6mat_fvec2_dot (const lw6mat_fvec2_t * fvec2_a,
-		  const lw6mat_fvec2_t * fvec2_b)
+lw6mat_fvec2_dot (const lw6mat_fvec2_t * fvec2_a, const lw6mat_fvec2_t * fvec2_b)
 {
   return fvec2_a->p.x * fvec2_b->p.x + fvec2_a->p.y * fvec2_b->p.y;
 }
@@ -213,8 +207,7 @@ lw6mat_fvec2_dot (const lw6mat_fvec2_t * fvec2_a,
  * Return value: none
  */
 void
-lw6mat_fvec2_cross (lw6mat_fvec3_t * fvec3, const lw6mat_fvec2_t * fvec2_a,
-		    const lw6mat_fvec2_t * fvec2_b)
+lw6mat_fvec2_cross (lw6mat_fvec3_t * fvec3, const lw6mat_fvec2_t * fvec2_a, const lw6mat_fvec2_t * fvec2_b)
 {
   fvec3->p.x = LW6MAT_F_0;
   fvec3->p.y = LW6MAT_F_0;
@@ -250,9 +243,7 @@ lw6mat_fvec2_scale (lw6mat_fvec2_t * fvec2, float f)
  * Return value: none
  */
 void
-lw6mat_fvec2_mul_fvec2 (lw6mat_fmat2_t * fmat2,
-			const lw6mat_fvec2_t * fvec2_a,
-			const lw6mat_fvec2_t * fvec2_b)
+lw6mat_fvec2_mul_fvec2 (lw6mat_fmat2_t * fmat2, const lw6mat_fvec2_t * fvec2_a, const lw6mat_fvec2_t * fvec2_b)
 {
   int i, j;
 
@@ -279,9 +270,7 @@ lw6mat_fvec2_repr (const lw6mat_fvec2_t * fvec2)
 {
   char *repr = NULL;
 
-  repr =
-    lw6sys_new_sprintf ("%s %s %d [ %f %f ]", LW6MAT_REPR_F, LW6MAT_REPR_VEC,
-			LW6MAT_VEC2_V_SIZE, fvec2->v[0], fvec2->v[1]);
+  repr = lw6sys_new_sprintf ("%s %s %d [ %f %f ]", LW6MAT_REPR_F, LW6MAT_REPR_VEC, LW6MAT_VEC2_V_SIZE, fvec2->v[0], fvec2->v[1]);
 
   return repr;
 }

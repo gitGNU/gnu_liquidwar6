@@ -59,13 +59,8 @@ _scm_lw6gfx_get_backends ()
 	      if (key->data)
 		{
 		  module_id = (char *) key->data;
-		  module_name =
-		    (char *) lw6sys_assoc_get (sys_context, backends,
-					       module_id);
-		  ret =
-		    scm_cons (scm_cons
-			      (scm_from_locale_string (module_id),
-			       scm_from_locale_string (module_name)), ret);
+		  module_name = (char *) lw6sys_assoc_get (sys_context, backends, module_id);
+		  ret = scm_cons (scm_cons (scm_from_locale_string (module_id), scm_from_locale_string (module_name)), ret);
 		}
 	      key = lw6sys_list_next (sys_context, key);
 	    }
@@ -95,8 +90,7 @@ lw6_register_funcs_gfx ()
   /*
    * In backend.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6GFX_GET_BACKENDS, 0, 0, 0,
-				      (SCM (*)())_scm_lw6gfx_get_backends);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6GFX_GET_BACKENDS, 0, 0, 0, (SCM (*)())_scm_lw6gfx_get_backends);
 
   return ret;
 }

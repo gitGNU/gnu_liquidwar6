@@ -53,8 +53,7 @@ static volatile u_int32_t seq_id = 0;
  * Return value: a newly allocated object.
  */
 lw6dsp_backend_t *
-lw6dsp_create_backend (int argc, const char *argv[],
-		       const char *gfx_backend_name)
+lw6dsp_create_backend (int argc, const char *argv[], const char *gfx_backend_name)
 {
   lw6dsp_backend_t *ret = NULL;
   _lw6dsp_data_t *data = NULL;
@@ -132,8 +131,7 @@ lw6dsp_destroy_backend (lw6dsp_backend_t * dsp_backend)
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("can't destroy backend with NULL data"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't destroy backend with NULL data"));
 	    }
 	  if (dsp_backend->input)
 	    {
@@ -143,15 +141,13 @@ lw6dsp_destroy_backend (lw6dsp_backend_t * dsp_backend)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("trying to free running dsp_backend"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free running dsp_backend"));
 	}
       LW6SYS_FREE (dsp_backend);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL backend"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL backend"));
     }
 }
 
@@ -178,17 +174,13 @@ lw6dsp_repr (const lw6dsp_backend_t * dsp_backend)
       gfx_backend_repr = lw6gfx_repr (data->gfx_backend);
       if (gfx_backend_repr)
 	{
-	  ret =
-	    lw6sys_new_sprintf (sys_context, _x_ ("%u using %s"),
-				dsp_backend->id, gfx_backend_repr);
+	  ret = lw6sys_new_sprintf (sys_context, _x_ ("%u using %s"), dsp_backend->id, gfx_backend_repr);
 	  LW6SYS_FREE (gfx_backend_repr);
 	}
     }
   else
     {
-      ret =
-	lw6sys_new_sprintf (sys_context, _x_ ("%u with no gfx"),
-			    dsp_backend->id);
+      ret = lw6sys_new_sprintf (sys_context, _x_ ("%u with no gfx"), dsp_backend->id);
     }
 
   return ret;
@@ -210,8 +202,7 @@ lw6dsp_repr (const lw6dsp_backend_t * dsp_backend)
  * Return value: 1 if success, 0 if error.
  */
 int
-lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param,
-	     lw6gui_resize_callback_func_t resize_callback)
+lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param, lw6gui_resize_callback_func_t resize_callback)
 {
   int ret = 0;
   int thread_ok = 0;
@@ -229,17 +220,12 @@ lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param,
 	  thread_ok =
 	    lw6sys_vthread_create (sys_context,
 				   (lw6sys_thread_callback_func_t)
-				   _lw6dsp_thread_func,
-				   (lw6sys_thread_callback_func_t)
-				   _lw6dsp_thread_join, dsp_backend->data);
+				   _lw6dsp_thread_func, (lw6sys_thread_callback_func_t) _lw6dsp_thread_join, dsp_backend->data);
 	}
       else
 	{
 	  dsp_backend->thread =
-	    lw6sys_thread_create ((lw6sys_thread_callback_func_t)
-				  _lw6dsp_thread_func,
-				  (lw6sys_thread_callback_func_t)
-				  _lw6dsp_thread_join, dsp_backend->data);
+	    lw6sys_thread_create ((lw6sys_thread_callback_func_t) _lw6dsp_thread_func, (lw6sys_thread_callback_func_t) _lw6dsp_thread_join, dsp_backend->data);
 	  thread_ok = (dsp_backend->thread != NULL);
 	}
       if (thread_ok)
@@ -257,8 +243,7 @@ lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param,
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("stopping dsp_backend thread"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("stopping dsp_backend thread"));
 	      data->run = 0;
 	      if (lw6sys_vthread_is_running ())
 		{
@@ -372,12 +357,9 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 	  /*
 	   * No need to do anything until next frame is drawn
 	   */
-	  while (data->nb_frames <= data->nb_frames_at_last_update
-		 && i < _LW6DSP_IDLE_LIMIT)
+	  while (data->nb_frames <= data->nb_frames_at_last_update && i < _LW6DSP_IDLE_LIMIT)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("calling display_update too often, no frame drawn between two calls"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("calling display_update too often, no frame drawn between two calls"));
 	      /*
 	       * We go idle for a very short time, this will just avoid the
 	       * caller to get stuck in 100% CPU greedy loops.
@@ -401,9 +383,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 	}
       if (diff || need_sync)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("dsp param update diff=%d sync=%d"), diff,
-		      need_sync);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("dsp param update diff=%d sync=%d"), diff, need_sync);
 
 	  lw6sys_mutex_lock (sys_context, data->render_mutex);
 
@@ -434,15 +414,12 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 		    {
 		      if (data->last_menu_id == param->menu->id)
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				      _x_ ("synchronising menu"));
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("synchronising menu"));
 			  lw6gui_menu_sync (data->param.menu, param->menu);
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				      _x_
-				      ("new menu is totally different, duping it"));
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("new menu is totally different, duping it"));
 			  lw6gui_menu_free (data->param.menu);
 			  data->param.menu = lw6gui_menu_dup (param->menu);
 			  data->last_menu_id = param->menu->id;
@@ -450,8 +427,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_ ("new menu is NULL"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("new menu is NULL"));
 		      lw6gui_menu_free (data->param.menu);
 		      data->param.menu = NULL;
 		      data->last_menu_id = 0;
@@ -461,9 +437,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 		{
 		  if (param->menu)
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_
-				  ("new menu and no previous one, duping it"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("new menu and no previous one, duping it"));
 		      data->param.menu = lw6gui_menu_dup (param->menu);
 		      data->last_menu_id = param->menu->id;
 		    }
@@ -633,8 +607,7 @@ lw6dsp_get_average_fps (lw6dsp_backend_t * dsp_backend)
  * Return value: 1 if ok, 0 if failure (mode not set)
  */
 int
-lw6dsp_get_video_mode (lw6dsp_backend_t * dsp_backend,
-		       lw6gui_video_mode_t * video_mode)
+lw6dsp_get_video_mode (lw6dsp_backend_t * dsp_backend, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
   _lw6dsp_data_t *data = NULL;
@@ -673,8 +646,7 @@ lw6dsp_get_video_mode (lw6dsp_backend_t * dsp_backend,
  * Return value: 1 if ok, 0 if failure (mode not set)
  */
 int
-lw6dsp_get_fullscreen_modes (lw6dsp_backend_t * dsp_backend,
-			     lw6gui_fullscreen_modes_t * fullscreen_modes)
+lw6dsp_get_fullscreen_modes (lw6dsp_backend_t * dsp_backend, lw6gui_fullscreen_modes_t * fullscreen_modes)
 {
   int ret = 0;
   _lw6dsp_data_t *data = NULL;

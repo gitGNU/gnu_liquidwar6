@@ -46,8 +46,7 @@ _scm_lw6tsk_loader_new (SCM sleep)
   user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
   if (user_dir)
     {
-      c_loader =
-	lw6tsk_loader_new (c_sleep, user_dir, &(lw6_global.progress));
+      c_loader = lw6tsk_loader_new (c_sleep, user_dir, &(lw6_global.progress));
       if (c_loader)
 	{
 	  ret = lw6_make_scm_loader (c_loader);
@@ -62,9 +61,7 @@ _scm_lw6tsk_loader_new (SCM sleep)
 
 static SCM
 _scm_lw6tsk_loader_push_ldr (SCM loader, SCM map_path, SCM relative_path,
-			     SCM default_param, SCM forced_param,
-			     SCM display_width, SCM display_height,
-			     SCM bench_value, SCM magic_number)
+			     SCM default_param, SCM forced_param, SCM display_width, SCM display_height, SCM bench_value, SCM magic_number)
 {
   lw6tsk_loader_t *c_loader;
   char *c_map_path;
@@ -80,26 +77,15 @@ _scm_lw6tsk_loader_push_ldr (SCM loader, SCM map_path, SCM relative_path,
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.loader,
-	       loader), loader, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.loader, loader), loader, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (map_path), map_path, SCM_ARG2, __FUNCTION__);
-  SCM_ASSERT (scm_is_string (relative_path), relative_path, SCM_ARG3,
-	      __FUNCTION__);
-  SCM_ASSERT (SCM_CONSP (default_param)
-	      || default_param == SCM_EOL, default_param, SCM_ARG4,
-	      __FUNCTION__);
-  SCM_ASSERT (SCM_CONSP (forced_param)
-	      || forced_param == SCM_EOL, forced_param, SCM_ARG5,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (display_width), display_width, SCM_ARG6,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (display_height), display_height, SCM_ARG7,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (bench_value), bench_value, SCM_ARGn,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (magic_number), magic_number, SCM_ARGn,
-	      __FUNCTION__);
+  SCM_ASSERT (scm_is_string (relative_path), relative_path, SCM_ARG3, __FUNCTION__);
+  SCM_ASSERT (SCM_CONSP (default_param) || default_param == SCM_EOL, default_param, SCM_ARG4, __FUNCTION__);
+  SCM_ASSERT (SCM_CONSP (forced_param) || forced_param == SCM_EOL, forced_param, SCM_ARG5, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (display_width), display_width, SCM_ARG6, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (display_height), display_height, SCM_ARG7, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (bench_value), bench_value, SCM_ARGn, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (magic_number), magic_number, SCM_ARGn, __FUNCTION__);
 
   c_loader = lw6_scm_to_loader (loader);
   c_map_path = lw6scm_utils_to_0str (map_path);
@@ -120,10 +106,7 @@ _scm_lw6tsk_loader_push_ldr (SCM loader, SCM map_path, SCM relative_path,
 		  c_magic_number = scm_to_int (magic_number);
 
 		  lw6tsk_loader_push_ldr (c_loader, c_map_path,
-					  c_relative_path, c_default_param,
-					  c_forced_param, c_display_width,
-					  c_display_height, c_bench_value,
-					  c_magic_number);
+					  c_relative_path, c_default_param, c_forced_param, c_display_width, c_display_height, c_bench_value, c_magic_number);
 		  ret = SCM_BOOL_T;
 
 		  lw6sys_assoc_free (sys_context, c_forced_param);
@@ -141,9 +124,7 @@ _scm_lw6tsk_loader_push_ldr (SCM loader, SCM map_path, SCM relative_path,
 }
 
 static SCM
-_scm_lw6tsk_loader_push_gen (SCM loader, SCM seed,
-			     SCM display_width, SCM display_height,
-			     SCM bench_value, SCM magic_number)
+_scm_lw6tsk_loader_push_gen (SCM loader, SCM seed, SCM display_width, SCM display_height, SCM bench_value, SCM magic_number)
 {
   lw6tsk_loader_t *c_loader;
   char *c_seed;
@@ -156,18 +137,12 @@ _scm_lw6tsk_loader_push_gen (SCM loader, SCM seed,
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.loader,
-	       loader), loader, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.loader, loader), loader, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (seed), seed, SCM_ARG2, __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (display_width), display_width, SCM_ARG3,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (display_height), display_height, SCM_ARG4,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (bench_value), bench_value, SCM_ARG5,
-	      __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (magic_number), magic_number, SCM_ARG6,
-	      __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (display_width), display_width, SCM_ARG3, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (display_height), display_height, SCM_ARG4, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (bench_value), bench_value, SCM_ARG5, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (magic_number), magic_number, SCM_ARG6, __FUNCTION__);
 
   c_loader = lw6_scm_to_loader (loader);
   c_seed = lw6scm_utils_to_0str (seed);
@@ -178,9 +153,7 @@ _scm_lw6tsk_loader_push_gen (SCM loader, SCM seed,
       c_bench_value = scm_to_int (bench_value);
       c_magic_number = scm_to_int (magic_number);
 
-      lw6tsk_loader_push_gen (c_loader, c_seed,
-			      c_display_width, c_display_height,
-			      c_bench_value, c_magic_number);
+      lw6tsk_loader_push_gen (c_loader, c_seed, c_display_width, c_display_height, c_bench_value, c_magic_number);
       ret = SCM_BOOL_T;
 
       LW6SYS_FREE (c_seed);
@@ -207,27 +180,22 @@ _scm_lw6tsk_loader_pop (SCM loader)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.loader,
-	       loader), loader, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.loader, loader), loader, SCM_ARG1, __FUNCTION__);
 
   c_loader = lw6_scm_to_loader (loader);
   if (c_loader)
     {
-      if (lw6tsk_loader_pop
-	  (&c_level, &c_game_struct, &c_game_state, &c_bench_value, c_loader))
+      if (lw6tsk_loader_pop (&c_level, &c_game_struct, &c_game_state, &c_bench_value, c_loader))
 	{
 	  if (c_level)
 	    {
 	      level = lw6_make_scm_map (c_level);
 	      if (c_game_struct)
 		{
-		  game_struct =
-		    lw6_make_scm_game_struct (c_game_struct, level);
+		  game_struct = lw6_make_scm_game_struct (c_game_struct, level);
 		  if (c_game_state)
 		    {
-		      game_state =
-			lw6_make_scm_game_state (c_game_state, game_struct);
+		      game_state = lw6_make_scm_game_state (c_game_state, game_struct);
 		    }
 		}
 	    }
@@ -237,9 +205,7 @@ _scm_lw6tsk_loader_pop (SCM loader)
 			scm_cons
 			(scm_from_locale_string ("game-struct"), game_struct),
 			scm_cons (scm_from_locale_string ("game-state"),
-				  game_state),
-			scm_cons (scm_from_locale_string ("bench-value"),
-				  scm_from_int (c_bench_value)));
+				  game_state), scm_cons (scm_from_locale_string ("bench-value"), scm_from_int (c_bench_value)));
 	}
     }
 
@@ -258,9 +224,7 @@ _scm_lw6tsk_loader_get_stage (SCM loader)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.loader,
-	       loader), loader, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.loader, loader), loader, SCM_ARG1, __FUNCTION__);
 
   c_loader = lw6_scm_to_loader (loader);
   if (c_loader)
@@ -289,20 +253,11 @@ lw6_register_funcs_tsk ()
   /*
    * In liquidwar6tsk
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_NEW, 1, 0, 0,
-				      (SCM (*)())_scm_lw6tsk_loader_new);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_PUSH_LDR, 9, 0, 0,
-			      (SCM (*)())_scm_lw6tsk_loader_push_ldr);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_PUSH_GEN, 6, 0, 0,
-			      (SCM (*)())_scm_lw6tsk_loader_push_gen);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_POP, 1, 0, 0,
-			      (SCM (*)())_scm_lw6tsk_loader_pop);
-  ret = ret
-    && lw6scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_GET_STAGE, 1, 0, 0,
-			      (SCM (*)())_scm_lw6tsk_loader_get_stage);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_NEW, 1, 0, 0, (SCM (*)())_scm_lw6tsk_loader_new);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_PUSH_LDR, 9, 0, 0, (SCM (*)())_scm_lw6tsk_loader_push_ldr);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_PUSH_GEN, 6, 0, 0, (SCM (*)())_scm_lw6tsk_loader_push_gen);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_POP, 1, 0, 0, (SCM (*)())_scm_lw6tsk_loader_pop);
+  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_GET_STAGE, 1, 0, 0, (SCM (*)())_scm_lw6tsk_loader_get_stage);
 
   return ret;
 }

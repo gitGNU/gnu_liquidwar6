@@ -43,8 +43,7 @@ _get_backtrace_file (lw6sys_context_t * sys_context)
   user_dir = lw6sys_get_default_user_dir (sys_context);
   if (user_dir)
     {
-      backtrace_file =
-	lw6sys_path_concat (sys_context, user_dir, _BACKTRACE_FILE);
+      backtrace_file = lw6sys_path_concat (sys_context, user_dir, _BACKTRACE_FILE);
       LW6SYS_FREE (sys_context, user_dir);
     }
 
@@ -53,8 +52,7 @@ _get_backtrace_file (lw6sys_context_t * sys_context)
 
 #if LW6_UNIX && HAVE_EXECINFO_H
 static char *
-_append_symbols (lw6sys_context_t * sys_context, const char *base,
-		 const char *symbols, int detailed)
+_append_symbols (lw6sys_context_t * sys_context, const char *base, const char *symbols, int detailed)
 {
   char *begin = NULL;
   char *end = NULL;
@@ -161,16 +159,13 @@ lw6sys_backtrace (lw6sys_context_t * sys_context, int skip, int detailed)
 	   */
 	  if (n > skip + 1)
 	    {
-	      ret =
-		_append_symbols (sys_context, "", symbols[skip + 1],
-				 detailed);
+	      ret = _append_symbols (sys_context, "", symbols[skip + 1], detailed);
 	    }
 	  if (ret)
 	    {
 	      for (i = skip + 2; i < n + detailed_skip; i++)
 		{
-		  tmp =
-		    _append_symbols (sys_context, ret, symbols[i], detailed);
+		  tmp = _append_symbols (sys_context, ret, symbols[i], detailed);
 		  if (tmp)
 		    {
 		      LW6SYS_FREE (sys_context, ret);

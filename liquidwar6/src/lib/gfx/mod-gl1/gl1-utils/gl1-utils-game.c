@@ -34,9 +34,7 @@
 static void
 _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 			  SDL_Surface * surface,
-			  const lw6ker_game_state_t * game_state,
-			  const lw6map_color_couple_t * map_color,
-			  int invert_y, int x0, int y0, int w, int h)
+			  const lw6ker_game_state_t * game_state, const lw6map_color_couple_t * map_color, int invert_y, int x0, int y0, int w, int h)
 {
   int x, y, x1, y1, ry;
   int fighter_id;
@@ -69,14 +67,10 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 	  for (x = x0; x < x1; ++x)
 	    {
 	      fighter_id = -1;
-	      fighter_id =
-		lw6ker_game_state_get_fighter_id (sys_context, game_state, x,
-						  ry, 0);
+	      fighter_id = lw6ker_game_state_get_fighter_id (sys_context, game_state, x, ry, 0);
 	      if (fighter_id >= 0)
 		{
-		  fighter =
-		    lw6ker_game_state_get_fighter_ro_by_id (game_state,
-							    fighter_id);
+		  fighter = lw6ker_game_state_get_fighter_ro_by_id (game_state, fighter_id);
 		  team_color = fighter->team_color;
 		  if (team_color >= 0)
 		    {
@@ -85,14 +79,12 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 		       * mode, team_color could be negative even if fighter was
 		       * reported active just before.
 		       */
-		      color = mod_gl1_utils_get_shaded_color_for_fighter
-			(utils_context, team_color, fighter->health);
+		      color = mod_gl1_utils_get_shaded_color_for_fighter (utils_context, team_color, fighter->health);
 		    }
 		}
 	      else
 		{
-		  if (lw6ker_game_struct_is_bg
-		      (game_state->game_struct, x, ry, 0))
+		  if (lw6ker_game_struct_is_bg (game_state->game_struct, x, ry, 0))
 		    {
 		      color = bg;
 		    }
@@ -103,8 +95,7 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 		}
 	      if (bytes_per_pixel == 4)
 		{
-		  mod_gl1_utils_putpixel_4_bytes_per_pixel (surface, x - x0,
-							    y - y0, color);
+		  mod_gl1_utils_putpixel_4_bytes_per_pixel (surface, x - x0, y - y0, color);
 		}
 	      else
 		{
@@ -116,38 +107,27 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
   else
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("wrong surface dimension x0=%d x1=%d surface->w=%d y0=%d y1=%d surface->h=%d"),
-		  x0, x1, surface->w, y0, y1, surface->h);
+		  _x_ ("wrong surface dimension x0=%d x1=%d surface->w=%d y0=%d y1=%d surface->h=%d"), x0, x1, surface->w, y0, y1, surface->h);
     }
 }
 
 static void
 _update_game_bitmap_raw (mod_gl1_utils_context_t * utils_context,
 			 mod_gl1_utils_bitmap_t * bitmap,
-			 const lw6ker_game_state_t * game_state,
-			 const lw6map_color_couple_t * map_color,
-			 int invert_y, int x0, int y0, int w, int h)
+			 const lw6ker_game_state_t * game_state, const lw6map_color_couple_t * map_color, int invert_y, int x0, int y0, int w, int h)
 {
-  _update_game_surface_raw (utils_context, bitmap->surface, game_state,
-			    map_color, invert_y, x0, y0, w, h);
+  _update_game_surface_raw (utils_context, bitmap->surface, game_state, map_color, invert_y, x0, y0, w, h);
 }
 
 void
 mod_gl1_utils_update_game_bitmap_raw (mod_gl1_utils_context_t * utils_context,
 				      mod_gl1_utils_bitmap_t * bitmap,
-				      const lw6ker_game_state_t * game_state,
-				      const lw6map_color_couple_t * map_color,
-				      int invert_y)
+				      const lw6ker_game_state_t * game_state, const lw6map_color_couple_t * map_color, int invert_y)
 {
   if (bitmap->surface)
     {
       _update_game_bitmap_raw (utils_context, bitmap, game_state, map_color,
-			       invert_y, 0, 0,
-			       lw6ker_game_state_get_w (sys_context,
-							game_state),
-			       lw6ker_game_state_get_h (sys_context,
-							game_state));
+			       invert_y, 0, 0, lw6ker_game_state_get_w (sys_context, game_state), lw6ker_game_state_get_h (sys_context, game_state));
       if (bitmap->texture)
 	{
 	  /*
@@ -157,8 +137,7 @@ mod_gl1_utils_update_game_bitmap_raw (mod_gl1_utils_context_t * utils_context,
 	   * be created each time: it's always the same size and represents
 	   * pretty much the same thing/layer -> where fighters are!
 	   */
-	  mod_gl1_utils_texture_update (utils_context, bitmap->texture,
-					bitmap->surface);
+	  mod_gl1_utils_texture_update (utils_context, bitmap->texture, bitmap->surface);
 	}
     }
 }
@@ -169,10 +148,7 @@ mod_gl1_utils_update_game_bitmap_raw (mod_gl1_utils_context_t * utils_context,
  */
 static void
 _update_game_surface (mod_gl1_utils_context_t * utils_context,
-		      SDL_Surface * surface,
-		      const lw6ker_game_state_t * game_state,
-		      const lw6gui_look_t * look, int x0, int y0, int w,
-		      int h)
+		      SDL_Surface * surface, const lw6ker_game_state_t * game_state, const lw6gui_look_t * look, int x0, int y0, int w, int h)
 {
   int x, y, z, x1, y1, d;
   int safe_x = 0, safe_y = 0;
@@ -201,15 +177,12 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 	    {
 	      safe_x = x;
 	      safe_y = y;
-	      lw6map_coords_fix_xy (sys_context, rules, &shape, &safe_x,
-				    &safe_y);
+	      lw6map_coords_fix_xy (sys_context, rules, &shape, &safe_x, &safe_y);
 	      fighter_id = -1;
 	      hidden = 0;
 	      for (z = 0; z < d && fighter_id < 0; ++z)
 		{
-		  fighter_id =
-		    lw6ker_game_state_get_fighter_id (sys_context, game_state,
-						      safe_x, safe_y, z);
+		  fighter_id = lw6ker_game_state_get_fighter_id (sys_context, game_state, safe_x, safe_y, z);
 		  /*
 		   * It's important to test d>1 else a call
 		   * to get_zone_id is done when it's not needed,
@@ -218,16 +191,12 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 		   */
 		  if (d > 1 && fighter_id < 0)
 		    {
-		      hidden =
-			lw6ker_game_struct_is_fg
-			(game_state->game_struct, safe_x, safe_y, z);
+		      hidden = lw6ker_game_struct_is_fg (game_state->game_struct, safe_x, safe_y, z);
 		    }
 		}
 	      if (fighter_id >= 0)
 		{
-		  fighter =
-		    lw6ker_game_state_get_fighter_ro_by_id (game_state,
-							    fighter_id);
+		  fighter = lw6ker_game_state_get_fighter_ro_by_id (game_state, fighter_id);
 		  team_color = fighter->team_color;
 		  if (team_color >= 0)
 		    {
@@ -236,20 +205,15 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 		       * mode, team_color could be negative even if fighter was
 		       * reported active just before.
 		       */
-		      color = mod_gl1_utils_get_shaded_color_for_fighter
-			(utils_context, team_color, fighter->health);
+		      color = mod_gl1_utils_get_shaded_color_for_fighter (utils_context, team_color, fighter->health);
 		      if (hidden)
 			{
-			  mod_gl1_utils_force_color32_alpha (&color,
-							     hidden_layer_alpha);
+			  mod_gl1_utils_force_color32_alpha (&color, hidden_layer_alpha);
 			}
 		    }
 		  if (bytes_per_pixel == 4)
 		    {
-		      mod_gl1_utils_putpixel_4_bytes_per_pixel (surface,
-								x - x0,
-								y - y0,
-								color);
+		      mod_gl1_utils_putpixel_4_bytes_per_pixel (surface, x - x0, y - y0, color);
 		    }
 		  else
 		    {
@@ -260,9 +224,7 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 		{
 		  if (bytes_per_pixel == 4)
 		    {
-		      mod_gl1_utils_putpixel_4_bytes_per_pixel (surface,
-								x - x0,
-								y - y0, 0);
+		      mod_gl1_utils_putpixel_4_bytes_per_pixel (surface, x - x0, y - y0, 0);
 		    }
 		  else
 		    {
@@ -275,34 +237,25 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
   else
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("wrong surface dimension x0=%d x1=%d surface->w=%d y0=%d y1=%d surface->h=%d"),
-		  x0, x1, surface->w, y0, y1, surface->h);
+		  _x_ ("wrong surface dimension x0=%d x1=%d surface->w=%d y0=%d y1=%d surface->h=%d"), x0, x1, surface->w, y0, y1, surface->h);
     }
 }
 
 static void
 _update_game_bitmap (mod_gl1_utils_context_t * utils_context,
-		     mod_gl1_utils_bitmap_t * bitmap,
-		     const lw6ker_game_state_t * game_state,
-		     const lw6gui_look_t * look, int x0, int y0, int w, int h)
+		     mod_gl1_utils_bitmap_t * bitmap, const lw6ker_game_state_t * game_state, const lw6gui_look_t * look, int x0, int y0, int w, int h)
 {
-  _update_game_surface (utils_context, bitmap->surface, game_state, look, x0,
-			y0, w, h);
+  _update_game_surface (utils_context, bitmap->surface, game_state, look, x0, y0, w, h);
 }
 
 void
 mod_gl1_utils_update_game_bitmap (mod_gl1_utils_context_t * utils_context,
-				  mod_gl1_utils_bitmap_t * bitmap,
-				  const lw6ker_game_state_t * game_state,
-				  const lw6gui_look_t * look)
+				  mod_gl1_utils_bitmap_t * bitmap, const lw6ker_game_state_t * game_state, const lw6gui_look_t * look)
 {
   if (bitmap->surface)
     {
       _update_game_bitmap (utils_context, bitmap, game_state, look,
-			   0, 0, lw6ker_game_state_get_w (sys_context,
-							  game_state),
-			   lw6ker_game_state_get_h (sys_context, game_state));
+			   0, 0, lw6ker_game_state_get_w (sys_context, game_state), lw6ker_game_state_get_h (sys_context, game_state));
       if (bitmap->texture)
 	{
 	  /*
@@ -312,8 +265,7 @@ mod_gl1_utils_update_game_bitmap (mod_gl1_utils_context_t * utils_context,
 	   * be created each time: it's always the same size and represents
 	   * pretty much the same thing/layer -> where fighters are!
 	   */
-	  mod_gl1_utils_texture_update (utils_context, bitmap->texture,
-					bitmap->surface);
+	  mod_gl1_utils_texture_update (utils_context, bitmap->texture, bitmap->surface);
 	}
     }
 }
@@ -321,11 +273,7 @@ mod_gl1_utils_update_game_bitmap (mod_gl1_utils_context_t * utils_context,
 void
 mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
 					utils_context,
-					mod_gl1_utils_bitmap_array_t *
-					bitmap_array,
-					const lw6ker_game_state_t *
-					game_state,
-					const lw6gui_look_t * look)
+					mod_gl1_utils_bitmap_array_t * bitmap_array, const lw6ker_game_state_t * game_state, const lw6gui_look_t * look)
 {
   int i;
   GLint wrap = 0;
@@ -333,9 +281,7 @@ mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
   mod_gl1_utils_bitmap_t *bitmap = NULL;
 
   if (utils_context->last_action.game_bitmap_array_update_id !=
-      game_state->id
-      || utils_context->last_action.game_bitmap_array_update_rounds !=
-      lw6ker_game_state_get_rounds (sys_context, game_state))
+      game_state->id || utils_context->last_action.game_bitmap_array_update_rounds != lw6ker_game_state_get_rounds (sys_context, game_state))
     {
       wrap = GL_CLAMP_TO_EDGE;
       if (look->style.pixelize)
@@ -348,12 +294,9 @@ mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
 	}
 
       utils_context->last_action.game_bitmap_array_update_id = game_state->id;
-      utils_context->last_action.game_bitmap_array_update_rounds =
-	lw6ker_game_state_get_rounds (sys_context, game_state);
+      utils_context->last_action.game_bitmap_array_update_rounds = lw6ker_game_state_get_rounds (sys_context, game_state);
 
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("updating %d game tiles"),
-		  bitmap_array->layout.nb_tiles);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("updating %d game tiles"), bitmap_array->layout.nb_tiles);
       /*
        * Typically parallelizable function. Doesn't matter how tiles are updated,
        * and in which order.
@@ -369,15 +312,12 @@ mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
 	   */
 	  lw6gui_rect_t rect;
 
-	  if (lw6gui_rect_array_get_tile_by_i
-	      (&(bitmap_array->layout), &rect, i))
+	  if (lw6gui_rect_array_get_tile_by_i (&(bitmap_array->layout), &rect, i))
 	    {
 	      bitmap = mod_gl1_utils_bitmap_array_get (bitmap_array, i);
 	      if (bitmap)
 		{
-		  _update_game_bitmap (utils_context, bitmap, game_state,
-				       look, rect.x1, rect.y1, rect.w,
-				       rect.h);
+		  _update_game_bitmap (utils_context, bitmap, game_state, look, rect.x1, rect.y1, rect.w, rect.h);
 		}
 	    }
 	}
@@ -385,8 +325,7 @@ mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
       /*
        * Now render from surfaces to textures.
        */
-      mod_gl1_utils_bitmap_array_update (utils_context, bitmap_array,
-					 wrap, filter);
+      mod_gl1_utils_bitmap_array_update (utils_context, bitmap_array, wrap, filter);
     }
   else
     {

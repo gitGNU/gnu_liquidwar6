@@ -38,10 +38,8 @@
  * Return value: 1 if OK, 0 if outside
  */
 int
-lw6gui_triangle_is_inside_rect (const lw6gui_triangle_t * triangle,
-				const lw6gui_rect_t * rect)
+lw6gui_triangle_is_inside_rect (const lw6gui_triangle_t * triangle, const lw6gui_rect_t * rect)
 {
   return (lw6gui_point_is_inside_rect (triangle->p1, rect)
-	  && lw6gui_point_is_inside_rect (triangle->p2, rect)
-	  && lw6gui_point_is_inside_rect (triangle->p3, rect));
+	  && lw6gui_point_is_inside_rect (triangle->p2, rect) && lw6gui_point_is_inside_rect (triangle->p3, rect));
 }

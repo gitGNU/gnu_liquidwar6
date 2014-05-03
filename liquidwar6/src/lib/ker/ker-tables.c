@@ -31,12 +31,9 @@
  * MOVE_? offset or used when moving fighters,
  * and calculating "what's in that direction?".
  */
-_lw6ker_tables_move_offset_t _LW6KER_TABLES_MOVE_X_OFFSET =
-  { 1, 1, 1, 0, 0, -1, -1, -1, -1, 0, 0, 1, 0, 0 };
-_lw6ker_tables_move_offset_t _LW6KER_TABLES_MOVE_Y_OFFSET =
-  { 0, 0, 1, 1, 1, 1, 0, 0, -1, -1, -1, -1, 0, 0 };
-_lw6ker_tables_move_offset_t _LW6KER_TABLES_MOVE_Z_OFFSET =
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1 };
+_lw6ker_tables_move_offset_t _LW6KER_TABLES_MOVE_X_OFFSET = { 1, 1, 1, 0, 0, -1, -1, -1, -1, 0, 0, 1, 0, 0 };
+_lw6ker_tables_move_offset_t _LW6KER_TABLES_MOVE_Y_OFFSET = { 0, 0, 1, 1, 1, 1, 0, 0, -1, -1, -1, -1, 0, 0 };
+_lw6ker_tables_move_offset_t _LW6KER_TABLES_MOVE_Z_OFFSET = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1 };
 
 /*
  * Used to try a direction or another one, when something

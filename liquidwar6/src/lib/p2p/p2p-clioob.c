@@ -28,22 +28,16 @@
 #include "p2p-internal.h"
 
 _lw6p2p_cli_oob_callback_data_t *
-_lw6p2p_cli_oob_callback_data_new (lw6cli_backend_t * backend,
-				   _lw6p2p_node_t * node,
-				   const char *public_url)
+_lw6p2p_cli_oob_callback_data_new (lw6cli_backend_t * backend, _lw6p2p_node_t * node, const char *public_url)
 {
   _lw6p2p_cli_oob_callback_data_t *ret = NULL;
 
-  ret =
-    (_lw6p2p_cli_oob_callback_data_t *)
-    LW6SYS_CALLOC (sizeof (_lw6p2p_cli_oob_callback_data_t));
+  ret = (_lw6p2p_cli_oob_callback_data_t *) LW6SYS_CALLOC (sizeof (_lw6p2p_cli_oob_callback_data_t));
   if (ret)
     {
       ret->backend = backend;
       ret->node_info = node->node_info;
-      ret->cli_oob =
-	lw6cli_oob_new (public_url, _lw6p2p_cli_oob_verify_callback_func,
-			(void *) node);
+      ret->cli_oob = lw6cli_oob_new (public_url, _lw6p2p_cli_oob_verify_callback_func, (void *) node);
       if (!ret->cli_oob)
 	{
 	  LW6SYS_FREE (sys_context, ret);
@@ -99,23 +93,16 @@ _lw6p2p_cli_oob_filter (_lw6p2p_cli_oob_callback_data_t * cli_oob)
 void
 _lw6p2p_cli_oob_callback (void *callback_data)
 {
-  _lw6p2p_cli_oob_callback_data_t *cli_oob =
-    (_lw6p2p_cli_oob_callback_data_t *) callback_data;
+  _lw6p2p_cli_oob_callback_data_t *cli_oob = (_lw6p2p_cli_oob_callback_data_t *) callback_data;
   int ret = 0;
 
-  ret =
-    lw6cli_process_oob (cli_oob->backend, cli_oob->node_info,
-			&(cli_oob->cli_oob->data));
+  ret = lw6cli_process_oob (cli_oob->backend, cli_oob->node_info, &(cli_oob->cli_oob->data));
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("_cli_oob_callback done ret=%d"), ret);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("_cli_oob_callback done ret=%d"), ret);
 }
 
 int
-_lw6p2p_cli_oob_verify_callback_func (void *func_data, const char *url,
-				      const char *ip, int port,
-				      int ping_delay_msec,
-				      lw6sys_assoc_t * assoc)
+_lw6p2p_cli_oob_verify_callback_func (void *func_data, const char *url, const char *ip, int port, int ping_delay_msec, lw6sys_assoc_t * assoc)
 {
   int ret = 0;
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
@@ -159,91 +146,35 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, const char *url,
   remote_title = lw6sys_assoc_get (assoc, LW6MSG_OOB_TITLE);
   remote_description = lw6sys_assoc_get (assoc, LW6MSG_OOB_DESCRIPTION);
 
-  if (remote_program && remote_version && remote_codename
-      && remote_stamp_int > 0 && remote_id && remote_url
-      && remote_title && remote_description)
+  if (remote_program && remote_version && remote_codename && remote_stamp_int > 0 && remote_id && remote_url && remote_title && remote_description)
     {
-      if (lw6sys_str_is_same
-	  (remote_program, lw6sys_build_get_package_tarname ()))
+      if (lw6sys_str_is_same (remote_program, lw6sys_build_get_package_tarname ()))
 	{
 	  if (lw6sys_str_is_same (sys_context, remote_url, url))
 	    {
-	      if (remote_version && remote_codename
-		  && remote_stamp_int && remote_id && remote_title
-		  && remote_description)
+	      if (remote_version && remote_codename && remote_stamp_int && remote_id && remote_title && remote_description)
 		{
-		  if (!lw6sys_str_is_same (sys_context, url, node->public_url)
-		      && !lw6sys_str_is_same (sys_context, remote_id,
-					      node->node_id_str))
+		  if (!lw6sys_str_is_same (sys_context, url, node->public_url) && !lw6sys_str_is_same (sys_context, remote_id, node->node_id_str))
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_ ("confirmed node \"%s\""), url);
-		      has_password_str =
-			lw6msg_utils_get_assoc_str_with_default (assoc,
-								 LW6MSG_OOB_HAS_PASSWORD,
-								 LW6MSG_NO);
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("confirmed node \"%s\""), url);
+		      has_password_str = lw6msg_utils_get_assoc_str_with_default (assoc, LW6MSG_OOB_HAS_PASSWORD, LW6MSG_NO);
 		      has_password_int = (has_password_str
-					  &&
-					  lw6sys_str_starts_with_no_case
-					  (has_password_str,
-					   LW6MSG_YES)) ? _LW6P2P_DB_TRUE :
-			_LW6P2P_DB_FALSE;
-		      bench =
-			lw6msg_utils_get_assoc_int_with_default (assoc,
-								 LW6MSG_OOB_BENCH,
-								 0);
-		      open_relay_str =
-			lw6msg_utils_get_assoc_str_with_default (assoc,
-								 LW6MSG_OOB_OPEN_RELAY,
-								 LW6MSG_NO);
-		      open_relay_int = (open_relay_str &&
-					lw6sys_str_starts_with_no_case
-					(open_relay_str,
-					 LW6MSG_YES)) ? _LW6P2P_DB_TRUE :
-			_LW6P2P_DB_FALSE;
+					  && lw6sys_str_starts_with_no_case (has_password_str, LW6MSG_YES)) ? _LW6P2P_DB_TRUE : _LW6P2P_DB_FALSE;
+		      bench = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_BENCH, 0);
+		      open_relay_str = lw6msg_utils_get_assoc_str_with_default (assoc, LW6MSG_OOB_OPEN_RELAY, LW6MSG_NO);
+		      open_relay_int = (open_relay_str && lw6sys_str_starts_with_no_case (open_relay_str, LW6MSG_YES)) ? _LW6P2P_DB_TRUE : _LW6P2P_DB_FALSE;
 		      now = _lw6p2p_db_now (node->db);
-		      uptime =
-			lw6msg_utils_get_assoc_int_with_default (assoc,
-								 LW6MSG_OOB_UPTIME,
-								 0);
-		      community_id =
-			lw6sys_assoc_get (assoc, LW6MSG_OOB_COMMUNITY);
-		      round =
-			lw6msg_utils_get_assoc_int_with_default (assoc,
-								 LW6MSG_OOB_ROUND,
-								 0);
-		      level =
-			lw6msg_utils_get_assoc_str_with_default (assoc,
-								 LW6MSG_OOB_LEVEL,
-								 LW6SYS_STR_EMPTY);
-		      required_bench =
-			lw6msg_utils_get_assoc_int_with_default (assoc,
-								 LW6MSG_OOB_REQUIRED_BENCH,
-								 0);
-		      nb_colors =
-			lw6msg_utils_get_assoc_int_with_default (assoc,
-								 LW6MSG_OOB_NB_COLORS,
-								 0);
-		      max_nb_colors =
-			lw6msg_utils_get_assoc_int_with_default (assoc,
-								 LW6MSG_OOB_MAX_NB_COLORS,
-								 0);
-		      nb_cursors =
-			lw6msg_utils_get_assoc_int_with_default (assoc,
-								 LW6MSG_OOB_NB_CURSORS,
-								 0);
-		      max_nb_cursors =
-			lw6msg_utils_get_assoc_int_with_default (assoc,
-								 LW6MSG_OOB_MAX_NB_CURSORS,
-								 0);
-		      nb_nodes =
-			lw6msg_utils_get_assoc_int_with_default (assoc,
-								 LW6MSG_OOB_NB_NODES,
-								 0);
-		      max_nb_nodes =
-			lw6msg_utils_get_assoc_int_with_default (assoc,
-								 LW6MSG_OOB_MAX_NB_NODES,
-								 0);
+		      uptime = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_UPTIME, 0);
+		      community_id = lw6sys_assoc_get (assoc, LW6MSG_OOB_COMMUNITY);
+		      round = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_ROUND, 0);
+		      level = lw6msg_utils_get_assoc_str_with_default (assoc, LW6MSG_OOB_LEVEL, LW6SYS_STR_EMPTY);
+		      required_bench = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_REQUIRED_BENCH, 0);
+		      nb_colors = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_NB_COLORS, 0);
+		      max_nb_colors = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_MAX_NB_COLORS, 0);
+		      nb_cursors = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_NB_CURSORS, 0);
+		      max_nb_cursors = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_MAX_NB_CURSORS, 0);
+		      nb_nodes = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_NB_NODES, 0);
+		      max_nb_nodes = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_MAX_NB_NODES, 0);
 
 
 		      ret =
@@ -259,18 +190,8 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, const char *url,
 							 open_relay_int,
 							 now - uptime,
 							 community_id, round,
-							 level,
-							 required_bench,
-							 nb_colors,
-							 max_nb_colors,
-							 nb_cursors,
-							 max_nb_cursors,
-							 nb_nodes,
-							 max_nb_nodes);
-		      ret =
-			_lw6p2p_node_update_peer_net (node, remote_id,
-						      remote_url, ip, port,
-						      now, ping_delay_msec);
+							 level, required_bench, nb_colors, max_nb_colors, nb_cursors, max_nb_cursors, nb_nodes, max_nb_nodes);
+		      ret = _lw6p2p_node_update_peer_net (node, remote_id, remote_url, ip, port, now, ping_delay_msec);
 		    }
 		  else
 		    {
@@ -283,21 +204,17 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, const char *url,
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_ ("wrong url \"%s\" vs \"%s\""), remote_url,
-			  url);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("wrong url \"%s\" vs \"%s\""), remote_url, url);
 	    }
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("wrong remote program \"%s\""), remote_program);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("wrong remote program \"%s\""), remote_program);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("answer does not containn the required fields"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("answer does not containn the required fields"));
     }
 
   return ret;

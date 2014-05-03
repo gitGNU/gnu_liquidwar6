@@ -28,9 +28,7 @@
 #include "mod-tcpd-internal.h"
 
 _mod_tcpd_context_t *
-_mod_tcpd_init (int argc, const char *argv[],
-		lw6cnx_properties_t * properties,
-		lw6srv_listener_t * listener)
+_mod_tcpd_init (int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
 {
   _mod_tcpd_context_t *tcpd_context = NULL;
   char *data_dir = NULL;
@@ -38,8 +36,7 @@ _mod_tcpd_init (int argc, const char *argv[],
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("tcpd init"));
 
-  tcpd_context =
-    (_mod_tcpd_context_t *) LW6SYS_CALLOC (sizeof (_mod_tcpd_context_t));
+  tcpd_context = (_mod_tcpd_context_t *) LW6SYS_CALLOC (sizeof (_mod_tcpd_context_t));
   if (tcpd_context)
     {
       data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
@@ -47,12 +44,9 @@ _mod_tcpd_init (int argc, const char *argv[],
 	{
 	  if (_mod_tcpd_load_data (&(tcpd_context->data), data_dir))
 	    {
-	      properties->hint_timeout =
-		tcpd_context->data.consts.error_timeout;
-	      properties->ping_alter_base =
-		tcpd_context->data.consts.ping_alter_base;
-	      properties->ping_alter_percent =
-		tcpd_context->data.consts.ping_alter_percent;
+	      properties->hint_timeout = tcpd_context->data.consts.error_timeout;
+	      properties->ping_alter_base = tcpd_context->data.consts.ping_alter_base;
+	      properties->ping_alter_percent = tcpd_context->data.consts.ping_alter_percent;
 	      properties->reliable = 1;
 	      properties->backend_id = MOD_TCPD_BACKEND_ID;
 	      ok = 1;
@@ -68,8 +62,7 @@ _mod_tcpd_init (int argc, const char *argv[],
 
   if (!tcpd_context)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _("can't initialize mod_tcpd"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("can't initialize mod_tcpd"));
     }
 
   return tcpd_context;

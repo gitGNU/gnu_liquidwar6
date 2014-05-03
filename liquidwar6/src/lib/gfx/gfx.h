@@ -62,9 +62,7 @@ typedef struct lw6gfx_backend_s
   u_int32_t id;
 
   /// Pointer on lw6gfx_init callback code.
-  void *(*init) (int argc, const char *argv[],
-		 lw6gui_video_mode_t * video_mode,
-		 lw6gui_resize_callback_func_t resize_callback);
+  void *(*init) (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback);
   /// Pointer on lw6gfx_quit callback code.
   void (*quit) (void *gfx_context);
   /// Pointer on lw6gfx_repr callback code.
@@ -74,8 +72,7 @@ typedef struct lw6gfx_backend_s
   /// Pointer on lw6gfx_get_video_mode callback code.
   int (*get_video_mode) (void *gfx_context, lw6gui_video_mode_t * video_mode);
   /// Pointer on lw6gfx_get_fullscreen_modes callback code.
-  int (*get_fullscreen_modes) (void *gfx_context,
-			       lw6gui_fullscreen_modes_t * modes);
+  int (*get_fullscreen_modes) (void *gfx_context, lw6gui_fullscreen_modes_t * modes);
   /// Pointer on lw6gfx_pump_events code.
   lw6gui_input_t *(*pump_events) (void *gfx_context);
   /// Pointer on lw6gfx_display code.
@@ -85,25 +82,17 @@ typedef struct lw6gfx_backend_s
 		  const lw6ker_game_state_t * game_state,
 		  lw6pil_local_cursors_t * local_cursors,
 		  lw6gui_menu_t * menu,
-		  float progress,
-		  float fps, float mps,
-		  const char **log_list, int capture, int gfx_debug,
-		  int debug_team_id, int debug_layer_id);
+		  float progress, float fps, float mps, const char **log_list, int capture, int gfx_debug, int debug_team_id, int debug_layer_id);
 }
 lw6gfx_backend_t;
 
 /* gfx-api.c */
-extern int lw6gfx_init (lw6gfx_backend_t * backend,
-			lw6gui_video_mode_t * video_mode,
-			lw6gui_resize_callback_func_t resize_callback);
+extern int lw6gfx_init (lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback);
 extern void lw6gfx_quit (lw6gfx_backend_t * backend);
 extern char *lw6gfx_repr (const lw6gfx_backend_t * backend);
-extern int lw6gfx_set_video_mode (lw6gfx_backend_t * backend,
-				  lw6gui_video_mode_t * video_mode);
-extern int lw6gfx_get_video_mode (lw6gfx_backend_t * backend,
-				  lw6gui_video_mode_t * video_mode);
-extern int lw6gfx_get_fullscreen_modes (lw6gfx_backend_t * backend,
-					lw6gui_fullscreen_modes_t * modes);
+extern int lw6gfx_set_video_mode (lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode);
+extern int lw6gfx_get_video_mode (lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode);
+extern int lw6gfx_get_fullscreen_modes (lw6gfx_backend_t * backend, lw6gui_fullscreen_modes_t * modes);
 extern lw6gui_input_t *lw6gfx_pump_events (lw6gfx_backend_t * backend);
 extern int lw6gfx_display (lw6gfx_backend_t * backend, int mask,
 			   const lw6gui_look_t * look,
@@ -112,14 +101,11 @@ extern int lw6gfx_display (lw6gfx_backend_t * backend, int mask,
 			   const lw6ker_game_state_t * game_state,
 			   lw6pil_local_cursors_t * local_cursors,
 			   lw6gui_menu_t * menu, float progress, float fps,
-			   float mps, const char **log_list, int capture,
-			   int gfx_debug, int debug_team_id,
-			   int debug_layer_id);
+			   float mps, const char **log_list, int capture, int gfx_debug, int debug_team_id, int debug_layer_id);
 
 /* gfx-register.c */
 extern lw6sys_assoc_t *lw6gfx_get_backends (int argc, const char *argv[]);
-extern lw6gfx_backend_t *lw6gfx_create_backend (int argc, const char *argv[],
-						const char *name);
+extern lw6gfx_backend_t *lw6gfx_create_backend (int argc, const char *argv[], const char *name);
 extern void lw6gfx_destroy_backend (lw6gfx_backend_t * backend);
 
 /* gfx-test.c */

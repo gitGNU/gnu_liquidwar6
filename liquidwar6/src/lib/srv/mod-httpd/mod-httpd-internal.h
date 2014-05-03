@@ -149,54 +149,34 @@ typedef struct _mod_httpd_specific_data_s
 _mod_httpd_specific_data_t;
 
 /* mod-httpd-data.c */
-extern int _mod_httpd_load_data (_mod_httpd_data_t * httpd_data,
-				 const char *data_dir);
+extern int _mod_httpd_load_data (_mod_httpd_data_t * httpd_data, const char *data_dir);
 extern void _mod_httpd_unload_data (_mod_httpd_data_t * httpd_data);
 
 /* mod-httpd-error.c */
-extern _mod_httpd_response_t *_mod_httpd_http_error (_mod_httpd_context_t *
-						     httpd_context,
-						     int status);
+extern _mod_httpd_response_t *_mod_httpd_http_error (_mod_httpd_context_t * httpd_context, int status);
 
 /* mod-httpd-setup.c */
-extern _mod_httpd_context_t *_mod_httpd_init (int argc, const char *argv[],
-					      lw6cnx_properties_t *
-					      properties,
-					      lw6srv_listener_t * listener);
+extern _mod_httpd_context_t *_mod_httpd_init (int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener);
 extern void _mod_httpd_quit (_mod_httpd_context_t * httpd_context);
 
 /* mod-httpd-handshake.c */
 extern int _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
-				   lw6srv_tcp_accepter_t * tcp_accepter,
-				   lw6nod_info_t * node_info,
-				   u_int64_t * remote_id, char **remote_url);
+				   lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url);
 extern int _mod_httpd_analyse_udp (_mod_httpd_context_t * httpd_context,
-				   lw6srv_udp_buffer_t * udp_buffer,
-				   lw6nod_info_t * node_info,
-				   u_int64_t * remote_id, char **remote_url);
-extern int _mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context,
-				     lw6cnx_connection_t * connection,
-				     lw6srv_tcp_accepter_t * tcp_accepter);
-extern int _mod_httpd_feed_with_udp (_mod_httpd_context_t * httpd_context,
-				     lw6cnx_connection_t * connection,
-				     lw6srv_udp_buffer_t * udp_buffer);
+				   lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url);
+extern int _mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter);
+extern int _mod_httpd_feed_with_udp (_mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer);
 
 /* mod-httpd-log.c */
-extern int _mod_httpd_log (_mod_httpd_context_t * httpd_context,
-			   _mod_httpd_request_t * request,
-			   _mod_httpd_response_t * response);
+extern int _mod_httpd_log (_mod_httpd_context_t * httpd_context, _mod_httpd_request_t * request, _mod_httpd_response_t * response);
 
 /* mod-httpd-replythread.c */
 extern void _mod_httpd_reply_thread_func (void *callback_data);
 extern void _mod_httpd_reply_thread_join (void *callback_data);
 extern void _mod_httpd_reply_thread_free_list_item (void *data);
 extern int _mod_httpd_reply_thread_filter (void *func_data, void *data);
-extern int
-_mod_httpd_reply_thread_should_continue (_mod_httpd_reply_thread_data_t *
-					 reply_thread_data);
-extern _mod_httpd_response_t
-  * _mod_httpd_reply_thread_response (_mod_httpd_reply_thread_data_t *
-				      reply_thread_data);
+extern int _mod_httpd_reply_thread_should_continue (_mod_httpd_reply_thread_data_t * reply_thread_data);
+extern _mod_httpd_response_t *_mod_httpd_reply_thread_response (_mod_httpd_reply_thread_data_t * reply_thread_data);
 
 /* mod-httpd-state.c */
 extern lw6cnx_connection_t *_mod_httpd_open (_mod_httpd_context_t *
@@ -209,66 +189,40 @@ extern lw6cnx_connection_t *_mod_httpd_open (_mod_httpd_context_t *
 					     const char *password,
 					     u_int64_t local_id,
 					     u_int64_t remote_id, int dns_ok,
-					     int network_reliability,
-					     lw6cnx_recv_callback_t
-					     recv_callback_func,
-					     void *recv_callback_data);
-extern void _mod_httpd_close (_mod_httpd_context_t * httpd_context,
-			      lw6cnx_connection_t * connection);
-extern int _mod_httpd_timeout_ok (_mod_httpd_context_t * httpd_context,
-				  int64_t origin_timestamp);
+					     int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data);
+extern void _mod_httpd_close (_mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection);
+extern int _mod_httpd_timeout_ok (_mod_httpd_context_t * httpd_context, int64_t origin_timestamp);
 
 /* mod-httpd-messages.c */
 extern int _mod_httpd_send (_mod_httpd_context_t * httpd_context,
 			    lw6cnx_connection_t * connection,
 			    int64_t now,
 			    u_int32_t physical_ticket_sig,
-			    u_int32_t logical_ticket_sig,
-			    u_int64_t logical_from_id,
-			    u_int64_t logical_to_id, const char *message);
-extern int _mod_httpd_can_send (_mod_httpd_context_t * httpd_context,
-				lw6cnx_connection_t * connection);
-extern void _mod_httpd_poll (_mod_httpd_context_t * httpd_context,
-			     lw6cnx_connection_t * connection);
+			    u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message);
+extern int _mod_httpd_can_send (_mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection);
+extern void _mod_httpd_poll (_mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection);
 
 /* mod-httpd-info.c */
-extern char *_mod_httpd_repr (_mod_httpd_context_t * httpd_context,
-			      lw6cnx_connection_t * connection);
+extern char *_mod_httpd_repr (_mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection);
 
 /* mod-httpd-oob.c */
-extern int _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context,
-				   lw6nod_info_t * node_info,
-				   lw6srv_oob_data_t * oob_data);
-extern int _mod_httpd_oob_should_continue (_mod_httpd_context_t *
-					   httpd_context,
-					   lw6srv_oob_data_t * oob_data);
+extern int _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data);
+extern int _mod_httpd_oob_should_continue (_mod_httpd_context_t * httpd_context, lw6srv_oob_data_t * oob_data);
 
 /* mod-httpd-request.c */
-extern _mod_httpd_request_t
-  * _mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context,
-				  lw6nod_info_t * node_info,
-				  lw6srv_oob_data_t * oob_data);
-extern _mod_httpd_request_t
-  * _mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t *
-				  reply_thread_data);
+extern _mod_httpd_request_t *_mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data);
+extern _mod_httpd_request_t *_mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t * reply_thread_data);
 extern void _mod_httpd_request_free (_mod_httpd_request_t * request);
 
 /* mod-httpd-response.c */
 extern _mod_httpd_response_t
   * _mod_httpd_response_from_bin (_mod_httpd_context_t * httpd_context,
 				  int status, int no_cache, int refresh_sec,
-				  const char *refresh_url,
-				  const char *content_type, int content_size,
-				  void *content_data);
+				  const char *refresh_url, const char *content_type, int content_size, void *content_data);
 extern _mod_httpd_response_t
   * _mod_httpd_response_from_str (_mod_httpd_context_t * httpd_context,
-				  int status, int no_cache, int refresh_sec,
-				  const char *refresh_url,
-				  const char *content_type,
-				  const char *content);
+				  int status, int no_cache, int refresh_sec, const char *refresh_url, const char *content_type, const char *content);
 extern void _mod_httpd_response_free (_mod_httpd_response_t * response);
-extern int _mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
-				     _mod_httpd_response_t * response,
-				     int *sock, int headers_only);
+extern int _mod_httpd_response_send (_mod_httpd_context_t * httpd_context, _mod_httpd_response_t * response, int *sock, int headers_only);
 
 #endif

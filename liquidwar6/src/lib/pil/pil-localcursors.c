@@ -27,8 +27,7 @@
 #include "pil.h"
 
 static lw6pil_local_cursor_t *
-_get_cursor (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id,
-	     int create)
+_get_cursor (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id, int create)
 {
   lw6pil_local_cursor_t *ret = NULL;
   int i;
@@ -41,8 +40,7 @@ _get_cursor (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id,
 	  break;
 	}
     }
-  if (create && (!ret) && (i < LW6MAP_MAX_NB_CURSORS)
-      && (local_cursors->nb_cursors < LW6MAP_MAX_NB_CURSORS))
+  if (create && (!ret) && (i < LW6MAP_MAX_NB_CURSORS) && (local_cursors->nb_cursors < LW6MAP_MAX_NB_CURSORS))
     {
       ret = &(local_cursors->cursors[i]);
       ret->cursor_id = cursor_id;
@@ -84,8 +82,7 @@ lw6pil_local_cursors_reset (lw6pil_local_cursors_t * local_cursors)
  * does not exist.
  */
 lw6pil_local_cursor_t *
-lw6pil_local_cursors_get_cursor (lw6pil_local_cursors_t *
-				 local_cursors, u_int16_t cursor_id)
+lw6pil_local_cursors_get_cursor (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id)
 {
   return _get_cursor (local_cursors, cursor_id, 0);
 }
@@ -104,9 +101,7 @@ lw6pil_local_cursors_get_cursor (lw6pil_local_cursors_t *
  * Return value: 1 on success (cursor exists), 0 on failure (no such cursor).
  */
 int
-lw6pil_local_cursors_get_info (lw6pil_local_cursors_t * local_cursors, int *x,
-			       int *y, int *mouse_controlled,
-			       u_int16_t cursor_id)
+lw6pil_local_cursors_get_info (lw6pil_local_cursors_t * local_cursors, int *x, int *y, int *mouse_controlled, u_int16_t cursor_id)
 {
   int ret = 0;
   lw6pil_local_cursor_t *cursor;
@@ -146,8 +141,7 @@ lw6pil_local_cursors_get_info (lw6pil_local_cursors_t * local_cursors, int *x,
  * Return value: 1 on success (cursor exists), 0 on failure (no such cursor).
  */
 int
-lw6pil_local_cursors_set_xy (lw6pil_local_cursors_t * local_cursors,
-			     u_int16_t cursor_id, int x, int y)
+lw6pil_local_cursors_set_xy (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id, int x, int y)
 {
   int ret = 0;
   lw6pil_local_cursor_t *cursor;
@@ -155,8 +149,7 @@ lw6pil_local_cursors_set_xy (lw6pil_local_cursors_t * local_cursors,
   cursor = _get_cursor (local_cursors, cursor_id, 1);
   if (cursor)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("set local cursor %x to %d,%d"), cursor_id, x, y);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("set local cursor %x to %d,%d"), cursor_id, x, y);
       cursor->x = x;
       cursor->y = y;
       ret = 1;
@@ -179,9 +172,7 @@ lw6pil_local_cursors_set_xy (lw6pil_local_cursors_t * local_cursors,
  * Return value: 1 on success (cursor exists), 0 on failure (no such cursor).
  */
 int
-lw6pil_local_cursors_set_mouse_controlled (lw6pil_local_cursors_t *
-					   local_cursors, u_int16_t cursor_id,
-					   int mouse_controlled)
+lw6pil_local_cursors_set_mouse_controlled (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id, int mouse_controlled)
 {
   int ret = 0;
   int i;
@@ -219,15 +210,12 @@ lw6pil_local_cursors_set_mouse_controlled (lw6pil_local_cursors_t *
  * Return value: 1 on success (cursor exists), 0 on failure (no such cursor).
  */
 int
-lw6pil_local_cursors_get_main_info (lw6pil_local_cursors_t *
-				    local_cursors, u_int16_t * cursor_id,
-				    int *x, int *y, int *mouse_controlled)
+lw6pil_local_cursors_get_main_info (lw6pil_local_cursors_t * local_cursors, u_int16_t * cursor_id, int *x, int *y, int *mouse_controlled)
 {
   int ret = 0;
   int i = local_cursors->main_i;
 
-  if (lw6sys_check_id_16 (sys_context, local_cursors->main_cursor_id)
-      && local_cursors->cursors[i].is_main)
+  if (lw6sys_check_id_16 (sys_context, local_cursors->main_cursor_id) && local_cursors->cursors[i].is_main)
     {
       if (cursor_id)
 	{
@@ -264,8 +252,7 @@ lw6pil_local_cursors_get_main_info (lw6pil_local_cursors_t *
  * Return value: 1 on success (cursor exists), 0 on failure (no such cursor).
  */
 int
-lw6pil_local_cursors_set_main (lw6pil_local_cursors_t *
-			       local_cursors, u_int16_t cursor_id)
+lw6pil_local_cursors_set_main (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id)
 {
   int ret = 0;
   int i;

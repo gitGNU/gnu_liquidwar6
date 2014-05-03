@@ -41,9 +41,7 @@ lw6gui_button_register_down (lw6gui_button_t * button, int64_t timestamp)
 {
   if (timestamp <= 0LL)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("using negative or zero timestamp (%" LW6SYS_PRINTF_LL
-		       "d)"), (long long) timestamp);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("using negative or zero timestamp (%" LW6SYS_PRINTF_LL "d)"), (long long) timestamp);
     }
 
   button->is_pressed = 1;
@@ -51,8 +49,7 @@ lw6gui_button_register_down (lw6gui_button_t * button, int64_t timestamp)
   button->last_press = timestamp;
   button->last_repeat = 0;
 
-  if (button->double_click_t1 <= 0 || button->double_click_t2 <= 0
-      || button->double_click_t3 <= 0)
+  if (button->double_click_t1 <= 0 || button->double_click_t2 <= 0 || button->double_click_t3 <= 0)
     {
       button->double_click_t1 = button->double_click_t2;
       button->double_click_t2 = button->double_click_t3;
@@ -213,13 +210,9 @@ lw6gui_button_pop_triple_click (lw6gui_button_t * button)
  * Return value: none.
  */
 void
-lw6gui_button_update_repeat (lw6gui_button_t * button,
-			     lw6gui_repeat_settings_t * repeat_settings,
-			     int64_t timestamp, int auto_release_enabled)
+lw6gui_button_update_repeat (lw6gui_button_t * button, lw6gui_repeat_settings_t * repeat_settings, int64_t timestamp, int auto_release_enabled)
 {
-  if (auto_release_enabled && button->is_pressed
-      && button->last_press <=
-      timestamp - repeat_settings->auto_release_delay)
+  if (auto_release_enabled && button->is_pressed && button->last_press <= timestamp - repeat_settings->auto_release_delay)
     {
       /*
        * Before anything else, register a fake button_up if we're
@@ -227,8 +220,7 @@ lw6gui_button_update_repeat (lw6gui_button_t * button,
        */
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("button auto release button->last_press=%"
-		       LW6SYS_PRINTF_LL "d timestamp=%" LW6SYS_PRINTF_LL "d"),
-		  (long long) button->last_press, (long long) timestamp);
+		       LW6SYS_PRINTF_LL "d timestamp=%" LW6SYS_PRINTF_LL "d"), (long long) button->last_press, (long long) timestamp);
       lw6gui_button_register_up (button);
     }
 
@@ -236,9 +228,7 @@ lw6gui_button_update_repeat (lw6gui_button_t * button,
     {
       if ((repeat_settings->delay > 0 && button->last_repeat == 0
 	   && button->last_press <= timestamp - repeat_settings->delay)
-	  || (repeat_settings->interval > 0 && button->last_repeat != 0
-	      && button->last_repeat <=
-	      timestamp - repeat_settings->interval))
+	  || (repeat_settings->interval > 0 && button->last_repeat != 0 && button->last_repeat <= timestamp - repeat_settings->interval))
 	{
 	  (button->press_queue)++;
 	  button->last_repeat = timestamp;
@@ -248,9 +238,7 @@ lw6gui_button_update_repeat (lw6gui_button_t * button,
   if (button->double_click_t1 > 0 && button->double_click_t2 > 0
       && button->double_click_t3 > 0
       && (button->double_click_t3 - button->double_click_t2) <
-      repeat_settings->double_click_delay
-      && (button->double_click_t2 - button->double_click_t1) <
-      repeat_settings->double_click_delay)
+      repeat_settings->double_click_delay && (button->double_click_t2 - button->double_click_t1) < repeat_settings->double_click_delay)
     {
       /*
        * We don't "++" here, no buffering of triple clicks
@@ -262,9 +250,7 @@ lw6gui_button_update_repeat (lw6gui_button_t * button,
     }
   if (button->double_click_t2 > 0 && button->double_click_t3 > 0
       && (button->double_click_t3 - button->double_click_t2) <
-      repeat_settings->double_click_delay
-      && timestamp - button->double_click_t3 >=
-      repeat_settings->double_click_delay)
+      repeat_settings->double_click_delay && timestamp - button->double_click_t3 >= repeat_settings->double_click_delay)
     {
       /*
        * We don't "++" here, no buffering of double clicks
@@ -274,9 +260,7 @@ lw6gui_button_update_repeat (lw6gui_button_t * button,
       button->double_click_t2 = 0;
       button->double_click_t3 = 0;
     }
-  if (button->double_click_t3 > 0
-      && timestamp - button->double_click_t3 >=
-      repeat_settings->double_click_delay)
+  if (button->double_click_t3 > 0 && timestamp - button->double_click_t3 >= repeat_settings->double_click_delay)
     {
       /*
        * We don't "++" here, no buffering of simple clicks

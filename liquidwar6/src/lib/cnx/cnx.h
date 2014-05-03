@@ -87,10 +87,7 @@ typedef struct lw6cnx_connection_s *lw6cnx_connection_p;
 typedef void (*lw6cnx_recv_callback_t) (void *recv_callback_data,
 					lw6cnx_connection_p connection,
 					u_int32_t physical_ticket_sig,
-					u_int32_t logical_ticket_sig,
-					u_int64_t logical_from_id,
-					u_int64_t logical_to_id,
-					const char *message);
+					u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message);
 
 /**
  * This structure holds all data associated to a physical connexion
@@ -237,28 +234,17 @@ extern lw6cnx_connection_t *lw6cnx_connection_new (const char *local_url,
 						   const char *password,
 						   u_int64_t local_id,
 						   u_int64_t remote_id,
-						   int dns_ok,
-						   int network_reliability,
-						   lw6cnx_recv_callback_t
-						   recv_callback_func,
-						   void *recv_callback_data);
+						   int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data);
 extern void lw6cnx_connection_free (lw6cnx_connection_t * connection);
-extern int lw6cnx_connection_should_send_foo (lw6cnx_connection_t *
-					      connection, int64_t now);
-extern void lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t *
-						connection, int64_t now,
-						int next_foo_delay);
+extern int lw6cnx_connection_should_send_foo (lw6cnx_connection_t * connection, int64_t now);
+extern void lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t * connection, int64_t now, int next_foo_delay);
 extern int lw6cnx_connection_lock_send (lw6cnx_connection_t * connection);
 extern void lw6cnx_connection_unlock_send (lw6cnx_connection_t * connection);
-extern int lw6cnx_connection_reliability_filter (lw6cnx_connection_t *
-						 connection);
+extern int lw6cnx_connection_reliability_filter (lw6cnx_connection_t * connection);
 
 /* cnx-password.c */
-extern char *lw6cnx_password_checksum (const char *seed,
-				       const char *password);
-extern int lw6cnx_password_verify (const char *seed,
-				   const char *password_here,
-				   const char *password_received);
+extern char *lw6cnx_password_checksum (const char *seed, const char *password);
+extern int lw6cnx_password_verify (const char *seed, const char *password_here, const char *password_received);
 
 /* cnx-test.c */
 extern int lw6cnx_test_register (int mode);
@@ -266,23 +252,12 @@ extern int lw6cnx_test_run (int mode);
 
 /* cnx-tickettable.c */
 extern void lw6cnx_ticket_table_zero (lw6cnx_ticket_table_t * ticket_table);
-extern int lw6cnx_ticket_table_init (lw6cnx_ticket_table_t * ticket_table,
-				     int hash_size);
+extern int lw6cnx_ticket_table_init (lw6cnx_ticket_table_t * ticket_table, int hash_size);
 extern void lw6cnx_ticket_table_clear (lw6cnx_ticket_table_t * ticket_table);
-extern u_int64_t lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t *
-					       ticket_table,
-					       const char *peer_id);
-extern void lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t *
-					  ticket_table, const char *peer_id,
-					  int ack_delay_msec);
-extern int lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t *
-						   ticket_table,
-						   const char *peer_id);
-extern u_int64_t lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t *
-					       ticket_table,
-					       const char *peer_id);
-extern void lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t *
-					  ticket_table, const char *peer_id,
-					  u_int64_t send_ticket);
+extern u_int64_t lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table, const char *peer_id);
+extern void lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table, const char *peer_id, int ack_delay_msec);
+extern int lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table, const char *peer_id);
+extern u_int64_t lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t * ticket_table, const char *peer_id);
+extern void lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t * ticket_table, const char *peer_id, u_int64_t send_ticket);
 
 #endif

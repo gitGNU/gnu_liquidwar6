@@ -69,13 +69,10 @@ _test_oob ()
   {
     lw6srv_oob_t *oob;
 
-    oob =
-      lw6srv_oob_new (_TEST_OOB_REMOTE_IP, _TEST_OOB_REMOTE_PORT,
-		      _TEST_OOB_INVALID_SOCK, _TEST_LINE);
+    oob = lw6srv_oob_new (_TEST_OOB_REMOTE_IP, _TEST_OOB_REMOTE_PORT, _TEST_OOB_INVALID_SOCK, _TEST_LINE);
     if (oob)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("created oob object"));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("created oob object"));
 	lw6srv_oob_free (oob);
       }
     else
@@ -100,20 +97,15 @@ _test_tcp_accepter ()
     ip = lw6sys_str_copy (sys_context, LW6NET_ADDRESS_LOOPBACK);
     if (ip)
       {
-	tcp_accepter =
-	  lw6srv_tcp_accepter_new (ip, _TEST_PORT, _TEST_FAKE_SOCK);
+	tcp_accepter = lw6srv_tcp_accepter_new (ip, _TEST_PORT, _TEST_FAKE_SOCK);
 	if (tcp_accepter)
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("tcp_accepter %s:%d"),
-			tcp_accepter->client_id.client_ip,
-			tcp_accepter->client_id.client_port);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("tcp_accepter %s:%d"), tcp_accepter->client_id.client_ip, tcp_accepter->client_id.client_port);
 	    lw6srv_tcp_accepter_free (tcp_accepter);
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("unable to create tcp_accepter object"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create tcp_accepter object"));
 	    LW6SYS_FREE (ip);
 	    ret = 0;
 	  }
@@ -143,16 +135,12 @@ _test_udp_buffer ()
 	    udp_buffer = lw6srv_udp_buffer_new (ip, _TEST_PORT, line);
 	    if (udp_buffer)
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("udp_buffer %s:%d"),
-			    udp_buffer->client_id.client_ip,
-			    udp_buffer->client_id.client_port);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("udp_buffer %s:%d"), udp_buffer->client_id.client_ip, udp_buffer->client_id.client_port);
 		lw6srv_udp_buffer_free (udp_buffer);
 	      }
 	    else
 	      {
-		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_ ("unable to create udp_buffer object"));
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create udp_buffer object"));
 		LW6SYS_FREE (sys_context, line);
 		LW6SYS_FREE (ip);
 		ret = 0;
@@ -187,8 +175,7 @@ _test_dummy ()
 static int
 _setup_init ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libsrv CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libsrv CUnit test suite"));
 
   return CUE_SUCCESS;
 }
@@ -196,8 +183,7 @@ _setup_init ()
 static int
 _setup_quit ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libsrv CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libsrv CUnit test suite"));
 
   return CUE_SUCCESS;
 }
@@ -211,8 +197,7 @@ _setup_init_listener ()
   int i = 0;
   int ok = 1;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libsrv-listener CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libsrv-listener CUnit test suite"));
 
   if (lw6net_init (argc, argv, _TEST_NET_LOG))
     {
@@ -220,8 +205,7 @@ _setup_init_listener ()
       _test_data.backend[1] = lw6srv_create_backend (argc, argv, "udpd");
       _test_data.backend[2] = lw6srv_create_backend (argc, argv, "httpd");
 
-      if (_test_data.backend[0] && _test_data.backend[1]
-	  && _test_data.backend[2])
+      if (_test_data.backend[0] && _test_data.backend[1] && _test_data.backend[2])
 	{
 	  _test_data.listener = lw6srv_start (LW6NET_ADDRESS_ANY, _TEST_PORT);
 	  if (_test_data.listener)
@@ -230,21 +214,16 @@ _setup_init_listener ()
 		{
 		  if (ok)
 		    {
-		      if (lw6srv_init
-			  (_test_data.backend[i], _test_data.listener))
+		      if (lw6srv_init (_test_data.backend[i], _test_data.listener))
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				      _x_
 				      ("successfull init for backend \"%s\", hint_timeout=%d seconds"),
-				      _test_data.backend[i]->name,
-				      _test_data.backend[i]->
-				      properties.hint_timeout);
+				      _test_data.backend[i]->name, _test_data.backend[i]->properties.hint_timeout);
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				      _x_ ("unable to init backend \"%s\""),
-				      _test_data.backend[i]->name);
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to init backend \"%s\""), _test_data.backend[i]->name);
 			  ok = 0;
 			}
 		      if (ok)
@@ -266,13 +245,11 @@ _setup_quit_listener ()
   int ret = CUE_SCLEAN_FAILED;
   int i = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libsrv-listener CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libsrv-listener CUnit test suite"));
 
   if (_test_data.listener)
     {
-      if (_test_data.backend[0] && _test_data.backend[1]
-	  && _test_data.backend[2])
+      if (_test_data.backend[0] && _test_data.backend[1] && _test_data.backend[2])
 	{
 	  for (i = 0; i < _TEST_NB_BACKENDS; ++i)
 	    {
@@ -282,8 +259,7 @@ _setup_quit_listener ()
 	}
       lw6srv_stop (_test_data.listener);
       _test_data.listener = NULL;
-      if (_test_data.backend[0] && _test_data.backend[1]
-	  && _test_data.backend[2])
+      if (_test_data.backend[0] && _test_data.backend[1] && _test_data.backend[2])
 	{
 	  for (i = 0; i < _TEST_NB_BACKENDS; ++i)
 	    {
@@ -341,24 +317,18 @@ lw6srv_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 
-  suite =
-    CU_add_suite ("lw6srv-listener", _setup_init_listener,
-		  _setup_quit_listener);
+  suite = CU_add_suite ("lw6srv-listener", _setup_init_listener, _setup_quit_listener);
   if (suite)
     {
       LW6SYS_CUNIT_ADD_TEST (suite, _test_dummy);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 

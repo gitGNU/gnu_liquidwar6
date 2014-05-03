@@ -27,8 +27,7 @@
 #include "gui.h"
 
 int
-lw6gui_rect_array_init (lw6gui_rect_array_t * rect_array, int w,
-			int h, int tile_size, int border_size)
+lw6gui_rect_array_init (lw6gui_rect_array_t * rect_array, int w, int h, int tile_size, int border_size)
 {
   int ret = 0;
   int nb_tiles_w, nb_tiles_h;
@@ -60,50 +59,40 @@ lw6gui_rect_array_init (lw6gui_rect_array_t * rect_array, int w,
   rect_array->nb_tiles_h = nb_tiles_h;
   rect_array->nb_tiles = (rect_array->nb_tiles_w * rect_array->nb_tiles_h);
   lw6gui_rect_init_xywh (&(rect_array->limits), -rect_array->border_size,
-			 -rect_array->border_size,
-			 nb_tiles_w * tile_spacing + 2 * border_size,
-			 nb_tiles_h * tile_spacing + 2 * border_size);
+			 -rect_array->border_size, nb_tiles_w * tile_spacing + 2 * border_size, nb_tiles_h * tile_spacing + 2 * border_size);
 
-  ret = (rect_array->source.w > 0 && rect_array->source.h > 0
-	 && rect_array->tile_size > 0 && rect_array->border_size > 0);
+  ret = (rect_array->source.w > 0 && rect_array->source.h > 0 && rect_array->tile_size > 0 && rect_array->border_size > 0);
 
   return ret;
 }
 
 int
-lw6gui_rect_array_get_tile_by_source_xy (const lw6gui_rect_array_t *
-					 rect_array, lw6gui_rect_t * rect,
-					 int *i, int source_x, int source_y)
+lw6gui_rect_array_get_tile_by_source_xy (const lw6gui_rect_array_t * rect_array, lw6gui_rect_t * rect, int *i, int source_x, int source_y)
 {
   int tile_x, tile_y;
   int ret = 0;
   int x1, y1;
 
-  if (source_x >= rect_array->limits.x1 && source_x < rect_array->limits.x2
-      && source_y >= rect_array->limits.y1
-      && source_y < rect_array->limits.y2)
+  if (source_x >= rect_array->limits.x1 && source_x < rect_array->limits.x2 && source_y >= rect_array->limits.y1 && source_y < rect_array->limits.y2)
     {
       tile_x = source_x / rect_array->tile_spacing;
       tile_y = source_y / rect_array->tile_spacing;
       (*i) = tile_y * rect_array->nb_tiles_w + tile_x;
       x1 = tile_x * rect_array->tile_spacing - rect_array->border_size;
       y1 = tile_y * rect_array->tile_spacing - rect_array->border_size;
-      lw6gui_rect_init_xywh (rect, x1, y1, rect_array->tile_size,
-			     rect_array->tile_size);
+      lw6gui_rect_init_xywh (rect, x1, y1, rect_array->tile_size, rect_array->tile_size);
       ret = 1;
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("pos %d,%d out of range"), source_x, source_y);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("pos %d,%d out of range"), source_x, source_y);
     }
 
   return ret;
 }
 
 int
-lw6gui_rect_array_get_tile_by_i (const lw6gui_rect_array_t * rect_array,
-				 lw6gui_rect_t * rect, int i)
+lw6gui_rect_array_get_tile_by_i (const lw6gui_rect_array_t * rect_array, lw6gui_rect_t * rect, int i)
 {
   int tile_x, tile_y;
   int ret = 0;
@@ -115,14 +104,12 @@ lw6gui_rect_array_get_tile_by_i (const lw6gui_rect_array_t * rect_array,
       tile_x = i % rect_array->nb_tiles_w;
       x1 = tile_x * rect_array->tile_spacing - rect_array->border_size;
       y1 = tile_y * rect_array->tile_spacing - rect_array->border_size;
-      lw6gui_rect_init_xywh (rect, x1, y1, rect_array->tile_size,
-			     rect_array->tile_size);
+      lw6gui_rect_init_xywh (rect, x1, y1, rect_array->tile_size, rect_array->tile_size);
       ret = 1;
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("tile index %d out of range"), i);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("tile index %d out of range"), i);
     }
 
   return ret;
@@ -130,10 +117,7 @@ lw6gui_rect_array_get_tile_by_i (const lw6gui_rect_array_t * rect_array,
 
 int
 lw6gui_rect_array_get_tile_and_quad (const lw6gui_rect_array_t * rect_array,
-				     lw6gui_rect_t * rect, int *i,
-				     lw6gui_quad_t * quad,
-				     const lw6gui_quad_t * source_quad,
-				     int x_polarity, int y_polarity)
+				     lw6gui_rect_t * rect, int *i, lw6gui_quad_t * quad, const lw6gui_quad_t * source_quad, int x_polarity, int y_polarity)
 {
   float x_center;
   float y_center;
@@ -143,36 +127,21 @@ lw6gui_rect_array_get_tile_and_quad (const lw6gui_rect_array_t * rect_array,
   int y_flip = 0;
   int ret = 0;
 
-  x_center_fixed = x_center =
-    (source_quad->p1.x + source_quad->p2.x + source_quad->p3.x +
-     source_quad->p4.x) / 4.0f;
-  y_center_fixed = y_center =
-    (source_quad->p1.y + source_quad->p2.y + source_quad->p3.y +
-     source_quad->p4.y) / 4.0f;
+  x_center_fixed = x_center = (source_quad->p1.x + source_quad->p2.x + source_quad->p3.x + source_quad->p4.x) / 4.0f;
+  y_center_fixed = y_center = (source_quad->p1.y + source_quad->p2.y + source_quad->p3.y + source_quad->p4.y) / 4.0f;
 
-  lw6gui_coords_fix_xy_float (&x_center_fixed, &y_center_fixed, &x_flip,
-			      &y_flip, rect_array->source.w,
-			      rect_array->source.h, x_polarity, y_polarity);
+  lw6gui_coords_fix_xy_float (&x_center_fixed, &y_center_fixed, &x_flip, &y_flip, rect_array->source.w, rect_array->source.h, x_polarity, y_polarity);
 
-  if (lw6gui_rect_array_get_tile_by_source_xy
-      (rect_array, rect, i, x_center_fixed, y_center_fixed))
+  if (lw6gui_rect_array_get_tile_by_source_xy (rect_array, rect, i, x_center_fixed, y_center_fixed))
     {
-      quad->p1.x =
-	x_center_fixed + ((float) x_flip) * (source_quad->p1.x - x_center);
-      quad->p2.x =
-	x_center_fixed + ((float) x_flip) * (source_quad->p2.x - x_center);
-      quad->p3.x =
-	x_center_fixed + ((float) x_flip) * (source_quad->p3.x - x_center);
-      quad->p4.x =
-	x_center_fixed + ((float) x_flip) * (source_quad->p4.x - x_center);
-      quad->p1.y =
-	y_center_fixed + ((float) y_flip) * (source_quad->p1.y - y_center);
-      quad->p2.y =
-	y_center_fixed + ((float) y_flip) * (source_quad->p2.y - y_center);
-      quad->p3.y =
-	y_center_fixed + ((float) y_flip) * (source_quad->p3.y - y_center);
-      quad->p4.y =
-	y_center_fixed + ((float) y_flip) * (source_quad->p4.y - y_center);
+      quad->p1.x = x_center_fixed + ((float) x_flip) * (source_quad->p1.x - x_center);
+      quad->p2.x = x_center_fixed + ((float) x_flip) * (source_quad->p2.x - x_center);
+      quad->p3.x = x_center_fixed + ((float) x_flip) * (source_quad->p3.x - x_center);
+      quad->p4.x = x_center_fixed + ((float) x_flip) * (source_quad->p4.x - x_center);
+      quad->p1.y = y_center_fixed + ((float) y_flip) * (source_quad->p1.y - y_center);
+      quad->p2.y = y_center_fixed + ((float) y_flip) * (source_quad->p2.y - y_center);
+      quad->p3.y = y_center_fixed + ((float) y_flip) * (source_quad->p3.y - y_center);
+      quad->p4.y = y_center_fixed + ((float) y_flip) * (source_quad->p4.y - y_center);
       if (lw6gui_quad_is_inside_rect (quad, rect))
 	{
 	  ret = 1;
@@ -186,8 +155,7 @@ lw6gui_rect_array_get_tile_and_quad (const lw6gui_rect_array_t * rect_array,
 		      quad->p3.x, quad->p3.y, quad->p4.x, quad->p4.y,
 		      rect->x1, rect->y1, rect->x2, rect->y2,
 		      source_quad->p1.x, source_quad->p1.y, source_quad->p2.x,
-		      source_quad->p2.y, source_quad->p3.x, source_quad->p3.y,
-		      source_quad->p4.x, source_quad->p4.y);
+		      source_quad->p2.y, source_quad->p3.x, source_quad->p3.y, source_quad->p4.x, source_quad->p4.y);
 	}
     }
   else
@@ -198,8 +166,7 @@ lw6gui_rect_array_get_tile_and_quad (const lw6gui_rect_array_t * rect_array,
 		  ("couldn't find tile in rect_array of %dx%d for quad (%f,%f),(%f,%f),(%f,%f),(%f,%f)"),
 		  rect_array->source.w, rect_array->source.h,
 		  source_quad->p1.x, source_quad->p1.y, source_quad->p2.x,
-		  source_quad->p2.y, source_quad->p3.x, source_quad->p3.y,
-		  source_quad->p4.x, source_quad->p4.y);
+		  source_quad->p2.y, source_quad->p3.x, source_quad->p3.y, source_quad->p4.x, source_quad->p4.y);
     }
 
   return ret;

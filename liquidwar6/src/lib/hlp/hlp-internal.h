@@ -36,7 +36,6 @@ typedef struct _lw6hlp_reference_entry_s
 } _lw6hlp_reference_entry_t;
 
 /* hlp-reference.c */
-extern _lw6hlp_reference_entry_t *_lw6hlp_reference_get_entry (const char
-							       *key);
+extern _lw6hlp_reference_entry_t *_lw6hlp_reference_get_entry (const char *key);
 
 #endif

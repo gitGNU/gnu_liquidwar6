@@ -39,8 +39,7 @@
  * Return value: 1 if line OK (and in this case @key and @value are set), 0 if not.
  */
 int
-lw6msg_utils_parse_key_value_to_ptr (char **key, char **value,
-				     const char *line)
+lw6msg_utils_parse_key_value_to_ptr (char **key, char **value, const char *line)
 {
   int ret = 0;
   char *seek = NULL;
@@ -61,8 +60,7 @@ lw6msg_utils_parse_key_value_to_ptr (char **key, char **value,
 	  seek++;
 	}
       pos = seek;
-      while (lw6sys_chr_is_alnum (*seek) || ((*seek) == '_')
-	     || ((*seek) == '-'))
+      while (lw6sys_chr_is_alnum (*seek) || ((*seek) == '_') || ((*seek) == '-'))
 	{
 	  seek++;
 	}
@@ -71,8 +69,7 @@ lw6msg_utils_parse_key_value_to_ptr (char **key, char **value,
       (*key) = lw6sys_str_copy (pos);
       (*seek) = seek_c;
       pos = seek;
-      while (lw6sys_chr_is_space (*seek) || ((*seek) == ':')
-	     || ((*seek) == '='))
+      while (lw6sys_chr_is_space (*seek) || ((*seek) == ':') || ((*seek) == '='))
 	{
 	  found_space = 1;
 	  seek++;
@@ -127,8 +124,7 @@ lw6msg_utils_parse_key_value_to_ptr (char **key, char **value,
  * Return value: 1 if line OK (and in this case @assoc is updated), 0 if not.
  */
 int
-lw6msg_utils_parse_key_value_to_assoc (lw6sys_assoc_t ** assoc,
-				       const char *line)
+lw6msg_utils_parse_key_value_to_assoc (lw6sys_assoc_t ** assoc, const char *line)
 {
   int ret = 0;
   char *key = NULL;
@@ -142,8 +138,7 @@ lw6msg_utils_parse_key_value_to_assoc (lw6sys_assoc_t ** assoc,
 	  lw6sys_assoc_set (assoc, key, value);
 	  if ((*assoc) == NULL)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("assoc_set failed, assoc is now NULL"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("assoc_set failed, assoc is now NULL"));
 	    }
 	  LW6SYS_FREE (sys_context, key);
 	}
@@ -167,9 +162,7 @@ lw6msg_utils_parse_key_value_to_assoc (lw6sys_assoc_t ** assoc,
  * Return value: a string, must not be freed.
  */
 char *
-lw6msg_utils_get_assoc_str_with_default (lw6sys_assoc_t * assoc,
-					 const char *key,
-					 const char *default_value)
+lw6msg_utils_get_assoc_str_with_default (lw6sys_assoc_t * assoc, const char *key, const char *default_value)
 {
   char *ret = NULL;
 
@@ -197,8 +190,7 @@ lw6msg_utils_get_assoc_str_with_default (lw6sys_assoc_t * assoc,
  * Return value: a string, must not be freed.
  */
 int
-lw6msg_utils_get_assoc_int_with_default (lw6sys_assoc_t * assoc,
-					 const char *key, int default_value)
+lw6msg_utils_get_assoc_int_with_default (lw6sys_assoc_t * assoc, const char *key, int default_value)
 {
   int ret = 0;
   char *tmp = NULL;

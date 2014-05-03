@@ -75,86 +75,54 @@ _test_manager_ldr ()
     user_dir = lw6sys_get_default_user_dir ();
     if (user_dir)
       {
-	manager =
-	  lw6tsk_loader_new (_TEST_MANAGER_SLEEP, user_dir, &progress);
+	manager = lw6tsk_loader_new (_TEST_MANAGER_SLEEP, user_dir, &progress);
 	if (manager)
 	  {
 	    map_path = lw6sys_get_default_map_path ();
 	    if (map_path)
 	      {
-		default_param =
-		  lw6sys_assoc_new (sys_context, lw6sys_free_callback);
-		forced_param =
-		  lw6sys_assoc_new (sys_context, lw6sys_free_callback);
-		lw6sys_assoc_set (sys_context, &default_param,
-				  _TEST_OPTION_KEY1,
-				  lw6sys_str_copy (sys_context,
-						   _TEST_OPTION_VALUE1));
-		lw6sys_assoc_set (&forced_param, _TEST_OPTION_KEY2,
-				  lw6sys_str_copy (sys_context,
-						   _TEST_OPTION_VALUE2));
+		default_param = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
+		forced_param = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
+		lw6sys_assoc_set (sys_context, &default_param, _TEST_OPTION_KEY1, lw6sys_str_copy (sys_context, _TEST_OPTION_VALUE1));
+		lw6sys_assoc_set (&forced_param, _TEST_OPTION_KEY2, lw6sys_str_copy (sys_context, _TEST_OPTION_VALUE2));
 		if (default_param && forced_param)
 		  {
 		    lw6tsk_loader_push_ldr (manager, map_path, _TEST_LOAD_MAP,
 					    default_param, forced_param,
-					    _TEST_DISPLAY_WIDTH,
-					    _TEST_DISPLAY_HEIGHT,
-					    LW6LDR_DEFAULT_BENCH_VALUE,
-					    LW6LDR_DEFAULT_MAGIC_NUMBER);
+					    _TEST_DISPLAY_WIDTH, _TEST_DISPLAY_HEIGHT, LW6LDR_DEFAULT_BENCH_VALUE, LW6LDR_DEFAULT_MAGIC_NUMBER);
 		    lw6sys_sleep (sys_context, _TEST_LOOP_SLEEP);
 		    lw6tsk_loader_push_ldr (manager, map_path, _TEST_LOAD_MAP,
 					    default_param, forced_param,
-					    _TEST_DISPLAY_WIDTH,
-					    _TEST_DISPLAY_HEIGHT,
-					    LW6LDR_DEFAULT_BENCH_VALUE,
-					    LW6LDR_DEFAULT_MAGIC_NUMBER);
+					    _TEST_DISPLAY_WIDTH, _TEST_DISPLAY_HEIGHT, LW6LDR_DEFAULT_BENCH_VALUE, LW6LDR_DEFAULT_MAGIC_NUMBER);
 		    for (i = 0; i < _TEST_LOOP_N && !done; i++)
 		      {
 			lw6sys_sleep (sys_context, _TEST_LOOP_SLEEP);
 			repr = lw6tsk_loader_repr (manager);
 			if (repr)
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					_x_ ("waiting for manager \"%s\""),
-					repr);
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("waiting for manager \"%s\""), repr);
 			    LW6SYS_FREE (sys_context, repr);
 			  }
-			if (lw6tsk_loader_pop
-			    (&level, &game_struct, &game_state, &bench_value,
-			     manager))
+			if (lw6tsk_loader_pop (&level, &game_struct, &game_state, &bench_value, manager))
 			  {
 			    if (level && game_struct && game_state)
 			      {
 				done = 1;
-				repr =
-				  lw6ker_game_struct_repr (sys_context,
-							   game_struct);
+				repr = lw6ker_game_struct_repr (sys_context, game_struct);
 				if (repr)
 				  {
-				    lw6sys_log (sys_context,
-						LW6SYS_LOG_NOTICE,
-						_x_
-						("loaded game_struct \"%s\""),
-						repr);
+				    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("loaded game_struct \"%s\""), repr);
 				    LW6SYS_FREE (sys_context, repr);
 				  }
-				repr =
-				  lw6ker_game_state_repr (sys_context,
-							  game_state);
+				repr = lw6ker_game_state_repr (sys_context, game_state);
 				if (repr)
 				  {
-				    lw6sys_log (sys_context,
-						LW6SYS_LOG_NOTICE,
-						_x_
-						("loaded game_state \"%s\" bench_value=%d"),
-						repr, bench_value);
+				    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("loaded game_state \"%s\" bench_value=%d"), repr, bench_value);
 				    LW6SYS_FREE (sys_context, repr);
 				  }
-				lw6ker_game_state_free (sys_context,
-							game_state);
+				lw6ker_game_state_free (sys_context, game_state);
 				game_state = NULL;
-				lw6ker_game_struct_free (sys_context,
-							 game_struct);
+				lw6ker_game_struct_free (sys_context, game_struct);
 				game_struct = NULL;
 				lw6map_free (sys_context, level);
 				level = NULL;
@@ -164,10 +132,7 @@ _test_manager_ldr ()
 				repr = lw6map_repr (sys_context, level);
 				if (repr)
 				  {
-				    lw6sys_log (sys_context,
-						LW6SYS_LOG_NOTICE,
-						_x_ ("loaded map \"%s\""),
-						repr);
+				    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("loaded map \"%s\""), repr);
 				    LW6SYS_FREE (sys_context, repr);
 				  }
 				lw6map_free (sys_context, level);
@@ -222,56 +187,36 @@ _test_manager_gen ()
     user_dir = lw6sys_get_default_user_dir ();
     if (user_dir)
       {
-	manager =
-	  lw6tsk_loader_new (_TEST_MANAGER_SLEEP, user_dir, &progress);
+	manager = lw6tsk_loader_new (_TEST_MANAGER_SLEEP, user_dir, &progress);
 	if (manager)
 	  {
-	    lw6tsk_loader_push_gen (manager, _TEST_SEED_1,
-				    _TEST_DISPLAY_WIDTH,
-				    _TEST_DISPLAY_HEIGHT,
-				    LW6LDR_DEFAULT_BENCH_VALUE,
-				    LW6LDR_DEFAULT_MAGIC_NUMBER);
+	    lw6tsk_loader_push_gen (manager, _TEST_SEED_1, _TEST_DISPLAY_WIDTH, _TEST_DISPLAY_HEIGHT, LW6LDR_DEFAULT_BENCH_VALUE, LW6LDR_DEFAULT_MAGIC_NUMBER);
 	    lw6sys_sleep (sys_context, _TEST_LOOP_SLEEP);
-	    lw6tsk_loader_push_gen (manager, _TEST_SEED_2,
-				    _TEST_DISPLAY_WIDTH,
-				    _TEST_DISPLAY_HEIGHT,
-				    LW6LDR_DEFAULT_BENCH_VALUE,
-				    LW6LDR_DEFAULT_MAGIC_NUMBER);
+	    lw6tsk_loader_push_gen (manager, _TEST_SEED_2, _TEST_DISPLAY_WIDTH, _TEST_DISPLAY_HEIGHT, LW6LDR_DEFAULT_BENCH_VALUE, LW6LDR_DEFAULT_MAGIC_NUMBER);
 	    for (i = 0; i < _TEST_LOOP_N && !done; i++)
 	      {
 		lw6sys_sleep (sys_context, _TEST_LOOP_SLEEP);
 		repr = lw6tsk_loader_repr (manager);
 		if (repr)
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("waiting for manager \"%s\""), repr);
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("waiting for manager \"%s\""), repr);
 		    LW6SYS_FREE (sys_context, repr);
 		  }
-		if (lw6tsk_loader_pop
-		    (&level, &game_struct, &game_state, &bench_value,
-		     manager))
+		if (lw6tsk_loader_pop (&level, &game_struct, &game_state, &bench_value, manager))
 		  {
 		    if (level && game_struct && game_state)
 		      {
 			done = 1;
-			repr =
-			  lw6ker_game_struct_repr (sys_context, game_struct);
+			repr = lw6ker_game_struct_repr (sys_context, game_struct);
 			if (repr)
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					_x_
-					("generated game_struct \"%s\""),
-					repr);
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("generated game_struct \"%s\""), repr);
 			    LW6SYS_FREE (sys_context, repr);
 			  }
-			repr =
-			  lw6ker_game_state_repr (sys_context, game_state);
+			repr = lw6ker_game_state_repr (sys_context, game_state);
 			if (repr)
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					_x_
-					("generated game_state \"%s\" bench_value=%d"),
-					repr, bench_value);
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("generated game_state \"%s\" bench_value=%d"), repr, bench_value);
 			    LW6SYS_FREE (sys_context, repr);
 			  }
 			lw6ker_game_state_free (sys_context, game_state);
@@ -286,8 +231,7 @@ _test_manager_gen ()
 			repr = lw6map_repr (sys_context, level);
 			if (repr)
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					_x_ ("generated map \"%s\""), repr);
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("generated map \"%s\""), repr);
 			    LW6SYS_FREE (sys_context, repr);
 			  }
 			lw6map_free (sys_context, level);
@@ -315,16 +259,14 @@ _test_manager_gen ()
 static int
 _setup_init ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libtsk CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libtsk CUnit test suite"));
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libtsk CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libtsk CUnit test suite"));
   return CUE_SUCCESS;
 }
 
@@ -365,9 +307,7 @@ lw6tsk_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 

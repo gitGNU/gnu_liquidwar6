@@ -111,8 +111,7 @@ lw6ldr_print_example_hints_xml (FILE * f)
 			   ("This is an example Liquid War 6 'hints.xml' file. This file can be put along with a 'map.png' file to change the behavior of the map. It is used by the map loader to decide wether it should, for instance, adapt the map to the screen size, guess colors automatically, and such things. It does not really define any real map parameter, it just give clues to the map loader. Note that this example only defines a few parameters, there are many more of them. The idea is to modify just the settings which are important for your map, and let the user choose the best values for other items. Happy hacking!"));
 
   lw6cfg_write_xml_float (f, LW6DEF_FIGHTER_SCALE, EXAMPLE_FIGHTER_SCALE);
-  lw6cfg_write_xml_bool (f, LW6DEF_SYSTEM_COLOR_AUTO,
-			 EXAMPLE_SYSTEM_COLOR_AUTO);
+  lw6cfg_write_xml_bool (f, LW6DEF_SYSTEM_COLOR_AUTO, EXAMPLE_SYSTEM_COLOR_AUTO);
 
   lw6sys_print_xml_footer (f);
   lw6ldr_hints_clear (&hints);
@@ -140,12 +139,8 @@ lw6ldr_print_example_style_xml (FILE * f)
   lw6cfg_write_xml_bool (f, LW6DEF_GUESS_COLORS, EXAMPLE_GUESS_COLOR);
   lw6cfg_write_xml_color (f, LW6DEF_COLOR_BASE_BG, EXAMPLE_COLOR_BASE_BG);
   lw6cfg_write_xml_color (f, LW6DEF_COLOR_BASE_FG, EXAMPLE_COLOR_BASE_FG);
-  lw6cfg_write_xml_color (f,
-			  LW6DEF_COLOR_ALTERNATE_BG,
-			  EXAMPLE_COLOR_ALTERNATE_BG);
-  lw6cfg_write_xml_color (f,
-			  LW6DEF_COLOR_ALTERNATE_FG,
-			  EXAMPLE_COLOR_ALTERNATE_FG);
+  lw6cfg_write_xml_color (f, LW6DEF_COLOR_ALTERNATE_BG, EXAMPLE_COLOR_ALTERNATE_BG);
+  lw6cfg_write_xml_color (f, LW6DEF_COLOR_ALTERNATE_FG, EXAMPLE_COLOR_ALTERNATE_FG);
   lw6sys_print_xml_footer (f);
   lw6map_style_clear (sys_context, &style);
 }
@@ -212,72 +207,52 @@ lw6ldr_print_examples (char *user_dir)
 	}
       if (lw6sys_dir_exists (sys_context, example_dir))
 	{
-	  filename =
-	    lw6sys_path_concat (sys_context, example_dir,
-				_LW6LDR_FILE_RULES_XML);
+	  filename = lw6sys_path_concat (sys_context, example_dir, _LW6LDR_FILE_RULES_XML);
 	  if (filename)
 	    {
 	      f = fopen (filename, "wb");
 	      if (f)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_
-			      ("writing example map rules file in \"%s\""),
-			      filename);
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("writing example map rules file in \"%s\""), filename);
 		  lw6ldr_print_example_rules_xml (f);
 		  rules_ok = 1;
 		  fclose (f);
 		}
 	      LW6SYS_FREE (sys_context, filename);
 	    }
-	  filename =
-	    lw6sys_path_concat (sys_context, example_dir,
-				_LW6LDR_FILE_HINTS_XML);
+	  filename = lw6sys_path_concat (sys_context, example_dir, _LW6LDR_FILE_HINTS_XML);
 	  if (filename)
 	    {
 	      f = fopen (filename, "wb");
 	      if (f)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_
-			      ("writing example map hints file in \"%s\""),
-			      filename);
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("writing example map hints file in \"%s\""), filename);
 		  lw6ldr_print_example_hints_xml (f);
 		  hints_ok = 1;
 		  fclose (f);
 		}
 	      LW6SYS_FREE (sys_context, filename);
 	    }
-	  filename =
-	    lw6sys_path_concat (sys_context, example_dir,
-				_LW6LDR_FILE_STYLE_XML);
+	  filename = lw6sys_path_concat (sys_context, example_dir, _LW6LDR_FILE_STYLE_XML);
 	  if (filename)
 	    {
 	      f = fopen (filename, "wb");
 	      if (f)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_
-			      ("writing example map style file in \"%s\""),
-			      filename);
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("writing example map style file in \"%s\""), filename);
 		  lw6ldr_print_example_style_xml (f);
 		  style_ok = 1;
 		  fclose (f);
 		}
 	      LW6SYS_FREE (sys_context, filename);
 	    }
-	  filename =
-	    lw6sys_path_concat (sys_context, example_dir,
-				_LW6LDR_FILE_TEAMS_XML);
+	  filename = lw6sys_path_concat (sys_context, example_dir, _LW6LDR_FILE_TEAMS_XML);
 	  if (filename)
 	    {
 	      f = fopen (filename, "wb");
 	      if (f)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_
-			      ("writing example map teams file in \"%s\""),
-			      filename);
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("writing example map teams file in \"%s\""), filename);
 		  lw6ldr_print_example_teams_xml (f);
 		  teams_ok = 1;
 		  fclose (f);

@@ -37,8 +37,7 @@ typedef struct teams_update_data_s
 teams_update_data_t;
 
 static void
-read_callback (void *callback_data, const char *element, const char *key,
-	       const char *value)
+read_callback (void *callback_data, const char *element, const char *key, const char *value)
 {
   lw6map_teams_t *teams_data;
 
@@ -71,11 +70,8 @@ lw6ldr_teams_read (lw6map_teams_t * teams, const char *dirname)
     {
       if (lw6sys_file_exists (sys_context, buf))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("reading teams \"%s\""), buf);
-	  ret =
-	    lw6cfg_read_key_value_xml_file (buf, read_callback,
-					    (void *) teams);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading teams \"%s\""), buf);
+	  ret = lw6cfg_read_key_value_xml_file (buf, read_callback, (void *) teams);
 	}
       else
 	{
@@ -88,8 +84,7 @@ lw6ldr_teams_read (lw6map_teams_t * teams, const char *dirname)
 
   if (!ret)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to read map teams"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to read map teams"));
     }
 
   return ret;

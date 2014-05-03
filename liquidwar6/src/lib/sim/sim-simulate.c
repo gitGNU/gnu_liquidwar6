@@ -28,8 +28,7 @@
 #include "sim-internal.h"
 
 static int
-_simulate (int argc, const char *argv[], lw6sim_results_t * results,
-	   lw6ker_game_struct_t * game_struct, int mask, char *bot_backend)
+_simulate (int argc, const char *argv[], lw6sim_results_t * results, lw6ker_game_struct_t * game_struct, int mask, char *bot_backend)
 {
   int ret = 0;
   lw6ker_game_state_t *game_state = NULL;
@@ -53,8 +52,7 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results,
   memset (&seed, 0, sizeof (lw6bot_seed_t));
 
   node_id = lw6sys_generate_id_64 ();
-  nb_rounds =
-    game_struct->rules.rounds_per_sec * game_struct->rules.total_time;
+  nb_rounds = game_struct->rules.rounds_per_sec * game_struct->rules.total_time;
 
   game_state = lw6ker_game_state_new (sys_context, game_struct, NULL);
   if (game_state)
@@ -74,10 +72,8 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results,
 	    {
 	      cursors_colors[nb_cursors] = i;
 	      cursors_ids[nb_cursors] = lw6sys_generate_id_16 ();
-	      lw6ker_game_state_add_cursor (sys_context, game_state, node_id,
-					    cursors_ids[nb_cursors], i);
-	      cursors_bots[nb_cursors] =
-		lw6bot_create_backend (argc, argv, bot_backend);
+	      lw6ker_game_state_add_cursor (sys_context, game_state, node_id, cursors_ids[nb_cursors], i);
+	      cursors_bots[nb_cursors] = lw6bot_create_backend (argc, argv, bot_backend);
 	      if (cursors_bots[nb_cursors])
 		{
 		  seed.param.cursor_id = cursors_ids[nb_cursors];
@@ -101,8 +97,7 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results,
 		      cursor.pos.y = y;
 		      cursor.node_id = node_id;
 		      cursor.cursor_id = cursors_ids[i];
-		      lw6ker_game_state_set_cursor (sys_context, game_state,
-						    &cursor);
+		      lw6ker_game_state_set_cursor (sys_context, game_state, &cursor);
 		    }
 		}
 	    }
@@ -118,9 +113,7 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results,
 	    {
 	      bonus = score_array.scores[i].consolidated_percent;
 	      results->absolute[j] += bonus;
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("bonus for team %d is %d, new absolute is %d"),
-			  j, bonus, results->absolute[j]);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bonus for team %d is %d, new absolute is %d"), j, bonus, results->absolute[j]);
 	    }
 	}
 
@@ -156,8 +149,7 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6sim_simulate (int argc, const char *argv[], lw6sim_results_t * results,
-		 int nb_teams, char *bot_backend)
+lw6sim_simulate (int argc, const char *argv[], lw6sim_results_t * results, int nb_teams, char *bot_backend)
 {
   int ret = 0;
   int max_mask;
@@ -182,18 +174,13 @@ lw6sim_simulate (int argc, const char *argv[], lw6sim_results_t * results,
 		{
 		  if (ret)
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_ ("simulating %d/%d"), i, max_mask);
-		      ret =
-			_simulate (argc, argv, results, game_struct, i,
-				   bot_backend);
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("simulating %d/%d"), i, max_mask);
+		      ret = _simulate (argc, argv, results, game_struct, i, bot_backend);
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_ ("skipping simulation %d/%d, unvalid mask"),
-			      i, max_mask);
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("skipping simulation %d/%d, unvalid mask"), i, max_mask);
 		}
 	    }
 	  lw6ker_game_struct_free (sys_context, game_struct);
@@ -220,11 +207,9 @@ lw6sim_simulate (int argc, const char *argv[], lw6sim_results_t * results,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6sim_simulate_basic (int argc, const char *argv[],
-		       lw6sim_results_t * results)
+lw6sim_simulate_basic (int argc, const char *argv[], lw6sim_results_t * results)
 {
-  return lw6sim_simulate (argc, argv, results, LW6SIM_SIMULATE_BASIC_NB_TEAMS,
-			  LW6SIM_SIMULATE_BASIC_BOT_BACKEND);
+  return lw6sim_simulate (argc, argv, results, LW6SIM_SIMULATE_BASIC_NB_TEAMS, LW6SIM_SIMULATE_BASIC_BOT_BACKEND);
 }
 
 /**
@@ -241,9 +226,7 @@ lw6sim_simulate_basic (int argc, const char *argv[],
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6sim_simulate_full (int argc, const char *argv[],
-		      lw6sim_results_t * results)
+lw6sim_simulate_full (int argc, const char *argv[], lw6sim_results_t * results)
 {
-  return lw6sim_simulate (argc, argv, results, LW6SIM_SIMULATE_FULL_NB_TEAMS,
-			  LW6SIM_SIMULATE_FULL_BOT_BACKEND);
+  return lw6sim_simulate (argc, argv, results, LW6SIM_SIMULATE_FULL_NB_TEAMS, LW6SIM_SIMULATE_FULL_BOT_BACKEND);
 }

@@ -30,8 +30,7 @@
 #include "gl1-splash-internal.h"
 
 void
-_display_root (mod_gl1_utils_context_t *
-	       utils_context, _mod_gl1_splash_context_t * splash_context)
+_display_root (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   lw6sys_color_f_t bg_color;
 
@@ -46,8 +45,7 @@ _display_root (mod_gl1_utils_context_t *
 }
 
 void
-_update_system (mod_gl1_utils_context_t *
-		utils_context, _mod_gl1_splash_context_t * splash_context)
+_update_system (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   int x_center = 0;
   int y_center = 0;
@@ -59,77 +57,41 @@ _update_system (mod_gl1_utils_context_t *
       x_center =
 	((int)
 	 (_lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) *
-	  splash_context->const_data.cursors_center_speed)) %
-	lw6ker_game_state_get_w (splash_context->game.game_state);
-      y_center =
-	lw6ker_game_state_get_h (splash_context->game.game_state) / 2;
-      angle =
-	((float) _lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)))
-	/ ((float) splash_context->const_data.cursors_spin_period);
-      if (lw6ker_game_state_get_cursor
-	  (splash_context->game.game_state, &cursor,
-	   _MOD_GL1_SPLASH_GAME_CURSOR1_ID))
+	  splash_context->const_data.cursors_center_speed)) % lw6ker_game_state_get_w (splash_context->game.game_state);
+      y_center = lw6ker_game_state_get_h (splash_context->game.game_state) / 2;
+      angle = ((float) _lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context))) / ((float) splash_context->const_data.cursors_spin_period);
+      if (lw6ker_game_state_get_cursor (splash_context->game.game_state, &cursor, _MOD_GL1_SPLASH_GAME_CURSOR1_ID))
 	{
-	  cursor.pos.x =
-	    x_center +
-	    splash_context->const_data.cursors_spin_radius * cos (angle);
-	  cursor.pos.y =
-	    y_center +
-	    splash_context->const_data.cursors_spin_radius * sin (angle);
-	  lw6ker_game_state_set_cursor (splash_context->game.game_state,
-					&cursor);
+	  cursor.pos.x = x_center + splash_context->const_data.cursors_spin_radius * cos (angle);
+	  cursor.pos.y = y_center + splash_context->const_data.cursors_spin_radius * sin (angle);
+	  lw6ker_game_state_set_cursor (splash_context->game.game_state, &cursor);
 	}
-      if (lw6ker_game_state_get_cursor
-	  (splash_context->game.game_state, &cursor,
-	   _MOD_GL1_SPLASH_GAME_CURSOR2_ID))
+      if (lw6ker_game_state_get_cursor (splash_context->game.game_state, &cursor, _MOD_GL1_SPLASH_GAME_CURSOR2_ID))
 	{
-	  cursor.pos.x =
-	    x_center -
-	    splash_context->const_data.cursors_spin_radius * sin (angle);
-	  cursor.pos.y =
-	    y_center +
-	    splash_context->const_data.cursors_spin_radius * cos (angle);
-	  lw6ker_game_state_set_cursor (splash_context->game.game_state,
-					&cursor);
+	  cursor.pos.x = x_center - splash_context->const_data.cursors_spin_radius * sin (angle);
+	  cursor.pos.y = y_center + splash_context->const_data.cursors_spin_radius * cos (angle);
+	  lw6ker_game_state_set_cursor (splash_context->game.game_state, &cursor);
 	}
-      if (lw6ker_game_state_get_cursor
-	  (splash_context->game.game_state, &cursor,
-	   _MOD_GL1_SPLASH_GAME_CURSOR3_ID))
+      if (lw6ker_game_state_get_cursor (splash_context->game.game_state, &cursor, _MOD_GL1_SPLASH_GAME_CURSOR3_ID))
 	{
-	  cursor.pos.x =
-	    x_center -
-	    splash_context->const_data.cursors_spin_radius * cos (angle);
-	  cursor.pos.y =
-	    y_center -
-	    splash_context->const_data.cursors_spin_radius * sin (angle);
-	  lw6ker_game_state_set_cursor (splash_context->game.game_state,
-					&cursor);
+	  cursor.pos.x = x_center - splash_context->const_data.cursors_spin_radius * cos (angle);
+	  cursor.pos.y = y_center - splash_context->const_data.cursors_spin_radius * sin (angle);
+	  lw6ker_game_state_set_cursor (splash_context->game.game_state, &cursor);
 	}
-      if (lw6ker_game_state_get_cursor
-	  (splash_context->game.game_state, &cursor,
-	   _MOD_GL1_SPLASH_GAME_CURSOR4_ID))
+      if (lw6ker_game_state_get_cursor (splash_context->game.game_state, &cursor, _MOD_GL1_SPLASH_GAME_CURSOR4_ID))
 	{
-	  cursor.pos.x =
-	    x_center +
-	    splash_context->const_data.cursors_spin_radius * sin (angle);
-	  cursor.pos.y =
-	    y_center -
-	    splash_context->const_data.cursors_spin_radius * cos (angle);
-	  lw6ker_game_state_set_cursor (splash_context->game.game_state,
-					&cursor);
+	  cursor.pos.x = x_center + splash_context->const_data.cursors_spin_radius * sin (angle);
+	  cursor.pos.y = y_center - splash_context->const_data.cursors_spin_radius * cos (angle);
+	  lw6ker_game_state_set_cursor (splash_context->game.game_state, &cursor);
 	}
       lw6ker_game_state_do_round (splash_context->game.game_state);
       mod_gl1_utils_update_game_bitmap_raw (utils_context,
-					    splash_context->game.bitmap,
-					    splash_context->game.game_state,
-					    &splash_context->
-					    const_data.map_color, 1);
+					    splash_context->game.bitmap, splash_context->game.game_state, &splash_context->const_data.map_color, 1);
     }
 }
 
 void
-_display_system (mod_gl1_utils_context_t *
-		 utils_context, _mod_gl1_splash_context_t * splash_context)
+_display_system (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   int slices;
   int stacks;
@@ -148,22 +110,19 @@ _display_system (mod_gl1_utils_context_t *
     {
       planet_day_angle =
 	(_lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) %
-	 splash_context->const_data.planet_day_period) * 360.0f /
-	splash_context->const_data.planet_day_period;
+	 splash_context->const_data.planet_day_period) * 360.0f / splash_context->const_data.planet_day_period;
     }
   if (splash_context->const_data.satellite_year_period > 0)
     {
       satellite_year_angle =
 	(_lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) %
-	 splash_context->const_data.satellite_year_period) * 360.0f /
-	splash_context->const_data.satellite_year_period;
+	 splash_context->const_data.satellite_year_period) * 360.0f / splash_context->const_data.satellite_year_period;
     }
   if (splash_context->const_data.satellite_day_period > 0)
     {
       satellite_day_angle =
 	(_lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) %
-	 splash_context->const_data.satellite_day_period) * 360.0f /
-	splash_context->const_data.satellite_day_period;
+	 splash_context->const_data.satellite_day_period) * 360.0f / splash_context->const_data.satellite_day_period;
     }
 
   mod_gl1_utils_set_render_mode_3d_menu (utils_context);
@@ -186,9 +145,7 @@ _display_system (mod_gl1_utils_context_t *
   glPushMatrix ();
   glLoadIdentity ();
   gluQuadricTexture (splash_context->game.sphere, GL_TRUE);
-  glTranslatef (splash_context->const_data.planet_x,
-		splash_context->const_data.planet_y,
-		splash_context->const_data.planet_z);
+  glTranslatef (splash_context->const_data.planet_x, splash_context->const_data.planet_y, splash_context->const_data.planet_z);
   glRotatef (splash_context->const_data.rotate_x, 1.0f, 0.0f, 0.0f);
   glRotatef (splash_context->const_data.rotate_y, 0.0f, 1.0f, 0.0f);
   glRotatef (splash_context->const_data.rotate_z, 0.0f, 0.0f, 1.0f);
@@ -200,15 +157,12 @@ _display_system (mod_gl1_utils_context_t *
   // glMatrixMode (GL_TEXTURE);
   // glPopMatrix ();
 
-  mod_gl1_utils_bitmap_bind (utils_context,
-			     splash_context->bitmap_data.satellite);
+  mod_gl1_utils_bitmap_bind (utils_context, splash_context->bitmap_data.satellite);
   glMatrixMode (GL_MODELVIEW);
   glPushMatrix ();
   glLoadIdentity ();
   gluQuadricTexture (splash_context->game.sphere, GL_TRUE);
-  glTranslatef (splash_context->const_data.planet_x,
-		splash_context->const_data.planet_y,
-		splash_context->const_data.planet_z);
+  glTranslatef (splash_context->const_data.planet_x, splash_context->const_data.planet_y, splash_context->const_data.planet_z);
   glRotatef (splash_context->const_data.rotate_x, 1.0f, 0.0f, 0.0f);
   glRotatef (splash_context->const_data.rotate_y, 0.0f, 1.0f, 0.0f);
   glRotatef (splash_context->const_data.rotate_z, 0.0f, 0.0f, 1.0f);
@@ -222,36 +176,25 @@ _display_system (mod_gl1_utils_context_t *
 }
 
 void
-_update_text (mod_gl1_utils_context_t *
-	      utils_context, _mod_gl1_splash_context_t * splash_context)
+_update_text (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   int i;
   char *credits;
 
   if (splash_context->const_data.text_period > 0)
     {
-      i =
-	_lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) /
-	splash_context->const_data.text_period;
+      i = _lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) / splash_context->const_data.text_period;
       credits = lw6hlp_get_credits (i);
       if (credits)
 	{
-	  if ((!(splash_context->text.shaded_text))
-	      || (strcmp (credits, splash_context->text.shaded_text->text) !=
-		  0))
+	  if ((!(splash_context->text.shaded_text)) || (strcmp (credits, splash_context->text.shaded_text->text) != 0))
 	    {
 	      if (splash_context->text.shaded_text)
 		{
-		  mod_gl1_utils_shaded_text_free (utils_context,
-						  splash_context->text.
-						  shaded_text);
+		  mod_gl1_utils_shaded_text_free (utils_context, splash_context->text.shaded_text);
 		}
 	      splash_context->text.shaded_text =
-		mod_gl1_utils_shaded_text_new (utils_context,
-					       utils_context->font_data.hud,
-					       credits,
-					       &splash_context->const_data.
-					       text_color);
+		mod_gl1_utils_shaded_text_new (utils_context, utils_context->font_data.hud, credits, &splash_context->const_data.text_color);
 	    }
 	  LW6SYS_FREE (sys_context, credits);
 	}
@@ -259,8 +202,7 @@ _update_text (mod_gl1_utils_context_t *
 }
 
 void
-_display_text (mod_gl1_utils_context_t *
-	       utils_context, _mod_gl1_splash_context_t * splash_context)
+_display_text (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   float x1, y1, x2, y2;
   float center_x, center_y, w, h, dw, dh;
@@ -270,46 +212,28 @@ _display_text (mod_gl1_utils_context_t *
 
   mod_gl1_utils_set_render_mode_2d_blend (utils_context);
 
-  if (splash_context->const_data.text_period > 0
-      && splash_context->text.shaded_text)
+  if (splash_context->const_data.text_period > 0 && splash_context->text.shaded_text)
     {
-      cos_input =
-	2.0f * M_PI *
-	_lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) /
-	splash_context->const_data.text_period;
+      cos_input = 2.0f * M_PI * _lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) / splash_context->const_data.text_period;
       scale = 1.0f - cos (cos_input);
       size = scale * splash_context->const_data.text_size;
       h = size * utils_context->sdl_context.video_mode.height;
-      w =
-	h * splash_context->text.shaded_text->texture_w /
-	(float) splash_context->text.shaded_text->texture_h;
-      center_x =
-	utils_context->sdl_context.video_mode.width *
-	splash_context->const_data.text_center_x;
-      center_y =
-	utils_context->sdl_context.video_mode.height *
-	splash_context->const_data.text_center_y;
+      w = h * splash_context->text.shaded_text->texture_w / (float) splash_context->text.shaded_text->texture_h;
+      center_x = utils_context->sdl_context.video_mode.width * splash_context->const_data.text_center_x;
+      center_y = utils_context->sdl_context.video_mode.height * splash_context->const_data.text_center_y;
       x1 = center_x - w / 2.0f;
       x2 = center_x + w / 2.0f;
       y1 = center_y - h / 2.0f;
       y2 = center_y + h / 2.0f;
-      dw =
-	scale * utils_context->sdl_context.video_mode.width *
-	splash_context->const_data.text_dw;
-      dh =
-	scale * utils_context->sdl_context.video_mode.height *
-	splash_context->const_data.text_dh;
+      dw = scale * utils_context->sdl_context.video_mode.width * splash_context->const_data.text_dw;
+      dh = scale * utils_context->sdl_context.video_mode.height * splash_context->const_data.text_dh;
 
-      mod_gl1_utils_shaded_text_display (utils_context,
-					 splash_context->text.shaded_text, x1,
-					 y1, x2, y2, dw, dh);
+      mod_gl1_utils_shaded_text_display (utils_context, splash_context->text.shaded_text, x1, y1, x2, y2, dw, dh);
     }
 }
 
 void
-_mod_gl1_splash_display (mod_gl1_utils_context_t *
-			 utils_context,
-			 _mod_gl1_splash_context_t * splash_context)
+_mod_gl1_splash_display (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   _display_root (utils_context, splash_context);
   _update_system (utils_context, splash_context);
@@ -319,35 +243,25 @@ _mod_gl1_splash_display (mod_gl1_utils_context_t *
 }
 
 void
-mod_gl1_splash_display (mod_gl1_utils_context_t *
-			utils_context, void *splash_context)
+mod_gl1_splash_display (mod_gl1_utils_context_t * utils_context, void *splash_context)
 {
   if (utils_context && splash_context)
     {
-      _mod_gl1_splash_display (utils_context,
-			       (_mod_gl1_splash_context_t *) splash_context);
+      _mod_gl1_splash_display (utils_context, (_mod_gl1_splash_context_t *) splash_context);
     }
 }
 
 void
-_mod_gl1_splash_patch_system_color (mod_gl1_utils_context_t *
-				    utils_context,
-				    _mod_gl1_splash_context_t *
-				    splash_context,
-				    lw6map_color_couple_t * system_color)
+_mod_gl1_splash_patch_system_color (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context, lw6map_color_couple_t * system_color)
 {
   *system_color = splash_context->const_data.text_color;
 }
 
 void
-mod_gl1_splash_patch_system_color (mod_gl1_utils_context_t *
-				   utils_context, void *splash_context,
-				   lw6map_color_couple_t * system_color)
+mod_gl1_splash_patch_system_color (mod_gl1_utils_context_t * utils_context, void *splash_context, lw6map_color_couple_t * system_color)
 {
   if (utils_context && splash_context)
     {
-      _mod_gl1_splash_patch_system_color (utils_context,
-					  (_mod_gl1_splash_context_t *)
-					  splash_context, system_color);
+      _mod_gl1_splash_patch_system_color (utils_context, (_mod_gl1_splash_context_t *) splash_context, system_color);
     }
 }

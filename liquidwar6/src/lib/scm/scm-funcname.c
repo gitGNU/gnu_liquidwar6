@@ -52,8 +52,7 @@ lw6scm_funcname_scm2c (const char *funcname)
 
   if (strlen (funcname) > _SCM_PREFIX_LEN)
     {
-      ret =
-	lw6sys_new_sprintf ("%s%s", _C_PREFIX, funcname + _SCM_PREFIX_LEN);
+      ret = lw6sys_new_sprintf ("%s%s", _C_PREFIX, funcname + _SCM_PREFIX_LEN);
       if (ret)
 	{
 	  for (ptr = ret; *ptr; ++ptr)
@@ -87,8 +86,7 @@ lw6scm_funcname_c2scm (const char *funcname)
 
   if (strlen (funcname) > _C_PREFIX_LEN)
     {
-      ret =
-	lw6sys_new_sprintf ("%s%s", _SCM_PREFIX, funcname + _C_PREFIX_LEN);
+      ret = lw6sys_new_sprintf ("%s%s", _SCM_PREFIX, funcname + _C_PREFIX_LEN);
       if (ret)
 	{
 	  for (ptr = ret; *ptr; ++ptr)

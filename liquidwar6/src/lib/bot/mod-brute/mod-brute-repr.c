@@ -32,10 +32,7 @@ _mod_brute_repr (_mod_brute_context_t * brute_context, u_int32_t id)
 {
   char *ret = NULL;
 
-  ret =
-    lw6sys_new_sprintf (sys_context,
-			_x_ ("%u brute nb_rounds_to_anticipate=%d"), id,
-			brute_context->nb_rounds_to_anticipate);
+  ret = lw6sys_new_sprintf (sys_context, _x_ ("%u brute nb_rounds_to_anticipate=%d"), id, brute_context->nb_rounds_to_anticipate);
 
   return ret;
 }

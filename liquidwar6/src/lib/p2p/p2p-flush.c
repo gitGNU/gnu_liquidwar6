@@ -37,8 +37,7 @@ _lw6p2p_flush_verified_nodes_if_needed (_lw6p2p_node_t * node)
   now = lw6sys_get_timestamp ();
   if (node->flush.next_verified_nodes_timestamp < now)
     {
-      node->flush.next_verified_nodes_timestamp =
-	now + delay / 2 + lw6sys_random (sys_context, delay);
+      node->flush.next_verified_nodes_timestamp = now + delay / 2 + lw6sys_random (sys_context, delay);
       ret = _lw6p2p_flush_verified_nodes (node);
     }
   else
@@ -51,8 +50,7 @@ _lw6p2p_flush_verified_nodes_if_needed (_lw6p2p_node_t * node)
 }
 
 int
-_select_other_node_callback (void *func_data, int nb_fields,
-			     char **fields_values, char **fields_names)
+_select_other_node_callback (void *func_data, int nb_fields, char **fields_values, char **fields_names)
 {
   int ret = 0;
   lw6sys_list_t **list_of_node = (lw6sys_list_t **) func_data;
@@ -73,33 +71,25 @@ _select_other_node_callback (void *func_data, int nb_fields,
     {
       if (fields_values[_LW6P2P_DB_NODE_ORDER_ID])
 	{
-	  id =
-	    lw6sys_id_atol (sys_context,
-			    fields_values[_LW6P2P_DB_NODE_ORDER_ID]);
+	  id = lw6sys_id_atol (sys_context, fields_values[_LW6P2P_DB_NODE_ORDER_ID]);
 	}
       program = lw6sys_build_get_package_tarname ();
       version = fields_values[_LW6P2P_DB_NODE_ORDER_VERSION];
       codename = fields_values[_LW6P2P_DB_NODE_ORDER_CODENAME];
       if (fields_values[_LW6P2P_DB_NODE_ORDER_STAMP])
 	{
-	  stamp =
-	    lw6sys_atoi (sys_context,
-			 fields_values[_LW6P2P_DB_NODE_ORDER_STAMP]);
+	  stamp = lw6sys_atoi (sys_context, fields_values[_LW6P2P_DB_NODE_ORDER_STAMP]);
 	}
       url = fields_values[_LW6P2P_DB_NODE_ORDER_URL];
       title = fields_values[_LW6P2P_DB_NODE_ORDER_TITLE];
       description = fields_values[_LW6P2P_DB_NODE_ORDER_DESCRIPTION];
       if (fields_values[_LW6P2P_DB_NODE_ORDER_BENCH])
 	{
-	  bench =
-	    lw6sys_atoi (sys_context,
-			 fields_values[_LW6P2P_DB_NODE_ORDER_BENCH]);
+	  bench = lw6sys_atoi (sys_context, fields_values[_LW6P2P_DB_NODE_ORDER_BENCH]);
 	}
       if (fields_values[_LW6P2P_DB_NODE_ORDER_OPEN_RELAY])
 	{
-	  open_relay =
-	    lw6sys_atoi (sys_context,
-			 fields_values[_LW6P2P_DB_NODE_ORDER_OPEN_RELAY]);
+	  open_relay = lw6sys_atoi (sys_context, fields_values[_LW6P2P_DB_NODE_ORDER_OPEN_RELAY]);
 	}
       /*
        * uptime will be wrong (0), it could be possible to
@@ -108,10 +98,7 @@ _select_other_node_callback (void *func_data, int nb_fields,
        */
       if (id && url && title && description)
 	{
-	  verified_node =
-	    lw6nod_info_new (program, version, codename, stamp, id, url,
-			     title, description, NULL, bench, open_relay,
-			     uptime, 0, NULL);
+	  verified_node = lw6nod_info_new (program, version, codename, stamp, id, url, title, description, NULL, bench, open_relay, uptime, 0, NULL);
 	  if (verified_node && list_of_node)
 	    {
 	      lw6sys_list_push_front (list_of_node, verified_node);
@@ -119,17 +106,13 @@ _select_other_node_callback (void *func_data, int nb_fields,
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("database contains uncomplete entry for some node"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("database contains uncomplete entry for some node"));
 	}
     }
   else
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("request for other nodes should return %d fields but returned %d"),
-		  _LW6P2P_DB_NODE_NB_FIELDS, nb_fields);
+		  _x_ ("request for other nodes should return %d fields but returned %d"), _LW6P2P_DB_NODE_NB_FIELDS, nb_fields);
     }
 
   return ret;
@@ -147,23 +130,19 @@ _lw6p2p_flush_verified_nodes (_lw6p2p_node_t * node)
   list_of_node = lw6nod_info_new_verified_nodes ();
   if (list_of_node)
     {
-      query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
-				  (node->db, _LW6P2P_SELECT_OTHER_NODE_SQL),
-				  node->public_url);
+      query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (node->db, _LW6P2P_SELECT_OTHER_NODE_SQL), node->public_url);
       if (query)
 	{
 	  if (_lw6p2p_db_lock (node->db))
 	    {
-	      _lw6p2p_db_exec (node->db, query,
-			       _select_other_node_callback, &list_of_node);
+	      _lw6p2p_db_exec (node->db, query, _select_other_node_callback, &list_of_node);
 	      _lw6p2p_db_unlock (node->db);
 	    }
 	  LW6SYS_FREE (sys_context, query);
 	}
       if (list_of_node)
 	{
-	  ret =
-	    lw6nod_info_set_verified_nodes (node->node_info, list_of_node);
+	  ret = lw6nod_info_set_verified_nodes (node->node_info, list_of_node);
 	}
     }
 
@@ -180,8 +159,7 @@ _lw6p2p_flush_discovered_nodes_if_needed (_lw6p2p_node_t * node)
   now = lw6sys_get_timestamp ();
   if (node->flush.next_discovered_nodes_timestamp < now)
     {
-      node->flush.next_discovered_nodes_timestamp =
-	now + delay / 2 + lw6sys_random (sys_context, delay);
+      node->flush.next_discovered_nodes_timestamp = now + delay / 2 + lw6sys_random (sys_context, delay);
       ret = _lw6p2p_flush_discovered_nodes (node);
     }
   else

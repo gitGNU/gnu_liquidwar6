@@ -399,8 +399,7 @@ extern void lw6_quit_global ();
 extern int lw6_main (int argc, const char *argv[]);
 
 /* lw6-options.c */
-extern int lw6_process_non_run_options (int argc, const char *argv[],
-					int *run_game);
+extern int lw6_process_non_run_options (int argc, const char *argv[], int *run_game);
 
 /* lw6-smobs.c */
 extern SCM lw6_make_scm_dsp (lw6dsp_backend_t * c_dsp);
@@ -415,21 +414,16 @@ extern void lw6_free_map_smob (lw6_map_smob_t * map_smob);
 extern SCM lw6_make_scm_menu (lw6gui_menu_t * c_menu);
 extern lw6gui_menu_t *lw6_scm_to_menu (SCM menu);
 extern void lw6_free_menu_smob (lw6_menu_smob_t * menu_smob);
-extern SCM lw6_make_scm_game_struct (lw6ker_game_struct_t * c_game_struct,
-				     SCM map);
+extern SCM lw6_make_scm_game_struct (lw6ker_game_struct_t * c_game_struct, SCM map);
 extern lw6ker_game_struct_t *lw6_scm_to_game_struct (SCM game_struct);
-extern void lw6_free_game_struct_smob (lw6_game_struct_smob_t *
-				       game_struct_smob);
-extern SCM lw6_make_scm_game_state (lw6ker_game_state_t * c_game_state,
-				    SCM game_struct);
+extern void lw6_free_game_struct_smob (lw6_game_struct_smob_t * game_struct_smob);
+extern SCM lw6_make_scm_game_state (lw6ker_game_state_t * c_game_state, SCM game_struct);
 extern lw6ker_game_state_t *lw6_scm_to_game_state (SCM game_state);
-extern void lw6_free_game_state_smob (lw6_game_state_smob_t *
-				      game_state_smob);
+extern void lw6_free_game_state_smob (lw6_game_state_smob_t * game_state_smob);
 extern SCM lw6_make_scm_pilot (lw6pil_pilot_t * c_pilot);
 extern lw6pil_pilot_t *lw6_scm_to_pilot (SCM pilot);
 extern void lw6_free_pilot_smob (lw6_pilot_smob_t * pilot_smob);
-extern SCM lw6_make_scm_bot (lw6bot_backend_t * c_bot, SCM game_state,
-			     SCM pilot);
+extern SCM lw6_make_scm_bot (lw6bot_backend_t * c_bot, SCM game_state, SCM pilot);
 extern lw6bot_backend_t *lw6_scm_to_bot (SCM bot);
 extern void lw6_free_bot_smob (lw6_bot_smob_t * bot_smob);
 extern SCM lw6_make_scm_look (lw6gui_look_t * c_look);

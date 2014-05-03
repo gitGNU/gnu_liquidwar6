@@ -172,8 +172,7 @@ static char *_LAYER_DEFAULT_SOURCE[LW6MAP_BUILTIN_DEFAULT_HEIGHT + 1] = {
 };
 
 static int
-_default_source (lw6sys_context_t * sys_context, lw6map_layer_t * layer,
-		 int width, int height)
+_default_source (lw6sys_context_t * sys_context, lw6map_layer_t * layer, int width, int height)
 {
   int ret = 0;
   int x, y;
@@ -183,10 +182,7 @@ _default_source (lw6sys_context_t * sys_context, lw6map_layer_t * layer,
   layer->shape.w = width;
   layer->shape.h = height;
   layer->shape.d = 1;		// allways 1
-  layer->data =
-    (unsigned char *) LW6SYS_CALLOC (sys_context,
-				     layer->shape.w * layer->shape.h *
-				     sizeof (unsigned char));
+  layer->data = (unsigned char *) LW6SYS_CALLOC (sys_context, layer->shape.w * layer->shape.h * sizeof (unsigned char));
 
   if (layer->data)
     {
@@ -195,17 +191,8 @@ _default_source (lw6sys_context_t * sys_context, lw6map_layer_t * layer,
 	{
 	  for (x = 0; x < width; ++x)
 	    {
-	      source_x =
-		lw6sys_imax (0,
-			     lw6sys_imin ((x * LW6MAP_BUILTIN_DEFAULT_WIDTH) /
-					  width,
-					  LW6MAP_BUILTIN_DEFAULT_WIDTH - 1));
-	      source_y =
-		lw6sys_imax (0,
-			     lw6sys_imin ((y *
-					   LW6MAP_BUILTIN_DEFAULT_HEIGHT) /
-					  height,
-					  LW6MAP_BUILTIN_DEFAULT_HEIGHT - 1));
+	      source_x = lw6sys_imax (0, lw6sys_imin ((x * LW6MAP_BUILTIN_DEFAULT_WIDTH) / width, LW6MAP_BUILTIN_DEFAULT_WIDTH - 1));
+	      source_y = lw6sys_imax (0, lw6sys_imin ((y * LW6MAP_BUILTIN_DEFAULT_HEIGHT) / height, LW6MAP_BUILTIN_DEFAULT_HEIGHT - 1));
 	      c = _LAYER_DEFAULT_SOURCE[source_y][source_x];
 	      switch (c)
 		{
@@ -217,9 +204,7 @@ _default_source (lw6sys_context_t * sys_context, lw6map_layer_t * layer,
 		  break;
 		default:
 		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			      _x_
-			      ("inconsistent default source layer data '%c' at %d,%d for %d,%d"),
-			      c, source_x, source_y, x, y);
+			      _x_ ("inconsistent default source layer data '%c' at %d,%d for %d,%d"), c, source_x, source_y, x, y);
 		  ret = 0;
 		}
 	    }
@@ -252,15 +237,13 @@ _default_source (lw6sys_context_t * sys_context, lw6map_layer_t * layer,
  * Return value: none
  */
 void
-lw6map_layer_builtin_custom (lw6sys_context_t * sys_context,
-			     lw6map_layer_t * layer, int w, int h)
+lw6map_layer_builtin_custom (lw6sys_context_t * sys_context, lw6map_layer_t * layer, int w, int h)
 {
   lw6map_layer_clear (sys_context, layer);
 
   if (!_default_source (sys_context, layer, w, h))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to construct default map layer"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to construct default map layer"));
       layer->shape.w = 0;
       layer->shape.h = 0;
       layer->shape.d = 0;

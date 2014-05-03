@@ -107,14 +107,12 @@ _test_new ()
 	repr = lw6map_repr (sys_context, level);
 	if (LW6SYS_TEST_ACK (repr))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("empty map \"%s\" constructed"), repr);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("empty map \"%s\" constructed"), repr);
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			_x_
 			("max_nb_colors=%d max_nb_cursors=%d max_nb_nodes=%d"),
 			lw6map_get_max_nb_colors (sys_context, level),
-			lw6map_get_max_nb_cursors (sys_context, level),
-			lw6map_get_max_nb_nodes (sys_context, level));
+			lw6map_get_max_nb_cursors (sys_context, level), lw6map_get_max_nb_nodes (sys_context, level));
 	    LW6SYS_FREE (sys_context, repr);
 	  }
 	else
@@ -150,12 +148,9 @@ _test_color ()
     color_couple.fg = LW6SYS_COLOR_8_BLACK;
 
     lw6map_color_invert (sys_context, &color_couple);
-    if (!LW6SYS_TEST_ACK
-	(lw6map_color_is_same (sys_context, &color_couple, &color_couple)))
+    if (!LW6SYS_TEST_ACK (lw6map_color_is_same (sys_context, &color_couple, &color_couple)))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		    _x_
-		    ("color_is_same pretending colors are different, while they should be equal"));
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("color_is_same pretending colors are different, while they should be equal"));
 	ret = 0;
       }
 
@@ -170,10 +165,7 @@ _test_color ()
 		j = lw6map_team_color_key_to_index (sys_context, key);
 		if (LW6SYS_TEST_ACK (i == j))
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_
-				("team_color key for %d is \"%s\" label is \"%s\""),
-				i, key, label);
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("team_color key for %d is \"%s\" label is \"%s\""), i, key, label);
 		  }
 		else
 		  {
@@ -206,12 +198,10 @@ _test_coords ()
   {
     lw6map_rules_t rules;
     lw6sys_whd_t shape;
-    int _test_x[_TEST_COORDS_NB] =
-      { _TEST_COORDS_X1, _TEST_COORDS_X2, _TEST_COORDS_X3, _TEST_COORDS_X4,
+    int _test_x[_TEST_COORDS_NB] = { _TEST_COORDS_X1, _TEST_COORDS_X2, _TEST_COORDS_X3, _TEST_COORDS_X4,
       _TEST_COORDS_X5
     };
-    int _test_y[_TEST_COORDS_NB] =
-      { _TEST_COORDS_Y1, _TEST_COORDS_Y2, _TEST_COORDS_Y3, _TEST_COORDS_Y4,
+    int _test_y[_TEST_COORDS_NB] = { _TEST_COORDS_Y1, _TEST_COORDS_Y2, _TEST_COORDS_Y3, _TEST_COORDS_Y4,
       _TEST_COORDS_Y5
     };
     int i, x, y, px, py;
@@ -227,17 +217,14 @@ _test_coords ()
 	  {
 	    rules.x_polarity = px;
 	    rules.y_polarity = py;
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("polarity set to %d,%d"), px, py);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("polarity set to %d,%d"), px, py);
 	    for (i = 0; i < _TEST_COORDS_NB; ++i)
 	      {
 		x = _test_x[i];
 		y = _test_y[i];
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("coords before fix %d,%d"), x, y);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("coords before fix %d,%d"), x, y);
 		lw6map_coords_fix_xy (&rules, &shape, &x, &y);
-		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_ ("coords after fix %d,%d"), x, y);
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("coords after fix %d,%d"), x, y);
 	      }
 	  }
       }
@@ -249,8 +236,7 @@ _test_coords ()
 }
 
 static void
-_print_meta_layer (lw6sys_context_t * sys_context,
-		   lw6map_meta_layer_t * meta_layer, char *label)
+_print_meta_layer (lw6sys_context_t * sys_context, lw6map_meta_layer_t * meta_layer, char *label)
 {
   int x, y, w, h;
   int value;
@@ -260,8 +246,7 @@ _print_meta_layer (lw6sys_context_t * sys_context,
       w = meta_layer->shape.w;
       h = meta_layer->shape.h;
 
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("meta-layer \"%s\""),
-		  label);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("meta-layer \"%s\""), label);
       for (y = 0; y < h; ++y)
 	{
 	  for (x = 0; x < w; ++x)
@@ -288,8 +273,7 @@ _print_body (lw6sys_context_t * sys_context, lw6map_body_t * body)
 
       for (z = 0; z < d; ++z)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("layer%d (z=%d)"),
-		      z + 1, z);
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("layer%d (z=%d)"), z + 1, z);
 	  for (y = 0; y < h; ++y)
 	    {
 	      for (x = 0; x < w; ++x)
@@ -311,8 +295,7 @@ _print_body (lw6sys_context_t * sys_context, lw6map_body_t * body)
 }
 
 static void
-_print_cursor_texture (lw6sys_context_t * sys_context,
-		       lw6map_cursor_texture_t * cursor_texture)
+_print_cursor_texture (lw6sys_context_t * sys_context, lw6map_cursor_texture_t * cursor_texture)
 {
   int x, y;
   lw6sys_color_8_t fg_bg;
@@ -325,15 +308,8 @@ _print_cursor_texture (lw6sys_context_t * sys_context,
 	{
 	  for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE; ++x)
 	    {
-	      fg_bg =
-		lw6map_cursor_texture_layer_get (sys_context, &
-						 (cursor_texture->fg_bg_layer),
-						 x, y);
-	      color =
-		lw6map_cursor_texture_layer_get (sys_context,
-						 &
-						 (cursor_texture->color_layer),
-						 x, y);
+	      fg_bg = lw6map_cursor_texture_layer_get (sys_context, &(cursor_texture->fg_bg_layer), x, y);
+	      color = lw6map_cursor_texture_layer_get (sys_context, &(cursor_texture->color_layer), x, y);
 	      if (color.a < 128)
 		{
 		  if (fg_bg.a < 128)
@@ -379,12 +355,9 @@ _test_builtin ()
 	repr = lw6map_repr (sys_context, level);
 	if (LW6SYS_TEST_ACK (repr))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("default map \"%s\" constructed"), repr);
-	    has_alpha =
-	      lw6map_texture_has_alpha (sys_context, &(level->texture));
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"),
-			has_alpha);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("default map \"%s\" constructed"), repr);
+	    has_alpha = lw6map_texture_has_alpha (sys_context, &(level->texture));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"), has_alpha);
 	    _print_body (sys_context, &level->body);
 	    _print_cursor_texture (sys_context, &level->cursor_texture);
 	    LW6SYS_FREE (sys_context, repr);
@@ -400,21 +373,15 @@ _test_builtin ()
 	ret = 0;
       }
 
-    level =
-      lw6map_builtin_custom (sys_context, _TEST_BUILTIN_WIDTH,
-			     _TEST_BUILTIN_HEIGHT, _TEST_BUILTIN_DEPTH,
-			     _TEST_BUILTIN_NOISE_PERCENT);
+    level = lw6map_builtin_custom (sys_context, _TEST_BUILTIN_WIDTH, _TEST_BUILTIN_HEIGHT, _TEST_BUILTIN_DEPTH, _TEST_BUILTIN_NOISE_PERCENT);
     if (LW6SYS_TEST_ACK (level))
       {
 	repr = lw6map_repr (sys_context, level);
 	if (LW6SYS_TEST_ACK (repr))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("default map \"%s\" constructed"), repr);
-	    has_alpha =
-	      lw6map_texture_has_alpha (sys_context, &(level->texture));
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"),
-			has_alpha);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("default map \"%s\" constructed"), repr);
+	    has_alpha = lw6map_texture_has_alpha (sys_context, &(level->texture));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"), has_alpha);
 	    _print_body (sys_context, &level->body);
 	    _print_cursor_texture (sys_context, &level->cursor_texture);
 	    LW6SYS_FREE (sys_context, repr);
@@ -436,12 +403,9 @@ _test_builtin ()
 	repr = lw6map_repr (sys_context, level);
 	if (LW6SYS_TEST_ACK (repr))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("default map \"%s\" constructed"), repr);
-	    has_alpha =
-	      lw6map_texture_has_alpha (sys_context, &(level->texture));
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"),
-			has_alpha);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("default map \"%s\" constructed"), repr);
+	    has_alpha = lw6map_texture_has_alpha (sys_context, &(level->texture));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"), has_alpha);
 	    _print_body (sys_context, &level->body);
 	    _print_cursor_texture (sys_context, &level->cursor_texture);
 	    LW6SYS_FREE (sys_context, repr);
@@ -478,9 +442,7 @@ _test_dup ()
     char *repr1 = NULL;
     char *repr2 = NULL;
 
-    level1 =
-      lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
-			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
+    level1 = lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT, _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (LW6SYS_TEST_ACK (level1))
       {
 	repr1 = lw6map_repr (sys_context, level1);
@@ -492,16 +454,10 @@ _test_dup ()
 		repr2 = lw6map_repr (sys_context, level2);
 		if (LW6SYS_TEST_ACK (repr2))
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_ ("map \"%s\" copied to \"%s\""), repr1,
-				repr2);
-		    if (LW6SYS_TEST_ACK
-			(lw6map_is_same (sys_context, level1, level2)))
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("map \"%s\" copied to \"%s\""), repr1, repr2);
+		    if (LW6SYS_TEST_ACK (lw6map_is_same (sys_context, level1, level2)))
 		      {
-			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				    _x_
-				    ("map \"%s\" and \"%s\" are the same"),
-				    repr1, repr2);
+			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("map \"%s\" and \"%s\" are the same"), repr1, repr2);
 		      }
 		    else
 		      {
@@ -560,21 +516,15 @@ _test_exp ()
 		    i, lw6map_exp_get_highest_team_color_allowed (sys_context,
 								  i),
 		    lw6map_exp_get_highest_weapon_allowed (sys_context, i),
-		    lw6map_exp_get_unlocked_team_color (sys_context, i),
-		    lw6map_exp_get_unlocked_weapon (sys_context, i));
+		    lw6map_exp_get_unlocked_team_color (sys_context, i), lw6map_exp_get_unlocked_weapon (sys_context, i));
       }
     for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("team_color=%d allowed=%d"), i,
-		    lw6map_exp_is_team_color_allowed (sys_context, &rules,
-						      i));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("team_color=%d allowed=%d"), i, lw6map_exp_is_team_color_allowed (sys_context, &rules, i));
       }
     for (i = 0; i <= LW6MAP_MAX_WEAPON_ID; ++i)
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("weapon=%d allowed=%d"), i,
-		    lw6map_exp_is_weapon_allowed (sys_context, &rules, i));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("weapon=%d allowed=%d"), i, lw6map_exp_is_weapon_allowed (sys_context, &rules, i));
       }
   }
   LW6SYS_TEST_FUNCTION_END;
@@ -598,16 +548,13 @@ _test_hexa ()
     char *hexa = NULL;
     char *hexa_check = NULL;
 
-    level =
-      lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
-			     _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
+    level = lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT, _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
     if (LW6SYS_TEST_ACK (level))
       {
 	repr = lw6map_repr (sys_context, level);
 	if (LW6SYS_TEST_ACK (repr))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("map \"%s\" constructed"), repr);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("map \"%s\" constructed"), repr);
 	    LW6SYS_FREE (sys_context, repr);
 	  }
 	else
@@ -619,8 +566,7 @@ _test_hexa ()
 	level = NULL;
 	if (LW6SYS_TEST_ACK (hexa))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("hexa is \"%s\""), hexa);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("hexa is \"%s\""), hexa);
 
 	    level = lw6map_from_hexa (sys_context, hexa);
 	    if (LW6SYS_TEST_ACK (level))
@@ -628,10 +574,7 @@ _test_hexa ()
 		repr = lw6map_repr (sys_context, level);
 		if (LW6SYS_TEST_ACK (repr))
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_
-				("map \"%s\" re-constructed from hexa"),
-				repr);
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("map \"%s\" re-constructed from hexa"), repr);
 		    LW6SYS_FREE (sys_context, repr);
 		  }
 		else
@@ -653,15 +596,11 @@ _test_hexa ()
 		      {
 			if (LW6SYS_TEST_ACK (!strcmp (hexa, hexa_check)))
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-					_x_
-					("copy and original look the same"));
+			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("copy and original look the same"));
 			  }
 			else
 			  {
-			    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-					_x_
-					("copy and original are different"));
+			    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("copy and original are different"));
 			    ret = 0;
 			  }
 			LW6SYS_FREE (sys_context, hexa_check);
@@ -714,58 +653,44 @@ _test_param ()
     lw6map_param_t param2;
     char *value = NULL;
 
-    param =
-      (lw6map_param_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_param_t));
+    param = (lw6map_param_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_param_t));
     if (LW6SYS_TEST_ACK (param))
       {
 	lw6map_param_zero (sys_context, param);
 	lw6map_param_defaults (sys_context, param);
 
-	lw6map_param_set (sys_context, param, _TEST_PARAM_KEY,
-			  _TEST_PARAM_VALUE);
+	lw6map_param_set (sys_context, param, _TEST_PARAM_KEY, _TEST_PARAM_VALUE);
 	value = lw6map_param_get (sys_context, param, _TEST_PARAM_KEY);
 	if (LW6SYS_TEST_ACK (value))
 	  {
-	    if (LW6SYS_TEST_ACK
-		(lw6sys_str_is_same (sys_context, value, _TEST_PARAM_VALUE)))
+	    if (LW6SYS_TEST_ACK (lw6sys_str_is_same (sys_context, value, _TEST_PARAM_VALUE)))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			    _x_
-			    ("param value getter and setter seem to work value for \"%s\" is \"%s\""),
-			    _TEST_PARAM_KEY, value);
+			    _x_ ("param value getter and setter seem to work value for \"%s\" is \"%s\""), _TEST_PARAM_KEY, value);
 	      }
 	    else
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			    _x_
-			    ("bad param value returned for \"%s\", was \"%s\" should have been \"%s\""),
-			    _TEST_PARAM_KEY, value, _TEST_PARAM_VALUE);
+			    _x_ ("bad param value returned for \"%s\", was \"%s\" should have been \"%s\""), _TEST_PARAM_KEY, value, _TEST_PARAM_VALUE);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (sys_context, value);
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("no param value for \"%s\""), _TEST_PARAM_KEY);
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("no param value for \"%s\""), _TEST_PARAM_KEY);
 	    ret = 0;
 	  }
 	lw6map_param_zero (sys_context, &param2);
-	if (!LW6SYS_TEST_ACK
-	    (!lw6map_param_is_same (sys_context, param, &param2)))
+	if (!LW6SYS_TEST_ACK (!lw6map_param_is_same (sys_context, param, &param2)))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_
-			("param and param2 reported as same, they should be different"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("param and param2 reported as same, they should be different"));
 	    ret = 0;
 	  }
 	lw6map_param_copy (sys_context, &param2, param);
-	if (!LW6SYS_TEST_ACK
-	    (lw6map_param_is_same (sys_context, param, &param2)))
+	if (!LW6SYS_TEST_ACK (lw6map_param_is_same (sys_context, param, &param2)))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_
-			("param and param2 reported as different, they should be the same"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("param and param2 reported as different, they should be the same"));
 	    ret = 0;
 	  }
 
@@ -795,51 +720,39 @@ _test_rules ()
     int value;
     unsigned int checksum = 0;
 
-    rules =
-      (lw6map_rules_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_rules_t));
+    rules = (lw6map_rules_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_rules_t));
     if (LW6SYS_TEST_ACK (rules))
       {
 	lw6map_rules_zero (sys_context, rules);
-	lw6map_rules_set_int (sys_context, rules, _TEST_RULES_KEY,
-			      _TEST_RULES_VALUE);
+	lw6map_rules_set_int (sys_context, rules, _TEST_RULES_KEY, _TEST_RULES_VALUE);
 	value = lw6map_rules_get_int (sys_context, rules, _TEST_RULES_KEY);
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("map rules for key \"%s\" is %d"), _TEST_RULES_KEY,
-		    value);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("map rules for key \"%s\" is %d"), _TEST_RULES_KEY, value);
 	lw6map_rules_clear (sys_context, rules);
 
 	lw6map_rules_defaults (sys_context, rules);
 	checksum = 0;
 	lw6map_rules_update_checksum (sys_context, rules, &checksum);
 
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_
-		    ("rules checksum is %08x and should be %08x"),
-		    checksum, _TEST_RULES_CHECKSUM);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("rules checksum is %08x and should be %08x"), checksum, _TEST_RULES_CHECKSUM);
 	ret = ret && (checksum == _TEST_RULES_CHECKSUM);
 	if (LW6SYS_TEST_ACK (lw6map_rules_sanity_check (sys_context, rules)))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("rules are valid, as sanity_check says"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("rules are valid, as sanity_check says"));
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("sanity_check failed"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("sanity_check failed"));
 	    ret = 0;
 	  }
 	rules->total_time = LW6MAP_RULES_MAX_TOTAL_TIME + 1;
 	rules->moves_per_round = LW6MAP_RULES_MIN_MOVES_PER_ROUND - 1;
 	if (LW6SYS_TEST_ACK (!lw6map_rules_sanity_check (sys_context, rules)))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_
-			("rules are not valid, as sanity_check says, this is fine"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("rules are not valid, as sanity_check says, this is fine"));
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("sanity_check return true, this is wrong"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("sanity_check return true, this is wrong"));
 	    ret = 0;
 	  }
 	LW6SYS_FREE (sys_context, rules);
@@ -865,32 +778,25 @@ _test_style ()
     lw6map_style_t *style;
     char *value;
 
-    style =
-      (lw6map_style_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_style_t));
+    style = (lw6map_style_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_style_t));
     if (LW6SYS_TEST_ACK (style))
       {
 	lw6map_style_zero (sys_context, style);
-	lw6map_style_set (sys_context, style, _TEST_STYLE_KEY,
-			  _TEST_STYLE_VALUE);
+	lw6map_style_set (sys_context, style, _TEST_STYLE_KEY, _TEST_STYLE_VALUE);
 	value = lw6map_style_get (sys_context, style, _TEST_STYLE_KEY);
 	if (LW6SYS_TEST_ACK (value))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("map style for key \"%s\" is \"%s\""),
-			_TEST_STYLE_KEY, value);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("map style for key \"%s\" is \"%s\""), _TEST_STYLE_KEY, value);
 	    LW6SYS_FREE (sys_context, value);
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("can't find style key \"%s\""), _TEST_STYLE_KEY);
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't find style key \"%s\""), _TEST_STYLE_KEY);
 	    ret = 0;
 	  }
-	if (!LW6SYS_TEST_ACK
-	    (lw6map_style_is_same (sys_context, style, style)))
+	if (!LW6SYS_TEST_ACK (lw6map_style_is_same (sys_context, style, style)))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("map style comparison failed"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("map style comparison failed"));
 	    ret = 0;
 	  }
 	lw6map_style_clear (sys_context, style);
@@ -917,32 +823,25 @@ _test_teams ()
     lw6map_teams_t *teams;
     char *value;
 
-    teams =
-      (lw6map_teams_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_teams_t));
+    teams = (lw6map_teams_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_teams_t));
     if (LW6SYS_TEST_ACK (teams))
       {
 	lw6map_teams_zero (sys_context, teams);
-	lw6map_teams_set (sys_context, teams, _TEST_TEAMS_KEY,
-			  _TEST_TEAMS_VALUE);
+	lw6map_teams_set (sys_context, teams, _TEST_TEAMS_KEY, _TEST_TEAMS_VALUE);
 	value = lw6map_teams_get (sys_context, teams, _TEST_TEAMS_KEY);
 	if (LW6SYS_TEST_ACK (value))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			_x_ ("map teams for key \"%s\" is \"%s\""),
-			_TEST_TEAMS_KEY, value);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("map teams for key \"%s\" is \"%s\""), _TEST_TEAMS_KEY, value);
 	    LW6SYS_FREE (sys_context, value);
 	  }
 	else
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("can't find teams key \"%s\""), _TEST_TEAMS_KEY);
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't find teams key \"%s\""), _TEST_TEAMS_KEY);
 	    ret = 0;
 	  }
-	if (!LW6SYS_TEST_ACK
-	    (lw6map_teams_is_same (sys_context, teams, teams)))
+	if (!LW6SYS_TEST_ACK (lw6map_teams_is_same (sys_context, teams, teams)))
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			_x_ ("map teams comparison failed"));
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("map teams comparison failed"));
 	    ret = 0;
 	  }
 	lw6map_teams_clear (sys_context, teams);
@@ -969,14 +868,10 @@ _test_local_info ()
     lw6map_local_info_t local_info;
 
     memset (&local_info, 0, sizeof (lw6map_local_info_t));
-    lw6map_local_info_set_music_dir (sys_context, &local_info,
-				     _TEST_MUSIC_DIR1);
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("local info music dir is \"%s\""), local_info.music_dir);
-    lw6map_local_info_set_music_dir (sys_context, &local_info,
-				     _TEST_MUSIC_DIR2);
-    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("local info music dir is \"%s\""), local_info.music_dir);
+    lw6map_local_info_set_music_dir (sys_context, &local_info, _TEST_MUSIC_DIR1);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("local info music dir is \"%s\""), local_info.music_dir);
+    lw6map_local_info_set_music_dir (sys_context, &local_info, _TEST_MUSIC_DIR2);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("local info music dir is \"%s\""), local_info.music_dir);
     lw6map_local_info_clear (sys_context, &local_info);
   }
 
@@ -996,24 +891,18 @@ _test_meta_layer ()
 
     memset (&meta_layer, 0, sizeof (lw6map_meta_layer_t));
     lw6map_meta_layer_clear (sys_context, &meta_layer);
-    if (LW6SYS_TEST_ACK (lw6map_meta_layer_builtin_custom
-			 (sys_context, &meta_layer, _TEST_MAP_WIDTH,
-			  _TEST_MAP_WIDTH, 0, _TEST_MAP_NOISE_PERCENT, 0)))
+    if (LW6SYS_TEST_ACK (lw6map_meta_layer_builtin_custom (sys_context, &meta_layer, _TEST_MAP_WIDTH, _TEST_MAP_WIDTH, 0, _TEST_MAP_NOISE_PERCENT, 0)))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("custom boolean meta-layer initialized"));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("custom boolean meta-layer initialized"));
 	_print_meta_layer (sys_context, &meta_layer, "boolean");
       }
     else
       {
 	ret = 0;
       }
-    if (LW6SYS_TEST_ACK (lw6map_meta_layer_builtin_custom
-			 (sys_context, &meta_layer, _TEST_MAP_WIDTH,
-			  _TEST_MAP_WIDTH, 1, _TEST_MAP_NOISE_PERCENT, 0)))
+    if (LW6SYS_TEST_ACK (lw6map_meta_layer_builtin_custom (sys_context, &meta_layer, _TEST_MAP_WIDTH, _TEST_MAP_WIDTH, 1, _TEST_MAP_NOISE_PERCENT, 0)))
       {
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		    _x_ ("custom boolean meta-layer initialized"));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("custom boolean meta-layer initialized"));
 	_print_meta_layer (sys_context, &meta_layer, "analog");
       }
     else
@@ -1050,10 +939,7 @@ _test_weapon ()
 		j = lw6map_weapon_key_to_index (sys_context, key);
 		if (LW6SYS_TEST_ACK (i == j))
 		  {
-		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-				_x_
-				("weapon key for %d is \"%s\" label is \"%s\""),
-				i, key, label);
+		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("weapon key for %d is \"%s\" label is \"%s\""), i, key, label);
 		  }
 		else
 		  {
@@ -1080,8 +966,7 @@ _setup_init ()
 {
   lw6sys_context_t *sys_context = _test_data.sys_context;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libmap CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libmap CUnit test suite"));
 
   return CUE_SUCCESS;
 }
@@ -1091,8 +976,7 @@ _setup_quit ()
 {
   lw6sys_context_t *sys_context = _test_data.sys_context;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libmap CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libmap CUnit test suite"));
 
   return CUE_SUCCESS;
 }
@@ -1143,9 +1027,7 @@ lw6map_test_register (lw6sys_context_t * sys_context, int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 

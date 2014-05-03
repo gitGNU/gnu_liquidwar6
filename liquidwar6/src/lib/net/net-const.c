@@ -30,8 +30,7 @@
 #define CONST_FILE "net/net-const.xml"
 
 static void
-read_callback (void *callback_data, const char *element, const char *key,
-	       const char *value)
+read_callback (void *callback_data, const char *element, const char *key, const char *value)
 {
   _lw6net_const_data_t *const_data;
 
@@ -39,20 +38,14 @@ read_callback (void *callback_data, const char *element, const char *key,
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "listen-backlog",
-			   &const_data->listen_backlog);
+      lw6cfg_read_xml_int (key, value, "listen-backlog", &const_data->listen_backlog);
       lw6cfg_read_xml_int (key, value, "chunk-size", &const_data->chunk_size);
       lw6cfg_read_xml_int (key, value, "line-size", &const_data->line_size);
-      lw6cfg_read_xml_int (key, value, "line-delay-msec",
-			   &const_data->line_delay_msec);
-      lw6cfg_read_xml_int (key, value, "dns-cache-hash-size",
-			   &const_data->dns_cache_hash_size);
-      lw6cfg_read_xml_int (key, value, "dns-cache-delay-sec",
-			   &const_data->dns_cache_delay_sec);
-      lw6cfg_read_xml_int (key, value, "connectable-cache-hash-size",
-			   &const_data->connectable_cache_hash_size);
-      lw6cfg_read_xml_int (key, value, "connectable-cache-delay-sec",
-			   &const_data->connectable_cache_delay_sec);
+      lw6cfg_read_xml_int (key, value, "line-delay-msec", &const_data->line_delay_msec);
+      lw6cfg_read_xml_int (key, value, "dns-cache-hash-size", &const_data->dns_cache_hash_size);
+      lw6cfg_read_xml_int (key, value, "dns-cache-delay-sec", &const_data->dns_cache_delay_sec);
+      lw6cfg_read_xml_int (key, value, "connectable-cache-hash-size", &const_data->connectable_cache_hash_size);
+      lw6cfg_read_xml_int (key, value, "connectable-cache-delay-sec", &const_data->connectable_cache_delay_sec);
     }
 }
 
@@ -60,8 +53,7 @@ read_callback (void *callback_data, const char *element, const char *key,
  * Loads constants.
  */
 int
-_lw6net_const_init (int argc, const char *argv[],
-		    _lw6net_const_data_t * const_data)
+_lw6net_const_init (int argc, const char *argv[], _lw6net_const_data_t * const_data)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -71,17 +63,13 @@ _lw6net_const_init (int argc, const char *argv[],
 
   if (data_root_dir)
     {
-      const_file =
-	lw6sys_path_concat (sys_context, data_root_dir, CONST_FILE);
+      const_file = lw6sys_path_concat (sys_context, data_root_dir, CONST_FILE);
 
       if (const_file)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
-		      const_file);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-	  ret =
-	    lw6cfg_read_key_value_xml_file (const_file, read_callback,
-					    (void *) const_data);
+	  ret = lw6cfg_read_key_value_xml_file (const_file, read_callback, (void *) const_data);
 	  LW6SYS_FREE (sys_context, const_file);
 	}
       LW6SYS_FREE (sys_context, data_root_dir);
@@ -92,10 +80,8 @@ _lw6net_const_init (int argc, const char *argv[],
    * Anyway with MTUs being arround 1500, the limit is purely theorical,
    * kernel network stack will stop us before that.
    */
-  const_data->chunk_size =
-    lw6sys_imin (LW6NET_MAX_CHUNK_SIZE, const_data->chunk_size);
-  const_data->line_size =
-    lw6sys_imin (LW6NET_MAX_LINE_SIZE, const_data->line_size);
+  const_data->chunk_size = lw6sys_imin (LW6NET_MAX_CHUNK_SIZE, const_data->chunk_size);
+  const_data->line_size = lw6sys_imin (LW6NET_MAX_LINE_SIZE, const_data->line_size);
 
   return ret;
 }

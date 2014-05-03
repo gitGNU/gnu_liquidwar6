@@ -42,8 +42,7 @@ print_keyword_callback (void *func_data, void *data)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to print NULL help keyword"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to print NULL help keyword"));
     }
 }
 
@@ -77,10 +76,7 @@ print_content_callback (void *func_data, void *data)
 	{
 	  fprintf (f, "--%s\n", entry);
 	}
-      desc =
-	lw6sys_str_reformat (sys_context, about,
-			     LW6SYS_REFORMAT_INDENT_PREFIX,
-			     LW6SYS_REFORMAT_INDENT_NB_COLUMNS);
+      desc = lw6sys_str_reformat (sys_context, about, LW6SYS_REFORMAT_INDENT_PREFIX, LW6SYS_REFORMAT_INDENT_NB_COLUMNS);
       if (desc)
 	{
 	  fprintf (f, "%s", desc);
@@ -90,8 +86,7 @@ print_content_callback (void *func_data, void *data)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to print NULL help keyword"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to print NULL help keyword"));
     }
 }
 
@@ -156,9 +151,7 @@ lw6hlp_print_about (const char *keyword, FILE * f)
 
   doc_str =
     lw6sys_str_reformat (sys_context, lw6hlp_about
-			 (&type, &default_value, &min_value, &max_value,
-			  keyword), LW6SYS_REFORMAT_DEFAULT_PREFIX,
-			 LW6SYS_REFORMAT_DEFAULT_NB_COLUMNS);
+			 (&type, &default_value, &min_value, &max_value, keyword), LW6SYS_REFORMAT_DEFAULT_PREFIX, LW6SYS_REFORMAT_DEFAULT_NB_COLUMNS);
   if (doc_str)
     {
       switch (type)
@@ -198,9 +191,7 @@ lw6hlp_print_about (const char *keyword, FILE * f)
 	   * after the default value but this is confusing when
 	   * the default is "." or "" ...
 	   */
-	  tmp =
-	    lw6sys_new_sprintf (sys_context, _x_ ("Default value: %s"),
-				default_value);
+	  tmp = lw6sys_new_sprintf (sys_context, _x_ ("Default value: %s"), default_value);
 	  if (tmp)
 	    {
 	      values_set = 1;
@@ -210,18 +201,14 @@ lw6hlp_print_about (const char *keyword, FILE * f)
 	}
       if (min_value != 0 || max_value != 0)
 	{
-	  tmp =
-	    lw6sys_new_sprintf (sys_context, _x_ ("Min value: %d"),
-				min_value);
+	  tmp = lw6sys_new_sprintf (sys_context, _x_ ("Min value: %d"), min_value);
 	  if (tmp)
 	    {
 	      values_set = 1;
 	      fprintf (f, "%s\n", tmp);
 	      LW6SYS_FREE (sys_context, tmp);
 	    }
-	  tmp =
-	    lw6sys_new_sprintf (sys_context, _x_ ("Max value: %d"),
-				max_value);
+	  tmp = lw6sys_new_sprintf (sys_context, _x_ ("Max value: %d"), max_value);
 	  if (tmp)
 	    {
 	      values_set = 1;
@@ -254,9 +241,7 @@ lw6hlp_print_help (FILE * f)
   lw6sys_list_t *list;
 
   fprintf (f, "\n");
-  printf
-    (_("Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"),
-     lw6sys_build_get_package_tarname ());
+  printf (_("Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"), lw6sys_build_get_package_tarname ());
   fprintf (f, "\n");
 
   list = lw6hlp_list_quick ();
@@ -284,9 +269,7 @@ lw6hlp_print_help (FILE * f)
 void
 lw6hlp_print_version (FILE * f)
 {
-  fprintf (f, "%s (%s) %s\n", lw6sys_build_get_package_tarname (),
-	   lw6sys_build_get_package_name (sys_context,),
-	   lw6sys_build_get_version ());
+  fprintf (f, "%s (%s) %s\n", lw6sys_build_get_package_tarname (), lw6sys_build_get_package_name (sys_context,), lw6sys_build_get_version ());
   lw6hlp_print_short_copyright (f);
 }
 
@@ -305,8 +288,7 @@ lw6hlp_print_short_copyright (FILE * f)
   fprintf (f, "%s\n", lw6sys_build_get_copyright ());
   fprintf (f, _
 	   ("License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n"
-	    "This is free software: you are free to change and redistribute it.\n"
-	    "There is NO WARRANTY, to the extent permitted by law.\n"));
+	    "This is free software: you are free to change and redistribute it.\n" "There is NO WARRANTY, to the extent permitted by law.\n"));
   fflush (f);
 }
 
@@ -338,8 +320,7 @@ lw6hlp_print_long_copyright (FILE * f)
      "GNU General Public License for more details.\n"
      "\n"
      "You should have received a copy of the GNU General Public License\n"
-     "along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
-     "Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA\n");
+     "along with this program.  If not, see <http://www.gnu.org/licenses/>.\n" "Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA\n");
   fflush (f);
 }
 
@@ -654,19 +635,16 @@ lw6hlp_print_modules (FILE * f)
   fprintf (f, "enable-mod-gles2: %s\n", lw6sys_build_get_enable_mod_gles2 ());
   fprintf (f, "enable-mod-soft: %s\n", lw6sys_build_get_enable_mod_soft ());
   fprintf (f, "enable-mod-caca: %s\n", lw6sys_build_get_enable_mod_caca ());
-  fprintf (f, "enable-mod-csound: %s\n",
-	   lw6sys_build_get_enable_mod_csound ());
+  fprintf (f, "enable-mod-csound: %s\n", lw6sys_build_get_enable_mod_csound ());
   fprintf (f, "enable-mod-ogg: %s\n", lw6sys_build_get_enable_mod_ogg ());
   fprintf (f, "enable-mod-http: %s\n", lw6sys_build_get_enable_mod_http ());
   fprintf (f, "enable-openmp: %s\n", lw6sys_build_get_enable_openmp ());
   fprintf (f, "enable-optimize: %s\n", lw6sys_build_get_enable_optimize ());
   fprintf (f, "enable-allinone: %s\n", lw6sys_build_get_enable_allinone ());
-  fprintf (f, "enable-fullstatic: %s\n",
-	   lw6sys_build_get_enable_fullstatic ());
+  fprintf (f, "enable-fullstatic: %s\n", lw6sys_build_get_enable_fullstatic ());
   fprintf (f, "enable-paranoid: %s\n", lw6sys_build_get_enable_paranoid ());
   fprintf (f, "enable-gprof: %s\n", lw6sys_build_get_enable_gprof ());
-  fprintf (f, "enable-instrument: %s\n",
-	   lw6sys_build_get_enable_instrument ());
+  fprintf (f, "enable-instrument: %s\n", lw6sys_build_get_enable_instrument ());
   fprintf (f, "enable-profiler: %s\n", lw6sys_build_get_enable_profiler ());
   fprintf (f, "enable-gcov: %s\n", lw6sys_build_get_enable_gcov ());
   fprintf (f, "enable-valgrind: %s\n", lw6sys_build_get_enable_valgrind ());
@@ -1187,10 +1165,7 @@ lw6hlp_print_hello (int argc, const char *argv[])
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, "v%s \"%s\" (%s) %s/%s",
 	      lw6sys_build_get_version (),
-	      lw6sys_build_get_codename (),
-	      lw6sys_build_get_date (),
-	      lw6sys_build_get_host_os (sys_context,),
-	      lw6sys_build_get_host_cpu ());
+	      lw6sys_build_get_codename (), lw6sys_build_get_date (), lw6sys_build_get_host_os (sys_context,), lw6sys_build_get_host_cpu ());
 
   date_rfc1123 = lw6sys_date_rfc1123 (0);
   if (date_rfc1123)
@@ -1200,8 +1175,7 @@ lw6hlp_print_hello (int argc, const char *argv[])
 	{
 	  hostname = lw6sys_get_hostname ();
 	  {
-	    lw6sys_log (sys_context, LW6SYS_LOG_INFO, "%s \"%s@%s\"",
-			date_rfc1123, username, hostname);
+	    lw6sys_log (sys_context, LW6SYS_LOG_INFO, "%s \"%s@%s\"", date_rfc1123, username, hostname);
 	    LW6SYS_FREE (hostname);
 	  }
 	  LW6SYS_FREE (sys_context, username);
@@ -1209,9 +1183,7 @@ lw6hlp_print_hello (int argc, const char *argv[])
       LW6SYS_FREE (sys_context, date_rfc1123);
     }
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, "%d %s - %d %s",
-	      lw6sys_megabytes_available (), _x_ ("Mb"),
-	      lw6sys_openmp_get_num_procs (), _x_ ("procs"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, "%d %s - %d %s", lw6sys_megabytes_available (), _x_ ("Mb"), lw6sys_openmp_get_num_procs (), _x_ ("procs"));
 
   lw6sys_build_log_all ();
   lw6sys_options_log_defaults ();

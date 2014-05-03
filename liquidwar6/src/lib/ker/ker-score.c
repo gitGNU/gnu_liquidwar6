@@ -28,8 +28,7 @@
 #include "ker-internal.h"
 
 int
-_lw6ker_score_sort_quantity_callback (lw6ker_score_t * score_a,
-				      lw6ker_score_t * score_b)
+_lw6ker_score_sort_quantity_callback (lw6ker_score_t * score_a, lw6ker_score_t * score_b)
 {
   int ret = 0;
 
@@ -48,9 +47,7 @@ _lw6ker_score_sort_quantity_callback (lw6ker_score_t * score_a,
 	}
       else
 	{
-	  ret =
-	    (score_a->fighters_absolute <
-	     score_b->fighters_absolute) ? -1 : 1;
+	  ret = (score_a->fighters_absolute < score_b->fighters_absolute) ? -1 : 1;
 	}
     }
   else
@@ -70,15 +67,13 @@ _lw6ker_score_sort_quantity_callback (lw6ker_score_t * score_a,
 }
 
 int
-_lw6ker_score_sort_quantity_callback_desc (lw6ker_score_t * score_a,
-					   lw6ker_score_t * score_b)
+_lw6ker_score_sort_quantity_callback_desc (lw6ker_score_t * score_a, lw6ker_score_t * score_b)
 {
   return (_lw6ker_score_sort_quantity_callback (score_b, score_a));
 }
 
 int
-_lw6ker_score_sort_frags_callback (lw6ker_score_t * score_a,
-				   lw6ker_score_t * score_b)
+_lw6ker_score_sort_frags_callback (lw6ker_score_t * score_a, lw6ker_score_t * score_b)
 {
   int ret = 0;
 
@@ -92,9 +87,7 @@ _lw6ker_score_sort_frags_callback (lw6ker_score_t * score_a,
 	    }
 	  else
 	    {
-	      ret =
-		(score_a->fighters_absolute <
-		 score_b->fighters_absolute) ? -1 : 1;
+	      ret = (score_a->fighters_absolute < score_b->fighters_absolute) ? -1 : 1;
 	    }
 	}
       else
@@ -119,8 +112,7 @@ _lw6ker_score_sort_frags_callback (lw6ker_score_t * score_a,
 }
 
 int
-_lw6ker_score_sort_frags_callback_desc (lw6ker_score_t * score_a,
-					lw6ker_score_t * score_b)
+_lw6ker_score_sort_frags_callback_desc (lw6ker_score_t * score_a, lw6ker_score_t * score_b)
 {
   return (_lw6ker_score_sort_frags_callback (score_b, score_a));
 }

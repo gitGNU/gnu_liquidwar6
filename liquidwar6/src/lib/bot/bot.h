@@ -141,8 +141,7 @@ extern char *lw6bot_repr (const lw6bot_backend_t * backend);
 
 /* bot-register.c */
 extern lw6sys_assoc_t *lw6bot_get_backends (int argc, const char *argv[]);
-extern lw6bot_backend_t *lw6bot_create_backend (int argc, const char *argv[],
-						const char *name);
+extern lw6bot_backend_t *lw6bot_create_backend (int argc, const char *argv[], const char *name);
 extern void lw6bot_destroy_backend (lw6bot_backend_t * backend);
 
 /* bot-test.c */

@@ -68,14 +68,10 @@ lw6map_style_defaults (lw6sys_context_t * sys_context, lw6map_style_t * style)
   style->zoom_max = LW6MAP_STYLE_DEFAULT_ZOOM_MAX;
   style->x_wrap = LW6MAP_STYLE_DEFAULT_X_WRAP;
   style->y_wrap = LW6MAP_STYLE_DEFAULT_Y_WRAP;
-  style->background_style =
-    lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_BACKGROUND_STYLE);
-  style->hud_style =
-    lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_HUD_STYLE);
-  style->menu_style =
-    lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_MENU_STYLE);
-  style->view_style =
-    lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_VIEW_STYLE);
+  style->background_style = lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_BACKGROUND_STYLE);
+  style->hud_style = lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_HUD_STYLE);
+  style->menu_style = lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_MENU_STYLE);
+  style->view_style = lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_VIEW_STYLE);
   style->animation_density = LW6MAP_STYLE_DEFAULT_ANIMATION_DENSITY;
   style->animation_speed = LW6MAP_STYLE_DEFAULT_ANIMATION_SPEED;
   style->cursor_size = LW6MAP_STYLE_DEFAULT_CURSOR_SIZE;
@@ -84,100 +80,44 @@ lw6map_style_defaults (lw6sys_context_t * sys_context, lw6map_style_t * style)
   style->hidden_layer_alpha = LW6MAP_STYLE_DEFAULT_HIDDEN_LAYER_ALPHA;
   style->colorize = LW6MAP_STYLE_DEFAULT_COLORIZE;
   style->pixelize = LW6MAP_STYLE_DEFAULT_PIXELIZE;
-  style->color_set.color_base.bg =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_COLOR_BASE_BG);
-  style->color_set.color_base.fg =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_COLOR_BASE_FG);
-  style->color_set.color_alternate.bg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_COLOR_ALTERNATE_BG);
-  style->color_set.color_alternate.fg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_COLOR_ALTERNATE_FG);
-  style->color_set.background_color_root.bg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_BACKGROUND_COLOR_ROOT_BG);
-  style->color_set.background_color_root.fg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_BACKGROUND_COLOR_ROOT_FG);
-  style->color_set.background_color_stuff.bg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_BACKGROUND_COLOR_STUFF_BG);
-  style->color_set.background_color_stuff.fg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_BACKGROUND_COLOR_STUFF_FG);
-  style->color_set.hud_color_frame.bg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_HUD_COLOR_FRAME_BG);
-  style->color_set.hud_color_frame.fg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_HUD_COLOR_FRAME_FG);
-  style->color_set.hud_color_text.bg =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_HUD_COLOR_TEXT_BG);
-  style->color_set.hud_color_text.fg =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_HUD_COLOR_TEXT_FG);
-  style->color_set.menu_color_default.bg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_MENU_COLOR_DEFAULT_BG);
-  style->color_set.menu_color_default.fg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_MENU_COLOR_DEFAULT_FG);
-  style->color_set.menu_color_selected.bg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_MENU_COLOR_SELECTED_BG);
-  style->color_set.menu_color_selected.fg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_MENU_COLOR_SELECTED_FG);
-  style->color_set.menu_color_disabled.bg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_MENU_COLOR_DISABLED_BG);
-  style->color_set.menu_color_disabled.fg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_MENU_COLOR_DISABLED_FG);
-  style->color_set.view_color_cursor.bg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_VIEW_COLOR_CURSOR_BG);
-  style->color_set.view_color_cursor.fg =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_VIEW_COLOR_CURSOR_FG);
-  style->color_set.view_color_map.bg =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_VIEW_COLOR_MAP_BG);
-  style->color_set.view_color_map.fg =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_VIEW_COLOR_MAP_FG);
-  style->color_set.system_color.bg =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_SYSTEM_COLOR_BG);
-  style->color_set.system_color.fg =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_SYSTEM_COLOR_FG);
-  style->color_set.team_color_dead =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_DEAD);
-  style->color_set.team_colors[LW6MAP_TEAM_COLOR_RED] =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_RED);
-  style->color_set.team_colors[LW6MAP_TEAM_COLOR_GREEN] =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_GREEN);
-  style->color_set.team_colors[LW6MAP_TEAM_COLOR_BLUE] =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_BLUE);
-  style->color_set.team_colors[LW6MAP_TEAM_COLOR_YELLOW] =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_YELLOW);
-  style->color_set.team_colors[LW6MAP_TEAM_COLOR_CYAN] =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_CYAN);
-  style->color_set.team_colors[LW6MAP_TEAM_COLOR_MAGENTA] =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_TEAM_COLOR_MAGENTA);
-  style->color_set.team_colors[LW6MAP_TEAM_COLOR_ORANGE] =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_ORANGE);
-  style->color_set.team_colors[LW6MAP_TEAM_COLOR_LIGHTBLUE] =
-    lw6sys_color_a_to_8 (sys_context,
-			 LW6MAP_STYLE_DEFAULT_TEAM_COLOR_LIGHTBLUE);
-  style->color_set.team_colors[LW6MAP_TEAM_COLOR_PURPLE] =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_PURPLE);
-  style->color_set.team_colors[LW6MAP_TEAM_COLOR_PINK] =
-    lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_PINK);
-  style->music_file =
-    lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_MUSIC_FILE);
-  style->music_filter =
-    lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_MUSIC_FILTER);
-  style->music_exclude =
-    lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_MUSIC_EXCLUDE);
+  style->color_set.color_base.bg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_COLOR_BASE_BG);
+  style->color_set.color_base.fg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_COLOR_BASE_FG);
+  style->color_set.color_alternate.bg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_COLOR_ALTERNATE_BG);
+  style->color_set.color_alternate.fg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_COLOR_ALTERNATE_FG);
+  style->color_set.background_color_root.bg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_BACKGROUND_COLOR_ROOT_BG);
+  style->color_set.background_color_root.fg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_BACKGROUND_COLOR_ROOT_FG);
+  style->color_set.background_color_stuff.bg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_BACKGROUND_COLOR_STUFF_BG);
+  style->color_set.background_color_stuff.fg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_BACKGROUND_COLOR_STUFF_FG);
+  style->color_set.hud_color_frame.bg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_HUD_COLOR_FRAME_BG);
+  style->color_set.hud_color_frame.fg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_HUD_COLOR_FRAME_FG);
+  style->color_set.hud_color_text.bg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_HUD_COLOR_TEXT_BG);
+  style->color_set.hud_color_text.fg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_HUD_COLOR_TEXT_FG);
+  style->color_set.menu_color_default.bg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_MENU_COLOR_DEFAULT_BG);
+  style->color_set.menu_color_default.fg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_MENU_COLOR_DEFAULT_FG);
+  style->color_set.menu_color_selected.bg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_MENU_COLOR_SELECTED_BG);
+  style->color_set.menu_color_selected.fg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_MENU_COLOR_SELECTED_FG);
+  style->color_set.menu_color_disabled.bg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_MENU_COLOR_DISABLED_BG);
+  style->color_set.menu_color_disabled.fg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_MENU_COLOR_DISABLED_FG);
+  style->color_set.view_color_cursor.bg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_VIEW_COLOR_CURSOR_BG);
+  style->color_set.view_color_cursor.fg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_VIEW_COLOR_CURSOR_FG);
+  style->color_set.view_color_map.bg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_VIEW_COLOR_MAP_BG);
+  style->color_set.view_color_map.fg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_VIEW_COLOR_MAP_FG);
+  style->color_set.system_color.bg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_SYSTEM_COLOR_BG);
+  style->color_set.system_color.fg = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_SYSTEM_COLOR_FG);
+  style->color_set.team_color_dead = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_DEAD);
+  style->color_set.team_colors[LW6MAP_TEAM_COLOR_RED] = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_RED);
+  style->color_set.team_colors[LW6MAP_TEAM_COLOR_GREEN] = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_GREEN);
+  style->color_set.team_colors[LW6MAP_TEAM_COLOR_BLUE] = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_BLUE);
+  style->color_set.team_colors[LW6MAP_TEAM_COLOR_YELLOW] = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_YELLOW);
+  style->color_set.team_colors[LW6MAP_TEAM_COLOR_CYAN] = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_CYAN);
+  style->color_set.team_colors[LW6MAP_TEAM_COLOR_MAGENTA] = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_MAGENTA);
+  style->color_set.team_colors[LW6MAP_TEAM_COLOR_ORANGE] = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_ORANGE);
+  style->color_set.team_colors[LW6MAP_TEAM_COLOR_LIGHTBLUE] = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_LIGHTBLUE);
+  style->color_set.team_colors[LW6MAP_TEAM_COLOR_PURPLE] = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_PURPLE);
+  style->color_set.team_colors[LW6MAP_TEAM_COLOR_PINK] = lw6sys_color_a_to_8 (sys_context, LW6MAP_STYLE_DEFAULT_TEAM_COLOR_PINK);
+  style->music_file = lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_MUSIC_FILE);
+  style->music_filter = lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_MUSIC_FILTER);
+  style->music_exclude = lw6sys_str_copy (sys_context, LW6MAP_STYLE_DEFAULT_MUSIC_EXCLUDE);
   style->waves = LW6MAP_STYLE_DEFAULT_WAVES;
 }
 
@@ -252,16 +192,14 @@ lw6map_style_clear (lw6sys_context_t * sys_context, lw6map_style_t * style)
  * Return value: none.
  */
 void
-lw6map_style_copy (lw6sys_context_t * sys_context, lw6map_style_t * dst,
-		   const lw6map_style_t * src)
+lw6map_style_copy (lw6sys_context_t * sys_context, lw6map_style_t * dst, const lw6map_style_t * src)
 {
   lw6map_style_clear (sys_context, dst);
   memcpy (dst, src, sizeof (lw6map_style_t));
 
   if (src->background_style)
     {
-      dst->background_style =
-	lw6sys_str_copy (sys_context, src->background_style);
+      dst->background_style = lw6sys_str_copy (sys_context, src->background_style);
     }
   if (src->hud_style)
     {
@@ -304,8 +242,7 @@ lw6map_style_copy (lw6sys_context_t * sys_context, lw6map_style_t * dst,
  * Return value: 1 on success, 0 on failure (key not found)
  */
 int
-lw6map_style_set (lw6sys_context_t * sys_context, lw6map_style_t * style,
-		  const char *key, const char *value)
+lw6map_style_set (lw6sys_context_t * sys_context, lw6map_style_t * style, const char *key, const char *value)
 {
   int ret = 1;
   char *formatted_key = NULL;
@@ -403,178 +340,143 @@ lw6map_style_set (lw6sys_context_t * sys_context, lw6map_style_t * style,
 	}
       else if (!strcmp (LW6DEF_COLOR_BASE_BG, formatted_key))
 	{
-	  style->color_set.color_base.bg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.color_base.bg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_COLOR_BASE_FG, formatted_key))
 	{
-	  style->color_set.color_base.fg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.color_base.fg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_COLOR_ALTERNATE_BG, formatted_key))
 	{
-	  style->color_set.color_alternate.bg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.color_alternate.bg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_COLOR_ALTERNATE_FG, formatted_key))
 	{
-	  style->color_set.color_alternate.fg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.color_alternate.fg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_BACKGROUND_COLOR_ROOT_BG, formatted_key))
 	{
-	  style->color_set.background_color_root.bg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.background_color_root.bg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_BACKGROUND_COLOR_ROOT_FG, formatted_key))
 	{
-	  style->color_set.background_color_root.fg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.background_color_root.fg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_BACKGROUND_COLOR_STUFF_BG, formatted_key))
 	{
-	  style->color_set.background_color_stuff.bg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.background_color_stuff.bg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_BACKGROUND_COLOR_STUFF_FG, formatted_key))
 	{
-	  style->color_set.background_color_stuff.fg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.background_color_stuff.fg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_HUD_COLOR_FRAME_BG, formatted_key))
 	{
-	  style->color_set.hud_color_frame.bg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.hud_color_frame.bg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_HUD_COLOR_FRAME_FG, formatted_key))
 	{
-	  style->color_set.hud_color_frame.fg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.hud_color_frame.fg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_HUD_COLOR_TEXT_BG, formatted_key))
 	{
-	  style->color_set.hud_color_text.bg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.hud_color_text.bg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_HUD_COLOR_TEXT_FG, formatted_key))
 	{
-	  style->color_set.hud_color_text.fg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.hud_color_text.fg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MENU_COLOR_DEFAULT_BG, formatted_key))
 	{
-	  style->color_set.menu_color_default.bg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.menu_color_default.bg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MENU_COLOR_DEFAULT_FG, formatted_key))
 	{
-	  style->color_set.menu_color_default.fg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.menu_color_default.fg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MENU_COLOR_SELECTED_BG, formatted_key))
 	{
-	  style->color_set.menu_color_selected.bg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.menu_color_selected.bg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MENU_COLOR_SELECTED_FG, formatted_key))
 	{
-	  style->color_set.menu_color_selected.fg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.menu_color_selected.fg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MENU_COLOR_DISABLED_BG, formatted_key))
 	{
-	  style->color_set.menu_color_disabled.bg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.menu_color_disabled.bg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MENU_COLOR_DISABLED_FG, formatted_key))
 	{
-	  style->color_set.menu_color_disabled.fg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.menu_color_disabled.fg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_VIEW_COLOR_CURSOR_BG, formatted_key))
 	{
-	  style->color_set.view_color_cursor.bg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.view_color_cursor.bg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_VIEW_COLOR_CURSOR_FG, formatted_key))
 	{
-	  style->color_set.view_color_cursor.fg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.view_color_cursor.fg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_VIEW_COLOR_MAP_BG, formatted_key))
 	{
-	  style->color_set.view_color_map.bg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.view_color_map.bg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_VIEW_COLOR_MAP_FG, formatted_key))
 	{
-	  style->color_set.view_color_map.fg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.view_color_map.fg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_SYSTEM_COLOR_BG, formatted_key))
 	{
-	  style->color_set.system_color.bg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.system_color.bg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_SYSTEM_COLOR_FG, formatted_key))
 	{
-	  style->color_set.system_color.fg =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.system_color.fg = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_DEAD, formatted_key))
 	{
-	  style->color_set.team_color_dead =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.team_color_dead = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_RED, formatted_key))
 	{
-	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_RED] =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_RED] = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_GREEN, formatted_key))
 	{
-	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_GREEN] =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_GREEN] = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_BLUE, formatted_key))
 	{
-	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_BLUE] =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_BLUE] = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_YELLOW, formatted_key))
 	{
-	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_YELLOW] =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_YELLOW] = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_CYAN, formatted_key))
 	{
-	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_CYAN] =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_CYAN] = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_MAGENTA, formatted_key))
 	{
-	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_MAGENTA] =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_MAGENTA] = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_ORANGE, formatted_key))
 	{
-	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_ORANGE] =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_ORANGE] = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_LIGHTBLUE, formatted_key))
 	{
-	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_LIGHTBLUE] =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_LIGHTBLUE] = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_PURPLE, formatted_key))
 	{
-	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_PURPLE] =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_PURPLE] = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_PINK, formatted_key))
 	{
-	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_PINK] =
-	    lw6sys_color_a_to_8 (sys_context, value);
+	  style->color_set.team_colors[LW6MAP_TEAM_COLOR_PINK] = lw6sys_color_a_to_8 (sys_context, value);
 	}
       else if (!strcmp (LW6DEF_MUSIC_FILE, formatted_key))
 	{
@@ -633,8 +535,7 @@ lw6map_style_set (lw6sys_context_t * sys_context, lw6map_style_t * style,
  * Return value: dynamically allocated string.
  */
 char *
-lw6map_style_get (lw6sys_context_t * sys_context,
-		  const lw6map_style_t * style, const char *key)
+lw6map_style_get (lw6sys_context_t * sys_context, const lw6map_style_t * style, const char *key)
 {
   char *ret = NULL;
   char *formatted_key = NULL;
@@ -716,209 +617,143 @@ lw6map_style_get (lw6sys_context_t * sys_context,
 	}
       else if (!strcmp (LW6DEF_COLOR_BASE_BG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context, style->color_set.color_base.bg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.color_base.bg);
 	}
       else if (!strcmp (LW6DEF_COLOR_BASE_FG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context, style->color_set.color_base.fg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.color_base.fg);
 	}
       else if (!strcmp (LW6DEF_COLOR_ALTERNATE_BG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.color_alternate.bg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.color_alternate.bg);
 	}
       else if (!strcmp (LW6DEF_COLOR_ALTERNATE_FG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.color_alternate.fg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.color_alternate.fg);
 	}
       else if (!strcmp (LW6DEF_BACKGROUND_COLOR_ROOT_BG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.background_color_root.bg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.background_color_root.bg);
 	}
       else if (!strcmp (LW6DEF_BACKGROUND_COLOR_ROOT_FG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.background_color_root.fg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.background_color_root.fg);
 	}
       else if (!strcmp (LW6DEF_BACKGROUND_COLOR_STUFF_BG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.background_color_stuff.bg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.background_color_stuff.bg);
 	}
       else if (!strcmp (LW6DEF_BACKGROUND_COLOR_STUFF_FG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.background_color_stuff.fg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.background_color_stuff.fg);
 	}
       else if (!strcmp (LW6DEF_HUD_COLOR_FRAME_BG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.hud_color_frame.bg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.hud_color_frame.bg);
 	}
       else if (!strcmp (LW6DEF_HUD_COLOR_FRAME_FG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.hud_color_frame.fg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.hud_color_frame.fg);
 	}
       else if (!strcmp (LW6DEF_HUD_COLOR_TEXT_BG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context, style->color_set.color_base.bg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.color_base.bg);
 	}
       else if (!strcmp (LW6DEF_HUD_COLOR_TEXT_FG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context, style->color_set.color_base.fg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.color_base.fg);
 	}
       else if (!strcmp (LW6DEF_MENU_COLOR_DEFAULT_BG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.menu_color_default.bg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.menu_color_default.bg);
 	}
       else if (!strcmp (LW6DEF_MENU_COLOR_DEFAULT_FG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.menu_color_default.fg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.menu_color_default.fg);
 	}
       else if (!strcmp (LW6DEF_MENU_COLOR_SELECTED_BG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.menu_color_selected.bg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.menu_color_selected.bg);
 	}
       else if (!strcmp (LW6DEF_MENU_COLOR_SELECTED_FG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.menu_color_selected.fg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.menu_color_selected.fg);
 	}
       else if (!strcmp (LW6DEF_MENU_COLOR_DISABLED_BG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.menu_color_disabled.bg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.menu_color_disabled.bg);
 	}
       else if (!strcmp (LW6DEF_MENU_COLOR_DISABLED_FG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.menu_color_disabled.fg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.menu_color_disabled.fg);
 	}
       else if (!strcmp (LW6DEF_VIEW_COLOR_CURSOR_BG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.view_color_cursor.bg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.view_color_cursor.bg);
 	}
       else if (!strcmp (LW6DEF_VIEW_COLOR_CURSOR_FG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.view_color_cursor.fg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.view_color_cursor.fg);
 	}
       else if (!strcmp (LW6DEF_VIEW_COLOR_MAP_BG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.view_color_map.bg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.view_color_map.bg);
 	}
       else if (!strcmp (LW6DEF_VIEW_COLOR_MAP_FG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.view_color_map.fg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.view_color_map.fg);
 	}
       else if (!strcmp (LW6DEF_SYSTEM_COLOR_BG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.system_color.bg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.system_color.bg);
 	}
       else if (!strcmp (LW6DEF_SYSTEM_COLOR_FG, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.system_color.fg);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.system_color.fg);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_DEAD, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context,
-				 style->color_set.team_color_dead);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.team_color_dead);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_RED, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context, style->color_set.team_colors
-				 [LW6MAP_TEAM_COLOR_RED]);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.team_colors[LW6MAP_TEAM_COLOR_RED]);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_GREEN, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context, style->color_set.team_colors
-				 [LW6MAP_TEAM_COLOR_GREEN]);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.team_colors[LW6MAP_TEAM_COLOR_GREEN]);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_BLUE, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context, style->color_set.team_colors
-				 [LW6MAP_TEAM_COLOR_BLUE]);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.team_colors[LW6MAP_TEAM_COLOR_BLUE]);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_YELLOW, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context, style->color_set.team_colors
-				 [LW6MAP_TEAM_COLOR_YELLOW]);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.team_colors[LW6MAP_TEAM_COLOR_YELLOW]);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_CYAN, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context, style->color_set.team_colors
-				 [LW6MAP_TEAM_COLOR_CYAN]);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.team_colors[LW6MAP_TEAM_COLOR_CYAN]);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_MAGENTA, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context, style->color_set.team_colors
-				 [LW6MAP_TEAM_COLOR_MAGENTA]);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.team_colors[LW6MAP_TEAM_COLOR_MAGENTA]);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_ORANGE, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context, style->color_set.team_colors
-				 [LW6MAP_TEAM_COLOR_ORANGE]);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.team_colors[LW6MAP_TEAM_COLOR_ORANGE]);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_LIGHTBLUE, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context, style->color_set.team_colors
-				 [LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.team_colors[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_PURPLE, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context, style->color_set.team_colors
-				 [LW6MAP_TEAM_COLOR_PURPLE]);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.team_colors[LW6MAP_TEAM_COLOR_PURPLE]);
 	}
       else if (!strcmp (LW6DEF_TEAM_COLOR_PINK, formatted_key))
 	{
-	  ret =
-	    lw6sys_color_8_to_a (sys_context, style->color_set.team_colors
-				 [LW6MAP_TEAM_COLOR_PINK]);
+	  ret = lw6sys_color_8_to_a (sys_context, style->color_set.team_colors[LW6MAP_TEAM_COLOR_PINK]);
 	}
       else if (!strcmp (LW6DEF_MUSIC_FILE, formatted_key))
 	{
@@ -961,8 +796,7 @@ lw6map_style_get_default (lw6sys_context_t * sys_context, const char *key)
   lw6map_style_t *style;
   char *ret = NULL;
 
-  style =
-    (lw6map_style_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_style_t));
+  style = (lw6map_style_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6map_style_t));
   if (style)
     {
       lw6map_style_defaults (sys_context, style);
@@ -973,10 +807,7 @@ lw6map_style_get_default (lw6sys_context_t * sys_context, const char *key)
 
   if (!ret)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("unable to get default value for style parameter \"%s\""),
-		  key);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to get default value for style parameter \"%s\""), key);
     }
 
   return ret;
@@ -995,9 +826,7 @@ lw6map_style_get_default (lw6sys_context_t * sys_context, const char *key)
  * Return value: 1 if same, 0 if different.
  */
 int
-lw6map_color_set_is_same (lw6sys_context_t * sys_context,
-			  const lw6map_color_set_t * color_set_a,
-			  const lw6map_color_set_t * color_set_b)
+lw6map_color_set_is_same (lw6sys_context_t * sys_context, const lw6map_color_set_t * color_set_a, const lw6map_color_set_t * color_set_b)
 {
   int ret = 0;
 
@@ -1019,9 +848,7 @@ lw6map_color_set_is_same (lw6sys_context_t * sys_context,
  * Return value: 1 if same, 0 if different.
  */
 int
-lw6map_style_is_same (lw6sys_context_t * sys_context,
-		      const lw6map_style_t * style_a,
-		      const lw6map_style_t * style_b)
+lw6map_style_is_same (lw6sys_context_t * sys_context, const lw6map_style_t * style_a, const lw6map_style_t * style_b)
 {
   int ret = 1;
 
@@ -1031,18 +858,10 @@ lw6map_style_is_same (lw6sys_context_t * sys_context,
   ret = ret && style_a->zoom_max == style_b->zoom_max;
   ret = ret && style_a->x_wrap == style_b->x_wrap;
   ret = ret && style_a->y_wrap == style_b->y_wrap;
-  ret = ret
-    && lw6sys_str_is_same (sys_context, style_a->background_style,
-			   style_b->background_style);
-  ret = ret
-    && lw6sys_str_is_same (sys_context, style_a->hud_style,
-			   style_b->hud_style);
-  ret = ret
-    && lw6sys_str_is_same (sys_context, style_a->menu_style,
-			   style_b->menu_style);
-  ret = ret
-    && lw6sys_str_is_same (sys_context, style_a->view_style,
-			   style_b->view_style);
+  ret = ret && lw6sys_str_is_same (sys_context, style_a->background_style, style_b->background_style);
+  ret = ret && lw6sys_str_is_same (sys_context, style_a->hud_style, style_b->hud_style);
+  ret = ret && lw6sys_str_is_same (sys_context, style_a->menu_style, style_b->menu_style);
+  ret = ret && lw6sys_str_is_same (sys_context, style_a->view_style, style_b->view_style);
   ret = ret && style_a->animation_density == style_b->animation_density;
   ret = ret && style_a->animation_speed == style_b->animation_speed;
   ret = ret && style_a->cursor_size == style_b->cursor_size;
@@ -1051,18 +870,10 @@ lw6map_style_is_same (lw6sys_context_t * sys_context,
   ret = ret && style_a->hidden_layer_alpha == style_b->hidden_layer_alpha;
   ret = ret && style_a->colorize == style_b->colorize;
   ret = ret && style_a->pixelize == style_b->pixelize;
-  ret = ret
-    && lw6map_color_set_is_same (sys_context, &style_a->color_set,
-				 &style_b->color_set);
-  ret = ret
-    && lw6sys_str_is_same (sys_context, style_a->music_file,
-			   style_b->music_file);
-  ret = ret
-    && lw6sys_str_is_same (sys_context, style_a->music_filter,
-			   style_b->music_filter);
-  ret = ret
-    && lw6sys_str_is_same (sys_context, style_a->music_exclude,
-			   style_b->music_exclude);
+  ret = ret && lw6map_color_set_is_same (sys_context, &style_a->color_set, &style_b->color_set);
+  ret = ret && lw6sys_str_is_same (sys_context, style_a->music_file, style_b->music_file);
+  ret = ret && lw6sys_str_is_same (sys_context, style_a->music_filter, style_b->music_filter);
+  ret = ret && lw6sys_str_is_same (sys_context, style_a->music_exclude, style_b->music_exclude);
   ret = ret && style_a->waves == style_b->waves;
 
   return ret;

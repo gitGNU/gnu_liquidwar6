@@ -36,8 +36,7 @@ _mod_udp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("udp init"));
 
-  udp_context =
-    (_mod_udp_context_t *) LW6SYS_CALLOC (sizeof (_mod_udp_context_t));
+  udp_context = (_mod_udp_context_t *) LW6SYS_CALLOC (sizeof (_mod_udp_context_t));
   if (udp_context)
     {
       data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
@@ -45,12 +44,9 @@ _mod_udp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 	{
 	  if (_mod_udp_load_data (&(udp_context->data), data_dir))
 	    {
-	      properties->hint_timeout =
-		udp_context->data.consts.global_timeout;
-	      properties->ping_alter_base =
-		udp_context->data.consts.ping_alter_base;
-	      properties->ping_alter_percent =
-		udp_context->data.consts.ping_alter_percent;
+	      properties->hint_timeout = udp_context->data.consts.global_timeout;
+	      properties->ping_alter_base = udp_context->data.consts.ping_alter_base;
+	      properties->ping_alter_percent = udp_context->data.consts.ping_alter_percent;
 	      properties->reliable = 0;
 	      properties->backend_id = MOD_UDP_BACKEND_ID;
 	      ok = 1;
@@ -66,8 +62,7 @@ _mod_udp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 
   if (!udp_context)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _("can't initialize mod_udp"));
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("can't initialize mod_udp"));
     }
 
   return udp_context;

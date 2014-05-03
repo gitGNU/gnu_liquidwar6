@@ -30,14 +30,11 @@
 #include "mod-gl1-internal.h"
 
 int
-_mod_gl1_set_backends (_mod_gl1_context_t * gl_context,
-		       const lw6gui_look_t * look)
+_mod_gl1_set_backends (_mod_gl1_context_t * gl_context, const lw6gui_look_t * look)
 {
   int ret = 1;
 
-  ret =
-    _mod_gl1_set_background_backend (gl_context, look->style.background_style)
-    && ret;
+  ret = _mod_gl1_set_background_backend (gl_context, look->style.background_style) && ret;
   ret = _mod_gl1_set_hud_backend (gl_context, look->style.hud_style) && ret;
   ret = _mod_gl1_set_menu_backend (gl_context, look->style.menu_style) && ret;
   ret = _mod_gl1_set_view_backend (gl_context, look->style.view_style) && ret;
@@ -50,10 +47,8 @@ _mod_gl1_clear_background_backend (_mod_gl1_context_t * gl_context)
 {
   if (gl_context->background_backend)
     {
-      mod_gl1_background_quit (&(gl_context->utils_context),
-			       gl_context->background_backend);
-      mod_gl1_background_destroy_backend (&(gl_context->utils_context),
-					  gl_context->background_backend);
+      mod_gl1_background_quit (&(gl_context->utils_context), gl_context->background_backend);
+      mod_gl1_background_destroy_backend (&(gl_context->utils_context), gl_context->background_backend);
       gl_context->background_backend = NULL;
     }
 
@@ -65,10 +60,8 @@ _mod_gl1_clear_hud_backend (_mod_gl1_context_t * gl_context)
 {
   if (gl_context->hud_backend)
     {
-      mod_gl1_hud_quit (&(gl_context->utils_context),
-			gl_context->hud_backend);
-      mod_gl1_hud_destroy_backend (&(gl_context->utils_context),
-				   gl_context->hud_backend);
+      mod_gl1_hud_quit (&(gl_context->utils_context), gl_context->hud_backend);
+      mod_gl1_hud_destroy_backend (&(gl_context->utils_context), gl_context->hud_backend);
       gl_context->hud_backend = NULL;
     }
 
@@ -80,10 +73,8 @@ _mod_gl1_clear_menu_backend (_mod_gl1_context_t * gl_context)
 {
   if (gl_context->menu_backend)
     {
-      mod_gl1_menu_quit (&(gl_context->utils_context),
-			 gl_context->menu_backend);
-      mod_gl1_menu_destroy_backend (&(gl_context->utils_context),
-				    gl_context->menu_backend);
+      mod_gl1_menu_quit (&(gl_context->utils_context), gl_context->menu_backend);
+      mod_gl1_menu_destroy_backend (&(gl_context->utils_context), gl_context->menu_backend);
       gl_context->menu_backend = NULL;
     }
 
@@ -95,10 +86,8 @@ _mod_gl1_clear_view_backend (_mod_gl1_context_t * gl_context)
 {
   if (gl_context->view_backend)
     {
-      mod_gl1_view_quit (&(gl_context->utils_context),
-			 gl_context->view_backend);
-      mod_gl1_view_destroy_backend (&(gl_context->utils_context),
-				    gl_context->view_backend);
+      mod_gl1_view_quit (&(gl_context->utils_context), gl_context->view_backend);
+      mod_gl1_view_destroy_backend (&(gl_context->utils_context), gl_context->view_backend);
       gl_context->view_backend = NULL;
     }
 
@@ -106,8 +95,7 @@ _mod_gl1_clear_view_backend (_mod_gl1_context_t * gl_context)
 }
 
 int
-_mod_gl1_set_background_backend (_mod_gl1_context_t * gl_context,
-				 char *background_style)
+_mod_gl1_set_background_backend (_mod_gl1_context_t * gl_context, char *background_style)
 {
   int ret = 0;
 
@@ -116,20 +104,14 @@ _mod_gl1_set_background_backend (_mod_gl1_context_t * gl_context,
       background_style = LW6MAP_STYLE_DEFAULT_BACKGROUND_STYLE;
     }
 
-  if ((!gl_context->background_backend)
-      || strcmp (gl_context->background_backend->backend_name,
-		 background_style))
+  if ((!gl_context->background_backend) || strcmp (gl_context->background_backend->backend_name, background_style))
     {
       _mod_gl1_clear_background_backend (gl_context);
 
-      gl_context->background_backend =
-	mod_gl1_background_create_backend (&(gl_context->utils_context),
-					   background_style);
+      gl_context->background_backend = mod_gl1_background_create_backend (&(gl_context->utils_context), background_style);
       if (gl_context->background_backend)
 	{
-	  ret =
-	    mod_gl1_background_init (&(gl_context->utils_context),
-				     gl_context->background_backend);
+	  ret = mod_gl1_background_init (&(gl_context->utils_context), gl_context->background_backend);
 	}
     }
 
@@ -146,18 +128,14 @@ _mod_gl1_set_hud_backend (_mod_gl1_context_t * gl_context, char *hud_style)
       hud_style = LW6MAP_STYLE_DEFAULT_HUD_STYLE;
     }
 
-  if ((!gl_context->hud_backend)
-      || strcmp (gl_context->hud_backend->backend_name, hud_style))
+  if ((!gl_context->hud_backend) || strcmp (gl_context->hud_backend->backend_name, hud_style))
     {
       _mod_gl1_clear_hud_backend (gl_context);
 
-      gl_context->hud_backend =
-	mod_gl1_hud_create_backend (&(gl_context->utils_context), hud_style);
+      gl_context->hud_backend = mod_gl1_hud_create_backend (&(gl_context->utils_context), hud_style);
       if (gl_context->hud_backend)
 	{
-	  ret =
-	    mod_gl1_hud_init (&(gl_context->utils_context),
-			      gl_context->hud_backend);
+	  ret = mod_gl1_hud_init (&(gl_context->utils_context), gl_context->hud_backend);
 	}
     }
 
@@ -174,19 +152,14 @@ _mod_gl1_set_menu_backend (_mod_gl1_context_t * gl_context, char *menu_style)
       menu_style = LW6MAP_STYLE_DEFAULT_MENU_STYLE;
     }
 
-  if ((!gl_context->menu_backend)
-      || strcmp (gl_context->menu_backend->backend_name, menu_style))
+  if ((!gl_context->menu_backend) || strcmp (gl_context->menu_backend->backend_name, menu_style))
     {
       _mod_gl1_clear_menu_backend (gl_context);
 
-      gl_context->menu_backend =
-	mod_gl1_menu_create_backend (&(gl_context->utils_context),
-				     menu_style);
+      gl_context->menu_backend = mod_gl1_menu_create_backend (&(gl_context->utils_context), menu_style);
       if (gl_context->menu_backend)
 	{
-	  ret =
-	    mod_gl1_menu_init (&(gl_context->utils_context),
-			       gl_context->menu_backend);
+	  ret = mod_gl1_menu_init (&(gl_context->utils_context), gl_context->menu_backend);
 	}
     }
 
@@ -203,19 +176,14 @@ _mod_gl1_set_view_backend (_mod_gl1_context_t * gl_context, char *view_style)
       view_style = LW6MAP_STYLE_DEFAULT_VIEW_STYLE;
     }
 
-  if ((!gl_context->view_backend)
-      || strcmp (gl_context->view_backend->backend_name, view_style))
+  if ((!gl_context->view_backend) || strcmp (gl_context->view_backend->backend_name, view_style))
     {
       _mod_gl1_clear_view_backend (gl_context);
 
-      gl_context->view_backend =
-	mod_gl1_view_create_backend (&(gl_context->utils_context),
-				     view_style);
+      gl_context->view_backend = mod_gl1_view_create_backend (&(gl_context->utils_context), view_style);
       if (gl_context->view_backend)
 	{
-	  ret =
-	    mod_gl1_view_init (&(gl_context->utils_context),
-			       gl_context->view_backend);
+	  ret = mod_gl1_view_init (&(gl_context->utils_context), gl_context->view_backend);
 	}
     }
 
@@ -226,8 +194,7 @@ _mod_gl1_set_view_backend (_mod_gl1_context_t * gl_context, char *view_style)
  * Low-level SDL initialisation.
  */
 _mod_gl1_context_t *
-_mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
-	       lw6gui_resize_callback_func_t resize_callback)
+_mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
   _mod_gl1_context_t *gl1_context = NULL;
   int splash_ok = 0;
@@ -240,17 +207,14 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
   lw6map_style_t map_style;
   SDL_version version;
 
-  gl1_context =
-    (_mod_gl1_context_t *) LW6SYS_CALLOC (sizeof (_mod_gl1_context_t));
+  gl1_context = (_mod_gl1_context_t *) LW6SYS_CALLOC (sizeof (_mod_gl1_context_t));
 #ifndef LW6_ALLINONE
   if (gl1_context)
     {
-      gl1_context->shared_sdl_handle =
-	lw6dyn_dlopen_shared (argc, argv, "gfx", "sdl");
+      gl1_context->shared_sdl_handle = lw6dyn_dlopen_shared (argc, argv, "gfx", "sdl");
       if (gl1_context->shared_sdl_handle == NULL)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("unable to load shared SDL code"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to load shared SDL code"));
 	  _mod_gl1_quit (gl1_context);
 	  gl1_context = NULL;
 	}
@@ -259,22 +223,15 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
 
   if (gl1_context)
     {
-      _lw6gfx_sdl_bind_funcs (&(gl1_context->utils_context.sdl_context.funcs),
-			      gl1_context->shared_sdl_handle);
+      _lw6gfx_sdl_bind_funcs (&(gl1_context->utils_context.sdl_context.funcs), gl1_context->shared_sdl_handle);
 
-      if (mod_gl1_utils_path_init (&(gl1_context->utils_context), argc, argv)
-	  && _lw6gfx_sdl_path_init (&(gl1_context->utils_context.sdl_context),
-				    argc, argv))
+      if (mod_gl1_utils_path_init (&(gl1_context->utils_context), argc, argv) && _lw6gfx_sdl_path_init (&(gl1_context->utils_context.sdl_context), argc, argv))
 	{
 	  memset (&version, 0, sizeof (SDL_version));
 	  SDL_VERSION (&version);
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("SDL header version when compiled %u.%u.%u"),
-		      version.major, version.minor, version.patch);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL header version when compiled %u.%u.%u"), version.major, version.minor, version.patch);
 	  version = *SDL_Linked_Version ();
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("SDL linked version now at runtime %u.%u.%u"),
-		      version.major, version.minor, version.patch);
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL linked version now at runtime %u.%u.%u"), version.major, version.minor, version.patch);
 
 	  if (lw6sys_sdl_register ())
 	    {
@@ -283,17 +240,14 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
 
 	  if (!SDL_WasInit (SDL_INIT_EVENTTHREAD))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("unable to start SDL event thread, events treated in main thread with poll() functions"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to start SDL event thread, events treated in main thread with poll() functions"));
 	    }
 
 	  /*
 	     sdl_ok = sdl_ok && (SDL_WasInit (SDL_INIT_TIMER)
 	     || !SDL_InitSubSystem (SDL_INIT_TIMER));
 	   */
-	  sdl_ok = sdl_ok && (SDL_WasInit (SDL_INIT_VIDEO)
-			      || !SDL_InitSubSystem (SDL_INIT_VIDEO));
+	  sdl_ok = sdl_ok && (SDL_WasInit (SDL_INIT_VIDEO) || !SDL_InitSubSystem (SDL_INIT_VIDEO));
 
 	  if (sdl_ok)
 	    {
@@ -301,8 +255,7 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-			  _("SDL init error: \"%s\""), SDL_GetError ());
+	      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("SDL init error: \"%s\""), SDL_GetError ());
 	      _mod_gl1_quit (gl1_context);
 	      gl1_context = NULL;
 	    }
@@ -312,8 +265,7 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
 	      /*
 	       * Icon must be set before video mode is set
 	       */
-	      gl1_context->utils_context.bitmap_hash =
-		mod_gl1_utils_bitmap_hash_init ();
+	      gl1_context->utils_context.bitmap_hash = mod_gl1_utils_bitmap_hash_init ();
 	      mod_gl1_utils_icon_set (&(gl1_context->utils_context));
 	      SDL_EnableUNICODE (1);
 	    }
@@ -323,14 +275,11 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
 	      ttf_ok = (TTF_Init () != -1);
 	      if (ttf_ok)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			      _x_ ("SDL_ttf Init"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL_ttf Init"));
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-			      _("SDL_ttf init error: \"%s\""),
-			      TTF_GetError ());
+		  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("SDL_ttf init error: \"%s\""), TTF_GetError ());
 		  _mod_gl1_quit (gl1_context);
 		  gl1_context = NULL;
 		}
@@ -338,77 +287,45 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
 
 	  if (gl1_context && sdl_ok && ttf_ok)
 	    {
-	      lw6gui_input_init (&
-				 (gl1_context->utils_context.
-				  sdl_context.input));
+	      lw6gui_input_init (&(gl1_context->utils_context.sdl_context.input));
 	      mod_gl1_utils_show_mouse (&(gl1_context->utils_context), 0, 1);
-	      mod_gl1_utils_set_resize_callback (&
-						 (gl1_context->utils_context),
-						 resize_callback);
-	      if (mod_gl1_utils_load_consts (&(gl1_context->utils_context))
-		  &&
-		  _lw6gfx_sdl_load_consts (&
-					   (gl1_context->
-					    utils_context.sdl_context)))
+	      mod_gl1_utils_set_resize_callback (&(gl1_context->utils_context), resize_callback);
+	      if (mod_gl1_utils_load_consts (&(gl1_context->utils_context)) && _lw6gfx_sdl_load_consts (&(gl1_context->utils_context.sdl_context)))
 		{
-		  if (mod_gl1_utils_set_video_mode
-		      (&(gl1_context->utils_context), video_mode))
+		  if (mod_gl1_utils_set_video_mode (&(gl1_context->utils_context), video_mode))
 		    {
-		      if (mod_gl1_utils_load_data
-			  (&(gl1_context->utils_context)))
+		      if (mod_gl1_utils_load_data (&(gl1_context->utils_context)))
 			{
 			  memset (&map_style, 0, sizeof (lw6map_style_t));
 			  lw6map_style_defaults (sys_context, &map_style);
-			  gl1_context->splash_context =
-			    mod_gl1_splash_init (&
-						 (gl1_context->utils_context));
+			  gl1_context->splash_context = mod_gl1_splash_init (&(gl1_context->utils_context));
 			  splash_ok = (gl1_context->splash_context != NULL);
-			  background_ok =
-			    _mod_gl1_set_background_backend (gl1_context,
-							     map_style.
-							     background_style);
-			  hud_ok =
-			    _mod_gl1_set_hud_backend (gl1_context,
-						      map_style.hud_style);
-			  menu_ok =
-			    _mod_gl1_set_menu_backend (gl1_context,
-						       map_style.menu_style);
-			  view_ok =
-			    _mod_gl1_set_view_backend (gl1_context,
-						       map_style.view_style);
-			  mod_gl1_utils_update_team_color_map (&
-							       (gl1_context->
-								utils_context.
-								team_color_map),
-							       &map_style);
-			  mod_gl1_utils_smoothers_init (&
-							(gl1_context->
-							 utils_context));
-			  mod_gl1_utils_timer_set_bitmap_refresh (&
-								  (gl1_context->
-								   utils_context));
+			  background_ok = _mod_gl1_set_background_backend (gl1_context, map_style.background_style);
+			  hud_ok = _mod_gl1_set_hud_backend (gl1_context, map_style.hud_style);
+			  menu_ok = _mod_gl1_set_menu_backend (gl1_context, map_style.menu_style);
+			  view_ok = _mod_gl1_set_view_backend (gl1_context, map_style.view_style);
+			  mod_gl1_utils_update_team_color_map (&(gl1_context->utils_context.team_color_map), &map_style);
+			  mod_gl1_utils_smoothers_init (&(gl1_context->utils_context));
+			  mod_gl1_utils_timer_set_bitmap_refresh (&(gl1_context->utils_context));
 			  lw6map_style_clear (sys_context, &map_style);
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-				      _("unable to load data"));
+			  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to load data"));
 			  _mod_gl1_quit (gl1_context);
 			  gl1_context = NULL;
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-				  _("unable to set video mode"));
+		      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to set video mode"));
 		      _mod_gl1_quit (gl1_context);
 		      gl1_context = NULL;
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-			      _("unable to load consts"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to load consts"));
 		  _mod_gl1_quit (gl1_context);
 		  gl1_context = NULL;
 		}
@@ -416,25 +333,18 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
 
 	  if (gl1_context)
 	    {
-	      gl1_context->utils_context.joysticks_info.supported =
-		SDL_WasInit (SDL_INIT_JOYSTICK)
-		|| !SDL_InitSubSystem (SDL_INIT_JOYSTICK);
+	      gl1_context->utils_context.joysticks_info.supported = SDL_WasInit (SDL_INIT_JOYSTICK) || !SDL_InitSubSystem (SDL_INIT_JOYSTICK);
 	      if (gl1_context->utils_context.joysticks_info.supported)
 		{
-		  mod_gl1_utils_joystick_init (&
-					       (gl1_context->
-						utils_context.joysticks_info));
+		  mod_gl1_utils_joystick_init (&(gl1_context->utils_context.joysticks_info));
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			      _x_ ("no joystick support"));
+		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("no joystick support"));
 		}
 	    }
 
-	  if (gl1_context
-	      && !(splash_ok && background_ok && hud_ok && menu_ok
-		   && view_ok))
+	  if (gl1_context && !(splash_ok && background_ok && hud_ok && menu_ok && view_ok))
 	    {
 	      _mod_gl1_quit (gl1_context);
 	      gl1_context = NULL;
@@ -468,15 +378,12 @@ _mod_gl1_quit (_mod_gl1_context_t * gl1_context)
 
   if (gl1_context->utils_context.joysticks_info.supported)
     {
-      mod_gl1_utils_joystick_quit (&
-				   (gl1_context->
-				    utils_context.joysticks_info));
+      mod_gl1_utils_joystick_quit (&(gl1_context->utils_context.joysticks_info));
     }
 
   if (gl1_context->splash_context)
     {
-      mod_gl1_splash_quit (&(gl1_context->utils_context),
-			   gl1_context->splash_context);
+      mod_gl1_splash_quit (&(gl1_context->utils_context), gl1_context->splash_context);
     }
   _mod_gl1_clear_background_backend (gl1_context);
   _mod_gl1_clear_hud_backend (gl1_context);
@@ -513,24 +420,20 @@ _mod_gl1_quit (_mod_gl1_context_t * gl1_context)
       gl1_context->utils_context.bitmap_hash = NULL;
     }
 
-  if (gl1_context->utils_context.surface_counter.new_counter !=
-      gl1_context->utils_context.surface_counter.delete_counter)
+  if (gl1_context->utils_context.surface_counter.new_counter != gl1_context->utils_context.surface_counter.delete_counter)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("possible memory leak, %d calls to SDL_CreateSurface, IMG_Load or TTF_RenderUTF8, and %d calls to SDL_FreeSurface"),
-		  gl1_context->utils_context.surface_counter.new_counter,
-		  gl1_context->utils_context.surface_counter.delete_counter);
+		  gl1_context->utils_context.surface_counter.new_counter, gl1_context->utils_context.surface_counter.delete_counter);
     }
 
-  if (gl1_context->utils_context.texture_counter.new_counter !=
-      gl1_context->utils_context.texture_counter.delete_counter)
+  if (gl1_context->utils_context.texture_counter.new_counter != gl1_context->utils_context.texture_counter.delete_counter)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_
 		  ("possible memory leak, %d calls to glGenTexture and %d calls to glDeleteTextures"),
-		  gl1_context->utils_context.texture_counter.new_counter,
-		  gl1_context->utils_context.texture_counter.delete_counter);
+		  gl1_context->utils_context.texture_counter.new_counter, gl1_context->utils_context.texture_counter.delete_counter);
     }
 
   _lw6gfx_sdl_unbind_funcs (&(gl1_context->utils_context.sdl_context.funcs));

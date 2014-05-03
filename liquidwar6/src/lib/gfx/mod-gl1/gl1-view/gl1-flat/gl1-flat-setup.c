@@ -40,9 +40,7 @@ _mod_gl1_view_flat_init (mod_gl1_utils_context_t * utils_context)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("init view/flat"));
 
-  flat_context =
-    (_mod_gl1_view_flat_context_t *)
-    LW6SYS_CALLOC (sizeof (_mod_gl1_view_flat_context_t));
+  flat_context = (_mod_gl1_view_flat_context_t *) LW6SYS_CALLOC (sizeof (_mod_gl1_view_flat_context_t));
 
   if (flat_context)
     {
@@ -55,8 +53,7 @@ _mod_gl1_view_flat_init (mod_gl1_utils_context_t * utils_context)
 
   if (!flat_context)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to init flat_context"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to init flat_context"));
     }
 
   return flat_context;
@@ -72,23 +69,18 @@ mod_gl1_view_flat_init (mod_gl1_utils_context_t * utils_context)
  * Ends-up all SDL stuff.
  */
 void
-_mod_gl1_view_flat_quit (mod_gl1_utils_context_t * utils_context,
-			 _mod_gl1_view_flat_context_t * flat_context)
+_mod_gl1_view_flat_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("quit view/flat"));
 
-  _mod_gl1_view_flat_game_context_clear (utils_context, flat_context,
-					 &(flat_context->game_context));
-  _mod_gl1_view_flat_cursors_context_clear (utils_context,
-					    &(flat_context->cursors_context));
+  _mod_gl1_view_flat_game_context_clear (utils_context, flat_context, &(flat_context->game_context));
+  _mod_gl1_view_flat_cursors_context_clear (utils_context, &(flat_context->cursors_context));
 
   LW6SYS_FREE (sys_context, flat_context);
 }
 
 void
-mod_gl1_view_flat_quit (mod_gl1_utils_context_t * utils_context,
-			void *flat_context)
+mod_gl1_view_flat_quit (mod_gl1_utils_context_t * utils_context, void *flat_context)
 {
-  _mod_gl1_view_flat_quit (utils_context,
-			   (_mod_gl1_view_flat_context_t *) flat_context);
+  _mod_gl1_view_flat_quit (utils_context, (_mod_gl1_view_flat_context_t *) flat_context);
 }

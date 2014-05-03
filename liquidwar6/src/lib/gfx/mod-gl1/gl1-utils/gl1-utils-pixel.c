@@ -79,8 +79,7 @@ mod_gl1_utils_putpixel (SDL_Surface * surface, int x, int y, Uint32 pixel)
 {
   int bytes_per_pixel = surface->format->BytesPerPixel;
   /* Here p is the address to the pixel we want to set */
-  Uint8 *p =
-    (Uint8 *) surface->pixels + y * surface->pitch + x * bytes_per_pixel;
+  Uint8 *p = (Uint8 *) surface->pixels + y * surface->pitch + x * bytes_per_pixel;
 
   switch (bytes_per_pixel)
     {

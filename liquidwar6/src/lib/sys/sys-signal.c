@@ -50,8 +50,7 @@ static lw6sys_context_t *_signal_context = NULL;
 void
 lw6sys_signal_custom (lw6sys_context_t * sys_context, int trap_errors)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("setting custom SIGTERM, SIGINT, SIGHUP handlers"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("setting custom SIGTERM, SIGINT, SIGHUP handlers"));
   _signal_context = sys_context;
 #ifdef SIGTERM
   if (signal (SIGTERM, lw6sys_signal_term_handler) == SIG_IGN)
@@ -100,9 +99,7 @@ lw6sys_signal_custom (lw6sys_context_t * sys_context, int trap_errors)
 void
 lw6sys_signal_default (lw6sys_context_t * sys_context)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_
-	      ("setting default SIGTERM, SIGINT, SIGHUP, SIGSEGV, SIGFPE handlers"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("setting default SIGTERM, SIGINT, SIGHUP, SIGSEGV, SIGFPE handlers"));
   _signal_context = NULL;
 #ifdef SIGTERM
   if (signal (SIGTERM, SIG_DFL) == SIG_IGN)
@@ -201,12 +198,10 @@ lw6sys_signal_hup_handler (int signum)
 
   if (sys_context)
     {
-      uptime =
-	lw6sys_readable_uptime (sys_context, lw6sys_get_uptime (sys_context));
+      uptime = lw6sys_readable_uptime (sys_context, lw6sys_get_uptime (sys_context));
       if (uptime)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		      _x_ ("caught SIGHUP, uptime=\"%s\""), uptime);
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("caught SIGHUP, uptime=\"%s\""), uptime);
 	  LW6SYS_FREE (sys_context, uptime);
 	}
       else
@@ -254,8 +249,7 @@ lw6sys_signal_segv_handler (int signum)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		      _x_ ("Testing segmentation fault handler"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _x_ ("Testing segmentation fault handler"));
 	}
     }
 #endif
@@ -294,14 +288,12 @@ lw6sys_signal_fpe_handler (int signum)
 	    {
 	      signal (SIGFPE, SIG_IGN);
 	    }
-	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		      _("Floating point exception"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("Floating point exception"));
 	  exit (LW6SYS_EXIT_ERROR);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		      _x_ ("Testing floating point exception handler"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _x_ ("Testing floating point exception handler"));
 	}
     }
 #endif

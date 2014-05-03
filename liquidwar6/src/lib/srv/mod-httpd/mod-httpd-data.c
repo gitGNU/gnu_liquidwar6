@@ -37,8 +37,7 @@
 #define _FAVICON_ICO_FILE "favicon.ico"
 
 static void
-_read_callback (void *callback_data, const char *element, const char *key,
-		const char *value)
+_read_callback (void *callback_data, const char *element, const char *key, const char *value)
 {
   _mod_httpd_consts_t *consts;
 
@@ -46,46 +45,31 @@ _read_callback (void *callback_data, const char *element, const char *key,
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "error-timeout",
-			   &(consts->error_timeout));
-      lw6cfg_read_xml_int (key, value, "ping-alter-base",
-			   &(consts->ping_alter_base));
-      lw6cfg_read_xml_int (key, value, "ping-alter-percent",
-			   &(consts->ping_alter_percent));
+      lw6cfg_read_xml_int (key, value, "error-timeout", &(consts->error_timeout));
+      lw6cfg_read_xml_int (key, value, "ping-alter-base", &(consts->ping_alter_base));
+      lw6cfg_read_xml_int (key, value, "ping-alter-percent", &(consts->ping_alter_percent));
       lw6cfg_read_xml_int (key, value, "max-age", &(consts->max_age));
       lw6cfg_read_xml_int (key, value, "in-the-past", &(consts->in_the_past));
-      lw6cfg_read_xml_int (key, value, "refresh-index-header",
-			   &(consts->refresh_index_header));
-      lw6cfg_read_xml_int (key, value, "refresh-screenshot-header",
-			   &(consts->refresh_screenshot_header));
-      lw6cfg_read_xml_int (key, value, "refresh-index-js",
-			   &(consts->refresh_index_js));
-      lw6cfg_read_xml_int (key, value, "refresh-screenshot-js",
-			   &(consts->refresh_screenshot_js));
+      lw6cfg_read_xml_int (key, value, "refresh-index-header", &(consts->refresh_index_header));
+      lw6cfg_read_xml_int (key, value, "refresh-screenshot-header", &(consts->refresh_screenshot_header));
+      lw6cfg_read_xml_int (key, value, "refresh-index-js", &(consts->refresh_index_js));
+      lw6cfg_read_xml_int (key, value, "refresh-screenshot-js", &(consts->refresh_screenshot_js));
     }
   if (!strcmp (element, "string"))
     {
-      lw6cfg_read_xml_string (key, value, "http-version",
-			      &(consts->http_version));
-      lw6cfg_read_xml_string (key, value, "header-description",
-			      &(consts->header_description));
-      lw6cfg_read_xml_string (key, value, "header-keywords",
-			      &(consts->header_keywords));
-      lw6cfg_read_xml_string (key, value, "content-type-html",
-			      &(consts->content_type_html));
-      lw6cfg_read_xml_string (key, value, "content-type-txt",
-			      &(consts->content_type_txt));
-      lw6cfg_read_xml_string (key, value, "content-type-jpeg",
-			      &(consts->content_type_jpeg));
-      lw6cfg_read_xml_string (key, value, "content-type-ico",
-			      &(consts->content_type_ico));
+      lw6cfg_read_xml_string (key, value, "http-version", &(consts->http_version));
+      lw6cfg_read_xml_string (key, value, "header-description", &(consts->header_description));
+      lw6cfg_read_xml_string (key, value, "header-keywords", &(consts->header_keywords));
+      lw6cfg_read_xml_string (key, value, "content-type-html", &(consts->content_type_html));
+      lw6cfg_read_xml_string (key, value, "content-type-txt", &(consts->content_type_txt));
+      lw6cfg_read_xml_string (key, value, "content-type-jpeg", &(consts->content_type_jpeg));
+      lw6cfg_read_xml_string (key, value, "content-type-ico", &(consts->content_type_ico));
       lw6cfg_read_xml_string (key, value, "error-401", &(consts->error_401));
       lw6cfg_read_xml_string (key, value, "error-403", &(consts->error_403));
       lw6cfg_read_xml_string (key, value, "error-404", &(consts->error_404));
       lw6cfg_read_xml_string (key, value, "error-405", &(consts->error_405));
       lw6cfg_read_xml_string (key, value, "error-500", &(consts->error_500));
-      lw6cfg_read_xml_string (key, value, "auth-realm",
-			      &(consts->auth_realm));
+      lw6cfg_read_xml_string (key, value, "auth-realm", &(consts->auth_realm));
     }
 }
 
@@ -94,20 +78,16 @@ _load_consts (_mod_httpd_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""),
-	      consts_file);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), consts_file);
 
-  ret =
-    lw6cfg_read_key_value_xml_file (consts_file, _read_callback,
-				    (void *) consts);
+  ret = lw6cfg_read_key_value_xml_file (consts_file, _read_callback, (void *) consts);
   if (ret)
     {
       ret = consts->http_version && consts->header_description
 	&& consts->header_keywords && consts->content_type_html
 	&& consts->content_type_txt && consts->content_type_jpeg
 	&& consts->content_type_ico && consts->error_401 && consts->error_403
-	&& consts->error_404 && consts->error_405 && consts->error_500
-	&& consts->auth_realm;
+	&& consts->error_404 && consts->error_405 && consts->error_500 && consts->auth_realm;
     }
 
   return ret;
@@ -119,8 +99,7 @@ _load_htdocs (_mod_httpd_htdocs_t * htdocs, const char *htdocs_dir)
   int ret = 1;
   char *filename = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("loading htdocs from \"%s\""), htdocs_dir);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading htdocs from \"%s\""), htdocs_dir);
 
   filename = lw6sys_path_concat (htdocs_dir, _INDEX_HTML_FILE);
   if (filename)
@@ -149,14 +128,11 @@ _load_htdocs (_mod_httpd_htdocs_t * htdocs, const char *htdocs_dir)
   filename = lw6sys_path_concat (htdocs_dir, _FAVICON_ICO_FILE);
   if (filename)
     {
-      htdocs->favicon_ico_data =
-	lw6sys_read_file_content_bin (sys_context,
-				      &(htdocs->favicon_ico_size), filename);
+      htdocs->favicon_ico_data = lw6sys_read_file_content_bin (sys_context, &(htdocs->favicon_ico_size), filename);
       LW6SYS_FREE (sys_context, filename);
     }
 
-  ret = htdocs->index_html && htdocs->error_html && htdocs->robots_txt
-    && htdocs->gpl_txt && htdocs->favicon_ico_data;
+  ret = htdocs->index_html && htdocs->error_html && htdocs->robots_txt && htdocs->gpl_txt && htdocs->favicon_ico_data;
 
   return ret;
 }
@@ -172,14 +148,11 @@ _mod_httpd_load_data (_mod_httpd_data_t * httpd_data, const char *data_dir)
   httpd_subdir = lw6sys_path_concat (sys_context, data_dir, _HTTPD_SUBDIR);
   if (httpd_subdir)
     {
-      consts_file =
-	lw6sys_path_concat (sys_context, httpd_subdir, _CONSTS_FILE);
-      htdocs_dir =
-	lw6sys_path_concat (sys_context, httpd_subdir, _HTDOCS_DIR);
+      consts_file = lw6sys_path_concat (sys_context, httpd_subdir, _CONSTS_FILE);
+      htdocs_dir = lw6sys_path_concat (sys_context, httpd_subdir, _HTDOCS_DIR);
       if (consts_file && htdocs_dir)
 	{
-	  ret = _load_consts (&(httpd_data->consts), consts_file)
-	    && _load_htdocs (&(httpd_data->htdocs), htdocs_dir);
+	  ret = _load_consts (&(httpd_data->consts), consts_file) && _load_htdocs (&(httpd_data->htdocs), htdocs_dir);
 	}
       if (consts_file)
 	{

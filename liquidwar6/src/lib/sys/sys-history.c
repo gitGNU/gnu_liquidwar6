@@ -91,8 +91,7 @@ lw6sys_history_register (lw6sys_context_t * sys_context, char *msg)
     {
       for (i = 0; i < _HISTORY_MESSAGE_DOTS; ++i)
 	{
-	  _history.messages[current].content[_HISTORY_MESSAGE_LENGTH - 1 -
-					     i] = '.';
+	  _history.messages[current].content[_HISTORY_MESSAGE_LENGTH - 1 - i] = '.';
 	}
     }
   current++;
@@ -129,9 +128,7 @@ lw6sys_history_get (lw6sys_context_t * sys_context, int64_t timeout)
     {
       current = 0;
     }
-  ret =
-    (char **) LW6SYS_CALLOC (sys_context,
-			     (_HISTORY_NB_MESSAGES + 1) * sizeof (char *));
+  ret = (char **) LW6SYS_CALLOC (sys_context, (_HISTORY_NB_MESSAGES + 1) * sizeof (char *));
   if (ret)
     {
       for (i = 0, j = current, k = 0; i < _HISTORY_NB_MESSAGES; ++i, ++j)
@@ -140,12 +137,10 @@ lw6sys_history_get (lw6sys_context_t * sys_context, int64_t timeout)
 	    {
 	      j = 0;
 	    }
-	  if (_history.messages[j].timestamp + timeout > timestamp
-	      && _history.messages[j].content[0] != '\0')
+	  if (_history.messages[j].timestamp + timeout > timestamp && _history.messages[j].content[0] != '\0')
 	    {
 	      _history.messages[j].content[_HISTORY_MESSAGE_LENGTH] = '\0';
-	      ret[k] =
-		lw6sys_str_copy (sys_context, _history.messages[j].content);
+	      ret[k] = lw6sys_str_copy (sys_context, _history.messages[j].content);
 	      k++;
 	    }
 	}

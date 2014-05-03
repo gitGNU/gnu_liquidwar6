@@ -76,8 +76,7 @@ _next_dir (int32_t dir)
    * 11 5
    * 13
    */
-  static int corres[LW6KER_NB_DIRS] =
-    { 6 /* 0->6 */ , 7 /* 1->7 */ , 11 /* 2->11 */ , 9 /* 3->9 */ ,
+  static int corres[LW6KER_NB_DIRS] = { 6 /* 0->6 */ , 7 /* 1->7 */ , 11 /* 2->11 */ , 9 /* 3->9 */ ,
     8 /* 4->8 */ , 13 /* 5->13 */ , 3 /* 6->3 */ , 12 /* 7->12 */ ,
     2 /* 8->2 */ , 1 /* 9->1 */ ,
     4 /* 10->4 */ , 5 /* 11->5 */ , 10 /* 12->10 */ , 0	/* 13->0 */
@@ -94,15 +93,13 @@ _lw6ker_spread_next_dir (int32_t dir)
   return _next_dir (dir);
 }
 
-static inline void _do_all_dirs_incr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones)
+static inline void
+_do_all_dirs_incr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones)
 {
   int32_t i, j;
   int32_t zone_id;
   int32_t new_potential;
-  static int dirs[_ALL_DIRS_NB] =
-    { LW6KER_DIR_ENE, LW6KER_DIR_ESE, LW6KER_DIR_SE, LW6KER_DIR_SSE,
+  static int dirs[_ALL_DIRS_NB] = { LW6KER_DIR_ENE, LW6KER_DIR_ESE, LW6KER_DIR_SE, LW6KER_DIR_SSE,
     LW6KER_DIR_SSW, LW6KER_DIR_SW
   };
 
@@ -111,9 +108,7 @@ static inline void _do_all_dirs_incr_xy
       for (j = 0; j < _ALL_DIRS_NB; ++j)
 	{
 	  if (((zone_id = zone_structs[i].link[dirs[j]]) >= 0)
-	      && (zone_states[zone_id].potential
-		  < (new_potential =
-		     zone_states[i].potential - zone_structs[i].size)))
+	      && (zone_states[zone_id].potential < (new_potential = zone_states[i].potential - zone_structs[i].size)))
 	    {
 	      zone_states[zone_id].potential = new_potential;
 	      zone_states[zone_id].direction_to_cursor = -1;
@@ -123,22 +118,18 @@ static inline void _do_all_dirs_incr_xy
 }
 
 void
-  _lw6ker_spread_do_all_dirs_incr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones)
+_lw6ker_spread_do_all_dirs_incr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones)
 {
   return _do_all_dirs_incr_xy (zone_structs, zone_states, nb_zones);
 }
 
-static inline void _do_all_dirs_decr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones)
+static inline void
+_do_all_dirs_decr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones)
 {
   int32_t i, j;
   int32_t zone_id;
   int32_t new_potential;
-  static int dirs[_ALL_DIRS_NB] =
-    { LW6KER_DIR_WSW, LW6KER_DIR_WNW, LW6KER_DIR_NW, LW6KER_DIR_NNW,
+  static int dirs[_ALL_DIRS_NB] = { LW6KER_DIR_WSW, LW6KER_DIR_WNW, LW6KER_DIR_NW, LW6KER_DIR_NNW,
     LW6KER_DIR_NNE, LW6KER_DIR_NE
   };
 
@@ -147,9 +138,7 @@ static inline void _do_all_dirs_decr_xy
       for (j = 0; j < _ALL_DIRS_NB; ++j)
 	{
 	  if (((zone_id = zone_structs[i].link[dirs[j]]) >= 0)
-	      && (zone_states[zone_id].potential
-		  < (new_potential =
-		     zone_states[i].potential - zone_structs[i].size)))
+	      && (zone_states[zone_id].potential < (new_potential = zone_states[i].potential - zone_structs[i].size)))
 	    {
 	      zone_states[zone_id].potential = new_potential;
 	      zone_states[zone_id].direction_to_cursor = -1;
@@ -159,22 +148,18 @@ static inline void _do_all_dirs_decr_xy
 }
 
 void
-  _lw6ker_spread_do_all_dirs_decr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones)
+_lw6ker_spread_do_all_dirs_decr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones)
 {
   return _do_all_dirs_decr_xy (zone_structs, zone_states, nb_zones);
 }
 
-static inline void _do_half_dirs_a_incr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones)
+static inline void
+_do_half_dirs_a_incr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones)
 {
   int32_t i, j;
   int32_t zone_id;
   int32_t new_potential;
-  static int dirs[_HALF_DIRS_A_NB] =
-    { LW6KER_DIR_ENE, LW6KER_DIR_ESE, LW6KER_DIR_SE
+  static int dirs[_HALF_DIRS_A_NB] = { LW6KER_DIR_ENE, LW6KER_DIR_ESE, LW6KER_DIR_SE
   };
 
   for (i = 0; i < nb_zones; ++i)
@@ -182,9 +167,7 @@ static inline void _do_half_dirs_a_incr_xy
       for (j = 0; j < _HALF_DIRS_A_NB; ++j)
 	{
 	  if (((zone_id = zone_structs[i].link[dirs[j]]) >= 0)
-	      && (zone_states[zone_id].potential
-		  < (new_potential =
-		     zone_states[i].potential - zone_structs[i].size)))
+	      && (zone_states[zone_id].potential < (new_potential = zone_states[i].potential - zone_structs[i].size)))
 	    {
 	      zone_states[zone_id].potential = new_potential;
 	      zone_states[zone_id].direction_to_cursor = -1;
@@ -194,16 +177,13 @@ static inline void _do_half_dirs_a_incr_xy
 }
 
 void
-  _lw6ker_spread_do_half_dirs_a_incr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones)
+_lw6ker_spread_do_half_dirs_a_incr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones)
 {
   return _do_half_dirs_a_incr_xy (zone_structs, zone_states, nb_zones);
 }
 
-static inline void _do_half_dirs_b_incr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones)
+static inline void
+_do_half_dirs_b_incr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones)
 {
   int32_t i, j;
   int32_t zone_id;
@@ -217,9 +197,7 @@ static inline void _do_half_dirs_b_incr_xy
       for (j = 0; j < _HALF_DIRS_B_NB; ++j)
 	{
 	  if (((zone_id = zone_structs[i].link[dirs[j]]) >= 0)
-	      && (zone_states[zone_id].potential
-		  < (new_potential =
-		     zone_states[i].potential - zone_structs[i].size)))
+	      && (zone_states[zone_id].potential < (new_potential = zone_states[i].potential - zone_structs[i].size)))
 	    {
 	      zone_states[zone_id].potential = new_potential;
 	      zone_states[zone_id].direction_to_cursor = -1;
@@ -229,22 +207,18 @@ static inline void _do_half_dirs_b_incr_xy
 }
 
 void
-  _lw6ker_spread_do_half_dirs_b_incr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones)
+_lw6ker_spread_do_half_dirs_b_incr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones)
 {
   return _do_half_dirs_b_incr_xy (zone_structs, zone_states, nb_zones);
 }
 
-static inline void _do_half_dirs_a_decr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones)
+static inline void
+_do_half_dirs_a_decr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones)
 {
   int32_t i, j;
   int32_t zone_id;
   int32_t new_potential;
-  static int dirs[_HALF_DIRS_A_NB] =
-    { LW6KER_DIR_WSW, LW6KER_DIR_WNW, LW6KER_DIR_NW
+  static int dirs[_HALF_DIRS_A_NB] = { LW6KER_DIR_WSW, LW6KER_DIR_WNW, LW6KER_DIR_NW
   };
 
   for (i = nb_zones - 1; i >= 0; --i)
@@ -252,9 +226,7 @@ static inline void _do_half_dirs_a_decr_xy
       for (j = 0; j < _HALF_DIRS_A_NB; ++j)
 	{
 	  if (((zone_id = zone_structs[i].link[dirs[j]]) >= 0)
-	      && (zone_states[zone_id].potential
-		  < (new_potential =
-		     zone_states[i].potential - zone_structs[i].size)))
+	      && (zone_states[zone_id].potential < (new_potential = zone_states[i].potential - zone_structs[i].size)))
 	    {
 	      zone_states[zone_id].potential = new_potential;
 	      zone_states[zone_id].direction_to_cursor = -1;
@@ -264,16 +236,13 @@ static inline void _do_half_dirs_a_decr_xy
 }
 
 void
-  _lw6ker_spread_do_half_dirs_a_decr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones)
+_lw6ker_spread_do_half_dirs_a_decr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones)
 {
   return _do_half_dirs_a_decr_xy (zone_structs, zone_states, nb_zones);
 }
 
-static inline void _do_half_dirs_b_decr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones)
+static inline void
+_do_half_dirs_b_decr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones)
 {
   int32_t i, j;
   int32_t zone_id;
@@ -287,9 +256,7 @@ static inline void _do_half_dirs_b_decr_xy
       for (j = 0; j < _HALF_DIRS_B_NB; ++j)
 	{
 	  if (((zone_id = zone_structs[i].link[dirs[j]]) >= 0)
-	      && (zone_states[zone_id].potential
-		  < (new_potential =
-		     zone_states[i].potential - zone_structs[i].size)))
+	      && (zone_states[zone_id].potential < (new_potential = zone_states[i].potential - zone_structs[i].size)))
 	    {
 	      zone_states[zone_id].potential = new_potential;
 	      zone_states[zone_id].direction_to_cursor = -1;
@@ -299,16 +266,13 @@ static inline void _do_half_dirs_b_decr_xy
 }
 
 void
-  _lw6ker_spread_do_half_dirs_b_decr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones)
+_lw6ker_spread_do_half_dirs_b_decr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones)
 {
   return _do_half_dirs_b_decr_xy (zone_structs, zone_states, nb_zones);
 }
 
-static inline void _do_one_dir_incr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+static inline void
+_do_one_dir_incr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
 {
   int32_t i;
   int32_t zone_id;
@@ -316,10 +280,7 @@ static inline void _do_one_dir_incr_xy
 
   for (i = 0; i < nb_zones; ++i)
     {
-      if (((zone_id = zone_structs[i].link[dir]) >= 0)
-	  && (zone_states[zone_id].potential
-	      < (new_potential =
-		 zone_states[i].potential - zone_structs[i].size)))
+      if (((zone_id = zone_structs[i].link[dir]) >= 0) && (zone_states[zone_id].potential < (new_potential = zone_states[i].potential - zone_structs[i].size)))
 	{
 	  zone_states[zone_id].potential = new_potential;
 	  zone_states[zone_id].direction_to_cursor = -1;
@@ -328,16 +289,13 @@ static inline void _do_one_dir_incr_xy
 }
 
 void
-  _lw6ker_spread_do_one_dir_incr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+_lw6ker_spread_do_one_dir_incr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
 {
   return _do_one_dir_incr_xy (zone_structs, zone_states, nb_zones, dir);
 }
 
-static inline void _do_one_dir_incr_z
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+static inline void
+_do_one_dir_incr_z (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
 {
   int32_t i;
   int32_t zone_id;
@@ -345,9 +303,7 @@ static inline void _do_one_dir_incr_z
 
   for (i = 0; i < nb_zones; ++i)
     {
-      if (((zone_id = zone_structs[i].link[dir]) >= 0)
-	  && (zone_states[zone_id].potential
-	      < (new_potential = zone_states[i].potential - 1)))
+      if (((zone_id = zone_structs[i].link[dir]) >= 0) && (zone_states[zone_id].potential < (new_potential = zone_states[i].potential - 1)))
 	{
 	  zone_states[zone_id].potential = new_potential;
 	  zone_states[zone_id].direction_to_cursor = -1;
@@ -356,16 +312,13 @@ static inline void _do_one_dir_incr_z
 }
 
 void
-  _lw6ker_spread_do_one_dir_incr_z
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+_lw6ker_spread_do_one_dir_incr_z (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
 {
   return _do_one_dir_incr_z (zone_structs, zone_states, nb_zones, dir);
 }
 
-static inline void _do_one_dir_decr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+static inline void
+_do_one_dir_decr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
 {
   int32_t i;
   int32_t zone_id;
@@ -373,10 +326,7 @@ static inline void _do_one_dir_decr_xy
 
   for (i = nb_zones - 1; i >= 0; --i)
     {
-      if (((zone_id = zone_structs[i].link[dir]) >= 0)
-	  && (zone_states[zone_id].potential
-	      < (new_potential =
-		 zone_states[i].potential - zone_structs[i].size)))
+      if (((zone_id = zone_structs[i].link[dir]) >= 0) && (zone_states[zone_id].potential < (new_potential = zone_states[i].potential - zone_structs[i].size)))
 	{
 	  zone_states[zone_id].potential = new_potential;
 	  zone_states[zone_id].direction_to_cursor = -1;
@@ -385,16 +335,13 @@ static inline void _do_one_dir_decr_xy
 }
 
 void
-  _lw6ker_spread_do_one_dir_decr_xy
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+_lw6ker_spread_do_one_dir_decr_xy (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
 {
   return _do_one_dir_decr_xy (zone_structs, zone_states, nb_zones, dir);
 }
 
-static inline void _do_one_dir_decr_z
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+static inline void
+_do_one_dir_decr_z (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
 {
   int32_t i;
   int32_t zone_id;
@@ -402,9 +349,7 @@ static inline void _do_one_dir_decr_z
 
   for (i = nb_zones - 1; i >= 0; --i)
     {
-      if (((zone_id = zone_structs[i].link[dir]) >= 0)
-	  && (zone_states[zone_id].potential
-	      < (new_potential = zone_states[i].potential - 1)))
+      if (((zone_id = zone_structs[i].link[dir]) >= 0) && (zone_states[zone_id].potential < (new_potential = zone_states[i].potential - 1)))
 	{
 	  zone_states[zone_id].potential = new_potential;
 	  zone_states[zone_id].direction_to_cursor = -1;
@@ -413,9 +358,7 @@ static inline void _do_one_dir_decr_z
 }
 
 void
-  _lw6ker_spread_do_one_dir_decr_z
-  (_lw6ker_zone_struct_t * zone_structs,
-   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+_lw6ker_spread_do_one_dir_decr_z (_lw6ker_zone_struct_t * zone_structs, _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
 {
   return _do_one_dir_decr_z (zone_structs, zone_states, nb_zones, dir);
 }
@@ -424,9 +367,7 @@ void
  * Highest potential = closest to the cursor
  */
 void
-_lw6ker_spread_update_gradient (lw6sys_context_t * sys_context,
-				_lw6ker_team_t * team, int skip_vertical,
-				int spread_mode)
+_lw6ker_spread_update_gradient (lw6sys_context_t * sys_context, _lw6ker_team_t * team, int skip_vertical, int spread_mode)
 {
   int32_t nb_zones;
   _lw6ker_zone_struct_t *zone_structs;
@@ -440,8 +381,7 @@ _lw6ker_spread_update_gradient (lw6sys_context_t * sys_context,
   team->last_spread_dir = _CALL_NEXT_DIR (team->last_spread_dir);
   if (skip_vertical)
     {
-      while (team->last_spread_dir == LW6KER_DIR_UP
-	     || team->last_spread_dir == LW6KER_DIR_DOWN)
+      while (team->last_spread_dir == LW6KER_DIR_UP || team->last_spread_dir == LW6KER_DIR_DOWN)
 	{
 	  team->last_spread_dir = _CALL_NEXT_DIR (team->last_spread_dir);
 	}
@@ -465,8 +405,7 @@ _lw6ker_spread_update_gradient (lw6sys_context_t * sys_context,
 	  _CALL_DO_ALL_DIRS_INCR_XY (zone_structs, zone_states, nb_zones);
 	  break;
 	default:
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("bad spread_mode=%d"), spread_mode);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad spread_mode=%d"), spread_mode);
 	  break;
 	}
       break;
@@ -485,8 +424,7 @@ _lw6ker_spread_update_gradient (lw6sys_context_t * sys_context,
 	  _CALL_DO_ALL_DIRS_INCR_XY (zone_structs, zone_states, nb_zones);
 	  break;
 	default:
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("bad spread_mode=%d"), spread_mode);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad spread_mode=%d"), spread_mode);
 	  break;
 	}
       break;
@@ -508,8 +446,7 @@ _lw6ker_spread_update_gradient (lw6sys_context_t * sys_context,
 	  _CALL_DO_ALL_DIRS_DECR_XY (zone_structs, zone_states, nb_zones);
 	  break;
 	default:
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("bad spread_mode=%d"), spread_mode);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad spread_mode=%d"), spread_mode);
 	  break;
 	}
       break;
@@ -528,8 +465,7 @@ _lw6ker_spread_update_gradient (lw6sys_context_t * sys_context,
 	  _CALL_DO_ALL_DIRS_DECR_XY (zone_structs, zone_states, nb_zones);
 	  break;
 	default:
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("bad spread_mode=%d"), spread_mode);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad spread_mode=%d"), spread_mode);
 	  break;
 	}
       break;
@@ -537,8 +473,7 @@ _lw6ker_spread_update_gradient (lw6sys_context_t * sys_context,
       _CALL_DO_ONE_DIR_DECR_Z (zone_structs, zone_states, nb_zones, dir);
       break;
     default:
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to spread gradient, incorrect dir=%d"), dir);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to spread gradient, incorrect dir=%d"), dir);
       break;
     }
 }

@@ -640,17 +640,12 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID);
-  lw6sys_list_push_back (list,
-			 LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID);
-  lw6sys_list_push_back (list,
-			 LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID);
-  lw6sys_list_push_back (list,
-			 LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID);
-  lw6sys_list_push_back (list,
-			 LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID);
-  lw6sys_list_push_back (list,
-			 LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_RED_WEAPON_MODE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_GREEN_WEAPON_MODE);
@@ -1184,8 +1179,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_FIX_COORDS_X10);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_EXECUTE_COMMAND);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN);
-  lw6sys_list_push_back (list,
-			 LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MOUSE_CONTROLLED);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MOUSE_CONTROLLED);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_MAKE_BACKUP);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SYNC_FROM_BACKUP);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SYNC_FROM_REFERENCE);
@@ -1210,8 +1204,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SUITE_INIT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SUITE_GET_SEQ_0);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SUITE_GET_NODE_ID);
-  lw6sys_list_push_back (list,
-			 LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_NODE_INDEX);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_NODE_INDEX);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_STAGE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SUITE_GET_CHECKPOINT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SND_GET_BACKENDS);
@@ -1566,15 +1559,12 @@ lw6hlp_list ()
 	&& update_map (&list) && update_map_rules (&list)
 	&& update_map_hints (&list) && update_map_style (&list)
 	&& update_map_teams (&list) && update_funcs (&list)
-	&& update_hooks (&list) && update_advanced (&list)
-	&& update_aliases (&list) && update_team_colors (&list)
-	&& update_weapons (&list);
+	&& update_hooks (&list) && update_advanced (&list) && update_aliases (&list) && update_team_colors (&list) && update_weapons (&list);
     }
 
   if (!ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("problem generating help keywords list"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("problem generating help keywords list"));
       if (list)
 	{
 	  lw6sys_list_free (list);

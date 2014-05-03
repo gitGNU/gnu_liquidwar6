@@ -46,8 +46,7 @@ lw6ldr_param_read (lw6map_param_t * param, const char *dirname)
 {
   int ret = 0;
 
-  ret = lw6ldr_rules_read (&(param->rules), dirname) &&
-    lw6ldr_style_read (&(param->style), dirname);
+  ret = lw6ldr_rules_read (&(param->rules), dirname) && lw6ldr_style_read (&(param->style), dirname);
 
   return ret;
 }

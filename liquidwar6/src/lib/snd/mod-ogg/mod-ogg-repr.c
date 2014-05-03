@@ -38,9 +38,7 @@ _mod_ogg_repr (_mod_ogg_context_t * ogg_context, u_int32_t id)
   ret =
     lw6sys_new_sprintf (_x_
 			("%u ogg SDL version %u.%u.%u volume %0.1f-%0.1f-%0.1f"),
-			id, version.major, version.minor, version.patch,
-			ogg_context->volume.fx, ogg_context->volume.water,
-			ogg_context->volume.music);
+			id, version.major, version.minor, version.patch, ogg_context->volume.fx, ogg_context->volume.water, ogg_context->volume.music);
 
   return ret;
 }

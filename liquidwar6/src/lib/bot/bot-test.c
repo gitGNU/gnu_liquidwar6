@@ -56,28 +56,20 @@ typedef struct _lw6bot_test_data_s
 static _lw6bot_test_data_t _test_data = { 0, NULL };
 
 static int
-new_data (lw6map_level_t ** level,
-	  lw6ker_game_struct_t ** game_struct,
-	  lw6ker_game_state_t ** game_state)
+new_data (lw6map_level_t ** level, lw6ker_game_struct_t ** game_struct, lw6ker_game_state_t ** game_state)
 {
   int ret = 0;
 
-  *level =
-    lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT,
-			   _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
+  *level = lw6map_builtin_custom (sys_context, _TEST_MAP_WIDTH, _TEST_MAP_HEIGHT, _TEST_MAP_NB_LAYERS, _TEST_MAP_NOISE_PERCENT);
   *game_struct = lw6ker_game_struct_new (sys_context, *level, NULL);
   *game_state = lw6ker_game_state_new (sys_context, *game_struct, NULL);
 
   if (*game_state)
     {
-      lw6ker_game_state_register_node (sys_context, *game_state,
-				       _TEST_NODE_ID);
-      lw6ker_game_state_add_cursor (sys_context, *game_state, _TEST_NODE_ID,
-				    _TEST_CURSOR_ID1, _TEST_CURSOR_COLOR1);
-      lw6ker_game_state_add_cursor (sys_context, *game_state, _TEST_NODE_ID,
-				    _TEST_CURSOR_ID2, _TEST_CURSOR_COLOR2);
-      lw6ker_game_state_add_cursor (sys_context, *game_state, _TEST_NODE_ID,
-				    _TEST_CURSOR_ID3, _TEST_CURSOR_COLOR3);
+      lw6ker_game_state_register_node (sys_context, *game_state, _TEST_NODE_ID);
+      lw6ker_game_state_add_cursor (sys_context, *game_state, _TEST_NODE_ID, _TEST_CURSOR_ID1, _TEST_CURSOR_COLOR1);
+      lw6ker_game_state_add_cursor (sys_context, *game_state, _TEST_NODE_ID, _TEST_CURSOR_ID2, _TEST_CURSOR_COLOR2);
+      lw6ker_game_state_add_cursor (sys_context, *game_state, _TEST_NODE_ID, _TEST_CURSOR_ID3, _TEST_CURSOR_COLOR3);
     }
 
   ret = (*level && *game_struct && *game_state);
@@ -86,9 +78,7 @@ new_data (lw6map_level_t ** level,
 }
 
 static void
-free_data (lw6map_level_t * level,
-	   lw6ker_game_struct_t * game_struct,
-	   lw6ker_game_state_t * game_state)
+free_data (lw6map_level_t * level, lw6ker_game_struct_t * game_struct, lw6ker_game_state_t * game_state)
 {
   lw6ker_game_state_free (sys_context, game_state);
   lw6ker_game_struct_free (sys_context, game_struct);
@@ -124,14 +114,10 @@ _test_backend ()
       bot_seed.dirty_read = LW6PIL_DIRTY_READ_NEVER;
       if (lw6bot_init (backend, &bot_seed))
 	{
-	  while (lw6ker_game_state_get_rounds (sys_context, game_state) <
-		 _TEST_NB_ROUNDS)
+	  while (lw6ker_game_state_get_rounds (sys_context, game_state) < _TEST_NB_ROUNDS)
 	    {
 	      lw6bot_next_move (backend, &x, &y);
-	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			  _x_ ("round %d moved to %d,%d"),
-			  lw6ker_game_state_get_rounds (sys_context,
-							game_state), x, y);
+	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("round %d moved to %d,%d"), lw6ker_game_state_get_rounds (sys_context, game_state), x, y);
 	      lw6ker_cursor_reset (sys_context, &cursor);
 	      cursor.node_id = _TEST_NODE_ID;
 	      cursor.cursor_id = _TEST_CURSOR_ID3;
@@ -146,8 +132,7 @@ _test_backend ()
 	  repr = lw6bot_repr (backend);
 	  if (repr)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-			  _x_ ("bot repr is \"%s\""), repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("bot repr is \"%s\""), repr);
 	      LW6SYS_FREE (sys_context, repr);
 	    }
 	  capture_str = lw6ker_capture_str (sys_context, game_state);
@@ -175,8 +160,7 @@ _setup_init_brute ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libbot-brute CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libbot-brute CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6bot_create_backend (argc, argv, "brute");
@@ -194,8 +178,7 @@ _setup_quit_brute ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libbot-brute CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libbot-brute CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -214,8 +197,7 @@ _setup_init_follow ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libbot-follow CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libbot-follow CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6bot_create_backend (argc, argv, "follow");
@@ -233,8 +215,7 @@ _setup_quit_follow ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libbot-follow CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libbot-follow CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -253,8 +234,7 @@ _setup_init_idiot ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libbot-idiot CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libbot-idiot CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6bot_create_backend (argc, argv, "idiot");
@@ -272,8 +252,7 @@ _setup_quit_idiot ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libbot-idiot CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libbot-idiot CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -292,8 +271,7 @@ _setup_init_random ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("init libbot-random CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libbot-random CUnit test suite"));
   if (_test_data.backend == NULL)
     {
       _test_data.backend = lw6bot_create_backend (argc, argv, "random");
@@ -311,8 +289,7 @@ _setup_quit_random ()
 {
   int ret = CUE_SCLEAN_FAILED;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-	      _x_ ("quit libbot-random CUnit test suite"));
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libbot-random CUnit test suite"));
 
   if (_test_data.backend)
     {
@@ -361,23 +338,18 @@ lw6bot_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 
-  suite =
-    CU_add_suite ("lw6bot-follow", _setup_init_follow, _setup_quit_follow);
+  suite = CU_add_suite ("lw6bot-follow", _setup_init_follow, _setup_quit_follow);
   if (suite)
     {
       LW6SYS_CUNIT_ADD_TEST (suite, _test_backend);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 
@@ -388,23 +360,18 @@ lw6bot_test_register (int mode)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 
-  suite =
-    CU_add_suite ("lw6bot-random", _setup_init_random, _setup_quit_random);
+  suite = CU_add_suite ("lw6bot-random", _setup_init_random, _setup_quit_random);
   if (suite)
     {
       LW6SYS_CUNIT_ADD_TEST (suite, _test_backend);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to add CUnit test suite, error msg is \"%s\""),
-		  CU_get_error_msg ());
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to add CUnit test suite, error msg is \"%s\""), CU_get_error_msg ());
       ret = 0;
     }
 

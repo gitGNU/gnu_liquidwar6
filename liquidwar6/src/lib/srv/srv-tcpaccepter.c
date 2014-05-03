@@ -42,8 +42,7 @@ lw6srv_tcp_accepter_new (char *client_ip, int client_port, int sock)
 {
   lw6srv_tcp_accepter_t *ret = NULL;
 
-  ret =
-    (lw6srv_tcp_accepter_t *) LW6SYS_CALLOC (sizeof (lw6srv_tcp_accepter_t));
+  ret = (lw6srv_tcp_accepter_t *) LW6SYS_CALLOC (sizeof (lw6srv_tcp_accepter_t));
   if (ret)
     {
       ret->client_id.client_ip = client_ip;	// we'll destroy this ourselves

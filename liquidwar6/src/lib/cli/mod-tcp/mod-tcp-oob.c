@@ -28,9 +28,7 @@
 #include "mod-tcp-internal.h"
 
 static int
-_do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
-	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
-	  char *ip)
+_do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url, char *ip)
 {
   int ret = 0;
   int sock = LW6NET_SOCKET_INVALID;
@@ -38,55 +36,37 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
   char *response = NULL;
   char *given_url = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("connecting in TCP on %s:%d"), ip, parsed_url->port);
-  sock =
-    lw6net_tcp_connect (ip, parsed_url->port,
-			tcp_context->data.consts.connect_timeout * 1000);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("connecting in TCP on %s:%d"), ip, parsed_url->port);
+  sock = lw6net_tcp_connect (ip, parsed_url->port, tcp_context->data.consts.connect_timeout * 1000);
   if (lw6net_socket_is_valid (sock))
     {
-      request =
-	lw6msg_oob_generate_request (LW6MSG_OOB_PING, url,
-				     node_info->const_info.password,
-				     node_info->const_info.ref_info.url);
+      request = lw6msg_oob_generate_request (LW6MSG_OOB_PING, url, node_info->const_info.password, node_info->const_info.ref_info.url);
       if (request)
 	{
 	  if (lw6net_send_line_tcp (&sock, request))
 	    {
 	      lw6sys_snooze ();
-	      while (!ret
-		     && _mod_tcp_oob_should_continue (tcp_context, oob_data,
-						      &sock)
-		     && ((response = lw6net_recv_line_tcp (&sock)) == NULL))
+	      while (!ret && _mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && ((response = lw6net_recv_line_tcp (&sock)) == NULL))
 		{
 		  lw6sys_snooze ();
 		}
 	      if (response)
 		{
-		  if (_mod_tcp_oob_should_continue
-		      (tcp_context, oob_data, &sock))
+		  if (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock))
 		    {
 		      given_url = lw6msg_oob_analyse_pong (response);
 		      if (given_url)
 			{
-			  if (lw6sys_str_is_same
-			      (sys_context, url, given_url))
+			  if (lw6sys_str_is_same (sys_context, url, given_url))
 			    {
-			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-					  _x_
-					  ("ping successfull on %s:%d \"%s\""),
-					  ip, parsed_url->port, url);
+			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("ping successfull on %s:%d \"%s\""), ip, parsed_url->port, url);
 			      ret = 1;
 			    }
 			  else
 			    {
 			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-					  _x_
-					  ("mod_tcp connected on %s:%d using \"%s\" but server reports \"%s\""),
-					  ip, parsed_url->port, url,
-					  given_url);
-			      lw6nod_info_add_discovered_node (node_info,
-							       given_url);
+					  _x_ ("mod_tcp connected on %s:%d using \"%s\" but server reports \"%s\""), ip, parsed_url->port, url, given_url);
+			      lw6nod_info_add_discovered_node (node_info, given_url);
 			    }
 			  LW6SYS_FREE (sys_context, given_url);
 			}
@@ -95,9 +75,7 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_ ("no response from %s:%d"), ip,
-			      parsed_url->port);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no response from %s:%d"), ip, parsed_url->port);
 		}
 	    }
 	  LW6SYS_FREE (sys_context, request);
@@ -109,9 +87,7 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 }
 
 static int
-_do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
-	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
-	  char *ip)
+_do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url, char *ip)
 {
   int ret = 0;
   int eom = 0;
@@ -121,20 +97,14 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
   char *response = NULL;
   lw6sys_assoc_t *assoc = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("connecting in TCP on %s:%d"), ip, parsed_url->port);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("connecting in TCP on %s:%d"), ip, parsed_url->port);
   assoc = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
   if (assoc)
     {
-      sock =
-	lw6net_tcp_connect (ip, parsed_url->port,
-			    tcp_context->data.consts.connect_timeout * 1000);
+      sock = lw6net_tcp_connect (ip, parsed_url->port, tcp_context->data.consts.connect_timeout * 1000);
       if (lw6net_socket_is_valid (sock))
 	{
-	  request =
-	    lw6msg_oob_generate_request (LW6MSG_OOB_INFO, url,
-					 node_info->const_info.password,
-					 node_info->const_info.ref_info.url);
+	  request = lw6msg_oob_generate_request (LW6MSG_OOB_INFO, url, node_info->const_info.password, node_info->const_info.ref_info.url);
 	  if (request)
 	    {
 	      /*
@@ -152,13 +122,9 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 		   * with the exact time it takes to ping the server.
 		   */
 		  lw6sys_idle ();
-		  while (_mod_tcp_oob_should_continue
-			 (tcp_context, oob_data, &sock) && !eom)
+		  while (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && !eom)
 		    {
-		      while (_mod_tcp_oob_should_continue
-			     (tcp_context, oob_data, &sock)
-			     && ((response = lw6net_recv_line_tcp (&sock)) ==
-				 NULL) && !eom)
+		      while (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && ((response = lw6net_recv_line_tcp (&sock)) == NULL) && !eom)
 			{
 			  /*
 			   * Here we use idle and not snooze for we're concerned
@@ -170,29 +136,20 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 			{
 			  if (strlen (response) == 0)
 			    {
-			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-					  _x_ ("end of message detected"));
+			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("end of message detected"));
 			      eom = 1;
 			    }
 			  else
 			    {
 			      if (assoc)
 				{
-				  if (lw6msg_utils_parse_key_value_to_assoc
-				      (&assoc, response))
+				  if (lw6msg_utils_parse_key_value_to_assoc (&assoc, response))
 				    {
-				      lw6sys_log (sys_context,
-						  LW6SYS_LOG_DEBUG,
-						  _x_ ("parsed line \"%s\""),
-						  response);
+				      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("parsed line \"%s\""), response);
 				    }
 				  else
 				    {
-				      lw6sys_log (sys_context,
-						  LW6SYS_LOG_DEBUG,
-						  _x_
-						  ("unable to parse line \"%s\", ignoring"),
-						  response);
+				      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unable to parse line \"%s\", ignoring"), response);
 				    }
 				}
 			    }
@@ -201,10 +158,7 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				      _x_
-				      ("inconsistent response from %s:%d"),
-				      ip, parsed_url->port);
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("inconsistent response from %s:%d"), ip, parsed_url->port);
 			}
 		    }
 		}
@@ -222,11 +176,8 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	       * for right values in the assoc.
 	       */
 	      ret =
-		oob_data->
-		verify_callback_func (oob_data->verify_callback_data, url, ip,
-				      parsed_url->port,
-				      lw6sys_get_timestamp (sys_context,) -
-				      origin, assoc);
+		oob_data->verify_callback_func (oob_data->verify_callback_data, url, ip,
+						parsed_url->port, lw6sys_get_timestamp (sys_context,) - origin, assoc);
 	    }
 	  lw6sys_assoc_free (assoc);
 	}
@@ -236,9 +187,7 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 }
 
 static int
-_do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
-	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
-	  char *ip)
+_do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url, char *ip)
 {
   int ret = 0;
   int eom = 0;
@@ -246,30 +195,20 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
   char *request = NULL;
   char *response = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("connecting in TCP on %s:%d"), ip, parsed_url->port);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("connecting in TCP on %s:%d"), ip, parsed_url->port);
 
-  sock =
-    lw6net_tcp_connect (ip, parsed_url->port,
-			tcp_context->data.consts.connect_timeout * 1000);
+  sock = lw6net_tcp_connect (ip, parsed_url->port, tcp_context->data.consts.connect_timeout * 1000);
   if (lw6net_socket_is_valid (sock))
     {
-      request =
-	lw6msg_oob_generate_request (LW6MSG_OOB_LIST, url,
-				     node_info->const_info.password,
-				     node_info->const_info.ref_info.url);
+      request = lw6msg_oob_generate_request (LW6MSG_OOB_LIST, url, node_info->const_info.password, node_info->const_info.ref_info.url);
       if (request)
 	{
 	  if (lw6net_send_line_tcp (&sock, request))
 	    {
 	      lw6sys_snooze ();
-	      while (_mod_tcp_oob_should_continue
-		     (tcp_context, oob_data, &sock) && !eom)
+	      while (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && !eom)
 		{
-		  while (_mod_tcp_oob_should_continue
-			 (tcp_context, oob_data, &sock)
-			 && ((response = lw6net_recv_line_tcp (&sock)) ==
-			     NULL) && !eom)
+		  while (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && ((response = lw6net_recv_line_tcp (&sock)) == NULL) && !eom)
 		    {
 		      lw6sys_snooze ();
 		    }
@@ -278,8 +217,7 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 		      ret = 1;
 		      if (strlen (response) == 0)
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				      _x_ ("end of message detected"));
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("end of message detected"));
 			  eom = 1;
 			}
 		      else
@@ -287,20 +225,13 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 			  if (lw6sys_url_is_canonized (response))
 			    {
 			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-					  _x_
-					  ("list from %s:%d \"%s\" contains \"%s\", registering it"),
-					  ip, parsed_url->port, url,
-					  response);
-			      lw6nod_info_add_discovered_node (node_info,
-							       response);
+					  _x_ ("list from %s:%d \"%s\" contains \"%s\", registering it"), ip, parsed_url->port, url, response);
+			      lw6nod_info_add_discovered_node (node_info, response);
 			    }
 			  else
 			    {
 			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-					  _x_
-					  ("list from %s:%d \"%s\" contains non-canonized url \"%s\""),
-					  ip, parsed_url->port, url,
-					  response);
+					  _x_ ("list from %s:%d \"%s\" contains non-canonized url \"%s\""), ip, parsed_url->port, url, response);
 			      ret = 0;
 			    }
 			}
@@ -308,9 +239,7 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				  _x_ ("inconsistent response from %s:%d"),
-				  ip, parsed_url->port);
+		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("inconsistent response from %s:%d"), ip, parsed_url->port);
 		    }
 		}
 	    }
@@ -323,21 +252,18 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 }
 
 int
-_mod_tcp_process_oob (_mod_tcp_context_t * tcp_context,
-		      lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
+_mod_tcp_process_oob (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
 {
   int ret = 0;
   lw6sys_url_t *parsed_url = NULL;
   char *ip = NULL;
   int sock = LW6NET_SOCKET_INVALID;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-	      _x_ ("process tcp oob url=\"%s\""), oob_data->public_url);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process tcp oob url=\"%s\""), oob_data->public_url);
   parsed_url = lw6sys_url_parse (oob_data->public_url);
   if (parsed_url)
     {
-      if (lw6sys_str_is_same
-	  (sys_context, parsed_url->host, LW6NET_ADDRESS_BROADCAST))
+      if (lw6sys_str_is_same (sys_context, parsed_url->host, LW6NET_ADDRESS_BROADCAST))
 	{
 	  // no broadcast in TCP
 	  ret = 1;
@@ -349,63 +275,37 @@ _mod_tcp_process_oob (_mod_tcp_context_t * tcp_context,
 	    {
 	      if (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock))
 		{
-		  if (_do_ping
-		      (tcp_context, node_info, oob_data,
-		       oob_data->public_url, parsed_url, ip))
+		  if (_do_ping (tcp_context, node_info, oob_data, oob_data->public_url, parsed_url, ip))
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_
-				  ("mod_tcp client PING on node \"%s\" OK"),
-				  oob_data->public_url);
-		      if (_do_info
-			  (tcp_context, node_info, oob_data,
-			   oob_data->public_url, parsed_url, ip))
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_tcp client PING on node \"%s\" OK"), oob_data->public_url);
+		      if (_do_info (tcp_context, node_info, oob_data, oob_data->public_url, parsed_url, ip))
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				      _x_
-				      ("mod_tcp client INFO on node \"%s\" OK"),
-				      oob_data->public_url);
-			  if (_do_list
-			      (tcp_context, node_info, oob_data,
-			       oob_data->public_url, parsed_url, ip))
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_tcp client INFO on node \"%s\" OK"), oob_data->public_url);
+			  if (_do_list (tcp_context, node_info, oob_data, oob_data->public_url, parsed_url, ip))
 			    {
-			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-					  _x_
-					  ("mod_tcp client LIST on node \"%s\" OK"),
-					  oob_data->public_url);
+			      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_tcp client LIST on node \"%s\" OK"), oob_data->public_url);
 			      ret = 1;
 			    }
 			  else
 			    {
-			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-					  _x_
-					  ("mod_tcp client LIST on node \"%s\" failed"),
-					  oob_data->public_url);
+			      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_tcp client LIST on node \"%s\" failed"), oob_data->public_url);
 			    }
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				      _x_
-				      ("mod_tcp client INFO on node \"%s\" failed"),
-				      oob_data->public_url);
+			  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_tcp client INFO on node \"%s\" failed"), oob_data->public_url);
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-				  _x_
-				  ("mod_tcp client PING on node \"%s\" failed"),
-				  oob_data->public_url);
+		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_tcp client PING on node \"%s\" failed"), oob_data->public_url);
 		    }
 		}
 	      LW6SYS_FREE (ip);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_ ("unable to resolve host \"%s\""),
-			  parsed_url->host);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to resolve host \"%s\""), parsed_url->host);
 	    }
 	}
       lw6sys_url_free (sys_context, parsed_url);
@@ -415,14 +315,11 @@ _mod_tcp_process_oob (_mod_tcp_context_t * tcp_context,
 }
 
 int
-_mod_tcp_oob_should_continue (_mod_tcp_context_t *
-			      tcp_context,
-			      lw6cli_oob_data_t * oob_data, int *sock)
+_mod_tcp_oob_should_continue (_mod_tcp_context_t * tcp_context, lw6cli_oob_data_t * oob_data, int *sock)
 {
   int ret = 0;
   ret = (_mod_tcp_timeout_ok (tcp_context,
 			      oob_data->creation_timestamp)
-	 && ((!lw6net_socket_is_valid (*sock)) || lw6net_tcp_is_alive (sock))
-	 && (!oob_data->do_not_finish));
+	 && ((!lw6net_socket_is_valid (*sock)) || lw6net_tcp_is_alive (sock)) && (!oob_data->do_not_finish));
   return ret;
 }

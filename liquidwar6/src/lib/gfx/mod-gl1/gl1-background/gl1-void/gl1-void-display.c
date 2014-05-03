@@ -30,19 +30,13 @@
 
 void
 _mod_gl1_background_void_display_background (mod_gl1_utils_context_t *
-					     utils_context,
-					     _mod_gl1_background_void_context_t
-					     * void_context,
-					     const lw6gui_look_t * look)
+					     utils_context, _mod_gl1_background_void_context_t * void_context, const lw6gui_look_t * look)
 {
   // nothing to do, just plain black... (void!)
 }
 
 void
-mod_gl1_background_void_display_background (mod_gl1_utils_context_t *
-					    utils_context, void *void_context,
-					    const lw6gui_look_t * look)
+mod_gl1_background_void_display_background (mod_gl1_utils_context_t * utils_context, void *void_context, const lw6gui_look_t * look)
 {
-  _mod_gl1_background_void_display_background (utils_context, void_context,
-					       look);
+  _mod_gl1_background_void_display_background (utils_context, void_context, look);
 }

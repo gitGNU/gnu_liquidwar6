@@ -68,8 +68,7 @@ _lw6dsp_param_diff (const _lw6dsp_data_t * data, const lw6dsp_param_t * param)
       ret = ret | _LW6DSP_PARAM_DIFF_MISC;
     }
 
-  if (!lw6gui_video_mode_is_same
-      (&(data->param.video_mode), &(param->video_mode)))
+  if (!lw6gui_video_mode_is_same (&(data->param.video_mode), &(param->video_mode)))
     {
       ret = ret | _LW6DSP_PARAM_DIFF_VIDEO_MODE;
     }

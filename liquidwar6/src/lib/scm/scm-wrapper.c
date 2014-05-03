@@ -49,24 +49,19 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6scm_c_define_gsubr (const char *name, int req, int opt, int rst,
-		       lw6scm_func_t fcn)
+lw6scm_c_define_gsubr (const char *name, int req, int opt, int rst, lw6scm_func_t fcn)
 {
   int ret = 0;
 
   if (lw6hlp_is_documented (name))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("registering Guile function \"%s\""), name);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("registering Guile function \"%s\""), name);
       scm_c_define_gsubr ((const char *) name, req, opt, rst, fcn);
       ret = 1;
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("Guile function \"%s\" not documented, won't register it"),
-		  name);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("Guile function \"%s\" not documented, won't register it"), name);
     }
 
   return ret;
@@ -101,8 +96,7 @@ lw6scm_c_primitive_load (const char *filename)
        * check for file existence is also done
        * so this is just "in case".
        */
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to read script file \"%s\""), filename);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to read script file \"%s\""), filename);
     }
 
   return ret;
@@ -121,8 +115,7 @@ lw6scm_c_primitive_load (const char *filename)
 void *
 lw6scm_with_guile (lw6scm_callback_t func, void *data)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-	      _x_ ("running function %p(%p) in Guile context"), func, data);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("running function %p(%p) in Guile context"), func, data);
 #ifdef LW6_GUILE2
   /*
    * When using Guile2, looks like Valgrind reports a bunch of non-initialized

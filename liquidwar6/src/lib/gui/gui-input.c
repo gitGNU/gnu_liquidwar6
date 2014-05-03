@@ -42,18 +42,15 @@ lw6gui_input_init (lw6gui_input_t * input)
 
   memset (input, 0, sizeof (lw6gui_input_t));
 
-  input->keyboard.queue =
-    lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6gui_keypress_free);
+  input->keyboard.queue = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6gui_keypress_free);
   if (input->keyboard.queue)
     {
       ret = 1;
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("new input queue created"));
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("new input queue created"));
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("unable to initialize input"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to initialize input"));
     }
 
   return ret;
@@ -122,8 +119,7 @@ lw6gui_input_free (lw6gui_input_t * input)
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("trying to free NULL input"));
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free NULL input"));
     }
 }
 
@@ -161,19 +157,15 @@ lw6gui_input_reset (lw6gui_input_t * input)
  * Return value: none.
  */
 void
-lw6gui_input_update_repeat (lw6gui_input_t * input,
-			    lw6gui_repeat_settings_t * repeat_settings,
-			    int64_t timestamp)
+lw6gui_input_update_repeat (lw6gui_input_t * input, lw6gui_repeat_settings_t * repeat_settings, int64_t timestamp)
 {
   int i;
 
-  lw6gui_keyboard_update_repeat (&(input->keyboard), repeat_settings,
-				 timestamp);
+  lw6gui_keyboard_update_repeat (&(input->keyboard), repeat_settings, timestamp);
   lw6gui_mouse_update_repeat (&(input->mouse), repeat_settings, timestamp);
   for (i = 0; i < LW6GUI_NB_JOYSTICKS; ++i)
     {
-      lw6gui_joystick_update_repeat (&(input->joysticks[i]), repeat_settings,
-				     timestamp);
+      lw6gui_joystick_update_repeat (&(input->joysticks[i]), repeat_settings, timestamp);
     }
 }
 
@@ -216,9 +208,7 @@ lw6gui_input_need_sync (const lw6gui_input_t * input)
    * In practice, those are only used for mouse buttons
    * we just quick check these...
    */
-  ret |= (input->mouse.button_left.simple_click_queue
-	  || input->mouse.button_right.simple_click_queue
-	  || input->mouse.button_middle.simple_click_queue);
+  ret |= (input->mouse.button_left.simple_click_queue || input->mouse.button_right.simple_click_queue || input->mouse.button_middle.simple_click_queue);
 
   return ret;
 }
@@ -251,8 +241,7 @@ lw6gui_input_sync (lw6gui_input_t * dst, lw6gui_input_t * src)
   ret = lw6gui_mouse_sync (&(dst->mouse), &(src->mouse)) && ret;
   for (i = 0; i < LW6GUI_NB_JOYSTICKS; ++i)
     {
-      ret = lw6gui_joystick_sync (&(dst->joysticks[i]), &(src->joysticks[i]))
-	&& ret;
+      ret = lw6gui_joystick_sync (&(dst->joysticks[i]), &(src->joysticks[i])) && ret;
     }
 
   return ret;

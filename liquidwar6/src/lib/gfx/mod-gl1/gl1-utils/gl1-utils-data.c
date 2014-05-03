@@ -36,26 +36,20 @@
  * Dummy wrapper to handle cast & errors.
  */
 SDL_Surface *
-mod_gl1_utils_load_image (mod_gl1_utils_context_t * utils_context,
-			  const char *filename)
+mod_gl1_utils_load_image (mod_gl1_utils_context_t * utils_context, const char *filename)
 {
   SDL_Surface *ret = NULL;
   char *image_file = NULL;
 
-  image_file =
-    lw6sys_path_concat (sys_context, utils_context->path.data_dir, filename);
+  image_file = lw6sys_path_concat (sys_context, utils_context->path.data_dir, filename);
 
   if (image_file)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading image \"%s\""),
-		  image_file);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading image \"%s\""), image_file);
       ret = IMG_Load (image_file);
       if (!ret)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_
-		      ("SDL_image error \"%s\" while loading image \"%s\""),
-		      IMG_GetError (), image_file);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("SDL_image error \"%s\" while loading image \"%s\""), IMG_GetError (), image_file);
 	}
       LW6SYS_FREE (sys_context, image_file);
     }
@@ -69,8 +63,7 @@ mod_gl1_utils_load_image (mod_gl1_utils_context_t * utils_context,
       /*
        * Carefull not to use buf in error message.
        */
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _("unable to load image \"%s\""), filename);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to load image \"%s\""), filename);
     }
 
   return ret;
@@ -80,8 +73,7 @@ mod_gl1_utils_load_image (mod_gl1_utils_context_t * utils_context,
  * Dummy wrapper to handle cast & errors.
  */
 void
-mod_gl1_utils_unload_image (mod_gl1_utils_context_t * utils_context,
-			    SDL_Surface * image)
+mod_gl1_utils_unload_image (mod_gl1_utils_context_t * utils_context, SDL_Surface * image)
 {
   mod_gl1_utils_delete_surface (utils_context, image);
 }
@@ -90,26 +82,22 @@ mod_gl1_utils_unload_image (mod_gl1_utils_context_t * utils_context,
  * Dummy wrapper to handle cast & errors.
  */
 static TTF_Font *
-load_font (mod_gl1_utils_context_t * utils_context, const char *filename,
-	   int size)
+load_font (mod_gl1_utils_context_t * utils_context, const char *filename, int size)
 {
   TTF_Font *ret = NULL;
   char *font_file;
 
-  font_file =
-    lw6sys_path_concat (sys_context, utils_context->path.data_dir, filename);
+  font_file = lw6sys_path_concat (sys_context, utils_context->path.data_dir, filename);
   if (font_file)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_ ("loading font \"%s\", size %d"), font_file, size);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading font \"%s\", size %d"), font_file, size);
       ret = TTF_OpenFont (font_file, size);
       LW6SYS_FREE (sys_context, font_file);
     }
 
   if (ret == NULL)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
-		  _("unable to load font \"%s\""), filename);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to load font \"%s\""), filename);
     }
 
   return ret;
@@ -149,10 +137,7 @@ mod_gl1_utils_load_fonts (mod_gl1_utils_context_t * utils_context)
     ((utils_context->font_data.cursor =
       load_font (utils_context, FONT_FILE,
 		 utils_context->const_data.cursor_font_size)) != NULL)
-    &&
-    ((utils_context->font_data.system =
-      load_font (utils_context, FONT_FILE,
-		 utils_context->const_data.system_font_size)) != NULL);
+    && ((utils_context->font_data.system = load_font (utils_context, FONT_FILE, utils_context->const_data.system_font_size)) != NULL);
 
   if (!ret)
     {
@@ -188,10 +173,7 @@ mod_gl1_utils_load_data (mod_gl1_utils_context_t * utils_context)
   int ret = 0;
   lw6gui_look_t *look = NULL;
 
-  ret =
-    ((utils_context->texture_data.to_delete =
-      lw6sys_list_new (sys_context, NULL)) != NULL)
-    && mod_gl1_utils_load_fonts (utils_context);
+  ret = ((utils_context->texture_data.to_delete = lw6sys_list_new (sys_context, NULL)) != NULL) && mod_gl1_utils_load_fonts (utils_context);
 
   look = lw6gui_look_new (NULL);
   if (look)
@@ -221,8 +203,7 @@ mod_gl1_utils_unload_data (mod_gl1_utils_context_t * utils_context)
     {
       LW6SYS_FREE (sys_context, utils_context->texture_data.to_delete);
     }
-  memset (&utils_context->texture_data, 0,
-	  sizeof (mod_gl1_utils_texture_data_t));
+  memset (&utils_context->texture_data, 0, sizeof (mod_gl1_utils_texture_data_t));
 }
 
 void

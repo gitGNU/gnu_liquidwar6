@@ -39,8 +39,7 @@
  *   1 if @list_a > @list_b
  */
 int
-lw6msg_sort_str_by_seq_callback (const lw6sys_list_t ** list_a,
-				 const lw6sys_list_t ** list_b)
+lw6msg_sort_str_by_seq_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
 {
   int ret = 0;
   const char *str_a = NULL;
