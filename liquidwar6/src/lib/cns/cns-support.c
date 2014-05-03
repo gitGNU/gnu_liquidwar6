@@ -33,12 +33,14 @@
 /**
  * lw6cns_console_support
  *
+ * @sys_context: global system context
+ *
  * Tells wether console is supported.
  *
  * Return value: 1 if console can be enabled, 0 if not
  */
 int
-lw6cns_console_support ()
+lw6cns_console_support (lw6sys_context_t * sys_context)
 {
   int ret = 0;
 
@@ -52,12 +54,14 @@ lw6cns_console_support ()
 /**
  * lw6cns_term_support
  *
+ * @sys_context: global system context
+ *
  * Tells wether program is likely to have proper term (xterm, Linux console) support.
  *
  * Return value: 1 if has validated TERM support, 0 if not
  */
 int
-lw6cns_term_support ()
+lw6cns_term_support (lw6sys_context_t * sys_context)
 {
   int ret = 0;
   char *env_term = NULL;
@@ -69,7 +73,7 @@ lw6cns_term_support ()
   env_term = lw6sys_getenv (sys_context, _ENV_TERM_KEY);
   if (env_term)
     {
-      if (lw6sys_str_is_same (env_term, _ENV_TERM_ALLOWED_XTERM) || lw6sys_str_is_same (env_term, _ENV_TERM_ALLOWED_LINUX))
+      if (lw6sys_str_is_same (sys_context, env_term, _ENV_TERM_ALLOWED_XTERM) || lw6sys_str_is_same (sys_context, env_term, _ENV_TERM_ALLOWED_LINUX))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("term support should be fine, env variable \"%s\" is \"%s\""), _ENV_TERM_KEY, env_term);
 	  ret = 1;

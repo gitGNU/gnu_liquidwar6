@@ -37,6 +37,7 @@
 /**
  * lw6cns_history_add_if_needed
  *
+ * @sys_context: global system context
  * @line: line to add
  *
  * Adds a line to the console history, won't add it if
@@ -45,7 +46,7 @@
  * Return value: none.
  */
 void
-lw6cns_history_add_if_needed (char *line)
+lw6cns_history_add_if_needed (lw6sys_context_t * sys_context, char *line)
 {
 #ifdef LW6_CONSOLE
   if (line && line[0])

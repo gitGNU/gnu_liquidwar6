@@ -198,7 +198,7 @@ lw6_cns_handler (char *c_line)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("interpreting console input \"%s\""), c_line);
 
-      lw6cns_history_add_if_needed (c_line);
+      lw6cns_history_add_if_needed (sys_context, c_line);
       line = scm_from_locale_string (c_line);
 
       func_symbol = scm_c_lookup ("lw6-console-try-catch");

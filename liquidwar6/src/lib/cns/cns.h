@@ -25,22 +25,23 @@
 
 #include "../sys/sys.h"
 
-typedef void (*lw6cns_callback_func_t) (char *line);
+typedef void (*lw6cns_callback_func_t) (lw6sys_context_t * sys_context, char *line);
 
 /* cns-handler.c */
-extern void lw6cns_handler_install (lw6cns_callback_func_t callback);
-extern void lw6cns_handler_poll ();
-extern void lw6cns_handler_remove ();
+extern void lw6cns_handler_callback (char *line);
+extern void lw6cns_handler_install (lw6sys_context_t * sys_context, lw6cns_callback_func_t callback);
+extern void lw6cns_handler_poll (lw6sys_context_t * sys_context);
+extern void lw6cns_handler_remove (lw6sys_context_t * sys_context);
 
 /* cns-history.c */
-extern void lw6cns_history_add_if_needed (char *line);
+extern void lw6cns_history_add_if_needed (lw6sys_context_t * sys_context, char *line);
 
 /* cns-support.c */
-extern int lw6cns_console_support ();
-extern int lw6cns_term_support ();
+extern int lw6cns_console_support (lw6sys_context_t * sys_context);
+extern int lw6cns_term_support (lw6sys_context_t * sys_context);
 
 /* cns-test.c */
-extern int lw6cns_test_register (int mode);
-extern int lw6cns_test_run (int mode);
+extern int lw6cns_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6cns_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif

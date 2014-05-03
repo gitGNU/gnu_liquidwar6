@@ -40,6 +40,11 @@
 #define _PROMPT "lw6> "
 
 #ifdef LW6_CONSOLE
+static lw6sys_context_t *_console_context = NULL;
+static lw6cns_callback_func_t _console_callback = NULL;
+#endif // LW6_CONSOLE
+
+#ifdef LW6_CONSOLE
 static void
 _lw6cns_flushall ()
 {
@@ -54,8 +59,42 @@ static int _console_handler_installed = 0;
 #endif // LW6_CONSOLE
 
 /**
+ * lw6cns_handler_callback
+ *
+ * @line: the input line
+ *
+ * The global console handler. Because readline does not, or at
+ * least, because I did not find any proper way to pass it a general
+ * pointer along with the string, and since we need @sys_context
+ * pretty much everywhere, we rely on using this handler which,
+ * in turn, calls the handler passed to @lw6cns_handler_install
+ * with @sys_context added as a first argument.
+ *
+ * Return value: none.
+ */
+void
+lw6cns_handler_callback (char *line)
+{
+  lw6sys_context_t *sys_context = _console_context;
+
+  if (sys_context)
+    {
+      if (_console_callback && line)
+	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("calling rl callback with line=\"%s\""), line);
+	  _console_callback (sys_context, line);
+	}
+      else
+	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to call rl callback with _console_callback=%p and line=%p"), _console_callback, line);
+	}
+    }
+}
+
+/**
  * lw6cns_handler_install
  *
+ * @sys_context: global system context
  * @callback: handler function.
  *
  * Installs a console handler.
@@ -63,7 +102,7 @@ static int _console_handler_installed = 0;
  * Return value: none.
  */
 void
-lw6cns_handler_install (lw6cns_callback_func_t callback)
+lw6cns_handler_install (lw6sys_context_t * sys_context, lw6cns_callback_func_t callback)
 {
 #ifdef LW6_CONSOLE
   if (!_console_handler_installed)
@@ -74,10 +113,14 @@ lw6cns_handler_install (lw6cns_callback_func_t callback)
 
       _lw6cns_flushall ();
 
-      if (lw6cns_term_support ())
+      if (lw6cns_term_support (sys_context))
 	{
 	  rl_set_keyboard_input_timeout (1);
-	  rl_callback_handler_install (_PROMPT, callback);
+
+	  _console_context = sys_context;
+	  _console_callback = callback;
+
+	  rl_callback_handler_install (_PROMPT, lw6cns_handler_callback);
 	  _console_handler_installed = 1;
 	}
 
@@ -95,12 +138,14 @@ lw6cns_handler_install (lw6cns_callback_func_t callback)
 /**
  * lw6cns_handler_poll
  *
+ * @sys_context: global system context
+ *
  * Polling function for console, must be called on a regular basis.
  *
  * Return value: none.
  */
 void
-lw6cns_handler_poll ()
+lw6cns_handler_poll (lw6sys_context_t * sys_context)
 {
 #ifdef LW6_CONSOLE
   fd_set rfds;
@@ -145,12 +190,14 @@ lw6cns_handler_poll ()
 /**
  * lw6cns_handler_remove
  *
+ * @sys_context: global system context
+ *
  * Remove console handler.
  *
  * Return value: none.
  */
 void
-lw6cns_handler_remove ()
+lw6cns_handler_remove (lw6sys_context_t * sys_context)
 {
 #ifdef LW6_CONSOLE
   if (_console_handler_installed)
@@ -159,6 +206,10 @@ lw6cns_handler_remove ()
 
       rl_callback_handler_remove ();
       _console_handler_installed = 0;
+
+      _console_context = NULL;
+      _console_callback = NULL;
+
       fprintf (stdout, "\n");
 
       _lw6cns_flushall ();

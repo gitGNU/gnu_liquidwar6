@@ -40,7 +40,7 @@ _scm_lw6cns_console_support ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6cns_console_support ()? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6cns_console_support (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -54,7 +54,7 @@ _scm_lw6cns_term_support ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6cns_term_support ()? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6cns_term_support (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -72,7 +72,7 @@ _scm_lw6cns_init ()
 
   if (!lw6_global.cns_initialized)
     {
-      lw6cns_handler_install (lw6_cns_handler);
+      lw6cns_handler_install (sys_context, lw6_cns_handler);
       lw6_global.cns_initialized = 1;
     }
 
