@@ -38,14 +38,14 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "listen-backlog", &const_data->listen_backlog);
-      lw6cfg_read_xml_int (key, value, "chunk-size", &const_data->chunk_size);
-      lw6cfg_read_xml_int (key, value, "line-size", &const_data->line_size);
-      lw6cfg_read_xml_int (key, value, "line-delay-msec", &const_data->line_delay_msec);
-      lw6cfg_read_xml_int (key, value, "dns-cache-hash-size", &const_data->dns_cache_hash_size);
-      lw6cfg_read_xml_int (key, value, "dns-cache-delay-sec", &const_data->dns_cache_delay_sec);
-      lw6cfg_read_xml_int (key, value, "connectable-cache-hash-size", &const_data->connectable_cache_hash_size);
-      lw6cfg_read_xml_int (key, value, "connectable-cache-delay-sec", &const_data->connectable_cache_delay_sec);
+      lw6cfg_read_xml_int (sys_context, key, value, "listen-backlog", &const_data->listen_backlog);
+      lw6cfg_read_xml_int (sys_context, key, value, "chunk-size", &const_data->chunk_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "line-size", &const_data->line_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "line-delay-msec", &const_data->line_delay_msec);
+      lw6cfg_read_xml_int (sys_context, key, value, "dns-cache-hash-size", &const_data->dns_cache_hash_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "dns-cache-delay-sec", &const_data->dns_cache_delay_sec);
+      lw6cfg_read_xml_int (sys_context, key, value, "connectable-cache-hash-size", &const_data->connectable_cache_hash_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "connectable-cache-delay-sec", &const_data->connectable_cache_delay_sec);
     }
 }
 
@@ -69,7 +69,7 @@ _lw6net_const_init (int argc, const char *argv[], _lw6net_const_data_t * const_d
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-	  ret = lw6cfg_read_key_value_xml_file (const_file, read_callback, (void *) const_data);
+	  ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, read_callback, (void *) const_data);
 	  LW6SYS_FREE (sys_context, const_file);
 	}
       LW6SYS_FREE (sys_context, data_root_dir);

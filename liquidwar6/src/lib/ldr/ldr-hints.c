@@ -136,7 +136,7 @@ lw6ldr_hints_read (lw6ldr_hints_t * hints, const char *dirname)
       if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading hints \"%s\""), buf);
-	  ret = lw6cfg_read_key_value_xml_file (buf, read_callback, (void *) hints);
+	  ret = lw6cfg_read_key_value_xml_file (sys_context, buf, read_callback, (void *) hints);
 	}
       else
 	{

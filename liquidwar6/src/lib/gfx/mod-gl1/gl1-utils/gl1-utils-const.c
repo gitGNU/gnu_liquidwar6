@@ -41,32 +41,32 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "menu-font-size", &const_data->menu_font_size);
-      lw6cfg_read_xml_int (key, value, "hud-font-size", &const_data->hud_font_size);
-      lw6cfg_read_xml_int (key, value, "cursor-font-size", &const_data->cursor_font_size);
-      lw6cfg_read_xml_int (key, value, "system-font-size", &const_data->system_font_size);
-      lw6cfg_read_xml_int (key, value, "system-font-dh", &const_data->system_font_dh);
-      lw6cfg_read_xml_int (key, value, "system-font-dw", &const_data->system_font_dw);
-      lw6cfg_read_xml_int (key, value, "smoother-global-zoom-duration", &const_data->smoother_global_zoom_duration);
-      lw6cfg_read_xml_int (key, value, "smoother-center-duration", &const_data->smoother_center_duration);
-      lw6cfg_read_xml_int (key, value, "smoother-drawable-duration", &const_data->smoother_drawable_duration);
+      lw6cfg_read_xml_int (sys_context, key, value, "menu-font-size", &const_data->menu_font_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "hud-font-size", &const_data->hud_font_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "cursor-font-size", &const_data->cursor_font_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "system-font-size", &const_data->system_font_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "system-font-dh", &const_data->system_font_dh);
+      lw6cfg_read_xml_int (sys_context, key, value, "system-font-dw", &const_data->system_font_dw);
+      lw6cfg_read_xml_int (sys_context, key, value, "smoother-global-zoom-duration", &const_data->smoother_global_zoom_duration);
+      lw6cfg_read_xml_int (sys_context, key, value, "smoother-center-duration", &const_data->smoother_center_duration);
+      lw6cfg_read_xml_int (sys_context, key, value, "smoother-drawable-duration", &const_data->smoother_drawable_duration);
     }
 
   if (!strcmp (element, "float"))
     {
-      lw6cfg_read_xml_float (key, value, "persp-fovy", &const_data->persp_fovy);
-      lw6cfg_read_xml_float (key, value, "persp-znear", &const_data->persp_znear);
-      lw6cfg_read_xml_float (key, value, "persp-zfar", &const_data->persp_zfar);
-      lw6cfg_read_xml_float (key, value, "system-font-hcoef", &const_data->system_font_hcoef);
-      lw6cfg_read_xml_float (key, value, "gradient-opacity", &const_data->gradient_opacity);
-      lw6cfg_read_xml_float (key, value, "zones-opacity", &const_data->zones_opacity);
-      lw6cfg_read_xml_float (key, value, "mainlight-r", &const_data->mainlight_r);
-      lw6cfg_read_xml_float (key, value, "mainlight-g", &const_data->mainlight_g);
-      lw6cfg_read_xml_float (key, value, "mainlight-b", &const_data->mainlight_b);
-      lw6cfg_read_xml_float (key, value, "mainlight-a", &const_data->mainlight_a);
-      lw6cfg_read_xml_float (key, value, "mainlight-x", &const_data->mainlight_x);
-      lw6cfg_read_xml_float (key, value, "mainlight-y", &const_data->mainlight_y);
-      lw6cfg_read_xml_float (key, value, "mainlight-z", &const_data->mainlight_z);
+      lw6cfg_read_xml_float (sys_context, key, value, "persp-fovy", &const_data->persp_fovy);
+      lw6cfg_read_xml_float (sys_context, key, value, "persp-znear", &const_data->persp_znear);
+      lw6cfg_read_xml_float (sys_context, key, value, "persp-zfar", &const_data->persp_zfar);
+      lw6cfg_read_xml_float (sys_context, key, value, "system-font-hcoef", &const_data->system_font_hcoef);
+      lw6cfg_read_xml_float (sys_context, key, value, "gradient-opacity", &const_data->gradient_opacity);
+      lw6cfg_read_xml_float (sys_context, key, value, "zones-opacity", &const_data->zones_opacity);
+      lw6cfg_read_xml_float (sys_context, key, value, "mainlight-r", &const_data->mainlight_r);
+      lw6cfg_read_xml_float (sys_context, key, value, "mainlight-g", &const_data->mainlight_g);
+      lw6cfg_read_xml_float (sys_context, key, value, "mainlight-b", &const_data->mainlight_b);
+      lw6cfg_read_xml_float (sys_context, key, value, "mainlight-a", &const_data->mainlight_a);
+      lw6cfg_read_xml_float (sys_context, key, value, "mainlight-x", &const_data->mainlight_x);
+      lw6cfg_read_xml_float (sys_context, key, value, "mainlight-y", &const_data->mainlight_y);
+      lw6cfg_read_xml_float (sys_context, key, value, "mainlight-z", &const_data->mainlight_z);
     }
 }
 
@@ -85,7 +85,7 @@ mod_gl1_utils_load_consts (mod_gl1_utils_context_t * context)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-      ret = lw6cfg_read_key_value_xml_file (const_file, read_callback, (void *) &(context->const_data));
+      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, read_callback, (void *) &(context->const_data));
 
       LW6SYS_FREE (sys_context, const_file);
     }

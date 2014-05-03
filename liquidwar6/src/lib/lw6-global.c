@@ -143,7 +143,7 @@ quit_cfg ()
 {
   if (lw6_global.cfg_initialized && (lw6_global.cfg_context != NULL))
     {
-      lw6cfg_quit (lw6_global.cfg_context);
+      lw6cfg_quit (sys_context, lw6_global.cfg_context);
     }
   lw6_global.cfg_context = NULL;
   lw6_global.cfg_initialized = 0;

@@ -28,14 +28,14 @@
 #include "cfg-internal.h"
 
 int
-_lw6cfg_option_exists (_lw6cfg_context_t * context, const char *key)
+_lw6cfg_option_exists (lw6sys_context_t * sys_context, _lw6cfg_context_t * _cfg_context, const char *key)
 {
   int ret = 0;
 
-  if (lw6sys_spinlock_lock (sys_context, context->spinlock))
+  if (lw6sys_spinlock_lock (sys_context, _cfg_context->spinlock))
     {
-      ret = lw6sys_hash_has_key (sys_context, context->options, key);
-      lw6sys_spinlock_unlock (sys_context, context->spinlock);
+      ret = lw6sys_hash_has_key (sys_context, _cfg_context->options, key);
+      lw6sys_spinlock_unlock (sys_context, _cfg_context->spinlock);
     }
 
   return ret;
@@ -44,7 +44,8 @@ _lw6cfg_option_exists (_lw6cfg_context_t * context, const char *key)
 /**
  * lw6cfg_option_exists
  *
- * @context: context to query
+ * @sys_context: global system context
+ * @cfg_context: context to query
  * @key: key to search
  *
  * Returns wether a key exists within context or not.
@@ -52,24 +53,24 @@ _lw6cfg_option_exists (_lw6cfg_context_t * context, const char *key)
  * Return value: 1 if exists, 0 if not
  */
 int
-lw6cfg_option_exists (void *context, const char *key)
+lw6cfg_option_exists (lw6sys_context_t * sys_context, void *cfg_context, const char *key)
 {
-  return _lw6cfg_option_exists ((_lw6cfg_context_t *) context, key);
+  return _lw6cfg_option_exists (sys_context, (_lw6cfg_context_t *) cfg_context, key);
 }
 
 char *
-_lw6cfg_get_option (_lw6cfg_context_t * context, const char *key)
+_lw6cfg_get_option (lw6sys_context_t * sys_context, _lw6cfg_context_t * _cfg_context, const char *key)
 {
   char *ret = "";
 
-  if (lw6sys_spinlock_lock (sys_context, context->spinlock))
+  if (lw6sys_spinlock_lock (sys_context, _cfg_context->spinlock))
     {
-      ret = (char *) lw6sys_hash_get (sys_context, context->options, key);
+      ret = (char *) lw6sys_hash_get (sys_context, _cfg_context->options, key);
       if (ret)
 	{
 	  ret = lw6sys_str_copy (sys_context, ret);
 	}
-      lw6sys_spinlock_unlock (sys_context, context->spinlock);
+      lw6sys_spinlock_unlock (sys_context, _cfg_context->spinlock);
     }
 
   if (!ret)
@@ -83,7 +84,8 @@ _lw6cfg_get_option (_lw6cfg_context_t * context, const char *key)
 /**
  * lw6cfg_get_option
  *
- * @context: context to query
+ * @sys_context: global system context
+ * @cfg_context: context to query
  * @key: key to search
  *
  * Returns the current value for a given query, the returned value is always
@@ -93,23 +95,23 @@ _lw6cfg_get_option (_lw6cfg_context_t * context, const char *key)
  * Return value: pointer to string, must be freed.
  */
 char *
-lw6cfg_get_option (void *context, const char *key)
+lw6cfg_get_option (lw6sys_context_t * sys_context, void *cfg_context, const char *key)
 {
-  return _lw6cfg_get_option ((_lw6cfg_context_t *) context, key);
+  return _lw6cfg_get_option (sys_context, (_lw6cfg_context_t *) cfg_context, key);
 }
 
 void
-_lw6cfg_set_option (_lw6cfg_context_t * context, const char *key, const char *value)
+_lw6cfg_set_option (lw6sys_context_t * sys_context, _lw6cfg_context_t * _cfg_context, const char *key, const char *value)
 {
   char *value_converted = NULL;
 
-  value_converted = lw6cfg_format_guess_type (key, value);
+  value_converted = lw6cfg_format_guess_type (sys_context, key, value);
   if (value_converted)
     {
-      if (lw6sys_spinlock_lock (sys_context, context->spinlock))
+      if (lw6sys_spinlock_lock (sys_context, _cfg_context->spinlock))
 	{
-	  lw6sys_hash_set (sys_context, context->options, key, (void *) value_converted);
-	  lw6sys_spinlock_unlock (sys_context, context->spinlock);
+	  lw6sys_hash_set (sys_context, _cfg_context->options, key, (void *) value_converted);
+	  lw6sys_spinlock_unlock (sys_context, _cfg_context->spinlock);
 	}
     }
 }
@@ -117,7 +119,8 @@ _lw6cfg_set_option (_lw6cfg_context_t * context, const char *key, const char *va
 /**
  * lw6cfg_set_option
  *
- * @context: context to modify
+ * @sys_context: global system context
+ * @cfg_context: context to modify
  * @key: key to search and change
  * @value: new value
  *
@@ -128,20 +131,20 @@ _lw6cfg_set_option (_lw6cfg_context_t * context, const char *key, const char *va
  * Return value: none
  */
 void
-lw6cfg_set_option (void *context, const char *key, const char *value)
+lw6cfg_set_option (lw6sys_context_t * sys_context, void *cfg_context, const char *key, const char *value)
 {
-  _lw6cfg_set_option ((_lw6cfg_context_t *) context, key, value);
+  _lw6cfg_set_option (sys_context, (_lw6cfg_context_t *) cfg_context, key, value);
 }
 
 int
-_lw6cfg_get_option_int (_lw6cfg_context_t * context, const char *key)
+_lw6cfg_get_option_int (lw6sys_context_t * sys_context, _lw6cfg_context_t * _cfg_context, const char *key)
 {
   int ret = 0;
-  char *str = _lw6cfg_get_option (context, key);
+  char *str = _lw6cfg_get_option (sys_context, _cfg_context, key);
 
   if (str)
     {
-      ret = lw6sys_atoi (str);
+      ret = lw6sys_atoi (sys_context, str);
       LW6SYS_FREE (sys_context, str);
     }
 
@@ -162,20 +165,20 @@ _lw6cfg_get_option_int (_lw6cfg_context_t * context, const char *key)
  * Return value: option value converted to int
  */
 int
-lw6cfg_get_option_int (void *context, const char *key)
+lw6cfg_get_option_int (lw6sys_context_t * sys_context, void *cfg_context, const char *key)
 {
-  return _lw6cfg_get_option_int ((_lw6cfg_context_t *) context, key);
+  return _lw6cfg_get_option_int (sys_context, (_lw6cfg_context_t *) cfg_context, key);
 }
 
 void
-_lw6cfg_set_option_int (_lw6cfg_context_t * context, const char *key, int value)
+_lw6cfg_set_option_int (lw6sys_context_t * sys_context, _lw6cfg_context_t * _cfg_context, const char *key, int value)
 {
   char *str;
 
   str = lw6sys_itoa (sys_context, value);
   if (str)
     {
-      _lw6cfg_set_option (context, key, str);
+      _lw6cfg_set_option (sys_context, _cfg_context, key, str);
       LW6SYS_FREE (sys_context, str);
     }
 }
@@ -183,7 +186,8 @@ _lw6cfg_set_option_int (_lw6cfg_context_t * context, const char *key, int value)
 /**
  * lw6cfg_set_option_int
  *
- * @context: context to modify
+ * @sys_context: global system context
+ * @cfg_context: context to modify
  * @key: key to search and change
  * @value: new value
  *
@@ -194,20 +198,20 @@ _lw6cfg_set_option_int (_lw6cfg_context_t * context, const char *key, int value)
  * Return value: none.
  */
 void
-lw6cfg_set_option_int (void *context, const char *key, int value)
+lw6cfg_set_option_int (lw6sys_context_t * sys_context, void *cfg_context, const char *key, int value)
 {
-  _lw6cfg_set_option_int ((_lw6cfg_context_t *) context, key, value);
+  _lw6cfg_set_option_int (sys_context, (_lw6cfg_context_t *) cfg_context, key, value);
 }
 
 int
-_lw6cfg_get_option_bool (_lw6cfg_context_t * context, const char *key)
+_lw6cfg_get_option_bool (lw6sys_context_t * sys_context, _lw6cfg_context_t * _cfg_context, const char *key)
 {
   int ret = 0;
-  char *str = _lw6cfg_get_option (context, key);
+  char *str = _lw6cfg_get_option (sys_context, _cfg_context, key);
 
   if (str)
     {
-      ret = lw6sys_atoi (str) ? 1 : 0;
+      ret = lw6sys_atoi (sys_context, str) ? 1 : 0;
       LW6SYS_FREE (sys_context, str);
     }
 
@@ -217,7 +221,8 @@ _lw6cfg_get_option_bool (_lw6cfg_context_t * context, const char *key)
 /**
  * lw6cfg_get_option_bool
  *
- * @context: context to query
+ * @sys_context: global system context
+ * @cfg_context: context to query
  * @key: key to search
  *
  * Returns an option as a boolean. Note that this function does
@@ -228,20 +233,20 @@ _lw6cfg_get_option_bool (_lw6cfg_context_t * context, const char *key)
  * Return value: option value converted to boolean
  */
 int
-lw6cfg_get_option_bool (void *context, const char *key)
+lw6cfg_get_option_bool (lw6sys_context_t * sys_context, void *cfg_context, const char *key)
 {
-  return _lw6cfg_get_option_bool ((_lw6cfg_context_t *) context, key);
+  return _lw6cfg_get_option_bool (sys_context, (_lw6cfg_context_t *) cfg_context, key);
 }
 
 void
-_lw6cfg_set_option_bool (_lw6cfg_context_t * context, const char *key, int value)
+_lw6cfg_set_option_bool (lw6sys_context_t * sys_context, _lw6cfg_context_t * _cfg_context, const char *key, int value)
 {
   char *str;
 
   str = lw6sys_itoa (sys_context, value ? 1 : 0);
   if (str)
     {
-      _lw6cfg_set_option (context, key, str);
+      _lw6cfg_set_option (sys_context, _cfg_context, key, str);
       LW6SYS_FREE (sys_context, str);
     }
 }
@@ -249,7 +254,8 @@ _lw6cfg_set_option_bool (_lw6cfg_context_t * context, const char *key, int value
 /**
  * lw6cfg_set_option_bool
  *
- * @context: context to modify
+ * @sys_context: global system context
+ * @cfg_context: context to modify
  * @key: key to search and change
  * @value: new value
  *
@@ -260,7 +266,7 @@ _lw6cfg_set_option_bool (_lw6cfg_context_t * context, const char *key, int value
  * Return value: none.
  */
 void
-lw6cfg_set_option_bool (void *context, const char *key, int value)
+lw6cfg_set_option_bool (lw6sys_context_t * sys_context, void *cfg_context, const char *key, int value)
 {
-  _lw6cfg_set_option_bool ((_lw6cfg_context_t *) context, key, value);
+  _lw6cfg_set_option_bool (sys_context, (_lw6cfg_context_t *) cfg_context, key, value);
 }

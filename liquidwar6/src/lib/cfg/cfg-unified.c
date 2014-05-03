@@ -30,28 +30,28 @@
 #include "cfg-internal.h"
 
 static char *
-get_option (int argc, const char *argv[], char *key)
+_get_option (lw6sys_context_t * sys_context, int argc, const char *argv[], char *key)
 {
   char *ret = NULL;
   char *config_file = NULL;
   _lw6cfg_context_t *cfg_context = NULL;
 
-  cfg_context = _lw6cfg_init (argc, argv);
+  cfg_context = _lw6cfg_init (sys_context, argc, argv);
   if (cfg_context)
     {
       config_file = lw6sys_get_config_file (sys_context, argc, argv);
       if (config_file)
 	{
-	  if (_lw6cfg_load (cfg_context, config_file))
+	  if (_lw6cfg_load (sys_context, cfg_context, config_file))
 	    {
-	      if (_lw6cfg_option_exists (cfg_context, key))
+	      if (_lw6cfg_option_exists (sys_context, cfg_context, key))
 		{
-		  ret = _lw6cfg_get_option (cfg_context, key);
+		  ret = _lw6cfg_get_option (sys_context, cfg_context, key);
 		}
 	    }
 	  LW6SYS_FREE (sys_context, config_file);
 	}
-      _lw6cfg_quit (cfg_context);
+      _lw6cfg_quit (sys_context, cfg_context);
     }
 
   return ret;
@@ -61,6 +61,7 @@ get_option (int argc, const char *argv[], char *key)
 /**
  * lw6cfg_unified_get_value
  *
+ * @sys_context: global system context
  * @argc: number of command-line args, as passed to @main
  * @argv: arry of command-line args, as passed to @main
  * @key: the key to query
@@ -78,7 +79,7 @@ get_option (int argc, const char *argv[], char *key)
  * Return value: a string with the value. Can be NULL. Must be freed.
  */
 char *
-lw6cfg_unified_get_value (int argc, const char *argv[], char *key)
+lw6cfg_unified_get_value (lw6sys_context_t * sys_context, int argc, const char *argv[], char *key)
 {
   char *ret = NULL;
 
@@ -86,7 +87,7 @@ lw6cfg_unified_get_value (int argc, const char *argv[], char *key)
 
   if (!ret)
     {
-      ret = get_option (argc, argv, key);
+      ret = _get_option (sys_context, argc, argv, key);
     }
 
   return ret;
@@ -95,6 +96,7 @@ lw6cfg_unified_get_value (int argc, const char *argv[], char *key)
 /**
  * lw6cfg_unified_get_user_dir
  *
+ * @sys_context: global system context
  * @argc: number of command-line args, as passed to @main
  * @argv: arry of command-line args, as passed to @main
  *
@@ -105,11 +107,11 @@ lw6cfg_unified_get_value (int argc, const char *argv[], char *key)
  * Return value: the directory path, might be NULL, must be freed.
  */
 char *
-lw6cfg_unified_get_user_dir (int argc, const char *argv[])
+lw6cfg_unified_get_user_dir (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *ret;
 
-  ret = lw6cfg_unified_get_value (argc, argv, LW6DEF_USER_DIR);
+  ret = lw6cfg_unified_get_value (sys_context, argc, argv, LW6DEF_USER_DIR);
   if (!ret)
     {
       ret = lw6sys_get_user_dir (sys_context, argc, argv);
@@ -121,6 +123,7 @@ lw6cfg_unified_get_user_dir (int argc, const char *argv[])
 /**
  * lw6cfg_unified_get_log_file
  *
+ * @sys_context: global system context
  * @argc: number of command-line args, as passed to @main
  * @argv: arry of command-line args, as passed to @main
  *
@@ -131,11 +134,11 @@ lw6cfg_unified_get_user_dir (int argc, const char *argv[])
  * Return value: the directory path, might be NULL, must be freed.
  */
 char *
-lw6cfg_unified_get_log_file (int argc, const char *argv[])
+lw6cfg_unified_get_log_file (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *ret;
 
-  ret = lw6cfg_unified_get_value (argc, argv, LW6DEF_LOG_FILE);
+  ret = lw6cfg_unified_get_value (sys_context, argc, argv, LW6DEF_LOG_FILE);
   if (!ret)
     {
       ret = lw6sys_get_log_file (sys_context, argc, argv);
@@ -147,6 +150,7 @@ lw6cfg_unified_get_log_file (int argc, const char *argv[])
 /**
  * lw6cfg_unified_get_music_path
  *
+ * @sys_context: global system context
  * @argc: number of command-line args, as passed to @main
  * @argv: arry of command-line args, as passed to @main
  *
@@ -157,7 +161,7 @@ lw6cfg_unified_get_log_file (int argc, const char *argv[])
  * Return value: the directory path, might be NULL, must be freed.
  */
 char *
-lw6cfg_unified_get_music_path (int argc, const char *argv[])
+lw6cfg_unified_get_music_path (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *tmp = NULL;
   char *music_path = NULL;
@@ -166,11 +170,11 @@ lw6cfg_unified_get_music_path (int argc, const char *argv[])
   music_path = lw6sys_get_music_path (sys_context, argc, argv);
   if (music_path)
     {
-      music_path_config = get_option (argc, argv, LW6DEF_MUSIC_PATH);
+      music_path_config = _get_option (sys_context, argc, argv, LW6DEF_MUSIC_PATH);
       if (music_path_config)
 	{
 	  tmp = music_path;
-	  music_path = lw6sys_env_concat (music_path, music_path_config);
+	  music_path = lw6sys_env_concat (sys_context, music_path, music_path_config);
 	  LW6SYS_FREE (sys_context, tmp);
 	  LW6SYS_FREE (sys_context, music_path_config);
 	}
@@ -182,6 +186,7 @@ lw6cfg_unified_get_music_path (int argc, const char *argv[])
 /**
  * lw6cfg_unified_get_map_path
  *
+ * @sys_context: global system context
  * @argc: number of command-line args, as passed to @main
  * @argv: arry of command-line args, as passed to @main
  *
@@ -192,7 +197,7 @@ lw6cfg_unified_get_music_path (int argc, const char *argv[])
  * Return value: the directory path, might be NULL, must be freed.
  */
 char *
-lw6cfg_unified_get_map_path (int argc, const char *argv[])
+lw6cfg_unified_get_map_path (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *tmp = NULL;
   char *map_path = NULL;
@@ -201,11 +206,11 @@ lw6cfg_unified_get_map_path (int argc, const char *argv[])
   map_path = lw6sys_get_map_path (sys_context, argc, argv);
   if (map_path)
     {
-      map_path_config = get_option (argc, argv, LW6DEF_MAP_PATH);
+      map_path_config = _get_option (sys_context, argc, argv, LW6DEF_MAP_PATH);
       if (map_path_config)
 	{
 	  tmp = map_path;
-	  map_path = lw6sys_env_concat (map_path, map_path_config);
+	  map_path = lw6sys_env_concat (sys_context, map_path, map_path_config);
 	  LW6SYS_FREE (sys_context, tmp);
 	  LW6SYS_FREE (sys_context, map_path_config);
 	}

@@ -1062,7 +1062,7 @@ _scm_lw6sys_dump (SCM content)
   c_content = lw6scm_utils_to_0str (content);
   if (c_content)
     {
-      user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+      user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
       if (user_dir)
 	{
 	  lw6sys_dump (sys_context, user_dir, c_content);
@@ -1084,7 +1084,7 @@ _scm_lw6sys_dump_clear ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+  user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
   if (user_dir)
     {
       lw6sys_dump_clear (sys_context, user_dir);

@@ -53,7 +53,7 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
       c_relative_path = lw6scm_utils_to_0str (relative_path);
       if (c_relative_path)
 	{
-	  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+	  user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
 	  if (user_dir)
 	    {
 	      c_maps = lw6ldr_get_entries (c_map_path, c_relative_path, user_dir);
@@ -137,7 +137,7 @@ _scm_lw6ldr_read (SCM dirname, SCM default_param, SCM forced_param, SCM display_
 	      c_bench_value = scm_to_int (bench_value);
 	      c_magic_number = scm_to_int (magic_number);
 
-	      user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+	      user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
 	      if (user_dir)
 		{
 		  c_level =
@@ -212,7 +212,7 @@ _scm_lw6ldr_read_relative (SCM map_path, SCM relative_path, SCM default_param,
 		  c_bench_value = scm_to_int (bench_value);
 		  c_magic_number = scm_to_int (magic_number);
 
-		  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+		  user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
 		  if (user_dir)
 		    {
 		      c_level =
@@ -247,7 +247,7 @@ _scm_lw6ldr_print_examples ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+  user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
   if (user_dir)
     {
       lw6ldr_print_examples (user_dir);
@@ -303,7 +303,7 @@ _scm_lw6ldr_exp_validate (SCM level)
   c_level = lw6_scm_to_map (level);
   if (c_level)
     {
-      user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+      user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
       if (user_dir)
 	{
 	  ret = lw6ldr_exp_validate (c_level, user_dir) ? SCM_BOOL_T : SCM_BOOL_F;
@@ -337,7 +337,7 @@ _scm_lw6ldr_chain_entry (SCM map_path, SCM relative_path)
       c_relative_path = lw6scm_utils_to_0str (relative_path);
       if (c_relative_path)
 	{
-	  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+	  user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
 	  if (user_dir)
 	    {
 	      c_entry = lw6ldr_chain_entry (c_map_path, c_relative_path, user_dir);

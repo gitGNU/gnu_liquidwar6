@@ -43,7 +43,7 @@ _scm_lw6tsk_loader_new (SCM sleep)
   SCM_ASSERT (scm_is_number (sleep), sleep, SCM_ARG1, __FUNCTION__);
 
   c_sleep = scm_to_double (sleep);
-  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+  user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
   if (user_dir)
     {
       c_loader = lw6tsk_loader_new (c_sleep, user_dir, &(lw6_global.progress));

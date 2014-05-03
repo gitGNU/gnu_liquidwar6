@@ -39,16 +39,16 @@ _read_callback (void *callback_data, const char *element, const char *key, const
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "global-timeout", &(consts->global_timeout));
-      lw6cfg_read_xml_int (key, value, "connect-timeout", &(consts->connect_timeout));
-      lw6cfg_read_xml_int (key, value, "ping-alter-base", &(consts->ping_alter_base));
-      lw6cfg_read_xml_int (key, value, "ping-alter-percent", &(consts->ping_alter_percent));
-      lw6cfg_read_xml_int (key, value, "max-concurrent-requests", &(consts->max_concurrent_requests));
+      lw6cfg_read_xml_int (sys_context, key, value, "global-timeout", &(consts->global_timeout));
+      lw6cfg_read_xml_int (sys_context, key, value, "connect-timeout", &(consts->connect_timeout));
+      lw6cfg_read_xml_int (sys_context, key, value, "ping-alter-base", &(consts->ping_alter_base));
+      lw6cfg_read_xml_int (sys_context, key, value, "ping-alter-percent", &(consts->ping_alter_percent));
+      lw6cfg_read_xml_int (sys_context, key, value, "max-concurrent-requests", &(consts->max_concurrent_requests));
     }
 
   if (!strcmp (element, "bool"))
     {
-      lw6cfg_read_xml_bool (key, value, "tcp-connect-before-http-get", &(consts->tcp_connect_before_http_get));
+      lw6cfg_read_xml_bool (sys_context, key, value, "tcp-connect-before-http-get", &(consts->tcp_connect_before_http_get));
     }
 }
 
@@ -59,7 +59,7 @@ _load_consts (_mod_http_consts_t * consts, const char *consts_file)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), consts_file);
 
-  ret = lw6cfg_read_key_value_xml_file (consts_file, _read_callback, (void *) consts);
+  ret = lw6cfg_read_key_value_xml_file (sys_context, consts_file, _read_callback, (void *) consts);
 
   return ret;
 }

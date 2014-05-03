@@ -118,10 +118,10 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 
   if (!strcmp (element, "string"))
     {
-      lw6cfg_read_xml_string (key, value, "title", &(metadata_data->title));
-      lw6cfg_read_xml_string (key, value, "author", &(metadata_data->author));
-      lw6cfg_read_xml_string (key, value, "description", &(metadata_data->description));
-      lw6cfg_read_xml_string (key, value, "license", &(metadata_data->license));
+      lw6cfg_read_xml_string (sys_context, key, value, "title", &(metadata_data->title));
+      lw6cfg_read_xml_string (sys_context, key, value, "author", &(metadata_data->author));
+      lw6cfg_read_xml_string (sys_context, key, value, "description", &(metadata_data->description));
+      lw6cfg_read_xml_string (sys_context, key, value, "license", &(metadata_data->license));
     }
 }
 
@@ -151,7 +151,7 @@ lw6ldr_metadata_read (lw6map_metadata_t * metadata, const char *dirname)
       if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading metadata \"%s\""), buf);
-	  ret = lw6cfg_read_key_value_xml_file (buf, read_callback, (void *) metadata);
+	  ret = lw6cfg_read_key_value_xml_file (sys_context, buf, read_callback, (void *) metadata);
 	}
       LW6SYS_FREE (sys_context, buf);
     }

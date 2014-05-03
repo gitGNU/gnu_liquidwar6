@@ -477,7 +477,7 @@ lw6_test_register (int mode)
       lw6sim_test_register (sys_context, mode);
       lw6cns_test_register (sys_context, mode);
       lw6hlp_test_register (sys_context, mode);
-      lw6cfg_test_register (mode);
+      lw6cfg_test_register (sys_context, mode);
       lw6ldr_test_register (mode);
       lw6tsk_test_register (mode);
       lw6mat_test_register (mode);

@@ -44,27 +44,27 @@ typedef struct _exp_s
 } _exp_t;
 
 static char *
-_get_filename (const char *user_dir)
+_get_filename (lw6sys_context_t * sys_context, const char *user_dir)
 {
   return lw6sys_path_concat (sys_context, user_dir, _EXP_FILE);
 }
 
 static u_int32_t
-_calc_checksum (int exp)
+_calc_checksum (lw6sys_context_t * sys_context, int exp)
 {
   char *username = NULL;
   char *hostname = NULL;
   u_int32_t checksum = 0;
 
-  username = lw6sys_get_username ();
+  username = lw6sys_get_username (sys_context);
   if (username)
     {
-      hostname = lw6sys_get_hostname ();
+      hostname = lw6sys_get_hostname (sys_context);
       if (hostname)
 	{
-	  lw6sys_checksum_update_str (&checksum, username);
-	  lw6sys_checksum_update_str (&checksum, hostname);
-	  lw6sys_checksum_update_int32 (&checksum, exp);
+	  lw6sys_checksum_update_str (sys_context, &checksum, username);
+	  lw6sys_checksum_update_str (sys_context, &checksum, hostname);
+	  lw6sys_checksum_update_int32 (sys_context, &checksum, exp);
 	  LW6SYS_FREE (sys_context, hostname);
 	}
       LW6SYS_FREE (sys_context, username);
@@ -74,7 +74,7 @@ _calc_checksum (int exp)
 }
 
 static void
-load_callback (void *callback_data, const char *element, const char *key, const char *value)
+_load_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   _exp_t *exp = (_exp_t *) callback_data;
 
@@ -97,6 +97,7 @@ load_callback (void *callback_data, const char *element, const char *key, const 
 /**
  * lw6cfg_load_exp
  *
+ * @sys_context: global system context
  * @user_dir: the user directory
  * @exp: the exp (out param)
  *
@@ -105,7 +106,7 @@ load_callback (void *callback_data, const char *element, const char *key, const 
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cfg_load_exp (const char *user_dir, int *exp)
+lw6cfg_load_exp (lw6sys_context_t * sys_context, const char *user_dir, int *exp)
 {
   int ret = 0;
   char *filename = NULL;
@@ -115,15 +116,15 @@ lw6cfg_load_exp (const char *user_dir, int *exp)
   exp_t.exp = LW6MAP_RULES_MIN_EXP;
   exp_t.checksum = 0;
 
-  filename = _get_filename (user_dir);
+  filename = _get_filename (sys_context, user_dir);
   if (filename)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading exp from \"%s\""), filename);
 
       if (lw6sys_file_exists (sys_context, filename))
 	{
-	  ret = lw6cfg_read_key_value_xml_file (filename, load_callback, (void *) &exp_t);
-	  checksum = _calc_checksum (exp_t.exp);
+	  ret = lw6cfg_read_key_value_xml_file (sys_context, filename, _load_callback, (void *) &exp_t);
+	  checksum = _calc_checksum (sys_context, exp_t.exp);
 	  if (checksum != exp_t.checksum)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bad exp checksum"));
@@ -147,6 +148,7 @@ lw6cfg_load_exp (const char *user_dir, int *exp)
 /**
  * lw6cfg_save_exp
  *
+ * @sys_context: global system context
  * @user_dir: the user directory
  * @exp: the exp
  *
@@ -155,14 +157,14 @@ lw6cfg_load_exp (const char *user_dir, int *exp)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cfg_save_exp (const char *user_dir, int exp)
+lw6cfg_save_exp (lw6sys_context_t * sys_context, const char *user_dir, int exp)
 {
   int ret = 0;
   FILE *f;
   char *filename = NULL;
   int checksum = 0;
 
-  filename = _get_filename (user_dir);
+  filename = _get_filename (sys_context, user_dir);
   if (filename)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("saving exp to \"%s\""), filename);
@@ -170,15 +172,15 @@ lw6cfg_save_exp (const char *user_dir, int exp)
       f = fopen (filename, "wb");
       if (f)
 	{
-	  lw6sys_print_xml_header (f,
+	  lw6sys_print_xml_header (sys_context, f,
 				   _x_
 				   ("This is where your exp is kept. Please do not edit, this would be assimilated to cheating, while it's not that hard to fool the game and make it believe you're super strong when you are not, such practice is not encouraged. It's believed it's more fun to wait until this number increases naturally."));
 
 	  exp = lw6sys_imin (LW6MAP_RULES_MAX_EXP, lw6sys_imax (LW6MAP_RULES_MIN_EXP, exp));
-	  checksum = _calc_checksum (exp);
+	  checksum = _calc_checksum (sys_context, exp);
 	  fprintf (f, "<int key=\"%s\" value=\"%d\" />%s", _EXP_KEY, exp, lw6sys_eol ());
 	  fprintf (f, "<int key=\"%s\" value=\"%d\" />%s", _CHECKSUM_KEY, checksum, lw6sys_eol ());
-	  lw6sys_print_xml_footer (f);
+	  lw6sys_print_xml_footer (sys_context, f);
 	  fclose (f);
 	  ret = 1;
 	}

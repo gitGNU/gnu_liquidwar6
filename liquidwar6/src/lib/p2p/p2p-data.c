@@ -43,26 +43,26 @@ _read_callback (void *callback_data, const char *element, const char *key, const
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "accept-delay", &consts->accept_delay);
-      lw6cfg_read_xml_int (key, value, "flush-verified-nodes-delay", &consts->flush_verified_nodes_delay);
-      lw6cfg_read_xml_int (key, value, "flush-discovered-nodes-delay", &consts->flush_discovered_nodes_delay);
-      lw6cfg_read_xml_int (key, value, "explore-discover-nodes-delay", &consts->explore_discover_nodes_delay);
-      lw6cfg_read_xml_int (key, value, "explore-verify-nodes-delay", &consts->explore_verify_nodes_delay);
-      lw6cfg_read_xml_int (key, value, "connect-registered-nodes-delay", &consts->connect_registered_nodes_delay);
-      lw6cfg_read_xml_int (key, value, "connect-registered-max-ping", &consts->connect_registered_max_ping);
-      lw6cfg_read_xml_int (key, value, "node-expire-soft-delay", &consts->node_expire_soft_delay);
-      lw6cfg_read_xml_int (key, value, "node-expire-hard-delay", &consts->node_expire_hard_delay);
-      lw6cfg_read_xml_int (key, value, "node-verify-max-at-once", &consts->node_verify_max_at_once);
-      lw6cfg_read_xml_int (key, value, "foo-delay", &consts->foo_delay);
-      lw6cfg_read_xml_int (key, value, "join-delay", &consts->join_delay);
-      lw6cfg_read_xml_int (key, value, "miss-get-delay", &consts->miss_get_delay);
-      lw6cfg_read_xml_int (key, value, "miss-duplicate-delay", &consts->miss_duplicate_delay);
-      lw6cfg_read_xml_int (key, value, "miss-wake-up-interval", &consts->miss_wake_up_interval);
-      lw6cfg_read_xml_int (key, value, "miss-max-range", &consts->miss_max_range);
-      lw6cfg_read_xml_int (key, value, "ticket-table-hash-size", &consts->ticket_table_hash_size);
-      lw6cfg_read_xml_int (key, value, "send-per-poll-limit-n", &consts->send_per_poll_limit_n);
-      lw6cfg_read_xml_int (key, value, "received-atom-parts-per-poll-to-disable-miss", &consts->received_atom_parts_per_poll_to_disable_miss);
-      lw6cfg_read_xml_int (key, value, "meta-nb-duplicates", &consts->meta_nb_duplicates);
+      lw6cfg_read_xml_int (sys_context, key, value, "accept-delay", &consts->accept_delay);
+      lw6cfg_read_xml_int (sys_context, key, value, "flush-verified-nodes-delay", &consts->flush_verified_nodes_delay);
+      lw6cfg_read_xml_int (sys_context, key, value, "flush-discovered-nodes-delay", &consts->flush_discovered_nodes_delay);
+      lw6cfg_read_xml_int (sys_context, key, value, "explore-discover-nodes-delay", &consts->explore_discover_nodes_delay);
+      lw6cfg_read_xml_int (sys_context, key, value, "explore-verify-nodes-delay", &consts->explore_verify_nodes_delay);
+      lw6cfg_read_xml_int (sys_context, key, value, "connect-registered-nodes-delay", &consts->connect_registered_nodes_delay);
+      lw6cfg_read_xml_int (sys_context, key, value, "connect-registered-max-ping", &consts->connect_registered_max_ping);
+      lw6cfg_read_xml_int (sys_context, key, value, "node-expire-soft-delay", &consts->node_expire_soft_delay);
+      lw6cfg_read_xml_int (sys_context, key, value, "node-expire-hard-delay", &consts->node_expire_hard_delay);
+      lw6cfg_read_xml_int (sys_context, key, value, "node-verify-max-at-once", &consts->node_verify_max_at_once);
+      lw6cfg_read_xml_int (sys_context, key, value, "foo-delay", &consts->foo_delay);
+      lw6cfg_read_xml_int (sys_context, key, value, "join-delay", &consts->join_delay);
+      lw6cfg_read_xml_int (sys_context, key, value, "miss-get-delay", &consts->miss_get_delay);
+      lw6cfg_read_xml_int (sys_context, key, value, "miss-duplicate-delay", &consts->miss_duplicate_delay);
+      lw6cfg_read_xml_int (sys_context, key, value, "miss-wake-up-interval", &consts->miss_wake_up_interval);
+      lw6cfg_read_xml_int (sys_context, key, value, "miss-max-range", &consts->miss_max_range);
+      lw6cfg_read_xml_int (sys_context, key, value, "ticket-table-hash-size", &consts->ticket_table_hash_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "send-per-poll-limit-n", &consts->send_per_poll_limit_n);
+      lw6cfg_read_xml_int (sys_context, key, value, "received-atom-parts-per-poll-to-disable-miss", &consts->received_atom_parts_per_poll_to_disable_miss);
+      lw6cfg_read_xml_int (sys_context, key, value, "meta-nb-duplicates", &consts->meta_nb_duplicates);
     }
 }
 
@@ -72,7 +72,7 @@ _load_consts (_lw6p2p_consts_t * consts, const char *consts_file)
   int ret = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), consts_file);
-  ret = lw6cfg_read_key_value_xml_file (consts_file, _read_callback, (void *) consts);
+  ret = lw6cfg_read_key_value_xml_file (sys_context, consts_file, _read_callback, (void *) consts);
 
   return ret;
 }

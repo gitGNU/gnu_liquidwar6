@@ -31,18 +31,18 @@
 
 
 static void
-load_callback (void *callback_data, const char *element, const char *key, const char *value)
+_load_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   _lw6cfg_context_t *cfg_context;
 
   cfg_context = (_lw6cfg_context_t *) callback_data;
 
-  if (lw6cfg_must_be_saved (key))
+  if (lw6cfg_must_be_saved (sys_context, key))
     {
-      if (lw6sys_spinlock_lock (cfg_context->spinlock))
+      if (lw6sys_spinlock_lock (sys_context, cfg_context->spinlock))
 	{
-	  lw6sys_hash_set (cfg_context->options, key, lw6sys_str_copy (sys_context, value));
-	  lw6sys_spinlock_unlock (cfg_context->spinlock);
+	  lw6sys_hash_set (sys_context, cfg_context->options, key, lw6sys_str_copy (sys_context, value));
+	  lw6sys_spinlock_unlock (sys_context, cfg_context->spinlock);
 	}
     }
   else
@@ -52,7 +52,7 @@ load_callback (void *callback_data, const char *element, const char *key, const 
 }
 
 int
-_lw6cfg_load (_lw6cfg_context_t * cfg_context, const char *filename)
+_lw6cfg_load (lw6sys_context_t * sys_context, _lw6cfg_context_t * cfg_context, const char *filename)
 {
   int ret = 0;
 
@@ -60,15 +60,15 @@ _lw6cfg_load (_lw6cfg_context_t * cfg_context, const char *filename)
 
   if (lw6sys_file_exists (sys_context, filename))
     {
-      ret = lw6cfg_read_key_value_xml_file (filename, load_callback, (void *) cfg_context);
+      ret = lw6cfg_read_key_value_xml_file (sys_context, filename, _load_callback, (void *) cfg_context);
     }
   else
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("config file \"%s\" doesn't exist, using defaults"), filename);
     }
 
-  _lw6cfg_merge_env (cfg_context);
-  _lw6cfg_parse_command_line (cfg_context);
+  _lw6cfg_merge_env (sys_context, cfg_context);
+  _lw6cfg_parse_command_line (sys_context, cfg_context);
 
   return ret;
 }
@@ -76,6 +76,7 @@ _lw6cfg_load (_lw6cfg_context_t * cfg_context, const char *filename)
 /**
  * lw6cfg_load
  *
+ * @sys_context: global system context
  * @cfg_context: a context returned by @lw6cfg_init
  * @filename: a file path, absolute or relative
  *
@@ -86,7 +87,7 @@ _lw6cfg_load (_lw6cfg_context_t * cfg_context, const char *filename)
  * Return value: 1 if successfull, 0 if error.
  */
 int
-lw6cfg_load (void *cfg_context, const char *filename)
+lw6cfg_load (lw6sys_context_t * sys_context, void *cfg_context, const char *filename)
 {
-  return _lw6cfg_load ((_lw6cfg_context_t *) cfg_context, filename);
+  return _lw6cfg_load (sys_context, (_lw6cfg_context_t *) cfg_context, filename);
 }

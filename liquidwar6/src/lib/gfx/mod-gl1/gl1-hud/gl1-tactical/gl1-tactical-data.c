@@ -44,10 +44,10 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 
   if (!strcmp (element, "float"))
     {
-      lw6cfg_read_xml_float (key, value, "viewport-x", &const_data->viewport_x);
-      lw6cfg_read_xml_float (key, value, "viewport-y", &const_data->viewport_y);
-      lw6cfg_read_xml_float (key, value, "viewport-w", &const_data->viewport_w);
-      lw6cfg_read_xml_float (key, value, "viewport-h", &const_data->viewport_h);
+      lw6cfg_read_xml_float (sys_context, key, value, "viewport-x", &const_data->viewport_x);
+      lw6cfg_read_xml_float (sys_context, key, value, "viewport-y", &const_data->viewport_y);
+      lw6cfg_read_xml_float (sys_context, key, value, "viewport-w", &const_data->viewport_w);
+      lw6cfg_read_xml_float (sys_context, key, value, "viewport-h", &const_data->viewport_h);
     }
 }
 
@@ -63,7 +63,7 @@ load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_cont
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-      ret = lw6cfg_read_key_value_xml_file (const_file, read_callback, (void *) &(tactical_context->const_data));
+      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, read_callback, (void *) &(tactical_context->const_data));
 
       LW6SYS_FREE (sys_context, const_file);
     }

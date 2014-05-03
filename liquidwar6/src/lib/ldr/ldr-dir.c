@@ -446,7 +446,7 @@ lw6ldr_get_entries (const char *map_path, const char *relative_path, const char 
   lw6sys_list_t *entries = NULL;
   _count_submaps_callback_func1_data_t func1_data;
 
-  lw6cfg_load_exp (user_dir, &player_exp);
+  lw6cfg_load_exp (sys_context, user_dir, &player_exp);
   entries = _get_entries (map_path, relative_path, player_exp);
   func1_data.map_path = map_path;
   func1_data.user_dir = user_dir;
@@ -507,7 +507,7 @@ lw6ldr_for_all_entries (const char *map_path, const char *relative_path,
   int player_exp;
 
   memset (&callback_data, 0, sizeof (for_all_entries_callback_data_t));
-  lw6cfg_load_exp (user_dir, &player_exp);
+  lw6cfg_load_exp (sys_context, user_dir, &player_exp);
   entries = _get_entries (map_path, relative_path, player_exp);
   if (entries)
     {
@@ -566,7 +566,7 @@ lw6ldr_chain_entry (const char *map_path, const char *relative_path, const char 
 
   chain_ret.exp = LW6MAP_RULES_MIN_EXP;
   chain_ret.found_entry = NULL;
-  lw6cfg_load_exp (user_dir, &chain_ret.exp);
+  lw6cfg_load_exp (sys_context, user_dir, &chain_ret.exp);
   parent = lw6sys_path_parent (sys_context, relative_path);
   if (parent)
     {

@@ -28,59 +28,60 @@
 #include "cfg-internal.h"
 
 _lw6cfg_context_t *
-_lw6cfg_init (int argc, const char *argv[])
+_lw6cfg_init (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
-  _lw6cfg_context_t *cfg_context = NULL;
+  _lw6cfg_context_t *_cfg_context = NULL;
 
-  cfg_context = (_lw6cfg_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6cfg_context_t));
-  if (cfg_context)
+  _cfg_context = (_lw6cfg_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6cfg_context_t));
+  if (_cfg_context)
     {
-      cfg_context->config_file = lw6sys_get_config_file (sys_context, argc, argv);
-      if (cfg_context->config_file)
+      _cfg_context->config_file = lw6sys_get_config_file (sys_context, argc, argv);
+      if (_cfg_context->config_file)
 	{
-	  cfg_context->options = lw6sys_hash_new (sys_context, lw6sys_free_callback, LW6HLP_APPROX_NB_ENTRIES);
-	  if (cfg_context->options)
+	  _cfg_context->options = lw6sys_hash_new (sys_context, lw6sys_free_callback, LW6HLP_APPROX_NB_ENTRIES);
+	  if (_cfg_context->options)
 	    {
-	      cfg_context->spinlock = lw6sys_spinlock_create ();
-	      if (cfg_context->spinlock)
+	      _cfg_context->spinlock = lw6sys_spinlock_create (sys_context);
+	      if (_cfg_context->spinlock)
 		{
-		  cfg_context->argc = argc;
-		  cfg_context->argv = argv;
-		  _lw6cfg_parse_command_line (cfg_context);
+		  _cfg_context->argc = argc;
+		  _cfg_context->argv = argv;
+		  _lw6cfg_parse_command_line (sys_context, _cfg_context);
 		}
 	      else
 		{
-		  lw6sys_hash_free (cfg_context->options);
-		  LW6SYS_FREE (sys_context, cfg_context->config_file);
-		  LW6SYS_FREE (sys_context, cfg_context);
-		  cfg_context = NULL;
+		  lw6sys_hash_free (sys_context, _cfg_context->options);
+		  LW6SYS_FREE (sys_context, _cfg_context->config_file);
+		  LW6SYS_FREE (sys_context, _cfg_context);
+		  _cfg_context = NULL;
 		}
 	    }
 	  else
 	    {
-	      LW6SYS_FREE (sys_context, cfg_context->config_file);
-	      LW6SYS_FREE (sys_context, cfg_context);
-	      cfg_context = NULL;
+	      LW6SYS_FREE (sys_context, _cfg_context->config_file);
+	      LW6SYS_FREE (sys_context, _cfg_context);
+	      _cfg_context = NULL;
 	    }
 	}
       else
 	{
-	  LW6SYS_FREE (sys_context, cfg_context);
-	  cfg_context = NULL;
+	  LW6SYS_FREE (sys_context, _cfg_context);
+	  _cfg_context = NULL;
 	}
     }
 
-  if (!cfg_context)
+  if (!_cfg_context)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to initialize config"));
     }
 
-  return cfg_context;
+  return _cfg_context;
 }
 
 /**
  * lw6cfg_init
  *
+ * @sys_context: global system context
  * @argc: number of command line arguments, as given to @main
  * @argv: a list of command line arguments, as given to @main
  *
@@ -91,26 +92,27 @@ _lw6cfg_init (int argc, const char *argv[])
  * Return value: an opaque pointer, must be freed with @lw6cfg_quit.
  */
 void *
-lw6cfg_init (int argc, const char *argv[])
+lw6cfg_init (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
-  return (void *) _lw6cfg_init (argc, argv);
+  return (void *) _lw6cfg_init (sys_context, argc, argv);
 }
 
 void
-_lw6cfg_quit (_lw6cfg_context_t * cfg_context)
+_lw6cfg_quit (lw6sys_context_t * sys_context, _lw6cfg_context_t * _cfg_context)
 {
-  if (cfg_context)
+  if (_cfg_context)
     {
-      lw6sys_spinlock_destroy (cfg_context->spinlock);
-      lw6sys_hash_free (cfg_context->options);
-      LW6SYS_FREE (sys_context, cfg_context->config_file);
-      LW6SYS_FREE (sys_context, cfg_context);
+      lw6sys_spinlock_destroy (sys_context, _cfg_context->spinlock);
+      lw6sys_hash_free (sys_context, _cfg_context->options);
+      LW6SYS_FREE (sys_context, _cfg_context->config_file);
+      LW6SYS_FREE (sys_context, _cfg_context);
     }
 }
 
 /**
  * lw6cfg_quit
  *
+ * @sys_context: global system context
  * @cfg_context: a context returned by @lw6cfg_init
  *
  * Frees a config cfg_context object. You must call this
@@ -119,14 +121,15 @@ _lw6cfg_quit (_lw6cfg_context_t * cfg_context)
  * Return value: none.
  */
 void
-lw6cfg_quit (void *cfg_context)
+lw6cfg_quit (lw6sys_context_t * sys_context, void *cfg_context)
 {
-  _lw6cfg_quit ((_lw6cfg_context_t *) cfg_context);
+  _lw6cfg_quit (sys_context, (_lw6cfg_context_t *) cfg_context);
 }
 
 /**
  * lw6cfg_reset
  *
+ * @sys_context: global system context
  * @argc: number of command line arguments, as given to @main
  * @argv: a list of command line arguments, as given to @main
  *
@@ -134,7 +137,7 @@ lw6cfg_quit (void *cfg_context)
  * Use this to get rid of old configurations.
  */
 void
-lw6cfg_reset (int argc, const char *argv[])
+lw6cfg_reset (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *config_file = NULL;
   void *cfg_context = NULL;
@@ -143,26 +146,26 @@ lw6cfg_reset (int argc, const char *argv[])
   config_file = lw6sys_get_config_file (sys_context, argc, argv);
   if (config_file)
     {
-      cfg_context = lw6cfg_init (argc, argv);
+      cfg_context = lw6cfg_init (sys_context, argc, argv);
       if (cfg_context)
 	{
 	  value = lw6sys_get_user_dir (sys_context, argc, argv);
 	  if (value)
 	    {
-	      lw6cfg_set_option (cfg_context, LW6DEF_USER_DIR, value);
+	      lw6cfg_set_option (sys_context, cfg_context, LW6DEF_USER_DIR, value);
 	      LW6SYS_FREE (sys_context, value);
 	    }
 	  value = lw6sys_get_log_file (sys_context, argc, argv);
 	  if (value)
 	    {
-	      lw6cfg_set_option (cfg_context, LW6DEF_LOG_FILE, value);
+	      lw6cfg_set_option (sys_context, cfg_context, LW6DEF_LOG_FILE, value);
 	      LW6SYS_FREE (sys_context, value);
 	    }
-	  lw6cfg_set_option (cfg_context, LW6DEF_MUSIC_PATH, "");
-	  lw6cfg_set_option (cfg_context, LW6DEF_MAP_PATH, "");
-	  lw6cfg_set_option (cfg_context, LW6DEF_BIN_ID, "0");
-	  lw6cfg_save (cfg_context, config_file);
-	  lw6cfg_quit (cfg_context);
+	  lw6cfg_set_option (sys_context, cfg_context, LW6DEF_MUSIC_PATH, "");
+	  lw6cfg_set_option (sys_context, cfg_context, LW6DEF_MAP_PATH, "");
+	  lw6cfg_set_option (sys_context, cfg_context, LW6DEF_BIN_ID, "0");
+	  lw6cfg_save (sys_context, cfg_context, config_file);
+	  lw6cfg_quit (sys_context, cfg_context);
 	}
       LW6SYS_FREE (sys_context, config_file);
     }

@@ -56,13 +56,13 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 
   if (!strcmp (element, LW6CFG_XML_INT))
     {
-      lw6cfg_read_xml_int (key, value, key, &int_value);
+      lw6cfg_read_xml_int (sys_context, key, value, key, &int_value);
       lw6map_rules_set_int (sys_context, rules_data, key, int_value);
     }
 
   if (!strcmp (element, LW6CFG_XML_BOOL))
     {
-      lw6cfg_read_xml_bool (key, value, key, &int_value);
+      lw6cfg_read_xml_bool (sys_context, key, value, key, &int_value);
       lw6map_rules_set_bool (sys_context, rules_data, key, int_value);
     }
 
@@ -102,7 +102,7 @@ lw6ldr_rules_read (lw6map_rules_t * rules, const char *dirname)
       if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading rules \"%s\""), buf);
-	  ret = lw6cfg_read_key_value_xml_file (buf, read_callback, (void *) rules);
+	  ret = lw6cfg_read_key_value_xml_file (sys_context, buf, read_callback, (void *) rules);
 	}
       else
 	{

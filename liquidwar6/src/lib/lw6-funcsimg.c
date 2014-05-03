@@ -48,7 +48,7 @@ _scm_lw6img_screenshot (SCM game_state, SCM quality)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+      c_user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
       if (c_user_dir)
 	{
 	  c_quality = scm_to_int (quality);

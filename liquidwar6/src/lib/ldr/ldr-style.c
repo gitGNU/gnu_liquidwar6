@@ -69,7 +69,7 @@ lw6ldr_style_read (lw6map_style_t * style, const char *dirname)
       if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading style \"%s\""), buf);
-	  ret = lw6cfg_read_key_value_xml_file (buf, read_callback, (void *) style);
+	  ret = lw6cfg_read_key_value_xml_file (sys_context, buf, read_callback, (void *) style);
 	}
       else
 	{

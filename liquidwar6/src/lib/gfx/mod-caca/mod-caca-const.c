@@ -37,68 +37,68 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "event-timeout-microseconds", &const_data->event_timeout_microseconds);
-      lw6cfg_read_xml_int (key, value, "canvas-create-width", &const_data->canvas_create_width);
-      lw6cfg_read_xml_int (key, value, "canvas-create-height", &const_data->canvas_create_height);
+      lw6cfg_read_xml_int (sys_context, key, value, "event-timeout-microseconds", &const_data->event_timeout_microseconds);
+      lw6cfg_read_xml_int (sys_context, key, value, "canvas-create-width", &const_data->canvas_create_width);
+      lw6cfg_read_xml_int (sys_context, key, value, "canvas-create-height", &const_data->canvas_create_height);
 
       /* KEYS */
-      lw6cfg_read_xml_int (key, value, "keysym1-up", &const_data->keysym1_up);
-      lw6cfg_read_xml_int (key, value, "keysym2-up", &const_data->keysym2_up);
-      lw6cfg_read_xml_int (key, value, "keysym3-up", &const_data->keysym3_up);
-      lw6cfg_read_xml_int (key, value, "keysym4-up", &const_data->keysym4_up);
-      lw6cfg_read_xml_int (key, value, "keysym1-down", &const_data->keysym1_down);
-      lw6cfg_read_xml_int (key, value, "keysym2-down", &const_data->keysym2_down);
-      lw6cfg_read_xml_int (key, value, "keysym3-down", &const_data->keysym3_down);
-      lw6cfg_read_xml_int (key, value, "keysym4-down", &const_data->keysym4_down);
-      lw6cfg_read_xml_int (key, value, "keysym1-left", &const_data->keysym1_left);
-      lw6cfg_read_xml_int (key, value, "keysym2-left", &const_data->keysym2_left);
-      lw6cfg_read_xml_int (key, value, "keysym3-left", &const_data->keysym3_left);
-      lw6cfg_read_xml_int (key, value, "keysym4-left", &const_data->keysym4_left);
-      lw6cfg_read_xml_int (key, value, "keysym1-right", &const_data->keysym1_right);
-      lw6cfg_read_xml_int (key, value, "keysym2-right", &const_data->keysym2_right);
-      lw6cfg_read_xml_int (key, value, "keysym3-right", &const_data->keysym3_right);
-      lw6cfg_read_xml_int (key, value, "keysym4-right", &const_data->keysym4_right);
-      lw6cfg_read_xml_int (key, value, "keysym1-enter", &const_data->keysym1_enter);
-      lw6cfg_read_xml_int (key, value, "keysym2-enter", &const_data->keysym2_enter);
-      lw6cfg_read_xml_int (key, value, "keysym1-esc", &const_data->keysym1_esc);
-      lw6cfg_read_xml_int (key, value, "keysym2-esc", &const_data->keysym2_esc);
-      lw6cfg_read_xml_int (key, value, "keysym1-ctrl", &const_data->keysym1_ctrl);
-      lw6cfg_read_xml_int (key, value, "keysym2-ctrl", &const_data->keysym2_ctrl);
-      lw6cfg_read_xml_int (key, value, "keysym1-alt", &const_data->keysym1_alt);
-      lw6cfg_read_xml_int (key, value, "keysym2-alt", &const_data->keysym2_alt);
-      lw6cfg_read_xml_int (key, value, "keysym1-pgup", &const_data->keysym1_pgup);
-      lw6cfg_read_xml_int (key, value, "keysym2-pgup", &const_data->keysym2_pgup);
-      lw6cfg_read_xml_int (key, value, "keysym1-pgdown", &const_data->keysym1_pgdown);
-      lw6cfg_read_xml_int (key, value, "keysym2-pgdown", &const_data->keysym2_pgdown);
-      lw6cfg_read_xml_int (key, value, "keysym-quit", &const_data->keysym_quit);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym1-up", &const_data->keysym1_up);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym2-up", &const_data->keysym2_up);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym3-up", &const_data->keysym3_up);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym4-up", &const_data->keysym4_up);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym1-down", &const_data->keysym1_down);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym2-down", &const_data->keysym2_down);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym3-down", &const_data->keysym3_down);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym4-down", &const_data->keysym4_down);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym1-left", &const_data->keysym1_left);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym2-left", &const_data->keysym2_left);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym3-left", &const_data->keysym3_left);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym4-left", &const_data->keysym4_left);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym1-right", &const_data->keysym1_right);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym2-right", &const_data->keysym2_right);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym3-right", &const_data->keysym3_right);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym4-right", &const_data->keysym4_right);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym1-enter", &const_data->keysym1_enter);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym2-enter", &const_data->keysym2_enter);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym1-esc", &const_data->keysym1_esc);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym2-esc", &const_data->keysym2_esc);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym1-ctrl", &const_data->keysym1_ctrl);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym2-ctrl", &const_data->keysym2_ctrl);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym1-alt", &const_data->keysym1_alt);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym2-alt", &const_data->keysym2_alt);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym1-pgup", &const_data->keysym1_pgup);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym2-pgup", &const_data->keysym2_pgup);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym1-pgdown", &const_data->keysym1_pgdown);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym2-pgdown", &const_data->keysym2_pgdown);
+      lw6cfg_read_xml_int (sys_context, key, value, "keysym-quit", &const_data->keysym_quit);
     }
   if (!strcmp (element, "color"))
     {
-      lw6cfg_read_xml_color (key, value, "color-bg", &const_data->bg_color);
-      lw6cfg_read_xml_color (key, value, "color-fg", &const_data->fg_color);
-      lw6cfg_read_xml_color (key, value, "team_color0", &const_data->team_color[0]);
-      lw6cfg_read_xml_color (key, value, "team_color1", &const_data->team_color[1]);
-      lw6cfg_read_xml_color (key, value, "team_color2", &const_data->team_color[2]);
-      lw6cfg_read_xml_color (key, value, "team_color3", &const_data->team_color[3]);
-      lw6cfg_read_xml_color (key, value, "team_color4", &const_data->team_color[4]);
-      lw6cfg_read_xml_color (key, value, "team_color5", &const_data->team_color[5]);
-      lw6cfg_read_xml_color (key, value, "team_color6", &const_data->team_color[6]);
-      lw6cfg_read_xml_color (key, value, "team_color7", &const_data->team_color[7]);
-      lw6cfg_read_xml_color (key, value, "team_color8", &const_data->team_color[8]);
-      lw6cfg_read_xml_color (key, value, "team_color9", &const_data->team_color[9]);
+      lw6cfg_read_xml_color (sys_context, key, value, "color-bg", &const_data->bg_color);
+      lw6cfg_read_xml_color (sys_context, key, value, "color-fg", &const_data->fg_color);
+      lw6cfg_read_xml_color (sys_context, key, value, "team_color0", &const_data->team_color[0]);
+      lw6cfg_read_xml_color (sys_context, key, value, "team_color1", &const_data->team_color[1]);
+      lw6cfg_read_xml_color (sys_context, key, value, "team_color2", &const_data->team_color[2]);
+      lw6cfg_read_xml_color (sys_context, key, value, "team_color3", &const_data->team_color[3]);
+      lw6cfg_read_xml_color (sys_context, key, value, "team_color4", &const_data->team_color[4]);
+      lw6cfg_read_xml_color (sys_context, key, value, "team_color5", &const_data->team_color[5]);
+      lw6cfg_read_xml_color (sys_context, key, value, "team_color6", &const_data->team_color[6]);
+      lw6cfg_read_xml_color (sys_context, key, value, "team_color7", &const_data->team_color[7]);
+      lw6cfg_read_xml_color (sys_context, key, value, "team_color8", &const_data->team_color[8]);
+      lw6cfg_read_xml_color (sys_context, key, value, "team_color9", &const_data->team_color[9]);
     }
 
   if (!strcmp (element, "float"))
     {
-      lw6cfg_read_xml_float (key, value, "quit-sleep", &const_data->quit_sleep);
+      lw6cfg_read_xml_float (sys_context, key, value, "quit-sleep", &const_data->quit_sleep);
     }
 
   if (!strcmp (element, "string"))
     {
-      lw6cfg_read_xml_string (key, value, "video-driver-1", &(const_data->video_driver[0]));
-      lw6cfg_read_xml_string (key, value, "video-driver-2", &(const_data->video_driver[1]));
-      lw6cfg_read_xml_string (key, value, "video-driver-3", &(const_data->video_driver[2]));
-      lw6cfg_read_xml_string (key, value, "video-driver-4", &(const_data->video_driver[3]));
+      lw6cfg_read_xml_string (sys_context, key, value, "video-driver-1", &(const_data->video_driver[0]));
+      lw6cfg_read_xml_string (sys_context, key, value, "video-driver-2", &(const_data->video_driver[1]));
+      lw6cfg_read_xml_string (sys_context, key, value, "video-driver-3", &(const_data->video_driver[2]));
+      lw6cfg_read_xml_string (sys_context, key, value, "video-driver-4", &(const_data->video_driver[3]));
     }
 }
 
@@ -118,7 +118,7 @@ _mod_caca_load_consts (_mod_caca_context_t * context)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-      ret = lw6cfg_read_key_value_xml_file (const_file, read_callback, (void *) &(context->const_data));
+      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, read_callback, (void *) &(context->const_data));
 
       LW6SYS_FREE (sys_context, const_file);
     }

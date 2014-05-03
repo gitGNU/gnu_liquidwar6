@@ -33,6 +33,7 @@
 /**
  * lw6cfg_xml_element
  *
+ * @sys_context: global system context
  * @type: type as an enum
  *
  * Returns the string corresponding to a given type, suitable for
@@ -43,7 +44,7 @@
  * Return value: string, must not be freed.
  */
 char *
-lw6cfg_xml_element (lw6hlp_type_t type)
+lw6cfg_xml_element (lw6sys_context_t * sys_context, lw6hlp_type_t type)
 {
   char *xml_type = "";
 
@@ -75,6 +76,7 @@ lw6cfg_xml_element (lw6hlp_type_t type)
 /**
  * lw6cfg_read_xml_int
  *
+ * @sys_context: global system context
  * @xml_key: key found in XML file
  * @xml_value: value found in XML file
  * @target_key: key we're searching for
@@ -88,13 +90,13 @@ lw6cfg_xml_element (lw6hlp_type_t type)
  * Return value: none.
  */
 void
-lw6cfg_read_xml_int (const char *xml_key, const char *xml_value, const char *target_key, int *value)
+lw6cfg_read_xml_int (lw6sys_context_t * sys_context, const char *xml_key, const char *xml_value, const char *target_key, int *value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
       if (value)
 	{
-	  (*value) = lw6sys_atoi (xml_value);
+	  (*value) = lw6sys_atoi (sys_context, xml_value);
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("XML int \"%s\"=\"%d\""), xml_key, *value);
 	}
     }
@@ -103,6 +105,7 @@ lw6cfg_read_xml_int (const char *xml_key, const char *xml_value, const char *tar
 /**
  * lw6cfg_read_xml_bool
  *
+ * @sys_context: global system context
  * @xml_key: key found in XML file
  * @xml_value: value found in XML file
  * @target_key: key we're searching for
@@ -116,13 +119,13 @@ lw6cfg_read_xml_int (const char *xml_key, const char *xml_value, const char *tar
  * Return value: none.
  */
 void
-lw6cfg_read_xml_bool (const char *xml_key, const char *xml_value, const char *target_key, int *value)
+lw6cfg_read_xml_bool (lw6sys_context_t * sys_context, const char *xml_key, const char *xml_value, const char *target_key, int *value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
       if (value)
 	{
-	  (*value) = lw6sys_atoi (xml_value);
+	  (*value) = lw6sys_atoi (sys_context, xml_value);
 	  if (!(*value))
 	    {
 	      /*
@@ -131,7 +134,7 @@ lw6cfg_read_xml_bool (const char *xml_key, const char *xml_value, const char *ta
 	       * on on.
 	       * Note that prefered value is "true" 8-)
 	       */
-	      (*value) = lw6sys_atob (xml_value);
+	      (*value) = lw6sys_atob (sys_context, xml_value);
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("XML bool \"%s\"=\"%d\""), xml_key, *value);
 	    }
 	}
@@ -141,6 +144,7 @@ lw6cfg_read_xml_bool (const char *xml_key, const char *xml_value, const char *ta
 /**
  * lw6cfg_read_xml_float
  *
+ * @sys_context: global system context
  * @xml_key: key found in XML file
  * @xml_value: value found in XML file
  * @target_key: key we're searching for
@@ -154,13 +158,13 @@ lw6cfg_read_xml_bool (const char *xml_key, const char *xml_value, const char *ta
  * Return value: none.
  */
 void
-lw6cfg_read_xml_float (const char *xml_key, const char *xml_value, const char *target_key, float *value)
+lw6cfg_read_xml_float (lw6sys_context_t * sys_context, const char *xml_key, const char *xml_value, const char *target_key, float *value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
       if (value)
 	{
-	  (*value) = lw6sys_atof (xml_value);
+	  (*value) = lw6sys_atof (sys_context, xml_value);
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("XML float \"%s\"=\"%f\""), xml_key, *value);
 	}
     }
@@ -169,6 +173,7 @@ lw6cfg_read_xml_float (const char *xml_key, const char *xml_value, const char *t
 /**
  * lw6cfg_read_xml_string
  *
+ * @sys_context: global system context
  * @xml_key: key found in XML file
  * @xml_value: value found in XML file
  * @target_key: key we're searching for
@@ -182,7 +187,7 @@ lw6cfg_read_xml_float (const char *xml_key, const char *xml_value, const char *t
  * Return value: none.
  */
 void
-lw6cfg_read_xml_string (const char *xml_key, const char *xml_value, const char *target_key, char **value)
+lw6cfg_read_xml_string (lw6sys_context_t * sys_context, const char *xml_key, const char *xml_value, const char *target_key, char **value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
@@ -197,7 +202,7 @@ lw6cfg_read_xml_string (const char *xml_key, const char *xml_value, const char *
 	      LW6SYS_FREE (sys_context, *value);
 	      (*value) = NULL;
 	    }
-	  (*value) = lw6sys_str_copy (xml_value);
+	  (*value) = lw6sys_str_copy (sys_context, xml_value);
 	  if (*value)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("XML string \"%s\"=\"%s\""), xml_key, *value);
@@ -209,6 +214,7 @@ lw6cfg_read_xml_string (const char *xml_key, const char *xml_value, const char *
 /**
  * lw6cfg_read_xml_color
  *
+ * @sys_context: global system context
  * @xml_key: key found in XML file
  * @xml_value: value found in XML file
  * @target_key: key we're searching for
@@ -222,11 +228,11 @@ lw6cfg_read_xml_string (const char *xml_key, const char *xml_value, const char *
  * Return value: none.
  */
 void
-lw6cfg_read_xml_color (const char *xml_key, const char *xml_value, const char *target_key, lw6sys_color_8_t * value)
+lw6cfg_read_xml_color (lw6sys_context_t * sys_context, const char *xml_key, const char *xml_value, const char *target_key, lw6sys_color_8_t * value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
-      (*value) = lw6sys_color_a_to_8 (xml_value);
+      (*value) = lw6sys_color_a_to_8 (sys_context, xml_value);
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("XML color \"%s\"=\"#%02x%02x%02x%02x\""), xml_key, value->r, value->g, value->b, value->a);
     }
 }
@@ -234,34 +240,41 @@ lw6cfg_read_xml_color (const char *xml_key, const char *xml_value, const char *t
 static void XMLCALL
 element_start (void *data, const char *element, const char **attr)
 {
-  _lw6cfg_xml_callback_t *callback;
+  _lw6cfg_xml_callback_info_t *callback_info;
   char *key = NULL;
   char *value = NULL;
   char **at;
 
-  callback = (_lw6cfg_xml_callback_t *) data;
+  callback_info = (_lw6cfg_xml_callback_info_t *) data;
 
-  if (callback && callback->func)
+  if (callback_info)
     {
-      for (at = (char **) attr; (*at) != NULL; at += 2)
+      lw6sys_context_t *sys_context = callback_info->sys_context;
+      if (sys_context)
 	{
-	  if (strcasecmp (LW6CFG_XML_KEY, (*at)) == 0)
+	  if (callback_info->func)
 	    {
-	      key = *(at + 1);
+	      for (at = (char **) attr; (*at) != NULL; at += 2)
+		{
+		  if (strcasecmp (LW6CFG_XML_KEY, (*at)) == 0)
+		    {
+		      key = *(at + 1);
+		    }
+		  if (strcasecmp (LW6CFG_XML_VALUE, (*at)) == 0)
+		    {
+		      value = *(at + 1);
+		    }
+		}
+	      if (key && value)
+		{
+		  callback_info->func (sys_context, callback_info->data, (char *) element, key, value);
+		}
 	    }
-	  if (strcasecmp (LW6CFG_XML_VALUE, (*at)) == 0)
+	  else
 	    {
-	      value = *(at + 1);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("calling XML callback with NULL func"));
 	    }
 	}
-      if (key && value)
-	{
-	  callback->func (callback->data, (char *) element, key, value);
-	}
-    }
-  else
-    {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("XML callback function is NULL"));
     }
 }
 
@@ -274,6 +287,7 @@ element_end (void *data, const char *el)
 /**
  * lw6cfg_read_key_value_xml_file
  *
+ * @sys_context: global system context
  * @filename: full path of file to read
  * @callback_func: callback function to be called on each element
  * @callback_data: additionnal pointer passed to callback function
@@ -286,17 +300,18 @@ element_end (void *data, const char *el)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6cfg_read_key_value_xml_file (const char *filename, lw6cfg_read_xml_callback_func_t callback_func, void *callback_data)
+lw6cfg_read_key_value_xml_file (lw6sys_context_t * sys_context, const char *filename, lw6cfg_read_xml_callback_func_t callback_func, void *callback_data)
 {
   int ret = 0;
   char *content = NULL;
-  _lw6cfg_xml_callback_t *callback;
+  _lw6cfg_xml_callback_info_t *callback_info;
 
-  callback = LW6SYS_MALLOC (sys_context, sizeof (_lw6cfg_xml_callback_t));
-  if (callback)
+  callback_info = LW6SYS_MALLOC (sys_context, sizeof (_lw6cfg_xml_callback_info_t));
+  if (callback_info)
     {
-      callback->func = callback_func;
-      callback->data = callback_data;
+      callback_info->sys_context = sys_context;
+      callback_info->func = callback_func;
+      callback_info->data = callback_data;
 
       content = lw6sys_read_file_content (sys_context, filename);
       if (content)
@@ -308,7 +323,7 @@ lw6cfg_read_key_value_xml_file (const char *filename, lw6cfg_read_xml_callback_f
 	  if (parser)
 	    {
 	      XML_SetElementHandler (parser, element_start, element_end);
-	      XML_SetUserData (parser, (void *) callback);
+	      XML_SetUserData (parser, (void *) callback_info);
 
 	      if (XML_Parse (parser, content, length, 1) != XML_STATUS_ERROR)
 		{
@@ -338,7 +353,7 @@ lw6cfg_read_key_value_xml_file (const char *filename, lw6cfg_read_xml_callback_f
 	    }
 	  LW6SYS_FREE (sys_context, content);
 	}
-      LW6SYS_FREE (sys_context, callback);
+      LW6SYS_FREE (sys_context, callback_info);
     }
 
   return ret;
@@ -346,7 +361,7 @@ lw6cfg_read_key_value_xml_file (const char *filename, lw6cfg_read_xml_callback_f
 
 // if type is NULL, will be guessed automatically
 static void
-write_xml (FILE * f, const char *type, const char *key, const char *value, int skip_same)
+_write_xml (lw6sys_context_t * sys_context, FILE * f, const char *type, const char *key, const char *value, int skip_same)
 {
   char *tmp = NULL;
   int pos = 0;
@@ -359,9 +374,9 @@ write_xml (FILE * f, const char *type, const char *key, const char *value, int s
   int hlp_max_value = 0;
   int same = 0;
 
-  if (lw6cfg_must_be_saved (key))
+  if (lw6cfg_must_be_saved (sys_context, key))
     {
-      hlp_about = lw6hlp_about (&hlp_type, &hlp_default_value, &hlp_min_value, &hlp_max_value, key);
+      hlp_about = lw6hlp_about (sys_context, &hlp_type, &hlp_default_value, &hlp_min_value, &hlp_max_value, key);
       if (hlp_about)
 	{
 	  if (hlp_default_value)
@@ -370,7 +385,7 @@ write_xml (FILE * f, const char *type, const char *key, const char *value, int s
 		{
 		  tmp =
 		    lw6sys_new_sprintf
-		    ("\"%s\" (default=\"%s\", min=\"%d\", max=\"%d\"): %s", key, hlp_default_value, hlp_min_value, hlp_max_value, hlp_about);
+		    (sys_context, "\"%s\" (default=\"%s\", min=\"%d\", max=\"%d\"): %s", key, hlp_default_value, hlp_min_value, hlp_max_value, hlp_about);
 		}
 	      else
 		{
@@ -407,28 +422,28 @@ write_xml (FILE * f, const char *type, const char *key, const char *value, int s
 	  guessed_type = LW6CFG_XML_INT;
 	  if (hlp_default_value)
 	    {
-	      same = (lw6sys_atoi (sys_context, value) == lw6sys_atoi (hlp_default_value));
+	      same = (lw6sys_atoi (sys_context, value) == lw6sys_atoi (sys_context, hlp_default_value));
 	    }
 	  break;
 	case LW6HLP_TYPE_BOOL:
 	  guessed_type = LW6CFG_XML_BOOL;
 	  if (hlp_default_value)
 	    {
-	      same = (lw6sys_atob (sys_context, value) == lw6sys_atob (hlp_default_value));
+	      same = (lw6sys_atob (sys_context, value) == lw6sys_atob (sys_context, hlp_default_value));
 	    }
 	  break;
 	case LW6HLP_TYPE_FLOAT:
 	  guessed_type = LW6CFG_XML_FLOAT;
 	  if (hlp_default_value)
 	    {
-	      same = (lw6sys_atof (sys_context, value) == lw6sys_atof (hlp_default_value));
+	      same = (lw6sys_atof (sys_context, value) == lw6sys_atof (sys_context, hlp_default_value));
 	    }
 	  break;
 	case LW6HLP_TYPE_COLOR:
 	  guessed_type = LW6CFG_XML_COLOR;
 	  if (hlp_default_value)
 	    {
-	      same = lw6sys_color_is_same (sys_context, lw6sys_color_a_to_8 (sys_context, value), lw6sys_color_a_to_8 (hlp_default_value));
+	      same = lw6sys_color_is_same (sys_context, lw6sys_color_a_to_8 (sys_context, value), lw6sys_color_a_to_8 (sys_context, hlp_default_value));
 	    }
 	  break;
 	default:
@@ -486,6 +501,7 @@ write_xml (FILE * f, const char *type, const char *key, const char *value, int s
 /**
  * lw6cfg_write_xml_int
  *
+ * @sys_context: global system context
  * @f: file to write data to (append mode)
  * @key: key to write
  * @value: value to write
@@ -495,14 +511,14 @@ write_xml (FILE * f, const char *type, const char *key, const char *value, int s
  * Return value: none.
  */
 void
-lw6cfg_write_xml_int (FILE * f, const char *key, int value)
+lw6cfg_write_xml_int (lw6sys_context_t * sys_context, FILE * f, const char *key, int value)
 {
   char *str_value = NULL;
 
   str_value = lw6sys_itoa (sys_context, value);
   if (str_value)
     {
-      write_xml (f, LW6CFG_XML_INT, key, str_value, 0);
+      _write_xml (sys_context, f, LW6CFG_XML_INT, key, str_value, 0);
       LW6SYS_FREE (sys_context, str_value);
     }
 }
@@ -510,6 +526,7 @@ lw6cfg_write_xml_int (FILE * f, const char *key, int value)
 /**
  * lw6cfg_write_xml_bool
  *
+ * @sys_context: global system context
  * @f: file to write data to (append mode)
  * @key: key to write
  * @value: value to write
@@ -519,14 +536,14 @@ lw6cfg_write_xml_int (FILE * f, const char *key, int value)
  * Return value: none.
  */
 void
-lw6cfg_write_xml_bool (FILE * f, const char *key, int value)
+lw6cfg_write_xml_bool (lw6sys_context_t * sys_context, FILE * f, const char *key, int value)
 {
   char *str_value = NULL;
 
   str_value = lw6sys_btoa (sys_context, value);
   if (str_value)
     {
-      write_xml (f, LW6CFG_XML_BOOL, key, str_value, 0);
+      _write_xml (sys_context, f, LW6CFG_XML_BOOL, key, str_value, 0);
       LW6SYS_FREE (sys_context, str_value);
     }
 }
@@ -534,6 +551,7 @@ lw6cfg_write_xml_bool (FILE * f, const char *key, int value)
 /**
  * lw6cfg_write_xml_float
  *
+ * @sys_context: global system context
  * @f: file to write data to (append mode)
  * @key: key to write
  * @value: value to write
@@ -543,14 +561,14 @@ lw6cfg_write_xml_bool (FILE * f, const char *key, int value)
  * Return value: none.
  */
 void
-lw6cfg_write_xml_float (FILE * f, const char *key, float value)
+lw6cfg_write_xml_float (lw6sys_context_t * sys_context, FILE * f, const char *key, float value)
 {
   char *str_value = NULL;
 
   str_value = lw6sys_ftoa (sys_context, value);
   if (str_value)
     {
-      write_xml (f, LW6CFG_XML_FLOAT, key, str_value, 0);
+      _write_xml (sys_context, f, LW6CFG_XML_FLOAT, key, str_value, 0);
       LW6SYS_FREE (sys_context, str_value);
     }
 }
@@ -558,6 +576,7 @@ lw6cfg_write_xml_float (FILE * f, const char *key, float value)
 /**
  * lw6cfg_write_xml_string
  *
+ * @sys_context: global system context
  * @f: file to write data to (append mode)
  * @key: key to write
  * @value: value to write
@@ -567,14 +586,15 @@ lw6cfg_write_xml_float (FILE * f, const char *key, float value)
  * Return value: none.
  */
 void
-lw6cfg_write_xml_string (FILE * f, const char *key, const char *value)
+lw6cfg_write_xml_string (lw6sys_context_t * sys_context, FILE * f, const char *key, const char *value)
 {
-  write_xml (f, LW6CFG_XML_STRING, key, value, 0);
+  _write_xml (sys_context, f, LW6CFG_XML_STRING, key, value, 0);
 }
 
 /**
  * lw6cfg_write_xml_color
  *
+ * @sys_context: global system context
  * @f: file to write data to (append mode)
  * @key: key to write
  * @value: value to write
@@ -584,14 +604,14 @@ lw6cfg_write_xml_string (FILE * f, const char *key, const char *value)
  * Return value: none.
  */
 void
-lw6cfg_write_xml_color (FILE * f, const char *key, lw6sys_color_8_t value)
+lw6cfg_write_xml_color (lw6sys_context_t * sys_context, FILE * f, const char *key, lw6sys_color_8_t value)
 {
   char *str_value = NULL;
 
   str_value = lw6sys_color_8_to_a (sys_context, value);
   if (str_value)
     {
-      write_xml (f, LW6CFG_XML_COLOR, key, str_value, 0);
+      _write_xml (sys_context, f, LW6CFG_XML_COLOR, key, str_value, 0);
       LW6SYS_FREE (sys_context, str_value);
     }
 }
@@ -599,6 +619,7 @@ lw6cfg_write_xml_color (FILE * f, const char *key, lw6sys_color_8_t value)
 /**
  * lw6cfg_write_xml_guess_type
  *
+ * @sys_context: global system context
  * @f: file to write data to (append mode)
  * @key: key to write
  * @value: value to write
@@ -614,14 +635,15 @@ lw6cfg_write_xml_color (FILE * f, const char *key, lw6sys_color_8_t value)
  * Return value: none.
  */
 void
-lw6cfg_write_xml_guess_type (FILE * f, const char *key, const char *value)
+lw6cfg_write_xml_guess_type (lw6sys_context_t * sys_context, FILE * f, const char *key, const char *value)
 {
-  write_xml (f, NULL, key, value, 0);
+  _write_xml (sys_context, f, NULL, key, value, 0);
 }
 
 /**
  * lw6cfg_write_xml_guess_type_skip_same
  *
+ * @sys_context: global system context
  * @f: file to write data to (append mode)
  * @key: key to write
  * @value: value to write
@@ -638,7 +660,7 @@ lw6cfg_write_xml_guess_type (FILE * f, const char *key, const char *value)
  * Return value: none.
  */
 void
-lw6cfg_write_xml_guess_type_skip_same (FILE * f, const char *key, const char *value)
+lw6cfg_write_xml_guess_type_skip_same (lw6sys_context_t * sys_context, FILE * f, const char *key, const char *value)
 {
-  write_xml (f, NULL, key, value, 1);
+  _write_xml (sys_context, f, NULL, key, value, 1);
 }

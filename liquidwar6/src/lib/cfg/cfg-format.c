@@ -30,6 +30,7 @@
 /**
  * lw6cfg_format
  *
+ * @sys_context: global system context
  * @key: the key of the value to format
  * @value: the value to format
  * @type: the type of the value to format
@@ -43,7 +44,7 @@
  * input, but reformatted the pedantic way.
  */
 char *
-lw6cfg_format (const char *key, const char *value, lw6hlp_type_t type)
+lw6cfg_format (lw6sys_context_t * sys_context, const char *key, const char *value, lw6hlp_type_t type)
 {
   char *ret = NULL;
 
@@ -75,6 +76,7 @@ lw6cfg_format (const char *key, const char *value, lw6hlp_type_t type)
 /**
  * lw6cfg_format_guess_type
  *
+ * @sys_context: global system context
  * @key: the key of the value to format
  * @value: the value to format
  *
@@ -88,13 +90,13 @@ lw6cfg_format (const char *key, const char *value, lw6hlp_type_t type)
  * input, but reformatted the pedantic way.
  */
 char *
-lw6cfg_format_guess_type (const char *key, const char *value)
+lw6cfg_format_guess_type (lw6sys_context_t * sys_context, const char *key, const char *value)
 {
   char *ret = NULL;
   lw6hlp_type_t type;
 
   type = lw6hlp_get_type (sys_context, key);
-  ret = lw6cfg_format (key, value, type);
+  ret = lw6cfg_format (sys_context, key, value, type);
 
   return ret;
 }

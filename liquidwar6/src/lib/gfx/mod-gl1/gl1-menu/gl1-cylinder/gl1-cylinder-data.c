@@ -40,62 +40,62 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "max-displayed-items", &const_data->max_displayed_items);
-      lw6cfg_read_xml_int (key, value, "slices1", &const_data->slices1);
-      lw6cfg_read_xml_int (key, value, "slices-min", &const_data->slices_min);
-      lw6cfg_read_xml_int (key, value, "stacks", &const_data->stacks);
-      lw6cfg_read_xml_int (key, value, "oscil-period", &const_data->oscil_period);
-      lw6cfg_read_xml_int (key, value, "nb-spheres", &const_data->nb_spheres);
-      lw6cfg_read_xml_int (key, value, "sphere-slices1", &const_data->sphere_slices1);
-      lw6cfg_read_xml_int (key, value, "sphere-slices-min", &const_data->sphere_slices_min);
-      lw6cfg_read_xml_int (key, value, "sphere-blink-period", &const_data->sphere_blink_period);
-      lw6cfg_read_xml_int (key, value, "tooltip-max-width", &const_data->tooltip_max_width);
-      lw6cfg_read_xml_int (key, value, "tooltip-max-height", &const_data->tooltip_max_height);
-      lw6cfg_read_xml_int (key, value, "tooltip-border-size", &const_data->tooltip_border_size);
-      lw6cfg_read_xml_int (key, value, "tooltip-margin-size", &const_data->tooltip_margin_size);
-      lw6cfg_read_xml_int (key, value, "tooltip-reformat-width", &const_data->tooltip_reformat_width);
-      lw6cfg_read_xml_int (key, value, "help-max-width", &const_data->help_max_width);
-      lw6cfg_read_xml_int (key, value, "help-max-height", &const_data->help_max_height);
-      lw6cfg_read_xml_int (key, value, "help-border-size", &const_data->help_border_size);
-      lw6cfg_read_xml_int (key, value, "help-margin-size", &const_data->help_margin_size);
-      lw6cfg_read_xml_int (key, value, "help-reformat-width", &const_data->help_reformat_width);
-      lw6cfg_read_xml_int (key, value, "breadcrumbs-max-width", &const_data->breadcrumbs_max_width);
-      lw6cfg_read_xml_int (key, value, "breadcrumbs-max-height", &const_data->breadcrumbs_max_height);
-      lw6cfg_read_xml_int (key, value, "breadcrumbs-border-size", &const_data->breadcrumbs_border_size);
-      lw6cfg_read_xml_int (key, value, "breadcrumbs-margin-size", &const_data->breadcrumbs_margin_size);
-      lw6cfg_read_xml_int (key, value, "breadcrumbs-reformat-width", &const_data->breadcrumbs_reformat_width);
-      lw6cfg_read_xml_int (key, value, "popup-max-width", &const_data->popup_max_width);
-      lw6cfg_read_xml_int (key, value, "popup-max-height", &const_data->popup_max_height);
-      lw6cfg_read_xml_int (key, value, "popup-border-size", &const_data->popup_border_size);
-      lw6cfg_read_xml_int (key, value, "popup-margin-size", &const_data->popup_margin_size);
-      lw6cfg_read_xml_int (key, value, "popup-reformat-width", &const_data->popup_reformat_width);
+      lw6cfg_read_xml_int (sys_context, key, value, "max-displayed-items", &const_data->max_displayed_items);
+      lw6cfg_read_xml_int (sys_context, key, value, "slices1", &const_data->slices1);
+      lw6cfg_read_xml_int (sys_context, key, value, "slices-min", &const_data->slices_min);
+      lw6cfg_read_xml_int (sys_context, key, value, "stacks", &const_data->stacks);
+      lw6cfg_read_xml_int (sys_context, key, value, "oscil-period", &const_data->oscil_period);
+      lw6cfg_read_xml_int (sys_context, key, value, "nb-spheres", &const_data->nb_spheres);
+      lw6cfg_read_xml_int (sys_context, key, value, "sphere-slices1", &const_data->sphere_slices1);
+      lw6cfg_read_xml_int (sys_context, key, value, "sphere-slices-min", &const_data->sphere_slices_min);
+      lw6cfg_read_xml_int (sys_context, key, value, "sphere-blink-period", &const_data->sphere_blink_period);
+      lw6cfg_read_xml_int (sys_context, key, value, "tooltip-max-width", &const_data->tooltip_max_width);
+      lw6cfg_read_xml_int (sys_context, key, value, "tooltip-max-height", &const_data->tooltip_max_height);
+      lw6cfg_read_xml_int (sys_context, key, value, "tooltip-border-size", &const_data->tooltip_border_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "tooltip-margin-size", &const_data->tooltip_margin_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "tooltip-reformat-width", &const_data->tooltip_reformat_width);
+      lw6cfg_read_xml_int (sys_context, key, value, "help-max-width", &const_data->help_max_width);
+      lw6cfg_read_xml_int (sys_context, key, value, "help-max-height", &const_data->help_max_height);
+      lw6cfg_read_xml_int (sys_context, key, value, "help-border-size", &const_data->help_border_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "help-margin-size", &const_data->help_margin_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "help-reformat-width", &const_data->help_reformat_width);
+      lw6cfg_read_xml_int (sys_context, key, value, "breadcrumbs-max-width", &const_data->breadcrumbs_max_width);
+      lw6cfg_read_xml_int (sys_context, key, value, "breadcrumbs-max-height", &const_data->breadcrumbs_max_height);
+      lw6cfg_read_xml_int (sys_context, key, value, "breadcrumbs-border-size", &const_data->breadcrumbs_border_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "breadcrumbs-margin-size", &const_data->breadcrumbs_margin_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "breadcrumbs-reformat-width", &const_data->breadcrumbs_reformat_width);
+      lw6cfg_read_xml_int (sys_context, key, value, "popup-max-width", &const_data->popup_max_width);
+      lw6cfg_read_xml_int (sys_context, key, value, "popup-max-height", &const_data->popup_max_height);
+      lw6cfg_read_xml_int (sys_context, key, value, "popup-border-size", &const_data->popup_border_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "popup-margin-size", &const_data->popup_margin_size);
+      lw6cfg_read_xml_int (sys_context, key, value, "popup-reformat-width", &const_data->popup_reformat_width);
     }
 
   if (!strcmp (element, "float"))
     {
-      lw6cfg_read_xml_float (key, value, "radius1", &const_data->radius1);
-      lw6cfg_read_xml_float (key, value, "between1", &const_data->between1);
-      lw6cfg_read_xml_float (key, value, "cyl-height", &const_data->cyl_height);
-      lw6cfg_read_xml_float (key, value, "oscil-range1", &const_data->oscil_range1);
-      lw6cfg_read_xml_float (key, value, "texture-offset", &const_data->texture_offset);
-      lw6cfg_read_xml_float (key, value, "sphere-radius1", &const_data->sphere_radius1);
-      lw6cfg_read_xml_float (key, value, "sphere-between1", &const_data->sphere_between1);
-      lw6cfg_read_xml_float (key, value, "progress-offset", &const_data->progress_offset);
-      lw6cfg_read_xml_float (key, value, "progress-radius", &const_data->progress_radius);
-      lw6cfg_read_xml_float (key, value, "progress-cyl-height", &const_data->progress_cyl_height);
-      lw6cfg_read_xml_float (key, value, "esc-offset", &const_data->esc_offset);
-      lw6cfg_read_xml_float (key, value, "esc-radius", &const_data->esc_radius);
-      lw6cfg_read_xml_float (key, value, "esc-cyl-height", &const_data->esc_cyl_height);
-      lw6cfg_read_xml_float (key, value, "esc-cyl-height-offset", &const_data->esc_cyl_height_offset);
-      lw6cfg_read_xml_float (key, value, "esc-rotate", &const_data->esc_rotate);
-      lw6cfg_read_xml_float (key, value, "tooltip-alpha-bg", &const_data->tooltip_alpha_bg);
-      lw6cfg_read_xml_float (key, value, "tooltip-relative-size", &const_data->tooltip_relative_size);
-      lw6cfg_read_xml_float (key, value, "help-alpha-bg", &const_data->help_alpha_bg);
-      lw6cfg_read_xml_float (key, value, "help-relative-size", &const_data->help_relative_size);
-      lw6cfg_read_xml_float (key, value, "breadcrumbs-alpha-bg", &const_data->breadcrumbs_alpha_bg);
-      lw6cfg_read_xml_float (key, value, "breadcrumbs-relative-size", &const_data->breadcrumbs_relative_size);
-      lw6cfg_read_xml_float (key, value, "popup-alpha-bg", &const_data->popup_alpha_bg);
-      lw6cfg_read_xml_float (key, value, "popup-relative-size", &const_data->popup_relative_size);
+      lw6cfg_read_xml_float (sys_context, key, value, "radius1", &const_data->radius1);
+      lw6cfg_read_xml_float (sys_context, key, value, "between1", &const_data->between1);
+      lw6cfg_read_xml_float (sys_context, key, value, "cyl-height", &const_data->cyl_height);
+      lw6cfg_read_xml_float (sys_context, key, value, "oscil-range1", &const_data->oscil_range1);
+      lw6cfg_read_xml_float (sys_context, key, value, "texture-offset", &const_data->texture_offset);
+      lw6cfg_read_xml_float (sys_context, key, value, "sphere-radius1", &const_data->sphere_radius1);
+      lw6cfg_read_xml_float (sys_context, key, value, "sphere-between1", &const_data->sphere_between1);
+      lw6cfg_read_xml_float (sys_context, key, value, "progress-offset", &const_data->progress_offset);
+      lw6cfg_read_xml_float (sys_context, key, value, "progress-radius", &const_data->progress_radius);
+      lw6cfg_read_xml_float (sys_context, key, value, "progress-cyl-height", &const_data->progress_cyl_height);
+      lw6cfg_read_xml_float (sys_context, key, value, "esc-offset", &const_data->esc_offset);
+      lw6cfg_read_xml_float (sys_context, key, value, "esc-radius", &const_data->esc_radius);
+      lw6cfg_read_xml_float (sys_context, key, value, "esc-cyl-height", &const_data->esc_cyl_height);
+      lw6cfg_read_xml_float (sys_context, key, value, "esc-cyl-height-offset", &const_data->esc_cyl_height_offset);
+      lw6cfg_read_xml_float (sys_context, key, value, "esc-rotate", &const_data->esc_rotate);
+      lw6cfg_read_xml_float (sys_context, key, value, "tooltip-alpha-bg", &const_data->tooltip_alpha_bg);
+      lw6cfg_read_xml_float (sys_context, key, value, "tooltip-relative-size", &const_data->tooltip_relative_size);
+      lw6cfg_read_xml_float (sys_context, key, value, "help-alpha-bg", &const_data->help_alpha_bg);
+      lw6cfg_read_xml_float (sys_context, key, value, "help-relative-size", &const_data->help_relative_size);
+      lw6cfg_read_xml_float (sys_context, key, value, "breadcrumbs-alpha-bg", &const_data->breadcrumbs_alpha_bg);
+      lw6cfg_read_xml_float (sys_context, key, value, "breadcrumbs-relative-size", &const_data->breadcrumbs_relative_size);
+      lw6cfg_read_xml_float (sys_context, key, value, "popup-alpha-bg", &const_data->popup_alpha_bg);
+      lw6cfg_read_xml_float (sys_context, key, value, "popup-relative-size", &const_data->popup_relative_size);
     }
 }
 
@@ -111,7 +111,7 @@ load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_con
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-      ret = lw6cfg_read_key_value_xml_file (const_file, read_callback, (void *) &(cylinder_context->const_data));
+      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, read_callback, (void *) &(cylinder_context->const_data));
 
       LW6SYS_FREE (sys_context, const_file);
     }

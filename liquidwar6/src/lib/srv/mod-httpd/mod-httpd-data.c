@@ -45,31 +45,31 @@ _read_callback (void *callback_data, const char *element, const char *key, const
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "error-timeout", &(consts->error_timeout));
-      lw6cfg_read_xml_int (key, value, "ping-alter-base", &(consts->ping_alter_base));
-      lw6cfg_read_xml_int (key, value, "ping-alter-percent", &(consts->ping_alter_percent));
-      lw6cfg_read_xml_int (key, value, "max-age", &(consts->max_age));
-      lw6cfg_read_xml_int (key, value, "in-the-past", &(consts->in_the_past));
-      lw6cfg_read_xml_int (key, value, "refresh-index-header", &(consts->refresh_index_header));
-      lw6cfg_read_xml_int (key, value, "refresh-screenshot-header", &(consts->refresh_screenshot_header));
-      lw6cfg_read_xml_int (key, value, "refresh-index-js", &(consts->refresh_index_js));
-      lw6cfg_read_xml_int (key, value, "refresh-screenshot-js", &(consts->refresh_screenshot_js));
+      lw6cfg_read_xml_int (sys_context, key, value, "error-timeout", &(consts->error_timeout));
+      lw6cfg_read_xml_int (sys_context, key, value, "ping-alter-base", &(consts->ping_alter_base));
+      lw6cfg_read_xml_int (sys_context, key, value, "ping-alter-percent", &(consts->ping_alter_percent));
+      lw6cfg_read_xml_int (sys_context, key, value, "max-age", &(consts->max_age));
+      lw6cfg_read_xml_int (sys_context, key, value, "in-the-past", &(consts->in_the_past));
+      lw6cfg_read_xml_int (sys_context, key, value, "refresh-index-header", &(consts->refresh_index_header));
+      lw6cfg_read_xml_int (sys_context, key, value, "refresh-screenshot-header", &(consts->refresh_screenshot_header));
+      lw6cfg_read_xml_int (sys_context, key, value, "refresh-index-js", &(consts->refresh_index_js));
+      lw6cfg_read_xml_int (sys_context, key, value, "refresh-screenshot-js", &(consts->refresh_screenshot_js));
     }
   if (!strcmp (element, "string"))
     {
-      lw6cfg_read_xml_string (key, value, "http-version", &(consts->http_version));
-      lw6cfg_read_xml_string (key, value, "header-description", &(consts->header_description));
-      lw6cfg_read_xml_string (key, value, "header-keywords", &(consts->header_keywords));
-      lw6cfg_read_xml_string (key, value, "content-type-html", &(consts->content_type_html));
-      lw6cfg_read_xml_string (key, value, "content-type-txt", &(consts->content_type_txt));
-      lw6cfg_read_xml_string (key, value, "content-type-jpeg", &(consts->content_type_jpeg));
-      lw6cfg_read_xml_string (key, value, "content-type-ico", &(consts->content_type_ico));
-      lw6cfg_read_xml_string (key, value, "error-401", &(consts->error_401));
-      lw6cfg_read_xml_string (key, value, "error-403", &(consts->error_403));
-      lw6cfg_read_xml_string (key, value, "error-404", &(consts->error_404));
-      lw6cfg_read_xml_string (key, value, "error-405", &(consts->error_405));
-      lw6cfg_read_xml_string (key, value, "error-500", &(consts->error_500));
-      lw6cfg_read_xml_string (key, value, "auth-realm", &(consts->auth_realm));
+      lw6cfg_read_xml_string (sys_context, key, value, "http-version", &(consts->http_version));
+      lw6cfg_read_xml_string (sys_context, key, value, "header-description", &(consts->header_description));
+      lw6cfg_read_xml_string (sys_context, key, value, "header-keywords", &(consts->header_keywords));
+      lw6cfg_read_xml_string (sys_context, key, value, "content-type-html", &(consts->content_type_html));
+      lw6cfg_read_xml_string (sys_context, key, value, "content-type-txt", &(consts->content_type_txt));
+      lw6cfg_read_xml_string (sys_context, key, value, "content-type-jpeg", &(consts->content_type_jpeg));
+      lw6cfg_read_xml_string (sys_context, key, value, "content-type-ico", &(consts->content_type_ico));
+      lw6cfg_read_xml_string (sys_context, key, value, "error-401", &(consts->error_401));
+      lw6cfg_read_xml_string (sys_context, key, value, "error-403", &(consts->error_403));
+      lw6cfg_read_xml_string (sys_context, key, value, "error-404", &(consts->error_404));
+      lw6cfg_read_xml_string (sys_context, key, value, "error-405", &(consts->error_405));
+      lw6cfg_read_xml_string (sys_context, key, value, "error-500", &(consts->error_500));
+      lw6cfg_read_xml_string (sys_context, key, value, "auth-realm", &(consts->auth_realm));
     }
 }
 
@@ -80,7 +80,7 @@ _load_consts (_mod_httpd_consts_t * consts, const char *consts_file)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), consts_file);
 
-  ret = lw6cfg_read_key_value_xml_file (consts_file, _read_callback, (void *) consts);
+  ret = lw6cfg_read_key_value_xml_file (sys_context, consts_file, _read_callback, (void *) consts);
   if (ret)
     {
       ret = consts->http_version && consts->header_description

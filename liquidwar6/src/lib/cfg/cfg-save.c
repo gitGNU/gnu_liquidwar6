@@ -31,6 +31,7 @@
 /**
  * lw6cfg_must_be_saved
  *
+ * @sys_context: global system context
  * @key: key to test
  *
  * Tells wether a key should be saved in the config file.
@@ -42,7 +43,7 @@
  * Return value: 1 if must be saved, 0 if not
  */
 int
-lw6cfg_must_be_saved (const char *key)
+lw6cfg_must_be_saved (lw6sys_context_t * sys_context, const char *key)
 {
   int ret = 1;
 
@@ -65,27 +66,27 @@ lw6cfg_must_be_saved (const char *key)
 }
 
 int
-_lw6cfg_save (_lw6cfg_context_t * cfg_context, const char *filename)
+_lw6cfg_save (lw6sys_context_t * sys_context, _lw6cfg_context_t * _cfg_context, const char *filename)
 {
   int ret = 0;
   FILE *f;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("saving config to \"%s\""), filename);
 
-  _lw6cfg_parse_command_line (cfg_context);
+  _lw6cfg_parse_command_line (sys_context, _cfg_context);
 
   f = fopen (filename, "wb");
   if (f)
     {
-      lw6sys_print_xml_header (f,
+      lw6sys_print_xml_header (sys_context, f,
 			       _x_
 			       ("This is the main Liquid War 6 config file. Here you'll be able to tweak many, if not all, parameters in the game. Some of these values simply reflect changes you can make through the interface, some are not even present in the menus. What is sure is that if you can modify it by clicking somewhere in the game interface, it can surely be done here too. Note that this file is overwritten every time you run the game, your own comments and personnal touch in it will simply be squashed and disappear. But of course the values you set will be kept. All entries should be documented in the file. This file should only contain entries that have values which are different from the default, so if you set a value to the default, it will automatically be removed from the file. If in doubt, documentation is online on http://www.gnu.org/software/liquidwar6/manual/"));
-      if (lw6sys_spinlock_lock (cfg_context->spinlock))
+      if (lw6sys_spinlock_lock (sys_context, _cfg_context->spinlock))
 	{
-	  lw6sys_hash_sort_and_map (cfg_context->options, (lw6sys_assoc_callback_func_t) lw6cfg_write_xml_guess_type_skip_same, (void *) f);
-	  lw6sys_spinlock_unlock (cfg_context->spinlock);
+	  lw6sys_hash_sort_and_map (sys_context, _cfg_context->options, (lw6sys_assoc_callback_func_t) lw6cfg_write_xml_guess_type_skip_same, (void *) f);
+	  lw6sys_spinlock_unlock (sys_context, _cfg_context->spinlock);
 	}
-      lw6sys_print_xml_footer (f);
+      lw6sys_print_xml_footer (sys_context, f);
       fclose (f);
       ret = 1;
     }
@@ -100,6 +101,7 @@ _lw6cfg_save (_lw6cfg_context_t * cfg_context, const char *filename)
 /**
  * lw6cfg_save
  *
+ * @sys_context: global system context
  * @cfg_context: a context returned by @lw6cfg_init
  * @filename: a file path, absolute or relative
  *
@@ -111,7 +113,7 @@ _lw6cfg_save (_lw6cfg_context_t * cfg_context, const char *filename)
  * Return value: 1 if successfull, 0 if error.
  */
 int
-lw6cfg_save (void *cfg_context, const char *filename)
+lw6cfg_save (lw6sys_context_t * sys_context, void *cfg_context, const char *filename)
 {
-  return _lw6cfg_save ((_lw6cfg_context_t *) cfg_context, filename);
+  return _lw6cfg_save (sys_context, (_lw6cfg_context_t *) cfg_context, filename);
 }

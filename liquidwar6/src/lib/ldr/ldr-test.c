@@ -206,7 +206,7 @@ _test_quick ()
     char *user_dir = NULL;
 
     ret = 1;
-    map_path = lw6cfg_unified_get_map_path (argc, argv);
+    map_path = lw6cfg_unified_get_map_path (sys_context, argc, argv);
     if (LW6SYS_TEST_ACK (map_path))
       {
 	user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
@@ -240,7 +240,7 @@ _test_deep ()
     char *user_dir = NULL;
 
     ret = 1;
-    map_path = lw6cfg_unified_get_map_path (argc, argv);
+    map_path = lw6cfg_unified_get_map_path (sys_context, argc, argv);
     if (LW6SYS_TEST_ACK (map_path))
       {
 	user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
@@ -274,7 +274,7 @@ _test_dir ()
     lw6ldr_entry_t *entry = NULL;
     int entry_found = 0;
 
-    map_path = lw6cfg_unified_get_map_path (argc, argv);
+    map_path = lw6cfg_unified_get_map_path (sys_context, argc, argv);
     if (LW6SYS_TEST_ACK (map_path))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("map_path=\"%s\""), map_path);
@@ -479,7 +479,7 @@ _test_read ()
     progress.min = _TEST_PROGRESS_MIN;
     progress.max = _TEST_PROGRESS_MAX;
     progress.value = &done;
-    map_path = lw6cfg_unified_get_map_path (argc, argv);
+    map_path = lw6cfg_unified_get_map_path (sys_context, argc, argv);
     if (LW6SYS_TEST_ACK (map_path))
       {
 	user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
@@ -582,7 +582,7 @@ lw6ldr_test_register (int mode)
        */
       lw6sys_test_register (sys_context, mode);
       lw6hlp_test_register (sys_context, mode);
-      lw6cfg_test_register (mode);
+      lw6cfg_test_register (sys_context, mode);
       lw6map_test_register (sys_context, mode);
     }
 

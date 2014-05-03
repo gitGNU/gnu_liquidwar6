@@ -38,36 +38,36 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "frequency", &const_data->frequency);
-      lw6cfg_read_xml_int (key, value, "bits", &const_data->bits);
-      lw6cfg_read_xml_int (key, value, "channels", &const_data->channels);
-      lw6cfg_read_xml_int (key, value, "chunksize", &const_data->chunksize);
+      lw6cfg_read_xml_int (sys_context, key, value, "frequency", &const_data->frequency);
+      lw6cfg_read_xml_int (sys_context, key, value, "bits", &const_data->bits);
+      lw6cfg_read_xml_int (sys_context, key, value, "channels", &const_data->channels);
+      lw6cfg_read_xml_int (sys_context, key, value, "chunksize", &const_data->chunksize);
     }
 
   if (!strcmp (element, "float"))
     {
-      lw6cfg_read_xml_float (key, value, "water-pan1", &const_data->water_pan1);
-      lw6cfg_read_xml_float (key, value, "water-pan2", &const_data->water_pan2);
+      lw6cfg_read_xml_float (sys_context, key, value, "water-pan1", &const_data->water_pan1);
+      lw6cfg_read_xml_float (sys_context, key, value, "water-pan2", &const_data->water_pan2);
     }
 
   if (!strcmp (element, "string"))
     {
-      lw6cfg_read_xml_string (key, value, "file-splash", &const_data->file_splash);
-      lw6cfg_read_xml_string (key, value, "file-valid", &const_data->file_valid);
-      lw6cfg_read_xml_string (key, value, "file-select", &const_data->file_select);
-      lw6cfg_read_xml_string (key, value, "file-no", &const_data->file_no);
-      lw6cfg_read_xml_string (key, value, "file-start", &const_data->file_start);
-      lw6cfg_read_xml_string (key, value, "file-death", &const_data->file_death);
-      lw6cfg_read_xml_string (key, value, "file-bell", &const_data->file_bell);
-      lw6cfg_read_xml_string (key, value, "file-score", &const_data->file_score);
-      lw6cfg_read_xml_string (key, value, "file-hello", &const_data->file_hello);
-      lw6cfg_read_xml_string (key, value, "file-goodbye", &const_data->file_goodbye);
-      lw6cfg_read_xml_string (key, value, "file-water1", &const_data->file_water1);
-      lw6cfg_read_xml_string (key, value, "file-water2", &const_data->file_water2);
-      lw6cfg_read_xml_string (key, value, "file-water3", &const_data->file_water3);
-      lw6cfg_read_xml_string (key, value, "file-water4", &const_data->file_water4);
-      lw6cfg_read_xml_string (key, value, "file-water5", &const_data->file_water5);
-      lw6cfg_read_xml_string (key, value, "file-water6", &const_data->file_water6);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-splash", &const_data->file_splash);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-valid", &const_data->file_valid);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-select", &const_data->file_select);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-no", &const_data->file_no);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-start", &const_data->file_start);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-death", &const_data->file_death);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-bell", &const_data->file_bell);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-score", &const_data->file_score);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-hello", &const_data->file_hello);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-goodbye", &const_data->file_goodbye);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-water1", &const_data->file_water1);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-water2", &const_data->file_water2);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-water3", &const_data->file_water3);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-water4", &const_data->file_water4);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-water5", &const_data->file_water5);
+      lw6cfg_read_xml_string (sys_context, key, value, "file-water6", &const_data->file_water6);
     }
 }
 
@@ -86,7 +86,7 @@ _mod_ogg_load_consts (_mod_ogg_context_t * context)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-      ret = lw6cfg_read_key_value_xml_file (const_file, read_callback, (void *) &(context->const_data));
+      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, read_callback, (void *) &(context->const_data));
 
       LW6SYS_FREE (sys_context, const_file);
     }

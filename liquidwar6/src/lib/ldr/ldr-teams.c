@@ -71,7 +71,7 @@ lw6ldr_teams_read (lw6map_teams_t * teams, const char *dirname)
       if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading teams \"%s\""), buf);
-	  ret = lw6cfg_read_key_value_xml_file (buf, read_callback, (void *) teams);
+	  ret = lw6cfg_read_key_value_xml_file (sys_context, buf, read_callback, (void *) teams);
 	}
       else
 	{

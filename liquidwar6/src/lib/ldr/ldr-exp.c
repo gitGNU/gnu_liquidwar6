@@ -45,7 +45,7 @@ lw6ldr_exp_validate (const lw6map_level_t * level, const char *user_dir)
   int map_exp = LW6MAP_RULES_DEFAULT_EXP;
   int ret = 0;
 
-  lw6cfg_load_exp (user_dir, &player_exp);
+  lw6cfg_load_exp (sys_context, user_dir, &player_exp);
   /*
    * It's important to use vanilla_exp and not rules.exp this
    * way we use the real exp from the level, not our own, else
@@ -62,7 +62,7 @@ lw6ldr_exp_validate (const lw6map_level_t * level, const char *user_dir)
       if (new_player_exp > player_exp)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _("You just gained experience (exp=%d)."), new_player_exp);
-	  ret = lw6cfg_save_exp (user_dir, new_player_exp);
+	  ret = lw6cfg_save_exp (sys_context, user_dir, new_player_exp);
 	}
     }
   else if (player_exp > map_exp)

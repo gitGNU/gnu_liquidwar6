@@ -127,7 +127,7 @@ _test_play_music ()
     const int argc = _TEST_ARGC;
     const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
-    map_path = lw6cfg_unified_get_music_path (argc, argv);
+    map_path = lw6cfg_unified_get_music_path (sys_context, argc, argv);
     if (map_path)
       {
 	if (lw6snd_play_music_random (backend, map_path, _TEST_MUSIC_FILTER, _TEST_MUSIC_EXCLUDE))
@@ -280,7 +280,7 @@ lw6snd_test_register (int mode)
        * Just to make sure most functions are stuffed in the binary
        */
       lw6sys_test_register (sys_context, mode);
-      lw6cfg_test_register (mode);
+      lw6cfg_test_register (sys_context, mode);
       /*
        * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
        * this function is available only in non-allinone mode.

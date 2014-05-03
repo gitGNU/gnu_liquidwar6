@@ -47,42 +47,42 @@ _read_callback (void *callback_data, const char *element, const char *key, const
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "text-period", &const_data->text_period);
-      lw6cfg_read_xml_int (key, value, "slices", &const_data->slices);
-      lw6cfg_read_xml_int (key, value, "stacks", &const_data->stacks);
-      lw6cfg_read_xml_int (key, value, "planet-day-period", &const_data->planet_day_period);
-      lw6cfg_read_xml_int (key, value, "satellite-year-period", &const_data->satellite_year_period);
-      lw6cfg_read_xml_int (key, value, "satellite-day-period", &const_data->satellite_day_period);
-      lw6cfg_read_xml_int (key, value, "cursors-spin-radius", &const_data->cursors_spin_radius);
-      lw6cfg_read_xml_int (key, value, "cursors-spin-period", &const_data->cursors_spin_period);
+      lw6cfg_read_xml_int (sys_context, key, value, "text-period", &const_data->text_period);
+      lw6cfg_read_xml_int (sys_context, key, value, "slices", &const_data->slices);
+      lw6cfg_read_xml_int (sys_context, key, value, "stacks", &const_data->stacks);
+      lw6cfg_read_xml_int (sys_context, key, value, "planet-day-period", &const_data->planet_day_period);
+      lw6cfg_read_xml_int (sys_context, key, value, "satellite-year-period", &const_data->satellite_year_period);
+      lw6cfg_read_xml_int (sys_context, key, value, "satellite-day-period", &const_data->satellite_day_period);
+      lw6cfg_read_xml_int (sys_context, key, value, "cursors-spin-radius", &const_data->cursors_spin_radius);
+      lw6cfg_read_xml_int (sys_context, key, value, "cursors-spin-period", &const_data->cursors_spin_period);
     }
 
   if (!strcmp (element, "float"))
     {
-      lw6cfg_read_xml_float (key, value, "text-center-x", &const_data->text_center_x);
-      lw6cfg_read_xml_float (key, value, "text-center-y", &const_data->text_center_y);
-      lw6cfg_read_xml_float (key, value, "text-size", &const_data->text_size);
-      lw6cfg_read_xml_float (key, value, "text-dw", &const_data->text_dw);
-      lw6cfg_read_xml_float (key, value, "text-dh", &const_data->text_dh);
-      lw6cfg_read_xml_float (key, value, "rotate-x", &const_data->rotate_x);
-      lw6cfg_read_xml_float (key, value, "rotate-y", &const_data->rotate_y);
-      lw6cfg_read_xml_float (key, value, "rotate-z", &const_data->rotate_z);
-      lw6cfg_read_xml_float (key, value, "planet-x", &const_data->planet_x);
-      lw6cfg_read_xml_float (key, value, "planet-y", &const_data->planet_y);
-      lw6cfg_read_xml_float (key, value, "planet-z", &const_data->planet_z);
-      lw6cfg_read_xml_float (key, value, "planet-radius", &const_data->planet_radius);
-      lw6cfg_read_xml_float (key, value, "satellite-radius", &const_data->satellite_radius);
-      lw6cfg_read_xml_float (key, value, "satellite-distance", &const_data->satellite_distance);
-      lw6cfg_read_xml_float (key, value, "cursors-center-speed", &const_data->cursors_center_speed);
+      lw6cfg_read_xml_float (sys_context, key, value, "text-center-x", &const_data->text_center_x);
+      lw6cfg_read_xml_float (sys_context, key, value, "text-center-y", &const_data->text_center_y);
+      lw6cfg_read_xml_float (sys_context, key, value, "text-size", &const_data->text_size);
+      lw6cfg_read_xml_float (sys_context, key, value, "text-dw", &const_data->text_dw);
+      lw6cfg_read_xml_float (sys_context, key, value, "text-dh", &const_data->text_dh);
+      lw6cfg_read_xml_float (sys_context, key, value, "rotate-x", &const_data->rotate_x);
+      lw6cfg_read_xml_float (sys_context, key, value, "rotate-y", &const_data->rotate_y);
+      lw6cfg_read_xml_float (sys_context, key, value, "rotate-z", &const_data->rotate_z);
+      lw6cfg_read_xml_float (sys_context, key, value, "planet-x", &const_data->planet_x);
+      lw6cfg_read_xml_float (sys_context, key, value, "planet-y", &const_data->planet_y);
+      lw6cfg_read_xml_float (sys_context, key, value, "planet-z", &const_data->planet_z);
+      lw6cfg_read_xml_float (sys_context, key, value, "planet-radius", &const_data->planet_radius);
+      lw6cfg_read_xml_float (sys_context, key, value, "satellite-radius", &const_data->satellite_radius);
+      lw6cfg_read_xml_float (sys_context, key, value, "satellite-distance", &const_data->satellite_distance);
+      lw6cfg_read_xml_float (sys_context, key, value, "cursors-center-speed", &const_data->cursors_center_speed);
     }
 
   if (!strcmp (element, "color"))
     {
-      lw6cfg_read_xml_color (key, value, "root-bg", &const_data->root_bg);
-      lw6cfg_read_xml_color (key, value, "map-fg", &const_data->map_color.fg);
-      lw6cfg_read_xml_color (key, value, "map-bg", &const_data->map_color.bg);
-      lw6cfg_read_xml_color (key, value, "text-fg", &const_data->text_color.fg);
-      lw6cfg_read_xml_color (key, value, "text-bg", &const_data->text_color.bg);
+      lw6cfg_read_xml_color (sys_context, key, value, "root-bg", &const_data->root_bg);
+      lw6cfg_read_xml_color (sys_context, key, value, "map-fg", &const_data->map_color.fg);
+      lw6cfg_read_xml_color (sys_context, key, value, "map-bg", &const_data->map_color.bg);
+      lw6cfg_read_xml_color (sys_context, key, value, "text-fg", &const_data->text_color.fg);
+      lw6cfg_read_xml_color (sys_context, key, value, "text-bg", &const_data->text_color.bg);
     }
 }
 
@@ -98,7 +98,7 @@ _load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-      ret = lw6cfg_read_key_value_xml_file (const_file, _read_callback, (void *) &(splash_context->const_data));
+      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, _read_callback, (void *) &(splash_context->const_data));
 
       LW6SYS_FREE (sys_context, const_file);
     }

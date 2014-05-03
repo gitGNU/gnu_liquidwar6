@@ -81,7 +81,7 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
     {
       ok = 1;
 
-      lw6cfg_load_exp (user_dir, &player_exp);
+      lw6cfg_load_exp (sys_context, user_dir, &player_exp);
       lw6map_param_defaults (sys_context, &(level->param));
       lw6ldr_hints_defaults (&hints);
       lw6ldr_use_defaults (&use);

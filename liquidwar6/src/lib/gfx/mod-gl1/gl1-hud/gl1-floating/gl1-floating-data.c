@@ -46,51 +46,51 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "gauge-heartbeat-period", &const_data->gauge_heartbeat_period);
-      lw6cfg_read_xml_int (key, value, "gauge-slices", &const_data->gauge_slices);
-      lw6cfg_read_xml_int (key, value, "gauge-loops", &const_data->gauge_loops);
-      lw6cfg_read_xml_int (key, value, "score-pie-rotation-period", &const_data->score_pie_rotation_period);
-      lw6cfg_read_xml_int (key, value, "score-pie-heartbeat-period", &const_data->score_pie_heartbeat_period);
-      lw6cfg_read_xml_int (key, value, "score-pie-slices", &const_data->score_pie_slices);
-      lw6cfg_read_xml_int (key, value, "score-pie-loops", &const_data->score_pie_loops);
+      lw6cfg_read_xml_int (sys_context, key, value, "gauge-heartbeat-period", &const_data->gauge_heartbeat_period);
+      lw6cfg_read_xml_int (sys_context, key, value, "gauge-slices", &const_data->gauge_slices);
+      lw6cfg_read_xml_int (sys_context, key, value, "gauge-loops", &const_data->gauge_loops);
+      lw6cfg_read_xml_int (sys_context, key, value, "score-pie-rotation-period", &const_data->score_pie_rotation_period);
+      lw6cfg_read_xml_int (sys_context, key, value, "score-pie-heartbeat-period", &const_data->score_pie_heartbeat_period);
+      lw6cfg_read_xml_int (sys_context, key, value, "score-pie-slices", &const_data->score_pie_slices);
+      lw6cfg_read_xml_int (sys_context, key, value, "score-pie-loops", &const_data->score_pie_loops);
     }
 
   if (!strcmp (element, "float"))
     {
-      lw6cfg_read_xml_float (key, value, "clock-y1", &const_data->clock_y1);
-      lw6cfg_read_xml_float (key, value, "clock-x2", &const_data->clock_x2);
-      lw6cfg_read_xml_float (key, value, "clock-size", &const_data->clock_size);
-      lw6cfg_read_xml_float (key, value, "clock-dw", &const_data->clock_dw);
-      lw6cfg_read_xml_float (key, value, "clock-dh", &const_data->clock_dh);
-      lw6cfg_read_xml_float (key, value, "gauge-relative-bg-inner", &const_data->gauge_relative_bg_inner);
-      lw6cfg_read_xml_float (key, value, "gauge-relative-bg-outer", &const_data->gauge_relative_bg_outer);
-      lw6cfg_read_xml_float (key, value, "gauge-relative-fg-inner", &const_data->gauge_relative_fg_inner);
-      lw6cfg_read_xml_float (key, value, "gauge-relative-fg-outer", &const_data->gauge_relative_fg_outer);
-      lw6cfg_read_xml_float (key, value, "gauge-relative-text-size", &const_data->gauge_relative_text_size);
-      lw6cfg_read_xml_float (key, value, "gauge-relative-text-dw", &const_data->gauge_relative_text_dw);
-      lw6cfg_read_xml_float (key, value, "gauge-relative-text-dh", &const_data->gauge_relative_text_dh);
-      lw6cfg_read_xml_float (key, value, "gauge-relative-percent-only-y1", &const_data->gauge_relative_percent_only_y1);
-      lw6cfg_read_xml_float (key, value, "gauge-relative-percent-y1", &const_data->gauge_relative_percent_y1);
-      lw6cfg_read_xml_float (key, value, "gauge-relative-frags-y1", &const_data->gauge_relative_frags_y1);
-      lw6cfg_read_xml_float (key, value, "gauge-relative-heartbeat-min", &const_data->gauge_relative_heartbeat_min);
-      lw6cfg_read_xml_float (key, value, "gauge-relative-heartbeat-max", &const_data->gauge_relative_heartbeat_max);
-      lw6cfg_read_xml_float (key, value, "gauge-start", &const_data->gauge_start);
-      lw6cfg_read_xml_float (key, value, "gauge-sweep", &const_data->gauge_sweep);
-      lw6cfg_read_xml_float (key, value, "gauge-min-size", &const_data->gauge_min_size);
-      lw6cfg_read_xml_float (key, value, "gauge-max-size", &const_data->gauge_max_size);
-      lw6cfg_read_xml_float (key, value, "gauge-max-health-angle", &const_data->gauge_max_health_angle);
-      lw6cfg_read_xml_float (key, value, "weapon-ambiance-alpha1", &const_data->weapon_ambiance_alpha1);
-      lw6cfg_read_xml_float (key, value, "weapon-ambiance-alpha2", &const_data->weapon_ambiance_alpha2);
-      lw6cfg_read_xml_float (key, value, "score-pie-heartbeat-factor1", &const_data->score_pie_heartbeat_factor1);
-      lw6cfg_read_xml_float (key, value, "score-pie-heartbeat-factor2", &const_data->score_pie_heartbeat_factor2);
-      lw6cfg_read_xml_float (key, value, "score-pie-inner", &const_data->score_pie_inner);
-      lw6cfg_read_xml_float (key, value, "score-pie-outer", &const_data->score_pie_outer);
-      lw6cfg_read_xml_float (key, value, "score-pie-offset", &const_data->score_pie_offset);
-      lw6cfg_read_xml_float (key, value, "score-pie-text-radius-min", &const_data->score_pie_text_radius_min);
-      lw6cfg_read_xml_float (key, value, "score-pie-text-radius-max", &const_data->score_pie_text_radius_max);
-      lw6cfg_read_xml_float (key, value, "score-pie-text-size", &const_data->score_pie_text_size);
-      lw6cfg_read_xml_float (key, value, "score-pie-text-dw", &const_data->score_pie_text_dw);
-      lw6cfg_read_xml_float (key, value, "score-pie-text-dh", &const_data->score_pie_text_dh);
+      lw6cfg_read_xml_float (sys_context, key, value, "clock-y1", &const_data->clock_y1);
+      lw6cfg_read_xml_float (sys_context, key, value, "clock-x2", &const_data->clock_x2);
+      lw6cfg_read_xml_float (sys_context, key, value, "clock-size", &const_data->clock_size);
+      lw6cfg_read_xml_float (sys_context, key, value, "clock-dw", &const_data->clock_dw);
+      lw6cfg_read_xml_float (sys_context, key, value, "clock-dh", &const_data->clock_dh);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-relative-bg-inner", &const_data->gauge_relative_bg_inner);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-relative-bg-outer", &const_data->gauge_relative_bg_outer);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-relative-fg-inner", &const_data->gauge_relative_fg_inner);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-relative-fg-outer", &const_data->gauge_relative_fg_outer);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-relative-text-size", &const_data->gauge_relative_text_size);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-relative-text-dw", &const_data->gauge_relative_text_dw);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-relative-text-dh", &const_data->gauge_relative_text_dh);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-relative-percent-only-y1", &const_data->gauge_relative_percent_only_y1);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-relative-percent-y1", &const_data->gauge_relative_percent_y1);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-relative-frags-y1", &const_data->gauge_relative_frags_y1);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-relative-heartbeat-min", &const_data->gauge_relative_heartbeat_min);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-relative-heartbeat-max", &const_data->gauge_relative_heartbeat_max);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-start", &const_data->gauge_start);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-sweep", &const_data->gauge_sweep);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-min-size", &const_data->gauge_min_size);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-max-size", &const_data->gauge_max_size);
+      lw6cfg_read_xml_float (sys_context, key, value, "gauge-max-health-angle", &const_data->gauge_max_health_angle);
+      lw6cfg_read_xml_float (sys_context, key, value, "weapon-ambiance-alpha1", &const_data->weapon_ambiance_alpha1);
+      lw6cfg_read_xml_float (sys_context, key, value, "weapon-ambiance-alpha2", &const_data->weapon_ambiance_alpha2);
+      lw6cfg_read_xml_float (sys_context, key, value, "score-pie-heartbeat-factor1", &const_data->score_pie_heartbeat_factor1);
+      lw6cfg_read_xml_float (sys_context, key, value, "score-pie-heartbeat-factor2", &const_data->score_pie_heartbeat_factor2);
+      lw6cfg_read_xml_float (sys_context, key, value, "score-pie-inner", &const_data->score_pie_inner);
+      lw6cfg_read_xml_float (sys_context, key, value, "score-pie-outer", &const_data->score_pie_outer);
+      lw6cfg_read_xml_float (sys_context, key, value, "score-pie-offset", &const_data->score_pie_offset);
+      lw6cfg_read_xml_float (sys_context, key, value, "score-pie-text-radius-min", &const_data->score_pie_text_radius_min);
+      lw6cfg_read_xml_float (sys_context, key, value, "score-pie-text-radius-max", &const_data->score_pie_text_radius_max);
+      lw6cfg_read_xml_float (sys_context, key, value, "score-pie-text-size", &const_data->score_pie_text_size);
+      lw6cfg_read_xml_float (sys_context, key, value, "score-pie-text-dw", &const_data->score_pie_text_dw);
+      lw6cfg_read_xml_float (sys_context, key, value, "score-pie-text-dh", &const_data->score_pie_text_dh);
     }
 }
 
@@ -106,7 +106,7 @@ load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_cont
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-      ret = lw6cfg_read_key_value_xml_file (const_file, read_callback, (void *) &(floating_context->const_data));
+      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, read_callback, (void *) &(floating_context->const_data));
 
       LW6SYS_FREE (sys_context, const_file);
     }

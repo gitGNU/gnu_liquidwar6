@@ -133,14 +133,14 @@ lw6_main (int argc, const char *argv[])
 	  lw6sys_debug_set (sys_context, debug);
 	  LW6SYS_FREE (sys_context, debug_str);
 	}
-      log_level_str = lw6cfg_unified_get_value (argc, argv, LW6DEF_LOG_LEVEL);
+      log_level_str = lw6cfg_unified_get_value (sys_context, argc, argv, LW6DEF_LOG_LEVEL);
       if (log_level_str)
 	{
 	  log_level = lw6sys_atoi (log_level_str);
 	  lw6sys_log_set_level (log_level);
 	  LW6SYS_FREE (sys_context, log_level_str);
 	}
-      log_file = lw6cfg_unified_get_log_file (argc, argv);
+      log_file = lw6cfg_unified_get_log_file (sys_context, argc, argv);
       if (log_file)
 	{
 	  lw6sys_log_clear (log_file);

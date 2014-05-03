@@ -57,7 +57,7 @@ _register_and_run_tests (int argc, const char **argv, int mode)
 	    && lw6pil_test_register (sys_context, mode) && DYN_TEST_REGISTER (mode)
 	    && lw6bot_test_register (sys_context, mode) && lw6gen_test_register (sys_context, mode)
 	    && lw6sim_test_register (sys_context, mode) && lw6cns_test_register (sys_context, mode)
-	    && lw6hlp_test_register (sys_context, mode) && lw6cfg_test_register (mode)
+	    && lw6hlp_test_register (sys_context, mode) && lw6cfg_test_register (sys_context, mode)
 	    && lw6ldr_test_register (mode) && lw6tsk_test_register (mode)
 	    && lw6mat_test_register (mode) && lw6gui_test_register (mode)
 	    && lw6vox_test_register (mode) && lw6gfx_test_register (mode)
@@ -120,7 +120,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	   */
 	  if (lw6sys_arg_match (sys_context, LW6DEF_TEST, argv[i]))
 	    {
-	      log_file = lw6cfg_unified_get_log_file (argc, argv);
+	      log_file = lw6cfg_unified_get_log_file (sys_context, argc, argv);
 	      if (log_file)
 		{
 		  lw6sys_log_clear (log_file);
@@ -140,7 +140,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	    }
 	  else if (lw6sys_arg_match (sys_context, LW6DEF_CHECK, argv[i]))
 	    {
-	      log_file = lw6cfg_unified_get_log_file (argc, argv);
+	      log_file = lw6cfg_unified_get_log_file (sys_context, argc, argv);
 	      if (log_file)
 		{
 		  lw6sys_log_clear (log_file);
@@ -164,7 +164,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	    }
 	  else if (lw6sys_arg_match (sys_context, LW6DEF_CUNIT, argv[i]))
 	    {
-	      log_file = lw6cfg_unified_get_log_file (argc, argv);
+	      log_file = lw6cfg_unified_get_log_file (sys_context, argc, argv);
 	      if (log_file)
 		{
 		  lw6sys_log_clear (log_file);
@@ -194,19 +194,19 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	    }
 	  else if (lw6sys_arg_match (sys_context, LW6DEF_RESET, argv[i]))
 	    {
-	      lw6cfg_reset (argc, argv);
+	      lw6cfg_reset (sys_context, argc, argv);
 	      (*run_game) = 0;
 	    }
 	  else if (lw6sys_arg_match (sys_context, LW6DEF_DEFAULTS, argv[i]))
 	    {
-	      lw6cfg_reset (argc, argv);
+	      lw6cfg_reset (sys_context, argc, argv);
 	    }
 	  /*
 	   * Show any interesting path
 	   */
 	  else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_USER_DIR, argv[i]))
 	    {
-	      path = lw6cfg_unified_get_user_dir (argc, argv);
+	      path = lw6cfg_unified_get_user_dir (sys_context, argc, argv);
 	      if (path)
 		{
 		  printf ("%s\n", path);
@@ -217,7 +217,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	    }
 	  else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_LOG_FILE, argv[i]))
 	    {
-	      path = lw6cfg_unified_get_log_file (argc, argv);
+	      path = lw6cfg_unified_get_log_file (sys_context, argc, argv);
 	      if (path)
 		{
 		  printf ("%s\n", path);
@@ -228,7 +228,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	    }
 	  else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_MUSIC_PATH, argv[i]))
 	    {
-	      path = lw6cfg_unified_get_music_path (argc, argv);
+	      path = lw6cfg_unified_get_music_path (sys_context, argc, argv);
 	      if (path)
 		{
 		  printf ("%s\n", path);
@@ -239,7 +239,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	    }
 	  else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_MAP_PATH, argv[i]))
 	    {
-	      path = lw6cfg_unified_get_map_path (argc, argv);
+	      path = lw6cfg_unified_get_map_path (sys_context, argc, argv);
 	      if (path)
 		{
 		  printf ("%s\n", path);

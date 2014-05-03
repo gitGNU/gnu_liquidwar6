@@ -132,7 +132,7 @@ level_new (char *name, int display_width, int display_height, lw6sys_progress_t 
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
   lw6sys_progress_begin (sys_context, progress);
-  map_path = lw6cfg_unified_get_map_path (argc, argv);
+  map_path = lw6cfg_unified_get_map_path (sys_context, argc, argv);
   if (map_path)
     {
       user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
@@ -589,7 +589,7 @@ lw6dsp_test_register (int mode)
        * Just to make sure most functions are stuffed in the binary
        */
       lw6sys_test_register (sys_context, mode);
-      lw6cfg_test_register (mode);
+      lw6cfg_test_register (sys_context, mode);
       lw6map_test_register (sys_context, mode);
       lw6ker_test_register (sys_context, mode);
       lw6pil_test_register (sys_context, mode);

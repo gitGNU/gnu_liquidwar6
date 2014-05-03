@@ -200,10 +200,10 @@ _scm_lw6map_team_color_list ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+  user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
   if (user_dir)
     {
-      lw6cfg_load_exp (user_dir, &exp);
+      lw6cfg_load_exp (sys_context, user_dir, &exp);
       ret = SCM_EOL;
       for (i = lw6map_exp_get_highest_team_color_allowed (sys_context, exp); i >= 0; --i)
 	{
@@ -282,10 +282,10 @@ _scm_lw6map_weapon_list ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+  user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
   if (user_dir)
     {
-      if (lw6cfg_load_exp (user_dir, &exp))
+      if (lw6cfg_load_exp (sys_context, user_dir, &exp))
 	{
 	  ret = SCM_EOL;
 	  for (i = lw6map_exp_get_highest_weapon_allowed (sys_context, exp); i >= 0; --i)
@@ -530,10 +530,10 @@ _scm_lw6map_exp_get_unlocked_team_color ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+  user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
   if (user_dir)
     {
-      lw6cfg_load_exp (user_dir, &exp);
+      lw6cfg_load_exp (sys_context, user_dir, &exp);
 
       ret = scm_from_int (lw6map_exp_get_unlocked_team_color (sys_context, exp));
 
@@ -555,10 +555,10 @@ _scm_lw6map_exp_get_unlocked_weapon (sys_context, SCM weapon)
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+  user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
   if (user_dir)
     {
-      lw6cfg_load_exp (user_dir, &exp);
+      lw6cfg_load_exp (sys_context, user_dir, &exp);
 
       ret = scm_from_int (lw6map_exp_get_unlocked_weapon (sys_context, exp));
 

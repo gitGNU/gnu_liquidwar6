@@ -30,7 +30,7 @@
 #include "cfg-internal.h"
 
 static int
-must_be_stored (char *key)
+_must_be_stored (lw6sys_context_t * sys_context, char *key)
 {
   int ret = 1;
 
@@ -49,7 +49,7 @@ must_be_stored (char *key)
 }
 
 static int
-parse_option (_lw6cfg_context_t * context, const char *option)
+_parse_option (lw6sys_context_t * sys_context, _lw6cfg_context_t * cfg_context, const char *option)
 {
   int ret = 0;
 
@@ -96,17 +96,17 @@ parse_option (_lw6cfg_context_t * context, const char *option)
 	      value = "true";
 	    }
 
-	  if (must_be_stored (key))
+	  if (_must_be_stored (sys_context, key))
 	    {
-	      value_converted = lw6cfg_format_guess_type (key, value);
+	      value_converted = lw6cfg_format_guess_type (sys_context, key, value);
 	      if (value_converted)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("key \"%s\" set to \"%s\" by command-line option \"%s\""), key, value_converted, option);
-		  if (lw6sys_spinlock_lock (sys_context, context->spinlock))
+		  if (lw6sys_spinlock_lock (sys_context, cfg_context->spinlock))
 		    {
-		      lw6sys_hash_set (sys_context, context->options, key, value_converted);
+		      lw6sys_hash_set (sys_context, cfg_context->options, key, value_converted);
 		      // no need to free value_converted
-		      lw6sys_spinlock_unlock (sys_context, context->spinlock);
+		      lw6sys_spinlock_unlock (sys_context, cfg_context->spinlock);
 		    }
 		}
 	    }
@@ -121,14 +121,14 @@ parse_option (_lw6cfg_context_t * context, const char *option)
 }
 
 int
-_lw6cfg_parse_command_line (_lw6cfg_context_t * context)
+_lw6cfg_parse_command_line (lw6sys_context_t * sys_context, _lw6cfg_context_t * cfg_context)
 {
   int i;
   int ret = 1;
 
-  for (i = 1; i < context->argc; ++i)
+  for (i = 1; i < cfg_context->argc; ++i)
     {
-      ret = ret && parse_option (context, context->argv[i]);
+      ret = ret && _parse_option (sys_context, cfg_context, cfg_context->argv[i]);
     }
 
   return ret;
@@ -137,14 +137,15 @@ _lw6cfg_parse_command_line (_lw6cfg_context_t * context)
 /**
  * lw6cfg_parse_command_line
  *
- * @context: opaque pointer on a context
+ * @sys_context: global system context
+ * @cfg_context: opaque pointer on a context
  *
  * Overwrites any existing option with command line args
  *
  * Return value: 1 if success, 0 if error
  */
 int
-lw6cfg_parse_command_line (void *context)
+lw6cfg_parse_command_line (lw6sys_context_t * sys_context, void *cfg_context)
 {
-  return _lw6cfg_parse_command_line ((_lw6cfg_context_t *) context);
+  return _lw6cfg_parse_command_line (sys_context, (_lw6cfg_context_t *) cfg_context);
 }

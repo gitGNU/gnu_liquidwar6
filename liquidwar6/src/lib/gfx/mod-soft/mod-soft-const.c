@@ -37,7 +37,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "dummy", &const_data->dummy);
+      lw6cfg_read_xml_int (sys_context, key, value, "dummy", &const_data->dummy);
     }
 }
 
@@ -56,7 +56,7 @@ _mod_soft_load_consts (_mod_soft_context_t * context)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-      ret = lw6cfg_read_key_value_xml_file (const_file, read_callback, (void *) &(context->const_data));
+      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, read_callback, (void *) &(context->const_data));
 
       LW6SYS_FREE (sys_context, const_file);
     }
