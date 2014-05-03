@@ -349,7 +349,7 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 								       * it anyway in case this function would
 								       *  be called just to check the protocol
 								       */
-								      lw6sys_log (sys_context,LW6SYS_LOG_DEBUG, _x_ ("forcing clear text instead of base64"));
+								      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("forcing clear text instead of base64"));
 								      (*msg) = lw6sys_str_copy (pos);
 								    }
 								}

@@ -234,11 +234,11 @@ lw6dyn_dlopen_backend (int argc, const char *argv[], const char *top_level_lib, 
 						       * just to make sure
 						       * paths are right.
 						       */
-						      lw6sys_log (sys_context,LW6SYS_LOG_NOTICE, _("loaded module \"%s\""), so_file);
+						      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _("loaded module \"%s\""), so_file);
 						      first_load = 0;
 						    }
 
-						  lw6sys_log (sys_context,LW6SYS_LOG_INFO, _x_ ("module \"%s\" loaded, looks fine"), so_file);
+						  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("module \"%s\" loaded, looks fine"), so_file);
 
 						  ret->is_dlclose_safe = _sym_exists (ret, LW6DYN_IS_BACKEND_DLCLOSE_SAFE_SYM_FORMAT, backend_name);
 						  lw6sys_log (sys_context,
@@ -247,8 +247,9 @@ lw6dyn_dlopen_backend (int argc, const char *argv[], const char *top_level_lib, 
 						  /*
 						   * Verbose dlopen did log the so name
 						   */
-						  lw6sys_log (sys_context,LW6SYS_LOG_INFO, _x_ ("id for \"%s\" is \"%s\""), so_file, module_pedigree->id);
-						  lw6sys_log (sys_context,LW6SYS_LOG_INFO, _x_ ("category for \"%s\" is \"%s\""), so_file, module_pedigree->category);
+						  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("id for \"%s\" is \"%s\""), so_file, module_pedigree->id);
+						  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("category for \"%s\" is \"%s\""), so_file,
+							      module_pedigree->category);
 						  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("name for \"%s\" is \"%s\""), so_file, module_pedigree->name);
 						  lw6sys_log (sys_context,
 							      LW6SYS_LOG_INFO, _x_ ("readme for \"%s\" is \"%s\""), so_file, module_pedigree->readme);
@@ -368,14 +369,14 @@ lw6dyn_dlopen_shared (int argc, const char *argv[], const char *top_level_lib, c
 
 	  if (_sym_exists (ret, LW6DYN_IS_SHARED_GPL_COMPATIBLE_SYM_FORMAT, shared_name))
 	    {
-	      lw6sys_log (sys_context,LW6SYS_LOG_INFO, _x_ ("shared code \"%s\" loaded, looks fine"), so_file);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("shared code \"%s\" loaded, looks fine"), so_file);
 	      ret->is_dlclose_safe = _sym_exists (ret, LW6DYN_IS_SHARED_DLCLOSE_SAFE_SYM_FORMAT, shared_name);
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("is_dlclose_safe for \"%s\" is %d"), so_file, ret->is_dlclose_safe);
 	      ok = 1;
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context,LW6SYS_LOG_WARNING, _x_ ("shared code shared_%s in \"%s\" is not GPL compatible"), shared_name, so_file);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("shared code shared_%s in \"%s\" is not GPL compatible"), shared_name, so_file);
 	    }
 	}
       LW6SYS_FREE (sys_context, so_file);
