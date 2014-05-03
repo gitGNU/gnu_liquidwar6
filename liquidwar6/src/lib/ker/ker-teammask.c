@@ -34,6 +34,7 @@
 /**
  * lw6ker_team_mask_get
  *
+ * @sys_context: global system context
  * @even: even team mask (out param)
  * @odd: odd team mask (out param)
  * @round: round concerned
@@ -44,8 +45,8 @@
  * Return value: none.
  */
 void
-lw6ker_team_mask_get (sys_context, u_int32_t * even, u_int32_t * odd,
-		      int32_t round)
+lw6ker_team_mask_get (lw6sys_context_t * sys_context, u_int32_t * even,
+		      u_int32_t * odd, int32_t round)
 {
   u_int32_t checksum;
 
@@ -62,6 +63,7 @@ lw6ker_team_mask_get (sys_context, u_int32_t * even, u_int32_t * odd,
 /**
  * lw6ker_team_mask_best
  *
+ * @sys_context: global system context
  * @even: even team mask (out param)
  * @odd: odd team mask (out param)
  * @game_state: the game_state concerned
@@ -74,8 +76,8 @@ lw6ker_team_mask_get (sys_context, u_int32_t * even, u_int32_t * odd,
  * Return value: none.
  */
 void
-lw6ker_team_mask_best (sys_context, u_int32_t * even, u_int32_t * odd,
-		       lw6ker_game_state_t * game_state)
+lw6ker_team_mask_best (lw6sys_context_t * sys_context, u_int32_t * even,
+		       u_int32_t * odd, lw6ker_game_state_t * game_state)
 {
   int i = 0, j = 0, k = 0, l = 0;
   int delta = LW6MAP_MAX_NB_TEAMS;
@@ -97,7 +99,7 @@ lw6ker_team_mask_best (sys_context, u_int32_t * even, u_int32_t * odd,
 	      j++;
 	    }
 	}
-      seed = lw6sys_checksum_int32 (seed);
+      seed = lw6sys_checksum_int32 (sys_context, seed);
       delta = abs (j - k * 2);
       l++;
     }
@@ -112,6 +114,7 @@ lw6ker_team_mask_best (sys_context, u_int32_t * even, u_int32_t * odd,
 /**
  * lw6ker_team_mask_is_concerned
  *
+ * @sys_context: global system context
  * @team_color: color index
  * @team_mask: team mask
  *
@@ -120,7 +123,7 @@ lw6ker_team_mask_best (sys_context, u_int32_t * even, u_int32_t * odd,
  * Return value: 1 if concerned, 0 if not.
  */
 int
-lw6ker_team_mask_is_concerned (sys_context, int team_color,
+lw6ker_team_mask_is_concerned (lw6sys_context_t * sys_context, int team_color,
 			       u_int32_t team_mask)
 {
   static int matrix[LW6MAP_MAX_NB_TEAMS] = { LW6KER_TEAM_MASK_RED,
@@ -154,7 +157,7 @@ lw6ker_team_mask_is_concerned (sys_context, int team_color,
  * Return value: bitwise mask.
  */
 int
-lw6ker_team_mask_color2mask (sys_context, int team_color)
+lw6ker_team_mask_color2mask (lw6sys_context_t * sys_context, int team_color)
 {
   int ret = 0;
 

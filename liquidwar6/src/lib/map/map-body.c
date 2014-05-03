@@ -276,35 +276,34 @@ lw6map_body_check_and_fix_holes (lw6sys_context_t * sys_context,
 			{
 			  tx = x + 1;
 			  ty = y;
-			  lw6map_coords_fix_xy (sys_context, rules,
+			  lw6map_coords_fix_xy (rules,
 						&body->shape, &tx, &ty);
 			  found +=
 			    _update_if_needed (sys_context, &fixed_body, body,
 					       tx, ty, z);
 			  tx = x + 1;
 			  ty = y + 1;
-			  lw6map_coords_fix_xy (sys_context, rules,
+			  lw6map_coords_fix_xy (rules,
 						&body->shape, &tx, &ty);
 			  found +=
 			    _update_if_needed (sys_context, &fixed_body, body,
 					       tx, ty, z);
 			  tx = x;
 			  ty = y + 1;
-			  lw6map_coords_fix_xy (sys_context, rules,
+			  lw6map_coords_fix_xy (rules,
 						&body->shape, &tx, &ty);
 			  found +=
 			    _update_if_needed (sys_context, &fixed_body, body,
 					       tx, ty, z);
 			  tx = x - 1;
 			  ty = y + 1;
-			  lw6map_coords_fix_xy (sys_context, rules,
+			  lw6map_coords_fix_xy (rules,
 						&body->shape, &tx, &ty);
 			  found +=
 			    _update_if_needed (sys_context, &fixed_body, body,
 					       tx, ty, z);
 			  tz = z + 1;
-			  lw6map_coords_fix_z (sys_context, rules,
-					       &body->shape, &tz);
+			  lw6map_coords_fix_z (rules, &body->shape, &tz);
 			  found +=
 			    _update_if_needed (sys_context, &fixed_body, body,
 					       x, y, tz);
@@ -323,35 +322,34 @@ lw6map_body_check_and_fix_holes (lw6sys_context_t * sys_context,
 			{
 			  tx = x - 1;
 			  ty = y;
-			  lw6map_coords_fix_xy (sys_context, rules,
+			  lw6map_coords_fix_xy (rules,
 						&body->shape, &tx, &ty);
 			  found +=
 			    _update_if_needed (sys_context, &fixed_body, body,
 					       tx, ty, z);
 			  tx = x - 1;
 			  ty = y - 1;
-			  lw6map_coords_fix_xy (sys_context, rules,
+			  lw6map_coords_fix_xy (rules,
 						&body->shape, &tx, &ty);
 			  found +=
 			    _update_if_needed (sys_context, &fixed_body, body,
 					       tx, ty, z);
 			  tx = x;
 			  ty = y - 1;
-			  lw6map_coords_fix_xy (sys_context, rules,
+			  lw6map_coords_fix_xy (rules,
 						&body->shape, &tx, &ty);
 			  found +=
 			    _update_if_needed (sys_context, &fixed_body, body,
 					       tx, ty, z);
 			  tx = x + 1;
 			  ty = y - 1;
-			  lw6map_coords_fix_xy (sys_context, rules,
+			  lw6map_coords_fix_xy (rules,
 						&body->shape, &tx, &ty);
 			  found +=
 			    _update_if_needed (sys_context, &fixed_body, body,
 					       tx, ty, z);
 			  tz = z - 1;
-			  lw6map_coords_fix_z (sys_context, rules,
-					       &body->shape, &tz);
+			  lw6map_coords_fix_z (rules, &body->shape, &tz);
 			  found +=
 			    _update_if_needed (sys_context, &fixed_body, body,
 					       x, y, tz);

@@ -28,7 +28,8 @@
 #include "ker-internal.h"
 
 int
-_lw6ker_armies_init (sys_context, _lw6ker_armies_t * armies,
+_lw6ker_armies_init (lw6sys_context_t * sys_context,
+		     _lw6ker_armies_t * armies,
 		     const _lw6ker_map_struct_t * map_struct,
 		     const lw6map_rules_t * options)
 {
@@ -58,7 +59,8 @@ _lw6ker_armies_init (sys_context, _lw6ker_armies_t * armies,
 }
 
 void
-_lw6ker_armies_clear (sys_context, _lw6ker_armies_t * armies)
+_lw6ker_armies_clear (lw6sys_context_t * sys_context,
+		      _lw6ker_armies_t * armies)
 {
   if (armies->fighters)
     {
@@ -71,7 +73,7 @@ _lw6ker_armies_clear (sys_context, _lw6ker_armies_t * armies)
 }
 
 int
-_lw6ker_armies_sync (sys_context, _lw6ker_armies_t * dst,
+_lw6ker_armies_sync (lw6sys_context_t * sys_context, _lw6ker_armies_t * dst,
 		     const _lw6ker_armies_t * src)
 {
   int ret = 0;
@@ -104,7 +106,8 @@ _lw6ker_armies_sync (sys_context, _lw6ker_armies_t * dst,
 }
 
 void
-_lw6ker_armies_update_checksum (sys_context, const _lw6ker_armies_t * armies,
+_lw6ker_armies_update_checksum (lw6sys_context_t * sys_context,
+				const _lw6ker_armies_t * armies,
 				u_int32_t * checksum)
 {
   int i;
@@ -126,7 +129,8 @@ _lw6ker_armies_update_checksum (sys_context, const _lw6ker_armies_t * armies,
 }
 
 int32_t
-_lw6ker_armies_add_fighter (sys_context, _lw6ker_armies_t * armies,
+_lw6ker_armies_add_fighter (lw6sys_context_t * sys_context,
+			    _lw6ker_armies_t * armies,
 			    lw6ker_fighter_t fighter)
 {
   int32_t new_id = -1;
@@ -155,7 +159,8 @@ _lw6ker_armies_add_fighter (sys_context, _lw6ker_armies_t * armies,
  * then delete.
  */
 int
-_lw6ker_armies_remove_fighter (sys_context, _lw6ker_armies_t * armies)
+_lw6ker_armies_remove_fighter (lw6sys_context_t * sys_context,
+			       _lw6ker_armies_t * armies)
 {
   int ret = 0;
 

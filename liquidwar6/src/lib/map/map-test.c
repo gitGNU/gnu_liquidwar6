@@ -235,7 +235,7 @@ _test_coords ()
 		y = _test_y[i];
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_ ("coords before fix %d,%d"), x, y);
-		lw6map_coords_fix_xy (sys_context, &rules, &shape, &x, &y);
+		lw6map_coords_fix_xy (&rules, &shape, &x, &y);
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_ ("coords after fix %d,%d"), x, y);
 	      }

@@ -28,7 +28,7 @@
 #include "ker-internal.h"
 
 int
-_lw6ker_score_sort_quantity_callback (sys_context, lw6ker_score_t * score_a,
+_lw6ker_score_sort_quantity_callback (lw6ker_score_t * score_a,
 				      lw6ker_score_t * score_b)
 {
   int ret = 0;
@@ -70,15 +70,14 @@ _lw6ker_score_sort_quantity_callback (sys_context, lw6ker_score_t * score_a,
 }
 
 int
-_lw6ker_score_sort_quantity_callback_desc (sys_context,
-					   lw6ker_score_t * score_a,
+_lw6ker_score_sort_quantity_callback_desc (lw6ker_score_t * score_a,
 					   lw6ker_score_t * score_b)
 {
   return (_lw6ker_score_sort_quantity_callback (score_b, score_a));
 }
 
 int
-_lw6ker_score_sort_frags_callback (sys_context, lw6ker_score_t * score_a,
+_lw6ker_score_sort_frags_callback (lw6ker_score_t * score_a,
 				   lw6ker_score_t * score_b)
 {
   int ret = 0;
@@ -120,7 +119,7 @@ _lw6ker_score_sort_frags_callback (sys_context, lw6ker_score_t * score_a,
 }
 
 int
-_lw6ker_score_sort_frags_callback_desc (sys_context, lw6ker_score_t * score_a,
+_lw6ker_score_sort_frags_callback_desc (lw6ker_score_t * score_a,
 					lw6ker_score_t * score_b)
 {
   return (_lw6ker_score_sort_frags_callback (score_b, score_a));

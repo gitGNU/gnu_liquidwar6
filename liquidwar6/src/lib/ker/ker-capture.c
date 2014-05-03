@@ -27,12 +27,12 @@
 #include "ker.h"
 #include "ker-internal.h"
 
-#define CAPTURE_BG ' '
-#define CAPTURE_FG '*'
-#define CAPTURE_COLOR_0 '0'
+#define _CAPTURE_BG ' '
+#define _CAPTURE_FG '*'
+#define _CAPTURE_COLOR_0 '0'
 
 static int
-capture_size (int w, int h)
+_capture_size (int w, int h)
 {
   int size = 0;
 
@@ -42,7 +42,7 @@ capture_size (int w, int h)
 }
 
 static int
-capture_pos (int w, int x, int y)
+_capture_pos (int w, int x, int y)
 {
   int pos = 0;
 
@@ -52,7 +52,7 @@ capture_pos (int w, int x, int y)
 }
 
 static int
-capture_eol (int w, int y)
+_capture_eol (int w, int y)
 {
   int eol = 0;
 
@@ -62,7 +62,8 @@ capture_eol (int w, int y)
 }
 
 char *
-_lw6ker_capture_str (sys_context, const _lw6ker_game_state_t * game_state)
+_lw6ker_capture_str (lw6sys_context_t * sys_context,
+		     const _lw6ker_game_state_t * game_state)
 {
   char *ret = NULL;
   int w, h, x, y;
@@ -73,15 +74,15 @@ _lw6ker_capture_str (sys_context, const _lw6ker_game_state_t * game_state)
 
   w = game_state->map_state.shape.w;
   h = game_state->map_state.shape.h;
-  size = capture_size (w, h);
-  ret = (char *) LW6SYS_CALLOC (size + 1);
+  size = _capture_size (w, h);
+  ret = (char *) LW6SYS_CALLOC (sys_context, size + 1);
   if (ret)
     {
       for (y = 0; y < h; ++y)
 	{
 	  for (x = 0; x < w; ++x)
 	    {
-	      pos = capture_pos (w, x, y);
+	      pos = _capture_pos (w, x, y);
 	      /*
 	       * No multilayer support, only display layer0, this is
 	       * just a preview/debugging function
@@ -93,18 +94,18 @@ _lw6ker_capture_str (sys_context, const _lw6ker_game_state_t * game_state)
 		{
 		  fighter =
 		    &(game_state->map_state.armies.fighters[fighter_id]);
-		  c = CAPTURE_COLOR_0 + fighter->team_color;
+		  c = _CAPTURE_COLOR_0 + fighter->team_color;
 		}
 	      else
 		{
 		  c =
 		    (lw6map_body_get
 		     (&(game_state->game_struct->level->body), x,
-		      y, 0) > 0) ? CAPTURE_BG : CAPTURE_FG;
+		      y, 0) > 0) ? _CAPTURE_BG : _CAPTURE_FG;
 		}
 	      ret[pos] = c;
 	    }
-	  ret[capture_eol (w, y)] = '\n';
+	  ret[_capture_eol (w, y)] = '\n';
 	}
       ret[size] = '\0';
     }
@@ -115,6 +116,7 @@ _lw6ker_capture_str (sys_context, const _lw6ker_game_state_t * game_state)
 /**
  * lw6ker_capture_str
  *
+ * @sys_context: global system context
  * @game_state: game state to represent
  *
  * Gives a string representation, an ASCII capture of the game.
@@ -124,7 +126,8 @@ _lw6ker_capture_str (sys_context, const _lw6ker_game_state_t * game_state)
  * Return value: dynamically allocated string.
  */
 char *
-lw6ker_capture_str (sys_context, const lw6ker_game_state_t * game_state)
+lw6ker_capture_str (lw6sys_context_t * sys_context,
+		    const lw6ker_game_state_t * game_state)
 {
   char *ret = NULL;
 

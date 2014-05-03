@@ -28,7 +28,8 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_cursor_init (sys_context, lw6ker_cursor_t * cursor, char letter)
+_lw6ker_cursor_init (lw6sys_context_t * sys_context, lw6ker_cursor_t * cursor,
+		     char letter)
 {
   memset (cursor, 0, sizeof (lw6ker_cursor_t));
   cursor->letter = letter;
@@ -36,7 +37,8 @@ _lw6ker_cursor_init (sys_context, lw6ker_cursor_t * cursor, char letter)
 }
 
 void
-_lw6ker_cursor_update_checksum (sys_context, const lw6ker_cursor_t * cursor,
+_lw6ker_cursor_update_checksum (lw6sys_context_t * sys_context,
+				const lw6ker_cursor_t * cursor,
 				u_int32_t * checksum)
 {
   lw6sys_checksum_update_int64 (sys_context, checksum, cursor->node_id);
@@ -52,7 +54,8 @@ _lw6ker_cursor_update_checksum (sys_context, const lw6ker_cursor_t * cursor,
 }
 
 int
-_lw6ker_cursor_check_node_id (sys_context, const lw6ker_cursor_t * cursor,
+_lw6ker_cursor_check_node_id (lw6sys_context_t * sys_context,
+			      const lw6ker_cursor_t * cursor,
 			      u_int64_t node_id)
 {
   int ret = 0;
@@ -72,8 +75,8 @@ _lw6ker_cursor_check_node_id (sys_context, const lw6ker_cursor_t * cursor,
 }
 
 int
-_lw6ker_cursor_get_start_xy (sys_context, int32_t * x, int32_t * y,
-			     int team_color, int position_mode,
+_lw6ker_cursor_get_start_xy (lw6sys_context_t * sys_context, int32_t * x,
+			     int32_t * y, int team_color, int position_mode,
 			     int random_seed, const lw6sys_whd_t * shape,
 			     const lw6map_rules_t * rules)
 {
@@ -92,7 +95,7 @@ _lw6ker_cursor_get_start_xy (sys_context, int32_t * x, int32_t * y,
    * Update with something for when seed is 0 (game beginning)
    * then checksum is 0...
    */
-  lw6sys_checksum_update_int32 (&checksum, shape->w * shape->h);
+  lw6sys_checksum_update_int32 (sys_context, &checksum, shape->w * shape->h);
 
   if (position_mode == LW6MAP_RULES_POSITION_MODE_TOTAL_RANDOM)
     {
@@ -126,12 +129,13 @@ _lw6ker_cursor_get_start_xy (sys_context, int32_t * x, int32_t * y,
 }
 
 void
-_lw6ker_cursor_update_apply_pos (sys_context, lw6ker_cursor_t * cursor,
+_lw6ker_cursor_update_apply_pos (lw6sys_context_t * sys_context,
+				 lw6ker_cursor_t * cursor,
 				 const _lw6ker_map_struct_t * map_struct)
 {
   if (map_struct)
     {
-      _lw6ker_map_struct_find_free_slot_near (map_struct,
+      _lw6ker_map_struct_find_free_slot_near (sys_context, map_struct,
 					      &(cursor->apply_pos),
 					      (cursor->pos));
     }
@@ -144,6 +148,7 @@ _lw6ker_cursor_update_apply_pos (sys_context, lw6ker_cursor_t * cursor,
 /**
  * lw6ker_cursor_reset
  *
+ * @sys_context: global system context
  * @cursor: the cursor to reset
  *
  * Sets a cursor to defaults (disabled). This function will not touch
@@ -153,7 +158,7 @@ _lw6ker_cursor_update_apply_pos (sys_context, lw6ker_cursor_t * cursor,
  * Return value: none
  */
 void
-lw6ker_cursor_reset (sys_context, lw6ker_cursor_t * cursor)
+lw6ker_cursor_reset (lw6sys_context_t * sys_context, lw6ker_cursor_t * cursor)
 {
   cursor->enabled = 0;
   cursor->team_color = LW6MAP_TEAM_COLOR_INVALID;
@@ -167,10 +172,10 @@ lw6ker_cursor_reset (sys_context, lw6ker_cursor_t * cursor)
 }
 
 int
-_lw6ker_cursor_enable (sys_context, lw6ker_cursor_t * cursor,
-		       u_int64_t node_id,
-		       u_int16_t cursor_id,
-		       int team_color, int32_t x, int32_t y)
+_lw6ker_cursor_enable (lw6sys_context_t * sys_context,
+		       lw6ker_cursor_t * cursor, u_int64_t node_id,
+		       u_int16_t cursor_id, int team_color, int32_t x,
+		       int32_t y)
 {
   int ret = 0;
 
@@ -195,7 +200,8 @@ _lw6ker_cursor_enable (sys_context, lw6ker_cursor_t * cursor,
 }
 
 int
-_lw6ker_cursor_disable (sys_context, lw6ker_cursor_t * cursor)
+_lw6ker_cursor_disable (lw6sys_context_t * sys_context,
+			lw6ker_cursor_t * cursor)
 {
   int ret = 0;
 
@@ -216,8 +222,9 @@ _lw6ker_cursor_disable (sys_context, lw6ker_cursor_t * cursor)
 }
 
 int
-_lw6ker_cursor_update (sys_context, lw6ker_cursor_t * cursor, int32_t x,
-		       int32_t y, int fire, int fire2, int32_t pot_offset,
+_lw6ker_cursor_update (lw6sys_context_t * sys_context,
+		       lw6ker_cursor_t * cursor, int32_t x, int32_t y,
+		       int fire, int fire2, int32_t pot_offset,
 		       const lw6sys_whd_t * shape,
 		       const lw6map_rules_t * rules)
 {
@@ -240,7 +247,8 @@ _lw6ker_cursor_update (sys_context, lw6ker_cursor_t * cursor, int32_t x,
 }
 
 int
-_lw6ker_cursor_sanity_check (sys_context, const lw6ker_cursor_t * cursor,
+_lw6ker_cursor_sanity_check (lw6sys_context_t * sys_context,
+			     const lw6ker_cursor_t * cursor,
 			     const lw6sys_whd_t * shape,
 			     const lw6map_rules_t * rules)
 {
@@ -281,8 +289,9 @@ _lw6ker_cursor_sanity_check (sys_context, const lw6ker_cursor_t * cursor,
     }
   if (shape)
     {
-      if ((!lw6sys_shape_check_pos (shape, &cursor->pos))
-	  || (!lw6sys_shape_check_pos (shape, &cursor->apply_pos)))
+      if ((!lw6sys_shape_check_pos (sys_context, shape, &cursor->pos))
+	  ||
+	  (!lw6sys_shape_check_pos (sys_context, shape, &cursor->apply_pos)))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		      _x_

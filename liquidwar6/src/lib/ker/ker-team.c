@@ -30,7 +30,7 @@
 #include "ker-internal.h"
 
 int
-_lw6ker_team_init (sys_context, _lw6ker_team_t * team,
+_lw6ker_team_init (lw6sys_context_t * sys_context, _lw6ker_team_t * team,
 		   const _lw6ker_map_struct_t * map_struct,
 		   const lw6map_rules_t * rules)
 {
@@ -42,7 +42,8 @@ _lw6ker_team_init (sys_context, _lw6ker_team_t * team,
   team->offline = 0;
   team->map_struct = map_struct;
   team->gradient =
-    (_lw6ker_zone_state_t *) LW6SYS_CALLOC (map_struct->nb_zones *
+    (_lw6ker_zone_state_t *) LW6SYS_CALLOC (sys_context,
+					    map_struct->nb_zones *
 					    sizeof (_lw6ker_zone_state_t));
   team->cursor_ref_pot = rules->cursor_pot_init;
   team->last_spread_dir = LW6KER_DIR_NNE;
@@ -79,7 +80,7 @@ _lw6ker_team_init (sys_context, _lw6ker_team_t * team,
 }
 
 void
-_lw6ker_team_clear (sys_context, _lw6ker_team_t * team)
+_lw6ker_team_clear (lw6sys_context_t * sys_context, _lw6ker_team_t * team)
 {
   if (team->gradient)
     {
@@ -90,7 +91,7 @@ _lw6ker_team_clear (sys_context, _lw6ker_team_t * team)
 }
 
 int
-_lw6ker_team_sync (sys_context, _lw6ker_team_t * dst,
+_lw6ker_team_sync (lw6sys_context_t * sys_context, _lw6ker_team_t * dst,
 		   const _lw6ker_team_t * src)
 {
   int ret = 0;
@@ -124,7 +125,8 @@ _lw6ker_team_sync (sys_context, _lw6ker_team_t * dst,
 }
 
 void
-_lw6ker_team_update_checksum (sys_context, const _lw6ker_team_t * team,
+_lw6ker_team_update_checksum (lw6sys_context_t * sys_context,
+			      const _lw6ker_team_t * team,
 			      u_int32_t * checksum)
 {
   int i;
@@ -150,7 +152,8 @@ _lw6ker_team_update_checksum (sys_context, const _lw6ker_team_t * team,
 }
 
 void
-_lw6ker_team_activate (sys_context, _lw6ker_team_t * team, lw6sys_xyz_t pos)
+_lw6ker_team_activate (lw6sys_context_t * sys_context, _lw6ker_team_t * team,
+		       lw6sys_xyz_t pos)
 {
   team->active = 1;
   team->has_been_active = 1;
@@ -160,7 +163,8 @@ _lw6ker_team_activate (sys_context, _lw6ker_team_t * team, lw6sys_xyz_t pos)
 }
 
 void
-_lw6ker_team_unactivate (sys_context, _lw6ker_team_t * team)
+_lw6ker_team_unactivate (lw6sys_context_t * sys_context,
+			 _lw6ker_team_t * team)
 {
   team->active = 0;
   // carefull, do not touch "has_been_active" !!!
@@ -170,7 +174,8 @@ _lw6ker_team_unactivate (sys_context, _lw6ker_team_t * team)
 }
 
 void
-_lw6ker_team_normalize_pot (sys_context, _lw6ker_team_t * team,
+_lw6ker_team_normalize_pot (lw6sys_context_t * sys_context,
+			    _lw6ker_team_t * team,
 			    const lw6map_rules_t * rules)
 {
   int32_t i;
@@ -219,7 +224,8 @@ _lw6ker_team_normalize_pot (sys_context, _lw6ker_team_t * team,
 }
 
 int
-_lw6ker_team_get_charge_per1000 (sys_context, const _lw6ker_team_t * team)
+_lw6ker_team_get_charge_per1000 (lw6sys_context_t * sys_context,
+				 const _lw6ker_team_t * team)
 {
   int ret = 0;
 
@@ -232,21 +238,23 @@ _lw6ker_team_get_charge_per1000 (sys_context, const _lw6ker_team_t * team)
 }
 
 void
-_lw6ker_team_reset_charge (sys_context, _lw6ker_team_t * team)
+_lw6ker_team_reset_charge (lw6sys_context_t * sys_context,
+			   _lw6ker_team_t * team)
 {
   team->charge = 0;
 }
 
 int
-_lw6ker_team_is_this_weapon_active (sys_context, const _lw6ker_team_t * team,
-				    int round, int weapon_id)
+_lw6ker_team_is_this_weapon_active (lw6sys_context_t * sys_context,
+				    const _lw6ker_team_t * team, int round,
+				    int weapon_id)
 {
   return (team->weapon_id == weapon_id && team->weapon_first_round <= round
 	  && team->weapon_last_round >= round);
 }
 
 int
-_lw6ker_team_get_weapon_per1000_left (sys_context,
+_lw6ker_team_get_weapon_per1000_left (lw6sys_context_t * sys_context,
 				      const _lw6ker_team_t * team, int round)
 {
   int ret = 0;

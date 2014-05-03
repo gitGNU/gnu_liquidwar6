@@ -31,7 +31,8 @@
 #include "ker-internal.h"
 
 int
-_lw6ker_map_state_init (sys_context, _lw6ker_map_state_t * map_state,
+_lw6ker_map_state_init (lw6sys_context_t * sys_context,
+			_lw6ker_map_state_t * map_state,
 			const _lw6ker_map_struct_t * map_struct,
 			const lw6map_rules_t * rules,
 			lw6sys_progress_t * progress)
@@ -68,7 +69,7 @@ _lw6ker_map_state_init (sys_context, _lw6ker_map_state_t * map_state,
   map_state->nb_slots =
     map_struct->shape.w * map_struct->shape.h * map_struct->shape.d;
   map_state->slots =
-    (_lw6ker_slot_state_t *) LW6SYS_CALLOC (map_state->nb_slots *
+    (_lw6ker_slot_state_t *) LW6SYS_CALLOC (sys_context, map_state->nb_slots *
 					    sizeof (_lw6ker_slot_state_t));
   if (map_state->slots)
     {
@@ -91,13 +92,14 @@ _lw6ker_map_state_init (sys_context, _lw6ker_map_state_t * map_state,
 }
 
 void
-_lw6ker_map_state_clear (sys_context, _lw6ker_map_state_t * map_state)
+_lw6ker_map_state_clear (lw6sys_context_t * sys_context,
+			 _lw6ker_map_state_t * map_state)
 {
   int32_t i;
 
   if (map_state->slots)
     {
-      LW6SYS_FREE (map_state->slots);
+      LW6SYS_FREE (sys_context, map_state->slots);
     }
   for (i = 0; i < map_state->max_nb_teams; ++i)
     {
@@ -108,7 +110,8 @@ _lw6ker_map_state_clear (sys_context, _lw6ker_map_state_t * map_state)
 }
 
 int
-_lw6ker_map_state_sync (sys_context, _lw6ker_map_state_t * dst,
+_lw6ker_map_state_sync (lw6sys_context_t * sys_context,
+			_lw6ker_map_state_t * dst,
 			const _lw6ker_map_state_t * src)
 {
   int ret = 0;
@@ -146,7 +149,7 @@ _lw6ker_map_state_sync (sys_context, _lw6ker_map_state_t * dst,
 }
 
 void
-_lw6ker_map_state_update_checksum (sys_context,
+_lw6ker_map_state_update_checksum (lw6sys_context_t * sys_context,
 				   const _lw6ker_map_state_t * map_state,
 				   u_int32_t * checksum)
 {
@@ -179,7 +182,7 @@ _lw6ker_map_state_update_checksum (sys_context,
 }
 
 int
-_lw6ker_map_state_get_free_team_color (sys_context,
+_lw6ker_map_state_get_free_team_color (lw6sys_context_t * sys_context,
 				       const _lw6ker_map_state_t * map_state)
 {
   int32_t i;
@@ -197,9 +200,9 @@ _lw6ker_map_state_get_free_team_color (sys_context,
 }
 
 int32_t
-_lw6ker_map_state_populate_team (sys_context, _lw6ker_map_state_t * map_state,
-				 int32_t team_color,
-				 int32_t nb_fighters,
+_lw6ker_map_state_populate_team (lw6sys_context_t * sys_context,
+				 _lw6ker_map_state_t * map_state,
+				 int32_t team_color, int32_t nb_fighters,
 				 lw6sys_xyz_t desired_center,
 				 const lw6map_rules_t * rules)
 {
@@ -214,8 +217,8 @@ _lw6ker_map_state_populate_team (sys_context, _lw6ker_map_state_t * map_state,
 
   shape = map_state->shape;
   _lw6ker_fighter_clear (sys_context, &new_fighter);
-  _lw6ker_map_struct_find_free_slot_near (map_state->map_struct, &real_center,
-					  desired_center);
+  _lw6ker_map_struct_find_free_slot_near (sys_context, map_state->map_struct,
+					  &real_center, desired_center);
   max_radius = 2 * (map_state->map_struct->shape.w + map_state->map_struct->shape.h);	// +, not *
   for (radius = 1; radius < max_radius && nb_fighters_added < nb_fighters;
        ++radius)
@@ -233,7 +236,7 @@ _lw6ker_map_state_populate_team (sys_context, _lw6ker_map_state_t * map_state,
 	    (lw6ker_sin ((angle * LW6KER_TRIGO_2PI) / max_angle) * radius) /
 	    (LW6KER_TRIGO_RADIUS * 2);
 
-	  lw6map_coords_fix_xy (sys_context, rules, &shape, &x, &y);
+	  lw6map_coords_fix_xy (rules, &shape, &x, &y);
 
 	  for (z = 0; z < map_state->shape.d; ++z)
 	    {
@@ -273,7 +276,7 @@ _lw6ker_map_state_populate_team (sys_context, _lw6ker_map_state_t * map_state,
 }
 
 int
-_lw6ker_map_state_redistribute_team (sys_context,
+_lw6ker_map_state_redistribute_team (lw6sys_context_t * sys_context,
 				     _lw6ker_map_state_t * map_state,
 				     int32_t dst_team_color,
 				     int32_t src_team_color,
@@ -326,7 +329,8 @@ _lw6ker_map_state_redistribute_team (sys_context,
 }
 
 int
-_lw6ker_map_state_cancel_team (sys_context, _lw6ker_map_state_t * map_state,
+_lw6ker_map_state_cancel_team (lw6sys_context_t * sys_context,
+			       _lw6ker_map_state_t * map_state,
 			       int32_t team_color)
 {
   int ret = 0;
@@ -357,7 +361,7 @@ _lw6ker_map_state_cancel_team (sys_context, _lw6ker_map_state_t * map_state,
 }
 
 int
-_lw6ker_map_state_remove_fighter (sys_context,
+_lw6ker_map_state_remove_fighter (lw6sys_context_t * sys_context,
 				  _lw6ker_map_state_t * map_state,
 				  int32_t fighter_id)
 {
@@ -402,7 +406,7 @@ _lw6ker_map_state_remove_fighter (sys_context,
 }
 
 int
-_lw6ker_map_state_remove_fighters (sys_context,
+_lw6ker_map_state_remove_fighters (lw6sys_context_t * sys_context,
 				   _lw6ker_map_state_t * map_state,
 				   int32_t nb_fighters)
 {
@@ -482,7 +486,8 @@ _lw6ker_map_state_remove_fighters (sys_context,
 		  team_color = fighter->team_color;
 		  if (fighters_to_remove_per_team[team_color] > 0)
 		    {
-		      _lw6ker_map_state_remove_fighter (map_state, j);
+		      _lw6ker_map_state_remove_fighter (sys_context,
+							map_state, j);
 		      fighters_to_remove_per_team[team_color]--;
 		      fighters_to_remove_total--;
 		      nb_fighters_removed++;
@@ -509,7 +514,7 @@ _lw6ker_map_state_remove_fighters (sys_context,
 }
 
 int
-_lw6ker_map_state_remove_team_fighters (sys_context,
+_lw6ker_map_state_remove_team_fighters (lw6sys_context_t * sys_context,
 					_lw6ker_map_state_t * map_state,
 					int32_t team_color,
 					int32_t nb_fighters)
@@ -533,7 +538,8 @@ _lw6ker_map_state_remove_team_fighters (sys_context,
 	    {
 	      if (map_state->armies.fighters[j].team_color == team_color)
 		{
-		  _lw6ker_map_state_remove_fighter (map_state, j);
+		  _lw6ker_map_state_remove_fighter (sys_context, map_state,
+						    j);
 		  nb_fighters_removed++;
 		}
 	    }
@@ -546,7 +552,7 @@ _lw6ker_map_state_remove_team_fighters (sys_context,
 }
 
 int
-_lw6ker_map_state_sanity_check (sys_context,
+_lw6ker_map_state_sanity_check (lw6sys_context_t * sys_context,
 				const _lw6ker_map_state_t * map_state)
 {
   int ret = 1;
@@ -635,7 +641,7 @@ _lw6ker_map_state_sanity_check (sys_context,
  * Applies the cursors before spreading the gradient.
  */
 void
-_lw6ker_map_state_spread_gradient (sys_context,
+_lw6ker_map_state_spread_gradient (lw6sys_context_t * sys_context,
 				   _lw6ker_map_state_t * map_state,
 				   const lw6map_rules_t * rules,
 				   int32_t nb_spreads, u_int32_t team_mask)
@@ -644,7 +650,7 @@ _lw6ker_map_state_spread_gradient (sys_context,
   int teams_concerned[LW6MAP_MAX_NB_TEAMS];
   int n = 0;
 
-  _lw6ker_map_state_apply_cursors (map_state, rules, team_mask);
+  _lw6ker_map_state_apply_cursors (sys_context, map_state, rules, team_mask);
   /*
    * We first construct a list of the concerned teams, this is to
    * (hopefully) optimize the following OpenMP pragma, so that it's
@@ -679,7 +685,7 @@ _lw6ker_map_state_spread_gradient (sys_context,
 
       for (j = 0; j < nb_spreads; ++j)
 	{
-	  _lw6ker_spread_update_gradient (&
+	  _lw6ker_spread_update_gradient (sys_context, &
 					  (map_state->teams
 					   [teams_concerned[i]]),
 					  map_state->shape.d == 1,
@@ -689,7 +695,7 @@ _lw6ker_map_state_spread_gradient (sys_context,
 }
 
 int
-_lw6ker_map_state_get_nb_teams (sys_context,
+_lw6ker_map_state_get_nb_teams (lw6sys_context_t * sys_context,
 				const _lw6ker_map_state_t * map_state)
 {
   int ret = 0;
@@ -707,9 +713,9 @@ _lw6ker_map_state_get_nb_teams (sys_context,
 }
 
 void
-_lw6ker_map_state_move_fighters (sys_context, _lw6ker_map_state_t * map_state,
-				 int round, int parity,
-				 const lw6map_rules_t * rules,
+_lw6ker_map_state_move_fighters (lw6sys_context_t * sys_context,
+				 _lw6ker_map_state_t * map_state, int round,
+				 int parity, const lw6map_rules_t * rules,
 				 int32_t nb_moves, u_int32_t team_mask)
 {
   _lw6ker_move_context_t context;
@@ -952,7 +958,8 @@ _lw6ker_map_state_move_fighters (sys_context, _lw6ker_map_state_t * map_state,
 }
 
 void
-_lw6ker_map_state_apply_cursors (sys_context, _lw6ker_map_state_t * map_state,
+_lw6ker_map_state_apply_cursors (lw6sys_context_t * sys_context,
+				 _lw6ker_map_state_t * map_state,
 				 const lw6map_rules_t * rules,
 				 u_int32_t team_mask)
 {
@@ -986,7 +993,7 @@ _lw6ker_map_state_apply_cursors (sys_context, _lw6ker_map_state_t * map_state,
 	      (sys_context, team_color, team_mask))
 	    {
 	      {
-		_lw6ker_cursor_update_apply_pos (&
+		_lw6ker_cursor_update_apply_pos (sys_context, &
 						 (map_state->cursor_array.
 						  cursors[i]),
 						 map_state->map_struct);
@@ -1092,7 +1099,8 @@ _lw6ker_map_state_apply_cursors (sys_context, _lw6ker_map_state_t * map_state,
 }
 
 void
-_lw6ker_map_state_process_fire (sys_context, _lw6ker_map_state_t * map_state,
+_lw6ker_map_state_process_fire (lw6sys_context_t * sys_context,
+				_lw6ker_map_state_t * map_state,
 				const lw6map_rules_t * rules, int round)
 {
   int32_t i, team_color;
@@ -1118,9 +1126,10 @@ _lw6ker_map_state_process_fire (sys_context, _lw6ker_map_state_t * map_state,
 			      ("primary fire team_color=%d charge_percent=%d"),
 			      team_color, charge_percent);
 		  if (_lw6ker_weapon_fire
-		      (map_state, rules, round, team_color, charge_percent))
+		      (sys_context, map_state, rules, round, team_color,
+		       charge_percent))
 		    {
-		      _lw6ker_team_reset_charge (&
+		      _lw6ker_team_reset_charge (sys_context, &
 						 (map_state->teams
 						  [team_color]));
 		    }
@@ -1131,10 +1140,10 @@ _lw6ker_map_state_process_fire (sys_context, _lw6ker_map_state_t * map_state,
 				  ("secondary fire team_color=%d charge_percent=%d (primary failed)"),
 				  team_color, charge_percent);
 		      if (_lw6ker_weapon_fire2
-			  (map_state, rules, round, team_color,
+			  (sys_context, map_state, rules, round, team_color,
 			   charge_percent))
 			{
-			  _lw6ker_team_reset_charge (&
+			  _lw6ker_team_reset_charge (sys_context, &
 						     (map_state->teams
 						      [team_color]));
 			}
@@ -1147,9 +1156,10 @@ _lw6ker_map_state_process_fire (sys_context, _lw6ker_map_state_t * map_state,
 			      ("secondary fire team_color=%d charge_percent=%d"),
 			      team_color, charge_percent);
 		  if (_lw6ker_weapon_fire2
-		      (map_state, rules, round, team_color, charge_percent))
+		      (sys_context, map_state, rules, round, team_color,
+		       charge_percent))
 		    {
-		      _lw6ker_team_reset_charge (&
+		      _lw6ker_team_reset_charge (sys_context, &
 						 (map_state->teams
 						  [team_color]));
 		    }
@@ -1167,9 +1177,10 @@ _lw6ker_map_state_process_fire (sys_context, _lw6ker_map_state_t * map_state,
 }
 
 void
-_lw6ker_map_state_frag (sys_context, _lw6ker_map_state_t * map_state,
-			int team_color, int frags_mode,
-			int frags_to_distribute, int frags_fade_out)
+_lw6ker_map_state_frag (lw6sys_context_t * sys_context,
+			_lw6ker_map_state_t * map_state, int team_color,
+			int frags_mode, int frags_to_distribute,
+			int frags_fade_out)
 {
   int active_fighters = 0;
   int nb_loosers = 0;
@@ -1349,7 +1360,8 @@ _lw6ker_map_state_frag (sys_context, _lw6ker_map_state_t * map_state,
 }
 
 void
-_lw6ker_map_state_charge (sys_context, _lw6ker_map_state_t * map_state,
+_lw6ker_map_state_charge (lw6sys_context_t * sys_context,
+			  _lw6ker_map_state_t * map_state,
 			  const lw6map_rules_t * rules, int round)
 {
   int32_t team_color;
@@ -1360,7 +1372,7 @@ _lw6ker_map_state_charge (sys_context, _lw6ker_map_state_t * map_state,
 
   if (rules->use_team_profiles)
     {
-      nb_teams = _lw6ker_map_state_get_nb_teams (map_state);
+      nb_teams = _lw6ker_map_state_get_nb_teams (sys_context, map_state);
       charge_max =
 	lw6ker_percent (_LW6KER_CHARGE_LIMIT, rules->weapon_charge_max);
 
@@ -1374,7 +1386,8 @@ _lw6ker_map_state_charge (sys_context, _lw6ker_map_state_t * map_state,
 		  if (map_state->teams[team_color].active
 		      && rules->team_profile_weapon_mode[team_color] !=
 		      LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_NONE &&
-		      _lw6ker_map_state_get_weapon_per1000_left (map_state,
+		      _lw6ker_map_state_get_weapon_per1000_left (sys_context,
+								 map_state,
 								 round,
 								 team_color)
 		      <= 0 && !map_state->teams[team_color].offline)
@@ -1419,7 +1432,7 @@ _lw6ker_map_state_charge (sys_context, _lw6ker_map_state_t * map_state,
 }
 
 int
-_lw6ker_map_state_is_this_weapon_active (sys_context,
+_lw6ker_map_state_is_this_weapon_active (lw6sys_context_t * sys_context,
 					 const _lw6ker_map_state_t *
 					 map_state, int round, int weapon_id,
 					 int team_color)
@@ -1430,7 +1443,7 @@ _lw6ker_map_state_is_this_weapon_active (sys_context,
 }
 
 int
-_lw6ker_map_state_get_weapon_per1000_left (sys_context,
+_lw6ker_map_state_get_weapon_per1000_left (lw6sys_context_t * sys_context,
 					   const _lw6ker_map_state_t *
 					   map_state, int round,
 					   int team_color)

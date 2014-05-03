@@ -68,8 +68,7 @@ _is_slot_free (const _lw6ker_map_struct_t * map_struct,
 }
 
 int
-_lw6ker_move_is_slot_free (sys_context,
-			   const _lw6ker_map_struct_t * map_struct,
+_lw6ker_move_is_slot_free (const _lw6ker_map_struct_t * map_struct,
 			   const _lw6ker_map_state_t * map_state, int32_t x,
 			   int32_t y, int32_t z)
 {
@@ -102,8 +101,7 @@ _is_enemy_there (const _lw6ker_map_struct_t * map_struct,
 }
 
 int
-_lw6ker_move_is_enemy_there (sys_context,
-			     const _lw6ker_map_struct_t * map_struct,
+_lw6ker_move_is_enemy_there (const _lw6ker_map_struct_t * map_struct,
 			     const _lw6ker_map_state_t * map_state,
 			     int32_t team_color, int32_t x, int32_t y,
 			     int32_t z, int32_t * enemy_id,
@@ -141,8 +139,7 @@ _is_ally_there (const _lw6ker_map_struct_t * map_struct,
 }
 
 int
-_lw6ker_move_is_ally_there (sys_context,
-			    const _lw6ker_map_struct_t * map_struct,
+_lw6ker_move_is_ally_there (const _lw6ker_map_struct_t * map_struct,
 			    const _lw6ker_map_state_t * map_state,
 			    int32_t team_color, int32_t x, int32_t y,
 			    int32_t z)
@@ -179,7 +176,7 @@ _find_straight_dir (int from_x, int from_y, lw6sys_xyz_t to, int parity)
 }
 
 int32_t
-_lw6ker_move_find_straight_dir (sys_context, int from_x, int from_y,
+_lw6ker_move_find_straight_dir (int from_x, int from_y,
 				lw6sys_xyz_t to, int parity)
 {
   return _find_straight_dir (from_x, from_y, to, parity);
@@ -300,20 +297,12 @@ _find_best_dir (const _lw6ker_map_state_t * map_state,
 	  zone_states[zone_id].direction_to_cursor = ret;
 	}
     }
-  else
-    {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_ ("fighter with incorrect zone_id=%d (pos=%d,%d,%d)"),
-		  zone_id, (int) fighter->pos.x, (int) fighter->pos.y,
-		  (int) fighter->pos.z);
-    }
 
   return ret;
 }
 
 int32_t
-_lw6ker_move_find_best_dir (sys_context,
-			    const _lw6ker_map_state_t * map_state,
+_lw6ker_move_find_best_dir (const _lw6ker_map_state_t * map_state,
 			    const lw6ker_fighter_t * fighter, int parity)
 {
   return _find_best_dir (map_state, fighter, parity);
@@ -331,11 +320,11 @@ _goto_with_dir_xy (const lw6map_rules_t * rules, const lw6sys_whd_t * shape,
    * next line is need to stay within map boundaries,
    * it will also handle polarity information
    */
-  lw6map_coords_fix_xy (sys_context, rules, shape, dst_x, dst_y);
+  lw6map_coords_fix_xy (rules, shape, dst_x, dst_y);
 }
 
 void
-_lw6ker_move_goto_with_dir_xy (sys_context, const lw6map_rules_t * rules,
+_lw6ker_move_goto_with_dir_xy (const lw6map_rules_t * rules,
 			       const lw6sys_whd_t * shape, int32_t * dst_x,
 			       int32_t * dst_y, int32_t src_x,
 			       int32_t src_y, int32_t move_dir)
@@ -352,11 +341,11 @@ _goto_with_dir_z (const lw6map_rules_t * rules, const lw6sys_whd_t * shape,
    * next line is need to stay within map boundaries,
    * it will also handle polarity information
    */
-  lw6map_coords_fix_z (sys_context, rules, shape, dst_z);
+  lw6map_coords_fix_z (rules, shape, dst_z);
 }
 
 void
-_lw6ker_move_goto_with_dir_z (sys_context, const lw6map_rules_t * rules,
+_lw6ker_move_goto_with_dir_z (const lw6map_rules_t * rules,
 			      const lw6sys_whd_t * shape, int32_t * dst_z,
 			      int32_t src_z, int32_t move_dir)
 {
@@ -376,12 +365,12 @@ _goto_with_dir (const lw6map_rules_t * rules, const lw6sys_whd_t * shape,
    * next line is need to stay within map boundaries,
    * it will also handle polarity information
    */
-  lw6map_coords_fix_xy (sys_context, rules, shape, dst_x, dst_y);
-  lw6map_coords_fix_z (sys_context, rules, shape, dst_z);
+  lw6map_coords_fix_xy (rules, shape, dst_x, dst_y);
+  lw6map_coords_fix_z (rules, shape, dst_z);
 }
 
 void
-_lw6ker_move_goto_with_dir (sys_context, const lw6map_rules_t * rules,
+_lw6ker_move_goto_with_dir (const lw6map_rules_t * rules,
 			    const lw6sys_whd_t * shape, int32_t * dst_x,
 			    int32_t * dst_y, int32_t * dst_z, int32_t src_x,
 			    int32_t src_y, int32_t src_z, int32_t move_dir)
@@ -405,7 +394,7 @@ _adjust_health (lw6ker_fighter_t * fighter, int32_t health_correction)
 }
 
 void
-_lw6ker_move_adjust_health (sys_context, lw6ker_fighter_t * fighter,
+_lw6ker_move_adjust_health (lw6ker_fighter_t * fighter,
 			    int32_t health_correction)
 {
   _adjust_health (fighter, health_correction);
@@ -420,7 +409,7 @@ _lw6ker_move_adjust_health (sys_context, lw6ker_fighter_t * fighter,
  * in Liquid War 5.
  */
 void
-_lw6ker_move_update_fighters_universal (sys_context,
+_lw6ker_move_update_fighters_universal (lw6sys_context_t * sys_context,
 					_lw6ker_move_context_t * context)
 {
   _lw6ker_move_context_t lc;
@@ -649,7 +638,7 @@ _lw6ker_move_update_fighters_universal (sys_context,
  * slow function, only for external use
  */
 int
-_lw6ker_move_get_best_next_pos (sys_context,
+_lw6ker_move_get_best_next_pos (lw6sys_context_t * sys_context,
 				const _lw6ker_game_state_t * game_state,
 				lw6sys_xyz_t * next_pos,
 				lw6sys_xyz_t * current_pos, int team_color)
@@ -680,8 +669,8 @@ _lw6ker_move_get_best_next_pos (sys_context,
 				    start_pos.z);
   if (zone_id < 0)
     {
-      _lw6ker_map_struct_find_free_slot_near (map_struct, &start_pos,
-					      *current_pos);
+      _lw6ker_map_struct_find_free_slot_near (sys_context, map_struct,
+					      &start_pos, *current_pos);
       zone_id =
 	_lw6ker_map_struct_get_zone_id (map_struct, start_pos.x, start_pos.y,
 					start_pos.z);
@@ -735,12 +724,12 @@ _lw6ker_move_get_best_next_pos (sys_context,
 	    {
 	      test = (*current_pos);
 	      test_dir = _LW6KER_TABLES_MOVE_DIR[parity][best_direction][try];
-	      _lw6ker_move_goto_with_dir (sys_context, rules, shape,
-					  &test_x,
-					  &test_y,
-					  &test_z,
-					  start_pos.x,
-					  start_pos.y, start_pos.z, test_dir);
+	      _CALL_GOTO_WITH_DIR (rules, shape,
+				   &test_x,
+				   &test_y,
+				   &test_z,
+				   start_pos.x,
+				   start_pos.y, start_pos.z, test_dir);
 	      test.x = test_x;
 	      test.y = test_y;
 	      test.z = test_z;
@@ -817,7 +806,7 @@ _lw6ker_move_get_best_next_pos (sys_context,
  * Return value: 1 if best place found, 0 if not.
  */
 int
-lw6ker_move_get_best_next_pos (sys_context,
+lw6ker_move_get_best_next_pos (lw6sys_context_t * sys_context,
 			       const lw6ker_game_state_t * game_state,
 			       lw6sys_xyz_t * next_pos,
 			       lw6sys_xyz_t * current_pos, int team_color)

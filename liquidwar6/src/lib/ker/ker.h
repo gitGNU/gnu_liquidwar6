@@ -473,30 +473,31 @@ extern int32_t lw6ker_game_state_get_fighter_id (lw6sys_context_t *
 						 game_state, int32_t x,
 						 int32_t y, int32_t z);
 extern lw6ker_fighter_t
-  *lw6ker_game_state_get_fighter_rw_by_id (lw6sys_context_t * sys_context,
-					   lw6ker_game_state_t * game_state,
-					   int32_t fighter_id);
-extern lw6ker_fighter_t
-  *lw6ker_game_state_get_fighter_rw_safe (lw6sys_context_t * sys_context,
-					  lw6ker_game_state_t * game_state,
-					  int32_t x, int32_t y, int32_t z);
-extern lw6ker_fighter_t
-  *lw6ker_game_state_get_fighter_rw_unsafe (lw6sys_context_t * sys_context,
+  * lw6ker_game_state_get_fighter_rw_by_id (lw6sys_context_t * sys_context,
 					    lw6ker_game_state_t * game_state,
-					    int32_t x, int32_t y, int32_t z);
-extern const lw6ker_fighter_t *
-lw6ker_game_state_get_fighter_ro_by_id (lw6sys_context_t * sys_context,
-					const lw6ker_game_state_t *
-					game_state, int32_t fighter_id);
-extern const lw6ker_fighter_t *
-lw6ker_game_state_get_fighter_ro_safe (lw6sys_context_t * sys_context,
-				       const lw6ker_game_state_t * game_state,
-				       int32_t x, int32_t y, int32_t z);
-extern const lw6ker_fighter_t *
-lw6ker_game_state_get_fighter_ro_unsafe (lw6sys_context_t * sys_context,
-					 const lw6ker_game_state_t *
-					 game_state, int32_t x, int32_t y,
-					 int32_t z);
+					    int32_t fighter_id);
+extern lw6ker_fighter_t
+  * lw6ker_game_state_get_fighter_rw_safe (lw6sys_context_t * sys_context,
+					   lw6ker_game_state_t * game_state,
+					   int32_t x, int32_t y, int32_t z);
+extern lw6ker_fighter_t
+  * lw6ker_game_state_get_fighter_rw_unsafe (lw6sys_context_t * sys_context,
+					     lw6ker_game_state_t * game_state,
+					     int32_t x, int32_t y, int32_t z);
+extern const lw6ker_fighter_t
+  * lw6ker_game_state_get_fighter_ro_by_id (lw6sys_context_t * sys_context,
+					    const lw6ker_game_state_t *
+					    game_state, int32_t fighter_id);
+extern const lw6ker_fighter_t
+  * lw6ker_game_state_get_fighter_ro_safe (lw6sys_context_t * sys_context,
+					   const lw6ker_game_state_t *
+					   game_state, int32_t x, int32_t y,
+					   int32_t z);
+extern const lw6ker_fighter_t
+  * lw6ker_game_state_get_fighter_ro_unsafe (lw6sys_context_t * sys_context,
+					     const lw6ker_game_state_t *
+					     game_state, int32_t x, int32_t y,
+					     int32_t z);
 extern int lw6ker_game_state_get_zone_potential (lw6sys_context_t *
 						 sys_context,
 						 const lw6ker_game_state_t *

@@ -28,7 +28,7 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_game_state_checksum_log_set_interval (sys_context,
+_lw6ker_game_state_checksum_log_set_interval (lw6sys_context_t * sys_context,
 					      _lw6ker_game_state_t *
 					      game_state,
 					      int checksum_log_interval)
@@ -42,18 +42,19 @@ _lw6ker_game_state_checksum_log_set_interval (sys_context,
 /**
  * lw6ker_game_state_checksum_log_set_interval
  *
+ * @sys_context: global system context
+ * @game_state: the game_state to track
+ * @checksum_log_interval: dump interval, if 0, feature is disabled
+ *
  * Debugging function used to set automatically an interval at which engine
  * will log a checksum automatically. This is typically to track down where
  * and when there starts to be a difference between two game_states that have
  * evolved separately.
  *
- * @game_state: the game_state to track
- * @checksum_log_interval: dump interval, if 0, feature is disabled
- *
  * Return value: none
  */
 void
-lw6ker_game_state_checksum_log_set_interval (sys_context,
+lw6ker_game_state_checksum_log_set_interval (lw6sys_context_t * sys_context,
 					     lw6ker_game_state_t * game_state,
 					     int checksum_log_interval)
 {
@@ -64,7 +65,7 @@ lw6ker_game_state_checksum_log_set_interval (sys_context,
 }
 
 void
-_lw6ker_game_state_checksum_log_if_needed (sys_context,
+_lw6ker_game_state_checksum_log_if_needed (lw6sys_context_t * sys_context,
 					   const _lw6ker_game_state_t *
 					   game_state)
 {

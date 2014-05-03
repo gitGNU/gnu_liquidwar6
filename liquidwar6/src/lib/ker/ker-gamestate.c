@@ -46,7 +46,8 @@ static volatile u_int32_t seq_id = 0;
  * instance).
  */
 void
-_lw6ker_game_state_set_id (sys_context, _lw6ker_game_state_t * game_state)
+_lw6ker_game_state_set_id (lw6sys_context_t * sys_context,
+			   _lw6ker_game_state_t * game_state)
 {
   game_state->id = 0;
   while (!game_state->id)
@@ -56,14 +57,15 @@ _lw6ker_game_state_set_id (sys_context, _lw6ker_game_state_t * game_state)
 }
 
 _lw6ker_game_state_t *
-_lw6ker_game_state_new (sys_context,
+_lw6ker_game_state_new (lw6sys_context_t * sys_context,
 			const _lw6ker_game_struct_t * game_struct,
 			lw6sys_progress_t * progress)
 {
   _lw6ker_game_state_t *ret = NULL;
 
   ret =
-    (_lw6ker_game_state_t *) LW6SYS_CALLOC (sizeof (_lw6ker_game_state_t));
+    (_lw6ker_game_state_t *) LW6SYS_CALLOC (sys_context,
+					    sizeof (_lw6ker_game_state_t));
   if (ret)
     {
       _lw6ker_game_state_set_id (sys_context, ret);
@@ -89,6 +91,7 @@ _lw6ker_game_state_new (sys_context,
 /**
  * lw6ker_game_state_new
  *
+ * @sys_context: global system context
  * @game_struct: game_struct use to construct the object
  * @progress: progress indicator
  *
@@ -98,7 +101,8 @@ _lw6ker_game_state_new (sys_context,
  * Return value: newly created object.
  */
 lw6ker_game_state_t *
-lw6ker_game_state_new (sys_context, const lw6ker_game_struct_t * game_struct,
+lw6ker_game_state_new (lw6sys_context_t * sys_context,
+		       const lw6ker_game_struct_t * game_struct,
 		       lw6sys_progress_t * progress)
 {
   return (lw6ker_game_state_t *)
@@ -108,7 +112,8 @@ lw6ker_game_state_new (sys_context, const lw6ker_game_struct_t * game_struct,
 }
 
 void
-_lw6ker_game_state_free (sys_context, _lw6ker_game_state_t * game_state)
+_lw6ker_game_state_free (lw6sys_context_t * sys_context,
+			 _lw6ker_game_state_t * game_state)
 {
   /*
    * IMPORTANT NOTE: it's important *not* to reference game_struct
@@ -131,6 +136,7 @@ _lw6ker_game_state_free (sys_context, _lw6ker_game_state_t * game_state)
 /**
  * lw6ker_game_state_free
  *
+ * @sys_context: global system context
  * @game_state: the object to free
  *
  * Frees a game_state object, releases all required objects. At this stage
@@ -139,13 +145,15 @@ _lw6ker_game_state_free (sys_context, _lw6ker_game_state_t * game_state)
  * Return value: none
  */
 void
-lw6ker_game_state_free (sys_context, lw6ker_game_state_t * game_state)
+lw6ker_game_state_free (lw6sys_context_t * sys_context,
+			lw6ker_game_state_t * game_state)
 {
   _lw6ker_game_state_free (sys_context, (_lw6ker_game_state_t *) game_state);
 }
 
 void
-_lw6ker_game_state_point_to (sys_context, _lw6ker_game_state_t * game_state,
+_lw6ker_game_state_point_to (lw6sys_context_t * sys_context,
+			     _lw6ker_game_state_t * game_state,
 			     const _lw6ker_game_struct_t * game_struct)
 {
   int i;
@@ -162,6 +170,7 @@ _lw6ker_game_state_point_to (sys_context, _lw6ker_game_state_t * game_state,
 /**
  * lw6ker_game_state_point_to
  *
+ * @sys_context: global system context
  * @game_state: the game_state to modify
  * @game_struct: the game_struct to point to
  *
@@ -174,7 +183,8 @@ _lw6ker_game_state_point_to (sys_context, _lw6ker_game_state_t * game_state,
  * Return value: none
  */
 void
-lw6ker_game_state_point_to (sys_context, lw6ker_game_state_t * game_state,
+lw6ker_game_state_point_to (lw6sys_context_t * sys_context,
+			    lw6ker_game_state_t * game_state,
 			    const lw6ker_game_struct_t * game_struct)
 {
   _lw6ker_game_state_point_to (sys_context,
@@ -183,7 +193,7 @@ lw6ker_game_state_point_to (sys_context, lw6ker_game_state_t * game_state,
 }
 
 int
-_lw6ker_game_state_memory_footprint (sys_context,
+_lw6ker_game_state_memory_footprint (lw6sys_context_t * sys_context,
 				     _lw6ker_game_state_t * game_state)
 {
   int ret = 0;
@@ -196,6 +206,7 @@ _lw6ker_game_state_memory_footprint (sys_context,
 /**
  * lw6ker_game_state_memory_footprint
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Returns the approximative amount of memory taken by the object.
@@ -203,7 +214,7 @@ _lw6ker_game_state_memory_footprint (sys_context,
  * Return value: number of bytes (approximation)
  */
 int
-lw6ker_game_state_memory_footprint (sys_context,
+lw6ker_game_state_memory_footprint (lw6sys_context_t * sys_context,
 				    lw6ker_game_state_t * game_state)
 {
   return _lw6ker_game_state_memory_footprint (sys_context,
@@ -212,7 +223,8 @@ lw6ker_game_state_memory_footprint (sys_context,
 }
 
 char *
-_lw6ker_game_state_repr (sys_context, const _lw6ker_game_state_t * game_state)
+_lw6ker_game_state_repr (lw6sys_context_t * sys_context,
+			 const _lw6ker_game_state_t * game_state)
 {
   char *ret = NULL;
 
@@ -231,7 +243,7 @@ _lw6ker_game_state_repr (sys_context, const _lw6ker_game_state_t * game_state)
 			    _lw6ker_game_state_get_rounds (sys_context,
 							   game_state),
 			    _lw6ker_game_state_get_nb_active_fighters
-			    (game_state));
+			    (sys_context, game_state));
     }
   else
     {
@@ -245,6 +257,7 @@ _lw6ker_game_state_repr (sys_context, const _lw6ker_game_state_t * game_state)
 /**
  * lw6ker_game_state_repr
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Gives a readable representation of the object.
@@ -252,14 +265,16 @@ _lw6ker_game_state_repr (sys_context, const _lw6ker_game_state_t * game_state)
  * Return value: newly allocated string, must be freed
  */
 char *
-lw6ker_game_state_repr (sys_context, const lw6ker_game_state_t * game_state)
+lw6ker_game_state_repr (lw6sys_context_t * sys_context,
+			const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_game_state_repr (sys_context,
 				  (_lw6ker_game_state_t *) game_state);
 }
 
 int
-_lw6ker_game_state_can_sync (sys_context, _lw6ker_game_state_t * dst,
+_lw6ker_game_state_can_sync (lw6sys_context_t * sys_context,
+			     _lw6ker_game_state_t * dst,
 			     const _lw6ker_game_state_t * src)
 {
   int ret = 0;
@@ -290,6 +305,7 @@ _lw6ker_game_state_can_sync (sys_context, _lw6ker_game_state_t * dst,
 /**
  * lw6ker_game_state_can_sync
  *
+ * @sys_context: global system context
  * @dst: the destination game_state
  * @src: the source game_state
  *
@@ -301,7 +317,8 @@ _lw6ker_game_state_can_sync (sys_context, _lw6ker_game_state_t * dst,
  * Return value: 1 if they are syncable, 0 if not.
  */
 int
-lw6ker_game_state_can_sync (sys_context, lw6ker_game_state_t * dst,
+lw6ker_game_state_can_sync (lw6sys_context_t * sys_context,
+			    lw6ker_game_state_t * dst,
 			    const lw6ker_game_state_t * src)
 {
   return _lw6ker_game_state_can_sync (sys_context,
@@ -310,7 +327,8 @@ lw6ker_game_state_can_sync (sys_context, lw6ker_game_state_t * dst,
 }
 
 int
-_lw6ker_game_state_sync (sys_context, _lw6ker_game_state_t * dst,
+_lw6ker_game_state_sync (lw6sys_context_t * sys_context,
+			 _lw6ker_game_state_t * dst,
 			 const _lw6ker_game_state_t * src)
 {
   int ret = 0;
@@ -334,7 +352,9 @@ _lw6ker_game_state_sync (sys_context, _lw6ker_game_state_t * dst,
 	}
       else
 	{
-	  ret = _lw6ker_map_state_sync (&dst->map_state, &src->map_state);
+	  ret =
+	    _lw6ker_map_state_sync (sys_context, &dst->map_state,
+				    &src->map_state);
 	  memcpy (&(dst->node_array), &(src->node_array),
 		  sizeof (_lw6ker_node_array_t));
 	  memcpy (&(dst->global_history), &(src->global_history),
@@ -362,6 +382,7 @@ _lw6ker_game_state_sync (sys_context, _lw6ker_game_state_t * dst,
 /**
  * lw6ker_game_state_sync
  *
+ * @sys_context: global system context
  * @dst: the destination game_state
  * @src: the source game_state
  *
@@ -375,7 +396,8 @@ _lw6ker_game_state_sync (sys_context, _lw6ker_game_state_t * dst,
  * Return value: 1 on success, 0 on error
  */
 int
-lw6ker_game_state_sync (sys_context, lw6ker_game_state_t * dst,
+lw6ker_game_state_sync (lw6sys_context_t * sys_context,
+			lw6ker_game_state_t * dst,
 			const lw6ker_game_state_t * src)
 {
   return _lw6ker_game_state_sync (sys_context, (_lw6ker_game_state_t *) dst,
@@ -383,7 +405,8 @@ lw6ker_game_state_sync (sys_context, lw6ker_game_state_t * dst,
 }
 
 _lw6ker_game_state_t *
-_lw6ker_game_state_dup (sys_context, const _lw6ker_game_state_t * game_state,
+_lw6ker_game_state_dup (lw6sys_context_t * sys_context,
+			const _lw6ker_game_state_t * game_state,
 			lw6sys_progress_t * progress)
 {
   _lw6ker_game_state_t *ret;
@@ -424,6 +447,7 @@ _lw6ker_game_state_dup (sys_context, const _lw6ker_game_state_t * game_state,
 /**
  * lw6ker_game_state_dup
  *
+ * @sys_context: global system context
  * @game_state: the game_state to copy
  * @progress: progress indicator
  *
@@ -435,7 +459,8 @@ _lw6ker_game_state_dup (sys_context, const _lw6ker_game_state_t * game_state,
  * Return value: newly created object
  */
 lw6ker_game_state_t *
-lw6ker_game_state_dup (sys_context, const lw6ker_game_state_t * game_state,
+lw6ker_game_state_dup (lw6sys_context_t * sys_context,
+		       const lw6ker_game_state_t * game_state,
 		       lw6sys_progress_t * progress)
 {
   return (lw6ker_game_state_t *)
@@ -445,8 +470,9 @@ lw6ker_game_state_dup (sys_context, const lw6ker_game_state_t * game_state,
 }
 
 void
-_lw6ker_game_state_update_checksum (sys_context, const _lw6ker_game_state_t *
-				    game_state, u_int32_t * checksum)
+_lw6ker_game_state_update_checksum (lw6sys_context_t * sys_context,
+				    const _lw6ker_game_state_t * game_state,
+				    u_int32_t * checksum)
 {
   _lw6ker_game_struct_update_checksum (sys_context, game_state->game_struct,
 				       checksum);
@@ -469,7 +495,7 @@ _lw6ker_game_state_update_checksum (sys_context, const _lw6ker_game_state_t *
 }
 
 u_int32_t
-_lw6ker_game_state_checksum (sys_context,
+_lw6ker_game_state_checksum (lw6sys_context_t * sys_context,
 			     const _lw6ker_game_state_t * game_state)
 {
   u_int32_t ret = 0;
@@ -482,6 +508,7 @@ _lw6ker_game_state_checksum (sys_context,
 /**
  * lw6ker_game_state_checksum
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Calculates the checksum of a game_state, this can be very usefull
@@ -491,7 +518,7 @@ _lw6ker_game_state_checksum (sys_context,
  * Return value: 32-bit checksum
  */
 u_int32_t
-lw6ker_game_state_checksum (sys_context,
+lw6ker_game_state_checksum (lw6sys_context_t * sys_context,
 			    const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_game_state_checksum (sys_context,
@@ -502,6 +529,7 @@ lw6ker_game_state_checksum (sys_context,
 /**
  * lw6ker_game_state_get_shape
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  * @shape: the shape (out param)
  *
@@ -510,7 +538,7 @@ lw6ker_game_state_checksum (sys_context,
  * Return value: none.
  */
 void
-lw6ker_game_state_get_shape (sys_context,
+lw6ker_game_state_get_shape (lw6sys_context_t * sys_context,
 			     const lw6ker_game_state_t * game_state,
 			     lw6sys_whd_t * shape)
 {
@@ -520,6 +548,7 @@ lw6ker_game_state_get_shape (sys_context,
 /**
  * lw6ker_game_state_get_w
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Retrieves the width (shape.w) of the game_state.
@@ -527,7 +556,8 @@ lw6ker_game_state_get_shape (sys_context,
  * Return value: the width.
  */
 int
-lw6ker_game_state_get_w (sys_context, const lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_w (lw6sys_context_t * sys_context,
+			 const lw6ker_game_state_t * game_state)
 {
   return ((_lw6ker_game_state_t *) game_state)->map_state.shape.w;
 }
@@ -535,6 +565,7 @@ lw6ker_game_state_get_w (sys_context, const lw6ker_game_state_t * game_state)
 /**
  * lw6ker_game_state_get_h
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Retrieves the height (shape.h) of the game_state.
@@ -542,7 +573,8 @@ lw6ker_game_state_get_w (sys_context, const lw6ker_game_state_t * game_state)
  * Return value: the height.
  */
 int
-lw6ker_game_state_get_h (sys_context, const lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_h (lw6sys_context_t * sys_context,
+			 const lw6ker_game_state_t * game_state)
 {
   return ((_lw6ker_game_state_t *) game_state)->map_state.shape.h;
 }
@@ -550,6 +582,7 @@ lw6ker_game_state_get_h (sys_context, const lw6ker_game_state_t * game_state)
 /**
  * lw6ker_game_state_get_d
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Retrieves the depth (shape.d, AKA number of layers) of the game_state.
@@ -557,13 +590,14 @@ lw6ker_game_state_get_h (sys_context, const lw6ker_game_state_t * game_state)
  * Return value: the depth.
  */
 int
-lw6ker_game_state_get_d (sys_context, const lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_d (lw6sys_context_t * sys_context,
+			 const lw6ker_game_state_t * game_state)
 {
   return ((_lw6ker_game_state_t *) game_state)->map_state.shape.d;
 }
 
 int
-_lw6ker_game_state_register_node (sys_context,
+_lw6ker_game_state_register_node (lw6sys_context_t * sys_context,
 				  _lw6ker_game_state_t * game_state,
 				  u_int64_t node_id)
 {
@@ -588,6 +622,7 @@ _lw6ker_game_state_register_node (sys_context,
 /**
  * lw6ker_game_state_register_node
  *
+ * @sys_context: global system context
  * @game_state: the game_state to act on
  * @node_id: the id of the node to register
  *
@@ -598,7 +633,7 @@ _lw6ker_game_state_register_node (sys_context,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ker_game_state_register_node (sys_context,
+lw6ker_game_state_register_node (lw6sys_context_t * sys_context,
 				 lw6ker_game_state_t * game_state,
 				 u_int64_t node_id)
 {
@@ -608,7 +643,7 @@ lw6ker_game_state_register_node (sys_context,
 }
 
 int
-_lw6ker_game_state_unregister_node (sys_context,
+_lw6ker_game_state_unregister_node (lw6sys_context_t * sys_context,
 				    _lw6ker_game_state_t * game_state,
 				    u_int64_t node_id)
 {
@@ -638,6 +673,7 @@ _lw6ker_game_state_unregister_node (sys_context,
 /**
  * lw6ker_game_state_unregister_node
  *
+ * @sys_context: global system context
  * @game_state: the game_state to act on
  * @node_id: the id of the node to register
  *
@@ -647,7 +683,7 @@ _lw6ker_game_state_unregister_node (sys_context,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ker_game_state_unregister_node (sys_context,
+lw6ker_game_state_unregister_node (lw6sys_context_t * sys_context,
 				   lw6ker_game_state_t * game_state,
 				   u_int64_t node_id)
 {
@@ -657,14 +693,15 @@ lw6ker_game_state_unregister_node (sys_context,
 }
 
 int
-_lw6ker_game_state_node_exists (sys_context,
+_lw6ker_game_state_node_exists (lw6sys_context_t * sys_context,
 				const _lw6ker_game_state_t * game_state,
 				u_int64_t node_id)
 {
   int ret = 0;
 
   ret =
-    (_lw6ker_node_array_get_ro (&(game_state->node_array), node_id) != NULL);
+    (_lw6ker_node_array_get_ro
+     (sys_context, &(game_state->node_array), node_id) != NULL);
 
   return ret;
 }
@@ -672,6 +709,7 @@ _lw6ker_game_state_node_exists (sys_context,
 /**
  * lw6ker_game_state_node_exists
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  * @node_id: the node to test
  *
@@ -680,7 +718,8 @@ _lw6ker_game_state_node_exists (sys_context,
  * Return value: 1 if node is in game, 0 if not
  */
 int
-lw6ker_game_state_node_exists (sys_context, lw6ker_game_state_t * game_state,
+lw6ker_game_state_node_exists (lw6sys_context_t * sys_context,
+			       lw6ker_game_state_t * game_state,
 			       u_int64_t node_id)
 {
   return _lw6ker_game_state_node_exists (sys_context,
@@ -689,14 +728,17 @@ lw6ker_game_state_node_exists (sys_context, lw6ker_game_state_t * game_state,
 }
 
 int
-_lw6ker_game_state_get_node_info (sys_context, const _lw6ker_game_state_t *
-				  game_state, u_int16_t node_id,
+_lw6ker_game_state_get_node_info (lw6sys_context_t * sys_context,
+				  const _lw6ker_game_state_t * game_state,
+				  u_int16_t node_id,
 				  u_int32_t * last_command_round)
 {
   int ret = 0;
   const _lw6ker_node_t *node = NULL;
 
-  node = _lw6ker_node_array_get_ro (&(game_state->node_array), node_id);
+  node =
+    _lw6ker_node_array_get_ro (sys_context, &(game_state->node_array),
+			       node_id);
   if (node)
     {
       if (last_command_round)
@@ -713,6 +755,7 @@ _lw6ker_game_state_get_node_info (sys_context, const _lw6ker_game_state_t *
 /**
  * lw6ker_game_state_get_node_info
  *
+ * @sys_context: global system context
  * @game_state: game_state to query
  * @node_id: the node to get info about
  * @last_command_round: the last round for which a command was issued (out parameter)
@@ -723,8 +766,9 @@ _lw6ker_game_state_get_node_info (sys_context, const _lw6ker_game_state_t *
  * Return value: 1 on success, 0 on error.
  */
 int
-lw6ker_game_state_get_node_info (sys_context, lw6ker_game_state_t *
-				 game_state, u_int16_t node_id,
+lw6ker_game_state_get_node_info (lw6sys_context_t * sys_context,
+				 lw6ker_game_state_t * game_state,
+				 u_int16_t node_id,
 				 u_int32_t * last_command_round)
 {
   return _lw6ker_game_state_get_node_info (sys_context,
@@ -734,7 +778,8 @@ lw6ker_game_state_get_node_info (sys_context, lw6ker_game_state_t *
 }
 
 static int
-check_node_id (_lw6ker_game_state_t * game_state, u_int64_t node_id)
+_check_node_id (lw6sys_context_t * sys_context,
+		_lw6ker_game_state_t * game_state, u_int64_t node_id)
 {
   int ret = 0;
 
@@ -753,9 +798,10 @@ check_node_id (_lw6ker_game_state_t * game_state, u_int64_t node_id)
 }
 
 int
-_lw6ker_game_state_add_cursor (sys_context, _lw6ker_game_state_t * game_state,
-			       u_int64_t node_id,
-			       u_int16_t cursor_id, int team_color)
+_lw6ker_game_state_add_cursor (lw6sys_context_t * sys_context,
+			       _lw6ker_game_state_t * game_state,
+			       u_int64_t node_id, u_int16_t cursor_id,
+			       int team_color)
 {
   int ret = 0;
   const lw6map_rules_t *rules = NULL;
@@ -764,7 +810,7 @@ _lw6ker_game_state_add_cursor (sys_context, _lw6ker_game_state_t * game_state,
   int32_t x = 0;
   int32_t y = 0;
 
-  if (check_node_id (game_state, node_id))
+  if (_check_node_id (sys_context, game_state, node_id))
     {
       rules = &(game_state->game_struct->rules);
       if (!_lw6ker_game_state_cursor_exists
@@ -778,7 +824,7 @@ _lw6ker_game_state_add_cursor (sys_context, _lw6ker_game_state_t * game_state,
 	    {
 	      if ((rules->color_conflict_mode == 1
 		   &&
-		   !_lw6ker_cursor_array_is_color_owned_by (&
+		   !_lw6ker_cursor_array_is_color_owned_by (sys_context, &
 							    (game_state->
 							     map_state.
 							     cursor_array),
@@ -787,7 +833,7 @@ _lw6ker_game_state_add_cursor (sys_context, _lw6ker_game_state_t * game_state,
 		  || rules->color_conflict_mode == 2)
 		{
 		  real_team_color =
-		    _lw6ker_map_state_get_free_team_color (&
+		    _lw6ker_map_state_get_free_team_color (sys_context, &
 							   (game_state->
 							    map_state));
 		}
@@ -806,23 +852,23 @@ _lw6ker_game_state_add_cursor (sys_context, _lw6ker_game_state_t * game_state,
 				  real_team_color, team_color);
 		    }
 		  if (!_lw6ker_game_state_team_exists
-		      (game_state, real_team_color))
+		      (sys_context, game_state, real_team_color))
 		    {
 		      _lw6ker_game_state_add_team (sys_context, game_state,
 						   node_id, real_team_color);
 		    }
 		  if (_lw6ker_game_state_team_exists
-		      (game_state, real_team_color))
+		      (sys_context, game_state, real_team_color))
 		    {
 		      if (_lw6ker_cursor_get_start_xy
-			  (&x, &y, real_team_color,
+			  (sys_context, &x, &y, real_team_color,
 			   rules->start_position_mode,
 			   _lw6ker_game_state_get_rounds (sys_context,
 							  game_state),
 			   &(game_state->map_state.shape), rules))
 			{
 			  ret =
-			    _lw6ker_cursor_array_enable (&
+			    _lw6ker_cursor_array_enable (sys_context, &
 							 (game_state->map_state.
 							  cursor_array),
 							 node_id, cursor_id,
@@ -852,6 +898,7 @@ _lw6ker_game_state_add_cursor (sys_context, _lw6ker_game_state_t * game_state,
 /**
  * lw6ker_game_state_add_cursor
  *
+ * @sys_context: global system context
  * @game_state: the game_state to act upon
  * @node_id: the node issuing the command
  * @cursor_id: the id of the cursor to add
@@ -864,9 +911,10 @@ _lw6ker_game_state_add_cursor (sys_context, _lw6ker_game_state_t * game_state,
  * Return value: 1 on success, 0 on error.
  */
 int
-lw6ker_game_state_add_cursor (sys_context, lw6ker_game_state_t * game_state,
-			      u_int64_t node_id,
-			      u_int16_t cursor_id, int team_color)
+lw6ker_game_state_add_cursor (lw6sys_context_t * sys_context,
+			      lw6ker_game_state_t * game_state,
+			      u_int64_t node_id, u_int16_t cursor_id,
+			      int team_color)
 {
   return _lw6ker_game_state_add_cursor (sys_context,
 					(_lw6ker_game_state_t *) game_state,
@@ -874,7 +922,7 @@ lw6ker_game_state_add_cursor (sys_context, lw6ker_game_state_t * game_state,
 }
 
 int
-_lw6ker_game_state_remove_cursor (sys_context,
+_lw6ker_game_state_remove_cursor (lw6sys_context_t * sys_context,
 				  _lw6ker_game_state_t * game_state,
 				  u_int64_t node_id, u_int16_t cursor_id)
 {
@@ -883,7 +931,7 @@ _lw6ker_game_state_remove_cursor (sys_context,
   int team_color = LW6MAP_TEAM_COLOR_INVALID;
   lw6ker_cursor_t cursor;
 
-  if (check_node_id (game_state, node_id))
+  if (_check_node_id (sys_context, game_state, node_id))
     {
       if (_lw6ker_game_state_cursor_exists
 	  (sys_context, game_state, cursor_id))
@@ -892,12 +940,12 @@ _lw6ker_game_state_remove_cursor (sys_context,
 					 cursor_id);
 	  team_color = cursor.team_color;
 	  ret =
-	    _lw6ker_cursor_array_disable (&
+	    _lw6ker_cursor_array_disable (sys_context, &
 					  (game_state->
 					   map_state.cursor_array), node_id,
 					  cursor_id);
 	  if (_lw6ker_game_state_get_team_info
-	      (game_state, team_color, &nb_cursors, NULL))
+	      (sys_context, game_state, team_color, &nb_cursors, NULL))
 	    {
 	      if (!nb_cursors)
 		{
@@ -914,6 +962,7 @@ _lw6ker_game_state_remove_cursor (sys_context,
 /**
  * lw6ker_game_state_remove_cursor
  *
+ * @sys_context: global system context
  * @game_state: the game_state to act upon
  * @node_id: the node issuing the command
  * @cursor_id: the id of the cursor to remove
@@ -924,7 +973,7 @@ _lw6ker_game_state_remove_cursor (sys_context,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ker_game_state_remove_cursor (sys_context,
+lw6ker_game_state_remove_cursor (lw6sys_context_t * sys_context,
 				 lw6ker_game_state_t * game_state,
 				 u_int64_t node_id, u_int16_t cursor_id)
 {
@@ -934,14 +983,15 @@ lw6ker_game_state_remove_cursor (sys_context,
 }
 
 int
-_lw6ker_game_state_cursor_exists (sys_context,
+_lw6ker_game_state_cursor_exists (lw6sys_context_t * sys_context,
 				  const _lw6ker_game_state_t * game_state,
 				  u_int16_t cursor_id)
 {
   int ret = 0;
   const lw6ker_cursor_t *cursor = NULL;
   cursor =
-    _lw6ker_cursor_array_get_ro (&(game_state->map_state.cursor_array),
+    _lw6ker_cursor_array_get_ro (sys_context,
+				 &(game_state->map_state.cursor_array),
 				 cursor_id);
   if (cursor)
     {
@@ -954,6 +1004,7 @@ _lw6ker_game_state_cursor_exists (sys_context,
 /**
  * lw6ker_game_state_cursor_exists
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  * @cursor_id: the cursor to test
  *
@@ -962,7 +1013,7 @@ _lw6ker_game_state_cursor_exists (sys_context,
  * Return value: 1 if cursor exists, 0 if not.
  */
 int
-lw6ker_game_state_cursor_exists (sys_context,
+lw6ker_game_state_cursor_exists (lw6sys_context_t * sys_context,
 				 const lw6ker_game_state_t * game_state,
 				 u_int16_t cursor_id)
 {
@@ -972,15 +1023,16 @@ lw6ker_game_state_cursor_exists (sys_context,
 }
 
 int
-_lw6ker_game_state_get_cursor (sys_context, const _lw6ker_game_state_t *
-			       game_state,
+_lw6ker_game_state_get_cursor (lw6sys_context_t * sys_context,
+			       const _lw6ker_game_state_t * game_state,
 			       lw6ker_cursor_t * cursor, u_int16_t cursor_id)
 {
   int ret = 0;
   const lw6ker_cursor_t *found_cursor = NULL;
 
   found_cursor =
-    _lw6ker_cursor_array_get_ro (&(game_state->map_state.cursor_array),
+    _lw6ker_cursor_array_get_ro (sys_context,
+				 &(game_state->map_state.cursor_array),
 				 cursor_id);
   if (cursor)
     {
@@ -1001,6 +1053,7 @@ _lw6ker_game_state_get_cursor (sys_context, const _lw6ker_game_state_t *
 /**
  * lw6ker_game_state_get_cursor
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  * @cursor: the cursor data (out param)
  * @cursor_id: the cursor to query
@@ -1010,8 +1063,8 @@ _lw6ker_game_state_get_cursor (sys_context, const _lw6ker_game_state_t *
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ker_game_state_get_cursor (sys_context, const lw6ker_game_state_t *
-			      game_state,
+lw6ker_game_state_get_cursor (lw6sys_context_t * sys_context,
+			      const lw6ker_game_state_t * game_state,
 			      lw6ker_cursor_t * cursor, u_int16_t cursor_id)
 {
   return _lw6ker_game_state_get_cursor (sys_context,
@@ -1020,7 +1073,7 @@ lw6ker_game_state_get_cursor (sys_context, const lw6ker_game_state_t *
 }
 
 void
-_lw6ker_game_state_get_cursor_by_index (sys_context,
+_lw6ker_game_state_get_cursor_by_index (lw6sys_context_t * sys_context,
 					const _lw6ker_game_state_t *
 					game_state, lw6ker_cursor_t * cursor,
 					int i)
@@ -1031,6 +1084,7 @@ _lw6ker_game_state_get_cursor_by_index (sys_context,
 /**
  * lw6ker_game_state_get_cursor_by_index
  *
+ * @sys_context: global system context
  * @game_state: the game state to query
  * @cursor: the cursor (out param)
  * @i: the index
@@ -1041,7 +1095,7 @@ _lw6ker_game_state_get_cursor_by_index (sys_context,
  * Return value: none.
  */
 void
-lw6ker_game_state_get_cursor_by_index (sys_context,
+lw6ker_game_state_get_cursor_by_index (lw6sys_context_t * sys_context,
 				       const lw6ker_game_state_t * game_state,
 				       lw6ker_cursor_t * cursor, int i)
 {
@@ -1051,19 +1105,20 @@ lw6ker_game_state_get_cursor_by_index (sys_context,
 }
 
 int
-_lw6ker_game_state_set_cursor (sys_context, _lw6ker_game_state_t * game_state,
+_lw6ker_game_state_set_cursor (lw6sys_context_t * sys_context,
+			       _lw6ker_game_state_t * game_state,
 			       lw6ker_cursor_t * cursor)
 {
   int ret = 0;
   int x, y, fire, fire2;
 
-  if (check_node_id (game_state, cursor->node_id))
+  if (_check_node_id (sys_context, game_state, cursor->node_id))
     {
       x = cursor->pos.x;
       y = cursor->pos.y;
       fire = cursor->fire;
       fire2 = cursor->fire2;
-      lw6map_coords_fix_xy (sys_context, &(game_state->game_struct->rules),
+      lw6map_coords_fix_xy (&(game_state->game_struct->rules),
 			    &(game_state->map_state.shape), &x, &y);
       ret =
 	_lw6ker_cursor_array_update (sys_context,
@@ -1080,6 +1135,7 @@ _lw6ker_game_state_set_cursor (sys_context, _lw6ker_game_state_t * game_state,
 /**
  * lw6ker_game_state_set_cursor
  *
+ * @sys_context: global system context
  * @game_state: the game_state to act upon
  * @cursor: the cursor
  *
@@ -1093,7 +1149,8 @@ _lw6ker_game_state_set_cursor (sys_context, _lw6ker_game_state_t * game_state,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6ker_game_state_set_cursor (sys_context, lw6ker_game_state_t * game_state,
+lw6ker_game_state_set_cursor (lw6sys_context_t * sys_context,
+			      lw6ker_game_state_t * game_state,
 			      lw6ker_cursor_t * cursor)
 {
   return _lw6ker_game_state_set_cursor (sys_context,
@@ -1102,7 +1159,7 @@ lw6ker_game_state_set_cursor (sys_context, lw6ker_game_state_t * game_state,
 }
 
 int
-_lw6ker_game_state_add_team_internal (sys_context,
+_lw6ker_game_state_add_team_internal (lw6sys_context_t * sys_context,
 				      _lw6ker_game_state_t * game_state,
 				      int team_color, int position_mode)
 {
@@ -1169,7 +1226,7 @@ _lw6ker_game_state_add_team_internal (sys_context,
 			   total_fighters);
 	  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	    {
-	      _lw6ker_map_state_remove_team_fighters (&
+	      _lw6ker_map_state_remove_team_fighters (sys_context, &
 						      (game_state->map_state),
 						      i,
 						      (total_fighters_to_remove
@@ -1210,12 +1267,13 @@ _lw6ker_game_state_add_team_internal (sys_context,
 }
 
 int
-_lw6ker_game_state_add_team (sys_context, _lw6ker_game_state_t * game_state,
+_lw6ker_game_state_add_team (lw6sys_context_t * sys_context,
+			     _lw6ker_game_state_t * game_state,
 			     u_int64_t node_id, int team_color)
 {
   int ret = 0;
 
-  if (check_node_id (game_state, node_id))
+  if (_check_node_id (sys_context, game_state, node_id))
     {
       ret =
 	_lw6ker_game_state_add_team_internal (sys_context, game_state,
@@ -1238,7 +1296,7 @@ _lw6ker_game_state_add_team (sys_context, _lw6ker_game_state_t * game_state,
 }
 
 int
-_lw6ker_game_state_remove_team_internal (sys_context,
+_lw6ker_game_state_remove_team_internal (lw6sys_context_t * sys_context,
 					 _lw6ker_game_state_t * game_state,
 					 int team_color)
 {
@@ -1284,7 +1342,7 @@ _lw6ker_game_state_remove_team_internal (sys_context,
 	  if (new_average_fighters_per_team >
 	      single_average_fighters_per_team)
 	    {
-	      _lw6ker_map_state_remove_team_fighters (&
+	      _lw6ker_map_state_remove_team_fighters (sys_context, &
 						      (game_state->map_state),
 						      team_color,
 						      nb_active_fighters -
@@ -1309,7 +1367,7 @@ _lw6ker_game_state_remove_team_internal (sys_context,
 	    {
 	      if (i != team_color)
 		{
-		  _lw6ker_map_state_redistribute_team (&
+		  _lw6ker_map_state_redistribute_team (sys_context, &
 						       (game_state->map_state),
 						       i, team_color,
 						       (game_state->
@@ -1335,7 +1393,7 @@ _lw6ker_game_state_remove_team_internal (sys_context,
 		{
 		  if (game_state->map_state.teams[i].active)
 		    {
-		      _lw6ker_map_state_redistribute_team (&
+		      _lw6ker_map_state_redistribute_team (sys_context, &
 							   (game_state->
 							    map_state), i,
 							   team_color, 1,
@@ -1357,13 +1415,13 @@ _lw6ker_game_state_remove_team_internal (sys_context,
 }
 
 int
-_lw6ker_game_state_remove_team (sys_context,
+_lw6ker_game_state_remove_team (lw6sys_context_t * sys_context,
 				_lw6ker_game_state_t * game_state,
 				u_int64_t node_id, int team_color)
 {
   int ret = 0;
 
-  if (check_node_id (game_state, node_id))
+  if (_check_node_id (sys_context, game_state, node_id))
     {
       ret =
 	_lw6ker_game_state_remove_team_internal (sys_context, game_state,
@@ -1374,7 +1432,7 @@ _lw6ker_game_state_remove_team (sys_context,
 }
 
 int
-_lw6ker_game_state_team_exists (sys_context,
+_lw6ker_game_state_team_exists (lw6sys_context_t * sys_context,
 				const _lw6ker_game_state_t * game_state,
 				int team_color)
 {
@@ -1391,6 +1449,7 @@ _lw6ker_game_state_team_exists (sys_context,
 /**
  * lw6ker_game_state_team_exists
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  * @team_color: the team color to test
  *
@@ -1400,7 +1459,7 @@ _lw6ker_game_state_team_exists (sys_context,
  * Return value: 1 if team exists, 0 if not.
  */
 int
-lw6ker_game_state_team_exists (sys_context,
+lw6ker_game_state_team_exists (lw6sys_context_t * sys_context,
 			       const lw6ker_game_state_t * game_state,
 			       int team_color)
 {
@@ -1410,9 +1469,10 @@ lw6ker_game_state_team_exists (sys_context,
 }
 
 int
-_lw6ker_game_state_get_team_info (sys_context, const _lw6ker_game_state_t *
-				  game_state, int team_color,
-				  int32_t * nb_cursors, int32_t * nb_fighters)
+_lw6ker_game_state_get_team_info (lw6sys_context_t * sys_context,
+				  const _lw6ker_game_state_t * game_state,
+				  int team_color, int32_t * nb_cursors,
+				  int32_t * nb_fighters)
 {
   int ret = 0;
   const _lw6ker_team_t *team;
@@ -1464,6 +1524,7 @@ _lw6ker_game_state_get_team_info (sys_context, const _lw6ker_game_state_t *
 /**
  * lw6ker_game_state_get_team_info
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  * @team_color: the color to get informations about
  * @nb_cursors: number of cursors with this color (out param)
@@ -1476,9 +1537,10 @@ _lw6ker_game_state_get_team_info (sys_context, const _lw6ker_game_state_t *
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ker_game_state_get_team_info (sys_context, const lw6ker_game_state_t *
-				 game_state, int team_color,
-				 int32_t * nb_cursors, int32_t * nb_fighters)
+lw6ker_game_state_get_team_info (lw6sys_context_t * sys_context,
+				 const lw6ker_game_state_t * game_state,
+				 int team_color, int32_t * nb_cursors,
+				 int32_t * nb_fighters)
 {
   return _lw6ker_game_state_get_team_info (sys_context,
 					   (const _lw6ker_game_state_t *)
@@ -1487,7 +1549,7 @@ lw6ker_game_state_get_team_info (sys_context, const lw6ker_game_state_t *
 }
 
 int
-_lw6ker_game_state_get_nb_teams (sys_context,
+_lw6ker_game_state_get_nb_teams (lw6sys_context_t * sys_context,
 				 const _lw6ker_game_state_t * game_state)
 {
   int ret = 0;
@@ -1501,6 +1563,7 @@ _lw6ker_game_state_get_nb_teams (sys_context,
 /**
  * lw6ker_game_state_get_nb_teams
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Tells how many teams there are in a game. This is different from the
@@ -1510,7 +1573,7 @@ _lw6ker_game_state_get_nb_teams (sys_context,
  * Return value: the number of teams.
  */
 int
-lw6ker_game_state_get_nb_teams (sys_context,
+lw6ker_game_state_get_nb_teams (lw6sys_context_t * sys_context,
 				const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_game_state_get_nb_teams (sys_context,
@@ -1519,8 +1582,9 @@ lw6ker_game_state_get_nb_teams (sys_context,
 }
 
 void
-_lw6ker_game_state_do_spread (sys_context, _lw6ker_game_state_t *
-			      game_state, u_int32_t team_mask)
+_lw6ker_game_state_do_spread (lw6sys_context_t * sys_context,
+			      _lw6ker_game_state_t * game_state,
+			      u_int32_t team_mask)
 {
   if (!game_state->over)
     {
@@ -1535,6 +1599,7 @@ _lw6ker_game_state_do_spread (sys_context, _lw6ker_game_state_t *
 /**
  * lw6ker_game_state_do_spread
  *
+ * @sys_context: global system context
  * @game_state: the game_state to act upon
  * @team_mask: a binary mask of which gradients (teams) must be spreaded
  *
@@ -1546,8 +1611,9 @@ _lw6ker_game_state_do_spread (sys_context, _lw6ker_game_state_t *
  * Return value: none
  */
 void
-lw6ker_game_state_do_spread (sys_context, lw6ker_game_state_t *
-			     game_state, u_int32_t team_mask)
+lw6ker_game_state_do_spread (lw6sys_context_t * sys_context,
+			     lw6ker_game_state_t * game_state,
+			     u_int32_t team_mask)
 {
   _lw6ker_game_state_do_spread (sys_context,
 				(_lw6ker_game_state_t *) game_state,
@@ -1555,8 +1621,9 @@ lw6ker_game_state_do_spread (sys_context, lw6ker_game_state_t *
 }
 
 void
-_lw6ker_game_state_do_move (sys_context, _lw6ker_game_state_t *
-			    game_state, u_int32_t team_mask)
+_lw6ker_game_state_do_move (lw6sys_context_t * sys_context,
+			    _lw6ker_game_state_t * game_state,
+			    u_int32_t team_mask)
 {
   int rounds;
 
@@ -1572,7 +1639,7 @@ _lw6ker_game_state_do_move (sys_context, _lw6ker_game_state_t *
       _lw6ker_map_state_move_fighters (sys_context, &(game_state->map_state),
 				       rounds,
 				       lw6sys_checksum_int32
-				       (rounds) %
+				       (sys_context, rounds) %
 				       LW6KER_NB_PARITIES,
 				       &(game_state->game_struct->rules),
 				       game_state->game_struct->rules.
@@ -1583,6 +1650,7 @@ _lw6ker_game_state_do_move (sys_context, _lw6ker_game_state_t *
 /**
  * lw6ker_game_state_do_move
  *
+ * @sys_context: global system context
  * @game_state: the game_state to act upon
  * @team_mask: a binary mask of which teams must be moved
  *
@@ -1596,15 +1664,16 @@ _lw6ker_game_state_do_move (sys_context, _lw6ker_game_state_t *
  * Return value: none.
  */
 void
-lw6ker_game_state_do_move (sys_context, lw6ker_game_state_t *
-			   game_state, u_int32_t team_mask)
+lw6ker_game_state_do_move (lw6sys_context_t * sys_context,
+			   lw6ker_game_state_t * game_state,
+			   u_int32_t team_mask)
 {
   _lw6ker_game_state_do_move (sys_context,
 			      (_lw6ker_game_state_t *) game_state, team_mask);
 }
 
 void
-_lw6ker_game_state_finish_round (sys_context,
+_lw6ker_game_state_finish_round (lw6sys_context_t * sys_context,
 				 _lw6ker_game_state_t * game_state)
 {
   int total_rounds;
@@ -1694,8 +1763,9 @@ _lw6ker_game_state_finish_round (sys_context,
 				      game_state->game_struct->rules.
 				      single_army_size),
 				     _lw6ker_game_state_get_nb_active_fighters
-				     (game_state) / 2);
-		      _lw6ker_map_state_remove_fighters (&
+				     (sys_context, game_state) / 2);
+		      _lw6ker_map_state_remove_fighters (sys_context,
+							 &
 							 (game_state->map_state),
 							 nb_fighters_to_delete);
 		      /*
@@ -1728,7 +1798,7 @@ _lw6ker_game_state_finish_round (sys_context,
 		      if (game_state->map_state.cursor_array.cursors[i].
 			  team_color == team_color)
 			{
-			  _lw6ker_cursor_disable (&
+			  _lw6ker_cursor_disable (sys_context, &
 						  (game_state->map_state.
 						   cursor_array.cursors[i]));
 			  game_state->map_state.cursor_array.nb_cursors--;
@@ -1780,6 +1850,7 @@ _lw6ker_game_state_finish_round (sys_context,
 /**
  * lw6ker_game_state_finish_round
  *
+ * @sys_context: global system context
  * @game_state: the game_state to act upon
  *
  * Finishes a round, that is, vaccums various stuff, checks if some team
@@ -1789,14 +1860,16 @@ _lw6ker_game_state_finish_round (sys_context,
  * Return value: none.
  */
 void
-lw6ker_game_state_finish_round (sys_context, lw6ker_game_state_t * game_state)
+lw6ker_game_state_finish_round (lw6sys_context_t * sys_context,
+				lw6ker_game_state_t * game_state)
 {
   _lw6ker_game_state_finish_round (sys_context,
 				   (_lw6ker_game_state_t *) game_state);
 }
 
 void
-_lw6ker_game_state_do_round (sys_context, _lw6ker_game_state_t * game_state)
+_lw6ker_game_state_do_round (lw6sys_context_t * sys_context,
+			     _lw6ker_game_state_t * game_state)
 {
   /*
    * No joke about the implementation, here one really must
@@ -1814,7 +1887,8 @@ _lw6ker_game_state_do_round (sys_context, _lw6ker_game_state_t * game_state)
 /**
  * lw6ker_game_state_do_round
  *
- * game_state: the game_state to act upon
+ * @sys_context: global system context
+ * @game_state: the game_state to act upon
  *
  * This is a fundamental function, it's called at each round,
  * it fires all the complex calculations in the game, the
@@ -1826,14 +1900,15 @@ _lw6ker_game_state_do_round (sys_context, _lw6ker_game_state_t * game_state)
  * Return value: none.
  */
 void
-lw6ker_game_state_do_round (sys_context, lw6ker_game_state_t * game_state)
+lw6ker_game_state_do_round (lw6sys_context_t * sys_context,
+			    lw6ker_game_state_t * game_state)
 {
   _lw6ker_game_state_do_round (sys_context,
 			       (_lw6ker_game_state_t *) game_state);
 }
 
 u_int32_t
-_lw6ker_game_state_get_moves (sys_context,
+_lw6ker_game_state_get_moves (lw6sys_context_t * sys_context,
 			      const _lw6ker_game_state_t * game_state)
 {
   return (game_state->moves);
@@ -1842,6 +1917,7 @@ _lw6ker_game_state_get_moves (sys_context,
 /**
  * lw6ker_game_state_get_moves
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Returns the number of moves done on this game.
@@ -1849,7 +1925,7 @@ _lw6ker_game_state_get_moves (sys_context,
  * Return value: number of moves.
  */
 u_int32_t
-lw6ker_game_state_get_moves (sys_context,
+lw6ker_game_state_get_moves (lw6sys_context_t * sys_context,
 			     const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_game_state_get_moves (sys_context,
@@ -1858,7 +1934,7 @@ lw6ker_game_state_get_moves (sys_context,
 }
 
 u_int32_t
-_lw6ker_game_state_get_spreads (sys_context,
+_lw6ker_game_state_get_spreads (lw6sys_context_t * sys_context,
 				const _lw6ker_game_state_t * game_state)
 {
   return (game_state->spreads);
@@ -1867,6 +1943,7 @@ _lw6ker_game_state_get_spreads (sys_context,
 /**
  * lw6ker_game_state_get_spreads
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Returns the number of spreads done on this game.
@@ -1874,7 +1951,7 @@ _lw6ker_game_state_get_spreads (sys_context,
  * Return value: number of spreads.
  */
 u_int32_t
-lw6ker_game_state_get_spreads (sys_context,
+lw6ker_game_state_get_spreads (lw6sys_context_t * sys_context,
 			       const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_game_state_get_spreads (sys_context,
@@ -1883,7 +1960,7 @@ lw6ker_game_state_get_spreads (sys_context,
 }
 
 u_int32_t
-_lw6ker_game_state_get_rounds (sys_context,
+_lw6ker_game_state_get_rounds (lw6sys_context_t * sys_context,
 			       const _lw6ker_game_state_t * game_state)
 {
   return (game_state->rounds);
@@ -1892,6 +1969,7 @@ _lw6ker_game_state_get_rounds (sys_context,
 /**
  * lw6ker_game_state_get_rounds
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Returns the number of rounds done on this game.
@@ -1899,7 +1977,7 @@ _lw6ker_game_state_get_rounds (sys_context,
  * Return value: number of rounds.
  */
 u_int32_t
-lw6ker_game_state_get_rounds (sys_context,
+lw6ker_game_state_get_rounds (lw6sys_context_t * sys_context,
 			      const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_game_state_get_rounds (sys_context,
@@ -1908,7 +1986,7 @@ lw6ker_game_state_get_rounds (sys_context,
 }
 
 u_int32_t
-_lw6ker_game_state_get_total_rounds (sys_context,
+_lw6ker_game_state_get_total_rounds (lw6sys_context_t * sys_context,
 				     const _lw6ker_game_state_t * game_state)
 {
   return (game_state->total_rounds);
@@ -1917,6 +1995,7 @@ _lw6ker_game_state_get_total_rounds (sys_context,
 /**
  * lw6ker_game_state_get_total_rounds
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Returns the number of playable rounds in the game, that is the number
@@ -1928,7 +2007,7 @@ _lw6ker_game_state_get_total_rounds (sys_context,
  * Return value: number of rounds in the game
  */
 u_int32_t
-lw6ker_game_state_get_total_rounds (sys_context,
+lw6ker_game_state_get_total_rounds (lw6sys_context_t * sys_context,
 				    const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_game_state_get_total_rounds (sys_context,
@@ -1937,7 +2016,7 @@ lw6ker_game_state_get_total_rounds (sys_context,
 }
 
 int
-_lw6ker_game_state_is_over (sys_context,
+_lw6ker_game_state_is_over (lw6sys_context_t * sys_context,
 			    const _lw6ker_game_state_t * game_state)
 {
   return game_state->over ? 1 : 0;
@@ -1946,6 +2025,7 @@ _lw6ker_game_state_is_over (sys_context,
 /**
  * lw6ker_game_state_is_over
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Tells wether the game is over or not. The answer depends on time limit,
@@ -1954,7 +2034,7 @@ _lw6ker_game_state_is_over (sys_context,
  * Return value: 1 if over, 0 if not.
  */
 int
-lw6ker_game_state_is_over (sys_context,
+lw6ker_game_state_is_over (lw6sys_context_t * sys_context,
 			   const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_game_state_is_over (sys_context,
@@ -1963,7 +2043,7 @@ lw6ker_game_state_is_over (sys_context,
 }
 
 int
-_lw6ker_game_state_did_cursor_win (sys_context,
+_lw6ker_game_state_did_cursor_win (lw6sys_context_t * sys_context,
 				   const _lw6ker_game_state_t * game_state,
 				   u_int16_t cursor_id)
 {
@@ -2004,6 +2084,7 @@ _lw6ker_game_state_did_cursor_win (sys_context,
 /**
  * lw6ker_game_state_did_cursor_win
  *
+ * @sys_context: global system context
  * @game_state: game_state to query
  * @cursor_id: the cursor to test
  *
@@ -2012,7 +2093,7 @@ _lw6ker_game_state_did_cursor_win (sys_context,
  * Return value: 1 if cursor is in winning team, 0 if not.
  */
 int
-lw6ker_game_state_did_cursor_win (sys_context,
+lw6ker_game_state_did_cursor_win (lw6sys_context_t * sys_context,
 				  const lw6ker_game_state_t * game_state,
 				  u_int16_t cursor_id)
 {
@@ -2022,7 +2103,7 @@ lw6ker_game_state_did_cursor_win (sys_context,
 }
 
 int
-_lw6ker_game_state_get_winner (sys_context,
+_lw6ker_game_state_get_winner (lw6sys_context_t * sys_context,
 			       const _lw6ker_game_state_t * game_state,
 			       int excluded_team)
 {
@@ -2053,6 +2134,7 @@ _lw6ker_game_state_get_winner (sys_context,
 /**
  * lw6ker_game_state_get_winner
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  * @excluded_team: a team to exclude
  *
@@ -2067,7 +2149,7 @@ _lw6ker_game_state_get_winner (sys_context,
  * teams on the map).
  */
 int
-lw6ker_game_state_get_winner (sys_context,
+lw6ker_game_state_get_winner (lw6sys_context_t * sys_context,
 			      const lw6ker_game_state_t * game_state,
 			      int excluded_team)
 {
@@ -2077,7 +2159,7 @@ lw6ker_game_state_get_winner (sys_context,
 }
 
 int
-_lw6ker_game_state_get_looser (sys_context,
+_lw6ker_game_state_get_looser (lw6sys_context_t * sys_context,
 			       const _lw6ker_game_state_t * game_state,
 			       int excluded_team)
 {
@@ -2109,6 +2191,7 @@ _lw6ker_game_state_get_looser (sys_context,
 /**
  * lw6ker_game_state_get_looser
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  * @excluded_team: a team to exclude
  *
@@ -2123,7 +2206,7 @@ _lw6ker_game_state_get_looser (sys_context,
  * teams on the map).
  */
 int
-lw6ker_game_state_get_looser (sys_context,
+lw6ker_game_state_get_looser (lw6sys_context_t * sys_context,
 			      const lw6ker_game_state_t * game_state,
 			      int excluded_team)
 {
@@ -2133,7 +2216,7 @@ lw6ker_game_state_get_looser (sys_context,
 }
 
 int32_t
-_lw6ker_game_state_get_nb_active_fighters (sys_context,
+_lw6ker_game_state_get_nb_active_fighters (lw6sys_context_t * sys_context,
 					   const _lw6ker_game_state_t *
 					   game_state)
 {
@@ -2143,6 +2226,7 @@ _lw6ker_game_state_get_nb_active_fighters (sys_context,
 /**
  * lw6ker_game_state_get_nb_active_fighters
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Gets the number of active fighters, this is relatively constant within the
@@ -2152,7 +2236,7 @@ _lw6ker_game_state_get_nb_active_fighters (sys_context,
  * Return value: number of fighters.
  */
 int32_t
-lw6ker_game_state_get_nb_active_fighters (sys_context,
+lw6ker_game_state_get_nb_active_fighters (lw6sys_context_t * sys_context,
 					  const lw6ker_game_state_t *
 					  game_state)
 {
@@ -2163,7 +2247,7 @@ lw6ker_game_state_get_nb_active_fighters (sys_context,
 }
 
 int32_t
-_lw6ker_game_state_get_time_elapsed (sys_context,
+_lw6ker_game_state_get_time_elapsed (lw6sys_context_t * sys_context,
 				     const _lw6ker_game_state_t * game_state)
 {
   int32_t ret = 0;
@@ -2178,6 +2262,7 @@ _lw6ker_game_state_get_time_elapsed (sys_context,
 /**
  * lw6ker_game_state_get_time_elapsed
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Returns the time elapsed, this is not the real time you'd time
@@ -2188,7 +2273,7 @@ _lw6ker_game_state_get_time_elapsed (sys_context,
  * Return value: time elapsed, in seconds.
  */
 int32_t
-lw6ker_game_state_get_time_elapsed (sys_context,
+lw6ker_game_state_get_time_elapsed (lw6sys_context_t * sys_context,
 				    const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_game_state_get_time_elapsed (sys_context,
@@ -2197,7 +2282,7 @@ lw6ker_game_state_get_time_elapsed (sys_context,
 }
 
 int32_t
-_lw6ker_game_state_get_time_left (sys_context,
+_lw6ker_game_state_get_time_left (lw6sys_context_t * sys_context,
 				  const _lw6ker_game_state_t * game_state)
 {
   int32_t ret = 0;
@@ -2213,6 +2298,7 @@ _lw6ker_game_state_get_time_left (sys_context,
 /**
  * lw6ker_game_state_get_time_left
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  *
  * Returns the time left, this is not the real time you'd time
@@ -2225,7 +2311,7 @@ _lw6ker_game_state_get_time_left (sys_context,
  * Return value: time left, in seconds.
  */
 int32_t
-lw6ker_game_state_get_time_left (sys_context,
+lw6ker_game_state_get_time_left (lw6sys_context_t * sys_context,
 				 const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_game_state_get_time_left (sys_context,
@@ -2234,7 +2320,7 @@ lw6ker_game_state_get_time_left (sys_context,
 }
 
 int32_t
-_lw6ker_game_state_get_global_history (sys_context,
+_lw6ker_game_state_get_global_history (lw6sys_context_t * sys_context,
 				       const _lw6ker_game_state_t *
 				       game_state, int i, int team_id)
 {
@@ -2245,6 +2331,7 @@ _lw6ker_game_state_get_global_history (sys_context,
 /**
  * lw6ker_game_state_get_global_history
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  * @i: the index of the history point
  * @team_id: the team to query
@@ -2258,7 +2345,7 @@ _lw6ker_game_state_get_global_history (sys_context,
  * Return value: number of fighters at that time.
  */
 int32_t
-lw6ker_game_state_get_global_history (sys_context,
+lw6ker_game_state_get_global_history (lw6sys_context_t * sys_context,
 				      const lw6ker_game_state_t * game_state,
 				      int i, int team_id)
 {
@@ -2268,7 +2355,7 @@ lw6ker_game_state_get_global_history (sys_context,
 }
 
 int32_t
-_lw6ker_game_state_get_latest_history (sys_context,
+_lw6ker_game_state_get_latest_history (lw6sys_context_t * sys_context,
 				       const _lw6ker_game_state_t *
 				       game_state, int i, int team_id)
 {
@@ -2279,6 +2366,7 @@ _lw6ker_game_state_get_latest_history (sys_context,
 /**
  * lw6ker_game_state_get_latest_history
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  * @i: the index of the history point
  * @team_id: the team to query
@@ -2292,7 +2380,7 @@ _lw6ker_game_state_get_latest_history (sys_context,
  * Return value: number of fighters at that time.
  */
 int32_t
-lw6ker_game_state_get_latest_history (sys_context,
+lw6ker_game_state_get_latest_history (lw6sys_context_t * sys_context,
 				      const lw6ker_game_state_t * game_state,
 				      int i, int team_id)
 {
@@ -2302,7 +2390,7 @@ lw6ker_game_state_get_latest_history (sys_context,
 }
 
 int32_t
-_lw6ker_game_state_get_global_history_max (sys_context,
+_lw6ker_game_state_get_global_history_max (lw6sys_context_t * sys_context,
 					   const _lw6ker_game_state_t *
 					   game_state)
 {
@@ -2312,6 +2400,7 @@ _lw6ker_game_state_get_global_history_max (sys_context,
 /**
  * lw6ker_game_state_get_global_history_max
  *
+ * @sys_context: global system context
  * @game_state: game_state to query
  *
  * Returns the maximum value, that is, the maximum number of fighters, all teams
@@ -2321,7 +2410,7 @@ _lw6ker_game_state_get_global_history_max (sys_context,
  * Return value: max number of fighters.
  */
 int32_t
-lw6ker_game_state_get_global_history_max (sys_context,
+lw6ker_game_state_get_global_history_max (lw6sys_context_t * sys_context,
 					  const lw6ker_game_state_t *
 					  game_state)
 {
@@ -2332,7 +2421,7 @@ lw6ker_game_state_get_global_history_max (sys_context,
 }
 
 int32_t
-_lw6ker_game_state_get_latest_history_max (sys_context,
+_lw6ker_game_state_get_latest_history_max (lw6sys_context_t * sys_context,
 					   const _lw6ker_game_state_t *
 					   game_state)
 {
@@ -2342,6 +2431,7 @@ _lw6ker_game_state_get_latest_history_max (sys_context,
 /**
  * lw6ker_game_state_get_latest_history_max
  *
+ * @sys_context: global system context
  * @game_state: game_state to query
  *
  * Returns the maximum value, that is, the maximum number of fighters, all teams
@@ -2351,7 +2441,7 @@ _lw6ker_game_state_get_latest_history_max (sys_context,
  * Return value: max number of fighters.
  */
 int32_t
-lw6ker_game_state_get_latest_history_max (sys_context,
+lw6ker_game_state_get_latest_history_max (lw6sys_context_t * sys_context,
 					  const lw6ker_game_state_t *
 					  game_state)
 {
@@ -2364,6 +2454,7 @@ lw6ker_game_state_get_latest_history_max (sys_context,
 /**
  * lw6ker_game_state_get_fighter_id
  *
+ * @sys_context: global system context
  * @game_state: game_state to query
  * @x: x position
  * @y: y position
@@ -2380,7 +2471,7 @@ lw6ker_game_state_get_latest_history_max (sys_context,
  * Return value: the id of the fighter at that position.
  */
 int32_t
-lw6ker_game_state_get_fighter_id (sys_context,
+lw6ker_game_state_get_fighter_id (lw6sys_context_t * sys_context,
 				  const lw6ker_game_state_t * game_state,
 				  int32_t x, int32_t y, int32_t z)
 {
@@ -2393,6 +2484,7 @@ lw6ker_game_state_get_fighter_id (sys_context,
 /**
  * lw6ker_game_state_get_fighter_rw_by_id
  *
+ * @sys_context: global system context
  * @game_state: game_state to query
  * @fighter_id: the id of the fighter
  *
@@ -2405,7 +2497,8 @@ lw6ker_game_state_get_fighter_id (sys_context,
  * Return value: pointer to the fighter with the given id.
  */
 lw6ker_fighter_t *
-lw6ker_game_state_get_fighter_rw_by_id (lw6ker_game_state_t * game_state,
+lw6ker_game_state_get_fighter_rw_by_id (lw6sys_context_t * sys_context,
+					lw6ker_game_state_t * game_state,
 					int32_t fighter_id)
 {
   return (&
@@ -2416,6 +2509,7 @@ lw6ker_game_state_get_fighter_rw_by_id (lw6ker_game_state_t * game_state,
 /**
  * lw6ker_game_state_get_fighter_rw_safe
  *
+ * @sys_context: global system context
  * @game_state: game_state to query
  * @x: x position
  * @y: y position
@@ -2430,7 +2524,8 @@ lw6ker_game_state_get_fighter_rw_by_id (lw6ker_game_state_t * game_state,
  * Return value: pointer to the fighter at this position, or NULL if none.
  */
 lw6ker_fighter_t *
-lw6ker_game_state_get_fighter_rw_safe (lw6ker_game_state_t * game_state,
+lw6ker_game_state_get_fighter_rw_safe (lw6sys_context_t * sys_context,
+				       lw6ker_game_state_t * game_state,
 				       int32_t x, int32_t y, int32_t z)
 {
   lw6ker_fighter_t *ret = NULL;
@@ -2448,7 +2543,8 @@ lw6ker_game_state_get_fighter_rw_safe (lw6ker_game_state_t * game_state,
       if (fighter_id >= 0)
 	{
 	  ret =
-	    lw6ker_game_state_get_fighter_rw_by_id (game_state, fighter_id);
+	    lw6ker_game_state_get_fighter_rw_by_id (sys_context, game_state,
+						    fighter_id);
 	}
     }
 
@@ -2458,6 +2554,7 @@ lw6ker_game_state_get_fighter_rw_safe (lw6ker_game_state_t * game_state,
 /**
  * lw6ker_game_state_get_fighter_rw_unsafe
  *
+ * @sys_context: global system context
  * @game_state: game_state to query
  * @x: x position
  * @y: y position
@@ -2472,7 +2569,8 @@ lw6ker_game_state_get_fighter_rw_safe (lw6ker_game_state_t * game_state,
  * Return value: pointer to the fighter at this position, or NULL if none.
  */
 lw6ker_fighter_t *
-lw6ker_game_state_get_fighter_rw_unsafe (lw6ker_game_state_t * game_state,
+lw6ker_game_state_get_fighter_rw_unsafe (lw6sys_context_t * sys_context,
+					 lw6ker_game_state_t * game_state,
 					 int32_t x, int32_t y, int32_t z)
 {
   return
@@ -2485,6 +2583,7 @@ lw6ker_game_state_get_fighter_rw_unsafe (lw6ker_game_state_t * game_state,
 /**
  * lw6ker_game_state_get_fighter_ro_by_id
  *
+ * @sys_context: global system context
  * @game_state: game_state to query
  * @fighter_id: the id of the fighter
  *
@@ -2497,7 +2596,8 @@ lw6ker_game_state_get_fighter_rw_unsafe (lw6ker_game_state_t * game_state,
  * Return value: pointer to the fighter with the given id.
  */
 const lw6ker_fighter_t *
-lw6ker_game_state_get_fighter_ro_by_id (const lw6ker_game_state_t *
+lw6ker_game_state_get_fighter_ro_by_id (lw6sys_context_t * sys_context,
+					const lw6ker_game_state_t *
 					game_state, int32_t fighter_id)
 {
   return (&
@@ -2508,6 +2608,7 @@ lw6ker_game_state_get_fighter_ro_by_id (const lw6ker_game_state_t *
 /**
  * lw6ker_game_state_get_fighter_ro_safe
  *
+ * @sys_context: global system context
  * @game_state: game_state to query
  * @x: x position
  * @y: y position
@@ -2522,7 +2623,8 @@ lw6ker_game_state_get_fighter_ro_by_id (const lw6ker_game_state_t *
  * Return value: pointer to the fighter at this position, or NULL if none.
  */
 const lw6ker_fighter_t *
-lw6ker_game_state_get_fighter_ro_safe (const lw6ker_game_state_t * game_state,
+lw6ker_game_state_get_fighter_ro_safe (lw6sys_context_t * sys_context,
+				       const lw6ker_game_state_t * game_state,
 				       int32_t x, int32_t y, int32_t z)
 {
   const lw6ker_fighter_t *ret = NULL;
@@ -2540,7 +2642,8 @@ lw6ker_game_state_get_fighter_ro_safe (const lw6ker_game_state_t * game_state,
       if (fighter_id >= 0)
 	{
 	  ret =
-	    lw6ker_game_state_get_fighter_ro_by_id (game_state, fighter_id);
+	    lw6ker_game_state_get_fighter_ro_by_id (sys_context, game_state,
+						    fighter_id);
 	}
     }
 
@@ -2550,6 +2653,7 @@ lw6ker_game_state_get_fighter_ro_safe (const lw6ker_game_state_t * game_state,
 /**
  * lw6ker_game_state_get_fighter_ro_unsafe
  *
+ * @sys_context: global system context
  * @game_state: game_state to query
  * @x: x position
  * @y: y position
@@ -2564,7 +2668,8 @@ lw6ker_game_state_get_fighter_ro_safe (const lw6ker_game_state_t * game_state,
  * Return value: pointer to the fighter at this position, or NULL if none.
  */
 const lw6ker_fighter_t *
-lw6ker_game_state_get_fighter_ro_unsafe (const lw6ker_game_state_t *
+lw6ker_game_state_get_fighter_ro_unsafe (lw6sys_context_t * sys_context,
+					 const lw6ker_game_state_t *
 					 game_state, int32_t x, int32_t y,
 					 int32_t z)
 {
@@ -2578,6 +2683,7 @@ lw6ker_game_state_get_fighter_ro_unsafe (const lw6ker_game_state_t *
 /**
  * lw6ker_game_state_get_zone_potential
  *
+ * @sys_context: global system context
  * @game_state: the game_state to query
  * @zone_i: the zone index
  * @team_id: the team id (color)
@@ -2589,7 +2695,7 @@ lw6ker_game_state_get_fighter_ro_unsafe (const lw6ker_game_state_t *
  * Return value: the potential
  */
 int
-lw6ker_game_state_get_zone_potential (sys_context,
+lw6ker_game_state_get_zone_potential (lw6sys_context_t * sys_context,
 				      const lw6ker_game_state_t * game_state,
 				      int i, int team_id)
 {
@@ -2600,6 +2706,7 @@ lw6ker_game_state_get_zone_potential (sys_context,
 /**
  * lw6ker_game_state_get_charge_per1000
  *
+ * @sys_context: global system context
  * @game_state: game_state to query
  * @team_color: the team color to query
  *
@@ -2610,12 +2717,12 @@ lw6ker_game_state_get_zone_potential (sys_context,
  * Return value: integer value.
  */
 int
-lw6ker_game_state_get_charge_per1000 (sys_context,
+lw6ker_game_state_get_charge_per1000 (lw6sys_context_t * sys_context,
 				      const lw6ker_game_state_t * game_state,
 				      int team_color)
 {
   return
-    _lw6ker_team_get_charge_per1000 (&
+    _lw6ker_team_get_charge_per1000 (sys_context, &
 				     (((const _lw6ker_game_state_t *)
 				       game_state)->map_state.
 				      teams[team_color]));
@@ -2624,6 +2731,7 @@ lw6ker_game_state_get_charge_per1000 (sys_context,
 /**
  * lw6ker_game_state_get_weapon_per1000_left
  *
+ * @sys_context: global system context
  * @game_state: game_state to query
  * @team_color: the team color to query
  *
@@ -2634,21 +2742,23 @@ lw6ker_game_state_get_charge_per1000 (sys_context,
  * Return value: integer value.
  */
 int
-lw6ker_game_state_get_weapon_per1000_left (sys_context,
+lw6ker_game_state_get_weapon_per1000_left (lw6sys_context_t * sys_context,
 					   const lw6ker_game_state_t *
 					   game_state, int team_color)
 {
   return
-    _lw6ker_map_state_get_weapon_per1000_left (&
+    _lw6ker_map_state_get_weapon_per1000_left (sys_context, &
 					       (((const _lw6ker_game_state_t
 						  *) game_state)->map_state),
 					       lw6ker_game_state_get_rounds
-					       (game_state), team_color);
+					       (sys_context, game_state),
+					       team_color);
 }
 
 /**
  * lw6ker_game_state_get_weapon_per1000_left
  *
+ * @sys_context: global system context
  * @game_state: game_state to query
  * @team_color: the team color corresponding to last weapon (out param)
  * @weapon_id: the corresponding weapon_id (out param)
@@ -2663,22 +2773,22 @@ lw6ker_game_state_get_weapon_per1000_left (sys_context,
  * Return value: 1 if found, 0 if not.
  */
 int
-lw6ker_game_state_get_latest_weapon (sys_context, const lw6ker_game_state_t *
-				     game_state,
-				     int *team_color,
-				     int *weapon_id, int *per1000_left)
+lw6ker_game_state_get_latest_weapon (lw6sys_context_t * sys_context,
+				     const lw6ker_game_state_t * game_state,
+				     int *team_color, int *weapon_id,
+				     int *per1000_left)
 {
   return
-    _lw6ker_weapon_get_latest_weapon (&
+    _lw6ker_weapon_get_latest_weapon (sys_context, &
 				      (((const _lw6ker_game_state_t *)
 					game_state)->map_state),
 				      lw6ker_game_state_get_rounds
-				      (game_state), team_color, weapon_id,
-				      per1000_left);
+				      (sys_context, game_state), team_color,
+				      weapon_id, per1000_left);
 }
 
 int
-_lw6ker_game_state_get_nb_colors (sys_context,
+_lw6ker_game_state_get_nb_colors (lw6sys_context_t * sys_context,
 				  const _lw6ker_game_state_t * game_state)
 {
   return _lw6ker_map_state_get_nb_teams (sys_context,
@@ -2688,6 +2798,7 @@ _lw6ker_game_state_get_nb_colors (sys_context,
 /**
  * lw6ker_game_state_get_nb_colors
  *
+ * @sys_context: global system context
  * @game_state: game state to query
  *
  * Gives the max number of colors (AKA teams) that are present
@@ -2697,7 +2808,7 @@ _lw6ker_game_state_get_nb_colors (sys_context,
  * Return value: number of colors
  */
 int
-lw6ker_game_state_get_nb_colors (sys_context,
+lw6ker_game_state_get_nb_colors (lw6sys_context_t * sys_context,
 				 const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_game_state_get_nb_colors (sys_context,
@@ -2706,7 +2817,7 @@ lw6ker_game_state_get_nb_colors (sys_context,
 }
 
 int
-_lw6ker_game_state_get_nb_cursors (sys_context,
+_lw6ker_game_state_get_nb_cursors (lw6sys_context_t * sys_context,
 				   const _lw6ker_game_state_t * game_state)
 {
   return game_state->map_state.cursor_array.nb_cursors;
@@ -2715,6 +2826,7 @@ _lw6ker_game_state_get_nb_cursors (sys_context,
 /**
  * lw6ker_game_state_get_nb_cursors
  *
+ * @sys_context: global system context
  * @game_state: game state to query
  *
  * Gives the max number of cursors that are present
@@ -2724,7 +2836,7 @@ _lw6ker_game_state_get_nb_cursors (sys_context,
  * Return value: number of cursors
  */
 int
-lw6ker_game_state_get_nb_cursors (sys_context,
+lw6ker_game_state_get_nb_cursors (lw6sys_context_t * sys_context,
 				  const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_game_state_get_nb_cursors (sys_context,
@@ -2733,7 +2845,7 @@ lw6ker_game_state_get_nb_cursors (sys_context,
 }
 
 int
-_lw6ker_game_state_get_nb_nodes (sys_context,
+_lw6ker_game_state_get_nb_nodes (lw6sys_context_t * sys_context,
 				 const _lw6ker_game_state_t * game_state)
 {
   return game_state->node_array.nb_nodes;
@@ -2742,6 +2854,7 @@ _lw6ker_game_state_get_nb_nodes (sys_context,
 /**
  * lw6ker_game_state_get_nb_nodes
  *
+ * @sys_context: global system context
  * @game_state: game state to query
  *
  * Gives the max number of nodes that are present
@@ -2751,7 +2864,7 @@ _lw6ker_game_state_get_nb_nodes (sys_context,
  * Return value: number of nodes
  */
 int
-lw6ker_game_state_get_nb_nodes (sys_context,
+lw6ker_game_state_get_nb_nodes (lw6sys_context_t * sys_context,
 				const lw6ker_game_state_t * game_state)
 {
   return _lw6ker_game_state_get_nb_nodes (sys_context,

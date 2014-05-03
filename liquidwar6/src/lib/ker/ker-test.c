@@ -58,12 +58,14 @@
 typedef struct _lw6ker_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
 } _lw6ker_test_data_t;
 
 static _lw6ker_test_data_t _test_data = { 0 };
 
 static void
-_print_game_struct_repr (const lw6ker_game_struct_t * game_struct)
+_print_game_struct_repr (lw6sys_context_t * sys_context,
+			 const lw6ker_game_struct_t * game_struct)
 {
   char *repr = NULL;
   lw6sys_whd_t shape;
@@ -117,7 +119,8 @@ _print_game_struct_repr (const lw6ker_game_struct_t * game_struct)
 }
 
 static void
-_print_game_state_repr (const lw6ker_game_state_t * game_state)
+_print_game_state_repr (lw6sys_context_t * sys_context,
+			const lw6ker_game_state_t * game_state)
 {
   char *repr = NULL;
   char *capture = NULL;
@@ -191,12 +194,15 @@ _print_game_state_repr (const lw6ker_game_state_t * game_state)
 	  if (fighter_id >= 0)
 	    {
 	      fighter1 =
-		lw6ker_game_state_get_fighter_ro_by_id (game_state,
+		lw6ker_game_state_get_fighter_ro_by_id (sys_context,
+							game_state,
 							fighter_id);
 	      fighter2 =
-		lw6ker_game_state_get_fighter_ro_safe (game_state, x, y, z);
+		lw6ker_game_state_get_fighter_ro_safe (sys_context,
+						       game_state, x, y, z);
 	      fighter3 =
-		lw6ker_game_state_get_fighter_ro_unsafe (game_state, x, y, z);
+		lw6ker_game_state_get_fighter_ro_unsafe (sys_context,
+							 game_state, x, y, z);
 	      if (LW6SYS_TEST_ACK
 		  (fighter1 == fighter2 && fighter2 == fighter3))
 		{
@@ -240,7 +246,7 @@ _print_game_state_repr (const lw6ker_game_state_t * game_state)
   capture = lw6ker_capture_str (sys_context, game_state);
   if (LW6SYS_TEST_ACK (capture))
     {
-      if (lw6sys_log_get_console_state ())
+      if (lw6sys_log_get_console_state (sys_context))
 	{
 	  printf ("%s", capture);
 	  fflush (stdout);
@@ -262,6 +268,8 @@ static void
 _test_struct ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -278,7 +286,7 @@ _test_struct ()
 	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
 	if (LW6SYS_TEST_ACK (game_struct))
 	  {
-	    _print_game_struct_repr (game_struct);
+	    _print_game_struct_repr (sys_context, game_struct);
 	    checksum = lw6ker_game_struct_checksum (sys_context, game_struct);
 	    if (LW6SYS_TEST_ACK (checksum == _TEST_GAME_STRUCT_CHECKSUM))
 	      {
@@ -307,6 +315,8 @@ static void
 _test_state ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -324,7 +334,7 @@ _test_state ()
 	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
 	if (LW6SYS_TEST_ACK (game_struct))
 	  {
-	    _print_game_struct_repr (game_struct);
+	    _print_game_struct_repr (sys_context, game_struct);
 	    game_state =
 	      lw6ker_game_state_new (sys_context, game_struct, NULL);
 	    if (LW6SYS_TEST_ACK (game_state))
@@ -333,7 +343,7 @@ _test_state ()
 			    _x_ ("is_over returns %d"),
 			    lw6ker_game_state_is_over (sys_context,
 						       game_state));
-		_print_game_state_repr (game_state);
+		_print_game_state_repr (sys_context, game_state);
 		checksum =
 		  lw6ker_game_state_checksum (sys_context, game_state);
 		if (LW6SYS_TEST_ACK (checksum == _TEST_GAME_STATE_CHECKSUM))
@@ -366,6 +376,8 @@ static void
 _test_population ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -384,30 +396,30 @@ _test_population ()
 	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
 	if (LW6SYS_TEST_ACK (game_struct))
 	  {
-	    _print_game_struct_repr (game_struct);
+	    _print_game_struct_repr (sys_context, game_struct);
 	    game_state =
 	      lw6ker_game_state_new (sys_context, game_struct, NULL);
 	    if (LW6SYS_TEST_ACK (game_state))
 	      {
-		_print_game_state_repr (game_state);
+		_print_game_state_repr (sys_context, game_state);
 		lw6ker_game_state_register_node (sys_context, game_state,
 						 _TEST_NODE_ID);
 		lw6ker_game_state_add_cursor (sys_context, game_state,
 					      _TEST_NODE_ID, _TEST_CURSOR1_ID,
 					      _TEST_COLOR1);
-		_print_game_state_repr (game_state);
+		_print_game_state_repr (sys_context, game_state);
 		lw6ker_game_state_add_cursor (sys_context, game_state,
 					      _TEST_NODE_ID, _TEST_CURSOR2_ID,
 					      _TEST_COLOR2);
-		_print_game_state_repr (game_state);
+		_print_game_state_repr (sys_context, game_state);
 		lw6ker_game_state_add_cursor (sys_context, game_state,
 					      _TEST_NODE_ID, _TEST_CURSOR3_ID,
 					      _TEST_COLOR3);
-		_print_game_state_repr (game_state);
+		_print_game_state_repr (sys_context, game_state);
 		lw6ker_game_state_remove_cursor (sys_context, game_state,
 						 _TEST_NODE_ID,
 						 _TEST_CURSOR2_ID);
-		_print_game_state_repr (game_state);
+		_print_game_state_repr (sys_context, game_state);
 		checksum =
 		  lw6ker_game_state_checksum (sys_context, game_state);
 		if (LW6SYS_TEST_ACK
@@ -441,6 +453,8 @@ static void
 _test_algorithm ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -461,12 +475,12 @@ _test_algorithm ()
 	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
 	if (LW6SYS_TEST_ACK (game_struct))
 	  {
-	    _print_game_struct_repr (game_struct);
+	    _print_game_struct_repr (sys_context, game_struct);
 	    game_state =
 	      lw6ker_game_state_new (sys_context, game_struct, NULL);
 	    if (LW6SYS_TEST_ACK (game_state))
 	      {
-		_print_game_state_repr (game_state);
+		_print_game_state_repr (sys_context, game_state);
 		lw6ker_game_state_register_node (sys_context, game_state,
 						 _TEST_NODE_ID);
 		lw6ker_game_state_add_cursor (sys_context, game_state,
@@ -478,7 +492,7 @@ _test_algorithm ()
 		lw6ker_game_state_add_cursor (sys_context, game_state,
 					      _TEST_NODE_ID, _TEST_CURSOR3_ID,
 					      _TEST_COLOR3);
-		_print_game_state_repr (game_state);
+		_print_game_state_repr (sys_context, game_state);
 		lw6ker_cursor_reset (sys_context, &cursor);
 		cursor.pos.x =
 		  lw6ker_game_state_get_w (sys_context, game_state) / 2;
@@ -527,24 +541,26 @@ _test_algorithm ()
 		for (i = 0;
 		     i < lw6sys_imin (LW6KER_HISTORY_SIZE,
 				      lw6ker_game_state_get_rounds
-				      (game_state)); ++i)
+				      (sys_context, game_state)); ++i)
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				_x_
 				("history entry %d for team %d is global=%d latest=%d"),
 				i, _TEST_HISTORY_TEAM,
 				lw6ker_game_state_get_global_history
-				(game_state, i, _TEST_HISTORY_TEAM),
+				(sys_context, game_state, i,
+				 _TEST_HISTORY_TEAM),
 				lw6ker_game_state_get_latest_history
-				(game_state, i, _TEST_HISTORY_TEAM));
+				(sys_context, game_state, i,
+				 _TEST_HISTORY_TEAM));
 		  }
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_ ("max history entry global=%d latest=%d"),
 			    lw6ker_game_state_get_global_history_max
-			    (game_state),
+			    (sys_context, game_state),
 			    lw6ker_game_state_get_latest_history_max
-			    (game_state));
-		_print_game_state_repr (game_state);
+			    (sys_context, game_state));
+		_print_game_state_repr (sys_context, game_state);
 		checksum =
 		  lw6ker_game_state_checksum (sys_context, game_state);
 		if (LW6SYS_TEST_ACK
@@ -579,6 +595,8 @@ static void
 _test_dup ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -597,22 +615,22 @@ _test_dup ()
 	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
 	if (LW6SYS_TEST_ACK (game_struct))
 	  {
-	    _print_game_struct_repr (game_struct);
+	    _print_game_struct_repr (sys_context, game_struct);
 	    game_struct2 =
 	      lw6ker_game_struct_dup (sys_context, game_struct, NULL);
 	    lw6ker_game_struct_free (sys_context, game_struct);
 	    game_struct = NULL;
-	    _print_game_struct_repr (game_struct2);
+	    _print_game_struct_repr (sys_context, game_struct2);
 	    game_state =
 	      lw6ker_game_state_new (sys_context, game_struct2, NULL);
 	    if (LW6SYS_TEST_ACK (game_state))
 	      {
-		_print_game_state_repr (game_state);
+		_print_game_state_repr (sys_context, game_state);
 		game_state2 =
 		  lw6ker_game_state_dup (sys_context, game_state, NULL);
 		lw6ker_game_state_free (sys_context, game_state);
 		game_state = NULL;
-		_print_game_state_repr (game_state2);
+		_print_game_state_repr (sys_context, game_state2);
 		lw6ker_game_state_free (sys_context, game_state2);
 		game_state2 = NULL;
 		ret = 1;
@@ -632,6 +650,8 @@ static void
 _test_team_mask ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -672,6 +692,8 @@ static void
 _test_hexa ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -703,7 +725,7 @@ _test_hexa ()
 	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
 	if (LW6SYS_TEST_ACK (game_struct))
 	  {
-	    _print_game_struct_repr (game_struct);
+	    _print_game_struct_repr (sys_context, game_struct);
 	    checksum_struct =
 	      lw6ker_game_struct_checksum (sys_context, game_struct);
 	    hexa_struct =
@@ -733,10 +755,13 @@ _test_hexa ()
 			if (LW6SYS_TEST_ACK (dup_game_struct))
 			  {
 			    checksum_struct2 =
-			      lw6ker_game_struct_checksum (dup_game_struct);
+			      lw6ker_game_struct_checksum (sys_context,
+							   dup_game_struct);
 			    hexa_struct2 =
-			      lw6ker_game_struct_to_hexa (dup_game_struct);
-			    lw6ker_game_struct_free (dup_game_struct);
+			      lw6ker_game_struct_to_hexa (sys_context,
+							  dup_game_struct);
+			    lw6ker_game_struct_free (sys_context,
+						     dup_game_struct);
 			    dup_game_struct = NULL;
 			  }
 			if (LW6SYS_TEST_ACK (hexa_struct2))
@@ -759,10 +784,11 @@ _test_hexa ()
 				if (LW6SYS_TEST_ACK (game_state))
 				  {
 				    lw6ker_game_state_checksum_log_set_interval
-				      (game_state,
+				      (sys_context, game_state,
 				       _TEST_CHECKSUM_LOG_INTERVAL);
 				    lw6ker_game_state_register_node
-				      (game_state, _TEST_NODE_ID);
+				      (sys_context, game_state,
+				       _TEST_NODE_ID);
 				    lw6ker_game_state_add_cursor (sys_context,
 								  game_state,
 								  _TEST_NODE_ID,
@@ -776,9 +802,10 @@ _test_hexa ()
 				    for (i = 0; i < _TEST_NB_ROUNDS; ++i)
 				      {
 					lw6ker_game_state_do_round
-					  (game_state);
+					  (sys_context, game_state);
 				      }
-				    _print_game_state_repr (game_state);
+				    _print_game_state_repr (sys_context,
+							    game_state);
 				    checksum_state =
 				      lw6ker_game_state_checksum (sys_context,
 								  game_state);
@@ -799,7 +826,8 @@ _test_hexa ()
 					  {
 					    game_state2 =
 					      lw6ker_game_state_from_hexa
-					      (hexa_state, game_struct2);
+					      (sys_context, hexa_state,
+					       game_struct2);
 					    if (LW6SYS_TEST_ACK (game_state2))
 					      {
 						/*
@@ -809,25 +837,30 @@ _test_hexa ()
 						 */
 						dup_game_state =
 						  lw6ker_game_state_dup
-						  (game_state2, NULL);
+						  (sys_context, game_state2,
+						   NULL);
 						if (LW6SYS_TEST_ACK
 						    (dup_game_state))
 						  {
 						    checksum_state2 =
 						      lw6ker_game_state_checksum
-						      (dup_game_state);
+						      (sys_context,
+						       dup_game_state);
 						    hexa_state2 =
 						      lw6ker_game_state_to_hexa
-						      (dup_game_state);
+						      (sys_context,
+						       dup_game_state);
 						    lw6ker_game_state_free
-						      (dup_game_state);
+						      (sys_context,
+						       dup_game_state);
 						    dup_game_state = NULL;
 						  }
 						if (LW6SYS_TEST_ACK
 						    (hexa_state2))
 						  {
 						    lw6sys_log
-						      (LW6SYS_LOG_NOTICE,
+						      (sys_context,
+						       LW6SYS_LOG_NOTICE,
 						       _x_
 						       ("hexa_state length=%d hexa_state2 length=%d checksum_state=%08x checksum_state2=%08x"),
 						       (int)
@@ -841,7 +874,8 @@ _test_hexa ()
 							 checksum_state2
 							 &&
 							 lw6sys_str_is_same
-							 (hexa_state,
+							 (sys_context,
+							  hexa_state,
 							  hexa_state2)))
 						      {
 							ret = 1;
@@ -853,17 +887,20 @@ _test_hexa ()
 							     checksum_state2))
 							  {
 							    lw6sys_log
-							      (LW6SYS_LOG_WARNING,
+							      (sys_context,
+							       LW6SYS_LOG_WARNING,
 							       _x_
 							       ("game_state checksums differ"));
 							  }
 							if (!LW6SYS_TEST_ACK
 							    (lw6sys_str_is_same
-							     (hexa_state,
+							     (sys_context,
+							      hexa_state,
 							      hexa_state2)))
 							  {
 							    lw6sys_log
-							      (LW6SYS_LOG_WARNING,
+							      (sys_context,
+							       LW6SYS_LOG_WARNING,
 							       _x_
 							       ("game_state hexa dumps differ"));
 							  }
@@ -873,7 +910,7 @@ _test_hexa ()
 								 hexa_state2);
 						  }
 						lw6ker_game_state_free
-						  (game_state2);
+						  (sys_context, game_state2);
 						game_state2 = NULL;
 					      }
 					  }
@@ -901,7 +938,8 @@ _test_hexa ()
 						("game_struct checksums differ"));
 				  }
 				if (!LW6SYS_TEST_ACK (lw6sys_str_is_same
-						      (hexa_struct,
+						      (sys_context,
+						       hexa_struct,
 						       hexa_struct2)))
 				  {
 				    lw6sys_log (sys_context,
@@ -939,22 +977,29 @@ _test_hexa ()
 static int
 _setup_init ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 	      _x_ ("init libker CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 	      _x_ ("quit libker CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 /**
  * lw6ker_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libker module.
@@ -966,10 +1011,12 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6ker_test_register (sys_context, int mode)
+lw6ker_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -1005,6 +1052,7 @@ lw6ker_test_register (sys_context, int mode)
 /**
  * lw6ker_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @ker module test suite, testing most (if not all...)
@@ -1013,11 +1061,13 @@ lw6ker_test_register (sys_context, int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6ker_test_run (sys_context, int mode)
+lw6ker_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;

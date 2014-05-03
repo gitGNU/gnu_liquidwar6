@@ -42,7 +42,7 @@
  * zones, it's usefull to have this in memory.
  * This was called "MESHER" in Liquid War 5.
  */
-typedef struct draft_zone_s
+typedef struct _draft_zone_s
 {
   lw6sys_xyz_t pos;
   int32_t used;
@@ -50,19 +50,20 @@ typedef struct draft_zone_s
   int32_t link[LW6KER_NB_DIRS];
   int32_t corres;
 }
-draft_zone_t;
+_draft_zone_t;
 
-typedef struct draft_zones_s
+typedef struct _draft_zones_s
 {
   lw6sys_whd_t shape;
   int32_t max_zone_size;
-  draft_zone_t *zones;
+  _draft_zone_t *zones;
 }
-draft_zones_t;
+_draft_zones_t;
 
 void
-_lw6ker_map_struct_update_checksum (sys_context, const _lw6ker_map_struct_t *
-				    map_struct, u_int32_t * checksum)
+_lw6ker_map_struct_update_checksum (lw6sys_context_t * sys_context,
+				    const _lw6ker_map_struct_t * map_struct,
+				    u_int32_t * checksum)
 {
   int i;
 
@@ -93,9 +94,9 @@ _lw6ker_map_struct_update_checksum (sys_context, const _lw6ker_map_struct_t *
 }
 
 int
-_lw6ker_map_struct_lazy_compare (sys_context, const _lw6ker_map_struct_t *
-				 map_struct_a, const _lw6ker_map_struct_t *
-				 map_struct_b)
+_lw6ker_map_struct_lazy_compare (lw6sys_context_t * sys_context,
+				 const _lw6ker_map_struct_t * map_struct_a,
+				 const _lw6ker_map_struct_t * map_struct_b)
 {
   int ret = 0;
 
@@ -129,40 +130,41 @@ _lw6ker_map_struct_lazy_compare (sys_context, const _lw6ker_map_struct_t *
 }
 
 static int32_t
-relative_index_no_check (const lw6map_level_t * level, int32_t x, int32_t y,
-			 int32_t z)
+_relative_index_no_check (const lw6map_level_t * level, int32_t x, int32_t y,
+			  int32_t z)
 {
   return z * level->body.shape.w * level->body.shape.h +
     y * level->body.shape.w + x;
 }
 
 static int32_t
-relative_index (const lw6map_level_t * level, int32_t x, int32_t y, int32_t z)
+_relative_index (const lw6map_level_t * level, int32_t x, int32_t y,
+		 int32_t z)
 {
-  lw6map_coords_fix_xy (sys_context, &(level->param.rules),
-			&(level->body.shape), &x, &y);
-  lw6map_coords_fix_z (sys_context, &(level->param.rules),
-		       &(level->body.shape), &z);
+  lw6map_coords_fix_xy (&(level->param.rules), &(level->body.shape), &x, &y);
+  lw6map_coords_fix_z (&(level->param.rules), &(level->body.shape), &z);
 
-  return relative_index_no_check (level, x, y, z);
+  return _relative_index_no_check (level, x, y, z);
 }
 
 /*
- * Creates a new draft_zones_t object. The idea is to create a structure which
+ * Creates a new _draft_zones_t object. The idea is to create a structure which
  * is of the same nature as the final MAP_STRUCT "zones", but unoptimized.
  * We create a structure (a "MESH" in Liquid War 5)) where each square
  * has pointers on its neighbours. As there are 12 directions, these is
  * very redundant. This is just a temporary struct which will be
  * optimized afterwards.
  */
-static draft_zones_t *
-draft_zones_new (const lw6map_level_t * level, lw6sys_progress_t * progress)
+static _draft_zones_t *
+_draft_zones_new (lw6sys_context_t * sys_context,
+		  const lw6map_level_t * level, lw6sys_progress_t * progress)
 {
-  draft_zones_t *ret;
+  _draft_zones_t *ret;
 
   lw6sys_progress_begin (sys_context, progress);
 
-  ret = (draft_zones_t *) LW6SYS_CALLOC (sizeof (draft_zones_t));
+  ret =
+    (_draft_zones_t *) LW6SYS_CALLOC (sys_context, sizeof (_draft_zones_t));
   if (ret)
     {
       int32_t w, h, d, size;
@@ -178,7 +180,8 @@ draft_zones_new (const lw6map_level_t * level, lw6sys_progress_t * progress)
       if (size >= LW6MAP_MIN_BODY_SURFACE)
 	{
 	  ret->zones =
-	    (draft_zone_t *) LW6SYS_CALLOC (size * sizeof (draft_zone_t));
+	    (_draft_zone_t *) LW6SYS_CALLOC (sys_context,
+					     size * sizeof (_draft_zone_t));
 
 	  if (ret->zones)
 	    {
@@ -199,7 +202,7 @@ draft_zones_new (const lw6map_level_t * level, lw6sys_progress_t * progress)
 		    {
 		      for (x = 0; x < w; ++x)
 			{
-			  i = relative_index_no_check (level, x, y, z);
+			  i = _relative_index_no_check (level, x, y, z);
 
 			  ret->zones[i].pos.x = x;
 			  ret->zones[i].pos.y = y;
@@ -217,59 +220,59 @@ draft_zones_new (const lw6map_level_t * level, lw6sys_progress_t * progress)
 		    {
 		      for (x = 0; x < w; ++x)
 			{
-			  i = relative_index (level, x, y, z);
+			  i = _relative_index (level, x, y, z);
 			  if (ret->zones[i].used)
 			    {
-			      j = relative_index (level, x, y - 1, z);
+			      j = _relative_index (level, x, y - 1, z);
 			      if (ret->zones[j].used && i != j)
 				{
 				  ret->zones[i].link[LW6KER_DIR_NNW] = j;
 				  ret->zones[i].link[LW6KER_DIR_NNE] = j;
 				}
-			      j = relative_index (level, x + 1, y - 1, z);
+			      j = _relative_index (level, x + 1, y - 1, z);
 			      if (ret->zones[j].used && i != j)
 				{
 				  ret->zones[i].link[LW6KER_DIR_NE] = j;
 				}
-			      j = relative_index (level, x + 1, y, z);
+			      j = _relative_index (level, x + 1, y, z);
 			      if (ret->zones[j].used && i != j)
 				{
 				  ret->zones[i].link[LW6KER_DIR_ENE] = j;
 				  ret->zones[i].link[LW6KER_DIR_ESE] = j;
 				}
-			      j = relative_index (level, x + 1, y + 1, z);
+			      j = _relative_index (level, x + 1, y + 1, z);
 			      if (ret->zones[j].used && i != j)
 				{
 				  ret->zones[i].link[LW6KER_DIR_SE] = j;
 				}
-			      j = relative_index (level, x, y + 1, z);
+			      j = _relative_index (level, x, y + 1, z);
 			      if (ret->zones[j].used && i != j)
 				{
 				  ret->zones[i].link[LW6KER_DIR_SSE] = j;
 				  ret->zones[i].link[LW6KER_DIR_SSW] = j;
 				}
-			      j = relative_index (level, x - 1, y + 1, z);
+			      j = _relative_index (level, x - 1, y + 1, z);
 			      if (ret->zones[j].used && i != j)
 				{
 				  ret->zones[i].link[LW6KER_DIR_SW] = j;
 				}
-			      j = relative_index (level, x - 1, y, z);
+			      j = _relative_index (level, x - 1, y, z);
 			      if (ret->zones[j].used && i != j)
 				{
 				  ret->zones[i].link[LW6KER_DIR_WSW] = j;
 				  ret->zones[i].link[LW6KER_DIR_WNW] = j;
 				}
-			      j = relative_index (level, x - 1, y - 1, z);
+			      j = _relative_index (level, x - 1, y - 1, z);
 			      if (ret->zones[j].used && i != j)
 				{
 				  ret->zones[i].link[LW6KER_DIR_NW] = j;
 				}
-			      j = relative_index (level, x, y, z - 1);
+			      j = _relative_index (level, x, y, z - 1);
 			      if (ret->zones[j].used && i != j)
 				{
 				  ret->zones[i].link[LW6KER_DIR_UP] = j;
 				}
-			      j = relative_index (level, x, y, z + 1);
+			      j = _relative_index (level, x, y, z + 1);
 			      if (ret->zones[j].used && i != j)
 				{
 				  ret->zones[i].link[LW6KER_DIR_DOWN] = j;
@@ -301,7 +304,8 @@ draft_zones_new (const lw6map_level_t * level, lw6sys_progress_t * progress)
 }
 
 static void
-draft_zones_free (draft_zones_t * draft_zones)
+_draft_zones_free (lw6sys_context_t * sys_context,
+		   _draft_zones_t * draft_zones)
 {
   if (draft_zones)
     {
@@ -314,7 +318,7 @@ draft_zones_free (draft_zones_t * draft_zones)
 }
 
 /*
- * Here we scan the whole draft_zones_t data, and whenever we find
+ * Here we scan the whole _draft_zones_t data, and whenever we find
  * 4 zones which form a square and respect "some conditions",
  * we group them into a bigger zone. The only thing to be carefull
  * about is to handle correctly all the pointers (links) on
@@ -322,13 +326,14 @@ draft_zones_free (draft_zones_t * draft_zones)
  * we suppress.
  */
 static int32_t
-draft_zones_group (const lw6map_level_t * level, draft_zones_t * draft_zones,
-		   int32_t step)
+_draft_zones_group (lw6sys_context_t * sys_context,
+		    const lw6map_level_t * level,
+		    _draft_zones_t * draft_zones, int32_t step)
 {
   int32_t found = 0;
   int32_t x, y, z, w, h, d, size, i, j, k;
   int32_t i_ne, i_se, i_sw, i_nw, i_up, i_down;
-  draft_zone_t *zone_ne, *zone_se, *zone_sw, *zone_nw, *zone_up, *zone_down;
+  _draft_zone_t *zone_ne, *zone_se, *zone_sw, *zone_nw, *zone_up, *zone_down;
   int32_t *test;
 
   w = draft_zones->shape.w;
@@ -475,66 +480,66 @@ draft_zones_group (const lw6map_level_t * level, draft_zones_t * draft_zones,
 		      if (d > 1)
 			{
 			  j =
-			    relative_index (level,
-					    draft_zones->zones[i_ne].pos.x,
-					    draft_zones->zones[i_ne].pos.y,
-					    draft_zones->zones[i_ne].pos.z +
-					    1);
+			    _relative_index (level,
+					     draft_zones->zones[i_ne].pos.x,
+					     draft_zones->zones[i_ne].pos.y,
+					     draft_zones->zones[i_ne].pos.z +
+					     1);
 			  if (draft_zones->zones[j].used)
 			    {
 			      draft_zones->zones[j].link[LW6KER_DIR_UP] =
 				i_nw;
 			    }
 			  j =
-			    relative_index (level,
-					    draft_zones->zones[i_se].pos.x,
-					    draft_zones->zones[i_se].pos.y,
-					    draft_zones->zones[i_se].pos.z +
-					    1);
+			    _relative_index (level,
+					     draft_zones->zones[i_se].pos.x,
+					     draft_zones->zones[i_se].pos.y,
+					     draft_zones->zones[i_se].pos.z +
+					     1);
 			  if (draft_zones->zones[j].used)
 			    {
 			      draft_zones->zones[j].link[LW6KER_DIR_UP] =
 				i_nw;
 			    }
 			  j =
-			    relative_index (level,
-					    draft_zones->zones[i_sw].pos.x,
-					    draft_zones->zones[i_sw].pos.y,
-					    draft_zones->zones[i_sw].pos.z +
-					    1);
+			    _relative_index (level,
+					     draft_zones->zones[i_sw].pos.x,
+					     draft_zones->zones[i_sw].pos.y,
+					     draft_zones->zones[i_sw].pos.z +
+					     1);
 			  if (draft_zones->zones[j].used)
 			    {
 			      draft_zones->zones[j].link[LW6KER_DIR_UP] =
 				i_nw;
 			    }
 			  j =
-			    relative_index (level,
-					    draft_zones->zones[i_ne].pos.x,
-					    draft_zones->zones[i_ne].pos.y,
-					    draft_zones->zones[i_ne].pos.z -
-					    1);
+			    _relative_index (level,
+					     draft_zones->zones[i_ne].pos.x,
+					     draft_zones->zones[i_ne].pos.y,
+					     draft_zones->zones[i_ne].pos.z -
+					     1);
 			  if (draft_zones->zones[j].used)
 			    {
 			      draft_zones->zones[j].link[LW6KER_DIR_DOWN] =
 				i_nw;
 			    }
 			  j =
-			    relative_index (level,
-					    draft_zones->zones[i_se].pos.x,
-					    draft_zones->zones[i_se].pos.y,
-					    draft_zones->zones[i_se].pos.z -
-					    1);
+			    _relative_index (level,
+					     draft_zones->zones[i_se].pos.x,
+					     draft_zones->zones[i_se].pos.y,
+					     draft_zones->zones[i_se].pos.z -
+					     1);
 			  if (draft_zones->zones[j].used)
 			    {
 			      draft_zones->zones[j].link[LW6KER_DIR_DOWN] =
 				i_nw;
 			    }
 			  j =
-			    relative_index (level,
-					    draft_zones->zones[i_sw].pos.x,
-					    draft_zones->zones[i_sw].pos.y,
-					    draft_zones->zones[i_sw].pos.z -
-					    1);
+			    _relative_index (level,
+					     draft_zones->zones[i_sw].pos.x,
+					     draft_zones->zones[i_sw].pos.y,
+					     draft_zones->zones[i_sw].pos.z -
+					     1);
 			  if (draft_zones->zones[j].used)
 			    {
 			      draft_zones->zones[j].link[LW6KER_DIR_DOWN] =
@@ -554,7 +559,8 @@ draft_zones_group (const lw6map_level_t * level, draft_zones_t * draft_zones,
 }
 
 static int
-_fix_one_way (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level)
+_fix_one_way (lw6sys_context_t * sys_context,
+	      _lw6ker_map_struct_t * map_struct, const lw6map_level_t * level)
 {
   int ret = 0;
   int x, y;
@@ -735,7 +741,7 @@ _fix_one_way (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level)
 }
 
 /*
- * Transform the temporary draft_zones_t into the proper
+ * Transform the temporary _draft_zones_t into the proper
  * final MAP_STRUCT. The major change is to actually
  * delete and remove from memory all the unused ZONES.
  * We "compact" the zones so that instead of using
@@ -746,9 +752,10 @@ _fix_one_way (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level)
  * the more we get a chance to have things cached.
  */
 static int
-draft_zones_to_map_struct (_lw6ker_map_struct_t * map_struct,
-			   draft_zones_t * draft_zones,
-			   lw6sys_progress_t * progress)
+_draft_zones_to_map_struct (lw6sys_context_t * sys_context,
+			    _lw6ker_map_struct_t * map_struct,
+			    _draft_zones_t * draft_zones,
+			    lw6sys_progress_t * progress)
 {
   int ret = 0;
   int32_t w, h, d, size, nb_zones;
@@ -836,8 +843,9 @@ draft_zones_to_map_struct (_lw6ker_map_struct_t * map_struct,
  * Init places, that is, mostly read and aggregate meta-layer info
  */
 static int
-init_places (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
-	     lw6sys_progress_t * progress)
+_init_places (lw6sys_context_t * sys_context,
+	      _lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
+	      lw6sys_progress_t * progress)
 {
   int ret = 0;
   int x, y;
@@ -858,7 +866,8 @@ init_places (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
 
   shape = map_struct->shape;
   map_struct->places =
-    (_lw6ker_place_struct_t *) LW6SYS_CALLOC (map_struct->shape.w *
+    (_lw6ker_place_struct_t *) LW6SYS_CALLOC (sys_context,
+					      map_struct->shape.w *
 					      map_struct->shape.h *
 					      sizeof
 					      (_lw6ker_place_struct_t));
@@ -1010,8 +1019,9 @@ init_places (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
  * have a quick way to get the right zone for a given (x,y).
  */
 static int
-init_slots (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
-	    lw6sys_progress_t * progress)
+_init_slots (lw6sys_context_t * sys_context,
+	     _lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
+	     lw6sys_progress_t * progress)
 {
   int ret = 0;
   lw6sys_progress_t progress1;
@@ -1022,7 +1032,8 @@ init_slots (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
   lw6sys_progress_begin (sys_context, progress);
 
   map_struct->slots =
-    (_lw6ker_slot_struct_t *) LW6SYS_CALLOC (map_struct->shape.w *
+    (_lw6ker_slot_struct_t *) LW6SYS_CALLOC (sys_context,
+					     map_struct->shape.w *
 					     map_struct->shape.h *
 					     map_struct->shape.d *
 					     sizeof (_lw6ker_slot_struct_t));
@@ -1086,7 +1097,7 @@ init_slots (_lw6ker_map_struct_t * map_struct, const lw6map_level_t * level,
  * of wether it's usefull to implement this. Debugging tool.
  */
 float
-_lw6ker_map_struct_get_compression (sys_context,
+_lw6ker_map_struct_get_compression (lw6sys_context_t * sys_context,
 				    const _lw6ker_map_struct_t * map_struct)
 {
   float ret = 0.0f;
@@ -1105,12 +1116,13 @@ _lw6ker_map_struct_get_compression (sys_context,
  * files, into an in-memory "ready for algorithmic stuff" structure.
  */
 int
-_lw6ker_map_struct_init (sys_context, _lw6ker_map_struct_t * map_struct,
+_lw6ker_map_struct_init (lw6sys_context_t * sys_context,
+			 _lw6ker_map_struct_t * map_struct,
 			 const lw6map_level_t * level,
 			 lw6sys_progress_t * progress)
 {
   int ret = 0;
-  draft_zones_t *draft_zones;
+  _draft_zones_t *_draft_zones;
   int progress_i;
   int progress_n;
   lw6sys_progress_t progress1;
@@ -1125,8 +1137,8 @@ _lw6ker_map_struct_init (sys_context, _lw6ker_map_struct_t * map_struct,
 
   memset (map_struct, 0, sizeof (_lw6ker_map_struct_t));
 
-  draft_zones = draft_zones_new (level, &progress1);
-  if (draft_zones)
+  _draft_zones = _draft_zones_new (sys_context, level, &progress1);
+  if (_draft_zones)
     {
       int32_t i;
 
@@ -1145,7 +1157,7 @@ _lw6ker_map_struct_init (sys_context, _lw6ker_map_struct_t * map_struct,
       i = 1;
       progress_i = 0;
       while (i <= level->param.rules.max_zone_size / 2
-	     && draft_zones_group (level, draft_zones, i))
+	     && _draft_zones_group (sys_context, level, _draft_zones, i))
 	{
 	  lw6sys_progress_update (sys_context, &progress3, 0, progress_n,
 				  progress_i++);
@@ -1154,15 +1166,16 @@ _lw6ker_map_struct_init (sys_context, _lw6ker_map_struct_t * map_struct,
       lw6sys_progress_end (sys_context, &progress3);
 
       ret = ret
-	&& draft_zones_to_map_struct (map_struct, draft_zones, &progress4);
+	&& _draft_zones_to_map_struct (sys_context, map_struct, _draft_zones,
+				       &progress4);
 
-      draft_zones_free (draft_zones);
+      _draft_zones_free (sys_context, _draft_zones);
 
-      ret = ret && _fix_one_way (map_struct, level);
-      ret = ret && init_slots (map_struct, level, &progress5);
-      ret = ret && init_places (map_struct, level, &progress1);
+      ret = ret && _fix_one_way (sys_context, map_struct, level);
+      ret = ret && _init_slots (sys_context, map_struct, level, &progress5);
+      ret = ret && _init_places (sys_context, map_struct, level, &progress1);
 
-      _lw6ker_map_struct_sanity_check (map_struct);
+      _lw6ker_map_struct_sanity_check (sys_context, map_struct);
 
       if (ret)
 	{
@@ -1171,7 +1184,8 @@ _lw6ker_map_struct_init (sys_context, _lw6ker_map_struct_t * map_struct,
 		      ("map struct created %dx%dx%d, %d zones, %1.1f%% compression"),
 		      map_struct->shape.w, map_struct->shape.h,
 		      map_struct->shape.d, map_struct->nb_zones,
-		      _lw6ker_map_struct_get_compression (map_struct) *
+		      _lw6ker_map_struct_get_compression (sys_context,
+							  map_struct) *
 		      100.0f);
 	}
     }
@@ -1182,28 +1196,29 @@ _lw6ker_map_struct_init (sys_context, _lw6ker_map_struct_t * map_struct,
 }
 
 void
-_lw6ker_map_struct_clear (sys_context, _lw6ker_map_struct_t * map_struct)
+_lw6ker_map_struct_clear (lw6sys_context_t * sys_context,
+			  _lw6ker_map_struct_t * map_struct)
 {
   if (map_struct)
     {
       if (map_struct->places)
 	{
-	  LW6SYS_FREE (map_struct->places);
+	  LW6SYS_FREE (sys_context, map_struct->places);
 	}
       if (map_struct->zones)
 	{
-	  LW6SYS_FREE (map_struct->zones);
+	  LW6SYS_FREE (sys_context, map_struct->zones);
 	}
       if (map_struct->slots)
 	{
-	  LW6SYS_FREE (map_struct->slots);
+	  LW6SYS_FREE (sys_context, map_struct->slots);
 	}
       memset (map_struct, 0, sizeof (_lw6ker_map_struct_t));
     }
 }
 
 void
-_lw6ker_map_struct_find_free_slot_near (sys_context,
+_lw6ker_map_struct_find_free_slot_near (lw6sys_context_t * sys_context,
 					const _lw6ker_map_struct_t *
 					map_struct, lw6sys_xyz_t * there,
 					lw6sys_xyz_t here)
@@ -1269,7 +1284,7 @@ _lw6ker_map_struct_find_free_slot_near (sys_context,
 }
 
 int
-_lw6ker_map_struct_sanity_check (sys_context,
+_lw6ker_map_struct_sanity_check (lw6sys_context_t * sys_context,
 				 const _lw6ker_map_struct_t * map_struct)
 {
   int ret = 1;

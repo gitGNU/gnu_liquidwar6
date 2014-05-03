@@ -941,52 +941,43 @@ extern int _lw6ker_map_struct_sanity_check (lw6sys_context_t * sys_context,
 
 
 /* ker-move.c */
-extern int _lw6ker_move_is_slot_free (lw6sys_context_t * sys_context,
-				      const _lw6ker_map_struct_t * map_struct,
+extern int _lw6ker_move_is_slot_free (const _lw6ker_map_struct_t * map_struct,
 				      const _lw6ker_map_state_t * map_state,
 				      int32_t x, int32_t y, int32_t z);
-extern int _lw6ker_move_is_enemy_there (lw6sys_context_t * sys_context,
-					const _lw6ker_map_struct_t *
+extern int _lw6ker_move_is_enemy_there (const _lw6ker_map_struct_t *
 					map_struct,
 					const _lw6ker_map_state_t * map_state,
 					int32_t team_color, int32_t x,
 					int32_t y, int32_t z,
 					int32_t * enemy_id,
 					int32_t * enemy_color);
-extern int _lw6ker_move_is_ally_there (lw6sys_context_t * sys_context,
-				       const _lw6ker_map_struct_t *
+extern int _lw6ker_move_is_ally_there (const _lw6ker_map_struct_t *
 				       map_struct,
 				       const _lw6ker_map_state_t * map_state,
 				       int32_t team_color, int32_t x,
 				       int32_t y, int32_t z);
-extern int32_t _lw6ker_move_find_straight_dir (lw6sys_context_t * sys_context,
-					       int from_x, int from_y,
+extern int32_t _lw6ker_move_find_straight_dir (int from_x, int from_y,
 					       lw6sys_xyz_t to, int parity);
-extern int32_t _lw6ker_move_find_best_dir (lw6sys_context_t * sys_context,
-					   const _lw6ker_map_state_t *
+extern int32_t _lw6ker_move_find_best_dir (const _lw6ker_map_state_t *
 					   map_state,
 					   const lw6ker_fighter_t * fighter,
 					   int parity);
-extern void _lw6ker_move_goto_with_dir_xy (lw6sys_context_t * sys_context,
-					   const lw6map_rules_t * rules,
+extern void _lw6ker_move_goto_with_dir_xy (const lw6map_rules_t * rules,
 					   const lw6sys_whd_t * shape,
 					   int32_t * dst_x, int32_t * dst_y,
 					   int32_t src_x, int32_t src_y,
 					   int32_t move_dir);
-extern void _lw6ker_move_goto_with_dir_z (lw6sys_context_t * sys_context,
-					  const lw6map_rules_t * rules,
+extern void _lw6ker_move_goto_with_dir_z (const lw6map_rules_t * rules,
 					  const lw6sys_whd_t * shape,
 					  int32_t * dst_z, int32_t src_z,
 					  int32_t move_dir);
-extern void _lw6ker_move_goto_with_dir (lw6sys_context_t * sys_context,
-					const lw6map_rules_t * rules,
+extern void _lw6ker_move_goto_with_dir (const lw6map_rules_t * rules,
 					const lw6sys_whd_t * shape,
 					int32_t * dst_x, int32_t * dst_y,
 					int32_t * dst_z, int32_t src_x,
 					int32_t src_y, int32_t src_z,
 					int32_t move_dir);
-extern void _lw6ker_move_adjust_health (lw6sys_context_t * sys_context,
-					lw6ker_fighter_t * fighter,
+extern void _lw6ker_move_adjust_health (lw6ker_fighter_t * fighter,
 					int32_t health_correction);
 extern void _lw6ker_move_update_fighters_universal (lw6sys_context_t *
 						    sys_context,
@@ -1014,22 +1005,15 @@ _lw6ker_map_struct_place_index (const _lw6ker_map_struct_t * map_struct,
 }
 
 /* ker-score.c */
-extern int _lw6ker_score_sort_quantity_callback (lw6sys_context_t *
-						 sys_context,
-						 lw6ker_score_t * score_a,
+extern int _lw6ker_score_sort_quantity_callback (lw6ker_score_t * score_a,
 						 lw6ker_score_t * score_b);
-extern int _lw6ker_score_sort_quantity_callback_desc (lw6sys_context_t *
-						      sys_context,
-						      lw6ker_score_t *
+extern int _lw6ker_score_sort_quantity_callback_desc (lw6ker_score_t *
 						      score_a,
 						      lw6ker_score_t *
 						      score_b);
-extern int _lw6ker_score_sort_frags_callback (lw6sys_context_t * sys_context,
-					      lw6ker_score_t * score_a,
+extern int _lw6ker_score_sort_frags_callback (lw6ker_score_t * score_a,
 					      lw6ker_score_t * score_b);
-extern int _lw6ker_score_sort_frags_callback_desc (lw6sys_context_t *
-						   sys_context,
-						   lw6ker_score_t * score_a,
+extern int _lw6ker_score_sort_frags_callback_desc (lw6ker_score_t * score_a,
 						   lw6ker_score_t * score_b);
 
 /* ker-scorearray.c */
@@ -1145,40 +1129,47 @@ extern void _lw6ker_slot_struct_update_checksum (lw6sys_context_t *
 						 u_int32_t * checksum);
 
 /* ker-spread.c */
-extern int32_t _lw6ker_spread_next_dir (lw6sys_context_t * sys_context,
-					int32_t dir);
-extern void _lw6ker_spread_do_all_dirs_incr_xy (lw6sys_context_t *
-						sys_context,
-						_lw6ker_zone_struct_t *
+extern int32_t _lw6ker_spread_next_dir (int32_t dir);
+extern void _lw6ker_spread_do_all_dirs_incr_xy (_lw6ker_zone_struct_t *
 						zone_structs,
 						_lw6ker_zone_state_t *
 						zone_states, int nb_zones);
-extern void _lw6ker_spread_do_all_dirs_decr_xy (lw6sys_context_t *
-						sys_context,
-						_lw6ker_zone_struct_t *
+extern void _lw6ker_spread_do_all_dirs_decr_xy (_lw6ker_zone_struct_t *
 						zone_structs,
 						_lw6ker_zone_state_t *
 						zone_states, int nb_zones);
-extern void _lw6ker_spread_do_one_dir_incr_xy (lw6sys_context_t * sys_context,
-					       _lw6ker_zone_struct_t *
+extern void _lw6ker_spread_do_half_dirs_a_incr_xy (_lw6ker_zone_struct_t *
+						   zone_structs,
+						   _lw6ker_zone_state_t *
+						   zone_states, int nb_zones);
+extern void _lw6ker_spread_do_half_dirs_b_incr_xy (_lw6ker_zone_struct_t *
+						   zone_structs,
+						   _lw6ker_zone_state_t *
+						   zone_states, int nb_zones);
+extern void _lw6ker_spread_do_half_dirs_a_decr_xy (_lw6ker_zone_struct_t *
+						   zone_structs,
+						   _lw6ker_zone_state_t *
+						   zone_states, int nb_zones);
+extern void _lw6ker_spread_do_half_dirs_b_decr_xy (_lw6ker_zone_struct_t *
+						   zone_structs,
+						   _lw6ker_zone_state_t *
+						   zone_states, int nb_zones);
+extern void _lw6ker_spread_do_one_dir_incr_xy (_lw6ker_zone_struct_t *
 					       zone_structs,
 					       _lw6ker_zone_state_t *
 					       zone_states, int nb_zones,
 					       int dir);
-extern void _lw6ker_spread_do_one_dir_incr_z (lw6sys_context_t * sys_context,
-					      _lw6ker_zone_struct_t *
+extern void _lw6ker_spread_do_one_dir_incr_z (_lw6ker_zone_struct_t *
 					      zone_structs,
 					      _lw6ker_zone_state_t *
 					      zone_states, int nb_zones,
 					      int dir);
-extern void _lw6ker_spread_do_one_dir_decr_xy (lw6sys_context_t * sys_context,
-					       _lw6ker_zone_struct_t *
+extern void _lw6ker_spread_do_one_dir_decr_xy (_lw6ker_zone_struct_t *
 					       zone_structs,
 					       _lw6ker_zone_state_t *
 					       zone_states, int nb_zones,
 					       int dir);
-extern void _lw6ker_spread_do_one_dir_decr_z (lw6sys_context_t * sys_context,
-					      _lw6ker_zone_struct_t *
+extern void _lw6ker_spread_do_one_dir_decr_z (_lw6ker_zone_struct_t *
 					      zone_structs,
 					      _lw6ker_zone_state_t *
 					      zone_states, int nb_zones,

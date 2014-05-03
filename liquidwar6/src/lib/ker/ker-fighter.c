@@ -39,13 +39,14 @@ int32_t _lw6ker_fighter_t_MOVE_Y_OFFSET[LW6KER_NB_DIRS] =
   { -1, -1, 0, 0, 1, 1, 1, 1, 0, 0, -1, -1 };
 
 void
-_lw6ker_fighter_clear (sys_context, lw6ker_fighter_t * fighter)
+_lw6ker_fighter_clear (lw6sys_context_t * sys_context,
+		       lw6ker_fighter_t * fighter)
 {
   memset (fighter, 0, sizeof (lw6ker_fighter_t));
 }
 
 void
-_lw6ker_fighter_update_checksum (sys_context,
+_lw6ker_fighter_update_checksum (lw6sys_context_t * sys_context,
 				 const lw6ker_fighter_t * fighter,
 				 u_int32_t * checksum)
 {
@@ -60,7 +61,8 @@ _lw6ker_fighter_update_checksum (sys_context,
 }
 
 void
-_lw6ker_fighter_print_debug (sys_context, lw6ker_fighter_t * fighter)
+_lw6ker_fighter_print_debug (lw6sys_context_t * sys_context,
+			     lw6ker_fighter_t * fighter)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_
@@ -71,10 +73,10 @@ _lw6ker_fighter_print_debug (sys_context, lw6ker_fighter_t * fighter)
 }
 
 void
-_lw6ker_fighter_move (sys_context, lw6ker_fighter_t * fighter,
-		      int32_t fighter_id,
-		      int32_t x,
-		      int32_t y, int32_t z, _lw6ker_map_state_t * map_state)
+_lw6ker_fighter_move (lw6sys_context_t * sys_context,
+		      lw6ker_fighter_t * fighter, int32_t fighter_id,
+		      int32_t x, int32_t y, int32_t z,
+		      _lw6ker_map_state_t * map_state)
 {
   _lw6ker_map_state_set_fighter_id (map_state,
 				    fighter->pos.x, fighter->pos.y,
@@ -86,9 +88,9 @@ _lw6ker_fighter_move (sys_context, lw6ker_fighter_t * fighter,
 }
 
 void
-_lw6ker_fighter_attack (sys_context, lw6ker_fighter_t * fighter,
-			int32_t x,
-			int32_t y, int32_t z, _lw6ker_map_state_t * map_state,
+_lw6ker_fighter_attack (lw6sys_context_t * sys_context,
+			lw6ker_fighter_t * fighter, int32_t x, int32_t y,
+			int32_t z, _lw6ker_map_state_t * map_state,
 			int32_t fighter_attack, int32_t fighter_new_health)
 {
   lw6ker_fighter_t *enemy;
@@ -114,11 +116,9 @@ _lw6ker_fighter_attack (sys_context, lw6ker_fighter_t * fighter,
 }
 
 void
-_lw6ker_fighter_defend (sys_context, lw6ker_fighter_t * fighter,
-			int32_t x,
-			int32_t y,
-			int32_t z,
-			_lw6ker_map_state_t * map_state,
+_lw6ker_fighter_defend (lw6sys_context_t * sys_context,
+			lw6ker_fighter_t * fighter, int32_t x, int32_t y,
+			int32_t z, _lw6ker_map_state_t * map_state,
 			int32_t fighter_defense)
 {
   lw6ker_fighter_t *ally;
@@ -132,7 +132,8 @@ _lw6ker_fighter_defend (sys_context, lw6ker_fighter_t * fighter,
 }
 
 void
-_lw6ker_fighter_regenerate (sys_context, lw6ker_fighter_t * fighter,
+_lw6ker_fighter_regenerate (lw6sys_context_t * sys_context,
+			    lw6ker_fighter_t * fighter,
 			    int32_t fighter_regenerate)
 {
   fighter->health += fighter_regenerate;

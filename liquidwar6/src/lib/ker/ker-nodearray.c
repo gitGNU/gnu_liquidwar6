@@ -30,7 +30,8 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_node_array_init (sys_context, _lw6ker_node_array_t * node_array)
+_lw6ker_node_array_init (lw6sys_context_t * sys_context,
+			 _lw6ker_node_array_t * node_array)
 {
   int i = 0;
 
@@ -42,8 +43,9 @@ _lw6ker_node_array_init (sys_context, _lw6ker_node_array_t * node_array)
 }
 
 void
-_lw6ker_node_array_update_checksum (sys_context, const _lw6ker_node_array_t *
-				    node_array, u_int32_t * checksum)
+_lw6ker_node_array_update_checksum (lw6sys_context_t * sys_context,
+				    const _lw6ker_node_array_t * node_array,
+				    u_int32_t * checksum)
 {
   int i = 0;
 
@@ -56,7 +58,8 @@ _lw6ker_node_array_update_checksum (sys_context, const _lw6ker_node_array_t *
 }
 
 _lw6ker_node_t *
-_lw6ker_node_array_find_free (sys_context, _lw6ker_node_array_t * node_array)
+_lw6ker_node_array_find_free (lw6sys_context_t * sys_context,
+			      _lw6ker_node_array_t * node_array)
 {
   _lw6ker_node_t *ret = NULL;
   int i;
@@ -79,7 +82,8 @@ _lw6ker_node_array_find_free (sys_context, _lw6ker_node_array_t * node_array)
 }
 
 void
-_lw6ker_node_array_reset (sys_context, _lw6ker_node_array_t * node_array)
+_lw6ker_node_array_reset (lw6sys_context_t * sys_context,
+			  _lw6ker_node_array_t * node_array)
 {
   int i;
 
@@ -91,7 +95,8 @@ _lw6ker_node_array_reset (sys_context, _lw6ker_node_array_t * node_array)
 }
 
 _lw6ker_node_t *
-_lw6ker_node_array_get_rw (sys_context, _lw6ker_node_array_t * node_array,
+_lw6ker_node_array_get_rw (lw6sys_context_t * sys_context,
+			   _lw6ker_node_array_t * node_array,
 			   u_int64_t node_id)
 {
   _lw6ker_node_t *ret = NULL;
@@ -109,7 +114,8 @@ _lw6ker_node_array_get_rw (sys_context, _lw6ker_node_array_t * node_array,
 }
 
 const _lw6ker_node_t *
-_lw6ker_node_array_get_ro (const _lw6ker_node_array_t * node_array,
+_lw6ker_node_array_get_ro (lw6sys_context_t * sys_context,
+			   const _lw6ker_node_array_t * node_array,
 			   u_int64_t node_id)
 {
   const _lw6ker_node_t *ret = NULL;
@@ -127,7 +133,8 @@ _lw6ker_node_array_get_ro (const _lw6ker_node_array_t * node_array,
 }
 
 int
-_lw6ker_node_array_enable (sys_context, _lw6ker_node_array_t * node_array,
+_lw6ker_node_array_enable (lw6sys_context_t * sys_context,
+			   _lw6ker_node_array_t * node_array,
 			   u_int64_t node_id)
 {
   int ret = 0;
@@ -156,7 +163,8 @@ _lw6ker_node_array_enable (sys_context, _lw6ker_node_array_t * node_array,
 }
 
 int
-_lw6ker_node_array_disable (sys_context, _lw6ker_node_array_t * node_array,
+_lw6ker_node_array_disable (lw6sys_context_t * sys_context,
+			    _lw6ker_node_array_t * node_array,
 			    u_int64_t node_id)
 {
   int ret = 0;
@@ -181,7 +189,7 @@ _lw6ker_node_array_disable (sys_context, _lw6ker_node_array_t * node_array,
 }
 
 int
-_lw6ker_node_array_sanity_check (sys_context,
+_lw6ker_node_array_sanity_check (lw6sys_context_t * sys_context,
 				 const _lw6ker_node_array_t * node_array,
 				 const lw6map_rules_t * rules)
 {

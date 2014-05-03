@@ -30,7 +30,8 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_cursor_array_init (sys_context, _lw6ker_cursor_array_t * cursor_array)
+_lw6ker_cursor_array_init (lw6sys_context_t * sys_context,
+			   _lw6ker_cursor_array_t * cursor_array)
 {
   int i = 0;
 
@@ -42,7 +43,7 @@ _lw6ker_cursor_array_init (sys_context, _lw6ker_cursor_array_t * cursor_array)
 }
 
 void
-_lw6ker_cursor_array_update_checksum (sys_context,
+_lw6ker_cursor_array_update_checksum (lw6sys_context_t * sys_context,
 				      const _lw6ker_cursor_array_t *
 				      cursor_array, u_int32_t * checksum)
 {
@@ -58,7 +59,7 @@ _lw6ker_cursor_array_update_checksum (sys_context,
 }
 
 lw6ker_cursor_t *
-_lw6ker_cursor_array_find_free (sys_context,
+_lw6ker_cursor_array_find_free (lw6sys_context_t * sys_context,
 				_lw6ker_cursor_array_t * cursor_array)
 {
   lw6ker_cursor_t *ret = NULL;
@@ -82,7 +83,7 @@ _lw6ker_cursor_array_find_free (sys_context,
 }
 
 int
-_lw6ker_cursor_array_is_color_owned_by (sys_context,
+_lw6ker_cursor_array_is_color_owned_by (lw6sys_context_t * sys_context,
 					const _lw6ker_cursor_array_t *
 					cursor_array, u_int64_t node_id,
 					int team_color)
@@ -108,7 +109,7 @@ _lw6ker_cursor_array_is_color_owned_by (sys_context,
 }
 
 void
-_lw6ker_cursor_array_reset (sys_context,
+_lw6ker_cursor_array_reset (lw6sys_context_t * sys_context,
 			    _lw6ker_cursor_array_t * cursor_array)
 {
   int i;
@@ -121,8 +122,9 @@ _lw6ker_cursor_array_reset (sys_context,
 }
 
 lw6ker_cursor_t *
-_lw6ker_cursor_array_get_rw (sys_context, _lw6ker_cursor_array_t *
-			     cursor_array, u_int16_t cursor_id)
+_lw6ker_cursor_array_get_rw (lw6sys_context_t * sys_context,
+			     _lw6ker_cursor_array_t * cursor_array,
+			     u_int16_t cursor_id)
 {
   lw6ker_cursor_t *ret = NULL;
   int i;
@@ -139,8 +141,9 @@ _lw6ker_cursor_array_get_rw (sys_context, _lw6ker_cursor_array_t *
 }
 
 const lw6ker_cursor_t *
-_lw6ker_cursor_array_get_ro (const _lw6ker_cursor_array_t *
-			     cursor_array, u_int16_t cursor_id)
+_lw6ker_cursor_array_get_ro (lw6sys_context_t * sys_context,
+			     const _lw6ker_cursor_array_t * cursor_array,
+			     u_int16_t cursor_id)
 {
   const lw6ker_cursor_t *ret = NULL;
   int i;
@@ -157,7 +160,7 @@ _lw6ker_cursor_array_get_ro (const _lw6ker_cursor_array_t *
 }
 
 int
-_lw6ker_cursor_array_enable (sys_context,
+_lw6ker_cursor_array_enable (lw6sys_context_t * sys_context,
 			     _lw6ker_cursor_array_t * cursor_array,
 			     u_int64_t node_id, u_int16_t cursor_id,
 			     int team_color, int32_t x, int32_t y)
@@ -188,7 +191,7 @@ _lw6ker_cursor_array_enable (sys_context,
 }
 
 int
-_lw6ker_cursor_array_disable (sys_context,
+_lw6ker_cursor_array_disable (lw6sys_context_t * sys_context,
 			      _lw6ker_cursor_array_t * cursor_array,
 			      u_int64_t node_id, u_int16_t cursor_id)
 {
@@ -216,7 +219,7 @@ _lw6ker_cursor_array_disable (sys_context,
 }
 
 int
-_lw6ker_cursor_array_update (sys_context,
+_lw6ker_cursor_array_update (lw6sys_context_t * sys_context,
 			     _lw6ker_cursor_array_t * cursor_array,
 			     u_int64_t node_id, u_int16_t cursor_id,
 			     int32_t x, int32_t y, int fire, int fire2,
@@ -250,7 +253,8 @@ _lw6ker_cursor_array_update (sys_context,
 }
 
 int
-_lw6ker_cursor_array_sanity_check (sys_context, const _lw6ker_cursor_array_t *
+_lw6ker_cursor_array_sanity_check (lw6sys_context_t * sys_context,
+				   const _lw6ker_cursor_array_t *
 				   cursor_array, const lw6sys_whd_t * shape,
 				   const lw6map_rules_t * rules)
 {

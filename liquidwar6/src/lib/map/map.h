@@ -1487,11 +1487,9 @@ lw6map_team_color_is_valid (int team_color)
 }
 
 /* map-coords.c */
-extern void lw6map_coords_fix_xy (lw6sys_context_t * sys_context,
-				  const lw6map_rules_t * rules,
+extern void lw6map_coords_fix_xy (const lw6map_rules_t * rules,
 				  const lw6sys_whd_t * shape, int *x, int *y);
-extern void lw6map_coords_fix_z (lw6sys_context_t * sys_context,
-				 const lw6map_rules_t * rules,
+extern void lw6map_coords_fix_z (const lw6map_rules_t * rules,
 				 const lw6sys_whd_t * shape, int *z);
 
 /* map-cursortexture.c */
