@@ -160,7 +160,7 @@ lw6bot_next_move (lw6bot_backend_t * backend, int *x, int *y)
 	case LW6PIL_DIRTY_READ_ALWAYS:
 	  if (backend->seed.pilot)
 	    {
-	      data.game_state = lw6pil_pilot_dirty_read (backend->seed.pilot);
+	      data.game_state = lw6pil_pilot_dirty_read (sys_context, backend->seed.pilot);
 	    }
 	  else
 	    {

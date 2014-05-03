@@ -28,7 +28,7 @@
 #include "pil-internal.h"
 
 int
-_lw6pil_worker_init (lw6pil_worker_t * worker, lw6ker_game_state_t * game_state, int verified, lw6sys_progress_t * progress)
+_lw6pil_worker_init (lw6sys_context_t * sys_context, lw6pil_worker_t * worker, lw6ker_game_state_t * game_state, int verified, lw6sys_progress_t * progress)
 {
   int ret = 0;
 
@@ -44,17 +44,17 @@ _lw6pil_worker_init (lw6pil_worker_t * worker, lw6ker_game_state_t * game_state,
       worker->commands = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6pil_command_free);
       if (worker->commands)
 	{
-	  worker->commands_spinlock = lw6sys_spinlock_create ();
+	  worker->commands_spinlock = lw6sys_spinlock_create (sys_context);
 	  if (worker->commands_spinlock)
 	    {
-	      worker->compute_mutex = lw6sys_mutex_create ();
+	      worker->compute_mutex = lw6sys_mutex_create (sys_context);
 	      if (worker->compute_mutex)
 		{
-		  worker->global_mutex = lw6sys_mutex_create ();
+		  worker->global_mutex = lw6sys_mutex_create (sys_context);
 		  if (worker->global_mutex)
 		    {
 		      worker->compute_thread =
-			lw6sys_thread_create ((lw6sys_thread_callback_func_t)
+			lw6sys_thread_create (sys_context, (lw6sys_thread_callback_func_t)
 					      _lw6pil_compute_thread_func, (lw6sys_thread_callback_func_t) _lw6pil_compute_thread_join, (void *) worker);
 		      if (worker->compute_thread)
 			{
@@ -68,14 +68,14 @@ _lw6pil_worker_init (lw6pil_worker_t * worker, lw6ker_game_state_t * game_state,
 
   if (!ret)
     {
-      _lw6pil_worker_quit (worker);
+      _lw6pil_worker_quit (sys_context, worker);
     }
 
   return ret;
 }
 
 int
-_lw6pil_worker_quit (lw6pil_worker_t * worker)
+_lw6pil_worker_quit (lw6sys_context_t * sys_context, lw6pil_worker_t * worker)
 {
   int ret = 0;
 
@@ -104,7 +104,7 @@ _lw6pil_worker_quit (lw6pil_worker_t * worker)
     {
       lw6ker_game_state_free (sys_context, worker->game_state);
     }
-  lw6pil_dump_clear (&(worker->dump));
+  lw6pil_dump_clear (sys_context, &(worker->dump));
   memset (worker, 0, sizeof (lw6pil_worker_t));
 
   ret = 1;

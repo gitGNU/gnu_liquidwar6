@@ -30,6 +30,7 @@
 /**
  * lw6pil_coords_fix
  *
+ * @sys_context: global system context
  * @rules: the set of rules to use (defines polarity)
  * @shape: the shape of the map (logical part)
  * @x: the x coord to fix
@@ -43,7 +44,7 @@
  * Return value: none.
  */
 void
-lw6pil_coords_fix (lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x, float *y, float *z)
+lw6pil_coords_fix (lw6sys_context_t * sys_context, lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x, float *y, float *z)
 {
   float w;
   float h;
@@ -176,6 +177,7 @@ lw6pil_coords_fix (lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x, float
 /**
  * lw6pil_coords_fix_x10
  *
+ * @sys_context: global system context
  * @rules: the set of rules to use (defines polarity)
  * @shape: the shape of the map (logical part)
  * @x: the x coord to fix
@@ -189,7 +191,7 @@ lw6pil_coords_fix (lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x, float
  * Return value: none.
  */
 void
-lw6pil_coords_fix_x10 (lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x, float *y, float *z)
+lw6pil_coords_fix_x10 (lw6sys_context_t * sys_context, lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x, float *y, float *z)
 {
   lw6sys_whd_t shape_x10;
 
@@ -198,5 +200,5 @@ lw6pil_coords_fix_x10 (lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x, f
   shape_x10.w *= 10;
   shape_x10.h *= 10;
 
-  lw6pil_coords_fix (rules, &shape_x10, x, y, z);
+  lw6pil_coords_fix (sys_context, rules, &shape_x10, x, y, z);
 }

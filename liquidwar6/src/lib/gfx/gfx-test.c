@@ -400,7 +400,7 @@ _test_hud ()
 		game_state = lw6ker_game_state_new (sys_context, game_struct, NULL);
 		if (game_state)
 		  {
-		    lw6pil_local_cursors_reset (&local_cursors);
+		    lw6pil_local_cursors_reset (sys_context, &local_cursors);
 		    node_id = lw6sys_generate_id_64 ();
 		    lw6ker_game_state_register_node (sys_context, game_state, node_id);
 		    lw6ker_game_state_add_cursor (sys_context, game_state, node_id, lw6sys_generate_id_16 (), LW6MAP_TEAM_COLOR_RED);
@@ -755,7 +755,7 @@ lw6gfx_test_register (int mode)
       lw6cfg_test_register (mode);
       lw6map_test_register (sys_context, mode);
       lw6ker_test_register (sys_context, mode);
-      lw6pil_test_register (mode);
+      lw6pil_test_register (sys_context, mode);
       lw6gui_test_register (mode);
       lw6vox_test_register (mode);
       lw6cns_test_register (mode);

@@ -30,6 +30,7 @@
 /**
  * lw6pil_nopilot_poll_dump
  *
+ * @sys_context: global system context
  * @dump: will contain the dump information if needed, can be NULL
  * @command_text: the command received from the network.
  * @timestamp: timestamp, used to initialize the pilot
@@ -43,7 +44,7 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6pil_nopilot_poll_dump (lw6pil_dump_t * dump, const char *command_text, int64_t timestamp)
+lw6pil_nopilot_poll_dump (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, const char *command_text, int64_t timestamp)
 {
   int ret = 0;
 
@@ -51,9 +52,9 @@ lw6pil_nopilot_poll_dump (lw6pil_dump_t * dump, const char *command_text, int64_
    * Yes, we need to set dump to zero, else we might return
    * false positives...
    */
-  lw6pil_dump_zero (dump);
+  lw6pil_dump_zero (sys_context, dump);
 
-  ret = lw6pil_command_execute_text (dump, timestamp, NULL, command_text, _LW6PIL_MIN_SEQ_0);
+  ret = lw6pil_command_execute_text (sys_context, dump, timestamp, NULL, command_text, _LW6PIL_MIN_SEQ_0);
 
   return ret;
 }

@@ -30,6 +30,8 @@
 /**
  * lw6pil_seq_random_0
  *
+ * @sys_context: global system context
+ *
  * Gets a pseudo-random start seq, why do we use this? Just to make
  * sure even in non-network situations, seq are always very high and
  * random, this way this is one less bug to check in networked context.
@@ -37,7 +39,7 @@
  * Return value: random integer value, always greater than INT_MAX
  */
 int64_t
-lw6pil_seq_random_0 ()
+lw6pil_seq_random_0 (lw6sys_context_t * sys_context)
 {
   int64_t ret = 0L;
 

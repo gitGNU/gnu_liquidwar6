@@ -1034,7 +1034,7 @@ print_pilot (SCM pilot, SCM port, scm_print_state * pstate)
   lw6pil_pilot_t *c_pilot = lw6_scm_to_pilot (pilot);
   char *repr = NULL;
 
-  repr = lw6pil_pilot_repr (c_pilot);
+  repr = lw6pil_pilot_repr (sys_context, c_pilot);
 
   scm_puts ("#<" SMOB_TYPE_PILOT " ", port);
   if (repr)
@@ -1072,7 +1072,7 @@ lw6_make_scm_pilot (lw6pil_pilot_t * c_pilot)
       id = smob_id (SMOB_TYPE_PILOT, c_pilot->id);
       if (id)
 	{
-	  repr = lw6pil_pilot_repr (c_pilot);
+	  repr = lw6pil_pilot_repr (sys_context, c_pilot);
 	  if (repr)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating pilot smob \"%s\""), repr);
@@ -1129,14 +1129,14 @@ lw6_free_pilot_smob (lw6_pilot_smob_t * pilot_smob)
 {
   char *repr = NULL;
 
-  repr = lw6pil_pilot_repr (pilot_smob->c_pilot);
+  repr = lw6pil_pilot_repr (sys_context, pilot_smob->c_pilot);
   if (repr)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing pilot smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
-  lw6pil_pilot_free (pilot_smob->c_pilot);
+  lw6pil_pilot_free (sys_context, pilot_smob->c_pilot);
   LW6SYS_FREE (sys_context, pilot_smob);
 }
 

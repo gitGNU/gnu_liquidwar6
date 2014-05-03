@@ -140,7 +140,7 @@ poll (_lw6dsp_data_t * data)
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("pilot defined but not game_state"));
 	  ret = 0;
 	}
-      if (!lw6pil_pilot_can_sync (data->param.game_state, data->param.pilot))
+      if (!lw6pil_pilot_can_sync (sys_context, data->param.game_state, data->param.pilot))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("game_state state can't be synced from pilot"));
 	  ret = 0;
@@ -191,17 +191,17 @@ poll (_lw6dsp_data_t * data)
 	{
 	case LW6PIL_DIRTY_READ_NEVER:
 	case LW6PIL_DIRTY_READ_SYNC_ONLY:
-	  lw6pil_pilot_sync_from_draft (game_state, data->param.pilot, data->param.misc.dirty_read);
+	  lw6pil_pilot_sync_from_draft (sys_context, game_state, data->param.pilot, data->param.misc.dirty_read);
 	  /*
 	   * Here we don't sync completely correctly, the local_cursors
 	   * might contain inconsistent data, but at least it won't
 	   * be modified *while* we are reading it.
 	   */
-	  data->local_cursors = (*lw6pil_pilot_get_local_cursors (data->param.pilot));
+	  data->local_cursors = (*lw6pil_pilot_get_local_cursors (sys_context, data->param.pilot));
 	  break;
 	case LW6PIL_DIRTY_READ_ALWAYS:
-	  game_state = lw6pil_pilot_dirty_read (data->param.pilot);
-	  local_cursors = lw6pil_pilot_get_local_cursors (data->param.pilot);
+	  game_state = lw6pil_pilot_dirty_read (sys_context, data->param.pilot);
+	  local_cursors = lw6pil_pilot_get_local_cursors (sys_context, data->param.pilot);
 	  break;
 	default:
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad value %d for dirty_read"), data->param.misc.dirty_read);

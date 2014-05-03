@@ -56,7 +56,8 @@ _get_cursor (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id, int cr
 /**
  * lw6pil_local_cursors_reset
  *
- * @lw6pil_local_cursors_t: the structure to reset
+ * @sys_context: global system context
+ * @local_cursors: the structure to reset
  *
  * Resets a local cursors struct. Note that this need not be called very often,
  * in fact the local cursors can cope with "dead" cursors easily. In practise,
@@ -65,7 +66,7 @@ _get_cursor (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id, int cr
  * Return value: none.
  */
 void
-lw6pil_local_cursors_reset (lw6pil_local_cursors_t * local_cursors)
+lw6pil_local_cursors_reset (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors)
 {
   memset (local_cursors, 0, sizeof (lw6pil_local_cursors_t));
 }
@@ -73,7 +74,8 @@ lw6pil_local_cursors_reset (lw6pil_local_cursors_t * local_cursors)
 /**
  * lw6pil_local_cursors_get_cursor
  *
- * @lw6pil_local_cursors_t: the structure to query
+ * @sys_context: global system context
+ * @local_cursors: the structure to query
  * @cursor_id: the id of the cursor to query
  *
  * Returns a pointer on the cursor with the given id.
@@ -82,7 +84,7 @@ lw6pil_local_cursors_reset (lw6pil_local_cursors_t * local_cursors)
  * does not exist.
  */
 lw6pil_local_cursor_t *
-lw6pil_local_cursors_get_cursor (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id)
+lw6pil_local_cursors_get_cursor (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id)
 {
   return _get_cursor (local_cursors, cursor_id, 0);
 }
@@ -90,7 +92,7 @@ lw6pil_local_cursors_get_cursor (lw6pil_local_cursors_t * local_cursors, u_int16
 /**
  * lw6pil_local_cursors_get_info
  *
- * @lw6pil_local_cursors_t: the structure to query
+ * @local_cursors: the structure to query
  * @x: a pointer to the x position, may be NULL
  * @y: a pointer to the y position, may be NULL
  * @mouse_controlled: a pointer to the mouse_controlled flag, may be NULL
@@ -101,7 +103,8 @@ lw6pil_local_cursors_get_cursor (lw6pil_local_cursors_t * local_cursors, u_int16
  * Return value: 1 on success (cursor exists), 0 on failure (no such cursor).
  */
 int
-lw6pil_local_cursors_get_info (lw6pil_local_cursors_t * local_cursors, int *x, int *y, int *mouse_controlled, u_int16_t cursor_id)
+lw6pil_local_cursors_get_info (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, int *x, int *y, int *mouse_controlled,
+			       u_int16_t cursor_id)
 {
   int ret = 0;
   lw6pil_local_cursor_t *cursor;
@@ -130,7 +133,8 @@ lw6pil_local_cursors_get_info (lw6pil_local_cursors_t * local_cursors, int *x, i
 /**
  * lw6pil_local_cursors_set_xy
  *
- * @lw6pil_local_cursors_t: the structure to modify
+ * @sys_context: global system context
+ * @local_cursors: the structure to modify
  * @cursor_id: the id of the cursor to modify
  * @x: the x position
  * @y: the y position
@@ -141,7 +145,7 @@ lw6pil_local_cursors_get_info (lw6pil_local_cursors_t * local_cursors, int *x, i
  * Return value: 1 on success (cursor exists), 0 on failure (no such cursor).
  */
 int
-lw6pil_local_cursors_set_xy (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id, int x, int y)
+lw6pil_local_cursors_set_xy (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id, int x, int y)
 {
   int ret = 0;
   lw6pil_local_cursor_t *cursor;
@@ -161,7 +165,8 @@ lw6pil_local_cursors_set_xy (lw6pil_local_cursors_t * local_cursors, u_int16_t c
 /**
  * lw6pil_local_cursors_set_mouse_controlled
  *
- * @lw6pil_local_cursors_t: the structure to modify
+ * @sys_context: global system context
+ * @local_cursors: the structure to modify
  * @cursor_id: the id of the cursor to modify
  * @mouse_controlled: the mouse_controlled attribute
  *
@@ -172,7 +177,7 @@ lw6pil_local_cursors_set_xy (lw6pil_local_cursors_t * local_cursors, u_int16_t c
  * Return value: 1 on success (cursor exists), 0 on failure (no such cursor).
  */
 int
-lw6pil_local_cursors_set_mouse_controlled (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id, int mouse_controlled)
+lw6pil_local_cursors_set_mouse_controlled (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id, int mouse_controlled)
 {
   int ret = 0;
   int i;
@@ -199,7 +204,8 @@ lw6pil_local_cursors_set_mouse_controlled (lw6pil_local_cursors_t * local_cursor
 /**
  * lw6pil_local_cursors_get_main_info
  *
- * @lw6pil_local_cursors_t: the structure to query
+ * @sys_context: global system context
+ * @local_cursors: the structure to query
  * @cursor_id: the id of the main cursor, may be NULL
  * @x: a pointer to the x position, may be NULL
  * @y: a pointer to the y position, may be NULL
@@ -210,7 +216,8 @@ lw6pil_local_cursors_set_mouse_controlled (lw6pil_local_cursors_t * local_cursor
  * Return value: 1 on success (cursor exists), 0 on failure (no such cursor).
  */
 int
-lw6pil_local_cursors_get_main_info (lw6pil_local_cursors_t * local_cursors, u_int16_t * cursor_id, int *x, int *y, int *mouse_controlled)
+lw6pil_local_cursors_get_main_info (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, u_int16_t * cursor_id, int *x, int *y,
+				    int *mouse_controlled)
 {
   int ret = 0;
   int i = local_cursors->main_i;
@@ -242,7 +249,8 @@ lw6pil_local_cursors_get_main_info (lw6pil_local_cursors_t * local_cursors, u_in
 /**
  * lw6pil_local_cursors_set_main
  *
- * @lw6pil_local_cursors_t: the structure to modify
+ * @sys_context: global system context
+ * @local_cursors: the structure to modify
  * @cursor_id: the id of the cursor to be labelled as main cursor
  *
  * Sets the main cursor attribute, the main cursor is later used,
@@ -252,7 +260,7 @@ lw6pil_local_cursors_get_main_info (lw6pil_local_cursors_t * local_cursors, u_in
  * Return value: 1 on success (cursor exists), 0 on failure (no such cursor).
  */
 int
-lw6pil_local_cursors_set_main (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id)
+lw6pil_local_cursors_set_main (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id)
 {
   int ret = 0;
   int i;

@@ -54,7 +54,7 @@ _register_and_run_tests (int argc, const char **argv, int mode)
 	    && lw6glb_test_register (sys_context, mode)
 	    && lw6map_test_register (sys_context, mode)
 	    && lw6ker_test_register (sys_context, mode)
-	    && lw6pil_test_register (mode) && DYN_TEST_REGISTER (mode)
+	    && lw6pil_test_register (sys_context, mode) && DYN_TEST_REGISTER (mode)
 	    && lw6bot_test_register (mode) && lw6gen_test_register (mode)
 	    && lw6sim_test_register (mode) && lw6cns_test_register (mode)
 	    && lw6hlp_test_register (mode) && lw6cfg_test_register (mode)
@@ -187,7 +187,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	      float bench_result = 0.0f;
 
 	      lw6sys_log_clear (sys_context, NULL);
-	      ret = lw6pil_bench (argc, argv, &bench_result, NULL);
+	      ret = lw6pil_bench (sys_context, argc, argv, &bench_result, NULL);
 	      lw6hlp_print_bench (bench_result, stdout);
 
 	      (*run_game) = 0;

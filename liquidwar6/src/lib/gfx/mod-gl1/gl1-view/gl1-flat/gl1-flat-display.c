@@ -464,7 +464,7 @@ _display_cursors (mod_gl1_utils_context_t * utils_context,
       lw6ker_game_state_get_cursor_by_index (sys_context, game_state, &cursor, i);
       if (cursor.enabled)
 	{
-	  local_cursor = lw6pil_local_cursors_get_cursor (local_cursors, cursor.cursor_id);
+	  local_cursor = lw6pil_local_cursors_get_cursor (sys_context, local_cursors, cursor.cursor_id);
 	  blink_state =
 	    lw6sys_math_blink (sys_context, _lw6gfx_sdl_timer_get_uptime (&(utils_context->sdl_context)), flat_context->const_data.cursor_blink_period);
 	  _display_cursor (utils_context, flat_context, look, game_state, local_cursor, i, cursor.pos.x, cursor.pos.y, blink_state);

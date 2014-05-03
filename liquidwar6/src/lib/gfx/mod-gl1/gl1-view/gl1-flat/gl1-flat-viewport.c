@@ -92,7 +92,7 @@ _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
 
   if (local_cursors)
     {
-      if (!lw6pil_local_cursors_get_main_info (local_cursors, NULL, &main_cursor_x, &main_cursor_y, &mouse_controlled))
+      if (!lw6pil_local_cursors_get_main_info (sys_context, local_cursors, NULL, &main_cursor_x, &main_cursor_y, &mouse_controlled))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no main cursor"));
 	}
@@ -104,7 +104,7 @@ _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
   /*
    * Normally fix_10 is called by calling, but just in case.
    */
-  lw6pil_coords_fix_x10 (&(game_state->game_struct->rules), &shape, &x, &y, &z);
+  lw6pil_coords_fix_x10 (sys_context, &(game_state->game_struct->rules), &shape, &x, &y, &z);
   main_cursor_x = x;
   main_cursor_y = y;
 

@@ -220,6 +220,7 @@ static const char *_commands[LW6PIL_SUITE_NB_NODES][LW6PIL_SUITE_NB_STAGES][_MAX
 /**
  * lw6pil_suite_init
  *
+ * @sys_context: global system context
  * @dump: dump to use as a base to init the suite (out param)
  * @timestamp: timestamp used for pilot creation (should be "now")
  *
@@ -230,11 +231,11 @@ static const char *_commands[LW6PIL_SUITE_NB_NODES][LW6PIL_SUITE_NB_STAGES][_MAX
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6pil_suite_init (lw6pil_dump_t * dump, int64_t timestamp)
+lw6pil_suite_init (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, int64_t timestamp)
 {
   int ret = 0;
 
-  lw6pil_dump_zero (dump);
+  lw6pil_dump_zero (sys_context, dump);
 
   dump->level = lw6map_builtin_scale (sys_context, _INIT_SCALE_PERCENT);
   if (dump->level)
@@ -245,7 +246,7 @@ lw6pil_suite_init (lw6pil_dump_t * dump, int64_t timestamp)
 	  dump->game_state = lw6ker_game_state_new (sys_context, dump->game_struct, NULL);
 	  if (dump->game_state)
 	    {
-	      dump->pilot = lw6pil_pilot_new (dump->game_state, _SEQ_0, timestamp, NULL);
+	      dump->pilot = lw6pil_pilot_new (sys_context, dump->game_state, _SEQ_0, timestamp, NULL);
 	      if (dump->pilot)
 		{
 		  ret = 1;
@@ -256,7 +257,7 @@ lw6pil_suite_init (lw6pil_dump_t * dump, int64_t timestamp)
 
   if (!ret)
     {
-      lw6pil_dump_clear (dump);
+      lw6pil_dump_clear (sys_context, dump);
     }
   return ret;
 }
@@ -264,12 +265,14 @@ lw6pil_suite_init (lw6pil_dump_t * dump, int64_t timestamp)
 /**
  * lw6pil_suite_get_seq_0
  *
+ * @sys_context: global system context
+ *
  * Get the base seq_0 for the reference test suite.
  *
  * Return value: 64-bit integer.
  */
 int64_t
-lw6pil_suite_get_seq_0 ()
+lw6pil_suite_get_seq_0 (lw6sys_context_t * sys_context)
 {
   return _SEQ_0;
 }
@@ -277,6 +280,7 @@ lw6pil_suite_get_seq_0 ()
 /**
  * lw6pil_suite_get_node_id
  *
+ * @sys_context: global system context
  * @node_index: index of the node we want informations about
  *
  * Get the node_id associated to an index, typically a 64-bit
@@ -286,7 +290,7 @@ lw6pil_suite_get_seq_0 ()
  * Return value: the node id, as an unsigned 64-bit integer
  */
 u_int64_t
-lw6pil_suite_get_node_id (int node_index)
+lw6pil_suite_get_node_id (lw6sys_context_t * sys_context, int node_index)
 {
   u_int64_t ret = 0LL;
 
@@ -311,6 +315,7 @@ lw6pil_suite_get_node_id (int node_index)
 /**
  * lw6pil_suite_get_command_by_node_index
  *
+ * @sys_context: global system context
  * @node_index: index of the node (not its id)
  * @stage: major stage of the test suite
  * @step: minor step of the test suite
@@ -320,7 +325,7 @@ lw6pil_suite_get_node_id (int node_index)
  * Return value: static string, must not be freed.
  */
 const char *
-lw6pil_suite_get_command_by_node_index (int node_index, int stage, int step)
+lw6pil_suite_get_command_by_node_index (lw6sys_context_t * sys_context, int node_index, int stage, int step)
 {
   const char *ret = NULL;
   const char **commands = NULL;
@@ -343,7 +348,7 @@ lw6pil_suite_get_command_by_node_index (int node_index, int stage, int step)
   return ret;
 }
 
-int
+static int
 _command_sort (const void *arg_a, const void *arg_b)
 {
   int ret = 0;
@@ -358,6 +363,7 @@ _command_sort (const void *arg_a, const void *arg_b)
 /**
  * lw6pil_suite_get_command_by_stage
  *
+ * @sys_context: global system context
  * @stage: major stage of the test suite
  * @step: minor step of the test suite
  *
@@ -367,7 +373,7 @@ _command_sort (const void *arg_a, const void *arg_b)
  * Return value: static string, must not be freed.
  */
 const char *
-lw6pil_suite_get_command_by_stage (int stage, int step)
+lw6pil_suite_get_command_by_stage (lw6sys_context_t * sys_context, int stage, int step)
 {
   const char *ret = NULL;
   const char **commands = NULL;
@@ -390,7 +396,7 @@ lw6pil_suite_get_command_by_stage (int stage, int step)
 	}
       if (step < nb_commands)
 	{
-	  sorted_commands = (const char **) LW6SYS_MALLOC ((nb_commands + 1) * sizeof (char *));
+	  sorted_commands = (const char **) LW6SYS_MALLOC (sys_context, (nb_commands + 1) * sizeof (char *));
 	  if (sorted_commands)
 	    {
 	      j = 0;
@@ -416,7 +422,7 @@ lw6pil_suite_get_command_by_stage (int stage, int step)
 		  qsort (sorted_commands, nb_commands, sizeof (char *), _command_sort);
 		}
 	      ret = sorted_commands[step];
-	      LW6SYS_FREE (sorted_commands);
+	      LW6SYS_FREE (sys_context, sorted_commands);
 	    }
 	}
     }
@@ -427,6 +433,7 @@ lw6pil_suite_get_command_by_stage (int stage, int step)
 /**
  * lw6pil_suite_get_command_by_step
  *
+ * @sys_context: global system context
  * @step: minor step of the test suite
  *
  * Get the reference test suite message by step.
@@ -435,7 +442,7 @@ lw6pil_suite_get_command_by_stage (int stage, int step)
  * Return value: static string, must not be freed.
  */
 const char *
-lw6pil_suite_get_command_by_step (int step)
+lw6pil_suite_get_command_by_step (lw6sys_context_t * sys_context, int step)
 {
   const char *ret = NULL;
   const char **commands = NULL;
@@ -460,7 +467,7 @@ lw6pil_suite_get_command_by_step (int step)
     }
   if (step < nb_commands)
     {
-      sorted_commands = (const char **) LW6SYS_MALLOC ((nb_commands + 1) * sizeof (char *));
+      sorted_commands = (const char **) LW6SYS_MALLOC (sys_context, (nb_commands + 1) * sizeof (char *));
       if (sorted_commands)
 	{
 	  j = 0;
@@ -489,7 +496,7 @@ lw6pil_suite_get_command_by_step (int step)
 	      qsort (sorted_commands, nb_commands, sizeof (char *), _command_sort);
 	    }
 	  ret = sorted_commands[step];
-	  LW6SYS_FREE (sorted_commands);
+	  LW6SYS_FREE (sys_context, sorted_commands);
 	}
     }
 
@@ -499,6 +506,7 @@ lw6pil_suite_get_command_by_step (int step)
 /**
  * lw6pil_suite_get_checkpoint
  *
+ * @sys_context: global system context
  * @game_state_checksum: expected checksum for the given checkpoint (out param)
  * @seq: expected seq for the given checkpoint (out param)
  * @round: expected round for the given checkpoint (out param)
@@ -511,7 +519,7 @@ lw6pil_suite_get_command_by_step (int step)
  * Return value: none, everything in out params
  */
 void
-lw6pil_suite_get_checkpoint (u_int32_t * game_state_checksum, int64_t * seq, int *round, int stage)
+lw6pil_suite_get_checkpoint (lw6sys_context_t * sys_context, u_int32_t * game_state_checksum, int64_t * seq, int *round, int stage)
 {
   switch (stage)
     {

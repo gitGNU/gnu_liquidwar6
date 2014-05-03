@@ -41,7 +41,7 @@ is_spc (char c)
 }
 
 static void
-command_normalize (char *command_text)
+_command_normalize (lw6sys_context_t * sys_context, char *command_text)
 {
   char *pos_src = NULL;
   char *pos_dst = NULL;
@@ -71,7 +71,7 @@ command_normalize (char *command_text)
 }
 
 static int
-command_add_parse (lw6pil_command_t * command, char *command_args)
+_command_add_parse (lw6sys_context_t * sys_context, lw6pil_command_t * command, char *command_args)
 {
   int ret = 0;
   char *pos;
@@ -87,11 +87,11 @@ command_add_parse (lw6pil_command_t * command, char *command_args)
     {
       (*seek) = '\0';
       seek++;
-      command->args.add.cursor_id = lw6sys_id_atol (pos);
+      command->args.add.cursor_id = lw6sys_id_atol (sys_context, pos);
       pos = seek;
       if (lw6sys_check_id_16 (sys_context, command->args.add.cursor_id))
 	{
-	  command->args.add.team_color = lw6map_team_color_key_to_index (pos);
+	  command->args.add.team_color = lw6map_team_color_key_to_index (sys_context, pos);
 	  if (command->args.add.team_color >= 0 && command->args.add.team_color < LW6MAP_MAX_NB_TEAMS)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
@@ -107,7 +107,7 @@ command_add_parse (lw6pil_command_t * command, char *command_args)
 }
 
 static int
-command_remove_parse (lw6pil_command_t * command, char *command_args)
+_command_remove_parse (lw6sys_context_t * sys_context, lw6pil_command_t * command, char *command_args)
 {
   int ret = 0;
 
@@ -122,7 +122,7 @@ command_remove_parse (lw6pil_command_t * command, char *command_args)
 }
 
 static int
-command_set_parse (lw6pil_command_t * command, char *command_args)
+_command_set_parse (lw6sys_context_t * sys_context, lw6pil_command_t * command, char *command_args)
 {
   int ret = 0;
   char *pos;
@@ -138,7 +138,7 @@ command_set_parse (lw6pil_command_t * command, char *command_args)
     {
       (*seek) = '\0';
       seek++;
-      command->args.set.cursor_id = lw6sys_id_atol (pos);
+      command->args.set.cursor_id = lw6sys_id_atol (sys_context, pos);
       pos = seek;
       if (lw6sys_check_id_16 (sys_context, command->args.set.cursor_id))
 	{
@@ -150,7 +150,7 @@ command_set_parse (lw6pil_command_t * command, char *command_args)
 	    {
 	      (*seek) = '\0';
 	      seek++;
-	      command->args.set.x = lw6sys_atoi (pos);
+	      command->args.set.x = lw6sys_atoi (sys_context, pos);
 	      pos = seek;
 	      while (!is_spc (*seek))
 		{
@@ -159,7 +159,7 @@ command_set_parse (lw6pil_command_t * command, char *command_args)
 	      if (*seek)
 		{
 		  (*seek) = '\0';
-		  command->args.set.y = lw6sys_atoi (pos);
+		  command->args.set.y = lw6sys_atoi (sys_context, pos);
 		  seek++;
 		  pos = seek;
 		  while (!is_spc (*seek))
@@ -169,12 +169,12 @@ command_set_parse (lw6pil_command_t * command, char *command_args)
 		  if (*seek)
 		    {
 		      (*seek) = '\0';
-		      command->args.set.fire = lw6sys_atoi (pos);
+		      command->args.set.fire = lw6sys_atoi (sys_context, pos);
 		      if (command->args.set.fire == 0 || command->args.set.fire == 1)
 			{
 			  seek++;
 			  pos = seek;
-			  command->args.set.fire2 = lw6sys_atoi (pos);
+			  command->args.set.fire2 = lw6sys_atoi (sys_context, pos);
 			  if (command->args.set.fire2 == 0 || command->args.set.fire2 == 1)
 			    {
 			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
@@ -196,7 +196,7 @@ command_set_parse (lw6pil_command_t * command, char *command_args)
 }
 
 static int
-command_dump_parse (lw6pil_command_t * command, char *command_args)
+_command_dump_parse (lw6sys_context_t * sys_context, lw6pil_command_t * command, char *command_args)
 {
   int ret = 0;
   char *pos;
@@ -212,7 +212,7 @@ command_dump_parse (lw6pil_command_t * command, char *command_args)
     {
       (*seek) = '\0';
       seek++;
-      command->args.dump.level_hexa = lw6sys_str_copy (pos);
+      command->args.dump.level_hexa = lw6sys_str_copy (sys_context, pos);
       pos = seek;
 
       if (command->args.dump.level_hexa)
@@ -226,12 +226,12 @@ command_dump_parse (lw6pil_command_t * command, char *command_args)
 	    {
 	      (*seek) = '\0';
 	      seek++;
-	      command->args.dump.game_struct_hexa = lw6sys_str_copy (pos);
+	      command->args.dump.game_struct_hexa = lw6sys_str_copy (sys_context, pos);
 	      pos = seek;
 
 	      if (command->args.dump.game_struct_hexa)
 		{
-		  command->args.dump.game_state_hexa = lw6sys_str_copy (pos);
+		  command->args.dump.game_state_hexa = lw6sys_str_copy (sys_context, pos);
 		  if (command->args.dump.game_state_hexa)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("%s command parsed"), LW6PIL_COMMAND_TEXT_DUMP);
@@ -246,7 +246,7 @@ command_dump_parse (lw6pil_command_t * command, char *command_args)
 }
 
 static int
-command_parse (lw6pil_command_t * command, const char *command_text, int64_t seq_0, int round_0)
+_command_parse (lw6sys_context_t * sys_context, lw6pil_command_t * command, const char *command_text, int64_t seq_0, int round_0)
 {
   int ret = 0;
   char *pos;
@@ -256,7 +256,7 @@ command_parse (lw6pil_command_t * command, const char *command_text, int64_t seq
   tmp = lw6sys_str_copy (sys_context, command_text);
   if (tmp)
     {
-      command_normalize (tmp);
+      _command_normalize (sys_context, tmp);
       command->text = lw6sys_str_copy (sys_context, tmp);
       if (command->text)
 	{
@@ -270,7 +270,7 @@ command_parse (lw6pil_command_t * command, const char *command_text, int64_t seq
 	    {
 	      (*seek) = '\0';
 	      seek++;
-	      command->seq = lw6sys_atoll (pos);
+	      command->seq = lw6sys_atoll (sys_context, pos);
 	      if (command->seq >= _LW6PIL_MIN_SEQ_0 && command->seq >= seq_0)
 		{
 		  command->round = command->seq - seq_0 + round_0;
@@ -283,7 +283,7 @@ command_parse (lw6pil_command_t * command, const char *command_text, int64_t seq
 		    {
 		      (*seek) = '\0';
 		      seek++;
-		      command->node_id = lw6sys_id_atol (pos);
+		      command->node_id = lw6sys_id_atol (sys_context, pos);
 		      if (lw6sys_check_id_64 (sys_context, command->node_id))
 			{
 			  pos = seek;
@@ -295,25 +295,25 @@ command_parse (lw6pil_command_t * command, const char *command_text, int64_t seq
 			    {
 			      (*seek) = '\0';
 			      seek++;
-			      if (!strcmp (pos, LW6PIL_COMMAND_TEXT_ADD))
+			      if (lw6sys_str_is_same (sys_context, pos, LW6PIL_COMMAND_TEXT_ADD))
 				{
 				  command->code = LW6PIL_COMMAND_CODE_ADD;
-				  ret = command_add_parse (command, seek);
+				  ret = _command_add_parse (sys_context, command, seek);
 				}
-			      else if (!strcmp (pos, LW6PIL_COMMAND_TEXT_REMOVE))
+			      else if (lw6sys_str_is_same (sys_context, pos, LW6PIL_COMMAND_TEXT_REMOVE))
 				{
 				  command->code = LW6PIL_COMMAND_CODE_REMOVE;
-				  ret = command_remove_parse (command, seek);
+				  ret = _command_remove_parse (sys_context, command, seek);
 				}
-			      else if (!strcmp (pos, LW6PIL_COMMAND_TEXT_SET))
+			      else if (lw6sys_str_is_same (sys_context, pos, LW6PIL_COMMAND_TEXT_SET))
 				{
 				  command->code = LW6PIL_COMMAND_CODE_SET;
-				  ret = command_set_parse (command, seek);
+				  ret = _command_set_parse (sys_context, command, seek);
 				}
-			      else if (!strcmp (pos, LW6PIL_COMMAND_TEXT_DUMP))
+			      else if (lw6sys_str_is_same (sys_context, pos, LW6PIL_COMMAND_TEXT_DUMP))
 				{
 				  command->code = LW6PIL_COMMAND_CODE_DUMP;
-				  ret = command_dump_parse (command, seek);
+				  ret = _command_dump_parse (sys_context, command, seek);
 				}
 			      else
 				{
@@ -322,22 +322,22 @@ command_parse (lw6pil_command_t * command, const char *command_text, int64_t seq
 			    }
 			  else
 			    {
-			      if (!strcmp (pos, LW6PIL_COMMAND_TEXT_NOP))
+			      if (lw6sys_str_is_same (sys_context, pos, LW6PIL_COMMAND_TEXT_NOP))
 				{
 				  command->code = LW6PIL_COMMAND_CODE_NOP;
 				  ret = 1;
 				}
-			      else if (!strcmp (pos, LW6PIL_COMMAND_TEXT_REGISTER))
+			      else if (lw6sys_str_is_same (sys_context, pos, LW6PIL_COMMAND_TEXT_REGISTER))
 				{
 				  command->code = LW6PIL_COMMAND_CODE_REGISTER;
 				  ret = 1;
 				}
-			      else if (!strcmp (pos, LW6PIL_COMMAND_TEXT_UNREGISTER))
+			      else if (lw6sys_str_is_same (sys_context, pos, LW6PIL_COMMAND_TEXT_UNREGISTER))
 				{
 				  command->code = LW6PIL_COMMAND_CODE_UNREGISTER;
 				  ret = 1;
 				}
-			      else if (!strcmp (pos, LW6PIL_COMMAND_TEXT_SEED))
+			      else if (lw6sys_str_is_same (sys_context, pos, LW6PIL_COMMAND_TEXT_SEED))
 				{
 				  command->code = LW6PIL_COMMAND_CODE_SEED;
 				  ret = 1;
@@ -379,6 +379,7 @@ command_parse (lw6pil_command_t * command, const char *command_text, int64_t seq
 /**
  * lw6pil_command_new
  *
+ * @sys_context: global system context
  * @command_text: readable text of the command
  * @seq_0: sequence offset reference (to calculate difference between sequence and rounds)
  * @round_0: round offset reference (to calculate difference between sequence and rounds)
@@ -388,14 +389,14 @@ command_parse (lw6pil_command_t * command, const char *command_text, int64_t seq
  * Return value: newly allocated object
  */
 lw6pil_command_t *
-lw6pil_command_new (const char *command_text, int64_t seq_0, int round_0)
+lw6pil_command_new (lw6sys_context_t * sys_context, const char *command_text, int64_t seq_0, int round_0)
 {
   lw6pil_command_t *ret = NULL;
 
-  ret = (lw6pil_command_t *) LW6SYS_CALLOC (sizeof (lw6pil_command_t));
+  ret = (lw6pil_command_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6pil_command_t));
   if (ret)
     {
-      if (!command_parse (ret, command_text, seq_0, round_0))
+      if (!_command_parse (sys_context, ret, command_text, seq_0, round_0))
 	{
 	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
@@ -408,6 +409,7 @@ lw6pil_command_new (const char *command_text, int64_t seq_0, int round_0)
 /**
  * lw6pil_command_dup
  *
+ * @sys_context: global system context
  * @command: object to duplicate
  *
  * Creates a copy of a command struct.
@@ -415,11 +417,11 @@ lw6pil_command_new (const char *command_text, int64_t seq_0, int round_0)
  * Return value: newly allocated object.
  */
 lw6pil_command_t *
-lw6pil_command_dup (lw6pil_command_t * command)
+lw6pil_command_dup (lw6sys_context_t * sys_context, lw6pil_command_t * command)
 {
   lw6pil_command_t *ret = NULL;
 
-  ret = (lw6pil_command_t *) LW6SYS_CALLOC (sizeof (lw6pil_command_t));
+  ret = (lw6pil_command_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6pil_command_t));
   if (ret)
     {
       memcpy (ret, command, sizeof (lw6pil_command_t));
@@ -436,7 +438,7 @@ lw6pil_command_dup (lw6pil_command_t * command)
 	  ret->args.dump.game_state_hexa = lw6sys_str_copy (sys_context, command->args.dump.game_state_hexa);
 	  if ((!ret->args.dump.level_hexa) || (!ret->args.dump.game_struct_hexa) || (!ret->args.dump.game_state_hexa))
 	    {
-	      lw6pil_command_free (ret);
+	      lw6pil_command_free (sys_context, ret);
 	      ret = NULL;
 	    }
 	}
@@ -448,6 +450,7 @@ lw6pil_command_dup (lw6pil_command_t * command)
 /**
  * lw6pil_command_free
  *
+ * @sys_context: global system context
  * @command: command to free
  *
  * Frees a command struct, with all its members.
@@ -455,7 +458,7 @@ lw6pil_command_dup (lw6pil_command_t * command)
  * Return value: none.
  */
 void
-lw6pil_command_free (lw6pil_command_t * command)
+lw6pil_command_free (lw6sys_context_t * sys_context, lw6pil_command_t * command)
 {
   if (command)
     {
@@ -528,6 +531,7 @@ _lw6pil_command_sort_callback (const lw6sys_list_t ** list_a, const lw6sys_list_
 /**
  * lw6pil_command_repr
  *
+ * @sys_context: global system context
  * @command: command to represent
  *
  * Gives a readable representation of a command.
@@ -535,7 +539,7 @@ _lw6pil_command_sort_callback (const lw6sys_list_t ** list_a, const lw6sys_list_
  * Return value: dynamically allocated string.
  */
 char *
-lw6pil_command_repr (const lw6pil_command_t * command)
+lw6pil_command_repr (lw6sys_context_t * sys_context, const lw6pil_command_t * command)
 {
   char *ret = NULL;
 
@@ -601,7 +605,7 @@ lw6pil_command_repr (const lw6pil_command_t * command)
 			    (int) strlen (command->args.dump.game_struct_hexa), (int) strlen (command->args.dump.level_hexa));
       break;
     default:
-      ret = lw6sys_new_sprintf ("%s %s", LW6PIL_COMMAND_TEXT_INVALID, command->text);
+      ret = lw6sys_new_sprintf (sys_context, "%s %s", LW6PIL_COMMAND_TEXT_INVALID, command->text);
       break;
     }
 
@@ -611,6 +615,7 @@ lw6pil_command_repr (const lw6pil_command_t * command)
 /**
  * lw6pil_command_execute
  *
+ * @sys_context: global system context
  * @dump: pointer on dump structure (out param, can be NULL)
  * @timestamp: current timestamp (can be 0 if dump is NULL)
  * @game_state: game state to work on, can be NULL (usefull for DUMP)
@@ -624,7 +629,7 @@ lw6pil_command_repr (const lw6pil_command_t * command)
  * Return value: 1 if ok, 0 if failed.
  */
 int
-lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp, lw6ker_game_state_t * game_state, lw6pil_command_t * command)
+lw6pil_command_execute (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, int64_t timestamp, lw6ker_game_state_t * game_state, lw6pil_command_t * command)
 {
   int ret = 0;
   lw6ker_cursor_t cursor;
@@ -682,7 +687,7 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp, lw6ker_game_sta
        * Note that DUMP can arrive both in the case game_state is not NULL
        * and in the case it is NULL.
        */
-      ret = lw6pil_dump_command_execute (dump, timestamp, command, NULL);
+      ret = lw6pil_dump_command_execute (sys_context, dump, timestamp, command, NULL);
       break;
     case LW6PIL_COMMAND_CODE_SEED:
       /*
@@ -703,6 +708,7 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp, lw6ker_game_sta
 /**
  * lw6pil_command_execute_text
  *
+ * @sys_context: global system context
  * @dump: pointer on dump structure (out param, can be NULL)
  * @timestamp: current timestamp (can be 0 if dump is NULL)
  * @game_state: game state to work on, can be NULL (typically for DUMP)
@@ -717,16 +723,17 @@ lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp, lw6ker_game_sta
  * Return value: 1 if ok, 0 if failed.
  */
 int
-lw6pil_command_execute_text (lw6pil_dump_t * dump, int64_t timestamp, lw6ker_game_state_t * game_state, const char *command_text, int64_t seq_0)
+lw6pil_command_execute_text (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, int64_t timestamp, lw6ker_game_state_t * game_state,
+			     const char *command_text, int64_t seq_0)
 {
   int ret = 0;
   lw6pil_command_t *command = NULL;
 
-  command = lw6pil_command_new (command_text, seq_0, _LW6PIL_MIN_ROUND_0);
+  command = lw6pil_command_new (sys_context, command_text, seq_0, _LW6PIL_MIN_ROUND_0);
   if (command)
     {
-      ret = lw6pil_command_execute (dump, timestamp, game_state, command);
-      lw6pil_command_free (command);
+      ret = lw6pil_command_execute (sys_context, dump, timestamp, game_state, command);
+      lw6pil_command_free (sys_context, command);
     }
 
   return ret;
@@ -735,6 +742,7 @@ lw6pil_command_execute_text (lw6pil_dump_t * dump, int64_t timestamp, lw6ker_gam
 /**
  * lw6pil_command_execute_local
  *
+ * @sys_context: global system context
  * @local_cursors: local cursors information
  * @command: command to execute
  *
@@ -744,7 +752,7 @@ lw6pil_command_execute_text (lw6pil_dump_t * dump, int64_t timestamp, lw6ker_gam
  * Return value: 1 if success, 0 if failure.
  */
 int
-lw6pil_command_execute_local (lw6pil_local_cursors_t * local_cursors, lw6pil_command_t * command)
+lw6pil_command_execute_local (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, lw6pil_command_t * command)
 {
   int ret = 0;
 
@@ -761,7 +769,7 @@ lw6pil_command_execute_local (lw6pil_local_cursors_t * local_cursors, lw6pil_com
       ret = 1;
       break;
     case LW6PIL_COMMAND_CODE_SET:
-      ret = lw6pil_local_cursors_set_xy (local_cursors, command->args.set.cursor_id, command->args.set.x, command->args.set.y);
+      ret = lw6pil_local_cursors_set_xy (sys_context, local_cursors, command->args.set.cursor_id, command->args.set.x, command->args.set.y);
       break;
     default:
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("incorrect command \"%s\""), command->text);
@@ -774,6 +782,7 @@ lw6pil_command_execute_local (lw6pil_local_cursors_t * local_cursors, lw6pil_com
 /**
  * lw6pil_command_execute_local_text
  *
+ * @sys_context: global system context
  * @local_cursors: local cursors information
  * @command_text: command text to execute
  *
@@ -783,16 +792,16 @@ lw6pil_command_execute_local (lw6pil_local_cursors_t * local_cursors, lw6pil_com
  * Return value: 1 if success, 0 if failure.
  */
 int
-lw6pil_command_execute_local_text (lw6pil_local_cursors_t * local_cursors, const char *command_text)
+lw6pil_command_execute_local_text (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, const char *command_text)
 {
   int ret = 0;
   lw6pil_command_t *command = NULL;
 
-  command = lw6pil_command_new (command_text, _LW6PIL_MIN_SEQ_0, _LW6PIL_MIN_ROUND_0);
+  command = lw6pil_command_new (sys_context, command_text, _LW6PIL_MIN_SEQ_0, _LW6PIL_MIN_ROUND_0);
   if (command)
     {
-      ret = lw6pil_command_execute_local (local_cursors, command);
-      lw6pil_command_free (command);
+      ret = lw6pil_command_execute_local (sys_context, local_cursors, command);
+      lw6pil_command_free (sys_context, command);
     }
 
   return ret;

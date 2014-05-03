@@ -30,6 +30,7 @@
 /**
  * lw6pil_dump_zero
  *
+ * @sys_context: global system context
  * @dump: object to initialize
  *
  * Fills a dump object with zero, regardless of what was there before.
@@ -37,7 +38,7 @@
  * Return value: none.
  */
 void
-lw6pil_dump_zero (lw6pil_dump_t * dump)
+lw6pil_dump_zero (lw6sys_context_t * sys_context, lw6pil_dump_t * dump)
 {
   if (dump)
     {
@@ -48,6 +49,7 @@ lw6pil_dump_zero (lw6pil_dump_t * dump)
 /**
  * lw6pil_dump_clear
  *
+ * @sys_context: global system context
  * @dump: object to clear
  *
  * Clears a dump object, that is, frees all existing object if they are here,
@@ -56,7 +58,7 @@ lw6pil_dump_zero (lw6pil_dump_t * dump)
  * Return value: none.
  */
 void
-lw6pil_dump_clear (lw6pil_dump_t * dump)
+lw6pil_dump_clear (lw6sys_context_t * sys_context, lw6pil_dump_t * dump)
 {
   if (dump->level)
     {
@@ -78,7 +80,7 @@ lw6pil_dump_clear (lw6pil_dump_t * dump)
 
   if (dump->pilot)
     {
-      lw6pil_pilot_free (dump->pilot);
+      lw6pil_pilot_free (sys_context, dump->pilot);
       (dump->pilot) = NULL;
     }
 }
@@ -86,6 +88,7 @@ lw6pil_dump_clear (lw6pil_dump_t * dump)
 /**
  * lw6pil_dump_exists
  *
+ * @sys_context: global system context
  * @dump: object to test
  *
  * Tests wether there's actually a dump in the structure, or if it's empty.
@@ -93,13 +96,13 @@ lw6pil_dump_clear (lw6pil_dump_t * dump)
  * Return value: 1 if there's a dump, 0 if all fields set to NULL.
  */
 int
-lw6pil_dump_exists (const lw6pil_dump_t * dump)
+lw6pil_dump_exists (lw6sys_context_t * sys_context, const lw6pil_dump_t * dump)
 {
   return (dump && dump->level && dump->game_struct && dump->game_state && dump->pilot);
 }
 
 char *
-_lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id, int64_t seq)
+_lw6pil_dump_command_generate (lw6sys_context_t * sys_context, _lw6pil_pilot_t * pilot, u_int64_t server_id, int64_t seq)
 {
   char *ret = NULL;
   char *level_hexa = NULL;
@@ -108,16 +111,16 @@ _lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id, int
   lw6ker_game_state_t *game_state = NULL;
   int round = 0;
 
-  if (seq > _lw6pil_pilot_get_last_commit_seq (pilot))
+  if (seq > _lw6pil_pilot_get_last_commit_seq (sys_context, pilot))
     {
       /*
        * Before we can generate a dump, we want to make sure
        * the dump really corresponds to the right seq, so
        * we basically wait until reference is up-to-date.
        */
-      while (_lw6pil_pilot_get_reference_current_seq (pilot) < _lw6pil_pilot_get_last_commit_seq (pilot))
+      while (_lw6pil_pilot_get_reference_current_seq (sys_context, pilot) < _lw6pil_pilot_get_last_commit_seq (sys_context, pilot))
 	{
-	  lw6sys_idle ();
+	  lw6sys_idle (sys_context);
 	}
 
       level_hexa = lw6map_to_hexa (sys_context, pilot->reference.game_state->game_struct->level);
@@ -143,7 +146,7 @@ _lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id, int
 
 	      if (game_state)
 		{
-		  round = _lw6pil_pilot_seq2round (pilot, seq);
+		  round = _lw6pil_pilot_seq2round (sys_context, pilot, seq);
 
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			      _x_ ("dump pilot to command initial round=%d final round=%d"), lw6ker_game_state_get_rounds (sys_context, game_state), round);
@@ -171,7 +174,8 @@ _lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id, int
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		  _x_ ("calling dump with inconsistent seqs, seq=%"
 		       LW6SYS_PRINTF_LL
-		       "d is too low because last_commit_seq=%" LW6SYS_PRINTF_LL "d"), (long long) seq, (long long) _lw6pil_pilot_get_last_commit_seq (pilot));
+		       "d is too low because last_commit_seq=%" LW6SYS_PRINTF_LL "d"), (long long) seq,
+		  (long long) _lw6pil_pilot_get_last_commit_seq (sys_context, pilot));
     }
 
   if (level_hexa)
@@ -193,6 +197,7 @@ _lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id, int
 /**
  * lw6pil_dump_command_generate
  *
+ * @sys_context: global system context
  * @pilot: the pilot to transform as a DUMP.
  * @server_id: ID of server issuing the command
  * @seq: seq at which the dump should be generated
@@ -206,9 +211,9 @@ _lw6pil_dump_command_generate (_lw6pil_pilot_t * pilot, u_int64_t server_id, int
  * Return value: newly allocated string
  */
 char *
-lw6pil_dump_command_generate (lw6pil_pilot_t * pilot, u_int64_t server_id, int64_t seq)
+lw6pil_dump_command_generate (lw6sys_context_t * sys_context, lw6pil_pilot_t * pilot, u_int64_t server_id, int64_t seq)
 {
-  return _lw6pil_dump_command_generate ((_lw6pil_pilot_t *) pilot, server_id, seq);
+  return _lw6pil_dump_command_generate (sys_context, (_lw6pil_pilot_t *) pilot, server_id, seq);
 }
 
 /**
@@ -217,6 +222,7 @@ lw6pil_dump_command_generate (lw6pil_pilot_t * pilot, u_int64_t server_id, int64
  * Interprets a DUMP command. A new pilot will be returned, along with game state, game struct and
  * level. Old objects won't be deleted, but you could (should) get rid of them at they are useless now.
  *
+ * @sys_context: global system context
  * @dump: will contain the dump data, pilot and game state, struct, and level
  * @timestamp: current timestamp
  * @command: the command to execute
@@ -225,7 +231,7 @@ lw6pil_dump_command_generate (lw6pil_pilot_t * pilot, u_int64_t server_id, int64
  * Return value: newly allocated string
  */
 int
-lw6pil_dump_command_execute (lw6pil_dump_t * dump, int64_t timestamp, lw6pil_command_t * command, lw6sys_progress_t * progress)
+lw6pil_dump_command_execute (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, int64_t timestamp, lw6pil_command_t * command, lw6sys_progress_t * progress)
 {
   int ret = 0;
   char *level_repr = NULL;
@@ -236,7 +242,7 @@ lw6pil_dump_command_execute (lw6pil_dump_t * dump, int64_t timestamp, lw6pil_com
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("dump command to pilot, this can take some time..."));
   if (dump)
     {
-      lw6pil_dump_clear (dump);
+      lw6pil_dump_clear (sys_context, dump);
 
       (dump->level) = lw6map_from_hexa (sys_context, command->args.dump.level_hexa);
       if (dump->level)
@@ -247,13 +253,13 @@ lw6pil_dump_command_execute (lw6pil_dump_t * dump, int64_t timestamp, lw6pil_com
 	      (dump->game_state) = lw6ker_game_state_from_hexa (sys_context, command->args.dump.game_state_hexa, dump->game_struct);
 	      if (dump->game_state)
 		{
-		  (dump->pilot) = lw6pil_pilot_new (dump->game_state, command->seq, timestamp, progress);
+		  (dump->pilot) = lw6pil_pilot_new (sys_context, dump->game_state, command->seq, timestamp, progress);
 		  if (dump->pilot)
 		    {
 		      level_repr = lw6map_repr (sys_context, dump->level);
 		      game_struct_repr = lw6ker_game_struct_repr (sys_context, dump->game_struct);
 		      game_state_repr = lw6ker_game_state_repr (sys_context, dump->game_state);
-		      pilot_repr = lw6pil_pilot_repr (dump->pilot);
+		      pilot_repr = lw6pil_pilot_repr (sys_context, dump->pilot);
 		      if (level_repr && game_struct_repr && game_state_repr && pilot_repr)
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -275,7 +281,7 @@ lw6pil_dump_command_execute (lw6pil_dump_t * dump, int64_t timestamp, lw6pil_com
       if (!ret)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't read dump command"));
-	  lw6pil_dump_clear (dump);
+	  lw6pil_dump_clear (sys_context, dump);
 	}
     }
 

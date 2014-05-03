@@ -186,7 +186,7 @@ pilot_new (lw6ker_game_state_t * game_state, lw6sys_progress_t * progress)
   lw6pil_pilot_t *ret = NULL;
 
   lw6sys_progress_begin (sys_context, progress);
-  ret = lw6pil_pilot_new (game_state, lw6pil_seq_random_0 (), lw6sys_get_timestamp (sys_context,), progress);
+  ret = lw6pil_pilot_new (sys_context, game_state, lw6pil_seq_random_0 (sys_context,), lw6sys_get_timestamp (sys_context,), progress);
   if (ret)
     {
       // ok
@@ -340,7 +340,7 @@ _test_display ()
 				    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("stop play with pilot"));
 				    param.pilot = NULL;
 				    lw6dsp_update (display, &param);
-				    lw6pil_pilot_free (pilot);
+				    lw6pil_pilot_free (sys_context, pilot);
 				    pilot = NULL;
 				  }
 				param.game_state = NULL;
@@ -592,7 +592,7 @@ lw6dsp_test_register (int mode)
       lw6cfg_test_register (mode);
       lw6map_test_register (sys_context, mode);
       lw6ker_test_register (sys_context, mode);
-      lw6pil_test_register (mode);
+      lw6pil_test_register (sys_context, mode);
       lw6gui_test_register (mode);
       lw6vox_test_register (mode);
       lw6gfx_test_register (mode);

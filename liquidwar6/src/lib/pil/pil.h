@@ -301,91 +301,97 @@ typedef struct lw6pil_pilot_s
 } lw6pil_pilot_t;
 
 /* pil-bench.c */
-extern int lw6pil_bench (int argc, const char *argv[], float *bench_result, lw6sys_progress_t * progress);
+extern int lw6pil_bench (lw6sys_context_t * sys_context, int argc, const char *argv[], float *bench_result, lw6sys_progress_t * progress);
 
 /* pil-command.c */
-extern lw6pil_command_t *lw6pil_command_new (const char *command_text, int64_t seq_0, int round_0);
-extern lw6pil_command_t *lw6pil_command_dup (lw6pil_command_t * command);
-extern void lw6pil_command_free (lw6pil_command_t * command);
-extern char *lw6pil_command_repr (const lw6pil_command_t * command);
-extern int lw6pil_command_execute (lw6pil_dump_t * dump, int64_t timestamp, lw6ker_game_state_t * game_state, lw6pil_command_t * command);
-extern int lw6pil_command_execute_text (lw6pil_dump_t * dump, int64_t timestamp, lw6ker_game_state_t * game_state, const char *command_text, int64_t seq_0);
-extern int lw6pil_command_execute_local (lw6pil_local_cursors_t * local_cursors, lw6pil_command_t * command);
-extern int lw6pil_command_execute_local_text (lw6pil_local_cursors_t * local_cursors, const char *command_text);
+extern lw6pil_command_t *lw6pil_command_new (lw6sys_context_t * sys_context, const char *command_text, int64_t seq_0, int round_0);
+extern lw6pil_command_t *lw6pil_command_dup (lw6sys_context_t * sys_context, lw6pil_command_t * command);
+extern void lw6pil_command_free (lw6sys_context_t * sys_context, lw6pil_command_t * command);
+extern char *lw6pil_command_repr (lw6sys_context_t * sys_context, const lw6pil_command_t * command);
+extern int lw6pil_command_execute (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, int64_t timestamp, lw6ker_game_state_t * game_state,
+				   lw6pil_command_t * command);
+extern int lw6pil_command_execute_text (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, int64_t timestamp, lw6ker_game_state_t * game_state,
+					const char *command_text, int64_t seq_0);
+extern int lw6pil_command_execute_local (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, lw6pil_command_t * command);
+extern int lw6pil_command_execute_local_text (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, const char *command_text);
 
 /* pil-coords.c */
-extern void lw6pil_coords_fix (lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x, float *y, float *z);
-extern void lw6pil_coords_fix_x10 (lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x, float *y, float *z);
+extern void lw6pil_coords_fix (lw6sys_context_t * sys_context, lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x, float *y, float *z);
+extern void lw6pil_coords_fix_x10 (lw6sys_context_t * sys_context, lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x, float *y, float *z);
 
 /* pil-dump.c */
-extern void lw6pil_dump_zero (lw6pil_dump_t * dump);
-extern void lw6pil_dump_clear (lw6pil_dump_t * dump);
-extern int lw6pil_dump_exists (const lw6pil_dump_t * dump);
-extern char *lw6pil_dump_command_generate (lw6pil_pilot_t * pilot, u_int64_t server_id, int64_t seq);
-extern int lw6pil_dump_command_execute (lw6pil_dump_t * dump, int64_t timestamp, lw6pil_command_t * command, lw6sys_progress_t * progress);
+extern void lw6pil_dump_zero (lw6sys_context_t * sys_context, lw6pil_dump_t * dump);
+extern void lw6pil_dump_clear (lw6sys_context_t * sys_context, lw6pil_dump_t * dump);
+extern int lw6pil_dump_exists (lw6sys_context_t * sys_context, const lw6pil_dump_t * dump);
+extern char *lw6pil_dump_command_generate (lw6sys_context_t * sys_context, lw6pil_pilot_t * pilot, u_int64_t server_id, int64_t seq);
+extern int lw6pil_dump_command_execute (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, int64_t timestamp, lw6pil_command_t * command,
+					lw6sys_progress_t * progress);
 
 /* pil-localcursors.c */
-extern void lw6pil_local_cursors_reset (lw6pil_local_cursors_t * local_cursors);
-extern lw6pil_local_cursor_t *lw6pil_local_cursors_get_cursor (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id);
-extern int lw6pil_local_cursors_get_info (lw6pil_local_cursors_t * local_cursors, int *x, int *y, int *mouse_controlled, u_int16_t cursor_id);
-extern int lw6pil_local_cursors_set_xy (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id, int x, int y);
-extern int lw6pil_local_cursors_set_mouse_controlled (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id, int mouse_controlled);
-extern int lw6pil_local_cursors_get_main_info (lw6pil_local_cursors_t * local_cursors, u_int16_t * cursor_id, int *x, int *y, int *mouse_controlled);
-extern int lw6pil_local_cursors_set_main (lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id);
+extern void lw6pil_local_cursors_reset (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors);
+extern lw6pil_local_cursor_t *lw6pil_local_cursors_get_cursor (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id);
+extern int lw6pil_local_cursors_get_info (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, int *x, int *y, int *mouse_controlled,
+					  u_int16_t cursor_id);
+extern int lw6pil_local_cursors_set_xy (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id, int x, int y);
+extern int lw6pil_local_cursors_set_mouse_controlled (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id,
+						      int mouse_controlled);
+extern int lw6pil_local_cursors_get_main_info (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, u_int16_t * cursor_id, int *x, int *y,
+					       int *mouse_controlled);
+extern int lw6pil_local_cursors_set_main (lw6sys_context_t * sys_context, lw6pil_local_cursors_t * local_cursors, u_int16_t cursor_id);
 
 /* pil-nopilot.c */
-extern int lw6pil_nopilot_poll_dump (lw6pil_dump_t * dump, const char *command_text, int64_t timestamp);
+extern int lw6pil_nopilot_poll_dump (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, const char *command_text, int64_t timestamp);
 
 /* pil-pilot.c */
-extern lw6pil_pilot_t *lw6pil_pilot_new (lw6ker_game_state_t * game_state, int64_t seq_0, int64_t timestamp, lw6sys_progress_t * progress);
-extern void lw6pil_pilot_free (lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_send_command (lw6pil_pilot_t * pilot, const char *command_text, int verified);
-extern int lw6pil_pilot_local_command (lw6pil_pilot_t * pilot, const char *command_text);
-extern int lw6pil_pilot_commit (lw6pil_dump_t * dump, lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_make_backup (lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_can_sync (lw6ker_game_state_t * target, lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_sync_from_backup (lw6ker_game_state_t * target, lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_sync_from_reference (lw6ker_game_state_t * target, lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_sync_from_draft (lw6ker_game_state_t * target, lw6pil_pilot_t * pilot, int dirty_read);
-extern lw6ker_game_state_t *lw6pil_pilot_dirty_read (lw6pil_pilot_t * pilot);
-extern char *lw6pil_pilot_repr (const lw6pil_pilot_t * pilot);
-extern void lw6pil_pilot_calibrate (lw6pil_pilot_t * pilot, int64_t timestamp, int64_t seq);
-extern void lw6pil_pilot_speed_up (lw6pil_pilot_t * pilot, int seq_inc);
-extern void lw6pil_pilot_slow_down (lw6pil_pilot_t * pilot, int seq_dec);
-extern int lw6pil_pilot_get_round_0 (const lw6pil_pilot_t * pilot);
-extern int64_t lw6pil_pilot_get_seq_0 (const lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_seq2round (const lw6pil_pilot_t * pilot, int64_t seq);
-extern int64_t lw6pil_pilot_round2seq (const lw6pil_pilot_t * pilot, int round);
-extern int64_t lw6pil_pilot_get_next_seq (const lw6pil_pilot_t * pilot, int64_t timestamp);
-extern int64_t lw6pil_pilot_get_last_commit_seq (const lw6pil_pilot_t * pilot);
-extern int64_t lw6pil_pilot_get_reference_target_seq (const lw6pil_pilot_t * pilot);
-extern int64_t lw6pil_pilot_get_reference_current_seq (const lw6pil_pilot_t * pilot);
-extern int64_t lw6pil_pilot_get_max_seq (const lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_is_over (const lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_did_cursor_win (const lw6pil_pilot_t * pilot, u_int16_t cursor_id);
-extern int lw6pil_pilot_get_winner (const lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_get_looser (const lw6pil_pilot_t * pilot);
-extern lw6pil_local_cursors_t *lw6pil_pilot_get_local_cursors (lw6pil_pilot_t * pilot);
-extern void lw6pil_pilot_checksum_log_set_interval (lw6pil_pilot_t * pilot, int checksum_log_interval);
+extern lw6pil_pilot_t *lw6pil_pilot_new (lw6sys_context_t * sys_context, lw6ker_game_state_t * game_state, int64_t seq_0, int64_t timestamp,
+					 lw6sys_progress_t * progress);
+extern void lw6pil_pilot_free (lw6sys_context_t * sys_context, lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_send_command (lw6sys_context_t * sys_context, lw6pil_pilot_t * pilot, const char *command_text, int verified);
+extern int lw6pil_pilot_local_command (lw6sys_context_t * sys_context, lw6pil_pilot_t * pilot, const char *command_text);
+extern int lw6pil_pilot_commit (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_make_backup (lw6sys_context_t * sys_context, lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_can_sync (lw6sys_context_t * sys_context, lw6ker_game_state_t * target, lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_sync_from_backup (lw6sys_context_t * sys_context, lw6ker_game_state_t * target, lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_sync_from_reference (lw6sys_context_t * sys_context, lw6ker_game_state_t * target, lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_sync_from_draft (lw6sys_context_t * sys_context, lw6ker_game_state_t * target, lw6pil_pilot_t * pilot, int dirty_read);
+extern lw6ker_game_state_t *lw6pil_pilot_dirty_read (lw6sys_context_t * sys_context, lw6pil_pilot_t * pilot);
+extern char *lw6pil_pilot_repr (lw6sys_context_t * sys_context, const lw6pil_pilot_t * pilot);
+extern void lw6pil_pilot_calibrate (lw6sys_context_t * sys_context, lw6pil_pilot_t * pilot, int64_t timestamp, int64_t seq);
+extern void lw6pil_pilot_speed_up (lw6sys_context_t * sys_context, lw6pil_pilot_t * pilot, int seq_inc);
+extern void lw6pil_pilot_slow_down (lw6sys_context_t * sys_context, lw6pil_pilot_t * pilot, int seq_dec);
+extern int lw6pil_pilot_get_round_0 (lw6sys_context_t * sys_context, const lw6pil_pilot_t * pilot);
+extern int64_t lw6pil_pilot_get_seq_0 (lw6sys_context_t * sys_context, const lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_seq2round (lw6sys_context_t * sys_context, const lw6pil_pilot_t * pilot, int64_t seq);
+extern int64_t lw6pil_pilot_round2seq (lw6sys_context_t * sys_context, const lw6pil_pilot_t * pilot, int round);
+extern int64_t lw6pil_pilot_get_next_seq (lw6sys_context_t * sys_context, const lw6pil_pilot_t * pilot, int64_t timestamp);
+extern int64_t lw6pil_pilot_get_last_commit_seq (lw6sys_context_t * sys_context, const lw6pil_pilot_t * pilot);
+extern int64_t lw6pil_pilot_get_reference_target_seq (lw6sys_context_t * sys_context, const lw6pil_pilot_t * pilot);
+extern int64_t lw6pil_pilot_get_reference_current_seq (lw6sys_context_t * sys_context, const lw6pil_pilot_t * pilot);
+extern int64_t lw6pil_pilot_get_max_seq (lw6sys_context_t * sys_context, const lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_is_over (lw6sys_context_t * sys_context, const lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_did_cursor_win (lw6sys_context_t * sys_context, const lw6pil_pilot_t * pilot, u_int16_t cursor_id);
+extern int lw6pil_pilot_get_winner (lw6sys_context_t * sys_context, const lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_get_looser (lw6sys_context_t * sys_context, const lw6pil_pilot_t * pilot);
+extern lw6pil_local_cursors_t *lw6pil_pilot_get_local_cursors (lw6sys_context_t * sys_context, lw6pil_pilot_t * pilot);
+extern void lw6pil_pilot_checksum_log_set_interval (lw6sys_context_t * sys_context, lw6pil_pilot_t * pilot, int checksum_log_interval);
 
 /* pil-seed.c */
-extern char *lw6pil_seed_command_generate (lw6pil_pilot_t * pilot, u_int64_t server_id, int64_t seq);
+extern char *lw6pil_seed_command_generate (lw6sys_context_t * sys_context, lw6pil_pilot_t * pilot, u_int64_t server_id, int64_t seq);
 
 /* pil-seq.c */
-extern int64_t lw6pil_seq_random_0 ();
+extern int64_t lw6pil_seq_random_0 (lw6sys_context_t * sys_context);
 
 /* pil-suite.c */
-extern int lw6pil_suite_init (lw6pil_dump_t * dump, int64_t timestamp);
-extern int64_t lw6pil_suite_get_seq_0 ();
-extern u_int64_t lw6pil_suite_get_node_id (int node_index);
-extern const char *lw6pil_suite_get_command_by_node_index (int node_index, int stage, int step);
-extern int _command_sort (const void *arg_a, const void *arg_b);
-extern const char *lw6pil_suite_get_command_by_stage (int stage, int step);
-extern const char *lw6pil_suite_get_command_by_step (int step);
-extern void lw6pil_suite_get_checkpoint (u_int32_t * game_state_checksum, int64_t * seq, int *round, int stage);
+extern int lw6pil_suite_init (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, int64_t timestamp);
+extern int64_t lw6pil_suite_get_seq_0 (lw6sys_context_t * sys_context);
+extern u_int64_t lw6pil_suite_get_node_id (lw6sys_context_t * sys_context, int node_index);
+extern const char *lw6pil_suite_get_command_by_node_index (lw6sys_context_t * sys_context, int node_index, int stage, int step);
+extern const char *lw6pil_suite_get_command_by_stage (lw6sys_context_t * sys_context, int stage, int step);
+extern const char *lw6pil_suite_get_command_by_step (lw6sys_context_t * sys_context, int step);
+extern void lw6pil_suite_get_checkpoint (lw6sys_context_t * sys_context, u_int32_t * game_state_checksum, int64_t * seq, int *round, int stage);
 
 /* pil-test.c */
-extern int lw6pil_test_register (int mode);
-extern int lw6pil_test_run (int mode);
+extern int lw6pil_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6pil_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif // LIQUIDWAR6PIL_H
