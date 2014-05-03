@@ -153,7 +153,7 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url, const char *
 						  authorization = lw6sys_new_sprintf ("%s:%s", lw6sys_build_get_package_tarname (), password);
 						  if (authorization)
 						    {
-						      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("using authorization \"%s\""), authorization);
+						      lw6sys_log (sys_context,LW6SYS_LOG_DEBUG, _x_ ("using authorization \"%s\""), authorization);
 						      /* tell libcurl we can use "any" auth, which lets the lib pick one, but it
 						         also costs one extra round-trip and possibly sending of all the PUT
 						         data twice!!! */

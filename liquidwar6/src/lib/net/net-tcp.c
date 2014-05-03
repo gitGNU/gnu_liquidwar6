@@ -371,7 +371,7 @@ lw6net_tcp_connect (const char *ip, int port, int delay_msec)
 					      if (setsockopt (sock, SOL_SOCKET, SO_NOSIGPIPE, (char *) &enable, sizeof (int)))
 						{
 						  lw6net_last_error ();
-						  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("setsockopt(SO_NOSIGPIPE) failed"));
+						  lw6sys_log (sys_context,LW6SYS_LOG_WARNING, _x_ ("setsockopt(SO_NOSIGPIPE) failed"));
 						}
 #endif // SO_NOSIGPIPE
 
