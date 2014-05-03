@@ -207,7 +207,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("async load stage1 using gen, request_number %d, seed \"%s\""), request_number, loader_data->stage1.seed);
 
       (*(progress.value)) = _LW6TSK_LOADER_PROGRESS_STAGE1_BEGIN;
-      seed = lw6gen_seed_normalize (loader_data->stage1.seed);
+      seed = lw6gen_seed_normalize (sys_context, loader_data->stage1.seed);
       display_w = loader_data->stage1.display_w;
       display_h = loader_data->stage1.display_h;
       bench_value = loader_data->stage1.bench_value;
@@ -237,7 +237,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
       progress.max = _LW6TSK_LOADER_PROGRESS_STAGE1_END_MAP;
       lw6sys_progress_begin (sys_context, &progress);
       lw6ldr_resampler_use_for_gen (&map_w, &map_h, display_w, display_h, bench_value, magic_number);
-      level = lw6gen_create_from_seed (seed, map_w, map_h);
+      level = lw6gen_create_from_seed (sys_context, seed, map_w, map_h);
       if (level)
 	{
 	  lw6sys_progress_end (sys_context, &progress);
@@ -522,7 +522,7 @@ lw6tsk_loader_push_gen (lw6tsk_loader_t * loader, const char *seed, int display_
   loader_data->stage1.relative_path = NULL;
   loader_data->stage1.default_param = NULL;
   loader_data->stage1.forced_param = NULL;
-  loader_data->stage1.seed = lw6gen_seed_normalize (seed);
+  loader_data->stage1.seed = lw6gen_seed_normalize (sys_context, seed);
   loader_data->stage1.display_w = display_w;
   loader_data->stage1.display_h = display_h;
   loader_data->stage1.bench_value = bench_value;

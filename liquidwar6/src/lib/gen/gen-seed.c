@@ -32,12 +32,14 @@
 /**
  * lw6gen_seed_new
  *
+ * @sys_context: global system context
+ *
  * Generate a new random seed. The seed is composed of letters and numbers.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6gen_seed_new ()
+lw6gen_seed_new (lw6sys_context_t * sys_context)
 {
   char *ret = NULL;
   int i = 0;
@@ -47,7 +49,7 @@ lw6gen_seed_new ()
     {
       for (i = 0; i < LW6GEN_SEED_LENGTH; ++i)
 	{
-	  ret[i] = lw6gen_seed_char ();
+	  ret[i] = lw6gen_seed_char (sys_context);
 	}
     }
 
@@ -57,6 +59,7 @@ lw6gen_seed_new ()
 /**
  * lw6gen_seed_normalize
  *
+ * @sys_context: global system context
  * @seed: the seed to normalize
  *
  * Builds a normalized seed from an arbitrary string. The idea is to
@@ -66,7 +69,7 @@ lw6gen_seed_new ()
  * Return value: newly allocated string.
  */
 char *
-lw6gen_seed_normalize (const char *seed)
+lw6gen_seed_normalize (lw6sys_context_t * sys_context, const char *seed)
 {
   char *ret = NULL;
   int i = 0;
@@ -99,12 +102,14 @@ lw6gen_seed_normalize (const char *seed)
 /**
  * lw6gen_seed_char
  *
+ * @sys_context: global system context
+ *
  * Returns a random char suitable for seed (letter or digit).
  *
  * Return value: a single char
  */
 char
-lw6gen_seed_char ()
+lw6gen_seed_char (lw6sys_context_t * sys_context)
 {
   char ret = ' ';
   int len = 0;

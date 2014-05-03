@@ -31,7 +31,7 @@
  */
 
 static SCM
-_scm_lw6gen_create_from_seed (SCM seed, SCM map_w, SCM map_h)
+_scm_lw6gen_create_from_seed (sys_context, SCM seed, SCM map_w, SCM map_h)
 {
   SCM ret = SCM_BOOL_F;
   lw6map_level_t *c_level = NULL;
@@ -50,13 +50,13 @@ _scm_lw6gen_create_from_seed (SCM seed, SCM map_w, SCM map_h)
   c_seed = lw6scm_utils_to_0str (seed);
   if (c_seed)
     {
-      c_normalized_seed = lw6gen_seed_normalize (c_seed);
+      c_normalized_seed = lw6gen_seed_normalize (sys_context, c_seed);
       if (c_normalized_seed)
 	{
 	  c_map_w = scm_to_int (map_w);
 	  c_map_h = scm_to_int (map_h);
 
-	  c_level = lw6gen_create_from_seed (c_seed, c_map_w, c_map_h);
+	  c_level = lw6gen_create_from_seed (sys_context, c_seed, c_map_w, c_map_h);
 	  if (c_level)
 	    {
 	      ret = lw6_make_scm_map (c_level);
@@ -93,7 +93,7 @@ _scm_lw6gen_seed_new ()
 }
 
 static SCM
-_scm_lw6gen_seed_normalize (SCM seed)
+_scm_lw6gen_seed_normalize (sys_context, SCM seed)
 {
   SCM ret = SCM_BOOL_F;
   char *c_ret = NULL;
@@ -107,7 +107,7 @@ _scm_lw6gen_seed_normalize (SCM seed)
   c_seed = lw6scm_utils_to_0str (seed);
   if (c_seed)
     {
-      c_ret = lw6gen_seed_normalize (c_seed);
+      c_ret = lw6gen_seed_normalize (sys_context, c_seed);
       if (c_ret)
 	{
 	  ret = scm_from_locale_string (c_ret);

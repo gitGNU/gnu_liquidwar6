@@ -40,9 +40,10 @@
 typedef struct _lw6gen_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
 } _lw6gen_test_data_t;
 
-static _lw6gen_test_data_t _test_data = { 0 };
+static _lw6gen_test_data_t _test_data = { 0, NULL };
 
 /*
  * test create
@@ -51,6 +52,7 @@ static void
 _test_create ()
 {
   int ret = 0;
+  lw6sys_context_t *sys_context = NULL;
 
   LW6SYS_TEST_FUNCTION_BEGIN;
 
@@ -58,7 +60,7 @@ _test_create ()
     lw6map_level_t *level = NULL;
     char *repr = NULL;
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("creating map from seed \"%s\" with size %dx%d"), _TEST_SEED, _TEST_WIDTH, _TEST_HEIGHT);
-    level = lw6gen_create_from_seed (_TEST_SEED, _TEST_WIDTH, _TEST_HEIGHT);
+    level = lw6gen_create_from_seed (sys_context, _TEST_SEED, _TEST_WIDTH, _TEST_HEIGHT);
     if (level)
       {
 	repr = lw6map_repr (sys_context, level);
@@ -97,13 +99,14 @@ static void
 _test_seed ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
 
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
     char *seed = NULL;
 
-    seed = lw6gen_seed_new ();
+    seed = lw6gen_seed_new (sys_context);
     if (seed)
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("generated new random seed \"%s\""), seed);
@@ -114,11 +117,11 @@ _test_seed ()
 	ret = 0;
       }
 
-    seed = lw6gen_seed_normalize (_TEST_SEED_SHORT_SRC);
+    seed = lw6gen_seed_normalize (sys_context, _TEST_SEED_SHORT_SRC);
     if (seed)
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("normalizing short seed \"%s\" -> \"%s\""), _TEST_SEED_SHORT_SRC, seed);
-	if (lw6sys_str_is_same (seed, _TEST_SEED_SHORT_DST))
+	if (lw6sys_str_is_same (sys_context, seed, _TEST_SEED_SHORT_DST))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ouput is correct"));
 	  }
@@ -134,11 +137,11 @@ _test_seed ()
 	ret = 0;
       }
 
-    seed = lw6gen_seed_normalize (_TEST_SEED_LONG_SRC);
+    seed = lw6gen_seed_normalize (sys_context, _TEST_SEED_LONG_SRC);
     if (seed)
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("normalizing long seed \"%s\" -> \"%s\""), _TEST_SEED_LONG_SRC, seed);
-	if (lw6sys_str_is_same (seed, _TEST_SEED_LONG_DST))
+	if (lw6sys_str_is_same (sys_context, seed, _TEST_SEED_LONG_DST))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ouput is correct"));
 	  }
@@ -161,20 +164,27 @@ _test_seed ()
 static int
 _setup_init ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libgen CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libgen CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 /**
  * lw6gen_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libgen module.
@@ -182,10 +192,12 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6gen_test_register (int mode)
+lw6gen_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -214,6 +226,7 @@ lw6gen_test_register (int mode)
 /**
  * lw6gen_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @gen module test suite, testing most (if not all...)
@@ -222,11 +235,13 @@ lw6gen_test_register (int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6gen_test_run (int mode)
+lw6gen_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;

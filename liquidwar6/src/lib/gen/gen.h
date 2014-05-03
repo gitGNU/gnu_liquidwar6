@@ -30,15 +30,15 @@
 #define LW6GEN_SEED_LENGTH 16
 
 /* gen-create.c */
-extern lw6map_level_t *lw6gen_create_from_seed (const char *seed, int map_w, int map_h);
+extern lw6map_level_t *lw6gen_create_from_seed (lw6sys_context_t * sys_context, const char *seed, int map_w, int map_h);
 
 /* gen-seed.c */
-extern char *lw6gen_seed_new ();
-extern char *lw6gen_seed_normalize (const char *seed);
-extern char lw6gen_seed_char ();
+extern char *lw6gen_seed_new (lw6sys_context_t * sys_context);
+extern char *lw6gen_seed_normalize (lw6sys_context_t * sys_context, const char *seed);
+extern char lw6gen_seed_char (lw6sys_context_t * sys_context);
 
 /* gen-test.c */
-extern int lw6gen_test_register (int mode);
-extern int lw6gen_test_run (int mode);
+extern int lw6gen_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6gen_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif

@@ -296,7 +296,7 @@ lw6tsk_test_register (int mode)
       lw6map_test_register (sys_context, mode);
       lw6ker_test_register (sys_context, mode);
       lw6ldr_test_register (mode);
-      lw6gen_test_register (mode);
+      lw6gen_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6tsk", _setup_init, _setup_quit);
