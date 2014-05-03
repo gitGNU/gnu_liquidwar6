@@ -30,12 +30,12 @@
 #include "hlp-internal.h"
 
 static const char *
-about (lw6hlp_type_t * type, const char **default_value, int *min_value, int *max_value, const char *keyword)
+_about (lw6sys_context_t * sys_context, lw6hlp_type_t * type, const char **default_value, int *min_value, int *max_value, const char *keyword)
 {
   const char *ret = NULL;
   _lw6hlp_reference_entry_t *entry = NULL;
 
-  entry = _lw6hlp_reference_get_entry (keyword);
+  entry = _lw6hlp_reference_get_entry (sys_context, keyword);
   if (entry)
     {
       if (type)
@@ -63,6 +63,7 @@ about (lw6hlp_type_t * type, const char **default_value, int *min_value, int *ma
 /**
  * lw6hlp_is_documented
  *
+ * @sys_context: global system context
  * @keyword: the keyword we want to check out
  *
  * Checks wether a given keyword is documented or not.
@@ -70,11 +71,11 @@ about (lw6hlp_type_t * type, const char **default_value, int *min_value, int *ma
  * Return value: 1 if documented, 0 if not.
  */
 int
-lw6hlp_is_documented (const char *keyword)
+lw6hlp_is_documented (lw6sys_context_t * sys_context, const char *keyword)
 {
   int ret = 0;
 
-  ret = (about (NULL, NULL, NULL, NULL, keyword) != NULL);
+  ret = (_about (sys_context, NULL, NULL, NULL, NULL, keyword) != NULL);
 
   return ret;
 }
@@ -82,6 +83,7 @@ lw6hlp_is_documented (const char *keyword)
 /**
  * lw6hlp_about
  *
+ * @sys_context: global system context
  * @type: the type of the data associated to the keyword, will be written
  * @default_value: the default value for the keyword, will be written
  * @min_value: the min value for the keyword, will be written
@@ -99,11 +101,11 @@ lw6hlp_is_documented (const char *keyword)
  *   Additionnally, type will be updated.
  */
 const char *
-lw6hlp_about (lw6hlp_type_t * type, const char **default_value, int *min_value, int *max_value, const char *keyword)
+lw6hlp_about (lw6sys_context_t * sys_context, lw6hlp_type_t * type, const char **default_value, int *min_value, int *max_value, const char *keyword)
 {
   const char *ret = NULL;
 
-  ret = about (type, default_value, min_value, max_value, keyword);
+  ret = _about (sys_context, type, default_value, min_value, max_value, keyword);
 
   if (!ret)
     {
@@ -133,6 +135,7 @@ lw6hlp_about (lw6hlp_type_t * type, const char **default_value, int *min_value, 
 /**
  * lw6hlp_get_type
  *
+ * @sys_context: global system context
  * @keyword: the keyword we want the type of
  *
  * Returns the type of a keyword. Calls lw6hlp_about internally.
@@ -140,11 +143,11 @@ lw6hlp_about (lw6hlp_type_t * type, const char **default_value, int *min_value, 
  * Return value: the type, might be LW6HLP_TYPE_VOID.
  */
 lw6hlp_type_t
-lw6hlp_get_type (const char *keyword)
+lw6hlp_get_type (lw6sys_context_t * sys_context, const char *keyword)
 {
   lw6hlp_type_t ret = LW6HLP_TYPE_VOID;
 
-  lw6hlp_about (&ret, NULL, NULL, NULL, keyword);
+  lw6hlp_about (sys_context, &ret, NULL, NULL, NULL, keyword);
 
   return ret;
 }
@@ -152,6 +155,7 @@ lw6hlp_get_type (const char *keyword)
 /**
  * lw6hlp_get_default_value
  *
+ * @sys_context: global system context
  * @keyword: the keyword we want the default for
  *
  * Returns the default value for a keyword. Note that it can be NULL!
@@ -162,11 +166,11 @@ lw6hlp_get_type (const char *keyword)
  * Return value: a pointer, which can be NULL, must not be freed.
  */
 const char *
-lw6hlp_get_default_value (const char *keyword)
+lw6hlp_get_default_value (lw6sys_context_t * sys_context, const char *keyword)
 {
   const char *ret = NULL;
 
-  lw6hlp_about (NULL, &ret, NULL, NULL, keyword);
+  lw6hlp_about (sys_context, NULL, &ret, NULL, NULL, keyword);
 
   return ret;
 }
@@ -174,6 +178,7 @@ lw6hlp_get_default_value (const char *keyword)
 /**
  * lw6hlp_get_min_value
  *
+ * @sys_context: global system context
  * @keyword: the keyword we want the min for
  *
  * Returns the min value for a keyword. Wether this is relevant for a
@@ -183,11 +188,11 @@ lw6hlp_get_default_value (const char *keyword)
  * Return value: the value (integer)
  */
 int
-lw6hlp_get_min_value (const char *keyword)
+lw6hlp_get_min_value (lw6sys_context_t * sys_context, const char *keyword)
 {
   int ret = 0;
 
-  lw6hlp_about (NULL, NULL, &ret, NULL, keyword);
+  lw6hlp_about (sys_context, NULL, NULL, &ret, NULL, keyword);
 
   return ret;
 }
@@ -195,6 +200,7 @@ lw6hlp_get_min_value (const char *keyword)
 /**
  * lw6hlp_get_max_value
  *
+ * @sys_context: global system context
  * @keyword: the keyword we want the max for
  *
  * Returns the max value for a keyword. Wether this is relevant for a
@@ -204,11 +210,11 @@ lw6hlp_get_min_value (const char *keyword)
  * Return value: the value (integer)
  */
 int
-lw6hlp_get_max_value (const char *keyword)
+lw6hlp_get_max_value (lw6sys_context_t * sys_context, const char *keyword)
 {
   int ret = 0;
 
-  lw6hlp_about (NULL, NULL, NULL, &ret, keyword);
+  lw6hlp_about (sys_context, NULL, NULL, NULL, &ret, keyword);
 
   return ret;
 }

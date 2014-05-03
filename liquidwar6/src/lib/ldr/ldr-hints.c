@@ -459,7 +459,7 @@ lw6ldr_hints_update (lw6ldr_hints_t * hints, lw6sys_assoc_t * values)
 
   if (values)
     {
-      list = lw6hlp_list_map_hints ();
+      list = lw6hlp_list_map_hints (sys_context);
       if (list)
 	{
 	  data.hints = hints;

@@ -46,11 +46,12 @@ lw6cfg_must_be_saved (const char *key)
 {
   int ret = 1;
 
-  if (lw6hlp_match (key, LW6DEF_CONFIG_FILE) ||
-      lw6hlp_match (key, LW6DEF_PREFIX) ||
-      lw6hlp_match (key, LW6DEF_MOD_DIR) ||
-      lw6hlp_match (key, LW6DEF_DATA_DIR) ||
-      lw6hlp_match (key, LW6DEF_MUSIC_DIR) || lw6hlp_match (key, LW6DEF_MAP_DIR) || lw6hlp_match (key, LW6DEF_SCRIPT_FILE))
+  if (lw6hlp_match (sys_context, key, LW6DEF_CONFIG_FILE) ||
+      lw6hlp_match (sys_context, key, LW6DEF_PREFIX) ||
+      lw6hlp_match (sys_context, key, LW6DEF_MOD_DIR) ||
+      lw6hlp_match (sys_context, key, LW6DEF_DATA_DIR) ||
+      lw6hlp_match (sys_context, key, LW6DEF_MUSIC_DIR) || lw6hlp_match (sys_context, key, LW6DEF_MAP_DIR)
+      || lw6hlp_match (sys_context, key, LW6DEF_SCRIPT_FILE))
     {
       /*
        * These options must not be save in the config file, doing so

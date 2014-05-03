@@ -292,7 +292,7 @@ lw6tsk_test_register (int mode)
        */
       lw6sys_test_register (sys_context, mode);
       lw6cfg_test_register (mode);
-      lw6hlp_test_register (mode);
+      lw6hlp_test_register (sys_context, mode);
       lw6map_test_register (sys_context, mode);
       lw6ker_test_register (sys_context, mode);
       lw6ldr_test_register (mode);

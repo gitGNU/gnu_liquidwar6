@@ -55,7 +55,7 @@ lw6ldr_process_non_run_options (int argc, const char *argv[], int *run_game)
    * check for bad options, and globally, we rely on it,
    * this function just superseds it and adds the XML handling.
    */
-  ret = lw6hlp_process_non_run_options (argc, argv, run_game);
+  ret = lw6hlp_process_non_run_options (sys_context, argc, argv, run_game);
   if (ret && (*run_game))
     {
       for (i = 1; i < argc; ++i)

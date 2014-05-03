@@ -28,7 +28,7 @@
 #include "hlp.h"
 
 static int
-_check_arg (const char *arg)
+_check_arg (lw6sys_context_t * sys_context, const char *arg)
 {
   char *keyword = NULL;
   char *equal = NULL;
@@ -42,7 +42,7 @@ _check_arg (const char *arg)
 	{
 	  (*equal) = '\0';
 	}
-      ret = lw6hlp_is_documented (keyword);
+      ret = lw6hlp_is_documented (sys_context, keyword);
       LW6SYS_FREE (sys_context, keyword);
     }
 
@@ -52,6 +52,7 @@ _check_arg (const char *arg)
 /**
  * lw6hlp_process_non_run_options:
  *
+ * @sys_context: global system context
  * @argc: the number of command-line args, as passed to main
  * @argv: an array of strings containing command-line args, as passed to main
  * @run_game: a pointer to a boolean which will contain true (1) if the
@@ -67,7 +68,7 @@ _check_arg (const char *arg)
  *   instance, the test suite returning "no, tests were not OK".
  */
 int
-lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
+lw6hlp_process_non_run_options (lw6sys_context_t * sys_context, int argc, const char *argv[], int *run_game)
 {
   int i;
   int ret = 1;
@@ -81,7 +82,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
       /*
        * Syntax check, done now to let "/?" pass
        */
-      if (!_check_arg (argv[i]))
+      if (!_check_arg (sys_context, argv[i]))
 	{
 	  lw6sys_log_clear (sys_context, NULL);
 	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unknown option \"%s\""), argv[i]);
@@ -97,7 +98,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  pid_file = lw6sys_daemon_pid_file (sys_context, argc, argv);
 	  if (pid_file)
 	    {
-	      if (lw6sys_daemon_start (pid_file))
+	      if (lw6sys_daemon_start (sys_context, pid_file))
 		{
 		  // OK
 		}
@@ -112,19 +113,19 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
       else if (lw6sys_arg_match (sys_context, LW6DEF_HELP, argv[i]) ||
 	       lw6sys_arg_match (sys_context, "h", argv[i]) || lw6sys_arg_match (sys_context, "?", argv[i]))
 	{
-	  lw6hlp_print_help (stdout);
+	  lw6hlp_print_help (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_VERSION, argv[i]) || lw6sys_arg_match (sys_context, "v", argv[i]))
 	{
-	  lw6hlp_print_version (stdout);
+	  lw6hlp_print_version (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_COPYRIGHT, argv[i]) ||
 	       lw6sys_arg_match (sys_context, LW6DEF_COPYLEFT, argv[i]) ||
 	       lw6sys_arg_match (sys_context, LW6DEF_COPY, argv[i]) || lw6sys_arg_match (sys_context, "c", argv[i]))
 	{
-	  lw6hlp_print_long_copyright (stdout);
+	  lw6hlp_print_long_copyright (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       /*
@@ -132,32 +133,32 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
        */
       else if (lw6sys_arg_match (sys_context, LW6DEF_PEDIGREE, argv[i]))
 	{
-	  lw6hlp_print_pedigree (stdout);
+	  lw6hlp_print_pedigree (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_HOST, argv[i]))
 	{
-	  lw6hlp_print_host (stdout);
+	  lw6hlp_print_host (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_AUDIT, argv[i]))
 	{
-	  lw6hlp_print_audit (argc, argv, stdout);
+	  lw6hlp_print_audit (sys_context, argc, argv, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_MODULES, argv[i]))
 	{
-	  lw6hlp_print_modules (stdout);
+	  lw6hlp_print_modules (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_CREDITS, argv[i]))
 	{
-	  lw6hlp_print_credits (stdout);
+	  lw6hlp_print_credits (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST, argv[i]))
 	{
-	  lw6hlp_print_list (stdout);
+	  lw6hlp_print_list (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_ABOUT, argv[i]))
@@ -165,7 +166,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	  value = lw6sys_arg_get_value (sys_context, argc, argv, LW6DEF_ABOUT);
 	  if (value)
 	    {
-	      lw6hlp_print_about (value, stdout);
+	      lw6hlp_print_about (sys_context, value, stdout);
 	      LW6SYS_FREE (sys_context, value);
 	    }
 	  (*run_game) = 0;
@@ -175,102 +176,102 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
        */
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_QUICK, argv[i]))
 	{
-	  lw6hlp_print_list_quick (stdout);
+	  lw6hlp_print_list_quick (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_DOC, argv[i]))
 	{
-	  lw6hlp_print_list_doc (stdout);
+	  lw6hlp_print_list_doc (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_SHOW, argv[i]))
 	{
-	  lw6hlp_print_list_show (stdout);
+	  lw6hlp_print_list_show (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_PATH, argv[i]))
 	{
-	  lw6hlp_print_list_path (stdout);
+	  lw6hlp_print_list_path (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_PLAYERS, argv[i]))
 	{
-	  lw6hlp_print_list_players (stdout);
+	  lw6hlp_print_list_players (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_INPUT, argv[i]))
 	{
-	  lw6hlp_print_list_input (stdout);
+	  lw6hlp_print_list_input (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_GRAPHICS, argv[i]))
 	{
-	  lw6hlp_print_list_graphics (stdout);
+	  lw6hlp_print_list_graphics (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_SOUND, argv[i]))
 	{
-	  lw6hlp_print_list_sound (stdout);
+	  lw6hlp_print_list_sound (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_NETWORK, argv[i]))
 	{
-	  lw6hlp_print_list_network (stdout);
+	  lw6hlp_print_list_network (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_MAP, argv[i]))
 	{
-	  lw6hlp_print_list_map (stdout);
+	  lw6hlp_print_list_map (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_MAP_RULES, argv[i]))
 	{
-	  lw6hlp_print_list_map_rules (stdout);
+	  lw6hlp_print_list_map_rules (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_MAP_HINTS, argv[i]))
 	{
-	  lw6hlp_print_list_map_hints (stdout);
+	  lw6hlp_print_list_map_hints (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_MAP_STYLE, argv[i]))
 	{
-	  lw6hlp_print_list_map_style (stdout);
+	  lw6hlp_print_list_map_style (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_MAP_TEAMS, argv[i]))
 	{
-	  lw6hlp_print_list_map_teams (stdout);
+	  lw6hlp_print_list_map_teams (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_FUNCS, argv[i]))
 	{
-	  lw6hlp_print_list_funcs (stdout);
+	  lw6hlp_print_list_funcs (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_HOOKS, argv[i]))
 	{
-	  lw6hlp_print_list_hooks (stdout);
+	  lw6hlp_print_list_hooks (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_ADVANCED, argv[i]))
 	{
-	  lw6hlp_print_list_advanced (stdout);
+	  lw6hlp_print_list_advanced (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_ALIASES, argv[i]))
 	{
-	  lw6hlp_print_list_aliases (stdout);
+	  lw6hlp_print_list_aliases (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_TEAM_COLORS, argv[i]))
 	{
-	  lw6hlp_print_list_team_colors (stdout);
+	  lw6hlp_print_list_team_colors (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_LIST_WEAPONS, argv[i]))
 	{
-	  lw6hlp_print_list_weapons (stdout);
+	  lw6hlp_print_list_weapons (sys_context, stdout);
 	  (*run_game) = 0;
 	}
       /*
@@ -393,7 +394,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_BUILD_ENDIANNESS, argv[i]))
 	{
-	  fprintf (stdout, "%s\n", lw6sys_build_get_endianness ());
+	  fprintf (stdout, "%s\n", lw6sys_build_get_endianness (sys_context));
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_BUILD_POINTER_SIZE, argv[i]))
@@ -438,7 +439,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_BUILD_TOP_SRCDIR, argv[i]))
 	{
-	  fprintf (stdout, "%s\n", lw6sys_build_get_top_srcdir ());
+	  fprintf (stdout, "%s\n", lw6sys_build_get_top_srcdir (sys_context));
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_BUILD_ABS_SRCDIR, argv[i]))
@@ -573,7 +574,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_BUILD_BIN_ID, argv[i]))
 	{
-	  fprintf (stdout, "%d\n", lw6sys_build_get_bin_id ());
+	  fprintf (stdout, "%d\n", lw6sys_build_get_bin_id (sys_context));
 	  (*run_game) = 0;
 	}
       /*
@@ -581,7 +582,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
        */
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_DEFAULT_USER_DIR, argv[i]))
 	{
-	  path = lw6sys_get_default_user_dir ();
+	  path = lw6sys_get_default_user_dir (sys_context);
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
@@ -592,7 +593,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_DEFAULT_CONFIG_FILE, argv[i]))
 	{
-	  path = lw6sys_get_default_config_file ();
+	  path = lw6sys_get_default_config_file (sys_context);
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
@@ -603,7 +604,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_DEFAULT_LOG_FILE, argv[i]))
 	{
-	  path = lw6sys_get_default_log_file ();
+	  path = lw6sys_get_default_log_file (sys_context);
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
@@ -614,7 +615,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_DEFAULT_PREFIX, argv[i]))
 	{
-	  path = lw6sys_get_default_prefix ();
+	  path = lw6sys_get_default_prefix (sys_context);
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
@@ -625,7 +626,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_DEFAULT_MOD_DIR, argv[i]))
 	{
-	  path = lw6sys_get_default_mod_dir ();
+	  path = lw6sys_get_default_mod_dir (sys_context);
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
@@ -636,7 +637,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_DEFAULT_DATA_DIR, argv[i]))
 	{
-	  path = lw6sys_get_default_data_dir ();
+	  path = lw6sys_get_default_data_dir (sys_context);
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
@@ -647,7 +648,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_DEFAULT_MUSIC_DIR, argv[i]))
 	{
-	  path = lw6sys_get_default_music_dir ();
+	  path = lw6sys_get_default_music_dir (sys_context);
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
@@ -658,7 +659,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_DEFAULT_MUSIC_PATH, argv[i]))
 	{
-	  path = lw6sys_get_default_music_path ();
+	  path = lw6sys_get_default_music_path (sys_context);
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
@@ -669,7 +670,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_DEFAULT_MAP_DIR, argv[i]))
 	{
-	  path = lw6sys_get_default_map_dir ();
+	  path = lw6sys_get_default_map_dir (sys_context);
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
@@ -680,7 +681,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_DEFAULT_MAP_PATH, argv[i]))
 	{
-	  path = lw6sys_get_default_map_path ();
+	  path = lw6sys_get_default_map_path (sys_context);
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
@@ -691,7 +692,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_DEFAULT_SCRIPT_FILE, argv[i]))
 	{
-	  path = lw6sys_get_default_script_file ();
+	  path = lw6sys_get_default_script_file (sys_context);
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);
@@ -705,7 +706,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
        */
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_CWD, argv[i]))
 	{
-	  path = lw6sys_get_cwd (sys_context, argc, argv);
+	  path = lw6sys_get_cwd (sys_context);
 	  if (path)
 	    {
 	      fprintf (stdout, "%s\n", path);

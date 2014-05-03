@@ -162,7 +162,7 @@ lw6ldr_style_update (lw6map_style_t * style, lw6sys_assoc_t * values)
 
   if (values)
     {
-      list = lw6hlp_list_map_style ();
+      list = lw6hlp_list_map_style (sys_context);
       if (list)
 	{
 	  data.style = style;

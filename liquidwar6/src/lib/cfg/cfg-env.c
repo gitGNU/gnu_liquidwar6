@@ -90,7 +90,7 @@ _lw6cfg_merge_env (_lw6cfg_context_t * cfg_context)
   lw6sys_list_t *keywords;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("merging environment variables"));
-  keywords = lw6hlp_list ();
+  keywords = lw6hlp_list (sys_context);
   if (keywords)
     {
       lw6sys_list_map (sys_context, keywords, &merge_func, (void *) cfg_context);

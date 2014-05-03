@@ -71,7 +71,7 @@ lw6cfg_defaults (void *context)
   char *player_name = NULL;
 
   cfg_context = (_lw6cfg_context_t *) context;
-  list = lw6hlp_list ();
+  list = lw6hlp_list (sys_context);
   if (list)
     {
       /*

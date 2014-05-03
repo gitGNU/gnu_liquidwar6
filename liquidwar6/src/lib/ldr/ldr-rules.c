@@ -165,7 +165,7 @@ lw6ldr_rules_update (lw6map_rules_t * rules, lw6sys_assoc_t * values)
 
   if (values)
     {
-      list = lw6hlp_list_map_rules ();
+      list = lw6hlp_list_map_rules (sys_context);
       if (list)
 	{
 	  data.rules = rules;

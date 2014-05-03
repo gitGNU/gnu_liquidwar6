@@ -29,7 +29,7 @@
 #include "hlp.h"
 
 static void
-print_keyword_callback (void *func_data, void *data)
+_print_keyword_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   FILE *f;
   char *entry = NULL;
@@ -47,7 +47,7 @@ print_keyword_callback (void *func_data, void *data)
 }
 
 static void
-print_content_callback (void *func_data, void *data)
+_print_content_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   FILE *f;
   char *entry = NULL;
@@ -59,8 +59,8 @@ print_content_callback (void *func_data, void *data)
   entry = (char *) data;
   if (entry)
     {
-      about = lw6hlp_about (&type, NULL, NULL, NULL, entry);
-      if (lw6hlp_match (entry, LW6DEF_ABOUT))
+      about = lw6hlp_about (sys_context, &type, NULL, NULL, NULL, entry);
+      if (lw6hlp_match (sys_context, entry, LW6DEF_ABOUT))
 	{
 	  /*
 	   * OK this is ugly, but so much less complicated than handling
@@ -93,6 +93,7 @@ print_content_callback (void *func_data, void *data)
 /**
  * lw6hlp_print_keyword
  *
+ * @sys_context: global system context
  * @list: a pointer to a list of keywords
  * @f: the file to print the content to
  *
@@ -101,15 +102,16 @@ print_content_callback (void *func_data, void *data)
  * Return value: none.
  */
 void
-lw6hlp_print_keyword (lw6sys_list_t ** list, FILE * f)
+lw6hlp_print_keyword (lw6sys_context_t * sys_context, lw6sys_list_t ** list, FILE * f)
 {
-  lw6sys_sort (list, lw6sys_sort_str_callback);
-  lw6sys_list_map (sys_context, *list, print_keyword_callback, (void *) f);
+  lw6sys_sort (sys_context, list, lw6sys_sort_str_callback);
+  lw6sys_list_map (sys_context, *list, _print_keyword_callback, (void *) f);
 }
 
 /**
  * lw6hlp_print_content
  *
+ * @sys_context: global system context
  * @list: a pointer to a list of keywords
  * @f: the file to print the content to
  *
@@ -120,15 +122,16 @@ lw6hlp_print_keyword (lw6sys_list_t ** list, FILE * f)
  * Return value: none.
  */
 void
-lw6hlp_print_content (lw6sys_list_t ** list, FILE * f)
+lw6hlp_print_content (lw6sys_context_t * sys_context, lw6sys_list_t ** list, FILE * f)
 {
-  lw6sys_sort (list, lw6sys_sort_str_callback);
-  lw6sys_list_map (sys_context, *list, print_content_callback, (void *) f);
+  lw6sys_sort (sys_context, list, lw6sys_sort_str_callback);
+  lw6sys_list_map (sys_context, *list, _print_content_callback, (void *) f);
 }
 
 /**
  * lw6hlp_print_about
  *
+ * @sys_context: global system context
  * @keyword: the keyword to print help about
  * @f: the file to print the content to
  *
@@ -138,7 +141,7 @@ lw6hlp_print_content (lw6sys_list_t ** list, FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_about (const char *keyword, FILE * f)
+lw6hlp_print_about (lw6sys_context_t * sys_context, const char *keyword, FILE * f)
 {
   char *doc_str = NULL;
   lw6hlp_type_t type = LW6HLP_TYPE_VOID;
@@ -151,7 +154,8 @@ lw6hlp_print_about (const char *keyword, FILE * f)
 
   doc_str =
     lw6sys_str_reformat (sys_context, lw6hlp_about
-			 (&type, &default_value, &min_value, &max_value, keyword), LW6SYS_REFORMAT_DEFAULT_PREFIX, LW6SYS_REFORMAT_DEFAULT_NB_COLUMNS);
+			 (sys_context, &type, &default_value, &min_value, &max_value, keyword), LW6SYS_REFORMAT_DEFAULT_PREFIX,
+			 LW6SYS_REFORMAT_DEFAULT_NB_COLUMNS);
   if (doc_str)
     {
       switch (type)
@@ -229,6 +233,7 @@ lw6hlp_print_about (const char *keyword, FILE * f)
 /**
  * lw6hlp_print_help
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays a short help message.
@@ -236,7 +241,7 @@ lw6hlp_print_about (const char *keyword, FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_help (FILE * f)
+lw6hlp_print_help (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
@@ -244,11 +249,11 @@ lw6hlp_print_help (FILE * f)
   printf (_("Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"), lw6sys_build_get_package_tarname ());
   fprintf (f, "\n");
 
-  list = lw6hlp_list_quick ();
+  list = lw6hlp_list_quick (sys_context);
   if (list)
     {
-      lw6hlp_print_content (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_content (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 
   fprintf (f, "%s: %s\n\n", _("Home page"), lw6sys_build_get_home_url ());
@@ -260,6 +265,7 @@ lw6hlp_print_help (FILE * f)
 /**
  * lw6hlp_print_version
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the version of the game.
@@ -267,15 +273,16 @@ lw6hlp_print_help (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_version (FILE * f)
+lw6hlp_print_version (lw6sys_context_t * sys_context, FILE * f)
 {
-  fprintf (f, "%s (%s) %s\n", lw6sys_build_get_package_tarname (), lw6sys_build_get_package_name (sys_context,), lw6sys_build_get_version ());
-  lw6hlp_print_short_copyright (f);
+  fprintf (f, "%s (%s) %s\n", lw6sys_build_get_package_tarname (), lw6sys_build_get_package_name (sys_context), lw6sys_build_get_version ());
+  lw6hlp_print_short_copyright (sys_context, f);
 }
 
 /**
  * lw6hlp_print_short_copyright
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the copyright of the game (short version).
@@ -283,7 +290,7 @@ lw6hlp_print_version (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_short_copyright (FILE * f)
+lw6hlp_print_short_copyright (lw6sys_context_t * sys_context, FILE * f)
 {
   fprintf (f, "%s\n", lw6sys_build_get_copyright ());
   fprintf (f, _
@@ -295,6 +302,7 @@ lw6hlp_print_short_copyright (FILE * f)
 /**
  * lw6hlp_print_long_copyright
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the copyright of the game (long version).
@@ -302,7 +310,7 @@ lw6hlp_print_short_copyright (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_long_copyright (FILE * f)
+lw6hlp_print_long_copyright (lw6sys_context_t * sys_context, FILE * f)
 {
   printf
     ("%s",
@@ -327,6 +335,7 @@ lw6hlp_print_long_copyright (FILE * f)
 /**
  * lw6hlp_print_bench
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the program bench value.
@@ -334,7 +343,7 @@ lw6hlp_print_long_copyright (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_bench (float bench_result, FILE * f)
+lw6hlp_print_bench (lw6sys_context_t * sys_context, float bench_result, FILE * f)
 {
   fprintf (f, "%d\n", (int) ceil (bench_result));
   fflush (f);
@@ -343,6 +352,7 @@ lw6hlp_print_bench (float bench_result, FILE * f)
 /**
  * lw6hlp_print_pedigree
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the program pedigree, think of this as
@@ -351,7 +361,7 @@ lw6hlp_print_bench (float bench_result, FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_pedigree (FILE * f)
+lw6hlp_print_pedigree (lw6sys_context_t * sys_context, FILE * f)
 {
   fprintf (f, "package-tarname: %s\n", lw6sys_build_get_package_tarname ());
   fprintf (f, "package-name: %s\n", lw6sys_build_get_package_name ());
@@ -369,13 +379,14 @@ lw6hlp_print_pedigree (FILE * f)
   fprintf (f, "hostname: %s\n", lw6sys_build_get_hostname ());
   fprintf (f, "date: %s\n", lw6sys_build_get_date ());
   fprintf (f, "time: %s\n", lw6sys_build_get_time ());
-  fprintf (f, "bin-id: %d\n", lw6sys_build_get_bin_id ());
+  fprintf (f, "bin-id: %d\n", lw6sys_build_get_bin_id (sys_context));
   fflush (f);
 }
 
 /**
  * lw6hlp_print_host
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the host on which the program was compiled.
@@ -383,10 +394,10 @@ lw6hlp_print_pedigree (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_host (FILE * f)
+lw6hlp_print_host (lw6sys_context_t * sys_context, FILE * f)
 {
   fprintf (f, "host-cpu: %s\n", lw6sys_build_get_host_cpu ());
-  fprintf (f, "endianness: %s\n", lw6sys_build_get_endianness ());
+  fprintf (f, "endianness: %s\n", lw6sys_build_get_endianness (sys_context));
   fprintf (f, "pointer-size: %d\n", lw6sys_build_get_pointer_size ());
   fprintf (f, "x86: %d\n", lw6sys_build_is_x86 ());
   fprintf (f, "host-os: %s\n", lw6sys_build_get_host_os ());
@@ -401,6 +412,7 @@ lw6hlp_print_host (FILE * f)
 /**
  * lw6hlp_print_audit
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays various paths used by the game.
@@ -408,7 +420,7 @@ lw6hlp_print_host (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
+lw6hlp_print_audit (lw6sys_context_t * sys_context, int argc, const char *argv[], FILE * f)
 {
   char *default_path = NULL;
   char *path = NULL;
@@ -417,7 +429,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
    * Those could be in pedigree, but there are more convenient here,
    * compared with other path values.
    */
-  fprintf (f, "top-srcdir: %s\n", lw6sys_build_get_top_srcdir ());
+  fprintf (f, "top-srcdir: %s\n", lw6sys_build_get_top_srcdir (sys_context));
   fprintf (f, "abs-srcdir: %s\n", lw6sys_build_get_abs_srcdir ());
   fprintf (f, "datadir: %s\n", lw6sys_build_get_datadir ());
   fprintf (f, "libdir: %s\n", lw6sys_build_get_libdir ());
@@ -425,7 +437,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
   fprintf (f, "localedir: %s\n", lw6sys_build_get_localedir ());
   fprintf (f, "docdir: %s\n", lw6sys_build_get_docdir ());
 
-  path = lw6sys_get_cwd (sys_context, argc, argv);
+  path = lw6sys_get_cwd (sys_context);
   if (path)
     {
       fprintf (f, "cwd: %s\n", path);
@@ -438,7 +450,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
       LW6SYS_FREE (sys_context, path);
     }
 
-  default_path = lw6sys_get_default_user_dir ();
+  default_path = lw6sys_get_default_user_dir (sys_context);
   if (default_path)
     {
       path = lw6sys_get_user_dir (sys_context, argc, argv);
@@ -454,7 +466,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
       LW6SYS_FREE (sys_context, default_path);
     }
 
-  default_path = lw6sys_get_default_config_file ();
+  default_path = lw6sys_get_default_config_file (sys_context);
   if (default_path)
     {
       path = lw6sys_get_config_file (sys_context, argc, argv);
@@ -470,7 +482,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
       LW6SYS_FREE (sys_context, default_path);
     }
 
-  default_path = lw6sys_get_default_log_file ();
+  default_path = lw6sys_get_default_log_file (sys_context);
   if (default_path)
     {
       path = lw6sys_get_log_file (sys_context, argc, argv);
@@ -486,7 +498,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
       LW6SYS_FREE (sys_context, default_path);
     }
 
-  default_path = lw6sys_get_default_prefix ();
+  default_path = lw6sys_get_default_prefix (sys_context);
   if (default_path)
     {
       path = lw6sys_get_prefix (sys_context, argc, argv);
@@ -502,7 +514,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
       LW6SYS_FREE (sys_context, default_path);
     }
 
-  default_path = lw6sys_get_default_mod_dir ();
+  default_path = lw6sys_get_default_mod_dir (sys_context);
   if (default_path)
     {
       path = lw6sys_get_mod_dir (sys_context, argc, argv);
@@ -518,7 +530,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
       LW6SYS_FREE (sys_context, default_path);
     }
 
-  default_path = lw6sys_get_default_data_dir ();
+  default_path = lw6sys_get_default_data_dir (sys_context);
   if (default_path)
     {
       path = lw6sys_get_data_dir (sys_context, argc, argv);
@@ -534,7 +546,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
       LW6SYS_FREE (sys_context, default_path);
     }
 
-  default_path = lw6sys_get_default_music_dir ();
+  default_path = lw6sys_get_default_music_dir (sys_context);
   if (default_path)
     {
       path = lw6sys_get_music_dir (sys_context, argc, argv);
@@ -550,7 +562,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
       LW6SYS_FREE (sys_context, default_path);
     }
 
-  default_path = lw6sys_get_default_music_path ();
+  default_path = lw6sys_get_default_music_path (sys_context);
   if (default_path)
     {
       path = lw6sys_get_music_path (sys_context, argc, argv);
@@ -566,7 +578,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
       LW6SYS_FREE (sys_context, default_path);
     }
 
-  default_path = lw6sys_get_default_map_dir ();
+  default_path = lw6sys_get_default_map_dir (sys_context);
   if (default_path)
     {
       path = lw6sys_get_map_dir (sys_context, argc, argv);
@@ -582,7 +594,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
       LW6SYS_FREE (sys_context, default_path);
     }
 
-  default_path = lw6sys_get_default_map_path ();
+  default_path = lw6sys_get_default_map_path (sys_context);
   if (default_path)
     {
       path = lw6sys_get_map_path (sys_context, argc, argv);
@@ -598,7 +610,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
       LW6SYS_FREE (sys_context, default_path);
     }
 
-  default_path = lw6sys_get_default_script_file ();
+  default_path = lw6sys_get_default_script_file (sys_context);
   if (default_path)
     {
       path = lw6sys_get_script_file (sys_context, argc, argv);
@@ -620,6 +632,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
 /**
  * lw6hlp_print_modules
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of modules compiled with the game.
@@ -627,7 +640,7 @@ lw6hlp_print_audit (int argc, const char *argv[], FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_modules (FILE * f)
+lw6hlp_print_modules (lw6sys_context_t * sys_context, FILE * f)
 {
   fprintf (f, "enable-console: %s\n", lw6sys_build_get_enable_console ());
   fprintf (f, "enable-gtk: %s\n", lw6sys_build_get_enable_gtk ());
@@ -655,6 +668,7 @@ lw6hlp_print_modules (FILE * f)
 /**
  * lw6hlp_print_credits
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays all credits on f, those should be available elsewhere
@@ -664,14 +678,14 @@ lw6hlp_print_modules (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_credits (FILE * f)
+lw6hlp_print_credits (lw6sys_context_t * sys_context, FILE * f)
 {
   int i = 0;
   char *credits;
 
   for (i = 0; i < LW6HLP_NB_CREDITS_ENTRIES; ++i)
     {
-      credits = lw6hlp_get_credits (i);
+      credits = lw6hlp_get_credits (sys_context, i);
       if (credits)
 	{
 	  fprintf (f, "%s\n", credits);
@@ -685,6 +699,7 @@ lw6hlp_print_credits (FILE * f)
 /**
  * lw6hlp_print_list_quick
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'quick' options.
@@ -692,21 +707,22 @@ lw6hlp_print_credits (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_quick (FILE * f)
+lw6hlp_print_list_quick (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_quick ();
+  list = lw6hlp_list_quick (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_doc
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'doc' options.
@@ -714,21 +730,22 @@ lw6hlp_print_list_quick (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_doc (FILE * f)
+lw6hlp_print_list_doc (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_doc ();
+  list = lw6hlp_list_doc (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_show
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'show' options.
@@ -736,21 +753,22 @@ lw6hlp_print_list_doc (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_show (FILE * f)
+lw6hlp_print_list_show (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_show ();
+  list = lw6hlp_list_show (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_path
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'path' options.
@@ -758,21 +776,22 @@ lw6hlp_print_list_show (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_path (FILE * f)
+lw6hlp_print_list_path (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_path ();
+  list = lw6hlp_list_path (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_players
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'players' options.
@@ -780,21 +799,22 @@ lw6hlp_print_list_path (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_players (FILE * f)
+lw6hlp_print_list_players (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_players ();
+  list = lw6hlp_list_players (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_input
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'input' options.
@@ -802,21 +822,22 @@ lw6hlp_print_list_players (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_input (FILE * f)
+lw6hlp_print_list_input (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_input ();
+  list = lw6hlp_list_input (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_graphics
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'graphics' options.
@@ -824,21 +845,22 @@ lw6hlp_print_list_input (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_graphics (FILE * f)
+lw6hlp_print_list_graphics (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_graphics ();
+  list = lw6hlp_list_graphics (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_sound
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'sound' options.
@@ -846,21 +868,22 @@ lw6hlp_print_list_graphics (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_sound (FILE * f)
+lw6hlp_print_list_sound (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_sound ();
+  list = lw6hlp_list_sound (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_network
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'network' options.
@@ -868,21 +891,22 @@ lw6hlp_print_list_sound (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_network (FILE * f)
+lw6hlp_print_list_network (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_network ();
+  list = lw6hlp_list_network (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_map
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'map' options.
@@ -890,21 +914,22 @@ lw6hlp_print_list_network (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_map (FILE * f)
+lw6hlp_print_list_map (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_map ();
+  list = lw6hlp_list_map (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_map_rules
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'map rules' options.
@@ -912,21 +937,22 @@ lw6hlp_print_list_map (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_map_rules (FILE * f)
+lw6hlp_print_list_map_rules (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_map_rules ();
+  list = lw6hlp_list_map_rules (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_map_hints
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'map hints' options.
@@ -934,21 +960,22 @@ lw6hlp_print_list_map_rules (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_map_hints (FILE * f)
+lw6hlp_print_list_map_hints (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_map_hints ();
+  list = lw6hlp_list_map_hints (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_map_style
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'map style' options.
@@ -956,21 +983,22 @@ lw6hlp_print_list_map_hints (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_map_style (FILE * f)
+lw6hlp_print_list_map_style (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_map_style ();
+  list = lw6hlp_list_map_style (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_map_teams
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'map teams' options.
@@ -978,21 +1006,22 @@ lw6hlp_print_list_map_style (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_map_teams (FILE * f)
+lw6hlp_print_list_map_teams (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_map_teams ();
+  list = lw6hlp_list_map_teams (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_funcs
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'funcs'.
@@ -1000,21 +1029,22 @@ lw6hlp_print_list_map_teams (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_funcs (FILE * f)
+lw6hlp_print_list_funcs (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_funcs ();
+  list = lw6hlp_list_funcs (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_hooks
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'hooks'.
@@ -1022,21 +1052,22 @@ lw6hlp_print_list_funcs (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_hooks (FILE * f)
+lw6hlp_print_list_hooks (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_hooks ();
+  list = lw6hlp_list_hooks (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_advanced
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of 'advanced' options.
@@ -1044,21 +1075,22 @@ lw6hlp_print_list_hooks (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_advanced (FILE * f)
+lw6hlp_print_list_advanced (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_advanced ();
+  list = lw6hlp_list_advanced (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_aliases
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of options aliases.
@@ -1066,21 +1098,22 @@ lw6hlp_print_list_advanced (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_aliases (FILE * f)
+lw6hlp_print_list_aliases (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_aliases ();
+  list = lw6hlp_list_aliases (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_team_colors
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of team colors.
@@ -1088,21 +1121,22 @@ lw6hlp_print_list_aliases (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_team_colors (FILE * f)
+lw6hlp_print_list_team_colors (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_team_colors ();
+  list = lw6hlp_list_team_colors (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list_weapons
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of weapons.
@@ -1110,21 +1144,22 @@ lw6hlp_print_list_team_colors (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list_weapons (FILE * f)
+lw6hlp_print_list_weapons (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_weapons ();
+  list = lw6hlp_list_weapons (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_list
  *
+ * @sys_context: global system context
  * @f: the file to print the content to
  *
  * Displays the list of all known options.
@@ -1132,21 +1167,22 @@ lw6hlp_print_list_weapons (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_list (FILE * f)
+lw6hlp_print_list (lw6sys_context_t * sys_context, FILE * f)
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list ();
+  list = lw6hlp_list (sys_context);
   if (list)
     {
-      lw6hlp_print_keyword (&list, f);
-      lw6sys_list_free (list);
+      lw6hlp_print_keyword (sys_context, &list, f);
+      lw6sys_list_free (sys_context, list);
     }
 }
 
 /**
  * lw6hlp_print_hello
  *
+ * @sys_context: global system context
  * @argc: number of args as passed to main
  * @argv: array of args as passed to main
  *
@@ -1155,7 +1191,7 @@ lw6hlp_print_list (FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_hello (int argc, const char *argv[])
+lw6hlp_print_hello (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   char *username = NULL;
   char *hostname = NULL;
@@ -1165,15 +1201,15 @@ lw6hlp_print_hello (int argc, const char *argv[])
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, "v%s \"%s\" (%s) %s/%s",
 	      lw6sys_build_get_version (),
-	      lw6sys_build_get_codename (), lw6sys_build_get_date (), lw6sys_build_get_host_os (sys_context,), lw6sys_build_get_host_cpu ());
+	      lw6sys_build_get_codename (), lw6sys_build_get_date (), lw6sys_build_get_host_os (sys_context), lw6sys_build_get_host_cpu ());
 
-  date_rfc1123 = lw6sys_date_rfc1123 (0);
+  date_rfc1123 = lw6sys_date_rfc1123 (sys_context, 0);
   if (date_rfc1123)
     {
-      username = lw6sys_get_username ();
+      username = lw6sys_get_username (sys_context);
       if (username)
 	{
-	  hostname = lw6sys_get_hostname ();
+	  hostname = lw6sys_get_hostname (sys_context);
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_INFO, "%s \"%s@%s\"", date_rfc1123, username, hostname);
 	    LW6SYS_FREE (sys_context, hostname);
@@ -1183,17 +1219,20 @@ lw6hlp_print_hello (int argc, const char *argv[])
       LW6SYS_FREE (sys_context, date_rfc1123);
     }
 
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, "%d %s - %d %s", lw6sys_megabytes_available (), _x_ ("Mb"), lw6sys_openmp_get_num_procs (), _x_ ("procs"));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, "%d %s - %d %s", lw6sys_megabytes_available (sys_context), _x_ ("Mb"), lw6sys_openmp_get_num_procs (sys_context),
+	      _x_ ("procs"));
 
-  lw6sys_build_log_all ();
-  lw6sys_options_log_defaults ();
+  lw6sys_build_log_all (sys_context);
+  lw6sys_options_log_defaults (sys_context);
   lw6sys_options_log (sys_context, argc, argv);
 
-  lw6sys_check_types_size (sys_context, argc, argv);
+  lw6sys_check_types_size (sys_context);
 }
 
 /**
  * lw6hlp_print_goodbye
+ *
+ * @sys_context: global system context
  *
  * Displays 'goodbye', typically use at end of program to
  * know it's over and everything went fine.
@@ -1201,7 +1240,7 @@ lw6hlp_print_hello (int argc, const char *argv[])
  * Return value: none
  */
 void
-lw6hlp_print_goodbye ()
+lw6hlp_print_goodbye (lw6sys_context_t * sys_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _("goodbye"));
 }

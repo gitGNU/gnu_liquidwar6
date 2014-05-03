@@ -151,7 +151,7 @@ lw6_main (int argc, const char *argv[])
 	  lw6sys_log_critical (sys_context, _x_ ("can't determine log file"));
 	}
 
-      lw6hlp_print_hello (argc, argv);
+      lw6hlp_print_hello (sys_context, argc, argv);
       lw6_fix_env (argc, argv);
 
       if (lw6_init_global (argc, argv))
@@ -189,7 +189,7 @@ lw6_main (int argc, const char *argv[])
 	  lw6_quit_global ();
 	}
 
-      lw6hlp_print_goodbye ();
+      lw6hlp_print_goodbye (sys_context);
     }
   else
     {

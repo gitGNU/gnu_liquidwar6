@@ -53,7 +53,7 @@ lw6scm_c_define_gsubr (const char *name, int req, int opt, int rst, lw6scm_func_
 {
   int ret = 0;
 
-  if (lw6hlp_is_documented (name))
+  if (lw6hlp_is_documented (sys_context, name))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("registering Guile function \"%s\""), name);
       scm_c_define_gsubr ((const char *) name, req, opt, rst, fcn);

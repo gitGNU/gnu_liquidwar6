@@ -30,12 +30,13 @@ int
 main (int argc, const char *argv[])
 {
   int ret = 0;
+  lw6sys_context_t *sys_context = NULL;
   int run_game = 1;
 
   LW6SYS_MAIN_BEGIN;
   LW6HLP_MAIN_BEGIN;
 
-  ret = lw6hlp_process_non_run_options (argc, argv, &run_game);
+  ret = lw6hlp_process_non_run_options (sys_context, argc, argv, &run_game);
   if (ret && run_game)
     {
       if (argc > 1 && argv[0])
@@ -51,7 +52,7 @@ main (int argc, const char *argv[])
 	}
     }
 
-  lw6sys_clear_memory_bazooka ();
+  lw6sys_clear_memory_bazooka (sys_context);
 
   LW6HLP_MAIN_END;
   LW6SYS_MAIN_END;

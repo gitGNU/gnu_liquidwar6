@@ -193,7 +193,7 @@ _guile_test_callback (_lw6_test_param_t * param)
 
     if (param->coverage_check)
       {
-	funcs = lw6hlp_list_funcs ();
+	funcs = lw6hlp_list_funcs (sys_context);
 	if (funcs)
 	  {
 	    if (lw6scm_coverage_check (&coverage_percent, lw6_global.coverage, funcs) || coverage_percent >= _TEST_COVERAGE_PERCENT_MIN)
@@ -476,7 +476,7 @@ lw6_test_register (int mode)
       lw6bot_test_register (sys_context, mode);
       lw6sim_test_register (sys_context, mode);
       lw6cns_test_register (sys_context, mode);
-      lw6hlp_test_register (mode);
+      lw6hlp_test_register (sys_context, mode);
       lw6cfg_test_register (mode);
       lw6ldr_test_register (mode);
       lw6tsk_test_register (mode);

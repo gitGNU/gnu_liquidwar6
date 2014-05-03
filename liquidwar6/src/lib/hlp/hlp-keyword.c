@@ -31,6 +31,7 @@
 /**
  * lw6hlp_match
  *
+ * @sys_context: global system context
  * @keyword1: the 1st keyword
  * @keyword2: the 2nd keyword
  *
@@ -41,7 +42,7 @@
  * Return value: 1 if matches, 0 if different.
  */
 int
-lw6hlp_match (const char *keyword1, const char *keyword2)
+lw6hlp_match (lw6sys_context_t * sys_context, const char *keyword1, const char *keyword2)
 {
   int ret = 0;
   char *key1 = NULL;

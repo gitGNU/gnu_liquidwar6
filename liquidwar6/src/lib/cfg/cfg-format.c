@@ -93,7 +93,7 @@ lw6cfg_format_guess_type (const char *key, const char *value)
   char *ret = NULL;
   lw6hlp_type_t type;
 
-  type = lw6hlp_get_type (key);
+  type = lw6hlp_get_type (sys_context, key);
   ret = lw6cfg_format (key, value, type);
 
   return ret;

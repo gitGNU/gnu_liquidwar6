@@ -25,8 +25,8 @@
 
 #include "../sys/sys.h"
 
-#define LW6HLP_MAIN_BEGIN {lw6hlp_reference_init();}
-#define LW6HLP_MAIN_END {lw6hlp_reference_quit();}
+#define LW6HLP_MAIN_BEGIN {lw6hlp_reference_init(sys_context);}
+#define LW6HLP_MAIN_END {lw6hlp_reference_quit(sys_context);}
 
 // number of credits entries, how many different lines can be shown
 #define LW6HLP_NB_CREDITS_ENTRIES 26
@@ -46,89 +46,90 @@ typedef enum lw6hlp_type_e
 lw6hlp_type_t;
 
 /* hlp-about.c */
-extern int lw6hlp_is_documented (const char *keyword);
-extern const char *lw6hlp_about (lw6hlp_type_t * type, const char **default_value, int *min_value, int *max_value, const char *keyword);
-extern lw6hlp_type_t lw6hlp_get_type (const char *keyword);
-extern const char *lw6hlp_get_default_value (const char *keyword);
-extern int lw6hlp_get_min_value (const char *keyword);
-extern int lw6hlp_get_max_value (const char *keyword);
+extern int lw6hlp_is_documented (lw6sys_context_t * sys_context, const char *keyword);
+extern const char *lw6hlp_about (lw6sys_context_t * sys_context, lw6hlp_type_t * type, const char **default_value, int *min_value, int *max_value,
+				 const char *keyword);
+extern lw6hlp_type_t lw6hlp_get_type (lw6sys_context_t * sys_context, const char *keyword);
+extern const char *lw6hlp_get_default_value (lw6sys_context_t * sys_context, const char *keyword);
+extern int lw6hlp_get_min_value (lw6sys_context_t * sys_context, const char *keyword);
+extern int lw6hlp_get_max_value (lw6sys_context_t * sys_context, const char *keyword);
 
 /* hlp-credits.c */
-extern char *lw6hlp_get_credits (int id);
+extern char *lw6hlp_get_credits (lw6sys_context_t * sys_context, int id);
 
 /* hlp-options.c */
-extern int lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game);
+extern int lw6hlp_process_non_run_options (lw6sys_context_t * sys_context, int argc, const char *argv[], int *run_game);
 
 /* hlp-keyword.c */
-extern int lw6hlp_match (const char *keyword1, const char *keyword2);
+extern int lw6hlp_match (lw6sys_context_t * sys_context, const char *keyword1, const char *keyword2);
 
 /* hlp-list.c */
-extern lw6sys_list_t *lw6hlp_list_quick ();
-extern lw6sys_list_t *lw6hlp_list_doc ();
-extern lw6sys_list_t *lw6hlp_list_show ();
-extern lw6sys_list_t *lw6hlp_list_path ();
-extern lw6sys_list_t *lw6hlp_list_players ();
-extern lw6sys_list_t *lw6hlp_list_input ();
-extern lw6sys_list_t *lw6hlp_list_graphics ();
-extern lw6sys_list_t *lw6hlp_list_sound ();
-extern lw6sys_list_t *lw6hlp_list_network ();
-extern lw6sys_list_t *lw6hlp_list_map ();
-extern lw6sys_list_t *lw6hlp_list_map_rules ();
-extern lw6sys_list_t *lw6hlp_list_map_hints ();
-extern lw6sys_list_t *lw6hlp_list_map_style ();
-extern lw6sys_list_t *lw6hlp_list_map_teams ();
-extern lw6sys_list_t *lw6hlp_list_funcs ();
-extern lw6sys_list_t *lw6hlp_list_hooks ();
-extern lw6sys_list_t *lw6hlp_list_advanced ();
-extern lw6sys_list_t *lw6hlp_list_aliases ();
-extern lw6sys_list_t *lw6hlp_list_team_colors ();
-extern lw6sys_list_t *lw6hlp_list_weapons ();
-extern lw6sys_list_t *lw6hlp_list ();
+extern lw6sys_list_t *lw6hlp_list_quick (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_doc (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_show (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_path (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_players (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_input (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_graphics (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_sound (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_network (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_map (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_map_rules (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_map_hints (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_map_style (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_map_teams (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_funcs (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_hooks (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_advanced (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_aliases (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_team_colors (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list_weapons (lw6sys_context_t * sys_context);
+extern lw6sys_list_t *lw6hlp_list (lw6sys_context_t * sys_context);
 
 /* hlp-print.c */
-extern void lw6hlp_print_keyword (lw6sys_list_t ** list, FILE * f);
-extern void lw6hlp_print_content (lw6sys_list_t ** list, FILE * f);
-extern void lw6hlp_print_about (const char *keyword, FILE * f);
-extern void lw6hlp_print_help (FILE * f);
-extern void lw6hlp_print_version (FILE * f);
-extern void lw6hlp_print_short_copyright (FILE * f);
-extern void lw6hlp_print_long_copyright (FILE * f);
-extern void lw6hlp_print_bench (float bench_result, FILE * f);
-extern void lw6hlp_print_pedigree (FILE * f);
-extern void lw6hlp_print_host (FILE * f);
-extern void lw6hlp_print_audit (int argc, const char *argv[], FILE * f);
-extern void lw6hlp_print_modules (FILE * f);
-extern void lw6hlp_print_credits (FILE * f);
-extern void lw6hlp_print_list_quick (FILE * f);
-extern void lw6hlp_print_list_doc (FILE * f);
-extern void lw6hlp_print_list_show (FILE * f);
-extern void lw6hlp_print_list_path (FILE * f);
-extern void lw6hlp_print_list_players (FILE * f);
-extern void lw6hlp_print_list_input (FILE * f);
-extern void lw6hlp_print_list_graphics (FILE * f);
-extern void lw6hlp_print_list_sound (FILE * f);
-extern void lw6hlp_print_list_network (FILE * f);
-extern void lw6hlp_print_list_map (FILE * f);
-extern void lw6hlp_print_list_map_hints (FILE * f);
-extern void lw6hlp_print_list_map_rules (FILE * f);
-extern void lw6hlp_print_list_map_style (FILE * f);
-extern void lw6hlp_print_list_map_teams (FILE * f);
-extern void lw6hlp_print_list_funcs (FILE * f);
-extern void lw6hlp_print_list_hooks (FILE * f);
-extern void lw6hlp_print_list_advanced (FILE * f);
-extern void lw6hlp_print_list_aliases (FILE * f);
-extern void lw6hlp_print_list_team_colors (FILE * f);
-extern void lw6hlp_print_list_weapons (FILE * f);
-extern void lw6hlp_print_list (FILE * f);
-extern void lw6hlp_print_hello (int argc, const char *argv[]);
-extern void lw6hlp_print_goodbye ();
+extern void lw6hlp_print_keyword (lw6sys_context_t * sys_context, lw6sys_list_t ** list, FILE * f);
+extern void lw6hlp_print_content (lw6sys_context_t * sys_context, lw6sys_list_t ** list, FILE * f);
+extern void lw6hlp_print_about (lw6sys_context_t * sys_context, const char *keyword, FILE * f);
+extern void lw6hlp_print_help (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_version (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_short_copyright (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_long_copyright (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_bench (lw6sys_context_t * sys_context, float bench_result, FILE * f);
+extern void lw6hlp_print_pedigree (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_host (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_audit (lw6sys_context_t * sys_context, int argc, const char *argv[], FILE * f);
+extern void lw6hlp_print_modules (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_credits (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_quick (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_doc (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_show (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_path (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_players (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_input (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_graphics (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_sound (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_network (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_map (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_map_hints (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_map_rules (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_map_style (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_map_teams (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_funcs (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_hooks (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_advanced (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_aliases (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_team_colors (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list_weapons (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_list (lw6sys_context_t * sys_context, FILE * f);
+extern void lw6hlp_print_hello (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern void lw6hlp_print_goodbye (lw6sys_context_t * sys_context);
 
 /* hlp-reference.c */
-extern int lw6hlp_reference_init ();
-extern void lw6hlp_reference_quit ();
+extern int lw6hlp_reference_init (lw6sys_context_t * sys_context);
+extern void lw6hlp_reference_quit (lw6sys_context_t * sys_context);
 
 /* hlp-test.c */
-extern int lw6hlp_test_register (int mode);
-extern int lw6hlp_test_run (int mode);
+extern int lw6hlp_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6hlp_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif

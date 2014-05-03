@@ -169,7 +169,7 @@ lw6ldr_use_update (lw6ldr_use_t * use, lw6sys_assoc_t * values)
 
   if (values)
     {
-      list = lw6hlp_list_map ();	// contains use switches
+      list = lw6hlp_list_map (sys_context,);	// contains use switches
       if (list)
 	{
 	  data.use = use;

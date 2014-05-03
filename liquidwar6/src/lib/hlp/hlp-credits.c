@@ -51,6 +51,7 @@
 /**
  * lw6hlp_get_credits
  *
+ * @sys_context: global system context
  * @id: the id of the credits line to return
  *
  * Returns a "credit line", that is a short sentence, about 30 to 50 chars,
@@ -61,7 +62,7 @@
  * Return value: the string, must be freed.
  */
 char *
-lw6hlp_get_credits (int id)
+lw6hlp_get_credits (lw6sys_context_t * sys_context, int id)
 {
   char *ret = NULL;
 
@@ -149,7 +150,7 @@ lw6hlp_get_credits (int id)
       ret = lw6sys_new_sprintf (sys_context, _("Fight software patents %s"), _FFII_URL);
       break;
     case 25:
-      ret = lw6sys_new_sprintf ("%s: %s", _("Report bugs"), lw6sys_build_get_bugs_url ());
+      ret = lw6sys_new_sprintf (sys_context, "%s: %s", _("Report bugs"), lw6sys_build_get_bugs_url ());
       break;
     default:
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _("unable to handle credits id %d"), id);

@@ -121,7 +121,7 @@ lw6_init_global (int argc, const char *argv[])
 
   if (ret)
     {
-      funcs = lw6hlp_list_funcs ();
+      funcs = lw6hlp_list_funcs (sys_context);
       if (funcs)
 	{
 	  ret = ret && ((lw6_global.coverage = lw6scm_coverage_new (funcs)) != NULL);

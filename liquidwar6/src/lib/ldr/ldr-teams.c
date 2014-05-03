@@ -130,7 +130,7 @@ lw6ldr_teams_update (lw6map_teams_t * teams, lw6sys_assoc_t * values)
 
   if (values)
     {
-      list = lw6hlp_list_map_teams ();
+      list = lw6hlp_list_map_teams (sys_context);
       if (list)
 	{
 	  data.teams = teams;
