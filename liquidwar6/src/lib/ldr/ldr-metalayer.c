@@ -30,7 +30,8 @@
 #include "ldr-internal.h"
 
 static int
-read_png (lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image, lw6ldr_resampler_t * resampler, int analog, lw6sys_progress_t * progress)
+_read_png (lw6sys_context_t * sys_context, lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image, lw6ldr_resampler_t * resampler, int analog,
+	   lw6sys_progress_t * progress)
 {
   int ret = 0;
 
@@ -49,7 +50,7 @@ read_png (lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image, lw6ldr_r
 	  lw6sys_progress_update (sys_context, progress, 0, meta_layer->shape.h, row);
 	  for (col = 0; col < meta_layer->shape.w; ++col)
 	    {
-	      lw6ldr_resampler_target2source (resampler, &col2, &row2, col, row);
+	      lw6ldr_resampler_target2source (sys_context, resampler, &col2, &row2, col, row);
 	      /*
 	       * For metalayers, we always "invert" the layer meaning,
 	       * that is black is "metalayer param set to full" and
@@ -78,6 +79,7 @@ read_png (lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image, lw6ldr_r
 /**
  * lw6ldr_meta_layer_read
  *
+ * @sys_context: global system context
  * @meta_layer: the meta layer to read
  * @filename: the file to open
  * @target_w: the wanted width
@@ -90,7 +92,7 @@ read_png (lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image, lw6ldr_r
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer, const char *filename, int target_w, int target_h, int analog)
+lw6ldr_meta_layer_read (lw6sys_context_t * sys_context, lw6map_meta_layer_t * meta_layer, const char *filename, int target_w, int target_h, int analog)
 {
   int ret = 0;
   lw6ldr_resampler_t resampler;
@@ -98,12 +100,12 @@ lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer, const char *filename, 
 
   lw6map_meta_layer_clear (sys_context, meta_layer);
   memset (&image, 0, sizeof (_lw6ldr_image_bw_t));
-  if (_lw6ldr_bw_read (&image, filename, NULL))
+  if (_lw6ldr_bw_read (sys_context, &image, filename, NULL))
     {
-      lw6ldr_resampler_force (&resampler, image.w, image.h, target_w, target_h);
-      ret = read_png (meta_layer, &image, &resampler, analog, NULL);
+      lw6ldr_resampler_force (sys_context, &resampler, image.w, image.h, target_w, target_h);
+      ret = _read_png (sys_context, meta_layer, &image, &resampler, analog, NULL);
 
-      _lw6ldr_bw_clear (&image);
+      _lw6ldr_bw_clear (sys_context, &image);
     }
 
   if (!ret)
@@ -117,6 +119,7 @@ lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer, const char *filename, 
 /**
  * lw6ldr_meta_layer_read_if_exists
  *
+ * @sys_context: global system context
  * @meta_layer: the meta layer to read
  * @dirname: the map directory
  * @file_only: the meta-layer file name only (without the path)
@@ -132,7 +135,8 @@ lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer, const char *filename, 
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6ldr_meta_layer_read_if_exists (lw6map_meta_layer_t * meta_layer, const char *dirname, const char *file_only, int target_w, int target_h, int analog)
+lw6ldr_meta_layer_read_if_exists (lw6sys_context_t * sys_context, lw6map_meta_layer_t * meta_layer, const char *dirname, const char *file_only, int target_w,
+				  int target_h, int analog)
 {
   int ret = 0;
   char *dot_png = NULL;
@@ -140,9 +144,9 @@ lw6ldr_meta_layer_read_if_exists (lw6map_meta_layer_t * meta_layer, const char *
   dot_png = lw6sys_path_concat (sys_context, dirname, file_only);
   if (dot_png)
     {
-      if (lw6sys_file_exists (dot_png))
+      if (lw6sys_file_exists (sys_context, dot_png))
 	{
-	  ret = lw6ldr_meta_layer_read (meta_layer, dot_png, target_w, target_h, analog);
+	  ret = lw6ldr_meta_layer_read (sys_context, meta_layer, dot_png, target_w, target_h, analog);
 	}
       else
 	{

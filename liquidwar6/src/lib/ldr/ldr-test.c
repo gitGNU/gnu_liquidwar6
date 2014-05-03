@@ -62,12 +62,13 @@
 typedef struct _lw6ldr_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
 } _lw6ldr_test_data_t;
 
-static _lw6ldr_test_data_t _test_data = { 0 };
+static _lw6ldr_test_data_t _test_data = { 0, NULL };
 
 static int
-check_map_with_absolute_path (char *absolute_path)
+_check_map_with_absolute_path (lw6sys_context_t * sys_context, char *absolute_path)
 {
   lw6map_level_t *level1 = NULL;
   lw6map_level_t *level2 = NULL;
@@ -80,11 +81,11 @@ check_map_with_absolute_path (char *absolute_path)
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("deep check \"%s\""), absolute_path);
 
-  user_dir = lw6sys_get_default_user_dir ();
+  user_dir = lw6sys_get_default_user_dir (sys_context);
   if (LW6SYS_TEST_ACK (user_dir))
     {
       level1 =
-	lw6ldr_read (absolute_path, NULL, NULL, _TEST_DISPLAY_WIDTH,
+	lw6ldr_read (sys_context, absolute_path, NULL, NULL, _TEST_DISPLAY_WIDTH,
 		     _TEST_DISPLAY_HEIGHT, LW6LDR_DEFAULT_BENCH_VALUE, LW6LDR_DEFAULT_MAGIC_NUMBER, user_dir, NULL);
       if (LW6SYS_TEST_ACK (level1))
 	{
@@ -151,7 +152,7 @@ check_map_with_absolute_path (char *absolute_path)
 }
 
 static void
-_test_data_callback_quick (void *func_data, void *data)
+_test_data_callback_quick (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   lw6ldr_entry_t *entry = (lw6ldr_entry_t *) data;
   int *ret = (int *) func_data;
@@ -169,7 +170,7 @@ _test_data_callback_quick (void *func_data, void *data)
 }
 
 static void
-_test_data_callback_deep (void *func_data, void *data)
+_test_data_callback_deep (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   lw6ldr_entry_t *entry = (lw6ldr_entry_t *) data;
   int *ret = (int *) func_data;
@@ -179,7 +180,7 @@ _test_data_callback_deep (void *func_data, void *data)
     {
       if (!entry->forbidden)
 	{
-	  ok = check_map_with_absolute_path (entry->absolute_path);
+	  ok = _check_map_with_absolute_path (sys_context, entry->absolute_path);
 	  if (LW6SYS_TEST_ACK (ret))
 	    {
 	      (*ret) = (*ret) && ok;
@@ -195,6 +196,7 @@ static void
 _test_quick ()
 {
   int ret = 0;
+  lw6sys_context_t *sys_context = NULL;
 
   LW6SYS_TEST_FUNCTION_BEGIN;
 
@@ -212,7 +214,7 @@ _test_quick ()
 	user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
 	if (LW6SYS_TEST_ACK (user_dir))
 	  {
-	    lw6ldr_for_all_entries (map_path, "", user_dir, 1, _test_data_callback_quick, &ret);
+	    lw6ldr_for_all_entries (sys_context, map_path, "", user_dir, 1, _test_data_callback_quick, &ret);
 	    LW6SYS_FREE (sys_context, user_dir);
 	  }
 	LW6SYS_FREE (sys_context, map_path);
@@ -229,6 +231,7 @@ static void
 _test_deep ()
 {
   int ret = 0;
+  lw6sys_context_t *sys_context = NULL;
 
   LW6SYS_TEST_FUNCTION_BEGIN;
 
@@ -246,7 +249,7 @@ _test_deep ()
 	user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
 	if (LW6SYS_TEST_ACK (user_dir))
 	  {
-	    lw6ldr_for_all_entries (map_path, "", user_dir, 0, _test_data_callback_deep, &ret);
+	    lw6ldr_for_all_entries (sys_context, map_path, "", user_dir, 0, _test_data_callback_deep, &ret);
 	    LW6SYS_FREE (sys_context, user_dir);
 	  }
 	LW6SYS_FREE (sys_context, map_path);
@@ -263,7 +266,10 @@ static void
 _test_dir ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
+
   const int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0, _TEST_ARGV1 };
 
@@ -282,14 +288,14 @@ _test_dir ()
 	if (LW6SYS_TEST_ACK (user_dir))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("user_dir=\"%s\""), user_dir);
-	    entries = lw6ldr_get_entries (map_path, _TEST_DIR_RELATIVE_PATH, user_dir);
+	    entries = lw6ldr_get_entries (sys_context, map_path, _TEST_DIR_RELATIVE_PATH, user_dir);
 	    if (LW6SYS_TEST_ACK (entries))
 	      {
 		while (entries && (entry = lw6sys_lifo_pop (sys_context, &entries)) != NULL)
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("found map \"%s\" in \"%s\""), entry->metadata.title, entry->absolute_path);
 		    entry_found = 1;
-		    lw6ldr_free_entry (entry);
+		    lw6ldr_free_entry (sys_context, entry);
 		  };
 	      }
 	    else
@@ -302,11 +308,11 @@ _test_dir ()
 	    ret = 0;
 	  }
 
-	entry = lw6ldr_chain_entry (map_path, _TEST_DIR_CHAIN_PATH, user_dir);
+	entry = lw6ldr_chain_entry (sys_context, map_path, _TEST_DIR_CHAIN_PATH, user_dir);
 	if (LW6SYS_TEST_ACK (entry))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("chain for \"%s\" is \"%s\""), _TEST_DIR_CHAIN_PATH, entry->relative_path);
-	    lw6ldr_free_entry (entry);
+	    lw6ldr_free_entry (sys_context, entry);
 	  }
 	else
 	  {
@@ -340,6 +346,8 @@ static void
 _test_param ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -356,7 +364,7 @@ _test_param ()
 	lw6sys_assoc_set (sys_context, &values, _TEST_PARAM_KEY2, _TEST_PARAM_VALUE2);
 	lw6sys_assoc_set (sys_context, &values, _TEST_PARAM_KEY3, _TEST_PARAM_VALUE3);
 
-	if (LW6SYS_TEST_ACK (lw6ldr_param_update (&param, values)))
+	if (LW6SYS_TEST_ACK (lw6ldr_param_update (sys_context, &param, values)))
 	  {
 	    ret = 1;
 	  }
@@ -382,14 +390,16 @@ static void
 _test_hints ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
     lw6ldr_hints_t hints;
     lw6sys_assoc_t *values = NULL;
 
-    lw6ldr_hints_zero (&hints);
-    lw6ldr_hints_defaults (&hints);
+    lw6ldr_hints_zero (sys_context, &hints);
+    lw6ldr_hints_defaults (sys_context, &hints);
 
     values = lw6sys_assoc_new (sys_context, NULL);
     if (LW6SYS_TEST_ACK (values))
@@ -398,7 +408,7 @@ _test_hints ()
 	lw6sys_assoc_set (sys_context, &values, _TEST_HINTS_KEY2, _TEST_HINTS_VALUE2);
 	lw6sys_assoc_set (sys_context, &values, _TEST_HINTS_KEY3, _TEST_HINTS_VALUE3);
 
-	if (LW6SYS_TEST_ACK (lw6ldr_hints_update (&hints, values)))
+	if (LW6SYS_TEST_ACK (lw6ldr_hints_update (sys_context, &hints, values)))
 	  {
 	    ret = 1;
 	  }
@@ -410,7 +420,7 @@ _test_hints ()
 	ret = 0;
       }
 
-    lw6ldr_hints_clear (&hints);
+    lw6ldr_hints_clear (sys_context, &hints);
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -423,6 +433,8 @@ static void
 _test_teams ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -439,7 +451,7 @@ _test_teams ()
 	lw6sys_assoc_set (sys_context, &values, _TEST_TEAMS_KEY2, _TEST_TEAMS_VALUE2);
 	lw6sys_assoc_set (sys_context, &values, _TEST_TEAMS_KEY3, _TEST_TEAMS_VALUE3);
 
-	if (LW6SYS_TEST_ACK (lw6ldr_teams_update (&teams, values)))
+	if (LW6SYS_TEST_ACK (lw6ldr_teams_update (sys_context, &teams, values)))
 	  {
 	    ret = 1;
 	  }
@@ -464,7 +476,10 @@ static void
 _test_read ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
+
   const int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0, _TEST_ARGV1 };
 
@@ -486,7 +501,7 @@ _test_read ()
 	if (LW6SYS_TEST_ACK (user_dir))
 	  {
 	    level =
-	      lw6ldr_read_relative (map_path, _TEST_MAP, NULL, NULL,
+	      lw6ldr_read_relative (sys_context, map_path, _TEST_MAP, NULL, NULL,
 				    _TEST_DISPLAY_WIDTH, _TEST_DISPLAY_HEIGHT, LW6LDR_DEFAULT_BENCH_VALUE, LW6LDR_DEFAULT_MAGIC_NUMBER, user_dir, &progress);
 	    if (LW6SYS_TEST_ACK (level))
 	      {
@@ -531,13 +546,15 @@ static void
 _test_resampler ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
     int map_w = 0;
     int map_h = 0;
 
-    lw6ldr_resampler_use_for_gen (&map_w, &map_h, _TEST_RESAMPLER_DISPLAY_W,
+    lw6ldr_resampler_use_for_gen (sys_context, &map_w, &map_h, _TEST_RESAMPLER_DISPLAY_W,
 				  _TEST_RESAMPLER_DISPLAY_H, LW6LDR_DEFAULT_BENCH_VALUE, LW6LDR_DEFAULT_MAGIC_NUMBER);
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		_x_ ("gen would create a %dx%d map with a display of %dx%d"), map_w, map_h, _TEST_RESAMPLER_DISPLAY_W, _TEST_RESAMPLER_DISPLAY_H);
@@ -549,20 +566,27 @@ _test_resampler ()
 static int
 _setup_init ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libldr CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libldr CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 /**
  * lw6ldr_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libldr module.
@@ -570,10 +594,12 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6ldr_test_register (int mode)
+lw6ldr_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -610,6 +636,7 @@ lw6ldr_test_register (int mode)
 /**
  * lw6ldr_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @ldr module test suite, testing most (if not all...)
@@ -618,11 +645,13 @@ lw6ldr_test_register (int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6ldr_test_run (int mode)
+lw6ldr_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;

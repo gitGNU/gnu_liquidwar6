@@ -30,6 +30,7 @@
 /**
  * lw6ldr_cursor_texture_read
  *
+ * @sys_context: global system context
  * @cursor_texture: the cursor texture (out param)
  * @dirname: the directory we load the data form (map dir)
  *
@@ -38,7 +39,7 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture, const char *dirname)
+lw6ldr_cursor_texture_read (lw6sys_context_t * sys_context, lw6map_cursor_texture_t * cursor_texture, const char *dirname)
 {
   int ret = 1;
   int found = 0;
@@ -53,7 +54,7 @@ lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture, const char
       if (lw6sys_file_exists (sys_context, cursor_dot_png))
 	{
 	  found = 1;
-	  ret = ret && _lw6ldr_cursor_texture_layer_read_png (&(cursor_texture->fg_bg_layer), cursor_dot_png);
+	  ret = ret && _lw6ldr_cursor_texture_layer_read_png (sys_context, &(cursor_texture->fg_bg_layer), cursor_dot_png);
 	}
       LW6SYS_FREE (sys_context, cursor_dot_png);
     }
@@ -64,7 +65,7 @@ lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture, const char
       if (lw6sys_file_exists (sys_context, cursor_color_dot_png))
 	{
 	  found = 1;
-	  ret = ret && _lw6ldr_cursor_texture_layer_read_png (&(cursor_texture->color_layer), cursor_color_dot_png);
+	  ret = ret && _lw6ldr_cursor_texture_layer_read_png (sys_context, &(cursor_texture->color_layer), cursor_color_dot_png);
 	}
       LW6SYS_FREE (sys_context, cursor_color_dot_png);
     }

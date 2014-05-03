@@ -32,6 +32,7 @@
 /**
  * lw6ldr_param_read
  *
+ * @sys_context: global system context
  * @param: the parameter struct to fill with values (read/write parameter)
  * @dirname: the directory of the map
  *
@@ -42,11 +43,11 @@
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6ldr_param_read (lw6map_param_t * param, const char *dirname)
+lw6ldr_param_read (lw6sys_context_t * sys_context, lw6map_param_t * param, const char *dirname)
 {
   int ret = 0;
 
-  ret = lw6ldr_rules_read (&(param->rules), dirname) && lw6ldr_style_read (&(param->style), dirname);
+  ret = lw6ldr_rules_read (sys_context, &(param->rules), dirname) && lw6ldr_style_read (sys_context, &(param->style), dirname);
 
   return ret;
 }
@@ -54,6 +55,7 @@ lw6ldr_param_read (lw6map_param_t * param, const char *dirname)
 /**
  * lw6ldr_param_update
  *
+ * @sys_context: global system context
  * @param: the parameter struct to fill with values (read/write parameter)
  * @values: an assoc containing strings with the new values
  *
@@ -66,16 +68,16 @@ lw6ldr_param_read (lw6map_param_t * param, const char *dirname)
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6ldr_param_update (lw6map_param_t * param, lw6sys_assoc_t * values)
+lw6ldr_param_update (lw6sys_context_t * sys_context, lw6map_param_t * param, lw6sys_assoc_t * values)
 {
   int ret = 1;
 
-  if (!lw6ldr_rules_update (&(param->rules), values))
+  if (!lw6ldr_rules_update (sys_context, &(param->rules), values))
     {
       ret = 0;
     }
 
-  if (!lw6ldr_style_update (&(param->style), values))
+  if (!lw6ldr_style_update (sys_context, &(param->style), values))
     {
       ret = 0;
     }

@@ -30,7 +30,7 @@
 #include "ldr-internal.h"
 
 static int
-read_image (lw6map_texture_t * texture, _lw6ldr_image_rgba_t * image)
+_read_image (lw6sys_context_t * sys_context, lw6map_texture_t * texture, _lw6ldr_image_rgba_t * image)
 {
   int ret = 0;
 
@@ -63,7 +63,7 @@ read_image (lw6map_texture_t * texture, _lw6ldr_image_rgba_t * image)
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to allocate memory for texture"));
     }
 
-  _lw6ldr_rgba_clear (image);
+  _lw6ldr_rgba_clear (sys_context, image);
 
   if (!ret)
     {
@@ -74,7 +74,7 @@ read_image (lw6map_texture_t * texture, _lw6ldr_image_rgba_t * image)
 }
 
 static int
-read_alpha_image (lw6map_texture_t * texture, _lw6ldr_image_rgba_t * image)
+_read_alpha_image (lw6sys_context_t * sys_context, lw6map_texture_t * texture, _lw6ldr_image_rgba_t * image)
 {
   int ret = 0;
 
@@ -108,13 +108,13 @@ read_alpha_image (lw6map_texture_t * texture, _lw6ldr_image_rgba_t * image)
 		  _x_ ("texture size (%dx%d) and alpha layer size (%dx%d) do not match"), texture->w, texture->h, image->w, image->h);
     }
 
-  _lw6ldr_rgba_clear (image);
+  _lw6ldr_rgba_clear (sys_context, image);
 
   return ret;
 }
 
 static int
-read_png (lw6map_texture_t * texture, const char *texture_dot_png, lw6sys_progress_t * progress)
+_read_png (lw6sys_context_t * sys_context, lw6map_texture_t * texture, const char *texture_dot_png, lw6sys_progress_t * progress)
 {
   int ret = 0;
   _lw6ldr_image_rgba_t image;
@@ -123,16 +123,16 @@ read_png (lw6map_texture_t * texture, const char *texture_dot_png, lw6sys_progre
 
   memset (&image, 0, sizeof (_lw6ldr_image_rgba_t));
 
-  if (_lw6ldr_rgba_read_png (&image, texture_dot_png, progress))
+  if (_lw6ldr_rgba_read_png (sys_context, &image, texture_dot_png, progress))
     {
-      ret = read_image (texture, &image);
+      ret = _read_image (sys_context, texture, &image);
     }
 
   return ret;
 }
 
 static int
-read_jpeg (lw6map_texture_t * texture, const char *texture_dot_jpeg, lw6sys_progress_t * progress)
+_read_jpeg (lw6sys_context_t * sys_context, lw6map_texture_t * texture, const char *texture_dot_jpeg, lw6sys_progress_t * progress)
 {
   int ret = 0;
   _lw6ldr_image_rgba_t image;
@@ -141,16 +141,16 @@ read_jpeg (lw6map_texture_t * texture, const char *texture_dot_jpeg, lw6sys_prog
 
   memset (&image, 0, sizeof (_lw6ldr_image_rgba_t));
 
-  if (_lw6ldr_rgba_read_jpeg (&image, texture_dot_jpeg, progress))
+  if (_lw6ldr_rgba_read_jpeg (sys_context, &image, texture_dot_jpeg, progress))
     {
-      ret = read_image (texture, &image);
+      ret = _read_image (sys_context, texture, &image);
     }
 
   return ret;
 }
 
 static int
-read_alpha_jpeg (lw6map_texture_t * texture, const char *texture_alpha_dot_jpeg, lw6sys_progress_t * progress)
+_read_alpha_jpeg (lw6sys_context_t * sys_context, lw6map_texture_t * texture, const char *texture_alpha_dot_jpeg, lw6sys_progress_t * progress)
 {
   int ret = 0;
   _lw6ldr_image_rgba_t image;
@@ -159,9 +159,9 @@ read_alpha_jpeg (lw6map_texture_t * texture, const char *texture_alpha_dot_jpeg,
 
   memset (&image, 0, sizeof (_lw6ldr_image_rgba_t));
 
-  if (_lw6ldr_rgba_read_jpeg (&image, texture_alpha_dot_jpeg, progress))
+  if (_lw6ldr_rgba_read_jpeg (sys_context, &image, texture_alpha_dot_jpeg, progress))
     {
-      ret = read_alpha_image (texture, &image);
+      ret = _read_alpha_image (sys_context, texture, &image);
     }
 
   return ret;
@@ -170,6 +170,7 @@ read_alpha_jpeg (lw6map_texture_t * texture, const char *texture_alpha_dot_jpeg,
 /**
  * lw6ldr_texture_read
  *
+ * @sys_context: global system context
  * @texture: structure to hold read data
  * @dirname: map dirname (absolute path)
  * @param: parameters to use
@@ -188,7 +189,7 @@ read_alpha_jpeg (lw6map_texture_t * texture, const char *texture_alpha_dot_jpeg,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
+lw6ldr_texture_read (lw6sys_context_t * sys_context, lw6map_texture_t * texture, const char *dirname,
 		     const lw6map_param_t * param,
 		     const lw6ldr_hints_t * hints, int use_texture,
 		     int display_w, int display_h, float *ratio, int *texture_exists, lw6sys_progress_t * progress)
@@ -211,7 +212,7 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
 	{
 	  if (lw6sys_file_exists (sys_context, texture_dot_png))
 	    {
-	      ret = read_png (texture, texture_dot_png, progress);
+	      ret = _read_png (sys_context, texture, texture_dot_png, progress);
 	      (*texture_exists) = ret;
 	    }
 	  LW6SYS_FREE (sys_context, texture_dot_png);
@@ -230,7 +231,7 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
 	{
 	  if (lw6sys_file_exists (sys_context, texture_dot_jpeg))
 	    {
-	      ret = read_jpeg (texture, texture_dot_jpeg, progress);
+	      ret = _read_jpeg (sys_context, texture, texture_dot_jpeg, progress);
 	      (*texture_exists) = ret;
 	    }
 	  LW6SYS_FREE (sys_context, texture_dot_jpeg);
@@ -243,7 +244,7 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
 	    {
 	      if (lw6sys_file_exists (sys_context, texture_dot_jpeg))
 		{
-		  ret = read_jpeg (texture, texture_dot_jpeg, progress);
+		  ret = _read_jpeg (sys_context, texture, texture_dot_jpeg, progress);
 		  (*texture_exists) = ret;
 		}
 	      LW6SYS_FREE (sys_context, texture_dot_jpeg);
@@ -264,7 +265,7 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
 	{
 	  if (lw6sys_file_exists (sys_context, texture_alpha_dot_jpeg))
 	    {
-	      ret = read_alpha_jpeg (texture, texture_alpha_dot_jpeg, NULL);
+	      ret = _read_alpha_jpeg (sys_context, texture, texture_alpha_dot_jpeg, NULL);
 	    }
 	  LW6SYS_FREE (sys_context, texture_alpha_dot_jpeg);
 	}
@@ -275,7 +276,7 @@ lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
 	    {
 	      if (lw6sys_file_exists (sys_context, texture_alpha_dot_jpeg))
 		{
-		  ret = read_alpha_jpeg (texture, texture_alpha_dot_jpeg, NULL);
+		  ret = _read_alpha_jpeg (sys_context, texture, texture_alpha_dot_jpeg, NULL);
 		}
 	      LW6SYS_FREE (sys_context, texture_alpha_dot_jpeg);
 	    }

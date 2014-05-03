@@ -36,7 +36,7 @@
 #include "ldr-internal.h"
 
 int
-_lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, const char *png_file, lw6sys_progress_t * progress)
+_lw6ldr_rgba_read_png (lw6sys_context_t * sys_context, _lw6ldr_image_rgba_t * image, const char *png_file, lw6sys_progress_t * progress)
 {
   png_structp png_ptr = NULL;
   png_infop info_ptr = NULL;
@@ -186,7 +186,7 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, const char *png_file, lw6sy
 
   if (!ret)
     {
-      _lw6ldr_rgba_clear (image);
+      _lw6ldr_rgba_clear (sys_context, image);
     }
 
   lw6sys_progress_end (sys_context, progress);
@@ -195,7 +195,7 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, const char *png_file, lw6sy
 }
 
 int
-_lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, const char *jpeg_file, lw6sys_progress_t * progress)
+_lw6ldr_rgba_read_jpeg (lw6sys_context_t * sys_context, _lw6ldr_image_rgba_t * image, const char *jpeg_file, lw6sys_progress_t * progress)
 {
   int ret = 0;
   FILE *f = NULL;
@@ -332,7 +332,7 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, const char *jpeg_file, lw6
 
   if (!ret)
     {
-      _lw6ldr_rgba_clear (image);
+      _lw6ldr_rgba_clear (sys_context, image);
     }
 
   lw6sys_progress_end (sys_context, progress);
@@ -345,7 +345,7 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, const char *jpeg_file, lw6
  * Clear everything and free data pointers.
  */
 extern void
-_lw6ldr_rgba_clear (_lw6ldr_image_rgba_t * image)
+_lw6ldr_rgba_clear (lw6sys_context_t * sys_context, _lw6ldr_image_rgba_t * image)
 {
   int row;
 

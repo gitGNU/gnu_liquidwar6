@@ -58,7 +58,7 @@ _register_and_run_tests (int argc, const char **argv, int mode)
 	    && lw6bot_test_register (sys_context, mode) && lw6gen_test_register (sys_context, mode)
 	    && lw6sim_test_register (sys_context, mode) && lw6cns_test_register (sys_context, mode)
 	    && lw6hlp_test_register (sys_context, mode) && lw6cfg_test_register (sys_context, mode)
-	    && lw6ldr_test_register (mode) && lw6tsk_test_register (mode)
+	    && lw6ldr_test_register (sys_context, mode) && lw6tsk_test_register (mode)
 	    && lw6mat_test_register (mode) && lw6gui_test_register (mode)
 	    && lw6vox_test_register (mode) && lw6gfx_test_register (mode)
 	    && lw6dsp_test_register (mode) && lw6snd_test_register (mode)
@@ -110,7 +110,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
    * The following will call lw6hlp_process_non_run_options under
    * the hood, handling basic syntax and a load of doc-related options.
    */
-  ret = lw6ldr_process_non_run_options (argc, argv, run_game);
+  ret = lw6ldr_process_non_run_options (sys_context, argc, argv, run_game);
   if (ret && (*run_game))
     {
       for (i = 1; i < argc; ++i)

@@ -30,7 +30,8 @@
 #include "ldr-internal.h"
 
 static int
-read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image, const lw6ldr_resampler_t * resampler, lw6sys_progress_t * progress)
+_read_png (lw6sys_context_t * sys_context, lw6map_layer_t * layer, _lw6ldr_image_bw_t * image, const lw6ldr_resampler_t * resampler,
+	   lw6sys_progress_t * progress)
 {
   int ret = 0;
 
@@ -49,7 +50,7 @@ read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image, const lw6ldr_resam
 	  lw6sys_progress_update (sys_context, progress, 0, layer->shape.h, row);
 	  for (col = 0; col < layer->shape.w; ++col)
 	    {
-	      lw6ldr_resampler_target2source (resampler, &col2, &row2, col, row);
+	      lw6ldr_resampler_target2source (sys_context, resampler, &col2, &row2, col, row);
 
 	      value = image->data[row2][col2 * image->step];
 	      /*
@@ -79,6 +80,7 @@ read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image, const lw6ldr_resam
 /**
  * lw6ldr_layer_read_first
  *
+ * @sys_context: global system context
  * @layer: layer to update (out param)
  * @filename: name of PNG file
  * @param: parameters of the map
@@ -98,7 +100,7 @@ read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image, const lw6ldr_resam
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ldr_layer_read_first (lw6map_layer_t * layer, const char *filename,
+lw6ldr_layer_read_first (lw6sys_context_t * sys_context, lw6map_layer_t * layer, const char *filename,
 			 lw6map_param_t * param, const lw6ldr_hints_t * hints,
 			 int display_w, int display_h, float target_ratio, int bench_value, int magic_number, int expected_depth, lw6sys_progress_t * progress)
 {
@@ -113,18 +115,18 @@ lw6ldr_layer_read_first (lw6map_layer_t * layer, const char *filename,
 
   lw6map_layer_clear (sys_context, layer);
   memset (&image, 0, sizeof (_lw6ldr_image_bw_t));
-  if (_lw6ldr_bw_read (&image, filename, &progress1))
+  if (_lw6ldr_bw_read (sys_context, &image, filename, &progress1))
     {
       if (target_ratio <= 0.0f)
 	{
 	  target_ratio = ((float) image.w) / ((float) image.h);
 	}
-      gray_level = _lw6ldr_bw_gray_level (&image);
-      lw6ldr_resampler_init (&resampler, param, hints, image.w, image.h,
+      gray_level = _lw6ldr_bw_gray_level (sys_context, &image);
+      lw6ldr_resampler_init (sys_context, &resampler, param, hints, image.w, image.h,
 			     display_w, display_h, target_ratio, bench_value, magic_number, expected_depth, gray_level);
-      ret = read_png (layer, &image, &resampler, &progress2);
+      ret = _read_png (sys_context, layer, &image, &resampler, &progress2);
 
-      _lw6ldr_bw_clear (&image);
+      _lw6ldr_bw_clear (sys_context, &image);
     }
 
   if (!ret)
@@ -138,6 +140,7 @@ lw6ldr_layer_read_first (lw6map_layer_t * layer, const char *filename,
 /**
  * lw6ldr_layer_read_next
  *
+ * @sys_context: global system context
  * @layer: layer to update (out param)
  * @filename: name of PNG file
  * @target_w: width we want
@@ -149,7 +152,7 @@ lw6ldr_layer_read_first (lw6map_layer_t * layer, const char *filename,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ldr_layer_read_next (lw6map_layer_t * layer, const char *filename, int target_w, int target_h)
+lw6ldr_layer_read_next (lw6sys_context_t * sys_context, lw6map_layer_t * layer, const char *filename, int target_w, int target_h)
 {
   int ret = 0;
   lw6ldr_resampler_t resampler;
@@ -157,12 +160,12 @@ lw6ldr_layer_read_next (lw6map_layer_t * layer, const char *filename, int target
 
   lw6map_layer_clear (sys_context, layer);
   memset (&image, 0, sizeof (_lw6ldr_image_bw_t));
-  if (_lw6ldr_bw_read (&image, filename, NULL))
+  if (_lw6ldr_bw_read (sys_context, &image, filename, NULL))
     {
-      lw6ldr_resampler_force (&resampler, image.w, image.h, target_w, target_h);
-      ret = read_png (layer, &image, &resampler, NULL);
+      lw6ldr_resampler_force (sys_context, &resampler, image.w, image.h, target_w, target_h);
+      ret = _read_png (sys_context, layer, &image, &resampler, NULL);
 
-      _lw6ldr_bw_clear (&image);
+      _lw6ldr_bw_clear (sys_context, &image);
     }
 
   if (!ret)

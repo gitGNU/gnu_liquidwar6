@@ -37,7 +37,7 @@ typedef struct teams_update_data_s
 teams_update_data_t;
 
 static void
-read_callback (void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   lw6map_teams_t *teams_data;
 
@@ -49,6 +49,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 /**
  * lw6ldr_teams_read
  *
+ * @sys_context: global system context
  * @param: the teams struct to fill with values (read/write parameter)
  * @dirname: the directory of the map
  *
@@ -59,7 +60,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6ldr_teams_read (lw6map_teams_t * teams, const char *dirname)
+lw6ldr_teams_read (lw6sys_context_t * sys_context, lw6map_teams_t * teams, const char *dirname)
 {
   int ret = 0;
   char *buf = NULL;
@@ -71,7 +72,7 @@ lw6ldr_teams_read (lw6map_teams_t * teams, const char *dirname)
       if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading teams \"%s\""), buf);
-	  ret = lw6cfg_read_key_value_xml_file (sys_context, buf, read_callback, (void *) teams);
+	  ret = lw6cfg_read_key_value_xml_file (sys_context, buf, _read_callback, (void *) teams);
 	}
       else
 	{
@@ -91,7 +92,7 @@ lw6ldr_teams_read (lw6map_teams_t * teams, const char *dirname)
 }
 
 static void
-teams_update_callback (void *func_data, void *data)
+_teams_update_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   teams_update_data_t *update_data;
   char *key;
@@ -110,6 +111,7 @@ teams_update_callback (void *func_data, void *data)
 /**
  * lw6ldr_teams_update
  *
+ * @sys_context: global system context
  * @teams: the teams struct to fill with values (read/write parameter)
  * @values: an assoc containing strings with the new values
  *
@@ -122,7 +124,7 @@ teams_update_callback (void *func_data, void *data)
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6ldr_teams_update (lw6map_teams_t * teams, lw6sys_assoc_t * values)
+lw6ldr_teams_update (lw6sys_context_t * sys_context, lw6map_teams_t * teams, lw6sys_assoc_t * values)
 {
   int ret = 0;
   lw6sys_list_t *list;
@@ -135,8 +137,8 @@ lw6ldr_teams_update (lw6map_teams_t * teams, lw6sys_assoc_t * values)
 	{
 	  data.teams = teams;
 	  data.values = values;
-	  lw6sys_list_map (list, teams_update_callback, &data);
-	  lw6sys_list_free (list);
+	  lw6sys_list_map (sys_context, list, _teams_update_callback, &data);
+	  lw6sys_list_free (sys_context, list);
 	  ret = 1;
 	}
     }

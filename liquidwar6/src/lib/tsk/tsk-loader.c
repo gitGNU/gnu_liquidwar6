@@ -223,7 +223,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
       progress.max = _LW6TSK_LOADER_PROGRESS_STAGE1_END_MAP;
       lw6sys_progress_begin (sys_context, &progress);
       level =
-	lw6ldr_read_relative (map_path, relative_path, default_param,
+	lw6ldr_read_relative (sys_context, map_path, relative_path, default_param,
 			      forced_param, display_w, display_h, bench_value, magic_number, loader_data->user_dir, &progress);
       if (level)
 	{
@@ -236,7 +236,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
       progress.min = _LW6TSK_LOADER_PROGRESS_STAGE1_BEGIN_MAP;
       progress.max = _LW6TSK_LOADER_PROGRESS_STAGE1_END_MAP;
       lw6sys_progress_begin (sys_context, &progress);
-      lw6ldr_resampler_use_for_gen (&map_w, &map_h, display_w, display_h, bench_value, magic_number);
+      lw6ldr_resampler_use_for_gen (sys_context, &map_w, &map_h, display_w, display_h, bench_value, magic_number);
       level = lw6gen_create_from_seed (sys_context, seed, map_w, map_h);
       if (level)
 	{

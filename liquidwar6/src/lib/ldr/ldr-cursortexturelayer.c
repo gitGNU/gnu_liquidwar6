@@ -28,7 +28,7 @@
 #include "ldr-internal.h"
 
 static int
-read_image (lw6map_cursor_texture_layer_t * cursor_texture_layer, _lw6ldr_image_rgba_t * image)
+_read_image (lw6sys_context_t * sys_context, lw6map_cursor_texture_layer_t * cursor_texture_layer, _lw6ldr_image_rgba_t * image)
 {
   int ret = 0;
 
@@ -58,13 +58,13 @@ read_image (lw6map_cursor_texture_layer_t * cursor_texture_layer, _lw6ldr_image_
 		  _x_ ("bad cursor texture layer size %dx%d, should be %dx%d"), image->w, image->h, LW6MAP_CURSOR_TEXTURE_SIZE, LW6MAP_CURSOR_TEXTURE_SIZE);
     }
 
-  _lw6ldr_rgba_clear (image);
+  _lw6ldr_rgba_clear (sys_context, image);
 
   return ret;
 }
 
 int
-_lw6ldr_cursor_texture_layer_read_png (lw6map_cursor_texture_layer_t * cursor_texture_layer, const char *png_file)
+_lw6ldr_cursor_texture_layer_read_png (lw6sys_context_t * sys_context, lw6map_cursor_texture_layer_t * cursor_texture_layer, const char *png_file)
 {
   int ret = 0;
   _lw6ldr_image_rgba_t image;
@@ -73,9 +73,9 @@ _lw6ldr_cursor_texture_layer_read_png (lw6map_cursor_texture_layer_t * cursor_te
 
   memset (&image, 0, sizeof (_lw6ldr_image_rgba_t));
 
-  if (_lw6ldr_rgba_read_png (&image, png_file, NULL))
+  if (_lw6ldr_rgba_read_png (sys_context, &image, png_file, NULL))
     {
-      ret = read_image (cursor_texture_layer, &image);
+      ret = _read_image (sys_context, cursor_texture_layer, &image);
     }
 
   return ret;

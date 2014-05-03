@@ -35,18 +35,19 @@ typedef struct style_update_data_s
 style_update_data_t;
 
 static void
-read_callback (void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   lw6map_style_t *style_data;
 
   style_data = (lw6map_style_t *) callback_data;
 
-  lw6map_style_set (style_data, key, value);
+  lw6map_style_set (sys_context, style_data, key, value);
 }
 
 /**
  * lw6ldr_style_read
  *
+ * @sys_context: global system context
  * @param: the style struct to fill with values (read/write parameter)
  * @dirname: the directory of the map
  *
@@ -57,7 +58,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6ldr_style_read (lw6map_style_t * style, const char *dirname)
+lw6ldr_style_read (lw6sys_context_t * sys_context, lw6map_style_t * style, const char *dirname)
 {
   int ret = 0;
   char *buf = NULL;
@@ -69,7 +70,7 @@ lw6ldr_style_read (lw6map_style_t * style, const char *dirname)
       if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading style \"%s\""), buf);
-	  ret = lw6cfg_read_key_value_xml_file (sys_context, buf, read_callback, (void *) style);
+	  ret = lw6cfg_read_key_value_xml_file (sys_context, buf, _read_callback, (void *) style);
 	}
       else
 	{
@@ -91,6 +92,7 @@ lw6ldr_style_read (lw6map_style_t * style, const char *dirname)
 /**
  * lw6ldr_style_set
  *
+ * @sys_context: global system context
  * @style: the style to modify
  * @key: the key to modify
  * @value: the value to affect to the key, as a string
@@ -104,26 +106,26 @@ lw6ldr_style_read (lw6map_style_t * style, const char *dirname)
  * needs to be worked on.
  */
 int
-lw6ldr_style_set (lw6map_style_t * style, const char *key, const char *value)
+lw6ldr_style_set (lw6sys_context_t * sys_context, lw6map_style_t * style, const char *key, const char *value)
 {
   int ret = 0;
   const char *about = NULL;
   char *element = NULL;
   lw6hlp_type_t type = LW6HLP_TYPE_VOID;
 
-  about = lw6hlp_about (&type, NULL, NULL, NULL, key);
-  element = lw6cfg_xml_element (type);
+  about = lw6hlp_about (sys_context, &type, NULL, NULL, NULL, key);
+  element = lw6cfg_xml_element (sys_context, type);
   if (about && element)
     {
       ret = 1;
-      read_callback (style, element, key, value);
+      _read_callback (sys_context, style, element, key, value);
     }
 
   return ret;
 }
 
 static void
-style_update_callback (void *func_data, void *data)
+_style_update_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   style_update_data_t *update_data;
   char *key;
@@ -135,13 +137,14 @@ style_update_callback (void *func_data, void *data)
   if (lw6sys_assoc_has_key (sys_context, update_data->values, key))
     {
       value = lw6sys_assoc_get (sys_context, update_data->values, key);
-      lw6ldr_style_set (update_data->style, key, value);
+      lw6ldr_style_set (sys_context, update_data->style, key, value);
     }
 }
 
 /**
  * lw6ldr_style_update
  *
+ * @sys_context: global system context
  * @style: the style struct to fill with values (read/write parameter)
  * @values: an assoc containing strings with the new values
  *
@@ -154,7 +157,7 @@ style_update_callback (void *func_data, void *data)
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6ldr_style_update (lw6map_style_t * style, lw6sys_assoc_t * values)
+lw6ldr_style_update (lw6sys_context_t * sys_context, lw6map_style_t * style, lw6sys_assoc_t * values)
 {
   int ret = 0;
   lw6sys_list_t *list;
@@ -167,8 +170,8 @@ lw6ldr_style_update (lw6map_style_t * style, lw6sys_assoc_t * values)
 	{
 	  data.style = style;
 	  data.values = values;
-	  lw6sys_list_map (list, style_update_callback, &data);
-	  lw6sys_list_free (list);
+	  lw6sys_list_map (sys_context, list, _style_update_callback, &data);
+	  lw6sys_list_free (sys_context, list);
 	  ret = 1;
 	}
     }

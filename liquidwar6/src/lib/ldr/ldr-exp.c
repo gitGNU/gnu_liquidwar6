@@ -30,6 +30,7 @@
 /**
  * lw6ldr_exp_validate
  *
+ * @sys_context: global system context
  * @level: the level to validate
  * @user_dir: user directory
  *
@@ -38,7 +39,7 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ldr_exp_validate (const lw6map_level_t * level, const char *user_dir)
+lw6ldr_exp_validate (lw6sys_context_t * sys_context, const lw6map_level_t * level, const char *user_dir)
 {
   int player_exp = LW6MAP_RULES_MIN_EXP;
   int new_player_exp = LW6MAP_RULES_MIN_EXP;
@@ -79,7 +80,7 @@ lw6ldr_exp_validate (const lw6map_level_t * level, const char *user_dir)
 }
 
 void
-_lw6ldr_exp_fix (lw6map_rules_t * rules, int exp)
+_lw6ldr_exp_fix (lw6sys_context_t * sys_context, lw6map_rules_t * rules, int exp)
 {
   rules->exp = lw6sys_imax (LW6MAP_RULES_MIN_EXP, lw6sys_imax (exp, rules->exp));
   rules->highest_team_color_allowed = lw6sys_imin (rules->highest_team_color_allowed, lw6map_exp_get_highest_team_color_allowed (sys_context, exp));

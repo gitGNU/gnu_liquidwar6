@@ -50,7 +50,7 @@
 #define _RESAMPLER_USE_FOR_GEN_GRAY_LEVEL 0.5f
 
 static void
-_check_limits (const lw6ldr_hints_t * hints, int *w, int *h)
+_check_limits (lw6sys_context_t * sys_context, const lw6ldr_hints_t * hints, int *w, int *h)
 {
   int surface = 0;
   float coeff = 1.0f;
@@ -109,7 +109,8 @@ _check_limits (const lw6ldr_hints_t * hints, int *w, int *h)
 }
 
 static float
-_estimate_capacity (const lw6map_rules_t * rules, const lw6ldr_hints_t * hints, int w, int h, int expected_depth, float gray_level)
+_estimate_capacity (lw6sys_context_t * sys_context, const lw6map_rules_t * rules, const lw6ldr_hints_t * hints, int w, int h, int expected_depth,
+		    float gray_level)
 {
   float ret = 0.0f;
   int surface;
@@ -136,7 +137,7 @@ _estimate_capacity (const lw6map_rules_t * rules, const lw6ldr_hints_t * hints, 
 }
 
 static void
-_guess_moves_per_sec (lw6map_rules_t * rules, const lw6ldr_hints_t * hints, int w, int h)
+_guess_moves_per_sec (lw6sys_context_t * sys_context, lw6map_rules_t * rules, const lw6ldr_hints_t * hints, int w, int h)
 {
   int moves_per_sec;
   int i;
@@ -179,6 +180,7 @@ _guess_moves_per_sec (lw6map_rules_t * rules, const lw6ldr_hints_t * hints, int 
 /**
  * lw6ldr_resampler_init
  *
+ * @sys_context: global system context
  * @resampler: resampler object to init
  * @param: map parameters to use
  * @hints: loading hints
@@ -201,7 +203,7 @@ _guess_moves_per_sec (lw6map_rules_t * rules, const lw6ldr_hints_t * hints, int 
  * Return value: none.
  */
 void
-lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
+lw6ldr_resampler_init (lw6sys_context_t * sys_context, lw6ldr_resampler_t * resampler,
 		       lw6map_param_t * param, const lw6ldr_hints_t * hints,
 		       int source_w,
 		       int source_h, int display_w, int display_h, float target_ratio, int bench_value, int magic_number, int expected_depth, float gray_level)
@@ -226,7 +228,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
     {
       if (hints->resample)
 	{
-	  _check_limits (hints, &target_w, &target_h);
+	  _check_limits (sys_context, hints, &target_w, &target_h);
 
 	  /*
 	   * Step 1, we use fighter scale to get our target size
@@ -262,7 +264,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 			  hints->fighter_scale, display_w, display_h, source_w, source_h, target_w, target_h);
 	    }
 
-	  _check_limits (hints, &target_w, &target_h);
+	  _check_limits (sys_context, hints, &target_w, &target_h);
 
 	  /*
 	   * Step 2, we correct the ratio
@@ -280,7 +282,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 		}
 	    }
 
-	  _check_limits (hints, &target_w, &target_h);
+	  _check_limits (sys_context, hints, &target_w, &target_h);
 
 	  /*
 	   * Step 3, take bench in account
@@ -288,7 +290,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 	  lin_bench_value = lw6sys_math_log2lin (sys_context, bench_value, LW6MAP_LOG2LIN_BASE);
 	  capacity_orig = ((float) lin_bench_value) * ((float) magic_number);
 	  capacity = capacity_orig;
-	  required = _estimate_capacity (&param->rules, hints, target_w, target_h, expected_depth, gray_level);
+	  required = _estimate_capacity (sys_context, &param->rules, hints, target_w, target_h, expected_depth, gray_level);
 	  if (required > 0.0f)
 	    {
 	      f = 1.0f;
@@ -299,7 +301,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 		      f *= _RESAMPLER_DOWNSIZE;
 		      tmp_w = target_w * f;
 		      tmp_h = target_h * f;
-		      required = _estimate_capacity (&param->rules, hints, tmp_w, tmp_h, expected_depth, gray_level);
+		      required = _estimate_capacity (sys_context, &param->rules, hints, tmp_w, tmp_h, expected_depth, gray_level);
 		    }
 		  if (tmp_w != target_w || tmp_h != target_h)
 		    {
@@ -318,7 +320,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 		      f *= _RESAMPLER_UPSIZE;
 		      tmp_w = target_w * f;
 		      tmp_h = target_h * f;
-		      required = _estimate_capacity (&param->rules, hints, tmp_w, tmp_h, expected_depth, gray_level);
+		      required = _estimate_capacity (sys_context, &param->rules, hints, tmp_w, tmp_h, expected_depth, gray_level);
 		    }
 		  if (tmp_w != target_w || tmp_h != target_h)
 		    {
@@ -332,12 +334,12 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 		}
 	    }
 
-	  _check_limits (hints, &target_w, &target_h);
+	  _check_limits (sys_context, hints, &target_w, &target_h);
 
 	  /*
 	   * Step 4, guess speed if needed
 	   */
-	  _guess_moves_per_sec (&param->rules, hints, target_w, target_h);
+	  _guess_moves_per_sec (sys_context, &param->rules, hints, target_w, target_h);
 
 	  /*
 	   * Step 4, we check against map surface limits
@@ -360,7 +362,7 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 	      target_h *= f;
 	    }
 
-	  _check_limits (hints, &target_w, &target_h);
+	  _check_limits (sys_context, hints, &target_w, &target_h);
 	}
     }
   else
@@ -376,8 +378,27 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
   resampler->scale_y = ((float) (resampler->target_h)) / ((float) (resampler->source_h));
 }
 
+/**
+ * lw6ld_resample_use_for_gen
+ *
+ * @sys_context: global system context
+ * @map_w: target map width (out param)
+ * @map_h: target map height (out param)
+ * @display_w: screen width (pixels)
+ * @display_h: screen height (pixels)
+ * @bench_value: rough estimation of this computer power
+ * @magic_number: arbitrary constant, needed to calibrate speed
+ *
+ * Builds a resampler and does all the calculus so that one gets the
+ * correct map width and height for the gen module. The idea is that
+ * when generating a pseudo-random map, one can not really know what
+ * size to give it, so this function gives a hint, relying on bench
+ * and magic values, which are computer/runtime dependant.
+ *
+ * Return value: none
+ */
 void
-lw6ldr_resampler_use_for_gen (int *map_w, int *map_h, int display_w, int display_h, int bench_value, int magic_number)
+lw6ldr_resampler_use_for_gen (lw6sys_context_t * sys_context, int *map_w, int *map_h, int display_w, int display_h, int bench_value, int magic_number)
 {
   lw6map_param_t param;
   lw6ldr_hints_t hints;
@@ -389,13 +410,13 @@ lw6ldr_resampler_use_for_gen (int *map_w, int *map_h, int display_w, int display
 
   lw6map_param_zero (sys_context, &param);
   lw6map_param_defaults (sys_context, &param);
-  lw6ldr_hints_zero (&hints);
-  lw6ldr_hints_defaults (&hints);
+  lw6ldr_hints_zero (sys_context, &hints);
+  lw6ldr_hints_defaults (sys_context, &hints);
 
   target_ratio = ((float) display_w) / ((float) display_h);
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("using resampler for gen, display=%dx%d bench_value=%d"), display_w, display_h, bench_value);
-  lw6ldr_resampler_init (&resampler, &param, &hints, display_w, display_h,
+  lw6ldr_resampler_init (sys_context, &resampler, &param, &hints, display_w, display_h,
 			 display_w, display_h, target_ratio, bench_value,
 			 magic_number, _RESAMPLER_USE_FOR_GEN_EXPECTED_DEPTH, _RESAMPLER_USE_FOR_GEN_GRAY_LEVEL);
 
@@ -403,7 +424,7 @@ lw6ldr_resampler_use_for_gen (int *map_w, int *map_h, int display_w, int display
   (*map_h) = resampler.target_h;
 
   lw6map_param_clear (sys_context, &param);
-  lw6ldr_hints_clear (&hints);
+  lw6ldr_hints_clear (sys_context, &hints);
 }
 
 static void
@@ -418,6 +439,7 @@ check_bounds (int *x, int *y, int w, int h)
 /**
  * lw6ldr_resampler_force
  *
+ * @sys_context: global system context
  * @resampler: resampler to set
  * @source_w: source map width
  * @source_h: source map height
@@ -431,7 +453,7 @@ check_bounds (int *x, int *y, int w, int h)
  * Return value: none.
  */
 void
-lw6ldr_resampler_force (lw6ldr_resampler_t * resampler, int source_w, int source_h, int target_w, int target_h)
+lw6ldr_resampler_force (lw6sys_context_t * sys_context, lw6ldr_resampler_t * resampler, int source_w, int source_h, int target_w, int target_h)
 {
   resampler->target_w = target_w;
   resampler->target_h = target_h;
@@ -444,6 +466,7 @@ lw6ldr_resampler_force (lw6ldr_resampler_t * resampler, int source_w, int source
 /**
  * lw6ldr_resampler_source2target
  *
+ * @sys_context: global system context
  * @resample: resampler to use
  * @target_x: target x coordinate (out param)
  * @target_y: target y coordinate (out param)
@@ -456,7 +479,7 @@ lw6ldr_resampler_force (lw6ldr_resampler_t * resampler, int source_w, int source
  * Return value: none.
  */
 void
-lw6ldr_resampler_source2target (const lw6ldr_resampler_t * resampler, int *target_x, int *target_y, int source_x, int source_y)
+lw6ldr_resampler_source2target (lw6sys_context_t * sys_context, const lw6ldr_resampler_t * resampler, int *target_x, int *target_y, int source_x, int source_y)
 {
   (*target_x) = (int) (floor ((((float) source_x) + _RESAMPLER_05) * resampler->scale_x));
   (*target_y) = (int) (floor ((((float) source_y) + _RESAMPLER_05) * resampler->scale_y));
@@ -466,6 +489,7 @@ lw6ldr_resampler_source2target (const lw6ldr_resampler_t * resampler, int *targe
 /**
  * lw6ldr_resampler_target2source
  *
+ * @sys_context: global system context
  * @resample: resampler to use
  * @source_x: source x coordinate (out param)
  * @source_y: source y coordinate (out param)
@@ -481,7 +505,7 @@ lw6ldr_resampler_source2target (const lw6ldr_resampler_t * resampler, int *targe
  * Return value: none.
  */
 void
-lw6ldr_resampler_target2source (const lw6ldr_resampler_t * resampler, int *source_x, int *source_y, int target_x, int target_y)
+lw6ldr_resampler_target2source (lw6sys_context_t * sys_context, const lw6ldr_resampler_t * resampler, int *source_x, int *source_y, int target_x, int target_y)
 {
   (*source_x) = (int) (floor ((((float) target_x) + _RESAMPLER_05) / resampler->scale_x));
   (*source_y) = (int) (floor ((((float) target_y) + _RESAMPLER_05) / resampler->scale_y));

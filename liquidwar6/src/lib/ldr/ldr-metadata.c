@@ -28,7 +28,7 @@
 #include "ldr-internal.h"
 
 static char *
-extract_title_from_dirname (const char *dirname)
+_extract_title_from_dirname (lw6sys_context_t * sys_context, const char *dirname)
 {
   char *copy = NULL;
   char *title = NULL;
@@ -66,7 +66,7 @@ extract_title_from_dirname (const char *dirname)
 }
 
 static char *
-read_readme (const char *dirname)
+_read_readme (lw6sys_context_t * sys_context, const char *dirname)
 {
   char *buf = NULL;
   char *readme = NULL;
@@ -110,7 +110,7 @@ read_readme (const char *dirname)
 }
 
 static void
-read_callback (void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   lw6map_metadata_t *metadata_data;
 
@@ -128,6 +128,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 /**
  * lw6ldr_metadata_read
  *
+ * @sys_context: global system context
  * @metadata: structure containting read data (out param)
  * @dirname: map dirname (absolute path)
  *
@@ -138,7 +139,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ldr_metadata_read (lw6map_metadata_t * metadata, const char *dirname)
+lw6ldr_metadata_read (lw6sys_context_t * sys_context, lw6map_metadata_t * metadata, const char *dirname)
 {
   int ret = 0;
   char *buf = NULL;
@@ -151,14 +152,14 @@ lw6ldr_metadata_read (lw6map_metadata_t * metadata, const char *dirname)
       if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading metadata \"%s\""), buf);
-	  ret = lw6cfg_read_key_value_xml_file (sys_context, buf, read_callback, (void *) metadata);
+	  ret = lw6cfg_read_key_value_xml_file (sys_context, buf, _read_callback, (void *) metadata);
 	}
       LW6SYS_FREE (sys_context, buf);
     }
 
   if (!(metadata->title))
     {
-      metadata->title = extract_title_from_dirname (dirname);
+      metadata->title = _extract_title_from_dirname (sys_context, dirname);
     }
   if (!(metadata->author))
     {
@@ -166,7 +167,7 @@ lw6ldr_metadata_read (lw6map_metadata_t * metadata, const char *dirname)
     }
   if (!(metadata->description))
     {
-      metadata->description = read_readme (dirname);
+      metadata->description = _read_readme (sys_context, dirname);
     }
   if (!(metadata->license))
     {

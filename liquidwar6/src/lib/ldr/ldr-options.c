@@ -30,6 +30,7 @@
 /**
  * lw6ldr_process_non_run_options:
  *
+ * @sys_context: global system context
  * @argc: the number of command-line args, as passed to main
  * @argv: an array of strings containing command-line args, as passed to main
  * @run_game: a pointer to a boolean which will contain true (1) if the
@@ -45,7 +46,7 @@
  *   instance, the test suite returning "no, tests were not OK".
  */
 int
-lw6ldr_process_non_run_options (int argc, const char *argv[], int *run_game)
+lw6ldr_process_non_run_options (lw6sys_context_t * sys_context, int argc, const char *argv[], int *run_game)
 {
   int i;
   int ret = 1;
@@ -62,22 +63,22 @@ lw6ldr_process_non_run_options (int argc, const char *argv[], int *run_game)
 	{
 	  if (lw6sys_arg_match (sys_context, LW6DEF_EXAMPLE_RULES_XML, argv[i]))
 	    {
-	      lw6ldr_print_example_rules_xml (stdout);
+	      lw6ldr_print_example_rules_xml (sys_context, stdout);
 	      (*run_game) = 0;
 	    }
 	  else if (lw6sys_arg_match (sys_context, LW6DEF_EXAMPLE_HINTS_XML, argv[i]))
 	    {
-	      lw6ldr_print_example_hints_xml (stdout);
+	      lw6ldr_print_example_hints_xml (sys_context, stdout);
 	      (*run_game) = 0;
 	    }
 	  else if (lw6sys_arg_match (sys_context, LW6DEF_EXAMPLE_STYLE_XML, argv[i]))
 	    {
-	      lw6ldr_print_example_style_xml (stdout);
+	      lw6ldr_print_example_style_xml (sys_context, stdout);
 	      (*run_game) = 0;
 	    }
 	  else if (lw6sys_arg_match (sys_context, LW6DEF_EXAMPLE_TEAMS_XML, argv[i]))
 	    {
-	      lw6ldr_print_example_teams_xml (stdout);
+	      lw6ldr_print_example_teams_xml (sys_context, stdout);
 	      (*run_game) = 0;
 	    }
 	}

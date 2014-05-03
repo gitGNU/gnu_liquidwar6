@@ -39,6 +39,7 @@ hints_update_data_t;
 /**
  * lw6ldr_hints_defaults
  *
+ * @sys_context: global system context
  * @hints: data to initialize
  *
  * Set the hints struct to its defaults.
@@ -46,7 +47,7 @@ hints_update_data_t;
  * Return value: none.
  */
 void
-lw6ldr_hints_defaults (lw6ldr_hints_t * hints)
+lw6ldr_hints_defaults (lw6sys_context_t * sys_context, lw6ldr_hints_t * hints)
 {
   hints->resample = LW6LDR_HINTS_DEFAULT_RESAMPLE;
   hints->min_map_width = LW6LDR_HINTS_DEFAULT_MIN_MAP_WIDTH;
@@ -74,6 +75,7 @@ lw6ldr_hints_defaults (lw6ldr_hints_t * hints)
 /**
  * lw6ldr_hints_zero
  *
+ * @sys_context: global system context
  * @hints: data to initialize
  *
  * Zeros the hints struct, this is not the same as setting to defaults.
@@ -81,7 +83,7 @@ lw6ldr_hints_defaults (lw6ldr_hints_t * hints)
  * Return value: none.
  */
 void
-lw6ldr_hints_zero (lw6ldr_hints_t * hints)
+lw6ldr_hints_zero (lw6sys_context_t * sys_context, lw6ldr_hints_t * hints)
 {
   memset (hints, 0, sizeof (lw6ldr_hints_t));
 }
@@ -89,6 +91,7 @@ lw6ldr_hints_zero (lw6ldr_hints_t * hints)
 /**
  * lw6ldr_hints_clear
  *
+ * @sys_context: global system context
  * @hints: data to initialize
  *
  * Clears the hints struct, this is not the same as setting to defaults.
@@ -96,24 +99,25 @@ lw6ldr_hints_zero (lw6ldr_hints_t * hints)
  * Return value: none.
  */
 void
-lw6ldr_hints_clear (lw6ldr_hints_t * hints)
+lw6ldr_hints_clear (lw6sys_context_t * sys_context, lw6ldr_hints_t * hints)
 {
-  lw6ldr_hints_zero (hints);
+  lw6ldr_hints_zero (sys_context, hints);
 }
 
 static void
-read_callback (void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   lw6ldr_hints_t *hints_data;
 
   hints_data = (lw6ldr_hints_t *) callback_data;
 
-  lw6ldr_hints_set (hints_data, key, value);
+  lw6ldr_hints_set (sys_context, hints_data, key, value);
 }
 
 /**
  * lw6ldr_hints_read
  *
+ * @sys_context: global system context
  * @param: the hints struct to fill with values (read/write parameter)
  * @dirname: the directory of the map
  *
@@ -124,7 +128,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6ldr_hints_read (lw6ldr_hints_t * hints, const char *dirname)
+lw6ldr_hints_read (lw6sys_context_t * sys_context, lw6ldr_hints_t * hints, const char *dirname)
 {
   int ret = 0;
   char *buf = NULL;
@@ -136,7 +140,7 @@ lw6ldr_hints_read (lw6ldr_hints_t * hints, const char *dirname)
       if (lw6sys_file_exists (sys_context, buf))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading hints \"%s\""), buf);
-	  ret = lw6cfg_read_key_value_xml_file (sys_context, buf, read_callback, (void *) hints);
+	  ret = lw6cfg_read_key_value_xml_file (sys_context, buf, _read_callback, (void *) hints);
 	}
       else
 	{
@@ -158,6 +162,7 @@ lw6ldr_hints_read (lw6ldr_hints_t * hints, const char *dirname)
 /**
  * lw6ldr_hints_set
  *
+ * @sys_context: global system context
  * @hints: the hints to modify
  * @key: the key to modify
  * @value: the value to affect to the key, as a string
@@ -171,7 +176,7 @@ lw6ldr_hints_read (lw6ldr_hints_t * hints, const char *dirname)
  * needs to be worked on.
  */
 int
-lw6ldr_hints_set (lw6ldr_hints_t * hints, const char *key, const char *value)
+lw6ldr_hints_set (lw6sys_context_t * sys_context, lw6ldr_hints_t * hints, const char *key, const char *value)
 {
   int ret = 1;
   char *formatted_key = NULL;
@@ -280,6 +285,7 @@ lw6ldr_hints_set (lw6ldr_hints_t * hints, const char *key, const char *value)
 /**
  * lw6ldr_hints_get
  *
+ * @sys_context: global system context
  * @hints: the hints to modify
  * @key: the key to modify
  *
@@ -289,7 +295,7 @@ lw6ldr_hints_set (lw6ldr_hints_t * hints, const char *key, const char *value)
  * Return value: dynamically allocated string, NULL on error.
  */
 char *
-lw6ldr_hints_get (const lw6ldr_hints_t * hints, const char *key)
+lw6ldr_hints_get (lw6sys_context_t * sys_context, const lw6ldr_hints_t * hints, const char *key)
 {
   char *ret = NULL;
   char *formatted_key = NULL;
@@ -390,6 +396,7 @@ lw6ldr_hints_get (const lw6ldr_hints_t * hints, const char *key)
 /**
  * lw6ldr_hints_get_default
  *
+ * @sys_context: global system context
  * @key: the key we want informations about.
  *
  * Gets the default value for a given hints key.
@@ -397,7 +404,7 @@ lw6ldr_hints_get (const lw6ldr_hints_t * hints, const char *key)
  * Return value: dynamically allocated string, NULL on error.
  */
 char *
-lw6ldr_hints_get_default (const char *key)
+lw6ldr_hints_get_default (lw6sys_context_t * sys_context, const char *key)
 {
   lw6ldr_hints_t *hints;
   char *ret = NULL;
@@ -405,9 +412,9 @@ lw6ldr_hints_get_default (const char *key)
   hints = (lw6ldr_hints_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6ldr_hints_t));
   if (hints)
     {
-      lw6ldr_hints_defaults (hints);
-      ret = lw6ldr_hints_get (hints, key);
-      lw6ldr_hints_clear (hints);
+      lw6ldr_hints_defaults (sys_context, hints);
+      ret = lw6ldr_hints_get (sys_context, hints, key);
+      lw6ldr_hints_clear (sys_context, hints);
       LW6SYS_FREE (sys_context, hints);
     }
 
@@ -420,7 +427,7 @@ lw6ldr_hints_get_default (const char *key)
 }
 
 static void
-hints_update_callback (void *func_data, void *data)
+_hints_update_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   hints_update_data_t *update_data;
   char *key;
@@ -432,13 +439,14 @@ hints_update_callback (void *func_data, void *data)
   if (lw6sys_assoc_has_key (sys_context, update_data->values, key))
     {
       value = lw6sys_assoc_get (sys_context, update_data->values, key);
-      lw6ldr_hints_set (update_data->hints, key, value);
+      lw6ldr_hints_set (sys_context, update_data->hints, key, value);
     }
 }
 
 /**
  * lw6ldr_hints_update
  *
+ * @sys_context: global system context
  * @hints: the hints struct to fill with values (read/write parameter)
  * @values: an assoc containing strings with the new values
  *
@@ -451,7 +459,7 @@ hints_update_callback (void *func_data, void *data)
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6ldr_hints_update (lw6ldr_hints_t * hints, lw6sys_assoc_t * values)
+lw6ldr_hints_update (lw6sys_context_t * sys_context, lw6ldr_hints_t * hints, lw6sys_assoc_t * values)
 {
   int ret = 0;
   lw6sys_list_t *list;
@@ -464,8 +472,8 @@ lw6ldr_hints_update (lw6ldr_hints_t * hints, lw6sys_assoc_t * values)
 	{
 	  data.hints = hints;
 	  data.values = values;
-	  lw6sys_list_map (list, hints_update_callback, &data);
-	  lw6sys_list_free (list);
+	  lw6sys_list_map (sys_context, list, _hints_update_callback, &data);
+	  lw6sys_list_free (sys_context, list);
 	  ret = 1;
 	}
     }

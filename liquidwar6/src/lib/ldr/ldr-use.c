@@ -39,6 +39,7 @@ use_update_data_t;
 /**
  * lw6ldr_use_defaults
  *
+ * @sys_context: global system context
  * @use: struct to initialize
  *
  * Sets the use structure to its defaults, this structure
@@ -48,7 +49,7 @@ use_update_data_t;
  * Return value: none.
  */
 void
-lw6ldr_use_defaults (lw6ldr_use_t * use)
+lw6ldr_use_defaults (lw6sys_context_t * sys_context, lw6ldr_use_t * use)
 {
   use->use_texture = LW6LDR_USE_DEFAULT_USE_TEXTURE;
   use->use_cursor_texture = LW6LDR_USE_DEFAULT_USE_CURSOR_TEXTURE;
@@ -62,6 +63,7 @@ lw6ldr_use_defaults (lw6ldr_use_t * use)
 /**
  * lw6ldr_use_clear
  *
+ * @sys_context: global system context
  * @use: struct to clear
  *
  * Clears the use structure, set it to the use nothing mode.
@@ -69,7 +71,7 @@ lw6ldr_use_defaults (lw6ldr_use_t * use)
  * Return value: none.
  */
 void
-lw6ldr_use_clear (lw6ldr_use_t * use)
+lw6ldr_use_clear (lw6sys_context_t * sys_context, lw6ldr_use_t * use)
 {
   memset (use, 0, sizeof (lw6ldr_use_t));
 }
@@ -77,6 +79,7 @@ lw6ldr_use_clear (lw6ldr_use_t * use)
 /**
  * lw6ldr_use_set
  *
+ * @sys_context: global system context
  * @use: struct to modify
  * @key: key to change (as a string)
  * @value: value to set (as a string)
@@ -89,7 +92,7 @@ lw6ldr_use_clear (lw6ldr_use_t * use)
  * Return value: 1 on success, 0 on failure (key not found).
  */
 int
-lw6ldr_use_set (lw6ldr_use_t * use, const char *key, const char *value)
+lw6ldr_use_set (lw6sys_context_t * sys_context, lw6ldr_use_t * use, const char *key, const char *value)
 {
   int ret = 1;
 
@@ -130,7 +133,7 @@ lw6ldr_use_set (lw6ldr_use_t * use, const char *key, const char *value)
 }
 
 static void
-use_update_callback (void *func_data, void *data)
+_use_update_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   use_update_data_t *update_data;
   char *key;
@@ -142,13 +145,14 @@ use_update_callback (void *func_data, void *data)
   if (lw6sys_assoc_has_key (sys_context, update_data->values, key))
     {
       value = lw6sys_assoc_get (sys_context, update_data->values, key);
-      lw6ldr_use_set (update_data->use, key, value);
+      lw6ldr_use_set (sys_context, update_data->use, key, value);
     }
 }
 
 /**
  * lw6ldr_use_update
  *
+ * @sys_context: global system context
  * @use: the use struct to fill with values (read/write parameter)
  * @values: an assoc containing strings with the new values
  *
@@ -161,7 +165,7 @@ use_update_callback (void *func_data, void *data)
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6ldr_use_update (lw6ldr_use_t * use, lw6sys_assoc_t * values)
+lw6ldr_use_update (lw6sys_context_t * sys_context, lw6ldr_use_t * use, lw6sys_assoc_t * values)
 {
   int ret = 0;
   lw6sys_list_t *list;
@@ -169,13 +173,13 @@ lw6ldr_use_update (lw6ldr_use_t * use, lw6sys_assoc_t * values)
 
   if (values)
     {
-      list = lw6hlp_list_map (sys_context,);	// contains use switches
+      list = lw6hlp_list_map (sys_context);	// contains use switches
       if (list)
 	{
 	  data.use = use;
 	  data.values = values;
-	  lw6sys_list_map (list, use_update_callback, &data);
-	  lw6sys_list_free (list);
+	  lw6sys_list_map (sys_context, list, _use_update_callback, &data);
+	  lw6sys_list_free (sys_context, list);
 	  ret = 1;
 	}
     }
