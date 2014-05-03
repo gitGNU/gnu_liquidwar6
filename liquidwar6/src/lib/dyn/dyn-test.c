@@ -39,12 +39,13 @@
 typedef struct _lw6dyn_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
 } _lw6dyn_test_data_t;
 
 static _lw6dyn_test_data_t _test_data = { 0 };
 
 static void
-_display_module (void *func_data, const char *key, void *value)
+_display_module (lw6sys_context_t * sys_context, void *func_data, const char *key, void *value)
 {
   int *found;
   const char *id;
@@ -61,6 +62,8 @@ static void
 _test_list ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -69,11 +72,11 @@ _test_list ()
     const int argc = _TEST_ARGC;
     const char *argv[] = { _TEST_ARGV0, _TEST_ARGV1 };
 
-    list = lw6dyn_list_backends (argc, argv, _TEST_DYN_TOP_LEVEL_LIB);
+    list = lw6dyn_list_backends (sys_context, argc, argv, _TEST_DYN_TOP_LEVEL_LIB);
     if (list)
       {
-	lw6sys_assoc_map (list, _display_module, (void *) &found);
-	lw6sys_assoc_free (list);
+	lw6sys_assoc_map (sys_context, list, _display_module, (void *) &found);
+	lw6sys_assoc_free (sys_context, list);
       }
     if (!found)
       {
@@ -91,6 +94,8 @@ static void
 _test_path ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -98,7 +103,7 @@ _test_path ()
     const int argc = _TEST_ARGC;
     const char *argv[] = { _TEST_ARGV0, _TEST_ARGV1 };
 
-    library_path = lw6dyn_path_find_backend (argc, argv, _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
+    library_path = lw6dyn_path_find_backend (sys_context, argc, argv, _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
     if (library_path && lw6sys_file_exists (sys_context, library_path))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -116,7 +121,7 @@ _test_path ()
 		    _x_ ("couldn't find library \"%s/mod-%s\" in \"%s\""), _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME, library_path);
       }
 
-    library_path = lw6dyn_path_find_shared (argc, argv, _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
+    library_path = lw6dyn_path_find_shared (sys_context, argc, argv, _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
     if (library_path && lw6sys_file_exists (sys_context, library_path))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -145,6 +150,8 @@ static void
 _test_dl ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -161,11 +168,11 @@ _test_dl ()
      * needed when stuffing stuff in the main binary.
      */
 
-    handle = lw6dyn_dlopen_backend (argc, argv, _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
+    handle = lw6dyn_dlopen_backend (sys_context, argc, argv, _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
     if (handle)
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("opened library \"%s/mod-%s\""), _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
-	lw6dyn_dlclose_backend (handle);
+	lw6dyn_dlclose_backend (sys_context, handle);
       }
     else
       {
@@ -177,11 +184,11 @@ _test_dl ()
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't find library \"%s/mod-%s\""), _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_BACKEND_NAME);
       }
 
-    handle = lw6dyn_dlopen_shared (argc, argv, _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
+    handle = lw6dyn_dlopen_shared (sys_context, argc, argv, _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
     if (handle)
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("opened library \"%s/shared-%s\""), _TEST_DYN_TOP_LEVEL_LIB, _TEST_DYN_SHARED_NAME);
-	lw6dyn_dlclose_shared (handle);
+	lw6dyn_dlclose_shared (sys_context, handle);
       }
     else
       {
@@ -200,20 +207,27 @@ _test_dl ()
 static int
 _setup_init ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libdyn CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libdyn CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 /**
  * lw6dyn_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libdyn module.
@@ -221,10 +235,12 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6dyn_test_register (int mode)
+lw6dyn_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -253,6 +269,7 @@ lw6dyn_test_register (int mode)
 /**
  * lw6dyn_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @dyn module test suite, testing most (if not all...)
@@ -261,11 +278,13 @@ lw6dyn_test_register (int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6dyn_test_run (int mode)
+lw6dyn_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;

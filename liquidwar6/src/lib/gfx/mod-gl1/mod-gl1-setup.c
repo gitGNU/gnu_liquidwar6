@@ -211,7 +211,7 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, l
 #ifndef LW6_ALLINONE
   if (gl1_context)
     {
-      gl1_context->shared_sdl_handle = lw6dyn_dlopen_shared (argc, argv, "gfx", "sdl");
+      gl1_context->shared_sdl_handle = lw6dyn_dlopen_shared (sys_context, argc, argv, "gfx", "sdl");
       if (gl1_context->shared_sdl_handle == NULL)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to load shared SDL code"));
@@ -441,7 +441,7 @@ _mod_gl1_quit (_mod_gl1_context_t * gl1_context)
 #ifndef LW6_ALLINONE
   if (gl1_context->shared_sdl_handle)
     {
-      lw6dyn_dlclose_shared (gl1_context->shared_sdl_handle);
+      lw6dyn_dlclose_shared (sys_context, gl1_context->shared_sdl_handle);
       gl1_context->shared_sdl_handle = NULL;
     }
 #endif // LW6_ALLINONE

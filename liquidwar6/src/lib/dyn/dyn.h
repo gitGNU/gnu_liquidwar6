@@ -74,23 +74,25 @@ typedef struct lw6dyn_dl_handle_s
 lw6dyn_dl_handle_t;
 
 /* dyn-dl.c */
-extern lw6dyn_dl_handle_t *lw6dyn_dlopen_backend_so (const char *so_file);
-extern lw6dyn_dl_handle_t *lw6dyn_dlopen_shared_so (const char *so_file);
-extern lw6dyn_dl_handle_t *lw6dyn_dlopen_backend (int argc, const char *argv[], const char *top_level_lib, const char *backend_name);
-extern lw6dyn_dl_handle_t *lw6dyn_dlopen_shared (int argc, const char *argv[], const char *top_level_lib, const char *shared_name);
-extern int lw6dyn_dlclose_backend (lw6dyn_dl_handle_t * handle);
-extern int lw6dyn_dlclose_shared (lw6dyn_dl_handle_t * handle);
-extern void *lw6dyn_dlsym (lw6dyn_dl_handle_t * handle, const char *func_name);
+extern lw6dyn_dl_handle_t *lw6dyn_dlopen_backend_so (lw6sys_context_t * sys_context, const char *so_file);
+extern lw6dyn_dl_handle_t *lw6dyn_dlopen_shared_so (lw6sys_context_t * sys_context, const char *so_file);
+extern lw6dyn_dl_handle_t *lw6dyn_dlopen_backend (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *top_level_lib,
+						  const char *backend_name);
+extern lw6dyn_dl_handle_t *lw6dyn_dlopen_shared (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *top_level_lib,
+						 const char *shared_name);
+extern int lw6dyn_dlclose_backend (lw6sys_context_t * sys_context, lw6dyn_dl_handle_t * handle);
+extern int lw6dyn_dlclose_shared (lw6sys_context_t * sys_context, lw6dyn_dl_handle_t * handle);
+extern void *lw6dyn_dlsym (lw6sys_context_t * sys_context, lw6dyn_dl_handle_t * handle, const char *func_name);
 
 /* dyn-list.c */
-extern lw6sys_assoc_t *lw6dyn_list_backends (int argc, const char *argv[], const char *top_level_lib);
+extern lw6sys_assoc_t *lw6dyn_list_backends (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *top_level_lib);
 
 /* dyn-path.c */
-extern char *lw6dyn_path_find_backend (int argc, const char *argv[], const char *top_level_lib, const char *backend_name);
-extern char *lw6dyn_path_find_shared (int argc, const char *argv[], const char *top_level_lib, const char *backend_name);
+extern char *lw6dyn_path_find_backend (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *top_level_lib, const char *backend_name);
+extern char *lw6dyn_path_find_shared (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *top_level_lib, const char *backend_name);
 
 /* dyn-test.c */
-extern int lw6dyn_test_register (int mode);
-extern int lw6dyn_test_run (int mode);
+extern int lw6dyn_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6dyn_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif

@@ -28,7 +28,7 @@
 #include "dyn-internal.h"
 
 static lt_dlhandle
-verbose_dlopen (const char *file)
+_verbose_dlopen (lw6sys_context_t * sys_context, const char *file)
 {
   lt_dlhandle ret = NULL;
   int nb_errs = 0;
@@ -66,11 +66,11 @@ verbose_dlopen (const char *file)
 }
 
 static lw6dyn_dl_handle_t *
-_dlopen_so (const char *so_file, int is_backend)
+_dlopen_so (lw6sys_context_t * sys_context, const char *so_file, int is_backend)
 {
   lw6dyn_dl_handle_t *ret = NULL;
 
-  if (lw6sys_file_exists (so_file))
+  if (lw6sys_file_exists (sys_context, so_file))
     {
       /*
        * We really rely on calloc, for instance,
@@ -80,10 +80,10 @@ _dlopen_so (const char *so_file, int is_backend)
       if (ret)
 	{
 	  ret->is_backend = is_backend;
-	  ret->library_path = lw6sys_str_copy (so_file);
+	  ret->library_path = lw6sys_str_copy (sys_context, so_file);
 	  if (ret->library_path)
 	    {
-	      ret->handle = verbose_dlopen (ret->library_path);
+	      ret->handle = _verbose_dlopen (sys_context, ret->library_path);
 	      if (!ret->handle)
 		{
 		  LW6SYS_FREE (sys_context, ret->library_path);
@@ -105,6 +105,7 @@ _dlopen_so (const char *so_file, int is_backend)
 /**
  * lw6dyn_dlopen_backend_so:
  *
+ * @sys_context: global system context
  * @backend_so: the .so file to open
  *
  * Opens a .so file directly, using a valid (full) path name.
@@ -113,14 +114,15 @@ _dlopen_so (const char *so_file, int is_backend)
  *   need to call a module specific @init function, but it's another story.
  */
 lw6dyn_dl_handle_t *
-lw6dyn_dlopen_backend_so (const char *so_file)
+lw6dyn_dlopen_backend_so (lw6sys_context_t * sys_context, const char *so_file)
 {
-  return _dlopen_so (so_file, 1);
+  return _dlopen_so (sys_context, so_file, 1);
 }
 
 /**
  * lw6dyn_dlopen_shared_so:
  *
+ * @sys_context: global system context
  * @shared_so: the .so file to open
  *
  * Opens a .so file directly, using a valid (full) path name.
@@ -129,25 +131,25 @@ lw6dyn_dlopen_backend_so (const char *so_file)
  *   need to call a module specific @init function, but it's another story.
  */
 lw6dyn_dl_handle_t *
-lw6dyn_dlopen_shared_so (const char *so_file)
+lw6dyn_dlopen_shared_so (lw6sys_context_t * sys_context, const char *so_file)
 {
-  return _dlopen_so (so_file, 0);
+  return _dlopen_so (sys_context, so_file, 0);
 }
 
 static int
-_sym_exists (lw6dyn_dl_handle_t * handle, const char *sym_format, const char *backend_name)
+_sym_exists (lw6sys_context_t * sys_context, lw6dyn_dl_handle_t * handle, const char *sym_format, const char *backend_name)
 {
   int ret = 0;
   char *sym_str = NULL;
 
-  sym_str = lw6sys_new_sprintf (sym_format, backend_name);
+  sym_str = lw6sys_new_sprintf (sys_context, sym_format, backend_name);
   if (sym_str)
     {
-      if (lw6dyn_dlsym (handle, sym_str))
+      if (lw6dyn_dlsym (sys_context, handle, sym_str))
 	{
 	  ret = 1;
 	}
-      LW6SYS_FREE (sym_str);
+      LW6SYS_FREE (sys_context, sym_str);
       sym_str = NULL;
     }
 
@@ -157,6 +159,7 @@ _sym_exists (lw6dyn_dl_handle_t * handle, const char *sym_format, const char *ba
 /**
  * lw6dyn_dlopen_backend:
  *
+ * @sys_context: global system context
  * @argc: the number of command-line arguments as passed to @main
  * @arvg: an array of command-line arguments as passed to @main
  * @top_level_lib: the top-level library concerned, this means is it
@@ -176,7 +179,7 @@ _sym_exists (lw6dyn_dl_handle_t * handle, const char *sym_format, const char *ba
  *   need to call a module specific @init function, but it's another story.
  */
 lw6dyn_dl_handle_t *
-lw6dyn_dlopen_backend (int argc, const char *argv[], const char *top_level_lib, const char *backend_name)
+lw6dyn_dlopen_backend (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *top_level_lib, const char *backend_name)
 {
   lw6dyn_dl_handle_t *ret = NULL;
   char *so_file = NULL;
@@ -188,17 +191,17 @@ lw6dyn_dlopen_backend (int argc, const char *argv[], const char *top_level_lib, 
   int ok = 0;
   static int first_load = 1;
 
-  so_file = lw6dyn_path_find_backend (argc, argv, top_level_lib, backend_name);
+  so_file = lw6dyn_path_find_backend (sys_context, argc, argv, top_level_lib, backend_name);
   if (so_file)
     {
-      ret = lw6dyn_dlopen_backend_so (so_file);
+      ret = lw6dyn_dlopen_backend_so (sys_context, so_file);
 
       if (ret)
 	{
 	  get_pedigree_func_str = lw6sys_new_sprintf (sys_context, LW6DYN_GET_PEDIGREE_FUNC_FORMAT, backend_name);
 	  if (get_pedigree_func_str)
 	    {
-	      get_pedigree_func = lw6dyn_dlsym (ret, get_pedigree_func_str);
+	      get_pedigree_func = lw6dyn_dlsym (sys_context, ret, get_pedigree_func_str);
 	      if (get_pedigree_func)
 		{
 		  module_pedigree = (lw6sys_module_pedigree_t *) (get_pedigree_func) ();
@@ -211,19 +214,19 @@ lw6dyn_dlopen_backend (int argc, const char *argv[], const char *top_level_lib, 
 			  && module_pedigree->version
 			  && module_pedigree->copyright && module_pedigree->license && module_pedigree->date && module_pedigree->time)
 			{
-			  create_backend_func_str = lw6sys_new_sprintf (LW6DYN_CREATE_BACKEND_FUNC_FORMAT, backend_name);
+			  create_backend_func_str = lw6sys_new_sprintf (sys_context, LW6DYN_CREATE_BACKEND_FUNC_FORMAT, backend_name);
 			  if (create_backend_func_str)
 			    {
-			      create_backend_func = lw6dyn_dlsym (ret, create_backend_func_str);
+			      create_backend_func = lw6dyn_dlsym (sys_context, ret, create_backend_func_str);
 			      if (create_backend_func)
 				{
 				  if (!strcmp (backend_name, module_pedigree->id))
 				    {
 				      if (!strcmp (top_level_lib, module_pedigree->category))
 					{
-					  if (lw6sys_version_is_compatible (lw6sys_build_get_version (), module_pedigree->version))
+					  if (lw6sys_version_is_compatible (sys_context, lw6sys_build_get_version (), module_pedigree->version))
 					    {
-					      if (_sym_exists (ret, LW6DYN_IS_BACKEND_GPL_COMPATIBLE_SYM_FORMAT, backend_name))
+					      if (_sym_exists (sys_context, ret, LW6DYN_IS_BACKEND_GPL_COMPATIBLE_SYM_FORMAT, backend_name))
 						{
 						  if (first_load)
 						    {
@@ -240,9 +243,10 @@ lw6dyn_dlopen_backend (int argc, const char *argv[], const char *top_level_lib, 
 
 						  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("module \"%s\" loaded, looks fine"), so_file);
 
-						  ret->is_dlclose_safe = _sym_exists (ret, LW6DYN_IS_BACKEND_DLCLOSE_SAFE_SYM_FORMAT, backend_name);
-						  lw6sys_log (sys_context,
-							      LW6SYS_LOG_INFO, _x_ ("is_dlclose_safe for \"%s\" is %d"), so_file, ret->is_dlclose_safe);
+						  ret->is_dlclose_safe =
+						    _sym_exists (sys_context, ret, LW6DYN_IS_BACKEND_DLCLOSE_SAFE_SYM_FORMAT, backend_name);
+						  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("is_dlclose_safe for \"%s\" is %d"), so_file,
+							      ret->is_dlclose_safe);
 
 						  /*
 						   * Verbose dlopen did log the so name
@@ -266,7 +270,7 @@ lw6dyn_dlopen_backend (int argc, const char *argv[], const char *top_level_lib, 
 					      else
 						{
 						  lw6sys_log
-						    (LW6SYS_LOG_WARNING,
+						    (sys_context, LW6SYS_LOG_WARNING,
 						     _x_
 						     ("module mod_%s \"%s\" in \"%s\" is not GPL compatible"), backend_name, module_pedigree->name, so_file);
 						}
@@ -322,7 +326,7 @@ lw6dyn_dlopen_backend (int argc, const char *argv[], const char *top_level_lib, 
     {
       if (ret)
 	{
-	  lw6dyn_dlclose_backend (ret);
+	  lw6dyn_dlclose_backend (sys_context, ret);
 	  ret = NULL;
 	}
     }
@@ -333,6 +337,7 @@ lw6dyn_dlopen_backend (int argc, const char *argv[], const char *top_level_lib, 
 /**
  * lw6dyn_dlopen_shared:
  *
+ * @sys_context: global system context
  * @argc: the number of command-line arguments as passed to @main
  * @arvg: an array of command-line arguments as passed to @main
  * @top_level_lib: the top-level library concerned, this means is it
@@ -352,25 +357,25 @@ lw6dyn_dlopen_backend (int argc, const char *argv[], const char *top_level_lib, 
  *   different from a real module, there's no real prototype, it just loads code.
  */
 lw6dyn_dl_handle_t *
-lw6dyn_dlopen_shared (int argc, const char *argv[], const char *top_level_lib, const char *shared_name)
+lw6dyn_dlopen_shared (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *top_level_lib, const char *shared_name)
 {
   lw6dyn_dl_handle_t *ret = NULL;
   char *so_file = NULL;
   int ok = 0;
 
-  so_file = lw6dyn_path_find_shared (argc, argv, top_level_lib, shared_name);
+  so_file = lw6dyn_path_find_shared (sys_context, argc, argv, top_level_lib, shared_name);
   if (so_file)
     {
-      ret = lw6dyn_dlopen_shared_so (so_file);
+      ret = lw6dyn_dlopen_shared_so (sys_context, so_file);
 
       if (ret)
 	{
 	  ret->is_backend = 0;
 
-	  if (_sym_exists (ret, LW6DYN_IS_SHARED_GPL_COMPATIBLE_SYM_FORMAT, shared_name))
+	  if (_sym_exists (sys_context, ret, LW6DYN_IS_SHARED_GPL_COMPATIBLE_SYM_FORMAT, shared_name))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("shared code \"%s\" loaded, looks fine"), so_file);
-	      ret->is_dlclose_safe = _sym_exists (ret, LW6DYN_IS_SHARED_DLCLOSE_SAFE_SYM_FORMAT, shared_name);
+	      ret->is_dlclose_safe = _sym_exists (sys_context, ret, LW6DYN_IS_SHARED_DLCLOSE_SAFE_SYM_FORMAT, shared_name);
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("is_dlclose_safe for \"%s\" is %d"), so_file, ret->is_dlclose_safe);
 	      ok = 1;
 	    }
@@ -386,7 +391,7 @@ lw6dyn_dlopen_shared (int argc, const char *argv[], const char *top_level_lib, c
     {
       if (ret)
 	{
-	  lw6dyn_dlclose_shared (ret);
+	  lw6dyn_dlclose_shared (sys_context, ret);
 	  ret = NULL;
 	}
     }
@@ -395,7 +400,7 @@ lw6dyn_dlopen_shared (int argc, const char *argv[], const char *top_level_lib, c
 }
 
 static int
-_dlclose (lw6dyn_dl_handle_t * handle)
+_dlclose (lw6sys_context_t * sys_context, lw6dyn_dl_handle_t * handle)
 {
   int nb_errs;
   int ret = 0;
@@ -453,6 +458,7 @@ _dlclose (lw6dyn_dl_handle_t * handle)
 /**
  * lw6dyn_dlclose_backend:
  *
+ * @sys_context: global system context
  * @handle: the backend to close.
  *
  * Closes an opened backend. Note that you must call any backend
@@ -461,19 +467,20 @@ _dlclose (lw6dyn_dl_handle_t * handle)
  * Return value: 1 if success, 0 on error.
  */
 int
-lw6dyn_dlclose_backend (lw6dyn_dl_handle_t * handle)
+lw6dyn_dlclose_backend (lw6sys_context_t * sys_context, lw6dyn_dl_handle_t * handle)
 {
   if (!(handle->is_backend))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("dlclosing \"%s\" as a backend but it's not one"), handle->library_path);
     }
 
-  return _dlclose (handle);
+  return _dlclose (sys_context, handle);
 }
 
 /**
  * lw6dyn_dlclose_shared:
  *
+ * @sys_context: global system context
  * @handle: the shared code library to close.
  *
  * Closes an opened shared code library. Note that you must call any shared code library
@@ -482,19 +489,20 @@ lw6dyn_dlclose_backend (lw6dyn_dl_handle_t * handle)
  * Return value: 1 if success, 0 on error.
  */
 int
-lw6dyn_dlclose_shared (lw6dyn_dl_handle_t * handle)
+lw6dyn_dlclose_shared (lw6sys_context_t * sys_context, lw6dyn_dl_handle_t * handle)
 {
   if (handle->is_backend)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("dlclosing \"%s\" as shared code but it's a backend"), handle->library_path);
     }
 
-  return _dlclose (handle);
+  return _dlclose (sys_context, handle);
 }
 
 /**
  * lw6dyn_dlsym:
  *
+ * @sys_context: global system context
  * @handle: the backend concerned
  * @func_name: the function name, as a NULL terminated string
  *
@@ -503,7 +511,7 @@ lw6dyn_dlclose_shared (lw6dyn_dl_handle_t * handle)
  * Return value: a pointer to the function, NULL if not found.
  */
 void *
-lw6dyn_dlsym (lw6dyn_dl_handle_t * handle, const char *func_name)
+lw6dyn_dlsym (lw6sys_context_t * sys_context, lw6dyn_dl_handle_t * handle, const char *func_name)
 {
   void *ret;
 

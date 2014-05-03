@@ -85,7 +85,7 @@ _test_sdl ()
     memset (&funcs, 0, sizeof (_lw6gfx_sdl_funcs_t));
 
 #ifndef LW6_ALLINONE
-    handle = lw6dyn_dlopen_shared (argc, argv, "gfx", "sdl");
+    handle = lw6dyn_dlopen_shared (sys_context, argc, argv, "gfx", "sdl");
     if (!handle)
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to load shared SDL code"));
@@ -110,7 +110,7 @@ _test_sdl ()
 #ifndef LW6_ALLINONE
     if (handle)
       {
-	lw6dyn_dlclose_shared (handle);
+	lw6dyn_dlclose_shared (sys_context, handle);
 	handle = NULL;
       }
 #endif

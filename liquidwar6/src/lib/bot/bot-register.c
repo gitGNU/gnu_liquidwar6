@@ -86,7 +86,7 @@ lw6bot_get_backends (int argc, const char *argv[])
 	}
     }
 #else
-  ret = lw6dyn_list_backends (argc, argv, "bot");
+  ret = lw6dyn_list_backends (sys_context, argc, argv, "bot");
 #endif
 
   return ret;
@@ -139,7 +139,7 @@ lw6bot_create_backend (int argc, const char *argv[], const char *name)
 #else
   lw6dyn_dl_handle_t *backend_handle = NULL;
 
-  backend_handle = lw6dyn_dlopen_backend (argc, argv, "bot", name);
+  backend_handle = lw6dyn_dlopen_backend (sys_context, argc, argv, "bot", name);
 
   if (backend_handle)
     {
@@ -149,7 +149,7 @@ lw6bot_create_backend (int argc, const char *argv[], const char *name)
       init_func_name = lw6sys_new_sprintf (sys_context, LW6DYN_CREATE_BACKEND_FUNC_FORMAT, name);
       if (init_func_name)
 	{
-	  init_func = lw6dyn_dlsym (backend_handle, init_func_name);
+	  init_func = lw6dyn_dlsym (sys_context, backend_handle, init_func_name);
 	  if (init_func)
 	    {
 	      backend = init_func ();
@@ -203,7 +203,7 @@ void
 lw6bot_destroy_backend (lw6bot_backend_t * backend)
 {
 #ifndef LW6_ALLINONE
-  lw6dyn_dlclose_backend (backend->dl_handle);
+  lw6dyn_dlclose_backend (sys_context, backend->dl_handle);
 #endif
   LW6SYS_FREE (sys_context, backend);
 }

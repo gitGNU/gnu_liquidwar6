@@ -44,7 +44,7 @@ _mod_gles2_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
 #ifndef LW6_ALLINONE
   if (gles2_context)
     {
-      gles2_context->shared_sdl_handle = lw6dyn_dlopen_shared (argc, argv, "gfx", "sdl");
+      gles2_context->shared_sdl_handle = lw6dyn_dlopen_shared (sys_context, argc, argv, "gfx", "sdl");
       if (gles2_context->shared_sdl_handle == NULL)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to load shared SDL code"));
@@ -191,7 +191,7 @@ _mod_gles2_quit (_mod_gles2_context_t * gles2_context)
 #ifndef LW6_ALLINONE
   if (gles2_context->shared_sdl_handle)
     {
-      lw6dyn_dlclose_shared (gles2_context->shared_sdl_handle);
+      lw6dyn_dlclose_shared (sys_context, gles2_context->shared_sdl_handle);
       gles2_context->shared_sdl_handle = NULL;
     }
 #endif // LW6_ALLINONE
