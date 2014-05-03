@@ -64,7 +64,7 @@ video_mode_copy_callback (void *func_data, void *data)
   lw6gui_video_mode_t *video_mode = (lw6gui_video_mode_t *) data;
   video_mode_sort_t *video_mode_sort = NULL;
 
-  video_mode_sort = (video_mode_sort_t *) LW6SYS_MALLOC (sizeof (video_mode_sort_t));
+  video_mode_sort = (video_mode_sort_t *) LW6SYS_MALLOC (sys_context, sizeof (video_mode_sort_t));
   if (video_mode_sort)
     {
       video_mode_sort->video_mode = (*video_mode);

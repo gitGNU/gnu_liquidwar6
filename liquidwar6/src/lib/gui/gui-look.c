@@ -83,7 +83,7 @@ lw6gui_look_new (const lw6map_style_t * map_style)
 {
   lw6gui_look_t *look = NULL;
 
-  look = (lw6gui_look_t *) LW6SYS_CALLOC (sizeof (lw6gui_look_t));
+  look = (lw6gui_look_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6gui_look_t));
 
   if (look)
     {

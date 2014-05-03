@@ -42,7 +42,7 @@ lw6srv_tcp_accepter_new (char *client_ip, int client_port, int sock)
 {
   lw6srv_tcp_accepter_t *ret = NULL;
 
-  ret = (lw6srv_tcp_accepter_t *) LW6SYS_CALLOC (sizeof (lw6srv_tcp_accepter_t));
+  ret = (lw6srv_tcp_accepter_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6srv_tcp_accepter_t));
   if (ret)
     {
       ret->client_id.client_ip = client_ip;	// we'll destroy this ourselves
@@ -72,7 +72,7 @@ lw6srv_tcp_accepter_free (lw6srv_tcp_accepter_t * tcp_accepter)
    */
   if (tcp_accepter->client_id.client_ip)
     {
-      LW6SYS_FREE (tcp_accepter->client_id.client_ip);
+      LW6SYS_FREE (sys_context, tcp_accepter->client_id.client_ip);
     }
-  LW6SYS_FREE (tcp_accepter);
+  LW6SYS_FREE (sys_context, tcp_accepter);
 }

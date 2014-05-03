@@ -82,7 +82,7 @@ lw6cns_term_support ()
 		      _ENV_TERM_KEY, env_term, _ENV_TERM_ALLOWED_XTERM, _ENV_TERM_ALLOWED_LINUX);
 	}
 
-      LW6SYS_FREE (env_term);
+      LW6SYS_FREE (sys_context, env_term);
       env_term = NULL;
     }
   else

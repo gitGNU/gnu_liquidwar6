@@ -79,7 +79,7 @@ _lw6dat_stack_clear (_lw6dat_stack_t * stack)
   stack->node_id = 0;
   if (stack->node_id_str)
     {
-      LW6SYS_FREE (stack->node_id_str);
+      LW6SYS_FREE (sys_context, stack->node_id_str);
       stack->node_id_str = NULL;
     }
   stack->serial_0_base = _LW6DAT_SERIAL_START;
@@ -588,7 +588,7 @@ _lw6dat_stack_shift (_lw6dat_stack_t * stack, int new_serial_0, int64_t new_seq_
        * happen often, only at game creation/join and moreover, it should happen
        * on almost empty stacks.
        */
-      shifted_stack = (_lw6dat_stack_t *) LW6SYS_CALLOC (sizeof (_lw6dat_stack_t));
+      shifted_stack = (_lw6dat_stack_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6dat_stack_t));
       if (shifted_stack)
 	{
 	  if (_lw6dat_stack_init (shifted_stack, stack->node_id, new_serial_0, new_seq_0))
@@ -638,7 +638,7 @@ _lw6dat_stack_shift (_lw6dat_stack_t * stack, int new_serial_0, int64_t new_seq_
 				  _x_ ("shifted stack for node_id %" LW6SYS_PRINTF_LL "x serial_0=%d"), (long long) stack->node_id, new_serial_0);
 		      _lw6dat_stack_clear (stack);
 		      memcpy (stack, shifted_stack, sizeof (_lw6dat_stack_t));
-		      LW6SYS_FREE (shifted_stack);
+		      LW6SYS_FREE (sys_context, shifted_stack);
 		      shifted_stack = NULL;
 		      ret = 1;
 		    }
@@ -652,7 +652,7 @@ _lw6dat_stack_shift (_lw6dat_stack_t * stack, int new_serial_0, int64_t new_seq_
 	  if (shifted_stack)
 	    {
 	      _lw6dat_stack_clear (shifted_stack);
-	      LW6SYS_FREE (shifted_stack);
+	      LW6SYS_FREE (sys_context, shifted_stack);
 	      shifted_stack = NULL;
 	    }
 	}
@@ -1024,7 +1024,7 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 	    {
 	      n = atom->order_n;
 	      cmd_len = _LW6DAT_ATOM_MAX_SIZE * n + 1;
-	      cmd = (char *) LW6SYS_CALLOC (cmd_len * sizeof (char));
+	      cmd = (char *) LW6SYS_CALLOC (sys_context, cmd_len * sizeof (char));
 	      if (cmd)
 		{
 		  full_str = _lw6dat_atom_get_full_str (atom);

@@ -60,7 +60,7 @@ lw6net_if_guess_local ()
   DWORD dwRetVal = 0;
   ULONG ulOutBufLen = sizeof (IP_ADAPTER_INFO);
 
-  pAdapterInfo = (IP_ADAPTER_INFO *) LW6SYS_CALLOC (sizeof (IP_ADAPTER_INFO));
+  pAdapterInfo = (IP_ADAPTER_INFO *) LW6SYS_CALLOC (sys_context, sizeof (IP_ADAPTER_INFO));
   if (pAdapterInfo)
     {
       // Make an initial call to GetAdaptersInfo to get

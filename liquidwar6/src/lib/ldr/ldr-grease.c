@@ -78,7 +78,7 @@ _do_grease (lw6map_layer_t * layer, const lw6map_rules_t * rules, _grease_table_
   tmp.shape = layer->shape;
 
   size = shape.w * shape.h * sizeof (u_int8_t);
-  tmp.data = LW6SYS_MALLOC (size);
+  tmp.data = LW6SYS_MALLOC (sys_context, size);
   if (tmp.data)
     {
       memcpy (tmp.data, layer->data, size);

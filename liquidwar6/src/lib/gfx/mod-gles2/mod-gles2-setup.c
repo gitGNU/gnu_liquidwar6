@@ -40,7 +40,7 @@ _mod_gles2_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
   int ttf_ok = 1;
   SDL_version version;
 
-  gles2_context = (_mod_gles2_context_t *) LW6SYS_CALLOC (sizeof (_mod_gles2_context_t));
+  gles2_context = (_mod_gles2_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_gles2_context_t));
 #ifndef LW6_ALLINONE
   if (gles2_context)
     {

@@ -32,7 +32,7 @@ _lw6p2p_cli_oob_callback_data_new (lw6cli_backend_t * backend, _lw6p2p_node_t * 
 {
   _lw6p2p_cli_oob_callback_data_t *ret = NULL;
 
-  ret = (_lw6p2p_cli_oob_callback_data_t *) LW6SYS_CALLOC (sizeof (_lw6p2p_cli_oob_callback_data_t));
+  ret = (_lw6p2p_cli_oob_callback_data_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6p2p_cli_oob_callback_data_t));
   if (ret)
     {
       ret->backend = backend;
@@ -57,7 +57,7 @@ _lw6p2p_cli_oob_callback_data_free (_lw6p2p_cli_oob_callback_data_t * cli_oob)
 	{
 	  lw6cli_oob_free (cli_oob->cli_oob);
 	}
-      LW6SYS_FREE (cli_oob);
+      LW6SYS_FREE (sys_context, cli_oob);
     }
 }
 

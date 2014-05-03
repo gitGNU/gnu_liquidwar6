@@ -156,7 +156,7 @@ _scm_lw6tsk_loader_push_gen (SCM loader, SCM seed, SCM display_width, SCM displa
       lw6tsk_loader_push_gen (c_loader, c_seed, c_display_width, c_display_height, c_bench_value, c_magic_number);
       ret = SCM_BOOL_T;
 
-      LW6SYS_FREE (c_seed);
+      LW6SYS_FREE (sys_context, c_seed);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

@@ -70,7 +70,7 @@ mod_gl1_utils_bitmap_new (mod_gl1_utils_context_t * utils_context, int width, in
 {
   mod_gl1_utils_bitmap_t *ret = NULL;
 
-  ret = (mod_gl1_utils_bitmap_t *) LW6SYS_CALLOC (sizeof (mod_gl1_utils_bitmap_t));
+  ret = (mod_gl1_utils_bitmap_t *) LW6SYS_CALLOC (sys_context, sizeof (mod_gl1_utils_bitmap_t));
   if (ret)
     {
       ret->id = 0;
@@ -102,7 +102,7 @@ mod_gl1_utils_bitmap_load (mod_gl1_utils_context_t * utils_context, const char *
   mod_gl1_utils_bitmap_t *ret = NULL;
   char *desc = NULL;
 
-  ret = (mod_gl1_utils_bitmap_t *) LW6SYS_CALLOC (sizeof (mod_gl1_utils_bitmap_t));
+  ret = (mod_gl1_utils_bitmap_t *) LW6SYS_CALLOC (sys_context, sizeof (mod_gl1_utils_bitmap_t));
   if (ret)
     {
       ret->id = 0;
@@ -129,7 +129,7 @@ mod_gl1_utils_bitmap_load (mod_gl1_utils_context_t * utils_context, const char *
 	      LW6SYS_FREE (sys_context, ret);
 	      ret = NULL;
 	    }
-	  LW6SYS_FREE (desc);
+	  LW6SYS_FREE (sys_context, desc);
 	}
       else
 	{
@@ -146,7 +146,7 @@ mod_gl1_utils_surface2bitmap (mod_gl1_utils_context_t * utils_context, SDL_Surfa
 {
   mod_gl1_utils_bitmap_t *ret = NULL;
 
-  ret = (mod_gl1_utils_bitmap_t *) LW6SYS_CALLOC (sizeof (mod_gl1_utils_bitmap_t));
+  ret = (mod_gl1_utils_bitmap_t *) LW6SYS_CALLOC (sys_context, sizeof (mod_gl1_utils_bitmap_t));
   if (ret)
     {
       ret->id = 0;

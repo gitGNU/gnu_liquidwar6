@@ -90,7 +90,7 @@ _test_address ()
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("\"%s\" transformed in \"%s\" by aton + ntoa"), _TEST_HOST_IP, str);
 	      }
-	    LW6SYS_FREE (str);
+	    LW6SYS_FREE (sys_context, str);
 	  }
       }
   }
@@ -329,7 +329,7 @@ _test_tcp ()
 
 	size = strlen (_TEST_BUF1_STR) + 1;
 	buf1_send = lw6sys_str_copy (sys_context, _TEST_BUF1_STR);
-	buf1_recv = LW6SYS_CALLOC (strlen (_TEST_BUF1_STR) + 1);
+	buf1_recv = LW6SYS_CALLOC (sys_context, strlen (_TEST_BUF1_STR) + 1);
 
 	if (buf1_send && buf1_recv)
 	  {
@@ -350,7 +350,7 @@ _test_tcp ()
 	 */
 	size = strlen (_TEST_BUF2_STR) + 1;
 	buf2_send = lw6sys_str_copy (sys_context, _TEST_BUF2_STR);
-	buf2_recv = LW6SYS_CALLOC (strlen (_TEST_BUF2_STR) + 1);
+	buf2_recv = LW6SYS_CALLOC (sys_context, strlen (_TEST_BUF2_STR) + 1);
 	if (buf2_send && buf2_recv)
 	  {
 	    massive_begin_timestamp = lw6sys_get_timestamp ();
@@ -533,7 +533,7 @@ _test_udp ()
       {
 	size = strlen (_TEST_BUF1_STR) + 1;
 	buf1_send = lw6sys_str_copy (sys_context, _TEST_BUF1_STR);
-	buf1_recv = LW6SYS_CALLOC (strlen (_TEST_BUF1_STR) + 1);
+	buf1_recv = LW6SYS_CALLOC (sys_context, strlen (_TEST_BUF1_STR) + 1);
 
 	if (buf1_send && buf1_recv)
 	  {

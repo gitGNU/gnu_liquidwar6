@@ -35,7 +35,7 @@ _mod_csound_init (int argc, const char *argv[], float fx_volume, float water_vol
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("csound init volume=%01.2f/%01.2f"), fx_volume, music_volume);
 
-  csound_context = (_mod_csound_context_t *) LW6SYS_CALLOC (sizeof (_mod_csound_context_t));
+  csound_context = (_mod_csound_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_csound_context_t));
   if (csound_context)
     {
       if (_mod_csound_path_init (csound_context, argc, argv))

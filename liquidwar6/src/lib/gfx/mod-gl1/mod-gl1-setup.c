@@ -207,7 +207,7 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, l
   lw6map_style_t map_style;
   SDL_version version;
 
-  gl1_context = (_mod_gl1_context_t *) LW6SYS_CALLOC (sizeof (_mod_gl1_context_t));
+  gl1_context = (_mod_gl1_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_gl1_context_t));
 #ifndef LW6_ALLINONE
   if (gl1_context)
     {
@@ -352,7 +352,7 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, l
 	}
       else
 	{
-	  LW6SYS_FREE (gl1_context);
+	  LW6SYS_FREE (sys_context, gl1_context);
 	  gl1_context = NULL;
 	}
     }
@@ -446,7 +446,7 @@ _mod_gl1_quit (_mod_gl1_context_t * gl1_context)
     }
 #endif // LW6_ALLINONE
 
-  LW6SYS_FREE (gl1_context);
+  LW6SYS_FREE (sys_context, gl1_context);
 
   /*
    * For some reason, I suspect some segfaults occur when

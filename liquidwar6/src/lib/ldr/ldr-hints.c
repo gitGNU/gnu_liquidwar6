@@ -402,7 +402,7 @@ lw6ldr_hints_get_default (const char *key)
   lw6ldr_hints_t *hints;
   char *ret = NULL;
 
-  hints = (lw6ldr_hints_t *) LW6SYS_CALLOC (sizeof (lw6ldr_hints_t));
+  hints = (lw6ldr_hints_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6ldr_hints_t));
   if (hints)
     {
       lw6ldr_hints_defaults (hints);

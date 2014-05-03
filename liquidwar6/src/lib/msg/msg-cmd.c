@@ -70,11 +70,11 @@ _generate_info (const char *cmd, lw6nod_info_t * info)
 		     info->dyn_info.max_nb_cursors, sep, info->dyn_info.nb_nodes, sep, info->dyn_info.max_nb_nodes, sep, peer_id_list);
 		  LW6SYS_FREE (sys_context, peer_id_list);
 		}
-	      LW6SYS_FREE (base64_level);
+	      LW6SYS_FREE (sys_context, base64_level);
 	    }
-	  LW6SYS_FREE (base64_description);
+	  LW6SYS_FREE (sys_context, base64_description);
 	}
-      LW6SYS_FREE (base64_title);
+      LW6SYS_FREE (sys_context, base64_title);
     }
 
   return ret;

@@ -35,13 +35,13 @@ mod_gl1_utils_shaded_text_new (mod_gl1_utils_context_t * utils_context, TTF_Font
 {
   mod_gl1_utils_shaded_text_t *shaded_text;
 
-  shaded_text = (mod_gl1_utils_shaded_text_t *) LW6SYS_CALLOC (sizeof (mod_gl1_utils_shaded_text_t));
+  shaded_text = (mod_gl1_utils_shaded_text_t *) LW6SYS_CALLOC (sys_context, sizeof (mod_gl1_utils_shaded_text_t));
   if (shaded_text)
     {
       shaded_text->font = font;
       if (!mod_gl1_utils_shaded_text_update (utils_context, shaded_text, text, color))
 	{
-	  LW6SYS_FREE (shaded_text);
+	  LW6SYS_FREE (sys_context, shaded_text);
 	  shaded_text = NULL;
 	}
     }
@@ -63,7 +63,7 @@ mod_gl1_utils_shaded_text_update (mod_gl1_utils_context_t * utils_context,
     {
       if (shaded_text->text)
 	{
-	  LW6SYS_FREE (shaded_text->text);
+	  LW6SYS_FREE (sys_context, shaded_text->text);
 	}
       shaded_text->text = lw6sys_str_copy (sys_context, text);
       change = (shaded_text->text != NULL);
@@ -154,7 +154,7 @@ mod_gl1_utils_shaded_text_free (mod_gl1_utils_context_t * utils_context, mod_gl1
     {
       if (shaded_text->text)
 	{
-	  LW6SYS_FREE (shaded_text->text);
+	  LW6SYS_FREE (sys_context, shaded_text->text);
 	}
       if (shaded_text->bg)
 	{
@@ -164,7 +164,7 @@ mod_gl1_utils_shaded_text_free (mod_gl1_utils_context_t * utils_context, mod_gl1
 	{
 	  mod_gl1_utils_bitmap_free (utils_context, shaded_text->fg);
 	}
-      LW6SYS_FREE (shaded_text);
+      LW6SYS_FREE (sys_context, shaded_text);
     }
   else
     {

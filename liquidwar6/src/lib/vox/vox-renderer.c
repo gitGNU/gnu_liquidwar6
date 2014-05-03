@@ -32,7 +32,7 @@ _lw6vox_renderer_new (lw6ker_game_state_t * game_state)
 {
   _lw6vox_renderer_t *ret = NULL;
 
-  ret = (_lw6vox_renderer_t *) LW6SYS_CALLOC (sizeof (_lw6vox_renderer_t));
+  ret = (_lw6vox_renderer_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6vox_renderer_t));
   if (ret)
     {
       // ok

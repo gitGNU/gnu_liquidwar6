@@ -101,7 +101,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir, int qua
   filename = lw6sys_path_concat (sys_context, user_dir, _SCREENSHOT_JPEG_FILE);
   if (filename)
     {
-      ret = (lw6img_jpeg_t *) LW6SYS_CALLOC (sizeof (lw6img_jpeg_t));
+      ret = (lw6img_jpeg_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6img_jpeg_t));
       if (ret)
 	{
 	  ret->id = 0;
@@ -111,7 +111,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir, int qua
 	    }
 
 	  surface = shape.w * shape.h;
-	  tmp_buffer = (JSAMPLE *) LW6SYS_CALLOC (surface * _JPEG_3 * sizeof (JSAMPLE));
+	  tmp_buffer = (JSAMPLE *) LW6SYS_CALLOC (sys_context, surface * _JPEG_3 * sizeof (JSAMPLE));
 	  if (tmp_buffer)
 	    {
 	      for (y = 0; y < shape.h; ++y)
@@ -195,7 +195,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir, int qua
 		}
 
 	      jpeg_destroy_compress (&cinfo);
-	      LW6SYS_FREE (tmp_buffer);
+	      LW6SYS_FREE (sys_context, tmp_buffer);
 	    }
 	}
       LW6SYS_FREE (sys_context, filename);
@@ -229,8 +229,8 @@ lw6img_screenshot_free (lw6img_jpeg_t * screenshot)
     {
       if (screenshot->jpeg_data)
 	{
-	  LW6SYS_FREE (screenshot->jpeg_data);
+	  LW6SYS_FREE (sys_context, screenshot->jpeg_data);
 	}
-      LW6SYS_FREE (screenshot);
+      LW6SYS_FREE (sys_context, screenshot);
     }
 }

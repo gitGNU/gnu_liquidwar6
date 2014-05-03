@@ -39,7 +39,7 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume, float water_volume
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("ogg init volume=%01.2f/%01.2f/%01.2f"), fx_volume, water_volume, music_volume);
 
-  snd_context = (_mod_ogg_context_t *) LW6SYS_CALLOC (sizeof (_mod_ogg_context_t));
+  snd_context = (_mod_ogg_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_ogg_context_t));
   if (snd_context)
     {
       if (_mod_ogg_path_init (snd_context, argc, argv))
@@ -168,5 +168,5 @@ _mod_ogg_quit (_mod_ogg_context_t * snd_context)
 
   _mod_ogg_path_quit (snd_context);
 
-  LW6SYS_FREE (snd_context);
+  LW6SYS_FREE (sys_context, snd_context);
 }

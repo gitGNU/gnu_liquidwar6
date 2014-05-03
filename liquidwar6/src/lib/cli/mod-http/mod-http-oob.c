@@ -61,7 +61,7 @@ _do_ping (_mod_http_context_t * http_context, lw6nod_info_t * node_info, lw6cli_
 		  LW6SYS_FREE (sys_context, given_url);
 		}
 	    }
-	  LW6SYS_FREE (response);
+	  LW6SYS_FREE (sys_context, response);
 	}
       else
 	{
@@ -127,7 +127,7 @@ _do_info (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 			}
 		    }
 		}
-	      LW6SYS_FREE (response);
+	      LW6SYS_FREE (sys_context, response);
 	    }
 	  else
 	    {
@@ -203,13 +203,13 @@ _do_list (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 		    }
 		}
 	    }
-	  LW6SYS_FREE (response);
+	  LW6SYS_FREE (sys_context, response);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no response from %s:%d"), ip, parsed_url->port);
 	}
-      LW6SYS_FREE (list_url);
+      LW6SYS_FREE (sys_context, list_url);
     }
 
   return ret;
@@ -314,7 +314,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context, lw6nod_info_t * node_
 	    }
 	  if (password_checksum)
 	    {
-	      LW6SYS_FREE (password_checksum);
+	      LW6SYS_FREE (sys_context, password_checksum);
 	    }
 	}
       lw6sys_url_free (sys_context, parsed_url);

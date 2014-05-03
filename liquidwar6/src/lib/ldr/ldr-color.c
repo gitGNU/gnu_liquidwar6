@@ -129,10 +129,10 @@ _lw6ldr_guess_colors (lw6map_level_t * level, lw6sys_progress_t * progress)
   size = ((level->texture.w + 1) * (level->texture.h + 1)) / (step * step);
   if (size > 0)
     {
-      bg = (color_info_t *) LW6SYS_MALLOC (sizeof (color_info_t) * size);
+      bg = (color_info_t *) LW6SYS_MALLOC (sys_context, sizeof (color_info_t) * size);
       if (bg)
 	{
-	  fg = (color_info_t *) LW6SYS_MALLOC (sizeof (color_info_t) * size);
+	  fg = (color_info_t *) LW6SYS_MALLOC (sys_context, sizeof (color_info_t) * size);
 	  if (fg)
 	    {
 	      for (y = 0; y < level->texture.h && i_bg < size && i_fg < size; y += step)

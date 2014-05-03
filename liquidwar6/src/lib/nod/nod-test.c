@@ -552,7 +552,7 @@ _test_community ()
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			_x_ ("returned url \"%s\" for id %" LW6SYS_PRINTF_LL "d, should not be here"), url_from_id, (long long) _TEST_ID_3);
-	    LW6SYS_FREE (url_from_id);
+	    LW6SYS_FREE (sys_context, url_from_id);
 	    ret = 0;
 	  }
 	if (LW6SYS_TEST_ACK (lw6nod_info_community_add (info, _TEST_ID_3, _TEST_URL_3)))
@@ -578,7 +578,7 @@ _test_community ()
 	if (LW6SYS_TEST_ACK (url_from_id))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("returned url \"%s\" for id %" LW6SYS_PRINTF_LL "d, OK"), url_from_id, (long long) _TEST_ID_3);
-	    LW6SYS_FREE (url_from_id);
+	    LW6SYS_FREE (sys_context, url_from_id);
 	  }
 	else
 	  {

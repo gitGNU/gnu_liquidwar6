@@ -78,7 +78,7 @@ _lw6dat_warehouse_new (u_int64_t local_node_id, int64_t seq_0)
   _lw6dat_warehouse_t *warehouse;
   int ok = 0;
 
-  warehouse = (_lw6dat_warehouse_t *) LW6SYS_MALLOC (sizeof (_lw6dat_warehouse_t));
+  warehouse = (_lw6dat_warehouse_t *) LW6SYS_MALLOC (sys_context, sizeof (_lw6dat_warehouse_t));
   if (warehouse)
     {
       ok = _lw6dat_warehouse_init (warehouse, local_node_id, seq_0);

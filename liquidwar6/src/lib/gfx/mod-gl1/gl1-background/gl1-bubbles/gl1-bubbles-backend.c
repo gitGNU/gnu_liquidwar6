@@ -33,7 +33,7 @@ mod_gl1_background_bubbles_create_backend (mod_gl1_utils_context_t * utils_conte
 {
   mod_gl1_background_backend_t *backend;
 
-  backend = (mod_gl1_background_backend_t *) LW6SYS_MALLOC (sizeof (mod_gl1_background_backend_t));
+  backend = (mod_gl1_background_backend_t *) LW6SYS_MALLOC (sys_context, sizeof (mod_gl1_background_backend_t));
   if (backend)
     {
       memset (backend, 0, sizeof (mod_gl1_background_backend_t));

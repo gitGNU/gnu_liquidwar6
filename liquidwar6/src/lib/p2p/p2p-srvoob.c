@@ -33,7 +33,7 @@ _lw6p2p_srv_oob_callback_data_new (lw6srv_backend_t * backend,
 {
   _lw6p2p_srv_oob_callback_data_t *ret = NULL;
 
-  ret = (_lw6p2p_srv_oob_callback_data_t *) LW6SYS_CALLOC (sizeof (_lw6p2p_srv_oob_callback_data_t));
+  ret = (_lw6p2p_srv_oob_callback_data_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6p2p_srv_oob_callback_data_t));
   if (ret)
     {
       ret->backend = backend;
@@ -58,7 +58,7 @@ _lw6p2p_srv_oob_callback_data_free (_lw6p2p_srv_oob_callback_data_t * srv_oob)
 	{
 	  lw6srv_oob_free (srv_oob->srv_oob);
 	}
-      LW6SYS_FREE (srv_oob);
+      LW6SYS_FREE (sys_context, srv_oob);
     }
 }
 

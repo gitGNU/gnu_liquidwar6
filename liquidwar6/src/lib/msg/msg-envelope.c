@@ -146,7 +146,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
 
   if (base64_str)
     {
-      LW6SYS_FREE (base64_str);
+      LW6SYS_FREE (sys_context, base64_str);
     }
 
   if (physical_ticket_sig_str && physical_ticket_sig_str != msg_undef)
@@ -156,17 +156,17 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
 
   if (logical_ticket_sig_str && logical_ticket_sig_str != msg_undef)
     {
-      LW6SYS_FREE (logical_ticket_sig_str);
+      LW6SYS_FREE (sys_context, logical_ticket_sig_str);
     }
 
   if (logical_from_id_str && logical_from_id_str != msg_undef)
     {
-      LW6SYS_FREE (logical_from_id_str);
+      LW6SYS_FREE (sys_context, logical_from_id_str);
     }
 
   if (logical_to_id_str && logical_to_id_str != msg_undef)
     {
-      LW6SYS_FREE (logical_to_id_str);
+      LW6SYS_FREE (sys_context, logical_to_id_str);
     }
 
   return ret;

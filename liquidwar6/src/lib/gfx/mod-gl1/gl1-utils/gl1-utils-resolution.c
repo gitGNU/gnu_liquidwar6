@@ -96,7 +96,7 @@ mod_gl1_utils_find_closest_resolution (mod_gl1_utils_context_t * utils_context, 
 	{
 	  for (i = 0; sdl_modes[i]; ++i)
 	    {
-	      video_mode = (lw6gui_video_mode_t *) LW6SYS_MALLOC (sizeof (lw6gui_video_mode_t));
+	      video_mode = (lw6gui_video_mode_t *) LW6SYS_MALLOC (sys_context, sizeof (lw6gui_video_mode_t));
 	      if (video_mode)
 		{
 		  video_mode->width = sdl_modes[i]->w;

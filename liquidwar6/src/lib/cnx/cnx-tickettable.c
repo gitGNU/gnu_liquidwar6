@@ -146,7 +146,7 @@ lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table, const char *
   else
     {
       recv_ticket = lw6sys_generate_id_64 ();
-      recv_ticket_ptr = (u_int64_t *) LW6SYS_MALLOC (sizeof (u_int64_t));
+      recv_ticket_ptr = (u_int64_t *) LW6SYS_MALLOC (sys_context, sizeof (u_int64_t));
       if (recv_ticket_ptr)
 	{
 	  (*recv_ticket_ptr) = recv_ticket;
@@ -184,7 +184,7 @@ lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table, const char *
   int64_t *limit = NULL;
   int useless = 0;
 
-  limit = (int64_t *) LW6SYS_MALLOC (sizeof (int64_t));
+  limit = (int64_t *) LW6SYS_MALLOC (sys_context, sizeof (int64_t));
   if (limit)
     {
       (*limit) = lw6sys_get_timestamp (sys_context,) + ack_delay_msec;
@@ -325,7 +325,7 @@ lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t * ticket_table, const char *
 
   if (!send_ticket_ptr)
     {
-      send_ticket_ptr = (u_int64_t *) LW6SYS_MALLOC (sizeof (u_int64_t));
+      send_ticket_ptr = (u_int64_t *) LW6SYS_MALLOC (sys_context, sizeof (u_int64_t));
       if (send_ticket_ptr)
 	{
 	  (*send_ticket_ptr) = send_ticket;

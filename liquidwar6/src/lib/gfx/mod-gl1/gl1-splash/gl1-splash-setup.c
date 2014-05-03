@@ -32,7 +32,7 @@ _mod_gl1_splash_init (mod_gl1_utils_context_t * utils_context)
 {
   _mod_gl1_splash_context_t *splash_context = NULL;
 
-  splash_context = (_mod_gl1_splash_context_t *) LW6SYS_CALLOC (sizeof (_mod_gl1_splash_context_t));
+  splash_context = (_mod_gl1_splash_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_gl1_splash_context_t));
   if (splash_context)
     {
       if (_mod_gl1_splash_load_data (utils_context, splash_context))
@@ -41,7 +41,7 @@ _mod_gl1_splash_init (mod_gl1_utils_context_t * utils_context)
 	}
       else
 	{
-	  LW6SYS_FREE (splash_context);
+	  LW6SYS_FREE (sys_context, splash_context);
 	  splash_context = NULL;
 	}
     }
@@ -71,7 +71,7 @@ _mod_gl1_splash_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_c
 	  mod_gl1_utils_shaded_text_free (utils_context, splash_context->text.shaded_text);
 	}
       _mod_gl1_splash_unload_data (utils_context, splash_context);
-      LW6SYS_FREE (splash_context);
+      LW6SYS_FREE (sys_context, splash_context);
     }
 }
 

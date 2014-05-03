@@ -78,11 +78,11 @@ add_backend (lw6sys_assoc_t ** list, const char *libdir, const char *filename, c
 		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't get pedigree for mod_%s in \"%s\""), id, so_file);
 		    }
 		}
-	      LW6SYS_FREE (get_pedigree_func_str);
+	      LW6SYS_FREE (sys_context, get_pedigree_func_str);
 	    }
 	  lw6dyn_dlclose_backend (backend_handle);
 	}
-      LW6SYS_FREE (so_file);
+      LW6SYS_FREE (sys_context, so_file);
     }
 
   return ret;
@@ -105,7 +105,7 @@ update_list (lw6sys_assoc_t ** list, const char *path)
       while (!eod)
 	{
 	  dir_entry_size = sizeof (struct dirent) + NAME_MAX + 1;
-	  dir_entry = (struct dirent *) LW6SYS_CALLOC (dir_entry_size);
+	  dir_entry = (struct dirent *) LW6SYS_CALLOC (sys_context, dir_entry_size);
 	  if (dir_entry)
 	    {
 	      readdir_r (dir_handle, dir_entry, &dir_entry_result);
@@ -132,7 +132,7 @@ update_list (lw6sys_assoc_t ** list, const char *path)
 		{
 		  eod = 1;
 		}
-	      LW6SYS_FREE (dir_entry);
+	      LW6SYS_FREE (sys_context, dir_entry);
 	    }
 	}
       closedir (dir_handle);
@@ -164,7 +164,7 @@ update_devel_list (lw6sys_assoc_t ** list, const char *top_level_lib, int depth)
 		  while (!eod)
 		    {
 		      dir_entry_size = sizeof (struct dirent) + NAME_MAX + 1;
-		      dir_entry = (struct dirent *) LW6SYS_CALLOC (dir_entry_size);
+		      dir_entry = (struct dirent *) LW6SYS_CALLOC (sys_context, dir_entry_size);
 		      if (dir_entry)
 			{
 			  readdir_r (dir_handle, dir_entry, &dir_entry_result);
@@ -192,7 +192,7 @@ update_devel_list (lw6sys_assoc_t ** list, const char *top_level_lib, int depth)
 			    {
 			      eod = 1;
 			    }
-			  LW6SYS_FREE (dir_entry);
+			  LW6SYS_FREE (sys_context, dir_entry);
 			}
 		    }
 		  closedir (dir_handle);
@@ -218,7 +218,7 @@ update_system_list (lw6sys_assoc_t ** list, int argc, const char *argv[], const 
 	  update_list (list, libdir);
 	  LW6SYS_FREE (sys_context, libdir);
 	}
-      LW6SYS_FREE (mod_dir);
+      LW6SYS_FREE (sys_context, mod_dir);
     }
 }
 

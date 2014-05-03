@@ -139,7 +139,7 @@ _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read, SC
 		}
 	    }
 	}
-      LW6SYS_FREE (c_backend_name);
+      LW6SYS_FREE (sys_context, c_backend_name);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

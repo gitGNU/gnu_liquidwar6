@@ -42,7 +42,7 @@ lw6srv_udp_buffer_new (char *client_ip, int client_port, char *line)
 {
   lw6srv_udp_buffer_t *ret = NULL;
 
-  ret = (lw6srv_udp_buffer_t *) LW6SYS_CALLOC (sizeof (lw6srv_udp_buffer_t));
+  ret = (lw6srv_udp_buffer_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6srv_udp_buffer_t));
   if (ret)
     {
       ret->client_id.client_ip = client_ip;	// we'll destroy this ourselves
@@ -67,11 +67,11 @@ lw6srv_udp_buffer_free (lw6srv_udp_buffer_t * udp_buffer)
 {
   if (udp_buffer->client_id.client_ip)
     {
-      LW6SYS_FREE (udp_buffer->client_id.client_ip);
+      LW6SYS_FREE (sys_context, udp_buffer->client_id.client_ip);
     }
   if (udp_buffer->line)
     {
-      LW6SYS_FREE (udp_buffer->line);
+      LW6SYS_FREE (sys_context, udp_buffer->line);
     }
-  LW6SYS_FREE (udp_buffer);
+  LW6SYS_FREE (sys_context, udp_buffer);
 }

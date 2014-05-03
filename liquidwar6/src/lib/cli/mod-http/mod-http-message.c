@@ -69,7 +69,7 @@ _mod_http_send (_mod_http_context_t * http_context,
 		   * another question. So another lock. And, even, given that,
 		   * all we do here is fire another thread!
 		   */
-		  query_thread_data = (_mod_http_query_thread_data_t *) LW6SYS_MALLOC (sizeof (_mod_http_query_thread_data_t));
+		  query_thread_data = (_mod_http_query_thread_data_t *) LW6SYS_MALLOC (sys_context, sizeof (_mod_http_query_thread_data_t));
 		  if (query_thread_data)
 		    {
 		      query_thread_data->http_context = http_context;

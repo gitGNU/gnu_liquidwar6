@@ -237,7 +237,7 @@ mod_httpd_get_pedigree ()
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
-  module_pedigree = (lw6sys_module_pedigree_t *) LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
+  module_pedigree = (lw6sys_module_pedigree_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6sys_module_pedigree_t));
   if (module_pedigree)
     {
       module_pedigree->id = MOD_HTTPD_BACKEND_ID;
@@ -259,7 +259,7 @@ mod_httpd_create_backend ()
 {
   lw6srv_backend_t *backend;
 
-  backend = LW6SYS_MALLOC (sizeof (lw6srv_backend_t));
+  backend = LW6SYS_MALLOC (sys_context, sizeof (lw6srv_backend_t));
   if (backend)
     {
       memset (backend, 0, sizeof (lw6srv_backend_t));

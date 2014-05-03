@@ -36,7 +36,7 @@ _mod_tcpd_init (int argc, const char *argv[], lw6cnx_properties_t * properties, 
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("tcpd init"));
 
-  tcpd_context = (_mod_tcpd_context_t *) LW6SYS_CALLOC (sizeof (_mod_tcpd_context_t));
+  tcpd_context = (_mod_tcpd_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_tcpd_context_t));
   if (tcpd_context)
     {
       data_dir = lw6sys_get_data_dir (sys_context, argc, argv);

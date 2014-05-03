@@ -111,7 +111,7 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log, int net_log
 		    }
 		}
 	    }
-	  LW6SYS_FREE (net_dir);
+	  LW6SYS_FREE (sys_context, net_dir);
 	}
       LW6SYS_FREE (sys_context, user_dir);
     }
@@ -171,7 +171,7 @@ _log (const char *filename, const char *buf, int len)
 	  if (buf_base64)
 	    {
 	      fprintf (f, "%s\n", buf_base64);
-	      LW6SYS_FREE (buf_base64);
+	      LW6SYS_FREE (sys_context, buf_base64);
 	    }
 	  else
 	    {

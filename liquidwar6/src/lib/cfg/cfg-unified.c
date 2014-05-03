@@ -172,7 +172,7 @@ lw6cfg_unified_get_music_path (int argc, const char *argv[])
 	  tmp = music_path;
 	  music_path = lw6sys_env_concat (music_path, music_path_config);
 	  LW6SYS_FREE (sys_context, tmp);
-	  LW6SYS_FREE (music_path_config);
+	  LW6SYS_FREE (sys_context, music_path_config);
 	}
     }
 
@@ -207,7 +207,7 @@ lw6cfg_unified_get_map_path (int argc, const char *argv[])
 	  tmp = map_path;
 	  map_path = lw6sys_env_concat (map_path, map_path_config);
 	  LW6SYS_FREE (sys_context, tmp);
-	  LW6SYS_FREE (map_path_config);
+	  LW6SYS_FREE (sys_context, map_path_config);
 	}
     }
 

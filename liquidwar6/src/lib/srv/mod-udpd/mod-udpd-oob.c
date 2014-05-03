@@ -104,7 +104,7 @@ _mod_udpd_process_oob (_mod_udpd_context_t * udpd_context, lw6nod_info_t * node_
 
   if (response)
     {
-      LW6SYS_FREE (response);
+      LW6SYS_FREE (sys_context, response);
     }
 
   return ret;

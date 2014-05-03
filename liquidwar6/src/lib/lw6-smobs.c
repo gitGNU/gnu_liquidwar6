@@ -133,7 +133,7 @@ lw6_make_scm_dsp (lw6dsp_backend_t * c_dsp)
 
   scm_gc ();
 
-  dsp_smob = (lw6_dsp_smob_t *) LW6SYS_CALLOC (sizeof (lw6_dsp_smob_t));
+  dsp_smob = (lw6_dsp_smob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6_dsp_smob_t));
   if (dsp_smob)
     {
       dsp_smob->c_dsp = c_dsp;
@@ -210,7 +210,7 @@ lw6_free_dsp_smob (lw6_dsp_smob_t * dsp_smob)
 
   lw6dsp_quit (dsp_smob->c_dsp);
   lw6dsp_destroy_backend (dsp_smob->c_dsp);
-  LW6SYS_FREE (dsp_smob);
+  LW6SYS_FREE (sys_context, dsp_smob);
 }
 
 /*
@@ -289,7 +289,7 @@ lw6_make_scm_snd (lw6snd_backend_t * c_snd)
 
   scm_gc ();
 
-  snd_smob = (lw6_snd_smob_t *) LW6SYS_CALLOC (sizeof (lw6_snd_smob_t));
+  snd_smob = (lw6_snd_smob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6_snd_smob_t));
   if (snd_smob)
     {
       snd_smob->c_snd = c_snd;
@@ -362,7 +362,7 @@ lw6_free_snd_smob (lw6_snd_smob_t * snd_smob)
 
   lw6snd_quit (snd_smob->c_snd);
   lw6snd_destroy_backend (snd_smob->c_snd);
-  LW6SYS_FREE (snd_smob);
+  LW6SYS_FREE (sys_context, snd_smob);
 }
 
 /*
@@ -449,7 +449,7 @@ lw6_make_scm_map (lw6map_level_t * c_map)
    */
   scm_gc ();
 
-  map_smob = (lw6_map_smob_t *) LW6SYS_CALLOC (sizeof (lw6_map_smob_t));
+  map_smob = (lw6_map_smob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6_map_smob_t));
   if (map_smob)
     {
       map_smob->c_map = c_map;
@@ -521,7 +521,7 @@ lw6_free_map_smob (lw6_map_smob_t * map_smob)
     }
 
   lw6map_free (map_smob->c_map);
-  LW6SYS_FREE (map_smob);
+  LW6SYS_FREE (sys_context, map_smob);
 }
 
 /*
@@ -599,7 +599,7 @@ lw6_make_scm_menu (lw6gui_menu_t * c_menu)
 
   scm_gc ();
 
-  menu_smob = (lw6_menu_smob_t *) LW6SYS_CALLOC (sizeof (lw6_menu_smob_t));
+  menu_smob = (lw6_menu_smob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6_menu_smob_t));
   if (menu_smob)
     {
       menu_smob->c_menu = c_menu;
@@ -756,7 +756,7 @@ lw6_make_scm_game_struct (lw6ker_game_struct_t * c_game_struct, SCM map)
 
   scm_gc ();
 
-  game_struct_smob = (lw6_game_struct_smob_t *) LW6SYS_CALLOC (sizeof (lw6_game_struct_smob_t));
+  game_struct_smob = (lw6_game_struct_smob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6_game_struct_smob_t));
   if (game_struct_smob)
     {
       game_struct_smob->c_game_struct = c_game_struct;
@@ -914,7 +914,7 @@ lw6_make_scm_game_state (lw6ker_game_state_t * c_game_state, SCM game_struct)
 
   scm_gc ();
 
-  game_state_smob = (lw6_game_state_smob_t *) LW6SYS_CALLOC (sizeof (lw6_game_state_smob_t));
+  game_state_smob = (lw6_game_state_smob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6_game_state_smob_t));
   if (game_state_smob)
     {
       game_state_smob->c_game_state = c_game_state;
@@ -1065,7 +1065,7 @@ lw6_make_scm_pilot (lw6pil_pilot_t * c_pilot)
 
   scm_gc ();
 
-  pilot_smob = (lw6_pilot_smob_t *) LW6SYS_CALLOC (sizeof (lw6_pilot_smob_t));
+  pilot_smob = (lw6_pilot_smob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6_pilot_smob_t));
   if (pilot_smob)
     {
       pilot_smob->c_pilot = c_pilot;
@@ -1225,7 +1225,7 @@ lw6_make_scm_bot (lw6bot_backend_t * c_bot, SCM game_state, SCM pilot)
 
   scm_gc ();
 
-  bot_smob = (lw6_bot_smob_t *) LW6SYS_CALLOC (sizeof (lw6_bot_smob_t));
+  bot_smob = (lw6_bot_smob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6_bot_smob_t));
   if (bot_smob)
     {
       bot_smob->c_bot = c_bot;
@@ -1300,7 +1300,7 @@ lw6_free_bot_smob (lw6_bot_smob_t * bot_smob)
 
   lw6bot_quit (bot_smob->c_bot);
   lw6bot_destroy_backend (bot_smob->c_bot);
-  LW6SYS_FREE (bot_smob);
+  LW6SYS_FREE (sys_context, bot_smob);
 }
 
 /*
@@ -1378,7 +1378,7 @@ lw6_make_scm_look (lw6gui_look_t * c_look)
 
   scm_gc ();
 
-  look_smob = (lw6_look_smob_t *) LW6SYS_CALLOC (sizeof (lw6_look_smob_t));
+  look_smob = (lw6_look_smob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6_look_smob_t));
   if (look_smob)
     {
       look_smob->c_look = c_look;
@@ -1528,7 +1528,7 @@ lw6_make_scm_loader (lw6tsk_loader_t * c_loader)
 
   scm_gc ();
 
-  loader_smob = (lw6_loader_smob_t *) LW6SYS_CALLOC (sizeof (lw6_loader_smob_t));
+  loader_smob = (lw6_loader_smob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6_loader_smob_t));
   if (loader_smob)
     {
       loader_smob->c_loader = c_loader;
@@ -1678,7 +1678,7 @@ lw6_make_scm_db (lw6p2p_db_t * c_db)
 
   scm_gc ();
 
-  db_smob = (lw6_db_smob_t *) LW6SYS_CALLOC (sizeof (lw6_db_smob_t));
+  db_smob = (lw6_db_smob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6_db_smob_t));
   if (db_smob)
     {
       db_smob->c_db = c_db;
@@ -1835,7 +1835,7 @@ lw6_make_scm_node (lw6p2p_node_t * c_node, SCM db)
 
   scm_gc ();
 
-  node_smob = (lw6_node_smob_t *) LW6SYS_CALLOC (sizeof (lw6_node_smob_t));
+  node_smob = (lw6_node_smob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6_node_smob_t));
   if (node_smob)
     {
       node_smob->c_node = c_node;
@@ -1987,7 +1987,7 @@ lw6_make_scm_jpeg (lw6img_jpeg_t * c_jpeg)
 
   scm_gc ();
 
-  jpeg_smob = (lw6_jpeg_smob_t *) LW6SYS_CALLOC (sizeof (lw6_jpeg_smob_t));
+  jpeg_smob = (lw6_jpeg_smob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6_jpeg_smob_t));
   if (jpeg_smob)
     {
       jpeg_smob->c_jpeg = c_jpeg;

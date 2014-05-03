@@ -257,7 +257,7 @@ lw6msg_meta_array2str (const lw6msg_meta_array_t * meta_array)
 				    (long long) meta_array->items[i].node_id, meta_array->items[i].serial_0, (long long) meta_array->items[i].seq_0);
 	      if (tmp)
 		{
-		  LW6SYS_FREE (str);
+		  LW6SYS_FREE (sys_context, str);
 		  str = tmp;
 		}
 	    }

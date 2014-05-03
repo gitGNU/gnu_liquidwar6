@@ -74,7 +74,7 @@ _mod_udp_load_data (_udp_data_t * udp_data, const char *data_dir)
 	  ret = _load_consts (&(udp_data->consts), consts_file);
 	  LW6SYS_FREE (sys_context, consts_file);
 	}
-      LW6SYS_FREE (udp_subdir);
+      LW6SYS_FREE (sys_context, udp_subdir);
     }
 
   return ret;

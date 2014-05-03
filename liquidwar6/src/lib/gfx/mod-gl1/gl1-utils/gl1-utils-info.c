@@ -48,7 +48,7 @@ mod_gl1_utils_display_fps (mod_gl1_utils_context_t * context, const lw6gui_look_
       if (list_fps[0])
 	{
 	  mod_gl1_utils_draw_system_text_top_left (context, look, list_fps);
-	  LW6SYS_FREE (list_fps[0]);
+	  LW6SYS_FREE (sys_context, list_fps[0]);
 	}
     }
 }
@@ -67,7 +67,7 @@ mod_gl1_utils_display_mps (mod_gl1_utils_context_t * context, const lw6gui_look_
       if (list_mps[0])
 	{
 	  mod_gl1_utils_draw_system_text_top_left (context, look, list_mps);
-	  LW6SYS_FREE (list_mps[1]);
+	  LW6SYS_FREE (sys_context, list_mps[1]);
 	}
     }
 }

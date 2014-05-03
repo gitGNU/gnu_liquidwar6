@@ -142,7 +142,7 @@ _lw6cfg_get_option_int (_lw6cfg_context_t * context, const char *key)
   if (str)
     {
       ret = lw6sys_atoi (str);
-      LW6SYS_FREE (str);
+      LW6SYS_FREE (sys_context, str);
     }
 
   return ret;
@@ -176,7 +176,7 @@ _lw6cfg_set_option_int (_lw6cfg_context_t * context, const char *key, int value)
   if (str)
     {
       _lw6cfg_set_option (context, key, str);
-      LW6SYS_FREE (str);
+      LW6SYS_FREE (sys_context, str);
     }
 }
 
@@ -208,7 +208,7 @@ _lw6cfg_get_option_bool (_lw6cfg_context_t * context, const char *key)
   if (str)
     {
       ret = lw6sys_atoi (str) ? 1 : 0;
-      LW6SYS_FREE (str);
+      LW6SYS_FREE (sys_context, str);
     }
 
   return ret;
@@ -242,7 +242,7 @@ _lw6cfg_set_option_bool (_lw6cfg_context_t * context, const char *key, int value
   if (str)
     {
       _lw6cfg_set_option (context, key, str);
-      LW6SYS_FREE (str);
+      LW6SYS_FREE (sys_context, str);
     }
 }
 

@@ -292,7 +292,7 @@ lw6cfg_read_key_value_xml_file (const char *filename, lw6cfg_read_xml_callback_f
   char *content = NULL;
   _lw6cfg_xml_callback_t *callback;
 
-  callback = LW6SYS_MALLOC (sizeof (_lw6cfg_xml_callback_t));
+  callback = LW6SYS_MALLOC (sys_context, sizeof (_lw6cfg_xml_callback_t));
   if (callback)
     {
       callback->func = callback_func;
@@ -503,7 +503,7 @@ lw6cfg_write_xml_int (FILE * f, const char *key, int value)
   if (str_value)
     {
       write_xml (f, LW6CFG_XML_INT, key, str_value, 0);
-      LW6SYS_FREE (str_value);
+      LW6SYS_FREE (sys_context, str_value);
     }
 }
 
@@ -527,7 +527,7 @@ lw6cfg_write_xml_bool (FILE * f, const char *key, int value)
   if (str_value)
     {
       write_xml (f, LW6CFG_XML_BOOL, key, str_value, 0);
-      LW6SYS_FREE (str_value);
+      LW6SYS_FREE (sys_context, str_value);
     }
 }
 
@@ -551,7 +551,7 @@ lw6cfg_write_xml_float (FILE * f, const char *key, float value)
   if (str_value)
     {
       write_xml (f, LW6CFG_XML_FLOAT, key, str_value, 0);
-      LW6SYS_FREE (str_value);
+      LW6SYS_FREE (sys_context, str_value);
     }
 }
 
@@ -592,7 +592,7 @@ lw6cfg_write_xml_color (FILE * f, const char *key, lw6sys_color_8_t value)
   if (str_value)
     {
       write_xml (f, LW6CFG_XML_COLOR, key, str_value, 0);
-      LW6SYS_FREE (str_value);
+      LW6SYS_FREE (sys_context, str_value);
     }
 }
 

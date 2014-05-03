@@ -71,7 +71,7 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 			  LW6SYS_FREE (sys_context, given_url);
 			}
 		    }
-		  LW6SYS_FREE (response);
+		  LW6SYS_FREE (sys_context, response);
 		}
 	      else
 		{
@@ -154,7 +154,7 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 				}
 			    }
 
-			  LW6SYS_FREE (response);
+			  LW6SYS_FREE (sys_context, response);
 			}
 		      else
 			{
@@ -235,7 +235,7 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 			      ret = 0;
 			    }
 			}
-		      LW6SYS_FREE (response);
+		      LW6SYS_FREE (sys_context, response);
 		    }
 		  else
 		    {

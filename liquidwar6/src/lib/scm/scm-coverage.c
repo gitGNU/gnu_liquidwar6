@@ -87,7 +87,7 @@ lw6scm_coverage_call (lw6sys_hash_t * coverage, const char *func)
 	}
       else
 	{
-	  calls = (int *) LW6SYS_MALLOC (sizeof (int));
+	  calls = (int *) LW6SYS_MALLOC (sys_context, sizeof (int));
 	  if (calls)
 	    {
 	      (*calls) = 1;

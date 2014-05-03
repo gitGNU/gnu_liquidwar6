@@ -54,7 +54,7 @@ guile_main (void *data)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to read main script file \"%s\""), script);
 	}
-      LW6SYS_FREE (script);
+      LW6SYS_FREE (sys_context, script);
     }
 
   scm_gc ();
@@ -138,13 +138,13 @@ lw6_main (int argc, const char *argv[])
 	{
 	  log_level = lw6sys_atoi (log_level_str);
 	  lw6sys_log_set_level (log_level);
-	  LW6SYS_FREE (log_level_str);
+	  LW6SYS_FREE (sys_context, log_level_str);
 	}
       log_file = lw6cfg_unified_get_log_file (argc, argv);
       if (log_file)
 	{
 	  lw6sys_log_clear (log_file);
-	  LW6SYS_FREE (log_file);
+	  LW6SYS_FREE (sys_context, log_file);
 	}
       else
 	{
@@ -200,7 +200,7 @@ lw6_main (int argc, const char *argv[])
   if (pid_file)
     {
       lw6sys_daemon_stop (pid_file);
-      LW6SYS_FREE (pid_file);
+      LW6SYS_FREE (sys_context, pid_file);
     }
 
   return ret;

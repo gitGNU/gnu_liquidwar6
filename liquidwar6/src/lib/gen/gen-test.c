@@ -107,7 +107,7 @@ _test_seed ()
     if (seed)
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("generated new random seed \"%s\""), seed);
-	LW6SYS_FREE (seed);
+	LW6SYS_FREE (sys_context, seed);
       }
     else
       {
@@ -127,7 +127,7 @@ _test_seed ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad ouput, should have been \"%s\" but is \"%s\""), _TEST_SEED_SHORT_DST, seed);
 	    ret = 0;
 	  }
-	LW6SYS_FREE (seed);
+	LW6SYS_FREE (sys_context, seed);
       }
     else
       {
@@ -147,7 +147,7 @@ _test_seed ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad ouput, should have been \"%s\" but is \"%s\""), _TEST_SEED_LONG_DST, seed);
 	    ret = 0;
 	  }
-	LW6SYS_FREE (seed);
+	LW6SYS_FREE (sys_context, seed);
       }
     else
       {

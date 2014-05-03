@@ -40,7 +40,7 @@ _mod_soft_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
   int ttf_ok = 1;
   SDL_version version;
 
-  soft_context = (_mod_soft_context_t *) LW6SYS_CALLOC (sizeof (_mod_soft_context_t));
+  soft_context = (_mod_soft_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_soft_context_t));
 #ifndef LW6_ALLINONE
   if (soft_context)
     {
@@ -143,7 +143,7 @@ _mod_soft_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
 	}
       else
 	{
-	  LW6SYS_FREE (soft_context);
+	  LW6SYS_FREE (sys_context, soft_context);
 	  soft_context = NULL;
 	}
     }
@@ -196,7 +196,7 @@ _mod_soft_quit (_mod_soft_context_t * soft_context)
     }
 #endif // LW6_ALLINONE
 
-  LW6SYS_FREE (soft_context);
+  LW6SYS_FREE (sys_context, soft_context);
 
   /*
    * For some reason, I suspect some segfaults occur when

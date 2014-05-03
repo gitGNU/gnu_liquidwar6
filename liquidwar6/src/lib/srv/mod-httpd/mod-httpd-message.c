@@ -54,7 +54,7 @@ _mod_httpd_send (_mod_httpd_context_t * httpd_context,
 	      tmp = lw6sys_new_sprintf ("%s%s\n", specific_data->send_buffer, line);
 	      if (tmp)
 		{
-		  LW6SYS_FREE (specific_data->send_buffer);
+		  LW6SYS_FREE (sys_context, specific_data->send_buffer);
 		  specific_data->send_buffer = tmp;
 		  tmp = NULL;
 		  ret = 1;

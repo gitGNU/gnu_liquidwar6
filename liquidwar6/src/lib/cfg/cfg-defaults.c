@@ -160,7 +160,7 @@ lw6cfg_defaults (void *context)
 	    {
 	      ret = 0;
 	    }
-	  LW6SYS_FREE (hostname);
+	  LW6SYS_FREE (sys_context, hostname);
 	}
       else
 	{

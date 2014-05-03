@@ -80,7 +80,7 @@ print_content_callback (void *func_data, void *data)
       if (desc)
 	{
 	  fprintf (f, "%s", desc);
-	  LW6SYS_FREE (desc);
+	  LW6SYS_FREE (sys_context, desc);
 	}
       fprintf (f, "\n");
     }
@@ -222,7 +222,7 @@ lw6hlp_print_about (const char *keyword, FILE * f)
 	}
       fprintf (f, "%s", doc_str);
       fflush (f);
-      LW6SYS_FREE (doc_str);
+      LW6SYS_FREE (sys_context, doc_str);
     }
 }
 
@@ -1176,7 +1176,7 @@ lw6hlp_print_hello (int argc, const char *argv[])
 	  hostname = lw6sys_get_hostname ();
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_INFO, "%s \"%s@%s\"", date_rfc1123, username, hostname);
-	    LW6SYS_FREE (hostname);
+	    LW6SYS_FREE (sys_context, hostname);
 	  }
 	  LW6SYS_FREE (sys_context, username);
 	}

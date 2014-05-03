@@ -727,7 +727,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		}
 	      LW6SYS_FREE (sys_context, msg);
 	    }
-	  LW6SYS_FREE (password_checksum);
+	  LW6SYS_FREE (sys_context, password_checksum);
 	}
       lw6nod_info_free (info);
     }
@@ -843,7 +843,7 @@ _test_meta ()
 			    _x_ ("problem, str2array and array2str give different results src=\"%s\" dst=\"%s\""), _TEST_META_STR, str);
 		ret = 0;
 	      }
-	    LW6SYS_FREE (str);
+	    LW6SYS_FREE (sys_context, str);
 	  }
 	else
 	  {
@@ -1190,7 +1190,7 @@ _test_sort ()
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse string \"%s\""), str);
 		ret = 0;
 	      }
-	    LW6SYS_FREE (str);
+	    LW6SYS_FREE (sys_context, str);
 	  }
       }
     else
@@ -1416,7 +1416,7 @@ _test_word ()
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to parse base 64 from \"%s\""), base64_str);
 		ret = 0;
 	      }
-	    LW6SYS_FREE (base64_str);
+	    LW6SYS_FREE (sys_context, base64_str);
 	  }
 	base64_str = lw6sys_new_sprintf (sys_context, _TEST_WORD_BASE64_KO, base64_item);
 	if (base64_str)
@@ -1430,9 +1430,9 @@ _test_word ()
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to parse base64 from \"%s\", that's right"), base64_str);
 	      }
-	    LW6SYS_FREE (base64_str);
+	    LW6SYS_FREE (sys_context, base64_str);
 	  }
-	LW6SYS_FREE (base64_item);
+	LW6SYS_FREE (sys_context, base64_item);
       }
 
     if (lw6msg_word_first_int_32 (&i, &next, _TEST_WORD_INT_32_OK))

@@ -59,7 +59,7 @@ _mod_ogg_is_music_file (_mod_ogg_context_t * ogg_context, char *music_file)
 		    }
 		}
 	    }
-	  LW6SYS_FREE (music_file_tmp);
+	  LW6SYS_FREE (sys_context, music_file_tmp);
 	}
       if (ret)
 	{
@@ -170,19 +170,19 @@ _mod_ogg_play_music_random (_mod_ogg_context_t * ogg_context, char *music_path, 
       if (music_file)
 	{
 	  ret = _mod_ogg_play_music_file (ogg_context, music_file);
-	  LW6SYS_FREE (music_file);
+	  LW6SYS_FREE (sys_context, music_file);
 	}
       // list is freed at this stage
     }
 
   if (ogg_context->music.filter)
     {
-      LW6SYS_FREE (ogg_context->music.filter);
+      LW6SYS_FREE (sys_context, ogg_context->music.filter);
       ogg_context->music.filter = NULL;
     }
   if (ogg_context->music.exclude)
     {
-      LW6SYS_FREE (ogg_context->music.exclude);
+      LW6SYS_FREE (sys_context, ogg_context->music.exclude);
       ogg_context->music.exclude = NULL;
     }
 

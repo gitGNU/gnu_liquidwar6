@@ -42,7 +42,7 @@ _mod_http_open (_mod_http_context_t * http_context, const char *local_url,
 			   password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
   if (ret)
     {
-      ret->backend_specific_data = LW6SYS_CALLOC (sizeof (_mod_http_specific_data_t));
+      ret->backend_specific_data = LW6SYS_CALLOC (sys_context, sizeof (_mod_http_specific_data_t));
       specific_data = (_mod_http_specific_data_t *) ret->backend_specific_data;
       if (specific_data)
 	{
@@ -78,7 +78,7 @@ _mod_http_close (_mod_http_context_t * http_context, lw6cnx_connection_t * conne
 	{
 	  lw6sys_list_free (specific_data->query_threads);
 	}
-      LW6SYS_FREE (specific_data);
+      LW6SYS_FREE (sys_context, specific_data);
     }
   lw6cnx_connection_free (connection);
 }

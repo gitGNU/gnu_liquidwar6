@@ -32,11 +32,11 @@ _lw6nod_ref_info_reset (lw6nod_ref_info_t * ref_info)
 {
   if (ref_info->id_str)
     {
-      LW6SYS_FREE (ref_info->id_str);
+      LW6SYS_FREE (sys_context, ref_info->id_str);
     }
   if (ref_info->url)
     {
-      LW6SYS_FREE (ref_info->url);
+      LW6SYS_FREE (sys_context, ref_info->url);
     }
 
   memset (ref_info, 0, sizeof (lw6nod_ref_info_t));
@@ -52,7 +52,7 @@ _lw6nod_ref_info_update (lw6nod_ref_info_t * ref_info, u_int64_t id, const char 
       ref_info->id_int = id;
       if (ref_info->id_str)
 	{
-	  LW6SYS_FREE (ref_info->id_str);
+	  LW6SYS_FREE (sys_context, ref_info->id_str);
 	  ref_info->id_str = NULL;
 	}
       ref_info->id_str = lw6sys_id_ltoa (id);
@@ -67,7 +67,7 @@ _lw6nod_ref_info_update (lw6nod_ref_info_t * ref_info, u_int64_t id, const char 
     {
       if (ref_info->url)
 	{
-	  LW6SYS_FREE (ref_info->url);
+	  LW6SYS_FREE (sys_context, ref_info->url);
 	  ref_info->url = NULL;
 	}
       if (url)

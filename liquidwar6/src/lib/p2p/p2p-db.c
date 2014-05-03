@@ -63,7 +63,7 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
   char *p2p_dir = NULL;
   char *data_dir = NULL;
 
-  db = (_lw6p2p_db_t *) LW6SYS_CALLOC (sizeof (_lw6p2p_db_t));
+  db = (_lw6p2p_db_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6p2p_db_t));
   if (db)
     {
       db->id = 0;
@@ -150,7 +150,7 @@ _lw6p2p_db_open (int argc, const char *argv[], const char *name)
 				    }
 				}
 			    }
-			  LW6SYS_FREE (p2p_dir);
+			  LW6SYS_FREE (sys_context, p2p_dir);
 			}
 		      LW6SYS_FREE (sys_context, user_dir);
 		    }
@@ -508,7 +508,7 @@ lw6p2p_db_reset (int argc, const char *argv[], const char *name)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("no need to delete database in \"%s\", directory does not exists"), p2p_dir);
 	    }
-	  LW6SYS_FREE (p2p_dir);
+	  LW6SYS_FREE (sys_context, p2p_dir);
 	}
       LW6SYS_FREE (sys_context, user_dir);
     }

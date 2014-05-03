@@ -64,7 +64,7 @@ _get_system_guile_load_path (int argc, const char *argv[])
 	      LW6SYS_FREE (sys_context, guile_dir);
 	    }
 	}
-      LW6SYS_FREE (run_dir);
+      LW6SYS_FREE (sys_context, run_dir);
     }
 #endif
 
@@ -89,11 +89,11 @@ _fix_guile_load_path (int argc, const char *argv[])
 	  if (!lw6sys_dir_exists (script_dir))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("Guile script directory \"%s\" does not exist"), script_dir);
-	      LW6SYS_FREE (script_dir);
+	      LW6SYS_FREE (sys_context, script_dir);
 	      script_dir = NULL;
 	    }
 	}
-      LW6SYS_FREE (script_file);
+      LW6SYS_FREE (sys_context, script_file);
     }
 
   if (system_dir && script_dir)
@@ -131,7 +131,7 @@ _fix_guile_load_path (int argc, const char *argv[])
     }
   if (script_dir)
     {
-      LW6SYS_FREE (script_dir);
+      LW6SYS_FREE (sys_context, script_dir);
     }
   if (system_dir)
     {
@@ -174,7 +174,7 @@ _fix_library_path (int argc, const char *argv[], char *library_path)
 
   if (old_library_path)
     {
-      LW6SYS_FREE (old_library_path);
+      LW6SYS_FREE (sys_context, old_library_path);
       old_library_path = NULL;
     }
   if (new_library_path)
@@ -197,7 +197,7 @@ _fix_library_path (int argc, const char *argv[], char *library_path)
 
   if (old_library_path)
     {
-      LW6SYS_FREE (old_library_path);
+      LW6SYS_FREE (sys_context, old_library_path);
       old_library_path = NULL;
     }
   if (new_library_path)
@@ -225,7 +225,7 @@ _fix_library_path (int argc, const char *argv[], char *library_path)
 
   if (old_library_path)
     {
-      LW6SYS_FREE (old_library_path);
+      LW6SYS_FREE (sys_context, old_library_path);
       old_library_path = NULL;
     }
   if (new_library_path)
@@ -248,18 +248,18 @@ _fix_library_path (int argc, const char *argv[], char *library_path)
 	{
 	  new_library_path = lw6sys_str_copy (run_dir);
 	}
-      LW6SYS_FREE (run_dir);
+      LW6SYS_FREE (sys_context, run_dir);
     }
 
   if (old_library_path)
     {
-      LW6SYS_FREE (old_library_path);
+      LW6SYS_FREE (sys_context, old_library_path);
       old_library_path = NULL;
     }
   if (new_library_path)
     {
       lw6sys_setenv (sys_context, library_path, new_library_path);
-      LW6SYS_FREE (new_library_path);
+      LW6SYS_FREE (sys_context, new_library_path);
       new_library_path = NULL;
     }
 }

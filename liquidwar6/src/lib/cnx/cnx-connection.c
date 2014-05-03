@@ -62,7 +62,7 @@ lw6cnx_connection_new (const char *local_url, const char *remote_url,
 {
   lw6cnx_connection_t *ret = NULL;
 
-  ret = (lw6cnx_connection_t *) LW6SYS_CALLOC (sizeof (lw6cnx_connection_t));
+  ret = (lw6cnx_connection_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6cnx_connection_t));
   if (ret)
     {
       ret->local_url = lw6sys_str_copy (sys_context, local_url);

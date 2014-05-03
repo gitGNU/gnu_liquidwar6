@@ -43,7 +43,7 @@ lw6dat_miss_new (u_int64_t from_id, int serial_min, int serial_max)
 {
   lw6dat_miss_t *miss = NULL;
 
-  miss = (lw6dat_miss_t *) LW6SYS_MALLOC (sizeof (lw6dat_miss_t));
+  miss = (lw6dat_miss_t *) LW6SYS_MALLOC (sys_context, sizeof (lw6dat_miss_t));
   if (miss)
     {
       miss->from_id = from_id;
@@ -68,7 +68,7 @@ lw6dat_miss_free (lw6dat_miss_t * miss)
 {
   if (miss)
     {
-      LW6SYS_FREE (miss);
+      LW6SYS_FREE (sys_context, miss);
     }
   else
     {

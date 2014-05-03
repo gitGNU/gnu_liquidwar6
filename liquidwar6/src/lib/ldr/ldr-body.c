@@ -80,7 +80,7 @@ lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
 	    {
 	      expected_depth++;
 	    }
-	  LW6SYS_FREE (dot_png);
+	  LW6SYS_FREE (sys_context, dot_png);
 	}
     }
 
@@ -92,7 +92,7 @@ lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
       ret =
 	lw6ldr_layer_read_first (&(body->layers[0]), dot_png, param, hints,
 				 display_w, display_h, ratio, bench_value, magic_number, expected_depth, &progress1);
-      LW6SYS_FREE (dot_png);
+      LW6SYS_FREE (sys_context, dot_png);
       if (ret)
 	{
 	  body->shape = body->layers[0].shape;
@@ -111,7 +111,7 @@ lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
 			  body->shape.d++;
 			}
 		    }
-		  LW6SYS_FREE (dot_png);
+		  LW6SYS_FREE (sys_context, dot_png);
 		}
 	    }
 

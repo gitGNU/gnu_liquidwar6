@@ -125,7 +125,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connectio
   switch (specific_data->state)
     {
     case _MOD_TCP_STATE_CLOSED:
-      connect_data = (_mod_tcp_connect_data_t *) LW6SYS_CALLOC (sizeof (_mod_tcp_connect_data_t));
+      connect_data = (_mod_tcp_connect_data_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_tcp_connect_data_t));
       if (connect_data)
 	{
 	  connect_data->tcp_context = tcp_context;

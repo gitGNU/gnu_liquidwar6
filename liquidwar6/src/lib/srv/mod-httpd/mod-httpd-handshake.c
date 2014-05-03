@@ -174,7 +174,7 @@ _mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context, lw6cnx_connectio
 
   if (lw6net_socket_is_valid (tcp_accepter->sock))
     {
-      reply_thread_data = (_mod_httpd_reply_thread_data_t *) LW6SYS_MALLOC (sizeof (_mod_httpd_reply_thread_data_t));
+      reply_thread_data = (_mod_httpd_reply_thread_data_t *) LW6SYS_MALLOC (sys_context, sizeof (_mod_httpd_reply_thread_data_t));
       if (reply_thread_data)
 	{
 	  reply_thread_data->httpd_context = httpd_context;

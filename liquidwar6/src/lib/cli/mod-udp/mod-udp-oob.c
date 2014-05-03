@@ -62,7 +62,7 @@ _do_broadcast (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info, lw6c
 			  lw6nod_info_add_discovered_node (node_info, given_url);
 			  LW6SYS_FREE (sys_context, given_url);
 			}
-		      LW6SYS_FREE (response);
+		      LW6SYS_FREE (sys_context, response);
 		      LW6SYS_FREE (sys_context, incoming_ip);
 		    }
 		  else
@@ -133,7 +133,7 @@ _do_ping (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info, lw6cli_oo
 				      _x_
 				      ("received UDP data from %s:%d when expecting it to come from %s:%d"), incoming_ip, incoming_port, ip, parsed_url->port);
 			}
-		      LW6SYS_FREE (response);
+		      LW6SYS_FREE (sys_context, response);
 		      LW6SYS_FREE (sys_context, incoming_ip);
 		    }
 		  lw6sys_snooze ();

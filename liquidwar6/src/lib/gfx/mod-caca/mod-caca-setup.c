@@ -43,7 +43,7 @@ _mod_caca_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
   int console_state = 0;
 
   console_state = lw6sys_log_get_console_state ();
-  caca_context = (_mod_caca_context_t *) LW6SYS_CALLOC (sizeof (_mod_caca_context_t));
+  caca_context = (_mod_caca_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_caca_context_t));
   if (caca_context)
     {
       caca_context->version = (const char *) caca_get_version ();

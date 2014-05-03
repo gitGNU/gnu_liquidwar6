@@ -46,7 +46,7 @@ lw6cli_oob_new (const char *public_url, lw6cli_verify_callback_func_t verify_cal
 {
   lw6cli_oob_t *oob = NULL;
 
-  oob = (lw6cli_oob_t *) LW6SYS_CALLOC (sizeof (lw6cli_oob_t));
+  oob = (lw6cli_oob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6cli_oob_t));
   if (oob)
     {
       oob->data.creation_timestamp = lw6sys_get_timestamp ();

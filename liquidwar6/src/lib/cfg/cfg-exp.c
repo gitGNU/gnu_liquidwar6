@@ -65,7 +65,7 @@ _calc_checksum (int exp)
 	  lw6sys_checksum_update_str (&checksum, username);
 	  lw6sys_checksum_update_str (&checksum, hostname);
 	  lw6sys_checksum_update_int32 (&checksum, exp);
-	  LW6SYS_FREE (hostname);
+	  LW6SYS_FREE (sys_context, hostname);
 	}
       LW6SYS_FREE (sys_context, username);
     }

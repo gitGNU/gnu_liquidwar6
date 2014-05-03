@@ -61,7 +61,7 @@ lw6gui_menuitem_new (const char *label, const char *tooltip, int value, int enab
 {
   lw6gui_menuitem_t *menuitem = NULL;
 
-  menuitem = (lw6gui_menuitem_t *) LW6SYS_CALLOC (sizeof (lw6gui_menuitem_t));
+  menuitem = (lw6gui_menuitem_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6gui_menuitem_t));
   if (menuitem)
     {
       menuitem->id = 0;

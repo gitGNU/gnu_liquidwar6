@@ -57,7 +57,7 @@ lw6gui_menu_new (const char *title, const char *help, const char *popup, const c
 {
   lw6gui_menu_t *menu = NULL;
 
-  menu = (lw6gui_menu_t *) LW6SYS_CALLOC (sizeof (lw6gui_menu_t));
+  menu = (lw6gui_menu_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6gui_menu_t));
   if (menu)
     {
       menu->id = 0;
@@ -571,7 +571,7 @@ lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem, int posi
 	}
       else
 	{
-	  menu->items = (lw6gui_menuitem_t **) LW6SYS_MALLOC (sizeof (lw6gui_menuitem_t *));
+	  menu->items = (lw6gui_menuitem_t **) LW6SYS_MALLOC (sys_context, sizeof (lw6gui_menuitem_t *));
 	  if (menu->items)
 	    {
 	      menu->nb_items = 1;

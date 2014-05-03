@@ -152,7 +152,7 @@ lw6ldr_meta_layer_read_if_exists (lw6map_meta_layer_t * meta_layer, const char *
 	   */
 	  ret = 1;
 	}
-      LW6SYS_FREE (dot_png);
+      LW6SYS_FREE (sys_context, dot_png);
     }
 
   return ret;

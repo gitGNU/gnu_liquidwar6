@@ -63,7 +63,7 @@ _scm_lw6gen_create_from_seed (SCM seed, SCM map_w, SCM map_h)
 	    }
 	  LW6SYS_FREE (sys_context, c_normalized_seed);
 	}
-      LW6SYS_FREE (c_seed);
+      LW6SYS_FREE (sys_context, c_seed);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -113,7 +113,7 @@ _scm_lw6gen_seed_normalize (SCM seed)
 	  ret = scm_from_locale_string (c_ret);
 	  LW6SYS_FREE (sys_context, c_ret);
 	}
-      LW6SYS_FREE (c_seed);
+      LW6SYS_FREE (sys_context, c_seed);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

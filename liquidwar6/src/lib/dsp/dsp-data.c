@@ -31,7 +31,7 @@ _lw6dsp_data_new ()
 {
   _lw6dsp_data_t *ret = NULL;
 
-  ret = (_lw6dsp_data_t *) LW6SYS_CALLOC (sizeof (_lw6dsp_data_t));
+  ret = (_lw6dsp_data_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6dsp_data_t));
   if (ret)
     {
       ret->instant_fps = 0.0f;

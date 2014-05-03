@@ -48,7 +48,7 @@ _mod_httpd_response_from_bin (_mod_httpd_context_t *
 {
   _mod_httpd_response_t *response = NULL;
 
-  response = (_mod_httpd_response_t *) LW6SYS_CALLOC (sizeof (_mod_httpd_response_t));
+  response = (_mod_httpd_response_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_httpd_response_t));
   if (response)
     {
       response->status = status;
@@ -98,17 +98,17 @@ _mod_httpd_response_free (_mod_httpd_response_t * response)
     {
       if (response->refresh_url)
 	{
-	  LW6SYS_FREE (response->refresh_url);
+	  LW6SYS_FREE (sys_context, response->refresh_url);
 	}
       if (response->content_type)
 	{
-	  LW6SYS_FREE (response->content_type);
+	  LW6SYS_FREE (sys_context, response->content_type);
 	}
       if (response->content_data)
 	{
-	  LW6SYS_FREE (response->content_data);
+	  LW6SYS_FREE (sys_context, response->content_data);
 	}
-      LW6SYS_FREE (response);
+      LW6SYS_FREE (sys_context, response);
     }
 }
 
@@ -229,7 +229,7 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context, _mod_httpd_respo
 		      line = NULL;
 		    }
 		}
-	      LW6SYS_FREE (now_str);
+	      LW6SYS_FREE (sys_context, now_str);
 	    }
 	  lw6net_send_line_tcp (sock, "Connection: close");
 	  line = lw6sys_new_sprintf (sys_context, "Content-Length: %d", response->content_size);

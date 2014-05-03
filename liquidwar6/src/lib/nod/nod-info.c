@@ -61,7 +61,7 @@ lw6nod_info_new (const char *program,
   lw6nod_info_t *info = NULL;
   int const_init_ret = 0;
 
-  info = (lw6nod_info_t *) LW6SYS_CALLOC (sizeof (lw6nod_info_t));
+  info = (lw6nod_info_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6nod_info_t));
   if (info)
     {
       info->mutex = lw6sys_mutex_create ();
@@ -259,7 +259,7 @@ lw6nod_info_dup_dyn (lw6nod_info_t * info)
   int ok = 1;
   int i = 0;
 
-  dyn_info = (lw6nod_dyn_info_t *) LW6SYS_CALLOC (sizeof (lw6nod_dyn_info_t));
+  dyn_info = (lw6nod_dyn_info_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6nod_dyn_info_t));
 
   if (dyn_info)
     {

@@ -61,7 +61,7 @@ new_entry (const char *absolute_path, const char *relative_path, const char *ent
 
   if (entry_path[0] != '.')
     {
-      entry = (lw6ldr_entry_t *) LW6SYS_CALLOC (sizeof (lw6ldr_entry_t));
+      entry = (lw6ldr_entry_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6ldr_entry_t));
       if (entry)
 	{
 	  entry->metadata.vanilla_exp = LW6MAP_RULES_DEFAULT_EXP;
@@ -99,7 +99,7 @@ new_entry (const char *absolute_path, const char *relative_path, const char *ent
 			      entry->metadata.vanilla_exp = rules.exp;
 			    }
 			}
-		      LW6SYS_FREE (map_filename);
+		      LW6SYS_FREE (sys_context, map_filename);
 		    }
 		}
 	      else
@@ -191,7 +191,7 @@ lw6ldr_dup_entry (const lw6ldr_entry_t * entry)
 {
   lw6ldr_entry_t *ret;
 
-  ret = (lw6ldr_entry_t *) LW6SYS_CALLOC (sizeof (lw6ldr_entry_t));
+  ret = (lw6ldr_entry_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6ldr_entry_t));
   if (ret)
     {
       memcpy (ret, entry, sizeof (lw6ldr_entry_t));
@@ -265,7 +265,7 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index, const ch
       if (dir_wildcard)
 	{
 	  dir_handle = FindFirstFile (dir_wildcard, &dir_entry);
-	  LW6SYS_FREE (dir_wildcard);
+	  LW6SYS_FREE (sys_context, dir_wildcard);
 	}
     }
   if (dir_handle != INVALID_HANDLE_VALUE)
@@ -292,7 +292,7 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index, const ch
       while (!eod)
 	{
 	  dir_entry_size = sizeof (struct dirent) + NAME_MAX + 1;
-	  dir_entry = (struct dirent *) LW6SYS_CALLOC (dir_entry_size);
+	  dir_entry = (struct dirent *) LW6SYS_CALLOC (sys_context, dir_entry_size);
 	  if (dir_entry)
 	    {
 	      readdir_r (dir_handle, dir_entry, &dir_entry_result);
@@ -304,7 +304,7 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index, const ch
 		{
 		  eod = 1;
 		}
-	      LW6SYS_FREE (dir_entry);
+	      LW6SYS_FREE (sys_context, dir_entry);
 	    }
 	}
       if (n == 0)
@@ -385,7 +385,7 @@ _get_entries (const char *map_path, const char *relative_path, int player_exp)
 				{
 				  add_subdirs (&entries, &entries_index, absolute_path, relative_path, player_exp);
 				}
-			      LW6SYS_FREE (absolute_path);
+			      LW6SYS_FREE (sys_context, absolute_path);
 			    }
 			}
 		      LW6SYS_FREE (sys_context, dir);

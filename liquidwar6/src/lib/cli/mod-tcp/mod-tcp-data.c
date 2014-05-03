@@ -75,7 +75,7 @@ _mod_tcp_load_data (_mod_tcp_data_t * tcp_data, const char *data_dir)
 	  ret = _load_consts (&(tcp_data->consts), consts_file);
 	  LW6SYS_FREE (sys_context, consts_file);
 	}
-      LW6SYS_FREE (tcp_subdir);
+      LW6SYS_FREE (sys_context, tcp_subdir);
     }
 
   return ret;

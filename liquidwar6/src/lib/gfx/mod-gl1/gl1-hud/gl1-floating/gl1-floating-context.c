@@ -271,7 +271,7 @@ _update_pie (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_cont
 		  floating_context->score_pie.score_texts[i] =
 		    mod_gl1_utils_shaded_text_new (utils_context, utils_context->font_data.hud, score_text, &color_text);
 		}
-	      LW6SYS_FREE (score_text);
+	      LW6SYS_FREE (sys_context, score_text);
 	    }
 	}
     }

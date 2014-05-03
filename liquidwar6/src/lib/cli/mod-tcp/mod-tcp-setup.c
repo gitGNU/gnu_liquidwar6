@@ -36,7 +36,7 @@ _mod_tcp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("tcp init"));
 
-  tcp_context = (_mod_tcp_context_t *) LW6SYS_CALLOC (sizeof (_mod_tcp_context_t));
+  tcp_context = (_mod_tcp_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_tcp_context_t));
   if (tcp_context)
     {
       data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
@@ -73,5 +73,5 @@ _mod_tcp_quit (_mod_tcp_context_t * tcp_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("tcp quit"));
   _mod_tcp_unload_data (&(tcp_context->data));
-  LW6SYS_FREE (tcp_context);
+  LW6SYS_FREE (sys_context, tcp_context);
 }

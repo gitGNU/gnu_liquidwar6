@@ -126,7 +126,7 @@ _mod_tcpd_process_oob (_mod_tcpd_context_t * tcpd_context, lw6nod_info_t * node_
 
   if (response)
     {
-      LW6SYS_FREE (response);
+      LW6SYS_FREE (sys_context, response);
     }
 
   lw6net_socket_close (&(oob_data->sock));

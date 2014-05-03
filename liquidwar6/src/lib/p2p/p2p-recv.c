@@ -383,7 +383,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 	       */
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to put in warehouse message \"%s\" from \"%s\""), message, cnx->remote_url);
 	    }
-	  LW6SYS_FREE (ker_message);
+	  LW6SYS_FREE (sys_context, ker_message);
 	}
       else
 	{
@@ -609,7 +609,7 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 				_check_sig (&(node->ticket_table),
 					    logical_from_id, logical_to_id,
 					    logical_from_id_str, message, logical_ticket_sig, connection->properties.hint_timeout);
-			      LW6SYS_FREE (logical_from_id_str);
+			      LW6SYS_FREE (sys_context, logical_from_id_str);
 			    }
 			}
 		      if (logical_sig_ok)

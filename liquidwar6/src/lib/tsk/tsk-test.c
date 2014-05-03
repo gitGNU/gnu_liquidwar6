@@ -144,7 +144,7 @@ _test_manager_ldr ()
 		    lw6sys_assoc_free (sys_context, forced_param);
 
 		  }
-		LW6SYS_FREE (map_path);
+		LW6SYS_FREE (sys_context, map_path);
 	      }
 	    lw6tsk_loader_free (manager);
 	  }

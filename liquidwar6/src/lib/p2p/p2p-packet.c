@@ -32,7 +32,7 @@ _lw6p2p_packet_new (u_int32_t logical_ticket_sig, u_int32_t physical_ticket_sig,
 {
   _lw6p2p_packet_t *ret = NULL;
 
-  ret = (_lw6p2p_packet_t *) LW6SYS_CALLOC (sizeof (_lw6p2p_packet_t));
+  ret = (_lw6p2p_packet_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6p2p_packet_t));
   if (ret)
     {
       ret->logical_ticket_sig = logical_ticket_sig;

@@ -44,7 +44,7 @@ _scm_gettext (SCM string)
   if (c_string)
     {
       ret = scm_from_locale_string (gettext (c_string));
-      LW6SYS_FREE (c_string);
+      LW6SYS_FREE (sys_context, c_string);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

@@ -51,7 +51,7 @@ lw6net_init (int argc, const char *argv[], int net_log)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("net init"));
 
-  _lw6net_global_context = (_lw6net_context_t *) LW6SYS_CALLOC (sizeof (_lw6net_context_t));
+  _lw6net_global_context = (_lw6net_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6net_context_t));
   if (_lw6net_global_context)
     {
 #ifdef LW6_MS_WINDOWS

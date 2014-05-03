@@ -32,7 +32,7 @@ _lw6cfg_init (int argc, const char *argv[])
 {
   _lw6cfg_context_t *cfg_context = NULL;
 
-  cfg_context = (_lw6cfg_context_t *) LW6SYS_CALLOC (sizeof (_lw6cfg_context_t));
+  cfg_context = (_lw6cfg_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6cfg_context_t));
   if (cfg_context)
     {
       cfg_context->config_file = lw6sys_get_config_file (sys_context, argc, argv);
@@ -51,21 +51,21 @@ _lw6cfg_init (int argc, const char *argv[])
 	      else
 		{
 		  lw6sys_hash_free (cfg_context->options);
-		  LW6SYS_FREE (cfg_context->config_file);
-		  LW6SYS_FREE (cfg_context);
+		  LW6SYS_FREE (sys_context, cfg_context->config_file);
+		  LW6SYS_FREE (sys_context, cfg_context);
 		  cfg_context = NULL;
 		}
 	    }
 	  else
 	    {
-	      LW6SYS_FREE (cfg_context->config_file);
-	      LW6SYS_FREE (cfg_context);
+	      LW6SYS_FREE (sys_context, cfg_context->config_file);
+	      LW6SYS_FREE (sys_context, cfg_context);
 	      cfg_context = NULL;
 	    }
 	}
       else
 	{
-	  LW6SYS_FREE (cfg_context);
+	  LW6SYS_FREE (sys_context, cfg_context);
 	  cfg_context = NULL;
 	}
     }
@@ -103,8 +103,8 @@ _lw6cfg_quit (_lw6cfg_context_t * cfg_context)
     {
       lw6sys_spinlock_destroy (cfg_context->spinlock);
       lw6sys_hash_free (cfg_context->options);
-      LW6SYS_FREE (cfg_context->config_file);
-      LW6SYS_FREE (cfg_context);
+      LW6SYS_FREE (sys_context, cfg_context->config_file);
+      LW6SYS_FREE (sys_context, cfg_context);
     }
 }
 

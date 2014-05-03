@@ -150,7 +150,7 @@ _scm_lw6gui_menu_new (SCM title, SCM help, SCM popup, SCM esc, SCM enable_esc)
 		    {
 		      ret = lw6_make_scm_menu (c_menu);
 		    }
-		  LW6SYS_FREE (c_esc);
+		  LW6SYS_FREE (sys_context, c_esc);
 		}
 	      LW6SYS_FREE (sys_context, c_popup);
 	    }

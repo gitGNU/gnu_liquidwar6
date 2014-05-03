@@ -87,7 +87,7 @@ lw6gui_input_new ()
 {
   lw6gui_input_t *ret = NULL;
 
-  ret = (lw6gui_input_t *) LW6SYS_CALLOC (sizeof (lw6gui_input_t));
+  ret = (lw6gui_input_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6gui_input_t));
   if (ret)
     {
       if (!lw6gui_input_init (ret))

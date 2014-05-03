@@ -91,7 +91,7 @@ _scm_lw6pil_seed_command_generate (sys_context, SCM pilot, SCM server_id, SCM se
 		  LW6SYS_FREE (sys_context, c_ret);
 		}
 	    }
-	  LW6SYS_FREE (c_server_id_str);
+	  LW6SYS_FREE (sys_context, c_server_id_str);
 	}
     }
 
@@ -135,7 +135,7 @@ _scm_lw6pil_dump_command_generate (sys_context, SCM pilot, SCM server_id, SCM se
 		  LW6SYS_FREE (sys_context, c_ret);
 		}
 	    }
-	  LW6SYS_FREE (c_server_id_str);
+	  LW6SYS_FREE (sys_context, c_server_id_str);
 	}
     }
 

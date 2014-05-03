@@ -160,7 +160,7 @@ mod_gles2_get_pedigree ()
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
-  module_pedigree = (lw6sys_module_pedigree_t *) LW6SYS_CALLOC (sizeof (lw6sys_module_pedigree_t));
+  module_pedigree = (lw6sys_module_pedigree_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6sys_module_pedigree_t));
   if (module_pedigree)
     {
       module_pedigree->id = "gles2";
@@ -184,7 +184,7 @@ mod_gles2_create_backend ()
 {
   lw6gfx_backend_t *backend;
 
-  backend = LW6SYS_CALLOC (sizeof (lw6gfx_backend_t));
+  backend = LW6SYS_CALLOC (sys_context, sizeof (lw6gfx_backend_t));
   if (backend)
     {
       backend->init = _init;

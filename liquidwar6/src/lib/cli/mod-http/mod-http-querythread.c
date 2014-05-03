@@ -69,7 +69,7 @@ _mod_http_query_thread_func (void *callback_data)
 		  pos = seek;
 		}
 
-	      LW6SYS_FREE (response);
+	      LW6SYS_FREE (sys_context, response);
 	    }
 	}
     }

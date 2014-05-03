@@ -147,7 +147,7 @@ _test_play_music ()
 	  {
 	    ret = 0;
 	  }
-	LW6SYS_FREE (map_path);
+	LW6SYS_FREE (sys_context, map_path);
       }
   }
 

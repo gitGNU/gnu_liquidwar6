@@ -178,11 +178,11 @@ _response_index_html (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node
 
 			      LW6SYS_FREE (sys_context, content);
 			    }
-			  LW6SYS_FREE (list);
+			  LW6SYS_FREE (sys_context, list);
 			}
 		      LW6SYS_FREE (sys_context, uptime);
 		    }
-		  LW6SYS_FREE (screenshot_url);
+		  LW6SYS_FREE (sys_context, screenshot_url);
 		}
 	      LW6SYS_FREE (sys_context, escaped_level);
 	    }

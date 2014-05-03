@@ -134,7 +134,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("test FAILED, see log file \"%s\" for details"), log_file);
 		    }
-		  LW6SYS_FREE (log_file);
+		  LW6SYS_FREE (sys_context, log_file);
 		}
 	      (*run_game) = 0;
 	    }
@@ -158,7 +158,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 		       */
 		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("check FAILED, see log file \"%s\" for details"), log_file);
 		    }
-		  LW6SYS_FREE (log_file);
+		  LW6SYS_FREE (sys_context, log_file);
 		}
 	      (*run_game) = 0;
 	    }
@@ -178,7 +178,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("test FAILED, see log file \"%s\" for details"), log_file);
 		    }
-		  LW6SYS_FREE (log_file);
+		  LW6SYS_FREE (sys_context, log_file);
 		}
 	      (*run_game) = 0;
 	    }

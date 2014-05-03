@@ -59,7 +59,7 @@ lw6dsp_create_backend (int argc, const char *argv[], const char *gfx_backend_nam
   _lw6dsp_data_t *data = NULL;
   int ok = 0;
 
-  ret = (lw6dsp_backend_t *) LW6SYS_CALLOC (sizeof (lw6dsp_backend_t));
+  ret = (lw6dsp_backend_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6dsp_backend_t));
   if (ret)
     {
       ret->id = 0;
@@ -143,7 +143,7 @@ lw6dsp_destroy_backend (lw6dsp_backend_t * dsp_backend)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to free running dsp_backend"));
 	}
-      LW6SYS_FREE (dsp_backend);
+      LW6SYS_FREE (sys_context, dsp_backend);
     }
   else
     {
@@ -175,7 +175,7 @@ lw6dsp_repr (const lw6dsp_backend_t * dsp_backend)
       if (gfx_backend_repr)
 	{
 	  ret = lw6sys_new_sprintf (sys_context, _x_ ("%u using %s"), dsp_backend->id, gfx_backend_repr);
-	  LW6SYS_FREE (gfx_backend_repr);
+	  LW6SYS_FREE (sys_context, gfx_backend_repr);
 	}
     }
   else

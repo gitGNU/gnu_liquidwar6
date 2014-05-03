@@ -58,12 +58,12 @@ stage1_clear_request (_lw6tsk_loader_stage1_t * stage1)
 {
   if (stage1->map_path)
     {
-      LW6SYS_FREE (stage1->map_path);
+      LW6SYS_FREE (sys_context, stage1->map_path);
       stage1->map_path = NULL;
     }
   if (stage1->relative_path)
     {
-      LW6SYS_FREE (stage1->relative_path);
+      LW6SYS_FREE (sys_context, stage1->relative_path);
       stage1->relative_path = NULL;
     }
   if (stage1->default_param)
@@ -78,7 +78,7 @@ stage1_clear_request (_lw6tsk_loader_stage1_t * stage1)
     }
   if (stage1->seed)
     {
-      LW6SYS_FREE (stage1->seed);
+      LW6SYS_FREE (sys_context, stage1->seed);
       stage1->seed = NULL;
     }
   stage1->display_w = 0;
@@ -246,7 +246,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
 
   if (map_path)
     {
-      LW6SYS_FREE (map_path);
+      LW6SYS_FREE (sys_context, map_path);
       map_path = NULL;
     }
   if (relative_path)
@@ -266,7 +266,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
     }
   if (seed)
     {
-      LW6SYS_FREE (seed);
+      LW6SYS_FREE (sys_context, seed);
       seed = NULL;
     }
 
@@ -680,7 +680,7 @@ lw6tsk_loader_new (float sleep, char *user_dir, volatile float *progress)
   lw6tsk_loader_t *loader = NULL;
   _lw6tsk_loader_data_t *loader_data = NULL;
 
-  loader = (lw6tsk_loader_t *) LW6SYS_CALLOC (sizeof (lw6tsk_loader_t));
+  loader = (lw6tsk_loader_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6tsk_loader_t));
   if (loader)
     {
       loader->id = 0;
@@ -688,7 +688,7 @@ lw6tsk_loader_new (float sleep, char *user_dir, volatile float *progress)
 	{
 	  loader->id = ++seq_id;
 	}
-      loader_data = (_lw6tsk_loader_data_t *) LW6SYS_CALLOC (sizeof (_lw6tsk_loader_data_t));
+      loader_data = (_lw6tsk_loader_data_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6tsk_loader_data_t));
       loader->data = loader_data;
       if (loader->data)
 	{

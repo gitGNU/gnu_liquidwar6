@@ -42,7 +42,7 @@ lw6srv_start (const char *ip, int port)
 {
   lw6srv_listener_t *listener = NULL;
 
-  listener = LW6SYS_CALLOC (sizeof (lw6srv_listener_t));
+  listener = LW6SYS_CALLOC (sys_context, sizeof (lw6srv_listener_t));
   if (listener)
     {
       listener->ip = lw6sys_str_copy (ip);
@@ -100,9 +100,9 @@ lw6srv_stop (lw6srv_listener_t * listener)
       lw6net_socket_close (&(listener->tcp_sock));
       if (listener->ip)
 	{
-	  LW6SYS_FREE (listener->ip);
+	  LW6SYS_FREE (sys_context, listener->ip);
 	}
-      LW6SYS_FREE (listener);
+      LW6SYS_FREE (sys_context, listener);
     }
   else
     {

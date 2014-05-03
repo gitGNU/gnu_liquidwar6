@@ -73,7 +73,7 @@ _make_system_path (int argc, const char *argv[], const char *top_level_lib, cons
   if (mod_dir)
     {
       ret = lw6sys_new_sprintf (system_path_format, mod_dir, top_level_lib, backend_name, lw6sys_build_get_version ());
-      LW6SYS_FREE (mod_dir);
+      LW6SYS_FREE (sys_context, mod_dir);
     }
 
   return ret;

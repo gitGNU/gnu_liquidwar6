@@ -45,7 +45,7 @@ _my_realloc (void *ptr, size_t size)
   if (ptr)
     return LW6SYS_REALLOC (ptr, size);
   else
-    return LW6SYS_MALLOC (size);
+    return LW6SYS_MALLOC (sys_context, size);
 }
 
 static size_t
@@ -168,7 +168,7 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url, const char *
 							{
 							  _print_error ("curl_easy_setopt(CURLOPT_USERPWD)", res);
 							}
-						      LW6SYS_FREE (authorization);
+						      LW6SYS_FREE (sys_context, authorization);
 						    }
 						}
 					      /* get it! */

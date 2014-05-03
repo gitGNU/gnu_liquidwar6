@@ -213,17 +213,17 @@ _lw6p2p_data_load (_lw6p2p_data_t * data, const char *data_dir)
 	}
       if (sql_dir)
 	{
-	  LW6SYS_FREE (sql_dir);
+	  LW6SYS_FREE (sys_context, sql_dir);
 	}
       if (screenshot_dir)
 	{
-	  LW6SYS_FREE (screenshot_dir);
+	  LW6SYS_FREE (sys_context, screenshot_dir);
 	}
       if (screenshot_file)
 	{
-	  LW6SYS_FREE (screenshot_file);
+	  LW6SYS_FREE (sys_context, screenshot_file);
 	}
-      LW6SYS_FREE (p2p_subdir);
+      LW6SYS_FREE (sys_context, p2p_subdir);
     }
 
   return ret;
@@ -260,7 +260,7 @@ _unload_screenshot (_lw6p2p_screenshot_t * screenshot)
 
   if (screenshot->data)
     {
-      LW6SYS_FREE (screenshot->data);
+      LW6SYS_FREE (sys_context, screenshot->data);
       screenshot->data = NULL;
     }
 

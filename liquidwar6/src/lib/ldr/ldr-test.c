@@ -215,7 +215,7 @@ _test_quick ()
 	    lw6ldr_for_all_entries (map_path, "", user_dir, 1, _test_data_callback_quick, &ret);
 	    LW6SYS_FREE (sys_context, user_dir);
 	  }
-	LW6SYS_FREE (map_path);
+	LW6SYS_FREE (sys_context, map_path);
       }
   }
 
@@ -249,7 +249,7 @@ _test_deep ()
 	    lw6ldr_for_all_entries (map_path, "", user_dir, 0, _test_data_callback_deep, &ret);
 	    LW6SYS_FREE (sys_context, user_dir);
 	  }
-	LW6SYS_FREE (map_path);
+	LW6SYS_FREE (sys_context, map_path);
       }
   }
 
@@ -318,7 +318,7 @@ _test_dir ()
 	    LW6SYS_FREE (sys_context, user_dir);
 	  }
 
-	LW6SYS_FREE (map_path);
+	LW6SYS_FREE (sys_context, map_path);
       }
     else
       {
@@ -513,7 +513,7 @@ _test_read ()
 	    ret = 0;
 	  }
 
-	LW6SYS_FREE (map_path);
+	LW6SYS_FREE (sys_context, map_path);
       }
     else
       {

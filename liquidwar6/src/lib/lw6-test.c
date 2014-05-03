@@ -128,9 +128,9 @@ get_test_file (int argc, const char **argv, int mode, int suite)
 		  break;
 		}
 	    }
-	  LW6SYS_FREE (script_dir);
+	  LW6SYS_FREE (sys_context, script_dir);
 	}
-      LW6SYS_FREE (script_file);
+      LW6SYS_FREE (sys_context, script_file);
     }
 
   if (ret && !lw6sys_file_exists (sys_context, ret))
@@ -174,7 +174,7 @@ _guile_test_callback (_lw6_test_param_t * param)
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("loading \"%s\""), test_file);
 		lw6scm_c_primitive_load (test_file);
-		LW6SYS_FREE (test_file);
+		LW6SYS_FREE (sys_context, test_file);
 	      }
 	  }
 	else

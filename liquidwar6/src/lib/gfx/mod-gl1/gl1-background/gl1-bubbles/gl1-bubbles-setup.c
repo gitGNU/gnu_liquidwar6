@@ -40,7 +40,7 @@ _mod_gl1_background_bubbles_init (mod_gl1_utils_context_t * utils_context)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("init background/bubbles"));
 
-  bubbles_context = (_mod_gl1_background_bubbles_context_t *) LW6SYS_CALLOC (sizeof (_mod_gl1_background_bubbles_context_t));
+  bubbles_context = (_mod_gl1_background_bubbles_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_gl1_background_bubbles_context_t));
   if (!bubbles_context)
     {
       /*

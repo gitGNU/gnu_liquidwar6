@@ -34,7 +34,7 @@ _mod_idiot_init (int argc, const char *argv[], lw6bot_data_t * data)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("idiot init"));
 
-  idiot_context = (_mod_idiot_context_t *) LW6SYS_CALLOC (sizeof (_mod_idiot_context_t));
+  idiot_context = (_mod_idiot_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_idiot_context_t));
   if (idiot_context)
     {
       idiot_context->last_move_round = -1;

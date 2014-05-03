@@ -43,7 +43,7 @@ _mod_httpd_open (_mod_httpd_context_t * httpd_context,
 			   password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
   if (ret)
     {
-      ret->backend_specific_data = LW6SYS_CALLOC (sizeof (_mod_httpd_specific_data_t));
+      ret->backend_specific_data = LW6SYS_CALLOC (sys_context, sizeof (_mod_httpd_specific_data_t));
       specific_data = (_mod_httpd_specific_data_t *) ret->backend_specific_data;
       if (ret->backend_specific_data)
 	{
@@ -82,13 +82,13 @@ _mod_httpd_close (_mod_httpd_context_t * httpd_context, lw6cnx_connection_t * co
        */
       if (specific_data->send_buffer)
 	{
-	  LW6SYS_FREE (specific_data->send_buffer);
+	  LW6SYS_FREE (sys_context, specific_data->send_buffer);
 	}
       if (specific_data->reply_threads)
 	{
 	  lw6sys_list_free (specific_data->reply_threads);
 	}
-      LW6SYS_FREE (specific_data);
+      LW6SYS_FREE (sys_context, specific_data);
     }
   lw6cnx_connection_free (connection);
 }

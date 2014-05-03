@@ -40,7 +40,7 @@ _mod_gl1_hud_floating_init (mod_gl1_utils_context_t * utils_context)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("init hud/floating"));
 
-  floating_context = (_mod_gl1_hud_floating_context_t *) LW6SYS_MALLOC (sizeof (_mod_gl1_hud_floating_context_t));
+  floating_context = (_mod_gl1_hud_floating_context_t *) LW6SYS_MALLOC (sys_context, sizeof (_mod_gl1_hud_floating_context_t));
   if (!floating_context)
     {
       /*

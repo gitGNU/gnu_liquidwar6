@@ -84,7 +84,7 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
   char *escaped_description = NULL;
   int ret = 1;
 
-  node = (_lw6p2p_node_t *) LW6SYS_CALLOC (sizeof (_lw6p2p_node_t));
+  node = (_lw6p2p_node_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6p2p_node_t));
   if (node)
     {
       node->id = 0;
@@ -1928,7 +1928,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
 				  ret = 1;
 				}
 			    }
-			  LW6SYS_FREE (msg_join);
+			  LW6SYS_FREE (sys_context, msg_join);
 			}
 		    }
 		}
@@ -2005,7 +2005,7 @@ _lw6p2p_node_refresh_peer (_lw6p2p_node_t * node, u_int64_t remote_id, const cha
 	{
 	  _lw6p2p_explore_start_verify_node (node, url_from_id);
 	}
-      LW6SYS_FREE (url_from_id);
+      LW6SYS_FREE (sys_context, url_from_id);
     }
   _lw6p2p_explore_start_verify_node (node, remote_url);
 

@@ -43,7 +43,7 @@ _mod_udpd_open (_mod_udpd_context_t * udpd_context,
 			   password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
   if (ret)
     {
-      ret->backend_specific_data = LW6SYS_CALLOC (sizeof (_mod_udpd_specific_data_t));
+      ret->backend_specific_data = LW6SYS_CALLOC (sys_context, sizeof (_mod_udpd_specific_data_t));
       specific_data = (_mod_udpd_specific_data_t *) ret->backend_specific_data;
       if (ret->backend_specific_data)
 	{
@@ -68,7 +68,7 @@ _mod_udpd_close (_mod_udpd_context_t * udpd_context, lw6cnx_connection_t * conne
 
   if (specific_data)
     {
-      LW6SYS_FREE (specific_data);
+      LW6SYS_FREE (sys_context, specific_data);
     }
   lw6cnx_connection_free (connection);
 }

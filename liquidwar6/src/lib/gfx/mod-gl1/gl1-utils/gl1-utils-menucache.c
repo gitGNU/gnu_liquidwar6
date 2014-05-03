@@ -66,7 +66,7 @@ mod_gl1_utils_store_button_in_menucache (mod_gl1_utils_context_t * context,
 
   if ((old_key = menucache_array->item_array[i].key) != NULL)
     {
-      LW6SYS_FREE (old_key);
+      LW6SYS_FREE (sys_context, old_key);
       menucache_array->item_array[i].key = NULL;
     }
   if ((old_bitmap = menucache_array->item_array[i].bitmap) != NULL)
@@ -146,7 +146,7 @@ mod_gl1_utils_clear_menucache (mod_gl1_utils_context_t * context)
     }
   if (menucache_array->tooltip_str)
     {
-      LW6SYS_FREE (menucache_array->tooltip_str);
+      LW6SYS_FREE (sys_context, menucache_array->tooltip_str);
     }
   if (menucache_array->tooltip_bitmap)
     {
@@ -154,7 +154,7 @@ mod_gl1_utils_clear_menucache (mod_gl1_utils_context_t * context)
     }
   if (menucache_array->help_str)
     {
-      LW6SYS_FREE (menucache_array->help_str);
+      LW6SYS_FREE (sys_context, menucache_array->help_str);
     }
   if (menucache_array->help_bitmap)
     {
@@ -162,7 +162,7 @@ mod_gl1_utils_clear_menucache (mod_gl1_utils_context_t * context)
     }
   if (menucache_array->breadcrumbs_str)
     {
-      LW6SYS_FREE (menucache_array->breadcrumbs_str);
+      LW6SYS_FREE (sys_context, menucache_array->breadcrumbs_str);
     }
   if (menucache_array->breadcrumbs_bitmap)
     {
@@ -170,7 +170,7 @@ mod_gl1_utils_clear_menucache (mod_gl1_utils_context_t * context)
     }
   if (menucache_array->popup_str)
     {
-      LW6SYS_FREE (menucache_array->popup_str);
+      LW6SYS_FREE (sys_context, menucache_array->popup_str);
     }
   if (menucache_array->popup_bitmap)
     {

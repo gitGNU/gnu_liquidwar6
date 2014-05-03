@@ -76,7 +76,7 @@ _dlopen_so (const char *so_file, int is_backend)
        * We really rely on calloc, for instance,
        * is_dlclose_safe must be 0 at init
        */
-      ret = LW6SYS_CALLOC (sizeof (lw6dyn_dl_handle_t));
+      ret = LW6SYS_CALLOC (sys_context, sizeof (lw6dyn_dl_handle_t));
       if (ret)
 	{
 	  ret->is_backend = is_backend;
@@ -311,10 +311,10 @@ lw6dyn_dlopen_backend (int argc, const char *argv[], const char *top_level_lib, 
 		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("can't get pedigree for mod_%s in \"%s\""), backend_name, so_file);
 		    }
 		}
-	      LW6SYS_FREE (get_pedigree_func_str);
+	      LW6SYS_FREE (sys_context, get_pedigree_func_str);
 	    }
 	}
-      LW6SYS_FREE (so_file);
+      LW6SYS_FREE (sys_context, so_file);
     }
 
   if (!ok)
@@ -378,7 +378,7 @@ lw6dyn_dlopen_shared (int argc, const char *argv[], const char *top_level_lib, c
 	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("shared code shared_%s in \"%s\" is not GPL compatible"), shared_name, so_file);
 	    }
 	}
-      LW6SYS_FREE (so_file);
+      LW6SYS_FREE (sys_context, so_file);
     }
 
   if (!ok)

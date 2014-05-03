@@ -66,7 +66,7 @@ new_reference (lw6hlp_type_t type, const char *key, const char *about, const cha
 {
   _lw6hlp_reference_entry_t *ret = NULL;
 
-  ret = (_lw6hlp_reference_entry_t *) LW6SYS_MALLOC (sizeof (_lw6hlp_reference_entry_t));
+  ret = (_lw6hlp_reference_entry_t *) LW6SYS_MALLOC (sys_context, sizeof (_lw6hlp_reference_entry_t));
   if (ret)
     {
       ret->type = type;

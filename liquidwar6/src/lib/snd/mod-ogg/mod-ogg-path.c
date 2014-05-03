@@ -51,6 +51,6 @@ _mod_ogg_path_quit (_mod_ogg_context_t * ogg_context)
 {
   if (ogg_context->path.data_dir)
     {
-      LW6SYS_FREE (ogg_context->path.data_dir);
+      LW6SYS_FREE (sys_context, ogg_context->path.data_dir);
     }
 }

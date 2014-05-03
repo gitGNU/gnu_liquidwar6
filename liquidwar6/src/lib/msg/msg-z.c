@@ -101,7 +101,7 @@ lw6msg_z_encode (const char *msg, int limit)
   if (in_len > limit)
     {
       out_len = _encode_buffer_len (in_len);
-      out_buf = (char *) LW6SYS_MALLOC (out_len);
+      out_buf = (char *) LW6SYS_MALLOC (sys_context, out_len);
       if (out_buf)
 	{
 	  z_ret = _z_encode (out_buf, &out_len, msg, in_len);
@@ -124,7 +124,7 @@ lw6msg_z_encode (const char *msg, int limit)
 		  break;
 		}
 	    }
-	  LW6SYS_FREE (out_buf);
+	  LW6SYS_FREE (sys_context, out_buf);
 	}
     }
   else
@@ -173,7 +173,7 @@ lw6msg_z_decode (const char *msg)
 	  while (z_ret == Z_BUF_ERROR && !ret)
 	    {
 	      out_len = out_alloc_len;
-	      ret = (char *) LW6SYS_MALLOC (out_alloc_len);
+	      ret = (char *) LW6SYS_MALLOC (sys_context, out_alloc_len);
 	      if (ret)
 		{
 		  z_ret = _z_decode (ret, &out_len, in_buf, in_len);

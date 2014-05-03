@@ -43,7 +43,7 @@ lw6gui_keypress_new (int keysym, int unicode, const char *label)
 {
   lw6gui_keypress_t *ret = NULL;
 
-  ret = (lw6gui_keypress_t *) LW6SYS_CALLOC (sizeof (lw6gui_keypress_t));
+  ret = (lw6gui_keypress_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6gui_keypress_t));
   if (ret)
     {
       ret->keysym = keysym;

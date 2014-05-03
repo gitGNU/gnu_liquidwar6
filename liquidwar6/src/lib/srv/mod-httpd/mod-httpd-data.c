@@ -160,7 +160,7 @@ _mod_httpd_load_data (_mod_httpd_data_t * httpd_data, const char *data_dir)
 	}
       if (htdocs_dir)
 	{
-	  LW6SYS_FREE (htdocs_dir);
+	  LW6SYS_FREE (sys_context, htdocs_dir);
 	}
       LW6SYS_FREE (sys_context, httpd_subdir);
     }
@@ -237,23 +237,23 @@ _unload_htdocs (_mod_httpd_htdocs_t * htdocs)
 
   if (htdocs->index_html)
     {
-      LW6SYS_FREE (htdocs->index_html);
+      LW6SYS_FREE (sys_context, htdocs->index_html);
     }
   if (htdocs->error_html)
     {
-      LW6SYS_FREE (htdocs->error_html);
+      LW6SYS_FREE (sys_context, htdocs->error_html);
     }
   if (htdocs->robots_txt)
     {
-      LW6SYS_FREE (htdocs->robots_txt);
+      LW6SYS_FREE (sys_context, htdocs->robots_txt);
     }
   if (htdocs->gpl_txt)
     {
-      LW6SYS_FREE (htdocs->gpl_txt);
+      LW6SYS_FREE (sys_context, htdocs->gpl_txt);
     }
   if (htdocs->favicon_ico_data)
     {
-      LW6SYS_FREE (htdocs->favicon_ico_data);
+      LW6SYS_FREE (sys_context, htdocs->favicon_ico_data);
     }
   memset (htdocs, 0, sizeof (_mod_httpd_htdocs_t));
 

@@ -106,7 +106,7 @@ lw6hlp_process_non_run_options (int argc, const char *argv[], int *run_game)
 		  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to start daemon"));
 		  (*run_game) = 0;
 		}
-	      LW6SYS_FREE (pid_file);
+	      LW6SYS_FREE (sys_context, pid_file);
 	    }
 	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_HELP, argv[i]) ||

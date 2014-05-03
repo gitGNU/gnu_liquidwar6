@@ -143,7 +143,7 @@ level_new (char *name, int display_width, int display_height, lw6sys_progress_t 
 				  display_width, display_height, LW6LDR_DEFAULT_BENCH_VALUE, LW6LDR_DEFAULT_MAGIC_NUMBER, user_dir, progress);
 	  LW6SYS_FREE (sys_context, user_dir);
 	}
-      LW6SYS_FREE (map_path);
+      LW6SYS_FREE (sys_context, map_path);
     }
   lw6sys_progress_begin (sys_context, progress);
 

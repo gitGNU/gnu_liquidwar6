@@ -112,7 +112,7 @@ _scm_lw6snd_new (SCM backend_name, SCM fx_volume, SCM water_volume, SCM music_vo
 	      lw6snd_destroy_backend (c_ret);
 	    }
 	}
-      LW6SYS_FREE (c_backend_name);
+      LW6SYS_FREE (sys_context, c_backend_name);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

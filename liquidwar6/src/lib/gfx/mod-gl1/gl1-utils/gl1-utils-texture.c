@@ -339,7 +339,7 @@ mod_gl1_utils_schedule_delete_texture (mod_gl1_utils_context_t * gfx_context, GL
 {
   GLuint *texture_ptr = NULL;
 
-  texture_ptr = LW6SYS_MALLOC (sizeof (GLuint));
+  texture_ptr = LW6SYS_MALLOC (sys_context, sizeof (GLuint));
   if (texture_ptr)
     {
       *texture_ptr = texture;

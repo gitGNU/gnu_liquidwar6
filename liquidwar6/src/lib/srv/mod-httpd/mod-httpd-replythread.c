@@ -189,7 +189,7 @@ _mod_httpd_reply_thread_response (_mod_httpd_reply_thread_data_t * reply_thread_
   if (send_buffer)
     {
       response = _mod_httpd_response_from_str (httpd_context, _MOD_HTTPD_STATUS_200, 0, 0, NULL, httpd_context->data.consts.content_type_txt, send_buffer);
-      LW6SYS_FREE (send_buffer);
+      LW6SYS_FREE (sys_context, send_buffer);
     }
 
   return response;

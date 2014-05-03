@@ -74,7 +74,7 @@ lw6p2p_entry_new (int creation_timestamp, char *version, char *codename,
 {
   lw6p2p_entry_t *entry = NULL;
 
-  entry = (lw6p2p_entry_t *) LW6SYS_CALLOC (sizeof (lw6p2p_entry_t));
+  entry = (lw6p2p_entry_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6p2p_entry_t));
   if (entry)
     {
       entry->creation_timestamp = creation_timestamp;

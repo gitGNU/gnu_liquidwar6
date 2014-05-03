@@ -240,7 +240,7 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 			}
 		      LW6SYS_FREE (sys_context, c_bind_ip);
 		    }
-		  LW6SYS_FREE (c_server_backends);
+		  LW6SYS_FREE (sys_context, c_server_backends);
 		}
 	      LW6SYS_FREE (sys_context, c_client_backends);
 	    }

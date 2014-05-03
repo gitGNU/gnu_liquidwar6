@@ -38,7 +38,7 @@ _mod_http_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("http init"));
 
-  http_context = (_mod_http_context_t *) LW6SYS_CALLOC (sizeof (_mod_http_context_t));
+  http_context = (_mod_http_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_http_context_t));
   if (http_context)
     {
       http_context->curl_init_ret = -1;

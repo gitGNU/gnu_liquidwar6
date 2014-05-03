@@ -162,7 +162,7 @@ _mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_
    */
   if (lw6net_tcp_peek (&(oob_data->sock), &b, sizeof (b), 0) > 0)
     {
-      request = (_mod_httpd_request_t *) LW6SYS_CALLOC (sizeof (_mod_httpd_request_t));
+      request = (_mod_httpd_request_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_httpd_request_t));
       if (request)
 	{
 	  request->client_ip = lw6sys_str_copy (oob_data->remote_ip);
@@ -232,7 +232,7 @@ _mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t * reply_thread_data
   char *line = NULL;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process httpd cmd"));
-  request = (_mod_httpd_request_t *) LW6SYS_CALLOC (sizeof (_mod_httpd_request_t));
+  request = (_mod_httpd_request_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_httpd_request_t));
   if (request)
     {
       request->client_ip = lw6sys_str_copy (sys_context, cnx->remote_ip);

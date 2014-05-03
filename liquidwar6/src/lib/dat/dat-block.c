@@ -31,7 +31,7 @@ _lw6dat_block_new (int serial_0)
 {
   _lw6dat_block_t *block = NULL;
 
-  block = (_lw6dat_block_t *) LW6SYS_CALLOC (sizeof (_lw6dat_block_t));
+  block = (_lw6dat_block_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6dat_block_t));
   if (block)
     {
       block->serial_0 = serial_0;

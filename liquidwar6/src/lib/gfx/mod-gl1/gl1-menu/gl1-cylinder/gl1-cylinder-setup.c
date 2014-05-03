@@ -40,7 +40,7 @@ _mod_gl1_menu_cylinder_init (mod_gl1_utils_context_t * utils_context)
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("init menu/cylinder"));
 
-  cylinder_context = (_mod_gl1_menu_cylinder_context_t *) LW6SYS_CALLOC (sizeof (_mod_gl1_menu_cylinder_context_t));
+  cylinder_context = (_mod_gl1_menu_cylinder_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_gl1_menu_cylinder_context_t));
   if (cylinder_context)
     {
       if (_mod_gl1_menu_cylinder_load_data (utils_context, cylinder_context))

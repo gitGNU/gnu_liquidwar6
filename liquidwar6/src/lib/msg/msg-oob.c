@@ -231,7 +231,7 @@ lw6msg_oob_generate_request (const char *command, const char *remote_url, const 
 	{
 	  ret = lw6sys_new_sprintf ("%s %s", command, password_checksum);
 	}
-      LW6SYS_FREE (password_checksum);
+      LW6SYS_FREE (sys_context, password_checksum);
     }
   else
     {

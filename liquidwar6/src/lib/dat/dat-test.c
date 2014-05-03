@@ -1822,7 +1822,7 @@ _test_more ()
 	      }
 	    LW6SYS_FREE (sys_context, long_text);
 	  }
-	LW6SYS_FREE (short_text);
+	LW6SYS_FREE (sys_context, short_text);
       }
   }
 
