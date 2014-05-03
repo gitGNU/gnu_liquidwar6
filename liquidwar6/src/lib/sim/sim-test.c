@@ -142,7 +142,7 @@ lw6sim_test_register (int mode)
       lw6map_test_register (sys_context, mode);
       lw6ker_test_register (sys_context, mode);
       lw6pil_test_register (sys_context, mode);
-      lw6bot_test_register (mode);
+      lw6bot_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6sim", _setup_init, _setup_quit);

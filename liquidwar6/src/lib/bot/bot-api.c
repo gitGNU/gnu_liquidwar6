@@ -27,7 +27,7 @@
 #include "bot.h"
 
 static void
-_warning (const char *func_name)
+_warning (lw6sys_context_t * sys_context, const char *func_name)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bot backend function \"%s\" is not defined"), func_name);
 }
@@ -35,6 +35,7 @@ _warning (const char *func_name)
 /**
  * lw6bot_init
  *
+ * @sys_context: global system context
  * @backend: backend to use
  * @seed: parameters required to build bot (game state, among other things)
  *
@@ -45,7 +46,7 @@ _warning (const char *func_name)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6bot_init (lw6bot_backend_t * backend, lw6bot_seed_t * seed)
+lw6bot_init (lw6sys_context_t * sys_context, lw6bot_backend_t * backend, lw6bot_seed_t * seed)
 {
   lw6bot_data_t data;
   int bad_speed = 0;
@@ -72,12 +73,12 @@ lw6bot_init (lw6bot_backend_t * backend, lw6bot_seed_t * seed)
       data.game_state = seed->game_state;
       if ((!bad_speed) && (!bad_iq))
 	{
-	  backend->bot_context = backend->init (backend->argc, backend->argv, &data);
+	  backend->bot_context = backend->init (sys_context, backend->argc, backend->argv, &data);
 	}
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -88,12 +89,13 @@ lw6bot_init (lw6bot_backend_t * backend, lw6bot_seed_t * seed)
 /**
  * lw6bot_quit
  *
+ * @sys_context: global system context
  * @backend: unitialize a bot backend
  *
  * Closes a bot, but does not free all ressources.
  */
 void
-lw6bot_quit (lw6bot_backend_t * backend)
+lw6bot_quit (lw6sys_context_t * sys_context, lw6bot_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -105,13 +107,13 @@ lw6bot_quit (lw6bot_backend_t * backend)
        */
       if (backend->bot_context)
 	{
-	  backend->quit (backend->bot_context);
+	  backend->quit (sys_context, backend->bot_context);
 	  backend->bot_context = NULL;
 	}
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -120,6 +122,7 @@ lw6bot_quit (lw6bot_backend_t * backend)
 /**
  * lw6bot_next_move
  *
+ * @sys_context: global system context
  * @backend: bot to work on
  * @x: next x position (out param)
  * @y: next y position (out param)
@@ -130,7 +133,7 @@ lw6bot_quit (lw6bot_backend_t * backend)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6bot_next_move (lw6bot_backend_t * backend, int *x, int *y)
+lw6bot_next_move (lw6sys_context_t * sys_context, lw6bot_backend_t * backend, int *x, int *y)
 {
   int ret = 0;
   lw6bot_data_t data;
@@ -172,12 +175,12 @@ lw6bot_next_move (lw6bot_backend_t * backend, int *x, int *y)
 	}
       if (data.game_state)
 	{
-	  ret = backend->next_move (backend->bot_context, x, y, &data);
+	  ret = backend->next_move (sys_context, backend->bot_context, x, y, &data);
 	}
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -188,6 +191,7 @@ lw6bot_next_move (lw6bot_backend_t * backend, int *x, int *y)
 /**
  * lw6bot_repr
  *
+ * @sys_context: global system context
  * @backend: bot to represent
  *
  * Gives a human readable representation of bot
@@ -195,7 +199,7 @@ lw6bot_next_move (lw6bot_backend_t * backend, int *x, int *y)
  * Return value: dynamically allocated string.
  */
 char *
-lw6bot_repr (const lw6bot_backend_t * backend)
+lw6bot_repr (lw6sys_context_t * sys_context, const lw6bot_backend_t * backend)
 {
   char *ret = NULL;
 
@@ -203,11 +207,11 @@ lw6bot_repr (const lw6bot_backend_t * backend)
 
   if (backend->repr)
     {
-      ret = backend->repr (backend->bot_context, backend->id);
+      ret = backend->repr (sys_context, backend->bot_context, backend->id);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;

@@ -28,7 +28,7 @@
 #include "mod-random-internal.h"
 
 char *
-_mod_random_repr (_mod_random_context_t * random_context, u_int32_t id)
+_mod_random_repr (lw6sys_context_t * sys_context, _mod_random_context_t * random_context, u_int32_t id)
 {
   char *ret = NULL;
 

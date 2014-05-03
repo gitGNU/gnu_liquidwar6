@@ -37,6 +37,7 @@
 /**
  * lw6bot_get_backends
  *
+ * @sys_context: global system context
  * @argc: argc, as passed to @main
  * @argv: argv, as passed to @main
  *
@@ -50,7 +51,7 @@
  * Return value: hash containing id/name pairs.
  */
 lw6sys_assoc_t *
-lw6bot_get_backends (int argc, const char *argv[])
+lw6bot_get_backends (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   lw6sys_assoc_t *ret = NULL;
 
@@ -60,25 +61,25 @@ lw6bot_get_backends (int argc, const char *argv[])
   ret = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
   if (ret)
     {
-      module_pedigree = mod_brute_get_pedigree ();
+      module_pedigree = mod_brute_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
-      module_pedigree = mod_follow_get_pedigree ();
+      module_pedigree = mod_follow_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
-      module_pedigree = mod_idiot_get_pedigree ();
+      module_pedigree = mod_idiot_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
-      module_pedigree = mod_random_get_pedigree ();
+      module_pedigree = mod_random_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
@@ -95,6 +96,7 @@ lw6bot_get_backends (int argc, const char *argv[])
 /**
  * lw6bot_create_backend
  *
+ * @sys_context: global system context
  * @argc: argc, as passed to @main
  * @argv: argv, as passed to @main
  * @name: string containing bot key, typically got from @lw6bot_get_backends
@@ -106,25 +108,25 @@ lw6bot_get_backends (int argc, const char *argv[])
  * Return value: bot backend.
  */
 lw6bot_backend_t *
-lw6bot_create_backend (int argc, const char *argv[], const char *name)
+lw6bot_create_backend (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *name)
 {
   lw6bot_backend_t *backend = NULL;
 #ifdef LW6_ALLINONE
   if (name && !strcmp (name, "brute"))
     {
-      backend = mod_brute_create_backend ();
+      backend = mod_brute_create_backend (sys_context);
     }
   if (name && !strcmp (name, "follow"))
     {
-      backend = mod_follow_create_backend ();
+      backend = mod_follow_create_backend (sys_context);
     }
   if (name && !strcmp (name, "idiot"))
     {
-      backend = mod_idiot_create_backend ();
+      backend = mod_idiot_create_backend (sys_context);
     }
   if (name && !strcmp (name, "random"))
     {
-      backend = mod_random_create_backend ();
+      backend = mod_random_create_backend (sys_context);
     }
 
   if (backend)
@@ -144,7 +146,7 @@ lw6bot_create_backend (int argc, const char *argv[], const char *name)
   if (backend_handle)
     {
       char *init_func_name;
-      lw6bot_backend_t *(*init_func) ();
+      lw6bot_backend_t *(*init_func) (lw6sys_context_t * sys_context);
 
       init_func_name = lw6sys_new_sprintf (sys_context, LW6DYN_CREATE_BACKEND_FUNC_FORMAT, name);
       if (init_func_name)
@@ -152,7 +154,7 @@ lw6bot_create_backend (int argc, const char *argv[], const char *name)
 	  init_func = lw6dyn_dlsym (sys_context, backend_handle, init_func_name);
 	  if (init_func)
 	    {
-	      backend = init_func ();
+	      backend = init_func (sys_context);
 	    }
 	  else
 	    {
@@ -192,6 +194,7 @@ lw6bot_create_backend (int argc, const char *argv[], const char *name)
 /**
  * lw6bot_destroy_backend
  *
+ * @sys_context: global system context
  * @backend: bot backend to destroy
  *
  * Frees the ressources associated to a bot, which must have been
@@ -200,7 +203,7 @@ lw6bot_create_backend (int argc, const char *argv[], const char *name)
  * Return value: none.
  */
 void
-lw6bot_destroy_backend (lw6bot_backend_t * backend)
+lw6bot_destroy_backend (lw6sys_context_t * sys_context, lw6bot_backend_t * backend)
 {
 #ifndef LW6_ALLINONE
   lw6dyn_dlclose_backend (sys_context, backend->dl_handle);

@@ -26,8 +26,8 @@
 #include "../bot.h"
 
 /* mod-follow-backend.c */
-extern lw6sys_module_pedigree_t *mod_follow_get_pedigree ();
-extern lw6bot_backend_t *mod_follow_create_backend ();
+extern lw6sys_module_pedigree_t *mod_follow_get_pedigree (lw6sys_context_t * sys_context);
+extern lw6bot_backend_t *mod_follow_create_backend (lw6sys_context_t * sys_context);
 extern void mod_follow_is_GPL_compatible ();
 extern void mod_follow_is_dlclose_safe ();
 

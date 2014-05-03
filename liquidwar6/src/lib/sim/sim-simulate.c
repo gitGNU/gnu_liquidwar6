@@ -73,11 +73,11 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results, lw6ker_game
 	      cursors_colors[nb_cursors] = i;
 	      cursors_ids[nb_cursors] = lw6sys_generate_id_16 ();
 	      lw6ker_game_state_add_cursor (sys_context, game_state, node_id, cursors_ids[nb_cursors], i);
-	      cursors_bots[nb_cursors] = lw6bot_create_backend (argc, argv, bot_backend);
+	      cursors_bots[nb_cursors] = lw6bot_create_backend (sys_context, argc, argv, bot_backend);
 	      if (cursors_bots[nb_cursors])
 		{
 		  seed.param.cursor_id = cursors_ids[nb_cursors];
-		  ret = ret && lw6bot_init (cursors_bots[nb_cursors], &seed);
+		  ret = ret && lw6bot_init (sys_context, cursors_bots[nb_cursors], &seed);
 		}
 	      nb_cursors++;
 	    }
@@ -91,7 +91,7 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results, lw6ker_game
 		{
 		  if (cursors_bots[i])
 		    {
-		      lw6bot_next_move (cursors_bots[i], &x, &y);
+		      lw6bot_next_move (sys_context, cursors_bots[i], &x, &y);
 		      lw6ker_cursor_reset (sys_context, &cursor);
 		      cursor.pos.x = x;
 		      cursor.pos.y = y;
@@ -121,8 +121,8 @@ _simulate (int argc, const char *argv[], lw6sim_results_t * results, lw6ker_game
 	{
 	  if (cursors_bots[i])
 	    {
-	      lw6bot_quit (cursors_bots[i]);
-	      lw6bot_destroy_backend (cursors_bots[i]);
+	      lw6bot_quit (sys_context, cursors_bots[i]);
+	      lw6bot_destroy_backend (sys_context, cursors_bots[i]);
 	    }
 	}
 

@@ -123,29 +123,29 @@ typedef struct lw6bot_backend_s
   lw6bot_seed_t seed;
 
   /// Pointer on lw6bot_init callback code.
-  void *(*init) (int argc, const char *argv[], lw6bot_data_t * data);
+  void *(*init) (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6bot_data_t * data);
   /// Pointer on lw6bot_context callback code.
-  void (*quit) (void *bot_context);
+  void (*quit) (lw6sys_context_t * sys_context, void *bot_context);
   /// Pointer on lw6bot_next_move callback code.
-  int (*next_move) (void *bot_context, int *x, int *y, lw6bot_data_t * data);
+  int (*next_move) (lw6sys_context_t * sys_context, void *bot_context, int *x, int *y, lw6bot_data_t * data);
   /// Pointer on lw6bot_repr callback code.
-  char *(*repr) (void *bot_context, u_int32_t id);
+  char *(*repr) (lw6sys_context_t * sys_context, void *bot_context, u_int32_t id);
 }
 lw6bot_backend_t;
 
 /* bot-api.c */
-extern int lw6bot_init (lw6bot_backend_t * backend, lw6bot_seed_t * seed);
-extern void lw6bot_quit (lw6bot_backend_t * backend);
-extern int lw6bot_next_move (lw6bot_backend_t * backend, int *x, int *y);
-extern char *lw6bot_repr (const lw6bot_backend_t * backend);
+extern int lw6bot_init (lw6sys_context_t * sys_context, lw6bot_backend_t * backend, lw6bot_seed_t * seed);
+extern void lw6bot_quit (lw6sys_context_t * sys_context, lw6bot_backend_t * backend);
+extern int lw6bot_next_move (lw6sys_context_t * sys_context, lw6bot_backend_t * backend, int *x, int *y);
+extern char *lw6bot_repr (lw6sys_context_t * sys_context, const lw6bot_backend_t * backend);
 
 /* bot-register.c */
-extern lw6sys_assoc_t *lw6bot_get_backends (int argc, const char *argv[]);
-extern lw6bot_backend_t *lw6bot_create_backend (int argc, const char *argv[], const char *name);
-extern void lw6bot_destroy_backend (lw6bot_backend_t * backend);
+extern lw6sys_assoc_t *lw6bot_get_backends (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern lw6bot_backend_t *lw6bot_create_backend (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *name);
+extern void lw6bot_destroy_backend (lw6sys_context_t * sys_context, lw6bot_backend_t * backend);
 
 /* bot-test.c */
-extern int lw6bot_test_register (int mode);
-extern int lw6bot_test_run (int mode);
+extern int lw6bot_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6bot_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif // LIQUIDWAR6BOT_H

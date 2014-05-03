@@ -28,7 +28,7 @@
 #include "mod-brute-internal.h"
 
 int
-_mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y, lw6bot_data_t * data)
+_mod_brute_next_move (lw6sys_context_t * sys_context, _mod_brute_context_t * brute_context, int *x, int *y, lw6bot_data_t * data)
 {
   int ret = 0;
   int score_now = 0;
@@ -46,11 +46,11 @@ _mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y, lw6b
 
   (*x) = shape.w / 2;
   (*y) = shape.h / 2;
-  if (lw6ker_game_state_get_cursor (data->game_state, &cursor, data->param.cursor_id))
+  if (lw6ker_game_state_get_cursor (sys_context, data->game_state, &cursor, data->param.cursor_id))
     {
       (*x) = cursor.pos.x;
       (*y) = cursor.pos.y;
-      if (lw6ker_game_state_sync (brute_context->game_sandbox, data->game_state))
+      if (lw6ker_game_state_sync (sys_context, brute_context->game_sandbox, data->game_state))
 	{
 	  lw6ker_game_state_get_team_info (sys_context, brute_context->game_sandbox, cursor.team_color, NULL, &score_now);
 	  for (i = 0; i < brute_context->nb_rounds_to_anticipate; ++i)
@@ -58,13 +58,13 @@ _mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y, lw6b
 	      lw6ker_game_state_do_round (sys_context, brute_context->game_sandbox);
 	    }
 	  lw6ker_game_state_get_team_info (sys_context, brute_context->game_sandbox, cursor.team_color, NULL, &score_staying_here);
-	  if (lw6ker_game_state_sync (brute_context->game_sandbox, data->game_state))
+	  if (lw6ker_game_state_sync (sys_context, brute_context->game_sandbox, data->game_state))
 	    {
 	      if (score_staying_here < score_now || (score_staying_here == score_now && !lw6sys_random (sys_context, _MOD_BRUTE_STABILITY)))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("loosing by staying here, trying any place..."));
-		  cursor.pos.x = lw6sys_random (shape.w);
-		  cursor.pos.y = lw6sys_random (shape.h);
+		  cursor.pos.x = lw6sys_random (sys_context, shape.w);
+		  cursor.pos.y = lw6sys_random (sys_context, shape.h);
 		}
 	      else
 		{
@@ -72,11 +72,11 @@ _mod_brute_next_move (_mod_brute_context_t * brute_context, int *x, int *y, lw6b
 		  nb_retries = lw6ker_percent (shape.w * shape.h, _MOD_BRUTE_PERCENT_OF_SURFACE_FOR_RETRIES);
 		  for (i = 0; i < nb_retries && !found; ++i)
 		    {
-		      cursor.pos.x = lw6sys_random (shape.w);
-		      cursor.pos.y = lw6sys_random (shape.h);
+		      cursor.pos.x = lw6sys_random (sys_context, shape.w);
+		      cursor.pos.y = lw6sys_random (sys_context, shape.h);
 		      for (z = 0; z < shape.d && !found; ++z)
 			{
-			  fighter = lw6ker_game_state_get_fighter_ro_safe (brute_context->game_sandbox, cursor.pos.x, cursor.pos.y, z);
+			  fighter = lw6ker_game_state_get_fighter_ro_safe (sys_context, brute_context->game_sandbox, cursor.pos.x, cursor.pos.y, z);
 			  if (fighter && fighter->team_color != cursor.team_color)
 			    {
 			      found = 1;

@@ -46,7 +46,7 @@ _scm_lw6bot_get_backends ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  backends = lw6bot_get_backends (lw6_global.argc, lw6_global.argv);
+  backends = lw6bot_get_backends (sys_context, lw6_global.argc, lw6_global.argv);
   if (backends)
     {
       keys = lw6sys_assoc_keys (sys_context, backends);
@@ -116,7 +116,7 @@ _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read, SC
 		  c_cursor_id_int = lw6sys_id_atol (sys_context, c_cursor_id_str);
 		  c_speed = scm_to_double (speed);
 		  c_iq = scm_to_int (iq);
-		  c_ret = lw6bot_create_backend (lw6_global.argc, lw6_global.argv, c_backend_name);
+		  c_ret = lw6bot_create_backend (sys_context, lw6_global.argc, lw6_global.argv, c_backend_name);
 		  if (c_ret)
 		    {
 		      memset (&c_seed, 0, sizeof (lw6bot_seed_t));
@@ -126,13 +126,13 @@ _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read, SC
 		      c_seed.param.cursor_id = c_cursor_id_int;
 		      c_seed.param.speed = c_speed;
 		      c_seed.param.iq = c_iq;
-		      if (lw6bot_init (c_ret, &c_seed))
+		      if (lw6bot_init (sys_context, c_ret, &c_seed))
 			{
 			  ret = lw6_make_scm_bot (c_ret, game_state, pilot);
 			}
 		      else
 			{
-			  lw6bot_destroy_backend (c_ret);
+			  lw6bot_destroy_backend (sys_context, c_ret);
 			}
 		    }
 		  LW6SYS_FREE (sys_context, c_cursor_id_str);
@@ -148,7 +148,7 @@ _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read, SC
 }
 
 static SCM
-_scm_lw6bot_next_move (SCM bot)
+_scm_lw6bot_next_move (sys_context, SCM bot)
 {
   lw6bot_backend_t *c_bot;
   int c_x = 0;
@@ -163,7 +163,7 @@ _scm_lw6bot_next_move (SCM bot)
   c_bot = lw6_scm_to_bot (bot);
   if (c_bot)
     {
-      if (lw6bot_next_move (c_bot, &c_x, &c_y))
+      if (lw6bot_next_move (sys_context, c_bot, &c_x, &c_y))
 	{
 	  ret = scm_list_2 (scm_cons (scm_from_locale_string ("x"), scm_from_int (c_x)), scm_cons (scm_from_locale_string ("y"), scm_from_int (c_y)));
 	}

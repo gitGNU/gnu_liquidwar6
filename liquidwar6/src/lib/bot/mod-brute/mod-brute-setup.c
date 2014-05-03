@@ -28,7 +28,7 @@
 #include "mod-brute-internal.h"
 
 _mod_brute_context_t *
-_mod_brute_init (int argc, const char *argv[], lw6bot_data_t * data)
+_mod_brute_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6bot_data_t * data)
 {
   _mod_brute_context_t *brute_context = NULL;
   float iq_divided = 0.0f;
@@ -43,7 +43,7 @@ _mod_brute_init (int argc, const char *argv[], lw6bot_data_t * data)
       brute_context->game_sandbox = lw6ker_game_state_dup (sys_context, data->game_state, NULL);
       if (!brute_context->game_sandbox)
 	{
-	  _mod_brute_quit (brute_context);
+	  _mod_brute_quit (sys_context, brute_context);
 	  brute_context = NULL;
 	}
     }
@@ -52,7 +52,7 @@ _mod_brute_init (int argc, const char *argv[], lw6bot_data_t * data)
 }
 
 void
-_mod_brute_quit (_mod_brute_context_t * brute_context)
+_mod_brute_quit (lw6sys_context_t * sys_context, _mod_brute_context_t * brute_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("brute quit"));
   if (brute_context->game_sandbox)

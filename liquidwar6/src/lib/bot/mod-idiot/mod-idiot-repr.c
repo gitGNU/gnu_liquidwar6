@@ -28,7 +28,7 @@
 #include "mod-idiot-internal.h"
 
 char *
-_mod_idiot_repr (_mod_idiot_context_t * idiot_context, u_int32_t id)
+_mod_idiot_repr (lw6sys_context_t * sys_context, _mod_idiot_context_t * idiot_context, u_int32_t id)
 {
   char *ret = NULL;
 

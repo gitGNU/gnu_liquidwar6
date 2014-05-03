@@ -28,7 +28,7 @@
 #include "mod-random-internal.h"
 
 _mod_random_context_t *
-_mod_random_init (int argc, const char *argv[], lw6bot_data_t * data)
+_mod_random_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6bot_data_t * data)
 {
   _mod_random_context_t *random_context = NULL;
 
@@ -46,7 +46,7 @@ _mod_random_init (int argc, const char *argv[], lw6bot_data_t * data)
 }
 
 void
-_mod_random_quit (_mod_random_context_t * random_context)
+_mod_random_quit (lw6sys_context_t * sys_context, _mod_random_context_t * random_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("random quit"));
   LW6SYS_FREE (sys_context, random_context);

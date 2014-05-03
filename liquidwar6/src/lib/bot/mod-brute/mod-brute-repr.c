@@ -28,7 +28,7 @@
 #include "mod-brute-internal.h"
 
 char *
-_mod_brute_repr (_mod_brute_context_t * brute_context, u_int32_t id)
+_mod_brute_repr (lw6sys_context_t * sys_context, _mod_brute_context_t * brute_context, u_int32_t id)
 {
   char *ret = NULL;
 

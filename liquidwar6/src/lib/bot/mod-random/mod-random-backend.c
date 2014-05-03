@@ -60,47 +60,47 @@ mod_random_is_dlclose_safe ()
 }
 
 static void *
-_init (int argc, const char *argv[], lw6bot_data_t * data)
+_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6bot_data_t * data)
 {
-  _mod_random_context_t *random_context = _mod_random_init (argc, argv, data);
+  _mod_random_context_t *random_context = _mod_random_init (sys_context, argc, argv, data);
 
   return (void *) random_context;
 }
 
 static void
-_quit (void *bot_context)
+_quit (lw6sys_context_t * sys_context, void *bot_context)
 {
   _mod_random_context_t *random_context = (_mod_random_context_t *) bot_context;
 
   if (random_context)
     {
-      _mod_random_quit (random_context);
+      _mod_random_quit (sys_context, random_context);
     }
 }
 
 static int
-_next_move (void *bot_context, int *x, int *y, lw6bot_data_t * data)
+_next_move (lw6sys_context_t * sys_context, void *bot_context, int *x, int *y, lw6bot_data_t * data)
 {
   int ret = 0;
   _mod_random_context_t *random_context = (_mod_random_context_t *) bot_context;
 
   if (random_context)
     {
-      ret = _mod_random_next_move (random_context, x, y, data);
+      ret = _mod_random_next_move (sys_context, random_context, x, y, data);
     }
 
   return ret;
 }
 
 static char *
-_repr (void *bot_context, u_int32_t id)
+_repr (lw6sys_context_t * sys_context, void *bot_context, u_int32_t id)
 {
   char *ret = NULL;
   _mod_random_context_t *random_context = (_mod_random_context_t *) bot_context;
 
   if (random_context)
     {
-      ret = _mod_random_repr (random_context, id);
+      ret = _mod_random_repr (sys_context, random_context, id);
     }
 
   return ret;
@@ -109,13 +109,15 @@ _repr (void *bot_context, u_int32_t id)
 /**
  * mod_random_get_pedigree
  *
+ * @sys_context: global system context
+ *
  * Returns the pedigree for mod-random, giving details about the module,
  * including name, description, licence, date/time of compilation.
  *
  * Return value: dynamically allocated object.
  */
 lw6sys_module_pedigree_t *
-mod_random_get_pedigree ()
+mod_random_get_pedigree (lw6sys_context_t * sys_context)
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
@@ -139,12 +141,14 @@ mod_random_get_pedigree ()
 /**
  * mod_random_create_backend
  *
+ * @sys_context: global system context
+ *
  * Creates a mod-random backend.
  *
  * Return value: backend pointer.
  */
 lw6bot_backend_t *
-mod_random_create_backend ()
+mod_random_create_backend (lw6sys_context_t * sys_context)
 {
   lw6bot_backend_t *backend;
 

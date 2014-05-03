@@ -60,47 +60,47 @@ mod_follow_is_dlclose_safe ()
 }
 
 static void *
-_init (int argc, const char *argv[], lw6bot_data_t * data)
+_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6bot_data_t * data)
 {
-  _mod_follow_context_t *follow_context = _mod_follow_init (argc, argv, data);
+  _mod_follow_context_t *follow_context = _mod_follow_init (sys_context, argc, argv, data);
 
   return (void *) follow_context;
 }
 
 static void
-_quit (void *bot_context)
+_quit (lw6sys_context_t * sys_context, void *bot_context)
 {
   _mod_follow_context_t *follow_context = (_mod_follow_context_t *) bot_context;
 
   if (follow_context)
     {
-      _mod_follow_quit (follow_context);
+      _mod_follow_quit (sys_context, follow_context);
     }
 }
 
 static int
-_next_move (void *bot_context, int *x, int *y, lw6bot_data_t * data)
+_next_move (lw6sys_context_t * sys_context, void *bot_context, int *x, int *y, lw6bot_data_t * data)
 {
   int ret = 0;
   _mod_follow_context_t *follow_context = (_mod_follow_context_t *) bot_context;
 
   if (follow_context)
     {
-      ret = _mod_follow_next_move (follow_context, x, y, data);
+      ret = _mod_follow_next_move (sys_context, follow_context, x, y, data);
     }
 
   return ret;
 }
 
 static char *
-_repr (void *bot_context, u_int32_t id)
+_repr (lw6sys_context_t * sys_context, void *bot_context, u_int32_t id)
 {
   char *ret = NULL;
   _mod_follow_context_t *follow_context = (_mod_follow_context_t *) bot_context;
 
   if (follow_context)
     {
-      ret = _mod_follow_repr (follow_context, id);
+      ret = _mod_follow_repr (sys_context, follow_context, id);
     }
 
   return ret;
@@ -109,13 +109,15 @@ _repr (void *bot_context, u_int32_t id)
 /**
  * mod_follow_get_pedigree
  *
+ * @sys_context: global system context
+ *
  * Returns the pedigree for mod-follow, giving details about the module,
  * including name, description, licence, date/time of compilation.
  *
  * Return value: dynamically allocated object.
  */
 lw6sys_module_pedigree_t *
-mod_follow_get_pedigree ()
+mod_follow_get_pedigree (lw6sys_context_t * sys_context)
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
@@ -140,12 +142,14 @@ mod_follow_get_pedigree ()
 /**
  * mod_follow_create_backend
  *
+ * @sys_context: global system context
+ *
  * Creates a mod-follow backend.
  *
  * Return value: backend pointer.
  */
 lw6bot_backend_t *
-mod_follow_create_backend ()
+mod_follow_create_backend (lw6sys_context_t * sys_context)
 {
   lw6bot_backend_t *backend;
 

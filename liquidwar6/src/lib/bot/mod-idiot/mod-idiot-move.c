@@ -28,7 +28,7 @@
 #include "mod-idiot-internal.h"
 
 static int
-new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
+_new_target (lw6sys_context_t * sys_context, _mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 {
   int team_color = LW6MAP_TEAM_COLOR_INVALID;
   int x = -1;
@@ -42,7 +42,7 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
   lw6sys_whd_t shape = { 0, 0, 0 };
   lw6ker_cursor_t cursor;
 
-  if (lw6ker_game_state_get_cursor (data->game_state, &cursor, data->param.cursor_id))
+  if (lw6ker_game_state_get_cursor (sys_context, data->game_state, &cursor, data->param.cursor_id))
     {
       x = cursor.pos.x;
       y = cursor.pos.y;
@@ -55,8 +55,8 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 
       for (i = 0; i < _MOD_IDIOT_NB_RETRIES && !found; ++i)
 	{
-	  x = lw6sys_random (shape.w);
-	  y = lw6sys_random (shape.h);
+	  x = lw6sys_random (sys_context, shape.w);
+	  y = lw6sys_random (sys_context, shape.h);
 	  idiot_context->target_pos_x = x;
 	  idiot_context->target_pos_y = y;
 	  if (data->param.iq >= _MOD_IDIOT_IQ_LIMIT1 && data->param.iq < _MOD_IDIOT_IQ_LIMIT2)
@@ -72,7 +72,7 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 		  fighter_id = lw6ker_game_state_get_fighter_id (sys_context, data->game_state, x, y, z);
 		  if (fighter_id >= 0)
 		    {
-		      fighter = lw6ker_game_state_get_fighter_ro_by_id (data->game_state, fighter_id);
+		      fighter = lw6ker_game_state_get_fighter_ro_by_id (sys_context, data->game_state, fighter_id);
 		      if (fighter != NULL)
 			{
 			  if (data->param.iq >= _MOD_IDIOT_IQ_LIMIT2 && fighter->team_color != team_color)
@@ -111,7 +111,7 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 }
 
 int
-_mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x, int *y, lw6bot_data_t * data)
+_mod_idiot_next_move (lw6sys_context_t * sys_context, _mod_idiot_context_t * idiot_context, int *x, int *y, lw6bot_data_t * data)
 {
   int ret = 0;
   int rounds = 0;
@@ -133,7 +133,7 @@ _mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x, int *y, lw6b
   d_wait = lw6sys_imax (1, (((float) _MOD_IDIOT_DEFAULT_WAIT_ROUNDS) * average_size) / (((float) _MOD_IDIOT_REFERENCE_SIZE) * data->param.speed));
   if (idiot_context->last_move_round < 0 || (rounds >= idiot_context->last_move_round + d_move + d_wait))
     {
-      new_target (idiot_context, data);
+      _new_target (sys_context, idiot_context, data);
       if (idiot_context->last_move_round >= 0)
 	{
 	  idiot_context->last_move_round += d_move + d_wait;

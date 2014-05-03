@@ -28,7 +28,7 @@
 #include "mod-follow-internal.h"
 
 static int
-new_path (_mod_follow_context_t * follow_context, lw6bot_data_t * data)
+_new_path (lw6sys_context_t * sys_context, _mod_follow_context_t * follow_context, lw6bot_data_t * data)
 {
   int looser;
   lw6ker_cursor_t cursor;
@@ -40,7 +40,7 @@ new_path (_mod_follow_context_t * follow_context, lw6bot_data_t * data)
   int i;
 
   lw6ker_game_state_get_shape (sys_context, data->game_state, &shape);
-  if (lw6ker_game_state_get_cursor (data->game_state, &cursor, data->param.cursor_id))
+  if (lw6ker_game_state_get_cursor (sys_context, data->game_state, &cursor, data->param.cursor_id))
     {
       looser = lw6ker_game_state_get_looser (sys_context, data->game_state, cursor.team_color);
       if (looser >= 0 && looser < LW6MAP_MAX_NB_TEAMS)
@@ -49,7 +49,7 @@ new_path (_mod_follow_context_t * follow_context, lw6bot_data_t * data)
 	  follow_context->nb_steps = 0;
 	  while (follow_context->nb_steps < _MOD_FOLLOW_MAX_PATH_SIZE && !looping)
 	    {
-	      lw6ker_move_get_best_next_pos (data->game_state, &next_pos, &current_pos, looser);
+	      lw6ker_move_get_best_next_pos (sys_context, data->game_state, &next_pos, &current_pos, looser);
 	      for (i = lw6sys_imax (0, follow_context->nb_steps - _MOD_FOLLOW_LOOPING_BUFFER_SIZE); i < follow_context->nb_steps && !looping; ++i)
 		{
 		  if (follow_context->step[i].x == next_pos.x && follow_context->step[i].y == next_pos.y && follow_context->step[i].z == next_pos.z)
@@ -86,7 +86,7 @@ new_path (_mod_follow_context_t * follow_context, lw6bot_data_t * data)
 }
 
 int
-_mod_follow_next_move (_mod_follow_context_t * follow_context, int *x, int *y, lw6bot_data_t * data)
+_mod_follow_next_move (lw6sys_context_t * sys_context, _mod_follow_context_t * follow_context, int *x, int *y, lw6bot_data_t * data)
 {
   int ret = 0;
   int rounds = 0;
@@ -103,7 +103,7 @@ _mod_follow_next_move (_mod_follow_context_t * follow_context, int *x, int *y, l
 
   if (follow_context->current_step >= follow_context->nb_steps)
     {
-      new_path (follow_context, data);
+      _new_path (sys_context, follow_context, data);
     }
 
   if (follow_context->current_step < follow_context->nb_steps)

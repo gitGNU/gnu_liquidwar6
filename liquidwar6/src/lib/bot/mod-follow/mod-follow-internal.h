@@ -41,13 +41,13 @@ typedef struct _mod_follow_context_s
 _mod_follow_context_t;
 
 /* mod-follow-setup.c */
-extern _mod_follow_context_t *_mod_follow_init (int argc, const char *argv[], lw6bot_data_t * data);
-extern void _mod_follow_quit (_mod_follow_context_t * follow_context);
+extern _mod_follow_context_t *_mod_follow_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6bot_data_t * data);
+extern void _mod_follow_quit (lw6sys_context_t * sys_context, _mod_follow_context_t * follow_context);
 
 /* mod-follow-move.c */
-extern int _mod_follow_next_move (_mod_follow_context_t * follow_context, int *x, int *y, lw6bot_data_t * data);
+extern int _mod_follow_next_move (lw6sys_context_t * sys_context, _mod_follow_context_t * follow_context, int *x, int *y, lw6bot_data_t * data);
 
 /* mod-follow-repr.c */
-extern char *_mod_follow_repr (_mod_follow_context_t * follow_context, u_int32_t id);
+extern char *_mod_follow_repr (lw6sys_context_t * sys_context, _mod_follow_context_t * follow_context, u_int32_t id);
 
 #endif // LIQUIDWAR6BOT_FOLLOW_INTERNAL_H

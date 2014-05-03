@@ -28,7 +28,7 @@
 #include "mod-follow-internal.h"
 
 char *
-_mod_follow_repr (_mod_follow_context_t * follow_context, u_int32_t id)
+_mod_follow_repr (lw6sys_context_t * sys_context, _mod_follow_context_t * follow_context, u_int32_t id)
 {
   char *ret = NULL;
 

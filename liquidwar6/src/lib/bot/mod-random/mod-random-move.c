@@ -28,7 +28,7 @@
 #include "mod-random-internal.h"
 
 int
-_mod_random_next_move (_mod_random_context_t * random_context, int *x, int *y, lw6bot_data_t * data)
+_mod_random_next_move (lw6sys_context_t * sys_context, _mod_random_context_t * random_context, int *x, int *y, lw6bot_data_t * data)
 {
   int ret = 0;
   int rounds = 0;

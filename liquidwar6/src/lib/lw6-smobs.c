@@ -1189,7 +1189,7 @@ print_bot (SCM bot, SCM port, scm_print_state * pstate)
   lw6bot_backend_t *c_bot = lw6_scm_to_bot (bot);
   char *repr = NULL;
 
-  repr = lw6bot_repr (c_bot);
+  repr = lw6bot_repr (sys_context, c_bot);
 
   scm_puts ("#<" SMOB_TYPE_BOT " ", port);
   if (repr)
@@ -1234,7 +1234,7 @@ lw6_make_scm_bot (lw6bot_backend_t * c_bot, SCM game_state, SCM pilot)
       id = smob_id (SMOB_TYPE_BOT, c_bot->id);
       if (id)
 	{
-	  repr = lw6bot_repr (c_bot);
+	  repr = lw6bot_repr (sys_context, c_bot);
 	  if (repr)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating bot smob \"%s\""), repr);
@@ -1291,15 +1291,15 @@ lw6_free_bot_smob (lw6_bot_smob_t * bot_smob)
 {
   char *repr = NULL;
 
-  repr = lw6bot_repr (bot_smob->c_bot);
+  repr = lw6bot_repr (sys_context, bot_smob->c_bot);
   if (repr)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing bot smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
-  lw6bot_quit (bot_smob->c_bot);
-  lw6bot_destroy_backend (bot_smob->c_bot);
+  lw6bot_quit (sys_context, bot_smob->c_bot);
+  lw6bot_destroy_backend (sys_context, bot_smob->c_bot);
   LW6SYS_FREE (sys_context, bot_smob);
 }
 

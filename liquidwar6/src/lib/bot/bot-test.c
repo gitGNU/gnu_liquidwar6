@@ -50,13 +50,14 @@
 typedef struct _lw6bot_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
   lw6bot_backend_t *backend;
 } _lw6bot_test_data_t;
 
 static _lw6bot_test_data_t _test_data = { 0, NULL };
 
 static int
-new_data (lw6map_level_t ** level, lw6ker_game_struct_t ** game_struct, lw6ker_game_state_t ** game_state)
+_new_data (lw6sys_context_t * sys_context, lw6map_level_t ** level, lw6ker_game_struct_t ** game_struct, lw6ker_game_state_t ** game_state)
 {
   int ret = 0;
 
@@ -78,7 +79,7 @@ new_data (lw6map_level_t ** level, lw6ker_game_struct_t ** game_struct, lw6ker_g
 }
 
 static void
-free_data (lw6map_level_t * level, lw6ker_game_struct_t * game_struct, lw6ker_game_state_t * game_state)
+_free_data (lw6sys_context_t * sys_context, lw6map_level_t * level, lw6ker_game_struct_t * game_struct, lw6ker_game_state_t * game_state)
 {
   lw6ker_game_state_free (sys_context, game_state);
   lw6ker_game_struct_free (sys_context, game_struct);
@@ -89,6 +90,7 @@ static void
 _test_backend ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
 
   LW6SYS_TEST_FUNCTION_BEGIN;
 
@@ -105,18 +107,18 @@ _test_backend ()
 
   memset (&bot_seed, 0, sizeof (lw6bot_seed_t));
 
-  if (new_data (&level, &game_struct, &game_state))
+  if (_new_data (sys_context, &level, &game_struct, &game_state))
     {
       bot_seed.param.speed = _TEST_SPEED;
       bot_seed.param.iq = _TEST_IQ;
       bot_seed.param.cursor_id = _TEST_CURSOR_ID3;
       bot_seed.game_state = game_state;
       bot_seed.dirty_read = LW6PIL_DIRTY_READ_NEVER;
-      if (lw6bot_init (backend, &bot_seed))
+      if (lw6bot_init (sys_context, backend, &bot_seed))
 	{
 	  while (lw6ker_game_state_get_rounds (sys_context, game_state) < _TEST_NB_ROUNDS)
 	    {
-	      lw6bot_next_move (backend, &x, &y);
+	      lw6bot_next_move (sys_context, backend, &x, &y);
 	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("round %d moved to %d,%d"), lw6ker_game_state_get_rounds (sys_context, game_state), x, y);
 	      lw6ker_cursor_reset (sys_context, &cursor);
 	      cursor.node_id = _TEST_NODE_ID;
@@ -129,7 +131,7 @@ _test_backend ()
 		  lw6ker_game_state_do_round (sys_context, game_state);
 		}
 	    }
-	  repr = lw6bot_repr (backend);
+	  repr = lw6bot_repr (sys_context, backend);
 	  if (repr)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("bot repr is \"%s\""), repr);
@@ -138,16 +140,16 @@ _test_backend ()
 	  capture_str = lw6ker_capture_str (sys_context, game_state);
 	  if (capture_str)
 	    {
-	      if (lw6sys_log_get_console_state ())
+	      if (lw6sys_log_get_console_state (sys_context))
 		{
 		  printf ("%s", capture_str);
 		  fflush (stdout);
 		}
 	      LW6SYS_FREE (sys_context, capture_str);
 	    }
-	  lw6bot_quit (backend);
+	  lw6bot_quit (sys_context, backend);
 	}
-      free_data (level, game_struct, game_state);
+      _free_data (sys_context, level, game_struct, game_state);
     }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -157,13 +159,14 @@ static int
 _setup_init_brute ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libbot-brute CUnit test suite"));
   if (_test_data.backend == NULL)
     {
-      _test_data.backend = lw6bot_create_backend (argc, argv, "brute");
+      _test_data.backend = lw6bot_create_backend (sys_context, argc, argv, "brute");
       if (_test_data.backend)
 	{
 	  ret = CUE_SUCCESS;
@@ -177,12 +180,13 @@ static int
 _setup_quit_brute ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libbot-brute CUnit test suite"));
 
   if (_test_data.backend)
     {
-      lw6bot_destroy_backend (_test_data.backend);
+      lw6bot_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
     }
@@ -194,13 +198,14 @@ static int
 _setup_init_follow ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libbot-follow CUnit test suite"));
   if (_test_data.backend == NULL)
     {
-      _test_data.backend = lw6bot_create_backend (argc, argv, "follow");
+      _test_data.backend = lw6bot_create_backend (sys_context, argc, argv, "follow");
       if (_test_data.backend)
 	{
 	  ret = CUE_SUCCESS;
@@ -214,12 +219,13 @@ static int
 _setup_quit_follow ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libbot-follow CUnit test suite"));
 
   if (_test_data.backend)
     {
-      lw6bot_destroy_backend (_test_data.backend);
+      lw6bot_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
     }
@@ -231,13 +237,14 @@ static int
 _setup_init_idiot ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libbot-idiot CUnit test suite"));
   if (_test_data.backend == NULL)
     {
-      _test_data.backend = lw6bot_create_backend (argc, argv, "idiot");
+      _test_data.backend = lw6bot_create_backend (sys_context, argc, argv, "idiot");
       if (_test_data.backend)
 	{
 	  ret = CUE_SUCCESS;
@@ -251,12 +258,13 @@ static int
 _setup_quit_idiot ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libbot-idiot CUnit test suite"));
 
   if (_test_data.backend)
     {
-      lw6bot_destroy_backend (_test_data.backend);
+      lw6bot_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
     }
@@ -268,13 +276,14 @@ static int
 _setup_init_random ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libbot-random CUnit test suite"));
   if (_test_data.backend == NULL)
     {
-      _test_data.backend = lw6bot_create_backend (argc, argv, "random");
+      _test_data.backend = lw6bot_create_backend (sys_context, argc, argv, "random");
       if (_test_data.backend)
 	{
 	  ret = CUE_SUCCESS;
@@ -288,12 +297,13 @@ static int
 _setup_quit_random ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libbot-random CUnit test suite"));
 
   if (_test_data.backend)
     {
-      lw6bot_destroy_backend (_test_data.backend);
+      lw6bot_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
     }
@@ -304,6 +314,7 @@ _setup_quit_random ()
 /**
  * lw6bot_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libbot module.
@@ -311,10 +322,12 @@ _setup_quit_random ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6bot_test_register (int mode)
+lw6bot_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -381,6 +394,7 @@ lw6bot_test_register (int mode)
 /**
  * lw6bot_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @bot module test suite, testing most (if not all...)
@@ -389,11 +403,13 @@ lw6bot_test_register (int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6bot_test_run (int mode)
+lw6bot_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;
