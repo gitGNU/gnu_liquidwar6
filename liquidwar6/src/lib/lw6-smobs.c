@@ -1497,7 +1497,7 @@ print_loader (SCM loader, SCM port, scm_print_state * pstate)
   lw6tsk_loader_t *c_loader = lw6_scm_to_loader (loader);
   char *repr = NULL;
 
-  repr = lw6tsk_loader_repr (c_loader);
+  repr = lw6tsk_loader_repr (sys_context, c_loader);
 
   scm_puts ("#<" SMOB_TYPE_LOADER " ", port);
   if (repr)
@@ -1535,7 +1535,7 @@ lw6_make_scm_loader (lw6tsk_loader_t * c_loader)
       id = smob_id (SMOB_TYPE_LOADER, c_loader->id);
       if (id)
 	{
-	  repr = lw6tsk_loader_repr (c_loader);
+	  repr = lw6tsk_loader_repr (sys_context, c_loader);
 	  if (repr)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating loader smob \"%s\""), repr);
@@ -1592,14 +1592,14 @@ lw6_free_loader_smob (lw6_loader_smob_t * loader_smob)
 {
   char *repr = NULL;
 
-  repr = lw6tsk_loader_repr (loader_smob->c_loader);
+  repr = lw6tsk_loader_repr (sys_context, loader_smob->c_loader);
   if (repr)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing loader smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
-  lw6tsk_loader_free (loader_smob->c_loader);
+  lw6tsk_loader_free (sys_context, loader_smob->c_loader);
   LW6SYS_FREE (sys_context, loader_smob);
 }
 
