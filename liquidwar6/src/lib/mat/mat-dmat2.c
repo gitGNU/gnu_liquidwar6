@@ -140,6 +140,7 @@ lw6mat_dmat2_scale (lw6mat_dmat2_t * dmat2, double f)
 /**
  * lw6mat_dmat2_inv
  *
+ * @sys_context: global system context
  * @dmat2_dst: the matrix inverted
  * @dmat2_src: the matrix to invert
  *
@@ -151,7 +152,7 @@ lw6mat_dmat2_scale (lw6mat_dmat2_t * dmat2, double f)
  * can not be inverted.
  */
 int
-lw6mat_dmat2_inv (lw6mat_dmat2_t * dmat2_dst, const lw6mat_dmat2_t * dmat2_src)
+lw6mat_dmat2_inv (lw6sys_context_t * sys_context, lw6mat_dmat2_t * dmat2_dst, const lw6mat_dmat2_t * dmat2_src)
 {
   /*
    * In case src and dst or the same, recursively call this
@@ -162,7 +163,7 @@ lw6mat_dmat2_inv (lw6mat_dmat2_t * dmat2_dst, const lw6mat_dmat2_t * dmat2_src)
     {
       lw6mat_dmat2_t dmat2_tmp = *dmat2_src;
 
-      return lw6mat_dmat2_inv (dmat2_dst, &dmat2_tmp);
+      return lw6mat_dmat2_inv (sys_context, dmat2_dst, &dmat2_tmp);
     }
   else
     {
@@ -275,6 +276,7 @@ lw6mat_dmat2_mul_dvec2 (lw6mat_dvec2_t * dvec2_dst, const lw6mat_dmat2_t * dmat2
 /**
  * lw6mat_dmat2_repr
  *
+ * @sys_context: global system context
  * @dmat: matrix to represent
  *
  * Gives a readable version of the matrix, the representation
@@ -283,12 +285,12 @@ lw6mat_dmat2_mul_dvec2 (lw6mat_dvec2_t * dvec2_dst, const lw6mat_dmat2_t * dmat2
  * Return value: newly allocated string
  */
 char *
-lw6mat_dmat2_repr (const lw6mat_dmat2_t * dmat2)
+lw6mat_dmat2_repr (lw6sys_context_t * sys_context, const lw6mat_dmat2_t * dmat2)
 {
   char *repr = NULL;
 
   repr =
-    lw6sys_new_sprintf ("%s %s %dx%d\n[ \t%f\t%f\n\t%f\t%f ]", LW6MAT_REPR_D,
+    lw6sys_new_sprintf (sys_context, "%s %s %dx%d\n[ \t%f\t%f\n\t%f\t%f ]", LW6MAT_REPR_D,
 			LW6MAT_REPR_MAT, LW6MAT_MAT2_M_SIZE, LW6MAT_MAT2_M_SIZE, dmat2->m[0][0], dmat2->m[1][0], dmat2->m[0][1], dmat2->m[1][1]);
 
   return repr;

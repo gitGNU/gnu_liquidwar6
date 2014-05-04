@@ -98,6 +98,7 @@ lw6mat_dvec4_len (const lw6mat_dvec4_t * dvec4)
 /**
  * Normalizes a vector
  *
+ * @sys_context: global system context
  * @dvec4: the vector to normalize.
  *
  * Normalizes a vector, that is, make its length be 1.
@@ -105,7 +106,7 @@ lw6mat_dvec4_len (const lw6mat_dvec4_t * dvec4)
  * Return value: 1 if OK, 0 if error, such as trying to normalize vector zero.
  */
 int
-lw6mat_dvec4_norm (lw6mat_dvec4_t * dvec4)
+lw6mat_dvec4_norm (lw6sys_context_t * sys_context, lw6mat_dvec4_t * dvec4)
 {
   double len = lw6mat_dvec4_len (dvec4);
 
@@ -269,6 +270,7 @@ lw6mat_dvec4_mul_dvec4 (lw6mat_dmat4_t * dmat4, const lw6mat_dvec4_t * dvec4_a, 
 /**
  * lw6mat_dvec4_repr
  *
+ * @sys_context: global system context
  * @dvec: vector to represent
  *
  * Gives a readable version of the vector
@@ -276,12 +278,13 @@ lw6mat_dvec4_mul_dvec4 (lw6mat_dmat4_t * dmat4, const lw6mat_dvec4_t * dvec4_a, 
  * Return value: newly allocated string
  */
 char *
-lw6mat_dvec4_repr (const lw6mat_dvec4_t * dvec4)
+lw6mat_dvec4_repr (lw6sys_context_t * sys_context, const lw6mat_dvec4_t * dvec4)
 {
   char *repr = NULL;
 
   repr =
-    lw6sys_new_sprintf ("%s %s %d [ %f %f %f %f ]", LW6MAT_REPR_D, LW6MAT_REPR_VEC, LW6MAT_VEC4_V_SIZE, dvec4->v[0], dvec4->v[1], dvec4->v[2], dvec4->v[3]);
+    lw6sys_new_sprintf (sys_context, "%s %s %d [ %f %f %f %f ]", LW6MAT_REPR_D, LW6MAT_REPR_VEC, LW6MAT_VEC4_V_SIZE, dvec4->v[0], dvec4->v[1], dvec4->v[2],
+			dvec4->v[3]);
 
   return repr;
 }
